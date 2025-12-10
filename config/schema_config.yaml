@@ -1,21 +1,355 @@
-# add your desired knowledge graph components here
+Title: BioCypher graph schema configuration file for CROssBAR v2
+
+# ---
+# "Named Things"
+# ---
+  
+
+gene:
+  represented_as: node
+  preferred_id: ncbigene
+  label_in_input: gene
+  properties:    
+    gene_names: str[]
+    kegg_ids: str[]
+    ensembl_transcript_ids: str[]
+    ensembl_gene_ids: str[]
+    gene_symbol: str
 
 protein:
-    represented_as: node
-    preferred_id: uniprot
-    input_label: uniprot_protein
+  represented_as: node
+  preferred_id: uniprot
+  label_in_input: protein
+  properties:
+    length: int
+    mass: int
+    primary_protein_name: str
+    protein_name: str[]
+    xref_proteomes: str[]
+    organism_name: str
+    organism_id: int
+    sequence: str
+    prott5_embedding: float[]
+  
+organism taxon:
+  represented_as: node
+  preferred_id: ncbitaxon
+  label_in_input: organism
+  properties:
+    organism_name: str
 
-disease:
-    represented_as: node
-    preferred_id: doid
-    input_label: do_disease
+protein domain:  
+  represented_as: node
+  preferred_id: interpro
+  label_in_input: domain
+  properties:    
+    protein_count: int
+    name: str
+    type: str
+    parent_list: str[]
+    child_list: str[]
+    pfam: str[]
+    ec: str[]
+    pdb: str[]
+    
+biological process:
+  is_a: gene ontology
+  represented_as: node
+  preferred_id: go
+  label_in_input: biological process
+  properties:
+    name: str
+    anc2vec_embedding: float[]
+  
+cellular component:
+  represented_as: node
+  preferred_id: go
+  label_in_input: cellular component
+  properties:
+    name: str
+    anc2vec_embedding: float[]
 
-protein interaction:
-    is_a: pairwise molecular interaction
-    represented_as: edge
-    input_label: protein_protein_interaction
+molecular function:
+  synonym_for: molecular activity
+  represented_as: node
+  preferred_id: go
+  label_in_input: molecular function
+  properties:
+    name: str
+    anc2vec_embedding: float[]
+  
 
-protein to disease association:
-    is_a: association
-    represented_as: edge
-    input_label: protein_disease_association
+compound:
+  is_a: SmallMolecule
+  represented_as: node
+  preferred_id: id
+  label_in_input: compound
+  properties:
+    smiles: str
+    type: str
+    full_mwt: float
+    species: str
+    heavy_atoms: int
+    alogp: float
+    inchi: str
+    inchikey: str
+    qed_score: float
+    selformer_embedding: float[]
+
+phenotype:
+  is_a: PhenotypicFeature
+  represented_as: node
+  preferred_id: hp
+  label_in_input: phenotype
+  properties:
+    name: str
+    synonyms: str[]
+
+pathway:
+  represented_as: node
+  preferred_id: id
+  label_in_input: pathway
+  properties:
+    name: str
+    organism: str
+
+
+ec number:
+  is_a: molecular activity
+  represented_as: node
+  preferred_id: eccode
+  label_in_input: ec_number
+  properties:
+    name: str
+    rxnfp_embedding: float[]
+
+
+# ---
+# Associations
+# ---
+
+gene to protein relationship:
+  is_a: gene to gene product relationship
+  represented_as: edge
+  label_as_edge: Gene_encodes_protein
+  source: gene
+  target: protein
+  label_in_input: Gene_encodes_protein
+  
+protein to organism taxon association:
+  is_a: association
+  represented_as: edge
+  label_as_edge: Protein_belongs_to_organism
+  source: protein
+  target: organismTaxon
+  label_in_input: Protein_belongs_to_organism
+  
+
+protein to protein domain association:
+  is_a: association
+  represented_as: edge
+  label_as_edge: protein_has_domain
+  source: protein
+  target: protein domain
+  label_in_input: protein_has_domain
+  properties:
+    start: str
+    end: str
+
+protein to biological process association:
+  is_a: GeneToGoTermAssociation
+  represented_as: edge
+  label_as_edge: protein_involved_in_biological_process
+  source: protein
+  target: biological process
+  label_in_input: protein_involved_in_biological_process
+  properties:
+    reference: str
+    evidence_code: str
+
+protein to cellular component association:
+  is_a: GeneToGoTermAssociation
+  represented_as: edge
+  source: [protein_located_in_cellular_component, protein_part_of_cellular_component, protein_is_active_in_cellular_component]
+  target: cellular component
+  label_in_input: [protein_located_in_cellular_component, protein_part_of_cellular_component, protein_is_active_in_cellular_component] 
+  properties:
+    reference: str
+    evidence_code: str
+  
+protein to molecular function association:
+  is_a: GeneToGoTermAssociation
+  represented_as: edge
+  source: [protein_enables_molecular_function, protein_contributes_to_molecular_function]
+  target: molecular function
+  label_in_input: [protein_enables_molecular_function, protein_contributes_to_molecular_function]
+  properties:
+    reference: str
+    evidence_code: str
+
+biological process to biological process association:
+  is_a: association
+  represented_as: edge
+  source: [biological_process_is_a_biological_process, biological_process_part_of_biological_process, biological_process_positively_regulates_biological_process, biological_process_negatively_regulates_biological_process]
+  target: biological process
+  label_in_input: [biological_process_is_a_biological_process, biological_process_part_of_biological_process, biological_process_positively_regulates_biological_process, biological_process_negatively_regulates_biological_process]
+
+biological process to molecular function association:
+  is_a: association
+  represented_as: edge
+  source: [biological_process_positively_regulates_molecular_function, biological_process_negatively_regulates_molecular_function]
+  target: molecular function
+  label_in_input: [biological_process_positively_regulates_molecular_function, biological_process_negatively_regulates_molecular_function]
+
+molecular function to molecular function association:
+  is_a: association
+  represented_as: edge
+  source: [molecular_function_is_a_molecular_function, molecular_function_part_of_molecular_function, molecular_function_positively_regulates_molecular_function, molecular_function_negatively_regulates_molecular_function]
+  target: molecular function
+  label_in_input: [molecular_function_is_a_molecular_function, molecular_function_part_of_molecular_function, molecular_function_positively_regulates_molecular_function, molecular_function_negatively_regulates_molecular_function]
+
+cellular component to cellular component association:
+  is_a: association
+  represented_as: edge
+  source: [cellular_component_is_a_cellular_component, cellular_component_part_of_cellular_component]
+  target: cellular component
+  label_in_input: [cellular_component_is_a_cellular_component, cellular_component_part_of_cellular_component]
+
+protein domain to molecular function association:
+  is_a: association
+  represented_as: edge
+  label_as_edge: protein_domain_enables_molecular_function
+  source: protein domain
+  target: molecular function
+  label_in_input: protein_domain_enables_molecular_function
+  
+protein domain to biological process association:
+  is_a: association
+  represented_as: edge
+  label_as_edge: protein_domain_involved_in_biological_process
+  source: protein domain
+  target: biological process
+  label_in_input: protein_domain_involved_in_biological_process
+  
+protein domain to cellular component association:
+  is_a: association
+  represented_as: edge
+  label_as_edge: protein_domain_located_in_cellular_component
+  source: protein domain
+  target: cellular component
+  label_in_input: protein_domain_located_in_cellular_component
+
+compound to protein association:
+  is_a: pairwise molecular interaction
+  represented_as: edge
+  label_as_edge: compound_targets_protein
+  source: compound
+  target: protein
+  label_in_input: compound_targets_protein
+  properties:
+    source: str[]
+    pchembl: float
+    activity_value: float
+    activity_type: str
+    assay_chembl: str[]
+    confidence_score: float
+    stitch_combined_score: float
+    references: str[]
+
+
+gene to gene orthology association:
+  is_a: association
+  represented_as: edge
+  label_as_edge: gene_is_orthologous_with_gene
+  source: gene
+  target: gene
+  label_in_input: gene_is_orthologous_with_gene
+  properties:
+    source: str[]
+    relation_type: str
+    oma_orthology_score: float
+
+
+
+protein to phenotype association:
+  is_a: GeneToPhenotypicFeatureAssociation
+  represented_as: edge
+  label_as_edge: protein_is_associated_with_phenotype
+  source: protein
+  target: phenotype
+  label_in_input: protein_is_associated_with_phenotype
+
+phenotype hierarchical association:
+  is_a: association
+  represented_as: edge
+  label_as_edge: phenotype_is_a_phenotype
+  source: phenotype
+  target: phenotype
+  label_in_input: phenotype_is_a_phenotype
+
+
+protein to pathway association:
+  is_a: GeneToPathwayAssociation
+  represented_as: edge
+  label_as_edge: protein_take_part_in_pathway
+  source: protein
+  target: pathway
+  label_in_input: protein_take_part_in_pathway
+  properties:
+    source: str
+    evidence_code: str
+
+
+pathway to pathway association:
+  is_a: association
+  represented_as: edge
+  source: [pathway_is_part_of_pathway, pathway_is_equivalent_to_pathway]
+  target: pathway
+  label_in_input: [pathway_is_part_of_pathway, pathway_is_equivalent_to_pathway]
+
+reactome hierarchical association:
+  is_a: association
+  represented_as: edge
+  label_as_edge: pathway_participates_pathway
+  source: pathway
+  target: pathway
+  label_in_input: pathway_participates_pathway
+
+pathway to pathway orthology association:
+  is_a: association
+  represented_as: edge
+  label_as_edge: pathway_is_ortholog_to_pathway
+  source: pathway
+  target: pathway
+  label_in_input: pathway_is_ortholog_to_pathway
+
+
+protein to ec number association:
+  is_a: ReactionToParticipantAssociation
+  represented_as: edge
+  label_as_edge: protein_catalyzes_ec_number
+  source: protein
+  target: ec number
+  label_in_input: protein_catalyzes_ec_number
+
+ec number hierarchical association:
+  is_a: molecular activity to molecular activity association
+  represented_as: edge
+  label_as_edge: ec_number_is_a_ec_number
+  source: ec number
+  target: ec number
+  label_in_input: ec_number_is_a_ec_number
+
+gene to gene regulatory association:
+  is_a: pairwise gene to gene interaction
+  represented_as: edge
+  label_as_edge: gene_regulates_gene
+  source: gene
+  target: gene
+  label_in_input: gene_regulates_gene
+  properties:
+    source: str[]
+    dorothea_confidence_level: str
+    pubmed_id: str[]
+    tf_effect: str
+

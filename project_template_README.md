@@ -200,3 +200,15 @@ repository](https://github.com/biocypher/meta-graph). The read-only setting is
 configured in the `docker-compose.yml` file
 (`NEO4J_dbms_databases_default__to__read__only: "false"`) and is deactivated by
 default.
+
+
+
+# Relevant DBs:
+The following databases accessed by the adapters contain data on Prochlorococcus and Alteromonas:
+
+* **KEGG**: Includes genome and pathway data for multiple Prochlorococcus and Alteromonas strains.
+* **STRING**: Contains protein-protein interaction networks for both genera, based on experimental and genomic context data.
+* **UniProt**: Provides annotated protein sequences for numerous Prochlorococcus and Alteromonas species.
+* **GO** (Gene Ontology): Supports functional annotation of genes from these organisms.
+* **KEGG** and **COG**: Used for metabolic and functional classification in studies involving these bacteria.
+These databases are actively used in research on these non-model marine bacteria, making their corresponding adapters highly adaptable for such studies.

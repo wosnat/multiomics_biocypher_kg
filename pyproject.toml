@@ -3,19 +3,24 @@ requires = ["hatchling"]
 build-backend = "hatchling.build"
 
 [project]
-name = "biocypher-project-template"
+name = "multiomics_biocypher_kg"
 version = "0.11.0"
 description = "Template for creating a BioCypher-driven knowledge graph"
 readme = "README.md"
 authors = [
-    {name = "Sebastian Lobentanzer", email = "sebastian.lobentanzer@gmail.com"},
-    {name = "Andreas Maier", email = "andreas.maier-1@uni-hamburg.de"},
+    {name = "Osnat Weissberg", email = "osnat.weissberg@gmail.com"},
 ]
 requires-python = ">=3.11"
 license = {text = "MIT"}
 
 dependencies = [
     "biocypher>=0.11.0",
+    "bioregistry>=0.13.11",
+    "h5py>=3.15.1",
+    "jupyter>=1.1.1",
+    "paramiko<4.0",
+    "pypath-omnipath>=0.16.20",
+    "pysftp>=0.2.9",
 ]
 
 [tool.hatch.build.targets.wheel]
@@ -40,4 +45,9 @@ packages = [{include = "template_package"}]
 [tool.poetry.dependencies]
 python = "^3.11"
 biocypher = ">=0.11.0"
+
+[dependency-groups]
+dev = [
+    "ipykernel>=7.1.0",
+]
 #------------------------------------------------------------------------
