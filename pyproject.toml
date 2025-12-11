@@ -21,6 +21,7 @@ dependencies = [
     "paramiko<4.0",
     "pypath-omnipath>=0.16.20",
     "pysftp>=0.2.9",
+    "pytest>=9.0.2",
 ]
 
 [tool.hatch.build.targets.wheel]
