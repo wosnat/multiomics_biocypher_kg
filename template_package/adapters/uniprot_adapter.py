@@ -58,15 +58,43 @@ class UniprotNodeField(Enum, metaclass=UniprotEnumMeta):
     PRIMARY_GENE_NAME = "gene_primary"
     SEQUENCE = "sequence"
 
+    # added to check 
+    GENE_ORDERED_LOCUS = "gene_oln"
+    cc_catalytic_activity = "cc_catalytic_activity"
+    cc_cofactor = "cc_cofactor"
+    cc_function = "cc_function"
+    cc_pathway = "cc_pathway"
+    annotation_score = "annotation_score"
+    cc_caution = "cc_caution"
+    keywordid = "keywordid"
+    keyword = "keyword"
+    reviewed = "reviewed"
+    cc_interaction = "cc_interaction"
+    go = "go"
+    go_id = "go_id"
+    ft_transmem = "ft_transmem"
+    ft_signal = "ft_signal"
+    cc_domain = "cc_domain"
+    #ft_domain = "ft_domain"
+    ft_motif = "ft_motif"
+    protein_families = "protein_families"
+    #ft_region = "ft_region"
+    xref_refseq = "xref_refseq"
+    xref_string = "xref_string"
+    xref_eggnog = "xref_eggnog"
+    xref_ko = "xref_ko"
+    xref_pfam   = "xref_pfam"
+
+
+
+
+
+
     # xref attributes
-    ENSEMBL_TRANSCRIPT_IDS = "xref_ensembl"
     PROTEOME = "xref_proteomes"
     ENTREZ_GENE_IDS = "xref_geneid"
     KEGG_IDS = "xref_kegg"
 
-    # not from uniprot REST
-    # we provide these by mapping ENSTs via pypath
-    ENSEMBL_GENE_IDS = "ensembl_gene_ids"
 
     # not from uniprot REST
     # we provide these by downloading the ProtT5 embeddings from uniprot
@@ -100,6 +128,36 @@ class UniprotNodeField(Enum, metaclass=UniprotEnumMeta):
             cls.SEQUENCE.value,
             cls.PROTT5_EMBEDDING.value,
             cls.ESM2_EMBEDDING.value,
+            cls.PROTEIN_GENE_NAMES.value,
+            cls.ENTREZ_GENE_IDS.value,
+            cls.KEGG_IDS.value,
+            cls.PRIMARY_GENE_NAME.value,
+            cls.NT_EMBEDDING.value,
+            cls.SUBCELLULAR_LOCATION.value,
+            # added to test 
+            cls.GENE_ORDERED_LOCUS.value,   
+            cls.cc_catalytic_activity.value,
+            cls.cc_cofactor.value,
+            cls.cc_function.value,
+            cls.cc_pathway.value,
+            cls.annotation_score.value,
+            cls.cc_caution.value,
+            cls.keywordid.value,
+            cls.keyword.value,
+            cls.reviewed.value,
+            cls.cc_interaction.value,
+            cls.go.value,
+            cls.go_id.value,
+            cls.ft_transmem.value,
+            cls.ft_signal.value,
+            cls.cc_domain.value,
+            cls.ft_motif.value,
+            cls.protein_families.value,
+            cls.xref_refseq.value,
+            cls.xref_string.value,
+            cls.xref_eggnog.value,
+            cls.xref_ko.value,
+            cls.xref_pfam.value,
         ]
     @classmethod
     def get_gene_properties(cls) -> list:
@@ -107,8 +165,6 @@ class UniprotNodeField(Enum, metaclass=UniprotEnumMeta):
             cls.PROTEIN_GENE_NAMES.value,
             cls.ENTREZ_GENE_IDS.value,
             cls.KEGG_IDS.value,
-            cls.ENSEMBL_TRANSCRIPT_IDS.value,
-            cls.ENSEMBL_GENE_IDS.value,
             cls.PRIMARY_GENE_NAME.value,
             cls.NT_EMBEDDING.value,
         ]
@@ -124,7 +180,7 @@ class UniprotNodeField(Enum, metaclass=UniprotEnumMeta):
             cls.PROTEIN_GENE_NAMES.value,
             cls.EC.value,
             cls.ENTREZ_GENE_IDS.value,
-            cls.ENSEMBL_TRANSCRIPT_IDS.value,
+            #cls.ENSEMBL_TRANSCRIPT_IDS.value,
             cls.KEGG_IDS.value,
         ]
 
@@ -231,7 +287,6 @@ class Uniprot:
 
         # gene property name mappings that will be used gene node properties in KG
         self.gene_property_name_mappings = {"gene_primary":"gene_symbol",
-                                            "xref_ensembl":"ensembl_transcript_ids",
                                             "xref_kegg":"kegg_ids",
                                             }
         # protein property name mappings that will be used protein node properties in KG
@@ -291,8 +346,16 @@ class Uniprot:
                 nucleotide_transformer_embedding_path=nucleotide_transformer_embedding_path,
             )
 
+            import json
+            with open('uniprot_raw_data.json', 'w') as f:
+                json.dump(self.data, f, indent=4, default=str)  
+
             # preprocess data
             self._preprocess_uniprot_data()
+
+            import json
+            with open('uniprot_preprocess_data.json', 'w') as f:
+                json.dump(self.data, f, indent=4, default=str)  
 
     @validate_call
     def _download_uniprot_data(
@@ -316,7 +379,7 @@ class Uniprot:
 
         # download all swissprot ids
         self.uniprot_ids = set(uniprot._all_uniprots(self.organism, self.rev))
-
+        logger.debug(f"found {len(self.uniprot_ids)} uniprot ids")
         # limit to 100 for testing
         if self.test_mode:
             self.uniprot_ids = set(list(self.uniprot_ids)[:100])
@@ -325,7 +388,6 @@ class Uniprot:
         self.data = {}
         for query_key in tqdm(self.node_fields, desc="Downloading uniprot fields"):
             if query_key in [
-                UniprotNodeField.ENSEMBL_GENE_IDS.value,
                 UniprotNodeField.PROTT5_EMBEDDING.value,
                 UniprotNodeField.ESM2_EMBEDDING.value,
                 UniprotNodeField.NT_EMBEDDING.value,
@@ -346,8 +408,6 @@ class Uniprot:
 
             logger.debug(f"{query_key} field is downloaded")
 
-        # add ensembl gene ids
-        self.data[UniprotNodeField.ENSEMBL_GENE_IDS.value] = {}
 
         if UniprotNodeField.PROTT5_EMBEDDING.value in self.node_fields:
             self.data[UniprotNodeField.PROTT5_EMBEDDING.value] = {}
@@ -491,7 +551,6 @@ class Uniprot:
             # do not process ensembl gene ids (we will get them from pypath)
             # and prott5 embeddings
             if arg in [
-                UniprotNodeField.ENSEMBL_GENE_IDS.value,
                 UniprotNodeField.PROTT5_EMBEDDING.value,
                 UniprotNodeField.ESM2_EMBEDDING.value,
                 UniprotNodeField.NT_EMBEDDING.value,
@@ -526,30 +585,9 @@ class Uniprot:
                         arg, attribute_value
                     )
 
-            # Special treatment
-            # ENST and ENSG ids
-            if arg == UniprotNodeField.ENSEMBL_TRANSCRIPT_IDS.value:
-
-                for protein, attribute_value in self.data.get(arg).items():
-                    
-
-                    attribute_value, ensg_ids = self._find_ensg_from_enst(
-                        attribute_value
-                    )
-                    
-                    # update enst in data dict
-                    self.data[UniprotNodeField.ENSEMBL_TRANSCRIPT_IDS.value][
-                        protein
-                    ] = attribute_value
-
-                    if ensg_ids:
-                        # add ensgs to data dict
-                        self.data[UniprotNodeField.ENSEMBL_GENE_IDS.value][
-                            protein
-                        ] = ensg_ids
 
             # Protein names
-            elif arg == UniprotNodeField.PROTEIN_NAMES.value:
+            if arg == UniprotNodeField.PROTEIN_NAMES.value:
 
                 for protein, attribute_value in self.data.get(arg).items():
 
@@ -674,7 +712,6 @@ class Uniprot:
 
                 type_dict = {
                     UniprotNodeField.ENTREZ_GENE_IDS.value: "ncbigene",
-                    UniprotNodeField.ENSEMBL_GENE_IDS.value: "ensembl",
                 }
 
                 # find preferred identifier for gene
@@ -682,9 +719,6 @@ class Uniprot:
 
                     id_type = UniprotNodeField.ENTREZ_GENE_IDS.value
 
-                elif UniprotIDField.GENE_ENSEMBL_GENE_ID in self.id_fields:
-
-                    id_type = UniprotNodeField.ENSEMBL_GENE_IDS.value
 
                 if genes := self.data.get(id_type).get(protein):
                     genes = self._ensure_iterable(genes)
@@ -776,9 +810,6 @@ class Uniprot:
 
             id_type = UniprotNodeField.ENTREZ_GENE_IDS.value
 
-        elif UniprotIDField.GENE_ENSEMBL_GENE_ID in self.id_fields:
-
-            id_type = UniprotNodeField.ENSEMBL_GENE_IDS.value
 
         gene_raw = all_props.pop(id_type)
 
@@ -787,7 +818,6 @@ class Uniprot:
 
         type_dict = {
             UniprotNodeField.ENTREZ_GENE_IDS.value: "ncbigene",
-            UniprotNodeField.ENSEMBL_GENE_IDS.value: "ensembl",
         }
 
         genes = self._ensure_iterable(gene_raw)
@@ -950,6 +980,19 @@ class Uniprot:
 
         return field_value
 
+    # TODO fix this function to support strings like:
+    #    "Q7TU21": "Aspartate-semialdehyde dehydrogenase (ASA dehydrogenase) (ASADH) (EC 1.2.1.11) (Aspartate-beta-semialdehyde dehydrogenase)",
+    # "Q7V0G8": "ADP-dependent (S)-NAD(P)H-hydrate dehydratase (EC 4.2.1.136) (ADP-dependent NAD(P)HX dehydratase)",
+    # "Q7V0H7": "Multifunctional fusion protein [Includes: 2-C-methyl-D-erythritol 2,4-cyclodiphosphate synthase (MECDP-synthase) (MECPP-synthase) (MECPS) (EC 4.6.1.12); tRNA (guanine-N(1)-)-methyltransferase (EC 2.1.1.228) (M1G-methyltransferase) (tRNA [GM37] methyltransferase)]",
+    # "Q7V0W8": "Protein nucleotidyltransferase YdiU (EC 2.7.7.-) (Protein adenylyltransferase YdiU) (EC 2.7.7.108) (Protein uridylyltransferase YdiU) (EC 2.7.7.-)",
+    # "Q7V1H8": "Riboflavin biosynthesis protein RibBA [Includes: 3,4-dihydroxy-2-butanone 4-phosphate synthase (DHBP synthase) (EC 4.1.99.12); GTP cyclohydrolase-2 (EC 3.5.4.25) (GTP cyclohydrolase II)]",
+    # "Q7V1L1": "ATP-dependent zinc metalloprotease FtsH (EC 3.4.24.-)",
+    # "Q7V1N8": "Carbamoyl phosphate synthase large chain (EC 6.3.4.16) (EC 6.3.5.5) (Carbamoyl phosphate synthetase ammonia chain)",
+    # "Q7V359": "Coenzyme A biosynthesis bifunctional protein CoaBC (DNA/pantothenate metabolism flavoprotein) (Phosphopantothenoylcysteine synthetase/decarboxylase) (PPCS-PPCDC) [Includes: Phosphopantothenoylcysteine decarboxylase (PPC decarboxylase) (PPC-DC) (EC 4.1.1.36) (CoaC); Phosphopantothenate--cysteine ligase (EC 6.3.2.5) (CoaB) (Phosphopantothenoylcysteine synthetase) (PPC synthetase) (PPC-S)]",
+    # "Q7V362": "ATP-dependent zinc metalloprotease FtsH (EC 3.4.24.-)",
+    # "Q7TU15": "Threonine synthase (EC 4.2.3.1)",
+    # "Q7TU17": "Polyphosphate kinase (EC 2.7.4.1) (ATP-polyphosphate phosphotransferase) (Polyphosphoric acid kinase)",
+
     def _split_protein_names_field(self, field_value):
         """
         Split protein names field in uniprot
@@ -1110,11 +1153,6 @@ class Uniprot:
     ):
 
         # ensure computation of ENSGs
-        if (
-            UniprotNodeField.ENSEMBL_GENE_IDS in node_fields
-            and UniprotNodeField.ENSEMBL_TRANSCRIPT_IDS not in node_fields
-        ):
-            node_fields.append(UniprotNodeField.ENSEMBL_TRANSCRIPT_IDS)
 
         # check which node types and fields to include
         self.node_types = node_types or list(UniprotNodeType)

@@ -1,4 +1,5 @@
 import os, shutil
+
 from biocypher import BioCypher, FileDownload
 from template_package.adapters.uniprot_adapter import (
     Uniprot,
@@ -32,7 +33,7 @@ bc = BioCypher()
 # uniprot configuration
 uniprot_node_types = [
     UniprotNodeType.PROTEIN,
-    UniprotNodeType.GENE,
+    #UniprotNodeType.GENE,
     UniprotNodeType.ORGANISM,
 ]
 
@@ -44,20 +45,46 @@ uniprot_node_fields = [
     UniprotNodeField.ORGANISM_ID,
     UniprotNodeField.PROTEIN_NAMES,
     UniprotNodeField.PROTEIN_GENE_NAMES,
-    UniprotNodeField.ENSEMBL_TRANSCRIPT_IDS,
-    UniprotNodeField.ENSEMBL_GENE_IDS,
-    UniprotNodeField.ENTREZ_GENE_IDS,
     UniprotNodeField.KEGG_IDS,
     UniprotNodeField.PROTEOME,
-    UniprotNodeField.SEQUENCE,
+    #UniprotNodeField.SEQUENCE, # remove for now to reduce size
+    UniprotNodeField.SUBCELLULAR_LOCATION, 
+    UniprotNodeField.EC, 
     #UniprotNodeField.PROTT5_EMBEDDING,
     #UniprotNodeField.ESM2_EMBEDDING,
     #UniprotNodeField.NT_EMBEDDING,
+    UniprotNodeField.GENE_ORDERED_LOCUS,   
+    UniprotNodeField.cc_catalytic_activity,
+    UniprotNodeField.cc_cofactor,
+    UniprotNodeField.cc_function,
+    UniprotNodeField.cc_pathway,
+    UniprotNodeField.annotation_score,
+    UniprotNodeField.cc_caution,
+    UniprotNodeField.keywordid,
+    UniprotNodeField.keyword,
+    UniprotNodeField.reviewed,
+    UniprotNodeField.cc_interaction,
+    UniprotNodeField.go,
+    UniprotNodeField.go_id,
+    UniprotNodeField.ft_transmem,
+    UniprotNodeField.ft_signal,
+    UniprotNodeField.cc_domain,
+    UniprotNodeField.ft_motif,
+    UniprotNodeField.protein_families,
+    UniprotNodeField.xref_refseq,
+    UniprotNodeField.xref_string,
+    UniprotNodeField.xref_eggnog,
+    UniprotNodeField.xref_pfam,
+
 ]
+
+
+
+
 
 uniprot_edge_types = [
      UniprotEdgeType.PROTEIN_TO_ORGANISM,
-     UniprotEdgeType.GENE_TO_PROTEIN,
+     #UniprotEdgeType.GENE_TO_PROTEIN,
 ]
 
 uniprot_id_type = [
@@ -67,6 +94,7 @@ uniprot_id_type = [
 
 uniprot_adapter = Uniprot(
         organism="59919", # MED4
+        rev= False, # whether to include unreviewed entries
         node_types=uniprot_node_types,
         node_fields=uniprot_node_fields,
         edge_types=uniprot_edge_types,
@@ -74,10 +102,11 @@ uniprot_adapter = Uniprot(
         test_mode=TEST_MODE,
     )
 
-uniprot_adapter.download_uniprot_data(cache=CACHE, retries=6)
+uniprot_adapter.download_uniprot_data(cache=CACHE, retries=6, debug=True)
 
 uniprot_nodes = uniprot_adapter.get_nodes()
 uniprot_edges = uniprot_adapter.get_edges()
+
 
 
 bc.write_nodes(uniprot_nodes)
@@ -92,7 +121,7 @@ if export_as_csv:
 
 # Write import call and other post-processing
 bc.write_import_call()
-#bc.summary()
+# bc.summary()
 
 
 

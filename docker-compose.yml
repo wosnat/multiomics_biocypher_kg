@@ -12,7 +12,7 @@ services:
       - /bin/bash
       - /src/scripts/build.sh
     environment:
-      BUILD2NEO_CLEANUP: "no"
+      BUILD2NEO_CLEANUP: "yes"
 
   import:
     image: neo4j:4.4-enterprise

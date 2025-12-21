@@ -26,10 +26,40 @@ protein:
     primary_protein_name: str
     protein_name: str[]
     xref_proteomes: str[]
-    organism_name: str
-    organism_id: int
+    # organism_name: str
+    # organism_id: int
     sequence: str
     prott5_embedding: float[]
+    gene_names: str[]
+    kegg_ids: str[]
+    gene_symbol: str
+    ec: str
+    subcellular_location: str[]
+    gene_primary: str
+    # added to test
+    gene_ordered_locus: str
+    cc_catalytic_activity: str
+    cc_cofactor: str
+    cc_function: str
+    cc_pathway: str
+    annotation_score: float
+    cc_caution: str
+    keywordid: str
+    keyword: str
+    reviewed: bool
+    cc_interaction: str
+    go: str
+    go_id: str
+    ft_transmem: str
+    ft_signal: str
+    cc_domain: str
+    ft_motif: str
+    protein_families: str
+    xref_refseq: str
+    xref_string: str
+    xref_eggnog: str
+    xref_pfam: str
+
   
 organism taxon:
   represented_as: node
