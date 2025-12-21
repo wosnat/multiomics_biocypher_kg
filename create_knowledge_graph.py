@@ -8,6 +8,9 @@ from template_package.adapters.uniprot_adapter import (
     UniprotEdgeType,
     UniprotIDField,
 )
+from template_package.adapters.go_adapter import (
+    GO
+)
 
 
 
@@ -92,8 +95,12 @@ uniprot_id_type = [
 ]
 
 
+
+# organism to use: MED4 (59919)
+organism="59919" # MED4
+
 uniprot_adapter = Uniprot(
-        organism="59919", # MED4
+        organism=organism, # MED4
         rev= False, # whether to include unreviewed entries
         node_types=uniprot_node_types,
         node_fields=uniprot_node_fields,
@@ -117,6 +124,19 @@ if export_as_csv:
     uniprot_adapter.export_data_to_csv(path=output_dir_path,
                                     node_data=uniprot_nodes,
                                     edge_data=uniprot_edges)
+
+
+# gene ontology
+
+go_adapter = GO(
+    organism=organism, 
+    test_mode=TEST_MODE
+)
+go_adapter.download_go_data(cache=CACHE)
+bc.write_nodes(go_adapter.get_go_nodes())
+bc.write_edges(go_adapter.get_go_edges())
+if export_as_csv:
+    go_adapter.export_as_csv(path=output_dir_path)
 
 
 # Write import call and other post-processing
