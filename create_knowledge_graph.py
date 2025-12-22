@@ -1,6 +1,7 @@
 import os, shutil
 
 from biocypher import BioCypher, FileDownload
+from template_package.adapters.ec_adapter import EC
 from template_package.adapters.uniprot_adapter import (
     Uniprot,
     UniprotNodeType,
@@ -127,16 +128,26 @@ if export_as_csv:
 
 
 # gene ontology
+if False:
+    go_adapter = GO(
+        organism=organism, 
+        test_mode=TEST_MODE
+    )
+    go_adapter.download_go_data(cache=CACHE)
+    bc.write_nodes(go_adapter.get_go_nodes())
+    bc.write_edges(go_adapter.get_go_edges())
+    if export_as_csv:
+        go_adapter.export_as_csv(path=output_dir_path)
 
-go_adapter = GO(
-    organism=organism, 
+
+ec_adapter = EC(
+    export_csv=export_as_csv,
+    output_dir=output_dir_path,
     test_mode=TEST_MODE
 )
-go_adapter.download_go_data(cache=CACHE)
-bc.write_nodes(go_adapter.get_go_nodes())
-bc.write_edges(go_adapter.get_go_edges())
-if export_as_csv:
-    go_adapter.export_as_csv(path=output_dir_path)
+ec_adapter.download_ec_data(cache=CACHE)
+bc.write_nodes(ec_adapter.get_nodes())
+bc.write_edges(ec_adapter.get_edges())
 
 
 # Write import call and other post-processing

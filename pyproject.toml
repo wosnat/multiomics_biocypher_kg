@@ -47,6 +47,9 @@ packages = [{include = "template_package"}]
 python = "^3.11"
 biocypher = ">=0.11.0"
 
+[tool.uv.sources]
+pypath-omnipath = { git = "https://github.com/wosnat/pypath" }
+
 [dependency-groups]
 dev = [
     "ipykernel>=7.1.0",

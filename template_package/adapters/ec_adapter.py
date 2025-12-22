@@ -117,7 +117,7 @@ class EC:
         """
 
         with ExitStack() as stack:
-            stack.enter_context(settings.context(retries=retries))
+            #stack.enter_context(settings.context(retries=retries))
 
             if debug:
                 stack.enter_context(curl.debug_on())
@@ -131,7 +131,7 @@ class EC:
             self.enzymes = expasy.expasy_enzymes()
 
             self.enzyme_classes = expasy.expasy_enzyme_classes()
-
+            
             self.prepare_ec_hierarchy_dict()
 
             if ECNodeField.RXFNP_EMBEDDING.value in self.ec_node_fields:
@@ -391,35 +391,39 @@ class EC:
         logger.debug("Started preparing ec hierarchy dictionary")
 
         self.ec_dict = {}
+#        print("enzyme_classes", self.enzyme_classes)
+#         print("enzymes", self.enzymes)
 
-        for entry, name in self.enzyme_classes:
+        for ec_level1, ec_level2, ec_level3, name in self.enzyme_classes:
+            print("ec_level1", ec_level1, "ec_level2", ec_level2, "ec_level3", ec_level3, "name", name)
+            entry = f"{ec_level1}.{ec_level2}.{ec_level3}.-"
             entry = entry.replace(" ", "")
+            entry = entry.replace("None", "-")
+            print("entry", entry)
 
+            if ec_level1 is None:
+                logger.warning(f"Skipping invalid EC entry: {name}")
+                continue
             # if there is 3 - in the entry, it is a level 1 entry
-            if entry.count("-") == 3:
+            elif ec_level2 is None:
                 self.ec_dict[entry] = {"name": name}
             # if there is 2 - in the entry, it is a level 2 entry
-            elif entry.count("-") == 2:
-                level_1_entry = entry.split(".")[0] + ".-.-.-"
+            elif ec_level3 is None:
+                level_1_entry = f'{ec_level1}.-.-.-'
                 if level_1_entry not in self.ec_dict:
                     self.ec_dict[level_1_entry] = {}
                 self.ec_dict[level_1_entry][entry] = {"name": name}
             # if there is 1 - in the entry, it is a level 3 entry
-            elif entry.count("-") == 1:
-                level_1_entry = entry.split(".")[0] + ".-.-.-"
-                level_2_entry = (
-                    level_1_entry.split(".")[0]
-                    + "."
-                    + entry.split(".")[1]
-                    + ".-.-"
-                )
+            else:
+                level_1_entry = f'{ec_level1}.-.-.-'
+                level_2_entry = f'{ec_level1}.{ec_level2}.-.-'
                 if level_1_entry not in self.ec_dict:
                     self.ec_dict[level_1_entry] = {}
                 if level_2_entry not in self.ec_dict[level_1_entry]:
                     self.ec_dict[level_1_entry][level_2_entry] = {}
                 self.ec_dict[level_1_entry][level_2_entry][entry] = {
                     "name": name,
-                    "entries": [],
+                    "entries": [], 
                 }
 
         for level_4 in self.enzymes.keys():
