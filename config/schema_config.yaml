@@ -151,6 +151,9 @@ ec number:
   label_in_input: ec_number
   properties:
     name: str
+    alternate_name: str[]
+    catalytic_activity: str[]
+    comments: str[]
     rxnfp_embedding: float[]
 
 

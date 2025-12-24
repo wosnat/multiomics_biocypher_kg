@@ -28,10 +28,26 @@ class ECEnumMeta(EnumMeta):
     def __contains__(cls, item):
         return item in cls.__members__.keys()
 
+# Expasy EC number file format:
+#    ID  Identification                         (Begins each entry; 1 per entry)
+#    DE  Description (official name)            (>=1 per entry)
+#    AN  Alternate name(s)                      (>=0 per entry)
+#    CA  Catalytic activity                     (>=1 per entry)
+#    CC  Comments                               (>=0 per entry)
+#    PR  Cross-references to PROSITE            (>=0 per entry)
+#    DR  Cross-references to Swiss-Prot         (>=0 per entry)
+#    //  Termination line                       (Ends each entry; 1 per entry)
 
 class ECNodeField(Enum, metaclass=ECEnumMeta):
     NAME = "name"
+    ALTERNATE_NAME = 'alternate_name'
+    CATALYTIC_ACTIVITY = "catalytic_activity"
+    COMMENTS = "Comments"
+    #PROSITE_CROSS_REFERENCE = "pr"
+    #SWISSPROT_CROSS_REFERENCE = "dr"
+
     RXFNP_EMBEDDING = "rxnfp_embedding"
+
 
     @classmethod
     def _missing_(cls, value: str):
@@ -129,12 +145,22 @@ class EC:
             t0 = time()
 
             self.enzymes = expasy.expasy_enzymes()
+            for i in self.enzymes:
+                print(i)
+                print(self.enzymes[i].keys())
+                print(self.enzymes[i]['de'])
+                print(self.enzymes[i]['an'])
+                print(self.enzymes[i]['ca'])
+                print(self.enzymes[i]['cc'])
 
+
+
+                break
             self.enzyme_classes = expasy.expasy_enzyme_classes()
             
             self.prepare_ec_hierarchy_dict()
-
-            if ECNodeField.RXFNP_EMBEDDING.value in self.ec_node_fields:
+            # TODO: add rxnfp embeddings
+            if False and ECNodeField.RXFNP_EMBEDDING.value in self.ec_node_fields:
                 self.retrieve_rxfnp_embeddings(rxnfp_embedding_path)
 
             t1 = time()
@@ -214,18 +240,31 @@ class EC:
                                         identifier=level_4_entry,
                                     )
                                     props = {}
-                                    if (
-                                        ECNodeField.NAME.value
-                                        in self.ec_node_fields
-                                    ):
+                                    if (ECNodeField.NAME.value in self.ec_node_fields):
                                         props[ECNodeField.NAME.value] = (
                                             self.enzymes[level_4_entry]["de"]
                                             .replace(".", "")
                                             .replace("|", ",")
                                             .replace("'", "^")
                                         )
+                                    if ((ECNodeField.ALTERNATE_NAME.value in self.ec_node_fields) and
+                                        ('an' in self.enzymes[level_4_entry])
+                                    ):
+                                        props[ECNodeField.ALTERNATE_NAME.value] = self.enzymes[level_4_entry]["an"]
 
-                                    if ECNodeField.RXFNP_EMBEDDING.value in self.ec_node_fields and self.ec_number_to_rxnfp_embedding.get(level_4_entry) is not None:
+                                    if ((ECNodeField.CATALYTIC_ACTIVITY.value in self.ec_node_fields) and
+                                        ('ca' in self.enzymes[level_4_entry])
+                                    ):
+                                        props[ECNodeField.CATALYTIC_ACTIVITY.value] = self.enzymes[level_4_entry]["ca"]
+
+                                    if ((ECNodeField.COMMENTS.value in self.ec_node_fields) and
+                                        ('cc' in self.enzymes[level_4_entry])
+                                    ):
+                                        cc_list = [i for i in self.enzymes[level_4_entry]["cc"] if not i.startswith("----")]
+                                        props[ECNodeField.COMMENTS.value] = cc_list
+
+                                    # TODO: add rxnfp embeddings
+                                    if False and ECNodeField.RXFNP_EMBEDDING.value in self.ec_node_fields and self.ec_number_to_rxnfp_embedding.get(level_4_entry) is not None:
                                         props[ECNodeField.RXFNP_EMBEDDING.value] = [str(emb) for emb in self.ec_number_to_rxnfp_embedding[level_4_entry]]
 
 
@@ -234,7 +273,7 @@ class EC:
             if self.early_stopping and index + 1 == self.early_stopping:
                 break
 
-        # write ec node data to cv
+        # write ec node data to csv
         if self.export_csv:
             if self.output_dir:
                 full_path = os.path.join(self.output_dir, "Ec.csv")
@@ -254,8 +293,8 @@ class EC:
 
         edge_list = []
 
-        if ECEdgeType.PROTEIN_TO_EC in self.edge_types:
-            edge_list.extend(self.get_protein_ec_edges())
+        # if ECEdgeType.PROTEIN_TO_EC in self.edge_types:
+        #     edge_list.extend(self.get_protein_ec_edges())
 
         if ECEdgeType.EC_HIERARCHY in self.edge_types:
             edge_list.extend(self.get_ec_hierarchy_edges())
@@ -380,6 +419,18 @@ class EC:
 
         return edge_list
 
+    def _add_ec_hierarchy_level(self, ec_level1 : str, ec_level2 : str, ec_level3 : str) -> str:
+        """
+        prepare dicts in enzyme_classes to represent hierarchy
+        """
+        level_1_entry = f'{ec_level1}.-.-.-'
+        level_2_entry = f'{ec_level1}.{ec_level2}.-.-'
+        if (ec_level1 is not None) and (level_1_entry not in self.ec_dict):
+            self.ec_dict[level_1_entry] = dict()
+            if (ec_level2 is not None) and (level_2_entry not in self.ec_dict[level_1_entry]):
+                self.ec_dict[level_1_entry][level_2_entry] = dict()
+        
+    
     def prepare_ec_hierarchy_dict(self) -> None:
 
         if not hasattr(self, "enzyme_classes"):
@@ -395,12 +446,13 @@ class EC:
 #         print("enzymes", self.enzymes)
 
         for ec_level1, ec_level2, ec_level3, name in self.enzyme_classes:
-            print("ec_level1", ec_level1, "ec_level2", ec_level2, "ec_level3", ec_level3, "name", name)
+            #print("ec_level1", ec_level1, "ec_level2", ec_level2, "ec_level3", ec_level3, "name", name)
             entry = f"{ec_level1}.{ec_level2}.{ec_level3}.-"
             entry = entry.replace(" ", "")
             entry = entry.replace("None", "-")
-            print("entry", entry)
+            #print("entry", entry)
 
+            self._add_ec_hierarchy_level(ec_level1, ec_level2, ec_level3)
             if ec_level1 is None:
                 logger.warning(f"Skipping invalid EC entry: {name}")
                 continue
@@ -410,41 +462,24 @@ class EC:
             # if there is 2 - in the entry, it is a level 2 entry
             elif ec_level3 is None:
                 level_1_entry = f'{ec_level1}.-.-.-'
-                if level_1_entry not in self.ec_dict:
-                    self.ec_dict[level_1_entry] = {}
                 self.ec_dict[level_1_entry][entry] = {"name": name}
             # if there is 1 - in the entry, it is a level 3 entry
             else:
                 level_1_entry = f'{ec_level1}.-.-.-'
                 level_2_entry = f'{ec_level1}.{ec_level2}.-.-'
-                if level_1_entry not in self.ec_dict:
-                    self.ec_dict[level_1_entry] = {}
-                if level_2_entry not in self.ec_dict[level_1_entry]:
-                    self.ec_dict[level_1_entry][level_2_entry] = {}
                 self.ec_dict[level_1_entry][level_2_entry][entry] = {
                     "name": name,
                     "entries": [], 
                 }
 
         for level_4 in self.enzymes.keys():
-            level_1_entry = level_4.split(".")[0] + ".-.-.-"
-            level_2_entry = (
-                level_1_entry.split(".")[0]
-                + "."
-                + level_4.split(".")[1]
-                + ".-.-"
-            )
-            level_3_entry = (
-                level_2_entry.split(".")[0]
-                + "."
-                + level_4.split(".")[1]
-                + "."
-                + level_4.split(".")[2]
-                + ".-"
-            )
             if not self.enzymes[level_4]["de"].startswith(
                 "Transferred entry"
             ) and not self.enzymes[level_4]["de"].startswith("Deleted"):
+                ec_level1, ec_level2, ec_level3, ec_level4 = level_4.split(".")
+                level_1_entry = f'{ec_level1}.-.-.-'
+                level_2_entry = f'{ec_level1}.{ec_level2}.-.-'
+                level_3_entry = f'{ec_level1}.{ec_level2}.{ec_level3}.-'
                 self.ec_dict[level_1_entry][level_2_entry][level_3_entry][
                     "entries"
                 ].append(level_4)
