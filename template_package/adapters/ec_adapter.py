@@ -42,7 +42,7 @@ class ECNodeField(Enum, metaclass=ECEnumMeta):
     NAME = "name"
     ALTERNATE_NAME = 'alternate_name'
     CATALYTIC_ACTIVITY = "catalytic_activity"
-    COMMENTS = "Comments"
+    COMMENTS = "comments"
     #PROSITE_CROSS_REFERENCE = "pr"
     #SWISSPROT_CROSS_REFERENCE = "dr"
 
@@ -99,10 +99,11 @@ class EC:
         self.output_dir = model["output_dir"]
         self.add_prefix = model["add_prefix"]
 
-        if model["organism"] in ("*", None):
-            self.swissprots = set(uniprot._all_uniprots("*", True))
-        else:
-            self.swissprots = set(uniprot._all_uniprots(model["organism"], True))
+        # no need becuase we are not creating protein to ec edges here
+        # if model["organism"] in ("*", None):
+        #     self.swissprots = set(uniprot._all_uniprots("*", True))
+        # else:
+        #     self.swissprots = set(uniprot._all_uniprots(model["organism"], True))
 
         # set node fields
         self.set_node_fields(ec_node_fields=model["ec_node_fields"])
@@ -145,17 +146,7 @@ class EC:
             t0 = time()
 
             self.enzymes = expasy.expasy_enzymes()
-            for i in self.enzymes:
-                print(i)
-                print(self.enzymes[i].keys())
-                print(self.enzymes[i]['de'])
-                print(self.enzymes[i]['an'])
-                print(self.enzymes[i]['ca'])
-                print(self.enzymes[i]['cc'])
 
-
-
-                break
             self.enzyme_classes = expasy.expasy_enzyme_classes()
             
             self.prepare_ec_hierarchy_dict()
@@ -189,6 +180,13 @@ class EC:
 
         node_list = []
 
+        field_name_to_dict_key = {
+            ECNodeField.NAME.value: "de",
+            ECNodeField.ALTERNATE_NAME.value: "an",
+            ECNodeField.CATALYTIC_ACTIVITY.value: "ca",
+            ECNodeField.COMMENTS.value: "cc",
+        }
+
         for index, (level_1_entry, level_1_dict) in tqdm(
             enumerate(self.ec_dict.items())
         ):
@@ -197,9 +195,8 @@ class EC:
             )
             props = {}
             if ECNodeField.NAME.value in self.ec_node_fields:
-                props[ECNodeField.NAME.value] = (
-                    level_1_dict["name"].replace("|", ",").replace("'", "^")
-                )
+                props[ECNodeField.NAME.value] = level_1_dict["name"]
+                
 
             node_list.append((level_1_id, label, props))
 
@@ -210,11 +207,7 @@ class EC:
                     )
                     props = {}
                     if ECNodeField.NAME.value in self.ec_node_fields:
-                        props[ECNodeField.NAME.value] = (
-                            level_2_dict["name"]
-                            .replace("|", ",")
-                            .replace("'", "^")
-                        )
+                        props[ECNodeField.NAME.value] = level_2_dict["name"]
 
                     node_list.append((level_2_id, label, props))
 
@@ -225,12 +218,7 @@ class EC:
                             )
                             props = {}
                             if ECNodeField.NAME.value in self.ec_node_fields:
-                                props[ECNodeField.NAME.value] = (
-                                    level_3_dict["name"]
-                                    .replace("|", ",")
-                                    .replace("'", "^")
-                                )
-
+                                props[ECNodeField.NAME.value] = level_3_dict["name"]
                             node_list.append((level_3_id, label, props))
 
                             if level_3_dict["entries"]:
@@ -239,29 +227,11 @@ class EC:
                                         prefix="eccode",
                                         identifier=level_4_entry,
                                     )
-                                    props = {}
-                                    if (ECNodeField.NAME.value in self.ec_node_fields):
-                                        props[ECNodeField.NAME.value] = (
-                                            self.enzymes[level_4_entry]["de"]
-                                            .replace(".", "")
-                                            .replace("|", ",")
-                                            .replace("'", "^")
-                                        )
-                                    if ((ECNodeField.ALTERNATE_NAME.value in self.ec_node_fields) and
-                                        ('an' in self.enzymes[level_4_entry])
-                                    ):
-                                        props[ECNodeField.ALTERNATE_NAME.value] = self.enzymes[level_4_entry]["an"]
-
-                                    if ((ECNodeField.CATALYTIC_ACTIVITY.value in self.ec_node_fields) and
-                                        ('ca' in self.enzymes[level_4_entry])
-                                    ):
-                                        props[ECNodeField.CATALYTIC_ACTIVITY.value] = self.enzymes[level_4_entry]["ca"]
-
-                                    if ((ECNodeField.COMMENTS.value in self.ec_node_fields) and
-                                        ('cc' in self.enzymes[level_4_entry])
-                                    ):
-                                        cc_list = [i for i in self.enzymes[level_4_entry]["cc"] if not i.startswith("----")]
-                                        props[ECNodeField.COMMENTS.value] = cc_list
+                                    props = {
+                                        field_name : self.clean_text(self.enzymes[level_4_entry][dict_key])
+                                        for field_name, dict_key in field_name_to_dict_key.items() 
+                                        if (field_name in self.ec_node_fields) and (dict_key in self.enzymes[level_4_entry])
+                                    }  
 
                                     # TODO: add rxnfp embeddings
                                     if False and ECNodeField.RXFNP_EMBEDDING.value in self.ec_node_fields and self.ec_number_to_rxnfp_embedding.get(level_4_entry) is not None:
@@ -375,49 +345,50 @@ class EC:
 
         return edge_list
 
-    @validate_call
-    def get_protein_ec_edges(
-        self, label: str = "protein_catalyzes_ec_number"
-    ) -> list[tuple]:
-        if not hasattr(self, "enzymes"):
-            self.download_ec_data()
+    # this is moved to the uniprot adapter
+    # @validate_call
+    # def get_protein_ec_edges(
+    #     self, label: str = "protein_catalyzes_ec_number"
+    # ) -> list[tuple]:
+    #     if not hasattr(self, "enzymes"):
+    #         self.download_ec_data()
 
-        logger.info("Started writing protein-ec number edges")
+    #     logger.info("Started writing protein-ec number edges")
 
-        edge_list = []
-        for index, (ec_number, ec_number_items) in tqdm(
-            enumerate(self.enzymes.items())
-        ):
-            if ec_number_items.get("uniprots"):
-                for protein in ec_number_items["uniprots"]:
-                    if protein in self.swissprots:
-                        protein_id = self.add_prefix_to_id(
-                            prefix="uniprot", identifier=protein
-                        )
-                        ec_id = self.add_prefix_to_id(
-                            prefix="eccode", identifier=ec_number
-                        )
-                        edge_list.append((None, protein_id, ec_id, label, {}))
+    #     edge_list = []
+    #     for index, (ec_number, ec_number_items) in tqdm(
+    #         enumerate(self.enzymes.items())
+    #     ):
+    #         if ec_number_items.get("uniprots"):
+    #             for protein in ec_number_items["uniprots"]:
+    #                 if protein in self.swissprots:
+    #                     protein_id = self.add_prefix_to_id(
+    #                         prefix="uniprot", identifier=protein
+    #                     )
+    #                     ec_id = self.add_prefix_to_id(
+    #                         prefix="eccode", identifier=ec_number
+    #                     )
+    #                     edge_list.append((None, protein_id, ec_id, label, {}))
 
-            if self.early_stopping and index + 1 == self.early_stopping:
-                break
+    #         if self.early_stopping and index + 1 == self.early_stopping:
+    #             break
 
-        # write protein-ec data to csv
-        if self.export_csv:
-            if self.output_dir:
-                full_path = os.path.join(self.output_dir, "Protein_to_ec.csv")
-            else:
-                full_path = os.path.join(os.getcwd(), "Protein_to_ec.csv")
+    #     # write protein-ec data to csv
+    #     if self.export_csv:
+    #         if self.output_dir:
+    #             full_path = os.path.join(self.output_dir, "Protein_to_ec.csv")
+    #         else:
+    #             full_path = os.path.join(os.getcwd(), "Protein_to_ec.csv")
 
-            df_list = [
-                {"protein_id": protein_id, "ec_id": ec_id}
-                for _, protein_id, ec_id, _, _ in edge_list
-            ]
-            df = pd.DataFrame.from_records(df_list)
-            df.to_csv(full_path, index=False)
-            logger.info(f"Protein-ec edge data is written: {full_path}")
+    #         df_list = [
+    #             {"protein_id": protein_id, "ec_id": ec_id}
+    #             for _, protein_id, ec_id, _, _ in edge_list
+    #         ]
+    #         df = pd.DataFrame.from_records(df_list)
+    #         df.to_csv(full_path, index=False)
+    #         logger.info(f"Protein-ec edge data is written: {full_path}")
 
-        return edge_list
+    #     return edge_list
 
     def _add_ec_hierarchy_level(self, ec_level1 : str, ec_level2 : str, ec_level3 : str) -> str:
         """
@@ -446,6 +417,7 @@ class EC:
 #         print("enzymes", self.enzymes)
 
         for ec_level1, ec_level2, ec_level3, name in self.enzyme_classes:
+            name = self.clean_text(name)
             #print("ec_level1", ec_level1, "ec_level2", ec_level2, "ec_level3", ec_level3, "name", name)
             entry = f"{ec_level1}.{ec_level2}.{ec_level3}.-"
             entry = entry.replace(" ", "")
@@ -504,3 +476,23 @@ class EC:
 
     def set_edge_types(self, edge_types):
         self.edge_types = edge_types or list(ECEdgeType)
+
+    def clean_text(
+        self, text: str = None,
+    ) -> str:
+        """
+        remove biocypher special characters from text fields
+        """
+        special_chars_map = {
+            "|": ",", # pipe used to separate multiple values in biocypher
+            "'": "^", # single quote used to quote strings in biocypher
+        }
+        if isinstance(text, str):
+            for char, replacement in special_chars_map.items():
+                text = text.replace(char, replacement)
+            return text
+        elif isinstance(text, list):
+            return [self.clean_text(t) for t in text]
+        else:
+            return text
+        

@@ -88,6 +88,7 @@ uniprot_node_fields = [
 
 uniprot_edge_types = [
      UniprotEdgeType.PROTEIN_TO_ORGANISM,
+     UniprotEdgeType.PROTEIN_TO_EC,
      #UniprotEdgeType.GENE_TO_PROTEIN,
 ]
 
@@ -116,15 +117,16 @@ uniprot_nodes = uniprot_adapter.get_nodes()
 uniprot_edges = uniprot_adapter.get_edges()
 
 
+# if export_as_csv:
+#     uniprot_adapter.export_data_to_csv(path=output_dir_path,
+#                                     node_data=uniprot_nodes,
+#                                     edge_data=uniprot_edges)
+
 
 bc.write_nodes(uniprot_nodes)
 bc.write_edges(uniprot_edges)
 
 
-if export_as_csv:
-    uniprot_adapter.export_data_to_csv(path=output_dir_path,
-                                    node_data=uniprot_nodes,
-                                    edge_data=uniprot_edges)
 
 
 # gene ontology
@@ -133,6 +135,8 @@ if False:
         organism=organism, 
         test_mode=TEST_MODE
     )
+
+    
     go_adapter.download_go_data(cache=CACHE)
     bc.write_nodes(go_adapter.get_go_nodes())
     bc.write_edges(go_adapter.get_go_edges())

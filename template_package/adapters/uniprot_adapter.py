@@ -24,6 +24,31 @@ from pydantic import BaseModel, DirectoryPath, FilePath, HttpUrl, validate_call
 logger.debug(f"Loading module {__name__}.")
 
 
+# Uniprot is a hub of many biological databases, the result of this adapter is:
+# - protein nodes with properties from uniprot
+# - edge nodes linking to various databases:
+#   - organisms (NCBI Taxonomy)
+#   - KEGG pathways (KEGG)
+#   - EC numbers (ExPASy)
+#   - GO terms (Gene Ontology) - handled in GO adapter
+
+# edges that we plan to add in the second phase:
+#   - genes (NCBI GeneID)
+#   - Proteomes (Uniprot Proteomes)
+#   - RefSeq (NCBI RefSeq)
+#   - STRING (STRING)
+#   - EggNOG (EggNOG)
+#   - KO (KEGG Orthology)
+#   - PFAM (PFAM)
+
+
+
+
+
+
+
+
+
 class UniprotEnumMeta(EnumMeta):
     def __contains__(cls, item):
         return item in cls.__members__.keys()
@@ -191,6 +216,42 @@ class UniprotEdgeType(Enum, metaclass=UniprotEnumMeta):
 
     PROTEIN_TO_ORGANISM = auto()
     GENE_TO_PROTEIN = auto()
+    PROTEIN_TO_EC = auto()
+
+
+# to add an edge you need: uniprot field name, target edge name, prefix for target database, edge label
+class UniprotEdgeModel(BaseModel):
+    """
+        to add an edge you need: uniprot field name, target edge name, prefix for target database, edge label
+    """
+    uniprot_field: UniprotNodeField
+    edge_type: UniprotEdgeType
+    target_prefix: str
+    edge_label: str
+
+UNIPROT_EDGE_MODELS = [
+    UniprotEdgeModel(
+        uniprot_field=UniprotNodeField.ORGANISM_ID,
+        edge_type=UniprotEdgeType.PROTEIN_TO_ORGANISM,
+        target_prefix="ncbitaxon",
+        edge_label="Protein_belongs_to_organism",
+    ),
+    UniprotEdgeModel(
+        uniprot_field=UniprotNodeField.ENTREZ_GENE_IDS,
+        edge_type=UniprotEdgeType.GENE_TO_PROTEIN,
+        target_prefix="ncbigene",
+        edge_label="Gene_encodes_protein",
+    ),
+    UniprotEdgeModel(
+        uniprot_field=UniprotNodeField.EC,
+        edge_type=UniprotEdgeType.PROTEIN_TO_EC,
+        target_prefix="eccode",
+        edge_label="protein_catalyzes_ec_number",
+    )
+]
+
+
+
 
 
 class UniprotIDField(Enum, metaclass=UniprotEnumMeta):
@@ -392,6 +453,7 @@ class Uniprot:
                 UniprotNodeField.ESM2_EMBEDDING.value,
                 UniprotNodeField.NT_EMBEDDING.value,
             ]:
+                # downloaded separately and not from the uniprot REST API
                 continue
 
             elif query_key == UniprotNodeField.SUBCELLULAR_LOCATION.value:
@@ -399,7 +461,6 @@ class Uniprot:
                     self.organism, self.rev
                 )
             else:
-                #print(query_key, self.organism, self.rev)
                 self.data[query_key] = uniprot.uniprot_data(
                     fields = query_key,
                     organism = self.organism,
@@ -649,7 +710,6 @@ class Uniprot:
         )
         
         for protein_id, all_props in self._reformat_and_filter_proteins():
-            
             if UniprotNodeType.PROTEIN in self.node_types:
                 protein_props = self._get_protein_properties(all_props, protein_id.split(":")[1])
 
@@ -682,9 +742,50 @@ class Uniprot:
                         organism_props,
                     )
 
+    def _create_edges_of_type(self, edge_model: UniprotEdgeModel):
+        """
+        Create edges of a specific type from UniProt data.        
+        """
+
+        # create lists of edges
+        edge_list = []
+
+        # generic properties for all edges for now
+        properties = {
+            "source": self.data_source,
+            "licence": self.data_licence,
+            "version": self.data_version,
+        }
+        if (edge_model.edge_type in self.edge_types) and (edge_model.uniprot_field.value in self.data.keys()):
+            for protein, targets in tqdm(self.data[edge_model.uniprot_field.value].items(), desc=f"Getting {edge_model.edge_type.name} edges"):
+                protein_id = self.add_prefix_to_id("uniprot", protein)
+                
+                if targets is None or targets == "":
+                    continue
+                targets = self._ensure_iterable(targets)
+                for target in targets:
+                    if not target:
+                        continue
+
+                    target_id = self.add_prefix_to_id(
+                        edge_model.target_prefix,
+                        str(target), # needed for fields that are integers
+                    )
+                    edge_list.append(
+                        (
+                            None,
+                            protein_id,
+                            target_id,
+                            edge_model.edge_label,
+                            properties,
+                        )
+                    )
+        return edge_list
+    
+
+
     @validate_call
-    def get_edges(self, gene_to_protein_label: str = "Gene_encodes_protein",
-                  protein_to_organism_label: str = "Protein_belongs_to_organism") -> Generator[tuple[None, str, str, str, dict]]:
+    def get_edges(self) -> Generator[tuple[None, str, str, str, dict]]:
         """
         Get nodes and edges from UniProt data.
         """
@@ -697,86 +798,12 @@ class Uniprot:
         # create lists of edges
         edge_list = []
 
-        # generic properties for all edges for now
-        properties = {
-            "source": self.data_source,
-            "licence": self.data_licence,
-            "version": self.data_version,
-        }
-
-        for protein in tqdm(self.uniprot_ids, desc="Getting edges"):
-
-            protein_id = self.add_prefix_to_id("uniprot", protein)
-
-            if UniprotEdgeType.GENE_TO_PROTEIN in self.edge_types:
-
-                type_dict = {
-                    UniprotNodeField.ENTREZ_GENE_IDS.value: "ncbigene",
-                }
-
-                # find preferred identifier for gene
-                if UniprotIDField.GENE_ENTREZ_ID in self.id_fields:
-
-                    id_type = UniprotNodeField.ENTREZ_GENE_IDS.value
+        for edge_model in UNIPROT_EDGE_MODELS:
+            edges_of_type = self._create_edges_of_type(edge_model)
+            edge_list.extend(edges_of_type)
 
 
-                if genes := self.data.get(id_type).get(protein):
-                    genes = self._ensure_iterable(genes)
-
-                    for gene in genes:
-
-                        if not gene:
-                            continue
-
-                        gene_id = self.add_prefix_to_id(
-                            type_dict[id_type],
-                            gene,
-                        )
-                        edge_list.append(
-                            (
-                                None,
-                                gene_id,
-                                protein_id,
-                                gene_to_protein_label,
-                                properties,
-                            )
-                        )
-
-            if UniprotEdgeType.PROTEIN_TO_ORGANISM in self.edge_types:
-
-                # TODO all of this processing in separate function
-                # is it even still necessary?
-
-                organism_id = (
-                    str(
-                        self.data.get(UniprotNodeField.ORGANISM_ID.value).get(
-                            protein
-                        )
-                    )
-                    if self.data.get(UniprotNodeField.ORGANISM_ID.value).get(
-                        protein
-                    )
-                    else None
-                )
-
-                if organism_id:
-
-                    organism_id = self.add_prefix_to_id(
-                        "ncbitaxon", organism_id
-                    )
-                    edge_list.append(
-                        (
-                            None,
-                            protein_id,
-                            organism_id,
-                            protein_to_organism_label,
-                            properties,
-                        )
-                    )
-
-        if edge_list:
-
-            return edge_list
+        return edge_list
 
     def _reformat_and_filter_proteins(self):
         """
@@ -942,8 +969,9 @@ class Uniprot:
             field_key: field name
             field_value: entry of the field
         """
-        if not field_value:
-            return None
+        if field_value is None or field_value == "":
+            return field_value
+        
         # replace sensitive elements for admin-import
         field_value = (
             field_value.replace("|", ",").replace("'", "^").strip()
@@ -955,28 +983,23 @@ class Uniprot:
             UniprotNodeField.PROTEIN_GENE_NAMES.value: " ",
         }
 
+        split_char = split_dict.get(field_key, ";")
+
         # if field in split_dict split accordingly
-        if field_key in split_dict:
-            field_value = field_value.split(split_dict[field_key])
-            # if field has just one element in the list make it string
-            if len(field_value) == 1:
-                field_value = field_value[0]
+        field_value = [i.strip() for i in field_value.strip(split_char).split(split_char)]
 
-        else:
-            field_value = field_value.strip().strip(";").split(";")
+        # split colons (":") in kegg field
+        if field_key == UniprotNodeField.KEGG_IDS.value:
+            _list = [e.split(":")[1].strip() for e in field_value]
+            field_value = _list
 
-                # split colons (":") in kegg field
-            if field_key == UniprotNodeField.KEGG_IDS.value:
-                _list = [e.split(":")[1].strip() for e in field_value]
-                field_value = _list
+        # take first element in database(GeneID) field
+        if field_key == UniprotNodeField.ENTREZ_GENE_IDS.value:
+            field_value = field_value[0]
 
-            # take first element in database(GeneID) field
-            if field_key == UniprotNodeField.ENTREZ_GENE_IDS.value:
-                field_value = field_value[0]
-
-            # if field has just one element in the list make it string
-            if isinstance(field_value, list) and len(field_value) == 1:
-                field_value = field_value[0]
+        # if field has just one element in the list make it string
+        if isinstance(field_value, list) and len(field_value) == 1:
+            field_value = field_value[0]
 
         return field_value
 
@@ -1079,7 +1102,6 @@ class Uniprot:
             field_value: ensembl transcript list
 
         """
-        #print (enst_list, type(enst_list))
         if enst_list is None:
             return None, None
         
@@ -1166,7 +1188,7 @@ class Uniprot:
         self.id_fields = id_fields or list(UniprotIDField)[:3]
 
     def _ensure_iterable(self, value):
-        return [value] if isinstance(value, str) else value
+        return value if isinstance(value, list) else [value]
 
     @validate_call
     def export_data_to_csv(
