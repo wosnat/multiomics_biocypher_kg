@@ -68,8 +68,9 @@ uniprot_node_fields = [
     UniprotNodeField.keyword,
     UniprotNodeField.reviewed,
     UniprotNodeField.cc_interaction,
-    UniprotNodeField.go,
-    UniprotNodeField.go_id,
+    UniprotNodeField.CELLULAR_COMPONENT,
+    UniprotNodeField.BIOLOGICAL_PROCESS,
+    UniprotNodeField.MOLECULAR_FUNCTION,
     UniprotNodeField.ft_transmem,
     UniprotNodeField.ft_signal,
     UniprotNodeField.cc_domain,
@@ -87,9 +88,12 @@ uniprot_node_fields = [
 
 
 uniprot_edge_types = [
-     UniprotEdgeType.PROTEIN_TO_ORGANISM,
-     UniprotEdgeType.PROTEIN_TO_EC,
-     #UniprotEdgeType.GENE_TO_PROTEIN,
+    UniprotEdgeType.PROTEIN_TO_ORGANISM,
+    UniprotEdgeType.PROTEIN_TO_EC,
+    #UniprotEdgeType.GENE_TO_PROTEIN,
+    UniprotEdgeType.PROTEIN_TO_CELLULAR_COMPONENT,
+    UniprotEdgeType.PROTEIN_TO_BIOLOGICAL_PROCESS,
+    UniprotEdgeType.PROTEIN_TO_MOLECULAR_FUNCTION,
 ]
 
 uniprot_id_type = [
@@ -130,18 +134,17 @@ bc.write_edges(uniprot_edges)
 
 
 # gene ontology
-if False:
-    go_adapter = GO(
-        organism=organism, 
-        test_mode=TEST_MODE
-    )
+go_adapter = GO(
+    organism=organism, 
+    test_mode=TEST_MODE
+)
 
-    
-    go_adapter.download_go_data(cache=CACHE)
-    bc.write_nodes(go_adapter.get_go_nodes())
-    bc.write_edges(go_adapter.get_go_edges())
-    if export_as_csv:
-        go_adapter.export_as_csv(path=output_dir_path)
+
+go_adapter.download_go_data(cache=CACHE)
+bc.write_nodes(go_adapter.get_go_nodes())
+bc.write_edges(go_adapter.get_go_edges())
+if export_as_csv:
+    go_adapter.export_as_csv(path=output_dir_path)
 
 
 ec_adapter = EC(

@@ -95,8 +95,16 @@ class UniprotNodeField(Enum, metaclass=UniprotEnumMeta):
     keyword = "keyword"
     reviewed = "reviewed"
     cc_interaction = "cc_interaction"
-    go = "go"
-    go_id = "go_id"
+    CELLULAR_COMPONENT = "go_c"
+    BIOLOGICAL_PROCESS = "go_p"
+    MOLECULAR_FUNCTION = "go_f"
+
+    # post processing of go fields to extract go ids
+    CELLULAR_COMPONENT_ID = "go_c_id"
+    BIOLOGICAL_PROCESS_ID = "go_p_id"
+    MOLECULAR_FUNCTION_ID = "go_f_id"
+
+    #go_id = "go_id"
     ft_transmem = "ft_transmem"
     ft_signal = "ft_signal"
     cc_domain = "cc_domain"
@@ -171,8 +179,9 @@ class UniprotNodeField(Enum, metaclass=UniprotEnumMeta):
             cls.keyword.value,
             cls.reviewed.value,
             cls.cc_interaction.value,
-            cls.go.value,
-            cls.go_id.value,
+            cls.CELLULAR_COMPONENT.value,
+            cls.BIOLOGICAL_PROCESS.value,
+            cls.MOLECULAR_FUNCTION.value,
             cls.ft_transmem.value,
             cls.ft_signal.value,
             cls.cc_domain.value,
@@ -207,7 +216,22 @@ class UniprotNodeField(Enum, metaclass=UniprotEnumMeta):
             cls.ENTREZ_GENE_IDS.value,
             #cls.ENSEMBL_TRANSCRIPT_IDS.value,
             cls.KEGG_IDS.value,
+            cls.CELLULAR_COMPONENT.value,
+            cls.MOLECULAR_FUNCTION.value,
+            cls.BIOLOGICAL_PROCESS.value,
         ]
+    
+    @classmethod
+    def get_nonuniprot_api_fields(cls) -> list:
+        return [
+            cls.PROTT5_EMBEDDING.value,
+            cls.ESM2_EMBEDDING.value,
+            cls.NT_EMBEDDING.value,
+            cls.CELLULAR_COMPONENT_ID.value,
+            cls.MOLECULAR_FUNCTION_ID.value,
+            cls.BIOLOGICAL_PROCESS_ID.value,
+        ]
+
 
 class UniprotEdgeType(Enum, metaclass=UniprotEnumMeta):
     """
@@ -217,6 +241,10 @@ class UniprotEdgeType(Enum, metaclass=UniprotEnumMeta):
     PROTEIN_TO_ORGANISM = auto()
     GENE_TO_PROTEIN = auto()
     PROTEIN_TO_EC = auto()
+    PROTEIN_TO_CELLULAR_COMPONENT = auto()
+    PROTEIN_TO_BIOLOGICAL_PROCESS = auto()
+    PROTEIN_TO_MOLECULAR_FUNCTION = auto()
+
 
 
 # to add an edge you need: uniprot field name, target edge name, prefix for target database, edge label
@@ -247,7 +275,25 @@ UNIPROT_EDGE_MODELS = [
         edge_type=UniprotEdgeType.PROTEIN_TO_EC,
         target_prefix="eccode",
         edge_label="protein_catalyzes_ec_number",
-    )
+    ),
+    UniprotEdgeModel(
+        uniprot_field=UniprotNodeField.CELLULAR_COMPONENT_ID,
+        edge_type=UniprotEdgeType.PROTEIN_TO_CELLULAR_COMPONENT,
+        target_prefix="go",
+        edge_label="protein_located_in_cellular_component",
+    ),
+    UniprotEdgeModel(
+        uniprot_field=UniprotNodeField.BIOLOGICAL_PROCESS_ID,
+        edge_type=UniprotEdgeType.PROTEIN_TO_BIOLOGICAL_PROCESS,
+        target_prefix="go",
+        edge_label="protein_involved_in_biological_process",
+    ),
+    UniprotEdgeModel(
+        uniprot_field=UniprotNodeField.MOLECULAR_FUNCTION_ID,
+        edge_type=UniprotEdgeType.PROTEIN_TO_MOLECULAR_FUNCTION,
+        target_prefix="go",
+        edge_label="protein_contributes_to_molecular_function",
+    ),
 ]
 
 
@@ -611,11 +657,7 @@ class Uniprot:
 
             # do not process ensembl gene ids (we will get them from pypath)
             # and prott5 embeddings
-            if arg in [
-                UniprotNodeField.PROTT5_EMBEDDING.value,
-                UniprotNodeField.ESM2_EMBEDDING.value,
-                UniprotNodeField.NT_EMBEDDING.value,
-            ]:
+            if arg in self.nonuniprot_api_fields:
                 pass
 
             elif arg in [
@@ -650,11 +692,11 @@ class Uniprot:
             # Protein names
             if arg == UniprotNodeField.PROTEIN_NAMES.value:
 
-                for protein, attribute_value in self.data.get(arg).items():
-
-                    self.data[arg][protein] = self._split_protein_names_field(
-                        attribute_value
-                    )
+                pass # skip this split - its buggy for now
+                # for protein, attribute_value in self.data.get(arg).items():
+                #     self.data[arg][protein] = self._split_protein_names_field(
+                #         attribute_value
+                #     )
 
             elif arg == UniprotNodeField.SUBCELLULAR_LOCATION.value:
                 for protein, attribute_value in self.data.get(arg).items():
@@ -671,6 +713,40 @@ class Uniprot:
                         self.locations.add(loc)
 
                     self.data[arg][protein] = individual_protein_locations
+        # preprocess go fields to extract go ids
+        # assume split_fields already applied
+        self._preprocess_go_fields()
+
+
+    def _extract_go_id(self, go_term: str) -> str:
+        """
+        Extract GO id from GO term string.
+        Example input: "aspartate-semialdehyde dehydrogenase activity [GO:0004073]"
+        """
+
+        if "GO:" in go_term:
+            go_id = go_term.split("GO:")[1].split("]")[0].strip()
+            return go_id
+        return None
+    
+    def _preprocess_go_fields(self):
+        """
+        Preprocess GO fields to extract GO ids from the GO term strings.
+        """
+
+        go_fields = [
+            UniprotNodeField.CELLULAR_COMPONENT.value,
+            UniprotNodeField.BIOLOGICAL_PROCESS.value,
+            UniprotNodeField.MOLECULAR_FUNCTION.value,
+        ]
+        for go_field in go_fields:
+            go_id_field = go_field + "_id"
+            self.data[go_id_field] = dict()
+
+            for protein, attribute_value in self.data.get(go_field).items():
+                # example attribute_value: "aspartate-semialdehyde dehydrogenase activity [GO:0004073]"
+                go_ids = [self._extract_go_id(go_term) for go_term in attribute_value if go_term and "GO:" in go_term]
+                self.data[go_id_field][protein] = go_ids
 
     @validate_call
     def _get_ligand_or_receptor(self, uniprot_id: str):
@@ -1159,6 +1235,9 @@ class Uniprot:
     def _configure_fields(self):
         # fields that need splitting
         self.split_fields = UniprotNodeField.get_split_fields()
+
+        # fields that are not downloaded from uniprot REST API
+        self.nonuniprot_api_fields = UniprotNodeField.get_nonuniprot_api_fields()
 
         # properties of nodes
         self.protein_properties = UniprotNodeField.get_protein_properties()

@@ -48,8 +48,9 @@ protein:
     keyword: str
     reviewed: bool
     cc_interaction: str
-    go: str
-    go_id: str
+    cellular_component: str
+    biological_process: str
+    molecular_function: str
     ft_transmem: str
     ft_signal: str
     cc_domain: str

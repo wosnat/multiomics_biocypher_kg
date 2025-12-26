@@ -476,6 +476,7 @@ class GO:
             if GONodeField.ANC2VEC_EMBBEDDING.value in self.go_node_fields:
                 self.retrieve_anc2vec_embedding(anc2vec_embedding_path)
 
+            return
             if any(
                 [
                     True if et in self.edge_types else False
@@ -693,6 +694,7 @@ class GO:
                                 f"{enum_class.neccessary_edge_type()} must be included in edge_types list"
                             )
 
+
                 # define Go-Go edge labels
                 for enum_class in go_enum_classes:
                     if edge_label in enum_class:
@@ -855,8 +857,8 @@ class GO:
         """
         Prepare edges ready to import into BioCypher
         """
-        if not hasattr(self, "go_annots_df") and not hasattr(self, "go_annots"):
-            self.download_go_data(cache=True)
+        # if not hasattr(self, "go_annots_df") and not hasattr(self, "go_annots"):
+        #     self.download_go_data(cache=True)
 
         # in case someone wants get only edges, run this function again
         self.create_aspect_to_node_label_dict()
@@ -865,12 +867,13 @@ class GO:
         edge_list = []
 
         # PROTEIN-GO EDGES
-        if any(
-            [
-                True if et in self.edge_types else False
-                for et in self.protein_to_go_edge_types
-            ]
-        ):
+        if False: # skip protein-go edges for now
+        # if any(
+        #     [
+        #         True if et in self.edge_types else False
+        #         for et in self.protein_to_go_edge_types
+        #     ]
+        # ):
             logger.info("Preparing Protein-GO edges.")
 
             self.protein_to_go_edges = []
@@ -1082,12 +1085,13 @@ class GO:
                     break
 
         # DOMAIN-GO EDGES
-        if any(
-            [
-                True if et in self.edge_types else False
-                for et in self.domain_to_go_edge_types
-            ]
-        ):
+        if False: # skip domain-go edges for now
+        # if any(
+        #     [
+        #         True if et in self.edge_types else False
+        #         for et in self.domain_to_go_edge_types
+        #     ]
+        # ):
             logger.info("Preparing Domain-GO edges.")
 
             domain_function_label_dict = {
@@ -1177,9 +1181,9 @@ class GO:
             _ = self.get_go_edges()
 
         edge_data_dict = {
-            "protein_to_go": self.protein_to_go_edges,
+            #"protein_to_go": self.protein_to_go_edges,
             "go_to_go": self.go_to_go_edges,
-            "domain_to_go": self.domain_to_go_edges,
+            #"domain_to_go": self.domain_to_go_edges,
         }
         edges_df_dict = collections.defaultdict(list)
 
