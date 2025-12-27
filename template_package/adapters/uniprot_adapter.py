@@ -397,7 +397,10 @@ class Uniprot:
                                             "xref_kegg":"kegg_ids",
                                             }
         # protein property name mappings that will be used protein node properties in KG
-        self.protein_property_name_mappings = {"protein_name":"protein_names"}
+        self.protein_property_name_mappings = {
+            "protein_name":"protein_names",
+            "xref_kegg":"kegg_ids",
+        }
 
     def _read_ligands_set(self) -> set:
         # check if ligands file exists
@@ -460,6 +463,9 @@ class Uniprot:
             # preprocess data
             self._preprocess_uniprot_data()
 
+            # preprocess organisms
+            self._preprocess_organisms()
+            
             import json
             with open('uniprot_preprocess_data.json', 'w') as f:
                 json.dump(self.data, f, indent=4, default=str)  
@@ -718,6 +724,18 @@ class Uniprot:
         self._preprocess_go_fields()
 
 
+    def _preprocess_organisms(self):
+        """"
+        create self.organism_df dataframe for organism nodes
+        """
+        organism_df = pd.DataFrame.from_dict(self.data[UniprotNodeField.ORGANISM_ID.value], orient='index', columns=['organism_id'])
+        for k in self.organism_properties:
+            if k in self.data:
+                organism_df[k] = organism_df.index.map(self.data[k])
+        organism_df = organism_df.drop_duplicates(subset=['organism_id'])
+        self.organism_df = organism_df
+
+
     def _extract_go_id(self, go_term: str) -> str:
         """
         Extract GO id from GO term string.
@@ -759,11 +777,31 @@ class Uniprot:
         if uniprot_id in self.ligands:
             return "ligand"
         return "receptor" if uniprot_id in self.receptors else "protein"
+    
+    def _get_biocypher_property_name(self, original_property_name: str) -> str:
+        """
+        Get the property name that will be used in the BioCypher KG.
+        """
+
+        propname =  self.protein_property_name_mappings.get(original_property_name, original_property_name)
+        propname = propname.replace(" ", "_").replace("-", "_")
+
+        return propname
+
+    def get_protein_node(self, protein: str) -> tuple[str, str, dict]:
+        """
+        Convert a protein to a node representation.
+        """
+        protein_label = "protein"
+        all_props = {arg: self.data.get(arg).get(protein) for arg in self.node_fields}
+        protein_id = self.add_prefix_to_id("uniprot", protein)
+        protein_props = self._get_protein_properties(all_props, protein_id.split(":")[1])
+        return (protein_id, protein_label, protein_props)
+
 
     @validate_call
     def get_nodes(
         self, 
-        ligand_or_receptor: bool = False,
         protein_label: str = "protein",
         gene_label: str = "gene",
         organism_label: str = "organism"
@@ -771,52 +809,52 @@ class Uniprot:
         """
         Yield nodes (protein, gene, organism) from UniProt data.
         """
-
-        # raise error if ligand_or_receptor is True but self.ligands or
-        # self.receptors are empty
-        if ligand_or_receptor and (not self.ligands or not self.receptors):
-            raise ValueError(
-                "No ligands or receptors found in the 'data' directory. "
-                "Please set ligand_or_receptor to False or add the files."
-            )
-
         logger.info(
             "Preparing UniProt nodes of the types "
             f"{[type.name for type in self.node_types]}."
         )
         
-        for protein_id, all_props in self._reformat_and_filter_proteins():
-            if UniprotNodeType.PROTEIN in self.node_types:
-                protein_props = self._get_protein_properties(all_props, protein_id.split(":")[1])
+        node_list = []
+        if UniprotNodeType.PROTEIN in self.node_types:
+            node_list.extend([self.get_protein_node(protein) for protein in tqdm(self.uniprot_ids)])
 
-                # append protein node to output
-                if ligand_or_receptor:
-                    ligand_or_receptor = self._get_ligand_or_receptor(protein_id)
-                    yield (protein_id, ligand_or_receptor, protein_props)
-                else:
-                    yield (protein_id, protein_label, protein_props)
 
-            # append gene node to output if desired
-            if UniprotNodeType.GENE in self.node_types:
+        # append organism node to output if desired
+        if UniprotNodeType.ORGANISM in self.node_types:
+            node_list.extend([self.get_organism_node(i) for i in self.organism_df['organism_id']])
 
-                gene_list = self._get_gene(all_props)
+        return node_list
+    
+    def get_organism_node(self, organism: str) -> tuple[str, str, dict]:
+        """
+        Get organism node representation from UniProt data.
+        """
+        organism_label = "organism"
+        organism_id = self.add_prefix_to_id("ncbitaxon",str(organism))
 
-                for gene_id, gene_props in gene_list:
+        row = self.organism_df.loc[self.organism_df['organism_id'].isin([organism])].squeeze()
+        organism_props = { 
+            self._get_biocypher_property_name(k): row[k]
+            for k in self.organism_df.columns
+        }
 
-                    if gene_id:
-                        yield (gene_id, gene_label, gene_props)
+        # source, licence, and version fields
+        organism_props["source"] = self.data_source
+        organism_props["licence"] = self.data_licence
+        organism_props["version"] = self.data_version
 
-            # append organism node to output if desired
-            if UniprotNodeType.ORGANISM in self.node_types:
-
-                organism_id, organism_props = self._get_organism(all_props)
-
-                if organism_id:
-                    yield (
-                        organism_id,
-                        organism_label,
-                        organism_props,
-                    )
+        return (organism_id, organism_label, organism_props)
+    
+    @validate_call
+    def _get_organism_nodes(self) -> Generator[tuple[str, str, dict]]:
+        """"
+        Get organism node representation from UniProt data.
+        """
+        return[
+            self.get_organism_node(i) 
+            for i in self.organism_df['organism_id']
+        ]
+    
 
     def _create_edges_of_type(self, edge_model: UniprotEdgeModel):
         """
@@ -834,11 +872,11 @@ class Uniprot:
         }
         if (edge_model.edge_type in self.edge_types) and (edge_model.uniprot_field.value in self.data.keys()):
             for protein, targets in tqdm(self.data[edge_model.uniprot_field.value].items(), desc=f"Getting {edge_model.edge_type.name} edges"):
-                protein_id = self.add_prefix_to_id("uniprot", protein)
                 
                 if targets is None or targets == "":
                     continue
                 targets = self._ensure_iterable(targets)
+                protein_id = self.add_prefix_to_id("uniprot", protein)
                 for target in targets:
                     if not target:
                         continue
@@ -881,18 +919,7 @@ class Uniprot:
 
         return edge_list
 
-    def _reformat_and_filter_proteins(self):
-        """
-        For each uniprot id, select desired fields and reformat to give a tuple
-        containing id and properties. Yield a tuple for each protein.
-        """
 
-        for protein in tqdm(self.uniprot_ids):
-
-            protein_id = self.add_prefix_to_id("uniprot", protein)
-
-            _props = {arg: self.data.get(arg).get(protein) for arg in self.node_fields}
-            yield protein_id, _props
 
     @validate_call
     def _get_gene(self, all_props: dict) -> list:
@@ -931,19 +958,14 @@ class Uniprot:
             if k not in self.gene_properties:
                 continue
 
+            propname = self._get_biocypher_property_name(k)
+
             # select parenthesis content in field names and make lowercase
-            gene_props[
-                (
-                    self.gene_property_name_mappings[k]
-                    if self.gene_property_name_mappings.get(k)
-                    else k.replace(" ", "_").replace("-", "_").lower()
-                )
-            ] = all_props[k]
+            gene_props[propname] = all_props[k]
 
             if k == UniprotNodeField.NT_EMBEDDING.value and self.entrez_id_to_nucleotide_transformer_embedding.get(genes[0]) is not None:
-
-                gene_props[k] = [str(emb) for emb in self.entrez_id_to_nucleotide_transformer_embedding[genes[0]]]
-
+                gene_props[propname] = [str(emb) for emb in self.entrez_id_to_nucleotide_transformer_embedding[genes[0]]]
+        
         # source, licence, and version fields
         gene_props["source"] = self.data_source
         gene_props["licence"] = self.data_licence
@@ -986,50 +1008,34 @@ class Uniprot:
 
     @validate_call
     def _get_protein_properties(self, all_props: dict, protein_id: str) -> dict:
-        protein_props = {}
-        
-        for k in all_props.keys():
+        protein_props = {
+            self._get_biocypher_property_name(k): v 
+            for k, v in all_props.items()
+            if k in self.protein_properties        
+        }
 
-            # define protein_properties
-            if k not in self.protein_properties:
-                continue
-
-            elif k == UniprotNodeField.PROTEIN_NAMES.value:
+        if UniprotNodeField.PROTEIN_NAMES.value in all_props.keys():
                 protein_props["primary_protein_name"] = (
-                    self._ensure_iterable(all_props[k])[0]
-                    if all_props[k]
+                    self._ensure_iterable(all_props[UniprotNodeField.PROTEIN_NAMES.value])[0]
+                    if all_props[UniprotNodeField.PROTEIN_NAMES.value]
                     else None
                 )
 
-                protein_props[
-                    (
-                        self.protein_property_name_mappings[k]
-                        if self.protein_property_name_mappings.get(k)
-                        else k.replace(" ", "_").replace("-", "_")
-                    )
-                ] = all_props[k]
 
-            elif k == UniprotNodeField.PROTT5_EMBEDDING.value:
-                res = self.prott5_embedding_df[self.prott5_embedding_df["uniprot_id"] == protein_id]["embedding"]
-                if not res.empty:
-                # embedding = np.array(self.prott5_embedding[k]).astype(np.float16)
-                    protein_props[k.replace(" ", "_").replace("-", "_")] = [str(emb) for emb in res.values[0]]
+        if UniprotNodeField.PROTT5_EMBEDDING.value in all_props.keys():
+            res = self.prott5_embedding_df[self.prott5_embedding_df["uniprot_id"] == protein_id]["embedding"]
+            if not res.empty:
+            # embedding = np.array(self.prott5_embedding[k]).astype(np.float16)
+                propname = self._get_biocypher_property_name(UniprotNodeField.PROTT5_EMBEDDING.value)
+                protein_props[propname] = [str(emb) for emb in res.values[0]]
 
-            elif k == UniprotNodeField.ESM2_EMBEDDING.value:
-                res = self.esm2_embedding_df[self.esm2_embedding_df["uniprot_id"] == protein_id]["embedding"]
-                if not res.empty:
-                # embedding = np.array(self.esm2_embedding[k]).astype(np.float16)
-                    protein_props[k.replace(" ", "_").replace("-", "_")] = [str(emb) for emb in res.values[0]]
-            
-            else:
-                # replace hyphens and spaces with underscore
-                protein_props[
-                    (
-                        self.protein_property_name_mappings[k]
-                        if self.protein_property_name_mappings.get(k)
-                        else k.replace(" ", "_").replace("-", "_")
-                    )
-                ] = all_props[k]
+        if UniprotNodeField.ESM2_EMBEDDING.value in all_props.keys():
+            res = self.esm2_embedding_df[self.esm2_embedding_df["uniprot_id"] == protein_id]["embedding"]
+            if not res.empty:
+            # embedding = np.array(self.esm2_embedding[k]).astype(np.float16)
+                propname = self._get_biocypher_property_name(UniprotNodeField.ESM2_EMBEDDING.value)
+                protein_props[propname] = [str(emb) for emb in res.values[0]]
+
 
         # source, licence, and version fields
         protein_props["source"] = self.data_source
