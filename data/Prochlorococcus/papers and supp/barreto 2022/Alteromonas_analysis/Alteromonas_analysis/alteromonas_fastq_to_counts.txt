@@ -1,0 +1,68 @@
+#Alteromonas analysis
+
+
+#listing fastqfiles
+
+#there was a problem with both files SS0031
+#this is how we fixed it
+
+##in querying the issue with our SS0032_S69_L008 R1 and R2 files
+## is using bbmaps repair.sh script to reconcile R1 and R2.
+##below is the script we used
+../../bbmap/repair.sh -Xmx40g in1=SS0032_S69_L008_R1_001.fastq.gz in2=SS0032_S69_L008_R2_001.fastq.gz out1=SS0032_S69_L008_R1b_001.fastq.gz out2=SS0032_S69_L008_R2b_001.fastq.gz outs=singletons1.fq overwrite=true
+## this is how we fixed our files
+
+
+module load rc/RStudio/1.0.136 #loading R
+
+library(Rsubread)
+library(edgeR)
+
+#first we need to list all sequences files
+
+fastq.files_R1 <- list.files(path = "/data/user/barretof/Alt_analysis", pattern = "(SS0011_CAGATC_L004_R1|SS0012_ACTTGA_L004_R1|SS0013_GATCAG_L004_R1|SS0014_TAGCTT_L004_R1|SS0015_GGCTAC_L004_R1|SS0016_CTTGTA_L004_R1|SS0017_AGTCAA_L004_R1|SS0018_AGTTCC_L004_R1|SS0019_ATGTCA_L004_R1|SS0020_CCGTCC_L004_R1|SS0021_GTCCGC_L004_R1|SS0022_GTGAAA_L004_R1|SS0029_S66_L008_R1|SS0030_S67_L008_R1|SS0031_S68_L008_R1|SS0032_S69_L008_R1b|SS0033_S70_L008_R1|SS0034_S71_L008_R1|SS035_S19_L002_R1|SS0036_S72_L008_R1|SS0037_S73_L008_R1|SS0038_S74_L008_R1|SS0039_S75_L008_R1|SS0040_S20_L002_R1|SS0110_S23_L003_R1_001|SS0110_S23_L003_R1_002|SS0111_S24_L003_R1_001|SS0111_S24_L003_R1_002|SS0112_S25_L003_R1_001|SS0112_S25_L003_R1_002|SS0113_S52_L008_R1_001|SS0113_S52_L008_R1_002|SS0114_S53_L008_R1_001|SS0114_S53_L008_R1_002|SS0115_S50_L007_R1_001|SS0115_S50_L007_R1_002|SS0116_S51_L007_R1_001|SS0116_S51_L007_R1_002|SS0117_S26_L003_R1_001|SS0117_S26_L003_R1_002|SS0118_S27_L003_R1_001|SS0118_S27_L003_R1_002|SS0119_S28_L003_R1_001|SS0119_S28_L003_R1_002|SS0120_S29_L003_R1_001|SS0120_S29_L003_R1_002|SS0121_S30_L003_R1_001|SS0121_S30_L003_R1_002|SS0129_S16_L002_R1_001|SS0130_S17_L002_R1_001|SS0131_S18_L002_R1_001|SS0132_S19_L002_R1_001|SS0133_S20_L002_R1_001|SS0134_S21_L002_R1_001|SS0135_S22_L002_R1_001|SS0136_S23_L002_R1_001|SS0137_S24_L002_R1_001|SS0138_S25_L002_R1_001|SS0139_S26_L002_R1_001|SS0140_S27_L002_R1_001).*\\.fastq.gz$", full.names = TRUE)
+fastq.files_R2 <- list.files(path = "/data/user/barretof/Alt_analysis", pattern = "(SS0011_CAGATC_L004_R2|SS0012_ACTTGA_L004_R2|SS0013_GATCAG_L004_R2|SS0014_TAGCTT_L004_R2|SS0015_GGCTAC_L004_R2|SS0016_CTTGTA_L004_R2|SS0017_AGTCAA_L004_R2|SS0018_AGTTCC_L004_R2|SS0019_ATGTCA_L004_R2|SS0020_CCGTCC_L004_R2|SS0021_GTCCGC_L004_R2|SS0022_GTGAAA_L004_R2|SS0029_S66_L008_R2|SS0030_S67_L008_R2|SS0031_S68_L008_R2|SS0032_S69_L008_R2b|SS0033_S70_L008_R2|SS0034_S71_L008_R2|SS035_S19_L002_R2|SS0036_S72_L008_R2|SS0037_S73_L008_R2|SS0038_S74_L008_R2|SS0039_S75_L008_R2|SS0040_S20_L002_R2|SS0110_S23_L003_R2_001|SS0110_S23_L003_R2_002|SS0111_S24_L003_R2_001|SS0111_S24_L003_R2_002|SS0112_S25_L003_R2_001|SS0112_S25_L003_R2_002|SS0113_S52_L008_R2_001|SS0113_S52_L008_R2_002|SS0114_S53_L008_R2_001|SS0114_S53_L008_R2_002|SS0115_S50_L007_R2_001|SS0115_S50_L007_R2_002|SS0116_S51_L007_R2_001|SS0116_S51_L007_R2_002|SS0117_S26_L003_R2_001|SS0117_S26_L003_R2_002|SS0118_S27_L003_R2_001|SS0118_S27_L003_R2_002|SS0119_S28_L003_R2_001|SS0119_S28_L003_R2_002|SS0120_S29_L003_R2_001|SS0120_S29_L003_R2_002|SS0121_S30_L003_R2_001|SS0121_S30_L003_R2_002|SS0129_S16_L002_R2_001|SS0130_S17_L002_R2_001|SS0131_S18_L002_R2_001|SS0132_S19_L002_R2_001|SS0133_S20_L002_R2_001|SS0134_S21_L002_R2_001|SS0135_S22_L002_R2_001|SS0136_S23_L002_R2_001|SS0137_S24_L002_R2_001|SS0138_S25_L002_R2_001|SS0139_S26_L002_R2_001|SS0140_S27_L002_R2_001).*\\.fastq.gz$", full.names = TRUE)
+
+#Building an index
+buildindex(basename="alt_EZ55",reference="/data/user/barretof/Alt_analysis/EZ55.fasta")
+
+#align sequences to a reference genome
+alt_align <- align(index="alt_EZ55",readfile1=fastq.files_R1,readfile2=fastq.files_R2, nthreads=8)
+
+#create an object with .bam files #input feature counts
+bam.files <- list.files(path = "/data/user/barretof/All", pattern = ".BAM$", full.names = TRUE)
+
+#running propmapped to see what our overall alignment was (# of uniquely mapped seq fragments)
+propmapped(bam.files)
+
+#I didnt have to convert my gff to gtf because I already have it as a gtf file, but I had to remove the :gene
+
+sed -i 's/\"gene:/\"/' EZ55.exon.fixed2.gtf
+
+#featurecounts
+fc <- featureCounts(bam.files, annot.ext = "/data/user/barretof/Alt_analysis/EZ55.exon.fixed2.gtf", isGTFAnnotationFile = TRUE, nthreads=5, isPairedEnd =T)
+
+#creating the targets file #metadata
+# we have created our targets file using excel because it was complex
+
+#setting the rownames of fc$counts using the substring function # we do that to make the file names shorter
+
+colnames(fc$counts) <- substring(targets$File, 1,7) 
+
+#created our DGEObject without groups because there is interaction now #if we add group here there will be an error
+#when we estimate dispersion
+
+library(edgeR)
+
+y <- DGEList(fc$counts)
+
+#modified our DGE Object to include this #we will need lenght for the go seq protocol
+y$genes <- fc$annotation[, "Length", drop=FALSE]
+
+
+#saved our DGEobject, targets file and group object as an R object .Rdata
+save(y,file="ALL_EZ55_2.Rdata")
+
+
+
+

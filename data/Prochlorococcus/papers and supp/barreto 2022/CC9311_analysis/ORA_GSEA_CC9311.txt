@@ -1,0 +1,121 @@
+load('results_syn_9311_2.Rdata') #results from GLM
+
+library(tidyverse)
+
+#OVER REPRESENTATION ANALYSIS (ORA)
+
+library(clusterProfiler) #another way to do these over representation analysis
+#this function will return the enrichment KEGG categories with FDR control.
+
+#Preparing data for analysis
+
+search_kegg_organism('syg', by='kegg_code')
+
+view(genes_sig_dataframe)
+
+sigGenes<- rownames(genes_sig_dataframe)
+
+sigGenes <- na.exclude(sigGenes) #30 significative
+str(sigGenes)
+
+sigGenes_up<- rownames(up) #only up
+sigGenes_up
+
+sigGenes_down<- rownames(down) #only down
+sigGenes_down
+
+
+universe <- rownames(results) #universe of all genes
+str(universe)
+universe_up_down <- rownames(genes_sig_dataframe) #universe of 30 genes
+str(universe)
+
+
+kk_sig <- enrichKEGG(gene = sigGenes, organism = 'syg',  pvalueCutoff = 1,
+                     pAdjustMethod = "BH", minGSSize = 1, qvalueCutoff=1,
+                     keyType = "kegg", universe= universe)
+
+view(kk_sig)
+
+#export ora results for syn_8102
+kk_sig_syn_9311<- as.data.frame(kk_sig)
+library(writexl)
+write_xlsx(kk_sig_syn_9311, "kk_sig_syn_9311_2.xlsx") #summarized results
+
+kk_up <- enrichKEGG(gene = sigGenes_up, organism = 'syg',  pvalueCutoff = 1,
+                    pAdjustMethod = "BH", minGSSize = 1, qvalueCutoff=1,
+                    keyType = "kegg", universe= universe_up_down)
+
+kk_down <- enrichKEGG(gene = sigGenes_down, organism = 'syg',  pvalueCutoff = 1,
+                      pAdjustMethod = "BH", minGSSize = 1, qvalueCutoff=1,
+                      keyType = "kegg", universe= universe_up_down)
+
+GENE SET ENRICHMENT ANALYSIS (GSEA)
+
+#Functional class scoring tools
+#Gene set enrichment analysis using clusterProfiler and Pathview
+#needs gene level statistics (annotated_sig) and "gene set pathway statistics
+
+#For gene set or pathway analysis using clusterProfiler, coordinated differential 
+#expression over gene sets is tested instead of changes of individual genes
+
+#gseaKEGG #considers all genes and not only the differently expressed
+
+#it is indicated for our case where just a few genes are de
+
+#preparing data for analysis
+
+
+results <- as.data.frame(topTags(lrt.treatment, n = Inf)) #all results glm
+
+foldchanges <- results$logFC
+names(foldchanges) <- rownames(results)
+
+foldchanges
+
+foldchanges <- sort(foldchanges, decreasing = TRUE)
+
+set.seed(1400)
+gseaKEGG <- gseKEGG(geneList = foldchanges, # ordered named vector of fold changes (Entrez IDs are the associated names)
+                    organism = "syg", # supported organisms listed below, # default number permutations
+                    # minimum gene set size (# genes in set) - change to test more sets or recover sets with fewer # genes
+                    pvalueCutoff = 0.05, # padj cutoff value,
+                    pAdjustMethod = "fdr",
+                    seed = TRUE,
+                    verbose = FALSE,
+                    minGSSize = 3,
+                    maxGSSize = 800)
+gseaKEGG
+
+?gseKEGG
+
+#if I use just the ones selected by hennon
+#foldchanges_df <- subset(results_gsea, results_gsea$PValue < 0.05 & abs(results_gsea$logFC) >1)
+#using the same sets than hennon
+
+#foldchanges_df
+
+#foldchanges <- foldchanges_df$logFC
+
+#no term enriched under specific pvalueCutoff...
+
+## Extract the GSEA results
+gseaKEGG_results <- gseaKEGG@result
+gseaKEGG_results
+
+library(tidyverse)
+## Write GSEA results to file
+View(gseaKEGG_results)
+head(gseaKEGG_results)
+
+library(tidyverse)
+gseaKEGGTidy <- gseaKEGG %>%
+  as_tibble() %>%
+  arrange(desc(NES))
+
+view(gseaKEGGTidy)
+
+library(writexl)
+
+write_xlsx(x = gseaKEGGTidy, path = "gseaKEGGTidy_syn_9311_2.xlsx", col_names = TRUE)
+

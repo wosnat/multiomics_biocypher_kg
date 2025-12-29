@@ -1,0 +1,104 @@
+load('results_pro.Rdata') #results from GLM
+library(tidyverse)
+
+#OVER REPRESENTATION ANALYSIS (ORA)
+
+library(clusterProfiler) #another way to do these over representation analysis
+#this function will return the enrichment KEGG categories with FDR control.
+
+#Preparing data for analysis
+
+sigGenes<- rownames(genes_sig_dataframe)
+
+sigGenes <- na.exclude(sigGenes) 
+sigGenes
+
+sigGenes_up<- rownames(up) #only up
+sigGenes_up
+
+sigGenes_down<- rownames(down) #only down
+sigGenes_down
+
+str(sigGenes)
+sigGenes
+
+universe <- rownames(results) #universe of all genes
+
+universe_up_down <- rownames(genes_sig_dataframe) #universe of 30 genes
+str(universe)
+
+#using the whole universe for all genes
+
+kk_sig <- enrichKEGG(gene = sigGenes, organism = 'pmi',  pvalueCutoff = 1,
+                 pAdjustMethod = "BH", minGSSize = 1, qvalueCutoff=1,
+                 keyType = "kegg", universe= universe)
+
+kk_sig<- as.data.frame(kk_sig)
+
+view(kk_sig)
+library(writexl)
+write_xlsx(kk_sig, "kk_sig_pro.xlsx") #summarized results
+
+kk_up <- enrichKEGG(gene = sigGenes_up, organism = 'pmi',  pvalueCutoff = 1,
+                 pAdjustMethod = "BH", minGSSize = 1, qvalueCutoff=1,
+                 keyType = "kegg", universe= universe)
+
+kk_down <- enrichKEGG(gene = sigGenes_down, organism = 'pmi',  pvalueCutoff = 1,
+                    pAdjustMethod = "BH", minGSSize = 1, qvalueCutoff=1,
+                    keyType = "kegg", universe= universe)
+
+GENE SET ENRICHMENT ANALYSIS (GSEA)
+
+#Functional class scoring tools
+#Gene set enrichment analysis using clusterProfiler and Pathview
+#needs gene level statistics (annotated_sig) and "gene set pathway statistics
+
+#For gene set or pathway analysis using clusterProfiler, coordinated differential 
+#expression over gene sets is tested instead of changes of individual genes
+
+#gseaKEGG #considers all genes and not only the differently expressed
+
+#it is indicated for our case where just a few genes are de
+
+#preparing data for analysis
+
+results <- as.data.frame(topTags(lrt.treatment, n = Inf)) #all results glm
+
+foldchanges <- results$logFC
+names(foldchanges) <- rownames(results)
+
+foldchanges
+
+foldchanges <- sort(foldchanges, decreasing = TRUE)
+
+set.seed(1400)
+gseaKEGG <- gseKEGG(geneList = foldchanges, # ordered named vector of fold changes (Entrez IDs are the associated names)
+                    organism = "pmi", # MIT9312 code in KEGG  #default number permutations
+                    # minimum gene set size (# genes in set) - change to test more sets or recover sets with fewer # genes
+                    pvalueCutoff = 0.05, # padj cutoff value,
+                    pAdjustMethod='fdr',
+                    seed=TRUE,
+                    minGSSize = 3,
+                    maxGSSize = 800,
+                    verbose = FALSE)
+
+
+## Extract the GSEA results
+gseaKEGG_results <- gseaKEGG@result
+gseaKEGG_results
+
+
+## Write GSEA results to file
+View(gseaKEGG_results)
+head(gseaKEGG_results)
+
+gseaKEGGTidy <- gseaKEGG %>%
+  as_tibble() %>%
+  arrange(desc(NES))
+
+# Show in a nice table:
+view(gseaKEGGTidy)
+
+library(writexl)
+
+write_xlsx(x = gseaKEGGTidy, path = "gseaKEGGTidy_pro.xlsx", col_names = TRUE)

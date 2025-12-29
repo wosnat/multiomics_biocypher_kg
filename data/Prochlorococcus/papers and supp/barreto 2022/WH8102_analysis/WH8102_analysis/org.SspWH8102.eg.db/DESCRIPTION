@@ -1,0 +1,14 @@
+Package: org.SspWH8102.eg.db
+Title: Genome wide annotation for Synechococcus spWH8102
+Description: Genome wide annotation for Synechococcus spWH8102, primarily based on mapping using Entrez Gene identifiers.
+Version: 0.1
+Author: Marcelo Malisano <barretof@uab.edu>
+Maintainer: Marcelo Malisano <barretof@uab.edu>
+Depends: R (>= 2.7.0), methods, AnnotationDbi (>= 1.52.0)
+Suggests: DBI, annotate, RUnit
+Imports: methods, AnnotationDbi
+License: Artistic-2.0
+organism: Synechococcus spWH8102
+species: Synechococcus spWH8102
+biocViews: OrgDb, annotation
+

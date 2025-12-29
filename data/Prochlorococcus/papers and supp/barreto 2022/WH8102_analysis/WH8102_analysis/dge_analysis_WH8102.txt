@@ -1,0 +1,279 @@
+load("Syn_8102_2.Rdata")#loading the data from cheaha
+
+targets #design experiment
+y #dgelist object
+
+#loading the initial required packages
+library(readxl)
+library(edgeR)
+library(AnnotationForge)
+library(tidyverse)
+
+#creating the annotation package
+
+#creating my dataframe
+
+SYN_8102 <- read_excel(path = 'syn_8102_anot.xlsx') #modified table imported from http://cyano.genome.jp/
+#the first column needs to be names as GID
+SYN_8102
+#pro_9312
+
+#SYN_8102 <- as.tibble(SYN_8102) 
+
+#SYN_8102 <- SYN_8102 %>% select(GID, SYMBOL, PRODUCT)
+
+#head(SYN_8102)
+
+#makeOrgPackage(gene_info=SYN_8102,
+#              version="0.1",
+#               maintainer="Marcelo Malisano <barretof@uab.edu>",
+#               author="Marcelo Malisano <barretof@uab.edu>",
+#               outputDir = ".",
+#               tax_id="84588",
+#               genus="Synechococcus",
+#               species="spWH8102")
+
+## then you can call install.packages based on the return value
+install.packages("org.SspWH8102.eg.db", repos=NULL, type="source")
+
+library(org.SspWH8102.eg.db)
+
+columns(org.SspWH8102.eg.db) #check for the things (keytypes) you could add to your dgelist object based 
+#the GID column
+keytypes(org.SspWH8102.eg.db)
+
+keys(org.SspWH8102.eg.db, keytype="SYMBOL")[1:10]
+
+#modifying our DGEList object to include info from organismal database
+y$genes$symbol <- mapIds(org.SspWH8102.eg.db, rownames(y),
+                         keytype = "GID", column = "SYMBOL")
+
+y$genes$product <- mapIds(org.SspWH8102.eg.db, rownames(y),
+                          keytype = "GID", column = "PRODUCT")
+y
+
+dim(y)
+
+
+# I removed the genes for 16,23 and 5S rRNAS)
+y_2 <- rownames(y) %in% c("RNA_36", "RNA_37",
+                          "RNA_40","RNA_49", "RNA_50","RNA_53")
+y_2
+
+
+dge <- y[!y_2, ] #then I subset my y object based on y_2
+dim(dge)
+
+mygenes <- dge$genes
+mygenes
+
+library(writexl)
+write_xlsx(mygenes, "my_genes_syn8102.xlsx") #checking results
+
+#sample info #creating my group
+group <- paste(targets$clone,targets$CO2,sep=".")
+group
+
+# Create the two variables
+group <- as.character(group)
+clone <- sapply(strsplit(group, ".", fixed=T), function(x) x[1])
+Treatment <- sapply(strsplit(group, ".", fixed=T), function(x) x[2])
+
+# Specify a design matrix with an intercept term
+design <- model.matrix(~clone+Treatment)
+design
+
+design_2 <- model.matrix(~Treatment)
+
+#what is the best modeL?
+design_list <- list(design,design_2)
+design_list
+
+model_test <- selectModel(y$counts,design_list,criterion="bic")
+
+barplot(table(model_test$pref))
+
+#model 1 is better only for this cyano
+#HowevEr, we use model 2 though because we lose important info with model 1
+
+
+#design #Hennon did this way #I will keep this to make the mds plot #I need to specify
+#this way the clone and treatment
+
+clone <- targets$clone
+Treatment <- targets$CO2
+
+#filtering my dgelist object #keep the default #using the new dge
+keep <- filterByExpr(dge,design_2)
+
+#check
+table(keep)
+#FALSE  TRUE 
+#12  2560
+
+#we will subset our DGEList object to include only the genes which meet
+#our min.count requirements
+y <- dge[keep, , keep.lib.sizes=FALSE]
+
+#Library size normalization
+y <- calcNormFactors(y, method="TMM")
+
+
+#visualize the difference between libraries
+pch <- c(0,2,4,5,6,7) #6 different clones
+colors <- rep(c("turquoise","red"), 2) #2 different treats
+plotMDS(y, col=colors[Treatment], pch=pch[clone])
+legend("topleft", legend=levels(Treatment), fill=colors, ncol=2)
+legend("topright", legend=levels(clone), pch=pch, ncol=2)
+
+#estimate dispersions
+
+y <- estimateGLMCommonDisp(y,design_2)
+y <- estimateGLMTrendedDisp(y,design_2)
+y <- estimateGLMTagwiseDisp(y,design_2)
+
+plotBCV(y) #plot dispersions
+
+design_2
+#Fit a general linear model
+fit <- glmFit(y,design_2)
+lrt.treatment <- glmLRT(fit, coef=2) #last column of our design
+
+syn8102dge <-as.data.frame(topTags(lrt.treatment, n = Inf)) #Table of the Top Differentially Expressed Genes/Tags
+
+
+# we will decide which genes are #DE by using this threshold:
+#pvalue <0.05
+#fold change > 2 that is equal to a lfc=1
+
+is.de <- decideTestsDGE(lrt.treatment, adjust.method = "none",
+                        p.value=0.05, lfc=1) 
+summary(is.de)
+
+Treatment+
+  #Down            4
+#NotSig       2549
+#Up              8
+
+#plotting only the DE genes
+
+library(ggplot2)
+
+plotMD(lrt.treatment, status=is.de)
+
+png("is.de.plot_syn8102.png")
+plotMD(lrt.treatment, status=is.de, main= 'high co2 x low co2 Synechococus sp. WH8102')
+dev.off()
+
+
+#getting a df of deg for syn_8102
+
+results <- as.data.frame(topTags(lrt.treatment, n = Inf)) #all results glm
+
+results_syn8102 <- results %>% 
+  mutate(GID = rownames(results))
+         
+         library(writexl)
+         write_xlsx(results_syn8102, "results_syn_8102.xlsx") #summarized results
+
+genes_sig_dataframe_syn_8102 <- subset(results, results$PValue < 0.05 & abs(results$logFC) >1)
+
+genes_sig_dataframe_syn_8102 <- genes_sig_dataframe_syn_8102 %>%
+  mutate(GID = rownames(genes_sig_dataframe_syn_8102))
+str(genes_sig_dataframe_syn_8102)
+
+library(writexl)
+write_xlsx(genes_sig_dataframe_syn_8102, "genes_sig_dataframe_syn_8102_2.xlsx") #summarized results
+
+#plotting with ggplot
+
+all.results_SYN8102<- as.data.frame(lrt.treatment$table) #table for all results
+
+library(writexl)
+
+write_xlsx(x = all.results_SYN8102, path = "all.results_syn_8102.xlsx", col_names = TRUE)
+
+plot_syn_deg <- ggplot(all.results_SYN8102, aes(x = logCPM, y=logFC, col=PValue < 0.05 & abs(logFC) >1)) + 
+  geom_point(alpha=0.8) + scale_colour_manual(values=c("black","red"),
+                                              breaks=c("FALSE","TRUE"),
+                                              labels=c("non-dif. expressed","dif. expressed")) +
+  theme_classic()+
+  xlim(0, 15) +
+  ylim(-4, 4) 
+
+plot_syn_deg
+
+png("plot_syn_deg.png", units="px", width=2000, height=2000, res=300)
+print(plot_syn_deg)
+dev.off()
+
+save(plot_syn_deg, file="plot_syn_deg.Rdata")
+
+#making a table of only #DE genes
+sig <- as.data.frame(lrt.treatment$table[which(lrt.treatment$table$PValue < 0.05 &
+                                                 abs(lrt.treatment$table$logFC)>1 ),] %>%
+                       arrange(logFC))
+str(sig)
+
+up <- sig %>% filter(PValue < 0.05 & logFC >0) # filter only the upregultaded
+
+down <- sig %>% filter(PValue < 0.05 & logFC <0)  # filter only the downegultaded
+
+rownames(up)
+rownames(down)
+
+view(sig)
+
+sig_genes_ids <- rownames(sig)
+sig_genes_ids
+
+#Heat map clustering 
+
+#Heat map clustering #the 30 more based on logCPM
+
+
+logCPM <- cpm(y, prior.count = 2, log = TRUE)
+rownames(logCPM) <- rownames(y)
+colnames(logCPM) <- paste(y$samples, 1:2, sep = "-")
+o <- order(lrt.treatment$table$PValue)
+logCPM <- logCPM[o[1:30],]
+
+HvsL_heat <- coolmap(logCPM, margins=c(7,7), lhei=c(1,6), lwid=c(1,3))
+
+#I figured out that I can use objects instead of listing each gene e.g. rownames(up)
+#all sig
+
+vector_sig <- rownames(sig)
+vector_up <- rownames(up)
+vector_down <- rownames(down)
+
+vector_sig
+
+logCPM_sig <- as.data.frame(cpm(y, prior.count = 2, log = TRUE)) %>% 
+  mutate(GID = rownames(y)) %>% filter(GID %in% vector_sig) %>% select(-GID)
+
+logCPM_sig_heat <- coolmap(logCPM_sig, margins=c(7,7), lhei=c(1,6), lwid=c(1,3),
+                           col="redgreen", cluster.by="de pattern")
+
+
+#only upregulated
+logCPM_sig_up <- as.data.frame(cpm(y, prior.count = 2, log = TRUE)) %>% 
+  mutate(GID = rownames(y)) %>% filter(GID %in% vector_up) %>% select(-GID)
+
+logCPM_sig_up_heat <- coolmap(logCPM_sig_up, margins=c(7,7), lhei=c(1,6), lwid=c(1,3),
+                              col="redgreen", cluster.by="de pattern")
+
+#only downregulated
+logCPM_sig_down <- as.data.frame(cpm(y, prior.count = 2, log = TRUE)) %>% 
+  mutate(GID = rownames(y)) %>% filter(GID %in% vector_down) %>% select(-GID) 
+
+logCPM_sig_down_heat <- coolmap(logCPM_sig_down, margins=c(7,7), lhei=c(1,6), lwid=c(1,3),
+                                col="redgreen", cluster.by="de pattern")
+
+sig
+#saved  object as an R object .Rdata
+save(lrt.treatment,sig, up, down, file="results_syn8102.Rdata")
+
+#saving for heatmap
+save(y,is.de, sig,up, down, vector_sig,vector_up,vector_down,
+     file="results_syn8102_heatmap.Rdata")

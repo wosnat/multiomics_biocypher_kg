@@ -1,0 +1,1 @@
+perl -ne 'if (/locus_tag (\S+); old_locus_tag (\S+)\;/) { print ("$1,$2\n")}' ./genomic.gtf  > MED4_PMM2locus.csv

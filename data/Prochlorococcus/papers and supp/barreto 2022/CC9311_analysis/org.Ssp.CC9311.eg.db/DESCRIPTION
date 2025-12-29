@@ -1,0 +1,14 @@
+Package: org.Ssp.CC9311.eg.db
+Title: Genome wide annotation for Synechococcus sp.CC9311
+Description: Genome wide annotation for Synechococcus sp.CC9311, primarily based on mapping using Entrez Gene identifiers.
+Version: 0.1
+Author: Marcelo Barreto Filho <barretof@uab.edu>
+Maintainer: Marcelo Barreto Filho <barretof@uab.edu>
+Depends: R (>= 2.7.0), methods, AnnotationDbi (>= 1.50.3)
+Suggests: DBI, annotate, RUnit
+Imports: methods, AnnotationDbi
+License: Artistic-2.0
+organism: Synechococcus sp.CC9311
+species: Synechococcus sp.CC9311
+biocViews: OrgDb, annotation
+

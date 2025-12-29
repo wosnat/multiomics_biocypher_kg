@@ -1,0 +1,655 @@
+#load the data from supercomputer
+
+load('ALL_EZ55_2.Rdata') 
+
+#loading the initial required packages
+library(readxl)
+library(edgeR)
+library(AnnotationForge)
+library(tidyverse)
+
+#load the metadata file
+#include info for clone,treatment, coculture, cyano cocultured (status)
+targets<- read_excel(path='targets.xlsx')
+
+
+#install our database package with EZ55 info about genes
+install.packages("org.AspEZ55.eg.db", repos=NULL, type="source")
+library(org.AspEZ55.eg.db) #annotation
+
+columns(org.AspEZ55.eg.db) #check for the things (keytypes) you could add to your dgelist object based 
+
+#the GID column
+keytypes(org.AspEZ55.eg.db)
+
+keys(org.AspEZ55.eg.db, keytype="GID")[1:10]
+
+#modifying our DGEList object to include info from organismal database
+y$genes$symbol <- mapIds(org.AspEZ55.eg.db, rownames(y),
+                         keytype = "GID", column = "PRODUCT")
+
+
+
+# I removed the genes for 16,23 and 5S rRNAS)
+y_2 <- rownames(y) %in% c("EZ55_00054","EZ55_00054.rRNA","EZ55_00055","EZ55_00055.tRNA",
+                          "EZ55_00056","EZ55_00056.tRNA","EZ55_00057","EZ55_00057.rRNA",
+                          "EZ55_00058","EZ55_00058.rRNA","EZ55_00059","EZ55_00059.rRNA",
+                          "EZ55_00346","EZ55_00346.rRNA","EZ55_00347","EZ55_00347.rRNA",
+                          "EZ55_00348","EZ55_00348.rRNA","EZ55_02640","EZ55_03378",
+                          "EZ55_03379","EZ55_03382","EZ55_03536","EZ55_03537","EZ55_03538",
+                          "EZ55_02636","EZ55_02637")
+y_2
+
+
+dge <- y[!y_2, ] #then I subset my y object based on y_2
+dim(dge)
+
+mygenes <- dge$genes
+mygenes
+
+library(writexl)
+write_xlsx(mygenes, "my_genes_EZ55.xlsx") #checking results
+
+#create variables for design
+
+EZ55clone <- targets$EZ55_clone
+Aclone<-targets$Algae_clone
+treatment <- targets$treatment
+coculture <- targets$coculture
+cyano <- targets$Cyano
+
+#At this point we need to create a model with the model.matrix function to run the dge analysis
+#We have tested several possibilities using the above variables
+#clone only comes up as significant in one model and appears to prevent detection of interactions.  
+#Thus, we use the most complex non-clone model, design_1_interactcynoc:
+
+#full model cyano without clone + interactive with treat
+
+design_1_interactcynoc <- model.matrix(~ 0+ cyano + treatment+cyano:treatment)
+
+##filtering my dgelist object
+keep_design_1_interactcynoc <- filterByExpr(dge,design_1_interactcynoc)
+table(keep_design_1_interactcynoc)
+
+#we will subset our DGEList object to include only the genes which meet
+#our min.count requirements
+
+y_1_interactcynoc <- dge[keep_design_1_interactcynoc, , keep.lib.sizes=FALSE]
+
+#Library size normalization
+y_1_interactcynoc <- calcNormFactors(y_1_interactcynoc, method="TMM")
+
+#estimate dispersions
+y_1_interactcynoc <- estimateGLMCommonDisp(y_1_interactcynoc,design_1_interactcynoc)
+y_1_interactcynoc <- estimateGLMTrendedDisp(y_1_interactcynoc,design_1_interactcynoc)
+y_1_interactcynoc <- estimateGLMTagwiseDisp(y_1_interactcynoc,design_1_interactcynoc)
+
+plotBCV(y_1_interactcynoc)
+
+#Fit a general linear model
+fit_1_interactcynoc <- glmFit(y_1_interactcynoc,design_1_interactcynoc)
+
+
+#Creating contrasts for statistical analysis based on our fitted 
+#What we need:
+#1. genes significantly affected by treatment
+#2. genes significantly affected by co-culture
+#3-#5. genes significantly affected by specific cyanos not already detected by generic co-culture response
+#6. genes whose response to treatment is significantly affected by co-culture
+#7-#9. genes whose response to treatment is affected significantly differently in Pro or Syn than the general response to co-culture
+
+#1 #treatment #the effect of high C02
+contrast1<-glmLRT(fit_1_interactcynoc, coef=5)
+
+# we will decide which genes are #DE by using this threshold:
+#pvalue <0.05
+#fold change > 2 that is equal to a lfc=1
+
+is.de_lrt.contrast1  <- decideTestsDGE(contrast1, adjust.method = "none",p.value=0.05, lfc=1)
+
+view(is.de_lrt.contrast1 )
+summary(is.de_lrt.contrast1)
+
+#       treatmentpositive
+#Down                 116
+#NotSig              4098
+#Up                    16
+
+#plotting only the DEG #plotting with ggplot
+
+all.results_treatment<- as.data.frame(contrast1$table) #table for all results
+
+
+plot_ez55_treatment <- ggplot(all.results_treatment, aes(x = logCPM, y=logFC, col=PValue < 0.05 & abs(logFC) >1)) + 
+  geom_point(alpha=0.8) + scale_colour_manual(values=c("black","red"),
+                                              breaks=c("FALSE","TRUE"),
+                                              labels=c("non-dif. expressed","dif. expressed" )) +
+  theme_classic()+
+  xlim(0, 15)+
+  ylim(-6, 6) 
+plot_ez55_treatment
+
+png("plot_ez55_treatment", units="px", width=2000, height=2000, res=300)
+print(plot_ez55_treatment)
+dev.off() 
+
+#obtaining files we will need for ORA analysis
+results_contrast1<- as.data.frame(topTags(contrast1, n = Inf)) #all results glm
+view(contrast1)
+results_contrast1
+
+results_contrast1 <- results_contrast1 %>% 
+  mutate(GID = rownames(results_contrast1)) %>% arrange(logCPM)
+view(results_contrast1)
+
+library(writexl)
+#write_xlsx(results_contrast1, "results_contrast1.xlsx") #summarized results
+
+#pulling out only the significant genes for ORA analysis
+
+sigtreat <- subset(results_contrast1, results_contrast1$PValue < 0.05 & 
+                                                    abs(results_contrast1$logFC) >1)%>% arrange(logFC)
+sigtreat <- sigtreat %>% mutate(GID = rownames(sigtreat))
+
+sigtreat_up <- sigtreat %>% filter(PValue < 0.05 & logFC >0) # filter only the upregultaded
+
+sigtreat_down <- sigtreat %>% filter(PValue < 0.05 & logFC <0)  # filter only the downegultaded
+
+
+library(writexl)
+write_xlsx(sigtreat, "sigtreat.xlsx")
+
+
+#saved  object as an R object .Rdata #we will need all of these files for ORA and GSEA analysis
+save(contrast1,sigtreat,sigtreat_up,sigtreat_down,
+     file="results_treat.Rdata")
+
+
+#coculture #2. genes significantly affected by co-culture
+
+#coculture
+contrast2 <- makeContrasts((cyanoPro+cyanoSyn_CC9311+cyanoSyn_W8102)/3-cyanoNone,levels=design_1_interactcynoc)
+lrt.contrast2 <- glmLRT(fit_1_interactcynoc, contrast=contrast2)
+is.de_lrt.contrast2  <- decideTestsDGE(lrt.contrast2, adjust.method = "none",p.value=0.05,lfc=1) 
+summary(is.de_lrt.contrast2)
+contrasts[,2]<-is.de_lrt.contrast2
+
+results_contrast2<- as.data.frame(topTags(lrt.contrast2, n = Inf))
+view(results_contrast2)
+
+results_contrast2 <- results_contrast2 %>% 
+  mutate(GID = rownames(results_contrast2)) %>% arrange(logCPM)
+view(results_contrast2)
+
+library(writexl)
+write_xlsx(results_contrast2, "results_contrast2.xlsx") #summarized results
+
+#Down	580
+#N.S.	3088
+#Up     564
+
+#plotting with ggplot
+
+all.results_coculture<- as.data.frame(lrt.contrast2$table) #table for all results
+
+
+plot_ez55_coculture <- ggplot(all.results_coculture, aes(x = logCPM, y=logFC, col=PValue < 0.05 & abs(logFC) >1)) + 
+  geom_point(alpha=0.8) + scale_colour_manual(values=c("black","red"),
+                                              breaks=c("FALSE","TRUE"),
+                                              labels=c("non-dif. expressed","dif. expressed")) +
+  theme_classic()+
+  xlim(0, 15)+
+  ylim(-6, 6) 
+plot_ez55_coculture
+
+png("plot_ez55_coculture", units="px", width=2000, height=2000, res=300)
+print(plot_ez55_coculture)
+dev.off()
+
+#pulling out the sig genes for cocculture
+sigcoculture <- subset(results_contrast2, results_contrast2$PValue < 0.05 & 
+                                                    abs(results_contrast2$logFC) >1)%>% arrange(logFC) 
+
+sigcoculture <- sigcoculture %>%   mutate(GID = rownames(sigcoculture))
+
+sigcoculture_up <- sigcoculture %>% filter(PValue < 0.05 & logFC >0) # filter only the upregultaded
+
+sigcoculture_down <- sigcoculture %>% filter(PValue < 0.05 & logFC <0)  # filter only the downegultaded
+
+
+library(writexl)
+write_xlsx(sigcoculture, "sigcoculture.xlsx")
+
+#saved  object as an R object .Rdata
+save(lrt.contrast2,sigcoculture,sigcoculture_up,sigcoculture_down,
+     file="results_coculture.Rdata")
+
+
+#3-#5. genes significantly affected by specific cyanos not already detected by generic co-culture response
+
+#cyano only #cyanoPro 
+
+contrast3<-makeContrasts(cyanoPro-(cyanoPro+cyanoSyn_CC9311+cyanoSyn_W8102)/3,levels=design_1_interactcynoc)
+lrt.contrast3<-glmLRT(fit_1_interactcynoc, contrast=contrast3)
+is.de_lrt.contrast3  <- decideTestsDGE(lrt.contrast3, adjust.method = "none",p.value=0.05,lfc=1) 
+summary(is.de_lrt.contrast3)
+contrasts[,3]<-is.de_lrt.contrast3
+
+results_contrast3<- as.data.frame(topTags(lrt.contrast3, n = Inf))
+view(results_contrast3)
+
+results_contrast3 <- results_contrast3 %>% 
+  mutate(GID = rownames(results_contrast3)) %>% arrange(logCPM)
+view(results_contrast3)
+
+library(writexl)
+write_xlsx(results_contrast3, "results_contrast3.xlsx") #summarized results
+
+#Down	114
+#NS     3788
+#Up	326
+
+all.results_coculture_pro<- as.data.frame(lrt.contrast3$table) #table for all results
+
+
+plot_ez55_coculture_pro <- ggplot(all.results_coculture_pro, aes(x = logCPM, y=logFC, col=PValue < 0.05 & abs(logFC) >1)) + 
+  geom_point(alpha=0.8) + scale_colour_manual(values=c("black","red"),
+                                              breaks=c("FALSE","TRUE"),
+                                              labels=c("non-dif. expressed","dif. expressed")) +
+  theme_classic()+
+  xlim(0, 15)+
+  ylim(-6, 6) 
+plot_ez55_coculture_pro
+
+png("plot_ez55_coculture_pro", units="px", width=2000, height=2000, res=300)
+print(plot_ez55_coculture_pro)
+dev.off()
+
+#pulling out the sig genes 
+
+sigcyano_pro <- subset(results_contrast3, results_contrast3$PValue < 0.05 & 
+                         abs(results_contrast3$logFC) >1)%>% arrange(logFC)
+
+sigcyano_pro <- sigcyano_pro %>% mutate(GID = rownames(sigcyano_pro))
+
+sigcyano_pro_up <- sigcyano_pro %>% filter(PValue < 0.05 & logFC >0) # filter only the upregultaded
+
+sigcyano_pro_down <- sigcyano_pro %>% filter(PValue < 0.05 & logFC <0)  # filter only the downegultaded
+
+
+library(writexl)
+write_xlsx(sigcyano_pro, "sigcyano_pro.xlsx")
+
+#saved  object as an R object .Rdata
+save(lrt.contrast3,sigcyano_pro,sigcyano_pro_up,sigcyano_pro_down,
+     file="results_pro.Rdata")
+
+
+#cyano only #cyanoSyn_CC9311
+
+contrast4<-makeContrasts(cyanoSyn_CC9311-(cyanoPro+cyanoSyn_CC9311+cyanoSyn_W8102)/3,levels=design_1_interactcynoc)
+lrt.contrast4<-glmLRT(fit_1_interactcynoc, contrast=contrast4)
+is.de_lrt.contrast4  <- decideTestsDGE(lrt.contrast4, adjust.method = "none",p.value=0.05,lfc=1) 
+summary(is.de_lrt.contrast4)
+contrasts[,4]<-is.de_lrt.contrast4
+
+
+results_contrast4<- as.data.frame(topTags(lrt.contrast4, n = Inf))
+view(results_contrast4)
+
+results_contrast4 <- results_contrast4 %>% 
+  mutate(GID = rownames(results_contrast4)) %>% arrange(logCPM)
+view(results_contrast4)
+
+library(writexl)
+write_xlsx(results_contrast4, "results_contrast4.xlsx") #summarized results
+
+#Down	193
+#NS     3914
+#Up      120
+
+#plotting with ggplot
+
+all.results_coculture_syn9311<- as.data.frame(lrt.contrast4$table) #table for all results
+
+
+plot_ez55_coculture_syn9311 <- ggplot(all.results_coculture_syn9311, aes(x = logCPM, y=logFC, col=PValue < 0.05 & abs(logFC) >1)) + 
+  geom_point(alpha=0.8) + scale_colour_manual(values=c("black","red"),
+                                              breaks=c("FALSE","TRUE"),
+                                              labels=c("non-dif. expressed","dif. expressed")) +
+  theme_classic()+
+  xlim(0, 15)+
+  ylim(-6, 6) 
+plot_ez55_coculture_syn9311
+
+png("plot_ez55_coculture_syn9311", units="px", width=2000, height=2000, res=300)
+print(plot_ez55_coculture_syn9311)
+dev.off()
+
+#pulling out the sig genes
+
+sigcyano_syn9311 <- subset(results_contrast4, results_contrast4$PValue < 0.05 & 
+                         abs(results_contrast4$logFC) >1)%>% arrange(logFC)
+
+sigcyano_syn9311<- sigcyano_syn9311 %>% mutate(GID = rownames(sigcyano_syn9311))
+
+sigcyano_syn9311_up <- sigcyano_syn9311  %>% filter(PValue < 0.05 & logFC >0) # filter only the upregultaded
+
+sigcyano_syn9311_down <- sigcyano_syn9311  %>% filter(PValue < 0.05 & logFC <0)  # filter only the downegultaded
+
+
+library(writexl)
+write_xlsx(sigcyano_syn9311 , "sigcyano_syn9311.xlsx")
+
+
+#saved  object as an R object .Rdata
+save(lrt.contrast4,sigcyano_syn9311,sigcyano_syn9311_up ,sigcyano_syn9311_down,
+     file="results_syn9311.Rdata")
+
+##cyano only #cyanoSyn_W8102
+
+contrast5<-makeContrasts(cyanoSyn_W8102-(cyanoPro+cyanoSyn_CC9311+cyanoSyn_W8102)/3,levels=design_1_interactcynoc)
+lrt.contrast5<-glmLRT(fit_1_interactcynoc, contrast=contrast5)
+is.de_lrt.contrast5  <- decideTestsDGE(lrt.contrast5, adjust.method = "none",p.value=0.05,lfc=1) 
+summary(is.de_lrt.contrast5)
+contrasts[,5]<-is.de_lrt.contrast5
+
+results_contrast5<- as.data.frame(topTags(lrt.contrast5, n = Inf))
+view(results_contrast5)
+
+results_contrast5 <- results_contrast5 %>% 
+  mutate(GID = rownames(results_contrast5)) %>% arrange(logCPM)
+view(results_contrast5)
+
+library(writexl)
+write_xlsx(results_contrast5, "results_contrast5.xlsx") #summarized results
+
+
+#Down	114
+#NS		4087
+#Up		27
+
+#plotting with ggplot
+
+all.results_coculture_syn8102<- as.data.frame(lrt.contrast5$table) #table for all results
+
+
+plot_ez55_coculture_syn8102 <- ggplot(all.results_coculture_syn8102, aes(x = logCPM, y=logFC, col=PValue < 0.05 & abs(logFC) >1)) + 
+  geom_point(alpha=0.8) + scale_colour_manual(values=c("black","red"),
+                                              breaks=c("FALSE","TRUE"),
+                                              labels=c("non-dif. expressed","dif. expressed")) +
+  theme_classic()+
+  xlim(0, 15)+
+  ylim(-6, 6) 
+plot_ez55_coculture_syn8102
+
+png("plot_ez55_coculture_syn8102", units="px", width=2000, height=2000, res=300)
+print(plot_ez55_coculture_syn8102)
+dev.off()
+
+#pulling out the sig genes
+sigcyano_syn8102 <- subset(results_contrast5, results_contrast5$PValue < 0.05 & 
+                             abs(results_contrast5$logFC) >1)%>% arrange(logFC)
+
+sigcyano_syn8102 <- sigcyano_syn8102 %>% 
+  mutate(GID = rownames(sigcyano_syn8102))
+
+sigcyano_syn8102_up <- sigcyano_syn8102  %>% filter(PValue < 0.05 & logFC >0) # filter only the upregultaded
+
+sigcyano_syn8102_down <- sigcyano_syn8102  %>% filter(PValue < 0.05 & logFC <0)  # filter only the downegultaded
+
+
+library(writexl)
+write_xlsx(sigcyano_syn8102, "sigcyano_syn8102.xlsx")
+
+
+#saved  object as an R object .Rdata
+save(lrt.contrast5,sigcyano_syn8102,sigcyano_syn8102_up ,sigcyano_syn8102_down,
+     file="results_syn8102.Rdata")
+
+#6. genes whose response to treatment is significantly affected by co-culture
+#treatment*coculture
+
+contrast6<-makeContrasts((cyanoPro_treatmentpositive+cyanoSyn_CC9311_treatmentpositive+cyanoSyn_W8102_treatmentpositive)/3-treatmentpositive,levels=design_1_interactcynoc)
+lrt.contrast6<-glmLRT(fit_1_interactcynoc, contrast=contrast6)
+is.de_lrt.contrast6  <- decideTestsDGE(lrt.contrast6, adjust.method = "none",p.value=0.05,lfc=1) 
+summary(is.de_lrt.contrast6)
+contrasts[,6]<-is.de_lrt.contrast6
+
+results_contrast6<- as.data.frame(topTags(lrt.contrast6, n = Inf))
+view(results_contrast6)
+
+results_contrast6 <- results_contrast6 %>% 
+  mutate(GID = rownames(results_contrast6)) %>% arrange(logCPM)
+view(results_contrast6)
+
+library(writexl)
+write_xlsx(results_contrast6, "results_contrast6.xlsx") #summarized results
+
+#Down	132
+#NS		3774
+#Up		328
+
+#plotting with ggplot
+
+all.results_coculture_treat<- as.data.frame(lrt.contrast6$table) #table for all results
+
+
+plot_ez55_coculture_treat <- ggplot(all.results_coculture_treat, aes(x = logCPM, y=logFC, col=PValue < 0.05 & abs(logFC) >1)) + 
+  geom_point(alpha=0.8) + scale_colour_manual(values=c("black","red"),
+                                              breaks=c("FALSE","TRUE"),
+                                              labels=c("non-dif. expressed","dif. expressed")) +
+  theme_classic()+
+  xlim(0, 15)+
+  ylim(-6, 6) 
+plot_ez55_coculture_treat
+
+png("plot_ez55_coculture_treat", units="px", width=2000, height=2000, res=300)
+print(plot_ez55_coculture_treat)
+dev.off()
+
+#pulling out the sig genes
+
+sigcc_treat <- subset(results_contrast6, results_contrast6$PValue < 0.05 & 
+                             abs(results_contrast6$logFC) >1)%>% arrange(logFC)
+
+sigcc_treat <- sigcc_treat %>%
+  mutate(GID = rownames(sigcc_treat))
+
+sigcc_treat_up <- sigcc_treat  %>% filter(PValue < 0.05 & logFC >0) # filter only the upregultaded
+
+sigcc_treat_down <- sigcc_treat  %>% filter(PValue < 0.05 & logFC <0)  # filter only the downegultaded
+
+
+library(writexl)
+write_xlsx(sigcc_treat, "sigcc_treat.xlsx")
+
+
+#saved  object as an R object .Rdata
+save(lrt.contrast6,sigcc_treat,sigcc_treat_up,sigcc_treat_down,
+     file="results_cc_treat.Rdata")
+
+
+#7-#9. genes whose response to treatment is affected significantly differently in Pro or Syn than the general response to co-culture
+#treatment*coculture cyanoPro_treatmentpositive
+
+contrast7<-makeContrasts(cyanoPro_treatmentpositive-(cyanoPro_treatmentpositive+cyanoSyn_CC9311_treatmentpositive+cyanoSyn_W8102_treatmentpositive)/3,levels=design_1_interactcynoc)
+lrt.contrast7<-glmLRT(fit_1_interactcynoc, contrast=contrast7)
+is.de_lrt.contrast7  <- decideTestsDGE(lrt.contrast7, adjust.method = "none",p.value=0.05,lfc=1) 
+summary(is.de_lrt.contrast7)
+contrasts[,7]<-is.de_lrt.contrast7
+
+results_contrast7<- as.data.frame(topTags(lrt.contrast7, n = Inf))
+view(results_contrast7)
+
+results_contrast7 <- results_contrast7 %>% 
+  mutate(GID = rownames(results_contrast7)) %>% arrange(logCPM)
+view(results_contrast7)
+
+library(writexl)
+write_xlsx(results_contrast7, "results_contrast7.xlsx") #summarized results
+
+#Down	85
+#NS		4033
+#Up		110
+
+#plotting with ggplot
+
+all.results_coculture_treat_pro<- as.data.frame(lrt.contrast7$table) #table for all results
+
+
+plot_ez55_coculture_treat_pro <- ggplot(all.results_coculture_treat_pro, aes(x = logCPM, y=logFC, col=PValue < 0.05 & abs(logFC) >1)) + 
+  geom_point(alpha=0.8) + scale_colour_manual(values=c("black","red"),
+                                              breaks=c("FALSE","TRUE"),
+                                              labels=c("non-dif. expressed","dif. expressed")) +
+  theme_classic()+
+  xlim(0, 15)+
+  ylim(-6, 6) 
+plot_ez55_coculture_treat_pro
+
+png("plot_ez55_coculture_treat_pro", units="px", width=2000, height=2000, res=300)
+print(plot_ez55_coculture_treat_pro)
+dev.off()
+
+#pulling out the sig genes
+
+sigcc_treat_Pro <- subset(results_contrast7 , results_contrast7$PValue < 0.05 & 
+                        abs(results_contrast7$logFC) >1)%>% arrange(logFC)
+
+sigcc_treat_Pro <- sigcc_treat_Pro %>%
+  mutate(GID = rownames(sigcc_treat_Pro))
+
+sigcc_treat_Pro_up <- sigcc_treat_Pro   %>% filter(PValue < 0.05 & logFC >0) # filter only the upregultaded
+
+sigcc_treat_Pro_down <- sigcc_treat_Pro   %>% filter(PValue < 0.05 & logFC <0)  # filter only the downegultaded
+
+
+library(writexl)
+write_xlsx(sigcc_treat_Pro, "sigcc_treat_Pro.xlsx")
+
+#saved  object as an R object .Rdata
+save(lrt.contrast7,sigcc_treat_Pro,sigcc_treat_Pro_up,sigcc_treat_Pro_down,
+     file="results_cc_treat_Pro.Rdata")
+
+
+#treatment*coculturecyanoSyn_CC9311_treatmentpositive
+
+contrast8<-makeContrasts(cyanoSyn_CC9311_treatmentpositive-(cyanoPro_treatmentpositive+cyanoSyn_CC9311_treatmentpositive+cyanoSyn_W8102_treatmentpositive)/3,levels=design_1_interactcynoc)
+lrt.contrast8<-glmLRT(fit_1_interactcynoc, contrast=contrast8)
+is.de_lrt.contrast8  <- decideTestsDGE(lrt.contrast8, adjust.method = "none",p.value=0.05,lfc=1) 
+summary(is.de_lrt.contrast8)
+contrasts[,8]<-is.de_lrt.contrast8
+
+results_contrast8<- as.data.frame(topTags(lrt.contrast8, n = Inf))
+view(results_contrast8)
+
+results_contrast8 <- results_contrast8 %>% 
+  mutate(GID = rownames(results_contrast8)) %>% arrange(logCPM)
+view(results_contrast8)
+
+library(writexl)
+write_xlsx(results_contrast8, "results_contrast8.xlsx") #summarized results
+
+#Down	53
+#NS     4140
+#Up	32
+
+#plotting with ggplot
+
+all.results_coculture_treat_syn9311<- as.data.frame(lrt.contrast8$table) #table for all results
+
+
+plot_ez55_coculture_treat_syn9311<- ggplot(all.results_coculture_treat_syn9311, aes(x = logCPM, y=logFC, col=PValue < 0.05 & abs(logFC) >1)) + 
+  geom_point(alpha=0.8) + scale_colour_manual(values=c("black","red"),
+                                              breaks=c("FALSE","TRUE"),
+                                              labels=c("non-dif. expressed","dif. expressed")) +
+  theme_classic()+
+  xlim(0, 15)+
+  ylim(-6, 6) 
+plot_ez55_coculture_treat_syn9311
+
+png("plot_ez55_coculture_treat_syn9311", units="px", width=2000, height=2000, res=300)
+print(plot_ez55_coculture_treat_syn9311)
+dev.off()
+
+#pulling out the sig genes
+
+sigcc_treat_Syn_9311 <- subset(results_contrast8, results_contrast8$PValue < 0.05 & 
+                            abs(results_contrast8$logFC) >1)%>% arrange(logFC)
+
+sigcc_treat_Syn_9311 <- sigcc_treat_Syn_9311%>%
+  mutate(GID = rownames(sigcc_treat_Syn_9311 ))
+
+sigcc_treat_Syn_9311_up <- sigcc_treat_Syn_9311 %>% filter(PValue < 0.05 & logFC >0) # filter only the upregultaded
+
+sigcc_treat_Syn_9311_down <- sigcc_treat_Syn_9311 %>% filter(PValue < 0.05 & logFC <0)  # filter only the downegultaded
+
+
+library(writexl)
+write_xlsx(sigcc_treat_Syn_9311, "sigcc_treat_Syn_9311.xlsx")
+
+
+#saved  object as an R object .Rdata
+save(lrt.contrast8,sigcc_treat_Syn_9311,sigcc_treat_Syn_9311_up,sigcc_treat_Syn_9311_down,
+     file="results_cc_treat_Syn9311.Rdata")
+
+#treatment*coculture cyanoSyn_W8102_treatmentpositive
+
+contrast9<-makeContrasts(cyanoSyn_W8102_treatmentpositive-(cyanoPro_treatmentpositive+cyanoSyn_CC9311_treatmentpositive+cyanoSyn_W8102_treatmentpositive)/3,levels=design_1_interactcynoc)
+lrt.contrast9<-glmLRT(fit_1_interactcynoc, contrast=contrast9)
+is.de_lrt.contrast9  <- decideTestsDGE(lrt.contrast9, adjust.method = "none",p.value=0.05,lfc=1) 
+summary(is.de_lrt.contrast9)
+contrasts[,9]<-is.de_lrt.contrast9
+
+results_contrast9<- as.data.frame(topTags(lrt.contrast9, n = Inf))
+view(results_contrast9)
+
+results_contrast9 <- results_contrast9 %>% 
+  mutate(GID = rownames(results_contrast9)) %>% arrange(logCPM)
+view(results_contrast8)
+
+library(writexl)
+write_xlsx(results_contrast9, "results_contrast9.xlsx") #summarized results
+
+#Down	32
+#NS		4169
+#Up		27
+
+#plotting with ggplot
+
+all.results_coculture_treat_syn8102<- as.data.frame(lrt.contrast9$table) #table for all results
+
+
+plot_ez55_coculture_treat_syn8102<- ggplot(all.results_coculture_treat_syn8102, aes(x = logCPM, y=logFC, col=PValue < 0.05 & abs(logFC) >1)) + 
+  geom_point(alpha=0.8) + scale_colour_manual(values=c("black","red"),
+                                              breaks=c("FALSE","TRUE"),
+                                              labels=c("non-dif. expressed","dif. expressed")) +
+  theme_classic()+
+  xlim(0, 15)+
+  ylim(-6, 6) 
+plot_ez55_coculture_treat_syn8102
+
+png("plot_ez55_coculture_treat_syn8102", units="px", width=2000, height=2000, res=300)
+print(plot_ez55_coculture_treat_syn8102)
+dev.off()
+
+#pulling out the sig genes
+
+sigcc_treat_Syn_8102 <- subset(esults_contrast9, esults_contrast9$PValue < 0.05 & 
+                                 abs(esults_contrast9$logFC) >1)%>% arrange(logFC)
+
+sigcc_treat_Syn_8102 <- sigcc_treat_Syn_8102 %>%
+  mutate(GID = rownames(sigcc_treat_Syn_8102 ))
+
+sigcc_treat_Syn_8102_up <- sigcc_treat_Syn_8102  %>% filter(PValue < 0.05 & logFC >0) # filter only the upregultaded
+
+sigcc_treat_Syn_8102_down <- sigcc_treat_Syn_8102  %>% filter(PValue < 0.05 & logFC <0)  # filter only the downegultaded
+
+
+library(writexl)
+write_xlsx(sigcc_treat_Syn_8102, "sigcc_treat_Syn_8102.xlsx")
+
+
+#saved  object as an R object .Rdata
+save(lrt.contrast9,sigcc_treat_Syn_8102,sigcc_treat_Syn_8102_up,sigcc_treat_Syn_8102_down,
+     file="results_cc_treat_Syn8102.Rdata")

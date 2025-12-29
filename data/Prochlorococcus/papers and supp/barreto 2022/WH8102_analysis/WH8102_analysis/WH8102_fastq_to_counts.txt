@@ -1,0 +1,142 @@
+#Pipeline Transcriptomics analysis using Synechococcus_spp_WH8102 as an example
+
+#Cheaha super computer #We need to list files, #make the index, #run the aligment, #count with feature counts
+#made the dgelist object #made the targets file fo the design
+
+#import files into cheaha
+#import fastq.files #from lab server
+#import genome.fasta and genome.gff3 files #from ensemble bacteria #need to download them
+
+module load rc/RStudio/1.0.136 #loading R
+
+library(Rsubread)
+library(edgeR)
+
+#begin by running quality scores on all of our Syn fastq files
+
+qs129R1 <- qualityScores(filename="SS0129_S16_L002_R1_001.fastq.gz",nreads=1000)
+hist(qs129R1)
+
+qs129R2 <- qualityScores(filename="SS0129_S16_L002_R2_001.fastq.gz",nreads=1000)
+hist(qs129R2)
+
+qs130R1 <- qualityScores(filename="SS0130_S17_L002_R1_001.fastq.gz",nreads=1000)
+hist(qs130R1)
+
+qs130R2 <- qualityScores(filename="SS0130_S17_L002_R2_001.fastq.gz",nreads=1000)
+hist(qs130R2)
+
+qs131R1 <- qualityScores(filename="SS0131_S18_L002_R1_001.fastq.gz",nreads=1000)
+hist(qs131R1)
+
+qs131R2 <- qualityScores(filename="SS0131_S18_L002_R2_001.fastq.gz",nreads=1000)
+hist(qs131R2)
+
+qs132R1 <- qualityScores(filename="SS0132_S19_L002_R1_001.fastq.gz",nreads=1000)
+hist(qs132R1)
+
+qs132R2 <- qualityScores(filename="SS0132_S19_L002_R2_001.fastq.gz",nreads=1000)
+hist(qs132R2)
+
+qs133R1 <- qualityScores(filename="SS0133_S20_L002_R1_001.fastq.gz",nreads=1000)
+hist(qs133R1)
+
+qs133R2 <- qualityScores(filename="SS0133_S20_L002_R2_001.fastq.gz",nreads=1000)
+hist(qs133R2)
+
+qs134R1 <- qualityScores(filename="SS0134_S21_L002_R1_001.fastq.gz",nreads=1000)
+hist(qs134R1)
+
+qs134R2 <- qualityScores(filename="SS0134_S21_L002_R2_001.fastq.gz",nreads=1000)
+hist(qs134R2)
+
+qs135R1 <- qualityScores(filename="SS0135_S22_L002_R1_001.fastq.gz",nreads=1000)
+hist(qs135R1)
+
+qs135R2 <- qualityScores(filename="SS0135_S22_L002_R2_001.fastq.gzz",nreads=1000)
+hist(qs135R2)
+
+qs136R1 <- qualityScores(filename="SS0136_S23_L002_R1_001.fastq.gz",nreads=1000)
+hist(qs136R1)
+
+qs136R2 <- qualityScores(filename="SS0136_S23_L002_R2_001.fastq.gz",nreads=1000)
+hist(qs136R2)
+
+qs137R1 <- qualityScores(filename="SS0137_S24_L002_R1_001.fastq.gz",nreads=1000)
+hist(qs137R1)
+
+qs137R2 <- qualityScores(filename="SS0137_S24_L002_R2_001.fastq.gz",nreads=1000)
+hist(qs137R2)
+
+qs138R1 <- qualityScores(filename="SS0138_S25_L002_R1_001.fastq.gz",nreads=1000)
+hist(qs138R1)
+
+qs138R2 <- qualityScores(filename="SS0138_S25_L002_R2_001.fastq.gz",nreads=1000)
+hist(qs138R2)
+
+qs139R1 <- qualityScores(filename="SS0139_S26_L002_R1_001.fastq.gz",nreads=1000)
+hist(qs139R1)
+
+qs139R2 <- qualityScores(filename="SS0139_S26_L002_R2_001.fastq.gz",nreads=1000)
+hist(qs139R2)
+
+qs140R1 <- qualityScores(filename="SS0140_S27_L002_R1_001.fastq.gz",nreads=1000)
+hist(qs140R1)
+
+qs140R2 <- qualityScores(filename="SS0140_S27_L002_R2_001.fastq.gz",nreads=1000)
+hist(qs140R2)
+
+##all of our sequence data looks good.
+
+#listing my files
+fastq.files_R1 <- list.files(path = "/data/user/barretof/Syn_W802_analysis", pattern = "(SS0129_S16_L002_R1_001|SS0130_S17_L002_R1_001|SS0131_S18_L002_R1_001|SS0132_S19_L002_R1_001|SS0133_S20_L002_R1_001|SS0134_S21_L002_R1_001|SS0135_S22_L002_R1_001|SS0136_S23_L002_R1_001|SS0137_S24_L002_R1_001|SS0138_S25_L002_R1_001|SS0139_S26_L002_R1_001|SS0140_S27_L002_R1_001).*\\.fastq.gz$", full.names = TRUE)
+fastq.files_R2 <- list.files(path = "/data/user/barretof/Syn_W802_analysis", pattern = "(SS0129_S16_L002_R2_001|SS0130_S17_L002_R2_001|SS0131_S18_L002_R2_001|SS0132_S19_L002_R2_001|SS0133_S20_L002_R2_001|SS0134_S21_L002_R2_001|SS0135_S22_L002_R2_001|SS0136_S23_L002_R2_001|SS0137_S24_L002_R2_001|SS0138_S25_L002_R2_001|SS0139_S26_L002_R2_001|SS0140_S27_L002_R2_001).*\\.fastq.gz$", full.names = TRUE)
+
+#Building an index
+buildindex(basename="Syn_8102",reference="Synechococcus_sp_wh_8102_gca_000195975.ASM19597v1.dna.chromosome.Chromosome.fa.gz")
+
+#align sequences to a reference genome
+syn8102_align <- align(index="Syn_8102",readfile1=fastq.files_R1,readfile2=fastq.files_R2, nthreads=8)
+
+#convert our gff3 file to a gtf file using Cufflinks
+#load the cufflinks module
+module load Cufflinks/2.2.1-goolf-1.7.20
+
+gffread Synechococcus_sp_wh_8102_gca_000195975.ASM19597v1.50.chromosome.Chromosome.gff3 -T -o Synechococcus_sp_wh_8102_gca_000195975.ASM19597v1.50.chromosome.Chromosome.gtf
+
+#I had to gunzip my gff3 file before converting it to gtf
+
+#line of code to modify our gtf file to get ride of gene:
+sed -i 's/\"gene:/\"/' Synechococcus_sp_wh_8102_gca_000195975.ASM19597v1.50.chromosome.Chromosome.gtf
+
+#create an object with .bam files
+bam.files <- list.files(path = "/data/user/barretof/Syn_W802_analysis", pattern = ".BAM$", full.names = TRUE)
+
+#running propmapped to see what our overall alignment was (# of uniquely mapped seq fragments)
+propmapped(bam.files)
+
+#run feature counts
+
+fc <- featureCounts(bam.files, annot.ext = "Synechococcus_sp_wh_8102_gca_000195975.ASM19597v1.50.chromosome.Chromosome.gtf", isGTFAnnotationFile = TRUE,isPairedEnd =T, nthreads=5)
+
+#making the targets file
+targets <- as.data.frame(cbind(colnames(fc$counts),c(1,2,3,4,5,6,1,2,3,4,5,6), c("+","+","+","+","+","+", "-","-","-","-","-","-")))
+colnames(targets) = c("File", "clone", "CO2")
+
+#setting the rownames of fc$counts using the substring function # we do that to make the file names shorter
+colnames(fc$counts) <- substring(targets$File, 1,6) 
+
+#I made the targets again then the 'filenames' in targets are the same than those in 'colnames(fc$counts)'
+targets <- as.data.frame(cbind(colnames(fc$counts),c(1,2,3,4,5,6,1,2,3,4,5,6), c("+","+","+","+","+","+", "-","-","-","-","-","-")))
+colnames(targets) = c("File", "clone", "CO2")
+
+#make dgelistobject
+
+library(edgeR)
+y <- DGEList(fc$counts)
+
+#modified our DGE Object to include this #we will need lenght for the go seq protocol
+y$genes <- fc$annotation[, "Length", drop=FALSE]
+
+#saved our DGEobject, targets file and group object as an R object .Rdata
+save(y,targets,file="Syn_8102.Rdata")

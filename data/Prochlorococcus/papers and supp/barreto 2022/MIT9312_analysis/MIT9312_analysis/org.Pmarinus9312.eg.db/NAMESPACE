@@ -1,0 +1,16 @@
+import(methods)
+import(AnnotationDbi)
+
+### Only put what is statically exported here. All the AnnObj instances
+### created at load time are dynamically exported (refer to R/zzz.R for
+### the details).
+export(
+    org.Pmarinus9312.eg,
+    org.Pmarinus9312.eg_dbconn,
+    org.Pmarinus9312.eg_dbfile,
+    org.Pmarinus9312.eg_dbschema,
+    org.Pmarinus9312.eg_dbInfo,
+
+    org.Pmarinus9312.egORGANISM
+)
+

@@ -1,0 +1,133 @@
+#Pipeline Transcriptomics analysis using Synechococcus_spp_CC9311 as an example
+
+#Cheaha super computer #We need to list files, #make the index, #run the aligment, #count with feature counts
+#made the dgelist object #made the targets file fo the design
+
+#import files into cheaha
+#import fastq.files #from lab server
+#import genome.fasta and genome.gff3 files #from ensemble bacteria #need to download them
+
+module load rc/RStudio/1.0.136 #loading R
+
+library(Rsubread)
+library(edgeR)
+
+#begin by running quality scores on all of our Syn fastq files
+qs <- qualityScores(filename="SS0029_S66_L008_R1_001.fastq.gz",nreads=1000)
+hist(qs)
+
+qs29R2 <- qualityScores(filename="SS0029_S66_L008_R2_001.fastq.gz",nreads=1000)
+hist(qs29R2)
+
+qs30R1 <- qualityScores(filename="SS0030_S67_L008_R1_001.fastq.gz",nreads=1000)
+hist(qs30R1)
+
+qs30R2 <- qualityScores(filename="SS0030_S67_L008_R2_001.fastq.gz",nreads=1000)
+hist(qs30R2)
+
+qs31R1 <- qualityScores(filename="SS0031_S68_L008_R1_001.fastq.gz",nreads=1000)
+hist(qs31R1)
+
+qs31R2 <- qualityScores(filename="SS0031_S68_L008_R2_001.fastq.gz",nreads=1000)
+hist(qs31R2)
+
+qs32R1 <- qualityScores(filename="SS0032_S69_L008_R1_001.fastq.gz",nreads=1000)
+hist(qs32R1)
+
+qs32R2 <- qualityScores(filename="SS0032_S69_L008_R2_001.fastq.gz",nreads=1000)
+hist(qs32R2)
+
+qs33R1 <- qualityScores(filename="SS0033_S70_L008_R1_001.fastq.gz",nreads=1000)
+hist(qs33R1)
+
+qs33R2 <- qualityScores(filename="SS0033_S70_L008_R2_001.fastq.gz",nreads=1000)
+hist(qs33R2)
+
+qs34R1 <- qualityScores(filename="SS0034_S71_L008_R1_001.fastq.gz",nreads=1000)
+hist(qs34R1)
+
+qs34R2 <- qualityScores(filename="SS0034_S71_L008_R2_001.fastq.gz",nreads=1000)
+hist(qs34R2)
+
+qs35R1 <- qualityScores(filename="SS035_S19_L002_R1_001.fastq.gz",nreads=1000)
+hist(qs35R1)
+
+qs35R2 <- qualityScores(filename="SS035_S19_L002_R2_001.fastq.gz",nreads=1000)
+hist(qs35R2)
+
+qs36R1 <- qualityScores(filename="SS0036_S72_L008_R1_001.fastq.gz",nreads=1000)
+hist(qs36R1)
+
+qs36R2 <- qualityScores(filename="SS0036_S72_L008_R2_001.fastq.gz",nreads=1000)
+hist(qs36R2)
+
+qs37R1 <- qualityScores(filename="SS0037_S73_L008_R1_001.fastq.gz",nreads=1000)
+hist(qs37R1)
+
+qs37R2 <- qualityScores(filename="SS0037_S73_L008_R2_001.fastq.gz",nreads=1000)
+hist(qs37R2)
+
+qs38R1 <- qualityScores(filename="SS0038_S74_L008_R1_001.fastq.gz",nreads=1000)
+hist(qs38R1)
+
+qs38R2 <- qualityScores(filename="SS0038_S74_L008_R2_001.fastq.gz",nreads=1000)
+hist(qs38R2)
+
+qs39R1 <- qualityScores(filename="SS0039_S75_L008_R1_001.fastq.gz",nreads=1000)
+hist(qs39R1)
+
+qs39R2 <- qualityScores(filename="SS0039_S75_L008_R2_001.fastq.gz",nreads=1000)
+hist(qs39R2)
+
+qs40R1 <- qualityScores(filename="SS0040_S20_L002_R1_001.fastq.gz",nreads=1000)
+hist(qs40R1)
+
+qs40R2 <- qualityScores(filename="SS0040_S20_L002_R2_001.fastq.gz",nreads=1000)
+hist(qs40R2)
+
+##all of our sequence data looks good.
+
+##in querying the issue with our SS0032_S69_L008 R1 and R2 files
+## is using bbmaps repair.sh script to reconcile R1 and R2.
+##below is the script we used
+../../bbmap/repair.sh -Xmx40g in1=SS0032_S69_L008_R1_001.fastq.gz in2=SS0032_S69_L008_R2_001.fastq.gz out1=SS0032_S69_L008_R1b_001.fastq.gz out2=SS0032_S69_L008_R2b_001.fastq.gz outs=singletons1.fq overwrite=true
+## this is how we fixed our files
+
+
+#now that we have corrected our sample 32, we will rerun the entire alignment using all samples
+fastq.files_R1 <- list.files(path = "/data/user/sfidemw/Annot/Syn_annot", pattern = "(SS0029_S66_L008_R1|SS0030_S67_L008_R1|SS0031_S68_L008_R1|SS0032_S69_L008_R1b|SS0033_S70_L008_R1|SS0034_S71_L008_R1|SS035_S19_L002_R1|SS0036_S72_L008_R1|SS0037_S73_L008_R1|SS0038_S74_L008_R1|SS0039_S75_L008_R1|SS0040_S20_L002_R1).*\\.fastq.gz$", full.names = TRUE)
+fastq.files_R2 <- list.files(path = "/data/user/sfidemw/Annot/Syn_annot", pattern = "(SS0029_S66_L008_R2|SS0030_S67_L008_R2|SS0031_S68_L008_R2|SS0032_S69_L008_R2b|SS0033_S70_L008_R2|SS0034_S71_L008_R2|SS035_S19_L002_R2|SS0036_S72_L008_R2|SS0037_S73_L008_R2|SS0038_S74_L008_R2|SS0039_S75_L008_R2|SS0040_S20_L002_R2).*\\.fastq.gz$", full.names = TRUE)
+
+#build an index
+buildindex(basename="syn_9311",reference="/data/user/sfidemw/Annot/Syn_annot/Synechococcus_sp_cc9311_gca_000014585.ASM1458v1.dna.chromosome.Chromosome.ENS.fasta")
+
+#ran the alignment--worked beautifully!
+syn_align <- align(index="syn_9311", readfile1=fastq.files_R1, readfile2=fastq.files_R2, nthreads=5)
+
+#list all the .BAM files into a single file
+bam.files <- list.files(path = "/data/user/sfidemw/Annot/Syn_annot/BAM", pattern = ".BAM$", full.names = TRUE)
+
+#running propmapped to see what our overall alignment was (# of uniquely mapped seq fragments)
+propmapped(bam.files)
+
+fc <- featureCounts(bam.files, annot.ext = "Synechococcus_sp_cc9311_gca_000014585.ASM1458v1.49.chromosome.Chromosome.example.gtf", isGTFAnnotationFile = TRUE, isPairedEnd=TRUE, nthreads=5)
+
+#making the targets file
+targets <- as.data.frame(cbind(colnames(fc$counts),c(1,2,3,4,5,5,6,1,2,6,4,3), c("+","+","+","+","+","-","-","-","-","+","-","-")))
+colnames(targets) = c("File", "clone", "CO2")
+
+colnames(fc$counts) <- substring(targets$File, 1,6) 
+
+#making the targets file
+targets <- as.data.frame(cbind(colnames(fc$counts),c(1,2,3,4,5,5,6,1,2,6,4,3), c("+","+","+","+","+","-","-","-","-","+","-","-")))
+colnames(targets) = c("File", "clone", "CO2")
+
+#created our DGEObject
+y <- DGEList(fc$counts, group=group)
+
+#modified our DGE Object
+y$genes <- fc$annotation[, "Length", drop=FALSE]
+
+#saved a new .Rdata object with the modified group--not sure I needed to do this
+save(group,y,targets,file="Syn_9311.Rdata")
+

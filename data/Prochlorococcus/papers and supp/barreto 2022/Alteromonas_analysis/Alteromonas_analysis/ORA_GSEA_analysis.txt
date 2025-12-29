@@ -1,0 +1,695 @@
+load("results_coculture.Rdata") #coculture
+load("results_treat.Rdata") #treat
+load("results_pro.Rdata") #pro
+load("results_syn9311.Rdata") #syn9311
+load("results_syn8102.Rdata") #syn8102
+load("results_cc_treat.Rdata") #cc*treat
+load("results_cc_treat_Pro.Rdata") #cc*treat Pro
+load("results_cc_treat_Syn9311.Rdata")  #cc*treat Syn 9311
+load("results_cc_treat_Syn8102.Rdata") #cc*treat Syn 8102
+
+
+#Both ORA and GSEA analysis requires database information for which categories/pathways individual genes
+will follow
+#For the cyanos we obtained this information using their organisms codes:
+pmi for MIT9312
+syw for WH8102
+syg for CC9311
+
+#For EZ55 this information based on the organism code is still not available so we had to run both
+analysis based on a dataframe containing EZ55's genes and their respectives KOs (KO_EZ55) 
+
+#loading the required packages
+library(clusterProfiler)
+library(tidyverse)
+
+
+######ORA #Over representation analysis
+
+#preparing the data for analysis
+
+#coculture  #category 2
+sig_coculture <-as.data.frame(sigcoculture)
+sig_coculture 
+
+sig_coculture_up <-as.data.frame(sigcoculture_up)
+sig_coculture_down <-as.data.frame(sigcoculture_down)
+
+#treat  #category 1
+sig_treat <-as.data.frame(sigtreat)
+sig_treat
+
+sig_treat_up <-as.data.frame(sigtreat_up)
+sig_treat_down <-as.data.frame(sigtreat_down)
+
+#treat  #category 3
+sig_pro <-as.data.frame(sigcyano_pro)
+sig_pro
+
+sig_pro_up <-as.data.frame(sigcyano_pro_up)
+sig_pro_down <-as.data.frame(sigcyano_pro_down)
+
+#treat  #category 4
+sig_syn9311 <-as.data.frame(sigcyano_syn9311)
+sig_syn9311
+
+sig_syn9311_up <-as.data.frame(sigcyano_syn9311_up)
+sig_syn9311_down <-as.data.frame(sigcyano_syn9311_down)
+
+#treat  #category 5
+sig_syn8102 <-as.data.frame(sigcyano_syn8102)
+sig_syn8102
+
+sig_syn8102_up <-as.data.frame(sigcyano_syn8102_up)
+sig_syn8102_down <-as.data.frame(sigcyano_syn8102_down)
+
+#cc*treat  #category 6
+sig_coculture_treat <-as.data.frame(sigcc_treat)
+sig_coculture_treat
+
+sig_coculture_treat_up <-as.data.frame(sigcc_treat_up)
+sig_coculture_treat_down <-as.data.frame(sigcc_treat_down)
+
+#cc*treat  #category 7
+sig_coculture_treat_pro <-as.data.frame(sigcc_treat_Pro)
+sig_coculture_treat_pro
+
+sig_coculture_treat_up_pro <-as.data.frame(sigcc_treat_Pro_up)
+sig_coculture_treat_down_pro <-as.data.frame(sigcc_treat_Pro_down)
+
+#cc*treat  #category 8
+sig_coculture_treat_syn9311 <-as.data.frame(sigcc_treat_Syn_9311)
+sig_coculture_treat_syn9311
+
+sig_coculture_treat_up_syn9311 <-as.data.frame(sigcc_treat_Syn_9311_up)
+sig_coculture_treat_down_syn9311 <-as.data.frame(sigcc_treat_Syn_9311_down)
+
+#cc*treat  #category 9
+sig_coculture_treat_syn8102 <-as.data.frame(sigcc_treat_Syn_8102)
+sig_coculture_treat_syn8102
+
+sig_coculture_treat_up_syn8102 <-as.data.frame(sigcc_treat_Syn_8102_up)
+sig_coculture_treat_down_syn8102 <-as.data.frame(sigcc_treat_Syn_8102_down)
+
+#inner join results sig with ko id table
+
+library(readxl)
+library(tidyverse)
+KO_info <- read_excel(path="KO_EZ55.xlsx")
+head(KO_info)
+str(KO_info)
+
+sig_cc_kos <- inner_join(sig_coculture, KO_info, by=("GID")) %>% select(GID, KO)%>%
+  pull(KO) %>% na.exclude() #1
+
+sig_cc_kos_up <- inner_join(sig_coculture_up, KO_info, by=("GID")) %>% select(GID, KO)%>%
+  pull(KO) %>% na.exclude() #1
+sig_cc_kos_down <- inner_join(sig_coculture_down, KO_info, by=("GID")) %>% select(GID, KO)%>%
+  pull(KO) %>% na.exclude() #1
+
+sig_treat_kos <- inner_join(sig_treat, KO_info, by=("GID")) %>% select(GID, KO)%>%
+  pull(KO) %>% na.exclude() #2
+sig_treat_kos_up <- inner_join(sig_treat_up, KO_info, by=("GID")) %>% select(GID, KO)%>%
+  pull(KO) %>% na.exclude() #2
+sig_treat_kos_down <- inner_join(sig_treat_down, KO_info, by=("GID")) %>% select(GID, KO)%>%
+  pull(KO) %>% na.exclude() #2
+
+sig_cyano_pro_kos <- inner_join(sig_pro, KO_info, by=("GID")) %>% select(GID, KO)%>%
+  pull(KO) %>% na.exclude() #3
+sig_cyano_pro_kos_up <- inner_join(sig_pro_up, KO_info, by=("GID")) %>% select(GID, KO)%>%
+  pull(KO) %>% na.exclude() #3
+sig_cyano_pro_kos_down <- inner_join(sig_pro_down, KO_info, by=("GID")) %>% select(GID, KO)%>%
+  pull(KO) %>% na.exclude() #3
+
+sig_cyano_syn9311_kos <- inner_join(sig_syn9311, KO_info, by=("GID")) %>% select(GID, KO)%>%
+  pull(KO) %>% na.exclude() #4
+sig_cyano_syn9311_kos_up <- inner_join(sig_syn9311_up, KO_info, by=("GID")) %>% select(GID, KO)%>%
+  pull(KO) %>% na.exclude() #4
+sig_cyano_syn9311_kos_down <- inner_join(sig_syn9311_down, KO_info, by=("GID")) %>% select(GID, KO)%>%
+  pull(KO) %>% na.exclude() #4
+
+sig_cyano_syn8102_kos <- inner_join(sig_syn8102, KO_info, by=("GID")) %>% select(GID, KO)%>%
+  pull(KO) %>% na.exclude() #5
+sig_cyano_syn8102_kos_up <- inner_join(sig_syn8102_up, KO_info, by=("GID")) %>% select(GID, KO)%>%
+  pull(KO) %>% na.exclude() #5
+sig_cyano_syn8102_kos_down <- inner_join(sig_syn8102_down, KO_info, by=("GID")) %>% select(GID, KO)%>%
+  pull(KO) %>% na.exclude() #5
+
+sig_coculture_treat_kos <- inner_join(sig_coculture_treat, KO_info, by=("GID")) %>% select(GID, KO)%>%
+  pull(KO) %>% na.exclude() #6
+sig_coculture_treat_kos_up <- inner_join(sig_coculture_treat_up, KO_info, by=("GID")) %>% select(GID, KO)%>%
+  pull(KO) %>% na.exclude() #6
+sig_coculture_treat_kos_down <- inner_join(sig_coculture_treat_down, KO_info, by=("GID")) %>% select(GID, KO)%>%
+  pull(KO) %>% na.exclude() #6
+
+sig_coculture_treat_Pro_kos <- inner_join(sig_coculture_treat_pro, KO_info, by=("GID")) %>% select(GID, KO)%>%
+  pull(KO) %>% na.exclude() #7
+sig_coculture_treat_Pro_kos_up <- inner_join(sig_coculture_treat_up_pro, KO_info, by=("GID")) %>% select(GID, KO)%>%
+  pull(KO) %>% na.exclude() #7
+sig_coculture_treat_Pro_kos_down <- inner_join(sig_coculture_treat_down_pro, KO_info, by=("GID")) %>% select(GID, KO)%>%
+  pull(KO) %>% na.exclude() #7
+
+sig_coculture_treat_Syn9311_kos <- inner_join(sig_coculture_treat_syn9311, KO_info, by=("GID")) %>% select(GID, KO)%>%
+  pull(KO) %>% na.exclude() #8
+sig_coculture_treat_Syn9311_kos_up <- inner_join(sig_coculture_treat_up_syn9311, KO_info, by=("GID")) %>% select(GID, KO)%>%
+  pull(KO) %>% na.exclude() #8
+sig_coculture_treat_Syn9311_kos_down <- inner_join(sig_coculture_treat_down_syn9311, KO_info, by=("GID")) %>% select(GID, KO)%>%
+  pull(KO) %>% na.exclude() #8
+
+sig_coculture_treat_Syn8102_kos <- inner_join(sig_coculture_treat_syn8102, KO_info, by=("GID")) %>% select(GID, KO)%>%
+  pull(KO) %>% na.exclude() #9
+sig_coculture_treat_Syn8102_kos_up <- inner_join(sig_coculture_treat_up_syn8102, KO_info, by=("GID")) %>% select(GID, KO)%>%
+  pull(KO) %>% na.exclude() #9
+sig_coculture_treat_Syn8102_kos_down <- inner_join(sig_coculture_treat_up_syn8102, KO_info, by=("GID")) %>% select(GID, KO)%>%
+  pull(KO) %>% na.exclude() #9
+
+#ORA for coculture
+
+kk_sig_coculture <- enrichKEGG(gene = sig_cc_kos, organism = 'ko',  pvalueCutoff = 1,
+                               pAdjustMethod = "BH", minGSSize = 1, qvalueCutoff=1, keyType = "kegg")
+view(kk_sig_coculture) ###confirms hennon analysis
+
+kk_sig_coculture_up <- enrichKEGG(gene = sig_cc_kos_up, organism = 'ko',  pvalueCutoff = 1,
+                               pAdjustMethod = "BH", minGSSize = 1, qvalueCutoff=1, keyType = "kegg")
+view(kk_sig_coculture_up)
+
+kk_sig_coculture_down <- enrichKEGG(gene = sig_cc_kos_down, organism = 'ko',  pvalueCutoff = 1,
+                               pAdjustMethod = "BH", minGSSize = 1, qvalueCutoff=1, keyType = "kegg")
+view(kk_sig_coculture_down)
+
+library(writexl)
+kk_sig_coculturedf <- as.data.frame(kk_sig_coculture)
+kk_sig_coculturedf_up <- as.data.frame(kk_sig_coculture_up)
+kk_sig_coculturedf_down <- as.data.frame(kk_sig_coculture_down)
+
+write_xlsx(kk_sig_coculturedf, "kk_sig_coculture.xlsx") #summarized results
+write_xlsx(kk_sig_coculturedf_up, "kk_sig_coculture_up.xlsx") #summarized results
+write_xlsx(kk_sig_coculturedf_down, "kk_sig_coculture_down.xlsx") #summarized results
+
+
+#ORA for treat
+kk_sig_treat <- enrichKEGG(gene = sig_treat_kos, organism = 'ko',  pvalueCutoff = 1,
+                               pAdjustMethod = "BH", minGSSize = 1, qvalueCutoff=1, keyType = "kegg")
+view(kk_sig_treat) 
+
+kk_sig_treat_up <- enrichKEGG(gene = sig_treat_kos_up, organism = 'ko',  pvalueCutoff = 1,
+                           pAdjustMethod = "BH", minGSSize = 1, qvalueCutoff=1, keyType = "kegg")
+view(kk_sig_treat_up)
+
+kk_sig_treat_down <- enrichKEGG(gene = sig_treat_kos_down, organism = 'ko',  pvalueCutoff = 1,
+                           pAdjustMethod = "BH", minGSSize = 1, qvalueCutoff=1, keyType = "kegg")
+view(kk_sig_treat_down)
+
+kk_sig_treatdf <- as.data.frame(kk_sig_treat)
+kk_sig_treatdf_up <- as.data.frame(kk_sig_treat_up)
+kk_sig_treatdf_down <- as.data.frame(kk_sig_treat_down)
+
+write_xlsx(kk_sig_treatdf, "kk_sig_treat.xlsx") #summarized results
+write_xlsx(kk_sig_treatdf_up, "kk_sig_treat_up.xlsx") #summarized results
+write_xlsx(kk_sig_treatdf_down, "kk_sig_treat_down.xlsx") #summarized results
+
+#ORA for pro
+kk_sig_pro <- enrichKEGG(gene = sig_cyano_pro_kos, organism = 'ko',  pvalueCutoff = 1,
+                           pAdjustMethod = "BH", minGSSize = 1, qvalueCutoff=1, keyType = "kegg")
+view(kk_sig_pro)
+
+kk_sig_pro_up <- enrichKEGG(gene = sig_cyano_pro_kos_up, organism = 'ko',  pvalueCutoff = 1,
+                         pAdjustMethod = "BH", minGSSize = 1, qvalueCutoff=1, keyType = "kegg")
+view(kk_sig_pro_up)
+kk_sig_pro_down <- enrichKEGG(gene = sig_cyano_pro_kos_down, organism = 'ko',  pvalueCutoff = 1,
+                         pAdjustMethod = "BH", minGSSize = 1, qvalueCutoff=1, keyType = "kegg")
+view(kk_sig_pro_down)
+
+kk_sig_prodf <- as.data.frame(kk_sig_pro)
+kk_sig_prodf_up <- as.data.frame(kk_sig_pro_up)
+kk_sig_prodf_down <- as.data.frame(kk_sig_pro_down)
+
+write_xlsx(kk_sig_prodf, "kk_sig_pro.xlsx") #summarized results
+write_xlsx(kk_sig_prodf_up, "kk_sig_pro_up.xlsx") #summarized results
+write_xlsx(kk_sig_prodf_down, "kk_sig_pro_down.xlsx") #summarized results
+
+#ORA for syn9311
+kk_sig_syn9311 <- enrichKEGG(gene = sig_cyano_syn9311_kos, organism = 'ko',  pvalueCutoff = 1,
+                           pAdjustMethod = "BH", minGSSize = 1, qvalueCutoff=1, keyType = "kegg")
+view(kk_sig_syn9311) 
+
+kk_sig_syn9311_up <- enrichKEGG(gene = sig_cyano_syn9311_kos_up, organism = 'ko',  pvalueCutoff = 1,
+                             pAdjustMethod = "BH", minGSSize = 1, qvalueCutoff=1, keyType = "kegg")
+view(kk_sig_syn9311_up)
+kk_sig_syn9311_down <- enrichKEGG(gene = sig_cyano_syn9311_kos_down, organism = 'ko',  pvalueCutoff = 1,
+                             pAdjustMethod = "BH", minGSSize = 1, qvalueCutoff=1, keyType = "kegg")
+view(kk_sig_syn9311_down)
+
+kk_sig_syn9311df <- as.data.frame(kk_sig_syn9311)
+kk_sig_syn9311df_up <- as.data.frame(kk_sig_syn9311_up)
+kk_sig_syn9311df_down <- as.data.frame(kk_sig_syn9311_down)
+
+write_xlsx(kk_sig_syn9311df, "kk_sig_syn9311.xlsx") #summarized results
+write_xlsx(kk_sig_syn9311df_up, "kk_sig_syn9311_up.xlsx") #summarized results
+write_xlsx(kk_sig_syn9311df_down, "kk_sig_syn9311_down.xlsx") #summarized results
+
+#ORA for syn8102
+kk_sig_syn8102 <- enrichKEGG(gene = sig_cyano_syn8102_kos, organism = 'ko',  pvalueCutoff = 1,
+                           pAdjustMethod = "BH", minGSSize = 1, qvalueCutoff=1, keyType = "kegg")
+view(kk_sig_syn8102) 
+kk_sig_syn8102_up <- enrichKEGG(gene = sig_cyano_syn8102_kos_up, organism = 'ko',  pvalueCutoff = 1,
+                             pAdjustMethod = "BH", minGSSize = 1, qvalueCutoff=1, keyType = "kegg")
+view(kk_sig_syn8102_up)
+kk_sig_syn8102_down <- enrichKEGG(gene = sig_cyano_syn8102_kos_down, organism = 'ko',  pvalueCutoff = 1,
+                             pAdjustMethod = "BH", minGSSize = 1, qvalueCutoff=1, keyType = "kegg")
+view(kk_sig_syn8102_down)
+
+kk_sig_syn8102df <- as.data.frame(kk_sig_syn8102)
+kk_sig_syn8102df_up <- as.data.frame(kk_sig_syn8102_up)
+kk_sig_syn8102df_down <- as.data.frame(kk_sig_syn8102_down)
+
+write_xlsx(kk_sig_syn8102df, "kk_sig_syn8102.xlsx") #summarized results
+write_xlsx(kk_sig_syn8102df_up, "kk_sig_syn8102_up.xlsx") #summarized results
+write_xlsx(kk_sig_syn8102df_down, "kk_sig_syn8102_down.xlsx") #summarized results
+
+#ORA for cc*treat
+kk_sig_cc_treat <- enrichKEGG(gene = sig_coculture_treat_kos, organism = 'ko',  pvalueCutoff = 1,
+                             pAdjustMethod = "BH", minGSSize = 1, qvalueCutoff=1, keyType = "kegg")
+view(kk_sig_cc_treat) 
+kk_sig_cc_treat_up <- enrichKEGG(gene = sig_coculture_treat_kos_up, organism = 'ko',  pvalueCutoff = 1,
+                              pAdjustMethod = "BH", minGSSize = 1, qvalueCutoff=1, keyType = "kegg")
+kk_sig_cc_treat_down <- enrichKEGG(gene = sig_coculture_treat_kos_down, organism = 'ko',  pvalueCutoff = 1,
+                              pAdjustMethod = "BH", minGSSize = 1, qvalueCutoff=1, keyType = "kegg")
+
+kk_sig_cc_treatdf <- as.data.frame(kk_sig_cc_treat)
+kk_sig_cc_treatdf_up <- as.data.frame(kk_sig_cc_treat_up)
+kk_sig_cc_treatdf_down <- as.data.frame(kk_sig_cc_treat_down)
+
+write_xlsx(kk_sig_cc_treatdf, "kk_sig_cc_treat.xlsx") #summarized results
+write_xlsx(kk_sig_cc_treatdf_up, "kk_sig_cc_treat_up.xlsx") #summarized results
+write_xlsx(kk_sig_cc_treatdf_down, "kk_sig_cc_treat_down.xlsx") #summarized results
+
+#ORA for cc*treat Pro 
+kk_sig_cc_treat_Pro <- enrichKEGG(gene = sig_coculture_treat_Pro_kos, organism = 'ko',  pvalueCutoff = 1,
+                              pAdjustMethod = "BH", minGSSize = 1, qvalueCutoff=1, keyType = "kegg")
+view(kk_sig_cc_treat_Pro)
+
+kk_sig_cc_treat_Pro_up <- enrichKEGG(gene = sig_coculture_treat_Pro_kos_up, organism = 'ko',  pvalueCutoff = 1,
+                                  pAdjustMethod = "BH", minGSSize = 1, qvalueCutoff=1, keyType = "kegg")
+view(kk_sig_cc_treat_Pro_up)
+kk_sig_cc_treat_Pro_down <- enrichKEGG(gene = sig_coculture_treat_Pro_kos_down, organism = 'ko',  pvalueCutoff = 1,
+                                  pAdjustMethod = "BH", minGSSize = 1, qvalueCutoff=1, keyType = "kegg")
+view(kk_sig_cc_treat_Pro_down)
+
+kk_sig_cc_treat_Prodf <- as.data.frame(kk_sig_cc_treat_Pro)
+kk_sig_cc_treat_Prodf_up <- as.data.frame(kk_sig_cc_treat_Pro_up)
+kk_sig_cc_treat_Prodf_down <- as.data.frame(kk_sig_cc_treat_Pro_down)
+
+write_xlsx(kk_sig_cc_treat_Prodf, "kk_sig_cc_treat_Pro.xlsx") #summarized results
+write_xlsx(kk_sig_cc_treat_Prodf_up, "kk_sig_cc_treat_Pro_up.xlsx") #summarized results
+write_xlsx(kk_sig_cc_treat_Prodf_down, "kk_sig_cc_treat_Pro_down.xlsx") #summarized results
+
+#ORA for cc*treat Syn9311
+kk_sig_cc_treat_Syn9311 <- enrichKEGG(gene = sig_coculture_treat_Syn9311_kos, organism = 'ko',  pvalueCutoff = 1,
+                              pAdjustMethod = "BH", minGSSize = 1, qvalueCutoff=1, keyType = "kegg")
+view(kk_sig_cc_treat_Syn9311) 
+kk_sig_cc_treat_Syn9311_up <- enrichKEGG(gene = sig_coculture_treat_Syn9311_kos_up , organism = 'ko',  pvalueCutoff = 1,
+                                      pAdjustMethod = "BH", minGSSize = 1, qvalueCutoff=1, keyType = "kegg")
+kk_sig_cc_treat_Syn9311_down <- enrichKEGG(gene = sig_coculture_treat_Syn9311_kos_down, organism = 'ko',  pvalueCutoff = 1,
+                                      pAdjustMethod = "BH", minGSSize = 1, qvalueCutoff=1, keyType = "kegg")
+
+kk_sig_cc_treat_Syn9311df <- as.data.frame(kk_sig_cc_treat_Syn9311)
+kk_sig_cc_treat_Syn9311df_up <- as.data.frame(kk_sig_cc_treat_Syn9311_up)
+kk_sig_cc_treat_Syn9311df_down <- as.data.frame(kk_sig_cc_treat_Syn9311_down)
+
+write_xlsx(kk_sig_cc_treat_Syn9311df, "kk_sig_cc_treat_Syn9311.xlsx") #summarized results
+write_xlsx(kk_sig_cc_treat_Syn9311df_up, "kk_sig_cc_treat_Syn9311_up.xlsx") #summarized results
+write_xlsx(kk_sig_cc_treat_Syn9311df_down, "kk_sig_cc_treat_Syn9311_down.xlsx") #summarized results
+
+#ORA for cc*treat Syn8102
+kk_sig_cc_treat_Syn8102 <- enrichKEGG(gene = sig_coculture_treat_Syn8102_kos, organism = 'ko',  pvalueCutoff = 1,
+                              pAdjustMethod = "BH", minGSSize = 1, qvalueCutoff=1, keyType = "kegg")
+view(kk_sig_cc_treat_Syn8102) 
+
+kk_sig_cc_treat_Syn8102_up <- enrichKEGG(gene = sig_coculture_treat_Syn9311_kos_up, organism = 'ko',  pvalueCutoff = 1,
+                                      pAdjustMethod = "BH", minGSSize = 1, qvalueCutoff=1, keyType = "kegg")
+kk_sig_cc_treat_Syn8102_down <- enrichKEGG(gene = sig_coculture_treat_Syn9311_kos_down, organism = 'ko',  pvalueCutoff = 1,
+                                      pAdjustMethod = "BH", minGSSize = 1, qvalueCutoff=1, keyType = "kegg")
+
+kk_sig_cc_treat_Syn8102df <- as.data.frame(kk_sig_cc_treat_Syn8102)
+kk_sig_cc_treat_Syn8102df_up <- as.data.frame(kk_sig_cc_treat_Syn8102_up)
+kk_sig_cc_treat_Syn8102df_down <- as.data.frame(kk_sig_cc_treat_Syn8102_down)
+
+write_xlsx(kk_sig_cc_treat_Syn8102df, "kk_sig_cc_treat_Syn8102.xlsx") #summarized results
+write_xlsx(kk_sig_cc_treat_Syn8102df_up, "kk_sig_cc_treat_Syn8102_up.xlsx") #summarized results
+write_xlsx(kk_sig_cc_treat_Syn8102df_down, "kk_sig_cc_treat_Syn8102_down.xlsx") #summarized results
+
+
+####GSEA #GENE SET ENRICHMENT ANALYSIS
+
+#preparing the data for analysis
+
+#coculture
+
+results_lrt.cc <- as.data.frame(topTags(lrt.contrast2, n = Inf)) #all results glm
+length(rownames(results_lrt.cc)) #4231
+
+#treatment
+
+results_lrt.treat <- as.data.frame(topTags(contrast1, n = Inf)) #all results glm
+length(rownames(results_lrt.treat )) #4231
+
+#pro
+
+results_lrt.pro <- as.data.frame(topTags(lrt.contrast3, n = Inf)) #all results glm
+length(rownames(results_lrt.pro)) #4231
+
+#syn9311
+
+results_lrt.syn9311 <- as.data.frame(topTags(lrt.contrast4, n = Inf)) #all results glm
+length(rownames(results_lrt.syn9311)) #4231
+
+#syn8102
+
+results_lrt.syn8102 <- as.data.frame(topTags(lrt.contrast5, n = Inf)) #all results glm
+length(rownames(results_lrt.syn8102)) #4231
+
+#cc*treat
+
+results_lrt.cc_treat <- as.data.frame(topTags(lrt.contrast6, n = Inf)) #all results glm
+length(rownames(results_lrt.cc_treat)) #4231
+
+#cc*treat #Pro
+
+results_lrt.cc_treat_Pro <- as.data.frame(topTags(lrt.contrast7, n = Inf)) #all results glm
+length(rownames(results_lrt.cc_treat_Pro)) #4231
+
+#cc*treat #Syn9311
+
+results_lrt.cc_treat_Syn9311 <- as.data.frame(topTags(lrt.contrast8, n = Inf)) #all results glm
+length(rownames(results_lrt.cc_treat_Syn9311)) #4231
+
+#cc*treat #Syn8102
+
+results_lrt.cc_treat_Syn8102 <- as.data.frame(topTags(lrt.contrast9, n = Inf)) #all results glm
+length(rownames(results_lrt.cc_treat_Syn8102)) #4231
+
+#join with ko
+
+KO_info <- read_excel(path="KO_EZ55.xlsx")
+KO_info
+
+#coculture
+coculture_fold_changes_kos <- cbind(GID = rownames(results_lrt.cc), results_lrt.cc) %>%
+  inner_join(., KO_info, by=("GID")) %>% na.exclude() #innerjoin results and koinfo
+view(coculture_fold_changes_kos)
+
+coculture_fold_changes_kos_logFC <- coculture_fold_changes_kos %>% pull(logFC)#pull only logFC
+
+names(coculture_fold_changes_kos_logFC) <- coculture_fold_changes_kos$KO #name by k ids
+
+coculture_fold_changes_kos_logFC <- sort(coculture_fold_changes_kos_logFC, decreasing = TRUE)#sort by decreasing order
+coculture_fold_changes_kos_logFC
+
+#treat
+treat_fold_changes_kos <- cbind(GID = rownames(results_lrt.treat ), results_lrt.treat) %>%
+  inner_join(., KO_info, by=("GID")) %>% na.exclude() #innerjoin results and koinfo
+view(treat_fold_changes_kos)
+
+treat_fold_changes_kos_logFC <- treat_fold_changes_kos %>% pull(logFC)#pull only logFC
+
+names(treat_fold_changes_kos_logFC) <- treat_fold_changes_kos$KO #name by k ids
+
+treat_fold_changes_kos_logFC <- sort(treat_fold_changes_kos_logFC, decreasing = TRUE)#sort by decreasing order
+treat_fold_changes_kos_logFC
+
+#Pro
+Pro_fold_changes_kos <- cbind(GID = rownames(results_lrt.pro), results_lrt.pro) %>%
+  inner_join(., KO_info, by=("GID")) %>% na.exclude() #innerjoin results and koinfo
+view(Pro_fold_changes_kos)
+
+Pro_fold_changes_kos_logFC <- Pro_fold_changes_kos %>% pull(logFC)#pull only logFC
+
+names(Pro_fold_changes_kos_logFC) <- Pro_fold_changes_kos$KO #name by k ids
+
+Pro_fold_changes_kos_logFC <- sort(Pro_fold_changes_kos_logFC, decreasing = TRUE)#sort by decreasing order
+Pro_fold_changes_kos_logFC
+
+#Syn_9311
+Syn9311_fold_changes_kos <- cbind(GID = rownames(results_lrt.syn9311), results_lrt.cc_treat_Syn9311) %>%
+  inner_join(., KO_info, by=("GID")) %>% na.exclude() #innerjoin results and koinfo
+view(Syn9311_fold_changes_kos)
+
+Syn9311_fold_changes_kos_logFC <- Syn9311_fold_changes_kos %>% pull(logFC)#pull only logFC
+
+names(Syn9311_fold_changes_kos_logFC) <- Syn9311_fold_changes_kos$KO #name by k ids
+
+Syn9311_fold_changes_kos_logFC <- sort(Syn9311_fold_changes_kos_logFC, decreasing = TRUE)#sort by decreasing order
+Syn9311_fold_changes_kos_logFC
+
+#Syn_8012
+Syn8102_fold_changes_kos <- cbind(GID = rownames(results_lrt.syn8102), results_lrt.cc_treat_Syn8102) %>%
+  inner_join(., KO_info, by=("GID")) %>% na.exclude() #innerjoin results and koinfo
+view(Syn8102_fold_changes_kos)
+
+Syn8102_fold_changes_kos_logFC <- Syn8102_fold_changes_kos %>% pull(logFC)#pull only logFC
+
+names(Syn8102_fold_changes_kos_logFC) <- Syn8102_fold_changes_kos$KO #name by k ids
+
+Syn8102_fold_changes_kos_logFC <- sort(Syn8102_fold_changes_kos_logFC, decreasing = TRUE)#sort by decreasing order
+Syn8102_fold_changes_kos_logFC
+
+#cc*treat
+cc_treat_fold_changes_kos <- cbind(GID = rownames(results_lrt.cc_treat), results_lrt.cc_treat) %>%
+  inner_join(., KO_info, by=("GID")) %>% na.exclude() #innerjoin results and koinfo
+view(cc_treat_fold_changes_kos)
+
+cc_treat_fold_changes_kos_logFC <- cc_treat_fold_changes_kos %>% pull(logFC)#pull only logFC
+
+names(cc_treat_fold_changes_kos_logFC) <- cc_treat_fold_changes_kos$KO #name by k ids
+
+cc_treat_fold_changes_kos_logFC <- sort(cc_treat_fold_changes_kos_logFC, decreasing = TRUE)#sort by decreasing order
+cc_treat_fold_changes_kos_logFC
+
+
+#cc*treat Pro
+cc_treat_fold_changes_Pro_kos <- cbind(GID = rownames(results_lrt.cc_treat_Pro), results_lrt.cc_treat_Pro) %>%
+  inner_join(., KO_info, by=("GID")) %>% na.exclude() #innerjoin results and koinfo
+view(cc_treat_fold_changes_Pro_kos)
+
+cc_treat_fold_changes_Pro_kos_logFC <- cc_treat_fold_changes_Pro_kos  %>% pull(logFC)#pull only logFC
+
+names(cc_treat_fold_changes_Pro_kos_logFC) <- cc_treat_fold_changes_Pro_kos$KO #name by k ids
+
+cc_treat_fold_changes_Pro_kos_logFC <- sort(cc_treat_fold_changes_Pro_kos_logFC, decreasing = TRUE)#sort by decreasing order
+cc_treat_fold_changes_Pro_kos_logFC
+
+#cc*treat Syn9311
+cc_treat_fold_changes_syn9311_kos <- cbind(GID = rownames(results_lrt.cc_treat_Syn9311), results_lrt.cc_treat_Syn9311) %>%
+  inner_join(., KO_info, by=("GID")) %>% na.exclude() #innerjoin results and koinfo
+view(cc_treat_fold_changes_syn9311_kos)
+
+cc_treat_fold_changes_syn9311_kos_logFC <- cc_treat_fold_changes_syn9311_kos %>% pull(logFC)#pull only logFC
+
+names(cc_treat_fold_changes_syn9311_kos_logFC) <- cc_treat_fold_changes_syn9311_kos$KO #name by k ids
+
+cc_treat_fold_changes_syn9311_kos_logFC <- sort(cc_treat_fold_changes_syn9311_kos_logFC, decreasing = TRUE)#sort by decreasing order
+cc_treat_fold_changes_syn9311_kos_logFC
+
+#cc*treat Syn8102
+cc_treat_fold_changes_syn8102_kos <- cbind(GID = rownames(results_lrt.cc_treat_Syn8102), results_lrt.cc_treat_Syn8102) %>%
+  inner_join(., KO_info, by=("GID")) %>% na.exclude() #innerjoin results and koinfo
+view(cc_treat_fold_changes_syn8102_kos)
+
+cc_treat_fold_changes_syn8102_kos_logFC <- cc_treat_fold_changes_syn8102_kos %>% pull(logFC)#pull only logFC
+
+names(cc_treat_fold_changes_syn8102_kos_logFC) <- cc_treat_fold_changes_syn8102_kos$KO #name by k ids
+
+cc_treat_fold_changes_syn8102_kos_logFC <- sort(cc_treat_fold_changes_syn8102_kos_logFC, decreasing = TRUE)#sort by decreasing order
+cc_treat_fold_changes_syn8102_kos_logFC
+
+
+set.seed(1400)
+#coculture
+gseaKEGG_coculture <- gseKEGG(geneList = coculture_fold_changes_kos_logFC, # ordered named vector of fold changes (Entrez IDs are the associated names)
+                          organism = "ko", # supported organisms listed below, # default number permutations
+                          # minimum gene set size (# genes in set) - change to test more sets or recover sets with fewer # genes
+                          pvalueCutoff = 0.05, # padj cutoff value,
+                          pAdjustMethod='none',
+                          seed=TRUE,
+                          minGSSize = 10,
+                          maxGSSize = 800,
+                          verbose = FALSE)
+
+gseaKEGG_coculturedf <- as.data.frame(gseaKEGG_coculture)
+write_xlsx(gseaKEGG_coculturedf, "gseaKEGG_coculture.xlsx") #summarized results
+
+#treatment
+gseaKEGG_treat <- gseKEGG(geneList = treat_fold_changes_kos_logFC, # ordered named vector of fold changes (Entrez IDs are the associated names)
+                              organism = "ko", # supported organisms listed below, # default number permutations
+                              # minimum gene set size (# genes in set) - change to test more sets or recover sets with fewer # genes
+                              pvalueCutoff = 0.05, # padj cutoff value,
+                              pAdjustMethod='none',
+                              seed=TRUE,minGSSize = 10,
+                          maxGSSize = 800,
+                              verbose = FALSE)
+
+gseaKEGG_treatdf <- as.data.frame(gseaKEGG_treat)
+write_xlsx(gseaKEGG_treatdf, "gseaKEGG_treat.xlsx") #summarized results
+
+#pro
+gseaKEGG_Pro <- gseKEGG(geneList = Pro_fold_changes_kos_logFC, # ordered named vector of fold changes (Entrez IDs are the associated names)
+                          organism = "ko", # supported organisms listed below, # default number permutations
+                          # minimum gene set size (# genes in set) - change to test more sets or recover sets with fewer # genes
+                          pvalueCutoff = 0.05, # padj cutoff value,
+                          pAdjustMethod='none',
+                          seed=TRUE,
+                          verbose = FALSE,
+                        minGSSize = 10,
+                        maxGSSize = 800)
+
+gseaKEGG_Prodf <- as.data.frame(gseaKEGG_Pro)
+write_xlsx(gseaKEGG_Prodf, "gseaKEGG_Pro.xlsx") #summarized results
+
+#syn9311
+gseaKEGG_Syn9311 <- gseKEGG(geneList = Syn9311_fold_changes_kos_logFC, # ordered named vector of fold changes (Entrez IDs are the associated names)
+                        organism = "ko", # supported organisms listed below, # default number permutations
+                        # minimum gene set size (# genes in set) - change to test more sets or recover sets with fewer # genes
+                        pvalueCutoff = 0.05, # padj cutoff value,
+                        pAdjustMethod='none',
+                        seed=TRUE,
+                        verbose = FALSE,
+                        minGSSize = 10,
+                        maxGSSize = 800)
+
+gseaKEGG_Syn9311df <- as.data.frame(gseaKEGG_Syn9311)
+write_xlsx(gseaKEGG_Syn9311df, "gseaKEGG_Syn9311.xlsx") #summarized results
+
+#syn8102
+gseaKEGG_Syn8102 <- gseKEGG(geneList = Syn8102_fold_changes_kos_logFC, # ordered named vector of fold changes (Entrez IDs are the associated names)
+                            organism = "ko", # supported organisms listed below, # default number permutations
+                            # minimum gene set size (# genes in set) - change to test more sets or recover sets with fewer # genes
+                            pvalueCutoff = 0.05, # padj cutoff value,
+                            pAdjustMethod='none',
+                            seed=TRUE,
+                            verbose = FALSE,
+                            minGSSize = 10,
+                            maxGSSize = 800)
+
+gseaKEGG_Syn8102df <- as.data.frame(gseaKEGG_Syn8102)
+write_xlsx(gseaKEGG_Syn8102df, "gseaKEGG_Syn8102.xlsx") #summarized results
+
+#cc*treat
+gseaKEGG_cc_treat <- gseKEGG(geneList = cc_treat_fold_changes_kos_logFC, # ordered named vector of fold changes (Entrez IDs are the associated names)
+                            organism = "ko", # supported organisms listed below, # default number permutations
+                            # minimum gene set size (# genes in set) - change to test more sets or recover sets with fewer # genes
+                            pvalueCutoff = 0.05, # padj cutoff value,
+                            pAdjustMethod='none',
+                            seed=TRUE,
+                            verbose = FALSE,
+                            minGSSize = 10,
+                            maxGSSize = 800)
+
+gseaKEGG_cc_treatdf <- as.data.frame(gseaKEGG_cc_treat)
+write_xlsx(gseaKEGG_cc_treatdf, "gseaKEGG_cc_treat.xlsx") #summarized results
+ 
+#cc*treat Pro
+gseaKEGG_cc_treat_Pro <- gseKEGG(geneList = cc_treat_fold_changes_Pro_kos_logFC, # ordered named vector of fold changes (Entrez IDs are the associated names)
+                             organism = "ko", # supported organisms listed below, # default number permutations
+                             # minimum gene set size (# genes in set) - change to test more sets or recover sets with fewer # genes
+                             pvalueCutoff = 0.05, # padj cutoff value,
+                             pAdjustMethod='none',
+                             seed=TRUE,
+                             verbose = FALSE,
+                             minGSSize = 10,
+                             maxGSSize = 800)
+
+gseaKEGG_cc_treat_Prodf <- as.data.frame(gseaKEGG_cc_treat_Pro )
+write_xlsx(gseaKEGG_cc_treat_Prodf, "gseaKEGG_cc_treat_Pro.xlsx") #summarized results
+
+#cc*treat Syn9311
+gseaKEGG_cc_treat_Syn9311 <- gseKEGG(geneList = cc_treat_fold_changes_syn9311_kos_logFC, # ordered named vector of fold changes (Entrez IDs are the associated names)
+                             organism = "ko", # supported organisms listed below, # default number permutations
+                             # minimum gene set size (# genes in set) - change to test more sets or recover sets with fewer # genes
+                             pvalueCutoff = 0.05, # padj cutoff value,
+                             pAdjustMethod='none',
+                             seed=TRUE,
+                             verbose = FALSE,
+                             minGSSize = 10,
+                             maxGSSize = 800)
+
+gseaKEGG_cc_treat_Syn9311df <- as.data.frame(gseaKEGG_cc_treat_Syn9311)
+write_xlsx(gseaKEGG_cc_treat_Syn9311df, "gseaKEGG_cc_treat_Syn9311.xlsx") #summarized results
+
+#cc*treat Syn 8102
+gseaKEGG_cc_treat_Syn8102 <- gseKEGG(geneList = cc_treat_fold_changes_syn8102_kos_logFC, # ordered named vector of fold changes (Entrez IDs are the associated names)
+                             organism = "ko", # supported organisms listed below, # default number permutations
+                             # minimum gene set size (# genes in set) - change to test more sets or recover sets with fewer # genes
+                             pvalueCutoff = 0.05, # padj cutoff value,
+                             pAdjustMethod='none',
+                             seed=TRUE,
+                             verbose = FALSE,
+                             minGSSize = 10,
+                             maxGSSize = 800)
+
+gseaKEGG_cc_treat_Syn8102df <- as.data.frame(gseaKEGG_cc_treat_Syn8102)
+write_xlsx(gseaKEGG_cc_treat_Syn8102df, "gseaKEGG_cc_treat_Syn8102.xlsx") #summarized results
+
+
+#coculture
+gseaKEGGTidy_coculture <- gseaKEGG_coculture  %>%
+  as_tibble() %>%
+  arrange(desc(NES))
+
+view(gseaKEGGTidy_coculture)
+
+#treat
+gseaKEGGTidy_treat <- gseaKEGG_treat  %>%
+  as_tibble() %>%
+  arrange(desc(NES))
+
+view(gseaKEGGTidy_treat)
+
+#Pro
+gseaKEGGTidy_Pro <- gseaKEGG_Pro  %>%
+  as_tibble() %>%
+  arrange(desc(NES))
+
+view(gseaKEGGTidy_Pro)
+
+#Syn9311
+gseaKEGGTidy_Syn9311 <- gseaKEGG_Syn9311  %>%
+  as_tibble() %>%
+  arrange(desc(NES))
+
+view(gseaKEGGTidy_Syn9311)
+
+#Syn8102
+gseaKEGGTidy_Syn8102 <- gseaKEGG_Syn8102  %>%
+  as_tibble() %>%
+  arrange(desc(NES))
+
+view(gseaKEGGTidy_Syn8102)
+
+#cc*treat
+gseaKEGGTidy_cc_treat <- gseaKEGG_cc_treat  %>%
+  as_tibble() %>%
+  arrange(desc(NES))
+
+view(gseaKEGGTidy_cc_treat)
+
+#cc*treat Pro
+gseaKEGGTidy_cc_treat_pro <- gseaKEGG_cc_treat_Pro  %>%
+  as_tibble() %>%
+  arrange(desc(NES))
+
+view(gseaKEGGTidy_cc_treat_pro)
+ 
+#cc*treat Syn 9311
+gseaKEGGTidy_cc_treat_Syn9311 <- gseaKEGG_cc_treat_Syn9311  %>%
+  as_tibble() %>%
+  arrange(desc(NES))
+
+view(gseaKEGGTidy_cc_treat_Syn9311 )
+
+#cc*treat Syn 8102
+gseaKEGGTidy_cc_treat_Syn8102 <- gseaKEGG_cc_treat_Syn8102  %>%
+  as_tibble() %>%
+  arrange(desc(NES))
+
+view(gseaKEGGTidy_cc_treat_Syn8102)
