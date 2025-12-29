@@ -158,7 +158,10 @@ bc.write_edges(ec_adapter.get_edges())
 
 
 # Write import call and other post-processing
+bc.write_schema_info(as_node=True)
+
 bc.write_import_call()
+
 # bc.summary()
 
 
