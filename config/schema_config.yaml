@@ -1,5 +1,114 @@
-Title: BioCypher graph schema configuration file for CROssBAR v2
+Title: BioCypher graph schema configuration file for multi-omics studies
+Version: 1.0
+Author: Osnat Weissberg
+Date: 2024-06-10
+#########################################
+# Study and Publication Entities
+# Statistical Test Results: Explicit Regulation States
+#########################################
 
+study:
+  is_a: investigation
+  represented_as: node
+  preferred_id: id
+  label_in_input: study
+  properties:
+    title: str
+    description: str
+    abstract: str
+    study_type: str # e.g., Transcriptomics, Proteomics
+    organism: str[]
+    data_type: str # e.g., transcriptome, proteome
+
+publication:
+  is_a: information content entity
+  represented_as: node
+  preferred_id: pubmed
+  label_in_input: publication
+  properties:
+    title: str
+    authors: str[]
+    journal: str
+    publication_date: str
+    doi: str
+    pmid: str
+
+study_published_in:
+  is_a: association
+  represented_as: edge
+  label_as_edge: study_published_in
+  source: study
+  target: publication
+  label_in_input: study_published_in
+
+statistical_test:
+  is_a: analysis
+  represented_as: node
+  preferred_id: id
+  label_in_input: test
+  properties:
+    name: str # e.g., differential expression analysis
+    test_type: str # e.g., t-test, DESeq2
+    control_condition: str
+    treatment_condition: str
+    timepoint: str # e.g., "24h", "day 7"
+    reference_timepoint: str # baseline timepoint if applicable
+    method: str
+
+test_in_study:
+  is_a: association
+  represented_as: edge
+  label_as_edge: test_in_study
+  source: statistical_test
+  target: study
+  label_in_input: test_in_study
+
+molecular_result_from_test:
+  is_a: association
+  represented_as: edge
+  source: [gene, protein]
+  target: statistical_test
+  label_in_input: fold_change
+  properties:
+    log2_fold_change: float
+    p_value: float
+    adjusted_p_value: float
+    direction: str # "up" or "down"
+
+timeseries_cluster:
+  is_a: gene group
+  represented_as: node
+  preferred_id: id
+  label_in_input: timeseries_cluster
+  properties:
+    name: str
+    method: str # e.g., WGCNA, k-means
+    description: str
+
+cluster_in_study:
+  is_a: association
+  represented_as: edge
+  label_as_edge: cluster_in_study
+  source: timeseries_cluster
+  target: study
+  label_in_input: cluster_in_study
+
+molecular_in_cluster:
+  is_a: association
+  represented_as: edge
+  source: [gene, protein]
+  target: timeseries_cluster
+  label_in_input: member_of_cluster
+  
+
+
+
+
+#####################################
+
+
+
+##################################################
 # ---
 # "Named Things"
 # ---
@@ -127,14 +236,14 @@ compound:
     qed_score: float
     selformer_embedding: float[]
 
-phenotype:
-  is_a: PhenotypicFeature
-  represented_as: node
-  preferred_id: hp
-  label_in_input: phenotype
-  properties:
-    name: str
-    synonyms: str[]
+# phenotype:
+#   is_a: PhenotypicFeature
+#   represented_as: node
+#   preferred_id: hp
+#   label_in_input: phenotype
+#   properties:
+#     name: str
+#     synonyms: str[]
 
 pathway:
   represented_as: node
@@ -305,21 +414,21 @@ gene to gene orthology association:
 
 
 
-protein to phenotype association:
-  is_a: GeneToPhenotypicFeatureAssociation
-  represented_as: edge
-  label_as_edge: protein_is_associated_with_phenotype
-  source: protein
-  target: phenotype
-  label_in_input: protein_is_associated_with_phenotype
+# protein to phenotype association:
+#   is_a: GeneToPhenotypicFeatureAssociation
+#   represented_as: edge
+#   label_as_edge: protein_is_associated_with_phenotype
+#   source: protein
+#   target: phenotype
+#   label_in_input: protein_is_associated_with_phenotype
 
-phenotype hierarchical association:
-  is_a: association
-  represented_as: edge
-  label_as_edge: phenotype_is_a_phenotype
-  source: phenotype
-  target: phenotype
-  label_in_input: phenotype_is_a_phenotype
+# phenotype hierarchical association:
+#   is_a: association
+#   represented_as: edge
+#   label_as_edge: phenotype_is_a_phenotype
+#   source: phenotype
+#   target: phenotype
+#   label_in_input: phenotype_is_a_phenotype
 
 
 protein to pathway association:
@@ -334,28 +443,28 @@ protein to pathway association:
     evidence_code: str
 
 
-pathway to pathway association:
-  is_a: association
-  represented_as: edge
-  source: [pathway_is_part_of_pathway, pathway_is_equivalent_to_pathway]
-  target: pathway
-  label_in_input: [pathway_is_part_of_pathway, pathway_is_equivalent_to_pathway]
+# pathway to pathway association:
+#   is_a: association
+#   represented_as: edge
+#   source: [pathway_is_part_of_pathway, pathway_is_equivalent_to_pathway]
+#   target: pathway
+#   label_in_input: [pathway_is_part_of_pathway, pathway_is_equivalent_to_pathway]
 
-reactome hierarchical association:
-  is_a: association
-  represented_as: edge
-  label_as_edge: pathway_participates_pathway
-  source: pathway
-  target: pathway
-  label_in_input: pathway_participates_pathway
+# reactome hierarchical association:
+#   is_a: association
+#   represented_as: edge
+#   label_as_edge: pathway_participates_pathway
+#   source: pathway
+#   target: pathway
+#   label_in_input: pathway_participates_pathway
 
-pathway to pathway orthology association:
-  is_a: association
-  represented_as: edge
-  label_as_edge: pathway_is_ortholog_to_pathway
-  source: pathway
-  target: pathway
-  label_in_input: pathway_is_ortholog_to_pathway
+# pathway to pathway orthology association:
+#   is_a: association
+#   represented_as: edge
+#   label_as_edge: pathway_is_ortholog_to_pathway
+#   source: pathway
+#   target: pathway
+#   label_in_input: pathway_is_ortholog_to_pathway
 
 
 protein to ec number association:
@@ -374,16 +483,16 @@ ec number hierarchical association:
   target: ec number
   label_in_input: ec_number_is_a_ec_number
 
-gene to gene regulatory association:
-  is_a: pairwise gene to gene interaction
-  represented_as: edge
-  label_as_edge: gene_regulates_gene
-  source: gene
-  target: gene
-  label_in_input: gene_regulates_gene
-  properties:
-    source: str[]
-    dorothea_confidence_level: str
-    pubmed_id: str[]
-    tf_effect: str
+# gene to gene regulatory association:
+#   is_a: pairwise gene to gene interaction
+#   represented_as: edge
+#   label_as_edge: gene_regulates_gene
+#   source: gene
+#   target: gene
+#   label_in_input: gene_regulates_gene
+#   properties:
+#     source: str[]
+#     dorothea_confidence_level: str
+#     pubmed_id: str[]
+#     tf_effect: str
 

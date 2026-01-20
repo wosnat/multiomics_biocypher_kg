@@ -1,15 +1,15 @@
 import os, shutil
 
 from biocypher import BioCypher, FileDownload
-from template_package.adapters.ec_adapter import EC
-from template_package.adapters.uniprot_adapter import (
+from multiomics_kg.adapters.ec_adapter import EC
+from multiomics_kg.adapters.uniprot_adapter import (
     Uniprot,
     UniprotNodeType,
     UniprotNodeField,
     UniprotEdgeType,
     UniprotIDField,
 )
-from template_package.adapters.go_adapter import (
+from multiomics_kg.adapters.go_adapter import (
     GO
 )
 
