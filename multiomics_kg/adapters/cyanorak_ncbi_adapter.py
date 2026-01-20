@@ -22,6 +22,8 @@ import pandas as pd
 import numpy as np
 from Bio import SeqIO
 import gffpandas.gffpandas as gffpd
+from urllib.parse import unquote
+import re
 
 logger.debug(f"Loading module {__name__}.")
 
@@ -32,15 +34,34 @@ class GeneEnumMeta(EnumMeta):
 
 
 class GeneNodeField(Enum, metaclass=GeneEnumMeta):
-    #TODO
-    NAME = "name"
-    ALTERNATE_NAME = 'alternate_name'
-    CATALYTIC_ACTIVITY = "catalytic_activity"
-    COMMENTS = "comments"
-    #PROSITE_CROSS_REFERENCE = "pr"
-    #SWISSPROT_CROSS_REFERENCE = "dr"
 
-    RXFNP_EMBEDDING = "rxnfp_embedding"
+    GENE_NAMES = 'gene_names'
+    GENE_NAMES_CYANORAK = 'gene_names_cyanorak'
+    LOCUS_TAG = 'locus_tag'
+    LOCUS_TAG_NCBI = 'locus_tag_ncbi'
+    LOCUS_TAG_CYANORAK = 'locus_tag_cyanorak'
+    START = 'start'
+    END = 'end'
+    START_CYANORAK = 'start_cyanorak'
+    END_CYANORAK = 'end_cyanorak'
+    STRAND = 'strand'
+    STRAND_CYANORAK = 'strand_cyanorak'
+    PRODUCT = 'product'
+    PRODUCT_CYANORAK = 'product_cyanorak'
+    PROTEIN_ID = 'protein_id'
+    ONTOLOGY_TERM = 'Ontology_term'
+    ONTOLOGY_TERM_DESCRIPTION = 'ontology_term_description'
+    EGGNOG = 'eggNOG'
+    EGGNOG_DESCRIPTION = 'eggNOG_description'
+    KEGG = 'kegg'
+    KEGG_DESCRIPTION = 'kegg_description'
+    CYANORAK_ROLE = 'cyanorak_Role'
+    CYANORAK_ROLE_DESCRIPTION = 'cyanorak_Role_description'
+    TIGR_ROLE = 'tIGR_Role'
+    TIGR_ROLE_DESCRIPTION = 'tIGR_Role_description'
+    CLUSTER_NUMBER = 'cluster_number'
+    PROTEIN_DOMAINS = 'protein_domains'
+    PROTEIN_DOMAINS_DESCRIPTION = 'protein_domains_description'
 
 
     @classmethod
@@ -77,6 +98,9 @@ class CyanorakNcbi:
         output_dir: DirectoryPath | None = None,
         add_prefix: bool = True,
         organism: int | Literal["*"] | None = None,
+        ncbi_gff_file: str = None,
+        cyan_gff_file: str = None,
+        cyan_gbk_file: str = None,
     ):
 
         model = GeneModel(
@@ -92,6 +116,10 @@ class CyanorakNcbi:
         self.export_csv = model["export_csv"]
         self.output_dir = model["output_dir"]
         self.add_prefix = model["add_prefix"]
+
+        self.cyan_gff_file = cyan_gff_file
+        self.cyan_gbk_file = cyan_gbk_file
+        self.ncbi_gff_file = ncbi_gff_file
 
         # no need becuase we are not creating protein to ec edges here
         # if model["organism"] in ("*", None):
@@ -109,6 +137,51 @@ class CyanorakNcbi:
         self.early_stopping = None
         if model["test_mode"]:
             self.early_stopping = 100
+
+    @validate_call
+    def download_data(self, cache: bool = False) -> None:
+        ''' Download the cyanorak gbk file and ncbi gff file from the provided URLs.'''
+        self.data_df = self.load_gff_from_ncbi_and_cynorak(
+            ncbi_gff_file=self.ncbi_gff_file,
+            cyan_gff_file=self.cyan_gff_file,
+            cyan_gbk_file=self.cyan_gbk_file
+        )
+
+    @validate_call
+    def get_nodes(self, label: str = "gene") -> list[tuple]:
+
+        logger.info("Started writing gene nodes")
+
+        node_list = []
+        for _, row in self.data_df.iterrows():
+            node_properties = {}
+            for field in self.gene_node_fields:
+                value = row.get(field)
+                if not pd.isna(value):
+                    if isinstance(value, str):
+                        value = unquote(value)
+                    value = self.clean_text(value)
+                    value = self._split_field(field, value)
+                    node_properties[field] = value
+
+            node_id = self.add_prefix_to_id(
+                prefix="ncbigene",
+                identifier=row.get("locus_tag"),
+            )
+
+            node_list.append((node_id, label, node_properties))
+
+        logger.info(f"Finished writing {len(node_list)} gene nodes")
+        return node_list
+
+    @validate_call
+    def get_edges(self) -> list[tuple]:
+        # for now, no edges to create
+        edge_list = []
+        logger.info("Started writing gene edges")
+        return edge_list
+
+
 
 
     def _get_cyanorak_cols_to_keep(self) -> list[str]:
@@ -142,6 +215,49 @@ class CyanorakNcbi:
         col_rename_map['old_locus_tag_gene'] = 'locus_tag'
         return col_rename_map
 
+    def _get_final_merged_columns_map(self) -> dict[str, str]:
+        return {
+            'Name_ncbi' : 'gene_names', 
+            'Name_cyanorak': 'gene_names_cyanorak',
+            'start_ncbi': 'start', 'end_ncbi': 'end', 'strand_ncbi': 'strand', 
+            'start_cyanorak': 'start_cyanorak', 'end_cyanorak': 'end_cyanorak', 'strand_cyanorak': 'strand_cyanorak',
+            'product_ncbi': 'product', 'product_cyanorak': 'product_cyanorak',
+            'ID': 'locus_tag_cyanoak',
+            }
+
+    def _get_split_character(self, field: str) -> str:
+        ''' get split character for multiple values in a text field. Return None if not a multivalue field.'''
+        comma_split_cols = [
+            'cyanorak_Role', 'cyanorak_Role_description',
+            'Ontology_term',  'ontology_term_description',
+            'eggNOG', 'eggNOG_description', 
+            'kegg', #'kegg_description',  
+            'protein_domains', 'protein_domains_description', 
+            'tIGR_Role', 'tIGR_Role_description'
+        ]
+        space_split_cols = [
+            'gene_names', 'gene', 
+        ]
+        semmicommas_split_cols = [
+            'kegg', 'kegg_description'
+        ]
+
+        if field in comma_split_cols:
+            return ','
+        if field in space_split_cols:
+            return ' '
+        if field in semmicommas_split_cols:
+            return ';'
+        return None
+    
+    def _split_field(self, field: str, value: str) -> list[str] | str:
+        ''' Clean up and split a text field based on its expected split character.'''
+        split_char = self._get_split_character(field)
+        if split_char is not None:
+            repattern = re.escape(split_char) + r'(?! )'  # split_char not followed by space
+            value = [v.strip() for v in re.split(repattern, str(value))]
+        return value
+        
     def _get_cynaorak_ID(self, rec) -> str:
         ''' Extract the Cyanorak ID from a GenBank record of cyanorak gbk file.'''
         note_name = 'cyanorak ORF Id:'
@@ -183,6 +299,7 @@ class CyanorakNcbi:
         cyan_df['locus_tag'] = cyan_df['ID'].map(cyanID2locus_tag_map)
         cyan_df = cyan_df[self._get_cyanorak_cols_to_keep()]
         merge_df = pd.merge(ncbi_df, cyan_df, on='locus_tag', suffixes=['_ncbi', '_cyanorak'])  
+        merge_df = merge_df.rename(columns=self._get_final_merged_columns_map())
         return merge_df
 
     @validate_call
@@ -234,10 +351,23 @@ if __name__ == "__main__":
     cgbk_fpath = os.path.join(dpath, 'cyanorak/Pro_MED4.gbk')
 
     adapter = CyanorakNcbi()
-    cyanorak_ncbi_annotation = adapter.load_gff_from_ncbi_and_cynorak(ngff_fpath, cgff_fpath, cgbk_fpath)
-    cyanorak_ncbi_annotation.to_csv('cyanorak_ncbi_merged_annotation.csv',  index=False)
-    print(cyanorak_ncbi_annotation.head().T)
-    print(cyanorak_ncbi_annotation.columns)
+    adapter.download_cyanorak_ncbi_files(ngff_fpath, cgff_fpath, cgbk_fpath)
+    nodes = adapter.get_nodes()
+    import json
+    with open('cyanorak_ncbi_gene_nodes.json', 'w') as f:
+        json.dump(nodes, f, indent=4)
+
+    print(adapter.data_df.columns.tolist())
+    for col in adapter.data_df.columns:
+        commas = adapter.data_df[col].astype(str).str.contains('%3b')
+        semmicommas = adapter.data_df[col].astype(str).str.contains('%2c')
+
+        spaces = adapter.data_df[col].astype(str).str.contains(' ')
+        if commas.any():
+            print(f"Column {col} contains commas")
+
+        elif semmicommas.any():
+            print(f"Column {col} contains semmicommas")
 
 # columns in the final merged dataframe:
 # ['Name_ncbi', 'gene', 'locus_tag_ncbi', 'locus_tag', 'source',

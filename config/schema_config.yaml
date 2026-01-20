@@ -1,104 +1,104 @@
-Title: BioCypher graph schema configuration file for multi-omics studies
-Version: 1.0
-Author: Osnat Weissberg
-Date: 2024-06-10
+#Title: BioCypher graph schema configuration file for multi-omics studies
+#Version: 1.0
+#Author: Osnat Weissberg
+#Date: 2024-06-10
 #########################################
 # Study and Publication Entities
 # Statistical Test Results: Explicit Regulation States
 #########################################
 
-study:
-  is_a: investigation
-  represented_as: node
-  preferred_id: id
-  label_in_input: study
-  properties:
-    title: str
-    description: str
-    abstract: str
-    study_type: str # e.g., Transcriptomics, Proteomics
-    organism: str[]
-    data_type: str # e.g., transcriptome, proteome
+# study:
+#   is_a: investigation
+#   represented_as: node
+#   preferred_id: id
+#   label_in_input: study
+#   properties:
+#     title: str
+#     description: str
+#     abstract: str
+#     study_type: str # e.g., Transcriptomics, Proteomics
+#     organism: str[]
+#     data_type: str # e.g., transcriptome, proteome
 
-publication:
-  is_a: information content entity
-  represented_as: node
-  preferred_id: pubmed
-  label_in_input: publication
-  properties:
-    title: str
-    authors: str[]
-    journal: str
-    publication_date: str
-    doi: str
-    pmid: str
+# publication:
+#   is_a: information content entity
+#   represented_as: node
+#   preferred_id: pubmed
+#   label_in_input: publication
+#   properties:
+#     title: str
+#     authors: str[]
+#     journal: str
+#     publication_date: str
+#     doi: str
+#     pmid: str
 
-study_published_in:
-  is_a: association
-  represented_as: edge
-  label_as_edge: study_published_in
-  source: study
-  target: publication
-  label_in_input: study_published_in
+# study_published_in:
+#   is_a: association
+#   represented_as: edge
+#   label_as_edge: study_published_in
+#   source: study
+#   target: publication
+#   label_in_input: study_published_in
 
-statistical_test:
-  is_a: analysis
-  represented_as: node
-  preferred_id: id
-  label_in_input: test
-  properties:
-    name: str # e.g., differential expression analysis
-    test_type: str # e.g., t-test, DESeq2
-    control_condition: str
-    treatment_condition: str
-    timepoint: str # e.g., "24h", "day 7"
-    reference_timepoint: str # baseline timepoint if applicable
-    method: str
+# statistical_test:
+#   is_a: analysis
+#   represented_as: node
+#   preferred_id: id
+#   label_in_input: test
+#   properties:
+#     name: str # e.g., differential expression analysis
+#     test_type: str # e.g., t-test, DESeq2
+#     control_condition: str
+#     treatment_condition: str
+#     timepoint: str # e.g., "24h", "day 7"
+#     reference_timepoint: str # baseline timepoint if applicable
+#     method: str
 
-test_in_study:
-  is_a: association
-  represented_as: edge
-  label_as_edge: test_in_study
-  source: statistical_test
-  target: study
-  label_in_input: test_in_study
+# test_in_study:
+#   is_a: association
+#   represented_as: edge
+#   label_as_edge: test_in_study
+#   source: statistical_test
+#   target: study
+#   label_in_input: test_in_study
 
-molecular_result_from_test:
-  is_a: association
-  represented_as: edge
-  source: [gene, protein]
-  target: statistical_test
-  label_in_input: fold_change
-  properties:
-    log2_fold_change: float
-    p_value: float
-    adjusted_p_value: float
-    direction: str # "up" or "down"
+# molecular_result_from_test:
+#   is_a: association
+#   represented_as: edge
+#   source: [gene, protein]
+#   target: statistical_test
+#   label_in_input: fold_change
+#   properties:
+#     log2_fold_change: float
+#     p_value: float
+#     adjusted_p_value: float
+#     direction: str # "up" or "down"
 
-timeseries_cluster:
-  is_a: gene group
-  represented_as: node
-  preferred_id: id
-  label_in_input: timeseries_cluster
-  properties:
-    name: str
-    method: str # e.g., WGCNA, k-means
-    description: str
+# timeseries_cluster:
+#   is_a: gene group
+#   represented_as: node
+#   preferred_id: id
+#   label_in_input: timeseries_cluster
+#   properties:
+#     name: str
+#     method: str # e.g., WGCNA, k-means
+#     description: str
 
-cluster_in_study:
-  is_a: association
-  represented_as: edge
-  label_as_edge: cluster_in_study
-  source: timeseries_cluster
-  target: study
-  label_in_input: cluster_in_study
+# cluster_in_study:
+#   is_a: association
+#   represented_as: edge
+#   label_as_edge: cluster_in_study
+#   source: timeseries_cluster
+#   target: study
+#   label_in_input: cluster_in_study
 
-molecular_in_cluster:
-  is_a: association
-  represented_as: edge
-  source: [gene, protein]
-  target: timeseries_cluster
-  label_in_input: member_of_cluster
+# molecular_in_cluster:
+#   is_a: association
+#   represented_as: edge
+#   source: [gene, protein]
+#   target: timeseries_cluster
+#   label_in_input: member_of_cluster
   
 
 
@@ -112,18 +112,44 @@ molecular_in_cluster:
 # ---
 # "Named Things"
 # ---
-  
-
+   
 gene:
   represented_as: node
   preferred_id: ncbigene
   label_in_input: gene
   properties:    
     gene_names: str[]
-    kegg_ids: str[]
-    ensembl_transcript_ids: str[]
-    ensembl_gene_ids: str[]
-    gene_symbol: str
+    gene_names_cynanorak: str[]
+    locus_tag: str
+    locus_tag_ncbi: str
+    locus_tag_cyanorak: str
+    start: int
+    end: int
+    start_cyanorak: int
+    end_cyanorak: int
+    strand: str
+    strand_cyanorak: str
+    product: str
+    product_cyanorak: str
+    protein_id: str
+    Ontology_term: str[]
+    ontology_term_description: str[]
+    eggNOG: str[]
+    eggNOG_description: str[]
+    kegg: str[]
+    kegg_description: str[]
+    cyanorak_Role: str[]
+    cyanorak_Role_description: str[]
+    tIGR_Role: str[]
+    tIGR_Role_description: str[]
+    cluster_number: str
+    protein_domains: str[]
+    protein_domains_description: str[]
+
+# consider adding: Note, exceptions, inference
+
+
+
 
 protein:
   represented_as: node
