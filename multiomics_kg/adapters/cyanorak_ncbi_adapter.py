@@ -350,24 +350,28 @@ if __name__ == "__main__":
     ngff_fpath = os.path.join(dpath, 'genomic.gff')
     cgbk_fpath = os.path.join(dpath, 'cyanorak/Pro_MED4.gbk')
 
-    adapter = CyanorakNcbi()
-    adapter.download_cyanorak_ncbi_files(ngff_fpath, cgff_fpath, cgbk_fpath)
+    adapter = CyanorakNcbi(
+        ncbi_gff_file=ngff_fpath,
+        cyan_gff_file=cgff_fpath,
+        cyan_gbk_file=cgbk_fpath,
+    )
+    adapter.download_data()
     nodes = adapter.get_nodes()
     import json
     with open('cyanorak_ncbi_gene_nodes.json', 'w') as f:
         json.dump(nodes, f, indent=4)
 
-    print(adapter.data_df.columns.tolist())
-    for col in adapter.data_df.columns:
-        commas = adapter.data_df[col].astype(str).str.contains('%3b')
-        semmicommas = adapter.data_df[col].astype(str).str.contains('%2c')
+    # print(adapter.data_df.columns.tolist())
+    # for col in adapter.data_df.columns:
+    #     commas = adapter.data_df[col].astype(str).str.contains('%3b')
+    #     semmicommas = adapter.data_df[col].astype(str).str.contains('%2c')
 
-        spaces = adapter.data_df[col].astype(str).str.contains(' ')
-        if commas.any():
-            print(f"Column {col} contains commas")
+    #     spaces = adapter.data_df[col].astype(str).str.contains(' ')
+    #     if commas.any():
+    #         print(f"Column {col} contains commas")
 
-        elif semmicommas.any():
-            print(f"Column {col} contains semmicommas")
+    #     elif semmicommas.any():
+    #         print(f"Column {col} contains semmicommas")
 
 # columns in the final merged dataframe:
 # ['Name_ncbi', 'gene', 'locus_tag_ncbi', 'locus_tag', 'source',

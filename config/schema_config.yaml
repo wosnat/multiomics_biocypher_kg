@@ -7,98 +7,97 @@
 # Statistical Test Results: Explicit Regulation States
 #########################################
 
-# study:
-#   is_a: investigation
-#   represented_as: node
-#   preferred_id: id
-#   label_in_input: study
-#   properties:
-#     title: str
-#     description: str
-#     abstract: str
-#     study_type: str # e.g., Transcriptomics, Proteomics
-#     organism: str[]
-#     data_type: str # e.g., transcriptome, proteome
+study:
+  is_a: investigation
+  represented_as: node
+  preferred_id: id
+  label_in_input: study
+  properties:
+    title: str
+    description: str
+    abstract: str
+    study_type: str # e.g., Transcriptomics, Proteomics
+    organism: str[]
 
-# publication:
-#   is_a: information content entity
-#   represented_as: node
-#   preferred_id: pubmed
-#   label_in_input: publication
-#   properties:
-#     title: str
-#     authors: str[]
-#     journal: str
-#     publication_date: str
-#     doi: str
-#     pmid: str
+publication:
+  is_a: information content entity
+  represented_as: node
+  preferred_id: pubmed
+  label_in_input: publication
+  properties:
+    title: str
+    authors: str[]
+    journal: str
+    publication_date: str
+    doi: str
+    pmid: str
 
-# study_published_in:
-#   is_a: association
-#   represented_as: edge
-#   label_as_edge: study_published_in
-#   source: study
-#   target: publication
-#   label_in_input: study_published_in
+study_published_in:
+  is_a: association
+  represented_as: edge
+  label_as_edge: study_published_in
+  source: study
+  target: publication
+  label_in_input: study_published_in
 
-# statistical_test:
-#   is_a: analysis
-#   represented_as: node
-#   preferred_id: id
-#   label_in_input: test
-#   properties:
-#     name: str # e.g., differential expression analysis
-#     test_type: str # e.g., t-test, DESeq2
-#     control_condition: str
-#     treatment_condition: str
-#     timepoint: str # e.g., "24h", "day 7"
-#     reference_timepoint: str # baseline timepoint if applicable
-#     method: str
+statistical_test:
+  is_a: analysis
+  represented_as: node
+  preferred_id: id
+  label_in_input: test
+  properties:
+    name: str # e.g., differential expression analysis
+    test_type: str # e.g., t-test, DESeq2
+    control_condition: str
+    treatment_condition: str
+    timepoint: str # e.g., "24h", "day 7"
+    reference_timepoint: str # baseline timepoint if applicable
+    method: str
 
-# test_in_study:
-#   is_a: association
-#   represented_as: edge
-#   label_as_edge: test_in_study
-#   source: statistical_test
-#   target: study
-#   label_in_input: test_in_study
+test_in_study:
+  is_a: association
+  represented_as: edge
+  label_as_edge: test_in_study
+  source: statistical_test
+  target: study
+  label_in_input: test_in_study
 
-# molecular_result_from_test:
-#   is_a: association
-#   represented_as: edge
-#   source: [gene, protein]
-#   target: statistical_test
-#   label_in_input: fold_change
-#   properties:
-#     log2_fold_change: float
-#     p_value: float
-#     adjusted_p_value: float
-#     direction: str # "up" or "down"
+molecular_result_from_test:
+  is_a: association
+  represented_as: edge
+  source: [gene, protein]
+  target: statistical_test
+  label_in_input: fold_change
+  properties:
+    log2_fold_change: float
+    p_value: float
+    adjusted_p_value: float
+    direction: str # "up" or "down"
 
-# timeseries_cluster:
-#   is_a: gene group
-#   represented_as: node
-#   preferred_id: id
-#   label_in_input: timeseries_cluster
-#   properties:
-#     name: str
-#     method: str # e.g., WGCNA, k-means
-#     description: str
+timeseries_cluster:
+  is_a: gene group
+  represented_as: node
+  preferred_id: id
+  label_in_input: timeseries_cluster
+  properties:
+    name: str
+    method: str # e.g., WGCNA, k-means
+    description: str
 
-# cluster_in_study:
-#   is_a: association
-#   represented_as: edge
-#   label_as_edge: cluster_in_study
-#   source: timeseries_cluster
-#   target: study
-#   label_in_input: cluster_in_study
+cluster_in_study:
+  is_a: association
+  represented_as: edge
+  label_as_edge: cluster_in_study
+  source: timeseries_cluster
+  target: study
+  label_in_input: cluster_in_study
 
-# molecular_in_cluster:
-#   is_a: association
-#   represented_as: edge
-#   source: [gene, protein]
-#   target: timeseries_cluster
-#   label_in_input: member_of_cluster
+molecular_in_cluster:
+  is_a: association
+  represented_as: edge
+  source: [gene, protein]
+  target: timeseries_cluster
+  label_in_input: member_of_cluster
   
 
 
