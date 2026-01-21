@@ -52,7 +52,7 @@ statistical_test:
     treatment_condition: str
     timepoint: str # e.g., "24h", "day 7"
     reference_timepoint: str # baseline timepoint if applicable
-    method: str
+    organism: str
 
 test_in_study:
   is_a: association

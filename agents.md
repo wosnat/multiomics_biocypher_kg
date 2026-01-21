@@ -23,3 +23,12 @@ Leverage unit tests whereever possible to check continuous correction as more da
 Use a combination of LLM based entity extraction and summarization, automatic downloads, and manual coding to convert the files to the required format. cache intermediate results in json file to avoid LLM costs and time consuming reruns.
 
 
+# for the omics result adapter
+Use a config file per publication, located in the folder of the paper (under data\Prochlorococcus\papers_and_supp)
+YAML format
+
+List all of the tables that need to be loaded. 
+For each table, what is the entities column and what it represent (e.g., genes, proteins, pathways) and which statistical tests are included. 
+For each of these tests, add to the config all fields as listed in the schema: config\schema_config.yaml. Connect supp table columns to statistical test fields.
+
+Use this config in the adapter to create the relevant nodes and edges.
