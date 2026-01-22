@@ -1,47 +1,47 @@
-publication: Aharonovich 2016
+publication:
   papername: Aharonovich 2016
   papermainpdf: data/Prochlorococcus/papers_and_supp/Aharonovich 2016/41396_2016_article_bfismej201670.pdf
   supplementary_materials: 
-    supp_table 1:
-      - type: csv
-      - filename: data/Prochlorococcus/papers_and_supp/Aharonovich 2016/de_genes_med4_t20h.csv
-        statistical_analysis: 
-          - type: RNASEQ
-          - name_col: Synonym
-          - logfc_col: log 2 fold change coculture/axenic
-          - adjusted_p_value_col: q Value
-          - name: Differential Expression Analysis of Prochlorococcus MED4 in Coculture with Alteromonas HOT1A3 vs Axenic Conditions at 20h
-          - test_type: Rockhopper
-          - control_condition: Axenic
-          - treatment_condition: Coculture with Alteromonas HOT1A3
-          - timepoint: 20h
-          - organism: Prochlorococcus MED4
-    supp_table 2:
-      - type: csv
-      - filename: data/Prochlorococcus/papers_and_supp/Aharonovich 2016/de_genes_9313_t20h.csv
-        statistical_analysis: 
-          - type: RNASEQ
-          - name_col: Synonym
-          - logfc_col: log 2 fold change coculture/axenic
-          - adjusted_p_value_col: q Value
-          - name: Differential Expression Analysis of Prochlorococcus MIT9313 in Coculture with Alteromonas HOT1A3 vs Axenic Conditions at 20h (initial Alteomonas innoculum 5x10^6 cell ml-1)
-          - test_type: Rockhopper
-          - control_condition: Axenic
-          - treatment_condition: Coculture with Alteromonas HOT1A3
-          - timepoint: 20h
-          - organism: Prochlorococcus MIT9313
-    supp_table 3:
-      - type: csv
-      - filename: data/Prochlorococcus/papers_and_supp/Aharonovich 2016/de_genes_9313_dilute_t20h.csv
-        statistical_analysis: 
-          - type: RNASEQ
-          - name_col: Synonym
-          - logfc_col: log 2 fold change coculture/axenic
-          - adjusted_p_value_col: q Value
-          - name: Differential Expression Analysis of Prochlorococcus MIT9313 in Coculture with Alteromonas HOT1A3 vs Axenic Conditions at 20h (initial Alteromonas innoculum 0.5x10^6 cell ml-1)
-          - test_type: Rockhopper
-          - control_condition: Axenic
-          - treatment_condition: Coculture with Alteromonas HOT1A3
-          - timepoint: 20h
-          - organism: Prochlorococcus MIT9313
+    supp_table_1:
+      type: csv
+      filename: data/Prochlorococcus/papers_and_supp/Aharonovich 2016/de_genes_med4_t20h.csv
+      statistical_analyses:
+        - type: RNASEQ
+          name: Differential Expression Analysis of Prochlorococcus MED4 in Coculture with Alteromonas HOT1A3 vs Axenic Conditions at 20h
+          test_type: Rockhopper
+          control_condition: Axenic
+          treatment_condition: Coculture with Alteromonas HOT1A3
+          timepoint: 20h
+          organism: Prochlorococcus MED4
+          name_col: Synonym
+          logfc_col: log 2 fold change coculture/axenic
+          adjusted_p_value_col: q Value
+    supp_table_2:
+      type: csv
+      filename: data/Prochlorococcus/papers_and_supp/Aharonovich 2016/de_genes_9313_t20h.csv
+      statistical_analyses:
+        - type: RNASEQ
+          name: Differential Expression Analysis of Prochlorococcus MIT9313 in Coculture with Alteromonas HOT1A3 vs Axenic Conditions at 20h (initial Alteromonas innoculum 5x10^6 cell ml-1)
+          test_type: Rockhopper
+          control_condition: Axenic
+          treatment_condition: Coculture with Alteromonas HOT1A3
+          timepoint: 20h
+          organism: Prochlorococcus MIT9313
+          name_col: Synonym
+          logfc_col: log 2 fold change coculture/axenic
+          adjusted_p_value_col: q Value
+    supp_table_3:
+      type: csv
+      filename: data/Prochlorococcus/papers_and_supp/Aharonovich 2016/de_genes_9313_dilute_t20h.csv
+      statistical_analyses:
+        - type: RNASEQ
+          name: Differential Expression Analysis of Prochlorococcus MIT9313 in Coculture with Alteromonas HOT1A3 vs Axenic Conditions at 20h (initial Alteromonas innoculum 0.5x10^6 cell ml-1)
+          test_type: Rockhopper
+          control_condition: Axenic
+          treatment_condition: Coculture with Alteromonas HOT1A3
+          timepoint: 20h
+          organism: Prochlorococcus MIT9313
+          name_col: Synonym
+          logfc_col: log 2 fold change coculture/axenic
+          adjusted_p_value_col: q Value
 

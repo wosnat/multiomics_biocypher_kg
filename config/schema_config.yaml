@@ -118,7 +118,8 @@ gene:
   label_in_input: gene
   properties:    
     gene_names: str[]
-    gene_names_cynanorak: str[]
+    gene_names_cyanorak: str[]
+    kegg_ids: str[]
     locus_tag: str
     locus_tag_ncbi: str
     locus_tag_cyanorak: str
