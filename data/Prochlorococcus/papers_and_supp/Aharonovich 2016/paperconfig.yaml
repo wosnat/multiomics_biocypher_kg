@@ -8,6 +8,7 @@ publication:
       statistical_analyses:
         - type: RNASEQ
           name: Differential Expression Analysis of Prochlorococcus MED4 in Coculture with Alteromonas HOT1A3 vs Axenic Conditions at 20h
+          id: DE_coculture_vs_axenic_med4_20h
           test_type: Rockhopper
           control_condition: Axenic
           treatment_condition: Coculture with Alteromonas HOT1A3
@@ -22,6 +23,7 @@ publication:
       statistical_analyses:
         - type: RNASEQ
           name: Differential Expression Analysis of Prochlorococcus MIT9313 in Coculture with Alteromonas HOT1A3 vs Axenic Conditions at 20h (initial Alteromonas innoculum 5x10^6 cell ml-1)
+          id: DE_coculture_vs_axenic_9313_t20h
           test_type: Rockhopper
           control_condition: Axenic
           treatment_condition: Coculture with Alteromonas HOT1A3
@@ -36,6 +38,7 @@ publication:
       statistical_analyses:
         - type: RNASEQ
           name: Differential Expression Analysis of Prochlorococcus MIT9313 in Coculture with Alteromonas HOT1A3 vs Axenic Conditions at 20h (initial Alteromonas innoculum 0.5x10^6 cell ml-1)
+          id: DE_coculture_vs_axenic_9313_dilute_t20h
           test_type: Rockhopper
           control_condition: Axenic
           treatment_condition: Coculture with Alteromonas HOT1A3

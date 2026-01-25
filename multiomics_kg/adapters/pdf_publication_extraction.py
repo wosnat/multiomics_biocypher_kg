@@ -18,50 +18,27 @@ from pathlib import Path
 from typing import Optional, Any
 import re
 
+
+import dotenv
+dotenv.load_dotenv()  # Load environment variables from .env file
+
 try:
     import PyPDF2
 except ImportError:
     PyPDF2 = None
 
-try:
-    from langchain_core.language_models import BaseLLM
-    from langchain_core.prompts import ChatPromptTemplate
-    from langchain_core.output_parsers import JsonOutputParser
-except ImportError:
-    BaseLLM = None
+from langchain.chat_models import init_chat_model
+from langchain_core.prompts import ChatPromptTemplate
+from langchain_core.output_parsers import JsonOutputParser
 
 from biocypher._logger import logger
 
 logger.debug(f"Loading module {__name__}.")
 
 
-class PublicationNodeType(Enum):
-    """Define types of nodes the adapter can provide."""
-    PUBLICATION = auto()
-    STUDY = auto()
 
 
-class PublicationField(Enum):
-    """Fields for publication nodes."""
-    PUBMED_ID = "pubmed_id"
-    TITLE = "title"
-    AUTHORS = "authors"
-    JOURNAL = "journal"
-    PUBLICATION_DATE = "publication_date"
-    DOI = "doi"
-
-
-class StudyField(Enum):
-    """Fields for study nodes."""
-    STUDY_ID = "study_id"
-    TITLE = "title"
-    DESCRIPTION = "description"
-    ABSTRACT = "abstract"
-    STUDY_TYPE = "study_type"
-    ORGANISM = "organism"
-
-
-class PDFPublicationAdapter:
+class PDFPublicationExtractor:
     """
     Adapter for extracting publication and study metadata from PDF files
     using LangChain with any supported LLM provider (OpenAI, Anthropic, etc.).
@@ -70,16 +47,17 @@ class PDFPublicationAdapter:
 
     def __init__(
         self,
-        llm: BaseLLM,
-        pdf_directory: str | Path = None,
+        #model_name: str = "claude-haiku-4-5",
+        model_name: str = "gpt-5-nano",
+        temperature: float = 0.0,
         cache_file: str | Path = None,
     ):
         """
         Initialize the PDF Publication Adapter.
 
         Args:
-            llm: LangChain BaseLLM instance (e.g., ChatOpenAI, ChatAnthropic)
-            pdf_directory: Directory containing PDF files
+            model_name: LangChain model string (e.g., "openai:gpt-4-turbo", "anthropic:claude-3-5-sonnet-20241022")
+            temperature: LLM temperature setting
             cache_file: Path to cache JSON file for extracted metadata
 
         Example:
@@ -87,28 +65,25 @@ class PDFPublicationAdapter:
             from multiomics_kg.adapters.pdf_publication_adapter import PDFPublicationAdapter
 
             llm = ChatOpenAI(model="gpt-4-turbo", temperature=0)
-            adapter = PDFPublicationAdapter(
+            extractor = PDFExtractor(
                 llm=llm,
-                pdf_directory="data/Prochlorococcus/papers_and_supp",
                 cache_file="pdf_extraction_cache.json"
             )
         """
-        if BaseLLM is None:
-            raise ImportError(
-                "LangChain not installed. Install with: pip install langchain"
-            )
 
-        self.llm = llm
-        self.pdf_directory = Path(pdf_directory) if pdf_directory else None
+        self.model_name = model_name
+        # example models:
+        # o3_mini = init_chat_model("openai:o3-mini", temperature=0)
+        # claude_sonnet = init_chat_model("anthropic:claude-sonnet-4-5-20250929", temperature=0)
+        # gemini_2-5_flash = init_chat_model("google_vertexai:gemini-2.5-flash", temperature=0)
+        self.llm = init_chat_model(model=model_name, temperature=temperature)
         self.cache_file = Path(cache_file) if cache_file else Path("pdf_extraction_cache.json")
         self.cache = self._load_cache()
-        self.id_counter = {}  # Track IDs for uniqueness: {base_id: count}
+        self.id_counter = dict()  # Track IDs for uniqueness: {base_id: count}
         self._setup_extraction_chain()
 
     def _setup_extraction_chain(self):
         """Setup LangChain extraction chain with JSON parser."""
-        if BaseLLM is None:
-            return
 
         self.extraction_prompt = ChatPromptTemplate.from_messages([
             ("system", "You are an expert scientific paper analyzer. Extract structured metadata from academic papers. Return ONLY valid JSON, no additional text. CRITICAL: Always extract DOI if present - it is essential for unique identification."),
@@ -176,7 +151,7 @@ Return ONLY the JSON object.""")
             self.id_counter[key] += 1
             return f"{base_id}_v{self.id_counter[key]}"
 
-    def _extract_pdf_text(self, pdf_path: Path, max_pages: int = 15) -> str:
+    def _extract_pdf_text(self, pdf_path: Path, max_pages: int = 5) -> str:
         """
         Extract text from PDF file, stopping at the References section.
 
@@ -228,7 +203,7 @@ Return ONLY the JSON object.""")
                     else:
                         text += page_text
 
-            return text[:1000000]  # Limit to first 1000000 chars to avoid token limits
+            return text[:10000]  # Limit to first 10000 chars to avoid token limits
         except Exception as e:
             logger.error(f"Failed to extract text from {pdf_path}: {e}")
             return ""
@@ -318,153 +293,50 @@ Return ONLY the JSON object.""")
             return {}
 
         # Clean the extracted text
-        pdf_text = self._clean_pdf_text(pdf_text)
+        #pdf_text = self._clean_pdf_text(pdf_text)
         # print(f'After cleaning:')
         # print(f'pdf_text length: {len(pdf_text)}')
         # print(f'pdf_text sample: {pdf_text[:500]}') 
 
-        try:
-            # Use LangChain chain to extract metadata
-            extracted = self.chain.invoke({"text": pdf_text})
+        #try:
+        # Use LangChain chain to extract metadata
+        extracted = self.chain.invoke({"text": pdf_text})
 
-            # Generate and store IDs based on DOI
+        # print(f'Extracted data: {extracted}')
+        # Generate and store IDs based on DOI
+        if "publication" in extracted:
+            pub = extracted["publication"]
+            # Prefer DOI for ID (most unique), then pubmed_id, then generate from title
+            pub_doi = pub.get("doi", "") or ""
+            pub_doi = pub_doi.strip()
+            pub_id = pub_doi or pub.get("pubmed_id", "") or f"pub_{pub.get('title', 'unknown')[:30]}"
+            pub_id = self._generate_unique_id(pub_id, "pub")
+            extracted["publication"]["publication_id"] = pub_id
+
+        if "study" in extracted:
+            study = extracted["study"]
+            # Prefer DOI from publication if available, otherwise generate from study title
+            study_doi = None
             if "publication" in extracted:
-                pub = extracted["publication"]
-                # Prefer DOI for ID (most unique), then pubmed_id, then generate from title
-                pub_doi = pub.get("doi", "").strip()
-                pub_id = pub_doi or pub.get("pubmed_id") or f"pub_{pub.get('title', 'unknown')[:30]}"
-                pub_id = self._generate_unique_id(pub_id, "pub")
-                extracted["publication"]["publication_id"] = pub_id
+                study_doi = extracted["publication"].get("doi", "").strip()
+            study_id = study_doi or f"study_{Path(pdf_path).stem}"
+            study_id = self._generate_unique_id(study_id, "study")
+            extracted["study"]["study_id"] = study_id
 
-            if "study" in extracted:
-                study = extracted["study"]
-                # Prefer DOI from publication if available, otherwise generate from study title
-                study_doi = None
-                if "publication" in extracted:
-                    study_doi = extracted["publication"].get("doi", "").strip()
-                study_id = study_doi or f"study_{Path(pdf_path).stem}"
-                study_id = self._generate_unique_id(study_id, "study")
-                extracted["study"]["study_id"] = study_id
+        # Cache the result
+        self.cache[cache_key] = extracted
+        self._save_cache()
 
-            # Cache the result
-            self.cache[cache_key] = extracted
-            self._save_cache()
+        logger.info(f"Successfully extracted metadata from {pdf_path.name}")
+        return extracted
 
-            logger.info(f"Successfully extracted metadata from {pdf_path.name}")
-            return extracted
+        # except Exception as e:
+        #     logger.error(f"LLM extraction failed for {pdf_path}: {e}")
+        #     return {}
 
-        except Exception as e:
-            logger.error(f"LLM extraction failed for {pdf_path}: {e}")
-            return {}
 
-    def extract_from_directory(self, directory: str | Path = None) -> list[dict]:
-        """
-        Extract metadata from all PDF files in a directory.
+ 
 
-        Args:
-            directory: Directory to search (uses self.pdf_directory if not provided)
-
-        Returns:
-            List of extracted metadata dictionaries
-        """
-        directory = Path(directory or self.pdf_directory)
-        if not directory.exists():
-            logger.error(f"Directory not found: {directory}")
-            return []
-
-        pdf_files = list(directory.glob("**/*.pdf"))
-        logger.info(f"Found {len(pdf_files)} PDF files in {directory}")
-
-        results = []
-        for pdf_path in pdf_files:
-            extracted = self.extract_from_pdf(pdf_path)
-            if extracted:
-                extracted["pdf_path"] = str(pdf_path)
-                results.append(extracted)
-
-        return results
-
-    def get_nodes(self, node_type: PublicationNodeType = None) -> list[tuple]:
-        """
-        Generate BioCypher nodes from cached extractions.
-
-        Args:
-            node_type: Type of node to generate (PUBLICATION or STUDY)
-
-        Returns:
-            List of tuples (id, type, properties) for BioCypher
-        """
-        nodes = []
-
-        for pdf_path, data in self.cache.items():
-            if "publication" in data and (node_type is None or node_type == PublicationNodeType.PUBLICATION):
-                pub = data["publication"]
-                # Use stored ID from cache (which uses DOI if available)
-                pub_id = pub.get("publication_id") or pub.get("doi") or pub.get("pubmed_id") or f"pub_{pub.get('title', 'unknown')[:20]}"
-
-                nodes.append(
-                    (
-                        f"publication:{pub_id}",
-                        "publication",
-                        {
-                            "title": pub.get("title"),
-                            "authors": pub.get("authors", []),
-                            "journal": pub.get("journal"),
-                            "publication_date": pub.get("publication_date"),
-                            "doi": pub.get("doi"),
-                            "pubmed_id": pub.get("pubmed_id"),
-                        },
-                    )
-                )
-
-            if "study" in data and (node_type is None or node_type == PublicationNodeType.STUDY):
-                study = data["study"]
-                # Use stored ID from cache (which uses DOI if available)
-                study_id = study.get("study_id") or f"study_{Path(pdf_path).stem}"
-
-                nodes.append(
-                    (
-                        f"study:{study_id}",
-                        "study",
-                        {
-                            "title": study.get("title"),
-                            "description": study.get("description"),
-                            "abstract": study.get("abstract"),
-                            "study_type": study.get("study_type"),
-                            "organism": study.get("organism", []),
-                        },
-                    )
-                )
-
-        return nodes
-
-    def get_edges(self) -> list[tuple]:
-        """
-        Generate study_published_in edges linking studies to publications.
-
-        Returns:
-            List of tuples (source_id, target_id, edge_type)
-        """
-        edges = []
-
-        for pdf_path, data in self.cache.items():
-            if "publication" in data and "study" in data:
-                pub = data["publication"]
-                study = data["study"]
-
-                # Use stored IDs from cache (which use DOI if available)
-                pub_id = pub.get("publication_id") or pub.get("doi") or pub.get("pubmed_id") or f"pub_{pub.get('title', 'unknown')[:20]}"
-                study_id = study.get("study_id") or f"study_{Path(pdf_path).stem}"
-
-                edges.append(
-                    (
-                        f"study:{study_id}",
-                        f"publication:{pub_id}",
-                        "study_published_in",
-                    )
-                )
-
-        return edges
 
 
 # Example usage
@@ -473,26 +345,16 @@ if __name__ == "__main__":
 
     import dotenv
     dotenv.load_dotenv()  # Load environment variables from .env file
-    from langchain_openai import ChatOpenAI
-    llm = ChatOpenAI(model="gpt-4-turbo", temperature=0)
-    adapter = PDFPublicationAdapter(
-        llm=llm,
-        pdf_directory="data/Prochlorococcus/papers_and_supp",
+    adapter = PDFPublicationExtractor(
         cache_file="pdf_extraction_cache.json",
     )
 
 
     pdf_fpath = "data/Prochlorococcus/papers_and_supp/Aharonovich 2016/41396_2016_article_bfismej201670.pdf"
     pdf_fpath = "data/Prochlorococcus/papers_and_supp/Anjur 2025/2025.08.05.668435v1.full.pdf"
-    adapter.extract_from_pdf(pdf_fpath)
-    nodes = adapter.get_nodes()
-    edges = adapter.get_edges()
-
-    with open('nodes.json', 'w', encoding='utf-8') as f:
-        json.dump(nodes, f, indent=2, default=str)
-    with open('edges.json', 'w', encoding='utf-8') as f:
-        json.dump(edges, f, indent=2, default=str)
+    pdf_text = adapter.extract_from_pdf(pdf_fpath)
     
+    print(json.dumps(pdf_text, indent=2))
     # pdf_text = adapter._extract_pdf_text(Path(pdf_fpath))
     # pdf_text = adapter._clean_pdf_text(pdf_text)
 

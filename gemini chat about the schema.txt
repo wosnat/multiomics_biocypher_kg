@@ -1,0 +1,795 @@
+gemini chat about the schema
+
+
+I have the attached schema based on biolink. I'd like to add omics data (protein -> upregulated in -> study. Help me extend the schema. Use biolink as basis if possible.
+
+Extending your BioCypher schema to include omics data requires defining new nodes for studies and samples (or experimental conditions), and defining the relationships that describe the differential expression (upregulated/downregulated).
+
+In the Biolink Model, the relationship for expression is typically represented by expressed in or expression upwardly regulated in.
+
+1. New Node Types
+You will need to define what a "Study" is. In Biolink, this can be represented as a Publication or an Investigation.
+
+YAML
+study:
+  is_a: investigation
+  represented_as: node
+  preferred_id: id
+  label_in_input: study
+  properties:
+    title: str
+    description: str
+    publication_url: str
+    study_type: str # e.g., Proteomics, Transcriptomics
+2. New Association Types
+To represent "Protein A is upregulated in Study B," we use an edge. Biolink provides the expression_upwardly_regulated_in predicate for this specific purpose.
+
+YAML
+protein to study association:
+  is_a: molecular entity to entity association
+  represented_as: edge
+  label_as_edge: protein_upregulated_in_study
+  source: protein
+  target: study
+  label_in_input: upregulated_in
+  properties:
+    p_value: float
+    log2_fold_change: float
+    confidence_score: float
+    sample_size: int
+    method: str # e.g., T-test, DESeq2
+Expanded Schema Implementation
+Here is how you can append these to your existing schema_config.yaml:
+
+YAML
+# ---
+# New Omics Entities
+# ---
+
+study:
+  is_a: investigation
+  represented_as: node
+  preferred_id: id # e.g., GEO accession, PRIDE ID
+  label_in_input: study
+  properties:
+    name: str
+    study_design: str
+    platform: str
+
+# ---
+# New Omics Associations
+# ---
+
+protein to study upregulation:
+  is_a: expression upwardly regulated in
+  represented_as: edge
+  label_as_edge: protein_upregulated_in
+  source: protein
+  target: study
+  label_in_input: protein_upregulated_in
+  properties:
+    log2_fold_change: float
+    p_value: float
+    adjusted_p_value: float
+
+protein to study downregulation:
+  is_a: expression downwardly regulated in
+  represented_as: edge
+  label_as_edge: protein_downregulated_in
+  source: protein
+  target: study
+  label_in_input: protein_downregulated_in
+  properties:
+    log2_fold_change: float
+    p_value: float
+    adjusted_p_value: float
+Why this works with Biolink:
+investigation: This is a standard Biolink class for clinical or biological studies.
+
+expression upwardly regulated in: This is a formal predicate in Biolink (often mapped to RO:0002245) that specifically links a molecular entity to a condition or study where its expression is increased.
+
+Properties: By adding log2_fold_change and p_value directly to the edge, you keep the quantitative data of the "omics" finding tied to the specific protein-study pair.
+
+Would you like me to also define a "Disease" or "Cell Line" node so you can link the study to a specific biological context?
+
+I need to also have downregulated. RNASEQ and proteome and metabolome. also gene expressions can be correlated
+
+To extend your schema to include multi-omics data (RNA-Seq, Proteomics, Metabolomics) and handle both up/downregulation and correlations, we need to introduce a few standard Biolink classes.
+
+1. New Node Types
+We will add metabolite and study (using Biolink's investigation). Note that your existing schema already has gene and protein.
+
+YAML
+metabolite:
+  is_a: chemical entity
+  represented_as: node
+  preferred_id: pubchem.compound # or hmdb, chebi
+  label_in_input: metabolite
+  properties:
+    name: str
+    formula: str
+
+study:
+  is_a: investigation
+  represented_as: node
+  preferred_id: id # e.g., GEO accession (GSExxx) or PRIDE ID
+  label_in_input: study
+  properties:
+    title: str
+    study_type: str # e.g., "RNA-Seq", "Proteomics", "Metabolomics"
+    organism: str
+2. Up/Downregulation Associations
+Biolink uses predicates like expression_upwardly_regulated_in and expression_downwardly_regulated_in. We can create a generic template and apply it to Genes, Proteins, and Metabolites.
+
+YAML
+# --- RNA-Seq & Proteomics ---
+molecular_upregulated_in_study:
+  is_a: expression upwardly regulated in
+  represented_as: edge
+  source: [gene, protein, metabolite]
+  target: study
+  label_in_input: upregulated_in
+  properties:
+    log2_fold_change: float
+    p_value: float
+    method: str # e.g., DESeq2, MaxQuant
+
+molecular_downregulated_in_study:
+  is_a: expression downwardly regulated in
+  represented_as: edge
+  source: [gene, protein, metabolite]
+  target: study
+  label_in_input: downregulated_in
+  properties:
+    log2_fold_change: float
+    p_value: float
+3. Correlation Associations (Co-expression)
+For correlations between genes (or between different omics layers, like a gene and a protein), Biolink provides correlated_with or more specific subtypes.
+
+YAML
+gene_to_gene_correlation:
+  is_a: gene to gene association
+  represented_as: edge
+  label_as_edge: correlated_with
+  source: gene
+  target: gene
+  label_in_input: correlated_with
+  properties:
+    correlation_coefficient: float # e.g., Pearson/Spearman R
+    p_value: float
+    context: str # e.g., "muscle tissue" or "cancer vs control"
+Summary of the Extended Schema
+By using Multiple Sources in the source field of the association (as seen in the molecular_upregulated_in_study example), you can reuse one association definition for RNA-Seq (Gene -> Study), Proteomics (Protein -> Study), and Metabolomics (Metabolite -> Study).
+
+This approach keeps your schema_config.yaml clean while maintaining strict Biolink compatibility.
+
+Pro-tip: If you want to differentiate between "Transcript Abundance" and "Protein Abundance" more strictly, you can add an aspect property to your edges with values like transcript_abundance or protein_abundance.
+
+some of the studies are looking into daily periodicity and break down the genes into closely correlated clusters
+
+To extend your BioCypher schema for periodicity and clustering, we will introduce nodes for metabolites, studies, and clusters, while using Biolink predicates to handle up/downregulation and periodicity.
+
+1. New Node Types
+The "gene clusters" mentioned in your research are best represented as a Biolink gene group. For periodicity (like circadian rhythms), we can add attributes to the study or the association itself.
+
+YAML
+metabolite:
+  is_a: small molecule
+  represented_as: node
+  preferred_id: pubchem.compound
+  label_in_input: metabolite
+  properties:
+    name: str
+
+study:
+  is_a: investigation
+  represented_as: node
+  preferred_id: id # e.g., GEO accession
+  label_in_input: study
+  properties:
+    title: str
+    study_type: str # e.g., "RNA-Seq", "Proteomics", "Metabolomics"
+    is_periodic: bool # True for studies looking at daily periodicity
+
+gene_cluster:
+  is_a: gene group
+  represented_as: node
+  preferred_id: id
+  label_in_input: cluster
+  properties:
+    cluster_method: str # e.g., "WGCNA", "K-means"
+    periodicity_phase: float # Peak expression time (e.g., in hours)
+2. Multi-Omic Expression Associations
+Biolink uses specific predicates for the direction of expression. By using a list in source, you can link genes, proteins, and metabolites to studies using the same association definition.
+
+YAML
+molecular_upregulated_in_study:
+  is_a: expression upwardly regulated in
+  represented_as: edge
+  source: [gene, protein, metabolite]
+  target: study
+  label_in_input: upregulated_in
+  properties:
+    log2_fold_change: float
+    p_value: float
+
+molecular_downregulated_in_study:
+  is_a: expression downwardly regulated in
+  represented_as: edge
+  source: [gene, protein, metabolite]
+  target: study
+  label_in_input: downregulated_in
+  properties:
+    log2_fold_change: float
+    p_value: float
+3. Clustering and Periodic Correlation
+To represent that a gene belongs to a cluster, or that two genes are correlated (e.g., co-expressed over a 24-hour cycle), we add these associations:
+
+YAML
+# Links genes/proteins to the clusters they belong to
+member_of_cluster:
+  is_a: is a member of
+  represented_as: edge
+  source: [gene, protein, metabolite]
+  target: gene_cluster
+  label_in_input: in_cluster
+
+# Captures the "closely correlated" aspect
+molecular_correlation:
+  is_a: correlated with
+  represented_as: edge
+  source: [gene, protein, metabolite]
+  target: [gene, protein, metabolite]
+  label_in_input: correlated_with
+  properties:
+    correlation_coefficient: float
+    correlation_type: str # e.g., "Pearson", "Spearman"
+    periodicity_score: float # Strength of the periodic signal
+Summary of Schema Logic
+Investigative Context: The study node provides the context for where the upregulation or clustering was observed.
+
+Directionality: Using expression upwardly regulated in and expression downwardly regulated in aligns strictly with the Biolink Model's way of handling differential abundance.
+
+Grouping: The gene_cluster (as a gene group) allows you to treat a set of co-regulated entities as a single unit for higher-level analysis, such as looking at the periodicity of an entire metabolic module.
+
+For more on how these models are structured, you might find this overview of the Biolink Universal Schema helpful. This video explains how the Biolink Model standardizes relationships like expression and correlation to ensure they are computable across different biological data sources.
+
+[DeclMed'23] Biolink Model: a Universal Schema for Knowledge Graphs in Clinical, Biomedica... - YouTube
+ACM SIGPLAN · 96 views
+
+
+correlated in a specific study
+
+To extend your schema for multi-omics (RNA-Seq, Proteomics, Metabolomics) and handle specific biological phenomena like daily periodicity and gene clustering, you can leverage Biolink's flexibility in associations and qualifiers.
+
+1. Multi-Omic Entities
+First, we define the new node types for metabolites and the study context. Genes and proteins are already in your schema.
+
+YAML
+metabolite:
+  is_a: chemical entity
+  represented_as: node
+  preferred_id: pubchem.compound
+  label_in_input: metabolite
+  properties:
+    name: str
+
+study:
+  is_a: investigation
+  represented_as: node
+  preferred_id: id # e.g., GEO accession, PRIDE ID
+  label_in_input: study
+  properties:
+    title: str
+    study_type: str # e.g., "RNA-Seq", "Proteomics", "Metabolomics"
+
+gene_cluster:
+  is_a: gene group
+  represented_as: node
+  preferred_id: id
+  label_in_input: cluster
+  properties:
+    method: str # e.g., WGCNA, K-means
+2. Differentially Expressed (Up/Downregulated)
+Biolink uses expression upwardly regulated in and expression downwardly regulated in as standard predicates. We can use a list in the source to cover all three omics types in one definition.
+
+YAML
+molecular_upregulated_in_study:
+  is_a: expression upwardly regulated in
+  represented_as: edge
+  source: [gene, protein, metabolite]
+  target: study
+  label_in_input: upregulated_in
+  properties:
+    log2_fold_change: float
+    p_value: float
+
+molecular_downregulated_in_study:
+  is_a: expression downwardly regulated in
+  represented_as: edge
+  source: [gene, protein, metabolite]
+  target: study
+  label_in_input: downregulated_in
+  properties:
+    log2_fold_change: float
+    p_value: float
+3. Correlation and Periodicity
+To handle your specific requirement for daily periodicity and correlated clusters within a study, we use correlated with and is a member of associations.
+
+YAML
+# Links entities to their clusters
+member_of_cluster:
+  is_a: is a member of
+  represented_as: edge
+  source: [gene, protein, metabolite]
+  target: gene_cluster
+  label_in_input: in_cluster
+
+# Captures correlations specific to a study (e.g., circadian co-expression)
+molecular_correlation:
+  is_a: correlated with
+  represented_as: edge
+  source: [gene, protein, metabolite]
+  target: [gene, protein, metabolite]
+  label_in_input: correlated_in_study
+  properties:
+    correlation_coefficient: float
+    p_value: float
+    periodicity_phase: float # Peak expression time in hours (0-24)
+    study_id: str # Links the correlation to a specific study context
+Key Considerations for your Schema:
+Contextual Correlation: By adding a study_id or context property to the molecular_correlation edge, you can distinguish between correlations found in a general context versus those found in your specific daily periodicity studies.
+
+Biolink Alignment: Using investigation for studies and gene group for clusters ensures your data remains interoperable with other Biolink-compliant knowledge graphs.
+
+Phase Property: The periodicity_phase property on the correlation edge (or on the cluster node) is the standard way to represent the timing of peak expression in circadian research.
+
+where would you put the specific constrast (e.g. nutrient depleted vs nutrient replete)?
+
+In a BioCypher schema, the specific contrast (e.g., "nutrient depleted vs. nutrient replete") is typically modeled in one of two ways depending on whether you want to treat the contrast as a simple metadata property or as a formal node in your graph.
+
+1. As an Edge Property (Simplified Metadata)
+If you simply want to record what the experimental comparison was without creating extra nodes, you should put this information into the properties of your association edges.
+
+YAML
+molecular_upregulated_in_study:
+  is_a: expression upwardly regulated in
+  represented_as: edge
+  source: [gene, protein, metabolite]
+  target: study
+  label_in_input: upregulated_in
+  properties:
+    contrast: str  # e.g., "nutrient depleted vs nutrient replete"
+    log2_fold_change: float
+    p_value: float
+2. Using Biolink's supporting_study_context (Standardized)
+The Biolink Model provides a specific slot called supporting_study_context designed exactly for this purpose. This is used to describe the experimental setting or context (like "nutrient depleted") in which the evidence was generated.
+
+YAML
+molecular_correlation:
+  is_a: correlated with
+  represented_as: edge
+  source: [gene, protein, metabolite]
+  target: [gene, protein, metabolite]
+  properties:
+    supporting_study_context: str # Put "nutrient depleted condition" here
+    correlation_coefficient: float
+3. As a Separate "Condition" Node (Best for Complex Graphs)
+If your research focuses heavily on these contrasts (e.g., you want to ask "What genes are common across all nutrient depleted studies?"), you should promote the contrast to a node.
+
+In this setup:
+
+Study Node: Represents the overall project (e.g., "GSE12345").
+
+Condition Node: Represents the specific state (e.g., "Nutrient Depleted").
+
+Association: The edge between the Protein and the Study is then "qualified" by the Condition.
+
+YAML
+condition:
+  is_a: entity
+  represented_as: node
+  preferred_id: id
+  label_in_input: condition
+  properties:
+    name: str # e.g. "nutrient depleted"
+
+protein_to_study_association:
+  is_a: molecular entity to entity association
+  represented_as: edge
+  source: protein
+  target: study
+  properties:
+    condition_id: str # Link to the condition node
+    log2_fold_change: float
+Recommendation
+Use Option 1 if the contrast is just a label for humans to read.
+
+Use Option 2 if you want to stay strictly compatible with the Biolink standard for evidence.
+
+Use Option 3 if "Nutrient Depleted" is a recurring theme across many different studies and you want to use it for graph-based discovery.
+
+BioLink Model - standardizing knowledge graphs and making them interoperable This video provides an overview of how the Biolink Model standardizes various biomedical relationships and contexts to ensure interoperability.
+
+BioLink Model - standardizing knowledge graphs and making them interoperable @ BioHackathon2019 - YouTube
+TogoTV · 108 views
+
+
+lets go with option 3. Can we put it all together? proteins/metabolites/genes. up/down regulated. study/publication (also includes "this study"). condition. clusters. correlation.
+
+To implement Option 3, we will structure the schema so that biological findings are contextualized by both a Study and a specific experimental Condition (the contrast). We will also include nodes for Metabolites and Clusters to support multi-omics and periodic analysis.
+
+1. New Node Types
+We add metabolite, study, experimental_condition, and gene_cluster. Note that your existing protein, gene, and compound nodes are already in the schema.
+
+YAML
+metabolite:
+  is_a: chemical entity
+  represented_as: node
+  preferred_id: pubchem.compound
+  label_in_input: metabolite
+  properties:
+    name: str
+
+study:
+  is_a: investigation
+  represented_as: node
+  preferred_id: id # e.g., DOI or GEO accession
+  label_in_input: study
+  properties:
+    title: str
+    publication_url: str
+
+experimental_condition:
+  is_a: experimental entity
+  represented_as: node
+  preferred_id: id # e.g., "nutrient_depleted"
+  label_in_input: condition
+  properties:
+    description: str # e.g., "Nutrient depleted vs nutrient replete"
+
+gene_cluster:
+  is_a: gene group
+  represented_as: node
+  preferred_id: id
+  label_in_input: cluster
+  properties:
+    method: str # e.g., WGCNA
+    periodicity_phase: float # Peak time in hours
+2. Multi-Omic Expression (Up/Downregulated)
+These edges connect the molecular entity to the Study and use the Condition as a property to define the contrast.
+
+YAML
+molecular_upregulated_in_study:
+  is_a: expression upwardly regulated in
+  represented_as: edge
+  source: [gene, protein, metabolite]
+  target: study
+  label_in_input: upregulated_in
+  properties:
+    condition_id: str # Link to experimental_condition node
+    log2_fold_change: float
+    p_value: float
+
+molecular_downregulated_in_study:
+  is_a: expression downwardly regulated in
+  represented_as: edge
+  source: [gene, protein, metabolite]
+  target: study
+  label_in_input: downregulated_in
+  properties:
+    condition_id: str # Link to experimental_condition node
+    log2_fold_change: float
+    p_value: float
+3. Clustering and Periodic Correlation
+For daily periodicity, we link entities to clusters and define correlations that are specific to a study's context.
+
+YAML
+# Membership in a cluster (e.g., a periodic module)
+member_of_cluster:
+  is_a: is a member of
+  represented_as: edge
+  source: [gene, protein, metabolite]
+  target: gene_cluster
+  label_in_input: in_cluster
+
+# Correlation found within a specific study context
+molecular_correlation:
+  is_a: correlated with
+  represented_as: edge
+  source: [gene, protein, metabolite]
+  target: [gene, protein, metabolite]
+  label_in_input: correlated_in_study
+  properties:
+    study_id: str # Link to study node
+    condition_id: str # e.g. "circadian_sampling"
+    correlation_coefficient: float
+    p_value: float
+How this works together:
+Proteins/Metabolites/Genes: All three can be sources for expression and correlation edges, allowing for cross-omic integration (e.g., a Metabolite correlated with a Gene).
+
+The Contrast: By using the experimental_condition node and a condition_id property on the edge, you can query for all proteins upregulated specifically in "nutrient depleted" states across multiple studies.
+
+Periodicity: The gene_cluster stores the phase (timing), while the molecular_correlation edge stores the statistical strength of that periodic relationship within a specific study.
+
+Study/Publication: The study node acts as the evidence anchor for all findings, ensuring every "upregulated" edge is traceable to its source.
+
+what ids do I use? I need to come up with unique URIs?
+
+In a BioCypher and Biolink context, you generally do not need to manually invent unique URIs. Instead, you use CURIEs (Compact URIs) which follow a namespace:accession format. BioCypher then handles the expansion of these into globally unique IRIs for you based on the preferred_id (namespace) you define in your schema.
+
+1. The ID Strategy (Namespace:Accession)
+For standard biological entities, always use existing persistent identifiers from community registries.
+
+Entity	Recommended Namespace (preferred_id)	Example ID (CURIE)
+Gene	ncbigene or ensembl	ncbigene:1234
+Protein	uniprot	uniprot:P12345
+Metabolite	pubchem.compound or chebi	pubchem.compound:644102
+Study	geo, pubmed, or doi	geo:GSE12345, pubmed:31234567
+2. Handling "Internal" Entities (Conditions & Clusters)
+Since your experimental conditions (e.g., "nutrient depleted") and gene clusters are specific to your dataset, you should create a custom namespace for them. It is best practice to prefix these with a short code representing your project.
+
+Experimental Condition: [project_prefix].condition:[unique_name]
+
+Example: myproj.condition:nutrient_depleted
+
+Gene Cluster: [project_prefix].cluster:[study_id]_[cluster_number]
+
+Example: myproj.cluster:GSE12345_module_red
+
+3. Integrated Schema Configuration
+Here is how the final schema looks, incorporating these identifier strategies:
+
+YAML
+# --- Nodes ---
+
+experimental_condition:
+  is_a: experimental entity
+  represented_as: node
+  preferred_id: myproj.condition # Your custom namespace
+  label_in_input: condition
+  properties:
+    description: str
+
+study:
+  is_a: investigation
+  represented_as: node
+  preferred_id: geo # Uses GEO accessions as primary IDs
+  label_in_input: study
+  properties:
+    title: str
+
+gene_cluster:
+  is_a: gene group
+  represented_as: node
+  preferred_id: myproj.cluster
+  label_in_input: cluster
+  properties:
+    periodicity_phase: float
+
+# --- Associations ---
+
+molecular_upregulated_in_study:
+  is_a: expression upwardly regulated in
+  represented_as: edge
+  source: [gene, protein, metabolite]
+  target: study
+  properties:
+    # Use the ID of the condition node here
+    has_context: str 
+    log2_fold_change: float
+
+molecular_correlation:
+  is_a: correlated with
+  represented_as: edge
+  source: [gene, protein, metabolite]
+  target: [gene, protein, metabolite]
+  properties:
+    # Use the ID of the study node to anchor the correlation
+    recorded_in: str 
+    correlation_coefficient: float
+Why this works:
+Interoperability: By using uniprot or pubchem.compound, your graph can instantly link to other knowledge graphs (like Hetionet or SPOKE).
+
+No URI Collision: Using a custom prefix like myproj: for conditions ensures your "nutrient_depleted" ID doesn't accidentally merge with someone else's "nutrient_depleted" if the data is ever integrated.
+
+BioCypher Resolution: When you run the BioCypher pipeline, it will look at your preferred_id and automatically prepend the correct base URL (e.g., https://identifiers.org/uniprot/P12345) to generate valid RDF/linked data if needed.
+
+question: I am working on Prochlorococcus. I have uniprot ids like: Q7V091. old locus tags like: PMM0123. ncbi locus tags like: TX50_RS00030. ncbi protein ids like: WP_011131645.1. cyanorak ids like: CK_Pro_MED4_00002.
+
+
+
+Most of my sources use the PMM0123 format to refer to genes. what should I use as ids?
+
+Based on your focus on Prochlorococcus and the common use of locus tags (like PMM0123) in your source data, here is the recommended strategy for your BioCypher schema.
+
+The Recommended ID: Locus Tags
+For Prochlorococcus (specifically the MED4 strain mentioned in your example), the locus tag is the most stable and widely used identifier in the literature and comparative genomics.
+
+You should use the NCBI Locus Tag format as your preferred_id for genes. This ensures that you can map both "old" tags (PMM identifiers) and modern NCBI tags (TX50 prefix) consistently.
+
+Updated Schema Configuration
+Modify your gene and protein definitions in the schema_config.yaml to include these cross-references. This allows your graph to be "searchable" by any of the IDs you mentioned while maintaining a single unique primary key.
+
+YAML
+gene:
+  represented_as: node
+  preferred_id: ncbigene # Or a custom 'prochlorococcus.locus' namespace
+  label_in_input: gene
+  properties:    
+    gene_symbol: str
+    locus_tag: str # e.g., PMM0123 or TX50_RS00030
+    cyanorak_id: str # e.g., CK_Pro_MED4_00002
+    ensembl_gene_ids: str[]
+
+protein:
+  represented_as: node
+  preferred_id: uniprot
+  label_in_input: protein
+  properties:
+    uniprot_id: str # e.g., Q7V091
+    ncbi_protein_id: str # e.g., WP_011131645.1
+    primary_protein_name: str
+    # ... keep existing properties from your file
+Why this strategy?
+Stable Mapping: In Prochlorococcus MED4, PMM0123 is the "Old Locus Tag" in NCBI records for the gene encoding the protein Q7V091. By storing the locus tag as a property, you can bridge your specific study data with the general UniProt IDs.
+
+Cyanorak Integration: Cyanorak is the primary database for cyanobacterial clusters of orthologous groups (CyOGs). Storing the cyanorak_id as a property enables you to later link your genes to shared functional clusters across different Prochlorococcus and Synechococcus ecotypes.
+
+Unique URIs/CURIEs: For your graph to be interoperable, your IDs should follow the CURIE format (prefix:accession).
+
+UniProt: uniprot:Q7V091
+
+Gene: ncbigene:PMM0123 (Note: NCBI allows the use of locus tags in place of numeric IDs in many bioinformatic pipelines).
+
+Handling "This Study" and Conditions
+Since you are looking at specific contrasts (e.g., nutrient depletion), you should use a custom prefix for your study-specific IDs:
+
+Condition ID: pro_study.condition:nutrient_depleted
+
+Cluster ID: pro_study.cluster:module_01
+
+By using the UniProt ID as the primary key for proteins and the Locus Tag for genes, you align your schema with the standard CROssBAR structure you provided while catering to the specific naming conventions of the marine microbiology community.
+
+I plan to extend to additional Prochlorococcus strains but also to Alteromonas strains as well (my study is a meta study of both)
+
+To accommodate multiple strains of Prochlorococcus and Alteromonas in a meta-study, your schema needs to be robust enough to handle taxonomically diverse data while maintaining the specific contrast (Condition) and clustering (Periodicity) logic we established.
+
+1. The ID Strategy for Multiple Strains
+To avoid ID collisions between different organisms, you should adopt a prefixed locus tag strategy. Since you mentioned "PMM0123" (MED4) and "TX50_RS00030" (MIT9313 or similar), these tags are already strain-specific.
+
+For Gene IDs: Use the locus tag with the NCBI prefix (e.g., ncbigene:PMM0123, ncbigene:ALT1234).
+
+For Taxon IDs: Always link nodes to their specific organism taxon node using NCBI Taxon IDs (e.g., ncbitaxon:167539 for Prochlorococcus MED4).
+
+2. The Integrated Schema Extension
+Here is the complete extension for your schema_config.yaml. This version includes the metabolite node, the experimental_condition node (Option 3), and the logic for gene_clusters.
+
+YAML
+# --- New Nodes ---
+
+metabolite:
+  is_a: chemical entity
+  represented_as: node
+  preferred_id: pubchem.compound
+  label_in_input: metabolite
+  properties:
+    name: str
+
+study:
+  is_a: investigation
+  represented_as: node
+  preferred_id: id # e.g. "GEO:GSE12345" or "DOI:10.1038/..."
+  label_in_input: study
+  properties:
+    title: str
+    meta_study: bool # Flag to indicate if it involves multiple strains
+
+experimental_condition:
+  is_a: experimental entity
+  represented_as: node
+  preferred_id: id # e.g. "condition:nutrient_depletion"
+  label_in_input: condition
+  properties:
+    description: str # e.g. "Nitrate depletion vs Nitrate replete"
+    strain_specific: bool 
+
+gene_cluster:
+  is_a: gene group
+  represented_as: node
+  preferred_id: id # e.g. "cluster:MED4_module_01"
+  label_in_input: cluster
+  properties:
+    method: str
+    periodicity_phase: float # For daily periodicity peaks
+
+# --- New Associations ---
+
+molecular_expression_change:
+  is_a: association
+  represented_as: edge
+  # This covers RNASeq (gene), Proteome (protein), and Metabolome (metabolite)
+  source: [gene, protein, metabolite]
+  target: study
+  label_in_input: [upregulated_in, downregulated_in]
+  properties:
+    direction: str # "up" or "down"
+    condition_id: str # Link to experimental_condition (the contrast)
+    log2_fold_change: float
+    p_value: float
+
+cluster_membership:
+  is_a: is a member of
+  represented_as: edge
+  source: [gene, protein, metabolite]
+  target: gene_cluster
+  label_in_input: in_cluster
+
+molecular_correlation:
+  is_a: correlated with
+  represented_as: edge
+  source: [gene, protein, metabolite]
+  target: [gene, protein, metabolite]
+  label_in_input: correlated_in_study
+  properties:
+    study_id: str
+    correlation_coefficient: float
+3. Implementation Details for Meta-Studies
+Cross-Strain Mapping: Because you are doing a meta-study, you will likely want to compare a Prochlorococcus gene to an Alteromonas gene. Your existing gene_is_orthologous_with_gene association is perfect for this. Use it to link locus tags across different species.
+
+The Contrast (Condition) Node: By making experimental_condition a node, you can create one "Nitrogen Starvation" node and link it to expression data from both Prochlorococcus and Alteromonas studies. This allows you to query: "Which metabolites increase in both organisms under nitrogen starvation?"
+
+Locus Tag Consistency: Ensure your ingestor maps "PMM0123" to the gene node and "Q7V091" to the protein node, then use the gene_encodes_protein association to link them.
+
+Summary of ID usage for your meta-study:
+Proteins: UniProt Accessions (e.g., uniprot:Q7V091).
+
+Genes: Locus Tags (e.g., ncbigene:PMM0123 or ncbigene:TX50_RS00030).
+
+Metabolites: PubChem or ChEBI (e.g., pubchem.compound:644102).
+
+Conditions: Project-specific unique strings (e.g., condition:low_phosphorus).
+
+in biocypher, is there api for adding properties to existing nodes?
+
+In BioCypher, the primary API for adding or updating data—including adding properties to existing nodes—is through the merge_nodes() method.
+
+While the standard write_nodes() function is used for bulk creation (often during a "wipe and reload" initial build), merge_nodes() is specifically designed for incremental updates. It uses the database's native MERGE logic (e.g., in Neo4j) to check if a node already exists by its ID; if it does, it updates the properties without creating a duplicate node.
+
+How to use the API for property updates
+To add properties to existing nodes, you pass a collection of BioCypherNode objects or tuples to the merge_nodes method of your BioCypher instance.
+
+Python
+from biocypher import BioCypher
+
+# 1. Initialize BioCypher
+bc = BioCypher()
+
+# 2. Define nodes with the same IDs as existing ones but with NEW properties
+# Format: (id, label, properties_dict)
+updated_nodes = [
+    ('PMM0123', 'gene', {'new_annotation': 'Photosynthesis-related', 'periodicity_score': 0.85}),
+    ('Q7V091', 'protein', {'molecular_weight': 42000})
+]
+
+# 3. Use merge_nodes to update existing nodes
+bc.merge_nodes(updated_nodes)
+Key Considerations
+Deduplication & Matching: BioCypher identifies "existing" nodes based on the preferred_id defined in your schema_config.yaml. As long as the ID (e.g., PMM0123) matches, the properties will be merged.
+
+Property Replacement vs. Addition:
+
+New properties: If the property key (e.g., periodicity_score) doesn't exist on the node yet, it will be added.
+
+Existing properties: If the property key already exists, its value will be overwritten by the new data provided in the dictionary.
+
+Schema Compliance: Even when adding properties to existing nodes, the new property keys must be allowed in your schema_config.yaml for that node type (unless you are running in strict_mode: false).
+
+Alternatives for LLM-based Workflows
+If you are using the newer Agent API (BioCypherWorkflow), the add_node() method acts similarly to a merge operation. If you call add_node() with an ID that already exists in the graph, it will return False but can be configured to update the record depending on your validation settings.
+
+For advanced users, you can also access the driver directly:
+
+Python
+# Accessing the underlying driver for custom Cypher updates
+bc.driver.add_biocypher_nodes(nodes) 

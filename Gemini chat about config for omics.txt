@@ -1,0 +1,1026 @@
+Gemini
+
+Biolink Schema for Differential Expression
+My stuff
+Biolink Schema for Differential Expression
+מיכון בגידול אורז: משתילה לקטיף
+Vietnam's Sun World Attractions
+ממתקים וייטנאמיים מסורתיים
+הסוציאליזם הווייטנאמי: מודל ייחודי
+צבע הרי הגיר בנין בין
+Funny Historical Romance Recommendations
+Extending Schema for Omics Data
+Movies Like Inception Recommendations
+Text Reduction and Editing Suggestions
+Categorizing Molecules by Chemical Nature
+Categorizing Transporters: Compounds and Direction
+המלצות סרטים דומים ל"אהבה זה כל הסיפור"
+Spaghetti and Baking Soda Transformation
+Papers to Podcasts: AI Audio Tools
+Chat History Inaccessible
+Papers to Podcasts: AI Tools
+Book Suitability for Teenagers
+Conference Agenda Planning Assistance
+Advil Availability in the UK
+Book Recommendations for a Flight
+Heartwarming Story Suggestions Offered
+Book Recommendations for a Flight
+Liverpool Weekend Events Guide
+Weekend Getaways: Liverpool/Manchester Area
+Choosing the Right API Endpoint
+Liverpool Weekend Activities: July 2025
+Liverpool Weekend Activities Guide
+Playwright Chromium Installation Failure Fix
+Antimalware Memory Usage Explained and Fixed
+Reduce Windows 11 Memory Usage
+Hi, am working to interpret RNASEQ and proteome of a model system of marine bacteria Prochlorococcus/Alteromonas under N limitation. As first step, I would like to do batch LLM runs to generate info on individual genes involovement in relevant biological processes (nutrient exchange, stress, physiological response, coculture). This is my schema:
+AI/LLM for Marine Omics Analysis
+Android App Development Guide
+Conversation with Gemini
+how do you represent differential expression in knowledge graphs based on biolink schema?
+
+Representing differential expression in a Knowledge Graph (KG) using the Biolink Schema involves utilizing specific association classes and qualifiers designed to capture the change in a gene’s state under specific conditions.
+
+In Biolink, differential expression is typically modeled as an Association between a gene and a phenotypic state or anatomical site, modified by Qualifiers that specify the direction of change.
+
+1. Primary Association Classes
+To represent gene expression, you use classes that inherit from GeneExpressionMixin. The most common classes for this purpose are:
+
+biolink:GeneToExpressionSiteAssociation: Connects a gene to the anatomical location where it is expressed.
+
+biolink:VariantToGeneExpressionAssociation: Used when a specific genetic variant is the cause of the expression change (e.g., eQTL data).
+
+biolink:GeneToPhenotypicFeatureAssociation: Often used to link a gene's expression status to a specific disease or phenotype.
+
+2. Specifying Direction (Up/Down-regulation)
+Biolink uses Qualifiers to handle the "differential" aspect. Instead of creating unique predicates for every direction, you use a generic predicate like biolink:affects or biolink:expressed_in and refine it:
+
+object_direction_qualifier: This slot uses the DirectionQualifierEnum. You populate this with values like increased (up-regulated) or decreased (down-regulated).
+
+subject_aspect_qualifier: This clarifies that the change is specifically in the expression or abundance of the gene product, rather than its activity or stability.
+
+3. Key Slots for Context
+A differential expression statement is only meaningful with context. Biolink provides slots to capture experimental conditions:
+
+Slot	Purpose	Example Value
+phenotypic_state	The disease or condition being studied.	MONDO:0005015 (Diabetes)
+expression_site	The tissue or cell type where expression was measured.	UBERON:0001155 (Colon)
+quantifier_qualifier	Used for the magnitude of change (e.g., Log2 Fold Change).	A numeric value or ontology term.
+has_evidence	Links to the statistical evidence (e.g., p-value).	ECO:0000045 (RNA-seq evidence)
+Example Representation (RDF/Property Graph Logic)
+If you wanted to represent that Gene X is up-regulated in Lung Tissue during Lung Cancer:
+
+Subject: Gene:X
+
+Predicate: biolink:expressed_in
+
+Object: UBERON:Lung
+
+Qualifiers:
+
+object_direction_qualifier: increased
+
+subject_aspect_qualifier: expression
+
+phenotypic_state: MONDO:LungCancer
+
+Would you like me to help you draft a Python script using the linkml or kgx libraries to generate these associations programmatically?
+
+This video provides a deep dive into how the Biolink Model standardizes relationships and attributes, which is essential for correctly implementing complex associations like differential expression. Biolink Model: A Universal Schema for Knowledge Graphs
+
+[DeclMed'23] Biolink Model: a Universal Schema for Knowledge Graphs in Clinical, Biomedica... - YouTube
+ACM SIGPLAN · 101 views
+
+
+ok. My model is the interaction between the bacteria prochlorococcus and alteromonas. I have DE analysis for genes in coculture vs monoculture. how does that look in biolink based KG?
+
+In a Biolink-compliant Knowledge Graph, your data is essentially a "comparative" association. Since you are comparing coculture (the experimental condition) against monoculture (the baseline), you are modeling an interaction where one organism (the "modifier") affects the gene expression of another organism (the "target").
+
+Here is how you would structure this using Biolink Schema:
+
+1. The Core Association
+You should use the biolink:GeneToExpressionSiteAssociation or the more general biolink:EntityToEntityExpressionAssociation. In this case, your "expression site" or context is the presence of the other bacteria.
+
+Subject: Prochlorococcus_Gene_ABC
+
+Predicate: biolink:expressed_in (or biolink:affects if focusing on the interaction)
+
+Object: NCBITaxon:Alteromonas_ID (The presence of this taxa is the "condition")
+
+2. Utilizing Qualifiers for DE Specifics
+This is where the "Differential" part of your DE analysis is captured. Biolink uses qualifiers to turn a simple link into a data-rich statement.
+
+subject_aspect_qualifier: expression (specifies that it's the mRNA levels being measured).
+
+object_direction_qualifier: increased (for up-regulated) or decreased (for down-regulated).
+
+predicate_context_qualifier: This is where you specify that this occurs during coculture. You might use an ontology term for "mixed culture" or "symbiotic interaction."
+
+3. Adding Quantitative Metadata
+To make the KG useful for downstream analysis, you attach your DE statistics as attributes to the edge:
+
+Slot	Value Example
+log_fold_change	2.45
+p_value	0.0012
+has_evidence	ECO:0000006 (experimental evidence)
+Visualization of the Model
+Example Triple (JSON-LD style)
+JSON
+{
+  "subject": "PRCC:Gene_123",
+  "predicate": "biolink:expressed_in",
+  "object": "TAXON:Alteromonas_sp",
+  "qualifiers": [
+    {
+      "parameter": "object_direction_qualifier",
+      "value": "increased"
+    },
+    {
+      "parameter": "subject_aspect_qualifier",
+      "value": "expression"
+    }
+  ],
+  "attributes": [
+    {"attribute_type": "biolink:log_fold_change", "value": 3.1},
+    {"attribute_type": "biolink:p_value", "value": 0.005}
+  ]
+}
+Why this matters
+By using this structure, you aren't just saying "these two bacteria interact." You are explicitly stating that the presence of Alteromonas causes a directional change in the transcriptomic state of Prochlorococcus. This allows researchers to query your graph for things like: "Find all genes in Prochlorococcus that are up-regulated when in the presence of any Proteobacteria."
+
+Would you like me to help you map your specific Log2FoldChange columns to the standard Biolink attribute slots?
+
+I have lots of examples. lets start with this one. I need biolink based schema for bicypher. specify both nodes and edges in yaml format
+
+To represent the differential expression (DE) of Prochlorococcus genes in response to Alteromonas in a BioCypher knowledge graph, you need a schema_config.yaml that defines the entities (Nodes) and the specific Biolink associations (Edges).
+
+In BioCypher, you map your input data labels (from your CSV/Dataframe) to Biolink classes using the is_a and represented_as fields.
+
+schema_config.yaml for DE Analysis
+This configuration defines the two bacterial species, the genes, and the "Differential Expression" edge which links them.
+
+YAML
+# Nodes: The Organisms
+prochlorococcus:
+  is_a: organism taxon
+  represented_as: node
+  preferred_id: ncbitaxon
+  input_label: prochlorococcus  # The label in your adapter/data
+
+alteromonas:
+  is_a: organism taxon
+  represented_as: node
+  preferred_id: ncbitaxon
+  input_label: alteromonas
+
+# Nodes: The Genes
+gene:
+  is_a: gene
+  represented_as: node
+  preferred_id: ncbitaxon  # Or ensembl / locus_tag depending on your data
+  input_label: gene
+  properties:
+    symbol: str
+    description: str
+
+# Edges: The Differential Expression Association
+# We use GeneToExpressionSiteAssociation because Alteromonas acts as the 'site/context'
+gene_to_organism_expression_association:
+  is_a: gene to expression site association
+  represented_as: edge
+  label_as_edge: RADIATES_FROM  # Custom label for Neo4j (optional)
+  source: gene
+  target: alteromonas
+  input_label: de_edge
+  properties:
+    # Biolink Qualifiers (Standard)
+    subject_aspect_qualifier: str  # e.g., "expression"
+    object_direction_qualifier: str # e.g., "increased" or "decreased"
+    
+    # Quantitative DE Data (Custom attributes)
+    log2_fold_change: float
+    p_value_adj: float
+    condition: str                 # e.g., "coculture_vs_monoculture"
+Implementation Details
+Nodes:
+
+Gene: Each Prochlorococcus gene is a node.
+
+Alteromonas: The presence of this organism is treated as the "site" or "condition" that the gene is expressed in.
+
+Edges (The DE Association):
+
+In Biolink, there isn't a single "DifferentialExpression" edge; instead, we use GeneToExpressionSiteAssociation.
+
+The Direction (Up/Down) is stored as a property (object_direction_qualifier).
+
+The Context (Coculture) is captured by the fact that the target node is the other organism.
+
+Attributes:
+
+Ensure your adapter provides the log2_fold_change and p_value_adj. These are critical for downstream filtering (e.g., "Show me genes with ∣LFC∣>2").
+
+Next Steps
+Would you like me to write a Python Adapter (using biocypher and pandas) that reads your DE results and transforms them into the format required by this YAML?
+
+This video offers an in-depth explanation of the Biolink Model's hierarchical structure, which is the foundation for creating standardized and interoperable knowledge graphs like the one you're building with BioCypher. Biolink Model: A Universal Schema for Knowledge Graphs
+
+[DeclMed'23] Biolink Model: a Universal Schema for Knowledge Graphs in Clinical, Biomedica... - YouTube
+ACM SIGPLAN · 101 views
+
+
+ok. lets complicate a little. when in coculture they both first grow and then get into a long sustatined stationary survival. I have coculture (alteromonas & prochlorococcus) and the DESEQ contrast is long terms stationary (day 30-90) vs exponential growth (day 11)
+
+This adds a critical layer of temporal context. In Biolink, time points and life cycle stages are treated as Contextual Qualifiers.
+
+When comparing "Day 90" to "Day 11," you are essentially modeling how the interaction between these two species evolves over time. To handle this in BioCypher, we need to add nodes for the Experimental Stages and use the edge to bridge the Gene, the Partner Taxon, and the Timeframe.
+
+1. Updated schema_config.yaml
+We will introduce a biological_process or phenotypic_feature node to represent the growth stages (Exponential vs. Stationary).
+
+YAML
+# Nodes: Growth Phases
+growth_phase:
+  is_a: biological process
+  represented_as: node
+  preferred_id: go  # e.g., GO:0000304 for stationary phase
+  input_label: phase
+
+# Nodes: The Genes
+gene:
+  is_a: gene
+  represented_as: node
+  input_label: gene
+
+# Nodes: The Partner Organism
+organism:
+  is_a: organism taxon
+  represented_as: node
+  input_label: taxon
+
+# The Complex DE Edge
+gene_to_condition_association:
+  is_a: gene to expression site association
+  represented_as: edge
+  source: gene
+  target: organism  # Alteromonas is the 'environment'
+  input_label: de_analysis
+  properties:
+    # Temporal Context
+    stage_comparison: str          # "Stationary vs Exponential"
+    time_point_start: str          # "Day 30-90"
+    time_point_reference: str      # "Day 11"
+    
+    # Biolink Qualifiers
+    subject_aspect_qualifier: str  # "expression"
+    object_direction_qualifier: str # "increased" (for stationary)
+    
+    # Quantitative Data
+    log2_fold_change: float
+    p_value_adj: float
+2. Modeling the Logic
+In BioCypher, since you are doing a DESeq2 contrast (Stationary vs. Exponential), your edge represents the change between these states.
+
+The Subject: The Prochlorococcus gene.
+
+The Object: Alteromonas (The biotic context).
+
+The Attributes: The properties capture the "When."
+
+By mapping the growth phases to Gene Ontology (GO) terms or Environmental Ontology (ENVO) terms, you make your graph "reason-able." For example, mapping "Stationary Phase" to GO:0000304 allows your KG to connect your DE results to every other paper that studied stationary phase genes.
+
+3. How the Data Maps
+If you have a CSV with your DESeq2 results, your BioCypher adapter will process a row like this:
+
+Gene	log2FC	p-adj	Direction	Context	Contrast
+pro_001	4.2	1e-5	increased	Alteromonas	Stationary vs Exp
+The resultant KG structure:
+
+Node 1: Gene(pro_001)
+
+Node 2: Organism(Alteromonas)
+
+Edge: (pro_001)-[:DE_ANALYSIS {direction: "increased", log2FC: 4.2, contrast: "Stationary_vs_Exp"}]->(Alteromonas)
+
+Why not make "Time" a Node?
+You could make "Day 90" a node, but in Biolink, it is usually more robust to treat the environmental/taxonomic context as the node and the state change as the edge properties. This prevents your graph from becoming a "hairball" of time-point nodes.
+
+Would you like to see how to structure the Python Adapter to handle these specific time-point contrasts from a CSV/Pandas dataframe?
+
+I want to add to the graph DE tests from published papers. Some of these include: presence or absence of bacteria, presence or absence of phage. different light or dark levels and regimes. different media compositions (high/low levels of nutrients, different molecules, e.g urea vs ammonia), UV levels, salinity levels, CO2 and O2 levels. some papers combine multiple conditions (e.g. light vs dark with and without alteromonas presence). Some compare different strains of sorted (free living vs biofilm)
+
+To handle the diversity of published experiments—ranging from phage presence to UV levels—your Knowledge Graph needs a highly modular approach.
+
+In Biolink, you shouldn't create a new edge type for every condition. Instead, you use a reusable Association class where the "Context" is defined by a node representing the experimental variable.
+
+1. The Multi-Factor Schema
+The most robust Biolink class for this is biolink:GeneToExpressionSiteAssociation. While "Expression Site" sounds like a tissue, Biolink allows it to represent any "contextual environment."
+
+schema_config.yaml
+This setup allows you to link genes to any environmental or biotic factor.
+
+YAML
+# Nodes: The Gene
+gene:
+  is_a: gene
+  represented_as: node
+
+# Nodes: The Factors (Catch-all for Biotic and Abiotic)
+# You can use more specific Biolink classes if preferred (e.g., chemical entity)
+experimental_factor:
+  is_a: named thing
+  represented_as: node
+  input_label: factor
+  properties:
+    category: str # e.g., "abiotic", "biotic", "chemical"
+    description: str
+
+# Edge: The DE Evidence
+differential_expression_association:
+  is_a: gene to expression site association
+  represented_as: edge
+  source: gene
+  target: experimental_factor
+  input_label: de_test
+  properties:
+    # Biolink Standard Qualifiers
+    subject_aspect_qualifier: expression
+    object_direction_qualifier: str # "increased" | "decreased"
+    
+    # Context Qualifiers (The "Secret Sauce" for multi-factors)
+    # Use these to describe the BASELINE or combined factors
+    predicate_context_qualifier: str # e.g., "in presence of phage"
+    has_evidence: str               # PubMed ID or DOI
+    
+    # Stats
+    log2_fold_change: float
+    p_value_adj: float
+2. Mapping Your Examples to Nodes
+To make the graph searchable, you should map your factors to standard ontologies. This turns a "string" into a "concept."
+
+Factor Type	Example Node (Value)	Suggested Ontology
+Biotic	Alteromonas, Phage P-TIM5	NCBITaxon
+Nutrients	Ammonia, Urea, Glucose	ChEBI
+Abiotic	High Light, UV Radiation	ENVO (Environmental Ontology)
+Life Stage	Biofilm vs. Free-living	GO or PATO (Phenotype/Attribute)
+3. Handling Complex "Combined" Conditions
+When a paper compares Light vs. Dark within a coculture, you have two choices:
+
+A. The "Context Qualifier" approach (Recommended)
+Keep the edge between Gene and Light, and put the Alteromonas context in the edge properties.
+
+Subject: Gene_X
+
+Target: Light_Regime (Node)
+
+Edge Property (predicate_context_qualifier): Coculture with Alteromonas
+
+B. The "Condition Node" approach
+Create a specific node for the combined state if it's a major study.
+
+Target: Node(Light + Alteromonas)
+
+This is useful if you want to see all genes reacting to that exact combo.
+
+4. Logic Flow for your BioCypher Adapter
+Your Python adapter should look like this:
+
+Iterate through the paper's DE table.
+
+Create a gene node for the subject.
+
+Identify the primary variable (e.g., UV exposure) and create/link to an experimental_factor node.
+
+Fill the edge properties with the LFC, P-value, and any secondary conditions (like "salinity: 35ppm").
+
+This structure allows you to ask the graph: "Find genes that are up-regulated by UV but down-regulated when Alteromonas is present."
+
+Would you like to see how to structure the input CSV to make it easy for a BioCypher adapter to read all these different types of papers?
+
+what would you use a valid ids for the experimental condition?
+
+For a Knowledge Graph to be truly interoperable and "Biolink-compliant," you should avoid using plain text strings like "High Light" or "Urea" as IDs. Instead, you should use CURIEs (Compact URIs) from established ontologies.
+
+Using standardized IDs allows your graph to "know" that Ammonia is a nitrogen source without you having to explicitly program that relationship.
+
+1. Recommended Ontologies for IDs
+Depending on the category of your experimental condition, you should pull IDs from these specific "gold standard" registries:
+
+Category	Recommended Ontology	ID Prefix	Example ID
+Chemicals / Nutrients	ChEBI	CHEBI:	CHEBI:16134 (Ammonia)
+Biotic Factors (Taxa)	NCBI Taxonomy	NCBITaxon:	NCBITaxon:1148 (Synechococcus)
+Abiotic Factors (Light/Temp)	ENVO	ENVO:	ENVO:01000732 (Irradiance)
+Biological States	GO	GO:	GO:0000304 (Stationary Phase)
+Phenotypes/Attributes	PATO	PATO:	PATO:0001027 (Increased Salinity)
+Lab Protocols / Media	OBI	OBI:	OBI:0000079 (Culture Medium)
+2. Handling Complex Factors (The "Named Thing" Fallback)
+If you encounter a highly specific condition that doesn't have an ontology term (e.g., "300 μmol photons m 
+−2
+ s 
+−1
+  light level"), you have two options for the ID:
+
+Option A: The BioCypher "Local" ID
+Create a deterministic ID based on the value.
+
+ID: experimental_condition:high_light_300
+
+Label: "High Light (300 umol)"
+
+Type: biolink:ExperimentalEntity
+
+Option B: The Attribute-Centric ID (Biolink Best Practice)
+Use a generic node for "Light" and specify the magnitude as an attribute on the edge.
+
+Target Node ID: ENVO:01000732 (irradiance)
+
+Edge Property: has_quantitative_value: 300
+
+Edge Property: unit: uM/m2/s
+
+3. Representing "Presence/Absence" of Phage
+For the phage experiments you mentioned, the most valid ID is the NCBI Taxon ID for that specific phage.
+
+Subject: Gene_X
+
+Predicate: biolink:affects_expression_of
+
+Object: NCBITaxon:123456 (The specific Phage ID)
+
+Qualifier: object_direction_qualifier: increased
+
+4. How to find these IDs quickly?
+I recommend using the OLS (Ontology Lookup Service) or BioPortal.
+
+Pro-tip: If you are comparing "Urea vs Ammonia," your graph should actually have two edges from the gene: one pointing to the Urea node (CHEBI:16199) and one to the Ammonia node (CHEBI:16134), with the DESeq2 stats attached to each relative to the control.
+
+Would you like me to help you find the specific ChEBI or ENVO IDs for a few of your most common experimental variables (like your specific light regimes or nutrient types)?
+
+every DESEQ result has a contrast - comparing treatment vs reference. how do you specify that?
+
+In a Knowledge Graph, a "Contrast" is essentially a ternary relationship (Subject-Predicate-Object) contextualized by a Reference.
+
+Biolink handles this by using Qualifiers. You don't just link the Gene to the Treatment; you use a specific slot to declare what that treatment is being measured against.
+
+1. The Biolink Qualifier Strategy
+In your BioCypher schema_config.yaml, you should add the following properties to your differential_expression_association edge:
+
+object_direction_qualifier: The direction of change (e.g., increased).
+
+comparative_term_qualifier: This is the formal Biolink slot for the "Reference" or "Baseline" condition.
+
+subject_aspect_qualifier: Set to expression.
+
+2. Updated YAML Schema for Contrasts
+This structure allows you to capture that the Log 
+2
+​
+ FC is only valid in the context of Treatment A vs Reference B.
+
+YAML
+differential_expression_association:
+  is_a: gene to expression site association
+  represented_as: edge
+  source: gene
+  target: experimental_factor # This is your "Treatment" (e.g., Alteromonas)
+  properties:
+    # The "What" and "Which Way"
+    subject_aspect_qualifier: str    # "expression"
+    object_direction_qualifier: str  # "increased" | "decreased"
+    
+    # The Contrast Logic
+    comparative_term_qualifier: str  # ID of the Reference (e.g., "monoculture")
+    
+    # Quantitative Metadata
+    log2_fold_change: float
+    p_value_adj: float
+    
+    # Provenance
+    has_evidence: str                # DOI or PubMed CURIE
+3. How to map your specific examples
+Since your data includes complex comparisons, here is how you would define the Target (Object) vs. the Reference (comparative_term_qualifier):
+
+Experiment Type	Edge Target (Treatment)	Comparative Term (Reference)
+Biotic Interaction	NCBITaxon:Alteromonas	NCBITaxon:Prochlorococcus (monoculture)
+Temporal (Your case)	GO:StationaryPhase	GO:ExponentialPhase
+Nutrient Shift	CHEBI:Urea	CHEBI:Ammonia
+Light Stress	ENVO:HighLight	ENVO:LowLight
+Phage Infection	NCBITaxon:Phage_ID	biolink:Absence (or mock-infected)
+4. Handling Multi-Factor Contrasts
+For the "Light vs. Dark with/without Alteromonas" papers, the "Reference" becomes a combination. In BioCypher, you can handle this in two ways:
+
+String Concatenation (Simple): Use a CURIE like study_id:dark_monoculture as the comparative_term_qualifier.
+
+Intersection Nodes (Advanced): Create a specific "Background" node that represents the state of Dark + Monoculture and point the comparative_term_qualifier to that node's ID.
+
+5. Why use comparative_term_qualifier?
+By using this specific Biolink slot, you enable "Differential Reasoning." A query engine can look at your graph and understand:
+
+"Gene X is up-regulated by Urea relative to Ammonia, but down-regulated by Urea relative to Nitrate."
+
+Without specifying the reference, the Log 
+2
+​
+ FC value is mathematically orphaned and can lead to incorrect biological conclusions when merging multiple papers.
+
+Would you like me to generate a BioCypher Python snippet that demonstrates how to map a DESeq2 "results" object (or dataframe) directly into this edge structure?
+
+ok. for example ammonia level 800 uMol vs ammonia level 100 uMol
+
+In this scenario, you are comparing two different magnitudes of the same chemical entity. This is a classic "dose-response" or "concentration-gradient" contrast.
+
+In Biolink and BioCypher, you handle this by pointing the edge to the Chemical Entity node and using properties to define the specific contrast levels.
+
+1. The Strategy: Attributes over Nodes
+You don't want to create separate nodes for "Ammonia 800" and "Ammonia 100" because it fragments the graph. Instead, you create one node for Ammonia and describe the levels on the Edge.
+
+2. YAML Schema Representation
+Here is how you would define the edge in your schema_config.yaml to handle quantitative contrasts:
+
+YAML
+gene_to_nutrient_association:
+  is_a: gene to expression site association
+  represented_as: edge
+  source: gene
+  target: chemical entity # This will be CHEBI:16134 (Ammonia)
+  properties:
+    # The Direction
+    object_direction_qualifier: str # "increased" (if up in 800 vs 100)
+    
+    # The Specific Quantities
+    treatment_value: float          # 800
+    treatment_unit: str             # "uMol" (or "umol/L")
+    
+    reference_value: float          # 100
+    reference_unit: str             # "uMol"
+    
+    # Standard DE Stats
+    log2_fold_change: float
+    p_value_adj: float
+3. Mapping to IDs
+For the actual IDs in your data, you would use:
+
+Target (Object): CHEBI:16134 (Ammonia)
+
+Units: Ideally use UO (Unit Ontology), e.g., UO:0000062 (micromole per liter).
+
+4. Why this structure is powerful
+By keeping the target as the generic CHEBI:16134 (Ammonia), you can perform "cross-study" analysis.
+
+If Paper A compares 800 vs 100 µM Ammonia, and Paper B compares 500 vs 0 µM Ammonia, both edges will point to the same Ammonia node. A user can then query: "Show me all genes that respond to Ammonia concentration changes, regardless of the specific values used in the study."
+
+Example Data Row for your Adapter
+If your DESeq2 result shows a gene is up-regulated in the 800 µM group:
+
+Subject	Predicate	Object	LFC	Treat_Val	Ref_Val
+gene_001	biolink:expressed_in	CHEBI:16134	2.1	800	100
+A Note on "Control" vs "Reference"
+In Biolink, if the reference is "0" (Standard media), you can use the property comparative_term_qualifier: biolink:Control. But since your reference is a specific concentration (100 µM), explicitly stating the reference_value as shown above is the most accurate way to represent the DESeq2 contrast.
+
+Would you like to see how to handle the Phage presence/absence contrast next, or should we look at how to represent the Biofilm vs Free-living phenotypic switch?
+
+ok. please give me the schema and nodes/edges for coculture with alteromonas vs monoculture after 20h
+
+To model the 20h coculture vs. monoculture contrast, we need to bridge the gap between a biological entity (the partner bacteria) and the temporal context (the 20h time point).
+
+In BioCypher/Biolink, the best practice is to treat the partner organism as the primary "site" of the association and use the time point as a qualifier or attribute.
+
+1. schema_config.yaml
+This schema defines the nodes for the Gene and the Organism, and a specific edge type that carries the experimental metadata.
+
+YAML
+# Nodes
+gene:
+  is_a: gene
+  represented_as: node
+  preferred_id: ncbitaxon # Use locus tags or NCBI IDs
+
+organism_taxon:
+  is_a: organism taxon
+  represented_as: node
+  preferred_id: ncbitaxon
+
+# Edges
+gene_to_organism_expression_association:
+  is_a: gene to expression site association
+  represented_as: edge
+  source: gene
+  target: organism_taxon
+  input_label: de_analysis_edge
+  properties:
+    # Biolink Standard Qualifiers
+    subject_aspect_qualifier: expression
+    object_direction_qualifier: str  # "increased" | "decreased"
+    
+    # Contrast Metadata
+    comparative_term_qualifier: str  # "monoculture"
+    time_point: str                  # "20h"
+    
+    # Quantitative Results
+    log2_fold_change: float
+    p_value_adj: float
+2. Node and Edge Examples (YAML Format)
+Here is how the actual data instances would look based on your specific experiment.
+
+Nodes
+We define the subject (the Prochlorococcus gene) and the target (the Alteromonas context).
+
+YAML
+# Prochlorococcus Gene
+- id: "PRCC_RS01234"
+  label: "psbA"
+  type: gene
+  properties:
+    taxon: "NCBITaxon:1148"
+
+# Alteromonas Taxon (The condition/site)
+- id: "NCBITaxon:28216"
+  label: "Alteromonas macleodii"
+  type: organism_taxon
+Edges (The 20h DE Result)
+This edge represents the DESeq2 result for that specific gene at the 20h mark.
+
+YAML
+- source: "PRCC_RS01234"
+  target: "NCBITaxon:28216"
+  label: de_analysis_edge
+  properties:
+    # The "What happened?"
+    object_direction_qualifier: "increased"
+    subject_aspect_qualifier: "expression"
+    
+    # The Contrast: Coculture @ 20h vs Monoculture @ 20h
+    comparative_term_qualifier: "monoculture"
+    time_point: "20h"
+    time_unit: "UO:0000032" # Hour
+    
+    # The Stats
+    log2_fold_change: 2.45
+    p_value_adj: 0.00012
+    has_evidence: "pubmed:12345678"
+3. Structural Breakdown
+Subject: The gene being measured.
+
+Target: Alteromonas. In Biolink, the partner organism effectively "is" the expression site/environment for the subject gene.
+
+Direction: Instead of "up-regulated," we use object_direction_qualifier: increased to match the Biolink DirectionQualifierEnum.
+
+Time Point: By storing "20h" as an attribute, you can later query for all interactions that happen in the early/exponential phase (e.g., < 24h) versus your long-term stationary phase (Day 30-90).
+
+Next Step
+Since you have "lots of examples" from various papers, would you like me to create a Python template that takes a generic CSV/Pandas dataframe and maps these different columns (Time, Treatment, Reference, LFC) into this BioCypher YAML format automatically?
+
+does it make sense to use de_analysis_edge or should it be more specific?
+
+In the world of BioCypher and Biolink, the name de_analysis_edge is a bit of a "data engineer's name"—it describes the method (Differential Expression Analysis) rather than the biological relationship.
+
+To make your graph truly interoperable and queryable by others, it makes more sense to use a Biolink-standard predicate for the edge type and use properties to specify that it came from a DE analysis.
+
+1. The Recommended Approach: Use affects_expression_of
+Instead of de_analysis_edge, you should use a predicate that describes the biological interaction. In your case, Alteromonas is affecting the expression of a Prochlorococcus gene.
+
+Biolink Class: biolink:EntityToEntityExpressionAssociation
+
+Predicate: biolink:affects_expression_of
+
+This is more powerful because if someone else adds proteomic data later, they can use the same predicate, and your graph will show how Alteromonas affects both the mRNA and the protein levels of that gene.
+
+2. Refined schema_config.yaml
+Here is how to structure it so it is biologically specific but keeps the DE metadata:
+
+YAML
+# The Edge definition
+organism_to_gene_expression_association:
+  is_a: entity to entity expression association
+  represented_as: edge
+  # Use the standard Biolink predicate
+  label_as_edge: affects_expression_of 
+  # Note: In this model, the Organism is the Source (the 'cause') 
+  # and the Gene is the Target (the 'affected')
+  source: organism_taxon
+  target: gene
+  input_label: de_result
+  properties:
+    # Metadata identifying this as DE analysis
+    analysis_method: "DESeq2"
+    expression_direction: str # "up" | "down"
+    
+    # Biolink Qualifiers
+    object_aspect_qualifier: "expression"
+    object_direction_qualifier: str # "increased" | "decreased"
+    
+    # Context
+    time_point: str
+    comparative_term_qualifier: str # "monoculture"
+    
+    # Stats
+    log2_fold_change: float
+    p_value_adj: float
+3. Why flip the Source and Target?
+In your previous example, we had Gene -> expressed_in -> Organism. While technically valid in Biolink (treating the organism as a "site"), it's often more intuitive in microbial ecology to model it as:
+
+[Alteromonas]  
+affects expression of
+
+​
+  [Gene X]
+
+Benefits of this specificity:
+
+Directionality: It clearly identifies Alteromonas as the driver of the change.
+
+Transitivity: You can now chain relationships: (Phage)-[:affects]->(Alteromonas)-[:affects_expression_of]->(Prochlorococcus_Gene).
+
+Searchability: You can run a query: "Find all organisms that affect the expression of the psbA gene."
+
+4. Summary of Specificity
+Level	Name	Best for...
+Generic	de_analysis_edge	Quick prototyping, but hard to merge with other graphs.
+Functional	affects_expression_of	Best Practice. Biologically descriptive and standard Biolink.
+Hyper-Specific	upregulated_in_coculture	Avoid. This embeds data into the schema, making it brittle.
+A Note on the "Long Term" Context
+For your Day 90 stationary phase data, you would use the exact same edge type (affects_expression_of), but change the time_point property and the object_direction_qualifier. This allows you to compare how the same interaction changes from 20h to 90 days.
+
+Would you like to see how to structure a Cypher query for this specific schema to find genes that are up-regulated at 20h but down-regulated at Day 90?
+
+where do I add the publication info (eg DOI, what else?)
+
+In a BioCypher and Biolink context, publication information is considered Provenance Metadata. You don't want to just store a DOI as a string; you want to follow the "Evidence and Conclusion Ontology" (ECO) and Biolink standards to ensure your graph is "FAIR" (Findable, Accessible, Interoperable, and Reusable).
+
+There are two primary ways to handle this depending on how much detail you want to capture:
+
+1. The "Edge Attribute" Approach (Simple & Efficient)
+If you just want to track where the data came from, you add properties directly to your Edge. This is the standard way for most BioCypher adapters.
+
+Key properties to include:
+
+publications: A list of CURIEs (e.g., pubmed:345678, doi:10.1038/s41586-021-03616-w). Biolink specifically uses this slot name.
+
+has_evidence: An ECO term describing the type of experiment. For your case, ECO:0000006 (experimental evidence) or ECO:0000045 (RNA-seq evidence).
+
+primary_knowledge_source: A string or ID identifying the original database or paper group.
+
+Updated schema_config.yaml snippet:
+YAML
+organism_to_gene_expression_association:
+  is_a: entity to entity expression association
+  # ... (previous settings)
+  properties:
+    # Provenance
+    publications: list       # ["doi:10.1038/abc", "pubmed:12345"]
+    has_evidence: str        # "ECO:0000045"
+    knowledge_source: str    # "Chisholm Lab 2024"
+    
+    # Study Metadata
+    sample_size: int         # n=3
+    statistical_test: str    # "Wald test (DESeq2)"
+2. The "Publication Node" Approach (Better for Data Integration)
+If your Knowledge Graph will include data from dozens of papers and you want to be able to query the papers themselves (e.g., "Show me all genes discussed in papers by Author X"), you should treat the Publication as a Node.
+
+Node Type: biolink:Publication
+
+Edge Type: biolink:supported_by or simply use the publications property on the DE edge to point to the Publication node.
+
+3. What specific info should you capture?
+Beyond the DOI, high-quality KGs usually capture the "Experimental Context" as metadata:
+
+Field	Example / Value	Why?
+DOI / PMID	doi:10.1111/1758-2229.12134	The unique "Social Security Number" of the data.
+ECO Code	ECO:0000045	Distinguishes RNA-seq from qPCR or Microarrays.
+Confidence Score	0.95	You can weight "high confidence" findings differently in algorithms.
+Creation Date	2024-10-15	Useful for tracking when the KG was last updated.
+Author/Lab	Biller et al.	Helps in grouping findings by specific research groups.
+4. How it looks in your BioCypher Adapter
+When you are writing your Python code to yield these edges, it would look something like this:
+
+Python
+def get_edges():
+    # ... logic to parse your DE results ...
+    yield (
+        None, # Edge ID (auto-generated)
+        "NCBITaxon:28216", # Alteromonas
+        "PRCC_RS01234",    # Gene
+        "affects_expression_of",
+        {
+            "log2_fold_change": 2.45,
+            "p_value_adj": 0.00012,
+            "publications": ["doi:10.1038/s41586-021-03616-w"],
+            "has_evidence": "ECO:0000045",
+            "analysis_method": "DESeq2"
+        }
+    )
+Would you like me to help you map a specific paper's methodology section to the correct ECO (Evidence and Conclusion Ontology) codes for your graph?
+
+publication node
+
+Treating a publication as a Node (rather than just an attribute on an edge) is a powerful architectural choice. It turns your Knowledge Graph from a collection of "facts" into a "provenance-aware" network. This allows you to query for study bias, group results by specific laboratory methodologies, or find all findings derived from a single high-throughput dataset.
+
+In BioCypher, a publication is represented using the biolink:Publication class.
+
+1. The schema_config.yaml for Publication Nodes
+You need to define the node itself and the relationship that connects it to your Differential Expression edges.
+
+YAML
+# Nodes
+publication:
+  is_a: publication
+  represented_as: node
+  preferred_id: pubmed # or doi
+  properties:
+    title: str
+    authors: list
+    year: int
+    journal: str
+    mesh_terms: list # Optional: for topical filtering
+
+# Edge to connect DE results to their source
+# Note: This is an 'Association to Publication' link
+evidence_association:
+  is_a: association
+  represented_as: edge
+  label_as_edge: supported_by
+  source: affects_expression_of # The DE edge itself (if using Hyperedges) 
+  target: publication
+Note: In Neo4j/BioCypher, standard edges cannot always point to other edges easily (Hyperedges). The most common implementation is to store the Publication ID as a property on the DE edge AND have a separate Publication Node in the graph for metadata lookup.
+
+2. Publication Node Data Example
+Here is how you would represent a specific paper (e.g., the Biller et al. 2011 paper on Prochlorococcus and Alteromonas).
+
+Node Properties:
+
+ID: doi:10.1111/j.1462-2920.2010.02396.x
+
+Title: "Metabolic interactions between marine phytoplankter Prochlorococcus and co-occurring Alteromonas"
+
+Authors: ["Biller, S. J.", "Coello-Camba, A.", "Chisholm, S. W."]
+
+Year: 2011
+
+Journal: "Environmental Microbiology"
+
+3. What else should you add? (Beyond DOI)
+To make the publication node truly useful for your Prochlorococcus research, consider these additional "Knowledge Management" fields:
+
+Field	Purpose	Example
+study_design	Distinguishes lab vs. field studies.	"Controlled Laboratory Experiment"
+platform	The tech used.	"Illumina HiSeq 2500"
+data_url	Link to the raw FASTQ files.	"GEO:GSE12345"
+abstract	Allows for full-text search within the graph.	"We investigated the transcriptomic..."
+4. Querying the Publication Node
+Once these nodes are in your graph, you can perform complex meta-analyses. For example:
+
+"Find all genes that show opposite DE results in Biller et al. 2011 vs. another study."
+
+Cypher
+MATCH (g:gene)<-[de1:affects_expression_of]-(org:organism)
+MATCH (de1)-[:supported_by]->(p1:publication {authors: ['Biller, S. J.']})
+MATCH (g)<-[de2:affects_expression_of]-(org)
+MATCH (de2)-[:supported_by]->(p2:publication)
+WHERE p1 <> p2 AND de1.direction <> de2.direction
+RETURN g.symbol, p1.title, p2.title
+5. Standard Identifiers (Valid IDs)
+Always use CURIEs for the publication IDs:
+
+PubMed: pubmed:21199252
+
+DOI: doi:10.1111/j.1462-2920.2010.02396.x
+
+PMC: pmcid:PMC3052723
+
+Would you like me to help you find the MeSH terms (Medical Subject Headings) or ECO codes for a specific paper so you can enrich your publication nodes?
+
+bottom line -all nodes and edges we defined
+
+To wrap this up, here is the consolidated blueprint for your Knowledge Graph. This structure follows the Biolink Schema while being optimized for BioCypher implementation.
+
+1. The Nodes (Entities)
+You will have four primary node types to capture the biological, environmental, and provenance layers.
+
+Node Label	Biolink Class	Purpose	Example ID
+gene	biolink:Gene	The Prochlorococcus gene being measured.	locus_tag:PMT0001
+organism_taxon	biolink:OrganismTaxon	The partner bacteria or phage (context).	NCBITaxon:28216
+experimental_factor	biolink:NamedThing	Abiotic variables (Light, Nutrients, UV).	CHEBI:16134 (Ammonia)
+publication	biolink:Publication	The source paper for the DE results.	doi:10.1111/j.1462...
+2. The Edges (Associations)
+The "bottom line" for your DE results is a directional relationship from the Condition to the Gene.
+
+Primary Edge: affects_expression_of
+Source: organism_taxon OR experimental_factor
+
+Target: gene
+
+Biolink Class: biolink:EntityToEntityExpressionAssociation
+
+Properties:
+
+object_direction_qualifier: increased / decreased
+
+object_aspect_qualifier: expression
+
+comparative_term_qualifier: The reference ID (e.g., monoculture or CHEBI:100uM)
+
+log2_fold_change: float
+
+p_value_adj: float
+
+time_point: str (e.g., "20h", "Day 90")
+
+Provenance Edge: supported_by
+Source: affects_expression_of (The DE Edge)
+
+Target: publication
+
+Purpose: Provides the audit trail for every data point.
+
+3. BioCypher schema_config.yaml (Final Version)
+This YAML is what you will feed into BioCypher to build the graph.
+
+YAML
+# NODES
+gene:
+  is_a: gene
+  represented_as: node
+
+organism_taxon:
+  is_a: organism taxon
+  represented_as: node
+
+experimental_factor:
+  is_a: named thing
+  represented_as: node
+
+publication:
+  is_a: publication
+  represented_as: node
+  properties:
+    title: str
+    year: int
+    authors: list
+
+# EDGES
+expression_influence:
+  is_a: entity to entity expression association
+  label_as_edge: affects_expression_of
+  source: organism_taxon # or experimental_factor
+  target: gene
+  properties:
+    object_direction_qualifier: str
+    object_aspect_qualifier: str
+    comparative_term_qualifier: str
+    log2_fold_change: float
+    p_value_adj: float
+    time_point: str
+    publications: list # Links to Publication ID
+Next Step
+Since we have the full schema, would you like me to generate a BioCypher-ready Python script that takes a sample CSV of your coculture results and converts it into the .csv files required to load into Neo4j?
+
+ECO terms for Aharonovich, Dikla, and Daniel Sher. "Transcriptional response of Prochlorococcus to co-culture with a marine Alteromonas: differences between strains and the involvement of putative infochemicals." The ISME journal 10.12 (2016): 2892-2906.
+
+To enrich your Publication Node and your Differential Expression Edges for the Aharonovich et al. (2016) paper, you should use specific codes from the Evidence and Conclusion Ontology (ECO).
+
+This paper uses a combination of high-throughput sequencing and targeted laboratory assays. Here are the most relevant ECO terms for your Knowledge Graph:
+
+1. Primary Evidence for DE Edges
+Since the core of the paper involves RNA-seq to compare transcriptomes, use this for your has_evidence property on the edges:
+
+ECO:0000295 (RNA-seq evidence): This is the precise term for differential expression derived from high-throughput sequencing.
+
+ECO:0000006 (experimental evidence): A broader parent term you can use if you want to keep the graph simpler.
+
+2. Secondary Evidence for Infochemical Claims
+A key part of this paper involves identifying "putative infochemicals" and using experiments like "conditioned media" or "coculture with physically separated cells."
+
+ECO:0001565 (co-culture evidence): Specifically used when the finding is derived from growing two or more different species together.
+
+ECO:0000015 (mutant phenotype evidence): If you are modeling any data where they used specific mutant strains (like the Prochlorococcus strains MIT9313 vs. MED4).
+
+ECO:0006001 (chemical exposure evidence): Use this for the edges where they tested specific molecules (like the concentrated conditioned media).
+
+3. Summary of Metadata for the Publication Node
+When you create the node for this specific paper, here is the "Bottom Line" metadata:
+
+Field	Value
+ID	doi:10.1038/ismej.2016.70
+Primary ECO	ECO:0000295 (RNA-seq)
+Organisms	NCBITaxon:1148 (Prochlorococcus), NCBITaxon:28216 (Alteromonas)
+Key Findings	Differential response based on strain "ecotype"; specific induction of genes related to iron and phosphorus.
+4. Implementation in your BioCypher Edge
+When your adapter processes a result from this paper (e.g., a gene in MIT9313 up-regulated in the presence of Alteromonas at 20h), the edge properties should look like this:
+
+YAML
+properties:
+  log2_fold_change: 3.2
+  p_value_adj: 0.001
+  publications: ["doi:10.1038/ismej.2016.70"]
+  has_evidence: "ECO:0000295"  # RNA-seq evidence
+  experimental_context: "Coculture vs Monoculture"
+  strain: "MIT9313"
+By tagging your edges with ECO:0000295, you allow future users of your graph to filter results by "Sequencing-based evidence" vs. "Bioinformatic-only predictions" (ECO:0007669).
+
+Would you like me to find the ChEBI IDs for the specific chemical classes (like the "infochemicals" or nutrients) discussed in the Sher lab's findings?
+
+  
+
+
+Gemini can make mistakes, so double-check it
+

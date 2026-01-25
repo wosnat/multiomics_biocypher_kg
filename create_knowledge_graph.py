@@ -2,6 +2,7 @@ import os, shutil
 
 from biocypher import BioCypher, FileDownload
 from multiomics_kg.adapters.ec_adapter import EC
+from multiomics_kg.adapters.omics_adapter import OMICSAdapter
 from multiomics_kg.adapters.uniprot_adapter import (
     Uniprot,
     UniprotNodeType,
@@ -148,6 +149,17 @@ bc.write_nodes(ncbi_cyanorak_adapter.get_nodes())
 #bc.write_edges(ncbi_cyanorak_adapter.get_edges())
 # if export_as_csv:
 #     ncbi_cyanorak_adapter.export_as_csv(path=output_dir_path)
+
+# omics data
+config_dpath = 'data/Prochlorococcus/papers_and_supp/Aharonovich 2016/paperconfig.yaml'
+
+omics_adapter = OMICSAdapter(
+    config_file=config_dpath,
+    test_mode=TEST_MODE,
+)
+omics_adapter.download_data(cache=CACHE)
+bc.write_nodes(omics_adapter.get_nodes())
+bc.write_edges(omics_adapter.get_edges())
 
 # gene ontology
 go_adapter = GO(

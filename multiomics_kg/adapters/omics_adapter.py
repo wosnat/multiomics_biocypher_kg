@@ -9,6 +9,13 @@ import yaml
 import os
 from pathlib import Path
 import uuid
+from bioregistry import normalize_curie
+
+try:
+    from multiomics_kg.adapters.pdf_publication_extraction import PDFPublicationExtractor
+except ImportError:
+    from pdf_publication_extraction import PDFPublicationExtractor
+
 
 logger.debug(f"Loading module {__name__}.")
 
@@ -16,6 +23,49 @@ logger.debug(f"Loading module {__name__}.")
 class OmicsEnumMeta(EnumMeta):
     def __contains__(cls, item):
         return item in cls.__members__.keys()
+
+class PublicationNodeType(Enum):
+    """Define types of nodes the adapter can provide."""
+    PUBLICATION = auto()
+    STUDY = auto()
+    STATISTICAL_TEST = auto()
+    TIME_SERIES_CLUSTER = auto()
+
+
+class PublicationNodeField(Enum, metaclass=OmicsEnumMeta):
+    """Fields for publication nodes."""
+    PUBMED_ID = "pubmed_id"
+    TITLE = "title"
+    AUTHORS = "authors"
+    JOURNAL = "journal"
+    PUBLICATION_DATE = "publication_date"
+    DOI = "doi"
+
+    @classmethod
+    def _missing_(cls, value: str):
+        value = value.lower()
+        for member in cls.__members__.values():
+            if member.value.lower() == value:
+                return member
+        return None
+
+
+class StudyNodeField(Enum, metaclass=OmicsEnumMeta):
+    """Fields for study nodes."""
+    STUDY_ID = "study_id"
+    TITLE = "title"
+    DESCRIPTION = "description"
+    ABSTRACT = "abstract"
+    STUDY_TYPE = "study_type"
+    ORGANISM = "organism"
+
+    @classmethod
+    def _missing_(cls, value: str):
+        value = value.lower()
+        for member in cls.__members__.values():
+            if member.value.lower() == value:
+                return member
+        return None
 
 
 class StatisticalTestNodeField(Enum, metaclass=OmicsEnumMeta):
@@ -118,6 +168,8 @@ class OMICSAdapter:
         self.add_prefix = model["add_prefix"]
         self.test_mode = model["test_mode"]
 
+        self._statistical_test_ids = dict()
+
         # set edge types
         self.set_edge_types(edge_types=model["edge_types"])
 
@@ -131,6 +183,9 @@ class OMICSAdapter:
         self.config_data = {}
         if config_file:
             self.load_config(config_file)
+
+        # pdf extractor for publication and study nodes
+        self.pdf_extractor = PDFPublicationExtractor()
 
     def set_edge_types(self, edge_types: Union[list[OMICSEdgeType], None]) -> None:
         """Set the edge types to include in the result."""
@@ -164,7 +219,105 @@ class OMICSAdapter:
         Args:
             cache (bool, optional): Whether to cache downloaded files. Defaults to False.
         """
+        # Extract publication metadata
+        publication = self.config_data.get('publication', {})
+        if not isinstance(publication, dict):
+            logger.warning(f"'publication' must be a dict, got {type(publication).__name__}. Skipping all tables.")
+            return 
+
+        # extract publication metadata from pdf and create publication and study nodes
+        pdf_path = publication.get('papermainpdf', None)
+        if pdf_path and os.path.exists(pdf_path):
+            self.extracted_data = self.pdf_extractor.extract_from_pdf(pdf_path)
+        else:
+            logger.warning(f"PDF path not found or not provided: {pdf_path}. Skipping publication and study nodes.")
         pass
+
+    def get_publication_nodes(self) -> list[tuple]:
+        """
+        Generate publication and study nodes from cached data.  
+
+        Args:
+            pdf_path: Path to the PDF file for which to generate nodes.
+        Returns:
+            List of (node_id, label, properties) tuples
+        """       
+        logger.info("Generating publication and study nodes from cached data")
+        nodes = []
+
+        data = self.extracted_data if hasattr(self, 'extracted_data') else {}
+
+        if "publication" in data:
+            pub = data["publication"]
+            # Use stored ID from cache (which uses DOI if available)
+            pub_id = self.get_publication_id()
+            pub_id = self.add_prefix_to_id(prefix="doi", identifier=pub_id)
+            nodes.append(
+                (
+                    pub_id,
+                    "publication",
+                    {
+                        "title": pub.get("title"),
+                        "authors": pub.get("authors", []),
+                        "journal": pub.get("journal"),
+                        "publication_date": pub.get("publication_date"),
+                        "doi": pub.get("doi"),
+                        "pubmed_id": pub.get("pubmed_id"),
+                    },
+                )
+            )
+
+        if "study" in data:
+            study = data["study"]
+            # Use stored ID from cache (which uses DOI if available)
+            study_id = study.get("study_id") or f"study_{Path(pdf_path).stem}"
+            study_id = self.add_prefix_to_id(prefix="study", identifier=study_id)
+            nodes.append(
+                (
+                    study_id,
+                    "study",
+                    {
+                        "title": study.get("title"),
+                        "description": study.get("description"),
+                        "abstract": study.get("abstract"),
+                        "study_type": study.get("study_type"),
+                        "organism": study.get("organism", []),
+                    },
+                )
+            )
+
+        return nodes
+
+    def get_publication_study_edges(self) -> list[tuple]:
+        """
+        Generate study_published_in edges linking studies to publications.
+
+        Returns:
+            List of tuples (source_id, target_id, edge_type)
+        """
+        edges = []
+
+        data = self.extracted_data if hasattr(self, 'extracted_data') else {}
+        if "publication" in data and "study" in data:
+            pub = data["publication"]
+            study = data["study"]
+
+            # Use stored IDs from cache (which use DOI if available)
+            pub_id = self.get_publication_id()
+            pub_id = self.add_prefix_to_id(prefix="doi", identifier=pub_id)
+            study_id = study.get("study_id") 
+            study_id = self.add_prefix_to_id(prefix="study", identifier=study_id)
+
+            edges.append(
+                (
+                    study_id,
+                    pub_id,
+                    "study_published_in",
+                )
+            )
+
+        return edges
+
 
     def get_nodes(self) -> list[tuple]:
         """
@@ -176,15 +329,23 @@ class OMICSAdapter:
         logger.info("Generating statistical test nodes from omics config")
         node_list = []
 
+
         if not self.config_data:
             logger.warning("No config data loaded. Call load_config() first or provide config_file to __init__")
             return node_list
+
+        if not hasattr(self, 'extracted_data'):
+            self.download_data()
 
         # Extract publication metadata
         publication = self.config_data.get('publication', {})
         if not isinstance(publication, dict):
             logger.warning(f"'publication' must be a dict, got {type(publication).__name__}. Skipping all tables.")
             return node_list
+
+        # extract publication metadata from pdf and create publication and study nodes
+        pub_study_nodes = self.get_publication_nodes()
+        node_list.extend(pub_study_nodes)
 
         # Iterate through supplementary materials
         supp_materials = publication.get('supplementary_materials', {})
@@ -216,8 +377,9 @@ class OMICSAdapter:
                 if not isinstance(stat_analysis, dict):
                     logger.warning(f"Statistical analysis {idx} in '{table_key}' must be a dict, got {type(stat_analysis).__name__}. Skipping this analysis.")
                     continue
-                
-                node_id = self._generate_test_id(stat_analysis)
+
+                node_id = self.get_statistical_test_id(stat_analysis)
+                node_id = self.add_prefix_to_id(prefix="test", identifier=node_id)
                 properties = self._extract_test_properties(stat_analysis)
                 node_list.append((node_id, 'statistical_test', properties))
 
@@ -241,10 +403,16 @@ class OMICSAdapter:
             logger.warning("No config data loaded. Call load_config() first or provide config_file to __init__")
             return edge_list
 
+        if not hasattr(self, 'extracted_data'):
+            self.download_data()
+
+        
         publication = self.config_data.get('publication', {})
         if not isinstance(publication, dict):
             logger.warning(f"'publication' must be a dict, got {type(publication).__name__}. Skipping all tables.")
             return edge_list
+
+        edge_list.extend(self.get_publication_study_edges())
 
         supp_materials = publication.get('supplementary_materials', {})
         if not isinstance(supp_materials, dict):
@@ -304,15 +472,18 @@ class OMICSAdapter:
         Returns:
             A unique test ID
         """
+        pub_id = self.get_publication_id()
         # Try to create a meaningful ID from test name
-        test_name = analysis.get('name', '')
-        if test_name:
+        test_id = analysis.get('id', '')
+        if test_id:
             # Create a slug from the name
-            slug = test_name.lower().replace(' ', '_')[:50]
-            test_id = f"test_{slug}_{uuid.uuid4().hex[:8]}"
+            slug = test_id.lower().replace(' ', '_')[:50]
+            test_id = f"test_{slug}"
         else:
+            logger.warning("No 'id' field found in analysis; generating random test ID")
             test_id = f"test_{uuid.uuid4().hex}"
 
+        test_id = f"{pub_id}_{test_id}"
         return test_id
 
     def _extract_test_properties(self, analysis: dict) -> dict:
@@ -366,6 +537,23 @@ class OMICSAdapter:
             return edges
 
         try:
+
+            # Generate test ID
+            test_id = self.get_statistical_test_id(analysis)
+            test_id = self.add_prefix_to_id(prefix="test", identifier=test_id)
+
+            # generate statistical test to study edge
+            study = self.extracted_data.get('study', {})
+            study_id = study.get('study_id')
+            study_id = self.add_prefix_to_id(prefix="study", identifier=study_id)
+            if study_id:
+                edges.append((
+                    test_id,
+                    study_id,
+                    'test_in_study',
+                    {}
+                ))
+
             # Load the data file
             df = pd.read_csv(filename)
             logger.info(f"Loaded {len(df)} rows from {filename}")
@@ -388,8 +576,6 @@ class OMICSAdapter:
                 logger.error(f"Required column(s) {missing_cols} not found in {filename}. Skipping this file.")
                 return edges
 
-            # Generate test ID
-            test_id = self._generate_test_id(analysis)
 
             # Track skipped rows for logging
             skipped_count = 0
@@ -406,10 +592,7 @@ class OMICSAdapter:
                     continue
 
                 # Create gene identifier with prefix
-                if self.add_prefix:
-                    source_id = f"ncbigene:{gene_id}"
-                else:
-                    source_id = str(gene_id)
+                gene_id = self.add_prefix_to_id(prefix="ncbigene", identifier=str(gene_id))
 
                 # Extract edge properties
                 edge_properties = {}
@@ -427,7 +610,7 @@ class OMICSAdapter:
 
                 # Create edge
                 edges.append((
-                    source_id,
+                    gene_id,
                     test_id,
                     'molecular_result_from_test',
                     edge_properties
@@ -442,6 +625,57 @@ class OMICSAdapter:
         return edges
 
 
+    def get_publication_id(self) -> str:
+        """Get the PubMed ID from the config data, if available."""
+        data = self.extracted_data 
+
+        pub = data["publication"]
+        # Use stored ID from cache (which uses DOI if available)
+        pub_id = pub.get("publication_id") or pub.get("doi") or pub.get("pubmed_id") or f"pub_{pub.get('title', 'unknown')[:20]}"
+        return str(pub_id)
+
+    
+    def get_statistical_test_id(self, analysis: dict) -> str:
+        """Get the statistical test ID from the analysis data."""
+        if analysis.get('id') and analysis['id'] in self._statistical_test_ids:
+            return self._statistical_test_ids[analysis['id']]
+        test_id = self._generate_test_id(analysis)
+        self._statistical_test_ids[analysis['id']] = test_id
+        return test_id
+        return self._generate_test_id(analysis)
+
+
+    @validate_call
+    def add_prefix_to_id(
+        self, prefix: str = None, identifier: str = None, sep: str = ":"
+    ) -> str:
+        """
+        Adds prefix to database id
+        """
+        if self.add_prefix and identifier:
+            return normalize_curie(prefix + sep + identifier)
+
+        return identifier
+
+    def clean_text(
+        self, text: str = None,
+    ) -> str:
+        """
+        remove biocypher special characters from text fields
+        """
+        special_chars_map = {
+            "|": ",", # pipe used to separate multiple values in biocypher
+            "'": "^", # single quote used to quote strings in biocypher
+        }
+        if isinstance(text, str):
+            for char, replacement in special_chars_map.items():
+                text = text.replace(char, replacement)
+            return text
+        elif isinstance(text, list):
+            return [self.clean_text(t) for t in text]
+        else:
+            return text
+        
 
 if __name__ == "__main__":
 
@@ -466,3 +700,4 @@ if __name__ == "__main__":
 
     with open('edges.json', 'w') as ef:
         json.dump(edges, ef, indent=2)
+
