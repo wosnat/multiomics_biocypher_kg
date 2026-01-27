@@ -1,0 +1,40 @@
+publication:
+  papername: Bagby and Chisholm 2015
+  papermainpdf: data/Prochlorococcus/papers_and_supp/bagby 2015/41396_2015_article_bfismej201536.pdf
+  supplementary_materials:
+    supp_table_1:
+      type: xls
+      filename: data/Prochlorococcus/papers_and_supp/bagby 2015/41396_2015_bfismej201536_moesm33_esm.xls
+      sheet: Sheet 1 - Table 1 - Table 1
+      header_row: 9
+      statistical_analyses:
+        - type: MICROARRAY
+          name: Genes showing significant changes in transcript abundance in response to varying CO2:O2 ratios
+          id: gas_shock_co2_o2_response
+          test_type: Affymetrix microarray
+          control_condition: 0.036% CO2 / 21% O2 (air)
+          treatment_condition: Variable CO2/O2 ratios
+          organism: Prochlorococcus MED4
+          name_col: Locus tag2
+          conditions:
+            - condition: 0.036% CO2 0% O2
+              logfc_col: "0.036% CO2 0% O2"
+            - condition: 0.004% CO2 21% O2
+              logfc_col: "0.004% CO2 21% O2"
+            - condition: 0.004% CO2 0% O2
+              logfc_col: "0.004% CO2 0% O2"
+    supp_table_2:
+      type: xls
+      filename: data/Prochlorococcus/papers_and_supp/bagby 2015/41396_2015_bfismej201536_moesm34_esm.xls
+      sheet: Sheet 1 - Table 1
+      header_row: 9
+      statistical_analyses:
+        - type: MICROARRAY
+          name: Concordance between MED4 transcriptional responses to high light shock, CO2 shock, and CO2/O2 shock
+          id: transcriptional_response_concordance
+          test_type: Affymetrix microarray
+          control_condition: Dark (control)
+          treatment_condition: High light shock
+          organism: Prochlorococcus MED4
+          name_col: Locus tag1
+
