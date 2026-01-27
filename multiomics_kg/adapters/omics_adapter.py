@@ -187,6 +187,10 @@ class OMICSAdapter:
         # pdf extractor for publication and study nodes
         self.pdf_extractor = PDFPublicationExtractor()
 
+        self.data_source = "OMICS Adapter"
+        self.data_version = "2026-01-01"
+        self.data_licence = "CC BY 4.0"
+
     def set_edge_types(self, edge_types: Union[list[OMICSEdgeType], None]) -> None:
         """Set the edge types to include in the result."""
         if isinstance(edge_types, list):
@@ -252,37 +256,42 @@ class OMICSAdapter:
             # Use stored ID from cache (which uses DOI if available)
             pub_id = self.get_publication_id()
             pub_id = self.add_prefix_to_id(prefix="doi", identifier=pub_id)
+            pub_properties = {
+                "title": pub.get("title"),
+                "authors": pub.get("authors", []),
+                "journal": pub.get("journal"),
+                "publication_date": pub.get("publication_date"),
+                "doi": pub.get("doi"),
+                "pubmed_id": pub.get("pubmed_id"),
+            }
+            pub_properties.update(self._get_default_properties())
             nodes.append(
                 (
                     pub_id,
                     "publication",
-                    {
-                        "title": pub.get("title"),
-                        "authors": pub.get("authors", []),
-                        "journal": pub.get("journal"),
-                        "publication_date": pub.get("publication_date"),
-                        "doi": pub.get("doi"),
-                        "pubmed_id": pub.get("pubmed_id"),
-                    },
+                    pub_properties
                 )
             )
 
         if "study" in data:
             study = data["study"]
             # Use stored ID from cache (which uses DOI if available)
-            study_id = study.get("study_id") or f"study_{Path(pdf_path).stem}"
-            study_id = self.add_prefix_to_id(prefix="study", identifier=study_id)
+            study_id = study.get("study_id") 
+            study_id = self.add_prefix_to_id(prefix="biolink", identifier=study_id)
+            study_properties = {
+                "title": study.get("title"),
+                "description": study.get("description"),
+                "abstract": study.get("abstract"),
+                "study_type": study.get("study_type"),
+                "organism": study.get("organism", []),
+            }
+            study_properties.update(self._get_default_properties())
             nodes.append(
+
                 (
                     study_id,
                     "study",
-                    {
-                        "title": study.get("title"),
-                        "description": study.get("description"),
-                        "abstract": study.get("abstract"),
-                        "study_type": study.get("study_type"),
-                        "organism": study.get("organism", []),
-                    },
+                    study_properties,
                 )
             )
 
@@ -306,13 +315,15 @@ class OMICSAdapter:
             pub_id = self.get_publication_id()
             pub_id = self.add_prefix_to_id(prefix="doi", identifier=pub_id)
             study_id = study.get("study_id") 
-            study_id = self.add_prefix_to_id(prefix="study", identifier=study_id)
-
+            study_id = self.add_prefix_to_id(prefix="biolink", identifier=study_id)
+            edge_properties = self._get_default_properties()
             edges.append(
                 (
+                    None,
                     study_id,
                     pub_id,
                     "study_published_in",
+                    edge_properties,
                 )
             )
 
@@ -379,8 +390,9 @@ class OMICSAdapter:
                     continue
 
                 node_id = self.get_statistical_test_id(stat_analysis)
-                node_id = self.add_prefix_to_id(prefix="test", identifier=node_id)
+                node_id = self.add_prefix_to_id(prefix="biolink", identifier=node_id)
                 properties = self._extract_test_properties(stat_analysis)
+                properties.update(self._get_default_properties())
                 node_list.append((node_id, 'statistical_test', properties))
 
                 if self.test_mode and len(node_list) >= self.early_stopping:
@@ -540,18 +552,20 @@ class OMICSAdapter:
 
             # Generate test ID
             test_id = self.get_statistical_test_id(analysis)
-            test_id = self.add_prefix_to_id(prefix="test", identifier=test_id)
+            test_id = self.add_prefix_to_id(prefix="biolink", identifier=test_id)
 
             # generate statistical test to study edge
             study = self.extracted_data.get('study', {})
             study_id = study.get('study_id')
-            study_id = self.add_prefix_to_id(prefix="study", identifier=study_id)
+            study_id = self.add_prefix_to_id(prefix="biolink", identifier=study_id)
             if study_id:
+                edge_properties = self._get_default_properties()
                 edges.append((
+                    None,
                     test_id,
                     study_id,
                     'test_in_study',
-                    {}
+                    edge_properties,
                 ))
 
             # Load the data file
@@ -595,7 +609,7 @@ class OMICSAdapter:
                 gene_id = self.add_prefix_to_id(prefix="ncbigene", identifier=str(gene_id))
 
                 # Extract edge properties
-                edge_properties = {}
+                edge_properties = self._get_default_properties()
 
                 if logfc_col in df.columns and not pd.isna(row.get(logfc_col)):
                     edge_properties['log2_fold_change'] = float(row[logfc_col])
@@ -607,9 +621,13 @@ class OMICSAdapter:
                 if 'log2_fold_change' in edge_properties:
                     fc = edge_properties['log2_fold_change']
                     edge_properties['direction'] = 'up' if fc > 0 else 'down'
+                    edge_properties['predicate'] = 'has_increased_amount' if fc > 0 else 'has_decreased_amount'
+
+                edge_properties['publications'] = [self.add_prefix_to_id(prefix="doi", identifier=self.get_publication_id())]
 
                 # Create edge
                 edges.append((
+                    None,
                     gene_id,
                     test_id,
                     'molecular_result_from_test',
@@ -675,6 +693,18 @@ class OMICSAdapter:
             return [self.clean_text(t) for t in text]
         else:
             return text
+        
+    def _get_default_properties(self) -> dict:
+        """
+        Get default properties for nodes/edges
+        """
+                # generic properties for all edges for now
+        properties = {
+            "source": self.data_source,
+            "licence": self.data_licence,
+            "version": self.data_version,
+        }
+        return properties
         
 
 if __name__ == "__main__":

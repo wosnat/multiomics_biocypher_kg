@@ -20,7 +20,7 @@ study:
     organism: str[]
 
 publication:
-  is_a: information content entity
+  is_a: publication
   represented_as: node
   preferred_id: doi
   label_in_input: publication
@@ -28,7 +28,7 @@ publication:
     title: str
     authors: str[]
     journal: str
-    publication_date: str
+    publication_year: int
     doi: str
     pmid: str
 
@@ -62,17 +62,44 @@ test_in_study:
   target: study
   label_in_input: test_in_study
 
-molecular_result_from_test:
+molecular result from test:
   is_a: association
   represented_as: edge
   source: [gene, protein]
   target: statistical_test
-  label_in_input: fold_change
+  label_in_input: molecular_result_from_test
+  label_as_edge: molecular_result_from_test
+  
   properties:
     log2_fold_change: float
     p_value: float
     adjusted_p_value: float
     direction: str # "up" or "down"
+    predicate: str
+    publications: str[]  # list of publication ids
+
+gene upregulated in organism presence association:
+  is_a: gene to expression site association
+  represented_as: edge
+  source: gene
+  target: organism taxon
+  label_as_edge: gene_upregulated_in_organism_presence
+  label_in_input: gene_upregulated_in_organism_presence
+  properties:
+    # Biolink Qualifiers (Standard)
+    predicate: str
+    description: str
+    has_evidence: str # need to be evidence node id
+    subject_aspect_qualifier: str  # e.g., "expression"
+    object_direction_qualifier: str # e.g., "increased" or "decreased"
+    publications: str[]  # list of publication ids
+    
+    # Quantitative DE Data (Custom attributes)
+    log2_fold_change: float
+    adjusted_p_value: float
+    condition: str                 # e.g., "coculture_vs_monoculture"
+    timepoint: str                 # e.g., "24h", "day 7"
+
 
 timeseries_cluster:
   is_a: gene group
