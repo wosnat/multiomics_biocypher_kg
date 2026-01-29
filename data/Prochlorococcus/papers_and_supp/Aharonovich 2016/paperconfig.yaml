@@ -14,6 +14,8 @@ publication:
           treatment_condition: Coculture with Alteromonas HOT1A3
           timepoint: 20h
           organism: Prochlorococcus MED4
+          treatment_taxid: 28108
+          treatment_organism: Alteromonas macleodii HOT1A3
           name_col: Synonym
           logfc_col: log 2 fold change coculture/axenic
           adjusted_p_value_col: q Value
@@ -29,6 +31,8 @@ publication:
           treatment_condition: Coculture with Alteromonas HOT1A3
           timepoint: 20h
           organism: Prochlorococcus MIT9313
+          treatment_taxid: 28108
+          treatment_organism: Alteromonas macleodii HOT1A3
           name_col: Synonym
           logfc_col: log 2 fold change coculture/axenic
           adjusted_p_value_col: q Value
@@ -44,6 +48,8 @@ publication:
           treatment_condition: Coculture with Alteromonas HOT1A3
           timepoint: 20h
           organism: Prochlorococcus MIT9313
+          treatment_taxid: 28108
+          treatment_organism: Alteromonas macleodii HOT1A3
           name_col: Synonym
           logfc_col: log 2 fold change coculture/axenic
           adjusted_p_value_col: q Value

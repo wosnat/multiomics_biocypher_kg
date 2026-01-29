@@ -8,7 +8,7 @@
 #########################################
 
 study:
-  is_a: investigation
+  is_a: Study
   represented_as: node
   preferred_id: id
   label_in_input: study
@@ -31,6 +31,45 @@ publication:
     publication_year: int
     doi: str
     pmid: str
+    description: str
+    abstract: str
+    study_type: str # e.g., Transcriptomics, Proteomics
+    organism: str[]
+
+
+# The Edge definition
+organism to gene expression association:
+  is_a: Association
+  represented_as: edge
+  # Use the standard Biolink predicate
+  label_as_edge: affects_expression_of 
+  label_in_input: affects_expression_of 
+  # Note: In this model, the Treatment Organism is the Source (the 'cause') 
+  # and the Gene is the Target (the 'affected')
+  source: organism_taxon  # treatment organism
+  target: gene
+  properties:
+    # Reference to the statistical test that generated this result
+    statistical_test_id: str  # ID of the Analysis/test node
+    
+    # Metadata identifying this as DE analysis
+    analysis_method: str  # e.g., DESeq2, Rockhopper
+    expression_direction: str # "up" | "down"
+    
+    # Biolink Qualifiers
+    object_aspect_qualifier: str  # "expression"
+    object_direction_qualifier: str # "increased" | "decreased"
+    
+    # Context - control and treatment conditions
+    time_point: str
+    comparative_term_qualifier: str # e.g., "coculture"
+    
+    # Stats
+    log2_fold_change: float
+    adjusted_p_value: float
+
+    publications: str[]  # list of publication ids
+
 
 study_published_in:
   is_a: Association
@@ -41,13 +80,13 @@ study_published_in:
   label_in_input: study_published_in
 
 statistical_test:
-  is_a: InformationContentEntity
+  is_a: Analysis
   represented_as: node
   preferred_id: id
   label_in_input: test
   properties:
     name: str # e.g., differential expression analysis
-    test_type: str # e.g., t-test, DESeq2
+    test_type: str # e.g., t-test, DESeq2, Rockhopper
     control_condition: str
     treatment_condition: str
     timepoint: str # e.g., "24h", "day 7"
@@ -57,10 +96,12 @@ statistical_test:
 test_in_study:
   is_a: Association
   represented_as: edge
-  label_as_edge: test_in_study
+  label_as_edge: part_of
   source: statistical_test
   target: study
   label_in_input: test_in_study
+  properties:
+    predicate: str  # "part_of" - test is part of this study
 
 molecular result from test:
   is_a: Association

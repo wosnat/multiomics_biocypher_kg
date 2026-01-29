@@ -332,12 +332,12 @@ class OMICSAdapter:
 
     def get_nodes(self) -> list[tuple]:
         """
-        Generate statistical test nodes from the config file.
+        Generate statistical test and organism nodes from the config file.
         
         Returns:
             List of (node_id, label, properties) tuples
         """
-        logger.info("Generating statistical test nodes from omics config")
+        logger.info("Generating statistical test and organism nodes from omics config")
         node_list = []
 
 
@@ -357,6 +357,9 @@ class OMICSAdapter:
         # extract publication metadata from pdf and create publication and study nodes
         pub_study_nodes = self.get_publication_nodes()
         node_list.extend(pub_study_nodes)
+
+        # Collect unique treatment organisms to create nodes
+        treatment_organisms = {}  # dict: taxid -> organism_name
 
         # Iterate through supplementary materials
         supp_materials = publication.get('supplementary_materials', {})
@@ -395,20 +398,34 @@ class OMICSAdapter:
                 properties.update(self._get_default_properties())
                 node_list.append((node_id, 'test', properties))
 
+                # Collect treatment organism info
+                treatment_org = stat_analysis.get('treatment_organism')
+                treatment_taxid = stat_analysis.get('treatment_taxid')
+                if treatment_org and treatment_taxid:
+                    treatment_organisms[str(treatment_taxid)] = treatment_org
+
                 if self.test_mode and len(node_list) >= self.early_stopping:
                     break
 
-        logger.info(f"Generated {len(node_list)} statistical test nodes")
+        # Create organism nodes for treatment organisms
+        for taxid, organism_name in treatment_organisms.items():
+            org_id = self.add_prefix_to_id(prefix="ncbitaxon", identifier=taxid)
+            org_properties = self._get_default_properties()
+            org_properties['organism_name'] = organism_name
+            node_list.append((org_id, 'organism', org_properties))
+            logger.info(f"Created organism node for treatment organism: {organism_name} (taxid: {taxid})")
+
+        logger.info(f"Generated {len(node_list)} statistical test and organism nodes")
         return node_list
 
     def get_edges(self) -> list[tuple]:
         """
-        Generate molecular result edges from the config file.
+        Generate organism to gene expression association edges from the config file.
         
         Returns:
             List of (source_id, target_id, label, properties) tuples
         """
-        logger.info("Generating molecular result edges from omics config")
+        logger.info("Generating organism to gene expression association edges from omics config")
         edge_list = []
 
         if not self.config_data:
@@ -471,7 +488,7 @@ class OMICSAdapter:
                 if self.test_mode and len(edge_list) >= self.early_stopping:
                     break
 
-        logger.info(f"Generated {len(edge_list)} molecular result edges")
+        logger.info(f"Generated {len(edge_list)} organism to gene expression association edges")
         return edge_list
 
     def _generate_test_id(self, analysis: dict) -> str:
@@ -532,7 +549,7 @@ class OMICSAdapter:
 
     def _load_and_create_edges(self, filename: str, analysis: dict) -> list[tuple]:
         """
-        Load a data file and create edges for molecular results.
+        Load a data file and create organism to gene expression association edges.
         
         Args:
             filename: Path to the data file
@@ -550,7 +567,7 @@ class OMICSAdapter:
 
         try:
 
-            # Generate test ID
+            # Generate test ID for reference
             test_id = self.get_statistical_test_id(analysis)
             #test_id = self.add_prefix_to_id(prefix="biolink", identifier=test_id)
 
@@ -567,6 +584,21 @@ class OMICSAdapter:
                     'test_in_study',
                     edge_properties,
                 ))
+
+            # Get treatment organism info from analysis - this is the source of the expression edge
+            treatment_organism = analysis.get('treatment_organism')
+            treatment_taxid = analysis.get('treatment_taxid')
+            
+            if not treatment_organism:
+                logger.warning("No 'treatment_organism' field found in analysis. Skipping edge creation.")
+                return edges
+            
+            if not treatment_taxid:
+                logger.warning("No 'treatment_taxid' field found in analysis. Skipping edge creation.")
+                return edges
+            
+            # Create organism ID for treatment organism using taxid - use ncbitaxon prefix
+            organism_id = self.add_prefix_to_id(prefix="ncbitaxon", identifier=str(treatment_taxid))
 
             # Load the data file
             df = pd.read_csv(filename)
@@ -611,26 +643,47 @@ class OMICSAdapter:
                 # Extract edge properties
                 edge_properties = self._get_default_properties()
 
+                # Add reference to the statistical test that generated this result
+                test_id = self.get_statistical_test_id(analysis)
+                edge_properties['statistical_test_id'] = test_id
+
+                # Add analysis method
+                test_type = analysis.get('test_type')
+                if test_type:
+                    edge_properties['analysis_method'] = test_type
+
                 if logfc_col in df.columns and not pd.isna(row.get(logfc_col)):
                     edge_properties['log2_fold_change'] = float(row[logfc_col])
 
                 if p_value_col in df.columns and not pd.isna(row.get(p_value_col)):
                     edge_properties['adjusted_p_value'] = float(row[p_value_col])
 
-                # Determine direction from fold change
+                # Determine expression direction from fold change
                 if 'log2_fold_change' in edge_properties:
                     fc = edge_properties['log2_fold_change']
-                    edge_properties['direction'] = 'up' if fc > 0 else 'down'
-                    edge_properties['predicate'] = 'has_increased_amount' if fc > 0 else 'has_decreased_amount'
+                    edge_properties['expression_direction'] = 'up' if fc > 0 else 'down'
+                    edge_properties['object_direction_qualifier'] = 'increased' if fc > 0 else 'decreased'
+
+                # Add context from analysis
+                edge_properties['object_aspect_qualifier'] = 'expression'
+                
+                treatment_condition = analysis.get('treatment_condition')
+                if treatment_condition:
+                    edge_properties['comparative_term_qualifier'] = treatment_condition
+                
+                timepoint = analysis.get('timepoint')
+                if timepoint:
+                    edge_properties['time_point'] = timepoint
 
                 edge_properties['publications'] = [self.add_prefix_to_id(prefix="doi", identifier=self.get_publication_id())]
 
-                # Create edge
+                # Create organism to gene expression association edge
+                # source: organism_id, target: gene_id
                 edges.append((
                     None,
+                    organism_id,
                     gene_id,
-                    test_id,
-                    'molecular_result_from_test',
+                    'affects_expression_of',
                     edge_properties
                 ))
 
