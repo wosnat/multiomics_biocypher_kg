@@ -18,7 +18,7 @@ biolink:GeneToExpressionSiteAssociation: Connects a gene to the anatomical locat
 biolink:VariantToGeneExpressionAssociation: Used when a specific genetic variant is the cause of the expression change (e.g., eQTL data).
 
 biolink:GeneToPhenotypicFeatureAssociation: Often used to link a gene's expression status to a specific disease or phenotype.
-
+'
 2. Specifying Direction (Up/Down-regulation)
 Biolink uses Qualifiers to handle the "differential" aspect. Instead of creating unique predicates for every direction, you use a generic predicate like biolink:affects or biolink:expressed_in and refine it:
 

@@ -20,7 +20,7 @@ study:
     organism: str[]
 
 publication:
-  is_a: publication
+  is_a: Publication
   represented_as: node
   preferred_id: doi
   label_in_input: publication
@@ -33,7 +33,7 @@ publication:
     pmid: str
 
 study_published_in:
-  is_a: association
+  is_a: Association
   represented_as: edge
   label_as_edge: study_published_in
   source: study
@@ -41,7 +41,7 @@ study_published_in:
   label_in_input: study_published_in
 
 statistical_test:
-  is_a: analysis
+  is_a: InformationContentEntity
   represented_as: node
   preferred_id: id
   label_in_input: test
@@ -55,7 +55,7 @@ statistical_test:
     organism: str
 
 test_in_study:
-  is_a: association
+  is_a: Association
   represented_as: edge
   label_as_edge: test_in_study
   source: statistical_test
@@ -63,7 +63,7 @@ test_in_study:
   label_in_input: test_in_study
 
 molecular result from test:
-  is_a: association
+  is_a: Association
   represented_as: edge
   source: [gene, protein]
   target: statistical_test
@@ -79,7 +79,7 @@ molecular result from test:
     publications: str[]  # list of publication ids
 
 gene upregulated in organism presence association:
-  is_a: gene to expression site association
+  is_a: GeneToExpressionSiteAssociation
   represented_as: edge
   source: gene
   target: organism taxon
@@ -102,7 +102,7 @@ gene upregulated in organism presence association:
 
 
 timeseries_cluster:
-  is_a: gene group
+  is_a: GroupingClass
   represented_as: node
   preferred_id: id
   label_in_input: timeseries_cluster
@@ -112,7 +112,7 @@ timeseries_cluster:
     description: str
 
 cluster_in_study:
-  is_a: association
+  is_a: Association
   represented_as: edge
   label_as_edge: cluster_in_study
   source: timeseries_cluster
@@ -120,7 +120,7 @@ cluster_in_study:
   label_in_input: cluster_in_study
 
 molecular_in_cluster:
-  is_a: association
+  is_a: Association
   represented_as: edge
   source: [gene, protein]
   target: timeseries_cluster

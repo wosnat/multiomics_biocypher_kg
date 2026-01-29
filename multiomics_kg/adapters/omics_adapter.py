@@ -275,9 +275,9 @@ class OMICSAdapter:
 
         if "study" in data:
             study = data["study"]
-            # Use stored ID from cache (which uses DOI if available)
+            # Use stored ID from cache - don't prefix with biolink
             study_id = study.get("study_id") 
-            study_id = self.add_prefix_to_id(prefix="biolink", identifier=study_id)
+            # No prefix for study IDs - use raw identifier
             study_properties = {
                 "title": study.get("title"),
                 "description": study.get("description"),
@@ -315,7 +315,7 @@ class OMICSAdapter:
             pub_id = self.get_publication_id()
             pub_id = self.add_prefix_to_id(prefix="doi", identifier=pub_id)
             study_id = study.get("study_id") 
-            study_id = self.add_prefix_to_id(prefix="biolink", identifier=study_id)
+            #study_id = self.add_prefix_to_id(prefix="biolink", identifier=study_id)
             edge_properties = self._get_default_properties()
             edges.append(
                 (
@@ -390,10 +390,10 @@ class OMICSAdapter:
                     continue
 
                 node_id = self.get_statistical_test_id(stat_analysis)
-                node_id = self.add_prefix_to_id(prefix="biolink", identifier=node_id)
+                #node_id = self.add_prefix_to_id(prefix="biolink", identifier=node_id)
                 properties = self._extract_test_properties(stat_analysis)
                 properties.update(self._get_default_properties())
-                node_list.append((node_id, 'statistical_test', properties))
+                node_list.append((node_id, 'test', properties))
 
                 if self.test_mode and len(node_list) >= self.early_stopping:
                     break
@@ -552,12 +552,12 @@ class OMICSAdapter:
 
             # Generate test ID
             test_id = self.get_statistical_test_id(analysis)
-            test_id = self.add_prefix_to_id(prefix="biolink", identifier=test_id)
+            #test_id = self.add_prefix_to_id(prefix="biolink", identifier=test_id)
 
             # generate statistical test to study edge
             study = self.extracted_data.get('study', {})
             study_id = study.get('study_id')
-            study_id = self.add_prefix_to_id(prefix="biolink", identifier=study_id)
+            #study_id = self.add_prefix_to_id(prefix="biolink", identifier=study_id)
             if study_id:
                 edge_properties = self._get_default_properties()
                 edges.append((

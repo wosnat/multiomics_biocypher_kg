@@ -1,6 +1,7 @@
 #!/bin/bash -c
 cd /usr/app/
 cp -r /src/* .
+cp /src/.env .
 cp config/biocypher_docker_config.yaml config/biocypher_config.yaml
 pip install uv
 uv sync
