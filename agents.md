@@ -192,3 +192,64 @@ The adapter is flexible and can handle various omics data types. The `type` fiel
 The adapter creates nodes and edges that conform to the BioCypher schema defined in `config/schema_config.yaml`:
 - `statistical_test` node type with corresponding properties
 - `molecular_result_from_test` edge type connecting to genes/proteins
+
+# Graph Schema for Gene Expression Changes
+
+The schema uses a **hybrid approach** optimized for LLM agent queries:
+
+## Direct Edges (for simple LLM queries - 1 hop)
+
+### Coculture Effects
+**`organism to gene expression association`**: Represents how coculture with organism X changes expression of genes in organism Y.
+
+Example: Alteromonas → affects_expression_of → Prochlorococcus gene PMM0001
+
+- **Source**: `organism_taxon` (the coculture partner causing the effect)
+- **Target**: `gene` (the affected gene, belongs to a different organism)
+- **Key properties**: `log2_fold_change`, `adjusted_p_value`, `expression_direction`, `time_point`
+
+### Environmental Stress Effects
+**`environmental condition to gene expression association`**: Represents how environmental perturbations affect gene expression.
+
+Example: nitrogen_stress → environmental_condition_affects_expression_of → gene PMM0001
+
+- **Source**: `environmental condition`
+- **Target**: `gene`
+- **Key properties**: same as organism edge plus `control_condition`, `treatment_condition`
+
+## Environmental Condition Node
+
+The `environmental condition` node represents various environmental perturbations:
+
+| Condition Type | Relevant Properties |
+|----------------|---------------------|
+| `gas_shock` | `oxygen_level`, `co2_level` (e.g., "0%", "depleted", "21%") |
+| `nutrient_stress` | `nitrogen_source`, `nitrogen_level`, `phosphate_level` (e.g., "replete", "limited", "starved") |
+| `light_stress` | `light_condition`, `light_intensity` (e.g., "darkness", "blue", "red", "low", "high") |
+
+## Hub Model (for multi-factorial experiments)
+
+For experiments combining multiple factors (e.g., coculture + low light), use the `statistical_test` node as a hub:
+
+```
+Alteromonas ──organism_treatment_in_test──▶ statistical_test ◀──environmental_condition_in_test── low_light
+                                                  │
+                                                  │ molecular_result_from_test
+                                                  ▼
+                                           Prochlorococcus gene
+```
+
+### Hub Model Edges
+
+- **`organism treatment in test`**: Links organism_taxon → statistical_test (with `role` property: "coculture_partner", "predator", "symbiont", "host")
+- **`environmental condition in test`**: Links environmental condition → statistical_test (with `role` property: "treatment", "control", "baseline")
+- **`molecular result from test`**: Links gene/protein → statistical_test (with expression results)
+
+## Query Patterns for LLM Agents
+
+| Query | Recommended Pattern |
+|-------|---------------------|
+| "Genes upregulated by Alteromonas" | Direct: `(Alteromonas)-[affects_expression_of {expression_direction: 'up'}]->(gene)` |
+| "Genes affected by nitrogen stress" | Direct: `(nitrogen_stress)-[environmental_condition_affects_expression_of]->(gene)` |
+| "Genes affected by coculture under low light" | Hub: Find statistical_test linked to both factors, then get gene results |
+| "All experiments involving Alteromonas" | Hub: `(Alteromonas)-[organism_treatment_in_test]->(test)` |

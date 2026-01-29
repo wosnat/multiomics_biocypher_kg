@@ -70,6 +70,39 @@ organism to gene expression association:
 
     publications: str[]  # list of publication ids
 
+# Environmental stress gene expression - direct edge for LLM queries
+environmental condition to gene expression association:
+  is_a: Association
+  represented_as: edge
+  label_as_edge: environmental_condition_affects_expression_of
+  label_in_input: environmental_condition_affects_expression_of
+  # Environmental condition is the Source (the 'cause')
+  # and the Gene is the Target (the 'affected')
+  source: environmental condition
+  target: gene
+  properties:
+    # Reference to the statistical test that generated this result
+    statistical_test_id: str  # ID of the Analysis/test node
+
+    # Metadata identifying this as DE analysis
+    analysis_method: str  # e.g., DESeq2, Rockhopper
+    expression_direction: str # "up" | "down"
+
+    # Biolink Qualifiers
+    object_aspect_qualifier: str  # "expression"
+    object_direction_qualifier: str # "increased" | "decreased"
+
+    # Context - control and treatment conditions
+    time_point: str
+    control_condition: str  # e.g., "normal_light", "replete"
+    treatment_condition: str  # e.g., "darkness", "nitrogen_starved"
+
+    # Stats
+    log2_fold_change: float
+    adjusted_p_value: float
+
+    publications: str[]  # list of publication ids
+
 
 study_published_in:
   is_a: Association
@@ -102,6 +135,27 @@ test_in_study:
   label_in_input: test_in_study
   properties:
     predicate: str  # "part_of" - test is part of this study
+
+# Experimental factors linked to statistical tests
+organism treatment in test:
+  is_a: Association
+  represented_as: edge
+  label_as_edge: organism_treatment_in_test
+  source: organism_taxon
+  target: statistical_test
+  label_in_input: organism_treatment_in_test
+  properties:
+    role: str  # "coculture_partner", "predator", "symbiont", "host"
+
+environmental condition in test:
+  is_a: Association
+  represented_as: edge
+  label_as_edge: environmental_condition_in_test
+  source: environmental condition
+  target: statistical_test
+  label_in_input: environmental_condition_in_test
+  properties:
+    role: str  # "treatment", "control", "baseline"
 
 molecular result from test:
   is_a: Association
@@ -271,6 +325,30 @@ organism taxon:
   label_in_input: organism
   properties:
     organism_name: str
+
+environmental condition:
+  is_a: EnvironmentalFeature
+  represented_as: node
+  preferred_id: id
+  label_in_input: environmental_condition
+  properties:
+    name: str
+    condition_type: str  # "gas_shock" | "nutrient_stress" | "light_stress"
+
+    # Gas parameters
+    oxygen_level: str      # e.g., "0%", "21%", "depleted"
+    co2_level: str         # e.g., "0%", "ambient"
+
+    # Nutrient parameters
+    nitrogen_source: str   # e.g., "ammonia", "nitrate", "none"
+    nitrogen_level: str    # e.g., "replete", "limited", "starved"
+    phosphate_level: str   # e.g., "replete", "limited", "starved"
+
+    # Light parameters
+    light_condition: str   # e.g., "darkness", "blue", "red", "white"
+    light_intensity: str   # e.g., "0", "low", "high"
+
+    description: str
 
 protein domain:  
   represented_as: node
