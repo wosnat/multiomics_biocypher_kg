@@ -60,10 +60,14 @@ organism to gene expression association:
     object_aspect_qualifier: str  # "expression"
     object_direction_qualifier: str # "increased" | "decreased"
     
-    # Context - control and treatment conditions
+    # Context - control and treatment conditions (unified set used for affects_expression_of)
     time_point: str
     comparative_term_qualifier: str # e.g., "coculture"
-    
+    environmental_condition_id: str  # ID of environmental condition node - what was held constant
+    control_condition: str  # e.g., "normal_light", "replete"
+    treatment_condition: str  # e.g., "darkness", "nitrogen_starved"
+    biological_context: str  # e.g., "axenic", "coculture_with_alteromonas"
+
     # Stats
     log2_fold_change: float
     adjusted_p_value: float
@@ -71,11 +75,12 @@ organism to gene expression association:
     publications: str[]  # list of publication ids
 
 # Environmental stress gene expression - direct edge for LLM queries
+# Uses same label as organism edge so LLM can query all expression effects with one query
 environmental condition to gene expression association:
   is_a: Association
   represented_as: edge
-  label_as_edge: environmental_condition_affects_expression_of
-  label_in_input: environmental_condition_affects_expression_of
+  label_as_edge: affects_expression_of
+  label_in_input: affects_expression_of
   # Environmental condition is the Source (the 'cause')
   # and the Gene is the Target (the 'affected')
   source: environmental condition
@@ -92,10 +97,13 @@ environmental condition to gene expression association:
     object_aspect_qualifier: str  # "expression"
     object_direction_qualifier: str # "increased" | "decreased"
 
-    # Context - control and treatment conditions
+    # Context - control and treatment conditions (unified set used for affects_expression_of)
     time_point: str
+    comparative_term_qualifier: str # e.g., "coculture"
+    environmental_condition_id: str  # ID of environmental condition node - what was held constant
     control_condition: str  # e.g., "normal_light", "replete"
     treatment_condition: str  # e.g., "darkness", "nitrogen_starved"
+    biological_context: str  # e.g., "axenic", "coculture_with_alteromonas"
 
     # Stats
     log2_fold_change: float

@@ -415,7 +415,25 @@ class OMICSAdapter:
             node_list.append((org_id, 'organism', org_properties))
             logger.info(f"Created organism node for treatment organism: {organism_name} (taxid: {taxid})")
 
-        logger.info(f"Generated {len(node_list)} statistical test and organism nodes")
+        # Create environmental condition nodes from the config
+        # Prefix with DOI to make IDs unique across papers
+        env_conditions = publication.get('environmental_conditions', {})
+        if isinstance(env_conditions, dict):
+            pub_id = self.get_publication_id()
+            for env_id, env_data in env_conditions.items():
+                if isinstance(env_data, dict):
+                    # Create unique ID by combining DOI and local env_id
+                    unique_env_id = f"{pub_id}_{env_id}"
+                    env_properties = self._get_default_properties()
+                    # Copy all properties from the config
+                    for key, value in env_data.items():
+                        env_properties[key] = value
+                    # Store original local ID for reference
+                    env_properties['local_id'] = env_id
+                    node_list.append((unique_env_id, 'environmental_condition', env_properties))
+                    logger.info(f"Created environmental condition node: {unique_env_id}")
+
+        logger.info(f"Generated {len(node_list)} statistical test, organism, and environmental condition nodes")
         return node_list
 
     def get_edges(self) -> list[tuple]:
@@ -666,14 +684,39 @@ class OMICSAdapter:
 
                 # Add context from analysis
                 edge_properties['object_aspect_qualifier'] = 'expression'
-                
+
+                # comparative term qualifier: prefer explicit field, else fallback to treatment_condition
+                comparative = analysis.get('comparative_term_qualifier') or analysis.get('comparative_term')
+                if comparative:
+                    edge_properties['comparative_term_qualifier'] = comparative
+
+                # control / treatment conditions (explicit fields expected in schema)
+                control_condition = analysis.get('control_condition')
+                if control_condition:
+                    edge_properties['control_condition'] = control_condition
+
                 treatment_condition = analysis.get('treatment_condition')
                 if treatment_condition:
-                    edge_properties['comparative_term_qualifier'] = treatment_condition
-                
+                    edge_properties['treatment_condition'] = treatment_condition
+                    if 'comparative_term_qualifier' not in edge_properties:
+                        edge_properties['comparative_term_qualifier'] = treatment_condition
+
+                # biological context (what was held constant, e.g., 'axenic' or 'coculture_with_alteromonas')
+                biological_context = analysis.get('biological_context')
+                if biological_context:
+                    edge_properties['biological_context'] = biological_context
+
                 timepoint = analysis.get('timepoint')
                 if timepoint:
                     edge_properties['time_point'] = timepoint
+
+                # Add environmental condition ID (reference to environmental condition node)
+                # Prefix with DOI to match the unique node ID
+                environmental_condition_id = analysis.get('environmental_condition_id')
+                if environmental_condition_id:
+                    pub_id = self.get_publication_id()
+                    unique_env_id = f"{pub_id}_{environmental_condition_id}"
+                    edge_properties['environmental_condition_id'] = unique_env_id
 
                 edge_properties['publications'] = [self.add_prefix_to_id(prefix="doi", identifier=self.get_publication_id())]
 

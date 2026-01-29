@@ -3,8 +3,9 @@ Tests for the OMICS adapter organism to gene expression association edges.
 
 Tests verify that the adapter correctly creates:
 1. Organism nodes from treatment_organism and treatment_taxid
-2. affects_expression_of edges from organism → gene
-3. Correct edge properties (log2FC, p-value, direction, etc.)
+2. Environmental condition nodes from environmental_conditions section
+3. affects_expression_of edges from organism → gene
+4. Correct edge properties (log2FC, p-value, direction, environmental_condition_id, etc.)
 """
 
 import pytest
@@ -41,10 +42,18 @@ def sample_config(temp_data_dir, sample_de_data):
     data_file = os.path.join(temp_data_dir, 'de_genes.csv')
     sample_de_data.to_csv(data_file, index=False)
 
-    # Create config
+    # Create config with environmental_conditions section
     config = {
         'publication': {
             'papername': 'Test Publication 2024',
+            'environmental_conditions': {
+                'test_growth_conditions': {
+                    'condition_type': 'growth_medium',
+                    'name': 'Test growth conditions',
+                    'light_condition': 'continuous_light',
+                    'temperature': '24C',
+                }
+            },
             'supplementary_materials': {
                 'supp_table_1': {
                     'type': 'csv',
@@ -61,6 +70,7 @@ def sample_config(temp_data_dir, sample_de_data):
                             'organism': 'Prochlorococcus MED4',
                             'treatment_organism': 'Alteromonas macleodii',
                             'treatment_taxid': 28108,
+                            'environmental_condition_id': 'test_growth_conditions',
                             'name_col': 'Synonym',
                             'logfc_col': 'log2_fold_change',
                             'adjusted_p_value_col': 'adjusted_p_value',
@@ -171,6 +181,85 @@ class TestOrganismNodeCreation:
         organism_nodes = [n for n in nodes if n[1] == 'organism']
 
         assert len(organism_nodes) == 0, "No organism node should be created without treatment_taxid"
+
+
+class TestEnvironmentalConditionNodeCreation:
+    """Test that environmental condition nodes are created correctly."""
+
+    def test_environmental_condition_node_created(self, adapter_with_mock_extracted_data):
+        """Verify environmental condition node is created from config."""
+        adapter = adapter_with_mock_extracted_data
+        nodes = adapter.get_nodes()
+
+        # Find environmental condition nodes
+        env_nodes = [n for n in nodes if n[1] == 'environmental_condition']
+
+        assert len(env_nodes) == 1, f"Expected exactly one environmental condition node, got {len(env_nodes)}"
+
+        env_node = env_nodes[0]
+        node_id, label, properties = env_node
+
+        # Check that ID includes DOI prefix for uniqueness
+        assert 'test_pub_2024' in node_id or '10.1234' in node_id, \
+            f"Expected environmental condition node ID to include publication ID, got {node_id}"
+        assert 'test_growth_conditions' in node_id, \
+            f"Expected environmental condition node ID to include local ID, got {node_id}"
+
+        # Check properties are copied from config
+        assert properties.get('condition_type') == 'growth_medium', \
+            f"Expected condition_type 'growth_medium', got {properties.get('condition_type')}"
+        assert properties.get('light_condition') == 'continuous_light', \
+            f"Expected light_condition 'continuous_light', got {properties.get('light_condition')}"
+        assert properties.get('local_id') == 'test_growth_conditions', \
+            f"Expected local_id 'test_growth_conditions', got {properties.get('local_id')}"
+
+    def test_no_env_condition_node_without_section(self, temp_data_dir, sample_de_data):
+        """Verify no environmental condition node is created when section is missing."""
+        data_file = os.path.join(temp_data_dir, 'de_genes.csv')
+        sample_de_data.to_csv(data_file, index=False)
+
+        # Config without environmental_conditions section
+        config = {
+            'publication': {
+                'papername': 'Test Publication 2024',
+                # No environmental_conditions section
+                'supplementary_materials': {
+                    'supp_table_1': {
+                        'type': 'csv',
+                        'filename': data_file,
+                        'statistical_analyses': [
+                            {
+                                'type': 'RNASEQ',
+                                'name': 'Test DE Analysis',
+                                'id': 'test_de_analysis',
+                                'test_type': 'DESeq2',
+                                'organism': 'Prochlorococcus MED4',
+                                'treatment_organism': 'Alteromonas macleodii',
+                                'treatment_taxid': 28108,
+                                'name_col': 'Synonym',
+                                'logfc_col': 'log2_fold_change',
+                                'adjusted_p_value_col': 'adjusted_p_value',
+                            }
+                        ]
+                    }
+                }
+            }
+        }
+
+        config_file = os.path.join(temp_data_dir, 'paperconfig_no_env.yaml')
+        with open(config_file, 'w') as f:
+            yaml.dump(config, f)
+
+        adapter = OMICSAdapter(config_file=config_file)
+        adapter.extracted_data = {
+            'publication': {'publication_id': 'test', 'doi': '10.1234/test'},
+            'study': {'study_id': 'study_test'},
+        }
+
+        nodes = adapter.get_nodes()
+        env_nodes = [n for n in nodes if n[1] == 'environmental_condition']
+
+        assert len(env_nodes) == 0, "No environmental condition node should be created without section"
 
 
 class TestOrganismToGeneEdges:
@@ -309,6 +398,26 @@ class TestOrganismToGeneEdges:
             assert isinstance(properties['publications'], list), \
                 f"Expected publications to be a list"
 
+    def test_edge_has_environmental_condition_id(self, adapter_with_mock_extracted_data):
+        """Verify edges have environmental_condition_id property with unique ID."""
+        adapter = adapter_with_mock_extracted_data
+        edges = adapter.get_edges()
+
+        expression_edges = [e for e in edges if e[3] == 'affects_expression_of']
+
+        for edge in expression_edges:
+            _, source_id, target_id, label, properties = edge
+            assert 'environmental_condition_id' in properties, \
+                f"Expected environmental_condition_id in edge properties"
+
+            env_id = properties['environmental_condition_id']
+            # Should include DOI/publication ID for uniqueness
+            assert 'test_pub_2024' in env_id or '10.1234' in env_id, \
+                f"Expected environmental_condition_id to include publication ID, got {env_id}"
+            # Should include the local condition ID
+            assert 'test_growth_conditions' in env_id, \
+                f"Expected environmental_condition_id to include local ID, got {env_id}"
+
 
 class TestEdgeWithRealData:
     """Test with the real Aharonovich 2016 config if available."""
@@ -337,6 +446,26 @@ class TestEdgeWithRealData:
         has_alteromonas = any('28108' in str(oid) for oid in org_ids)
         assert has_alteromonas, f"Expected Alteromonas (taxid 28108) in organism nodes, got {org_ids}"
 
+    def test_real_config_creates_environmental_condition_nodes(self, real_config_path):
+        """Test that real config creates environmental condition nodes."""
+        if not os.path.exists(real_config_path):
+            pytest.skip("Real config file not found")
+
+        adapter = OMICSAdapter(config_file=real_config_path)
+        adapter.download_data(cache=True)
+
+        nodes = adapter.get_nodes()
+        env_nodes = [n for n in nodes if n[1] == 'environmental_condition']
+
+        # Should have at least one environmental condition node
+        assert len(env_nodes) >= 1, "Expected at least one environmental condition node"
+
+        # Check that node has expected properties
+        env_node = env_nodes[0]
+        node_id, label, properties = env_node
+        assert 'condition_type' in properties or 'name' in properties, \
+            f"Expected condition_type or name in env node properties, got {properties.keys()}"
+
     def test_real_config_creates_expression_edges(self, real_config_path):
         """Test that real config creates expression edges."""
         if not os.path.exists(real_config_path):
@@ -359,6 +488,8 @@ class TestEdgeWithRealData:
         assert 'ncbitaxon' in source_id.lower() or '28108' in source_id
         assert 'log2_fold_change' in properties
         assert 'expression_direction' in properties
+        assert 'environmental_condition_id' in properties, \
+            "Expected environmental_condition_id in edge properties"
 
 
 if __name__ == '__main__':

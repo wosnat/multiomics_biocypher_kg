@@ -38,6 +38,18 @@ Use a `paperconfig.yaml` file per publication, located in the paper's folder und
 publication:
   papername: <Paper Name and Year>
   papermainpdf: <path to PDF>
+
+  # Define environmental conditions used in this paper (creates nodes)
+  environmental_conditions:
+    <condition_id>:  # unique ID for this condition
+      condition_type: <type>  # growth_medium, nutrient_stress, light_stress, gas_shock
+      name: <descriptive name>
+      light_condition: <e.g., continuous_light, darkness>
+      light_intensity: <e.g., 10 µmol photons m-2 s-1>
+      temperature: <e.g., 24C>
+      nitrogen_level: <e.g., replete, starved>
+      # ... other condition-specific properties
+
   supplementary_materials:
     supp_table_<N>:
       type: csv  # or other file type
@@ -51,6 +63,11 @@ publication:
           timepoint: <Time point, e.g., "20h", "day 7">
           reference_timepoint: <Baseline time if applicable>
           organism: <Organism name or strain>
+          # Coculture experiment fields (for organism → gene edges)
+          treatment_organism: <Name of coculture partner organism>
+          treatment_taxid: <NCBI taxid of coculture partner>
+          environmental_condition_id: <condition_id>  # references node defined above
+          # Column mappings
           name_col: <Name of column with gene/protein IDs>
           logfc_col: <Name of column with log2 fold change>
           adjusted_p_value_col: <Name of column with adjusted p-value>
@@ -96,6 +113,10 @@ See [data/Prochlorococcus/papers_and_supp/Aharonovich 2016/paperconfig.yaml](dat
        - Conditions being compared (control vs treatment)
        - Time point (if time series)
        - Organism studied
+     - **For coculture experiments** (creates organism → gene edges):
+       - `treatment_organism`: Name of coculture partner (e.g., "Alteromonas macleodii HOT1A3")
+       - `treatment_taxid`: NCBI taxid of coculture partner (e.g., 28108)
+       - `environmental_condition_id`: References an environmental condition node defined in the `environmental_conditions` section
 
 3. **Data file requirements**:
    - CSV format recommended for compatibility
@@ -207,15 +228,31 @@ Example: Alteromonas → affects_expression_of → Prochlorococcus gene PMM0001
 - **Source**: `organism_taxon` (the coculture partner causing the effect)
 - **Target**: `gene` (the affected gene, belongs to a different organism)
 - **Key properties**: `log2_fold_change`, `adjusted_p_value`, `expression_direction`, `time_point`
+- **Context property**: `environmental_condition_id` - references environmental condition node (what was held constant)
 
 ### Environmental Stress Effects
 **`environmental condition to gene expression association`**: Represents how environmental perturbations affect gene expression.
 
-Example: nitrogen_stress → environmental_condition_affects_expression_of → gene PMM0001
+Example: nitrogen_stress → affects_expression_of → gene PMM0001 (same label as organism edge)
 
 - **Source**: `environmental condition`
 - **Target**: `gene`
 - **Key properties**: same as organism edge plus `control_condition`, `treatment_condition`
+- **Context property**: `biological_context` - what biological conditions were held constant (e.g., "axenic", "coculture_with_alteromonas")
+
+## Context Properties (Single-Factor Experiment Design)
+
+Most experiments follow single-factor design: change one variable while holding others constant. The schema captures this with context properties:
+
+| Edge Type | Varied Factor | Context Property | Description |
+|-----------|---------------|------------------|-------------|
+| `organism to gene expression` | Coculture partner | `environmental_condition_id` | References environmental condition node (what was held constant) |
+| `environmental condition to gene expression` | Environmental stress | `biological_context` | String describing biological context (e.g., "axenic", "coculture_with_alteromonas") |
+
+This design allows LLM agents to:
+1. Query direct effects: "Genes affected by Alteromonas" → use organism edge
+2. Filter by context: Join to environmental condition node via `environmental_condition_id`
+3. Compare contexts: "Do the same genes respond to Alteromonas under different conditions?" → compare edges with different environmental_condition_id values
 
 ## Environmental Condition Node
 
@@ -249,7 +286,197 @@ Alteromonas ──organism_treatment_in_test──▶ statistical_test ◀──
 
 | Query | Recommended Pattern |
 |-------|---------------------|
-| "Genes upregulated by Alteromonas" | Direct: `(Alteromonas)-[affects_expression_of {expression_direction: 'up'}]->(gene)` |
-| "Genes affected by nitrogen stress" | Direct: `(nitrogen_stress)-[environmental_condition_affects_expression_of]->(gene)` |
+| "What affects gene PMM0001?" | `(factor)-[affects_expression_of]->(gene {id: 'PMM0001'})` - returns both organisms and environmental conditions |
+| "Genes upregulated by Alteromonas" | `(Alteromonas)-[affects_expression_of {expression_direction: 'up'}]->(gene)` |
+| "Genes affected by nitrogen stress" | `(nitrogen_stress:environmental_condition)-[affects_expression_of]->(gene)` |
 | "Genes affected by coculture under low light" | Hub: Find statistical_test linked to both factors, then get gene results |
 | "All experiments involving Alteromonas" | Hub: `(Alteromonas)-[organism_treatment_in_test]->(test)` |
+
+---
+
+# Agent Skills: Cypher Query Examples
+
+This section provides ready-to-use Cypher query templates for LLM agents querying the Prochlorococcus-Alteromonas knowledge graph.
+
+## Skill: Find What Affects a Gene
+
+Find all factors (organisms or environmental conditions) that affect expression of a specific gene:
+
+```cypher
+// All factors affecting gene expression
+MATCH (factor)-[r:affects_expression_of]->(g:gene {locus_tag: 'PMM0001'})
+RETURN factor, r.expression_direction, r.log2_fold_change, r.adjusted_p_value
+ORDER BY abs(r.log2_fold_change) DESC
+```
+
+## Skill: Find Genes Affected by Organism Coculture
+
+```cypher
+// Genes upregulated by Alteromonas coculture
+MATCH (org:organism {organism_name: 'Alteromonas macleodii'})-[r:affects_expression_of {expression_direction: 'up'}]->(g:gene)
+RETURN g.locus_tag, g.product, r.log2_fold_change, r.adjusted_p_value
+ORDER BY r.log2_fold_change DESC
+LIMIT 20
+
+// Genes downregulated by Alteromonas coculture
+MATCH (org:organism)-[r:affects_expression_of {expression_direction: 'down'}]->(g:gene)
+WHERE org.organism_name CONTAINS 'Alteromonas'
+RETURN g.locus_tag, g.product, r.log2_fold_change, r.adjusted_p_value
+ORDER BY r.log2_fold_change ASC
+LIMIT 20
+```
+
+## Skill: Find Genes Affected by Environmental Stress
+
+```cypher
+// Genes affected by nitrogen stress
+MATCH (env:environmental_condition {condition_type: 'nutrient_stress'})-[r:affects_expression_of]->(g:gene)
+WHERE env.nitrogen_level = 'starved'
+RETURN g.locus_tag, g.product, r.expression_direction, r.log2_fold_change
+ORDER BY abs(r.log2_fold_change) DESC
+
+// Genes affected by light/dark shift
+MATCH (env:environmental_condition)-[r:affects_expression_of]->(g:gene)
+WHERE env.light_condition = 'darkness'
+RETURN g.locus_tag, r.expression_direction, r.log2_fold_change
+```
+
+## Skill: Compare Conditions
+
+```cypher
+// Genes affected by BOTH Alteromonas AND nitrogen stress
+MATCH (org:organism)-[r1:affects_expression_of]->(g:gene)
+WHERE org.organism_name CONTAINS 'Alteromonas'
+MATCH (env:environmental_condition)-[r2:affects_expression_of]->(g)
+WHERE env.nitrogen_level = 'starved'
+RETURN g.locus_tag, g.product,
+       r1.expression_direction AS coculture_direction,
+       r2.expression_direction AS stress_direction,
+       r1.log2_fold_change AS coculture_fc,
+       r2.log2_fold_change AS stress_fc
+
+// Genes with OPPOSITE response to coculture vs stress
+MATCH (org:organism)-[r1:affects_expression_of]->(g:gene)
+MATCH (env:environmental_condition)-[r2:affects_expression_of]->(g)
+WHERE r1.expression_direction <> r2.expression_direction
+RETURN g.locus_tag, g.product, r1.expression_direction, r2.expression_direction
+```
+
+## Skill: Filter by Context (Environmental Condition)
+
+```cypher
+// Genes affected by Alteromonas under specific environmental conditions
+MATCH (org:organism)-[r:affects_expression_of]->(g:gene)
+WHERE org.organism_name CONTAINS 'Alteromonas'
+MATCH (env:environmental_condition {id: r.environmental_condition_id})
+WHERE env.light_condition = 'continuous_light'
+RETURN g.locus_tag, r.log2_fold_change, env.name
+
+// Compare coculture response under different environmental conditions
+MATCH (org:organism)-[r1:affects_expression_of]->(g:gene)
+MATCH (env1:environmental_condition {id: r1.environmental_condition_id})
+WHERE env1.light_condition = 'continuous_light'
+MATCH (org)-[r2:affects_expression_of]->(g)
+MATCH (env2:environmental_condition {id: r2.environmental_condition_id})
+WHERE env2.light_condition = 'darkness'
+RETURN g.locus_tag,
+       r1.log2_fold_change AS light_fc,
+       r2.log2_fold_change AS dark_fc,
+       env1.name AS light_condition,
+       env2.name AS dark_condition
+ORDER BY abs(r1.log2_fold_change - r2.log2_fold_change) DESC
+```
+
+## Skill: Get Gene Details with Function
+
+```cypher
+// Gene with its protein and GO annotations
+MATCH (g:gene {locus_tag: 'PMM0001'})
+OPTIONAL MATCH (g)-[:Gene_encodes_protein]->(p:protein)
+OPTIONAL MATCH (p)-[:protein_involved_in_biological_process]->(bp:biological_process)
+OPTIONAL MATCH (p)-[:protein_enables_molecular_function]->(mf:molecular_function)
+RETURN g.locus_tag, g.product, p.primary_protein_name,
+       collect(DISTINCT bp.name) AS biological_processes,
+       collect(DISTINCT mf.name) AS molecular_functions
+```
+
+## Skill: Find Functionally Related Affected Genes
+
+```cypher
+// Genes in same biological process that are affected by Alteromonas
+MATCH (org:organism)-[r:affects_expression_of]->(g:gene)
+WHERE org.organism_name CONTAINS 'Alteromonas'
+MATCH (g)-[:Gene_encodes_protein]->(p:protein)-[:protein_involved_in_biological_process]->(bp:biological_process)
+RETURN bp.name AS process,
+       collect(g.locus_tag) AS affected_genes,
+       avg(r.log2_fold_change) AS avg_fold_change,
+       count(g) AS gene_count
+ORDER BY gene_count DESC
+LIMIT 10
+```
+
+## Skill: Multi-factorial Experiments (Hub Model)
+
+```cypher
+// Find experiments with both coculture and environmental stress
+MATCH (org:organism)-[:organism_treatment_in_test]->(test:statistical_test)
+MATCH (env:environmental_condition)-[:environmental_condition_in_test]->(test)
+RETURN test.name, org.organism_name, env.name, test.timepoint
+
+// Get gene results from multi-factorial experiment
+MATCH (org:organism)-[:organism_treatment_in_test]->(test:statistical_test)
+MATCH (env:environmental_condition)-[:environmental_condition_in_test]->(test)
+MATCH (g:gene)-[r:molecular_result_from_test]->(test)
+WHERE org.organism_name CONTAINS 'Alteromonas'
+RETURN g.locus_tag, r.log2_fold_change, r.direction,
+       org.organism_name, env.name
+ORDER BY abs(r.log2_fold_change) DESC
+```
+
+## Skill: Significance Filtering
+
+```cypher
+// Significantly differentially expressed genes (p < 0.05, |FC| > 2)
+MATCH (factor)-[r:affects_expression_of]->(g:gene)
+WHERE r.adjusted_p_value < 0.05 AND abs(r.log2_fold_change) > 1
+RETURN factor, g.locus_tag, r.expression_direction, r.log2_fold_change, r.adjusted_p_value
+ORDER BY r.adjusted_p_value ASC
+
+// Top 10 most significantly affected genes
+MATCH (org:organism)-[r:affects_expression_of]->(g:gene)
+WHERE org.organism_name CONTAINS 'Alteromonas'
+RETURN g.locus_tag, g.product, r.log2_fold_change, r.adjusted_p_value
+ORDER BY r.adjusted_p_value ASC
+LIMIT 10
+```
+
+## Skill: Time Series Analysis
+
+```cypher
+// Gene expression across time points
+MATCH (org:organism)-[r:affects_expression_of]->(g:gene {locus_tag: 'PMM0001'})
+WHERE org.organism_name CONTAINS 'Alteromonas'
+RETURN r.time_point, r.log2_fold_change, r.expression_direction
+ORDER BY r.time_point
+
+// Genes with consistent response across time
+MATCH (org:organism)-[r:affects_expression_of]->(g:gene)
+WITH g, collect(r.expression_direction) AS directions
+WHERE size([d IN directions WHERE d = 'up']) = size(directions)
+   OR size([d IN directions WHERE d = 'down']) = size(directions)
+RETURN g.locus_tag, g.product, directions
+```
+
+## Skill: Publication Traceability
+
+```cypher
+// Find which publication reported the expression change
+MATCH (factor)-[r:affects_expression_of]->(g:gene)
+WHERE g.locus_tag = 'PMM0001'
+RETURN factor, r.log2_fold_change, r.publications
+
+// All genes from a specific study
+MATCH (factor)-[r:affects_expression_of]->(g:gene)
+WHERE 'doi:10.1234/example' IN r.publications
+RETURN g.locus_tag, factor, r.expression_direction
+```

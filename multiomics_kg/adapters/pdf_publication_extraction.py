@@ -23,9 +23,9 @@ import dotenv
 dotenv.load_dotenv()  # Load environment variables from .env file
 
 try:
-    import PyPDF2
-except ImportError:
-    PyPDF2 = None
+    from pypdf import PdfReader
+except Exception:
+    PdfReader = None
 
 from langchain.chat_models import init_chat_model
 from langchain_core.prompts import ChatPromptTemplate
@@ -162,19 +162,21 @@ Return ONLY the JSON object.""")
         Returns:
             Extracted text from PDF, excluding References and beyond
         """
-        if PyPDF2 is None:
-            logger.warning("PyPDF2 not installed. Install with: pip install PyPDF2")
+        if PdfReader is None:
+            logger.warning("No PDF reader installed. Install with: pip install pypdf")
             return ""
 
         try:
             text = ""
             with open(pdf_path, "rb") as f:
-                reader = PyPDF2.PdfReader(f)
+                reader = PdfReader(f)
+                # pypdf/PyPDF2 provide pages as a sequence-like object
                 num_pages = min(len(reader.pages), max_pages)
 
                 for page_num in range(num_pages):
                     page = reader.pages[page_num]
-                    page_text = page.extract_text()
+                    # pypdf uses `extract_text()`; older PyPDF2 variants may differ
+                    page_text = getattr(page, 'extract_text', lambda: '')()
                     
                     # Check if this page contains the References section
                     # Common patterns: "References", "REFERENCES", "References Cited", "Bibliography"
