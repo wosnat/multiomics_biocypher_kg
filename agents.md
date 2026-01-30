@@ -66,7 +66,7 @@ publication:
           # Coculture experiment fields (for organism → gene edges)
           treatment_organism: <Name of coculture partner organism>
           treatment_taxid: <NCBI taxid of coculture partner>
-          environmental_condition_id: <condition_id>  # references node defined above
+          environmental_treatment_condition_id: <condition_id>  # references node defined above
           # Column mappings
           name_col: <Name of column with gene/protein IDs>
           logfc_col: <Name of column with log2 fold change>
@@ -116,7 +116,7 @@ See [data/Prochlorococcus/papers_and_supp/Aharonovich 2016/paperconfig.yaml](dat
      - **For coculture experiments** (creates organism → gene edges):
        - `treatment_organism`: Name of coculture partner (e.g., "Alteromonas macleodii HOT1A3")
        - `treatment_taxid`: NCBI taxid of coculture partner (e.g., 28108)
-       - `environmental_condition_id`: References an environmental condition node defined in the `environmental_conditions` section
+       - `environmental_treatment_condition_id`: References an environmental condition node defined in the `environmental_conditions` section
 
 3. **Data file requirements**:
    - CSV format recommended for compatibility
@@ -228,7 +228,7 @@ Example: Alteromonas → affects_expression_of → Prochlorococcus gene PMM0001
 - **Source**: `organism_taxon` (the coculture partner causing the effect)
 - **Target**: `gene` (the affected gene, belongs to a different organism)
 - **Key properties**: `log2_fold_change`, `adjusted_p_value`, `expression_direction`, `time_point`
-- **Context property**: `environmental_condition_id` - references environmental condition node (what was held constant)
+- **Context property**: `environmental_treatment_condition_id` - references environmental condition node (what was held constant)
 
 ### Environmental Stress Effects
 **`environmental condition to gene expression association`**: Represents how environmental perturbations affect gene expression.
@@ -246,13 +246,13 @@ Most experiments follow single-factor design: change one variable while holding 
 
 | Edge Type | Varied Factor | Context Property | Description |
 |-----------|---------------|------------------|-------------|
-| `organism to gene expression` | Coculture partner | `environmental_condition_id` | References environmental condition node (what was held constant) |
+| `organism to gene expression` | Coculture partner | `environmental_treatment_condition_id` | References environmental condition node (what was held constant) |
 | `environmental condition to gene expression` | Environmental stress | `biological_context` | String describing biological context (e.g., "axenic", "coculture_with_alteromonas") |
 
 This design allows LLM agents to:
 1. Query direct effects: "Genes affected by Alteromonas" → use organism edge
-2. Filter by context: Join to environmental condition node via `environmental_condition_id`
-3. Compare contexts: "Do the same genes respond to Alteromonas under different conditions?" → compare edges with different environmental_condition_id values
+2. Filter by context: Join to environmental condition node via `environmental_treatment_condition_id`
+3. Compare contexts: "Do the same genes respond to Alteromonas under different conditions?" → compare edges with different environmental_treatment_condition_id values
 
 ## Environmental Condition Node
 
@@ -368,16 +368,16 @@ RETURN g.locus_tag, g.product, r1.expression_direction, r2.expression_direction
 // Genes affected by Alteromonas under specific environmental conditions
 MATCH (org:organism)-[r:affects_expression_of]->(g:gene)
 WHERE org.organism_name CONTAINS 'Alteromonas'
-MATCH (env:environmental_condition {id: r.environmental_condition_id})
+MATCH (env:environmental_condition {id: r.environmental_treatment_condition_id})
 WHERE env.light_condition = 'continuous_light'
 RETURN g.locus_tag, r.log2_fold_change, env.name
 
 // Compare coculture response under different environmental conditions
 MATCH (org:organism)-[r1:affects_expression_of]->(g:gene)
-MATCH (env1:environmental_condition {id: r1.environmental_condition_id})
+MATCH (env1:environmental_condition {id: r1.environmental_treatment_condition_id})
 WHERE env1.light_condition = 'continuous_light'
 MATCH (org)-[r2:affects_expression_of]->(g)
-MATCH (env2:environmental_condition {id: r2.environmental_condition_id})
+MATCH (env2:environmental_condition {id: r2.environmental_treatment_condition_id})
 WHERE env2.light_condition = 'darkness'
 RETURN g.locus_tag,
        r1.log2_fold_change AS light_fc,

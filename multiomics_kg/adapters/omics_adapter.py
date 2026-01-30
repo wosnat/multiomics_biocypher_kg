@@ -8,7 +8,6 @@ import pandas as pd
 import yaml
 import os
 from pathlib import Path
-import uuid
 from bioregistry import normalize_curie
 
 try:
@@ -27,8 +26,6 @@ class OmicsEnumMeta(EnumMeta):
 class PublicationNodeType(Enum):
     """Define types of nodes the adapter can provide."""
     PUBLICATION = auto()
-    STUDY = auto()
-    STATISTICAL_TEST = auto()
     TIME_SERIES_CLUSTER = auto()
 
 
@@ -40,44 +37,6 @@ class PublicationNodeField(Enum, metaclass=OmicsEnumMeta):
     JOURNAL = "journal"
     PUBLICATION_DATE = "publication_date"
     DOI = "doi"
-
-    @classmethod
-    def _missing_(cls, value: str):
-        value = value.lower()
-        for member in cls.__members__.values():
-            if member.value.lower() == value:
-                return member
-        return None
-
-
-class StudyNodeField(Enum, metaclass=OmicsEnumMeta):
-    """Fields for study nodes."""
-    STUDY_ID = "study_id"
-    TITLE = "title"
-    DESCRIPTION = "description"
-    ABSTRACT = "abstract"
-    STUDY_TYPE = "study_type"
-    ORGANISM = "organism"
-
-    @classmethod
-    def _missing_(cls, value: str):
-        value = value.lower()
-        for member in cls.__members__.values():
-            if member.value.lower() == value:
-                return member
-        return None
-
-
-class StatisticalTestNodeField(Enum, metaclass=OmicsEnumMeta):
-    """Fields for statistical test nodes."""
-    NAME = 'name'
-    TEST_TYPE = 'test_type'
-    CONTROL_CONDITION = 'control_condition'
-    TREATMENT_CONDITION = 'treatment_condition'
-    TIMEPOINT = 'timepoint'
-    REFERENCE_TIMEPOINT = 'reference_timepoint'
-    METHOD = 'method'
-    ORGANISM = 'organism'
 
     @classmethod
     def _missing_(cls, value: str):
@@ -105,11 +64,8 @@ class TimeSeriesNodeField(Enum, metaclass=OmicsEnumMeta):
 
 class OMICSEdgeType(Enum, metaclass=OmicsEnumMeta):
     """Edge types for omics data."""
-    study_published_in = auto()
-    test_in_study = auto()
-    study_has_time_series = auto()
-    molecular_result_from_test = auto()
-    cluster_in_study = auto()
+    affects_expression_of = auto()
+    cluster_in_publication = auto()
     molecular_in_cluster = auto()
 
 
@@ -126,10 +82,10 @@ class OMICSModel(BaseModel):
 class OMICSAdapter:
     """
     Adapter for creating omics-related nodes and edges from publication config files.
-    
+
     Parses YAML paperconfig files that specify statistical analyses (RNA-seq, proteomics,
-    metabolomics) and creates corresponding statistical test nodes and molecular result
-    edges in the knowledge graph.
+    metabolomics) and creates publication, organism, and environmental condition nodes,
+    plus affects_expression_of edges linking causes to genes.
     """
 
     def __init__(
@@ -168,8 +124,6 @@ class OMICSAdapter:
         self.add_prefix = model["add_prefix"]
         self.test_mode = model["test_mode"]
 
-        self._statistical_test_ids = dict()
-
         # set edge types
         self.set_edge_types(edge_types=model["edge_types"])
 
@@ -184,7 +138,7 @@ class OMICSAdapter:
         if config_file:
             self.load_config(config_file)
 
-        # pdf extractor for publication and study nodes
+        # pdf extractor for publication nodes
         self.pdf_extractor = PDFPublicationExtractor()
 
         self.data_source = "OMICS Adapter"
@@ -197,8 +151,7 @@ class OMICSAdapter:
             self.edge_types = edge_types
         else:
             self.edge_types = [
-                OMICSEdgeType.test_in_study,
-                OMICSEdgeType.molecular_result_from_test,
+                OMICSEdgeType.affects_expression_of,
             ]
 
     def load_config(self, config_file: str) -> None:
@@ -229,117 +182,56 @@ class OMICSAdapter:
             logger.warning(f"'publication' must be a dict, got {type(publication).__name__}. Skipping all tables.")
             return 
 
-        # extract publication metadata from pdf and create publication and study nodes
+        # extract publication metadata from pdf
         pdf_path = publication.get('papermainpdf', None)
         if pdf_path and os.path.exists(pdf_path):
             self.extracted_data = self.pdf_extractor.extract_from_pdf(pdf_path)
         else:
-            logger.warning(f"PDF path not found or not provided: {pdf_path}. Skipping publication and study nodes.")
-        pass
+            logger.warning(f"PDF path not found or not provided: {pdf_path}. Skipping publication nodes.")
 
     def get_publication_nodes(self) -> list[tuple]:
         """
-        Generate publication and study nodes from cached data.  
+        Generate publication nodes from cached data (includes study metadata).
 
-        Args:
-            pdf_path: Path to the PDF file for which to generate nodes.
         Returns:
             List of (node_id, label, properties) tuples
-        """       
-        logger.info("Generating publication and study nodes from cached data")
+        """
+        logger.info("Generating publication nodes from cached data")
         nodes = []
 
         data = self.extracted_data if hasattr(self, 'extracted_data') else {}
 
         if "publication" in data:
             pub = data["publication"]
-            # Use stored ID from cache (which uses DOI if available)
             pub_id = self.get_publication_id()
             pub_id = self.add_prefix_to_id(prefix="doi", identifier=pub_id)
             pub_properties = {
                 "title": pub.get("title"),
                 "authors": pub.get("authors", []),
                 "journal": pub.get("journal"),
-                "publication_date": pub.get("publication_date"),
+                "publication_year": pub.get("publication_year"),
                 "doi": pub.get("doi"),
-                "pubmed_id": pub.get("pubmed_id"),
+                "pmid": pub.get("pmid"),
+                "description": pub.get("description"),
+                "abstract": pub.get("abstract"),
+                "study_type": pub.get("study_type"),
+                "organism": pub.get("organism", []),
             }
             pub_properties.update(self._get_default_properties())
-            nodes.append(
-                (
-                    pub_id,
-                    "publication",
-                    pub_properties
-                )
-            )
-
-        if "study" in data:
-            study = data["study"]
-            # Use stored ID from cache - don't prefix with biolink
-            study_id = study.get("study_id") 
-            # No prefix for study IDs - use raw identifier
-            study_properties = {
-                "title": study.get("title"),
-                "description": study.get("description"),
-                "abstract": study.get("abstract"),
-                "study_type": study.get("study_type"),
-                "organism": study.get("organism", []),
-            }
-            study_properties.update(self._get_default_properties())
-            nodes.append(
-
-                (
-                    study_id,
-                    "study",
-                    study_properties,
-                )
-            )
+            nodes.append((pub_id, "publication", pub_properties))
 
         return nodes
-
-    def get_publication_study_edges(self) -> list[tuple]:
-        """
-        Generate study_published_in edges linking studies to publications.
-
-        Returns:
-            List of tuples (source_id, target_id, edge_type)
-        """
-        edges = []
-
-        data = self.extracted_data if hasattr(self, 'extracted_data') else {}
-        if "publication" in data and "study" in data:
-            pub = data["publication"]
-            study = data["study"]
-
-            # Use stored IDs from cache (which use DOI if available)
-            pub_id = self.get_publication_id()
-            pub_id = self.add_prefix_to_id(prefix="doi", identifier=pub_id)
-            study_id = study.get("study_id") 
-            #study_id = self.add_prefix_to_id(prefix="biolink", identifier=study_id)
-            edge_properties = self._get_default_properties()
-            edges.append(
-                (
-                    None,
-                    study_id,
-                    pub_id,
-                    "study_published_in",
-                    edge_properties,
-                )
-            )
-
-        return edges
 
 
     def get_nodes(self) -> list[tuple]:
         """
-        Generate statistical test and organism nodes from the config file.
-        
+        Generate publication, organism, and environmental condition nodes.
+
         Returns:
             List of (node_id, label, properties) tuples
         """
-        logger.info("Generating statistical test and organism nodes from omics config")
+        logger.info("Generating nodes from omics config")
         node_list = []
-
 
         if not self.config_data:
             logger.warning("No config data loaded. Call load_config() first or provide config_file to __init__")
@@ -348,64 +240,32 @@ class OMICSAdapter:
         if not hasattr(self, 'extracted_data'):
             self.download_data()
 
-        # Extract publication metadata
         publication = self.config_data.get('publication', {})
         if not isinstance(publication, dict):
             logger.warning(f"'publication' must be a dict, got {type(publication).__name__}. Skipping all tables.")
             return node_list
 
-        # extract publication metadata from pdf and create publication and study nodes
-        pub_study_nodes = self.get_publication_nodes()
-        node_list.extend(pub_study_nodes)
+        # Create publication node
+        node_list.extend(self.get_publication_nodes())
 
-        # Collect unique treatment organisms to create nodes
+        # Collect unique treatment organisms from all analyses
         treatment_organisms = {}  # dict: taxid -> organism_name
 
-        # Iterate through supplementary materials
         supp_materials = publication.get('supplementary_materials', {})
-        if not isinstance(supp_materials, dict):
-            logger.warning(f"'supplementary_materials' must be a dict, got {type(supp_materials).__name__}. Skipping all tables.")
-            return node_list
-
-        if not supp_materials:
-            logger.warning("No supplementary materials found in config")
-            return node_list
-
-        for table_key, table_data in supp_materials.items():
-            if not isinstance(table_data, dict):
-                logger.warning(f"Table '{table_key}' data must be a dict, got {type(table_data).__name__}. Skipping this table.")
-                continue
-
-            # Get statistical_analyses (required list format)
-            stat_analyses = table_data.get('statistical_analyses', [])
-            if not isinstance(stat_analyses, list):
-                logger.warning(f"'statistical_analyses' in '{table_key}' must be a list, got {type(stat_analyses).__name__}. Skipping this table.")
-                continue
-
-            if not stat_analyses:
-                logger.warning(f"No statistical analyses found in '{table_key}'")
-                continue
-
-            # Process each statistical analysis
-            for idx, stat_analysis in enumerate(stat_analyses):
-                if not isinstance(stat_analysis, dict):
-                    logger.warning(f"Statistical analysis {idx} in '{table_key}' must be a dict, got {type(stat_analysis).__name__}. Skipping this analysis.")
+        if isinstance(supp_materials, dict):
+            for table_key, table_data in supp_materials.items():
+                if not isinstance(table_data, dict):
                     continue
-
-                node_id = self.get_statistical_test_id(stat_analysis)
-                #node_id = self.add_prefix_to_id(prefix="biolink", identifier=node_id)
-                properties = self._extract_test_properties(stat_analysis)
-                properties.update(self._get_default_properties())
-                node_list.append((node_id, 'test', properties))
-
-                # Collect treatment organism info
-                treatment_org = stat_analysis.get('treatment_organism')
-                treatment_taxid = stat_analysis.get('treatment_taxid')
-                if treatment_org and treatment_taxid:
-                    treatment_organisms[str(treatment_taxid)] = treatment_org
-
-                if self.test_mode and len(node_list) >= self.early_stopping:
-                    break
+                stat_analyses = table_data.get('statistical_analyses', [])
+                if not isinstance(stat_analyses, list):
+                    continue
+                for stat_analysis in stat_analyses:
+                    if not isinstance(stat_analysis, dict):
+                        continue
+                    treatment_org = stat_analysis.get('treatment_organism')
+                    treatment_taxid = stat_analysis.get('treatment_taxid')
+                    if treatment_org and treatment_taxid:
+                        treatment_organisms[str(treatment_taxid)] = treatment_org
 
         # Create organism nodes for treatment organisms
         for taxid, organism_name in treatment_organisms.items():
@@ -416,24 +276,21 @@ class OMICSAdapter:
             logger.info(f"Created organism node for treatment organism: {organism_name} (taxid: {taxid})")
 
         # Create environmental condition nodes from the config
-        # Prefix with DOI to make IDs unique across papers
         env_conditions = publication.get('environmental_conditions', {})
         if isinstance(env_conditions, dict):
             pub_id = self.get_publication_id()
             for env_id, env_data in env_conditions.items():
                 if isinstance(env_data, dict):
-                    # Create unique ID by combining DOI and local env_id
                     unique_env_id = f"{pub_id}_{env_id}"
                     env_properties = self._get_default_properties()
-                    # Copy all properties from the config
                     for key, value in env_data.items():
                         env_properties[key] = value
-                    # Store original local ID for reference
                     env_properties['local_id'] = env_id
+                    env_properties['publications'] = [pub_id]
                     node_list.append((unique_env_id, 'environmental_condition', env_properties))
                     logger.info(f"Created environmental condition node: {unique_env_id}")
 
-        logger.info(f"Generated {len(node_list)} statistical test, organism, and environmental condition nodes")
+        logger.info(f"Generated {len(node_list)} nodes (publication, organism, environmental condition)")
         return node_list
 
     def get_edges(self) -> list[tuple]:
@@ -458,8 +315,6 @@ class OMICSAdapter:
         if not isinstance(publication, dict):
             logger.warning(f"'publication' must be a dict, got {type(publication).__name__}. Skipping all tables.")
             return edge_list
-
-        edge_list.extend(self.get_publication_study_edges())
 
         supp_materials = publication.get('supplementary_materials', {})
         if not isinstance(supp_materials, dict):
@@ -509,70 +364,18 @@ class OMICSAdapter:
         logger.info(f"Generated {len(edge_list)} organism to gene expression association edges")
         return edge_list
 
-    def _generate_test_id(self, analysis: dict) -> str:
-        """
-        Generate a unique ID for a statistical test.
-        
-        Args:
-            analysis: Dictionary with test metadata
-            
-        Returns:
-            A unique test ID
-        """
-        pub_id = self.get_publication_id()
-        # Try to create a meaningful ID from test name
-        test_id = analysis.get('id', '')
-        if test_id:
-            # Create a slug from the name
-            slug = test_id.lower().replace(' ', '_')[:50]
-            test_id = f"test_{slug}"
-        else:
-            logger.warning("No 'id' field found in analysis; generating random test ID")
-            test_id = f"test_{uuid.uuid4().hex}"
-
-        test_id = f"{pub_id}_{test_id}"
-        return test_id
-
-    def _extract_test_properties(self, analysis: dict) -> dict:
-        """
-        Extract properties for a statistical test node.
-        
-        Args:
-            analysis: Dictionary with test metadata
-            
-        Returns:
-            Dictionary of node properties
-        """
-        properties = {}
-
-        # Map analysis fields to node properties
-        field_mapping = {
-            'name': StatisticalTestNodeField.NAME.value,
-            'test_type': StatisticalTestNodeField.TEST_TYPE.value,
-            'control_condition': StatisticalTestNodeField.CONTROL_CONDITION.value,
-            'treatment_condition': StatisticalTestNodeField.TREATMENT_CONDITION.value,
-            'timepoint': StatisticalTestNodeField.TIMEPOINT.value,
-            'reference_timepoint': StatisticalTestNodeField.REFERENCE_TIMEPOINT.value,
-            'method': StatisticalTestNodeField.METHOD.value,
-            'organism': StatisticalTestNodeField.ORGANISM.value,
-        }
-
-        for key, prop_name in field_mapping.items():
-            if key in analysis:
-                value = analysis[key]
-                if value is not None:
-                    properties[prop_name] = value
-
-        return properties
-
     def _load_and_create_edges(self, filename: str, analysis: dict) -> list[tuple]:
         """
-        Load a data file and create organism to gene expression association edges.
-        
+        Load a data file and create expression association edges.
+
+        The edge source is determined by the analysis config:
+        - If environmental_treatment_condition_id is present, source is the environmental condition node
+        - Otherwise, if treatment_organism/treatment_taxid are present, source is the organism node
+
         Args:
             filename: Path to the data file
             analysis: Dictionary with test metadata
-            
+
         Returns:
             List of edge tuples
         """
@@ -584,39 +387,27 @@ class OMICSAdapter:
             return edges
 
         try:
+            # Determine edge source: environmental condition or organism
+            env_condition_id = analysis.get('environmental_treatment_condition_id')
 
-            # Generate test ID for reference
-            test_id = self.get_statistical_test_id(analysis)
-            #test_id = self.add_prefix_to_id(prefix="biolink", identifier=test_id)
+            if env_condition_id:
+                # Use environmental condition as edge source
+                pub_id = self.get_publication_id()
+                source_id = f"{pub_id}_{env_condition_id}"
+            else:
+                # Fall back to organism as edge source
+                treatment_organism = analysis.get('treatment_organism')
+                treatment_taxid = analysis.get('treatment_taxid')
 
-            # generate statistical test to study edge
-            study = self.extracted_data.get('study', {})
-            study_id = study.get('study_id')
-            #study_id = self.add_prefix_to_id(prefix="biolink", identifier=study_id)
-            if study_id:
-                edge_properties = self._get_default_properties()
-                edges.append((
-                    None,
-                    test_id,
-                    study_id,
-                    'test_in_study',
-                    edge_properties,
-                ))
+                if not treatment_organism:
+                    logger.warning("No 'treatment_organism' or 'environmental_treatment_condition_id' field found in analysis. Skipping edge creation.")
+                    return edges
 
-            # Get treatment organism info from analysis - this is the source of the expression edge
-            treatment_organism = analysis.get('treatment_organism')
-            treatment_taxid = analysis.get('treatment_taxid')
-            
-            if not treatment_organism:
-                logger.warning("No 'treatment_organism' field found in analysis. Skipping edge creation.")
-                return edges
-            
-            if not treatment_taxid:
-                logger.warning("No 'treatment_taxid' field found in analysis. Skipping edge creation.")
-                return edges
-            
-            # Create organism ID for treatment organism using taxid - use ncbitaxon prefix
-            organism_id = self.add_prefix_to_id(prefix="ncbitaxon", identifier=str(treatment_taxid))
+                if not treatment_taxid:
+                    logger.warning("No 'treatment_taxid' field found in analysis. Skipping edge creation.")
+                    return edges
+
+                source_id = self.add_prefix_to_id(prefix="ncbitaxon", identifier=str(treatment_taxid))
 
             # Load the data file
             df = pd.read_csv(filename)
@@ -658,19 +449,17 @@ class OMICSAdapter:
                 # Create gene identifier with prefix
                 gene_id = self.add_prefix_to_id(prefix="ncbigene", identifier=str(gene_id))
 
+                # Skip rows with missing or empty fold change values
+                if logfc_col in df.columns:
+                    fc_val = row.get(logfc_col)
+                    if pd.isna(fc_val) or fc_val == '' or fc_val == 'NA':
+                        skipped_count += 1
+                        continue
+
                 # Extract edge properties
                 edge_properties = self._get_default_properties()
 
-                # Add reference to the statistical test that generated this result
-                test_id = self.get_statistical_test_id(analysis)
-                edge_properties['statistical_test_id'] = test_id
-
-                # Add analysis method
-                test_type = analysis.get('test_type')
-                if test_type:
-                    edge_properties['analysis_method'] = test_type
-
-                if logfc_col in df.columns and not pd.isna(row.get(logfc_col)):
+                if logfc_col in df.columns:
                     edge_properties['log2_fold_change'] = float(row[logfc_col])
 
                 if p_value_col in df.columns and not pd.isna(row.get(p_value_col)):
@@ -680,51 +469,26 @@ class OMICSAdapter:
                 if 'log2_fold_change' in edge_properties:
                     fc = edge_properties['log2_fold_change']
                     edge_properties['expression_direction'] = 'up' if fc > 0 else 'down'
-                    edge_properties['object_direction_qualifier'] = 'increased' if fc > 0 else 'decreased'
 
-                # Add context from analysis
-                edge_properties['object_aspect_qualifier'] = 'expression'
-
-                # comparative term qualifier: prefer explicit field, else fallback to treatment_condition
-                comparative = analysis.get('comparative_term_qualifier') or analysis.get('comparative_term')
-                if comparative:
-                    edge_properties['comparative_term_qualifier'] = comparative
-
-                # control / treatment conditions (explicit fields expected in schema)
                 control_condition = analysis.get('control_condition')
                 if control_condition:
                     edge_properties['control_condition'] = control_condition
 
-                treatment_condition = analysis.get('treatment_condition')
-                if treatment_condition:
-                    edge_properties['treatment_condition'] = treatment_condition
-                    if 'comparative_term_qualifier' not in edge_properties:
-                        edge_properties['comparative_term_qualifier'] = treatment_condition
-
-                # biological context (what was held constant, e.g., 'axenic' or 'coculture_with_alteromonas')
-                biological_context = analysis.get('biological_context')
-                if biological_context:
-                    edge_properties['biological_context'] = biological_context
+                experimental_context = analysis.get('experimental_context')
+                if experimental_context:
+                    edge_properties['experimental_context'] = experimental_context
 
                 timepoint = analysis.get('timepoint')
                 if timepoint:
                     edge_properties['time_point'] = timepoint
 
-                # Add environmental condition ID (reference to environmental condition node)
-                # Prefix with DOI to match the unique node ID
-                environmental_condition_id = analysis.get('environmental_condition_id')
-                if environmental_condition_id:
-                    pub_id = self.get_publication_id()
-                    unique_env_id = f"{pub_id}_{environmental_condition_id}"
-                    edge_properties['environmental_condition_id'] = unique_env_id
-
                 edge_properties['publications'] = [self.add_prefix_to_id(prefix="doi", identifier=self.get_publication_id())]
 
-                # Create organism to gene expression association edge
-                # source: organism_id, target: gene_id
+                # Create expression association edge
+                # source: source_id (organism or env condition), target: gene_id
                 edges.append((
                     None,
-                    organism_id,
+                    source_id,
                     gene_id,
                     'affects_expression_of',
                     edge_properties
@@ -749,16 +513,6 @@ class OMICSAdapter:
         return str(pub_id)
 
     
-    def get_statistical_test_id(self, analysis: dict) -> str:
-        """Get the statistical test ID from the analysis data."""
-        if analysis.get('id') and analysis['id'] in self._statistical_test_ids:
-            return self._statistical_test_ids[analysis['id']]
-        test_id = self._generate_test_id(analysis)
-        self._statistical_test_ids[analysis['id']] = test_id
-        return test_id
-        return self._generate_test_id(analysis)
-
-
     @validate_call
     def add_prefix_to_id(
         self, prefix: str = None, identifier: str = None, sep: str = ":"
@@ -809,6 +563,7 @@ if __name__ == "__main__":
     logger.info("Testing OMICSAdapter")
 
     config_dpath = 'data/Prochlorococcus/papers_and_supp/Aharonovich 2016/paperconfig.yaml'
+    config_dpath = 'data/Prochlorococcus/papers_and_supp/bagby 2015/paperconfig.yaml'
     print('pwd', os.getcwd())
     print("Config path:", config_dpath)
     print("Exists:", os.path.exists(config_dpath))

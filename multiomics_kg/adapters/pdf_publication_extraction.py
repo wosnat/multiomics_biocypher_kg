@@ -1,7 +1,7 @@
 """
-PDF Publication and Study Node Adapter
+PDF Publication Node Adapter
 
-Extracts publication and study metadata from PDF files using LangChain LLM API calls.
+Extracts publication metadata from PDF files using LangChain LLM API calls.
 Supports multiple LLM providers (OpenAI, Anthropic, etc.).
 Caches results in JSON to avoid redundant LLM calls.
 
@@ -40,7 +40,7 @@ logger.debug(f"Loading module {__name__}.")
 
 class PDFPublicationExtractor:
     """
-    Adapter for extracting publication and study metadata from PDF files
+    Adapter for extracting publication metadata from PDF files
     using LangChain with any supported LLM provider (OpenAI, Anthropic, etc.).
     Results are cached to avoid redundant API calls.
     """
@@ -95,12 +95,9 @@ Extract the following metadata in JSON format. CRITICAL: Always extract and incl
     "title": "Paper title",
     "authors": ["Author 1", "Author 2"],
     "journal": "Journal name",
-    "publication_date": "YYYY-MM-DD or year if date unavailable",
+    "publication_year": "YYYY",
     "doi": "DOI if available (e.g., 10.1038/nature12345)",
-    "pubmed_id": "PubMed ID if available"
-  }},
-  "study": {{
-    "title": "Study title (may be same as paper title)",
+    "pmid": "PubMed ID if available",
     "description": "Brief description of the study design and methods",
     "abstract": "Abstract or summary",
     "study_type": "e.g., Transcriptomics, Proteomics, Metabolomics, RNA-seq, Microarray",
@@ -304,26 +301,15 @@ Return ONLY the JSON object.""")
         # Use LangChain chain to extract metadata
         extracted = self.chain.invoke({"text": pdf_text})
 
-        # print(f'Extracted data: {extracted}')
-        # Generate and store IDs based on DOI
+        # Generate and store publication ID based on DOI
         if "publication" in extracted:
             pub = extracted["publication"]
-            # Prefer DOI for ID (most unique), then pubmed_id, then generate from title
+            # Prefer DOI for ID (most unique), then pmid, then generate from title
             pub_doi = pub.get("doi", "") or ""
             pub_doi = pub_doi.strip()
-            pub_id = pub_doi or pub.get("pubmed_id", "") or f"pub_{pub.get('title', 'unknown')[:30]}"
+            pub_id = pub_doi or pub.get("pmid", "") or f"pub_{pub.get('title', 'unknown')[:30]}"
             pub_id = self._generate_unique_id(pub_id, "pub")
             extracted["publication"]["publication_id"] = pub_id
-
-        if "study" in extracted:
-            study = extracted["study"]
-            # Prefer DOI from publication if available, otherwise generate from study title
-            study_doi = None
-            if "publication" in extracted:
-                study_doi = extracted["publication"].get("doi", "").strip()
-            study_id = study_doi or f"study_{Path(pdf_path).stem}"
-            study_id = self._generate_unique_id(study_id, "study")
-            extracted["study"]["study_id"] = study_id
 
         # Cache the result
         self.cache[cache_key] = extracted

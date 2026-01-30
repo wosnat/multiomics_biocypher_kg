@@ -3,21 +3,8 @@
 #Author: Osnat Weissberg
 #Date: 2024-06-10
 #########################################
-# Study and Publication Entities
-# Statistical Test Results: Explicit Regulation States
+# Publication and Expression Edges
 #########################################
-
-study:
-  is_a: Study
-  represented_as: node
-  preferred_id: id
-  label_in_input: study
-  properties:
-    title: str
-    description: str
-    abstract: str
-    study_type: str # e.g., Transcriptomics, Proteomics
-    organism: str[]
 
 publication:
   is_a: Publication
@@ -37,171 +24,41 @@ publication:
     organism: str[]
 
 
-# The Edge definition
+# affects_expression_of edges: source (cause) -> gene (affected)
+# Both edge types below share the same label so LLM agents can query all expression effects uniformly.
+# IMPORTANT: Keep properties identical between the two definitions.
+
 organism to gene expression association:
   is_a: Association
   represented_as: edge
-  # Use the standard Biolink predicate
-  label_as_edge: affects_expression_of 
-  label_in_input: affects_expression_of 
-  # Note: In this model, the Treatment Organism is the Source (the 'cause') 
-  # and the Gene is the Target (the 'affected')
-  source: organism_taxon  # treatment organism
+  label_as_edge: affects_expression_of
+  label_in_input: affects_expression_of
+  source: organism_taxon           # treatment organism
   target: gene
   properties:
-    # Reference to the statistical test that generated this result
-    statistical_test_id: str  # ID of the Analysis/test node
-    
-    # Metadata identifying this as DE analysis
-    analysis_method: str  # e.g., DESeq2, Rockhopper
-    expression_direction: str # "up" | "down"
-    
-    # Biolink Qualifiers
-    object_aspect_qualifier: str  # "expression"
-    object_direction_qualifier: str # "increased" | "decreased"
-    
-    # Context - control and treatment conditions (unified set used for affects_expression_of)
+    expression_direction: str      # "up" | "down"
+    control_condition: str         # baseline for the varied factor (e.g., "axenic", "light")
+    experimental_context: str      # other factors held constant (e.g., "in darkness")
     time_point: str
-    comparative_term_qualifier: str # e.g., "coculture"
-    environmental_condition_id: str  # ID of environmental condition node - what was held constant
-    control_condition: str  # e.g., "normal_light", "replete"
-    treatment_condition: str  # e.g., "darkness", "nitrogen_starved"
-    biological_context: str  # e.g., "axenic", "coculture_with_alteromonas"
-
-    # Stats
     log2_fold_change: float
     adjusted_p_value: float
+    publications: str[]
 
-    publications: str[]  # list of publication ids
-
-# Environmental stress gene expression - direct edge for LLM queries
-# Uses same label as organism edge so LLM can query all expression effects with one query
 environmental condition to gene expression association:
   is_a: Association
   represented_as: edge
   label_as_edge: affects_expression_of
   label_in_input: affects_expression_of
-  # Environmental condition is the Source (the 'cause')
-  # and the Gene is the Target (the 'affected')
-  source: environmental condition
+  source: environmental condition  # environmental factor
   target: gene
   properties:
-    # Reference to the statistical test that generated this result
-    statistical_test_id: str  # ID of the Analysis/test node
-
-    # Metadata identifying this as DE analysis
-    analysis_method: str  # e.g., DESeq2, Rockhopper
-    expression_direction: str # "up" | "down"
-
-    # Biolink Qualifiers
-    object_aspect_qualifier: str  # "expression"
-    object_direction_qualifier: str # "increased" | "decreased"
-
-    # Context - control and treatment conditions (unified set used for affects_expression_of)
+    expression_direction: str      # "up" | "down"
+    control_condition: str         # baseline for the varied factor (e.g., "axenic", "light")
+    experimental_context: str      # other factors held constant (e.g., "in darkness")
     time_point: str
-    comparative_term_qualifier: str # e.g., "coculture"
-    environmental_condition_id: str  # ID of environmental condition node - what was held constant
-    control_condition: str  # e.g., "normal_light", "replete"
-    treatment_condition: str  # e.g., "darkness", "nitrogen_starved"
-    biological_context: str  # e.g., "axenic", "coculture_with_alteromonas"
-
-    # Stats
     log2_fold_change: float
     adjusted_p_value: float
-
-    publications: str[]  # list of publication ids
-
-
-study_published_in:
-  is_a: Association
-  represented_as: edge
-  label_as_edge: study_published_in
-  source: study
-  target: publication
-  label_in_input: study_published_in
-
-statistical_test:
-  is_a: Analysis
-  represented_as: node
-  preferred_id: id
-  label_in_input: test
-  properties:
-    name: str # e.g., differential expression analysis
-    test_type: str # e.g., t-test, DESeq2, Rockhopper
-    control_condition: str
-    treatment_condition: str
-    timepoint: str # e.g., "24h", "day 7"
-    reference_timepoint: str # baseline timepoint if applicable
-    organism: str
-
-test_in_study:
-  is_a: Association
-  represented_as: edge
-  label_as_edge: part_of
-  source: statistical_test
-  target: study
-  label_in_input: test_in_study
-  properties:
-    predicate: str  # "part_of" - test is part of this study
-
-# Experimental factors linked to statistical tests
-organism treatment in test:
-  is_a: Association
-  represented_as: edge
-  label_as_edge: organism_treatment_in_test
-  source: organism_taxon
-  target: statistical_test
-  label_in_input: organism_treatment_in_test
-  properties:
-    role: str  # "coculture_partner", "predator", "symbiont", "host"
-
-environmental condition in test:
-  is_a: Association
-  represented_as: edge
-  label_as_edge: environmental_condition_in_test
-  source: environmental condition
-  target: statistical_test
-  label_in_input: environmental_condition_in_test
-  properties:
-    role: str  # "treatment", "control", "baseline"
-
-molecular result from test:
-  is_a: Association
-  represented_as: edge
-  source: [gene, protein]
-  target: statistical_test
-  label_in_input: molecular_result_from_test
-  label_as_edge: molecular_result_from_test
-  
-  properties:
-    log2_fold_change: float
-    p_value: float
-    adjusted_p_value: float
-    direction: str # "up" or "down"
-    predicate: str
-    publications: str[]  # list of publication ids
-
-gene upregulated in organism presence association:
-  is_a: GeneToExpressionSiteAssociation
-  represented_as: edge
-  source: gene
-  target: organism taxon
-  label_as_edge: gene_upregulated_in_organism_presence
-  label_in_input: gene_upregulated_in_organism_presence
-  properties:
-    # Biolink Qualifiers (Standard)
-    predicate: str
-    description: str
-    has_evidence: str # need to be evidence node id
-    subject_aspect_qualifier: str  # e.g., "expression"
-    object_direction_qualifier: str # e.g., "increased" or "decreased"
-    publications: str[]  # list of publication ids
-    
-    # Quantitative DE Data (Custom attributes)
-    log2_fold_change: float
-    adjusted_p_value: float
-    condition: str                 # e.g., "coculture_vs_monoculture"
-    timepoint: str                 # e.g., "24h", "day 7"
+    publications: str[]
 
 
 timeseries_cluster:
@@ -214,13 +71,13 @@ timeseries_cluster:
     method: str # e.g., WGCNA, k-means
     description: str
 
-cluster_in_study:
+cluster_in_publication:
   is_a: Association
   represented_as: edge
-  label_as_edge: cluster_in_study
+  label_as_edge: cluster_in_publication
   source: timeseries_cluster
-  target: study
-  label_in_input: cluster_in_study
+  target: publication
+  label_in_input: cluster_in_publication
 
 molecular_in_cluster:
   is_a: Association
@@ -357,6 +214,7 @@ environmental condition:
     light_intensity: str   # e.g., "0", "low", "high"
 
     description: str
+    publications: str[]
 
 protein domain:  
   represented_as: node

@@ -21,13 +21,11 @@ publication:
         - type: RNASEQ
           name: Differential expression of Prochlorococcus AS9601 salt-acclimated cells vs seawater control
           id: DE_salt_acclimated_vs_seawater_AS9601
-          test_type: DESeq  # table header indicates DESeq output
+          test_type: DESeq
           control_condition: Seawater control
           treatment_condition: Salt-acclimated
-          comparative_term_qualifier: salt_acclimation
-          biological_context: salt_acclimation
+          experimental_context: standard growth conditions
           organism: Prochlorococcus AS9601
-          environmental_condition_id: alhosani_2015_salt_acclimation
           # Column mappings (match CSV header)
           name_col: Gene id
           logfc_col: log2FoldChange

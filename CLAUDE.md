@@ -65,6 +65,7 @@ publication:
           test_type: "DESeq2"
           control_condition: "Axenic"
           treatment_condition: "Coculture"
+          experimental_context: "in Pro99 medium under continuous light"
           organism: "Prochlorococcus MED4"
           name_col: "Gene"
           logfc_col: "log2FoldChange"

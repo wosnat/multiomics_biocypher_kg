@@ -2,10 +2,11 @@
 Tests for the OMICS adapter organism to gene expression association edges.
 
 Tests verify that the adapter correctly creates:
-1. Organism nodes from treatment_organism and treatment_taxid
-2. Environmental condition nodes from environmental_conditions section
-3. affects_expression_of edges from organism → gene
-4. Correct edge properties (log2FC, p-value, direction, environmental_condition_id, etc.)
+1. Publication nodes (with study metadata merged in)
+2. Organism nodes from treatment_organism and treatment_taxid
+3. Environmental condition nodes from environmental_conditions section
+4. affects_expression_of edges from organism → gene
+5. Correct edge properties (log2FC, p-value, direction, experimental_context, etc.)
 """
 
 import pytest
@@ -66,11 +67,11 @@ def sample_config(temp_data_dir, sample_de_data):
                             'test_type': 'DESeq2',
                             'control_condition': 'Axenic',
                             'treatment_condition': 'Coculture with Alteromonas',
+                            'experimental_context': 'in test growth medium under continuous light',
                             'timepoint': '24h',
                             'organism': 'Prochlorococcus MED4',
                             'treatment_organism': 'Alteromonas macleodii',
                             'treatment_taxid': 28108,
-                            'environmental_condition_id': 'test_growth_conditions',
                             'name_col': 'Synonym',
                             'logfc_col': 'log2_fold_change',
                             'adjusted_p_value_col': 'adjusted_p_value',
@@ -99,16 +100,30 @@ def adapter_with_mock_extracted_data(sample_config):
             'title': 'Test Publication',
             'doi': '10.1234/test.2024',
             'authors': ['Test Author'],
-        },
-        'study': {
-            'study_id': 'study_test_pub_2024',
-            'title': 'Test Study',
             'description': 'Test study description',
             'study_type': 'Transcriptomics',
             'organism': ['Prochlorococcus MED4'],
-        }
+        },
     }
     return adapter
+
+
+class TestPublicationNodeCreation:
+    """Test that publication nodes are created correctly."""
+
+    def test_publication_node_created(self, adapter_with_mock_extracted_data):
+        """Verify publication node is created with merged study fields."""
+        adapter = adapter_with_mock_extracted_data
+        nodes = adapter.get_nodes()
+
+        pub_nodes = [n for n in nodes if n[1] == 'publication']
+        assert len(pub_nodes) == 1, "Expected exactly one publication node"
+
+        node_id, label, properties = pub_nodes[0]
+        assert properties.get('title') == 'Test Publication'
+        assert properties.get('description') == 'Test study description'
+        assert properties.get('study_type') == 'Transcriptomics'
+        assert properties.get('organism') == ['Prochlorococcus MED4']
 
 
 class TestOrganismNodeCreation:
@@ -174,7 +189,6 @@ class TestOrganismNodeCreation:
         adapter = OMICSAdapter(config_file=config_file)
         adapter.extracted_data = {
             'publication': {'publication_id': 'test', 'doi': '10.1234/test'},
-            'study': {'study_id': 'study_test'},
         }
 
         nodes = adapter.get_nodes()
@@ -253,7 +267,6 @@ class TestEnvironmentalConditionNodeCreation:
         adapter = OMICSAdapter(config_file=config_file)
         adapter.extracted_data = {
             'publication': {'publication_id': 'test', 'doi': '10.1234/test'},
-            'study': {'study_id': 'study_test'},
         }
 
         nodes = adapter.get_nodes()
@@ -358,8 +371,8 @@ class TestOrganismToGeneEdges:
             else:
                 assert direction == 'down', f"Negative fold change ({fc}) should have direction 'down', got '{direction}'"
 
-    def test_edge_has_statistical_test_id(self, adapter_with_mock_extracted_data):
-        """Verify edges have statistical_test_id property."""
+    def test_edge_has_control_condition(self, adapter_with_mock_extracted_data):
+        """Verify edges have control_condition property."""
         adapter = adapter_with_mock_extracted_data
         edges = adapter.get_edges()
 
@@ -367,8 +380,22 @@ class TestOrganismToGeneEdges:
 
         for edge in expression_edges:
             _, source_id, target_id, label, properties = edge
-            assert 'statistical_test_id' in properties, \
-                f"Expected statistical_test_id in edge properties"
+            assert 'control_condition' in properties, \
+                f"Expected control_condition in edge properties"
+            assert properties['control_condition'] == 'Axenic'
+
+    def test_edge_has_experimental_context(self, adapter_with_mock_extracted_data):
+        """Verify edges have experimental_context property."""
+        adapter = adapter_with_mock_extracted_data
+        edges = adapter.get_edges()
+
+        expression_edges = [e for e in edges if e[3] == 'affects_expression_of']
+
+        for edge in expression_edges:
+            _, source_id, target_id, label, properties = edge
+            assert 'experimental_context' in properties, \
+                f"Expected experimental_context in edge properties"
+            assert 'continuous light' in properties['experimental_context']
 
     def test_edge_has_time_point(self, adapter_with_mock_extracted_data):
         """Verify edges have time_point property when specified in config."""
@@ -398,25 +425,205 @@ class TestOrganismToGeneEdges:
             assert isinstance(properties['publications'], list), \
                 f"Expected publications to be a list"
 
-    def test_edge_has_environmental_condition_id(self, adapter_with_mock_extracted_data):
-        """Verify edges have environmental_condition_id property with unique ID."""
-        adapter = adapter_with_mock_extracted_data
-        edges = adapter.get_edges()
 
+class TestEnvConditionToGeneEdges:
+    """Test that environmental condition → gene expression edges are created correctly."""
+
+    @pytest.fixture
+    def env_condition_config(self, temp_data_dir, sample_de_data):
+        """Create config with environmental_treatment_condition_id (no treatment_organism)."""
+        data_file = os.path.join(temp_data_dir, 'de_genes.csv')
+        sample_de_data.to_csv(data_file, index=False)
+
+        config = {
+            'publication': {
+                'papername': 'Test Env Condition Publication 2024',
+                'environmental_conditions': {
+                    'test_gas_shock': {
+                        'condition_type': 'gas_shock',
+                        'name': 'Air (0.036% CO2 / 21% O2)',
+                        'co2_level': '0.036%',
+                        'oxygen_level': '21%',
+                        'description': 'Standard air conditions',
+                    }
+                },
+                'supplementary_materials': {
+                    'supp_table_1': {
+                        'type': 'csv',
+                        'filename': data_file,
+                        'statistical_analyses': [
+                            {
+                                'type': 'MICROARRAY',
+                                'name': 'Gene expression response to air',
+                                'id': 'gas_shock_air',
+                                'test_type': 'Affymetrix microarray',
+                                'control_condition': 'Time 0 (pre-shock)',
+                                'treatment_condition': '0.036% CO2 / 21% O2 (air)',
+                                'experimental_context': 'Pro99 medium, constant light',
+                                'organism': 'Prochlorococcus MED4',
+                                'environmental_treatment_condition_id': 'test_gas_shock',
+                                'name_col': 'Synonym',
+                                'logfc_col': 'log2_fold_change',
+                                'adjusted_p_value_col': 'adjusted_p_value',
+                            }
+                        ]
+                    }
+                }
+            }
+        }
+
+        config_file = os.path.join(temp_data_dir, 'paperconfig_env.yaml')
+        with open(config_file, 'w') as f:
+            yaml.dump(config, f)
+
+        return config_file
+
+    @pytest.fixture
+    def env_adapter(self, env_condition_config):
+        """Create adapter with env condition config and mocked extracted_data."""
+        adapter = OMICSAdapter(config_file=env_condition_config)
+        adapter.extracted_data = {
+            'publication': {
+                'publication_id': 'test_env_pub_2024',
+                'title': 'Test Env Publication',
+                'doi': '10.1234/test_env.2024',
+                'authors': ['Test Author'],
+                'description': 'Test gas shock study',
+                'study_type': 'Transcriptomics',
+                'organism': ['Prochlorococcus MED4'],
+            },
+        }
+        return adapter
+
+    def test_env_condition_edges_created(self, env_adapter):
+        """Verify affects_expression_of edges are created with env condition source."""
+        edges = env_adapter.get_edges()
+        expression_edges = [e for e in edges if e[3] == 'affects_expression_of']
+        assert len(expression_edges) == 4, f"Expected 4 expression edges, got {len(expression_edges)}"
+
+    def test_edge_source_is_env_condition(self, env_adapter):
+        """Verify edge source is the environmental condition node ID."""
+        edges = env_adapter.get_edges()
         expression_edges = [e for e in edges if e[3] == 'affects_expression_of']
 
         for edge in expression_edges:
             _, source_id, target_id, label, properties = edge
-            assert 'environmental_condition_id' in properties, \
-                f"Expected environmental_condition_id in edge properties"
+            assert 'test_gas_shock' in source_id, \
+                f"Expected source to contain env condition ID 'test_gas_shock', got {source_id}"
+            assert 'test_env_pub_2024' in source_id, \
+                f"Expected source to contain publication ID, got {source_id}"
 
-            env_id = properties['environmental_condition_id']
-            # Should include DOI/publication ID for uniqueness
-            assert 'test_pub_2024' in env_id or '10.1234' in env_id, \
-                f"Expected environmental_condition_id to include publication ID, got {env_id}"
-            # Should include the local condition ID
-            assert 'test_growth_conditions' in env_id, \
-                f"Expected environmental_condition_id to include local ID, got {env_id}"
+    def test_edge_target_is_gene(self, env_adapter):
+        """Verify edge target is a gene."""
+        edges = env_adapter.get_edges()
+        expression_edges = [e for e in edges if e[3] == 'affects_expression_of']
+
+        for edge in expression_edges:
+            _, source_id, target_id, label, properties = edge
+            assert 'ncbigene' in target_id.lower() or 'PMM' in target_id, \
+                f"Expected target to be gene ID, got {target_id}"
+
+    def test_edge_properties(self, env_adapter):
+        """Verify edges have correct properties."""
+        edges = env_adapter.get_edges()
+        expression_edges = [e for e in edges if e[3] == 'affects_expression_of']
+
+        for edge in expression_edges:
+            _, source_id, target_id, label, properties = edge
+            assert 'log2_fold_change' in properties
+            assert 'adjusted_p_value' in properties
+            assert 'expression_direction' in properties
+            assert properties['expression_direction'] in ['up', 'down']
+            assert 'control_condition' in properties
+            assert properties['control_condition'] == 'Time 0 (pre-shock)'
+
+    def test_no_organism_edges_with_env_condition(self, env_adapter):
+        """Verify no organism-sourced edges when only env condition is specified."""
+        edges = env_adapter.get_edges()
+        expression_edges = [e for e in edges if e[3] == 'affects_expression_of']
+
+        for edge in expression_edges:
+            _, source_id, target_id, label, properties = edge
+            assert 'ncbitaxon' not in source_id.lower(), \
+                f"Expected no organism source when env condition is specified, got {source_id}"
+
+
+class TestSkipRowsWithMissingFoldChange:
+    """Test that rows with missing/empty fold change values are skipped."""
+
+    @pytest.fixture
+    def de_data_with_missing_fc(self):
+        """Sample data with missing, empty, and NA fold change values."""
+        return pd.DataFrame({
+            'Synonym': ['PMM0001', 'PMM0002', 'PMM0003', 'PMM0004', 'PMM0005'],
+            'log2_fold_change': [2.5, '', float('nan'), 'NA', -1.0],
+            'adjusted_p_value': [0.001, 0.01, 0.05, 0.0001, 0.02],
+        })
+
+    @pytest.fixture
+    def adapter_with_missing_fc(self, temp_data_dir, de_data_with_missing_fc):
+        """Create adapter with data containing missing fold change values."""
+        data_file = os.path.join(temp_data_dir, 'de_genes_missing_fc.csv')
+        de_data_with_missing_fc.to_csv(data_file, index=False)
+
+        config = {
+            'publication': {
+                'papername': 'Test Missing FC 2024',
+                'supplementary_materials': {
+                    'supp_table_1': {
+                        'type': 'csv',
+                        'filename': data_file,
+                        'statistical_analyses': [
+                            {
+                                'type': 'RNASEQ',
+                                'name': 'Test DE Analysis',
+                                'id': 'test_missing_fc',
+                                'test_type': 'DESeq2',
+                                'control_condition': 'Control',
+                                'treatment_condition': 'Treatment',
+                                'organism': 'Prochlorococcus MED4',
+                                'treatment_organism': 'Alteromonas macleodii',
+                                'treatment_taxid': 28108,
+                                'name_col': 'Synonym',
+                                'logfc_col': 'log2_fold_change',
+                                'adjusted_p_value_col': 'adjusted_p_value',
+                            }
+                        ]
+                    }
+                }
+            }
+        }
+
+        config_file = os.path.join(temp_data_dir, 'paperconfig_missing_fc.yaml')
+        with open(config_file, 'w') as f:
+            yaml.dump(config, f)
+
+        adapter = OMICSAdapter(config_file=config_file)
+        adapter.extracted_data = {
+            'publication': {
+                'publication_id': 'test_missing_fc',
+                'title': 'Test',
+                'doi': '10.1234/test_fc',
+            },
+        }
+        return adapter
+
+    def test_only_valid_fc_rows_create_edges(self, adapter_with_missing_fc):
+        """Verify that only rows with valid fold change values create edges."""
+        edges = adapter_with_missing_fc.get_edges()
+        expression_edges = [e for e in edges if e[3] == 'affects_expression_of']
+        # Only PMM0001 (2.5) and PMM0005 (-1.0) have valid FC values
+        assert len(expression_edges) == 2, \
+            f"Expected 2 edges (skipping empty, NaN, NA), got {len(expression_edges)}"
+
+    def test_skipped_rows_do_not_appear_in_edges(self, adapter_with_missing_fc):
+        """Verify that genes with missing FC are not in the edge targets."""
+        edges = adapter_with_missing_fc.get_edges()
+        target_ids = [e[2] for e in edges if e[3] == 'affects_expression_of']
+        target_str = ' '.join(target_ids)
+        assert 'PMM0002' not in target_str, "PMM0002 (empty FC) should be skipped"
+        assert 'PMM0003' not in target_str, "PMM0003 (NaN FC) should be skipped"
+        assert 'PMM0004' not in target_str, "PMM0004 (NA FC) should be skipped"
 
 
 class TestEdgeWithRealData:
@@ -488,8 +695,6 @@ class TestEdgeWithRealData:
         assert 'ncbitaxon' in source_id.lower() or '28108' in source_id
         assert 'log2_fold_change' in properties
         assert 'expression_direction' in properties
-        assert 'environmental_condition_id' in properties, \
-            "Expected environmental_condition_id in edge properties"
 
 
 if __name__ == '__main__':
