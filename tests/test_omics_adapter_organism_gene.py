@@ -626,6 +626,403 @@ class TestSkipRowsWithMissingFoldChange:
         assert 'PMM0004' not in target_str, "PMM0004 (NA FC) should be skipped"
 
 
+class TestSkipRows:
+    """Test that skip_rows option correctly skips header rows when loading CSV."""
+
+    @pytest.fixture
+    def csv_with_multi_row_header(self, temp_data_dir):
+        """Create a CSV file with multiple header rows (like Biller 2016 format)."""
+        csv_content = (
+            "Table S2. Description line\n"
+            ",,\n"
+            ",,Time past addition:\n"
+            "Gene_ID,log2FC,Description\n"
+            "GENE_A,-0.212,chaperone\n"
+            "GENE_B,0.425,oxidoreductase\n"
+            "GENE_C,-0.37,hypothetical\n"
+        )
+        data_file = os.path.join(temp_data_dir, 'multi_header.csv')
+        with open(data_file, 'w') as f:
+            f.write(csv_content)
+        return data_file
+
+    @pytest.fixture
+    def adapter_skip_rows(self, temp_data_dir, csv_with_multi_row_header):
+        """Create adapter with skip_rows=3 to skip multi-row header."""
+        config = {
+            'publication': {
+                'papername': 'Test Skip Rows 2024',
+                'supplementary_materials': {
+                    'supp_table_1': {
+                        'type': 'csv',
+                        'filename': csv_with_multi_row_header,
+                        'statistical_analyses': [
+                            {
+                                'type': 'RNASEQ',
+                                'name': 'Test DE with skip_rows',
+                                'id': 'test_skip_rows',
+                                'test_type': 'DESeq2',
+                                'control_condition': 'Axenic',
+                                'treatment_condition': 'Coculture',
+                                'organism': 'Prochlorococcus NATL2A',
+                                'treatment_organism': 'Alteromonas macleodii',
+                                'treatment_taxid': 28108,
+                                'name_col': 'Gene_ID',
+                                'logfc_col': 'log2FC',
+                                'adjusted_p_value_col': None,
+                                'skip_rows': 3,
+                            }
+                        ]
+                    }
+                }
+            }
+        }
+
+        config_file = os.path.join(temp_data_dir, 'paperconfig_skip_rows.yaml')
+        with open(config_file, 'w') as f:
+            yaml.dump(config, f)
+
+        adapter = OMICSAdapter(config_file=config_file)
+        adapter.extracted_data = {
+            'publication': {
+                'publication_id': 'test_skip_rows',
+                'title': 'Test Skip Rows',
+                'doi': '10.1234/test_skip',
+            },
+        }
+        return adapter
+
+    def test_skip_rows_loads_correct_data(self, adapter_skip_rows):
+        """Verify that skip_rows correctly skips multi-row headers."""
+        edges = adapter_skip_rows.get_edges()
+        expression_edges = [e for e in edges if e[3] == 'affects_expression_of']
+        assert len(expression_edges) == 3, \
+            f"Expected 3 edges (GENE_A, GENE_B, GENE_C), got {len(expression_edges)}"
+
+    def test_skip_rows_correct_gene_ids(self, adapter_skip_rows):
+        """Verify the correct gene IDs are parsed after skipping rows."""
+        edges = adapter_skip_rows.get_edges()
+        target_ids = [e[2] for e in edges if e[3] == 'affects_expression_of']
+        target_str = ' '.join(target_ids)
+        assert 'GENE_A' in target_str
+        assert 'GENE_B' in target_str
+        assert 'GENE_C' in target_str
+
+    def test_skip_rows_correct_fold_change(self, adapter_skip_rows):
+        """Verify fold change values are correctly parsed after skipping rows."""
+        edges = adapter_skip_rows.get_edges()
+        expression_edges = [e for e in edges if e[3] == 'affects_expression_of']
+        fc_values = sorted([e[4]['log2_fold_change'] for e in expression_edges])
+        assert fc_values == pytest.approx(sorted([-0.37, -0.212, 0.425]))
+
+    def test_no_skip_rows_fails_gracefully(self, temp_data_dir, csv_with_multi_row_header):
+        """Verify that without skip_rows, multi-row header CSV fails to find columns."""
+        config = {
+            'publication': {
+                'papername': 'Test No Skip 2024',
+                'supplementary_materials': {
+                    'supp_table_1': {
+                        'type': 'csv',
+                        'filename': csv_with_multi_row_header,
+                        'statistical_analyses': [
+                            {
+                                'type': 'RNASEQ',
+                                'treatment_organism': 'Alteromonas macleodii',
+                                'treatment_taxid': 28108,
+                                'name_col': 'Gene_ID',
+                                'logfc_col': 'log2FC',
+                                'adjusted_p_value_col': None,
+                                # No skip_rows — should not find Gene_ID column
+                            }
+                        ]
+                    }
+                }
+            }
+        }
+
+        config_file = os.path.join(temp_data_dir, 'paperconfig_no_skip.yaml')
+        with open(config_file, 'w') as f:
+            yaml.dump(config, f)
+
+        adapter = OMICSAdapter(config_file=config_file)
+        adapter.extracted_data = {
+            'publication': {
+                'publication_id': 'test_no_skip',
+                'title': 'Test',
+                'doi': '10.1234/no_skip',
+            },
+        }
+        edges = adapter.get_edges()
+        # Without skip_rows, the column Gene_ID won't be found → no edges
+        assert len(edges) == 0
+
+
+class TestPvalueAsteriskInLogfc:
+    """Test that pvalue_asterisk_in_logfc correctly parses asterisk-marked significance."""
+
+    @pytest.fixture
+    def csv_with_asterisks(self, temp_data_dir):
+        """Create a CSV with asterisks in logFC column indicating significance."""
+        data = pd.DataFrame({
+            'Gene_ID': ['GENE_A', 'GENE_B', 'GENE_C', 'GENE_D'],
+            'log2FC': ['-0.212*', '0.425', '-0.37*', '0.15'],
+        })
+        data_file = os.path.join(temp_data_dir, 'asterisk_data.csv')
+        data.to_csv(data_file, index=False)
+        return data_file
+
+    @pytest.fixture
+    def adapter_asterisk(self, temp_data_dir, csv_with_asterisks):
+        """Create adapter with pvalue_asterisk_in_logfc=true."""
+        config = {
+            'publication': {
+                'papername': 'Test Asterisk 2024',
+                'supplementary_materials': {
+                    'supp_table_1': {
+                        'type': 'csv',
+                        'filename': csv_with_asterisks,
+                        'statistical_analyses': [
+                            {
+                                'type': 'RNASEQ',
+                                'name': 'Test DE with asterisk pvalue',
+                                'id': 'test_asterisk',
+                                'test_type': 'DESeq2',
+                                'control_condition': 'Axenic',
+                                'treatment_condition': 'Coculture',
+                                'organism': 'Prochlorococcus NATL2A',
+                                'treatment_organism': 'Alteromonas macleodii',
+                                'treatment_taxid': 28108,
+                                'name_col': 'Gene_ID',
+                                'logfc_col': 'log2FC',
+                                'adjusted_p_value_col': None,
+                                'pvalue_asterisk_in_logfc': True,
+                            }
+                        ]
+                    }
+                }
+            }
+        }
+
+        config_file = os.path.join(temp_data_dir, 'paperconfig_asterisk.yaml')
+        with open(config_file, 'w') as f:
+            yaml.dump(config, f)
+
+        adapter = OMICSAdapter(config_file=config_file)
+        adapter.extracted_data = {
+            'publication': {
+                'publication_id': 'test_asterisk',
+                'title': 'Test Asterisk',
+                'doi': '10.1234/test_asterisk',
+            },
+        }
+        return adapter
+
+    def test_all_rows_create_edges(self, adapter_asterisk):
+        """Verify all rows create edges (asterisk is stripped, not treated as invalid)."""
+        edges = adapter_asterisk.get_edges()
+        expression_edges = [e for e in edges if e[3] == 'affects_expression_of']
+        assert len(expression_edges) == 4, \
+            f"Expected 4 edges, got {len(expression_edges)}"
+
+    def test_fold_change_values_parsed_correctly(self, adapter_asterisk):
+        """Verify asterisks are stripped and fold change is parsed as float."""
+        edges = adapter_asterisk.get_edges()
+        expression_edges = [e for e in edges if e[3] == 'affects_expression_of']
+        fc_values = sorted([e[4]['log2_fold_change'] for e in expression_edges])
+        assert fc_values == pytest.approx(sorted([-0.212, 0.425, -0.37, 0.15]))
+
+    def test_significant_rows_get_low_pvalue(self, adapter_asterisk):
+        """Verify asterisk-marked rows get adjusted_p_value < 0.5."""
+        edges = adapter_asterisk.get_edges()
+        expression_edges = [e for e in edges if e[3] == 'affects_expression_of']
+
+        for edge in expression_edges:
+            _, _, target_id, _, properties = edge
+            if 'GENE_A' in target_id or 'GENE_C' in target_id:
+                assert 'adjusted_p_value' in properties
+                assert properties['adjusted_p_value'] < 0.5, \
+                    f"Significant gene should have low p-value, got {properties['adjusted_p_value']}"
+
+    def test_non_significant_rows_get_high_pvalue(self, adapter_asterisk):
+        """Verify non-asterisk rows get adjusted_p_value = 1.0."""
+        edges = adapter_asterisk.get_edges()
+        expression_edges = [e for e in edges if e[3] == 'affects_expression_of']
+
+        for edge in expression_edges:
+            _, _, target_id, _, properties = edge
+            if 'GENE_B' in target_id or 'GENE_D' in target_id:
+                assert 'adjusted_p_value' in properties
+                assert properties['adjusted_p_value'] == 1.0, \
+                    f"Non-significant gene should have p-value 1.0, got {properties['adjusted_p_value']}"
+
+    def test_expression_direction_correct(self, adapter_asterisk):
+        """Verify expression direction is correct after asterisk stripping."""
+        edges = adapter_asterisk.get_edges()
+        expression_edges = [e for e in edges if e[3] == 'affects_expression_of']
+
+        for edge in expression_edges:
+            _, _, target_id, _, properties = edge
+            fc = properties['log2_fold_change']
+            direction = properties['expression_direction']
+            if fc > 0:
+                assert direction == 'up'
+            else:
+                assert direction == 'down'
+
+    def test_without_asterisk_flag_values_are_skipped(self, temp_data_dir, csv_with_asterisks):
+        """Verify that without pvalue_asterisk_in_logfc, asterisk values cause rows to be skipped."""
+        config = {
+            'publication': {
+                'papername': 'Test No Asterisk Flag 2024',
+                'supplementary_materials': {
+                    'supp_table_1': {
+                        'type': 'csv',
+                        'filename': csv_with_asterisks,
+                        'statistical_analyses': [
+                            {
+                                'type': 'RNASEQ',
+                                'treatment_organism': 'Alteromonas macleodii',
+                                'treatment_taxid': 28108,
+                                'name_col': 'Gene_ID',
+                                'logfc_col': 'log2FC',
+                                'adjusted_p_value_col': None,
+                                # No pvalue_asterisk_in_logfc
+                            }
+                        ]
+                    }
+                }
+            }
+        }
+
+        config_file = os.path.join(temp_data_dir, 'paperconfig_no_asterisk.yaml')
+        with open(config_file, 'w') as f:
+            yaml.dump(config, f)
+
+        adapter = OMICSAdapter(config_file=config_file)
+        adapter.extracted_data = {
+            'publication': {
+                'publication_id': 'test_no_ast',
+                'title': 'Test',
+                'doi': '10.1234/no_ast',
+            },
+        }
+        edges = adapter.get_edges()
+        expression_edges = [e for e in edges if e[3] == 'affects_expression_of']
+        # Only GENE_B (0.425) and GENE_D (0.15) have no asterisk → parseable as float
+        assert len(expression_edges) == 2, \
+            f"Expected 2 edges (asterisk values should fail float parse), got {len(expression_edges)}"
+
+
+class TestSkipRowsWithAsterisk:
+    """Test skip_rows and pvalue_asterisk_in_logfc combined (like Biller 2016 supp_table_2)."""
+
+    @pytest.fixture
+    def biller_style_csv(self, temp_data_dir):
+        """Create a CSV mimicking Biller 2016 format: multi-row header + asterisk significance."""
+        csv_content = (
+            "Table S2. All genes with significantly different transcript abundances\n"
+            ",,\n"
+            ",,Time past addition:\n"
+            "Gene_ID,24 hours,Description\n"
+            "PMN2A_1344,-0.212*,chaperone DnaJ\n"
+            "PMN2A_1346,-0.425*,ribosome GTPase\n"
+            "PMN2A_1362,0.048,cobalt methyltransferase\n"
+            "PMN2A_1375,-0.37*,flavin oxidoreductase\n"
+        )
+        data_file = os.path.join(temp_data_dir, 'biller_style.csv')
+        with open(data_file, 'w') as f:
+            f.write(csv_content)
+        return data_file
+
+    @pytest.fixture
+    def adapter_combined(self, temp_data_dir, biller_style_csv):
+        """Create adapter with both skip_rows and pvalue_asterisk_in_logfc."""
+        config = {
+            'publication': {
+                'papername': 'Biller 2016',
+                'environmental_conditions': {
+                    'biller_coculture': {
+                        'condition_type': 'coculture',
+                        'name': 'Co-culture with Alteromonas',
+                    }
+                },
+                'supplementary_materials': {
+                    'supp_table_2': {
+                        'type': 'csv',
+                        'filename': biller_style_csv,
+                        'statistical_analyses': [
+                            {
+                                'type': 'RNASEQ',
+                                'name': 'DE coculture vs axenic',
+                                'id': 'de_biller_style',
+                                'test_type': 'DESeq2',
+                                'control_condition': 'Axenic',
+                                'treatment_condition': 'Coculture',
+                                'organism': 'Prochlorococcus NATL2A',
+                                'environmental_treatment_condition_id': 'biller_coculture',
+                                'name_col': 'Gene_ID',
+                                'logfc_col': '24 hours',
+                                'adjusted_p_value_col': None,
+                                'skip_rows': 3,
+                                'pvalue_asterisk_in_logfc': True,
+                            }
+                        ]
+                    }
+                }
+            }
+        }
+
+        config_file = os.path.join(temp_data_dir, 'paperconfig_combined.yaml')
+        with open(config_file, 'w') as f:
+            yaml.dump(config, f)
+
+        adapter = OMICSAdapter(config_file=config_file)
+        adapter.extracted_data = {
+            'publication': {
+                'publication_id': 'biller_2016_test',
+                'title': 'Biller 2016 Test',
+                'doi': '10.1234/biller',
+            },
+        }
+        return adapter
+
+    def test_combined_creates_all_edges(self, adapter_combined):
+        """Verify all 4 rows produce edges with combined skip_rows + asterisk."""
+        edges = adapter_combined.get_edges()
+        expression_edges = [e for e in edges if e[3] == 'affects_expression_of']
+        assert len(expression_edges) == 4
+
+    def test_combined_correct_fold_changes(self, adapter_combined):
+        """Verify fold change values are correct with combined features."""
+        edges = adapter_combined.get_edges()
+        expression_edges = [e for e in edges if e[3] == 'affects_expression_of']
+        fc_values = sorted([e[4]['log2_fold_change'] for e in expression_edges])
+        assert fc_values == pytest.approx(sorted([-0.425, -0.37, -0.212, 0.048]))
+
+    def test_combined_significance_markers(self, adapter_combined):
+        """Verify significant vs non-significant p-values with combined features."""
+        edges = adapter_combined.get_edges()
+        expression_edges = [e for e in edges if e[3] == 'affects_expression_of']
+
+        significant_count = sum(
+            1 for e in expression_edges if e[4].get('adjusted_p_value', 1.0) < 0.5
+        )
+        non_significant_count = sum(
+            1 for e in expression_edges if e[4].get('adjusted_p_value', 1.0) >= 0.5
+        )
+        assert significant_count == 3, f"Expected 3 significant edges, got {significant_count}"
+        assert non_significant_count == 1, f"Expected 1 non-significant edge, got {non_significant_count}"
+
+    def test_combined_edge_source_is_env_condition(self, adapter_combined):
+        """Verify edge source is env condition (not organism) with combined features."""
+        edges = adapter_combined.get_edges()
+        expression_edges = [e for e in edges if e[3] == 'affects_expression_of']
+
+        for edge in expression_edges:
+            _, source_id, _, _, _ = edge
+            assert 'biller_coculture' in source_id
+
+
 class TestEdgeWithRealData:
     """Test with the real Aharonovich 2016 config if available."""
 

@@ -410,27 +410,43 @@ class OMICSAdapter:
 
                 source_id = self.add_prefix_to_id(prefix="ncbitaxon", identifier=str(treatment_taxid))
 
-            # Load the data file
-            df = pd.read_csv(filename)
+            # Load the data file, optionally skipping header rows
+            skip_rows = analysis.get('skip_rows', 0)
+            if skip_rows:
+                df = pd.read_csv(filename, skiprows=skip_rows)
+            else:
+                df = pd.read_csv(filename)
             logger.info(f"Loaded {len(df)} rows from {filename}")
 
             # Get column mappings
-            name_col = analysis.get('name_col', 'Synonym')
-            logfc_col = analysis.get('logfc_col', 'log2_fold_change')
-            p_value_col = analysis.get('adjusted_p_value_col', 'adjusted_p_value')
+            name_col = analysis.get('name_col', None)
+            logfc_col = analysis.get('logfc_col', None)
+            p_value_col = analysis.get('adjusted_p_value_col', None)
+            pvalue_asterisk = analysis.get('pvalue_asterisk_in_logfc', False)
 
             # Validate columns exist
             missing_cols = []
+            if name_col is None:
+                logger.error(f"Required column 'name_col' not specified in analysis for file {filename}. Skipping this file.")
+                return edges
+            if logfc_col is None:
+                logger.error(f"Required column 'logfc_col' not specified in analysis for file {filename}. Skipping this file.")
+                return edges
+            
             if name_col not in df.columns:
                 missing_cols.append(name_col)
             if logfc_col not in df.columns:
-                logger.warning(f"Column '{logfc_col}' not found in {filename}. Fold change will not be included in edges.")
-            if p_value_col not in df.columns:
-                logger.warning(f"Column '{p_value_col}' not found in {filename}. P-value will not be included in edges.")
-            
+                missing_cols.append(logfc_col)
             if missing_cols:
                 logger.error(f"Required column(s) {missing_cols} not found in {filename}. Skipping this file.")
                 return edges
+
+            if not pvalue_asterisk:
+                if p_value_col is None:
+                    logger.warning(f"No 'adjusted_p_value_col' specified and 'pvalue_asterisk_in_logfc' is False in analysis for file {filename}. P-value will not be included in edges.")  
+                elif p_value_col not in df.columns:
+                    logger.warning(f"Column '{p_value_col}' not found in {filename}. P-value will not be included in edges.")
+            
 
 
             # Track skipped rows for logging
@@ -452,13 +468,24 @@ class OMICSAdapter:
 
                 # Skip rows with missing or non-numeric fold change values
                 fc_float = None
+                asterisk_significant = None
                 if logfc_col in df.columns:
                     fc_val = row.get(logfc_col)
-                    if pd.isna(fc_val) or fc_val == '' or fc_val == 'NA':
+                    if pd.isna(fc_val):
                         skipped_count += 1
                         continue
+                    fc_str = str(fc_val).strip()
+                    if fc_str == '' or fc_str == 'NA':
+                        skipped_count += 1
+                        continue
+                    # Handle asterisk-based significance markers in logFC column
+                    if pvalue_asterisk and fc_str.endswith('*'):
+                        asterisk_significant = True
+                        fc_str = fc_str.rstrip('*')
+                    elif pvalue_asterisk:
+                        asterisk_significant = False
                     try:
-                        fc_float = float(fc_val)
+                        fc_float = float(fc_str)
                     except (ValueError, TypeError):
                         skipped_count += 1
                         continue
@@ -472,7 +499,10 @@ class OMICSAdapter:
                 if fc_float is not None:
                     edge_properties['log2_fold_change'] = fc_float
 
-                if p_value_col in df.columns and not pd.isna(row.get(p_value_col)):
+                if asterisk_significant is not None:
+                    # Asterisk indicates adjusted p-value < 0.1; use placeholder values
+                    edge_properties['adjusted_p_value'] = 0.49 if asterisk_significant else 1.0
+                elif p_value_col in df.columns and not pd.isna(row.get(p_value_col)):
                     try:
                         pval = float(row[p_value_col])
                         if math.isfinite(pval):
@@ -614,6 +644,7 @@ if __name__ == "__main__":
 
     config_dpath = 'data/Prochlorococcus/papers_and_supp/Aharonovich 2016/paperconfig.yaml'
     config_dpath = 'data/Prochlorococcus/papers_and_supp/bagby 2015/paperconfig.yaml'
+    config_dpath = 'data/Prochlorococcus/papers_and_supp/biller 2016/paperconfig.yaml'
     print('pwd', os.getcwd())
     print("Config path:", config_dpath)
     print("Exists:", os.path.exists(config_dpath))

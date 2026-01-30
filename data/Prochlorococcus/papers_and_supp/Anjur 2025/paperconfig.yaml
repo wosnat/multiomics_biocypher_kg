@@ -1,0 +1,40 @@
+publication:
+  papername: Anjur-Dietrich 2025
+  papermainpdf: data/Prochlorococcus/papers_and_supp/Anjur 2025/2025.08.05.668435v1.full.pdf
+
+  environmental_conditions:
+    anjur_2025_freeliving:
+      condition_type: growth_state
+      name: Free-living (planktonic) enrichment
+      medium: Pro99-ESL (0.2 um filtered, autoclaved sterile seawater amended with Pro99 nutrients)
+      temperature: 24C
+      light_condition: continuous_light
+      light_intensity: 45 µmol photons m-2 s-1
+      description: Axenic Prochlorococcus MIT9301 planktonic enrichment population (serially selected for >100 generations), grown undisturbed to mid-exponential phase in Pro99-ESL at 24C under continuous light (45 µmol photons m-2 s-1). Planktonic cells fixed in suspension.
+    anjur_2025_biofilm:
+      condition_type: growth_state
+      name: Biofilm (adherent) enrichment
+      medium: Pro99-ESL (0.2 um filtered, autoclaved sterile seawater amended with Pro99 nutrients)
+      temperature: 24C
+      light_condition: continuous_light
+      light_intensity: 45 µmol photons m-2 s-1
+      description: Axenic Prochlorococcus MIT9301 biofilm enrichment population (serially selected for >100 generations), grown undisturbed to mid-exponential phase in Pro99-ESL at 24C under continuous light (45 µmol photons m-2 s-1). Adherent cells fixed while adhered to culture tube walls.
+
+  supplementary_materials:
+    supp_table_1:
+      type: csv
+      filename: data/Prochlorococcus/papers_and_supp/Anjur 2025/de_genes_freeliving_vs_biofilms.csv
+      statistical_analyses:
+        - type: RNASEQ
+          name: Differential Expression Analysis of Prochlorococcus MIT9301 Free-Living (planktonic) vs Biofilm (adherent) Enrichment Populations
+          id: DE_freeliving_vs_biofilm_MIT9301
+          test_type: edgeR
+          control_condition: Biofilm (adherent)
+          treatment_condition: Free-living (planktonic)
+          environmental_control_condition_id: anjur_2025_biofilm
+          environmental_treatment_condition_id: anjur_2025_freeliving
+          experimental_context: Axenic MIT9301 planktonic and biofilm enrichment populations (each serially selected for >100 generations) grown undisturbed to mid-exponential phase in Pro99-ESL at 24C under continuous light (45 µmol photons m-2 s-1). RNA extracted from triplicate biological replicates. Differential expression with log2FC threshold 0.8 and q-value threshold 0.05.
+          organism: Prochlorococcus MIT9301
+          name_col: ID
+          logfc_col: logFC
+          adjusted_p_value_col: FDR

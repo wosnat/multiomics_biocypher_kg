@@ -1,0 +1,172 @@
+publication:
+  papername: Biller 2016
+  papermainpdf: data/Prochlorococcus/papers_and_supp/biller 2016/41396_2016_article_bfismej201682.pdf
+
+  environmental_conditions:
+    biller_2016_axenic:
+      condition_type: growth_medium
+      name: Axenic Prochlorococcus NATL2A
+      medium: Pro99 natural seawater medium
+      temperature: 21C
+      light_condition: continuous_light
+      light_intensity: 30 µmol photons m-2 s-1
+      description: Axenic Prochlorococcus NATL2A grown in Pro99 natural seawater medium at 21C under constant illumination (30 µmol photons m-2 s-1).
+    biller_2016_coculture:
+      condition_type: coculture
+      name: Co-culture with Alteromonas macleodii MIT1002
+      medium: Pro99 natural seawater medium
+      temperature: 21C
+      light_condition: continuous_light
+      light_intensity: 30 µmol photons m-2 s-1
+      description: Prochlorococcus NATL2A co-cultured with Alteromonas macleodii MIT1002 in Pro99 medium at 21C under constant illumination.
+    biller_2016_alt_coculture:
+      condition_type: coculture
+      name: Co-culture with Prochlorococcus NATL2A
+      medium: Pro99 natural seawater medium
+      temperature: 21C
+      light_condition: continuous_light
+      light_intensity: 30 µmol photons m-2 s-1
+      description: Alteromonas macleodii MIT1002 co-cultured with Prochlorococcus NATL2A in Pro99 medium at 21C under constant illumination.
+
+  supplementary_materials:
+    supp_table_2:
+      type: csv
+      filename: data/Prochlorococcus/papers_and_supp/biller 2016/PRO DE genes 41396_2016_bfismej201682_moesm98_esm.csv
+      statistical_analyses:
+        - type: RNASEQ
+          name: DE Prochlorococcus NATL2A co-culture vs axenic (-12h)
+          id: DE_coculture_vs_axenic_NATL2A_minus12h
+          test_type: DESeq2
+          control_condition: Axenic
+          treatment_condition: Co-culture with Alteromonas macleodii MIT1002
+          experimental_context: in Pro99 medium under continuous light
+          timepoint: "-12h"
+          organism: Prochlorococcus NATL2A
+          treatment_taxid: 28108
+          treatment_organism: Alteromonas macleodii MIT1002
+          name_col: Original_NCBI_ID
+          logfc_col: "-12 hours"
+          skip_rows: 3
+          pvalue_asterisk_in_logfc: true
+        - type: RNASEQ
+          name: DE Prochlorococcus NATL2A co-culture vs axenic (2h)
+          id: DE_coculture_vs_axenic_NATL2A_2h
+          test_type: DESeq2
+          control_condition: Axenic
+          treatment_condition: Co-culture with Alteromonas macleodii MIT1002
+          experimental_context: in Pro99 medium under continuous light
+          timepoint: 2h
+          organism: Prochlorococcus NATL2A
+          treatment_taxid: 28108
+          treatment_organism: Alteromonas macleodii MIT1002
+          name_col: Original_NCBI_ID
+          logfc_col: 2 hours
+          skip_rows: 3
+          pvalue_asterisk_in_logfc: true
+        - type: RNASEQ
+          name: DE Prochlorococcus NATL2A co-culture vs axenic (4h)
+          id: DE_coculture_vs_axenic_NATL2A_4h
+          test_type: DESeq2
+          control_condition: Axenic
+          treatment_condition: Co-culture with Alteromonas macleodii MIT1002
+          experimental_context: in Pro99 medium under continuous light
+          timepoint: 4h
+          organism: Prochlorococcus NATL2A
+          treatment_taxid: 28108
+          treatment_organism: Alteromonas macleodii MIT1002
+          name_col: Original_NCBI_ID
+          logfc_col: 4 hours
+          skip_rows: 3
+          pvalue_asterisk_in_logfc: true
+        - type: RNASEQ
+          name: DE Prochlorococcus NATL2A co-culture vs axenic (6h)
+          id: DE_coculture_vs_axenic_NATL2A_6h
+          test_type: DESeq2
+          control_condition: Axenic
+          treatment_condition: Co-culture with Alteromonas macleodii MIT1002
+          experimental_context: in Pro99 medium under continuous light
+          timepoint: 6h
+          organism: Prochlorococcus NATL2A
+          treatment_taxid: 28108
+          treatment_organism: Alteromonas macleodii MIT1002
+          name_col: Original_NCBI_ID
+          logfc_col: 6 hours
+          skip_rows: 3
+          pvalue_asterisk_in_logfc: true
+        - type: RNASEQ
+          name: DE Prochlorococcus NATL2A co-culture vs axenic (12h)
+          id: DE_coculture_vs_axenic_NATL2A_12h
+          test_type: DESeq2
+          control_condition: Axenic
+          treatment_condition: Co-culture with Alteromonas macleodii MIT1002
+          experimental_context: in Pro99 medium under continuous light
+          timepoint: 12h
+          organism: Prochlorococcus NATL2A
+          treatment_taxid: 28108
+          treatment_organism: Alteromonas macleodii MIT1002
+          name_col: Original_NCBI_ID
+          logfc_col: 12 hours
+          skip_rows: 3
+          pvalue_asterisk_in_logfc: true
+        - type: RNASEQ
+          name: DE Prochlorococcus NATL2A co-culture vs axenic (24h)
+          id: DE_coculture_vs_axenic_NATL2A_24h
+          test_type: DESeq2
+          control_condition: Axenic
+          treatment_condition: Co-culture with Alteromonas macleodii MIT1002
+          experimental_context: in Pro99 medium under continuous light
+          timepoint: 24h
+          organism: Prochlorococcus NATL2A
+          treatment_taxid: 28108
+          treatment_organism: Alteromonas macleodii MIT1002
+          name_col: Original_NCBI_ID
+          logfc_col: 24 hours
+          skip_rows: 3
+          pvalue_asterisk_in_logfc: true
+        - type: RNASEQ
+          name: DE Prochlorococcus NATL2A co-culture vs axenic (48h)
+          id: DE_coculture_vs_axenic_NATL2A_48h
+          test_type: DESeq2
+          control_condition: Axenic
+          treatment_condition: Co-culture with Alteromonas macleodii MIT1002
+          experimental_context: in Pro99 medium under continuous light
+          timepoint: 48h
+          organism: Prochlorococcus NATL2A
+          treatment_taxid: 28108
+          treatment_organism: Alteromonas macleodii MIT1002
+          name_col: Original_NCBI_ID
+          logfc_col: 48 hours
+          skip_rows: 3
+          pvalue_asterisk_in_logfc: true
+    supp_table_3:
+      type: csv
+      filename: data/Prochlorococcus/papers_and_supp/biller 2016/ALT DE genes 41396_2016_bfismej201682_moesm99_esm.csv
+      statistical_analyses:
+        - type: RNASEQ
+          name: DE Alteromonas macleodii MIT1002 in co-culture (24h vs 12h)
+          id: DE_alteromonas_MIT1002_coculture_24v12h
+          test_type: DESeq2
+          control_condition: 12 hours after co-culturing with Prochlorococcus NATL2A
+          treatment_condition: 24 hours after co-culturing with Prochlorococcus NATL2A
+          experimental_context: in Pro99 medium under continuous light
+          timepoint: 24h vs 12h
+          organism: Alteromonas macleodii MIT1002
+          treatment_taxid: 59920
+          treatment_organism: Prochlorococcus NATL2A
+          name_col: Gene ID
+          logfc_col: log2FoldChange (24 vs 12 hrs after addition)
+          skip_rows: 2
+        - type: RNASEQ
+          name: DE Alteromonas macleodii MIT1002 in co-culture (48h vs 12h)
+          id: DE_alteromonas_MIT1002_coculture_48v12h
+          test_type: DESeq2
+          control_condition: 12 hours after co-culturing with Prochlorococcus NATL2A
+          treatment_condition: 48 hours after co-culturing with Prochlorococcus NATL2A
+          experimental_context: in Pro99 medium under continuous light
+          timepoint: 48h vs 12h
+          organism: Alteromonas macleodii MIT1002
+          treatment_taxid: 59920
+          treatment_organism: Prochlorococcus NATL2A
+          name_col: Gene ID
+          logfc_col: log2FoldChange (48 vs 12 hrs after addition)
+          skip_rows: 2
