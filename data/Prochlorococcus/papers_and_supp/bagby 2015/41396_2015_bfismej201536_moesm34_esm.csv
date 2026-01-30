@@ -1,0 +1,74 @@
+﻿"Bagby and Chisholm, Response of Prochlorococcus to varying CO2:O2 ratios, ISME J",,,,,,,
+"Table S2.  Concordance between MED4 transcriptional responses to high light shock, –CO2 shock, and –CO2/–O2 shock",,,,,,,
+Notes to Table S2,,,,,,,
+1 Loci for which CyanoBase gene categories were changed by manual curation are marked with an asterisk.,,,,,,,
+"2 Where gene categories were changed by manual curation, original CyanoBase classifications are given in square brackets.  Gene categories:  A, amino acid 
+biosynthesis; B, biosynthesis of cofactors, prosthetic groups, and carriers; C, cell envelope; D, cellular processes; E, central intermediary metabolism; F, energy 
+metabolism; G, fatty acid, phospholipid, and sterol metabolism; H, photosynthesis and respiration; I, purines, pyrimidines, nucleosides, and nucleotides; J, regulatory 
+functions; K, DNA replication, recombination, and repair; L, transcription; O, translation; P, transport and binding proteins; R, RNA; U, other categories; Z, hypothetical 
+proteins.",,,,,,,
+"3 At t = 45 min of high light shock.  Changes in expression were assessed by comparison to parallel cultures kept in the dark (Steglich et al., 2006; 
+Steglich et al., 2008).",,,,,,,
+"4 Direction of initial change, as indicated by cluster membership:  cluster 1, up; clusters 2, 3, and 4, down.  See Fig. 2C for cluster profiles.",,,,,,,
+5 As indicated by membership in cluster 3.  See Fig. 2B for cluster profiles.,,,,,,,
+,,,,,,,
+Locus tag1,Alternative locus tag,Cyanobase category2,"Expression change under 
+high light shock3 ","Expression change under 
+–CO2 shock4","Rapid recovery under 
+–CO2 shock5","Expression change under 
+–CO2/–O2 shock4","Rapid recovery under 
+–CO2/–O2 shock5"
+PMM0051,PMED4_00511,Z (Z1),down,down,,-,
+PMM0462,PMED4_05101,H (H3),down,down,yes,-,
+PMM0543,PMED4_05921,B (B3),down,down,yes,-,
+PMM1369,PMED4_15401,J (-),down,down,,-,
+PMM1578,PMED4_17881,H (H5),down,down,yes,-,
+PMM0215,PMED4_02211,G (-),down,down,,down,
+PMM0307,PMED4_03131,Z (Z2),down,down,,down,
+PMM0468,PMED4_05161,H (H5),down,down,yes,down,
+PMM0469,PMED4_05171,H (H5),down,down,yes,down,
+PMM0544,PMED4_05931,B (B3),down,down,yes,down,
+PMM0545,PMED4_05941,B (B3),down,down,yes,down,
+PMM0583,PMED4_06321,B (B3),down,down,,down,
+PMM0642,PMED4_06921,A (A5),down,down,,down,
+PMM0643,PMED4_06931,A (A2),down,down,yes,down,
+PMM0661,PMED4_07171,I (I2),down,down,yes,down,
+PMM0760,PMED4_08451,B (B3),down,down,,down,
+PMM0906,PMED4_10171,H (H5),down,down,yes,down,yes
+PMM1028,PMED4_11701,Z (Z1),down,down,,down,
+PMM1148,PMED4_13061,O (O7),down,down,yes,down,
+PMM1149,PMED4_13071,Z (Z1),down,down,yes,down,
+PMM1400,PMED4_15971,U (U8),down,down,,down,
+PMM1519,PMED4_17291,H (H5),down,down,,down,
+PMM1520,PMED4_17301,H (H5),down,down,,down,
+PMM1657,PMED4_18671,O (O5),down,down,,down,
+PMM0444,PMED4_04911,H (H9),down,-,,down,yes
+PMM1697*,PMED4_19081,L [P (-)],down,-,,down,
+PMM1058,PMED4_12041,H (H3),down,-,,down,yes
+PMED4_ncRNA_Yfr16*,PMED4_ncRNA_Yfr16,R [- (-)],down,-,,up,
+PMM0087,PMED4_00901,Z (Z1),down,-,,up,
+PMM1506,PMED4_17161,J (-),up,down,,-,
+PMM0195*,PMED4_02011,F [U (U8)],up,down,yes,down,yes
+PMM0075,PMED4_00771,Z (Z1),up,-,,down,yes
+PMM0347,PMED4_03641,Z (Z1),up,-,,down,
+PMM1599,PMED4_18091,Z (Z1),up,-,,down,
+PMM0115,PMED4_01211,B (B2),up,up,,-,
+PMM0618,PMED4_06671,B (B2),up,up,,-,
+PMM0689,PMED4_07541,U (U1),up,up,,-,
+PMM0697,PMED4_07661,K (-),up,up,,-,
+PMM1359,PMED4_15281,Z (Z1),up,up,,-,
+PMM1387,PMED4_15821,Z (Z2),up,up,,-,
+PMM1490,PMED4_17001,O (O5),up,up,,-,
+PMM0336*,PMED4_03461,H [Z (Z1)],up,up,,up,
+PMM0690,PMED4_07551,U (U1),up,up,,up,
+PMM0817,PMED4_09091,U (U1),up,up,,up,
+PMM0818,PMED4_09101,U (U1),up,up,,up,
+PMM1118,PMED4_12641,U (U1),up,up,,up,
+PMM1135,PMED4_12891,U (U1),up,up,,up,
+PMM1384,PMED4_15731,U (U1),up,up,,up,
+PMM1385,PMED4_15741,U (U1),up,up,,up,
+PMM1396,PMED4_15931,U (U1),up,up,,up,
+PMM1397,PMED4_15941,U (U1),up,up,,up,
+PMM1404,PMED4_16051,U (U1),up,up,,up,
+PMED4_asRNA_15721*,PMED4_asRNA_15721,R [- (-)],up,up,,up,
+PMED4_ncRNA_Yfr20*,PMED4_ncRNA_Yfr20,R [- (-)],up,up,,up,

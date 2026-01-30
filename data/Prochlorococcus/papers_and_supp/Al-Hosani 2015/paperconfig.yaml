@@ -1,0 +1,36 @@
+publication:
+  papername: Al-Hosani 2015
+  papermainpdf: data/Prochlorococcus/papers_and_supp/Al-Hosani 2015/Global transcriptome analysis of salt acclimated Prochlorococcus AS9601 1-s2.0-S094450131500066X-main.pdf
+
+  # Environmental conditions used in this paper
+  environmental_conditions:
+    alhosani_2015_seawater_control:
+      condition_type: growth_medium
+      name: Seawater control
+      description: Control cells grown in standard seawater conditions as used in the study
+    alhosani_2015_salt_acclimation:
+      condition_type: salt_stress
+      name: Salt-acclimated conditions
+      description: Cells acclimated to elevated salt conditions (see methods in paper)
+
+  supplementary_materials:
+    supp_table_3:
+      type: csv
+      filename: data/Prochlorococcus/papers_and_supp/Al-Hosani 2015/de_genes_salt_acclimated_vs_sea_water.csv
+      statistical_analyses:
+        - type: RNASEQ
+          name: Differential expression of Prochlorococcus AS9601 salt-acclimated cells vs seawater control
+          id: DE_salt_acclimated_vs_seawater_AS9601
+          test_type: DESeq  # table header indicates DESeq output
+          control_condition: Seawater control
+          treatment_condition: Salt-acclimated
+          comparative_term_qualifier: salt_acclimation
+          biological_context: salt_acclimation
+          organism: Prochlorococcus AS9601
+          environmental_condition_id: alhosani_2015_salt_acclimation
+          # Column mappings (match CSV header)
+          name_col: Gene id
+          logfc_col: log2FoldChange
+          adjusted_p_value_col: padj
+
+    # If additional supplementary files exist (xlsx etc.), add them here as supp_table_N entries
