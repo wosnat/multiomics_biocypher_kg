@@ -2,7 +2,7 @@ import os, shutil
 
 from biocypher import BioCypher, FileDownload
 from multiomics_kg.adapters.ec_adapter import EC
-from multiomics_kg.adapters.omics_adapter import OMICSAdapter
+from multiomics_kg.adapters.omics_adapter import MultiOMICSAdapter
 from multiomics_kg.adapters.uniprot_adapter import (
     Uniprot,
     UniprotNodeType,
@@ -25,6 +25,11 @@ export_as_csv = True
 
 # Flag for test mode
 TEST_MODE = False
+
+# remove these for quick testing. Don't forget to set back to True
+download_GO_data = False
+download_EC_data = False
+
 
 # dirs
 output_dir_path = "./biocypher-log/example_knowledge_graph/"
@@ -151,10 +156,8 @@ bc.write_nodes(ncbi_cyanorak_adapter.get_nodes())
 #     ncbi_cyanorak_adapter.export_as_csv(path=output_dir_path)
 
 # omics data
-config_dpath = 'data/Prochlorococcus/papers_and_supp/Aharonovich 2016/paperconfig.yaml'
-
-omics_adapter = OMICSAdapter(
-    config_file=config_dpath,
+omics_adapter = MultiOMICSAdapter(
+    config_list_file='data/Prochlorococcus/papers_and_supp/paperconfig_files.txt',
     test_mode=TEST_MODE,
 )
 omics_adapter.download_data(cache=CACHE)
@@ -167,22 +170,24 @@ go_adapter = GO(
     test_mode=TEST_MODE
 )
 
+if download_GO_data:  
+    go_adapter.download_go_data(cache=CACHE)
+    bc.write_nodes(go_adapter.get_go_nodes())
+    bc.write_edges(go_adapter.get_go_edges())
+    if export_as_csv:
+        go_adapter.export_as_csv(path=output_dir_path)
 
-go_adapter.download_go_data(cache=CACHE)
-bc.write_nodes(go_adapter.get_go_nodes())
-bc.write_edges(go_adapter.get_go_edges())
-if export_as_csv:
-    go_adapter.export_as_csv(path=output_dir_path)
 
-
-ec_adapter = EC(
-    export_csv=export_as_csv,
-    output_dir=output_dir_path,
-    test_mode=TEST_MODE
-)
-ec_adapter.download_ec_data(cache=CACHE)
-bc.write_nodes(ec_adapter.get_nodes())
-bc.write_edges(ec_adapter.get_edges())
+if download_EC_data:
+    # enzyme commission data
+    ec_adapter = EC(
+        export_csv=export_as_csv,
+        output_dir=output_dir_path,
+        test_mode=TEST_MODE
+    )
+    ec_adapter.download_ec_data(cache=CACHE)
+    bc.write_nodes(ec_adapter.get_nodes())
+    bc.write_edges(ec_adapter.get_edges())
 
 
 # Write import call and other post-processing

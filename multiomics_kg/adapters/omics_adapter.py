@@ -4,6 +4,7 @@ from biocypher._logger import logger
 from pydantic import BaseModel, DirectoryPath, validate_call
 from typing import Literal, Union, Optional
 from enum import Enum, EnumMeta, auto
+import math
 import pandas as pd
 import yaml
 import os
@@ -449,21 +450,35 @@ class OMICSAdapter:
                 # Create gene identifier with prefix
                 gene_id = self.add_prefix_to_id(prefix="ncbigene", identifier=str(gene_id))
 
-                # Skip rows with missing or empty fold change values
+                # Skip rows with missing or non-numeric fold change values
+                fc_float = None
                 if logfc_col in df.columns:
                     fc_val = row.get(logfc_col)
                     if pd.isna(fc_val) or fc_val == '' or fc_val == 'NA':
+                        skipped_count += 1
+                        continue
+                    try:
+                        fc_float = float(fc_val)
+                    except (ValueError, TypeError):
+                        skipped_count += 1
+                        continue
+                    if not math.isfinite(fc_float):
                         skipped_count += 1
                         continue
 
                 # Extract edge properties
                 edge_properties = self._get_default_properties()
 
-                if logfc_col in df.columns:
-                    edge_properties['log2_fold_change'] = float(row[logfc_col])
+                if fc_float is not None:
+                    edge_properties['log2_fold_change'] = fc_float
 
                 if p_value_col in df.columns and not pd.isna(row.get(p_value_col)):
-                    edge_properties['adjusted_p_value'] = float(row[p_value_col])
+                    try:
+                        pval = float(row[p_value_col])
+                        if math.isfinite(pval):
+                            edge_properties['adjusted_p_value'] = pval
+                    except (ValueError, TypeError):
+                        pass
 
                 # Determine expression direction from fold change
                 if 'log2_fold_change' in edge_properties:
@@ -556,6 +571,41 @@ class OMICSAdapter:
         }
         return properties
         
+
+class MultiOMICSAdapter:
+    """Wrapper that reads a file listing paperconfig.yaml paths and delegates to OMICSAdapter instances."""
+
+    def __init__(self, config_list_file: str, **kwargs):
+        """
+        Args:
+            config_list_file: Path to a text file with one paperconfig.yaml path per line.
+            **kwargs: Additional arguments passed to each OMICSAdapter (e.g. test_mode).
+        """
+        self.adapters = []
+        with open(config_list_file, 'r') as f:
+            for line in f:
+                line = line.strip()
+                if line and not line.startswith('#'):
+                    adapter = OMICSAdapter(config_file=line, **kwargs)
+                    self.adapters.append(adapter)
+        logger.info(f"Loaded {len(self.adapters)} config files from {config_list_file}")
+
+    def download_data(self, **kwargs):
+        for adapter in self.adapters:
+            adapter.download_data(**kwargs)
+
+    def get_nodes(self):
+        nodes = []
+        for adapter in self.adapters:
+            nodes.extend(adapter.get_nodes())
+        return nodes
+
+    def get_edges(self):
+        edges = []
+        for adapter in self.adapters:
+            edges.extend(adapter.get_edges())
+        return edges
+
 
 if __name__ == "__main__":
 

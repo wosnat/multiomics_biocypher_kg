@@ -16,7 +16,7 @@ import yaml
 import pandas as pd
 from pathlib import Path
 
-from multiomics_kg.adapters.omics_adapter import OMICSAdapter
+from multiomics_kg.adapters.omics_adapter import OMICSAdapter, MultiOMICSAdapter
 
 
 @pytest.fixture
@@ -695,6 +695,149 @@ class TestEdgeWithRealData:
         assert 'ncbitaxon' in source_id.lower() or '28108' in source_id
         assert 'log2_fold_change' in properties
         assert 'expression_direction' in properties
+
+
+class TestMultiOMICSAdapter:
+    """Test that MultiOMICSAdapter correctly aggregates results from multiple configs."""
+
+    @pytest.fixture
+    def two_config_list(self, temp_data_dir):
+        """Create two separate paperconfig.yaml files and a list file pointing to them."""
+        configs = []
+        for i, (paper, organism, taxid) in enumerate([
+            ('Paper A 2024', 'Alteromonas macleodii', 28108),
+            ('Paper B 2024', 'Synechococcus sp.', 32049),
+        ]):
+            # Create data file for this config
+            data_file = os.path.join(temp_data_dir, f'de_genes_{i}.csv')
+            pd.DataFrame({
+                'Synonym': [f'GENE_{i}_1', f'GENE_{i}_2'],
+                'log2_fold_change': [1.5, -2.0],
+                'adjusted_p_value': [0.01, 0.05],
+            }).to_csv(data_file, index=False)
+
+            config = {
+                'publication': {
+                    'papername': paper,
+                    'supplementary_materials': {
+                        'supp_table_1': {
+                            'type': 'csv',
+                            'filename': data_file,
+                            'statistical_analyses': [
+                                {
+                                    'type': 'RNASEQ',
+                                    'test_type': 'DESeq2',
+                                    'control_condition': 'Control',
+                                    'treatment_condition': 'Treatment',
+                                    'organism': 'Prochlorococcus MED4',
+                                    'treatment_organism': organism,
+                                    'treatment_taxid': taxid,
+                                    'name_col': 'Synonym',
+                                    'logfc_col': 'log2_fold_change',
+                                    'adjusted_p_value_col': 'adjusted_p_value',
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+
+            config_file = os.path.join(temp_data_dir, f'paperconfig_{i}.yaml')
+            with open(config_file, 'w') as f:
+                yaml.dump(config, f)
+            configs.append(config_file)
+
+        # Create the list file
+        list_file = os.path.join(temp_data_dir, 'paperconfig_files.txt')
+        with open(list_file, 'w') as f:
+            f.write('\n'.join(configs) + '\n')
+
+        return list_file, configs
+
+    @pytest.fixture
+    def multi_adapter(self, two_config_list):
+        """Create MultiOMICSAdapter and mock extracted_data on each inner adapter."""
+        list_file, _ = two_config_list
+        adapter = MultiOMICSAdapter(config_list_file=list_file)
+
+        for i, inner in enumerate(adapter.adapters):
+            inner.extracted_data = {
+                'publication': {
+                    'publication_id': f'test_pub_{i}',
+                    'title': f'Test Publication {i}',
+                    'doi': f'10.1234/test.{i}',
+                },
+            }
+        return adapter
+
+    def test_loads_all_configs(self, multi_adapter):
+        """Verify all config files are loaded."""
+        assert len(multi_adapter.adapters) == 2
+
+    def test_get_nodes_combines_all(self, multi_adapter):
+        """Verify get_nodes returns nodes from all configs."""
+        nodes = multi_adapter.get_nodes()
+        pub_nodes = [n for n in nodes if n[1] == 'publication']
+        assert len(pub_nodes) == 2, f"Expected 2 publication nodes, got {len(pub_nodes)}"
+
+        organism_nodes = [n for n in nodes if n[1] == 'organism']
+        assert len(organism_nodes) == 2, f"Expected 2 organism nodes, got {len(organism_nodes)}"
+
+    def test_get_edges_combines_all(self, multi_adapter):
+        """Verify get_edges returns edges from all configs."""
+        edges = multi_adapter.get_edges()
+        # 2 genes per config × 2 configs = 4 edges
+        assert len(edges) == 4, f"Expected 4 edges, got {len(edges)}"
+
+    def test_edges_have_distinct_sources(self, multi_adapter):
+        """Verify edges come from different organism sources."""
+        edges = multi_adapter.get_edges()
+        source_ids = set(e[1] for e in edges)
+        assert len(source_ids) == 2, f"Expected 2 distinct sources, got {source_ids}"
+
+    def test_skips_blank_and_comment_lines(self, temp_data_dir):
+        """Verify blank lines and comments in list file are skipped."""
+        # Create a minimal config
+        data_file = os.path.join(temp_data_dir, 'de.csv')
+        pd.DataFrame({
+            'Synonym': ['G1'], 'log2_fold_change': [1.0], 'adjusted_p_value': [0.01],
+        }).to_csv(data_file, index=False)
+
+        config = {
+            'publication': {
+                'papername': 'Test',
+                'supplementary_materials': {
+                    's1': {
+                        'type': 'csv', 'filename': data_file,
+                        'statistical_analyses': [{
+                            'type': 'RNASEQ', 'test_type': 'DESeq2',
+                            'treatment_organism': 'Org', 'treatment_taxid': 12345,
+                            'name_col': 'Synonym', 'logfc_col': 'log2_fold_change',
+                            'adjusted_p_value_col': 'adjusted_p_value',
+                        }]
+                    }
+                }
+            }
+        }
+        config_file = os.path.join(temp_data_dir, 'pc.yaml')
+        with open(config_file, 'w') as f:
+            yaml.dump(config, f)
+
+        list_file = os.path.join(temp_data_dir, 'list.txt')
+        with open(list_file, 'w') as f:
+            f.write(f'# This is a comment\n\n{config_file}\n\n# Another comment\n')
+
+        adapter = MultiOMICSAdapter(config_list_file=list_file)
+        assert len(adapter.adapters) == 1
+
+    def test_download_data_called_on_all(self, two_config_list):
+        """Verify download_data delegates to all adapters."""
+        list_file, _ = two_config_list
+        adapter = MultiOMICSAdapter(config_list_file=list_file)
+        adapter.download_data(cache=False)
+        # After download_data, each adapter should have extracted_data attribute
+        for inner in adapter.adapters:
+            assert hasattr(inner, 'extracted_data') or hasattr(inner, 'pdf_extractor')
 
 
 if __name__ == '__main__':

@@ -2,16 +2,25 @@ publication:
   papername: Al-Hosani 2015
   papermainpdf: data/Prochlorococcus/papers_and_supp/Al-Hosani 2015/Global transcriptome analysis of salt acclimated Prochlorococcus AS9601 1-s2.0-S094450131500066X-main.pdf
 
-  # Environmental conditions used in this paper
   environmental_conditions:
     alhosani_2015_seawater_control:
       condition_type: growth_medium
-      name: Seawater control
-      description: Control cells grown in standard seawater conditions as used in the study
+      name: Normal seawater control (3.8% salt)
+      medium: PRO99 natural seawater medium
+      temperature: 22C
+      light_condition: continuous_light
+      light_intensity: 46 µmol photons m-2 s-1
+      salinity: 3.8% w/v NaCl
+      description: Axenic Prochlorococcus AS9601 grown in PRO99 natural seawater medium (Sargasso Sea water) at 22C under continuous illumination (~46 µmol photons m-2 s-1), normal seawater salinity (3.8% w/v)
     alhosani_2015_salt_acclimation:
       condition_type: salt_stress
-      name: Salt-acclimated conditions
-      description: Cells acclimated to elevated salt conditions (see methods in paper)
+      name: Salt-acclimated (5% salt)
+      medium: PRO99 natural seawater medium with added NaCl
+      temperature: 22C
+      light_condition: continuous_light
+      light_intensity: 46 µmol photons m-2 s-1
+      salinity: 5% w/v NaCl
+      description: Axenic Prochlorococcus AS9601 acclimated to 5% (w/v) NaCl by consecutive transfers for 3 generations in PRO99 medium with added ultra-pure NaCl, at 22C under continuous illumination (~46 µmol photons m-2 s-1). Cells exhibited slower growth rate (doubling time ~2.65 days vs ~1.26 days for control)
 
   supplementary_materials:
     supp_table_3:
@@ -19,16 +28,15 @@ publication:
       filename: data/Prochlorococcus/papers_and_supp/Al-Hosani 2015/de_genes_salt_acclimated_vs_sea_water.csv
       statistical_analyses:
         - type: RNASEQ
-          name: Differential expression of Prochlorococcus AS9601 salt-acclimated cells vs seawater control
+          name: Differential expression of Prochlorococcus AS9601 under salt acclimation (5% NaCl) vs normal seawater (3.8% NaCl)
           id: DE_salt_acclimated_vs_seawater_AS9601
           test_type: DESeq
-          control_condition: Seawater control
-          treatment_condition: Salt-acclimated
-          experimental_context: standard growth conditions
+          control_condition: Normal seawater (3.8% salt)
+          treatment_condition: Salt-acclimated (5% salt)
+          environmental_control_condition_id: alhosani_2015_seawater_control
+          environmental_treatment_condition_id: alhosani_2015_salt_acclimation
+          experimental_context: Axenic cells in PRO99 medium at 22C under continuous light, acclimated to 5% NaCl for 3 generations. RNA extracted from exponential-phase cells sampled on 2 consecutive days (3 biological replicates per condition)
           organism: Prochlorococcus AS9601
-          # Column mappings (match CSV header)
           name_col: Gene id
           logfc_col: log2FoldChange
           adjusted_p_value_col: padj
-
-    # If additional supplementary files exist (xlsx etc.), add them here as supp_table_N entries
