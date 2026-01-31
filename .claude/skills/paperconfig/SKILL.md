@@ -1,3 +1,11 @@
+---
+name: paperconfig
+description: Create and validate paperconfig.yaml files for integrating omics publication data (RNA-seq, proteomics, metabolomics, microarray) into the knowledge graph. Use when adding a new paper's differential expression data.
+argument-hint: [paper-directory-name]
+user-invocable: true
+allowed-tools: Read, Grep, Glob, Write, Bash(uv *)
+---
+
 # Paperconfig YAML Instructions
 
 How to create a `paperconfig.yaml` file for integrating omics publication data into the knowledge graph.
@@ -322,3 +330,15 @@ Before submitting a paperconfig:
 - [ ] Each analysis `id` is unique within the file
 - [ ] `skip_rows` is set correctly if the CSV has extra header rows
 - [ ] Gene/protein identifiers in `name_col` use locus tags or IDs that can match existing gene nodes
+
+## Workflow
+
+When the user invokes this skill with a paper directory name (e.g., `/paperconfig "Author Year"`):
+
+1. Look for the paper directory under `data/Prochlorococcus/papers_and_supp/$ARGUMENTS/`
+2. Find the PDF and CSV files in that directory
+3. Read the CSV file headers to identify available columns
+4. Read the PDF to understand the experiment (organisms, conditions, methods)
+5. Draft the `paperconfig.yaml` following the schema above
+6. Validate against the checklist
+7. Register the config in `paperconfig_files.txt`
