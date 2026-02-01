@@ -14,7 +14,7 @@ from multiomics_kg.adapters.go_adapter import (
     GO
 )
 
-from multiomics_kg.adapters.cyanorak_ncbi_adapter import CyanorakNcbi
+from multiomics_kg.adapters.cyanorak_ncbi_adapter import MultiCyanorakNcbi
 
 
 # Whether to cache data by pypath for future usage
@@ -137,17 +137,9 @@ uniprot_edges = uniprot_adapter.get_edges()
 bc.write_nodes(uniprot_nodes)
 bc.write_edges(uniprot_edges)
 
-dpath = 'data/Prochlorococcus/genomes/MED4/'
-cgff_fpath = os.path.join(dpath, 'cyanorak/Pro_MED4.gff')
-ngff_fpath = os.path.join(dpath, 'genomic.gff')
-cgbk_fpath = os.path.join(dpath, 'cyanorak/Pro_MED4.gbk')
-
-ncbi_cyanorak_adapter = CyanorakNcbi(
-    organism=organism,
+ncbi_cyanorak_adapter = MultiCyanorakNcbi(
+    config_list_file='data/Prochlorococcus/genomes/cyanobacteria_genomes.csv',
     test_mode=TEST_MODE,
-    ncbi_gff_file=ngff_fpath,
-    cyan_gff_file=cgff_fpath,
-    cyan_gbk_file=cgbk_fpath,
 )
 ncbi_cyanorak_adapter.download_data(cache=CACHE)
 bc.write_nodes(ncbi_cyanorak_adapter.get_nodes())

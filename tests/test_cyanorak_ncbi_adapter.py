@@ -13,6 +13,7 @@ from multiomics_kg.adapters.cyanorak_ncbi_adapter import (
     GeneEdgeType,
     GeneModel,
     GeneNodeField,
+    MultiCyanorakNcbi,
 )
 
 
@@ -818,3 +819,242 @@ class TestIntegrationWithRealData:
         adapter.download_data()
         edges = adapter.get_edges()
         assert edges == []
+
+
+# ---------------------------------------------------------------------------
+# Mock data for a second genome (used in MultiCyanorakNcbi tests)
+# ---------------------------------------------------------------------------
+
+NCBI_GFF_CONTENT_2 = """\
+##gff-version 3
+##sequence-region NC_OTHER.1 1 30000
+NC_OTHER.1\tRefSeq\tregion\t1\t30000\t.\t+\t.\tID=NC_OTHER.1:1..30000;Dbxref=taxon:99999;Name=OTHER
+NC_OTHER.1\tRefSeq\tgene\t100\t900\t.\t+\t.\tID=gene-OTHER_RS00010;Name=recA;gbkey=Gene;gene=recA;gene_biotype=protein_coding;locus_tag=OTHER_RS00010;old_locus_tag=OTH0001
+NC_OTHER.1\tProtein Homology\tCDS\t100\t900\t.\t+\t0\tID=cds-WP_OTHER001.1;Parent=gene-OTHER_RS00010;Dbxref=Genbank:WP_OTHER001.1;Name=WP_OTHER001.1;Note=test;exception=test;gbkey=CDS;gene=recA;inference=COORDINATES: similar to AA sequence:RefSeq:WP_OTHER001.1;locus_tag=OTHER_RS00010;product=recombinase RecA;protein_id=WP_OTHER001.1
+NC_OTHER.1\tRefSeq\tgene\t1000\t1800\t.\t-\t.\tID=gene-OTHER_RS00020;Name=OTHER_RS00020;gbkey=Gene;gene_biotype=protein_coding;locus_tag=OTHER_RS00020;old_locus_tag=OTH0002
+NC_OTHER.1\tProtein Homology\tCDS\t1000\t1800\t.\t-\t0\tID=cds-WP_OTHER002.1;Parent=gene-OTHER_RS00020;Dbxref=Genbank:WP_OTHER002.1;Name=WP_OTHER002.1;Note=test;exception=test;gbkey=CDS;inference=COORDINATES: similar to AA sequence:RefSeq:WP_OTHER002.1;locus_tag=OTHER_RS00020;product=hypothetical protein;protein_id=WP_OTHER002.1
+"""
+
+CYAN_GFF_CONTENT_2 = """\
+##gff-version 3
+#seqID\tsource\ttype\tstart\tend\tscore\tstrand\tphase\tattributes
+OTHER_chrom\tcyanorak\tsequence_assembly\t1\t30000\t.\t+\t0\tID=OTHER_chrom
+OTHER_chrom\tcyanorak\tCDS\t100\t900\t.\t+\t0\tID=CK_OTHER_00001;Name=recA;product=recombinase RecA;cluster_number=CK_00001111;Ontology_term=GO:0006281;ontology_term_description=DNA repair;kegg=3.4.21.88;kegg_description=repressor LexA;eggNOG=COG0468;eggNOG_description=Recombinase;tIGR_Role=140;tIGR_Role_description=DNA repair;cyanorak_Role=F.2;cyanorak_Role_description=DNA repair;protein_domains=TIGR02012;protein_domains_description=recA protein
+OTHER_chrom\tcyanorak\tCDS\t1000\t1800\t.\t-\t0\tID=CK_OTHER_00002;Name=OTH0002;product=hypothetical protein;cluster_number=CK_00002222;eggNOG=COG1234;eggNOG_description=Unknown;tIGR_Role=156;tIGR_Role_description=Hypothetical;cyanorak_Role=R.2;cyanorak_Role_description=Conserved hypothetical;protein_domains=PF99999;protein_domains_description=hypothetical domain
+"""
+
+CYAN_GBK_CONTENT_2 = """\
+LOCUS       OTHER_chrom          30000 bp    DNA     circular BCT 01-JAN-2024
+DEFINITION  Other test organism chromosome.
+ACCESSION   OTHER_ACC
+VERSION     OTHER_ACC.1
+FEATURES             Location/Qualifiers
+     source          1..30000
+                     /organism="Other test organism"
+                     /mol_type="genomic DNA"
+     CDS             100..900
+                     /gene="recA"
+                     /locus_tag="OTH0001"
+                     /product="recombinase RecA"
+                     /note="cyanorak ORF Id:CK_OTHER_00001"
+                     /translation="MTEST"
+     CDS             1000..1800
+                     /gene="OTH0002"
+                     /locus_tag="OTH0002"
+                     /product="hypothetical protein"
+                     /note="cyanorak ORF Id:CK_OTHER_00002"
+                     /translation="MTEST"
+ORIGIN
+        1 atgaaaaaaa aaaaaaaaaa aaaaaaaaaa aaaaaaaaaa aaaaaaaaaa aaaaaaaaaa
+//
+"""
+
+
+# ---------------------------------------------------------------------------
+# Fixtures for MultiCyanorakNcbi
+# ---------------------------------------------------------------------------
+
+
+@pytest.fixture
+def multi_genome_dir():
+    """Create a temp dir with two genome subdirectories and a CSV config file."""
+    with tempfile.TemporaryDirectory() as tmpdir:
+        # Genome 1
+        g1 = os.path.join(tmpdir, "genome1")
+        os.makedirs(os.path.join(g1, "cyanorak"))
+        with open(os.path.join(g1, "genomic.gff"), "w") as f:
+            f.write(NCBI_GFF_CONTENT)
+        with open(os.path.join(g1, "cyanorak", "strain1.gff"), "w") as f:
+            f.write(CYAN_GFF_CONTENT)
+        with open(os.path.join(g1, "cyanorak", "strain1.gbk"), "w") as f:
+            f.write(CYAN_GBK_CONTENT)
+
+        # Genome 2
+        g2 = os.path.join(tmpdir, "genome2")
+        os.makedirs(os.path.join(g2, "cyanorak"))
+        with open(os.path.join(g2, "genomic.gff"), "w") as f:
+            f.write(NCBI_GFF_CONTENT_2)
+        with open(os.path.join(g2, "cyanorak", "strain2.gff"), "w") as f:
+            f.write(CYAN_GFF_CONTENT_2)
+        with open(os.path.join(g2, "cyanorak", "strain2.gbk"), "w") as f:
+            f.write(CYAN_GBK_CONTENT_2)
+
+        # CSV config
+        csv_path = os.path.join(tmpdir, "cyanobacteria_genomes.csv")
+        with open(csv_path, "w") as f:
+            f.write("genome_dir,ncbi_gff,cyan_gff,cyan_gbk\n")
+            f.write(f"{g1},genomic.gff,cyanorak/strain1.gff,cyanorak/strain1.gbk\n")
+            f.write(f"{g2},genomic.gff,cyanorak/strain2.gff,cyanorak/strain2.gbk\n")
+
+        yield tmpdir
+
+
+@pytest.fixture
+def multi_config_path(multi_genome_dir):
+    return os.path.join(multi_genome_dir, "cyanobacteria_genomes.csv")
+
+
+@pytest.fixture
+def single_genome_config(multi_genome_dir):
+    """CSV config with only the first genome."""
+    csv_path = os.path.join(multi_genome_dir, "single_genome.csv")
+    g1 = os.path.join(multi_genome_dir, "genome1")
+    with open(csv_path, "w") as f:
+        f.write("genome_dir,ncbi_gff,cyan_gff,cyan_gbk\n")
+        f.write(f"{g1},genomic.gff,cyanorak/strain1.gff,cyanorak/strain1.gbk\n")
+    return csv_path
+
+
+# ---------------------------------------------------------------------------
+# Tests: MultiCyanorakNcbi
+# ---------------------------------------------------------------------------
+
+
+class TestMultiCyanorakNcbiConstruction:
+    def test_loads_correct_number_of_adapters(self, multi_config_path):
+        wrapper = MultiCyanorakNcbi(config_list_file=multi_config_path)
+        assert len(wrapper.adapters) == 2
+
+    def test_single_genome_config(self, single_genome_config):
+        wrapper = MultiCyanorakNcbi(config_list_file=single_genome_config)
+        assert len(wrapper.adapters) == 1
+
+    def test_adapters_are_cyanorak_instances(self, multi_config_path):
+        wrapper = MultiCyanorakNcbi(config_list_file=multi_config_path)
+        for adapter in wrapper.adapters:
+            assert isinstance(adapter, CyanorakNcbi)
+
+    def test_kwargs_passed_to_adapters(self, multi_config_path):
+        wrapper = MultiCyanorakNcbi(
+            config_list_file=multi_config_path, test_mode=True
+        )
+        for adapter in wrapper.adapters:
+            assert adapter.early_stopping == 100
+
+    def test_empty_csv_creates_no_adapters(self, multi_genome_dir):
+        csv_path = os.path.join(multi_genome_dir, "empty.csv")
+        with open(csv_path, "w") as f:
+            f.write("genome_dir,ncbi_gff,cyan_gff,cyan_gbk\n")
+        wrapper = MultiCyanorakNcbi(config_list_file=csv_path)
+        assert len(wrapper.adapters) == 0
+
+
+class TestMultiCyanorakNcbiDownloadData:
+    def test_download_populates_all_adapters(self, multi_config_path):
+        wrapper = MultiCyanorakNcbi(config_list_file=multi_config_path)
+        wrapper.download_data()
+        for adapter in wrapper.adapters:
+            assert isinstance(adapter.data_df, pd.DataFrame)
+            assert len(adapter.data_df) > 0
+
+
+class TestMultiCyanorakNcbiGetNodes:
+    def test_returns_list(self, multi_config_path):
+        wrapper = MultiCyanorakNcbi(config_list_file=multi_config_path)
+        wrapper.download_data()
+        nodes = wrapper.get_nodes()
+        assert isinstance(nodes, list)
+
+    def test_aggregates_nodes_from_all_genomes(self, multi_config_path):
+        wrapper = MultiCyanorakNcbi(config_list_file=multi_config_path)
+        wrapper.download_data()
+        nodes = wrapper.get_nodes()
+        # Genome 1 has 3 genes, genome 2 has 2 genes
+        assert len(nodes) == 5
+
+    def test_single_genome_matches_direct_adapter(self, single_genome_config):
+        wrapper = MultiCyanorakNcbi(config_list_file=single_genome_config)
+        wrapper.download_data()
+        multi_nodes = wrapper.get_nodes()
+        # Compare with direct adapter
+        direct = wrapper.adapters[0]
+        direct_nodes = direct.get_nodes()
+        assert len(multi_nodes) == len(direct_nodes)
+
+    def test_nodes_from_both_genomes_present(self, multi_config_path):
+        wrapper = MultiCyanorakNcbi(config_list_file=multi_config_path)
+        wrapper.download_data()
+        nodes = wrapper.get_nodes()
+        all_ids = [n[0] for n in nodes]
+        # Genome 1 has PMM0001, genome 2 has OTH0001
+        assert any("PMM0001" in nid for nid in all_ids)
+        assert any("OTH0001" in nid for nid in all_ids)
+
+    def test_all_nodes_are_gene_label(self, multi_config_path):
+        wrapper = MultiCyanorakNcbi(config_list_file=multi_config_path)
+        wrapper.download_data()
+        nodes = wrapper.get_nodes()
+        for _, label, _ in nodes:
+            assert label == "gene"
+
+    def test_node_properties_are_dicts(self, multi_config_path):
+        wrapper = MultiCyanorakNcbi(config_list_file=multi_config_path)
+        wrapper.download_data()
+        nodes = wrapper.get_nodes()
+        for _, _, props in nodes:
+            assert isinstance(props, dict)
+
+
+class TestMultiCyanorakNcbiGetEdges:
+    def test_returns_list(self, multi_config_path):
+        wrapper = MultiCyanorakNcbi(config_list_file=multi_config_path)
+        wrapper.download_data()
+        edges = wrapper.get_edges()
+        assert isinstance(edges, list)
+
+    def test_edges_empty_for_current_implementation(self, multi_config_path):
+        wrapper = MultiCyanorakNcbi(config_list_file=multi_config_path)
+        wrapper.download_data()
+        edges = wrapper.get_edges()
+        assert edges == []
+
+
+class TestMultiCyanorakNcbiIntegration:
+    def test_real_data_single_genome(self):
+        """Integration test with real MED4 data via CSV config."""
+        csv_content = (
+            "genome_dir,ncbi_gff,cyan_gff,cyan_gbk\n"
+            "data/Prochlorococcus/genomes/MED4/,genomic.gff,"
+            "cyanorak/Pro_MED4.gff,cyanorak/Pro_MED4.gbk\n"
+        )
+        # Check real files exist
+        dpath = "data/Prochlorococcus/genomes/MED4/"
+        files = [
+            os.path.join(dpath, "genomic.gff"),
+            os.path.join(dpath, "cyanorak/Pro_MED4.gff"),
+            os.path.join(dpath, "cyanorak/Pro_MED4.gbk"),
+        ]
+        if not all(os.path.exists(f) for f in files):
+            pytest.skip("Real MED4 data files not available")
+
+        with tempfile.NamedTemporaryFile(mode="w", suffix=".csv", delete=False) as f:
+            f.write(csv_content)
+            csv_path = f.name
+        try:
+            wrapper = MultiCyanorakNcbi(config_list_file=csv_path)
+            wrapper.download_data()
+            nodes = wrapper.get_nodes()
+            assert len(nodes) > 1000
+            assert any("PMM0001" in n[0] for n in nodes)
+        finally:
+            os.unlink(csv_path)

@@ -9,6 +9,7 @@ from time import time
 from biocypher._logger import logger
 
 import collections
+import csv
 import os
 import h5py
 import gzip
@@ -342,6 +343,48 @@ class CyanorakNcbi:
         else:
             return text
         
+
+class MultiCyanorakNcbi:
+    """Wrapper that reads a CSV file listing cyanobacteria genome file paths
+    and delegates to CyanorakNcbi instances."""
+
+    def __init__(self, config_list_file: str, **kwargs):
+        """
+        Args:
+            config_list_file: Path to a CSV file with columns:
+                genome_dir, ncbi_gff, cyan_gff, cyan_gbk
+            **kwargs: Additional arguments passed to each CyanorakNcbi.
+        """
+        self.adapters = []
+        with open(config_list_file, 'r') as f:
+            reader = csv.DictReader(f)
+            for row in reader:
+                genome_dir = row['genome_dir']
+                adapter = CyanorakNcbi(
+                    ncbi_gff_file=os.path.join(genome_dir, row['ncbi_gff']),
+                    cyan_gff_file=os.path.join(genome_dir, row['cyan_gff']),
+                    cyan_gbk_file=os.path.join(genome_dir, row['cyan_gbk']),
+                    **kwargs,
+                )
+                self.adapters.append(adapter)
+        logger.info(f"Loaded {len(self.adapters)} genome configs from {config_list_file}")
+
+    def download_data(self, **kwargs):
+        for adapter in self.adapters:
+            adapter.download_data(**kwargs)
+
+    def get_nodes(self):
+        nodes = []
+        for adapter in self.adapters:
+            nodes.extend(adapter.get_nodes())
+        return nodes
+
+    def get_edges(self):
+        edges = []
+        for adapter in self.adapters:
+            edges.extend(adapter.get_edges())
+        return edges
+
 
 if __name__ == "__main__":
     # code for testing
