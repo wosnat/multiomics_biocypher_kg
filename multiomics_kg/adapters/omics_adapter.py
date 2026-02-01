@@ -644,7 +644,7 @@ if __name__ == "__main__":
 
     config_dpath = 'data/Prochlorococcus/papers_and_supp/Aharonovich 2016/paperconfig.yaml'
     config_dpath = 'data/Prochlorococcus/papers_and_supp/bagby 2015/paperconfig.yaml'
-    config_dpath = 'data/Prochlorococcus/papers_and_supp/biller 2016/paperconfig.yaml'
+    config_dpath = 'data/Prochlorococcus/papers_and_supp/biller 2018/paperconfig.yaml'
     print('pwd', os.getcwd())
     print("Config path:", config_dpath)
     print("Exists:", os.path.exists(config_dpath))

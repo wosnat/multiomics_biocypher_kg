@@ -1,0 +1,144 @@
+publication:
+  papername: Biller 2018
+  papermainpdf: data/Prochlorococcus/papers_and_supp/Biller 2018/biller-et-al-2018-heterotroph-interactions-alter-prochlorococcus-transcriptome-dynamics-during-extended-periods-of.pdf
+
+  environmental_conditions:
+    biller_2018_diel_ld_control:
+      condition_type: growth_medium
+      name: "13:11 diel light:dark cycle control"
+      medium: Pro99 natural seawater medium
+      temperature: 24C
+      light_condition: "13:11 light:dark cycle with simulated dawn and dusk"
+      light_intensity: "55 umol photons m-2 s-1"
+      description: "Prochlorococcus NATL2A maintained under a 13:11 light:dark diel cycle in Pro99 medium at 24C, bubbled with air"
+    biller_2018_extended_darkness:
+      condition_type: light_stress
+      name: "Extended darkness"
+      medium: Pro99 natural seawater medium
+      temperature: 24C
+      light_condition: continuous_darkness
+      light_intensity: "0 umol photons m-2 s-1"
+      description: "Cultures shifted to continuous darkness at the time of expected sunrise after growth under 13:11 light:dark cycle in Pro99 medium at 24C, bubbled with air"
+
+  supplementary_materials:
+    supp_table_s3:
+      type: csv
+      filename: "data/Prochlorococcus/papers_and_supp/Biller 2018/table S3 DE genes natl2a axenic extended darkness sys003182233st3.csv"
+      statistical_analyses:
+        # Axenic Prochlorococcus NATL2A: extended darkness vs diel L:D controls
+        - type: RNASEQ
+          name: "DE Prochlorococcus NATL2A axenic in extended darkness vs diel control (1h, 36h timepoint)"
+          id: DE_extended_darkness_vs_diel_axenic_NATL2A_1h
+          test_type: DESeq2
+          control_condition: "13:11 diel light:dark cycle"
+          treatment_condition: "Extended darkness"
+          environmental_control_condition_id: biller_2018_diel_ld_control
+          environmental_treatment_condition_id: biller_2018_extended_darkness
+          experimental_context: "Axenic Prochlorococcus NATL2A in Pro99 medium at 24C, bubbled with air"
+          timepoint: "1h extended darkness (36h)"
+          organism: Prochlorococcus NATL2A
+          name_col: "NCBI ID_3"
+          logfc_col: "Axenic, 36 hours"
+          pvalue_asterisk_in_logfc: true
+        - type: RNASEQ
+          name: "DE Prochlorococcus NATL2A axenic in extended darkness vs diel control (5h, 40h timepoint)"
+          id: DE_extended_darkness_vs_diel_axenic_NATL2A_5h
+          test_type: DESeq2
+          control_condition: "13:11 diel light:dark cycle"
+          treatment_condition: "Extended darkness"
+          environmental_control_condition_id: biller_2018_diel_ld_control
+          environmental_treatment_condition_id: biller_2018_extended_darkness
+          experimental_context: "Axenic Prochlorococcus NATL2A in Pro99 medium at 24C, bubbled with air"
+          timepoint: "5h extended darkness (40h)"
+          organism: Prochlorococcus NATL2A
+          name_col: "NCBI ID_3"
+          logfc_col: "Axenic, 40 hours"
+          pvalue_asterisk_in_logfc: true
+        - type: RNASEQ
+          name: "DE Prochlorococcus NATL2A axenic in extended darkness vs diel control (13h, 48h timepoint)"
+          id: DE_extended_darkness_vs_diel_axenic_NATL2A_13h
+          test_type: DESeq2
+          control_condition: "13:11 diel light:dark cycle"
+          treatment_condition: "Extended darkness"
+          environmental_control_condition_id: biller_2018_diel_ld_control
+          environmental_treatment_condition_id: biller_2018_extended_darkness
+          experimental_context: "Axenic Prochlorococcus NATL2A in Pro99 medium at 24C, bubbled with air"
+          timepoint: "13h extended darkness (48h)"
+          organism: Prochlorococcus NATL2A
+          name_col: "NCBI ID_3"
+          logfc_col: "Axenic, 48 hours"
+          pvalue_asterisk_in_logfc: true
+        # Cocultured Prochlorococcus NATL2A (with Alteromonas): extended darkness vs diel L:D controls
+        - type: RNASEQ
+          name: "DE Prochlorococcus NATL2A coculture in extended darkness vs diel control (1h, 36h timepoint)"
+          id: DE_extended_darkness_vs_diel_coculture_NATL2A_1h
+          test_type: DESeq2
+          control_condition: "13:11 diel light:dark cycle"
+          treatment_condition: "Extended darkness"
+          environmental_control_condition_id: biller_2018_diel_ld_control
+          environmental_treatment_condition_id: biller_2018_extended_darkness
+          experimental_context: "Prochlorococcus NATL2A co-cultured with Alteromonas macleodii MIT1002 in Pro99 medium at 24C, bubbled with air"
+          timepoint: "1h extended darkness (36h)"
+          organism: Prochlorococcus NATL2A
+          name_col: "NCBI ID_3"
+          logfc_col: "Co-culture, 36 hours"
+          pvalue_asterisk_in_logfc: true
+        - type: RNASEQ
+          name: "DE Prochlorococcus NATL2A coculture in extended darkness vs diel control (5h, 40h timepoint)"
+          id: DE_extended_darkness_vs_diel_coculture_NATL2A_5h
+          test_type: DESeq2
+          control_condition: "13:11 diel light:dark cycle"
+          treatment_condition: "Extended darkness"
+          environmental_control_condition_id: biller_2018_diel_ld_control
+          environmental_treatment_condition_id: biller_2018_extended_darkness
+          experimental_context: "Prochlorococcus NATL2A co-cultured with Alteromonas macleodii MIT1002 in Pro99 medium at 24C, bubbled with air"
+          timepoint: "5h extended darkness (40h)"
+          organism: Prochlorococcus NATL2A
+          name_col: "NCBI ID_3"
+          logfc_col: "Co-culture, 40 hours"
+          pvalue_asterisk_in_logfc: true
+        - type: RNASEQ
+          name: "DE Prochlorococcus NATL2A coculture in extended darkness vs diel control (13h, 48h timepoint)"
+          id: DE_extended_darkness_vs_diel_coculture_NATL2A_13h
+          test_type: DESeq2
+          control_condition: "13:11 diel light:dark cycle"
+          treatment_condition: "Extended darkness"
+          environmental_control_condition_id: biller_2018_diel_ld_control
+          environmental_treatment_condition_id: biller_2018_extended_darkness
+          experimental_context: "Prochlorococcus NATL2A co-cultured with Alteromonas macleodii MIT1002 in Pro99 medium at 24C, bubbled with air"
+          timepoint: "13h extended darkness (48h)"
+          organism: Prochlorococcus NATL2A
+          name_col: "NCBI ID_3"
+          logfc_col: "Co-culture, 48 hours"
+          pvalue_asterisk_in_logfc: true
+
+    supp_table_s6b:
+      type: csv
+      filename: "data/Prochlorococcus/papers_and_supp/Biller 2018/table S6B DE genes in extended darkness MIT1002 sys003182233st6.csv"
+      statistical_analyses:
+        - type: RNASEQ
+          name: "DE Alteromonas macleodii MIT1002 in extended darkness vs diel control (1h)"
+          id: DE_extended_darkness_vs_diel_MIT1002_1h
+          test_type: DESeq2
+          control_condition: "13:11 diel light:dark cycle"
+          treatment_condition: "Extended darkness"
+          environmental_control_condition_id: biller_2018_diel_ld_control
+          environmental_treatment_condition_id: biller_2018_extended_darkness
+          experimental_context: "Alteromonas macleodii MIT1002 co-cultured with Prochlorococcus NATL2A in Pro99 medium at 24C, bubbled with air"
+          timepoint: "1h extended darkness"
+          organism: Alteromonas macleodii MIT1002
+          name_col: "RAST_region_ID"
+          logfc_col: "1hr extended darkness (dark/diel)"
+        - type: RNASEQ
+          name: "DE Alteromonas macleodii MIT1002 in extended darkness vs diel control (5h)"
+          id: DE_extended_darkness_vs_diel_MIT1002_5h
+          test_type: DESeq2
+          control_condition: "13:11 diel light:dark cycle"
+          treatment_condition: "Extended darkness"
+          environmental_control_condition_id: biller_2018_diel_ld_control
+          environmental_treatment_condition_id: biller_2018_extended_darkness
+          experimental_context: "Alteromonas macleodii MIT1002 co-cultured with Prochlorococcus NATL2A in Pro99 medium at 24C, bubbled with air"
+          timepoint: "5h extended darkness"
+          organism: Alteromonas macleodii MIT1002
+          name_col: "RAST_region_ID"
+          logfc_col: "5hr extended darkness (dark/diel)"

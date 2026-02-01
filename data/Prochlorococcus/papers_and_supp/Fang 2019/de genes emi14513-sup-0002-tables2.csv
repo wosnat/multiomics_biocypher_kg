@@ -1,0 +1,671 @@
+Supplementary Table 2. Prochlorococcus MIT9313 genes with differentially abundant transcripts after vDOM addition,,,,,,,,,,,,,
+"Transcript abundances of the vDOM amended cultures were normalized to those of the control cultures amended with the Pro99 growth medium. For each log2 fold change, * indicates a significant change (adjusted p-value < 10%, and log2 fold change bigger than 1 or smaller than -1).",,,,,,,,,,,,,
+Genes with differentially abundant transcripts at two time points are highlighted.,,,,,,,,,,,,,
+,,,,,,,,,,,,,
+,,,,,log2 ratio (vDOM/Control),,,,,,,,
+Gene ID,Gene,KEGG class,COG class,Gene annotation,0.5 h,1 h,2 h,4 h,8 h,12 h,24 h,48 h,72 h
+PMT0028,gap2,"A,B,C",G,glyceraldehyde 3-phosphate dehydrogenase,-0.3,-0.44,-0.6,-0.75,-1.23*,-0.96,-0.99,-0.67,-0.7
+PMT0133,sdhB,"A,B,C",C,succinate dehydrogenase/fumarate reductase iron-sulfur subunit,1.36*,0.84,1.05,1.53*,1.83*,1.43*,1.96*,1.98*,1
+PMT1978,cysK2,"A,C,F",E,O-acetylserine (thiol)-lyase A,0.38,0.18,0.04,0.32,0.47,0.22,0.8,0.55,1.10*
+PMT2174,desC2,"A,D",,"fatty acid desaturase, type 1",-2.06*,-1.29,-1.13,-0.06,-0.22,-0.47,-1.91*,-0.36,-0.15
+PMT0797,desA2,"A,D,R",,"fatty acid desaturase, type 2",-0.8,-0.63,-0.63,-1.27*,-0.19,-0.99,-0.82,0.4,-0.39
+PMT0099,hisH1,"A,F",,"imidazoleglycerol-phosphate synthase, glutamine amidotransferase subunit",-0.85,-0.47,-0.73,-1.37*,-1.03,-1.96*,-1.33*,-0.97,-0.68
+PMT0100,hisF1,"A,F",,imidazole glycerol phosphate synthase subunit HisF,0.5,0.66,0.49,-0.45,0.72,0.12,0.28,0.74,1.16*
+PMT0208,proC,"A,F",E,Delta 1-pyrroline-5-carboxylate reductase,0.52,0.37,0.13,1.10*,0.29,0.27,-0.1,-0.21,0.48
+PMT0729,metH,"A,F,G,I",E,methionine synthase,-0.2,-0.01,-0.53,-1.10*,-0.43,-0.73,-0.52,-0.26,-0.07
+PMT1071,malQ,B,G,4-alpha-glucanotransferase,0.6,0.68,0.7,0.74,0.97,1.10*,1.41*,0.88,0.75
+PMT1424,,B,G,hypothetical protein,0.96,0.61,0.89,0.77,0.89,0.59,1.13*,1.43*,1.73*
+PMT1939,glcE,B,C,glycolate oxidase subunit GlcE,0.05,0.01,0.18,1.13*,0.13,0.11,1.17*,0.69,1.30*
+PMT0758,,"B,D,F",,kinase,0.51,0.33,0.19,1.34*,0.58,0.87,-0.1,1.06,0.78
+PMT0474,gadA,"B,F,G",E,glutamate decarboxylase,-0.44,-0.32,-0.3,-0.64,-0.57,-0.71,-1.10*,-0.79,-0.69
+PMT0173a,petL,C,,cytochrome b6-f complex subunit PetL,0.78,0.78,0.93,0.67,0.61,1.05*,1.06*,0.41,0.64
+PMT0496,pcbB,C,,light-harvesting complex protein,-0.17,-0.01,-0.55,-1.29*,-0.98,-1.27*,-0.9,-0.48,-0.45
+PMT0847,psaH,C,,photosystem I reaction centre subunit VI,-0.26,-0.56,-0.7,0,-0.06,-0.02,-1.57*,0.22,-0.08
+PMT1046,pcbA,C,,light-harvesting complex protein,-0.24,0.28,0.05,-0.99,-1.02,-0.89,-1.34*,-0.67,-0.48
+PMT0187,psaE,C,,photosystem I reaction center subunit IV,0.79,1.17*,1.21*,1,0.71,0.94,0.95,1.10*,0.92
+PMT0509,cytA,C,C,"cytochrome c, class IC:cytochrome c, class I",1.63*,1.37*,1.33*,0.54,0.37,0.4,0.53,0.07,0.2
+PMT0604,psb28,C,,photosystem II reaction center protein Psb28,-0.1,-0.02,-0.06,1.04*,0.21,0.65,0.27,0.52,0.38
+PMT0673,petN,C,,cytochrome b6-f complex subunit PetN,-1.49,-0.46,0.28,-1.63*,-0.17,-2.14*,-0.88,-1.12,-0.26
+PMT1130,petG,C,,cytochrome b6-f complex subunit PetG,0.43,0.35,0.45,1.10*,0.5,1,0.66,0.85,0.41
+PMT1171a,petM,C,,cytochrome b6-f complex subunit PetM,0.42,0.51,0.68,0.88,1.11*,0.8,1.30*,1.75*,1.48*
+PMT1180,psbC,C,,photosystem II PsbC protein (CP43,0.15,0.09,0.25,-1.02,-0.95,-1.11,-1.42*,-1.35*,-1.19
+PMT1220,psaM,C,,photosystem I reaction centre subunit XII (PsaM,1.16*,0.77,0.66,1,0.17,0.35,-0.22,0.04,0.14
+PMT1317,psaJ,C,,photosystem I reaction center subunit IX,-0.06,0.49,0,-1.28*,-0.64,-1.29*,-1.60*,-1.22*,-0.57
+PMT1323,petA,C,,apocytochrome f,-0.4,-0.36,-0.54,-1.15*,-0.89,-0.86,-0.96,-0.92,-0.55
+PMT1452,atpE1,C,C,F0F1 ATP synthase subunit epsilon,-0.09,0.07,0.1,-1.21*,-0.39,-0.7,-0.01,-0.37,-0.43
+PMT1466,atpC,C,C,F0F1 ATP synthase subunit gamma,0.09,-0.45,-0.54,-0.8,-1.05*,-0.97,-0.88,-0.92,-1.03*
+PMT1467,atpA,C,C,F0F1 ATP synthase subunit alpha,-0.15,-0.35,-0.53,-1.09*,-0.96,-0.98,-0.64,-0.75,-1.00*
+PMT1471,atpE2,C,C,F0F1 ATP synthase subunit C,0.17,0.25,0.23,-0.18,-0.43,-1.34*,-0.61,-0.8,-0.31
+PMT1472,atpI,C,C,F0F1 ATP synthase subunit A,-0.08,-0.2,-0.37,-1.06,-1.30*,-1.40*,-1.34*,-1.15*,-1
+PMT1648,petD,C,,cytochrome b6-f complex subunit IV,-0.25,-0.41,-0.38,-1.29*,-0.87,-1.26*,-1.53*,-0.96,-0.91
+PMT1666,psbTc,C,,photosystem II reaction centre T protein,-0.26,0.16,0.34,-1.68*,-0.96,-1.83*,-1.74*,-1.61*,-0.93
+PMT1768,psaL,C,,photosystem I reaction center protein subunit XI,0.3,0.19,0.23,-1.18,-0.8,-1.2,-1.39*,-1.59*,-1.29*
+PMT1769,psaB,C,,photosystem I P700 chlorophyll a apoprotein A2,0.04,-0.02,0.03,-1.14,-1.02,-1.24,-1.73*,-1.38,-1.2
+PMT1800,psbO,C,,photosystem II manganese-stabilizing protein,-0.01,0.12,-0.18,-0.95,-1.17*,-1.08*,-1.39*,-1.28*,-1.07*
+PMT1837,psbH,C,,photosystem II reaction center protein H,1.04*,1.03*,1.35*,0.87,1.29*,0.79,0.65,1.16*,1.49*
+PMT1897,psbF,C,,cytochrome b559 subunit beta,-0.84,-0.39,-0.07,-1.34*,-0.19,-1.90*,-1.57*,-0.74,-0.37
+PMT1954,psaC,C,,photosystem I subunit VII,1.83*,1.52*,1.64*,1.17*,1,0.69,0.51,1.07*,0.82
+PMT2020,ndhA,C,C,NADH dehydrogenase subunit H,-0.18,-0.14,-0.19,-0.55,-0.84,-0.85,-0.8,-1.01*,-0.5
+PMT0623,gdhA,"C,F",E,glutamate dehydrogenase,-0.76,-0.17,-0.86,-1.32*,-0.79,-0.61,-1.03*,-0.75,-0.56
+PMT0249,desA1,D,,"fatty acid desaturase, type 2",-0.76,-0.77,-1.30*,-1.26*,-0.96,-1.16*,-1.37*,-0.4,-0.56
+PMT2066,dgkA,D,I,diacylglycerol kinase,-0.16,0.04,-0.15,1.09*,-0.08,-0.5,-0.43,0.1,0.05
+PMT1244,pyrH,E,F,uridylate kinase,0.18,0.21,-0.18,1.27*,0.33,0.6,1,0.69,0.2
+PMT1327,ppx,E,"F,P,T",exopolyphosphatase,0.48,0.41,0.44,0.46,0.74,0.45,1.20*,0.38,0.34
+PMT2111,spoT,E,"K,T","guanosine-3',5'-bis(diphosphate) 3'-diphosphatase",0.39,0.29,0.38,1.32*,0.56,0.64,0.28,0.51,0.38
+PMT2148,ndk,E,F,nucleoside diphosphate kinase,-0.25,0.1,0.01,-0.84,-0.6,-1.01*,-0.12,-0.59,-0.8
+PMT0326,codA,"E,F","F,R",cytosine deaminase,0.96,0.46,0.5,0.77,0.85,0.69,1.39*,1.23*,1.00*
+PMT1550,thyX,"E,I",,FAD-dependent thymidylate synthase,-0.67,-0.42,-0.76,-0.83,-0.82,-0.89,-1.04*,-0.98,-0.58
+PMT1506,rpoC1,"E,M",K,DNA-directed RNA polymerase subunit gamma,-0.81,-0.8,-1.10*,-0.87,-0.79,-0.75,-0.85,-0.83,-1.11*
+PMT0075,cobH,I,H,precorrin-8X methylmutase CobH,-0.73,-0.34,-0.82,1.04*,0.15,-0.21,0.73,0.65,0.25
+PMT0165,ribG,I,H,RibD/RibG domain-containing protein,0.44,0.71,0.64,1.13*,1.45*,1.85*,1.18*,1.93*,1.66*
+PMT0198,cobI,I,,precorrin-2 C20-methyltransferase,-0.1,0.24,-0.19,1.15*,0.62,0.07,1.25*,0.66,1
+PMT0368,ppnK1,I,F,inorganic polyphosphate/ATP-NAD kinase,0.05,0.32,-0.14,1.60*,0.26,0.43,0.57,0.23,0.06
+PMT0375,ribD,I,H,bifunctional diaminohydroxyphosphoribosylaminopyrimidine deaminase/5-amino-6-(5-phosphoribosylamino)uracil reductase,0.34,0.12,0.23,1.21*,0.72,0.28,1.17*,0.59,1.15*
+PMT0661,nadA,I,H,quinolinate synthetase,0.37,0.52,0.28,0.32,0.91,0.77,1.20*,0.91,0.92
+PMT0749,cobU,I,,cobinamide kinase,0.38,0.32,-0.02,0.63,1.03,0.44,0.38,1.62*,1.14
+PMT0816,folP2,I,H,dihydropteroate synthase,0.97,0.6,1.12*,0.36,1.04*,0.48,1.36*,1.32*,0.86
+PMT1164,pntB,I,C,nicotinamide nucleotide transhydrogenase subunit beta,-0.1,0.1,-0.21,-0.93,-0.81,-1.05*,-0.13,-0.51,-0.66
+PMT1165,pntA-2,I,,nicotinamide nucleotide transhydrogenase subunit alpha 2 (A2),-0.39,-0.4,-0.58,-0.47,-0.56,-1.18*,-0.48,-0.58,-0.66
+PMT1224,lplA,I,H,protein ligase,0.61,0.75,1.71*,-0.85,-0.79,-0.49,-0.94,-0.7,-0.66
+PMT1623,,I,,hypothetical protein,0.4,0.3,0.2,1.04*,0.23,0.1,0.62,0.49,0.33
+PMT1829,ctuR2,I,,cob(I)alamin adenosyltransferase,0.18,0.4,0.28,1.97*,0.67,0.85,-0.07,0.98,0.97
+PMT2057,menE,I,"I,Q",O-succinylbenzoic acid--CoA ligase,0.12,-0.04,0.18,0.71,-0.13,-0.24,1.25*,0.2,0.35
+PMT2196,acsF,I,,magnesium-protoporphyrin IX monomethyl ester cyclase,-0.24,0.01,-0.45,-1,-0.78,-1.11*,-1.10*,-1.11*,-0.32
+PMT0772,fmt,"I,N",J,methionyl-tRNA formyltransferase,0.53,0.43,0.15,0.63,0.54,0.74,0.71,1.36*,0.69
+PMT0115,rfbB1,"J,K",M,"dTDP-glucose-4,6-dehydratase",-0.61,-0.64,-0.79,-1.08*,-1.04*,-0.98,-1.38*,-0.96,-0.78
+PMT0549,rplK,N,J,50S ribosomal protein L11,-0.38,-0.3,-0.02,-1.27*,-0.05,-0.6,-0.98,-0.56,-0.53
+PMT0975,rpmJ,N,J,50S ribosomal protein L36,0.71,0.35,0.37,0.37,1.45*,0.39,0.87,2.17*,1.53*
+PMT1054,rpmC,N,J,50S ribosomal protein L29,-0.45,-0.54,-0.54,-1.73*,-1.41,-0.92,-0.91,-0.7,-1.39
+PMT1443,rpmJ,N,J,50S ribosomal protein L36,0.18,0.44,0.54,0.61,0.79,1.24*,1.23*,0.99,0.72
+PMT1658,rpsN,N,J,30S ribosomal protein S14,-0.04,0.08,-0.26,0.45,0.61,0.73,-0.31,1.43*,0.56
+RNA_16,tRNA-Val1,N,,tRNA-Val,1.36,0.77,1.54,0.84,2.61*,1.98*,1.90*,2.27*,2.52*
+PMT0645,rpsO,N,J,30S ribosomal protein S15,0.92,0.59,0.62,1.11*,0.78,0.86,1.05*,1.09*,0.67
+PMT0695,rpmB,N,J,50S ribosomal protein L28,0.59,0.31,0.74,1.13*,1.37*,1.25*,1.13*,1.12*,0.67
+PMT0740,rpsR,N,J,30S ribosomal protein S18,-1.06,-0.66,-0.79,-1.21*,-0.66,-1.27*,-1.15*,-0.42,-0.35
+PMT1509,rpsT,N,J,30S ribosomal protein S20,0.73,0.28,0.5,1.03*,0.81,0.91,0.69,1.09*,0.83
+PMT1734,rplW,N,J,50S ribosomal protein L23,-0.84,-0.65,-0.17,-1.24*,-0.53,-0.79,-0.53,-0.82,-0.43
+PMT1739,rplP,N,J,50S ribosomal protein L16,-0.54,-0.67,-0.8,-0.93,-0.78,-1.06*,-0.96,-1.14*,-1.06*
+PMT1740,rpmC,N,J,50S ribosomal protein L29,-1.95,-0.93,-1.46,-0.18,-0.41,-2.05*,-1.08,-0.37,0.48
+PMT1742,rplN,N,J,50S ribosomal protein L14,-0.46,-0.36,-0.66,-1.24,-1.1,-1.39,-1.36*,-1.54*,-1.60*
+PMT1743,rplX,N,J,50S ribosomal protein L24,-0.49,-0.29,-0.44,-1.05*,-0.78,-1.36*,-1.33*,-1.54*,-1.36*
+PMT1744,rplE,N,J,50S ribosomal protein L5,0.01,-0.31,-0.26,-0.76,-0.72,-1.16*,-0.87,-1.07,-1.40*
+PMT1756,rplQ,N,J,50S ribosomal protein L17,-0.23,-0.11,-0.01,-1.39*,-0.87,-1.03*,-0.34,-0.92,-1.33*
+PMT1783,rpsJ,N,J,30S ribosomal protein S10,-0.17,-0.51,-0.6,-0.43,-0.6,-0.99,-1.33*,-0.76,-0.83
+PMT2090,rplJ,N,J,50S ribosomal protein L10,0.08,-0.32,-0.21,-0.64,-0.96,-0.43,-0.62,-0.64,-1.09*
+PMT2091,rplL,N,J,50S ribosomal protein L7/L12,-0.31,-0.29,-0.61,-1.13,-1.02,-1.52*,-0.76,-1.68*,-1.45*
+PMT2175,rplI,N,J,50S ribosomal protein L9,-1.13,-0.51,-0.7,-0.3,-0.39,-0.5,-1.07*,-1.06*,-0.48
+RNA_1,tRNA-Gly1,N,,tRNA-Gly,1.71,1.38,1.72,1.84*,3.30*,2.15*,2.23*,3.81*,2.94*
+RNA_10,tRNA-Ser3,N,,tRNA-Ser,1.03,1.58,0.99,0.78,4.10*,0.18,0.76,2.51,0.24
+RNA_11,tRNA-Met2,N,,tRNA-Met,0.39,0.66,1.45,1.17,2.68*,2.13,2.26,3.49*,1.22
+RNA_12,tRNA-Pro1,N,,tRNA-Pro,0.87,1.12,1.5,1.66*,2.67*,0.84,0.88,3.59*,3.51*
+RNA_13,tRNA-Glu1,N,,tRNA-Glu,1.02,0.68,1.18,2.22*,2.71*,1.80*,2.18*,2.76*,2.04*
+RNA_17,tRNA-Arg1,N,,tRNA-Arg,0.82,0.51,1,1.43*,1.46*,0.81,1.73*,1.79*,0.94
+RNA_18,tRNA-Val2,N,,tRNA-Val,0.26,0.73,0.77,2.14*,2.88*,1.31,1.97*,2.39*,2.54*
+RNA_2,tRNA-Ile1,N,,tRNA-Ile,-0.33,-0.21,-0.23,-1.10*,-0.56,-0.74,-1.28*,-0.74,-0.87
+RNA_21,tRNA-Phe1,N,,tRNA-Phe,2.54,0.09,1.65,2.16,3.31,4.22,3.23*,4.34*,3.42
+RNA_22,tRNA-Ser4,N,,tRNA-Ser,0.07,-0.36,0.76,-0.01,1.31,0.75,1.80*,1.84*,1.02
+RNA_23,tRNA-Ala3,N,,tRNA-Ala,2.37,1.19,2.04,3.73*,3.03,2.95,3.95*,1.68,2.48
+RNA_24,tRNA-Asn1,N,,tRNA-Asn,0.98,1.07,1.29,2.28*,1.7,1.97*,1.82*,2.42*,1.01
+RNA_26,tRNA-Val3,N,,tRNA-Val,1.49,0.81,1.91,1.2,1.99,0.7,1.08,3.35*,1.75
+RNA_28,tRNA-Arg3,N,,tRNA-Arg,2.29,2.91*,4.30*,1.88,4.81*,1.96,5.61*,3.90*,4.53*
+RNA_29,tRNA-Leu3,N,,tRNA-Leu,0.92,0.69,2.67*,1.9,3.04*,2.23,3.24*,3.61*,3.31*
+RNA_30,tRNA-Pro2,N,,tRNA-Pro,0.87,1.01,1.01,1.46*,1.80*,2.25*,1.33*,3.15*,2.05*
+RNA_31,tRNA-Gln1,N,,tRNA-Gln,1.34,0.56,1.2,0.73,1.62*,0.09,0.89,1.21,1.93*
+RNA_32,tRNA-Arg4,N,,tRNA-Arg,1.1,0.81,1.56*,2.06*,1.37*,1.58*,1.23*,2.28*,1.67*
+RNA_33,tRNA-Cys1,N,,tRNA-Cys,0.43,0.27,0.13,1.02,1.71*,1.24,1.13,0.96,2.03*
+RNA_34,tRNA-Ile2,N,,tRNA-Ile,-0.28,-0.12,-0.12,-1.06*,-0.48,-0.65,-1.19*,-0.8,-0.75
+RNA_36,tRNA-Leu4,N,,tRNA-Leu,0.96,0.83,0.74,1.55,2.41*,2.01,2.19*,1.85,1.94
+RNA_37,tRNA-Gly2,N,,tRNA-Gly,2.03*,0.81,1.96*,1.57*,2.54*,0.89,1.76*,2.05*,2.58*
+RNA_38,tRNA-Lys1,N,,tRNA-Lys,2.63*,1.76*,3.21*,1.82*,2.93*,2.11*,2.82*,3.47*,2.90*
+RNA_39,tRNA-Pro3,N,,tRNA-Pro,1.55,1.43,2.14*,1.73,3.11*,0.57,1.26,3.46*,2.41*
+RNA_4,tRNA-Ser1,N,,tRNA-Ser,-0.23,0.35,0.54,-0.71,2.01*,0.79,1.32,1.58,1.1
+RNA_42,tRNA-Tyr1,N,,tRNA-Tyr,1.89*,1.25,1.92*,1.39,1.75*,1.99*,2.12*,3.80*,2.57*
+RNA_43,tRNA-Thr3,N,,tRNA-Thr,1.35,0.61,1.06,0.02,0.99,0.37,0.54,3.02*,1.58
+RNA_44,tRNA-Gly3,N,,tRNA-Gly,2.40*,1.66,2.36*,1.17,2.76*,0.88,0.97,2.41*,2.69*
+RNA_5,tRNA-Leu1,N,,tRNA-Leu,0.87,0.49,2.09*,2.13*,2.67*,1,1.67*,1.52,2.56*
+RNA_7,tRNA-Leu2,N,,tRNA-Leu,1.54*,0.65,1.53*,1.42*,2.26*,0.93,1.65*,3.41*,1.99*
+RNA_8,tRNA-Ser2,N,,tRNA-Ser,1.61*,1.64*,1.66*,1.15*,2.18*,1.97*,1.91*,2.97*,2.61*
+RNA_9,tRNA-Met1,N,,tRNA-Met,0.09,-0.4,0.03,-1,0.08,-0.71,-0.54,2.88*,-0.1
+PMT0362,thiS,O,H,hypothetical protein,-0.94,-0.78,-0.7,-0.01,-1.52*,-1.65*,-0.64,-1.82,-0.86
+PMT2255,dnaK3,O,O,molecular chaperone DnaK,-0.62,-0.6,-0.66,-1.01*,-0.95,-0.66,-0.7,-1,-0.94
+RNA_49,ffs,O,,signal recognition particle RNA (4.5 S RNA),0.25,0.47,0.92,0.97,1.57*,1.32*,1.85*,1.92*,1.88*
+PMT0156,ruvB,P,L,Holliday junction DNA helicase RuvB,0.61,0.5,0.25,1.49*,0.77,0.69,0.92,0.34,0.7
+PMT0211,recO,P,,recombination protein O,0.81,0.26,-0.03,1.45*,0.54,0.45,1.28*,1.59*,2.49*
+PMT1077,recR,P,L,recombination protein RecR,0.58,0.41,-0.11,1.19*,0.61,0.59,0.71,0.39,0.12
+PMT1642,xseB,P,,exodeoxyribonuclease small subunit,-0.22,0,-0.32,-1.37*,-0.31,-0.43,-0.58,-0.03,0.04
+PMT2093,rnhA,P,L,ribonuclease HI,-0.01,-0.02,-0.5,0.49,0.47,0.78,1.35*,0.43,0.56
+PMT0145,,Q,G,substrate-binding family 1 protein,0.9,0.71,1.01*,1.43*,1.19*,1.47*,1.79*,1.45*,1.33*
+PMT0668,lacF,Q,G,lactose transporter,0.01,-0.16,-0.17,-0.6,-0.73,-0.51,-0.59,-1.05*,-0.78
+PMT0700,pstB,Q,P,phosphate ABC transporter ATP-binding protein,0.04,0,-0.45,-1.11*,-0.19,-0.7,-0.11,-0.17,0.02
+PMT0702,pstC,Q,P,phosphate ABC transporter,-0.5,-0.45,-0.76,-1.07*,-0.29,-0.27,-0.35,-0.34,-0.27
+PMT0894,,Q,E,amino acid ABC transporter,0.16,0.16,-0.02,-0.18,-0.45,-0.37,-0.82,-1.07*,-0.49
+PMT0896,,Q,,amino acid ABC transporter,-0.01,-0.05,-0.11,-0.71,-0.5,-0.57,-0.68,-0.97,-1.15*
+PMT0897,,Q,"E,T",amino acid ABC transporter substrate-binding protein,-0.3,-0.27,-0.23,-0.77,-0.74,-0.62,-1.01*,-0.63,-0.77
+PMT2228,urtB,Q,E,urea ABC transporter,-0.29,-0.28,-0.52,-0.76,-0.37,-1.02*,-0.35,-0.94,-0.89
+PMT2229,urtA,Q,E,urea ABC transporter substrate-binding protein,-0.92,-0.71,-0.84,-0.89,-1.14,-1.38*,-0.62,-0.54,-1.09
+PMT0416,znuB,"Q,R",P,ABC transporter,0.07,-0.09,-0.48,-1.06*,-0.87,-0.95,-0.72,-0.57,-0.57
+PMT0994,phoB,R,"K,T","two-component response regulator, phosphate",-0.09,0.47,0.22,-1.18*,0.59,-0.64,0.51,0.7,0.7
+PMT0997,,R,T,"two component sensor histidine kinase fragment, pseudogene",0.76,0.32,1.01,1.03,3.36*,0.36,0.75,6.18*,1.89
+PMT0030,ppiB1,U,O,cyclophilin type peptidyl-prolyl cis-trans isomerase,-0.36,-0.33,-0.51,-0.88,-0.9,-0.89,-1.04*,-0.87,-0.67
+PMT0094,,U,,transporter for efflux,-0.82,-0.35,-0.36,-1.56*,-0.09,-1.2,-0.6,0.54,-0.19
+PMT0102,,U,,"surface polysaccharide biosynthesis protein, cytidylyltransferase",-0.53,-0.48,-0.48,-1.27*,-0.33,-1.2,-1.40*,-0.17,-0.43
+PMT0121,gyrB,U,L,DNA gyrase subunit B,0.38,0.21,0.03,0.71,0.78,0.7,0.71,1.20*,0.88
+PMT0127,rpoD,U,K,type II alternative sigma-70 family RNA polymerase sigma factor,-1.05*,-0.6,-0.45,-0.87,-0.53,-0.49,-0.16,-0.41,-0.71
+PMT0203,engA,U,R,GTP-binding protein EngA,-0.04,-0.18,-0.22,0.69,0.29,0.35,1.08*,0.47,0.15
+PMT0217,kch1,U,,VIC family potassium channel protein,-0.22,0.34,0.11,-1.17*,0.09,-0.64,-0.03,-0.19,0.01
+PMT0223,queA,U,J,S-adenosylmethionine--tRNA ribosyltransferase-isomerase,0.88,0.47,0.24,1.23*,0.75,0.9,1.00*,1.45*,1.05*
+PMT0252,lemA,U,S,hypothetical protein,0.45,0.06,0.15,0.07,-0.03,-0.24,-1.01*,0.05,-0.01
+PMT0268,spoU,U,J,tRNA/rRNA methyltransferase SpoU,0.77,0.79,0.88,0.53,1.07*,1.22*,1.27*,0.87,1.14*
+PMT0351,phoH,U,T,PhoH-like phosphate starvation-inducible protein,-0.05,-0.17,-0.17,1.18*,0.87,0.72,0.46,1.07*,1.01*
+PMT0369,,U,S,hypothetical protein,0.38,0.7,0.13,1.47*,1.47*,1.11,1.77*,1.64*,1.31*
+PMT0455,,U,,hypothetical protein,0.19,0.04,-0.09,-0.81,-0.36,-0.19,-1.15*,-1.05*,-0.91
+PMT0551,sdmt,U,"Q,R",sarcosine-dimethylglycine methyltransferase,-1.19*,-0.86,-1.19*,-0.54,-0.54,0.21,-0.94,-0.01,-0.37
+PMT0552,gsmt,U,"Q,R",glycine-sarcosine methyltransferase,-0.69,-0.64,-1.13*,-0.15,-0.37,-0.19,-1.07*,0.41,-0.4
+PMT0583,tsf,U,J,elongation factor Ts,-0.33,-0.27,-0.53,-1.35*,-1.09*,-1.02*,-0.24,-1.04*,-1.04*
+PMT0692,,U,G,sugar ABC transporter,-0.31,-0.24,-0.68,-0.62,-0.65,-0.97,-1.53*,-0.86,-0.81
+PMT0696,htpG,U,,heat shock protein 90,-0.54,-0.89,-1.08,-1.05*,-0.59,-0.14,-0.18,-0.17,-0.25
+PMT0707,ppiB2,U,O,cyclophilin type peptidyl-prolyl cis-trans isomerase,0.26,0.01,-0.16,0.44,0.6,0.53,0.03,1.09*,0.64
+PMT0747,,U,,hypothetical protein,-0.59,-0.54,-0.99,-0.96,-0.74,-0.29,-1.27*,-0.56,-0.66
+PMT0754,tpx,U,V,thioredoxin peroxidase,-0.65,-0.46,-0.89,-1.86*,-1.11,-1.37*,-1.05,-0.67,-0.83
+PMT0818,,U,,S4 domain-containing protein,0.82,1.11,1.02,1.61*,1.17,1.77*,1.77*,1.58*,1.70*
+PMT0854,,U,M,MscS family mechanosensitive ion channel,-0.38,-0.35,-0.52,-1.27*,-0.59,-1.20*,-1.30*,-0.75,-0.64
+PMT0877,,U,,hypothetical protein,0.15,-0.18,0.01,0.39,0.7,0.55,0.16,1.12*,0.71
+PMT0888,,U,,hypothetical protein,-1.29,-0.72,-0.38,-0.94,0.11,-1.57*,-1.12,-0.43,-0.01
+PMT0899,SUL1,U,P,sulfate transporter,0.41,0.23,0.04,-0.52,-0.92,-1.03*,-0.11,-0.58,-0.23
+PMT0917,,U,,hypothetical protein,-1.37,-0.99,-1.59*,-2.72*,-1.40*,-2.05*,-1.54*,-1.67*,-1.28*
+PMT0929,,U,Q,hemolysin-type calcium-binding domain-containing protein,-1.22,-1.06,0.31,-2.30*,-1.96*,-2.60*,-2.43*,-2.28*,-1.75
+PMT0930,,U,S,hypothetical protein,-0.33,-0.36,-0.28,-1.25*,-0.47,0.24,-0.7,-0.84,-0.2
+PMT0974,,U,S,hypothetical protein,-0.95,-0.6,-1.05,-1.28*,-0.65,-0.48,-1.17*,-0.19,-0.32
+PMT1024,kch3,U,,VIC family potassium channel protein,-0.85,-0.72,-1.22,-1.44*,-0.63,-0.9,-0.97,-0.51,-0.43
+PMT1055,,U,R,hypothetical protein,0.38,0.25,0.25,0.21,0.57,0.02,1.02*,0.76,0.42
+PMT1095,,U,O,glutaredoxin-like protein,-0.26,-0.14,-0.46,-0.7,-0.91,-1.01*,-0.91,-0.9,-0.37
+PMT1108,,U,,hypothetical protein,0.91,0.53,0.75,1.29*,0.85,0.57,1.07*,0.84,0.49
+PMT1155,ychF,U,J,GTP-dependent nucleic acid-binding protein EngD,0.43,0.34,0.29,0.98,0.67,0.91,0.92,1.21*,0.47
+PMT1160,,U,R,sodium-dependent transporter,-0.11,0.24,-0.07,-0.6,-0.41,-0.8,-0.33,-1.16*,-0.6
+PMT1169,infA,U,J,translation initiation factor IF-1,0.64,0.2,0.53,0.48,0.8,1.20*,1.13*,1.02*,0.5
+PMT1181,maf,U,Q,Maf-like protein,0.37,0.45,0.68,-0.12,1.11*,0.64,0.5,-0.24,0.49
+PMT1213,sbtA,U,,sodium-dependent bicarbonate transporter,0.18,0.06,-0.4,-1.09*,-0.58,-1.04*,-0.68,-0.38,-0.46
+PMT1214,SUL1,U,P,sulfate transporter,-0.19,0,-0.25,-1.05*,-0.82,-1.04*,-0.95,-1.33*,-1.00*
+PMT1221,,U,S,hypothetical protein,1.42*,0.98,1.07,0.37,1.43*,0.46,0.83,0.68,1.27*
+PMT1235,,U,,hypothetical protein,1.00*,0.63,1.03*,0.74,1.27*,0.75,1.70*,2.14*,2.11*
+PMT1272,sigA,U,K,RNA polymerase sigma factor RpoD,-0.44,-0.67,-0.79,-0.22,-0.49,-0.27,-1.29*,-0.41,-0.52
+PMT1279,cxp,U,,carboxypeptidase Taq (M32) metallopeptidase,0.54,0.29,0.29,0.71,0.61,0.49,1.21*,0.62,0.22
+PMT1337,,U,V,multidrug efflux ABC transporter,0.44,0.3,0.17,-0.47,-0.2,-0.67,-0.46,-1.08*,-0.75
+PMT1418,kaiC,U,T,circadian clock protein KaiC,-0.18,-0.17,-0.39,0.33,0.34,1.03*,0.21,0.69,0.24
+PMT1425,spoIID,U,,sporulation protein SpoIID,0.29,0.48,0.4,1.62*,0.95,0.48,0.58,0.82,1.31*
+PMT1455,hisB1,U,C,imidazoleglycerol-phosphate dehydratase,0.34,0.3,-0.1,1.41*,0.93,0.86,0.49,0.79,0.69
+PMT1481,glnB,U,"E,T",nitrogen regulatory protein P-II,0.14,0.16,0.15,-0.67,-0.59,-0.26,-0.5,-1.04*,-0.54
+PMT1527,,U,,hypothetical protein,0.34,0.29,0.12,1.70*,0.86,0.76,0.76,0.82,0.74
+PMT1528,infB,U,J,translation initiation factor IF-2,-0.7,-0.64,-0.47,-1.32*,-0.48,-0.57,-0.07,-0.12,-0.72
+PMT1544,obgE,U,"D,L",GTPase ObgE,0.1,0.12,0.02,0.32,0.37,0.65,1.01*,0.59,0.32
+PMT1548,dnaJ3,U,O,DnaJ3 protein,0.58,0.14,0.37,0.97,0.9,1.21*,1.42*,1.06*,0.56
+PMT1573,devB3,U,,ABC transporter,0.93,0.77,1,-1.04,-1.11,-1.39,-1.88*,-1.05,-0.66
+PMT1576,devA2,U,M,ABC transporter ATP-binding protein,-0.56,-0.74,0.78,-1.56*,-1.11,-1.05,-1.47*,-1.06,-0.64
+PMT1584,smc,U,D,SMC ATPase superfamily chromosome segregation protein,-0.02,-0.01,0.14,1.13*,0.6,0.44,0.3,0.85,0.92
+PMT1596,hit,U,"F,G,R",HIT (histidine triad) family protein,0.34,0.6,0.03,0.97,0.95,1.01,1.08*,0.68,1.33*
+PMT1646,rbn,U,,serum resistance locus BrkB-like protein,0.02,-0.03,-0.34,-0.42,-0.5,-0.83,-0.96,-1.36*,-1.11*
+PMT1654,minE,U,D,cell division topological specificity factor MinE,0.04,0.32,0.52,-0.13,0.26,0.24,1.06*,0.49,0.35
+PMT1703,rnd,U,,ribonuclease D,-0.4,-0.23,-0.3,-0.58,-0.2,-0.32,0.02,-0.29,-1.01*
+PMT1793,,U,,abortive infection protein,-0.07,-0.04,-0.27,0.82,0.52,0.1,0.13,0.81,1.29*
+PMT1835,pth,U,J,peptidyl-tRNA hydrolase,-0.28,-0.1,-0.44,-0.69,-0.71,-0.84,-0.57,-1.14*,-1.25*
+PMT1853,amt1,U,P,ammonium transporter,-0.02,0.23,0.2,-0.46,-0.52,-0.85,-0.9,-1.06*,-0.76
+PMT1959,wcaA,U,M,glycosyl transferase family protein,-0.29,-0.12,-0.11,-1.35*,0.19,-0.85,-0.16,0.47,0.15
+PMT2048,mraW,U,,S-adenosyl-methyltransferase MraW,-0.02,0.35,0.27,1.18*,0.75,0.45,0.95,0.95,0.67
+PMT2098,gspD,U,,general (type II) secretion pathway protein D precursor,0.55,0.6,0.36,0.7,1.06*,0.95,0.9,1.04*,1.08*
+PMT2212,prfB2,U,,peptidyl-tRNA hydrolase domain-containing protein,-0.52,-0.09,-0.3,-1.30*,-0.21,-0.28,-0.77,-0.25,0.09
+PMT2217,rpoD,U,K,type II alternative RNA polymerase sigma factor,-0.57,-0.38,-0.26,0.29,0.68,1.18*,-0.1,0.32,0.06
+PMT2218,,U,"P,V",Dps family protein,-0.69,-0.31,-0.43,-0.09,-0.14,-0.57,-1.25*,-0.59,-0.32
+PMT2230,ureG,U,O,urease accessory protein UreG,0.26,0.15,0.18,0.8,0.68,0.47,1.14*,0.67,0.31
+PMT2232,ureE,U,,urease accessory protein UreE,0.84,0.53,0.86,1.26*,1.12*,0.86,0.95,1.15*,1.16*
+PMT2246,,U,K,type II alternative sigma-70 family RNA polymerase sigma factor,-0.3,0.2,0.42,-0.11,-0.33,-0.08,-1.12*,-0.88,-0.51
+PMT2271,recN,U,,DNA repair protein RecN,-0.31,-0.26,0.08,0.92,0.05,-0.3,0.06,0.12,1.20*
+RNA_48,tmRNA,U,,"tmRNA, 10Sa RNA, SsrA (precursor permuted)",2.54*,2.46*,3.77*,2.52*,3.53*,1.96*,2.16*,5.00*,3.61*
+PMT0697,,Z,F,"ferredoxin, 4Fe-4S",0.77,0.59,0.84,1.14*,1.38*,1.62*,1.45*,1.58*,1.31*
+PMT_ncRNA_Yfr2-5_1,,Z,,Yfr2-5_1,1.16,0.46,1.31*,1.69*,1.1,2.34*,1.57*,2.39*,1.50*
+PMT_ncRNA_Yfr2-5_2,,Z,,Yfr2-5_2,0.87,0.9,1.71,1.27,1.68,1.21,1.4,1.66,2.55*
+PMT_ncRNA_Yfr7,ssrS,Z,,"Yfr7, 6S RNA",3.69*,3.98*,4.81*,3.48*,4.47*,3.17*,3.53*,5.87*,4.87*
+PMT0038,,Z,,penicillin amidase,-0.42,-0.19,-0.33,0,-0.34,-0.2,-1.45*,-0.96,-0.33
+PMT0041,,Z,,hypothetical protein,1.56,0.76,1.49,1.73*,2.14*,2.33*,1.13,2.36*,1.51*
+PMT0042,,Z,,hypothetical protein,1.05,0.73,1.28*,1.46*,1.65*,1.51*,0.69,1.51*,1.03
+PMT0072,,Z,,FAD binding domain-containing protein,0.68,0.39,0.66,0.1,1.47*,0.51,0.62,1.62*,0.92
+PMT0087,,Z,M,glycosyltransferase,-0.36,-0.07,-0.42,-1.12*,0.01,-0.62,-0.27,0.12,0.12
+PMT0089,,Z,M,acyltransferase,-0.49,-0.29,-0.21,-1.26*,-0.29,-0.98,-0.73,0.38,-0.2
+PMT0091,,Z,S,hypothetical protein,-0.84,-0.21,-0.18,-1.67*,-0.16,-1.24,-0.36,0.49,-0.08
+PMT0096,wecE,Z,M,capsular polysaccharide biosynthesis protein,-0.56,-0.05,-0.32,-1.41*,-0.19,-0.92,-0.54,0.24,-0.25
+PMT0098,,Z,,LPS biosynthesis protein,-0.63,-0.56,-0.73,-1.41*,-0.55,-0.85,-0.61,-0.74,-0.21
+PMT0103,hemL1,Z,,"aminotransferase, class III pyridoxal-phosphate dependent",-0.28,-0.03,-0.73,-0.97,-0.25,-1.09*,-1.39*,-0.47,-0.2
+PMT0104,,Z,"J,O","surface polysaccharide biosynthesis protein, transferase",-0.35,0.04,0,-1.38*,0.1,-1.04,-0.83,0.62,0.1
+PMT0106,neuB,Z,M,N-acetylneuraminate synthase,-0.43,-0.11,-0.41,-1.46*,-0.15,-1.1,-0.81,0.47,0.17
+PMT0122,,Z,,hypothetical protein,0.56,0.22,-0.02,0.57,1.61*,0.71,0.66,1.36*,1.10*
+PMT0149,,Z,,hypothetical protein,0.45,0.31,1.01*,0.62,0.64,0.76,0.44,0.41,0.7
+PMT0150,,Z,,hypothetical protein,-1.28*,-0.67,-0.39,-0.45,-0.48,0.1,-0.13,0.52,0.03
+PMT0153,,Z,,hypothetical protein,0.49,0.22,0.55,1.04,1.48,0.67,0.27,1.94*,1.45
+PMT0159,,Z,,hypothetical protein,0.67,0.69,0.79,1.49*,1.11*,0.78,1.71*,0.61,1.06*
+PMT0161,,Z,,hypothetical protein,-1.53,-1.02,-1.03,-2.10*,-0.45,-1.88*,-1.20*,-0.42,-0.47
+PMT0166,,Z,,hypothetical protein,1.17,0.52,1.74,4.15*,2,0.94,1.56,3.73,3.8
+PMT0167,,Z,,hypothetical protein,-0.73,-1.14,-0.36,-1.12*,-0.45,-1.00*,-1.29*,-0.42,-0.31
+PMT0168,,Z,,"negative factor, (F-protein) or Nef",-0.49,-0.76,0.39,-2.04*,-1.94*,-1.92*,-2.04*,-1.78*,-1.27
+PMT0169,,Z,,chitin synthase,-0.11,-0.29,0.75,-1.55,-0.96,-1.33,-2.37*,-1.41,-1.31
+PMT0171,,Z,,penicillin amidase,0.19,0.19,0.45,-0.12,0.98,0.14,1.16*,1.25*,1.22*
+PMT0176,,Z,,hypothetical protein,-0.24,0.01,-0.21,-0.95,-0.78,-0.99,-0.53,-1.30*,-1.09*
+PMT0179,,Z,,hypothetical protein,0.54,0.18,-0.01,1.02*,0.15,-0.01,0.21,0.45,0.1
+PMT0200,,Z,J,nitrogen regulation protein NifR3 family protein,0.66,0.65,0.26,1.73*,1.16*,0.99,1.40*,1.64*,1.30*
+PMT0202,,Z,,hypothetical protein,-0.01,-0.4,-0.05,1.36*,0.59,-0.31,0.13,0.29,0.91
+PMT0218,,Z,,hypothetical protein,-0.61,-0.47,-0.65,-1.93*,-0.18,-1.54,-1.70*,-0.87,-0.49
+PMT0219,,Z,,tropomyosin,0.39,0.52,0.34,0.5,1.01,0.88,1.25*,1.56*,1.81*
+PMT0231,yqjL,Z,"H,R",esterase/lipase/thioesterase family protein,-0.64,-0.39,-0.46,-1.19*,0.2,-0.45,-0.32,0.42,0.03
+PMT0234,,Z,"L,X",Phage integrase,0.49,0.58,0.95,0.78,1.29*,0.94,1.31*,1.35*,1.27*
+PMT0235,,Z,,hypothetical protein,-0.39,-0.28,-0.36,-1.36*,-0.48,-0.82,-0.93,0.11,0.27
+PMT0236,,Z,,Ser/Thr protein phosphatase,-0.88,-0.67,-0.46,-1.34*,-0.03,-0.41,-0.42,0.13,-0.16
+PMT0240,,Z,,hypothetical protein,-0.24,-0.93,-0.84,-0.64,-0.76,-0.37,-1.36*,-0.32,-0.22
+PMT0251,,Z,,replication protein,-0.66,-0.02,-0.06,-2.09*,0.42,-0.51,-0.06,0.01,0.2
+PMT0267,,Z,,hypothetical protein,-0.1,-0.71,-0.67,-0.01,-0.87,-0.33,-1.15*,-0.2,-1.07*
+PMT0273,,Z,,hypothetical protein,-1.09,-0.72,-0.65,-0.94,-0.32,-1.25*,-0.21,-0.54,0.22
+PMT0278,,Z,,hypothetical protein,-0.92,-0.22,-0.74,-1.50*,-0.28,-0.82,-0.14,-0.31,-0.44
+PMT0280,,Z,R,SAM-binding motif-containing protein,-0.75,-0.29,-0.65,-1.63*,-0.09,-0.82,-0.69,-0.02,-0.04
+PMT0282,,Z,,hypothetical protein,-0.56,-0.27,-0.07,-1.97*,-0.19,-1.06,-0.57,0.22,-0.27
+PMT0290,,Z,"L,X",Phage integrase,-0.85,-0.35,-0.71,-1.37*,-0.61,-0.76,-0.06,-0.32,-0.12
+PMT0292,,Z,,hypothetical protein,-0.84,-0.64,-1.24,-0.72,-0.14,-0.74,-1.52*,0.62,-0.37
+PMT0299,,Z,,cation-dependent mannose-6-phosphate,-0.52,-0.2,-0.41,-0.95,0.46,0.65,0.34,0.84,1.89*
+PMT0305,,Z,S,hypothetical protein,-0.32,-0.31,-0.7,-1.08*,-0.63,-0.84,-0.65,-0.53,-0.2
+PMT0324,,Z,,hypothetical protein,0.64,0.54,0.78,0.25,1.12*,0.03,1.23*,1.15*,1.05
+PMT0328,,Z,,bromo domain-containing protein,-0.63,-0.76,0.28,-2.18*,-2.17*,-1.91*,-2.12*,-1.58,-1.36
+PMT0333,,Z,,hypothetical protein,-0.69,-0.36,-1.11*,-0.96,-0.42,-0.35,-0.43,-0.38,-0.33
+PMT0353,,Z,,sodium dependent transporter,-0.17,0.06,0.37,-0.99,-0.88,-0.81,-0.8,-1.07*,-0.82
+PMT0381,,Z,,M protein-like,-0.06,0.05,-0.04,0.59,0.92,0.58,0.38,1.15,2.53*
+PMT0382,,Z,,Signal peptidase I,-0.22,1.3,1.21,0.62,0.29,1.66,4.21*,1.13,1.81
+PMT0390,,Z,,coproporphyrinogen III oxidase,1.22,1.61,1.54,1.14,2.28*,1.52*,0.91,2.92*,2.50*
+PMT0391,,Z,"G,R",hypothetical protein,0.26,0.16,-0.24,1.62*,0.75,0.39,-0.32,0.58,0.74
+PMT0399,,Z,,hypothetical protein,0.5,0.26,0.83,0.5,1.24*,0.91,1.22*,1.74*,1.25*
+PMT0411,,Z,,transaldolase,-0.19,-0.09,-0.48,-1,-0.6,-0.75,-1.43*,-0.36,-0.33
+PMT0413,fixC1,Z,,NAD binding site,-0.19,-0.28,-0.21,1.28*,0.38,0.1,0.57,0.53,0.63
+PMT0429,,Z,,arginine repressor domain-containing protein,0.11,-0.4,-0.21,0.87,0.49,1.09*,-0.05,0.84,0.56
+PMT0432,,Z,,hypothetical protein,0.12,0.25,0.03,-0.99,-0.51,-0.73,-1.52*,-0.39,-0.17
+PMT0433,,Z,,hypothetical protein,-0.34,-0.26,-0.63,-0.67,-0.54,-0.45,-1.52*,-0.95,-0.52
+PMT0448,,Z,,hypothetical protein,-0.92,-0.42,-0.72,-1.58*,-0.75,-1.12,-0.87,-1.01,-0.23
+PMT0451,,Z,,hypothetical protein,-1.25,-0.57,-0.56,-2.76*,-0.55,-1.33,-0.74,-0.82,0.18
+PMT0452,,Z,,hypothetical protein,0.71,0.73,0.73,0.81,1.82*,0.99,0.64,1.74*,1.55*
+PMT0456,sigB,Z,K,RNA polymerase sigma-70 factor family protein,-0.43,-0.13,-0.19,-0.58,-0.31,0.32,-1.13*,-0.64,-0.56
+PMT0464,,Z,,hypothetical protein,-0.31,0,-0.27,-0.51,-0.7,-0.5,-1.11*,-0.38,-0.45
+PMT0478,,Z,,hypothetical protein,-0.15,-0.04,-0.2,0.14,-0.46,-0.38,-1.34*,-0.51,-0.3
+PMT0479,,Z,,hypothetical protein,0.49,0.95,0.51,0.39,1.32*,0.59,0.84,1.37*,1.29*
+PMT0485,,Z,,hypothetical protein,-0.54,-0.44,-0.76,-1.02*,-0.52,-0.75,-1.32*,-0.58,-0.27
+PMT0488,,Z,,integrase zinc binding subunit,-0.54,-0.83,-0.05,-0.51,0.55,0.36,-1.26*,1.35*,0.18
+PMT0498,,Z,,pili assembly chaperone,-0.21,0.81,0.39,-0.9,1.47*,0.31,1.31*,1.04,1.68*
+PMT0500,,Z,,hypothetical protein,0.39,0.42,0.61,1.52*,1.54*,1.68*,1.46*,1.73*,1.50*
+PMT0507,,Z,,hypothetical protein,0.17,0.35,-0.01,-0.3,0.79,0.64,0.66,0.97,1.10*
+PMT0543,,Z,N,glycosyl transferase family protein,0.53,0.19,0.13,0.03,0.22,0.09,0.25,1.04*,0.8
+PMT0550,,Z,,hypothetical protein,-0.58,-0.41,-0.59,-1.34*,-0.55,-0.62,-0.62,-0.71,-0.26
+PMT0559,,Z,,hypothetical protein,-0.79,0.15,-0.96,2.26*,1.08,-0.58,0.56,0.87,2.23
+PMT0570,ccmC,Z,O,heme transporter,0.03,-0.05,-0.11,-0.53,-0.59,-0.55,-1.06*,-1.11*,-0.85
+PMT0586,,Z,,hypothetical protein,1.66*,1.71*,2.16*,2.05*,2.42*,2.31*,2.47*,2.69*,2.45*
+PMT0599,cumB,Z,J,cytidine/deoxycytidylate deaminase,1.02*,0.76,0.65,0.75,0.96,1.21*,0.98,1.16*,0.78
+PMT0608,,Z,,hypothetical protein,0.22,0.54,0.35,0.2,1.01*,1.09*,0.9,1.43*,1
+PMT0613,,Z,,hypothetical protein,-0.48,-0.53,-1.07,-1.28*,-0.91,-0.78,-1.14*,-0.23,-0.45
+PMT0629,,Z,S,hypothetical protein,-0.34,0.08,-0.4,-1.68*,-0.66,-0.95,-1.09,-0.7,-0.27
+PMT0630,,Z,,gonadotropin-releasing hormone,-0.65,-0.58,-0.39,-1.80*,-0.38,-0.76,-0.71,-0.65,-0.3
+PMT0631,,Z,,hypothetical protein,-0.91,-1.5,-0.23,-1.80*,-1.38,-1.62,-1.31,-0.26,-0.52
+PMT0634,,Z,,hypothetical protein,-0.48,-0.25,-0.77,-0.97,-1.05*,-1.06*,-1.57*,-1.02*,-0.96
+PMT0637,,Z,,hypothetical protein,1.15*,0.91,1.24*,1.16*,1.37*,1.46*,1.51*,1.49*,1.40*
+PMT0639,,Z,,hypothetical protein,0.81,0.33,0.93,0.55,1.03*,0.43,0.67,0.58,0.34
+PMT0640,,Z,,hypothetical protein,0.3,0.11,0.6,0.99,0.85,1.10*,0.47,0.86,0.67
+PMT0656,,Z,,hypothetical protein,-0.47,-0.36,-0.62,-1.13*,-0.08,-0.61,-0.4,0.12,-0.17
+PMT0659,,Z,,Sodium:sulfate symporter transmembrane,-0.7,-0.39,-0.18,-1.79*,-0.73,-1.58*,-1.48*,-0.31,-0.82
+PMT0660,,Z,,esterase/lipase/thioesterase family protein,0.06,-0.42,-0.95,-0.25,-0.28,-0.75,-1.14*,-0.12,-0.43
+PMT0719,,Z,,hypothetical protein,0.56,0.24,0.53,1.15*,0.51,1.05*,0.65,0.57,0.49
+PMT0730,,Z,,hypothetical protein,0.97,0.67,0.69,1.02*,0.86,1.44*,1.32*,1.14*,1.09*
+PMT0731,spoIID,Z,,hypothetical protein,-1.04,-0.59,-0.35,-1.41*,-0.21,-0.31,-0.88,0.09,-0.54
+PMT0736,,Z,,DnaJ domain-containing protein,-0.26,0.16,-0.44,-1.07*,-0.05,-0.07,-0.14,0.1,-0.16
+PMT0746,,Z,,hypothetical protein,0.42,0.2,0.04,-0.21,-0.11,-0.01,-0.32,-1.11*,-0.69
+PMT0774,hcaE,Z,,Rieske iron-sulfur protein 2Fe-2S subunit,-0.05,0.45,0.47,-0.77,0.92,-0.2,0.78,1.12*,0.92
+PMT0790,,Z,,hypothetical protein,-0.37,-0.28,0.14,0.71,0.89,0.98,0.84,1.26*,0.52
+PMT0794,,Z,,spectrin repeat-containing protein,-0.66,-0.5,-0.81,-1.00*,-0.75,-0.41,-1.11*,-0.49,-0.57
+PMT0813,,Z,,hypothetical protein,-0.02,0.27,-0.24,-0.42,-0.65,-0.62,-0.26,-0.67,-1.18*
+PMT0826,,Z,,hypothetical protein,1.72*,0.6,0.91,0.5,1.27*,0.92,1.52*,1.60*,1.24*
+PMT0828,,Z,,hypothetical protein,0.71,0.31,0.91,1,0.93,0.87,0.18,1.61*,0.56
+PMT0829,,Z,,hypothetical protein,0.57,0.69,0.66,0.34,0.91,0.79,0.71,1.69*,0.8
+PMT0839,,Z,,hypothetical protein,0.58,2.12*,0.61,0.87,1.08,1.56*,0.91,1.71,1.1
+PMT0845,,Z,,"histidine kinase-, DNA gyrase B-, phy",-0.73,-0.6,-0.59,0.39,0.62,2.05*,0.82,1.65,0.56
+PMT0855,pncA,Z,"H,R",isochorismatase hydrolase family protein,-0.86,-0.36,-0.87,-2.47*,-0.83,-1.56*,-1.40*,-1.54*,-0.98
+PMT0867,csgD1,Z,"K,T",LuxR family regulatory protein,0.19,-0.25,0.14,0.05,0.26,1.19*,0.52,0.58,0.28
+PMT0870,,Z,,hypothetical protein,0.43,-0.1,-0.37,0.55,3.16*,0.08,0.28,2.44*,1.62
+PMT0882,,Z,,hypothetical protein,-1.01,-0.68,-0.82,0.12,-0.29,-0.45,-1.84*,-0.16,-0.99
+PMT0886,,Z,,hypothetical protein,0.04,-0.91,-0.26,1.03,0.67,1.80*,0.68,1.21,0.78
+PMT0890,,Z,,Sec7 domain-containing protein,1.59,1.23,1.01,1.04,0.28,1.06,1.48*,1.02,0.31
+PMT0900,glcD2,Z,C,FAD linked oxidase domain-containing protein,0.7,0.33,0.7,0.93,0.69,1.01*,0.79,0.74,1.03*
+PMT0904,,Z,,hypothetical protein,-0.32,-0.61,-0.77,0.1,-0.56,-0.12,-1.03*,-0.1,-0.42
+PMT0906,,Z,,hypothetical protein,1.04,0.55,0.42,1.39*,1.35*,1.26*,0.56,2.20*,1.38*
+PMT0907,,Z,,octicosapeptide repeat-containing protein,-0.22,0.12,-0.47,-1.91*,-0.73,-1.39*,-1.07,-1.80*,-0.27
+PMT0914,,Z,,hypothetical protein,0.38,0.07,0.28,0.03,1.14,0.37,0.76,1.46*,1.45*
+PMT0915,,Z,M,outer membrane protein,-0.37,-0.42,0.93,-1.37*,-0.69,-1.03,-1.14,-0.88,-0.42
+PMT0916,,Z,,hypothetical protein,-0.98,-1.1,-0.23,-1.69*,-0.9,-0.89,-1.43*,-0.9,-0.57
+PMT0919,,Z,,hypothetical protein,0.55,0.43,0.96,0.87,1.41*,1.19*,0.61,1.45*,1.92*
+PMT0922,,Z,,SAP domain-containing protein,0.79,0.75,0.92,0.64,0.77,1.24*,1,1.25*,0.92
+PMT0924,,Z,,carbamoyl-phosphate synthase L chain,-0.34,-0.66,0.81,-1.13,-1.52*,-1.31,-1.91*,-1.11,-1.18
+PMT0926,,Z,,hypothetical protein,-0.19,0,-0.21,-1.46*,-0.99,-0.82,-1.33*,-1.25*,-0.53
+PMT0932,,Z,,hypothetical protein,-0.22,0.14,0.37,1.41*,0.96,-0.06,0.13,0.96,0.71
+PMT0935,,Z,,GRAM domain-containing protein,0.44,0.23,0.18,0.83,1.29,0.2,-0.46,2.28*,1.08
+PMT0939,,Z,,hypothetical protein,-0.18,0.58,0.6,0.51,1.62,1.18,1.2,1.95*,0.65
+PMT0941,,Z,,hypothetical protein,0.54,0.04,0.52,1.08*,0.38,0.77,0.53,0.71,0.91
+PMT0943,,Z,,hypothetical protein,1.71,0.72,2.57*,0.37,0.12,0.35,0.22,0.53,0.38
+PMT0945,,Z,,hypothetical protein,0.77,0.28,0.7,1.51*,1.60*,1.55*,1.45*,2.55*,1.79*
+PMT0946,,Z,,hypothetical protein,0.07,0.11,0.23,0.9,0.82,1.25*,0.86,1.06*,0.74
+PMT0950,,Z,,hypothetical protein,-1.52*,-0.94,-1.36*,-1.22*,-1.12*,-0.94,-0.99,-0.3,-0.76
+PMT0953,,Z,,M1 family peptidase,0.07,-0.08,-0.17,0.13,0.32,0.55,0.42,1.48*,0.56
+PMT0955,pds1,Z,,zeta-carotene desaturase,-0.21,-0.02,0.11,1.42*,0.83,0.16,0.81,0.82,1.53*
+PMT0956,,Z,,kinesin motor domain,1.16,0.75,1.30*,0.51,0.3,0.75,1.13*,0.56,0.33
+PMT0958,,Z,,flagella basal body rod protein,0.22,0.15,0.16,0.37,1.16,0.81,0.62,1.32*,0.66
+PMT0959,,Z,,kinesin motor domain,1.05,0.68,1.27*,0.46,0.05,0.6,0.96,0.44,0.23
+PMT0962,,Z,,kinesin motor domain,1.2,0.68,1.47*,0.42,0.12,0.75,0.99,0.44,0.23
+PMT0968,,Z,,hypothetical protein,-0.48,-0.07,-0.47,-0.15,-0.71,-1.44,-1.52*,-1.02,-2.55
+PMT0969,,Z,,cytochrome ubiquinol oxidase,0.56,0.27,0.85,0.81,0.57,0.92,0.52,1.05*,0.71
+PMT0976,,Z,,hypothetical protein,0.37,0.02,0.34,0.9,0.2,0.52,0.32,1.09*,0.71
+PMT0983,,Z,,kinesin motor domain,1.1,0.62,1.39*,0.45,0.06,0.7,1.03*,0.46,0.22
+PMT0992,hli7,Z,,high light inducible protein,0.53,1.99,2.56*,2.12*,4.00*,2.33*,2.96*,3.62*,2.74*
+PMT0999,proP1,Z,,major facilitator superfamily multidrug-efflux transporter,0.15,0.78,0.31,-0.33,0.68,0.37,0.59,1.28*,0.82
+PMT1004,,Z,,hypothetical protein,-1.08,-1.22*,-1.15*,-0.27,-1.10*,-1.06*,-1.58*,-0.86,-1.23*
+PMT1006,,Z,,cystine-knot domain-containing protein,-1.18,-1.26,-0.37,-1,-0.91,0.49,-1.30*,-0.75,-0.5
+PMT1009,,Z,,7S seed storage protein,-0.72,-0.6,-0.14,-0.38,-0.87,-0.14,-1.62*,-0.78,-0.54
+PMT1010,,Z,,hypothetical protein,0.35,0.48,0.57,-0.41,0.82,-0.05,0.61,1.08*,0.92
+PMT1015,,Z,,hypothetical protein,-0.8,-0.62,-1.06,-1.10*,-0.88,-1.08*,-0.94,-0.8,-0.69
+PMT1027,,Z,,Signal peptidase I,0.95,0.62,1.40*,-0.39,0.48,1.17*,0.51,0.37,0.52
+PMT1036,,Z,,hypothetical protein,-1.34*,-1.1,-1.01,-1.01*,-0.73,-1.59*,-1.07*,-1.38*,-0.81
+PMT1047,,Z,,trypsin and protease inhibitor,-0.88,-0.71,-0.95,0.01,-0.68,-0.3,-1.49*,0.04,-0.68
+PMT1050,gidA2,Z,,glucose inhibited division protein A,0.06,0.52,0.27,0.63,1.02*,0.8,1.18*,0.99,0.56
+PMT1081,rbpD,Z,J,RNA-binding protein RbpD,-0.5,-0.61,-0.47,0.58,-0.46,-0.37,-1.06*,0.25,-0.56
+PMT1084,manC1,Z,G,sugar-phosphate nucleotidyl transferase,-0.2,0.07,0.6,0.68,1.08*,1.16*,0.39,1.53*,0.79
+PMT1092,plsC1,Z,I,phospholipid/glycerol acyltransferase,0.45,0.22,0.46,1.01*,0.52,0.48,0.6,0.76,0.36
+PMT1106,,Z,,cytochrome C biogenesis protein,-0.03,-0.03,-0.03,-0.18,-0.62,-0.38,-0.77,-1.05*,-0.94
+PMT1117,,Z,,hypothetical protein,-0.36,-0.35,-0.73,-1.30*,-0.55,-0.97,-0.86,-0.36,-0.63
+PMT1139,,Z,,glycosyl hydrolase family protein,-0.42,-0.82,-0.5,-1.46*,-0.4,-1.1,-0.64,-0.22,-0.16
+PMT1186,,Z,O,alkyl hydroperoxide reductase/thiol specific antioxidant,0.08,0.05,0.1,-1.17*,-0.75,-1.06*,-0.7,-0.58,-0.34
+PMT1199,csoS1-1,Z,,carboxysome structural protein CsoS1,-0.17,0.89,2.12*,1.31,0.68,0.28,0.24,-0.08,-0.08
+PMT1207,,Z,F,HAM1 family protein,0.4,0.06,0.62,0.81,0.91,0.85,0.75,1.29*,0.76
+PMT1208,,Z,,hypothetical protein,0.27,0.06,0.74,1.45*,0.87,0.03,0.46,0.89,0.42
+PMT1210,trpF,Z,,pseudogene,-0.4,-0.08,0.4,-0.45,0.24,-1.81,-2.55*,-1.66,-2.79
+PMT1211,,Z,,hypothetical protein,0.34,-0.06,0.15,-0.21,0.87,1.08*,-0.12,1.27*,0.47
+PMT1212,,Z,,hypothetical protein,0.01,-0.21,-0.83,-1.03*,-0.24,-0.68,-0.67,-0.1,-0.5
+PMT1222,,Z,,pseudogene,0.02,-0.71,-0.62,-1.25*,-0.08,0.12,-0.96,-0.03,0.53
+PMT1223,,Z,,hypothetical protein,-1.1,-1.18,-0.11,-2.61*,-1.76*,-2.31*,-2.10*,-1.70*,-1.19
+PMT1241,,Z,,phage integrase family protein,0.57,0.34,0.65,0.68,1.11*,0.41,0.46,0.61,0.58
+PMT1247,fabG3,Z,"I,Q,R",short-chain dehydrogenase/reductase,0.81,0.74,0.75,0.95,1.30*,0.97,1.01*,1.19*,0.84
+PMT1258,,Z,,resolvase,-0.18,-0.4,-0.54,-0.35,-0.81,-1.09*,-0.55,-0.79,-0.25
+PMT1280,,Z,,hypothetical protein,0.38,0.35,0.6,0.84,0.74,0.62,1.26*,0.52,0.06
+PMT1285,,Z,,hypothetical protein,1.17*,0.83,0.97,1.18*,1.36*,0.99,0.91,0.84,1.28*
+PMT1301,,Z,,hypothetical protein,0.8,0.62,0.41,1.02*,0.97,0.48,0.55,0.93,0.97
+PMT1311,,Z,,hypothetical protein,0.78,0.33,0.54,0.42,0.74,1.28*,0.85,0.76,0.51
+PMT1321,,Z,,hypothetical protein,0.22,0.65,0.39,0.83,0.45,1.12*,0.62,1.14*,-0.05
+PMT1380,,Z,,hypothetical protein,0.64,0.63,0.83,0.7,0.82,0.77,1.07*,0.91,0.65
+PMT1387,,Z,,hypothetical protein,2.59*,2.56*,3.02*,2.34*,3.33*,2.34*,2.36*,3.44*,3.35*
+PMT1391,,Z,,hypothetical protein,-0.1,0.01,0.12,0.4,0.67,0.93,0.96,1.06*,0.26
+PMT1396,gloB,Z,R,hypothetical protein,0.74,0.07,0.09,0.74,1.00*,0.75,1.29*,1.08*,0.47
+PMT1435,,Z,,hypothetical protein,0.18,-0.27,-0.28,0.51,0.4,0.13,0.18,1.51*,0.37
+PMT1448,,Z,,hypothetical protein,-0.36,-0.04,-0.37,-1.24*,0.15,-0.09,0.18,0.59,-0.06
+PMT1457,,Z,,hypothetical protein,-0.34,0.15,-0.13,0.41,0.8,0.37,0.41,1.00*,0.95
+PMT1464,,Z,,hypothetical protein,0.37,0.44,0.82,0.79,0.75,0.41,1.21*,1.55*,0.23
+PMT1480,,Z,,hypothetical protein,0.42,0.31,0.29,-0.39,-0.47,-0.39,-1.24*,-1.22,-0.28
+PMT1489,,Z,,hypothetical protein,0.46,0.31,0.38,1.51*,1.17*,0.47,1.08*,1.26*,1.67*
+PMT1495,cbpA1,Z,,DnaJ-like protein,0.12,0.02,-0.05,1.04*,0.99,0.64,0.59,0.89,0.86
+PMT1502,putP,Z,,sodium/solute symporter family protein glucose transporter,-0.37,-0.08,-0.13,-0.74,-0.83,-1.13*,-0.74,-0.98,-0.56
+PMT1521,,Z,X,hypothetical protein,-0.15,-0.27,-0.39,-0.41,-0.51,-0.39,-1.22*,-0.42,-0.2
+PMT1523,,Z,,hypothetical protein,0.35,-0.03,0.01,-0.33,-0.5,-0.34,-1.16*,-0.65,-0.58
+PMT1559,,Z,,hypothetical protein,1.43*,1.20*,1.44*,1.61*,1.48*,1.65*,1.39*,1.99*,2.05*
+PMT1561,,Z,,hypothetical protein,-1.07*,-0.85,-1.23*,0.52,1.05*,0.4,-0.15,0.75,0.13
+PMT1563,,Z,,hypothetical protein,0.89,1.07,0.83,1.21,2.04*,1.21,1.67*,2.23*,2.46*
+PMT1570,,Z,,hypothetical protein,-0.47,-0.91,0.27,-2.07*,-1.67,-1.93*,-2.14*,-1.29,-0.92
+PMT1572,,Z,,hypothetical protein,-0.04,0.23,1.09,-2.13*,-1.41,-1.61,-2.22*,-1.4,-1.36
+PMT1577,,Z,,hypothetical protein,-1.17,-1.68,-0.31,-1.61*,-1.83*,-1.67*,-1.91*,-1.16,-0.96
+PMT1579,,Z,,hypothetical protein,0.73,0.76,0.66,0.82,1.58*,1.08,0.46,1.61*,1.4
+PMT1582,,Z,,hypothetical protein,0.78,0.51,0.26,1.26*,0.64,0.74,0.52,1.56*,0.62
+PMT1599,,Z,,magnesium chelatase family protein,-0.26,-0.65,-0.69,-1.31*,-0.52,-0.66,-1.12*,-0.56,0.04
+PMT1609,mpg2,Z,,DNA-3-methyladenine glycosylase,0.49,0.06,0.07,-0.15,-0.41,-0.58,-1.08*,-1.11,-1.09
+PMT1615,,Z,,hypothetical protein,1.11,0.2,0.79,0.25,0.81,0.55,1.07*,0.48,0.16
+PMT1634,,Z,,hypothetical protein,0.71,0.7,0.78,0.71,1.20*,0.82,0.93,0.94,1.21*
+PMT1638,,Z,,hypothetical protein,0.15,0.35,0.51,0.41,0.97,1.08*,1.12*,0.98,0.54
+PMT1643,,Z,,hypothetical protein,-0.17,0.05,-0.33,-1.28*,-0.64,-0.99,-1.22*,-0.69,-0.25
+PMT1645,,Z,,Glypican,0.67,0.3,0.59,0.61,1.17*,0.33,0.86,0.33,0.39
+PMT1676,,Z,,"E2 (early) protein, C terminal",1.69,1.14,0.61,1.24,3.20*,1.73,1.34,2.36,2.23*
+PMT1695,,Z,R,TPR repeat-containing protein,0.31,0.69,0.28,0,0.91,0.76,1.05*,0.72,0.73
+PMT1699,,Z,L,site-specific recombinase,0.76,1.1,1.14,1.01,1.34,1.38,2.43*,2.60*,2.13*
+PMT1723,,Z,Q,hypothetical protein,0.43,0.18,0.11,1.07*,0.71,0.9,0.45,0.57,0.31
+PMT1730,hycB,Z,,hypothetical protein,0.75,0.59,0.59,0.53,1.37*,0.74,1.03*,1.24*,0.92
+PMT1762,mcrA2,Z,V,HNH endonuclease family protein,0.62,0.64,0.74,0.55,1.03*,0.72,0.76,0.28,0.7
+PMT1776,,Z,,hypothetical protein,0.71,0.6,0.75,0.78,0.83,0.93,1.01*,0.86,0.96
+PMT1803,,Z,,hypothetical protein,0.6,0.14,0.67,0.64,0.52,0.89,0.59,1.03*,0.6
+PMT1811,,Z,R,hypothetical protein,0.3,0.41,0.3,-0.13,0.61,0.37,0.73,1.02*,0.87
+PMT1822,,Z,,hypothetical protein,0.54,0.24,0.49,1.07*,0.38,-0.01,0.66,0.55,0.36
+PMT1834,,Z,,hypothetical protein,0.63,0.44,0.14,1.38*,0.6,0.11,0.06,0.91,-0.05
+PMT1859,,Z,,hypothetical protein,-0.03,-0.35,-0.25,-0.7,-0.57,-0.32,-0.77,-0.95,-1.08*
+PMT1916,,Z,,hypothetical protein,0.31,-0.27,-0.76,1.32*,1.55*,0.2,1.01,0.73,0.99
+PMT1922,,Z,,glycosyltransferase,0.53,0.66,0.63,0.37,1.21*,0,0.67,0.65,1.03*
+PMT1924,,Z,,hypothetical protein,0.31,0.39,0.28,0.28,1.18*,1.13*,1.12*,0.66,1.17*
+PMT1936,,Z,,DNA polymerase family B protein,-0.48,-0.14,-0.63,-0.43,-0.44,-0.66,-1.09*,-0.43,-0.21
+PMT1940,,Z,,C9 family peptidase,-0.46,-1.13,0.48,-1.60*,-1.37,-1.29,-1.80*,-1.31,-0.68
+PMT1942,galM,Z,,hypothetical protein,0.64,0.36,0.53,0.57,0.79,0.39,0.74,1.20*,0.62
+PMT1944,kefB,Z,P,CPA2 family Na+/H+ antiporter,0.2,0.04,0.06,-0.65,-0.75,-0.98,-0.51,-0.95,-1.03*
+PMT1979,som,Z,,porin,-0.73,-0.44,-0.1,-0.77,-0.86,-0.83,-1.42*,-0.49,-0.66
+PMT1984,,Z,,hypothetical protein,0.32,0.3,-0.01,-0.66,-0.74,-0.92,-0.72,-1.14*,-0.86
+PMT1985,,Z,,pectate lyase,-0.08,-0.2,-0.38,-1.10*,-0.78,-1.15*,-1.02*,-0.99,-0.45
+PMT2000,ycf34,Z,,hypothetical protein,-0.54,0.21,0.3,0.08,1.40*,0.87,1.07*,1.24*,0.94
+PMT2014,csgD4,Z,"K,T",LuxR family regulatory protein,0.16,0.42,0.17,-0.32,0.71,0.58,0.62,0.76,1.06*
+PMT2036,,Z,,hypothetical protein,-0.29,-0.49,-0.48,-1.05*,-0.74,-1.02*,-0.99,-0.65,-0.4
+PMT2043,,Z,"K,T",two-component response regulator,-0.47,-0.1,-0.3,-1.32*,-0.7,-0.78,-0.47,-0.91,-0.7
+PMT2054,,Z,,hypothetical protein,-0.12,0.09,-0.37,-0.89,-0.45,-0.69,-1.04*,-0.91,-0.4
+PMT2071,,Z,,hypothetical protein,0.22,-0.53,0.1,0.27,0.66,0.99,1.80*,0.91,0.67
+PMT2112,,Z,,alanine racemase,0.69,0.9,0.57,0.66,1.72,0.56,1.26,0.97,1.81*
+PMT2114,,Z,,FYVE zinc finger,-0.55,-0.45,-0.88,-0.18,-0.2,-0.37,-1.06*,-0.22,-0.41
+PMT2117,,Z,,D12 class N6 adenine-specific DNA met,-1.14,-1.19,-0.25,-2.42*,-1.67,-1.79*,-2.01*,-1.17,-1.19
+PMT2120,,Z,,hypothetical protein,-0.56,-0.58,-0.65,-0.95,-0.66,-0.78,-1.15*,-0.53,-0.76
+PMT2121,,Z,,aldo/keto reductase,-0.49,-0.21,-0.66,-0.84,-0.78,-0.83,-1.03*,-0.78,-0.73
+PMT2122,,Z,,REJ domain-containing protein,-0.46,-0.2,-0.45,-1.11*,-0.34,-0.67,-0.64,-0.57,-0.51
+PMT2128,,Z,,hypothetical protein,-0.44,-0.27,-0.34,-0.93,-0.02,-1.23*,-1.02,-0.2,-0.53
+PMT2130,,Z,,hypothetical protein,0.69,0.09,0.52,0.05,1.36*,0.41,0.71,0.92,0.73
+PMT2137,,Z,,hypothetical protein,-0.29,-1.08,0.27,-0.81,-1.24,-0.98,-1.58*,-0.13,-0.25
+PMT2138,,Z,,hypothetical protein,0.02,-0.3,0.71,-1.62*,-0.99,-1.22,-1.76*,-0.86,-0.29
+PMT2155,,Z,,MARCKS family protein,-1.27,-1.17,-1.49,-1.40*,-1.1,-2.02*,-2.38*,-0.45,-0.6
+PMT2168,,Z,,hypothetical protein,0.68,0.63,0.83,1.09*,0.61,0.54,0.59,0.83,0.69
+PMT2173,,Z,,hypothetical protein,-1.60*,-1.09,-0.85,0.22,-0.29,0.2,-1.01,0.03,-0.44
+PMT2186,,Z,S,hypothetical protein,-0.64,-0.11,-0.07,-0.71,-0.57,-0.75,-0.52,-1.10*,-0.98
+PMT2258,,Z,,hypothetical protein,-0.27,-0.26,-0.33,-0.84,-0.49,-0.77,-1.28*,-0.76,-0.57
+PMT2260,,Z,,hypothetical protein,-0.87,-0.57,-0.87,-0.84,-0.49,-1.06*,-1.19*,-0.43,-0.47
+PMT2265,,Z,,hypothetical protein,-0.37,-0.32,-0.55,-0.82,-0.51,-0.63,-1.48*,-0.68,-0.33
+PMT2273,,Z,,hypothetical protein,-0.58,-0.26,-0.72,-0.96,-0.64,-0.94,-1.24*,-1.00*,-0.38
+PMT2276,,Z,,,-0.46,-0.42,-0.55,-0.45,-0.66,-0.71,-1.11*,-0.71,-0.32
+PMT2278,,Z,,,0.9,1.35,1.7,1.75,1.49,0.58,1.26,3.21*,1.36
+PMT2282_pseudo,,Z,,,1.21,0.84,1.11,0.83,1.78,1.27,1.02,2.38,3.16*
+PMT2284,,Z,,,0.46,0.88,0.72,0.29,1.67,0.33,0.86,1.95*,1.39
+PMT2286,,Z,,,0.83,0.67,1.34,1.63*,1.60*,1.27,0.69,0.95,1.04
+PMT2287,,Z,,,1.38,1.43,1.76*,0.33,1.66*,0.59,1.80*,1.25,1.88*
+PMT2288,,Z,,,-0.84,-0.6,-0.98,-1.59*,-0.3,-0.5,-0.74,-0.63,-0.6
+PMT2289,,Z,,,-0.42,-0.21,-0.96,-1.79*,-0.81,-1.70*,-0.25,-0.33,-0.76
+PMT2290_pseudo,,Z,,,2.68*,2.23*,1.94*,2.00*,2.57*,1.31,3.23*,4.41*,2.74*
+PMT2293,,Z,,,1.07,1.2,1.72*,0.17,0.85,0.45,0.52,1.2,0.88
+PMT2296,,Z,,,0.57,0.16,0.04,-0.87,-1.27,-1.18,-1.02,-1.71,-2.23*
+PMT2297,,Z,,,-0.97,-0.83,-1.14,-1.83,-1.72,-1.77,-2.43*,-1.1,-1.14
+PMT2305,,Z,,,0.6,0.34,1.11,0.85,0.72,1.04,0.01,1.24*,0.38
+PMT2310_pseudo,,Z,,,3.82,1.88,4.34,0.88,2.4,1.92,4.13*,5.25*,2.92*
+PMT2311,,Z,,,-0.31,1.44,0.65,-1.45*,-0.01,-1.64,-0.26,-1.07,0.63
+PMT2312,,Z,,,-0.11,0.43,-0.84,0.81,1.07,1.12,0.2,1.81,2.19*
+PMT2313,,Z,,,0.37,1.37,3.04,0.77,1.19,2.11,0.93,1.68,3.02*
+PMT2320,,Z,,,-1.33,-0.2,-0.31,-1.69*,-0.74,-0.97,-0.7,-0.9,-0.35
+PMT2324,,Z,,,-0.75,-0.77,0.05,-1.40*,-0.49,-0.31,-1.22*,-0.38,-0.31
+PMT2325,,Z,,,-0.97,-1.22,0.05,-1.87*,-1.62*,-1.89*,-1.83*,-1.13,-0.84
+PMT2326,,Z,,,-0.4,-0.67,-0.2,0.5,1.59*,-0.51,0.32,1.23,1.11
+PMT2328,,Z,,,-0.36,-0.24,-0.71,-0.53,-0.39,-1.08,-1.41*,-0.32,-0.48
+PMT2330,,Z,,,1.09,0.88,0.39,0.02,1.01,0.06,0.27,1.74,2.19*
+PMT2334,,Z,,,-1.31,-0.48,-0.18,-1.84,-0.86,-1.59,-2.23*,0.12,-0.01
+PMT2336,,Z,,,1.08,0.15,2.24,1.7,1.28,0.11,1.17,1.65,2.81*
+PMT2342,,Z,,,2.19,2.44,2.13,2.04*,2.17*,1.73,1.5,1.46,2.11*
+PMT2344,,Z,,,0.13,1.14,1.01,1.24,1.13,1.80*,0.82,0.34,1.59*
+PMT2347_pseudo,,Z,,,0.23,0.65,0.66,0.1,0.95,0.29,1.18*,1.42*,0.88
+PMT2352,,Z,,,0.96,1.17,1.4,1.89*,1.28,1.19,1.15,3.59*,1.77*
+PMT2355,,Z,,,-1.24,-0.96,-1.34,-2.05*,-1.1,-2.24*,-2.07*,-2.71*,-0.72
+PMT2357,,Z,,,1.03,0.4,0.61,-0.81,1.24,1.37,1.24,-0.16,2.31*
+PMT2359,,Z,,,0.53,0.42,0.91,0.72,1.20*,0.39,0.29,0.6,0.43
+PMT2360,,Z,,,0.21,0.23,-0.25,0.51,1.14*,0.7,0.22,1.39*,0.91
+PMT2361,,Z,,,0.7,0.6,0.81,1.74*,2.11*,1.45,1.03,1.79*,2.16*
+PMT2365,,Z,,,1.2,1.11,0.78,1.84*,1.73*,1.50*,1.29,0.58,0.61
+PMT2366,,Z,,,0.99,0.09,0.39,0.81,0.96,0.88,0.61,1.96*,0.53
+PMT2369,,Z,,,-0.69,-0.6,0.1,-1.56*,-0.65,-1.06,-1.21,-0.39,0.39
+PMT2372,,Z,,,0.16,0.42,0.33,0.2,1.47*,1.44*,1.24*,2.06*,1.82*
+PMT2376,,Z,,,0.13,0.28,-0.15,0.07,1.02,0.3,0.4,1.21*,0.65
+PMT2380,,Z,,,-0.71,-0.67,-0.83,-1.57*,-0.93,-1.83*,-2.14*,-0.68,-1.14
+PMT2382,,Z,,,-0.66,-0.02,-0.53,-1.74*,-0.05,-0.85,-0.19,0.3,1.14
+PMT2383,,Z,,,0.33,0.44,0.56,0.72,1.16,0.63,0.39,1.83*,0.51
+PMT2384,,Z,,,2.13*,1.97,2.78*,2.93*,3.90*,1.96*,3.22*,3.61*,4.17*
+PMT2386,,Z,,,-1.06,-0.67,-0.66,-1.78*,0.09,-1.15,-1.39,-0.46,-0.56
+PMT2387,,Z,,,1.28*,0.96,0.72,1.39*,1.42*,1.74*,1.17*,2.30*,2.16*
+PMT2389,,Z,,,-0.27,0.18,-0.39,2.38*,1.02,-1.82,0.86,0.49,1.33
+PMT2392,,Z,,,1.19,1.48,1.71,0.94,2.98*,0.78,1.98,5.13*,2.67*
+PMT2394,,Z,,,1.29,1.03,0.66,1.21,1.03,0.96,0.29,2.11*,0.97
+PMT2401,,Z,,,-0.12,-0.04,0.45,-0.54,0.89,0.06,0.42,1.29*,1.52*
+PMT2406_pseudo,,Z,,,-0.08,-0.45,-0.24,-1.04,-0.21,-0.93,-1.31*,-0.42,-0.66
+PMT2414,,Z,,,0.13,-0.01,0.94,1.08,1.33,1.87*,1.35*,1.04,0.33
+PMT2416,,Z,,,1.73*,0.89,1.23*,1.26*,1.53*,2.09*,1.21*,1.20*,0.99
+PMT2421_pseudo,,Z,,,0.93,0.95,0.81,0.96,2.51*,0.88,2.53*,3.11*,1.68*
+PMT2425,,Z,,,1.59*,0.49,1.29,0.4,1.12,1.47*,1.71*,2.88*,1.24*
+PMT2428,,Z,,,-0.24,0.02,0.06,0.93,0.3,0.5,-0.02,1.97*,1.03
+PMT2431,,Z,,,0.65,0.25,0.61,1.77*,1.62*,1.11,0.57,1.95*,1.05
+PMT2432,,Z,,,-1.3,-1.46,-0.87,-1.38*,-0.39,-2.49*,-2.01*,-0.83,-0.68
+PMT2438_pseudo,,Z,,,-0.76,-0.22,-0.32,-1.49*,-0.73,-1.53*,-1.42*,-0.96,-0.52
+PMT2439,,Z,,,0.92,1.02,1.46*,1.89*,2.20*,1.99*,1.75*,2.05*,2.09*
+PMT2442_pseudo,,Z,,,-0.46,1.24,0.84,-2.29*,-0.93,-1.95,-1.32,-0.47,-0.56
+PMT2443,,Z,,,-0.26,-0.18,0.16,-1.42*,-0.43,-1.68*,-1.57*,-0.99,-0.34
+PMT2444,,Z,,,1.27,1.11,1.41,1.71,1.86,1.92,3.24*,3.88*,2.81*
+PMT2448,,Z,,,0.04,0.06,0.66,-0.44,2.08*,0.55,0.84,1.52*,1.41*
+PMT2451,,Z,,,-0.51,-0.58,-0.62,-1.27,-1.22,-1.03,-2.27*,0.11,0.47
+PMT2453,,Z,,,-0.21,-0.19,-0.69,-0.86,0,-0.47,-1.57*,0.27,0.11
+PMT2456_pseudo,,Z,,,0.92,0.59,1.69,1.92,2.83*,1.64,1.22,1.44,2.42*
+PMT2462_pseudo,,Z,,,1.78,1.36,2.24*,3.03*,2.15*,4.17*,1.43,1.88*,2.38*
+PMT2468,,Z,,,0.09,-0.29,0.29,1.14*,1.51*,0.35,0.7,1.52*,1.18*
+PMT2470_pseudo,,Z,,,1.61,1.76,1.91*,1.25,2.40*,1.26,2.19*,3.08*,2.79*
+PMT2477,,Z,,,0.09,0.35,0.19,-1.18*,-0.56,-0.81,-1.43*,-1.39*,-0.01
+PMT2478,,Z,,,-0.92,-0.58,-0.45,-0.6,-0.06,-0.2,-0.11,1.15*,0.09
+PMT2488_pseudo,,Z,,,-1.6,-1.78,-0.63,-2.84*,-1.66,-2.92*,-1.89*,-0.84,-0.83
+PMT2493,,Z,,,2.19*,1.40*,1.67*,1.81*,2.07*,2.26*,2.84*,1.74*,1.63*
+PMT2497,,Z,,,0.53,0.18,0.52,-0.25,-0.84,-1.35,-1.89*,-1.8,-1.09
+PMT2500,,Z,,,2.14,0.88,0.88,1.33,4.83*,1.63,1.02,2.03,4.74*
+PMT2502,,Z,,,-0.7,-1.29,-0.45,-1.58*,-1.32,-1.57,-1.33,-0.12,-0.35
+PMT2507,,Z,,,1.33,1.4,1.59,0.06,0.4,1.67*,0.53,0.43,0.75
+PMT2510,,Z,,,-0.39,0.81,0.62,-0.11,1.1,-0.02,1.12*,0.56,0.21
+PMT2511,,Z,,,-0.33,-0.25,-0.52,-0.67,0.01,-1.27*,-1.40*,-0.94,-0.96
+PMT2512,,Z,,,0.41,0.46,0.41,0.73,1.46,1.64*,0.88,1.93*,1.47
+PMT2515,,Z,,,0.11,0.24,0.93,0.64,1.29*,1.50*,1.11*,1.11*,0.75
+PMT2518,,Z,,,0.53,0.77,0.64,0.56,1.87,1.37,4.10*,3.46,0.93
+PMT2524,,Z,,,1.82*,1.54,2.42*,2.81*,3.14*,1.93*,3.17*,2.24*,2.36*
+PMT2533,,Z,,,-0.42,0.11,-0.5,0.34,1.94,1.13,0.93,1.96,2.62*
+PMT2534,,Z,,,0.54,0.17,0.6,0.4,0.86,0.87,0.88,1.49*,1.47*
+PMT2536,,Z,,,-0.66,-0.72,-0.52,-1.75*,-1.62*,-1.37*,-1.66*,-1.52*,-0.97
+PMT2550,,Z,,,0.83,0.21,-0.21,1.72*,1.58,1.4,0.39,2.92*,1.62
+PMT2552_pseudo,,Z,,,0.53,1.03,0.92,1.62,0.21,4.51*,0.87,0.89,0.91
+PMT2556_pseudo,,Z,,,0.58,0.57,1,-0.37,2.41*,1.35,1,0.88,1.64
+PMT2559_pseudo,,Z,,,1.42*,1.24,1.44*,0.86,0.6,0.52,0.47,0.89,0.58
+PMT2563,,Z,,,0.16,-0.23,0.22,1.55*,0.5,-0.44,-0.33,-0.38,0.21
+PMT2568,,Z,,,-0.08,-0.02,0.68,-0.04,1.31*,0.23,0.45,1.16*,1.16*
+PMT2571,,Z,,,0.5,-0.21,0.87,0.9,2.67*,0.02,2.19*,0.7,1.51
+PMT2575,,Z,,,1.53*,0.98,1.58*,1.47*,1.87*,1.76*,0.64,2.02*,2.14*
+PMT2581,,Z,,,0.53,0.23,0.38,0.95,1.45,2.27*,0.72,2.06*,1.08
+PMT2584,,Z,,,0.35,0.98,0.2,1.08,1.52,0.74,1.35,2.65*,1.31
+PMT2586,,Z,,,0.45,0.73,0.21,0.33,0.88,0.83,1.20*,1.12*,0.57
+PMT2589,,Z,,,0.49,0.35,0.83,0.62,1.06*,0.62,0.36,0.6,0.26
+PMT2590,,Z,,,0.57,0.44,0.45,0.28,0.61,0.82,0.62,1.09*,0.75
+PMT2594_pseudo,,Z,,,-1.09,-1.01,-0.89,-2.10*,-0.95,-1.34,-1.38,-0.42,-0.65
+PMT2596,,Z,,,0.61,0.42,0.35,1.17*,0.05,0.88,0.75,0.25,0.67
+PMT2604,,Z,,,0.23,0.62,0.91,-0.18,0.85,1.1,0.55,1.13*,1.12*
+PMT2606_pseudo,,Z,,,-0.65,-0.46,-0.41,-1.32*,-0.48,-1.40*,-0.98,-0.64,-0.15
+PMT2608,,Z,,,-0.52,-0.8,0.21,-1.39*,-0.95,-0.65,-1.79*,-0.79,-0.64
+PMT2609_pseudo,,Z,,,-0.97,-1.5,-0.21,-1.19,-1.53*,-1.53*,-1.89*,-1.07,-0.9
+PMT2612_pseudo,,Z,,,-1.41*,-1.32,-1.32*,-0.24,-0.85,-0.67,-1.25*,-0.43,-0.79
+PMT2614,,Z,,,-0.29,0.14,-0.49,-0.56,-1.11,-1.35*,-0.16,-1.29,-0.85
+PMT2615,,Z,,,-0.24,-0.62,-0.35,-0.93,-0.48,-0.34,-1.32*,-0.32,-0.11
+PMT2617,,Z,,,0.58,0.18,0.08,1.25*,0.46,1.09*,0.52,0.67,0.23
+PMT2620,,Z,,,-0.38,-1.28,0.15,-1.52*,-1.44,-1.47*,-2.27*,-0.75,-0.85
+PMT2622,,Z,,,1.62,1.97*,2.50*,1.29,3.27*,2.46*,2.22*,5.26*,3.89*
+PMT2626,,Z,,,1.18,-1.5,-0.12,1.82,1.29,0.39,-0.99,4.81*,1.52
+PMT2627,,Z,,,1.07,1.47,1.34,0.54,3.2,1.65,0.8,4.36*,1.71
+PMT2632,,Z,,,0.19,0.16,0.33,0.6,1.32,1.23,1.21,2.39*,0.5
+PMT2633_pseudo,,Z,,,0.27,0.42,0.42,-1.57*,0.87,0.33,0.28,0.29,0.91
+PMT2634,,Z,,,1.41,1.3,1.63*,-0.42,0.57,0.17,0.29,0.31,0.88
+PMT2648,,Z,,,-0.06,0.24,2.12*,-1.53,-0.86,-1.21,-1.89*,-1.79,-0.53
+PMT2649,,Z,,,0.95,0.82,0.49,0.29,0.91,0.71,0.3,1.75*,1.31
+PMT2658,,Z,,,0.97,1.57*,1.61*,1.25*,1.90*,2.19*,1.48*,2.56*,2.34*
+PMT2667,,Z,,,1.04,0.48,1.11*,0.94,1.09*,1.58*,1.38*,1.34*,1.04*
+PMT2675,,Z,,,-0.61,-0.88,-0.57,-1.25*,-0.63,-1.92*,-1.27*,-0.71,-0.91
+PMT2676,,Z,,,0.93,0.57,0.6,1.51*,1.45*,1.48*,1.17*,1.39*,1.08*
+PMT2682,,Z,,,0.1,-0.16,0.06,0.22,1.14,0.22,0.35,1.47,1.58*
+PMT2684,,Z,,,1.59*,0.89,1.17*,2.18*,2.31*,1.50*,1.32*,2.32*,1.86*
+PMT2690,,Z,,,-1.07,0,-0.24,0.02,1.45,0.76,1.43*,1.51*,0.5
+PMT2693,,Z,,,0.26,-0.09,0.25,0.51,1.18,1.19,-1.19*,1.75*,0.79
+PMT2694,,Z,,,0.86,0.7,0.98,1.38*,0.31,1.13*,0.36,0.74,0.39
+PMT2705_pseudo,,Z,,,1.9,2.23*,2.02*,2.01*,2.92*,1.75,2.02*,3.49*,2.37*
+PMT2710,,Z,,,1.18,1.66,1.1,2.50*,0.98,0.9,2.45,1.31,1.57
+PMT2711,,Z,,,0.53,0.26,1.04,1.33*,1.66*,0.88,1.1,1.87*,1.58*
+PMT2712,,Z,,,-0.67,-0.83,-0.01,-1.76*,-1.36,-2.27*,-1.96*,-1.4,-0.86
+PMT2713,,Z,,,1.28,2.22*,1.93,1.72*,3.13*,2.20*,2.22*,3.37*,2.80*
+PMT2714,,Z,,,0.7,0.57,1.21,0.75,0.84,0.23,0.31,1.39,1.48*
+PMT2730,,Z,,,1.03,0.37,1.04,1.14*,1.15*,1.20*,1.32*,1.21*,1.17*
+PMT2731,,Z,,,0.31,0.08,0.28,0.84,0.54,0.72,0.82,1.57*,0.1
+PMT2732,,Z,,,0.15,0.63,0.4,0.48,0.72,1.64*,1.32*,1.68*,0.74
+PMT2733,,Z,,,0.27,0.9,0.33,1.82*,1.63*,1.24,1.29*,0.99,0.52
+PMT2736,,Z,,,0.48,0.67,0.87,0.4,1.89*,0.78,1.35*,2.15*,1.99*
+PMT2739,,Z,,,-0.19,0.05,-0.03,-0.76,0,-0.58,-1.62*,-1.08,-0.72
+PMT2746,,Z,,,0.56,0.21,0.39,0.32,1.01,0.02,-0.1,1.98*,0.89
+PMT2749,,Z,,,0.75,0.71,0.39,2.29*,1.2,1.29,0.59,1.01,1.03
+PMT2750,,Z,,,1.75*,1.12,2.20*,1.16,2.33*,1.61*,1.66*,1.48*,2.59*
+PMT2751,,Z,,,1.4,1.92*,1.94*,0.32,2.58*,1.21,3.30*,3.62*,2.49*
+PMT2757,,Z,,,0.39,0.39,0.51,0.91,1.22,0.18,0.33,2.27*,1.66*
+PMT2768,,Z,,,0.74,0.1,0.12,0.77,-0.25,-0.7,0.75,0.53,1.72*
+PMT2770,,Z,,,0.45,0.18,-0.2,-1.02,-0.29,-0.41,-1.35*,-0.2,-0.01
+PMT2772,,Z,,,-0.36,-0.48,-0.38,-0.79,-0.52,-1.21*,-1.35*,-0.72,-0.77
+PMT2776,,Z,,,-1.14,-1.26,-1.12,-1.77,-1.28,-3.06*,-2.98*,-1.66,-1.04
+PMT2777,,Z,,,0.63,0.39,0.15,-0.74,-1.22,-1.03,-1.3,-1.67,-2.27*
+PMT2780,,Z,,,1.17,1.37,1.81*,0.37,0.98,0.63,0.69,1.33*,1.01
+PMT2783,,Z,,,1.23,2.16,2.19*,1.68,3.27*,1.98*,0.93,2.35*,2.20*
+PMT2784,,Z,,,-0.32,-0.45,0.54,-0.06,0.46,0.83,-0.07,1.27*,-0.28
+PMT2795,,Z,,,0.93,1.33*,1.27*,1.69*,1.22*,1.50*,1.20*,0.47,1.33*
+PMT2800,,Z,,,0.34,0.3,0.63,-0.37,0.53,-0.17,1.35*,1.29,1.13
+PMT2801,,Z,,,0.09,0.08,0.33,0.05,0.78,-0.09,0.59,1.65*,1.21
+PMT2806,,Z,,,1.31*,0.5,1.23*,0.83,0.44,0.65,0.88,1.02,0.73
+PMT2807,,Z,,,1.45,1.58,1.46,2.34*,2.57*,1.68*,2.31*,2.48*,2.62*
+PMT2810,,Z,,,0.3,-0.25,0,1.11*,0.23,0.71,0.26,-0.06,-0.43
+PMT2811,,Z,,,0.54,0.95,0.65,1.55,4.85*,1.87,0.96,-0.34,0.83
+PMT2815,,Z,,,1.99,0.57,1.58,0.89,1.46,1.37,1.21,-0.26,1.96*
+PMT2816,,Z,,,-0.34,0.13,0.23,-0.12,0.3,-1.46*,-0.54,0.01,-0.15
+PMT2818_pseudo,,Z,,,-0.36,-0.63,-0.25,-0.74,-0.56,-1.30*,-0.92,0.01,-0.31
+PMT2820,,Z,,,-0.62,0.05,-0.04,-0.68,-0.12,-1.14,-1.45*,-0.51,-0.58
+PMT2822,,Z,,,-0.47,-0.74,-0.97,0.44,-0.57,-0.8,-1.41*,-0.28,-1
+PMT2823,,Z,,,-0.7,-1.33,-0.31,-1.83*,-1.88*,-1.92*,-2.35*,-1,-0.91
+PMT2827,,Z,,,-0.39,0.34,0.2,0.79,2.26*,1.47*,1.44*,1.59*,2.34*
+PMT2828,,Z,,,1,1.12,1.07,0.55,1.63*,0.47,1.08,1.68*,1.45*
+PMT2829,,Z,,,-0.85,-1.03,-0.29,-1.07,-0.97,-0.46,-1.09,-2.46*,-2.09*
+PMT2830,,Z,,,1.05,0.52,0.91,1.97*,1.25,1.21,1.90*,1.58*,0.42
+PMT2831,,Z,,,0.81,0.52,0.87,0.91,0.93,1.09*,0.99,1.28*,0.43
+PMT2832,,Z,,,1.31,1.09,1.98*,1.16,1.49*,1.36*,1.55*,1.36*,1.39*
+PMT2837,,Z,,,0.77,0.74,0.96,1.24,1.13,0.35,1.33,2.52*,1.34
+PMT2841,,Z,,,2.4,1.3,1.18,1.27,2.27*,2.58*,0.89,1.81,2.85*
+PMT2842,,Z,,,0.19,0.05,-0.41,1.63*,0.44,0.98,0.27,0.02,-0.32
+PMT2859,,Z,,,1.44*,1.29,1.71*,0.55,1.46*,1.03,1.03,1.79*,1.84*
+PMT2863,,Z,,,0.76,1.44,1.65,-0.33,0.83,1.63,-0.31,3.21,4.75*
+PMT2866,,Z,,,0.57,0.33,0.12,0.96,0.48,0.15,1.61*,0.51,0.8
+PMT2870,,Z,,,1.72,1.8,1.87,2.42*,2.79*,1.77,2.34*,4.18*,1.86
+PMT2875,,Z,,,1.03,0.3,0.72,0.75,1,1.19*,-0.37,0.97,0.16
+PMT2876,,Z,,,-0.31,-0.44,-0.44,-1.23,-0.58,-0.92,-1.56*,0.33,0.18
+PMT2879,,Z,,,1.03,0.68,0.15,1.53*,1.48,0.37,0.37,1.86*,1.92*
+PMT2881_pseudo,,Z,,,-0.86,-0.8,-0.71,-1.21,-0.32,-1.51,-1.69*,-0.68,-0.93
+PMT2884,,Z,,,1.03,1,0.63,0.22,0.8,0.82,0.51,2.54*,1.48*
+PMT2885,,Z,,,0.3,-0.06,0.37,0.21,1.19,0.36,0.95,1.52*,1.08
+PMT2892_pseudo,,Z,,,-1.22,-1.13,-1.2,-0.22,-0.78,-1.33,-1.46*,0.11,-1.05
+PMT2896_pseudo,,Z,,,-0.01,0.04,0.66,-0.13,2.65*,-0.05,0.23,0.91,1.71*
+PMT2899,,Z,,,1.16,1.53,2.05*,1.1,1.75*,1.36*,1.70*,1.39*,1.59*
+PMT2900,,Z,,,0.65,0.68,0.18,1.24,1.77,2.21,1.58,2.75,3.95*
+PMT2901,,Z,,,-1.13,0.05,-0.34,-1.93*,-0.37,-0.94,-0.69,-1.02,0.27
+PMT2904,,Z,,,-1.05,-1.27,0.27,-1.88*,-2.27*,-2.64*,-2.35*,-1,-0.84
+PMT2905,,Z,,,-0.91,-0.09,-0.52,-0.63,-0.72,-0.42,-1.14*,-0.38,-0.71
+PMT2906,,Z,,,-0.58,-1.03*,-1.08*,-0.22,-1.17*,-0.95,-1.46*,-0.66,-0.95
+PMT2908,,Z,,,1.37,1.32,1.84*,1.45*,2.19*,0.88,1.87*,1.98*,1.76*
+PMT2914,,Z,,,-0.8,-0.18,-0.26,-1.22*,-0.24,-0.39,-0.05,-0.83,-0.51
+PMT2917,,Z,,,-0.88,-0.66,-0.91,-0.52,0.49,0.23,-2.51*,0.55,0.8
+PMT2919,prfB3,Z,,,1.13,0.64,1.56,1.52,1.54,0.46,0.29,4.16*,1.94*
+PMT2921,,Z,,,0.12,0.81,0.57,0.43,0.7,1,1.63*,1,0.62
+PMT2922,,Z,,,0.98,1.31,0.69,2.34*,0.66,3.08*,1.18,1.25,1.15
+PMT2927_pseudo,,Z,,,0.42,1.56,1.16,0.8,2.09,1.1,0.06,5.94*,4.11*

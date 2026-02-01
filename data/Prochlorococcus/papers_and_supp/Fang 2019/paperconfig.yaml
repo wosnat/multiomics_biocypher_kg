@@ -1,0 +1,154 @@
+publication:
+  papername: "Fang 2019"
+  papermainpdf: "data/Prochlorococcus/papers_and_supp/Fang 2019/Fang 2015 Prochlorococcus mit9313 Transcriptomic responses to viral lysis products.pdf"
+
+  environmental_conditions:
+    fang_2019_pro99_control:
+      condition_type: growth_medium
+      name: "Pro99 growth medium control"
+      medium: Pro99 natural seawater medium
+      temperature: 24C
+      light_condition: continuous_light
+      light_intensity: "15-20 umol quanta m-2 s-1"
+      description: "Axenic Prochlorococcus MIT9313 amended with Pro99 growth medium (control)"
+    fang_2019_vdom_addition:
+      condition_type: viral_lysis_products
+      name: "Viral DOM (vDOM) addition"
+      medium: Pro99 natural seawater medium amended with vDOM
+      temperature: 24C
+      light_condition: continuous_light
+      light_intensity: "15-20 umol quanta m-2 s-1"
+      description: "Axenic Prochlorococcus MIT9313 amended with viral lysis products (vDOM) from Synechococcus WH8102 infected with cyanophage S-ShM2, added at 1:4 volume ratio"
+
+  supplementary_materials:
+    supp_table_2:
+      type: csv
+      filename: "data/Prochlorococcus/papers_and_supp/Fang 2019/de genes emi14513-sup-0002-tables2.csv"
+      skip_rows: 5
+      statistical_analyses:
+        - type: RNASEQ
+          name: "DE Prochlorococcus MIT9313 vDOM vs control (0.5h)"
+          id: DE_vdom_vs_control_MIT9313_0.5h
+          test_type: DESeq2
+          control_condition: "Pro99 growth medium"
+          treatment_condition: "Viral DOM (vDOM) from lysed Synechococcus WH8102"
+          environmental_control_condition_id: fang_2019_pro99_control
+          environmental_treatment_condition_id: fang_2019_vdom_addition
+          experimental_context: "Axenic Prochlorococcus MIT9313 in Pro99 medium at 24C under continuous light at 15-20 umol quanta m-2 s-1"
+          timepoint: "0.5h"
+          organism: "Prochlorococcus MIT9313"
+          name_col: "Gene ID"
+          logfc_col: "0.5 h"
+          pvalue_asterisk_in_logfc: true
+        - type: RNASEQ
+          name: "DE Prochlorococcus MIT9313 vDOM vs control (1h)"
+          id: DE_vdom_vs_control_MIT9313_1h
+          test_type: DESeq2
+          control_condition: "Pro99 growth medium"
+          treatment_condition: "Viral DOM (vDOM) from lysed Synechococcus WH8102"
+          environmental_control_condition_id: fang_2019_pro99_control
+          environmental_treatment_condition_id: fang_2019_vdom_addition
+          experimental_context: "Axenic Prochlorococcus MIT9313 in Pro99 medium at 24C under continuous light at 15-20 umol quanta m-2 s-1"
+          timepoint: "1h"
+          organism: "Prochlorococcus MIT9313"
+          name_col: "Gene ID"
+          logfc_col: "1 h"
+          pvalue_asterisk_in_logfc: true
+        - type: RNASEQ
+          name: "DE Prochlorococcus MIT9313 vDOM vs control (2h)"
+          id: DE_vdom_vs_control_MIT9313_2h
+          test_type: DESeq2
+          control_condition: "Pro99 growth medium"
+          treatment_condition: "Viral DOM (vDOM) from lysed Synechococcus WH8102"
+          environmental_control_condition_id: fang_2019_pro99_control
+          environmental_treatment_condition_id: fang_2019_vdom_addition
+          experimental_context: "Axenic Prochlorococcus MIT9313 in Pro99 medium at 24C under continuous light at 15-20 umol quanta m-2 s-1"
+          timepoint: "2h"
+          organism: "Prochlorococcus MIT9313"
+          name_col: "Gene ID"
+          logfc_col: "2 h"
+          pvalue_asterisk_in_logfc: true
+        - type: RNASEQ
+          name: "DE Prochlorococcus MIT9313 vDOM vs control (4h)"
+          id: DE_vdom_vs_control_MIT9313_4h
+          test_type: DESeq2
+          control_condition: "Pro99 growth medium"
+          treatment_condition: "Viral DOM (vDOM) from lysed Synechococcus WH8102"
+          environmental_control_condition_id: fang_2019_pro99_control
+          environmental_treatment_condition_id: fang_2019_vdom_addition
+          experimental_context: "Axenic Prochlorococcus MIT9313 in Pro99 medium at 24C under continuous light at 15-20 umol quanta m-2 s-1"
+          timepoint: "4h"
+          organism: "Prochlorococcus MIT9313"
+          name_col: "Gene ID"
+          logfc_col: "4 h"
+          pvalue_asterisk_in_logfc: true
+        - type: RNASEQ
+          name: "DE Prochlorococcus MIT9313 vDOM vs control (8h)"
+          id: DE_vdom_vs_control_MIT9313_8h
+          test_type: DESeq2
+          control_condition: "Pro99 growth medium"
+          treatment_condition: "Viral DOM (vDOM) from lysed Synechococcus WH8102"
+          environmental_control_condition_id: fang_2019_pro99_control
+          environmental_treatment_condition_id: fang_2019_vdom_addition
+          experimental_context: "Axenic Prochlorococcus MIT9313 in Pro99 medium at 24C under continuous light at 15-20 umol quanta m-2 s-1"
+          timepoint: "8h"
+          organism: "Prochlorococcus MIT9313"
+          name_col: "Gene ID"
+          logfc_col: "8 h"
+          pvalue_asterisk_in_logfc: true
+        - type: RNASEQ
+          name: "DE Prochlorococcus MIT9313 vDOM vs control (12h)"
+          id: DE_vdom_vs_control_MIT9313_12h
+          test_type: DESeq2
+          control_condition: "Pro99 growth medium"
+          treatment_condition: "Viral DOM (vDOM) from lysed Synechococcus WH8102"
+          environmental_control_condition_id: fang_2019_pro99_control
+          environmental_treatment_condition_id: fang_2019_vdom_addition
+          experimental_context: "Axenic Prochlorococcus MIT9313 in Pro99 medium at 24C under continuous light at 15-20 umol quanta m-2 s-1"
+          timepoint: "12h"
+          organism: "Prochlorococcus MIT9313"
+          name_col: "Gene ID"
+          logfc_col: "12 h"
+          pvalue_asterisk_in_logfc: true
+        - type: RNASEQ
+          name: "DE Prochlorococcus MIT9313 vDOM vs control (24h)"
+          id: DE_vdom_vs_control_MIT9313_24h
+          test_type: DESeq2
+          control_condition: "Pro99 growth medium"
+          treatment_condition: "Viral DOM (vDOM) from lysed Synechococcus WH8102"
+          environmental_control_condition_id: fang_2019_pro99_control
+          environmental_treatment_condition_id: fang_2019_vdom_addition
+          experimental_context: "Axenic Prochlorococcus MIT9313 in Pro99 medium at 24C under continuous light at 15-20 umol quanta m-2 s-1"
+          timepoint: "24h"
+          organism: "Prochlorococcus MIT9313"
+          name_col: "Gene ID"
+          logfc_col: "24 h"
+          pvalue_asterisk_in_logfc: true
+        - type: RNASEQ
+          name: "DE Prochlorococcus MIT9313 vDOM vs control (48h)"
+          id: DE_vdom_vs_control_MIT9313_48h
+          test_type: DESeq2
+          control_condition: "Pro99 growth medium"
+          treatment_condition: "Viral DOM (vDOM) from lysed Synechococcus WH8102"
+          environmental_control_condition_id: fang_2019_pro99_control
+          environmental_treatment_condition_id: fang_2019_vdom_addition
+          experimental_context: "Axenic Prochlorococcus MIT9313 in Pro99 medium at 24C under continuous light at 15-20 umol quanta m-2 s-1"
+          timepoint: "48h"
+          organism: "Prochlorococcus MIT9313"
+          name_col: "Gene ID"
+          logfc_col: "48 h"
+          pvalue_asterisk_in_logfc: true
+        - type: RNASEQ
+          name: "DE Prochlorococcus MIT9313 vDOM vs control (72h)"
+          id: DE_vdom_vs_control_MIT9313_72h
+          test_type: DESeq2
+          control_condition: "Pro99 growth medium"
+          treatment_condition: "Viral DOM (vDOM) from lysed Synechococcus WH8102"
+          environmental_control_condition_id: fang_2019_pro99_control
+          environmental_treatment_condition_id: fang_2019_vdom_addition
+          experimental_context: "Axenic Prochlorococcus MIT9313 in Pro99 medium at 24C under continuous light at 15-20 umol quanta m-2 s-1"
+          timepoint: "72h"
+          organism: "Prochlorococcus MIT9313"
+          name_col: "Gene ID"
+          logfc_col: "72 h"
+          pvalue_asterisk_in_logfc: true

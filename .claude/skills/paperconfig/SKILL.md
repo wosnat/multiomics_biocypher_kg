@@ -3,7 +3,7 @@ name: paperconfig
 description: Create and validate paperconfig.yaml files for integrating omics publication data (RNA-seq, proteomics, metabolomics, microarray) into the knowledge graph. Use when adding a new paper's differential expression data.
 argument-hint: [paper-directory-name]
 user-invocable: true
-allowed-tools: Read, Grep, Glob, Write, Bash(uv *)
+allowed-tools: Read, Grep, Glob, Write, Edit, Bash(uv *), Bash(python *)
 ---
 
 # Paperconfig YAML Instructions
@@ -55,7 +55,7 @@ Define environmental conditions when the experiment varies an environmental fact
 ```yaml
   environmental_conditions:
     <unique_condition_id>:
-      condition_type: "<type>"    # e.g., gas_shock, salt_stress, growth_medium, growth_state, coculture
+      condition_type: "<type>"    # e.g., gas_shock, salt_stress, light_stress, growth_medium, growth_state, coculture
       name: "<human-readable name>"
       description: "<detailed description of the condition>"
       # Include any relevant parameters:
@@ -123,6 +123,8 @@ Each analysis entry describes one differential expression comparison.
 | `timepoint` | Time point of measurement | For time-course experiments (e.g., `"20h"`, `"48h"`, `"-12h"`, `"24h vs 12h"`) |
 | `skip_rows` | Number of header rows to skip when reading CSV | When the CSV has extra header rows before the data columns (e.g., `3`) |
 | `pvalue_asterisk_in_logfc` | Boolean, `true` if significance is marked by `*` appended to fold-change values | When there is no separate p-value column and the fold-change column has asterisks (e.g., `"2.5*"`) |
+
+**Note on tables where all values are significant:** Some supplementary tables only list genes that are already significantly differentially expressed (pre-filtered by the authors). In these cases, there may be no p-value column and no asterisks in the fold-change column. Simply omit both `adjusted_p_value_col` and `pvalue_asterisk_in_logfc`. The adapter will treat all rows as significant.
 
 #### Edge Source Fields (One Set Required)
 
@@ -302,6 +304,71 @@ When a paper has separate CSV files for different organisms or experiments:
           # ... Alteromonas analysis
 ```
 
+### Example 5: Environmental Stress with Multiple Biological Contexts in One File
+
+When a single CSV has columns for different biological contexts (e.g., axenic and coculture) at multiple timepoints, all comparing the same environmental treatment vs control:
+
+```yaml
+publication:
+  papername: "Biller 2018"
+  papermainpdf: "data/Prochlorococcus/papers_and_supp/Biller 2018/paper.pdf"
+
+  environmental_conditions:
+    biller_2018_diel_ld_control:
+      condition_type: growth_medium
+      name: "13:11 diel light:dark cycle control"
+      medium: Pro99 natural seawater medium
+      temperature: 24C
+      light_condition: "13:11 light:dark cycle with simulated dawn and dusk"
+      light_intensity: "55 umol photons m-2 s-1"
+      description: "Prochlorococcus NATL2A maintained under a 13:11 light:dark diel cycle"
+    biller_2018_extended_darkness:
+      condition_type: light_stress
+      name: "Extended darkness"
+      medium: Pro99 natural seawater medium
+      temperature: 24C
+      light_condition: continuous_darkness
+      light_intensity: "0 umol photons m-2 s-1"
+      description: "Cultures shifted to continuous darkness at expected sunrise"
+
+  supplementary_materials:
+    supp_table_s3:
+      type: csv
+      filename: "data/.../de_genes.csv"
+      statistical_analyses:
+        # Axenic condition at 1h
+        - type: RNASEQ
+          name: "DE Prochlorococcus NATL2A axenic in extended darkness vs diel (1h)"
+          id: DE_extended_darkness_vs_diel_axenic_NATL2A_1h
+          test_type: DESeq2
+          control_condition: "13:11 diel light:dark cycle"
+          treatment_condition: "Extended darkness"
+          environmental_control_condition_id: biller_2018_diel_ld_control
+          environmental_treatment_condition_id: biller_2018_extended_darkness
+          experimental_context: "Axenic Prochlorococcus NATL2A in Pro99 at 24C"
+          timepoint: "1h extended darkness"
+          organism: Prochlorococcus NATL2A
+          name_col: "NCBI ID"
+          logfc_col: "Axenic, 36 hours"
+          pvalue_asterisk_in_logfc: true
+        # Coculture condition at 1h (same file, different logfc_col)
+        - type: RNASEQ
+          name: "DE Prochlorococcus NATL2A coculture in extended darkness vs diel (1h)"
+          id: DE_extended_darkness_vs_diel_coculture_NATL2A_1h
+          test_type: DESeq2
+          control_condition: "13:11 diel light:dark cycle"
+          treatment_condition: "Extended darkness"
+          environmental_control_condition_id: biller_2018_diel_ld_control
+          environmental_treatment_condition_id: biller_2018_extended_darkness
+          experimental_context: "Prochlorococcus NATL2A co-cultured with Alteromonas macleodii MIT1002 in Pro99 at 24C"
+          timepoint: "1h extended darkness"
+          organism: Prochlorococcus NATL2A
+          name_col: "NCBI ID"
+          logfc_col: "Co-culture, 36 hours"
+          pvalue_asterisk_in_logfc: true
+        # ... repeat for additional timepoints
+```
+
 ## Registration
 
 After creating the paperconfig, register it in the pipeline:
@@ -336,9 +403,33 @@ Before submitting a paperconfig:
 When the user invokes this skill with a paper directory name (e.g., `/paperconfig "Author Year"`):
 
 1. Look for the paper directory under `data/Prochlorococcus/papers_and_supp/$ARGUMENTS/`
-2. Find the PDF and CSV files in that directory
-3. Read the CSV file headers to identify available columns
-4. Read the PDF to understand the experiment (organisms, conditions, methods)
-5. Draft the `paperconfig.yaml` following the schema above
-6. Validate against the checklist
-7. Register the config in `paperconfig_files.txt`
+2. List all files in that directory (PDF, CSV, XLSX, TXT, DOCX, etc.)
+3. Read any legend/description text files first -- these explain what the supplementary tables contain (column meanings, significance criteria, experimental details)
+4. Read the CSV file headers and a few sample rows to identify available columns and data format (check for asterisks in fold-change values, presence of p-value columns, skip rows, etc.)
+5. Read the PDF to understand the experiment (organisms, conditions, methods, statistical approach)
+6. Draft the `paperconfig.yaml` following the schema above
+7. Run the validation script (see below) to check all paths, columns, references, and ID uniqueness
+8. Register the config in `paperconfig_files.txt`
+
+### Validation Script
+
+After creating the paperconfig, always run the validation script:
+
+```bash
+uv run python .claude/skills/paperconfig/validate_paperconfig.py "data/Prochlorococcus/papers_and_supp/<Author Year>/paperconfig.yaml"
+```
+
+This script checks:
+- YAML is parseable and has required top-level structure
+- PDF file exists
+- All CSV files exist and are readable
+- Column names (`name_col`, `logfc_col`, `adjusted_p_value_col`) match actual CSV headers
+- `skip_rows` is applied correctly when reading CSV headers
+- Each analysis has all required fields (`type`, `name`, `id`, `test_type`, `control_condition`, `treatment_condition`, `organism`, `name_col`, `logfc_col`)
+- Each analysis has either (`treatment_organism` + `treatment_taxid`) or `environmental_treatment_condition_id`
+- Environmental condition ID references resolve to keys in `environmental_conditions`
+- All analysis IDs are unique
+- `logfc_col` values look numeric (warns on non-numeric values)
+- `type` is one of: RNASEQ, MICROARRAY, PROTEOMICS, METABOLOMICS
+
+The script exits with code 0 on success, 1 on validation failure.
