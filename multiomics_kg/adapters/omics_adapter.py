@@ -347,11 +347,18 @@ class OMICSAdapter:
                 logger.warning(f"No statistical analyses found in '{table_key}'")
                 continue
 
+            # Get file-level skip_rows setting
+            skip_rows = table_data.get('skip_rows', 0)
+
             # Process each statistical analysis
             for idx, stat_analysis in enumerate(stat_analyses):
                 if not isinstance(stat_analysis, dict):
                     logger.warning(f"Statistical analysis {idx} in '{table_key}' must be a dict, got {type(stat_analysis).__name__}. Skipping this analysis.")
                     continue
+
+                # Pass file-level skip_rows into analysis if not already set
+                if skip_rows and 'skip_rows' not in stat_analysis:
+                    stat_analysis['skip_rows'] = skip_rows
 
                 # Load the data file
                 edges_from_file = self._load_and_create_edges(
