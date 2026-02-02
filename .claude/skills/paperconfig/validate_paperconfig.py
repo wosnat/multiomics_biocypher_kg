@@ -96,7 +96,7 @@ def validate(config_path: str) -> bool:
         skip = table.get("skip_rows", 0)
         try:
             if skip:
-                df = pd.read_csv(fn, skiprows=range(1, skip + 1), nrows=5)
+                df = pd.read_csv(fn, skiprows=skip, nrows=5)
             else:
                 df = pd.read_csv(fn, nrows=5)
             cols = list(df.columns)

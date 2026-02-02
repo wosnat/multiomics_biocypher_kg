@@ -1,0 +1,219 @@
+publication:
+  papername: "Lin 2015"
+  papermainpdf: "data/Prochlorococcus/papers_and_supp/Lin 2015/Environmental Microbiology - 2015 - Lin - Transcriptomic response during phage infection of a marine cyanobacterium under.pdf"
+
+  environmental_conditions:
+    lin_2015_p_replete_control:
+      condition_type: growth_medium
+      name: "P-replete control"
+      description: "Prochlorococcus NATL2A grown in nutrient-replete Pro99 medium, phosphorus sufficient conditions"
+    lin_2015_p_limited:
+      condition_type: nutrient_stress
+      name: "P-limited"
+      description: "Prochlorococcus NATL2A under phosphorus limitation, P depleted from growth medium"
+
+  supplementary_materials:
+    supp_table_s4a:
+      type: csv
+      filename: "data/Prochlorococcus/papers_and_supp/Lin 2015/table S4A.csv"
+      statistical_analyses:
+        - type: RNASEQ
+          name: "DE of uninfected Prochlorococcus NATL2A under P-limitation vs P-replete at 4h"
+          id: DE_P_limited_vs_replete_NATL2A_uninfected_4h
+          test_type: DESeq2
+          control_condition: "P-replete"
+          treatment_condition: "P-limited"
+          environmental_control_condition_id: lin_2015_p_replete_control
+          environmental_treatment_condition_id: lin_2015_p_limited
+          experimental_context: "Uninfected Prochlorococcus NATL2A, P-limited vs nutrient-replete"
+          timepoint: "4h"
+          organism: "Prochlorococcus NATL2A"
+          name_col: "ID"
+          logfc_col: "4 h (-P/control) log2 fold change"
+          adjusted_p_value_col: "4 h (-P/control) padj"
+        - type: RNASEQ
+          name: "DE of uninfected Prochlorococcus NATL2A under P-limitation vs P-replete at 24h"
+          id: DE_P_limited_vs_replete_NATL2A_uninfected_24h
+          test_type: DESeq2
+          control_condition: "P-replete"
+          treatment_condition: "P-limited"
+          environmental_control_condition_id: lin_2015_p_replete_control
+          environmental_treatment_condition_id: lin_2015_p_limited
+          experimental_context: "Uninfected Prochlorococcus NATL2A, P-limited vs nutrient-replete"
+          timepoint: "24h"
+          organism: "Prochlorococcus NATL2A"
+          name_col: "ID"
+          logfc_col: "24 h (-P/control) log2 fold change"
+          adjusted_p_value_col: "24 h (-P/control) padj"
+        - type: RNASEQ
+          name: "DE of uninfected Prochlorococcus NATL2A under P-limitation vs P-replete at 46h"
+          id: DE_P_limited_vs_replete_NATL2A_uninfected_46h
+          test_type: DESeq2
+          control_condition: "P-replete"
+          treatment_condition: "P-limited"
+          environmental_control_condition_id: lin_2015_p_replete_control
+          environmental_treatment_condition_id: lin_2015_p_limited
+          experimental_context: "Uninfected Prochlorococcus NATL2A, P-limited vs nutrient-replete"
+          timepoint: "46h"
+          organism: "Prochlorococcus NATL2A"
+          name_col: "ID"
+          logfc_col: "46 h (-P/control) log2 fold change"
+          adjusted_p_value_col: "46 h (-P/control) padj"
+        - type: RNASEQ
+          name: "DE of uninfected Prochlorococcus NATL2A under P-limitation vs P-replete at 59h"
+          id: DE_P_limited_vs_replete_NATL2A_uninfected_59h
+          test_type: DESeq2
+          control_condition: "P-replete"
+          treatment_condition: "P-limited"
+          environmental_control_condition_id: lin_2015_p_replete_control
+          environmental_treatment_condition_id: lin_2015_p_limited
+          experimental_context: "Uninfected Prochlorococcus NATL2A, P-limited vs nutrient-replete"
+          timepoint: "59h"
+          organism: "Prochlorococcus NATL2A"
+          name_col: "ID"
+          logfc_col: "59 h (-P/control) log2 fold change"
+          adjusted_p_value_col: "59 h (-P/control) padj"
+        - type: RNASEQ
+          name: "DE of uninfected Prochlorococcus NATL2A under P re-addition vs control at 50h"
+          id: DE_P_readded_vs_control_NATL2A_uninfected_50h
+          test_type: DESeq2
+          control_condition: "P-replete"
+          treatment_condition: "P re-addition"
+          experimental_context: "Uninfected Prochlorococcus NATL2A, P re-added at 47h, sampled at 50h vs nutrient-replete control"
+          timepoint: "50h (P added)"
+          organism: "Prochlorococcus NATL2A"
+          environmental_control_condition_id: lin_2015_p_replete_control
+          environmental_treatment_condition_id: lin_2015_p_limited
+          name_col: "ID"
+          logfc_col: "50 h (P added/control) log2 fold change"
+          adjusted_p_value_col: "50 h (P added/control) padj"
+        - type: RNASEQ
+          name: "DE of uninfected Prochlorococcus NATL2A under P re-addition vs control at 59h"
+          id: DE_P_readded_vs_control_NATL2A_uninfected_59h
+          test_type: DESeq2
+          control_condition: "P-replete"
+          treatment_condition: "P re-addition"
+          experimental_context: "Uninfected Prochlorococcus NATL2A, P re-added at 47h, sampled at 59h vs nutrient-replete control"
+          timepoint: "59h (P added)"
+          organism: "Prochlorococcus NATL2A"
+          environmental_control_condition_id: lin_2015_p_replete_control
+          environmental_treatment_condition_id: lin_2015_p_limited
+          name_col: "ID"
+          logfc_col: "59 h (P added/control) log2 fold change"
+          adjusted_p_value_col: "59 h (P added/control) padj"
+    supp_table_s4b:
+      type: csv
+      filename: "data/Prochlorococcus/papers_and_supp/Lin 2015/table S4B.csv"
+      statistical_analyses:
+        - type: RNASEQ
+          name: "DE of phage-infected Prochlorococcus NATL2A under P-limitation vs P-replete at 47h"
+          id: DE_P_limited_vs_replete_NATL2A_infected_47h
+          test_type: DESeq2
+          control_condition: "P-replete"
+          treatment_condition: "P-limited"
+          environmental_control_condition_id: lin_2015_p_replete_control
+          environmental_treatment_condition_id: lin_2015_p_limited
+          experimental_context: "Phage-infected Prochlorococcus NATL2A (infected at 47h), P-limited vs nutrient-replete"
+          timepoint: "47h"
+          organism: "Prochlorococcus NATL2A"
+          name_col: "ID"
+          logfc_col: "47 h (-P/control) log2 fold change"
+          adjusted_p_value_col: "47 h (-P/control) padj"
+        - type: RNASEQ
+          name: "DE of phage-infected Prochlorococcus NATL2A under P-limitation vs P-replete at 48h"
+          id: DE_P_limited_vs_replete_NATL2A_infected_48h
+          test_type: DESeq2
+          control_condition: "P-replete"
+          treatment_condition: "P-limited"
+          environmental_control_condition_id: lin_2015_p_replete_control
+          environmental_treatment_condition_id: lin_2015_p_limited
+          experimental_context: "Phage-infected Prochlorococcus NATL2A (infected at 47h), P-limited vs nutrient-replete"
+          timepoint: "48h"
+          organism: "Prochlorococcus NATL2A"
+          name_col: "ID"
+          logfc_col: "48 h (-P/control) log2 fold change"
+          adjusted_p_value_col: "48 h (-P/control) padj"
+        - type: RNASEQ
+          name: "DE of phage-infected Prochlorococcus NATL2A under P-limitation vs P-replete at 49h"
+          id: DE_P_limited_vs_replete_NATL2A_infected_49h
+          test_type: DESeq2
+          control_condition: "P-replete"
+          treatment_condition: "P-limited"
+          environmental_control_condition_id: lin_2015_p_replete_control
+          environmental_treatment_condition_id: lin_2015_p_limited
+          experimental_context: "Phage-infected Prochlorococcus NATL2A (infected at 47h), P-limited vs nutrient-replete"
+          timepoint: "49h"
+          organism: "Prochlorococcus NATL2A"
+          name_col: "ID"
+          logfc_col: "49 h (-P/control) log2 fold change"
+          adjusted_p_value_col: "49 h (-P/control) padj"
+        - type: RNASEQ
+          name: "DE of phage-infected Prochlorococcus NATL2A under P-limitation vs P-replete at 51h"
+          id: DE_P_limited_vs_replete_NATL2A_infected_51h
+          test_type: DESeq2
+          control_condition: "P-replete"
+          treatment_condition: "P-limited"
+          environmental_control_condition_id: lin_2015_p_replete_control
+          environmental_treatment_condition_id: lin_2015_p_limited
+          experimental_context: "Phage-infected Prochlorococcus NATL2A (infected at 47h), P-limited vs nutrient-replete"
+          timepoint: "51h"
+          organism: "Prochlorococcus NATL2A"
+          name_col: "ID"
+          logfc_col: "51 h (-P/control) log2 fold change"
+          adjusted_p_value_col: "51 h (-P/control) padj"
+        - type: RNASEQ
+          name: "DE of phage-infected Prochlorococcus NATL2A under P-limitation vs P-replete at 55h"
+          id: DE_P_limited_vs_replete_NATL2A_infected_55h
+          test_type: DESeq2
+          control_condition: "P-replete"
+          treatment_condition: "P-limited"
+          environmental_control_condition_id: lin_2015_p_replete_control
+          environmental_treatment_condition_id: lin_2015_p_limited
+          experimental_context: "Phage-infected Prochlorococcus NATL2A (infected at 47h), P-limited vs nutrient-replete"
+          timepoint: "55h"
+          organism: "Prochlorococcus NATL2A"
+          name_col: "ID"
+          logfc_col: "55 h (-P/control) log2 fold change"
+          adjusted_p_value_col: "55 h (-P/control) padj"
+        - type: RNASEQ
+          name: "DE of phage-infected Prochlorococcus NATL2A under P-limitation vs P-replete at 59h"
+          id: DE_P_limited_vs_replete_NATL2A_infected_59h
+          test_type: DESeq2
+          control_condition: "P-replete"
+          treatment_condition: "P-limited"
+          environmental_control_condition_id: lin_2015_p_replete_control
+          environmental_treatment_condition_id: lin_2015_p_limited
+          experimental_context: "Phage-infected Prochlorococcus NATL2A (infected at 47h), P-limited vs nutrient-replete"
+          timepoint: "59h"
+          organism: "Prochlorococcus NATL2A"
+          name_col: "ID"
+          logfc_col: "59 h (-P/control) log2 fold change"
+          adjusted_p_value_col: "59 h (-P/control) padj"
+        - type: RNASEQ
+          name: "DE of phage-infected Prochlorococcus NATL2A under P re-addition vs control at 55h"
+          id: DE_P_readded_vs_control_NATL2A_infected_55h
+          test_type: DESeq2
+          control_condition: "P-replete"
+          treatment_condition: "P re-addition"
+          experimental_context: "Phage-infected Prochlorococcus NATL2A (infected at 47h), P re-added, sampled at 55h vs nutrient-replete control"
+          timepoint: "55h (P added)"
+          organism: "Prochlorococcus NATL2A"
+          environmental_control_condition_id: lin_2015_p_replete_control
+          environmental_treatment_condition_id: lin_2015_p_limited
+          name_col: "ID"
+          logfc_col: "55 h (P added/control) log2 fold change"
+          adjusted_p_value_col: "55 h (P added/control) padj"
+        - type: RNASEQ
+          name: "DE of phage-infected Prochlorococcus NATL2A under P re-addition vs control at 59h"
+          id: DE_P_readded_vs_control_NATL2A_infected_59h
+          test_type: DESeq2
+          control_condition: "P-replete"
+          treatment_condition: "P re-addition"
+          experimental_context: "Phage-infected Prochlorococcus NATL2A (infected at 47h), P re-added, sampled at 59h vs nutrient-replete control"
+          timepoint: "59h (P added)"
+          organism: "Prochlorococcus NATL2A"
+          environmental_control_condition_id: lin_2015_p_replete_control
+          environmental_treatment_condition_id: lin_2015_p_limited
+          name_col: "ID"
+          logfc_col: "59 h (P added/control) log2 fold change"
+          adjusted_p_value_col: "59 h (P added/control) padj"

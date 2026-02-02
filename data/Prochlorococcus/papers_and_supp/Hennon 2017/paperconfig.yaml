@@ -1,0 +1,82 @@
+publication:
+  papername: "Hennon 2017"
+  papermainpdf: "data/Prochlorococcus/papers_and_supp/Hennon 2017/41396_2018_article_bfismej2017189.pdf"
+
+  environmental_conditions:
+    hennon_2017_ambient_co2:
+      condition_type: gas_shock
+      name: "Ambient CO2 (400 ppm)"
+      medium: "PEv medium (artificial seawater with Pro99 nutrients at 1/25 concentration)"
+      temperature: "21C"
+      light_condition: "14:10 light-dark cycle"
+      light_intensity: "150 umol photons m-2 s-1"
+      co2_level: "400 ppm"
+      description: "Prochlorococcus MIT9312 (VOL4) co-cultured with Alteromonas EZ55 in PEv medium under ambient CO2 (~400 ppm) at 21C, 150 umol photons m-2 s-1, 14:10 light-dark cycle"
+    hennon_2017_elevated_co2:
+      condition_type: gas_shock
+      name: "Elevated CO2 (800 ppm)"
+      medium: "PEv medium (artificial seawater with Pro99 nutrients at 1/25 concentration)"
+      temperature: "21C"
+      light_condition: "14:10 light-dark cycle"
+      light_intensity: "150 umol photons m-2 s-1"
+      co2_level: "800 ppm"
+      description: "Prochlorococcus MIT9312 (VOL4) co-cultured with Alteromonas EZ55 in PEv medium under elevated CO2 (~800 ppm) at 21C, 150 umol photons m-2 s-1, 14:10 light-dark cycle"
+
+  supplementary_materials:
+    supp_table_2:
+      type: csv
+      filename: "data/Prochlorococcus/papers_and_supp/Hennon 2017/PRO DE genes 41396_2018_bfismej2017189_moesm28_esm.csv"
+      skip_rows: 2
+      statistical_analyses:
+        - type: RNASEQ
+          name: "DE of Prochlorococcus MIT9312 in coculture with Alteromonas EZ55 under elevated CO2 (800 ppm) vs ambient CO2 (400 ppm)"
+          id: DE_elevated_co2_vs_ambient_MIT9312_coculture
+          test_type: edgeR
+          control_condition: "Ambient CO2 (400 ppm)"
+          treatment_condition: "Elevated CO2 (800 ppm)"
+          environmental_control_condition_id: hennon_2017_ambient_co2
+          environmental_treatment_condition_id: hennon_2017_elevated_co2
+          experimental_context: "Co-culture of Prochlorococcus MIT9312 (VOL4) with Alteromonas EZ55 in PEv medium at 21C, 150 umol photons m-2 s-1, 14:10 light-dark cycle, acclimated ~10 generations"
+          organism: "Prochlorococcus MIT9312"
+          name_col: "locus_tag"
+          logfc_col: "logFC"
+          adjusted_p_value_col: "PValue"
+          prefiltered: true
+    supp_table_3:
+      type: csv
+      filename: "data/Prochlorococcus/papers_and_supp/Hennon 2017/ALT DE genes 41396_2018_bfismej2017189_moesm29_esm.csv"
+      skip_rows: 2
+      statistical_analyses:
+        - type: RNASEQ
+          name: "DE of Alteromonas EZ55 in coculture with Prochlorococcus MIT9312 under elevated CO2 (800 ppm) vs ambient CO2 (400 ppm)"
+          id: DE_elevated_co2_vs_ambient_EZ55_coculture
+          test_type: edgeR
+          control_condition: "Ambient CO2 (400 ppm)"
+          treatment_condition: "Elevated CO2 (800 ppm)"
+          environmental_control_condition_id: hennon_2017_ambient_co2
+          environmental_treatment_condition_id: hennon_2017_elevated_co2
+          experimental_context: "Co-culture of Alteromonas EZ55 with Prochlorococcus MIT9312 (VOL4) in PEv medium at 21C, 150 umol photons m-2 s-1, 14:10 light-dark cycle, acclimated ~10 generations"
+          organism: "Alteromonas EZ55"
+          name_col: "locus tag"
+          logfc_col: "logFC"
+          adjusted_p_value_col: "PValue"
+          prefiltered: true
+    supp_table_4:
+      type: csv
+      filename: "data/Prochlorococcus/papers_and_supp/Hennon 2017/ALT axenic DE genes 41396_2018_bfismej2017189_moesm30_esm.csv"
+      skip_rows: 2
+      statistical_analyses:
+        - type: RNASEQ
+          name: "DE of axenic Alteromonas EZ55 under elevated CO2 (800 ppm) vs ambient CO2 (400 ppm)"
+          id: DE_elevated_co2_vs_ambient_EZ55_axenic
+          test_type: edgeR
+          control_condition: "Ambient CO2 (400 ppm)"
+          treatment_condition: "Elevated CO2 (800 ppm)"
+          environmental_control_condition_id: hennon_2017_ambient_co2
+          environmental_treatment_condition_id: hennon_2017_elevated_co2
+          experimental_context: "Axenic Alteromonas EZ55 in PEv medium at 21C, 150 umol photons m-2 s-1, 14:10 light-dark cycle, acclimated ~10 generations"
+          organism: "Alteromonas EZ55"
+          name_col: "locus tag"
+          logfc_col: "logFC"
+          adjusted_p_value_col: "PValue"
+          prefiltered: true

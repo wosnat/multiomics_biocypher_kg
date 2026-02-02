@@ -1,0 +1,168 @@
+publication:
+  papername: "Martiny 2006"
+  papermainpdf: "data/Prochlorococcus/papers_and_supp/martiny 2006/martiny-et-al-2006-phosphate-acquisition-genes-in-prochlorococcus-ecotypes-evidence-for-genome-wide-adaptation.pdf"
+
+  environmental_conditions:
+    martiny_2006_p_replete:
+      condition_type: growth_medium
+      name: "P-replete Pro99 medium"
+      medium: "Pro99 with 50 uM PO4"
+      temperature: "22C"
+      light_condition: continuous_light
+      light_intensity: "30 uE m-2 s-1 (MED4), 12 uE m-2 s-1 (MIT9313)"
+      description: "Prochlorococcus cells resuspended in P-replete Pro99 medium (50 uM PO4)"
+    martiny_2006_p_starvation:
+      condition_type: nutrient_stress
+      name: "Phosphate starvation"
+      medium: "Pro99 with no added PO4"
+      temperature: "22C"
+      light_condition: continuous_light
+      light_intensity: "30 uE m-2 s-1 (MED4), 12 uE m-2 s-1 (MIT9313)"
+      description: "Prochlorococcus cells resuspended in P-depleted Pro99 medium (no added PO4)"
+
+  supplementary_materials:
+    supp_table_1:
+      type: csv
+      filename: "data/Prochlorococcus/papers_and_supp/martiny 2006/01301table_1.csv"
+      skip_rows: 1
+      statistical_analyses:
+        - type: MICROARRAY
+          name: "DE of Prochlorococcus MED4 under P starvation vs P replete at 0h"
+          id: DE_p_starvation_vs_replete_MED4_0h
+          test_type: "Affymetrix microarray with Cyber-T Bayesian t-test"
+          control_condition: "P-replete Pro99 (50 uM PO4)"
+          treatment_condition: "P-depleted Pro99 (no added PO4)"
+          environmental_control_condition_id: martiny_2006_p_replete
+          environmental_treatment_condition_id: martiny_2006_p_starvation
+          experimental_context: "MED4 grown at 22C in continuous light at 30 uE m-2 s-1 in Pro99 medium"
+          timepoint: "0h"
+          organism: "Prochlorococcus MED4"
+          name_col: "ORF"
+          logfc_col: "FC t=0"
+          adjusted_p_value_col: "q-value t=0"
+          pvalue_threshold: 0.05
+        - type: MICROARRAY
+          name: "DE of Prochlorococcus MED4 under P starvation vs P replete at 4h"
+          id: DE_p_starvation_vs_replete_MED4_4h
+          test_type: "Affymetrix microarray with Cyber-T Bayesian t-test"
+          control_condition: "P-replete Pro99 (50 uM PO4)"
+          treatment_condition: "P-depleted Pro99 (no added PO4)"
+          environmental_control_condition_id: martiny_2006_p_replete
+          environmental_treatment_condition_id: martiny_2006_p_starvation
+          experimental_context: "MED4 grown at 22C in continuous light at 30 uE m-2 s-1 in Pro99 medium"
+          timepoint: "4h"
+          organism: "Prochlorococcus MED4"
+          name_col: "ORF"
+          logfc_col: "FC t=4"
+          adjusted_p_value_col: "q-value t=4"
+          pvalue_threshold: 0.05
+        - type: MICROARRAY
+          name: "DE of Prochlorococcus MED4 under P starvation vs P replete at 12h"
+          id: DE_p_starvation_vs_replete_MED4_12h
+          test_type: "Affymetrix microarray with Cyber-T Bayesian t-test"
+          control_condition: "P-replete Pro99 (50 uM PO4)"
+          treatment_condition: "P-depleted Pro99 (no added PO4)"
+          environmental_control_condition_id: martiny_2006_p_replete
+          environmental_treatment_condition_id: martiny_2006_p_starvation
+          experimental_context: "MED4 grown at 22C in continuous light at 30 uE m-2 s-1 in Pro99 medium"
+          timepoint: "12h"
+          organism: "Prochlorococcus MED4"
+          name_col: "ORF"
+          logfc_col: "FC t=12"
+          adjusted_p_value_col: "q-value t=12"
+          pvalue_threshold: 0.05
+        - type: MICROARRAY
+          name: "DE of Prochlorococcus MED4 under P starvation vs P replete at 24h"
+          id: DE_p_starvation_vs_replete_MED4_24h
+          test_type: "Affymetrix microarray with Cyber-T Bayesian t-test"
+          control_condition: "P-replete Pro99 (50 uM PO4)"
+          treatment_condition: "P-depleted Pro99 (no added PO4)"
+          environmental_control_condition_id: martiny_2006_p_replete
+          environmental_treatment_condition_id: martiny_2006_p_starvation
+          experimental_context: "MED4 grown at 22C in continuous light at 30 uE m-2 s-1 in Pro99 medium"
+          timepoint: "24h"
+          organism: "Prochlorococcus MED4"
+          name_col: "ORF"
+          logfc_col: "FC t=24"
+          adjusted_p_value_col: "q-value t=24"
+          pvalue_threshold: 0.05
+        - type: MICROARRAY
+          name: "DE of Prochlorococcus MED4 under P starvation vs P replete at 48h"
+          id: DE_p_starvation_vs_replete_MED4_48h
+          test_type: "Affymetrix microarray with Cyber-T Bayesian t-test"
+          control_condition: "P-replete Pro99 (50 uM PO4)"
+          treatment_condition: "P-depleted Pro99 (no added PO4)"
+          environmental_control_condition_id: martiny_2006_p_replete
+          environmental_treatment_condition_id: martiny_2006_p_starvation
+          experimental_context: "MED4 grown at 22C in continuous light at 30 uE m-2 s-1 in Pro99 medium"
+          timepoint: "48h"
+          organism: "Prochlorococcus MED4"
+          name_col: "ORF"
+          logfc_col: "FC t=48"
+          adjusted_p_value_col: "q-value t=48"
+          pvalue_threshold: 0.05
+    supp_table_2:
+      type: csv
+      filename: "data/Prochlorococcus/papers_and_supp/martiny 2006/01301table_2.csv"
+      skip_rows: 1
+      statistical_analyses:
+        - type: MICROARRAY
+          name: "DE of Prochlorococcus MIT9313 under P starvation vs P replete at 0h"
+          id: DE_p_starvation_vs_replete_MIT9313_0h
+          test_type: "Affymetrix microarray with Cyber-T Bayesian t-test"
+          control_condition: "P-replete Pro99 (50 uM PO4)"
+          treatment_condition: "P-depleted Pro99 (no added PO4)"
+          environmental_control_condition_id: martiny_2006_p_replete
+          environmental_treatment_condition_id: martiny_2006_p_starvation
+          experimental_context: "MIT9313 grown at 22C in continuous light at 12 uE m-2 s-1 in Pro99 medium"
+          timepoint: "0h"
+          organism: "Prochlorococcus MIT9313"
+          name_col: "ORF"
+          logfc_col: "FC t=0"
+          adjusted_p_value_col: "q-value t=0"
+          pvalue_threshold: 0.05
+        - type: MICROARRAY
+          name: "DE of Prochlorococcus MIT9313 under P starvation vs P replete at 4h"
+          id: DE_p_starvation_vs_replete_MIT9313_4h
+          test_type: "Affymetrix microarray with Cyber-T Bayesian t-test"
+          control_condition: "P-replete Pro99 (50 uM PO4)"
+          treatment_condition: "P-depleted Pro99 (no added PO4)"
+          environmental_control_condition_id: martiny_2006_p_replete
+          environmental_treatment_condition_id: martiny_2006_p_starvation
+          experimental_context: "MIT9313 grown at 22C in continuous light at 12 uE m-2 s-1 in Pro99 medium"
+          timepoint: "4h"
+          organism: "Prochlorococcus MIT9313"
+          name_col: "ORF"
+          logfc_col: "FC t=4"
+          adjusted_p_value_col: "q-value t=4"
+          pvalue_threshold: 0.05
+        - type: MICROARRAY
+          name: "DE of Prochlorococcus MIT9313 under P starvation vs P replete at 12h"
+          id: DE_p_starvation_vs_replete_MIT9313_12h
+          test_type: "Affymetrix microarray with Cyber-T Bayesian t-test"
+          control_condition: "P-replete Pro99 (50 uM PO4)"
+          treatment_condition: "P-depleted Pro99 (no added PO4)"
+          environmental_control_condition_id: martiny_2006_p_replete
+          environmental_treatment_condition_id: martiny_2006_p_starvation
+          experimental_context: "MIT9313 grown at 22C in continuous light at 12 uE m-2 s-1 in Pro99 medium"
+          timepoint: "12h"
+          organism: "Prochlorococcus MIT9313"
+          name_col: "ORF"
+          logfc_col: "FC t=12"
+          adjusted_p_value_col: "q-value t=12"
+          pvalue_threshold: 0.05
+        - type: MICROARRAY
+          name: "DE of Prochlorococcus MIT9313 under P starvation vs P replete at 24h"
+          id: DE_p_starvation_vs_replete_MIT9313_24h
+          test_type: "Affymetrix microarray with Cyber-T Bayesian t-test"
+          control_condition: "P-replete Pro99 (50 uM PO4)"
+          treatment_condition: "P-depleted Pro99 (no added PO4)"
+          environmental_control_condition_id: martiny_2006_p_replete
+          environmental_treatment_condition_id: martiny_2006_p_starvation
+          experimental_context: "MIT9313 grown at 22C in continuous light at 12 uE m-2 s-1 in Pro99 medium"
+          timepoint: "24h"
+          organism: "Prochlorococcus MIT9313"
+          name_col: "ORF"
+          logfc_col: "FC t=24"
+          adjusted_p_value_col: "q-value t=24"
+          pvalue_threshold: 0.05

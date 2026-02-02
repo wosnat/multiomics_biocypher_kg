@@ -1,0 +1,99 @@
+publication:
+  papername: "Labban 2022"
+  papermainpdf: "data/Prochlorococcus/papers_and_supp/Labban 2022/Environmental Microbiology - 2022 - Labban - Growth dynamics and transcriptional responses of a Red Sea Prochlorococcus.pdf"
+
+  environmental_conditions:
+    labban_2022_28c_control:
+      condition_type: growth_medium
+      name: "28C control temperature"
+      description: "Prochlorococcus RSP50 grown at optimal temperature of 28C, used as control for differential expression analysis at all other temperatures"
+    labban_2022_22c:
+      condition_type: temperature_stress
+      name: "22C temperature stress"
+      description: "Prochlorococcus RSP50 grown at 22C, below-optimal temperature"
+    labban_2022_24c:
+      condition_type: temperature_stress
+      name: "24C temperature stress"
+      description: "Prochlorococcus RSP50 grown at 24C, below-optimal temperature"
+    labban_2022_26c:
+      condition_type: temperature_stress
+      name: "26C temperature stress"
+      description: "Prochlorococcus RSP50 grown at 26C, below-optimal temperature"
+    labban_2022_30c:
+      condition_type: temperature_stress
+      name: "30C temperature stress"
+      description: "Prochlorococcus RSP50 grown at 30C, above-optimal temperature"
+
+  supplementary_materials:
+    supp_table_s1_22c:
+      type: csv
+      filename: "data/Prochlorococcus/papers_and_supp/Labban 2022/supp table s1.csv"
+      statistical_analyses:
+        - type: RNASEQ
+          name: "DE of Prochlorococcus RSP50 at 22C vs 28C control"
+          id: DE_22c_vs_28c_RSP50
+          test_type: DESeq2
+          control_condition: "28C (optimal temperature)"
+          treatment_condition: "22C"
+          environmental_control_condition_id: labban_2022_28c_control
+          environmental_treatment_condition_id: labban_2022_22c
+          experimental_context: "Red Sea Prochlorococcus RSP50 grown at different temperatures, transcriptomic analysis using 28C as control"
+          organism: "Prochlorococcus RSP50"
+          name_col: "Gene ID"
+          logfc_col: "log2FoldChange"
+          adjusted_p_value_col: "Padj"
+          prefiltered: true
+    supp_table_s1_24c:
+      type: csv
+      filename: "data/Prochlorococcus/papers_and_supp/Labban 2022/supp table s1.csv"
+      statistical_analyses:
+        - type: RNASEQ
+          name: "DE of Prochlorococcus RSP50 at 24C vs 28C control"
+          id: DE_24c_vs_28c_RSP50
+          test_type: DESeq2
+          control_condition: "28C (optimal temperature)"
+          treatment_condition: "24C"
+          environmental_control_condition_id: labban_2022_28c_control
+          environmental_treatment_condition_id: labban_2022_24c
+          experimental_context: "Red Sea Prochlorococcus RSP50 grown at different temperatures, transcriptomic analysis using 28C as control"
+          organism: "Prochlorococcus RSP50"
+          name_col: "Gene ID"
+          logfc_col: "log2FoldChange"
+          adjusted_p_value_col: "Padj"
+          prefiltered: true
+    supp_table_s1_26c:
+      type: csv
+      filename: "data/Prochlorococcus/papers_and_supp/Labban 2022/supp table s1.csv"
+      statistical_analyses:
+        - type: RNASEQ
+          name: "DE of Prochlorococcus RSP50 at 26C vs 28C control"
+          id: DE_26c_vs_28c_RSP50
+          test_type: DESeq2
+          control_condition: "28C (optimal temperature)"
+          treatment_condition: "26C"
+          environmental_control_condition_id: labban_2022_28c_control
+          environmental_treatment_condition_id: labban_2022_26c
+          experimental_context: "Red Sea Prochlorococcus RSP50 grown at different temperatures, transcriptomic analysis using 28C as control"
+          organism: "Prochlorococcus RSP50"
+          name_col: "Gene ID"
+          logfc_col: "log2FoldChange"
+          adjusted_p_value_col: "Padj"
+          prefiltered: true
+    supp_table_s1_30c:
+      type: csv
+      filename: "data/Prochlorococcus/papers_and_supp/Labban 2022/supp table s1.csv"
+      statistical_analyses:
+        - type: RNASEQ
+          name: "DE of Prochlorococcus RSP50 at 30C vs 28C control"
+          id: DE_30c_vs_28c_RSP50
+          test_type: DESeq2
+          control_condition: "28C (optimal temperature)"
+          treatment_condition: "30C"
+          environmental_control_condition_id: labban_2022_28c_control
+          environmental_treatment_condition_id: labban_2022_30c
+          experimental_context: "Red Sea Prochlorococcus RSP50 grown at different temperatures, transcriptomic analysis using 28C as control"
+          organism: "Prochlorococcus RSP50"
+          name_col: "Gene ID"
+          logfc_col: "log2FoldChange"
+          adjusted_p_value_col: "Padj"
+          prefiltered: true
