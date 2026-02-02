@@ -32,6 +32,7 @@ publication:
     supp_table_2:
       type: csv
       filename: data/Prochlorococcus/papers_and_supp/biller 2016/PRO DE genes 41396_2016_bfismej201682_moesm98_esm.csv
+      skip_rows: 3
       statistical_analyses:
         - type: RNASEQ
           name: DE Prochlorococcus NATL2A co-culture vs axenic (-12h)
@@ -46,7 +47,6 @@ publication:
           treatment_organism: Alteromonas macleodii MIT1002
           name_col: Original_NCBI_ID
           logfc_col: "-12 hours"
-          skip_rows: 3
           pvalue_asterisk_in_logfc: true
           pvalue_threshold: 0.1
         - type: RNASEQ
@@ -62,7 +62,6 @@ publication:
           treatment_organism: Alteromonas macleodii MIT1002
           name_col: Original_NCBI_ID
           logfc_col: 2 hours
-          skip_rows: 3
           pvalue_asterisk_in_logfc: true
           pvalue_threshold: 0.1
         - type: RNASEQ
@@ -78,7 +77,6 @@ publication:
           treatment_organism: Alteromonas macleodii MIT1002
           name_col: Original_NCBI_ID
           logfc_col: 4 hours
-          skip_rows: 3
           pvalue_asterisk_in_logfc: true
           pvalue_threshold: 0.1
         - type: RNASEQ
@@ -94,7 +92,6 @@ publication:
           treatment_organism: Alteromonas macleodii MIT1002
           name_col: Original_NCBI_ID
           logfc_col: 6 hours
-          skip_rows: 3
           pvalue_asterisk_in_logfc: true
           pvalue_threshold: 0.1
         - type: RNASEQ
@@ -110,7 +107,6 @@ publication:
           treatment_organism: Alteromonas macleodii MIT1002
           name_col: Original_NCBI_ID
           logfc_col: 12 hours
-          skip_rows: 3
           pvalue_asterisk_in_logfc: true
           pvalue_threshold: 0.1
         - type: RNASEQ
@@ -126,7 +122,6 @@ publication:
           treatment_organism: Alteromonas macleodii MIT1002
           name_col: Original_NCBI_ID
           logfc_col: 24 hours
-          skip_rows: 3
           pvalue_asterisk_in_logfc: true
           pvalue_threshold: 0.1
         - type: RNASEQ
@@ -142,12 +137,12 @@ publication:
           treatment_organism: Alteromonas macleodii MIT1002
           name_col: Original_NCBI_ID
           logfc_col: 48 hours
-          skip_rows: 3
           pvalue_asterisk_in_logfc: true
           pvalue_threshold: 0.1
     supp_table_3:
       type: csv
       filename: data/Prochlorococcus/papers_and_supp/biller 2016/ALT DE genes 41396_2016_bfismej201682_moesm99_esm.csv
+      skip_rows: 2
       statistical_analyses:
         - type: RNASEQ
           name: DE Alteromonas macleodii MIT1002 in co-culture (24h vs 12h)
@@ -162,7 +157,6 @@ publication:
           treatment_organism: Prochlorococcus NATL2A
           name_col: Gene ID
           logfc_col: log2FoldChange (24 vs 12 hrs after addition)
-          skip_rows: 2
         - type: RNASEQ
           name: DE Alteromonas macleodii MIT1002 in co-culture (48h vs 12h)
           id: DE_alteromonas_MIT1002_coculture_48v12h
@@ -176,4 +170,3 @@ publication:
           treatment_organism: Prochlorococcus NATL2A
           name_col: Gene ID
           logfc_col: log2FoldChange (48 vs 12 hrs after addition)
-          skip_rows: 2
