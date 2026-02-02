@@ -1,0 +1,9 @@
+Summary of Goldenspike results: Identification of differentially expressed genes
+
+These Excel-formatted compilations of the Goldenspike output files for MED4 and MIT9313 show the expression of each gene at each time point of the N deprivation time series and on alternative N sources. The first column is the gene name, the next six columns are the log2(-N/+NH4) expression summaries at the 6 timepoints of the N deprivation experiment. The next two columns show log2(alternate N source/ammonium) expression summaries in log-phase growth. The final column shows the gene annotation.
+
+Differentially-expressed genes between treatments were identified using q-values computed by Goldenspike. The q-value represents the false discovery rate of differentially expressed genes as the fraction of false positives in a group of genes exceeding a statistical cutoff. Differentially expressed genes were defined for K-means clustering, GSEA, and motif finding as q<0.01. In the above Excel spreadsheets, expression values with q<0.01 have double asterisks (**) and those where 0.01<q<0.05 have single asterisks (*).
+
+file names:
+MED4: medExpression.1.csv
+MIT9313: mitExpression.1.csv

@@ -1,0 +1,28 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>Supplementary Information, Tolonen et al. 2006</title>
+</head>
+<body>
+    <h1>Tolonen <i>et al.</i> 2006:  Motif Discovery Methods</h1>
+    <p>100 bp sequences upstream of each putative MED4 or MIT9313 operon were collected using operons defined by the rules in Su <i>et al.</i>, (2005), namely that tandem genes in an operon are transcribed in the same direction and are separated by <45 bp.
+ 
+    <p>AlignACE was run from the html interface: <a href="http://atlas.med.harvard.edu/cgi-bin/alignace.pl">http://atlas.med.harvard.edu/cgi-bin/alignace.pl</a>.<br> 
+    AlignACE parameters:
+	<ul>
+	<li>Number of columns = 8 and 10 (repressed clusters)</li> 
+	<li>8, 10, and 12 (up-regulated clusters)</li>
+	<li>GC contents calculated using the sets of all upstream sequences</li>
+		<ul>	
+		<li>MED4 GC=21.67%</li> 
+		<li>MIT9313 GC=47.87%</li>
+		</ul>
+	</ul>
+    The ScanACE algorithm was used to calculate specificity scores for each motif identified by AlignACE. Specifically, for each motif, ScanACE identified all instances in the MED4 genome that had scores >2 standard deviations below the mean of the scores of the instances comprising the motif itself.<br>
+    Notably, divergently transcribed operons that are nearby in the genome may share portions of their upstream sequences, albeit in opposite orientations. Consequently, motifs from these regions may have been more heavily weighted by AlignACE. To control for the effect of multiple instances of the same upstream sequence in the dataset, ScanACE statistics were calculated using a dataset from which redundant sequences had been eliminated. Upstream sequences, were converted to non-strand-specific upstream sequence regions (USRs), whereby overlapping divergent upstream sequences were merged into a common region. USRs containing cluster upstream sequence were designated as input set regions (ISRs). The number of distinct upstream sequence regions that contained at least one ScanACE-identified AlignACE motif instance were counted, with input set regions counted separately (MUSR and MISR). Instances not found in any upstream sequence region were ignored. Specificity scores were computed from the number of total and input USRs and from MUSR and MISR using these scripts:<br>
+    <p>Sequence logos were generated with <a href="http://weblogo.berkeley.edu/logo.cgi">http://weblogo.berkeley.edu/logo.cgi</a>.</p>
+    <br />
+    <hr>
+    Latest Update: 01-May-2006 by Andy Tolonen.
+</body>
+</html>
