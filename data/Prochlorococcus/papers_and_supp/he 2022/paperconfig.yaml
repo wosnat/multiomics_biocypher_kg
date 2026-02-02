@@ -40,6 +40,8 @@ publication:
           name_col: "Gene Name"
           logfc_col: "Log2FC"
           adjusted_p_value_col: "p-value"
+          prefiltered: true
+          pvalue_threshold: 0.05
     supp_table_s2:
       type: csv
       filename: "data/Prochlorococcus/papers_and_supp/he 2022/table s2 Highly differentially expressed genes in low salinity acclimated cells of MED4 .csv"
@@ -57,3 +59,5 @@ publication:
           name_col: "Gene Name"
           logfc_col: "logFC"
           adjusted_p_value_col: "p-value"
+          prefiltered: true
+          pvalue_threshold: 0.05

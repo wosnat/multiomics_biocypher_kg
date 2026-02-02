@@ -40,6 +40,8 @@ publication:
           name_col: "Gene ID"
           logfc_col: "0.5 h"
           pvalue_asterisk_in_logfc: true
+          pvalue_threshold: 0.1
+          logfc_threshold: 1.0
         - type: RNASEQ
           name: "DE Prochlorococcus MIT9313 vDOM vs control (1h)"
           id: DE_vdom_vs_control_MIT9313_1h
@@ -54,6 +56,8 @@ publication:
           name_col: "Gene ID"
           logfc_col: "1 h"
           pvalue_asterisk_in_logfc: true
+          pvalue_threshold: 0.1
+          logfc_threshold: 1.0
         - type: RNASEQ
           name: "DE Prochlorococcus MIT9313 vDOM vs control (2h)"
           id: DE_vdom_vs_control_MIT9313_2h
@@ -68,6 +72,8 @@ publication:
           name_col: "Gene ID"
           logfc_col: "2 h"
           pvalue_asterisk_in_logfc: true
+          pvalue_threshold: 0.1
+          logfc_threshold: 1.0
         - type: RNASEQ
           name: "DE Prochlorococcus MIT9313 vDOM vs control (4h)"
           id: DE_vdom_vs_control_MIT9313_4h
@@ -82,6 +88,8 @@ publication:
           name_col: "Gene ID"
           logfc_col: "4 h"
           pvalue_asterisk_in_logfc: true
+          pvalue_threshold: 0.1
+          logfc_threshold: 1.0
         - type: RNASEQ
           name: "DE Prochlorococcus MIT9313 vDOM vs control (8h)"
           id: DE_vdom_vs_control_MIT9313_8h
@@ -96,6 +104,8 @@ publication:
           name_col: "Gene ID"
           logfc_col: "8 h"
           pvalue_asterisk_in_logfc: true
+          pvalue_threshold: 0.1
+          logfc_threshold: 1.0
         - type: RNASEQ
           name: "DE Prochlorococcus MIT9313 vDOM vs control (12h)"
           id: DE_vdom_vs_control_MIT9313_12h
@@ -110,6 +120,8 @@ publication:
           name_col: "Gene ID"
           logfc_col: "12 h"
           pvalue_asterisk_in_logfc: true
+          pvalue_threshold: 0.1
+          logfc_threshold: 1.0
         - type: RNASEQ
           name: "DE Prochlorococcus MIT9313 vDOM vs control (24h)"
           id: DE_vdom_vs_control_MIT9313_24h
@@ -124,6 +136,8 @@ publication:
           name_col: "Gene ID"
           logfc_col: "24 h"
           pvalue_asterisk_in_logfc: true
+          pvalue_threshold: 0.1
+          logfc_threshold: 1.0
         - type: RNASEQ
           name: "DE Prochlorococcus MIT9313 vDOM vs control (48h)"
           id: DE_vdom_vs_control_MIT9313_48h
@@ -138,6 +152,8 @@ publication:
           name_col: "Gene ID"
           logfc_col: "48 h"
           pvalue_asterisk_in_logfc: true
+          pvalue_threshold: 0.1
+          logfc_threshold: 1.0
         - type: RNASEQ
           name: "DE Prochlorococcus MIT9313 vDOM vs control (72h)"
           id: DE_vdom_vs_control_MIT9313_72h
@@ -152,3 +168,5 @@ publication:
           name_col: "Gene ID"
           logfc_col: "72 h"
           pvalue_asterisk_in_logfc: true
+          pvalue_threshold: 0.1
+          logfc_threshold: 1.0

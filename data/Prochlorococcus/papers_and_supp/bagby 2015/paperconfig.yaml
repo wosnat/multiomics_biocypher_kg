@@ -47,6 +47,7 @@ publication:
           environmental_treatment_condition_id: bagby_2015_air
           name_col: Locus tag2
           logfc_col: 0.036%_CO2_21%_O2 FC
+          prefiltered: true
 
     supp_table_1_no_o2:
       type: csv
@@ -63,6 +64,7 @@ publication:
           environmental_treatment_condition_id: bagby_2015_no_o2
           name_col: Locus tag2
           logfc_col: 0.036%_CO2_0%_O2 FC
+          prefiltered: true
 
     supp_table_1_low_co2:
       type: csv
@@ -79,6 +81,7 @@ publication:
           environmental_treatment_condition_id: bagby_2015_low_co2
           name_col: Locus tag2
           logfc_col: 0.004%_CO2_21%_O2 FC
+          prefiltered: true
 
     supp_table_1_low_co2_no_o2:
       type: csv
@@ -95,3 +98,4 @@ publication:
           environmental_treatment_condition_id: bagby_2015_low_co2_no_o2
           name_col: Locus tag2
           logfc_col: 0.004%_CO2_0%_O2 FC
+          prefiltered: true

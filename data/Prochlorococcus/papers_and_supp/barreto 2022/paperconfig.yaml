@@ -36,6 +36,7 @@ publication:
           name_col: symbol
           logfc_col: logFC
           adjusted_p_value_col: PValue
+          pvalue_threshold: 0.05
 
 
     # Table S2: pCO2 effect on Alteromonas EZ55
@@ -56,6 +57,7 @@ publication:
           name_col: symbol
           logfc_col: logFC
           adjusted_p_value_col: PValue
+          pvalue_threshold: 0.05
 
     # Table S9: Alteromonas EZ55 coculture with MIT9312 at 400 ppm
     supp_table_S9:
@@ -75,6 +77,7 @@ publication:
           name_col: symbol
           logfc_col: logFC
           adjusted_p_value_col: PValue
+          pvalue_threshold: 0.05
 
     # Table S10: Alteromonas EZ55 coculture with CC9311 at 400 ppm
     supp_table_S10:
@@ -94,6 +97,7 @@ publication:
           name_col: symbol
           logfc_col: logFC
           adjusted_p_value_col: PValue
+          pvalue_threshold: 0.05
 
     # Table S11: Alteromonas EZ55 coculture with WH8102 at 400 ppm
     supp_table_S11:
@@ -113,6 +117,7 @@ publication:
           name_col: symbol
           logfc_col: logFC
           adjusted_p_value_col: PValue
+          pvalue_threshold: 0.05
 
     # Table S12: Alteromonas EZ55 coculture with MIT9312 at 800 ppm
     supp_table_S12:
@@ -132,6 +137,7 @@ publication:
           name_col: symbol
           logfc_col: logFC
           adjusted_p_value_col: PValue
+          pvalue_threshold: 0.05
 
     # Table S13: Alteromonas EZ55 coculture with CC9311 at 800 ppm
     supp_table_S13:
@@ -151,6 +157,7 @@ publication:
           name_col: symbol
           logfc_col: logFC
           adjusted_p_value_col: PValue
+          pvalue_threshold: 0.05
 
     # Table S14: Alteromonas EZ55 coculture with WH8102 at 800 ppm
     supp_table_S14:
@@ -170,3 +177,4 @@ publication:
           name_col: symbol
           logfc_col: logFC
           adjusted_p_value_col: PValue
+          pvalue_threshold: 0.05

@@ -48,6 +48,7 @@ publication:
           logfc_col: "-12 hours"
           skip_rows: 3
           pvalue_asterisk_in_logfc: true
+          pvalue_threshold: 0.1
         - type: RNASEQ
           name: DE Prochlorococcus NATL2A co-culture vs axenic (2h)
           id: DE_coculture_vs_axenic_NATL2A_2h
@@ -63,6 +64,7 @@ publication:
           logfc_col: 2 hours
           skip_rows: 3
           pvalue_asterisk_in_logfc: true
+          pvalue_threshold: 0.1
         - type: RNASEQ
           name: DE Prochlorococcus NATL2A co-culture vs axenic (4h)
           id: DE_coculture_vs_axenic_NATL2A_4h
@@ -78,6 +80,7 @@ publication:
           logfc_col: 4 hours
           skip_rows: 3
           pvalue_asterisk_in_logfc: true
+          pvalue_threshold: 0.1
         - type: RNASEQ
           name: DE Prochlorococcus NATL2A co-culture vs axenic (6h)
           id: DE_coculture_vs_axenic_NATL2A_6h
@@ -93,6 +96,7 @@ publication:
           logfc_col: 6 hours
           skip_rows: 3
           pvalue_asterisk_in_logfc: true
+          pvalue_threshold: 0.1
         - type: RNASEQ
           name: DE Prochlorococcus NATL2A co-culture vs axenic (12h)
           id: DE_coculture_vs_axenic_NATL2A_12h
@@ -108,6 +112,7 @@ publication:
           logfc_col: 12 hours
           skip_rows: 3
           pvalue_asterisk_in_logfc: true
+          pvalue_threshold: 0.1
         - type: RNASEQ
           name: DE Prochlorococcus NATL2A co-culture vs axenic (24h)
           id: DE_coculture_vs_axenic_NATL2A_24h
@@ -123,6 +128,7 @@ publication:
           logfc_col: 24 hours
           skip_rows: 3
           pvalue_asterisk_in_logfc: true
+          pvalue_threshold: 0.1
         - type: RNASEQ
           name: DE Prochlorococcus NATL2A co-culture vs axenic (48h)
           id: DE_coculture_vs_axenic_NATL2A_48h
@@ -138,6 +144,7 @@ publication:
           logfc_col: 48 hours
           skip_rows: 3
           pvalue_asterisk_in_logfc: true
+          pvalue_threshold: 0.1
     supp_table_3:
       type: csv
       filename: data/Prochlorococcus/papers_and_supp/biller 2016/ALT DE genes 41396_2016_bfismej201682_moesm99_esm.csv

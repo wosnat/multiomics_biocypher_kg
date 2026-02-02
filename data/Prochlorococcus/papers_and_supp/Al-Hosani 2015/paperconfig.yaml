@@ -40,3 +40,5 @@ publication:
           name_col: Gene id
           logfc_col: log2FoldChange
           adjusted_p_value_col: padj
+          prefiltered: true
+          pvalue_threshold: 0.05

@@ -31,6 +31,7 @@ publication:
           name_col: Synonym
           logfc_col: log 2 fold change coculture/axenic
           adjusted_p_value_col: q Value
+          pvalue_threshold: 0.01
     supp_table_2:
       type: csv
       filename: data/Prochlorococcus/papers_and_supp/Aharonovich 2016/de_genes_9313_t20h.csv
@@ -49,6 +50,7 @@ publication:
           name_col: Synonym
           logfc_col: log 2 fold change coculture/axenic
           adjusted_p_value_col: q Value
+          pvalue_threshold: 0.01
     supp_table_3:
       type: csv
       filename: data/Prochlorococcus/papers_and_supp/Aharonovich 2016/de_genes_9313_dilute_t20h.csv
@@ -67,3 +69,4 @@ publication:
           name_col: Synonym
           logfc_col: log 2 fold change coculture/axenic
           adjusted_p_value_col: q Value
+          pvalue_threshold: 0.01

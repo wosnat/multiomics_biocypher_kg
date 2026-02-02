@@ -40,6 +40,7 @@ publication:
           name_col: "NCBI ID_3"
           logfc_col: "Axenic, 36 hours"
           pvalue_asterisk_in_logfc: true
+          pvalue_threshold: 0.1
         - type: RNASEQ
           name: "DE Prochlorococcus NATL2A axenic in extended darkness vs diel control (5h, 40h timepoint)"
           id: DE_extended_darkness_vs_diel_axenic_NATL2A_5h
@@ -54,6 +55,7 @@ publication:
           name_col: "NCBI ID_3"
           logfc_col: "Axenic, 40 hours"
           pvalue_asterisk_in_logfc: true
+          pvalue_threshold: 0.1
         - type: RNASEQ
           name: "DE Prochlorococcus NATL2A axenic in extended darkness vs diel control (13h, 48h timepoint)"
           id: DE_extended_darkness_vs_diel_axenic_NATL2A_13h
@@ -68,6 +70,7 @@ publication:
           name_col: "NCBI ID_3"
           logfc_col: "Axenic, 48 hours"
           pvalue_asterisk_in_logfc: true
+          pvalue_threshold: 0.1
         # Cocultured Prochlorococcus NATL2A (with Alteromonas): extended darkness vs diel L:D controls
         - type: RNASEQ
           name: "DE Prochlorococcus NATL2A coculture in extended darkness vs diel control (1h, 36h timepoint)"
@@ -83,6 +86,7 @@ publication:
           name_col: "NCBI ID_3"
           logfc_col: "Co-culture, 36 hours"
           pvalue_asterisk_in_logfc: true
+          pvalue_threshold: 0.1
         - type: RNASEQ
           name: "DE Prochlorococcus NATL2A coculture in extended darkness vs diel control (5h, 40h timepoint)"
           id: DE_extended_darkness_vs_diel_coculture_NATL2A_5h
@@ -97,6 +101,7 @@ publication:
           name_col: "NCBI ID_3"
           logfc_col: "Co-culture, 40 hours"
           pvalue_asterisk_in_logfc: true
+          pvalue_threshold: 0.1
         - type: RNASEQ
           name: "DE Prochlorococcus NATL2A coculture in extended darkness vs diel control (13h, 48h timepoint)"
           id: DE_extended_darkness_vs_diel_coculture_NATL2A_13h
@@ -111,6 +116,7 @@ publication:
           name_col: "NCBI ID_3"
           logfc_col: "Co-culture, 48 hours"
           pvalue_asterisk_in_logfc: true
+          pvalue_threshold: 0.1
 
     supp_table_s6b:
       type: csv
@@ -129,6 +135,8 @@ publication:
           organism: Alteromonas macleodii MIT1002
           name_col: "RAST_region_ID"
           logfc_col: "1hr extended darkness (dark/diel)"
+          prefiltered: true
+          pvalue_threshold: 0.1
         - type: RNASEQ
           name: "DE Alteromonas macleodii MIT1002 in extended darkness vs diel control (5h)"
           id: DE_extended_darkness_vs_diel_MIT1002_5h
@@ -142,3 +150,5 @@ publication:
           organism: Alteromonas macleodii MIT1002
           name_col: "RAST_region_ID"
           logfc_col: "5hr extended darkness (dark/diel)"
+          prefiltered: true
+          pvalue_threshold: 0.1

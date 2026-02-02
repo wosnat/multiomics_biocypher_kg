@@ -123,8 +123,13 @@ Each analysis entry describes one differential expression comparison.
 | `timepoint` | Time point of measurement | For time-course experiments (e.g., `"20h"`, `"48h"`, `"-12h"`, `"24h vs 12h"`) |
 | `skip_rows` | Number of header rows to skip when reading CSV | When the CSV has extra header rows before the data columns (e.g., `3`) |
 | `pvalue_asterisk_in_logfc` | Boolean, `true` if significance is marked by `*` appended to fold-change values | When there is no separate p-value column and the fold-change column has asterisks (e.g., `"2.5*"`) |
+| `prefiltered` | Boolean, `true` if the table only contains significant results | When authors pre-filtered the table to significant genes only |
+| `pvalue_threshold` | Adjusted p-value threshold used/stated in the publication (e.g., `0.05`) | When the paper states a specific significance cutoff |
+| `logfc_threshold` | Absolute log2 fold-change threshold used/stated in the publication (e.g., `0.8`, `1.0`) | When the paper states a specific fold-change cutoff |
 
-**Note on tables where all values are significant:** Some supplementary tables only list genes that are already significantly differentially expressed (pre-filtered by the authors). In these cases, there may be no p-value column and no asterisks in the fold-change column. Simply omit both `adjusted_p_value_col` and `pvalue_asterisk_in_logfc`. The adapter will treat all rows as significant.
+**Note on tables where all values are significant:** Some supplementary tables only list genes that are already significantly differentially expressed (pre-filtered by the authors). In these cases, set `prefiltered: true` on the analysis. This tells the adapter that all rows are significant. You may also omit `adjusted_p_value_col` and `pvalue_asterisk_in_logfc` if not applicable.
+
+**Note on significance thresholds:** If the paper or table legend states specific significance criteria (e.g., "adjusted p-value < 0.05 and |log2FC| >= 1"), record these as `pvalue_threshold` and `logfc_threshold`. The adapter uses these to mark edges as significant or not. If the paper does not state thresholds, omit these fields — the adapter can apply default thresholds from its constructor settings.
 
 #### Edge Source Fields (One Set Required)
 
@@ -397,6 +402,8 @@ Before submitting a paperconfig:
 - [ ] Each analysis `id` is unique within the file
 - [ ] `skip_rows` is set correctly if the CSV has extra header rows
 - [ ] Gene/protein identifiers in `name_col` use locus tags or IDs that can match existing gene nodes
+- [ ] `prefiltered` is set to `true` if the table only contains significant results
+- [ ] `pvalue_threshold` and `logfc_threshold` are set if the paper states specific significance criteria
 
 ## Workflow
 

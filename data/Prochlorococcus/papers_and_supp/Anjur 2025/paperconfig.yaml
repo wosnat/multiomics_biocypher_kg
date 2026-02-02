@@ -38,3 +38,6 @@ publication:
           name_col: ID
           logfc_col: logFC
           adjusted_p_value_col: FDR
+          prefiltered: true
+          pvalue_threshold: 0.05
+          logfc_threshold: 0.8

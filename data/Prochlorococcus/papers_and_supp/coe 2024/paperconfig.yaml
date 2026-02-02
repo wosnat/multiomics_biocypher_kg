@@ -39,6 +39,7 @@ publication:
           name_col: "NCBI ID_3"
           logfc_col: "0 hours"
           pvalue_asterisk_in_logfc: true
+          pvalue_threshold: 0.1
         - type: RNASEQ
           name: "DE Prochlorococcus NATL2A dark-tolerant vs parental co-culture (4h)"
           id: DE_dark_tolerant_vs_parental_NATL2A_4h
@@ -53,6 +54,7 @@ publication:
           name_col: "NCBI ID_3"
           logfc_col: "4 hours"
           pvalue_asterisk_in_logfc: true
+          pvalue_threshold: 0.1
         - type: RNASEQ
           name: "DE Prochlorococcus NATL2A dark-tolerant vs parental co-culture (8h)"
           id: DE_dark_tolerant_vs_parental_NATL2A_8h
@@ -67,6 +69,7 @@ publication:
           name_col: "NCBI ID_3"
           logfc_col: "8 hours"
           pvalue_asterisk_in_logfc: true
+          pvalue_threshold: 0.1
         - type: RNASEQ
           name: "DE Prochlorococcus NATL2A dark-tolerant vs parental co-culture (13h)"
           id: DE_dark_tolerant_vs_parental_NATL2A_13h
@@ -81,6 +84,7 @@ publication:
           name_col: "NCBI ID_3"
           logfc_col: "13 hours"
           pvalue_asterisk_in_logfc: true
+          pvalue_threshold: 0.1
         - type: RNASEQ
           name: "DE Prochlorococcus NATL2A dark-tolerant vs parental co-culture (16h)"
           id: DE_dark_tolerant_vs_parental_NATL2A_16h
@@ -95,6 +99,7 @@ publication:
           name_col: "NCBI ID_3"
           logfc_col: "16 hours"
           pvalue_asterisk_in_logfc: true
+          pvalue_threshold: 0.1
         - type: RNASEQ
           name: "DE Prochlorococcus NATL2A dark-tolerant vs parental co-culture (20h)"
           id: DE_dark_tolerant_vs_parental_NATL2A_20h
@@ -109,6 +114,7 @@ publication:
           name_col: "NCBI ID_3"
           logfc_col: "20 hours"
           pvalue_asterisk_in_logfc: true
+          pvalue_threshold: 0.1
         - type: RNASEQ
           name: "DE Prochlorococcus NATL2A dark-tolerant vs parental co-culture (24h)"
           id: DE_dark_tolerant_vs_parental_NATL2A_24h
@@ -123,6 +129,7 @@ publication:
           name_col: "NCBI ID_3"
           logfc_col: "24 hours"
           pvalue_asterisk_in_logfc: true
+          pvalue_threshold: 0.1
     supp_table_4:
       type: csv
       filename: "data/Prochlorococcus/papers_and_supp/coe 2024/Supplemental Table 4.csv"
@@ -141,6 +148,7 @@ publication:
           name_col: "NCBI ID"
           logfc_col: "0 hours"
           pvalue_asterisk_in_logfc: true
+          pvalue_threshold: 0.1
         - type: RNASEQ
           name: "DE Alteromonas macleodii MIT1002 co-cultured with dark-tolerant vs parental Prochlorococcus NATL2A (4h)"
           id: DE_dark_tolerant_vs_parental_ALT_MIT1002_4h
@@ -155,6 +163,7 @@ publication:
           name_col: "NCBI ID"
           logfc_col: "4 hours"
           pvalue_asterisk_in_logfc: true
+          pvalue_threshold: 0.1
         - type: RNASEQ
           name: "DE Alteromonas macleodii MIT1002 co-cultured with dark-tolerant vs parental Prochlorococcus NATL2A (8h)"
           id: DE_dark_tolerant_vs_parental_ALT_MIT1002_8h
@@ -169,6 +178,7 @@ publication:
           name_col: "NCBI ID"
           logfc_col: "8 hours"
           pvalue_asterisk_in_logfc: true
+          pvalue_threshold: 0.1
         - type: RNASEQ
           name: "DE Alteromonas macleodii MIT1002 co-cultured with dark-tolerant vs parental Prochlorococcus NATL2A (13h)"
           id: DE_dark_tolerant_vs_parental_ALT_MIT1002_13h
@@ -183,6 +193,7 @@ publication:
           name_col: "NCBI ID"
           logfc_col: "13 hours"
           pvalue_asterisk_in_logfc: true
+          pvalue_threshold: 0.1
         - type: RNASEQ
           name: "DE Alteromonas macleodii MIT1002 co-cultured with dark-tolerant vs parental Prochlorococcus NATL2A (16h)"
           id: DE_dark_tolerant_vs_parental_ALT_MIT1002_16h
@@ -197,6 +208,7 @@ publication:
           name_col: "NCBI ID"
           logfc_col: "16 hours"
           pvalue_asterisk_in_logfc: true
+          pvalue_threshold: 0.1
         - type: RNASEQ
           name: "DE Alteromonas macleodii MIT1002 co-cultured with dark-tolerant vs parental Prochlorococcus NATL2A (20h)"
           id: DE_dark_tolerant_vs_parental_ALT_MIT1002_20h
@@ -211,6 +223,7 @@ publication:
           name_col: "NCBI ID"
           logfc_col: "20 hours"
           pvalue_asterisk_in_logfc: true
+          pvalue_threshold: 0.1
         - type: RNASEQ
           name: "DE Alteromonas macleodii MIT1002 co-cultured with dark-tolerant vs parental Prochlorococcus NATL2A (24h)"
           id: DE_dark_tolerant_vs_parental_ALT_MIT1002_24h
@@ -225,3 +238,4 @@ publication:
           name_col: "NCBI ID"
           logfc_col: "24 hours"
           pvalue_asterisk_in_logfc: true
+          pvalue_threshold: 0.1

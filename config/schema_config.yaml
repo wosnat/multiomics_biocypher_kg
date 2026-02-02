@@ -42,6 +42,7 @@ organism to gene expression association:
     time_point: str
     log2_fold_change: float
     adjusted_p_value: float
+    significant: boolean           # whether the row meets significance thresholds
     publications: str[]
 
 environmental condition to gene expression association:
@@ -58,6 +59,7 @@ environmental condition to gene expression association:
     time_point: str
     log2_fold_change: float
     adjusted_p_value: float
+    significant: boolean           # whether the row meets significance thresholds
     publications: str[]
 
 

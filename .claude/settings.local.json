@@ -2,7 +2,8 @@
   "permissions": {
     "allow": [
       "Skill(paperconfig)",
-      "Skill(paperconfig:*)"
+      "Skill(paperconfig:*)",
+      "Bash(uv run pytest:*)"
     ]
   }
 }

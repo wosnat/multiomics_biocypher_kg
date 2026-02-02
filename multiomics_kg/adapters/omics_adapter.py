@@ -78,6 +78,9 @@ class OMICSModel(BaseModel):
     output_dir: DirectoryPath | None = None
     add_prefix: bool = True
     organism: int | Literal["*"] | None = None
+    significance_mode: Literal["all", "significant_only"] = "all"
+    default_pvalue_threshold: float | None = None
+    default_logfc_threshold: float | None = None
 
 
 class OMICSAdapter:
@@ -98,10 +101,13 @@ class OMICSAdapter:
         output_dir: DirectoryPath | None = None,
         add_prefix: bool = True,
         organism: int | Literal["*"] | None = None,
+        significance_mode: Literal["all", "significant_only"] = "all",
+        default_pvalue_threshold: float | None = 0.05,
+        default_logfc_threshold: float | None = 1.0,
     ):
         """
         Initialize the OMICS adapter.
-        
+
         Args:
             config_file: Path to paperconfig.yaml file
             edge_types: List of edge types to include
@@ -110,6 +116,10 @@ class OMICSAdapter:
             output_dir: Directory for CSV output
             add_prefix: Whether to add prefix to identifiers
             organism: Filter by organism (not used for now)
+            significance_mode: "all" to create all edges with significant flag,
+                "significant_only" to skip non-significant edges
+            default_pvalue_threshold: Default adjusted p-value threshold for significance
+            default_logfc_threshold: Default |log2FC| threshold for significance
         """
         model = OMICSModel(
             edge_types=edge_types,
@@ -118,12 +128,18 @@ class OMICSAdapter:
             output_dir=output_dir,
             add_prefix=add_prefix,
             organism=organism,
+            significance_mode=significance_mode,
+            default_pvalue_threshold=default_pvalue_threshold,
+            default_logfc_threshold=default_logfc_threshold,
         ).model_dump()
 
         self.export_csv = model["export_csv"]
         self.output_dir = model["output_dir"]
         self.add_prefix = model["add_prefix"]
         self.test_mode = model["test_mode"]
+        self.significance_mode = model["significance_mode"]
+        self.default_pvalue_threshold = model["default_pvalue_threshold"]
+        self.default_logfc_threshold = model["default_logfc_threshold"]
 
         # set edge types
         self.set_edge_types(edge_types=model["edge_types"])
@@ -372,6 +388,45 @@ class OMICSAdapter:
         logger.info(f"Generated {len(edge_list)} organism to gene expression association edges")
         return edge_list
 
+    def _check_significance(
+        self,
+        fc_value: float | None,
+        pvalue: float | None,
+        asterisk_significant: bool | None,
+        analysis: dict,
+    ) -> bool | None:
+        """
+        Determine whether a row is statistically significant.
+
+        Priority order:
+        1. prefiltered: true → always True
+        2. pvalue_asterisk_in_logfc → use asterisk_significant
+        3. Thresholds (config overrides constructor defaults)
+        4. None if no info available
+
+        Returns:
+            True, False, or None (unknown).
+        """
+        if analysis.get('prefiltered'):
+            return True
+
+        if asterisk_significant is not None:
+            return asterisk_significant
+
+        pval_thresh = analysis.get('pvalue_threshold') or self.default_pvalue_threshold
+        logfc_thresh = analysis.get('logfc_threshold') or self.default_logfc_threshold
+
+        if pval_thresh is None and logfc_thresh is None:
+            return None
+
+        sig = True
+        if logfc_thresh is not None and fc_value is not None:
+            sig = sig and (abs(fc_value) >= logfc_thresh)
+        if pval_thresh is not None and pvalue is not None:
+            sig = sig and (pvalue <= pval_thresh)
+
+        return sig
+
     def _load_and_create_edges(self, filename: str, analysis: dict) -> list[tuple]:
         """
         Load a data file and create expression association edges.
@@ -506,16 +561,28 @@ class OMICSAdapter:
                 if fc_float is not None:
                     edge_properties['log2_fold_change'] = fc_float
 
+                pval = None
                 if asterisk_significant is not None:
                     # Asterisk indicates adjusted p-value < 0.1; use placeholder values
-                    edge_properties['adjusted_p_value'] = 0.49 if asterisk_significant else 1.0
-                elif p_value_col in df.columns and not pd.isna(row.get(p_value_col)):
+                    pval = 0.49 if asterisk_significant else 1.0
+                    edge_properties['adjusted_p_value'] = pval
+                elif p_value_col and p_value_col in df.columns and not pd.isna(row.get(p_value_col)):
                     try:
                         pval = float(row[p_value_col])
                         if math.isfinite(pval):
                             edge_properties['adjusted_p_value'] = pval
+                        else:
+                            pval = None
                     except (ValueError, TypeError):
                         pass
+
+                # Check significance and optionally filter
+                significant = self._check_significance(fc_float, pval, asterisk_significant, analysis)
+                if significant is not None:
+                    edge_properties['significant'] = significant
+                if self.significance_mode == "significant_only" and significant is False:
+                    skipped_count += 1
+                    continue
 
                 # Determine expression direction from fold change
                 if 'log2_fold_change' in edge_properties:

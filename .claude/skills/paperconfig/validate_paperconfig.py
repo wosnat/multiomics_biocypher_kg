@@ -163,6 +163,25 @@ def validate(config_path: str) -> bool:
                 else:
                     print(f"      adjusted_p_value_col '{pval_col}': OK")
 
+            # Validate significance metadata fields
+            prefiltered = analysis.get("prefiltered")
+            pvalue_threshold = analysis.get("pvalue_threshold")
+            logfc_threshold = analysis.get("logfc_threshold")
+            pvalue_asterisk = analysis.get("pvalue_asterisk_in_logfc")
+
+            if prefiltered is not None and not isinstance(prefiltered, bool):
+                errors.append(f"{aid}: 'prefiltered' must be a boolean, got {type(prefiltered).__name__}")
+            if pvalue_threshold is not None:
+                if not isinstance(pvalue_threshold, (int, float)) or pvalue_threshold <= 0 or pvalue_threshold > 1:
+                    errors.append(f"{aid}: 'pvalue_threshold' must be a number in (0, 1], got {pvalue_threshold}")
+            if logfc_threshold is not None:
+                if not isinstance(logfc_threshold, (int, float)) or logfc_threshold < 0:
+                    errors.append(f"{aid}: 'logfc_threshold' must be a non-negative number, got {logfc_threshold}")
+            if prefiltered and (pvalue_threshold is not None or logfc_threshold is not None):
+                warnings.append(f"{aid}: 'prefiltered: true' makes 'pvalue_threshold'/'logfc_threshold' redundant (prefiltered takes priority)")
+            if prefiltered and pvalue_asterisk:
+                warnings.append(f"{aid}: 'prefiltered: true' conflicts with 'pvalue_asterisk_in_logfc: true' (prefiltered takes priority)")
+
             # Check edge source: organism or environmental condition
             has_treatment_org = "treatment_organism" in analysis and "treatment_taxid" in analysis
             has_env_treat = "environmental_treatment_condition_id" in analysis
@@ -217,11 +236,11 @@ def _print_results(errors, warnings):
     if warnings:
         print(f"WARNINGS ({len(warnings)}):")
         for w in warnings:
-            print(f"  ⚠ {w}")
+            print(f"  WARNING: {w}")
     if errors:
         print(f"ERRORS ({len(errors)}):")
         for e in errors:
-            print(f"  ✗ {e}")
+            print(f"  ERROR: {e}")
         print("\nVALIDATION FAILED")
     else:
         print("VALIDATION PASSED")
