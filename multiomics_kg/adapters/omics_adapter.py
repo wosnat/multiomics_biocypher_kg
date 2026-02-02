@@ -342,6 +342,26 @@ class OMICSAdapter:
             logger.warning("No supplementary materials found in config")
             return edge_list
 
+        # Validate that all statistical analyses have a unique 'id' field within this publication
+        seen_analysis_ids = set()
+        for table_key, table_data in supp_materials.items():
+            if not isinstance(table_data, dict):
+                continue
+            for idx, sa in enumerate(table_data.get('statistical_analyses', [])):
+                if not isinstance(sa, dict):
+                    continue
+                analysis_id = sa.get('id')
+                if not analysis_id:
+                    raise ValueError(
+                        f"Statistical analysis {idx} in '{table_key}' is missing required 'id' field."
+                    )
+                if analysis_id in seen_analysis_ids:
+                    raise ValueError(
+                        f"Duplicate statistical analysis id '{analysis_id}' in '{table_key}'. "
+                        f"Each analysis must have a unique 'id' within the publication."
+                    )
+                seen_analysis_ids.add(analysis_id)
+
         for table_key, table_data in supp_materials.items():
             if not isinstance(table_data, dict):
                 logger.warning(f"Table '{table_key}' data must be a dict, got {type(table_data).__name__}. Skipping this table.")
@@ -605,8 +625,12 @@ class OMICSAdapter:
 
                 # Create expression association edge
                 # source: source_id (organism or env condition), target: gene_id
+                # Use analysis id + gene_id as edge ID to allow parallel edges
+                # (e.g., different timepoints/studies for the same source->gene pair)
+                analysis_id = analysis.get('id', '')
+                edge_id = f"{self.get_publication_id()}_{analysis_id}_{gene_id}"
                 edges.append((
-                    None,
+                    edge_id,
                     source_id,
                     gene_id,
                     'affects_expression_of',

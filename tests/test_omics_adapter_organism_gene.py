@@ -727,6 +727,7 @@ class TestSkipRows:
                         'statistical_analyses': [
                             {
                                 'type': 'RNASEQ',
+                                'id': 'test_no_skip_rows',
                                 'treatment_organism': 'Alteromonas macleodii',
                                 'treatment_taxid': 28108,
                                 'name_col': 'Gene_ID',
@@ -881,6 +882,7 @@ class TestPvalueAsteriskInLogfc:
                         'statistical_analyses': [
                             {
                                 'type': 'RNASEQ',
+                                'id': 'test_no_asterisk',
                                 'treatment_organism': 'Alteromonas macleodii',
                                 'treatment_taxid': 28108,
                                 'name_col': 'Gene_ID',
@@ -1123,6 +1125,7 @@ class TestMultiOMICSAdapter:
                             'statistical_analyses': [
                                 {
                                     'type': 'RNASEQ',
+                                    'id': f'test_multi_adapter_{organism.replace(" ", "_")}',
                                     'test_type': 'DESeq2',
                                     'control_condition': 'Control',
                                     'treatment_condition': 'Treatment',
@@ -1207,7 +1210,8 @@ class TestMultiOMICSAdapter:
                     's1': {
                         'type': 'csv', 'filename': data_file,
                         'statistical_analyses': [{
-                            'type': 'RNASEQ', 'test_type': 'DESeq2',
+                            'type': 'RNASEQ', 'id': 'test_list_adapter',
+                            'test_type': 'DESeq2',
                             'treatment_organism': 'Org', 'treatment_taxid': 12345,
                             'name_col': 'Synonym', 'logfc_col': 'log2_fold_change',
                             'adjusted_p_value_col': 'adjusted_p_value',
