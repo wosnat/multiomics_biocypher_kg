@@ -102,6 +102,9 @@ class CyanorakNcbi:
         ncbi_gff_file: str = None,
         cyan_gff_file: str = None,
         cyan_gbk_file: str = None,
+        ncbi_accession: str = None,
+        cyanorak_organism: str = None,
+        data_dir: str = None,
     ):
 
         model = GeneModel(
@@ -122,6 +125,10 @@ class CyanorakNcbi:
         self.cyan_gbk_file = cyan_gbk_file
         self.ncbi_gff_file = ncbi_gff_file
 
+        self.ncbi_accession = ncbi_accession
+        self.cyanorak_organism = cyanorak_organism
+        self.data_dir = data_dir
+
         # no need becuase we are not creating protein to ec edges here
         # if model["organism"] in ("*", None):
         #     self.swissprots = set(uniprot._all_uniprots("*", True))
@@ -139,13 +146,98 @@ class CyanorakNcbi:
         if model["test_mode"]:
             self.early_stopping = 100
 
+    def _download_ncbi_genome(self) -> str:
+        """Download NCBI genome zip and extract GFF using pypath Curl."""
+        url = (
+            f"https://api.ncbi.nlm.nih.gov/datasets/v2/genome/accession/"
+            f"{self.ncbi_accession}/download"
+            f"?include_annotation_type=GENOME_GFF"
+            f"&include_annotation_type=GENOME_FASTA"
+            f"&include_annotation_type=PROT_FASTA"
+            f"&include_annotation_type=SEQUENCE_REPORT"
+            f"&hydrated=FULLY_HYDRATED"
+        )
+        c = curl.Curl(
+            url,
+            silent=False,
+            compr='zip',
+            large=False,
+        )
+        # c.result is a dict of {filename: content} for zip files
+        gff_content = None
+        for name, content in c.result.items():
+            if name.endswith('genomic.gff'):
+                gff_content = content
+                break
+        if gff_content is None:
+            raise ValueError(f"No genomic.gff found in NCBI download for {self.ncbi_accession}")
+
+        gff_path = os.path.join(self.data_dir, "genomic.gff")
+        os.makedirs(self.data_dir, exist_ok=True)
+        with open(gff_path, 'w') as f:
+            f.write(gff_content)
+        logger.info(f"NCBI GFF saved to {gff_path}")
+        return gff_path
+
+    def _download_cyanorak_gff(self) -> str:
+        """Download Cyanorak GFF annotation file."""
+        url = f"https://cyanorak.sb-roscoff.fr/cyanorak/svc/export/organism/gff/{self.cyanorak_organism}"
+        c = curl.Curl(url, silent=False)
+        cyan_dir = os.path.join(self.data_dir, "cyanorak")
+        os.makedirs(cyan_dir, exist_ok=True)
+        gff_path = os.path.join(cyan_dir, f"{self.cyanorak_organism}.gff")
+        with open(gff_path, 'w') as f:
+            f.write(c.result)
+        logger.info(f"Cyanorak GFF saved to {gff_path}")
+        return gff_path
+
+    def _download_cyanorak_gbk(self) -> str:
+        """Download Cyanorak GenBank annotation file."""
+        url = f"https://cyanorak.sb-roscoff.fr/cyanorak/svc/export/organism/gbk/{self.cyanorak_organism}"
+        c = curl.Curl(url, silent=False)
+        cyan_dir = os.path.join(self.data_dir, "cyanorak")
+        os.makedirs(cyan_dir, exist_ok=True)
+        gbk_path = os.path.join(cyan_dir, f"{self.cyanorak_organism}.gbk")
+        with open(gbk_path, 'w') as f:
+            f.write(c.result)
+        logger.info(f"Cyanorak GBK saved to {gbk_path}")
+        return gbk_path
+
     @validate_call
-    def download_data(self, cache: bool = False) -> None:
-        ''' Download the cyanorak gbk file and ncbi gff file from the provided URLs.'''
+    def download_data(
+        self,
+        cache: bool = False,
+        debug: bool = False,
+        retries: int = 3,
+    ) -> None:
+        """Download genome files (if using accession-based config) and load GFF data.
+
+        Args:
+            cache: if True, uses pypath cached version; if False, forces download.
+            debug: if True, turns on debug mode in pypath.
+            retries: number of retries in case of download error.
+        """
+        # If accession-based, download files using pypath Curl
+        if self.ncbi_accession and self.cyanorak_organism:
+            with ExitStack() as stack:
+                if debug:
+                    stack.enter_context(curl.debug_on())
+                if not cache:
+                    stack.enter_context(curl.cache_off())
+
+                self.ncbi_gff_file = self._download_ncbi_genome()
+                self.cyan_gff_file = self._download_cyanorak_gff()
+                self.cyan_gbk_file = self._download_cyanorak_gbk()
+
+        if not all([self.ncbi_gff_file, self.cyan_gff_file, self.cyan_gbk_file]):
+            raise ValueError(
+                "Provide file paths directly or set ncbi_accession + cyanorak_organism"
+            )
+
         self.data_df = self.load_gff_from_ncbi_and_cynorak(
             ncbi_gff_file=self.ncbi_gff_file,
             cyan_gff_file=self.cyan_gff_file,
-            cyan_gbk_file=self.cyan_gbk_file
+            cyan_gbk_file=self.cyan_gbk_file,
         )
 
     @validate_call
@@ -352,20 +444,33 @@ class MultiCyanorakNcbi:
         """
         Args:
             config_list_file: Path to a CSV file with columns:
-                genome_dir, ncbi_gff, cyan_gff, cyan_gbk
+                New format: ncbi_accession, cyanorak_organism, data_dir
+                Legacy format: genome_dir, ncbi_gff, cyan_gff, cyan_gbk
             **kwargs: Additional arguments passed to each CyanorakNcbi.
         """
         self.adapters = []
         with open(config_list_file, 'r') as f:
             reader = csv.DictReader(f)
+            fieldnames = reader.fieldnames
+
             for row in reader:
-                genome_dir = row['genome_dir']
-                adapter = CyanorakNcbi(
-                    ncbi_gff_file=os.path.join(genome_dir, row['ncbi_gff']),
-                    cyan_gff_file=os.path.join(genome_dir, row['cyan_gff']),
-                    cyan_gbk_file=os.path.join(genome_dir, row['cyan_gbk']),
-                    **kwargs,
-                )
+                if 'ncbi_accession' in fieldnames:
+                    # New accession-based format
+                    adapter = CyanorakNcbi(
+                        ncbi_accession=row['ncbi_accession'],
+                        cyanorak_organism=row['cyanorak_organism'],
+                        data_dir=row.get('data_dir') or None,
+                        **kwargs,
+                    )
+                else:
+                    # Legacy path-based format
+                    genome_dir = row['genome_dir']
+                    adapter = CyanorakNcbi(
+                        ncbi_gff_file=os.path.join(genome_dir, row['ncbi_gff']),
+                        cyan_gff_file=os.path.join(genome_dir, row['cyan_gff']),
+                        cyan_gbk_file=os.path.join(genome_dir, row['cyan_gbk']),
+                        **kwargs,
+                    )
                 self.adapters.append(adapter)
         logger.info(f"Loaded {len(self.adapters)} genome configs from {config_list_file}")
 
