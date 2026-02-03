@@ -1,0 +1,341 @@
+publication:
+  papername: "Tolonen 2006"
+  papermainpdf: "data/Prochlorococcus/papers_and_supp/tolonen 2006/msb4100087.pdf"
+
+  environmental_conditions:
+    tolonen_2006_n_replete_med4:
+      condition_type: growth_medium
+      name: "N-replete Pro99 medium (MED4)"
+      medium: "Pro99 with 800 uM ammonium, 1 mM HEPES pH 7.5, 6 mM sodium bicarbonate"
+      temperature: "22C"
+      light_condition: continuous_light
+      light_intensity: "50 umol quanta m-2 s-1"
+      description: "Prochlorococcus MED4 growing in N-replete Pro99 medium with 800 uM ammonium"
+
+    tolonen_2006_n_deprivation_med4:
+      condition_type: nutrient_stress
+      name: "Nitrogen deprivation (MED4)"
+      medium: "Pro99 lacking supplemented nitrogen, 1 mM HEPES pH 7.5, 6 mM sodium bicarbonate"
+      temperature: "22C"
+      light_condition: continuous_light
+      light_intensity: "50 umol quanta m-2 s-1"
+      description: "Prochlorococcus MED4 resuspended in Pro99 medium lacking any supplemented nitrogen"
+
+    tolonen_2006_cyanate_med4:
+      condition_type: growth_medium
+      name: "Growth on cyanate as sole N source (MED4)"
+      medium: "Pro99 with 800 uM cyanate as sole nitrogen source"
+      temperature: "22C"
+      light_condition: continuous_light
+      light_intensity: "50 umol quanta m-2 s-1"
+      description: "Prochlorococcus MED4 in steady-state log-phase growth on 800 uM cyanate as sole N source"
+
+    tolonen_2006_urea_med4:
+      condition_type: growth_medium
+      name: "Growth on urea as sole N source (MED4)"
+      medium: "Pro99 with 400 uM urea as sole nitrogen source"
+      temperature: "22C"
+      light_condition: continuous_light
+      light_intensity: "50 umol quanta m-2 s-1"
+      description: "Prochlorococcus MED4 in steady-state log-phase growth on 400 uM urea as sole N source"
+
+    tolonen_2006_n_replete_mit9313:
+      condition_type: growth_medium
+      name: "N-replete Pro99 medium (MIT9313)"
+      medium: "Pro99 with 800 uM ammonium, 1 mM HEPES pH 7.5, 6 mM sodium bicarbonate"
+      temperature: "22C"
+      light_condition: continuous_light
+      light_intensity: "10 umol quanta m-2 s-1"
+      description: "Prochlorococcus MIT9313 growing in N-replete Pro99 medium with 800 uM ammonium"
+
+    tolonen_2006_n_deprivation_mit9313:
+      condition_type: nutrient_stress
+      name: "Nitrogen deprivation (MIT9313)"
+      medium: "Pro99 lacking supplemented nitrogen, 1 mM HEPES pH 7.5, 6 mM sodium bicarbonate"
+      temperature: "22C"
+      light_condition: continuous_light
+      light_intensity: "10 umol quanta m-2 s-1"
+      description: "Prochlorococcus MIT9313 resuspended in Pro99 medium lacking any supplemented nitrogen"
+
+    tolonen_2006_nitrite_mit9313:
+      condition_type: growth_medium
+      name: "Growth on nitrite as sole N source (MIT9313)"
+      medium: "Pro99 with 200 uM nitrite as sole nitrogen source"
+      temperature: "22C"
+      light_condition: continuous_light
+      light_intensity: "10 umol quanta m-2 s-1"
+      description: "Prochlorococcus MIT9313 in steady-state log-phase growth on 200 uM nitrite as sole N source"
+
+    tolonen_2006_urea_mit9313:
+      condition_type: growth_medium
+      name: "Growth on urea as sole N source (MIT9313)"
+      medium: "Pro99 with 400 uM urea as sole nitrogen source"
+      temperature: "22C"
+      light_condition: continuous_light
+      light_intensity: "10 umol quanta m-2 s-1"
+      description: "Prochlorococcus MIT9313 in steady-state log-phase growth on 400 uM urea as sole N source"
+
+  supplementary_materials:
+    supp_table_med4:
+      type: csv
+      filename: "data/Prochlorococcus/papers_and_supp/tolonen 2006/medExpression.1.csv"
+      statistical_analyses:
+        # N deprivation time series for MED4
+        - type: MICROARRAY
+          name: "DE of Prochlorococcus MED4 under N deprivation vs N-replete at 0h"
+          id: DE_n_deprivation_vs_replete_MED4_0h
+          test_type: "Affymetrix microarray with Goldenspike"
+          control_condition: "N-replete Pro99 with 800 uM ammonium"
+          treatment_condition: "Nitrogen deprivation"
+          environmental_control_condition_id: tolonen_2006_n_replete_med4
+          environmental_treatment_condition_id: tolonen_2006_n_deprivation_med4
+          experimental_context: "Axenic Prochlorococcus MED4 in Pro99 at 22C under continuous light (50 umol quanta m-2 s-1)"
+          timepoint: "0h"
+          organism: "Prochlorococcus MED4"
+          name_col: "GENE"
+          logfc_col: "t=0h"
+          pvalue_asterisk_in_logfc: true
+          pvalue_threshold: 0.01
+
+        - type: MICROARRAY
+          name: "DE of Prochlorococcus MED4 under N deprivation vs N-replete at 3h"
+          id: DE_n_deprivation_vs_replete_MED4_3h
+          test_type: "Affymetrix microarray with Goldenspike"
+          control_condition: "N-replete Pro99 with 800 uM ammonium"
+          treatment_condition: "Nitrogen deprivation"
+          environmental_control_condition_id: tolonen_2006_n_replete_med4
+          environmental_treatment_condition_id: tolonen_2006_n_deprivation_med4
+          experimental_context: "Axenic Prochlorococcus MED4 in Pro99 at 22C under continuous light (50 umol quanta m-2 s-1)"
+          timepoint: "3h"
+          organism: "Prochlorococcus MED4"
+          name_col: "GENE"
+          logfc_col: "t=3h"
+          pvalue_asterisk_in_logfc: true
+          pvalue_threshold: 0.01
+
+        - type: MICROARRAY
+          name: "DE of Prochlorococcus MED4 under N deprivation vs N-replete at 6h"
+          id: DE_n_deprivation_vs_replete_MED4_6h
+          test_type: "Affymetrix microarray with Goldenspike"
+          control_condition: "N-replete Pro99 with 800 uM ammonium"
+          treatment_condition: "Nitrogen deprivation"
+          environmental_control_condition_id: tolonen_2006_n_replete_med4
+          environmental_treatment_condition_id: tolonen_2006_n_deprivation_med4
+          experimental_context: "Axenic Prochlorococcus MED4 in Pro99 at 22C under continuous light (50 umol quanta m-2 s-1)"
+          timepoint: "6h"
+          organism: "Prochlorococcus MED4"
+          name_col: "GENE"
+          logfc_col: "t=6h"
+          pvalue_asterisk_in_logfc: true
+          pvalue_threshold: 0.01
+
+        - type: MICROARRAY
+          name: "DE of Prochlorococcus MED4 under N deprivation vs N-replete at 12h"
+          id: DE_n_deprivation_vs_replete_MED4_12h
+          test_type: "Affymetrix microarray with Goldenspike"
+          control_condition: "N-replete Pro99 with 800 uM ammonium"
+          treatment_condition: "Nitrogen deprivation"
+          environmental_control_condition_id: tolonen_2006_n_replete_med4
+          environmental_treatment_condition_id: tolonen_2006_n_deprivation_med4
+          experimental_context: "Axenic Prochlorococcus MED4 in Pro99 at 22C under continuous light (50 umol quanta m-2 s-1)"
+          timepoint: "12h"
+          organism: "Prochlorococcus MED4"
+          name_col: "GENE"
+          logfc_col: "t=12h"
+          pvalue_asterisk_in_logfc: true
+          pvalue_threshold: 0.01
+
+        - type: MICROARRAY
+          name: "DE of Prochlorococcus MED4 under N deprivation vs N-replete at 24h"
+          id: DE_n_deprivation_vs_replete_MED4_24h
+          test_type: "Affymetrix microarray with Goldenspike"
+          control_condition: "N-replete Pro99 with 800 uM ammonium"
+          treatment_condition: "Nitrogen deprivation"
+          environmental_control_condition_id: tolonen_2006_n_replete_med4
+          environmental_treatment_condition_id: tolonen_2006_n_deprivation_med4
+          experimental_context: "Axenic Prochlorococcus MED4 in Pro99 at 22C under continuous light (50 umol quanta m-2 s-1)"
+          timepoint: "24h"
+          organism: "Prochlorococcus MED4"
+          name_col: "GENE"
+          logfc_col: "t=24h"
+          pvalue_asterisk_in_logfc: true
+          pvalue_threshold: 0.01
+
+        - type: MICROARRAY
+          name: "DE of Prochlorococcus MED4 under N deprivation vs N-replete at 48h"
+          id: DE_n_deprivation_vs_replete_MED4_48h
+          test_type: "Affymetrix microarray with Goldenspike"
+          control_condition: "N-replete Pro99 with 800 uM ammonium"
+          treatment_condition: "Nitrogen deprivation"
+          environmental_control_condition_id: tolonen_2006_n_replete_med4
+          environmental_treatment_condition_id: tolonen_2006_n_deprivation_med4
+          experimental_context: "Axenic Prochlorococcus MED4 in Pro99 at 22C under continuous light (50 umol quanta m-2 s-1)"
+          timepoint: "48h"
+          organism: "Prochlorococcus MED4"
+          name_col: "GENE"
+          logfc_col: "t=48h"
+          pvalue_asterisk_in_logfc: true
+          pvalue_threshold: 0.01
+
+        # Alternative N source comparisons for MED4
+        - type: MICROARRAY
+          name: "DE of Prochlorococcus MED4 on cyanate vs ammonium"
+          id: DE_cyanate_vs_ammonium_MED4
+          test_type: "Affymetrix microarray with Goldenspike"
+          control_condition: "N-replete Pro99 with 800 uM ammonium"
+          treatment_condition: "Growth on 800 uM cyanate as sole N source"
+          environmental_control_condition_id: tolonen_2006_n_replete_med4
+          environmental_treatment_condition_id: tolonen_2006_cyanate_med4
+          experimental_context: "Axenic Prochlorococcus MED4 in steady-state log-phase growth in Pro99 at 22C under continuous light (50 umol quanta m-2 s-1)"
+          organism: "Prochlorococcus MED4"
+          name_col: "GENE"
+          logfc_col: "Cyanate"
+          pvalue_asterisk_in_logfc: true
+          pvalue_threshold: 0.01
+
+        - type: MICROARRAY
+          name: "DE of Prochlorococcus MED4 on urea vs ammonium"
+          id: DE_urea_vs_ammonium_MED4
+          test_type: "Affymetrix microarray with Goldenspike"
+          control_condition: "N-replete Pro99 with 800 uM ammonium"
+          treatment_condition: "Growth on 400 uM urea as sole N source"
+          environmental_control_condition_id: tolonen_2006_n_replete_med4
+          environmental_treatment_condition_id: tolonen_2006_urea_med4
+          experimental_context: "Axenic Prochlorococcus MED4 in steady-state log-phase growth in Pro99 at 22C under continuous light (50 umol quanta m-2 s-1)"
+          organism: "Prochlorococcus MED4"
+          name_col: "GENE"
+          logfc_col: "Urea"
+          pvalue_asterisk_in_logfc: true
+          pvalue_threshold: 0.01
+
+    supp_table_mit9313:
+      type: csv
+      filename: "data/Prochlorococcus/papers_and_supp/tolonen 2006/mitExpression.1.csv"
+      statistical_analyses:
+        # N deprivation time series for MIT9313
+        - type: MICROARRAY
+          name: "DE of Prochlorococcus MIT9313 under N deprivation vs N-replete at 0h"
+          id: DE_n_deprivation_vs_replete_MIT9313_0h
+          test_type: "Affymetrix microarray with Goldenspike"
+          control_condition: "N-replete Pro99 with 800 uM ammonium"
+          treatment_condition: "Nitrogen deprivation"
+          environmental_control_condition_id: tolonen_2006_n_replete_mit9313
+          environmental_treatment_condition_id: tolonen_2006_n_deprivation_mit9313
+          experimental_context: "Axenic Prochlorococcus MIT9313 in Pro99 at 22C under continuous light (10 umol quanta m-2 s-1)"
+          timepoint: "0h"
+          organism: "Prochlorococcus MIT9313"
+          name_col: "GENE"
+          logfc_col: "t=0h"
+          pvalue_asterisk_in_logfc: true
+          pvalue_threshold: 0.01
+
+        - type: MICROARRAY
+          name: "DE of Prochlorococcus MIT9313 under N deprivation vs N-replete at 3h"
+          id: DE_n_deprivation_vs_replete_MIT9313_3h
+          test_type: "Affymetrix microarray with Goldenspike"
+          control_condition: "N-replete Pro99 with 800 uM ammonium"
+          treatment_condition: "Nitrogen deprivation"
+          environmental_control_condition_id: tolonen_2006_n_replete_mit9313
+          environmental_treatment_condition_id: tolonen_2006_n_deprivation_mit9313
+          experimental_context: "Axenic Prochlorococcus MIT9313 in Pro99 at 22C under continuous light (10 umol quanta m-2 s-1)"
+          timepoint: "3h"
+          organism: "Prochlorococcus MIT9313"
+          name_col: "GENE"
+          logfc_col: "t=3h"
+          pvalue_asterisk_in_logfc: true
+          pvalue_threshold: 0.01
+
+        - type: MICROARRAY
+          name: "DE of Prochlorococcus MIT9313 under N deprivation vs N-replete at 6h"
+          id: DE_n_deprivation_vs_replete_MIT9313_6h
+          test_type: "Affymetrix microarray with Goldenspike"
+          control_condition: "N-replete Pro99 with 800 uM ammonium"
+          treatment_condition: "Nitrogen deprivation"
+          environmental_control_condition_id: tolonen_2006_n_replete_mit9313
+          environmental_treatment_condition_id: tolonen_2006_n_deprivation_mit9313
+          experimental_context: "Axenic Prochlorococcus MIT9313 in Pro99 at 22C under continuous light (10 umol quanta m-2 s-1)"
+          timepoint: "6h"
+          organism: "Prochlorococcus MIT9313"
+          name_col: "GENE"
+          logfc_col: "t=6h"
+          pvalue_asterisk_in_logfc: true
+          pvalue_threshold: 0.01
+
+        - type: MICROARRAY
+          name: "DE of Prochlorococcus MIT9313 under N deprivation vs N-replete at 12h"
+          id: DE_n_deprivation_vs_replete_MIT9313_12h
+          test_type: "Affymetrix microarray with Goldenspike"
+          control_condition: "N-replete Pro99 with 800 uM ammonium"
+          treatment_condition: "Nitrogen deprivation"
+          environmental_control_condition_id: tolonen_2006_n_replete_mit9313
+          environmental_treatment_condition_id: tolonen_2006_n_deprivation_mit9313
+          experimental_context: "Axenic Prochlorococcus MIT9313 in Pro99 at 22C under continuous light (10 umol quanta m-2 s-1)"
+          timepoint: "12h"
+          organism: "Prochlorococcus MIT9313"
+          name_col: "GENE"
+          logfc_col: "t=12h"
+          pvalue_asterisk_in_logfc: true
+          pvalue_threshold: 0.01
+
+        - type: MICROARRAY
+          name: "DE of Prochlorococcus MIT9313 under N deprivation vs N-replete at 24h"
+          id: DE_n_deprivation_vs_replete_MIT9313_24h
+          test_type: "Affymetrix microarray with Goldenspike"
+          control_condition: "N-replete Pro99 with 800 uM ammonium"
+          treatment_condition: "Nitrogen deprivation"
+          environmental_control_condition_id: tolonen_2006_n_replete_mit9313
+          environmental_treatment_condition_id: tolonen_2006_n_deprivation_mit9313
+          experimental_context: "Axenic Prochlorococcus MIT9313 in Pro99 at 22C under continuous light (10 umol quanta m-2 s-1)"
+          timepoint: "24h"
+          organism: "Prochlorococcus MIT9313"
+          name_col: "GENE"
+          logfc_col: "t=24h"
+          pvalue_asterisk_in_logfc: true
+          pvalue_threshold: 0.01
+
+        - type: MICROARRAY
+          name: "DE of Prochlorococcus MIT9313 under N deprivation vs N-replete at 48h"
+          id: DE_n_deprivation_vs_replete_MIT9313_48h
+          test_type: "Affymetrix microarray with Goldenspike"
+          control_condition: "N-replete Pro99 with 800 uM ammonium"
+          treatment_condition: "Nitrogen deprivation"
+          environmental_control_condition_id: tolonen_2006_n_replete_mit9313
+          environmental_treatment_condition_id: tolonen_2006_n_deprivation_mit9313
+          experimental_context: "Axenic Prochlorococcus MIT9313 in Pro99 at 22C under continuous light (10 umol quanta m-2 s-1)"
+          timepoint: "48h"
+          organism: "Prochlorococcus MIT9313"
+          name_col: "GENE"
+          logfc_col: "t=48h"
+          pvalue_asterisk_in_logfc: true
+          pvalue_threshold: 0.01
+
+        # Alternative N source comparisons for MIT9313
+        - type: MICROARRAY
+          name: "DE of Prochlorococcus MIT9313 on nitrite vs ammonium"
+          id: DE_nitrite_vs_ammonium_MIT9313
+          test_type: "Affymetrix microarray with Goldenspike"
+          control_condition: "N-replete Pro99 with 800 uM ammonium"
+          treatment_condition: "Growth on 200 uM nitrite as sole N source"
+          environmental_control_condition_id: tolonen_2006_n_replete_mit9313
+          environmental_treatment_condition_id: tolonen_2006_nitrite_mit9313
+          experimental_context: "Axenic Prochlorococcus MIT9313 in steady-state log-phase growth in Pro99 at 22C under continuous light (10 umol quanta m-2 s-1)"
+          organism: "Prochlorococcus MIT9313"
+          name_col: "GENE"
+          logfc_col: "Nitrite"
+          pvalue_asterisk_in_logfc: true
+          pvalue_threshold: 0.01
+
+        - type: MICROARRAY
+          name: "DE of Prochlorococcus MIT9313 on urea vs ammonium"
+          id: DE_urea_vs_ammonium_MIT9313
+          test_type: "Affymetrix microarray with Goldenspike"
+          control_condition: "N-replete Pro99 with 800 uM ammonium"
+          treatment_condition: "Growth on 400 uM urea as sole N source"
+          environmental_control_condition_id: tolonen_2006_n_replete_mit9313
+          environmental_treatment_condition_id: tolonen_2006_urea_mit9313
+          experimental_context: "Axenic Prochlorococcus MIT9313 in steady-state log-phase growth in Pro99 at 22C under continuous light (10 umol quanta m-2 s-1)"
+          organism: "Prochlorococcus MIT9313"
+          name_col: "GENE"
+          logfc_col: "Urea"
+          pvalue_asterisk_in_logfc: true
+          pvalue_threshold: 0.01

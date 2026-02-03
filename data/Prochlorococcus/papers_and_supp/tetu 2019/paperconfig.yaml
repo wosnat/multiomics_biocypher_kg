@@ -1,0 +1,98 @@
+publication:
+  papername: "Tetu 2019"
+  papermainpdf: "data/Prochlorococcus/papers_and_supp/tetu 2019/s42003-019-0410-x.pdf"
+
+  environmental_conditions:
+    tetu_2019_amp1_control:
+      condition_type: growth_medium
+      name: "AMP1 media control (no leachate)"
+      medium: "AMP1 artificial seawater medium"
+      temperature: "22C"
+      light_condition: continuous_light
+      light_intensity: "20-40 umol photons m-2 s-1"
+      description: "Prochlorococcus cultured in AMP1 medium with no plastic leachate addition"
+    tetu_2019_hdpe_leachate:
+      condition_type: plastic_leachate_stress
+      name: "HDPE plastic leachate (50% dilution)"
+      medium: "AMP1 artificial seawater medium with 50% v/v HDPE leachate"
+      temperature: "22C"
+      light_condition: continuous_light
+      light_intensity: "20-40 umol photons m-2 s-1"
+      plastic_type: "HDPE (high-density polyethylene shopping bags)"
+      leachate_concentration: "50% v/v"
+      description: "Exposure to leachate from HDPE shopping bags at 50% dilution in AMP1 medium"
+    tetu_2019_pvc_leachate:
+      condition_type: plastic_leachate_stress
+      name: "PVC plastic leachate (2% dilution)"
+      medium: "AMP1 artificial seawater medium with 2% v/v PVC leachate"
+      temperature: "22C"
+      light_condition: continuous_light
+      light_intensity: "20-40 umol photons m-2 s-1"
+      plastic_type: "PVC (polyvinyl chloride matting)"
+      leachate_concentration: "2% v/v"
+      description: "Exposure to leachate from PVC matting at 2% dilution in AMP1 medium"
+
+  supplementary_materials:
+    supp_dataset_3_mit9312:
+      type: csv
+      filename: "data/Prochlorococcus/papers_and_supp/tetu 2019/DE genes MIT9312 42003_2019_410_MOESM6_ESM.csv"
+      skip_rows: 1
+      statistical_analyses:
+        - type: RNASEQ
+          name: "DE of Prochlorococcus MIT9312 exposed to HDPE plastic leachate vs AMP1 control"
+          id: DE_hdpe_leachate_vs_control_MIT9312
+          test_type: DESeq2
+          control_condition: "AMP1 media (no leachate)"
+          treatment_condition: "HDPE plastic leachate (50% dilution)"
+          environmental_control_condition_id: tetu_2019_amp1_control
+          environmental_treatment_condition_id: tetu_2019_hdpe_leachate
+          experimental_context: "Short-term exposure (120 min) in AMP1 medium at 22C under continuous light"
+          organism: "Prochlorococcus MIT9312"
+          name_col: "MIT9312 (2017 NCBI)"
+          logfc_col: "HDPE log2 Fold change"
+          prefiltered: true
+        - type: RNASEQ
+          name: "DE of Prochlorococcus MIT9312 exposed to PVC plastic leachate vs AMP1 control"
+          id: DE_pvc_leachate_vs_control_MIT9312
+          test_type: DESeq2
+          control_condition: "AMP1 media (no leachate)"
+          treatment_condition: "PVC plastic leachate (2% dilution)"
+          environmental_control_condition_id: tetu_2019_amp1_control
+          environmental_treatment_condition_id: tetu_2019_pvc_leachate
+          experimental_context: "Short-term exposure (90 min) in AMP1 medium at 22C under continuous light"
+          organism: "Prochlorococcus MIT9312"
+          name_col: "MIT9312 (2017 NCBI)"
+          logfc_col: "PVC log2 Fold change"
+          prefiltered: true
+
+    supp_dataset_4_natl2a:
+      type: csv
+      filename: "data/Prochlorococcus/papers_and_supp/tetu 2019/DE genes Natl2a 42003_2019_410_MOESM7_ESM.csv"
+      skip_rows: 1
+      statistical_analyses:
+        - type: RNASEQ
+          name: "DE of Prochlorococcus NATL2A exposed to HDPE plastic leachate vs AMP1 control"
+          id: DE_hdpe_leachate_vs_control_NATL2A
+          test_type: DESeq2
+          control_condition: "AMP1 media (no leachate)"
+          treatment_condition: "HDPE plastic leachate (50% dilution)"
+          environmental_control_condition_id: tetu_2019_amp1_control
+          environmental_treatment_condition_id: tetu_2019_hdpe_leachate
+          experimental_context: "Short-term exposure (120 min) in AMP1 medium at 22C under continuous light"
+          organism: "Prochlorococcus NATL2A"
+          name_col: "NATL2A locus tag (2017 NCBI)"
+          logfc_col: "HDPE log2 Fold change"
+          prefiltered: true
+        - type: RNASEQ
+          name: "DE of Prochlorococcus NATL2A exposed to PVC plastic leachate vs AMP1 control"
+          id: DE_pvc_leachate_vs_control_NATL2A
+          test_type: DESeq2
+          control_condition: "AMP1 media (no leachate)"
+          treatment_condition: "PVC plastic leachate (2% dilution)"
+          environmental_control_condition_id: tetu_2019_amp1_control
+          environmental_treatment_condition_id: tetu_2019_pvc_leachate
+          experimental_context: "Short-term exposure (90 min) in AMP1 medium at 22C under continuous light"
+          organism: "Prochlorococcus NATL2A"
+          name_col: "NATL2A locus tag (2017 NCBI)"
+          logfc_col: "PVC log2 Fold change"
+          prefiltered: true
