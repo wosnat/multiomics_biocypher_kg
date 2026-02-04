@@ -1,1 +1,0 @@
-This folder contains blog posts to be loaded to medium. 
