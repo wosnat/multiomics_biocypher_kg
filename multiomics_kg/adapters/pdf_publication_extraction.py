@@ -77,7 +77,7 @@ class PDFPublicationExtractor:
         # claude_sonnet = init_chat_model("anthropic:claude-sonnet-4-5-20250929", temperature=0)
         # gemini_2-5_flash = init_chat_model("google_vertexai:gemini-2.5-flash", temperature=0)
         self.llm = init_chat_model(model=model_name, temperature=temperature)
-        self.cache_file = Path(cache_file) if cache_file else Path("pdf_extraction_cache.json")
+        self.cache_file = Path(cache_file) if cache_file else Path("cache/pdf_extraction_cache.json")
         self.cache = self._load_cache()
         self.id_counter = dict()  # Track IDs for uniqueness: {base_id: count}
         self._setup_extraction_chain()

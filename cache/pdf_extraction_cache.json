@@ -1,0 +1,51 @@
+{
+  "data/Prochlorococcus/papers_and_supp/tolonen 2006/msb4100087.pdf": {
+    "publication": {
+      "title": "Global gene expression of Prochlorococcus ecotypes in response to changes in nitrogen availability",
+      "authors": [
+        "Andrew C Tolonen",
+        "John Aach",
+        "Debbie Lindell",
+        "Zackary I Johnson",
+        "Trent Rector",
+        "Robert Steen",
+        "George M Church",
+        "Sallie W Chisholm"
+      ],
+      "journal": "Molecular Systems Biology",
+      "publication_year": "2006",
+      "doi": "10.1038/msb4100087",
+      "pmid": null,
+      "description": "Study combining whole-genome microarray analyses for Prochlorococcus MED4 and MIT9313, physiological measurements (chlorophyll fluorescence and photosystem II photochemical efficiency Fv/Fm), and comparative genomics to examine transcriptional responses to nitrogen starvation and growth on different nitrogen sources.",
+      "abstract": "We quantified changes in MED4 and MIT9313 global mRNA expression, chlorophyll fluorescence, and photosystem II photochemical efficiency (Fv/Fm) along a time series of increasing nitrogen starvation, and compared global expression under ammonium-replete conditions to expression during growth on alternative nitrogen sources. The study identified coexpressed gene clusters, showed activation of a putative NtcA regulon under nitrogen stress, and highlighted interstrain differences in carbon metabolism gene expression, suggesting distinct integration of nitrogen and carbon metabolism between MED4 and MIT9313.",
+      "study_type": "Microarray and Transcriptomics",
+      "organism": [
+        "Prochlorococcus MED4",
+        "Prochlorococcus MIT9313"
+      ],
+      "publication_id": "10.1038/msb4100087"
+    }
+  },
+  "data/Prochlorococcus/papers_and_supp/Aharonovich 2016/41396_2016_article_bfismej201670.pdf": {
+    "publication": {
+      "title": "Transcriptional response of Prochlorococcus to co-culture with a marine Alteromonas: differences between strains and the involvement of putative infochemicals",
+      "authors": [
+        "Dikla Aharonovich",
+        "Daniel Sher"
+      ],
+      "journal": "The ISME Journal",
+      "publication_year": 2016,
+      "doi": "10.1038/ismej.2016.70",
+      "pmid": null,
+      "description": "Laboratory co-culture study examining how two Prochlorococcus strains (MED4 and MIT9313) respond at the transcriptional level to interaction with a marine heterotrophic bacterium Alteromonas macleodii HOT1A3, focusing on early (20 h) gene expression changes and potential infochemical-mediated interactions.",
+      "abstract": "This study investigates how two Prochlorococcus strains, MED4 (high-light I) and MIT9313 (low-light IV), change gene expression in response to co-culture with Alteromonas macleodii HOT1A3. The Alteromonas strain enhances MIT9313 growth at low density but inhibits it at higher density, with no effect on MED4. Early transcriptomic responses show no nutrient-starvation signatures; MED4 downregulates photosynthesis, protein synthesis, and stress response genes, while MIT9313 upregulates these pathways. Differential expression of outer membrane modification genes, efflux transporters, and lanthipeptide-related genes (prochlorosins) suggests a targeted response to the heterotroph. Novel co-culture responsive gene families (CCRG-1 and CCRG-2) are encoded by many short genes and may be released into the medium.",
+      "study_type": "RNA-seq / Transcriptomics in co-culture",
+      "organism": [
+        "Prochlorococcus MED4",
+        "Prochlorococcus MIT9313",
+        "Alteromonas macleodii HOT1A3"
+      ],
+      "publication_id": "10.1038/ismej.2016.70"
+    }
+  }
+}
