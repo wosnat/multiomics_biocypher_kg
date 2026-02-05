@@ -1,0 +1,521 @@
+publication:
+  papername: "Ziegler 2025"
+  papermainpdf: "data/Prochlorococcus/papers_and_supp/ziegler 2025/2025.09.25.678681v1.full.pdf"
+
+  supplementary_materials:
+    # MED4 DE genes - coculture vs axenic at different timepoints
+    # Table 6: Differential expression of MED4 genes in coculture vs axenic
+    supp_table_6_med4_marinobacter_day2:
+      type: csv
+      filename: "data/Prochlorococcus/papers_and_supp/ziegler 2025/MED4 DE genes table 6 media-7.csv"
+      statistical_analyses:
+        - type: RNASEQ
+          name: "DE of Prochlorococcus MED4 in coculture with Marinobacter vs axenic (Day 2)"
+          id: DE_med4_marinobacter_vs_axenic_day2
+          test_type: DESeq2
+          control_condition: "Axenic MED4"
+          treatment_condition: "Coculture with Marinobacter"
+          experimental_context: "Pro99 medium, continuous light at 18 umol photons m-2 s-1, 24C, mid-exponential growth (~48h)"
+          timepoint: "Day 2"
+          organism: "Prochlorococcus MED4"
+          treatment_taxid: 413470
+          treatment_organism: "Marinobacter"
+          name_col: "ID"
+          logfc_col: "Marinobacter_LFC"
+          adjusted_p_value_col: "Marinobacter_padj"
+
+    supp_table_6_med4_marinobacter_day4:
+      type: csv
+      filename: "data/Prochlorococcus/papers_and_supp/ziegler 2025/MED4 DE genes table 6 media-7.csv"
+      statistical_analyses:
+        - type: RNASEQ
+          name: "DE of Prochlorococcus MED4 in coculture with Marinobacter vs axenic (Day 4)"
+          id: DE_med4_marinobacter_vs_axenic_day4
+          test_type: DESeq2
+          control_condition: "Axenic MED4"
+          treatment_condition: "Coculture with Marinobacter"
+          experimental_context: "Pro99 medium, continuous light at 18 umol photons m-2 s-1, 24C, late-exponential growth"
+          timepoint: "Day 4"
+          organism: "Prochlorococcus MED4"
+          treatment_taxid: 413470
+          treatment_organism: "Marinobacter"
+          name_col: "ID"
+          logfc_col: "Marinobacter_LFC"
+          adjusted_p_value_col: "Marinobacter_padj"
+
+    supp_table_6_med4_marinobacter_day5:
+      type: csv
+      filename: "data/Prochlorococcus/papers_and_supp/ziegler 2025/MED4 DE genes table 6 media-7.csv"
+      statistical_analyses:
+        - type: RNASEQ
+          name: "DE of Prochlorococcus MED4 in coculture with Marinobacter vs axenic (Day 5)"
+          id: DE_med4_marinobacter_vs_axenic_day5
+          test_type: DESeq2
+          control_condition: "Axenic MED4"
+          treatment_condition: "Coculture with Marinobacter"
+          experimental_context: "Pro99 medium, continuous light at 18 umol photons m-2 s-1, 24C, transition to stationary phase"
+          timepoint: "Day 5"
+          organism: "Prochlorococcus MED4"
+          treatment_taxid: 413470
+          treatment_organism: "Marinobacter"
+          name_col: "ID"
+          logfc_col: "Marinobacter_LFC"
+          adjusted_p_value_col: "Marinobacter_padj"
+
+    supp_table_6_med4_alteromonas_day2:
+      type: csv
+      filename: "data/Prochlorococcus/papers_and_supp/ziegler 2025/MED4 DE genes table 6 media-7.csv"
+      statistical_analyses:
+        - type: RNASEQ
+          name: "DE of Prochlorococcus MED4 in coculture with Alteromonas vs axenic (Day 2)"
+          id: DE_med4_alteromonas_vs_axenic_day2
+          test_type: DESeq2
+          control_condition: "Axenic MED4"
+          treatment_condition: "Coculture with Alteromonas"
+          experimental_context: "Pro99 medium, continuous light at 18 umol photons m-2 s-1, 24C, mid-exponential growth (~48h)"
+          timepoint: "Day 2"
+          organism: "Prochlorococcus MED4"
+          treatment_taxid: 28108
+          treatment_organism: "Alteromonas"
+          name_col: "ID"
+          logfc_col: "Alteromonas_LFC"
+          adjusted_p_value_col: "Alteromonas_padj"
+
+    supp_table_6_med4_alteromonas_day4:
+      type: csv
+      filename: "data/Prochlorococcus/papers_and_supp/ziegler 2025/MED4 DE genes table 6 media-7.csv"
+      statistical_analyses:
+        - type: RNASEQ
+          name: "DE of Prochlorococcus MED4 in coculture with Alteromonas vs axenic (Day 4)"
+          id: DE_med4_alteromonas_vs_axenic_day4
+          test_type: DESeq2
+          control_condition: "Axenic MED4"
+          treatment_condition: "Coculture with Alteromonas"
+          experimental_context: "Pro99 medium, continuous light at 18 umol photons m-2 s-1, 24C, late-exponential growth"
+          timepoint: "Day 4"
+          organism: "Prochlorococcus MED4"
+          treatment_taxid: 28108
+          treatment_organism: "Alteromonas"
+          name_col: "ID"
+          logfc_col: "Alteromonas_LFC"
+          adjusted_p_value_col: "Alteromonas_padj"
+
+    supp_table_6_med4_alteromonas_day5:
+      type: csv
+      filename: "data/Prochlorococcus/papers_and_supp/ziegler 2025/MED4 DE genes table 6 media-7.csv"
+      statistical_analyses:
+        - type: RNASEQ
+          name: "DE of Prochlorococcus MED4 in coculture with Alteromonas vs axenic (Day 5)"
+          id: DE_med4_alteromonas_vs_axenic_day5
+          test_type: DESeq2
+          control_condition: "Axenic MED4"
+          treatment_condition: "Coculture with Alteromonas"
+          experimental_context: "Pro99 medium, continuous light at 18 umol photons m-2 s-1, 24C, transition to stationary phase"
+          timepoint: "Day 5"
+          organism: "Prochlorococcus MED4"
+          treatment_taxid: 28108
+          treatment_organism: "Alteromonas"
+          name_col: "ID"
+          logfc_col: "Alteromonas_LFC"
+          adjusted_p_value_col: "Alteromonas_padj"
+
+    supp_table_6_med4_thalassospira_day2:
+      type: csv
+      filename: "data/Prochlorococcus/papers_and_supp/ziegler 2025/MED4 DE genes table 6 media-7.csv"
+      statistical_analyses:
+        - type: RNASEQ
+          name: "DE of Prochlorococcus MED4 in coculture with Thalassospira vs axenic (Day 2)"
+          id: DE_med4_thalassospira_vs_axenic_day2
+          test_type: DESeq2
+          control_condition: "Axenic MED4"
+          treatment_condition: "Coculture with Thalassospira"
+          experimental_context: "Pro99 medium, continuous light at 18 umol photons m-2 s-1, 24C, mid-exponential growth (~48h)"
+          timepoint: "Day 2"
+          organism: "Prochlorococcus MED4"
+          treatment_taxid: 191411
+          treatment_organism: "Thalassospira"
+          name_col: "ID"
+          logfc_col: "Thalassospira_1_LFC"
+          adjusted_p_value_col: "Thalassospira_1_padj"
+
+    supp_table_6_med4_thalassospira_day4:
+      type: csv
+      filename: "data/Prochlorococcus/papers_and_supp/ziegler 2025/MED4 DE genes table 6 media-7.csv"
+      statistical_analyses:
+        - type: RNASEQ
+          name: "DE of Prochlorococcus MED4 in coculture with Thalassospira vs axenic (Day 4)"
+          id: DE_med4_thalassospira_vs_axenic_day4
+          test_type: DESeq2
+          control_condition: "Axenic MED4"
+          treatment_condition: "Coculture with Thalassospira"
+          experimental_context: "Pro99 medium, continuous light at 18 umol photons m-2 s-1, 24C, late-exponential growth"
+          timepoint: "Day 4"
+          organism: "Prochlorococcus MED4"
+          treatment_taxid: 191411
+          treatment_organism: "Thalassospira"
+          name_col: "ID"
+          logfc_col: "Thalassospira_1_LFC"
+          adjusted_p_value_col: "Thalassospira_1_padj"
+
+    supp_table_6_med4_thalassospira_day5:
+      type: csv
+      filename: "data/Prochlorococcus/papers_and_supp/ziegler 2025/MED4 DE genes table 6 media-7.csv"
+      statistical_analyses:
+        - type: RNASEQ
+          name: "DE of Prochlorococcus MED4 in coculture with Thalassospira vs axenic (Day 5)"
+          id: DE_med4_thalassospira_vs_axenic_day5
+          test_type: DESeq2
+          control_condition: "Axenic MED4"
+          treatment_condition: "Coculture with Thalassospira"
+          experimental_context: "Pro99 medium, continuous light at 18 umol photons m-2 s-1, 24C, transition to stationary phase"
+          timepoint: "Day 5"
+          organism: "Prochlorococcus MED4"
+          treatment_taxid: 191411
+          treatment_organism: "Thalassospira"
+          name_col: "ID"
+          logfc_col: "Thalassospira_1_LFC"
+          adjusted_p_value_col: "Thalassospira_1_padj"
+
+    supp_table_6_med4_pseudohoeflea_day2:
+      type: csv
+      filename: "data/Prochlorococcus/papers_and_supp/ziegler 2025/MED4 DE genes table 6 media-7.csv"
+      statistical_analyses:
+        - type: RNASEQ
+          name: "DE of Prochlorococcus MED4 in coculture with Pseudohoeflea vs axenic (Day 2)"
+          id: DE_med4_pseudohoeflea_vs_axenic_day2
+          test_type: DESeq2
+          control_condition: "Axenic MED4"
+          treatment_condition: "Coculture with Pseudohoeflea"
+          experimental_context: "Pro99 medium, continuous light at 18 umol photons m-2 s-1, 24C, mid-exponential growth (~48h)"
+          timepoint: "Day 2"
+          organism: "Prochlorococcus MED4"
+          treatment_taxid: 398581
+          treatment_organism: "Pseudohoeflea"
+          name_col: "ID"
+          logfc_col: "Pseudohoeflea_LFC"
+          adjusted_p_value_col: "Pseudohoeflea_padj"
+
+    supp_table_6_med4_pseudohoeflea_day4:
+      type: csv
+      filename: "data/Prochlorococcus/papers_and_supp/ziegler 2025/MED4 DE genes table 6 media-7.csv"
+      statistical_analyses:
+        - type: RNASEQ
+          name: "DE of Prochlorococcus MED4 in coculture with Pseudohoeflea vs axenic (Day 4)"
+          id: DE_med4_pseudohoeflea_vs_axenic_day4
+          test_type: DESeq2
+          control_condition: "Axenic MED4"
+          treatment_condition: "Coculture with Pseudohoeflea"
+          experimental_context: "Pro99 medium, continuous light at 18 umol photons m-2 s-1, 24C, late-exponential growth"
+          timepoint: "Day 4"
+          organism: "Prochlorococcus MED4"
+          treatment_taxid: 398581
+          treatment_organism: "Pseudohoeflea"
+          name_col: "ID"
+          logfc_col: "Pseudohoeflea_LFC"
+          adjusted_p_value_col: "Pseudohoeflea_padj"
+
+    supp_table_6_med4_pseudohoeflea_day5:
+      type: csv
+      filename: "data/Prochlorococcus/papers_and_supp/ziegler 2025/MED4 DE genes table 6 media-7.csv"
+      statistical_analyses:
+        - type: RNASEQ
+          name: "DE of Prochlorococcus MED4 in coculture with Pseudohoeflea vs axenic (Day 5)"
+          id: DE_med4_pseudohoeflea_vs_axenic_day5
+          test_type: DESeq2
+          control_condition: "Axenic MED4"
+          treatment_condition: "Coculture with Pseudohoeflea"
+          experimental_context: "Pro99 medium, continuous light at 18 umol photons m-2 s-1, 24C, transition to stationary phase"
+          timepoint: "Day 5"
+          organism: "Prochlorococcus MED4"
+          treatment_taxid: 398581
+          treatment_organism: "Pseudohoeflea"
+          name_col: "ID"
+          logfc_col: "Pseudohoeflea_LFC"
+          adjusted_p_value_col: "Pseudohoeflea_padj"
+
+    supp_table_6_med4_community_day2:
+      type: csv
+      filename: "data/Prochlorococcus/papers_and_supp/ziegler 2025/MED4 DE genes table 6 media-7.csv"
+      statistical_analyses:
+        - type: RNASEQ
+          name: "DE of Prochlorococcus MED4 in synthetic community vs axenic (Day 2)"
+          id: DE_med4_community_vs_axenic_day2
+          test_type: DESeq2
+          control_condition: "Axenic MED4"
+          treatment_condition: "Synthetic community (Marinobacter, Alteromonas, Thalassospira, Pseudohoeflea)"
+          experimental_context: "Pro99 medium, continuous light at 18 umol photons m-2 s-1, 24C, mid-exponential growth (~48h)"
+          timepoint: "Day 2"
+          organism: "Prochlorococcus MED4"
+          treatment_taxid: 413470
+          treatment_organism: "Synthetic heterotroph community"
+          name_col: "ID"
+          logfc_col: "Community_LFC"
+          adjusted_p_value_col: "Community_padj"
+
+    supp_table_6_med4_community_day4:
+      type: csv
+      filename: "data/Prochlorococcus/papers_and_supp/ziegler 2025/MED4 DE genes table 6 media-7.csv"
+      statistical_analyses:
+        - type: RNASEQ
+          name: "DE of Prochlorococcus MED4 in synthetic community vs axenic (Day 4)"
+          id: DE_med4_community_vs_axenic_day4
+          test_type: DESeq2
+          control_condition: "Axenic MED4"
+          treatment_condition: "Synthetic community (Marinobacter, Alteromonas, Thalassospira, Pseudohoeflea)"
+          experimental_context: "Pro99 medium, continuous light at 18 umol photons m-2 s-1, 24C, late-exponential growth"
+          timepoint: "Day 4"
+          organism: "Prochlorococcus MED4"
+          treatment_taxid: 413470
+          treatment_organism: "Synthetic heterotroph community"
+          name_col: "ID"
+          logfc_col: "Community_LFC"
+          adjusted_p_value_col: "Community_padj"
+
+    supp_table_6_med4_community_day5:
+      type: csv
+      filename: "data/Prochlorococcus/papers_and_supp/ziegler 2025/MED4 DE genes table 6 media-7.csv"
+      statistical_analyses:
+        - type: RNASEQ
+          name: "DE of Prochlorococcus MED4 in synthetic community vs axenic (Day 5)"
+          id: DE_med4_community_vs_axenic_day5
+          test_type: DESeq2
+          control_condition: "Axenic MED4"
+          treatment_condition: "Synthetic community (Marinobacter, Alteromonas, Thalassospira, Pseudohoeflea)"
+          experimental_context: "Pro99 medium, continuous light at 18 umol photons m-2 s-1, 24C, transition to stationary phase"
+          timepoint: "Day 5"
+          organism: "Prochlorococcus MED4"
+          treatment_taxid: 413470
+          treatment_organism: "Synthetic heterotroph community"
+          name_col: "ID"
+          logfc_col: "Community_LFC"
+          adjusted_p_value_col: "Community_padj"
+
+    # Heterotroph DE genes - community vs single coculture
+    # Table 8: Differential expression of heterotroph genes in community vs single coculture with MED4
+    supp_table_8_alteromonas_day2:
+      type: csv
+      filename: "data/Prochlorococcus/papers_and_supp/ziegler 2025/heterptroph DE genes supp table 8 media-9.csv"
+      statistical_analyses:
+        - type: RNASEQ
+          name: "DE of Alteromonas in synthetic community vs single coculture with MED4 (Day 2)"
+          id: DE_alteromonas_community_vs_single_day2
+          test_type: DESeq2
+          control_condition: "Single coculture with MED4"
+          treatment_condition: "Synthetic community with MED4"
+          experimental_context: "Pro99 medium, continuous light at 18 umol photons m-2 s-1, 24C, mid-exponential growth (~48h)"
+          timepoint: "Day 2"
+          organism: "Alteromonas"
+          treatment_taxid: 59919
+          treatment_organism: "Prochlorococcus MED4"
+          name_col: "ID"
+          logfc_col: "Day2_LFC"
+          adjusted_p_value_col: "Day2_padj"
+
+    supp_table_8_alteromonas_day4:
+      type: csv
+      filename: "data/Prochlorococcus/papers_and_supp/ziegler 2025/heterptroph DE genes supp table 8 media-9.csv"
+      statistical_analyses:
+        - type: RNASEQ
+          name: "DE of Alteromonas in synthetic community vs single coculture with MED4 (Day 4)"
+          id: DE_alteromonas_community_vs_single_day4
+          test_type: DESeq2
+          control_condition: "Single coculture with MED4"
+          treatment_condition: "Synthetic community with MED4"
+          experimental_context: "Pro99 medium, continuous light at 18 umol photons m-2 s-1, 24C, late-exponential growth"
+          timepoint: "Day 4"
+          organism: "Alteromonas"
+          treatment_taxid: 59919
+          treatment_organism: "Prochlorococcus MED4"
+          name_col: "ID"
+          logfc_col: "Day4_LFC"
+          adjusted_p_value_col: "Day4_padj"
+
+    supp_table_8_alteromonas_day5:
+      type: csv
+      filename: "data/Prochlorococcus/papers_and_supp/ziegler 2025/heterptroph DE genes supp table 8 media-9.csv"
+      statistical_analyses:
+        - type: RNASEQ
+          name: "DE of Alteromonas in synthetic community vs single coculture with MED4 (Day 5)"
+          id: DE_alteromonas_community_vs_single_day5
+          test_type: DESeq2
+          control_condition: "Single coculture with MED4"
+          treatment_condition: "Synthetic community with MED4"
+          experimental_context: "Pro99 medium, continuous light at 18 umol photons m-2 s-1, 24C, transition to stationary phase"
+          timepoint: "Day 5"
+          organism: "Alteromonas"
+          treatment_taxid: 59919
+          treatment_organism: "Prochlorococcus MED4"
+          name_col: "ID"
+          logfc_col: "Day5_LFC"
+          adjusted_p_value_col: "Day5_padj"
+
+    supp_table_8_marinobacter_day2:
+      type: csv
+      filename: "data/Prochlorococcus/papers_and_supp/ziegler 2025/heterptroph DE genes supp table 8 media-9.csv"
+      statistical_analyses:
+        - type: RNASEQ
+          name: "DE of Marinobacter in synthetic community vs single coculture with MED4 (Day 2)"
+          id: DE_marinobacter_community_vs_single_day2
+          test_type: DESeq2
+          control_condition: "Single coculture with MED4"
+          treatment_condition: "Synthetic community with MED4"
+          experimental_context: "Pro99 medium, continuous light at 18 umol photons m-2 s-1, 24C, mid-exponential growth (~48h)"
+          timepoint: "Day 2"
+          organism: "Marinobacter"
+          treatment_taxid: 59919
+          treatment_organism: "Prochlorococcus MED4"
+          name_col: "ID"
+          logfc_col: "Day2_LFC"
+          adjusted_p_value_col: "Day2_padj"
+
+    supp_table_8_marinobacter_day4:
+      type: csv
+      filename: "data/Prochlorococcus/papers_and_supp/ziegler 2025/heterptroph DE genes supp table 8 media-9.csv"
+      statistical_analyses:
+        - type: RNASEQ
+          name: "DE of Marinobacter in synthetic community vs single coculture with MED4 (Day 4)"
+          id: DE_marinobacter_community_vs_single_day4
+          test_type: DESeq2
+          control_condition: "Single coculture with MED4"
+          treatment_condition: "Synthetic community with MED4"
+          experimental_context: "Pro99 medium, continuous light at 18 umol photons m-2 s-1, 24C, late-exponential growth"
+          timepoint: "Day 4"
+          organism: "Marinobacter"
+          treatment_taxid: 59919
+          treatment_organism: "Prochlorococcus MED4"
+          name_col: "ID"
+          logfc_col: "Day4_LFC"
+          adjusted_p_value_col: "Day4_padj"
+
+    supp_table_8_marinobacter_day5:
+      type: csv
+      filename: "data/Prochlorococcus/papers_and_supp/ziegler 2025/heterptroph DE genes supp table 8 media-9.csv"
+      statistical_analyses:
+        - type: RNASEQ
+          name: "DE of Marinobacter in synthetic community vs single coculture with MED4 (Day 5)"
+          id: DE_marinobacter_community_vs_single_day5
+          test_type: DESeq2
+          control_condition: "Single coculture with MED4"
+          treatment_condition: "Synthetic community with MED4"
+          experimental_context: "Pro99 medium, continuous light at 18 umol photons m-2 s-1, 24C, transition to stationary phase"
+          timepoint: "Day 5"
+          organism: "Marinobacter"
+          treatment_taxid: 59919
+          treatment_organism: "Prochlorococcus MED4"
+          name_col: "ID"
+          logfc_col: "Day5_LFC"
+          adjusted_p_value_col: "Day5_padj"
+
+    supp_table_8_thalassospira_day2:
+      type: csv
+      filename: "data/Prochlorococcus/papers_and_supp/ziegler 2025/heterptroph DE genes supp table 8 media-9.csv"
+      statistical_analyses:
+        - type: RNASEQ
+          name: "DE of Thalassospira in synthetic community vs single coculture with MED4 (Day 2)"
+          id: DE_thalassospira_community_vs_single_day2
+          test_type: DESeq2
+          control_condition: "Single coculture with MED4"
+          treatment_condition: "Synthetic community with MED4"
+          experimental_context: "Pro99 medium, continuous light at 18 umol photons m-2 s-1, 24C, mid-exponential growth (~48h)"
+          timepoint: "Day 2"
+          organism: "Thalassospira"
+          treatment_taxid: 59919
+          treatment_organism: "Prochlorococcus MED4"
+          name_col: "ID"
+          logfc_col: "Day2_LFC"
+          adjusted_p_value_col: "Day2_padj"
+
+    supp_table_8_thalassospira_day4:
+      type: csv
+      filename: "data/Prochlorococcus/papers_and_supp/ziegler 2025/heterptroph DE genes supp table 8 media-9.csv"
+      statistical_analyses:
+        - type: RNASEQ
+          name: "DE of Thalassospira in synthetic community vs single coculture with MED4 (Day 4)"
+          id: DE_thalassospira_community_vs_single_day4
+          test_type: DESeq2
+          control_condition: "Single coculture with MED4"
+          treatment_condition: "Synthetic community with MED4"
+          experimental_context: "Pro99 medium, continuous light at 18 umol photons m-2 s-1, 24C, late-exponential growth"
+          timepoint: "Day 4"
+          organism: "Thalassospira"
+          treatment_taxid: 59919
+          treatment_organism: "Prochlorococcus MED4"
+          name_col: "ID"
+          logfc_col: "Day4_LFC"
+          adjusted_p_value_col: "Day4_padj"
+
+    supp_table_8_thalassospira_day5:
+      type: csv
+      filename: "data/Prochlorococcus/papers_and_supp/ziegler 2025/heterptroph DE genes supp table 8 media-9.csv"
+      statistical_analyses:
+        - type: RNASEQ
+          name: "DE of Thalassospira in synthetic community vs single coculture with MED4 (Day 5)"
+          id: DE_thalassospira_community_vs_single_day5
+          test_type: DESeq2
+          control_condition: "Single coculture with MED4"
+          treatment_condition: "Synthetic community with MED4"
+          experimental_context: "Pro99 medium, continuous light at 18 umol photons m-2 s-1, 24C, transition to stationary phase"
+          timepoint: "Day 5"
+          organism: "Thalassospira"
+          treatment_taxid: 59919
+          treatment_organism: "Prochlorococcus MED4"
+          name_col: "ID"
+          logfc_col: "Day5_LFC"
+          adjusted_p_value_col: "Day5_padj"
+
+    supp_table_8_pseudohoeflea_day2:
+      type: csv
+      filename: "data/Prochlorococcus/papers_and_supp/ziegler 2025/heterptroph DE genes supp table 8 media-9.csv"
+      statistical_analyses:
+        - type: RNASEQ
+          name: "DE of Pseudohoeflea in synthetic community vs single coculture with MED4 (Day 2)"
+          id: DE_pseudohoeflea_community_vs_single_day2
+          test_type: DESeq2
+          control_condition: "Single coculture with MED4"
+          treatment_condition: "Synthetic community with MED4"
+          experimental_context: "Pro99 medium, continuous light at 18 umol photons m-2 s-1, 24C, mid-exponential growth (~48h)"
+          timepoint: "Day 2"
+          organism: "Pseudohoeflea"
+          treatment_taxid: 59919
+          treatment_organism: "Prochlorococcus MED4"
+          name_col: "ID"
+          logfc_col: "Day2_LFC"
+          adjusted_p_value_col: "Day2_padj"
+
+    supp_table_8_pseudohoeflea_day4:
+      type: csv
+      filename: "data/Prochlorococcus/papers_and_supp/ziegler 2025/heterptroph DE genes supp table 8 media-9.csv"
+      statistical_analyses:
+        - type: RNASEQ
+          name: "DE of Pseudohoeflea in synthetic community vs single coculture with MED4 (Day 4)"
+          id: DE_pseudohoeflea_community_vs_single_day4
+          test_type: DESeq2
+          control_condition: "Single coculture with MED4"
+          treatment_condition: "Synthetic community with MED4"
+          experimental_context: "Pro99 medium, continuous light at 18 umol photons m-2 s-1, 24C, late-exponential growth"
+          timepoint: "Day 4"
+          organism: "Pseudohoeflea"
+          treatment_taxid: 59919
+          treatment_organism: "Prochlorococcus MED4"
+          name_col: "ID"
+          logfc_col: "Day4_LFC"
+          adjusted_p_value_col: "Day4_padj"
+
+    supp_table_8_pseudohoeflea_day5:
+      type: csv
+      filename: "data/Prochlorococcus/papers_and_supp/ziegler 2025/heterptroph DE genes supp table 8 media-9.csv"
+      statistical_analyses:
+        - type: RNASEQ
+          name: "DE of Pseudohoeflea in synthetic community vs single coculture with MED4 (Day 5)"
+          id: DE_pseudohoeflea_community_vs_single_day5
+          test_type: DESeq2
+          control_condition: "Single coculture with MED4"
+          treatment_condition: "Synthetic community with MED4"
+          experimental_context: "Pro99 medium, continuous light at 18 umol photons m-2 s-1, 24C, transition to stationary phase"
+          timepoint: "Day 5"
+          organism: "Pseudohoeflea"
+          treatment_taxid: 59919
+          treatment_organism: "Prochlorococcus MED4"
+          name_col: "ID"
+          logfc_col: "Day5_LFC"
+          adjusted_p_value_col: "Day5_padj"
