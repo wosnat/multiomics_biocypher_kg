@@ -446,11 +446,14 @@ class MultiCyanorakNcbi:
             config_list_file: Path to a CSV file with columns:
                 New format: ncbi_accession, cyanorak_organism, data_dir
                 Legacy format: genome_dir, ncbi_gff, cyan_gff, cyan_gbk
+                Lines starting with # are treated as comments and skipped.
             **kwargs: Additional arguments passed to each CyanorakNcbi.
         """
         self.adapters = []
         with open(config_list_file, 'r') as f:
-            reader = csv.DictReader(f)
+            # Filter out comment lines (starting with #) before parsing CSV
+            lines = [line for line in f if not line.strip().startswith('#')]
+            reader = csv.DictReader(lines)
             fieldnames = reader.fieldnames
 
             for row in reader:

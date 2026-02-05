@@ -47,5 +47,99 @@
       ],
       "publication_id": "10.1038/ismej.2016.70"
     }
+  },
+  "data/Prochlorococcus/papers_and_supp/thompson 2011/41396_2011_article_bfismej201149.pdf": {
+    "publication": {
+      "title": "Transcriptome response of high- and low-light-adapted Prochlorococcus strains to changing iron availability",
+      "authors": [
+        "Anne W Thompson",
+        "Katherine Huang",
+        "Mak A Saito",
+        "Sallie W Chisholm"
+      ],
+      "journal": "The ISME Journal",
+      "publication_year": "2011",
+      "doi": "10.1038/ismej.2011.49",
+      "pmid": null,
+      "description": "Comparative transcriptomic analysis of MED4 and MIT9313 Prochlorococcus strains to abrupt iron starvation and rescue, assessing steady-state growth over controlled iron concentrations, whole-genome transcriptional profiling via microarrays, and locus-specific analysis of iron-stress genes and environmental distribution.",
+      "abstract": "Prochlorococcus contributes significantly to ocean primary productivity. The link between primary productivity and iron in specific ocean regions is well established and iron limitation of Prochlorococcus cell division rates in these regions has been shown. However, the extent of ecotypic variation in iron metabolism among Prochlorococcus and the molecular basis for differences is not understood. Here, we examine the growth and transcriptional response of Prochlorococcus strains, MED4 and MIT9313, to changing iron concentrations. During steady state, MIT9313 sustains growth at an order-of-magnitude lower iron concentration than MED4. To explore this difference, we measured the whole-genome transcriptional response of each strain to abrupt iron starvation and rescue. Only four of the 1159 orthologs of MED4 and MIT9313 were differentially expressed in response to iron in both strains. However, in each strain, the expression of over a hundred additional genes changed, many of which are in labile genomic regions, suggesting a role for lateral gene transfer in establishing diversity of iron metabolism among Prochlorococcus. Furthermore, we found that MED4 lacks three genes near the iron-deficiency-induced gene ( idiA) that are present and induced by iron stress in MIT9313. These genes are interesting targets for studying the adaptation of natural Prochlorococcus assemblages to local iron conditions as they show more diversity than other genomic regions in environmental metagenomic databases.",
+      "study_type": "Transcriptomics, Microarray",
+      "organism": [
+        "Prochlorococcus MED4",
+        "Prochlorococcus MIT9313"
+      ],
+      "publication_id": "10.1038/ismej.2011.49"
+    }
+  },
+  "data/Prochlorococcus/papers_and_supp/tetu 2019/s42003-019-0410-x.pdf": {
+    "publication": {
+      "title": "Plastic leachates impair growth and oxygen production in Prochlorococcus, the ocean's most abundant photosynthetic bacteria",
+      "authors": [
+        "Sasha G. Tetu",
+        "Indrani Sarker",
+        "Verena Schrameyer",
+        "Russell Pickford",
+        "Liam D.H. Elbourne",
+        "Lisa R. Moore",
+        "Ian T. Paulsen"
+      ],
+      "journal": "Communications Biology",
+      "publication_year": "2019",
+      "doi": "10.1038/s42003-019-0410-x",
+      "pmid": null,
+      "description": "Exposes two Prochlorococcus strains MIT9312 (HLII) and NATL2A (LLI) to leachates from HDPE shopping bags and PVC matting in artificial seawater; assesses growth by flow cytometry, photosynthetic efficiency (PSII), and genome-wide transcriptional changes.",
+      "abstract": "Plastic pollution leachates impair growth and photosynthetic capacity of Prochlorococcus. Two strains representing distinct ecotypes were exposed to leachates from HDPE bags and PVC matting. Leachate exposure inhibited in vitro growth and PSII photochemistry in a dose-dependent manner, with PVC leachates generally more deleterious. Transcriptomic analyses revealed genome-wide changes, with strain-specific differences in the timing and extent of responses, suggesting potential shifts in Prochlorococcus community composition and oceanic primary productivity.",
+      "study_type": "Transcriptomics",
+      "organism": [
+        "Prochlorococcus MIT9312",
+        "Prochlorococcus NATL2A"
+      ],
+      "publication_id": "10.1038/s42003-019-0410-x"
+    }
+  },
+  "data/Prochlorococcus/papers_and_supp/steglich 2006/steglich-et-al-2006-genome-wide-analysis-of-light-sensing-in-prochlorococcus.pdf": {
+    "publication": {
+      "title": "Genome-Wide Analysis of Light Sensing in Prochlorococcus/H17188",
+      "authors": [
+        "Claudia Steglich",
+        "Matthias Futschik",
+        "Trent Rector",
+        "Robert Steen",
+        "Sallie W. Chisholm"
+      ],
+      "journal": "Journal of Bacteriology",
+      "publication_year": "2006",
+      "doi": "10.1128/JB.01097-06",
+      "pmid": null,
+      "description": "A genome-wide transcriptional analysis of light sensing in Prochlorococcus MED4 using high-density Affymetrix microarrays to measure global gene expression changes under different light qualities (white, blue, red, green) and quantities, including the effects of DCMU; identification of blue-light-responsive genes and potential blue-light receptors, with discussion of redox signaling in photosynthetic electron transport.",
+      "abstract": "Prochlorococcus MED4 was cultured under various light qualities and intensities and subjected to high-density Affymetrix microarrays to measure global gene expression changes. Seven conditions were tested; blue light elicited a strong transcriptional response, with high white light responses resembling blue light. Results suggest blue-light sensing is mediated via a blue-light receptor, with bacterial cryptochromes as candidates, and indicate a signaling pathway linked to the redox state of the photosynthetic electron transport chain, as inferred from genes responding similarly to red and blue light and to the photosystem II inhibitor DCMU. The study discusses the adaptation of Prochlorococcus to ambient light and its implications for light-sensing repertoires in streamlined genomes.",
+      "study_type": "Transcriptomics (Microarray)",
+      "organism": [
+        "Prochlorococcus MED4"
+      ],
+      "publication_id": "10.1128/JB.01097-06"
+    }
+  },
+  "data/Prochlorococcus/papers_and_supp/martiny 2006/martiny-et-al-2006-phosphate-acquisition-genes-in-prochlorococcus-ecotypes-evidence-for-genome-wide-adaptation.pdf": {
+    "publication": {
+      "title": "Phosphate acquisition genes in Prochlorococcus ecotypes: Evidence for genome-wide adaptation",
+      "authors": [
+        "Adam C. Martiny",
+        "Maureen L. Coleman",
+        "Sallie W. Chisholm"
+      ],
+      "journal": "Proceedings of the National Academy of Sciences of the United States of America",
+      "publication_year": "2006",
+      "doi": "10.1073/pnas.0601301103",
+      "pmid": null,
+      "description": "Transcriptomic analysis of phosphate starvation responses in HL- and LL-adapted Prochlorococcus strains MED4 and MIT9313 using DNA microarrays; identification of P-starvation\u2013induced genes, their chromosomal organization around phoB, and distribution among 11 diverse Prochlorococcus strains; comparison with a Sargasso Sea metagenomic sample to assess in situ P-acquisition gene content.",
+      "abstract": "The study used DNA microarrays to identify phosphate (P) starvation\u2013induced genes in two Prochlorococcus strains, MED4 (high-light) and MIT9313 (low-light). pstS served as a marker of P limitation; MED4 showed a gradual induction of 30 genes and MIT9313 showed widespread down-regulation with 176 genes differentially expressed. Only seven up-regulated genes were shared, largely including phoB and pstABCS; a phoE-like porin downstream of phoB was induced in both strains. The results reveal two clusters of P-acquisition genes centered around phoB, with significant genome variability in the phoB region across 11 strains, not strictly correlated with rRNA phylogeny. Metagenomic data from the Sargasso Sea supported the prevalence of MED4-like P-acquisition genes in low-P environments, indicating genome-wide adaptation to P availability.",
+      "study_type": "Microarray / Transcriptomics",
+      "organism": [
+        "Prochlorococcus MED4",
+        "Prochlorococcus MIT9313"
+      ],
+      "publication_id": "10.1073/pnas.0601301103"
+    }
   }
 }

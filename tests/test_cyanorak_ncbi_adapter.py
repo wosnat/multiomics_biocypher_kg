@@ -1221,3 +1221,91 @@ class TestMultiCyanorakNcbiAccessionFormat:
         wrapper = MultiCyanorakNcbi(config_list_file=accession_csv_empty_data_dir)
         assert len(wrapper.adapters) == 1
         assert wrapper.adapters[0].data_dir is None
+
+
+# ---------------------------------------------------------------------------
+# Tests: MultiCyanorakNcbi comment line skipping
+# ---------------------------------------------------------------------------
+
+
+class TestMultiCyanorakNcbiCommentSkipping:
+    """Test that lines starting with # are skipped in CSV config files."""
+
+    @pytest.fixture
+    def csv_with_comments(self, multi_genome_dir):
+        """CSV config with commented lines."""
+        csv_path = os.path.join(multi_genome_dir, "commented_genomes.csv")
+        g1 = os.path.join(multi_genome_dir, "genome1")
+        g2 = os.path.join(multi_genome_dir, "genome2")
+        with open(csv_path, "w") as f:
+            f.write("genome_dir,ncbi_gff,cyan_gff,cyan_gbk\n")
+            f.write(f"# This is a comment about genome1\n")
+            f.write(f"{g1},genomic.gff,cyanorak/strain1.gff,cyanorak/strain1.gbk\n")
+            f.write(f"# Commented out genome: {g2},genomic.gff,cyanorak/strain2.gff,cyanorak/strain2.gbk\n")
+        return csv_path
+
+    @pytest.fixture
+    def csv_all_commented(self, multi_genome_dir):
+        """CSV config where all data rows are commented out."""
+        csv_path = os.path.join(multi_genome_dir, "all_commented.csv")
+        g1 = os.path.join(multi_genome_dir, "genome1")
+        with open(csv_path, "w") as f:
+            f.write("genome_dir,ncbi_gff,cyan_gff,cyan_gbk\n")
+            f.write(f"# {g1},genomic.gff,cyanorak/strain1.gff,cyanorak/strain1.gbk\n")
+            f.write(f"# Another commented line\n")
+        return csv_path
+
+    @pytest.fixture
+    def csv_with_inline_hash(self, multi_genome_dir):
+        """CSV config with # in the middle of a line (not a comment)."""
+        csv_path = os.path.join(multi_genome_dir, "inline_hash.csv")
+        g1 = os.path.join(multi_genome_dir, "genome1")
+        with open(csv_path, "w") as f:
+            f.write("genome_dir,ncbi_gff,cyan_gff,cyan_gbk\n")
+            f.write(f"{g1},genomic.gff,cyanorak/strain1.gff,cyanorak/strain1.gbk\n")
+        return csv_path
+
+    @pytest.fixture
+    def csv_with_whitespace_before_comment(self, multi_genome_dir):
+        """CSV config with whitespace before # comment marker."""
+        csv_path = os.path.join(multi_genome_dir, "whitespace_comment.csv")
+        g1 = os.path.join(multi_genome_dir, "genome1")
+        with open(csv_path, "w") as f:
+            f.write("genome_dir,ncbi_gff,cyan_gff,cyan_gbk\n")
+            f.write(f"  # This is a comment with leading whitespace\n")
+            f.write(f"{g1},genomic.gff,cyanorak/strain1.gff,cyanorak/strain1.gbk\n")
+        return csv_path
+
+    def test_skips_comment_lines(self, csv_with_comments):
+        """Lines starting with # should be skipped."""
+        wrapper = MultiCyanorakNcbi(config_list_file=csv_with_comments)
+        # Only one genome should be loaded (the second is commented out)
+        assert len(wrapper.adapters) == 1
+
+    def test_all_commented_creates_no_adapters(self, csv_all_commented):
+        """When all data rows are commented, no adapters are created."""
+        wrapper = MultiCyanorakNcbi(config_list_file=csv_all_commented)
+        assert len(wrapper.adapters) == 0
+
+    def test_inline_hash_not_treated_as_comment(self, csv_with_inline_hash):
+        """# in the middle of a line is not treated as a comment."""
+        wrapper = MultiCyanorakNcbi(config_list_file=csv_with_inline_hash)
+        assert len(wrapper.adapters) == 1
+
+    def test_whitespace_before_comment_skipped(self, csv_with_whitespace_before_comment):
+        """Lines with whitespace before # are still treated as comments."""
+        wrapper = MultiCyanorakNcbi(config_list_file=csv_with_whitespace_before_comment)
+        assert len(wrapper.adapters) == 1
+
+    def test_commented_config_loads_correct_data(self, csv_with_comments):
+        """The correct genome is loaded when others are commented out."""
+        wrapper = MultiCyanorakNcbi(config_list_file=csv_with_comments)
+        wrapper.download_data()
+        nodes = wrapper.get_nodes()
+        # Should have 3 nodes from genome1 only
+        assert len(nodes) == 3
+        all_ids = [n[0] for n in nodes]
+        # genome1 has PMM locus tags
+        assert any("PMM" in nid for nid in all_ids)
+        # genome2 (OTH locus tags) should NOT be present
+        assert not any("OTH" in nid for nid in all_ids)
