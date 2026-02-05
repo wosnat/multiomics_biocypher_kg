@@ -3,7 +3,8 @@
     "allow": [
       "Skill(paperconfig)",
       "Skill(paperconfig:*)",
-      "Bash(uv run pytest:*)"
+      "Bash(uv run pytest:*)",
+      "WebFetch(domain:cyanorak.sb-roscoff.fr)"
     ]
   }
 }

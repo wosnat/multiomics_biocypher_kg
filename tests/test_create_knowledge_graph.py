@@ -24,10 +24,12 @@ def test_create_knowledge_graph_no_errors():
         cwd=str(PROJECT_ROOT),
         capture_output=True,
         text=True,
+        encoding="utf-8",
+        errors="replace",
         timeout=3600,  # 1 hour max
     )
 
-    combined_output = result.stdout + "\n" + result.stderr
+    combined_output = (result.stdout or "") + "\n" + (result.stderr or "")
 
     # Collect all lines that start with ERROR
     error_lines = [
@@ -38,7 +40,7 @@ def test_create_knowledge_graph_no_errors():
     # Fail with details if the process crashed
     assert result.returncode == 0, (
         f"Script exited with code {result.returncode}.\n"
-        f"stderr:\n{result.stderr[-2000:]}"
+        f"stderr:\n{(result.stderr or '')[-2000:]}"
     )
 
     # Fail if any ERROR lines were logged

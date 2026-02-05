@@ -2,6 +2,7 @@
 
 import os
 import tempfile
+from unittest.mock import patch, MagicMock
 
 import numpy as np
 import pandas as pd
@@ -1058,3 +1059,165 @@ class TestMultiCyanorakNcbiIntegration:
             assert any("PMM0001" in n[0] for n in nodes)
         finally:
             os.unlink(csv_path)
+
+
+# ---------------------------------------------------------------------------
+# Tests: Accession-based download (mocked)
+# ---------------------------------------------------------------------------
+
+
+class TestDownloadFromAccession:
+    """Test accession-based download with mocked pypath Curl."""
+
+    @pytest.fixture
+    def mock_curl(self):
+        """Patch pypath Curl to return mock data for NCBI and Cyanorak URLs."""
+        def curl_side_effect(url, **kwargs):
+            mock = MagicMock()
+            if 'ncbi.nlm.nih.gov' in url:
+                # Zip result: dict of {filename: content}
+                mock.result = {
+                    'ncbi_dataset/data/GCF_TEST/genomic.gff': NCBI_GFF_CONTENT,
+                }
+            elif url.endswith('.gff') or '/gff/' in url:
+                mock.result = CYAN_GFF_CONTENT
+            elif url.endswith('.gbk') or '/gbk/' in url:
+                mock.result = CYAN_GBK_CONTENT
+            return mock
+        return curl_side_effect
+
+    def test_download_creates_files_and_loads_data(self, temp_data_dir, mock_curl):
+        with patch('multiomics_kg.adapters.cyanorak_ncbi_adapter.curl.Curl',
+                   side_effect=mock_curl):
+            adapter = CyanorakNcbi(
+                ncbi_accession="GCF_TEST",
+                cyanorak_organism="Pro_TEST",
+                data_dir=temp_data_dir,
+            )
+            adapter.download_data(cache=False)
+            assert isinstance(adapter.data_df, pd.DataFrame)
+            assert len(adapter.data_df) == 3
+
+    def test_download_sets_file_paths(self, temp_data_dir, mock_curl):
+        with patch('multiomics_kg.adapters.cyanorak_ncbi_adapter.curl.Curl',
+                   side_effect=mock_curl):
+            adapter = CyanorakNcbi(
+                ncbi_accession="GCF_TEST",
+                cyanorak_organism="Pro_TEST",
+                data_dir=temp_data_dir,
+            )
+            adapter.download_data(cache=False)
+            assert adapter.ncbi_gff_file == os.path.join(temp_data_dir, "genomic.gff")
+            assert adapter.cyan_gff_file == os.path.join(
+                temp_data_dir, "cyanorak", "Pro_TEST.gff"
+            )
+            assert adapter.cyan_gbk_file == os.path.join(
+                temp_data_dir, "cyanorak", "Pro_TEST.gbk"
+            )
+
+    def test_download_writes_correct_content(self, temp_data_dir, mock_curl):
+        with patch('multiomics_kg.adapters.cyanorak_ncbi_adapter.curl.Curl',
+                   side_effect=mock_curl):
+            adapter = CyanorakNcbi(
+                ncbi_accession="GCF_TEST",
+                cyanorak_organism="Pro_TEST",
+                data_dir=temp_data_dir,
+            )
+            adapter.download_data(cache=False)
+            # Verify files exist on disk
+            assert os.path.isfile(adapter.ncbi_gff_file)
+            assert os.path.isfile(adapter.cyan_gff_file)
+            assert os.path.isfile(adapter.cyan_gbk_file)
+
+    def test_get_nodes_after_download(self, temp_data_dir, mock_curl):
+        with patch('multiomics_kg.adapters.cyanorak_ncbi_adapter.curl.Curl',
+                   side_effect=mock_curl):
+            adapter = CyanorakNcbi(
+                ncbi_accession="GCF_TEST",
+                cyanorak_organism="Pro_TEST",
+                data_dir=temp_data_dir,
+            )
+            adapter.download_data(cache=False)
+            nodes = adapter.get_nodes()
+            assert len(nodes) == 3
+            all_ids = [n[0] for n in nodes]
+            assert any("PMM0001" in nid for nid in all_ids)
+
+    def test_no_config_raises_error(self):
+        adapter = CyanorakNcbi()
+        with pytest.raises(ValueError):
+            adapter.download_data()
+
+    def test_ncbi_gff_not_found_in_zip_raises_error(self, temp_data_dir):
+        def curl_empty_zip(url, **kwargs):
+            mock = MagicMock()
+            if 'ncbi.nlm.nih.gov' in url:
+                mock.result = {'some_other_file.txt': 'content'}
+            else:
+                mock.result = CYAN_GFF_CONTENT
+            return mock
+
+        with patch('multiomics_kg.adapters.cyanorak_ncbi_adapter.curl.Curl',
+                   side_effect=curl_empty_zip):
+            adapter = CyanorakNcbi(
+                ncbi_accession="GCF_TEST",
+                cyanorak_organism="Pro_TEST",
+                data_dir=temp_data_dir,
+            )
+            with pytest.raises(ValueError, match="No genomic.gff found"):
+                adapter.download_data(cache=False)
+
+
+# ---------------------------------------------------------------------------
+# Tests: MultiCyanorakNcbi with accession-based CSV
+# ---------------------------------------------------------------------------
+
+
+class TestMultiCyanorakNcbiAccessionFormat:
+    @pytest.fixture
+    def accession_csv(self, temp_data_dir):
+        csv_path = os.path.join(temp_data_dir, "genomes.csv")
+        with open(csv_path, "w") as f:
+            f.write("ncbi_accession,cyanorak_organism,data_dir\n")
+            f.write(f"GCF_TEST1,Pro_TEST1,{temp_data_dir}/genome1\n")
+            f.write(f"GCF_TEST2,Pro_TEST2,{temp_data_dir}/genome2\n")
+        return csv_path
+
+    def test_loads_accession_based_adapters(self, accession_csv):
+        wrapper = MultiCyanorakNcbi(config_list_file=accession_csv)
+        assert len(wrapper.adapters) == 2
+        assert wrapper.adapters[0].ncbi_accession == "GCF_TEST1"
+        assert wrapper.adapters[0].cyanorak_organism == "Pro_TEST1"
+        assert wrapper.adapters[1].ncbi_accession == "GCF_TEST2"
+        assert wrapper.adapters[1].cyanorak_organism == "Pro_TEST2"
+
+    def test_data_dir_passed_to_adapters(self, accession_csv, temp_data_dir):
+        wrapper = MultiCyanorakNcbi(config_list_file=accession_csv)
+        assert os.path.normpath(wrapper.adapters[0].data_dir) == os.path.join(temp_data_dir, "genome1")
+        assert os.path.normpath(wrapper.adapters[1].data_dir) == os.path.join(temp_data_dir, "genome2")
+
+    def test_kwargs_passed_to_accession_adapters(self, accession_csv):
+        wrapper = MultiCyanorakNcbi(
+            config_list_file=accession_csv, test_mode=True
+        )
+        for adapter in wrapper.adapters:
+            assert adapter.early_stopping == 100
+
+    def test_legacy_csv_still_works(self, multi_config_path):
+        """The existing path-based CSV format still works."""
+        wrapper = MultiCyanorakNcbi(config_list_file=multi_config_path)
+        assert len(wrapper.adapters) == 2
+        assert wrapper.adapters[0].ncbi_accession is None
+
+    @pytest.fixture
+    def accession_csv_empty_data_dir(self, temp_data_dir):
+        csv_path = os.path.join(temp_data_dir, "genomes_no_dir.csv")
+        with open(csv_path, "w") as f:
+            f.write("ncbi_accession,cyanorak_organism,data_dir\n")
+            f.write("GCF_TEST1,Pro_TEST1,\n")
+        return csv_path
+
+    def test_empty_data_dir_sets_none(self, accession_csv_empty_data_dir):
+        wrapper = MultiCyanorakNcbi(config_list_file=accession_csv_empty_data_dir)
+        assert len(wrapper.adapters) == 1
+        assert wrapper.adapters[0].data_dir is None

@@ -1,0 +1,166 @@
+publication:
+  papername: "Steglich 2006"
+  papermainpdf: "data/Prochlorococcus/papers_and_supp/steglich 2006/steglich-et-al-2006-genome-wide-analysis-of-light-sensing-in-prochlorococcus.pdf"
+
+  environmental_conditions:
+    steglich_2006_darkness:
+      condition_type: light_stress
+      name: "Darkness control"
+      medium: "Sargasso seawater-based Pro99"
+      temperature: "21C"
+      light_condition: darkness
+      light_intensity: "0 umol photons m-2 s-1"
+      description: "Prochlorococcus MED4 dark-adapted for 5h after centrifugation"
+    steglich_2006_high_white_light:
+      condition_type: light_stress
+      name: "High white light (55 umol photons m-2 s-1)"
+      medium: "Sargasso seawater-based Pro99"
+      temperature: "21C"
+      light_condition: high_white_light
+      light_intensity: "55 umol photons m-2 s-1"
+      description: "Prochlorococcus MED4 shifted from darkness to high white light for 45 min"
+    steglich_2006_white_light:
+      condition_type: light_stress
+      name: "White light (13 umol photons m-2 s-1)"
+      medium: "Sargasso seawater-based Pro99"
+      temperature: "21C"
+      light_condition: white_light
+      light_intensity: "13 umol photons m-2 s-1"
+      description: "Prochlorococcus MED4 shifted from darkness to white light for 45 min"
+    steglich_2006_blue_light:
+      condition_type: light_stress
+      name: "Blue light (13 umol photons m-2 s-1)"
+      medium: "Sargasso seawater-based Pro99"
+      temperature: "21C"
+      light_condition: blue_light
+      light_intensity: "13 umol photons m-2 s-1"
+      light_filter: "Lee Filters dark blue no. 119"
+      description: "Prochlorococcus MED4 shifted from darkness to blue light for 45 min"
+    steglich_2006_red_light:
+      condition_type: light_stress
+      name: "Red light (13 umol photons m-2 s-1)"
+      medium: "Sargasso seawater-based Pro99"
+      temperature: "21C"
+      light_condition: red_light
+      light_intensity: "13 umol photons m-2 s-1"
+      light_filter: "Lee Filters primary red no. 106"
+      description: "Prochlorococcus MED4 shifted from darkness to red light for 45 min"
+    steglich_2006_green_light:
+      condition_type: light_stress
+      name: "Green light (13 umol photons m-2 s-1)"
+      medium: "Sargasso seawater-based Pro99"
+      temperature: "21C"
+      light_condition: green_light
+      light_intensity: "13 umol photons m-2 s-1"
+      light_filter: "Lee Filters primary green no. 139"
+      description: "Prochlorococcus MED4 shifted from darkness to green light for 45 min"
+    steglich_2006_dcmu_white_light:
+      condition_type: light_stress
+      name: "DCMU + white light (13 umol photons m-2 s-1)"
+      medium: "Sargasso seawater-based Pro99"
+      temperature: "21C"
+      light_condition: white_light
+      light_intensity: "13 umol photons m-2 s-1"
+      dcmu_concentration: "4 uM"
+      description: "Prochlorococcus MED4 shifted from darkness to white light with 4 uM DCMU for 45 min. DCMU blocks PSII electron transport."
+
+  supplementary_materials:
+    supp_table_s1:
+      type: csv
+      filename: "data/Prochlorococcus/papers_and_supp/steglich 2006/supp table s1.csv"
+      statistical_analyses:
+        - type: MICROARRAY
+          name: "DE of Prochlorococcus MED4 in high white light vs darkness"
+          id: DE_high_white_light_vs_dark_MED4
+          test_type: "Affymetrix microarray with LPE test"
+          control_condition: "Darkness (5h dark adaptation)"
+          treatment_condition: "High white light (55 umol photons m-2 s-1, 45 min)"
+          environmental_control_condition_id: steglich_2006_darkness
+          environmental_treatment_condition_id: steglich_2006_high_white_light
+          experimental_context: "Prochlorococcus MED4 in Sargasso seawater-based Pro99 medium at 21C, 45 min light exposure after 5h dark adaptation"
+          organism: "Prochlorococcus MED4"
+          name_col: "gene ID"
+          logfc_col: "HL/dark"
+          pvalue_asterisk_in_logfc: true
+          pvalue_threshold: 0.05
+          logfc_threshold: 1.0
+
+        - type: MICROARRAY
+          name: "DE of Prochlorococcus MED4 in white light vs darkness"
+          id: DE_white_light_vs_dark_MED4
+          test_type: "Affymetrix microarray with LPE test"
+          control_condition: "Darkness (5h dark adaptation)"
+          treatment_condition: "White light (13 umol photons m-2 s-1, 45 min)"
+          environmental_control_condition_id: steglich_2006_darkness
+          environmental_treatment_condition_id: steglich_2006_white_light
+          experimental_context: "Prochlorococcus MED4 in Sargasso seawater-based Pro99 medium at 21C, 45 min light exposure after 5h dark adaptation"
+          organism: "Prochlorococcus MED4"
+          name_col: "gene ID"
+          logfc_col: "WL/dark"
+          pvalue_asterisk_in_logfc: true
+          pvalue_threshold: 0.05
+          logfc_threshold: 1.0
+
+        - type: MICROARRAY
+          name: "DE of Prochlorococcus MED4 in blue light vs darkness"
+          id: DE_blue_light_vs_dark_MED4
+          test_type: "Affymetrix microarray with LPE test"
+          control_condition: "Darkness (5h dark adaptation)"
+          treatment_condition: "Blue light (13 umol photons m-2 s-1, 45 min)"
+          environmental_control_condition_id: steglich_2006_darkness
+          environmental_treatment_condition_id: steglich_2006_blue_light
+          experimental_context: "Prochlorococcus MED4 in Sargasso seawater-based Pro99 medium at 21C, 45 min light exposure after 5h dark adaptation"
+          organism: "Prochlorococcus MED4"
+          name_col: "gene ID"
+          logfc_col: "BL/dark"
+          pvalue_asterisk_in_logfc: true
+          pvalue_threshold: 0.05
+          logfc_threshold: 1.0
+
+        - type: MICROARRAY
+          name: "DE of Prochlorococcus MED4 in red light vs darkness"
+          id: DE_red_light_vs_dark_MED4
+          test_type: "Affymetrix microarray with LPE test"
+          control_condition: "Darkness (5h dark adaptation)"
+          treatment_condition: "Red light (13 umol photons m-2 s-1, 45 min)"
+          environmental_control_condition_id: steglich_2006_darkness
+          environmental_treatment_condition_id: steglich_2006_red_light
+          experimental_context: "Prochlorococcus MED4 in Sargasso seawater-based Pro99 medium at 21C, 45 min light exposure after 5h dark adaptation"
+          organism: "Prochlorococcus MED4"
+          name_col: "gene ID"
+          logfc_col: "RL/dark"
+          pvalue_asterisk_in_logfc: true
+          pvalue_threshold: 0.05
+          logfc_threshold: 1.0
+
+        - type: MICROARRAY
+          name: "DE of Prochlorococcus MED4 in green light vs darkness"
+          id: DE_green_light_vs_dark_MED4
+          test_type: "Affymetrix microarray with LPE test"
+          control_condition: "Darkness (5h dark adaptation)"
+          treatment_condition: "Green light (13 umol photons m-2 s-1, 45 min)"
+          environmental_control_condition_id: steglich_2006_darkness
+          environmental_treatment_condition_id: steglich_2006_green_light
+          experimental_context: "Prochlorococcus MED4 in Sargasso seawater-based Pro99 medium at 21C, 45 min light exposure after 5h dark adaptation"
+          organism: "Prochlorococcus MED4"
+          name_col: "gene ID"
+          logfc_col: "GL/dark"
+          pvalue_asterisk_in_logfc: true
+          pvalue_threshold: 0.05
+          logfc_threshold: 1.0
+
+        - type: MICROARRAY
+          name: "DE of Prochlorococcus MED4 with DCMU vs white light"
+          id: DE_DCMU_vs_white_light_MED4
+          test_type: "Affymetrix microarray with LPE test"
+          control_condition: "White light (13 umol photons m-2 s-1)"
+          treatment_condition: "DCMU + white light (13 umol photons m-2 s-1, 45 min)"
+          environmental_control_condition_id: steglich_2006_white_light
+          environmental_treatment_condition_id: steglich_2006_dcmu_white_light
+          experimental_context: "Prochlorococcus MED4 in Sargasso seawater-based Pro99 medium at 21C, 45 min exposure after 5h dark adaptation. DCMU (4 uM) inhibits PSII electron transport."
+          organism: "Prochlorococcus MED4"
+          name_col: "gene ID"
+          logfc_col: "DCMU/WL"
+          pvalue_asterisk_in_logfc: true
+          pvalue_threshold: 0.05
+          logfc_threshold: 1.0
