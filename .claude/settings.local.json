@@ -5,7 +5,9 @@
       "Skill(paperconfig:*)",
       "Bash(uv run pytest:*)",
       "WebFetch(domain:cyanorak.sb-roscoff.fr)",
-      "WebFetch(domain:www.ncbi.nlm.nih.gov)"
+      "WebFetch(domain:www.ncbi.nlm.nih.gov)",
+      "Skill(check-gene-ids)",
+      "Skill(check-gene-ids:*)"
     ]
   }
 }

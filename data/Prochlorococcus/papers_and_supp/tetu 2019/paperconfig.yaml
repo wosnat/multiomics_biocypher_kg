@@ -48,7 +48,7 @@ publication:
           environmental_treatment_condition_id: tetu_2019_hdpe_leachate
           experimental_context: "Short-term exposure (120 min) in AMP1 medium at 22C under continuous light"
           organism: "Prochlorococcus MIT9312"
-          name_col: "MIT9312 (2017 NCBI)"
+          name_col: "MIT9312 original locus tag"
           logfc_col: "HDPE log2 Fold change"
           prefiltered: true
         - type: RNASEQ
@@ -61,7 +61,7 @@ publication:
           environmental_treatment_condition_id: tetu_2019_pvc_leachate
           experimental_context: "Short-term exposure (90 min) in AMP1 medium at 22C under continuous light"
           organism: "Prochlorococcus MIT9312"
-          name_col: "MIT9312 (2017 NCBI)"
+          name_col: "MIT9312 original locus tag"
           logfc_col: "PVC log2 Fold change"
           prefiltered: true
 
@@ -80,7 +80,7 @@ publication:
           environmental_treatment_condition_id: tetu_2019_hdpe_leachate
           experimental_context: "Short-term exposure (120 min) in AMP1 medium at 22C under continuous light"
           organism: "Prochlorococcus NATL2A"
-          name_col: "NATL2A locus tag (2017 NCBI)"
+          name_col: "NATL2A original locus tag"
           logfc_col: "HDPE log2 Fold change"
           prefiltered: true
         - type: RNASEQ
@@ -93,6 +93,6 @@ publication:
           environmental_treatment_condition_id: tetu_2019_pvc_leachate
           experimental_context: "Short-term exposure (90 min) in AMP1 medium at 22C under continuous light"
           organism: "Prochlorococcus NATL2A"
-          name_col: "NATL2A locus tag (2017 NCBI)"
+          name_col: "NATL2A original locus tag"
           logfc_col: "PVC log2 Fold change"
           prefiltered: true

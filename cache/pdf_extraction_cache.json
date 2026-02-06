@@ -141,5 +141,61 @@
       ],
       "publication_id": "10.1073/pnas.0601301103"
     }
+  },
+  "data/Prochlorococcus/papers_and_supp/lindell 2007/nature06130 (1).pdf": {
+    "publication": {
+      "title": "Genome-wide expression dynamics of a marine virus and host reveal features of co-evolution",
+      "authors": [
+        "Debbie Lindell",
+        "Jacob D. Jaffe",
+        "Maureen L. Coleman",
+        "Matthias E. Futschik",
+        "Ilka M. Axmann",
+        "Trent Rector",
+        "Gregory Kettler",
+        "Matthew B. Sullivan",
+        "Robert Steen",
+        "Wolfgang R. Hess",
+        "George M. Church",
+        "Sallie W. Chisholm"
+      ],
+      "journal": "Nature",
+      "publication_year": "2007",
+      "doi": "10.1038/nature06130",
+      "pmid": null,
+      "description": "Genome-wide transcriptome analysis of the marine cyanobacterium Prochlorococcus MED4 and its T7-like cyanophage P-SSP7 during lytic infection to elucidate host\u2013phage transcriptional dynamics and co-evolutionary gene exchange, including cotranscription of bacterial-like metabolism genes and host gene upregulation during infection.",
+      "abstract": "This study investigates genome-wide transcriptional dynamics of Prochlorococcus MED4 and the T7-like cyanophage P-SSP7 during lytic infection. The phage genome is transcribed linearly with three expression clusters, and four phage-encoded bacterial-like metabolism genes (nrd, hli, psbA, talC) are cotranscribed despite their genomic separation, forming a functional unit for energy and deoxynucleotide production during replication. Host genes are upregulated during infection, many located in genome islands, suggesting host\u2013phage co-evolution and potential gene transfer that shapes both host and phage genomes.",
+      "study_type": "transcriptomics",
+      "organism": [
+        "Prochlorococcus MED4",
+        "P-SSP7 (T7-like cyanophage)"
+      ],
+      "publication_id": "10.1038/nature06130"
+    }
+  },
+  "data/Prochlorococcus/papers_and_supp/Lin 2015/Environmental Microbiology - 2015 - Lin - Transcriptomic response during phage infection of a marine cyanobacterium under.pdf": {
+    "publication": {
+      "title": "Transcriptomic response during phage infection of a marine cyanobacterium under phosphorus-limited conditions",
+      "authors": [
+        "Xingqin Lin",
+        "Huiming Ding",
+        "Qinglu Zeng"
+      ],
+      "journal": "Environmental Microbiology",
+      "publication_year": "2015",
+      "doi": "10.1111/1462-2920.13104",
+      "pmid": null,
+      "description": "RNA-sequencing study of Prochlorococcus NATL2A during infection by cyanomyovirus P-SSM2 under nutrient-replete and phosphorus-limited conditions; analysis of host and phage transcriptomes, identification of phage-encoded P-acquisition genes, and quantification of pstS transcript numbers per cell.",
+      "abstract": "The transcriptomic responses of bacteria to environmental stresses have been studied extensively, yet we know little about how stressed cells respond to bacteriophage infection. Here, we conducted the first whole transcriptome sequencing (RNA-seq) study of stressed bacteria to phage infection by infecting the marine picocyanobacterium Prochlorococcus NATL2A with cyanomyovirus P-SSM2 under P limitation, a strong selective force in the oceans. Transcripts of the P-acquisition genes in the uninfected cells were enriched after P limitation, including the high-affinity phosphate-binding protein gene pstS. They were still enriched in the infected cells under P-limited conditions. In contrast, transcripts of adenosine triphosphate (ATP) synthase and ribosomal protein genes were depleted in the uninfected cells after P limitation but were enriched during phage infection of P-starved cells. Cyanophage P-SSM2 contains pstS, and pstS and its adjacent gene g247 of unknown function were the only phage genes that were enriched under P-limited conditions. We further found that the host pstS transcript number per cell decreased after infection, however, it was still much higher in the P-limited infected cells than that in the nutrient-replete cells. Moreover, phage pstS transcript number per cell was ~20 times higher than the host copy, which may help maintain the host phosphate uptake rate during infection.",
+      "study_type": [
+        "RNA-seq",
+        "Transcriptomics"
+      ],
+      "organism": [
+        "Prochlorococcus NATL2A",
+        "cyanomyovirus P-SSM2"
+      ],
+      "publication_id": "10.1111/1462-2920.13104"
+    }
   }
 }

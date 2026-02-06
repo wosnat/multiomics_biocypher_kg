@@ -42,6 +42,13 @@ ORGANISM_TO_GENOME_DIR = {
 # Patterns to skip (tRNA, ncRNA, rRNA — intentionally not in gene nodes)
 SKIP_PATTERNS = re.compile(r'^(tRNA|ncRNA|rRNA|Yfr\d|tmRNA)', re.IGNORECASE)
 
+# Columns in gene_mapping.csv that could contain gene identifiers
+GENE_MAPPING_ID_COLS = [
+    "gene_names", "gene", "locus_tag_ncbi", "locus_tag",
+    "protein_id", "locus_tag_cyanoak", "gene_names_cyanorak",
+    "old_locus_tags",
+]
+
 
 def find_latest_biocypher_dir(base_dir="biocypher-out"):
     """Find the most recent biocypher output directory by timestamp name."""
@@ -230,6 +237,52 @@ def check_alt_gene_fields(sample_ids, gene_index):
     return results
 
 
+def load_gene_mapping(genome_dir):
+    """Load gene_mapping.csv and build lookup dicts for all ID-like columns.
+
+    Returns dict: col_name -> {id_value -> locus_tag}, or None if file not found.
+    """
+    mapping_file = Path(genome_dir) / "gene_mapping.csv"
+    if not mapping_file.exists():
+        return None
+
+    try:
+        df = pd.read_csv(mapping_file)
+    except Exception:
+        return None
+
+    lookups = {}
+    for col in GENE_MAPPING_ID_COLS:
+        if col not in df.columns:
+            continue
+        lookup = {}
+        for _, row in df.iterrows():
+            val = str(row[col]).strip() if pd.notna(row[col]) else ""
+            locus = str(row["locus_tag"]).strip() if pd.notna(row.get("locus_tag")) else ""
+            if val and locus and val != "nan" and locus != "nan":
+                lookup[val] = locus
+        if lookup:
+            lookups[col] = lookup
+    return lookups
+
+
+def check_gene_mapping(sample_ids, genome_dir):
+    """Check if sample IDs match any column in gene_mapping.csv.
+
+    Returns dict: col_name -> (match_count, sample_match_tuple), or None if not found.
+    """
+    lookups = load_gene_mapping(genome_dir)
+    if not lookups:
+        return None
+
+    results = {}
+    for col, lookup in lookups.items():
+        matched = [(sid, lookup[sid]) for sid in sample_ids if sid in lookup]
+        if matched:
+            results[col] = (len(matched), matched[0])
+    return results
+
+
 def analyze_paperconfig(paperconfig_path, gene_index, project_root):
     """Analyze a single paperconfig.yaml and return per-analysis results.
 
@@ -347,56 +400,75 @@ def analyze_paperconfig(paperconfig_path, gene_index, project_root):
                 analyses_results.append(result)
                 continue
 
-            # Check if raw IDs match alternative gene node fields
-            alt_fields = check_alt_gene_fields(sample_ids, gene_index)
-            if alt_fields:
-                best_field = max(alt_fields, key=lambda k: alt_fields[k][0])
-                cnt, (sample_id, mapped_to) = alt_fields[best_field]
-                result["status"] = "NO MATCH"
-                result["fix_strategy"] = "CREATE_MAPPING"
-                result["details"] = (
-                    f"IDs match gene node field '{best_field}' "
-                    f"({cnt}/{len(sample_ids)} match). "
-                    f"E.g., '{sample_id}' -> {mapped_to}. "
-                    f"Create a mapping via {best_field} in the adapter."
-                )
-                analyses_results.append(result)
-                continue
-
-            # Check GFF/GBK files for the organism
+            # Check gene_mapping.csv for the organism
             genome_dir = get_genome_dir(organism, project_root)
             if genome_dir:
+                mapping_matches = check_gene_mapping(sample_ids, genome_dir)
+                if mapping_matches:
+                    best_col = max(mapping_matches, key=lambda k: mapping_matches[k][0])
+                    cnt, (sample_id, mapped_to) = mapping_matches[best_col]
+                    mapping_file = Path(genome_dir) / "gene_mapping.csv"
+                    rel_mapping = os.path.relpath(mapping_file, project_root)
+                    result["status"] = "NO MATCH"
+                    result["fix_strategy"] = "CREATE_MAPPING_CSV"
+                    result["details"] = (
+                        f"IDs match column '{best_col}' in gene_mapping.csv "
+                        f"({cnt}/{len(sample_ids)} match). "
+                        f"E.g., '{sample_id}' -> locus_tag '{mapped_to}'. "
+                        f"Use {rel_mapping} to map {best_col} -> locus_tag."
+                    )
+                    analyses_results.append(result)
+                    continue
+
+                # gene_mapping.csv exists but IDs not found there — check GFF/GBK
                 gff_files = list(Path(genome_dir).rglob("*.gff"))
                 for gff_path in gff_files:
                     gff_matches = scan_gff_for_ids(str(gff_path), sample_ids[:10])
                     if gff_matches:
                         best_attr = max(gff_matches, key=gff_matches.get)
                         cnt = gff_matches[best_attr]
+                        rel_mapping = os.path.relpath(
+                            Path(genome_dir) / "gene_mapping.csv", project_root
+                        )
                         result["status"] = "NO MATCH"
-                        result["fix_strategy"] = "CREATE_MAPPING"
+                        result["fix_strategy"] = "CREATE_MAPPING_GFF"
                         result["details"] = (
                             f"IDs found in GFF attribute '{best_attr}' "
-                            f"in {gff_path.name} ({cnt} matches). "
-                            f"Build a mapping from {best_attr} to locus_tag."
+                            f"in {gff_path.name} ({cnt} matches) "
+                            f"but NOT in gene_mapping.csv. "
+                            f"Add '{best_attr}' column to {rel_mapping}."
                         )
                         analyses_results.append(result)
                         break
                 else:
-                    # No GFF match found
                     result["status"] = "NO MATCH"
                     result["fix_strategy"] = "UNRELATED_IDS"
                     result["details"] = (
-                        f"IDs not found in gene nodes or GFF/GBK files for {organism}. "
+                        f"IDs not found in gene_mapping.csv or GFF/GBK files for {organism}. "
                         f"Manual investigation needed."
                     )
                     analyses_results.append(result)
             else:
-                result["status"] = "NO MATCH"
-                result["fix_strategy"] = "UNRELATED_IDS"
-                result["details"] = (
-                    f"IDs don't match gene nodes and no genome directory found for {organism}. "
-                    f"Manual investigation needed."
-                )
+                # No genome dir — fall back to gene node field check
+                alt_fields = check_alt_gene_fields(sample_ids, gene_index)
+                if alt_fields:
+                    best_field = max(alt_fields, key=lambda k: alt_fields[k][0])
+                    cnt, (sample_id, mapped_to) = alt_fields[best_field]
+                    result["status"] = "NO MATCH"
+                    result["fix_strategy"] = "CREATE_MAPPING_CSV"
+                    result["details"] = (
+                        f"IDs match gene node field '{best_field}' "
+                        f"({cnt}/{len(sample_ids)} match). "
+                        f"E.g., '{sample_id}' -> {mapped_to}. "
+                        f"No gene_mapping.csv found — create one for this organism."
+                    )
+                else:
+                    result["status"] = "NO MATCH"
+                    result["fix_strategy"] = "UNRELATED_IDS"
+                    result["details"] = (
+                        f"IDs don't match gene nodes and no genome directory found for {organism}. "
+                        f"Manual investigation needed."
+                    )
                 analyses_results.append(result)
 
             # Handle partial match (some IDs match, some don't)
