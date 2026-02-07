@@ -220,5 +220,56 @@
       ],
       "publication_id": "10.1111/1462-2920.16326"
     }
+  },
+  "data/Prochlorococcus/papers_and_supp/Hennon 2017/41396_2018_article_bfismej2017189.pdf": {
+    "publication": {
+      "title": "The impact of elevated CO2 on Prochlorococcus and microbial interactions with 'helper' bacterium Alteromonas",
+      "authors": [
+        "Gwenn MM Hennon",
+        "J Jeffrey Morris",
+        "Sheean T Haley",
+        "Erik R Zinser",
+        "Alexander R Durrant",
+        "Elizabeth Entwistle",
+        "Terje Dokland",
+        "Sonya T Dyhrman"
+      ],
+      "journal": "The ISME Journal",
+      "publication_year": "2018",
+      "doi": "10.1038/ismej.2017.189",
+      "pmid": null,
+      "description": "Co-culture of Prochlorococcus high-light II ecotype VOL4 with helper bacterium Alteromonas EZ55 under ambient (400 ppm) and elevated (800 ppm) CO2; six clonal Prochlorococcus cultures were initiated with different EZ55 populations; RNA-seq transcriptome analysis of Prochlorococcus and Alteromonas in co-culture; assessment of carbon fixation operon expression, carboxysome structures by electron microscopy, and hydrogen peroxide removal rates; investigation of microbial interactions under elevated CO2.",
+      "abstract": "Prochlorococcus is a globally important marine cyanobacterium that lacks the gene catalase and relies on 'helper' bacteria such as Alteromonas to remove reactive oxygen species. Increasing atmospheric CO2 decreases the need for carbon concentrating mechanisms and photorespiration in phytoplankton, potentially altering their metabolism and microbial interactions even when carbon is not limiting growth. Here, Prochlorococcus (VOL4, MIT9312) was co-cultured with Alteromonas (strain EZ55) under ambient (400 p.p.m.) and elevated CO2 (800 p.p.m.). Under elevated CO2, Prochlorococcus had a significantly longer lag phase and greater apparent die-offs after transfers suggesting an increase in oxidative stress. Whole-transcriptome analysis of Prochlorococcus revealed decreased expression of the carbon fixation operon, including carboxysome subunits, corresponding with significantly fewer carboxysome structures observed by electron microscopy. Prochlorococcus co-culture responsive gene 1 had significantly increased expression in elevated CO2, potentially indicating a shift in the microbial interaction. Transcriptome analysis of Alteromonas in co-culture with Prochlorococcus revealed decreased expression of the catalase gene, known to be critical in relieving oxidative stress in Prochlorococcus by removing hydrogen peroxide. The decrease in catalase gene expression was corroborated by a significant ~ 6-fold decrease in removal rates of hydrogen peroxide from co-cultures. These data suggest Prochlorococcus may be more vulnerable to oxidative stress under elevated CO2 in part from a decrease in ecosystem services provided by heterotrophs like Alteromonas. This work highlights the importance of considering microbial interactions in the context of a changing ocean.",
+      "study_type": "RNA-seq",
+      "organism": [
+        "Prochlorococcus",
+        "Alteromonas"
+      ],
+      "publication_id": "10.1038/ismej.2017.189"
+    }
+  },
+  "data/Prochlorococcus/papers_and_supp/he 2022/fmicb-13-1038136.pdf": {
+    "publication": {
+      "title": "Acclimation and stress response of Prochlorococcus to low salinity.",
+      "authors": [
+        "Xiayu He",
+        "Huan Liu",
+        "Lijuan Long",
+        "Junde Dong",
+        "Sijun Huang"
+      ],
+      "journal": "Frontiers in Microbiology",
+      "publication_year": "2022",
+      "doi": "10.3389/fmicb.2022.1038136",
+      "pmid": null,
+      "description": "Two Prochlorococcus strains NATL1A (LL) and MED4 (HL) were grown across a salinity gradient to determine acclimation limits and stress responses to low salinity; transcriptomic analysis (RNA-seq) compared cells acclimated at 28 psu vs normal seawater at 34 psu; NATL1A showed more differential gene expression (525 genes) than MED4 (277 genes); low salinity affected translation, ribosomal biogenesis, ATP production, and photosynthesis genes, with idiA iron transporter upregulated in both.",
+      "abstract": "Prochlorococcus, a dominant marine cyanobacterium, has unclear low-salinity tolerance. This study tested salinity range of NATL1A and MED4 and acclimated them under different salinities. NATL1A could acclimate to 28 psu and MED4 to 25\u201328 psu; both strains experienced stress when salinity <34 psu. Global transcriptomes at 28 psu vs 34 psu showed substantial, strain-specific responses, with NATL1A downregulating translation and ATP production and upregulating photosynthesis genes, while MED4 showed opposite regulation; both strains upregulated idiA, suggesting potential iron limitation under low salinity. The results define the salinity tolerance range and reveal salinity-induced gene expression changes.",
+      "study_type": "RNA-seq",
+      "organism": [
+        "Prochlorococcus NATL1A",
+        "Prochlorococcus MED4"
+      ],
+      "publication_id": "10.3389/fmicb.2022.1038136"
+    }
   }
 }

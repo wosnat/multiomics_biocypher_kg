@@ -37,6 +37,10 @@ ORGANISM_TO_GENOME_DIR = {
     "prochlorococcus rsp50": "cache/data/Prochlorococcus/genomes/RSP50",
     "synechococcus cc9311": "cache/data/Synechococcus/genomes/CC9311",
     "synechococcus wh8102": "cache/data/Synechococcus/genomes/WH8102",
+    "alteromonas macleodii mit1002": "cache/data/Alteromonas/genomes/MIT1002",
+    "alteromonas mit1002": "cache/data/Alteromonas/genomes/MIT1002",
+    "alteromonas macleodii ez55": "cache/data/Alteromonas/genomes/EZ55",
+    "alteromonas ez55": "cache/data/Alteromonas/genomes/EZ55",
 }
 
 # Patterns to skip (tRNA, ncRNA, rRNA — intentionally not in gene nodes)
@@ -415,7 +419,8 @@ def analyze_paperconfig(paperconfig_path, gene_index, project_root):
                         f"IDs match column '{best_col}' in gene_mapping.csv "
                         f"({cnt}/{len(sample_ids)} match). "
                         f"E.g., '{sample_id}' -> locus_tag '{mapped_to}'. "
-                        f"Use {rel_mapping} to map {best_col} -> locus_tag."
+                        f"Run /fix-gene-ids on this paperconfig to create a "
+                        f"_with_locus_tag.csv, then update name_col to 'locus_tag'."
                     )
                     analyses_results.append(result)
                     continue
@@ -616,8 +621,15 @@ def main():
         result = analyze_paperconfig(pc_path, gene_index, project_root)
         all_results.append(result)
 
-    # Print report
-    print(format_report(all_results))
+    # Print report to stdout and write to file
+    report = format_report(all_results)
+    print(report)
+
+    report_file = project_root / "gene_id_validation_report.txt"
+    with open(report_file, "w") as f:
+        f.write(report)
+        f.write("\n")
+    print(f"\nReport written to {report_file}", file=sys.stderr)
 
 
 if __name__ == "__main__":

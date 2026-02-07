@@ -440,3 +440,11 @@ This script checks:
 - `type` is one of: RNASEQ, MICROARRAY, PROTEOMICS, METABOLOMICS
 
 The script exits with code 0 on success, 1 on validation failure.
+
+### Gene ID Mapping
+
+If the paper CSV uses gene names (e.g., `secE`, `rps13,rpsM`) instead of locus tags (e.g., `PMM0814`), use the `/fix-gene-ids` skill to map them:
+
+1. Run `/check-gene-ids` to confirm the fix strategy is `CREATE_MAPPING_CSV`
+2. Run `/fix-gene-ids` on the paperconfig to create `_with_locus_tag.csv` files
+3. Update the paperconfig: change `filename` to the new CSV and `name_col` to `"locus_tag"`
