@@ -219,7 +219,7 @@ class CyanorakNcbi:
             retries: number of retries in case of download error.
         """
         # If accession-based, download files using pypath Curl
-        if self.ncbi_accession and self.cyanorak_organism:
+        if self.ncbi_accession:
             with ExitStack() as stack:
                 if debug:
                     stack.enter_context(curl.debug_on())
@@ -227,19 +227,29 @@ class CyanorakNcbi:
                     stack.enter_context(curl.cache_off())
 
                 self.ncbi_gff_file = self._download_ncbi_genome()
-                self.cyan_gff_file = self._download_cyanorak_gff()
-                self.cyan_gbk_file = self._download_cyanorak_gbk()
+                if self.cyanorak_organism:
+                    self.cyan_gff_file = self._download_cyanorak_gff()
+                    self.cyan_gbk_file = self._download_cyanorak_gbk()
 
-        if not all([self.ncbi_gff_file, self.cyan_gff_file, self.cyan_gbk_file]):
+        if not self.ncbi_gff_file:
             raise ValueError(
-                "Provide file paths directly or set ncbi_accession + cyanorak_organism"
+                "NCBI GFF file is required. Provide ncbi_gff_file directly "
+                "or set ncbi_accession."
             )
 
-        self.data_df = self.load_gff_from_ncbi_and_cynorak(
-            ncbi_gff_file=self.ncbi_gff_file,
-            cyan_gff_file=self.cyan_gff_file,
-            cyan_gbk_file=self.cyan_gbk_file,
-        )
+        # Branch: full merge (NCBI+Cyanorak) or NCBI-only
+        has_cyanorak = all([self.cyan_gff_file, self.cyan_gbk_file])
+        if has_cyanorak:
+            self.data_df = self.load_gff_from_ncbi_and_cynorak(
+                ncbi_gff_file=self.ncbi_gff_file,
+                cyan_gff_file=self.cyan_gff_file,
+                cyan_gbk_file=self.cyan_gbk_file,
+            )
+        else:
+            logger.info("No Cyanorak data available; loading NCBI GFF only")
+            self.data_df = self.load_gff_from_ncbi_only(
+                ncbi_gff_file=self.ncbi_gff_file,
+            )
 
         # Save mapping table to data_dir for use by the omics adapter
         mapping_dir = self.data_dir or os.path.dirname(self.ncbi_gff_file)
@@ -382,16 +392,51 @@ class CyanorakNcbi:
         cds_df = ncbi_gff_df.loc[ncbi_gff_df.type.isin(['CDS'])]
         df = pd.merge(gene_df, cds_df, left_on='ID', right_on='Parent', suffixes=['_gene', '_cds'], )
         ncbi_col_rename_map = self._get_ncbi_cols_to_keep_map()
-        df_filter = df[list(ncbi_col_rename_map.keys())].rename(columns=ncbi_col_rename_map)
+        # Only keep columns that exist in the merged DataFrame (e.g. old_locus_tag_gene
+        # may be absent for genomes that lack old_locus_tag in their GFF)
+        available_cols = {k: v for k, v in ncbi_col_rename_map.items() if k in df.columns}
+        df_filter = df[list(available_cols.keys())].rename(columns=available_cols)
 
         # Handle multiple old_locus_tag values (URL-encoded comma-separated in GFF)
         # e.g. "PMT0003%2CPMT_0003%2CRG24_RS00015" -> ["PMT0003", "PMT_0003", "RG24_RS00015"]
-        df_filter['locus_tag'] = df_filter['locus_tag'].apply(
-            lambda x: unquote(str(x)) if pd.notna(x) else x
-        )
-        # Store all old_locus_tags as a comma-separated string
-        df_filter['old_locus_tags'] = df_filter['locus_tag']
+        if 'locus_tag' in df_filter.columns:
+            df_filter['locus_tag'] = df_filter['locus_tag'].apply(
+                lambda x: unquote(str(x)) if pd.notna(x) else x
+            )
+            # Store all old_locus_tags as a comma-separated string
+            df_filter['old_locus_tags'] = df_filter['locus_tag']
         return df_filter
+
+    def load_gff_from_ncbi_only(self, ncbi_gff_file: str) -> pd.DataFrame:
+        """Load gene data from NCBI GFF3 file only (no Cyanorak data).
+
+        Reuses load_gff() and ncbi_merge_cds_and_gene_entries(), then renames
+        columns to match GeneNodeField values expected by get_nodes().
+        """
+        ncbi_df = self.load_gff(ncbi_gff_file)
+        ncbi_df = self.ncbi_merge_cds_and_gene_entries(ncbi_df)
+
+        # Same locus_tag priority as the merge path: prefer old_locus_tag,
+        # fall back to locus_tag_ncbi (locus_tag may not exist if GFF lacks old_locus_tag)
+        if 'locus_tag' in ncbi_df.columns:
+            ncbi_df['locus_tag'] = ncbi_df['locus_tag'].fillna(ncbi_df['locus_tag_ncbi'])
+        else:
+            ncbi_df['locus_tag'] = ncbi_df['locus_tag_ncbi']
+
+        # Rename to match GeneNodeField.GENE_NAMES
+        ncbi_df = ncbi_df.rename(columns={'Name': 'gene_names'})
+
+        # Drop rows without a usable locus_tag
+        n_before = len(ncbi_df)
+        ncbi_df = ncbi_df.dropna(subset=['locus_tag'])
+        n_dropped = n_before - len(ncbi_df)
+        if n_dropped > 0:
+            logger.warning(f"Dropped {n_dropped} genes with no identifiable locus_tag")
+
+        logger.info(
+            f"NCBI-only gene load: {len(ncbi_df)} genes from {ncbi_gff_file}"
+        )
+        return ncbi_df
 
     def load_gff(self, gff_file: str) -> pd.DataFrame:
         ''' Load a GFF3 file and return a DataFrame object.'''
@@ -413,6 +458,9 @@ class CyanorakNcbi:
 
         # Handle multiple old_locus_tag values: explode to one row per tag for merge.
         # old_locus_tags column (comma-separated string) preserves all values.
+        # If GFF lacks old_locus_tag, fall back to locus_tag_ncbi
+        if 'locus_tag' not in ncbi_df.columns:
+            ncbi_df['locus_tag'] = ncbi_df['locus_tag_ncbi']
         ncbi_df['locus_tag'] = ncbi_df['locus_tag'].str.split(',')
         ncbi_exploded = ncbi_df.explode('locus_tag')
         ncbi_exploded['locus_tag'] = ncbi_exploded['locus_tag'].str.strip()
@@ -550,19 +598,25 @@ class MultiCyanorakNcbi:
             for row in reader:
                 if 'ncbi_accession' in fieldnames:
                     # New accession-based format
+                    # Treat empty cyanorak_organism as None (NCBI-only mode)
+                    cyanorak_org = row.get('cyanorak_organism') or None
+                    if cyanorak_org and cyanorak_org.strip() == '':
+                        cyanorak_org = None
                     adapter = CyanorakNcbi(
                         ncbi_accession=row['ncbi_accession'],
-                        cyanorak_organism=row['cyanorak_organism'],
+                        cyanorak_organism=cyanorak_org,
                         data_dir=row.get('data_dir') or None,
                         **kwargs,
                     )
                 else:
                     # Legacy path-based format
                     genome_dir = row['genome_dir']
+                    cyan_gff = row.get('cyan_gff') or None
+                    cyan_gbk = row.get('cyan_gbk') or None
                     adapter = CyanorakNcbi(
                         ncbi_gff_file=os.path.join(genome_dir, row['ncbi_gff']),
-                        cyan_gff_file=os.path.join(genome_dir, row['cyan_gff']),
-                        cyan_gbk_file=os.path.join(genome_dir, row['cyan_gbk']),
+                        cyan_gff_file=os.path.join(genome_dir, cyan_gff) if cyan_gff else None,
+                        cyan_gbk_file=os.path.join(genome_dir, cyan_gbk) if cyan_gbk else None,
                         **kwargs,
                     )
                 self.adapters.append(adapter)
