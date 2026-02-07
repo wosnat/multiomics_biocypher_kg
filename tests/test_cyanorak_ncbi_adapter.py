@@ -1143,6 +1143,77 @@ class TestDownloadFromAccession:
             all_ids = [n[0] for n in nodes]
             assert any("PMM0001" in nid for nid in all_ids)
 
+    def test_ncbi_only_download(self, temp_data_dir, mock_curl):
+        """Adapter with ncbi_accession but no cyanorak_organism uses NCBI-only path."""
+        with patch('multiomics_kg.adapters.cyanorak_ncbi_adapter.curl.Curl',
+                   side_effect=mock_curl):
+            adapter = CyanorakNcbi(
+                ncbi_accession="GCF_TEST",
+                data_dir=temp_data_dir,
+            )
+            adapter.download_data(cache=False)
+            assert isinstance(adapter.data_df, pd.DataFrame)
+            assert len(adapter.data_df) == 3
+
+    def test_ncbi_only_has_no_cyanorak_properties(self, temp_data_dir, mock_curl):
+        """NCBI-only nodes should not have Cyanorak-specific properties."""
+        with patch('multiomics_kg.adapters.cyanorak_ncbi_adapter.curl.Curl',
+                   side_effect=mock_curl):
+            adapter = CyanorakNcbi(
+                ncbi_accession="GCF_TEST",
+                data_dir=temp_data_dir,
+            )
+            adapter.download_data(cache=False)
+            nodes = adapter.get_nodes()
+            assert len(nodes) == 3
+            for _, _, props in nodes:
+                assert "Ontology_term" not in props
+                assert "eggNOG" not in props
+                assert "cluster_number" not in props
+                assert "cyanorak_Role" not in props
+
+    def test_ncbi_only_has_ncbi_properties(self, temp_data_dir, mock_curl):
+        """NCBI-only nodes should have NCBI-sourced properties."""
+        with patch('multiomics_kg.adapters.cyanorak_ncbi_adapter.curl.Curl',
+                   side_effect=mock_curl):
+            adapter = CyanorakNcbi(
+                ncbi_accession="GCF_TEST",
+                data_dir=temp_data_dir,
+            )
+            adapter.download_data(cache=False)
+            nodes = adapter.get_nodes()
+            for _, _, props in nodes:
+                assert "product" in props
+                # At least locus_tag or locus_tag_ncbi should be present
+                assert "locus_tag" in props or "locus_tag_ncbi" in props
+
+    def test_ncbi_only_node_ids(self, temp_data_dir, mock_curl):
+        """NCBI-only node IDs should use the same ncbigene: prefix."""
+        with patch('multiomics_kg.adapters.cyanorak_ncbi_adapter.curl.Curl',
+                   side_effect=mock_curl):
+            adapter = CyanorakNcbi(
+                ncbi_accession="GCF_TEST",
+                data_dir=temp_data_dir,
+            )
+            adapter.download_data(cache=False)
+            nodes = adapter.get_nodes()
+            all_ids = [n[0] for n in nodes]
+            assert any("PMM0001" in nid for nid in all_ids)
+            for nid in all_ids:
+                assert "ncbigene" in nid
+
+    def test_ncbi_only_saves_gene_mapping(self, temp_data_dir, mock_curl):
+        """NCBI-only mode should save gene_mapping.csv."""
+        with patch('multiomics_kg.adapters.cyanorak_ncbi_adapter.curl.Curl',
+                   side_effect=mock_curl):
+            adapter = CyanorakNcbi(
+                ncbi_accession="GCF_TEST",
+                data_dir=temp_data_dir,
+            )
+            adapter.download_data(cache=False)
+            mapping_path = os.path.join(temp_data_dir, "gene_mapping.csv")
+            assert os.path.isfile(mapping_path)
+
     def test_no_config_raises_error(self):
         adapter = CyanorakNcbi()
         with pytest.raises(ValueError):
@@ -1221,3 +1292,238 @@ class TestMultiCyanorakNcbiAccessionFormat:
         wrapper = MultiCyanorakNcbi(config_list_file=accession_csv_empty_data_dir)
         assert len(wrapper.adapters) == 1
         assert wrapper.adapters[0].data_dir is None
+
+
+# ---------------------------------------------------------------------------
+# Tests: MultiCyanorakNcbi comment line skipping
+# ---------------------------------------------------------------------------
+
+
+class TestMultiCyanorakNcbiCommentSkipping:
+    """Test that lines starting with # are skipped in CSV config files."""
+
+    @pytest.fixture
+    def csv_with_comments(self, multi_genome_dir):
+        """CSV config with commented lines."""
+        csv_path = os.path.join(multi_genome_dir, "commented_genomes.csv")
+        g1 = os.path.join(multi_genome_dir, "genome1")
+        g2 = os.path.join(multi_genome_dir, "genome2")
+        with open(csv_path, "w") as f:
+            f.write("genome_dir,ncbi_gff,cyan_gff,cyan_gbk\n")
+            f.write(f"# This is a comment about genome1\n")
+            f.write(f"{g1},genomic.gff,cyanorak/strain1.gff,cyanorak/strain1.gbk\n")
+            f.write(f"# Commented out genome: {g2},genomic.gff,cyanorak/strain2.gff,cyanorak/strain2.gbk\n")
+        return csv_path
+
+    @pytest.fixture
+    def csv_all_commented(self, multi_genome_dir):
+        """CSV config where all data rows are commented out."""
+        csv_path = os.path.join(multi_genome_dir, "all_commented.csv")
+        g1 = os.path.join(multi_genome_dir, "genome1")
+        with open(csv_path, "w") as f:
+            f.write("genome_dir,ncbi_gff,cyan_gff,cyan_gbk\n")
+            f.write(f"# {g1},genomic.gff,cyanorak/strain1.gff,cyanorak/strain1.gbk\n")
+            f.write(f"# Another commented line\n")
+        return csv_path
+
+    @pytest.fixture
+    def csv_with_inline_hash(self, multi_genome_dir):
+        """CSV config with # in the middle of a line (not a comment)."""
+        csv_path = os.path.join(multi_genome_dir, "inline_hash.csv")
+        g1 = os.path.join(multi_genome_dir, "genome1")
+        with open(csv_path, "w") as f:
+            f.write("genome_dir,ncbi_gff,cyan_gff,cyan_gbk\n")
+            f.write(f"{g1},genomic.gff,cyanorak/strain1.gff,cyanorak/strain1.gbk\n")
+        return csv_path
+
+    @pytest.fixture
+    def csv_with_whitespace_before_comment(self, multi_genome_dir):
+        """CSV config with whitespace before # comment marker."""
+        csv_path = os.path.join(multi_genome_dir, "whitespace_comment.csv")
+        g1 = os.path.join(multi_genome_dir, "genome1")
+        with open(csv_path, "w") as f:
+            f.write("genome_dir,ncbi_gff,cyan_gff,cyan_gbk\n")
+            f.write(f"  # This is a comment with leading whitespace\n")
+            f.write(f"{g1},genomic.gff,cyanorak/strain1.gff,cyanorak/strain1.gbk\n")
+        return csv_path
+
+    def test_skips_comment_lines(self, csv_with_comments):
+        """Lines starting with # should be skipped."""
+        wrapper = MultiCyanorakNcbi(config_list_file=csv_with_comments)
+        # Only one genome should be loaded (the second is commented out)
+        assert len(wrapper.adapters) == 1
+
+    def test_all_commented_creates_no_adapters(self, csv_all_commented):
+        """When all data rows are commented, no adapters are created."""
+        wrapper = MultiCyanorakNcbi(config_list_file=csv_all_commented)
+        assert len(wrapper.adapters) == 0
+
+    def test_inline_hash_not_treated_as_comment(self, csv_with_inline_hash):
+        """# in the middle of a line is not treated as a comment."""
+        wrapper = MultiCyanorakNcbi(config_list_file=csv_with_inline_hash)
+        assert len(wrapper.adapters) == 1
+
+    def test_whitespace_before_comment_skipped(self, csv_with_whitespace_before_comment):
+        """Lines with whitespace before # are still treated as comments."""
+        wrapper = MultiCyanorakNcbi(config_list_file=csv_with_whitespace_before_comment)
+        assert len(wrapper.adapters) == 1
+
+    def test_commented_config_loads_correct_data(self, csv_with_comments):
+        """The correct genome is loaded when others are commented out."""
+        wrapper = MultiCyanorakNcbi(config_list_file=csv_with_comments)
+        wrapper.download_data()
+        nodes = wrapper.get_nodes()
+        # Should have 3 nodes from genome1 only
+        assert len(nodes) == 3
+        all_ids = [n[0] for n in nodes]
+        # genome1 has PMM locus tags
+        assert any("PMM" in nid for nid in all_ids)
+        # genome2 (OTH locus tags) should NOT be present
+        assert not any("OTH" in nid for nid in all_ids)
+
+
+# ---------------------------------------------------------------------------
+# Tests: NCBI-only mode (file-based, no Cyanorak data)
+# ---------------------------------------------------------------------------
+
+
+class TestNcbiOnlyMode:
+    """Test CyanorakNcbi with only NCBI GFF file (no Cyanorak data)."""
+
+    @pytest.fixture
+    def ncbi_only_adapter(self, ncbi_gff_file):
+        return CyanorakNcbi(ncbi_gff_file=ncbi_gff_file)
+
+    def test_download_succeeds_without_cyanorak(self, ncbi_only_adapter):
+        ncbi_only_adapter.download_data()
+        assert isinstance(ncbi_only_adapter.data_df, pd.DataFrame)
+
+    def test_ncbi_only_row_count(self, ncbi_only_adapter):
+        ncbi_only_adapter.download_data()
+        assert len(ncbi_only_adapter.data_df) == 3
+
+    def test_ncbi_only_get_nodes(self, ncbi_only_adapter):
+        ncbi_only_adapter.download_data()
+        nodes = ncbi_only_adapter.get_nodes()
+        assert len(nodes) == 3
+        for node_id, label, props in nodes:
+            assert label == "gene"
+            assert "ncbigene" in node_id
+
+    def test_ncbi_only_locus_tags(self, ncbi_only_adapter):
+        ncbi_only_adapter.download_data()
+        nodes = ncbi_only_adapter.get_nodes()
+        all_ids = [n[0] for n in nodes]
+        assert any("PMM0001" in nid for nid in all_ids)
+        assert any("PMM0002" in nid for nid in all_ids)
+        assert any("PMM0003" in nid for nid in all_ids)
+
+    def test_ncbi_only_no_cyanorak_fields(self, ncbi_only_adapter):
+        ncbi_only_adapter.download_data()
+        nodes = ncbi_only_adapter.get_nodes()
+        for _, _, props in nodes:
+            assert "Ontology_term" not in props
+            assert "eggNOG" not in props
+            assert "cluster_number" not in props
+            assert "kegg" not in props
+
+    def test_ncbi_only_has_product(self, ncbi_only_adapter):
+        ncbi_only_adapter.download_data()
+        nodes = ncbi_only_adapter.get_nodes()
+        for _, _, props in nodes:
+            assert "product" in props
+
+    def test_ncbi_only_gene_mapping_saved(self, ncbi_only_adapter, temp_data_dir):
+        ncbi_only_adapter.data_dir = temp_data_dir
+        ncbi_only_adapter.download_data()
+        mapping_path = os.path.join(temp_data_dir, "gene_mapping.csv")
+        assert os.path.isfile(mapping_path)
+
+    def test_load_gff_from_ncbi_only_method(self, ncbi_only_adapter, ncbi_gff_file):
+        df = ncbi_only_adapter.load_gff_from_ncbi_only(ncbi_gff_file)
+        assert isinstance(df, pd.DataFrame)
+        assert len(df) == 3
+        assert "gene_names" in df.columns
+        assert "locus_tag" in df.columns
+        assert "product" in df.columns
+
+
+# ---------------------------------------------------------------------------
+# Tests: MultiCyanorakNcbi mixed mode (Cyanorak + NCBI-only)
+# ---------------------------------------------------------------------------
+
+
+class TestMultiCyanorakNcbiMixedMode:
+    """Test MultiCyanorakNcbi with a mix of Cyanorak and NCBI-only genomes."""
+
+    @pytest.fixture
+    def mixed_genome_dir(self):
+        """Create temp dir with one Cyanorak genome and one NCBI-only genome."""
+        with tempfile.TemporaryDirectory() as tmpdir:
+            # Genome 1: full Cyanorak+NCBI
+            g1 = os.path.join(tmpdir, "genome1")
+            os.makedirs(os.path.join(g1, "cyanorak"))
+            with open(os.path.join(g1, "genomic.gff"), "w") as f:
+                f.write(NCBI_GFF_CONTENT)
+            with open(os.path.join(g1, "cyanorak", "strain1.gff"), "w") as f:
+                f.write(CYAN_GFF_CONTENT)
+            with open(os.path.join(g1, "cyanorak", "strain1.gbk"), "w") as f:
+                f.write(CYAN_GBK_CONTENT)
+
+            # Genome 2: NCBI-only (no cyanorak files)
+            g2 = os.path.join(tmpdir, "genome2")
+            os.makedirs(g2)
+            with open(os.path.join(g2, "genomic.gff"), "w") as f:
+                f.write(NCBI_GFF_CONTENT_2)
+
+            yield tmpdir
+
+    @pytest.fixture
+    def mixed_legacy_csv(self, mixed_genome_dir):
+        """Legacy CSV with one full genome and one NCBI-only genome."""
+        csv_path = os.path.join(mixed_genome_dir, "mixed.csv")
+        g1 = os.path.join(mixed_genome_dir, "genome1")
+        g2 = os.path.join(mixed_genome_dir, "genome2")
+        with open(csv_path, "w") as f:
+            f.write("genome_dir,ncbi_gff,cyan_gff,cyan_gbk\n")
+            f.write(f"{g1},genomic.gff,cyanorak/strain1.gff,cyanorak/strain1.gbk\n")
+            f.write(f"{g2},genomic.gff,,\n")
+        return csv_path
+
+    @pytest.fixture
+    def mixed_accession_csv(self, mixed_genome_dir):
+        """Accession-format CSV with one Cyanorak genome and one NCBI-only."""
+        csv_path = os.path.join(mixed_genome_dir, "mixed_accession.csv")
+        g1 = os.path.join(mixed_genome_dir, "genome1")
+        g2 = os.path.join(mixed_genome_dir, "genome2")
+        with open(csv_path, "w") as f:
+            f.write("ncbi_accession,cyanorak_organism,data_dir\n")
+            # Genome 1 has cyanorak_organism, but we use pre-existing files
+            # so we override file paths manually
+            f.write(f"GCF_TEST1,Pro_TEST1,{g1}\n")
+            # Genome 2 has empty cyanorak_organism (NCBI-only)
+            f.write(f"GCF_TEST2,,{g2}\n")
+        return csv_path
+
+    def test_mixed_legacy_loads_both(self, mixed_legacy_csv):
+        """Legacy CSV with mixed Cyanorak/NCBI-only rows loads both."""
+        wrapper = MultiCyanorakNcbi(config_list_file=mixed_legacy_csv)
+        assert len(wrapper.adapters) == 2
+
+    def test_mixed_accession_empty_cyanorak_is_none(self, mixed_accession_csv):
+        """Empty cyanorak_organism field treated as None."""
+        wrapper = MultiCyanorakNcbi(config_list_file=mixed_accession_csv)
+        assert len(wrapper.adapters) == 2
+        assert wrapper.adapters[0].cyanorak_organism == "Pro_TEST1"
+        assert wrapper.adapters[1].cyanorak_organism is None
+
+    def test_mixed_legacy_download_and_get_nodes(self, mixed_legacy_csv):
+        """Mixed mode: both genomes produce nodes."""
+        wrapper = MultiCyanorakNcbi(config_list_file=mixed_legacy_csv)
+        wrapper.download_data()
+        nodes = wrapper.get_nodes()
+        # Genome 1 has 3 genes (Cyanorak+NCBI), genome 2 has 2 genes (NCBI-only)
+        assert len(nodes) == 5
+        all_ids = [n[0] for n in nodes]
+        assert any("PMM" in nid for nid in all_ids)
+        assert any("OTH" in nid for nid in all_ids)

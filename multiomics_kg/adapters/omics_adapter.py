@@ -223,16 +223,16 @@ class OMICSAdapter:
             pub_id = self.get_publication_id()
             pub_id = self.add_prefix_to_id(prefix="doi", identifier=pub_id)
             pub_properties = {
-                "title": pub.get("title"),
-                "authors": pub.get("authors", []),
-                "journal": pub.get("journal"),
+                "title": self.clean_text(pub.get("title")),
+                "authors": self.clean_text(pub.get("authors", [])),
+                "journal": self.clean_text(pub.get("journal")),
                 "publication_year": pub.get("publication_year"),
                 "doi": pub.get("doi"),
                 "pmid": pub.get("pmid"),
-                "description": pub.get("description"),
-                "abstract": pub.get("abstract"),
-                "study_type": pub.get("study_type"),
-                "organism": pub.get("organism", []),
+                "description": self.clean_text(pub.get("description")),
+                "abstract": self.clean_text(pub.get("abstract")),
+                "study_type": self.clean_text(pub.get("study_type")),
+                "organism": self.clean_text(pub.get("organism", [])),
             }
             pub_properties.update(self._get_default_properties())
             nodes.append((pub_id, "publication", pub_properties))
@@ -288,7 +288,7 @@ class OMICSAdapter:
         for taxid, organism_name in treatment_organisms.items():
             org_id = self.add_prefix_to_id(prefix="ncbitaxon", identifier=taxid)
             org_properties = self._get_default_properties()
-            org_properties['organism_name'] = organism_name
+            org_properties['organism_name'] = self.clean_text(organism_name)
             node_list.append((org_id, 'organism', org_properties))
             logger.info(f"Created organism node for treatment organism: {organism_name} (taxid: {taxid})")
 
@@ -301,7 +301,7 @@ class OMICSAdapter:
                     unique_env_id = f"{pub_id}_{env_id}"
                     env_properties = self._get_default_properties()
                     for key, value in env_data.items():
-                        env_properties[key] = value
+                        env_properties[key] = self.clean_text(value)
                     env_properties['local_id'] = env_id
                     env_properties['publications'] = [pub_id]
                     node_list.append((unique_env_id, 'environmental_condition', env_properties))
@@ -611,15 +611,15 @@ class OMICSAdapter:
 
                 control_condition = analysis.get('control_condition')
                 if control_condition:
-                    edge_properties['control_condition'] = control_condition
+                    edge_properties['control_condition'] = self.clean_text(control_condition)
 
                 experimental_context = analysis.get('experimental_context')
                 if experimental_context:
-                    edge_properties['experimental_context'] = experimental_context
+                    edge_properties['experimental_context'] = self.clean_text(experimental_context)
 
                 timepoint = analysis.get('timepoint')
                 if timepoint:
-                    edge_properties['time_point'] = timepoint
+                    edge_properties['time_point'] = self.clean_text(timepoint)
 
                 edge_properties['publications'] = [self.add_prefix_to_id(prefix="doi", identifier=self.get_publication_id())]
 

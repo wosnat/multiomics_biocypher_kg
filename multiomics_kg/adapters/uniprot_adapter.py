@@ -1,5 +1,6 @@
 from time import time
 import collections
+import csv
 from typing import Optional, Union, Literal
 from collections.abc import Generator
 from enum import Enum, EnumMeta, auto
@@ -1329,3 +1330,63 @@ class Uniprot:
                 logger.info(
                     f"{_type.capitalize()} data is written: {full_path}"
                 )
+
+
+class MultiUniprot:
+    """Wrapper that reads a CSV file listing organisms and runs the Uniprot
+    adapter for each organism."""
+
+    def __init__(self, config_list_file: str, **kwargs):
+        """
+        Args:
+            config_list_file: Path to a CSV file with columns:
+                ncbi_accession, cyanorak_organism, ncbi_taxon_id, data_dir
+                The ncbi_taxon_id column is used as the organism parameter.
+                Lines starting with # are treated as comments and skipped.
+            **kwargs: Additional arguments passed to each Uniprot adapter.
+        """
+        self.adapters = []
+        self.organism_ids = []
+        with open(config_list_file, 'r') as f:
+            # Filter out comment lines (starting with #) before parsing CSV
+            lines = [line for line in f if not line.strip().startswith('#')]
+            reader = csv.DictReader(lines)
+
+            for row in reader:
+                organism_id = int(row['ncbi_taxon_id'])
+                self.organism_ids.append(organism_id)
+                adapter = Uniprot(
+                    organism=organism_id,
+                    **kwargs,
+                )
+                self.adapters.append(adapter)
+        logger.info(f"Loaded {len(self.adapters)} organism configs from {config_list_file}")
+
+    def download_uniprot_data(self, **kwargs):
+        """Download UniProt data for all organisms."""
+        for adapter in self.adapters:
+            adapter.download_uniprot_data(**kwargs)
+
+    def get_nodes(self, **kwargs):
+        """Get nodes from all adapters, deduplicating organism nodes."""
+        nodes = []
+        seen_organism_ids = set()
+
+        for adapter in self.adapters:
+            adapter_nodes = adapter.get_nodes(**kwargs)
+            for node in adapter_nodes:
+                node_id, label, props = node
+                # Deduplicate organism nodes (they may be shared across adapters)
+                if label == "organism":
+                    if node_id in seen_organism_ids:
+                        continue
+                    seen_organism_ids.add(node_id)
+                nodes.append(node)
+        return nodes
+
+    def get_edges(self, **kwargs):
+        """Get edges from all adapters."""
+        edges = []
+        for adapter in self.adapters:
+            edges.extend(adapter.get_edges(**kwargs))
+        return edges

@@ -5,6 +5,7 @@ from multiomics_kg.adapters.ec_adapter import EC
 from multiomics_kg.adapters.omics_adapter import MultiOMICSAdapter
 from multiomics_kg.adapters.uniprot_adapter import (
     Uniprot,
+    MultiUniprot,
     UniprotNodeType,
     UniprotNodeField,
     UniprotEdgeType,
@@ -110,33 +111,21 @@ def main():
 
 
 
-    # organism to use: MED4 (59919)
-    organism="59919" # MED4
-
-    uniprot_adapter = Uniprot(
-            organism=organism, # MED4
-            rev= False, # whether to include unreviewed entries
-            node_types=uniprot_node_types,
-            node_fields=uniprot_node_fields,
-            edge_types=uniprot_edge_types,
-            id_fields=uniprot_id_type,
-            test_mode=TEST_MODE,
-        )
+    # MultiUniprot adapter - uses same config file as MultiCyanorakNcbi
+    uniprot_adapter = MultiUniprot(
+        config_list_file='data/Prochlorococcus/genomes/cyanobacteria_genomes.csv',
+        rev=False,  # whether to include unreviewed entries
+        node_types=uniprot_node_types,
+        node_fields=uniprot_node_fields,
+        edge_types=uniprot_edge_types,
+        id_fields=uniprot_id_type,
+        test_mode=TEST_MODE,
+    )
 
     uniprot_adapter.download_uniprot_data(cache=CACHE, retries=6, debug=True)
 
-    uniprot_nodes = uniprot_adapter.get_nodes()
-    uniprot_edges = uniprot_adapter.get_edges()
-
-
-    # if export_as_csv:
-    #     uniprot_adapter.export_data_to_csv(path=output_dir_path,
-    #                                     node_data=uniprot_nodes,
-    #                                     edge_data=uniprot_edges)
-
-
-    bc.write_nodes(uniprot_nodes)
-    bc.write_edges(uniprot_edges)
+    bc.write_nodes(uniprot_adapter.get_nodes())
+    bc.write_edges(uniprot_adapter.get_edges())
 
     ncbi_cyanorak_adapter = MultiCyanorakNcbi(
         config_list_file='data/Prochlorococcus/genomes/cyanobacteria_genomes.csv',
@@ -159,7 +148,6 @@ def main():
 
     # gene ontology
     go_adapter = GO(
-        organism=organism,
         test_mode=TEST_MODE
     )
 
