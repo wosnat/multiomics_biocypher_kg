@@ -10,6 +10,7 @@ import pytest
 from pydantic import ValidationError
 
 from multiomics_kg.adapters.cyanorak_ncbi_adapter import (
+    ClusterNodeField,
     CyanorakNcbi,
     GeneEdgeType,
     GeneModel,
@@ -597,7 +598,12 @@ class TestGetNodes:
 
     def test_node_count(self, adapter_with_data):
         nodes = adapter_with_data.get_nodes()
-        assert len(nodes) == 3
+        # 3 genes + 3 clusters = 6 nodes
+        gene_nodes = [n for n in nodes if n[1] == "gene"]
+        cluster_nodes = [n for n in nodes if n[1] == "cyanorak_cluster"]
+        assert len(gene_nodes) == 3
+        assert len(cluster_nodes) == 3
+        assert len(nodes) == 6
 
     def test_node_tuple_structure(self, adapter_with_data):
         nodes = adapter_with_data.get_nodes()
@@ -606,31 +612,37 @@ class TestGetNodes:
             assert isinstance(label, str)
             assert isinstance(props, dict)
 
-    def test_default_label_is_gene(self, adapter_with_data):
+    def test_gene_and_cluster_labels(self, adapter_with_data):
         nodes = adapter_with_data.get_nodes()
-        for _, label, _ in nodes:
-            assert label == "gene"
+        labels = set(n[1] for n in nodes)
+        assert "gene" in labels
+        assert "cyanorak_cluster" in labels
 
-    def test_custom_label(self, adapter_with_data):
-        nodes = adapter_with_data.get_nodes(label="custom_gene")
-        for _, label, _ in nodes:
-            assert label == "custom_gene"
-
-    def test_node_id_has_prefix(self, adapter_with_data):
+    def test_gene_node_id_has_prefix(self, adapter_with_data):
         nodes = adapter_with_data.get_nodes()
-        for node_id, _, _ in nodes:
+        gene_nodes = [n for n in nodes if n[1] == "gene"]
+        for node_id, _, _ in gene_nodes:
             assert "ncbigene" in node_id
+
+    def test_cluster_node_id_has_prefix(self, adapter_with_data):
+        nodes = adapter_with_data.get_nodes()
+        cluster_nodes = [n for n in nodes if n[1] == "cyanorak_cluster"]
+        for node_id, _, _ in cluster_nodes:
+            # Unregistered prefix uses underscore separator
+            assert node_id.startswith("cyanorak.cluster_")
 
     def test_node_id_no_prefix(self, adapter_no_prefix):
         adapter_no_prefix.download_data()
         nodes = adapter_no_prefix.get_nodes()
-        for node_id, _, _ in nodes:
+        gene_nodes = [n for n in nodes if n[1] == "gene"]
+        for node_id, _, _ in gene_nodes:
             assert node_id.startswith("PMM")
 
     def test_node_properties_contain_expected_fields(self, adapter_with_data):
         nodes = adapter_with_data.get_nodes()
         # First gene (dnaN) should have product, eggNOG, etc.
-        _, _, props = nodes[0]
+        gene_nodes = [n for n in nodes if n[1] == "gene"]
+        _, _, props = gene_nodes[0]
         assert "product" in props
         assert "eggNOG" in props or "cluster_number" in props
 
@@ -654,7 +666,8 @@ class TestGetNodes:
     def test_multivalue_fields_are_lists(self, adapter_with_data):
         nodes = adapter_with_data.get_nodes()
         # First gene has Ontology_term=GO:0006260,GO:0003677
-        _, _, props = nodes[0]
+        gene_nodes = [n for n in nodes if n[1] == "gene"]
+        _, _, props = gene_nodes[0]
         if "Ontology_term" in props:
             assert isinstance(props["Ontology_term"], list)
         if "eggNOG" in props:
@@ -663,9 +676,16 @@ class TestGetNodes:
     def test_subset_fields(self, adapter_subset_fields):
         adapter_subset_fields.download_data()
         nodes = adapter_subset_fields.get_nodes()
-        for _, _, props in nodes:
+        gene_nodes = [n for n in nodes if n[1] == "gene"]
+        for _, _, props in gene_nodes:
             allowed = {"locus_tag", "product", "gene_names"}
             assert set(props.keys()) <= allowed
+
+    def test_cluster_node_properties(self, adapter_with_data):
+        nodes = adapter_with_data.get_nodes()
+        cluster_nodes = [n for n in nodes if n[1] == "cyanorak_cluster"]
+        for _, _, props in cluster_nodes:
+            assert "cluster_number" in props
 
 
 # ---------------------------------------------------------------------------
@@ -674,13 +694,34 @@ class TestGetNodes:
 
 
 class TestGetEdges:
-    def test_returns_empty_list(self, adapter_with_data):
+    def test_returns_gene_cluster_edges(self, adapter_with_data):
         edges = adapter_with_data.get_edges()
-        assert edges == []
+        # 3 genes with cluster_number -> 3 edges
+        assert len(edges) == 3
 
     def test_return_type(self, adapter_with_data):
         edges = adapter_with_data.get_edges()
         assert isinstance(edges, list)
+
+    def test_edge_tuple_structure(self, adapter_with_data):
+        edges = adapter_with_data.get_edges()
+        for edge_id, source_id, target_id, edge_type, props in edges:
+            assert isinstance(edge_id, str)
+            assert isinstance(source_id, str)
+            assert isinstance(target_id, str)
+            assert edge_type == "gene_in_cyanorak_cluster"
+            assert isinstance(props, dict)
+
+    def test_edge_source_is_gene(self, adapter_with_data):
+        edges = adapter_with_data.get_edges()
+        for _, source_id, _, _, _ in edges:
+            assert "ncbigene" in source_id
+
+    def test_edge_target_is_cluster(self, adapter_with_data):
+        edges = adapter_with_data.get_edges()
+        for _, _, target_id, _, _ in edges:
+            # Unregistered prefix uses underscore separator
+            assert target_id.startswith("cyanorak.cluster_")
 
 
 # ---------------------------------------------------------------------------
@@ -777,7 +818,8 @@ class TestIntegrationWithRealData:
         )
         adapter.download_data()
         nodes = adapter.get_nodes()
-        node_id, label, props = nodes[0]
+        gene_nodes = [n for n in nodes if n[1] == "gene"]
+        node_id, label, props = gene_nodes[0]
         assert isinstance(node_id, str)
         assert label == "gene"
         assert len(props) > 0
@@ -810,7 +852,7 @@ class TestIntegrationWithRealData:
                 assert isinstance(props["Ontology_term"], list)
                 break
 
-    def test_real_data_edges_empty(self, real_data_paths):
+    def test_real_data_edges_not_empty(self, real_data_paths):
         ncbi, cyan_gff, cyan_gbk = real_data_paths
         adapter = CyanorakNcbi(
             ncbi_gff_file=ncbi,
@@ -819,7 +861,10 @@ class TestIntegrationWithRealData:
         )
         adapter.download_data()
         edges = adapter.get_edges()
-        assert edges == []
+        # Real data should have gene-cluster edges
+        assert len(edges) > 0
+        for edge in edges:
+            assert edge[3] == "gene_in_cyanorak_cluster"
 
 
 # ---------------------------------------------------------------------------
@@ -980,8 +1025,11 @@ class TestMultiCyanorakNcbiGetNodes:
         wrapper = MultiCyanorakNcbi(config_list_file=multi_config_path)
         wrapper.download_data()
         nodes = wrapper.get_nodes()
-        # Genome 1 has 3 genes, genome 2 has 2 genes
-        assert len(nodes) == 5
+        # Genome 1 has 3 genes + 3 clusters, genome 2 has 2 genes + 2 clusters
+        gene_nodes = [n for n in nodes if n[1] == "gene"]
+        cluster_nodes = [n for n in nodes if n[1] == "cyanorak_cluster"]
+        assert len(gene_nodes) == 5
+        assert len(cluster_nodes) == 5
 
     def test_single_genome_matches_direct_adapter(self, single_genome_config):
         wrapper = MultiCyanorakNcbi(config_list_file=single_genome_config)
@@ -1001,12 +1049,13 @@ class TestMultiCyanorakNcbiGetNodes:
         assert any("PMM0001" in nid for nid in all_ids)
         assert any("OTH0001" in nid for nid in all_ids)
 
-    def test_all_nodes_are_gene_label(self, multi_config_path):
+    def test_gene_and_cluster_labels_present(self, multi_config_path):
         wrapper = MultiCyanorakNcbi(config_list_file=multi_config_path)
         wrapper.download_data()
         nodes = wrapper.get_nodes()
-        for _, label, _ in nodes:
-            assert label == "gene"
+        labels = set(n[1] for n in nodes)
+        assert "gene" in labels
+        assert "cyanorak_cluster" in labels
 
     def test_node_properties_are_dicts(self, multi_config_path):
         wrapper = MultiCyanorakNcbi(config_list_file=multi_config_path)
@@ -1023,11 +1072,14 @@ class TestMultiCyanorakNcbiGetEdges:
         edges = wrapper.get_edges()
         assert isinstance(edges, list)
 
-    def test_edges_empty_for_current_implementation(self, multi_config_path):
+    def test_edges_contain_gene_cluster_relationships(self, multi_config_path):
         wrapper = MultiCyanorakNcbi(config_list_file=multi_config_path)
         wrapper.download_data()
         edges = wrapper.get_edges()
-        assert edges == []
+        # 3 genes with clusters in genome1 + 2 genes with clusters in genome2 = 5 edges
+        assert len(edges) == 5
+        for edge in edges:
+            assert edge[3] == "gene_in_cyanorak_cluster"
 
 
 class TestMultiCyanorakNcbiIntegration:
@@ -1055,7 +1107,8 @@ class TestMultiCyanorakNcbiIntegration:
             wrapper = MultiCyanorakNcbi(config_list_file=csv_path)
             wrapper.download_data()
             nodes = wrapper.get_nodes()
-            assert len(nodes) > 1000
+            gene_nodes = [n for n in nodes if n[1] == "gene"]
+            assert len(gene_nodes) > 1000
             assert any("PMM0001" in n[0] for n in nodes)
         finally:
             os.unlink(csv_path)
@@ -1139,7 +1192,11 @@ class TestDownloadFromAccession:
             )
             adapter.download_data(cache=False)
             nodes = adapter.get_nodes()
-            assert len(nodes) == 3
+            # 3 genes + 3 clusters = 6 nodes
+            gene_nodes = [n for n in nodes if n[1] == "gene"]
+            cluster_nodes = [n for n in nodes if n[1] == "cyanorak_cluster"]
+            assert len(gene_nodes) == 3
+            assert len(cluster_nodes) == 3
             all_ids = [n[0] for n in nodes]
             assert any("PMM0001" in nid for nid in all_ids)
 
@@ -1165,8 +1222,11 @@ class TestDownloadFromAccession:
             )
             adapter.download_data(cache=False)
             nodes = adapter.get_nodes()
-            assert len(nodes) == 3
-            for _, _, props in nodes:
+            gene_nodes = [n for n in nodes if n[1] == "gene"]
+            cluster_nodes = [n for n in nodes if n[1] == "cyanorak_cluster"]
+            assert len(gene_nodes) == 3
+            assert len(cluster_nodes) == 0  # No clusters in NCBI-only mode
+            for _, _, props in gene_nodes:
                 assert "Ontology_term" not in props
                 assert "eggNOG" not in props
                 assert "cluster_number" not in props
@@ -1182,7 +1242,8 @@ class TestDownloadFromAccession:
             )
             adapter.download_data(cache=False)
             nodes = adapter.get_nodes()
-            for _, _, props in nodes:
+            gene_nodes = [n for n in nodes if n[1] == "gene"]
+            for _, _, props in gene_nodes:
                 assert "product" in props
                 # At least locus_tag or locus_tag_ncbi should be present
                 assert "locus_tag" in props or "locus_tag_ncbi" in props
@@ -1197,7 +1258,8 @@ class TestDownloadFromAccession:
             )
             adapter.download_data(cache=False)
             nodes = adapter.get_nodes()
-            all_ids = [n[0] for n in nodes]
+            gene_nodes = [n for n in nodes if n[1] == "gene"]
+            all_ids = [n[0] for n in gene_nodes]
             assert any("PMM0001" in nid for nid in all_ids)
             for nid in all_ids:
                 assert "ncbigene" in nid
@@ -1373,8 +1435,11 @@ class TestMultiCyanorakNcbiCommentSkipping:
         wrapper = MultiCyanorakNcbi(config_list_file=csv_with_comments)
         wrapper.download_data()
         nodes = wrapper.get_nodes()
-        # Should have 3 nodes from genome1 only
-        assert len(nodes) == 3
+        # Should have 3 genes + 3 clusters from genome1 only
+        gene_nodes = [n for n in nodes if n[1] == "gene"]
+        cluster_nodes = [n for n in nodes if n[1] == "cyanorak_cluster"]
+        assert len(gene_nodes) == 3
+        assert len(cluster_nodes) == 3
         all_ids = [n[0] for n in nodes]
         # genome1 has PMM locus tags
         assert any("PMM" in nid for nid in all_ids)
@@ -1405,8 +1470,12 @@ class TestNcbiOnlyMode:
     def test_ncbi_only_get_nodes(self, ncbi_only_adapter):
         ncbi_only_adapter.download_data()
         nodes = ncbi_only_adapter.get_nodes()
-        assert len(nodes) == 3
-        for node_id, label, props in nodes:
+        # NCBI-only mode: 3 genes, no cluster data so no cluster nodes
+        gene_nodes = [n for n in nodes if n[1] == "gene"]
+        cluster_nodes = [n for n in nodes if n[1] == "cyanorak_cluster"]
+        assert len(gene_nodes) == 3
+        assert len(cluster_nodes) == 0
+        for node_id, label, props in gene_nodes:
             assert label == "gene"
             assert "ncbigene" in node_id
 
@@ -1421,7 +1490,8 @@ class TestNcbiOnlyMode:
     def test_ncbi_only_no_cyanorak_fields(self, ncbi_only_adapter):
         ncbi_only_adapter.download_data()
         nodes = ncbi_only_adapter.get_nodes()
-        for _, _, props in nodes:
+        gene_nodes = [n for n in nodes if n[1] == "gene"]
+        for _, _, props in gene_nodes:
             assert "Ontology_term" not in props
             assert "eggNOG" not in props
             assert "cluster_number" not in props
@@ -1430,7 +1500,8 @@ class TestNcbiOnlyMode:
     def test_ncbi_only_has_product(self, ncbi_only_adapter):
         ncbi_only_adapter.download_data()
         nodes = ncbi_only_adapter.get_nodes()
-        for _, _, props in nodes:
+        gene_nodes = [n for n in nodes if n[1] == "gene"]
+        for _, _, props in gene_nodes:
             assert "product" in props
 
     def test_ncbi_only_gene_mapping_saved(self, ncbi_only_adapter, temp_data_dir):
@@ -1446,6 +1517,12 @@ class TestNcbiOnlyMode:
         assert "gene_names" in df.columns
         assert "locus_tag" in df.columns
         assert "product" in df.columns
+
+    def test_ncbi_only_no_edges(self, ncbi_only_adapter):
+        """NCBI-only mode should have no gene-cluster edges (no cluster data)."""
+        ncbi_only_adapter.download_data()
+        edges = ncbi_only_adapter.get_edges()
+        assert len(edges) == 0
 
 
 # ---------------------------------------------------------------------------
@@ -1522,8 +1599,11 @@ class TestMultiCyanorakNcbiMixedMode:
         wrapper = MultiCyanorakNcbi(config_list_file=mixed_legacy_csv)
         wrapper.download_data()
         nodes = wrapper.get_nodes()
-        # Genome 1 has 3 genes (Cyanorak+NCBI), genome 2 has 2 genes (NCBI-only)
-        assert len(nodes) == 5
+        # Genome 1 has 3 genes + 3 clusters (Cyanorak+NCBI), genome 2 has 2 genes + 0 clusters (NCBI-only)
+        gene_nodes = [n for n in nodes if n[1] == "gene"]
+        cluster_nodes = [n for n in nodes if n[1] == "cyanorak_cluster"]
+        assert len(gene_nodes) == 5
+        assert len(cluster_nodes) == 3  # Only genome 1 has cluster data
         all_ids = [n[0] for n in nodes]
         assert any("PMM" in nid for nid in all_ids)
         assert any("OTH" in nid for nid in all_ids)

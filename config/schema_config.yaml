@@ -63,6 +63,22 @@ environmental condition to gene expression association:
     publications: str[]
 
 
+cyanorak_cluster:
+  is_a: GroupingClass
+  represented_as: node
+  preferred_id: id
+  label_in_input: cyanorak_cluster
+  properties:
+    cluster_number: str
+
+gene_in_cyanorak_cluster:
+  is_a: Association
+  represented_as: edge
+  label_as_edge: gene_in_cyanorak_cluster
+  source: gene
+  target: cyanorak_cluster
+  label_in_input: gene_in_cyanorak_cluster
+
 timeseries_cluster:
   is_a: GroupingClass
   represented_as: node

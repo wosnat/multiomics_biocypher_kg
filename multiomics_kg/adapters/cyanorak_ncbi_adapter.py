@@ -75,13 +75,27 @@ class GeneNodeField(Enum, metaclass=GeneEnumMeta):
         return None
 
 
+class ClusterNodeField(Enum, metaclass=GeneEnumMeta):
+    CLUSTER_NUMBER = 'cluster_number'
+
+    @classmethod
+    def _missing_(cls, value: str):
+        value = value.lower()
+        for member in cls.__members__.values():
+            if member.value.lower() == value:
+                return member
+        return None
+
+
 class GeneEdgeType(Enum, metaclass=GeneEnumMeta):
     #TODO
     GENE_TO_PROTEIN = auto()
+    GENE_IN_CLUSTER = auto()
 
 
 class GeneModel(BaseModel):
     gene_node_fields: Union[list[GeneNodeField], None] = None
+    cluster_node_fields: Union[list[ClusterNodeField], None] = None
     edge_types: Union[list[GeneEdgeType], None] = None
     test_mode: bool = False
     export_csv: bool = False
@@ -94,6 +108,7 @@ class CyanorakNcbi:
     def __init__(
         self,
         gene_node_fields: Union[list[GeneNodeField], None] = None,
+        cluster_node_fields: Union[list[ClusterNodeField], None] = None,
         edge_types: Union[list[GeneEdgeType], None] = None,
         test_mode: bool = False,
         export_csv: bool = False,
@@ -110,6 +125,7 @@ class CyanorakNcbi:
 
         model = GeneModel(
             gene_node_fields=gene_node_fields,
+            cluster_node_fields=cluster_node_fields,
             edge_types=edge_types,
             test_mode=test_mode,
             export_csv=export_csv,
@@ -138,6 +154,9 @@ class CyanorakNcbi:
 
         # set node fields
         self.set_node_fields(gene_node_fields=model["gene_node_fields"])
+
+        # set cluster node fields
+        self.set_cluster_node_fields(cluster_node_fields=model["cluster_node_fields"])
 
         # set edge types
         self.set_edge_types(edge_types=model["edge_types"])
@@ -258,9 +277,12 @@ class CyanorakNcbi:
         self.data_df.to_csv(mapping_path, index=False)
         logger.info(f"Gene mapping table saved to {mapping_path}")
 
-    @validate_call
-    def get_nodes(self, label: str = "gene") -> list[tuple]:
+    def _get_gene_nodes(self) -> list[tuple]:
+        """Generate gene nodes from the data.
 
+        Returns:
+            List of tuples: (node_id, label, properties_dict)
+        """
         logger.info("Started writing gene nodes")
 
         node_list = []
@@ -280,16 +302,106 @@ class CyanorakNcbi:
                 identifier=row.get("locus_tag"),
             )
 
-            node_list.append((node_id, label, node_properties))
+            node_list.append((node_id, "gene", node_properties))
 
         logger.info(f"Finished writing {len(node_list)} gene nodes")
         return node_list
 
+    def _get_cluster_nodes(self) -> list[tuple]:
+        """Generate cluster nodes from unique cluster_number values in gene data.
+
+        Returns:
+            List of tuples: (node_id, label, properties_dict)
+        """
+        logger.info("Started writing cyanorak cluster nodes")
+
+        node_list = []
+
+        # Check if cluster_number column exists (not present in NCBI-only mode)
+        if 'cluster_number' not in self.data_df.columns:
+            logger.info("No cluster_number column in data - skipping cluster nodes")
+            return node_list
+
+        # Get unique cluster numbers, excluding NaN values
+        cluster_numbers = self.data_df['cluster_number'].dropna().unique()
+
+        for cluster_num in cluster_numbers:
+            cluster_num_str = str(cluster_num).strip()
+            if not cluster_num_str:
+                continue
+
+            node_id = self.add_prefix_to_id(
+                prefix="cyanorak.cluster",
+                identifier=cluster_num_str,
+            )
+
+            node_properties = {}
+            for field in self.cluster_node_fields:
+                if field == 'cluster_number':
+                    node_properties[field] = cluster_num_str
+
+            node_list.append((node_id, "cyanorak_cluster", node_properties))
+
+        logger.info(f"Finished writing {len(node_list)} cyanorak cluster nodes")
+        return node_list
+
+    @validate_call
+    def get_nodes(self) -> list[tuple]:
+        """Generate all nodes (genes and clusters).
+
+        Returns:
+            List of tuples: (node_id, label, properties_dict)
+        """
+        node_list = []
+        node_list.extend(self._get_gene_nodes())
+        node_list.extend(self._get_cluster_nodes())
+        return node_list
+
     @validate_call
     def get_edges(self) -> list[tuple]:
-        # for now, no edges to create
-        edge_list = []
+        """Generate gene → cluster edges.
+
+        Returns:
+            List of tuples: (edge_id, source_id, target_id, edge_type, properties_dict)
+        """
         logger.info("Started writing gene edges")
+        edge_list = []
+
+        if GeneEdgeType.GENE_IN_CLUSTER not in self.edge_types:
+            logger.info("GENE_IN_CLUSTER edge type not in edge_types, skipping gene-cluster edges")
+            return edge_list
+
+        for _, row in self.data_df.iterrows():
+            cluster_num = row.get('cluster_number')
+            locus_tag = row.get('locus_tag')
+
+            # Skip if no cluster number or locus tag
+            if pd.isna(cluster_num) or pd.isna(locus_tag):
+                continue
+
+            cluster_num_str = str(cluster_num).strip()
+            if not cluster_num_str:
+                continue
+
+            gene_id = self.add_prefix_to_id(
+                prefix="ncbigene",
+                identifier=locus_tag,
+            )
+            cluster_id = self.add_prefix_to_id(
+                prefix="cyanorak.cluster",
+                identifier=cluster_num_str,
+            )
+            edge_id = f"{gene_id}_in_{cluster_id}"
+
+            edge_list.append((
+                edge_id,
+                gene_id,
+                cluster_id,
+                "gene_in_cyanorak_cluster",
+                {}  # no additional properties for now
+            ))
+
+        logger.info(f"Finished writing {len(edge_list)} gene-cluster edges")
         return edge_list
 
 
@@ -539,10 +651,16 @@ class CyanorakNcbi:
         self, prefix: str = None, identifier: str = None, sep: str = ":"
     ) -> str:
         """
-        Adds prefix to database id
+        Adds prefix to database id. Falls back to underscore-separated ID if
+        prefix is not registered in bioregistry.
         """
         if self.add_prefix and identifier:
-            return normalize_curie(prefix + sep + identifier)
+            curie = prefix + sep + identifier
+            normalized = normalize_curie(curie)
+            # Fall back to underscore-separated ID if normalize_curie returns None (unregistered prefix)
+            if normalized is not None:
+                return normalized
+            return prefix + "_" + identifier
 
         return identifier
 
@@ -551,6 +669,12 @@ class CyanorakNcbi:
             self.gene_node_fields = [field.value for field in gene_node_fields]
         else:
             self.gene_node_fields = [field.value for field in GeneNodeField]
+
+    def set_cluster_node_fields(self, cluster_node_fields):
+        if cluster_node_fields:
+            self.cluster_node_fields = [field.value for field in cluster_node_fields]
+        else:
+            self.cluster_node_fields = [field.value for field in ClusterNodeField]
 
     def set_edge_types(self, edge_types):
         self.edge_types = edge_types or list(GeneEdgeType)
