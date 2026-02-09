@@ -118,7 +118,7 @@ gene:
     end_cyanorak: int
     strand: str
     strand_cyanorak: str
-    product: stror f"study_{Path(pdf_path).stem}"
+    product: str
     product_cyanorak: str
     protein_id: str
     Ontology_term: str[]
