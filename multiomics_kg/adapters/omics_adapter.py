@@ -266,7 +266,8 @@ class OMICSAdapter:
         node_list.extend(self.get_publication_nodes())
 
         # Collect unique treatment organisms from all analyses
-        treatment_organisms = {}  # dict: taxid -> organism_name
+        # Key by assembly accession (preferred) or taxid (fallback)
+        treatment_organisms = {}  # dict: accession_or_taxid -> info dict
 
         supp_materials = publication.get('supplementary_materials', {})
         if isinstance(supp_materials, dict):
@@ -280,17 +281,37 @@ class OMICSAdapter:
                     if not isinstance(stat_analysis, dict):
                         continue
                     treatment_org = stat_analysis.get('treatment_organism')
+                    treatment_accession = stat_analysis.get('treatment_assembly_accession')
                     treatment_taxid = stat_analysis.get('treatment_taxid')
-                    if treatment_org and treatment_taxid:
-                        treatment_organisms[str(treatment_taxid)] = treatment_org
+                    if treatment_org and treatment_accession:
+                        treatment_organisms[treatment_accession] = {
+                            'organism_name': treatment_org,
+                            'accession': treatment_accession,
+                            'taxid': treatment_taxid,
+                        }
+                    elif treatment_org and treatment_taxid:
+                        logger.warning(
+                            f"No 'treatment_assembly_accession' for {treatment_org} "
+                            f"(taxid {treatment_taxid}). Falling back to taxid-based ID."
+                        )
+                        treatment_organisms[str(treatment_taxid)] = {
+                            'organism_name': treatment_org,
+                            'accession': None,
+                            'taxid': treatment_taxid,
+                        }
 
         # Create organism nodes for treatment organisms
-        for taxid, organism_name in treatment_organisms.items():
-            org_id = self.add_prefix_to_id(prefix="ncbitaxon", identifier=taxid)
+        for key, info in treatment_organisms.items():
+            if info['accession']:
+                org_id = self.add_prefix_to_id(prefix="insdc.gcf", identifier=info['accession'])
+            else:
+                org_id = self.add_prefix_to_id(prefix="ncbitaxon", identifier=str(info['taxid']))
             org_properties = self._get_default_properties()
-            org_properties['organism_name'] = self.clean_text(organism_name)
+            org_properties['organism_name'] = self.clean_text(info['organism_name'])
+            if info.get('taxid'):
+                org_properties['ncbi_taxon_id'] = int(info['taxid'])
             node_list.append((org_id, 'organism', org_properties))
-            logger.info(f"Created organism node for treatment organism: {organism_name} (taxid: {taxid})")
+            logger.info(f"Created organism node for treatment organism: {info['organism_name']} ({org_id})")
 
         # Create environmental condition nodes from the config
         env_conditions = publication.get('environmental_conditions', {})
@@ -480,17 +501,24 @@ class OMICSAdapter:
             else:
                 # Fall back to organism as edge source
                 treatment_organism = analysis.get('treatment_organism')
+                treatment_accession = analysis.get('treatment_assembly_accession')
                 treatment_taxid = analysis.get('treatment_taxid')
 
                 if not treatment_organism:
                     logger.warning("No 'treatment_organism' or 'environmental_treatment_condition_id' field found in analysis. Skipping edge creation.")
                     return edges
 
-                if not treatment_taxid:
-                    logger.warning("No 'treatment_taxid' field found in analysis. Skipping edge creation.")
+                if treatment_accession:
+                    source_id = self.add_prefix_to_id(prefix="insdc.gcf", identifier=treatment_accession)
+                elif treatment_taxid:
+                    logger.warning(
+                        f"No 'treatment_assembly_accession' for {treatment_organism}. "
+                        f"Falling back to taxid-based ID."
+                    )
+                    source_id = self.add_prefix_to_id(prefix="ncbitaxon", identifier=str(treatment_taxid))
+                else:
+                    logger.warning("No 'treatment_assembly_accession' or 'treatment_taxid' field found in analysis. Skipping edge creation.")
                     return edges
-
-                source_id = self.add_prefix_to_id(prefix="ncbitaxon", identifier=str(treatment_taxid))
 
             # Load the data file, optionally skipping header rows
             skip_rows = analysis.get('skip_rows', 0)

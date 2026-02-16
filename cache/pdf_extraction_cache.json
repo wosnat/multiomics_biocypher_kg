@@ -294,5 +294,65 @@
       ],
       "publication_id": "10.1128/JB.01097-06"
     }
+  },
+  "data/Prochlorococcus/papers_and_supp/Fang 2019/Fang 2015 Prochlorococcus mit9313 Transcriptomic responses to viral lysis products.pdf": {
+    "publication": {
+      "title": "Transcriptomic responses of the marine cyanobacterium Prochlorococcus to viral lysis products",
+      "authors": [
+        "Xiaoting Fang",
+        "Yaxin Liu",
+        "Yao Zhao",
+        "Yue Chen",
+        "Riyue Liu",
+        "Qi-Long Qin",
+        "Gang Li",
+        "Yu-Zhong Zhang",
+        "Wan Chan",
+        "Wolfgang R. Hess",
+        "Qinglu Zeng"
+      ],
+      "journal": "Environmental Microbiology",
+      "publication_year": "2019",
+      "doi": "10.1111/1462-2920.14513",
+      "pmid": null,
+      "description": "Transcriptomic analysis (RNA-seq) of Prochlorococcus MIT9313 exposed to viral lysis products (vDOM) from Synechococcus WH8102 to assess growth, photosynthesis, respiration, and transcriptional regulation, focusing on genes related to translation, photosynthesis, and nitrogen metabolism; investigation of 6S RNA involvement.",
+      "abstract": "Viral infection of marine phytoplankton releases dissolved organic matter (DOM). This study examines the effects of viral DOM (vDOM) on uninfected Prochlorococcus MIT9313. Using RNA-seq, the authors show that vDOM does not affect Prochlorococcus growth in nutrient-replete conditions but leads to increased abundance of many tRNAs, including tRNA-Gly, and reduced expression of nitrogen metabolism genes, suggesting uptake of organic N compounds. vDOM also reduces maximum photochemical efficiency of photosystem II and CO2 fixation while increasing respiration; transcriptional changes include upregulation of photosynthesis and respiration-related genes and a notable rise in 6S RNA, a global transcriptional regulator. The results indicate transcriptional regulation of Prochlorococcus in response to viral lysis products and potential metabolic use of organic N.",
+      "study_type": "RNA-seq / Transcriptomics",
+      "organism": [
+        "Prochlorococcus MIT9313"
+      ],
+      "publication_id": "10.1111/1462-2920.14513"
+    }
+  },
+  "data/Prochlorococcus/papers_and_supp/coe 2024/coe_isme_ycae131.pdf": {
+    "publication": {
+      "title": "Emergence of metabolic coupling to the heterotroph Alteromonas promotes dark survival in Prochlorococcus",
+      "authors": [
+        "Allison Coe",
+        "Rogier Braakman",
+        "Steven J. Biller",
+        "Aldo Arellano",
+        "Christina Bliem",
+        "Nhi N. Vo",
+        "Konnor von Emster",
+        "Elaina Thomas",
+        "Michelle DeMers",
+        "Claudia Steglich",
+        "Jef Huisman",
+        "Sallie W. Chisholm"
+      ],
+      "journal": "ISME Communications",
+      "publication_year": "2024",
+      "doi": "10.1093/ismeco/ycae131",
+      "pmid": null,
+      "description": "Co-cultures of Prochlorococcus NATL2A and Alteromonas macleodii MIT1002 were subjected to repeated extended darkness to study the emergence of dark-tolerant phenotypes and the metabolic coupling between the photoautotroph and heterotroph, using bulk growth measurements, flow cytometry, and meta-transcriptome analysis to assess shifts in carbon flux and metabolism.",
+      "abstract": "Prochlorococcus is found throughout the euphotic zone in the oligotrophic open ocean. Deep mixing and sinking while attached to particles can, however, transport Prochlorococcus cells below this sunlit zone, depriving them of light for extended periods of time. Previous work has shown that Prochlorococcus by itself cannot survive extended periods of darkness. However, when co-cultured with a heterotrophic microbe and subjected to repeated periods of extended darkness, Prochlorococcus cells develop an epigenetically inherited dark-tolerant phenotype that can survive longer periods of darkness. Here we examine the metabolic and physiological changes underlying this adaptation using co-cultures of dark-tolerant and parental strains of Prochlorococcus, each grown with the heterotroph Alteromonas under diel light:dark conditions. The relative abundance of Alteromonas was higher in dark-tolerant than parental co-cultures, while dark-tolerant Prochlorococcus cells were larger, contained less chlorophyll, and were less synchronized to the light:dark cycle. Meta-transcriptome analysis revealed that dark-tolerant co-cultures undergo a joint change, in which Prochlorococcus undergoes a relative shift from photosynthesis to respiration, whileAlteromonasshifts toward using more organic acids instead of sugars. Furthermore, the transcriptome data suggested enhanced biosynthesis of amino acids and purines in dark-tolerant Prochlorococcus and enhanced degradation of these compounds in Alteromonas. Collectively, our results demonstrate that dark adaptation involves a strengthening of the metabolic coupling between Prochlorococcus and Alteromonas, presumably mediated by an enhanced, and compositionally modified, carbon exchange between the two species.",
+      "study_type": "meta-transcriptomics",
+      "organism": [
+        "Prochlorococcus",
+        "Alteromonas macleodii"
+      ],
+      "publication_id": "10.1093/ismeco/ycae131"
+    }
   }
 }

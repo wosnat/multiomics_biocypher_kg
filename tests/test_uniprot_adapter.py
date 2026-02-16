@@ -28,9 +28,9 @@ def config_csv(temp_dir):
     """Create a CSV config file with multiple organisms."""
     csv_path = os.path.join(temp_dir, "cyanobacteria_genomes.csv")
     with open(csv_path, "w") as f:
-        f.write("ncbi_accession,cyanorak_organism,ncbi_taxon_id,data_dir\n")
-        f.write("GCF_000011465.1,Pro_MED4,59919,cache/genomes/MED4/\n")
-        f.write("GCF_000015645.1,Pro_AS9601,146891,cache/genomes/AS9601/\n")
+        f.write("ncbi_accession,cyanorak_organism,ncbi_taxon_id,strain_name,data_dir\n")
+        f.write("GCF_000011465.1,Pro_MED4,59919,MED4,cache/genomes/MED4/\n")
+        f.write("GCF_000015645.1,Pro_AS9601,146891,AS9601,cache/genomes/AS9601/\n")
     return csv_path
 
 
@@ -39,8 +39,8 @@ def single_organism_csv(temp_dir):
     """Create a CSV config file with a single organism."""
     csv_path = os.path.join(temp_dir, "single_genome.csv")
     with open(csv_path, "w") as f:
-        f.write("ncbi_accession,cyanorak_organism,ncbi_taxon_id,data_dir\n")
-        f.write("GCF_000011465.1,Pro_MED4,59919,cache/genomes/MED4/\n")
+        f.write("ncbi_accession,cyanorak_organism,ncbi_taxon_id,strain_name,data_dir\n")
+        f.write("GCF_000011465.1,Pro_MED4,59919,MED4,cache/genomes/MED4/\n")
     return csv_path
 
 
@@ -49,7 +49,7 @@ def empty_csv(temp_dir):
     """Create an empty CSV config file (header only)."""
     csv_path = os.path.join(temp_dir, "empty.csv")
     with open(csv_path, "w") as f:
-        f.write("ncbi_accession,cyanorak_organism,ncbi_taxon_id,data_dir\n")
+        f.write("ncbi_accession,cyanorak_organism,ncbi_taxon_id,strain_name,data_dir\n")
     return csv_path
 
 
@@ -58,43 +58,51 @@ def csv_with_comments(temp_dir):
     """Create a CSV config file with commented lines."""
     csv_path = os.path.join(temp_dir, "commented_genomes.csv")
     with open(csv_path, "w") as f:
-        f.write("ncbi_accession,cyanorak_organism,ncbi_taxon_id,data_dir\n")
+        f.write("ncbi_accession,cyanorak_organism,ncbi_taxon_id,strain_name,data_dir\n")
         f.write("# This is a comment\n")
-        f.write("GCF_000011465.1,Pro_MED4,59919,cache/genomes/MED4/\n")
-        f.write("# GCF_000015645.1,Pro_AS9601,146891,cache/genomes/AS9601/\n")
+        f.write("GCF_000011465.1,Pro_MED4,59919,MED4,cache/genomes/MED4/\n")
+        f.write("# GCF_000015645.1,Pro_AS9601,146891,AS9601,cache/genomes/AS9601/\n")
     return csv_path
 
 
 @pytest.fixture
 def mock_uniprot_data():
-    """Mock data that would be returned by Uniprot adapter."""
+    """Mock data that would be returned by Uniprot adapter (assembly-based IDs)."""
     return {
         "protein_nodes": [
             ("uniprot:P12345", "protein", {"length": 100, "organism_id": 59919}),
             ("uniprot:P12346", "protein", {"length": 200, "organism_id": 59919}),
         ],
         "organism_nodes": [
-            ("ncbitaxon:59919", "organism", {"organism_name": "Prochlorococcus marinus"}),
+            ("insdc.gcf:GCF_000011465.1", "organism", {
+                "organism_name": "Prochlorococcus marinus",
+                "strain_name": "MED4",
+                "ncbi_taxon_id": 59919,
+            }),
         ],
         "edges": [
-            (None, "uniprot:P12345", "ncbitaxon:59919", "Protein_belongs_to_organism", {}),
-            (None, "uniprot:P12346", "ncbitaxon:59919", "Protein_belongs_to_organism", {}),
+            (None, "uniprot:P12345", "insdc.gcf:GCF_000011465.1", "Protein_belongs_to_organism", {}),
+            (None, "uniprot:P12346", "insdc.gcf:GCF_000011465.1", "Protein_belongs_to_organism", {}),
         ],
     }
 
 
 @pytest.fixture
 def mock_uniprot_data_2():
-    """Mock data for a second organism."""
+    """Mock data for a second organism (assembly-based IDs)."""
     return {
         "protein_nodes": [
             ("uniprot:Q99999", "protein", {"length": 150, "organism_id": 146891}),
         ],
         "organism_nodes": [
-            ("ncbitaxon:146891", "organism", {"organism_name": "Prochlorococcus marinus AS9601"}),
+            ("insdc.gcf:GCF_000015645.1", "organism", {
+                "organism_name": "Prochlorococcus marinus AS9601",
+                "strain_name": "AS9601",
+                "ncbi_taxon_id": 146891,
+            }),
         ],
         "edges": [
-            (None, "uniprot:Q99999", "ncbitaxon:146891", "Protein_belongs_to_organism", {}),
+            (None, "uniprot:Q99999", "insdc.gcf:GCF_000015645.1", "Protein_belongs_to_organism", {}),
         ],
     }
 
@@ -145,6 +153,32 @@ class TestMultiUniprotConstruction:
         wrapper = MultiUniprot(config_list_file=config_csv, add_prefix=False)
         for adapter in wrapper.adapters:
             assert adapter.add_prefix is False
+
+    def test_assembly_info_passed_to_adapters(self, config_csv):
+        """Each adapter should receive assembly_info with accession and strain_name."""
+        wrapper = MultiUniprot(config_list_file=config_csv)
+        assert len(wrapper.adapters[0].assembly_info) == 1
+        assert wrapper.adapters[0].assembly_info[0]['accession'] == 'GCF_000011465.1'
+        assert wrapper.adapters[0].assembly_info[0]['strain_name'] == 'MED4'
+
+    def test_same_taxid_dedup(self, temp_dir):
+        """Two rows with same taxid create one adapter with both assemblies."""
+        csv_path = os.path.join(temp_dir, "dedup.csv")
+        with open(csv_path, "w") as f:
+            f.write("ncbi_accession,cyanorak_organism,ncbi_taxon_id,strain_name,data_dir\n")
+            f.write("GCF_001077695.1,,28108,MIT1002,cache/MIT1002/\n")
+            f.write("GCF_901457815.2,,28108,EZ55,cache/EZ55/\n")
+
+        wrapper = MultiUniprot(config_list_file=csv_path)
+        # One adapter (deduped by taxid)
+        assert len(wrapper.adapters) == 1
+        assert wrapper.organism_ids == [28108]
+        assert wrapper.adapters[0].organism == 28108
+        # But assembly_info has both assemblies
+        assert len(wrapper.adapters[0].assembly_info) == 2
+        accessions = [info['accession'] for info in wrapper.adapters[0].assembly_info]
+        assert 'GCF_001077695.1' in accessions
+        assert 'GCF_901457815.2' in accessions
 
 
 # ---------------------------------------------------------------------------
@@ -245,7 +279,7 @@ class TestMultiUniprotGetNodes:
         wrapper = MultiUniprot(config_list_file=config_csv)
 
         # Both adapters return the same organism node
-        shared_organism = ("ncbitaxon:59919", "organism", {"organism_name": "Prochlorococcus"})
+        shared_organism = ("insdc.gcf:GCF_000011465.1", "organism", {"organism_name": "Prochlorococcus"})
         wrapper.adapters[0].get_nodes = MagicMock(
             return_value=[
                 ("uniprot:P12345", "protein", {}),
@@ -351,12 +385,12 @@ class TestMultiUniprotRealConfigFormat:
         """Test parsing the actual config file format used in the project."""
         csv_path = os.path.join(temp_dir, "cyanobacteria_genomes.csv")
         with open(csv_path, "w") as f:
-            f.write("ncbi_accession,cyanorak_organism,ncbi_taxon_id,data_dir\n")
-            f.write("GCF_000011465.1,Pro_MED4,59919,cache/data/Prochlorococcus/genomes/MED4/\n")
-            f.write("GCF_000015645.1,Pro_AS9601,146891,cache/data/Prochlorococcus/genomes/AS9601/\n")
-            f.write("GCF_000015965.1,Pro_MIT9301,167546,cache/data/Prochlorococcus/genomes/MIT9301/\n")
-            f.write("# GCF_001989415.1,Pro_RSP50,1924285,cache/data/Prochlorococcus/genomes/RSP50/\n")
-            f.write("GCF_000014585.1,Syn_CC9311,64471,cache/data/Synechococcus/genomes/CC9311/\n")
+            f.write("ncbi_accession,cyanorak_organism,ncbi_taxon_id,strain_name,data_dir\n")
+            f.write("GCF_000011465.1,Pro_MED4,59919,MED4,cache/data/Prochlorococcus/genomes/MED4/\n")
+            f.write("GCF_000015645.1,Pro_AS9601,146891,AS9601,cache/data/Prochlorococcus/genomes/AS9601/\n")
+            f.write("GCF_000015965.1,Pro_MIT9301,167546,MIT9301,cache/data/Prochlorococcus/genomes/MIT9301/\n")
+            f.write("# GCF_001989415.1,Pro_RSP50,1924285,RSP50,cache/data/Prochlorococcus/genomes/RSP50/\n")
+            f.write("GCF_000014585.1,Syn_CC9311,64471,CC9311,cache/data/Synechococcus/genomes/CC9311/\n")
 
         wrapper = MultiUniprot(config_list_file=csv_path)
 
@@ -368,9 +402,9 @@ class TestMultiUniprotRealConfigFormat:
         """Test that both Prochlorococcus and Synechococcus organisms are handled."""
         csv_path = os.path.join(temp_dir, "mixed.csv")
         with open(csv_path, "w") as f:
-            f.write("ncbi_accession,cyanorak_organism,ncbi_taxon_id,data_dir\n")
-            f.write("GCF_000011465.1,Pro_MED4,59919,cache/Pro/MED4/\n")
-            f.write("GCF_000014585.1,Syn_CC9311,64471,cache/Syn/CC9311/\n")
+            f.write("ncbi_accession,cyanorak_organism,ncbi_taxon_id,strain_name,data_dir\n")
+            f.write("GCF_000011465.1,Pro_MED4,59919,MED4,cache/Pro/MED4/\n")
+            f.write("GCF_000014585.1,Syn_CC9311,64471,CC9311,cache/Syn/CC9311/\n")
 
         wrapper = MultiUniprot(config_list_file=csv_path)
 

@@ -353,7 +353,14 @@ class Uniprot:
         id_fields: Optional[Union[list[UniprotIDField], None]] = None,
         add_prefix: Optional[bool] = True,
         test_mode: Optional[bool] = False,
+        assembly_info: Optional[list[dict]] = None,
     ):
+        """
+        Args:
+            assembly_info: Optional list of dicts with keys 'accession', 'strain_name', 'ncbi_taxon_id'.
+                When provided, organism nodes use insdc.gcf:<accession> as ID and
+                protein-to-organism edges target assemblies instead of taxids.
+        """
         model = UniProtModel(
             organism=organism,
             rev=rev,
@@ -385,6 +392,9 @@ class Uniprot:
         )
 
         self.set_id_fields(id_fields=model["id_fields"])
+
+        # Assembly info for assembly-based organism IDs
+        self.assembly_info = assembly_info or []
 
         # loading of ligands and receptors sets
         self.ligands = self._read_ligands_set()
@@ -822,19 +832,24 @@ class Uniprot:
 
         # append organism node to output if desired
         if UniprotNodeType.ORGANISM in self.node_types:
-            node_list.extend([self.get_organism_node(i) for i in self.organism_df['organism_id']])
+            if self.assembly_info:
+                node_list.extend(self._get_assembly_organism_nodes())
+            else:
+                node_list.extend([self.get_organism_node(i) for i in self.organism_df['organism_id']])
 
         return node_list
     
     def get_organism_node(self, organism: str) -> tuple[str, str, dict]:
         """
         Get organism node representation from UniProt data.
+        When assembly_info is set, this is not used directly — see
+        _get_assembly_organism_nodes instead.
         """
         organism_label = "organism"
         organism_id = self.add_prefix_to_id("ncbitaxon",str(organism))
 
         row = self.organism_df.loc[self.organism_df['organism_id'].isin([organism])].squeeze()
-        organism_props = { 
+        organism_props = {
             self._get_biocypher_property_name(k): row[k]
             for k in self.organism_df.columns
         }
@@ -845,6 +860,34 @@ class Uniprot:
         organism_props["version"] = self.data_version
 
         return (organism_id, organism_label, organism_props)
+
+    def _get_assembly_organism_nodes(self) -> list[tuple]:
+        """Create organism nodes keyed by assembly accession (insdc.gcf).
+
+        One node per entry in self.assembly_info.
+        """
+        nodes = []
+        for info in self.assembly_info:
+            accession = info['accession']
+            node_id = self.add_prefix_to_id("insdc.gcf", accession)
+            props = {
+                'strain_name': info.get('strain_name', ''),
+                'ncbi_taxon_id': info.get('ncbi_taxon_id'),
+                'source': self.data_source,
+                'licence': self.data_licence,
+                'version': self.data_version,
+            }
+            # Add organism_name from UniProt data if available
+            if hasattr(self, 'organism_df') and not self.organism_df.empty:
+                org_row = self.organism_df.loc[
+                    self.organism_df['organism_id'] == info.get('ncbi_taxon_id')
+                ]
+                if not org_row.empty:
+                    org_name = org_row.iloc[0].get('organism_name')
+                    if org_name:
+                        props['organism_name'] = org_name
+            nodes.append((node_id, "organism", props))
+        return nodes
     
     @validate_call
     def _get_organism_nodes(self) -> Generator[tuple[str, str, dict]]:
@@ -859,7 +902,9 @@ class Uniprot:
 
     def _create_edges_of_type(self, edge_model: UniprotEdgeModel):
         """
-        Create edges of a specific type from UniProt data.        
+        Create edges of a specific type from UniProt data.
+        For PROTEIN_TO_ORGANISM with assembly_info, creates edges to each
+        assembly accession (insdc.gcf) instead of taxid.
         """
 
         # create lists of edges
@@ -872,29 +917,53 @@ class Uniprot:
             "version": self.data_version,
         }
         if (edge_model.edge_type in self.edge_types) and (edge_model.uniprot_field.value in self.data.keys()):
+            # Special handling for PROTEIN_TO_ORGANISM when assembly_info is set
+            use_assembly = (
+                edge_model.edge_type == UniprotEdgeType.PROTEIN_TO_ORGANISM
+                and self.assembly_info
+            )
+
             for protein, targets in tqdm(self.data[edge_model.uniprot_field.value].items(), desc=f"Getting {edge_model.edge_type.name} edges"):
-                
+
                 if targets is None or targets == "":
                     continue
                 targets = self._ensure_iterable(targets)
                 protein_id = self.add_prefix_to_id("uniprot", protein)
-                for target in targets:
-                    if not target:
-                        continue
 
-                    target_id = self.add_prefix_to_id(
-                        edge_model.target_prefix,
-                        str(target), # needed for fields that are integers
-                    )
-                    edge_list.append(
-                        (
-                            None,
-                            protein_id,
-                            target_id,
-                            edge_model.edge_label,
-                            properties,
+                if use_assembly:
+                    # Create one edge per assembly accession
+                    for info in self.assembly_info:
+                        target_id = self.add_prefix_to_id(
+                            "insdc.gcf",
+                            info['accession'],
                         )
-                    )
+                        edge_list.append(
+                            (
+                                None,
+                                protein_id,
+                                target_id,
+                                edge_model.edge_label,
+                                properties,
+                            )
+                        )
+                else:
+                    for target in targets:
+                        if not target:
+                            continue
+
+                        target_id = self.add_prefix_to_id(
+                            edge_model.target_prefix,
+                            str(target), # needed for fields that are integers
+                        )
+                        edge_list.append(
+                            (
+                                None,
+                                protein_id,
+                                target_id,
+                                edge_model.edge_label,
+                                properties,
+                            )
+                        )
         return edge_list
     
 
@@ -1334,19 +1403,28 @@ class Uniprot:
 
 class MultiUniprot:
     """Wrapper that reads a CSV file listing organisms and runs the Uniprot
-    adapter for each organism."""
+    adapter for each unique taxid.  Multiple assemblies sharing the same
+    taxid are grouped so that a single download covers all of them, while
+    protein-to-organism edges fan out to every assembly."""
 
     def __init__(self, config_list_file: str, **kwargs):
         """
         Args:
             config_list_file: Path to a CSV file with columns:
-                ncbi_accession, cyanorak_organism, ncbi_taxon_id, data_dir
-                The ncbi_taxon_id column is used as the organism parameter.
+                ncbi_accession, cyanorak_organism, ncbi_taxon_id, strain_name, data_dir
                 Lines starting with # are treated as comments and skipped.
+                One Uniprot adapter is created per *unique* ncbi_taxon_id.
+                Assembly info (accession, strain_name) is passed through so
+                organism nodes use insdc.gcf IDs.
             **kwargs: Additional arguments passed to each Uniprot adapter.
         """
         self.adapters = []
         self.organism_ids = []
+
+        # Build taxid -> [assembly_info] mapping, deduplicating by taxid
+        from collections import OrderedDict
+        taxid_to_assemblies: dict[int, list[dict]] = OrderedDict()
+
         with open(config_list_file, 'r') as f:
             # Filter out comment lines (starting with #) before parsing CSV
             lines = [line for line in f if not line.strip().startswith('#')]
@@ -1354,13 +1432,28 @@ class MultiUniprot:
 
             for row in reader:
                 organism_id = int(row['ncbi_taxon_id'])
-                self.organism_ids.append(organism_id)
-                adapter = Uniprot(
-                    organism=organism_id,
-                    **kwargs,
-                )
-                self.adapters.append(adapter)
-        logger.info(f"Loaded {len(self.adapters)} organism configs from {config_list_file}")
+                info = {
+                    'accession': row['ncbi_accession'],
+                    'strain_name': row.get('strain_name') or '',
+                    'ncbi_taxon_id': organism_id,
+                }
+                taxid_to_assemblies.setdefault(organism_id, []).append(info)
+
+        # Create one adapter per unique taxid, passing all assembly info
+        for organism_id, assembly_list in taxid_to_assemblies.items():
+            self.organism_ids.append(organism_id)
+            adapter = Uniprot(
+                organism=organism_id,
+                assembly_info=assembly_list,
+                **kwargs,
+            )
+            self.adapters.append(adapter)
+
+        logger.info(
+            f"Loaded {len(self.adapters)} unique organism(s) "
+            f"({sum(len(v) for v in taxid_to_assemblies.values())} assemblies) "
+            f"from {config_list_file}"
+        )
 
     def download_uniprot_data(self, **kwargs):
         """Download UniProt data for all organisms."""

@@ -74,6 +74,7 @@ publication:
           organism: "Alteromonas macleodii EZ55"
           treatment_organism: "Prochlorococcus MIT9312"
           treatment_taxid: 74547
+          treatment_assembly_accession: GCF_000011485.1
           name_col: symbol
           logfc_col: logFC
           adjusted_p_value_col: PValue
@@ -114,6 +115,7 @@ publication:
           organism: "Alteromonas macleodii EZ55"
           treatment_organism: "Synechococcus WH8102"
           treatment_taxid: 84588
+          treatment_assembly_accession: GCF_000195975.1
           name_col: symbol
           logfc_col: logFC
           adjusted_p_value_col: PValue
@@ -134,6 +136,7 @@ publication:
           organism: "Alteromonas macleodii EZ55"
           treatment_organism: "Prochlorococcus MIT9312"
           treatment_taxid: 74547
+          treatment_assembly_accession: GCF_000011485.1
           name_col: symbol
           logfc_col: logFC
           adjusted_p_value_col: PValue
@@ -174,6 +177,7 @@ publication:
           organism: "Alteromonas macleodii EZ55"
           treatment_organism: "Synechococcus WH8102"
           treatment_taxid: 84588
+          treatment_assembly_accession: GCF_000195975.1
           name_col: symbol
           logfc_col: logFC
           adjusted_p_value_col: PValue

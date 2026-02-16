@@ -121,6 +121,8 @@ class CyanorakNcbi:
         ncbi_accession: str = None,
         cyanorak_organism: str = None,
         data_dir: str = None,
+        strain_name: str = None,
+        ncbi_taxon_id: int = None,
     ):
 
         model = GeneModel(
@@ -145,6 +147,8 @@ class CyanorakNcbi:
         self.ncbi_accession = ncbi_accession
         self.cyanorak_organism = cyanorak_organism
         self.data_dir = data_dir
+        self.strain_name = strain_name
+        self.ncbi_taxon_id = ncbi_taxon_id
 
         # no need becuase we are not creating protein to ec edges here
         # if model["organism"] in ("*", None):
@@ -345,14 +349,38 @@ class CyanorakNcbi:
         logger.info(f"Finished writing {len(node_list)} cyanorak cluster nodes")
         return node_list
 
+    def _get_organism_node(self) -> list[tuple]:
+        """Generate organism node for this assembly.
+
+        Returns:
+            List with a single tuple: (node_id, label, properties_dict)
+        """
+        if not self.ncbi_accession:
+            return []
+
+        node_id = self.add_prefix_to_id(
+            prefix="insdc.gcf",
+            identifier=self.ncbi_accession,
+        )
+        properties = {}
+        if self.strain_name:
+            properties['strain_name'] = self.strain_name
+            properties['organism_name'] = self.strain_name
+        if self.ncbi_taxon_id is not None:
+            properties['ncbi_taxon_id'] = self.ncbi_taxon_id
+
+        logger.info(f"Created organism node {node_id} (strain: {self.strain_name})")
+        return [(node_id, "organism", properties)]
+
     @validate_call
     def get_nodes(self) -> list[tuple]:
-        """Generate all nodes (genes and clusters).
+        """Generate all nodes (genes, clusters, and organism).
 
         Returns:
             List of tuples: (node_id, label, properties_dict)
         """
         node_list = []
+        node_list.extend(self._get_organism_node())
         node_list.extend(self._get_gene_nodes())
         node_list.extend(self._get_cluster_nodes())
         return node_list
@@ -726,10 +754,15 @@ class MultiCyanorakNcbi:
                     cyanorak_org = row.get('cyanorak_organism') or None
                     if cyanorak_org and cyanorak_org.strip() == '':
                         cyanorak_org = None
+                    # Parse ncbi_taxon_id if present
+                    taxon_id_str = row.get('ncbi_taxon_id')
+                    ncbi_taxon_id = int(taxon_id_str) if taxon_id_str else None
                     adapter = CyanorakNcbi(
                         ncbi_accession=row['ncbi_accession'],
                         cyanorak_organism=cyanorak_org,
                         data_dir=row.get('data_dir') or None,
+                        strain_name=row.get('strain_name') or None,
+                        ncbi_taxon_id=ncbi_taxon_id,
                         **kwargs,
                     )
                 else:

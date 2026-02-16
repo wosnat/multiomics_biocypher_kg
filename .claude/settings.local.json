@@ -8,7 +8,8 @@
       "WebFetch(domain:www.ncbi.nlm.nih.gov)",
       "Skill(check-gene-ids)",
       "Skill(check-gene-ids:*)",
-      "Bash(grep:*)"
+      "Bash(grep:*)",
+      "Bash(python -m pytest:*)"
     ]
   }
 }

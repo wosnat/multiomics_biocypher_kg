@@ -1,19 +1,19 @@
-ncbi_accession,cyanorak_organism,ncbi_taxon_id,data_dir
-GCF_000011465.1,Pro_MED4,59919,cache/data/Prochlorococcus/genomes/MED4/
-GCF_000015645.1,Pro_AS9601,146891,cache/data/Prochlorococcus/genomes/AS9601/
-GCF_000015965.1,Pro_MIT9301,167546,cache/data/Prochlorococcus/genomes/MIT9301/
-GCF_000012645.1,Pro_MIT9312,74546,cache/data/Prochlorococcus/genomes/MIT9312/
-GCF_000011485.1,Pro_MIT9313,74547,cache/data/Prochlorococcus/genomes/MIT9313/
-GCF_000015685.1,Pro_NATL1A,167555,cache/data/Prochlorococcus/genomes/NATL1A/
-GCF_000012465.1,Pro_NATL2A,59920,cache/data/Prochlorococcus/genomes/NATL2A/
+ncbi_accession,cyanorak_organism,ncbi_taxon_id,strain_name,data_dir
+GCF_000011465.1,Pro_MED4,59919,MED4,cache/data/Prochlorococcus/genomes/MED4/
+GCF_000015645.1,Pro_AS9601,146891,AS9601,cache/data/Prochlorococcus/genomes/AS9601/
+GCF_000015965.1,Pro_MIT9301,167546,MIT9301,cache/data/Prochlorococcus/genomes/MIT9301/
+GCF_000012645.1,Pro_MIT9312,74546,MIT9312,cache/data/Prochlorococcus/genomes/MIT9312/
+GCF_000011485.1,Pro_MIT9313,74547,MIT9313,cache/data/Prochlorococcus/genomes/MIT9313/
+GCF_000015685.1,Pro_NATL1A,167555,NATL1A,cache/data/Prochlorococcus/genomes/NATL1A/
+GCF_000012465.1,Pro_NATL2A,59920,NATL2A,cache/data/Prochlorococcus/genomes/NATL2A/
 # no cyanorak entry for RSP50, but used in Biller 2015, Biller 2016, Biller 2018, Coe 2024
-GCF_001989415.1,,1924285,cache/data/Prochlorococcus/genomes/RSP50/
-GCF_000014585.1,Syn_CC9311,64471,cache/data/Synechococcus/genomes/CC9311/
-GCF_000195975.1,Syn_WH8102,84588,cache/data/Synechococcus/genomes/WH8102/
+GCF_001989415.1,,1924285,RSP50,cache/data/Prochlorococcus/genomes/RSP50/
+GCF_000014585.1,Syn_CC9311,64471,CC9311,cache/data/Synechococcus/genomes/CC9311/
+GCF_000195975.1,Syn_WH8102,84588,WH8102,cache/data/Synechococcus/genomes/WH8102/
 # Alteromonas strains (NCBI-only, no Cyanorak entry)
 # MIT1002: GenBank JXRW01000000, used in Biller 2016, Biller 2018, Coe 2024
-GCF_001077695.1,,28108,cache/data/Alteromonas/genomes/MIT1002/
+GCF_001077695.1,,28108,MIT1002,cache/data/Alteromonas/genomes/MIT1002/
 # EZ55: IMG 2785510739, used in Barreto 2022, Hennon 2017. TODO: verify NCBI accession
 # from the page: https://www.ncbi.nlm.nih.gov/datasets/genome/?taxon=28108&search_text=EZ55
 # 2 options: GCF_901457815.2, GCF_041107515.1
-GCF_901457815.2,,28108,cache/data/Alteromonas/genomes/EZ55/
+GCF_901457815.2,,28108,EZ55,cache/data/Alteromonas/genomes/EZ55/

@@ -72,6 +72,7 @@ def sample_config(temp_data_dir, sample_de_data):
                             'organism': 'Prochlorococcus MED4',
                             'treatment_organism': 'Alteromonas macleodii',
                             'treatment_taxid': 28108,
+                            'treatment_assembly_accession': 'GCF_001077695.1',
                             'name_col': 'Synonym',
                             'logfc_col': 'log2_fold_change',
                             'adjusted_p_value_col': 'adjusted_p_value',
@@ -142,13 +143,17 @@ class TestOrganismNodeCreation:
         org_node = organism_nodes[0]
         node_id, label, properties = org_node
 
-        # Check node ID uses ncbitaxon prefix
-        assert 'ncbitaxon:28108' in node_id.lower() or '28108' in node_id, \
-            f"Expected organism node ID to contain taxid 28108, got {node_id}"
+        # Check node ID uses insdc.gcf prefix (assembly accession)
+        assert 'insdc.gcf' in node_id.lower() or 'GCF_001077695.1' in node_id, \
+            f"Expected organism node ID to use insdc.gcf prefix, got {node_id}"
 
         # Check organism name property
         assert properties.get('organism_name') == 'Alteromonas macleodii', \
             f"Expected organism_name 'Alteromonas macleodii', got {properties.get('organism_name')}"
+
+        # Check ncbi_taxon_id property
+        assert properties.get('ncbi_taxon_id') == 28108, \
+            f"Expected ncbi_taxon_id 28108, got {properties.get('ncbi_taxon_id')}"
 
     def test_no_organism_node_without_treatment_taxid(self, temp_data_dir, sample_de_data):
         """Verify no organism node is created when treatment_taxid is missing."""
@@ -250,6 +255,7 @@ class TestEnvironmentalConditionNodeCreation:
                                 'organism': 'Prochlorococcus MED4',
                                 'treatment_organism': 'Alteromonas macleodii',
                                 'treatment_taxid': 28108,
+                                'treatment_assembly_accession': 'GCF_001077695.1',
                                 'name_col': 'Synonym',
                                 'logfc_col': 'log2_fold_change',
                                 'adjusted_p_value_col': 'adjusted_p_value',
@@ -297,9 +303,9 @@ class TestOrganismToGeneEdges:
 
         for edge in expression_edges:
             _, source_id, target_id, label, properties = edge
-            # Source should be the organism (ncbitaxon:28108)
-            assert 'ncbitaxon' in source_id.lower() or '28108' in source_id, \
-                f"Expected source to be organism taxid, got {source_id}"
+            # Source should be the organism (insdc.gcf:GCF_001077695.1)
+            assert 'insdc.gcf' in source_id.lower() or 'GCF_001077695.1' in source_id, \
+                f"Expected source to use insdc.gcf prefix, got {source_id}"
 
     def test_edge_target_is_gene(self, adapter_with_mock_extracted_data):
         """Verify edge target is a gene."""
@@ -546,6 +552,8 @@ class TestEnvConditionToGeneEdges:
             _, source_id, target_id, label, properties = edge
             assert 'ncbitaxon' not in source_id.lower(), \
                 f"Expected no organism source when env condition is specified, got {source_id}"
+            assert 'insdc.gcf' not in source_id.lower(), \
+                f"Expected no assembly source when env condition is specified, got {source_id}"
 
 
 class TestSkipRowsWithMissingFoldChange:
@@ -584,6 +592,7 @@ class TestSkipRowsWithMissingFoldChange:
                                 'organism': 'Prochlorococcus MED4',
                                 'treatment_organism': 'Alteromonas macleodii',
                                 'treatment_taxid': 28108,
+                                'treatment_assembly_accession': 'GCF_001077695.1',
                                 'name_col': 'Synonym',
                                 'logfc_col': 'log2_fold_change',
                                 'adjusted_p_value_col': 'adjusted_p_value',
@@ -667,6 +676,7 @@ class TestSkipRows:
                                 'organism': 'Prochlorococcus NATL2A',
                                 'treatment_organism': 'Alteromonas macleodii',
                                 'treatment_taxid': 28108,
+                                'treatment_assembly_accession': 'GCF_001077695.1',
                                 'name_col': 'Gene_ID',
                                 'logfc_col': 'log2FC',
                                 'adjusted_p_value_col': None,
@@ -730,6 +740,7 @@ class TestSkipRows:
                                 'id': 'test_no_skip_rows',
                                 'treatment_organism': 'Alteromonas macleodii',
                                 'treatment_taxid': 28108,
+                                'treatment_assembly_accession': 'GCF_001077695.1',
                                 'name_col': 'Gene_ID',
                                 'logfc_col': 'log2FC',
                                 'adjusted_p_value_col': None,
@@ -793,6 +804,7 @@ class TestPvalueAsteriskInLogfc:
                                 'organism': 'Prochlorococcus NATL2A',
                                 'treatment_organism': 'Alteromonas macleodii',
                                 'treatment_taxid': 28108,
+                                'treatment_assembly_accession': 'GCF_001077695.1',
                                 'name_col': 'Gene_ID',
                                 'logfc_col': 'log2FC',
                                 'adjusted_p_value_col': None,
@@ -885,6 +897,7 @@ class TestPvalueAsteriskInLogfc:
                                 'id': 'test_no_asterisk',
                                 'treatment_organism': 'Alteromonas macleodii',
                                 'treatment_taxid': 28108,
+                                'treatment_assembly_accession': 'GCF_001077695.1',
                                 'name_col': 'Gene_ID',
                                 'logfc_col': 'log2FC',
                                 'adjusted_p_value_col': None,
@@ -1103,9 +1116,9 @@ class TestMultiOMICSAdapter:
     def two_config_list(self, temp_data_dir):
         """Create two separate paperconfig.yaml files and a list file pointing to them."""
         configs = []
-        for i, (paper, organism, taxid) in enumerate([
-            ('Paper A 2024', 'Alteromonas macleodii', 28108),
-            ('Paper B 2024', 'Synechococcus sp.', 32049),
+        for i, (paper, organism, taxid, accession) in enumerate([
+            ('Paper A 2024', 'Alteromonas macleodii', 28108, 'GCF_001077695.1'),
+            ('Paper B 2024', 'Synechococcus sp.', 32049, 'GCF_000032049.1'),
         ]):
             # Create data file for this config
             data_file = os.path.join(temp_data_dir, f'de_genes_{i}.csv')
@@ -1132,6 +1145,7 @@ class TestMultiOMICSAdapter:
                                     'organism': 'Prochlorococcus MED4',
                                     'treatment_organism': organism,
                                     'treatment_taxid': taxid,
+                                    'treatment_assembly_accession': accession,
                                     'name_col': 'Synonym',
                                     'logfc_col': 'log2_fold_change',
                                     'adjusted_p_value_col': 'adjusted_p_value',

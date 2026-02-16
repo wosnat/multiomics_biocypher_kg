@@ -689,6 +689,87 @@ class TestGetNodes:
 
 
 # ---------------------------------------------------------------------------
+# Tests: organism node creation
+# ---------------------------------------------------------------------------
+
+
+class TestOrganismNode:
+    """Test organism node creation via _get_organism_node."""
+
+    def test_no_organism_node_without_accession(self, adapter_with_data):
+        """Adapter without ncbi_accession should not produce an organism node."""
+        nodes = adapter_with_data.get_nodes()
+        organism_nodes = [n for n in nodes if n[1] == "organism"]
+        assert len(organism_nodes) == 0
+
+    def test_organism_node_with_accession(self, adapter_with_data):
+        """Adapter with ncbi_accession should produce an organism node via get_nodes."""
+        # Set accession info after download to test organism node creation
+        # (setting before download would trigger the network download path)
+        adapter_with_data.ncbi_accession = "GCF_000011465.1"
+        adapter_with_data.strain_name = "MED4"
+        adapter_with_data.ncbi_taxon_id = 59919
+        nodes = adapter_with_data.get_nodes()
+        organism_nodes = [n for n in nodes if n[1] == "organism"]
+        assert len(organism_nodes) == 1
+
+    def test_organism_node_id_uses_insdc_gcf_prefix(self, adapter_with_data):
+        """Organism node ID should use insdc.gcf prefix."""
+        adapter_with_data.ncbi_accession = "GCF_000011465.1"
+        adapter_with_data.strain_name = "MED4"
+        adapter_with_data.ncbi_taxon_id = 59919
+        nodes = adapter_with_data.get_nodes()
+        organism_nodes = [n for n in nodes if n[1] == "organism"]
+        node_id, _, _ = organism_nodes[0]
+        assert "insdc.gcf" in node_id
+        assert "GCF_000011465.1" in node_id
+
+    def test_organism_node_properties(self, adapter_with_data):
+        """Organism node should have strain_name, organism_name, ncbi_taxon_id."""
+        adapter_with_data.ncbi_accession = "GCF_000011465.1"
+        adapter_with_data.strain_name = "MED4"
+        adapter_with_data.ncbi_taxon_id = 59919
+        nodes = adapter_with_data.get_nodes()
+        organism_nodes = [n for n in nodes if n[1] == "organism"]
+        _, _, props = organism_nodes[0]
+        assert props['strain_name'] == 'MED4'
+        assert props['organism_name'] == 'MED4'
+        assert props['ncbi_taxon_id'] == 59919
+
+    def test_organism_node_minimal_properties(self, adapter_with_data):
+        """Organism node with only ncbi_accession (no strain/taxid) has empty properties."""
+        adapter_with_data.ncbi_accession = "GCF_TEST"
+        nodes = adapter_with_data.get_nodes()
+        organism_nodes = [n for n in nodes if n[1] == "organism"]
+        assert len(organism_nodes) == 1
+        _, _, props = organism_nodes[0]
+        assert 'strain_name' not in props
+        assert 'ncbi_taxon_id' not in props
+
+    def test_get_organism_node_directly(self):
+        """Test _get_organism_node method directly."""
+        adapter = CyanorakNcbi(
+            ncbi_accession="GCF_000011465.1",
+            strain_name="MED4",
+            ncbi_taxon_id=59919,
+        )
+        nodes = adapter._get_organism_node()
+        assert len(nodes) == 1
+        node_id, label, props = nodes[0]
+        assert label == "organism"
+        assert "insdc.gcf" in node_id
+        assert "GCF_000011465.1" in node_id
+        assert props['strain_name'] == 'MED4'
+        assert props['ncbi_taxon_id'] == 59919
+
+    def test_get_organism_node_returns_empty_without_accession(self):
+        """_get_organism_node returns empty list when no ncbi_accession."""
+        adapter = CyanorakNcbi()
+        nodes = adapter._get_organism_node()
+        assert nodes == []
+
+
+# ---------------------------------------------------------------------------
 # Tests: get_edges
 # ---------------------------------------------------------------------------
 
@@ -1192,11 +1273,13 @@ class TestDownloadFromAccession:
             )
             adapter.download_data(cache=False)
             nodes = adapter.get_nodes()
-            # 3 genes + 3 clusters = 6 nodes
+            # 3 genes + 3 clusters + 1 organism = 7 nodes
             gene_nodes = [n for n in nodes if n[1] == "gene"]
             cluster_nodes = [n for n in nodes if n[1] == "cyanorak_cluster"]
+            organism_nodes = [n for n in nodes if n[1] == "organism"]
             assert len(gene_nodes) == 3
             assert len(cluster_nodes) == 3
+            assert len(organism_nodes) == 1
             all_ids = [n[0] for n in nodes]
             assert any("PMM0001" in nid for nid in all_ids)
 
@@ -1311,9 +1394,9 @@ class TestMultiCyanorakNcbiAccessionFormat:
     def accession_csv(self, temp_data_dir):
         csv_path = os.path.join(temp_data_dir, "genomes.csv")
         with open(csv_path, "w") as f:
-            f.write("ncbi_accession,cyanorak_organism,data_dir\n")
-            f.write(f"GCF_TEST1,Pro_TEST1,{temp_data_dir}/genome1\n")
-            f.write(f"GCF_TEST2,Pro_TEST2,{temp_data_dir}/genome2\n")
+            f.write("ncbi_accession,cyanorak_organism,ncbi_taxon_id,strain_name,data_dir\n")
+            f.write(f"GCF_TEST1,Pro_TEST1,59919,Strain1,{temp_data_dir}/genome1\n")
+            f.write(f"GCF_TEST2,Pro_TEST2,99999,Strain2,{temp_data_dir}/genome2\n")
         return csv_path
 
     def test_loads_accession_based_adapters(self, accession_csv):
@@ -1321,8 +1404,12 @@ class TestMultiCyanorakNcbiAccessionFormat:
         assert len(wrapper.adapters) == 2
         assert wrapper.adapters[0].ncbi_accession == "GCF_TEST1"
         assert wrapper.adapters[0].cyanorak_organism == "Pro_TEST1"
+        assert wrapper.adapters[0].strain_name == "Strain1"
+        assert wrapper.adapters[0].ncbi_taxon_id == 59919
         assert wrapper.adapters[1].ncbi_accession == "GCF_TEST2"
         assert wrapper.adapters[1].cyanorak_organism == "Pro_TEST2"
+        assert wrapper.adapters[1].strain_name == "Strain2"
+        assert wrapper.adapters[1].ncbi_taxon_id == 99999
 
     def test_data_dir_passed_to_adapters(self, accession_csv, temp_data_dir):
         wrapper = MultiCyanorakNcbi(config_list_file=accession_csv)
@@ -1346,8 +1433,8 @@ class TestMultiCyanorakNcbiAccessionFormat:
     def accession_csv_empty_data_dir(self, temp_data_dir):
         csv_path = os.path.join(temp_data_dir, "genomes_no_dir.csv")
         with open(csv_path, "w") as f:
-            f.write("ncbi_accession,cyanorak_organism,data_dir\n")
-            f.write("GCF_TEST1,Pro_TEST1,\n")
+            f.write("ncbi_accession,cyanorak_organism,ncbi_taxon_id,strain_name,data_dir\n")
+            f.write("GCF_TEST1,Pro_TEST1,59919,Strain1,\n")
         return csv_path
 
     def test_empty_data_dir_sets_none(self, accession_csv_empty_data_dir):
@@ -1574,12 +1661,12 @@ class TestMultiCyanorakNcbiMixedMode:
         g1 = os.path.join(mixed_genome_dir, "genome1")
         g2 = os.path.join(mixed_genome_dir, "genome2")
         with open(csv_path, "w") as f:
-            f.write("ncbi_accession,cyanorak_organism,data_dir\n")
+            f.write("ncbi_accession,cyanorak_organism,ncbi_taxon_id,strain_name,data_dir\n")
             # Genome 1 has cyanorak_organism, but we use pre-existing files
             # so we override file paths manually
-            f.write(f"GCF_TEST1,Pro_TEST1,{g1}\n")
+            f.write(f"GCF_TEST1,Pro_TEST1,59919,TestStrain1,{g1}\n")
             # Genome 2 has empty cyanorak_organism (NCBI-only)
-            f.write(f"GCF_TEST2,,{g2}\n")
+            f.write(f"GCF_TEST2,,99999,TestStrain2,{g2}\n")
         return csv_path
 
     def test_mixed_legacy_loads_both(self, mixed_legacy_csv):

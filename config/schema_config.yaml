@@ -204,10 +204,12 @@ protein:
   
 organism taxon:
   represented_as: node
-  preferred_id: ncbitaxon
+  preferred_id: insdc.gcf
   label_in_input: organism
   properties:
     organism_name: str
+    strain_name: str
+    ncbi_taxon_id: int
 
 environmental condition:
   is_a: EnvironmentalFeature
