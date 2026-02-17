@@ -3,10 +3,12 @@ Tests for the OMICS adapter organism to gene expression association edges.
 
 Tests verify that the adapter correctly creates:
 1. Publication nodes (with study metadata merged in)
-2. Organism nodes from treatment_organism and treatment_taxid
-3. Environmental condition nodes from environmental_conditions section
-4. affects_expression_of edges from organism → gene
-5. Correct edge properties (log2FC, p-value, direction, experimental_context, etc.)
+2. Environmental condition nodes from environmental_conditions section
+3. affects_expression_of edges from organism → gene
+4. Correct edge properties (log2FC, p-value, direction, experimental_context, etc.)
+
+Note: Organism nodes are created by the CyanorakNcbi adapter (single source of truth).
+The OMICS adapter only references organism IDs in edges; it does not create organism nodes.
 """
 
 import pytest
@@ -128,40 +130,25 @@ class TestPublicationNodeCreation:
 
 
 class TestOrganismNodeCreation:
-    """Test that organism nodes are created correctly."""
+    """Test that OMICS adapter does NOT create organism nodes.
 
-    def test_organism_node_created_from_treatment_taxid(self, adapter_with_mock_extracted_data):
-        """Verify organism node is created with correct taxid."""
+    Organism nodes are created by the CyanorakNcbi adapter (single source of truth).
+    """
+
+    def test_no_organism_nodes_from_omics(self, adapter_with_mock_extracted_data):
+        """Verify OMICS adapter does not create organism nodes."""
         adapter = adapter_with_mock_extracted_data
         nodes = adapter.get_nodes()
 
-        # Find organism nodes
         organism_nodes = [n for n in nodes if n[1] == 'organism']
+        assert len(organism_nodes) == 0, \
+            "OMICS adapter should not create organism nodes (CyanorakNcbi is the single source)"
 
-        assert len(organism_nodes) == 1, "Expected exactly one organism node"
-
-        org_node = organism_nodes[0]
-        node_id, label, properties = org_node
-
-        # Check node ID uses insdc.gcf prefix (assembly accession)
-        assert 'insdc.gcf' in node_id.lower() or 'GCF_001077695.1' in node_id, \
-            f"Expected organism node ID to use insdc.gcf prefix, got {node_id}"
-
-        # Check organism name property
-        assert properties.get('organism_name') == 'Alteromonas macleodii', \
-            f"Expected organism_name 'Alteromonas macleodii', got {properties.get('organism_name')}"
-
-        # Check ncbi_taxon_id property
-        assert properties.get('ncbi_taxon_id') == 28108, \
-            f"Expected ncbi_taxon_id 28108, got {properties.get('ncbi_taxon_id')}"
-
-    def test_no_organism_node_without_treatment_taxid(self, temp_data_dir, sample_de_data):
-        """Verify no organism node is created when treatment_taxid is missing."""
-        # Save sample DE data
+    def test_no_organism_nodes_without_treatment_taxid(self, temp_data_dir, sample_de_data):
+        """Verify no organism node is created regardless of config."""
         data_file = os.path.join(temp_data_dir, 'de_genes.csv')
         sample_de_data.to_csv(data_file, index=False)
 
-        # Config without treatment_taxid
         config = {
             'publication': {
                 'papername': 'Test Publication 2024',
@@ -176,7 +163,6 @@ class TestOrganismNodeCreation:
                                 'id': 'test_de_analysis',
                                 'test_type': 'DESeq2',
                                 'organism': 'Prochlorococcus MED4',
-                                # No treatment_organism or treatment_taxid
                                 'name_col': 'Synonym',
                                 'logfc_col': 'log2_fold_change',
                                 'adjusted_p_value_col': 'adjusted_p_value',
@@ -198,8 +184,7 @@ class TestOrganismNodeCreation:
 
         nodes = adapter.get_nodes()
         organism_nodes = [n for n in nodes if n[1] == 'organism']
-
-        assert len(organism_nodes) == 0, "No organism node should be created without treatment_taxid"
+        assert len(organism_nodes) == 0
 
 
 class TestEnvironmentalConditionNodeCreation:
@@ -1046,8 +1031,8 @@ class TestEdgeWithRealData:
         """Path to real config file."""
         return 'data/Prochlorococcus/papers_and_supp/Aharonovich 2016/paperconfig.yaml'
 
-    def test_real_config_creates_organism_nodes(self, real_config_path):
-        """Test with real Aharonovich 2016 config."""
+    def test_real_config_no_organism_nodes(self, real_config_path):
+        """OMICS adapter should not create organism nodes (CyanorakNcbi handles that)."""
         if not os.path.exists(real_config_path):
             pytest.skip("Real config file not found")
 
@@ -1056,14 +1041,8 @@ class TestEdgeWithRealData:
 
         nodes = adapter.get_nodes()
         organism_nodes = [n for n in nodes if n[1] == 'organism']
-
-        # Should have at least one organism node for Alteromonas
-        assert len(organism_nodes) >= 1, "Expected at least one organism node"
-
-        # Check for Alteromonas taxid
-        org_ids = [n[0] for n in organism_nodes]
-        has_alteromonas = any('28108' in str(oid) for oid in org_ids)
-        assert has_alteromonas, f"Expected Alteromonas (taxid 28108) in organism nodes, got {org_ids}"
+        assert len(organism_nodes) == 0, \
+            "OMICS adapter should not create organism nodes"
 
     def test_real_config_creates_environmental_condition_nodes(self, real_config_path):
         """Test that real config creates environmental condition nodes."""
@@ -1104,7 +1083,8 @@ class TestEdgeWithRealData:
         _, source_id, target_id, label, properties = first_edge
 
         assert label == 'affects_expression_of'
-        assert 'ncbitaxon' in source_id.lower() or '28108' in source_id
+        assert 'insdc.gcf' in source_id.lower() or 'GCF_001578515.1' in source_id, \
+            f"Expected source to use insdc.gcf prefix (HOT1A3 assembly), got {source_id}"
         assert 'log2_fold_change' in properties
         assert 'expression_direction' in properties
 
@@ -1194,8 +1174,9 @@ class TestMultiOMICSAdapter:
         pub_nodes = [n for n in nodes if n[1] == 'publication']
         assert len(pub_nodes) == 2, f"Expected 2 publication nodes, got {len(pub_nodes)}"
 
+        # OMICS adapter no longer creates organism nodes (CyanorakNcbi handles that)
         organism_nodes = [n for n in nodes if n[1] == 'organism']
-        assert len(organism_nodes) == 2, f"Expected 2 organism nodes, got {len(organism_nodes)}"
+        assert len(organism_nodes) == 0, f"Expected 0 organism nodes from OMICS, got {len(organism_nodes)}"
 
     def test_get_edges_combines_all(self, multi_adapter):
         """Verify get_edges returns edges from all configs."""

@@ -731,16 +731,21 @@ class MultiCyanorakNcbi:
     """Wrapper that reads a CSV file listing cyanobacteria genome file paths
     and delegates to CyanorakNcbi instances."""
 
-    def __init__(self, config_list_file: str, **kwargs):
+    def __init__(self, config_list_file: str, treatment_organisms_file: str = None, **kwargs):
         """
         Args:
             config_list_file: Path to a CSV file with columns:
                 New format: ncbi_accession, cyanorak_organism, data_dir
                 Legacy format: genome_dir, ncbi_gff, cyan_gff, cyan_gbk
                 Lines starting with # are treated as comments and skipped.
+            treatment_organisms_file: Optional path to a CSV file with columns:
+                ncbi_taxon_id, organism_name
+                Creates organism-only nodes (ncbitaxon:<taxid>) for treatment
+                organisms that don't have loaded genomes.
             **kwargs: Additional arguments passed to each CyanorakNcbi.
         """
         self.adapters = []
+        self.treatment_organisms_file = treatment_organisms_file
         with open(config_list_file, 'r') as f:
             # Filter out comment lines (starting with #) before parsing CSV
             lines = [line for line in f if not line.strip().startswith('#')]
@@ -779,6 +784,29 @@ class MultiCyanorakNcbi:
                 self.adapters.append(adapter)
         logger.info(f"Loaded {len(self.adapters)} genome configs from {config_list_file}")
 
+    def _get_treatment_organism_nodes(self) -> list[tuple]:
+        """Create organism nodes from treatment_organisms_file.
+
+        Returns nodes with ID ``ncbitaxon:<taxid>`` for genus-level or
+        non-genome treatment organisms referenced in paperconfigs.
+        """
+        if not self.treatment_organisms_file:
+            return []
+        nodes = []
+        with open(self.treatment_organisms_file, 'r') as f:
+            lines = [line for line in f if not line.strip().startswith('#')]
+            reader = csv.DictReader(lines)
+            for row in reader:
+                taxid = int(row['ncbi_taxon_id'])
+                node_id = f"ncbitaxon:{taxid}"
+                props = {
+                    'organism_name': row.get('organism_name', ''),
+                    'ncbi_taxon_id': taxid,
+                }
+                nodes.append((node_id, "organism", props))
+                logger.info(f"Created treatment organism node {node_id} ({row.get('organism_name', '')})")
+        return nodes
+
     def download_data(self, **kwargs):
         for adapter in self.adapters:
             adapter.download_data(**kwargs)
@@ -787,6 +815,7 @@ class MultiCyanorakNcbi:
         nodes = []
         for adapter in self.adapters:
             nodes.extend(adapter.get_nodes())
+        nodes.extend(self._get_treatment_organism_nodes())
         return nodes
 
     def get_edges(self):

@@ -354,5 +354,50 @@
       ],
       "publication_id": "10.1093/ismeco/ycae131"
     }
+  },
+  "data/Prochlorococcus/papers_and_supp/Biller 2018/biller-et-al-2018-heterotroph-interactions-alter-prochlorococcus-transcriptome-dynamics-during-extended-periods-of.pdf": {
+    "publication": {
+      "title": "Heterotroph interactions alter Prochlorococcus transcriptome dynamics during extended periods of darkness",
+      "authors": [
+        "Steven J. Biller",
+        "Allison Coe",
+        "Sara E. Roggensack",
+        "Sallie W. Chisholm"
+      ],
+      "journal": "mSystems",
+      "publication_year": "2018",
+      "doi": "10.1128/mSystems.00040-18",
+      "pmid": null,
+      "description": "Transcriptome-wide analysis of Prochlorococcus alone and in coculture with Alteromonas macleodii under diel light-dark cycles and extended darkness to investigate biotic influences on transcriptional dynamics and timing.",
+      "abstract": "ABSTRACT Microbes evolve within complex ecological communities where biotic interactions impact both individual cells and the environment as a whole. Here we examine how cellular regulation in the marine cyanobacterium Prochlorococcus is influenced by a heterotrophic bacterium, Alteromonas macleodii, under different light conditions. We monitored the transcriptome of Prochlorococcus, grown either alone or in coculture, across a diel light:dark cycle and under the stress of extended darkness\u2014a condition that cells would experience when mixed below the ocean\u2019s euphotic zone. More Prochlorococcus transcripts exhibited 24-h periodic oscillations in coculture than in pure culture, both over the normal diel cycle and after the shift to extended darkness. This demonstrates that biotic interactions, and not just light, can affect timing mechanisms in Prochlorococcus, which lacks a self-sustaining circadian oscillator. The transcriptomes of replicate pure cultures of Prochlorococcus lost their synchrony within 5 h of extended darkness and reflected changes in stress responses and metabolic functions consistent with growth cessation. In contrast, when grown with Alteromonas, replicate Prochlorococcus transcriptomes tracked each other for at least 13 h in the dark and showed signs of continued biosynthetic and metabolic activity. The transcriptome patterns suggest that the heterotroph may be providing energy or essential biosynthetic substrates to Prochlorococcus in the form of organic compounds, sustaining this autotroph when it is deprived of solar energy. Our findings reveal conditions where mixotrophic metabolism may benefit marine cyanobacteria and highlight new impacts of community interactions on basic Prochlorococcus cellular processes.",
+      "study_type": "RNA-seq / Transcriptomics",
+      "organism": [
+        "Prochlorococcus",
+        "Alteromonas macleodii"
+      ],
+      "publication_id": "10.1128/mSystems.00040-18"
+    }
+  },
+  "data/Prochlorococcus/papers_and_supp/biller 2016/41396_2016_article_bfismej201682.pdf": {
+    "publication": {
+      "title": "Torn apart and reunited: impact of a heterotroph on the transcriptome of Prochlorococcus",
+      "authors": [
+        "Steven J Biller",
+        "Allison Coe",
+        "Sallie W Chisholm"
+      ],
+      "journal": "The ISME Journal",
+      "publication_year": "2016",
+      "doi": "10.1038/ismej.2016.82",
+      "pmid": null,
+      "description": "Transcriptomic analysis comparing Prochlorococcus NATL2A grown in axenic culture versus co-culture with Alteromonas macleodii MIT1002; time-resolved RNA-seq to assess transcriptome changes during early co-culture, revealing waves of transcriptional responses and potential metabolic exchange.",
+      "abstract": "The study investigates how the transcriptome of Prochlorococcus NATL2A responds to the presence of a co-occurring heterotroph, Alteromonas macleodii MIT1002. Prochlorococcus cultures were rejoined with Alteromonas after years of co-culture, and samples were collected for RNA sequencing at 6, 24, and 48 hours. Significant transcriptional changes were observed within 6 hours, with waves of responsive transcripts that persisted through 48 hours, indicating a stable shift in Prochlorococcus physiology. Early changes showed reduced stress-related transcripts (DNA repair enzymes, high light-inducible proteins). Later, transcripts for photosynthetic apparatus, ribosomal proteins, and biosynthetic enzymes changed, suggesting increased export of reduced carbon compounds and metabolic exchange with the heterotroph. Methods included natural seawater-based Pro99 medium, RNALater stabilization, filtration, ribosomal RNA depletion, and strand-specific RNA-seq with a dUTP second-strand approach and duplex-specific normalization.",
+      "study_type": "RNA-seq",
+      "organism": [
+        "Prochlorococcus NATL2A",
+        "Alteromonas macleodii MIT1002"
+      ],
+      "publication_id": "10.1038/ismej.2016.82"
+    }
   }
 }

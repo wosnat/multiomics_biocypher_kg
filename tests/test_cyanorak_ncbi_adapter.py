@@ -1694,3 +1694,99 @@ class TestMultiCyanorakNcbiMixedMode:
         all_ids = [n[0] for n in nodes]
         assert any("PMM" in nid for nid in all_ids)
         assert any("OTH" in nid for nid in all_ids)
+
+
+# ---------------------------------------------------------------------------
+# Tests: Treatment organism nodes
+# ---------------------------------------------------------------------------
+
+
+class TestTreatmentOrganismNodes:
+    """Test that MultiCyanorakNcbi creates organism nodes from treatment_organisms_file."""
+
+    @pytest.fixture
+    def treatment_csv(self, multi_genome_dir):
+        """Create a treatment_organisms.csv file."""
+        csv_path = os.path.join(multi_genome_dir, "treatment_organisms.csv")
+        with open(csv_path, "w") as f:
+            f.write("# Treatment organisms without loaded genomes\n")
+            f.write("ncbi_taxon_id,organism_name\n")
+            f.write("10239,Phage\n")
+            f.write("413470,Marinobacter\n")
+            f.write("191411,Thalassospira\n")
+        return csv_path
+
+    def test_no_treatment_nodes_without_file(self, multi_config_path):
+        """Without treatment_organisms_file, no treatment nodes are created."""
+        wrapper = MultiCyanorakNcbi(config_list_file=multi_config_path)
+        wrapper.download_data()
+        nodes = wrapper.get_nodes()
+        organism_nodes = [n for n in nodes if n[1] == "organism"]
+        # Only genome organisms (no accession set on these test adapters, so 0)
+        for node in organism_nodes:
+            assert "ncbitaxon" not in node[0]
+
+    def test_treatment_nodes_created(self, multi_config_path, treatment_csv):
+        """Treatment organisms CSV creates organism nodes."""
+        wrapper = MultiCyanorakNcbi(
+            config_list_file=multi_config_path,
+            treatment_organisms_file=treatment_csv,
+        )
+        wrapper.download_data()
+        nodes = wrapper.get_nodes()
+        treatment_nodes = [n for n in nodes if n[1] == "organism" and "ncbitaxon" in n[0]]
+        assert len(treatment_nodes) == 3
+
+    def test_treatment_node_ids(self, multi_config_path, treatment_csv):
+        """Treatment organism node IDs use ncbitaxon prefix."""
+        wrapper = MultiCyanorakNcbi(
+            config_list_file=multi_config_path,
+            treatment_organisms_file=treatment_csv,
+        )
+        wrapper.download_data()
+        nodes = wrapper.get_nodes()
+        treatment_nodes = [n for n in nodes if n[1] == "organism" and "ncbitaxon" in n[0]]
+        ids = sorted(n[0] for n in treatment_nodes)
+        assert "ncbitaxon:10239" in ids
+        assert "ncbitaxon:191411" in ids
+        assert "ncbitaxon:413470" in ids
+
+    def test_treatment_node_properties(self, multi_config_path, treatment_csv):
+        """Treatment organism nodes have organism_name and ncbi_taxon_id."""
+        wrapper = MultiCyanorakNcbi(
+            config_list_file=multi_config_path,
+            treatment_organisms_file=treatment_csv,
+        )
+        wrapper.download_data()
+        nodes = wrapper.get_nodes()
+        phage_nodes = [n for n in nodes if n[0] == "ncbitaxon:10239"]
+        assert len(phage_nodes) == 1
+        _, label, props = phage_nodes[0]
+        assert label == "organism"
+        assert props["organism_name"] == "Phage"
+        assert props["ncbi_taxon_id"] == 10239
+
+    def test_treatment_nodes_coexist_with_genome_organisms(self, multi_config_path, treatment_csv):
+        """Treatment nodes are added alongside genome organism nodes."""
+        wrapper = MultiCyanorakNcbi(
+            config_list_file=multi_config_path,
+            treatment_organisms_file=treatment_csv,
+        )
+        # Test _get_treatment_organism_nodes directly
+        treatment_nodes = wrapper._get_treatment_organism_nodes()
+        assert len(treatment_nodes) == 3
+        for node_id, label, props in treatment_nodes:
+            assert label == "organism"
+            assert "ncbitaxon" in node_id
+            assert "organism_name" in props
+            assert "ncbi_taxon_id" in props
+
+    def test_comments_skipped_in_treatment_csv(self, multi_config_path, treatment_csv):
+        """Comment lines in treatment_organisms.csv are skipped."""
+        wrapper = MultiCyanorakNcbi(
+            config_list_file=multi_config_path,
+            treatment_organisms_file=treatment_csv,
+        )
+        nodes = wrapper._get_treatment_organism_nodes()
+        # 3 organisms (comment line is skipped)
+        assert len(nodes) == 3

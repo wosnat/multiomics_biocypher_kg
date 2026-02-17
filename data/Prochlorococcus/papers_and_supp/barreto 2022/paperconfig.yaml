@@ -95,6 +95,7 @@ publication:
           organism: "Alteromonas macleodii EZ55"
           treatment_organism: "Synechococcus CC9311"
           treatment_taxid: 315563
+          treatment_assembly_accession: GCF_000014585.1
           name_col: symbol
           logfc_col: logFC
           adjusted_p_value_col: PValue
@@ -157,6 +158,7 @@ publication:
           organism: "Alteromonas macleodii EZ55"
           treatment_organism: "Synechococcus CC9311"
           treatment_taxid: 315563
+          treatment_assembly_accession: GCF_000014585.1
           name_col: symbol
           logfc_col: logFC
           adjusted_p_value_col: PValue

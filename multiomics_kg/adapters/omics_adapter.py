@@ -242,7 +242,11 @@ class OMICSAdapter:
 
     def get_nodes(self) -> list[tuple]:
         """
-        Generate publication, organism, and environmental condition nodes.
+        Generate publication and environmental condition nodes.
+
+        Organism nodes are created by the CyanorakNcbi adapter (single source
+        of truth).  This adapter only creates publication and environmental
+        condition nodes.
 
         Returns:
             List of (node_id, label, properties) tuples
@@ -264,54 +268,6 @@ class OMICSAdapter:
 
         # Create publication node
         node_list.extend(self.get_publication_nodes())
-
-        # Collect unique treatment organisms from all analyses
-        # Key by assembly accession (preferred) or taxid (fallback)
-        treatment_organisms = {}  # dict: accession_or_taxid -> info dict
-
-        supp_materials = publication.get('supplementary_materials', {})
-        if isinstance(supp_materials, dict):
-            for table_key, table_data in supp_materials.items():
-                if not isinstance(table_data, dict):
-                    continue
-                stat_analyses = table_data.get('statistical_analyses', [])
-                if not isinstance(stat_analyses, list):
-                    continue
-                for stat_analysis in stat_analyses:
-                    if not isinstance(stat_analysis, dict):
-                        continue
-                    treatment_org = stat_analysis.get('treatment_organism')
-                    treatment_accession = stat_analysis.get('treatment_assembly_accession')
-                    treatment_taxid = stat_analysis.get('treatment_taxid')
-                    if treatment_org and treatment_accession:
-                        treatment_organisms[treatment_accession] = {
-                            'organism_name': treatment_org,
-                            'accession': treatment_accession,
-                            'taxid': treatment_taxid,
-                        }
-                    elif treatment_org and treatment_taxid:
-                        logger.warning(
-                            f"No 'treatment_assembly_accession' for {treatment_org} "
-                            f"(taxid {treatment_taxid}). Falling back to taxid-based ID."
-                        )
-                        treatment_organisms[str(treatment_taxid)] = {
-                            'organism_name': treatment_org,
-                            'accession': None,
-                            'taxid': treatment_taxid,
-                        }
-
-        # Create organism nodes for treatment organisms
-        for key, info in treatment_organisms.items():
-            if info['accession']:
-                org_id = self.add_prefix_to_id(prefix="insdc.gcf", identifier=info['accession'])
-            else:
-                org_id = self.add_prefix_to_id(prefix="ncbitaxon", identifier=str(info['taxid']))
-            org_properties = self._get_default_properties()
-            org_properties['organism_name'] = self.clean_text(info['organism_name'])
-            if info.get('taxid'):
-                org_properties['ncbi_taxon_id'] = int(info['taxid'])
-            node_list.append((org_id, 'organism', org_properties))
-            logger.info(f"Created organism node for treatment organism: {info['organism_name']} ({org_id})")
 
         # Create environmental condition nodes from the config
         env_conditions = publication.get('environmental_conditions', {})

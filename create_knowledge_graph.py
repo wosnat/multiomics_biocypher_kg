@@ -47,7 +47,8 @@ def main():
     uniprot_node_types = [
         UniprotNodeType.PROTEIN,
         #UniprotNodeType.GENE,
-        UniprotNodeType.ORGANISM,
+        # Organism nodes are created by CyanorakNcbi adapter (single source of truth)
+        #UniprotNodeType.ORGANISM,
     ]
 
     uniprot_node_fields = [
@@ -129,6 +130,7 @@ def main():
 
     ncbi_cyanorak_adapter = MultiCyanorakNcbi(
         config_list_file='data/Prochlorococcus/genomes/cyanobacteria_genomes.csv',
+        treatment_organisms_file='data/Prochlorococcus/treatment_organisms.csv',
         test_mode=TEST_MODE,
     )
     ncbi_cyanorak_adapter.download_data(cache=CACHE)

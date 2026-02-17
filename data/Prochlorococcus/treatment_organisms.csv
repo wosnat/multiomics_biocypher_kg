@@ -1,0 +1,9 @@
+# Treatment organisms without loaded genomes (genus-level or non-specific)
+# These are used as edge sources in affects_expression_of edges from paperconfigs
+# TODO: "Synthetic heterotroph community" (ziegler 2025) shares Marinobacter taxid 413470 - needs its own identifier scheme
+ncbi_taxon_id,organism_name
+10239,Phage
+413470,Marinobacter
+191411,Thalassospira
+398581,Pseudohoeflea
+28108,Alteromonas
