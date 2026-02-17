@@ -1,4 +1,6 @@
-#!/bin/bash -c
+#!/bin/bash
+set -euo pipefail
+
 cd /usr/app/
 cp -r /src/* .
 cp /src/.env .
@@ -6,7 +8,7 @@ cp config/biocypher_docker_config.yaml config/biocypher_config.yaml
 pip install uv
 uv sync
 # add clean build (set via env variable in docker-compose.yml)
-if [ "${BUILD2NEO_CLEANUP}" == 'yes' ]; then
+if [ "${BUILD2NEO_CLEANUP:-no}" == 'yes' ]; then
         echo "BUILD2NEO_CLEANUP is yes"
         echo "rm -rf /usr/app/data/build2neo"
         rm -rf /usr/app/data/build2neo

@@ -470,6 +470,17 @@ gene to gene orthology association:
     relation_type: str
     oma_orthology_score: float
 
+gene to gene homology association:
+  is_a: association
+  represented_as: edge
+  label_as_edge: gene_is_homolog_of_gene
+  source: gene
+  target: gene
+  label_in_input: gene_is_homolog_of_gene
+  properties:
+    source: str           # e.g., "cyanorak_cluster"
+    cluster_id: str       # the shared cluster ID
+
 
 
 # protein to phenotype association:
