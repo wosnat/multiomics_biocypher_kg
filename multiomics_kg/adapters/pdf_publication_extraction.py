@@ -271,8 +271,8 @@ Return ONLY the JSON object.""")
         Returns:
             Dictionary with publication and study metadata
         """
+        cache_key = str(pdf_path)  # Use original string before Path normalization
         pdf_path = Path(pdf_path)
-        cache_key = str(pdf_path)
 
         # Check cache first
         if cache_key in self.cache:

@@ -24,6 +24,7 @@ services:
     volumes:
       - biocypher_neo4j_volume:/data
       - ./scripts/import.sh:/scripts/import.sh
+      - ./output:/output
     command:
       - /bin/bash
       - /scripts/import.sh
@@ -39,6 +40,7 @@ services:
       - ./scripts/post-import.cypher:/scripts/post-import.cypher
     environment:
       NEO4J_AUTH: none
+      NEO4J_dbms_security_auth__enabled: "false"
       NEO4J_ACCEPT_LICENSE_AGREEMENT: "yes"
     command:
       - /bin/bash

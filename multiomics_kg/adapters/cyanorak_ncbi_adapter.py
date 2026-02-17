@@ -295,6 +295,9 @@ class CyanorakNcbi:
             for field in self.gene_node_fields:
                 value = row.get(field)
                 if not pd.isna(value):
+                    if isinstance(value, (float, int)) and field in ('start', 'end', 'start_cyanorak', 'end_cyanorak'):
+                        node_properties[field] = int(value)
+                        continue
                     if isinstance(value, str):
                         value = unquote(value)
                     value = self.clean_text(value)

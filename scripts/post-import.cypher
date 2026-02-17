@@ -15,5 +15,5 @@
 // Edges are created in BOTH directions (A→B and B→A) so LLM agents can
 // traverse from any gene to all its homologs without directionless patterns.
 MATCH (g1:gene)-[:gene_in_cyanorak_cluster]->(c:cyanorak_cluster)<-[:gene_in_cyanorak_cluster]-(g2:gene)
-WHERE elementId(g1) <> elementId(g2)
+WHERE id(g1) <> id(g2)
 MERGE (g1)-[:gene_is_homolog_of_gene {source: "cyanorak_cluster", cluster_id: c.cluster_number}]->(g2);
