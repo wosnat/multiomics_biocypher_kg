@@ -77,7 +77,9 @@ class PDFPublicationExtractor:
         # claude_sonnet = init_chat_model("anthropic:claude-sonnet-4-5-20250929", temperature=0)
         # gemini_2-5_flash = init_chat_model("google_vertexai:gemini-2.5-flash", temperature=0)
         self.llm = init_chat_model(model=model_name, temperature=temperature)
-        self.cache_file = Path(cache_file) if cache_file else Path("cache/pdf_extraction_cache.json")
+        # Use an absolute path so the cache file location is stable regardless of CWD
+        _default_cache = Path(__file__).parent.parent.parent / "cache" / "pdf_extraction_cache.json"
+        self.cache_file = Path(cache_file) if cache_file else _default_cache
         self.cache = self._load_cache()
         self.id_counter = dict()  # Track IDs for uniqueness: {base_id: count}
         self._setup_extraction_chain()
@@ -124,6 +126,7 @@ Return ONLY the JSON object.""")
     def _save_cache(self):
         """Save extraction cache to JSON file."""
         try:
+            self.cache_file.parent.mkdir(parents=True, exist_ok=True)
             with open(self.cache_file, "w") as f:
                 json.dump(self.cache, f, indent=2, default=str)
         except Exception as e:
@@ -271,7 +274,8 @@ Return ONLY the JSON object.""")
         Returns:
             Dictionary with publication and study metadata
         """
-        cache_key = str(pdf_path)  # Use original string before Path normalization
+        # Normalize to forward slashes so the key is identical on Linux and Windows
+        cache_key = str(pdf_path).replace('\\', '/')
         pdf_path = Path(pdf_path)
 
         # Check cache first

@@ -73,8 +73,8 @@ publication:
           experimental_context: "In Pro99 medium at ambient pCO2 (400 ppm)"
           organism: "Alteromonas macleodii EZ55"
           treatment_organism: "Prochlorococcus MIT9312"
-          treatment_taxid: 74547
-          treatment_assembly_accession: GCF_000011485.1
+          treatment_taxid: 74546
+          treatment_assembly_accession: GCF_000012645.1
           name_col: symbol
           logfc_col: logFC
           adjusted_p_value_col: PValue
@@ -94,7 +94,7 @@ publication:
           experimental_context: "In Pro99 medium at ambient pCO2 (400 ppm)"
           organism: "Alteromonas macleodii EZ55"
           treatment_organism: "Synechococcus CC9311"
-          treatment_taxid: 315563
+          treatment_taxid: 64471
           treatment_assembly_accession: GCF_000014585.1
           name_col: symbol
           logfc_col: logFC
@@ -136,8 +136,8 @@ publication:
           experimental_context: "In Pro99 medium at elevated pCO2 (800 ppm)"
           organism: "Alteromonas macleodii EZ55"
           treatment_organism: "Prochlorococcus MIT9312"
-          treatment_taxid: 74547
-          treatment_assembly_accession: GCF_000011485.1
+          treatment_taxid: 74546
+          treatment_assembly_accession: GCF_000012645.1
           name_col: symbol
           logfc_col: logFC
           adjusted_p_value_col: PValue
@@ -157,7 +157,7 @@ publication:
           experimental_context: "In Pro99 medium at elevated pCO2 (800 ppm)"
           organism: "Alteromonas macleodii EZ55"
           treatment_organism: "Synechococcus CC9311"
-          treatment_taxid: 315563
+          treatment_taxid: 64471
           treatment_assembly_accession: GCF_000014585.1
           name_col: symbol
           logfc_col: logFC

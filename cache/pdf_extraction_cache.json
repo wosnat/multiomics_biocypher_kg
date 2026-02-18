@@ -70,5 +70,54 @@
       ],
       "publication_id": "10.1038/ismej.2016.70"
     }
+  },
+  "data/Prochlorococcus/papers_and_supp/tetu 2019/s42003-019-0410-x.pdf": {
+    "publication": {
+      "title": "Plastic leachates impair growth and oxygen production in Prochlorococcus, the ocean's most abundant photosynthetic bacteria",
+      "authors": [
+        "Sasha G. Tetu",
+        "Indrani Sarker",
+        "Verena Schrameyer",
+        "Russell Pickford",
+        "Liam D.H. Elbourne",
+        "Lisa R. Moore",
+        "Ian T. Paulsen"
+      ],
+      "journal": "Communications Biology",
+      "publication_year": "2019",
+      "doi": "10.1038/s42003-019-0410-x",
+      "pmid": null,
+      "description": "In vitro exposure of two Prochlorococcus strains MIT9312 HLII and NATL2A LLI to leachates from common plastics (HDPE bags and PVC matting) in artificial seawater, assessing growth, photosynthetic efficiency, and genome-wide transcriptional responses.",
+      "abstract": "Two Prochlorococcus strains MIT9312 (HLII) and NATL2A (LLI) were exposed to leachates from HDPE bags and PVC matting in artificial seawater. The study shows dose-dependent impairment of growth and photophysiology (photosystem II quantum yield) and genome-wide transcriptional changes, with strain-specific responses, indicating plastic leachates may alter Prochlorococcus community composition and ocean primary productivity.",
+      "study_type": "Transcriptomics",
+      "organism": [
+        "Prochlorococcus MIT9312",
+        "Prochlorococcus NATL2A"
+      ],
+      "publication_id": "10.1038/s42003-019-0410-x"
+    }
+  },
+  "data/Prochlorococcus/papers_and_supp/steglich 2006/steglich-et-al-2006-genome-wide-analysis-of-light-sensing-in-prochlorococcus.pdf": {
+    "publication": {
+      "title": "Genome-Wide Analysis of Light Sensing in Prochlorococcus/H17188",
+      "authors": [
+        "Claudia Steglich",
+        "Matthias Futschik",
+        "Trent Rector",
+        "Robert Steen",
+        "Sallie W. Chisholm"
+      ],
+      "journal": "Journal of Bacteriology",
+      "publication_year": 2006,
+      "doi": "10.1128/JB.01097-06",
+      "pmid": null,
+      "description": "Genome-wide analysis of light sensing in Prochlorococcus MED4 using high-density Affymetrix microarrays to measure global gene expression in response to different light qualities and quantities; seven conditions tested, with blue light eliciting a strong response; investigation of blue-light sensors and redox signaling related to photosystem II.",
+      "abstract": "Prochlorococcus MED4 has a small genome with limited regulatory systems. The study measured global gene expression under short-term exposure to white, blue, red, and green light and light quantities using microarrays. Blue light triggered the strongest transcriptional response; high-white light response resembled blue light, suggesting blue-light\u2013mediated sensing. Bacterial cryptochromes are proposed as candidate blue-light sensors, and there is evidence for a signaling pathway related to the redox state of the photosynthetic electron transport chain, inferred from genes responding to red and blue light and to the inhibitor DCMU. The work highlights how Prochlorococcus acclimates to varying light environments through transcriptional regulation.",
+      "study_type": "Microarray (transcriptomics)",
+      "organism": [
+        "Prochlorococcus MED4"
+      ],
+      "publication_id": "10.1128/JB.01097-06"
+    }
   }
 }

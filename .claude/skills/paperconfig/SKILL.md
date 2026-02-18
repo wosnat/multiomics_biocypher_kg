@@ -141,6 +141,7 @@ The adapter needs to determine what **causes** the expression change. You must p
 |-------|-------------|---------|
 | `treatment_organism` | Name of the organism causing the effect | `"Alteromonas macleodii HOT1A3"` |
 | `treatment_taxid` | NCBI Taxonomy ID of the treatment organism | `28108` |
+| `treatment_assembly_accession` | (Optional) NCBI RefSeq assembly accession — use when the organism has a loaded genome in the KG | `GCF_901457835.2` |
 
 **Option B -- Environmental condition as cause** (e.g., stress experiments):
 
@@ -161,6 +162,50 @@ Use **environmental condition edges** (`environmental_treatment_condition_id`) w
 - The experiment varies a physical or chemical factor (light, gas, salinity, nutrients, temperature)
 - The experiment compares growth states or phases (planktonic vs biofilm, exponential vs stationary)
 - You want the condition details (CO2 level, salinity, etc.) stored as a node with rich properties
+
+## Organism Reference Data
+
+Organism names, taxids, and assembly accessions must be consistent with these two canonical CSV files:
+
+- `data/Prochlorococcus/genomes/cyanobacteria_genomes.csv` — strains with loaded genomes
+- `data/Prochlorococcus/treatment_organisms.csv` — genus-level or non-specific organisms (no genome loaded)
+
+The `organism` field format is `"<Genus> <strain_name>"` where `strain_name` matches the `strain_name` column in `cyanobacteria_genomes.csv`, or just the genus name for treatment-only organisms.
+
+### Genome-loaded strains (from `cyanobacteria_genomes.csv`)
+
+Always include `treatment_assembly_accession` when using one of these as `treatment_organism`:
+
+| organism / treatment_organism value | ncbi_taxon_id | ncbi_accession (assembly) |
+|---|---|---|
+| Prochlorococcus MED4 | 59919 | GCF_000011465.1 |
+| Prochlorococcus AS9601 | 146891 | GCF_000015645.1 |
+| Prochlorococcus MIT9301 | 167546 | GCF_000015965.1 |
+| Prochlorococcus MIT9312 | 74546 | GCF_000012645.1 |
+| Prochlorococcus MIT9313 | 74547 | GCF_000011485.1 |
+| Prochlorococcus NATL1A | 167555 | GCF_000015685.1 |
+| Prochlorococcus NATL2A | 59920 | GCF_000012465.1 |
+| Prochlorococcus RSP50 | 1924285 | GCF_001989415.1 |
+| Synechococcus CC9311 | 64471 | GCF_000014585.1 |
+| Synechococcus WH8102 | 84588 | GCF_000195975.1 |
+| Alteromonas macleodii MIT1002 | 28108 | GCF_901457835.2 |
+| Alteromonas macleodii EZ55 | 28108 | GCF_901457815.2 |
+| Alteromonas macleodii HOT1A3 | 28108 | GCF_001578515.1 |
+
+### Non-genome organisms (from `treatment_organisms.csv`)
+
+Omit `treatment_assembly_accession` for these genus-level organisms:
+
+| treatment_organism value | treatment_taxid | notes |
+|---|---|---|
+| Phage | 10239 | no assembly |
+| Marinobacter | 413470 | genus-level |
+| Thalassospira | 191411 | genus-level |
+| Pseudohoeflea | 398581 | genus-level |
+| Alteromonas | 28108 | genus-level (when no specific strain) |
+| Synthetic heterotroph community | 413470 | placeholder taxid (Marinobacter) |
+
+If an organism name and its taxid/assembly disagree, validate by checking the paper's supplementary legend files first, then use the central CSVs as authoritative for taxid and assembly accession.
 
 ## CSV Data File Requirements
 
@@ -404,6 +449,10 @@ Before submitting a paperconfig:
 - [ ] Gene/protein identifiers in `name_col` use locus tags or IDs that can match existing gene nodes
 - [ ] `prefiltered` is set to `true` if the table only contains significant results
 - [ ] `pvalue_threshold` and `logfc_threshold` are set if the paper states specific significance criteria
+- [ ] `treatment_taxid` matches `ncbi_taxon_id` in `cyanobacteria_genomes.csv` or `treatment_organisms.csv` for the named organism
+- [ ] `treatment_assembly_accession` (if present) matches `ncbi_accession` in `cyanobacteria_genomes.csv` for the named strain — omit for genus-level organisms
+- [ ] If organism name and taxid/assembly conflict, resolve via the paper's supplementary legend files; the central CSVs are authoritative for taxid and assembly
+- [ ] Any new organism not already in the central CSVs has been added to the appropriate file (see "Registering New Organisms" below)
 
 ## Workflow
 
@@ -415,8 +464,34 @@ When the user invokes this skill with a paper directory name (e.g., `/paperconfi
 4. Read the CSV file headers and a few sample rows to identify available columns and data format (check for asterisks in fold-change values, presence of p-value columns, skip rows, etc.)
 5. Read the PDF to understand the experiment (organisms, conditions, methods, statistical approach)
 6. Draft the `paperconfig.yaml` following the schema above
-7. Run the validation script (see below) to check all paths, columns, references, and ID uniqueness
-8. Register the config in `paperconfig_files.txt`
+7. **Register any new organisms** in the central CSVs (see "Registering New Organisms" below)
+8. Run the validation script (see below) to check all paths, columns, references, and ID uniqueness
+9. Register the config in `paperconfig_files.txt`
+
+### Registering New Organisms
+
+After drafting the paperconfig, read both central CSV files and check every `organism` and `treatment_organism` value used:
+
+```bash
+# Check current contents
+cat data/Prochlorococcus/genomes/cyanobacteria_genomes.csv
+cat data/Prochlorococcus/treatment_organisms.csv
+```
+
+For each organism name that is **not already present**:
+
+**If the organism has a specific strain with a known genome assembly** → add to `cyanobacteria_genomes.csv`:
+- `ncbi_accession`: RefSeq assembly accession (GCF_...) from NCBI — look this up from the paper's methods or NCBI
+- `cyanorak_organism`: leave empty if not in CyanoRAK
+- `ncbi_taxon_id`: NCBI Taxonomy ID from the paper or NCBI
+- `strain_name`: strain identifier as used in the `organism` field (e.g., `MIT9313`, `HOT1A3`)
+- `data_dir`: `cache/data/<genus>/genomes/<strain_name>/` — fill in the expected path even if data hasn't been downloaded yet
+
+**If genus-level or no specific genome** (e.g., just "Marinobacter", "Phage") → add to `treatment_organisms.csv`:
+- `ncbi_taxon_id`: NCBI Taxonomy ID
+- `organism_name`: the name as used in the `treatment_organism` field
+
+Add a comment line above the new row explaining the context (e.g., which paper first introduced it).
 
 ### Validation Script
 
