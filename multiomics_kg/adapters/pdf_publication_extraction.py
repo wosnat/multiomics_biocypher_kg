@@ -278,30 +278,25 @@ Return ONLY the JSON object.""")
         cache_key = str(pdf_path).replace('\\', '/')
         pdf_path = Path(pdf_path)
 
-        # Check cache first
+        # Check in-memory cache first (fast path)
         if cache_key in self.cache:
-            # print(f'found in cache {cache_key}')
             logger.debug(f"Returning cached extraction for {pdf_path.name}")
             return self.cache[cache_key]
 
-        # print(f'extracting {pdf_path.name}')
+        # Reload from disk in case another adapter instance already processed this PDF
+        self.cache = self._load_cache()
+        if cache_key in self.cache:
+            logger.debug(f"Returning disk-cached extraction for {pdf_path.name}")
+            return self.cache[cache_key]
+
         logger.info(f"Extracting metadata from {pdf_path.name}...")
 
         # Extract text from PDF
         pdf_text = self._extract_pdf_text(pdf_path)
-        # print(f'pdf_text length: {len(pdf_text)}')
-        # print(f'pdf_text sample: {pdf_text[:500]}') 
         if not pdf_text:
             logger.warning(f"No text extracted from {pdf_path}")
             return {}
 
-        # Clean the extracted text
-        #pdf_text = self._clean_pdf_text(pdf_text)
-        # print(f'After cleaning:')
-        # print(f'pdf_text length: {len(pdf_text)}')
-        # print(f'pdf_text sample: {pdf_text[:500]}') 
-
-        #try:
         # Use LangChain chain to extract metadata
         extracted = self.chain.invoke({"text": pdf_text})
 
@@ -315,8 +310,14 @@ Return ONLY the JSON object.""")
             pub_id = self._generate_unique_id(pub_id, "pub")
             extracted["publication"]["publication_id"] = pub_id
 
-        # Cache the result
+        # Store our new entry in memory
         self.cache[cache_key] = extracted
+
+        # Reload disk cache and merge before saving to preserve entries written by
+        # other adapter instances since we last loaded
+        disk_cache = self._load_cache()
+        disk_cache.update(self.cache)  # our in-memory entries (including new one) win
+        self.cache = disk_cache
         self._save_cache()
 
         logger.info(f"Successfully extracted metadata from {pdf_path.name}")
