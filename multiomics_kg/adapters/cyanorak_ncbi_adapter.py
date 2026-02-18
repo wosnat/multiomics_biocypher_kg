@@ -172,6 +172,10 @@ class CyanorakNcbi:
 
     def _download_ncbi_genome(self) -> str:
         """Download NCBI genome zip and extract GFF using pypath Curl."""
+        gff_path = os.path.join(self.data_dir, "genomic.gff")
+        if os.path.exists(gff_path):
+            logger.info(f"NCBI GFF already exists at {gff_path}, skipping download")
+            return gff_path
         url = (
             f"https://api.ncbi.nlm.nih.gov/datasets/v2/genome/accession/"
             f"{self.ncbi_accession}/download"
@@ -187,6 +191,10 @@ class CyanorakNcbi:
             compr='zip',
             large=False,
         )
+        if c.result is None:
+            raise ConnectionError(
+                f"Failed to download NCBI genome for {self.ncbi_accession} from {url}"
+            )
         # c.result is a dict of {filename: content} for zip files
         gff_content = None
         for name, content in c.result.items():
@@ -196,7 +204,6 @@ class CyanorakNcbi:
         if gff_content is None:
             raise ValueError(f"No genomic.gff found in NCBI download for {self.ncbi_accession}")
 
-        gff_path = os.path.join(self.data_dir, "genomic.gff")
         os.makedirs(self.data_dir, exist_ok=True)
         with open(gff_path, 'w') as f:
             f.write(gff_content)
@@ -205,11 +212,18 @@ class CyanorakNcbi:
 
     def _download_cyanorak_gff(self) -> str:
         """Download Cyanorak GFF annotation file."""
-        url = f"https://cyanorak.sb-roscoff.fr/cyanorak/svc/export/organism/gff/{self.cyanorak_organism}"
-        c = curl.Curl(url, silent=False)
         cyan_dir = os.path.join(self.data_dir, "cyanorak")
         os.makedirs(cyan_dir, exist_ok=True)
         gff_path = os.path.join(cyan_dir, f"{self.cyanorak_organism}.gff")
+        if os.path.exists(gff_path):
+            logger.info(f"Cyanorak GFF already exists at {gff_path}, skipping download")
+            return gff_path
+        url = f"https://cyanorak.sb-roscoff.fr/cyanorak/svc/export/organism/gff/{self.cyanorak_organism}"
+        c = curl.Curl(url, silent=False)
+        if c.result is None:
+            raise ConnectionError(
+                f"Failed to download Cyanorak GFF for {self.cyanorak_organism} from {url}"
+            )
         with open(gff_path, 'w') as f:
             f.write(c.result)
         logger.info(f"Cyanorak GFF saved to {gff_path}")
@@ -217,11 +231,18 @@ class CyanorakNcbi:
 
     def _download_cyanorak_gbk(self) -> str:
         """Download Cyanorak GenBank annotation file."""
-        url = f"https://cyanorak.sb-roscoff.fr/cyanorak/svc/export/organism/gbk/{self.cyanorak_organism}"
-        c = curl.Curl(url, silent=False)
         cyan_dir = os.path.join(self.data_dir, "cyanorak")
         os.makedirs(cyan_dir, exist_ok=True)
         gbk_path = os.path.join(cyan_dir, f"{self.cyanorak_organism}.gbk")
+        if os.path.exists(gbk_path):
+            logger.info(f"Cyanorak GBK already exists at {gbk_path}, skipping download")
+            return gbk_path
+        url = f"https://cyanorak.sb-roscoff.fr/cyanorak/svc/export/organism/gbk/{self.cyanorak_organism}"
+        c = curl.Curl(url, silent=False)
+        if c.result is None:
+            raise ConnectionError(
+                f"Failed to download Cyanorak GBK for {self.cyanorak_organism} from {url}"
+            )
         with open(gbk_path, 'w') as f:
             f.write(c.result)
         logger.info(f"Cyanorak GBK saved to {gbk_path}")
