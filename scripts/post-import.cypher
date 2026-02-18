@@ -17,3 +17,23 @@
 MATCH (g1:gene)-[:gene_in_cyanorak_cluster]->(c:cyanorak_cluster)<-[:gene_in_cyanorak_cluster]-(g2:gene)
 WHERE id(g1) <> id(g2)
 MERGE (g1)-[:gene_is_homolog_of_gene {source: "cyanorak_cluster", cluster_id: c.cluster_number}]->(g2);
+
+// Create affects_expression_of_homolog edges.
+// If source X affects_expression_of gene A, and gene A is homolog of gene B,
+// then X affects_expression_of_homolog gene B.
+// Uses CREATE (not MERGE) so each expression edge propagates independently —
+// multiple publications/conditions on the same gene each produce a separate homolog edge.
+MATCH (source)-[e:affects_expression_of]->(geneA:gene)-[h:gene_is_homolog_of_gene]->(geneB:gene)
+CREATE (source)-[:affects_expression_of_homolog {
+  expression_direction: e.expression_direction,
+  control_condition: e.control_condition,
+  experimental_context: e.experimental_context,
+  time_point: e.time_point,
+  log2_fold_change: e.log2_fold_change,
+  adjusted_p_value: e.adjusted_p_value,
+  significant: e.significant,
+  publications: e.publications,
+  original_gene: geneA.id,
+  homology_source: h.source,
+  homology_cluster_id: h.cluster_id
+}]->(geneB);

@@ -135,7 +135,7 @@ def main():
     )
     ncbi_cyanorak_adapter.download_data(cache=CACHE)
     bc.write_nodes(ncbi_cyanorak_adapter.get_nodes())
-    #bc.write_edges(ncbi_cyanorak_adapter.get_edges())
+    bc.write_edges(ncbi_cyanorak_adapter.get_edges())
     # if export_as_csv:
     #     ncbi_cyanorak_adapter.export_as_csv(path=output_dir_path)
 

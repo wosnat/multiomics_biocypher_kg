@@ -63,6 +63,51 @@ environmental condition to gene expression association:
     publications: str[]
 
 
+# affects_expression_of_homolog edges: inferred from affects_expression_of + homology.
+# If condition/organism X affects_expression_of gene A, and gene A is homolog of gene B,
+# then X affects_expression_of_homolog gene B.
+# Created by post-import Cypher, not by adapters.
+
+organism to homolog gene expression association:
+  is_a: Association
+  represented_as: edge
+  label_as_edge: affects_expression_of_homolog
+  label_in_input: affects_expression_of_homolog
+  source: organism_taxon
+  target: gene
+  properties:
+    expression_direction: str
+    control_condition: str
+    experimental_context: str
+    time_point: str
+    log2_fold_change: float
+    adjusted_p_value: float
+    significant: boolean
+    publications: str[]
+    original_gene: str         # ID of the gene with the direct expression edge
+    homology_source: str       # e.g., "cyanorak_cluster"
+    homology_cluster_id: str   # the shared cluster ID
+
+environmental condition to homolog gene expression association:
+  is_a: Association
+  represented_as: edge
+  label_as_edge: affects_expression_of_homolog
+  label_in_input: affects_expression_of_homolog
+  source: environmental condition
+  target: gene
+  properties:
+    expression_direction: str
+    control_condition: str
+    experimental_context: str
+    time_point: str
+    log2_fold_change: float
+    adjusted_p_value: float
+    significant: boolean
+    publications: str[]
+    original_gene: str         # ID of the gene with the direct expression edge
+    homology_source: str       # e.g., "cyanorak_cluster"
+    homology_cluster_id: str   # the shared cluster ID
+
 cyanorak_cluster:
   is_a: GroupingClass
   represented_as: node
