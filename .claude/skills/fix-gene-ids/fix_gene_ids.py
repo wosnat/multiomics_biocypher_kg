@@ -125,6 +125,17 @@ def map_gene_id(raw_id, lookup, locus_tags):
     if raw_id in lookup:
         return lookup[raw_id], "lookup"
 
+    # Try zero-padding normalization (e.g., MIT1002_0001 -> MIT1002_00001)
+    m = re.match(r'^(.+)_(\d+)$', raw_id)
+    if m:
+        prefix, num = m.group(1), m.group(2)
+        for pad in range(len(num) + 1, len(num) + 3):
+            padded = f"{prefix}_{num.zfill(pad)}"
+            if padded in locus_tags:
+                return padded, "repadded"
+            if padded in lookup:
+                return lookup[padded], "repadded"
+
     # Try splitting by comma (composite gene names like "rps13,rpsM")
     if "," in raw_id:
         parts = [p.strip() for p in raw_id.split(",")]
@@ -145,7 +156,7 @@ def process_analysis(paperconfig_path, analysis, supp_material, project_root, dr
     analysis_id = analysis.get("id", "unknown")
     organism = analysis.get("organism", "")
     name_col = analysis.get("name_col", "")
-    skip_rows = analysis.get("skip_rows", 0)
+    skip_rows = supp_material.get("skip_rows", analysis.get("skip_rows", 0))
     csv_path = supp_material.get("filename", "")
 
     result = {
@@ -157,6 +168,7 @@ def process_analysis(paperconfig_path, analysis, supp_material, project_root, dr
         "direct": 0,
         "lookup": 0,
         "composite": 0,
+        "repadded": 0,
         "skipped": 0,
         "unmapped": [],
         "output_file": None,
@@ -221,6 +233,8 @@ def process_analysis(paperconfig_path, analysis, supp_material, project_root, dr
             result["mapped"] += 1
             if method == "direct":
                 result["direct"] += 1
+            elif method == "repadded":
+                result["repadded"] += 1
             elif method in ("lookup", "composite_lookup", "composite_direct"):
                 if "composite" in method:
                     result["composite"] += 1
@@ -294,6 +308,7 @@ def process_paperconfig(paperconfig_path, project_root, dry_run=False):
             if total_valid > 0:
                 print(f"    Mapped: {result['mapped']}/{total_valid} "
                       f"({result['direct']} direct, {result['lookup']} via gene_names, "
+                      f"{result['repadded']} via repadding, "
                       f"{result['composite']} via composite)")
                 if result["skipped"]:
                     print(f"    Skipped: {result['skipped']} (tRNA/ncRNA/rRNA)")

@@ -12,7 +12,10 @@ GCF_000014585.1,Syn_CC9311,64471,CC9311,cache/data/Synechococcus/genomes/CC9311/
 GCF_000195975.1,Syn_WH8102,84588,WH8102,cache/data/Synechococcus/genomes/WH8102/
 # Alteromonas strains (NCBI-only, no Cyanorak entry)
 # MIT1002: GenBank JXRW01000000, used in Biller 2016, Biller 2018, Coe 2024
-GCF_001077695.1,,28108,MIT1002,cache/data/Alteromonas/genomes/MIT1002/
+# GCF_001077695.1,,28108,MIT1002,cache/data/Alteromonas/genomes/MIT1002/
+# MIT1002 from https://www.ncbi.nlm.nih.gov/datasets/genome/GCF_901457835.2/
+GCF_901457835.2,,28108,MIT1002,cache/data/Alteromonas/genomes/MIT1002/
+
 # EZ55: IMG 2785510739, used in Barreto 2022, Hennon 2017. TODO: verify NCBI accession
 # from the page: https://www.ncbi.nlm.nih.gov/datasets/genome/?taxon=28108&search_text=EZ55
 # 2 options: GCF_901457815.2, GCF_041107515.1
