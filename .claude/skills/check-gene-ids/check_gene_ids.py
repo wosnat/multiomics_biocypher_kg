@@ -388,7 +388,7 @@ def classify_ids(all_ids, gene_index, secondary_ids=None):
     primary_ids = gene_index["primary_ids"]
 
     for i, raw_id in enumerate(all_ids):
-        sid = str(raw_id).strip() if pd.notna(raw_id) else ""
+        sid = str(raw_id).strip().strip('*').strip() if pd.notna(raw_id) else ""
         if not sid or sid == "nan":
             result["empty"] += 1
             continue
@@ -405,7 +405,7 @@ def classify_ids(all_ids, gene_index, secondary_ids=None):
 
         # Check secondary column match
         if secondary_ids is not None and i < len(secondary_ids):
-            sec_id = str(secondary_ids[i]).strip() if pd.notna(secondary_ids[i]) else ""
+            sec_id = str(secondary_ids[i]).strip().strip('*').strip() if pd.notna(secondary_ids[i]) else ""
             if sec_id and sec_id != "nan" and f"ncbigene:{sec_id}" in primary_ids:
                 result["matched_secondary"].append(sid)
                 continue
