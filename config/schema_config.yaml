@@ -206,45 +206,42 @@ protein:
   preferred_id: uniprot
   label_in_input: protein
   properties:
-    length: int
-    mass: int
-    primary_protein_name: str
-    protein_name: str[]
-    xref_proteomes: str[]
-    # organism_name: str
-    # organism_id: int
-    sequence: str
+    sequence_length: int
+    molecular_mass: int
+    protein_name: str            # recommended/primary name
+    protein_synonyms: str[]      # all alternative names
+    proteome_ids: str[]
+    amino_acid_sequence: str
     prott5_embedding: float[]
     gene_names: str[]
     kegg_ids: str[]
     gene_symbol: str
-    ec: str
+    ec_numbers: str[]
     subcellular_location: str[]
-    gene_primary: str
-    # added to test
-    gene_ordered_locus: str
-    cc_catalytic_activity: str
-    cc_cofactor: str
-    cc_function: str
-    cc_pathway: str
+    locus_tag: str
+    catalytic_activity: str
+    cofactors: str
+    function_description: str
+    pathway_description: str
     annotation_score: float
-    cc_caution: str
-    keywordid: str
-    keyword: str
-    reviewed: bool
-    cc_interaction: str
-    cellular_component: str
-    biological_process: str
-    molecular_function: str
-    ft_transmem: str
-    ft_signal: str
-    cc_domain: str
-    ft_motif: str
-    protein_families: str
-    xref_refseq: str
-    xref_string: str
-    xref_eggnog: str
-    xref_pfam: str
+    caution_notes: str
+    keyword_ids: str
+    keywords: str
+    is_reviewed: bool
+    interaction_notes: str
+    go_cellular_components: str[]
+    go_biological_processes: str[]
+    go_molecular_functions: str[]
+    transmembrane_regions: str
+    signal_peptide: str
+    domain_description: str
+    functional_motifs: str
+    protein_family: str
+    refseq_ids: str
+    string_ids: str
+    eggnog_ids: str
+    kegg_ko_ids: str
+    pfam_ids: str
 
   
 organism taxon:

@@ -409,8 +409,37 @@ class Uniprot:
                                             }
         # protein property name mappings that will be used protein node properties in KG
         self.protein_property_name_mappings = {
-            "protein_name":"protein_names",
-            "xref_kegg":"kegg_ids",
+            "protein_name":             "protein_synonyms",
+            "length":                   "sequence_length",
+            "mass":                     "molecular_mass",
+            "xref_proteomes":           "proteome_ids",
+            "ec":                       "ec_numbers",
+            "sequence":                 "amino_acid_sequence",
+            "gene_primary":             "gene_symbol",
+            "gene_oln":                 "locus_tag",
+            "cc_catalytic_activity":    "catalytic_activity",
+            "cc_cofactor":              "cofactors",
+            "cc_function":              "function_description",
+            "cc_pathway":               "pathway_description",
+            "cc_caution":               "caution_notes",
+            "keywordid":                "keyword_ids",
+            "keyword":                  "keywords",
+            "reviewed":                 "is_reviewed",
+            "cc_interaction":           "interaction_notes",
+            "go_c":                     "go_cellular_components",
+            "go_p":                     "go_biological_processes",
+            "go_f":                     "go_molecular_functions",
+            "ft_transmem":              "transmembrane_regions",
+            "ft_signal":                "signal_peptide",
+            "cc_domain":                "domain_description",
+            "ft_motif":                 "functional_motifs",
+            "protein_families":         "protein_family",
+            "xref_refseq":              "refseq_ids",
+            "xref_string":              "string_ids",
+            "xref_eggnog":              "eggnog_ids",
+            "xref_ko":                  "kegg_ko_ids",
+            "xref_pfam":                "pfam_ids",
+            "xref_kegg":                "kegg_ids",
         }
 
     def _read_ligands_set(self) -> set:
@@ -1085,7 +1114,7 @@ class Uniprot:
         }
 
         if UniprotNodeField.PROTEIN_NAMES.value in all_props.keys():
-                protein_props["primary_protein_name"] = (
+                protein_props["protein_name"] = (
                     self._ensure_iterable(all_props[UniprotNodeField.PROTEIN_NAMES.value])[0]
                     if all_props[UniprotNodeField.PROTEIN_NAMES.value]
                     else None
