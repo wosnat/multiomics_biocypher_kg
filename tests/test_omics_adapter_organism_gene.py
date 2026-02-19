@@ -867,8 +867,9 @@ class TestPvalueAsteriskInLogfc:
             else:
                 assert direction == 'down'
 
-    def test_without_asterisk_flag_values_are_skipped(self, temp_data_dir, csv_with_asterisks):
-        """Verify that without pvalue_asterisk_in_logfc, asterisk values cause rows to be skipped."""
+    def test_without_asterisk_flag_stars_still_stripped(self, temp_data_dir, csv_with_asterisks):
+        """Verify that without pvalue_asterisk_in_logfc, stars are still stripped from logFC
+        so all rows parse successfully (no significance marking via asterisk though)."""
         config = {
             'publication': {
                 'papername': 'Test No Asterisk Flag 2024',
@@ -886,7 +887,8 @@ class TestPvalueAsteriskInLogfc:
                                 'name_col': 'Gene_ID',
                                 'logfc_col': 'log2FC',
                                 'adjusted_p_value_col': None,
-                                # No pvalue_asterisk_in_logfc
+                                # No pvalue_asterisk_in_logfc — stars are stripped but not
+                                # used for significance
                             }
                         ]
                     }
@@ -908,9 +910,81 @@ class TestPvalueAsteriskInLogfc:
         }
         edges = adapter.get_edges()
         expression_edges = [e for e in edges if e[3] == 'affects_expression_of']
-        # Only GENE_B (0.425) and GENE_D (0.15) have no asterisk → parseable as float
-        assert len(expression_edges) == 2, \
-            f"Expected 2 edges (asterisk values should fail float parse), got {len(expression_edges)}"
+        # All 4 rows should now produce edges — stars are always stripped before float parse
+        assert len(expression_edges) == 4, \
+            f"Expected 4 edges (stars stripped even without pvalue_asterisk_in_logfc flag), got {len(expression_edges)}"
+        # Without the flag, no asterisk-based p-value should be set
+        for edge in expression_edges:
+            props = edge[4]
+            assert 'adjusted_p_value' not in props, \
+                "Should not have adjusted_p_value when pvalue_asterisk_in_logfc is False"
+
+    def test_leading_asterisk_parsed_correctly(self, temp_data_dir):
+        """Verify leading-asterisk format '* 1.1' is handled correctly."""
+        data = pd.DataFrame({
+            'Gene_ID': ['GENE_A', 'GENE_B', 'GENE_C', 'GENE_D'],
+            'log2FC': ['* -0.212', '0.425', '* -0.37', '0.15'],
+        })
+        data_file = os.path.join(temp_data_dir, 'leading_asterisk.csv')
+        data.to_csv(data_file, index=False)
+
+        config = {
+            'publication': {
+                'papername': 'Test Leading Asterisk 2024',
+                'supplementary_materials': {
+                    'supp_table_1': {
+                        'type': 'csv',
+                        'filename': data_file,
+                        'statistical_analyses': [
+                            {
+                                'type': 'RNASEQ',
+                                'id': 'test_leading_asterisk',
+                                'treatment_organism': 'Alteromonas macleodii',
+                                'treatment_taxid': 28108,
+                                'treatment_assembly_accession': 'GCF_001077695.1',
+                                'name_col': 'Gene_ID',
+                                'logfc_col': 'log2FC',
+                                'adjusted_p_value_col': None,
+                                'pvalue_asterisk_in_logfc': True,
+                            }
+                        ]
+                    }
+                }
+            }
+        }
+
+        config_file = os.path.join(temp_data_dir, 'paperconfig_leading_ast.yaml')
+        with open(config_file, 'w') as f:
+            yaml.dump(config, f)
+
+        adapter = OMICSAdapter(config_file=config_file)
+        adapter.extracted_data = {
+            'publication': {
+                'publication_id': 'test_lead_ast',
+                'title': 'Test',
+                'doi': '10.1234/lead_ast',
+            },
+        }
+        edges = adapter.get_edges()
+        expression_edges = [e for e in edges if e[3] == 'affects_expression_of']
+
+        # All 4 rows should produce edges
+        assert len(expression_edges) == 4, \
+            f"Expected 4 edges from leading-asterisk data, got {len(expression_edges)}"
+
+        # Fold change values should be parsed correctly (no asterisk residue)
+        fc_values = sorted([e[4]['log2_fold_change'] for e in expression_edges])
+        assert fc_values == pytest.approx(sorted([-0.212, 0.425, -0.37, 0.15]))
+
+        # GENE_A and GENE_C (leading *) should be significant; GENE_B and GENE_D not
+        for edge in expression_edges:
+            _, _, target_id, _, props = edge
+            if 'GENE_A' in target_id or 'GENE_C' in target_id:
+                assert props.get('adjusted_p_value', 1.0) < 0.5, \
+                    f"Leading-asterisk gene should be significant, got {props.get('adjusted_p_value')}"
+            if 'GENE_B' in target_id or 'GENE_D' in target_id:
+                assert props.get('adjusted_p_value') == 1.0, \
+                    f"Non-asterisk gene should have p-value 1.0, got {props.get('adjusted_p_value')}"
 
 
 class TestSkipRowsWithAsterisk:
@@ -1234,6 +1308,106 @@ class TestMultiOMICSAdapter:
         # After download_data, each adapter should have extracted_data attribute
         for inner in adapter.adapters:
             assert hasattr(inner, 'extracted_data') or hasattr(inner, 'pdf_extractor')
+
+
+class TestGeneIdCleaning:
+    """Test that gene IDs are cleaned (whitespace and asterisks stripped) before use."""
+
+    def _make_adapter(self, temp_data_dir, data, analysis_extra=None):
+        """Helper: create adapter from a DataFrame."""
+        data_file = os.path.join(temp_data_dir, 'gene_id_clean.csv')
+        data.to_csv(data_file, index=False)
+
+        analysis = {
+            'type': 'RNASEQ',
+            'id': 'test_gene_id_clean',
+            'treatment_organism': 'Alteromonas macleodii',
+            'treatment_taxid': 28108,
+            'treatment_assembly_accession': 'GCF_001077695.1',
+            'name_col': 'Gene_ID',
+            'logfc_col': 'log2FC',
+            'adjusted_p_value_col': None,
+        }
+        if analysis_extra:
+            analysis.update(analysis_extra)
+
+        config = {
+            'publication': {
+                'papername': 'Test Gene ID Clean 2024',
+                'supplementary_materials': {
+                    'supp_table_1': {
+                        'type': 'csv',
+                        'filename': data_file,
+                        'statistical_analyses': [analysis],
+                    }
+                }
+            }
+        }
+
+        config_file = os.path.join(temp_data_dir, 'paperconfig_gene_clean.yaml')
+        with open(config_file, 'w') as f:
+            yaml.dump(config, f)
+
+        adapter = OMICSAdapter(config_file=config_file)
+        adapter.extracted_data = {
+            'publication': {
+                'publication_id': 'test_gene_clean',
+                'title': 'Test',
+                'doi': '10.1234/gene_clean',
+            },
+        }
+        return adapter
+
+    def test_gene_id_whitespace_stripped(self, temp_data_dir):
+        """Verify leading/trailing whitespace in gene IDs is stripped."""
+        data = pd.DataFrame({
+            'Gene_ID': ['  GENE_A  ', 'GENE_B', '  GENE_C'],
+            'log2FC': [1.0, -1.0, 0.5],
+        })
+        adapter = self._make_adapter(temp_data_dir, data)
+        edges = adapter.get_edges()
+        target_ids = [e[2] for e in edges if e[3] == 'affects_expression_of']
+        target_str = ' '.join(target_ids)
+        assert 'GENE_A' in target_str, "GENE_A (with spaces) should be found after stripping"
+        assert 'GENE_B' in target_str
+        assert 'GENE_C' in target_str
+        assert len(edges) == 3
+
+    def test_gene_id_asterisk_stripped(self, temp_data_dir):
+        """Verify asterisks in gene IDs are stripped."""
+        data = pd.DataFrame({
+            'Gene_ID': ['GENE_A*', '*GENE_B', 'GENE_C'],
+            'log2FC': [1.0, -1.0, 0.5],
+        })
+        adapter = self._make_adapter(temp_data_dir, data)
+        edges = adapter.get_edges()
+        target_ids = [e[2] for e in edges if e[3] == 'affects_expression_of']
+        target_str = ' '.join(target_ids)
+        assert 'GENE_A' in target_str, "GENE_A* should be cleaned to GENE_A"
+        assert 'GENE_B' in target_str, "*GENE_B should be cleaned to GENE_B"
+        assert 'GENE_C' in target_str
+        assert len(edges) == 3
+
+    def test_gene_id_whitespace_and_asterisk_stripped(self, temp_data_dir):
+        """Verify both whitespace and asterisks are stripped from gene IDs."""
+        data = pd.DataFrame({
+            'Gene_ID': ['  GENE_A *  ', ' * GENE_B', 'GENE_C'],
+            'log2FC': [1.0, -1.0, 0.5],
+        })
+        adapter = self._make_adapter(temp_data_dir, data)
+        edges = adapter.get_edges()
+        assert len(edges) == 3, f"Expected 3 edges after stripping, got {len(edges)}"
+
+    def test_gene_id_only_asterisks_skipped(self, temp_data_dir):
+        """Verify gene IDs that reduce to empty string after stripping are skipped."""
+        data = pd.DataFrame({
+            'Gene_ID': ['***', 'GENE_B', '  *  '],
+            'log2FC': [1.0, -1.0, 0.5],
+        })
+        adapter = self._make_adapter(temp_data_dir, data)
+        edges = adapter.get_edges()
+        # '***' and '  *  ' reduce to '' → should be skipped
+        assert len(edges) == 1, f"Expected 1 edge (only GENE_B), got {len(edges)}"
 
 
 if __name__ == '__main__':

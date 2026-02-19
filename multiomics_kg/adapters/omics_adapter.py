@@ -529,8 +529,14 @@ class OMICSAdapter:
                     skipped_count += 1
                     continue
 
+                # Strip whitespace and asterisks from gene IDs
+                gene_id = str(gene_id).strip().strip('*').strip()
+                if gene_id == '':
+                    skipped_count += 1
+                    continue
+
                 # Create gene identifier with prefix
-                gene_id = self.add_prefix_to_id(prefix="ncbigene", identifier=str(gene_id))
+                gene_id = self.add_prefix_to_id(prefix="ncbigene", identifier=gene_id)
 
                 # Skip rows with missing or non-numeric fold change values
                 fc_float = None
@@ -545,11 +551,14 @@ class OMICSAdapter:
                         skipped_count += 1
                         continue
                     # Handle asterisk-based significance markers in logFC column
-                    if pvalue_asterisk and fc_str.endswith('*'):
-                        asterisk_significant = True
-                        fc_str = fc_str.rstrip('*')
-                    elif pvalue_asterisk:
-                        asterisk_significant = False
+                    # Supports trailing "1.1 *", leading "* 1.1", or bare "1.1*"
+                    if pvalue_asterisk:
+                        has_asterisk = fc_str.startswith('*') or fc_str.endswith('*')
+                        asterisk_significant = has_asterisk
+                        fc_str = fc_str.strip('*').strip()
+                    else:
+                        # Always strip stray whitespace and stars from logFC values
+                        fc_str = fc_str.strip('*').strip()
                     try:
                         fc_float = float(fc_str)
                     except (ValueError, TypeError):
