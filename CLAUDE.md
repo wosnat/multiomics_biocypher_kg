@@ -15,8 +15,8 @@ uv sync
 # Build the knowledge graph
 uv run python create_knowledge_graph.py
 
-# Run tests (excluding slow integration tests)
-pytest -m "not slow"
+# Run adapter unit tests (excluding slow integration tests and KG tests)
+pytest -m "not slow and not kg"
 
 # Run a single test file
 pytest tests/test_omics_adapter_organism_gene.py -v
@@ -24,9 +24,14 @@ pytest tests/test_omics_adapter_organism_gene.py -v
 # Run the full integration test (builds entire graph, ~1 hour)
 pytest -m slow
 
+# Run KG validity tests (requires running Docker graph at localhost:7687)
+pytest tests/kg_validity/ -v
+pytest -m kg                          # same thing via marker
+pytest tests/kg_validity/ --neo4j-url bolt://localhost:7687  # explicit URL
+
 # Docker deployment (builds graph + Neo4j)
 docker compose up -d
-# Neo4j at localhost:7474 (HTTP), localhost:7687 (Bolt)
+# Neo4j at localhost:7474 (HTTP), localhost:7687 (Bolt, no auth)
 # Biochatter UI at localhost:8501
 ```
 
@@ -132,9 +137,35 @@ The `.claude/skills/` directory provides project-specific skills:
 - **UniProt cache:** `uniprot_raw_data.json`, `uniprot_preprocess_data.json` (root dir, not committed)
 - **PDF extraction cache:** `pdf_extraction_cache.json`
 
+## KG Validity Tests
+
+`tests/kg_validity/` contains a fast (~14s) pytest suite that connects to the live deployed Neo4j instance and validates the output graph. Tests auto-skip if Neo4j is unreachable. All tests are marked `@pytest.mark.kg`.
+
+### Test files
+
+| File | What it validates |
+|---|---|
+| `test_structure.py` | Node type presence, minimum counts (>5K genes, ≥12 organisms), orphan detection (genes without organism, proteins without organism), key property presence |
+| `test_biology.py` | Ecotype/clade labels per strain, katG absence in *Prochlorococcus* (Black Queen Hypothesis), all expected strains present, locus-tag → UniProt spot checks |
+| `test_expression.py` | `log2_fold_change` / `adjusted_p_value` are numeric, `adjusted_p_value` ∈ [0,1], `expression_direction` ∈ {up,down}, direction/sign consistency, required properties on all edges |
+| `test_post_import.py` | Homolog edges exist and are bidirectional, `distance`/`cluster_id` properties present, `Affects_expression_of_homolog` propagated correctly |
+
+### Actual Neo4j labels (BioCypher PascalCase output)
+
+- Nodes: `Gene`, `Protein`, `OrganismTaxon`, `Publication`, `EnvironmentalCondition`, `Cyanorak_cluster`
+- Relationships: `Gene_belongs_to_organism`, `Protein_belongs_to_organism`, `Gene_in_cyanorak_cluster`, `Gene_is_homolog_of_gene`, `Affects_expression_of`, `Affects_expression_of_homolog`
+
+### Key graph facts
+
+- Gene↔Protein linkage is via shared `locus_tag` property — **no explicit `Gene_encodes_protein` edge**
+- Expression sources: `EnvironmentalCondition` (~95K edges, stress experiments), `OrganismTaxon` (~12K edges, coculture experiments)
+- `adjusted_p_value` may be null on expression edges (and propagated homolog edges) when the original study did not report it
+- Strains in graph: MED4, AS9601, MIT9301, MIT9312, MIT9313, NATL1A, NATL2A, RSP50 (Prochlorococcus); CC9311 (Synechococcus); WH8102 (Parasynechococcus); MIT1002, EZ55, HOT1A3 (Alteromonas)
+
 ## Notes
 
 - Uses custom fork of pypath-omnipath: `https://github.com/wosnat/pypath`
-- Current organisms: 7 *Prochlorococcus* strains + 2 *Synechococcus* + 3 *Alteromonas*; primary focus is MED4 (NCBI taxid 59919)
+- Current organisms: 8 *Prochlorococcus* strains + 2 *Synechococcus/Parasynechococcus* + 3 *Alteromonas*; primary focus is MED4 (NCBI taxid 59919)
 - API keys go in `.env`: `OPENAI_API_KEY`, `ANTHROPIC_API_KEY`, `ELSEVIER_API_KEY`, plus others for LangChain tracing and search
-- Slow tests (`@pytest.mark.slow`) run the full pipeline as a subprocess and take ~1 hour
+- `@pytest.mark.slow` tests run the full pipeline as a subprocess and take ~1 hour
+- `@pytest.mark.kg` tests require a running Neo4j instance (Docker graph); skip automatically if not available
