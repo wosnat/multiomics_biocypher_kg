@@ -100,7 +100,7 @@ def main():
     uniprot_edge_types = [
         UniprotEdgeType.PROTEIN_TO_ORGANISM,
         UniprotEdgeType.PROTEIN_TO_EC,
-        #UniprotEdgeType.GENE_TO_PROTEIN,
+        UniprotEdgeType.GENE_TO_PROTEIN,
         UniprotEdgeType.PROTEIN_TO_CELLULAR_COMPONENT,
         UniprotEdgeType.PROTEIN_TO_BIOLOGICAL_PROCESS,
         UniprotEdgeType.PROTEIN_TO_MOLECULAR_FUNCTION,
@@ -112,7 +112,19 @@ def main():
 
 
 
+    # CyanorakNcbi adapter MUST run before UniProt: it creates gene_mapping.csv
+    # files in each data_dir, which UniProt uses for GENE_TO_PROTEIN edges.
+    ncbi_cyanorak_adapter = MultiCyanorakNcbi(
+        config_list_file='data/Prochlorococcus/genomes/cyanobacteria_genomes.csv',
+        treatment_organisms_file='data/Prochlorococcus/treatment_organisms.csv',
+        test_mode=TEST_MODE,
+    )
+    ncbi_cyanorak_adapter.download_data(cache=CACHE)
+    bc.write_nodes(ncbi_cyanorak_adapter.get_nodes())
+    bc.write_edges(ncbi_cyanorak_adapter.get_edges())
+
     # MultiUniprot adapter - uses same config file as MultiCyanorakNcbi
+    # GENE_TO_PROTEIN edges depend on gene_mapping.csv from CyanorakNcbi above
     uniprot_adapter = MultiUniprot(
         config_list_file='data/Prochlorococcus/genomes/cyanobacteria_genomes.csv',
         rev=False,  # whether to include unreviewed entries
@@ -127,17 +139,6 @@ def main():
 
     bc.write_nodes(uniprot_adapter.get_nodes())
     bc.write_edges(uniprot_adapter.get_edges())
-
-    ncbi_cyanorak_adapter = MultiCyanorakNcbi(
-        config_list_file='data/Prochlorococcus/genomes/cyanobacteria_genomes.csv',
-        treatment_organisms_file='data/Prochlorococcus/treatment_organisms.csv',
-        test_mode=TEST_MODE,
-    )
-    ncbi_cyanorak_adapter.download_data(cache=CACHE)
-    bc.write_nodes(ncbi_cyanorak_adapter.get_nodes())
-    bc.write_edges(ncbi_cyanorak_adapter.get_edges())
-    # if export_as_csv:
-    #     ncbi_cyanorak_adapter.export_as_csv(path=output_dir_path)
 
     # omics data
     omics_adapter = MultiOMICSAdapter(

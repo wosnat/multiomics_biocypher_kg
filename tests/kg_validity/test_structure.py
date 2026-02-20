@@ -107,6 +107,70 @@ def test_no_orphan_proteins(run_query):
     )
 
 
+def test_gene_encodes_protein_edges_exist(run_query):
+    """Gene_encodes_protein edges must exist (created by UniProt adapter via RefSeq join)."""
+    result = run_query(
+        "MATCH ()-[r:Gene_encodes_protein]->() RETURN count(r) AS cnt"
+    )
+    cnt = result[0]["cnt"]
+    assert cnt > 5000, (
+        f"Only {cnt} Gene_encodes_protein edges found; expected > 5000 "
+        f"for all strains"
+    )
+
+
+def test_gene_encodes_protein_links_correct_types(run_query):
+    """Gene_encodes_protein must connect Protein -> Gene (source is protein, target is gene)."""
+    result = run_query("""
+        MATCH (src)-[r:Gene_encodes_protein]->(tgt)
+        WHERE NOT src:Protein OR NOT tgt:Gene
+        RETURN count(r) AS bad
+    """)
+    bad = result[0]["bad"]
+    assert bad == 0, (
+        f"{bad} Gene_encodes_protein edges connect wrong node types "
+        f"(expected Protein -> Gene)"
+    )
+
+
+def test_no_orphan_proteins_without_gene(run_query):
+    """
+    Most proteins should be linked to a gene via Gene_encodes_protein.
+    Allow up to 15% unlinked (some UniProt entries may lack RefSeq cross-refs).
+    """
+    result = run_query("""
+        MATCH (p:Protein)
+        OPTIONAL MATCH (p)-[:Gene_encodes_protein]->(g:Gene)
+        WITH count(p) AS total, count(g) AS linked
+        RETURN total, linked, total - linked AS unlinked
+    """)
+    row = result[0]
+    if row["total"] == 0:
+        pytest.skip("No Protein nodes found")
+    unlinked_fraction = row["unlinked"] / row["total"]
+    assert unlinked_fraction < 0.15, (
+        f"{row['unlinked']} / {row['total']} proteins ({unlinked_fraction:.1%}) "
+        f"have no Gene_encodes_protein edge; threshold is < 15%"
+    )
+
+
+def test_gene_encodes_protein_no_duplicates(run_query):
+    """
+    Each (Protein, Gene) pair should have at most one Gene_encodes_protein edge.
+    Duplicates would indicate a bug in the RefSeq join logic.
+    """
+    result = run_query("""
+        MATCH (p:Protein)-[r:Gene_encodes_protein]->(g:Gene)
+        WITH p, g, count(r) AS edge_count
+        WHERE edge_count > 1
+        RETURN count(*) AS duplicates
+    """)
+    duplicates = result[0]["duplicates"]
+    assert duplicates == 0, (
+        f"{duplicates} (Protein, Gene) pair(s) have duplicate Gene_encodes_protein edges"
+    )
+
+
 def test_prochlorococcus_genes_in_cyanorak_clusters(run_query):
     """
     Prochlorococcus genes should mostly belong to a Cyanorak cluster.
