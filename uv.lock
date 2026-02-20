@@ -234,23 +234,23 @@ wheels = [
 
 [[package]]
 name = "biocypher"
-version = "0.11.0"
+version = "0.12.5"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "appdirs" },
     { name = "more-itertools" },
-    { name = "neo4j-utils" },
     { name = "networkx" },
     { name = "pandas" },
     { name = "pooch" },
     { name = "pyyaml" },
     { name = "rdflib" },
+    { name = "toml" },
     { name = "tqdm" },
     { name = "treelib" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/20/42/07fd39b26449493d97f88d5ee1dfdca7fc9a5fdb448a5ac63b40e2e48c9f/biocypher-0.11.0.tar.gz", hash = "sha256:70d6ff3e93cb93078a583d1e39cef5d99840069b318270555a0a87913bdfc5e6", size = 3112764, upload-time = "2025-09-17T00:25:24.392Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/5f/ab/1fd74c28b2706711cd7f5807e77ff2b41cd349184e1f9cedee3eedb254d0/biocypher-0.12.5.tar.gz", hash = "sha256:c8f95711a769565dc46b16baebcdf225b3f0eed1badbc45971eb8e79a96adf26", size = 5044274, upload-time = "2026-01-21T15:41:03.599Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/60/a3/1bed0595dffb2f1809f6d1b12e8776dfb8ffa89ed0be89d63fecf9462eef/biocypher-0.11.0-py3-none-any.whl", hash = "sha256:eba3e3f428e2589a9fc30a092dc44d84e68a2e4a2c62eab97f8dd9de96385f4b", size = 105935, upload-time = "2025-09-17T00:25:22.754Z" },
+    { url = "https://files.pythonhosted.org/packages/83/54/9182334c86f6ee3dd9f4b4d54273a074df41180fca44d61ed57584ec944a/biocypher-0.12.5-py3-none-any.whl", hash = "sha256:afc106913bfdd62520297936c9d080b0febb3e481968e92ebd451c12662263ee", size = 124247, upload-time = "2026-01-21T15:41:01.894Z" },
 ]
 
 [[package]]
@@ -504,18 +504,6 @@ source = { registry = "https://pypi.org/simple" }
 sdist = { url = "https://files.pythonhosted.org/packages/d8/53/6f443c9a4a8358a93a6792e2acffb9d9d5cb0a5cfd8802644b7b1c9a02e4/colorama-0.4.6.tar.gz", hash = "sha256:08695f5cb7ed6e0531a20572697297273c47b8cae5a63ffc6d6ed5c201be6e44", size = 27697, upload-time = "2022-10-25T02:36:22.414Z" }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/d1/d6/3965ed04c63042e047cb6a3e6ed1a63a35087b6a609aa3a15ed8ac56c221/colorama-0.4.6-py2.py3-none-any.whl", hash = "sha256:4f1d9991f5acc0ca119f9d443620b77f9d6b33703e51011c16baf57afb285fc6", size = 25335, upload-time = "2022-10-25T02:36:20.889Z" },
-]
-
-[[package]]
-name = "colorlog"
-version = "6.10.1"
-source = { registry = "https://pypi.org/simple" }
-dependencies = [
-    { name = "colorama", marker = "sys_platform == 'win32'" },
-]
-sdist = { url = "https://files.pythonhosted.org/packages/a2/61/f083b5ac52e505dfc1c624eafbf8c7589a0d7f32daa398d2e7590efa5fda/colorlog-6.10.1.tar.gz", hash = "sha256:eb4ae5cb65fe7fec7773c2306061a8e63e02efc2c72eba9d27b0fa23c94f1321", size = 17162, upload-time = "2025-10-16T16:14:11.978Z" }
-wheels = [
-    { url = "https://files.pythonhosted.org/packages/6d/c1/e419ef3723a074172b68aaa89c9f3de486ed4c2399e2dbd8113a4fdcaf9e/colorlog-6.10.1-py3-none-any.whl", hash = "sha256:2d7e8348291948af66122cff006c9f8da6255d224e7cf8e37d8de2df3bad8c9c", size = 11743, upload-time = "2025-10-16T16:14:10.512Z" },
 ]
 
 [[package]]
@@ -2078,6 +2066,7 @@ dependencies = [
     { name = "langchain-anthropic" },
     { name = "langchain-core" },
     { name = "langchain-openai" },
+    { name = "neo4j" },
     { name = "paramiko" },
     { name = "pypath-omnipath" },
     { name = "pypdf" },
@@ -2105,6 +2094,7 @@ requires-dist = [
     { name = "langchain-anthropic", specifier = ">=1.3.1" },
     { name = "langchain-core", specifier = ">=0.1.0" },
     { name = "langchain-openai", specifier = ">=1.1.7" },
+    { name = "neo4j", specifier = ">=5.0" },
     { name = "paramiko", specifier = "<4.0" },
     { name = "pypath-omnipath", git = "https://github.com/wosnat/pypath" },
     { name = "pypdf", specifier = ">=6.6.2" },
@@ -2174,26 +2164,14 @@ wheels = [
 
 [[package]]
 name = "neo4j"
-version = "4.4.13"
+version = "6.1.0"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "pytz" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/c2/81/15c199172d18a965ba5720b07bfabb6f51a96ebabd6ebe7e993cff902b78/neo4j-4.4.13.tar.gz", hash = "sha256:d8c74f73c145d54bdb95d2c7f24961a44efedcf840c5f9fe1d1dcb36c669b7a2", size = 89278, upload-time = "2025-07-30T07:07:08.764Z" }
-
-[[package]]
-name = "neo4j-utils"
-version = "0.0.7"
-source = { registry = "https://pypi.org/simple" }
-dependencies = [
-    { name = "colorlog" },
-    { name = "neo4j" },
-    { name = "pyyaml" },
-    { name = "toml" },
-]
-sdist = { url = "https://files.pythonhosted.org/packages/ba/28/0a704ca839f9458e4c65891b73d941544a7070aa61d9740dd7690c5ae268/neo4j-utils-0.0.7.tar.gz", hash = "sha256:c50e1e6cc3fd852dceadb93320718271afc6ae4efba662bde0cadd9d591ce031", size = 15062, upload-time = "2022-10-19T19:57:56.68Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/1b/01/d6ce65e4647f6cb2b9cca3b813978f7329b54b4e36660aaec1ddf0ccce7a/neo4j-6.1.0.tar.gz", hash = "sha256:b5dde8c0d8481e7b6ae3733569d990dd3e5befdc5d452f531ad1884ed3500b84", size = 239629, upload-time = "2026-01-12T11:27:34.777Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/1f/02/3d5dddb7bf408388bc6f45a69d55b5fc370233d90c0619ce722987b57afe/neo4j_utils-0.0.7-py3-none-any.whl", hash = "sha256:afb49258e60e9123c93dae99eef86fd5f8572997b5edaccaaae95b8826e02f42", size = 15818, upload-time = "2022-10-19T19:58:08.623Z" },
+    { url = "https://files.pythonhosted.org/packages/70/5c/ee71e2dd955045425ef44283f40ba1da67673cf06404916ca2950ac0cd39/neo4j-6.1.0-py3-none-any.whl", hash = "sha256:3bd93941f3a3559af197031157220af9fd71f4f93a311db687bd69ffa417b67d", size = 325326, upload-time = "2026-01-12T11:27:33.196Z" },
 ]
 
 [[package]]

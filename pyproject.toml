@@ -32,6 +32,7 @@ dependencies = [
     "dotenv>=0.9.9",
     "langchain-openai>=1.1.7",
     "pypdf>=6.6.2",
+    "neo4j>=5.0",
 ]
 
 [tool.hatch.build.targets.wheel]
@@ -69,4 +70,5 @@ dev = [
 [tool.pytest.ini_options]
 markers = [
     "slow: marks tests as slow (deselect with '-m \"not slow\"')",
+    "kg: marks tests that require a running Neo4j instance (bolt://localhost:7687)",
 ]
