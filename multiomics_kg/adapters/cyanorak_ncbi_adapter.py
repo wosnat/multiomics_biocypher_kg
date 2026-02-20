@@ -10,9 +10,11 @@ from biocypher._logger import logger
 
 import collections
 import csv
+import json
 import os
 import h5py
 import gzip
+import xml.etree.ElementTree as ET
 
 from pydantic import BaseModel, DirectoryPath, FilePath, EmailStr, validate_call
 from typing import Literal, Union
@@ -27,6 +29,74 @@ from urllib.parse import unquote
 import re
 
 logger.debug(f"Loading module {__name__}.")
+
+# NCBI rank names → our property names
+_NCBI_RANK_TO_PROP = {
+    'superkingdom': 'superkingdom',
+    'domain': 'superkingdom',   # NCBI now uses 'domain' for Bacteria / Eukaryota
+    'kingdom': 'kingdom',
+    'phylum': 'phylum',
+    'class': 'tax_class',       # avoid collision with Python built-in
+    'order': 'order',
+    'family': 'family',
+    'genus': 'genus',
+    'species': 'species',
+}
+
+
+def _fetch_ncbi_taxonomy(taxid: int, cache_dir: str) -> dict:
+    """Fetch taxonomy lineage from NCBI efetch API with file-based caching.
+
+    Uses the same pypath curl library as the genome downloads.
+
+    Args:
+        taxid: NCBI taxonomy ID.
+        cache_dir: Directory for caching the result as taxonomy_<taxid>.json.
+
+    Returns:
+        Dict with keys: lineage (full semicolon string), superkingdom, kingdom,
+        phylum, tax_class, order, family, genus, species — only populated
+        ranks are included.
+    """
+    os.makedirs(cache_dir, exist_ok=True)
+    cache_path = os.path.join(cache_dir, f"taxonomy_{taxid}.json")
+
+    if os.path.exists(cache_path):
+        logger.info(f"Taxonomy cache hit: {cache_path}")
+        with open(cache_path) as f:
+            return json.load(f)
+
+    url = (
+        f"https://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi"
+        f"?db=taxonomy&id={taxid}&rettype=xml&retmode=xml"
+    )
+    c = curl.Curl(url, silent=False)
+    if c.result is None:
+        logger.warning(f"Failed to fetch taxonomy for taxid {taxid} from {url}")
+        return {}
+
+    result = {}
+    try:
+        root = ET.fromstring(c.result)
+        taxon = root.find('Taxon')
+        if taxon is not None:
+            result['lineage'] = taxon.findtext('Lineage') or ''
+            lineage_ex = taxon.find('LineageEx')
+            if lineage_ex is not None:
+                for t in lineage_ex.findall('Taxon'):
+                    rank = (t.findtext('Rank') or '').lower()
+                    name = t.findtext('ScientificName') or ''
+                    prop = _NCBI_RANK_TO_PROP.get(rank)
+                    if prop and name:
+                        result[prop] = name
+    except ET.ParseError as e:
+        logger.warning(f"Failed to parse taxonomy XML for taxid {taxid}: {e}")
+        return {}
+
+    with open(cache_path, 'w') as f:
+        json.dump(result, f, indent=2)
+    logger.info(f"Taxonomy saved to {cache_path}")
+    return result
 
 
 class GeneEnumMeta(EnumMeta):
@@ -123,6 +193,7 @@ class CyanorakNcbi:
         data_dir: str = None,
         strain_name: str = None,
         ncbi_taxon_id: int = None,
+        clade: str = None,
     ):
 
         model = GeneModel(
@@ -149,6 +220,8 @@ class CyanorakNcbi:
         self.data_dir = data_dir
         self.strain_name = strain_name
         self.ncbi_taxon_id = ncbi_taxon_id
+        self.clade = clade
+        self.taxonomy = {}  # populated by download_data()
 
         # no need becuase we are not creating protein to ec edges here
         # if model["organism"] in ("*", None):
@@ -274,6 +347,11 @@ class CyanorakNcbi:
                 if self.cyanorak_organism:
                     self.cyan_gff_file = self._download_cyanorak_gff()
                     self.cyan_gbk_file = self._download_cyanorak_gbk()
+                if self.ncbi_taxon_id:
+                    self.taxonomy = _fetch_ncbi_taxonomy(
+                        taxid=self.ncbi_taxon_id,
+                        cache_dir=self.data_dir,
+                    )
 
         if not self.ncbi_gff_file:
             raise ValueError(
@@ -392,6 +470,13 @@ class CyanorakNcbi:
             properties['organism_name'] = self.strain_name
         if self.ncbi_taxon_id is not None:
             properties['ncbi_taxon_id'] = self.ncbi_taxon_id
+        if self.clade:
+            properties['clade'] = self.clade
+        # Taxonomy ranks fetched from NCBI efetch (populated by download_data)
+        for key in ('lineage', 'superkingdom', 'kingdom', 'phylum', 'tax_class',
+                    'order', 'family', 'genus', 'species'):
+            if self.taxonomy.get(key):
+                properties[key] = self.taxonomy[key]
 
         logger.info(f"Created organism node {node_id} (strain: {self.strain_name})")
         return [(node_id, "organism", properties)]
@@ -786,12 +871,14 @@ class MultiCyanorakNcbi:
                     # Parse ncbi_taxon_id if present
                     taxon_id_str = row.get('ncbi_taxon_id')
                     ncbi_taxon_id = int(taxon_id_str) if taxon_id_str else None
+                    clade = row.get('clade') or None
                     adapter = CyanorakNcbi(
                         ncbi_accession=row['ncbi_accession'],
                         cyanorak_organism=cyanorak_org,
                         data_dir=row.get('data_dir') or None,
                         strain_name=row.get('strain_name') or None,
                         ncbi_taxon_id=ncbi_taxon_id,
+                        clade=clade,
                         **kwargs,
                     )
                 else:
@@ -816,6 +903,7 @@ class MultiCyanorakNcbi:
         """
         if not self.treatment_organisms_file:
             return []
+        taxonomy_cache_dir = "cache/data/taxonomy"
         nodes = []
         with open(self.treatment_organisms_file, 'r') as f:
             lines = [line for line in f if not line.strip().startswith('#')]
@@ -827,6 +915,11 @@ class MultiCyanorakNcbi:
                     'organism_name': row.get('organism_name', ''),
                     'ncbi_taxon_id': taxid,
                 }
+                taxonomy = _fetch_ncbi_taxonomy(taxid=taxid, cache_dir=taxonomy_cache_dir)
+                for key in ('lineage', 'superkingdom', 'kingdom', 'phylum', 'tax_class',
+                            'order', 'family', 'genus', 'species'):
+                    if taxonomy.get(key):
+                        props[key] = taxonomy[key]
                 nodes.append((node_id, "organism", props))
                 logger.info(f"Created treatment organism node {node_id} ({row.get('organism_name', '')})")
         return nodes

@@ -1,5 +1,6 @@
 """Unit tests for the CyanorakNcbi adapter."""
 
+import json
 import os
 import tempfile
 from unittest.mock import patch, MagicMock
@@ -16,6 +17,7 @@ from multiomics_kg.adapters.cyanorak_ncbi_adapter import (
     GeneModel,
     GeneNodeField,
     MultiCyanorakNcbi,
+    _fetch_ncbi_taxonomy,
 )
 
 
@@ -1610,6 +1612,261 @@ class TestNcbiOnlyMode:
         ncbi_only_adapter.download_data()
         edges = ncbi_only_adapter.get_edges()
         assert len(edges) == 0
+
+
+# ---------------------------------------------------------------------------
+# Taxonomy XML sample (mirrors real NCBI efetch response)
+# ---------------------------------------------------------------------------
+
+TAXONOMY_XML = """\
+<?xml version="1.0" ?>
+<TaxaSet>
+  <Taxon>
+    <TaxId>59920</TaxId>
+    <ScientificName>Prochlorococcus marinus str. NATL2A</ScientificName>
+    <Lineage>cellular organisms; Bacteria; Bacillati; Cyanobacteriota; Cyanophyceae; Synechococcales; Prochlorococcaceae; Prochlorococcus; Prochlorococcus marinus</Lineage>
+    <LineageEx>
+      <Taxon><TaxId>131567</TaxId><ScientificName>cellular organisms</ScientificName><Rank>cellular root</Rank></Taxon>
+      <Taxon><TaxId>2</TaxId><ScientificName>Bacteria</ScientificName><Rank>domain</Rank></Taxon>
+      <Taxon><TaxId>1783234</TaxId><ScientificName>Bacillati</ScientificName><Rank>kingdom</Rank></Taxon>
+      <Taxon><TaxId>1117</TaxId><ScientificName>Cyanobacteriota/Melainabacteria group</ScientificName><Rank>clade</Rank></Taxon>
+      <Taxon><TaxId>1117</TaxId><ScientificName>Cyanobacteriota</ScientificName><Rank>phylum</Rank></Taxon>
+      <Taxon><TaxId>1760</TaxId><ScientificName>Cyanophyceae</ScientificName><Rank>class</Rank></Taxon>
+      <Taxon><TaxId>1161</TaxId><ScientificName>Synechococcales</ScientificName><Rank>order</Rank></Taxon>
+      <Taxon><TaxId>1891976</TaxId><ScientificName>Prochlorococcaceae</ScientificName><Rank>family</Rank></Taxon>
+      <Taxon><TaxId>1218</TaxId><ScientificName>Prochlorococcus</ScientificName><Rank>genus</Rank></Taxon>
+      <Taxon><TaxId>1219</TaxId><ScientificName>Prochlorococcus marinus</ScientificName><Rank>species</Rank></Taxon>
+    </LineageEx>
+  </Taxon>
+</TaxaSet>
+"""
+
+
+# ---------------------------------------------------------------------------
+# Tests: _fetch_ncbi_taxonomy
+# ---------------------------------------------------------------------------
+
+
+class TestFetchNcbiTaxonomy:
+
+    @pytest.fixture
+    def mock_curl_ok(self):
+        mock = MagicMock()
+        mock.return_value.result = TAXONOMY_XML
+        return mock
+
+    def test_parses_lineage_string(self, tmp_path, mock_curl_ok):
+        with patch('multiomics_kg.adapters.cyanorak_ncbi_adapter.curl.Curl', mock_curl_ok):
+            result = _fetch_ncbi_taxonomy(59920, str(tmp_path))
+        assert 'lineage' in result
+        assert 'Bacteria' in result['lineage']
+        assert 'Prochlorococcus marinus' in result['lineage']
+
+    def test_domain_rank_maps_to_superkingdom(self, tmp_path, mock_curl_ok):
+        with patch('multiomics_kg.adapters.cyanorak_ncbi_adapter.curl.Curl', mock_curl_ok):
+            result = _fetch_ncbi_taxonomy(59920, str(tmp_path))
+        assert result.get('superkingdom') == 'Bacteria'
+
+    def test_class_rank_maps_to_tax_class(self, tmp_path, mock_curl_ok):
+        with patch('multiomics_kg.adapters.cyanorak_ncbi_adapter.curl.Curl', mock_curl_ok):
+            result = _fetch_ncbi_taxonomy(59920, str(tmp_path))
+        assert result.get('tax_class') == 'Cyanophyceae'
+        assert 'class' not in result  # raw 'class' key must not appear
+
+    def test_all_expected_ranks(self, tmp_path, mock_curl_ok):
+        with patch('multiomics_kg.adapters.cyanorak_ncbi_adapter.curl.Curl', mock_curl_ok):
+            result = _fetch_ncbi_taxonomy(59920, str(tmp_path))
+        assert result.get('kingdom') == 'Bacillati'
+        assert result.get('phylum') == 'Cyanobacteriota'
+        assert result.get('order') == 'Synechococcales'
+        assert result.get('family') == 'Prochlorococcaceae'
+        assert result.get('genus') == 'Prochlorococcus'
+        assert result.get('species') == 'Prochlorococcus marinus'
+
+    def test_unknown_ranks_not_included(self, tmp_path, mock_curl_ok):
+        """Ranks not in _NCBI_RANK_TO_PROP ('clade', 'cellular root') are silently ignored."""
+        with patch('multiomics_kg.adapters.cyanorak_ncbi_adapter.curl.Curl', mock_curl_ok):
+            result = _fetch_ncbi_taxonomy(59920, str(tmp_path))
+        assert 'clade' not in result
+        assert 'cellular root' not in result
+
+    def test_writes_cache_file(self, tmp_path, mock_curl_ok):
+        with patch('multiomics_kg.adapters.cyanorak_ncbi_adapter.curl.Curl', mock_curl_ok):
+            _fetch_ncbi_taxonomy(59920, str(tmp_path))
+        cache_file = tmp_path / 'taxonomy_59920.json'
+        assert cache_file.exists()
+        data = json.loads(cache_file.read_text())
+        assert data.get('superkingdom') == 'Bacteria'
+
+    def test_cache_hit_skips_curl(self, tmp_path):
+        cached = {'lineage': 'cached value', 'superkingdom': 'Bacteria', 'phylum': 'Cyanobacteriota'}
+        (tmp_path / 'taxonomy_59920.json').write_text(json.dumps(cached))
+        mock_curl = MagicMock()
+        with patch('multiomics_kg.adapters.cyanorak_ncbi_adapter.curl.Curl', mock_curl):
+            result = _fetch_ncbi_taxonomy(59920, str(tmp_path))
+        mock_curl.assert_not_called()
+        assert result == cached
+
+    def test_curl_failure_returns_empty_dict(self, tmp_path):
+        mock_curl = MagicMock()
+        mock_curl.return_value.result = None
+        with patch('multiomics_kg.adapters.cyanorak_ncbi_adapter.curl.Curl', mock_curl):
+            result = _fetch_ncbi_taxonomy(59920, str(tmp_path))
+        assert result == {}
+
+    def test_malformed_xml_returns_empty_dict(self, tmp_path):
+        mock_curl = MagicMock()
+        mock_curl.return_value.result = 'not valid xml <<&&>>'
+        with patch('multiomics_kg.adapters.cyanorak_ncbi_adapter.curl.Curl', mock_curl):
+            result = _fetch_ncbi_taxonomy(59920, str(tmp_path))
+        assert result == {}
+
+    def test_correct_url_contains_taxid_and_host(self, tmp_path, mock_curl_ok):
+        with patch('multiomics_kg.adapters.cyanorak_ncbi_adapter.curl.Curl', mock_curl_ok):
+            _fetch_ncbi_taxonomy(59920, str(tmp_path))
+        url = mock_curl_ok.call_args[0][0]
+        assert 'eutils.ncbi.nlm.nih.gov' in url
+        assert '59920' in url
+
+    def test_creates_cache_dir_if_missing(self, tmp_path):
+        nested = tmp_path / 'a' / 'b' / 'c'
+        mock_curl = MagicMock()
+        mock_curl.return_value.result = TAXONOMY_XML
+        with patch('multiomics_kg.adapters.cyanorak_ncbi_adapter.curl.Curl', mock_curl):
+            _fetch_ncbi_taxonomy(59920, str(nested))
+        assert nested.exists()
+
+
+# ---------------------------------------------------------------------------
+# Tests: organism node taxonomy properties
+# ---------------------------------------------------------------------------
+
+
+class TestOrganismNodeTaxonomy:
+
+    def test_clade_in_organism_node(self):
+        adapter = CyanorakNcbi(
+            ncbi_accession='GCF_000012465.1',
+            strain_name='NATL2A',
+            ncbi_taxon_id=59920,
+            clade='LLII',
+        )
+        _, _, props = adapter._get_organism_node()[0]
+        assert props.get('clade') == 'LLII'
+
+    def test_no_clade_not_in_props(self):
+        adapter = CyanorakNcbi(ncbi_accession='GCF_TEST', strain_name='TestStrain')
+        _, _, props = adapter._get_organism_node()[0]
+        assert 'clade' not in props
+
+    def test_taxonomy_ranks_propagated_to_node(self):
+        adapter = CyanorakNcbi(
+            ncbi_accession='GCF_000012465.1',
+            strain_name='NATL2A',
+            ncbi_taxon_id=59920,
+        )
+        adapter.taxonomy = {
+            'lineage': 'cellular organisms; Bacteria; Cyanobacteriota',
+            'superkingdom': 'Bacteria',
+            'kingdom': 'Bacillati',
+            'phylum': 'Cyanobacteriota',
+            'tax_class': 'Cyanophyceae',
+            'order': 'Synechococcales',
+            'family': 'Prochlorococcaceae',
+            'genus': 'Prochlorococcus',
+            'species': 'Prochlorococcus marinus',
+        }
+        _, _, props = adapter._get_organism_node()[0]
+        assert props.get('lineage') == 'cellular organisms; Bacteria; Cyanobacteriota'
+        assert props.get('superkingdom') == 'Bacteria'
+        assert props.get('kingdom') == 'Bacillati'
+        assert props.get('phylum') == 'Cyanobacteriota'
+        assert props.get('tax_class') == 'Cyanophyceae'
+        assert props.get('order') == 'Synechococcales'
+        assert props.get('family') == 'Prochlorococcaceae'
+        assert props.get('genus') == 'Prochlorococcus'
+        assert props.get('species') == 'Prochlorococcus marinus'
+
+    def test_empty_taxonomy_no_extra_props(self):
+        adapter = CyanorakNcbi(
+            ncbi_accession='GCF_TEST',
+            strain_name='TestStrain',
+            ncbi_taxon_id=12345,
+        )
+        # self.taxonomy is {} by default
+        _, _, props = adapter._get_organism_node()[0]
+        for key in ('lineage', 'superkingdom', 'kingdom', 'phylum', 'tax_class',
+                    'order', 'family', 'genus', 'species'):
+            assert key not in props
+
+    def test_clade_and_taxonomy_combined(self):
+        adapter = CyanorakNcbi(
+            ncbi_accession='GCF_000012465.1',
+            strain_name='NATL2A',
+            ncbi_taxon_id=59920,
+            clade='LLII',
+        )
+        adapter.taxonomy = {'superkingdom': 'Bacteria', 'phylum': 'Cyanobacteriota'}
+        _, _, props = adapter._get_organism_node()[0]
+        assert props.get('clade') == 'LLII'
+        assert props.get('superkingdom') == 'Bacteria'
+        assert props.get('phylum') == 'Cyanobacteriota'
+
+    def test_partial_taxonomy_only_present_keys_emitted(self):
+        """Only ranks returned by the taxonomy fetch should appear in node props."""
+        adapter = CyanorakNcbi(ncbi_accession='GCF_TEST', strain_name='TestStrain')
+        adapter.taxonomy = {'superkingdom': 'Bacteria', 'phylum': 'Cyanobacteriota'}
+        _, _, props = adapter._get_organism_node()[0]
+        assert 'superkingdom' in props
+        assert 'phylum' in props
+        assert 'order' not in props
+        assert 'family' not in props
+
+
+# ---------------------------------------------------------------------------
+# Tests: MultiCyanorakNcbi reads clade column
+# ---------------------------------------------------------------------------
+
+
+class TestMultiCyanorakNcbiClade:
+
+    @pytest.fixture
+    def csv_with_clade(self, temp_data_dir):
+        csv_path = os.path.join(temp_data_dir, 'genomes_clade.csv')
+        with open(csv_path, 'w') as f:
+            f.write('ncbi_accession,cyanorak_organism,ncbi_taxon_id,strain_name,data_dir,clade\n')
+            f.write(f'GCF_TEST1,Pro_TEST1,59919,MED4,{temp_data_dir}/g1,HLI\n')
+            f.write(f'GCF_TEST2,Pro_TEST2,59920,NATL2A,{temp_data_dir}/g2,LLII\n')
+        return csv_path
+
+    @pytest.fixture
+    def csv_without_clade_column(self, temp_data_dir):
+        csv_path = os.path.join(temp_data_dir, 'genomes_no_clade.csv')
+        with open(csv_path, 'w') as f:
+            f.write('ncbi_accession,cyanorak_organism,ncbi_taxon_id,strain_name,data_dir\n')
+            f.write(f'GCF_TEST1,Pro_TEST1,59919,MED4,{temp_data_dir}/g1\n')
+        return csv_path
+
+    @pytest.fixture
+    def csv_with_empty_clade(self, temp_data_dir):
+        csv_path = os.path.join(temp_data_dir, 'genomes_empty_clade.csv')
+        with open(csv_path, 'w') as f:
+            f.write('ncbi_accession,cyanorak_organism,ncbi_taxon_id,strain_name,data_dir,clade\n')
+            f.write(f'GCF_TEST1,Pro_TEST1,59919,MED4,{temp_data_dir}/g1,\n')
+        return csv_path
+
+    def test_clade_read_from_csv(self, csv_with_clade):
+        wrapper = MultiCyanorakNcbi(config_list_file=csv_with_clade)
+        assert wrapper.adapters[0].clade == 'HLI'
+        assert wrapper.adapters[1].clade == 'LLII'
+
+    def test_missing_clade_column_sets_none(self, csv_without_clade_column):
+        wrapper = MultiCyanorakNcbi(config_list_file=csv_without_clade_column)
+        assert wrapper.adapters[0].clade is None
+
+    def test_empty_clade_field_sets_none(self, csv_with_empty_clade):
+        wrapper = MultiCyanorakNcbi(config_list_file=csv_with_empty_clade)
+        assert wrapper.adapters[0].clade is None
 
 
 # ---------------------------------------------------------------------------

@@ -252,6 +252,16 @@ organism taxon:
     organism_name: str
     strain_name: str
     ncbi_taxon_id: int
+    clade: str           # research clade, e.g. HLI, HLII, LLIV (Prochlorococcus-specific)
+    lineage: str         # full NCBI lineage string
+    superkingdom: str    # e.g. Bacteria
+    kingdom: str         # e.g. Bacillati
+    phylum: str          # e.g. Cyanobacteriota
+    tax_class: str       # e.g. Cyanophyceae
+    order: str           # e.g. Synechococcales
+    family: str          # e.g. Prochlorococcaceae
+    genus: str           # e.g. Prochlorococcus
+    species: str         # e.g. Prochlorococcus marinus
 
 environmental condition:
   is_a: EnvironmentalFeature
