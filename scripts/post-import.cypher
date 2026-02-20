@@ -17,8 +17,8 @@
 // The `distance` property captures phylogenetic proximity between the two organisms.
 MATCH (g1:Gene)-[:Gene_in_cyanorak_cluster]->(c:Cyanorak_cluster)<-[:Gene_in_cyanorak_cluster]-(g2:Gene)
 WHERE id(g1) <> id(g2)
-MATCH (g1)-[:Gene_belongs_to_organism]->(o1:Organism_taxon)
-MATCH (g2)-[:Gene_belongs_to_organism]->(o2:Organism_taxon)
+MATCH (g1)-[:Gene_belongs_to_organism]->(o1:OrganismTaxon)
+MATCH (g2)-[:Gene_belongs_to_organism]->(o2:OrganismTaxon)
 WITH g1, g2, c, o1, o2,
   CASE
     WHEN o1.id = o2.id
