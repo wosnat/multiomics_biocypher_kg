@@ -496,7 +496,7 @@ class CyanorakNcbi:
 
     @validate_call
     def get_edges(self) -> list[tuple]:
-        """Generate gene → cluster edges.
+        """Generate gene → cluster and gene → organism edges.
 
         Returns:
             List of tuples: (edge_id, source_id, target_id, edge_type, properties_dict)
@@ -539,6 +539,27 @@ class CyanorakNcbi:
             ))
 
         logger.info(f"Finished writing {len(edge_list)} gene-cluster edges")
+
+        # Gene → organism edges (one per gene, for all genes with a locus_tag)
+        if self.ncbi_accession:
+            organism_id = self.add_prefix_to_id(
+                prefix="insdc.gcf",
+                identifier=self.ncbi_accession,
+            )
+            for _, row in self.data_df.iterrows():
+                locus_tag = row.get('locus_tag')
+                if pd.isna(locus_tag):
+                    continue
+                gene_id = self.add_prefix_to_id(prefix="ncbigene", identifier=locus_tag)
+                edge_list.append((
+                    f"{gene_id}_belongs_to_{organism_id}",
+                    gene_id,
+                    organism_id,
+                    "gene_belongs_to_organism",
+                    {}
+                ))
+            logger.info(f"Finished writing gene-organism edges for {self.ncbi_accession}")
+
         return edge_list
 
 

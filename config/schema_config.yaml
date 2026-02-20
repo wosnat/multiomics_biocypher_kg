@@ -396,6 +396,14 @@ protein to organism taxon association:
   source: protein
   target: organismTaxon
   label_in_input: Protein_belongs_to_organism
+
+gene to organism taxon association:
+  is_a: association
+  represented_as: edge
+  label_as_edge: Gene_belongs_to_organism
+  source: gene
+  target: organism taxon
+  label_in_input: gene_belongs_to_organism
   
 
 protein to protein domain association:
@@ -532,6 +540,7 @@ gene to gene homology association:
   properties:
     source: str           # e.g., "cyanorak_cluster"
     cluster_id: str       # the shared cluster ID
+    distance: str         # phylogenetic distance, e.g. "same clade: HLI", "same species: Prochlorococcus marinus", "same order: Synechococcales"
 
 
 
