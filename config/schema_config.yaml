@@ -87,6 +87,7 @@ organism to homolog gene expression association:
     original_gene: str         # ID of the gene with the direct expression edge
     homology_source: str       # e.g., "cyanorak_cluster"
     homology_cluster_id: str   # the shared cluster ID
+    distance: str              # phylogenetic distance from homology edge, e.g. "same clade: HLI"
 
 environmental condition to homolog gene expression association:
   is_a: Association
@@ -107,6 +108,7 @@ environmental condition to homolog gene expression association:
     original_gene: str         # ID of the gene with the direct expression edge
     homology_source: str       # e.g., "cyanorak_cluster"
     homology_cluster_id: str   # the shared cluster ID
+    distance: str              # phylogenetic distance from homology edge, e.g. "same clade: HLI"
 
 cyanorak_cluster:
   is_a: GroupingClass

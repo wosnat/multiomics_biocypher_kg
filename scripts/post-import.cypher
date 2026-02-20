@@ -52,5 +52,6 @@ CREATE (source)-[:Affects_expression_of_homolog {
   publications: e.publications,
   original_gene: geneA.id,
   homology_source: h.source,
-  homology_cluster_id: h.cluster_id
+  homology_cluster_id: h.cluster_id,
+  distance: h.distance
 }]->(geneB);
