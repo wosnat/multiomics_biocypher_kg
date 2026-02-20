@@ -25,7 +25,7 @@ publication:
   supplementary_materials:
     supp_table_3:
       type: csv
-      filename: data/Prochlorococcus/papers_and_supp/Al-Hosani 2015/de_genes_salt_acclimated_vs_sea_water.csv
+      filename: data/Prochlorococcus/papers_and_supp/Al-Hosani 2015/de_genes_salt_acclimated_vs_sea_water_with_locus_tag.csv
       statistical_analyses:
         - type: RNASEQ
           name: Differential expression of Prochlorococcus AS9601 under salt acclimation (5% NaCl) vs normal seawater (3.8% NaCl)
@@ -37,7 +37,7 @@ publication:
           environmental_treatment_condition_id: alhosani_2015_salt_acclimation
           experimental_context: Axenic cells in PRO99 medium at 22C under continuous light, acclimated to 5% NaCl for 3 generations. RNA extracted from exponential-phase cells sampled on 2 consecutive days (3 biological replicates per condition)
           organism: Prochlorococcus AS9601
-          name_col: Gene id
+          name_col: locus_tag
           logfc_col: log2FoldChange
           adjusted_p_value_col: padj
           prefiltered: true

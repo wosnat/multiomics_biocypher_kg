@@ -250,12 +250,15 @@ def get_genome_dir(organism_name, project_root):
 def scan_gff_for_ids(gff_path, sample_ids):
     """Scan a GFF file for sample IDs in any attribute field.
 
-    Returns dict mapping attribute_name -> count of sample_ids found there.
+    Returns dict with:
+      - attr_matches: dict mapping attribute_name -> count of sample_ids found
+      - biotypes: dict mapping sample_id -> gene_biotype (e.g. tRNA, pseudogene)
     """
-    matches = defaultdict(int)
+    attr_matches = defaultdict(int)
+    biotypes = {}
     sample_set = set(sample_ids)
     if not sample_set or not Path(gff_path).exists():
-        return matches
+        return {"attr_matches": attr_matches, "biotypes": biotypes}
 
     with open(gff_path) as f:
         for line in f:
@@ -265,14 +268,27 @@ def scan_gff_for_ids(gff_path, sample_ids):
             if len(parts) < 9:
                 continue
             attrs_str = parts[8]
+            # Parse all attributes into a dict for this line
+            attr_dict = {}
             for attr in attrs_str.split(";"):
                 if "=" not in attr:
                     continue
                 key, val = attr.split("=", 1)
+                attr_dict[key] = val
+            # Check if any sample ID appears in any attribute value
+            for attr_key, attr_val in attr_dict.items():
                 for sid in sample_set:
-                    if sid in val:
-                        matches[key] += 1
-    return matches
+                    if sid in attr_val:
+                        attr_matches[attr_key] += 1
+                        # Record biotype for this ID if available
+                        if sid not in biotypes:
+                            biotype = attr_dict.get("gene_biotype", "")
+                            feature_type = parts[2] if len(parts) > 2 else ""
+                            if biotype:
+                                biotypes[sid] = biotype
+                            elif feature_type == "pseudogene":
+                                biotypes[sid] = "pseudogene"
+    return {"attr_matches": attr_matches, "biotypes": biotypes}
 
 
 def check_other_csv_columns(csv_path, skip_rows, gene_index, exclude_col):
@@ -360,6 +376,46 @@ def check_gene_mapping(sample_ids, genome_dir):
         if matched:
             results[col] = (len(matched), matched[0])
     return results
+
+
+def check_gene_mapping_supp(sample_ids, genome_dir):
+    """Check if sample IDs match alt_id in gene_mapping_supp.csv.
+
+    Returns dict with match_count, sample match, and source paper, or None.
+    """
+    supp_file = Path(genome_dir) / "gene_mapping_supp.csv"
+    if not supp_file.exists():
+        return None
+
+    try:
+        df = pd.read_csv(supp_file)
+    except Exception:
+        return None
+
+    if "alt_id" not in df.columns or "locus_tag" not in df.columns:
+        return None
+
+    # Build alt_id -> (locus_tag, paper) lookup
+    lookup = {}
+    for _, row in df.iterrows():
+        alt = str(row["alt_id"]).strip() if pd.notna(row.get("alt_id")) else ""
+        locus = str(row["locus_tag"]).strip() if pd.notna(row.get("locus_tag")) else ""
+        paper = str(row.get("paper", "")).strip() if pd.notna(row.get("paper")) else ""
+        if alt and locus and alt != "nan" and locus != "nan":
+            if alt not in lookup:
+                lookup[alt] = (locus, paper)
+
+    matched = [(sid, lookup[sid][0], lookup[sid][1]) for sid in sample_ids if sid in lookup]
+    if not matched:
+        return None
+
+    return {
+        "match_count": len(matched),
+        "sample_id": matched[0][0],
+        "mapped_to": matched[0][1],
+        "source_paper": matched[0][2],
+        "total_sample": len(sample_ids),
+    }
 
 
 def classify_ids(all_ids, gene_index, secondary_ids=None):
@@ -646,26 +702,89 @@ def analyze_paperconfig(paperconfig_path, gene_index, project_root, import_repor
                     analyses_results.append(result)
                     continue
 
+                # Check gene_mapping_supp.csv (cross-paper alternative IDs)
+                supp_result = check_gene_mapping_supp(sample_mismatched, genome_dir)
+                if supp_result:
+                    result["fix_strategy"] = "CREATE_MAPPING_SUPP"
+                    result["details"] = (
+                        f"{result['matched_count']}/{total_gene_ids} match, "
+                        f"{result['mismatched_count']} don't. "
+                        f"Mismatched IDs match alt_id in gene_mapping_supp.csv "
+                        f"({supp_result['match_count']}/{supp_result['total_sample']} of sample match, "
+                        f"from paper '{supp_result['source_paper']}'). "
+                        f"E.g., '{supp_result['sample_id']}' -> locus_tag '{supp_result['mapped_to']}'. "
+                        f"Run /fix-gene-ids on this paperconfig to resolve."
+                    )
+                    analyses_results.append(result)
+                    continue
+
                 # gene_mapping.csv exists but IDs not found there — check GFF/GBK
                 gff_files = list(Path(genome_dir).rglob("*.gff"))
                 found_gff = False
+                non_coding_types = {"tRNA", "rRNA", "ncRNA", "tmRNA", "pseudogene"}
                 for gff_path in gff_files:
-                    gff_matches = scan_gff_for_ids(str(gff_path), sample_mismatched[:10])
-                    if gff_matches:
-                        best_attr = max(gff_matches, key=gff_matches.get)
-                        cnt = gff_matches[best_attr]
-                        rel_mapping = os.path.relpath(
-                            Path(genome_dir) / "gene_mapping.csv", project_root
-                        )
-                        result["fix_strategy"] = "CREATE_MAPPING_GFF"
-                        result["details"] = (
-                            f"{result['matched_count']}/{total_gene_ids} match, "
-                            f"{result['mismatched_count']} don't. "
-                            f"IDs found in GFF attribute '{best_attr}' "
-                            f"in {gff_path.name} ({cnt} matches) "
-                            f"but NOT in gene_mapping.csv. "
-                            f"Add '{best_attr}' column to {rel_mapping}."
-                        )
+                    gff_result = scan_gff_for_ids(str(gff_path), sample_mismatched[:LOOKUP_SAMPLE_SIZE])
+                    gff_attr_matches = gff_result["attr_matches"]
+                    gff_biotypes = gff_result["biotypes"]
+                    if gff_attr_matches:
+                        best_attr = max(gff_attr_matches, key=gff_attr_matches.get)
+                        cnt = gff_attr_matches[best_attr]
+                        # Classify matched IDs by biotype
+                        nc_ids = {sid: bt for sid, bt in gff_biotypes.items() if bt in non_coding_types}
+                        coding_ids = {sid: bt for sid, bt in gff_biotypes.items() if bt not in non_coding_types}
+                        sample_checked = sample_mismatched[:LOOKUP_SAMPLE_SIZE]
+                        not_in_gff = len(sample_checked) - len(gff_biotypes)
+
+                        if nc_ids and not coding_ids:
+                            # All GFF-matched IDs are non-coding
+                            bt_counts = defaultdict(int)
+                            for bt in nc_ids.values():
+                                bt_counts[bt] += 1
+                            bt_summary = ", ".join(f"{c} {bt}" for bt, c in bt_counts.items())
+                            detail_parts = [
+                                f"{result['matched_count']}/{total_gene_ids} match, "
+                                f"{result['mismatched_count']} don't. "
+                                f"Of {len(sample_checked)} sampled: {len(nc_ids)} are non-protein-coding "
+                                f"in GFF ({bt_summary}) — no gene nodes expected.",
+                            ]
+                            if not_in_gff > 0:
+                                detail_parts.append(
+                                    f" {not_in_gff} not found in current GFF annotation."
+                                )
+                            result["fix_strategy"] = "NON_CODING"
+                            result["details"] = "".join(detail_parts)
+                        elif coding_ids:
+                            # Some protein-coding IDs found in GFF but not in gene_mapping
+                            rel_mapping = os.path.relpath(
+                                Path(genome_dir) / "gene_mapping.csv", project_root
+                            )
+                            result["fix_strategy"] = "CREATE_MAPPING_GFF"
+                            result["details"] = (
+                                f"{result['matched_count']}/{total_gene_ids} match, "
+                                f"{result['mismatched_count']} don't. "
+                                f"IDs found in GFF attribute '{best_attr}' "
+                                f"in {gff_path.name} ({len(coding_ids)} protein-coding) "
+                                f"but NOT in gene_mapping.csv. "
+                                f"Add '{best_attr}' column to {rel_mapping}."
+                            )
+                            if nc_ids:
+                                result["details"] += (
+                                    f" ({len(nc_ids)} others are non-coding.)"
+                                )
+                        else:
+                            # GFF attribute matched but no biotype found
+                            rel_mapping = os.path.relpath(
+                                Path(genome_dir) / "gene_mapping.csv", project_root
+                            )
+                            result["fix_strategy"] = "CREATE_MAPPING_GFF"
+                            result["details"] = (
+                                f"{result['matched_count']}/{total_gene_ids} match, "
+                                f"{result['mismatched_count']} don't. "
+                                f"IDs found in GFF attribute '{best_attr}' "
+                                f"in {gff_path.name} ({cnt} matches) "
+                                f"but NOT in gene_mapping.csv. "
+                                f"Add '{best_attr}' column to {rel_mapping}."
+                            )
                         analyses_results.append(result)
                         found_gff = True
                         break

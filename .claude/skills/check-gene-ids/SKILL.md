@@ -87,6 +87,7 @@ Mismatched IDs are grouped by pattern to help diagnose issues:
 | **LOAD_ORGANISM** | Organism genome not loaded | Add genome to `cyanobacteria_genomes.csv` |
 | **CHANGE_NAME_COL** | Another CSV column has matching IDs | Change `name_col` in paperconfig.yaml |
 | **CREATE_MAPPING_CSV** | IDs match a column in `gene_mapping.csv` | Run `/fix-gene-ids` to create `_with_locus_tag.csv`, then update paperconfig |
+| **CREATE_MAPPING_SUPP** | IDs match `alt_id` in `gene_mapping_supp.csv` (cross-paper) | Run `/fix-gene-ids` to resolve via supplementary mappings |
 | **CREATE_MAPPING_GFF** | IDs found in GFF/GBK but NOT in `gene_mapping.csv` | Add the GFF attribute as a new column in gene_mapping.csv |
 | **UNRELATED_IDS** | IDs don't match anything | Manual investigation needed |
 
@@ -99,7 +100,8 @@ When invoked with a paper name (e.g., `/check-gene-ids "Biller 2018"`):
 3. Review the output — check the Breakdown line and mismatched ID categories
 4. For CHANGE_NAME_COL: read the CSV to verify the suggested column, then update paperconfig.yaml
 5. For CREATE_MAPPING_CSV: run `/fix-gene-ids` on the paperconfig, then update filename and name_col
-6. For CREATE_MAPPING_GFF: extract the GFF attribute and add it to gene_mapping.csv
+6. For CREATE_MAPPING_SUPP: run `/fix-gene-ids` (it uses gene_mapping_supp.csv automatically), then update filename and name_col
+7. For CREATE_MAPPING_GFF: extract the GFF attribute and add it to gene_mapping.csv
 7. For LOAD_ORGANISM: note the organism for future genome loading
 
 When invoked with "all" or no arguments:

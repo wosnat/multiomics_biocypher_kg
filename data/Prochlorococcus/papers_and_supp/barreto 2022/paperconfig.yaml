@@ -18,19 +18,57 @@ publication:
       description: "Growth at elevated pCO2 (800 ppm CO2)"
 
   supplementary_materials:
-    # Table S1: pCO2 effect on picocyanobacteria (3 species in one file)
-    supp_table_S1:
+    # Table S1: pCO2 effect on picocyanobacteria (split per species from original table_S1.csv)
+    supp_table_S1_MIT9312:
       type: csv
-      filename: "data/Prochlorococcus/papers_and_supp/barreto 2022/transcriptome_supplemental_tables/Supplemental_tables/table_S1.csv"
+      filename: "data/Prochlorococcus/papers_and_supp/barreto 2022/transcriptome_supplemental_tables/Supplemental_tables/table_S1_MIT9312.csv"
       statistical_analyses:
         - type: RNASEQ
-          name: "DE of Prochlorococcus MIT9312/Synechococcus at elevated (800 ppm) vs ambient (400 ppm) pCO2"
-          id: DE_pco2_elevated_vs_ambient
+          name: "DE of Prochlorococcus MIT9312 at elevated (800 ppm) vs ambient (400 ppm) pCO2"
+          id: DE_pco2_elevated_vs_ambient_MIT9312
           test_type: edgeR
           control_condition: "Ambient pCO2 (400 ppm)"
           treatment_condition: "Elevated pCO2 (800 ppm)"
           experimental_context: "In Pro99 medium, axenic and coculture conditions with Alteromonas EZ55"
-          organism: "Prochlorococcus MIT9312, Synechococcus CC9311, Synechococcus WH8102"
+          organism: "Prochlorococcus MIT9312"
+          environmental_control_condition_id: barreto_2022_ambient_pco2
+          environmental_treatment_condition_id: barreto_2022_elevated_pco2
+          name_col: symbol
+          logfc_col: logFC
+          adjusted_p_value_col: PValue
+          pvalue_threshold: 0.05
+
+    supp_table_S1_CC9311:
+      type: csv
+      filename: "data/Prochlorococcus/papers_and_supp/barreto 2022/transcriptome_supplemental_tables/Supplemental_tables/table_S1_CC9311.csv"
+      statistical_analyses:
+        - type: RNASEQ
+          name: "DE of Synechococcus CC9311 at elevated (800 ppm) vs ambient (400 ppm) pCO2"
+          id: DE_pco2_elevated_vs_ambient_CC9311
+          test_type: edgeR
+          control_condition: "Ambient pCO2 (400 ppm)"
+          treatment_condition: "Elevated pCO2 (800 ppm)"
+          experimental_context: "In Pro99 medium, axenic and coculture conditions with Alteromonas EZ55"
+          organism: "Synechococcus CC9311"
+          environmental_control_condition_id: barreto_2022_ambient_pco2
+          environmental_treatment_condition_id: barreto_2022_elevated_pco2
+          name_col: symbol
+          logfc_col: logFC
+          adjusted_p_value_col: PValue
+          pvalue_threshold: 0.05
+
+    supp_table_S1_WH8102:
+      type: csv
+      filename: "data/Prochlorococcus/papers_and_supp/barreto 2022/transcriptome_supplemental_tables/Supplemental_tables/table_S1_WH8102.csv"
+      statistical_analyses:
+        - type: RNASEQ
+          name: "DE of Synechococcus WH8102 at elevated (800 ppm) vs ambient (400 ppm) pCO2"
+          id: DE_pco2_elevated_vs_ambient_WH8102
+          test_type: edgeR
+          control_condition: "Ambient pCO2 (400 ppm)"
+          treatment_condition: "Elevated pCO2 (800 ppm)"
+          experimental_context: "In Pro99 medium, axenic and coculture conditions with Alteromonas EZ55"
+          organism: "Synechococcus WH8102"
           environmental_control_condition_id: barreto_2022_ambient_pco2
           environmental_treatment_condition_id: barreto_2022_elevated_pco2
           name_col: symbol

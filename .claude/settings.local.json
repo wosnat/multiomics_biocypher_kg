@@ -9,7 +9,11 @@
       "Skill(check-gene-ids)",
       "Skill(check-gene-ids:*)",
       "Bash(grep:*)",
-      "Bash(python -m pytest:*)"
+      "Bash(python -m pytest:*)",
+      "Bash(wc:*)",
+      "Skill(fix-gene-ids)",
+      "Skill(fix-gene-ids:*)",
+      "Bash(python3:*)"
     ]
   }
 }

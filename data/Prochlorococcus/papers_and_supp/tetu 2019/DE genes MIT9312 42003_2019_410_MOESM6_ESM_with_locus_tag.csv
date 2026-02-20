@@ -1,0 +1,691 @@
+Gene Start,Gene End,Gene Length,MIT9312 original locus tag,MIT9312 (2017 NCBI),product,protein_id,COG (cyanobase),GO (cyanobase),HDPE log2 Fold change,PVC log2 Fold change,Unnamed: 11,NAT_homolog,locus_tag
+205,1362.0,1158.0,PMT9312_0001,PMT9312_RS00005,DNA polymerase III subunit beta,WP_011375566.1,"Replication, recombination and repair",DNA replication (GO:0006260),,-0.54,,WP_011293961.1,PMT9312_0001
+5916,8357.0,2442.0,PMT9312_0005,PMT9312_RS00025,DNA gyrase subunit A,WP_011375570.1,"Replication, recombination and repair",DNA metabolic process (GO:0006259),0.6,,,WP_011293965.1,PMT9312_0005
+17768,18262.0,495.0,PMT9312_0015,PMT9312_RS00075,peptide-methionine (R)-S-oxide reductase,WP_011375580.1,Not in COGs,oxidation reduction (GO:0055114),0.48,1.04,,WP_011293975.1,PMT9312_0015
+18338,19057.0,720.0,PMT9312_0016,PMT9312_RS00080,nucleotide exchange factor GrpE,WP_011375581.1,"Posttranslational modification, protein turnover, chaperones",protein folding (GO:0006457),0.57,0.68,,WP_011293976.1,PMT9312_0016
+20211,20441.0,231.0,PMT9312_0018,PMT9312_RS00090,SirA family protein,WP_011375583.1,"Posttranslational modification, protein turnover, chaperones",tRNA processing (GO:0008033),,0.95,,WP_011293978.1,PMT9312_0018
+27324,27884.0,561.0,PMT9312_0026,PMT9312_RS00130,elongation factor P,WP_011375591.1,Translation,translational elongation (GO:0006414),,-0.69,,WP_011293986.1,PMT9312_0026
+31106,31516.0,411.0,PMT9312_0032,PMT9312_RS00160,hypothetical protein,WP_011375597.1,Not in COGs,,0.28,-0.5,,WP_011293992.1,PMT9312_0032
+32220,32417.0,198.0,PMT9312_0034,PMT9312_RS00170,hypothetical protein,WP_011375599.1,Not in COGs,,0.69,0.76,,,PMT9312_0034
+42366,44147.0,1782.0,PMT9312_0043,PMT9312_RS00215,flavin oxidoreductase,WP_011375608.1,Energy production and conversion,,0.33,0.77,,WP_011294007.1,PMT9312_0043
+44164,45939.0,1776.0,PMT9312_0044,PMT9312_RS00220,diflavin flavoprotein A,WP_011375609.1,Energy production and conversion,,0.8,1.29,,WP_011294008.1,PMT9312_0044
+53900,54517.0,618.0,PMT9312_0050,PMT9312_RS00250,dephospho-CoA kinase,WP_011375615.1,Coenzyme transport and metabolism,coenzyme A biosynthetic process (GO:0015937),,0.74,,WP_011294014.1,PMT9312_0050
+56002,56667.0,666.0,PMT9312_0052,PMT9312_RS00260,chromosome partitioning protein ParA,WP_011375617.1,"Cell cycle control, mitosis and meiosis",,0.39,-0.61,,WP_011294042.1,PMT9312_0052
+56820,57782.0,963.0,PMT9312_0053,PMT9312_RS00265,aldo/keto reductase,WP_036924439.1,Energy production and conversion,oxidation reduction (GO:0055114),-0.42,-0.79,,WP_011295506.1,PMT9312_0053
+58409,59533.0,1125.0,PMT9312_0054,PMT9312_RS00270,RNA methyltransferase,WP_011375619.1,"Replication, recombination and repair",methylation (GO:0032259),,0.53,,WP_011294047.1,PMT9312_0054
+60790,61152.0,363.0,PMT9312_0058,PMT9312_RS00285,hypothetical protein,WP_011375622.1,Not in COGs,,-0.8,-0.85,,WP_011294051.1,PMT9312_0058
+67553,68899.0,1347.0,PMT9312_0062,PMT9312_RS00310,acetyl-CoA carboxylase biotin carboxylase subunit,WP_011375626.1,Lipid transport and metabolism,metabolic process (GO:0008152),-0.49,-1.06,,WP_011294055.1,PMT9312_0062
+69314,69499.0,186.0,PMT9312_0064,PMT9312_RS00320,photosystem II reaction center X protein,WP_011375628.1,Not in COGs,photosynthesis (GO:0015979),,-0.51,,WP_011294057.1,PMT9312_0064
+70507,70782.0,276.0,PMT9312_0066,PMT9312_RS00330,high light inducible protein,WP_011375630.1,Not in COGs,,,0.63,,WP_011294059.1,PMT9312_0066
+72816,73094.0,279.0,PMT9312_0068,PMT9312_RS00340,hypothetical protein,WP_011375632.1,Not in COGs,,,0.85,,WP_011294061.1,PMT9312_0068
+73142,73483.0,342.0,PMT9312_0069,PMT9312_RS00345,histidine triad nucleotide-binding protein,WP_011375633.1,Nucleotide transport and metabolism,,,0.65,,WP_011294062.1,PMT9312_0069
+77350,78567.0,1218.0,PMT9312_0073,PMT9312_RS00365,ABC transporter permease,WP_011375637.1,Not in COGs,iron-sulfur cluster assembly (GO:0016226),-0.54,,,WP_011294066.1,PMT9312_0073
+80915,81268.0,354.0,PMT9312_0076,PMT9312_RS00380,hypothetical protein,WP_011375640.1,Not in COGs,,,1.31,,WP_011294069.1,PMT9312_0076
+85811,86467.0,657.0,PMT9312_0081,PMT9312_RS00405,4'-phosphopantetheinyl transferase,WP_011375645.1,Not in COGs,macromolecule biosynthetic process (GO:0009059),0.45,0.7,,WP_049752675.1,PMT9312_0081
+86938,87621.0,684.0,PMT9312_0083,PMT9312_RS00415,transcriptional regulator,WP_011375647.1,Transcription,positive regulation of transcription (GO:0045941),,-0.79,,WP_049752676.1,PMT9312_0083
+87637,88362.0,726.0,PMT9312_0084,PMT9312_RS00420,phosphoadenosine phosphosulfate reductase,WP_011375648.1,Amino acid transport and metabolism,metabolic process (GO:0008152),-0.57,-0.84,,WP_011294077.1,PMT9312_0084
+88458,89651.0,1194.0,PMT9312_0085,PMT9312_RS00425,NADH dehydrogenase family protein,WP_036924436.1,Energy production and conversion,oxidation reduction (GO:0055114),,0.77,,WP_080502528.1,PMT9312_0085
+92937,93641.0,705.0,PMT9312_0088,PMT9312_RS00440,potassium transporter TrkA,WP_011375652.1,Inorganic ion transport and metabolism,metabolic process (GO:0008152),,-0.56,,WP_011294081.1,PMT9312_0088
+93648,93950.0,303.0,PMT9312_0089,PMT9312_RS00445,hypothetical protein,WP_011375653.1,Not in COGs,,0.68,-0.43,,WP_011294083.1,PMT9312_0089
+94076,94414.0,339.0,PMT9312_0090,PMT9312_RS00450,hypothetical protein,WP_011375654.1,Not in COGs,,-0.27,-0.61,,WP_011294084.1,PMT9312_0090
+99018,99317.0,300.0,PMT9312_0098,PMT9312_RS00485,hypothetical protein,WP_011375662.1,Not in COGs,,,0.84,,,PMT9312_0098
+101126,102559.0,1434.0,PMT9312_0101,PMT9312_RS00500,TolC family protein,WP_011375665.1,Cell wall/membrane biogenesis,transport (GO:0006810),,0.59,,WP_011294097.1,PMT9312_0101
+106576,107511.0,936.0,PMT9312_0105,PMT9312_RS00520,thioredoxin,WP_011375669.1,"Posttranslational modification, protein turnover, chaperones",cell redox homeostasis (GO:0045454),,-0.73,,WP_011294101.1,PMT9312_0105
+109140,109526.0,387.0,PMT9312_0107,PMT9312_RS00535,hypothetical protein,WP_011375672.1,Coenzyme transport and metabolism,,,0.74,,WP_011294103.1,PMT9312_0107
+109588,110742.0,1155.0,PMT9312_0108,PMT9312_RS00540,hypothetical protein,WP_011375673.1,Function unknown,,,0.74,,WP_011294105.1,PMT9312_0108
+113194,113904.0,711.0,PMT9312_0112,PMT9312_RS00565,hypothetical protein,WP_011375678.1,Not in COGs,,,0.51,,WP_011294110.1,PMT9312_0112
+113891,114616.0,726.0,PMT9312_0113,PMT9312_RS00570,glutathione S-transferase,WP_011375679.1,"Posttranslational modification, protein turnover, chaperones",,0.76,1.13,,WP_011294111.1,PMT9312_0113
+114880,115272.0,393.0,PMT9312_0115,PMT9312_RS00580,ribosome-binding factor A,WP_011375681.1,Translation,rRNA processing (GO:0006364),-0.7,0.76,,WP_011294113.1,PMT9312_0115
+116049,116519.0,471.0,PMT9312_0117,PMT9312_RS00590,membrane protein,WP_011375683.1,Function unknown,,,0.52,,WP_011294116.1,PMT9312_0117
+116523,117977.0,1455.0,PMT9312_0118,PMT9312_RS00595,"9,9'-di-cis-zeta-carotene desaturase",WP_036924468.1,Coenzyme transport and metabolism,carotenoid biosynthetic process (GO:0016117),0.35,0.62,,WP_011294117.1,PMT9312_0118
+120322,121248.0,927.0,PMT9312_0123,PMT9312_RS00620,epimerase,WP_011375689.1,General function prediction only,cellular metabolic process (GO:0044237),0.86,1.97,,WP_011294120.1,PMT9312_0123
+121385,121621.0,237.0,PMT9312_0124,PMT9312_RS00625,NAD(P)H-quinone oxidoreductase subunit O,WP_011375690.1,Not in COGs,oxidation reduction (GO:0055114),0.75,0.48,,WP_011294121.1,PMT9312_0124
+123727,124401.0,675.0,PMT9312_0128,PMT9312_RS00645,ABC transporter ATP-binding protein,WP_011375694.1,Inorganic ion transport and metabolism,,-0.56,,,WP_011294126.1,PMT9312_0128
+125872,126654.0,783.0,PMT9312_0130,PMT9312_RS00660,DNA-binding response regulator,WP_011375696.1,Signal transduction mechanisms,"regulation of transcription, DNA-dependent (GO:0006355)",,0.56,,WP_011294127.1,PMT9312_0130
+145257,147278.0,2022.0,PMT9312_0151,PMT9312_RS00765,oxidoreductase,WP_011375717.1,Energy production and conversion,ATP synthesis coupled electron transport (GO:0042773),0.68,0.69,,WP_011294148.1,PMT9312_0151
+147400,149004.0,1605.0,PMT9312_0152,PMT9312_RS00770,NAD(P)H-quinone oxidoreductase chain 4,WP_011375718.1,Energy production and conversion,ATP synthesis coupled electron transport (GO:0042773),,-0.53,,WP_011294149.1,PMT9312_0152
+149128,149949.0,822.0,PMT9312_0153,PMT9312_RS00775,hypothetical protein,WP_011375719.1,Function unknown,,,-0.51,,WP_011294150.1,PMT9312_0153
+152128,152406.0,279.0,PMT9312_0156,PMT9312_RS00790,helix-turn-helix transcriptional regulator,WP_011375722.1,Transcription,"regulation of transcription, DNA-dependent (GO:0006355)",-0.35,-0.8,,WP_011294153.1,PMT9312_0156
+152369,152557.0,189.0,PMT9312_1977,PMT9312_RS09400,hypothetical protein,WP_071813294.1,Not in COGs,,0.99,,,,PMT9312_1977
+152620,153117.0,498.0,PMT9312_0157,PMT9312_RS00795,hypothetical protein,WP_011375723.1,Function unknown,,,0.63,,WP_011294155.1,PMT9312_0157
+154039,154359.0,321.0,PMT9312_0159,PMT9312_RS00805,NADH-quinone oxidoreductase subunit K,WP_036924418.1,Energy production and conversion,ATP synthesis coupled electron transport (GO:0042773),,0.53,,WP_011294157.1,PMT9312_0159
+154378,154977.0,600.0,PMT9312_0160,PMT9312_RS00810,NADH:ubiquinone oxidoreductase subunit J,WP_011375726.1,Energy production and conversion,oxidation reduction (GO:0055114),0.58,0.66,,WP_011294158.1,PMT9312_0160
+154990,155616.0,627.0,PMT9312_0161,PMT9312_RS00815,NAD(P)H-quinone oxidoreductase subunit I,WP_011375727.1,Energy production and conversion,oxidation reduction (GO:0055114),0.82,0.77,,WP_011294159.1,PMT9312_0161
+159699,160049.0,351.0,PMT9312_0165,PMT9312_RS00835,rhodanese,WP_036924463.1,Inorganic ion transport and metabolism,,,-1.23,,WP_011294163.1,PMT9312_0165
+160050,161294.0,1245.0,PMT9312_0166,PMT9312_RS00840,tryptophan synthase subunit beta,WP_011375732.1,Amino acid transport and metabolism,metabolic process (GO:0008152),0.5,,,WP_011294164.1,PMT9312_0166
+165611,166513.0,903.0,PMT9312_0173,PMT9312_RS00875,ribosomal RNA small subunit methyltransferase H,WP_011375739.1,Not in COGs,,,-0.67,,WP_011294172.1,PMT9312_0173
+167749,168201.0,453.0,PMT9312_0175,PMT9312_RS00885,"1,4-dihydroxy-2-naphthoyl-CoA hydrolase",WP_011375741.1,General function prediction only,,0.45,0.57,,WP_011294174.1,PMT9312_0175
+170373,171290.0,918.0,PMT9312_0178,PMT9312_RS00900,"2-carboxy-1,4-naphthoquinone phytyltransferase",WP_011375744.1,Coenzyme transport and metabolism,,-0.69,-0.72,,WP_011294177.1,PMT9312_0178
+171392,172804.0,1413.0,PMT9312_0179,PMT9312_RS00905,isochorismate synthase,WP_011375745.1,Coenzyme transport and metabolism,biosynthetic process (GO:0009058),,-0.65,,WP_011294178.1,PMT9312_0179
+176958,177683.0,726.0,PMT9312_0187,PMT9312_RS00945,MBL fold metallo-hydrolase,WP_011375753.1,General function prediction only,,0.5,,,,PMT9312_0187
+177680,178789.0,1110.0,PMT9312_0188,PMT9312_RS00950,histidinol-phosphate aminotransferase,WP_011375754.1,Amino acid transport and metabolism,biosynthetic process (GO:0009058),,0.5,,WP_011294186.1,PMT9312_0188
+181580,182962.0,1383.0,PMT9312_0191,PMT9312_RS00965,tRNA uridine-5-carboxymethylaminomethyl(34) synthesis GTPase MnmE,WP_011375757.1,General function prediction only,small GTPase mediated signal transduction (GO:0007264),,0.59,,WP_011294189.1,PMT9312_0191
+183029,183472.0,444.0,PMT9312_0192,PMT9312_RS00970,hypothetical protein,WP_011375758.1,Function unknown,,,0.98,,WP_011294190.1,PMT9312_0192
+188396,189268.0,873.0,PMT9312_0196,PMT9312_RS00990,ribosome biogenesis GTPase YlqF,WP_011375762.1,General function prediction only,,,-0.53,,WP_011294194.1,PMT9312_0196
+202018,203310.0,1293.0,PMT9312_0210,PMT9312_RS01060,enolase,WP_011375776.1,Carbohydrate transport and metabolism,glycolysis (GO:0006096),,-0.85,,WP_011294208.1,PMT9312_0210
+205551,206507.0,957.0,PMT9312_0213,PMT9312_RS01075,thioredoxin reductase,WP_011375779.1,"Posttranslational modification, protein turnover, chaperones",oxidation reduction (GO:0055114),-0.27,-0.63,,WP_011294211.1,PMT9312_0213
+206531,206812.0,282.0,PMT9312_0214,PMT9312_RS01080,hypothetical protein,WP_011375780.1,Amino acid transport and metabolism,,-0.9,-0.82,,WP_011294212.1,PMT9312_0214
+206815,207813.0,999.0,PMT9312_0215,PMT9312_RS01085,sodium-dependent bicarbonate transport family permease,WP_011375781.1,Not in COGs,,-0.98,-0.91,,WP_011294213.1,PMT9312_0215
+207820,209472.0,1653.0,PMT9312_0216,PMT9312_RS01090,sodium-independent anion transporter,WP_011375782.1,Inorganic ion transport and metabolism,transmembrane transport (GO:0055085),-0.62,-0.99,,WP_011294214.1,PMT9312_0216
+209697,210698.0,1002.0,PMT9312_0217,PMT9312_RS01095,porphobilinogen synthase,WP_011375783.1,Not in COGs,metabolic process (GO:0008152),-0.31,-1.16,,WP_011294216.1,PMT9312_0217
+210762,211148.0,387.0,PMT9312_0218,PMT9312_RS01100,glyoxalase/bleomycin resistance/dioxygenase family protein,WP_011375784.1,Amino acid transport and metabolism,,,-0.62,,WP_011294217.1,PMT9312_0218
+215280,216224.0,945.0,PMT9312_0223,PMT9312_RS01125,glutathione S-transferase,WP_011375789.1,"Posttranslational modification, protein turnover, chaperones",,,0.5,,WP_011294223.1,PMT9312_0223
+217578,218660.0,1083.0,PMT9312_0225,PMT9312_RS01135,photosystem II protein D1 (PsbA),WP_011375791.1,Not in COGs,"photosynthesis, light reaction (GO:0019684)",0.8,,,WP_011294225.1,PMT9312_0225
+219901,220527.0,627.0,PMT9312_0227,PMT9312_RS01145,2-keto-3-deoxy-6-phosphogluconate aldolase,WP_011375793.1,Carbohydrate transport and metabolism,metabolic process (GO:0008152),,1.62,,WP_011294227.1,PMT9312_0227
+220546,222399.0,1854.0,PMT9312_0228,PMT9312_RS01150,cell division protein FtsH,WP_011375794.1,"Posttranslational modification, protein turnover, chaperones",protein catabolic process (GO:0030163),0.59,1.27,,WP_011294228.1,PMT9312_0228
+222446,223621.0,1176.0,PMT9312_0229,PMT9312_RS01155,sulfate adenylyltransferase,WP_011375795.1,Not in COGs,sulfate assimilation (GO:0000103),-0.68,-0.97,,WP_041711119.1,PMT9312_0229
+223696,224490.0,795.0,PMT9312_0230,PMT9312_RS01160,photosystem II manganese-stabilizing protein (PsbO),WP_011375796.1,Not in COGs,photosynthesis (GO:0015979),-0.4,-1.01,,WP_011294230.1,PMT9312_0230
+226394,226594.0,201.0,PMT9312_0233,PMT9312_RS01175,hypothetical protein,WP_011375799.1,Not in COGs,,0.66,1.49,,WP_011293819.1,PMT9312_0233
+226606,226947.0,342.0,PMT9312_0234,PMT9312_RS01180,hypothetical protein,WP_011375800.1,Not in COGs,,,1.44,,WP_011294232.1,PMT9312_0234
+236746,237291.0,546.0,PMT9312_0244,PMT9312_RS01230,thioredoxin,WP_011375809.1,"Posttranslational modification, protein turnover, chaperones",cell redox homeostasis (GO:0045454),,0.63,,WP_011294241.1,PMT9312_0244
+237299,237931.0,633.0,PMT9312_0245,PMT9312_RS01235,thymidylate synthase (FAD),WP_011375810.1,Nucleotide transport and metabolism,dTMP biosynthetic process (GO:0006231),,-0.64,,WP_011294242.1,PMT9312_0245
+237933,238526.0,594.0,PMT9312_0246,PMT9312_RS01240,deoxycytidine triphosphate deaminase,WP_011375811.1,Nucleotide transport and metabolism,dUTP biosynthetic process (GO:0006229),,-0.73,,WP_011294243.1,PMT9312_0246
+238531,239112.0,582.0,PMT9312_0247,PMT9312_RS01245,cob(I)alamin adenosyltransferase,WP_011375812.1,Coenzyme transport and metabolism,cobalamin biosynthetic process (GO:0009236),-0.42,-1.23,,WP_011294244.1,PMT9312_0247
+241734,242336.0,603.0,PMT9312_0252,PMT9312_RS01270,peptidyl-tRNA hydrolase,WP_011375817.1,Not in COGs,translation (GO:0006412),-0.58,,,WP_011294249.1,PMT9312_0252
+242479,242679.0,201.0,PMT9312_0253,PMT9312_RS01275,photosystem II reaction center protein H (PsbH),WP_002805661.1,Not in COGs,protein stabilization (GO:0050821),,-0.93,,WP_011294251.1,PMT9312_0253
+242760,242912.0,153.0,PMT9312_0254,PMT9312_RS01280,photosystem II reaction center protein PsbN,WP_011375818.1,Not in COGs,photosynthesis (GO:0015979),1.07,1.12,,,PMT9312_0254
+243166,245097.0,1932.0,PMT9312_0256,PMT9312_RS01290,hypothetical protein,WP_011375819.1,Cell wall/membrane biogenesis,,-0.67,,,WP_011294253.1,PMT9312_0256
+245098,245721.0,624.0,PMT9312_0257,PMT9312_RS01295,3-isopropylmalate dehydratase small subunit,WP_011375820.1,Amino acid transport and metabolism,leucine biosynthetic process (GO:0009098),-0.66,-1.09,,WP_011294254.1,PMT9312_0257
+245718,247127.0,1410.0,PMT9312_0258,PMT9312_RS01300,3-isopropylmalate dehydratase large subunit,WP_011375821.1,Not in COGs,cellular amino acid biosynthetic process (GO:0008652),-0.5,-1.09,,WP_011294255.1,PMT9312_0258
+248411,249682.0,1272.0,PMT9312_0260,PMT9312_RS01310,serine hydroxymethyltransferase,WP_011375823.1,Amino acid transport and metabolism,glycine metabolic process (GO:0006544),0.53,0.4,,WP_011294257.1,PMT9312_0260
+252129,252869.0,741.0,PMT9312_0264,PMT9312_RS01335,DNA/RNA nuclease SfsA,WP_011375827.1,Not in COGs,,,0.97,,WP_011294261.1,PMT9312_0264
+253049,254512.0,1464.0,PMT9312_0265,PMT9312_RS01340,ammonium transporter,WP_011375828.1,Not in COGs,transmembrane transport (GO:0055085),0.66,0.84,,WP_011294262.1,PMT9312_0265
+262394,262534.0,141.0,PMT9312_0274,PMT9312_RS01385,photosystem II reaction center protein K (PsbK),WP_011375837.1,Not in COGs,photosynthesis (GO:0015979),-0.82,,,WP_011294271.1,PMT9312_0274
+262560,263564.0,1005.0,PMT9312_0275,PMT9312_RS01390,gfo/Idh/MocA family oxidoreductase,WP_011375838.1,General function prediction only,metabolic process (GO:0008152),,-0.84,,WP_049752687.1,PMT9312_0275
+265116,265676.0,561.0,PMT9312_0277,PMT9312_RS01405,orotate phosphoribosyltransferase,WP_011375840.1,Nucleotide transport and metabolism,pyrimidine nucleotide biosynthetic process (GO:0006221),,-0.75,,WP_041711130.1,PMT9312_0277
+270054,271538.0,1485.0,PMT9312_0282,PMT9312_RS01430,retinal pigment epithelial membrane protein,WP_011375845.1,Not in COGs,,0.57,1.44,,WP_011294279.1,PMT9312_0282
+271611,272216.0,606.0,PMT9312_0283,PMT9312_RS01435,imidazoleglycerol-phosphate dehydratase,WP_011375846.1,Not in COGs,histidine biosynthetic process (GO:0000105),-0.37,-0.56,,WP_011294280.1,PMT9312_0283
+272237,273019.0,783.0,PMT9312_0284,PMT9312_RS01440,enoyl-[acyl-carrier-protein] reductase,WP_011375847.1,Lipid transport and metabolism,fatty acid biosynthetic process (GO:0006633),,-0.75,,WP_011294281.1,PMT9312_0284
+274961,276397.0,1437.0,PMT9312_0287,PMT9312_RS01455,deoxyribodipyrimidine photo-lyase,WP_011375850.1,"Replication, recombination and repair",DNA repair (GO:0006281),,1.21,,WP_011294284.1,PMT9312_0287
+276394,276957.0,564.0,PMT9312_0288,PMT9312_RS01460,NUDIX hydrolase,WP_011375851.1,"Replication, recombination and repair",,,1.15,,WP_011294285.1,PMT9312_0288
+277005,277571.0,567.0,PMT9312_0289,PMT9312_RS01465,2-amino-4-hydroxy-6- hydroxymethyldihydropteridine pyrophosphokinase,WP_011375852.1,Coenzyme transport and metabolism,folic acid and derivative biosynthetic process (GO:0009396),0.73,1.06,,WP_011294286.1,PMT9312_0289
+283490,284224.0,735.0,PMT9312_0295,PMT9312_RS01495,NAD(P)H-quinone oxidoreductase subunit K,WP_011375858.1,Energy production and conversion,oxidation reduction (GO:0055114),,0.52,,WP_011294292.1,PMT9312_0295
+284668,285096.0,429.0,PMT9312_0297,PMT9312_RS01505,rubredoxin,WP_011375860.1,Energy production and conversion,,,1.19,,WP_011294294.1,PMT9312_0297
+285106,286122.0,1017.0,PMT9312_0298,PMT9312_RS01510,photosynthesis system II assembly factor Ycf48,WP_011375861.1,General function prediction only,,,0.54,,WP_011294295.1,PMT9312_0298
+286258,286506.0,249.0,PMT9312_0299,PMT9312_RS01515,cytochrome b559 subunit alpha,WP_002806020.1,Not in COGs,photosynthesis (GO:0015979),-0.45,-0.6,,WP_011294296.1,PMT9312_0299
+286509,286655.0,147.0,PMT9312_0300,PMT9312_RS01520,cytochrome b559 subunit beta,WP_011375863.1,Not in COGs,photosynthesis (GO:0015979),-0.51,-0.47,,,PMT9312_0300
+286667,286786.0,120.0,PMT9312_0301,PMT9312_RS09410,photosystem II reaction center L (PsbL),WP_002806119.1,Not in COGs,photosynthesis (GO:0015979),,-0.57,,WP_011294297.1,PMT9312_0301
+286796,286993.0,198.0,PMT9312_0302,PMT9312_RS01525,photosystem II reaction center protein J (PsbJ),WP_011375864.1,Not in COGs,photosynthesis (GO:0015979),-0.53,-0.75,,WP_011294298.1,PMT9312_0302
+287941,290112.0,2172.0,PMT9312_0304,PMT9312_RS01535,"bifunctional NADH dehydrogenase FAD-containing subunit/selenide, water dikinase SelD",WP_011375866.1,Amino acid transport and metabolism,,0.36,0.51,,WP_011294300.1,PMT9312_0304
+294182,294694.0,513.0,PMT9312_0307,PMT9312_RS01555,phycobilisome protein,WP_011375869.1,Not in COGs,photosynthesis (GO:0015979),,-0.78,,WP_011294304.1,PMT9312_0307
+294678,295229.0,552.0,PMT9312_0308,PMT9312_RS01560,phycobiliprotein lyase,WP_011375870.1,Not in COGs,,-0.59,-0.84,,WP_011294310.1,PMT9312_0308
+295204,295383.0,180.0,PMT9312_0309,PMT9312_RS01565,hypothetical protein,WP_011375871.1,Not in COGs,,,-1.18,,,PMT9312_0309
+298682,300541.0,1860.0,PMT9312_0315,PMT9312_RS01590,hypothetical protein,WP_011375877.1,"Posttranslational modification, protein turnover, chaperones",biosynthetic process (GO:0009058),0.55,0.27,,,PMT9312_0315
+301054,302283.0,1230.0,PMT9312_0316,PMT9312_RS01600,sugar kinase,WP_011375878.1,Carbohydrate transport and metabolism,carbohydrate metabolic process (GO:0005975),-0.41,-0.74,,WP_011294320.1,PMT9312_0316
+302296,303537.0,1242.0,PMT9312_0317,PMT9312_RS01605,S-adenosylmethionine synthase,WP_011375879.1,Coenzyme transport and metabolism,one-carbon metabolic process (GO:0006730),-0.37,-0.87,,WP_011294321.1,PMT9312_0317
+303668,304759.0,1092.0,PMT9312_0318,PMT9312_RS01610,30S ribosomal protein S1,WP_036924226.1,Translation,translation (GO:0006412),0.63,,,WP_011294323.1,PMT9312_0318
+304868,305347.0,480.0,PMT9312_0319,PMT9312_RS01615,transcriptional regulator NrdR,WP_011375881.1,Not in COGs,,0.57,-0.28,,WP_011294324.1,PMT9312_0319
+305448,305546.0,99.0,PMT9312_0320,PMT9312_RS01620,photosystem II reaction center protein T (PsbT),WP_011131951.1,Not in COGs,photosynthesis (GO:0015979),-0.71,-0.87,,WP_011294325.1,PMT9312_0320
+305570,307093.0,1524.0,PMT9312_0321,PMT9312_RS01625,photosystem II chlorophyll-binding protein CP47 (PsbB),WP_011375882.1,Not in COGs,"photosynthesis, light reaction (GO:0019684)",-0.48,-0.98,,WP_011294326.1,PMT9312_0321
+307318,307680.0,363.0,PMT9312_0322,PMT9312_RS01630,ferredoxin,WP_011375883.1,Energy production and conversion,,0.91,0.43,,,PMT9312_0322
+307783,307935.0,153.0,PMT9312_0323,PMT9312_RS01635,photosystem II reaction center protein M (PsbM),WP_011375884.1,Not in COGs,"photosynthesis, light reaction (GO:0019684)",,-0.91,,WP_011294327.1,PMT9312_0323
+307947,308816.0,870.0,PMT9312_0324,PMT9312_RS01640,"protein-(glutamine-N5) methyltransferase, release factor-specific",WP_011375885.1,Translation,methylation (GO:0032259),,-0.61,,WP_011294329.1,PMT9312_0324
+322684,323565.0,882.0,PMT9312_0334,PMT9312_RS01720,formamidopyrimidine-DNA glycosylase,WP_011375895.1,"Replication, recombination and repair",base-excision repair (GO:0006284),-0.78,-1.09,,WP_011294339.1,PMT9312_0334
+323570,323779.0,210.0,PMT9312_0335,PMT9312_RS01725,photosystem I reaction center subunit IV (PsaE),WP_011375896.1,Not in COGs,photosynthesis (GO:0015979),-0.31,-1.07,,WP_011294340.1,PMT9312_0335
+323860,324618.0,759.0,PMT9312_0336,PMT9312_RS01730,peptidoglycan-binding protein,WP_036924183.1,Cell wall/membrane biogenesis,cell wall macromolecule catabolic process (GO:0016998),0.68,,,WP_011294342.1,PMT9312_0336
+324692,326083.0,1392.0,PMT9312_0337,PMT9312_RS01735,aldehyde dehydrogenase family protein,WP_011375898.1,Energy production and conversion,cellular aldehyde metabolic process (GO:0006081),0.74,,,WP_011294343.1,PMT9312_0337
+326243,327133.0,891.0,PMT9312_0338,PMT9312_RS01740,N-acetyltransferase,WP_011375899.1,Not in COGs,metabolic process (GO:0008152),,0.74,,WP_011293741.1,PMT9312_0338
+328426,328860.0,435.0,PMT9312_0340,PMT9312_RS01755,hypothetical protein,WP_011375901.1,Not in COGs,,-0.41,-0.51,,WP_011295233.1,PMT9312_0340
+328857,329366.0,510.0,PMT9312_0341,PMT9312_RS01760,plastoquinol terminal oxidase,WP_011375902.1,Not in COGs,oxidation reduction (GO:0055114),,0.65,,WP_011294528.1,PMT9312_0341
+329943,330251.0,309.0,PMT9312_0343,PMT9312_RS01765,hypothetical protein,WP_011375904.1,Not in COGs,,0.72,,,WP_011294033.1,PMT9312_0343
+331143,331346.0,204.0,PMT9312_1823,PMT9312_RS01780,hypothetical protein,WP_036924173.1,Not in COGs,,,-1.25,,WP_041711040.1,PMT9312_1823
+331468,332997.0,1530.0,PMT9312_0345,PMT9312_RS01785,NAD(P)/FAD-dependent oxidoreductase,WP_011375906.1,"Secondary metabolites biosynthesis, transport and catabolism",,1.14,3.48,,WP_011294587.1,PMT9312_0345
+333325,333810.0,486.0,PMT9312_0346,PMT9312_RS01790,hypothetical protein,WP_011375907.1,Not in COGs,,1.2,2.22,,WP_011294573.1,PMT9312_0346
+334448,334840.0,393.0,PMT9312_0349,PMT9312_RS01805,hypothetical protein,WP_036924170.1,Not in COGs,,,-1.01,,WP_011293923.1,PMT9312_0349
+334845,335135.0,291.0,PMT9312_0350,PMT9312_RS01810,protein translocase TatA,WP_011375911.1,Intracellular trafficking and secretion,protein secretion (GO:0009306),,-0.54,,,PMT9312_0350
+336077,336526.0,450.0,PMT9312_0353,PMT9312_RS01820,peroxiredoxin,WP_011375914.1,"Posttranslational modification, protein turnover, chaperones",cell redox homeostasis (GO:0045454),,1.4,,WP_011294816.1,PMT9312_0353
+336995,337294.0,300.0,PMT9312_0355,PMT9312_RS01830,hypothetical protein,WP_011375916.1,Not in COGs,,1.24,1.67,,WP_011294633.1,PMT9312_0355
+337522,337758.0,237.0,PMT9312_0356,PMT9312_RS01835,hypothetical protein,WP_011375917.1,Not in COGs,,1.38,1.16,,WP_011294565.1,PMT9312_0356
+337963,338391.0,429.0,PMT9312_0357,PMT9312_RS01840,aminoacyl-tRNA hydrolase,WP_011375918.1,Translation,translational termination (GO:0006415),,0.8,,WP_011294651.1,PMT9312_0357
+338972,339832.0,861.0,PMT9312_0359,PMT9312_RS01850,CPBP family intramembrane metalloprotease,WP_011375920.1,Not in COGs,,,0.99,,WP_011295409.1,PMT9312_0359
+341259,342209.0,951.0,PMT9312_0360,PMT9312_RS01860,prolyl aminopeptidase,WP_011375921.1,General function prediction only,proteolysis (GO:0006508),0.69,,,WP_011294620.1,PMT9312_0360
+344297,344482.0,186.0,PMT9312_0363,PMT9312_RS01875,hypothetical protein,WP_032515599.1,Not in COGs,,0.74,,,,PMT9312_0363
+345431,345808.0,378.0,PMT9312_0365,PMT9312_RS01885,hypothetical protein,WP_011375926.1,Not in COGs,,,0.52,,,PMT9312_0365
+349115,349897.0,783.0,PMT9312_0370,PMT9312_RS01915,SIMPL domain-containing protein,WP_011375931.1,Function unknown,,0.72,0.88,,,PMT9312_0370
+350503,350919.0,417.0,PMT9312_0372,PMT9312_RS01925,very short patch repair endonuclease,WP_011375933.1,Not in COGs,mismatch repair (GO:0006298),,0.69,,,PMT9312_0372
+350974,353700.0,2727.0,PMT9312_0373,PMT9312_RS01930,endonuclease,WP_011375934.1,Not in COGs,,0.68,,,,PMT9312_0373
+358468,360528.0,2061.0,PMT9312_0378,PMT9312_RS01955,DNA cytosine methyltransferase,WP_011375939.1,"Replication, recombination and repair",DNA methylation (GO:0006306),-0.56,-1.14,,,PMT9312_0378
+360525,361238.0,714.0,PMT9312_0379,PMT9312_RS01960,hypothetical protein,WP_011375940.1,Not in COGs,,-0.55,-1.15,,,PMT9312_0379
+361235,362266.0,1032.0,PMT9312_0380,PMT9312_RS01965,hypothetical protein,WP_011375941.1,Not in COGs,,,-1.14,,,PMT9312_0380
+362269,364233.0,1965.0,PMT9312_0381,PMT9312_RS01970,hypothetical protein,WP_011375942.1,Not in COGs,,-0.38,-1.31,,,PMT9312_0381
+366841,367596.0,756.0,PMT9312_0385,PMT9312_RS02000,precorrin-2 C(20)-methyltransferase,WP_011375946.1,Coenzyme transport and metabolism,cobalamin biosynthetic process (GO:0009236),-0.83,-0.72,,WP_011294356.1,PMT9312_0385
+371518,372093.0,576.0,PMT9312_0391,PMT9312_RS02030,cell division protein SepF,WP_011375952.1,Function unknown,barrier septum formation (GO:0000917),,-0.6,,WP_011294363.1,PMT9312_0391
+374947,375606.0,660.0,PMT9312_0395,PMT9312_RS02050,deoxyribose-phosphate aldolase,WP_011375956.1,Nucleotide transport and metabolism,metabolic process (GO:0008152),-1.03,-0.73,,WP_011294367.1,PMT9312_0395
+375619,376203.0,585.0,PMT9312_0396,PMT9312_RS02055,ribosome-associated inhibitor A/sigma 54 modulation protein,WP_011375957.1,Translation,primary metabolic process (GO:0044238),,-1.14,,WP_011294368.1,PMT9312_0396
+376926,378869.0,1944.0,PMT9312_0398,PMT9312_RS02065,long-chain fatty acid--CoA ligase,WP_011375959.1,Lipid transport and metabolism,metabolic process (GO:0008152),,-0.57,,WP_011294370.1,PMT9312_0398
+380940,382076.0,1137.0,PMT9312_0401,PMT9312_RS02080,tRNA preQ1(34) S-adenosylmethionine ribosyltransferase-isomerase QueA,WP_011375962.1,Not in COGs,queuosine biosynthetic process (GO:0008616),-0.58,,,WP_011294373.1,PMT9312_0401
+382066,383052.0,987.0,PMT9312_0402,PMT9312_RS02085,cysteine synthase A,WP_011375963.1,Amino acid transport and metabolism,cysteine biosynthetic process from serine (GO:0006535),0.67,0.62,,WP_011294374.1,PMT9312_0402
+388724,389428.0,705.0,PMT9312_0409,PMT9312_RS02120,short-chain dehydrogenase,WP_011375970.1,Lipid transport and metabolism,metabolic process (GO:0008152),,1.71,,WP_011293929.1,PMT9312_0409
+390671,391465.0,795.0,PMT9312_0411,PMT9312_RS02130,SAM-dependent methyltransferase,WP_011375972.1,"Secondary metabolites biosynthesis, transport and catabolism",metabolic process (GO:0008152),,0.51,,,PMT9312_0411
+391542,391733.0,192.0,PMT9312_0412,PMT9312_RS09415,hypothetical protein,WP_011375973.1,Not in COGs,,,-0.63,,WP_011294599.1,PMT9312_0412
+396854,397525.0,672.0,PMT9312_0418,PMT9312_RS02160,tRNA (guanosine(18)-2'-O)-methyltransferase TrmH,WP_011375978.1,Translation,RNA processing (GO:0006396),-0.52,,,WP_011294389.1,PMT9312_0418
+398023,398415.0,393.0,PMT9312_0420,PMT9312_RS02170,DUF393 domain-containing protein,WP_011375980.1,Function unknown,,1.05,1.58,,WP_011294804.1,PMT9312_0420
+398418,398654.0,237.0,PMT9312_0421,PMT9312_RS02175,TIGR03643 family protein,WP_011375981.1,Not in COGs,,1.43,1.47,,WP_071813652.1,PMT9312_0421
+398658,398783.0,126.0,PMT9312_0422,PMT9312_RS09420,DUF2256 domain-containing protein,WP_011375982.1,Function unknown,,,1.41,,WP_011294814.1,PMT9312_0422
+398786,400276.0,1491.0,PMT9312_0423,PMT9312_RS02180,cryptochrome/photolyase family protein,WP_011375983.1,General function prediction only,DNA repair (GO:0006281),,1.28,,WP_011294815.1,PMT9312_0423
+400381,400560.0,180.0,PMT9312_0424,PMT9312_RS02185,hypothetical protein,WP_011375984.1,Not in COGs,,0.93,0.91,,WP_011294682.1,PMT9312_0424
+406636,407094.0,459.0,PMT9312_0431,PMT9312_RS02220,hypothetical protein,WP_011375991.1,Not in COGs,,0.53,,,WP_011294396.1,PMT9312_0431
+412959,413579.0,621.0,PMT9312_0436,PMT9312_RS02245,hypothetical protein,WP_011375996.1,Not in COGs,,,1.43,,,PMT9312_0436
+413602,414240.0,639.0,PMT9312_0437,PMT9312_RS02250,hypothetical protein,WP_011375997.1,Not in COGs,,-0.84,,,WP_011294403.1,PMT9312_0437
+414254,415411.0,1158.0,PMT9312_0438,PMT9312_RS02255,TIGR00303 family protein,WP_011375998.1,Coenzyme transport and metabolism,cobalamin biosynthetic process (GO:0009236),-0.62,,,WP_011294404.1,PMT9312_0438
+416399,417541.0,1143.0,PMT9312_0440,PMT9312_RS02265,aldo/keto reductase,WP_011376000.1,General function prediction only,oxidation reduction (GO:0055114),,-0.6,,,PMT9312_0440
+418772,419374.0,603.0,PMT9312_0443,PMT9312_RS02280,heme-copper oxidase subunit III,WP_011376003.1,Energy production and conversion,"mitochondrial electron transport, cytochrome c to oxygen (GO:0006123)",-0.85,,,WP_011294408.1,PMT9312_0443
+419381,421006.0,1626.0,PMT9312_0444,PMT9312_RS02285,cytochrome c oxidase subunit I,WP_011376004.1,Energy production and conversion,aerobic respiration (GO:0009060),-0.38,-0.61,,WP_011294409.1,PMT9312_0444
+421003,421806.0,804.0,PMT9312_0445,PMT9312_RS02290,cytochrome c oxidase subunit II,WP_011376005.1,Energy production and conversion,electron transport chain (GO:0022900),-0.3,-0.65,,WP_011294410.1,PMT9312_0445
+422069,422995.0,927.0,PMT9312_0446,PMT9312_RS02295,cytochrome c oxidase assembly protein,WP_011376006.1,"Posttranslational modification, protein turnover, chaperones",protein complex assembly (GO:0006461),-0.41,-0.63,,WP_011294411.1,PMT9312_0446
+422992,423993.0,1002.0,PMT9312_0447,PMT9312_RS02300,protoheme IX farnesyltransferase,WP_011376007.1,"Posttranslational modification, protein turnover, chaperones",heme O biosynthetic process (GO:0048034),,-0.53,,WP_011294412.1,PMT9312_0447
+426322,428076.0,1755.0,PMT9312_0451,PMT9312_RS02320,molecular chaperone GroEL,WP_011376011.1,"Posttranslational modification, protein turnover, chaperones",cellular protein metabolic process (GO:0044267),0.69,0.47,,WP_011294416.1,PMT9312_0451
+428388,429137.0,750.0,PMT9312_0453,PMT9312_RS02330,beta-ketoacyl-ACP reductase,WP_011376013.1,Lipid transport and metabolism,fatty acid biosynthetic process (GO:0006633),,-0.64,,WP_011294418.1,PMT9312_0453
+431799,433394.0,1596.0,PMT9312_0457,PMT9312_RS02350,exopolyphosphatase,WP_011376017.1,Nucleotide transport and metabolism,,-0.38,-0.93,,WP_011294422.1,PMT9312_0457
+433391,433882.0,492.0,PMT9312_0458,PMT9312_RS02355,transcriptional regulator,WP_036924124.1,Function unknown,,0.47,0.53,,WP_011294423.1,PMT9312_0458
+434686,435579.0,894.0,PMT9312_0460,PMT9312_RS02365,prolipoprotein diacylglyceryl transferase,WP_011376020.1,Not in COGs,lipoprotein biosynthetic process (GO:0042158),-0.98,-0.79,,WP_011294425.1,PMT9312_0460
+435592,436545.0,954.0,PMT9312_0461,PMT9312_RS02370,apocytochrome f,WP_011376021.1,Not in COGs,photosynthesis (GO:0015979),,-1.28,,WP_011294426.1,PMT9312_0461
+436549,437085.0,537.0,PMT9312_0462,PMT9312_RS02375,cytochrome b6-f complex iron-sulfur subunit,WP_011376022.1,Energy production and conversion,oxidation reduction (GO:0055114),,-1.01,,WP_011294427.1,PMT9312_0462
+437209,437526.0,318.0,PMT9312_0463,PMT9312_RS02380,hypothetical protein,WP_011376023.1,Not in COGs,,,0.65,,WP_011294428.1,PMT9312_0463
+440970,441104.0,135.0,PMT9312_0468,PMT9312_RS02405,photosystem I reaction center subunit IX (PsaJ),WP_011376028.1,Not in COGs,photosynthesis (GO:0015979),,-1.91,,WP_011294433.1,PMT9312_0468
+441134,441688.0,555.0,PMT9312_0469,PMT9312_RS02410,photosystem I PsaF protein (subunit III),WP_011376029.1,Not in COGs,photosynthesis (GO:0015979),,-2.07,,WP_011294434.1,PMT9312_0469
+443174,444373.0,1200.0,PMT9312_0472,PMT9312_RS02425,sodium:proton antiporter,WP_011376032.1,Inorganic ion transport and metabolism,cation transport (GO:0006812),,-0.61,,WP_011294438.1,PMT9312_0472
+444370,445809.0,1440.0,PMT9312_0473,PMT9312_RS02430,glutamate--tRNA ligase,WP_011376033.1,Translation,glutamyl-tRNA aminoacylation (GO:0006424),-0.5,-0.74,,WP_011294439.1,PMT9312_0473
+446908,447216.0,309.0,PMT9312_0476,PMT9312_RS02455,PepSY domain-containing protein,WP_011376035.1,Not in COGs,,,-0.78,,,PMT9312_0476
+447308,448147.0,840.0,PMT9312_0477,PMT9312_RS02460,type I methionyl aminopeptidase,WP_011376036.1,Translation,cellular process (GO:0009987),0.67,0.7,,WP_011294441.1,PMT9312_0477
+457084,458040.0,957.0,PMT9312_0489,PMT9312_RS02520,hypothetical protein,WP_011376048.1,Not in COGs,,,0.66,,WP_011294453.1,PMT9312_0489
+461622,463127.0,1506.0,PMT9312_0494,PMT9312_RS02545,carboxypeptidase M32,WP_011376053.1,Amino acid transport and metabolism,proteolysis (GO:0006508),0.32,0.83,,WP_011294458.1,PMT9312_0494
+463780,464730.0,951.0,PMT9312_0496,PMT9312_RS02555,hydroxymethylbilane synthase,WP_011376055.1,Not in COGs,tetrapyrrole biosynthetic process (GO:0033014),-0.59,-0.59,,WP_011294460.1,PMT9312_0496
+471394,471819.0,426.0,PMT9312_0503,PMT9312_RS02590,single-stranded DNA-binding protein,WP_011376062.1,"Replication, recombination and repair",,0.67,-0.42,,WP_011294467.1,PMT9312_0503
+472968,473972.0,1005.0,PMT9312_0506,PMT9312_RS02605,adenosine kinase,WP_011376065.1,Carbohydrate transport and metabolism,D-ribose metabolic process (GO:0006014),-0.68,-0.56,,WP_011294470.1,PMT9312_0506
+475841,477643.0,1803.0,PMT9312_0509,PMT9312_RS02620,proline--tRNA ligase,WP_011376068.1,Translation,prolyl-tRNA aminoacylation (GO:0006433),0.33,0.7,,WP_011294473.1,PMT9312_0509
+477818,478168.0,351.0,PMT9312_0510,PMT9312_RS02625,hypothetical protein,WP_011376069.1,Not in COGs,,0.5,0.78,,WP_011294474.1,PMT9312_0510
+479063,479419.0,357.0,PMT9312_0513,PMT9312_RS02640,hypothetical protein,WP_011376072.1,Inorganic ion transport and metabolism,,,1.07,,WP_011294477.1,PMT9312_0513
+479449,480108.0,660.0,PMT9312_0514,PMT9312_RS02645,signal peptidase I,WP_011376073.1,Intracellular trafficking and secretion,proteolysis (GO:0006508),0.64,0.66,,WP_011294478.1,PMT9312_0514
+492156,493919.0,1764.0,PMT9312_0526,PMT9312_RS02705,acetolactate synthase,WP_011376085.1,Amino acid transport and metabolism,branched chain family amino acid biosynthetic process (GO:0009082),,-0.67,,WP_011294490.1,PMT9312_0526
+502728,503384.0,657.0,PMT9312_0537,PMT9312_RS02760,phosphoribosylanthranilate isomerase,WP_011376096.1,Amino acid transport and metabolism,metabolic process (GO:0008152),0.5,,,WP_011294499.1,PMT9312_0537
+503440,504663.0,1224.0,PMT9312_0538,PMT9312_RS02765,hypothetical protein,WP_011376097.1,Not in COGs,proteolysis (GO:0006508),-0.62,,,WP_080502539.1,PMT9312_0538
+505704,506051.0,348.0,PMT9312_0541,PMT9312_RS02780,hypothetical protein,WP_011376100.1,Not in COGs,,-0.88,,,WP_011294502.1,PMT9312_0541
+506105,507109.0,1005.0,PMT9312_0542,PMT9312_RS02785,protochlorophyllide oxidoreductase,WP_011376101.1,Lipid transport and metabolism,metabolic process (GO:0008152),,-0.64,,WP_011294503.1,PMT9312_0542
+507116,508003.0,888.0,PMT9312_0543,PMT9312_RS02790,ferredoxin:protochlorophyllide reductase (ATP-dependent) iron-sulfur ATP-binding protein,WP_011376102.1,Inorganic ion transport and metabolism,chlorophyll biosynthetic process (GO:0015995),-0.37,-1.23,,WP_011294504.1,PMT9312_0543
+508196,509773.0,1578.0,PMT9312_0544,PMT9312_RS02795,ferredoxin:protochlorophyllide reductase (ATP-dependent) subunit B,WP_011376103.1,Energy production and conversion,chlorophyll biosynthetic process (GO:0015995),-0.61,-1.17,,WP_011294506.1,PMT9312_0544
+509778,511034.0,1257.0,PMT9312_0545,PMT9312_RS02800,ferredoxin:protochlorophyllide reductase (ATP-dependent) subunit N,WP_011376104.1,Energy production and conversion,chlorophyll biosynthetic process (GO:0015995),-0.55,-0.86,,WP_011294505.1,PMT9312_0545
+511658,512428.0,771.0,PMT9312_0547,PMT9312_RS02810,BMC domain-containing protein,WP_011376106.1,Not in COGs,,,-0.56,,WP_011294508.1,PMT9312_0547
+513352,513663.0,312.0,PMT9312_0549,PMT9312_RS02820,carbon dioxide-concentrating mechanism protein CcmK,WP_002807869.1,"Secondary metabolites biosynthesis, transport and catabolism",,-1.95,-1.33,,WP_011130577.1,PMT9312_0549
+513733,515148.0,1416.0,PMT9312_0550,PMT9312_RS02825,ribulose bisphosphate carboxylase large chain,WP_002805854.1,Carbohydrate transport and metabolism,carbon utilization by fixation of carbon dioxide (GO:0015977),-2.32,-1.59,,WP_011294510.1,PMT9312_0550
+515243,515584.0,342.0,PMT9312_0551,PMT9312_RS02830,ribulose bisphosphate carboxylase small subunit,WP_011376108.1,Not in COGs,carbon utilization by fixation of carbon dioxide (GO:0015977),-2.5,-1.68,,WP_011294511.1,PMT9312_0551
+515664,517964.0,2301.0,PMT9312_0552,PMT9312_RS02835,carboxysome shell protein,WP_011376109.1,Not in COGs,,-2.1,-1.49,,WP_011294512.1,PMT9312_0552
+517972,519501.0,1530.0,PMT9312_0553,PMT9312_RS02840,carboxysome shell protein,WP_011376110.1,Not in COGs,,-2.13,-1.65,,WP_011294513.1,PMT9312_0553
+519504,519755.0,252.0,PMT9312_0554,PMT9312_RS02845,carboxysome peptide A,WP_011376111.1,Not in COGs,,,-0.58,,WP_011294514.1,PMT9312_0554
+520344,520571.0,228.0,PMT9312_0557,PMT9312_RS02860,hypothetical protein,WP_002806681.1,Not in COGs,,-0.55,-0.76,,WP_011294518.1,PMT9312_0557
+521074,521814.0,741.0,PMT9312_0559,PMT9312_RS02870,hydroxyacylglutathione hydrolase,WP_011376115.1,General function prediction only,,0.51,0.49,,WP_041711155.1,PMT9312_0559
+522505,524301.0,1797.0,PMT9312_0561,PMT9312_RS02880,ABC transporter ATP-binding protein,WP_011376117.1,Defense mechanisms,transmembrane transport (GO:0055085),,1.03,,WP_011294522.1,PMT9312_0561
+524301,524831.0,531.0,PMT9312_0562,PMT9312_RS02885,N-acetyltransferase,WP_011376118.1,Not in COGs,metabolic process (GO:0008152),,1.19,,WP_011294523.1,PMT9312_0562
+527726,528952.0,1227.0,PMT9312_0566,PMT9312_RS02905,glutathione S-transferase,WP_011376122.1,"Posttranslational modification, protein turnover, chaperones",,0.39,0.51,,WP_011293536.1,PMT9312_0566
+530371,531450.0,1080.0,PMT9312_0568,PMT9312_RS02915,C50 carotenoid epsilon cyclase,WP_011376124.1,Inorganic ion transport and metabolism,transmembrane transport (GO:0055085),-0.71,-0.7,,WP_011293538.1,PMT9312_0568
+533472,534314.0,843.0,PMT9312_0572,PMT9312_RS02940,tryptophan synthase subunit alpha,WP_011376128.1,Amino acid transport and metabolism,metabolic process (GO:0008152),-0.53,,,WP_011293542.1,PMT9312_0572
+534391,534747.0,357.0,PMT9312_0573,PMT9312_RS02945,AbrB family transcriptional regulator,WP_011376129.1,Not in COGs,,0.6,,,WP_011293945.1,PMT9312_0573
+535668,536036.0,369.0,PMT9312_0576,PMT9312_RS02960,hypothetical protein,WP_011376132.1,Function unknown,,,-0.59,,WP_011293546.1,PMT9312_0576
+541453,542436.0,984.0,PMT9312_0582,PMT9312_RS02990,NAD(P)-dependent oxidoreductase,WP_011376138.1,Cell wall/membrane biogenesis,cellular metabolic process (GO:0044237),-0.95,-0.84,,WP_011293552.1,PMT9312_0582
+542445,543485.0,1041.0,PMT9312_0583,PMT9312_RS02995,uroporphyrinogen decarboxylase,WP_011376139.1,Coenzyme transport and metabolism,porphyrin biosynthetic process (GO:0006779),-0.87,-1.44,,WP_011293553.1,PMT9312_0583
+547514,547780.0,267.0,PMT9312_0586,PMT9312_RS03010,hypothetical protein,WP_011376142.1,Not in COGs,,0.87,,,WP_011293556.1,PMT9312_0586
+555243,557330.0,2088.0,PMT9312_0593,PMT9312_RS03045,peptidase M3,WP_011376149.1,Amino acid transport and metabolism,proteolysis (GO:0006508),0.59,1.25,,WP_011293563.1,PMT9312_0593
+557351,558889.0,1539.0,PMT9312_0594,PMT9312_RS03050,NAD(P)H-quinone oxidoreductase subunit 4,WP_011376150.1,Energy production and conversion,ATP synthesis coupled electron transport (GO:0042773),0.42,0.67,,WP_011293564.1,PMT9312_0594
+558968,559915.0,948.0,PMT9312_0595,PMT9312_RS03055,homoserine kinase,WP_011376151.1,Amino acid transport and metabolism,phosphorylation (GO:0016310),-0.38,-0.56,,WP_011293565.1,PMT9312_0595
+564481,565815.0,1335.0,PMT9312_0600,PMT9312_RS03080,hypothetical protein,WP_011376156.1,Not in COGs,,-0.33,-0.75,,WP_011293570.1,PMT9312_0600
+565835,566743.0,909.0,PMT9312_0601,PMT9312_RS03085,metal ABC transporter substrate-binding protein,WP_011376157.1,Inorganic ion transport and metabolism,cell adhesion (GO:0007155),-0.73,-1.12,,WP_011293571.1,PMT9312_0601
+566747,567511.0,765.0,PMT9312_0602,PMT9312_RS03090,manganese transporter,WP_011376158.1,Inorganic ion transport and metabolism,,-0.63,-1.18,,WP_011293572.1,PMT9312_0602
+567524,568399.0,876.0,PMT9312_0603,PMT9312_RS03095,metal ABC transporter permease,WP_011376159.1,Inorganic ion transport and metabolism,transport (GO:0006810),-0.78,-0.64,,WP_011293573.1,PMT9312_0603
+568399,569565.0,1167.0,PMT9312_0604,PMT9312_RS03100,hypothetical protein,WP_011376160.1,Not in COGs,,-1.04,-0.75,,WP_011293574.1,PMT9312_0604
+572390,573247.0,858.0,PMT9312_0608,PMT9312_RS03120,"1,4-dihydroxy-2-naphthoyl-CoA synthase",WP_011376164.1,Coenzyme transport and metabolism,menaquinone biosynthetic process (GO:0009234),-0.56,-0.53,,WP_041711157.1,PMT9312_0608
+573283,574734.0,1452.0,PMT9312_0609,PMT9312_RS03125,glycogen synthase,WP_011376165.1,Carbohydrate transport and metabolism,biosynthetic process (GO:0009058),,-0.58,,WP_011293579.1,PMT9312_0609
+577496,578401.0,906.0,PMT9312_0612,PMT9312_RS03140,SAM-dependent methyltransferase,WP_011376168.1,Function unknown,,-0.57,,,WP_011293582.1,PMT9312_0612
+578414,579724.0,1311.0,PMT9312_0613,PMT9312_RS03145,3-phosphoshikimate 1-carboxyvinyltransferase,WP_011376169.1,Amino acid transport and metabolism,aromatic amino acid family biosynthetic process (GO:0009073),-0.37,-0.71,,WP_011293583.1,PMT9312_0613
+583347,584318.0,972.0,PMT9312_0618,PMT9312_RS03170,solanesyl diphosphate synthase,WP_011376174.1,Coenzyme transport and metabolism,isoprenoid biosynthetic process (GO:0008299),0.42,0.85,,WP_011293589.1,PMT9312_0618
+584413,586395.0,1983.0,PMT9312_0619,PMT9312_RS03175,acetyl-coenzyme A synthetase,WP_011376175.1,Lipid transport and metabolism,metabolic process (GO:0008152),-0.42,-0.84,,WP_011293591.1,PMT9312_0619
+586392,587114.0,723.0,PMT9312_0620,PMT9312_RS03180,alpha/beta hydrolase,WP_011376176.1,Not in COGs,,,0.88,,WP_011293592.1,PMT9312_0620
+587244,588023.0,780.0,PMT9312_0621,PMT9312_RS03185,3'-5' exonuclease,WP_011376177.1,"Replication, recombination and repair",,,-0.63,,WP_011293593.1,PMT9312_0621
+588054,588476.0,423.0,PMT9312_0622,PMT9312_RS03190,hypothetical protein,WP_011376178.1,Not in COGs,,-0.47,-0.99,,,PMT9312_0622
+589852,590145.0,294.0,PMT9312_0624,PMT9312_RS03200,hypothetical protein,WP_036924605.1,Not in COGs,,,1.16,,,PMT9312_0624
+591367,592425.0,1059.0,PMT9312_0627,PMT9312_RS03215,chlorophyll a/b binding light-harvesting protein,WP_011376183.1,Not in COGs,"photosynthesis, light reaction (GO:0019684)",-0.49,-1.24,,WP_011293600.1,PMT9312_0627
+596188,597471.0,1284.0,PMT9312_0633,PMT9312_RS03245,lycopene cyclase family protein,WP_011376189.1,Energy production and conversion,carotenoid biosynthetic process (GO:0016117),-0.41,-1.15,,WP_011293607.1,PMT9312_0633
+599778,600344.0,567.0,PMT9312_0636,PMT9312_RS03260,hydrolase,WP_011376192.1,"Secondary metabolites biosynthesis, transport and catabolism",metabolic process (GO:0008152),1.07,0.96,,WP_011293610.1,PMT9312_0636
+600466,600918.0,453.0,PMT9312_0637,PMT9312_RS03265,transcriptional repressor,WP_011376193.1,Inorganic ion transport and metabolism,"regulation of transcription, DNA-dependent (GO:0006355)",0.69,0.39,,WP_080502540.1,PMT9312_0637
+605612,606940.0,1329.0,PMT9312_0642,PMT9312_RS03290,O-acetylhomoserine aminocarboxypropyltransferase,WP_011376198.1,Amino acid transport and metabolism,cellular amino acid metabolic process (GO:0006520),,-0.64,,WP_011293617.1,PMT9312_0642
+606954,607844.0,891.0,PMT9312_0643,PMT9312_RS03295,homoserine O-succinyltransferase,WP_036924645.1,Amino acid transport and metabolism,L-methionine biosynthetic process from homoserine via O-succinyl-L-homoserine and cystathionine (GO:0019281),-0.31,-0.74,,WP_011293618.1,PMT9312_0643
+607850,609415.0,1566.0,PMT9312_0644,PMT9312_RS03300,sodium-independent anion transporter,WP_011376200.1,Inorganic ion transport and metabolism,transmembrane transport (GO:0055085),,-0.52,,WP_049752693.1,PMT9312_0644
+609446,610723.0,1278.0,PMT9312_0645,PMT9312_RS03305,FAD-binding oxidoreductase,WP_011376201.1,Energy production and conversion,,,0.66,,WP_071813621.1,PMT9312_0645
+610732,611904.0,1173.0,PMT9312_0646,PMT9312_RS03310,sirohydrochlorin chelatase,WP_080503126.1,Function unknown,cobalamin biosynthetic process (GO:0009236),,0.67,,WP_011293620.1,PMT9312_0646
+615906,616295.0,390.0,PMT9312_0652,PMT9312_RS03340,lactoylglutathione lyase,WP_011376208.1,Amino acid transport and metabolism,,0.56,,,,PMT9312_0652
+616428,616862.0,435.0,PMT9312_0653,PMT9312_RS03345,hypothetical protein,WP_011376209.1,Not in COGs,,,0.8,,WP_011295658.1,PMT9312_0653
+616893,617222.0,330.0,PMT9312_0654,PMT9312_RS03350,hypothetical protein,WP_011376210.1,Not in COGs,,,0.76,,WP_011294616.1,PMT9312_0654
+617230,617814.0,585.0,PMT9312_0655,PMT9312_RS03355,hypothetical protein,WP_011376211.1,Not in COGs,,,1.16,,WP_041710989.1,PMT9312_0655
+617868,618068.0,201.0,PMT9312_1838,PMT9312_RS09430,hypothetical protein,WP_071813300.1,Not in COGs,,,1.14,,WP_011295118.1,PMT9312_1838
+619565,620311.0,747.0,PMT9312_0659,PMT9312_RS03375,hypothetical protein,WP_011376215.1,Not in COGs,,-0.54,-0.7,,,PMT9312_0659
+621431,621532.0,102.0,,PMT9312_RS09435,hypothetical protein,WP_071813302.1,,,0.99,,,WP_071813615.1,
+621845,622045.0,201.0,PMT9312_1840,PMT9312_RS03385,hypothetical protein,WP_036924597.1,Not in COGs,,,-0.97,,,PMT9312_1840
+622042,622308.0,267.0,PMT9312_0660,PMT9312_RS03390,RNA recognition motif-containing protein,WP_011376216.1,Not in COGs,,-0.33,-1.07,,WP_011293626.1,PMT9312_0660
+622397,624730.0,2334.0,PMT9312_0661,PMT9312_RS03395,"ribonucleoside-triphosphate reductase, adenosylcobalamin-dependent",WP_011376217.1,Not in COGs,oxidation reduction (GO:0055114),,-1.01,,WP_011293627.1,PMT9312_0661
+627279,627953.0,675.0,PMT9312_0664,PMT9312_RS03410,hypothetical protein,WP_011376220.1,Not in COGs,,0.37,0.78,,WP_011293630.1,PMT9312_0664
+634507,635400.0,894.0,PMT9312_0673,PMT9312_RS03455,putative selenate ABC transporter substrate-binding protein,WP_011376229.1,Inorganic ion transport and metabolism,phosphonate transport (GO:0015716),-0.58,,,WP_011293639.1,PMT9312_0673
+635414,636592.0,1179.0,PMT9312_0674,PMT9312_RS03460,pyridoxal phosphate-dependent aminotransferase,WP_011376230.1,Amino acid transport and metabolism,biosynthetic process (GO:0009058),-0.67,-0.84,,WP_011293640.1,PMT9312_0674
+640942,641754.0,813.0,PMT9312_0679,PMT9312_RS03485,TIGR04168 family protein,WP_071813306.1,Not in COGs,,0.55,0.55,,WP_011293647.1,PMT9312_0679
+641778,642575.0,798.0,PMT9312_0680,PMT9312_RS03490,hypothetical protein,WP_011376236.1,General function prediction only,,,1.11,,WP_011293648.1,PMT9312_0680
+642607,643797.0,1191.0,PMT9312_0681,PMT9312_RS03495,SAM-dependent methyltransferase,WP_011376237.1,Function unknown,,,-0.68,,WP_011293649.1,PMT9312_0681
+646552,646734.0,183.0,PMT9312_1841,PMT9312_RS03510,hypothetical protein,WP_036924592.1,Not in COGs,,0.53,,,WP_011294630.1,PMT9312_1841
+647468,647695.0,228.0,PMT9312_0685,PMT9312_RS03515,M protein,WP_011376240.1,Not in COGs,,1.45,4.58,,,PMT9312_0685
+647697,647825.0,129.0,PMT9312_0686,PMT9312_RS03520,high light inducible protein,WP_011376241.1,Not in COGs,,3.04,4.38,,WP_011294351.1,PMT9312_0686
+648073,648255.0,183.0,PMT9312_1843,PMT9312_RS03525,hypothetical protein,WP_036924589.1,Not in COGs,,2.29,4.25,,,PMT9312_1843
+648255,648395.0,141.0,PMT9312_0687,PMT9312_RS03530,high light inducible protein,WP_011376242.1,Not in COGs,,2.66,3.72,,WP_011293953.1,PMT9312_0687
+648395,648502.0,108.0,PMT9312_0688,PMT9312_RS03535,high light inducible protein,WP_011376243.1,Not in COGs,,2.28,2.7,,WP_011125327.1,PMT9312_0688
+649383,649703.0,321.0,PMT9312_0690,PMT9312_RS03545,hypothetical protein,WP_036924586.1,Not in COGs,,0.62,,,,PMT9312_0690
+649863,651461.0,1599.0,PMT9312_0691,PMT9312_RS03550,DNA recombination protein RmuC,WP_011376246.1,"Cell cycle control, mitosis and meiosis",,0.5,-0.36,,,PMT9312_0691
+651696,651884.0,189.0,PMT9312_0692,PMT9312_RS03555,hypothetical protein,WP_011376247.1,Not in COGs,,,-0.96,,,PMT9312_0692
+652279,652578.0,300.0,PMT9312_0693,PMT9312_RS03560,phospholipase,WP_011376248.1,Not in COGs,,0.58,,,,PMT9312_0693
+652995,653744.0,750.0,PMT9312_0694,PMT9312_RS03565,NAD-dependent DNA ligase,WP_011376249.1,"Replication, recombination and repair",,-0.62,-0.66,,WP_011293958.1,PMT9312_0694
+655821,656003.0,183.0,PMT9312_1848,PMT9312_RS03595,hypothetical protein,WP_036924581.1,Not in COGs,,0.68,1.34,,,PMT9312_1848
+656010,656207.0,198.0,PMT9312_0699,PMT9312_RS03600,hypothetical protein,WP_011376254.1,Not in COGs,,,1.38,,WP_011294663.1,PMT9312_0699
+656300,656554.0,255.0,PMT9312_0700,PMT9312_RS03605,high light inducible protein,WP_011376255.1,Not in COGs,,,1.85,,,PMT9312_0700
+657346,657558.0,213.0,PMT9312_0702,PMT9312_RS03610,hypothetical protein,WP_011376257.1,Not in COGs,,-0.66,,,WP_011294554.1,PMT9312_0702
+659782,660036.0,255.0,PMT9312_0706,PMT9312_RS03630,hypothetical protein,WP_011376261.1,Not in COGs,,0.81,1.5,,WP_041710994.1,PMT9312_0706
+660036,660263.0,228.0,PMT9312_0707,PMT9312_RS03635,hypothetical protein,WP_011376262.1,Not in COGs,,0.65,1.53,,WP_011294566.1,PMT9312_0707
+660527,660778.0,252.0,PMT9312_0709,PMT9312_RS03640,hypothetical protein,WP_011376264.1,Not in COGs,,,1.38,,,PMT9312_0709
+661732,661968.0,237.0,PMT9312_0710,PMT9312_RS03645,hypothetical protein,WP_011376265.1,Not in COGs,,0.84,2.27,,WP_011294001.1,PMT9312_0710
+661991,662233.0,243.0,PMT9312_0711,PMT9312_RS03650,hypothetical protein,WP_011376266.1,Not in COGs,,0.96,2.4,,WP_011293661.1,PMT9312_0711
+663874,664227.0,354.0,PMT9312_0714,PMT9312_RS03670,DUF1499 domain-containing protein,WP_011376269.1,Function unknown,,1.39,2.09,,WP_011294595.1,PMT9312_0714
+665730,666083.0,354.0,PMT9312_0716,PMT9312_RS03680,cytochrome c,WP_011376271.1,Not in COGs,,,-0.52,,WP_011293544.1,PMT9312_0716
+666279,667007.0,729.0,PMT9312_0717,PMT9312_RS03685,DNA-binding response regulator (phoB),WP_011376272.1,Signal transduction mechanisms,"regulation of transcription, DNA-dependent (GO:0006355)",,-0.6,,WP_011294535.1,PMT9312_0717
+668577,670859.0,2283.0,PMT9312_0720,PMT9312_RS03700,alkaline phosphatase,WP_011376275.1,Function unknown,,0.57,1.08,,WP_011294538.1,PMT9312_0720
+671007,672329.0,1323.0,PMT9312_0721,PMT9312_RS03705,porin,WP_011376276.1,Not in COGs,transport (GO:0006810),-0.36,0.87,,,PMT9312_0721
+672680,673666.0,987.0,PMT9312_0722,PMT9312_RS03710,phosphate ABC transporter substrate-binding protein PstS,WP_036924572.1,Inorganic ion transport and metabolism,phosphate transport (GO:0006817),0.6,1.35,,WP_011294540.1,PMT9312_0722
+674969,676228.0,1260.0,PMT9312_0724,PMT9312_RS03720,MFS transporter,WP_011376279.1,Not in COGs,transmembrane transport (GO:0055085),0.62,-0.48,,WP_011294543.1,PMT9312_0724
+676240,677262.0,1023.0,PMT9312_0725,PMT9312_RS03725,type I glyceraldehyde-3-phosphate dehydrogenase,WP_036924641.1,Carbohydrate transport and metabolism,glucose metabolic process (GO:0006006),1.36,-0.35,,WP_011294544.1,PMT9312_0725
+681464,681766.0,303.0,PMT9312_0730,PMT9312_RS03755,hypothetical protein,WP_011376285.1,Not in COGs,,0.54,,,,PMT9312_0730
+685111,686751.0,1641.0,PMT9312_0733,PMT9312_RS03770,ATP-dependent DNA ligase,WP_011376288.1,"Replication, recombination and repair",DNA recombination (GO:0006310),,1.01,,,PMT9312_0733
+686754,687740.0,987.0,PMT9312_0734,PMT9312_RS03775,DNA ligase-associated DEXH box helicase,WP_011376289.1,Translation,,,1.43,,,PMT9312_0734
+687776,688189.0,414.0,PMT9312_0735,PMT9312_RS03780,hypothetical protein,WP_011376290.1,Not in COGs,,,2.28,,,PMT9312_0735
+694059,694337.0,279.0,PMT9312_0747,PMT9312_RS03840,hypothetical protein,WP_036924638.1,Not in COGs,,,1.04,,WP_011293823.1,PMT9312_0747
+694454,694555.0,102.0,PMT9312_0748,PMT9312_RS03845,cytochrome b6-f complex subunit 8,WP_011376303.1,Not in COGs,cytochrome complex assembly (GO:0017004),,-0.62,,WP_011293824.1,PMT9312_0748
+694702,695352.0,651.0,PMT9312_0749,PMT9312_RS03850,photosystem II biogenesis protein Psp29,WP_011376304.1,Not in COGs,,,0.95,,WP_011293825.1,PMT9312_0749
+695388,695975.0,588.0,PMT9312_0750,PMT9312_RS03855,ATP-dependent Clp protease proteolytic subunit,WP_011376305.1,"Posttranslational modification, protein turnover, chaperones",proteolysis (GO:0006508),0.58,0.64,,WP_011293826.1,PMT9312_0750
+695972,697885.0,1914.0,PMT9312_0751,PMT9312_RS03860,cell division protein FtsH,WP_011376306.1,"Posttranslational modification, protein turnover, chaperones",protein catabolic process (GO:0030163),0.76,1.22,,WP_011293827.1,PMT9312_0751
+697993,698202.0,210.0,PMT9312_0752,PMT9312_RS03865,hypothetical protein,WP_011376307.1,Not in COGs,,0.54,0.57,,WP_011293682.1,PMT9312_0752
+700722,701447.0,726.0,PMT9312_0755,PMT9312_RS03880,phycocyanobilin:ferredoxin oxidoreductase,WP_011376310.1,Not in COGs,oxidation reduction (GO:0055114),,1.14,,WP_011293685.1,PMT9312_0755
+701447,702361.0,915.0,PMT9312_0756,PMT9312_RS03885,lipid ABC transporter permease,WP_011376311.1,Cell wall/membrane biogenesis,,0.46,0.66,,WP_011293686.1,PMT9312_0756
+710559,711242.0,684.0,PMT9312_0765,PMT9312_RS03925,D-Ala-D-Ala dipeptidase,WP_011376320.1,Cell wall/membrane biogenesis,proteolysis (GO:0006508),0.81,0.59,,WP_011293695.1,PMT9312_0765
+715264,716604.0,1341.0,PMT9312_0768,PMT9312_RS03940,geranylgeranyl reductase,WP_011376323.1,Energy production and conversion,chlorophyll biosynthetic process (GO:0015995),,-0.96,,WP_011293698.1,PMT9312_0768
+720665,721594.0,930.0,PMT9312_0773,PMT9312_RS03965,cytochrome c biogenesis protein CcsA,WP_011376328.1,"Posttranslational modification, protein turnover, chaperones",protein complex assembly (GO:0006461),-0.54,-0.96,,WP_011293705.1,PMT9312_0773
+722565,723566.0,1002.0,PMT9312_0775,PMT9312_RS03975,"fructose 1,6-bisphosphatase",WP_025926367.1,Not in COGs,glycerol metabolic process (GO:0006071),-0.34,-0.73,,WP_011293707.1,PMT9312_0775
+723585,724895.0,1311.0,PMT9312_0776,PMT9312_RS03980,glutamyl-tRNA reductase,WP_011376331.1,Coenzyme transport and metabolism,metabolic process (GO:0008152),-0.77,-0.62,,WP_011293708.1,PMT9312_0776
+728590,729138.0,549.0,PMT9312_0780,PMT9312_RS04000,epimerase,WP_011376335.1,Not in COGs,,0.83,1.04,,WP_011293712.1,PMT9312_0780
+729128,729514.0,387.0,PMT9312_0781,PMT9312_RS04005,hypothetical protein,WP_011376336.1,Not in COGs,,,1.16,,WP_011293713.1,PMT9312_0781
+734129,734383.0,255.0,PMT9312_0787,PMT9312_RS04035,phosphoribosylformylglycinamidine synthase subunit PurS,WP_011376342.1,Nucleotide transport and metabolism,,0.4,-0.64,,WP_011293720.1,PMT9312_0787
+736266,737363.0,1098.0,PMT9312_0790,PMT9312_RS04050,gfo/Idh/MocA family oxidoreductase,WP_011376345.1,General function prediction only,metabolic process (GO:0008152),-0.39,-0.53,,WP_011293723.1,PMT9312_0790
+737366,737758.0,393.0,PMT9312_0791,PMT9312_RS04055,hypothetical protein,WP_011376346.1,Not in COGs,,-0.69,,,WP_011293724.1,PMT9312_0791
+737761,738642.0,882.0,PMT9312_0792,PMT9312_RS04060,acetyl-CoA carboxylase carboxyl transferase subunit beta,WP_011376347.1,Lipid transport and metabolism,fatty acid biosynthetic process (GO:0006633),,-0.54,,WP_011293725.1,PMT9312_0792
+738787,739686.0,900.0,PMT9312_0793,PMT9312_RS04065,phosphoribulokinase,WP_011376348.1,Energy production and conversion,carbohydrate metabolic process (GO:0005975),-0.38,-0.96,,WP_011293727.1,PMT9312_0793
+743013,743507.0,495.0,PMT9312_0797,PMT9312_RS04085,haloacid dehalogenase,WP_011376352.1,General function prediction only,,,0.76,,WP_071813622.1,PMT9312_0797
+744535,745590.0,1056.0,PMT9312_0800,PMT9312_RS04100,hypothetical protein,WP_011376355.1,Not in COGs,,,0.74,,WP_011293734.1,PMT9312_0800
+749033,749800.0,768.0,PMT9312_0804,PMT9312_RS04120,1-(5-phosphoribosyl)-5-((5- phosphoribosylamino)methylideneamino)imidazole-4- carboxamide isomerase,WP_011376359.1,Amino acid transport and metabolism,histidine biosynthetic process (GO:0000105),-0.47,-1.01,,WP_011293738.1,PMT9312_0804
+751513,752124.0,612.0,PMT9312_0807,PMT9312_RS04135,glutaredoxin,WP_011376362.1,"Posttranslational modification, protein turnover, chaperones",cell redox homeostasis (GO:0045454),,-0.5,,WP_011294679.1,PMT9312_0807
+752349,753008.0,660.0,PMT9312_0809,PMT9312_RS04145,NAD(P)-dependent oxidoreductase,WP_011376364.1,Cell wall/membrane biogenesis,cellular metabolic process (GO:0044237),,0.72,,WP_011293743.1,PMT9312_0809
+753794,754852.0,1059.0,PMT9312_0811,PMT9312_RS04155,ABC transporter ATP-binding protein ,WP_011376366.1,Amino acid transport and metabolism,,-1.14,,,WP_011293745.1,PMT9312_0811
+755097,755651.0,555.0,PMT9312_0812,PMT9312_RS04160,ferritin,WP_011376367.1,Inorganic ion transport and metabolism,cellular iron ion homeostasis (GO:0006879),0.88,0.49,,WP_011293746.1,PMT9312_0812
+755932,756519.0,588.0,PMT9312_0814,PMT9312_RS04170,Crp/Fnr family transcriptional regulator,WP_011376369.1,Signal transduction mechanisms,regulation of transcription (GO:0045449),-0.66,-0.63,,WP_011293748.1,PMT9312_0814
+757751,759073.0,1323.0,PMT9312_0817,PMT9312_RS04185,(2Fe-2S)-binding protein,WP_011376372.1,Inorganic ion transport and metabolism,oxidation reduction (GO:0055114),,-0.87,,WP_011293752.1,PMT9312_0817
+759231,759425.0,195.0,PMT9312_0818,PMT9312_RS04190,hypothetical protein,WP_011376373.1,Not in COGs,,,-0.71,,WP_011293753.1,PMT9312_0818
+763066,763245.0,180.0,PMT9312_0824,PMT9312_RS04225,hypothetical protein,WP_011376379.1,Not in COGs,,,1.38,,WP_011293777.1,PMT9312_0824
+763992,764741.0,750.0,PMT9312_0826,PMT9312_RS04235,ABC transporter ATP-binding protein,WP_011376381.1,General function prediction only,,,0.69,,WP_011295390.1,PMT9312_0826
+764734,765864.0,1131.0,PMT9312_0827,PMT9312_RS04240,urea ABC transporter permease subunit UrtC,WP_011376382.1,Amino acid transport and metabolism,transport (GO:0006810),,0.57,,WP_011295391.1,PMT9312_0827
+765864,767018.0,1155.0,PMT9312_0828,PMT9312_RS04245,branched-chain amino acid ABC transporter permease,WP_011376383.1,Amino acid transport and metabolism,transport (GO:0006810),,0.73,,WP_011295392.1,PMT9312_0828
+767099,768376.0,1278.0,PMT9312_0829,PMT9312_RS04250,urea ABC transporter substrate-binding protein (UrtA),WP_011376384.1,Amino acid transport and metabolism,,,1.21,,WP_011295393.1,PMT9312_0829
+769799,770248.0,450.0,PMT9312_0832,PMT9312_RS04265,urease accessory protein UreE,WP_011376387.1,"Posttranslational modification, protein turnover, chaperones",enzyme active site formation (GO:0018307),0.76,,,WP_011295396.1,PMT9312_0832
+770297,771199.0,903.0,PMT9312_0833,PMT9312_RS04270,urease accessory protein UreD,WP_011376388.1,Not in COGs,nitrogen compound metabolic process (GO:0006807),,-0.76,,WP_011295397.1,PMT9312_0833
+771555,771875.0,321.0,PMT9312_0835,PMT9312_RS04280,urease subunit beta,WP_011376390.1,Not in COGs,nitrogen compound metabolic process (GO:0006807),0.5,,,WP_011295399.1,PMT9312_0835
+779221,780027.0,807.0,PMT9312_0843,PMT9312_RS04315,undecaprenyl-diphosphatase,WP_011376398.1,Not in COGs,dephosphorylation (GO:0016311),,0.93,,WP_011293786.1,PMT9312_0843
+780335,781063.0,729.0,PMT9312_0844,PMT9312_RS04325,peptide-methionine (S)-S-oxide reductase,WP_011376399.1,Not in COGs,oxidation reduction (GO:0055114),,0.56,,WP_011293788.1,PMT9312_0844
+781100,782845.0,1746.0,PMT9312_0845,PMT9312_RS04330,ABC transporter ATP-binding protein (# multidrug efflux from transportDB2.0),WP_011376400.1,Defense mechanisms,transmembrane transport (GO:0055085),1.0,1.47,,WP_011293790.1,PMT9312_0845
+783257,784306.0,1050.0,PMT9312_0847,PMT9312_RS04340,anthranilate phosphoribosyltransferase,WP_011376402.1,Amino acid transport and metabolism,metabolic process (GO:0008152),-0.56,-0.92,,WP_011293792.1,PMT9312_0847
+784306,785445.0,1140.0,PMT9312_0848,PMT9312_RS04345,carbamoyl phosphate synthase small subunit,WP_011376403.1,Amino acid transport and metabolism,biosynthetic process (GO:0009058),-0.67,-0.97,,WP_011293793.1,PMT9312_0848
+794531,795421.0,891.0,PMT9312_0859,PMT9312_RS04400,EamA family transporter,WP_011376414.1,Carbohydrate transport and metabolism,,,0.7,,WP_011293804.1,PMT9312_0859
+795516,797549.0,2034.0,PMT9312_0860,PMT9312_RS04405,DNA primase,WP_011376415.1,"Replication, recombination and repair",DNA metabolic process (GO:0006259),,-0.61,,WP_011293805.1,PMT9312_0860
+797566,798033.0,468.0,PMT9312_0861,PMT9312_RS04410,hypothetical protein,WP_011376416.1,Not in COGs,,,0.65,,WP_011293807.1,PMT9312_0861
+799850,800266.0,417.0,PMT9312_0864,PMT9312_RS04425,ribosomal RNA large subunit methyltransferase H,WP_011376419.1,Function unknown,rRNA processing (GO:0006364),,1.12,,WP_041711182.1,PMT9312_0864
+806551,807594.0,1044.0,PMT9312_0873,PMT9312_RS04465,AI-2E family transporter,WP_011376428.1,General function prediction only,,,0.73,,WP_011293668.1,PMT9312_0873
+807608,807961.0,354.0,PMT9312_0874,PMT9312_RS04470,photosystem II reaction center protein Psb28,WP_011376429.1,Not in COGs,photosynthesis (GO:0015979),0.87,1.31,,WP_011293669.1,PMT9312_0874
+810281,810544.0,264.0,PMT9312_0878,PMT9312_RS04490,hypothetical protein,WP_011376433.1,Not in COGs,,,1.15,,WP_011293673.1,PMT9312_0878
+810557,811612.0,1056.0,PMT9312_0879,PMT9312_RS04495,methyltransferase,WP_011376434.1,"Secondary metabolites biosynthesis, transport and catabolism",metabolic process (GO:0008152),0.75,1.57,,WP_011293674.1,PMT9312_0879
+813349,814533.0,1185.0,PMT9312_0881,PMT9312_RS04505,alanine--glyoxylate aminotransferase family protein,WP_011376436.1,Amino acid transport and metabolism,metabolic process (GO:0008152),,-0.83,,WP_011293676.1,PMT9312_0881
+822209,822538.0,330.0,PMT9312_0889,PMT9312_RS04545,hypothetical protein,WP_011376444.1,General function prediction only,,,0.52,,WP_011293830.1,PMT9312_0889
+822541,822819.0,279.0,PMT9312_0890,PMT9312_RS04550,YggT family protein,WP_002807500.1,Function unknown,,,0.89,,WP_011293831.1,PMT9312_0890
+826998,827258.0,261.0,PMT9312_0894,PMT9312_RS04570,photosystem I reaction center subunit PsaK,WP_011376448.1,Not in COGs,photosynthesis (GO:0015979),,-1.6,,WP_011293835.1,PMT9312_0894
+827960,828493.0,534.0,PMT9312_0897,PMT9312_RS04585,peroxiredoxin,WP_011376451.1,"Posttranslational modification, protein turnover, chaperones",cell redox homeostasis (GO:0045454),-0.6,,,WP_011293838.1,PMT9312_0897
+828775,830679.0,1905.0,PMT9312_0899,PMT9312_RS04595,molecular chaperone HtpG,WP_011376453.1,"Posttranslational modification, protein turnover, chaperones",protein folding (GO:0006457),0.45,0.55,,WP_011293840.1,PMT9312_0899
+839166,840221.0,1056.0,PMT9312_0908,PMT9312_RS04645,N-acetyl-gamma-glutamyl-phosphate reductase,WP_011376462.1,Amino acid transport and metabolism,arginine biosynthetic process (GO:0006526),-0.39,-0.97,,WP_011293852.1,PMT9312_0908
+841041,842624.0,1584.0,PMT9312_0910,PMT9312_RS04655,glucose-6-phosphate isomerase,WP_011376464.1,Carbohydrate transport and metabolism,gluconeogenesis (GO:0006094),,-0.66,,WP_011293854.1,PMT9312_0910
+852269,852835.0,567.0,PMT9312_0919,PMT9312_RS04700,membrane protein,WP_011376473.1,Function unknown,,,-0.72,,WP_011293863.1,PMT9312_0919
+861792,862010.0,219.0,PMT9312_0924,PMT9312_RS04725,hypothetical protein,WP_011376478.1,Not in COGs,,0.68,-0.43,,WP_011293868.1,PMT9312_0924
+862108,862491.0,384.0,PMT9312_0925,PMT9312_RS04730,hypothetical protein,WP_011376479.1,Function unknown,,0.43,0.59,,WP_011294034.1,PMT9312_0925
+863374,863553.0,180.0,PMT9312_0927,PMT9312_RS04740,hypothetical protein,WP_011376481.1,Not in COGs,,0.85,1.41,,WP_011293870.1,PMT9312_0927
+868491,869675.0,1185.0,PMT9312_0933,PMT9312_RS04770,ribonuclease II,WP_011376485.1,Transcription,,-0.54,0.65,,WP_011293875.1,PMT9312_0933
+871314,871895.0,582.0,PMT9312_0935,PMT9312_RS04780,LPS export ABC transporter periplasmic protein LptC,WP_011376487.1,Not in COGs,,,0.96,,,PMT9312_0935
+881076,881840.0,765.0,PMT9312_0949,PMT9312_RS04860,haloacid dehalogenase,WP_011376501.1,General function prediction only,metabolic process (GO:0008152),,-0.66,,WP_011293890.1,PMT9312_0949
+882011,882358.0,348.0,PMT9312_0950,PMT9312_RS04865,zinc/iron-chelating domain-containing protein,WP_011376502.1,General function prediction only,,,0.58,,,PMT9312_0950
+885860,886438.0,579.0,PMT9312_0955,PMT9312_RS04890,hypothetical protein,WP_011376507.1,Not in COGs,,,1.13,,WP_049752690.1,PMT9312_0955
+892268,895792.0,3525.0,PMT9312_0961,PMT9312_RS04920,transcription-repair coupling factor,WP_011376513.1,"Replication, recombination and repair",DNA repair (GO:0006281),0.26,0.78,,WP_011293903.1,PMT9312_0961
+896477,897064.0,588.0,PMT9312_0963,PMT9312_RS04930,hypothetical protein,WP_036924625.1,Not in COGs,,,0.75,,WP_011293907.1,PMT9312_0963
+904622,905467.0,846.0,PMT9312_0970,PMT9312_RS04965,dihydropteroate synthase,WP_036924619.1,Coenzyme transport and metabolism,cellular metabolic process (GO:0044237),-0.73,-1.12,,WP_011293915.1,PMT9312_0970
+905451,906176.0,726.0,PMT9312_0971,PMT9312_RS04970,triose-phosphate isomerase,WP_011376523.1,Carbohydrate transport and metabolism,metabolic process (GO:0008152),-0.41,-0.83,,WP_011293916.1,PMT9312_0971
+912813,913307.0,495.0,PMT9312_0978,PMT9312_RS05005,hypothetical protein,WP_036924616.1,Not in COGs,,,0.5,,WP_011293757.1,PMT9312_0978
+916436,917230.0,795.0,PMT9312_0982,PMT9312_RS05030,multidrug ABC transporter permease,WP_011376534.1,General function prediction only,,,0.5,,WP_011293769.1,PMT9312_0982
+917227,918021.0,795.0,PMT9312_0983,PMT9312_RS05035,ABC transporter permease,WP_011376535.1,General function prediction only,,,0.96,,WP_011293770.1,PMT9312_0983
+918295,918522.0,228.0,PMT9312_0985,PMT9312_RS05045,hypothetical protein,WP_011376537.1,Not in COGs,,,-0.55,,,PMT9312_0985
+919922,920263.0,342.0,PMT9312_0987,PMT9312_RS05055,HNH endonuclease,WP_011376539.1,Defense mechanisms,,1.03,,,,PMT9312_0987
+921123,921344.0,222.0,PMT9312_1878,PMT9312_RS05070,hypothetical protein,WP_036924509.1,Not in COGs,,-0.44,-1.06,,WP_011294718.1,PMT9312_1878
+921817,922320.0,504.0,PMT9312_0990,PMT9312_RS05080,hypothetical protein,WP_011376542.1,Not in COGs,,,-0.6,,WP_011293772.1,PMT9312_0990
+922974,923438.0,465.0,PMT9312_0992,PMT9312_RS05095,nucleoside 2-deoxyribosyltransferase,WP_011376544.1,Nucleotide transport and metabolism,,,0.78,,WP_011293658.1,PMT9312_0992
+926135,926932.0,798.0,PMT9312_0997,PMT9312_RS05120,hypothetical protein,WP_011376548.1,Not in COGs,,0.85,1.97,,WP_011293659.1,PMT9312_0997
+930385,930654.0,270.0,PMT9312_1004,PMT9312_RS05160,hypothetical protein,WP_011376555.1,Not in COGs,,0.67,1.38,,WP_011294629.1,PMT9312_1004
+931111,931491.0,381.0,PMT9312_1006,PMT9312_RS05165,hypothetical protein,WP_011376557.1,Not in COGs,,,0.91,,WP_011293944.1,PMT9312_1006
+931825,932127.0,303.0,PMT9312_1008,PMT9312_RS05175,hypothetical protein,WP_011376559.1,Not in COGs,,-0.5,,,WP_011293806.1,PMT9312_1008
+932194,932910.0,717.0,PMT9312_1009,PMT9312_RS05180,hypothetical protein,WP_011376560.1,General function prediction only,,0.75,1.46,,WP_011293930.1,PMT9312_1009
+933062,933346.0,285.0,PMT9312_1010,PMT9312_RS05185,hypothetical protein,WP_011376561.1,Not in COGs,,,0.8,,WP_011295286.1,PMT9312_1010
+936570,936767.0,198.0,PMT9312_1013,PMT9312_RS05205,hypothetical protein,WP_011376564.1,Not in COGs,,,0.98,,,PMT9312_1013
+938049,938291.0,243.0,PMT9312_1015,PMT9312_RS05215,hypothetical protein,WP_011376566.1,Not in COGs,,,-0.76,,,PMT9312_1015
+938437,938916.0,480.0,PMT9312_1016,PMT9312_RS05220,glutathione peroxidase,WP_011376567.1,"Posttranslational modification, protein turnover, chaperones",oxidation reduction (GO:0055114),,0.92,,WP_011295553.1,PMT9312_1016
+939048,939722.0,675.0,PMT9312_1017,PMT9312_RS05225,hypothetical protein,WP_011376568.1,Not in COGs,,0.6,0.56,,,PMT9312_1017
+939770,940162.0,393.0,PMT9312_1018,PMT9312_RS05230,hypothetical protein,WP_011376569.1,Not in COGs,,,1.45,,WP_011294030.1,PMT9312_1018
+944289,944693.0,405.0,PMT9312_1027,PMT9312_RS05275,MAPEG family protein,WP_011376577.1,Function unknown,,,0.92,,WP_011294562.1,PMT9312_1027
+948459,948773.0,315.0,PMT9312_1032,PMT9312_RS05315,hypothetical protein,WP_011376582.1,Not in COGs,,,-1.26,,WP_011294002.1,PMT9312_1032
+951523,951906.0,384.0,PMT9312_1038,PMT9312_RS05345,DUF1499 domain-containing protein,WP_011376588.1,Function unknown,,,1.12,,WP_011294614.1,PMT9312_1038
+952775,953023.0,249.0,PMT9312_1039,PMT9312_RS05350,hypothetical protein,WP_011376589.1,Not in COGs,,0.97,,,WP_011294874.1,PMT9312_1039
+953254,954039.0,786.0,PMT9312_1040,PMT9312_RS05355,metal ABC transporter permease,WP_011376590.1,Inorganic ion transport and metabolism,transport (GO:0006810),-0.63,-0.47,,WP_011295377.1,PMT9312_1040
+960191,960466.0,276.0,PMT9312_1046,PMT9312_RS05385,DNA gyrase,WP_011376596.1,Not in COGs,,1.13,,,WP_011293957.1,PMT9312_1046
+964551,965024.0,474.0,PMT9312_1052,PMT9312_RS05415,hypothetical protein,WP_011376602.1,Not in COGs,,,0.61,,,PMT9312_1052
+965108,965626.0,519.0,PMT9312_1053,PMT9312_RS05420,pentapeptide repeat protein,WP_011376603.1,Function unknown,,,-0.6,,WP_011294801.1,PMT9312_1053
+972864,973136.0,273.0,PMT9312_1061,PMT9312_RS05465,hypothetical protein,WP_036923944.1,Not in COGs,,,1.01,,WP_011294792.1,PMT9312_1061
+974532,974951.0,420.0,PMT9312_1063,PMT9312_RS05475,cysteine desufuration protein SufE,WP_011376613.1,General function prediction only,,,0.78,,WP_011294790.1,PMT9312_1063
+978434,978553.0,120.0,PMT9312_1069,PMT9312_RS05505,cytochrome b6-f complex subunit 5,WP_011376619.1,Not in COGs,,,-1.28,,WP_011294783.1,PMT9312_1069
+978530,979129.0,600.0,PMT9312_1070,PMT9312_RS05510,16S rRNA (guanine(966)-N(2))-methyltransferase RsmD,WP_011376620.1,"Replication, recombination and repair",methylation (GO:0032259),-0.48,-0.67,,WP_011294782.1,PMT9312_1070
+980322,981485.0,1164.0,PMT9312_1073,PMT9312_RS05525,GuaB3 family IMP dehydrogenase-related protein,WP_011376623.1,Nucleotide transport and metabolism,metabolic process (GO:0008152),0.61,0.26,,WP_011294779.1,PMT9312_1073
+985502,987085.0,1584.0,PMT9312_1076,PMT9312_RS05540,glycoside hydrolase family 57,WP_011376626.1,Function unknown,carbohydrate metabolic process (GO:0005975),-0.67,-1.22,,WP_011294776.1,PMT9312_1076
+989034,989426.0,393.0,PMT9312_1078,PMT9312_RS05550,hypothetical protein,WP_011376628.1,Not in COGs,,,-0.95,,WP_011294773.1,PMT9312_1078
+990982,991878.0,897.0,PMT9312_1080,PMT9312_RS05560,"bifunctional 5,10-methylene-tetrahydrofolate dehydrogenase/5,10-methylene-tetrahydrofolate cyclohydrolase",WP_011376630.1,Coenzyme transport and metabolism,folic acid and derivative biosynthetic process (GO:0009396),,-0.66,,WP_011294771.1,PMT9312_1080
+992832,993311.0,480.0,PMT9312_1082,PMT9312_RS05570,divergent PAP2 family protein,WP_011376632.1,Not in COGs,,-0.74,-0.59,,WP_011294769.1,PMT9312_1082
+1001402,1001872.0,471.0,PMT9312_1090,PMT9312_RS05615,hypothetical protein,WP_011376640.1,Not in COGs,,,-0.65,,WP_011294761.1,PMT9312_1090
+1001882,1002877.0,996.0,PMT9312_1091,PMT9312_RS05620,ribose-phosphate pyrophosphokinase,WP_011376641.1,Nucleotide transport and metabolism,cellular biosynthetic process (GO:0044249),,-0.55,,WP_011294759.1,PMT9312_1091
+1005283,1006941.0,1659.0,PMT9312_1094,PMT9312_RS05635,hypothetical protein,WP_011376644.1,General function prediction only,protein amino acid phosphorylation (GO:0006468),,0.72,,WP_011294755.1,PMT9312_1094
+1010190,1011281.0,1092.0,PMT9312_1098,PMT9312_RS05655,oxidoreductase,WP_011376648.1,Energy production and conversion,oxidation reduction (GO:0055114),0.82,0.82,,WP_011294750.1,PMT9312_1098
+1011296,1013824.0,2529.0,PMT9312_1099,PMT9312_RS05660,ATP-dependent Clp protease ATP-binding subunit ClpC,WP_011376649.1,"Posttranslational modification, protein turnover, chaperones",nucleotide-excision repair (GO:0006289),0.77,0.82,,WP_011294749.1,PMT9312_1099
+1021705,1022262.0,558.0,PMT9312_1109,PMT9312_RS05710,photosystem II oxygen evolving complex protein PsbP,WP_011376659.1,Not in COGs,photosynthesis (GO:0015979),0.53,,,WP_011294739.1,PMT9312_1109
+1022278,1024050.0,1773.0,PMT9312_1110,PMT9312_RS05715,ABC transporter ATP-binding protein,WP_011376660.1,Defense mechanisms,transmembrane transport (GO:0055085),-0.61,-0.35,,WP_011294738.1,PMT9312_1110
+1024361,1026142.0,1782.0,PMT9312_1112,PMT9312_RS05725,cold-shock protein,WP_011376662.1,"Replication, recombination and repair",,-0.76,-0.57,,WP_011294736.1,PMT9312_1112
+1032099,1035281.0,3183.0,PMT9312_1116,PMT9312_RS05745,exodeoxyribonuclease V subunit chi,WP_011376666.1,"Replication, recombination and repair",,-0.77,,,WP_011294732.1,PMT9312_1116
+1035299,1035616.0,318.0,PMT9312_1117,PMT9312_RS05750,hypothetical protein,WP_011376667.1,Not in COGs,,-0.33,-0.62,,,PMT9312_1117
+1035625,1036341.0,717.0,PMT9312_1118,PMT9312_RS05755,pyridoxine 5'-phosphate synthase,WP_011376668.1,Not in COGs,metabolic process (GO:0008152),,-0.55,,WP_011294731.1,PMT9312_1118
+1036502,1037116.0,615.0,PMT9312_1119,PMT9312_RS05760,1-acyl-sn-glycerol-3-phosphate acyltransferase,WP_036923956.1,Lipid transport and metabolism,metabolic process (GO:0008152),1.14,0.94,,WP_011294730.1,PMT9312_1119
+1037160,1037675.0,516.0,PMT9312_1120,PMT9312_RS05765,hypothetical protein,WP_011376670.1,Not in COGs,,0.87,,,,PMT9312_1120
+1037688,1037918.0,231.0,PMT9312_1121,PMT9312_RS05770,BolA family transcriptional regulator,WP_011376671.1,Signal transduction mechanisms,,0.59,,,WP_011294729.1,PMT9312_1121
+1039384,1039890.0,507.0,PMT9312_1125,PMT9312_RS05790,hypothetical protein,WP_011376675.1,Not in COGs,,-0.52,,,,PMT9312_1125
+1043779,1043886.0,108.0,,PMT9312_RS05815,high light inducible protein,WP_011132751.1,,,2.0,2.55,,WP_011125327.1,
+1044540,1045694.0,1155.0,PMT9312_1130,PMT9312_RS05825,porin,WP_011376680.1,Not in COGs,,0.39,-0.54,,,PMT9312_1130
+1045860,1046975.0,1116.0,PMT9312_1131,PMT9312_RS05830,porin,WP_011376681.1,Not in COGs,transport (GO:0006810),0.37,-0.56,,,PMT9312_1131
+1051556,1052521.0,966.0,PMT9312_1135,PMT9312_RS05850,hypothetical protein,WP_011376685.1,Not in COGs,,,-0.57,,,PMT9312_1135
+1053412,1053798.0,387.0,PMT9312_1137,PMT9312_RS05865,hypothetical protein,WP_011376687.1,Not in COGs,,,-0.71,,,PMT9312_1137
+1053894,1054415.0,522.0,PMT9312_1138,PMT9312_RS05870,molecular chaperone DnaJ,WP_011376688.1,"Posttranslational modification, protein turnover, chaperones",protein folding (GO:0006457),,0.63,,,PMT9312_1138
+1057780,1057914.0,135.0,PMT9312_1143,PMT9312_RS05895,high light inducible protein,WP_011376693.1,Not in COGs,,,1.85,,WP_011294606.1,PMT9312_1143
+1058239,1059321.0,1083.0,PMT9312_1144,PMT9312_RS05900,photosystem II protein D1 (PsbA),WP_011375791.1,Not in COGs,"photosynthesis, light reaction (GO:0019684)",0.8,,,WP_011294225.1,PMT9312_1144
+1060448,1061224.0,777.0,PMT9312_1146,PMT9312_RS05915,hypothetical protein,WP_011376695.1,Not in COGs,,,0.72,,,PMT9312_1146
+1061228,1061812.0,585.0,PMT9312_1147,PMT9312_RS05920,N-acetyltransferase,WP_011376696.1,Not in COGs,,0.76,,,,PMT9312_1147
+1072307,1072912.0,606.0,PMT9312_1156,PMT9312_RS05965,hypothetical protein,WP_036923975.1,Not in COGs,,0.45,0.82,,WP_011294819.1,PMT9312_1156
+1073052,1073474.0,423.0,PMT9312_1157,PMT9312_RS05970,hypothetical protein,WP_011376706.1,Not in COGs,,0.54,,,,PMT9312_1157
+1073910,1074203.0,294.0,PMT9312_1158,PMT9312_RS05980,hypothetical protein,WP_011376707.1,Not in COGs,,0.91,0.59,,,PMT9312_1158
+1074511,1074696.0,186.0,PMT9312_1159,PMT9312_RS09480,hypothetical protein,WP_011376708.1,Not in COGs,,1.04,2.46,,WP_011294574.1,PMT9312_1159
+1074708,1074896.0,189.0,PMT9312_1160,PMT9312_RS05985,hypothetical protein,WP_011376709.1,Not in COGs,,1.15,2.62,,,PMT9312_1160
+1079190,1079930.0,741.0,PMT9312_1165,PMT9312_RS06010,amino acid ABC transporter ATP-binding protein,WP_011376714.1,Amino acid transport and metabolism,,-0.5,,,WP_011294700.1,PMT9312_1165
+1084774,1085784.0,1011.0,PMT9312_1169,PMT9312_RS06030,NmrA family transcriptional regulator,WP_011376718.1,Cell wall/membrane biogenesis,metabolic process (GO:0008152),2.57,3.71,,WP_011293924.1,PMT9312_1169
+1086217,1086822.0,606.0,PMT9312_1170,PMT9312_RS06035,hypothetical protein,WP_011376719.1,Function unknown,,0.54,0.43,,,PMT9312_1170
+1088986,1089240.0,255.0,PMT9312_1173,PMT9312_RS06055,high light inducible protein,WP_011376722.1,Not in COGs,,1.16,1.8,,,PMT9312_1173
+1090291,1090704.0,414.0,PMT9312_1175,PMT9312_RS06065,hypothetical protein,WP_011376724.1,Not in COGs,,-2.05,,,WP_011294879.1,PMT9312_1175
+1091505,1091801.0,297.0,PMT9312_1176,PMT9312_RS06075,PsbF-like protein,WP_011376725.1,Not in COGs,photosynthesis (GO:0015979),-1.25,,,WP_011294880.1,PMT9312_1176
+1093035,1093349.0,315.0,PMT9312_1178,PMT9312_RS06085,hypothetical protein,WP_011376727.1,Not in COGs,,,-0.69,,,PMT9312_1178
+1093815,1094933.0,1119.0,PMT9312_1179,PMT9312_RS06090,inverse autotransporter beta-barrel domain-containing protein,WP_011376728.1,Not in COGs,,0.66,0.32,,,PMT9312_1179
+1110460,1110933.0,474.0,PMT9312_1190,PMT9312_RS06145,hypothetical protein,WP_011376739.1,Not in COGs,,,1.66,,,PMT9312_1190
+1117237,1117860.0,624.0,PMT9312_1196,PMT9312_RS06175,prepilin-type cleavage/methylation domain-containing protein,WP_011376745.1,Not in COGs,,-0.34,-0.59,,,PMT9312_1196
+1120689,1121354.0,666.0,PMT9312_1199,PMT9312_RS06190,prepilin-type cleavage/methylation domain-containing protein,WP_011376748.1,Cell motility,,0.64,,,,PMT9312_1199
+1121821,1122390.0,570.0,PMT9312_1201,PMT9312_RS06200,Tfp pilus assembly protein PilE-like,WP_011376750.1,Not in COGs,,,-0.77,,,PMT9312_1201
+1129553,1129738.0,186.0,PMT9312_pseudoVIMSS1362712,PMT9312_RS09490,hypothetical protein,WP_071813338.1,,,1.33,2.67,,,PMT9312_pseudoVIMSS1362712
+1130689,1131000.0,312.0,PMT9312_1209,PMT9312_RS06240,hypothetical protein,WP_011376758.1,Not in COGs,,0.64,,,WP_011294641.1,PMT9312_1209
+1132508,1133026.0,519.0,PMT9312_1212,PMT9312_RS06255,metal-binding protein,WP_036924260.1,General function prediction only,,0.82,,,WP_011294549.1,PMT9312_1212
+1133556,1133756.0,201.0,PMT9312_1215,PMT9312_RS06270,hypothetical protein,WP_011376764.1,Not in COGs,,0.93,1.03,,,PMT9312_1215
+1135963,1136178.0,216.0,PMT9312_1218,PMT9312_RS06285,hypothetical protein,WP_011376767.1,Not in COGs,,-0.62,,,WP_011294666.1,PMT9312_1218
+1139772,1141115.0,1344.0,PMT9312_1223,PMT9312_RS06320,sodium-dependent transporter,WP_036924299.1,General function prediction only,neurotransmitter transport (GO:0006836),,-0.89,,WP_011294838.1,PMT9312_1223
+1143167,1143589.0,423.0,PMT9312_1225,PMT9312_RS06330,cupin,WP_011376774.1,Function unknown,,0.85,,,,PMT9312_1225
+1144209,1144478.0,270.0,PMT9312_1227,PMT9312_RS06340,phospholipase,WP_011376776.1,Not in COGs,,0.57,,,,PMT9312_1227
+1144707,1144913.0,207.0,PMT9312_1228,PMT9312_RS06345,high light inducible protein,WP_011376777.1,Not in COGs,,3.37,3.99,,WP_011294349.1,PMT9312_1228
+1144913,1145173.0,261.0,PMT9312_1229,PMT9312_RS06350,high light inducible protein,WP_036924266.1,Not in COGs,,3.34,4.3,,WP_011293953.1,PMT9312_1229
+1145207,1145335.0,129.0,PMT9312_1230,PMT9312_RS06355,high light inducible protein,WP_011376779.1,Not in COGs,,3.23,4.22,,WP_011294351.1,PMT9312_1230
+1145337,1145516.0,180.0,PMT9312_1231,PMT9312_RS06360,hypothetical protein,WP_011376780.1,Not in COGs,,2.63,4.63,,,PMT9312_1231
+1147114,1148205.0,1092.0,PMT9312_1234,PMT9312_RS06380,GTP-binding protein YchF,WP_011376783.1,Translation,,-0.28,-0.55,,WP_011294834.1,PMT9312_1234
+1153915,1155141.0,1227.0,PMT9312_1238,PMT9312_RS06400,1-deoxy-D-xylulose-5-phosphate reductoisomerase,WP_011376787.1,Not in COGs,isoprenoid biosynthetic process (GO:0008299),,-0.71,,WP_011294839.1,PMT9312_1238
+1155913,1156047.0,135.0,PMT9312_1239,PMT9312_RS06405,high light inducible protein,WP_011376693.1,Not in COGs,,,1.85,,WP_011294606.1,PMT9312_1239
+1156286,1156636.0,351.0,PMT9312_1240,PMT9312_RS06410,ferredoxin,WP_011376788.1,Energy production and conversion,,,0.96,,,PMT9312_1240
+1160702,1161280.0,579.0,PMT9312_1245,PMT9312_RS06435,hypothetical protein,WP_011376793.1,Not in COGs,,,-0.73,,WP_011294844.1,PMT9312_1245
+1161435,1161659.0,225.0,PMT9312_1246,PMT9312_RS06440,hypothetical protein,WP_011376794.1,Not in COGs,,,-0.77,,WP_011294845.1,PMT9312_1246
+1164965,1165915.0,951.0,PMT9312_1252,PMT9312_RS06470,alpha/beta hydrolase,WP_011376799.1,General function prediction only,,,-0.51,,WP_011294851.1,PMT9312_1252
+1171009,1172538.0,1530.0,PMT9312_1259,PMT9312_RS06505,cobyric acid synthase CobQ,WP_011376805.1,Coenzyme transport and metabolism,cobalamin biosynthetic process (GO:0009236),0.6,,,WP_011294859.1,PMT9312_1259
+1173901,1174923.0,1023.0,PMT9312_1261,PMT9312_RS06520,iron ABC transporter substrate-binding protein,WP_036924302.1,Inorganic ion transport and metabolism,transport (GO:0006810),-2.29,,,WP_011294862.1,PMT9312_1261
+1175026,1175691.0,666.0,PMT9312_1262,PMT9312_RS06525,PKHD-type hydroxylase,WP_011376808.1,Function unknown,oxidation reduction (GO:0055114),1.02,,,WP_011294863.1,PMT9312_1262
+1175764,1175991.0,228.0,PMT9312_1263,PMT9312_RS06530,hypothetical protein,WP_011376809.1,Not in COGs,,-0.81,,,WP_011294864.1,PMT9312_1263
+1176075,1177388.0,1314.0,PMT9312_1264,PMT9312_RS06535,porin,WP_011376810.1,Not in COGs,transport (GO:0006810),-1.42,,,WP_011294865.1,PMT9312_1264
+1177541,1178416.0,876.0,PMT9312_1265,PMT9312_RS06540,glycine--tRNA ligase subunit alpha,WP_036924276.1,Not in COGs,glycyl-tRNA aminoacylation (GO:0006426),-0.8,-0.33,,WP_011294866.1,PMT9312_1265
+1179645,1180283.0,639.0,PMT9312_1268,PMT9312_RS06555,SAM-dependent methyltransferase,WP_011376814.1,Not in COGs,metabolic process (GO:0008152),,1.49,,WP_011293906.1,PMT9312_1268
+1180632,1181288.0,657.0,PMT9312_1270,PMT9312_RS06565,hypothetical protein,WP_011376816.1,Not in COGs,,0.55,1.33,,WP_011295290.1,PMT9312_1270
+1181364,1182422.0,1059.0,PMT9312_1271,PMT9312_RS06570,chlorophyll a/b binding light-harvesting protein,WP_011376817.1,Not in COGs,"photosynthesis, light reaction (GO:0019684)",-3.11,,,WP_011293749.1,PMT9312_1271
+1182568,1183092.0,525.0,PMT9312_1272,PMT9312_RS06575,flavodoxin,WP_011376818.1,Energy production and conversion,,-2.45,,,WP_011294882.1,PMT9312_1272
+1184328,1184552.0,225.0,PMT9312_1275,PMT9312_RS06590,hypothetical protein,WP_011376821.1,Not in COGs,,,-0.63,,WP_011295406.1,PMT9312_1275
+1185630,1185881.0,252.0,PMT9312_1277,PMT9312_RS06600,hypothetical protein,WP_011376823.1,Not in COGs,,,-0.94,,WP_011294883.1,PMT9312_1277
+1191680,1191817.0,138.0,PMT9312_1284,PMT9312_RS06635,50S ribosomal protein L34,WP_002808184.1,Not in COGs,translation (GO:0006412),,-0.59,,WP_011294890.1,PMT9312_1284
+1191830,1192216.0,387.0,PMT9312_1285,PMT9312_RS06640,ribonuclease P protein component,WP_011376830.1,Not in COGs,tRNA processing (GO:0008033),-0.78,-0.72,,WP_011294891.1,PMT9312_1285
+1192213,1192626.0,414.0,PMT9312_1286,PMT9312_RS06645,ribonuclease P,WP_011376831.1,Not in COGs,oxidation reduction (GO:0055114),,0.92,,WP_011294892.1,PMT9312_1286
+1193857,1195323.0,1467.0,PMT9312_1288,PMT9312_RS06655,hypothetical protein,WP_011376833.1,"Posttranslational modification, protein turnover, chaperones",,-0.75,,,WP_011294894.1,PMT9312_1288
+1205096,1205719.0,624.0,PMT9312_1298,PMT9312_RS06710,N-acetyltransferase,WP_011376843.1,General function prediction only,,-0.7,-0.82,,,PMT9312_1298
+1205763,1207088.0,1326.0,PMT9312_1299,PMT9312_RS06715,nucleotide sugar dehydrogenase,WP_011376844.1,Cell wall/membrane biogenesis,metabolic process (GO:0008152),-0.48,-1.03,,,PMT9312_1299
+1207101,1208192.0,1092.0,PMT9312_1300,PMT9312_RS06720,gfo/Idh/MocA family oxidoreductase,WP_011376845.1,General function prediction only,metabolic process (GO:0008152),-0.68,-0.76,,,PMT9312_1300
+1208196,1209452.0,1257.0,PMT9312_1301,PMT9312_RS06725,glycosyltransferase WbuB,WP_011376846.1,Cell wall/membrane biogenesis,biosynthetic process (GO:0009058),-0.61,-0.71,,,PMT9312_1301
+1218554,1219945.0,1392.0,PMT9312_1310,PMT9312_RS06770,hypothetical protein,WP_011376855.1,Not in COGs,,,-0.55,,,PMT9312_1310
+1221700,1223124.0,1425.0,PMT9312_1312,PMT9312_RS06780,nucleotide sugar dehydrogenase,WP_011376857.1,Cell wall/membrane biogenesis,metabolic process (GO:0008152),,-1.06,,WP_011293596.1,PMT9312_1312
+1226341,1227339.0,999.0,PMT9312_1315,PMT9312_RS06795,GDP-fucose synthetase,WP_011376860.1,Cell wall/membrane biogenesis,cellular metabolic process (GO:0044237),,-0.61,,,PMT9312_1315
+1227408,1228511.0,1104.0,PMT9312_1316,PMT9312_RS06800,"GDP-mannose 4,6-dehydratase",WP_011376861.1,Cell wall/membrane biogenesis,cellular metabolic process (GO:0044237),-0.29,-0.98,,WP_011295565.1,PMT9312_1316
+1228713,1229771.0,1059.0,PMT9312_1317,PMT9312_RS06805,UDP-glucose 4-epimerase GalE,WP_011376862.1,Cell wall/membrane biogenesis,cellular metabolic process (GO:0044237),-0.41,-0.95,,WP_011293755.1,PMT9312_1317
+1233668,1234411.0,744.0,PMT9312_1321,PMT9312_RS06825,hypothetical protein,WP_011376866.1,Not in COGs,,-0.87,-0.96,,,PMT9312_1321
+1234411,1235592.0,1182.0,PMT9312_1322,PMT9312_RS06830,hypothetical protein,WP_011376867.1,Not in COGs,,,-0.96,,,PMT9312_1322
+1235653,1236765.0,1113.0,PMT9312_1323,PMT9312_RS06835,glycosyl transferase,WP_011376868.1,Cell wall/membrane biogenesis,biosynthetic process (GO:0009058),,-0.78,,,PMT9312_1323
+1240067,1240987.0,921.0,PMT9312_1326,PMT9312_RS06850,hypothetical protein,WP_011376871.1,Not in COGs,,-0.58,-0.92,,,PMT9312_1326
+1241058,1242014.0,957.0,PMT9312_1327,PMT9312_RS06855,hypothetical protein,WP_011376872.1,Not in COGs,,,-0.64,,,PMT9312_1327
+1244072,1244410.0,339.0,PMT9312_1329,PMT9312_RS06870,mannose-6-phosphate isomerase,WP_011376875.1,Carbohydrate transport and metabolism,polysaccharide metabolic process (GO:0005976),,-0.76,,,PMT9312_1329
+1245822,1247552.0,1731.0,PMT9312_1332,PMT9312_RS06880,ABC transporter ATP-binding protein,WP_011376878.1,Defense mechanisms,transmembrane transport (GO:0055085),,-0.76,,WP_011294043.1,PMT9312_1332
+1248757,1249716.0,960.0,PMT9312_1334,PMT9312_RS06890,hypothetical protein,WP_071813314.1,Cell wall/membrane biogenesis,cellular metabolic process (GO:0044237),,0.5,,WP_011294313.1,PMT9312_1334
+1251986,1252606.0,621.0,PMT9312_1337,PMT9312_RS06905,phosphoheptose isomerase,WP_011376883.1,Carbohydrate transport and metabolism,,,-0.63,,,PMT9312_1337
+1258440,1258952.0,513.0,PMT9312_1342,PMT9312_RS06935,hypothetical protein,WP_011376888.1,Not in COGs,,,-1.2,,,PMT9312_1342
+1262379,1263248.0,870.0,PMT9312_1346,PMT9312_RS06955,N-acetylneuraminate synthase,WP_011376892.1,Cell wall/membrane biogenesis,carbohydrate biosynthetic process (GO:0016051),,-0.56,,,PMT9312_1346
+1267165,1267980.0,816.0,PMT9312_1352,PMT9312_RS06990,oxidoreductase,WP_011376898.1,Lipid transport and metabolism,metabolic process (GO:0008152),-0.63,-0.43,,,PMT9312_1352
+1267988,1269496.0,1509.0,PMT9312_1353,PMT9312_RS06995,hypothetical protein,WP_036924333.1,Not in COGs,,-0.85,,,,PMT9312_1353
+1274731,1275657.0,927.0,PMT9312_1357,PMT9312_RS07020,ornithine carbamoyltransferase,WP_011376903.1,Amino acid transport and metabolism,cellular amino acid metabolic process (GO:0006520),0.6,0.68,,WP_011294917.1,PMT9312_1357
+1275686,1277548.0,1863.0,PMT9312_1358,PMT9312_RS07025,cell division protein FtsH,WP_011376904.1,"Posttranslational modification, protein turnover, chaperones",protein catabolic process (GO:0030163),0.83,1.14,,WP_011294918.1,PMT9312_1358
+1279249,1279500.0,252.0,PMT9312_1361,PMT9312_RS07040,hypothetical protein,WP_036924349.1,Not in COGs,,,0.98,,WP_011294921.1,PMT9312_1361
+1279584,1280858.0,1275.0,PMT9312_1362,PMT9312_RS07045,bifunctional cobalt-precorrin-7 (C(5))-methyltransferase/cobalt-precorrin-6B (C(15))-methyltransferase,WP_011376908.1,Coenzyme transport and metabolism,cobalamin biosynthetic process (GO:0009236),,0.52,,WP_011294922.1,PMT9312_1362
+1282928,1283737.0,810.0,PMT9312_1365,PMT9312_RS07060,5'/3'-nucleotidase SurE,WP_011376911.1,General function prediction only,,-0.67,,,WP_011294925.1,PMT9312_1365
+1284319,1285242.0,924.0,PMT9312_1367,PMT9312_RS07070,bifunctional riboflavin kinase/FMN adenylyltransferase,WP_011376913.1,Coenzyme transport and metabolism,riboflavin biosynthetic process (GO:0009231),-0.54,,,WP_011294927.1,PMT9312_1367
+1296135,1298240.0,2106.0,PMT9312_1383,PMT9312_RS07140,molecular chaperone DnaJ,WP_011376929.1,Not in COGs,,,-0.52,,WP_011294942.1,PMT9312_1383
+1299429,1300370.0,942.0,PMT9312_1385,PMT9312_RS07150,RNA polymerase sigma factor RpoD,WP_011376931.1,Transcription,"regulation of transcription, DNA-dependent (GO:0006355)",,0.67,,WP_011294944.1,PMT9312_1385
+1300512,1302077.0,1566.0,PMT9312_1386,PMT9312_RS07155,bifunctional ADP-dependent NAD(P)H-hydrate dehydratase/NAD(P)H-hydrate epimerase,WP_011376932.1,Function unknown,,0.5,0.29,,WP_080502535.1,PMT9312_1386
+1307071,1307958.0,888.0,PMT9312_1393,PMT9312_RS07190,indole-3-glycerol-phosphate synthase,WP_011376939.1,Amino acid transport and metabolism,metabolic process (GO:0008152),-0.55,,,WP_011294951.1,PMT9312_1393
+1307971,1309410.0,1440.0,PMT9312_1394,PMT9312_RS07195,dihydrolipoyl dehydrogenase,WP_011376940.1,Energy production and conversion,cell redox homeostasis (GO:0045454),-0.62,-0.38,,WP_011294952.1,PMT9312_1394
+1316261,1317496.0,1236.0,PMT9312_1400,PMT9312_RS07230,cytosine deaminase,WP_011376946.1,Nucleotide transport and metabolism,,,0.72,,WP_011294958.1,PMT9312_1400
+1319174,1320241.0,1068.0,PMT9312_1402,PMT9312_RS07245,D-alanine--D-alanine ligase,WP_011376948.1,Cell wall/membrane biogenesis,peptidoglycan biosynthetic process (GO:0009252),-0.5,,,WP_011294960.1,PMT9312_1402
+1325728,1326837.0,1110.0,PMT9312_1409,PMT9312_RS07280,PIN/TRAM domain-containing protein,WP_011376955.1,General function prediction only,,0.5,,,WP_011295226.1,PMT9312_1409
+1326878,1327540.0,663.0,PMT9312_1410,PMT9312_RS07285,ATP-dependent Clp protease proteolytic subunit (ClpP),WP_011376956.1,"Posttranslational modification, protein turnover, chaperones",proteolysis (GO:0006508),0.97,1.16,,WP_011295227.1,PMT9312_1410
+1327567,1328178.0,612.0,PMT9312_1411,PMT9312_RS07290,ATP-dependent Clp protease proteolytic subunit (ClpP),WP_002807795.1,"Posttranslational modification, protein turnover, chaperones",proteolysis (GO:0006508),0.95,1.16,,WP_011295228.1,PMT9312_1411
+1330336,1330581.0,246.0,PMT9312_1414,PMT9312_RS07305,high light inducible protein,WP_011376959.1,Not in COGs,,0.78,0.83,,WP_011295234.1,PMT9312_1414
+1330584,1330796.0,213.0,PMT9312_1415,PMT9312_RS07310,hypothetical protein,WP_011376960.1,Not in COGs,,,0.96,,WP_011295235.1,PMT9312_1415
+1337096,1337500.0,405.0,PMT9312_1423,PMT9312_RS07355,hypothetical protein,WP_011376967.1,Not in COGs,,,0.74,,WP_011295244.1,PMT9312_1423
+1339864,1341102.0,1239.0,PMT9312_1427,PMT9312_RS07375,tyrosine--tRNA ligase,WP_011376971.1,Translation,translation (GO:0006412),-0.58,-0.45,,WP_011295248.1,PMT9312_1427
+1341597,1342208.0,612.0,PMT9312_1429,PMT9312_RS07385,hypothetical protein,WP_011376973.1,Not in COGs,,0.51,0.48,,WP_011295250.1,PMT9312_1429
+1343717,1344319.0,603.0,PMT9312_1431,PMT9312_RS07395,peptide methionine sulfoxide reductase MsrA,WP_011376975.1,Not in COGs,oxidation reduction (GO:0055114),-0.34,-0.5,,WP_011295252.1,PMT9312_1431
+1344336,1345514.0,1179.0,PMT9312_1432,PMT9312_RS07400,lipid-A-disaccharide synthase,WP_011376976.1,Cell wall/membrane biogenesis,lipid A biosynthetic process (GO:0009245),-0.81,-0.57,,WP_011295253.1,PMT9312_1432
+1345511,1346353.0,843.0,PMT9312_1433,PMT9312_RS07405,acyl-[acyl-carrier-protein]--UDP-N- acetylglucosamine O-acyltransferase,WP_011376977.1,Cell wall/membrane biogenesis,lipid biosynthetic process (GO:0008610),-0.64,-0.66,,WP_011295254.1,PMT9312_1433
+1346358,1346816.0,459.0,PMT9312_1434,PMT9312_RS07410,beta-hydroxyacyl-ACP dehydratase,WP_011376978.1,Lipid transport and metabolism,fatty acid biosynthetic process (GO:0006633),-0.71,-0.95,,WP_071813637.1,PMT9312_1434
+1349856,1350584.0,729.0,PMT9312_1437,PMT9312_RS07425,phosphoribosylaminoimidazolesuccinocarboxamide synthase,WP_011376981.1,Not in COGs,purine nucleotide biosynthetic process (GO:0006164),,0.54,,WP_011295258.1,PMT9312_1437
+1350717,1352048.0,1332.0,PMT9312_1438,PMT9312_RS07430,phosphoribosylamine--glycine ligase,WP_011376982.1,Nucleotide transport and metabolism,purine base biosynthetic process (GO:0009113),0.38,0.67,,WP_011295259.1,PMT9312_1438
+1356886,1357560.0,675.0,PMT9312_1444,PMT9312_RS07460,SAM-dependent methyltransferase,WP_011376988.1,Not in COGs,metabolic process (GO:0008152),-0.6,-0.56,,WP_011295265.1,PMT9312_1444
+1360920,1361468.0,549.0,PMT9312_1448,PMT9312_RS07480,hypothetical protein,WP_036924038.1,Function unknown,,-0.43,-1.04,,WP_011295269.1,PMT9312_1448
+1361487,1361843.0,357.0,PMT9312_1449,PMT9312_RS07485,hypothetical protein,WP_011376993.1,Not in COGs,,,-0.51,,WP_011295271.1,PMT9312_1449
+1361924,1362223.0,300.0,PMT9312_1450,PMT9312_RS07490,ferredoxin,WP_011376994.1,Energy production and conversion,electron transport chain (GO:0022900),1.04,,,WP_011295272.1,PMT9312_1450
+1366521,1367138.0,618.0,PMT9312_1455,PMT9312_RS07520,steroid 5-alpha reductase-like,WP_011376999.1,Not in COGs,lipid metabolic process (GO:0006629),0.68,1.35,,,PMT9312_1455
+1367131,1367682.0,552.0,PMT9312_1456,PMT9312_RS07525,pyridoxamine 5'-phosphate oxidase,WP_011377000.1,Function unknown,,0.84,0.92,,WP_011293884.1,PMT9312_1456
+1367721,1367930.0,210.0,PMT9312_1938,PMT9312_RS07530,hypothetical protein,WP_036924041.1,Not in COGs,,,-1.36,,,PMT9312_1938
+1367927,1368475.0,549.0,PMT9312_1457,PMT9312_RS07535,DoxX family membrane protein,WP_011377001.1,Function unknown,,0.67,1.82,,WP_011293665.1,PMT9312_1457
+1369920,1370849.0,930.0,PMT9312_1459,PMT9312_RS07545,short-chain dehydrogenase/reductase,WP_011377003.1,Lipid transport and metabolism,metabolic process (GO:0008152),1.03,1.82,,WP_011294818.1,PMT9312_1459
+1371211,1372617.0,1407.0,PMT9312_1461,PMT9312_RS07555,UDP-N-acetylmuramoyl-L-alanine--D-glutamate ligase,WP_011377005.1,Cell wall/membrane biogenesis,biosynthetic process (GO:0009058),,0.65,,WP_011295277.1,PMT9312_1461
+1372734,1373048.0,315.0,PMT9312_1462,PMT9312_RS07560,hypothetical protein,WP_011377006.1,Not in COGs,,,1.14,,WP_011295278.1,PMT9312_1462
+1373057,1373785.0,729.0,PMT9312_1463,PMT9312_RS07565,pirin family protein,WP_011377007.1,General function prediction only,,,0.57,,,PMT9312_1463
+1374612,1375097.0,486.0,PMT9312_1465,PMT9312_RS07575,membrane protein,WP_011377009.1,Function unknown,,0.62,,,WP_041711028.1,PMT9312_1465
+1375190,1375939.0,750.0,PMT9312_1466,PMT9312_RS07580,diguanylate cyclase,WP_011377010.1,Signal transduction mechanisms,,-0.52,-1.99,,WP_011295282.1,PMT9312_1466
+1377463,1377699.0,237.0,PMT9312_1940,PMT9312_RS07590,hypothetical protein,WP_036924045.1,Not in COGs,,,0.74,,,PMT9312_1940
+1379778,1379960.0,183.0,PMT9312_1944,PMT9312_RS07605,hypothetical protein,WP_036924046.1,Not in COGs,,-2.94,-0.86,,,PMT9312_1944
+1380192,1380374.0,183.0,PMT9312_1945,PMT9312_RS07610,hypothetical protein,WP_036924047.1,Not in COGs,,,1.93,,,PMT9312_1945
+1381193,1381555.0,363.0,PMT9312_1470,PMT9312_RS07615,DUF805 domain-containing protein,WP_011377014.1,Not in COGs,,-0.58,,,,PMT9312_1470
+1381683,1382036.0,354.0,PMT9312_1471,PMT9312_RS07620,hypothetical protein,WP_011377015.1,Not in COGs,,,-1.07,,,PMT9312_1471
+1382220,1382438.0,219.0,PMT9312_1472,PMT9312_RS07625,hypothetical protein,WP_011377016.1,Not in COGs,,,1.15,,,PMT9312_1472
+1382796,1383902.0,1107.0,PMT9312_1473,PMT9312_RS07630,fatty acid desaturase,WP_011377017.1,Lipid transport and metabolism,lipid metabolic process (GO:0006629),,0.79,,,PMT9312_1473
+1385670,1386845.0,1176.0,PMT9312_1476,PMT9312_RS07635,fatty acid desaturase,WP_011377020.1,Lipid transport and metabolism,lipid metabolic process (GO:0006629),-0.97,-0.91,,WP_011293927.1,PMT9312_1476
+1387156,1387779.0,624.0,PMT9312_1477,PMT9312_RS07640,SAM-dependent methyltransferase,WP_011377021.1,Not in COGs,,-0.73,,,WP_011293956.1,PMT9312_1477
+1388360,1388467.0,108.0,PMT9312_1479,PMT9312_RS07650,high light inducible protein,WP_011132751.1,Not in COGs,,1.92,2.62,,WP_011125327.1,PMT9312_1479
+1388467,1388607.0,141.0,PMT9312_1480,PMT9312_RS07655,high light inducible protein,WP_011377023.1,Not in COGs,,1.51,3.01,,WP_011294350.1,PMT9312_1480
+1389249,1389455.0,207.0,PMT9312_1481,PMT9312_RS07660,high light inducible protein,WP_011377024.1,Not in COGs,,1.94,2.12,,WP_011295293.1,PMT9312_1481
+1391732,1392259.0,528.0,PMT9312_1483,PMT9312_RS07670,hypothetical protein,WP_049751257.1,Not in COGs,,1.11,1.04,,WP_011293645.1,PMT9312_1483
+1393584,1394060.0,477.0,PMT9312_1485,PMT9312_RS07680,hypothetical protein,WP_011377028.1,Not in COGs,,,1.26,,,PMT9312_1485
+1394264,1394644.0,381.0,PMT9312_1486,PMT9312_RS07685,DoxX family membrane protein,WP_011377029.1,Not in COGs,,,0.52,,WP_011295284.1,PMT9312_1486
+1394770,1394967.0,198.0,PMT9312_1487,PMT9312_RS07690,hypothetical protein,WP_011377030.1,Not in COGs,,,2.33,,WP_011294581.1,PMT9312_1487
+1399188,1399373.0,186.0,PMT9312_1490,PMT9312_RS07705,hypothetical protein,WP_011377033.1,Not in COGs,,,2.17,,,PMT9312_1490
+1401510,1402028.0,519.0,PMT9312_1493,PMT9312_RS07715,hemagglutinin,WP_011377036.1,Not in COGs,,0.83,,,WP_011295291.1,PMT9312_1493
+1402078,1403469.0,1392.0,PMT9312_1494,PMT9312_RS07720,hypothetical protein,WP_011377037.1,Signal transduction mechanisms,,0.56,,,,PMT9312_1494
+1403518,1404393.0,876.0,PMT9312_1495,PMT9312_RS07725,cytochrome D ubiquinol oxidase subunit II,WP_011377038.1,General function prediction only,,0.83,,,WP_011294560.1,PMT9312_1495
+1404720,1405034.0,315.0,PMT9312_1496,PMT9312_RS07730,hypothetical protein,WP_011377039.1,Not in COGs,,-0.68,-0.96,,WP_011294033.1,PMT9312_1496
+1405346,1406062.0,717.0,PMT9312_1497,PMT9312_RS07735,dienelactone hydrolase,WP_011377040.1,"Secondary metabolites biosynthesis, transport and catabolism",,,-0.8,,,PMT9312_1497
+1407588,1407890.0,303.0,PMT9312_1499,PMT9312_RS07745,RNA-binding protein,WP_011377042.1,General function prediction only,,-0.55,,,WP_011295404.1,PMT9312_1499
+1409157,1409471.0,315.0,PMT9312_1502,PMT9312_RS09545,hypothetical protein,WP_011377045.1,Not in COGs,,,-1.25,,,PMT9312_1502
+1410284,1410841.0,558.0,PMT9312_1504,PMT9312_RS07770,hypothetical protein,WP_011377047.1,Not in COGs,,,0.72,,WP_011294613.1,PMT9312_1504
+1411730,1411909.0,180.0,PMT9312_1507,PMT9312_RS07785,hypothetical protein,WP_011377050.1,Not in COGs,,1.91,4.69,,,PMT9312_1507
+1412006,1412242.0,237.0,,PMT9312_RS09510,hypothetical protein,WP_071813320.1,,,2.36,4.85,,,
+1412167,1412457.0,291.0,,PMT9312_RS07795,high light inducible protein,WP_036924051.1,,,2.39,5.13,,,
+1412429,1412638.0,210.0,PMT9312_1510,PMT9312_RS07800,high light inducible protein,WP_011377053.1,Not in COGs,,3.12,4.2,,WP_011295293.1,PMT9312_1510
+1412638,1412745.0,108.0,,PMT9312_RS07805,high light inducible protein,WP_011132751.1,,,2.27,2.87,,WP_011125327.1,
+1413180,1414475.0,1296.0,PMT9312_1512,PMT9312_RS07810,hypothetical protein,WP_011377055.1,Not in COGs,,0.6,0.4,,WP_011294390.1,PMT9312_1512
+1415688,1416305.0,618.0,PMT9312_1514,PMT9312_RS07820,hypothetical protein,WP_011377057.1,Not in COGs,,,0.76,,WP_011295376.1,PMT9312_1514
+1417670,1417927.0,258.0,PMT9312_1516,PMT9312_RS07830,hypothetical protein,WP_011377059.1,Not in COGs,,1.22,1.27,,WP_011295374.1,PMT9312_1516
+1417935,1418378.0,444.0,PMT9312_1517,PMT9312_RS07835,hypothetical protein,WP_011377060.1,Not in COGs,,0.86,1.13,,WP_011295375.1,PMT9312_1517
+1419333,1419587.0,255.0,PMT9312_1520,PMT9312_RS07845,hypothetical protein,WP_011377063.1,Not in COGs,,,1.06,,,PMT9312_1520
+1420324,1420575.0,252.0,PMT9312_1522,PMT9312_RS07855,hypothetical protein,WP_011377065.1,Not in COGs,,-0.5,-0.71,,WP_011295308.1,PMT9312_1522
+1425792,1427429.0,1638.0,PMT9312_1529,PMT9312_RS07890,molecular chaperone GroEL,WP_011377072.1,"Posttranslational modification, protein turnover, chaperones",cellular protein metabolic process (GO:0044267),1.01,0.9,,WP_011295314.1,PMT9312_1529
+1427481,1427792.0,312.0,PMT9312_1530,PMT9312_RS07895,co-chaperone GroES,WP_011377073.1,"Posttranslational modification, protein turnover, chaperones",protein folding (GO:0006457),0.61,0.51,,WP_011295315.1,PMT9312_1530
+1430718,1432043.0,1326.0,PMT9312_1535,PMT9312_RS07915,Xaa-Pro aminopeptidase,WP_011377078.1,Amino acid transport and metabolism,cellular process (GO:0009987),,0.63,,WP_011295319.1,PMT9312_1535
+1434349,1434927.0,579.0,PMT9312_1538,PMT9312_RS07930,nicotinate-nicotinamide nucleotide adenylyltransferase,WP_011377081.1,Coenzyme transport and metabolism,biosynthetic process (GO:0009058),-0.57,,,WP_011295322.1,PMT9312_1538
+1436618,1437676.0,1059.0,PMT9312_1540,PMT9312_RS07940,hypothetical protein,WP_011377083.1,Not in COGs,,-0.66,,,WP_011295324.1,PMT9312_1540
+1437707,1437898.0,192.0,PMT9312_1541,PMT9312_RS07945,hypothetical protein,WP_011377084.1,Not in COGs,,,1.13,,WP_011295325.1,PMT9312_1541
+1437895,1438221.0,327.0,PMT9312_1542,PMT9312_RS07950,ferredoxin,WP_011377085.1,Energy production and conversion,electron transport chain (GO:0022900),-0.97,,,WP_011294690.1,PMT9312_1542
+1445555,1446211.0,657.0,PMT9312_1552,PMT9312_RS08000,cytochrome C biogenesis protein CcdA,WP_011377094.1,"Posttranslational modification, protein turnover, chaperones",cytochrome complex assembly (GO:0017004),,0.87,,WP_011295334.1,PMT9312_1552
+1446212,1447498.0,1287.0,PMT9312_1553,PMT9312_RS08005,cytochrome c biogenesis protein CcsB,WP_011377095.1,"Posttranslational modification, protein turnover, chaperones",,,0.88,,WP_011295335.1,PMT9312_1553
+1449788,1451083.0,1296.0,PMT9312_1558,PMT9312_RS08030,adenylosuccinate lyase,WP_011377100.1,Nucleotide transport and metabolism,purine ribonucleotide biosynthetic process (GO:0009152),,-0.75,,WP_011295341.1,PMT9312_1558
+1457991,1458656.0,666.0,PMT9312_1564,PMT9312_RS08060,dethiobiotin synthase,WP_011377106.1,Coenzyme transport and metabolism,biotin biosynthetic process (GO:0009102),,-0.54,,WP_011295347.1,PMT9312_1564
+1459967,1460224.0,258.0,PMT9312_1566,PMT9312_RS08070,hypothetical protein,WP_011377108.1,Not in COGs,,,0.84,,,PMT9312_1566
+1460241,1460681.0,441.0,PMT9312_1567,PMT9312_RS08075,molecular chaperone DnaJ,WP_011377109.1,"Posttranslational modification, protein turnover, chaperones",,,0.94,,WP_011295349.1,PMT9312_1567
+1462689,1463048.0,360.0,PMT9312_1570,PMT9312_RS08090,ferredoxin,WP_011377112.1,Energy production and conversion,,,0.89,,WP_011295352.1,PMT9312_1570
+1463058,1463450.0,393.0,PMT9312_1571,PMT9312_RS08095,hypothetical protein,WP_011377113.1,Not in COGs,,,1.1,,WP_011295353.1,PMT9312_1571
+1463437,1463652.0,216.0,PMT9312_1572,PMT9312_RS08100,hypothetical protein,WP_011377114.1,Not in COGs,,0.49,0.92,,WP_011295354.1,PMT9312_1572
+1463802,1464569.0,768.0,PMT9312_1573,PMT9312_RS08105,hypothetical protein,WP_011377115.1,Energy production and conversion,,0.54,,,WP_011295355.1,PMT9312_1573
+1476485,1476778.0,294.0,PMT9312_1580,PMT9312_RS08140,30S ribosomal protein S20,WP_011377122.1,Translation,translation (GO:0006412),,0.66,,WP_011295363.1,PMT9312_1580
+1478941,1480071.0,1131.0,PMT9312_1583,PMT9312_RS08155,serine protease,WP_011377125.1,"Posttranslational modification, protein turnover, chaperones",proteolysis (GO:0006508),0.78,1.14,,WP_011295366.1,PMT9312_1583
+1487571,1489190.0,1620.0,PMT9312_1590,PMT9312_RS08195,radical SAM protein,WP_011377132.1,Energy production and conversion,metabolic process (GO:0008152),0.51,0.57,,WP_011295408.1,PMT9312_1590
+1489560,1490786.0,1227.0,PMT9312_1592,PMT9312_RS08205,LL-diaminopimelate aminotransferase,WP_011377134.1,Amino acid transport and metabolism,biosynthetic process (GO:0009058),-0.25,-0.6,,WP_011295411.1,PMT9312_1592
+1491074,1492891.0,1818.0,PMT9312_1593,PMT9312_RS08210,ribonuclease E/G,WP_011377135.1,Translation,RNA processing (GO:0006396),-0.59,0.49,,WP_011295412.1,PMT9312_1593
+1493451,1493969.0,519.0,PMT9312_1595,PMT9312_RS08220,hypothetical protein,WP_011377137.1,Not in COGs,,-0.67,-1.29,,WP_011295414.1,PMT9312_1595
+1494869,1495804.0,936.0,PMT9312_1597,PMT9312_RS08230,delta(24)-sterol C-methyltransferase,WP_011377139.1,"Secondary metabolites biosynthesis, transport and catabolism",metabolic process (GO:0008152),0.33,0.72,,WP_011295416.1,PMT9312_1597
+1495805,1496461.0,657.0,PMT9312_1598,PMT9312_RS08235,ATP-dependent protease,WP_011377140.1,"Posttranslational modification, protein turnover, chaperones",proteolysis (GO:0006508),0.53,0.55,,WP_011295417.1,PMT9312_1598
+1506000,1506293.0,294.0,PMT9312_1605,PMT9312_RS08270,hypothetical protein,WP_011377147.1,Not in COGs,,,0.8,,WP_011295423.1,PMT9312_1605
+1509285,1510043.0,759.0,PMT9312_1610,PMT9312_RS08295,hydrolase,WP_011377152.1,Cell wall/membrane biogenesis,,,0.64,,WP_011295432.1,PMT9312_1610
+1510092,1510682.0,591.0,PMT9312_1611,PMT9312_RS08300,photosystem I reaction center protein subunit XI (PsaL),WP_011377153.1,Not in COGs,photosynthesis (GO:0015979),-0.55,-1.15,,WP_011295428.1,PMT9312_1611
+1510713,1510826.0,114.0,,PMT9312_RS09520,photosystem I reaction center subunit VIII,WP_011377154.1,,,-0.45,-1.43,,WP_011295429.1,
+1511295,1512269.0,975.0,PMT9312_1614,PMT9312_RS08310,glycosyltransferase,WP_011377156.1,Cell wall/membrane biogenesis,,0.33,0.56,,WP_011295431.1,PMT9312_1614
+1512374,1514602.0,2229.0,PMT9312_1615,PMT9312_RS08315,photosystem I P700 chlorophyll a apoprotein A2 (PsaB),WP_011377157.1,Not in COGs,photosynthesis (GO:0015979),,-1.21,,WP_011295427.1,PMT9312_1615
+1514630,1516933.0,2304.0,PMT9312_1616,PMT9312_RS08320,photosystem I P700 chlorophyll a apoprotein A1 (PsaA),WP_011377158.1,Not in COGs,photosynthesis (GO:0015979),,-1.14,,WP_011295426.1,PMT9312_1616
+1522104,1522661.0,558.0,PMT9312_1621,PMT9312_RS08350,HNH endonuclease,WP_011377163.1,Defense mechanisms,,0.99,0.63,,WP_011295443.1,PMT9312_1621
+1522674,1523768.0,1095.0,PMT9312_1622,PMT9312_RS08355,peptide chain release factor 1,WP_011377164.1,Translation,translational termination (GO:0006415),-0.78,-0.42,,WP_011295444.1,PMT9312_1622
+1528249,1528797.0,549.0,PMT9312_1631,PMT9312_RS08400,adenylate kinase,WP_011377174.1,Nucleotide transport and metabolism,"nucleobase, nucleoside, nucleotide and nucleic acid metabolic process (GO:0006139)",-1.02,,,WP_011295454.1,PMT9312_1631
+1528797,1530116.0,1320.0,PMT9312_1632,PMT9312_RS08405,preprotein translocase subunit SecY,WP_011377175.1,Intracellular trafficking and secretion,protein transport (GO:0015031),-0.81,-0.24,,WP_011295455.1,PMT9312_1632
+1530611,1531234.0,624.0,PMT9312_1634,PMT9312_RS08415,30S ribosomal protein S5,WP_011377177.1,Translation,translation (GO:0006412),-0.63,,,WP_011295457.1,PMT9312_1634
+1532186,1532587.0,402.0,PMT9312_1637,PMT9312_RS08430,30S ribosomal protein S8,WP_011377180.1,Not in COGs,translation (GO:0006412),-0.63,-0.31,,WP_011295460.1,PMT9312_1637
+1532597,1533136.0,540.0,PMT9312_1638,PMT9312_RS08435,50S ribosomal protein L5,WP_011377181.1,Translation,translation (GO:0006412),-0.58,-0.26,,WP_011295461.1,PMT9312_1638
+1533211,1533567.0,357.0,PMT9312_1639,PMT9312_RS08440,50S ribosomal protein L24,WP_011377182.1,Translation,translation (GO:0006412),-0.62,,,WP_011295462.1,PMT9312_1639
+1533568,1533933.0,366.0,PMT9312_1640,PMT9312_RS08445,50S ribosomal protein L14,WP_002807235.1,Not in COGs,translation (GO:0006412),-0.63,-0.35,,WP_011295463.1,PMT9312_1640
+1533930,1534196.0,267.0,PMT9312_1641,PMT9312_RS08450,30S ribosomal protein S17,WP_011377183.1,Translation,translation (GO:0006412),-0.58,-0.41,,WP_011295464.1,PMT9312_1641
+1534207,1534425.0,219.0,PMT9312_1642,PMT9312_RS08455,50S ribosomal protein L29,WP_011377184.1,Not in COGs,translation (GO:0006412),-0.66,,,WP_011295465.1,PMT9312_1642
+1534422,1534904.0,483.0,PMT9312_1643,PMT9312_RS08460,50S ribosomal protein L16,WP_011377185.1,Translation,translation (GO:0006412),-0.54,,,WP_011295466.1,PMT9312_1643
+1537520,1538152.0,633.0,PMT9312_1649,PMT9312_RS08490,50S ribosomal protein L4,WP_011377191.1,Not in COGs,translation (GO:0006412),-0.54,-0.22,,WP_011295472.1,PMT9312_1649
+1538149,1538802.0,654.0,PMT9312_1650,PMT9312_RS08495,50S ribosomal protein L3,WP_011377192.1,Not in COGs,translation (GO:0006412),-0.52,,,WP_011295473.1,PMT9312_1650
+1543020,1544468.0,1449.0,PMT9312_1656,PMT9312_RS08530,DNA helicase,WP_011377198.1,Transcription,,,0.65,,WP_011295479.1,PMT9312_1656
+1545392,1546897.0,1506.0,PMT9312_1658,PMT9312_RS08540,"C-3',4' desaturase CrtD",WP_011377200.1,"Secondary metabolites biosynthesis, transport and catabolism",metabolic process (GO:0008152),,0.86,,WP_011295481.1,PMT9312_1658
+1558045,1559565.0,1521.0,PMT9312_1669,PMT9312_RS08605,anthranilate synthase component I,WP_011377211.1,Amino acid transport and metabolism,biosynthetic process (GO:0009058),-0.42,-1.36,,WP_011295493.1,PMT9312_1669
+1559625,1560047.0,423.0,PMT9312_1670,PMT9312_RS08610,photosystem I protein PsaD,WP_011377212.1,Not in COGs,photosynthesis (GO:0015979),,-1.72,,WP_011295494.1,PMT9312_1670
+1564023,1565051.0,1029.0,PMT9312_1674,PMT9312_RS08630,coproporphyrinogen III oxidase,WP_011377216.1,Not in COGs,oxidation reduction (GO:0055114),,-0.8,,WP_011295498.1,PMT9312_1674
+1568606,1568788.0,183.0,,PMT9312_RS08660,hypothetical protein,WP_036923847.1,,,1.68,,,,
+1569981,1571024.0,1044.0,PMT9312_1681,PMT9312_RS08670,phosphoribosylformylglycinamidine cyclo-ligase,WP_011377223.1,Nucleotide transport and metabolism,de novo' IMP biosynthetic process (GO:0006189),,-0.62,,WP_011295508.1,PMT9312_1681
+1573926,1574636.0,711.0,PMT9312_1685,PMT9312_RS08690,"15,16-dihydrobiliverdin:ferredoxin oxidoreductase",WP_011377227.1,Not in COGs,oxidation reduction (GO:0055114),,0.82,,WP_011295512.1,PMT9312_1685
+1578844,1579698.0,855.0,PMT9312_1690,PMT9312_RS08715,galactose mutarotase,WP_011377232.1,Carbohydrate transport and metabolism,carbohydrate metabolic process (GO:0005975),,0.81,,WP_011295517.1,PMT9312_1690
+1580651,1582018.0,1368.0,PMT9312_1692,PMT9312_RS08725,cation:proton antiporter,WP_011377234.1,Inorganic ion transport and metabolism,cation transport (GO:0006812),-0.35,-1.16,,WP_011295519.1,PMT9312_1692
+1582171,1584717.0,2547.0,PMT9312_1693,PMT9312_RS08730,glycogen/starch/alpha-glucan family phosphorylase,WP_011377235.1,Carbohydrate transport and metabolism,carbohydrate metabolic process (GO:0005975),0.69,0.38,,WP_011295520.1,PMT9312_1693
+1585197,1585529.0,333.0,PMT9312_1695,PMT9312_RS08740,hypothetical protein,WP_011377237.1,Not in COGs,,,-0.73,,WP_011295522.1,PMT9312_1695
+1587656,1589551.0,1896.0,PMT9312_1699,PMT9312_RS08765,glutamine--fructose-6-phosphate aminotransferase,WP_011377241.1,Cell wall/membrane biogenesis,carbohydrate biosynthetic process (GO:0016051),,-0.61,,WP_011295527.1,PMT9312_1699
+1589632,1589877.0,246.0,PMT9312_1700,PMT9312_RS08770,photosystem I iron-sulfur center protein PsaC,WP_011377242.1,Energy production and conversion,photosynthetic electron transport in photosystem I (GO:0009773),-0.46,-1.65,,WP_011295528.1,PMT9312_1700
+1590011,1590250.0,240.0,PMT9312_1701,PMT9312_RS08775,acyl carrier protein,WP_011377243.1,Lipid transport and metabolism,fatty acid biosynthetic process (GO:0006633),,-0.7,,WP_011295529.1,PMT9312_1701
+1590257,1591501.0,1245.0,PMT9312_1702,PMT9312_RS08780,beta-ketoacyl-[acyl-carrier-protein] synthase II,WP_011377244.1,Lipid transport and metabolism,biosynthetic process (GO:0009058),-0.5,-0.76,,WP_011295530.1,PMT9312_1702
+1593565,1594935.0,1371.0,PMT9312_1704,PMT9312_RS08790,phosphomethylpyrimidine synthase,WP_011377246.1,Not in COGs,thiamin biosynthetic process (GO:0009228),-0.33,-0.79,,WP_011295532.1,PMT9312_1704
+1603004,1604056.0,1053.0,PMT9312_1715,PMT9312_RS08845,rod shape-determining protein,WP_011377257.1,"Cell cycle control, mitosis and meiosis",cell morphogenesis (GO:0000902),0.6,,,WP_011295543.1,PMT9312_1715
+1604190,1604564.0,375.0,PMT9312_1716,PMT9312_RS08850,single-stranded DNA-binding protein,WP_036923880.1,"Replication, recombination and repair",DNA replication (GO:0006260),0.52,-0.64,,WP_011295544.1,PMT9312_1716
+1604561,1605220.0,660.0,PMT9312_1717,PMT9312_RS08855,DedA family protein,WP_011377259.1,Function unknown,,,0.92,,WP_011295545.1,PMT9312_1717
+1605223,1606641.0,1419.0,PMT9312_1718,PMT9312_RS08860,adenosylhomocysteinase,WP_011377260.1,Coenzyme transport and metabolism,metabolic process (GO:0008152),0.52,0.88,,WP_011295546.1,PMT9312_1718
+1607088,1608086.0,999.0,PMT9312_1720,PMT9312_RS08870,carbohydrate kinase,WP_011377262.1,Carbohydrate transport and metabolism,,,-1.05,,WP_011295548.1,PMT9312_1720
+1608177,1609091.0,915.0,PMT9312_1721,PMT9312_RS08875,alpha/beta hydrolase,WP_011377263.1,General function prediction only,,0.44,1.31,,WP_011295550.1,PMT9312_1721
+1609076,1610077.0,1002.0,PMT9312_1722,PMT9312_RS08880,"RNA polymerase sigma factor, RpoD/SigA family",WP_036923838.1,Transcription,"regulation of transcription, DNA-dependent (GO:0006355)",0.79,0.78,,WP_011295551.1,PMT9312_1722
+1612328,1612657.0,330.0,PMT9312_1726,PMT9312_RS08900,hypothetical protein,WP_011377268.1,Not in COGs,,-0.51,-0.56,,WP_011295556.1,PMT9312_1726
+1614761,1615660.0,900.0,PMT9312_1728,PMT9312_RS08910,tRNA (adenosine(37)-N6)-dimethylallyltransferaseMiaA,WP_011377270.1,Translation,tRNA processing (GO:0008033),,0.53,,WP_011295558.1,PMT9312_1728
+1621108,1621563.0,456.0,PMT9312_1733,PMT9312_RS08935,N-acetyltransferase,WP_011377275.1,Not in COGs,metabolic process (GO:0008152),-0.49,-1.1,,WP_011295575.1,PMT9312_1733
+1621585,1622016.0,432.0,PMT9312_1734,PMT9312_RS08940,nuclear transport factor 2 family protein,WP_011377276.1,Not in COGs,,0.73,1.18,,WP_011294872.1,PMT9312_1734
+1622720,1622917.0,198.0,PMT9312_1736,PMT9312_RS08955,photosystem II core protein PsbZ,WP_011377278.1,Not in COGs,photosystem II stabilization (GO:0042549),,-0.74,,WP_011295586.1,PMT9312_1736
+1626516,1627517.0,1002.0,PMT9312_1739,PMT9312_RS08970,DNA polymerase III subunit delta,WP_011377281.1,"Replication, recombination and repair",DNA replication (GO:0006260),,0.91,,WP_011295589.1,PMT9312_1739
+1629325,1631364.0,2040.0,PMT9312_1741,PMT9312_RS08980,excinuclease ABC subunit B,WP_011377283.1,"Replication, recombination and repair",DNA repair (GO:0006281),0.36,0.57,,WP_011295591.1,PMT9312_1741
+1632256,1633266.0,1011.0,PMT9312_1743,PMT9312_RS08990,tRNA(Ile)-lysidine synthetase,WP_011377285.1,"Cell cycle control, mitosis and meiosis",translation (GO:0006412),,-0.6,,WP_011295593.1,PMT9312_1743
+1639640,1641007.0,1368.0,PMT9312_1749,PMT9312_RS09020,ATP-dependent Clp protease ATP-binding subunit ClpX,WP_011377291.1,"Posttranslational modification, protein turnover, chaperones",protein folding (GO:0006457),,-0.97,,WP_011295599.1,PMT9312_1749
+1641066,1642805.0,1740.0,PMT9312_1750,PMT9312_RS09025,DNA polymerase III subunit gamma/tau,WP_011377292.1,"Replication, recombination and repair",DNA replication (GO:0006260),-0.57,-0.86,,WP_011295600.1,PMT9312_1750
+1642807,1644108.0,1302.0,PMT9312_1751,PMT9312_RS09030,glycosyl transferase family 2,WP_011377293.1,Cell wall/membrane biogenesis,,,-0.84,,WP_011295601.1,PMT9312_1751
+1646376,1646933.0,558.0,PMT9312_1755,PMT9312_RS09050,hypothetical protein,WP_011377297.1,Not in COGs,,-0.6,,,WP_011295605.1,PMT9312_1755
+1647901,1649094.0,1194.0,PMT9312_1757,PMT9312_RS09060,NAD-dependent dehydratase,WP_011377299.1,Cell wall/membrane biogenesis,cellular metabolic process (GO:0044237),-0.41,-0.63,,WP_011295608.1,PMT9312_1757
+1649122,1650255.0,1134.0,PMT9312_1758,PMT9312_RS09065,glycosyl transferase,WP_011377300.1,Cell wall/membrane biogenesis,biosynthetic process (GO:0009058),-0.59,-0.74,,WP_011295609.1,PMT9312_1758
+1653599,1653988.0,390.0,PMT9312_1761,PMT9312_RS09080,glycine cleavage system protein H,WP_011377303.1,Amino acid transport and metabolism,glycine catabolic process (GO:0006546),,0.77,,WP_011295612.1,PMT9312_1761
+1653991,1655283.0,1293.0,PMT9312_1762,PMT9312_RS09085,hypothetical protein,WP_011377304.1,Inorganic ion transport and metabolism,,-0.52,1.14,,WP_011295613.1,PMT9312_1762
+1655287,1656000.0,714.0,PMT9312_1763,PMT9312_RS09090,hypothetical protein,WP_011377305.1,Not in COGs,,,1.73,,WP_011295614.1,PMT9312_1763
+1656076,1657014.0,939.0,PMT9312_1764,PMT9312_RS09095,acyl-CoA desaturase,WP_011377306.1,Lipid transport and metabolism,lipid metabolic process (GO:0006629),,2.07,,WP_011295615.1,PMT9312_1764
+1661515,1662078.0,564.0,PMT9312_1769,PMT9312_RS09120,hypothetical protein,WP_011377311.1,Not in COGs,,,-0.74,,WP_011295620.1,PMT9312_1769
+1662775,1663194.0,420.0,PMT9312_1771,PMT9312_RS09130,hypothetical protein,WP_011377313.1,Not in COGs,,,0.56,,WP_011295622.1,PMT9312_1771
+1668259,1668645.0,387.0,PMT9312_1776,PMT9312_RS09535,AIR synthase,WP_011377318.1,Not in COGs,,,-0.59,,WP_011295628.1,PMT9312_1776
+1676093,1676764.0,672.0,PMT9312_1783,PMT9312_RS09190,7-carboxy-7-deazaguanine synthase,WP_036924377.1,"Posttranslational modification, protein turnover, chaperones",,-0.66,-0.67,,WP_011295636.1,PMT9312_1783
+1680413,1681681.0,1269.0,PMT9312_1788,PMT9312_RS09215,tetracycline resistance MFS efflux pump,WP_011377330.1,Not in COGs,response to antibiotic (GO:0046677),0.73,0.85,,WP_011295647.1,PMT9312_1788
+1683968,1684987.0,1020.0,PMT9312_1790,PMT9312_RS09225,RNA polymerase sigma factor RpoD,WP_011377332.1,Transcription,"regulation of transcription, DNA-dependent (GO:0006355)",,-1.28,,WP_011295649.1,PMT9312_1790
+1685627,1686694.0,1068.0,PMT9312_1792,PMT9312_RS09235,phospho-2-dehydro-3-deoxyheptonate aldolase,WP_011377334.1,Amino acid transport and metabolism,aromatic amino acid family biosynthetic process (GO:0009073),-0.5,-1.11,,WP_011295651.1,PMT9312_1792
+1686792,1689365.0,2574.0,PMT9312_1793,PMT9312_RS09240,aconitate hydratase B,WP_011377335.1,Energy production and conversion,metabolic process (GO:0008152),,-0.55,,WP_011295652.1,PMT9312_1793
+1689375,1690733.0,1359.0,PMT9312_1794,PMT9312_RS09245,ClC family H(+)/Cl(-) exchange transporter,WP_011377336.1,Inorganic ion transport and metabolism,chloride transport (GO:0006821),-0.66,,,,PMT9312_1794
+1692726,1694633.0,1908.0,PMT9312_1797,PMT9312_RS09260,molecular chaperone DnaK,WP_036924388.1,"Posttranslational modification, protein turnover, chaperones",protein folding (GO:0006457),1.0,0.87,,WP_011295656.1,PMT9312_1797
+1694751,1695611.0,861.0,PMT9312_1798,PMT9312_RS09265,shikimate dehydrogenase,WP_011377340.1,Amino acid transport and metabolism,metabolic process (GO:0008152),-0.45,-0.8,,WP_011295657.1,PMT9312_1798
+1697432,1697626.0,195.0,,PMT9312_RS09280,hypothetical protein,WP_036924374.1,,,,1.1,,WP_011295661.1,
+1699029,1699274.0,246.0,PMT9312_1816,PMT9312_RS09295,hypothetical protein,WP_011377345.1,Not in COGs,,1.08,0.66,,WP_011295664.1,PMT9312_1816
+1699208,1700617.0,1410.0,PMT9312_1803,PMT9312_RS09300,glycosyl transferase,WP_011377346.1,Cell wall/membrane biogenesis,biosynthetic process (GO:0009058),,-1.26,,WP_011295665.1,PMT9312_1803
+1700820,1703723.0,2904.0,PMT9312_1804,PMT9312_RS09305,excinuclease ABC subunit A,WP_011377347.1,"Replication, recombination and repair",nucleotide-excision repair (GO:0006289),0.39,0.86,,WP_011295666.1,PMT9312_1804
+1705529,1707385.0,1857.0,PMT9312_1806,PMT9312_RS09315,hypothetical protein,WP_011377349.1,General function prediction only,protein amino acid phosphorylation (GO:0006468),,0.71,,WP_011295668.1,PMT9312_1806
+1707387,1707959.0,573.0,PMT9312_1807,PMT9312_RS09320,hypothetical protein,WP_011377350.1,Not in COGs,,0.3,0.81,,WP_011295669.1,PMT9312_1807
+# annotations refined for selected putative transporters based on transportDB 2.0 information  ,,,,,,,,,,,,,
