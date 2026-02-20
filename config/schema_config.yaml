@@ -197,6 +197,9 @@ gene:
     cluster_number: str
     protein_domains: str[]
     protein_domains_description: str[]
+    # Denormalized from linked Protein node during post-import (set via Cypher, not adapter):
+    function_description: str      # UniProt functional description; present for all organisms
+    go_biological_processes: str[] # GO biological process names; Prochlorococcus gets Cyanorak+UniProt, others UniProt only
 
 # consider adding: Note, exceptions, inference
 

@@ -35,6 +35,22 @@ WITH g1, g2, c, o1, o2,
   END AS distance
 MERGE (g1)-[:Gene_is_homolog_of_gene {source: "cyanorak_cluster", cluster_id: c.cluster_number, distance: distance}]->(g2);
 
+// Denormalize function_description from Protein onto Gene.
+// This gives LLMs uniform zero-hop access to functional text across ALL organisms.
+// Without this, Prochlorococcus genes have Gene.product but Alteromonas genes have
+// nothing without traversing Gene ←[Gene_encodes_protein]← Protein.
+MATCH (p:Protein)-[:Gene_encodes_protein]->(g:Gene)
+WHERE p.function_description IS NOT NULL
+SET g.function_description = p.function_description;
+
+// Denormalize GO biological process names onto Gene as a text array.
+// Allows LLMs to search Gene.go_biological_processes without a 3-hop traversal.
+// Note: Gene already has this property from Cyanorak for Prochlorococcus; this
+// fills it in uniformly for all organisms from the connected Protein node.
+MATCH (p:Protein)-[:Gene_encodes_protein]->(g:Gene)
+WHERE p.go_biological_processes IS NOT NULL AND g.go_biological_processes IS NULL
+SET g.go_biological_processes = p.go_biological_processes;
+
 // Create affects_expression_of_homolog edges.
 // If source X affects_expression_of gene A, and gene A is homolog of gene B,
 // then X affects_expression_of_homolog gene B.

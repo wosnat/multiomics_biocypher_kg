@@ -2,9 +2,13 @@
 Post-import Cypher validation tests.
 
 The post-import.cypher script runs after neo4j-admin import to:
-1. Create bidirectional Gene_is_homolog_of_gene edges between genes sharing
+1. Denormalize function_description from Protein onto Gene (uniform functional
+   text access for all organisms without a multi-hop traversal)
+2. Denormalize go_biological_processes from Protein onto Gene (where Gene
+   doesn't already have it from Cyanorak)
+3. Create bidirectional Gene_is_homolog_of_gene edges between genes sharing
    a Cyanorak_cluster (both A→B and B→A, with distance property)
-2. Propagate Affects_expression_of_homolog edges: if X affects gene A,
+4. Propagate Affects_expression_of_homolog edges: if X affects gene A,
    and A is homolog of B, then X affects_homolog B
 
 These tests verify that post-import ran correctly and produced valid results.
@@ -14,6 +18,86 @@ import pytest
 
 
 pytestmark = pytest.mark.kg
+
+
+# ---------------------------------------------------------------------------
+# Denormalized Gene.function_description (copied from Protein)
+# ---------------------------------------------------------------------------
+
+def test_gene_function_description_set(run_query):
+    """
+    After post-import, genes linked to a Protein with function_description
+    should have Gene.function_description populated.
+    Allow up to 10% ungapped (some proteins may have null function_description
+    in UniProt; the threshold catches a complete post-import failure).
+    """
+    result = run_query("""
+        MATCH (p:Protein)-[:Gene_encodes_protein]->(g:Gene)
+        WHERE p.function_description IS NOT NULL
+        WITH count(g) AS total,
+             count(CASE WHEN g.function_description IS NOT NULL THEN 1 END) AS filled
+        RETURN total, filled, total - filled AS missing
+    """)
+    row = result[0]
+    if row["total"] == 0:
+        pytest.skip("No Protein→Gene pairs with function_description found")
+    missing_fraction = row["missing"] / row["total"]
+    assert missing_fraction < 0.10, (
+        f"{row['missing']} / {row['total']} genes ({missing_fraction:.1%}) are missing "
+        f"function_description despite their linked Protein having it. "
+        f"Did the denormalization step in post-import.cypher run?"
+    )
+
+
+def test_alteromonas_genes_have_function_description(run_query):
+    """
+    Alteromonas genes have no Cyanorak annotations, so function_description
+    must come entirely from the post-import denormalization step.
+    At least 50% of Alteromonas genes linked to a reviewed Protein should
+    have function_description set.
+    """
+    result = run_query("""
+        MATCH (g:Gene)-[:Gene_belongs_to_organism]->(o:OrganismTaxon)
+        WHERE o.genus = 'Alteromonas'
+        WITH count(g) AS total,
+             count(CASE WHEN g.function_description IS NOT NULL THEN 1 END) AS filled
+        RETURN total, filled
+    """)
+    row = result[0]
+    if row["total"] == 0:
+        pytest.skip("No Alteromonas Gene nodes found")
+    filled_fraction = row["filled"] / row["total"]
+    assert filled_fraction > 0.50, (
+        f"Only {row['filled']} / {row['total']} Alteromonas genes ({filled_fraction:.1%}) "
+        f"have function_description. Denormalization from Protein may not have run."
+    )
+
+
+# ---------------------------------------------------------------------------
+# Denormalized Gene.go_biological_processes (copied from Protein)
+# ---------------------------------------------------------------------------
+
+def test_gene_go_biological_processes_set(run_query):
+    """
+    Genes linked to a Protein with go_biological_processes should have
+    Gene.go_biological_processes populated (either from Cyanorak or from the
+    post-import denormalization step).
+    """
+    result = run_query("""
+        MATCH (p:Protein)-[:Gene_encodes_protein]->(g:Gene)
+        WHERE p.go_biological_processes IS NOT NULL
+        WITH count(g) AS total,
+             count(CASE WHEN g.go_biological_processes IS NOT NULL THEN 1 END) AS filled
+        RETURN total, filled, total - filled AS missing
+    """)
+    row = result[0]
+    if row["total"] == 0:
+        pytest.skip("No Protein→Gene pairs with go_biological_processes found")
+    missing_fraction = row["missing"] / row["total"]
+    assert missing_fraction < 0.10, (
+        f"{row['missing']} / {row['total']} genes ({missing_fraction:.1%}) are missing "
+        f"go_biological_processes despite their linked Protein having it."
+    )
 
 
 # ---------------------------------------------------------------------------

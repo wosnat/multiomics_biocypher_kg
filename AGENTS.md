@@ -75,3 +75,79 @@ Alteromonas ──organism_treatment_in_test──▶ statistical_test ◀──
 | "Genes affected by nitrogen stress" | `(nitrogen_stress:environmental_condition)-[affects_expression_of]->(gene)` |
 | "Genes affected by coculture under low light" | Hub: Find statistical_test linked to both factors, then get gene results |
 | "All experiments involving Alteromonas" | Hub: `(Alteromonas)-[organism_treatment_in_test]->(test)` |
+
+---
+
+## Where Functional Information Lives
+
+The graph has two node types that may seem redundant but have distinct roles:
+
+- **`Gene`** = the genomic entity: has location, locus tag, expression edges, homology edges
+- **`Protein`** = the functional/sequence entity: has UniProt annotations, GO terms, pathways, EC numbers
+
+Every Gene (for all organisms) is linked to its Protein via `(Protein)-[:Gene_encodes_protein]->(Gene)`.
+
+### Functional annotation coverage by organism
+
+| Property | Prochlorococcus | Synechococcus | Alteromonas |
+|---|---|---|---|
+| `Gene.product` | ✓ (NCBI) | ✓ (NCBI) | ✓ (NCBI) |
+| `Gene.function_description` | ✓ (copied from UniProt at import) | ✓ | ✓ |
+| `Gene.go_biological_processes` | ✓ (Cyanorak + UniProt) | ✓ (UniProt) | ✓ (UniProt) |
+| `Gene.cyanorak_Role`, `Gene.eggNOG` | ✓ (Cyanorak only) | ✗ | ✗ |
+| `Protein.function_description` | ✓ (UniProt) | ✓ | ✓ |
+| `BiologicalProcess` nodes (GO) | ✓ via Protein | ✓ via Protein | ✓ via Protein |
+
+> **Note**: `Gene.function_description` and `Gene.go_biological_processes` are denormalized from the linked Protein node during post-import. They are the recommended starting point for function-based queries.
+
+### Decision tree: "which genes are related to X?"
+
+**If X is a biological function / process** (e.g., "oxidative stress", "photosynthesis"):
+
+```cypher
+// Option A — text search on Gene (fastest, works for all organisms):
+MATCH (g:Gene)
+WHERE g.function_description CONTAINS 'oxidative'
+   OR any(t IN g.go_biological_processes WHERE t CONTAINS 'oxidative')
+RETURN g
+
+// Option B — structured GO term traversal (precise, requires knowing GO term name):
+MATCH (g:Gene)<-[:Gene_encodes_protein]-(p:Protein)
+      -[:protein_involved_in_biological_process]->(bp:BiologicalProcess)
+WHERE bp.name CONTAINS 'oxidative stress'
+RETURN g, bp
+
+// Option C — KEGG / EC / pathway (for metabolic functions):
+MATCH (g:Gene)<-[:Gene_encodes_protein]-(p:Protein)
+      -[:protein_take_part_in_pathway]->(path:Pathway)
+WHERE path.name CONTAINS 'oxidative'
+RETURN g, path
+```
+
+**If X is an experimental treatment** (e.g., "nitrogen stress", "coculture with Alteromonas"):
+
+```cypher
+// Direct edge — 1 hop, most specific:
+MATCH (c:EnvironmentalCondition)-[r:Affects_expression_of]->(g:Gene)
+WHERE c.name CONTAINS 'nitrogen'
+RETURN g, r.log2_fold_change, r.expression_direction
+
+MATCH (o:OrganismTaxon)-[r:Affects_expression_of]->(g:Gene)
+WHERE o.organism_name CONTAINS 'Alteromonas'
+RETURN g, r.log2_fold_change, r.expression_direction
+```
+
+**If you want genes with BOTH a functional annotation AND expression evidence**:
+
+```cypher
+MATCH (g:Gene)
+WHERE g.function_description CONTAINS 'oxidative'
+AND (g)<-[:Affects_expression_of]-()
+RETURN g
+```
+
+### What NOT to do
+
+- Do **not** query `Gene.pathway_description` — pathways are on `Protein` nodes and linked via `protein_take_part_in_pathway` edges.
+- Do **not** use `Gene.ec_numbers` — EC numbers are on `Protein` nodes and linked via `protein_catalyzes_ec_number` edges to the `EcNumber` hierarchy.
+- For Prochlorococcus, `Gene.cyanorak_Role` and `Gene.eggNOG` provide additional functional text but are absent for Alteromonas/Synechococcus — prefer `Gene.function_description` for organism-agnostic queries.
