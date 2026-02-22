@@ -13,9 +13,6 @@ import requests
 import h5py
 
 from tqdm import tqdm  # progress bar
-from pypath.share import curl, settings
-from pypath.utils import mapping
-from pypath.inputs import uniprot
 from biocypher._logger import logger
 from contextlib import ExitStack
 from bioregistry import normalize_curie
@@ -489,6 +486,8 @@ class Uniprot:
             retries: number of retries in case of download error.
         """
 
+        from pypath.share import curl, settings
+
         # stack pypath context managers
         with ExitStack() as stack:
 
@@ -535,6 +534,8 @@ class Uniprot:
 
         TODO make use of multi-field query
         """
+
+        from pypath.inputs import uniprot
 
         logger.info("Downloading uniprot data...")
 
@@ -1400,9 +1401,11 @@ class Uniprot:
             field_value: ensembl transcript list
 
         """
+        from pypath.utils import mapping
+
         if enst_list is None:
             return None, None
-        
+
         enst_list = self._ensure_iterable(enst_list)
 
         enst_list = [enst.split(" [")[0] for enst in enst_list]

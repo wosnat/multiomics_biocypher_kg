@@ -149,6 +149,15 @@ The `.claude/skills/` directory provides project-specific skills:
 | `test_biology.py` | Ecotype/clade labels per strain, katG absence in *Prochlorococcus* (Black Queen Hypothesis), all expected strains present, locus-tag → UniProt spot checks |
 | `test_expression.py` | `log2_fold_change` / `adjusted_p_value` are numeric, `adjusted_p_value` ∈ [0,1], `expression_direction` ∈ {up,down}, direction/sign consistency, required properties on all edges |
 | `test_post_import.py` | Homolog edges exist and are bidirectional, `distance`/`cluster_id` properties present, `Affects_expression_of_homolog` propagated correctly |
+| `test_snapshot.py` | Regression snapshot: verifies a sample of specific nodes and edges (with properties) still exist after rebuilds. Catches silent data loss. |
+
+### Snapshot regression tests
+
+`test_snapshot.py` loads `snapshot_data.json` (committed fixture) and checks that every sampled node/edge still exists with expected properties. To regenerate after intentional changes:
+
+```bash
+uv run python tests/kg_validity/generate_snapshot.py
+```
 
 ### Actual Neo4j labels (BioCypher PascalCase output)
 

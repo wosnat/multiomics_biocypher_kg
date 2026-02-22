@@ -2958,8 +2958,8 @@ dependencies = [
 
 [[package]]
 name = "pypath-omnipath"
-version = "0.16.28"
-source = { git = "https://github.com/wosnat/pypath#21c492c4011110c8544bddb64c2e15d35b95bf8e" }
+version = "0.16.31"
+source = { git = "https://github.com/wosnat/pypath#fb1e891393617b76459f03b3782da13f831ef517" }
 dependencies = [
     { name = "beautifulsoup4" },
     { name = "cachemanager" },
