@@ -5,6 +5,7 @@ services:
   build:
     image: biocypher/base:1.2.0
     container_name: build
+    network_mode: host
     volumes:
       - biocypher_neo4j_volume:/usr/app/data
       - .:/src/

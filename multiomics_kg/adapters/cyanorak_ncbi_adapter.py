@@ -573,24 +573,32 @@ class CyanorakNcbi:
             'eggNOG_description', 'kegg', 'kegg_description',
             'ontology_term_description', 'product', 'protein_domains',
             'protein_domains_description', 'tIGR_Role', 'tIGR_Role_description',
-            'locus_tag']
+            'locus_tag', 
+            #'gene_synonym', - TODO: get from gbk file
+            ]
         return cyan_cols_to_keep
 
     def _get_ncbi_cols_to_keep_map(self) -> dict[str, str]:
         ncbi_cols_to_keep = [
-        'Name_gene',
-        'gene_gene',
-        'locus_tag_cds',
-        'old_locus_tag_gene',
-        'source_cds',
-        'start_cds',
-        'end_cds',
-        'strand_cds',
-        'Note_cds',
-        'exception_cds',
-        'inference_cds',
-        'product_cds',
-        'protein_id_cds']
+            'Name_gene',
+            'gene_gene',
+            'locus_tag_cds',
+            'old_locus_tag_gene',
+            'source_cds',
+            'start_cds',
+            'end_cds',
+            'strand_cds',
+            'Note_cds',
+            'exception_cds',
+            'inference_cds',
+            'product_cds',
+            'protein_id_cds',
+            'Ontology_term_cds',
+            'go_component_cds',
+            'go_function_cds',
+            'go_process_cds',
+            'gene_synonym_gene',
+        ]
         col_rename_map = {c: c.replace('_gene', '').replace('_cds', '') for c in ncbi_cols_to_keep}
         col_rename_map['locus_tag_cds'] = 'locus_tag_ncbi'
         col_rename_map['old_locus_tag_gene'] = 'locus_tag'
@@ -615,13 +623,15 @@ class CyanorakNcbi:
             'kegg', #'kegg_description',
             'protein_domains', 'protein_domains_description',
             'tIGR_Role', 'tIGR_Role_description',
-            'old_locus_tags',
+            'old_locus_tags', 'go_component', 'go_function', 'go_process',
         ]
+        pipe_split_cols = ['Ontology_term_ncbi']
+
         space_split_cols = [
             'gene_names', 'gene', 
         ]
         semmicommas_split_cols = [
-            'kegg', 'kegg_description'
+            'kegg', 'kegg_description', 'gene_synonym',
         ]
 
         if field in comma_split_cols:
@@ -630,6 +640,8 @@ class CyanorakNcbi:
             return ' '
         if field in semmicommas_split_cols:
             return ';'
+        if field in pipe_split_cols:
+            return '||'
         return None
     
     def _split_field(self, field: str, value: str) -> list[str] | str:
@@ -661,7 +673,11 @@ class CyanorakNcbi:
         gene_df = ncbi_gff_df.loc[ncbi_gff_df.type.isin(['gene'])]
         cds_df = ncbi_gff_df.loc[ncbi_gff_df.type.isin(['CDS'])]
         df = pd.merge(gene_df, cds_df, left_on='ID', right_on='Parent', suffixes=['_gene', '_cds'], )
+        
         ncbi_col_rename_map = self._get_ncbi_cols_to_keep_map()
+        potential_cols = [c for c in df.columns if (c not in ncbi_col_rename_map) and (df[c].dropna().nunique() > 10)]
+        logger.info(f"NCBI, potential columns : {potential_cols}")
+
         # Only keep columns that exist in the merged DataFrame (e.g. old_locus_tag_gene
         # may be absent for genomes that lack old_locus_tag in their GFF)
         available_cols = {k: v for k, v in ncbi_col_rename_map.items() if k in df.columns}
@@ -724,6 +740,12 @@ class CyanorakNcbi:
         cyan_df['locus_tag'] = cyan_df['ID'].map(cyanID2locus_tag_map)
         cyan_df = cyan_df[self._get_cyanorak_cols_to_keep()]
         # Drop Cyanorak entries without a locus_tag (no GBK mapping available)
+        if cyan_df['locus_tag'].isna().any():
+            logger.warning(
+                f"{cyan_df['locus_tag'].isna().sum()} Cyanorak entries have no locus_tag after mapping. "
+                f"These will be dropped from the merged dataset."
+            )
+
         cyan_df = cyan_df.dropna(subset=['locus_tag'])
 
         # Handle multiple old_locus_tag values: explode to one row per tag for merge.
@@ -794,6 +816,9 @@ class CyanorakNcbi:
         n_dropped = n_before - len(merge_df)
         if n_dropped > 0:
             logger.warning(f"Dropped {n_dropped} genes with no identifiable locus_tag")
+
+        logger.info(
+            f"NCBI genes {ncbi_df.shape[0]} + Cyanorak genes {cyan_df.shape[0]} → {len(merge_df)} total genes after deduplication")
 
         logger.info(
             f"Gene merge: {n_ncbi_matched} matched both sources, "

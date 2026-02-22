@@ -171,6 +171,8 @@ gene:
   properties:    
     gene_names: str[]
     gene_names_cyanorak: str[]
+    gene_synonym: str[]
+    # gene_synonym_cyanorak: str[]
     kegg_ids: str[]
     locus_tag: str
     locus_tag_ncbi: str
@@ -184,7 +186,11 @@ gene:
     product: str
     product_cyanorak: str
     protein_id: str
-    Ontology_term: str[]
+    go_component: str[]
+    go_function: str[]
+    go_process: str[]
+    Ontology_term_ncbi: str[]
+    Ontology_term_cyanorak: str[]
     ontology_term_description: str[]
     eggNOG: str[]
     eggNOG_description: str[]
