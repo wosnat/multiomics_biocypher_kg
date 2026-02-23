@@ -1,0 +1,384 @@
+publication:
+  papername: "Thompson 2016"
+  papermainpdf: "data/Prochlorococcus/papers_and_supp/Thompson 2016/thompson 2016 file.pdf"
+
+  environmental_conditions:
+    thompson_2016_constant_light:
+      condition_type: growth_medium
+      name: "Constant light (90 µE m-2 s-1)"
+      medium: "Pro99 natural seawater medium"
+      temperature: "19-22C"
+      light_condition: "constant_light"
+      light_intensity: "90 uE m-2 s-1"
+      description: "Prochlorococcus MED4 grown in constant light at 90 µE m-2 s-1 in Pro99 natural seawater medium at 19-22C"
+    thompson_2016_constant_dark:
+      condition_type: light_stress
+      name: "Constant dark"
+      medium: "Pro99 natural seawater medium"
+      temperature: "19-22C"
+      light_condition: "constant_darkness"
+      light_intensity: "0"
+      description: "Prochlorococcus MED4 maintained in complete darkness from splitting of the mother culture onward; dim light used only for sampling operations"
+
+  supplementary_materials:
+
+    # --- Dark vs Light in PHAGE-INFECTED cells ---
+    dark_vs_light_infected_0.5h:
+      type: csv
+      filename: "data/Prochlorococcus/papers_and_supp/Thompson 2016/DE_genes_dark_vs_light_infected_phage_0.5h.csv"
+      statistical_analyses:
+        - type: RNASEQ
+          name: "DE of Prochlorococcus MED4 dark vs light in phage-infected cells at 0.5h post-inoculation"
+          id: DE_dark_vs_light_infected_MED4_0.5h
+          test_type: "DESeq2/NOISeq"
+          control_condition: "Light"
+          treatment_condition: "Dark"
+          environmental_control_condition_id: thompson_2016_constant_light
+          environmental_treatment_condition_id: thompson_2016_constant_dark
+          experimental_context: "Prochlorococcus MED4 infected with cyanophage P-HM2 (MOI=1) in Pro99 natural seawater medium at 19-22C; dark vs light treatment; prefiltered to significant DEGs"
+          timepoint: "0.5h post-inoculation"
+          organism: "Prochlorococcus MED4"
+          name_col: locus_tag
+          logfc_col: log2_fold_change
+          prefiltered: true
+          pvalue_threshold: 0.2
+          logfc_threshold: 1.5
+
+    dark_vs_light_infected_1.5h:
+      type: csv
+      filename: "data/Prochlorococcus/papers_and_supp/Thompson 2016/DE_genes_dark_vs_light_infected_phage_1.5h.csv"
+      statistical_analyses:
+        - type: RNASEQ
+          name: "DE of Prochlorococcus MED4 dark vs light in phage-infected cells at 1.5h post-inoculation"
+          id: DE_dark_vs_light_infected_MED4_1.5h
+          test_type: "DESeq2/NOISeq"
+          control_condition: "Light"
+          treatment_condition: "Dark"
+          environmental_control_condition_id: thompson_2016_constant_light
+          environmental_treatment_condition_id: thompson_2016_constant_dark
+          experimental_context: "Prochlorococcus MED4 infected with cyanophage P-HM2 (MOI=1) in Pro99 natural seawater medium at 19-22C; dark vs light treatment; prefiltered to significant DEGs"
+          timepoint: "1.5h post-inoculation"
+          organism: "Prochlorococcus MED4"
+          name_col: locus_tag
+          logfc_col: log2_fold_change
+          prefiltered: true
+          pvalue_threshold: 0.2
+          logfc_threshold: 1.5
+
+    dark_vs_light_infected_2.5h:
+      type: csv
+      filename: "data/Prochlorococcus/papers_and_supp/Thompson 2016/DE_genes_dark_vs_light_infected_phage_2.5h.csv"
+      statistical_analyses:
+        - type: RNASEQ
+          name: "DE of Prochlorococcus MED4 dark vs light in phage-infected cells at 2.5h post-inoculation"
+          id: DE_dark_vs_light_infected_MED4_2.5h
+          test_type: "DESeq2/NOISeq"
+          control_condition: "Light"
+          treatment_condition: "Dark"
+          environmental_control_condition_id: thompson_2016_constant_light
+          environmental_treatment_condition_id: thompson_2016_constant_dark
+          experimental_context: "Prochlorococcus MED4 infected with cyanophage P-HM2 (MOI=1) in Pro99 natural seawater medium at 19-22C; dark vs light treatment; prefiltered to significant DEGs"
+          timepoint: "2.5h post-inoculation"
+          organism: "Prochlorococcus MED4"
+          name_col: locus_tag
+          logfc_col: log2_fold_change
+          prefiltered: true
+          pvalue_threshold: 0.2
+          logfc_threshold: 1.5
+
+    dark_vs_light_infected_4.5h:
+      type: csv
+      filename: "data/Prochlorococcus/papers_and_supp/Thompson 2016/DE_genes_dark_vs_light_infected_phage_4.5h.csv"
+      statistical_analyses:
+        - type: RNASEQ
+          name: "DE of Prochlorococcus MED4 dark vs light in phage-infected cells at 4.5h post-inoculation"
+          id: DE_dark_vs_light_infected_MED4_4.5h
+          test_type: "DESeq2/NOISeq"
+          control_condition: "Light"
+          treatment_condition: "Dark"
+          environmental_control_condition_id: thompson_2016_constant_light
+          environmental_treatment_condition_id: thompson_2016_constant_dark
+          experimental_context: "Prochlorococcus MED4 infected with cyanophage P-HM2 (MOI=1) in Pro99 natural seawater medium at 19-22C; dark vs light treatment; prefiltered to significant DEGs"
+          timepoint: "4.5h post-inoculation"
+          organism: "Prochlorococcus MED4"
+          name_col: locus_tag
+          logfc_col: log2_fold_change
+          prefiltered: true
+          pvalue_threshold: 0.2
+          logfc_threshold: 1.5
+
+    dark_vs_light_infected_8.5h:
+      type: csv
+      filename: "data/Prochlorococcus/papers_and_supp/Thompson 2016/DE_genes_dark_vs_light_infected_phage_8.5h.csv"
+      statistical_analyses:
+        - type: RNASEQ
+          name: "DE of Prochlorococcus MED4 dark vs light in phage-infected cells at 8.5h post-inoculation"
+          id: DE_dark_vs_light_infected_MED4_8.5h
+          test_type: "DESeq2/NOISeq"
+          control_condition: "Light"
+          treatment_condition: "Dark"
+          environmental_control_condition_id: thompson_2016_constant_light
+          environmental_treatment_condition_id: thompson_2016_constant_dark
+          experimental_context: "Prochlorococcus MED4 infected with cyanophage P-HM2 (MOI=1) in Pro99 natural seawater medium at 19-22C; dark vs light treatment; prefiltered to significant DEGs"
+          timepoint: "8.5h post-inoculation"
+          organism: "Prochlorococcus MED4"
+          name_col: locus_tag
+          logfc_col: log2_fold_change
+          prefiltered: true
+          pvalue_threshold: 0.2
+          logfc_threshold: 1.5
+
+    # --- Dark vs Light in UNINFECTED (spent medium) cells ---
+    dark_vs_light_uninfected_1.5h:
+      type: csv
+      filename: "data/Prochlorococcus/papers_and_supp/Thompson 2016/DE_genes_dark_vs_light_uninfected_spent_medium_1.5h.csv"
+      statistical_analyses:
+        - type: RNASEQ
+          name: "DE of Prochlorococcus MED4 dark vs light in uninfected cells (spent medium) at 1.5h post-inoculation"
+          id: DE_dark_vs_light_uninfected_MED4_1.5h
+          test_type: "DESeq2/NOISeq"
+          control_condition: "Light"
+          treatment_condition: "Dark"
+          environmental_control_condition_id: thompson_2016_constant_light
+          environmental_treatment_condition_id: thompson_2016_constant_dark
+          experimental_context: "Prochlorococcus MED4 inoculated with spent medium (no phage) in Pro99 natural seawater medium at 19-22C; dark vs light treatment; prefiltered to significant DEGs"
+          timepoint: "1.5h post-inoculation"
+          organism: "Prochlorococcus MED4"
+          name_col: locus_tag
+          logfc_col: log2_fold_change
+          prefiltered: true
+          pvalue_threshold: 0.2
+          logfc_threshold: 1.5
+
+    dark_vs_light_uninfected_2.5h:
+      type: csv
+      filename: "data/Prochlorococcus/papers_and_supp/Thompson 2016/DE_genes_dark_vs_light_uninfected_spent_medium_2.5h.csv"
+      statistical_analyses:
+        - type: RNASEQ
+          name: "DE of Prochlorococcus MED4 dark vs light in uninfected cells (spent medium) at 2.5h post-inoculation"
+          id: DE_dark_vs_light_uninfected_MED4_2.5h
+          test_type: "DESeq2/NOISeq"
+          control_condition: "Light"
+          treatment_condition: "Dark"
+          environmental_control_condition_id: thompson_2016_constant_light
+          environmental_treatment_condition_id: thompson_2016_constant_dark
+          experimental_context: "Prochlorococcus MED4 inoculated with spent medium (no phage) in Pro99 natural seawater medium at 19-22C; dark vs light treatment; prefiltered to significant DEGs"
+          timepoint: "2.5h post-inoculation"
+          organism: "Prochlorococcus MED4"
+          name_col: locus_tag
+          logfc_col: log2_fold_change
+          prefiltered: true
+          pvalue_threshold: 0.2
+          logfc_threshold: 1.5
+
+    dark_vs_light_uninfected_4.5h:
+      type: csv
+      filename: "data/Prochlorococcus/papers_and_supp/Thompson 2016/DE_genes_dark_vs_light_uninfected_spent_medium_4.5h.csv"
+      statistical_analyses:
+        - type: RNASEQ
+          name: "DE of Prochlorococcus MED4 dark vs light in uninfected cells (spent medium) at 4.5h post-inoculation"
+          id: DE_dark_vs_light_uninfected_MED4_4.5h
+          test_type: "DESeq2/NOISeq"
+          control_condition: "Light"
+          treatment_condition: "Dark"
+          environmental_control_condition_id: thompson_2016_constant_light
+          environmental_treatment_condition_id: thompson_2016_constant_dark
+          experimental_context: "Prochlorococcus MED4 inoculated with spent medium (no phage) in Pro99 natural seawater medium at 19-22C; dark vs light treatment; prefiltered to significant DEGs"
+          timepoint: "4.5h post-inoculation"
+          organism: "Prochlorococcus MED4"
+          name_col: locus_tag
+          logfc_col: log2_fold_change
+          prefiltered: true
+          pvalue_threshold: 0.2
+          logfc_threshold: 1.5
+
+    dark_vs_light_uninfected_8.5h:
+      type: csv
+      filename: "data/Prochlorococcus/papers_and_supp/Thompson 2016/DE_genes_dark_vs_light_uninfected_spent_medium_8.5h.csv"
+      statistical_analyses:
+        - type: RNASEQ
+          name: "DE of Prochlorococcus MED4 dark vs light in uninfected cells (spent medium) at 8.5h post-inoculation"
+          id: DE_dark_vs_light_uninfected_MED4_8.5h
+          test_type: "DESeq2/NOISeq"
+          control_condition: "Light"
+          treatment_condition: "Dark"
+          environmental_control_condition_id: thompson_2016_constant_light
+          environmental_treatment_condition_id: thompson_2016_constant_dark
+          experimental_context: "Prochlorococcus MED4 inoculated with spent medium (no phage) in Pro99 natural seawater medium at 19-22C; dark vs light treatment; prefiltered to significant DEGs"
+          timepoint: "8.5h post-inoculation"
+          organism: "Prochlorococcus MED4"
+          name_col: locus_tag
+          logfc_col: log2_fold_change
+          prefiltered: true
+          pvalue_threshold: 0.2
+          logfc_threshold: 1.5
+
+    # --- Phage lysate vs Spent Medium in LIGHT ---
+    lysate_vs_spent_medium_light_0.5h:
+      type: csv
+      filename: "data/Prochlorococcus/papers_and_supp/Thompson 2016/DE_genes_lysate_vs_spent_medium_light_0.5h.csv"
+      statistical_analyses:
+        - type: RNASEQ
+          name: "DE of Prochlorococcus MED4 phage (P-HM2) lysate vs spent medium in light at 0.5h post-inoculation"
+          id: DE_lysate_vs_spent_medium_light_MED4_0.5h
+          test_type: "DESeq2/NOISeq"
+          control_condition: "Spent medium (uninfected)"
+          treatment_condition: "Phage (P-HM2) lysate"
+          treatment_organism: "Phage"
+          treatment_taxid: 10239
+          experimental_context: "Prochlorococcus MED4 under constant light (90 µE m-2 s-1) in Pro99 natural seawater medium at 19-22C; infected with cyanophage P-HM2 (MOI=1) vs uninfected spent medium control; prefiltered to significant DEGs"
+          timepoint: "0.5h post-inoculation"
+          organism: "Prochlorococcus MED4"
+          name_col: locus_tag
+          logfc_col: log2_fold_change
+          prefiltered: true
+          pvalue_threshold: 0.2
+          logfc_threshold: 0.4
+
+    lysate_vs_spent_medium_light_1.5h:
+      type: csv
+      filename: "data/Prochlorococcus/papers_and_supp/Thompson 2016/DE_genes_lysate_vs_spent_medium_light_1.5h.csv"
+      statistical_analyses:
+        - type: RNASEQ
+          name: "DE of Prochlorococcus MED4 phage (P-HM2) lysate vs spent medium in light at 1.5h post-inoculation"
+          id: DE_lysate_vs_spent_medium_light_MED4_1.5h
+          test_type: "DESeq2/NOISeq"
+          control_condition: "Spent medium (uninfected)"
+          treatment_condition: "Phage (P-HM2) lysate"
+          treatment_organism: "Phage"
+          treatment_taxid: 10239
+          experimental_context: "Prochlorococcus MED4 under constant light (90 µE m-2 s-1) in Pro99 natural seawater medium at 19-22C; infected with cyanophage P-HM2 (MOI=1) vs uninfected spent medium control; prefiltered to significant DEGs"
+          timepoint: "1.5h post-inoculation"
+          organism: "Prochlorococcus MED4"
+          name_col: locus_tag
+          logfc_col: log2_fold_change
+          prefiltered: true
+          pvalue_threshold: 0.2
+          logfc_threshold: 0.4
+
+    lysate_vs_spent_medium_light_2.5h:
+      type: csv
+      filename: "data/Prochlorococcus/papers_and_supp/Thompson 2016/DE_genes_lysate_vs_spent_medium_light_2.5h.csv"
+      statistical_analyses:
+        - type: RNASEQ
+          name: "DE of Prochlorococcus MED4 phage (P-HM2) lysate vs spent medium in light at 2.5h post-inoculation"
+          id: DE_lysate_vs_spent_medium_light_MED4_2.5h
+          test_type: "DESeq2/NOISeq"
+          control_condition: "Spent medium (uninfected)"
+          treatment_condition: "Phage (P-HM2) lysate"
+          treatment_organism: "Phage"
+          treatment_taxid: 10239
+          experimental_context: "Prochlorococcus MED4 under constant light (90 µE m-2 s-1) in Pro99 natural seawater medium at 19-22C; infected with cyanophage P-HM2 (MOI=1) vs uninfected spent medium control; prefiltered to significant DEGs"
+          timepoint: "2.5h post-inoculation"
+          organism: "Prochlorococcus MED4"
+          name_col: locus_tag
+          logfc_col: log2_fold_change
+          prefiltered: true
+          pvalue_threshold: 0.2
+          logfc_threshold: 0.4
+
+    lysate_vs_spent_medium_light_4.5h:
+      type: csv
+      filename: "data/Prochlorococcus/papers_and_supp/Thompson 2016/DE_genes_lysate_vs_spent_medium_light_4.5h.csv"
+      statistical_analyses:
+        - type: RNASEQ
+          name: "DE of Prochlorococcus MED4 phage (P-HM2) lysate vs spent medium in light at 4.5h post-inoculation"
+          id: DE_lysate_vs_spent_medium_light_MED4_4.5h
+          test_type: "DESeq2/NOISeq"
+          control_condition: "Spent medium (uninfected)"
+          treatment_condition: "Phage (P-HM2) lysate"
+          treatment_organism: "Phage"
+          treatment_taxid: 10239
+          experimental_context: "Prochlorococcus MED4 under constant light (90 µE m-2 s-1) in Pro99 natural seawater medium at 19-22C; infected with cyanophage P-HM2 (MOI=1) vs uninfected spent medium control; prefiltered to significant DEGs"
+          timepoint: "4.5h post-inoculation"
+          organism: "Prochlorococcus MED4"
+          name_col: locus_tag
+          logfc_col: log2_fold_change
+          prefiltered: true
+          pvalue_threshold: 0.2
+          logfc_threshold: 0.4
+
+    lysate_vs_spent_medium_light_8.5h:
+      type: csv
+      filename: "data/Prochlorococcus/papers_and_supp/Thompson 2016/DE_genes_lysate_vs_spent_medium_light_8.5h.csv"
+      statistical_analyses:
+        - type: RNASEQ
+          name: "DE of Prochlorococcus MED4 phage (P-HM2) lysate vs spent medium in light at 8.5h post-inoculation"
+          id: DE_lysate_vs_spent_medium_light_MED4_8.5h
+          test_type: "DESeq2/NOISeq"
+          control_condition: "Spent medium (uninfected)"
+          treatment_condition: "Phage (P-HM2) lysate"
+          treatment_organism: "Phage"
+          treatment_taxid: 10239
+          experimental_context: "Prochlorococcus MED4 under constant light (90 µE m-2 s-1) in Pro99 natural seawater medium at 19-22C; infected with cyanophage P-HM2 (MOI=1) vs uninfected spent medium control; prefiltered to significant DEGs"
+          timepoint: "8.5h post-inoculation"
+          organism: "Prochlorococcus MED4"
+          name_col: locus_tag
+          logfc_col: log2_fold_change
+          prefiltered: true
+          pvalue_threshold: 0.2
+          logfc_threshold: 0.4
+
+    # --- Phage lysate vs Spent Medium in DARK ---
+    lysate_vs_spent_medium_dark_2.5h:
+      type: csv
+      filename: "data/Prochlorococcus/papers_and_supp/Thompson 2016/DE_genes_lysate_vs_spent_medium_dark_2.5h.csv"
+      statistical_analyses:
+        - type: RNASEQ
+          name: "DE of Prochlorococcus MED4 phage (P-HM2) lysate vs spent medium in dark at 2.5h post-inoculation"
+          id: DE_lysate_vs_spent_medium_dark_MED4_2.5h
+          test_type: "DESeq2/NOISeq"
+          control_condition: "Spent medium (uninfected)"
+          treatment_condition: "Phage (P-HM2) lysate"
+          treatment_organism: "Phage"
+          treatment_taxid: 10239
+          experimental_context: "Prochlorococcus MED4 in complete darkness in Pro99 natural seawater medium at 19-22C; infected with cyanophage P-HM2 (MOI=1) vs uninfected spent medium control; prefiltered to significant DEGs"
+          timepoint: "2.5h post-inoculation"
+          organism: "Prochlorococcus MED4"
+          name_col: locus_tag
+          logfc_col: log2_fold_change
+          prefiltered: true
+          pvalue_threshold: 0.2
+          logfc_threshold: 0.4
+
+    lysate_vs_spent_medium_dark_4.5h:
+      type: csv
+      filename: "data/Prochlorococcus/papers_and_supp/Thompson 2016/DE_genes_lysate_vs_spent_medium_dark_4.5h.csv"
+      statistical_analyses:
+        - type: RNASEQ
+          name: "DE of Prochlorococcus MED4 phage (P-HM2) lysate vs spent medium in dark at 4.5h post-inoculation"
+          id: DE_lysate_vs_spent_medium_dark_MED4_4.5h
+          test_type: "DESeq2/NOISeq"
+          control_condition: "Spent medium (uninfected)"
+          treatment_condition: "Phage (P-HM2) lysate"
+          treatment_organism: "Phage"
+          treatment_taxid: 10239
+          experimental_context: "Prochlorococcus MED4 in complete darkness in Pro99 natural seawater medium at 19-22C; infected with cyanophage P-HM2 (MOI=1) vs uninfected spent medium control; prefiltered to significant DEGs"
+          timepoint: "4.5h post-inoculation"
+          organism: "Prochlorococcus MED4"
+          name_col: locus_tag
+          logfc_col: log2_fold_change
+          prefiltered: true
+          pvalue_threshold: 0.2
+          logfc_threshold: 0.4
+
+    lysate_vs_spent_medium_dark_8.5h:
+      type: csv
+      filename: "data/Prochlorococcus/papers_and_supp/Thompson 2016/DE_genes_lysate_vs_spent_medium_dark_8.5h.csv"
+      statistical_analyses:
+        - type: RNASEQ
+          name: "DE of Prochlorococcus MED4 phage (P-HM2) lysate vs spent medium in dark at 8.5h post-inoculation"
+          id: DE_lysate_vs_spent_medium_dark_MED4_8.5h
+          test_type: "DESeq2/NOISeq"
+          control_condition: "Spent medium (uninfected)"
+          treatment_condition: "Phage (P-HM2) lysate"
+          treatment_organism: "Phage"
+          treatment_taxid: 10239
+          experimental_context: "Prochlorococcus MED4 in complete darkness in Pro99 natural seawater medium at 19-22C; infected with cyanophage P-HM2 (MOI=1) vs uninfected spent medium control; prefiltered to significant DEGs"
+          timepoint: "8.5h post-inoculation"
+          organism: "Prochlorococcus MED4"
+          name_col: locus_tag
+          logfc_col: log2_fold_change
+          prefiltered: true
+          pvalue_threshold: 0.2
+          logfc_threshold: 0.4
