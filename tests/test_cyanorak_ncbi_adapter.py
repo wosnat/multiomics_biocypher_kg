@@ -46,6 +46,35 @@ TEST_chrom\tcyanorak\tCDS\t1333\t2040\t.\t+\t0\tID=CK_TEST_00002;Name=PMM0002;pr
 TEST_chrom\tcyanorak\tCDS\t2044\t4383\t.\t+\t0\tID=CK_TEST_00003;Name=purL;product=synthase;cluster_number=CK_00000362;Ontology_term=GO:0009152;ontology_term_description=purine biosynthesis;kegg=6.3.5.3;kegg_description=FGAM synthetase;eggNOG=COG0046;eggNOG_description=Nucleotide metabolism;tIGR_Role=125;tIGR_Role_description=Purine biosynthesis;cyanorak_Role=M.3;cyanorak_Role_description=Purine ribonucleotide biosynthesis;protein_domains=TIGR01736;protein_domains_description=synthase
 """
 
+NCBI_GBFF_CONTENT = """\
+LOCUS       NC_TEST.1              50000 bp    DNA     linear   BCT 01-JAN-2024
+DEFINITION  Test organism chromosome.
+ACCESSION   NC_TEST
+VERSION     NC_TEST.1
+FEATURES             Location/Qualifiers
+     source          1..50000
+                     /organism="Test organism"
+                     /mol_type="genomic DNA"
+     CDS             174..1331
+                     /locus_tag="TEST_RS00020"
+                     /product="DNA polymerase III, beta subunit"
+                     /EC_number="2.7.7.7"
+                     /translation="MTEST"
+     CDS             1333..2040
+                     /locus_tag="TEST_RS00025"
+                     /product="hypothetical protein"
+                     /translation="MTEST"
+     CDS             2044..4383
+                     /locus_tag="TEST_RS00030"
+                     /product="phosphoribosylformylglycinamidine synthase"
+                     /EC_number="6.3.5.3"
+                     /EC_number="6.3.5.4"
+                     /translation="MTEST"
+ORIGIN
+        1 atgaaaaaaa aaaaaaaaaa aaaaaaaaaa aaaaaaaaaa aaaaaaaaaa aaaaaaaaaa
+//
+"""
+
 CYAN_GBK_CONTENT = """\
 LOCUS       TEST_chrom           50000 bp    DNA     circular BCT 01-JAN-2024
 DEFINITION  Test organism chromosome.
@@ -111,6 +140,14 @@ def cyan_gbk_file(temp_data_dir):
     path = os.path.join(temp_data_dir, "cyanorak.gbk")
     with open(path, "w") as f:
         f.write(CYAN_GBK_CONTENT)
+    return path
+
+
+@pytest.fixture
+def ncbi_gbff_file(temp_data_dir):
+    path = os.path.join(temp_data_dir, "genomic.gbff")
+    with open(path, "w") as f:
+        f.write(NCBI_GBFF_CONTENT)
     return path
 
 
@@ -345,6 +382,13 @@ class TestSplitField:
         result = adapter._split_field("locus_tag", "PMM0001")
         assert result == "PMM0001"
 
+    def test_get_split_character_ec_numbers(self, adapter):
+        assert adapter._get_split_character("ec_numbers") == ","
+
+    def test_comma_split_ec_numbers(self, adapter):
+        result = adapter._split_field("ec_numbers", "2.7.7.7,6.3.5.3")
+        assert result == ["2.7.7.7", "6.3.5.3"]
+
     def test_get_split_character_comma_fields(self, adapter):
         assert adapter._get_split_character("cyanorak_Role") == ","
         assert adapter._get_split_character("Ontology_term") == ","
@@ -466,6 +510,144 @@ class TestGetCyanorakIdMapFromGbk:
         for k, v in mapping.items():
             assert isinstance(k, str)
             assert isinstance(v, str)
+
+
+# ---------------------------------------------------------------------------
+# Tests: _get_ec_numbers_from_gbff
+# ---------------------------------------------------------------------------
+
+
+class TestGetEcNumbersFromGbff:
+    def test_returns_dict(self, adapter, ncbi_gbff_file):
+        result = adapter._get_ec_numbers_from_gbff(ncbi_gbff_file)
+        assert isinstance(result, dict)
+
+    def test_only_genes_with_ec_in_map(self, adapter, ncbi_gbff_file):
+        """Genes without EC_number qualifier must not appear in the result."""
+        result = adapter._get_ec_numbers_from_gbff(ncbi_gbff_file)
+        # TEST_RS00025 has no EC_number
+        assert "TEST_RS00025" not in result
+        # Two genes have EC numbers
+        assert len(result) == 2
+
+    def test_single_ec_number(self, adapter, ncbi_gbff_file):
+        result = adapter._get_ec_numbers_from_gbff(ncbi_gbff_file)
+        assert result["TEST_RS00020"] == ["2.7.7.7"]
+
+    def test_multiple_ec_numbers(self, adapter, ncbi_gbff_file):
+        result = adapter._get_ec_numbers_from_gbff(ncbi_gbff_file)
+        assert result["TEST_RS00030"] == ["6.3.5.3", "6.3.5.4"]
+
+    def test_values_are_lists_of_strings(self, adapter, ncbi_gbff_file):
+        result = adapter._get_ec_numbers_from_gbff(ncbi_gbff_file)
+        for ec_list in result.values():
+            assert isinstance(ec_list, list)
+            for ec in ec_list:
+                assert isinstance(ec, str)
+
+    def test_empty_gbff_returns_empty_dict(self, adapter, temp_data_dir):
+        """A GBFF with no CDS features returns an empty dict."""
+        empty_gbff = os.path.join(temp_data_dir, "empty.gbff")
+        with open(empty_gbff, "w") as f:
+            f.write(
+                "LOCUS       NC_EMPTY               100 bp    DNA     linear   BCT 01-JAN-2024\n"
+                "DEFINITION  Empty.\n"
+                "ACCESSION   NC_EMPTY\n"
+                "VERSION     NC_EMPTY.1\n"
+                "FEATURES             Location/Qualifiers\n"
+                "     source          1..100\n"
+                '                     /organism="Test"\n'
+                '                     /mol_type="genomic DNA"\n'
+                "ORIGIN\n"
+                "        1 atgaaaaaaa\n"
+                "//\n"
+            )
+        result = adapter._get_ec_numbers_from_gbff(empty_gbff)
+        assert result == {}
+
+
+# ---------------------------------------------------------------------------
+# Tests: EC numbers in data_df and gene nodes (integration)
+# ---------------------------------------------------------------------------
+
+
+class TestEcNumbersIntegration:
+    """Test that EC numbers from GBFF are surfaced as gene node properties."""
+
+    @pytest.fixture
+    def adapter_with_ec(self, ncbi_gff_file, cyan_gff_file, cyan_gbk_file, ncbi_gbff_file):
+        """Adapter with ncbi_gbff_file pre-set so download_data() merges EC numbers."""
+        a = CyanorakNcbi(
+            ncbi_gff_file=ncbi_gff_file,
+            cyan_gff_file=cyan_gff_file,
+            cyan_gbk_file=cyan_gbk_file,
+        )
+        a.ncbi_gbff_file = ncbi_gbff_file
+        a.download_data()
+        return a
+
+    def test_ec_numbers_column_exists(self, adapter_with_ec):
+        assert "ec_numbers" in adapter_with_ec.data_df.columns
+
+    def test_gene_with_single_ec_has_value(self, adapter_with_ec):
+        df = adapter_with_ec.data_df
+        # TEST_RS00020 has EC 2.7.7.7; it maps from old locus tag PMM0001
+        row = df[df["locus_tag_ncbi"] == "TEST_RS00020"]
+        assert len(row) == 1
+        assert row.iloc[0]["ec_numbers"] == "2.7.7.7"
+
+    def test_gene_with_multiple_ec_has_value(self, adapter_with_ec):
+        df = adapter_with_ec.data_df
+        # TEST_RS00030 has EC 6.3.5.3 and 6.3.5.4
+        row = df[df["locus_tag_ncbi"] == "TEST_RS00030"]
+        assert len(row) == 1
+        assert row.iloc[0]["ec_numbers"] == "6.3.5.3,6.3.5.4"
+
+    def test_gene_without_ec_has_null(self, adapter_with_ec):
+        import pandas as pd
+        df = adapter_with_ec.data_df
+        row = df[df["locus_tag_ncbi"] == "TEST_RS00025"]
+        assert len(row) == 1
+        assert pd.isna(row.iloc[0]["ec_numbers"])
+
+    def test_ec_numbers_in_gene_node_properties(self, adapter_with_ec):
+        """EC numbers appear as a list in the gene node properties dict."""
+        nodes = adapter_with_ec.get_nodes()
+        gene_nodes = {n[0]: n[2] for n in nodes if n[1] == "gene"}
+
+        # PMM0001 → TEST_RS00020 → EC 2.7.7.7
+        pmm0001_props = next(
+            props for nid, props in gene_nodes.items() if "PMM0001" in nid
+        )
+        assert "ec_numbers" in pmm0001_props
+        assert pmm0001_props["ec_numbers"] == ["2.7.7.7"]
+
+    def test_multiple_ec_numbers_in_node_properties(self, adapter_with_ec):
+        nodes = adapter_with_ec.get_nodes()
+        gene_nodes = {n[0]: n[2] for n in nodes if n[1] == "gene"}
+
+        # PMM0003 → TEST_RS00030 → EC 6.3.5.3, 6.3.5.4
+        pmm0003_props = next(
+            props for nid, props in gene_nodes.items() if "PMM0003" in nid
+        )
+        assert pmm0003_props["ec_numbers"] == ["6.3.5.3", "6.3.5.4"]
+
+    def test_gene_without_ec_absent_from_node_properties(self, adapter_with_ec):
+        nodes = adapter_with_ec.get_nodes()
+        gene_nodes = {n[0]: n[2] for n in nodes if n[1] == "gene"}
+
+        # PMM0002 → TEST_RS00025 → no EC number
+        pmm0002_props = next(
+            props for nid, props in gene_nodes.items() if "PMM0002" in nid
+        )
+        assert "ec_numbers" not in pmm0002_props
+
+    def test_no_gbff_leaves_no_ec_column(self, adapter):
+        """When ncbi_gbff_file is not set, no ec_numbers column is added."""
+        adapter.download_data()
+        # Column may or may not exist; if it does, all values must be null
+        if "ec_numbers" in adapter.data_df.columns:
+            assert adapter.data_df["ec_numbers"].isna().all()
 
 
 # ---------------------------------------------------------------------------

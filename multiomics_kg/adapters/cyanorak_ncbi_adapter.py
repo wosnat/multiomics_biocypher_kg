@@ -134,6 +134,7 @@ class GeneNodeField(Enum, metaclass=GeneEnumMeta):
     OLD_LOCUS_TAGS = 'old_locus_tags'
     PROTEIN_DOMAINS = 'protein_domains'
     PROTEIN_DOMAINS_DESCRIPTION = 'protein_domains_description'
+    EC_NUMBERS = 'ec_numbers'
 
 
     @classmethod
@@ -416,6 +417,16 @@ class CyanorakNcbi:
                 ncbi_gff_file=self.ncbi_gff_file,
             )
 
+        # Merge EC numbers from NCBI GBFF if available
+        if self.ncbi_gbff_file and os.path.exists(self.ncbi_gbff_file):
+            ec_map = self._get_ec_numbers_from_gbff(self.ncbi_gbff_file)
+            if ec_map and 'locus_tag_ncbi' in self.data_df.columns:
+                self.data_df['ec_numbers'] = self.data_df['locus_tag_ncbi'].apply(
+                    lambda lt: ','.join(ec_map[lt]) if pd.notna(lt) and lt in ec_map else None
+                )
+                n_with_ec = self.data_df['ec_numbers'].notna().sum()
+                logger.info(f"EC numbers merged: {n_with_ec} genes have at least one EC number")
+
         # Save mapping table to data_dir for use by the omics adapter
         mapping_dir = self.data_dir or os.path.dirname(self.ncbi_gff_file)
         os.makedirs(mapping_dir, exist_ok=True)
@@ -667,6 +678,7 @@ class CyanorakNcbi:
             'protein_domains', 'protein_domains_description',
             'tIGR_Role', 'tIGR_Role_description',
             'old_locus_tags', 'go_component', 'go_function', 'go_process',
+            'ec_numbers',
         ]
         pipe_split_cols = ['Ontology_term_ncbi']
 
@@ -709,6 +721,33 @@ class CyanorakNcbi:
         seq_records = [rec for rec in SeqIO.read(gbk_file, "genbank").features if rec.type in ["CDS"]]
         seq_records_map = {self._get_cynaorak_ID(rec) : locus_tag for rec in seq_records for locus_tag in rec.qualifiers['locus_tag']}
         return seq_records_map
+
+    def _get_ec_numbers_from_gbff(self, gbff_file: str) -> dict[str, list[str]]:
+        """Extract EC numbers from NCBI GBFF file, keyed by locus_tag.
+
+        Models after _get_cyanorak_id_map_from_gbk(). Uses SeqIO.parse() because
+        NCBI GBFF files contain multiple records (one per chromosome/plasmid).
+
+        Args:
+            gbff_file: Path to the NCBI genomic.gbff file.
+
+        Returns:
+            Dict mapping locus_tag -> list of EC number strings (e.g. ["1.1.1.1"]).
+        """
+        locus_tag_to_ec: dict[str, list[str]] = {}
+        for record in SeqIO.parse(gbff_file, "genbank"):
+            for feature in record.features:
+                if feature.type != "CDS":
+                    continue
+                ec_numbers = feature.qualifiers.get("EC_number", [])
+                if not ec_numbers:
+                    continue
+                for locus_tag in feature.qualifiers.get("locus_tag", []):
+                    if locus_tag in locus_tag_to_ec:
+                        locus_tag_to_ec[locus_tag].extend(ec_numbers)
+                    else:
+                        locus_tag_to_ec[locus_tag] = list(ec_numbers)
+        return locus_tag_to_ec
 
 
     def ncbi_merge_cds_and_gene_entries(self, ncbi_gff_df: pd.DataFrame) -> pd.DataFrame:
