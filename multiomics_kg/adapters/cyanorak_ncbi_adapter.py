@@ -222,6 +222,8 @@ class CyanorakNcbi:
         self.ncbi_taxon_id = ncbi_taxon_id
         self.clade = clade
         self.taxonomy = {}  # populated by download_data()
+        self.ncbi_protein_fasta_file = None  # populated by _download_ncbi_genome()
+        self.ncbi_gbff_file = None           # populated by _download_ncbi_genome()
 
         # no need becuase we are not creating protein to ec edges here
         # if model["organism"] in ("*", None):
@@ -244,17 +246,33 @@ class CyanorakNcbi:
             self.early_stopping = 100
 
     def _download_ncbi_genome(self) -> str:
-        """Download NCBI genome zip and extract GFF using pypath Curl."""
+        """Download NCBI genome zip and extract GFF, protein FASTA, and GBFF using pypath Curl.
+
+        Sets self.ncbi_protein_fasta_file and self.ncbi_gbff_file as side effects.
+
+        Returns:
+            Path to the saved genomic.gff file.
+        """
         gff_path = os.path.join(self.data_dir, "genomic.gff")
-        if os.path.exists(gff_path):
-            logger.info(f"NCBI GFF already exists at {gff_path}, skipping download")
+        prot_fasta_path = os.path.join(self.data_dir, "protein.faa")
+        gbff_path = os.path.join(self.data_dir, "genomic.gbff")
+
+        all_exist = all(os.path.exists(p) for p in [gff_path, prot_fasta_path, gbff_path])
+        if all_exist:
+            logger.info(
+                f"NCBI genome files already exist in {self.data_dir}, skipping download"
+            )
+            self.ncbi_protein_fasta_file = prot_fasta_path
+            self.ncbi_gbff_file = gbff_path
             return gff_path
+
         url = (
             f"https://api.ncbi.nlm.nih.gov/datasets/v2/genome/accession/"
             f"{self.ncbi_accession}/download"
             f"?include_annotation_type=GENOME_GFF"
             f"&include_annotation_type=GENOME_FASTA"
             f"&include_annotation_type=PROT_FASTA"
+            f"&include_annotation_type=GENOME_GBFF"
             f"&include_annotation_type=SEQUENCE_REPORT"
             f"&hydrated=FULLY_HYDRATED"
         )
@@ -268,19 +286,44 @@ class CyanorakNcbi:
             raise ConnectionError(
                 f"Failed to download NCBI genome for {self.ncbi_accession} from {url}"
             )
+
+        os.makedirs(self.data_dir, exist_ok=True)
+
         # c.result is a dict of {filename: content} for zip files
         gff_content = None
+        prot_fasta_content = None
+        gbff_content = None
         for name, content in c.result.items():
             if name.endswith('genomic.gff'):
                 gff_content = content
-                break
+            elif name.endswith('protein.faa'):
+                prot_fasta_content = content
+            elif name.endswith('genomic.gbff'):
+                gbff_content = content
+
         if gff_content is None:
             raise ValueError(f"No genomic.gff found in NCBI download for {self.ncbi_accession}")
 
-        os.makedirs(self.data_dir, exist_ok=True)
         with open(gff_path, 'w') as f:
             f.write(gff_content)
         logger.info(f"NCBI GFF saved to {gff_path}")
+
+        if prot_fasta_content is not None:
+            with open(prot_fasta_path, 'w') as f:
+                f.write(prot_fasta_content)
+            logger.info(f"NCBI protein FASTA saved to {prot_fasta_path}")
+            self.ncbi_protein_fasta_file = prot_fasta_path
+        else:
+            logger.warning(f"No protein.faa found in NCBI download for {self.ncbi_accession}")
+
+        if gbff_content is not None:
+            with open(gbff_path, 'w') as f:
+                f.write(gbff_content)
+            logger.info(f"NCBI GBFF saved to {gbff_path}")
+            self.ncbi_gbff_file = gbff_path
+        else:
+            logger.warning(f"No genomic.gbff found in NCBI download for {self.ncbi_accession}")
+
         return gff_path
 
     def _download_cyanorak_gff(self) -> str:
