@@ -1,0 +1,693 @@
+#!/usr/bin/env python3
+"""
+Build per-strain gene annotation tables by merging three sources:
+  1. gene_mapping.csv      (NCBI + Cyanorak merged)
+  2. eggnog annotations    (.emapper.annotations)
+  3. uniprot JSON          (uniprot_preprocess_data.json)
+
+Merge rules are defined in config/gene_annotations_config.yaml.
+
+Outputs per strain:
+  cache/data/<org>/genomes/<strain>/gene_annotations_wide.json
+  cache/data/<org>/genomes/<strain>/gene_annotations_merged.json
+
+Usage:
+  uv run python scripts/build_gene_annotations.py [--strains STRAIN ...] [--force]
+"""
+
+from __future__ import annotations
+
+import argparse
+import csv
+import json
+import os
+import re
+import sys
+from pathlib import Path
+from typing import Any
+from urllib.parse import unquote
+
+import yaml
+
+# ─── paths ────────────────────────────────────────────────────────────────────
+
+SCRIPT_DIR = Path(__file__).parent
+PROJECT_ROOT = SCRIPT_DIR.parent
+GENOMES_CSV = PROJECT_ROOT / "data/Prochlorococcus/genomes/cyanobacteria_genomes.csv"
+DEFAULT_CONFIG = PROJECT_ROOT / "config/gene_annotations_config.yaml"
+
+
+# ─── helpers ──────────────────────────────────────────────────────────────────
+
+def _nonempty(value: Any) -> bool:
+    """Return True if value is non-None, non-empty, and not the eggnog sentinel '-'."""
+    if value is None:
+        return False
+    if isinstance(value, str):
+        s = value.strip()
+        return bool(s) and s != "-"
+    if isinstance(value, (list, tuple)):
+        return any(_nonempty(v) for v in value)
+    return True
+
+
+def _split(value: str, delimiter: str) -> list[str]:
+    """Split string and strip whitespace; skip empty tokens and '-' sentinels.
+
+    For comma delimiter, uses smart splitting: does NOT split on ', ' (comma
+    followed by space). This correctly handles URL-decoded Cyanorak GFF values
+    where internal commas are encoded as %2C, so after decoding they appear as
+    ', ' while list separators remain plain ','.
+    """
+    if not isinstance(value, str) or not value.strip():
+        return []
+    if delimiter == ",":
+        # Smart comma: only split on ',' NOT followed by space
+        parts = re.split(r",(?! )", value)
+    else:
+        parts = value.split(delimiter)
+    return [v.strip() for v in parts if v.strip() and v.strip() != "-"]
+
+
+def _coerce_to_tokens(raw: Any, delimiter: str) -> list[str]:
+    """Convert a raw value (str or list) to a flat list of non-empty string tokens."""
+    if isinstance(raw, list):
+        tokens = []
+        for item in raw:
+            if _nonempty(item):
+                tokens.append(str(item).strip())
+        return tokens
+    if isinstance(raw, str):
+        return _split(raw, delimiter)
+    return []
+
+
+# ─── named transforms ─────────────────────────────────────────────────────────
+
+def _tx_first_token_space(value: str) -> str:
+    """Return first whitespace-separated token: 'dnaN rps3' → 'dnaN'."""
+    if not isinstance(value, str) or not value.strip():
+        return ""
+    return value.strip().split()[0]
+
+
+def _tx_add_go_prefix(value: str) -> str:
+    """Prepend 'GO:' to bare 7-digit numeric IDs: '0009360' → 'GO:0009360'.
+    If already 'GO:...' return as-is.
+    """
+    s = str(value).strip()
+    if not s or s == "-":
+        return ""
+    if s.startswith("GO:"):
+        return s
+    if re.match(r"^\d{7}$", s):
+        return f"GO:{s}"
+    return s  # leave non-GO ontology terms unchanged
+
+
+def _tx_strip_function_prefix(value: str) -> str:
+    """Strip 'FUNCTION: ' prefix from UniProt cc_function text."""
+    if not isinstance(value, str):
+        return ""
+    return re.sub(r"^FUNCTION:\s*", "", value.strip(), flags=re.IGNORECASE)
+
+
+def _tx_strip_prefix_ko(value: str) -> str:
+    """Strip 'ko:' prefix from KEGG KO IDs: 'ko:K02710' → 'K02710'."""
+    return re.sub(r"^ko:", "", str(value).strip(), flags=re.IGNORECASE)
+
+
+def _tx_extract_go_from_pipe(value: str) -> str:
+    """Extract GO ID from 'term_name|NNNNNNN||evidence' format.
+
+    'DNA replication|0006260||IEA' → 'GO:0006260'
+    Falls back to _tx_add_go_prefix if no pipe found.
+    """
+    s = str(value).strip()
+    if not s or s == "-":
+        return ""
+    if "|" in s:
+        parts = s.split("|")
+        goid_candidate = parts[1].strip()
+        if re.match(r"^\d{7}$", goid_candidate):
+            return f"GO:{goid_candidate}"
+    # Already GO: prefixed or bare digit?
+    return _tx_add_go_prefix(s)
+
+
+def _tx_extract_pfam_ids(value: str) -> list[str]:
+    """Keep only PF* tokens from a comma-separated domain list.
+
+    'TIGR00663,PF00712,IPR022634' → ['PF00712']
+    """
+    if not isinstance(value, str):
+        return []
+    return [v.strip() for v in value.split(",")
+            if v.strip().startswith("PF")]
+
+
+# Map from YAML transform name → function
+_TRANSFORMS: dict[str, Any] = {
+    "first_token_space": _tx_first_token_space,
+    "add_go_prefix": _tx_add_go_prefix,
+    "strip_function_prefix": _tx_strip_function_prefix,
+    "strip_prefix_ko": _tx_strip_prefix_ko,
+    "extract_go_from_pipe": _tx_extract_go_from_pipe,
+    "extract_pfam_ids": _tx_extract_pfam_ids,
+}
+
+
+# ─── data loaders ─────────────────────────────────────────────────────────────
+
+def load_gene_mapping(data_dir: str) -> dict[str, dict]:
+    """Load gene_mapping.csv → {locus_tag: {col: value}}."""
+    path = os.path.join(data_dir, "gene_mapping.csv")
+    if not os.path.exists(path):
+        raise FileNotFoundError(f"gene_mapping.csv not found: {path}")
+    result: dict[str, dict] = {}
+    with open(path, newline="") as f:
+        for row in csv.DictReader(f):
+            lt = (row.get("locus_tag") or "").strip()
+            if lt:
+                result[lt] = dict(row)
+    return result
+
+
+def load_eggnog(data_dir: str, strain_name: str) -> dict[str, dict]:
+    """Load .emapper.annotations → {query_wp_id: {col: value}}.
+
+    Skips '##' comment lines; strips leading '#' from column names.
+    """
+    path = os.path.join(data_dir, "eggnog", f"{strain_name}.emapper.annotations")
+    if not os.path.exists(path):
+        return {}
+    result: dict[str, dict] = {}
+    with open(path, newline="") as f:
+        lines = (line for line in f if not line.startswith("##"))
+        reader = csv.DictReader(lines, delimiter="\t")
+        for row in reader:
+            # Strip '#' prefix from '#query' column name
+            clean_row = {k.lstrip("#"): v for k, v in row.items()}
+            query = clean_row.get("query", "").strip()
+            if query and query != "-":
+                result[query] = clean_row
+    return result
+
+
+def load_uniprot(
+    data_dir: str,
+    ncbi_taxon_id: int | None,
+    organism_group: str,
+) -> dict[str, dict]:
+    """Load uniprot_preprocess_data.json → {refseq_wp_id: {field: value}}.
+
+    The JSON is column-oriented: data[field_name][uniprot_id] = value.
+    Pivots to row-oriented, then re-indexes by xref_refseq (WP_ accession).
+    Tries taxid-keyed cache path first; falls back to project root.
+    """
+    candidates: list[str] = []
+    if ncbi_taxon_id:
+        candidates.append(str(
+            PROJECT_ROOT / "cache" / "data" / organism_group
+            / "uniprot" / str(ncbi_taxon_id) / "uniprot_preprocess_data.json"
+        ))
+    candidates.append(str(PROJECT_ROOT / "uniprot_preprocess_data.json"))
+
+    path = next((c for c in candidates if os.path.exists(c)), None)
+    if path is None:
+        print(f"  [uniprot] No data found (tried {candidates[0]})")
+        return {}
+
+    with open(path) as f:
+        col_data: dict[str, dict] = json.load(f)
+
+    # Gather all uniprot IDs
+    all_ids: set[str] = set()
+    for col_values in col_data.values():
+        if isinstance(col_values, dict):
+            all_ids.update(col_values.keys())
+
+    # Build row-oriented dict
+    rows: dict[str, dict] = {uid: {} for uid in all_ids}
+    for field, col_values in col_data.items():
+        if isinstance(col_values, dict):
+            for uid, val in col_values.items():
+                rows[uid][field] = val
+
+    # Re-index by RefSeq accession (xref_refseq → protein_id in gene_mapping)
+    result: dict[str, dict] = {}
+    for uid, row in rows.items():
+        refseq_raw = row.get("xref_refseq")
+        if not refseq_raw:
+            continue
+        # Can be a string or list
+        if isinstance(refseq_raw, list):
+            refseq_ids = refseq_raw
+        else:
+            # Semicolons or spaces used as separators in some entries
+            refseq_ids = re.split(r"[;\s]+", str(refseq_raw).strip())
+        for rs_id in refseq_ids:
+            rs_id = rs_id.strip()
+            if rs_id and rs_id != "-":
+                result[rs_id] = row
+
+    return result
+
+
+def infer_organism_group(data_dir: str) -> str:
+    """Infer organism group from data_dir path.
+
+    'cache/data/Prochlorococcus/genomes/MED4/' → 'Prochlorococcus'
+    """
+    parts = Path(data_dir).parts
+    for i, part in enumerate(parts):
+        if part == "data" and i + 1 < len(parts):
+            return parts[i + 1]
+    return "Prochlorococcus"
+
+
+# ─── annotation builder ───────────────────────────────────────────────────────
+
+class AnnotationBuilder:
+    """Applies merge rules from config YAML to produce wide + merged dicts."""
+
+    def __init__(self, config: dict):
+        self.field_configs: dict[str, dict] = config.get("fields", {})
+
+    # ── raw value fetcher ──────────────────────────────────────────────────────
+
+    def _get_raw(
+        self,
+        src_cfg: dict,
+        gm: dict,
+        eg: dict,
+        up: dict,
+    ) -> Any:
+        """Fetch raw value from source row according to src_cfg spec."""
+        source = src_cfg.get("source", "")
+        field = src_cfg.get("field", "")
+
+        if source == "gene_mapping":
+            raw = gm.get(field)
+        elif source == "eggnog":
+            raw = eg.get(field)
+        elif source == "uniprot":
+            raw = up.get(field)
+        else:
+            return None
+
+        # URL-decode string values (gene_mapping uses URL encoding)
+        if isinstance(raw, str):
+            raw = unquote(raw.strip())
+
+        if not _nonempty(raw):
+            return None
+
+        return raw
+
+    # ── apply transform to a single value ─────────────────────────────────────
+
+    def _apply_transform(self, transform: str | None, value: Any) -> Any:
+        """Apply a named transform to a value; returns empty string on failure."""
+        if not transform or transform not in _TRANSFORMS:
+            return value
+        fn = _TRANSFORMS[transform]
+        if isinstance(value, list):
+            return [fn(v) for v in value if _nonempty(v)]
+        return fn(value)
+
+    # ── resolver: passthrough ──────────────────────────────────────────────────
+
+    def _resolve_passthrough(
+        self, fconf: dict, gm: dict, eg: dict, up: dict
+    ) -> Any:
+        raw = self._get_raw(fconf, gm, eg, up)
+        if not _nonempty(raw):
+            return None
+        transform = fconf.get("transform")
+        if transform:
+            raw = self._apply_transform(transform, raw)
+        return raw if _nonempty(raw) else None
+
+    # ── resolver: passthrough_list ─────────────────────────────────────────────
+
+    def _resolve_passthrough_list(
+        self, fconf: dict, gm: dict, eg: dict, up: dict
+    ) -> list[str] | None:
+        raw = self._get_raw(fconf, gm, eg, up)
+        if not _nonempty(raw):
+            return None
+        delimiter = fconf.get("delimiter", ",")
+        tokens = _coerce_to_tokens(raw, delimiter)
+        return tokens if tokens else None
+
+    # ── resolver: single ──────────────────────────────────────────────────────
+
+    def _resolve_single(
+        self,
+        fconf: dict,
+        gm: dict,
+        eg: dict,
+        up: dict,
+        source_tracking: dict,
+    ) -> Any:
+        """First non-empty candidate wins; record source if track_source set.
+
+        Candidates may have an optional ``source_label`` key to override the
+        recorded provenance string (e.g. 'cyanorak' instead of 'gene_mapping').
+        """
+        track_key = fconf.get("track_source")
+        for cand in fconf.get("candidates", []):
+            raw = self._get_raw(cand, gm, eg, up)
+            if not _nonempty(raw):
+                continue
+            transform = cand.get("transform")
+            if transform == "first_token_space":
+                # Handle list: take first element, then first token
+                if isinstance(raw, list):
+                    raw = raw[0] if raw else ""
+                val = _tx_first_token_space(str(raw))
+            elif transform == "strip_function_prefix":
+                val = _tx_strip_function_prefix(
+                    raw[0] if isinstance(raw, list) else str(raw)
+                )
+            elif transform:
+                val = self._apply_transform(transform, raw)
+            else:
+                # Lists: join with space for display, or take first
+                if isinstance(raw, list):
+                    val = raw[0] if raw else ""
+                else:
+                    val = raw
+            if _nonempty(val):
+                if track_key:
+                    # Use source_label if set, otherwise fall back to source name
+                    source_tracking[track_key] = cand.get("source_label", cand["source"])
+                return val
+        return None
+
+    # ── resolver: union ────────────────────────────────────────────────────────
+
+    def _resolve_union(
+        self, fconf: dict, gm: dict, eg: dict, up: dict
+    ) -> list[str] | None:
+        """Merge tokens from all sources, deduplicate, apply global filter."""
+        global_filter = fconf.get("filter")
+        global_filter_not = fconf.get("filter_not")
+        seen: dict[str, None] = {}  # ordered set
+
+        for src_cfg in fconf.get("sources", []):
+            raw = self._get_raw(src_cfg, gm, eg, up)
+            if not _nonempty(raw):
+                continue
+
+            delimiter = src_cfg.get("delimiter", ",")
+            transform = src_cfg.get("transform")
+
+            # Special-case transforms that produce lists from a string
+            if transform == "extract_pfam_ids":
+                if isinstance(raw, list):
+                    tokens = raw
+                else:
+                    tokens = _tx_extract_pfam_ids(str(raw))
+            elif transform == "extract_go_from_pipe":
+                base_tokens = _coerce_to_tokens(raw, delimiter)
+                tokens = [_tx_extract_go_from_pipe(t) for t in base_tokens]
+            elif transform:
+                base_tokens = _coerce_to_tokens(raw, delimiter)
+                fn = _TRANSFORMS.get(transform)
+                tokens = [fn(t) for t in base_tokens] if fn else base_tokens
+            else:
+                tokens = _coerce_to_tokens(raw, delimiter)
+
+            for tok in tokens:
+                tok = str(tok).strip()
+                if not tok or tok == "-":
+                    continue
+                if global_filter and not re.match(global_filter, tok):
+                    continue
+                if global_filter_not and re.match(global_filter_not, tok):
+                    continue
+                seen[tok] = None
+
+        result = list(seen.keys())
+        return result if result else None
+
+    # ── resolver: integer / float ──────────────────────────────────────────────
+
+    def _resolve_integer(
+        self, fconf: dict, gm: dict, eg: dict, up: dict
+    ) -> int | None:
+        raw = self._get_raw(fconf, gm, eg, up)
+        if raw is None:
+            return None
+        try:
+            return int(float(str(raw).strip()))
+        except (ValueError, TypeError):
+            return None
+
+    def _resolve_float(
+        self, fconf: dict, gm: dict, eg: dict, up: dict
+    ) -> float | None:
+        raw = self._get_raw(fconf, gm, eg, up)
+        if raw is None:
+            return None
+        try:
+            return float(str(raw).strip())
+        except (ValueError, TypeError):
+            return None
+
+    # ── build wide ────────────────────────────────────────────────────────────
+
+    def build_wide(
+        self,
+        gm: dict,
+        eg: dict,
+        up: dict,
+    ) -> dict:
+        """All source fields, source-prefixed — full audit trail."""
+        wide: dict[str, Any] = {}
+        for k, v in gm.items():
+            if _nonempty(v):
+                wide[f"gene_mapping_{k}"] = v
+        for k, v in eg.items():
+            if _nonempty(v):
+                wide[f"eggnog_{k}"] = v
+        for k, v in up.items():
+            if _nonempty(v):
+                wide[f"uniprot_{k}"] = v
+        return wide
+
+    # ── build merged ──────────────────────────────────────────────────────────
+
+    def build_merged(
+        self,
+        gm: dict,
+        eg: dict,
+        up: dict,
+    ) -> dict:
+        """Apply merge rules → canonical field set."""
+        result: dict[str, Any] = {}
+        source_tracking: dict[str, str] = {}
+
+        for canonical_field, fconf in self.field_configs.items():
+            ftype = fconf.get("type", "passthrough")
+
+            if ftype == "single":
+                val = self._resolve_single(fconf, gm, eg, up, source_tracking)
+            elif ftype == "union":
+                val = self._resolve_union(fconf, gm, eg, up)
+            elif ftype == "passthrough":
+                val = self._resolve_passthrough(fconf, gm, eg, up)
+            elif ftype == "passthrough_list":
+                val = self._resolve_passthrough_list(fconf, gm, eg, up)
+            elif ftype == "integer":
+                val = self._resolve_integer(fconf, gm, eg, up)
+            elif ftype == "float":
+                val = self._resolve_float(fconf, gm, eg, up)
+            else:
+                continue
+
+            if _nonempty(val):
+                result[canonical_field] = val
+
+        # Remove canonical gene_name from gene_synonyms to avoid duplication
+        gene_name = result.get("gene_name", "")
+        if gene_name and "gene_synonyms" in result:
+            synonyms = [s for s in result["gene_synonyms"] if s != gene_name]
+            if synonyms:
+                result["gene_synonyms"] = synonyms
+            else:
+                del result["gene_synonyms"]
+
+        # Add source-tracking fields collected during 'single' resolution
+        result.update(source_tracking)
+
+        # Compute annotation_quality (0–3)
+        is_reviewed = str(up.get("reviewed", "")).strip().lower() == "reviewed"
+        has_cyanorak_product = _nonempty(gm.get("product_cyanorak"))
+        has_ncbi_product = _nonempty(gm.get("product"))
+        has_eggnog = bool(eg)
+
+        if is_reviewed:
+            quality = 3
+        elif has_cyanorak_product or has_ncbi_product:
+            quality = 2
+        elif has_eggnog:
+            quality = 1
+        else:
+            quality = 0
+        result["annotation_quality"] = quality
+
+        return result
+
+
+# ─── per-strain pipeline ──────────────────────────────────────────────────────
+
+def process_strain(
+    row: dict,
+    config: dict,
+    force: bool = False,
+) -> None:
+    strain_name = row["strain_name"]
+    data_dir = row["data_dir"].rstrip("/")
+    taxon_id_str = (row.get("ncbi_taxon_id") or "").strip()
+    ncbi_taxon_id = int(taxon_id_str) if taxon_id_str else None
+    organism_group = infer_organism_group(data_dir)
+
+    wide_path = os.path.join(data_dir, "gene_annotations_wide.json")
+    merged_path = os.path.join(data_dir, "gene_annotations_merged.json")
+
+    if not force and os.path.exists(merged_path):
+        print(f"[{strain_name}] Skipping (already exists). Use --force to rebuild.")
+        return
+
+    print(f"\n[{strain_name}] Loading sources...")
+
+    gm_data = load_gene_mapping(data_dir)
+    eg_data = load_eggnog(data_dir, strain_name)
+    up_data: dict[str, dict] = {}
+    if ncbi_taxon_id:
+        up_data = load_uniprot(data_dir, ncbi_taxon_id, organism_group)
+
+    print(f"  gene_mapping : {len(gm_data):>5} genes")
+    print(f"  eggnog       : {len(eg_data):>5} entries")
+    print(f"  uniprot      : {len(up_data):>5} entries (keyed by RefSeq)")
+
+    builder = AnnotationBuilder(config)
+
+    wide_out: dict[str, dict] = {}
+    merged_out: dict[str, dict] = {}
+
+    stats = dict(total=0, eggnog_hit=0, uniprot_hit=0,
+                 has_product=0, has_go=0, has_cog=0, has_kegg_ko=0,
+                 quality_0=0, quality_1=0, quality_2=0, quality_3=0)
+
+    for locus_tag, gm_row in gm_data.items():
+        protein_id = (gm_row.get("protein_id") or "").strip()
+        eg_row = eg_data.get(protein_id, {})
+        up_row = up_data.get(protein_id, {})
+
+        stats["total"] += 1
+        if eg_row:
+            stats["eggnog_hit"] += 1
+        if up_row:
+            stats["uniprot_hit"] += 1
+
+        wide_out[locus_tag] = builder.build_wide(gm_row, eg_row, up_row)
+        merged = builder.build_merged(gm_row, eg_row, up_row)
+        merged_out[locus_tag] = merged
+
+        if merged.get("product"):
+            stats["has_product"] += 1
+        if merged.get("go_terms"):
+            stats["has_go"] += 1
+        if merged.get("cog_category"):
+            stats["has_cog"] += 1
+        if merged.get("kegg_ko"):
+            stats["has_kegg_ko"] += 1
+        q = merged.get("annotation_quality", 0)
+        stats[f"quality_{q}"] += 1
+
+    with open(wide_path, "w") as f:
+        json.dump(wide_out, f, indent=2)
+    print(f"  → {wide_path}")
+
+    with open(merged_path, "w") as f:
+        json.dump(merged_out, f, indent=2)
+    print(f"  → {merged_path}")
+
+    # Coverage report
+    n = stats["total"] or 1
+    pct = lambda k: f"{100 * stats[k] // n}%"
+    print(f"\n  === {strain_name} coverage ===")
+    print(f"  Genes:          {stats['total']}")
+    print(f"  EggNOG matched: {stats['eggnog_hit']} ({pct('eggnog_hit')})")
+    print(f"  UniProt matched:{stats['uniprot_hit']} ({pct('uniprot_hit')})")
+    print(f"  Has product:    {stats['has_product']} ({pct('has_product')})")
+    print(f"  Has GO terms:   {stats['has_go']} ({pct('has_go')})")
+    print(f"  Has COG:        {stats['has_cog']} ({pct('has_cog')})")
+    print(f"  Has KEGG KO:    {stats['has_kegg_ko']} ({pct('has_kegg_ko')})")
+    print(f"  Quality 0/1/2/3: "
+          f"{stats['quality_0']}/{stats['quality_1']}/"
+          f"{stats['quality_2']}/{stats['quality_3']}")
+
+
+# ─── main ─────────────────────────────────────────────────────────────────────
+
+def main() -> None:
+    parser = argparse.ArgumentParser(
+        description="Build gene annotation tables by merging NCBI/Cyanorak, EggNOG, and UniProt."
+    )
+    parser.add_argument(
+        "--strains", nargs="+", metavar="STRAIN",
+        help="Only process these strains (default: all)",
+    )
+    parser.add_argument(
+        "--force", action="store_true",
+        help="Overwrite existing output files",
+    )
+    parser.add_argument(
+        "--config", default=str(DEFAULT_CONFIG),
+        metavar="PATH",
+        help=f"YAML config path (default: {DEFAULT_CONFIG})",
+    )
+    parser.add_argument(
+        "--llm-summary", action="store_true",
+        help="Generate LLM summaries per gene (Step 1C — not yet implemented)",
+    )
+    args = parser.parse_args()
+
+    if not os.path.exists(args.config):
+        print(f"Error: config not found: {args.config}", file=sys.stderr)
+        sys.exit(1)
+
+    with open(args.config) as f:
+        config = yaml.safe_load(f)
+
+    # Load genome list (skip comment lines)
+    rows: list[dict] = []
+    with open(GENOMES_CSV, newline="") as f:
+        reader = csv.DictReader(
+            (line for line in f if not line.strip().startswith("#"))
+        )
+        for row in reader:
+            if row.get("strain_name") and row.get("data_dir"):
+                rows.append(row)
+
+    if args.strains:
+        rows = [r for r in rows if r["strain_name"] in args.strains]
+        if not rows:
+            print(f"Error: no strains matched {args.strains}", file=sys.stderr)
+            sys.exit(1)
+
+    print(f"Processing {len(rows)} strain(s) with config: {args.config}")
+    for row in rows:
+        process_strain(row, config, force=args.force)
+
+    if args.llm_summary:
+        print("\nLLM summary generation (Step 1C) not yet implemented.")
+
+
+if __name__ == "__main__":
+    main()

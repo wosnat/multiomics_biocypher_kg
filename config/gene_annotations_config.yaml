@@ -1,0 +1,463 @@
+# Gene Annotation Merge Configuration
+# Used by scripts/build_gene_annotations.py
+#
+# Sources: gene_mapping (NCBI+Cyanorak merged CSV), eggnog (emapper.annotations),
+#          uniprot (column-oriented JSON)
+#
+# Field types:
+#   passthrough       - copy single value as-is from one source
+#   passthrough_list  - split string into list, or pass list as-is
+#   single            - first non-empty value across candidates (priority order)
+#   union             - merge and deduplicate tokens from all sources
+#   integer           - cast to int
+#   float             - cast to float
+#
+# Transforms (applied per-token):
+#   first_token_space     - take first whitespace-separated token
+#   add_go_prefix         - prepend "GO:" to bare 7-digit IDs
+#   strip_function_prefix - strip "FUNCTION: " prefix from UniProt cc_function
+#   strip_prefix_ko       - strip "ko:" prefix from KEGG_ko entries
+#   extract_go_from_pipe  - extract GO ID from "term_name|NNNNNNN||evidence" format
+#   extract_pfam_ids      - keep only PF* tokens from a comma-sep domain list
+
+# ─── Source definitions ───────────────────────────────────────────────────────
+sources:
+
+  gene_mapping:
+    type: csv
+    # Path built from data_dir (from cyanobacteria_genomes.csv)
+    path_pattern: "{data_dir}/gene_mapping.csv"
+    index_col: locus_tag
+    description: "NCBI + Cyanorak merged gene annotations (38 cols)"
+
+  eggnog:
+    type: tsv_hash_header
+    # Header line starts with "#query"; comment lines start with "##"
+    path_pattern: "{data_dir}/eggnog/{strain_name}.emapper.annotations"
+    # Join key: gene_mapping.protein_id == eggnog.query (both RefSeq WP_ accessions)
+    join_to: protein_id
+    description: "EggNOG-mapper v2 functional annotations"
+
+  uniprot:
+    type: json_columnar
+    # Column-oriented dict: data[field_name][uniprot_id] = value
+    # Try taxid-keyed path first (from Step 0 pipeline), fall back to project root
+    path_candidates:
+      - "cache/data/{organism_group}/uniprot/{ncbi_taxon_id}/uniprot_preprocess_data.json"
+      - "uniprot_preprocess_data.json"
+    # Pivot key: xref_refseq used to index uniprot rows by RefSeq protein_id
+    pivot_on: xref_refseq
+    # Join key: gene_mapping.protein_id == uniprot.xref_refseq (WP_ accessions)
+    join_to: protein_id
+    description: "UniProt proteins (reviewed + unreviewed)"
+
+
+# ─── Field merge rules ────────────────────────────────────────────────────────
+# Null / empty / "-" values are skipped automatically.
+# Sparse output: fields with no value are omitted from the merged JSON.
+fields:
+
+  # ── Identity & locus ────────────────────────────────────────────────────────
+
+  locus_tag:
+    type: passthrough
+    source: gene_mapping
+    field: locus_tag
+
+  locus_tag_ncbi:
+    type: passthrough
+    source: gene_mapping
+    field: locus_tag_ncbi
+
+  locus_tag_cyanorak:
+    # Fixes the "locus_tag_cyanoak" typo present in gene_mapping.csv
+    type: passthrough
+    source: gene_mapping
+    field: locus_tag_cyanoak
+
+  protein_id:
+    type: passthrough
+    source: gene_mapping
+    field: protein_id
+
+  old_locus_tags:
+    type: passthrough_list
+    source: gene_mapping
+    field: old_locus_tags
+    delimiter: ","
+
+  # ── Genomic location ────────────────────────────────────────────────────────
+
+  start:
+    type: integer
+    source: gene_mapping
+    field: start
+
+  end:
+    type: integer
+    source: gene_mapping
+    field: end
+
+  strand:
+    type: passthrough
+    source: gene_mapping
+    field: strand
+
+  start_cyanorak:
+    type: integer
+    source: gene_mapping
+    field: start_cyanorak
+
+  end_cyanorak:
+    type: integer
+    source: gene_mapping
+    field: end_cyanorak
+
+  strand_cyanorak:
+    type: passthrough
+    source: gene_mapping
+    field: strand_cyanorak
+
+  # ── Gene naming (Cyanorak > UniProt > NCBI > EggNOG) ────────────────────────
+
+  gene_name:
+    type: single
+    track_source: gene_name_source
+    candidates:
+      - source: gene_mapping
+        field: gene_names_cyanorak
+        transform: first_token_space
+        source_label: cyanorak
+      - source: uniprot
+        field: gene_primary
+        source_label: uniprot
+      - source: gene_mapping
+        field: gene_names
+        transform: first_token_space
+        source_label: ncbi
+      - source: eggnog
+        field: Preferred_name
+        source_label: eggnog
+
+  gene_synonyms:
+    # UNION of all alternative names; canonical gene_name is excluded
+    type: union
+    delimiter: " "
+    exclude_from: gene_name
+    sources:
+      - source: gene_mapping
+        field: gene_names_cyanorak
+      - source: gene_mapping
+        field: gene_names
+      - source: uniprot
+        field: gene_names
+
+  # ── Functional description (Cyanorak > NCBI > EggNOG for product;
+  #                            UniProt > EggNOG for function_description) ──────
+
+  product:
+    type: single
+    track_source: product_source
+    candidates:
+      - source: gene_mapping
+        field: product_cyanorak
+        source_label: cyanorak
+      - source: gene_mapping
+        field: product
+        source_label: ncbi
+      - source: eggnog
+        field: Description
+        source_label: eggnog
+
+  product_cyanorak:
+    # Keep source-specific field for provenance
+    type: passthrough
+    source: gene_mapping
+    field: product_cyanorak
+
+  function_description:
+    type: single
+    track_source: function_description_source
+    candidates:
+      - source: uniprot
+        field: cc_function
+        transform: strip_function_prefix
+        source_label: uniprot
+      - source: eggnog
+        field: Description
+        source_label: eggnog
+
+  # ── Categorical functional roles ─────────────────────────────────────────────
+
+  cyanorak_Role:
+    type: passthrough_list
+    source: gene_mapping
+    field: cyanorak_Role
+    delimiter: ","
+
+  cyanorak_Role_description:
+    type: passthrough_list
+    source: gene_mapping
+    field: cyanorak_Role_description
+    delimiter: ","
+
+  tIGR_Role:
+    type: passthrough_list
+    source: gene_mapping
+    field: tIGR_Role
+    delimiter: ","
+
+  tIGR_Role_description:
+    type: passthrough_list
+    source: gene_mapping
+    field: tIGR_Role_description
+    delimiter: ","
+
+  cog_category:
+    type: passthrough
+    source: eggnog
+    field: COG_category
+
+  protein_family:
+    type: passthrough
+    source: uniprot
+    field: protein_families
+
+  # ── Cyanorak cluster ─────────────────────────────────────────────────────────
+
+  cluster_number:
+    type: passthrough
+    source: gene_mapping
+    field: cluster_number
+
+  # ── Gene Ontology (UniProt > NCBI/Cyanorak > EggNOG) ─────────────────────────
+  # All namespaces merged into one array; filter keeps only GO: terms.
+  # NOTE: UniProt go_*_id values are bare 7-digit strings (add_go_prefix needed).
+
+  go_terms:
+    type: union
+    filter: "^GO:"
+    track_source: go_terms_source
+    sources:
+      - source: uniprot
+        field: go_c_id
+        transform: add_go_prefix
+      - source: uniprot
+        field: go_p_id
+        transform: add_go_prefix
+      - source: uniprot
+        field: go_f_id
+        transform: add_go_prefix
+      - source: gene_mapping
+        field: go_component
+        delimiter: ","
+        transform: extract_go_from_pipe
+      - source: gene_mapping
+        field: go_function
+        delimiter: ","
+        transform: extract_go_from_pipe
+      - source: gene_mapping
+        field: go_process
+        delimiter: ","
+        transform: extract_go_from_pipe
+      - source: gene_mapping
+        field: Ontology_term_cyanorak
+        delimiter: ","
+      - source: eggnog
+        field: GOs
+        delimiter: ","
+
+  ontology_terms:
+    # Non-GO ontology terms (TIGR, IPR, etc.)
+    type: union
+    filter_not: "^GO:"
+    sources:
+      - source: gene_mapping
+        field: Ontology_term_ncbi
+        delimiter: ","
+      - source: gene_mapping
+        field: Ontology_term_cyanorak
+        delimiter: ","
+
+  go_term_descriptions:
+    # Plan says rename ontology_term_description → go_term_descriptions (Step 2F)
+    type: passthrough
+    source: gene_mapping
+    field: ontology_term_description
+
+  # ── EC Numbers ────────────────────────────────────────────────────────────────
+  # NOTE: gene_mapping.kegg field contains EC numbers (not KEGG KO IDs)
+  #       despite its name — this is a Cyanorak naming convention.
+
+  ec_numbers:
+    type: union
+    sources:
+      - source: gene_mapping
+        field: ec_numbers
+        delimiter: ","
+      - source: gene_mapping
+        field: kegg           # Cyanorak "kegg" field actually stores EC numbers
+        delimiter: ","
+      - source: uniprot
+        field: ec
+        delimiter: ";"
+      - source: eggnog
+        field: EC
+        delimiter: ","
+
+  # ── KEGG ──────────────────────────────────────────────────────────────────────
+
+  kegg_ko:
+    # NOTE: gene_mapping.kegg excluded (contains EC numbers, not KO IDs)
+    type: union
+    sources:
+      - source: eggnog
+        field: KEGG_ko
+        delimiter: ","
+        transform: strip_prefix_ko
+
+  kegg_ko_descriptions:
+    # NOTE: gene_mapping.kegg_description contains descriptions associated with the
+    # Cyanorak "kegg" field (which stores EC numbers, not KO IDs). No true KO
+    # description source is available; this field captures whatever descriptions
+    # gene_mapping provides under that column.
+    type: passthrough_list
+    source: gene_mapping
+    field: kegg_description
+    delimiter: ","
+
+  kegg_pathway:
+    type: union
+    sources:
+      - source: eggnog
+        field: KEGG_Pathway
+        delimiter: ","
+
+  kegg_module:
+    type: union
+    sources:
+      - source: eggnog
+        field: KEGG_Module
+        delimiter: ","
+
+  kegg_reaction:
+    type: union
+    sources:
+      - source: eggnog
+        field: KEGG_Reaction
+        delimiter: ","
+
+  kegg_brite:
+    type: union
+    sources:
+      - source: eggnog
+        field: BRITE
+        delimiter: ","
+
+  transporter_classification:
+    type: union
+    sources:
+      - source: eggnog
+        field: KEGG_TC
+        delimiter: ","
+
+  bigg_reaction:
+    type: union
+    sources:
+      - source: eggnog
+        field: BiGG_Reaction
+        delimiter: ","
+
+  # ── EggNOG orthology ──────────────────────────────────────────────────────────
+
+  eggnog_ogs:
+    type: union
+    sources:
+      - source: gene_mapping
+        field: eggNOG
+        delimiter: ","
+      - source: eggnog
+        field: eggNOG_OGs
+        delimiter: ","
+
+  eggnog_og_descriptions:
+    type: union
+    sources:
+      - source: gene_mapping
+        field: eggNOG_description
+        delimiter: ","
+
+  seed_ortholog:
+    type: passthrough
+    source: eggnog
+    field: seed_ortholog
+
+  max_annot_lvl:
+    type: passthrough
+    source: eggnog
+    field: max_annot_lvl
+
+  seed_ortholog_evalue:
+    type: float
+    source: eggnog
+    field: evalue
+
+  # ── PFAMs ────────────────────────────────────────────────────────────────────
+
+  pfam_ids:
+    type: union
+    sources:
+      - source: gene_mapping
+        field: protein_domains
+        delimiter: ","
+        transform: extract_pfam_ids  # keeps only PF* tokens
+      - source: uniprot
+        field: xref_pfam
+        delimiter: ";"
+      - source: eggnog
+        field: PFAMs
+        delimiter: ","
+
+  pfam_descriptions:
+    type: union
+    sources:
+      - source: gene_mapping
+        field: protein_domains_description
+        delimiter: ","
+
+  # ── CAZy ────────────────────────────────────────────────────────────────────
+
+  cazy_ids:
+    type: union
+    sources:
+      - source: eggnog
+        field: CAZy
+        delimiter: ","
+
+  # ── Protein properties denormalized from UniProt ──────────────────────────────
+  # Keeps these queryable directly on Gene nodes without requiring a protein join.
+
+  catalytic_activity:
+    type: passthrough
+    source: uniprot
+    field: cc_catalytic_activity
+
+  subcellular_location:
+    type: passthrough
+    source: uniprot
+    field: subcellular_location
+
+  transmembrane_regions:
+    type: passthrough
+    source: uniprot
+    field: ft_transmem
+
+  signal_peptide:
+    type: passthrough
+    source: uniprot
+    field: ft_signal
+
+  # ── Provenance / quality ───────────────────────────────────────────────────
+  # NOTE: annotation_quality (0=none, 1=eggnog-only, 2=NCBI/Cyanorak, 3=UniProt reviewed)
+  # is COMPUTED in build_gene_annotations.py, not derived from a source field.
+  # It is written directly into gene_annotations_merged.json by the script.
