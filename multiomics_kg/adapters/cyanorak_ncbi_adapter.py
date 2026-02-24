@@ -134,6 +134,7 @@ class GeneNodeField(Enum, metaclass=GeneEnumMeta):
     OLD_LOCUS_TAGS = 'old_locus_tags'
     PROTEIN_DOMAINS = 'protein_domains'
     PROTEIN_DOMAINS_DESCRIPTION = 'protein_domains_description'
+    EC_NUMBERS = 'ec_numbers'
 
 
     @classmethod
@@ -222,6 +223,8 @@ class CyanorakNcbi:
         self.ncbi_taxon_id = ncbi_taxon_id
         self.clade = clade
         self.taxonomy = {}  # populated by download_data()
+        self.ncbi_protein_fasta_file = None  # populated by _download_ncbi_genome()
+        self.ncbi_gbff_file = None           # populated by _download_ncbi_genome()
 
         # no need becuase we are not creating protein to ec edges here
         # if model["organism"] in ("*", None):
@@ -244,17 +247,33 @@ class CyanorakNcbi:
             self.early_stopping = 100
 
     def _download_ncbi_genome(self) -> str:
-        """Download NCBI genome zip and extract GFF using pypath Curl."""
+        """Download NCBI genome zip and extract GFF, protein FASTA, and GBFF using pypath Curl.
+
+        Sets self.ncbi_protein_fasta_file and self.ncbi_gbff_file as side effects.
+
+        Returns:
+            Path to the saved genomic.gff file.
+        """
         gff_path = os.path.join(self.data_dir, "genomic.gff")
-        if os.path.exists(gff_path):
-            logger.info(f"NCBI GFF already exists at {gff_path}, skipping download")
+        prot_fasta_path = os.path.join(self.data_dir, "protein.faa")
+        gbff_path = os.path.join(self.data_dir, "genomic.gbff")
+
+        all_exist = all(os.path.exists(p) for p in [gff_path, prot_fasta_path, gbff_path])
+        if all_exist:
+            logger.info(
+                f"NCBI genome files already exist in {self.data_dir}, skipping download"
+            )
+            self.ncbi_protein_fasta_file = prot_fasta_path
+            self.ncbi_gbff_file = gbff_path
             return gff_path
+
         url = (
             f"https://api.ncbi.nlm.nih.gov/datasets/v2/genome/accession/"
             f"{self.ncbi_accession}/download"
             f"?include_annotation_type=GENOME_GFF"
             f"&include_annotation_type=GENOME_FASTA"
             f"&include_annotation_type=PROT_FASTA"
+            f"&include_annotation_type=GENOME_GBFF"
             f"&include_annotation_type=SEQUENCE_REPORT"
             f"&hydrated=FULLY_HYDRATED"
         )
@@ -268,19 +287,44 @@ class CyanorakNcbi:
             raise ConnectionError(
                 f"Failed to download NCBI genome for {self.ncbi_accession} from {url}"
             )
+
+        os.makedirs(self.data_dir, exist_ok=True)
+
         # c.result is a dict of {filename: content} for zip files
         gff_content = None
+        prot_fasta_content = None
+        gbff_content = None
         for name, content in c.result.items():
             if name.endswith('genomic.gff'):
                 gff_content = content
-                break
+            elif name.endswith('protein.faa'):
+                prot_fasta_content = content
+            elif name.endswith('genomic.gbff'):
+                gbff_content = content
+
         if gff_content is None:
             raise ValueError(f"No genomic.gff found in NCBI download for {self.ncbi_accession}")
 
-        os.makedirs(self.data_dir, exist_ok=True)
         with open(gff_path, 'w') as f:
             f.write(gff_content)
         logger.info(f"NCBI GFF saved to {gff_path}")
+
+        if prot_fasta_content is not None:
+            with open(prot_fasta_path, 'w') as f:
+                f.write(prot_fasta_content)
+            logger.info(f"NCBI protein FASTA saved to {prot_fasta_path}")
+            self.ncbi_protein_fasta_file = prot_fasta_path
+        else:
+            logger.warning(f"No protein.faa found in NCBI download for {self.ncbi_accession}")
+
+        if gbff_content is not None:
+            with open(gbff_path, 'w') as f:
+                f.write(gbff_content)
+            logger.info(f"NCBI GBFF saved to {gbff_path}")
+            self.ncbi_gbff_file = gbff_path
+        else:
+            logger.warning(f"No genomic.gbff found in NCBI download for {self.ncbi_accession}")
+
         return gff_path
 
     def _download_cyanorak_gff(self) -> str:
@@ -372,6 +416,16 @@ class CyanorakNcbi:
             self.data_df = self.load_gff_from_ncbi_only(
                 ncbi_gff_file=self.ncbi_gff_file,
             )
+
+        # Merge EC numbers from NCBI GBFF if available
+        if self.ncbi_gbff_file and os.path.exists(self.ncbi_gbff_file):
+            ec_map = self._get_ec_numbers_from_gbff(self.ncbi_gbff_file)
+            if ec_map and 'locus_tag_ncbi' in self.data_df.columns:
+                self.data_df['ec_numbers'] = self.data_df['locus_tag_ncbi'].apply(
+                    lambda lt: ','.join(ec_map[lt]) if pd.notna(lt) and lt in ec_map else None
+                )
+                n_with_ec = self.data_df['ec_numbers'].notna().sum()
+                logger.info(f"EC numbers merged: {n_with_ec} genes have at least one EC number")
 
         # Save mapping table to data_dir for use by the omics adapter
         mapping_dir = self.data_dir or os.path.dirname(self.ncbi_gff_file)
@@ -624,6 +678,7 @@ class CyanorakNcbi:
             'protein_domains', 'protein_domains_description',
             'tIGR_Role', 'tIGR_Role_description',
             'old_locus_tags', 'go_component', 'go_function', 'go_process',
+            'ec_numbers',
         ]
         pipe_split_cols = ['Ontology_term_ncbi']
 
@@ -666,6 +721,33 @@ class CyanorakNcbi:
         seq_records = [rec for rec in SeqIO.read(gbk_file, "genbank").features if rec.type in ["CDS"]]
         seq_records_map = {self._get_cynaorak_ID(rec) : locus_tag for rec in seq_records for locus_tag in rec.qualifiers['locus_tag']}
         return seq_records_map
+
+    def _get_ec_numbers_from_gbff(self, gbff_file: str) -> dict[str, list[str]]:
+        """Extract EC numbers from NCBI GBFF file, keyed by locus_tag.
+
+        Models after _get_cyanorak_id_map_from_gbk(). Uses SeqIO.parse() because
+        NCBI GBFF files contain multiple records (one per chromosome/plasmid).
+
+        Args:
+            gbff_file: Path to the NCBI genomic.gbff file.
+
+        Returns:
+            Dict mapping locus_tag -> list of EC number strings (e.g. ["1.1.1.1"]).
+        """
+        locus_tag_to_ec: dict[str, list[str]] = {}
+        for record in SeqIO.parse(gbff_file, "genbank"):
+            for feature in record.features:
+                if feature.type != "CDS":
+                    continue
+                ec_numbers = feature.qualifiers.get("EC_number", [])
+                if not ec_numbers:
+                    continue
+                for locus_tag in feature.qualifiers.get("locus_tag", []):
+                    if locus_tag in locus_tag_to_ec:
+                        locus_tag_to_ec[locus_tag].extend(ec_numbers)
+                    else:
+                        locus_tag_to_ec[locus_tag] = list(ec_numbers)
+        return locus_tag_to_ec
 
 
     def ncbi_merge_cds_and_gene_entries(self, ncbi_gff_df: pd.DataFrame) -> pd.DataFrame:

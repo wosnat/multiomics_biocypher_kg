@@ -466,5 +466,52 @@
       ],
       "publication_id": "10.1073/pnas.0601301103"
     }
+  },
+  "data/Prochlorococcus/papers_and_supp/Read 2017/41396_2017_article_bfismej201788.pdf": {
+    "publication": {
+      "title": "Nitrogen cost minimization is promoted by structural changes in the transcriptome of N-deprived Prochlorococcus cells",
+      "authors": [
+        "Robert W Read",
+        "Paul M Berube",
+        "Steven J Biller",
+        "Iva Neveux",
+        "Andres Cubillos-Ruiz",
+        "Sallie W Chisholm",
+        "Joseph J Grzymski"
+      ],
+      "journal": "The ISME Journal",
+      "publication_year": "2017",
+      "doi": "10.1038/ismej.2017.88",
+      "pmid": null,
+      "description": "The study investigates transcriptional cost minimization in Prochlorococcus MED4 by comparing transcription start sites (TSSs) under nitrogen-deprived and nitrogen-replete conditions, enabling assessment of transcript structure changes and potential nitrogen savings through shortened transcripts and altered codon usage.",
+      "abstract": "The authors compare primary transcriptomes of Prochlorococcus MED4 under nitrogen-deprived and nitrogen-replete conditions to test whether transcriptional regulation reduces cellular nitrogen budgets during N limitation. They map transcription start sites and find increased downstream initiation and internal TSS usage under N deprivation, yielding shortened transcripts with about 21% less nitrogen per encoded protein. They also observe elevated glycine\u2013glycine motifs, consistent with translational pausing and slower growth. Overall, the study reveals structural changes in the transcriptome during N deprivation that may further minimize cellular nitrogen requirements.",
+      "study_type": "Transcriptomics (transcription start site mapping)",
+      "organism": [
+        "Prochlorococcus MED4"
+      ],
+      "publication_id": "10.1038/ismej.2017.88"
+    }
+  },
+  "data/Prochlorococcus/papers_and_supp/Thompson 2016/thompson 2016 file.pdf": {
+    "publication": {
+      "title": "Gene Expression Patterns during Light and Dark Infection of Prochlorococcus by Cyanophage",
+      "authors": [
+        "Luke R. Thompson",
+        "Qinglu Zeng",
+        "Sallie W. Chisholm"
+      ],
+      "journal": "PLOS ONE",
+      "publication_year": "2016",
+      "doi": "10.1371/journal.pone.0165375",
+      "pmid": null,
+      "description": "Dual RNA-seq transcriptomics of cyanophage P-HM2 and its host Prochlorococcus MED4 during infection in the light and in the dark, to investigate host-phage metabolic interactions and the mode of photosynthetic electron flow.",
+      "abstract": "Cyanophage infection of marine cyanobacteria requires light and host photosystem activity. We sequenced transcriptomes of cyanophage P-HM2 and host Prochlorococcus MED4 during infection in the light and in the dark, analyzed in the context of phage replication and metabolite measurements, to evaluate whether cyclic or linear photosynthetic electron transport predominates and how NADPH and ATP are supplied for nucleotide biosynthesis.",
+      "study_type": "Transcriptomics (RNA-seq)",
+      "organism": [
+        "Prochlorococcus MED4",
+        "Cyanophage P-HM2"
+      ],
+      "publication_id": "10.1371/journal.pone.0165375"
+    }
   }
 }
