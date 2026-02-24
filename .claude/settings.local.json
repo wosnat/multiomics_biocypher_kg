@@ -15,7 +15,8 @@
       "Skill(fix-gene-ids:*)",
       "Bash(python3:*)",
       "Bash(uv run python:*)",
-      "Bash(pdftotext:*)"
+      "Bash(pdftotext:*)",
+      "Bash(download_eggnog_data.py --help)"
     ]
   }
 }

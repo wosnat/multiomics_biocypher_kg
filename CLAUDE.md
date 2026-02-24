@@ -171,6 +171,23 @@ uv run python tests/kg_validity/generate_snapshot.py
 - `adjusted_p_value` may be null on expression edges (and propagated homolog edges) when the original study did not report it
 - Strains in graph: MED4, AS9601, MIT9301, MIT9312, MIT9313, NATL1A, NATL2A, RSP50 (Prochlorococcus); CC9311 (Synechococcus); WH8102 (Parasynechococcus); MIT1002, EZ55, HOT1A3 (Alteromonas)
 
+## EggNOG Mapper Setup
+
+EggNOG mapper is installed as a project dependency (`eggnog-mapper>=2.1.13` in `pyproject.toml`).
+Set `EGGNOG_DATA_DIR` in `.env` to point to the database directory (e.g. `~/tools/eggnog-mapper`).
+
+**Known bug (v2.1.13):** `download_eggnog_data.py` uses the wrong base URL (`eggnogdb.embl.de` → 404).
+After `uv sync`, patch `.venv/bin/download_eggnog_data.py` lines 15 and 18:
+```python
+# Wrong (old domain, returns 404):
+BASE_URL = f'http://eggnogdb.embl.de/download/emapperdb-{__DB_VERSION__}'
+NOVEL_FAMS_BASE_URL = f'http://eggnogdb.embl.de/download/novel_fams-{__NOVEL_FAMS_DB_VERSION__}'
+# Correct:
+BASE_URL = f'http://eggnog5.embl.de/download/emapperdb-{__DB_VERSION__}'
+NOVEL_FAMS_BASE_URL = f'http://eggnog5.embl.de/download/novel_fams-{__NOVEL_FAMS_DB_VERSION__}'
+```
+See: https://github.com/eggnogdb/eggnog-mapper/issues/575
+
 ## Notes
 
 - Uses custom fork of pypath-omnipath: `https://github.com/wosnat/pypath`
