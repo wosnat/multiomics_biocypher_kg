@@ -13,6 +13,8 @@ Reads data/Prochlorococcus/genomes/cyanobacteria_genomes.csv and for each genome
            → cache/data/<org_group>/uniprot/<taxid>/
   Step 4: Run eggNOG-mapper on protein FASTA
            → cache/data/<org>/genomes/<strain>/eggnog/
+  Step 5: Build gene_mapping.csv from GFF/GBK files (requires steps 1+2)
+           → cache/data/<org>/genomes/<strain>/gene_mapping.csv
 
 All steps skip existing cache files by default.
 Use --force to re-download/re-run for specified strains.
@@ -372,6 +374,56 @@ def step4_eggnog(genomes: list[dict], force: bool, cpu: int) -> None:
         print(f"{'─'*60}")
 
 
+# ── step 5: gene_mapping.csv ─────────────────────────────────────────────────
+
+def step5_gene_mapping(genomes: list[dict], force: bool) -> None:
+    """Build gene_mapping.csv from downloaded GFF/GBK files via the CyanorakNcbi adapter.
+
+    Requires steps 1 (NCBI) and 2 (Cyanorak) to have run first.
+    Skips strains where gene_mapping.csv already exists (unless --force).
+    """
+    from multiomics_kg.adapters.cyanorak_ncbi_adapter import CyanorakNcbi
+
+    _header(5, "gene_mapping.csv generation")
+    results: list[tuple[str, str, str]] = []
+
+    for g in genomes:
+        strain = g["strain_name"]
+        data_dir = str(PROJECT_ROOT / g["data_dir"].rstrip("/"))
+        mapping_path = os.path.join(data_dir, "gene_mapping.csv")
+
+        if not force and os.path.exists(mapping_path):
+            results.append((strain, "SKIP_EXISTS", "gene_mapping.csv already present"))
+            continue
+
+        gff_path = os.path.join(data_dir, "genomic.gff")
+        if not os.path.exists(gff_path):
+            results.append((strain, "SKIP_NO_GFF", "genomic.gff not found — run step 1 first"))
+            continue
+
+        log.info(f"  Building gene_mapping.csv for {strain}...")
+        try:
+            adapter = CyanorakNcbi(
+                ncbi_accession=g["ncbi_accession"],
+                cyanorak_organism=g.get("cyanorak_organism") or None,  # "" → None
+                data_dir=data_dir,
+                strain_name=strain,
+                ncbi_taxon_id=int(g["ncbi_taxon_id"]) if g.get("ncbi_taxon_id") else None,
+            )
+            adapter.download_data(cache=True)  # skips all downloads; builds gene_mapping.csv
+            results.append((strain, "OK", f"{len(adapter.data_df)} genes"))
+        except Exception as e:
+            results.append((strain, "FAILED", str(e)[:80]))
+
+    if results:
+        print(f"\n{'─'*60}")
+        print(f"{'Strain':<15} {'Status':<15} {'Info'}")
+        print(f"{'─'*15} {'─'*15} {'─'*30}")
+        for strain, status, msg in results:
+            print(f"{strain:<15} {status:<15} {msg}")
+        print(f"{'─'*60}")
+
+
 # ── main ─────────────────────────────────────────────────────────────────────
 
 def main() -> None:
@@ -384,6 +436,7 @@ Steps:
   2  Cyanorak GFF/GBK (strains with cyanorak_organism only)
   3  UniProt (one download per unique taxid)
   4  eggNOG-mapper (requires EGGNOG_DATA_DIR in .env)
+  5  gene_mapping.csv (requires steps 1+2)
 
 Examples:
   uv run python multiomics_kg/download/download_genome_data.py
@@ -393,9 +446,9 @@ Examples:
         """,
     )
     parser.add_argument(
-        "--steps", nargs="+", type=int, choices=[1, 2, 3, 4],
-        default=[1, 2, 3, 4],
-        help="Steps to run (default: all). 1=NCBI 2=Cyanorak 3=UniProt 4=eggNOG",
+        "--steps", nargs="+", type=int, choices=[1, 2, 3, 4, 5],
+        default=[1, 2, 3, 4, 5],
+        help="Steps to run (default: all). 1=NCBI 2=Cyanorak 3=UniProt 4=eggNOG 5=gene_mapping",
     )
     parser.add_argument(
         "--strains", nargs="+",
@@ -440,6 +493,8 @@ Examples:
         step3_uniprot(genomes, force=args.force)
     if 4 in steps:
         step4_eggnog(genomes, force=args.force, cpu=args.cpu)
+    if 5 in steps:
+        step5_gene_mapping(genomes, force=args.force)
 
     log.info("All steps complete.")
 
