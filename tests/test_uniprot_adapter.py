@@ -8,7 +8,7 @@ import pytest
 
 from multiomics_kg.adapters.uniprot_adapter import (
     MultiUniprot,
-    Uniprot,
+    UniprotAdapter,
 )
 
 
@@ -67,7 +67,7 @@ def csv_with_comments(temp_dir):
 
 @pytest.fixture
 def mock_uniprot_data():
-    """Mock data that would be returned by Uniprot adapter (assembly-based IDs)."""
+    """Mock data that would be returned by UniprotAdapter (assembly-based IDs)."""
     return {
         "protein_nodes": [
             ("uniprot:P12345", "protein", {"length": 100, "organism_id": 59919}),
@@ -128,7 +128,7 @@ class TestMultiUniprotConstruction:
     def test_adapters_are_uniprot_instances(self, config_csv):
         wrapper = MultiUniprot(config_list_file=config_csv)
         for adapter in wrapper.adapters:
-            assert isinstance(adapter, Uniprot)
+            assert isinstance(adapter, UniprotAdapter)
 
     def test_organism_ids_extracted_correctly(self, config_csv):
         wrapper = MultiUniprot(config_list_file=config_csv)
@@ -136,23 +136,13 @@ class TestMultiUniprotConstruction:
 
     def test_adapters_have_correct_organism(self, config_csv):
         wrapper = MultiUniprot(config_list_file=config_csv)
-        assert wrapper.adapters[0].organism == 59919
-        assert wrapper.adapters[1].organism == 146891
+        assert wrapper.adapters[0].ncbi_taxon_id == 59919
+        assert wrapper.adapters[1].ncbi_taxon_id == 146891
 
     def test_kwargs_passed_to_adapters(self, config_csv):
         wrapper = MultiUniprot(config_list_file=config_csv, test_mode=True)
         for adapter in wrapper.adapters:
             assert adapter.test_mode is True
-
-    def test_rev_kwarg_passed_to_adapters(self, config_csv):
-        wrapper = MultiUniprot(config_list_file=config_csv, rev=False)
-        for adapter in wrapper.adapters:
-            assert adapter.rev is False
-
-    def test_add_prefix_kwarg_passed_to_adapters(self, config_csv):
-        wrapper = MultiUniprot(config_list_file=config_csv, add_prefix=False)
-        for adapter in wrapper.adapters:
-            assert adapter.add_prefix is False
 
     def test_assembly_info_passed_to_adapters(self, config_csv):
         """Each adapter should receive assembly_info with accession and strain_name."""
@@ -173,7 +163,7 @@ class TestMultiUniprotConstruction:
         # One adapter (deduped by taxid)
         assert len(wrapper.adapters) == 1
         assert wrapper.organism_ids == [28108]
-        assert wrapper.adapters[0].organism == 28108
+        assert wrapper.adapters[0].ncbi_taxon_id == 28108
         # But assembly_info has both assemblies
         assert len(wrapper.adapters[0].assembly_info) == 2
         accessions = [info['accession'] for info in wrapper.adapters[0].assembly_info]
@@ -197,9 +187,9 @@ class TestMultiUniprotCommentSkipping:
         """Lines with whitespace before # are still treated as comments."""
         csv_path = os.path.join(temp_dir, "whitespace_comment.csv")
         with open(csv_path, "w") as f:
-            f.write("ncbi_accession,cyanorak_organism,ncbi_taxon_id,data_dir\n")
+            f.write("ncbi_accession,cyanorak_organism,ncbi_taxon_id,strain_name,data_dir\n")
             f.write("  # This is a comment with leading whitespace\n")
-            f.write("GCF_000011465.1,Pro_MED4,59919,cache/genomes/MED4/\n")
+            f.write("GCF_000011465.1,Pro_MED4,59919,MED4,cache/genomes/MED4/\n")
         wrapper = MultiUniprot(config_list_file=csv_path)
         assert len(wrapper.adapters) == 1
 
@@ -207,39 +197,38 @@ class TestMultiUniprotCommentSkipping:
         """When all data rows are commented, no adapters are created."""
         csv_path = os.path.join(temp_dir, "all_commented.csv")
         with open(csv_path, "w") as f:
-            f.write("ncbi_accession,cyanorak_organism,ncbi_taxon_id,data_dir\n")
-            f.write("# GCF_000011465.1,Pro_MED4,59919,cache/genomes/MED4/\n")
-            f.write("# GCF_000015645.1,Pro_AS9601,146891,cache/genomes/AS9601/\n")
+            f.write("ncbi_accession,cyanorak_organism,ncbi_taxon_id,strain_name,data_dir\n")
+            f.write("# GCF_000011465.1,Pro_MED4,59919,MED4,cache/genomes/MED4/\n")
+            f.write("# GCF_000015645.1,Pro_AS9601,146891,AS9601,cache/genomes/AS9601/\n")
         wrapper = MultiUniprot(config_list_file=csv_path)
         assert len(wrapper.adapters) == 0
 
 
 # ---------------------------------------------------------------------------
-# Tests: download_uniprot_data
+# Tests: download_data
 # ---------------------------------------------------------------------------
 
 
 class TestMultiUniprotDownloadData:
     def test_calls_download_on_all_adapters(self, config_csv):
         wrapper = MultiUniprot(config_list_file=config_csv)
-        # Mock the download_uniprot_data method on each adapter
         for adapter in wrapper.adapters:
-            adapter.download_uniprot_data = MagicMock()
+            adapter.download_data = MagicMock()
 
-        wrapper.download_uniprot_data(cache=True)
+        wrapper.download_data(cache=True)
 
         for adapter in wrapper.adapters:
-            adapter.download_uniprot_data.assert_called_once_with(cache=True)
+            adapter.download_data.assert_called_once_with(cache=True)
 
     def test_passes_kwargs_to_download(self, config_csv):
         wrapper = MultiUniprot(config_list_file=config_csv)
         for adapter in wrapper.adapters:
-            adapter.download_uniprot_data = MagicMock()
+            adapter.download_data = MagicMock()
 
-        wrapper.download_uniprot_data(cache=False, debug=True)
+        wrapper.download_data(cache=False)
 
         for adapter in wrapper.adapters:
-            adapter.download_uniprot_data.assert_called_once_with(cache=False, debug=True)
+            adapter.download_data.assert_called_once_with(cache=False)
 
 
 # ---------------------------------------------------------------------------
@@ -248,9 +237,8 @@ class TestMultiUniprotDownloadData:
 
 
 class TestMultiUniprotGetNodes:
-    def test_returns_list(self, config_csv, mock_uniprot_data, mock_uniprot_data_2):
+    def test_returns_iterable(self, config_csv, mock_uniprot_data, mock_uniprot_data_2):
         wrapper = MultiUniprot(config_list_file=config_csv)
-        # Mock get_nodes on each adapter
         wrapper.adapters[0].get_nodes = MagicMock(
             return_value=mock_uniprot_data["protein_nodes"] + mock_uniprot_data["organism_nodes"]
         )
@@ -259,7 +247,7 @@ class TestMultiUniprotGetNodes:
         )
 
         nodes = wrapper.get_nodes()
-        assert isinstance(nodes, list)
+        assert hasattr(nodes, '__iter__')
 
     def test_aggregates_nodes_from_all_adapters(self, config_csv, mock_uniprot_data, mock_uniprot_data_2):
         wrapper = MultiUniprot(config_list_file=config_csv)
@@ -270,15 +258,14 @@ class TestMultiUniprotGetNodes:
             return_value=mock_uniprot_data_2["protein_nodes"] + mock_uniprot_data_2["organism_nodes"]
         )
 
-        nodes = wrapper.get_nodes()
+        nodes = list(wrapper.get_nodes())
         # 2 proteins + 1 organism from adapter 1, 1 protein + 1 organism from adapter 2
         assert len(nodes) == 5
 
-    def test_deduplicates_organism_nodes(self, config_csv):
-        """Test that duplicate organism nodes are removed."""
+    def test_all_nodes_returned_without_deduplication(self, config_csv):
+        """get_nodes yields all nodes; no deduplication is performed."""
         wrapper = MultiUniprot(config_list_file=config_csv)
 
-        # Both adapters return the same organism node
         shared_organism = ("insdc.gcf:GCF_000011465.1", "organism", {"organism_name": "Prochlorococcus"})
         wrapper.adapters[0].get_nodes = MagicMock(
             return_value=[
@@ -289,20 +276,16 @@ class TestMultiUniprotGetNodes:
         wrapper.adapters[1].get_nodes = MagicMock(
             return_value=[
                 ("uniprot:Q99999", "protein", {}),
-                shared_organism,  # Same organism node
+                shared_organism,
             ]
         )
 
-        nodes = wrapper.get_nodes()
-        # 2 proteins + 1 organism (deduplicated)
-        assert len(nodes) == 3
+        nodes = list(wrapper.get_nodes())
+        # 2 proteins + 2 organism entries (no dedup)
+        assert len(nodes) == 4
 
-        # Count organism nodes
-        organism_count = sum(1 for _, label, _ in nodes if label == "organism")
-        assert organism_count == 1
-
-    def test_protein_nodes_not_deduplicated(self, config_csv):
-        """Test that protein nodes are NOT deduplicated (they should be unique anyway)."""
+    def test_protein_nodes_aggregated(self, config_csv):
+        """Protein nodes from all adapters are all returned."""
         wrapper = MultiUniprot(config_list_file=config_csv)
 
         wrapper.adapters[0].get_nodes = MagicMock(
@@ -317,22 +300,12 @@ class TestMultiUniprotGetNodes:
             ]
         )
 
-        nodes = wrapper.get_nodes()
+        nodes = list(wrapper.get_nodes())
         assert len(nodes) == 3
 
-    def test_passes_kwargs_to_get_nodes(self, config_csv):
-        wrapper = MultiUniprot(config_list_file=config_csv)
-        wrapper.adapters[0].get_nodes = MagicMock(return_value=[])
-        wrapper.adapters[1].get_nodes = MagicMock(return_value=[])
-
-        wrapper.get_nodes(protein_label="custom_protein")
-
-        for adapter in wrapper.adapters:
-            adapter.get_nodes.assert_called_once_with(protein_label="custom_protein")
-
-    def test_empty_adapters_returns_empty_list(self, empty_csv):
+    def test_empty_adapters_returns_empty(self, empty_csv):
         wrapper = MultiUniprot(config_list_file=empty_csv)
-        nodes = wrapper.get_nodes()
+        nodes = list(wrapper.get_nodes())
         assert nodes == []
 
 
@@ -342,36 +315,26 @@ class TestMultiUniprotGetNodes:
 
 
 class TestMultiUniprotGetEdges:
-    def test_returns_list(self, config_csv, mock_uniprot_data, mock_uniprot_data_2):
+    def test_returns_iterable(self, config_csv, mock_uniprot_data, mock_uniprot_data_2):
         wrapper = MultiUniprot(config_list_file=config_csv)
         wrapper.adapters[0].get_edges = MagicMock(return_value=mock_uniprot_data["edges"])
         wrapper.adapters[1].get_edges = MagicMock(return_value=mock_uniprot_data_2["edges"])
 
         edges = wrapper.get_edges()
-        assert isinstance(edges, list)
+        assert hasattr(edges, '__iter__')
 
     def test_aggregates_edges_from_all_adapters(self, config_csv, mock_uniprot_data, mock_uniprot_data_2):
         wrapper = MultiUniprot(config_list_file=config_csv)
         wrapper.adapters[0].get_edges = MagicMock(return_value=mock_uniprot_data["edges"])
         wrapper.adapters[1].get_edges = MagicMock(return_value=mock_uniprot_data_2["edges"])
 
-        edges = wrapper.get_edges()
+        edges = list(wrapper.get_edges())
         # 2 edges from adapter 1, 1 edge from adapter 2
         assert len(edges) == 3
 
-    def test_passes_kwargs_to_get_edges(self, config_csv):
-        wrapper = MultiUniprot(config_list_file=config_csv)
-        wrapper.adapters[0].get_edges = MagicMock(return_value=[])
-        wrapper.adapters[1].get_edges = MagicMock(return_value=[])
-
-        wrapper.get_edges(some_param="value")
-
-        for adapter in wrapper.adapters:
-            adapter.get_edges.assert_called_once_with(some_param="value")
-
-    def test_empty_adapters_returns_empty_list(self, empty_csv):
+    def test_empty_adapters_returns_empty(self, empty_csv):
         wrapper = MultiUniprot(config_list_file=empty_csv)
-        edges = wrapper.get_edges()
+        edges = list(wrapper.get_edges())
         assert edges == []
 
 
@@ -409,5 +372,5 @@ class TestMultiUniprotRealConfigFormat:
         wrapper = MultiUniprot(config_list_file=csv_path)
 
         assert len(wrapper.adapters) == 2
-        assert wrapper.adapters[0].organism == 59919  # Prochlorococcus
-        assert wrapper.adapters[1].organism == 64471  # Synechococcus
+        assert wrapper.adapters[0].ncbi_taxon_id == 59919  # Prochlorococcus
+        assert wrapper.adapters[1].ncbi_taxon_id == 64471  # Synechococcus

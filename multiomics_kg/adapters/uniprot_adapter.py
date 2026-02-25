@@ -296,6 +296,10 @@ class MultiUniprot:
             f"from {config_list_file}"
         )
 
+    @property
+    def organism_ids(self) -> list[int]:
+        return [a.ncbi_taxon_id for a in self.adapters]
+
     def download_data(self, cache: bool = True, **kwargs) -> None:
         for adapter in self.adapters:
             adapter.download_data(cache=cache)
