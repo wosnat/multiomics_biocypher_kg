@@ -48,7 +48,7 @@ log = logging.getLogger("download_genome_data")
 logging.basicConfig(level=logging.INFO, format="%(levelname)s: %(message)s")
 
 
-# ── helpers ─────────────────────────────────────────────────────────────────────
+# ── helpers ──────────────────────────────────────────────────────────────────
 
 def _read_genomes_csv(path: Path) -> list[dict]:
     """Parse cyanobacteria_genomes.csv, skipping comment lines."""
@@ -83,107 +83,197 @@ def _header(step_num: int, desc: str) -> None:
     log.info("─" * 60)
 
 
-# ── step 1: NCBI genome ──────────────────────────────────────────────────────────
+# ── standalone download functions ────────────────────────────────────────────
+
+def _ncbi_download_genome(ncbi_accession: str, data_dir: str, force: bool) -> bool:
+    """Download NCBI genome zip and extract GFF, protein FASTA, and GBFF.
+
+    Returns True if files were downloaded, False if already cached.
+    Raises ConnectionError if the download fails.
+    """
+    from pypath.share import curl
+
+    gff_path = os.path.join(data_dir, "genomic.gff")
+    prot_path = os.path.join(data_dir, "protein.faa")
+    gbff_path = os.path.join(data_dir, "genomic.gbff")
+
+    if not force and all(os.path.exists(p) for p in [gff_path, prot_path, gbff_path]):
+        return False
+
+    if force:
+        for p in [gff_path, prot_path, gbff_path]:
+            if os.path.exists(p):
+                os.remove(p)
+                log.debug(f"  Removed {p}")
+
+    os.makedirs(data_dir, exist_ok=True)
+
+    url = (
+        f"https://api.ncbi.nlm.nih.gov/datasets/v2/genome/accession/"
+        f"{ncbi_accession}/download"
+        f"?include_annotation_type=GENOME_GFF"
+        f"&include_annotation_type=GENOME_FASTA"
+        f"&include_annotation_type=PROT_FASTA"
+        f"&include_annotation_type=GENOME_GBFF"
+        f"&include_annotation_type=SEQUENCE_REPORT"
+        f"&hydrated=FULLY_HYDRATED"
+    )
+
+    with ExitStack() as stack:
+        if force:
+            stack.enter_context(curl.cache_off())
+        c = curl.Curl(url, silent=False, compr='zip', large=False)
+
+    if c.result is None:
+        raise ConnectionError(
+            f"Failed to download NCBI genome for {ncbi_accession} from {url}"
+        )
+
+    for name, content in c.result.items():
+        if name.endswith('genomic.gff'):
+            with open(gff_path, 'w') as f:
+                f.write(content)
+            log.debug(f"  NCBI GFF saved to {gff_path}")
+        elif name.endswith('protein.faa'):
+            with open(prot_path, 'w') as f:
+                f.write(content)
+            log.debug(f"  NCBI protein FASTA saved to {prot_path}")
+        elif name.endswith('genomic.gbff'):
+            with open(gbff_path, 'w') as f:
+                f.write(content)
+            log.debug(f"  NCBI GBFF saved to {gbff_path}")
+
+    return True
+
+
+def _cyanorak_download_file(
+    cyanorak_organism: str, data_dir: str, ext: str, force: bool
+) -> bool:
+    """Download a single Cyanorak annotation file (gff or gbk).
+
+    Returns True if the file was downloaded, False if already cached.
+    Raises ConnectionError if the download fails.
+    """
+    from pypath.share import curl
+
+    cyan_dir = os.path.join(data_dir, "cyanorak")
+    os.makedirs(cyan_dir, exist_ok=True)
+    out_path = os.path.join(cyan_dir, f"{cyanorak_organism}.{ext}")
+
+    if not force and os.path.exists(out_path):
+        return False
+
+    if force and os.path.exists(out_path):
+        os.remove(out_path)
+        log.debug(f"  Removed {out_path}")
+
+    url = f"https://cyanorak.sb-roscoff.fr/cyanorak/svc/export/organism/{ext}/{cyanorak_organism}"
+
+    with ExitStack() as stack:
+        if force:
+            stack.enter_context(curl.cache_off())
+        c = curl.Curl(url, silent=False)
+
+    if c.result is None:
+        raise ConnectionError(
+            f"Failed to download Cyanorak {ext} for {cyanorak_organism} from {url}"
+        )
+
+    with open(out_path, 'w') as f:
+        f.write(c.result)
+    log.debug(f"  Cyanorak {ext.upper()} saved to {out_path}")
+
+    return True
+
+
+def _uniprot_download(taxid: int, cache_dir: Path, force: bool) -> bool:
+    """Download and preprocess UniProt data for a taxid.
+
+    Uses rev=False to fetch all UniProt entries (TrEMBL + SwissProt) for maximum
+    annotation coverage in the gene annotation merge step.
+
+    Output files:
+      <cache_dir>/uniprot_raw_data.json
+      <cache_dir>/uniprot_preprocess_data.json
+
+    Returns True if files were downloaded, False if already cached.
+    """
+    from pypath.share import curl
+    from multiomics_kg.adapters.uniprot_adapter import Uniprot
+
+    raw_path = cache_dir / "uniprot_raw_data.json"
+    pre_path = cache_dir / "uniprot_preprocess_data.json"
+
+    if not force and raw_path.exists() and pre_path.exists():
+        return False
+
+    cache_dir.mkdir(parents=True, exist_ok=True)
+
+    # rev=False: fetch all entries (TrEMBL + SwissProt) for maximum annotation
+    # coverage. The KG build uses rev=True (SwissProt only); here we want
+    # every available functional annotation for the gene annotation merge.
+    adapter = Uniprot(organism=taxid, rev=False)
+
+    with ExitStack() as stack:
+        stack.enter_context(curl.cache_off())
+        adapter._download_uniprot_data()
+
+    log.info(f"  Saving raw data ({len(adapter.uniprot_ids)} proteins)...")
+    with open(raw_path, "w") as f:
+        json.dump(adapter.data, f, indent=4, default=str)
+
+    adapter._preprocess_uniprot_data()
+    adapter._preprocess_organisms()
+
+    log.info(f"  Saving preprocessed data...")
+    with open(pre_path, "w") as f:
+        json.dump(adapter.data, f, indent=4, default=str)
+
+    return True
+
+
+# ── step 1: NCBI genome ──────────────────────────────────────────────────────
 
 def step1_ncbi(genomes: list[dict], force: bool) -> None:
     """Download NCBI genome files (GFF, protein FASTA, GBFF) for each strain."""
     _header(1, "NCBI genome download")
-    from pypath.share import curl
-    from multiomics_kg.adapters.cyanorak_ncbi_adapter import CyanorakNcbi
-
     for g in genomes:
         strain = g["strain_name"]
         data_dir = str(PROJECT_ROOT / g["data_dir"].rstrip("/"))
-        gff_path = os.path.join(data_dir, "genomic.gff")
-        prot_path = os.path.join(data_dir, "protein.faa")
-        gbff_path = os.path.join(data_dir, "genomic.gbff")
-
-        all_exist = all(os.path.exists(p) for p in [gff_path, prot_path, gbff_path])
-        if all_exist and not force:
+        log.info(f"  Processing {strain} ({g['ncbi_accession']})...")
+        if _ncbi_download_genome(g["ncbi_accession"], data_dir, force):
+            log.info(f"  OK: {strain}")
+        else:
             log.info(f"  [SKIP] {strain} — NCBI files already cached")
-            continue
-
-        if force:
-            for p in [gff_path, prot_path, gbff_path]:
-                if os.path.exists(p):
-                    os.remove(p)
-                    log.debug(f"  Removed {p}")
-
-        log.info(f"  Downloading NCBI genome for {strain} ({g['ncbi_accession']})...")
-        os.makedirs(data_dir, exist_ok=True)
-        adapter = CyanorakNcbi(
-            ncbi_accession=g["ncbi_accession"],
-            data_dir=data_dir,
-        )
-        with ExitStack() as stack:
-            if force:
-                stack.enter_context(curl.cache_off())
-            adapter._download_ncbi_genome()
-        log.info(f"  OK: {strain}")
 
 
-# ── step 2: Cyanorak ─────────────────────────────────────────────────────────────
+# ── step 2: Cyanorak ─────────────────────────────────────────────────────────
 
 def step2_cyanorak(genomes: list[dict], force: bool) -> None:
     """Download Cyanorak GFF and GBK annotation files."""
     _header(2, "Cyanorak GFF/GBK download")
-    from pypath.share import curl
-    from multiomics_kg.adapters.cyanorak_ncbi_adapter import CyanorakNcbi
-
     for g in genomes:
         strain = g["strain_name"]
         cyan_org = g.get("cyanorak_organism", "").strip()
         if not cyan_org:
             log.info(f"  [SKIP] {strain} — no cyanorak_organism in config")
             continue
-
         data_dir = str(PROJECT_ROOT / g["data_dir"].rstrip("/"))
-        cyan_dir = os.path.join(data_dir, "cyanorak")
-        gff_path = os.path.join(cyan_dir, f"{cyan_org}.gff")
-        gbk_path = os.path.join(cyan_dir, f"{cyan_org}.gbk")
-
-        if os.path.exists(gff_path) and os.path.exists(gbk_path) and not force:
+        gff_new = _cyanorak_download_file(cyan_org, data_dir, "gff", force)
+        gbk_new = _cyanorak_download_file(cyan_org, data_dir, "gbk", force)
+        if gff_new or gbk_new:
+            log.info(f"  OK: {strain}")
+        else:
             log.info(f"  [SKIP] {strain} — Cyanorak files already cached")
-            continue
-
-        if force:
-            for p in [gff_path, gbk_path]:
-                if os.path.exists(p):
-                    os.remove(p)
-                    log.debug(f"  Removed {p}")
-
-        log.info(f"  Downloading Cyanorak data for {strain} ({cyan_org})...")
-        os.makedirs(cyan_dir, exist_ok=True)
-        adapter = CyanorakNcbi(
-            cyanorak_organism=cyan_org,
-            data_dir=data_dir,
-        )
-        with ExitStack() as stack:
-            if force:
-                stack.enter_context(curl.cache_off())
-            adapter._download_cyanorak_gff()
-            adapter._download_cyanorak_gbk()
-        log.info(f"  OK: {strain}")
 
 
-# ── step 3: UniProt ──────────────────────────────────────────────────────────────
+# ── step 3: UniProt ──────────────────────────────────────────────────────────
 
 def step3_uniprot(genomes: list[dict], force: bool) -> None:
-    """Download UniProt data per unique (org_group, taxid) pair.
-
-    Uses rev=False to fetch all UniProt entries (TrEMBL + SwissProt) for maximum
-    annotation coverage in the gene annotation merge step.
-
-    Output files per taxid:
-      cache/data/<org_group>/uniprot/<taxid>/uniprot_raw_data.json
-      cache/data/<org_group>/uniprot/<taxid>/uniprot_preprocess_data.json
-    """
+    """Download UniProt data per unique (org_group, taxid) pair."""
     _header(3, "UniProt data download (per taxid)")
-    from pypath.share import curl
-    from multiomics_kg.adapters.uniprot_adapter import Uniprot
 
     # Deduplicate: one download per (org_group, taxid)
-    # Use OrderedDict to preserve first-occurrence order
     seen: dict[tuple[str, int], dict] = {}
     for g in genomes:
         taxid = int(g["ncbi_taxon_id"])
@@ -195,45 +285,17 @@ def step3_uniprot(genomes: list[dict], force: bool) -> None:
     for (org_group, taxid), g in seen.items():
         strain = g["strain_name"]
         cache_dir = PROJECT_ROOT / "cache" / "data" / org_group / "uniprot" / str(taxid)
-        raw_path = cache_dir / "uniprot_raw_data.json"
-        pre_path = cache_dir / "uniprot_preprocess_data.json"
-
-        if raw_path.exists() and pre_path.exists() and not force:
-            log.info(
-                f"  [SKIP] UniProt taxid={taxid} ({org_group}) — cache exists"
-            )
-            continue
-
         log.info(
-            f"  Downloading UniProt for taxid={taxid} ({org_group}); "
+            f"  Processing UniProt taxid={taxid} ({org_group}); "
             f"representative strain: {strain}"
         )
-        cache_dir.mkdir(parents=True, exist_ok=True)
-
-        # rev=False: fetch all entries (TrEMBL + SwissProt) for maximum annotation
-        # coverage. The KG build uses rev=True (SwissProt only); here we want
-        # every available functional annotation for the gene annotation merge.
-        adapter = Uniprot(organism=taxid, rev=False)
-
-        with ExitStack() as stack:
-            stack.enter_context(curl.cache_off())
-            adapter._download_uniprot_data()
-
-        log.info(f"  Saving raw data ({len(adapter.uniprot_ids)} proteins)...")
-        with open(raw_path, "w") as f:
-            json.dump(adapter.data, f, indent=4, default=str)
-
-        adapter._preprocess_uniprot_data()
-        adapter._preprocess_organisms()
-
-        log.info(f"  Saving preprocessed data...")
-        with open(pre_path, "w") as f:
-            json.dump(adapter.data, f, indent=4, default=str)
-
-        log.info(f"  OK: UniProt taxid={taxid} → {cache_dir}")
+        if _uniprot_download(taxid, cache_dir, force):
+            log.info(f"  OK: UniProt taxid={taxid} → {cache_dir}")
+        else:
+            log.info(f"  [SKIP] UniProt taxid={taxid} ({org_group}) — cache exists")
 
 
-# ── step 4: eggNOG-mapper ────────────────────────────────────────────────────────
+# ── step 4: eggNOG-mapper ────────────────────────────────────────────────────
 
 def step4_eggnog(genomes: list[dict], force: bool, cpu: int) -> None:
     """Run eggNOG-mapper on protein FASTA for each strain.
@@ -310,7 +372,7 @@ def step4_eggnog(genomes: list[dict], force: bool, cpu: int) -> None:
         print(f"{'─'*60}")
 
 
-# ── main ─────────────────────────────────────────────────────────────────────────
+# ── main ─────────────────────────────────────────────────────────────────────
 
 def main() -> None:
     parser = argparse.ArgumentParser(

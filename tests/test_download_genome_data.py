@@ -2,27 +2,31 @@
 
 Patching strategy
 -----------------
-The step functions use *lazy* imports (``from X import Y`` inside the
-function body) to avoid loading heavy dependencies (pypath, adapters) when
-the script is invoked with ``--help``.  Because the name ``Y`` is bound
-inside the function rather than at module level, we cannot patch
-``scripts.download_genome_data.Y``.  Instead we patch the attribute on the
-*source* module (e.g. ``multiomics_kg.adapters.cyanorak_ncbi_adapter.CyanorakNcbi``).
-Python's import system caches modules in ``sys.modules``, so patching the
-source attribute is picked up by subsequent ``from … import`` statements.
+The standalone download functions (_ncbi_download_genome, _cyanorak_download_file,
+_uniprot_download) use *lazy* imports (``from X import Y`` inside the function body)
+to avoid loading heavy dependencies at import time.
 
-For ``PROJECT_ROOT`` (a module-level ``Path`` constant used by step 3 to
-build cache paths) we patch it directly as
-``scripts.download_genome_data.PROJECT_ROOT``.
+For pypath curl calls, patch the attribute on the *source* module:
+  ``pypath.share.curl.Curl``
+  ``pypath.share.curl.cache_off``
 
-Steps 1 and 2 construct the genome's ``data_dir`` as
-``str(PROJECT_ROOT / genome["data_dir"])``.  Passing an *absolute* path in
-``genome["data_dir"]`` makes pathlib ignore ``PROJECT_ROOT`` (absolute path
-wins in ``Path.__truediv__``), so no ``PROJECT_ROOT`` patch is needed for
-those steps.
+For Uniprot adapter usage inside ``_uniprot_download``, patch:
+  ``multiomics_kg.adapters.uniprot_adapter.Uniprot``
+
+For step-level tests, patch the standalone functions directly:
+  ``scripts.download_genome_data._ncbi_download_genome``
+  ``scripts.download_genome_data._cyanorak_download_file``
+  ``scripts.download_genome_data._uniprot_download``
+
+For ``PROJECT_ROOT`` (a module-level ``Path`` constant used by step 3 to build
+cache paths) patch it as ``scripts.download_genome_data.PROJECT_ROOT``.
+Steps 1 and 2 construct ``data_dir`` as ``str(PROJECT_ROOT / genome["data_dir"])``;
+passing an *absolute* path in ``genome["data_dir"]`` makes pathlib ignore
+``PROJECT_ROOT``, so no patching is needed for those steps.
 """
 
 import json
+import logging
 import os
 import sys
 from pathlib import Path
@@ -34,8 +38,11 @@ import pytest
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
 from scripts.download_genome_data import (
+    _cyanorak_download_file,
     _get_org_group,
+    _ncbi_download_genome,
     _read_genomes_csv,
+    _uniprot_download,
     step1_ncbi,
     step2_cyanorak,
     step3_uniprot,
@@ -43,7 +50,7 @@ from scripts.download_genome_data import (
 )
 
 
-# ── fixtures ─────────────────────────────────────────────────────────────────────
+# ── fixtures ──────────────────────────────────────────────────────────────────
 
 GENOMES_CSV_CONTENT = """\
 ncbi_accession,cyanorak_organism,ncbi_taxon_id,strain_name,data_dir,clade
@@ -73,7 +80,18 @@ def genomes(genomes_csv):
     return _read_genomes_csv(genomes_csv)
 
 
-# ── _read_genomes_csv ────────────────────────────────────────────────────────────
+# ── patch targets ─────────────────────────────────────────────────────────────
+
+_CURL_CLS  = "pypath.share.curl.Curl"
+_CURL_OFF  = "pypath.share.curl.cache_off"
+_UNIPROT_CLS = "multiomics_kg.adapters.uniprot_adapter.Uniprot"
+
+_NCBI_DL     = "scripts.download_genome_data._ncbi_download_genome"
+_CYANORAK_DL = "scripts.download_genome_data._cyanorak_download_file"
+_UNIPROT_DL  = "scripts.download_genome_data._uniprot_download"
+
+
+# ── _read_genomes_csv ─────────────────────────────────────────────────────────
 
 class TestReadGenomesCsv:
     def test_parses_all_data_rows(self, genomes):
@@ -100,7 +118,7 @@ class TestReadGenomesCsv:
         assert med4["strain_name"] == "MED4"
 
 
-# ── _get_org_group ───────────────────────────────────────────────────────────────
+# ── _get_org_group ────────────────────────────────────────────────────────────
 
 class TestGetOrgGroup:
     @pytest.mark.parametrize("data_dir,expected", [
@@ -119,177 +137,277 @@ class TestGetOrgGroup:
         assert _get_org_group("cache/data/Alteromonas/genomes/MIT1002") == "Alteromonas"
 
 
-# ── step1_ncbi ───────────────────────────────────────────────────────────────────
+# ── _ncbi_download_genome ─────────────────────────────────────────────────────
 
-# Patch targets for lazy imports inside step1_ncbi / step2_cyanorak:
-_CYAN_CLS   = "multiomics_kg.adapters.cyanorak_ncbi_adapter.CyanorakNcbi"
-_CURL_OFF   = "pypath.share.curl.cache_off"   # only needed for force=True tests
-# Patch target for lazy imports inside step3_uniprot:
-_UNIPROT_CLS = "multiomics_kg.adapters.uniprot_adapter.Uniprot"
-_CURL_OFF_UP = "pypath.share.curl.cache_off"  # step3 always calls cache_off()
-
-
-class TestStep1Ncbi:
-    """step1_ncbi: NCBI genome download.
-
-    genome["data_dir"] is set to an *absolute* tmp path, so pathlib's
-    ``PROJECT_ROOT / absolute_path`` resolves to ``absolute_path`` (absolute
-    wins).  No PROJECT_ROOT patching needed for steps 1/2.
-    """
-
-    def test_skips_when_all_files_exist(self, tmp):
+class TestNcbiDownloadGenome:
+    def test_returns_false_when_all_files_exist(self, tmp):
         data_dir = tmp / "genomes" / "MED4"
         data_dir.mkdir(parents=True)
         for fname in ["genomic.gff", "protein.faa", "genomic.gbff"]:
             (data_dir / fname).write_text("content")
 
-        genome = {"strain_name": "MED4", "ncbi_accession": "GCF_000011465.1",
-                  "data_dir": str(data_dir)}
+        result = _ncbi_download_genome("GCF_000011465.1", str(data_dir), force=False)
+        assert result is False
 
-        with patch(_CYAN_CLS) as mock_cls:
-            step1_ncbi([genome], force=False)
-
-        mock_cls.assert_not_called()
-
-    def test_calls_download_when_files_missing(self, tmp):
+    def test_returns_true_and_creates_files(self, tmp):
         data_dir = tmp / "genomes" / "MED4"
         data_dir.mkdir(parents=True)
-        (data_dir / "genomic.gff").write_text("content")  # only one of three
 
-        genome = {"strain_name": "MED4", "ncbi_accession": "GCF_000011465.1",
-                  "data_dir": str(data_dir)}
-        mock_adapter = MagicMock()
+        mock_c = MagicMock()
+        mock_c.result = {
+            "ncbi_dataset/data/GCF/genomic.gff":  "GFF content",
+            "ncbi_dataset/data/GCF/protein.faa":  "FASTA content",
+            "ncbi_dataset/data/GCF/genomic.gbff": "GBFF content",
+        }
 
-        with patch(_CYAN_CLS, return_value=mock_adapter):
-            step1_ncbi([genome], force=False)
+        with patch(_CURL_CLS, return_value=mock_c):
+            result = _ncbi_download_genome("GCF_000011465.1", str(data_dir), force=False)
 
-        mock_adapter._download_ncbi_genome.assert_called_once()
+        assert result is True
+        assert (data_dir / "genomic.gff").read_text() == "GFF content"
+        assert (data_dir / "protein.faa").read_text() == "FASTA content"
+        assert (data_dir / "genomic.gbff").read_text() == "GBFF content"
+
+    def test_partial_cache_triggers_download(self, tmp):
+        """Only GFF exists — should still download."""
+        data_dir = tmp / "genomes" / "MED4"
+        data_dir.mkdir(parents=True)
+        (data_dir / "genomic.gff").write_text("content")
+
+        mock_c = MagicMock()
+        mock_c.result = {
+            "genomic.gff": "new gff",
+            "protein.faa": "new faa",
+            "genomic.gbff": "new gbff",
+        }
+
+        with patch(_CURL_CLS, return_value=mock_c):
+            result = _ncbi_download_genome("GCF_000011465.1", str(data_dir), force=False)
+
+        assert result is True
 
     def test_force_removes_existing_files_and_redownloads(self, tmp):
         data_dir = tmp / "genomes" / "MED4"
         data_dir.mkdir(parents=True)
-        files = []
         for fname in ["genomic.gff", "protein.faa", "genomic.gbff"]:
-            p = data_dir / fname
-            p.write_text("old content")
-            files.append(p)
+            (data_dir / fname).write_text("old")
 
-        genome = {"strain_name": "MED4", "ncbi_accession": "GCF_000011465.1",
-                  "data_dir": str(data_dir)}
-        mock_adapter = MagicMock()
+        mock_c = MagicMock()
+        mock_c.result = {
+            "genomic.gff":  "new gff",
+            "protein.faa":  "new faa",
+            "genomic.gbff": "new gbff",
+        }
 
-        with patch(_CYAN_CLS, return_value=mock_adapter), \
+        with patch(_CURL_CLS, return_value=mock_c), \
              patch(_CURL_OFF, return_value=MagicMock()):
-            step1_ncbi([genome], force=True)
+            result = _ncbi_download_genome("GCF_000011465.1", str(data_dir), force=True)
 
-        for p in files:
-            assert not p.exists(), f"Expected {p.name} to be removed before re-download"
-        mock_adapter._download_ncbi_genome.assert_called_once()
+        assert result is True
+        assert (data_dir / "genomic.gff").read_text() == "new gff"
 
-    def test_processes_multiple_genomes(self, tmp):
-        mock_adapters = []
-        genomes = []
-        for strain in ["MED4", "MIT9313"]:
-            data_dir = tmp / "genomes" / strain
-            data_dir.mkdir(parents=True)
-            genomes.append({"strain_name": strain, "ncbi_accession": f"GCF_{strain}",
-                            "data_dir": str(data_dir)})
-            mock_adapters.append(MagicMock())
-
-        with patch(_CYAN_CLS, side_effect=mock_adapters):
-            step1_ncbi(genomes, force=False)
-
-        for adapter in mock_adapters:
-            adapter._download_ncbi_genome.assert_called_once()
-
-    def test_adapter_instantiated_with_correct_args(self, tmp):
+    def test_raises_connection_error_on_failed_download(self, tmp):
         data_dir = tmp / "genomes" / "MED4"
         data_dir.mkdir(parents=True)
-        genome = {"strain_name": "MED4", "ncbi_accession": "GCF_000011465.1",
-                  "data_dir": str(data_dir)}
-        mock_adapter = MagicMock()
 
-        with patch(_CYAN_CLS, return_value=mock_adapter) as mock_cls:
+        mock_c = MagicMock()
+        mock_c.result = None
+
+        with patch(_CURL_CLS, return_value=mock_c):
+            with pytest.raises(ConnectionError):
+                _ncbi_download_genome("GCF_000011465.1", str(data_dir), force=False)
+
+    def test_creates_data_dir_if_missing(self, tmp):
+        data_dir = tmp / "new" / "path" / "MED4"
+        assert not data_dir.exists()
+
+        mock_c = MagicMock()
+        mock_c.result = {"genomic.gff": "g", "protein.faa": "p", "genomic.gbff": "b"}
+
+        with patch(_CURL_CLS, return_value=mock_c):
+            _ncbi_download_genome("GCF_000011465.1", str(data_dir), force=False)
+
+        assert data_dir.exists()
+
+
+# ── _cyanorak_download_file ───────────────────────────────────────────────────
+
+class TestCyanorakDownloadFile:
+    def test_returns_false_when_file_exists(self, tmp):
+        data_dir = tmp / "genomes" / "MED4"
+        cyan_dir = data_dir / "cyanorak"
+        cyan_dir.mkdir(parents=True)
+        (cyan_dir / "Pro_MED4.gff").write_text("content")
+
+        result = _cyanorak_download_file("Pro_MED4", str(data_dir), "gff", force=False)
+        assert result is False
+
+    def test_returns_true_and_creates_gff(self, tmp):
+        data_dir = tmp / "genomes" / "MED4"
+        data_dir.mkdir(parents=True)
+
+        mock_c = MagicMock()
+        mock_c.result = "GFF file content"
+
+        with patch(_CURL_CLS, return_value=mock_c):
+            result = _cyanorak_download_file("Pro_MED4", str(data_dir), "gff", force=False)
+
+        assert result is True
+        assert (data_dir / "cyanorak" / "Pro_MED4.gff").read_text() == "GFF file content"
+
+    def test_returns_true_and_creates_gbk(self, tmp):
+        data_dir = tmp / "genomes" / "MED4"
+        data_dir.mkdir(parents=True)
+
+        mock_c = MagicMock()
+        mock_c.result = "GBK file content"
+
+        with patch(_CURL_CLS, return_value=mock_c):
+            result = _cyanorak_download_file("Pro_MED4", str(data_dir), "gbk", force=False)
+
+        assert result is True
+        assert (data_dir / "cyanorak" / "Pro_MED4.gbk").read_text() == "GBK file content"
+
+    def test_force_removes_existing_file_and_redownloads(self, tmp):
+        data_dir = tmp / "genomes" / "MED4"
+        cyan_dir = data_dir / "cyanorak"
+        cyan_dir.mkdir(parents=True)
+        gff = cyan_dir / "Pro_MED4.gff"
+        gff.write_text("old")
+
+        mock_c = MagicMock()
+        mock_c.result = "new content"
+
+        with patch(_CURL_CLS, return_value=mock_c), \
+             patch(_CURL_OFF, return_value=MagicMock()):
+            _cyanorak_download_file("Pro_MED4", str(data_dir), "gff", force=True)
+
+        assert gff.read_text() == "new content"
+
+    def test_raises_connection_error_on_failed_download(self, tmp):
+        data_dir = tmp / "genomes" / "MED4"
+        data_dir.mkdir(parents=True)
+
+        mock_c = MagicMock()
+        mock_c.result = None
+
+        with patch(_CURL_CLS, return_value=mock_c):
+            with pytest.raises(ConnectionError):
+                _cyanorak_download_file("Pro_MED4", str(data_dir), "gff", force=False)
+
+    def test_creates_cyanorak_subdir_if_missing(self, tmp):
+        data_dir = tmp / "genomes" / "MED4"
+        data_dir.mkdir(parents=True)
+
+        mock_c = MagicMock()
+        mock_c.result = "content"
+
+        with patch(_CURL_CLS, return_value=mock_c):
+            _cyanorak_download_file("Pro_MED4", str(data_dir), "gff", force=False)
+
+        assert (data_dir / "cyanorak").is_dir()
+
+
+# ── step1_ncbi ────────────────────────────────────────────────────────────────
+
+class TestStep1Ncbi:
+    def _genome(self, tmp, strain="MED4", accession="GCF_000011465.1"):
+        return {"strain_name": strain, "ncbi_accession": accession,
+                "data_dir": str(tmp / "genomes" / strain)}
+
+    def test_calls_download_for_each_genome(self, tmp):
+        genomes = [
+            self._genome(tmp, "MED4", "GCF_1"),
+            self._genome(tmp, "MIT9313", "GCF_2"),
+        ]
+        with patch(_NCBI_DL, return_value=True) as mock_dl:
+            step1_ncbi(genomes, force=False)
+        assert mock_dl.call_count == 2
+
+    def test_passes_correct_accession_and_data_dir(self, tmp):
+        genome = self._genome(tmp)
+        with patch(_NCBI_DL, return_value=True) as mock_dl:
             step1_ncbi([genome], force=False)
+        accession, data_dir, force = mock_dl.call_args[0]
+        assert accession == "GCF_000011465.1"
+        assert data_dir == str(tmp / "genomes" / "MED4")
+        assert force is False
 
-        mock_cls.assert_called_once_with(
-            ncbi_accession="GCF_000011465.1",
-            data_dir=str(data_dir),
-        )
+    def test_passes_force_flag(self, tmp):
+        genome = self._genome(tmp)
+        with patch(_NCBI_DL, return_value=True) as mock_dl:
+            step1_ncbi([genome], force=True)
+        _, _, force = mock_dl.call_args[0]
+        assert force is True
+
+    def test_logs_skip_when_download_returns_false(self, tmp, caplog):
+        caplog.set_level(logging.INFO)
+        genome = self._genome(tmp)
+        with patch(_NCBI_DL, return_value=False):
+            step1_ncbi([genome], force=False)
+        assert "SKIP" in caplog.text
+
+    def test_logs_ok_when_download_returns_true(self, tmp, caplog):
+        caplog.set_level(logging.INFO)
+        genome = self._genome(tmp)
+        with patch(_NCBI_DL, return_value=True):
+            step1_ncbi([genome], force=False)
+        assert "OK" in caplog.text
 
 
-# ── step2_cyanorak ───────────────────────────────────────────────────────────────
+# ── step2_cyanorak ────────────────────────────────────────────────────────────
 
 class TestStep2Cyanorak:
-    def test_skips_strain_without_cyanorak_organism(self, tmp):
-        data_dir = tmp / "genomes" / "MIT1002"
-        data_dir.mkdir(parents=True)
-        genome = {"strain_name": "MIT1002", "cyanorak_organism": "",
-                  "data_dir": str(data_dir)}
+    def _genome(self, tmp, strain="MED4", cyan_org="Pro_MED4"):
+        return {"strain_name": strain, "cyanorak_organism": cyan_org,
+                "data_dir": str(tmp / "genomes" / strain)}
 
-        with patch(_CYAN_CLS) as mock_cls:
+    def test_skips_strain_without_cyanorak_organism(self, tmp, caplog):
+        caplog.set_level(logging.INFO)
+        genome = self._genome(tmp, cyan_org="")
+        with patch(_CYANORAK_DL) as mock_dl:
             step2_cyanorak([genome], force=False)
+        mock_dl.assert_not_called()
+        assert "SKIP" in caplog.text
 
-        mock_cls.assert_not_called()
-
-    def test_skips_when_both_files_exist(self, tmp):
-        cyan_org = "Pro_MED4"
-        data_dir = tmp / "genomes" / "MED4"
-        cyan_dir = data_dir / "cyanorak"
-        cyan_dir.mkdir(parents=True)
-        (cyan_dir / f"{cyan_org}.gff").write_text("content")
-        (cyan_dir / f"{cyan_org}.gbk").write_text("content")
-
-        genome = {"strain_name": "MED4", "cyanorak_organism": cyan_org,
-                  "data_dir": str(data_dir)}
-
-        with patch(_CYAN_CLS) as mock_cls:
+    def test_calls_download_for_both_extensions(self, tmp):
+        genome = self._genome(tmp)
+        with patch(_CYANORAK_DL, return_value=True) as mock_dl:
             step2_cyanorak([genome], force=False)
+        exts = [call[0][2] for call in mock_dl.call_args_list]
+        assert sorted(exts) == ["gbk", "gff"]
 
-        mock_cls.assert_not_called()
-
-    def test_downloads_when_gbk_missing(self, tmp):
-        cyan_org = "Pro_MED4"
-        data_dir = tmp / "genomes" / "MED4"
-        cyan_dir = data_dir / "cyanorak"
-        cyan_dir.mkdir(parents=True)
-        (cyan_dir / f"{cyan_org}.gff").write_text("content")  # GFF present, GBK absent
-
-        genome = {"strain_name": "MED4", "cyanorak_organism": cyan_org,
-                  "data_dir": str(data_dir)}
-        mock_adapter = MagicMock()
-
-        with patch(_CYAN_CLS, return_value=mock_adapter):
+    def test_passes_correct_organism_and_data_dir(self, tmp):
+        genome = self._genome(tmp)
+        with patch(_CYANORAK_DL, return_value=True) as mock_dl:
             step2_cyanorak([genome], force=False)
+        first_call = mock_dl.call_args_list[0][0]
+        assert first_call[0] == "Pro_MED4"
+        assert first_call[1] == str(tmp / "genomes" / "MED4")
 
-        mock_adapter._download_cyanorak_gff.assert_called_once()
-        mock_adapter._download_cyanorak_gbk.assert_called_once()
-
-    def test_force_removes_files_and_redownloads(self, tmp):
-        cyan_org = "Pro_MED4"
-        data_dir = tmp / "genomes" / "MED4"
-        cyan_dir = data_dir / "cyanorak"
-        cyan_dir.mkdir(parents=True)
-        gff = cyan_dir / f"{cyan_org}.gff"
-        gbk = cyan_dir / f"{cyan_org}.gbk"
-        gff.write_text("old")
-        gbk.write_text("old")
-
-        genome = {"strain_name": "MED4", "cyanorak_organism": cyan_org,
-                  "data_dir": str(data_dir)}
-        mock_adapter = MagicMock()
-
-        with patch(_CYAN_CLS, return_value=mock_adapter), \
-             patch(_CURL_OFF, return_value=MagicMock()):
+    def test_passes_force_flag(self, tmp):
+        genome = self._genome(tmp)
+        with patch(_CYANORAK_DL, return_value=True) as mock_dl:
             step2_cyanorak([genome], force=True)
+        forces = [call[0][3] for call in mock_dl.call_args_list]
+        assert all(f is True for f in forces)
 
-        assert not gff.exists()
-        assert not gbk.exists()
-        mock_adapter._download_cyanorak_gff.assert_called_once()
-        mock_adapter._download_cyanorak_gbk.assert_called_once()
+    def test_logs_skip_when_both_return_false(self, tmp, caplog):
+        caplog.set_level(logging.INFO)
+        genome = self._genome(tmp)
+        with patch(_CYANORAK_DL, return_value=False):
+            step2_cyanorak([genome], force=False)
+        assert "SKIP" in caplog.text
+
+    def test_logs_ok_when_either_returns_true(self, tmp, caplog):
+        caplog.set_level(logging.INFO)
+        genome = self._genome(tmp)
+        with patch(_CYANORAK_DL, side_effect=[True, False]):
+            step2_cyanorak([genome], force=False)
+        assert "OK" in caplog.text
 
 
-# ── step3_uniprot ────────────────────────────────────────────────────────────────
+# ── step3_uniprot ─────────────────────────────────────────────────────────────
 
 class TestStep3Uniprot:
     def _make_genomes(self):
@@ -302,72 +420,95 @@ class TestStep3Uniprot:
              "data_dir": "cache/data/Alteromonas/genomes/EZ55/"},
         ]
 
+    def test_deduplicates_by_taxid(self, tmp):
+        """Three genomes with two unique taxids → two UniProt downloads."""
+        genomes = self._make_genomes()
+        with patch("scripts.download_genome_data.PROJECT_ROOT", tmp), \
+             patch(_UNIPROT_DL, return_value=True) as mock_dl:
+            step3_uniprot(genomes, force=False)
+        assert mock_dl.call_count == 2
+
+    def test_skips_when_download_returns_false(self, tmp, caplog):
+        caplog.set_level(logging.INFO)
+        genomes = [self._make_genomes()[0]]
+        with patch("scripts.download_genome_data.PROJECT_ROOT", tmp), \
+             patch(_UNIPROT_DL, return_value=False):
+            step3_uniprot(genomes, force=False)
+        assert "SKIP" in caplog.text
+
+    def test_logs_ok_when_download_returns_true(self, tmp, caplog):
+        caplog.set_level(logging.INFO)
+        genomes = [self._make_genomes()[0]]
+        with patch("scripts.download_genome_data.PROJECT_ROOT", tmp), \
+             patch(_UNIPROT_DL, return_value=True):
+            step3_uniprot(genomes, force=False)
+        assert "OK" in caplog.text
+
+    def test_passes_correct_taxid_and_cache_dir(self, tmp):
+        genomes = [self._make_genomes()[0]]  # MED4, taxid=59919
+        with patch("scripts.download_genome_data.PROJECT_ROOT", tmp), \
+             patch(_UNIPROT_DL, return_value=True) as mock_dl:
+            step3_uniprot(genomes, force=False)
+        taxid, cache_dir, force = mock_dl.call_args[0]
+        assert taxid == 59919
+        assert cache_dir == tmp / "cache" / "data" / "Prochlorococcus" / "uniprot" / "59919"
+        assert force is False
+
+    def test_correct_org_group_path_for_alteromonas(self, tmp):
+        genomes = [self._make_genomes()[1]]  # MIT1002
+        with patch("scripts.download_genome_data.PROJECT_ROOT", tmp), \
+             patch(_UNIPROT_DL, return_value=True) as mock_dl:
+            step3_uniprot(genomes, force=False)
+        _, cache_dir, _ = mock_dl.call_args[0]
+        assert cache_dir == tmp / "cache" / "data" / "Alteromonas" / "uniprot" / "28108"
+
+
+# ── _uniprot_download ─────────────────────────────────────────────────────────
+
+class TestUniprotDownload:
     def _mock_adapter(self, data=None):
         m = MagicMock()
         m.data = data or {"cc_function": {"P00001": "test"}}
         m.uniprot_ids = {"P00001"}
         return m
 
-    def test_deduplicates_by_taxid(self, tmp):
-        """Three genomes with two unique taxids → two UniProt downloads."""
-        genomes = self._make_genomes()
-        call_count = [0]
-
-        def make_adapter(**kwargs):
-            call_count[0] += 1
-            return self._mock_adapter()
-
-        with patch("scripts.download_genome_data.PROJECT_ROOT", tmp), \
-             patch(_UNIPROT_CLS, side_effect=make_adapter), \
-             patch(_CURL_OFF_UP, return_value=MagicMock()):
-            step3_uniprot(genomes, force=False)
-
-        assert call_count[0] == 2  # one per unique (org_group, taxid)
-
-    def test_skips_when_both_json_files_exist(self, tmp):
-        genomes = [self._make_genomes()[0]]  # MED4 only
-        cache_dir = tmp / "cache" / "data" / "Prochlorococcus" / "uniprot" / "59919"
+    def test_returns_false_when_both_files_exist(self, tmp):
+        cache_dir = tmp / "uniprot" / "59919"
         cache_dir.mkdir(parents=True)
         (cache_dir / "uniprot_raw_data.json").write_text("{}")
         (cache_dir / "uniprot_preprocess_data.json").write_text("{}")
 
-        with patch("scripts.download_genome_data.PROJECT_ROOT", tmp), \
-             patch(_UNIPROT_CLS) as mock_cls:
-            step3_uniprot(genomes, force=False)
+        result = _uniprot_download(59919, cache_dir, force=False)
+        assert result is False
 
-        mock_cls.assert_not_called()
-
-    def test_downloads_and_saves_json_files(self, tmp):
-        genomes = [self._make_genomes()[0]]
+    def test_returns_true_and_saves_json_files(self, tmp):
+        cache_dir = tmp / "uniprot" / "59919"
         mock_adapter = self._mock_adapter()
 
-        with patch("scripts.download_genome_data.PROJECT_ROOT", tmp), \
-             patch(_UNIPROT_CLS, return_value=mock_adapter), \
-             patch(_CURL_OFF_UP, return_value=MagicMock()):
-            step3_uniprot(genomes, force=False)
+        with patch(_UNIPROT_CLS, return_value=mock_adapter), \
+             patch(_CURL_OFF, return_value=MagicMock()):
+            result = _uniprot_download(59919, cache_dir, force=False)
 
-        cache_dir = tmp / "cache" / "data" / "Prochlorococcus" / "uniprot" / "59919"
+        assert result is True
         assert (cache_dir / "uniprot_raw_data.json").exists()
         assert (cache_dir / "uniprot_preprocess_data.json").exists()
         raw = json.loads((cache_dir / "uniprot_raw_data.json").read_text())
         assert "cc_function" in raw
 
     def test_calls_preprocess_methods(self, tmp):
-        genomes = [self._make_genomes()[0]]
+        cache_dir = tmp / "uniprot" / "59919"
         mock_adapter = self._mock_adapter(data={})
 
-        with patch("scripts.download_genome_data.PROJECT_ROOT", tmp), \
-             patch(_UNIPROT_CLS, return_value=mock_adapter), \
-             patch(_CURL_OFF_UP, return_value=MagicMock()):
-            step3_uniprot(genomes, force=False)
+        with patch(_UNIPROT_CLS, return_value=mock_adapter), \
+             patch(_CURL_OFF, return_value=MagicMock()):
+            _uniprot_download(59919, cache_dir, force=False)
 
         mock_adapter._download_uniprot_data.assert_called_once()
         mock_adapter._preprocess_uniprot_data.assert_called_once()
         mock_adapter._preprocess_organisms.assert_called_once()
 
     def test_force_overwrites_existing_cache(self, tmp):
-        genomes = [self._make_genomes()[0]]
-        cache_dir = tmp / "cache" / "data" / "Prochlorococcus" / "uniprot" / "59919"
+        cache_dir = tmp / "uniprot" / "59919"
         cache_dir.mkdir(parents=True)
         (cache_dir / "uniprot_raw_data.json").write_text('{"old": true}')
         (cache_dir / "uniprot_preprocess_data.json").write_text('{"old": true}')
@@ -375,43 +516,39 @@ class TestStep3Uniprot:
         mock_adapter = self._mock_adapter(data={"cc_function": {"P00002": "new"}})
         mock_adapter.uniprot_ids = {"P00002"}
 
-        with patch("scripts.download_genome_data.PROJECT_ROOT", tmp), \
-             patch(_UNIPROT_CLS, return_value=mock_adapter), \
-             patch(_CURL_OFF_UP, return_value=MagicMock()):
-            step3_uniprot(genomes, force=True)
+        with patch(_UNIPROT_CLS, return_value=mock_adapter), \
+             patch(_CURL_OFF, return_value=MagicMock()):
+            result = _uniprot_download(59919, cache_dir, force=True)
 
+        assert result is True
         mock_adapter._download_uniprot_data.assert_called_once()
         raw = json.loads((cache_dir / "uniprot_raw_data.json").read_text())
         assert "cc_function" in raw
 
-    def test_correct_org_group_path_for_alteromonas(self, tmp):
-        """Alteromonas taxid 28108 → cache/data/Alteromonas/uniprot/28108/."""
-        genomes = [self._make_genomes()[1]]  # MIT1002
-        mock_adapter = self._mock_adapter(data={})
-
-        with patch("scripts.download_genome_data.PROJECT_ROOT", tmp), \
-             patch(_UNIPROT_CLS, return_value=mock_adapter), \
-             patch(_CURL_OFF_UP, return_value=MagicMock()):
-            step3_uniprot(genomes, force=False)
-
-        expected = tmp / "cache" / "data" / "Alteromonas" / "uniprot" / "28108"
-        assert (expected / "uniprot_raw_data.json").exists()
-
     def test_rev_false_passed_to_adapter(self, tmp):
-        """Verify Uniprot is instantiated with rev=False for full coverage."""
-        genomes = [self._make_genomes()[0]]
+        cache_dir = tmp / "uniprot" / "59919"
         mock_adapter = self._mock_adapter(data={})
 
-        with patch("scripts.download_genome_data.PROJECT_ROOT", tmp), \
-             patch(_UNIPROT_CLS, return_value=mock_adapter) as mock_cls, \
-             patch(_CURL_OFF_UP, return_value=MagicMock()):
-            step3_uniprot(genomes, force=False)
+        with patch(_UNIPROT_CLS, return_value=mock_adapter) as mock_cls, \
+             patch(_CURL_OFF, return_value=MagicMock()):
+            _uniprot_download(59919, cache_dir, force=False)
 
         _, kwargs = mock_cls.call_args
         assert kwargs.get("rev") is False
 
+    def test_creates_cache_dir_if_missing(self, tmp):
+        cache_dir = tmp / "new" / "path" / "59919"
+        assert not cache_dir.exists()
+        mock_adapter = self._mock_adapter(data={})
 
-# ── step4_eggnog ─────────────────────────────────────────────────────────────────
+        with patch(_UNIPROT_CLS, return_value=mock_adapter), \
+             patch(_CURL_OFF, return_value=MagicMock()):
+            _uniprot_download(59919, cache_dir, force=False)
+
+        assert cache_dir.exists()
+
+
+# ── step4_eggnog ──────────────────────────────────────────────────────────────
 
 class TestStep4Eggnog:
     def _genome(self, tmp, strain="MED4", taxid="59919", create_faa=True):
