@@ -1,4 +1,3 @@
-from time import time
 import collections
 import csv
 from typing import Optional, Union, Literal
@@ -521,7 +520,7 @@ class Uniprot:
 
     @validate_call
     def _download_uniprot_data(
-        self, 
+        self,
         prott5_embedding_output_path: FilePath | None = None,
         esm2_embedding_path: FilePath | None = None,
         nucleotide_transformer_embedding_path: FilePath | None = None,
@@ -529,56 +528,28 @@ class Uniprot:
         """
         Download uniprot data from uniprot.org through pypath.
 
-        Here is an overview of uniprot return fields:
-        https://www.uniprot.org/help/return_fields
-
-        TODO make use of multi-field query
+        Core fetch logic is delegated to
+        ``multiomics_kg.download.download_uniprot.fetch_raw_uniprot``.
+        Embedding fields (ProtT5, ESM2, NT) are handled here after the fetch.
         """
+        from multiomics_kg.download.download_uniprot import fetch_raw_uniprot
 
-        from pypath.inputs import uniprot
+        # Fetch all non-embedding fields via standalone function.
+        # Must be called inside curl.cache_off() by the caller when needed.
+        self.data, self.uniprot_ids = fetch_raw_uniprot(
+            organism=self.organism,
+            node_fields=self.node_fields,
+            rev=self.rev,
+            test_mode=self.test_mode,
+        )
 
-        logger.info("Downloading uniprot data...")
-
-        t0 = time()
-
-        # download all swissprot ids
-        self.uniprot_ids = set(uniprot._all_uniprots(self.organism, self.rev))
-        logger.debug(f"found {len(self.uniprot_ids)} uniprot ids")
-        # limit to 100 for testing
-        if self.test_mode:
-            self.uniprot_ids = set(list(self.uniprot_ids)[:100])
-
-        # download attribute dicts
-        self.data = {}
-        for query_key in tqdm(self.node_fields, desc="Downloading uniprot fields"):
-            if query_key in [
-                UniprotNodeField.PROTT5_EMBEDDING.value,
-                UniprotNodeField.ESM2_EMBEDDING.value,
-                UniprotNodeField.NT_EMBEDDING.value,
-            ]:
-                # downloaded separately and not from the uniprot REST API
-                continue
-
-            elif query_key == UniprotNodeField.SUBCELLULAR_LOCATION.value:
-                self.data[query_key] = uniprot.uniprot_locations(
-                    self.organism, self.rev
-                )
-            else:
-                self.data[query_key] = uniprot.uniprot_data(
-                    fields = query_key,
-                    organism = self.organism,
-                    reviewed = self.rev,
-                )
-
-            logger.debug(f"{query_key} field is downloaded")
-
-
+        # Embeddings are not handled by fetch_raw_uniprot; keep them here.
         if UniprotNodeField.PROTT5_EMBEDDING.value in self.node_fields:
             self.data[UniprotNodeField.PROTT5_EMBEDDING.value] = {}
             self.download_prott5_embeddings(
                 prott5_embedding_output_path=prott5_embedding_output_path
             )
-        
+
         if UniprotNodeField.ESM2_EMBEDDING.value in self.node_fields:
             self.data[UniprotNodeField.ESM2_EMBEDDING.value] = {}
             self.retrieve_esm2_embeddings(esm2_embedding_path)
@@ -588,10 +559,6 @@ class Uniprot:
             self.retrieve_nucleotide_transformer_embeddings(
                 nucleotide_transformer_embedding_path
             )
-
-        t1 = time()
-        msg = f"Acquired UniProt data in {round((t1-t0) / 60, 2)} mins."
-        logger.info(msg)
 
     @validate_call
     def download_prott5_embeddings(
@@ -696,83 +663,13 @@ class Uniprot:
                 
     def _preprocess_uniprot_data(self):
         """
-        Preprocess uniprot data to make it ready for import. First, three types
-        of processing are applied:
-        - nothing is done (for ensembl gene ids, which come from pypath)
-        - simple string replacement
-        - replace separators in integers and convert to int
-        - field splitting
+        Preprocess uniprot data to make it ready for import.
 
-        Then, special treatment is applied to some fields:
-        - ensg ids are extracted from the ensembl transcript ids
-        - protein names and virus hosts have dedicated normalisation functions
+        Delegates to ``multiomics_kg.download.download_uniprot.preprocess_uniprot_data``.
         """
+        from multiomics_kg.download.download_uniprot import preprocess_uniprot_data
 
-        logger.info("Preprocessing UniProt data.")
-
-        for arg in tqdm(self.node_fields, desc="Processing uniprot fields"):
-
-            # do not process ensembl gene ids (we will get them from pypath)
-            # and prott5 embeddings
-            if arg in self.nonuniprot_api_fields:
-                pass
-
-            elif arg in [
-                UniprotNodeField.LENGTH.value,
-                UniprotNodeField.MASS.value,
-                UniprotNodeField.ORGANISM_ID.value,
-            ]:
-                for protein, attribute_value in self.data.get(arg).items():
-                    self.data[arg][protein] = int(
-                        str(attribute_value).replace(",", "")
-                    )
-
-            elif arg not in self.split_fields:
-                if arg != UniprotNodeField.SUBCELLULAR_LOCATION.value:
-                    for protein, attribute_value in self.data.get(arg).items():
-
-                        self.data[arg][protein] = (
-                            attribute_value.replace("|", ",")
-                            .replace("'", "^")
-                            .strip()
-                        )
-
-            else:
-
-                for protein, attribute_value in self.data.get(arg).items():
-                    # Field splitting
-                    self.data[arg][protein] = self._split_fields(
-                        arg, attribute_value
-                    )
-
-
-            # Protein names
-            if arg == UniprotNodeField.PROTEIN_NAMES.value:
-
-                pass # skip this split - its buggy for now
-                # for protein, attribute_value in self.data.get(arg).items():
-                #     self.data[arg][protein] = self._split_protein_names_field(
-                #         attribute_value
-                #     )
-
-            elif arg == UniprotNodeField.SUBCELLULAR_LOCATION.value:
-                for protein, attribute_value in self.data.get(arg).items():
-                    individual_protein_locations = []
-                    for element in attribute_value:
-                        loc = (
-                            str(element.location)
-                            .replace("'", "")
-                            .replace("[", "")
-                            .replace("]", "")
-                            .strip()
-                        )
-                        individual_protein_locations.append(loc)
-                        self.locations.add(loc)
-
-                    self.data[arg][protein] = individual_protein_locations
-        # preprocess go fields to extract go ids
-        # assume split_fields already applied
-        self._preprocess_go_fields()
+        self.data, self.locations = preprocess_uniprot_data(self.data, self.node_fields)
 
 
     def _preprocess_organisms(self):
@@ -788,34 +685,9 @@ class Uniprot:
 
 
     def _extract_go_id(self, go_term: str) -> str:
-        """
-        Extract GO id from GO term string.
-        Example input: "aspartate-semialdehyde dehydrogenase activity [GO:0004073]"
-        """
-
-        if "GO:" in go_term:
-            go_id = go_term.split("GO:")[1].split("]")[0].strip()
-            return go_id
-        return None
-    
-    def _preprocess_go_fields(self):
-        """
-        Preprocess GO fields to extract GO ids from the GO term strings.
-        """
-
-        go_fields = [
-            UniprotNodeField.CELLULAR_COMPONENT.value,
-            UniprotNodeField.BIOLOGICAL_PROCESS.value,
-            UniprotNodeField.MOLECULAR_FUNCTION.value,
-        ]
-        for go_field in go_fields:
-            go_id_field = go_field + "_id"
-            self.data[go_id_field] = dict()
-
-            for protein, attribute_value in self.data.get(go_field).items():
-                # example attribute_value: "aspartate-semialdehyde dehydrogenase activity [GO:0004073]"
-                go_ids = [self._extract_go_id(go_term) for go_term in attribute_value if go_term and "GO:" in go_term]
-                self.data[go_id_field][protein] = go_ids
+        """Delegate to standalone helper in download_uniprot module."""
+        from multiomics_kg.download.download_uniprot import _extract_go_id
+        return _extract_go_id(go_term)
 
     @validate_call
     def _get_ligand_or_receptor(self, uniprot_id: str):
@@ -1262,45 +1134,9 @@ class Uniprot:
         return protein_props
 
     def _split_fields(self, field_key, field_value):
-        """
-        Split fields with multiple entries in uniprot
-        Args:
-            field_key: field name
-            field_value: entry of the field
-        """
-        if field_value is None or field_value == "":
-            return field_value
-        
-        # replace sensitive elements for admin-import
-        field_value = (
-            field_value.replace("|", ",").replace("'", "^").strip()
-        )
-
-        # define fields that will not be splitted by semicolon
-        split_dict = {
-            UniprotNodeField.PROTEOME.value: ",",
-            UniprotNodeField.PROTEIN_GENE_NAMES.value: " ",
-        }
-
-        split_char = split_dict.get(field_key, ";")
-
-        # if field in split_dict split accordingly
-        field_value = [i.strip() for i in field_value.strip(split_char).split(split_char)]
-
-        # split colons (":") in kegg field
-        if field_key == UniprotNodeField.KEGG_IDS.value:
-            _list = [e.split(":")[1].strip() for e in field_value]
-            field_value = _list
-
-        # take first element in database(GeneID) field
-        if field_key == UniprotNodeField.ENTREZ_GENE_IDS.value:
-            field_value = field_value[0]
-
-        # if field has just one element in the list make it string
-        if isinstance(field_value, list) and len(field_value) == 1:
-            field_value = field_value[0]
-
-        return field_value
+        """Delegate to standalone helper in download_uniprot module."""
+        from multiomics_kg.download.download_uniprot import _split_field
+        return _split_field(field_key, field_value)
 
     # TODO fix this function to support strings like:
     #    "Q7TU21": "Aspartate-semialdehyde dehydrogenase (ASA dehydrogenase) (ASADH) (EC 1.2.1.11) (Aspartate-beta-semialdehyde dehydrogenase)",

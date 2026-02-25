@@ -30,7 +30,6 @@ from __future__ import annotations
 
 import argparse
 import csv
-import json
 import logging
 import os
 import subprocess
@@ -41,7 +40,7 @@ from pathlib import Path
 import dotenv
 
 SCRIPT_DIR = Path(__file__).parent
-PROJECT_ROOT = SCRIPT_DIR.parent
+PROJECT_ROOT = SCRIPT_DIR.parent.parent  # multiomics_kg/download/ -> multiomics_kg/ -> project root
 GENOMES_CSV = PROJECT_ROOT / "data/Prochlorococcus/genomes/cyanobacteria_genomes.csv"
 
 dotenv.load_dotenv(PROJECT_ROOT / ".env")
@@ -156,7 +155,7 @@ def _cyanorak_download_file(
     Returns True if the file was downloaded, False if already cached.
     Raises ConnectionError if the download fails.
     """
-    from pypath.share import curl
+    import requests
 
     cyan_dir = os.path.join(data_dir, "cyanorak")
     os.makedirs(cyan_dir, exist_ok=True)
@@ -171,67 +170,20 @@ def _cyanorak_download_file(
 
     url = f"https://cyanorak.sb-roscoff.fr/cyanorak/svc/export/organism/{ext}/{cyanorak_organism}"
 
-    with ExitStack() as stack:
-        if force:
-            stack.enter_context(curl.cache_off())
-        c = curl.Curl(url, silent=False)
-
-    if c.result is None:
+    response = requests.get(url, timeout=120)
+    if not response.ok:
         raise ConnectionError(
-            f"Failed to download Cyanorak {ext} for {cyanorak_organism} from {url}"
+            f"Failed to download Cyanorak {ext} for {cyanorak_organism}: "
+            f"HTTP {response.status_code} from {url}"
         )
 
     with open(out_path, 'w') as f:
-        f.write(c.result)
+        f.write(response.text)
     log.debug(f"  Cyanorak {ext.upper()} saved to {out_path}")
 
     return True
 
 
-def _uniprot_download(taxid: int, cache_dir: Path, force: bool) -> bool:
-    """Download and preprocess UniProt data for a taxid.
-
-    Uses rev=False to fetch all UniProt entries (TrEMBL + SwissProt) for maximum
-    annotation coverage in the gene annotation merge step.
-
-    Output files:
-      <cache_dir>/uniprot_raw_data.json
-      <cache_dir>/uniprot_preprocess_data.json
-
-    Returns True if files were downloaded, False if already cached.
-    """
-    from pypath.share import curl
-    from multiomics_kg.adapters.uniprot_adapter import Uniprot
-
-    raw_path = cache_dir / "uniprot_raw_data.json"
-    pre_path = cache_dir / "uniprot_preprocess_data.json"
-
-    if not force and raw_path.exists() and pre_path.exists():
-        return False
-
-    cache_dir.mkdir(parents=True, exist_ok=True)
-
-    # rev=False: fetch all entries (TrEMBL + SwissProt) for maximum annotation
-    # coverage. The KG build uses rev=True (SwissProt only); here we want
-    # every available functional annotation for the gene annotation merge.
-    adapter = Uniprot(organism=taxid, rev=False)
-
-    with ExitStack() as stack:
-        stack.enter_context(curl.cache_off())
-        adapter._download_uniprot_data()
-
-    log.info(f"  Saving raw data ({len(adapter.uniprot_ids)} proteins)...")
-    with open(raw_path, "w") as f:
-        json.dump(adapter.data, f, indent=4, default=str)
-
-    adapter._preprocess_uniprot_data()
-    adapter._preprocess_organisms()
-
-    log.info(f"  Saving preprocessed data...")
-    with open(pre_path, "w") as f:
-        json.dump(adapter.data, f, indent=4, default=str)
-
-    return True
 
 
 # ── step 1: NCBI genome ──────────────────────────────────────────────────────
@@ -291,7 +243,8 @@ def step3_uniprot(genomes: list[dict], force: bool) -> None:
             f"  Processing UniProt taxid={taxid} ({org_group}); "
             f"representative strain: {strain}"
         )
-        if _uniprot_download(taxid, cache_dir, force):
+        from multiomics_kg.download.download_uniprot import download_uniprot
+        if download_uniprot(taxid, cache_dir, force):
             log.info(f"  OK: UniProt taxid={taxid} → {cache_dir}")
         else:
             log.info(f"  [SKIP] UniProt taxid={taxid} ({org_group}) — cache exists")

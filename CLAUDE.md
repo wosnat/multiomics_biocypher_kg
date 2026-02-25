@@ -128,13 +128,44 @@ The `.claude/skills/` directory provides project-specific skills:
 - `/fix-gene-ids` — map gene IDs to locus tags when mismatches are found
 - `/cypher-queries` — run Cypher queries against Neo4j with ready-made templates
 
+## Genome Data Download Pipeline
+
+`scripts/prepare_data.sh` orchestrates all genome annotation downloads and preprocessing. Run this before `create_knowledge_graph.py` when adding new genomes or refreshing data.
+
+```bash
+# Download everything + build annotation tables (skip eggNOG — run /eggnog-run skill separately)
+bash scripts/prepare_data.sh
+
+# Force re-run all steps
+bash scripts/prepare_data.sh --force
+
+# Cyanorak server throttles sometimes — skip it when files are already cached
+bash scripts/prepare_data.sh --force --skip-cyanorak
+
+# Specific strains or steps only
+bash scripts/prepare_data.sh --strains MED4 MIT9313 --force
+bash scripts/prepare_data.sh --steps 1 --force   # rebuild annotations only
+```
+
+Logs written to `logs/prepare_data_step0.log` and `logs/prepare_data_step1.log`. Monitor with `tail -f logs/prepare_data_step0.log`.
+
+**Step 0** (`multiomics_kg/download/download_genome_data.py`) — sub-steps:
+- 1: NCBI genome (GFF, protein FASTA, GBFF)
+- 2: Cyanorak GFF/GBK (strains with `cyanorak_organism` only; server can be slow)
+- 3: UniProt per unique taxid → `cache/data/<org_group>/uniprot/<taxid>/`
+- 4: eggNOG-mapper (skipped by default; requires `EGGNOG_DATA_DIR` in `.env`)
+- 5: Build `gene_mapping.csv`
+
+**Step 1** (`multiomics_kg/download/build_gene_annotations.py`) — merges gene_mapping.csv + eggNOG + UniProt → `gene_annotations_merged.json` per strain.
+
 ## Data Locations
 
 - **Genomic data (raw):** `data/Prochlorococcus/genomes/<Strain>/` and equivalents for Synechococcus/Alteromonas
 - **Genomic data (cached):** `cache/data/<Organism>/genomes/<Strain>/`
 - **Publication data:** `data/Prochlorococcus/papers_and_supp/<Author Year>/`
 - **Gene mapping CSVs:** `cache/data/<Organism>/genomes/<Strain>/gene_mapping.csv`
-- **UniProt cache:** `uniprot_raw_data.json`, `uniprot_preprocess_data.json` (root dir, not committed)
+- **Gene annotation tables:** `cache/data/<Organism>/genomes/<Strain>/gene_annotations_merged.json`
+- **UniProt cache (taxid-keyed):** `cache/data/<org_group>/uniprot/<taxid>/uniprot_preprocess_data.json`
 - **PDF extraction cache:** `pdf_extraction_cache.json`
 
 ## KG Validity Tests

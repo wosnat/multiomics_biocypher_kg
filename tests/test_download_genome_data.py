@@ -2,21 +2,23 @@
 
 Patching strategy
 -----------------
-The standalone download functions (_ncbi_download_genome, _cyanorak_download_file,
-_uniprot_download) use *lazy* imports (``from X import Y`` inside the function body)
-to avoid loading heavy dependencies at import time.
+The standalone download functions (_ncbi_download_genome, _cyanorak_download_file)
+use *lazy* imports (``from X import Y`` inside the function body) to avoid loading
+heavy dependencies at import time.
 
 For pypath curl calls, patch the attribute on the *source* module:
   ``pypath.share.curl.Curl``
   ``pypath.share.curl.cache_off``
 
-For Uniprot adapter usage inside ``_uniprot_download``, patch:
-  ``multiomics_kg.adapters.uniprot_adapter.Uniprot``
+The UniProt step (step3_uniprot) delegates to
+``multiomics_kg.download.download_uniprot.download_uniprot`` via a lazy import.
+Patch it on the *source* module:
+  ``multiomics_kg.download.download_uniprot.download_uniprot``
 
 For step-level tests, patch the standalone functions directly:
   ``multiomics_kg.download.download_genome_data._ncbi_download_genome``
   ``multiomics_kg.download.download_genome_data._cyanorak_download_file``
-  ``multiomics_kg.download.download_genome_data._uniprot_download``
+  ``multiomics_kg.download.download_uniprot.download_uniprot``
 
 For ``PROJECT_ROOT`` (a module-level ``Path`` constant used by step 3 to build
 cache paths) patch it as ``multiomics_kg.download.download_genome_data.PROJECT_ROOT``.
@@ -42,7 +44,6 @@ from multiomics_kg.download.download_genome_data import (
     _get_org_group,
     _ncbi_download_genome,
     _read_genomes_csv,
-    _uniprot_download,
     step1_ncbi,
     step2_cyanorak,
     step3_uniprot,
@@ -84,11 +85,10 @@ def genomes(genomes_csv):
 
 _CURL_CLS  = "pypath.share.curl.Curl"
 _CURL_OFF  = "pypath.share.curl.cache_off"
-_UNIPROT_CLS = "multiomics_kg.adapters.uniprot_adapter.Uniprot"
 
 _NCBI_DL     = "multiomics_kg.download.download_genome_data._ncbi_download_genome"
 _CYANORAK_DL = "multiomics_kg.download.download_genome_data._cyanorak_download_file"
-_UNIPROT_DL  = "multiomics_kg.download.download_genome_data._uniprot_download"
+_UNIPROT_DL  = "multiomics_kg.download.download_uniprot.download_uniprot"
 
 
 # ── _read_genomes_csv ─────────────────────────────────────────────────────────
@@ -463,14 +463,18 @@ class TestStep3Uniprot:
         assert cache_dir == tmp / "cache" / "data" / "Alteromonas" / "uniprot" / "28108"
 
 
-# ── _uniprot_download ─────────────────────────────────────────────────────────
+# ── download_uniprot (standalone module) ──────────────────────────────────────
 
-class TestUniprotDownload:
-    def _mock_adapter(self, data=None):
-        m = MagicMock()
-        m.data = data or {"cc_function": {"P00001": "test"}}
-        m.uniprot_ids = {"P00001"}
-        return m
+_FETCH_RAW   = "multiomics_kg.download.download_uniprot.fetch_raw_uniprot"
+_PREPROCESS  = "multiomics_kg.download.download_uniprot.preprocess_uniprot_data"
+
+
+class TestDownloadUniprot:
+    """Tests for the standalone download_uniprot() function."""
+
+    def _import(self):
+        from multiomics_kg.download.download_uniprot import download_uniprot
+        return download_uniprot
 
     def test_returns_false_when_both_files_exist(self, tmp):
         cache_dir = tmp / "uniprot" / "59919"
@@ -478,34 +482,38 @@ class TestUniprotDownload:
         (cache_dir / "uniprot_raw_data.json").write_text("{}")
         (cache_dir / "uniprot_preprocess_data.json").write_text("{}")
 
-        result = _uniprot_download(59919, cache_dir, force=False)
+        download_uniprot = self._import()
+        result = download_uniprot(59919, cache_dir, force=False)
         assert result is False
 
     def test_returns_true_and_saves_json_files(self, tmp):
         cache_dir = tmp / "uniprot" / "59919"
-        mock_adapter = self._mock_adapter()
+        raw_data = {"cc_function": {"P00001": "test"}}
 
-        with patch(_UNIPROT_CLS, return_value=mock_adapter), \
+        download_uniprot = self._import()
+        with patch(_FETCH_RAW, return_value=(raw_data, {"P00001"})), \
+             patch(_PREPROCESS, return_value=(raw_data, set())), \
              patch(_CURL_OFF, return_value=MagicMock()):
-            result = _uniprot_download(59919, cache_dir, force=False)
+            result = download_uniprot(59919, cache_dir, force=False)
 
         assert result is True
         assert (cache_dir / "uniprot_raw_data.json").exists()
         assert (cache_dir / "uniprot_preprocess_data.json").exists()
-        raw = json.loads((cache_dir / "uniprot_raw_data.json").read_text())
-        assert "cc_function" in raw
+        saved = json.loads((cache_dir / "uniprot_raw_data.json").read_text())
+        assert "cc_function" in saved
 
-    def test_calls_preprocess_methods(self, tmp):
+    def test_calls_fetch_and_preprocess(self, tmp):
         cache_dir = tmp / "uniprot" / "59919"
-        mock_adapter = self._mock_adapter(data={})
+        raw_data: dict = {}
 
-        with patch(_UNIPROT_CLS, return_value=mock_adapter), \
+        download_uniprot = self._import()
+        with patch(_FETCH_RAW, return_value=(raw_data, set())) as mock_fetch, \
+             patch(_PREPROCESS, return_value=(raw_data, set())) as mock_pre, \
              patch(_CURL_OFF, return_value=MagicMock()):
-            _uniprot_download(59919, cache_dir, force=False)
+            download_uniprot(59919, cache_dir, force=False)
 
-        mock_adapter._download_uniprot_data.assert_called_once()
-        mock_adapter._preprocess_uniprot_data.assert_called_once()
-        mock_adapter._preprocess_organisms.assert_called_once()
+        mock_fetch.assert_called_once()
+        mock_pre.assert_called_once()
 
     def test_force_overwrites_existing_cache(self, tmp):
         cache_dir = tmp / "uniprot" / "59919"
@@ -513,37 +521,40 @@ class TestUniprotDownload:
         (cache_dir / "uniprot_raw_data.json").write_text('{"old": true}')
         (cache_dir / "uniprot_preprocess_data.json").write_text('{"old": true}')
 
-        mock_adapter = self._mock_adapter(data={"cc_function": {"P00002": "new"}})
-        mock_adapter.uniprot_ids = {"P00002"}
-
-        with patch(_UNIPROT_CLS, return_value=mock_adapter), \
+        new_data = {"cc_function": {"P00002": "new"}}
+        download_uniprot = self._import()
+        with patch(_FETCH_RAW, return_value=(new_data, {"P00002"})), \
+             patch(_PREPROCESS, return_value=(new_data, set())), \
              patch(_CURL_OFF, return_value=MagicMock()):
-            result = _uniprot_download(59919, cache_dir, force=True)
+            result = download_uniprot(59919, cache_dir, force=True)
 
         assert result is True
-        mock_adapter._download_uniprot_data.assert_called_once()
-        raw = json.loads((cache_dir / "uniprot_raw_data.json").read_text())
-        assert "cc_function" in raw
+        saved = json.loads((cache_dir / "uniprot_raw_data.json").read_text())
+        assert "cc_function" in saved
 
-    def test_rev_false_passed_to_adapter(self, tmp):
+    def test_rev_false_passed_to_fetch(self, tmp):
         cache_dir = tmp / "uniprot" / "59919"
-        mock_adapter = self._mock_adapter(data={})
+        raw_data: dict = {}
 
-        with patch(_UNIPROT_CLS, return_value=mock_adapter) as mock_cls, \
+        download_uniprot = self._import()
+        with patch(_FETCH_RAW, return_value=(raw_data, set())) as mock_fetch, \
+             patch(_PREPROCESS, return_value=(raw_data, set())), \
              patch(_CURL_OFF, return_value=MagicMock()):
-            _uniprot_download(59919, cache_dir, force=False)
+            download_uniprot(59919, cache_dir, force=False, rev=False)
 
-        _, kwargs = mock_cls.call_args
+        _, kwargs = mock_fetch.call_args
         assert kwargs.get("rev") is False
 
     def test_creates_cache_dir_if_missing(self, tmp):
         cache_dir = tmp / "new" / "path" / "59919"
         assert not cache_dir.exists()
-        mock_adapter = self._mock_adapter(data={})
+        raw_data: dict = {}
 
-        with patch(_UNIPROT_CLS, return_value=mock_adapter), \
+        download_uniprot = self._import()
+        with patch(_FETCH_RAW, return_value=(raw_data, set())), \
+             patch(_PREPROCESS, return_value=(raw_data, set())), \
              patch(_CURL_OFF, return_value=MagicMock()):
-            _uniprot_download(59919, cache_dir, force=False)
+            download_uniprot(59919, cache_dir, force=False)
 
         assert cache_dir.exists()
 

@@ -32,7 +32,7 @@ import yaml
 # ─── paths ────────────────────────────────────────────────────────────────────
 
 SCRIPT_DIR = Path(__file__).parent
-PROJECT_ROOT = SCRIPT_DIR.parent
+PROJECT_ROOT = SCRIPT_DIR.parent.parent  # multiomics_kg/download/ -> multiomics_kg/ -> project root
 GENOMES_CSV = PROJECT_ROOT / "data/Prochlorococcus/genomes/cyanobacteria_genomes.csv"
 DEFAULT_CONFIG = PROJECT_ROOT / "config/gene_annotations_config.yaml"
 
