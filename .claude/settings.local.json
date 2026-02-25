@@ -17,7 +17,8 @@
       "Bash(uv run python:*)",
       "Bash(pdftotext:*)",
       "Bash(download_eggnog_data.py --help)",
-      "Bash(ls:*)"
+      "Bash(ls:*)",
+      "Bash(bash scripts/prepare_data.sh:*)"
     ]
   }
 }
