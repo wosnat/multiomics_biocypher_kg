@@ -18,10 +18,10 @@ All steps skip existing cache files by default.
 Use --force to re-download/re-run for specified strains.
 
 Usage:
-  uv run python scripts/download_genome_data.py
-  uv run python scripts/download_genome_data.py --steps 1 2 3
-  uv run python scripts/download_genome_data.py --strains MED4 MIT9313
-  uv run python scripts/download_genome_data.py --strains MED4 --force
+  uv run python multiomics_kg/download/download_genome_data.py
+  uv run python multiomics_kg/download/download_genome_data.py --steps 1 2 3
+  uv run python multiomics_kg/download/download_genome_data.py --strains MED4 MIT9313
+  uv run python multiomics_kg/download/download_genome_data.py --strains MED4 --force
 """
 
 from __future__ import annotations
@@ -386,10 +386,10 @@ Steps:
   4  eggNOG-mapper (requires EGGNOG_DATA_DIR in .env)
 
 Examples:
-  uv run python scripts/download_genome_data.py
-  uv run python scripts/download_genome_data.py --steps 1 2 3
-  uv run python scripts/download_genome_data.py --strains MED4 MIT9313
-  uv run python scripts/download_genome_data.py --strains MED4 --force
+  uv run python multiomics_kg/download/download_genome_data.py
+  uv run python multiomics_kg/download/download_genome_data.py --steps 1 2 3
+  uv run python multiomics_kg/download/download_genome_data.py --strains MED4 MIT9313
+  uv run python multiomics_kg/download/download_genome_data.py --strains MED4 --force
         """,
     )
     parser.add_argument(

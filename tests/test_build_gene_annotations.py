@@ -1,4 +1,4 @@
-"""Unit tests for scripts/build_gene_annotations.py.
+"""Unit tests for multiomics_kg/download/build_gene_annotations.py.
 
 Coverage
 --------
@@ -23,7 +23,7 @@ import pytest
 
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
-from scripts.build_gene_annotations import (
+from multiomics_kg.download.build_gene_annotations import (
     AnnotationBuilder,
     _coerce_to_tokens,
     _nonempty,
@@ -372,7 +372,7 @@ class TestLoadUniprot:
     def test_indexes_by_refseq(self, tmp_path):
         json_path = tmp_path / "uniprot_preprocess_data.json"
         self._write_uniprot(json_path)
-        with patch("scripts.build_gene_annotations.PROJECT_ROOT", tmp_path):
+        with patch("multiomics_kg.download.build_gene_annotations.PROJECT_ROOT", tmp_path):
             result = load_uniprot(str(tmp_path), None, "Prochlorococcus")
         assert "WP_011129038.1" in result
         assert "WP_011129039.1" in result
@@ -380,7 +380,7 @@ class TestLoadUniprot:
     def test_correct_field_values(self, tmp_path):
         json_path = tmp_path / "uniprot_preprocess_data.json"
         self._write_uniprot(json_path)
-        with patch("scripts.build_gene_annotations.PROJECT_ROOT", tmp_path):
+        with patch("multiomics_kg.download.build_gene_annotations.PROJECT_ROOT", tmp_path):
             result = load_uniprot(str(tmp_path), None, "Prochlorococcus")
         row = result["WP_011129038.1"]
         assert row["gene_primary"] == "dnaN"
@@ -390,7 +390,7 @@ class TestLoadUniprot:
         # Put data in taxid-keyed path
         taxid_path = tmp_path / "cache" / "data" / "Prochlorococcus" / "uniprot" / "59919" / "uniprot_preprocess_data.json"
         self._write_uniprot(taxid_path)
-        with patch("scripts.build_gene_annotations.PROJECT_ROOT", tmp_path):
+        with patch("multiomics_kg.download.build_gene_annotations.PROJECT_ROOT", tmp_path):
             result = load_uniprot("somedir", 59919, "Prochlorococcus")
         assert "WP_011129038.1" in result
 
@@ -398,12 +398,12 @@ class TestLoadUniprot:
         # No taxid path, but root path exists
         root_path = tmp_path / "uniprot_preprocess_data.json"
         self._write_uniprot(root_path)
-        with patch("scripts.build_gene_annotations.PROJECT_ROOT", tmp_path):
+        with patch("multiomics_kg.download.build_gene_annotations.PROJECT_ROOT", tmp_path):
             result = load_uniprot("somedata", 99999, "Prochlorococcus")
         assert "WP_011129038.1" in result
 
     def test_returns_empty_when_no_file_found(self, tmp_path):
-        with patch("scripts.build_gene_annotations.PROJECT_ROOT", tmp_path):
+        with patch("multiomics_kg.download.build_gene_annotations.PROJECT_ROOT", tmp_path):
             result = load_uniprot("somedata", 99999, "Prochlorococcus")
         assert result == {}
 
@@ -414,7 +414,7 @@ class TestLoadUniprot:
         }
         json_path = tmp_path / "uniprot_preprocess_data.json"
         self._write_uniprot(json_path, data)
-        with patch("scripts.build_gene_annotations.PROJECT_ROOT", tmp_path):
+        with patch("multiomics_kg.download.build_gene_annotations.PROJECT_ROOT", tmp_path):
             result = load_uniprot(str(tmp_path), None, "Prochlorococcus")
         assert "WP_111.1" in result
         assert "WP_222.2" in result
@@ -426,7 +426,7 @@ class TestLoadUniprot:
         }
         json_path = tmp_path / "uniprot_preprocess_data.json"
         self._write_uniprot(json_path, data)
-        with patch("scripts.build_gene_annotations.PROJECT_ROOT", tmp_path):
+        with patch("multiomics_kg.download.build_gene_annotations.PROJECT_ROOT", tmp_path):
             result = load_uniprot(str(tmp_path), None, "Prochlorococcus")
         assert "WP_111.1" in result
         assert "WP_222.2" in result

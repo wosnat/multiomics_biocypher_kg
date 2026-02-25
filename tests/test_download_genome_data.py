@@ -1,4 +1,4 @@
-"""Unit tests for scripts/download_genome_data.py.
+"""Unit tests for multiomics_kg/download/download_genome_data.py.
 
 Patching strategy
 -----------------
@@ -14,12 +14,12 @@ For Uniprot adapter usage inside ``_uniprot_download``, patch:
   ``multiomics_kg.adapters.uniprot_adapter.Uniprot``
 
 For step-level tests, patch the standalone functions directly:
-  ``scripts.download_genome_data._ncbi_download_genome``
-  ``scripts.download_genome_data._cyanorak_download_file``
-  ``scripts.download_genome_data._uniprot_download``
+  ``multiomics_kg.download.download_genome_data._ncbi_download_genome``
+  ``multiomics_kg.download.download_genome_data._cyanorak_download_file``
+  ``multiomics_kg.download.download_genome_data._uniprot_download``
 
 For ``PROJECT_ROOT`` (a module-level ``Path`` constant used by step 3 to build
-cache paths) patch it as ``scripts.download_genome_data.PROJECT_ROOT``.
+cache paths) patch it as ``multiomics_kg.download.download_genome_data.PROJECT_ROOT``.
 Steps 1 and 2 construct ``data_dir`` as ``str(PROJECT_ROOT / genome["data_dir"])``;
 passing an *absolute* path in ``genome["data_dir"]`` makes pathlib ignore
 ``PROJECT_ROOT``, so no patching is needed for those steps.
@@ -37,7 +37,7 @@ import pytest
 # Ensure the project root is importable when running pytest from any cwd
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
-from scripts.download_genome_data import (
+from multiomics_kg.download.download_genome_data import (
     _cyanorak_download_file,
     _get_org_group,
     _ncbi_download_genome,
@@ -86,9 +86,9 @@ _CURL_CLS  = "pypath.share.curl.Curl"
 _CURL_OFF  = "pypath.share.curl.cache_off"
 _UNIPROT_CLS = "multiomics_kg.adapters.uniprot_adapter.Uniprot"
 
-_NCBI_DL     = "scripts.download_genome_data._ncbi_download_genome"
-_CYANORAK_DL = "scripts.download_genome_data._cyanorak_download_file"
-_UNIPROT_DL  = "scripts.download_genome_data._uniprot_download"
+_NCBI_DL     = "multiomics_kg.download.download_genome_data._ncbi_download_genome"
+_CYANORAK_DL = "multiomics_kg.download.download_genome_data._cyanorak_download_file"
+_UNIPROT_DL  = "multiomics_kg.download.download_genome_data._uniprot_download"
 
 
 # ── _read_genomes_csv ─────────────────────────────────────────────────────────
@@ -423,7 +423,7 @@ class TestStep3Uniprot:
     def test_deduplicates_by_taxid(self, tmp):
         """Three genomes with two unique taxids → two UniProt downloads."""
         genomes = self._make_genomes()
-        with patch("scripts.download_genome_data.PROJECT_ROOT", tmp), \
+        with patch("multiomics_kg.download.download_genome_data.PROJECT_ROOT", tmp), \
              patch(_UNIPROT_DL, return_value=True) as mock_dl:
             step3_uniprot(genomes, force=False)
         assert mock_dl.call_count == 2
@@ -431,7 +431,7 @@ class TestStep3Uniprot:
     def test_skips_when_download_returns_false(self, tmp, caplog):
         caplog.set_level(logging.INFO)
         genomes = [self._make_genomes()[0]]
-        with patch("scripts.download_genome_data.PROJECT_ROOT", tmp), \
+        with patch("multiomics_kg.download.download_genome_data.PROJECT_ROOT", tmp), \
              patch(_UNIPROT_DL, return_value=False):
             step3_uniprot(genomes, force=False)
         assert "SKIP" in caplog.text
@@ -439,14 +439,14 @@ class TestStep3Uniprot:
     def test_logs_ok_when_download_returns_true(self, tmp, caplog):
         caplog.set_level(logging.INFO)
         genomes = [self._make_genomes()[0]]
-        with patch("scripts.download_genome_data.PROJECT_ROOT", tmp), \
+        with patch("multiomics_kg.download.download_genome_data.PROJECT_ROOT", tmp), \
              patch(_UNIPROT_DL, return_value=True):
             step3_uniprot(genomes, force=False)
         assert "OK" in caplog.text
 
     def test_passes_correct_taxid_and_cache_dir(self, tmp):
         genomes = [self._make_genomes()[0]]  # MED4, taxid=59919
-        with patch("scripts.download_genome_data.PROJECT_ROOT", tmp), \
+        with patch("multiomics_kg.download.download_genome_data.PROJECT_ROOT", tmp), \
              patch(_UNIPROT_DL, return_value=True) as mock_dl:
             step3_uniprot(genomes, force=False)
         taxid, cache_dir, force = mock_dl.call_args[0]
@@ -456,7 +456,7 @@ class TestStep3Uniprot:
 
     def test_correct_org_group_path_for_alteromonas(self, tmp):
         genomes = [self._make_genomes()[1]]  # MIT1002
-        with patch("scripts.download_genome_data.PROJECT_ROOT", tmp), \
+        with patch("multiomics_kg.download.download_genome_data.PROJECT_ROOT", tmp), \
              patch(_UNIPROT_DL, return_value=True) as mock_dl:
             step3_uniprot(genomes, force=False)
         _, cache_dir, _ = mock_dl.call_args[0]
@@ -565,7 +565,7 @@ class TestStep4Eggnog:
     def test_skips_when_eggnog_data_dir_not_set(self, tmp, capsys):
         genome, _ = self._genome(tmp)
         with patch.dict(os.environ, {}, clear=True), \
-             patch("scripts.download_genome_data.PROJECT_ROOT", tmp):
+             patch("multiomics_kg.download.download_genome_data.PROJECT_ROOT", tmp):
             step4_eggnog([genome], force=False, cpu=1)
         # No subprocess should be called — just early return
         # (error is logged, not raised)
@@ -573,7 +573,7 @@ class TestStep4Eggnog:
     def test_skips_when_eggnog_db_missing(self, tmp, capsys):
         genome, _ = self._genome(tmp)
         with patch.dict(os.environ, {"EGGNOG_DATA_DIR": str(tmp / "nonexistent")}), \
-             patch("scripts.download_genome_data.PROJECT_ROOT", tmp):
+             patch("multiomics_kg.download.download_genome_data.PROJECT_ROOT", tmp):
             step4_eggnog([genome], force=False, cpu=1)
 
     def test_skips_strain_without_protein_faa(self, tmp):
@@ -582,7 +582,7 @@ class TestStep4Eggnog:
         eggnog_db.mkdir()
 
         with patch.dict(os.environ, {"EGGNOG_DATA_DIR": str(eggnog_db)}), \
-             patch("scripts.download_genome_data.PROJECT_ROOT", tmp), \
+             patch("multiomics_kg.download.download_genome_data.PROJECT_ROOT", tmp), \
              patch("subprocess.run") as mock_run:
             step4_eggnog([genome], force=False, cpu=1)
 
@@ -599,7 +599,7 @@ class TestStep4Eggnog:
         eggnog_db.mkdir()
 
         with patch.dict(os.environ, {"EGGNOG_DATA_DIR": str(eggnog_db)}), \
-             patch("scripts.download_genome_data.PROJECT_ROOT", tmp), \
+             patch("multiomics_kg.download.download_genome_data.PROJECT_ROOT", tmp), \
              patch("subprocess.run") as mock_run:
             step4_eggnog([genome], force=False, cpu=1)
 
@@ -618,7 +618,7 @@ class TestStep4Eggnog:
             return MagicMock(returncode=0)
 
         with patch.dict(os.environ, {"EGGNOG_DATA_DIR": str(eggnog_db)}), \
-             patch("scripts.download_genome_data.PROJECT_ROOT", tmp), \
+             patch("multiomics_kg.download.download_genome_data.PROJECT_ROOT", tmp), \
              patch("subprocess.run", side_effect=fake_run) as mock_run:
             step4_eggnog([genome], force=False, cpu=2)
 
@@ -645,7 +645,7 @@ class TestStep4Eggnog:
             return MagicMock(returncode=0)
 
         with patch.dict(os.environ, {"EGGNOG_DATA_DIR": str(eggnog_db)}), \
-             patch("scripts.download_genome_data.PROJECT_ROOT", tmp), \
+             patch("multiomics_kg.download.download_genome_data.PROJECT_ROOT", tmp), \
              patch("subprocess.run", side_effect=fake_run) as mock_run:
             step4_eggnog([genome], force=True, cpu=1)
 
@@ -657,7 +657,7 @@ class TestStep4Eggnog:
         eggnog_db.mkdir()
 
         with patch.dict(os.environ, {"EGGNOG_DATA_DIR": str(eggnog_db)}), \
-             patch("scripts.download_genome_data.PROJECT_ROOT", tmp), \
+             patch("multiomics_kg.download.download_genome_data.PROJECT_ROOT", tmp), \
              patch("subprocess.run", return_value=MagicMock(returncode=1)):
             step4_eggnog([genome], force=False, cpu=1)
 
@@ -676,7 +676,7 @@ class TestStep4Eggnog:
             return MagicMock(returncode=0)
 
         with patch.dict(os.environ, {"EGGNOG_DATA_DIR": str(eggnog_db)}), \
-             patch("scripts.download_genome_data.PROJECT_ROOT", tmp), \
+             patch("multiomics_kg.download.download_genome_data.PROJECT_ROOT", tmp), \
              patch("subprocess.run", side_effect=fake_run) as mock_run:
             step4_eggnog([genome], force=False, cpu=1)
 

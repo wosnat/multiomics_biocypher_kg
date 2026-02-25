@@ -8,7 +8,7 @@ The KG draws gene/protein annotations from CyanorakNcbi (manually curated), UniP
 
 ## Step 0 — Download Pipeline Script
 
-**New file:** `scripts/download_genome_data.py`
+**New file:** `multiomics_kg/download/download_genome_data.py`
 
 Reads `data/Prochlorococcus/genomes/cyanobacteria_genomes.csv` and for each genome:
 
@@ -39,11 +39,11 @@ The `create_knowledge_graph.py` pipeline does NOT call the download pipeline aut
 **CLI flags:**
 - `--steps <N> [<N> ...]` — run only the specified step numbers (1–7 above); default: run all
 - No explicit `--force`: by default all steps skip if the target cache file already exists; `--force` overrides this for specified strains
-- Example: `uv run python scripts/download_genome_data.py --steps 1 2 3` (skip eggnog re-run)
+- Example: `uv run python multiomics_kg/download/download_genome_data.py --steps 1 2 3` (skip eggnog re-run)
 
 ---
 
-## Step 1 — Merge Script: `scripts/build_gene_annotations.py`
+## Step 1 — Merge Script: `multiomics_kg/download/build_gene_annotations.py`
 
 For each strain in `cyanobacteria_genomes.csv`:
 
@@ -256,8 +256,8 @@ Two complementary approaches:
 
 | File | Action |
 |---|---|
-| `scripts/download_genome_data.py` | **CREATE** (genome + UniProt download pipeline) |
-| `scripts/build_gene_annotations.py` | **CREATE** (produces `gene_annotations_wide.json` + `gene_annotations_merged.json` per strain) |
+| `multiomics_kg/download/download_genome_data.py` | **CREATE** (genome + UniProt download pipeline) |
+| `multiomics_kg/download/build_gene_annotations.py` | **CREATE** (produces `gene_annotations_wide.json` + `gene_annotations_merged.json` per strain) |
 | `config/schema_config.yaml` | **UPDATE** (schema cleanup per mapping table) |
 | `multiomics_kg/adapters/cyanorak_ncbi_adapter.py` | **UPDATE** (load from cache only; read `gene_annotations_merged.json`) |
 | `multiomics_kg/adapters/uniprot_adapter.py` | **UPDATE** (accept cache_dir; read/write taxid-keyed JSON) |
@@ -270,12 +270,12 @@ Two complementary approaches:
 
 ```bash
 # 1. Download pipeline (idempotent; skips already-cached)
-uv run python scripts/download_genome_data.py
+uv run python multiomics_kg/download/download_genome_data.py
 
 # 2. Build merged annotation tables for all strains
-uv run python scripts/build_gene_annotations.py
+uv run python multiomics_kg/download/build_gene_annotations.py
 # Optionally with LLM summaries (costs $):
-uv run python scripts/build_gene_annotations.py --llm-summary
+uv run python multiomics_kg/download/build_gene_annotations.py --llm-summary
 
 # 3. Inspect a few MED4 merged gene annotations
 python -c "import json; d=json.load(open('cache/data/Prochlorococcus/genomes/MED4/gene_annotations_merged.json')); import pprint; pprint.pprint(list(d.items())[:3])"

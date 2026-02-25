@@ -1,5 +1,5 @@
 # Gene Annotation Merge Configuration
-# Used by scripts/build_gene_annotations.py
+# Used by multiomics_kg/download/build_gene_annotations.py
 #
 # Sources: gene_mapping (NCBI+Cyanorak merged CSV), eggnog (emapper.annotations),
 #          uniprot (column-oriented JSON)

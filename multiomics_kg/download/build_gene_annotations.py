@@ -12,7 +12,7 @@ Outputs per strain:
   cache/data/<org>/genomes/<strain>/gene_annotations_merged.json
 
 Usage:
-  uv run python scripts/build_gene_annotations.py [--strains STRAIN ...] [--force]
+  uv run python multiomics_kg/download/build_gene_annotations.py [--strains STRAIN ...] [--force]
 """
 
 from __future__ import annotations
