@@ -168,12 +168,7 @@ gene:
   represented_as: node
   preferred_id: ncbigene
   label_in_input: gene
-  properties:    
-    gene_names: str[]
-    gene_names_cyanorak: str[]
-    gene_synonym: str[]
-    # gene_synonym_cyanorak: str[]
-    kegg_ids: str[]
+  properties:
     locus_tag: str
     locus_tag_ncbi: str
     locus_tag_cyanorak: str
@@ -186,27 +181,51 @@ gene:
     product: str
     product_cyanorak: str
     protein_id: str
-    go_component: str[]
-    go_function: str[]
-    go_process: str[]
-    Ontology_term_ncbi: str[]
-    Ontology_term_cyanorak: str[]
-    ontology_term_description: str[]
-    eggNOG: str[]
-    eggNOG_description: str[]
-    kegg: str[]
-    kegg_description: str[]
     cyanorak_Role: str[]
     cyanorak_Role_description: str[]
     tIGR_Role: str[]
     tIGR_Role_description: str[]
     cluster_number: str
-    protein_domains: str[]
-    protein_domains_description: str[]
     ec_numbers: str[]
     # Denormalized from linked Protein node during post-import (set via Cypher, not adapter):
     function_description: str      # UniProt functional description; present for all organisms
-    go_biological_processes: str[] # GO biological process names; Prochlorococcus gets Cyanorak+UniProt, others UniProt only
+    # Gene naming (canonical + provenance)
+    gene_name: str                    # canonical name (dnaN, rpoA, etc.)
+    gene_synonyms: str[]              # all alternative names from all sources
+    gene_name_source: str             # cyanorak|uniprot|ncbi|eggnog
+    product_source: str               # provenance for product field
+    function_description_source: str  # provenance for function_description
+    old_locus_tags: str[]             # old-style locus tags (for paper ID mapping)
+    # EggNOG / COG functional roles
+    cog_category: str                 # COG letter codes (e.g., "L", "C,G")
+    eggnog_ogs: str[]                 # eggNOG OG IDs (COG####, bactNOG####, etc.)
+    eggnog_og_descriptions: str[]     # OG descriptions
+    seed_ortholog: str                # seed ortholog ID
+    max_annot_lvl: str                # max annotation level (e.g., "1117|Cyanobacteria")
+    seed_ortholog_evalue: float       # e-value for seed ortholog
+    protein_family: str               # protein family name
+    # Gene Ontology (unified from all sources)
+    go_terms: str[]                   # GO:XXXXXXX all aspects unified
+    go_term_descriptions: str         # pipe-separated GO descriptions
+    # KEGG (expanded)
+    kegg_ko: str[]                    # KO IDs (e.g., K02338)
+    kegg_ko_descriptions: str[]
+    kegg_pathway: str[]               # KEGG pathway IDs
+    kegg_module: str[]
+    kegg_reaction: str[]
+    kegg_brite: str[]
+    # Pfam domains
+    pfam_ids: str[]
+    pfam_descriptions: str[]
+    # Specialized function
+    catalytic_activity: str
+    transmembrane_regions: str
+    signal_peptide: str
+    transporter_classification: str[]
+    cazy_ids: str[]
+    bigg_reaction: str[]
+    # Quality
+    annotation_quality: int           # 0=none,1=eggnog-only,2=NCBI/Cyanorak,3=UniProt
 
 # consider adding: Note, exceptions, inference
 

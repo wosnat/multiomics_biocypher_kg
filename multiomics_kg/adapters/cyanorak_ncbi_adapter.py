@@ -1,43 +1,24 @@
 from __future__ import annotations
-from pypath.share import curl, settings
-
-from contextlib import ExitStack
+from pypath.share import curl
 
 from bioregistry import normalize_curie
-from tqdm import tqdm
-from time import time
 from biocypher._logger import logger
 
 import collections
 import csv
 import json
 import os
-import h5py
-import gzip
 import xml.etree.ElementTree as ET
 
-from pydantic import BaseModel, DirectoryPath, FilePath, EmailStr, validate_call
+from pydantic import BaseModel, DirectoryPath, validate_call
 from typing import Literal, Union
 
 from enum import Enum, EnumMeta, auto
 
 import pandas as pd
-import numpy as np
 from urllib.parse import unquote
 import re
 
-from multiomics_kg.download.build_gene_mapping import (
-    build_gene_mapping as _build_gene_mapping,
-    load_gff as _load_gff,
-    load_gff_from_ncbi_only as _load_gff_from_ncbi_only,
-    load_gff_from_ncbi_and_cyanorak as _load_gff_from_ncbi_and_cyanorak,
-    ncbi_merge_cds_and_gene_entries as _ncbi_merge_cds_and_gene_entries,
-    _get_cyanorak_id_map_from_gbk,
-    _get_ec_numbers_from_gbff,
-    _get_ncbi_cols_rename_map,
-    _CYANORAK_COLS,
-    _FINAL_MERGE_RENAME,
-)
 
 logger.debug(f"Loading module {__name__}.")
 
@@ -117,8 +98,6 @@ class GeneEnumMeta(EnumMeta):
 
 class GeneNodeField(Enum, metaclass=GeneEnumMeta):
 
-    GENE_NAMES = 'gene_names'
-    GENE_NAMES_CYANORAK = 'gene_names_cyanorak'
     LOCUS_TAG = 'locus_tag'
     LOCUS_TAG_NCBI = 'locus_tag_ncbi'
     LOCUS_TAG_CYANORAK = 'locus_tag_cyanorak'
@@ -131,21 +110,50 @@ class GeneNodeField(Enum, metaclass=GeneEnumMeta):
     PRODUCT = 'product'
     PRODUCT_CYANORAK = 'product_cyanorak'
     PROTEIN_ID = 'protein_id'
-    ONTOLOGY_TERM = 'Ontology_term'
-    ONTOLOGY_TERM_DESCRIPTION = 'ontology_term_description'
-    EGGNOG = 'eggNOG'
-    EGGNOG_DESCRIPTION = 'eggNOG_description'
-    KEGG = 'kegg'
-    KEGG_DESCRIPTION = 'kegg_description'
     CYANORAK_ROLE = 'cyanorak_Role'
     CYANORAK_ROLE_DESCRIPTION = 'cyanorak_Role_description'
     TIGR_ROLE = 'tIGR_Role'
     TIGR_ROLE_DESCRIPTION = 'tIGR_Role_description'
     CLUSTER_NUMBER = 'cluster_number'
-    OLD_LOCUS_TAGS = 'old_locus_tags'
-    PROTEIN_DOMAINS = 'protein_domains'
-    PROTEIN_DOMAINS_DESCRIPTION = 'protein_domains_description'
     EC_NUMBERS = 'ec_numbers'
+    FUNCTION_DESCRIPTION = 'function_description'
+    # Gene naming
+    GENE_NAME = 'gene_name'
+    GENE_SYNONYMS = 'gene_synonyms'
+    GENE_NAME_SOURCE = 'gene_name_source'
+    PRODUCT_SOURCE = 'product_source'
+    FUNCTION_DESCRIPTION_SOURCE = 'function_description_source'
+    OLD_LOCUS_TAGS = 'old_locus_tags'
+    # EggNOG / COG
+    COG_CATEGORY = 'cog_category'
+    EGGNOG_OGS = 'eggnog_ogs'
+    EGGNOG_OG_DESCRIPTIONS = 'eggnog_og_descriptions'
+    SEED_ORTHOLOG = 'seed_ortholog'
+    MAX_ANNOT_LVL = 'max_annot_lvl'
+    SEED_ORTHOLOG_EVALUE = 'seed_ortholog_evalue'
+    PROTEIN_FAMILY = 'protein_family'
+    # Gene Ontology
+    GO_TERMS = 'go_terms'
+    GO_TERM_DESCRIPTIONS = 'go_term_descriptions'
+    # KEGG
+    KEGG_KO = 'kegg_ko'
+    KEGG_KO_DESCRIPTIONS = 'kegg_ko_descriptions'
+    KEGG_PATHWAY = 'kegg_pathway'
+    KEGG_MODULE = 'kegg_module'
+    KEGG_REACTION = 'kegg_reaction'
+    KEGG_BRITE = 'kegg_brite'
+    # Pfam domains
+    PFAM_IDS = 'pfam_ids'
+    PFAM_DESCRIPTIONS = 'pfam_descriptions'
+    # Specialized function
+    CATALYTIC_ACTIVITY = 'catalytic_activity'
+    TRANSMEMBRANE_REGIONS = 'transmembrane_regions'
+    SIGNAL_PEPTIDE = 'signal_peptide'
+    TRANSPORTER_CLASSIFICATION = 'transporter_classification'
+    CAZY_IDS = 'cazy_ids'
+    BIGG_REACTION = 'bigg_reaction'
+    # Quality
+    ANNOTATION_QUALITY = 'annotation_quality'
 
 
     @classmethod
@@ -197,11 +205,7 @@ class CyanorakNcbi:
         output_dir: DirectoryPath | None = None,
         add_prefix: bool = True,
         organism: int | Literal["*"] | None = None,
-        ncbi_gff_file: str = None,
-        cyan_gff_file: str = None,
-        cyan_gbk_file: str = None,
         ncbi_accession: str = None,
-        cyanorak_organism: str = None,
         data_dir: str = None,
         strain_name: str = None,
         ncbi_taxon_id: int = None,
@@ -223,19 +227,12 @@ class CyanorakNcbi:
         self.output_dir = model["output_dir"]
         self.add_prefix = model["add_prefix"]
 
-        self.cyan_gff_file = cyan_gff_file
-        self.cyan_gbk_file = cyan_gbk_file
-        self.ncbi_gff_file = ncbi_gff_file
-
         self.ncbi_accession = ncbi_accession
-        self.cyanorak_organism = cyanorak_organism
         self.data_dir = data_dir
         self.strain_name = strain_name
         self.ncbi_taxon_id = ncbi_taxon_id
         self.clade = clade
         self.taxonomy = {}  # populated by download_data()
-        self.ncbi_protein_fasta_file = None  # populated by _download_ncbi_genome()
-        self.ncbi_gbff_file = None           # populated by _download_ncbi_genome()
 
         # no need becuase we are not creating protein to ec edges here
         # if model["organism"] in ("*", None):
@@ -257,125 +254,6 @@ class CyanorakNcbi:
         if model["test_mode"]:
             self.early_stopping = 100
 
-    def _download_ncbi_genome(self) -> str:
-        """Download NCBI genome zip and extract GFF, protein FASTA, and GBFF using pypath Curl.
-
-        Sets self.ncbi_protein_fasta_file and self.ncbi_gbff_file as side effects.
-
-        Returns:
-            Path to the saved genomic.gff file.
-        """
-        gff_path = os.path.join(self.data_dir, "genomic.gff")
-        prot_fasta_path = os.path.join(self.data_dir, "protein.faa")
-        gbff_path = os.path.join(self.data_dir, "genomic.gbff")
-
-        all_exist = all(os.path.exists(p) for p in [gff_path, prot_fasta_path, gbff_path])
-        if all_exist:
-            logger.info(
-                f"NCBI genome files already exist in {self.data_dir}, skipping download"
-            )
-            self.ncbi_protein_fasta_file = prot_fasta_path
-            self.ncbi_gbff_file = gbff_path
-            return gff_path
-
-        url = (
-            f"https://api.ncbi.nlm.nih.gov/datasets/v2/genome/accession/"
-            f"{self.ncbi_accession}/download"
-            f"?include_annotation_type=GENOME_GFF"
-            f"&include_annotation_type=GENOME_FASTA"
-            f"&include_annotation_type=PROT_FASTA"
-            f"&include_annotation_type=GENOME_GBFF"
-            f"&include_annotation_type=SEQUENCE_REPORT"
-            f"&hydrated=FULLY_HYDRATED"
-        )
-        c = curl.Curl(
-            url,
-            silent=False,
-            compr='zip',
-            large=False,
-        )
-        if c.result is None:
-            raise ConnectionError(
-                f"Failed to download NCBI genome for {self.ncbi_accession} from {url}"
-            )
-
-        os.makedirs(self.data_dir, exist_ok=True)
-
-        # c.result is a dict of {filename: content} for zip files
-        gff_content = None
-        prot_fasta_content = None
-        gbff_content = None
-        for name, content in c.result.items():
-            if name.endswith('genomic.gff'):
-                gff_content = content
-            elif name.endswith('protein.faa'):
-                prot_fasta_content = content
-            elif name.endswith('genomic.gbff'):
-                gbff_content = content
-
-        if gff_content is None:
-            raise ValueError(f"No genomic.gff found in NCBI download for {self.ncbi_accession}")
-
-        with open(gff_path, 'w') as f:
-            f.write(gff_content)
-        logger.info(f"NCBI GFF saved to {gff_path}")
-
-        if prot_fasta_content is not None:
-            with open(prot_fasta_path, 'w') as f:
-                f.write(prot_fasta_content)
-            logger.info(f"NCBI protein FASTA saved to {prot_fasta_path}")
-            self.ncbi_protein_fasta_file = prot_fasta_path
-        else:
-            logger.warning(f"No protein.faa found in NCBI download for {self.ncbi_accession}")
-
-        if gbff_content is not None:
-            with open(gbff_path, 'w') as f:
-                f.write(gbff_content)
-            logger.info(f"NCBI GBFF saved to {gbff_path}")
-            self.ncbi_gbff_file = gbff_path
-        else:
-            logger.warning(f"No genomic.gbff found in NCBI download for {self.ncbi_accession}")
-
-        return gff_path
-
-    def _download_cyanorak_gff(self) -> str:
-        """Download Cyanorak GFF annotation file."""
-        cyan_dir = os.path.join(self.data_dir, "cyanorak")
-        os.makedirs(cyan_dir, exist_ok=True)
-        gff_path = os.path.join(cyan_dir, f"{self.cyanorak_organism}.gff")
-        if os.path.exists(gff_path):
-            logger.info(f"Cyanorak GFF already exists at {gff_path}, skipping download")
-            return gff_path
-        url = f"https://cyanorak.sb-roscoff.fr/cyanorak/svc/export/organism/gff/{self.cyanorak_organism}"
-        c = curl.Curl(url, silent=False)
-        if c.result is None:
-            raise ConnectionError(
-                f"Failed to download Cyanorak GFF for {self.cyanorak_organism} from {url}"
-            )
-        with open(gff_path, 'w') as f:
-            f.write(c.result)
-        logger.info(f"Cyanorak GFF saved to {gff_path}")
-        return gff_path
-
-    def _download_cyanorak_gbk(self) -> str:
-        """Download Cyanorak GenBank annotation file."""
-        cyan_dir = os.path.join(self.data_dir, "cyanorak")
-        os.makedirs(cyan_dir, exist_ok=True)
-        gbk_path = os.path.join(cyan_dir, f"{self.cyanorak_organism}.gbk")
-        if os.path.exists(gbk_path):
-            logger.info(f"Cyanorak GBK already exists at {gbk_path}, skipping download")
-            return gbk_path
-        url = f"https://cyanorak.sb-roscoff.fr/cyanorak/svc/export/organism/gbk/{self.cyanorak_organism}"
-        c = curl.Curl(url, silent=False)
-        if c.result is None:
-            raise ConnectionError(
-                f"Failed to download Cyanorak GBK for {self.cyanorak_organism} from {url}"
-            )
-        with open(gbk_path, 'w') as f:
-            f.write(c.result)
-        logger.info(f"Cyanorak GBK saved to {gbk_path}")
-        return gbk_path
-
     @validate_call
     def download_data(
         self,
@@ -383,52 +261,32 @@ class CyanorakNcbi:
         debug: bool = False,
         retries: int = 3,
     ) -> None:
-        """Download genome files (if using accession-based config) and load GFF data.
+        """Load gene annotations from pre-built gene_annotations_merged.json.
 
-        Args:
-            cache: if True, uses pypath cached version; if False, forces download.
-            debug: if True, turns on debug mode in pypath.
-            retries: number of retries in case of download error.
+        Run 'bash scripts/prepare_data.sh' first to generate this file.
         """
-        # If accession-based, download files using pypath Curl
-        if self.ncbi_accession:
-            with ExitStack() as stack:
-                if debug:
-                    stack.enter_context(curl.debug_on())
-                if not cache:
-                    stack.enter_context(curl.cache_off())
-
-                self.ncbi_gff_file = self._download_ncbi_genome()
-                if self.cyanorak_organism:
-                    self.cyan_gff_file = self._download_cyanorak_gff()
-                    self.cyan_gbk_file = self._download_cyanorak_gbk()
-                if self.ncbi_taxon_id:
-                    self.taxonomy = _fetch_ncbi_taxonomy(
-                        taxid=self.ncbi_taxon_id,
-                        cache_dir=self.data_dir,
-                    )
-
-        if not self.ncbi_gff_file:
-            raise ValueError(
-                "NCBI GFF file is required. Provide ncbi_gff_file directly "
-                "or set ncbi_accession."
+        if not self.data_dir:
+            raise ValueError("data_dir is required")
+        merged_json_path = os.path.join(self.data_dir, "gene_annotations_merged.json")
+        if not os.path.exists(merged_json_path):
+            raise FileNotFoundError(
+                f"gene_annotations_merged.json not found at {merged_json_path}. "
+                f"Run 'bash scripts/prepare_data.sh' first."
             )
-
-        # Build gene mapping DataFrame via the shared build_gene_mapping module
-        has_cyanorak = all([self.cyan_gff_file, self.cyan_gbk_file])
-        self.data_df = _build_gene_mapping(
-            ncbi_gff_file=self.ncbi_gff_file,
-            ncbi_gbff_file=self.ncbi_gbff_file,
-            cyan_gff_file=self.cyan_gff_file if has_cyanorak else None,
-            cyan_gbk_file=self.cyan_gbk_file if has_cyanorak else None,
+        with open(merged_json_path) as f:
+            merged_data = json.load(f)
+        self.data_df = pd.DataFrame.from_dict(merged_data, orient='index').reset_index(drop=True)
+        logger.info(
+            f"Loaded {len(self.data_df)} genes for {self.strain_name} "
+            f"from gene_annotations_merged.json"
         )
 
-        # Save mapping table to data_dir for use by the omics adapter
-        mapping_dir = self.data_dir or os.path.dirname(self.ncbi_gff_file)
-        os.makedirs(mapping_dir, exist_ok=True)
-        mapping_path = os.path.join(mapping_dir, "gene_mapping.csv")
-        self.data_df.to_csv(mapping_path, index=False)
-        logger.info(f"Gene mapping table saved to {mapping_path}")
+        # Fetch taxonomy for organism node creation (cached to data_dir)
+        if self.ncbi_taxon_id:
+            self.taxonomy = _fetch_ncbi_taxonomy(
+                taxid=self.ncbi_taxon_id,
+                cache_dir=self.data_dir,
+            )
 
     def _get_gene_nodes(self) -> list[tuple]:
         """Generate gene nodes from the data.
@@ -438,19 +296,28 @@ class CyanorakNcbi:
         """
         logger.info("Started writing gene nodes")
 
+        int_fields = {'start', 'end', 'start_cyanorak', 'end_cyanorak', 'annotation_quality'}
+        float_fields = {'seed_ortholog_evalue'}
         node_list = []
         for _, row in self.data_df.iterrows():
             node_properties = {}
             for field in self.gene_node_fields:
                 value = row.get(field)
-                if not pd.isna(value):
-                    if isinstance(value, (float, int)) and field in ('start', 'end', 'start_cyanorak', 'end_cyanorak'):
-                        node_properties[field] = int(value)
-                        continue
-                    if isinstance(value, str):
-                        value = unquote(value)
+                if pd.isna(value) if not isinstance(value, list) else False:
+                    continue
+                if isinstance(value, list):
+                    # Already a list from merged JSON — clean text, no splitting needed
+                    node_properties[field] = self.clean_text(value)
+                elif field in int_fields:
+                    node_properties[field] = int(value)
+                elif field in float_fields:
+                    node_properties[field] = float(value)
+                elif isinstance(value, str):
+                    value = unquote(value)
                     value = self.clean_text(value)
                     value = self._split_field(field, value)
+                    node_properties[field] = value
+                else:
                     node_properties[field] = value
 
             node_id = self.add_prefix_to_id(
@@ -615,44 +482,18 @@ class CyanorakNcbi:
 
 
 
-    def _get_cyanorak_cols_to_keep(self) -> list[str]:
-        return list(_CYANORAK_COLS)
-
-    def _get_ncbi_cols_to_keep_map(self) -> dict[str, str]:
-        return _get_ncbi_cols_rename_map()
-
-    def _get_final_merged_columns_map(self) -> dict[str, str]:
-        return dict(_FINAL_MERGE_RENAME)
-
     def _get_split_character(self, field: str) -> str:
-        ''' get split character for multiple values in a text field. Return None if not a multivalue field.'''
+        ''' get split character for multi-value string fields. Return None if not a multi-value field.
+        Note: most fields come as Python lists from gene_annotations_merged.json and bypass this method.
+        This is retained for any remaining comma-delimited string fields.
+        '''
         comma_split_cols = [
             'cyanorak_Role', 'cyanorak_Role_description',
-            'Ontology_term',  'ontology_term_description',
-            'eggNOG', 'eggNOG_description',
-            'kegg', #'kegg_description',
-            'protein_domains', 'protein_domains_description',
             'tIGR_Role', 'tIGR_Role_description',
-            'old_locus_tags', 'go_component', 'go_function', 'go_process',
-            'ec_numbers',
+            'old_locus_tags', 'ec_numbers',
         ]
-        pipe_split_cols = ['Ontology_term_ncbi']
-
-        space_split_cols = [
-            'gene_names', 'gene', 
-        ]
-        semmicommas_split_cols = [
-            'kegg', 'kegg_description', 'gene_synonym',
-        ]
-
         if field in comma_split_cols:
             return ','
-        if field in space_split_cols:
-            return ' '
-        if field in semmicommas_split_cols:
-            return ';'
-        if field in pipe_split_cols:
-            return '||'
         return None
     
     def _split_field(self, field: str, value: str) -> list[str] | str:
@@ -663,34 +504,9 @@ class CyanorakNcbi:
             value = [v.strip() for v in re.split(repattern, str(value))]
         return value
         
-    def _get_cynaorak_ID(self, rec) -> str:
-        from multiomics_kg.download.build_gene_mapping import _get_cynaorak_ID
-        return _get_cynaorak_ID(rec)
-
-    def _get_cyanorak_id_map_from_gbk(self, gbk_file: str) -> dict[str, str]:
-        return _get_cyanorak_id_map_from_gbk(gbk_file)
-
-    def _get_ec_numbers_from_gbff(self, gbff_file: str) -> dict[str, list[str]]:
-        return _get_ec_numbers_from_gbff(gbff_file)
-
-
-    def ncbi_merge_cds_and_gene_entries(self, ncbi_gff_df: pd.DataFrame) -> pd.DataFrame:
-        return _ncbi_merge_cds_and_gene_entries(ncbi_gff_df)
-
-    def load_gff_from_ncbi_only(self, ncbi_gff_file: str) -> pd.DataFrame:
-        return _load_gff_from_ncbi_only(ncbi_gff_file)
-
-    def load_gff(self, gff_file: str) -> pd.DataFrame:
-        return _load_gff(gff_file)
-
-    def load_gff_from_ncbi_and_cynorak(
-        self, ncbi_gff_file: str, cyan_gff_file: str, cyan_gbk_file: str
-    ) -> pd.DataFrame:
-        return _load_gff_from_ncbi_and_cyanorak(ncbi_gff_file, cyan_gff_file, cyan_gbk_file)
-
     @validate_call
     def add_prefix_to_id(
-        self, prefix: str = None, identifier: str = None, sep: str = ":"
+        self, prefix: str | None = None, identifier: str | None = None, sep: str = ":"
     ) -> str:
         """
         Adds prefix to database id. Falls back to underscore-separated ID if
@@ -742,15 +558,14 @@ class CyanorakNcbi:
         
 
 class MultiCyanorakNcbi:
-    """Wrapper that reads a CSV file listing cyanobacteria genome file paths
+    """Wrapper that reads a CSV file listing cyanobacteria genome configs
     and delegates to CyanorakNcbi instances."""
 
     def __init__(self, config_list_file: str, treatment_organisms_file: str = None, **kwargs):
         """
         Args:
             config_list_file: Path to a CSV file with columns:
-                New format: ncbi_accession, cyanorak_organism, data_dir
-                Legacy format: genome_dir, ncbi_gff, cyan_gff, cyan_gbk
+                ncbi_accession, data_dir, strain_name, ncbi_taxon_id, clade
                 Lines starting with # are treated as comments and skipped.
             treatment_organisms_file: Optional path to a CSV file with columns:
                 ncbi_taxon_id, organism_name
@@ -764,39 +579,19 @@ class MultiCyanorakNcbi:
             # Filter out comment lines (starting with #) before parsing CSV
             lines = [line for line in f if not line.strip().startswith('#')]
             reader = csv.DictReader(lines)
-            fieldnames = reader.fieldnames
 
             for row in reader:
-                if 'ncbi_accession' in fieldnames:
-                    # New accession-based format
-                    # Treat empty cyanorak_organism as None (NCBI-only mode)
-                    cyanorak_org = row.get('cyanorak_organism') or None
-                    if cyanorak_org and cyanorak_org.strip() == '':
-                        cyanorak_org = None
-                    # Parse ncbi_taxon_id if present
-                    taxon_id_str = row.get('ncbi_taxon_id')
-                    ncbi_taxon_id = int(taxon_id_str) if taxon_id_str else None
-                    clade = row.get('clade') or None
-                    adapter = CyanorakNcbi(
-                        ncbi_accession=row['ncbi_accession'],
-                        cyanorak_organism=cyanorak_org,
-                        data_dir=row.get('data_dir') or None,
-                        strain_name=row.get('strain_name') or None,
-                        ncbi_taxon_id=ncbi_taxon_id,
-                        clade=clade,
-                        **kwargs,
-                    )
-                else:
-                    # Legacy path-based format
-                    genome_dir = row['genome_dir']
-                    cyan_gff = row.get('cyan_gff') or None
-                    cyan_gbk = row.get('cyan_gbk') or None
-                    adapter = CyanorakNcbi(
-                        ncbi_gff_file=os.path.join(genome_dir, row['ncbi_gff']),
-                        cyan_gff_file=os.path.join(genome_dir, cyan_gff) if cyan_gff else None,
-                        cyan_gbk_file=os.path.join(genome_dir, cyan_gbk) if cyan_gbk else None,
-                        **kwargs,
-                    )
+                taxon_id_str = row.get('ncbi_taxon_id')
+                ncbi_taxon_id = int(taxon_id_str) if taxon_id_str else None
+                clade = row.get('clade') or None
+                adapter = CyanorakNcbi(
+                    ncbi_accession=row['ncbi_accession'],
+                    data_dir=row.get('data_dir') or None,
+                    strain_name=row.get('strain_name') or None,
+                    ncbi_taxon_id=ncbi_taxon_id,
+                    clade=clade,
+                    **kwargs,
+                )
                 self.adapters.append(adapter)
         logger.info(f"Loaded {len(self.adapters)} genome configs from {config_list_file}")
 
