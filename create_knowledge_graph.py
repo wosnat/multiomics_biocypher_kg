@@ -1,19 +1,10 @@
-import os, shutil
+import os
 
-from biocypher import BioCypher, FileDownload
+from biocypher import BioCypher
 from multiomics_kg.adapters.ec_adapter import EC
 from multiomics_kg.adapters.omics_adapter import MultiOMICSAdapter
-from multiomics_kg.adapters.uniprot_adapter import (
-    Uniprot,
-    MultiUniprot,
-    UniprotNodeType,
-    UniprotNodeField,
-    UniprotEdgeType,
-    UniprotIDField,
-)
-from multiomics_kg.adapters.go_adapter import (
-    GO
-)
+from multiomics_kg.adapters.uniprot_adapter import MultiUniprot
+from multiomics_kg.adapters.go_adapter import GO
 
 from multiomics_kg.adapters.cyanorak_ncbi_adapter import MultiCyanorakNcbi
 
@@ -43,75 +34,6 @@ def main():
     bc = BioCypher()
 
 
-    # uniprot configuration
-    uniprot_node_types = [
-        UniprotNodeType.PROTEIN,
-        #UniprotNodeType.GENE,
-        # Organism nodes are created by CyanorakNcbi adapter (single source of truth)
-        #UniprotNodeType.ORGANISM,
-    ]
-
-    uniprot_node_fields = [
-        UniprotNodeField.PRIMARY_GENE_NAME,
-        UniprotNodeField.LENGTH,
-        UniprotNodeField.MASS,
-        UniprotNodeField.ORGANISM,
-        UniprotNodeField.ORGANISM_ID,
-        UniprotNodeField.PROTEIN_NAMES,
-        UniprotNodeField.PROTEIN_GENE_NAMES,
-        UniprotNodeField.KEGG_IDS,
-        UniprotNodeField.PROTEOME,
-        #UniprotNodeField.SEQUENCE, # remove for now to reduce size
-        UniprotNodeField.SUBCELLULAR_LOCATION,
-        UniprotNodeField.EC,
-        #UniprotNodeField.PROTT5_EMBEDDING,
-        #UniprotNodeField.ESM2_EMBEDDING,
-        #UniprotNodeField.NT_EMBEDDING,
-        UniprotNodeField.GENE_ORDERED_LOCUS,
-        UniprotNodeField.cc_catalytic_activity,
-        UniprotNodeField.cc_cofactor,
-        UniprotNodeField.cc_function,
-        UniprotNodeField.cc_pathway,
-        UniprotNodeField.annotation_score,
-        UniprotNodeField.cc_caution,
-        UniprotNodeField.keywordid,
-        UniprotNodeField.keyword,
-        UniprotNodeField.reviewed,
-        UniprotNodeField.cc_interaction,
-        UniprotNodeField.CELLULAR_COMPONENT,
-        UniprotNodeField.BIOLOGICAL_PROCESS,
-        UniprotNodeField.MOLECULAR_FUNCTION,
-        UniprotNodeField.ft_transmem,
-        UniprotNodeField.ft_signal,
-        UniprotNodeField.cc_domain,
-        UniprotNodeField.ft_motif,
-        UniprotNodeField.protein_families,
-        UniprotNodeField.xref_refseq,
-        UniprotNodeField.xref_string,
-        UniprotNodeField.xref_eggnog,
-        UniprotNodeField.xref_pfam,
-
-    ]
-
-
-
-
-
-    uniprot_edge_types = [
-        UniprotEdgeType.PROTEIN_TO_ORGANISM,
-        UniprotEdgeType.PROTEIN_TO_EC,
-        UniprotEdgeType.GENE_TO_PROTEIN,
-        UniprotEdgeType.PROTEIN_TO_CELLULAR_COMPONENT,
-        UniprotEdgeType.PROTEIN_TO_BIOLOGICAL_PROCESS,
-        UniprotEdgeType.PROTEIN_TO_MOLECULAR_FUNCTION,
-    ]
-
-    uniprot_id_type = [
-         UniprotIDField.GENE_ENTREZ_ID,
-    ]
-
-
-
     # CyanorakNcbi adapter MUST run before UniProt: it creates gene_mapping.csv
     # files in each data_dir, which UniProt uses for GENE_TO_PROTEIN edges.
     ncbi_cyanorak_adapter = MultiCyanorakNcbi(
@@ -123,20 +45,14 @@ def main():
     bc.write_nodes(ncbi_cyanorak_adapter.get_nodes())
     bc.write_edges(ncbi_cyanorak_adapter.get_edges())
 
-    # MultiUniprot adapter - uses same config file as MultiCyanorakNcbi
-    # GENE_TO_PROTEIN edges depend on gene_mapping.csv from CyanorakNcbi above
+    # MultiUniprot adapter reads pre-built protein_annotations.json files.
+    # Requires: prepare_data.sh steps 0 + 2 run beforehand.
+    # GENE_TO_PROTEIN edges depend on gene_mapping.csv from CyanorakNcbi above.
     uniprot_adapter = MultiUniprot(
         config_list_file='data/Prochlorococcus/genomes/cyanobacteria_genomes.csv',
-        rev=False,  # whether to include unreviewed entries
-        node_types=uniprot_node_types,
-        node_fields=uniprot_node_fields,
-        edge_types=uniprot_edge_types,
-        id_fields=uniprot_id_type,
         test_mode=TEST_MODE,
     )
-
-    uniprot_adapter.download_uniprot_data(cache=CACHE, retries=6, debug=True)
-
+    uniprot_adapter.download_data(cache=CACHE)
     bc.write_nodes(uniprot_adapter.get_nodes())
     bc.write_edges(uniprot_adapter.get_edges())
 
@@ -184,6 +100,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
-
-

@@ -1,0 +1,186 @@
+# Protein Annotation Config
+# Used by multiomics_kg/download/build_protein_annotations.py
+#
+# Single source: uniprot_preprocess_data.json (column-oriented, per-taxid)
+# Output: protein_annotations.json (row-oriented, keyed by UniProt accession)
+#
+# Field types:
+#   passthrough       - copy single value as-is
+#   passthrough_list  - split string into list, or pass list as-is
+#   integer           - cast to int
+#   float             - cast to float
+#   bool              - "Reviewed" → True, "Unreviewed" → False
+#
+# Transforms (applied per-token for passthrough_list, or to the value for passthrough):
+#   add_go_prefix         - prepend "GO:" to bare 7-digit IDs
+#   strip_function_prefix - strip "FUNCTION: " prefix from UniProt cc_function
+
+source:
+  type: json_columnar
+  path_pattern: "cache/data/{organism_group}/uniprot/{ncbi_taxon_id}/uniprot_preprocess_data.json"
+
+fields:
+
+  # ── Gene / protein identifiers ───────────────────────────────────────────────
+
+  gene_symbol:
+    type: passthrough
+    field: gene_primary
+
+  protein_synonyms:
+    # Full protein name string from UniProt (maps to protein_synonyms in schema)
+    type: passthrough
+    field: protein_name
+
+  locus_tag:
+    # Ordered locus name from UniProt (may differ from NCBI locus_tag)
+    type: passthrough
+    field: gene_oln
+
+  gene_names:
+    type: passthrough_list
+    field: gene_names
+    delimiter: ";"
+
+  refseq_ids:
+    # RefSeq WP_ protein accession(s); used for Gene→Protein edge join
+    type: passthrough_list
+    field: xref_refseq
+    delimiter: ";"
+
+  # ── Sequence properties ───────────────────────────────────────────────────────
+
+  sequence_length:
+    type: integer
+    field: length
+
+  molecular_mass:
+    type: integer
+    field: mass
+
+  # ── Cross-references ──────────────────────────────────────────────────────────
+
+  proteome_ids:
+    type: passthrough_list
+    field: xref_proteomes
+    delimiter: ";"
+
+  string_ids:
+    type: passthrough
+    field: xref_string
+
+  eggnog_ids:
+    type: passthrough
+    field: xref_eggnog
+
+  pfam_ids:
+    type: passthrough_list
+    field: xref_pfam
+    delimiter: ";"
+
+  # ── EC numbers ────────────────────────────────────────────────────────────────
+
+  ec_numbers:
+    type: passthrough_list
+    field: ec
+    delimiter: ";"
+
+  # ── Gene Ontology (split by namespace C/P/F) ──────────────────────────────────
+  # Values in uniprot_preprocess_data.json are bare 7-digit strings or lists;
+  # add_go_prefix transform converts them to GO:XXXXXXX format.
+
+  go_cellular_components:
+    type: passthrough_list
+    field: go_c_id
+    transform: add_go_prefix
+
+  go_biological_processes:
+    type: passthrough_list
+    field: go_p_id
+    transform: add_go_prefix
+
+  go_molecular_functions:
+    type: passthrough_list
+    field: go_f_id
+    transform: add_go_prefix
+
+  # ── Functional annotation ─────────────────────────────────────────────────────
+
+  function_description:
+    type: passthrough
+    field: cc_function
+    transform: strip_function_prefix
+
+  catalytic_activity:
+    type: passthrough
+    field: cc_catalytic_activity
+
+  cofactors:
+    type: passthrough
+    field: cc_cofactor
+
+  pathway_description:
+    type: passthrough
+    field: cc_pathway
+
+  subcellular_location:
+    type: passthrough
+    field: subcellular_location
+
+  # ── Structural features ───────────────────────────────────────────────────────
+
+  transmembrane_regions:
+    type: passthrough
+    field: ft_transmem
+
+  signal_peptide:
+    type: passthrough
+    field: ft_signal
+
+  functional_motifs:
+    type: passthrough
+    field: ft_motif
+
+  domain_description:
+    type: passthrough
+    field: cc_domain
+
+  protein_family:
+    type: passthrough
+    field: protein_families
+
+  # ── Metadata & provenance ─────────────────────────────────────────────────────
+
+  organism_name:
+    type: passthrough
+    field: organism_name
+
+  organism_id:
+    type: integer
+    field: organism_id
+
+  annotation_score:
+    type: float
+    field: annotation_score
+
+  is_reviewed:
+    # "Reviewed" → True, "Unreviewed" → False
+    type: bool
+    field: reviewed
+
+  keywords:
+    type: passthrough
+    field: keyword
+
+  keyword_ids:
+    type: passthrough_list
+    field: keywordid
+    delimiter: ";"
+
+  caution_notes:
+    type: passthrough
+    field: cc_caution
+
+  interaction_notes:
+    type: passthrough
+    field: cc_interaction

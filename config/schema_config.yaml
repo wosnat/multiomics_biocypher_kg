@@ -239,16 +239,12 @@ protein:
   properties:
     sequence_length: int
     molecular_mass: int
-    protein_name: str            # recommended/primary name
-    protein_synonyms: str[]      # all alternative names
+    protein_synonyms: str        # full protein name string from UniProt
     proteome_ids: str[]
-    amino_acid_sequence: str
-    prott5_embedding: float[]
     gene_names: str[]
-    kegg_ids: str[]
     gene_symbol: str
     ec_numbers: str[]
-    subcellular_location: str[]
+    subcellular_location: str
     locus_tag: str
     catalytic_activity: str
     cofactors: str
@@ -256,7 +252,7 @@ protein:
     pathway_description: str
     annotation_score: float
     caution_notes: str
-    keyword_ids: str
+    keyword_ids: str[]
     keywords: str
     is_reviewed: bool
     interaction_notes: str
@@ -268,11 +264,10 @@ protein:
     domain_description: str
     functional_motifs: str
     protein_family: str
-    refseq_ids: str
+    refseq_ids: str[]
     string_ids: str
     eggnog_ids: str
-    kegg_ko_ids: str
-    pfam_ids: str
+    pfam_ids: str[]
 
   
 organism taxon:

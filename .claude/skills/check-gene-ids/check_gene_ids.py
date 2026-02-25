@@ -24,41 +24,19 @@ from pathlib import Path
 import pandas as pd
 import yaml
 
-
-# Organism name -> genome directory mapping
-ORGANISM_TO_GENOME_DIR = {
-    "prochlorococcus med4": "cache/data/Prochlorococcus/genomes/MED4",
-    "prochlorococcus as9601": "cache/data/Prochlorococcus/genomes/AS9601",
-    "prochlorococcus mit9301": "cache/data/Prochlorococcus/genomes/MIT9301",
-    "prochlorococcus mit9312": "cache/data/Prochlorococcus/genomes/MIT9312",
-    "prochlorococcus mit9313": "cache/data/Prochlorococcus/genomes/MIT9313",
-    "prochlorococcus natl1a": "cache/data/Prochlorococcus/genomes/NATL1A",
-    "prochlorococcus natl2a": "cache/data/Prochlorococcus/genomes/NATL2A",
-    "prochlorococcus rsp50": "cache/data/Prochlorococcus/genomes/RSP50",
-    "synechococcus cc9311": "cache/data/Synechococcus/genomes/CC9311",
-    "synechococcus wh8102": "cache/data/Synechococcus/genomes/WH8102",
-    "alteromonas macleodii mit1002": "cache/data/Alteromonas/genomes/MIT1002",
-    "alteromonas mit1002": "cache/data/Alteromonas/genomes/MIT1002",
-    "alteromonas macleodii ez55": "cache/data/Alteromonas/genomes/EZ55",
-    "alteromonas ez55": "cache/data/Alteromonas/genomes/EZ55",
-    "alteromonas macleodii hot1a3": "cache/data/Alteromonas/genomes/HOT1A3",
-    "alteromonas hot1a3": "cache/data/Alteromonas/genomes/HOT1A3",
-}
-
-# Patterns for RNA features (tRNA, ncRNA, rRNA — intentionally not in gene nodes)
-RNA_PATTERN = re.compile(
-    r'^(tRNA|ncRNA|rRNA|Yfr\d|tmRNA|RNA_\d|PMT_ncRNA_|'
-    r'\w+_tRNA\w+VIMSS|'  # e.g., A9601_tRNAAlaVIMSS1309073
-    r'\w+_rr[ls]VIMSS)',  # e.g., A9601_rrlVIMSS1365720
-    re.IGNORECASE
+# Import shared utilities from the main package
+_PROJECT_ROOT = Path(__file__).resolve().parents[3]
+sys.path.insert(0, str(_PROJECT_ROOT))
+from multiomics_kg.utils.gene_id_utils import (
+    ORGANISM_TO_GENOME_DIR,
+    SKIP_PATTERNS as RNA_PATTERN,
+    ANNOTATION_ID_FIELDS,
+    get_genome_dir,
+    is_organism_loaded,
+    build_field_lookups,
+    load_import_report,
 )
 
-# Columns in gene_mapping.csv that could contain gene identifiers
-GENE_MAPPING_ID_COLS = [
-    "gene_names", "gene", "locus_tag_ncbi", "locus_tag",
-    "protein_id", "locus_tag_cyanoak", "gene_names_cyanorak",
-    "old_locus_tags",
-]
 
 # Sample size for expensive lookups (GFF scanning, alt column checks)
 LOOKUP_SAMPLE_SIZE = 50
@@ -154,99 +132,6 @@ def load_gene_node_index(biocypher_dir):
     return index
 
 
-def load_import_report(import_report_path=None):
-    """Load missing gene IDs from the Docker import report.
-
-    Tries multiple sources:
-    1. Explicit --import-report path
-    2. Local file output/import.report
-    3. Docker: docker compose exec deploy cat /data/build2neo/import.report
-
-    Returns:
-        dict: analysis_id_suffix -> set of missing ncbigene IDs (without prefix)
-        The analysis_id_suffix is the part after the DOI, e.g., "fang_2019_vdom_addition"
-    """
-    report_lines = []
-
-    # Try explicit path first
-    if import_report_path and Path(import_report_path).exists():
-        with open(import_report_path) as f:
-            report_lines = f.readlines()
-        print(f"Loaded import report from {import_report_path}", file=sys.stderr)
-    else:
-        # Try local file
-        local_report = Path("output/import.report")
-        if local_report.exists():
-            with open(local_report) as f:
-                report_lines = f.readlines()
-            print(f"Loaded import report from {local_report}", file=sys.stderr)
-        else:
-            # Try Docker
-            try:
-                result = subprocess.run(
-                    ["docker", "compose", "exec", "deploy", "cat", "/data/build2neo/import.report"],
-                    capture_output=True, text=True, timeout=15
-                )
-                if result.returncode == 0 and result.stdout.strip():
-                    report_lines = result.stdout.strip().split("\n")
-                    print(f"Loaded import report from Docker ({len(report_lines)} lines)", file=sys.stderr)
-            except (subprocess.TimeoutExpired, FileNotFoundError, Exception) as e:
-                print(f"Could not load import report from Docker: {e}", file=sys.stderr)
-
-    if not report_lines:
-        return None
-
-    # Parse: extract Affects_expression_of edges
-    # Format: <source> (global id space)-[Affects_expression_of]-><target> (global id space) referring to missing node <target>
-    missing_by_source = defaultdict(set)
-    affects_pattern = re.compile(
-        r'^(.+?) \(global id space\)-\[Affects_expression_of\]->ncbigene:(.+?) \(global id space\)'
-    )
-
-    for line in report_lines:
-        m = affects_pattern.match(line.strip())
-        if m:
-            source_id = m.group(1)
-            missing_gene = m.group(2)
-            missing_by_source[source_id].add(missing_gene)
-
-    # Also build a flat set of all missing gene IDs
-    all_missing = set()
-    for ids in missing_by_source.values():
-        all_missing.update(ids)
-
-    return {
-        "by_source": missing_by_source,
-        "all_missing": all_missing,
-    }
-
-
-def is_organism_loaded(organism_name):
-    """Check if an organism has a genome loaded (has a known genome directory)."""
-    if not organism_name:
-        return False
-    norm = organism_name.strip().strip('"').lower()
-    if norm in ORGANISM_TO_GENOME_DIR:
-        return True
-    for known in ORGANISM_TO_GENOME_DIR:
-        if known in norm or norm in known:
-            return True
-    return False
-
-
-def get_genome_dir(organism_name, project_root):
-    """Get the genome directory for an organism, or None."""
-    if not organism_name:
-        return None
-    norm = organism_name.strip().strip('"').lower()
-    for key, rel_path in ORGANISM_TO_GENOME_DIR.items():
-        if key in norm or norm in key:
-            full = Path(project_root) / rel_path
-            if full.exists():
-                return str(full)
-    return None
-
-
 def scan_gff_for_ids(gff_path, sample_ids):
     """Scan a GFF file for sample IDs in any attribute field.
 
@@ -332,49 +217,20 @@ def check_alt_gene_fields(sample_ids, gene_index):
     return results
 
 
-def load_gene_mapping(genome_dir):
-    """Load gene_mapping.csv and build lookup dicts for all ID-like columns.
-
-    Returns dict: col_name -> {id_value -> locus_tag}, or None if file not found.
-    """
-    mapping_file = Path(genome_dir) / "gene_mapping.csv"
-    if not mapping_file.exists():
-        return None
-
-    try:
-        df = pd.read_csv(mapping_file)
-    except Exception:
-        return None
-
-    lookups = {}
-    for col in GENE_MAPPING_ID_COLS:
-        if col not in df.columns:
-            continue
-        lookup = {}
-        for _, row in df.iterrows():
-            val = str(row[col]).strip() if pd.notna(row[col]) else ""
-            locus = str(row["locus_tag"]).strip() if pd.notna(row.get("locus_tag")) else ""
-            if val and locus and val != "nan" and locus != "nan":
-                lookup[val] = locus
-        if lookup:
-            lookups[col] = lookup
-    return lookups
-
-
 def check_gene_mapping(sample_ids, genome_dir):
-    """Check if sample IDs match any column in gene_mapping.csv.
+    """Check if sample IDs match any ID field in gene_annotations_merged.json.
 
-    Returns dict: col_name -> (match_count, sample_match_tuple), or None if not found.
+    Returns dict: field_name -> (match_count, sample_match_tuple), or None if not found.
     """
-    lookups = load_gene_mapping(genome_dir)
+    lookups = build_field_lookups(genome_dir)
     if not lookups:
         return None
 
     results = {}
-    for col, lookup in lookups.items():
+    for field, lookup in lookups.items():
         matched = [(sid, lookup[sid]) for sid in sample_ids if sid in lookup]
         if matched:
-            results[col] = (len(matched), matched[0])
+            results[field] = (len(matched), matched[0])
     return results
 
 
@@ -680,20 +536,18 @@ def analyze_paperconfig(paperconfig_path, gene_index, project_root, import_repor
                 analyses_results.append(result)
                 continue
 
-            # Check gene_mapping.csv for the organism
+            # Check gene_annotations_merged.json for the organism
             genome_dir = get_genome_dir(organism, project_root)
             if genome_dir:
                 mapping_matches = check_gene_mapping(sample_mismatched, genome_dir)
                 if mapping_matches:
-                    best_col = max(mapping_matches, key=lambda k: mapping_matches[k][0])
-                    cnt, (sample_id, mapped_to) = mapping_matches[best_col]
-                    mapping_file = Path(genome_dir) / "gene_mapping.csv"
-                    rel_mapping = os.path.relpath(mapping_file, project_root)
+                    best_field = max(mapping_matches, key=lambda k: mapping_matches[k][0])
+                    cnt, (sample_id, mapped_to) = mapping_matches[best_field]
                     result["fix_strategy"] = "CREATE_MAPPING_CSV"
                     result["details"] = (
                         f"{result['matched_count']}/{total_gene_ids} match, "
                         f"{result['mismatched_count']} don't. "
-                        f"Mismatched IDs match column '{best_col}' in gene_mapping.csv "
+                        f"Mismatched IDs match field '{best_field}' in gene_annotations_merged.json "
                         f"({cnt}/{len(sample_mismatched)} of sample match). "
                         f"E.g., '{sample_id}' -> locus_tag '{mapped_to}'. "
                         f"Run /fix-gene-ids on this paperconfig to create a "
@@ -718,7 +572,7 @@ def analyze_paperconfig(paperconfig_path, gene_index, project_root, import_repor
                     analyses_results.append(result)
                     continue
 
-                # gene_mapping.csv exists but IDs not found there — check GFF/GBK
+                # Annotations exist but IDs not found there — check GFF/GBK
                 gff_files = list(Path(genome_dir).rglob("*.gff"))
                 found_gff = False
                 non_coding_types = {"tRNA", "rRNA", "ncRNA", "tmRNA", "pseudogene"}
@@ -754,18 +608,15 @@ def analyze_paperconfig(paperconfig_path, gene_index, project_root, import_repor
                             result["fix_strategy"] = "NON_CODING"
                             result["details"] = "".join(detail_parts)
                         elif coding_ids:
-                            # Some protein-coding IDs found in GFF but not in gene_mapping
-                            rel_mapping = os.path.relpath(
-                                Path(genome_dir) / "gene_mapping.csv", project_root
-                            )
+                            # Some protein-coding IDs found in GFF but not in annotations
                             result["fix_strategy"] = "CREATE_MAPPING_GFF"
                             result["details"] = (
                                 f"{result['matched_count']}/{total_gene_ids} match, "
                                 f"{result['mismatched_count']} don't. "
                                 f"IDs found in GFF attribute '{best_attr}' "
                                 f"in {gff_path.name} ({len(coding_ids)} protein-coding) "
-                                f"but NOT in gene_mapping.csv. "
-                                f"Add '{best_attr}' column to {rel_mapping}."
+                                f"but NOT in gene_annotations_merged.json. "
+                                f"Re-run prepare_data.sh to regenerate annotations."
                             )
                             if nc_ids:
                                 result["details"] += (
@@ -773,17 +624,14 @@ def analyze_paperconfig(paperconfig_path, gene_index, project_root, import_repor
                                 )
                         else:
                             # GFF attribute matched but no biotype found
-                            rel_mapping = os.path.relpath(
-                                Path(genome_dir) / "gene_mapping.csv", project_root
-                            )
                             result["fix_strategy"] = "CREATE_MAPPING_GFF"
                             result["details"] = (
                                 f"{result['matched_count']}/{total_gene_ids} match, "
                                 f"{result['mismatched_count']} don't. "
                                 f"IDs found in GFF attribute '{best_attr}' "
                                 f"in {gff_path.name} ({cnt} matches) "
-                                f"but NOT in gene_mapping.csv. "
-                                f"Add '{best_attr}' column to {rel_mapping}."
+                                f"but NOT in gene_annotations_merged.json. "
+                                f"Re-run prepare_data.sh to regenerate annotations."
                             )
                         analyses_results.append(result)
                         found_gff = True
@@ -794,7 +642,7 @@ def analyze_paperconfig(paperconfig_path, gene_index, project_root, import_repor
                     result["details"] = (
                         f"{result['matched_count']}/{total_gene_ids} match, "
                         f"{result['mismatched_count']} don't. "
-                        f"IDs not found in gene_mapping.csv or GFF/GBK files for {organism}. "
+                        f"IDs not found in gene_annotations_merged.json or GFF/GBK files for {organism}. "
                         f"Manual investigation needed."
                     )
                     analyses_results.append(result)
@@ -811,7 +659,7 @@ def analyze_paperconfig(paperconfig_path, gene_index, project_root, import_repor
                         f"IDs match gene node field '{best_field}' "
                         f"({cnt}/{len(sample_mismatched)} match). "
                         f"E.g., '{sample_id}' -> {mapped_to}. "
-                        f"No gene_mapping.csv found — create one for this organism."
+                        f"No gene_annotations_merged.json found — run prepare_data.sh for this organism."
                     )
                 else:
                     result["fix_strategy"] = "UNRELATED_IDS"
@@ -853,7 +701,6 @@ def format_report(all_results, import_report=None):
 
             # Detailed breakdown
             if a["total_ids"] > 0:
-                total_gene = a["matched_count"] + a.get("matched_secondary_count", 0) + a["mismatched_count"]
                 parts = []
                 parts.append(f"Total rows: {a['total_ids']}")
                 if a["matched_count"]:
@@ -1046,7 +893,7 @@ def main():
     # Load import report
     import_report = None
     if not args.no_import_report:
-        import_report = load_import_report(args.import_report)
+        import_report = load_import_report(args.import_report, return_by_source=True)
         if import_report:
             print(f"Import report: {len(import_report['all_missing'])} unique missing gene IDs", file=sys.stderr)
         else:

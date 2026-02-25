@@ -1,8 +1,8 @@
 #!/usr/bin/env python
-"""Map gene IDs in paper CSVs to locus tags using gene_mapping.csv and gene_mapping_supp.csv.
+"""Map gene IDs in paper CSVs to locus tags using gene_annotations_merged.json.
 
 For each analysis in a paperconfig, reads the paper CSV and the organism's
-gene_mapping.csv (plus gene_mapping_supp.csv if available), maps gene IDs
+gene_annotations_merged.json (plus gene_mapping_supp.csv if available), maps gene IDs
 to locus tags, and writes a new CSV with a locus_tag column.
 
 New features:
@@ -22,317 +22,28 @@ Usage:
 
 import argparse
 import os
-import re
-import subprocess
 import sys
-from collections import defaultdict
 from datetime import datetime
 from pathlib import Path
 
 import pandas as pd
 import yaml
 
-
-# Organism name -> genome directory mapping (same as check-gene-ids)
-ORGANISM_TO_GENOME_DIR = {
-    "prochlorococcus med4": "cache/data/Prochlorococcus/genomes/MED4",
-    "prochlorococcus as9601": "cache/data/Prochlorococcus/genomes/AS9601",
-    "prochlorococcus mit9301": "cache/data/Prochlorococcus/genomes/MIT9301",
-    "prochlorococcus mit9312": "cache/data/Prochlorococcus/genomes/MIT9312",
-    "prochlorococcus mit9313": "cache/data/Prochlorococcus/genomes/MIT9313",
-    "prochlorococcus natl1a": "cache/data/Prochlorococcus/genomes/NATL1A",
-    "prochlorococcus natl2a": "cache/data/Prochlorococcus/genomes/NATL2A",
-    "prochlorococcus rsp50": "cache/data/Prochlorococcus/genomes/RSP50",
-    "synechococcus cc9311": "cache/data/Synechococcus/genomes/CC9311",
-    "synechococcus wh8102": "cache/data/Synechococcus/genomes/WH8102",
-    "alteromonas macleodii mit1002": "cache/data/Alteromonas/genomes/MIT1002",
-    "alteromonas mit1002": "cache/data/Alteromonas/genomes/MIT1002",
-    "alteromonas macleodii ez55": "cache/data/Alteromonas/genomes/EZ55",
-    "alteromonas ez55": "cache/data/Alteromonas/genomes/EZ55",
-}
-
-# Columns in gene_mapping.csv to build lookups from
-MAPPING_COLS = [
-    "locus_tag", "gene_names", "gene", "locus_tag_ncbi",
-    "gene_names_cyanorak", "locus_tag_cyanoak", "old_locus_tags",
-    "protein_id",
-]
-
-# Patterns to skip (tRNA, ncRNA, rRNA — intentionally not in gene nodes)
-SKIP_PATTERNS = re.compile(r'^(tRNA|ncRNA|rRNA|Yfr\d|tmRNA)', re.IGNORECASE)
-
-# Column name keywords that indicate description/annotation (not gene IDs)
-DESCRIPTION_COL_KEYWORDS = [
-    'product', 'description', 'function', 'role', 'cog', 'note', 'go',
-    'ontology', 'kegg', 'pathway', 'domain', 'tigrfam', 'pfam', 'eggnog',
-    'cluster', 'inference', 'species', 'organism', 'strain', 'taxon',
-    'annotation', 'regulation', 'temperature',
-]
-
-# Column name keywords that strongly suggest gene ID content
-ID_COL_KEYWORDS = [
-    'locus', 'tag', 'gene', 'protein', 'orf', 'id', 'accession', 'homolog',
-]
-
-# Max unique values for a column to be considered categorical (not IDs)
-MAX_UNIQUE_FOR_ID_COL = 10
-
-
-def get_genome_dir(organism, project_root):
-    """Get the genome directory path for an organism."""
-    key = organism.strip().lower()
-    rel = ORGANISM_TO_GENOME_DIR.get(key)
-    if rel:
-        full = Path(project_root) / rel
-        if full.exists():
-            return str(full)
-    return None
-
-
-def build_id_lookup(genome_dir):
-    """Build a unified lookup dict: raw_id -> locus_tag from gene_mapping.csv.
-
-    Handles space-separated gene_names and comma-separated old_locus_tags.
-    Returns (lookup_dict, locus_tag_set) or (None, None) if file not found.
-    """
-    mapping_file = Path(genome_dir) / "gene_mapping.csv"
-    if not mapping_file.exists():
-        return None, None
-
-    try:
-        df = pd.read_csv(mapping_file)
-    except Exception as e:
-        print(f"  Error reading {mapping_file}: {e}")
-        return None, None
-
-    lookup = {}
-    locus_tags = set()
-
-    for _, row in df.iterrows():
-        locus = str(row["locus_tag"]).strip() if pd.notna(row.get("locus_tag")) else ""
-        if not locus or locus == "nan":
-            continue
-        locus_tags.add(locus)
-
-        for col in MAPPING_COLS:
-            if col not in df.columns:
-                continue
-            val = str(row[col]).strip() if pd.notna(row[col]) else ""
-            if not val or val == "nan":
-                continue
-
-            if col in ("gene_names", "gene_names_cyanorak"):
-                # Space-separated list of gene names
-                for name in val.split():
-                    name = name.strip()
-                    if name and name != "nan":
-                        lookup[name] = locus
-            elif col == "old_locus_tags":
-                # Comma-separated list of old locus tags
-                for tag in val.split(","):
-                    tag = tag.strip()
-                    if tag and tag != "nan":
-                        lookup[tag] = locus
-            else:
-                lookup[val] = locus
-
-    # Merge in supplementary mappings (gene_mapping_supp.csv) as fallback
-    supp_lookup = load_supp_lookup(genome_dir)
-    supp_keys = set()
-    for alt_id, locus in supp_lookup.items():
-        if alt_id not in lookup:
-            lookup[alt_id] = locus
-            supp_keys.add(alt_id)
-
-    return lookup, locus_tags, supp_keys
-
-
-def load_supp_lookup(genome_dir):
-    """Build alt_id -> locus_tag dict from gene_mapping_supp.csv.
-
-    Returns empty dict if file not found.
-    """
-    supp_file = Path(genome_dir) / "gene_mapping_supp.csv"
-    if not supp_file.exists():
-        return {}
-
-    try:
-        df = pd.read_csv(supp_file)
-    except Exception:
-        return {}
-
-    lookup = {}
-    for _, row in df.iterrows():
-        locus = str(row["locus_tag"]).strip() if pd.notna(row.get("locus_tag")) else ""
-        alt_id = str(row["alt_id"]).strip() if pd.notna(row.get("alt_id")) else ""
-        if locus and locus != "nan" and alt_id and alt_id != "nan":
-            # First mapping wins (don't overwrite)
-            if alt_id not in lookup:
-                lookup[alt_id] = locus
-
-    return lookup
-
-
-def map_gene_id(raw_id, lookup, locus_tags, supp_keys=None):
-    """Map a single gene ID to a locus_tag.
-
-    Returns (locus_tag, method) or (None, None) if unmapped.
-    method is one of: 'direct', 'lookup', 'supp', 'repadded', 'composite_lookup', 'composite_direct'
-    """
-    if supp_keys is None:
-        supp_keys = set()
-    raw_id = raw_id.strip()
-
-    # Already a valid locus_tag
-    if raw_id in locus_tags:
-        return raw_id, "direct"
-
-    # Direct lookup (gene_mapping.csv or supp)
-    if raw_id in lookup:
-        method = "supp" if raw_id in supp_keys else "lookup"
-        return lookup[raw_id], method
-
-    # Try zero-padding normalization (e.g., MIT1002_0001 -> MIT1002_00001)
-    m = re.match(r'^(.+)_(\d+)$', raw_id)
-    if m:
-        prefix, num = m.group(1), m.group(2)
-        for pad in range(len(num) + 1, len(num) + 3):
-            padded = f"{prefix}_{num.zfill(pad)}"
-            if padded in locus_tags:
-                return padded, "repadded"
-            if padded in lookup:
-                return lookup[padded], "repadded"
-
-    # Try splitting by comma (composite gene names like "rps13,rpsM")
-    if "," in raw_id:
-        parts = [p.strip() for p in raw_id.split(",")]
-        for part in parts:
-            if part in locus_tags:
-                return part, "composite_direct"
-            if part in lookup:
-                return lookup[part], "composite_lookup"
-
-    return None, None
-
-
-def load_import_report(import_report_path=None):
-    """Load missing gene IDs from the Docker import report.
-
-    Tries multiple sources:
-    1. Explicit --import-report path
-    2. Local file output/import.report
-    3. Docker: docker compose exec deploy cat /data/build2neo/import.report
-
-    Returns:
-        set of missing gene IDs (without ncbigene: prefix), or None
-    """
-    report_lines = []
-
-    # Try explicit path first
-    if import_report_path and Path(import_report_path).exists():
-        with open(import_report_path) as f:
-            report_lines = f.readlines()
-        print(f"Loaded import report from {import_report_path}", file=sys.stderr)
-    else:
-        # Try local file
-        local_report = Path("output/import.report")
-        if local_report.exists():
-            with open(local_report) as f:
-                report_lines = f.readlines()
-            print(f"Loaded import report from {local_report}", file=sys.stderr)
-        else:
-            # Try Docker
-            try:
-                result = subprocess.run(
-                    ["docker", "compose", "exec", "deploy", "cat", "/data/build2neo/import.report"],
-                    capture_output=True, text=True, timeout=15
-                )
-                if result.returncode == 0 and result.stdout.strip():
-                    report_lines = result.stdout.strip().split("\n")
-                    print(f"Loaded import report from Docker ({len(report_lines)} lines)", file=sys.stderr)
-            except (subprocess.TimeoutExpired, FileNotFoundError, Exception) as e:
-                print(f"Could not load import report from Docker: {e}", file=sys.stderr)
-
-    if not report_lines:
-        return None
-
-    # Parse: extract Affects_expression_of edges
-    # Format: <source> (global id space)-[Affects_expression_of]-><target> (global id space) referring to missing node <target>
-    affects_pattern = re.compile(
-        r'^(.+?) \(global id space\)-\[Affects_expression_of\]->ncbigene:(.+?) \(global id space\)'
-    )
-
-    all_missing = set()
-    for line in report_lines:
-        m = affects_pattern.match(line.strip())
-        if m:
-            missing_gene = m.group(2)
-            all_missing.add(missing_gene)
-
-    print(f"Import report: {len(all_missing)} unique missing gene IDs", file=sys.stderr)
-    return all_missing
-
-
-def is_id_like_column(series, col_name, exclude_cols):
-    """Return True if a column looks like it contains gene identifiers.
-
-    Reuses heuristics from build_gene_mapping_supp.py.
-    """
-    if col_name in exclude_cols:
-        return False
-
-    col_lower = col_name.lower()
-
-    # Skip columns that are clearly description/annotation
-    if any(kw in col_lower for kw in DESCRIPTION_COL_KEYWORDS):
-        return False
-
-    # Skip coordinate/position columns
-    if any(kw in col_lower for kw in ['start', 'end', 'length', 'position', 'coord']):
-        return False
-
-    # Check values
-    vals = series.dropna().astype(str)
-    vals = vals[vals.str.strip() != '']
-    vals = vals[vals != 'nan']
-    if len(vals) == 0:
-        return False
-
-    # Skip low-cardinality categorical columns (e.g. Up/Down)
-    n_unique = vals.nunique()
-    if n_unique <= MAX_UNIQUE_FOR_ID_COL and len(vals) / max(n_unique, 1) >= 5:
-        return False
-
-    # Skip purely numeric columns
-    try:
-        pd.to_numeric(vals)
-        return False
-    except (ValueError, TypeError):
-        pass
-
-    # Skip columns with very long values (descriptions)
-    avg_len = vals.str.len().mean()
-    if avg_len > 50:
-        return False
-
-    # Skip columns that look like floating point fold-changes
-    numeric_like = vals.str.replace(r'[*\s]', '', regex=True)
-    try:
-        pd.to_numeric(numeric_like)
-        return False
-    except (ValueError, TypeError):
-        pass
-
-    # Column name keyword hint
-    if any(kw in col_lower for kw in ID_COL_KEYWORDS):
-        return True
-
-    # No keyword: require short non-space values
-    space_frac = vals.str.contains(' ').mean()
-    if space_frac > 0.3:
-        return False
-
-    return True
+# Import shared utilities from the main package
+_PROJECT_ROOT = Path(__file__).resolve().parents[3]
+sys.path.insert(0, str(_PROJECT_ROOT))
+from multiomics_kg.utils.gene_id_utils import (
+    SKIP_PATTERNS,
+    DESCRIPTION_COL_KEYWORDS,
+    ID_COL_KEYWORDS,
+    MAX_UNIQUE_FOR_ID_COL,
+    get_genome_dir,
+    build_id_lookup,
+    load_supp_lookup,
+    map_gene_id,
+    is_id_like_column,
+    load_import_report,
+)
 
 
 def get_candidate_columns(df, analysis):
@@ -417,10 +128,10 @@ def process_analysis(paperconfig_path, analysis, supp_material, project_root,
         print(f"  No genome directory found for organism: {organism}")
         return result
 
-    # Build lookup (includes gene_mapping_supp.csv as fallback)
+    # Build lookup from gene_annotations_merged.json (includes supp fallback)
     lookup, locus_tags, supp_keys = build_id_lookup(genome_dir)
     if lookup is None:
-        print(f"  Could not load gene_mapping.csv from {genome_dir}")
+        print(f"  Could not load gene_annotations_merged.json from {genome_dir}")
         return result
 
     # In patch mode, read the existing _with_locus_tag.csv
@@ -787,7 +498,7 @@ def write_report(paperconfig_path, papername, results, project_root, dry_run=Fal
 
 def main():
     parser = argparse.ArgumentParser(
-        description="Map gene IDs in paper CSVs to locus tags using gene_mapping.csv"
+        description="Map gene IDs in paper CSVs to locus tags using gene_annotations_merged.json"
     )
     parser.add_argument(
         "--paperconfig", required=True,
@@ -823,9 +534,11 @@ def main():
     # Load import report for mismatch detection
     missing_gene_ids = None
     if not args.no_import_report:
-        missing_gene_ids = load_import_report(args.import_report)
+        missing_gene_ids = load_import_report(args.import_report, return_by_source=False)
         if missing_gene_ids is None:
             print("No import report available (use --import-report or run Docker)", file=sys.stderr)
+        else:
+            print(f"Import report: {len(missing_gene_ids)} unique missing gene IDs", file=sys.stderr)
 
     # Read papername for report
     with open(args.paperconfig) as f:

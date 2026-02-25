@@ -15,7 +15,6 @@ Usage:
 """
 
 import argparse
-import re
 import sys
 from collections import defaultdict
 from pathlib import Path
@@ -23,39 +22,24 @@ from pathlib import Path
 import pandas as pd
 import yaml
 
-
-# Patterns to skip (tRNA, ncRNA, rRNA — intentionally not in gene nodes)
-SKIP_PATTERNS = re.compile(r'^(tRNA|ncRNA|rRNA|Yfr\d|tmRNA)', re.IGNORECASE)
-
-# Columns in gene_mapping.csv to build lookups from (same as fix-gene-ids)
-MAPPING_COLS = [
-    "locus_tag", "gene_names", "gene", "locus_tag_ncbi",
-    "gene_names_cyanorak", "locus_tag_cyanoak", "old_locus_tags",
-    "protein_id",
-]
-
-# Column name keywords that strongly suggest gene ID content
-ID_COL_KEYWORDS = [
-    'locus', 'tag', 'gene', 'protein', 'orf', 'id', 'accession', 'homolog',
-]
-
-# Column name keywords that indicate description/annotation (not gene IDs)
-DESCRIPTION_COL_KEYWORDS = [
-    'product', 'description', 'function', 'role', 'cog', 'note', 'go',
-    'ontology', 'kegg', 'pathway', 'domain', 'tigrfam', 'pfam', 'eggnog',
-    'cluster', 'inference', 'species', 'organism', 'strain', 'taxon',
-    'annotation', 'regulation', 'temperature'
-]
-
-# Columns with this many or fewer unique non-null values are categorical (e.g. Up/Down)
-MAX_UNIQUE_FOR_ID_COL = 10
+# Import shared utilities from the main package
+_PROJECT_ROOT = Path(__file__).resolve().parents[3]
+sys.path.insert(0, str(_PROJECT_ROOT))
+from multiomics_kg.utils.gene_id_utils import (
+    SKIP_PATTERNS,
+    DESCRIPTION_COL_KEYWORDS,
+    ID_COL_KEYWORDS,
+    MAX_UNIQUE_FOR_ID_COL,
+    build_id_lookup,
+    map_gene_id,
+    is_id_like_column,
+)
 
 
 def load_genome_registry(project_root):
     """Load cyanobacteria_genomes.csv and build strain_name -> (data_dir, organism_type) mapping.
 
-    Returns dict: strain_name_lower -> data_dir (absolute path)
-    Also returns a list of all (strain_name, data_dir) pairs.
+    Returns list of all (strain_name, data_dir) pairs (data_dir is absolute path).
     """
     csv_path = Path(project_root) / "data/Prochlorococcus/genomes/cyanobacteria_genomes.csv"
     if not csv_path.exists():
@@ -89,12 +73,7 @@ def load_genome_registry(project_root):
 
 
 def build_organism_to_genome_dir(genome_entries):
-    """Build a fuzzy-match dict: normalized organism name substring -> data_dir.
-
-    Keys are normalized (lowercase) strain name variants so we can match
-    organism names from paperconfigs like "Prochlorococcus MED4" or
-    "Prochlorococcus marinus MED4".
-    """
+    """Build a fuzzy-match dict: normalized organism name substring -> data_dir."""
     mapping = {}
     for strain_name, data_dir in genome_entries:
         key = strain_name.lower()
@@ -102,177 +81,17 @@ def build_organism_to_genome_dir(genome_entries):
     return mapping
 
 
-def get_genome_dir(organism_name, organism_to_dir):
-    """Return genome data_dir for organism_name, or None if not found."""
+def get_genome_dir_from_registry(organism_name, organism_to_dir):
+    """Return genome data_dir for organism_name using the registry dict, or None if not found."""
     if not organism_name:
         return None
     norm = organism_name.strip().lower()
-    # Try exact match on strain name
     if norm in organism_to_dir:
         return organism_to_dir[norm]
-    # Try substring match
     for key, data_dir in organism_to_dir.items():
         if key in norm or norm in key:
             return data_dir
     return None
-
-
-def build_id_lookup(genome_dir):
-    """Build a unified lookup dict: raw_id -> locus_tag from gene_mapping.csv.
-
-    Same logic as fix-gene-ids. Handles space-separated gene_names and
-    comma-separated old_locus_tags.
-
-    Returns (lookup_dict, locus_tag_set) or (None, None) if file not found.
-    """
-    mapping_file = Path(genome_dir) / "gene_mapping.csv"
-    if not mapping_file.exists():
-        return None, None
-
-    try:
-        df = pd.read_csv(mapping_file)
-    except Exception as e:
-        print(f"  Error reading {mapping_file}: {e}", file=sys.stderr)
-        return None, None
-
-    lookup = {}
-    locus_tags = set()
-
-    for _, row in df.iterrows():
-        locus = str(row["locus_tag"]).strip() if pd.notna(row.get("locus_tag")) else ""
-        if not locus or locus == "nan":
-            continue
-        locus_tags.add(locus)
-
-        for col in MAPPING_COLS:
-            if col not in df.columns:
-                continue
-            val = str(row[col]).strip() if pd.notna(row[col]) else ""
-            if not val or val == "nan":
-                continue
-
-            if col in ("gene_names", "gene_names_cyanorak"):
-                # Space-separated list
-                for name in val.split():
-                    name = name.strip()
-                    if name and name != "nan":
-                        lookup[name] = locus
-            elif col == "old_locus_tags":
-                # Comma-separated list
-                for tag in val.split(","):
-                    tag = tag.strip()
-                    if tag and tag != "nan":
-                        lookup[tag] = locus
-            else:
-                lookup[val] = locus
-
-    return lookup, locus_tags
-
-
-def map_gene_id(raw_id, lookup, locus_tags):
-    """Map a single gene ID to a locus_tag. Same logic as fix-gene-ids.
-
-    Returns locus_tag string or None.
-    """
-    raw_id = raw_id.strip().strip('*').strip()
-    if not raw_id or raw_id == "nan":
-        return None
-
-    if raw_id in locus_tags:
-        return raw_id
-    if raw_id in lookup:
-        return lookup[raw_id]
-
-    # Try zero-padding normalization
-    m = re.match(r'^(.+)_(\d+)$', raw_id)
-    if m:
-        prefix, num = m.group(1), m.group(2)
-        for pad in range(len(num) + 1, len(num) + 3):
-            padded = f"{prefix}_{num.zfill(pad)}"
-            if padded in locus_tags:
-                return padded
-            if padded in lookup:
-                return lookup[padded]
-
-    # Try comma-split composite IDs
-    if "," in raw_id:
-        for part in raw_id.split(","):
-            part = part.strip()
-            if part in locus_tags:
-                return part
-            if part in lookup:
-                return lookup[part]
-
-    return None
-
-
-def is_id_like_column(series, col_name, exclude_cols):
-    """Return True if a column looks like it contains gene identifiers.
-
-    Args:
-        series: pandas Series of column values
-        col_name: column name string
-        exclude_cols: set of column names to skip (name_col, logfc_col, etc.)
-    """
-    if col_name in exclude_cols:
-        return False
-
-    col_lower = col_name.lower()
-
-    # Skip columns that are clearly description/annotation (not gene IDs)
-    if any(kw in col_lower for kw in DESCRIPTION_COL_KEYWORDS):
-        return False
-
-    # Skip columns that are obviously coordinate/position columns
-    if any(kw in col_lower for kw in ['start', 'end', 'length', 'position', 'coord']):
-        return False
-
-    # Check values
-    vals = series.dropna().astype(str)
-    vals = vals[vals.str.strip() != '']
-    vals = vals[vals != 'nan']
-    if len(vals) == 0:
-        return False
-
-    # Skip low-cardinality columns (categorical values like "Up"/"Down"):
-    # few unique values AND each one repeats many times (avg >= 5 occurrences per value)
-    n_unique = vals.nunique()
-    if n_unique <= MAX_UNIQUE_FOR_ID_COL and len(vals) / n_unique >= 5:
-        return False
-
-    # Skip purely numeric columns
-    try:
-        pd.to_numeric(vals)
-        return False
-    except (ValueError, TypeError):
-        pass
-
-    # Skip columns with very long values (descriptions, GO terms)
-    avg_len = vals.str.len().mean()
-    if avg_len > 50:
-        return False
-
-    # Skip if most values look like floating point fold-changes
-    # (values like "-0.54", "1.8*" etc.)
-    numeric_like = vals.str.replace(r'[*\s]', '', regex=True)
-    try:
-        pd.to_numeric(numeric_like)
-        return False
-    except (ValueError, TypeError):
-        pass
-
-    # Column name keyword hint — after passing description/position exclusions
-    if any(kw in col_lower for kw in ID_COL_KEYWORDS):
-        return True
-
-    # No keyword hint: require that most values look like gene IDs
-    # (no spaces, reasonable format)
-    space_frac = vals.str.contains(' ').mean()
-    if space_frac > 0.3:
-        # Most values contain spaces — likely a description column
-        return False
-
-    return True
 
 
 def parse_paperconfigs(paperconfig_list_path, project_root):
@@ -348,10 +167,10 @@ def process_organism(genome_dir, organism_analyses, dry_run=False):
 
     Returns list of dicts: {locus_tag, alt_id, source_col, source_csv, paper}
     """
-    # Load gene_mapping.csv lookup
-    lookup, locus_tags = build_id_lookup(genome_dir)
+    # Build ID lookup from gene_annotations_merged.json
+    lookup, locus_tags, _ = build_id_lookup(genome_dir)
     if lookup is None:
-        print(f"  No gene_mapping.csv found in {genome_dir}, skipping", file=sys.stderr)
+        print(f"  No gene_annotations_merged.json found in {genome_dir}, skipping", file=sys.stderr)
         return []
 
     records = []
@@ -421,7 +240,7 @@ def process_organism(genome_dir, organism_analyses, dry_run=False):
                 skipped_count += 1
                 continue
 
-            locus_tag = map_gene_id(raw_id, lookup, locus_tags)
+            locus_tag, _ = map_gene_id(raw_id, lookup, locus_tags)
             if not locus_tag:
                 continue
 
@@ -499,7 +318,7 @@ def main():
     unmatched_organisms = set()
 
     for analysis in all_analyses:
-        genome_dir = get_genome_dir(analysis["organism"], organism_to_dir)
+        genome_dir = get_genome_dir_from_registry(analysis["organism"], organism_to_dir)
         if genome_dir:
             dir_to_analyses[genome_dir].append(analysis)
         else:
@@ -512,7 +331,7 @@ def main():
 
     # Filter to requested organism if specified
     if args.organism:
-        target_dir = get_genome_dir(args.organism, organism_to_dir)
+        target_dir = get_genome_dir_from_registry(args.organism, organism_to_dir)
         if not target_dir:
             print(
                 f"ERROR: No genome directory found for organism '{args.organism}'",
