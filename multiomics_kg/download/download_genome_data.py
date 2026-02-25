@@ -377,12 +377,12 @@ def step4_eggnog(genomes: list[dict], force: bool, cpu: int) -> None:
 # ── step 5: gene_mapping.csv ─────────────────────────────────────────────────
 
 def step5_gene_mapping(genomes: list[dict], force: bool) -> None:
-    """Build gene_mapping.csv from downloaded GFF/GBK files via the CyanorakNcbi adapter.
+    """Build gene_mapping.csv from downloaded GFF/GBK files.
 
     Requires steps 1 (NCBI) and 2 (Cyanorak) to have run first.
     Skips strains where gene_mapping.csv already exists (unless --force).
     """
-    from multiomics_kg.adapters.cyanorak_ncbi_adapter import CyanorakNcbi
+    from multiomics_kg.download.build_gene_mapping import build_gene_mapping
 
     _header(5, "gene_mapping.csv generation")
     results: list[tuple[str, str, str]] = []
@@ -396,22 +396,34 @@ def step5_gene_mapping(genomes: list[dict], force: bool) -> None:
             results.append((strain, "SKIP_EXISTS", "gene_mapping.csv already present"))
             continue
 
-        gff_path = os.path.join(data_dir, "genomic.gff")
-        if not os.path.exists(gff_path):
+        ncbi_gff = os.path.join(data_dir, "genomic.gff")
+        if not os.path.exists(ncbi_gff):
             results.append((strain, "SKIP_NO_GFF", "genomic.gff not found — run step 1 first"))
             continue
 
+        # Resolve optional files (pass None if absent so build_gene_mapping skips them)
+        ncbi_gbff = os.path.join(data_dir, "genomic.gbff")
+        ncbi_gbff = ncbi_gbff if os.path.exists(ncbi_gbff) else None
+
+        cyan_org = (g.get("cyanorak_organism") or "").strip() or None
+        cyan_gff = os.path.join(data_dir, "cyanorak", f"{cyan_org}.gff") if cyan_org else None
+        cyan_gbk = os.path.join(data_dir, "cyanorak", f"{cyan_org}.gbk") if cyan_org else None
+        if cyan_gff and not os.path.exists(cyan_gff):
+            cyan_gff = None
+        if cyan_gbk and not os.path.exists(cyan_gbk):
+            cyan_gbk = None
+
         log.info(f"  Building gene_mapping.csv for {strain}...")
         try:
-            adapter = CyanorakNcbi(
-                ncbi_accession=g["ncbi_accession"],
-                cyanorak_organism=g.get("cyanorak_organism") or None,  # "" → None
-                data_dir=data_dir,
-                strain_name=strain,
-                ncbi_taxon_id=int(g["ncbi_taxon_id"]) if g.get("ncbi_taxon_id") else None,
+            df = build_gene_mapping(
+                ncbi_gff_file=ncbi_gff,
+                ncbi_gbff_file=ncbi_gbff,
+                cyan_gff_file=cyan_gff,
+                cyan_gbk_file=cyan_gbk,
             )
-            adapter.download_data(cache=True)  # skips all downloads; builds gene_mapping.csv
-            results.append((strain, "OK", f"{len(adapter.data_df)} genes"))
+            df.to_csv(mapping_path, index=False)
+            log.info(f"  Gene mapping table saved to {mapping_path}")
+            results.append((strain, "OK", f"{len(df)} genes"))
         except Exception as e:
             results.append((strain, "FAILED", str(e)[:80]))
 

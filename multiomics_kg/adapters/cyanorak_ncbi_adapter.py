@@ -23,10 +23,21 @@ from enum import Enum, EnumMeta, auto
 
 import pandas as pd
 import numpy as np
-from Bio import SeqIO
-import gffpandas.gffpandas as gffpd
 from urllib.parse import unquote
 import re
+
+from multiomics_kg.download.build_gene_mapping import (
+    build_gene_mapping as _build_gene_mapping,
+    load_gff as _load_gff,
+    load_gff_from_ncbi_only as _load_gff_from_ncbi_only,
+    load_gff_from_ncbi_and_cyanorak as _load_gff_from_ncbi_and_cyanorak,
+    ncbi_merge_cds_and_gene_entries as _ncbi_merge_cds_and_gene_entries,
+    _get_cyanorak_id_map_from_gbk,
+    _get_ec_numbers_from_gbff,
+    _get_ncbi_cols_rename_map,
+    _CYANORAK_COLS,
+    _FINAL_MERGE_RENAME,
+)
 
 logger.debug(f"Loading module {__name__}.")
 
@@ -403,29 +414,14 @@ class CyanorakNcbi:
                 "or set ncbi_accession."
             )
 
-        # Branch: full merge (NCBI+Cyanorak) or NCBI-only
+        # Build gene mapping DataFrame via the shared build_gene_mapping module
         has_cyanorak = all([self.cyan_gff_file, self.cyan_gbk_file])
-        if has_cyanorak:
-            self.data_df = self.load_gff_from_ncbi_and_cynorak(
-                ncbi_gff_file=self.ncbi_gff_file,
-                cyan_gff_file=self.cyan_gff_file,
-                cyan_gbk_file=self.cyan_gbk_file,
-            )
-        else:
-            logger.info("No Cyanorak data available; loading NCBI GFF only")
-            self.data_df = self.load_gff_from_ncbi_only(
-                ncbi_gff_file=self.ncbi_gff_file,
-            )
-
-        # Merge EC numbers from NCBI GBFF if available
-        if self.ncbi_gbff_file and os.path.exists(self.ncbi_gbff_file):
-            ec_map = self._get_ec_numbers_from_gbff(self.ncbi_gbff_file)
-            if ec_map and 'locus_tag_ncbi' in self.data_df.columns:
-                self.data_df['ec_numbers'] = self.data_df['locus_tag_ncbi'].apply(
-                    lambda lt: ','.join(ec_map[lt]) if pd.notna(lt) and lt in ec_map else None
-                )
-                n_with_ec = self.data_df['ec_numbers'].notna().sum()
-                logger.info(f"EC numbers merged: {n_with_ec} genes have at least one EC number")
+        self.data_df = _build_gene_mapping(
+            ncbi_gff_file=self.ncbi_gff_file,
+            ncbi_gbff_file=self.ncbi_gbff_file,
+            cyan_gff_file=self.cyan_gff_file if has_cyanorak else None,
+            cyan_gbk_file=self.cyan_gbk_file if has_cyanorak else None,
+        )
 
         # Save mapping table to data_dir for use by the omics adapter
         mapping_dir = self.data_dir or os.path.dirname(self.ncbi_gff_file)
@@ -620,53 +616,13 @@ class CyanorakNcbi:
 
 
     def _get_cyanorak_cols_to_keep(self) -> list[str]:
-        cyan_cols_to_keep = [
-            'start', 'end',  'strand', 
-            'ID', 'Name', 'Ontology_term', 'cluster_number',
-            'cyanorak_Role', 'cyanorak_Role_description', 'eggNOG',
-            'eggNOG_description', 'kegg', 'kegg_description',
-            'ontology_term_description', 'product', 'protein_domains',
-            'protein_domains_description', 'tIGR_Role', 'tIGR_Role_description',
-            'locus_tag', 
-            #'gene_synonym', - TODO: get from gbk file
-            ]
-        return cyan_cols_to_keep
+        return list(_CYANORAK_COLS)
 
     def _get_ncbi_cols_to_keep_map(self) -> dict[str, str]:
-        ncbi_cols_to_keep = [
-            'Name_gene',
-            'gene_gene',
-            'locus_tag_cds',
-            'old_locus_tag_gene',
-            'source_cds',
-            'start_cds',
-            'end_cds',
-            'strand_cds',
-            'Note_cds',
-            'exception_cds',
-            'inference_cds',
-            'product_cds',
-            'protein_id_cds',
-            'Ontology_term_cds',
-            'go_component_cds',
-            'go_function_cds',
-            'go_process_cds',
-            'gene_synonym_gene',
-        ]
-        col_rename_map = {c: c.replace('_gene', '').replace('_cds', '') for c in ncbi_cols_to_keep}
-        col_rename_map['locus_tag_cds'] = 'locus_tag_ncbi'
-        col_rename_map['old_locus_tag_gene'] = 'locus_tag'
-        return col_rename_map
+        return _get_ncbi_cols_rename_map()
 
     def _get_final_merged_columns_map(self) -> dict[str, str]:
-        return {
-            'Name_ncbi' : 'gene_names', 
-            'Name_cyanorak': 'gene_names_cyanorak',
-            'start_ncbi': 'start', 'end_ncbi': 'end', 'strand_ncbi': 'strand', 
-            'start_cyanorak': 'start_cyanorak', 'end_cyanorak': 'end_cyanorak', 'strand_cyanorak': 'strand_cyanorak',
-            'product_ncbi': 'product', 'product_cyanorak': 'product_cyanorak',
-            'ID': 'locus_tag_cyanoak',
-            }
+        return dict(_FINAL_MERGE_RENAME)
 
     def _get_split_character(self, field: str) -> str:
         ''' get split character for multiple values in a text field. Return None if not a multivalue field.'''
@@ -708,208 +664,29 @@ class CyanorakNcbi:
         return value
         
     def _get_cynaorak_ID(self, rec) -> str:
-        ''' Extract the Cyanorak ID from a GenBank record of cyanorak gbk file.'''
-        note_name = 'cyanorak ORF Id:'
-        cyanorak_ID =[i for i in rec.qualifiers['note'] if i.startswith(note_name)]
-        if len(cyanorak_ID) > 1:
-            print(f"Warning: multiple cyanorak IDs found for record {rec.id} - {cyanorak_ID}")
-        return cyanorak_ID[0].replace(note_name, '').strip()
-
+        from multiomics_kg.download.build_gene_mapping import _get_cynaorak_ID
+        return _get_cynaorak_ID(rec)
 
     def _get_cyanorak_id_map_from_gbk(self, gbk_file: str) -> dict[str, str]:
-        ''' Create a mapping from locus_tag to Cyanorak ID from a GenBank file of cyanorak gbk file.'''
-        seq_records = [rec for rec in SeqIO.read(gbk_file, "genbank").features if rec.type in ["CDS"]]
-        seq_records_map = {self._get_cynaorak_ID(rec) : locus_tag for rec in seq_records for locus_tag in rec.qualifiers['locus_tag']}
-        return seq_records_map
+        return _get_cyanorak_id_map_from_gbk(gbk_file)
 
     def _get_ec_numbers_from_gbff(self, gbff_file: str) -> dict[str, list[str]]:
-        """Extract EC numbers from NCBI GBFF file, keyed by locus_tag.
-
-        Models after _get_cyanorak_id_map_from_gbk(). Uses SeqIO.parse() because
-        NCBI GBFF files contain multiple records (one per chromosome/plasmid).
-
-        Args:
-            gbff_file: Path to the NCBI genomic.gbff file.
-
-        Returns:
-            Dict mapping locus_tag -> list of EC number strings (e.g. ["1.1.1.1"]).
-        """
-        locus_tag_to_ec: dict[str, list[str]] = {}
-        for record in SeqIO.parse(gbff_file, "genbank"):
-            for feature in record.features:
-                if feature.type != "CDS":
-                    continue
-                ec_numbers = feature.qualifiers.get("EC_number", [])
-                if not ec_numbers:
-                    continue
-                for locus_tag in feature.qualifiers.get("locus_tag", []):
-                    if locus_tag in locus_tag_to_ec:
-                        locus_tag_to_ec[locus_tag].extend(ec_numbers)
-                    else:
-                        locus_tag_to_ec[locus_tag] = list(ec_numbers)
-        return locus_tag_to_ec
+        return _get_ec_numbers_from_gbff(gbff_file)
 
 
     def ncbi_merge_cds_and_gene_entries(self, ncbi_gff_df: pd.DataFrame) -> pd.DataFrame:
-        ''' Merge gene and CDS entries from NCBI GFF DataFrame based on ID and Parent attributes.'''
-        gene_df = ncbi_gff_df.loc[ncbi_gff_df.type.isin(['gene'])]
-        cds_df = ncbi_gff_df.loc[ncbi_gff_df.type.isin(['CDS'])]
-        df = pd.merge(gene_df, cds_df, left_on='ID', right_on='Parent', suffixes=['_gene', '_cds'], )
-        
-        ncbi_col_rename_map = self._get_ncbi_cols_to_keep_map()
-        potential_cols = [c for c in df.columns if (c not in ncbi_col_rename_map) and (df[c].dropna().nunique() > 10)]
-        logger.info(f"NCBI, potential columns : {potential_cols}")
-
-        # Only keep columns that exist in the merged DataFrame (e.g. old_locus_tag_gene
-        # may be absent for genomes that lack old_locus_tag in their GFF)
-        available_cols = {k: v for k, v in ncbi_col_rename_map.items() if k in df.columns}
-        df_filter = df[list(available_cols.keys())].rename(columns=available_cols)
-
-        # Handle multiple old_locus_tag values (URL-encoded comma-separated in GFF)
-        # e.g. "PMT0003%2CPMT_0003%2CRG24_RS00015" -> ["PMT0003", "PMT_0003", "RG24_RS00015"]
-        if 'locus_tag' in df_filter.columns:
-            df_filter['locus_tag'] = df_filter['locus_tag'].apply(
-                lambda x: unquote(str(x)) if pd.notna(x) else x
-            )
-            # Store all old_locus_tags as a comma-separated string
-            df_filter['old_locus_tags'] = df_filter['locus_tag']
-        return df_filter
+        return _ncbi_merge_cds_and_gene_entries(ncbi_gff_df)
 
     def load_gff_from_ncbi_only(self, ncbi_gff_file: str) -> pd.DataFrame:
-        """Load gene data from NCBI GFF3 file only (no Cyanorak data).
-
-        Reuses load_gff() and ncbi_merge_cds_and_gene_entries(), then renames
-        columns to match GeneNodeField values expected by get_nodes().
-        """
-        ncbi_df = self.load_gff(ncbi_gff_file)
-        ncbi_df = self.ncbi_merge_cds_and_gene_entries(ncbi_df)
-
-        # Same locus_tag priority as the merge path: prefer old_locus_tag,
-        # fall back to locus_tag_ncbi (locus_tag may not exist if GFF lacks old_locus_tag)
-        if 'locus_tag' in ncbi_df.columns:
-            ncbi_df['locus_tag'] = ncbi_df['locus_tag'].fillna(ncbi_df['locus_tag_ncbi'])
-        else:
-            ncbi_df['locus_tag'] = ncbi_df['locus_tag_ncbi']
-
-        # Rename to match GeneNodeField.GENE_NAMES
-        ncbi_df = ncbi_df.rename(columns={'Name': 'gene_names'})
-
-        # Drop rows without a usable locus_tag
-        n_before = len(ncbi_df)
-        ncbi_df = ncbi_df.dropna(subset=['locus_tag'])
-        n_dropped = n_before - len(ncbi_df)
-        if n_dropped > 0:
-            logger.warning(f"Dropped {n_dropped} genes with no identifiable locus_tag")
-
-        logger.info(
-            f"NCBI-only gene load: {len(ncbi_df)} genes from {ncbi_gff_file}"
-        )
-        return ncbi_df
+        return _load_gff_from_ncbi_only(ncbi_gff_file)
 
     def load_gff(self, gff_file: str) -> pd.DataFrame:
-        ''' Load a GFF3 file and return a DataFrame object.'''
-        gff_annotation = gffpd.read_gff3(gff_file)
-        gff_df = gff_annotation.attributes_to_columns()
-        gff_cds_df = gff_df.loc[gff_df.type.isin(['CDS', 'gene'])]
-        return gff_cds_df
+        return _load_gff(gff_file)
 
-    def load_gff_from_ncbi_and_cynorak(self, ncbi_gff_file: str, cyan_gff_file: str, cyan_gbk_file: str) -> pd.DataFrame:
-        ''' Load a GFF3 file from NCBI and map the locus_tag to Cyanorak ID using the provided GenBank file.'''
-        cyan_df = self.load_gff(cyan_gff_file)
-        ncbi_df = self.load_gff(ncbi_gff_file)
-        ncbi_df = self.ncbi_merge_cds_and_gene_entries(ncbi_df)
-        cyanID2locus_tag_map = self._get_cyanorak_id_map_from_gbk(cyan_gbk_file)
-        cyan_df['locus_tag'] = cyan_df['ID'].map(cyanID2locus_tag_map)
-        cyan_df = cyan_df[self._get_cyanorak_cols_to_keep()]
-        # Drop Cyanorak entries without a locus_tag (no GBK mapping available)
-        if cyan_df['locus_tag'].isna().any():
-            logger.warning(
-                f"{cyan_df['locus_tag'].isna().sum()} Cyanorak entries have no locus_tag after mapping. "
-                f"These will be dropped from the merged dataset."
-            )
-
-        cyan_df = cyan_df.dropna(subset=['locus_tag'])
-
-        # Handle multiple old_locus_tag values: explode to one row per tag for merge.
-        # old_locus_tags column (comma-separated string) preserves all values.
-        # If GFF lacks old_locus_tag, fall back to locus_tag_ncbi
-        if 'locus_tag' not in ncbi_df.columns:
-            ncbi_df['locus_tag'] = ncbi_df['locus_tag_ncbi']
-        ncbi_df['locus_tag'] = ncbi_df['locus_tag'].str.split(',')
-        ncbi_exploded = ncbi_df.explode('locus_tag')
-        ncbi_exploded['locus_tag'] = ncbi_exploded['locus_tag'].str.strip()
-
-        # Outer merge to include genes from either source, not just intersection
-        merge_df = pd.merge(
-            ncbi_exploded, cyan_df, on='locus_tag', how='outer',
-            suffixes=['_ncbi', '_cyanorak'],
-        )
-
-        # --- Deduplication ---
-        # NCBI genes may have multiple old_locus_tags producing multiple rows
-        # after explode. Some tags may match Cyanorak and others may not.
-        # Strategy: split into NCBI-sourced vs Cyanorak-only, dedup each
-        # independently, then recombine.
-        has_ncbi = merge_df['locus_tag_ncbi'].notna()
-        ncbi_sourced = merge_df[has_ncbi].copy()
-        cyan_only = merge_df[~has_ncbi].copy()
-
-        # For NCBI genes: prefer rows that also matched Cyanorak (have ID).
-        # Sort so matched rows (non-NaN Cyanorak ID) come first, then dedup
-        # on locus_tag_ncbi to keep one row per NCBI gene.
-        if not ncbi_sourced.empty:
-            ncbi_sourced = ncbi_sourced.sort_values(
-                by='ID', ascending=True, na_position='last',
-            )
-            dup_mask = ncbi_sourced.duplicated(subset=['locus_tag_ncbi'], keep=False)
-            if dup_mask.any():
-                dup_genes = ncbi_sourced.loc[dup_mask, 'locus_tag_ncbi'].unique()
-                logger.warning(
-                    f"{len(dup_genes)} NCBI genes have duplicate rows after merge. "
-                    f"Keeping best match for each."
-                )
-            ncbi_sourced = ncbi_sourced.drop_duplicates(
-                subset=['locus_tag_ncbi'], keep='first',
-            )
-
-        # For Cyanorak-only genes: remove any whose locus_tag was already
-        # captured via an NCBI gene, then dedup on locus_tag.
-        if not cyan_only.empty:
-            matched_locus_tags = set(
-                ncbi_sourced.loc[ncbi_sourced['ID'].notna(), 'locus_tag'].dropna()
-            ) if not ncbi_sourced.empty else set()
-            cyan_only = cyan_only[~cyan_only['locus_tag'].isin(matched_locus_tags)]
-            cyan_only = cyan_only.drop_duplicates(subset=['locus_tag'], keep='first')
-
-        # Compute counts before concat for logging
-        n_ncbi_matched = int(ncbi_sourced['ID'].notna().sum()) if not ncbi_sourced.empty else 0
-        n_ncbi_only = len(ncbi_sourced) - n_ncbi_matched
-        n_cyan_only = len(cyan_only)
-
-        merge_df = pd.concat([ncbi_sourced, cyan_only], ignore_index=True)
-
-        # For NCBI genes without old_locus_tag, locus_tag is NaN — use
-        # locus_tag_ncbi so they still get a valid node ID.
-        merge_df['locus_tag'] = merge_df['locus_tag'].fillna(merge_df['locus_tag_ncbi'])
-
-        # Drop rows where locus_tag is still NaN (shouldn't happen in practice)
-        n_before = len(merge_df)
-        merge_df = merge_df.dropna(subset=['locus_tag'])
-        n_dropped = n_before - len(merge_df)
-        if n_dropped > 0:
-            logger.warning(f"Dropped {n_dropped} genes with no identifiable locus_tag")
-
-        logger.info(
-            f"NCBI genes {ncbi_df.shape[0]} + Cyanorak genes {cyan_df.shape[0]} → {len(merge_df)} total genes after deduplication")
-
-        logger.info(
-            f"Gene merge: {n_ncbi_matched} matched both sources, "
-            f"{n_ncbi_only} NCBI-only, {n_cyan_only} Cyanorak-only, "
-            f"{len(merge_df)} total"
-        )
-
-        merge_df = merge_df.rename(columns=self._get_final_merged_columns_map())
-        return merge_df
+    def load_gff_from_ncbi_and_cynorak(
+        self, ncbi_gff_file: str, cyan_gff_file: str, cyan_gbk_file: str
+    ) -> pd.DataFrame:
+        return _load_gff_from_ncbi_and_cyanorak(ncbi_gff_file, cyan_gff_file, cyan_gbk_file)
 
     @validate_call
     def add_prefix_to_id(
