@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-02-20T16:30:26.421246+00:00",
+  "generated_at": "2026-02-26T06:39:22.568873+00:00",
   "description": "Regression snapshot of KG nodes/edges. Regenerate with: uv run python tests/kg_validity/generate_snapshot.py",
   "nodes": [
     {
@@ -7,8 +7,9 @@
       "label": "Gene",
       "properties": {
         "locus_tag": "PMM1375",
-        "product": "hypothetical protein",
-        "gene_names": [
+        "product": "possible M protein repeat",
+        "gene_name": "PMM1375",
+        "gene_synonyms": [
           "TX50_RS07390"
         ],
         "strand": "+"
@@ -20,9 +21,10 @@
       "label": "Gene",
       "properties": {
         "locus_tag": "PMM0001",
-        "product": "DNA polymerase III subunit beta",
-        "gene_names": [
-          "dnaN"
+        "product": "DNA polymerase III, beta subunit",
+        "gene_name": "dnaN",
+        "gene_synonyms": [
+          "PMM0001"
         ],
         "strand": "+"
       },
@@ -33,9 +35,10 @@
       "label": "Gene",
       "properties": {
         "locus_tag": "A9601_00001",
-        "product": "DNA polymerase III subunit beta",
-        "gene_names": [
-          "dnaN"
+        "product": "DNA polymerase III, beta subunit",
+        "gene_name": "dnaN",
+        "gene_synonyms": [
+          "A9601_00001"
         ],
         "strand": "+"
       },
@@ -46,9 +49,10 @@
       "label": "Gene",
       "properties": {
         "locus_tag": "A9601_00011",
-        "product": "PRC-barrel domain-containing protein",
-        "gene_names": [
-          "A9601_RS09115"
+        "product": "conserved hypothetical protein",
+        "gene_name": "A9601_RS09115",
+        "gene_synonyms": [
+          "A9601_00011"
         ],
         "strand": "+"
       },
@@ -59,10 +63,8 @@
       "label": "Gene",
       "properties": {
         "locus_tag": "A9601_00021",
-        "product": "phosphoribosylformylglycinamidine synthase subunit PurL",
-        "gene_names": [
-          "purL"
-        ],
+        "product": "phosphoribosylformylglycinamidine synthase, synthetase domain",
+        "gene_name": "purL",
         "strand": "+"
       },
       "anchor": false
@@ -73,8 +75,9 @@
       "properties": {
         "locus_tag": "A9601_00031",
         "product": "amidophosphoribosyltransferase",
-        "gene_names": [
-          "purF"
+        "gene_name": "purF",
+        "gene_synonyms": [
+          "A9601_00031"
         ],
         "strand": "+"
       },
@@ -85,11 +88,11 @@
       "label": "Gene",
       "properties": {
         "locus_tag": "A9601_00041",
-        "product": "DNA gyrase/topoisomerase IV subunit A",
-        "gene_names": [
-          "A9601_RS09135"
-        ],
-        "strand": "-"
+        "product": "DNA gyrase/topoisomerase IV, subunit A family protein",
+        "gene_name": "A9601_RS09135",
+        "gene_synonyms": [
+          "A9601_00041"
+        ]
       },
       "anchor": false
     },
@@ -97,8 +100,10 @@
       "id": "uniprot:A0A126PUI3",
       "label": "Protein",
       "properties": {
-        "protein_name": "Beta sliding clamp",
-        "locus_tag": ""
+        "protein_synonyms": "Beta sliding clamp",
+        "gene_names": [
+          "AVL55_00010"
+        ]
       },
       "anchor": false
     },
@@ -106,8 +111,11 @@
       "id": "uniprot:A0A126PUJ3",
       "label": "Protein",
       "properties": {
-        "protein_name": "DNA polymerase I (EC 2.7.7.7)",
-        "locus_tag": ""
+        "protein_synonyms": "DNA polymerase I (EC 2.7.7.7)",
+        "gene_names": [
+          "polA",
+          "AVL55_00070"
+        ]
       },
       "anchor": false
     },
@@ -115,8 +123,11 @@
       "id": "uniprot:A0A126PUK4",
       "label": "Protein",
       "properties": {
-        "protein_name": "Threonylcarbamoyl-AMP synthase (TC-AMP synthase) (EC 2.7.7.87) (L-threonylcarbamoyladenylate synthase) (t(6)A37 threonylcarbamoyladenosine biosynthesis protein TsaC) (tRNA threonylcarbamoyladenosine biosynthesis protein TsaC)",
-        "locus_tag": ""
+        "protein_synonyms": "Threonylcarbamoyl-AMP synthase (TC-AMP synthase) (EC 2.7.7.87) (L-threonylcarbamoyladenylate synthase) (t(6)A37 threonylcarbamoyladenosine biosynthesis protein TsaC) (tRNA threonylcarbamoyladenosine biosynthesis protein TsaC)",
+        "gene_names": [
+          "tsaC",
+          "AVL55_00125"
+        ]
       },
       "anchor": false
     },
@@ -124,8 +135,11 @@
       "id": "uniprot:A0A126PUK6",
       "label": "Protein",
       "properties": {
-        "protein_name": "Der GTPase-activating protein YihI",
-        "locus_tag": ""
+        "protein_synonyms": "Der GTPase-activating protein YihI",
+        "gene_names": [
+          "yihI",
+          "AVL55_00050"
+        ]
       },
       "anchor": false
     },
@@ -133,8 +147,11 @@
       "id": "uniprot:A0A126PUK8",
       "label": "Protein",
       "properties": {
-        "protein_name": "Glycine--tRNA ligase beta subunit (EC 6.1.1.14) (Glycyl-tRNA synthetase beta subunit) (GlyRS)",
-        "locus_tag": ""
+        "protein_synonyms": "Glycine--tRNA ligase beta subunit (EC 6.1.1.14) (Glycyl-tRNA synthetase beta subunit) (GlyRS)",
+        "gene_names": [
+          "glyS",
+          "AVL55_00030"
+        ]
       },
       "anchor": false
     },
@@ -361,31 +378,31 @@
     },
     {
       "type": "Protein_belongs_to_organism",
-      "source": "uniprot:A0A126PUI3",
+      "source": "uniprot:A0A126PUM2",
       "target": "insdc.gcf:GCF_001578515.1",
       "properties": {}
     },
     {
       "type": "Protein_belongs_to_organism",
-      "source": "uniprot:A0A126PUI3",
+      "source": "uniprot:A0A126PUM2",
       "target": "insdc.gcf:GCF_901457815.2",
       "properties": {}
     },
     {
       "type": "Protein_belongs_to_organism",
-      "source": "uniprot:A0A126PUI3",
+      "source": "uniprot:A0A126PUM2",
       "target": "insdc.gcf:GCF_901457835.2",
       "properties": {}
     },
     {
       "type": "Protein_belongs_to_organism",
-      "source": "uniprot:A0A126PUJ3",
+      "source": "uniprot:A0A126PUP8",
       "target": "insdc.gcf:GCF_001578515.1",
       "properties": {}
     },
     {
       "type": "Protein_belongs_to_organism",
-      "source": "uniprot:A0A126PUJ3",
+      "source": "uniprot:A0A126PUP8",
       "target": "insdc.gcf:GCF_901457815.2",
       "properties": {}
     },
