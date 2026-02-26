@@ -479,6 +479,7 @@ UP = {
     "go_f_id": "0003677",
     "xref_pfam": "PF00712",
     "xref_refseq": "WP_011129038.1",
+    "keywordid": "KW-0067;KW-0131;KW-0233",
 }
 
 MINIMAL_CONFIG = {
@@ -583,6 +584,12 @@ MINIMAL_CONFIG = {
                  "transform": "strip_function_prefix", "source_label": "uniprot"},
                 {"source": "eggnog",  "field": "Description", "source_label": "eggnog"},
             ],
+        },
+        "keyword_ids": {
+            "type": "passthrough_list",
+            "source": "uniprot",
+            "field": "keywordid",
+            "delimiter": ";",
         },
     }
 }
@@ -740,6 +747,24 @@ class TestAnnotationBuilderBuildMerged:
         gm = dict(GM, Ontology_term_ncbi="", Ontology_term_cyanorak="")
         merged = self.builder.build_merged(gm, {}, {})
         assert "ontology_terms" not in merged
+
+    # ── passthrough_list ──────────────────────────────────────────────────────
+
+    def test_passthrough_list_splits_delimited_string(self):
+        # keywordid = "KW-0067;KW-0131;KW-0233" → list of 3 tokens
+        merged = self.builder.build_merged(GM, EG, UP)
+        kw = merged.get("keyword_ids", [])
+        assert kw == ["KW-0067", "KW-0131", "KW-0233"]
+
+    def test_passthrough_list_pre_existing_list_passes_through(self):
+        up = dict(UP, keywordid=["KW-0067", "KW-0131"])
+        merged = self.builder.build_merged(GM, EG, up)
+        assert merged["keyword_ids"] == ["KW-0067", "KW-0131"]
+
+    def test_passthrough_list_missing_field_omitted(self):
+        up = {k: v for k, v in UP.items() if k != "keywordid"}
+        merged = self.builder.build_merged(GM, EG, up)
+        assert "keyword_ids" not in merged
 
     # ── gene_synonyms dedup ───────────────────────────────────────────────────
 

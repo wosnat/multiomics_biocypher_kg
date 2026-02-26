@@ -311,13 +311,17 @@ class TestCyanorakDownloadFile:
         data_dir = tmp / "genomes" / "MED4"
         data_dir.mkdir(parents=True)
 
-        mock_c = MagicMock()
-        mock_c.result = "content"
+        mock_resp = MagicMock()
+        mock_resp.ok = True
+        mock_resp.text = "GFF file content"
 
-        with patch(_CURL_CLS, return_value=mock_c):
+        with patch(_REQUESTS_GET, return_value=mock_resp) as mock_get:
             _cyanorak_download_file("Pro_MED4", str(data_dir), "gff", force=False)
 
         assert (data_dir / "cyanorak").is_dir()
+        # Verify the URL passed to requests.get contains the organism name
+        call_url = mock_get.call_args[0][0]
+        assert "Pro_MED4" in call_url
 
 
 # ── step1_ncbi ────────────────────────────────────────────────────────────────
@@ -473,6 +477,14 @@ class TestStep3Uniprot:
             step3_uniprot(genomes, force=False)
         _, cache_dir, _ = mock_dl.call_args[0]
         assert cache_dir == tmp / "cache" / "data" / "Alteromonas" / "uniprot" / "28108"
+
+    def test_passes_force_true_to_download_uniprot(self, tmp):
+        genomes = [self._make_genomes()[0]]  # MED4, taxid=59919
+        with patch("multiomics_kg.download.download_genome_data.PROJECT_ROOT", tmp), \
+             patch(_UNIPROT_DL, return_value=True) as mock_dl:
+            step3_uniprot(genomes, force=True)
+        taxid, cache_dir, force = mock_dl.call_args[0]
+        assert force is True
 
 
 # ── download_uniprot (standalone module) ──────────────────────────────────────

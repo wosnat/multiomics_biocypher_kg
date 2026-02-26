@@ -1,0 +1,458 @@
+"""Unit tests for multiomics_kg/download/build_protein_annotations.py.
+
+Coverage
+--------
+- Helper functions: _nonempty, _split, _coerce_to_tokens
+- Named transforms: _tx_add_go_prefix, _tx_strip_function_prefix
+- load_uniprot_columnar
+- ProteinAnnotationBuilder.build_merged  (all field types incl. bool edge cases)
+- process_taxid: skip/force/output-file behaviour
+"""
+
+from __future__ import annotations
+
+import json
+import sys
+from pathlib import Path
+from unittest.mock import patch
+
+import pytest
+
+sys.path.insert(0, str(Path(__file__).parent.parent))
+
+from multiomics_kg.download.build_protein_annotations import (
+    ProteinAnnotationBuilder,
+    _coerce_to_tokens,
+    _nonempty,
+    _split,
+    _tx_add_go_prefix,
+    _tx_strip_function_prefix,
+    load_uniprot_columnar,
+    process_taxid,
+)
+
+_PROCESS_TAXID_PROJECT_ROOT = "multiomics_kg.download.build_protein_annotations.PROJECT_ROOT"
+
+
+# ─── _nonempty ────────────────────────────────────────────────────────────────
+
+class TestNonempty:
+    def test_none_is_empty(self):
+        assert _nonempty(None) is False
+
+    def test_empty_string_is_empty(self):
+        assert _nonempty("") is False
+
+    def test_whitespace_only_is_empty(self):
+        assert _nonempty("   ") is False
+
+    def test_dash_sentinel_is_empty(self):
+        assert _nonempty("-") is False
+
+    def test_dash_with_spaces_is_empty(self):
+        assert _nonempty("  -  ") is False
+
+    def test_non_empty_string_is_true(self):
+        assert _nonempty("dnaN") is True
+
+    def test_integer_zero_is_true(self):
+        assert _nonempty(0) is True
+
+    def test_false_bool_is_true(self):
+        # False is a real value; must NOT be treated as empty
+        assert _nonempty(False) is True
+
+    def test_empty_list_is_empty(self):
+        assert _nonempty([]) is False
+
+    def test_list_with_only_empty_items_is_empty(self):
+        assert _nonempty(["", "-", None]) is False
+
+    def test_list_with_one_non_empty_item_is_true(self):
+        assert _nonempty(["", "Q7V0G8"]) is True
+
+
+# ─── _split ───────────────────────────────────────────────────────────────────
+
+class TestSplit:
+    def test_splits_on_delimiter(self):
+        assert _split("GO:0009360;GO:0003677", ";") == ["GO:0009360", "GO:0003677"]
+
+    def test_strips_whitespace_from_tokens(self):
+        assert _split(" asd ; nnrD ", ";") == ["asd", "nnrD"]
+
+    def test_skips_empty_tokens(self):
+        assert _split("a;;b", ";") == ["a", "b"]
+
+    def test_skips_dash_sentinel_tokens(self):
+        assert _split("a;-;b", ";") == ["a", "b"]
+
+    def test_empty_input_returns_empty_list(self):
+        assert _split("", ";") == []
+
+    def test_non_string_returns_empty_list(self):
+        assert _split(None, ";") == []
+
+    def test_single_token(self):
+        assert _split("Q7TU21", ";") == ["Q7TU21"]
+
+
+# ─── _coerce_to_tokens ────────────────────────────────────────────────────────
+
+class TestCoerceToTokens:
+    def test_string_splits_on_delimiter(self):
+        assert _coerce_to_tokens("Q7TU21;Q7V0G8", ";") == ["Q7TU21", "Q7V0G8"]
+
+    def test_list_returns_items_as_tokens(self):
+        assert _coerce_to_tokens(["Q7TU21", "Q7V0G8"], ";") == ["Q7TU21", "Q7V0G8"]
+
+    def test_list_skips_empty_and_none(self):
+        assert _coerce_to_tokens(["Q7TU21", "", None, "-"], ";") == ["Q7TU21"]
+
+    def test_non_string_non_list_returns_empty(self):
+        assert _coerce_to_tokens(42, ";") == []
+
+    def test_empty_list_returns_empty(self):
+        assert _coerce_to_tokens([], ";") == []
+
+
+# ─── _tx_add_go_prefix ────────────────────────────────────────────────────────
+
+class TestTxAddGoPrefix:
+    def test_prepends_go_to_bare_7_digit(self):
+        # Real GO id stored in go_c_id: "0009360" → "GO:0009360"
+        assert _tx_add_go_prefix("0009360") == "GO:0009360"
+
+    def test_already_prefixed_left_unchanged(self):
+        assert _tx_add_go_prefix("GO:0009360") == "GO:0009360"
+
+    def test_non_go_token_left_unchanged(self):
+        assert _tx_add_go_prefix("PF00712") == "PF00712"
+
+    def test_dash_sentinel_returns_empty(self):
+        assert _tx_add_go_prefix("-") == ""
+
+    def test_empty_string_returns_empty(self):
+        assert _tx_add_go_prefix("") == ""
+
+    def test_strips_whitespace_before_check(self):
+        assert _tx_add_go_prefix("  0009360  ") == "GO:0009360"
+
+
+# ─── _tx_strip_function_prefix ───────────────────────────────────────────────
+
+class TestTxStripFunctionPrefix:
+    def test_strips_function_prefix(self):
+        assert _tx_strip_function_prefix(
+            "FUNCTION: Catalyzes the replication of chromosomal DNA."
+        ) == "Catalyzes the replication of chromosomal DNA."
+
+    def test_case_insensitive(self):
+        assert _tx_strip_function_prefix("function: catalyzes") == "catalyzes"
+
+    def test_no_prefix_passes_through(self):
+        assert _tx_strip_function_prefix("Catalyzes something.") == "Catalyzes something."
+
+    def test_non_string_returns_empty(self):
+        assert _tx_strip_function_prefix(None) == ""
+
+    def test_empty_string_returns_empty(self):
+        assert _tx_strip_function_prefix("") == ""
+
+
+# ─── load_uniprot_columnar ────────────────────────────────────────────────────
+
+# Minimal column-oriented JSON matching real uniprot_preprocess_data.json format.
+# Real UniProt accessions from taxid 59919 (Prochlorococcus MED4):
+UNIPROT_COL_DATA = {
+    "gene_primary": {"Q7TU21": "asd", "Q7V0G8": "nnrD", "Q7V0H7": "trmD"},
+    "organism_id": {"Q7TU21": 59919, "Q7V0G8": 59919, "Q7V0H7": 59919},
+    "reviewed": {"Q7TU21": "Reviewed", "Q7V0G8": "Unreviewed"},
+    "length": {"Q7TU21": 367, "Q7V0H7": 238},
+    # Q7V0G8 deliberately has no 'length' entry (field missing for that accession)
+}
+
+
+class TestLoadUniprotColumnar:
+    @pytest.fixture
+    def json_path(self, tmp_path):
+        p = tmp_path / "uniprot_preprocess_data.json"
+        p.write_text(json.dumps(UNIPROT_COL_DATA))
+        return str(p)
+
+    def test_all_accessions_present_as_keys(self, json_path):
+        result = load_uniprot_columnar(json_path)
+        assert set(result.keys()) == {"Q7TU21", "Q7V0G8", "Q7V0H7"}
+
+    def test_row_contains_correct_field_values(self, json_path):
+        result = load_uniprot_columnar(json_path)
+        assert result["Q7TU21"]["gene_primary"] == "asd"
+        assert result["Q7TU21"]["organism_id"] == 59919
+        assert result["Q7TU21"]["reviewed"] == "Reviewed"
+
+    def test_field_missing_for_accession_is_absent(self, json_path):
+        # Q7V0G8 has no 'length' in the JSON
+        result = load_uniprot_columnar(json_path)
+        assert "length" not in result["Q7V0G8"]
+
+    def test_accession_only_in_one_field_still_appears(self, json_path):
+        # Q7V0H7 is in gene_primary but not in reviewed
+        result = load_uniprot_columnar(json_path)
+        assert "Q7V0H7" in result
+        assert "reviewed" not in result["Q7V0H7"]
+
+
+# ─── ProteinAnnotationBuilder.build_merged ───────────────────────────────────
+
+MINIMAL_PROTEIN_CONFIG = {
+    "fields": {
+        "gene_symbol": {
+            "type": "passthrough",
+            "field": "gene_primary",
+        },
+        "is_reviewed": {
+            "type": "bool",
+            "field": "reviewed",
+        },
+        "sequence_length": {
+            "type": "integer",
+            "field": "length",
+        },
+        "annotation_score": {
+            "type": "float",
+            "field": "annotation_score",
+        },
+        "go_cellular_components": {
+            "type": "passthrough_list",
+            "field": "go_c_id",
+            "transform": "add_go_prefix",
+        },
+        "function_description": {
+            "type": "passthrough",
+            "field": "cc_function",
+            "transform": "strip_function_prefix",
+        },
+    }
+}
+
+# Representative UniProt row (post-preprocessing, row-oriented)
+UP_ROW = {
+    "gene_primary": "asd",
+    "reviewed": "Reviewed",
+    "length": 367,
+    "annotation_score": "4.0",
+    "go_c_id": ["0009360", "0005737"],   # bare IDs; add_go_prefix adds "GO:"
+    "cc_function": "FUNCTION: Catalyzes the reductive amination of aspartate semialdehyde.",
+}
+
+
+class TestProteinAnnotationBuilderBuildMerged:
+    def setup_method(self):
+        self.builder = ProteinAnnotationBuilder(MINIMAL_PROTEIN_CONFIG)
+
+    # ── passthrough ──────────────────────────────────────────────────────────
+
+    def test_passthrough_copies_value(self):
+        result = self.builder.build_merged("Q7TU21", UP_ROW)
+        assert result["gene_symbol"] == "asd"
+
+    def test_passthrough_missing_field_omitted(self):
+        result = self.builder.build_merged("Q7TU21", {})
+        assert "gene_symbol" not in result
+
+    def test_passthrough_with_strip_function_transform(self):
+        result = self.builder.build_merged("Q7TU21", UP_ROW)
+        assert result["function_description"].startswith("Catalyzes")
+        assert "FUNCTION:" not in result["function_description"]
+
+    # ── bool ─────────────────────────────────────────────────────────────────
+
+    def test_reviewed_string_gives_true(self):
+        result = self.builder.build_merged("Q7TU21", UP_ROW)
+        assert result["is_reviewed"] is True
+
+    def test_unreviewed_string_gives_false_and_is_retained(self):
+        # Critical: False must NOT be dropped by the _nonempty check
+        row = {**UP_ROW, "reviewed": "Unreviewed"}
+        result = self.builder.build_merged("Q7V0G8", row)
+        assert "is_reviewed" in result
+        assert result["is_reviewed"] is False
+
+    def test_none_reviewed_omits_field(self):
+        row = {**UP_ROW, "reviewed": None}
+        result = self.builder.build_merged("Q7TU21", row)
+        assert "is_reviewed" not in result
+
+    def test_unknown_reviewed_value_omits_field(self):
+        row = {**UP_ROW, "reviewed": "unknown"}
+        result = self.builder.build_merged("Q7TU21", row)
+        assert "is_reviewed" not in result
+
+    # ── integer ──────────────────────────────────────────────────────────────
+
+    def test_integer_converts_from_int(self):
+        result = self.builder.build_merged("Q7TU21", UP_ROW)
+        assert result["sequence_length"] == 367
+        assert isinstance(result["sequence_length"], int)
+
+    def test_integer_converts_from_float_string(self):
+        row = {**UP_ROW, "length": "1234.0"}
+        result = self.builder.build_merged("Q7TU21", row)
+        assert result["sequence_length"] == 1234
+
+    def test_integer_non_parseable_omits_field(self):
+        row = {**UP_ROW, "length": "notanumber"}
+        result = self.builder.build_merged("Q7TU21", row)
+        assert "sequence_length" not in result
+
+    # ── float ────────────────────────────────────────────────────────────────
+
+    def test_float_converts_from_string(self):
+        result = self.builder.build_merged("Q7TU21", UP_ROW)
+        assert abs(result["annotation_score"] - 4.0) < 1e-9
+        assert isinstance(result["annotation_score"], float)
+
+    def test_float_non_parseable_omits_field(self):
+        row = {**UP_ROW, "annotation_score": "bad"}
+        result = self.builder.build_merged("Q7TU21", row)
+        assert "annotation_score" not in result
+
+    # ── passthrough_list ──────────────────────────────────────────────────────
+
+    def test_passthrough_list_applies_add_go_prefix_transform(self):
+        result = self.builder.build_merged("Q7TU21", UP_ROW)
+        go_terms = result["go_cellular_components"]
+        assert "GO:0009360" in go_terms
+        assert "GO:0005737" in go_terms
+
+    def test_passthrough_list_from_semicolon_delimited_string(self):
+        config = {
+            "fields": {
+                "gene_names": {
+                    "type": "passthrough_list",
+                    "field": "gene_names",
+                    "delimiter": ";",
+                }
+            }
+        }
+        builder = ProteinAnnotationBuilder(config)
+        row = {"gene_names": "asd;nnrD;trmD"}
+        result = builder.build_merged("Q7TU21", row)
+        assert result["gene_names"] == ["asd", "nnrD", "trmD"]
+
+    def test_passthrough_list_pre_existing_list_passes_through(self):
+        config = {
+            "fields": {
+                "proteome_ids": {
+                    "type": "passthrough_list",
+                    "field": "xref_proteomes",
+                    "delimiter": ";",
+                }
+            }
+        }
+        builder = ProteinAnnotationBuilder(config)
+        # Real example: proteomes are a comma-separated string in preprocess data
+        row = {"xref_proteomes": ["UP000000625", "UP000002311"]}
+        result = builder.build_merged("Q7TU21", row)
+        assert result["proteome_ids"] == ["UP000000625", "UP000002311"]
+
+    def test_passthrough_list_missing_field_omitted(self):
+        result = self.builder.build_merged("Q7TU21", {})
+        assert "go_cellular_components" not in result
+
+    def test_passthrough_list_empty_after_filtering_omitted(self):
+        row = {**UP_ROW, "go_c_id": ["-", ""]}
+        result = self.builder.build_merged("Q7TU21", row)
+        assert "go_cellular_components" not in result
+
+    def test_passthrough_list_dash_sentinel_tokens_excluded(self):
+        row = {**UP_ROW, "go_c_id": ["0009360", "-"]}
+        result = self.builder.build_merged("Q7TU21", row)
+        # Only "GO:0009360" should remain; "-" filtered by add_go_prefix → "" → dropped
+        assert all(t.startswith("GO:") for t in result["go_cellular_components"])
+
+
+# ─── process_taxid ────────────────────────────────────────────────────────────
+
+class TestProcessTaxid:
+    def _write_preprocess_data(self, path: Path, data: dict | None = None):
+        if data is None:
+            data = {
+                "gene_primary": {"Q7TU21": "asd"},
+                "reviewed": {"Q7TU21": "Reviewed"},
+                "length": {"Q7TU21": 367},
+            }
+        path.write_text(json.dumps(data))
+
+    def test_skips_when_input_missing(self, tmp_path, capsys):
+        # No uniprot_preprocess_data.json → should print skip and not create output
+        with patch(_PROCESS_TAXID_PROJECT_ROOT, tmp_path):
+            process_taxid("Prochlorococcus", 59919, MINIMAL_PROTEIN_CONFIG, force=False)
+        out = capsys.readouterr().out
+        assert "skipping" in out.lower()
+        output_path = (
+            tmp_path / "cache" / "data" / "Prochlorococcus"
+            / "uniprot" / "59919" / "protein_annotations.json"
+        )
+        assert not output_path.exists()
+
+    def test_skips_when_output_exists_and_no_force(self, tmp_path, capsys):
+        uniprot_dir = (
+            tmp_path / "cache" / "data" / "Prochlorococcus" / "uniprot" / "59919"
+        )
+        uniprot_dir.mkdir(parents=True)
+        self._write_preprocess_data(uniprot_dir / "uniprot_preprocess_data.json")
+        output_path = uniprot_dir / "protein_annotations.json"
+        output_path.write_text('{"old": true}')
+        mtime_before = output_path.stat().st_mtime
+
+        with patch(_PROCESS_TAXID_PROJECT_ROOT, tmp_path):
+            process_taxid("Prochlorococcus", 59919, MINIMAL_PROTEIN_CONFIG, force=False)
+
+        assert output_path.stat().st_mtime == mtime_before
+        assert "Skipping" in capsys.readouterr().out
+
+    def test_force_overwrites_existing_output(self, tmp_path):
+        uniprot_dir = (
+            tmp_path / "cache" / "data" / "Prochlorococcus" / "uniprot" / "59919"
+        )
+        uniprot_dir.mkdir(parents=True)
+        self._write_preprocess_data(uniprot_dir / "uniprot_preprocess_data.json")
+        output_path = uniprot_dir / "protein_annotations.json"
+        output_path.write_text('{"old": true}')
+
+        with patch(_PROCESS_TAXID_PROJECT_ROOT, tmp_path):
+            process_taxid("Prochlorococcus", 59919, MINIMAL_PROTEIN_CONFIG, force=True)
+
+        saved = json.loads(output_path.read_text())
+        assert "old" not in saved
+        assert "Q7TU21" in saved
+
+    def test_normal_run_creates_output_file(self, tmp_path):
+        uniprot_dir = (
+            tmp_path / "cache" / "data" / "Prochlorococcus" / "uniprot" / "59919"
+        )
+        uniprot_dir.mkdir(parents=True)
+        self._write_preprocess_data(uniprot_dir / "uniprot_preprocess_data.json")
+        output_path = uniprot_dir / "protein_annotations.json"
+
+        with patch(_PROCESS_TAXID_PROJECT_ROOT, tmp_path):
+            process_taxid("Prochlorococcus", 59919, MINIMAL_PROTEIN_CONFIG, force=False)
+
+        assert output_path.exists()
+
+    def test_output_keyed_by_uniprot_accession(self, tmp_path):
+        uniprot_dir = (
+            tmp_path / "cache" / "data" / "Prochlorococcus" / "uniprot" / "59919"
+        )
+        uniprot_dir.mkdir(parents=True)
+        self._write_preprocess_data(uniprot_dir / "uniprot_preprocess_data.json")
+
+        with patch(_PROCESS_TAXID_PROJECT_ROOT, tmp_path):
+            process_taxid("Prochlorococcus", 59919, MINIMAL_PROTEIN_CONFIG, force=False)
+
+        output = json.loads(
+            (uniprot_dir / "protein_annotations.json").read_text()
+        )
+        assert "Q7TU21" in output
+        assert output["Q7TU21"]["gene_symbol"] == "asd"
