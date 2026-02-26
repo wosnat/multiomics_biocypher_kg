@@ -39,15 +39,15 @@ sources:
     description: "EggNOG-mapper v2 functional annotations"
 
   uniprot:
-    type: json_columnar
-    # Column-oriented dict: data[field_name][uniprot_id] = value
+    type: json_roworiented
+    # Row-oriented dict: data[uniprot_id] = {field: value} (produced by build_protein_annotations.py)
     # Try taxid-keyed path first (from Step 0 pipeline), fall back to project root
     path_candidates:
-      - "cache/data/{organism_group}/uniprot/{ncbi_taxon_id}/uniprot_preprocess_data.json"
-      - "uniprot_preprocess_data.json"
-    # Pivot key: xref_refseq used to index uniprot rows by RefSeq protein_id
-    pivot_on: xref_refseq
-    # Join key: gene_mapping.protein_id == uniprot.xref_refseq (WP_ accessions)
+      - "cache/data/{organism_group}/uniprot/{ncbi_taxon_id}/protein_annotations.json"
+      - "protein_annotations.json"
+    # Re-index key: refseq_ids list used to index uniprot rows by RefSeq protein_id
+    pivot_on: refseq_ids
+    # Join key: gene_mapping.protein_id == uniprot.refseq_ids (WP_ accessions)
     join_to: protein_id
     description: "UniProt proteins (reviewed + unreviewed)"
 
@@ -129,7 +129,7 @@ fields:
         transform: first_token_space
         source_label: cyanorak
       - source: uniprot
-        field: gene_primary
+        field: gene_symbol
         source_label: uniprot
       - source: gene_mapping
         field: gene_names
@@ -180,8 +180,7 @@ fields:
     track_source: function_description_source
     candidates:
       - source: uniprot
-        field: cc_function
-        transform: strip_function_prefix
+        field: function_description
         source_label: uniprot
       - source: eggnog
         field: Description
@@ -221,7 +220,7 @@ fields:
   protein_family:
     type: passthrough
     source: uniprot
-    field: protein_families
+    field: protein_family
 
   # ── Cyanorak cluster ─────────────────────────────────────────────────────────
 
@@ -240,14 +239,11 @@ fields:
     track_source: go_terms_source
     sources:
       - source: uniprot
-        field: go_c_id
-        transform: add_go_prefix
+        field: go_cellular_components
       - source: uniprot
-        field: go_p_id
-        transform: add_go_prefix
+        field: go_biological_processes
       - source: uniprot
-        field: go_f_id
-        transform: add_go_prefix
+        field: go_molecular_functions
       - source: gene_mapping
         field: go_component
         delimiter: ","
@@ -299,8 +295,7 @@ fields:
         field: kegg           # Cyanorak "kegg" field actually stores EC numbers
         delimiter: ","
       - source: uniprot
-        field: ec
-        delimiter: ";"
+        field: ec_numbers
       - source: eggnog
         field: EC
         delimiter: ","
@@ -412,8 +407,7 @@ fields:
         delimiter: ","
         transform: extract_pfam_ids  # keeps only PF* tokens
       - source: uniprot
-        field: xref_pfam
-        delimiter: ";"
+        field: pfam_ids
       - source: eggnog
         field: PFAMs
         delimiter: ","
@@ -440,7 +434,7 @@ fields:
   catalytic_activity:
     type: passthrough
     source: uniprot
-    field: cc_catalytic_activity
+    field: catalytic_activity
 
   subcellular_location:
     type: passthrough
@@ -450,12 +444,12 @@ fields:
   transmembrane_regions:
     type: passthrough
     source: uniprot
-    field: ft_transmem
+    field: transmembrane_regions
 
   signal_peptide:
     type: passthrough
     source: uniprot
-    field: ft_signal
+    field: signal_peptide
 
   # ── Provenance / quality ───────────────────────────────────────────────────
   # NOTE: annotation_quality (0=none, 1=eggnog-only, 2=NCBI/Cyanorak, 3=UniProt reviewed)

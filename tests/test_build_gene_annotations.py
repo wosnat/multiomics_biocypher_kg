@@ -356,21 +356,19 @@ class TestLoadEggnog:
 
 # ─── load_uniprot ─────────────────────────────────────────────────────────────
 
-UNIPROT_COL_DATA = {
-    "gene_primary": {"A0001": "dnaN", "A0002": "rpsT"},
-    "xref_refseq": {"A0001": "WP_011129038.1", "A0002": "WP_011129039.1"},
-    "reviewed": {"A0001": "reviewed", "A0002": "unreviewed"},
-    "cc_function": {"A0001": "FUNCTION: Catalyzes DNA repair"},
+PROTEIN_ANNOTATIONS_DATA = {
+    "A0001": {"gene_symbol": "dnaN", "refseq_ids": ["WP_011129038.1"], "is_reviewed": True, "function_description": "Catalyzes DNA repair"},
+    "A0002": {"gene_symbol": "rpsT", "refseq_ids": ["WP_011129039.1"], "is_reviewed": False},
 }
 
 
 class TestLoadUniprot:
     def _write_uniprot(self, path: Path, data=None):
         path.parent.mkdir(parents=True, exist_ok=True)
-        path.write_text(json.dumps(data or UNIPROT_COL_DATA))
+        path.write_text(json.dumps(data or PROTEIN_ANNOTATIONS_DATA))
 
     def test_indexes_by_refseq(self, tmp_path):
-        json_path = tmp_path / "uniprot_preprocess_data.json"
+        json_path = tmp_path / "protein_annotations.json"
         self._write_uniprot(json_path)
         with patch("multiomics_kg.download.build_gene_annotations.PROJECT_ROOT", tmp_path):
             result = load_uniprot(str(tmp_path), None, "Prochlorococcus")
@@ -378,17 +376,17 @@ class TestLoadUniprot:
         assert "WP_011129039.1" in result
 
     def test_correct_field_values(self, tmp_path):
-        json_path = tmp_path / "uniprot_preprocess_data.json"
+        json_path = tmp_path / "protein_annotations.json"
         self._write_uniprot(json_path)
         with patch("multiomics_kg.download.build_gene_annotations.PROJECT_ROOT", tmp_path):
             result = load_uniprot(str(tmp_path), None, "Prochlorococcus")
         row = result["WP_011129038.1"]
-        assert row["gene_primary"] == "dnaN"
-        assert row["reviewed"] == "reviewed"
+        assert row["gene_symbol"] == "dnaN"
+        assert row["is_reviewed"] is True
 
     def test_taxid_keyed_path_preferred(self, tmp_path):
         # Put data in taxid-keyed path
-        taxid_path = tmp_path / "cache" / "data" / "Prochlorococcus" / "uniprot" / "59919" / "uniprot_preprocess_data.json"
+        taxid_path = tmp_path / "cache" / "data" / "Prochlorococcus" / "uniprot" / "59919" / "protein_annotations.json"
         self._write_uniprot(taxid_path)
         with patch("multiomics_kg.download.build_gene_annotations.PROJECT_ROOT", tmp_path):
             result = load_uniprot("somedir", 59919, "Prochlorococcus")
@@ -396,7 +394,7 @@ class TestLoadUniprot:
 
     def test_falls_back_to_project_root(self, tmp_path):
         # No taxid path, but root path exists
-        root_path = tmp_path / "uniprot_preprocess_data.json"
+        root_path = tmp_path / "protein_annotations.json"
         self._write_uniprot(root_path)
         with patch("multiomics_kg.download.build_gene_annotations.PROJECT_ROOT", tmp_path):
             result = load_uniprot("somedata", 99999, "Prochlorococcus")
@@ -407,24 +405,11 @@ class TestLoadUniprot:
             result = load_uniprot("somedata", 99999, "Prochlorococcus")
         assert result == {}
 
-    def test_handles_list_xref_refseq(self, tmp_path):
+    def test_handles_multiple_refseq_ids(self, tmp_path):
         data = {
-            "xref_refseq": {"A0001": ["WP_111.1", "WP_222.2"]},
-            "gene_primary": {"A0001": "test"},
+            "A0001": {"gene_symbol": "test", "refseq_ids": ["WP_111.1", "WP_222.2"]},
         }
-        json_path = tmp_path / "uniprot_preprocess_data.json"
-        self._write_uniprot(json_path, data)
-        with patch("multiomics_kg.download.build_gene_annotations.PROJECT_ROOT", tmp_path):
-            result = load_uniprot(str(tmp_path), None, "Prochlorococcus")
-        assert "WP_111.1" in result
-        assert "WP_222.2" in result
-
-    def test_handles_semicolon_separated_xref_refseq(self, tmp_path):
-        data = {
-            "xref_refseq": {"A0001": "WP_111.1; WP_222.2"},
-            "gene_primary": {"A0001": "test"},
-        }
-        json_path = tmp_path / "uniprot_preprocess_data.json"
+        json_path = tmp_path / "protein_annotations.json"
         self._write_uniprot(json_path, data)
         with patch("multiomics_kg.download.build_gene_annotations.PROJECT_ROOT", tmp_path):
             result = load_uniprot(str(tmp_path), None, "Prochlorococcus")
@@ -788,7 +773,7 @@ class TestAnnotationBuilderBuildMerged:
     # ── annotation_quality ────────────────────────────────────────────────────
 
     def test_quality_3_when_uniprot_reviewed(self):
-        merged = self.builder.build_merged(GM, EG, dict(UP, reviewed="reviewed"))
+        merged = self.builder.build_merged(GM, EG, dict(UP, is_reviewed=True))
         assert merged["annotation_quality"] == 3
 
     def test_quality_2_when_cyanorak_product(self):
