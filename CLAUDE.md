@@ -144,10 +144,10 @@ bash scripts/prepare_data.sh --force --skip-cyanorak
 
 # Specific strains or steps only
 bash scripts/prepare_data.sh --strains MED4 MIT9313 --force
-bash scripts/prepare_data.sh --steps 1 --force   # rebuild annotations only
+bash scripts/prepare_data.sh --steps 1 2 --force   # rebuild annotation tables only
 ```
 
-Logs written to `logs/prepare_data_step0.log` and `logs/prepare_data_step1.log`. Monitor with `tail -f logs/prepare_data_step0.log`.
+Logs written to `logs/prepare_data_step0.log`, `logs/prepare_data_step1.log`, and `logs/prepare_data_step2.log`. Monitor with `tail -f logs/prepare_data_step0.log`.
 
 **Step 0** (`multiomics_kg/download/download_genome_data.py`) — sub-steps:
 - 1: NCBI genome (GFF, protein FASTA, GBFF)
@@ -156,7 +156,9 @@ Logs written to `logs/prepare_data_step0.log` and `logs/prepare_data_step1.log`.
 - 4: eggNOG-mapper (skipped by default; requires `EGGNOG_DATA_DIR` in `.env`)
 - 5: Build `gene_mapping.csv`
 
-**Step 1** (`multiomics_kg/download/build_gene_annotations.py`) — merges gene_mapping.csv + eggNOG + UniProt → `gene_annotations_merged.json` per strain.
+**Step 1** (`multiomics_kg/download/build_protein_annotations.py`) — builds per-taxid protein annotation tables → `protein_annotations.json` per taxid. Requires step 0 (UniProt data must be cached first).
+
+**Step 2** (`multiomics_kg/download/build_gene_annotations.py`) — merges gene_mapping.csv + eggNOG + UniProt (protein_annotations.json) → `gene_annotations_merged.json` per strain. Requires step 1.
 
 ## Data Locations
 
