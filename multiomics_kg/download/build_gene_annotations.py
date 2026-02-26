@@ -199,19 +199,19 @@ def load_uniprot(
     ncbi_taxon_id: int | None,
     organism_group: str,
 ) -> dict[str, dict]:
-    """Load uniprot_preprocess_data.json → {refseq_wp_id: {field: value}}.
+    """Load protein_annotations.json → {refseq_wp_id: {field: value}}.
 
-    The JSON is column-oriented: data[field_name][uniprot_id] = value.
-    Pivots to row-oriented, then re-indexes by xref_refseq (WP_ accession).
+    The JSON is row-oriented: data[uniprot_id] = {field: value}.
+    Re-indexes by refseq_ids (WP_ accessions) for joining with gene_mapping.
     Tries taxid-keyed cache path first; falls back to project root.
     """
     candidates: list[str] = []
     if ncbi_taxon_id:
         candidates.append(str(
             PROJECT_ROOT / "cache" / "data" / organism_group
-            / "uniprot" / str(ncbi_taxon_id) / "uniprot_preprocess_data.json"
+            / "uniprot" / str(ncbi_taxon_id) / "protein_annotations.json"
         ))
-    candidates.append(str(PROJECT_ROOT / "uniprot_preprocess_data.json"))
+    candidates.append(str(PROJECT_ROOT / "protein_annotations.json"))
 
     path = next((c for c in candidates if os.path.exists(c)), None)
     if path is None:
@@ -219,33 +219,14 @@ def load_uniprot(
         return {}
 
     with open(path) as f:
-        col_data: dict[str, dict] = json.load(f)
+        rows: dict[str, dict] = json.load(f)
 
-    # Gather all uniprot IDs
-    all_ids: set[str] = set()
-    for col_values in col_data.values():
-        if isinstance(col_values, dict):
-            all_ids.update(col_values.keys())
-
-    # Build row-oriented dict
-    rows: dict[str, dict] = {uid: {} for uid in all_ids}
-    for field, col_values in col_data.items():
-        if isinstance(col_values, dict):
-            for uid, val in col_values.items():
-                rows[uid][field] = val
-
-    # Re-index by RefSeq accession (xref_refseq → protein_id in gene_mapping)
+    # Re-index by RefSeq accession (refseq_ids → protein_id in gene_mapping)
     result: dict[str, dict] = {}
     for uid, row in rows.items():
-        refseq_raw = row.get("xref_refseq")
-        if not refseq_raw:
+        refseq_ids = row.get("refseq_ids", [])
+        if not refseq_ids:
             continue
-        # Can be a string or list
-        if isinstance(refseq_raw, list):
-            refseq_ids = refseq_raw
-        else:
-            # Semicolons or spaces used as separators in some entries
-            refseq_ids = re.split(r"[;\s]+", str(refseq_raw).strip())
         for rs_id in refseq_ids:
             rs_id = rs_id.strip()
             if rs_id and rs_id != "-":
@@ -524,7 +505,7 @@ class AnnotationBuilder:
         result.update(source_tracking)
 
         # Compute annotation_quality (0–3)
-        is_reviewed = str(up.get("reviewed", "")).strip().lower() == "reviewed"
+        is_reviewed = bool(up.get("is_reviewed", False))
         has_cyanorak_product = _nonempty(gm.get("product_cyanorak"))
         has_ncbi_product = _nonempty(gm.get("product"))
         has_eggnog = bool(eg)

@@ -12,6 +12,14 @@ The post-import.cypher script runs after neo4j-admin import to:
    and A is homolog of B, then X affects_homolog B
 
 These tests verify that post-import ran correctly and produced valid results.
+
+Note: test_gene_go_biological_processes_set was removed (Feb 2026).
+The Cypher denormalization step for go_biological_processes was never implemented
+in post-import.cypher (only function_description was added in commit 0a9a52c), and
+the go_biological_processes field was subsequently removed from the gene schema in
+the schema refactor (commit 9fdd673). If go_biological_processes denormalization is
+needed in future, add it to post-import.cypher and the gene schema before re-adding
+the test.
 """
 
 import pytest
@@ -70,33 +78,6 @@ def test_alteromonas_genes_have_function_description(run_query):
     assert filled_fraction > 0.50, (
         f"Only {row['filled']} / {row['total']} Alteromonas genes ({filled_fraction:.1%}) "
         f"have function_description. Denormalization from Protein may not have run."
-    )
-
-
-# ---------------------------------------------------------------------------
-# Denormalized Gene.go_biological_processes (copied from Protein)
-# ---------------------------------------------------------------------------
-
-def test_gene_go_biological_processes_set(run_query):
-    """
-    Genes linked to a Protein with go_biological_processes should have
-    Gene.go_biological_processes populated (either from Cyanorak or from the
-    post-import denormalization step).
-    """
-    result = run_query("""
-        MATCH (p:Protein)-[:Gene_encodes_protein]->(g:Gene)
-        WHERE p.go_biological_processes IS NOT NULL
-        WITH count(g) AS total,
-             count(CASE WHEN g.go_biological_processes IS NOT NULL THEN 1 END) AS filled
-        RETURN total, filled, total - filled AS missing
-    """)
-    row = result[0]
-    if row["total"] == 0:
-        pytest.skip("No Protein→Gene pairs with go_biological_processes found")
-    missing_fraction = row["missing"] / row["total"]
-    assert missing_fraction < 0.10, (
-        f"{row['missing']} / {row['total']} genes ({missing_fraction:.1%}) are missing "
-        f"go_biological_processes despite their linked Protein having it."
     )
 
 

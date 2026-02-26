@@ -221,6 +221,8 @@ See: https://github.com/eggnogdb/eggnog-mapper/issues/575
 
 ## Known Issues
 
+- **~46% of UniProt proteins are orphaned (no Protein_belongs_to_organism or Gene_encodes_protein edges)** — The UniProt adapter only creates these edges when a protein's RefSeq WP_ ID matches an entry in `gene_mapping.csv`. UniProt returns proteins for a taxid regardless of whether they have a WP_ cross-reference, so proteins absent from our NCBI gene_mapping are stranded. Investigation needed: check whether this fraction is a pre-existing data gap or a regression from the Feb 2026 UniProt adapter refactor (`fe5c2bb`). See `plans/orphan_proteins.md` for details. The KG validity tests `test_no_orphan_proteins` and `test_no_orphan_proteins_without_gene` are currently failing because of this.
+
 - **Cyanorak web server is intermittently unavailable** — `bioinformatics.psb.ugent.be` returns connection errors or throttles requests without warning. This is a server-side issue outside our control. When it happens, use `--skip-cyanorak` (files already in cache are reused). The `TestCyanorakDownloadFile` tests in `tests/test_download_genome_data.py` may also be affected if the server is down during CI.
 
 ## Notes

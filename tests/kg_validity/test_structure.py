@@ -95,7 +95,16 @@ def test_no_orphan_genes(run_query):
 
 
 def test_no_orphan_proteins(run_query):
-    """Every Protein must be linked to an OrganismTaxon via Protein_belongs_to_organism."""
+    """Every Protein must be linked to an OrganismTaxon via Protein_belongs_to_organism.
+
+    KNOWN ISSUE: This test is currently failing (~46% orphans).
+    The UniProt adapter only creates Protein_belongs_to_organism when a protein's
+    RefSeq WP_ ID matches gene_mapping.csv. Proteins without a WP_ cross-reference
+    in UniProt get no organism edge. Root cause unclear — may be a pre-existing data
+    gap or a regression from the Feb 2026 adapter refactor (fe5c2bb).
+    See plans/orphan_proteins.md for investigation plan.
+    TODO: fix root cause and re-tighten or replace this assertion.
+    """
     result = run_query("""
         MATCH (p:Protein)
         WHERE NOT (p)-[:Protein_belongs_to_organism]->(:OrganismTaxon)
@@ -137,6 +146,14 @@ def test_no_orphan_proteins_without_gene(run_query):
     """
     Most proteins should be linked to a gene via Gene_encodes_protein.
     Allow up to 15% unlinked (some UniProt entries may lack RefSeq cross-refs).
+
+    KNOWN ISSUE: This test is currently failing — actual unlinked fraction is ~46%.
+    Same root cause as test_no_orphan_proteins: the Gene_encodes_protein edge is
+    created only when a protein's RefSeq WP_ ID matches gene_mapping.csv.
+    The 15% threshold was aspirational. Investigation needed to determine whether
+    this gap is expected or a regression from the Feb 2026 refactor (fe5c2bb).
+    See plans/orphan_proteins.md for investigation plan.
+    TODO: fix root cause and re-tighten, or raise threshold to match reality (~50%).
     """
     result = run_query("""
         MATCH (p:Protein)
@@ -209,13 +226,19 @@ def test_gene_locus_tag_present(run_query):
 
 
 def test_protein_name_present(run_query):
-    """Every Protein must have a protein_name."""
+    """Every Protein must have a protein_synonyms (full name string from UniProt).
+
+    Note: the schema field is 'protein_synonyms' (a single str), not 'protein_name'.
+    The property was renamed/restructured in the Feb 2026 UniProt adapter refactor
+    (commit fe5c2bb): protein_name was removed and protein_synonyms changed from
+    str[] to a single str holding the full recommended name.
+    """
     result = run_query("""
-        MATCH (p:Protein) WHERE p.protein_name IS NULL
+        MATCH (p:Protein) WHERE p.protein_synonyms IS NULL
         RETURN count(p) AS missing
     """)
     missing = result[0]["missing"]
-    assert missing == 0, f"{missing} Protein node(s) are missing the protein_name property"
+    assert missing == 0, f"{missing} Protein node(s) are missing the protein_synonyms property"
 
 
 def test_organism_name_present(run_query):
