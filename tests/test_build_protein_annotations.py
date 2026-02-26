@@ -3,7 +3,8 @@
 Coverage
 --------
 - Helper functions: _nonempty, _split, _coerce_to_tokens
-- Named transforms: _tx_add_go_prefix, _tx_strip_function_prefix
+- Named transforms: _tx_add_go_prefix, _tx_strip_function_prefix,
+                    _tx_extract_go_from_brackets
 - load_uniprot_columnar
 - ProteinAnnotationBuilder.build_merged  (all field types incl. bool edge cases)
 - process_taxid: skip/force/output-file behaviour
@@ -32,6 +33,7 @@ from multiomics_kg.download.utils.annotation_helpers import (
 )
 from multiomics_kg.download.utils.annotation_transforms import (
     _tx_add_go_prefix,
+    _tx_extract_go_from_brackets,
     _tx_strip_function_prefix,
 )
 
@@ -164,9 +166,30 @@ class TestTxStripFunctionPrefix:
         assert _tx_strip_function_prefix("") == ""
 
 
+# ─── _tx_extract_go_from_brackets ────────────────────────────────────────────
+
+class TestTxExtractGoFromBrackets:
+    def test_extracts_go_id_from_bracket_notation(self):
+        term = "DNA polymerase III complex [GO:0009360]"
+        assert _tx_extract_go_from_brackets(term) == "GO:0009360"
+
+    def test_extracts_go_id_with_longer_term_name(self):
+        term = "aspartate-semialdehyde dehydrogenase activity [GO:0004073]"
+        assert _tx_extract_go_from_brackets(term) == "GO:0004073"
+
+    def test_no_go_term_returns_empty(self):
+        assert _tx_extract_go_from_brackets("no GO term here") == ""
+
+    def test_empty_string_returns_empty(self):
+        assert _tx_extract_go_from_brackets("") == ""
+
+    def test_dash_sentinel_returns_empty(self):
+        assert _tx_extract_go_from_brackets("-") == ""
+
+
 # ─── load_uniprot_columnar ────────────────────────────────────────────────────
 
-# Minimal column-oriented JSON matching real uniprot_preprocess_data.json format.
+# Minimal column-oriented JSON matching real uniprot_raw_data.json format.
 # Real UniProt accessions from taxid 59919 (Prochlorococcus MED4):
 UNIPROT_COL_DATA = {
     "gene_primary": {"Q7TU21": "asd", "Q7V0G8": "nnrD", "Q7V0H7": "trmD"},
@@ -180,7 +203,7 @@ UNIPROT_COL_DATA = {
 class TestLoadUniprotColumnar:
     @pytest.fixture
     def json_path(self, tmp_path):
-        p = tmp_path / "uniprot_preprocess_data.json"
+        p = tmp_path / "uniprot_raw_data.json"
         p.write_text(json.dumps(UNIPROT_COL_DATA))
         return str(p)
 
@@ -228,8 +251,9 @@ MINIMAL_PROTEIN_CONFIG = {
         },
         "go_cellular_components": {
             "type": "passthrough_list",
-            "field": "go_c_id",
-            "transform": "add_go_prefix",
+            "field": "go_c",
+            "delimiter": ";",
+            "transform": "extract_go_from_brackets",
         },
         "function_description": {
             "type": "passthrough",
@@ -239,13 +263,14 @@ MINIMAL_PROTEIN_CONFIG = {
     }
 }
 
-# Representative UniProt row (post-preprocessing, row-oriented)
+# Representative UniProt row (raw data format, row-oriented)
 UP_ROW = {
     "gene_primary": "asd",
     "reviewed": "Reviewed",
     "length": 367,
     "annotation_score": "4.0",
-    "go_c_id": ["0009360", "0005737"],   # bare IDs; add_go_prefix adds "GO:"
+    # Raw GO terms: semicolon-separated "term description [GO:XXXXXXX]" strings
+    "go_c": "DNA polymerase III complex [GO:0009360];cytoplasm [GO:0005737]",
     "cc_function": "FUNCTION: Catalyzes the reductive amination of aspartate semialdehyde.",
 }
 
@@ -323,7 +348,7 @@ class TestProteinAnnotationBuilderBuildMerged:
 
     # ── passthrough_list ──────────────────────────────────────────────────────
 
-    def test_passthrough_list_applies_add_go_prefix_transform(self):
+    def test_passthrough_list_applies_extract_go_from_brackets_transform(self):
         result = self.builder.build_merged("Q7TU21", UP_ROW)
         go_terms = result["go_cellular_components"]
         assert "GO:0009360" in go_terms
@@ -365,21 +390,22 @@ class TestProteinAnnotationBuilderBuildMerged:
         assert "go_cellular_components" not in result
 
     def test_passthrough_list_empty_after_filtering_omitted(self):
-        row = {**UP_ROW, "go_c_id": ["-", ""]}
+        # Terms with no [GO:...] notation → extract_go_from_brackets returns "" → dropped
+        row = {**UP_ROW, "go_c": "term one;term two"}
         result = self.builder.build_merged("Q7TU21", row)
         assert "go_cellular_components" not in result
 
     def test_passthrough_list_dash_sentinel_tokens_excluded(self):
-        row = {**UP_ROW, "go_c_id": ["0009360", "-"]}
+        # Second term has no GO id → filtered out; only GO:0009360 remains
+        row = {**UP_ROW, "go_c": "DNA polymerase III complex [GO:0009360];no GO term here"}
         result = self.builder.build_merged("Q7TU21", row)
-        # Only "GO:0009360" should remain; "-" filtered by add_go_prefix → "" → dropped
         assert all(t.startswith("GO:") for t in result["go_cellular_components"])
 
 
 # ─── process_taxid ────────────────────────────────────────────────────────────
 
 class TestProcessTaxid:
-    def _write_preprocess_data(self, path: Path, data: dict | None = None):
+    def _write_raw_data(self, path: Path, data: dict | None = None):
         if data is None:
             data = {
                 "gene_primary": {"Q7TU21": "asd"},
@@ -389,7 +415,7 @@ class TestProcessTaxid:
         path.write_text(json.dumps(data))
 
     def test_skips_when_input_missing(self, tmp_path, capsys):
-        # No uniprot_preprocess_data.json → should print skip and not create output
+        # No uniprot_raw_data.json → should print skip and not create output
         with patch(_PROCESS_TAXID_PROJECT_ROOT, tmp_path):
             process_taxid("Prochlorococcus", 59919, MINIMAL_PROTEIN_CONFIG, force=False)
         out = capsys.readouterr().out
@@ -405,7 +431,7 @@ class TestProcessTaxid:
             tmp_path / "cache" / "data" / "Prochlorococcus" / "uniprot" / "59919"
         )
         uniprot_dir.mkdir(parents=True)
-        self._write_preprocess_data(uniprot_dir / "uniprot_preprocess_data.json")
+        self._write_raw_data(uniprot_dir / "uniprot_raw_data.json")
         output_path = uniprot_dir / "protein_annotations.json"
         output_path.write_text('{"old": true}')
         mtime_before = output_path.stat().st_mtime
@@ -421,7 +447,7 @@ class TestProcessTaxid:
             tmp_path / "cache" / "data" / "Prochlorococcus" / "uniprot" / "59919"
         )
         uniprot_dir.mkdir(parents=True)
-        self._write_preprocess_data(uniprot_dir / "uniprot_preprocess_data.json")
+        self._write_raw_data(uniprot_dir / "uniprot_raw_data.json")
         output_path = uniprot_dir / "protein_annotations.json"
         output_path.write_text('{"old": true}')
 
@@ -437,7 +463,7 @@ class TestProcessTaxid:
             tmp_path / "cache" / "data" / "Prochlorococcus" / "uniprot" / "59919"
         )
         uniprot_dir.mkdir(parents=True)
-        self._write_preprocess_data(uniprot_dir / "uniprot_preprocess_data.json")
+        self._write_raw_data(uniprot_dir / "uniprot_raw_data.json")
         output_path = uniprot_dir / "protein_annotations.json"
 
         with patch(_PROCESS_TAXID_PROJECT_ROOT, tmp_path):
@@ -450,7 +476,7 @@ class TestProcessTaxid:
             tmp_path / "cache" / "data" / "Prochlorococcus" / "uniprot" / "59919"
         )
         uniprot_dir.mkdir(parents=True)
-        self._write_preprocess_data(uniprot_dir / "uniprot_preprocess_data.json")
+        self._write_raw_data(uniprot_dir / "uniprot_raw_data.json")
 
         with patch(_PROCESS_TAXID_PROJECT_ROOT, tmp_path):
             process_taxid("Prochlorococcus", 59919, MINIMAL_PROTEIN_CONFIG, force=False)

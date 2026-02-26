@@ -57,6 +57,21 @@ def _tx_extract_go_from_pipe(value: str) -> str:
     return _tx_add_go_prefix(s)
 
 
+def _tx_extract_go_from_brackets(value: str) -> str:
+    """Extract GO ID from UniProt bracket notation.
+
+    'DNA polymerase III complex [GO:0009360]' → 'GO:0009360'
+    Returns empty string if no GO term found.
+    """
+    s = str(value).strip()
+    if not s or s == "-":
+        return ""
+    parts = s.split("GO:")
+    if len(parts) < 2:
+        return ""
+    return "GO:" + parts[-1].rstrip("]").strip()
+
+
 def _tx_extract_pfam_ids(value: str) -> list[str]:
     """Keep only PF* tokens from a comma-separated domain list.
 
@@ -76,4 +91,5 @@ _TRANSFORMS: dict[str, Any] = {
     "strip_prefix_ko": _tx_strip_prefix_ko,
     "extract_go_from_pipe": _tx_extract_go_from_pipe,
     "extract_pfam_ids": _tx_extract_pfam_ids,
+    "extract_go_from_brackets": _tx_extract_go_from_brackets,
 }

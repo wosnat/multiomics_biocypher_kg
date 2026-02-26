@@ -1,13 +1,13 @@
 #!/usr/bin/env python3
 """
-Build per-taxid protein annotation tables from UniProt preprocessed data.
+Build per-taxid protein annotation tables from UniProt raw data.
 
 Similar to build_gene_annotations.py but:
-  - Single source: only uniprot_preprocess_data.json
+  - Single source: only uniprot_raw_data.json
   - Keyed by UniProt accession (not locus_tag)
   - Output per unique taxid (not per strain)
 
-Input:  cache/data/<org_group>/uniprot/<taxid>/uniprot_preprocess_data.json
+Input:  cache/data/<org_group>/uniprot/<taxid>/uniprot_raw_data.json
 Output: cache/data/<org_group>/uniprot/<taxid>/protein_annotations.json
 
 Usage:
@@ -28,11 +28,7 @@ from multiomics_kg.download.utils.annotation_helpers import (
     _nonempty,
     _split,
 )
-from multiomics_kg.download.utils.annotation_transforms import (
-    _TRANSFORMS,
-    _tx_add_go_prefix,
-    _tx_strip_function_prefix,
-)
+from multiomics_kg.download.utils.annotation_transforms import _TRANSFORMS
 from multiomics_kg.download.utils.cli import add_common_args, load_config
 from multiomics_kg.download.utils.paths import GENOMES_CSV, PROJECT_ROOT, infer_organism_group
 
@@ -44,7 +40,7 @@ DEFAULT_CONFIG = PROJECT_ROOT / "config/protein_annotations_config.yaml"
 # ─── data loader ──────────────────────────────────────────────────────────────
 
 def load_uniprot_columnar(path: str) -> dict[str, dict]:
-    """Load column-oriented uniprot_preprocess_data.json → {uniprot_acc: {field: value}}.
+    """Load column-oriented uniprot_raw_data.json → {uniprot_acc: {field: value}}.
 
     Stays keyed by UniProt accession (unlike build_gene_annotations.load_uniprot
     which re-indexes by RefSeq accession for gene-level joining).
@@ -96,6 +92,9 @@ class ProteinAnnotationBuilder:
         raw = self._get_raw(fconf, up)
         if not _nonempty(raw):
             return None
+        if isinstance(raw, str):
+            # Sanitize characters that break Neo4j CSV import
+            raw = raw.replace("|", ",").replace("'", "^")
         transform = fconf.get("transform")
         if transform:
             raw = self._apply_transform(transform, raw)
@@ -119,7 +118,7 @@ class ProteinAnnotationBuilder:
         if raw is None:
             return None
         try:
-            return int(float(str(raw).strip()))
+            return int(float(str(raw).replace(",", "").strip()))
         except (ValueError, TypeError):
             return None
 
@@ -178,16 +177,16 @@ def process_taxid(
     config: dict,
     force: bool = False,
 ) -> None:
-    """Process one taxid's uniprot_preprocess_data.json → protein_annotations.json."""
+    """Process one taxid's uniprot_raw_data.json → protein_annotations.json."""
     uniprot_dir = (
         PROJECT_ROOT / "cache" / "data" / org_group
         / "uniprot" / str(ncbi_taxon_id)
     )
-    input_path = uniprot_dir / "uniprot_preprocess_data.json"
+    input_path = uniprot_dir / "uniprot_raw_data.json"
     output_path = uniprot_dir / "protein_annotations.json"
 
     if not input_path.exists():
-        print(f"  [{org_group}/{ncbi_taxon_id}] No uniprot_preprocess_data.json — skipping")
+        print(f"  [{org_group}/{ncbi_taxon_id}] No uniprot_raw_data.json — skipping")
         return
 
     if not force and output_path.exists():
@@ -197,7 +196,7 @@ def process_taxid(
         )
         return
 
-    print(f"\n[{org_group}/{ncbi_taxon_id}] Loading {input_path}...")
+    print(f"\n[{org_group}/{ncbi_taxon_id}] Loading {input_path} ...")
     rows = load_uniprot_columnar(str(input_path))
     print(f"  Loaded {len(rows)} UniProt entries")
 

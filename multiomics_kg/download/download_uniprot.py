@@ -1,10 +1,13 @@
 """
-Standalone UniProt download and preprocessing functions.
+Standalone UniProt download functions.
 
 Extracted from multiomics_kg/adapters/uniprot_adapter.py so that the download
-pipeline (download_genome_data.py) can fetch and preprocess UniProt data without
-instantiating the full adapter.  The adapter delegates to these functions to
-avoid code duplication.
+pipeline (download_genome_data.py) can fetch UniProt data without instantiating
+the full adapter.  The adapter delegates to these functions to avoid code
+duplication.
+
+Preprocessing (integer conversion, string sanitisation, GO ID extraction) is
+handled downstream by build_protein_annotations.py.
 """
 
 import json
@@ -132,63 +135,6 @@ DEFAULT_NODE_FIELDS: list[str] = [
 ]
 
 # ---------------------------------------------------------------------------
-# Helper: extract GO id from a GO term string
-# ---------------------------------------------------------------------------
-
-def _extract_go_id(go_term: str) -> str | None:
-    """Extract GO id from a GO term string.
-
-    Example input: "aspartate-semialdehyde dehydrogenase activity [GO:0004073]"
-    """
-    if "GO:" in go_term:
-        return go_term.split("GO:")[1].split("]")[0].strip()
-    return None
-
-
-# ---------------------------------------------------------------------------
-# Helper: split a single multi-valued UniProt field value
-# ---------------------------------------------------------------------------
-
-def _split_field(field_key: str, field_value: str):
-    """Split a UniProt field with multiple entries.
-
-    Args:
-        field_key: UniprotNodeField string value (e.g. "xref_proteomes")
-        field_value: raw string value from the UniProt API
-
-    Returns:
-        Processed value (list or scalar string).
-    """
-    if field_value is None or field_value == "":
-        return field_value
-
-    # replace sensitive elements for admin-import
-    field_value = field_value.replace("|", ",").replace("'", "^").strip()
-
-    split_dict = {
-        UniprotNodeField.PROTEOME.value: ",",
-        UniprotNodeField.PROTEIN_GENE_NAMES.value: " ",
-    }
-
-    split_char = split_dict.get(field_key, ";")
-    field_value = [i.strip() for i in field_value.strip(split_char).split(split_char)]
-
-    # split colons (":") in KEGG field to extract ID part
-    if field_key == UniprotNodeField.KEGG_IDS.value:
-        field_value = [e.split(":")[1].strip() for e in field_value]
-
-    # take first element only for ENTREZ_GENE_IDS
-    if field_key == UniprotNodeField.ENTREZ_GENE_IDS.value:
-        field_value = field_value[0]
-
-    # unwrap single-element lists to scalar
-    if isinstance(field_value, list) and len(field_value) == 1:
-        field_value = field_value[0]
-
-    return field_value
-
-
-# ---------------------------------------------------------------------------
 # Core: fetch raw UniProt data via pypath
 # ---------------------------------------------------------------------------
 
@@ -255,101 +201,7 @@ def fetch_raw_uniprot(
 
 
 # ---------------------------------------------------------------------------
-# Core: preprocess raw UniProt data
-# ---------------------------------------------------------------------------
-
-def preprocess_uniprot_data(
-    data: dict,
-    node_fields: list[str],
-) -> tuple[dict, set]:
-    """Preprocess raw UniProt data in-place.
-
-    Applies:
-    - Integer conversion for numeric fields (LENGTH, MASS, ORGANISM_ID)
-    - String sanitisation (| → , and ' → ^)
-    - Field splitting for multi-valued fields
-    - Subcellular location extraction
-    - GO ID extraction (go_c_id, go_p_id, go_f_id fields added)
-
-    Args:
-        data: raw data dict as returned by ``fetch_raw_uniprot``.
-        node_fields: list of UniprotNodeField string values (same list used
-            for fetching).
-
-    Returns:
-        Tuple of (processed_data, locations_set).
-        locations_set collects all unique subcellular location strings.
-    """
-    logger.info("Preprocessing UniProt data.")
-
-    nonuniprot_api_fields = set(UniprotNodeField.get_nonuniprot_api_fields())
-    split_fields = set(UniprotNodeField.get_split_fields())
-    locations: set = set()
-
-    int_fields = {
-        UniprotNodeField.LENGTH.value,
-        UniprotNodeField.MASS.value,
-        UniprotNodeField.ORGANISM_ID.value,
-    }
-
-    for arg in tqdm(node_fields, desc="Processing UniProt fields"):
-
-        if arg not in data:
-            continue
-
-        if arg in nonuniprot_api_fields:
-            pass  # skip embedding / derived fields
-
-        elif arg in int_fields:
-            for protein, val in data[arg].items():
-                data[arg][protein] = int(str(val).replace(",", ""))
-
-        elif arg == UniprotNodeField.SUBCELLULAR_LOCATION.value:
-            for protein, val in data[arg].items():
-                parsed = []
-                for element in val:
-                    loc = (
-                        str(element.location)
-                        .replace("'", "")
-                        .replace("[", "")
-                        .replace("]", "")
-                        .strip()
-                    )
-                    parsed.append(loc)
-                    locations.add(loc)
-                data[arg][protein] = parsed
-
-        elif arg in split_fields:
-            for protein, val in data[arg].items():
-                data[arg][protein] = _split_field(arg, val)
-
-        else:
-            for protein, val in data[arg].items():
-                data[arg][protein] = (
-                    val.replace("|", ",").replace("'", "^").strip()
-                )
-
-    # Extract GO IDs into separate fields (go_c_id, go_p_id, go_f_id)
-    go_fields = [
-        UniprotNodeField.CELLULAR_COMPONENT.value,
-        UniprotNodeField.BIOLOGICAL_PROCESS.value,
-        UniprotNodeField.MOLECULAR_FUNCTION.value,
-    ]
-    for go_field in go_fields:
-        if go_field not in data:
-            continue
-        go_id_field = go_field + "_id"
-        data[go_id_field] = {}
-        for protein, terms in data[go_field].items():
-            data[go_id_field][protein] = [
-                _extract_go_id(t) for t in terms if t and "GO:" in t
-            ]
-
-    return data, locations
-
-
-# ---------------------------------------------------------------------------
-# Public entry point: download + preprocess + save
+# Public entry point: download + save
 # ---------------------------------------------------------------------------
 
 def download_uniprot(
@@ -359,16 +211,18 @@ def download_uniprot(
     node_fields: list[str] | None = None,
     rev: bool = False,
 ) -> bool:
-    """Download, preprocess, and cache UniProt data for a taxid.
+    """Download and cache raw UniProt data for a taxid.
 
-    Output files written to ``cache_dir``:
-    - ``uniprot_raw_data.json``      — raw API data
-    - ``uniprot_preprocess_data.json`` — preprocessed data
+    Output file written to ``cache_dir``:
+    - ``uniprot_raw_data.json`` — raw API data
+
+    Preprocessing (integer conversion, string sanitisation, GO ID extraction)
+    is handled downstream by build_protein_annotations.py.
 
     Args:
         taxid: NCBI taxid.
-        cache_dir: directory where output JSON files will be written.
-        force: re-download even if cache files already exist.
+        cache_dir: directory where the output JSON file will be written.
+        force: re-download even if the cache file already exists.
         node_fields: fields to fetch; defaults to ``DEFAULT_NODE_FIELDS``.
         rev: reviewed-only flag (False = TrEMBL + SwissProt).
 
@@ -381,9 +235,8 @@ def download_uniprot(
         node_fields = DEFAULT_NODE_FIELDS
 
     raw_path = cache_dir / "uniprot_raw_data.json"
-    pre_path = cache_dir / "uniprot_preprocess_data.json"
 
-    if not force and raw_path.exists() and pre_path.exists():
+    if not force and raw_path.exists():
         return False
 
     cache_dir.mkdir(parents=True, exist_ok=True)
@@ -394,12 +247,6 @@ def download_uniprot(
 
     logger.info(f"  Saving raw data ({len(uniprot_ids)} proteins) → {raw_path}")
     with open(raw_path, "w") as f:
-        json.dump(data, f, indent=4, default=str)
-
-    data, _locations = preprocess_uniprot_data(data, node_fields)
-
-    logger.info(f"  Saving preprocessed data → {pre_path}")
-    with open(pre_path, "w") as f:
         json.dump(data, f, indent=4, default=str)
 
     return True

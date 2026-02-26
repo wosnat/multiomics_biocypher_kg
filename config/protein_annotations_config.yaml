@@ -1,7 +1,7 @@
 # Protein Annotation Config
 # Used by multiomics_kg/download/build_protein_annotations.py
 #
-# Single source: uniprot_preprocess_data.json (column-oriented, per-taxid)
+# Single source: uniprot_raw_data.json (column-oriented, per-taxid)
 # Output: protein_annotations.json (row-oriented, keyed by UniProt accession)
 #
 # Field types:
@@ -12,12 +12,12 @@
 #   bool              - "Reviewed" → True, "Unreviewed" → False
 #
 # Transforms (applied per-token for passthrough_list, or to the value for passthrough):
-#   add_go_prefix         - prepend "GO:" to bare 7-digit IDs
-#   strip_function_prefix - strip "FUNCTION: " prefix from UniProt cc_function
+#   extract_go_from_brackets - extract GO ID from "term [GO:XXXXXXX]" notation
+#   strip_function_prefix    - strip "FUNCTION: " prefix from UniProt cc_function
 
 source:
   type: json_columnar
-  path_pattern: "cache/data/{organism_group}/uniprot/{ncbi_taxon_id}/uniprot_preprocess_data.json"
+  path_pattern: "cache/data/{organism_group}/uniprot/{ncbi_taxon_id}/uniprot_raw_data.json"
 
 fields:
 
@@ -86,23 +86,26 @@ fields:
     delimiter: ";"
 
   # ── Gene Ontology (split by namespace C/P/F) ──────────────────────────────────
-  # Values in uniprot_preprocess_data.json are bare 7-digit strings or lists;
-  # add_go_prefix transform converts them to GO:XXXXXXX format.
+  # Values in uniprot_raw_data.json are semicolon-separated strings of the form
+  # "term description [GO:XXXXXXX]"; extract_go_from_brackets extracts the ID.
 
   go_cellular_components:
     type: passthrough_list
-    field: go_c_id
-    transform: add_go_prefix
+    field: go_c
+    delimiter: ";"
+    transform: extract_go_from_brackets
 
   go_biological_processes:
     type: passthrough_list
-    field: go_p_id
-    transform: add_go_prefix
+    field: go_p
+    delimiter: ";"
+    transform: extract_go_from_brackets
 
   go_molecular_functions:
     type: passthrough_list
-    field: go_f_id
-    transform: add_go_prefix
+    field: go_f
+    delimiter: ";"
+    transform: extract_go_from_brackets
 
   # ── Functional annotation ─────────────────────────────────────────────────────
 
