@@ -489,66 +489,63 @@ class TestStep3Uniprot:
 
 # ── download_uniprot (standalone module) ──────────────────────────────────────
 
-_FETCH_RAW   = "multiomics_kg.download.download_uniprot.fetch_raw_uniprot"
-_PREPROCESS  = "multiomics_kg.download.download_uniprot.preprocess_uniprot_data"
+_FETCH_RAW = "multiomics_kg.download.download_uniprot.fetch_raw_uniprot"
 
 
 class TestDownloadUniprot:
-    """Tests for the standalone download_uniprot() function."""
+    """Tests for the standalone download_uniprot() function.
+
+    Preprocessing (integer conversion, string sanitisation, GO ID extraction)
+    was moved to build_protein_annotations.py in the refactor; download_uniprot
+    now only fetches and saves uniprot_raw_data.json.
+    """
 
     def _import(self):
         from multiomics_kg.download.download_uniprot import download_uniprot
         return download_uniprot
 
-    def test_returns_false_when_both_files_exist(self, tmp):
+    def test_returns_false_when_raw_file_exists(self, tmp):
         cache_dir = tmp / "uniprot" / "59919"
         cache_dir.mkdir(parents=True)
         (cache_dir / "uniprot_raw_data.json").write_text("{}")
-        (cache_dir / "uniprot_preprocess_data.json").write_text("{}")
 
         download_uniprot = self._import()
         result = download_uniprot(59919, cache_dir, force=False)
         assert result is False
 
-    def test_returns_true_and_saves_json_files(self, tmp):
+    def test_returns_true_and_saves_raw_json(self, tmp):
         cache_dir = tmp / "uniprot" / "59919"
         raw_data = {"cc_function": {"P00001": "test"}}
 
         download_uniprot = self._import()
         with patch(_FETCH_RAW, return_value=(raw_data, {"P00001"})), \
-             patch(_PREPROCESS, return_value=(raw_data, set())), \
              patch(_CURL_OFF, return_value=MagicMock()):
             result = download_uniprot(59919, cache_dir, force=False)
 
         assert result is True
         assert (cache_dir / "uniprot_raw_data.json").exists()
-        assert (cache_dir / "uniprot_preprocess_data.json").exists()
         saved = json.loads((cache_dir / "uniprot_raw_data.json").read_text())
         assert "cc_function" in saved
 
-    def test_calls_fetch_and_preprocess(self, tmp):
+    def test_calls_fetch_raw(self, tmp):
         cache_dir = tmp / "uniprot" / "59919"
         raw_data: dict = {}
 
         download_uniprot = self._import()
         with patch(_FETCH_RAW, return_value=(raw_data, set())) as mock_fetch, \
-             patch(_PREPROCESS, return_value=(raw_data, set())) as mock_pre, \
              patch(_CURL_OFF, return_value=MagicMock()):
             download_uniprot(59919, cache_dir, force=False)
 
         mock_fetch.assert_called_once()
-        mock_pre.assert_called_once()
 
     def test_force_overwrites_existing_cache(self, tmp):
         cache_dir = tmp / "uniprot" / "59919"
         cache_dir.mkdir(parents=True)
         (cache_dir / "uniprot_raw_data.json").write_text('{"old": true}')
-        (cache_dir / "uniprot_preprocess_data.json").write_text('{"old": true}')
 
         new_data = {"cc_function": {"P00002": "new"}}
         download_uniprot = self._import()
         with patch(_FETCH_RAW, return_value=(new_data, {"P00002"})), \
-             patch(_PREPROCESS, return_value=(new_data, set())), \
              patch(_CURL_OFF, return_value=MagicMock()):
             result = download_uniprot(59919, cache_dir, force=True)
 
@@ -562,7 +559,6 @@ class TestDownloadUniprot:
 
         download_uniprot = self._import()
         with patch(_FETCH_RAW, return_value=(raw_data, set())) as mock_fetch, \
-             patch(_PREPROCESS, return_value=(raw_data, set())), \
              patch(_CURL_OFF, return_value=MagicMock()):
             download_uniprot(59919, cache_dir, force=False, rev=False)
 
@@ -576,7 +572,6 @@ class TestDownloadUniprot:
 
         download_uniprot = self._import()
         with patch(_FETCH_RAW, return_value=(raw_data, set())), \
-             patch(_PREPROCESS, return_value=(raw_data, set())), \
              patch(_CURL_OFF, return_value=MagicMock()):
             download_uniprot(59919, cache_dir, force=False)
 

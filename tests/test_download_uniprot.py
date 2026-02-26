@@ -2,15 +2,15 @@
 
 Coverage
 --------
-- _extract_go_id
-- _split_field
-- preprocess_uniprot_data  (integer conversion, string sanitisation,
-                            GO ID extraction, KEGG split, ENTREZ take-first,
-                            single-element list unwrapping)
+- UniprotNodeField enum values and class methods (get_split_fields,
+  get_nonuniprot_api_fields)
+- DEFAULT_NODE_FIELDS composition
+- download_uniprot: cache-hit skip, force-overwrite, output file creation
 """
 
 from __future__ import annotations
 
+import json
 import sys
 from pathlib import Path
 from unittest.mock import MagicMock, patch
@@ -20,259 +20,208 @@ import pytest
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
 from multiomics_kg.download.download_uniprot import (
+    DEFAULT_NODE_FIELDS,
     UniprotNodeField,
-    _extract_go_id,
-    _split_field,
-    preprocess_uniprot_data,
+    download_uniprot,
 )
 
 
-# ─── _extract_go_id ──────────────────────────────────────────────────────────
+# ─── UniprotNodeField ─────────────────────────────────────────────────────────
 
-class TestExtractGoId:
-    def test_extracts_go_id_from_bracket_notation(self):
-        term = "aspartate-semialdehyde dehydrogenase activity [GO:0004073]"
-        assert _extract_go_id(term) == "0004073"
+class TestUniprotNodeField:
+    def test_primary_gene_name_value(self):
+        assert UniprotNodeField.PRIMARY_GENE_NAME.value == "gene_primary"
 
-    def test_extracts_go_id_from_real_cellular_component(self):
-        term = "DNA polymerase III complex [GO:0009360]"
-        assert _extract_go_id(term) == "0009360"
+    def test_organism_id_value(self):
+        assert UniprotNodeField.ORGANISM_ID.value == "organism_id"
 
-    def test_returns_none_when_no_go_term(self):
-        assert _extract_go_id("no GO term here") is None
+    def test_go_fields_have_correct_values(self):
+        assert UniprotNodeField.CELLULAR_COMPONENT.value == "go_c"
+        assert UniprotNodeField.BIOLOGICAL_PROCESS.value == "go_p"
+        assert UniprotNodeField.MOLECULAR_FUNCTION.value == "go_f"
 
-    def test_returns_none_for_empty_string(self):
-        assert _extract_go_id("") is None
+    def test_go_id_fields_have_correct_values(self):
+        assert UniprotNodeField.CELLULAR_COMPONENT_ID.value == "go_c_id"
+        assert UniprotNodeField.BIOLOGICAL_PROCESS_ID.value == "go_p_id"
+        assert UniprotNodeField.MOLECULAR_FUNCTION_ID.value == "go_f_id"
 
-    def test_handles_multiple_go_colons_takes_first(self):
-        # Unlikely in practice but tests the split logic
-        term = "some term [GO:0001234]"
-        assert _extract_go_id(term) == "0001234"
+    def test_get_split_fields_returns_list(self):
+        fields = UniprotNodeField.get_split_fields()
+        assert isinstance(fields, list)
+        assert len(fields) > 0
 
+    def test_get_split_fields_contains_expected_fields(self):
+        fields = UniprotNodeField.get_split_fields()
+        assert UniprotNodeField.PROTEOME.value in fields
+        assert UniprotNodeField.KEGG_IDS.value in fields
+        assert UniprotNodeField.ENTREZ_GENE_IDS.value in fields
+        assert UniprotNodeField.CELLULAR_COMPONENT.value in fields
 
-# ─── _split_field ─────────────────────────────────────────────────────────────
+    def test_get_nonuniprot_api_fields_returns_list(self):
+        fields = UniprotNodeField.get_nonuniprot_api_fields()
+        assert isinstance(fields, list)
+        assert len(fields) > 0
 
-class TestSplitField:
-    def test_proteomes_split_on_comma(self):
-        result = _split_field(
-            UniprotNodeField.PROTEOME.value,
-            "UP000000625,UP000002311",
+    def test_get_nonuniprot_api_fields_contains_go_id_fields(self):
+        fields = UniprotNodeField.get_nonuniprot_api_fields()
+        assert UniprotNodeField.CELLULAR_COMPONENT_ID.value in fields
+        assert UniprotNodeField.BIOLOGICAL_PROCESS_ID.value in fields
+        assert UniprotNodeField.MOLECULAR_FUNCTION_ID.value in fields
+
+    def test_get_nonuniprot_api_fields_contains_embedding_fields(self):
+        fields = UniprotNodeField.get_nonuniprot_api_fields()
+        assert UniprotNodeField.PROTT5_EMBEDDING.value in fields
+        assert UniprotNodeField.ESM2_EMBEDDING.value in fields
+
+    def test_split_fields_and_nonuniprot_api_fields_are_disjoint(self):
+        split = set(UniprotNodeField.get_split_fields())
+        non_api = set(UniprotNodeField.get_nonuniprot_api_fields())
+        assert split.isdisjoint(non_api), (
+            f"Fields appear in both lists: {split & non_api}"
         )
-        assert result == ["UP000000625", "UP000002311"]
-
-    def test_gene_names_split_on_space(self):
-        # Real gene_names value: "dnaN repA" → ["dnaN", "repA"]
-        result = _split_field(
-            UniprotNodeField.PROTEIN_GENE_NAMES.value,
-            "dnaN repA",
-        )
-        assert result == ["dnaN", "repA"]
-
-    def test_kegg_splits_colon_and_takes_id_part(self):
-        # Real KEGG value: "pro:PMM0001" → "PMM0001"
-        result = _split_field(
-            UniprotNodeField.KEGG_IDS.value,
-            "pro:PMM0001",
-        )
-        assert result == "PMM0001"
-
-    def test_multiple_kegg_entries_colon_split_each(self):
-        result = _split_field(
-            UniprotNodeField.KEGG_IDS.value,
-            "pro:PMM0001;syn:slr0001",
-        )
-        assert result == ["PMM0001", "slr0001"]
-
-    def test_entrez_gene_ids_takes_first_only(self):
-        # Multiple GeneIDs → first only (scalar string)
-        result = _split_field(
-            UniprotNodeField.ENTREZ_GENE_IDS.value,
-            "1234567;7654321",
-        )
-        assert result == "1234567"
-
-    def test_single_element_result_unwrapped_to_scalar(self):
-        # proteomes with one entry → scalar, not list
-        result = _split_field(
-            UniprotNodeField.PROTEOME.value,
-            "UP000000625",
-        )
-        assert result == "UP000000625"
-
-    def test_none_returns_none(self):
-        assert _split_field(UniprotNodeField.PROTEOME.value, None) is None
-
-    def test_empty_string_returns_empty_string(self):
-        result = _split_field(UniprotNodeField.PROTEOME.value, "")
-        assert result == ""
-
-    def test_pipe_replaced_with_comma_before_split(self):
-        # Field sanitisation: | → , (for admin-import compatibility)
-        result = _split_field(
-            UniprotNodeField.PROTEOME.value,
-            "UP000000625|UP000002311",
-        )
-        # After | → , substitution and split on comma
-        assert "UP000000625" in result
-        assert "UP000002311" in result
-
-    def test_apostrophe_replaced_with_caret(self):
-        result = _split_field(
-            UniprotNodeField.PROTEIN_GENE_NAMES.value,
-            "O'Brien",
-        )
-        assert "'" not in result
-        assert "^" in result
 
 
-# ─── preprocess_uniprot_data ──────────────────────────────────────────────────
+# ─── DEFAULT_NODE_FIELDS ──────────────────────────────────────────────────────
 
-class TestPreprocessUniprotData:
-    """Tests for preprocess_uniprot_data.
+class TestDefaultNodeFields:
+    def test_is_a_list(self):
+        assert isinstance(DEFAULT_NODE_FIELDS, list)
 
-    The function modifies `data` in-place and returns (data, locations_set).
-    We build minimal `data` dicts targeting one code path per test.
-    """
+    def test_contains_core_fields(self):
+        assert UniprotNodeField.PRIMARY_GENE_NAME.value in DEFAULT_NODE_FIELDS
+        assert UniprotNodeField.ORGANISM_ID.value in DEFAULT_NODE_FIELDS
+        assert UniprotNodeField.PROTEIN_NAMES.value in DEFAULT_NODE_FIELDS
+        assert UniprotNodeField.LENGTH.value in DEFAULT_NODE_FIELDS
 
-    def _run(self, data: dict, fields: list[str] | None = None):
-        from tqdm import tqdm as _tqdm  # imported inside test to avoid top-level dep issues
-        if fields is None:
-            fields = list(data.keys())
-        result_data, locations = preprocess_uniprot_data(data, fields)
-        return result_data, locations
+    def test_contains_go_term_fields(self):
+        assert UniprotNodeField.CELLULAR_COMPONENT.value in DEFAULT_NODE_FIELDS
+        assert UniprotNodeField.BIOLOGICAL_PROCESS.value in DEFAULT_NODE_FIELDS
+        assert UniprotNodeField.MOLECULAR_FUNCTION.value in DEFAULT_NODE_FIELDS
 
-    # ── integer conversion ────────────────────────────────────────────────────
+    def test_excludes_embedding_fields(self):
+        # Embeddings are handled separately by the adapter, not downloaded here
+        assert UniprotNodeField.PROTT5_EMBEDDING.value not in DEFAULT_NODE_FIELDS
+        assert UniprotNodeField.ESM2_EMBEDDING.value not in DEFAULT_NODE_FIELDS
+        assert UniprotNodeField.NT_EMBEDDING.value not in DEFAULT_NODE_FIELDS
 
-    def test_integer_field_length_converted(self):
-        data = {UniprotNodeField.LENGTH.value: {"Q7TU21": "367"}}
-        result, _ = self._run(data)
-        assert result[UniprotNodeField.LENGTH.value]["Q7TU21"] == 367
-        assert isinstance(result[UniprotNodeField.LENGTH.value]["Q7TU21"], int)
+    def test_excludes_go_id_computed_fields(self):
+        # go_*_id are derived fields, not fetchable from the API
+        assert UniprotNodeField.CELLULAR_COMPONENT_ID.value not in DEFAULT_NODE_FIELDS
+        assert UniprotNodeField.BIOLOGICAL_PROCESS_ID.value not in DEFAULT_NODE_FIELDS
+        assert UniprotNodeField.MOLECULAR_FUNCTION_ID.value not in DEFAULT_NODE_FIELDS
 
-    def test_integer_field_mass_removes_comma(self):
-        data = {UniprotNodeField.MASS.value: {"Q7TU21": "38,274"}}
-        result, _ = self._run(data)
-        assert result[UniprotNodeField.MASS.value]["Q7TU21"] == 38274
+    def test_no_duplicates(self):
+        assert len(DEFAULT_NODE_FIELDS) == len(set(DEFAULT_NODE_FIELDS))
 
-    def test_integer_field_organism_id_converted(self):
-        data = {UniprotNodeField.ORGANISM_ID.value: {"Q7TU21": "59919"}}
-        result, _ = self._run(data)
-        assert result[UniprotNodeField.ORGANISM_ID.value]["Q7TU21"] == 59919
 
-    # ── string sanitisation ───────────────────────────────────────────────────
+# ─── download_uniprot ─────────────────────────────────────────────────────────
 
-    def test_pipe_replaced_with_comma_in_string_fields(self):
-        # cc_function is a string field (not in split_fields)
-        data = {UniprotNodeField.cc_function.value: {"Q7TU21": "domain A|domain B"}}
-        result, _ = self._run(data)
-        assert "|" not in result[UniprotNodeField.cc_function.value]["Q7TU21"]
-        assert "," in result[UniprotNodeField.cc_function.value]["Q7TU21"]
+_FETCH_RAW = "multiomics_kg.download.download_uniprot.fetch_raw_uniprot"
+# curl is imported lazily inside download_uniprot(); patch the source module
+_PYPATH_CURL = "pypath.share.curl"
 
-    def test_apostrophe_replaced_with_caret_in_string_fields(self):
-        data = {UniprotNodeField.cc_function.value: {"Q7TU21": "O'something"}}
-        result, _ = self._run(data)
-        val = result[UniprotNodeField.cc_function.value]["Q7TU21"]
-        assert "'" not in val
-        assert "^" in val
 
-    # ── GO ID extraction ──────────────────────────────────────────────────────
+def _make_mock_curl():
+    """Return a mock that supports `with curl.cache_off():`."""
+    mock_curl = MagicMock()
+    ctx = MagicMock()
+    ctx.__enter__ = MagicMock(return_value=None)
+    ctx.__exit__ = MagicMock(return_value=False)
+    mock_curl.cache_off.return_value = ctx
+    return mock_curl
 
-    def test_go_c_id_field_created_from_go_c(self):
-        # go_c raw value is a semicolon-delimited string (from UniProt API).
-        # preprocess_uniprot_data first splits it via _split_field, then
-        # extracts GO IDs into go_c_id.
-        data = {
-            UniprotNodeField.CELLULAR_COMPONENT.value: {
-                "Q7TU21": (
-                    "DNA polymerase III complex [GO:0009360];"
-                    "cytoplasm [GO:0005737]"
-                ),
-            }
-        }
-        result, _ = self._run(data)
-        go_c_id = result.get(UniprotNodeField.CELLULAR_COMPONENT_ID.value, {})
-        assert "Q7TU21" in go_c_id
-        ids = go_c_id["Q7TU21"]
-        assert "0009360" in ids
-        assert "0005737" in ids
 
-    def test_go_p_id_field_created_from_go_p(self):
-        # Use two semicolon-separated terms so _split_field returns a list
-        # (a single-element string gets unwrapped to scalar, then character-
-        # iteration would yield no GO IDs)
-        data = {
-            UniprotNodeField.BIOLOGICAL_PROCESS.value: {
-                "Q7TU21": "DNA replication [GO:0006260];'de novo' IMP biosynthesis [GO:0006189]",
-            }
-        }
-        result, _ = self._run(data)
-        go_p_id = result.get(UniprotNodeField.BIOLOGICAL_PROCESS_ID.value, {})
-        assert "0006260" in go_p_id["Q7TU21"]
-        assert "0006189" in go_p_id["Q7TU21"]
+class TestDownloadUniprot:
+    def _fake_raw_data(self):
+        return ({"gene_primary": {"Q7TU21": "asd"}}, {"Q7TU21"})
 
-    def test_go_f_id_field_created_from_go_f(self):
-        # Two terms → list → IDs extracted correctly
-        data = {
-            UniprotNodeField.MOLECULAR_FUNCTION.value: {
-                "Q7TU21": "DNA binding [GO:0003677];ATP binding [GO:0005524]",
-            }
-        }
-        result, _ = self._run(data)
-        go_f_id = result.get(UniprotNodeField.MOLECULAR_FUNCTION_ID.value, {})
-        assert "0003677" in go_f_id["Q7TU21"]
+    def test_skips_when_cache_exists_and_no_force(self, tmp_path):
+        raw_path = tmp_path / "uniprot_raw_data.json"
+        raw_path.write_text("{}")
 
-    def test_terms_without_go_colon_excluded_from_id_field(self):
-        # Second term has no GO id; only the first should appear in go_c_id
-        data = {
-            UniprotNodeField.CELLULAR_COMPONENT.value: {
-                "Q7TU21": "nucleus [GO:0005634];no GO term here",
-            }
-        }
-        result, _ = self._run(data)
-        go_c_id = result[UniprotNodeField.CELLULAR_COMPONENT_ID.value]
-        assert len(go_c_id["Q7TU21"]) == 1
+        with patch(_FETCH_RAW) as mock_fetch:
+            result = download_uniprot(59919, tmp_path, force=False)
 
-    # ── split fields ──────────────────────────────────────────────────────────
+        assert result is False
+        mock_fetch.assert_not_called()
 
-    def test_kegg_split_on_colon(self):
-        data = {
-            UniprotNodeField.KEGG_IDS.value: {"Q7TU21": "pro:PMM0001"}
-        }
-        result, _ = self._run(data)
-        assert result[UniprotNodeField.KEGG_IDS.value]["Q7TU21"] == "PMM0001"
+    def test_downloads_when_cache_missing(self, tmp_path):
+        with (
+            patch(_FETCH_RAW, return_value=self._fake_raw_data()) as mock_fetch,
+            patch(_PYPATH_CURL, _make_mock_curl()),
+        ):
+            result = download_uniprot(59919, tmp_path, force=False)
 
-    def test_entrez_gene_ids_takes_first(self):
-        data = {
-            UniprotNodeField.ENTREZ_GENE_IDS.value: {"Q7TU21": "1234567;7654321"}
-        }
-        result, _ = self._run(data)
-        assert result[UniprotNodeField.ENTREZ_GENE_IDS.value]["Q7TU21"] == "1234567"
+        assert result is True
+        mock_fetch.assert_called_once()
 
-    def test_proteome_split_on_comma(self):
-        data = {
-            UniprotNodeField.PROTEOME.value: {
-                "Q7TU21": "UP000000625,UP000002311"
-            }
-        }
-        result, _ = self._run(data)
-        val = result[UniprotNodeField.PROTEOME.value]["Q7TU21"]
-        assert "UP000000625" in val
-        assert "UP000002311" in val
+    def test_force_redownloads_when_cache_exists(self, tmp_path):
+        raw_path = tmp_path / "uniprot_raw_data.json"
+        raw_path.write_text('{"old": true}')
 
-    def test_single_element_list_unwrapped_for_split_fields(self):
-        data = {
-            UniprotNodeField.PROTEOME.value: {"Q7TU21": "UP000000625"}
-        }
-        result, _ = self._run(data)
-        # Single entry → scalar (not a list)
-        val = result[UniprotNodeField.PROTEOME.value]["Q7TU21"]
-        assert val == "UP000000625"
+        with (
+            patch(_FETCH_RAW, return_value=self._fake_raw_data()),
+            patch(_PYPATH_CURL, _make_mock_curl()),
+        ):
+            result = download_uniprot(59919, tmp_path, force=True)
 
-    # ── field absent in data ─────────────────────────────────────────────────
+        assert result is True
+        saved = json.loads(raw_path.read_text())
+        assert "old" not in saved
 
-    def test_field_not_in_data_is_skipped(self):
-        # Passing a field name in `fields` list that's not in `data` → no error
-        data = {UniprotNodeField.LENGTH.value: {"Q7TU21": "100"}}
-        fields = [UniprotNodeField.LENGTH.value, UniprotNodeField.MASS.value]
-        result, _ = preprocess_uniprot_data(data, fields)
-        assert UniprotNodeField.MASS.value not in result
+    def test_output_file_created(self, tmp_path):
+        raw_path = tmp_path / "uniprot_raw_data.json"
+        assert not raw_path.exists()
+
+        with (
+            patch(_FETCH_RAW, return_value=self._fake_raw_data()),
+            patch(_PYPATH_CURL, _make_mock_curl()),
+        ):
+            download_uniprot(59919, tmp_path, force=False)
+
+        assert raw_path.exists()
+
+    def test_output_is_valid_json(self, tmp_path):
+        with (
+            patch(_FETCH_RAW, return_value=self._fake_raw_data()),
+            patch(_PYPATH_CURL, _make_mock_curl()),
+        ):
+            download_uniprot(59919, tmp_path, force=False)
+
+        data = json.loads((tmp_path / "uniprot_raw_data.json").read_text())
+        assert isinstance(data, dict)
+
+    def test_creates_cache_dir_if_missing(self, tmp_path):
+        subdir = tmp_path / "new" / "nested" / "dir"
+        assert not subdir.exists()
+
+        with (
+            patch(_FETCH_RAW, return_value=self._fake_raw_data()),
+            patch(_PYPATH_CURL, _make_mock_curl()),
+        ):
+            download_uniprot(59919, subdir, force=False)
+
+        assert subdir.exists()
+        assert (subdir / "uniprot_raw_data.json").exists()
+
+    def test_passes_node_fields_to_fetch(self, tmp_path):
+        custom_fields = ["gene_primary", "length"]
+
+        with (
+            patch(_FETCH_RAW, return_value=self._fake_raw_data()) as mock_fetch,
+            patch(_PYPATH_CURL, _make_mock_curl()),
+        ):
+            download_uniprot(59919, tmp_path, force=False, node_fields=custom_fields)
+
+        called_fields = mock_fetch.call_args[0][1]
+        assert called_fields == custom_fields
+
+    def test_default_node_fields_used_when_none_given(self, tmp_path):
+        with (
+            patch(_FETCH_RAW, return_value=self._fake_raw_data()) as mock_fetch,
+            patch(_PYPATH_CURL, _make_mock_curl()),
+        ):
+            download_uniprot(59919, tmp_path, force=False)
+
+        called_fields = mock_fetch.call_args[0][1]
+        assert called_fields == DEFAULT_NODE_FIELDS
