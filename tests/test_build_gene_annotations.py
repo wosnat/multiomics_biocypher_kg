@@ -25,21 +25,25 @@ sys.path.insert(0, str(Path(__file__).parent.parent))
 
 from multiomics_kg.download.build_gene_annotations import (
     AnnotationBuilder,
+    load_eggnog,
+    load_gene_mapping,
+    load_uniprot,
+    process_strain,
+)
+from multiomics_kg.download.utils.annotation_helpers import (
     _coerce_to_tokens,
     _nonempty,
     _split,
+)
+from multiomics_kg.download.utils.annotation_transforms import (
     _tx_add_go_prefix,
     _tx_extract_go_from_pipe,
     _tx_extract_pfam_ids,
     _tx_first_token_space,
     _tx_strip_function_prefix,
     _tx_strip_prefix_ko,
-    infer_organism_group,
-    load_eggnog,
-    load_gene_mapping,
-    load_uniprot,
-    process_strain,
 )
+from multiomics_kg.download.utils.paths import infer_organism_group
 
 
 # ─── _nonempty ────────────────────────────────────────────────────────────────

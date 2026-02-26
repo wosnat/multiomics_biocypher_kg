@@ -22,139 +22,29 @@ import csv
 import json
 import os
 import re
-import sys
-from pathlib import Path
 from typing import Any
 from urllib.parse import unquote
 
-import yaml
+from multiomics_kg.download.utils.annotation_helpers import (
+    _coerce_to_tokens,
+    _nonempty,
+    _split,
+)
+from multiomics_kg.download.utils.annotation_transforms import (
+    _TRANSFORMS,
+    _tx_add_go_prefix,
+    _tx_extract_go_from_pipe,
+    _tx_extract_pfam_ids,
+    _tx_first_token_space,
+    _tx_strip_function_prefix,
+    _tx_strip_prefix_ko,
+)
+from multiomics_kg.download.utils.cli import add_common_args, load_config, load_genome_rows
+from multiomics_kg.download.utils.paths import PROJECT_ROOT, infer_organism_group
 
 # ─── paths ────────────────────────────────────────────────────────────────────
 
-SCRIPT_DIR = Path(__file__).parent
-PROJECT_ROOT = SCRIPT_DIR.parent.parent  # multiomics_kg/download/ -> multiomics_kg/ -> project root
-GENOMES_CSV = PROJECT_ROOT / "data/Prochlorococcus/genomes/cyanobacteria_genomes.csv"
 DEFAULT_CONFIG = PROJECT_ROOT / "config/gene_annotations_config.yaml"
-
-
-# ─── helpers ──────────────────────────────────────────────────────────────────
-
-def _nonempty(value: Any) -> bool:
-    """Return True if value is non-None, non-empty, and not the eggnog sentinel '-'."""
-    if value is None:
-        return False
-    if isinstance(value, str):
-        s = value.strip()
-        return bool(s) and s != "-"
-    if isinstance(value, (list, tuple)):
-        return any(_nonempty(v) for v in value)
-    return True
-
-
-def _split(value: str, delimiter: str) -> list[str]:
-    """Split string and strip whitespace; skip empty tokens and '-' sentinels.
-
-    For comma delimiter, uses smart splitting: does NOT split on ', ' (comma
-    followed by space). This correctly handles URL-decoded Cyanorak GFF values
-    where internal commas are encoded as %2C, so after decoding they appear as
-    ', ' while list separators remain plain ','.
-    """
-    if not isinstance(value, str) or not value.strip():
-        return []
-    if delimiter == ",":
-        # Smart comma: only split on ',' NOT followed by space
-        parts = re.split(r",(?! )", value)
-    else:
-        parts = value.split(delimiter)
-    return [v.strip() for v in parts if v.strip() and v.strip() != "-"]
-
-
-def _coerce_to_tokens(raw: Any, delimiter: str) -> list[str]:
-    """Convert a raw value (str or list) to a flat list of non-empty string tokens."""
-    if isinstance(raw, list):
-        tokens = []
-        for item in raw:
-            if _nonempty(item):
-                tokens.append(str(item).strip())
-        return tokens
-    if isinstance(raw, str):
-        return _split(raw, delimiter)
-    return []
-
-
-# ─── named transforms ─────────────────────────────────────────────────────────
-
-def _tx_first_token_space(value: str) -> str:
-    """Return first whitespace-separated token: 'dnaN rps3' → 'dnaN'."""
-    if not isinstance(value, str) or not value.strip():
-        return ""
-    return value.strip().split()[0]
-
-
-def _tx_add_go_prefix(value: str) -> str:
-    """Prepend 'GO:' to bare 7-digit numeric IDs: '0009360' → 'GO:0009360'.
-    If already 'GO:...' return as-is.
-    """
-    s = str(value).strip()
-    if not s or s == "-":
-        return ""
-    if s.startswith("GO:"):
-        return s
-    if re.match(r"^\d{7}$", s):
-        return f"GO:{s}"
-    return s  # leave non-GO ontology terms unchanged
-
-
-def _tx_strip_function_prefix(value: str) -> str:
-    """Strip 'FUNCTION: ' prefix from UniProt cc_function text."""
-    if not isinstance(value, str):
-        return ""
-    return re.sub(r"^FUNCTION:\s*", "", value.strip(), flags=re.IGNORECASE)
-
-
-def _tx_strip_prefix_ko(value: str) -> str:
-    """Strip 'ko:' prefix from KEGG KO IDs: 'ko:K02710' → 'K02710'."""
-    return re.sub(r"^ko:", "", str(value).strip(), flags=re.IGNORECASE)
-
-
-def _tx_extract_go_from_pipe(value: str) -> str:
-    """Extract GO ID from 'term_name|NNNNNNN||evidence' format.
-
-    'DNA replication|0006260||IEA' → 'GO:0006260'
-    Falls back to _tx_add_go_prefix if no pipe found.
-    """
-    s = str(value).strip()
-    if not s or s == "-":
-        return ""
-    if "|" in s:
-        parts = s.split("|")
-        goid_candidate = parts[1].strip()
-        if re.match(r"^\d{7}$", goid_candidate):
-            return f"GO:{goid_candidate}"
-    # Already GO: prefixed or bare digit?
-    return _tx_add_go_prefix(s)
-
-
-def _tx_extract_pfam_ids(value: str) -> list[str]:
-    """Keep only PF* tokens from a comma-separated domain list.
-
-    'TIGR00663,PF00712,IPR022634' → ['PF00712']
-    """
-    if not isinstance(value, str):
-        return []
-    return [v.strip() for v in value.split(",")
-            if v.strip().startswith("PF")]
-
-
-# Map from YAML transform name → function
-_TRANSFORMS: dict[str, Any] = {
-    "first_token_space": _tx_first_token_space,
-    "add_go_prefix": _tx_add_go_prefix,
-    "strip_function_prefix": _tx_strip_function_prefix,
-    "strip_prefix_ko": _tx_strip_prefix_ko,
-    "extract_go_from_pipe": _tx_extract_go_from_pipe,
-    "extract_pfam_ids": _tx_extract_pfam_ids,
-}
 
 
 # ─── data loaders ─────────────────────────────────────────────────────────────
@@ -233,18 +123,6 @@ def load_uniprot(
                 result[rs_id] = row
 
     return result
-
-
-def infer_organism_group(data_dir: str) -> str:
-    """Infer organism group from data_dir path.
-
-    'cache/data/Prochlorococcus/genomes/MED4/' → 'Prochlorococcus'
-    """
-    parts = Path(data_dir).parts
-    for i, part in enumerate(parts):
-        if part == "data" and i + 1 < len(parts):
-            return parts[i + 1]
-    return "Prochlorococcus"
 
 
 # ─── annotation builder ───────────────────────────────────────────────────────
@@ -620,47 +498,15 @@ def main() -> None:
     parser = argparse.ArgumentParser(
         description="Build gene annotation tables by merging NCBI/Cyanorak, EggNOG, and UniProt."
     )
-    parser.add_argument(
-        "--strains", nargs="+", metavar="STRAIN",
-        help="Only process these strains (default: all)",
-    )
-    parser.add_argument(
-        "--force", action="store_true",
-        help="Overwrite existing output files",
-    )
-    parser.add_argument(
-        "--config", default=str(DEFAULT_CONFIG),
-        metavar="PATH",
-        help=f"YAML config path (default: {DEFAULT_CONFIG})",
-    )
+    add_common_args(parser, DEFAULT_CONFIG)
     parser.add_argument(
         "--llm-summary", action="store_true",
         help="Generate LLM summaries per gene (Step 1C — not yet implemented)",
     )
     args = parser.parse_args()
 
-    if not os.path.exists(args.config):
-        print(f"Error: config not found: {args.config}", file=sys.stderr)
-        sys.exit(1)
-
-    with open(args.config) as f:
-        config = yaml.safe_load(f)
-
-    # Load genome list (skip comment lines)
-    rows: list[dict] = []
-    with open(GENOMES_CSV, newline="") as f:
-        reader = csv.DictReader(
-            (line for line in f if not line.strip().startswith("#"))
-        )
-        for row in reader:
-            if row.get("strain_name") and row.get("data_dir"):
-                rows.append(row)
-
-    if args.strains:
-        rows = [r for r in rows if r["strain_name"] in args.strains]
-        if not rows:
-            print(f"Error: no strains matched {args.strains}", file=sys.stderr)
-            sys.exit(1)
+    config = load_config(args.config)
+    rows = load_genome_rows(args.strains)
 
     print(f"Processing {len(rows)} strain(s) with config: {args.config}")
     for row in rows:

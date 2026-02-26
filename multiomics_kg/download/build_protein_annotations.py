@@ -20,84 +20,25 @@ from __future__ import annotations
 import argparse
 import csv
 import json
-import os
-import re
 import sys
-from pathlib import Path
 from typing import Any
 
-import yaml
+from multiomics_kg.download.utils.annotation_helpers import (
+    _coerce_to_tokens,
+    _nonempty,
+    _split,
+)
+from multiomics_kg.download.utils.annotation_transforms import (
+    _TRANSFORMS,
+    _tx_add_go_prefix,
+    _tx_strip_function_prefix,
+)
+from multiomics_kg.download.utils.cli import add_common_args, load_config
+from multiomics_kg.download.utils.paths import GENOMES_CSV, PROJECT_ROOT, infer_organism_group
 
 # ─── paths ────────────────────────────────────────────────────────────────────
 
-SCRIPT_DIR = Path(__file__).parent
-PROJECT_ROOT = SCRIPT_DIR.parent.parent  # multiomics_kg/download/ -> multiomics_kg/ -> project root
-GENOMES_CSV = PROJECT_ROOT / "data/Prochlorococcus/genomes/cyanobacteria_genomes.csv"
 DEFAULT_CONFIG = PROJECT_ROOT / "config/protein_annotations_config.yaml"
-
-
-# ─── helpers ──────────────────────────────────────────────────────────────────
-
-def _nonempty(value: Any) -> bool:
-    """Return True if value is non-None, non-empty, and not the sentinel '-'."""
-    if value is None:
-        return False
-    if isinstance(value, str):
-        s = value.strip()
-        return bool(s) and s != "-"
-    if isinstance(value, (list, tuple)):
-        return any(_nonempty(v) for v in value)
-    return True
-
-
-def _split(value: str, delimiter: str) -> list[str]:
-    """Split string and strip whitespace; skip empty tokens and '-' sentinels."""
-    if not isinstance(value, str) or not value.strip():
-        return []
-    parts = value.split(delimiter)
-    return [v.strip() for v in parts if v.strip() and v.strip() != "-"]
-
-
-def _coerce_to_tokens(raw: Any, delimiter: str) -> list[str]:
-    """Convert a raw value (str or list) to a flat list of non-empty string tokens."""
-    if isinstance(raw, list):
-        tokens = []
-        for item in raw:
-            if _nonempty(item):
-                tokens.append(str(item).strip())
-        return tokens
-    if isinstance(raw, str):
-        return _split(raw, delimiter)
-    return []
-
-
-# ─── named transforms ─────────────────────────────────────────────────────────
-
-def _tx_add_go_prefix(value: str) -> str:
-    """Prepend 'GO:' to bare 7-digit numeric IDs: '0009360' → 'GO:0009360'.
-    If already 'GO:...' return as-is.
-    """
-    s = str(value).strip()
-    if not s or s == "-":
-        return ""
-    if s.startswith("GO:"):
-        return s
-    if re.match(r"^\d{7}$", s):
-        return f"GO:{s}"
-    return s  # leave non-matching tokens unchanged
-
-
-def _tx_strip_function_prefix(value: str) -> str:
-    """Strip 'FUNCTION: ' prefix from UniProt cc_function text."""
-    if not isinstance(value, str):
-        return ""
-    return re.sub(r"^FUNCTION:\s*", "", value.strip(), flags=re.IGNORECASE)
-
-
-_TRANSFORMS: dict[str, Any] = {
-    "add_go_prefix": _tx_add_go_prefix,
-    "strip_function_prefix": _tx_strip_function_prefix,
-}
 
 
 # ─── data loader ──────────────────────────────────────────────────────────────
@@ -301,27 +242,10 @@ def main() -> None:
     parser = argparse.ArgumentParser(
         description="Build protein annotation tables from UniProt preprocessed data."
     )
-    parser.add_argument(
-        "--strains", nargs="+", metavar="STRAIN",
-        help="Only process taxids for these strains (default: all)",
-    )
-    parser.add_argument(
-        "--force", action="store_true",
-        help="Overwrite existing output files",
-    )
-    parser.add_argument(
-        "--config", default=str(DEFAULT_CONFIG),
-        metavar="PATH",
-        help=f"YAML config path (default: {DEFAULT_CONFIG})",
-    )
+    add_common_args(parser, DEFAULT_CONFIG)
     args = parser.parse_args()
 
-    if not os.path.exists(args.config):
-        print(f"Error: config not found: {args.config}", file=sys.stderr)
-        sys.exit(1)
-
-    with open(args.config) as f:
-        config = yaml.safe_load(f)
+    config = load_config(args.config)
 
     # Discover unique (organism_group, taxid) pairs from the genomes CSV
     # (grouped so that e.g. all 3 Alteromonas strains sharing taxid 28108 are one entry)
@@ -341,13 +265,7 @@ def main() -> None:
             if ncbi_taxon_id in seen:
                 continue  # already registered this taxid
             data_dir = (row.get("data_dir") or "").strip()
-            # Infer organism_group from data_dir path
-            org_group = "Prochlorococcus"
-            for i, part in enumerate(Path(data_dir).parts):
-                if part == "data" and i + 1 < len(Path(data_dir).parts):
-                    org_group = Path(data_dir).parts[i + 1]
-                    break
-            seen[ncbi_taxon_id] = org_group
+            seen[ncbi_taxon_id] = infer_organism_group(data_dir)
 
     if not seen:
         msg = f"no strains matched {args.strains}" if args.strains else "no strains found"

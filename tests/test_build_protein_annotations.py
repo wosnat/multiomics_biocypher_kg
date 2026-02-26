@@ -22,13 +22,17 @@ sys.path.insert(0, str(Path(__file__).parent.parent))
 
 from multiomics_kg.download.build_protein_annotations import (
     ProteinAnnotationBuilder,
+    load_uniprot_columnar,
+    process_taxid,
+)
+from multiomics_kg.download.utils.annotation_helpers import (
     _coerce_to_tokens,
     _nonempty,
     _split,
+)
+from multiomics_kg.download.utils.annotation_transforms import (
     _tx_add_go_prefix,
     _tx_strip_function_prefix,
-    load_uniprot_columnar,
-    process_taxid,
 )
 
 _PROCESS_TAXID_PROJECT_ROOT = "multiomics_kg.download.build_protein_annotations.PROJECT_ROOT"
