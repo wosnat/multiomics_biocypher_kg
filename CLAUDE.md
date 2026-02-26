@@ -219,6 +219,10 @@ NOVEL_FAMS_BASE_URL = f'http://eggnog5.embl.de/download/novel_fams-{__NOVEL_FAMS
 ```
 See: https://github.com/eggnogdb/eggnog-mapper/issues/575
 
+## Known Issues
+
+- **Cyanorak web server is intermittently unavailable** — `bioinformatics.psb.ugent.be` returns connection errors or throttles requests without warning. This is a server-side issue outside our control. When it happens, use `--skip-cyanorak` (files already in cache are reused). The `TestCyanorakDownloadFile` tests in `tests/test_download_genome_data.py` may also be affected if the server is down during CI.
+
 ## Notes
 
 - Uses custom fork of pypath-omnipath: `https://github.com/wosnat/pypath`

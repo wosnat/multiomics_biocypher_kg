@@ -77,6 +77,30 @@ class UniprotAdapter:
     def _add_prefix(self, prefix: str, identifier: str) -> str:
         return normalize_curie(f"{prefix}:{identifier}")
 
+    def _load_gene_mapping(self) -> dict[str, list[tuple[str, str]]]:
+        """Build {RefSeq WP_ → [(locus_tag, ncbi_accession)]} from gene_mapping.csv files.
+
+        One WP_ accession may appear in multiple strains (shared proteins).
+        """
+        refseq_to_strains: dict[str, list[tuple[str, str]]] = {}
+        for data_dir, info in zip(self.data_dirs, self.assembly_info):
+            gene_mapping_path = os.path.join(data_dir, "gene_mapping.csv")
+            if not os.path.exists(gene_mapping_path):
+                logger.warning(
+                    f"[UniprotAdapter] gene_mapping.csv not found: {gene_mapping_path}"
+                )
+                continue
+            ncbi_acc = info["accession"]
+            with open(gene_mapping_path, newline="") as f:
+                for row in csv.DictReader(f):
+                    protein_id = (row.get("protein_id") or "").strip()
+                    locus_tag = (row.get("locus_tag") or "").strip()
+                    if protein_id and locus_tag:
+                        refseq_to_strains.setdefault(protein_id, []).append(
+                            (locus_tag, ncbi_acc)
+                        )
+        return refseq_to_strains
+
     def download_data(self, cache: bool = True, **kwargs) -> None:
         """Load protein_annotations.json and build refseq→strain mapping."""
         if not self.data_path.exists():
@@ -94,25 +118,7 @@ class UniprotAdapter:
             f"for taxid {self.ncbi_taxon_id} ({self.organism_group})"
         )
 
-        # Build {RefSeq WP_ → [(locus_tag, ncbi_accession)]} from gene_mapping.csv files.
-        # One WP_ accession may appear in multiple strains (shared proteins).
-        self._refseq_to_strains = {}
-        for data_dir, info in zip(self.data_dirs, self.assembly_info):
-            gene_mapping_path = os.path.join(data_dir, "gene_mapping.csv")
-            if not os.path.exists(gene_mapping_path):
-                logger.warning(
-                    f"[UniprotAdapter] gene_mapping.csv not found: {gene_mapping_path}"
-                )
-                continue
-            ncbi_acc = info["accession"]
-            with open(gene_mapping_path, newline="") as f:
-                for row in csv.DictReader(f):
-                    protein_id = (row.get("protein_id") or "").strip()
-                    locus_tag = (row.get("locus_tag") or "").strip()
-                    if protein_id and locus_tag:
-                        self._refseq_to_strains.setdefault(protein_id, []).append(
-                            (locus_tag, ncbi_acc)
-                        )
+        self._refseq_to_strains = self._load_gene_mapping()
 
         n_total = len(self._data)
         n_mapped = sum(

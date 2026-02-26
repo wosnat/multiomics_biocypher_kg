@@ -233,6 +233,14 @@ class TestNcbiDownloadGenome:
 # ── _cyanorak_download_file ───────────────────────────────────────────────────
 
 class TestCyanorakDownloadFile:
+    """Tests for _cyanorak_download_file.
+
+    NOTE: The Cyanorak web server (bioinformatics.psb.ugent.be) is intermittently
+    unavailable — it can return connection errors or throttle requests without warning.
+    This is a known upstream issue. In production, use ``--skip-cyanorak`` to reuse
+    cached files when the server is down.  These unit tests mock the HTTP layer so they
+    are not affected by live server availability.
+    """
     def test_returns_false_when_file_exists(self, tmp):
         data_dir = tmp / "genomes" / "MED4"
         cyan_dir = data_dir / "cyanorak"
