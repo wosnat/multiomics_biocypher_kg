@@ -85,6 +85,7 @@ def genomes(genomes_csv):
 
 _CURL_CLS  = "pypath.share.curl.Curl"
 _CURL_OFF  = "pypath.share.curl.cache_off"
+_REQUESTS_GET = "requests.get"
 
 _NCBI_DL     = "multiomics_kg.download.download_genome_data._ncbi_download_genome"
 _CYANORAK_DL = "multiomics_kg.download.download_genome_data._cyanorak_download_file"
@@ -254,10 +255,11 @@ class TestCyanorakDownloadFile:
         data_dir = tmp / "genomes" / "MED4"
         data_dir.mkdir(parents=True)
 
-        mock_c = MagicMock()
-        mock_c.result = "GFF file content"
+        mock_resp = MagicMock()
+        mock_resp.ok = True
+        mock_resp.text = "GFF file content"
 
-        with patch(_CURL_CLS, return_value=mock_c):
+        with patch(_REQUESTS_GET, return_value=mock_resp):
             result = _cyanorak_download_file("Pro_MED4", str(data_dir), "gff", force=False)
 
         assert result is True
@@ -267,10 +269,11 @@ class TestCyanorakDownloadFile:
         data_dir = tmp / "genomes" / "MED4"
         data_dir.mkdir(parents=True)
 
-        mock_c = MagicMock()
-        mock_c.result = "GBK file content"
+        mock_resp = MagicMock()
+        mock_resp.ok = True
+        mock_resp.text = "GBK file content"
 
-        with patch(_CURL_CLS, return_value=mock_c):
+        with patch(_REQUESTS_GET, return_value=mock_resp):
             result = _cyanorak_download_file("Pro_MED4", str(data_dir), "gbk", force=False)
 
         assert result is True
@@ -283,11 +286,11 @@ class TestCyanorakDownloadFile:
         gff = cyan_dir / "Pro_MED4.gff"
         gff.write_text("old")
 
-        mock_c = MagicMock()
-        mock_c.result = "new content"
+        mock_resp = MagicMock()
+        mock_resp.ok = True
+        mock_resp.text = "new content"
 
-        with patch(_CURL_CLS, return_value=mock_c), \
-             patch(_CURL_OFF, return_value=MagicMock()):
+        with patch(_REQUESTS_GET, return_value=mock_resp):
             _cyanorak_download_file("Pro_MED4", str(data_dir), "gff", force=True)
 
         assert gff.read_text() == "new content"
@@ -296,10 +299,11 @@ class TestCyanorakDownloadFile:
         data_dir = tmp / "genomes" / "MED4"
         data_dir.mkdir(parents=True)
 
-        mock_c = MagicMock()
-        mock_c.result = None
+        mock_resp = MagicMock()
+        mock_resp.ok = False
+        mock_resp.status_code = 404
 
-        with patch(_CURL_CLS, return_value=mock_c):
+        with patch(_REQUESTS_GET, return_value=mock_resp):
             with pytest.raises(ConnectionError):
                 _cyanorak_download_file("Pro_MED4", str(data_dir), "gff", force=False)
 

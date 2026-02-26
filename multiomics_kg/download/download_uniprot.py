@@ -10,12 +10,82 @@ avoid code duplication.
 import json
 import logging
 from contextlib import ExitStack
+from enum import Enum
 from pathlib import Path
 from time import time
 
 from tqdm import tqdm
 
-from multiomics_kg.adapters.uniprot_adapter import UniprotNodeField
+
+class UniprotNodeField(Enum):
+    """UniProt API field names used by the download pipeline."""
+
+    PRIMARY_GENE_NAME = "gene_primary"
+    LENGTH = "length"
+    MASS = "mass"
+    ORGANISM = "organism_name"
+    ORGANISM_ID = "organism_id"
+    PROTEIN_NAMES = "protein_name"
+    EC = "ec"
+    PROTEIN_GENE_NAMES = "gene_names"
+    SEQUENCE = "sequence"
+    GENE_ORDERED_LOCUS = "gene_oln"
+    cc_catalytic_activity = "cc_catalytic_activity"
+    cc_cofactor = "cc_cofactor"
+    cc_function = "cc_function"
+    cc_pathway = "cc_pathway"
+    annotation_score = "annotation_score"
+    cc_caution = "cc_caution"
+    keywordid = "keywordid"
+    keyword = "keyword"
+    reviewed = "reviewed"
+    cc_interaction = "cc_interaction"
+    CELLULAR_COMPONENT = "go_c"
+    BIOLOGICAL_PROCESS = "go_p"
+    MOLECULAR_FUNCTION = "go_f"
+    CELLULAR_COMPONENT_ID = "go_c_id"
+    BIOLOGICAL_PROCESS_ID = "go_p_id"
+    MOLECULAR_FUNCTION_ID = "go_f_id"
+    ft_transmem = "ft_transmem"
+    ft_signal = "ft_signal"
+    cc_domain = "cc_domain"
+    ft_motif = "ft_motif"
+    protein_families = "protein_families"
+    xref_refseq = "xref_refseq"
+    xref_string = "xref_string"
+    xref_eggnog = "xref_eggnog"
+    xref_pfam = "xref_pfam"
+    PROTEOME = "xref_proteomes"
+    ENTREZ_GENE_IDS = "xref_geneid"
+    KEGG_IDS = "xref_kegg"
+    SUBCELLULAR_LOCATION = "subcellular_location"
+    PROTT5_EMBEDDING = "prott5_embedding"
+    ESM2_EMBEDDING = "esm2_embedding"
+    NT_EMBEDDING = "nt_embedding"
+
+    @classmethod
+    def get_split_fields(cls) -> list:
+        return [
+            cls.PROTEOME.value,
+            cls.PROTEIN_GENE_NAMES.value,
+            cls.EC.value,
+            cls.ENTREZ_GENE_IDS.value,
+            cls.KEGG_IDS.value,
+            cls.CELLULAR_COMPONENT.value,
+            cls.MOLECULAR_FUNCTION.value,
+            cls.BIOLOGICAL_PROCESS.value,
+        ]
+
+    @classmethod
+    def get_nonuniprot_api_fields(cls) -> list:
+        return [
+            cls.PROTT5_EMBEDDING.value,
+            cls.ESM2_EMBEDDING.value,
+            cls.NT_EMBEDDING.value,
+            cls.CELLULAR_COMPONENT_ID.value,
+            cls.MOLECULAR_FUNCTION_ID.value,
+            cls.BIOLOGICAL_PROCESS_ID.value,
+        ]
 
 logger = logging.getLogger(__name__)
 
