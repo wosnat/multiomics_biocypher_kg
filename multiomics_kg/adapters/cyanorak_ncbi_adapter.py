@@ -125,6 +125,7 @@ class GeneNodeField(Enum, metaclass=GeneEnumMeta):
     GENE_NAME_SOURCE = 'gene_name_source'
     PRODUCT_SOURCE = 'product_source'
     FUNCTION_DESCRIPTION_SOURCE = 'function_description_source'
+    ALTERNATE_FUNCTIONAL_DESCRIPTIONS = 'alternate_functional_descriptions'
     OLD_LOCUS_TAGS = 'old_locus_tags'
     # EggNOG / COG
     COG_CATEGORY = 'cog_category'

@@ -1,4 +1,25 @@
 {
+  "A0ACD6B8C2": {
+    "protein_synonyms": "Ferritin",
+    "locus_tag": "sync_1539",
+    "gene_names": [
+      "sync_1539"
+    ],
+    "sequence_length": 182,
+    "molecular_mass": 20217,
+    "organism_name": "Synechococcus sp. (strain CC9311)",
+    "organism_id": 64471,
+    "annotation_score": 1.0,
+    "is_reviewed": false,
+    "keywords": [
+      "3D-structure",
+      "Metal-binding"
+    ],
+    "keyword_ids": [
+      "KW-0002",
+      "KW-0479"
+    ]
+  },
   "A0ACD6B8C4": {
     "protein_synonyms": "Urea ABC transporter, periplasmic urea-binding protein",
     "locus_tag": "sync_2872",
@@ -19,27 +40,6 @@
     "keyword_ids": [
       "KW-0002",
       "KW-0106",
-      "KW-0479"
-    ]
-  },
-  "A0ACD6B8C2": {
-    "protein_synonyms": "Ferritin",
-    "locus_tag": "sync_1539",
-    "gene_names": [
-      "sync_1539"
-    ],
-    "sequence_length": 182,
-    "molecular_mass": 20217,
-    "organism_name": "Synechococcus sp. (strain CC9311)",
-    "organism_id": 64471,
-    "annotation_score": 1.0,
-    "is_reviewed": false,
-    "keywords": [
-      "3D-structure",
-      "Metal-binding"
-    ],
-    "keyword_ids": [
-      "KW-0002",
       "KW-0479"
     ]
   },

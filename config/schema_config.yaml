@@ -197,6 +197,7 @@ gene:
     gene_name_source: str             # cyanorak|uniprot|ncbi|eggnog
     product_source: str               # provenance for product field
     function_description_source: str  # provenance for function_description
+    alternate_functional_descriptions: str[]  # all-source descriptions for LLM use: "[source] text"
     old_locus_tags: str[]             # old-style locus tags (for paper ID mapping)
     # EggNOG / COG functional roles
     cog_category: str[]               # COG letter codes, one per element (e.g., ["L", "U"])

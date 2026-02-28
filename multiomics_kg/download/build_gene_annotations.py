@@ -406,6 +406,48 @@ class AnnotationBuilder:
             quality = 0
         result["annotation_quality"] = quality
 
+        # Collect all source descriptions for LLM summaries
+        alt_descriptions: list[str] = []
+        alt_descriptions_set: set[str] = set()
+
+        def _add_desc(label: str, text: str) -> None:
+            s = f"[{label}] {text.strip()}" if text and text.strip() else None
+            if s and s not in alt_descriptions_set:
+                alt_descriptions.append(s)
+                alt_descriptions_set.add(s)
+
+        cyanorak_prod = unquote((gm.get("product_cyanorak") or "").strip())
+        ncbi_prod = unquote((gm.get("product") or "").strip())
+        eg_desc = (eg.get("Description") or "").strip()
+        up_prod = (up.get("product") or "").strip()
+        up_func = (up.get("function_description") or "").strip()
+        if up_func.startswith("FUNCTION: "):
+            up_func = up_func[len("FUNCTION: "):]
+        up_family = (up.get("protein_family") or "").strip()
+
+        _add_desc("cyanorak", cyanorak_prod)
+        _add_desc("ncbi", ncbi_prod)
+        _add_desc("eggnog", eg_desc)
+        _add_desc("uniprot_product", up_prod)
+        _add_desc("uniprot", up_func)
+        _add_desc("protein_family", up_family)
+        for desc in result.get("cyanorak_Role_description", []):
+            _add_desc("cyanorak_role", desc)
+        for desc in result.get("tIGR_Role_description", []):
+            _add_desc("tigr_role", desc)
+        for desc in result.get("eggnog_og_descriptions", []):
+            _add_desc("cog", desc)
+        for desc in result.get("kegg_ko_descriptions", []):
+            _add_desc("kegg", desc)
+        pfam_names_list = result.get("pfam_names", [])
+        pfam_descs_list = result.get("pfam_descriptions", [])
+        for i, name in enumerate(pfam_names_list):
+            pfam_text = f"{name}: {pfam_descs_list[i]}" if i < len(pfam_descs_list) and pfam_descs_list[i] else name
+            _add_desc("pfam", pfam_text)
+
+        if alt_descriptions:
+            result["alternate_functional_descriptions"] = alt_descriptions
+
         return result
 
 
