@@ -141,6 +141,7 @@ fields:
 
   gene_synonyms:
     # UNION of all alternative names (mixed: gene symbols + locus-tag aliases).
+    # Includes old_locus_tags so every historical identifier is searchable in the KG.
     # Canonical gene_name excluded in build_gene_annotations.py post-processing.
     # delimiter must be at source level (field-level delimiter is ignored by _resolve_union).
     type: union
@@ -151,6 +152,12 @@ fields:
       - source: gene_mapping
         field: gene_names
         delimiter: " "
+      - source: gene_mapping
+        field: gene_synonym       # NCBI gene_synonym attribute (comma-separated, e.g. mutU,recL)
+        delimiter: ","
+      - source: gene_mapping
+        field: old_locus_tags     # all historical locus tags (comma-separated)
+        delimiter: ","
       - source: uniprot
         field: gene_names
         delimiter: " "   # UniProt gene_names list items may be space-concatenated
@@ -167,12 +174,16 @@ fields:
       - source: gene_mapping
         field: gene_names
         delimiter: " "
+      - source: gene_mapping
+        field: gene_synonym       # NCBI gene_synonym attribute (comma-separated, e.g. mutU,recL)
+        delimiter: ","
       - source: uniprot
         field: gene_names
         delimiter: " "   # UniProt gene_names list items may be space-concatenated
 
   alternative_locus_tags:
     # Locus-tag-like tokens only (e.g. PMM0001, ALTBGP6_RS00025, BFV95_0002).
+    # Includes old_locus_tags for full historical coverage — enables LLM KG lookup by any known ID.
     type: union
     filter: "^([A-Z][A-Z0-9]*\\d{4,}|.+_.+)$"
     sources:
@@ -182,6 +193,12 @@ fields:
       - source: gene_mapping
         field: gene_names
         delimiter: " "
+      - source: gene_mapping
+        field: old_locus_tags     # all historical locus tags (comma-separated)
+        delimiter: ","
+      - source: gene_mapping
+        field: gene_synonym       # NCBI gene_synonym (locus-tag-like ones pass the filter)
+        delimiter: ","
       - source: uniprot
         field: gene_names
         delimiter: " "   # UniProt gene_names list items may be space-concatenated
