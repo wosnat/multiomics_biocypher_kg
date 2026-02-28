@@ -431,10 +431,10 @@ fields:
   # ── Protein properties denormalized from UniProt ──────────────────────────────
   # Keeps these queryable directly on Gene nodes without requiring a protein join.
 
-  catalytic_activity:
+  catalytic_activities:
     type: passthrough
     source: uniprot
-    field: catalytic_activity
+    field: catalytic_activities
 
   subcellular_location:
     type: passthrough

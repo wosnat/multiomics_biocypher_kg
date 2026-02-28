@@ -218,8 +218,8 @@ gene:
     pfam_ids: str[]
     pfam_descriptions: str[]
     # Specialized function
-    catalytic_activity: str
-    transmembrane_regions: str
+    catalytic_activities: str[]
+    transmembrane_regions: str[]
     signal_peptide: str
     transporter_classification: str[]
     cazy_ids: str[]
@@ -246,20 +246,20 @@ protein:
     ec_numbers: str[]
     subcellular_location: str
     locus_tag: str
-    catalytic_activity: str
-    cofactors: str
+    catalytic_activities: str[]
+    cofactor_names: str[]
     function_description: str
-    pathway_description: str
+    pathways: str[]
     annotation_score: float
     caution_notes: str
     keyword_ids: str[]
-    keywords: str
+    keywords: str[]
     is_reviewed: bool
     interaction_notes: str
     go_cellular_components: str[]
     go_biological_processes: str[]
     go_molecular_functions: str[]
-    transmembrane_regions: str
+    transmembrane_regions: str[]
     signal_peptide: str
     domain_description: str
     functional_motifs: str

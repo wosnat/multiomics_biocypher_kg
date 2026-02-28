@@ -104,8 +104,13 @@ class ProteinAnnotationBuilder:
         raw = self._get_raw(fconf, up)
         if not _nonempty(raw):
             return None
-        delimiter = fconf.get("delimiter", ";")
-        tokens = _coerce_to_tokens(raw, delimiter)
+        split_pattern = fconf.get("split_pattern")
+        if split_pattern:
+            import re
+            tokens = [t.strip() for t in re.split(split_pattern, str(raw)) if t.strip()]
+        else:
+            delimiter = fconf.get("delimiter", ";")
+            tokens = _coerce_to_tokens(raw, delimiter)
         transform = fconf.get("transform")
         if transform and transform in _TRANSFORMS:
             fn = _TRANSFORMS[transform]

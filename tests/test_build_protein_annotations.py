@@ -33,7 +33,13 @@ from multiomics_kg.download.utils.annotation_helpers import (
 )
 from multiomics_kg.download.utils.annotation_transforms import (
     _tx_add_go_prefix,
+    _tx_clean_catalytic_activity,
+    _tx_clean_function_description,
+    _tx_extract_cofactor_name,
     _tx_extract_go_from_brackets,
+    _tx_extract_pathway_name,
+    _tx_extract_signal_range,
+    _tx_extract_tm_range,
     _tx_strip_function_prefix,
 )
 
@@ -486,3 +492,259 @@ class TestProcessTaxid:
         )
         assert "Q7TU21" in output
         assert output["Q7TU21"]["gene_symbol"] == "asd"
+
+
+# ─── New transform unit tests ─────────────────────────────────────────────────
+
+class TestTxCleanFunctionDescription:
+    def test_strips_function_prefix(self):
+        s = "FUNCTION: Catalyzes the reduction. {ECO:0000256,PIRNR:PIRNR000001}."
+        assert _tx_clean_function_description(s) == "Catalyzes the reduction"
+
+    def test_strips_eco_tags_only_no_prefix(self):
+        s = "Catalyzes the reduction. {ECO:0000256,PIRNR:PIRNR000001}."
+        assert _tx_clean_function_description(s) == "Catalyzes the reduction"
+
+    def test_no_eco_passthrough(self):
+        assert _tx_clean_function_description("Catalyzes the reduction.") \
+               == "Catalyzes the reduction"
+
+    def test_empty_returns_empty(self):
+        assert _tx_clean_function_description("") == ""
+
+
+class TestTxCleanCatalyticActivity:
+    def test_strips_catalytic_activity_prefix(self):
+        s = "CATALYTIC ACTIVITY: Reaction=ATP + H2O = ADP + phosphate; EC=3.6.1.3; Evidence={ECO:0000256,ARBA:ARB00001}."
+        result = _tx_clean_catalytic_activity(s)
+        assert "CATALYTIC ACTIVITY:" not in result
+        assert "Reaction=ATP" in result
+
+    def test_strips_eco_evidence(self):
+        s = "CATALYTIC ACTIVITY: Reaction=A = B; Evidence={ECO:0000256,ARBA:ARBA00001}."
+        assert "{ECO:" not in _tx_clean_catalytic_activity(s)
+
+    def test_empty_chunk_returns_empty(self):
+        assert _tx_clean_catalytic_activity("") == ""
+
+
+class TestTxExtractCofactorName:
+    def test_extracts_simple_name(self):
+        s = "COFACTOR: Name=FMN; Xref=ChEBI:CHEBI:58210; Evidence={ECO:0000256|HAMAP-Rule:MF_02225}"
+        assert _tx_extract_cofactor_name(s) == "FMN"
+
+    def test_extracts_metal_ion_name(self):
+        s = "COFACTOR: Name=Mg(2+); Xref=ChEBI:CHEBI:18420; Evidence={ECO:0000256}"
+        assert _tx_extract_cofactor_name(s) == "Mg(2+)"
+
+    def test_no_match_returns_empty(self):
+        assert _tx_extract_cofactor_name("unrelated text") == ""
+
+    def test_empty_returns_empty(self):
+        assert _tx_extract_cofactor_name("") == ""
+
+
+class TestTxExtractPathwayName:
+    def test_strips_prefix_and_eco(self):
+        s = "PATHWAY: Energy metabolism; oxidative phosphorylation. {ECO:0000256,ARBA:ARBA00004673}."
+        result = _tx_extract_pathway_name(s)
+        assert result == "Energy metabolism; oxidative phosphorylation"
+
+    def test_no_eco_still_strips_prefix_and_period(self):
+        s = "PATHWAY: Carbohydrate biosynthesis."
+        assert _tx_extract_pathway_name(s) == "Carbohydrate biosynthesis"
+
+    def test_empty_returns_empty(self):
+        assert _tx_extract_pathway_name("") == ""
+
+
+class TestTxExtractTmRange:
+    def test_extracts_single_range(self):
+        s = 'TRANSMEM 32..50; /note="Helical"; /evidence="ECO:0000256|SAM:Phobius"'
+        assert _tx_extract_tm_range(s) == "32..50"
+
+    def test_extracts_range_ignoring_trailing_annotation(self):
+        s = 'TRANSMEM 7..24; /note="Helical"; /evidence="ECO:0000256|SAM:Phobius"; TRANSMEM 60..82'
+        # Only the first TRANSMEM match is extracted (single-token use)
+        assert _tx_extract_tm_range(s) == "7..24"
+
+    def test_no_transmem_returns_empty(self):
+        assert _tx_extract_tm_range("no TM here") == ""
+
+
+class TestTxExtractSignalRange:
+    def test_extracts_range(self):
+        s = 'SIGNAL 1..26; /evidence="ECO:0000256|HAMAP-Rule:MF_01961"'
+        assert _tx_extract_signal_range(s) == "1..26"
+
+    def test_no_signal_returns_empty(self):
+        assert _tx_extract_signal_range("TRANSMEM 1..20") == ""
+
+    def test_empty_returns_empty(self):
+        assert _tx_extract_signal_range("") == ""
+
+
+# ─── split_pattern support in _resolve_passthrough_list ───────────────────────
+
+class TestPassthroughListSplitPattern:
+    """Tests for the split_pattern parameter in passthrough_list fields."""
+
+    def _make_builder(self, field_cfg: dict) -> ProteinAnnotationBuilder:
+        return ProteinAnnotationBuilder({"fields": {"out": field_cfg}})
+
+    def test_single_entry_no_split_needed(self):
+        builder = self._make_builder({
+            "type": "passthrough_list",
+            "field": "data",
+            "split_pattern": r"(?=CATALYTIC ACTIVITY:)",
+            "transform": "clean_catalytic_activity",
+        })
+        row = {"data": "CATALYTIC ACTIVITY: Reaction=A = B; EC=1.1.1.1; Evidence={ECO:0000256}."}
+        result = builder.build_merged("X", row)
+        assert isinstance(result["out"], list)
+        assert len(result["out"]) == 1
+        assert "Reaction=A = B" in result["out"][0]
+
+    def test_multi_entry_split_into_list(self):
+        builder = self._make_builder({
+            "type": "passthrough_list",
+            "field": "data",
+            "split_pattern": r"(?=CATALYTIC ACTIVITY:)",
+        })
+        row = {"data": "CATALYTIC ACTIVITY: Reaction=A = B; CATALYTIC ACTIVITY: Reaction=C = D;"}
+        result = builder.build_merged("X", row)
+        assert len(result["out"]) == 2
+
+    def test_empty_chunks_after_split_are_dropped(self):
+        builder = self._make_builder({
+            "type": "passthrough_list",
+            "field": "data",
+            "split_pattern": r"(?=COFACTOR:)",
+            "transform": "extract_cofactor_name",
+        })
+        row = {"data": "COFACTOR: Name=FMN; Xref=ChEBI:CHEBI:58210; COFACTOR: Name=Mg(2+);"}
+        result = builder.build_merged("X", row)
+        assert result["out"] == ["FMN", "Mg(2+)"]
+
+    def test_split_pattern_takes_priority_over_delimiter(self):
+        """When split_pattern is set, delimiter is ignored."""
+        builder = self._make_builder({
+            "type": "passthrough_list",
+            "field": "data",
+            "split_pattern": r"(?=TRANSMEM)",
+            "transform": "extract_tm_range",
+            "delimiter": ";",   # should be ignored
+        })
+        row = {"data": 'TRANSMEM 12..31; /note="Helical"; TRANSMEM 37..57; /note="Helical"'}
+        result = builder.build_merged("X", row)
+        assert result["out"] == ["12..31", "37..57"]
+
+
+# ─── Integration tests for new field configs ──────────────────────────────────
+
+RAW_MULTI_CATALYTIC = (
+    "CATALYTIC ACTIVITY: Reaction=ATP + H2O = ADP + phosphate; EC=3.6.1.3;"
+    " Evidence={ECO:0000256,ARBA:ARBA00048988};"
+    " CATALYTIC ACTIVITY: Reaction=C + D = E; EC=1.2.3.4;"
+    " Evidence={ECO:0000256,HAMAP-Rule:MF_01920}"
+)
+RAW_MULTI_COFACTOR = (
+    "COFACTOR: Name=FMN; Xref=ChEBI:CHEBI:58210; Evidence={ECO:0000256|HAMAP};"
+    " Note=Binds 1 FMN.; COFACTOR: Name=Mg(2+); Xref=ChEBI:CHEBI:18420;"
+    " Evidence={ECO:0000256|HAMAP}"
+)
+RAW_MULTI_PATHWAY = (
+    "PATHWAY: Cofactor biosynthesis; CoA: step 2/5. {ECO:0000256|HAMAP}.;"
+    " PATHWAY: Cofactor biosynthesis; CoA: step 3/5. {ECO:0000256|HAMAP}."
+)
+RAW_MULTI_TM = (
+    'TRANSMEM 12..31; /note="Helical"; /evidence="ECO:0000256|SAM:Phobius";'
+    ' TRANSMEM 37..57; /note="Helical"; /evidence="ECO:0000256|SAM:Phobius"'
+)
+RAW_SIGNAL = 'SIGNAL 1..26; /evidence="ECO:0000256|HAMAP-Rule:MF_01961"'
+RAW_KEYWORDS = "ATP-binding;DNA repair;Helicase;Hydrolase"
+
+NEW_FIELDS_CONFIG = {
+    "fields": {
+        "catalytic_activities": {
+            "type": "passthrough_list",
+            "field": "cc_catalytic_activity",
+            "split_pattern": r"(?=CATALYTIC ACTIVITY:)",
+            "transform": "clean_catalytic_activity",
+        },
+        "cofactor_names": {
+            "type": "passthrough_list",
+            "field": "cc_cofactor",
+            "split_pattern": r"(?=COFACTOR:)",
+            "transform": "extract_cofactor_name",
+        },
+        "pathways": {
+            "type": "passthrough_list",
+            "field": "cc_pathway",
+            "split_pattern": r"(?=PATHWAY:)",
+            "transform": "extract_pathway_name",
+        },
+        "transmembrane_regions": {
+            "type": "passthrough_list",
+            "field": "ft_transmem",
+            "split_pattern": r"(?=TRANSMEM)",
+            "transform": "extract_tm_range",
+        },
+        "signal_peptide": {
+            "type": "passthrough",
+            "field": "ft_signal",
+            "transform": "extract_signal_range",
+        },
+        "keywords": {
+            "type": "passthrough_list",
+            "field": "keyword",
+            "delimiter": ";",
+        },
+    }
+}
+
+
+class TestNewFieldConfigs:
+    def setup_method(self):
+        self.builder = ProteinAnnotationBuilder(NEW_FIELDS_CONFIG)
+
+    def test_catalytic_activities_is_list(self):
+        result = self.builder.build_merged("X", {"cc_catalytic_activity": RAW_MULTI_CATALYTIC})
+        assert isinstance(result["catalytic_activities"], list)
+        assert len(result["catalytic_activities"]) == 2
+
+    def test_catalytic_activities_clean_no_prefix_or_eco(self):
+        result = self.builder.build_merged("X", {"cc_catalytic_activity": RAW_MULTI_CATALYTIC})
+        for item in result["catalytic_activities"]:
+            assert "CATALYTIC ACTIVITY:" not in item
+            assert "{ECO:" not in item
+
+    def test_cofactor_names_extracts_names(self):
+        result = self.builder.build_merged("X", {"cc_cofactor": RAW_MULTI_COFACTOR})
+        assert result["cofactor_names"] == ["FMN", "Mg(2+)"]
+
+    def test_pathways_is_clean_list(self):
+        result = self.builder.build_merged("X", {"cc_pathway": RAW_MULTI_PATHWAY})
+        pathways = result["pathways"]
+        assert isinstance(pathways, list)
+        assert len(pathways) == 2
+        assert all("{ECO:" not in p for p in pathways)
+        assert all("PATHWAY:" not in p for p in pathways)
+
+    def test_transmembrane_regions_is_list_of_ranges(self):
+        result = self.builder.build_merged("X", {"ft_transmem": RAW_MULTI_TM})
+        assert result["transmembrane_regions"] == ["12..31", "37..57"]
+
+    def test_signal_peptide_is_range_string(self):
+        result = self.builder.build_merged("X", {"ft_signal": RAW_SIGNAL})
+        assert result["signal_peptide"] == "1..26"
+
+    def test_keywords_is_list(self):
+        result = self.builder.build_merged("X", {"keyword": RAW_KEYWORDS})
+        assert result["keywords"] == ["ATP-binding", "DNA repair", "Helicase", "Hydrolase"]
+
+    def test_missing_fields_omitted_not_none(self):
+        result = self.builder.build_merged("X", {})
+        assert "catalytic_activities" not in result
+        assert "cofactor_names" not in result
+        assert "transmembrane_regions" not in result

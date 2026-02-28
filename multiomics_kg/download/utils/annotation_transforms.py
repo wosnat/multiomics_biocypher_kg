@@ -83,6 +83,60 @@ def _tx_extract_pfam_ids(value: str) -> list[str]:
             if v.strip().startswith("PF")]
 
 
+_ECO_PATTERN = re.compile(r'\s*\{ECO:[^}]+\}[.,]?\s*')
+
+
+def _tx_clean_function_description(value: str) -> str:
+    """Strip 'FUNCTION:' prefix and inline ECO evidence tags."""
+    if not isinstance(value, str):
+        return ""
+    s = re.sub(r'^FUNCTION:\s*', '', value.strip(), flags=re.IGNORECASE)
+    s = _ECO_PATTERN.sub(' ', s).strip().rstrip('.')
+    return s
+
+
+def _tx_clean_catalytic_activity(value: str) -> str:
+    """Strip 'CATALYTIC ACTIVITY:' prefix and ECO tags from one reaction chunk."""
+    if not isinstance(value, str):
+        return ""
+    s = re.sub(r'^CATALYTIC ACTIVITY:\s*', '', value.strip(), flags=re.IGNORECASE)
+    s = _ECO_PATTERN.sub(' ', s).strip().rstrip(';').strip()
+    return s
+
+
+def _tx_extract_cofactor_name(value: str) -> str:
+    """'COFACTOR: Name=FMN; Xref=…' → 'FMN'"""
+    if not isinstance(value, str):
+        return ""
+    m = re.match(r'COFACTOR:\s*Name=([^;]+)', value.strip(), re.IGNORECASE)
+    return m.group(1).strip() if m else ""
+
+
+def _tx_extract_pathway_name(value: str) -> str:
+    """'PATHWAY: Energy metabolism; oxidative phosphorylation. {ECO:…}.' → clean string"""
+    if not isinstance(value, str):
+        return ""
+    s = re.sub(r'^PATHWAY:\s*', '', value.strip(), flags=re.IGNORECASE)
+    s = _ECO_PATTERN.sub(' ', s).strip().rstrip('.')
+    return s
+
+
+def _tx_extract_tm_range(value: str) -> str:
+    """'TRANSMEM 32..50; /note="Helical"; …' → '32..50'"""
+    if not isinstance(value, str):
+        return ""
+    m = re.search(r'TRANSMEM\s+(\d+\.\.\d+)', value)
+    return m.group(1) if m else ""
+
+
+def _tx_extract_signal_range(value: str) -> str:
+    """'SIGNAL 1..26; /evidence="…"' → '1..26'"""
+    if not isinstance(value, str):
+        return ""
+    m = re.search(r'SIGNAL\s+(\d+\.\.\d+)', value)
+    return m.group(1) if m else ""
+
+
 # Map from YAML transform name → function
 _TRANSFORMS: dict[str, Any] = {
     "first_token_space": _tx_first_token_space,
@@ -92,4 +146,10 @@ _TRANSFORMS: dict[str, Any] = {
     "extract_go_from_pipe": _tx_extract_go_from_pipe,
     "extract_pfam_ids": _tx_extract_pfam_ids,
     "extract_go_from_brackets": _tx_extract_go_from_brackets,
+    "clean_function_description": _tx_clean_function_description,
+    "clean_catalytic_activity": _tx_clean_catalytic_activity,
+    "extract_cofactor_name": _tx_extract_cofactor_name,
+    "extract_pathway_name": _tx_extract_pathway_name,
+    "extract_tm_range": _tx_extract_tm_range,
+    "extract_signal_range": _tx_extract_signal_range,
 }

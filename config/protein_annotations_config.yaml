@@ -112,19 +112,25 @@ fields:
   function_description:
     type: passthrough
     field: cc_function
-    transform: strip_function_prefix
+    transform: clean_function_description
 
-  catalytic_activity:
-    type: passthrough
+  catalytic_activities:
+    type: passthrough_list
     field: cc_catalytic_activity
+    split_pattern: "(?=CATALYTIC ACTIVITY:)"
+    transform: clean_catalytic_activity
 
-  cofactors:
-    type: passthrough
+  cofactor_names:
+    type: passthrough_list
     field: cc_cofactor
+    split_pattern: "(?=COFACTOR:)"
+    transform: extract_cofactor_name
 
-  pathway_description:
-    type: passthrough
+  pathways:
+    type: passthrough_list
     field: cc_pathway
+    split_pattern: "(?=PATHWAY:)"
+    transform: extract_pathway_name
 
   subcellular_location:
     type: passthrough
@@ -133,12 +139,15 @@ fields:
   # ── Structural features ───────────────────────────────────────────────────────
 
   transmembrane_regions:
-    type: passthrough
+    type: passthrough_list
     field: ft_transmem
+    split_pattern: "(?=TRANSMEM)"
+    transform: extract_tm_range
 
   signal_peptide:
     type: passthrough
     field: ft_signal
+    transform: extract_signal_range
 
   functional_motifs:
     type: passthrough
@@ -172,8 +181,9 @@ fields:
     field: reviewed
 
   keywords:
-    type: passthrough
+    type: passthrough_list
     field: keyword
+    delimiter: ";"
 
   keyword_ids:
     type: passthrough_list
