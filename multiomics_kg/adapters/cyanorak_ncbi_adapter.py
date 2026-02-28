@@ -120,6 +120,8 @@ class GeneNodeField(Enum, metaclass=GeneEnumMeta):
     # Gene naming
     GENE_NAME = 'gene_name'
     GENE_SYNONYMS = 'gene_synonyms'
+    GENE_NAME_SYNONYMS = 'gene_name_synonyms'
+    ALTERNATIVE_LOCUS_TAGS = 'alternative_locus_tags'
     GENE_NAME_SOURCE = 'gene_name_source'
     PRODUCT_SOURCE = 'product_source'
     FUNCTION_DESCRIPTION_SOURCE = 'function_description_source'
@@ -144,6 +146,7 @@ class GeneNodeField(Enum, metaclass=GeneEnumMeta):
     KEGG_BRITE = 'kegg_brite'
     # Pfam domains
     PFAM_IDS = 'pfam_ids'
+    PFAM_NAMES = 'pfam_names'
     PFAM_DESCRIPTIONS = 'pfam_descriptions'
     # Specialized function
     CATALYTIC_ACTIVITY = 'catalytic_activity'

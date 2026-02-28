@@ -140,17 +140,51 @@ fields:
         source_label: eggnog
 
   gene_synonyms:
-    # UNION of all alternative names; canonical gene_name is excluded
+    # UNION of all alternative names (mixed: gene symbols + locus-tag aliases).
+    # Canonical gene_name excluded in build_gene_annotations.py post-processing.
+    # delimiter must be at source level (field-level delimiter is ignored by _resolve_union).
     type: union
-    delimiter: " "
-    exclude_from: gene_name
     sources:
       - source: gene_mapping
         field: gene_names_cyanorak
+        delimiter: " "
       - source: gene_mapping
         field: gene_names
+        delimiter: " "
       - source: uniprot
         field: gene_names
+        delimiter: " "   # UniProt gene_names list items may be space-concatenated
+
+  gene_name_synonyms:
+    # Gene-name-like tokens only (e.g. dnaN, purF, ALDH) — excludes locus-tag patterns.
+    # Canonical gene_name excluded in build_gene_annotations.py post-processing.
+    type: union
+    filter_not: "^([A-Z][A-Z0-9]*\\d{4,}|.+_.+)$"
+    sources:
+      - source: gene_mapping
+        field: gene_names_cyanorak
+        delimiter: " "
+      - source: gene_mapping
+        field: gene_names
+        delimiter: " "
+      - source: uniprot
+        field: gene_names
+        delimiter: " "   # UniProt gene_names list items may be space-concatenated
+
+  alternative_locus_tags:
+    # Locus-tag-like tokens only (e.g. PMM0001, ALTBGP6_RS00025, BFV95_0002).
+    type: union
+    filter: "^([A-Z][A-Z0-9]*\\d{4,}|.+_.+)$"
+    sources:
+      - source: gene_mapping
+        field: gene_names_cyanorak
+        delimiter: " "
+      - source: gene_mapping
+        field: gene_names
+        delimiter: " "
+      - source: uniprot
+        field: gene_names
+        delimiter: " "   # UniProt gene_names list items may be space-concatenated
 
   # ── Functional description (Cyanorak > NCBI > EggNOG for product;
   #                            UniProt > EggNOG for function_description) ──────
@@ -216,6 +250,7 @@ fields:
     type: passthrough
     source: eggnog
     field: COG_category
+    transform: split_cog_category   # 'LU' → ['L', 'U']
 
   protein_family:
     type: passthrough
@@ -323,6 +358,7 @@ fields:
 
   kegg_pathway:
     type: union
+    filter: "^ko"   # drop map* duplicates; eggnog emits both ko03030 and map03030
     sources:
       - source: eggnog
         field: KEGG_Pathway
@@ -407,10 +443,21 @@ fields:
         delimiter: ","
         transform: extract_pfam_ids  # keeps only PF* tokens
       - source: uniprot
-        field: pfam_ids
+        field: pfam_ids              # already clean PF* IDs from xref_pfam
       - source: eggnog
         field: PFAMs
         delimiter: ","
+        transform: extract_pfam_ids  # eggnog mixes PF* IDs and shortnames; keep only IDs
+
+  pfam_names:
+    # Human-readable Pfam shortnames from eggnog PFAMs column
+    # (e.g. 'DNA_pol3_beta', 'HATPase_c') — absent from UniProt xref_pfam
+    type: union
+    sources:
+      - source: eggnog
+        field: PFAMs
+        delimiter: ","
+        transform: extract_pfam_names  # inverse of extract_pfam_ids; keeps non-PF* tokens
 
   pfam_descriptions:
     type: union

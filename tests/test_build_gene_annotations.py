@@ -39,7 +39,9 @@ from multiomics_kg.download.utils.annotation_transforms import (
     _tx_add_go_prefix,
     _tx_extract_go_from_pipe,
     _tx_extract_pfam_ids,
+    _tx_extract_pfam_names,
     _tx_first_token_space,
+    _tx_split_cog_category,
     _tx_strip_function_prefix,
     _tx_strip_prefix_ko,
 )
@@ -891,3 +893,310 @@ class TestProcessStrain:
         process_strain(row, MINIMAL_CONFIG, force=False)
         merged = json.loads((data_dir / "gene_annotations_merged.json").read_text())
         assert "PMM0001" in merged  # completed without error
+
+
+# ─── Fix D: kegg_pathway filter ───────────────────────────────────────────────
+
+class TestKeggPathwayFilter:
+    """_resolve_union filter drops map* pathway entries, keeps only ko*."""
+
+    def _make_config(self, filter_val=None):
+        cfg: dict = {
+            "type": "union",
+            "sources": [{"source": "eggnog", "field": "KEGG_Pathway", "delimiter": ","}],
+        }
+        if filter_val:
+            cfg["filter"] = filter_val
+        return cfg
+
+    def setup_method(self):
+        self.builder = AnnotationBuilder({"fields": {}})
+
+    def test_without_filter_includes_map_entries(self):
+        eg = {"KEGG_Pathway": "ko03030,map03030,ko00001"}
+        result = self.builder._resolve_union(self._make_config(), {}, eg, {})
+        assert "map03030" in result
+
+    def test_with_ko_filter_drops_map_entries(self):
+        eg = {"KEGG_Pathway": "ko03030,map03030,ko00001"}
+        result = self.builder._resolve_union(self._make_config("^ko"), {}, eg, {})
+        assert "ko03030" in result
+        assert "ko00001" in result
+        assert "map03030" not in result
+
+    def test_empty_after_filter_returns_none(self):
+        eg = {"KEGG_Pathway": "map03030,map00001"}
+        result = self.builder._resolve_union(self._make_config("^ko"), {}, eg, {})
+        assert result is None
+
+
+# ─── Fix B: cog_category transform ────────────────────────────────────────────
+
+class TestTxSplitCogCategory:
+    def test_multi_letter(self):
+        assert _tx_split_cog_category("LU") == ["L", "U"]
+
+    def test_single_letter(self):
+        assert _tx_split_cog_category("S") == ["S"]
+
+    def test_three_letters(self):
+        assert _tx_split_cog_category("EGP") == ["E", "G", "P"]
+
+    def test_dash_sentinel(self):
+        assert _tx_split_cog_category("-") == []
+
+    def test_empty(self):
+        assert _tx_split_cog_category("") == []
+
+    def test_non_string(self):
+        assert _tx_split_cog_category(None) == []
+
+    def test_strips_whitespace(self):
+        assert _tx_split_cog_category("  LU  ") == ["L", "U"]
+
+
+class TestCogCategoryBuildMerged:
+    """cog_category passthrough+transform produces a list."""
+
+    def setup_method(self):
+        config = {
+            "fields": {
+                "cog_category": {
+                    "type": "passthrough",
+                    "source": "eggnog",
+                    "field": "COG_category",
+                    "transform": "split_cog_category",
+                }
+            }
+        }
+        self.builder = AnnotationBuilder(config)
+
+    def test_single_letter_becomes_list(self):
+        merged = self.builder.build_merged({}, {"COG_category": "L"}, {})
+        assert merged["cog_category"] == ["L"]
+
+    def test_multi_letter_split(self):
+        merged = self.builder.build_merged({}, {"COG_category": "LU"}, {})
+        assert merged["cog_category"] == ["L", "U"]
+
+    def test_dash_omitted(self):
+        merged = self.builder.build_merged({}, {"COG_category": "-"}, {})
+        assert "cog_category" not in merged
+
+    def test_missing_field_omitted(self):
+        merged = self.builder.build_merged({}, {}, {})
+        assert "cog_category" not in merged
+
+
+# ─── Fix C: pfam_names / pfam_ids cleanup ─────────────────────────────────────
+
+class TestTxExtractPfamNames:
+    def test_keeps_shortname_tokens(self):
+        result = _tx_extract_pfam_names("PF00712,DNA_pol3_beta,DNA_pol3_beta_2")
+        assert result == ["DNA_pol3_beta", "DNA_pol3_beta_2"]
+
+    def test_no_shortnames_returns_empty(self):
+        result = _tx_extract_pfam_names("PF00712,PF02767")
+        assert result == []
+
+    def test_mixed_with_tigr(self):
+        result = _tx_extract_pfam_names("TIGR00663,PF00712,HATPase_c")
+        assert result == ["TIGR00663", "HATPase_c"]
+
+    def test_non_string_returns_empty(self):
+        assert _tx_extract_pfam_names(None) == []
+
+    def test_empty_string(self):
+        assert _tx_extract_pfam_names("") == []
+
+
+class TestPfamNamesBuildMerged:
+    """pfam_names field only populated from eggnog shortnames."""
+
+    def setup_method(self):
+        config = {
+            "fields": {
+                "pfam_ids": {
+                    "type": "union",
+                    "sources": [
+                        {"source": "eggnog", "field": "PFAMs", "delimiter": ",",
+                         "transform": "extract_pfam_ids"},
+                    ],
+                },
+                "pfam_names": {
+                    "type": "union",
+                    "sources": [
+                        {"source": "eggnog", "field": "PFAMs", "delimiter": ",",
+                         "transform": "extract_pfam_names"},
+                    ],
+                },
+            }
+        }
+        self.builder = AnnotationBuilder(config)
+
+    def test_pfam_ids_only_pf_tokens(self):
+        eg = {"PFAMs": "PF00712,DNA_pol3_beta,PF02767"}
+        merged = self.builder.build_merged({}, eg, {})
+        assert merged["pfam_ids"] == ["PF00712", "PF02767"]
+        assert "DNA_pol3_beta" not in merged["pfam_ids"]
+
+    def test_pfam_names_only_shortnames(self):
+        eg = {"PFAMs": "PF00712,DNA_pol3_beta,HATPase_c"}
+        merged = self.builder.build_merged({}, eg, {})
+        assert "DNA_pol3_beta" in merged["pfam_names"]
+        assert "HATPase_c" in merged["pfam_names"]
+        assert "PF00712" not in merged["pfam_names"]
+
+    def test_pure_pf_ids_no_pfam_names_field(self):
+        eg = {"PFAMs": "PF00712,PF02767"}
+        merged = self.builder.build_merged({}, eg, {})
+        assert "pfam_names" not in merged
+
+    def test_no_eggnog_no_fields(self):
+        merged = self.builder.build_merged({}, {}, {})
+        assert "pfam_ids" not in merged
+        assert "pfam_names" not in merged
+
+
+# ─── Fix E: gene_synonyms / gene_name_synonyms / alternative_locus_tags ───────
+
+LOCUS_TAG_FILTER = r"^([A-Z][A-Z0-9]*\d{4,}|.+_.+)$"
+GENE_NAME_FILTER_NOT = LOCUS_TAG_FILTER
+
+
+class TestGeneSynonymsDelimiterFix:
+    """gene_synonyms with per-source delimiter correctly splits space-separated values."""
+
+    def setup_method(self):
+        config = {
+            "fields": {
+                "gene_name": {
+                    "type": "single",
+                    "candidates": [
+                        {"source": "gene_mapping", "field": "gene_names",
+                         "transform": "first_token_space"},
+                    ],
+                },
+                "gene_synonyms": {
+                    "type": "union",
+                    "sources": [
+                        {"source": "gene_mapping", "field": "gene_names", "delimiter": " "},
+                    ],
+                },
+            }
+        }
+        self.builder = AnnotationBuilder(config)
+
+    def test_space_delimited_splits_correctly(self):
+        gm = {"gene_names": "dnaN PMM0001"}
+        merged = self.builder.build_merged(gm, {}, {})
+        synonyms = merged.get("gene_synonyms", [])
+        # Should split into ["dnaN", "PMM0001"], then "dnaN" removed as canonical
+        assert "PMM0001" in synonyms
+        # dnaN is canonical gene_name → excluded
+        assert "dnaN" not in synonyms
+
+    def test_single_name_no_synonyms(self):
+        gm = {"gene_names": "dnaN"}
+        merged = self.builder.build_merged(gm, {}, {})
+        assert "gene_synonyms" not in merged
+
+
+class TestAlternativeLocusTagsFilter:
+    """alternative_locus_tags keeps only locus-tag-like tokens."""
+
+    def setup_method(self):
+        config = {
+            "fields": {
+                "alternative_locus_tags": {
+                    "type": "union",
+                    "filter": LOCUS_TAG_FILTER,
+                    "sources": [
+                        {"source": "gene_mapping", "field": "gene_names", "delimiter": " "},
+                    ],
+                },
+            }
+        }
+        self.builder = AnnotationBuilder(config)
+
+    def test_old_format_locus_tag_kept(self):
+        # PMM0001: all-uppercase + 4 trailing digits → locus tag
+        gm = {"gene_names": "dnaN PMM0001"}
+        merged = self.builder.build_merged(gm, {}, {})
+        assert "PMM0001" in merged.get("alternative_locus_tags", [])
+
+    def test_gene_name_excluded(self):
+        # dnaN: has only 2 trailing digits at most → gene name, not locus tag
+        gm = {"gene_names": "dnaN PMM0001"}
+        merged = self.builder.build_merged(gm, {}, {})
+        assert "dnaN" not in merged.get("alternative_locus_tags", [])
+
+    def test_rs_format_locus_tag_kept(self):
+        # ALTBGP6_RS00025: contains underscore → locus tag
+        gm = {"gene_names": "ALTBGP6_RS00025"}
+        merged = self.builder.build_merged(gm, {}, {})
+        assert "ALTBGP6_RS00025" in merged.get("alternative_locus_tags", [])
+
+    def test_uppercase_gene_name_not_locus_tag(self):
+        # ALDH: uppercase but only 0 trailing digits → gene name, not locus tag
+        gm = {"gene_names": "ALDH PMM0002"}
+        merged = self.builder.build_merged(gm, {}, {})
+        alt = merged.get("alternative_locus_tags", [])
+        assert "ALDH" not in alt
+        assert "PMM0002" in alt
+
+    def test_all_gene_names_no_locus_tags(self):
+        gm = {"gene_names": "dnaN purF rpoA"}
+        merged = self.builder.build_merged(gm, {}, {})
+        assert "alternative_locus_tags" not in merged
+
+
+class TestGeneNameSynonymsFilterNot:
+    """gene_name_synonyms keeps only non-locus-tag tokens."""
+
+    def setup_method(self):
+        config = {
+            "fields": {
+                "gene_name": {
+                    "type": "single",
+                    "candidates": [
+                        {"source": "gene_mapping", "field": "gene_names",
+                         "transform": "first_token_space"},
+                    ],
+                },
+                "gene_name_synonyms": {
+                    "type": "union",
+                    "filter_not": GENE_NAME_FILTER_NOT,
+                    "sources": [
+                        {"source": "gene_mapping", "field": "gene_names", "delimiter": " "},
+                    ],
+                },
+            }
+        }
+        self.builder = AnnotationBuilder(config)
+
+    def test_gene_name_synonym_kept(self):
+        # repA is a gene name (not a locus tag)
+        gm = {"gene_names": "dnaN repA PMM0001"}
+        merged = self.builder.build_merged(gm, {}, {})
+        synonyms = merged.get("gene_name_synonyms", [])
+        assert "repA" in synonyms
+
+    def test_locus_tag_excluded(self):
+        gm = {"gene_names": "dnaN repA PMM0001"}
+        merged = self.builder.build_merged(gm, {}, {})
+        synonyms = merged.get("gene_name_synonyms", [])
+        assert "PMM0001" not in synonyms
+
+    def test_canonical_gene_name_excluded_from_synonyms(self):
+        # dnaN = canonical gene_name → also removed from gene_name_synonyms
+        gm = {"gene_names": "dnaN repA"}
+        merged = self.builder.build_merged(gm, {}, {})
+        synonyms = merged.get("gene_name_synonyms", [])
+        assert "dnaN" not in synonyms
+        assert "repA" in synonyms
+
+    def test_all_locus_tags_no_gene_name_synonyms(self):
+        gm = {"gene_names": "PMM0001 PMM0002"}
+        merged = self.builder.build_merged(gm, {}, {})
+        assert "gene_name_synonyms" not in merged

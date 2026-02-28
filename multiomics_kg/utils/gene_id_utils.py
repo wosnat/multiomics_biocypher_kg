@@ -46,13 +46,15 @@ SKIP_PATTERNS = re.compile(
 
 # Fields in gene_annotations_merged.json that hold alternative gene identifiers
 ANNOTATION_ID_FIELDS = [
-    "locus_tag",           # primary key (identity mapping)
-    "locus_tag_ncbi",      # RS-format NCBI locus tag (e.g. A9601_RS09110)
-    "locus_tag_cyanorak",  # Cyanorak ID (e.g. CK_Pro_AS9601_00001)
-    "protein_id",          # RefSeq WP_ accession
-    "gene_name",           # primary gene symbol (single string)
-    "gene_synonyms",       # list of alternative names (includes cyanorak gene names)
-    "old_locus_tags",      # list of old locus tag strings
+    "locus_tag",               # primary key (identity mapping)
+    "locus_tag_ncbi",          # RS-format NCBI locus tag (e.g. A9601_RS09110)
+    "locus_tag_cyanorak",      # Cyanorak ID (e.g. CK_Pro_AS9601_00001)
+    "protein_id",              # RefSeq WP_ accession
+    "gene_name",               # primary gene symbol (single string)
+    "gene_synonyms",           # list of alternative names (mixed: names + locus tags)
+    "gene_name_synonyms",      # list of gene-name-like tokens only
+    "alternative_locus_tags",  # list of locus-tag-like tokens only
+    "old_locus_tags",          # list of old locus tag strings
 ]
 
 # Column-detection heuristics (shared by fix-gene-ids and build-gene-mapping-supp)
@@ -151,7 +153,7 @@ def build_id_lookup(genome_dir):
                     lookup[val] = locus_tag
 
         # List fields (already Python lists in the JSON)
-        for field in ("gene_synonyms", "old_locus_tags"):
+        for field in ("gene_synonyms", "gene_name_synonyms", "alternative_locus_tags", "old_locus_tags"):
             vals = entry.get(field)
             if isinstance(vals, list):
                 for v in vals:
@@ -200,7 +202,7 @@ def build_field_lookups(genome_dir):
                     lookups.setdefault(field, {})[val] = locus_tag
 
         # List fields
-        for field in ("gene_synonyms", "old_locus_tags"):
+        for field in ("gene_synonyms", "gene_name_synonyms", "alternative_locus_tags", "old_locus_tags"):
             vals = entry.get(field)
             if isinstance(vals, list):
                 for v in vals:

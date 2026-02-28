@@ -72,6 +72,19 @@ def _tx_extract_go_from_brackets(value: str) -> str:
     return "GO:" + parts[-1].rstrip("]").strip()
 
 
+def _tx_split_cog_category(value: str) -> list[str]:
+    """Split a multi-letter COG category string into a list of single-char codes.
+
+    'LU' → ['L', 'U']  |  'S' → ['S']  |  '-' → []
+    """
+    if not isinstance(value, str):
+        return []
+    s = value.strip()
+    if not s or s == "-":
+        return []
+    return list(s)
+
+
 def _tx_extract_pfam_ids(value: str) -> list[str]:
     """Keep only PF* tokens from a comma-separated domain list.
 
@@ -81,6 +94,18 @@ def _tx_extract_pfam_ids(value: str) -> list[str]:
         return []
     return [v.strip() for v in value.split(",")
             if v.strip().startswith("PF")]
+
+
+def _tx_extract_pfam_names(value: str) -> list[str]:
+    """Keep only non-PF* tokens from a comma-separated domain list (shortnames).
+
+    'PF00712,DNA_pol3_beta,DNA_pol3_beta_2' → ['DNA_pol3_beta', 'DNA_pol3_beta_2']
+    Only relevant for eggnog PFAMs column which mixes PF* IDs and shortnames.
+    """
+    if not isinstance(value, str):
+        return []
+    return [v.strip() for v in value.split(",")
+            if v.strip() and not v.strip().startswith("PF")]
 
 
 _ECO_PATTERN = re.compile(r'\s*\{ECO:[^}]+\}[.,]?\s*')
@@ -145,6 +170,7 @@ _TRANSFORMS: dict[str, Any] = {
     "strip_prefix_ko": _tx_strip_prefix_ko,
     "extract_go_from_pipe": _tx_extract_go_from_pipe,
     "extract_pfam_ids": _tx_extract_pfam_ids,
+    "extract_pfam_names": _tx_extract_pfam_names,
     "extract_go_from_brackets": _tx_extract_go_from_brackets,
     "clean_function_description": _tx_clean_function_description,
     "clean_catalytic_activity": _tx_clean_catalytic_activity,
@@ -152,4 +178,5 @@ _TRANSFORMS: dict[str, Any] = {
     "extract_pathway_name": _tx_extract_pathway_name,
     "extract_tm_range": _tx_extract_tm_range,
     "extract_signal_range": _tx_extract_signal_range,
+    "split_cog_category": _tx_split_cog_category,
 }

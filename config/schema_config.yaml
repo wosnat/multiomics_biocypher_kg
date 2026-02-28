@@ -191,13 +191,15 @@ gene:
     function_description: str      # UniProt functional description; present for all organisms
     # Gene naming (canonical + provenance)
     gene_name: str                    # canonical name (dnaN, rpoA, etc.)
-    gene_synonyms: str[]              # all alternative names from all sources
+    gene_synonyms: str[]              # all alternative names from all sources (mixed)
+    gene_name_synonyms: str[]         # gene-name-like tokens only (dnaN, purF, etc.)
+    alternative_locus_tags: str[]     # locus-tag-like tokens only (PMM0001, ALTBGP6_RS00025)
     gene_name_source: str             # cyanorak|uniprot|ncbi|eggnog
     product_source: str               # provenance for product field
     function_description_source: str  # provenance for function_description
     old_locus_tags: str[]             # old-style locus tags (for paper ID mapping)
     # EggNOG / COG functional roles
-    cog_category: str                 # COG letter codes (e.g., "L", "C,G")
+    cog_category: str[]               # COG letter codes, one per element (e.g., ["L", "U"])
     eggnog_ogs: str[]                 # eggNOG OG IDs (COG####, bactNOG####, etc.)
     eggnog_og_descriptions: str[]     # OG descriptions
     seed_ortholog: str                # seed ortholog ID
@@ -216,6 +218,7 @@ gene:
     kegg_brite: str[]
     # Pfam domains
     pfam_ids: str[]
+    pfam_names: str[]
     pfam_descriptions: str[]
     # Specialized function
     catalytic_activities: str[]

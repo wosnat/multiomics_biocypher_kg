@@ -37,12 +37,17 @@ def _split(value: str, delimiter: str) -> list[str]:
 
 
 def _coerce_to_tokens(raw: Any, delimiter: str) -> list[str]:
-    """Convert a raw value (str or list) to a flat list of non-empty string tokens."""
+    """Convert a raw value (str or list) to a flat list of non-empty string tokens.
+
+    For list inputs, each item is further split by the delimiter so that
+    space-concatenated entries like ['dnaN BFV95_0002'] (common in UniProt
+    gene_names) are expanded when delimiter=' '.
+    """
     if isinstance(raw, list):
         tokens = []
         for item in raw:
             if _nonempty(item):
-                tokens.append(str(item).strip())
+                tokens.extend(_split(str(item).strip(), delimiter))
         return tokens
     if isinstance(raw, str):
         return _split(raw, delimiter)

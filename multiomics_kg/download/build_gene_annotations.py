@@ -35,6 +35,7 @@ from multiomics_kg.download.utils.annotation_transforms import (
     _tx_add_go_prefix,
     _tx_extract_go_from_pipe,
     _tx_extract_pfam_ids,
+    _tx_extract_pfam_names,
     _tx_first_token_space,
     _tx_strip_function_prefix,
     _tx_strip_prefix_ko,
@@ -266,9 +267,14 @@ class AnnotationBuilder:
             # Special-case transforms that produce lists from a string
             if transform == "extract_pfam_ids":
                 if isinstance(raw, list):
-                    tokens = raw
+                    tokens = [t for t in raw if str(t).startswith("PF")]
                 else:
                     tokens = _tx_extract_pfam_ids(str(raw))
+            elif transform == "extract_pfam_names":
+                if isinstance(raw, list):
+                    tokens = [t for t in raw if t and not str(t).startswith("PF")]
+                else:
+                    tokens = _tx_extract_pfam_names(str(raw))
             elif transform == "extract_go_from_pipe":
                 base_tokens = _coerce_to_tokens(raw, delimiter)
                 tokens = [_tx_extract_go_from_pipe(t) for t in base_tokens]
@@ -370,14 +376,16 @@ class AnnotationBuilder:
             if _nonempty(val):
                 result[canonical_field] = val
 
-        # Remove canonical gene_name from gene_synonyms to avoid duplication
+        # Remove canonical gene_name from synonym lists to avoid duplication
         gene_name = result.get("gene_name", "")
-        if gene_name and "gene_synonyms" in result:
-            synonyms = [s for s in result["gene_synonyms"] if s != gene_name]
-            if synonyms:
-                result["gene_synonyms"] = synonyms
-            else:
-                del result["gene_synonyms"]
+        if gene_name:
+            for field in ("gene_synonyms", "gene_name_synonyms"):
+                if field in result:
+                    filtered = [s for s in result[field] if s != gene_name]
+                    if filtered:
+                        result[field] = filtered
+                    else:
+                        del result[field]
 
         # Add source-tracking fields collected during 'single' resolution
         result.update(source_tracking)
