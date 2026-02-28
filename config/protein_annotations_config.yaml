@@ -40,7 +40,7 @@ fields:
   gene_names:
     type: passthrough_list
     field: gene_names
-    delimiter: ";"
+    delimiter: " "
 
   refseq_ids:
     # RefSeq WP_ protein accession(s); used for Gene→Protein edge join
