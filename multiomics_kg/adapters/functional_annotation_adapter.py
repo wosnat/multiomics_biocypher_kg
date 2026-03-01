@@ -1,17 +1,22 @@
 """
-Functional annotation adapter: gene → GO edges and GO hierarchy subset.
+Functional annotation adapters: gene→GO and gene→EC edges, plus corresponding nodes.
 
-Creates:
+GO section (MultiGoAnnotationAdapter):
 - GO nodes (BiologicalProcess, CellularComponent, MolecularFunction) for only the
   ~5K GO terms referenced in gene annotations plus their ancestors (not all 30K).
-- gene_involved_in_biological_process edges
-- gene_located_in_cellular_component edges
-- gene_enables_molecular_function edges
+- gene_involved_in_biological_process / gene_located_in_cellular_component /
+  gene_enables_molecular_function edges
 - GO-GO hierarchy edges (is_a, part_of, etc.) for the ancestor closure only.
-
-This adapter replaces the heavyweight pypath-based go_adapter.py for the standard
-build. The existing --go flag path is preserved for backward compatibility but should
+The existing --go flag path is preserved for backward compatibility but should
 not be run simultaneously (GO node IDs would conflict).
+
+EC section (MultiEcAnnotationAdapter):
+- EC number nodes (full Expasy hierarchy, with rich metadata) cached at
+  cache/data/ec/ec_data.json.
+- ec_number_is_a_ec_number hierarchy edges.
+- gene_catalyzes_ec_number edges from gene annotations.
+Replaces the standalone EC adapter in the main pipeline; EC adapter is kept for
+backward compatibility.
 """
 
 import csv
@@ -21,6 +26,7 @@ from pathlib import Path
 
 from bioregistry import normalize_curie
 
+from multiomics_kg.adapters.ec_adapter import EC
 from multiomics_kg.utils.go_utils import (
     NAMESPACE_TO_LABEL,
     compute_ancestry_closure,
@@ -267,3 +273,121 @@ class MultiGoAnnotationAdapter:
                 go_go_count += 1
 
         logger.info(f"MultiGoAnnotationAdapter.get_edges: yielded {go_go_count} GO-GO edges")
+
+
+# ---------------------------------------------------------------------------
+# EC number annotation: gene → EC edges
+# ---------------------------------------------------------------------------
+
+def _ec_node_id(ec_number: str) -> str:
+    """Normalize EC number to the eccode node ID format (matches ec_adapter.py)."""
+    return normalize_curie(f"eccode:{ec_number}") or f"eccode_{ec_number}"
+
+
+class EcAnnotationAdapter:
+    """
+    Per-strain adapter: reads gene_annotations_merged.json and yields gene→EC edges.
+
+    Args:
+        genome_dir: directory containing ``gene_annotations_merged.json``
+        test_mode: if True, stop after 100 edges
+    """
+
+    def __init__(self, genome_dir: Path, test_mode: bool = False) -> None:
+        self.genome_dir = Path(genome_dir)
+        self.test_mode = test_mode
+        self._genes: dict = {}
+        self._load()
+
+    def _load(self) -> None:
+        json_path = self.genome_dir / "gene_annotations_merged.json"
+        if not json_path.exists():
+            logger.warning(f"gene_annotations_merged.json not found at {json_path}, skipping")
+            return
+        with open(json_path, encoding="utf-8") as fh:
+            self._genes = json.load(fh)
+        logger.debug(f"Loaded {len(self._genes)} genes from {json_path}")
+
+    def get_edges(self):
+        """
+        Yield gene→EC edges as 5-tuples::
+
+            (edge_id, gene_node_id, ec_node_id, edge_label, properties)
+        """
+        count = 0
+        for locus_tag, gene in self._genes.items():
+            for ec_num in gene.get("ec_numbers") or []:
+                if not ec_num:
+                    continue
+                yield (
+                    f"{locus_tag}-ec-{ec_num}",
+                    _gene_node_id(locus_tag),
+                    _ec_node_id(ec_num),
+                    "gene_catalyzes_ec_number",
+                    {},
+                )
+                count += 1
+                if self.test_mode and count >= 100:
+                    logger.debug(
+                        f"EcAnnotationAdapter({self.genome_dir.name}): test_mode stop at {count}"
+                    )
+                    return
+        logger.debug(f"EcAnnotationAdapter({self.genome_dir.name}): yielded {count} gene→EC edges")
+
+
+class MultiEcAnnotationAdapter:
+    """
+    Multi-strain adapter: owns all EC graph content (mirrors MultiGoAnnotationAdapter).
+
+    Creates:
+    - EC number nodes (full Expasy hierarchy with rich metadata), cached at
+      ``cache_dir/ec_data.json``.
+    - ``ec_number_is_a_ec_number`` hierarchy edges.
+    - ``gene_catalyzes_ec_number`` edges from per-strain gene annotations.
+
+    Args:
+        genome_config_file: path to ``cyanobacteria_genomes.csv``
+        cache_dir: directory for EC JSON cache (e.g. ``Path("cache/data/ec")``)
+        test_mode: passed to EC adapter and per-strain adapters (stop after 100 items)
+        cache: if False, force re-download even if cache exists
+    """
+
+    def __init__(
+        self,
+        genome_config_file: str,
+        cache_dir: Path,
+        test_mode: bool = False,
+        cache: bool = True,
+    ) -> None:
+        self.test_mode = test_mode
+        self._ec = EC(test_mode=test_mode, cache_dir=cache_dir)
+        self._ec.download_ec_data(cache=cache)
+        self._strain_adapters: list[EcAnnotationAdapter] = []
+        self._build_strain_adapters(genome_config_file)
+
+    def _build_strain_adapters(self, genome_config_file: str) -> None:
+        with open(genome_config_file, newline="", encoding="utf-8") as fh:
+            lines = [line for line in fh if not line.lstrip().startswith("#")]
+        reader = csv.DictReader(lines)
+        for row in reader:
+            data_dir = row.get("data_dir", "").strip()
+            if not data_dir:
+                continue
+            self._strain_adapters.append(
+                EcAnnotationAdapter(genome_dir=Path(data_dir), test_mode=self.test_mode)
+            )
+        logger.info(f"MultiEcAnnotationAdapter: loaded {len(self._strain_adapters)} strain adapters")
+
+    def get_nodes(self):
+        """Yield EC number nodes (full Expasy hierarchy)."""
+        yield from self._ec.get_nodes()
+
+    def get_edges(self):
+        """Yield EC hierarchy edges then gene→EC edges for all strains."""
+        yield from self._ec.get_edges()
+        count = 0
+        for adapter in self._strain_adapters:
+            for edge in adapter.get_edges():
+                yield edge
+                count += 1
+        logger.info(f"MultiEcAnnotationAdapter.get_edges: yielded {count} gene→EC edges")

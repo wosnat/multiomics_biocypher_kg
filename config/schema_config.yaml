@@ -762,6 +762,14 @@ protein to ec number association:
   target: ec number
   label_in_input: protein_catalyzes_ec_number
 
+gene to ec number association:
+  is_a: ReactionToParticipantAssociation
+  represented_as: edge
+  label_as_edge: gene_catalyzes_ec_number
+  source: gene
+  target: ec number
+  label_in_input: gene_catalyzes_ec_number
+
 ec number hierarchical association:
   is_a: molecular activity to molecular activity association
   represented_as: edge

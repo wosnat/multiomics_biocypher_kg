@@ -18,7 +18,9 @@ from multiomics_kg.utils.go_utils import (
     parse_obo,
 )
 from multiomics_kg.adapters.functional_annotation_adapter import (
+    EcAnnotationAdapter,
     GoAnnotationAdapter,
+    MultiEcAnnotationAdapter,
     MultiGoAnnotationAdapter,
 )
 
@@ -504,3 +506,341 @@ class TestMultiAdapterCsvParsing:
             cache_root=tmp_go_cache,
         )
         assert len(adapter.adapters) == 0
+
+
+# ===========================================================================
+# EC annotation tests
+# ===========================================================================
+
+# ---------------------------------------------------------------------------
+# Shared EC test data
+# ---------------------------------------------------------------------------
+
+# Minimal ec_dict + enzymes structure that mirrors what ec_adapter builds.
+# 2 level-1 categories → 2 L2 → 2 L3 → 2 leaf enzymes (1.1.1.1 and 2.7.7.7).
+MINI_EC_CACHE: dict = {
+    "ec_dict": {
+        "1.-.-.-": {
+            "name": "Oxidoreductases",
+            "1.1.-.-": {
+                "name": "Acting on the CH-OH group of donors",
+                "1.1.1.-": {
+                    "name": "With NAD+ as acceptor",
+                    "entries": ["1.1.1.1"],
+                },
+            },
+        },
+        "2.-.-.-": {
+            "name": "Transferases",
+            "2.7.-.-": {
+                "name": "Transferring phosphorus-containing groups",
+                "2.7.7.-": {
+                    "name": "Nucleotidyltransferases",
+                    "entries": ["2.7.7.7"],
+                },
+            },
+        },
+    },
+    "enzymes": {
+        "1.1.1.1": {"de": "Alcohol dehydrogenase", "an": [], "ca": [], "cc": []},
+        "2.7.7.7": {"de": "DNA-directed DNA polymerase", "an": [], "ca": [], "cc": []},
+    },
+}
+
+MINI_EC_GENE_DATA: dict = {
+    "PMM0001": {"locus_tag": "PMM0001", "ec_numbers": ["2.7.7.7"]},
+    "PMM0002": {"locus_tag": "PMM0002", "ec_numbers": ["1.1.1.1", "2.7.7.7"]},
+    "PMM0003": {"locus_tag": "PMM0003", "ec_numbers": []},
+    "PMM0004": {"locus_tag": "PMM0004", "ec_numbers": None},
+}
+
+
+# ---------------------------------------------------------------------------
+# EC Fixtures
+# ---------------------------------------------------------------------------
+
+
+@pytest.fixture
+def tmp_ec_cache_dir(tmp_path):
+    """Write MINI_EC_CACHE as ec_data.json; return the cache directory."""
+    ec_dir = tmp_path / "ec"
+    ec_dir.mkdir()
+    (ec_dir / "ec_data.json").write_text(
+        json.dumps(MINI_EC_CACHE), encoding="utf-8"
+    )
+    return ec_dir
+
+
+@pytest.fixture
+def tmp_ec_genome_dir(tmp_path):
+    """Write MINI_EC_GENE_DATA as gene_annotations_merged.json; return genome_dir."""
+    genome_dir = tmp_path / "genome"
+    genome_dir.mkdir()
+    (genome_dir / "gene_annotations_merged.json").write_text(
+        json.dumps(MINI_EC_GENE_DATA), encoding="utf-8"
+    )
+    return genome_dir
+
+
+@pytest.fixture
+def ec_strain_adapter(tmp_ec_genome_dir):
+    return EcAnnotationAdapter(genome_dir=tmp_ec_genome_dir)
+
+
+@pytest.fixture
+def multi_ec_config_csv(tmp_path, tmp_ec_genome_dir):
+    csv_path = tmp_path / "ec_genomes.csv"
+    csv_path.write_text(
+        "ncbi_accession,cyanorak_organism,ncbi_taxon_id,strain_name,data_dir,clade\n"
+        f"GCF_000011465.1,Pro_MED4,59919,MED4,{tmp_ec_genome_dir},HLI\n"
+        "# comment should be skipped\n",
+        encoding="utf-8",
+    )
+    return str(csv_path)
+
+
+@pytest.fixture
+def multi_ec_adapter(multi_ec_config_csv, tmp_ec_cache_dir):
+    return MultiEcAnnotationAdapter(
+        genome_config_file=multi_ec_config_csv,
+        cache_dir=tmp_ec_cache_dir,
+        cache=True,
+    )
+
+
+# ---------------------------------------------------------------------------
+# TestEcAnnotationAdapterEdges
+# ---------------------------------------------------------------------------
+
+
+class TestEcAnnotationAdapterEdges:
+    def test_pmm0001_yields_one_edge(self, ec_strain_adapter):
+        edges = [e for e in ec_strain_adapter.get_edges() if "PMM0001" in e[1]]
+        assert len(edges) == 1
+
+    def test_pmm0002_yields_two_edges(self, ec_strain_adapter):
+        edges = [e for e in ec_strain_adapter.get_edges() if "PMM0002" in e[1]]
+        assert len(edges) == 2
+
+    def test_pmm0003_yields_no_edges(self, ec_strain_adapter):
+        edges = [e for e in ec_strain_adapter.get_edges() if "PMM0003" in e[1]]
+        assert len(edges) == 0
+
+    def test_pmm0004_null_ec_yields_no_edges(self, ec_strain_adapter):
+        edges = [e for e in ec_strain_adapter.get_edges() if "PMM0004" in e[1]]
+        assert len(edges) == 0
+
+    def test_edge_structure(self, ec_strain_adapter):
+        for edge in ec_strain_adapter.get_edges():
+            assert len(edge) == 5, "Edge must be a 5-tuple"
+            edge_id, source, target, label, props = edge
+            assert isinstance(edge_id, str)
+            assert isinstance(source, str)
+            assert isinstance(target, str)
+            assert isinstance(label, str)
+            assert isinstance(props, dict)
+
+    def test_edge_label(self, ec_strain_adapter):
+        for _, _, _, label, _ in ec_strain_adapter.get_edges():
+            assert label == "gene_catalyzes_ec_number"
+
+    def test_gene_node_id_format(self, ec_strain_adapter):
+        for _, source, _, _, _ in ec_strain_adapter.get_edges():
+            assert source.startswith("ncbigene:"), f"Unexpected gene ID: {source}"
+
+    def test_ec_node_id_format(self, ec_strain_adapter):
+        for _, _, target, _, _ in ec_strain_adapter.get_edges():
+            assert target.startswith("ec:"), f"Unexpected EC node ID: {target}"
+
+    def test_edge_id_format(self, ec_strain_adapter):
+        for edge_id, _, _, _, _ in ec_strain_adapter.get_edges():
+            assert "-ec-" in edge_id, f"Edge ID missing '-ec-': {edge_id}"
+
+    def test_no_duplicate_edges(self, ec_strain_adapter):
+        edges = list(ec_strain_adapter.get_edges())
+        ids = [e[0] for e in edges]
+        assert len(ids) == len(set(ids)), "Duplicate edge IDs"
+
+    def test_missing_json_file_yields_no_edges(self, tmp_path):
+        adapter = EcAnnotationAdapter(genome_dir=tmp_path)
+        assert list(adapter.get_edges()) == []
+
+
+# ---------------------------------------------------------------------------
+# TestEcAnnotationAdapterTestMode
+# ---------------------------------------------------------------------------
+
+
+class TestEcAnnotationAdapterTestMode:
+    def test_test_mode_limits_edges(self, tmp_ec_genome_dir):
+        big_genes = {
+            f"PMM{i:04d}": {"locus_tag": f"PMM{i:04d}", "ec_numbers": ["2.7.7.7"]}
+            for i in range(200)
+        }
+        (tmp_ec_genome_dir / "gene_annotations_merged.json").write_text(
+            json.dumps(big_genes), encoding="utf-8"
+        )
+        adapter = EcAnnotationAdapter(genome_dir=tmp_ec_genome_dir, test_mode=True)
+        assert len(list(adapter.get_edges())) <= 100
+
+
+# ---------------------------------------------------------------------------
+# TestMultiEcAnnotationAdapterNodes
+# ---------------------------------------------------------------------------
+
+
+class TestMultiEcAnnotationAdapterNodes:
+    def test_ec_nodes_emitted(self, multi_ec_adapter):
+        nodes = list(multi_ec_adapter.get_nodes())
+        assert len(nodes) > 0
+
+    def test_all_eight_nodes_present(self, multi_ec_adapter):
+        # MINI_EC_CACHE has 2 L1 + 2 L2 + 2 L3 + 2 L4 = 8 nodes
+        nodes = list(multi_ec_adapter.get_nodes())
+        assert len(nodes) == 8
+
+    def test_leaf_node_ids(self, multi_ec_adapter):
+        node_ids = {n[0] for n in multi_ec_adapter.get_nodes()}
+        assert "ec:1.1.1.1" in node_ids
+        assert "ec:2.7.7.7" in node_ids
+
+    def test_hierarchy_node_ids(self, multi_ec_adapter):
+        node_ids = {n[0] for n in multi_ec_adapter.get_nodes()}
+        # Level 1 nodes
+        assert any("1.-.-.-" in nid or "1.-.-.--" in nid or nid == "ec:1.-.-.-" for nid in node_ids)
+
+    def test_node_label(self, multi_ec_adapter):
+        for node_id, label, props in multi_ec_adapter.get_nodes():
+            assert label == "ec_number", f"Unexpected label {label!r} for node {node_id}"
+
+    def test_leaf_node_has_name(self, multi_ec_adapter):
+        nodes = {n[0]: n[2] for n in multi_ec_adapter.get_nodes()}
+        assert nodes.get("ec:2.7.7.7", {}).get("name") == "DNA-directed DNA polymerase"
+
+    def test_no_duplicate_nodes(self, multi_ec_adapter):
+        nodes = list(multi_ec_adapter.get_nodes())
+        node_ids = [n[0] for n in nodes]
+        assert len(node_ids) == len(set(node_ids)), "Duplicate EC node IDs"
+
+
+# ---------------------------------------------------------------------------
+# TestMultiEcAnnotationAdapterEdges
+# ---------------------------------------------------------------------------
+
+
+class TestMultiEcAnnotationAdapterEdges:
+    def test_gene_ec_edges_present(self, multi_ec_adapter):
+        edges = list(multi_ec_adapter.get_edges())
+        gene_ec = [e for e in edges if e[3] == "gene_catalyzes_ec_number"]
+        assert len(gene_ec) == 3  # PMM0001×1 + PMM0002×2
+
+    def test_hierarchy_edges_present(self, multi_ec_adapter):
+        edges = list(multi_ec_adapter.get_edges())
+        hier = [e for e in edges if e[3] == "ec_number_is_a_ec_number"]
+        # MINI_EC_CACHE has 6 hierarchy edges
+        assert len(hier) == 6
+
+    def test_hierarchy_edge_structure(self, multi_ec_adapter):
+        edges = list(multi_ec_adapter.get_edges())
+        for e in edges:
+            if e[3] == "ec_number_is_a_ec_number":
+                edge_id, child, parent, label, props = e
+                assert child.startswith("ec:"), f"Bad child ID: {child}"
+                assert parent.startswith("ec:"), f"Bad parent ID: {parent}"
+
+    def test_l4_to_l3_hierarchy_edge(self, multi_ec_adapter):
+        edges = list(multi_ec_adapter.get_edges())
+        hier = {(e[1], e[2]) for e in edges if e[3] == "ec_number_is_a_ec_number"}
+        assert ("ec:2.7.7.7", "ec:2.7.7.-") in hier
+
+    def test_gene_ec_edge_targets_known_node(self, multi_ec_adapter):
+        nodes = {n[0] for n in multi_ec_adapter.get_nodes()}
+        edges = list(multi_ec_adapter.get_edges())
+        for e in edges:
+            if e[3] == "gene_catalyzes_ec_number":
+                assert e[2] in nodes, f"Target EC node {e[2]} not in node set"
+
+
+# ---------------------------------------------------------------------------
+# TestMultiEcCacheBehavior
+# ---------------------------------------------------------------------------
+
+
+class TestMultiEcCacheBehavior:
+    def test_loads_from_project_cache(self, multi_ec_config_csv, tmp_ec_cache_dir):
+        """EC data loads from our JSON cache without calling pypath."""
+        from unittest.mock import patch
+        from multiomics_kg.adapters import ec_adapter as ec_mod
+
+        with patch.object(ec_mod.expasy, "expasy_enzymes") as mock_enz, \
+             patch.object(ec_mod.expasy, "expasy_enzyme_classes") as mock_cls:
+            adapter = MultiEcAnnotationAdapter(
+                genome_config_file=multi_ec_config_csv,
+                cache_dir=tmp_ec_cache_dir,
+                cache=True,
+            )
+            list(adapter.get_nodes())
+
+        mock_enz.assert_not_called()
+        mock_cls.assert_not_called()
+
+    def test_cache_file_created_after_download(self, multi_ec_config_csv, tmp_path):
+        """After a (mocked) download, ec_data.json is written to cache_dir."""
+        from unittest.mock import patch, MagicMock
+        from multiomics_kg.adapters import ec_adapter as ec_mod
+
+        cache_dir = tmp_path / "new_cache"
+        cache_dir.mkdir()
+
+        def fake_enzymes():
+            return MINI_EC_CACHE["enzymes"]
+
+        def fake_classes():
+            # (level1, level2, level3, name) tuples that prepare_ec_hierarchy_dict expects
+            return [
+                ("1", None, None, "Oxidoreductases"),
+                ("1", "1", None, "Acting on the CH-OH group of donors"),
+                ("1", "1", "1", "With NAD+ as acceptor"),
+                ("2", None, None, "Transferases"),
+                ("2", "7", None, "Transferring phosphorus-containing groups"),
+                ("2", "7", "7", "Nucleotidyltransferases"),
+            ]
+
+        with patch.object(ec_mod.expasy, "expasy_enzymes", side_effect=fake_enzymes), \
+             patch.object(ec_mod.expasy, "expasy_enzyme_classes", side_effect=fake_classes):
+            adapter = MultiEcAnnotationAdapter(
+                genome_config_file=multi_ec_config_csv,
+                cache_dir=cache_dir,
+                cache=False,
+            )
+
+        assert (cache_dir / "ec_data.json").exists(), "ec_data.json not created"
+
+    def test_csv_comment_lines_skipped(self, tmp_path, tmp_ec_cache_dir, tmp_ec_genome_dir):
+        csv_path = tmp_path / "genomes.csv"
+        csv_path.write_text(
+            "ncbi_accession,cyanorak_organism,ncbi_taxon_id,strain_name,data_dir,clade\n"
+            "# comment\n"
+            f"GCF_000011465.1,Pro_MED4,59919,MED4,{tmp_ec_genome_dir},HLI\n",
+            encoding="utf-8",
+        )
+        adapter = MultiEcAnnotationAdapter(
+            genome_config_file=str(csv_path),
+            cache_dir=tmp_ec_cache_dir,
+            cache=True,
+        )
+        assert len(adapter._strain_adapters) == 1
+
+    def test_empty_data_dir_skipped(self, tmp_path, tmp_ec_cache_dir):
+        csv_path = tmp_path / "genomes.csv"
+        csv_path.write_text(
+            "ncbi_accession,cyanorak_organism,ncbi_taxon_id,strain_name,data_dir,clade\n"
+            "GCF_000011465.1,Pro_MED4,59919,MED4,,HLI\n",
+            encoding="utf-8",
+        )
+        adapter = MultiEcAnnotationAdapter(
+            genome_config_file=str(csv_path),
+            cache_dir=tmp_ec_cache_dir,
+            cache=True,
+        )
+        assert len(adapter._strain_adapters) == 0

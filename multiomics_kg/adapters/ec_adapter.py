@@ -1,6 +1,8 @@
 from __future__ import annotations
+from pathlib import Path
 from pypath.share import curl, settings
 from contextlib import ExitStack
+import json
 
 from bioregistry import normalize_curie
 from tqdm import tqdm
@@ -71,6 +73,7 @@ class ECModel(BaseModel):
     output_dir: DirectoryPath | None = None
     add_prefix: bool = True
     organism: int | Literal["*"] | None = None
+    cache_dir: Path | None = None
 
 
 class EC:
@@ -83,6 +86,7 @@ class EC:
         output_dir: DirectoryPath | None = None,
         add_prefix: bool = True,
         organism: int | Literal["*"] | None = None,
+        cache_dir: Path | None = None,
     ):
 
         model = ECModel(
@@ -93,11 +97,13 @@ class EC:
             output_dir=output_dir,
             add_prefix=add_prefix,
             organism=organism,
+            cache_dir=cache_dir,
         ).model_dump()
 
         self.export_csv = model["export_csv"]
         self.output_dir = model["output_dir"]
         self.add_prefix = model["add_prefix"]
+        self.cache_dir: Path | None = Path(model["cache_dir"]) if model["cache_dir"] else None
 
         # no need becuase we are not creating protein to ec edges here
         # if model["organism"] in ("*", None):
@@ -116,6 +122,38 @@ class EC:
         if model["test_mode"]:
             self.early_stopping = 100
 
+    def _ec_cache_path(self) -> Path | None:
+        """Return the path to the project-level EC JSON cache, or None if not configured."""
+        if self.cache_dir is None:
+            return None
+        return self.cache_dir / "ec_data.json"
+
+    def _load_ec_cache(self) -> bool:
+        """
+        Try to load ec_dict and enzymes from the project JSON cache.
+        Returns True if successfully loaded, False otherwise.
+        """
+        cache_path = self._ec_cache_path()
+        if cache_path is None or not cache_path.exists():
+            return False
+        logger.info(f"Loading EC data from cache: {cache_path}")
+        with open(cache_path, encoding="utf-8") as fh:
+            data = json.load(fh)
+        self.ec_dict = data["ec_dict"]
+        self.enzymes = data["enzymes"]
+        logger.info(f"Loaded {len(self.enzymes)} EC entries from cache")
+        return True
+
+    def _save_ec_cache(self) -> None:
+        """Save ec_dict and enzymes to the project JSON cache."""
+        cache_path = self._ec_cache_path()
+        if cache_path is None:
+            return
+        cache_path.parent.mkdir(parents=True, exist_ok=True)
+        with open(cache_path, "w", encoding="utf-8") as fh:
+            json.dump({"ec_dict": self.ec_dict, "enzymes": self.enzymes}, fh)
+        logger.info(f"Saved EC data to cache: {cache_path}")
+
     @validate_call
     def download_ec_data(
         self,
@@ -133,6 +171,10 @@ class EC:
             retries: number of retries in case of download error.
         """
 
+        # Try project-level JSON cache first (faster than pypath curl cache)
+        if cache and self._load_ec_cache():
+            return
+
         with ExitStack() as stack:
             #stack.enter_context(settings.context(retries=retries))
 
@@ -148,7 +190,7 @@ class EC:
             self.enzymes = expasy.expasy_enzymes()
 
             self.enzyme_classes = expasy.expasy_enzyme_classes()
-            
+
             self.prepare_ec_hierarchy_dict()
             # TODO: add rxnfp embeddings
             if False and ECNodeField.RXFNP_EMBEDDING.value in self.ec_node_fields:
@@ -158,6 +200,9 @@ class EC:
             logger.info(
                 f"Expasy EC number data is downloaded in {round((t1-t0) / 60, 2)} mins"
             )
+
+        # Save to project cache for future runs
+        self._save_ec_cache()
     
     def retrieve_rxfnp_embeddings(self, 
                                   rxnfp_embedding_path: FilePath | None = None):
@@ -171,7 +216,7 @@ class EC:
 
     @validate_call
     def get_nodes(self, label: str = "ec_number") -> list[tuple]:
-        if not hasattr(self, "enzymes") or not hasattr(self, "enzyme_classes"):
+        if not hasattr(self, "ec_dict") or not hasattr(self, "enzymes"):
             self.download_ec_data()
         if not hasattr(self, "ec_dict"):
             self.prepare_ec_hierarchy_dict()
@@ -275,7 +320,7 @@ class EC:
     def get_ec_hierarchy_edges(
         self, label: str = "ec_number_is_a_ec_number"
     ) -> list[tuple]:
-        if not hasattr(self, "enzymes") or not hasattr(self, "enzyme_classes"):
+        if not hasattr(self, "ec_dict") or not hasattr(self, "enzymes"):
             self.download_ec_data()
         if not hasattr(self, "ec_dict"):
             self.prepare_ec_hierarchy_dict()

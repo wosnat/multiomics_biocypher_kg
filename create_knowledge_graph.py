@@ -3,20 +3,18 @@ import os
 from pathlib import Path
 
 from biocypher import BioCypher
-from multiomics_kg.adapters.ec_adapter import EC
 from multiomics_kg.adapters.omics_adapter import MultiOMICSAdapter
 from multiomics_kg.adapters.uniprot_adapter import MultiUniprot
 from multiomics_kg.adapters.go_adapter import GO
 
 from multiomics_kg.adapters.cyanorak_ncbi_adapter import MultiCyanorakNcbi
-from multiomics_kg.adapters.functional_annotation_adapter import MultiGoAnnotationAdapter
+from multiomics_kg.adapters.functional_annotation_adapter import MultiGoAnnotationAdapter, MultiEcAnnotationAdapter
 
 
 def parse_args():
     parser = argparse.ArgumentParser(description="Build the multiomics BioCypher knowledge graph.")
     parser.add_argument("--test", action="store_true", help="Test mode: stop each adapter after 100 items.")
-    parser.add_argument("--go", action="store_true", help="Download and write GO nodes/edges.")
-    parser.add_argument("--ec", action="store_true", help="Download and write EC nodes/edges.")
+    parser.add_argument("--go", action="store_true", help="Download and write full GO ontology nodes/edges.")
     parser.add_argument("--no-cache", action="store_true", help="Re-fetch data instead of using cached files.")
     parser.add_argument("--output-dir", default="./biocypher-log/example_knowledge_graph/",
                         help="Output directory for CSV exports (default: ./biocypher-log/example_knowledge_graph/).")
@@ -30,7 +28,6 @@ def main():
     export_as_csv = True
     TEST_MODE = args.test
     download_GO_data = args.go
-    download_EC_data = args.ec
     output_dir_path = args.output_dir
 
     os.makedirs(output_dir_path, exist_ok=True)
@@ -82,6 +79,16 @@ def main():
     bc.write_nodes(go_anno_adapter.get_nodes())
     bc.write_edges(go_anno_adapter.get_edges())
 
+    # EC number nodes + hierarchy edges + gene→EC edges (always runs, cached)
+    ec_anno_adapter = MultiEcAnnotationAdapter(
+        genome_config_file='data/Prochlorococcus/genomes/cyanobacteria_genomes.csv',
+        cache_dir=Path("cache/data/ec"),
+        test_mode=TEST_MODE,
+        cache=CACHE,
+    )
+    bc.write_nodes(ec_anno_adapter.get_nodes())
+    bc.write_edges(ec_anno_adapter.get_edges())
+
     # Full GO ontology (all 30K nodes + GO-GO hierarchy) — optional, slow.
     # NOTE: do not run with --go simultaneously; GO node IDs would conflict.
 
@@ -94,18 +101,6 @@ def main():
         bc.write_edges(go_adapter.get_go_edges())
         if export_as_csv:
             go_adapter.export_as_csv(path=output_dir_path)
-
-
-    if download_EC_data:
-        # enzyme commission data
-        ec_adapter = EC(
-            export_csv=export_as_csv,
-            output_dir=output_dir_path,
-            test_mode=TEST_MODE
-        )
-        ec_adapter.download_ec_data(cache=CACHE)
-        bc.write_nodes(ec_adapter.get_nodes())
-        bc.write_edges(ec_adapter.get_edges())
 
 
     # Write import call and other post-processing
