@@ -38,6 +38,10 @@ ANCHOR_NODES = {
     "MolecularFunction": [
         "go:0003674",  # molecular_function (root)
     ],
+    # EC top-level class — always present in full Expasy hierarchy
+    "EcNumber": [
+        "ec:1.-.-.-",  # Oxidoreductases (EC class 1)
+    ],
 }
 
 # Key properties to capture per node type
@@ -52,6 +56,8 @@ NODE_PROPERTIES = {
     "BiologicalProcess": ["name"],
     "CellularComponent": ["name"],
     "MolecularFunction": ["name"],
+    # EC number nodes (from ec_adapter / functional_annotation_adapter)
+    "EcNumber": ["name"],
 }
 
 # Key properties to capture per edge type
@@ -77,6 +83,9 @@ EDGE_PROPERTIES = {
     "Biological_process_is_a_biological_process": [],
     "Cellular_component_is_a_cellular_component": [],
     "Molecular_function_is_a_molecular_function": [],
+    # EC number edges (functional_annotation_adapter)
+    "Ec_number_is_a_ec_number": [],
+    "Gene_catalyzes_ec_number": [],
 }
 
 SAMPLE_SIZE = 5

@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-03-01T14:53:11.965662+00:00",
+  "generated_at": "2026-03-01T15:50:46.747438+00:00",
   "description": "Regression snapshot of KG nodes/edges. Regenerate with: uv run python tests/kg_validity/generate_snapshot.py",
   "nodes": [
     {
@@ -490,6 +490,14 @@
         "name": "L-xylulose reductase"
       },
       "anchor": false
+    },
+    {
+      "id": "ec:1.-.-.-",
+      "label": "EcNumber",
+      "properties": {
+        "name": "Oxidoreductases"
+      },
+      "anchor": true
     }
   ],
   "edges": [
@@ -946,6 +954,66 @@
       "type": "Molecular_function_is_a_molecular_function",
       "source": "go:0000030",
       "target": "go:0016758",
+      "properties": {}
+    },
+    {
+      "type": "Ec_number_is_a_ec_number",
+      "source": "ec:1.1.-.-",
+      "target": "ec:1.-.-.-",
+      "properties": {}
+    },
+    {
+      "type": "Ec_number_is_a_ec_number",
+      "source": "ec:1.1.1.-",
+      "target": "ec:1.1.-.-",
+      "properties": {}
+    },
+    {
+      "type": "Ec_number_is_a_ec_number",
+      "source": "ec:1.1.1.1",
+      "target": "ec:1.1.1.-",
+      "properties": {}
+    },
+    {
+      "type": "Ec_number_is_a_ec_number",
+      "source": "ec:1.1.1.10",
+      "target": "ec:1.1.1.-",
+      "properties": {}
+    },
+    {
+      "type": "Ec_number_is_a_ec_number",
+      "source": "ec:1.1.1.100",
+      "target": "ec:1.1.1.-",
+      "properties": {}
+    },
+    {
+      "type": "Gene_catalyzes_ec_number",
+      "source": "ncbigene:A9601_00001",
+      "target": "ec:2.7.7.7",
+      "properties": {}
+    },
+    {
+      "type": "Gene_catalyzes_ec_number",
+      "source": "ncbigene:A9601_00021",
+      "target": "ec:6.3.5.3",
+      "properties": {}
+    },
+    {
+      "type": "Gene_catalyzes_ec_number",
+      "source": "ncbigene:A9601_00031",
+      "target": "ec:2.4.2.14",
+      "properties": {}
+    },
+    {
+      "type": "Gene_catalyzes_ec_number",
+      "source": "ncbigene:A9601_00041",
+      "target": "ec:5.6.2.2",
+      "properties": {}
+    },
+    {
+      "type": "Gene_catalyzes_ec_number",
+      "source": "ncbigene:A9601_00061",
+      "target": "ec:1.17.99.6",
       "properties": {}
     }
   ]

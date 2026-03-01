@@ -16,7 +16,7 @@ services:
       BUILD2NEO_CLEANUP: "yes"
       # Set to "yes" to include GO/EC hierarchy nodes and edges
       BUILD_GO: "no"
-      BUILD_EC: "yes"
+      BUILD_EC: "no"
 
   import:
     image: neo4j:4.4-enterprise
