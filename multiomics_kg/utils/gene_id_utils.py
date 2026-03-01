@@ -116,23 +116,90 @@ def load_gene_annotations(genome_dir):
     return None
 
 
+# ─── gene_id_mapping.json loading ────────────────────────────────────────────
+
+
+def load_gene_id_mapping(genome_dir):
+    """Load gene_id_mapping.json. Returns None if the file does not exist.
+
+    Falls back gracefully: callers should use load_gene_annotations() when None
+    is returned.
+    """
+    path = Path(genome_dir) / "gene_id_mapping.json"
+    if path.exists():
+        try:
+            with open(path) as f:
+                return json.load(f)
+        except Exception as e:
+            print(f"  Error reading {path}: {e}")
+    return None
+
+
+def build_id_lookup_from_mapping(gene_id_mapping):
+    """Build alt_id → locus_tag reverse index from gene_id_mapping.json.
+
+    Only includes organism_specific and annotation_specific alt-IDs so the
+    lookup remains strictly 1:1 (one ID → one gene).  Generic-scoped IDs
+    (gene_name, gene_synonym) are intentionally excluded — they are shared
+    across organisms and are accessed via search_genes_by_name() instead.
+
+    Paper-derived IDs that are not already in the reference set are tracked in
+    paper_id_keys (the returned third element, analogous to supp_keys from the
+    original build_id_lookup).
+
+    Returns:
+        (lookup_dict, locus_tag_set, paper_id_keys)
+        lookup_dict: raw_id -> locus_tag  (organism_specific / annotation_specific only)
+        locus_tag_set: set of canonical locus tags
+        paper_id_keys: set of IDs that came from paper_ids (not reference)
+    """
+    lookup: dict[str, str] = {}
+    locus_tags: set[str] = set()
+    paper_id_keys: set[str] = set()
+
+    for locus_tag, entry in gene_id_mapping.items():
+        locus_tags.add(locus_tag)
+        lookup[locus_tag] = locus_tag
+
+        for alt in (entry.get("alt_ids") or {}).get("reference") or []:
+            if alt.get("scope") == "generic":
+                continue
+            aid = (alt.get("id") or "").strip()
+            if aid:
+                lookup[aid] = locus_tag
+
+        for alt in (entry.get("alt_ids") or {}).get("paper_ids") or []:
+            if alt.get("scope") == "generic":
+                continue
+            aid = (alt.get("id") or "").strip()
+            if aid and aid not in lookup:
+                lookup[aid] = locus_tag
+                paper_id_keys.add(aid)
+
+    return lookup, locus_tags, paper_id_keys
+
+
 # ─── ID lookup building ───────────────────────────────────────────────────────
 
 def build_id_lookup(genome_dir):
-    """Build a unified raw_id → locus_tag reverse index from gene_annotations_merged.json.
+    """Build a unified raw_id → locus_tag reverse index.
 
-    Handles:
-    - Single-value string fields: locus_tag_ncbi, locus_tag_cyanorak, protein_id, gene_name
-    - List fields: gene_synonyms, old_locus_tags (already Python lists in the JSON)
-    - Supplements with gene_mapping_supp.csv entries as fallback
+    Prefers gene_id_mapping.json (built by build_gene_id_mapping.py) when
+    available — it includes all reference alt-IDs plus paper-derived IDs.
+    Falls back to gene_annotations_merged.json + gene_mapping_supp.csv when
+    the mapping file has not been built yet.
 
     Returns:
         (lookup_dict, locus_tag_set, supp_keys)
         lookup_dict: raw_id -> locus_tag
         locus_tag_set: set of canonical locus tags
-        supp_keys: set of IDs sourced from gene_mapping_supp.csv
-        Returns (None, None, set()) if JSON not found.
+        supp_keys: set of IDs from supplementary/paper sources (not canonical annotations)
+        Returns (None, None, set()) if no annotation data found.
     """
+    gene_id_mapping = load_gene_id_mapping(genome_dir)
+    if gene_id_mapping is not None:
+        return build_id_lookup_from_mapping(gene_id_mapping)
+
     annotations = load_gene_annotations(genome_dir)
     if annotations is None:
         return None, None, set()
@@ -342,6 +409,81 @@ def is_id_like_column(series, col_name, exclude_cols):
         return False
 
     return True
+
+
+# ─── Full-text gene search ────────────────────────────────────────────────────
+
+
+def search_genes_by_name(genome_dir, query, fields=None):
+    """Full-text search across gene names, synonyms, and product descriptions.
+
+    Args:
+        genome_dir: path to genome cache directory (absolute or relative to cwd)
+        query: search string (case-insensitive substring match)
+        fields: optional list of field types to restrict search; defaults to all.
+                Recognised values: "gene_name", "gene_synonym", "product"
+
+    Returns list of {"locus_tag", "match_field", "match_value"} dicts, deduplicated.
+    Draws from gene_id_mapping.json (when present) for gene names / paper synonyms
+    and from gene_annotations_merged.json for canonical gene_name and product fields.
+    """
+    query_lower = query.strip().lower()
+    if not query_lower:
+        return []
+
+    search_names = fields is None or "gene_name" in fields
+    search_synonyms = fields is None or "gene_synonym" in fields
+    search_products = fields is None or "product" in fields
+
+    results: list[dict] = []
+    seen: set[tuple] = set()
+
+    def _add(locus_tag: str, field: str, value: str) -> None:
+        key = (locus_tag, field, value)
+        if key not in seen:
+            seen.add(key)
+            results.append({"locus_tag": locus_tag, "match_field": field, "match_value": value})
+
+    # Search gene_id_mapping.json (gene names from all sources + paper product synonyms)
+    gene_id_mapping = load_gene_id_mapping(genome_dir)
+    if gene_id_mapping:
+        for locus_tag, entry in gene_id_mapping.items():
+            for section in ("reference", "paper_ids"):
+                for alt in (entry.get("alt_ids") or {}).get(section) or []:
+                    id_type = alt.get("id_type", "")
+                    val = (alt.get("id") or "").strip()
+                    if not val:
+                        continue
+                    if search_names and id_type == "gene_name" and query_lower in val.lower():
+                        _add(locus_tag, "gene_name", val)
+                    elif search_synonyms and id_type == "gene_synonym" and query_lower in val.lower():
+                        _add(locus_tag, "gene_synonym", val)
+
+            if search_products:
+                for syn in entry.get("product_synonyms") or []:
+                    text = (syn.get("text") or "").strip()
+                    if text and query_lower in text.lower():
+                        _add(locus_tag, "product_synonym", text)
+
+    # Also search gene_annotations_merged.json for canonical gene_name and product fields
+    annotations = load_gene_annotations(genome_dir)
+    if annotations:
+        for locus_tag, entry in annotations.items():
+            if search_names:
+                gn = (entry.get("gene_name") or "").strip()
+                if gn and query_lower in gn.lower():
+                    _add(locus_tag, "gene_name", gn)
+                for syn in entry.get("gene_synonyms") or []:
+                    if isinstance(syn, str) and syn.strip() and query_lower in syn.lower():
+                        _add(locus_tag, "gene_synonym", syn)
+
+            if search_products:
+                for field in ("product", "product_cyanorak"):
+                    val = (entry.get(field) or "").strip()
+                    if val and query_lower in val.lower():
+                        _add(locus_tag, field, val)
+
+    return results
 
 
 # ─── Import report loading ────────────────────────────────────────────────────

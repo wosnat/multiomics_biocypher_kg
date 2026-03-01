@@ -12,6 +12,15 @@
 - Usage: `uv run python scripts/validate_annotations.py [--no-llm] [--papers "Name"] [--llm-model MODEL]`
 - Al-Hosani 2015 and Anjur 2025 have no annotation columns (by design — CSVs only have fold-change data)
 
+## build_gene_id_mapping.py
+- Location: `multiomics_kg/download/build_gene_id_mapping.py`
+- Run as module: `uv run python -m multiomics_kg.download.build_gene_id_mapping [--strains X] [--force]`
+- Phase 3 of gene_id_mapping_utility plan (implemented)
+- Outputs `gene_id_mapping.json` and backward-compat `gene_mapping_supp.csv` per strain
+- For MIT9301/Anjur 2025: resolves 1872/1939 genes from annotation CSV, 235/242 DE rows (97.1%)
+- 7 unresolved DE rows: genuinely unannotated genes (all ID columns NaN in annotation CSV)
+- Processing order: id_translation first → rebuild lookup → annotation_gff → csv tables
+
 ## Key patterns
 
 ### Organism → genome dir

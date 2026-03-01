@@ -40,8 +40,10 @@ supplementary_materials:
     id_columns:                        # gene identifier columns in this CSV
       - column: "NCBI ID_3"
         id_type: locus_tag_ncbi        # one of: locus_tag, locus_tag_ncbi, locus_tag_cyanorak,
-      - column: "Gene Name"            #   gene_name, protein_id, old_locus_tag, probeset,
-        id_type: gene_name             #   rast_id, annotation_specific, other
+      - column: "Gene Name"            #   gene_name, protein_id_refseq, uniprot_accession,
+        id_type: gene_name             #   old_locus_tag, alternative_locus_tag, gene_synonym,
+                                       #   uniprot_entry_name, jgi_id, probeset,
+                                       #   rast_id, annotation_specific, other
 
     product_columns:                   # columns with functional gene descriptions
       - column: "Genbank Annotation"
@@ -126,6 +128,43 @@ omics_adapter ignores strain resource paperconfigs entirely (no `publication` bl
 
 ---
 
+## Implementation Progress
+
+| Paper | Status | Notes |
+|-------|--------|-------|
+| Anjur 2025 | ✅ paperconfig updated, 🔄 script in progress | `id_translation` for `9301_annotated_genome.csv` (JGI IDs via `uniprot_gene_name` whitespace-split); `annotation_gff` for NCBI GFF |
+| barreto 2022 | pending | `annotation_gff` for `EZ55.exon.fixed2.gtf` (GTF format); `id_translation` for annotation tables |
+| all others | pending | phase 2 curation |
+
+### Anjur 2025 — JGI catalog IDs
+
+**Problem:** DE CSV (`de_genes_freeliving_vs_biofilms.csv`) uses JGI catalog IDs (integer strings like `2626311769`) as `name_col: ID`. These are organism-specific IDs from the JGI IMG database and not standard locus tags.
+
+**Mapping chain:** `9301_annotated_genome.csv` contains:
+- `ID` column: JGI catalog ID (integer) — `id_type: jgi_id`
+- `uniprot_gene_name` column: `"dnaA P9301_05911"` or `"P9301_05921"` (gene symbol + locus_tag, or locus_tag alone)
+- `uniprot_entry_name` column: `"DNAA_PROM0"` (strip `_PROM0` → try as accession or gene_name)
+- `em_Preferred_name` column: `"dnaA"` — `id_type: gene_name`
+
+**Resolution strategy:** Declare `uniprot_gene_name` as primary anchor column. Build script tries full value first → fails → splits on whitespace → last token is locus_tag (e.g., `P9301_05911`). This token resolves directly via `build_id_lookup()` (it is in `old_locus_tags` for MIT9301). All 242 DE genes are in the annotation CSV, so 100% resolution is expected.
+
+**Verification:** `P9301_05911 in lookup? P9301_05911` ✓ (confirmed via gene_id_utils.py).
+
+### barreto 2022 — GTF + annotation tables
+
+**Problem:** Multiple organisms; EZ55 DE tables use locus-tag-like `symbol` values (e.g., `EZ55_00798`) that already resolve. The main addition is:
+1. `annotation_gff` for `EZ55.exon.fixed2.gtf` (GTF format, `gene_id "EZ55_00001"` attributes)
+2. `id_translation` for three organism annotation tables providing UniProt accessions and product synonyms
+
+**Annotation table structure:**
+- `pro_9312_anot.csv`: `GID` (PMT9312_XXXX), `SYMBOL`, `PRODUCT`, `uniprot_acc`, `KO`
+- `syn_9311.csv`: `GID` (sync_XXXX), `genename`, `definition`, `uniprot_acc`, `KO`
+- `syn_8102_anot.csv`: `GID` (SYNW_XXXX), `SYMBOL`, `PRODUCT`, `uniprot_acc`, `KO`
+
+GTF gene_id values (`EZ55_00001`) are already canonical locus tags — GTF adds no novel IDs but confirms the annotation source.
+
+---
+
 ## Phase 2: Curate All 22 Existing Paperconfigs
 
 For each paper in `data/Prochlorococcus/papers_and_supp/paperconfig_files.txt`, inspect all supplementary CSVs and add `id_columns` and `product_columns` declarations.
@@ -159,7 +198,18 @@ The `_with_locus_tag.csv` retains all original columns — nothing is removed. B
 - `bagby 2015` — Locus tag2, Alternative locus tag, Probeset, Gene description
 - `Fang 2019` — Gene ID (tuple format)
 - `barreto 2022` — add a new `annotation_gff` entry: `filename: "data/Prochlorococcus/papers_and_supp/barreto 2022/EZ55.exon.fixed2.gtf"`, `organism: "Alteromonas EZ55"`
-- `Anjur 2025` — add a new `annotation_gff` entry: `filename: "data/Prochlorococcus/papers_and_supp/Anjur 2025/GCF_000015965.1_ASM1596v1_genomic.gff"`, `organism: "Prochlorococcus MED4"`
+- `Anjur 2025` — two entries needed:
+  1. `id_translation` for `9301_annotated_genome.csv` (organism: MIT9301):
+     - `uniprot_entry_name` column: UniProt entry names (id_type: `uniprot_entry_name`);
+       build script strips `_PROM0` suffix → resolves as uniprot_accession (for unnamed proteins
+       like "A3PBU0_PROM0" → "A3PBU0") or gene_name (for named ones like "DNAA_PROM0" → "DNAA")
+     - `ID` column: JGI gene catalog IDs (id_type: `jgi_id`, scope: organism_specific) — becomes
+       alt-ID once the row is resolved via uniprot_entry_name
+     - `em_Preferred_name`: gene name (id_type: `gene_name`)
+     - Process BEFORE the DE CSV so JGI IDs are in the lookup
+  2. `annotation_gff` for `GCF_000015965.1_ASM1596v1_genomic.gff` (organism: as declared)
+  - DE CSV `de_genes_freeliving_vs_biofilms.csv`: name_col is `ID` (JGI IDs);
+    resolves after id_translation is processed
 
 All 22 paperconfigs get curated. Papers with single ID column still get an `id_columns` entry for the primary `name_col` to document it explicitly.
 
@@ -229,37 +279,51 @@ For each strain:
      → Seed alt_ids.reference from: locus_tag_ncbi, locus_tag_cyanorak, protein_id (RefSeq WP_),
        uniprot_accession, gene_name, gene_synonyms, old_locus_tags, alternative_locus_tags
      → Apply scope: gene_name / gene_synonyms → "generic"; all others → "organism_specific"
+     (gene_annotations_merged.json contains all available UniProt accessions; no separate UniProt join needed)
 
-  2. Supplement UniProt accessions (for entries where gene_annotations_merged lacks uniprot_accession):
-     → Load cache/data/<org_group>/uniprot/<taxid>/uniprot_preprocess_data.json
-     → For each UniProt entry: find RefSeq WP_ cross-reference
-     → Join to gene_annotations_merged.json via protein_id (WP_)
-     → Add UniProt accession if not already present from step 1
+  2. For each paperconfig that has entries for this organism:
+     Process `id_translation` tables BEFORE `csv` tables so the enriched lookup is available
+     when resolving the DE data CSVs.
 
-  3. For each paperconfig that has entries for this organism:
      a. For each supplementary table of type `csv` or `id_translation`:
         i.  Determine which CSV to read:
             - If `original_filename` declared → read that for original alt-ID columns
             - Else read `filename` (may be `_with_locus_tag.csv`, which still has all original columns)
             - Apply `skip_rows` and `sep` (default ",")
-        ii. Determine resolution strategy:
+        ii. Determine resolution strategy per table type:
+            For `csv`: name_col drives resolution
             - If name_col == "locus_tag" (post-fix state) → rows already resolved; use locus_tag column directly
-            - Else → resolve name_col values via build_id_lookup()
-        iii. Determine ID columns for alt-ID extraction:
+            - Else → resolve name_col values via build_id_lookup() (with whitespace-token splitting; see below)
+            For `id_translation`: no name_col; try each declared id_column in order
+            - For each row, try each id_column's value via build_id_lookup(); first column that resolves
+              provides the locus_tag anchor; remaining column values become paper_ids for that locus_tag
+            - After processing all id_translation tables, rebuild the lookup to include the newly added
+              paper_ids before processing csv tables
+        iii. Special id_type handling during resolution:
+            - `uniprot_entry_name`: strip the trailing `_ORGANISM` suffix (last underscore + rest)
+              to obtain the accession-or-gene-name prefix, then resolve via build_id_lookup() as
+              uniprot_accession (for unnamed proteins, e.g. "A3PBU0_PROM0" → "A3PBU0") or
+              gene_name (for named proteins, e.g. "DNAA_PROM0" → "DNAA"); try accession first
+            - Whitespace-split fallback: if a column value contains spaces and the full value doesn't
+              resolve, split on whitespace and try each token individually (e.g., "dnaA P9301_05911"
+              → tries "dnaA" then "P9301_05911"); use the first token that resolves
+            - This fallback handles gene_name columns that concatenate symbol + locus tag
+        iv. Determine ID columns for alt-ID extraction:
             - If `id_columns` declared in paperconfig → use those (with declared id_type and scope)
             - Else → heuristic fallback (is_id_like_column() from gene_id_utils.py), exclude "locus_tag" column
             - Infer scope: RAST/fig|... → "annotation_specific"; gene names (dnaN, rpsA) → "generic"; else "organism_specific"
-        iv. For each row: collect alt-ID values from id_columns → append to paper_ids with provenance
-        v. Collect product_columns values for each resolved gene → append to product_synonyms
+        v. For each row: collect alt-ID values from id_columns → append to paper_ids with provenance
+           - For multi-token columns, record each whitespace-split token as a separate paper_id entry
+        vi. Collect product_columns values for each resolved gene → append to product_synonyms
      b. For each supplementary table of type `annotation_gff`:
         i.  Organism is taken directly from the entry's required `organism` field
         ii. Parse GFF/GTF; extract old_locus_tag + Name + ID + gene_id attributes
             → Bridge: for each GFF feature, look up any extracted attribute via build_id_lookup()
             → Record novel (not already in reference alt_ids) ID → locus_tag pairs as paper_ids
 
-  4. Deduplicate: collapse identical (id, id_type, source_col, source_csv, paper) tuples
-  5. Write gene_id_mapping.json
-  6. Write gene_mapping_supp.csv (alt_id, locus_tag, source_col, source_csv, paper) for backward compat
+  3. Deduplicate: collapse identical (id, id_type, source_col, source_csv, paper) tuples
+  4. Write gene_id_mapping.json
+  5. Write gene_mapping_supp.csv (alt_id, locus_tag, source_col, source_csv, paper) for backward compat
 ```
 
 ### GFF/GTF ID bridging

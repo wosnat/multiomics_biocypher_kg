@@ -11,8 +11,13 @@
 # Step 2 — Build per-strain gene annotation tables (gene_annotations_merged.json)
 #           calls: multiomics_kg/download/build_gene_annotations.py
 #           Requires step 1 (protein_annotations.json used as UniProt source)
+# Step 3 — Build per-strain gene ID mapping (gene_id_mapping.json + gene_mapping_supp.csv)
+#           calls: multiomics_kg/download/build_gene_id_mapping.py
+#           Reads paperconfig.yaml files to add paper-derived alt-IDs (JGI IDs, probesets, etc.)
+#           Requires step 2 (gene_annotations_merged.json used as base)
+#           Must run before create_knowledge_graph.py for non-standard ID resolution
 #
-# Logs: logs/prepare_data_step0.log, logs/prepare_data_step1.log, logs/prepare_data_step2.log
+# Logs: logs/prepare_data_step0.log … logs/prepare_data_step3.log
 #       Monitor with: tail -f logs/prepare_data_step0.log
 #
 # Usage:
@@ -20,10 +25,11 @@
 #   ./scripts/prepare_data.sh --force
 #   ./scripts/prepare_data.sh --skip-cyanorak --force   # skip slow Cyanorak server
 #   ./scripts/prepare_data.sh --strains MED4 MIT9313
-#   ./scripts/prepare_data.sh --steps 0 1 2
+#   ./scripts/prepare_data.sh --steps 0 1 2 3
 #   ./scripts/prepare_data.sh --steps 0 --force
 #   ./scripts/prepare_data.sh --steps 1 --force         # rebuild protein_annotations.json only
 #   ./scripts/prepare_data.sh --steps 2 --strains MED4 --force
+#   ./scripts/prepare_data.sh --steps 3 --strains MIT9301 --force  # rebuild gene_id_mapping only
 
 set -euo pipefail
 
@@ -36,7 +42,7 @@ mkdir -p "$LOG_DIR"
 # ── parse args ────────────────────────────────────────────────────────────────
 
 FORCE=""
-STEPS="0 1 2"
+STEPS="0 1 2 3"
 STRAINS=()
 SKIP_CYANORAK=0
 
@@ -99,7 +105,7 @@ cd "$PROJECT_ROOT"
 export PYTHONPATH="$PROJECT_ROOT${PYTHONPATH:+:$PYTHONPATH}"
 
 echo "prepare_data.sh: steps=[${STEPS}]${STRAINS_ARG:+ strains=[${STRAINS[*]}]}${FORCE:+ (force)}${SKIP_CYANORAK:+ (skip-cyanorak)}"
-echo "(step 1 = protein annotations, step 2 = gene annotations)"
+echo "(step 1 = protein annotations, step 2 = gene annotations, step 3 = gene ID mapping)"
 echo "Project root: $PROJECT_ROOT"
 echo "Logs dir:     $LOG_DIR"
 
@@ -137,8 +143,16 @@ for step in $STEPS; do
                     $STRAINS_ARG \
                     $FORCE
             ;;
+        3)
+            run_step 3 \
+                "Build gene ID mapping (gene_id_mapping.json + gene_mapping_supp.csv)" \
+                "$LOG_DIR/prepare_data_step3.log" \
+                uv run python -m multiomics_kg.download.build_gene_id_mapping \
+                    $STRAINS_ARG \
+                    $FORCE
+            ;;
         *)
-            echo "Unknown step: $step (valid: 0 1 2)" >&2
+            echo "Unknown step: $step (valid: 0 1 2 3)" >&2
             exit 1
             ;;
     esac

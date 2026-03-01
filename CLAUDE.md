@@ -143,8 +143,64 @@ publication:
 ```
 
 3. Add the path to `data/Prochlorococcus/papers_and_supp/paperconfig_files.txt`
-4. Verify gene ID matching: use the `/check-gene-ids` skill; if mapping is needed, use `/fix-gene-ids`
-5. The `MultiOMICSAdapter` picks it up automatically from the text file list
+4. If the publication uses non-standard gene IDs (JGI catalog IDs, probesets, etc.), add `id_translation` and/or `annotation_gff` entries to the paperconfig (see "Gene ID Mapping" below), then run `bash scripts/prepare_data.sh --steps 3 --strains <Strain> --force`
+5. Verify gene ID matching: use the `/check-gene-ids` skill; if mapping is needed, use `/fix-gene-ids`
+6. The `MultiOMICSAdapter` picks it up automatically from the text file list
+
+### paperconfig supplementary_materials entry types
+
+| Type | Purpose |
+|---|---|
+| `csv` | Differential expression results table with `statistical_analyses` |
+| `id_translation` | Pure ID mapping table (no DE data); bridges non-standard IDs to locus tags |
+| `annotation_gff` | GFF3/GTF file; adds protein_id/Name bridges for a strain |
+
+**`id_translation` example** — maps JGI catalog IDs via an annotated genome CSV:
+```yaml
+annotation_genome_9301:
+  type: id_translation
+  filename: "data/.../9301_annotated_genome.csv"
+  organism: "Prochlorococcus MIT9301"
+  id_columns:
+    - column: "ID"
+      id_type: jgi_id
+    - column: "uniprot_gene_name"   # "dnaA P9301_05911" → whitespace-split anchor
+      id_type: gene_name
+    - column: "uniprot_entry_name"  # "DNAA_PROM0" → strip _ORGANISM suffix
+      id_type: uniprot_entry_name
+  product_columns:
+    - column: "uniprot_protein_name"
+```
+
+**`annotation_gff` example** — extracts locus_tag/old_locus_tag/protein_id bridges:
+```yaml
+annotation_gff_mit9301:
+  type: annotation_gff
+  filename: "data/.../GCF_000015965.1_ASM1596v1_genomic.gff"
+  organism: "Prochlorococcus MIT9301"
+```
+
+**`csv` with non-standard ID columns:**
+```yaml
+supp_table_1:
+  type: csv
+  organism: "Prochlorococcus MIT9301"
+  id_columns:
+    - column: "ID"
+      id_type: jgi_id
+  statistical_analyses:
+    - id: "unique_id"
+      ...
+```
+
+### Gene ID Mapping
+
+`gene_id_mapping.json` (per strain, in `cache/data/<Organism>/genomes/<Strain>/`) stores extended ID mappings built from:
+1. `gene_annotations_merged.json` (locus tags, old locus tags, UniProt accessions, protein IDs)
+2. `id_translation` paperconfig entries (JGI IDs, probesets, etc.)
+3. `annotation_gff` paperconfig entries (additional GFF bridges)
+
+`gene_id_utils.py` loads this file in `build_id_lookup()` when present; falls back to annotations + `gene_mapping_supp.csv` for strains without it. The lookup is strictly 1:1 (organism-specific IDs only; generic names like gene_name/gene_synonym are excluded from the dict but available via `search_genes_by_name()`).
 
 ## Custom Claude Code Skills
 
@@ -173,7 +229,7 @@ bash scripts/prepare_data.sh --strains MED4 MIT9313 --force
 bash scripts/prepare_data.sh --steps 1 2 --force   # rebuild annotation tables only
 ```
 
-Logs written to `logs/prepare_data_step0.log`, `logs/prepare_data_step1.log`, and `logs/prepare_data_step2.log`. Monitor with `tail -f logs/prepare_data_step0.log`.
+Logs written to `logs/prepare_data_step0.log` … `logs/prepare_data_step3.log`. Monitor with `tail -f logs/prepare_data_step0.log`.
 
 **Step 0** (`multiomics_kg/download/download_genome_data.py`) — sub-steps:
 - 1: NCBI genome (GFF, protein FASTA, GBFF)
@@ -186,6 +242,8 @@ Logs written to `logs/prepare_data_step0.log`, `logs/prepare_data_step1.log`, an
 
 **Step 2** (`multiomics_kg/download/build_gene_annotations.py`) — merges gene_mapping.csv + eggNOG + UniProt (protein_annotations.json) → `gene_annotations_merged.json` per strain. Requires step 1.
 
+**Step 3** (`multiomics_kg/download/build_gene_id_mapping.py`) — builds extended gene ID mappings (`gene_id_mapping.json` and backward-compat `gene_mapping_supp.csv`) per strain by harvesting `id_translation` and `annotation_gff` entries from all paperconfigs. Run as module: `uv run python -m multiomics_kg.download.build_gene_id_mapping`. Required for strains with non-standard IDs (JGI catalog IDs, probesets, etc.) in publication CSVs. Requires step 2.
+
 ## Data Locations
 
 - **Genomic data (raw):** `data/Prochlorococcus/genomes/<Strain>/` and equivalents for Synechococcus/Alteromonas
@@ -193,6 +251,8 @@ Logs written to `logs/prepare_data_step0.log`, `logs/prepare_data_step1.log`, an
 - **Publication data:** `data/Prochlorococcus/papers_and_supp/<Author Year>/`
 - **Gene mapping CSVs:** `cache/data/<Organism>/genomes/<Strain>/gene_mapping.csv`
 - **Gene annotation tables:** `cache/data/<Organism>/genomes/<Strain>/gene_annotations_merged.json`
+- **Extended gene ID mapping:** `cache/data/<Organism>/genomes/<Strain>/gene_id_mapping.json` (built by step 3; includes paper-derived IDs)
+- **Backward-compat ID mapping:** `cache/data/<Organism>/genomes/<Strain>/gene_mapping_supp.csv` (generated alongside gene_id_mapping.json)
 - **UniProt cache (taxid-keyed):** `cache/data/<org_group>/uniprot/<taxid>/uniprot_preprocess_data.json`
 - **PDF extraction cache:** `pdf_extraction_cache.json`
 

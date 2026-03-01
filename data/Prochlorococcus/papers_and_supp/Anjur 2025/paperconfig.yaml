@@ -21,9 +21,44 @@ publication:
       description: Axenic Prochlorococcus MIT9301 biofilm enrichment population (serially selected for >100 generations), grown undisturbed to mid-exponential phase in Pro99-ESL at 24C under continuous light (45 µmol photons m-2 s-1). Adherent cells fixed while adhered to culture tube walls.
 
   supplementary_materials:
+    # Gene ID translation table: maps JGI catalog IDs → old locus tags (P9301_XXXXX) via uniprot_gene_name.
+    # Must be listed BEFORE supp_table_1 so jgi_id entries are in the lookup when the DE CSV is processed.
+    annotation_genome_9301:
+      type: id_translation
+      filename: data/Prochlorococcus/papers_and_supp/Anjur 2025/9301_annotated_genome.csv
+      organism: "Prochlorococcus MIT9301"
+      id_columns:
+        # Primary resolution anchor: "dnaA P9301_05911" or "P9301_05921"
+        # Build script splits on whitespace; last token is the old locus tag that resolves via gene_mapping.csv.
+        - column: "uniprot_gene_name"
+          id_type: gene_name
+        # UniProt entry names like "DNAA_PROM0"; build script strips trailing _PROM0 suffix.
+        - column: "uniprot_entry_name"
+          id_type: uniprot_entry_name
+        # JGI gene catalog IDs (integer strings, e.g. 2626311743); organism-specific.
+        - column: "ID"
+          id_type: jgi_id
+        # Gene symbol (eggNOG preferred name), e.g. "dnaA".
+        - column: "em_Preferred_name"
+          id_type: gene_name
+      product_columns:
+        - column: "product"
+        - column: "uniprot_protein_name"
+
+    # Paper-supplied NCBI GFF for MIT9301; bridges old locus tags (P9301_XXXXX) → current RS-format locus tags.
+    annotation_gff_mit9301:
+      type: annotation_gff
+      filename: data/Prochlorococcus/papers_and_supp/Anjur 2025/GCF_000015965.1_ASM1596v1_genomic.gff
+      organism: "Prochlorococcus MIT9301"
+
     supp_table_1:
       type: csv
       filename: data/Prochlorococcus/papers_and_supp/Anjur 2025/de_genes_freeliving_vs_biofilms.csv
+      organism: "Prochlorococcus MIT9301"
+      id_columns:
+        # JGI catalog IDs used as name_col; resolves after annotation_genome_9301 is processed.
+        - column: "ID"
+          id_type: jgi_id
       statistical_analyses:
         - type: RNASEQ
           name: Differential Expression Analysis of Prochlorococcus MIT9301 Free-Living (planktonic) vs Biofilm (adherent) Enrichment Populations

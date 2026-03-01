@@ -80,17 +80,19 @@ bash scripts/prepare_data.sh --force --skip-cyanorak
 # Specific strains or steps only
 bash scripts/prepare_data.sh --strains MED4 MIT9313 --force
 bash scripts/prepare_data.sh --steps 1 2 --force
+bash scripts/prepare_data.sh --steps 3 --strains MIT9301 --force  # rebuild gene ID mapping only
 ```
 
-The script runs three steps:
+The script runs four steps:
 
 | Step | Script | What it does |
 |---|---|---|
 | 0 | `download_genome_data.py` | NCBI genomes, Cyanorak GFF/GBK, UniProt, gene_mapping.csv |
 | 1 | `build_protein_annotations.py` | Per-taxid protein annotation tables → `protein_annotations.json` |
 | 2 | `build_gene_annotations.py` | Merges gene_mapping + eggNOG + UniProt → `gene_annotations_merged.json` |
+| 3 | `build_gene_id_mapping.py` | Extended ID mappings from paperconfig id_translation/annotation_gff entries → `gene_id_mapping.json` |
 
-Logs are written to `logs/prepare_data_step{0,1,2}.log`. Monitor with `tail -f logs/prepare_data_step0.log`.
+Logs are written to `logs/prepare_data_step{0,1,2,3}.log`. Monitor with `tail -f logs/prepare_data_step0.log`.
 
 ## Organisms
 

@@ -78,13 +78,28 @@ Rules:
 
 ### 3. Supplementary Materials (Required)
 
-Each supplementary table is a keyed entry containing a filename and one or more statistical analyses.
+Each supplementary table is a keyed entry under `supplementary_materials`. Three entry types are supported:
+
+#### Type `csv` — Expression data table (required for omics edges)
 
 ```yaml
   supplementary_materials:
     <table_key>:
       type: csv
       filename: "data/Prochlorococcus/papers_and_supp/<folder>/<data_file>.csv"
+      sep: ","                  # optional; column delimiter, default "," (use "\t" for TSV)
+      organism: "Prochlorococcus MED4"   # optional; inferred from analyses if absent
+      original_filename: "data/.../original.csv"   # optional; pre-fix-gene-ids CSV for reference
+
+      # optional; if absent, heuristic column detection is used (backward compatible)
+      id_columns:
+        - column: "NCBI ID"
+          id_type: locus_tag_ncbi
+        - column: "Gene Name"
+          id_type: gene_name
+      product_columns:           # optional; columns containing functional descriptions
+        - column: "Gene description"
+
       statistical_analyses:
         - <analysis_1>
         - <analysis_2>
@@ -92,9 +107,73 @@ Each supplementary table is a keyed entry containing a filename and one or more 
 ```
 
 - `<table_key>`: A descriptive key for the table (e.g., `supp_table_1`, `supp_table_2_timepoint_A`).
-- `type`: Always `csv`.
 - `filename`: Relative path to the data CSV file.
-- Multiple analyses can share the same file if different columns represent different comparisons (e.g., different timepoints or conditions in the same spreadsheet).
+- `sep`: Column delimiter; default `","`. Use `"\t"` for tab-separated files.
+- `organism`: Organism for this table; if absent, inferred from the `organism` field of the statistical analyses.
+- `original_filename`: Path to the original (pre-fix-gene-ids) CSV. Useful when `filename` was updated to a `_with_locus_tag.csv` by fix-gene-ids — the original is still available for ID column inspection.
+- `id_columns`: Documents which columns contain gene identifiers and their type (see **ID Types** below). If absent, heuristic detection is used.
+- `product_columns`: Documents which columns contain functional descriptions to harvest as product synonyms.
+- Multiple analyses can share the same file if different columns represent different comparisons.
+
+#### Type `id_translation` — Pure ID mapping resource (no expression data)
+
+Use when a paper includes a supplementary table that maps gene IDs without DE results (e.g., a genome annotation CSV, a cross-reference table). The build script (`build_gene_id_mapping.py`) uses this to enrich the per-strain ID lookup before processing DE CSVs. **Not processed by omics_adapter — no expression edges are emitted.**
+
+```yaml
+    <table_key>:
+      type: id_translation
+      filename: "data/Prochlorococcus/papers_and_supp/<folder>/<id_table>.csv"
+      sep: ","           # optional; default ","
+      organism: "Prochlorococcus MIT9301"   # required
+      id_columns:        # required
+        - column: "NCBI locus tag"
+          id_type: locus_tag_ncbi
+        - column: "Old locus tag"
+          id_type: old_locus_tag
+        - column: "Gene name"
+          id_type: gene_name
+        - column: "JGI ID"
+          id_type: jgi_id
+      product_columns:   # optional
+        - column: "Gene product"
+```
+
+- `organism` and `id_columns` are **required** for this type.
+- List `id_translation` entries **before** `csv` entries in the same paper so JGI IDs / alt-IDs are in the lookup when the DE table is processed.
+
+#### Type `annotation_gff` — Paper-specific GFF/GTF reannotation (ID bridging only)
+
+Use when a paper includes a GFF3 or GTF file from a custom genome reannotation. The build script extracts locus tags, old locus tags, gene names, and protein IDs to bridge paper-specific IDs to canonical locus tags. **Not processed by omics_adapter and skipped by fix-gene-ids / check-gene-ids.**
+
+```yaml
+    <table_key>:
+      type: annotation_gff
+      filename: "data/Prochlorococcus/papers_and_supp/<folder>/<reannotation>.gff"
+      organism: "Prochlorococcus MED4"   # required
+```
+
+- `organism` is **required** for this type.
+- Both GFF3 (`.gff`, `.gff3`) and GTF (`.gtf`) formats are supported.
+
+#### ID Types (`id_type` values)
+
+| `id_type` | Description | Example |
+|-----------|-------------|---------|
+| `locus_tag` | Canonical locus tag | `PMM0001`, `P9301_RS09095` |
+| `locus_tag_ncbi` | NCBI RefSeq RS-format locus tag | `TX50_RS00020` |
+| `locus_tag_cyanorak` | Cyanorak cluster-specific locus tag | `CK_Pro_MED4_00001` |
+| `old_locus_tag` | Legacy locus tag (deprecated NCBI format) | `PMM0001`, `P9301_05911` |
+| `alternative_locus_tag` | Alt tag from a different annotation | `PMED4_00071` |
+| `gene_name` | Gene symbol (generic; shared across organisms) | `dnaA`, `dnaN` |
+| `gene_synonym` | Alternative gene symbol | `beta-clamp` |
+| `protein_id_refseq` | RefSeq WP_ protein accession | `WP_011131639.1` |
+| `uniprot_accession` | UniProt accession | `Q7V6L1` |
+| `uniprot_entry_name` | UniProt entry name (build script strips `_ORGANISM` suffix) | `DNAA_PROM0` |
+| `jgi_id` | JGI IMG gene catalog ID (integer string) | `2626311743` |
+| `probeset` | Microarray probeset ID | `MED4_ARR_0008_x_at` |
+| `rast_id` | RAST annotation FIG ID | `fig\|59919.17.peg.1` |
+| `annotation_specific` | ID unique within a non-standard annotation system | |
+| `other` | Any other identifier type | |
 
 ### 4. Statistical Analysis Fields
 
@@ -419,6 +498,33 @@ publication:
         # ... repeat for additional timepoints
 ```
 
+## Strain-Level Resource Paperconfigs
+
+Some ID translation files are not associated with any specific paper — they apply to all papers for a given strain (e.g., a strain-wide locus tag cross-reference table). These belong in a **strain resource paperconfig**: a `paperconfig.yaml` with no `publication` block, containing only `id_translation` and/or `annotation_gff` entries.
+
+**Placement:** `data/Prochlorococcus/papers_and_supp/<Strain>_resources/paperconfig.yaml`
+**Registration:** listed in `paperconfig_files.txt` like any other paperconfig.
+
+```yaml
+# Strain-level shared gene ID resources for Prochlorococcus MIT9313
+# No publication block — this is not a paper
+supplementary_materials:
+  mit9313_id_translation:
+    type: id_translation
+    filename: "data/Prochlorococcus/papers_and_supp/MIT9313_resources/MIT9313_genbank.tsv"
+    sep: "\t"
+    organism: "Prochlorococcus MIT9313"
+    id_columns:
+      - column: "NCBI locus tag"
+        id_type: locus_tag_ncbi
+      - column: "Old locus tag"
+        id_type: old_locus_tag
+      - column: "Gene name"
+        id_type: gene_name
+```
+
+`omics_adapter` ignores strain resource paperconfigs entirely (no `publication` block → no publication node emitted; no `statistical_analyses` → no edges emitted).
+
 ## Registration
 
 After creating the paperconfig, register it in the pipeline:
@@ -437,8 +543,8 @@ bc.write_edges(omics.get_edges())
 
 Before submitting a paperconfig:
 
-- [ ] `papermainpdf` path points to an existing PDF file
-- [ ] All `filename` paths point to existing CSV files
+- [ ] `papermainpdf` path points to an existing PDF file (omit for strain-level resource paperconfigs with no `publication` block)
+- [ ] All `filename` paths point to existing CSV/GFF files
 - [ ] `name_col` matches an actual column name in the CSV
 - [ ] `logfc_col` matches an actual column name in the CSV
 - [ ] `adjusted_p_value_col` (if specified) matches an actual column name in the CSV
@@ -453,17 +559,25 @@ Before submitting a paperconfig:
 - [ ] `treatment_assembly_accession` (if present) matches `ncbi_accession` in `cyanobacteria_genomes.csv` for the named strain — omit for genus-level organisms
 - [ ] If organism name and taxid/assembly conflict, resolve via the paper's supplementary legend files; the central CSVs are authoritative for taxid and assembly
 - [ ] Any new organism not already in the central CSVs has been added to the appropriate file (see "Registering New Organisms" below)
+- [ ] For `id_translation` entries: `organism` and `id_columns` are declared; all column names match actual CSV headers
+- [ ] For `annotation_gff` entries: `organism` is declared and `filename` exists
+- [ ] `id_translation` entries are listed **before** `csv` entries for the same organism so alt-IDs are in the lookup when DE data is processed
+- [ ] `id_columns` column names match actual headers in the CSV (check with `head -1` or pandas read)
 
 ## Workflow
 
 When the user invokes this skill with a paper directory name (e.g., `/paperconfig "Author Year"`):
 
 1. Look for the paper directory under `data/Prochlorococcus/papers_and_supp/$ARGUMENTS/`
-2. List all files in that directory (PDF, CSV, XLSX, TXT, DOCX, etc.)
+2. List all files in that directory (PDF, CSV, XLSX, TXT, DOCX, GFF, GTF, etc.)
 3. Read any legend/description text files first -- these explain what the supplementary tables contain (column meanings, significance criteria, experimental details)
 4. Read the CSV file headers and a few sample rows to identify available columns and data format (check for asterisks in fold-change values, presence of p-value columns, skip rows, etc.)
 5. Read the PDF to understand the experiment (organisms, conditions, methods, statistical approach)
-6. Draft the `paperconfig.yaml` following the schema above
+6. Draft the `paperconfig.yaml` following the schema above:
+   - For each CSV: document all gene ID columns via `id_columns` with the appropriate `id_type`
+   - If the paper includes a pure ID-mapping table (no DE data), use `type: id_translation` and place it **before** any `csv` entries for the same organism
+   - If the paper includes a GFF/GTF reannotation file, add an `annotation_gff` entry
+   - If the `name_col` IDs are non-standard (JGI IDs, probesets, paper-specific IDs), the `id_translation` entry should map them to locus tags so the DE data can be resolved by `build_gene_id_mapping.py`
 7. **Register any new organisms** in the central CSVs (see "Registering New Organisms" below)
 8. Run the validation script (see below) to check all paths, columns, references, and ID uniqueness
 9. Register the config in `paperconfig_files.txt`
@@ -518,8 +632,15 @@ The script exits with code 0 on success, 1 on validation failure.
 
 ### Gene ID Mapping
 
-If the paper CSV uses gene names (e.g., `secE`, `rps13,rpsM`) instead of locus tags (e.g., `PMM0814`), use the `/fix-gene-ids` skill to map them:
+If the paper CSV uses standard gene names or locus-tag variants (e.g., `secE`, `rps13,rpsM`, old-format `PMM0814`), use the `/fix-gene-ids` skill:
 
 1. Run `/check-gene-ids` to confirm the fix strategy is `CREATE_MAPPING_CSV`
 2. Run `/fix-gene-ids` on the paperconfig to create `_with_locus_tag.csv` files
-3. Update the paperconfig: change `filename` to the new CSV and `name_col` to `"locus_tag"`
+3. Update the paperconfig: change `filename` to the new CSV and `name_col` to `"locus_tag"`; add `original_filename` pointing to the original CSV
+
+If the paper CSV uses **non-standard IDs** (JGI catalog IDs, probesets, paper-specific annotation IDs):
+
+1. Declare the primary ID column in `id_columns` on the `csv` entry (e.g., `id_type: jgi_id`)
+2. Add an `id_translation` entry (or `annotation_gff`) to the same paperconfig to bridge those IDs to locus tags
+3. Run `uv run python multiomics_kg/download/build_gene_id_mapping.py` to rebuild the per-strain mapping
+4. Then run `/fix-gene-ids` — it will now find matches via the enriched mapping
