@@ -15,7 +15,7 @@ services:
     environment:
       BUILD2NEO_CLEANUP: "yes"
       # Set to "yes" to include GO/EC hierarchy nodes and edges
-      BUILD_GO: "yes"
+      BUILD_GO: "no"
       BUILD_EC: "yes"
 
   import:

@@ -1,5 +1,6 @@
 import argparse
 import os
+from pathlib import Path
 
 from biocypher import BioCypher
 from multiomics_kg.adapters.ec_adapter import EC
@@ -8,6 +9,7 @@ from multiomics_kg.adapters.uniprot_adapter import MultiUniprot
 from multiomics_kg.adapters.go_adapter import GO
 
 from multiomics_kg.adapters.cyanorak_ncbi_adapter import MultiCyanorakNcbi
+from multiomics_kg.adapters.functional_annotation_adapter import MultiGoAnnotationAdapter
 
 
 def parse_args():
@@ -70,12 +72,23 @@ def main():
     bc.write_nodes(omics_adapter.get_nodes())
     bc.write_edges(omics_adapter.get_edges())
 
-    # gene ontology
-    go_adapter = GO(
-        test_mode=TEST_MODE
+    # Gene → GO annotation edges + GO hierarchy subset (lightweight, always runs)
+    go_anno_adapter = MultiGoAnnotationAdapter(
+        genome_config_file='data/Prochlorococcus/genomes/cyanobacteria_genomes.csv',
+        cache_root=Path("cache/data"),
+        test_mode=TEST_MODE,
+        cache=CACHE,
     )
+    bc.write_nodes(go_anno_adapter.get_nodes())
+    bc.write_edges(go_anno_adapter.get_edges())
+
+    # Full GO ontology (all 30K nodes + GO-GO hierarchy) — optional, slow.
+    # NOTE: do not run with --go simultaneously; GO node IDs would conflict.
 
     if download_GO_data:
+        go_adapter = GO(
+            test_mode=TEST_MODE
+        )
         go_adapter.download_go_data(cache=CACHE)
         bc.write_nodes(go_adapter.get_go_nodes())
         bc.write_edges(go_adapter.get_go_edges())

@@ -458,53 +458,180 @@ protein to biological process association:
     reference: str
     evidence_code: str
 
-protein to cellular component association:
+protein_located_in_cellular_component:
   is_a: GeneToGoTermAssociation
   represented_as: edge
-  source: [protein_located_in_cellular_component, protein_part_of_cellular_component, protein_is_active_in_cellular_component]
+  label_as_edge: protein_located_in_cellular_component
+  source: protein
   target: cellular component
-  label_in_input: [protein_located_in_cellular_component, protein_part_of_cellular_component, protein_is_active_in_cellular_component] 
-  properties:
-    reference: str
-    evidence_code: str
-  
-protein to molecular function association:
-  is_a: GeneToGoTermAssociation
-  represented_as: edge
-  source: [protein_enables_molecular_function, protein_contributes_to_molecular_function]
-  target: molecular function
-  label_in_input: [protein_enables_molecular_function, protein_contributes_to_molecular_function]
+  label_in_input: protein_located_in_cellular_component
   properties:
     reference: str
     evidence_code: str
 
-biological process to biological process association:
-  is_a: association
+protein_part_of_cellular_component:
+  is_a: GeneToGoTermAssociation
   represented_as: edge
-  source: [biological_process_is_a_biological_process, biological_process_part_of_biological_process, biological_process_positively_regulates_biological_process, biological_process_negatively_regulates_biological_process]
+  label_as_edge: protein_part_of_cellular_component
+  source: protein
+  target: cellular component
+  label_in_input: protein_part_of_cellular_component
+  properties:
+    reference: str
+    evidence_code: str
+
+protein_is_active_in_cellular_component:
+  is_a: GeneToGoTermAssociation
+  represented_as: edge
+  label_as_edge: protein_is_active_in_cellular_component
+  source: protein
+  target: cellular component
+  label_in_input: protein_is_active_in_cellular_component
+  properties:
+    reference: str
+    evidence_code: str
+
+protein_enables_molecular_function:
+  is_a: GeneToGoTermAssociation
+  represented_as: edge
+  label_as_edge: protein_enables_molecular_function
+  source: protein
+  target: molecular function
+  label_in_input: protein_enables_molecular_function
+  properties:
+    reference: str
+    evidence_code: str
+
+protein_contributes_to_molecular_function:
+  is_a: GeneToGoTermAssociation
+  represented_as: edge
+  label_as_edge: protein_contributes_to_molecular_function
+  source: protein
+  target: molecular function
+  label_in_input: protein_contributes_to_molecular_function
+  properties:
+    reference: str
+    evidence_code: str
+
+gene to biological process association:
+  is_a: GeneToGoTermAssociation
+  represented_as: edge
+  label_as_edge: gene_involved_in_biological_process
+  source: gene
   target: biological process
-  label_in_input: [biological_process_is_a_biological_process, biological_process_part_of_biological_process, biological_process_positively_regulates_biological_process, biological_process_negatively_regulates_biological_process]
+  label_in_input: gene_involved_in_biological_process
 
-biological process to molecular function association:
-  is_a: association
+gene to cellular component association:
+  is_a: GeneToGoTermAssociation
   represented_as: edge
-  source: [biological_process_positively_regulates_molecular_function, biological_process_negatively_regulates_molecular_function]
-  target: molecular function
-  label_in_input: [biological_process_positively_regulates_molecular_function, biological_process_negatively_regulates_molecular_function]
-
-molecular function to molecular function association:
-  is_a: association
-  represented_as: edge
-  source: [molecular_function_is_a_molecular_function, molecular_function_part_of_molecular_function, molecular_function_positively_regulates_molecular_function, molecular_function_negatively_regulates_molecular_function]
-  target: molecular function
-  label_in_input: [molecular_function_is_a_molecular_function, molecular_function_part_of_molecular_function, molecular_function_positively_regulates_molecular_function, molecular_function_negatively_regulates_molecular_function]
-
-cellular component to cellular component association:
-  is_a: association
-  represented_as: edge
-  source: [cellular_component_is_a_cellular_component, cellular_component_part_of_cellular_component]
+  label_as_edge: gene_located_in_cellular_component
+  source: gene
   target: cellular component
-  label_in_input: [cellular_component_is_a_cellular_component, cellular_component_part_of_cellular_component]
+  label_in_input: gene_located_in_cellular_component
+
+gene to molecular function association:
+  is_a: GeneToGoTermAssociation
+  represented_as: edge
+  label_as_edge: gene_enables_molecular_function
+  source: gene
+  target: molecular function
+  label_in_input: gene_enables_molecular_function
+
+biological_process_is_a_biological_process:
+  is_a: association
+  represented_as: edge
+  label_as_edge: biological_process_is_a_biological_process
+  source: biological process
+  target: biological process
+  label_in_input: biological_process_is_a_biological_process
+
+biological_process_part_of_biological_process:
+  is_a: association
+  represented_as: edge
+  label_as_edge: biological_process_part_of_biological_process
+  source: biological process
+  target: biological process
+  label_in_input: biological_process_part_of_biological_process
+
+biological_process_positively_regulates_biological_process:
+  is_a: association
+  represented_as: edge
+  label_as_edge: biological_process_positively_regulates_biological_process
+  source: biological process
+  target: biological process
+  label_in_input: biological_process_positively_regulates_biological_process
+
+biological_process_negatively_regulates_biological_process:
+  is_a: association
+  represented_as: edge
+  label_as_edge: biological_process_negatively_regulates_biological_process
+  source: biological process
+  target: biological process
+  label_in_input: biological_process_negatively_regulates_biological_process
+
+biological_process_positively_regulates_molecular_function:
+  is_a: association
+  represented_as: edge
+  label_as_edge: biological_process_positively_regulates_molecular_function
+  source: biological process
+  target: molecular function
+  label_in_input: biological_process_positively_regulates_molecular_function
+
+biological_process_negatively_regulates_molecular_function:
+  is_a: association
+  represented_as: edge
+  label_as_edge: biological_process_negatively_regulates_molecular_function
+  source: biological process
+  target: molecular function
+  label_in_input: biological_process_negatively_regulates_molecular_function
+
+molecular_function_is_a_molecular_function:
+  is_a: association
+  represented_as: edge
+  label_as_edge: molecular_function_is_a_molecular_function
+  source: molecular function
+  target: molecular function
+  label_in_input: molecular_function_is_a_molecular_function
+
+molecular_function_part_of_molecular_function:
+  is_a: association
+  represented_as: edge
+  label_as_edge: molecular_function_part_of_molecular_function
+  source: molecular function
+  target: molecular function
+  label_in_input: molecular_function_part_of_molecular_function
+
+molecular_function_positively_regulates_molecular_function:
+  is_a: association
+  represented_as: edge
+  label_as_edge: molecular_function_positively_regulates_molecular_function
+  source: molecular function
+  target: molecular function
+  label_in_input: molecular_function_positively_regulates_molecular_function
+
+molecular_function_negatively_regulates_molecular_function:
+  is_a: association
+  represented_as: edge
+  label_as_edge: molecular_function_negatively_regulates_molecular_function
+  source: molecular function
+  target: molecular function
+  label_in_input: molecular_function_negatively_regulates_molecular_function
+
+cellular_component_is_a_cellular_component:
+  is_a: association
+  represented_as: edge
+  label_as_edge: cellular_component_is_a_cellular_component
+  source: cellular component
+  target: cellular component
+  label_in_input: cellular_component_is_a_cellular_component
+
+cellular_component_part_of_cellular_component:
+  is_a: association
+  represented_as: edge
+  label_as_edge: cellular_component_part_of_cellular_component
+  source: cellular component
+  target: cellular component
+  label_in_input: cellular_component_part_of_cellular_component
 
 protein domain to molecular function association:
   is_a: association

@@ -67,6 +67,14 @@ Each data source has a dedicated adapter in `multiomics_kg/adapters/` implementi
 - `get_edges()` — Generator yielding `(edge_id, source_id, target_id, edge_type, properties)` tuples
 - `download_data(cache=True)` — Fetches/parses data with caching
 
+#### String property sanitization
+BioCypher wraps string fields in single quotes in the CSV output. Any string property value containing a single quote (`'`) or a pipe (`|`) will break `neo4j-admin import`. **All string properties must be sanitized before yielding from `get_nodes()` or `get_edges()`:**
+```python
+def _clean_str(value: str) -> str:
+    return value.replace("'", "^").replace("|", "")
+```
+Define this helper locally in each adapter and apply it to every string field in node/edge property dicts. The array delimiter is also `|` (see `biocypher_config.yaml`), so pipe characters in values would corrupt array fields too.
+
 Most adapters have a single-source class (e.g., `CyanorakNcbi`) and a **Multi*** wrapper (e.g., `MultiCyanorakNcbi`) that iterates over all configured strains/papers and aggregates nodes/edges. `create_knowledge_graph.py` only instantiates the Multi* wrappers.
 
 ### Key Adapters
@@ -212,8 +220,8 @@ uv run python tests/kg_validity/generate_snapshot.py
 
 ### Actual Neo4j labels (BioCypher PascalCase output)
 
-- Nodes: `Gene`, `Protein`, `OrganismTaxon`, `Publication`, `EnvironmentalCondition`, `Cyanorak_cluster`
-- Relationships: `Gene_belongs_to_organism`, `Protein_belongs_to_organism`, `Gene_encodes_protein`, `Gene_in_cyanorak_cluster`, `Gene_is_homolog_of_gene`, `Affects_expression_of`, `Affects_expression_of_homolog`
+- Nodes: `Gene`, `Protein`, `OrganismTaxon`, `Publication`, `EnvironmentalCondition`, `Cyanorak_cluster`, `BiologicalProcess`, `CellularComponent`, `MolecularFunction`
+- Relationships: `Gene_belongs_to_organism`, `Protein_belongs_to_organism`, `Gene_encodes_protein`, `Gene_in_cyanorak_cluster`, `Gene_is_homolog_of_gene`, `Affects_expression_of`, `Affects_expression_of_homolog`, `Gene_involved_in_biological_process`, `Gene_located_in_cellular_component`, `Gene_enables_molecular_function`, `Biological_process_is_a_biological_process`, `Cellular_component_is_a_cellular_component`, `Molecular_function_is_a_molecular_function`
 
 ### Key graph facts
 

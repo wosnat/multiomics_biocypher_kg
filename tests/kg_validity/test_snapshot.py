@@ -82,7 +82,7 @@ def test_snapshot_node_exists(run_query, test_id, node):
 def test_snapshot_edge_exists(run_query, test_id, edge):
     """Verify that a previously observed edge still exists between the expected nodes."""
     result = run_query(
-        f"MATCH (src)-[r:{edge['type']}]->(tgt) "
+        f"MATCH (src)-[r:`{edge['type']}`]->(tgt) "
         f"WHERE src.id = $src AND tgt.id = $tgt "
         f"RETURN properties(r) AS props",
         src=edge["source"],

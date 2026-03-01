@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-02-28T12:08:29.448543+00:00",
+  "generated_at": "2026-03-01T11:22:18.075011+00:00",
   "description": "Regression snapshot of KG nodes/edges. Regenerate with: uv run python tests/kg_validity/generate_snapshot.py",
   "nodes": [
     {
@@ -65,6 +65,9 @@
         "locus_tag": "A9601_00021",
         "product": "phosphoribosylformylglycinamidine synthase, synthetase domain",
         "gene_name": "purL",
+        "gene_synonyms": [
+          "A9601_00021"
+        ],
         "strand": "+"
       },
       "anchor": false
@@ -341,6 +344,150 @@
       "label": "Cyanorak_cluster",
       "properties": {
         "cluster_number": "CK_00000005"
+      },
+      "anchor": false
+    },
+    {
+      "id": "go:0008150",
+      "label": "BiologicalProcess",
+      "properties": {
+        "name": "biological_process"
+      },
+      "anchor": true
+    },
+    {
+      "id": "go:0000018",
+      "label": "BiologicalProcess",
+      "properties": {
+        "name": "regulation of DNA recombination"
+      },
+      "anchor": false
+    },
+    {
+      "id": "go:0000023",
+      "label": "BiologicalProcess",
+      "properties": {
+        "name": "maltose metabolic process"
+      },
+      "anchor": false
+    },
+    {
+      "id": "go:0000027",
+      "label": "BiologicalProcess",
+      "properties": {
+        "name": "ribosomal large subunit assembly"
+      },
+      "anchor": false
+    },
+    {
+      "id": "go:0000028",
+      "label": "BiologicalProcess",
+      "properties": {
+        "name": "ribosomal small subunit assembly"
+      },
+      "anchor": false
+    },
+    {
+      "id": "go:0000041",
+      "label": "BiologicalProcess",
+      "properties": {
+        "name": "transition metal ion transport"
+      },
+      "anchor": false
+    },
+    {
+      "id": "go:0005575",
+      "label": "CellularComponent",
+      "properties": {
+        "name": "cellular_component"
+      },
+      "anchor": true
+    },
+    {
+      "id": "go:0000015",
+      "label": "CellularComponent",
+      "properties": {
+        "name": "phosphopyruvate hydratase complex"
+      },
+      "anchor": false
+    },
+    {
+      "id": "go:0000118",
+      "label": "CellularComponent",
+      "properties": {
+        "name": "histone deacetylase complex"
+      },
+      "anchor": false
+    },
+    {
+      "id": "go:0000139",
+      "label": "CellularComponent",
+      "properties": {
+        "name": "Golgi membrane"
+      },
+      "anchor": false
+    },
+    {
+      "id": "go:0000178",
+      "label": "CellularComponent",
+      "properties": {
+        "name": "exosome (RNase complex)"
+      },
+      "anchor": false
+    },
+    {
+      "id": "go:0000228",
+      "label": "CellularComponent",
+      "properties": {
+        "name": "nuclear chromosome"
+      },
+      "anchor": false
+    },
+    {
+      "id": "go:0003674",
+      "label": "MolecularFunction",
+      "properties": {
+        "name": "molecular_function"
+      },
+      "anchor": true
+    },
+    {
+      "id": "ec:1.-.-.-",
+      "label": "MolecularFunction",
+      "properties": {
+        "name": "Oxidoreductases"
+      },
+      "anchor": false
+    },
+    {
+      "id": "ec:1.1.-.-",
+      "label": "MolecularFunction",
+      "properties": {
+        "name": "Acting on the CH-OH group of donors"
+      },
+      "anchor": false
+    },
+    {
+      "id": "ec:1.1.1.-",
+      "label": "MolecularFunction",
+      "properties": {
+        "name": "With NAD(+) or NADP(+) as acceptor"
+      },
+      "anchor": false
+    },
+    {
+      "id": "ec:1.1.1.1",
+      "label": "MolecularFunction",
+      "properties": {
+        "name": "alcohol dehydrogenase"
+      },
+      "anchor": false
+    },
+    {
+      "id": "ec:1.1.1.10",
+      "label": "MolecularFunction",
+      "properties": {
+        "name": "L-xylulose reductase"
       },
       "anchor": false
     }
@@ -620,6 +767,186 @@
         "original_gene": "ncbigene:A9601_16261",
         "homology_cluster_id": "CK_00019843"
       }
+    },
+    {
+      "type": "Gene_involved_in_biological_process",
+      "source": "ncbigene:A9601_00001",
+      "target": "go:0006260",
+      "properties": {}
+    },
+    {
+      "type": "Gene_involved_in_biological_process",
+      "source": "ncbigene:A9601_00001",
+      "target": "go:0006271",
+      "properties": {}
+    },
+    {
+      "type": "Gene_involved_in_biological_process",
+      "source": "ncbigene:A9601_00021",
+      "target": "go:0006164",
+      "properties": {}
+    },
+    {
+      "type": "Gene_involved_in_biological_process",
+      "source": "ncbigene:A9601_00021",
+      "target": "go:0006189",
+      "properties": {}
+    },
+    {
+      "type": "Gene_involved_in_biological_process",
+      "source": "ncbigene:A9601_00021",
+      "target": "go:0006541",
+      "properties": {}
+    },
+    {
+      "type": "Gene_located_in_cellular_component",
+      "source": "ncbigene:A9601_00001",
+      "target": "go:0005737",
+      "properties": {}
+    },
+    {
+      "type": "Gene_located_in_cellular_component",
+      "source": "ncbigene:A9601_00001",
+      "target": "go:0009360",
+      "properties": {}
+    },
+    {
+      "type": "Gene_located_in_cellular_component",
+      "source": "ncbigene:A9601_00031",
+      "target": "go:0005829",
+      "properties": {}
+    },
+    {
+      "type": "Gene_located_in_cellular_component",
+      "source": "ncbigene:A9601_00041",
+      "target": "go:0005694",
+      "properties": {}
+    },
+    {
+      "type": "Gene_located_in_cellular_component",
+      "source": "ncbigene:A9601_00041",
+      "target": "go:0005737",
+      "properties": {}
+    },
+    {
+      "type": "Gene_enables_molecular_function",
+      "source": "ncbigene:A9601_00001",
+      "target": "go:0003677",
+      "properties": {}
+    },
+    {
+      "type": "Gene_enables_molecular_function",
+      "source": "ncbigene:A9601_00001",
+      "target": "go:0003887",
+      "properties": {}
+    },
+    {
+      "type": "Gene_enables_molecular_function",
+      "source": "ncbigene:A9601_00001",
+      "target": "go:0008408",
+      "properties": {}
+    },
+    {
+      "type": "Gene_enables_molecular_function",
+      "source": "ncbigene:A9601_00001",
+      "target": "go:0034061",
+      "properties": {}
+    },
+    {
+      "type": "Gene_enables_molecular_function",
+      "source": "ncbigene:A9601_00021",
+      "target": "go:0004642",
+      "properties": {}
+    },
+    {
+      "type": "Biological_process_is_a_biological_process.BiologicalProcessToBiologicalProcessAssociation",
+      "source": "go:0000018",
+      "target": "go:0051052",
+      "properties": {}
+    },
+    {
+      "type": "Biological_process_is_a_biological_process.BiologicalProcessToBiologicalProcessAssociation",
+      "source": "go:0000023",
+      "target": "go:0005984",
+      "properties": {}
+    },
+    {
+      "type": "Biological_process_is_a_biological_process.BiologicalProcessToBiologicalProcessAssociation",
+      "source": "go:0000027",
+      "target": "go:0022618",
+      "properties": {}
+    },
+    {
+      "type": "Biological_process_is_a_biological_process.BiologicalProcessToBiologicalProcessAssociation",
+      "source": "go:0000028",
+      "target": "go:0022618",
+      "properties": {}
+    },
+    {
+      "type": "Biological_process_is_a_biological_process.BiologicalProcessToBiologicalProcessAssociation",
+      "source": "go:0000041",
+      "target": "go:0030001",
+      "properties": {}
+    },
+    {
+      "type": "Cellular_component_is_a_cellular_component.CellularComponentToCellularComponentAssociation",
+      "source": "go:0000015",
+      "target": "go:1902494",
+      "properties": {}
+    },
+    {
+      "type": "Cellular_component_is_a_cellular_component.CellularComponentToCellularComponentAssociation",
+      "source": "go:0000118",
+      "target": "go:0140513",
+      "properties": {}
+    },
+    {
+      "type": "Cellular_component_is_a_cellular_component.CellularComponentToCellularComponentAssociation",
+      "source": "go:0000118",
+      "target": "go:1902494",
+      "properties": {}
+    },
+    {
+      "type": "Cellular_component_is_a_cellular_component.CellularComponentToCellularComponentAssociation",
+      "source": "go:0000139",
+      "target": "go:0098588",
+      "properties": {}
+    },
+    {
+      "type": "Cellular_component_is_a_cellular_component.CellularComponentToCellularComponentAssociation",
+      "source": "go:0000178",
+      "target": "go:1905354",
+      "properties": {}
+    },
+    {
+      "type": "Molecular_function_is_a_molecular_function.MolecularFunctionToMolecularFunctionAssociation",
+      "source": "go:0000009",
+      "target": "go:0000030",
+      "properties": {}
+    },
+    {
+      "type": "Molecular_function_is_a_molecular_function.MolecularFunctionToMolecularFunctionAssociation",
+      "source": "go:0000010",
+      "target": "go:0120531",
+      "properties": {}
+    },
+    {
+      "type": "Molecular_function_is_a_molecular_function.MolecularFunctionToMolecularFunctionAssociation",
+      "source": "go:0000014",
+      "target": "go:0004520",
+      "properties": {}
+    },
+    {
+      "type": "Molecular_function_is_a_molecular_function.MolecularFunctionToMolecularFunctionAssociation",
+      "source": "go:0000014",
+      "target": "go:0016788",
+      "properties": {}
+    },
+    {
+      "type": "Molecular_function_is_a_molecular_function.MolecularFunctionToMolecularFunctionAssociation",
+      "source": "go:0000030",
+      "target": "go:0016758",
+      "properties": {}
     }
   ]
 }
