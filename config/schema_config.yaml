@@ -385,13 +385,37 @@ compound:
 #     name: str
 #     synonyms: str[]
 
-pathway:
+kegg orthologous group:
+  is_a: named thing
   represented_as: node
-  preferred_id: id
-  label_in_input: pathway
+  preferred_id: kegg.orthology
+  label_in_input: kegg orthologous group
   properties:
     name: str
-    organism: str
+
+kegg pathway:
+  is_a: named thing
+  represented_as: node
+  preferred_id: kegg.pathway
+  label_in_input: kegg pathway
+  properties:
+    name: str
+
+kegg subcategory:
+  is_a: named thing
+  represented_as: node
+  preferred_id: kegg.subcategory
+  label_in_input: kegg subcategory
+  properties:
+    name: str
+
+kegg category:
+  is_a: named thing
+  represented_as: node
+  preferred_id: kegg.category
+  label_in_input: kegg category
+  properties:
+    name: str
 
 
 ec number:
@@ -718,40 +742,37 @@ gene to gene homology association:
 #   label_in_input: phenotype_is_a_phenotype
 
 
-protein to pathway association:
-  is_a: GeneToPathwayAssociation
+gene to kegg ko association:
+  is_a: association
   represented_as: edge
-  label_as_edge: protein_take_part_in_pathway
-  source: protein
-  target: pathway
-  label_in_input: protein_take_part_in_pathway
-  properties:
-    source: str
-    evidence_code: str
+  label_as_edge: gene_has_kegg_ko
+  source: gene
+  target: kegg orthologous group
+  label_in_input: gene_has_kegg_ko
 
+kegg ko to pathway association:
+  is_a: association
+  represented_as: edge
+  label_as_edge: ko_in_kegg_pathway
+  source: kegg orthologous group
+  target: kegg pathway
+  label_in_input: ko_in_kegg_pathway
 
-# pathway to pathway association:
-#   is_a: association
-#   represented_as: edge
-#   source: [pathway_is_part_of_pathway, pathway_is_equivalent_to_pathway]
-#   target: pathway
-#   label_in_input: [pathway_is_part_of_pathway, pathway_is_equivalent_to_pathway]
+kegg pathway to subcategory association:
+  is_a: association
+  represented_as: edge
+  label_as_edge: kegg_pathway_in_kegg_subcategory
+  source: kegg pathway
+  target: kegg subcategory
+  label_in_input: kegg_pathway_in_kegg_subcategory
 
-# reactome hierarchical association:
-#   is_a: association
-#   represented_as: edge
-#   label_as_edge: pathway_participates_pathway
-#   source: pathway
-#   target: pathway
-#   label_in_input: pathway_participates_pathway
-
-# pathway to pathway orthology association:
-#   is_a: association
-#   represented_as: edge
-#   label_as_edge: pathway_is_ortholog_to_pathway
-#   source: pathway
-#   target: pathway
-#   label_in_input: pathway_is_ortholog_to_pathway
+kegg subcategory to category association:
+  is_a: association
+  represented_as: edge
+  label_as_edge: kegg_subcategory_in_kegg_category
+  source: kegg subcategory
+  target: kegg category
+  label_in_input: kegg_subcategory_in_kegg_category
 
 
 protein to ec number association:

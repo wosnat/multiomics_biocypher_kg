@@ -8,7 +8,11 @@ from multiomics_kg.adapters.uniprot_adapter import MultiUniprot
 from multiomics_kg.adapters.go_adapter import GO
 
 from multiomics_kg.adapters.cyanorak_ncbi_adapter import MultiCyanorakNcbi
-from multiomics_kg.adapters.functional_annotation_adapter import MultiGoAnnotationAdapter, MultiEcAnnotationAdapter
+from multiomics_kg.adapters.functional_annotation_adapter import (
+    MultiGoAnnotationAdapter,
+    MultiEcAnnotationAdapter,
+    MultiKeggAnnotationAdapter,
+)
 
 
 def parse_args():
@@ -88,6 +92,16 @@ def main():
     )
     bc.write_nodes(ec_anno_adapter.get_nodes())
     bc.write_edges(ec_anno_adapter.get_edges())
+
+    # KEGG 4-level hierarchy: KO → Pathway → Subcategory → Category (always runs, cached)
+    kegg_anno_adapter = MultiKeggAnnotationAdapter(
+        genome_config_file='data/Prochlorococcus/genomes/cyanobacteria_genomes.csv',
+        cache_root=Path("cache/data"),
+        test_mode=TEST_MODE,
+        cache=CACHE,
+    )
+    bc.write_nodes(kegg_anno_adapter.get_nodes())
+    bc.write_edges(kegg_anno_adapter.get_edges())
 
     # Full GO ontology (all 30K nodes + GO-GO hierarchy) — optional, slow.
     # NOTE: do not run with --go simultaneously; GO node IDs would conflict.
