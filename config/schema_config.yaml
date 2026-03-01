@@ -478,6 +478,30 @@ protein to molecular function association:
     reference: str
     evidence_code: str
 
+gene to biological process association:
+  is_a: GeneToGoTermAssociation
+  represented_as: edge
+  label_as_edge: gene_involved_in_biological_process
+  source: gene
+  target: biological process
+  label_in_input: gene_involved_in_biological_process
+
+gene to cellular component association:
+  is_a: GeneToGoTermAssociation
+  represented_as: edge
+  label_as_edge: gene_located_in_cellular_component
+  source: gene
+  target: cellular component
+  label_in_input: gene_located_in_cellular_component
+
+gene to molecular function association:
+  is_a: GeneToGoTermAssociation
+  represented_as: edge
+  label_as_edge: gene_enables_molecular_function
+  source: gene
+  target: molecular function
+  label_in_input: gene_enables_molecular_function
+
 biological process to biological process association:
   is_a: association
   represented_as: edge
