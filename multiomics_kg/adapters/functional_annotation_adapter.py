@@ -51,6 +51,11 @@ def _gene_node_id(locus_tag: str) -> str:
     return normalize_curie(f"ncbigene:{locus_tag}") or f"ncbigene_{locus_tag}"
 
 
+def _clean_str(value: str) -> str:
+    """Sanitize a string for Neo4j CSV import: replace single quotes and pipes."""
+    return value.replace("'", "^").replace("|", "")
+
+
 class GoAnnotationAdapter:
     """
     Per-strain adapter: reads gene_annotations_merged.json and yields gene→GO edges.
@@ -200,7 +205,7 @@ class MultiGoAnnotationAdapter:
             yield (
                 _go_node_id(go_id),
                 label,
-                {"name": entry["name"]},
+                {"name": _clean_str(entry["name"])},
             )
             count += 1
 

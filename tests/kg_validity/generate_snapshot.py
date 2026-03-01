@@ -28,6 +28,16 @@ ANCHOR_NODES = {
     "OrganismTaxon": [
         "insdc.gcf:GCF_000011465.1",  # MED4
     ],
+    # GO root terms — always present as ancestors of any annotated GO term
+    "BiologicalProcess": [
+        "go:0008150",  # biological_process (root)
+    ],
+    "CellularComponent": [
+        "go:0005575",  # cellular_component (root)
+    ],
+    "MolecularFunction": [
+        "go:0003674",  # molecular_function (root)
+    ],
 }
 
 # Key properties to capture per node type
@@ -38,6 +48,10 @@ NODE_PROPERTIES = {
     "Publication": ["doi", "pmid", "title"],
     "EnvironmentalCondition": ["name", "condition_type"],
     "Cyanorak_cluster": ["cluster_number"],
+    # GO term node types (from functional_annotation_adapter.py)
+    "BiologicalProcess": ["name"],
+    "CellularComponent": ["name"],
+    "MolecularFunction": ["name"],
 }
 
 # Key properties to capture per edge type
@@ -55,6 +69,14 @@ EDGE_PROPERTIES = {
         "expression_direction", "log2_fold_change", "original_gene",
         "homology_cluster_id",
     ],
+    # Gene → GO edges (functional_annotation_adapter.py; label_as_edge values)
+    "Gene_involved_in_biological_process": [],
+    "Gene_located_in_cellular_component": [],
+    "Gene_enables_molecular_function": [],
+    # GO-GO hierarchy edges (label_as_edge in schema; BioCypher capitalizes first letter)
+    "Biological_process_is_a_biological_process": [],
+    "Cellular_component_is_a_cellular_component": [],
+    "Molecular_function_is_a_molecular_function": [],
 }
 
 SAMPLE_SIZE = 5
@@ -113,7 +135,7 @@ def sample_edges(session):
     for rel_type, props in EDGE_PROPERTIES.items():
         result = run_query(
             session,
-            f"MATCH (src)-[r:{rel_type}]->(tgt) "
+            f"MATCH (src)-[r:`{rel_type}`]->(tgt) "
             f"RETURN src.id AS source, tgt.id AS target, properties(r) AS rprops "
             f"ORDER BY src.id, tgt.id LIMIT $limit",
             limit=SAMPLE_SIZE,
