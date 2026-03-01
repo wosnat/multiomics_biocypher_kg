@@ -118,10 +118,12 @@ def load_uniprot(
         refseq_ids = row.get("refseq_ids", [])
         if not refseq_ids:
             continue
+        entry = dict(row)
+        entry["uniprot_accession"] = uid
         for rs_id in refseq_ids:
             rs_id = rs_id.strip()
             if rs_id and rs_id != "-":
-                result[rs_id] = row
+                result[rs_id] = entry
 
     return result
 

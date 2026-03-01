@@ -80,6 +80,11 @@ fields:
     source: gene_mapping
     field: protein_id
 
+  uniprot_accession:
+    type: passthrough
+    source: uniprot
+    field: uniprot_accession
+
   old_locus_tags:
     type: passthrough_list
     source: gene_mapping

@@ -64,6 +64,16 @@ Update the paperconfig.yaml:
 
 Then run `/check-gene-ids` to verify the fix.
 
+Optionally, validate that functional annotations in the CSV match the reference annotations:
+
+```bash
+uv run python scripts/validate_annotations.py --papers "Author Year" --no-llm
+# or with LLM mismatch analysis:
+uv run python scripts/validate_annotations.py --papers "Author Year"
+```
+
+This reports per-column match rates (e.g. `(963/1794) 54% match`) comparing annotation/product/description columns in the CSV against `gene_annotations_merged.json`. Useful to confirm that a newly added paper's data aligns with the reference genome annotation.
+
 ## Report
 
 Each run generates `fix_gene_ids_report.md` in the paper's directory with:

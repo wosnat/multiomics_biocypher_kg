@@ -91,6 +91,26 @@ Mismatched IDs are grouped by pattern to help diagnose issues:
 | **CREATE_MAPPING_GFF** | IDs found in GFF/GBK but NOT in `gene_mapping.csv` | Add the GFF attribute as a new column in gene_mapping.csv |
 | **UNRELATED_IDS** | IDs don't match anything | Manual investigation needed |
 
+## Annotation Validation
+
+After gene IDs are confirmed to match, you can also validate that **functional annotations** in the paper CSV agree with the canonical annotations in `gene_annotations_merged.json`:
+
+```bash
+# All papers (token Jaccard ≥50% = match, no LLM)
+uv run python scripts/validate_annotations.py --no-llm
+
+# Single paper, with LLM mismatch analysis
+uv run python scripts/validate_annotations.py --papers "Biller 2018"
+
+# Options
+uv run python scripts/validate_annotations.py --no-llm --papers "Name1" "Name2"
+uv run python scripts/validate_annotations.py --llm-model gpt-4.1-nano
+```
+
+The script auto-detects annotation/product/description/definition columns in each CSV, maps gene IDs to locus tags (same logic as this skill), and reports per-column match rates, e.g. `(963/1794) 54% match`. It also optionally sends a batch of mismatches to an LLM for qualitative analysis (vocabulary differences, specificity, etc.).
+
+Papers with no annotation columns (e.g. Al-Hosani 2015, Anjur 2025) are correctly reported as having no comparable data.
+
 ## Workflow
 
 When invoked with a paper name (e.g., `/check-gene-ids "Biller 2018"`):
