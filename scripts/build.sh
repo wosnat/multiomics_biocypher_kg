@@ -13,5 +13,12 @@ if [ "${BUILD2NEO_CLEANUP:-no}" == 'yes' ]; then
         echo "rm -rf /usr/app/data/build2neo"
         rm -rf /usr/app/data/build2neo
 fi
-uv run python3 create_knowledge_graph.py
+EXTRA_ARGS=""
+if [ "${BUILD_GO:-no}" == 'yes' ]; then
+        EXTRA_ARGS="$EXTRA_ARGS --go"
+fi
+if [ "${BUILD_EC:-no}" == 'yes' ]; then
+        EXTRA_ARGS="$EXTRA_ARGS --ec"
+fi
+uv run python3 create_knowledge_graph.py $EXTRA_ARGS
 chmod -R 777 biocypher-log

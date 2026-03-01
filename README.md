@@ -20,10 +20,47 @@ uv run python create_knowledge_graph.py --go --ec
 # Re-fetch all data (bypass cache)
 uv run python create_knowledge_graph.py --no-cache
 
-# Docker deployment (Neo4j + Biochatter UI)
+```
+
+## Docker Deployment
+
+Runs the full pipeline in containers: build → import → post-process → Neo4j + Biochatter UI.
+
+```bash
 docker compose up -d
-# Neo4j at localhost:7474 (HTTP), localhost:7687 (Bolt, no auth)
-# Biochatter UI at localhost:8501
+```
+
+- Neo4j browser: http://localhost:7474 (no auth)
+- Neo4j Bolt: `bolt://localhost:7687`
+- Biochatter UI: http://localhost:8501
+
+The pipeline stages are:
+
+| Stage | What it does |
+|---|---|
+| `build` | Runs `create_knowledge_graph.py`, outputs CSVs |
+| `import` | Runs `neo4j-admin import` from generated import script |
+| `post-process` | Runs `scripts/post-import.cypher` (creates bidirectional homolog edges) |
+| `deploy` | Exposes Neo4j |
+| `app` | Biochatter web UI |
+
+### Options
+
+Edit the `build` service environment in [docker-compose.yml](docker-compose.yml) before running:
+
+| Variable | Default | Description |
+|---|---|---|
+| `BUILD2NEO_CLEANUP` | `yes` | Delete previous build artifacts before rebuilding |
+| `BUILD_GO` | `no` | Include GO hierarchy nodes and edges |
+| `BUILD_EC` | `no` | Include EC number hierarchy nodes and edges |
+
+Example — enable GO and EC edges:
+
+```yaml
+environment:
+  BUILD2NEO_CLEANUP: "yes"
+  BUILD_GO: "yes"
+  BUILD_EC: "yes"
 ```
 
 ## Prepare Genome Data

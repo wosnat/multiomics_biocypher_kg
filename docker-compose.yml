@@ -14,6 +14,9 @@ services:
       - /src/scripts/build.sh
     environment:
       BUILD2NEO_CLEANUP: "yes"
+      # Set to "yes" to include GO/EC hierarchy nodes and edges
+      BUILD_GO: "yes"
+      BUILD_EC: "yes"
 
   import:
     image: neo4j:4.4-enterprise
