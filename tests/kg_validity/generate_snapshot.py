@@ -42,6 +42,13 @@ ANCHOR_NODES = {
     "EcNumber": [
         "ec:1.-.-.-",  # Oxidoreductases (EC class 1)
     ],
+    # KEGG anchor nodes
+    "KeggOrthologousGroup": [
+        "kegg.orthology:K02338",  # dnaN — DNA pol III beta subunit, common in prokaryotes
+    ],
+    "KeggCategory": [
+        "kegg.category:09100",  # Metabolism — top-level BRITE category
+    ],
 }
 
 # Key properties to capture per node type
@@ -58,6 +65,11 @@ NODE_PROPERTIES = {
     "MolecularFunction": ["name"],
     # EC number nodes (from ec_adapter / functional_annotation_adapter)
     "EcNumber": ["name"],
+    # KEGG nodes (from MultiKeggAnnotationAdapter)
+    "KeggOrthologousGroup": ["name"],
+    "KeggPathway": ["name"],
+    "KeggSubcategory": ["name"],
+    "KeggCategory": ["name"],
 }
 
 # Key properties to capture per edge type
@@ -86,6 +98,11 @@ EDGE_PROPERTIES = {
     # EC number edges (functional_annotation_adapter)
     "Ec_number_is_a_ec_number": [],
     "Gene_catalyzes_ec_number": [],
+    # KEGG edges (MultiKeggAnnotationAdapter)
+    "Gene_has_kegg_ko": [],
+    "Ko_in_kegg_pathway": [],
+    "Kegg_pathway_in_kegg_subcategory": [],
+    "Kegg_subcategory_in_kegg_category": [],
 }
 
 SAMPLE_SIZE = 5

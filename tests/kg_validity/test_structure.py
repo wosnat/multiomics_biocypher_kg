@@ -25,6 +25,17 @@ pytestmark = pytest.mark.kg
     "Publication",
     "EnvironmentalCondition",
     "Cyanorak_cluster",
+    # GO term nodes
+    "BiologicalProcess",
+    "CellularComponent",
+    "MolecularFunction",
+    # EC number nodes
+    "EcNumber",
+    # KEGG nodes
+    "KeggOrthologousGroup",
+    "KeggPathway",
+    "KeggSubcategory",
+    "KeggCategory",
 ])
 def test_node_type_exists(run_query, label):
     """Every expected node type must have at least one node in the graph."""
