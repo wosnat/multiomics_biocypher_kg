@@ -1,4 +1,63 @@
-# list of orangisms mentioned in the papers: 
+# Multiomics BioCypher Knowledge Graph
+
+BioCypher-based knowledge graph for multi-omics data on marine cyanobacteria *Prochlorococcus* and *Alteromonas*.
+
+## Build
+
+```bash
+# Install dependencies (uv required)
+uv sync
+
+# Full build
+uv run python create_knowledge_graph.py
+
+# Fast iteration (100 items per adapter)
+uv run python create_knowledge_graph.py --test
+
+# Include GO and/or EC hierarchy nodes/edges
+uv run python create_knowledge_graph.py --go --ec
+
+# Re-fetch all data (bypass cache)
+uv run python create_knowledge_graph.py --no-cache
+
+# Docker deployment (Neo4j + Biochatter UI)
+docker compose up -d
+# Neo4j at localhost:7474 (HTTP), localhost:7687 (Bolt, no auth)
+# Biochatter UI at localhost:8501
+```
+
+## Prepare Genome Data
+
+Run this before `create_knowledge_graph.py` when adding new genomes or refreshing annotation data.
+
+```bash
+# Download everything and build annotation tables
+bash scripts/prepare_data.sh
+
+# Force re-run all steps
+bash scripts/prepare_data.sh --force
+
+# Skip Cyanorak re-download (server can be slow/throttled; cached files are reused)
+bash scripts/prepare_data.sh --force --skip-cyanorak
+
+# Specific strains or steps only
+bash scripts/prepare_data.sh --strains MED4 MIT9313 --force
+bash scripts/prepare_data.sh --steps 1 2 --force
+```
+
+The script runs three steps:
+
+| Step | Script | What it does |
+|---|---|---|
+| 0 | `download_genome_data.py` | NCBI genomes, Cyanorak GFF/GBK, UniProt, gene_mapping.csv |
+| 1 | `build_protein_annotations.py` | Per-taxid protein annotation tables → `protein_annotations.json` |
+| 2 | `build_gene_annotations.py` | Merges gene_mapping + eggNOG + UniProt → `gene_annotations_merged.json` |
+
+Logs are written to `logs/prepare_data_step{0,1,2}.log`. Monitor with `tail -f logs/prepare_data_step0.log`.
+
+## Organisms
+
+# list of organisms mentioned in the papers:
 Alteromonas macleodii EZ55
 Alteromonas macleodii HOT1A3
 Alteromonas macleodii MIT1002

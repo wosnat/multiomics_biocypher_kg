@@ -12,8 +12,20 @@ BioCypher-based knowledge graph for multi-omics data on marine cyanobacteria *Pr
 # Install dependencies (uv required)
 uv sync
 
-# Build the knowledge graph
+# Build the knowledge graph (full run)
 uv run python create_knowledge_graph.py
+
+# Fast iteration: test mode (100 items per adapter)
+uv run python create_knowledge_graph.py --test
+
+# Include GO and/or EC hierarchy nodes/edges
+uv run python create_knowledge_graph.py --go --ec
+
+# Re-fetch all data (bypass cache)
+uv run python create_knowledge_graph.py --no-cache
+
+# Custom output directory
+uv run python create_knowledge_graph.py --output-dir ./my-output/
 
 # Run adapter unit tests (excluding slow integration tests and KG tests)
 pytest -m "not slow and not kg"
@@ -35,11 +47,17 @@ docker compose up -d
 # Biochatter UI at localhost:8501
 ```
 
-## Development Flags in create_knowledge_graph.py
+## CLI Flags for create_knowledge_graph.py
 
-Two flags at the top of `create_knowledge_graph.py` control pipeline behavior:
-- `TEST_MODE = True` — stops each adapter after 100 items; use for fast iteration
-- `CACHE = True` — reuses cached JSON files from previous runs; set to `False` to re-fetch data
+`create_knowledge_graph.py` accepts the following command-line options:
+
+| Flag | Default | Description |
+|---|---|---|
+| `--test` | off | Test mode: stop each adapter after 100 items |
+| `--go` | off | Download and write GO nodes/edges |
+| `--ec` | off | Download and write EC nodes/edges |
+| `--no-cache` | off | Re-fetch all data instead of reusing cached files |
+| `--output-dir PATH` | `./biocypher-log/example_knowledge_graph/` | Output directory for CSV exports |
 
 ## Architecture
 

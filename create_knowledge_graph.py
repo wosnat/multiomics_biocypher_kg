@@ -1,3 +1,4 @@
+import argparse
 import os
 
 from biocypher import BioCypher
@@ -9,23 +10,27 @@ from multiomics_kg.adapters.go_adapter import GO
 from multiomics_kg.adapters.cyanorak_ncbi_adapter import MultiCyanorakNcbi
 
 
+def parse_args():
+    parser = argparse.ArgumentParser(description="Build the multiomics BioCypher knowledge graph.")
+    parser.add_argument("--test", action="store_true", help="Test mode: stop each adapter after 100 items.")
+    parser.add_argument("--go", action="store_true", help="Download and write GO nodes/edges.")
+    parser.add_argument("--ec", action="store_true", help="Download and write EC nodes/edges.")
+    parser.add_argument("--no-cache", action="store_true", help="Re-fetch data instead of using cached files.")
+    parser.add_argument("--output-dir", default="./biocypher-log/example_knowledge_graph/",
+                        help="Output directory for CSV exports (default: ./biocypher-log/example_knowledge_graph/).")
+    return parser.parse_args()
+
+
 def main():
-    # Whether to cache data by pypath for future usage
-    CACHE = True
+    args = parse_args()
 
-    # Flag for exporting node and edge files as csv format
+    CACHE = not args.no_cache
     export_as_csv = True
+    TEST_MODE = args.test
+    download_GO_data = args.go
+    download_EC_data = args.ec
+    output_dir_path = args.output_dir
 
-    # Flag for test mode
-    TEST_MODE = False
-
-    # remove these for quick testing. Don't forget to set back to True
-    download_GO_data = False
-    download_EC_data = False
-
-
-    # dirs
-    output_dir_path = "./biocypher-log/example_knowledge_graph/"
     os.makedirs(output_dir_path, exist_ok=True)
 
     # Instantiate the BioCypher interface
