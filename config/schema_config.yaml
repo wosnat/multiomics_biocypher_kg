@@ -206,6 +206,8 @@ gene:
     seed_ortholog: str                # seed ortholog ID
     max_annot_lvl: str                # max annotation level (e.g., "1117|Cyanobacteria")
     seed_ortholog_evalue: float       # e-value for seed ortholog
+    alteromonadaceae_og: str          # Alteromonadaceae-level OG ID (e.g., "4648R@72275|Alteromonadaceae"); Alteromonas only
+    bacteria_cog_og: str              # Bacteria-level COG ID (e.g., "COG0592") for cross-phylum ortholog matching
     protein_family: str               # protein family name
     # Gene Ontology (unified from all sources)
     go_terms: str[]                   # GO:XXXXXXX all aspects unified

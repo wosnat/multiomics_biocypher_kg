@@ -29,6 +29,7 @@ from multiomics_kg.download.utils.annotation_helpers import (
     _coerce_to_tokens,
     _nonempty,
     _split,
+    extract_first_match_in_sources,
 )
 from multiomics_kg.download.utils.annotation_transforms import (
     _TRANSFORMS,
@@ -372,6 +373,12 @@ class AnnotationBuilder:
                 val = self._resolve_integer(fconf, gm, eg, up)
             elif ftype == "float":
                 val = self._resolve_float(fconf, gm, eg, up)
+            elif ftype == "extract_first_match":
+                val = extract_first_match_in_sources(
+                    fconf.get("sources", []), gm, eg, up,
+                    fconf.get("pattern", ""),
+                    fconf.get("extract_group", 0),
+                )
             else:
                 continue
 

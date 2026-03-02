@@ -455,6 +455,34 @@ fields:
     source: eggnog
     field: evalue
 
+  # Full Alteromonadaceae-level OG string, e.g. "4648R@72275|Alteromonadaceae".
+  # Only present for Alteromonas genes. Used to generate within-Alteromonas homolog edges.
+  alteromonadaceae_og:
+    type: extract_first_match
+    pattern: "^.+@72275\\|Alteromonadaceae$"
+    extract_group: 0
+    sources:
+      - source: eggnog
+        field: eggNOG_OGs
+        delimiter: ","
+
+  # Canonical COG#### ID at the Bacteria level, e.g. "COG0592".
+  # Present for all strains with COG annotations (Pro/Syn and Alteromonas).
+  # Pro/Syn: matches plain "COG####" entries from gene_mapping.csv.
+  # Alteromonas: matches "COG####@2|Bacteria" at-format entries from emapper.
+  # Used to generate cross-phylum Alteromonas<->Pro/Syn homolog edges.
+  bacteria_cog_og:
+    type: extract_first_match
+    pattern: "^(COG\\d+)(?:@2\\|Bacteria)?$"
+    extract_group: 1
+    sources:
+      - source: eggnog
+        field: eggNOG_OGs
+        delimiter: ","
+      - source: gene_mapping
+        field: eggNOG
+        delimiter: ","
+
   # ── PFAMs ────────────────────────────────────────────────────────────────────
 
   pfam_ids:
