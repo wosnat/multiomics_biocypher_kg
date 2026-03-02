@@ -1,6 +1,6 @@
 """
-Functional annotation adapters: gene→GO, gene→EC, and gene→KEGG edges, plus
-corresponding nodes.
+Functional annotation adapters: gene→GO, gene→EC, gene→KEGG, and gene→COG/role edges,
+plus corresponding nodes.
 
 GO section (MultiGoAnnotationAdapter):
 - GO nodes (BiologicalProcess, CellularComponent, MolecularFunction) for only the
@@ -25,6 +25,15 @@ KEGG section (MultiKeggAnnotationAdapter):
 - gene_has_kegg_ko edges from gene annotations (kegg_ko field).
 - ko_in_kegg_pathway, kegg_pathway_in_kegg_subcategory,
   kegg_subcategory_in_kegg_category hierarchy edges.
+
+COG/Role section (MultiCogRoleAnnotationAdapter):
+- CogFunctionalCategory nodes (25 standard letters, hardcoded).
+- CyanorakRole nodes (full ~172-node tree from data/Prochlorococcus/cyanorak_roles.txt).
+- TigrRole nodes (only codes present in data, Pro/Syn strains only).
+- gene_in_cog_category edges (all 13 strains, from cog_category field).
+- gene_has_cyanorak_role edges (Pro/Syn 6 strains only).
+- cyanorak_role_is_a_cyanorak_role hierarchy edges (full tree).
+- gene_has_tigr_role edges (Pro/Syn 6 strains only).
 """
 
 import csv
@@ -36,6 +45,7 @@ from bioregistry import normalize_curie
 
 from multiomics_kg.adapters.ec_adapter import EC
 from multiomics_kg.utils.kegg_utils import download_kegg_data
+from multiomics_kg.utils.cyanorak_role_utils import parse_cyanorak_role_tree
 from multiomics_kg.utils.go_utils import (
     NAMESPACE_TO_LABEL,
     compute_ancestry_closure,
@@ -693,4 +703,315 @@ class MultiKeggAnnotationAdapter:
             sc_cat_count += 1
         logger.info(
             f"MultiKeggAnnotationAdapter.get_edges: {sc_cat_count} Subcategory→Category edges"
+        )
+
+
+# ---------------------------------------------------------------------------
+# COG category + Cyanorak role + tIGR role annotation
+# ---------------------------------------------------------------------------
+
+# Standard COG functional category letter codes and names (NCBI/EggNOG).
+COG_FUNCTIONAL_CATEGORIES: dict[str, str] = {
+    "J": "Translation, ribosomal structure and biogenesis",
+    "A": "RNA processing and modification",
+    "K": "Transcription",
+    "L": "Replication, recombination and repair",
+    "B": "Chromatin structure and dynamics",
+    "D": "Cell cycle control, cell division, chromosome partitioning",
+    "Y": "Nuclear structure",
+    "V": "Defense mechanisms",
+    "T": "Signal transduction mechanisms",
+    "M": "Cell wall/membrane/envelope biogenesis",
+    "N": "Cell motility",
+    "Z": "Cytoskeleton",
+    "W": "Extracellular structures",
+    "U": "Intracellular trafficking, secretion, and vesicular transport",
+    "O": "Post-translational modification, protein turnover, chaperones",
+    "X": "Mobilome: prophages, transposons",
+    "C": "Energy production and conversion",
+    "G": "Carbohydrate transport and metabolism",
+    "E": "Amino acid transport and metabolism",
+    "F": "Nucleotide transport and metabolism",
+    "H": "Coenzyme transport and metabolism",
+    "I": "Lipid transport and metabolism",
+    "P": "Inorganic ion transport and metabolism",
+    "Q": "Secondary metabolites biosynthesis, transport and catabolism",
+    "R": "General function prediction only",
+    "S": "Function unknown",
+}
+
+
+def _cog_cat_node_id(letter: str) -> str:
+    """Node ID for a COG functional category letter."""
+    return f"cog.category:{letter}"
+
+
+def _cyanorak_role_node_id(code: str) -> str:
+    """Node ID for a Cyanorak role code (unknown to bioregistry; raw string)."""
+    return f"cyanorak.role:{code}"
+
+
+def _tigr_role_node_id(code: str) -> str:
+    """Node ID for a tIGR role code (unknown to bioregistry; raw string)."""
+    return f"tigr.role:{code}"
+
+
+class CogRoleAnnotationAdapter:
+    """
+    Per-strain adapter: reads gene_annotations_merged.json and yields
+    gene→COG category, gene→CyanorakRole, and gene→TigrRole edges.
+
+    Args:
+        genome_dir: directory containing ``gene_annotations_merged.json``
+        test_mode: if True, stop after 100 edges per edge type
+    """
+
+    def __init__(self, genome_dir: Path, test_mode: bool = False) -> None:
+        self.genome_dir = Path(genome_dir)
+        self.test_mode = test_mode
+        self._genes: dict = {}
+        self._load()
+
+    def _load(self) -> None:
+        json_path = self.genome_dir / "gene_annotations_merged.json"
+        if not json_path.exists():
+            logger.warning(f"gene_annotations_merged.json not found at {json_path}, skipping")
+            return
+        with open(json_path, encoding="utf-8") as fh:
+            self._genes = json.load(fh)
+        logger.debug(f"Loaded {len(self._genes)} genes from {json_path}")
+
+    def get_all_cyanorak_codes(self) -> set[tuple[str, str]]:
+        """Return all (code, description) pairs from cyanorak_Role across all genes."""
+        codes: set[tuple[str, str]] = set()
+        for gene in self._genes.values():
+            roles = gene.get("cyanorak_Role") or []
+            descs = gene.get("cyanorak_Role_description") or []
+            for code, desc in zip(roles, descs):
+                if code:
+                    codes.add((code, desc or ""))
+        return codes
+
+    def get_all_tigr_codes(self) -> set[tuple[str, str]]:
+        """Return all (code, description) pairs from tIGR_Role across all genes."""
+        codes: set[tuple[str, str]] = set()
+        for gene in self._genes.values():
+            roles = gene.get("tIGR_Role") or []
+            descs = gene.get("tIGR_Role_description") or []
+            for code, desc in zip(roles, descs):
+                if code:
+                    codes.add((code, desc or ""))
+        return codes
+
+    def get_edges(self):
+        """
+        Yield gene→COG category, gene→CyanorakRole, and gene→TigrRole edges.
+
+        Edge 5-tuples: ``(edge_id, src_node_id, tgt_node_id, edge_label, properties)``
+        Missing fields (e.g. Alteromonas has no cyanorak/tIGR roles) are silently skipped.
+        """
+        cog_count = cyr_count = tigr_count = 0
+        for locus_tag, gene in self._genes.items():
+            # gene → COG functional category
+            for letter in gene.get("cog_category") or []:
+                if not letter:
+                    continue
+                yield (
+                    f"{locus_tag}-cogcat-{letter}",
+                    _gene_node_id(locus_tag),
+                    _cog_cat_node_id(letter),
+                    "gene_in_cog_category",
+                    {},
+                )
+                cog_count += 1
+                if self.test_mode and cog_count >= 100:
+                    logger.debug(
+                        f"CogRoleAnnotationAdapter({self.genome_dir.name}): test_mode stop (COG)"
+                    )
+                    return
+
+            # gene → Cyanorak role
+            for code in gene.get("cyanorak_Role") or []:
+                if not code:
+                    continue
+                yield (
+                    f"{locus_tag}-cyrole-{code}",
+                    _gene_node_id(locus_tag),
+                    _cyanorak_role_node_id(code),
+                    "gene_has_cyanorak_role",
+                    {},
+                )
+                cyr_count += 1
+                if self.test_mode and cyr_count >= 100:
+                    logger.debug(
+                        f"CogRoleAnnotationAdapter({self.genome_dir.name}): test_mode stop (CyanorakRole)"
+                    )
+                    return
+
+            # gene → tIGR role
+            for code in gene.get("tIGR_Role") or []:
+                if not code:
+                    continue
+                yield (
+                    f"{locus_tag}-tigrrole-{code}",
+                    _gene_node_id(locus_tag),
+                    _tigr_role_node_id(code),
+                    "gene_has_tigr_role",
+                    {},
+                )
+                tigr_count += 1
+                if self.test_mode and tigr_count >= 100:
+                    logger.debug(
+                        f"CogRoleAnnotationAdapter({self.genome_dir.name}): test_mode stop (TigrRole)"
+                    )
+                    return
+
+        logger.debug(
+            f"CogRoleAnnotationAdapter({self.genome_dir.name}): "
+            f"{cog_count} COG cat + {cyr_count} CyanorakRole + {tigr_count} TigrRole edges"
+        )
+
+
+class MultiCogRoleAnnotationAdapter:
+    """
+    Multi-strain adapter: owns all COG functional category, CyanorakRole, and
+    TigrRole graph content.
+
+    Creates:
+    - ``CogFunctionalCategory`` nodes (25 standard letters, hardcoded).
+    - ``CyanorakRole`` nodes (full tree from ``role_tree_file``; all ~172 nodes).
+    - ``TigrRole`` nodes (only codes present in at least one strain's gene annotations).
+    - ``gene_in_cog_category`` edges from per-strain adapters (all strains).
+    - ``gene_has_cyanorak_role`` edges from per-strain adapters (Pro/Syn only).
+    - ``cyanorak_role_is_a_cyanorak_role`` hierarchy edges (full tree).
+    - ``gene_has_tigr_role`` edges from per-strain adapters (Pro/Syn only).
+
+    Args:
+        genome_config_file: path to ``cyanobacteria_genomes.csv``
+        role_tree_file: path to ``data/Prochlorococcus/cyanorak_roles.txt``
+        test_mode: passed to per-strain adapters (stop after 100 edges per type)
+    """
+
+    def __init__(
+        self,
+        genome_config_file: str,
+        role_tree_file: Path,
+        test_mode: bool = False,
+    ) -> None:
+        self.test_mode = test_mode
+        self.role_tree = parse_cyanorak_role_tree(Path(role_tree_file))
+        logger.info(f"MultiCogRoleAnnotationAdapter: loaded {len(self.role_tree)} Cyanorak role nodes")
+        self._strain_adapters: list[CogRoleAnnotationAdapter] = []
+        self._build_strain_adapters(genome_config_file)
+
+    def _build_strain_adapters(self, genome_config_file: str) -> None:
+        with open(genome_config_file, newline="", encoding="utf-8") as fh:
+            lines = [line for line in fh if not line.lstrip().startswith("#")]
+        reader = csv.DictReader(lines)
+        for row in reader:
+            data_dir = row.get("data_dir", "").strip()
+            if not data_dir:
+                continue
+            self._strain_adapters.append(
+                CogRoleAnnotationAdapter(genome_dir=Path(data_dir), test_mode=self.test_mode)
+            )
+        logger.info(
+            f"MultiCogRoleAnnotationAdapter: loaded {len(self._strain_adapters)} strain adapters"
+        )
+
+    def _all_tigr_codes(self) -> dict[str, str]:
+        """Collect all unique tIGR (code → description) pairs across all strains."""
+        codes: dict[str, str] = {}
+        for adapter in self._strain_adapters:
+            for code, desc in adapter.get_all_tigr_codes():
+                if code not in codes:
+                    codes[code] = desc
+        return codes
+
+    def get_nodes(self):
+        """
+        Yield COG functional category, CyanorakRole, and TigrRole nodes.
+
+        1. 25 COG functional category nodes (always, hardcoded).
+        2. All CyanorakRole nodes from the full parsed tree (always all ~172).
+        3. TigrRole nodes: only codes present in at least one strain's gene annotations.
+        """
+        # 1. COG functional category nodes
+        cog_count = 0
+        for letter, name in sorted(COG_FUNCTIONAL_CATEGORIES.items()):
+            yield (
+                _cog_cat_node_id(letter),
+                "cog functional category",
+                {"code": letter, "name": _clean_str(name)},
+            )
+            cog_count += 1
+        logger.info(f"MultiCogRoleAnnotationAdapter.get_nodes: {cog_count} COG category nodes")
+
+        # 2. CyanorakRole nodes — full tree (all entries, not just leaf codes in data)
+        cyr_count = 0
+        for code, entry in sorted(self.role_tree.items()):
+            yield (
+                _cyanorak_role_node_id(code),
+                "cyanorak role",
+                {"code": code, "description": _clean_str(entry["description"])},
+            )
+            cyr_count += 1
+        logger.info(f"MultiCogRoleAnnotationAdapter.get_nodes: {cyr_count} CyanorakRole nodes")
+
+        # 3. TigrRole nodes — only codes present in data
+        tigr_codes = self._all_tigr_codes()
+        tigr_count = 0
+        for code, desc in sorted(tigr_codes.items()):
+            yield (
+                _tigr_role_node_id(code),
+                "tigr role",
+                {"code": code, "description": _clean_str(desc)},
+            )
+            tigr_count += 1
+        logger.info(f"MultiCogRoleAnnotationAdapter.get_nodes: {tigr_count} TigrRole nodes")
+
+    def get_edges(self):
+        """
+        Yield all COG/role edges:
+        1. gene→COG category (all strains)
+        2. gene→CyanorakRole (Pro/Syn strains; Alteromonas silently yields nothing)
+        3. gene→TigrRole (Pro/Syn strains)
+        4. CyanorakRole→parent (full hierarchy tree)
+        """
+        # 1–3. Per-strain gene→* edges
+        cog_count = cyr_count = tigr_count = 0
+        for adapter in self._strain_adapters:
+            for edge in adapter.get_edges():
+                label = edge[3]
+                if label == "gene_in_cog_category":
+                    cog_count += 1
+                elif label == "gene_has_cyanorak_role":
+                    cyr_count += 1
+                elif label == "gene_has_tigr_role":
+                    tigr_count += 1
+                yield edge
+
+        logger.info(
+            f"MultiCogRoleAnnotationAdapter.get_edges: "
+            f"{cog_count} gene→COG cat, {cyr_count} gene→CyanorakRole, "
+            f"{tigr_count} gene→TigrRole edges"
+        )
+
+        # 4. CyanorakRole hierarchy: child → parent
+        hier_count = 0
+        for code, entry in sorted(self.role_tree.items()):
+            parent = entry.get("parent")
+            if not parent:
+                continue
+            yield (
+                f"{code}-is_a-{parent}",
+                _cyanorak_role_node_id(code),
+                _cyanorak_role_node_id(parent),
+                "cyanorak_role_is_a_cyanorak_role",
+                {},
+            )
+            hier_count += 1
+
+        logger.info(
+            f"MultiCogRoleAnnotationAdapter.get_edges: {hier_count} CyanorakRole hierarchy edges"
         )

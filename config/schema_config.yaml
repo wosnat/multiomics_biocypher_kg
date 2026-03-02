@@ -430,6 +430,33 @@ ec number:
     comments: str[]
     rxnfp_embedding: float[]
 
+cog functional category:
+  is_a: named thing
+  represented_as: node
+  preferred_id: cog.category
+  label_in_input: cog functional category
+  properties:
+    code: str
+    name: str
+
+cyanorak role:
+  is_a: named thing
+  represented_as: node
+  preferred_id: cyanorak.role
+  label_in_input: cyanorak role
+  properties:
+    code: str
+    description: str
+
+tigr role:
+  is_a: named thing
+  represented_as: node
+  preferred_id: tigr.role
+  label_in_input: tigr role
+  properties:
+    code: str
+    description: str
+
 
 # ---
 # Associations
@@ -798,6 +825,38 @@ ec number hierarchical association:
   source: ec number
   target: ec number
   label_in_input: ec_number_is_a_ec_number
+
+gene to cog category association:
+  is_a: association
+  represented_as: edge
+  label_as_edge: gene_in_cog_category
+  source: gene
+  target: cog functional category
+  label_in_input: gene_in_cog_category
+
+gene to cyanorak role association:
+  is_a: association
+  represented_as: edge
+  label_as_edge: gene_has_cyanorak_role
+  source: gene
+  target: cyanorak role
+  label_in_input: gene_has_cyanorak_role
+
+cyanorak role hierarchical association:
+  is_a: association
+  represented_as: edge
+  label_as_edge: cyanorak_role_is_a_cyanorak_role
+  source: cyanorak role
+  target: cyanorak role
+  label_in_input: cyanorak_role_is_a_cyanorak_role
+
+gene to tigr role association:
+  is_a: association
+  represented_as: edge
+  label_as_edge: gene_has_tigr_role
+  source: gene
+  target: tigr role
+  label_in_input: gene_has_tigr_role
 
 # gene to gene regulatory association:
 #   is_a: pairwise gene to gene interaction

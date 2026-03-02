@@ -12,6 +12,7 @@ from multiomics_kg.adapters.functional_annotation_adapter import (
     MultiGoAnnotationAdapter,
     MultiEcAnnotationAdapter,
     MultiKeggAnnotationAdapter,
+    MultiCogRoleAnnotationAdapter,
 )
 
 
@@ -102,6 +103,15 @@ def main():
     )
     bc.write_nodes(kegg_anno_adapter.get_nodes())
     bc.write_edges(kegg_anno_adapter.get_edges())
+
+    # COG functional categories + Cyanorak roles + tIGR roles
+    cog_role_adapter = MultiCogRoleAnnotationAdapter(
+        genome_config_file='data/Prochlorococcus/genomes/cyanobacteria_genomes.csv',
+        role_tree_file=Path("data/Prochlorococcus/cyanorak_roles.txt"),
+        test_mode=TEST_MODE,
+    )
+    bc.write_nodes(cog_role_adapter.get_nodes())
+    bc.write_edges(cog_role_adapter.get_edges())
 
     # Full GO ontology (all 30K nodes + GO-GO hierarchy) — optional, slow.
     # NOTE: do not run with --go simultaneously; GO node IDs would conflict.

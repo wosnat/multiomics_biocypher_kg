@@ -433,3 +433,212 @@ def test_kegg_ko_pathway_coverage(run_query):
         f"Only {row['linked']}/{row['total']} KO nodes ({linked_fraction:.1%}) "
         f"are linked to a pathway; expected >= 50%"
     )
+
+
+# ---------------------------------------------------------------------------
+# COG functional categories: node counts, properties, and gene edges
+# ---------------------------------------------------------------------------
+
+def test_cog_node_count(run_query):
+    """All 26 standard COG functional category letters (A-Z) must be present."""
+    result = run_query("MATCH (n:CogFunctionalCategory) RETURN count(n) AS cnt")
+    cnt = result[0]["cnt"]
+    assert cnt == 26, (
+        f"Expected exactly 26 CogFunctionalCategory nodes (A-Z), found {cnt}"
+    )
+
+
+@pytest.mark.parametrize("letter,expected_name", [
+    ("J", "Translation, ribosomal structure and biogenesis"),
+    ("C", "Energy production and conversion"),
+    ("S", "Function unknown"),
+    ("R", "General function prediction only"),
+])
+def test_cog_known_categories_present(run_query, letter, expected_name):
+    """Spot-check well-known COG category nodes by letter code."""
+    result = run_query(
+        "MATCH (n:CogFunctionalCategory) WHERE n.code = $code RETURN n.id AS nid, n.name AS name",
+        code=letter,
+    )
+    assert len(result) == 1, f"COG category '{letter}' not found"
+    assert result[0]["name"] == expected_name, (
+        f"COG {letter}: expected name '{expected_name}', got '{result[0]['name']}'"
+    )
+
+
+def test_cog_nodes_have_code_and_name(run_query):
+    """All CogFunctionalCategory nodes must have both code and name properties."""
+    result = run_query("""
+        MATCH (n:CogFunctionalCategory)
+        WHERE n.code IS NULL OR n.name IS NULL
+        RETURN count(n) AS missing
+    """)
+    assert result[0]["missing"] == 0, (
+        f"{result[0]['missing']} CogFunctionalCategory nodes are missing code or name"
+    )
+
+
+def test_gene_cog_category_edge_count(run_query):
+    """Gene_in_cog_category edges must exceed 20,000 (all 13 strains annotated)."""
+    result = run_query(
+        "MATCH ()-[r:Gene_in_cog_category]->() RETURN count(r) AS cnt"
+    )
+    cnt = result[0]["cnt"]
+    assert cnt >= 20_000, (
+        f"Only {cnt} Gene_in_cog_category edges found; expected >= 20,000"
+    )
+
+
+def test_gene_cog_edges_connect_correct_types(run_query):
+    """Gene_in_cog_category must connect Gene -> CogFunctionalCategory."""
+    result = run_query("""
+        MATCH (src)-[r:Gene_in_cog_category]->(tgt)
+        WHERE NOT src:Gene OR NOT tgt:CogFunctionalCategory
+        RETURN count(r) AS bad
+    """)
+    assert result[0]["bad"] == 0, (
+        f"{result[0]['bad']} Gene_in_cog_category edges connect wrong node types "
+        f"(expected Gene -> CogFunctionalCategory)"
+    )
+
+
+def test_cog_gene_coverage(run_query):
+    """
+    At least 60% of Gene nodes should have a COG category annotation.
+    All 13 strains are annotated via eggNOG; actual coverage is ~82%.
+    """
+    result = run_query("""
+        MATCH (g:Gene)
+        WITH count(g) AS total,
+             count(CASE WHEN exists((g)-[:Gene_in_cog_category]->()) THEN 1 END) AS annotated
+        RETURN total, annotated
+    """)
+    row = result[0]
+    if row["total"] == 0:
+        pytest.skip("No Gene nodes found")
+    coverage = row["annotated"] / row["total"]
+    assert coverage >= 0.60, (
+        f"COG category coverage is {coverage:.1%} "
+        f"({row['annotated']}/{row['total']}); expected >= 60%"
+    )
+
+
+# ---------------------------------------------------------------------------
+# CyanorakRole: node counts, hierarchy, properties, and gene edges
+# ---------------------------------------------------------------------------
+
+def test_cyanorak_role_node_count(run_query):
+    """The full Cyanorak role tree has ~172 nodes; expect at least 150."""
+    result = run_query("MATCH (n:CyanorakRole) RETURN count(n) AS cnt")
+    cnt = result[0]["cnt"]
+    assert cnt >= 150, (
+        f"Only {cnt} CyanorakRole nodes found; expected >= 150 (full tree is 172)"
+    )
+
+
+def test_cyanorak_role_nodes_have_properties(run_query):
+    """All CyanorakRole nodes must have both code and description properties."""
+    result = run_query("""
+        MATCH (n:CyanorakRole)
+        WHERE n.code IS NULL OR n.description IS NULL
+        RETURN count(n) AS missing
+    """)
+    assert result[0]["missing"] == 0, (
+        f"{result[0]['missing']} CyanorakRole nodes are missing code or description"
+    )
+
+
+def test_cyanorak_role_hierarchy_edges(run_query):
+    """Cyanorak_role_is_a_cyanorak_role hierarchy edges must cover most of the tree."""
+    result = run_query(
+        "MATCH ()-[r:Cyanorak_role_is_a_cyanorak_role]->() RETURN count(r) AS cnt"
+    )
+    cnt = result[0]["cnt"]
+    assert cnt >= 100, (
+        f"Only {cnt} Cyanorak_role_is_a_cyanorak_role edges; expected >= 100"
+    )
+
+
+def test_cyanorak_role_hierarchy_connects_correct_types(run_query):
+    """Cyanorak_role_is_a_cyanorak_role must connect CyanorakRole -> CyanorakRole."""
+    result = run_query("""
+        MATCH (src)-[r:Cyanorak_role_is_a_cyanorak_role]->(tgt)
+        WHERE NOT src:CyanorakRole OR NOT tgt:CyanorakRole
+        RETURN count(r) AS bad
+    """)
+    assert result[0]["bad"] == 0, (
+        f"{result[0]['bad']} Cyanorak_role_is_a_cyanorak_role edges connect wrong node types"
+    )
+
+
+def test_gene_cyanorak_role_edge_count(run_query):
+    """Gene_has_cyanorak_role edges must exceed 10,000 (Pro/Syn strains only)."""
+    result = run_query(
+        "MATCH ()-[r:Gene_has_cyanorak_role]->() RETURN count(r) AS cnt"
+    )
+    cnt = result[0]["cnt"]
+    assert cnt >= 10_000, (
+        f"Only {cnt} Gene_has_cyanorak_role edges found; expected >= 10,000"
+    )
+
+
+def test_gene_cyanorak_role_edges_connect_correct_types(run_query):
+    """Gene_has_cyanorak_role must connect Gene -> CyanorakRole."""
+    result = run_query("""
+        MATCH (src)-[r:Gene_has_cyanorak_role]->(tgt)
+        WHERE NOT src:Gene OR NOT tgt:CyanorakRole
+        RETURN count(r) AS bad
+    """)
+    assert result[0]["bad"] == 0, (
+        f"{result[0]['bad']} Gene_has_cyanorak_role edges connect wrong node types "
+        f"(expected Gene -> CyanorakRole)"
+    )
+
+
+# ---------------------------------------------------------------------------
+# TigrRole: node counts, properties, and gene edges
+# ---------------------------------------------------------------------------
+
+def test_tigr_role_node_count(run_query):
+    """TigrRole nodes (only codes present in data) must exceed 50."""
+    result = run_query("MATCH (n:TigrRole) RETURN count(n) AS cnt")
+    cnt = result[0]["cnt"]
+    assert cnt >= 50, (
+        f"Only {cnt} TigrRole nodes found; expected >= 50"
+    )
+
+
+def test_tigr_role_nodes_have_properties(run_query):
+    """All TigrRole nodes must have both code and description properties."""
+    result = run_query("""
+        MATCH (n:TigrRole)
+        WHERE n.code IS NULL OR n.description IS NULL
+        RETURN count(n) AS missing
+    """)
+    assert result[0]["missing"] == 0, (
+        f"{result[0]['missing']} TigrRole nodes are missing code or description"
+    )
+
+
+def test_gene_tigr_role_edge_count(run_query):
+    """Gene_has_tigr_role edges must exceed 10,000 (Pro/Syn strains only)."""
+    result = run_query(
+        "MATCH ()-[r:Gene_has_tigr_role]->() RETURN count(r) AS cnt"
+    )
+    cnt = result[0]["cnt"]
+    assert cnt >= 10_000, (
+        f"Only {cnt} Gene_has_tigr_role edges found; expected >= 10,000"
+    )
+
+
+def test_gene_tigr_role_edges_connect_correct_types(run_query):
+    """Gene_has_tigr_role must connect Gene -> TigrRole."""
+    result = run_query("""
+        MATCH (src)-[r:Gene_has_tigr_role]->(tgt)
+        WHERE NOT src:Gene OR NOT tgt:TigrRole
+        RETURN count(r) AS bad
+    """)
+    assert result[0]["bad"] == 0, (
+        f"{result[0]['bad']} Gene_has_tigr_role edges connect wrong node types "
+        f"(expected Gene -> TigrRole)"
+    )

@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-03-01T17:30:29.307548+00:00",
+  "generated_at": "2026-03-02T10:50:31.176707+00:00",
   "description": "Regression snapshot of KG nodes/edges. Regenerate with: uv run python tests/kg_validity/generate_snapshot.py",
   "nodes": [
     {
@@ -666,6 +666,159 @@
         "name": "Organismal Systems"
       },
       "anchor": false
+    },
+    {
+      "id": "cog.category:J",
+      "label": "CogFunctionalCategory",
+      "properties": {
+        "code": "J",
+        "name": "Translation, ribosomal structure and biogenesis"
+      },
+      "anchor": true
+    },
+    {
+      "id": "cog.category:C",
+      "label": "CogFunctionalCategory",
+      "properties": {
+        "code": "C",
+        "name": "Energy production and conversion"
+      },
+      "anchor": true
+    },
+    {
+      "id": "cog.category:A",
+      "label": "CogFunctionalCategory",
+      "properties": {
+        "code": "A",
+        "name": "RNA processing and modification"
+      },
+      "anchor": false
+    },
+    {
+      "id": "cog.category:B",
+      "label": "CogFunctionalCategory",
+      "properties": {
+        "code": "B",
+        "name": "Chromatin structure and dynamics"
+      },
+      "anchor": false
+    },
+    {
+      "id": "cog.category:D",
+      "label": "CogFunctionalCategory",
+      "properties": {
+        "code": "D",
+        "name": "Cell cycle control, cell division, chromosome partitioning"
+      },
+      "anchor": false
+    },
+    {
+      "id": "cog.category:E",
+      "label": "CogFunctionalCategory",
+      "properties": {
+        "code": "E",
+        "name": "Amino acid transport and metabolism"
+      },
+      "anchor": false
+    },
+    {
+      "id": "cyanorak.role:0",
+      "label": "CyanorakRole",
+      "properties": {
+        "code": "0",
+        "description": "Non-coding gene (RNA)"
+      },
+      "anchor": true
+    },
+    {
+      "id": "cyanorak.role:A",
+      "label": "CyanorakRole",
+      "properties": {
+        "code": "A",
+        "description": "Amino acid biosynthesis"
+      },
+      "anchor": true
+    },
+    {
+      "id": "cyanorak.role:0.1",
+      "label": "CyanorakRole",
+      "properties": {
+        "code": "0.1",
+        "description": "tRNA"
+      },
+      "anchor": false
+    },
+    {
+      "id": "cyanorak.role:0.2",
+      "label": "CyanorakRole",
+      "properties": {
+        "code": "0.2",
+        "description": "rRNA"
+      },
+      "anchor": false
+    },
+    {
+      "id": "cyanorak.role:0.3",
+      "label": "CyanorakRole",
+      "properties": {
+        "code": "0.3",
+        "description": "ncRNA"
+      },
+      "anchor": false
+    },
+    {
+      "id": "cyanorak.role:0.4",
+      "label": "CyanorakRole",
+      "properties": {
+        "code": "0.4",
+        "description": "Other"
+      },
+      "anchor": false
+    },
+    {
+      "id": "tigr.role:100",
+      "label": "TigrRole",
+      "properties": {
+        "code": "100",
+        "description": "Central intermediary metabolism / Amino sugars"
+      },
+      "anchor": false
+    },
+    {
+      "id": "tigr.role:102",
+      "label": "TigrRole",
+      "properties": {
+        "code": "102",
+        "description": "Central intermediary metabolism / Other"
+      },
+      "anchor": false
+    },
+    {
+      "id": "tigr.role:103",
+      "label": "TigrRole",
+      "properties": {
+        "code": "103",
+        "description": "Central intermediary metabolism / Phosphorus compounds"
+      },
+      "anchor": false
+    },
+    {
+      "id": "tigr.role:104",
+      "label": "TigrRole",
+      "properties": {
+        "code": "104",
+        "description": "Central intermediary metabolism / Polyamine biosynthesis"
+      },
+      "anchor": false
+    },
+    {
+      "id": "tigr.role:105",
+      "label": "TigrRole",
+      "properties": {
+        "code": "105",
+        "description": "Energy metabolism / Biosynthesis and degradation of polysaccharides"
+      },
+      "anchor": false
     }
   ],
   "edges": [
@@ -1302,6 +1455,126 @@
       "type": "Kegg_subcategory_in_kegg_category",
       "source": "kegg.subcategory:09105",
       "target": "kegg.category:09100",
+      "properties": {}
+    },
+    {
+      "type": "Gene_in_cog_category",
+      "source": "ncbigene:A9601_00001",
+      "target": "cog.category:L",
+      "properties": {}
+    },
+    {
+      "type": "Gene_in_cog_category",
+      "source": "ncbigene:A9601_00011",
+      "target": "cog.category:S",
+      "properties": {}
+    },
+    {
+      "type": "Gene_in_cog_category",
+      "source": "ncbigene:A9601_00021",
+      "target": "cog.category:F",
+      "properties": {}
+    },
+    {
+      "type": "Gene_in_cog_category",
+      "source": "ncbigene:A9601_00031",
+      "target": "cog.category:F",
+      "properties": {}
+    },
+    {
+      "type": "Gene_in_cog_category",
+      "source": "ncbigene:A9601_00041",
+      "target": "cog.category:L",
+      "properties": {}
+    },
+    {
+      "type": "Gene_has_cyanorak_role",
+      "source": "ncbigene:A9601_00001",
+      "target": "cyanorak.role:F.1",
+      "properties": {}
+    },
+    {
+      "type": "Gene_has_cyanorak_role",
+      "source": "ncbigene:A9601_00011",
+      "target": "cyanorak.role:R.2",
+      "properties": {}
+    },
+    {
+      "type": "Gene_has_cyanorak_role",
+      "source": "ncbigene:A9601_00021",
+      "target": "cyanorak.role:M.3",
+      "properties": {}
+    },
+    {
+      "type": "Gene_has_cyanorak_role",
+      "source": "ncbigene:A9601_00031",
+      "target": "cyanorak.role:M.3",
+      "properties": {}
+    },
+    {
+      "type": "Gene_has_cyanorak_role",
+      "source": "ncbigene:A9601_00041",
+      "target": "cyanorak.role:F.1",
+      "properties": {}
+    },
+    {
+      "type": "Gene_has_tigr_role",
+      "source": "ncbigene:A9601_00001",
+      "target": "tigr.role:132",
+      "properties": {}
+    },
+    {
+      "type": "Gene_has_tigr_role",
+      "source": "ncbigene:A9601_00011",
+      "target": "tigr.role:156",
+      "properties": {}
+    },
+    {
+      "type": "Gene_has_tigr_role",
+      "source": "ncbigene:A9601_00021",
+      "target": "tigr.role:125",
+      "properties": {}
+    },
+    {
+      "type": "Gene_has_tigr_role",
+      "source": "ncbigene:A9601_00031",
+      "target": "tigr.role:125",
+      "properties": {}
+    },
+    {
+      "type": "Gene_has_tigr_role",
+      "source": "ncbigene:A9601_00041",
+      "target": "tigr.role:132",
+      "properties": {}
+    },
+    {
+      "type": "Cyanorak_role_is_a_cyanorak_role",
+      "source": "cyanorak.role:0.1",
+      "target": "cyanorak.role:0",
+      "properties": {}
+    },
+    {
+      "type": "Cyanorak_role_is_a_cyanorak_role",
+      "source": "cyanorak.role:0.2",
+      "target": "cyanorak.role:0",
+      "properties": {}
+    },
+    {
+      "type": "Cyanorak_role_is_a_cyanorak_role",
+      "source": "cyanorak.role:0.3",
+      "target": "cyanorak.role:0",
+      "properties": {}
+    },
+    {
+      "type": "Cyanorak_role_is_a_cyanorak_role",
+      "source": "cyanorak.role:0.4",
+      "target": "cyanorak.role:0",
+      "properties": {}
+    },
+    {
+      "type": "Cyanorak_role_is_a_cyanorak_role",
+      "source": "cyanorak.role:A.1",
+      "target": "cyanorak.role:A",
       "properties": {}
     }
   ]

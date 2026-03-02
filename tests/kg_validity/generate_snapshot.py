@@ -49,6 +49,16 @@ ANCHOR_NODES = {
     "KeggCategory": [
         "kegg.category:09100",  # Metabolism — top-level BRITE category
     ],
+    # COG anchor nodes — stable hardcoded categories
+    "CogFunctionalCategory": [
+        "cog.category:J",  # Translation, ribosomal structure and biogenesis
+        "cog.category:C",  # Energy production and conversion
+    ],
+    # CyanorakRole anchor nodes — stable top-level roles
+    "CyanorakRole": [
+        "cyanorak.role:0",   # Non-coding gene (RNA) — root of ncRNA subtree
+        "cyanorak.role:A",   # Amino acid biosynthesis — always present
+    ],
 }
 
 # Key properties to capture per node type
@@ -70,6 +80,10 @@ NODE_PROPERTIES = {
     "KeggPathway": ["name"],
     "KeggSubcategory": ["name"],
     "KeggCategory": ["name"],
+    # COG / role nodes (from MultiCogRoleAnnotationAdapter)
+    "CogFunctionalCategory": ["code", "name"],
+    "CyanorakRole": ["code", "description"],
+    "TigrRole": ["code", "description"],
 }
 
 # Key properties to capture per edge type
@@ -103,6 +117,11 @@ EDGE_PROPERTIES = {
     "Ko_in_kegg_pathway": [],
     "Kegg_pathway_in_kegg_subcategory": [],
     "Kegg_subcategory_in_kegg_category": [],
+    # COG / role edges (MultiCogRoleAnnotationAdapter)
+    "Gene_in_cog_category": [],
+    "Gene_has_cyanorak_role": [],
+    "Gene_has_tigr_role": [],
+    "Cyanorak_role_is_a_cyanorak_role": [],
 }
 
 SAMPLE_SIZE = 5

@@ -36,6 +36,10 @@ pytestmark = pytest.mark.kg
     "KeggPathway",
     "KeggSubcategory",
     "KeggCategory",
+    # COG / role nodes
+    "CogFunctionalCategory",
+    "CyanorakRole",
+    "TigrRole",
 ])
 def test_node_type_exists(run_query, label):
     """Every expected node type must have at least one node in the graph."""

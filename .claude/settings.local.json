@@ -21,7 +21,8 @@
       "Bash(bash scripts/prepare_data.sh:*)",
       "Bash(pytest:*)",
       "Bash(# Check if there''s any test for preprocess_uniprot_data or _extract_go_id or _split_field in download_uniprot grep -n \"\"preprocess_uniprot_data\\\\|_extract_go_id\\\\|_split_field\\\\|UniprotNodeField\\\\|fetch_raw_uniprot\\\\|DEFAULT_NODE_FIELDS\\\\|get_split_fields\\\\|get_nonuniprot_api_fields\"\" /fast_data/Osnat/multiomics_biocypher_kg/tests/ -r)",
-      "Bash(# Look for any test for build_gene_mapping.py specifically \\(not annotations\\) grep -rn \"\"load_gff\\\\|ncbi_merge_cds_and_gene_entries\\\\|load_gff_from_ncbi_only\\\\|load_gff_from_ncbi_and_cyanorak\\\\|_get_ec_numbers_from_gbff\\\\|_get_cyanorak_id_map_from_gbk\\\\|_get_cynaorak_ID\\\\|build_gene_mapping\\\\b\"\" /fast_data/Osnat/multiomics_biocypher_kg/tests/)"
+      "Bash(# Look for any test for build_gene_mapping.py specifically \\(not annotations\\) grep -rn \"\"load_gff\\\\|ncbi_merge_cds_and_gene_entries\\\\|load_gff_from_ncbi_only\\\\|load_gff_from_ncbi_and_cyanorak\\\\|_get_ec_numbers_from_gbff\\\\|_get_cyanorak_id_map_from_gbk\\\\|_get_cynaorak_ID\\\\|build_gene_mapping\\\\b\"\" /fast_data/Osnat/multiomics_biocypher_kg/tests/)",
+      "Bash(# Look at eggnog header head -5 /home/osnat/github/multiomics_biocypher_kg/cache/data/Prochlorococcus/genomes/MED4/eggnog/MED4.emapper.annotations)"
     ]
   }
 }
