@@ -26,6 +26,11 @@ publication:
     supp_3h_post_starvation:
       type: csv
       filename: "data/Prochlorococcus/papers_and_supp/Read 2017/DE_genes_3h_post_starvation.csv"
+      id_columns:
+      - column: locus_tag
+        id_type: locus_tag
+      product_columns:
+      - column: definition
       statistical_analyses:
         - type: RNASEQ
           name: "DE of Prochlorococcus MED4 under N-deprivation vs N-replete at 3h post N-removal"
@@ -46,6 +51,11 @@ publication:
     supp_12h_post_starvation:
       type: csv
       filename: "data/Prochlorococcus/papers_and_supp/Read 2017/DE_genes_12h_post_starvation.csv"
+      id_columns:
+      - column: locus_tag
+        id_type: locus_tag
+      product_columns:
+      - column: definition
       statistical_analyses:
         - type: RNASEQ
           name: "DE of Prochlorococcus MED4 under N-deprivation vs N-replete at 12h post N-removal"
@@ -66,6 +76,11 @@ publication:
     supp_24h_post_starvation:
       type: csv
       filename: "data/Prochlorococcus/papers_and_supp/Read 2017/DE_genes_24h_post_starvation.csv"
+      id_columns:
+      - column: locus_tag
+        id_type: locus_tag
+      product_columns:
+      - column: definition
       statistical_analyses:
         - type: RNASEQ
           name: "DE of Prochlorococcus MED4 under N-deprivation vs N-replete at 24h post N-removal"

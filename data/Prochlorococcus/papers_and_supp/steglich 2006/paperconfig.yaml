@@ -68,6 +68,11 @@ publication:
     supp_table_s1:
       type: csv
       filename: "data/Prochlorococcus/papers_and_supp/steglich 2006/supp table s1.csv"
+      id_columns:
+      - column: gene ID
+        id_type: old_locus_tag
+      product_columns:
+      - column: Description
       statistical_analyses:
         - type: MICROARRAY
           name: "DE of Prochlorococcus MED4 in high white light vs darkness"

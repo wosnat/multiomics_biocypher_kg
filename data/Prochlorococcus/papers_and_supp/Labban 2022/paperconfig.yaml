@@ -28,6 +28,11 @@ publication:
     supp_table_s1_22c:
       type: csv
       filename: "data/Prochlorococcus/papers_and_supp/Labban 2022/supp table s1.csv"
+      id_columns:
+      - column: Gene ID
+        id_type: locus_tag_ncbi
+      product_columns:
+      - column: Annotation
       statistical_analyses:
         - type: RNASEQ
           name: "DE of Prochlorococcus RSP50 at 22C vs 28C control"
@@ -46,6 +51,11 @@ publication:
     supp_table_s1_24c:
       type: csv
       filename: "data/Prochlorococcus/papers_and_supp/Labban 2022/supp table s1.csv"
+      id_columns:
+      - column: Gene ID
+        id_type: locus_tag_ncbi
+      product_columns:
+      - column: Annotation
       statistical_analyses:
         - type: RNASEQ
           name: "DE of Prochlorococcus RSP50 at 24C vs 28C control"
@@ -64,6 +74,11 @@ publication:
     supp_table_s1_26c:
       type: csv
       filename: "data/Prochlorococcus/papers_and_supp/Labban 2022/supp table s1.csv"
+      id_columns:
+      - column: Gene ID
+        id_type: locus_tag_ncbi
+      product_columns:
+      - column: Annotation
       statistical_analyses:
         - type: RNASEQ
           name: "DE of Prochlorococcus RSP50 at 26C vs 28C control"
@@ -82,6 +97,11 @@ publication:
     supp_table_s1_30c:
       type: csv
       filename: "data/Prochlorococcus/papers_and_supp/Labban 2022/supp table s1.csv"
+      id_columns:
+      - column: Gene ID
+        id_type: locus_tag_ncbi
+      product_columns:
+      - column: Annotation
       statistical_analyses:
         - type: RNASEQ
           name: "DE of Prochlorococcus RSP50 at 30C vs 28C control"

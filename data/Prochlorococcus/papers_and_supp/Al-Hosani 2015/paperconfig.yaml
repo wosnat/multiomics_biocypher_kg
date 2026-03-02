@@ -26,6 +26,9 @@ publication:
     supp_table_3:
       type: csv
       filename: data/Prochlorococcus/papers_and_supp/Al-Hosani 2015/de_genes_salt_acclimated_vs_sea_water_with_locus_tag.csv
+      id_columns:
+      - column: locus_tag
+        id_type: locus_tag
       statistical_analyses:
         - type: RNASEQ
           name: Differential expression of Prochlorococcus AS9601 under salt acclimation (5% NaCl) vs normal seawater (3.8% NaCl)

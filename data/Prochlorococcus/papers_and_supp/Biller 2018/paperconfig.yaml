@@ -24,6 +24,18 @@ publication:
     supp_table_s3:
       type: csv
       filename: "data/Prochlorococcus/papers_and_supp/Biller 2018/table S3 DE genes natl2a axenic extended darkness sys003182233st3.csv"
+      id_columns:
+      - column: NCBI ID_3
+        id_type: old_locus_tag
+      - column: NCBI ID_2
+        id_type: locus_tag_ncbi
+      - column: NCBI ID
+        id_type: locus_tag_cyanorak
+      - column: Gene Name
+        id_type: gene_name
+      product_columns:
+      - column: Genbank Annotation
+      - column: RAST annotation
       statistical_analyses:
         # Axenic Prochlorococcus NATL2A: extended darkness vs diel L:D controls
         - type: RNASEQ
@@ -121,6 +133,11 @@ publication:
     supp_table_s6b:
       type: csv
       filename: "data/Prochlorococcus/papers_and_supp/Biller 2018/table S6B DE genes in extended darkness MIT1002 sys003182233st6.csv"
+      id_columns:
+      - column: RAST_region_ID
+        id_type: annotation_specific
+      product_columns:
+      - column: RAST_Annotation
       statistical_analyses:
         - type: RNASEQ
           name: "DE Alteromonas macleodii MIT1002 in extended darkness vs diel control (1h)"

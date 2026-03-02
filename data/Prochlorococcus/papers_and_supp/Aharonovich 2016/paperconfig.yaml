@@ -16,6 +16,11 @@ publication:
     supp_table_1:
       type: csv
       filename: data/Prochlorococcus/papers_and_supp/Aharonovich 2016/de_genes_med4_t20h.csv
+      id_columns:
+      - column: Synonym
+        id_type: old_locus_tag
+      product_columns:
+      - column: Product
       statistical_analyses:
         - type: RNASEQ
           name: Differential Expression Analysis of Prochlorococcus MED4 in Coculture with Alteromonas HOT1A3 vs Axenic Conditions at 20h
@@ -36,6 +41,11 @@ publication:
     supp_table_2:
       type: csv
       filename: data/Prochlorococcus/papers_and_supp/Aharonovich 2016/de_genes_9313_t20h.csv
+      id_columns:
+      - column: Synonym
+        id_type: old_locus_tag
+      product_columns:
+      - column: Product
       statistical_analyses:
         - type: RNASEQ
           name: Differential Expression Analysis of Prochlorococcus MIT9313 in Coculture with Alteromonas HOT1A3 vs Axenic Conditions at 20h (initial Alteromonas innoculum 5x10^6 cell ml-1)
@@ -56,6 +66,11 @@ publication:
     supp_table_3:
       type: csv
       filename: data/Prochlorococcus/papers_and_supp/Aharonovich 2016/de_genes_9313_dilute_t20h.csv
+      id_columns:
+      - column: Synonym
+        id_type: old_locus_tag
+      product_columns:
+      - column: Product
       statistical_analyses:
         - type: RNASEQ
           name: Differential Expression Analysis of Prochlorococcus MIT9313 in Coculture with Alteromonas HOT1A3 vs Axenic Conditions at 20h (initial Alteromonas innoculum 0.5x10^6 cell ml-1)

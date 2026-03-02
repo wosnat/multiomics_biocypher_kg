@@ -16,6 +16,13 @@ publication:
     supp_table_s4a:
       type: csv
       filename: "data/Prochlorococcus/papers_and_supp/Lin 2015/table S4A.csv"
+      id_columns:
+      - column: ID
+        id_type: old_locus_tag
+      - column: Gene Name
+        id_type: gene_name
+      product_columns:
+      - column: Description
       statistical_analyses:
         - type: RNASEQ
           name: "DE of uninfected Prochlorococcus NATL2A under P-limitation vs P-replete at 4h"
@@ -104,6 +111,13 @@ publication:
     supp_table_s4b:
       type: csv
       filename: "data/Prochlorococcus/papers_and_supp/Lin 2015/table S4B.csv"
+      id_columns:
+      - column: ID
+        id_type: old_locus_tag
+      - column: Gene Name
+        id_type: gene_name
+      product_columns:
+      - column: Description
       statistical_analyses:
         - type: RNASEQ
           name: "DE of phage-infected Prochlorococcus NATL2A under P-limitation vs P-replete at 47h"

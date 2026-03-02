@@ -37,6 +37,7 @@ dependencies = [
     "numpy>=1.26.4",
     "setuptools>=80.9.0",
     "eggnog-mapper>=2.1.13",
+    "ruamel-yaml>=0.19.1",
 ]
 
 [tool.hatch.build.targets.wheel]

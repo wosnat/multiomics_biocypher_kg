@@ -79,6 +79,11 @@ publication:
     supp_table_med4:
       type: csv
       filename: "data/Prochlorococcus/papers_and_supp/tolonen 2006/medExpression.1.csv"
+      id_columns:
+      - column: GENE
+        id_type: old_locus_tag
+      product_columns:
+      - column: ANNOTATION
       statistical_analyses:
         # N deprivation time series for MED4
         - type: MICROARRAY
@@ -211,6 +216,11 @@ publication:
     supp_table_mit9313:
       type: csv
       filename: "data/Prochlorococcus/papers_and_supp/tolonen 2006/mitExpression.1.csv"
+      id_columns:
+      - column: GENE
+        id_type: old_locus_tag
+      product_columns:
+      - column: ANNOTATION
       statistical_analyses:
         # N deprivation time series for MIT9313
         - type: MICROARRAY

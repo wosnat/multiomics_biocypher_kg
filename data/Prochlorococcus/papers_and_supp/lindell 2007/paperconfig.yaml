@@ -6,6 +6,11 @@ publication:
     supp_table_3:
       type: csv
       filename: "data/Prochlorococcus/papers_and_supp/lindell 2007/supp table 3.csv"
+      id_columns:
+      - column: "ORF "
+        id_type: old_locus_tag
+      product_columns:
+      - column: " gene name, possible product and function"
       statistical_analyses:
         - type: MICROARRAY
           name: "Upregulated Prochlorococcus MED4 genes during phage infection at 1h"

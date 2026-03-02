@@ -37,6 +37,15 @@ publication:
       type: csv
       filename: "data/Prochlorococcus/papers_and_supp/tetu 2019/DE genes MIT9312 42003_2019_410_MOESM6_ESM.csv"
       skip_rows: 1
+      id_columns:
+      - column: MIT9312 original locus tag
+        id_type: old_locus_tag
+      - column: MIT9312 (2017 NCBI)
+        id_type: locus_tag_ncbi
+      - column: protein_id
+        id_type: protein_id_refseq
+      product_columns:
+      - column: product
       statistical_analyses:
         - type: RNASEQ
           name: "DE of Prochlorococcus MIT9312 exposed to HDPE plastic leachate vs AMP1 control"
@@ -69,6 +78,15 @@ publication:
       type: csv
       filename: "data/Prochlorococcus/papers_and_supp/tetu 2019/DE genes Natl2a 42003_2019_410_MOESM7_ESM.csv"
       skip_rows: 1
+      id_columns:
+      - column: NATL2A original locus tag
+        id_type: old_locus_tag
+      - column: NATL2A locus tag (2017 NCBI)
+        id_type: locus_tag_ncbi
+      - column: protein_id
+        id_type: protein_id_refseq
+      product_columns:
+      - column: product
       statistical_analyses:
         - type: RNASEQ
           name: "DE of Prochlorococcus NATL2A exposed to HDPE plastic leachate vs AMP1 control"

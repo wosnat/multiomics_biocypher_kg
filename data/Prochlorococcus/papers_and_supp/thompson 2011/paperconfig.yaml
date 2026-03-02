@@ -48,6 +48,13 @@ publication:
     supp_table_1:
       type: csv
       filename: "data/Prochlorococcus/papers_and_supp/thompson 2011/supp table 1_with_locus_tag.csv"
+      id_columns:
+      - column: locus_tag
+        id_type: locus_tag
+      - column: Gene
+        id_type: old_locus_tag
+      product_columns:
+      - column: Description
       statistical_analyses:
         - type: MICROARRAY
           name: "DE of Prochlorococcus MED4 under iron starvation vs iron-replete at 12h"
@@ -120,6 +127,13 @@ publication:
     supp_table_2:
       type: csv
       filename: "data/Prochlorococcus/papers_and_supp/thompson 2011/supp table 2_with_locus_tag.csv"
+      id_columns:
+      - column: locus_tag
+        id_type: locus_tag
+      - column: Gene
+        id_type: old_locus_tag
+      product_columns:
+      - column: Description
       statistical_analyses:
         - type: MICROARRAY
           name: "DE of Prochlorococcus MIT9313 under iron starvation vs iron-replete at 16h"

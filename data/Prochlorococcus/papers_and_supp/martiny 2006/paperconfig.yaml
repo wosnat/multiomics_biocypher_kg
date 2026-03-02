@@ -25,6 +25,11 @@ publication:
       type: csv
       filename: "data/Prochlorococcus/papers_and_supp/martiny 2006/01301table_1.csv"
       skip_rows: 1
+      id_columns:
+      - column: ORF
+        id_type: old_locus_tag
+      product_columns:
+      - column: Description
       statistical_analyses:
         - type: MICROARRAY
           name: "DE of Prochlorococcus MED4 under P starvation vs P replete at 0h"
@@ -105,6 +110,11 @@ publication:
       type: csv
       filename: "data/Prochlorococcus/papers_and_supp/martiny 2006/01301table_2.csv"
       skip_rows: 1
+      id_columns:
+      - column: ORF
+        id_type: old_locus_tag
+      product_columns:
+      - column: Description
       statistical_analyses:
         - type: MICROARRAY
           name: "DE of Prochlorococcus MIT9313 under P starvation vs P replete at 0h"

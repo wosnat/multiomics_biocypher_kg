@@ -33,6 +33,18 @@ publication:
       type: csv
       filename: data/Prochlorococcus/papers_and_supp/biller 2016/PRO DE genes 41396_2016_bfismej201682_moesm98_esm.csv
       skip_rows: 3
+      id_columns:
+      - column: Original_NCBI_ID
+        id_type: old_locus_tag
+      - column: Alternate_NCBI_ID
+        id_type: locus_tag_cyanorak
+      - column: Alternate_NCBI_ID_2
+        id_type: locus_tag_ncbi
+      - column: Gene name
+        id_type: gene_name
+      product_columns:
+      - column: NCBI description
+      - column: RAST description
       statistical_analyses:
         - type: RNASEQ
           name: DE Prochlorococcus NATL2A co-culture vs axenic (-12h)
@@ -149,6 +161,15 @@ publication:
     supp_table_3:
       type: csv
       filename: data/Prochlorococcus/papers_and_supp/biller 2016/ALT DE genes 41396_2016_bfismej201682_moesm99_esm_with_locus_tag.csv
+      id_columns:
+      - column: locus_tag
+        id_type: locus_tag
+      - column: Gene ID
+        id_type: old_locus_tag
+      - column: Gene name
+        id_type: gene_name
+      product_columns:
+      - column: RAST annotation
       statistical_analyses:
         - type: RNASEQ
           name: DE Alteromonas macleodii MIT1002 in co-culture (24h vs 12h)

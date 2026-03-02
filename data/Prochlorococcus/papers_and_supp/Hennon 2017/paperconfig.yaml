@@ -27,6 +27,11 @@ publication:
       type: csv
       filename: "data/Prochlorococcus/papers_and_supp/Hennon 2017/PRO DE genes 41396_2018_bfismej2017189_moesm28_esm.csv"
       skip_rows: 2
+      id_columns:
+      - column: locus_tag
+        id_type: locus_tag
+      product_columns:
+      - column: annotation
       statistical_analyses:
         - type: RNASEQ
           name: "DE of Prochlorococcus MIT9312 in coculture with Alteromonas EZ55 under elevated CO2 (800 ppm) vs ambient CO2 (400 ppm)"
@@ -46,6 +51,11 @@ publication:
       type: csv
       filename: "data/Prochlorococcus/papers_and_supp/Hennon 2017/ALT DE genes 41396_2018_bfismej2017189_moesm29_esm.csv"
       skip_rows: 2
+      id_columns:
+      - column: locus tag
+        id_type: locus_tag
+      product_columns:
+      - column: annotation
       statistical_analyses:
         - type: RNASEQ
           name: "DE of Alteromonas EZ55 in coculture with Prochlorococcus MIT9312 under elevated CO2 (800 ppm) vs ambient CO2 (400 ppm)"
@@ -65,6 +75,11 @@ publication:
       type: csv
       filename: "data/Prochlorococcus/papers_and_supp/Hennon 2017/ALT axenic DE genes 41396_2018_bfismej2017189_moesm30_esm.csv"
       skip_rows: 2
+      id_columns:
+      - column: locus tag
+        id_type: locus_tag
+      product_columns:
+      - column: annotation
       statistical_analyses:
         - type: RNASEQ
           name: "DE of axenic Alteromonas EZ55 under elevated CO2 (800 ppm) vs ambient CO2 (400 ppm)"

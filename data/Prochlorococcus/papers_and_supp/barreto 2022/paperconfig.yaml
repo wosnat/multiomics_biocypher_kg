@@ -29,6 +29,11 @@ publication:
     supp_table_S1_MIT9312:
       type: csv
       filename: "data/Prochlorococcus/papers_and_supp/barreto 2022/transcriptome_supplemental_tables/Supplemental_tables/table_S1_MIT9312.csv"
+      id_columns:
+      - column: symbol
+        id_type: gene_name
+      product_columns:
+      - column: product
       statistical_analyses:
         - type: RNASEQ
           name: "DE of Prochlorococcus MIT9312 at elevated (800 ppm) vs ambient (400 ppm) pCO2"
@@ -48,6 +53,11 @@ publication:
     supp_table_S1_CC9311:
       type: csv
       filename: "data/Prochlorococcus/papers_and_supp/barreto 2022/transcriptome_supplemental_tables/Supplemental_tables/table_S1_CC9311.csv"
+      id_columns:
+      - column: symbol
+        id_type: gene_name
+      product_columns:
+      - column: product
       statistical_analyses:
         - type: RNASEQ
           name: "DE of Synechococcus CC9311 at elevated (800 ppm) vs ambient (400 ppm) pCO2"
@@ -67,6 +77,11 @@ publication:
     supp_table_S1_WH8102:
       type: csv
       filename: "data/Prochlorococcus/papers_and_supp/barreto 2022/transcriptome_supplemental_tables/Supplemental_tables/table_S1_WH8102.csv"
+      id_columns:
+      - column: symbol
+        id_type: gene_name
+      product_columns:
+      - column: product
       statistical_analyses:
         - type: RNASEQ
           name: "DE of Synechococcus WH8102 at elevated (800 ppm) vs ambient (400 ppm) pCO2"
@@ -88,6 +103,11 @@ publication:
     supp_table_S2:
       type: csv
       filename: "data/Prochlorococcus/papers_and_supp/barreto 2022/transcriptome_supplemental_tables/Supplemental_tables/table_S2.csv"
+      id_columns:
+      - column: symbol
+        id_type: gene_name
+      product_columns:
+      - column: product
       statistical_analyses:
         - type: RNASEQ
           name: "DE of Alteromonas EZ55 at elevated (800 ppm) vs ambient (400 ppm) pCO2"
@@ -108,6 +128,11 @@ publication:
     supp_table_S9:
       type: csv
       filename: "data/Prochlorococcus/papers_and_supp/barreto 2022/transcriptome_supplemental_tables/Supplemental_tables/table_S9.csv"
+      id_columns:
+      - column: symbol
+        id_type: gene_name
+      product_columns:
+      - column: product
       statistical_analyses:
         - type: RNASEQ
           name: "DE of Alteromonas EZ55 in coculture with Prochlorococcus MIT9312 vs axenic at 400 ppm pCO2"
@@ -129,6 +154,11 @@ publication:
     supp_table_S10:
       type: csv
       filename: "data/Prochlorococcus/papers_and_supp/barreto 2022/transcriptome_supplemental_tables/Supplemental_tables/table_S10.csv"
+      id_columns:
+      - column: symbol
+        id_type: gene_name
+      product_columns:
+      - column: product
       statistical_analyses:
         - type: RNASEQ
           name: "DE of Alteromonas EZ55 in coculture with Synechococcus CC9311 vs axenic at 400 ppm pCO2"
@@ -150,6 +180,11 @@ publication:
     supp_table_S11:
       type: csv
       filename: "data/Prochlorococcus/papers_and_supp/barreto 2022/transcriptome_supplemental_tables/Supplemental_tables/table_S11.csv"
+      id_columns:
+      - column: symbol
+        id_type: gene_name
+      product_columns:
+      - column: product
       statistical_analyses:
         - type: RNASEQ
           name: "DE of Alteromonas EZ55 in coculture with Synechococcus WH8102 vs axenic at 400 ppm pCO2"
@@ -171,6 +206,11 @@ publication:
     supp_table_S12:
       type: csv
       filename: "data/Prochlorococcus/papers_and_supp/barreto 2022/transcriptome_supplemental_tables/Supplemental_tables/table_S12.csv"
+      id_columns:
+      - column: symbol
+        id_type: gene_name
+      product_columns:
+      - column: product
       statistical_analyses:
         - type: RNASEQ
           name: "DE of Alteromonas EZ55 in coculture with Prochlorococcus MIT9312 vs axenic at 800 ppm pCO2"
@@ -192,6 +232,11 @@ publication:
     supp_table_S13:
       type: csv
       filename: "data/Prochlorococcus/papers_and_supp/barreto 2022/transcriptome_supplemental_tables/Supplemental_tables/table_S13.csv"
+      id_columns:
+      - column: symbol
+        id_type: gene_name
+      product_columns:
+      - column: product
       statistical_analyses:
         - type: RNASEQ
           name: "DE of Alteromonas EZ55 in coculture with Synechococcus CC9311 vs axenic at 800 ppm pCO2"
@@ -213,6 +258,11 @@ publication:
     supp_table_S14:
       type: csv
       filename: "data/Prochlorococcus/papers_and_supp/barreto 2022/transcriptome_supplemental_tables/Supplemental_tables/table_S14.csv"
+      id_columns:
+      - column: symbol
+        id_type: gene_name
+      product_columns:
+      - column: product
       statistical_analyses:
         - type: RNASEQ
           name: "DE of Alteromonas EZ55 in coculture with Synechococcus WH8102 vs axenic at 800 ppm pCO2"

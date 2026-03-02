@@ -26,6 +26,13 @@ publication:
     supp_table_s1:
       type: csv
       filename: "data/Prochlorococcus/papers_and_supp/he 2022/table s1 Highly differentially expressed genes in low salinity acclimated cells of NATL1A _with_locus_tag.csv"
+      id_columns:
+      - column: locus_tag
+        id_type: locus_tag
+      - column: Gene Name
+        id_type: gene_name
+      product_columns:
+      - column: Definition
       statistical_analyses:
         - type: RNASEQ
           name: "Highly DE genes in Prochlorococcus NATL1A under low salinity (28 psu) vs normal seawater (34 psu)"
@@ -45,6 +52,13 @@ publication:
     supp_table_s2:
       type: csv
       filename: "data/Prochlorococcus/papers_and_supp/he 2022/table s2 Highly differentially expressed genes in low salinity acclimated cells of MED4 _with_locus_tag.csv"
+      id_columns:
+      - column: locus_tag
+        id_type: locus_tag
+      - column: Gene Name
+        id_type: gene_name
+      product_columns:
+      - column: Definition
       statistical_analyses:
         - type: RNASEQ
           name: "Highly DE genes in Prochlorococcus MED4 under low salinity (28 psu) vs normal seawater (34 psu)"

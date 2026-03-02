@@ -24,6 +24,19 @@ publication:
     supp_table_2:
       type: csv
       filename: "data/Prochlorococcus/papers_and_supp/coe 2024/Supplemental Table 2.csv"
+      id_columns:
+      - column: NCBI ID_3
+        id_type: old_locus_tag
+      - column: NCBI ID_2
+        id_type: locus_tag_ncbi
+      - column: NCBI ID
+        id_type: locus_tag_cyanorak
+      - column: Gene ID
+        id_type: annotation_specific
+      - column: Gene Name
+        id_type: gene_name
+      product_columns:
+      - column: product
       statistical_analyses:
         - type: RNASEQ
           name: "DE Prochlorococcus NATL2A dark-tolerant vs parental co-culture (0h)"
@@ -133,6 +146,15 @@ publication:
     supp_table_4:
       type: csv
       filename: "data/Prochlorococcus/papers_and_supp/coe 2024/Supplemental Table 4.csv"
+      id_columns:
+      - column: NCBI ID
+        id_type: old_locus_tag
+      - column: Gene ID
+        id_type: annotation_specific
+      - column: Gene Name
+        id_type: gene_name
+      product_columns:
+      - column: product
       statistical_analyses:
         - type: RNASEQ
           name: "DE Alteromonas macleodii MIT1002 co-cultured with dark-tolerant vs parental Prochlorococcus NATL2A (0h)"
