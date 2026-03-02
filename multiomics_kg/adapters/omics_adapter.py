@@ -669,12 +669,14 @@ class OMICSAdapter:
 
 
     def get_publication_id(self) -> str:
-        """Get the PubMed ID from the config data, if available."""
-        data = self.extracted_data 
-
-        pub = data["publication"]
-        # Use stored ID from cache (which uses DOI if available)
-        pub_id = pub.get("publication_id") or pub.get("doi") or pub.get("pubmed_id") or f"pub_{pub.get('title', 'unknown')[:20]}"
+        """Get the publication ID from extracted PDF data or config_data fallback."""
+        if hasattr(self, 'extracted_data') and "publication" in self.extracted_data:
+            pub = self.extracted_data["publication"]
+            pub_id = pub.get("publication_id") or pub.get("doi") or pub.get("pubmed_id") or f"pub_{pub.get('title', 'unknown')[:20]}"
+            return str(pub_id)
+        # Fallback to config_data when PDF extraction was not available
+        pub = self.config_data.get('publication', {})
+        pub_id = pub.get("doi") or pub.get("pubmed_id") or pub.get("papername") or "unknown"
         return str(pub_id)
 
     
