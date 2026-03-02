@@ -6,10 +6,14 @@ Usage:
 
 Checks:
     - YAML is parseable
-    - Required top-level fields exist
+    - Required top-level fields exist (or strain-level resource config with no publication block)
     - PDF file exists
-    - CSV files exist
+    - CSV files exist and are readable
     - Column names (name_col, logfc_col, adjusted_p_value_col) match CSV headers
+    - id_columns column names match CSV headers for csv and id_translation entries
+    - product_columns column names match CSV headers
+    - annotation_gff entries have organism and a valid GFF/GTF/GTF extension
+    - id_translation entries have organism and id_columns
     - Environmental condition references resolve
     - Each analysis has either organism or environmental condition edge source
     - All required analysis fields are present
@@ -30,6 +34,56 @@ REQUIRED_ANALYSIS_FIELDS = [
 ]
 
 VALID_TYPES = {"RNASEQ", "MICROARRAY", "PROTEOMICS", "METABOLOMICS"}
+VALID_ID_TYPES = {
+    "locus_tag", "locus_tag_ncbi", "locus_tag_cyanorak",
+    "old_locus_tag", "alternative_locus_tag",
+    "gene_name", "gene_synonym",
+    "protein_id_refseq", "uniprot_accession", "uniprot_entry_name",
+    "jgi_id", "probeset", "rast_id", "annotation_specific", "other",
+}
+
+
+def _read_csv_safe(fn, sep, skip, errors, table_key):
+    """Read CSV headers + 5 rows. Returns (df, cols) or (None, None) on failure."""
+    try:
+        if skip:
+            df = pd.read_csv(fn, sep=sep, skiprows=skip, nrows=5)
+        else:
+            df = pd.read_csv(fn, sep=sep, nrows=5)
+        return df, list(df.columns)
+    except Exception as e:
+        errors.append(f"{table_key}: Cannot read CSV: {e}")
+        return None, None
+
+
+def _validate_id_columns(id_columns, cols, table_key, errors, warnings):
+    """Check each declared id_column against actual CSV columns."""
+    for id_col_def in id_columns:
+        col_name = id_col_def.get("column", "")
+        id_type = id_col_def.get("id_type", "")
+        if not col_name:
+            errors.append(f"{table_key}: id_columns entry missing 'column'")
+        elif col_name not in cols:
+            errors.append(f"{table_key}: id_columns column '{col_name}' not found in CSV")
+        else:
+            print(f"      id_col '{col_name}' ({id_type}): OK")
+        if id_type and id_type not in VALID_ID_TYPES:
+            warnings.append(
+                f"{table_key}: id_type '{id_type}' not in known types; "
+                f"valid: {sorted(VALID_ID_TYPES)}"
+            )
+
+
+def _validate_product_columns(product_columns, cols, table_key, warnings):
+    """Check each declared product_column against actual CSV columns."""
+    for prod_col_def in product_columns:
+        col_name = prod_col_def.get("column", "")
+        if not col_name:
+            continue
+        if col_name not in cols:
+            warnings.append(f"{table_key}: product_columns column '{col_name}' not found in CSV")
+        else:
+            print(f"      product_col '{col_name}': OK")
 
 
 def validate(config_path: str) -> bool:
@@ -44,34 +98,43 @@ def validate(config_path: str) -> bool:
         print(f"FAIL: Cannot parse YAML: {e}")
         return False
 
-    if not config or "publication" not in config:
-        print("FAIL: Missing top-level 'publication' key")
-        return False
+    # Detect strain-level resource config (no 'publication' block)
+    is_resource_config = bool(config) and "publication" not in config
 
-    pub = config["publication"]
-
-    # --- papername ---
-    if "papername" not in pub:
-        errors.append("Missing 'papername'")
+    if is_resource_config:
+        print("  [strain-level resource config — no publication block]")
+        pub = {}
+        supp = config.get("supplementary_materials")
+        env_conds = {}
     else:
-        print(f"  papername: {pub['papername']}")
+        if not config or "publication" not in config:
+            print("FAIL: Missing top-level 'publication' key")
+            return False
 
-    # --- PDF ---
-    pdf = pub.get("papermainpdf", "")
-    if not pdf:
-        warnings.append("Missing 'papermainpdf' (optional but recommended)")
-    elif not os.path.exists(pdf):
-        errors.append(f"PDF not found: {pdf}")
-    else:
-        print(f"  PDF exists: {pdf}")
+        pub = config["publication"]
 
-    # --- Environmental conditions ---
-    env_conds = pub.get("environmental_conditions", {})
-    if env_conds:
-        print(f"  Environmental conditions: {list(env_conds.keys())}")
+        # --- papername ---
+        if "papername" not in pub:
+            errors.append("Missing 'papername'")
+        else:
+            print(f"  papername: {pub['papername']}")
 
-    # --- Supplementary materials ---
-    supp = pub.get("supplementary_materials")
+        # --- PDF ---
+        pdf = pub.get("papermainpdf", "")
+        if not pdf:
+            warnings.append("Missing 'papermainpdf' (optional but recommended)")
+        elif not os.path.exists(pdf):
+            errors.append(f"PDF not found: {pdf}")
+        else:
+            print(f"  PDF exists: {pdf}")
+
+        # --- Environmental conditions ---
+        env_conds = pub.get("environmental_conditions", {})
+        if env_conds:
+            print(f"  Environmental conditions: {list(env_conds.keys())}")
+
+        supp = pub.get("supplementary_materials")
+
     if not supp:
         errors.append("Missing 'supplementary_materials'")
         _print_results(errors, warnings)
@@ -80,7 +143,9 @@ def validate(config_path: str) -> bool:
     all_ids = []
 
     for table_key, table in supp.items():
-        print(f"\n  [{table_key}]")
+        table_type = table.get("type", "csv")
+        print(f"\n  [{table_key}] (type: {table_type})")
+
         fn = table.get("filename", "")
         if not fn:
             errors.append(f"{table_key}: Missing 'filename'")
@@ -92,23 +157,70 @@ def validate(config_path: str) -> bool:
 
         print(f"    file: {fn}")
 
-        # Read CSV headers
-        skip = table.get("skip_rows", 0)
-        try:
-            if skip:
-                df = pd.read_csv(fn, skiprows=skip, nrows=5)
+        # ── annotation_gff ──────────────────────────────────────────────────
+        if table_type == "annotation_gff":
+            organism = table.get("organism", "")
+            if not organism:
+                errors.append(f"{table_key}: annotation_gff requires 'organism'")
             else:
-                df = pd.read_csv(fn, nrows=5)
-            cols = list(df.columns)
-        except Exception as e:
-            errors.append(f"{table_key}: Cannot read CSV: {e}")
+                print(f"    organism: {organism}")
+            ext = os.path.splitext(fn)[1].lower()
+            if ext not in (".gff", ".gff3", ".gtf"):
+                warnings.append(
+                    f"{table_key}: expected .gff/.gff3/.gtf extension, got '{ext}'"
+                )
+            # No CSV parsing, no analyses needed for this type
+            continue
+
+        # ── id_translation ──────────────────────────────────────────────────
+        if table_type == "id_translation":
+            organism = table.get("organism", "")
+            if not organism:
+                errors.append(f"{table_key}: id_translation requires 'organism'")
+            else:
+                print(f"    organism: {organism}")
+
+            id_columns = table.get("id_columns", [])
+            if not id_columns:
+                errors.append(f"{table_key}: id_translation requires 'id_columns'")
+
+            sep = table.get("sep", ",")
+            skip = table.get("skip_rows", 0)
+            df, cols = _read_csv_safe(fn, sep, skip, errors, table_key)
+            if cols is None:
+                continue
+            print(f"    columns: {cols}")
+
+            if id_columns:
+                _validate_id_columns(id_columns, cols, table_key, errors, warnings)
+
+            prod_cols = table.get("product_columns", [])
+            _validate_product_columns(prod_cols, cols, table_key, warnings)
+
+            # No statistical_analyses for id_translation
+            continue
+
+        # ── csv (default) ───────────────────────────────────────────────────
+        sep = table.get("sep", ",")
+        skip = table.get("skip_rows", 0)
+        df, cols = _read_csv_safe(fn, sep, skip, errors, table_key)
+        if cols is None:
             continue
 
         print(f"    columns: {cols}")
 
+        # Validate id_columns if declared
+        id_columns = table.get("id_columns", [])
+        if id_columns:
+            _validate_id_columns(id_columns, cols, table_key, errors, warnings)
+
+        # Validate product_columns if declared
+        prod_cols = table.get("product_columns", [])
+        _validate_product_columns(prod_cols, cols, table_key, warnings)
+
         analyses = table.get("statistical_analyses", [])
         if not analyses:
-            errors.append(f"{table_key}: No 'statistical_analyses' defined")
+            errors.append(f"{table_key}: type 'csv' requires 'statistical_analyses'")
             continue
 
         for i, analysis in enumerate(analyses):
@@ -141,7 +253,7 @@ def validate(config_path: str) -> bool:
             elif logfc_col:
                 print(f"      logfc_col '{logfc_col}': OK")
                 # Check if values look numeric
-                if len(df) > 0:
+                if df is not None and len(df) > 0:
                     sample_vals = df[logfc_col].dropna().head(3).tolist()
                     non_numeric = []
                     for v in sample_vals:
@@ -215,17 +327,18 @@ def validate(config_path: str) -> bool:
                     )
 
     # --- Check ID uniqueness ---
-    print(f"\n  All analysis IDs: {all_ids}")
-    seen = set()
-    dupes = []
-    for aid in all_ids:
-        if aid in seen:
-            dupes.append(aid)
-        seen.add(aid)
-    if dupes:
-        errors.append(f"Duplicate analysis IDs: {dupes}")
-    else:
-        print("  All IDs unique: OK")
+    if all_ids:
+        print(f"\n  All analysis IDs: {all_ids}")
+        seen = set()
+        dupes = []
+        for aid in all_ids:
+            if aid in seen:
+                dupes.append(aid)
+            seen.add(aid)
+        if dupes:
+            errors.append(f"Duplicate analysis IDs: {dupes}")
+        else:
+            print("  All IDs unique: OK")
 
     _print_results(errors, warnings)
     return len(errors) == 0

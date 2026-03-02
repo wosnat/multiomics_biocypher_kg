@@ -42,6 +42,12 @@ from multiomics_kg.utils.gene_id_utils import (
 LOOKUP_SAMPLE_SIZE = 50
 
 
+def get_resolved_path(csv_path):
+    """Return the pre-resolved CSV path: <stem>_resolved<ext>."""
+    p = Path(csv_path)
+    return p.parent / f"{p.stem}_resolved{p.suffix}"
+
+
 def find_latest_biocypher_dir(base_dir="biocypher-out"):
     """Find the most recent biocypher output directory by timestamp name."""
     base = Path(base_dir)
@@ -419,7 +425,84 @@ def analyze_paperconfig(paperconfig_path, gene_index, project_root, import_repor
                 "mismatched_ids": [],
                 "import_report_missing": None,
                 "import_report_count": 0,
+                "resolved_csv_used": False,
+                "resolved_csv_path": None,
+                "pre_unresolved_count": 0,
             }
+
+            # Check for pre-resolved CSV (written by resolve_paper_ids.py / prepare_data step 4)
+            # If it exists, the omics_adapter will use it — so we check that instead.
+            if csv_path and csv_path.exists():
+                resolved_path = get_resolved_path(csv_path)
+                if resolved_path.exists():
+                    result["resolved_csv_used"] = True
+                    result["resolved_csv_path"] = str(resolved_path)
+
+                    try:
+                        df_res = pd.read_csv(str(resolved_path))
+                    except Exception as e:
+                        result["status"] = "ERROR"
+                        result["details"] = f"Cannot read resolved CSV {resolved_path.name}: {e}"
+                        analyses_results.append(result)
+                        continue
+
+                    if "locus_tag" not in df_res.columns:
+                        result["status"] = "ERROR"
+                        result["details"] = f"Resolved CSV {resolved_path.name} has no locus_tag column"
+                        analyses_results.append(result)
+                        continue
+
+                    # NaN locus_tag = row was unresolved by resolve_paper_ids.py (will be skipped by omics_adapter)
+                    lt_series = df_res["locus_tag"]
+                    is_unresolved = lt_series.isna() | (lt_series.astype(str) == "nan")
+                    pre_unresolved_count = int(is_unresolved.sum())
+                    resolved_tags = lt_series[~is_unresolved].astype(str).tolist()
+
+                    result["total_ids"] = len(df_res)
+                    result["pre_unresolved_count"] = pre_unresolved_count
+
+                    # Check resolved locus tags against gene nodes
+                    primary_ids = gene_index["primary_ids"]
+                    matched_lt = [lt for lt in resolved_tags if f"ncbigene:{lt}" in primary_ids]
+                    mismatched_lt = [lt for lt in resolved_tags if f"ncbigene:{lt}" not in primary_ids]
+                    result["matched_count"] = len(matched_lt)
+                    result["mismatched_count"] = len(mismatched_lt)
+                    result["mismatched_ids"] = mismatched_lt
+
+                    # Cross-reference with import report
+                    ir_missing = find_import_report_mismatches(analysis, import_report)
+                    if ir_missing is not None:
+                        result["import_report_missing"] = ir_missing
+                        result["import_report_count"] = len(ir_missing)
+
+                    n_resolved = len(resolved_tags)
+                    if n_resolved == 0:
+                        result["status"] = "PRE_UNRESOLVED"
+                        result["details"] = (
+                            f"All {pre_unresolved_count} rows unresolved by resolve_paper_ids.py "
+                            f"(no edges will be created). Re-run prepare_data step 3+4 or check "
+                            f"that gene_id_mapping.json exists for {organism}."
+                        )
+                    elif len(mismatched_lt) == 0 or len(matched_lt) / n_resolved >= 0.95:
+                        result["status"] = "MATCH"
+                        parts = [f"{len(matched_lt)}/{n_resolved} resolved locus tags match gene nodes"]
+                        if pre_unresolved_count:
+                            parts.append(f"{pre_unresolved_count} pre-unresolved rows (no edges)")
+                        if mismatched_lt:
+                            parts.append(f"{len(mismatched_lt)} unmatched (stale resolved CSV?)")
+                        result["details"] = "; ".join(parts)
+                    else:
+                        result["status"] = "PARTIAL MATCH"
+                        result["fix_strategy"] = "REBUILD_RESOLVED"
+                        result["details"] = (
+                            f"Using {resolved_path.name}: {len(matched_lt)}/{n_resolved} locus tags match "
+                            f"gene nodes; {len(mismatched_lt)} don't. "
+                            f"{pre_unresolved_count} pre-unresolved rows (no edges). "
+                            f"Re-run prepare_data steps 3+4 --force to rebuild gene_id_mapping.json and _resolved.csv."
+                        )
+
+                    analyses_results.append(result)
+                    continue  # resolved CSV handled; skip original CSV checking
 
             # Read CSV — read ALL rows
             if not csv_path or not csv_path.exists():
@@ -700,6 +783,8 @@ def format_report(all_results, import_report=None):
             lines.append(f"    Status: {a['status']}")
 
             # Detailed breakdown
+            if a.get("resolved_csv_used"):
+                lines.append(f"    Using pre-resolved CSV: {Path(a['resolved_csv_path']).name}")
             if a["total_ids"] > 0:
                 parts = []
                 parts.append(f"Total rows: {a['total_ids']}")
@@ -709,6 +794,8 @@ def format_report(all_results, import_report=None):
                     parts.append(f"Matched (secondary): {a['matched_secondary_count']}")
                 if a["rna_count"]:
                     parts.append(f"RNA/tRNA/ncRNA: {a['rna_count']} (OK)")
+                if a.get("pre_unresolved_count", 0):
+                    parts.append(f"Pre-unresolved: {a['pre_unresolved_count']} (no edges)")
                 if a["mismatched_count"]:
                     parts.append(f"Mismatched: {a['mismatched_count']}")
                 if a["empty_count"]:
@@ -763,9 +850,11 @@ def format_report(all_results, import_report=None):
                 "matched": a["matched_count"],
                 "matched_sec": a.get("matched_secondary_count", 0),
                 "rna": a["rna_count"],
+                "pre_unresolved": a.get("pre_unresolved_count", 0),
                 "mismatched": a["mismatched_count"],
                 "import_report": a.get("import_report_count", 0),
                 "fix_strategy": a["fix_strategy"] or "—",
+                "resolved_csv": a.get("resolved_csv_used", False),
             })
 
     # Summary table
@@ -786,7 +875,7 @@ def format_report(all_results, import_report=None):
 
     header = (
         f"{'Publication':<{pub_w}} | {'Analysis':<{aid_w}} | {'Status':<{stat_w}} | "
-        f"{'Match':>5} | {'2nd':>3} | {'RNA':>3} | {'Miss':>4} | {'IR':>3} | Fix Strategy"
+        f"{'Match':>5} | {'2nd':>3} | {'RNA':>3} | {'!Res':>4} | {'Miss':>4} | {'IR':>3} | Fix Strategy"
     )
     lines.append(header)
     lines.append("-" * len(header))
@@ -795,10 +884,14 @@ def format_report(all_results, import_report=None):
         aid_short = r["analysis_id"][:35]
         ir_str = str(r["import_report"]) if r["import_report"] > 0 else ""
         sec_str = str(r["matched_sec"]) if r["matched_sec"] > 0 else ""
+        pre_unres_str = str(r["pre_unresolved"]) if r["pre_unresolved"] > 0 else ""
+        res_marker = "*" if r["resolved_csv"] else " "
         lines.append(
             f"{r['publication']:<{pub_w}} | {aid_short:<{aid_w}} | {r['status']:<{stat_w}} | "
-            f"{r['matched']:>5} | {sec_str:>3} | {r['rna']:>3} | {r['mismatched']:>4} | {ir_str:>3} | {r['fix_strategy']}"
+            f"{r['matched']:>5} | {sec_str:>3} | {r['rna']:>3} | {pre_unres_str:>4} | {r['mismatched']:>4} | {ir_str:>3} |{res_marker}{r['fix_strategy']}"
         )
+
+    lines.append("  * = using pre-resolved CSV (_resolved.csv); !Res = rows unresolved by resolve_paper_ids.py")
 
     # Stats
     total = len(summary_rows)
@@ -806,6 +899,7 @@ def format_report(all_results, import_report=None):
     partial = sum(1 for r in summary_rows if r["status"] == "PARTIAL MATCH")
     no_match = sum(1 for r in summary_rows if r["status"] == "NO MATCH")
     rna_only = sum(1 for r in summary_rows if r["status"] == "RNA_ONLY")
+    pre_unresolved_only = sum(1 for r in summary_rows if r["status"] == "PRE_UNRESOLVED")
     errors = sum(1 for r in summary_rows if r["status"] == "ERROR")
 
     lines.append("")
@@ -817,21 +911,29 @@ def format_report(all_results, import_report=None):
         lines.append(f"  NO MATCH: {no_match}")
     if rna_only:
         lines.append(f"  RNA_ONLY: {rna_only}")
+    if pre_unresolved_only:
+        lines.append(f"  PRE_UNRESOLVED: {pre_unresolved_only}")
     if errors:
         lines.append(f"  ERROR: {errors}")
 
     # Total counts
     total_matched = sum(r["matched"] + r["matched_sec"] for r in summary_rows)
     total_rna = sum(r["rna"] for r in summary_rows)
+    total_pre_unresolved = sum(r["pre_unresolved"] for r in summary_rows)
     total_mismatched = sum(r["mismatched"] for r in summary_rows)
     total_ir = sum(r["import_report"] for r in summary_rows)
+    n_using_resolved = sum(1 for r in summary_rows if r["resolved_csv"])
     lines.append("")
     lines.append(f"Total gene IDs across all analyses: {total_matched + total_mismatched}")
     lines.append(f"  Matched: {total_matched}")
     lines.append(f"  RNA/tRNA/ncRNA (OK): {total_rna}")
+    if total_pre_unresolved:
+        lines.append(f"  Pre-unresolved (no edges): {total_pre_unresolved}")
     lines.append(f"  Mismatched: {total_mismatched}")
     if total_ir:
         lines.append(f"  Confirmed in import report: {total_ir}")
+    if n_using_resolved:
+        lines.append(f"  Analyses using pre-resolved CSV: {n_using_resolved}")
 
     # Strategy breakdown
     strategies = defaultdict(int)

@@ -18,6 +18,13 @@ publication:
       description: "Growth at elevated pCO2 (800 ppm CO2)"
 
   supplementary_materials:
+    # Paper-supplied GTF for Alteromonas EZ55 genome reannotation.
+    # Bridges EZ55 gene symbols to canonical locus tags for build_gene_id_mapping.py.
+    annotation_gtf_ez55:
+      type: annotation_gff
+      filename: "data/Prochlorococcus/papers_and_supp/barreto 2022/EZ55.exon.fixed2.gtf"
+      organism: "Alteromonas macleodii EZ55"
+
     # Table S1: pCO2 effect on picocyanobacteria (split per species from original table_S1.csv)
     supp_table_S1_MIT9312:
       type: csv

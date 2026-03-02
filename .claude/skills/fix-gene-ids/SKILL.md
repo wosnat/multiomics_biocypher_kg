@@ -10,6 +10,14 @@ allowed-tools: Read, Grep, Glob, Bash(uv *), Bash(python *), Bash(docker *)
 
 Map gene IDs in paper supplementary table CSVs to locus tags using the organism's `gene_mapping.csv` and `gene_mapping_supp.csv` (cross-paper alternative IDs). Creates new `_with_locus_tag.csv` files with a `locus_tag` column that matches gene node primary IDs.
 
+> **Prefer the steps 3+4 pipeline for most cases.** Running `resolve_paper_ids.py` (prepare_data step 4) creates a `_resolved.csv` alongside the original file that the `omics_adapter` uses automatically — **no paperconfig change needed**. Use this skill (`fix-gene-ids`) only when the automated pipeline can't resolve IDs and you need manual multi-column scanning, or when you want a permanent `_with_locus_tag.csv` checked into the repo.
+>
+> Steps 3+4 pipeline (preferred):
+> ```bash
+> uv run python -m multiomics_kg.download.build_gene_id_mapping --strains <Strain> --force  # step 3
+> uv run python -m multiomics_kg.download.resolve_paper_ids --papers "Paper Name" --force   # step 4
+> ```
+
 ## Quick Start
 
 ```bash
@@ -64,6 +72,8 @@ Update the paperconfig.yaml:
 
 Then run `/check-gene-ids` to verify the fix.
 
+> **Alternative (no paperconfig change):** if the IDs in the original CSV can be resolved via `gene_id_mapping.json`, run steps 3+4 instead — this creates `_resolved.csv` transparently and the omics_adapter uses it automatically without touching the paperconfig.
+
 Optionally, validate that functional annotations in the CSV match the reference annotations:
 
 ```bash
@@ -83,6 +93,22 @@ Each run generates `fix_gene_ids_report.md` in the paper's directory with:
 
 ## When to Use
 
-- When `/check-gene-ids` reports `CREATE_MAPPING_CSV` or `CREATE_MAPPING_SUPP` fix strategy
-- When a paper's CSV has partial matches and you want to recover more IDs via alternative columns
-- When patching existing `_with_locus_tag.csv` files to fill empty locus_tag values or fix import-report mismatches
+Use this skill when the **steps 3+4 pipeline is insufficient**:
+
+- `/check-gene-ids` reports `CREATE_MAPPING_CSV` or `CREATE_MAPPING_SUPP` and you need the mapping to be permanent (checked-in `_with_locus_tag.csv` rather than a generated `_resolved.csv`)
+- A paper's CSV has partial matches and you need multi-column scanning to recover more IDs (tries all ID-like columns automatically)
+- Patching existing `_with_locus_tag.csv` files to fill empty locus_tag values or fix import-report mismatches (`--patch` mode)
+- The paper's IDs can't be resolved via `gene_id_mapping.json` and require custom lookup logic
+
+**If the paper uses non-standard IDs** (JGI IDs, probesets, paper-specific annotation IDs), first add `id_translation` and/or `annotation_gff` entries to the paperconfig and rebuild, then decide: steps 3+4 (transparent `_resolved.csv`, no paperconfig change) or this skill (`_with_locus_tag.csv`, requires paperconfig update):
+
+```bash
+# Option A: transparent pipeline (preferred)
+uv run python -m multiomics_kg.download.build_gene_id_mapping --strains <Strain> --force
+uv run python -m multiomics_kg.download.resolve_paper_ids --papers "Paper Name" --force
+
+# Option B: permanent mapping file (this skill)
+uv run python -m multiomics_kg.download.build_gene_id_mapping --strains <Strain> --force
+uv run python .claude/skills/fix-gene-ids/fix_gene_ids.py --paperconfig "data/.../paperconfig.yaml"
+# then update filename + name_col in paperconfig.yaml
+```

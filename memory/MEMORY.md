@@ -12,6 +12,14 @@
 - Usage: `uv run python scripts/validate_annotations.py [--no-llm] [--papers "Name"] [--llm-model MODEL]`
 - Al-Hosani 2015 and Anjur 2025 have no annotation columns (by design — CSVs only have fold-change data)
 
+## gene_id_mapping_utility.md plan status
+- Phases 1-7: COMPLETE (build scripts, gene_id_utils extensions, omics_adapter, prepare_data.sh, paperconfig skill)
+- Phase 8: COMPLETE (check/fix-gene-ids SKILL.md updated with mapping refresh note)
+- MIT9313_resources paperconfig: CREATED — `data/Prochlorococcus/papers_and_supp/MIT9313_resources/paperconfig.yaml`
+  - `id_translation` for MIT9313_genbank.tsv: locus_tag, PMTid (old_locus_tag), P9313name (old_locus_tag), uniprot_id
+- barreto 2022: `annotation_gtf_ez55` entry added for `EZ55.exon.fixed2.gtf` (organism: Alteromonas macleodii EZ55)
+- Phase 2 curation (20 remaining paperconfigs): PENDING — add id_columns/product_columns to each
+
 ## build_gene_id_mapping.py
 - Location: `multiomics_kg/download/build_gene_id_mapping.py`
 - Run as module: `uv run python -m multiomics_kg.download.build_gene_id_mapping [--strains X] [--force]`

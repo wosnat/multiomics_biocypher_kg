@@ -571,16 +571,37 @@ When the user invokes this skill with a paper directory name (e.g., `/paperconfi
 1. Look for the paper directory under `data/Prochlorococcus/papers_and_supp/$ARGUMENTS/`
 2. List all files in that directory (PDF, CSV, XLSX, TXT, DOCX, GFF, GTF, etc.)
 3. Read any legend/description text files first -- these explain what the supplementary tables contain (column meanings, significance criteria, experimental details)
-4. Read the CSV file headers and a few sample rows to identify available columns and data format (check for asterisks in fold-change values, presence of p-value columns, skip rows, etc.)
-5. Read the PDF to understand the experiment (organisms, conditions, methods, statistical approach)
-6. Draft the `paperconfig.yaml` following the schema above:
-   - For each CSV: document all gene ID columns via `id_columns` with the appropriate `id_type`
-   - If the paper includes a pure ID-mapping table (no DE data), use `type: id_translation` and place it **before** any `csv` entries for the same organism
-   - If the paper includes a GFF/GTF reannotation file, add an `annotation_gff` entry
-   - If the `name_col` IDs are non-standard (JGI IDs, probesets, paper-specific IDs), the `id_translation` entry should map them to locus tags so the DE data can be resolved by `build_gene_id_mapping.py`
-7. **Register any new organisms** in the central CSVs (see "Registering New Organisms" below)
-8. Run the validation script (see below) to check all paths, columns, references, and ID uniqueness
-9. Register the config in `paperconfig_files.txt`
+4. Read the PDF to understand the experiment (organisms, conditions, methods, statistical approach)
+5. For each data file (CSV, TSV, XLSX):
+   - Read the headers and a few sample rows
+   - Check: are there extra header rows before the data? Set `skip_rows` if so
+   - Check: are fold-change values appended with `*`? Set `pvalue_asterisk_in_logfc: true`
+   - Determine the delimiter (`sep`: `","` or `"\t"`)
+   - **Classify every column:**
+     - Which columns contain **gene identifiers**? → declare in `id_columns` with `id_type`:
+       - Locus tags (PMM0001, P9301_RS09095 style) → `locus_tag` or `locus_tag_ncbi`
+       - Old/legacy locus tags (P9301_05911 style) → `old_locus_tag`
+       - UniProt accessions (Q7V6L1) → `uniprot_accession`
+       - UniProt entry names (DNAA_PROM0) → `uniprot_entry_name`
+       - RefSeq WP_ accessions → `protein_id_refseq`
+       - JGI IMG integer IDs → `jgi_id`
+       - Gene symbols (dnaA, dnaN) → `gene_name`
+       - Microarray probesets → `probeset`
+       - RAST fig|...|peg.N IDs → `rast_id`
+       - Paper-specific IDs without a standard type → `annotation_specific`
+     - Which columns contain **functional descriptions** (product names, annotations)? → declare in `product_columns`
+     - Which columns are the **fold-change** and **p-value** columns? → `logfc_col`, `adjusted_p_value_col`
+   - Determine whether this file is a DE results table (→ `type: csv`) or a pure ID mapping table with no expression data (→ `type: id_translation`)
+6. Check for GFF/GTF files in the directory. If present:
+   - Add an `annotation_gff` entry with `type: annotation_gff`, `filename`, and `organism`
+   - These are processed by `build_gene_id_mapping.py` to bridge paper-specific IDs to canonical locus tags; the omics adapter ignores them
+7. Draft the `paperconfig.yaml` following the schema above:
+   - List `id_translation` and `annotation_gff` entries **before** any `csv` entries for the same organism so alt-IDs are in the lookup when DE data is processed
+   - If the `name_col` IDs are non-standard (JGI IDs, probesets, RAST IDs), ensure an `id_translation` entry maps them to locus tags before the DE CSV is processed
+   - Declare `id_columns` on every `csv` entry to document the gene ID provenance, even when `name_col` is already `locus_tag` (post-fix-gene-ids state)
+8. **Register any new organisms** in the central CSVs (see "Registering New Organisms" below)
+9. Run the validation script (see below) to check all paths, columns, references, and ID uniqueness
+10. Register the config in `paperconfig_files.txt`
 
 ### Registering New Organisms
 

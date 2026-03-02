@@ -143,7 +143,7 @@ publication:
 ```
 
 3. Add the path to `data/Prochlorococcus/papers_and_supp/paperconfig_files.txt`
-4. If the publication uses non-standard gene IDs (JGI catalog IDs, probesets, etc.), add `id_translation` and/or `annotation_gff` entries to the paperconfig (see "Gene ID Mapping" below), then run `bash scripts/prepare_data.sh --steps 3 --strains <Strain> --force`
+4. If the publication uses non-standard gene IDs (JGI catalog IDs, probesets, etc.), add `id_translation` and/or `annotation_gff` entries to the paperconfig (see "Gene ID Mapping" below), then run `bash scripts/prepare_data.sh --steps 3 4 --strains <Strain> --force`
 5. Verify gene ID matching: use the `/check-gene-ids` skill; if mapping is needed, use `/fix-gene-ids`
 6. The `MultiOMICSAdapter` picks it up automatically from the text file list
 
@@ -229,7 +229,7 @@ bash scripts/prepare_data.sh --strains MED4 MIT9313 --force
 bash scripts/prepare_data.sh --steps 1 2 --force   # rebuild annotation tables only
 ```
 
-Logs written to `logs/prepare_data_step0.log` … `logs/prepare_data_step3.log`. Monitor with `tail -f logs/prepare_data_step0.log`.
+Logs written to `logs/prepare_data_step0.log` … `logs/prepare_data_step4.log`. Monitor with `tail -f logs/prepare_data_step0.log`.
 
 **Step 0** (`multiomics_kg/download/download_genome_data.py`) — sub-steps:
 - 1: NCBI genome (GFF, protein FASTA, GBFF)
@@ -243,6 +243,8 @@ Logs written to `logs/prepare_data_step0.log` … `logs/prepare_data_step3.log`.
 **Step 2** (`multiomics_kg/download/build_gene_annotations.py`) — merges gene_mapping.csv + eggNOG + UniProt (protein_annotations.json) → `gene_annotations_merged.json` per strain. Requires step 1.
 
 **Step 3** (`multiomics_kg/download/build_gene_id_mapping.py`) — builds extended gene ID mappings (`gene_id_mapping.json` and backward-compat `gene_mapping_supp.csv`) per strain by harvesting `id_translation` and `annotation_gff` entries from all paperconfigs. Run as module: `uv run python -m multiomics_kg.download.build_gene_id_mapping`. Required for strains with non-standard IDs (JGI catalog IDs, probesets, etc.) in publication CSVs. Requires step 2.
+
+**Step 4** (`multiomics_kg/download/resolve_paper_ids.py`) — pre-resolves gene IDs in paper CSVs: for each `csv` supplementary table whose `name_col` is not already `locus_tag`, loads the source CSV, resolves each `name_col` value via `build_id_lookup()` (uses `gene_id_mapping.json`), and writes `<stem>_resolved.csv` alongside the original with two extra columns: `locus_tag` (NaN when unresolved) and `resolution_method`. The `omics_adapter` probes for these files and uses the pre-resolved locus tags instead of the original `name_col`, avoiding dangling edges. Run as module: `uv run python -m multiomics_kg.download.resolve_paper_ids [--force] [--papers "Paper Name"]`. Requires step 3.
 
 ## Data Locations
 
