@@ -36,6 +36,46 @@ def _split(value: str, delimiter: str) -> list[str]:
     return [v.strip() for v in parts if v.strip() and v.strip() != "-"]
 
 
+def extract_first_match_in_sources(
+    sources: list[dict],
+    gm: dict,
+    eg: dict,
+    up: dict,
+    pattern: str,
+    extract_group: int = 0,
+) -> str | None:
+    """Return first token (across sources) whose full string matches ``pattern``.
+
+    Tries each source in order; within a source iterates tokens left-to-right.
+    Returns the captured group ``extract_group`` (0 = full match).
+
+    Intended for config entries of type ``extract_first_match``.
+    """
+    compiled = re.compile(pattern)
+    for src_cfg in sources:
+        source = src_cfg.get("source", "")
+        field = src_cfg.get("field", "")
+        if source == "gene_mapping":
+            raw = gm.get(field)
+        elif source == "eggnog":
+            raw = eg.get(field)
+        elif source == "uniprot":
+            raw = up.get(field)
+        else:
+            continue
+        if isinstance(raw, str):
+            raw = raw.strip()
+        if not _nonempty(raw):
+            continue
+        delimiter = src_cfg.get("delimiter", ",")
+        tokens = _coerce_to_tokens(raw, delimiter)
+        for tok in tokens:
+            m = compiled.match(tok.strip())
+            if m:
+                return m.group(extract_group)
+    return None
+
+
 def _coerce_to_tokens(raw: Any, delimiter: str) -> list[str]:
     """Convert a raw value (str or list) to a flat list of non-empty string tokens.
 

@@ -134,6 +134,8 @@ class GeneNodeField(Enum, metaclass=GeneEnumMeta):
     SEED_ORTHOLOG = 'seed_ortholog'
     MAX_ANNOT_LVL = 'max_annot_lvl'
     SEED_ORTHOLOG_EVALUE = 'seed_ortholog_evalue'
+    ALTEROMONADACEAE_OG = 'alteromonadaceae_og'
+    BACTERIA_COG_OG = 'bacteria_cog_og'
     PROTEIN_FAMILY = 'protein_family'
     # Gene Ontology
     GO_TERMS = 'go_terms'

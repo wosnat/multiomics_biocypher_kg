@@ -35,6 +35,38 @@ WITH g1, g2, c, o1, o2,
   END AS distance
 MERGE (g1)-[:Gene_is_homolog_of_gene {source: "cyanorak_cluster", cluster_id: c.cluster_number, distance: distance}]->(g2);
 
+// Create Gene_is_homolog_of_gene edges between Alteromonas genes sharing an
+// Alteromonadaceae-level eggNOG OG (within-Alteromonas orthologs).
+// distance = "same family: Alteromonadaceae" for cross-strain pairs.
+MATCH (g1:Gene)-[:Gene_belongs_to_organism]->(o1:OrganismTaxon)
+MATCH (g2:Gene)-[:Gene_belongs_to_organism]->(o2:OrganismTaxon)
+WHERE g1.alteromonadaceae_og IS NOT NULL
+  AND g1.alteromonadaceae_og = g2.alteromonadaceae_og
+  AND id(g1) <> id(g2)
+  AND o1.genus = "Alteromonas"
+  AND o2.genus = "Alteromonas"
+WITH g1, g2, g1.alteromonadaceae_og AS og_id, o1, o2,
+  CASE
+    WHEN o1.id = o2.id THEN "same strain: " + o1.strain_name
+    ELSE "same family: Alteromonadaceae"
+  END AS distance
+MERGE (g1)-[:Gene_is_homolog_of_gene {source: "eggnog_alteromonadaceae_og", cluster_id: og_id, distance: distance}]->(g2);
+
+// Create Gene_is_homolog_of_gene edges between Alteromonas and Pro/Syn genes
+// sharing a Bacteria-level COG OG (cross-phylum orthologs).
+// Only creates edges where exactly one gene is Alteromonas to avoid duplicating
+// the Cyanorak-based Pro/Syn<->Pro/Syn homolog edges above.
+MATCH (g1:Gene)-[:Gene_belongs_to_organism]->(o1:OrganismTaxon)
+MATCH (g2:Gene)-[:Gene_belongs_to_organism]->(o2:OrganismTaxon)
+WHERE g1.bacteria_cog_og IS NOT NULL
+  AND g1.bacteria_cog_og = g2.bacteria_cog_og
+  AND id(g1) <> id(g2)
+  AND (
+    (o1.genus = "Alteromonas" AND o2.genus <> "Alteromonas")
+    OR (o2.genus = "Alteromonas" AND o1.genus <> "Alteromonas")
+  )
+MERGE (g1)-[:Gene_is_homolog_of_gene {source: "eggnog_bacteria_cog_og", cluster_id: g1.bacteria_cog_og, distance: "cross phylum"}]->(g2);
+
 // Create affects_expression_of_homolog edges.
 // If source X affects_expression_of gene A, and gene A is homolog of gene B,
 // then X affects_expression_of_homolog gene B.

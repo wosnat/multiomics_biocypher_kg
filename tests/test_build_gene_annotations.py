@@ -34,6 +34,7 @@ from multiomics_kg.download.utils.annotation_helpers import (
     _coerce_to_tokens,
     _nonempty,
     _split,
+    extract_first_match_in_sources,
 )
 from multiomics_kg.download.utils.annotation_transforms import (
     _tx_add_go_prefix,
@@ -1200,3 +1201,137 @@ class TestGeneNameSynonymsFilterNot:
         gm = {"gene_names": "PMM0001 PMM0002"}
         merged = self.builder.build_merged(gm, {}, {})
         assert "gene_name_synonyms" not in merged
+
+
+# ─── extract_first_match_in_sources ──────────────────────────────────────────
+
+_SOURCES_EG = [{"source": "eggnog", "field": "eggNOG_OGs", "delimiter": ","}]
+_SOURCES_EG_THEN_GM = [
+    {"source": "eggnog",       "field": "eggNOG_OGs", "delimiter": ","},
+    {"source": "gene_mapping", "field": "eggNOG",     "delimiter": ","},
+]
+
+class TestExtractFirstMatchInSources:
+
+    def test_returns_full_match_group0(self):
+        eg = {"eggNOG_OGs": "COG0592@1|root,COG0592@2|Bacteria,4648R@72275|Alteromonadaceae"}
+        result = extract_first_match_in_sources(
+            _SOURCES_EG, {}, eg, {},
+            pattern=r"^.+@72275\|Alteromonadaceae$",
+            extract_group=0,
+        )
+        assert result == "4648R@72275|Alteromonadaceae"
+
+    def test_extracts_cog_prefix_group1(self):
+        eg = {"eggNOG_OGs": "COG0592@1|root,COG0592@2|Bacteria,4648R@72275|Alteromonadaceae"}
+        result = extract_first_match_in_sources(
+            _SOURCES_EG, {}, eg, {},
+            pattern=r"^(COG\d+)(?:@2\|Bacteria)?$",
+            extract_group=1,
+        )
+        # COG0592@1|root doesn't match (wrong suffix); COG0592@2|Bacteria matches → group1 = COG0592
+        assert result == "COG0592"
+
+    def test_plain_cog_from_gene_mapping_fallback(self):
+        # eggnog has no matching entry; gene_mapping plain COG#### should match
+        gm = {"eggNOG": "COG1234"}
+        result = extract_first_match_in_sources(
+            _SOURCES_EG_THEN_GM, gm, {}, {},
+            pattern=r"^(COG\d+)(?:@2\|Bacteria)?$",
+            extract_group=1,
+        )
+        assert result == "COG1234"
+
+    def test_eggnog_source_wins_over_gene_mapping(self):
+        eg = {"eggNOG_OGs": "COG9999@2|Bacteria"}
+        gm = {"eggNOG": "COG1234"}
+        result = extract_first_match_in_sources(
+            _SOURCES_EG_THEN_GM, gm, eg, {},
+            pattern=r"^(COG\d+)(?:@2\|Bacteria)?$",
+            extract_group=1,
+        )
+        assert result == "COG9999"
+
+    def test_no_match_returns_none(self):
+        eg = {"eggNOG_OGs": "bactNOG00989,cyaNOG01040"}
+        result = extract_first_match_in_sources(
+            _SOURCES_EG, {}, eg, {},
+            pattern=r"^COG\d+$",
+        )
+        assert result is None
+
+    def test_missing_source_field_returns_none(self):
+        result = extract_first_match_in_sources(
+            _SOURCES_EG, {}, {}, {},
+            pattern=r"^.+@72275\|Alteromonadaceae$",
+        )
+        assert result is None
+
+    def test_pattern_requires_full_match(self):
+        # "COG0592@1|root" should NOT match "^COG\d+$" (not a full match)
+        eg = {"eggNOG_OGs": "COG0592@1|root"}
+        result = extract_first_match_in_sources(
+            _SOURCES_EG, {}, eg, {},
+            pattern=r"^COG\d+$",
+        )
+        assert result is None
+
+
+# ─── AnnotationBuilder: extract_first_match type ────────────────────────────
+
+_EXTRACT_CONFIG = {
+    "fields": {
+        "alteromonadaceae_og": {
+            "type": "extract_first_match",
+            "pattern": r"^.+@72275\|Alteromonadaceae$",
+            "extract_group": 0,
+            "sources": [{"source": "eggnog", "field": "eggNOG_OGs", "delimiter": ","}],
+        },
+        "bacteria_cog_og": {
+            "type": "extract_first_match",
+            "pattern": r"^(COG\d+)(?:@2\|Bacteria)?$",
+            "extract_group": 1,
+            "sources": [
+                {"source": "eggnog",       "field": "eggNOG_OGs", "delimiter": ","},
+                {"source": "gene_mapping", "field": "eggNOG",     "delimiter": ","},
+            ],
+        },
+    }
+}
+
+class TestAnnotationBuilderExtractFirstMatch:
+    def setup_method(self):
+        self.builder = AnnotationBuilder(_EXTRACT_CONFIG)
+
+    def test_alteromonadaceae_og_extracted(self):
+        eg = {"eggNOG_OGs": "COG0592@1|root,COG0592@2|Bacteria,4648R@72275|Alteromonadaceae"}
+        merged = self.builder.build_merged({}, eg, {})
+        assert merged["alteromonadaceae_og"] == "4648R@72275|Alteromonadaceae"
+
+    def test_alteromonadaceae_og_absent_for_pro_syn(self):
+        # Pro/Syn has no @72275 entry
+        eg = {"eggNOG_OGs": "COG0592@1|root,COG0592@2|Bacteria"}
+        merged = self.builder.build_merged({}, eg, {})
+        assert "alteromonadaceae_og" not in merged
+
+    def test_bacteria_cog_og_from_at_format(self):
+        eg = {"eggNOG_OGs": "COG0592@1|root,COG0592@2|Bacteria"}
+        merged = self.builder.build_merged({}, eg, {})
+        assert merged["bacteria_cog_og"] == "COG0592"
+
+    def test_bacteria_cog_og_from_plain_cog(self):
+        # plain COG#### from gene_mapping (Pro/Syn style); no eggnog source
+        gm = {"eggNOG": "COG5678"}
+        merged = self.builder.build_merged(gm, {}, {})
+        assert merged["bacteria_cog_og"] == "COG5678"
+
+    def test_bacteria_cog_og_absent_when_no_cog(self):
+        eg = {"eggNOG_OGs": "bactNOG00989,cyaNOG01040"}
+        merged = self.builder.build_merged({}, eg, {})
+        assert "bacteria_cog_og" not in merged
+
+    def test_unknown_type_skipped(self):
+        config = {"fields": {"x": {"type": "unknown_type", "source": "eggnog", "field": "f"}}}
+        builder = AnnotationBuilder(config)
+        merged = builder.build_merged({}, {"f": "val"}, {})
+        assert "x" not in merged
