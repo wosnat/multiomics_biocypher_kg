@@ -134,6 +134,24 @@ def capture_snapshot() -> dict:
         _strip_quotes(r[0]): int(r[1]) for r in rows
     }
 
+    # --- Per-publication gene sets (locus_tags) ---
+    # Captures WHICH genes have edges, not just how many.
+    # Used to detect genes that were previously matched but disappear after resolve stage.
+    rows = run_cypher("""
+        MATCH ()-[e:Affects_expression_of]->(g:Gene)
+        UNWIND e.publications AS pub
+        RETURN pub, g.locus_tag AS locus_tag
+        ORDER BY pub, locus_tag
+    """)
+    pub_genes: dict = {}
+    for r in rows:
+        pub = _strip_quotes(r[0])
+        locus_tag = _strip_quotes(r[1])
+        pub_genes.setdefault(pub, [])
+        if locus_tag not in pub_genes[pub]:
+            pub_genes[pub].append(locus_tag)
+    snapshot["per_publication_genes"] = pub_genes
+
     return snapshot
 
 
@@ -270,6 +288,40 @@ def compare_snapshots(old: dict, new: dict, old_name: str, new_name: str) -> int
                 d = n - o
                 d_str = f"+{d}" if d >= 0 else str(d)
                 print(f"    {direction:<6} {o:>6,} → {n:>6,}  ({d_str})")
+
+    # ---- Gene-level diff (which locus_tags appeared / disappeared) ----
+    old_genes_by_pub = old.get("per_publication_genes", {})
+    new_genes_by_pub = new.get("per_publication_genes", {})
+    if old_genes_by_pub or new_genes_by_pub:
+        print("\n" + "-" * 72)
+        print("GENE-LEVEL DIFF (per publication)")
+        print("-" * 72)
+        gene_problems = False
+        for pub in sorted(set(old_genes_by_pub) | set(new_genes_by_pub)):
+            old_set = set(old_genes_by_pub.get(pub, []))
+            new_set = set(new_genes_by_pub.get(pub, []))
+            lost_genes = sorted(old_set - new_set)
+            gained_genes = sorted(new_set - old_set)
+            if not lost_genes and not gained_genes:
+                continue
+            print(f"\n  {pub}")
+            print(f"    Genes before: {len(old_set):,}  after: {len(new_set):,}  "
+                  f"lost: {len(lost_genes):,}  gained: {len(gained_genes):,}")
+            if lost_genes:
+                gene_problems = True
+                sample = lost_genes[:10]
+                more = len(lost_genes) - len(sample)
+                print(f"    LOST genes (sample): {', '.join(sample)}"
+                      + (f"  ... +{more} more" if more else ""))
+            if gained_genes:
+                sample = gained_genes[:10]
+                more = len(gained_genes) - len(sample)
+                print(f"    Gained genes (sample): {', '.join(sample)}"
+                      + (f"  ... +{more} more" if more else ""))
+        if not gene_problems:
+            print("  ✓  No genes lost across any publication")
+    else:
+        print("\n(Gene-level diff not available — re-capture snapshots to enable)")
 
     has_problems = bool(regressions or missing)
     if has_problems:
