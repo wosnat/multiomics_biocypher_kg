@@ -15,9 +15,15 @@
 #           calls: multiomics_kg/download/build_gene_id_mapping.py
 #           Reads paperconfig.yaml files to add paper-derived alt-IDs (JGI IDs, probesets, etc.)
 #           Requires step 2 (gene_annotations_merged.json used as base)
-#           Must run before create_knowledge_graph.py for non-standard ID resolution
+#           Must run before step 4
+# Step 4 — Resolve paper CSV gene IDs to locus tags
+#           calls: multiomics_kg/download/resolve_paper_ids.py
+#           Reads all paperconfig CSV tables, resolves name_col → locus_tag via gene_id_mapping.json
+#           Writes <stem>_resolved.csv alongside each source CSV
+#           Requires step 3 (gene_id_mapping.json must exist for paper-derived IDs)
+#           Must run before create_knowledge_graph.py so omics_adapter uses pre-resolved files
 #
-# Logs: logs/prepare_data_step0.log … logs/prepare_data_step3.log
+# Logs: logs/prepare_data_step0.log … logs/prepare_data_step4.log
 #       Monitor with: tail -f logs/prepare_data_step0.log
 #
 # Usage:
@@ -42,7 +48,7 @@ mkdir -p "$LOG_DIR"
 # ── parse args ────────────────────────────────────────────────────────────────
 
 FORCE=""
-STEPS="0 1 2 3"
+STEPS="0 1 2 3 4"
 STRAINS=()
 SKIP_CYANORAK=0
 
@@ -105,7 +111,7 @@ cd "$PROJECT_ROOT"
 export PYTHONPATH="$PROJECT_ROOT${PYTHONPATH:+:$PYTHONPATH}"
 
 echo "prepare_data.sh: steps=[${STEPS}]${STRAINS_ARG:+ strains=[${STRAINS[*]}]}${FORCE:+ (force)}${SKIP_CYANORAK:+ (skip-cyanorak)}"
-echo "(step 1 = protein annotations, step 2 = gene annotations, step 3 = gene ID mapping)"
+echo "(step 1 = protein annotations, step 2 = gene annotations, step 3 = gene ID mapping, step 4 = resolve paper CSVs)"
 echo "Project root: $PROJECT_ROOT"
 echo "Logs dir:     $LOG_DIR"
 
@@ -151,8 +157,15 @@ for step in $STEPS; do
                     $STRAINS_ARG \
                     $FORCE
             ;;
+        4)
+            run_step 4 \
+                "Resolve paper CSV gene IDs → locus tags (_resolved.csv)" \
+                "$LOG_DIR/prepare_data_step4.log" \
+                uv run python -m multiomics_kg.download.resolve_paper_ids \
+                    $FORCE
+            ;;
         *)
-            echo "Unknown step: $step (valid: 0 1 2 3)" >&2
+            echo "Unknown step: $step (valid: 0 1 2 3 4)" >&2
             exit 1
             ;;
     esac

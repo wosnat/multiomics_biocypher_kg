@@ -21,6 +21,23 @@
 - 7 unresolved DE rows: genuinely unannotated genes (all ID columns NaN in annotation CSV)
 - Processing order: id_translation first → rebuild lookup → annotation_gff → csv tables
 
+## resolve_paper_ids.py (Phase 6, prepare_data step 4)
+- Location: `multiomics_kg/download/resolve_paper_ids.py`
+- Run as module: `uv run python -m multiomics_kg.download.resolve_paper_ids [--force] [--papers "Name"]`
+- `--papers` filter matches against papername OR directory name (handles papername≠dirname cases)
+- For each csv table with non-locus_tag name_col: resolves via gene_id_mapping.json
+- Writes `<stem>_resolved.csv` with `locus_tag` + `resolution_method` columns added
+- Skips if _resolved.csv is newer than source (unless --force)
+- Report: per publication / organism, shows unresolved row IDs
+- Anjur 2025 result: 235/242 (97.1%), 7 unresolved (genuinely unannotated)
+
+## omics_adapter.py (Phase 6 change)
+- `_load_and_create_edges(filename, analysis, sep=',')` now has `sep` param
+- Probes for `<stem>_resolved.csv` next to filename; uses it when present
+- Uses `locus_tag` column from resolved CSV; NaN rows → skipped (no dangling edges)
+- Falls back to original `name_col` when no resolved CSV (old behaviour)
+- `get_edges()` passes sep + table-level organism into each stat_analysis
+
 ## Key patterns
 
 ### Organism → genome dir

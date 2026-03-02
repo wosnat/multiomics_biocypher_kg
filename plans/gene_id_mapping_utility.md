@@ -394,56 +394,68 @@ Also add to CLAUDE.md's prepare_data.sh documentation.
 
 ---
 
-## Phase 6: Improve omics_adapter.py
+## Phase 6: Pre-resolve paper CSVs + omics_adapter.py probing
 
-**File:** `multiomics_kg/adapters/omics_adapter.py`
+**Approach:** 2-step (transparent, auditable — like the existing fix-gene-ids pattern).
 
-In `_load_and_create_edges()`, when reading the supplementary CSV, pass `sep` from the paperconfig entry (default `","`):
+### Step A — `multiomics_kg/download/resolve_paper_ids.py` (new script, prepare_data step 4)
 
-```python
-sep = table_config.get("sep", ",")
-df = pd.read_csv(filename, sep=sep, skiprows=skip_rows, ...)
+For each `csv` supplementary table whose `name_col` is not already `locus_tag`:
+- Loads the source CSV with the declared `sep` (default `,`)
+- Resolves each `name_col` value via `build_id_lookup()` (uses `gene_id_mapping.json`)
+- Writes `<stem>_resolved.csv` alongside the original, adding two columns:
+  - `locus_tag` — resolved canonical ID (NaN when unresolved)
+  - `resolution_method` — how it was resolved (`direct`, `lookup`, `supp`, `repadded`, `unresolved`, `empty`)
+- Skips tables already using `name_col: locus_tag`; skips if `_resolved.csv` is newer than source (unless `--force`)
+- Prints a resolution report grouped by **publication / organism** at the end
+
+```
+======================================================================
+Gene ID Resolution Report
+Overall: 235/242 resolved (97.1%)
+======================================================================
+
+  Publication: Anjur 2025
+    Organism: Prochlorococcus MIT9301
+      [supp_table_1]  name_col=ID
+        Resolved:  235/242 (97.1%)
+        Output:    data/.../de_genes_freeliving_vs_biofilms_resolved.csv
+        Unresolved (7):
+          row 5: 2626311769
+          ...
 ```
 
-Then, after reading the gene ID from `name_col`:
-
-```python
-# NEW: try to resolve to canonical locus_tag
-genome_dir = get_genome_dir(organism, PROJECT_ROOT)
-if genome_dir:
-    lookup, locus_tags, supp_keys = build_id_lookup(genome_dir)  # uses gene_id_mapping.json
-    resolved, method = map_gene_id(gene_id, lookup, locus_tags, supp_keys)
-    if resolved:
-        gene_id = resolved  # use locus_tag directly
-        # gene_id = self.add_prefix_to_id("ncbigene", resolved)
+Usage:
+```bash
+uv run python -m multiomics_kg.download.resolve_paper_ids [--force] [--papers "Anjur 2025"]
 ```
 
-- For **resolved** IDs: emit edge with `locus_tag` (no dangling)
-- For **unresolved** IDs: do NOT create the edge; accumulate per-analysis into a diagnostic structure:
-  ```python
-  {paper_name: {analysis_id: {"organism": str, "total": int, "resolved": int,
-                               "unresolved": [{"raw_id": str, "csv_row": int}, ...]}}}
-  ```
-- At end of each analysis: emit a WARNING log line with counts only (don't flood logs with IDs)
-- At end of `MultiOMICSAdapter.get_edges()`: write a full report to
-  `{output_dir}/gene_id_resolution_report.txt`
+### Step B — `omics_adapter.py` (minimal changes)
 
-**Report format** (append mode — each adapter instance appends its paper section; different papers never overwrite each other):
+In `get_edges()`:
+- Extract `sep` and `organism` from `table_data`; inject into `stat_analysis` (like `skip_rows`)
+- Pass `sep` to `_load_and_create_edges(filename, analysis, sep=sep)`
+
+In `_load_and_create_edges(filename, analysis, sep=',')`:
+- Probe for `<stem>_resolved.csv` next to `filename`
+- If found: read it with `sep`, set `use_locus_tag_col = 'locus_tag' in df.columns`
+- In the row loop: if `use_locus_tag_col`, read `row['locus_tag']` instead of `row[name_col]`
+  - NaN locus_tag rows are already skipped by the existing null-check — no extra logic needed
+- Fallback (no `_resolved.csv`): unchanged behaviour (use `name_col` directly)
+
+The adapter emits no edges for unresolved rows (they have NaN locus_tag in `_resolved.csv`).
+The resolution audit trail is in the `_resolved.csv` files, not in the adapter.
+
+### When to run step 4
+
+Step 4 must run after step 3 (so `gene_id_mapping.json` is up to date with paper-derived IDs).
+Default `STEPS` in `prepare_data.sh` is now `0 1 2 3 4`.
+
+```bash
+# Re-resolve one paper after editing its paperconfig
+bash scripts/prepare_data.sh --steps 4 --force   # re-resolves all papers
+uv run python -m multiomics_kg.download.resolve_paper_ids --papers "Anjur 2025" --force
 ```
-=== Gene ID Resolution Report — Biller 2018 — 2026-03-01 12:00:00 ===
-Analysis: biller_2018_coculture_MED4 | Organism: Prochlorococcus MED4 | 1747/1794 resolved (97.4%)
-  Unresolved (47):
-    row 12: TX50_RS01234
-    row 45: TX50_RS01235
-    ...
-Analysis: biller_2018_coculture_MIT9312 | Organism: Prochlorococcus MIT9312 | 1800/1800 resolved (100%)
-```
-
-- File is opened in **append mode** (`"a"`) so multiple papers (from multiple `MultiOMICSAdapter` instances) accumulate in a single file across a single `create_knowledge_graph.py` run
-- A run header line `=== Run started: {timestamp} ===` is written once at the start of the MultiOMICSAdapter (if the file doesn't yet contain this run's header)
-- The report file path is configurable; default: `{output_dir}/gene_id_resolution_report.txt`
-
-Note: this requires `gene_id_mapping.json` to be built before the adapter runs. In the Docker pipeline, this means Step 3 of prepare_data.sh runs before `create_knowledge_graph.py`. When `gene_id_mapping.json` is absent, adapter falls back to current behaviour (emit raw ID, dangling edges possible) and logs a WARNING that the mapping file is missing.
 
 ---
 

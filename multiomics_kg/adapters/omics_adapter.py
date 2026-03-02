@@ -11,6 +11,8 @@ import os
 from pathlib import Path
 from bioregistry import normalize_curie
 
+from multiomics_kg.download.resolve_paper_ids import get_resolved_path
+
 try:
     from multiomics_kg.adapters.pdf_publication_extraction import PDFPublicationExtractor
 except ImportError:
@@ -360,8 +362,10 @@ class OMICSAdapter:
                 logger.warning(f"No statistical analyses found in '{table_key}'")
                 continue
 
-            # Get file-level skip_rows setting
+            # Get file-level settings
             skip_rows = table_data.get('skip_rows', 0)
+            sep = table_data.get('sep', ',')
+            table_organism = table_data.get('organism', '')
 
             # Process each statistical analysis
             for idx, stat_analysis in enumerate(stat_analyses):
@@ -369,9 +373,13 @@ class OMICSAdapter:
                     logger.warning(f"Statistical analysis {idx} in '{table_key}' must be a dict, got {type(stat_analysis).__name__}. Skipping this analysis.")
                     continue
 
-                # Pass file-level skip_rows into analysis if not already set
+                # Pass file-level settings into analysis if not already set
                 if skip_rows and 'skip_rows' not in stat_analysis:
                     stat_analysis['skip_rows'] = skip_rows
+                if table_organism and 'organism' not in stat_analysis:
+                    stat_analysis['organism'] = table_organism
+                if sep and 'sep' not in stat_analysis:
+                    stat_analysis['sep'] = sep
 
                 # Load the data file
                 edges_from_file = self._load_and_create_edges(
@@ -446,6 +454,10 @@ class OMICSAdapter:
             logger.warning(f"Data file not found: {filename}")
             return edges
 
+        # Probe for pre-resolved CSV (written by resolve_paper_ids.py)
+        _resolved_path = get_resolved_path(filename)
+        _use_resolved = _resolved_path.exists()
+
         try:
             # Determine edge source: environmental condition or organism
             env_condition_id = analysis.get('environmental_treatment_condition_id')
@@ -476,13 +488,27 @@ class OMICSAdapter:
                     logger.warning("No 'treatment_assembly_accession' or 'treatment_taxid' field found in analysis. Skipping edge creation.")
                     return edges
 
-            # Load the data file, optionally skipping header rows
-            skip_rows = analysis.get('skip_rows', 0)
-            if skip_rows:
-                df = pd.read_csv(filename, skiprows=skip_rows)
+            # Load the data file
+            # _resolved.csv is always a clean comma-separated file with no extra header rows,
+            # so use plain pd.read_csv() regardless of the original sep/skip_rows settings.
+            if _use_resolved:
+                df = pd.read_csv(str(_resolved_path))
             else:
-                df = pd.read_csv(filename)
-            logger.info(f"Loaded {len(df)} rows from {filename}")
+                skip_rows = analysis.get('skip_rows', 0)
+                sep = analysis.get('sep', ',')
+                if skip_rows:
+                    df = pd.read_csv(filename, sep=sep, skiprows=skip_rows)
+                else:
+                    df = pd.read_csv(filename, sep=sep)
+
+            use_locus_tag_col = _use_resolved and 'locus_tag' in df.columns
+            if _use_resolved:
+                if use_locus_tag_col:
+                    logger.info(f"Using pre-resolved CSV: {_resolved_path.name} ({len(df)} rows)")
+                else:
+                    logger.warning(f"Pre-resolved CSV {_resolved_path.name} has no locus_tag column; falling back to {filename}")
+            else:
+                logger.info(f"Loaded {len(df)} rows from {filename}")
 
             # Get column mappings
             name_col = analysis.get('name_col', None)
@@ -524,7 +550,9 @@ class OMICSAdapter:
                     break
 
                 # Get gene/protein identifier
-                gene_id = row.get(name_col)
+                # Pre-resolved CSV: use the pre-computed locus_tag column;
+                # rows with NaN locus_tag (unresolved) are skipped here.
+                gene_id = row.get('locus_tag') if use_locus_tag_col else row.get(name_col)
                 if pd.isna(gene_id) or gene_id == '':
                     skipped_count += 1
                     continue
@@ -631,7 +659,8 @@ class OMICSAdapter:
                 ))
 
             if skipped_count > 0:
-                logger.info(f"Skipped {skipped_count} rows with empty or null identifiers in {filename}")
+                src_label = _resolved_path.name if _use_resolved else filename
+                logger.info(f"Skipped {skipped_count} rows with empty or null identifiers in {src_label}")
 
         except Exception as e:
             logger.error(f"Error processing file {filename}: {str(e)}")
