@@ -166,15 +166,20 @@ def build_id_lookup_from_mapping(gene_id_mapping):
                 continue
             aid = (alt.get("id") or "").strip()
             if aid:
+                if aid in lookup and lookup[aid] != locus_tag:
+                    print(f"Warning: ID '{aid}' maps to multiple locus tags: {lookup[aid]}, {locus_tag}")
                 lookup[aid] = locus_tag
 
         for alt in (entry.get("alt_ids") or {}).get("paper_ids") or []:
             if alt.get("scope") == "generic":
                 continue
             aid = (alt.get("id") or "").strip()
-            if aid and aid not in lookup:
-                lookup[aid] = locus_tag
-                paper_id_keys.add(aid)
+            if aid:
+                if aid in lookup and lookup[aid] != locus_tag:
+                    print(f"Warning: paper ID '{aid}' maps to multiple locus tags: {lookup[aid]}, {locus_tag}")
+                if aid not in lookup:
+                    lookup[aid] = locus_tag
+                    paper_id_keys.add(aid)
 
     return lookup, locus_tags, paper_id_keys
 
