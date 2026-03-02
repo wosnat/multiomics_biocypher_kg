@@ -92,7 +92,7 @@ EDGE_PROPERTIES = {
     "Protein_belongs_to_organism": [],
     "Gene_encodes_protein": [],
     "Gene_in_cyanorak_cluster": [],
-    "Gene_is_homolog_of_gene": ["cluster_id", "distance"],
+    "Gene_is_homolog_of_gene": ["cluster_id", "distance", "source"],
     "Affects_expression_of": [
         "expression_direction", "log2_fold_change", "adjusted_p_value",
         "control_condition",
@@ -173,11 +173,57 @@ def sample_nodes(session):
     return nodes
 
 
+def _collect_edge_rows(result, props):
+    """Convert query rows into edge dicts with the requested properties."""
+    edges = []
+    for row in result:
+        edge_props = {}
+        for k in props:
+            val = row["rprops"].get(k)
+            if val is not None:
+                # Convert neo4j types to JSON-serializable
+                if isinstance(val, float) and (val != val):  # NaN check
+                    continue
+                edge_props[k] = val
+        edges.append({
+            "source": row["source"],
+            "target": row["target"],
+            "properties": edge_props,
+        })
+    return edges
+
+
 def sample_edges(session):
     """Sample edges: deterministic sample per relationship type."""
     edges = []
+    props_for_homolog = EDGE_PROPERTIES["Gene_is_homolog_of_gene"]
 
     for rel_type, props in EDGE_PROPERTIES.items():
+        if rel_type == "Gene_is_homolog_of_gene":
+            # Sample per source so all three sources (cyanorak_cluster,
+            # eggnog_alteromonadaceae_og, eggnog_bacteria_cog_og) are represented.
+            seen = set()
+            for source_val in [
+                "cyanorak_cluster",
+                "eggnog_alteromonadaceae_og",
+                "eggnog_bacteria_cog_og",
+            ]:
+                result = run_query(
+                    session,
+                    "MATCH (src)-[r:Gene_is_homolog_of_gene]->(tgt) "
+                    "WHERE r.source = $src_val "
+                    "RETURN src.id AS source, tgt.id AS target, properties(r) AS rprops "
+                    "ORDER BY src.id, tgt.id LIMIT $limit",
+                    src_val=source_val,
+                    limit=SAMPLE_SIZE,
+                )
+                for d in _collect_edge_rows(result, props_for_homolog):
+                    key = (d["source"], d["target"])
+                    if key not in seen:
+                        seen.add(key)
+                        edges.append({"type": rel_type, **d})
+            continue
+
         result = run_query(
             session,
             f"MATCH (src)-[r:`{rel_type}`]->(tgt) "
@@ -185,21 +231,8 @@ def sample_edges(session):
             f"ORDER BY src.id, tgt.id LIMIT $limit",
             limit=SAMPLE_SIZE,
         )
-        for row in result:
-            edge_props = {}
-            for k in props:
-                val = row["rprops"].get(k)
-                if val is not None:
-                    # Convert neo4j types to JSON-serializable
-                    if isinstance(val, float) and (val != val):  # NaN check
-                        continue
-                    edge_props[k] = val
-            edges.append({
-                "type": rel_type,
-                "source": row["source"],
-                "target": row["target"],
-                "properties": edge_props,
-            })
+        for d in _collect_edge_rows(result, props):
+            edges.append({"type": rel_type, **d})
 
     return edges
 

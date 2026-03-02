@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-03-02T10:50:31.176707+00:00",
+  "generated_at": "2026-03-02T13:50:40.703932+00:00",
   "description": "Regression snapshot of KG nodes/edges. Regenerate with: uv run python tests/kg_validity/generate_snapshot.py",
   "nodes": [
     {
@@ -948,7 +948,8 @@
       "target": "ncbigene:NATL1_00001",
       "properties": {
         "cluster_id": "CK_00000364",
-        "distance": "same species: Prochlorococcus marinus"
+        "distance": "same species: Prochlorococcus marinus",
+        "source": "cyanorak_cluster"
       }
     },
     {
@@ -957,7 +958,8 @@
       "target": "ncbigene:P9301_00001",
       "properties": {
         "cluster_id": "CK_00000364",
-        "distance": "same clade: HLII"
+        "distance": "same clade: HLII",
+        "source": "cyanorak_cluster"
       }
     },
     {
@@ -966,7 +968,8 @@
       "target": "ncbigene:PMM0001",
       "properties": {
         "cluster_id": "CK_00000364",
-        "distance": "same species: Prochlorococcus marinus"
+        "distance": "same species: Prochlorococcus marinus",
+        "source": "cyanorak_cluster"
       }
     },
     {
@@ -975,7 +978,8 @@
       "target": "ncbigene:PMN2A_1328",
       "properties": {
         "cluster_id": "CK_00000364",
-        "distance": "same species: Prochlorococcus marinus"
+        "distance": "same species: Prochlorococcus marinus",
+        "source": "cyanorak_cluster"
       }
     },
     {
@@ -984,7 +988,108 @@
       "target": "ncbigene:PMT0001",
       "properties": {
         "cluster_id": "CK_00000364",
-        "distance": "same species: Prochlorococcus marinus"
+        "distance": "same species: Prochlorococcus marinus",
+        "source": "cyanorak_cluster"
+      }
+    },
+    {
+      "type": "Gene_is_homolog_of_gene",
+      "source": "ncbigene:ACZ81_00005",
+      "target": "ncbigene:EZ55_00001",
+      "properties": {
+        "cluster_id": "46444@72275,Alteromonadaceae",
+        "distance": "same family: Alteromonadaceae",
+        "source": "eggnog_alteromonadaceae_og"
+      }
+    },
+    {
+      "type": "Gene_is_homolog_of_gene",
+      "source": "ncbigene:ACZ81_00005",
+      "target": "ncbigene:MIT1002_00001",
+      "properties": {
+        "cluster_id": "46444@72275,Alteromonadaceae",
+        "distance": "same family: Alteromonadaceae",
+        "source": "eggnog_alteromonadaceae_og"
+      }
+    },
+    {
+      "type": "Gene_is_homolog_of_gene",
+      "source": "ncbigene:ACZ81_00010",
+      "target": "ncbigene:EZ55_00002",
+      "properties": {
+        "cluster_id": "4648R@72275,Alteromonadaceae",
+        "distance": "same family: Alteromonadaceae",
+        "source": "eggnog_alteromonadaceae_og"
+      }
+    },
+    {
+      "type": "Gene_is_homolog_of_gene",
+      "source": "ncbigene:ACZ81_00010",
+      "target": "ncbigene:MIT1002_00002",
+      "properties": {
+        "cluster_id": "4648R@72275,Alteromonadaceae",
+        "distance": "same family: Alteromonadaceae",
+        "source": "eggnog_alteromonadaceae_og"
+      }
+    },
+    {
+      "type": "Gene_is_homolog_of_gene",
+      "source": "ncbigene:ACZ81_00015",
+      "target": "ncbigene:EZ55_00003",
+      "properties": {
+        "cluster_id": "466CC@72275,Alteromonadaceae",
+        "distance": "same family: Alteromonadaceae",
+        "source": "eggnog_alteromonadaceae_og"
+      }
+    },
+    {
+      "type": "Gene_is_homolog_of_gene",
+      "source": "ncbigene:A9601_00001",
+      "target": "ncbigene:ACZ81_00010",
+      "properties": {
+        "cluster_id": "COG0592",
+        "distance": "cross phylum",
+        "source": "eggnog_bacteria_cog_og"
+      }
+    },
+    {
+      "type": "Gene_is_homolog_of_gene",
+      "source": "ncbigene:A9601_00001",
+      "target": "ncbigene:EZ55_00002",
+      "properties": {
+        "cluster_id": "COG0592",
+        "distance": "cross phylum",
+        "source": "eggnog_bacteria_cog_og"
+      }
+    },
+    {
+      "type": "Gene_is_homolog_of_gene",
+      "source": "ncbigene:A9601_00001",
+      "target": "ncbigene:MIT1002_00002",
+      "properties": {
+        "cluster_id": "COG0592",
+        "distance": "cross phylum",
+        "source": "eggnog_bacteria_cog_og"
+      }
+    },
+    {
+      "type": "Gene_is_homolog_of_gene",
+      "source": "ncbigene:A9601_00021",
+      "target": "ncbigene:ACZ81_04945",
+      "properties": {
+        "cluster_id": "COG0046",
+        "distance": "cross phylum",
+        "source": "eggnog_bacteria_cog_og"
+      }
+    },
+    {
+      "type": "Gene_is_homolog_of_gene",
+      "source": "ncbigene:A9601_00021",
+      "target": "ncbigene:EZ55_01035",
+      "properties": {
+        "cluster_id": "COG0046",
+        "distance": "cross phylum",
+        "source": "eggnog_bacteria_cog_og"
       }
     },
     {

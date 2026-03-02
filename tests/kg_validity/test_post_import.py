@@ -157,14 +157,23 @@ def test_homolog_edges_have_cluster_id(run_query):
     )
 
 
-def test_homolog_edges_source_is_cyanorak(run_query):
-    """All homolog edges created by post-import should have source='cyanorak_cluster'."""
+def test_homolog_edges_source_is_known(run_query):
+    """
+    All Gene_is_homolog_of_gene edges must have a known source value.
+    Valid sources: cyanorak_cluster (from post-import.cypher) and eggNOG
+    orthologous-group sources (eggnog_alteromonadaceae_og, eggnog_bacteria_cog_og).
+    """
+    valid_sources = {
+        "cyanorak_cluster",
+        "eggnog_alteromonadaceae_og",
+        "eggnog_bacteria_cog_og",
+    }
     result = run_query("""
         MATCH ()-[r:Gene_is_homolog_of_gene]->()
-        WHERE r.source IS NULL OR r.source <> 'cyanorak_cluster'
+        WHERE r.source IS NULL OR NOT r.source IN $valid
         RETURN count(r) AS bad_rows,
                collect(DISTINCT r.source)[..5] AS bad_sources
-    """)
+    """, valid=list(valid_sources))
     bad = result[0]["bad_rows"]
     assert bad == 0, (
         f"{bad} Gene_is_homolog_of_gene edges have unexpected source: "
@@ -174,7 +183,8 @@ def test_homolog_edges_source_is_cyanorak(run_query):
 
 def test_homolog_distance_valid_values(run_query):
     """
-    distance values are produced by a CASE statement in post-import.cypher.
+    distance values are produced by a CASE statement in post-import.cypher
+    and by the eggNOG homolog adapter.
     All values must start with one of the expected prefixes.
     """
     valid_prefixes = [
@@ -182,8 +192,10 @@ def test_homolog_distance_valid_values(run_query):
         "same clade:",
         "same species:",
         "same genus:",
+        "same family:",
         "same order:",
         "cross order",
+        "cross phylum",
     ]
     result = run_query("""
         MATCH ()-[r:Gene_is_homolog_of_gene]->()
@@ -213,6 +225,124 @@ def test_no_self_homolog_edges(run_query):
     self_loops = result[0]["self_loops"]
     assert self_loops == 0, (
         f"{self_loops} Gene node(s) have self-referential Gene_is_homolog_of_gene edges"
+    )
+
+
+# ---------------------------------------------------------------------------
+# eggNOG-sourced homolog edges
+# ---------------------------------------------------------------------------
+
+def test_eggnog_alteromonadaceae_homolog_edges_exist(run_query):
+    """
+    eggnog_alteromonadaceae_og homolog edges must exist, connecting the three
+    Alteromonas strains (MIT1002, EZ55, HOT1A3) via shared family-level OGs.
+    """
+    result = run_query("""
+        MATCH ()-[r:Gene_is_homolog_of_gene]->()
+        WHERE r.source = 'eggnog_alteromonadaceae_og'
+        RETURN count(r) AS cnt
+    """)
+    cnt = result[0]["cnt"]
+    assert cnt > 0, (
+        "No eggnog_alteromonadaceae_og Gene_is_homolog_of_gene edges found"
+    )
+
+
+def test_eggnog_bacteria_cog_homolog_edges_exist(run_query):
+    """
+    eggnog_bacteria_cog_og homolog edges must exist, connecting genes across
+    all organisms via conserved bacterial COG orthologous groups.
+    """
+    result = run_query("""
+        MATCH ()-[r:Gene_is_homolog_of_gene]->()
+        WHERE r.source = 'eggnog_bacteria_cog_og'
+        RETURN count(r) AS cnt
+    """)
+    cnt = result[0]["cnt"]
+    assert cnt > 0, (
+        "No eggnog_bacteria_cog_og Gene_is_homolog_of_gene edges found"
+    )
+
+
+def test_eggnog_alteromonadaceae_homologs_connect_alteromonas(run_query):
+    """
+    Alteromonadaceae-level OG edges should connect genes that belong to
+    Alteromonas organisms (same family). At least one such cross-strain pair
+    must exist.
+    """
+    result = run_query("""
+        MATCH (g1:Gene)-[r:Gene_is_homolog_of_gene]->(g2:Gene)
+        WHERE r.source = 'eggnog_alteromonadaceae_og'
+          AND r.distance = 'same family: Alteromonadaceae'
+        MATCH (g1)-[:Gene_belongs_to_organism]->(o1:OrganismTaxon)
+        MATCH (g2)-[:Gene_belongs_to_organism]->(o2:OrganismTaxon)
+        WHERE o1.strain_name <> o2.strain_name
+        RETURN count(r) AS cnt
+    """)
+    cnt = result[0]["cnt"]
+    assert cnt > 0, (
+        "No cross-strain Alteromonadaceae homolog edges found. "
+        "Expected edges connecting MIT1002, EZ55, and HOT1A3."
+    )
+
+
+def test_eggnog_bacteria_cog_connects_cross_phylum(run_query):
+    """
+    Bacteria COG OG edges must connect genes from different genera
+    (e.g., Alteromonas ↔ Prochlorococcus). All these edges should carry
+    distance='cross phylum'.
+    """
+    result = run_query("""
+        MATCH (g1:Gene)-[r:Gene_is_homolog_of_gene]->(g2:Gene)
+        WHERE r.source = 'eggnog_bacteria_cog_og'
+        MATCH (g1)-[:Gene_belongs_to_organism]->(o1:OrganismTaxon)
+        MATCH (g2)-[:Gene_belongs_to_organism]->(o2:OrganismTaxon)
+        WHERE o1.genus <> o2.genus
+        RETURN count(r) AS cnt
+    """)
+    cnt = result[0]["cnt"]
+    assert cnt > 0, (
+        "No cross-genus eggnog_bacteria_cog_og homolog edges found. "
+        "Expected edges connecting Alteromonas genes to Prochlorococcus/Synechococcus genes."
+    )
+
+
+def test_eggnog_homologs_have_cluster_id(run_query):
+    """
+    All eggNOG-sourced homolog edges must carry cluster_id (the OG identifier
+    like 'COG0168' or '46764@72275,Alteromonadaceae').
+    """
+    result = run_query("""
+        MATCH ()-[r:Gene_is_homolog_of_gene]->()
+        WHERE r.source IN ['eggnog_alteromonadaceae_og', 'eggnog_bacteria_cog_og']
+          AND r.cluster_id IS NULL
+        RETURN count(r) AS missing
+    """)
+    missing = result[0]["missing"]
+    assert missing == 0, (
+        f"{missing} eggNOG-sourced Gene_is_homolog_of_gene edges are missing cluster_id"
+    )
+
+
+def test_eggnog_homologs_are_bidirectional(run_query):
+    """
+    eggNOG homolog edges must be bidirectional (A→B implies B→A),
+    consistent with Cyanorak-derived homolog edges.
+    """
+    result = run_query("""
+        MATCH (g1:Gene)-[:Gene_is_homolog_of_gene]->(g2:Gene)
+        WHERE EXISTS {
+            MATCH ()-[r:Gene_is_homolog_of_gene]->()
+            WHERE r.source IN ['eggnog_alteromonadaceae_og', 'eggnog_bacteria_cog_og']
+              AND startNode(r) = g1 AND endNode(r) = g2
+        }
+        WITH g1, g2 LIMIT 500
+        WHERE NOT (g2)-[:Gene_is_homolog_of_gene]->(g1)
+        RETURN count(*) AS missing_reverse
+    """)
+    missing = result[0]["missing_reverse"]
+    assert missing == 0, (
+        f"{missing} eggNOG homolog edge(s) have no corresponding reverse edge"
     )
 
 
