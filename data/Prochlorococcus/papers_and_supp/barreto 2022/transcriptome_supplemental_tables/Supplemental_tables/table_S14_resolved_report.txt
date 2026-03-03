@@ -1,0 +1,15 @@
+Resolution report: Barreto 2022 / supp_table_S14
+Source: table_S14.csv
+name_col: symbol
+id_columns: ['symbol']
+
+Total rows with IDs: 59
+Resolved: 58 (98.3%)
+Unresolved: 1
+
+Resolution method breakdown:
+  tier1:symbol: 58
+  unresolved: 1
+
+Unresolved rows (1):
+  row 14: raw_id='EZ55_00911'  reason=unresolved  [symbol='EZ55_00911']

@@ -235,6 +235,7 @@ The `.claude/skills/` directory provides project-specific skills:
 - `/check-gene-ids` — validate gene ID match rates between CSV data and graph nodes
 - `/fix-gene-ids` — map gene IDs to locus tags when mismatches are found
 - `/cypher-queries` — run Cypher queries against Neo4j with ready-made templates
+- `/deploy-strain` — end-to-end checklist for deploying v2 gene ID mapping for a new strain (snapshot → rebuild mapping → resolve papers → verify → rebuild KG → compare)
 
 ## Genome Data Download Pipeline
 

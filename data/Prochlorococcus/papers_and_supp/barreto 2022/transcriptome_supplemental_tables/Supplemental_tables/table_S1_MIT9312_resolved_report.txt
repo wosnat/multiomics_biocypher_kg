@@ -1,0 +1,12 @@
+Resolution report: Barreto 2022 / supp_table_S1_MIT9312
+Source: table_S1_MIT9312.csv
+name_col: symbol
+id_columns: ['symbol']
+
+Total rows with IDs: 37
+Resolved: 37 (100.0%)
+Unresolved: 0
+
+Resolution method breakdown:
+  locus_tag:symbol: 32
+  multi:symbol: 5

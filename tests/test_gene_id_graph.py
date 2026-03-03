@@ -197,6 +197,7 @@ class TestGeneIdGraph:
         assert get_id_tier("locus_tag") == 1
         assert get_id_tier("jgi_id") == 1
         assert get_id_tier("uniprot_entry_name") == 1
+        assert get_id_tier("cds_fna_id") == 1
         assert get_id_tier("protein_id") == 2
         assert get_id_tier("uniprot_accession") == 2
         assert get_id_tier("gene_name") == 3
@@ -260,12 +261,15 @@ class TestGeneIdGraph:
 
 class TestResolveRow:
 
-    def _make_md(self, specific=None, multi=None, conflicts=None) -> MappingData:
+    def _make_md(self, specific=None, multi=None, conflicts=None, extra_locus_tags=None) -> MappingData:
+        locus_tags = set((specific or {}).values())
+        if extra_locus_tags:
+            locus_tags.update(extra_locus_tags)
         return MappingData(
             specific_lookup=specific or {},
             multi_lookup=multi or {},
             conflicts=conflicts or {},
-            locus_tags=set((specific or {}).values()),
+            locus_tags=locus_tags,
             version=2,
         )
 
@@ -412,6 +416,35 @@ class TestResolveRow:
         row = {"locus_tag": "PMM0001"}
         lt, method = resolve_row(row, "locus_tag", [], md)
         assert lt == "PMM0001"
+
+    def test_resolve_canonical_locus_tag_not_in_specific_lookup(self):
+        """Old-format locus_tag in locus_tags set but absent from specific_lookup → resolves via locus_tag:<col>.
+
+        Reproduces the PMT9312_1938 / PMT9312_1919 bug: GCA annotation locus_tags
+        are stored as canonical gene keys (genes dict) but not as entries in
+        specific_lookup (which maps alt_ids → canonical). resolve_row now checks
+        mapping_data.locus_tags directly in Pass 1.
+        """
+        md = self._make_md(
+            specific={},  # PMT9312_1938 not in specific_lookup
+            extra_locus_tags={"PMT9312_1938"},  # but IS a canonical locus_tag
+        )
+        row = {"symbol": "PMT9312_1938"}
+        lt, method = resolve_row(row, "symbol", [], md)
+        assert lt == "PMT9312_1938"
+        assert method == "locus_tag:symbol"
+
+    def test_resolve_canonical_locus_tag_via_id_col(self):
+        """Canonical locus_tag in id_col (not name_col) also resolves via locus_tag:<col>."""
+        md = self._make_md(
+            specific={},
+            extra_locus_tags={"PMT9312_1938"},
+        )
+        row = {"symbol": "unknown_gene", "locus_col": "PMT9312_1938"}
+        id_cols = [{"column": "locus_col", "id_type": "locus_tag"}]
+        lt, method = resolve_row(row, "symbol", id_cols, md)
+        assert lt == "PMT9312_1938"
+        assert method == "locus_tag:locus_col"
 
     def test_resolve_missing_column(self):
         """When name_col is missing from row → unresolved."""
