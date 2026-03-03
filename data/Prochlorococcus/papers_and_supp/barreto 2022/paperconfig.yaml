@@ -18,6 +18,54 @@ publication:
       description: "Growth at elevated pCO2 (800 ppm CO2)"
 
   supplementary_materials:
+    # Annotation file for Prochlorococcus MIT9312: bridges old locus tags and gene names
+    # GID = old locus tag (PMT9312_NNNN), SYMBOL = gene name (when annotated)
+    id_translation_pro_9312:
+      type: id_translation
+      filename: "data/Prochlorococcus/papers_and_supp/barreto 2022/pro_9312_anot.csv"
+      organism: "Prochlorococcus MIT9312"
+      id_columns:
+        - column: GID
+          id_type: old_locus_tag
+        - column: SYMBOL
+          id_type: gene_name
+        - column: uniprot_acc
+          id_type: uniprot_accession
+      product_columns:
+        - column: PRODUCT
+
+    # Annotation file for Synechococcus CC9311: bridges locus tags and gene names
+    # GID = locus tag (sync_NNNN), genename = gene name (when annotated)
+    id_translation_syn_9311:
+      type: id_translation
+      filename: "data/Prochlorococcus/papers_and_supp/barreto 2022/syn_9311.csv"
+      organism: "Synechococcus CC9311"
+      id_columns:
+        - column: GID
+          id_type: locus_tag
+        - column: genename
+          id_type: gene_name
+        - column: uniprot_acc
+          id_type: uniprot_accession
+      product_columns:
+        - column: definition
+
+    # Annotation file for Synechococcus WH8102: bridges locus tags and gene names
+    # GID = locus tag (SYNW0001), SYMBOL = gene name (when annotated)
+    id_translation_syn_8102:
+      type: id_translation
+      filename: "data/Prochlorococcus/papers_and_supp/barreto 2022/syn_8102_anot.csv"
+      organism: "Synechococcus WH8102"
+      id_columns:
+        - column: GID
+          id_type: locus_tag
+        - column: SYMBOL
+          id_type: gene_name
+        - column: uniprot_acc
+          id_type: uniprot_accession
+      product_columns:
+        - column: PRODUCT
+
     # Paper-supplied GTF for Alteromonas EZ55 genome reannotation.
     # Bridges EZ55 gene symbols to canonical locus tags for build_gene_id_mapping.py.
     annotation_gtf_ez55:

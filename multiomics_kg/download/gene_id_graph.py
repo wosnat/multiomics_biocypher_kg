@@ -8,7 +8,8 @@ Tier classification
 -------------------
 Tier 1 (gene-unique): locus_tag, locus_tag_ncbi, locus_tag_cyanorak,
     old_locus_tag, alternative_locus_tag, jgi_id, probeset_id,
-    uniprot_entry_name (after stripping _ORGANISM suffix)
+    uniprot_entry_name (after stripping _ORGANISM suffix),
+    cds_fna_id (lcl|<accession>_cds_<protein_id>_<n> from cds_from_genomic.fna)
     → goes into specific_lookup (1:1)
     → conflicts are data errors (flagged in conflicts dict)
 
@@ -45,6 +46,7 @@ TIER1_TYPES: frozenset[str] = frozenset({
     "jgi_id",
     "probeset_id",
     "uniprot_entry_name",
+    "cds_fna_id",  # lcl|<accession>_cds_<protein_id>_<n> from cds_from_genomic.fna
 })
 
 TIER2_TYPES: frozenset[str] = frozenset({

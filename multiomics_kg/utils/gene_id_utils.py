@@ -310,7 +310,7 @@ def resolve_row(
 
     diagnostic: dict[str, str] = {}  # col → failure reason
 
-    # ── Pass 1: specific_lookup with list expansion ────────────────────────────
+    # ── Pass 1: specific_lookup with list expansion (+ direct locus_tag check) ──
     for col in all_cols:
         raw = row.get(col)
         if raw is None or (isinstance(raw, float) and pd.isna(raw)):
@@ -320,6 +320,8 @@ def resolve_row(
                 continue
             if val in sl:
                 return sl[val], f"tier1:{col}"
+            if val in mapping_data.locus_tags:
+                return val, f"locus_tag:{col}"
             if val in conflicts:
                 diagnostic[col] = "tier1_conflict"
 

@@ -223,6 +223,59 @@ def extract_rows_from_annotation_gff(
     return result
 
 
+def extract_rows_from_cds_fna(genome_dir: Path) -> list[tuple[list[tuple[str, str]], str]]:
+    """Extract rows from cds_from_genomic.fna FASTA headers.
+
+    Each FASTA header encodes the CDS sequence ID plus bracketed attributes:
+      >lcl|NC_007577.1_cds_WP_011375566.1_1 [gene=dnaN] [locus_tag=PMT9312_RS00005] [protein_id=WP_011375566.1]
+
+    Yields one row per header containing:
+      - cds_fna_id        : the full lcl| sequence identifier (Tier 1)
+      - locus_tag_ncbi    : value of [locus_tag=...] attribute (Tier 1)
+      - old_locus_tag     : value of [old_locus_tag=...] attribute (Tier 1, if present)
+      - protein_id_refseq : value of [protein_id=...] attribute (Tier 2)
+      - gene_name         : value of [gene=...] attribute (Tier 3)
+    """
+    fna_path = genome_dir / "cds_from_genomic.fna"
+    if not fna_path.exists():
+        return []
+
+    source_label = "cds_from_genomic.fna"
+    result: list[tuple[list[tuple[str, str]], str]] = []
+
+    ATTR_TYPES = {
+        "locus_tag": "locus_tag_ncbi",
+        "old_locus_tag": "old_locus_tag",
+        "protein_id": "protein_id_refseq",
+        "gene": "gene_name",
+    }
+
+    try:
+        with open(fna_path) as f:
+            for line in f:
+                if not line.startswith(">"):
+                    continue
+                header = line[1:].rstrip()
+                parts = header.split(None, 1)
+                seq_id = parts[0]
+                rest = parts[1] if len(parts) > 1 else ""
+
+                row_pairs: list[tuple[str, str]] = [(seq_id, "cds_fna_id")]
+
+                for m in re.finditer(r"\[(\w+)=([^\]]+)\]", rest):
+                    attr_name, attr_val = m.group(1), m.group(2).strip()
+                    if attr_name in ATTR_TYPES and attr_val:
+                        row_pairs.append((attr_val, ATTR_TYPES[attr_name]))
+
+                if len(row_pairs) >= 2:
+                    result.append((row_pairs, source_label))
+    except Exception as e:
+        print(f"    [warn] could not read {fna_path}: {e}", file=sys.stderr)
+
+    return result
+
+
+
 def extract_rows_from_csv_table(
     entry: dict,
     paper_name: str,
@@ -405,9 +458,31 @@ def process_strain(row: dict, paperconfigs: list, force: bool) -> None:
     print(f"  specific_lookup: {len(graph.specific_lookup)} entries, "
           f"multi_lookup: {len(graph.multi_lookup)} entries after seeding")
 
+    # Auto-include genome-derived sources if present
+    all_rows: list[tuple[list[tuple[str, str]], str]] = []
+
+    # GCF cds_from_genomic.fna — maps current lcl| CDS IDs → current locus tags
+    cds_rows = extract_rows_from_cds_fna(genome_dir)
+    if cds_rows:
+        all_rows.extend(cds_rows)
+        print(f"  Loaded {len(cds_rows)} rows from cds_from_genomic.fna")
+    else:
+        print(f"  No cds_from_genomic.fna found for {strain} (run step 0 to download)")
+
+    # GCA genomic_gca.gff — original GenBank annotation with old protein accessions
+    # and old-style locus tags; reuses extract_rows_from_annotation_gff directly
+    gca_gff = genome_dir / "genomic_gca.gff"
+    if gca_gff.exists():
+        gca_entry = {"filename": str(gca_gff.relative_to(PROJECT_ROOT))}
+        gca_rows = extract_rows_from_annotation_gff(gca_entry, "genomic_gca", strain)
+        if gca_rows:
+            all_rows.extend(gca_rows)
+            print(f"  Loaded {len(gca_rows)} rows from genomic_gca.gff")
+    else:
+        print(f"  No genomic_gca.gff found for {strain} (run step 0 to download)")
+
     # Collect all source rows from paperconfigs
     entries = collect_entries_for_genome_dir(paperconfigs, genome_dir)
-    all_rows: list[tuple[list[tuple[str, str]], str]] = []
 
     if not entries:
         print(f"  No paperconfig entries for {strain}")

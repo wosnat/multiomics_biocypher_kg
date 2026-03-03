@@ -87,7 +87,7 @@ def _header(step_num: int, desc: str) -> None:
 # ── standalone download functions ────────────────────────────────────────────
 
 def _ncbi_download_genome(ncbi_accession: str, data_dir: str, force: bool) -> bool:
-    """Download NCBI genome zip and extract GFF, protein FASTA, and GBFF.
+    """Download NCBI genome zip and extract GFF, protein FASTA, GBFF, and CDS FASTA.
 
     Returns True if files were downloaded, False if already cached.
     Raises ConnectionError if the download fails.
@@ -97,12 +97,13 @@ def _ncbi_download_genome(ncbi_accession: str, data_dir: str, force: bool) -> bo
     gff_path = os.path.join(data_dir, "genomic.gff")
     prot_path = os.path.join(data_dir, "protein.faa")
     gbff_path = os.path.join(data_dir, "genomic.gbff")
+    cds_fna_path = os.path.join(data_dir, "cds_from_genomic.fna")
 
     if not force and all(os.path.exists(p) for p in [gff_path, prot_path, gbff_path]):
         return False
 
     if force:
-        for p in [gff_path, prot_path, gbff_path]:
+        for p in [gff_path, prot_path, gbff_path, cds_fna_path]:
             if os.path.exists(p):
                 os.remove(p)
                 log.debug(f"  Removed {p}")
@@ -117,6 +118,7 @@ def _ncbi_download_genome(ncbi_accession: str, data_dir: str, force: bool) -> bo
         f"&include_annotation_type=PROT_FASTA"
         f"&include_annotation_type=GENOME_GBFF"
         f"&include_annotation_type=SEQUENCE_REPORT"
+        f"&include_annotation_type=CDS_FASTA"
         f"&hydrated=FULLY_HYDRATED"
     )
 
@@ -143,6 +145,43 @@ def _ncbi_download_genome(ncbi_accession: str, data_dir: str, force: bool) -> bo
             with open(gbff_path, 'w') as f:
                 f.write(content)
             log.debug(f"  NCBI GBFF saved to {gbff_path}")
+        elif name.endswith('cds_from_genomic.fna'):
+            with open(cds_fna_path, 'w') as f:
+                f.write(content)
+            log.debug(f"  NCBI CDS FASTA saved to {cds_fna_path}")
+
+    if not os.path.exists(cds_fna_path):
+        log.warning(f"  cds_from_genomic.fna not found in NCBI zip for {ncbi_accession}")
+
+    # Also download GCA (GenBank) GFF — has original protein accessions (ABB*.1, etc.)
+    # and old-style locus tags, useful for resolving IDs from older publications.
+    if ncbi_accession.startswith("GCF_"):
+        gca_accession = "GCA_" + ncbi_accession[4:]
+        gca_gff_path = os.path.join(data_dir, "genomic_gca.gff")
+        if force and os.path.exists(gca_gff_path):
+            os.remove(gca_gff_path)
+        if not os.path.exists(gca_gff_path):
+            gca_url = (
+                f"https://api.ncbi.nlm.nih.gov/datasets/v2/genome/accession/"
+                f"{gca_accession}/download"
+                f"?include_annotation_type=GENOME_GFF"
+                f"&hydrated=FULLY_HYDRATED"
+            )
+            with ExitStack() as stack:
+                if force:
+                    stack.enter_context(curl.cache_off())
+                c_gca = curl.Curl(gca_url, silent=False, compr='zip', large=False)
+            if c_gca.result is not None:
+                for name, content in c_gca.result.items():
+                    if name.endswith('genomic.gff'):
+                        with open(gca_gff_path, 'w') as f:
+                            f.write(content)
+                        log.debug(f"  NCBI GCA GFF saved to {gca_gff_path}")
+                        break
+                if not os.path.exists(gca_gff_path):
+                    log.warning(f"  genomic_gca.gff not found for {gca_accession}")
+            else:
+                log.warning(f"  Failed to download GCA GFF for {gca_accession}")
 
     return True
 
