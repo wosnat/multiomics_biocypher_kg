@@ -34,6 +34,7 @@ from multiomics_kg.utils.gene_id_utils import (
     get_genome_dir,
     is_organism_loaded,
     build_field_lookups,
+    load_mapping_v2,
     load_import_report,
 )
 
@@ -278,6 +279,40 @@ def check_gene_mapping_supp(sample_ids, genome_dir):
         "source_paper": matched[0][2],
         "total_sample": len(sample_ids),
     }
+
+
+def check_gene_id_mapping_v2(sample_ids, genome_dir):
+    """Check if sample IDs match the v2 gene_id_mapping.json specific_lookup or multi_lookup.
+
+    Returns dict with:
+        - specific_matches: {id -> locus_tag} for IDs found in specific_lookup (Tier 1)
+        - multi_singleton_matches: {id -> locus_tag} for Tier 2+3 singletons in multi_lookup
+        - multi_ambiguous: {id -> [locus_tag, ...]} for multi_lookup entries with >1 match
+        - conflicts: {id -> [locus_tag, ...]} for Tier 1 conflicts (data errors)
+    Or None if gene_id_mapping.json not found.
+    """
+    md = load_mapping_v2(genome_dir)
+    if md is None:
+        return None
+
+    result = {
+        "specific_matches": {},
+        "multi_singleton_matches": {},
+        "multi_ambiguous": {},
+        "conflicts": {},
+    }
+    for sid in sample_ids:
+        if sid in md.specific_lookup:
+            result["specific_matches"][sid] = md.specific_lookup[sid]
+        elif sid in md.conflicts:
+            result["conflicts"][sid] = md.conflicts[sid]
+        elif sid in md.multi_lookup:
+            matches = md.multi_lookup[sid]
+            if len(matches) == 1:
+                result["multi_singleton_matches"][sid] = matches[0]
+            else:
+                result["multi_ambiguous"][sid] = matches
+    return result
 
 
 def classify_ids(all_ids, gene_index, secondary_ids=None):
@@ -619,9 +654,49 @@ def analyze_paperconfig(paperconfig_path, gene_index, project_root, import_repor
                 analyses_results.append(result)
                 continue
 
-            # Check gene_annotations_merged.json for the organism
+            # Check gene_annotations_merged.json / gene_id_mapping.json for the organism
             genome_dir = get_genome_dir(organism, project_root)
             if genome_dir:
+                # Prefer v2 gene_id_mapping.json when available
+                v2_result = check_gene_id_mapping_v2(sample_mismatched, genome_dir)
+                if v2_result is not None:
+                    n_specific = len(v2_result["specific_matches"])
+                    n_singleton = len(v2_result["multi_singleton_matches"])
+                    n_ambiguous = len(v2_result["multi_ambiguous"])
+                    n_conflict = len(v2_result["conflicts"])
+                    n_total_found = n_specific + n_singleton + n_ambiguous + n_conflict
+                    if n_specific + n_singleton > 0:
+                        sample_id, mapped_to = next(iter(
+                            (v2_result["specific_matches"] or v2_result["multi_singleton_matches"]).items()
+                        ))
+                        result["fix_strategy"] = "USE_STEP4"
+                        result["details"] = (
+                            f"{result['matched_count']}/{total_gene_ids} match, "
+                            f"{result['mismatched_count']} don't. "
+                            f"Mismatched IDs found in gene_id_mapping.json "
+                            f"({n_specific} Tier 1, {n_singleton} Tier 2/3 singletons, "
+                            f"{n_ambiguous} ambiguous in sample of {len(sample_mismatched)}). "
+                            f"E.g., '{sample_id}' -> '{mapped_to}'. "
+                            f"Run: uv run python -m multiomics_kg.download.resolve_paper_ids "
+                            f"--papers \"{papername}\" --force"
+                        )
+                        analyses_results.append(result)
+                        continue
+                    elif n_ambiguous > 0:
+                        sample_id, matches = next(iter(v2_result["multi_ambiguous"].items()))
+                        result["fix_strategy"] = "AMBIGUOUS_IN_MAPPING"
+                        result["details"] = (
+                            f"{result['matched_count']}/{total_gene_ids} match, "
+                            f"{result['mismatched_count']} don't. "
+                            f"{n_ambiguous}/{len(sample_mismatched)} sample IDs are ambiguous in "
+                            f"gene_id_mapping.json (Tier 2/3 multi-match). "
+                            f"E.g., '{sample_id}' matches {len(matches)} genes: {matches[:3]}. "
+                            f"Add a more specific id_column to paperconfig (Tier 1 type) to disambiguate."
+                        )
+                        analyses_results.append(result)
+                        continue
+                    # v2 mapping found but IDs not in it — fall through to legacy checks
+
                 mapping_matches = check_gene_mapping(sample_mismatched, genome_dir)
                 if mapping_matches:
                     best_field = max(mapping_matches, key=lambda k: mapping_matches[k][0])
@@ -633,13 +708,13 @@ def analyze_paperconfig(paperconfig_path, gene_index, project_root, import_repor
                         f"Mismatched IDs match field '{best_field}' in gene_annotations_merged.json "
                         f"({cnt}/{len(sample_mismatched)} of sample match). "
                         f"E.g., '{sample_id}' -> locus_tag '{mapped_to}'. "
-                        f"Run /fix-gene-ids on this paperconfig to create a "
-                        f"_with_locus_tag.csv, then update name_col to 'locus_tag'."
+                        f"Run step 3+4: build_gene_id_mapping --strains <Strain> --force, "
+                        f"then resolve_paper_ids --papers \"{papername}\" --force"
                     )
                     analyses_results.append(result)
                     continue
 
-                # Check gene_mapping_supp.csv (cross-paper alternative IDs)
+                # Check gene_mapping_supp.csv (cross-paper alternative IDs, legacy)
                 supp_result = check_gene_mapping_supp(sample_mismatched, genome_dir)
                 if supp_result:
                     result["fix_strategy"] = "CREATE_MAPPING_SUPP"
@@ -650,7 +725,7 @@ def analyze_paperconfig(paperconfig_path, gene_index, project_root, import_repor
                         f"({supp_result['match_count']}/{supp_result['total_sample']} of sample match, "
                         f"from paper '{supp_result['source_paper']}'). "
                         f"E.g., '{supp_result['sample_id']}' -> locus_tag '{supp_result['mapped_to']}'. "
-                        f"Run /fix-gene-ids on this paperconfig to resolve."
+                        f"Add id_translation entry to paperconfig and run step 3+4."
                     )
                     analyses_results.append(result)
                     continue

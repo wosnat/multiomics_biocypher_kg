@@ -24,7 +24,10 @@
       "Bash(# Look for any test for build_gene_mapping.py specifically \\(not annotations\\) grep -rn \"\"load_gff\\\\|ncbi_merge_cds_and_gene_entries\\\\|load_gff_from_ncbi_only\\\\|load_gff_from_ncbi_and_cyanorak\\\\|_get_ec_numbers_from_gbff\\\\|_get_cyanorak_id_map_from_gbk\\\\|_get_cynaorak_ID\\\\|build_gene_mapping\\\\b\"\" /fast_data/Osnat/multiomics_biocypher_kg/tests/)",
       "Bash(# Look at eggnog header head -5 /home/osnat/github/multiomics_biocypher_kg/cache/data/Prochlorococcus/genomes/MED4/eggnog/MED4.emapper.annotations)",
       "Skill(omics-edge-snapshot)",
-      "Skill(omics-edge-snapshot:*)"
+      "Skill(omics-edge-snapshot:*)",
+      "Bash(xargs -I {} bash -c \"echo ''=== {} ==='' && head -80 {}\")",
+      "Skill(cypher-queries)",
+      "Skill(cypher-queries:*)"
     ]
   }
 }

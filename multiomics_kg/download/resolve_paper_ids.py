@@ -4,11 +4,17 @@
 For each paperconfig.yaml, for each 'csv' supplementary table whose
 name_col is not already 'locus_tag':
   - Reads the source CSV
-  - Resolves name_col values to locus tags via gene_id_mapping.json
+  - Resolves each row to a locus_tag via gene_id_mapping.json (v2 or v1)
+    using a three-tier multi-column strategy:
+    1. specific_lookup (Tier 1 gene-unique IDs), with list expansion
+    2. Heuristics (zero-padding, asterisk stripping) → specific_lookup
+    3. multi_lookup (Tier 2+3), only when singleton for this organism
+  - Falls back to other columns in the row (id_columns from paperconfig)
+    before giving up
   - Writes <stem>_resolved.csv alongside the original, adding
     'locus_tag' and 'resolution_method' columns
-  - Skips rows with empty name_col (they become NaN in locus_tag)
-  - Reports resolution stats grouped by publication / organism
+  - Writes <stem>_resolved_report.txt alongside for diagnostics
+  - Never silently skips: every row gets an explicit resolution_method
 
 The omics_adapter probes for <stem>_resolved.csv and uses the
 locus_tag column when present, eliminating dangling edges.
@@ -22,7 +28,7 @@ from __future__ import annotations
 
 import argparse
 import sys
-from collections import defaultdict
+from collections import Counter, defaultdict
 from pathlib import Path
 
 import pandas as pd
@@ -32,18 +38,28 @@ from multiomics_kg.download.build_gene_id_mapping import (
     get_organism_for_entry,
 )
 from multiomics_kg.download.utils.paths import PROJECT_ROOT
-from multiomics_kg.utils.gene_id_utils import build_id_lookup, get_genome_dir, map_gene_id
+from multiomics_kg.utils.gene_id_utils import (
+    get_genome_dir,
+    load_mapping_v2,
+    resolve_row,
+    MappingData,
+)
 
 MAX_UNRESOLVED_SHOWN = 20
 
 
-# ─── Path helper ──────────────────────────────────────────────────────────────
+# ─── Path helpers ──────────────────────────────────────────────────────────────
 
 
 def get_resolved_path(filename: str | Path) -> Path:
     """Return the pre-resolved CSV path: <stem>_resolved<ext>."""
     p = Path(filename)
     return p.parent / f"{p.stem}_resolved{p.suffix}"
+
+
+def get_report_path(resolved_path: Path) -> Path:
+    """Return the diagnostic report path alongside a resolved CSV."""
+    return resolved_path.parent / f"{resolved_path.stem}_report.txt"
 
 
 # ─── Table resolution ─────────────────────────────────────────────────────────
@@ -58,11 +74,7 @@ def resolve_table(
     """Resolve gene IDs in one CSV supplementary table.
 
     Returns a result dict, or None if the table should be silently skipped.
-    Result dict keys:
-      skipped (bool), reason (str, on skip), pub_name, table_key, organism,
-      name_col, src, resolved_path, total, resolved, unresolved_rows
     """
-    # Only process csv tables with statistical_analyses
     if table_config.get("type", "csv") != "csv":
         return None
 
@@ -82,7 +94,7 @@ def resolve_table(
     sep = table_config.get("sep", ",")
     skip_rows = int(table_config.get("skip_rows", 0) or 0)
 
-    # Determine organism: table-level wins, else first analysis
+    # Determine organism
     organism = (table_config.get("organism") or "").strip().strip('"')
     if not organism:
         for a in stat_analyses:
@@ -91,10 +103,10 @@ def resolve_table(
                 organism = org
                 break
     if not organism:
-        print(f"  [warn] No organism declared for {pub_name}/{table_key} — skipping", file=sys.stderr)
+        print(f"  [warn] No organism for {pub_name}/{table_key} — skipping", file=sys.stderr)
         return None
 
-    # Determine name_col: first analysis whose name_col is not 'locus_tag'
+    # Determine name_col (first analysis whose name_col is not 'locus_tag')
     name_col = None
     for a in stat_analyses:
         nc = a.get("name_col")
@@ -102,12 +114,10 @@ def resolve_table(
             name_col = nc
             break
     if not name_col:
-        # All analyses already use locus_tag — nothing to do
         return {"skipped": True, "reason": "name_col is already locus_tag"}
 
     resolved_path = get_resolved_path(src)
 
-    # Skip if _resolved.csv is already up to date
     if not force and resolved_path.exists():
         if resolved_path.stat().st_mtime >= src.stat().st_mtime:
             return {
@@ -116,7 +126,7 @@ def resolve_table(
                 "resolved_path": str(resolved_path.relative_to(PROJECT_ROOT)),
             }
 
-    # Load gene ID lookup for this organism
+    # Load gene ID mapping for this organism
     genome_dir = get_genome_dir(organism, str(PROJECT_ROOT))
     if not genome_dir:
         print(
@@ -125,13 +135,28 @@ def resolve_table(
         )
         return None
 
-    lookup, locus_tags, supp_keys = build_id_lookup(genome_dir)
-    if lookup is None:
-        print(
-            f"  [warn] No gene annotation data for '{organism}' in {pub_name}/{table_key} — skipping",
-            file=sys.stderr,
+    mapping_data = load_mapping_v2(genome_dir)
+    if mapping_data is None:
+        # Fallback: try old build_id_lookup for organisms without v2 mapping
+        from multiomics_kg.utils.gene_id_utils import build_id_lookup, map_gene_id
+        lookup, locus_tags, supp_keys = build_id_lookup(genome_dir)
+        if lookup is None:
+            print(
+                f"  [warn] No gene annotation data for '{organism}' in {pub_name}/{table_key} — skipping",
+                file=sys.stderr,
+            )
+            return None
+        # Wrap legacy lookup in a MappingData for uniform handling
+        mapping_data = MappingData(
+            specific_lookup=lookup,
+            multi_lookup={},
+            conflicts={},
+            locus_tags=locus_tags if locus_tags else set(),
+            version=0,
         )
-        return None
+
+    # Collect id_columns from the table config
+    id_columns: list[dict] = table_config.get("id_columns") or []
 
     # Read source CSV
     try:
@@ -142,40 +167,47 @@ def resolve_table(
 
     if name_col not in df.columns:
         print(
-            f"  [warn] name_col '{name_col}' not in {src.name} columns — skipping {pub_name}/{table_key}",
+            f"  [warn] name_col '{name_col}' not in {src.name} — skipping {pub_name}/{table_key}",
             file=sys.stderr,
         )
         return None
 
-    # Resolve each name_col value
+    # Resolve each row
     locus_tag_col: list[str | None] = []
     method_col: list[str] = []
+    method_counts: Counter = Counter()
     unresolved_rows: list[dict] = []
     total = 0
     n_resolved = 0
 
-    for row_idx, val in enumerate(df[name_col]):
-        if pd.isna(val) or str(val).strip() == "":
+    for row_idx, row in df.iterrows():
+        name_val = row.get(name_col)
+        if pd.isna(name_val) or str(name_val).strip() == "":
             locus_tag_col.append(None)
             method_col.append("empty")
-            continue
-
-        raw = str(val).strip().strip("*").strip()
-        if not raw:
-            locus_tag_col.append(None)
-            method_col.append("empty")
+            method_counts["empty"] += 1
             continue
 
         total += 1
-        lt, method = map_gene_id(raw, lookup, locus_tags, supp_keys)
+        lt, method = resolve_row(row.to_dict(), name_col, id_columns, mapping_data)
+
+        locus_tag_col.append(lt)
+        method_col.append(method)
+        method_counts[method] += 1
+
         if lt:
-            locus_tag_col.append(lt)
-            method_col.append(method or "lookup")
             n_resolved += 1
         else:
-            locus_tag_col.append(None)
-            method_col.append("unresolved")
-            unresolved_rows.append({"row": row_idx, "raw_id": raw})
+            unresolved_rows.append({
+                "row": row_idx,
+                "raw_id": str(name_val).strip(),
+                "method": method,
+                "id_col_vals": {
+                    c.get("column", ""): str(row.get(c.get("column", ""), ""))
+                    for c in id_columns
+                    if c.get("column", "") in df.columns
+                },
+            })
 
     # Write _resolved.csv
     df_out = df.copy()
@@ -187,6 +219,12 @@ def resolve_table(
         print(f"  [error] Could not write {resolved_path}: {e}", file=sys.stderr)
         return None
 
+    # Write diagnostic report
+    _write_report(
+        pub_name, table_key, name_col, id_columns, src, resolved_path,
+        total, n_resolved, method_counts, unresolved_rows,
+    )
+
     return {
         "skipped": False,
         "pub_name": pub_name,
@@ -197,16 +235,85 @@ def resolve_table(
         "resolved_path": str(resolved_path.relative_to(PROJECT_ROOT)),
         "total": total,
         "resolved": n_resolved,
+        "method_counts": dict(method_counts),
         "unresolved_rows": unresolved_rows,
     }
 
 
-# ─── Report ───────────────────────────────────────────────────────────────────
+def _write_report(
+    pub_name: str,
+    table_key: str,
+    name_col: str,
+    id_columns: list[dict],
+    src: Path,
+    resolved_path: Path,
+    total: int,
+    n_resolved: int,
+    method_counts: Counter,
+    unresolved_rows: list[dict],
+) -> None:
+    """Write per-table diagnostic report to <resolved_path>_report.txt."""
+    report_path = get_report_path(resolved_path)
+    pct = 100 * n_resolved / max(total, 1)
+    lines = [
+        f"Resolution report: {pub_name} / {table_key}",
+        f"Source: {src.name}",
+        f"name_col: {name_col}",
+        f"id_columns: {[c.get('column') for c in id_columns]}",
+        f"",
+        f"Total rows with IDs: {total}",
+        f"Resolved: {n_resolved} ({pct:.1f}%)",
+        f"Unresolved: {total - n_resolved}",
+        f"",
+        f"Resolution method breakdown:",
+    ]
+    for method, count in sorted(method_counts.items()):
+        lines.append(f"  {method}: {count}")
+
+    if unresolved_rows:
+        lines.append(f"")
+        lines.append(f"Unresolved rows ({len(unresolved_rows)}):")
+        shown = unresolved_rows[:MAX_UNRESOLVED_SHOWN]
+        for item in shown:
+            line = f"  row {item['row']}: raw_id={item['raw_id']!r}  reason={item['method']}"
+            if item["id_col_vals"]:
+                col_strs = ", ".join(f"{k}={v!r}" for k, v in item["id_col_vals"].items() if v and v != "nan")
+                if col_strs:
+                    line += f"  [{col_strs}]"
+            lines.append(line)
+        if len(unresolved_rows) > MAX_UNRESOLVED_SHOWN:
+            lines.append(f"  ... ({len(unresolved_rows) - MAX_UNRESOLVED_SHOWN} more)")
+
+    # Check if any column behaved unexpectedly
+    multi_cols = {
+        m.split(":", 1)[1]: count
+        for m, count in method_counts.items()
+        if m.startswith("ambiguous") or m.startswith("multi:")
+    }
+    if multi_cols:
+        ambig_total = sum(
+            c for m, c in method_counts.items() if m.startswith("ambiguous")
+        )
+        if ambig_total > 0:
+            lines.append(f"")
+            lines.append(
+                f"NOTE: {ambig_total} rows were ambiguous (multi_lookup had >1 match). "
+                f"Consider adding id_columns with more specific IDs, or check if the "
+                f"name_col should be Tier 2 (protein-level) instead of Tier 1."
+            )
+
+    try:
+        with open(report_path, "w") as f:
+            f.write("\n".join(lines) + "\n")
+    except Exception:
+        pass  # Non-critical
+
+
+# ─── Console report ────────────────────────────────────────────────────────────
 
 
 def print_report(results: list[dict]) -> None:
     """Print resolution stats grouped by publication / organism."""
-    # Group by pub_name → organism
     by_pub: dict[str, dict[str, list]] = defaultdict(lambda: defaultdict(list))
     for r in results:
         by_pub[r["pub_name"]][r["organism"]].append(r)
@@ -230,11 +337,21 @@ def print_report(results: list[dict]) -> None:
                 print(f"      [{r['table_key']}]  name_col={r['name_col']}")
                 print(f"        Resolved:  {r['resolved']}/{r['total']} ({pct:.1f}%)")
                 print(f"        Output:    {r['resolved_path']}")
+
+                # Show method breakdown for non-trivial cases
+                methods = r.get("method_counts", {})
+                non_trivial = {
+                    m: c for m, c in methods.items()
+                    if m not in ("direct", "empty") and c > 0
+                }
+                if non_trivial:
+                    print(f"        Methods:   " + ", ".join(f"{m}={c}" for m, c in sorted(non_trivial.items())))
+
                 unresolved = r["unresolved_rows"]
                 if unresolved:
                     n = len(unresolved)
                     shown = unresolved[:MAX_UNRESOLVED_SHOWN]
-                    print(f"        Unresolved ({n}):")
+                    print(f"        Unresolved ({n}) [{unresolved[0]['method'] if unresolved else '?'}]:")
                     for item in shown:
                         print(f"          row {item['row']}: {item['raw_id']}")
                     if n > MAX_UNRESOLVED_SHOWN:
@@ -275,7 +392,6 @@ def main() -> None:
         pub_name = pub.get("papername") or pc_path.parent.name
         dir_name = pc_path.parent.name
 
-        # --papers filter: match against papername OR directory name
         if args.papers:
             if not any(
                 p.lower() in pub_name.lower() or p.lower() in dir_name.lower()
@@ -295,10 +411,9 @@ def main() -> None:
 
             result = resolve_table(pub_name, table_key, table_config, force=args.force)
             if result is None:
-                continue  # silently skipped (wrong type / missing file / no organism)
+                continue
             if result.get("skipped"):
                 reason = result.get("reason", "")
-                # Only mention non-trivial skips
                 if reason not in ("name_col is already locus_tag", "up to date"):
                     print(f"  Skipped {pub_name}/{table_key}: {reason}")
                 continue

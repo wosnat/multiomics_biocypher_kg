@@ -1,14 +1,28 @@
 """Shared utilities for gene ID mapping.
 
 Used by the check-gene-ids, fix-gene-ids, and build-gene-mapping-supp skills.
-Primary data source: gene_annotations_merged.json per strain (falls back to _wide.json).
+Primary data source: gene_id_mapping.json v2 per strain (falls back to
+gene_annotations_merged.json when the mapping has not been built yet).
+
+v2 API
+------
+load_mapping_v2(genome_dir) -> MappingData
+resolve_row(row, name_col, id_columns, md) -> (locus_tag | None, method_str)
+expand_list(raw_val) -> list[str]
+
+Legacy API (still supported for check-gene-ids / fix-gene-ids)
+--------------------------------------------------------------
+build_id_lookup(genome_dir) -> (lookup, locus_tags, supp_keys)
+map_gene_id(raw_id, lookup, locus_tags, supp_keys) -> (locus_tag, method)
 """
 
 import json
 import re
 import subprocess
 from collections import defaultdict
+from dataclasses import dataclass, field
 from pathlib import Path
+from typing import Optional
 
 import pandas as pd
 
@@ -135,30 +149,262 @@ def load_gene_id_mapping(genome_dir):
     return None
 
 
+# ─── v2 API ───────────────────────────────────────────────────────────────────
+
+
+@dataclass
+class MappingData:
+    """Gene ID mapping for one organism/strain (gene_id_mapping.json v2).
+
+    Attributes:
+        specific_lookup: Tier 1 alt-ID → locus_tag (1:1)
+        multi_lookup: Tier 2+3 alt-ID → [locus_tag, ...] (1:many)
+        conflicts: Tier 1 alt-ID → [lt1, lt2] (data errors)
+        locus_tags: set of canonical locus_tags
+        version: schema version (2 for new format, 1 for legacy)
+    """
+    specific_lookup: dict[str, str] = field(default_factory=dict)
+    multi_lookup: dict[str, list[str]] = field(default_factory=dict)
+    conflicts: dict[str, list[str]] = field(default_factory=dict)
+    locus_tags: set[str] = field(default_factory=set)
+    version: int = 2
+
+
+def load_mapping_v2(genome_dir: str | Path) -> Optional["MappingData"]:
+    """Load gene_id_mapping.json and return a MappingData instance.
+
+    Handles both v2 (new graph-based) and v1 (legacy) formats.
+    Returns None if no mapping file or annotation data exists.
+    """
+    raw = load_gene_id_mapping(genome_dir)
+    if raw is None:
+        return None
+
+    version = raw.get("version", 1)
+
+    if version == 2:
+        # v2 format: has specific_lookup and multi_lookup pre-built
+        md = MappingData(
+            specific_lookup=raw.get("specific_lookup", {}),
+            multi_lookup=raw.get("multi_lookup", {}),
+            conflicts=raw.get("conflicts", {}),
+            version=2,
+        )
+        # locus_tags: all keys in genes dict + keys that self-map in specific_lookup
+        genes_dict = raw.get("genes", {})
+        md.locus_tags = set(genes_dict.keys())
+        # Also include anything in specific_lookup that maps to itself (canonical forms)
+        for k, v in md.specific_lookup.items():
+            md.locus_tags.add(v)
+        return md
+
+    # v1 format: legacy structure with alt_ids.reference / alt_ids.paper_ids
+    # Convert to MappingData for uniform access
+    md = MappingData(version=1)
+    for locus_tag, entry in raw.items():
+        md.locus_tags.add(locus_tag)
+        md.specific_lookup[locus_tag] = locus_tag
+
+        for alt in (entry.get("alt_ids") or {}).get("reference") or []:
+            if alt.get("scope") == "generic":
+                continue
+            aid = (alt.get("id") or "").strip()
+            if aid and aid not in md.specific_lookup:
+                md.specific_lookup[aid] = locus_tag
+
+        for alt in (entry.get("alt_ids") or {}).get("paper_ids") or []:
+            if alt.get("scope") == "generic":
+                continue
+            aid = (alt.get("id") or "").strip()
+            if aid and aid not in md.specific_lookup:
+                md.specific_lookup[aid] = locus_tag
+
+    return md
+
+
+def expand_list(raw_val: str) -> list[str]:
+    """Split a potentially list-valued cell into candidate ID strings.
+
+    Always includes the full raw value first (in case the separator is part
+    of the ID), then individual tokens split on ',' and ';'.
+
+    Examples:
+        "PMM0001" → ["PMM0001"]
+        "PMM0001, PMM0002" → ["PMM0001, PMM0002", "PMM0001", "PMM0002"]
+        "dnaA; dnaN" → ["dnaA; dnaN", "dnaA", "dnaN"]
+    """
+    raw_val = str(raw_val).strip()
+    if not raw_val or raw_val.lower() in ("nan", ""):
+        return []
+    candidates: list[str] = [raw_val]
+    # Split on comma and/or semicolon
+    if "," in raw_val or ";" in raw_val:
+        for part in re.split(r"[,;]", raw_val):
+            part = part.strip()
+            if part and part not in candidates:
+                candidates.append(part)
+    return candidates
+
+
+def _heuristic_candidates(raw_val: str) -> list[str]:
+    """Return heuristic normalized forms of a raw ID (in addition to the raw form).
+
+    Heuristics:
+    - Strip trailing '*' (footnote artifact)
+    - Strip trailing/leading whitespace (already done by caller)
+    - Zero-pad numeric suffix (e.g. MIT1002_0001 → MIT1002_00001)
+    """
+    candidates: list[str] = []
+    # Strip trailing asterisk
+    stripped = raw_val.rstrip("*").strip()
+    if stripped and stripped != raw_val:
+        candidates.append(stripped)
+    # Zero-pad numeric suffix
+    m = re.match(r'^(.+)_(\d+)$', raw_val)
+    if m:
+        prefix, num = m.group(1), m.group(2)
+        for pad in range(len(num) + 1, len(num) + 3):
+            padded = f"{prefix}_{num.zfill(pad)}"
+            if padded not in candidates:
+                candidates.append(padded)
+    return candidates
+
+
+def resolve_row(
+    row: dict,
+    name_col: str,
+    id_columns: list[dict],
+    mapping_data: "MappingData",
+) -> tuple[Optional[str], str]:
+    """Resolve a CSV row to a canonical locus_tag using three-tier strategy.
+
+    Tries columns in order: name_col first, then id_columns.
+    Within each column, tries in order:
+      Pass 1: specific_lookup (Tier 1) with list expansion
+      Pass 2: heuristics (zero-pad, strip asterisk) → specific_lookup
+      Pass 3: multi_lookup (Tier 2+3), accept only singletons
+
+    Never duplicates rows. When a column is ambiguous (multi_lookup > 1 match),
+    tries other columns before giving up.
+
+    Args:
+        row: dict of column_name → cell_value
+        name_col: primary ID column name
+        id_columns: list of {column, id_type} dicts from paperconfig
+        mapping_data: MappingData instance for the organism
+
+    Returns:
+        (locus_tag, method_str) where method_str describes how it was resolved.
+        locus_tag is None when resolution fails; method_str gives the reason.
+    """
+    sl = mapping_data.specific_lookup
+    ml = mapping_data.multi_lookup
+    conflicts = mapping_data.conflicts
+
+    # Build ordered column list: name_col first, then id_columns
+    all_cols: list[str] = [name_col]
+    for c in id_columns:
+        col = c.get("column", "")
+        if col and col not in all_cols:
+            all_cols.append(col)
+
+    diagnostic: dict[str, str] = {}  # col → failure reason
+
+    # ── Pass 1: specific_lookup with list expansion ────────────────────────────
+    for col in all_cols:
+        raw = row.get(col)
+        if raw is None or (isinstance(raw, float) and pd.isna(raw)):
+            continue
+        for val in expand_list(str(raw)):
+            if not val:
+                continue
+            if val in sl:
+                return sl[val], f"tier1:{col}"
+            if val in conflicts:
+                diagnostic[col] = "tier1_conflict"
+
+    # ── Pass 2: heuristics → specific_lookup ──────────────────────────────────
+    for col in all_cols:
+        raw = row.get(col)
+        if raw is None or (isinstance(raw, float) and pd.isna(raw)):
+            continue
+        for val in expand_list(str(raw)):
+            for h_val in _heuristic_candidates(val):
+                if h_val in sl:
+                    return sl[h_val], f"heuristic:{col}"
+
+    # ── Pass 3: multi_lookup, singletons only ─────────────────────────────────
+    for col in all_cols:
+        raw = row.get(col)
+        if raw is None or (isinstance(raw, float) and pd.isna(raw)):
+            continue
+        for val in expand_list(str(raw)):
+            if not val:
+                continue
+            matches = ml.get(val)
+            if matches:
+                if len(matches) == 1:
+                    return matches[0], f"multi:{col}"
+                else:
+                    diagnostic[col] = f"ambiguous:{len(matches)}"
+
+    # ── All failed — report most informative reason ────────────────────────────
+    if any(v == "tier1_conflict" for v in diagnostic.values()):
+        reason = "tier1_conflict"
+    elif any(v.startswith("ambiguous") for v in diagnostic.values()):
+        reason = "ambiguous"
+    else:
+        # Check if any list-expanded values from name_col had multiple parts resolving differently
+        raw_name = row.get(name_col)
+        if raw_name is not None and not (isinstance(raw_name, float) and pd.isna(raw_name)):
+            parts = expand_list(str(raw_name))
+            if len(parts) > 1:
+                resolved_lts = {sl.get(p) or (ml.get(p, [None]) if p in ml and len(ml.get(p, [])) == 1 else [None])[0]
+                                for p in parts[1:] if p}
+                resolved_lts.discard(None)
+                if len(resolved_lts) > 1:
+                    return None, "multi_value_ambiguous"
+        reason = "unresolved"
+
+    return None, reason
+
+
 def build_id_lookup_from_mapping(gene_id_mapping):
     """Build alt_id → locus_tag reverse index from gene_id_mapping.json.
 
-    Only includes organism_specific and annotation_specific alt-IDs so the
-    lookup remains strictly 1:1 (one ID → one gene).  Generic-scoped IDs
-    (gene_name, gene_synonym) are intentionally excluded — they are shared
-    across organisms and are accessed via search_genes_by_name() instead.
+    Supports both v1 and v2 formats. Returns (lookup, locus_tags, paper_id_keys)
+    for backward compatibility with check-gene-ids / fix-gene-ids code.
 
-    Paper-derived IDs that are not already in the reference set are tracked in
-    paper_id_keys (the returned third element, analogous to supp_keys from the
-    original build_id_lookup).
+    For v2: returns specific_lookup directly; paper_id_keys is empty (deprecated distinction).
+    For v1: original logic (organism_specific only, excludes generic IDs).
 
     Returns:
         (lookup_dict, locus_tag_set, paper_id_keys)
-        lookup_dict: raw_id -> locus_tag  (organism_specific / annotation_specific only)
-        locus_tag_set: set of canonical locus tags
-        paper_id_keys: set of IDs that came from paper_ids (not reference)
     """
+    version = gene_id_mapping.get("version", 1) if isinstance(gene_id_mapping.get("version"), int) else 1
+
+    if version == 2:
+        # v2: specific_lookup already built; locus_tags from genes dict
+        specific = gene_id_mapping.get("specific_lookup", {})
+        locus_tags: set[str] = set(gene_id_mapping.get("genes", {}).keys())
+        # Add self-mapped entries (locus_tag → locus_tag)
+        for v in specific.values():
+            locus_tags.add(v)
+        # Reconstruct full lookup with self-mappings for locus_tags
+        lookup = dict(specific)
+        for lt in locus_tags:
+            lookup[lt] = lt
+        return lookup, locus_tags, set()
+
+    # v1 legacy format
     lookup: dict[str, str] = {}
-    locus_tags: set[str] = set()
+    locus_tags_v1: set[str] = set()
     paper_id_keys: set[str] = set()
 
     for locus_tag, entry in gene_id_mapping.items():
-        locus_tags.add(locus_tag)
+        if not isinstance(entry, dict):
+            continue
+        locus_tags_v1.add(locus_tag)
         lookup[locus_tag] = locus_tag
 
         for alt in (entry.get("alt_ids") or {}).get("reference") or []:
@@ -181,7 +427,7 @@ def build_id_lookup_from_mapping(gene_id_mapping):
                     lookup[aid] = locus_tag
                     paper_id_keys.add(aid)
 
-    return lookup, locus_tags, paper_id_keys
+    return lookup, locus_tags_v1, paper_id_keys
 
 
 # ─── ID lookup building ───────────────────────────────────────────────────────
