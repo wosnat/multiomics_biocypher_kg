@@ -27,7 +27,9 @@
       "Skill(omics-edge-snapshot:*)",
       "Bash(xargs -I {} bash -c \"echo ''=== {} ==='' && head -80 {}\")",
       "Skill(cypher-queries)",
-      "Skill(cypher-queries:*)"
+      "Skill(cypher-queries:*)",
+      "Skill(deploy-strain)",
+      "Skill(deploy-strain:*)"
     ]
   }
 }

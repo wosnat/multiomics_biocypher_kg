@@ -1,0 +1,54 @@
+{
+  "per_id_type": {
+    "locus_tag_ncbi": {
+      "unique": 8194,
+      "multi": 0,
+      "conflict": 0
+    },
+    "alternative_locus_tag": {
+      "unique": 1803,
+      "multi": 0,
+      "conflict": 0
+    },
+    "cds_fna_id": {
+      "unique": 4136,
+      "multi": 0,
+      "conflict": 0
+    },
+    "protein_id_refseq": {
+      "unique": 8173,
+      "multi": 60,
+      "conflict": 0
+    },
+    "uniprot_accession": {
+      "unique": 1274,
+      "multi": 0,
+      "conflict": 0
+    },
+    "gene_name": {
+      "unique": 4037,
+      "multi": 99,
+      "conflict": 0
+    },
+    "gene_synonym": {
+      "unique": 6016,
+      "multi": 5,
+      "conflict": 0
+    }
+  },
+  "warnings": [],
+  "unresolved_rows_per_source": {
+    "cds_from_genomic.fna": 88,
+    "genomic_gca/EZ55": 734,
+    "Barreto 2022/supp_table_S2": 264,
+    "Barreto 2022/supp_table_S9": 880,
+    "Barreto 2022/supp_table_S10": 626,
+    "Barreto 2022/supp_table_S11": 282,
+    "Barreto 2022/supp_table_S12": 390,
+    "Barreto 2022/supp_table_S13": 170,
+    "Barreto 2022/supp_table_S14": 118,
+    "Hennon 2017/supp_table_3": 844,
+    "Hennon 2017/supp_table_4": 250
+  },
+  "strain": "EZ55"
+}

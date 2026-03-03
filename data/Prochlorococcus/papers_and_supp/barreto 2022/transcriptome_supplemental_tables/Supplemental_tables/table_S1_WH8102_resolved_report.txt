@@ -4,18 +4,13 @@ name_col: symbol
 id_columns: ['symbol']
 
 Total rows with IDs: 13
-Resolved: 6 (46.2%)
-Unresolved: 7
+Resolved: 12 (92.3%)
+Unresolved: 1
 
 Resolution method breakdown:
+  locus_tag:symbol: 6
   tier1:symbol: 6
-  unresolved: 7
+  unresolved: 1
 
-Unresolved rows (7):
+Unresolved rows (1):
   row 1: raw_id='RNA_15'  reason=unresolved  [symbol='RNA_15']
-  row 2: raw_id='hypB'  reason=unresolved  [symbol='hypB']
-  row 6: raw_id='hypA2'  reason=unresolved  [symbol='hypA2']
-  row 8: raw_id='csoS1, ccmk1'  reason=unresolved  [symbol='csoS1, ccmk1']
-  row 9: raw_id='rbcL, cbbL'  reason=unresolved  [symbol='rbcL, cbbL']
-  row 10: raw_id='rbcS, cbbS'  reason=unresolved  [symbol='rbcS, cbbS']
-  row 11: raw_id='urtA1'  reason=unresolved  [symbol='urtA1']

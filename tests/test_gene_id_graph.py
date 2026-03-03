@@ -11,6 +11,10 @@ GeneIdGraph:
 - test_floating_component: IDs with no anchor → not in any lookup
 - test_uniprot_entry_name_stripping: "DNAA_PROM0" → also "DNAA" in specific_lookup
 - test_whitespace_split_anchor: compound "dnaA PMM0001" finds anchor via token split
+- test_bare_locus_tag_as_tier3_does_not_find_anchor: bare locus tag as gene_name → NOT found (MIT9301 failure mode)
+- test_bare_locus_tag_as_old_locus_tag_finds_anchor: same bare locus tag as old_locus_tag → Phase 1 finds it (fix)
+- test_compound_locus_tag_as_old_locus_tag_finds_anchor: compound "gene P9301_XXXXX" as old_locus_tag → Phase 2 split
+- test_multiword_compound_locus_tag_as_old_locus_tag_finds_anchor: 3-token compound → Phase 2 split finds last token
 - test_process_all_rows_convergence: iterative convergence count
 
 resolve_row (via gene_id_utils.resolve_row + MappingData):
@@ -177,6 +181,76 @@ class TestGeneIdGraph:
 
         # JGI123 should be linked to PMM0001 via the whitespace token match
         assert g.specific_lookup.get("JGI123") == "PMM0001"
+
+    def test_bare_locus_tag_as_tier3_does_not_find_anchor(self):
+        """Bare locus tag declared as gene_name (Tier 3) → anchor NOT found, JGI ID unlinked.
+
+        Reproduces the MIT9301 Anjur 2025 failure mode:
+        'P9301_06681' in a uniprot_gene_name column declared id_type: gene_name.
+        - Phase 1 only checks Tier 1 values → skips gene_name.
+        - Phase 2 only fires when value has a space → 'P9301_06681' (no space) is skipped.
+        - Phase 3 only checks Tier 2 values → also skips.
+        Result: anchor not found, JGI ID stays unresolved.
+        Fix: declare id_type: old_locus_tag so Phase 1 finds it directly.
+        """
+        g = _make_graph_with_genes("P9301_06681")
+        g.add_id_for_gene("P9301_06681", "P9301_RS12360", "locus_tag_ncbi", "annotations")
+
+        rows = [
+            ([("P9301_06681", "gene_name"), ("2626311821", "jgi_id")], "annotation_table"),
+        ]
+        g.process_all_rows(rows)
+
+        assert g.specific_lookup.get("2626311821") is None  # unresolved — anchor not found
+
+    def test_bare_locus_tag_as_old_locus_tag_finds_anchor(self):
+        """Bare locus tag declared as old_locus_tag (Tier 1) → Phase 1 finds anchor, JGI ID linked.
+
+        This is the fix for the MIT9301 pattern: changing id_type: gene_name →
+        id_type: old_locus_tag allows Phase 1 to check specific_lookup['P9301_06681']
+        directly (every canonical locus_tag maps to itself via add_anchor).
+        """
+        g = _make_graph_with_genes("P9301_06681")
+        g.add_id_for_gene("P9301_06681", "P9301_RS12360", "locus_tag_ncbi", "annotations")
+
+        rows = [
+            ([("P9301_06681", "old_locus_tag"), ("2626311821", "jgi_id")], "annotation_table"),
+        ]
+        g.process_all_rows(rows)
+
+        assert g.specific_lookup.get("2626311821") == "P9301_06681"
+
+    def test_compound_locus_tag_as_old_locus_tag_finds_anchor(self):
+        """Compound 'dnaA P9301_00001' with old_locus_tag → Phase 2 split finds anchor.
+
+        When the column has compound values like 'gene_name P9301_XXXXX' and is
+        declared id_type: old_locus_tag (Tier 1), Phase 1 fails (full string not in
+        specific_lookup) but Phase 2 whitespace-split finds 'P9301_00001'.
+        """
+        g = _make_graph_with_genes("P9301_00001")
+
+        rows = [
+            ([("dnaN P9301_00001", "old_locus_tag"), ("2626313079", "jgi_id")], "annotation_table"),
+        ]
+        g.process_all_rows(rows)
+
+        assert g.specific_lookup.get("2626313079") == "P9301_00001"
+
+    def test_multiword_compound_locus_tag_as_old_locus_tag_finds_anchor(self):
+        """Multi-word 'hisI hisIE P9301_06041' with old_locus_tag → Phase 2 split finds last token.
+
+        Some annotation tables have two gene-name synonyms before the locus tag
+        (e.g. 'hisI hisIE P9301_06041'). Whitespace-split tries all tokens and
+        finds 'P9301_06041' in specific_lookup.
+        """
+        g = _make_graph_with_genes("P9301_06041")
+
+        rows = [
+            ([("hisI hisIE P9301_06041", "old_locus_tag"), ("2626312345", "jgi_id")], "annotation_table"),
+        ]
+        g.process_all_rows(rows)
+
+        assert g.specific_lookup.get("2626312345") == "P9301_06041"
 
     def test_process_all_rows_convergence(self):
         """process_all_rows returns number of passes taken (at least 1)."""

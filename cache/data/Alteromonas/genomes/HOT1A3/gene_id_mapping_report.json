@@ -1,0 +1,46 @@
+{
+  "per_id_type": {
+    "locus_tag_ncbi": {
+      "unique": 3919,
+      "multi": 0,
+      "conflict": 0
+    },
+    "alternative_locus_tag": {
+      "unique": 1965,
+      "multi": 0,
+      "conflict": 2
+    },
+    "cds_fna_id": {
+      "unique": 4031,
+      "multi": 0,
+      "conflict": 0
+    },
+    "protein_id_refseq": {
+      "unique": 3963,
+      "multi": 68,
+      "conflict": 0
+    },
+    "uniprot_accession": {
+      "unique": 1404,
+      "multi": 7,
+      "conflict": 0
+    },
+    "gene_name": {
+      "unique": 3917,
+      "multi": 114,
+      "conflict": 0
+    },
+    "gene_synonym": {
+      "unique": 6021,
+      "multi": 13,
+      "conflict": 0
+    }
+  },
+  "warnings": [
+    "[CONFLICT] Tier 1 id_type 'alternative_locus_tag' has 2 data conflicts \u2014 check annotation quality."
+  ],
+  "unresolved_rows_per_source": {
+    "cds_from_genomic.fna": 110
+  },
+  "strain": "HOT1A3"
+}

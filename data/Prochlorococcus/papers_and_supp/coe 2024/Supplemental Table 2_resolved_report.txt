@@ -1,0 +1,17 @@
+Resolution report: Coe 2024 / supp_table_2
+Source: Supplemental Table 2.csv
+name_col: NCBI ID_3
+id_columns: ['NCBI ID_3', 'NCBI ID_2', 'NCBI ID', 'Gene ID', 'Gene Name']
+
+Total rows with IDs: 2030
+Resolved: 2029 (100.0%)
+Unresolved: 1
+
+Resolution method breakdown:
+  empty: 59
+  locus_tag:NCBI ID_3: 2028
+  tier1:NCBI ID_3: 1
+  unresolved: 1
+
+Unresolved rows (1):
+  row 1861: raw_id='PMN2A_1906'  reason=unresolved  [NCBI ID_3='PMN2A_1906', NCBI ID_2='PMN2A_RS00460', NCBI ID='NATL2_00961', Gene ID='fig|1218.94.peg.105']

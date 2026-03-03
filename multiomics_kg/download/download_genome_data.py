@@ -167,11 +167,15 @@ def _ncbi_download_genome(ncbi_accession: str, data_dir: str, force: bool) -> bo
                 f"?include_annotation_type=GENOME_GFF"
                 f"&hydrated=FULLY_HYDRATED"
             )
-            with ExitStack() as stack:
-                if force:
-                    stack.enter_context(curl.cache_off())
-                c_gca = curl.Curl(gca_url, silent=False, compr='zip', large=False)
-            if c_gca.result is not None:
+            try:
+                with ExitStack() as stack:
+                    if force:
+                        stack.enter_context(curl.cache_off())
+                    c_gca = curl.Curl(gca_url, silent=False, compr='zip', large=False)
+            except Exception as e:
+                log.warning(f"  Failed to download GCA GFF for {gca_accession}: {e}")
+                c_gca = None
+            if c_gca is not None and c_gca.result is not None:
                 for name, content in c_gca.result.items():
                     if name.endswith('genomic.gff'):
                         with open(gca_gff_path, 'w') as f:
@@ -180,7 +184,7 @@ def _ncbi_download_genome(ncbi_accession: str, data_dir: str, force: bool) -> bo
                         break
                 if not os.path.exists(gca_gff_path):
                     log.warning(f"  genomic_gca.gff not found for {gca_accession}")
-            else:
+            elif c_gca is not None:
                 log.warning(f"  Failed to download GCA GFF for {gca_accession}")
 
     return True

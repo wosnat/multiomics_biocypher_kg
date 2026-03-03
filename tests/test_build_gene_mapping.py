@@ -98,6 +98,9 @@ def _make_ncbi_gff_df(
     gene_name: str = "dnaN",
     protein_id: str = "WP_011131639.1",
     include_old_locus_tag: bool = True,
+    start: int = 174,
+    end: int = 1331,
+    strand: str = "+",
 ) -> pd.DataFrame:
     """Return a minimal DataFrame mimicking gffpandas output for one NCBI gene+CDS pair.
 
@@ -113,9 +116,9 @@ def _make_ncbi_gff_df(
         gene=gene_name,
         locus_tag=locus_tag_ncbi,
         source="RefSeq",
-        start=174,
-        end=1331,
-        strand="+",
+        start=start,
+        end=end,
+        strand=strand,
         Note=None,
         exception=None,
         inference="COORDINATES: similar to AA sequence:RefSeq:WP_002806737.1",
@@ -142,15 +145,18 @@ def _make_ncbi_gff_df(
 def _make_cyan_gff_df(
     cyanorak_id: str = "CK_Pro_MED4_00001",
     locus_tag: str = "PMM0001",
+    start: int = 174,
+    end: int = 1331,
+    strand: str = "+",
 ) -> pd.DataFrame:
     """Return a minimal Cyanorak GFF DataFrame with one CDS row."""
     return pd.DataFrame([{
         "type": "CDS",
         "ID": cyanorak_id,
         "Name": "dnaN",
-        "start": 174,
-        "end": 1331,
-        "strand": "+",
+        "start": start,
+        "end": end,
+        "strand": strand,
         "locus_tag": locus_tag,
         "product": "DNA polymerase III, beta subunit",
         "cluster_number": "CK_00000364",
@@ -421,6 +427,96 @@ class TestLoadGffFromNcbiAndCyanorak:
         assert "gene_names" in result.columns
         # start_ncbi → start
         assert "start" in result.columns
+
+    # --- Position fallback tests ---
+
+    def test_position_fallback_merges_unmatched_pair(self):
+        """MIT9313-style: NCBI has PMT_0107, Cyanorak has PMT0107 at same coords."""
+        ncbi_df = _make_ncbi_gff_df(
+            locus_tag_ncbi="AKG35_RS00545",
+            old_locus_tag="PMT_0107",
+            start=122194, end=123066, strand="-",
+        )
+        cyan_df = _make_cyan_gff_df(
+            cyanorak_id="CK_Pro_MIT9313_00107",
+            locus_tag="PMT0107",
+            start=122194, end=123066, strand="-",
+        )
+        result = self._run(
+            ncbi_df, cyan_df,
+            {"CK_Pro_MIT9313_00107": "PMT0107"},
+        )
+        # Should merge into one row with data from both sources
+        assert len(result) == 1
+        row = result.iloc[0]
+        assert row["locus_tag_ncbi"] == "AKG35_RS00545"
+        assert row["locus_tag_cyanoak"] == "CK_Pro_MIT9313_00107"
+        assert row["cluster_number"] == "CK_00000364"
+        # Position merge note should be set
+        assert "position_merge_note" in result.columns
+        assert pd.notna(row["position_merge_note"])
+        assert "position_merge" in str(row["position_merge_note"])
+
+    def test_position_fallback_skips_different_strand(self):
+        """Same coords but different strand → no merge."""
+        ncbi_df = _make_ncbi_gff_df(
+            old_locus_tag="PMT_0107", start=122194, end=123066, strand="-",
+        )
+        cyan_df = _make_cyan_gff_df(
+            cyanorak_id="CK_00107", locus_tag="PMT0107",
+            start=122194, end=123066, strand="+",  # different strand
+        )
+        result = self._run(ncbi_df, cyan_df, {"CK_00107": "PMT0107"})
+        # Should remain as two separate rows (no fallback merge)
+        assert len(result) == 2
+
+    def test_position_fallback_skips_low_overlap(self):
+        """Overlap < 90% → no merge."""
+        ncbi_df = _make_ncbi_gff_df(
+            old_locus_tag="PMT_0107", start=100, end=1000, strand="+",
+        )
+        cyan_df = _make_cyan_gff_df(
+            cyanorak_id="CK_00107", locus_tag="PMT0107",
+            start=800, end=2000, strand="+",  # only 200bp overlap / 1200bp max = 16%
+        )
+        result = self._run(ncbi_df, cyan_df, {"CK_00107": "PMT0107"})
+        assert len(result) == 2
+
+    def test_position_fallback_skips_large_coord_diff(self):
+        """Start diff > 10bp → no merge even with high overlap."""
+        ncbi_df = _make_ncbi_gff_df(
+            old_locus_tag="PMT_0107", start=100, end=1000, strand="+",
+        )
+        cyan_df = _make_cyan_gff_df(
+            cyanorak_id="CK_00107", locus_tag="PMT0107",
+            start=85, end=1000, strand="+",  # 15bp start diff, ~98% overlap
+        )
+        result = self._run(ncbi_df, cyan_df, {"CK_00107": "PMT0107"})
+        assert len(result) == 2
+
+    def test_position_fallback_skips_conflict(self):
+        """Two Cyanorak entries at same position as one NCBI entry → skip both."""
+        ncbi_df = _make_ncbi_gff_df(
+            old_locus_tag="PMT_2613", start=1128809, end=1129006, strand="-",
+        )
+        cyan1 = _make_cyan_gff_df(
+            cyanorak_id="CK_02281", locus_tag="PMT2281",
+            start=1128809, end=1129006, strand="-",
+        )
+        cyan2 = _make_cyan_gff_df(
+            cyanorak_id="CK_02283", locus_tag="PMT2283",
+            start=1128809, end=1129006, strand="-",
+        )
+        cyan_combined = pd.concat([cyan1, cyan2], ignore_index=True)
+        result = self._run(
+            ncbi_df, cyan_combined,
+            {"CK_02281": "PMT2281", "CK_02283": "PMT2283"},
+        )
+        # All three should remain separate (conflict = no merge)
+        assert len(result) == 3
+        # NCBI entry should NOT have Cyanorak data
+        ncbi_row = result[result["locus_tag_ncbi"] == "TX50_RS00020"].iloc[0]
+        assert pd.isna(ncbi_row["locus_tag_cyanoak"])
 
 
 # ─── build_gene_mapping ───────────────────────────────────────────────────────

@@ -1,0 +1,68 @@
+{
+  "per_id_type": {
+    "locus_tag_ncbi": {
+      "unique": 4619,
+      "multi": 0,
+      "conflict": 15
+    },
+    "locus_tag_cyanorak": {
+      "unique": 1962,
+      "multi": 0,
+      "conflict": 0
+    },
+    "cds_fna_id": {
+      "unique": 1877,
+      "multi": 0,
+      "conflict": 0
+    },
+    "alternative_locus_tag": {
+      "unique": 1956,
+      "multi": 0,
+      "conflict": 0
+    },
+    "protein_id_refseq": {
+      "unique": 3814,
+      "multi": 10,
+      "conflict": 0
+    },
+    "uniprot_accession": {
+      "unique": 1303,
+      "multi": 10,
+      "conflict": 0
+    },
+    "gene_name": {
+      "unique": 1936,
+      "multi": 102,
+      "conflict": 0
+    },
+    "gene_synonym": {
+      "unique": 2523,
+      "multi": 85,
+      "conflict": 0
+    },
+    "probeset": {
+      "unique": 438,
+      "multi": 0,
+      "conflict": 0
+    },
+    "old_locus_tag": {
+      "unique": 300,
+      "multi": 0,
+      "conflict": 0
+    }
+  },
+  "warnings": [
+    "[CONFLICT] Tier 1 id_type 'locus_tag_ncbi' has 15 data conflicts \u2014 check annotation quality."
+  ],
+  "unresolved_rows_per_source": {
+    "cds_from_genomic.fna": 8,
+    "genomic_gca/MED4": 254,
+    "Bagby and Chisholm 2015/supp_table_1_air": 60,
+    "Bagby and Chisholm 2015/supp_table_1_no_o2": 60,
+    "Bagby and Chisholm 2015/supp_table_1_low_co2": 60,
+    "Bagby and Chisholm 2015/supp_table_1_low_co2_no_o2": 60,
+    "Thompson 2011/supp_table_1": 26,
+    "Tolonen 2006/supp_table_med4": 4
+  },
+  "strain": "MED4"
+}

@@ -114,7 +114,17 @@ def resolve_table(
             name_col = nc
             break
     if not name_col:
-        return {"skipped": True, "reason": "name_col is already locus_tag"}
+        # Check if id_columns indicate non-standard IDs despite name_col being 'locus_tag'
+        id_cols = table_config.get("id_columns") or []
+        has_nonstandard = any(
+            c.get("id_type", "locus_tag") not in ("locus_tag",)
+            for c in id_cols
+        )
+        if has_nonstandard:
+            # The 'locus_tag' column contains non-standard IDs — resolve via id_columns
+            name_col = "locus_tag"
+        else:
+            return {"skipped": True, "reason": "name_col is already locus_tag"}
 
     resolved_path = get_resolved_path(src)
 
@@ -211,6 +221,8 @@ def resolve_table(
 
     # Write _resolved.csv
     df_out = df.copy()
+    if name_col == "locus_tag" and "locus_tag" in df_out.columns:
+        df_out.rename(columns={"locus_tag": "original_id"}, inplace=True)
     df_out["locus_tag"] = locus_tag_col
     df_out["resolution_method"] = method_col
     try:
@@ -286,7 +298,7 @@ def _write_report(
 
     # Check if any column behaved unexpectedly
     multi_cols = {
-        m.split(":", 1)[1]: count
+        (m.split(":", 1)[1] if ":" in m else m): count
         for m, count in method_counts.items()
         if m.startswith("ambiguous") or m.startswith("multi:")
     }

@@ -1,0 +1,32 @@
+Resolution report: Thompson 2011 / supp_table_2
+Source: supp table 2.csv
+name_col: Gene
+id_columns: ['Gene']
+
+Total rows with IDs: 111
+Resolved: 95 (85.6%)
+Unresolved: 16
+
+Resolution method breakdown:
+  heuristic:Gene: 1
+  locus_tag:Gene: 6
+  tier1:Gene: 88
+  unresolved: 16
+
+Unresolved rows (16):
+  row 4: raw_id='P9313_01981'  reason=unresolved  [Gene='P9313_01981']
+  row 72: raw_id='P9313_16611'  reason=unresolved  [Gene='P9313_16611']
+  row 73: raw_id='17651 P9313'  reason=unresolved  [Gene='17651 P9313']
+  row 74: raw_id='18001 P9313'  reason=unresolved  [Gene='18001 P9313']
+  row 87: raw_id='P9313_21301'  reason=unresolved  [Gene='P9313_21301']
+  row 88: raw_id='P9313_21331'  reason=unresolved  [Gene='P9313_21331']
+  row 91: raw_id='P9313_22121'  reason=unresolved  [Gene='P9313_22121']
+  row 102: raw_id='PMT ffs'  reason=unresolved  [Gene='PMT ffs']
+  row 103: raw_id='tRNA-Ala2'  reason=unresolved  [Gene='tRNA-Ala2']
+  row 104: raw_id='tRNA-Arg2'  reason=unresolved  [Gene='tRNA-Arg2']
+  row 105: raw_id='tRNA-Asn1'  reason=unresolved  [Gene='tRNA-Asn1']
+  row 106: raw_id='tRNA-Glul'  reason=unresolved  [Gene='tRNA-Glul']
+  row 107: raw_id='tRNA-Leul'  reason=unresolved  [Gene='tRNA-Leul']
+  row 108: raw_id='tRNA-Thr3'  reason=unresolved  [Gene='tRNA-Thr3']
+  row 109: raw_id='ncRNA Yfr2-5 1'  reason=unresolved  [Gene='ncRNA Yfr2-5 1']
+  row 110: raw_id='ncRNA Yfr7'  reason=unresolved  [Gene='ncRNA Yfr7']

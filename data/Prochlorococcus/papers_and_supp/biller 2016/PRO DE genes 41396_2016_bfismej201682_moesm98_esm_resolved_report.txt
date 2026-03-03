@@ -1,0 +1,12 @@
+Resolution report: Biller 2016 / supp_table_2
+Source: PRO DE genes 41396_2016_bfismej201682_moesm98_esm.csv
+name_col: Original_NCBI_ID
+id_columns: ['Original_NCBI_ID', 'Alternate_NCBI_ID', 'Alternate_NCBI_ID_2', 'Gene name']
+
+Total rows with IDs: 353
+Resolved: 353 (100.0%)
+Unresolved: 0
+
+Resolution method breakdown:
+  empty: 22
+  locus_tag:Original_NCBI_ID: 353

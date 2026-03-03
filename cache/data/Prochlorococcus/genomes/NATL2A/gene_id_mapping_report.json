@@ -1,0 +1,66 @@
+{
+  "per_id_type": {
+    "locus_tag_ncbi": {
+      "unique": 4235,
+      "multi": 0,
+      "conflict": 0
+    },
+    "locus_tag_cyanorak": {
+      "unique": 2169,
+      "multi": 0,
+      "conflict": 0
+    },
+    "cds_fna_id": {
+      "unique": 2060,
+      "multi": 0,
+      "conflict": 0
+    },
+    "alternative_locus_tag": {
+      "unique": 2159,
+      "multi": 0,
+      "conflict": 16
+    },
+    "protein_id_refseq": {
+      "unique": 4207,
+      "multi": 28,
+      "conflict": 0
+    },
+    "uniprot_accession": {
+      "unique": 1475,
+      "multi": 23,
+      "conflict": 0
+    },
+    "gene_name": {
+      "unique": 2117,
+      "multi": 116,
+      "conflict": 0
+    },
+    "gene_synonym": {
+      "unique": 2583,
+      "multi": 108,
+      "conflict": 0
+    },
+    "annotation_specific": {
+      "unique": 2044,
+      "multi": 0,
+      "conflict": 0
+    },
+    "old_locus_tag": {
+      "unique": 1,
+      "multi": 0,
+      "conflict": 0
+    }
+  },
+  "warnings": [
+    "[CONFLICT] Tier 1 id_type 'alternative_locus_tag' has 16 data conflicts \u2014 check annotation quality."
+  ],
+  "unresolved_rows_per_source": {
+    "cds_from_genomic.fna": 11,
+    "genomic_gca/NATL2A": 141,
+    "Biller 2016/supp_table_2": 4,
+    "Biller 2018/supp_table_s3": 19,
+    "Coe 2024/supp_table_2": 132,
+    "Tetu 2019/supp_dataset_4_natl2a": 3
+  },
+  "strain": "NATL2A"
+}

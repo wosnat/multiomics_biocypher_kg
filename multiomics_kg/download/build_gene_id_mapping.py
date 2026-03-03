@@ -23,6 +23,7 @@ import re
 import sys
 from pathlib import Path
 from typing import Any
+from urllib.parse import unquote
 
 import pandas as pd
 import yaml
@@ -45,7 +46,7 @@ def load_all_paperconfigs() -> list[tuple[Path, dict]]:
     with open(PAPERCONFIG_FILES_TXT) as f:
         for line in f:
             path_str = line.strip()
-            if not path_str:
+            if not path_str or path_str.startswith('#'):
                 continue
             path = PROJECT_ROOT / path_str
             if not path.exists():
@@ -214,6 +215,19 @@ def extract_rows_from_annotation_gff(
                     val = attrs.get(attr_name, "").strip()
                     if val:
                         row_pairs.append((val, id_type))
+
+                # Extract "Alternative locus ID" from Note field (GCA GFF)
+                # Format: Note=Alternative locus ID:P9313_01731
+                # or Note=Alternative locus ID:P9313_00051%3B~Signal...
+                note = attrs.get("Note", "")
+                if "Alternative locus ID" in note:
+                    note_decoded = unquote(note)
+                    alt_match = re.search(
+                        r"Alternative locus ID[: ]+([A-Za-z0-9_]+)",
+                        note_decoded,
+                    )
+                    if alt_match:
+                        row_pairs.append((alt_match.group(1), "alternative_locus_tag"))
 
                 if len(row_pairs) >= 2:  # Need at least 2 IDs to be useful for linking
                     result.append((row_pairs, source_label))

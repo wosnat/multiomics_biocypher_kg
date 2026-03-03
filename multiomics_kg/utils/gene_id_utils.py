@@ -227,11 +227,14 @@ def expand_list(raw_val: str) -> list[str]:
 
     Always includes the full raw value first (in case the separator is part
     of the ID), then individual tokens split on ',' and ';'.
+    Also extracts word-like tokens from composite values containing
+    parentheses (e.g. "PMED4_00651 (PMM0063)" → also tries each token).
 
     Examples:
         "PMM0001" → ["PMM0001"]
         "PMM0001, PMM0002" → ["PMM0001, PMM0002", "PMM0001", "PMM0002"]
         "dnaA; dnaN" → ["dnaA; dnaN", "dnaA", "dnaN"]
+        "PMED4_00651 (PMM0063)" → ["PMED4_00651 (PMM0063)", "PMED4_00651", "PMM0063"]
     """
     raw_val = str(raw_val).strip()
     if not raw_val or raw_val.lower() in ("nan", ""):
@@ -243,6 +246,12 @@ def expand_list(raw_val: str) -> list[str]:
             part = part.strip()
             if part and part not in candidates:
                 candidates.append(part)
+    # Extract word-like tokens from composite values with parens/spaces
+    # e.g. "PMED4_00651 (PMM0063)" → ["PMED4_00651", "PMM0063"]
+    if "(" in raw_val or " " in raw_val:
+        for token in re.findall(r'[\w.*:_-]+', raw_val):
+            if token and token not in candidates:
+                candidates.append(token)
     return candidates
 
 
@@ -250,13 +259,13 @@ def _heuristic_candidates(raw_val: str) -> list[str]:
     """Return heuristic normalized forms of a raw ID (in addition to the raw form).
 
     Heuristics:
-    - Strip trailing '*' (footnote artifact)
+    - Strip trailing '*' or '+' (footnote artifacts)
     - Strip trailing/leading whitespace (already done by caller)
     - Zero-pad numeric suffix (e.g. MIT1002_0001 → MIT1002_00001)
     """
     candidates: list[str] = []
-    # Strip trailing asterisk
-    stripped = raw_val.rstrip("*").strip()
+    # Strip trailing asterisk / plus (footnote artifacts)
+    stripped = raw_val.rstrip("*+").strip()
     if stripped and stripped != raw_val:
         candidates.append(stripped)
     # Zero-pad numeric suffix
@@ -325,7 +334,7 @@ def resolve_row(
             if val in conflicts:
                 diagnostic[col] = "tier1_conflict"
 
-    # ── Pass 2: heuristics → specific_lookup ──────────────────────────────────
+    # ── Pass 2: heuristics → specific_lookup + locus_tags ──────────────────────
     for col in all_cols:
         raw = row.get(col)
         if raw is None or (isinstance(raw, float) and pd.isna(raw)):
@@ -334,6 +343,8 @@ def resolve_row(
             for h_val in _heuristic_candidates(val):
                 if h_val in sl:
                     return sl[h_val], f"heuristic:{col}"
+                if h_val in mapping_data.locus_tags:
+                    return h_val, f"heuristic:{col}"
 
     # ── Pass 3: multi_lookup, singletons only ─────────────────────────────────
     for col in all_cols:

@@ -1,0 +1,53 @@
+{
+  "per_id_type": {
+    "locus_tag_ncbi": {
+      "unique": 4970,
+      "multi": 0,
+      "conflict": 1
+    },
+    "locus_tag_cyanorak": {
+      "unique": 2195,
+      "multi": 0,
+      "conflict": 0
+    },
+    "cds_fna_id": {
+      "unique": 2083,
+      "multi": 0,
+      "conflict": 0
+    },
+    "protein_id_refseq": {
+      "unique": 4242,
+      "multi": 31,
+      "conflict": 0
+    },
+    "uniprot_accession": {
+      "unique": 1512,
+      "multi": 26,
+      "conflict": 0
+    },
+    "gene_name": {
+      "unique": 2028,
+      "multi": 97,
+      "conflict": 0
+    },
+    "gene_synonym": {
+      "unique": 2731,
+      "multi": 115,
+      "conflict": 0
+    },
+    "alternative_locus_tag": {
+      "unique": 3,
+      "multi": 0,
+      "conflict": 14
+    }
+  },
+  "warnings": [
+    "[CONFLICT] Tier 1 id_type 'locus_tag_ncbi' has 1 data conflicts \u2014 check annotation quality.",
+    "[CONFLICT] Tier 1 id_type 'alternative_locus_tag' has 14 data conflicts \u2014 check annotation quality."
+  ],
+  "unresolved_rows_per_source": {
+    "cds_from_genomic.fna": 16,
+    "genomic_gca/NATL1A": 114
+  },
+  "strain": "NATL1A"
+}

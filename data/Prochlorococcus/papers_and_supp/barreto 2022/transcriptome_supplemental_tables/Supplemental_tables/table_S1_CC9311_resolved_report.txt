@@ -4,17 +4,15 @@ name_col: symbol
 id_columns: ['symbol']
 
 Total rows with IDs: 30
-Resolved: 24 (80.0%)
-Unresolved: 6
+Resolved: 27 (90.0%)
+Unresolved: 3
 
 Resolution method breakdown:
-  tier1:symbol: 24
-  unresolved: 6
+  locus_tag:symbol: 24
+  tier1:symbol: 3
+  unresolved: 3
 
-Unresolved rows (6):
+Unresolved rows (3):
   row 0: raw_id='sync_2538'  reason=unresolved  [symbol='sync_2538']
   row 1: raw_id='sync_0554'  reason=unresolved  [symbol='sync_0554']
-  row 8: raw_id='dnaK-1'  reason=unresolved  [symbol='dnaK-1']
   row 10: raw_id='sync_2844'  reason=unresolved  [symbol='sync_2844']
-  row 15: raw_id='petF-2'  reason=unresolved  [symbol='petF-2']
-  row 21: raw_id='deaD'  reason=unresolved  [symbol='deaD']

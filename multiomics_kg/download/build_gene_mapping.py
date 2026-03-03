@@ -9,6 +9,7 @@ from __future__ import annotations
 import os
 import re
 
+import numpy as np
 import pandas as pd
 from Bio import SeqIO
 from biocypher._logger import logger
@@ -152,6 +153,135 @@ def _get_ec_numbers_from_gbff(gbff_file: str) -> dict[str, list[str]]:
     return locus_tag_to_ec
 
 
+# ── position-based fallback merge ─────────────────────────────────────────────
+
+# Cyanorak-specific columns to copy during position fallback merge.
+# These are columns unique to Cyanorak (no _cyanorak suffix needed) or
+# shared columns that got suffixed with _cyanorak during the outer merge.
+_CYAN_COLUMNS_TO_COPY = [
+    'ID',
+    'start_cyanorak', 'end_cyanorak', 'strand_cyanorak',
+    'Name_cyanorak', 'Ontology_term_cyanorak', 'product_cyanorak',
+    'cluster_number',
+    'cyanorak_Role', 'cyanorak_Role_description',
+    'eggNOG', 'eggNOG_description',
+    'kegg', 'kegg_description',
+    'ontology_term_description',
+    'protein_domains', 'protein_domains_description',
+    'tIGR_Role', 'tIGR_Role_description',
+]
+
+
+def _position_fallback_merge(
+    ncbi_sourced: pd.DataFrame,
+    cyan_only: pd.DataFrame,
+    min_overlap: float = 0.9,
+    max_bp_diff: int = 10,
+) -> tuple[int, set[str]]:
+    """Merge unmatched Cyanorak entries into NCBI entries by genomic position.
+
+    After the initial locus_tag-based merge, some genes remain unmatched because
+    NCBI old_locus_tag is incomplete (e.g., MIT9313 PMT_0107 vs Cyanorak PMT0107).
+    This fallback matches by coordinate overlap on the same strand.
+
+    Criteria for a match:
+    - Same strand
+    - Reciprocal overlap >= min_overlap (overlap / max(len_ncbi, len_cyan))
+    - abs(start_diff) <= max_bp_diff
+    - abs(end_diff) <= max_bp_diff
+    - 1:1 only; conflicts (one NCBI gene matching multiple Cyanorak) are skipped
+
+    Modifies ncbi_sourced in-place by filling Cyanorak columns for matched rows.
+
+    Returns:
+        (n_merged, consumed_cyan_locus_tags)
+    """
+    ncbi_unmatched = ncbi_sourced[ncbi_sourced['ID'].isna()].copy()
+    if ncbi_unmatched.empty or cyan_only.empty:
+        return 0, set()
+
+    # Build candidate pairs: cyan_lt -> (ncbi_index, overlap)
+    # Keyed by NCBI locus_tag_ncbi to detect conflicts
+    ncbi_to_cyan: dict[str, list[tuple[str, int, float]]] = {}
+
+    for cyan_idx, c in cyan_only.iterrows():
+        c_start = c['start_cyanorak']
+        c_end = c['end_cyanorak']
+        c_strand = c['strand_cyanorak']
+        if pd.isna(c_start) or pd.isna(c_end) or pd.isna(c_strand):
+            continue
+        c_len = c_end - c_start
+
+        same_strand = ncbi_unmatched[ncbi_unmatched['strand_ncbi'] == c_strand]
+        if same_strand.empty:
+            continue
+
+        n_starts = same_strand['start_ncbi'].values
+        n_ends = same_strand['end_ncbi'].values
+        n_lens = n_ends - n_starts
+
+        overlap_start = np.maximum(n_starts, c_start)
+        overlap_end = np.minimum(n_ends, c_end)
+        overlap_len = np.maximum(overlap_end - overlap_start, 0)
+        max_len = np.maximum(c_len, n_lens)
+        recip = np.where(max_len > 0, overlap_len / max_len, 0)
+
+        start_diff = np.abs(n_starts - c_start)
+        end_diff = np.abs(n_ends - c_end)
+
+        mask = (recip >= min_overlap) & (start_diff <= max_bp_diff) & (end_diff <= max_bp_diff)
+        for i in np.where(mask)[0]:
+            n_row = same_strand.iloc[i]
+            n_lt_ncbi = n_row['locus_tag_ncbi']
+            ncbi_to_cyan.setdefault(n_lt_ncbi, []).append(
+                (c['locus_tag'], same_strand.index[i], recip[i])
+            )
+
+    # Resolve: skip conflicts (1 NCBI → multiple Cyanorak)
+    consumed_cyan = set()
+    n_merged = 0
+
+    for n_lt_ncbi, candidates in ncbi_to_cyan.items():
+        if len(candidates) > 1:
+            logger.warning(
+                f"Position fallback: skipping {n_lt_ncbi} — "
+                f"matches {len(candidates)} Cyanorak entries: "
+                f"{[c[0] for c in candidates]}"
+            )
+            continue
+
+        cyan_lt, ncbi_idx, overlap = candidates[0]
+        # Also check reverse: is this Cyanorak entry claimed by another NCBI entry?
+        # (shouldn't happen with strict thresholds, but be safe)
+        if cyan_lt in consumed_cyan:
+            continue
+
+        # Copy Cyanorak columns into the NCBI row
+        cyan_row = cyan_only[cyan_only['locus_tag'] == cyan_lt].iloc[0]
+        for col in _CYAN_COLUMNS_TO_COPY:
+            if col in ncbi_sourced.columns and col in cyan_only.columns:
+                ncbi_sourced.at[ncbi_idx, col] = cyan_row[col]
+
+        # Preserve the Cyanorak locus_tag in old_locus_tags so it remains
+        # discoverable by gene_id_mapping (papers may use this form).
+        existing_olt = str(ncbi_sourced.at[ncbi_idx, 'old_locus_tags'])
+        if pd.notna(ncbi_sourced.at[ncbi_idx, 'old_locus_tags']):
+            if cyan_lt not in existing_olt:
+                ncbi_sourced.at[ncbi_idx, 'old_locus_tags'] = f"{existing_olt},{cyan_lt}"
+        else:
+            ncbi_sourced.at[ncbi_idx, 'old_locus_tags'] = cyan_lt
+
+        # Add a note flagging this as a position-based merge
+        ncbi_sourced.at[ncbi_idx, 'position_merge_note'] = (
+            f"position_merge:{cyan_lt}→{ncbi_sourced.at[ncbi_idx, 'locus_tag']}"
+        )
+
+        consumed_cyan.add(cyan_lt)
+        n_merged += 1
+
+    return n_merged, consumed_cyan
+
+
 # ── high-level loaders ────────────────────────────────────────────────────────
 
 def load_gff_from_ncbi_only(ncbi_gff_file: str) -> pd.DataFrame:
@@ -245,8 +375,19 @@ def load_gff_from_ncbi_and_cyanorak(
         cyan_only = cyan_only[~cyan_only['locus_tag'].isin(matched_locus_tags)]
         cyan_only = cyan_only.drop_duplicates(subset=['locus_tag'], keep='first')
 
+    # --- Position-based fallback for unmatched entries ---
+    # When NCBI old_locus_tag doesn't include the Cyanorak locus_tag form
+    # (e.g., MIT9313 PMT_0107 vs Cyanorak PMT0107), match by genomic coords.
+    n_pos_merged = 0
+    if not ncbi_sourced.empty and not cyan_only.empty:
+        n_pos_merged, consumed_cyan_lts = _position_fallback_merge(
+            ncbi_sourced, cyan_only,
+        )
+        if consumed_cyan_lts:
+            cyan_only = cyan_only[~cyan_only['locus_tag'].isin(consumed_cyan_lts)]
+
     n_ncbi_matched = int(ncbi_sourced['ID'].notna().sum()) if not ncbi_sourced.empty else 0
-    n_ncbi_only = len(ncbi_sourced) - n_ncbi_matched
+    n_ncbi_only = len(ncbi_sourced) - n_ncbi_matched - n_pos_merged
     n_cyan_only = len(cyan_only)
 
     merge_df = pd.concat([ncbi_sourced, cyan_only], ignore_index=True)
@@ -266,6 +407,7 @@ def load_gff_from_ncbi_and_cyanorak(
     )
     logger.info(
         f"Gene merge: {n_ncbi_matched} matched both sources, "
+        f"{n_pos_merged} position-fallback, "
         f"{n_ncbi_only} NCBI-only, {n_cyan_only} Cyanorak-only, "
         f"{len(merge_df)} total"
     )

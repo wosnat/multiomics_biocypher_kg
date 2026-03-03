@@ -1,0 +1,45 @@
+{
+  "per_id_type": {
+    "locus_tag_ncbi": {
+      "unique": 4443,
+      "multi": 0,
+      "conflict": 0
+    },
+    "locus_tag_cyanorak": {
+      "unique": 1926,
+      "multi": 0,
+      "conflict": 0
+    },
+    "cds_fna_id": {
+      "unique": 1846,
+      "multi": 0,
+      "conflict": 0
+    },
+    "protein_id_refseq": {
+      "unique": 3762,
+      "multi": 2,
+      "conflict": 0
+    },
+    "uniprot_accession": {
+      "unique": 1375,
+      "multi": 0,
+      "conflict": 0
+    },
+    "gene_name": {
+      "unique": 1798,
+      "multi": 79,
+      "conflict": 0
+    },
+    "gene_synonym": {
+      "unique": 2499,
+      "multi": 32,
+      "conflict": 0
+    }
+  },
+  "warnings": [],
+  "unresolved_rows_per_source": {
+    "cds_from_genomic.fna": 12,
+    "genomic_gca/AS9601": 112
+  },
+  "strain": "AS9601"
+}

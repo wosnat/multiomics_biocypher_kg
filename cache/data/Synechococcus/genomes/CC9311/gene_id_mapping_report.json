@@ -1,0 +1,47 @@
+{
+  "per_id_type": {
+    "locus_tag_ncbi": {
+      "unique": 6136,
+      "multi": 0,
+      "conflict": 0
+    },
+    "locus_tag_cyanorak": {
+      "unique": 2931,
+      "multi": 0,
+      "conflict": 0
+    },
+    "cds_fna_id": {
+      "unique": 2699,
+      "multi": 0,
+      "conflict": 0
+    },
+    "protein_id_refseq": {
+      "unique": 5565,
+      "multi": 14,
+      "conflict": 0
+    },
+    "uniprot_accession": {
+      "unique": 2858,
+      "multi": 19,
+      "conflict": 0
+    },
+    "gene_name": {
+      "unique": 3064,
+      "multi": 129,
+      "conflict": 0
+    },
+    "gene_synonym": {
+      "unique": 3314,
+      "multi": 29,
+      "conflict": 0
+    }
+  },
+  "warnings": [],
+  "unresolved_rows_per_source": {
+    "cds_from_genomic.fna": 38,
+    "genomic_gca/CC9311": 162,
+    "Barreto 2022/id_translation_syn_9311": 128,
+    "Barreto 2022/supp_table_S1_CC9311": 60
+  },
+  "strain": "CC9311"
+}

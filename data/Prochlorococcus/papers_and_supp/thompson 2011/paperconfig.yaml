@@ -47,10 +47,8 @@ publication:
   supplementary_materials:
     supp_table_1:
       type: csv
-      filename: "data/Prochlorococcus/papers_and_supp/thompson 2011/supp table 1_with_locus_tag.csv"
+      filename: "data/Prochlorococcus/papers_and_supp/thompson 2011/supp table 1.csv"
       id_columns:
-      - column: locus_tag
-        id_type: locus_tag
       - column: Gene
         id_type: old_locus_tag
       product_columns:
@@ -67,7 +65,7 @@ publication:
           experimental_context: "Prochlorococcus MED4 in PRO99 at 21C under continuous light at 27 umol photons m-2 s-1"
           timepoint: "12h"
           organism: "Prochlorococcus MED4"
-          name_col: "locus_tag"
+          name_col: "Gene"
           logfc_col: "12"
           pvalue_asterisk_in_logfc: true
           pvalue_threshold: 0.01
@@ -84,7 +82,7 @@ publication:
           experimental_context: "Prochlorococcus MED4 in PRO99 at 21C under continuous light at 27 umol photons m-2 s-1"
           timepoint: "24h"
           organism: "Prochlorococcus MED4"
-          name_col: "locus_tag"
+          name_col: "Gene"
           logfc_col: "24"
           pvalue_asterisk_in_logfc: true
           pvalue_threshold: 0.01
@@ -101,7 +99,7 @@ publication:
           experimental_context: "Prochlorococcus MED4 in PRO99 at 21C under continuous light at 27 umol photons m-2 s-1. Note: 48h -Fe samples compared with 24h +Fe samples due to poor hybridization of 48h +Fe sample."
           timepoint: "48h"
           organism: "Prochlorococcus MED4"
-          name_col: "locus_tag"
+          name_col: "Gene"
           logfc_col: "48"
           pvalue_asterisk_in_logfc: true
           pvalue_threshold: 0.01
@@ -118,7 +116,7 @@ publication:
           experimental_context: "Prochlorococcus MED4 in PRO99 at 21C under continuous light at 27 umol photons m-2 s-1. Iron added to -Fe cultures at 49h. R = log2(after rescue/before rescue)."
           timepoint: "R (rescue: 70h vs 48h)"
           organism: "Prochlorococcus MED4"
-          name_col: "locus_tag"
+          name_col: "Gene"
           logfc_col: "R*"
           pvalue_asterisk_in_logfc: true
           pvalue_threshold: 0.01
@@ -126,10 +124,8 @@ publication:
 
     supp_table_2:
       type: csv
-      filename: "data/Prochlorococcus/papers_and_supp/thompson 2011/supp table 2_with_locus_tag.csv"
+      filename: "data/Prochlorococcus/papers_and_supp/thompson 2011/supp table 2.csv"
       id_columns:
-      - column: locus_tag
-        id_type: locus_tag
       - column: Gene
         id_type: old_locus_tag
       product_columns:
@@ -146,7 +142,7 @@ publication:
           experimental_context: "Prochlorococcus MIT9313 in PRO99 at 25C under continuous light at 20 umol photons m-2 s-1"
           timepoint: "16h"
           organism: "Prochlorococcus MIT9313"
-          name_col: "locus_tag"
+          name_col: "Gene"
           logfc_col: "16"
           pvalue_asterisk_in_logfc: true
           pvalue_threshold: 0.01
@@ -163,7 +159,7 @@ publication:
           experimental_context: "Prochlorococcus MIT9313 in PRO99 at 25C under continuous light at 20 umol photons m-2 s-1"
           timepoint: "28h"
           organism: "Prochlorococcus MIT9313"
-          name_col: "locus_tag"
+          name_col: "Gene"
           logfc_col: "28"
           pvalue_asterisk_in_logfc: true
           pvalue_threshold: 0.01
@@ -180,7 +176,7 @@ publication:
           experimental_context: "Prochlorococcus MIT9313 in PRO99 at 25C under continuous light at 20 umol photons m-2 s-1"
           timepoint: "53h"
           organism: "Prochlorococcus MIT9313"
-          name_col: "locus_tag"
+          name_col: "Gene"
           logfc_col: "53"
           pvalue_asterisk_in_logfc: true
           pvalue_threshold: 0.01
@@ -197,7 +193,7 @@ publication:
           experimental_context: "Prochlorococcus MIT9313 in PRO99 at 25C under continuous light at 20 umol photons m-2 s-1. Iron added to -Fe cultures at 54h. R = log2(after rescue/before rescue)."
           timepoint: "R (rescue: 72h vs 53h)"
           organism: "Prochlorococcus MIT9313"
-          name_col: "locus_tag"
+          name_col: "Gene"
           logfc_col: "R*"
           pvalue_asterisk_in_logfc: true
           pvalue_threshold: 0.01

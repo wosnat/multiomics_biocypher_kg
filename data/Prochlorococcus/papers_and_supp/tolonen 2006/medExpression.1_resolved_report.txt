@@ -1,0 +1,16 @@
+Resolution report: Tolonen 2006 / supp_table_med4
+Source: medExpression.1.csv
+name_col: GENE
+id_columns: ['GENE']
+
+Total rows with IDs: 1698
+Resolved: 1696 (99.9%)
+Unresolved: 2
+
+Resolution method breakdown:
+  locus_tag:GENE: 1696
+  unresolved: 2
+
+Unresolved rows (2):
+  row 0: raw_id='MED4_ARR_or0124'  reason=unresolved  [GENE='MED4_ARR_or0124']
+  row 382: raw_id='PMM0385'  reason=unresolved  [GENE='PMM0385']

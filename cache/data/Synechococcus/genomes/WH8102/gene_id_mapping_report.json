@@ -1,0 +1,54 @@
+{
+  "per_id_type": {
+    "locus_tag_ncbi": {
+      "unique": 5812,
+      "multi": 0,
+      "conflict": 25
+    },
+    "locus_tag_cyanorak": {
+      "unique": 2777,
+      "multi": 0,
+      "conflict": 0
+    },
+    "cds_fna_id": {
+      "unique": 2633,
+      "multi": 0,
+      "conflict": 0
+    },
+    "protein_id_refseq": {
+      "unique": 5138,
+      "multi": 4,
+      "conflict": 0
+    },
+    "uniprot_accession": {
+      "unique": 2497,
+      "multi": 4,
+      "conflict": 0
+    },
+    "gene_name": {
+      "unique": 2913,
+      "multi": 150,
+      "conflict": 0
+    },
+    "gene_synonym": {
+      "unique": 3225,
+      "multi": 56,
+      "conflict": 0
+    },
+    "alternative_locus_tag": {
+      "unique": 1,
+      "multi": 0,
+      "conflict": 0
+    }
+  },
+  "warnings": [
+    "[CONFLICT] Tier 1 id_type 'locus_tag_ncbi' has 25 data conflicts \u2014 check annotation quality."
+  ],
+  "unresolved_rows_per_source": {
+    "cds_from_genomic.fna": 50,
+    "genomic_gca/WH8102": 166,
+    "Barreto 2022/id_translation_syn_8102": 144,
+    "Barreto 2022/supp_table_S1_WH8102": 20
+  },
+  "strain": "WH8102"
+}
