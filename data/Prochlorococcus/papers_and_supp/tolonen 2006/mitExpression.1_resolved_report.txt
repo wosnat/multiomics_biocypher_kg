@@ -1,0 +1,24 @@
+Resolution report: Tolonen 2006 / supp_table_mit9313
+Source: mitExpression.1.csv
+name_col: GENE
+id_columns: ['GENE']
+
+Total rows with IDs: 2250
+Resolved: 2241 (99.6%)
+Unresolved: 9
+
+Resolution method breakdown:
+  locus_tag:GENE: 2150
+  tier1:GENE: 91
+  unresolved: 9
+
+Unresolved rows (9):
+  row 0: raw_id='PMT_or1910'  reason=unresolved  [GENE='PMT_or1910']
+  row 1: raw_id='PMT_or1984'  reason=unresolved  [GENE='PMT_or1984']
+  row 925: raw_id='PMT0940'  reason=unresolved  [GENE='PMT0940']
+  row 1130: raw_id='PMT1150'  reason=unresolved  [GENE='PMT1150']
+  row 1190: raw_id='PMT1210'  reason=unresolved  [GENE='PMT1210']
+  row 1202: raw_id='PMT1222'  reason=unresolved  [GENE='PMT1222']
+  row 1654: raw_id='PMT1676'  reason=unresolved  [GENE='PMT1676']
+  row 1853: raw_id='PMT1877'  reason=unresolved  [GENE='PMT1877']
+  row 2047: raw_id='PMT2072'  reason=unresolved  [GENE='PMT2072']

@@ -1,0 +1,61 @@
+{
+  "per_id_type": {
+    "locus_tag_ncbi": {
+      "unique": 3834,
+      "multi": 0,
+      "conflict": 0
+    },
+    "locus_tag_cyanorak": {
+      "unique": 1962,
+      "multi": 0,
+      "conflict": 0
+    },
+    "cds_fna_id": {
+      "unique": 3837,
+      "multi": 0,
+      "conflict": 0
+    },
+    "alternative_locus_tag": {
+      "unique": 1960,
+      "multi": 0,
+      "conflict": 1
+    },
+    "protein_id_refseq": {
+      "unique": 3859,
+      "multi": 7,
+      "conflict": 0
+    },
+    "uniprot_accession": {
+      "unique": 1783,
+      "multi": 193,
+      "conflict": 0
+    },
+    "gene_name": {
+      "unique": 1877,
+      "multi": 70,
+      "conflict": 0
+    },
+    "gene_synonym": {
+      "unique": 2435,
+      "multi": 35,
+      "conflict": 0
+    },
+    "old_locus_tag": {
+      "unique": 1,
+      "multi": 0,
+      "conflict": 0
+    }
+  },
+  "warnings": [
+    "[CONFLICT] Tier 1 id_type 'alternative_locus_tag' has 1 data conflicts \u2014 check annotation quality."
+  ],
+  "unresolved_rows_per_source": {
+    "cds_from_genomic.fna": 1,
+    "genomic_gca/MIT9312": 156,
+    "Barreto 2022/id_translation_pro_9312": 135,
+    "Barreto 2022/supp_table_S1_MIT9312": 111,
+    "Hennon 2017/id_translation_mit9312_annot": 6,
+    "Tetu 2019/supp_dataset_3_mit9312": 9
+  },
+  "strain": "MIT9312"
+}

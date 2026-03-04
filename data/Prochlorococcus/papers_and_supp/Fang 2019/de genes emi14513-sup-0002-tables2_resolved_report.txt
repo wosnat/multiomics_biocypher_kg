@@ -1,0 +1,37 @@
+Resolution report: Fang 2019 / supp_table_2
+Source: de genes emi14513-sup-0002-tables2.csv
+name_col: Gene ID
+id_columns: ['Gene ID', 'Gene']
+
+Total rows with IDs: 665
+Resolved: 429 (64.5%)
+Unresolved: 236
+
+Resolution method breakdown:
+  locus_tag:Gene ID: 394
+  tier1:Gene: 1
+  tier1:Gene ID: 34
+  unresolved: 236
+
+Unresolved rows (236):
+  row 74: raw_id='RNA_16'  reason=unresolved  [Gene ID='RNA_16', Gene='tRNA-Val1']
+  row 90: raw_id='RNA_1'  reason=unresolved  [Gene ID='RNA_1', Gene='tRNA-Gly1']
+  row 91: raw_id='RNA_10'  reason=unresolved  [Gene ID='RNA_10', Gene='tRNA-Ser3']
+  row 92: raw_id='RNA_11'  reason=unresolved  [Gene ID='RNA_11', Gene='tRNA-Met2']
+  row 93: raw_id='RNA_12'  reason=unresolved  [Gene ID='RNA_12', Gene='tRNA-Pro1']
+  row 94: raw_id='RNA_13'  reason=unresolved  [Gene ID='RNA_13', Gene='tRNA-Glu1']
+  row 95: raw_id='RNA_17'  reason=unresolved  [Gene ID='RNA_17', Gene='tRNA-Arg1']
+  row 96: raw_id='RNA_18'  reason=unresolved  [Gene ID='RNA_18', Gene='tRNA-Val2']
+  row 97: raw_id='RNA_2'  reason=unresolved  [Gene ID='RNA_2', Gene='tRNA-Ile1']
+  row 98: raw_id='RNA_21'  reason=unresolved  [Gene ID='RNA_21', Gene='tRNA-Phe1']
+  row 99: raw_id='RNA_22'  reason=unresolved  [Gene ID='RNA_22', Gene='tRNA-Ser4']
+  row 100: raw_id='RNA_23'  reason=unresolved  [Gene ID='RNA_23', Gene='tRNA-Ala3']
+  row 101: raw_id='RNA_24'  reason=unresolved  [Gene ID='RNA_24', Gene='tRNA-Asn1']
+  row 102: raw_id='RNA_26'  reason=unresolved  [Gene ID='RNA_26', Gene='tRNA-Val3']
+  row 103: raw_id='RNA_28'  reason=unresolved  [Gene ID='RNA_28', Gene='tRNA-Arg3']
+  row 104: raw_id='RNA_29'  reason=unresolved  [Gene ID='RNA_29', Gene='tRNA-Leu3']
+  row 105: raw_id='RNA_30'  reason=unresolved  [Gene ID='RNA_30', Gene='tRNA-Pro2']
+  row 106: raw_id='RNA_31'  reason=unresolved  [Gene ID='RNA_31', Gene='tRNA-Gln1']
+  row 107: raw_id='RNA_32'  reason=unresolved  [Gene ID='RNA_32', Gene='tRNA-Arg4']
+  row 108: raw_id='RNA_33'  reason=unresolved  [Gene ID='RNA_33', Gene='tRNA-Cys1']
+  ... (216 more)

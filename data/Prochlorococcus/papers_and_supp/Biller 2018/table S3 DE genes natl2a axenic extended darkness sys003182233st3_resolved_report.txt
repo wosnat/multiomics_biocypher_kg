@@ -1,0 +1,18 @@
+Resolution report: Biller 2018 / supp_table_s3
+Source: table S3 DE genes natl2a axenic extended darkness sys003182233st3.csv
+name_col: NCBI ID_3
+id_columns: ['NCBI ID_3', 'NCBI ID_2', 'NCBI ID', 'Gene Name']
+
+Total rows with IDs: 1957
+Resolved: 1955 (99.9%)
+Unresolved: 2
+
+Resolution method breakdown:
+  empty: 24
+  locus_tag:NCBI ID_3: 1953
+  tier1:NCBI ID_3: 2
+  unresolved: 2
+
+Unresolved rows (2):
+  row 91: raw_id='PMN2A_1906'  reason=unresolved  [NCBI ID_3='PMN2A_1906', NCBI ID_2='PMN2A_RS00460', NCBI ID='NATL2_00961']
+  row 1978: raw_id='(unannotated)'  reason=unresolved  [NCBI ID_3='(unannotated)', Gene Name='rnpB']

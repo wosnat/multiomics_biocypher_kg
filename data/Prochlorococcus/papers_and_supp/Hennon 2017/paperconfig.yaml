@@ -23,13 +23,25 @@ publication:
       description: "Prochlorococcus MIT9312 (VOL4) co-cultured with Alteromonas EZ55 in PEv medium under elevated CO2 (~800 ppm) at 21C, 150 umol photons m-2 s-1, 14:10 light-dark cycle"
 
   supplementary_materials:
+    id_translation_mit9312_annot:
+      type: id_translation
+      filename: "data/Prochlorococcus/papers_and_supp/Hennon 2017/Prochlorococcus_marinus_MIT9312_annot.txt"
+      sep: "\t"
+      organism: "Prochlorococcus MIT9312"
+      id_columns:
+        - column: "cds_fna_id"
+          id_type: cds_fna_id
+        - column: "old_locus_tag"
+          id_type: old_locus_tag
+      product_columns:
+        - column: "product"
     supp_table_2:
       type: csv
       filename: "data/Prochlorococcus/papers_and_supp/Hennon 2017/PRO DE genes 41396_2018_bfismej2017189_moesm28_esm.csv"
       skip_rows: 2
       id_columns:
       - column: locus_tag
-        id_type: locus_tag
+        id_type: cds_fna_id
       product_columns:
       - column: annotation
       statistical_analyses:

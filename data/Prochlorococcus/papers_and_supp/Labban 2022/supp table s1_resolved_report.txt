@@ -1,0 +1,36 @@
+Resolution report: Labban 2022 / supp_table_s1_30c
+Source: supp table s1.csv
+name_col: Gene ID
+id_columns: ['Gene ID']
+
+Total rows with IDs: 267
+Resolved: 58 (21.7%)
+Unresolved: 209
+
+Resolution method breakdown:
+  empty: 1
+  tier1:Gene ID: 58
+  unresolved: 209
+
+Unresolved rows (209):
+  row 0: raw_id='BSR22_00004'  reason=unresolved  [Gene ID='BSR22_00004']
+  row 1: raw_id='BSR22_00382'  reason=unresolved  [Gene ID='BSR22_00382']
+  row 2: raw_id='BSR22_02114'  reason=unresolved  [Gene ID='BSR22_02114']
+  row 3: raw_id='BSR22_01973'  reason=unresolved  [Gene ID='BSR22_01973']
+  row 4: raw_id='BSR22_00384'  reason=unresolved  [Gene ID='BSR22_00384']
+  row 7: raw_id='BSR22_01698'  reason=unresolved  [Gene ID='BSR22_01698']
+  row 9: raw_id='BSR22_01564'  reason=unresolved  [Gene ID='BSR22_01564']
+  row 10: raw_id='BSR22_01981'  reason=unresolved  [Gene ID='BSR22_01981']
+  row 11: raw_id='BSR22_00119'  reason=unresolved  [Gene ID='BSR22_00119']
+  row 12: raw_id='BSR22_00383'  reason=unresolved  [Gene ID='BSR22_00383']
+  row 13: raw_id='BSR22_00331'  reason=unresolved  [Gene ID='BSR22_00331']
+  row 14: raw_id='BSR22_01567'  reason=unresolved  [Gene ID='BSR22_01567']
+  row 15: raw_id='BSR22_01599'  reason=unresolved  [Gene ID='BSR22_01599']
+  row 16: raw_id='BSR22_00687'  reason=unresolved  [Gene ID='BSR22_00687']
+  row 17: raw_id='BSR22_01167'  reason=unresolved  [Gene ID='BSR22_01167']
+  row 18: raw_id='BSR22_01173'  reason=unresolved  [Gene ID='BSR22_01173']
+  row 19: raw_id='BSR22_00029'  reason=unresolved  [Gene ID='BSR22_00029']
+  row 20: raw_id='BSR22_01972'  reason=unresolved  [Gene ID='BSR22_01972']
+  row 21: raw_id='BSR22_00024'  reason=unresolved  [Gene ID='BSR22_00024']
+  row 22: raw_id='BSR22_00338'  reason=unresolved  [Gene ID='BSR22_00338']
+  ... (189 more)

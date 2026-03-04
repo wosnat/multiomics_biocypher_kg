@@ -1,0 +1,71 @@
+{
+  "per_id_type": {
+    "locus_tag_ncbi": {
+      "unique": 5873,
+      "multi": 0,
+      "conflict": 17
+    },
+    "locus_tag_cyanorak": {
+      "unique": 2833,
+      "multi": 0,
+      "conflict": 0
+    },
+    "old_locus_tag": {
+      "unique": 4353,
+      "multi": 0,
+      "conflict": 4
+    },
+    "cds_fna_id": {
+      "unique": 2389,
+      "multi": 0,
+      "conflict": 0
+    },
+    "alternative_locus_tag": {
+      "unique": 2702,
+      "multi": 0,
+      "conflict": 16
+    },
+    "protein_id_refseq": {
+      "unique": 5092,
+      "multi": 19,
+      "conflict": 0
+    },
+    "uniprot_accession": {
+      "unique": 2305,
+      "multi": 15,
+      "conflict": 0
+    },
+    "gene_name": {
+      "unique": 2600,
+      "multi": 175,
+      "conflict": 0
+    },
+    "gene_synonym": {
+      "unique": 7338,
+      "multi": 87,
+      "conflict": 0
+    },
+    "locus_tag": {
+      "unique": 5,
+      "multi": 0,
+      "conflict": 0
+    }
+  },
+  "warnings": [
+    "[CONFLICT] Tier 1 id_type 'locus_tag_ncbi' has 17 data conflicts \u2014 check annotation quality.",
+    "[CONFLICT] Tier 1 id_type 'old_locus_tag' has 4 data conflicts \u2014 check annotation quality.",
+    "[CONFLICT] Tier 1 id_type 'alternative_locus_tag' has 16 data conflicts \u2014 check annotation quality."
+  ],
+  "unresolved_rows_per_source": {
+    "cds_from_genomic.fna": 96,
+    "genomic_gca/MIT9313": 1094,
+    "MIT9313_resources/mit9313_id_translation": 150,
+    "Aharonovich 2016/supp_table_2": 3,
+    "Aharonovich 2016/supp_table_3": 3,
+    "Fang 2019/supp_table_2": 711,
+    "Martiny 2006/supp_table_2": 12,
+    "Thompson 2011/supp_table_2": 69,
+    "Tolonen 2006/supp_table_mit9313": 27
+  },
+  "strain": "MIT9313"
+}

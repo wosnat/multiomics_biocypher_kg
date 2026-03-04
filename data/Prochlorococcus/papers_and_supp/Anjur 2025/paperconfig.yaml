@@ -29,9 +29,11 @@ publication:
       organism: "Prochlorococcus MIT9301"
       id_columns:
         # Primary resolution anchor: "dnaA P9301_05911" or "P9301_05921"
-        # Build script splits on whitespace; last token is the old locus tag that resolves via gene_mapping.csv.
+        # Values are either bare old locus tags (e.g. "P9301_06681") or compound "gene_name P9301_XXXXX".
+        # Declared as old_locus_tag (Tier 1) so bare values resolve via specific_lookup directly;
+        # compound values resolve via whitespace-split Phase 2 anchor search.
         - column: "uniprot_gene_name"
-          id_type: gene_name
+          id_type: old_locus_tag
         # UniProt entry names like "DNAA_PROM0"; build script strips trailing _PROM0 suffix.
         - column: "uniprot_entry_name"
           id_type: uniprot_entry_name

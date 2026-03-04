@@ -1,0 +1,34 @@
+Resolution report: Biller 2018 / supp_table_s6b
+Source: table S6B DE genes in extended darkness MIT1002 sys003182233st6.csv
+name_col: RAST_region_ID
+id_columns: ['RAST_region_ID']
+
+Total rows with IDs: 180
+Resolved: 0 (0.0%)
+Unresolved: 180
+
+Resolution method breakdown:
+  unresolved: 180
+
+Unresolved rows (180):
+  row 0: raw_id='contig00001_17088_18476'  reason=unresolved  [RAST_region_ID='contig00001_17088_18476']
+  row 1: raw_id='contig00001_49601_48309'  reason=unresolved  [RAST_region_ID='contig00001_49601_48309']
+  row 2: raw_id='contig00001_56191_57810'  reason=unresolved  [RAST_region_ID='contig00001_56191_57810']
+  row 3: raw_id='contig00001_66641_65697'  reason=unresolved  [RAST_region_ID='contig00001_66641_65697']
+  row 4: raw_id='contig00001_72457_70571'  reason=unresolved  [RAST_region_ID='contig00001_72457_70571']
+  row 5: raw_id='contig00001_100777_100595'  reason=unresolved  [RAST_region_ID='contig00001_100777_100595']
+  row 6: raw_id='contig00001_150259_150675'  reason=unresolved  [RAST_region_ID='contig00001_150259_150675']
+  row 7: raw_id='contig00001_209146_206783'  reason=unresolved  [RAST_region_ID='contig00001_209146_206783']
+  row 8: raw_id='contig00001_247819_247355'  reason=unresolved  [RAST_region_ID='contig00001_247819_247355']
+  row 9: raw_id='contig00001_248282_247809'  reason=unresolved  [RAST_region_ID='contig00001_248282_247809']
+  row 10: raw_id='contig00001_265222_266301'  reason=unresolved  [RAST_region_ID='contig00001_265222_266301']
+  row 11: raw_id='contig00001_266395_266796'  reason=unresolved  [RAST_region_ID='contig00001_266395_266796']
+  row 12: raw_id='contig00001_277347_276439'  reason=unresolved  [RAST_region_ID='contig00001_277347_276439']
+  row 13: raw_id='contig00001_288714_289418'  reason=unresolved  [RAST_region_ID='contig00001_288714_289418']
+  row 14: raw_id='contig00002_34613_35050'  reason=unresolved  [RAST_region_ID='contig00002_34613_35050']
+  row 15: raw_id='contig00002_87635_89017'  reason=unresolved  [RAST_region_ID='contig00002_87635_89017']
+  row 16: raw_id='contig00002_134470_134664'  reason=unresolved  [RAST_region_ID='contig00002_134470_134664']
+  row 17: raw_id='contig00002_152352_149236'  reason=unresolved  [RAST_region_ID='contig00002_152352_149236']
+  row 18: raw_id='contig00002_153403_152345'  reason=unresolved  [RAST_region_ID='contig00002_153403_152345']
+  row 19: raw_id='contig00002_155343_153535'  reason=unresolved  [RAST_region_ID='contig00002_155343_153535']
+  ... (160 more)

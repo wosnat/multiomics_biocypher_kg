@@ -1,0 +1,36 @@
+Resolution report: Bagby and Chisholm 2015 / supp_table_1_low_co2_no_o2
+Source: de_genes_gas_shock_vs_air.csv
+name_col: Locus tag2
+id_columns: ['Locus tag2', 'Alternative locus tag', 'Probeset']
+
+Total rows with IDs: 468
+Resolved: 438 (93.6%)
+Unresolved: 30
+
+Resolution method breakdown:
+  locus_tag:Locus tag2: 343
+  tier1:Locus tag2: 95
+  unresolved: 30
+
+Unresolved rows (30):
+  row 262: raw_id='*'  reason=unresolved  [Locus tag2='*', Alternative locus tag='PMED4_asRNA_00641', Probeset='MED4_RNA_0051_x_at']
+  row 263: raw_id='*'  reason=unresolved  [Locus tag2='*', Alternative locus tag='PMED4_asRNA_03431', Probeset='MED4_RNA_0044_x_at']
+  row 264: raw_id='*'  reason=unresolved  [Locus tag2='*', Alternative locus tag='PMED4_asRNA_04001', Probeset='MED4_RNA_0063_x_at']
+  row 265: raw_id='*'  reason=unresolved  [Locus tag2='*', Alternative locus tag='PMED4_asRNA_04601', Probeset='MED4_RNA_0056_x_at']
+  row 266: raw_id='*'  reason=unresolved  [Locus tag2='*', Alternative locus tag='PMED4_asRNA_07511', Probeset='MED4_RNA_0047_x_at']
+  row 267: raw_id='*'  reason=unresolved  [Locus tag2='*', Alternative locus tag='PMED4_asRNA_15721', Probeset='MED4_RNA_0060_x_at']
+  row 268: raw_id='*'  reason=unresolved  [Locus tag2='*', Alternative locus tag='PMED4_asRNA_16221', Probeset='MED4_RNA_0046_x_at']
+  row 269: raw_id='*'  reason=unresolved  [Locus tag2='*', Alternative locus tag='PMED4_asRNA_17331', Probeset='MED4_RNA_0062_at']
+  row 270: raw_id='*'  reason=unresolved  [Locus tag2='*', Alternative locus tag='PMED4_ncRNA_Yfr2', Probeset='MED4_RNA_0087_x_at']
+  row 271: raw_id='*'  reason=unresolved  [Locus tag2='*', Alternative locus tag='PMED4_ncRNA_Yfr4', Probeset='MED4_RNA_0045_x_at']
+  row 272: raw_id='*'  reason=unresolved  [Locus tag2='*', Alternative locus tag='PMED4_ncRNA_Yfr5', Probeset='MED4_RNA_0066_x_at']
+  row 273: raw_id='*'  reason=unresolved  [Locus tag2='*', Alternative locus tag='PMED4_ncRNA_Yfr6', Probeset='MED4_RNA_0081_x_at']
+  row 274: raw_id='*'  reason=unresolved  [Locus tag2='*', Alternative locus tag='PMED4_ncRNA_Yfr11', Probeset='MED4_RNA_0076_x_at']
+  row 275: raw_id='*'  reason=unresolved  [Locus tag2='*', Alternative locus tag='PMED4_ncRNA_Yfr13', Probeset='MED4_RNA_0064_x_at']
+  row 276: raw_id='*'  reason=unresolved  [Locus tag2='*', Alternative locus tag='PMED4_ncRNA_Yfr14', Probeset='MED4_RNA_0052_x_at']
+  row 277: raw_id='*'  reason=unresolved  [Locus tag2='*', Alternative locus tag='PMED4_ncRNA_Yfr16', Probeset='MED4_RNA_0048_x_at']
+  row 278: raw_id='*'  reason=unresolved  [Locus tag2='*', Alternative locus tag='PMED4_ncRNA_Yfr17', Probeset='MED4_RNA_0078_x_at']
+  row 279: raw_id='*'  reason=unresolved  [Locus tag2='*', Alternative locus tag='PMED4_ncRNA_Yfr19', Probeset='MED4_RNA_0073_x_at']
+  row 280: raw_id='*'  reason=unresolved  [Locus tag2='*', Alternative locus tag='PMED4_ncRNA_Yfr20', Probeset='MED4_RNA_0070_x_at']
+  row 281: raw_id='*'  reason=unresolved  [Locus tag2='*', Alternative locus tag='PMED4_ncRNA_Yfr23', Probeset='MED4_RNA_0089_b_at']
+  ... (10 more)

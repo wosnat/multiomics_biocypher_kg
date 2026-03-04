@@ -1,0 +1,16 @@
+Resolution report: Aharonovich 2016 / supp_table_3
+Source: de_genes_9313_dilute_t20h.csv
+name_col: Synonym
+id_columns: ['Synonym']
+
+Total rows with IDs: 2268
+Resolved: 2267 (100.0%)
+Unresolved: 1
+
+Resolution method breakdown:
+  locus_tag:Synonym: 2170
+  tier1:Synonym: 97
+  unresolved: 1
+
+Unresolved rows (1):
+  row 521: raw_id='PMT1676'  reason=unresolved  [Synonym='PMT1676']

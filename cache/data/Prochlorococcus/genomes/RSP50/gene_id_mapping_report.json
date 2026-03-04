@@ -1,0 +1,35 @@
+{
+  "per_id_type": {
+    "locus_tag_ncbi": {
+      "unique": 3545,
+      "multi": 0,
+      "conflict": 0
+    },
+    "cds_fna_id": {
+      "unique": 1870,
+      "multi": 0,
+      "conflict": 0
+    },
+    "protein_id_refseq": {
+      "unique": 3635,
+      "multi": 2,
+      "conflict": 0
+    },
+    "gene_name": {
+      "unique": 1842,
+      "multi": 33,
+      "conflict": 0
+    },
+    "gene_synonym": {
+      "unique": 1768,
+      "multi": 0,
+      "conflict": 0
+    }
+  },
+  "warnings": [],
+  "unresolved_rows_per_source": {
+    "cds_from_genomic.fna": 2,
+    "genomic_gca/RSP50": 192
+  },
+  "strain": "RSP50"
+}

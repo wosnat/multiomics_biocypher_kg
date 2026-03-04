@@ -1,0 +1,16 @@
+Resolution report: Barreto 2022 / supp_table_S13
+Source: table_S13.csv
+name_col: symbol
+id_columns: ['symbol']
+
+Total rows with IDs: 85
+Resolved: 83 (97.6%)
+Unresolved: 2
+
+Resolution method breakdown:
+  locus_tag:symbol: 83
+  unresolved: 2
+
+Unresolved rows (2):
+  row 21: raw_id='EZ55_02917'  reason=unresolved  [symbol='EZ55_02917']
+  row 67: raw_id='EZ55_00687'  reason=unresolved  [symbol='EZ55_00687']

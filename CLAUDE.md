@@ -195,12 +195,38 @@ supp_table_1:
 
 ### Gene ID Mapping
 
-`gene_id_mapping.json` (per strain, in `cache/data/<Organism>/genomes/<Strain>/`) stores extended ID mappings built from:
+`gene_id_mapping.json` (schema v2, per strain in `cache/data/<Organism>/genomes/<Strain>/`) stores a three-tier ID mapping built by `build_gene_id_mapping.py` (prepare_data step 3) from:
 1. `gene_annotations_merged.json` (locus tags, old locus tags, UniProt accessions, protein IDs)
 2. `id_translation` paperconfig entries (JGI IDs, probesets, etc.)
 3. `annotation_gff` paperconfig entries (additional GFF bridges)
+4. `csv` table `id_columns` from paperconfigs (extra identifier columns per paper)
 
-`gene_id_utils.py` loads this file in `build_id_lookup()` when present; falls back to annotations + `gene_mapping_supp.csv` for strains without it. The lookup is strictly 1:1 (organism-specific IDs only; generic names like gene_name/gene_synonym are excluded from the dict but available via `search_genes_by_name()`).
+**Three-tier ID classification:**
+
+| Tier | ID types | Storage | Resolution |
+|------|----------|---------|------------|
+| 1 (gene-unique) | `locus_tag`, `locus_tag_ncbi`, `locus_tag_cyanorak`, `old_locus_tag`, `alternative_locus_tag`, `jgi_id`, `probeset_id`, `uniprot_entry_name` | `specific_lookup` (1:1) | Always used; conflicts = data errors |
+| 2 (protein-level) | `protein_id_refseq`, `protein_id`, `uniprot_accession` | `multi_lookup` (1:many) | Used only when singleton for this organism (paralogs expected) |
+| 3 (generic) | `gene_name`, `gene_synonym`, `gene_oln`, `em_preferred_name` | `multi_lookup` (1:many) | Used only when singleton |
+
+**Iterative convergence**: All sources are processed in passes until no new ID-to-locus_tag mapping is added. Transitive closure is automatic (order-independent). Typically 2–3 passes.
+
+**v2 schema** (top-level keys):
+- `specific_lookup`: `{alt_id: locus_tag}` — fast 1:1 Tier 1 lookup
+- `multi_lookup`: `{alt_id: [locus_tag, ...]}` — Tier 2+3, singletons usable for resolution
+- `conflicts`: `{tier1_id: [lt1, lt2]}` — Tier 1 data errors for manual review
+- `genes`: `{locus_tag: {tier1_ids, tier2_ids, tier3_ids}}` — per-gene ID catalogue
+
+`gene_id_utils.py` exposes the v2 API:
+- `load_mapping_v2(genome_dir)` → `MappingData`
+- `resolve_row(row, name_col, id_columns, mapping_data)` → `(locus_tag | None, method_str)`
+- `expand_list(raw_val)` → splits list-valued cells on `,` and `;`
+
+**Resolution method strings**: `tier1:<col>`, `heuristic:<col>` (zero-pad / strip asterisk), `multi:<col>` (Tier 2+3 singleton), `tier1_conflict`, `ambiguous`, `unresolved`.
+
+Diagnostic report after build: `gene_id_mapping_report.json` (per-ID-type stats, reclassification warnings).
+
+See `docs/methods_gene_id_mapping.md` for the full scientific description.
 
 ## Custom Claude Code Skills
 
@@ -209,6 +235,7 @@ The `.claude/skills/` directory provides project-specific skills:
 - `/check-gene-ids` — validate gene ID match rates between CSV data and graph nodes
 - `/fix-gene-ids` — map gene IDs to locus tags when mismatches are found
 - `/cypher-queries` — run Cypher queries against Neo4j with ready-made templates
+- `/deploy-strain` — end-to-end checklist for deploying v2 gene ID mapping for a new strain (snapshot → rebuild mapping → resolve papers → verify → rebuild KG → compare)
 
 ## Genome Data Download Pipeline
 

@@ -1,0 +1,124 @@
+====================================================
+ Neo4j Browser Demo Queries — Multiomics KG
+====================================================
+
+-- 1. Look up a gene by name (amt1 = ammonium transporter, MED4)
+MATCH (g:Gene {gene_name: 'amt1'})-[:Gene_belongs_to_organism]->(o:OrganismTaxon {strain_name: 'MED4'})
+RETURN g, o, e;
+
+
+-- 2. All expression edges for amt1 — graph view (nodes + edges)
+MATCH (g:Gene {gene_name: 'amt1'})-[:Gene_belongs_to_organism]->(o:OrganismTaxon {strain_name: 'MED4'})
+MATCH (src)-[e:Affects_expression_of]->(g)
+RETURN src, e, g
+ORDER BY e.log2_fold_change DESC;
+
+
+-- 3. Same query as a table
+MATCH (g:Gene {gene_name: 'amt1'})-[:Gene_belongs_to_organism]->(o:OrganismTaxon {strain_name: 'MED4'})
+MATCH (src)-[e:Affects_expression_of]->(g)
+RETURN coalesce(src.name, src.organism_name, src.strain_name) AS condition,
+       e.log2_fold_change AS log2FC,
+       e.adjusted_p_value  AS padj,
+       e.expression_direction AS direction,
+       e.publications[0]   AS publication
+ORDER BY e.log2_fold_change DESC;
+
+
+-- 4. Top genes upregulated under nitrogen stress in MED4 (significant only)
+MATCH (env:EnvironmentalCondition {name: 'N-depleted Pro99 medium'})-[e:Affects_expression_of]->(g:Gene)
+WHERE e.expression_direction = 'up'
+  AND e.adjusted_p_value < 0.05
+RETURN g.locus_tag, g.gene_name, g.product,
+       e.log2_fold_change AS log2FC,
+       e.adjusted_p_value AS padj,
+       env.name AS condition
+ORDER BY e.log2_fold_change DESC
+LIMIT 20;
+
+
+-- 5. Genes affected by Alteromonas HOT1A3 coculture
+MATCH (org:OrganismTaxon {strain_name: 'HOT1A3'})-[e:Affects_expression_of]->(g:Gene)
+RETURN g.locus_tag, g.gene_name, g.product,
+       e.log2_fold_change AS log2FC,
+       e.adjusted_p_value AS padj,
+       e.expression_direction AS direction
+ORDER BY e.log2_fold_change DESC
+LIMIT 20;
+
+
+-- 6. Genes upregulated by BOTH nitrogen stress AND Alteromonas coculture
+MATCH (env:EnvironmentalCondition)-[r1:Affects_expression_of {expression_direction: 'up'}]->(g:Gene)
+WHERE env.name CONTAINS 'Nitrogen'
+MATCH (org:OrganismTaxon {strain_name: 'HOT1A3'})-[r2:Affects_expression_of]->(g)
+RETURN g.locus_tag, g.gene_name, g.product,
+       r1.log2_fold_change AS N_stress_log2FC,
+       r2.log2_fold_change AS coculture_log2FC,
+       r2.expression_direction AS coculture_direction
+ORDER BY r1.log2_fold_change DESC
+LIMIT 20;
+
+
+-- 7. Gene with protein and GO annotations (graph view)
+MATCH (g:Gene {locus_tag: 'PMM0263'})
+OPTIONAL MATCH (g)-[e1:Gene_encodes_protein]->(p:Protein)
+OPTIONAL MATCH (g)-[e2:Gene_involved_in_biological_process]->(bp:BiologicalProcess)
+OPTIONAL MATCH (g)-[e3:Gene_enables_molecular_function]->(mf:MolecularFunction)
+RETURN g, p, bp, mf, e1,e2,e3;
+
+
+-- 8. Overview: node counts by type
+MATCH (n)
+RETURN last(labels(n)) AS node_type, count(*) AS count
+ORDER BY count DESC;
+
+
+-- 9. Homolog edges for amt1 in MED4 — graph view (significant only)
+//   Expression data from other strains propagated via Cyanorak clusters
+//   NOTE: e.significant is not set on homolog edges — use adjusted_p_value instead
+//   e.adjusted_p_value < 0.5 covers RNA-seq (real padj) and microarray (0.49 = p<0.01 asterisk)
+MATCH (g:Gene {gene_name: 'amt1'})-[:Gene_belongs_to_organism]->(o:OrganismTaxon {strain_name: 'MED4'})
+MATCH (src)-[e:Affects_expression_of_homolog]->(g)
+WHERE e.adjusted_p_value < 0.5
+RETURN src, e, g
+LIMIT 50;
+
+
+-- 10. Homolog edges for amt1 — table with provenance
+//   original_gene = gene actually measured; cluster + distance show homology basis
+MATCH (g:Gene {gene_name: 'amt1'})-[:Gene_belongs_to_organism]->(o:OrganismTaxon {strain_name: 'MED4'})
+MATCH (src)-[e:Affects_expression_of_homolog]->(g)
+RETURN coalesce(src.name, src.organism_name, src.strain_name) AS condition,
+       e.log2_fold_change AS log2FC,
+       e.expression_direction AS direction,
+       e.original_gene AS measured_in,
+       e.homology_cluster_id AS cluster,
+       e.distance AS homology_distance,
+       e.publications[0] AS publication
+ORDER BY e.log2_fold_change DESC
+LIMIT 30;
+
+
+-- 11. Cross-strain N-stress response: amt1 homologs across all strains
+//   For each strain, amt1 homolog expression under nitrogen deprivation
+MATCH (env:EnvironmentalCondition)-[e:Affects_expression_of_homolog]->(g:Gene)
+WHERE (env.name CONTAINS 'N-depl' OR env.name CONTAINS 'Nitrogen')
+  AND (e.original_gene CONTAINS 'PMM0263' OR e.original_gene CONTAINS 'PMT1853')
+MATCH (g)-[:Gene_belongs_to_organism]->(o:OrganismTaxon)
+RETURN o.strain_name AS strain,
+       g.locus_tag AS homolog_locus_tag,
+       env.name AS condition,
+       e.log2_fold_change AS log2FC,
+       e.expression_direction AS direction,
+       e.distance AS homology_distance
+ORDER BY o.strain_name, e.log2_fold_change DESC
+LIMIT 40;
+
+
+-- 12. Direct vs homolog edge counts for amt1 in MED4
+MATCH (g:Gene {gene_name: 'amt1'})-[:Gene_belongs_to_organism]->(o:OrganismTaxon {strain_name: 'MED4'})
+OPTIONAL MATCH (src1)-[e1:Affects_expression_of]->(g)
+OPTIONAL MATCH (src2)-[e2:Affects_expression_of_homolog]->(g)
+RETURN g.locus_tag, g.gene_name, g.product,
+       count(DISTINCT e1) AS direct_edges,
+       count(DISTINCT e2) AS homolog_edges;

@@ -1,0 +1,18 @@
+Resolution report: Barreto 2022 / supp_table_S1_CC9311
+Source: table_S1_CC9311.csv
+name_col: symbol
+id_columns: ['symbol']
+
+Total rows with IDs: 30
+Resolved: 27 (90.0%)
+Unresolved: 3
+
+Resolution method breakdown:
+  locus_tag:symbol: 24
+  tier1:symbol: 3
+  unresolved: 3
+
+Unresolved rows (3):
+  row 0: raw_id='sync_2538'  reason=unresolved  [symbol='sync_2538']
+  row 1: raw_id='sync_0554'  reason=unresolved  [symbol='sync_0554']
+  row 10: raw_id='sync_2844'  reason=unresolved  [symbol='sync_2844']

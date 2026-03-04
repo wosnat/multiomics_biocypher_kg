@@ -1,0 +1,40 @@
+Resolution report: Al-Hosani 2015 / supp_table_3
+Source: de_genes_salt_acclimated_vs_sea_water.csv
+name_col: Gene id
+id_columns: []
+
+Total rows with IDs: 1961
+Resolved: 1907 (97.2%)
+Unresolved: 54
+
+Resolution method breakdown:
+  ambiguous: 4
+  locus_tag:Gene id: 1193
+  multi:Gene id: 23
+  tier1:Gene id: 691
+  unresolved: 50
+
+Unresolved rows (54):
+  row 320: raw_id='A9601_05491'  reason=unresolved
+  row 503: raw_id='A9601_08181'  reason=unresolved
+  row 662: raw_id='A9601_10831'  reason=unresolved
+  row 936: raw_id='A9601_14371'  reason=unresolved
+  row 1197: raw_id='A9601_rrlVIMSS1365720'  reason=unresolved
+  row 1198: raw_id='A9601_rrsVIMSS1309386'  reason=unresolved
+  row 1199: raw_id='A9601_tRNAAlaVIMSS1309073'  reason=unresolved
+  row 1200: raw_id='A9601_tRNAAlaVIMSS1309089'  reason=unresolved
+  row 1201: raw_id='A9601_tRNAArgVIMSS1309070'  reason=unresolved
+  row 1202: raw_id='A9601_tRNAArgVIMSS1309086'  reason=unresolved
+  row 1203: raw_id='A9601_tRNAArgVIMSS1309097'  reason=unresolved
+  row 1204: raw_id='A9601_tRNAArgVIMSS1309103'  reason=unresolved
+  row 1205: raw_id='A9601_tRNAAsnVIMSS1309105'  reason=unresolved
+  row 1206: raw_id='A9601_tRNAAspVIMSS1309079'  reason=unresolved
+  row 1207: raw_id='A9601_tRNACysVIMSS1309104'  reason=unresolved
+  row 1208: raw_id='A9601_tRNAGlnVIMSS1309102'  reason=unresolved
+  row 1209: raw_id='A9601_tRNAGluVIMSS1309075'  reason=unresolved
+  row 1210: raw_id='A9601_tRNAGlyVIMSS1309069'  reason=unresolved
+  row 1211: raw_id='A9601_tRNAGlyVIMSS1309072'  reason=unresolved
+  row 1212: raw_id='A9601_tRNAHisVIMSS1309099'  reason=unresolved
+  ... (34 more)
+
+NOTE: 4 rows were ambiguous (multi_lookup had >1 match). Consider adding id_columns with more specific IDs, or check if the name_col should be Tier 2 (protein-level) instead of Tier 1.

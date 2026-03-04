@@ -25,12 +25,7 @@ publication:
   supplementary_materials:
     supp_table_s1:
       type: csv
-      filename: "data/Prochlorococcus/papers_and_supp/he 2022/table s1 Highly differentially expressed genes in low salinity acclimated cells of NATL1A _with_locus_tag.csv"
-      id_columns:
-      - column: locus_tag
-        id_type: locus_tag
-      - column: Gene Name
-        id_type: gene_name
+      filename: "data/Prochlorococcus/papers_and_supp/he 2022/table s1 Highly differentially expressed genes in low salinity acclimated cells of NATL1A .csv"
       product_columns:
       - column: Definition
       statistical_analyses:
@@ -44,19 +39,14 @@ publication:
           environmental_treatment_condition_id: he_2022_low_salinity
           experimental_context: "Axenic Prochlorococcus NATL1A in Pro99 medium at 21C under continuous light (10 uE m-2 s-1), acclimated through five rounds of transfer"
           organism: "Prochlorococcus NATL1A"
-          name_col: "locus_tag"
+          name_col: "Gene Name"
           logfc_col: "Log2FC"
           adjusted_p_value_col: "p-value"
           prefiltered: true
           pvalue_threshold: 0.05
     supp_table_s2:
       type: csv
-      filename: "data/Prochlorococcus/papers_and_supp/he 2022/table s2 Highly differentially expressed genes in low salinity acclimated cells of MED4 _with_locus_tag.csv"
-      id_columns:
-      - column: locus_tag
-        id_type: locus_tag
-      - column: Gene Name
-        id_type: gene_name
+      filename: "data/Prochlorococcus/papers_and_supp/he 2022/table s2 Highly differentially expressed genes in low salinity acclimated cells of MED4 .csv"
       product_columns:
       - column: Definition
       statistical_analyses:
@@ -70,7 +60,7 @@ publication:
           environmental_treatment_condition_id: he_2022_low_salinity
           experimental_context: "Axenic Prochlorococcus MED4 in Pro99 medium at 21C under continuous light (10 uE m-2 s-1), acclimated through five rounds of transfer"
           organism: "Prochlorococcus MED4"
-          name_col: "locus_tag"
+          name_col: "Gene Name"
           logfc_col: "logFC"
           adjusted_p_value_col: "p-value"
           prefiltered: true

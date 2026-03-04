@@ -604,8 +604,9 @@ class OMICSAdapter:
 
                 pval = None
                 if asterisk_significant is not None:
-                    # Asterisk indicates adjusted p-value < 0.1; use placeholder values
-                    pval = 0.49 if asterisk_significant else 1.0
+                    # Asterisk encodes significance at pvalue_threshold; use threshold as placeholder
+                    pval_thresh = analysis.get('pvalue_threshold') or self.default_pvalue_threshold or 0.05
+                    pval = pval_thresh if asterisk_significant else 1.0
                     edge_properties['adjusted_p_value'] = pval
                 elif p_value_col and p_value_col in df.columns and not pd.isna(row.get(p_value_col)):
                     try:

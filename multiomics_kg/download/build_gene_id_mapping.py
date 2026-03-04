@@ -1,32 +1,34 @@
 #!/usr/bin/env python3
 """
-Build per-strain gene_id_mapping.json from:
+Build per-strain gene_id_mapping.json (v2) from:
   1. gene_annotations_merged.json (base reference alt-IDs)
   2. paperconfig.yaml files (id_translation, annotation_gff, csv id_columns)
 
-Also writes backward-compatible gene_mapping_supp.csv.
+Uses iterative convergence via GeneIdGraph for true transitive closure.
+No ordering dependency between sources — all are processed together.
 
 Outputs per strain:
-  cache/data/<org>/genomes/<strain>/gene_id_mapping.json
-  cache/data/<org>/genomes/<strain>/gene_mapping_supp.csv
+  cache/data/<org>/genomes/<strain>/gene_id_mapping.json    (v2)
+  cache/data/<org>/genomes/<strain>/gene_id_mapping_report.json
 
 Usage:
-  uv run python multiomics_kg/download/build_gene_id_mapping.py [--strains STRAIN ...] [--force]
+  uv run python -m multiomics_kg.download.build_gene_id_mapping [--strains STRAIN ...] [--force]
 """
 
 from __future__ import annotations
 
 import argparse
-import csv
 import json
 import re
 import sys
 from pathlib import Path
 from typing import Any
+from urllib.parse import unquote
 
 import pandas as pd
 import yaml
 
+from multiomics_kg.download.gene_id_graph import GeneIdGraph
 from multiomics_kg.download.utils.cli import load_genome_rows
 from multiomics_kg.download.utils.paths import PROJECT_ROOT
 from multiomics_kg.utils.gene_id_utils import get_genome_dir, load_gene_annotations
@@ -34,20 +36,6 @@ from multiomics_kg.utils.gene_id_utils import get_genome_dir, load_gene_annotati
 PAPERCONFIG_FILES_TXT = (
     PROJECT_ROOT / "data/Prochlorococcus/papers_and_supp/paperconfig_files.txt"
 )
-
-# ─── Scope inference ──────────────────────────────────────────────────────────
-
-GENERIC_ID_TYPES = {"gene_name", "gene_synonym"}
-ANNOTATION_SPECIFIC_ID_TYPES = {"rast_id", "annotation_specific"}
-
-
-def infer_scope(id_type: str) -> str:
-    if id_type in GENERIC_ID_TYPES:
-        return "generic"
-    if id_type in ANNOTATION_SPECIFIC_ID_TYPES:
-        return "annotation_specific"
-    return "organism_specific"
-
 
 # ─── Paperconfig loading ──────────────────────────────────────────────────────
 
@@ -58,7 +46,7 @@ def load_all_paperconfigs() -> list[tuple[Path, dict]]:
     with open(PAPERCONFIG_FILES_TXT) as f:
         for line in f:
             path_str = line.strip()
-            if not path_str:
+            if not path_str or path_str.startswith('#'):
                 continue
             path = PROJECT_ROOT / path_str
             if not path.exists():
@@ -98,7 +86,6 @@ def collect_entries_for_genome_dir(
     for pc_path, config in paperconfigs:
         pub = config.get("publication") or {}
         paper_name = pub.get("papername") or pc_path.parent.name
-        # Support both paper-level and strain-resource (no publication block) configs
         supp = pub.get("supplementary_materials") or config.get("supplementary_materials") or {}
         for table_key, entry in supp.items():
             org = get_organism_for_entry(entry)
@@ -110,124 +97,62 @@ def collect_entries_for_genome_dir(
     return results
 
 
-# ─── Mapping data structure ───────────────────────────────────────────────────
+# ─── Row extraction: source → list of (id_val, id_type) ──────────────────────
 
 
-def _make_alt_id(id_val: str, id_type: str, **kwargs) -> dict:
-    entry = {"id": id_val, "id_type": id_type, "scope": infer_scope(id_type)}
-    entry.update(kwargs)
-    return entry
+def _safe_str(val: Any) -> str:
+    s = str(val).strip()
+    if s.lower() == "nan":
+        return ""
+    return s
 
 
-def seed_from_annotations(annotations: dict) -> dict:
-    """Build initial gene_id_mapping from gene_annotations_merged.json."""
-    SCALAR_FIELDS = {
-        "locus_tag_ncbi": "locus_tag_ncbi",
-        "locus_tag_cyanorak": "locus_tag_cyanorak",
-        "protein_id": "protein_id_refseq",
-        "uniprot_accession": "uniprot_accession",
-        "gene_name": "gene_name",
-    }
-    LIST_FIELDS = {
-        "old_locus_tags": "old_locus_tag",
-        "alternative_locus_tags": "alternative_locus_tag",
-        "gene_synonyms": "gene_synonym",
-        "gene_name_synonyms": "gene_name",
-    }
+def extract_rows_from_id_translation(
+    entry: dict,
+    paper_name: str,
+    table_key: str,
+) -> list[tuple[list[tuple[str, str]], str]]:
+    """Extract (id_pairs, source_label) rows from an id_translation entry."""
+    filename = entry.get("filename", "")
+    sep = entry.get("sep", ",")
+    skip_rows = entry.get("skip_rows", 0)
+    id_columns: list[dict] = entry.get("id_columns") or []
 
-    mapping = {}
-    for locus_tag, entry in annotations.items():
-        ref_ids = []
+    if not id_columns:
+        return []
 
-        for field, id_type in SCALAR_FIELDS.items():
-            val = entry.get(field)
-            if val and isinstance(val, str):
-                val = val.strip()
-                if val:
-                    ref_ids.append(_make_alt_id(val, id_type))
+    path = PROJECT_ROOT / filename
+    if not path.exists():
+        print(f"    [warn] file not found: {path}", file=sys.stderr)
+        return []
 
-        for field, id_type in LIST_FIELDS.items():
-            vals = entry.get(field)
-            if isinstance(vals, list):
-                for v in vals:
-                    if isinstance(v, str) and v.strip():
-                        ref_ids.append(_make_alt_id(v.strip(), id_type))
-            elif isinstance(vals, str) and vals.strip():
-                for v in re.split(r",\s*", vals):
-                    v = v.strip()
-                    if v:
-                        ref_ids.append(_make_alt_id(v, id_type))
+    try:
+        df = pd.read_csv(path, sep=sep, skiprows=skip_rows, dtype=str)
+    except Exception as e:
+        print(f"    [warn] could not read {path}: {e}", file=sys.stderr)
+        return []
 
-        mapping[locus_tag] = {
-            "locus_tag": locus_tag,
-            "alt_ids": {"reference": ref_ids, "paper_ids": []},
-            "product_synonyms": [],
-        }
-    return mapping
+    source_label = f"{paper_name}/{table_key}"
+    result = []
 
+    for _, row in df.iterrows():
+        row_pairs: list[tuple[str, str]] = []
+        for col_spec in id_columns:
+            col = col_spec.get("column", "")
+            id_type = col_spec.get("id_type", "other")
+            if col not in df.columns:
+                continue
+            val = _safe_str(row.get(col, ""))
+            if val:
+                row_pairs.append((val, id_type))
+        if row_pairs:
+            result.append((row_pairs, source_label))
 
-def build_reverse_lookup(mapping: dict) -> dict[str, str]:
-    """Build alt_id → locus_tag reverse index from current mapping."""
-    lookup: dict[str, str] = {}
-    for locus_tag, entry in mapping.items():
-        lookup[locus_tag] = locus_tag
-        for alt in entry["alt_ids"]["reference"]:
-            lookup[alt["id"]] = locus_tag
-        for alt in entry["alt_ids"]["paper_ids"]:
-            lookup[alt["id"]] = locus_tag
-    return lookup
-
-
-# ─── ID resolution ────────────────────────────────────────────────────────────
-
-
-def _strip_uniprot_entry_suffix(value: str) -> str:
-    """Strip trailing _ORGANISM suffix from UniProt entry name.
-
-    "DNAA_PROM0" → "DNAA"
-    "A3PBU0_PROM0" → "A3PBU0"
-    """
-    idx = value.rfind("_")
-    if idx > 0:
-        return value[:idx]
-    return value
-
-
-def resolve_value(value: str, id_type: str, lookup: dict) -> tuple[str | None, str]:
-    """Try to resolve a value to a locus_tag.
-
-    Returns (locus_tag, method) or (None, '').
-
-    Strategies:
-    - Direct lookup
-    - uniprot_entry_name: strip _ORGANISM suffix
-    - Whitespace-split fallback (handles "gene_name locus_tag" compound values)
-    """
-    value = str(value).strip()
-    if not value or value in ("nan", ""):
-        return None, ""
-
-    if value in lookup:
-        return lookup[value], "direct"
-
-    if id_type == "uniprot_entry_name":
-        stripped = _strip_uniprot_entry_suffix(value)
-        if stripped and stripped != value and stripped in lookup:
-            return lookup[stripped], "uniprot_entry_stripped"
-
-    if " " in value:
-        for token in value.split():
-            if token in lookup:
-                return lookup[token], "whitespace_split"
-
-    return None, ""
-
-
-# ─── GFF3 parsing ─────────────────────────────────────────────────────────────
+    return result
 
 
 def _parse_gff_attrs(attr_str: str) -> dict[str, str]:
-    attrs = {}
+    attrs: dict[str, str] = {}
     for part in attr_str.split(";"):
         part = part.strip()
         if "=" in part:
@@ -236,226 +161,145 @@ def _parse_gff_attrs(attr_str: str) -> dict[str, str]:
     return attrs
 
 
-def parse_annotation_gff(gff_path: Path, lookup: dict) -> list[tuple[str, str, str, str]]:
-    """Parse a GFF3/GTF file and return novel ID bridges.
-
-    Returns list of (locus_tag, id_val, id_type, attr_name) for IDs not already
-    in the lookup (i.e., would be novel additions as paper_ids).
-    """
-    results: list[tuple[str, str, str, str]] = []
-    seen: set[tuple[str, str, str]] = set()
-    is_gtf = gff_path.suffix.lower() == ".gtf"
-
-    with open(gff_path) as f:
-        for line in f:
-            if line.startswith("#"):
-                continue
-            parts = line.rstrip("\n").split("\t")
-            if len(parts) < 9:
-                continue
-            feature_type = parts[2]
-            if feature_type not in ("gene", "CDS", "exon", "transcript"):
-                continue
-
-            if is_gtf:
-                attrs = _parse_gtf_attrs(parts[8])
-            else:
-                attrs = _parse_gff_attrs(parts[8])
-
-            locus_tag_attr = attrs.get("locus_tag", "")
-            old_locus_tag_attr = attrs.get("old_locus_tag", "")
-            name_attr = attrs.get("Name", attrs.get("gene_id", ""))
-            gene_name_attr = attrs.get("gene", "")
-            protein_id_attr = attrs.get("protein_id", "")
-
-            # Find canonical locus_tag anchor
-            anchor = None
-            for val in (locus_tag_attr, old_locus_tag_attr, name_attr, gene_name_attr):
-                if val and val in lookup:
-                    anchor = lookup[val]
-                    break
-            if not anchor:
-                continue
-
-            # Record novel (not yet in lookup) ID bridges
-            for val, id_type, attr_name in [
-                (locus_tag_attr, "locus_tag_ncbi", "locus_tag"),
-                (old_locus_tag_attr, "old_locus_tag", "old_locus_tag"),
-                (protein_id_attr, "protein_id_refseq", "protein_id"),
-                (name_attr, "gene_name", "Name"),
-                (gene_name_attr, "gene_name", "gene"),
-            ]:
-                if val and val not in lookup:
-                    key = (anchor, val, id_type)
-                    if key not in seen:
-                        seen.add(key)
-                        results.append((anchor, val, id_type, attr_name))
-
-    return results
-
-
 def _parse_gtf_attrs(attr_str: str) -> dict[str, str]:
-    """Parse GTF attribute string (semicolon-separated key "value" pairs)."""
-    attrs = {}
+    attrs: dict[str, str] = {}
     for m in re.finditer(r'(\w+)\s+"([^"]*)"', attr_str):
         attrs[m.group(1)] = m.group(2)
     return attrs
 
 
-# ─── Paper ID helpers ─────────────────────────────────────────────────────────
-
-
-def _add_paper_id(
-    mapping: dict,
-    locus_tag: str,
-    id_val: str,
-    id_type: str,
-    source_col: str,
-    source_csv: str,
-    paper: str,
-) -> None:
-    """Add a paper_id entry to mapping[locus_tag] if not already present."""
-    if locus_tag not in mapping:
-        return
-    paper_ids = mapping[locus_tag]["alt_ids"]["paper_ids"]
-    key = (id_val, id_type, source_col, source_csv, paper)
-    existing = {
-        (e["id"], e["id_type"], e.get("source_col"), e.get("source_csv"), e.get("paper"))
-        for e in paper_ids
-    }
-    if key not in existing:
-        paper_ids.append(
-            _make_alt_id(id_val, id_type, source_col=source_col, source_csv=source_csv, paper=paper)
-        )
-
-
-def _add_product_synonym(
-    mapping: dict, locus_tag: str, text: str, source_col: str, paper: str
-) -> None:
-    if locus_tag not in mapping or not text or text == "nan":
-        return
-    synonyms = mapping[locus_tag]["product_synonyms"]
-    key = (text, source_col, paper)
-    existing = {(s["text"], s.get("source_col"), s.get("paper")) for s in synonyms}
-    if key not in existing:
-        synonyms.append({"text": text, "source_col": source_col, "paper": paper})
-
-
-# ─── Table processors ─────────────────────────────────────────────────────────
-
-
-def process_id_translation(
+def extract_rows_from_annotation_gff(
     entry: dict,
-    mapping: dict,
-    lookup: dict,
     paper_name: str,
-    source_csv_name: str,
-) -> int:
-    """Process an id_translation table. Returns the number of resolved rows."""
-    filename = entry.get("filename", "")
-    sep = entry.get("sep", ",")
-    skip_rows = entry.get("skip_rows", 0)
-    id_columns: list[dict] = entry.get("id_columns") or []
-    product_columns: list[dict] = entry.get("product_columns") or []
+    table_key: str,
+) -> list[tuple[list[tuple[str, str]], str]]:
+    """Extract rows from an annotation_gff entry.
 
-    path = PROJECT_ROOT / filename
-    if not path.exists():
-        print(f"    [warn] file not found: {path}", file=sys.stderr)
-        return 0
-
-    try:
-        df = pd.read_csv(path, sep=sep, skiprows=skip_rows, dtype=str)
-    except Exception as e:
-        print(f"    [warn] could not read {path}: {e}", file=sys.stderr)
-        return 0
-
-    source_csv = path.name
-    resolved_count = 0
-
-    for _, row in df.iterrows():
-        anchor: str | None = None
-
-        # Try each id_column in order to find a resolving anchor
-        for col_spec in id_columns:
-            col = col_spec.get("column", "")
-            id_type = col_spec.get("id_type", "other")
-            if col not in df.columns:
-                continue
-            val = str(row.get(col, "")).strip()
-            lt, _ = resolve_value(val, id_type, lookup)
-            if lt:
-                anchor = lt
-                break
-
-        if not anchor:
-            continue
-        resolved_count += 1
-
-        # Record all id_column values as paper_ids for this anchor
-        for col_spec in id_columns:
-            col = col_spec.get("column", "")
-            id_type = col_spec.get("id_type", "other")
-            if col not in df.columns:
-                continue
-            val = str(row.get(col, "")).strip()
-            if not val or val == "nan":
-                continue
-            # For compound "gene_name locus_tag" values, record each token separately
-            if " " in val:
-                for token in val.split():
-                    _add_paper_id(mapping, anchor, token, id_type, col, source_csv, paper_name)
-            else:
-                _add_paper_id(mapping, anchor, val, id_type, col, source_csv, paper_name)
-
-        # Record product synonyms
-        for col_spec in product_columns:
-            col = col_spec.get("column", "")
-            if col not in df.columns:
-                continue
-            val = str(row.get(col, "")).strip()
-            _add_product_synonym(mapping, anchor, val, col, paper_name)
-
-    return resolved_count
-
-
-def process_annotation_gff_entry(
-    entry: dict,
-    mapping: dict,
-    lookup: dict,
-    paper_name: str,
-) -> int:
-    """Process an annotation_gff entry. Returns number of novel bridges added."""
+    Each GFF feature row that has at least one recognized attribute becomes
+    a source row linking (locus_tag, old_locus_tag, protein_id, Name, gene).
+    """
     filename = entry.get("filename", "")
     path = PROJECT_ROOT / filename
     if not path.exists():
         print(f"    [warn] GFF file not found: {path}", file=sys.stderr)
-        return 0
+        return []
 
-    novel_bridges = parse_annotation_gff(path, lookup)
-    source_csv = path.name
-    for locus_tag, id_val, id_type, attr_name in novel_bridges:
-        _add_paper_id(mapping, locus_tag, id_val, id_type, attr_name, source_csv, paper_name)
-    return len(novel_bridges)
+    is_gtf = path.suffix.lower() == ".gtf"
+    source_label = f"{paper_name}/{table_key}"
+    result: list[tuple[list[tuple[str, str]], str]] = []
+
+    # GFF attribute → id_type mapping
+    GFF_ATTR_TYPES = {
+        "locus_tag": "locus_tag_ncbi",
+        "old_locus_tag": "old_locus_tag",
+        "protein_id": "protein_id_refseq",
+        "Name": "locus_tag_ncbi",  # GFF Name attr is often the locus tag
+        "gene": "gene_name",
+    }
+    VALID_FEATURES = {"gene", "CDS", "exon", "transcript"}
+
+    try:
+        with open(path) as f:
+            for line in f:
+                if line.startswith("#"):
+                    continue
+                parts = line.rstrip("\n").split("\t")
+                if len(parts) < 9:
+                    continue
+                if parts[2] not in VALID_FEATURES:
+                    continue
+                attrs = _parse_gtf_attrs(parts[8]) if is_gtf else _parse_gff_attrs(parts[8])
+
+                row_pairs: list[tuple[str, str]] = []
+                for attr_name, id_type in GFF_ATTR_TYPES.items():
+                    val = attrs.get(attr_name, "").strip()
+                    if val:
+                        row_pairs.append((val, id_type))
+
+                # Extract "Alternative locus ID" from Note field (GCA GFF)
+                # Format: Note=Alternative locus ID:P9313_01731
+                # or Note=Alternative locus ID:P9313_00051%3B~Signal...
+                note = attrs.get("Note", "")
+                if "Alternative locus ID" in note:
+                    note_decoded = unquote(note)
+                    alt_match = re.search(
+                        r"Alternative locus ID[: ]+([A-Za-z0-9_]+)",
+                        note_decoded,
+                    )
+                    if alt_match:
+                        row_pairs.append((alt_match.group(1), "alternative_locus_tag"))
+
+                if len(row_pairs) >= 2:  # Need at least 2 IDs to be useful for linking
+                    result.append((row_pairs, source_label))
+    except Exception as e:
+        print(f"    [warn] could not read GFF {path}: {e}", file=sys.stderr)
+
+    return result
 
 
-def process_csv_table(
-    entry: dict,
-    mapping: dict,
-    lookup: dict,
-    paper_name: str,
-    source_csv_name: str,
-) -> int:
-    """Process a csv table for id_columns/product_columns metadata only.
+def extract_rows_from_cds_fna(genome_dir: Path) -> list[tuple[list[tuple[str, str]], str]]:
+    """Extract rows from cds_from_genomic.fna FASTA headers.
 
-    Does not emit expression edges — that is omics_adapter's job.
-    Returns number of rows where an anchor locus_tag was found.
+    Each FASTA header encodes the CDS sequence ID plus bracketed attributes:
+      >lcl|NC_007577.1_cds_WP_011375566.1_1 [gene=dnaN] [locus_tag=PMT9312_RS00005] [protein_id=WP_011375566.1]
+
+    Yields one row per header containing:
+      - cds_fna_id        : the full lcl| sequence identifier (Tier 1)
+      - locus_tag_ncbi    : value of [locus_tag=...] attribute (Tier 1)
+      - old_locus_tag     : value of [old_locus_tag=...] attribute (Tier 1, if present)
+      - protein_id_refseq : value of [protein_id=...] attribute (Tier 2)
+      - gene_name         : value of [gene=...] attribute (Tier 3)
     """
-    id_columns: list[dict] = entry.get("id_columns") or []
-    product_columns: list[dict] = entry.get("product_columns") or []
-    if not id_columns and not product_columns:
-        return 0
+    fna_path = genome_dir / "cds_from_genomic.fna"
+    if not fna_path.exists():
+        return []
 
-    # Prefer original_filename (pre-fix-gene-ids) if declared
+    source_label = "cds_from_genomic.fna"
+    result: list[tuple[list[tuple[str, str]], str]] = []
+
+    ATTR_TYPES = {
+        "locus_tag": "locus_tag_ncbi",
+        "old_locus_tag": "old_locus_tag",
+        "protein_id": "protein_id_refseq",
+        "gene": "gene_name",
+    }
+
+    try:
+        with open(fna_path) as f:
+            for line in f:
+                if not line.startswith(">"):
+                    continue
+                header = line[1:].rstrip()
+                parts = header.split(None, 1)
+                seq_id = parts[0]
+                rest = parts[1] if len(parts) > 1 else ""
+
+                row_pairs: list[tuple[str, str]] = [(seq_id, "cds_fna_id")]
+
+                for m in re.finditer(r"\[(\w+)=([^\]]+)\]", rest):
+                    attr_name, attr_val = m.group(1), m.group(2).strip()
+                    if attr_name in ATTR_TYPES and attr_val:
+                        row_pairs.append((attr_val, ATTR_TYPES[attr_name]))
+
+                if len(row_pairs) >= 2:
+                    result.append((row_pairs, source_label))
+    except Exception as e:
+        print(f"    [warn] could not read {fna_path}: {e}", file=sys.stderr)
+
+    return result
+
+
+
+def extract_rows_from_csv_table(
+    entry: dict,
+    paper_name: str,
+    table_key: str,
+) -> list[tuple[list[tuple[str, str]], str]]:
+    """Extract rows from a csv supplementary table (id_columns only, no DE data)."""
+    id_columns: list[dict] = entry.get("id_columns") or []
+    if not id_columns:
+        return []
+
     filename = entry.get("original_filename") or entry.get("filename", "")
     sep = entry.get("sep", ",")
     skip_rows = entry.get("skip_rows", 0)
@@ -465,113 +309,141 @@ def process_csv_table(
     path = PROJECT_ROOT / filename
     if not path.exists():
         print(f"    [warn] csv file not found: {path}", file=sys.stderr)
-        return 0
+        return []
 
     try:
         df = pd.read_csv(path, sep=sep, skiprows=skip_rows, dtype=str)
     except Exception as e:
         print(f"    [warn] could not read {path}: {e}", file=sys.stderr)
-        return 0
+        return []
 
-    source_csv = path.name
-    resolved_count = 0
+    source_label = f"{paper_name}/{table_key}"
+    result: list[tuple[list[tuple[str, str]], str]] = []
 
     for _, row in df.iterrows():
-        anchor: str | None = None
+        row_pairs: list[tuple[str, str]] = []
 
-        # Try name_col first
+        # Include name_col values with their declared or inferred id_type
         for nc in name_cols:
             if nc not in df.columns:
                 continue
-            val = str(row.get(nc, "")).strip()
-            if not val or val == "nan":
+            val = _safe_str(row.get(nc, ""))
+            if not val:
                 continue
-            if nc == "locus_tag":
-                if val in mapping:
-                    anchor = val
-                    break
-            else:
-                id_type = next(
-                    (c.get("id_type", "other") for c in id_columns if c.get("column") == nc),
-                    "other",
-                )
-                lt, _ = resolve_value(val, id_type, lookup)
-                if lt:
-                    anchor = lt
-                    break
+            nc_id_type = next(
+                (c.get("id_type", "other") for c in id_columns if c.get("column") == nc),
+                "locus_tag",  # name_col without explicit id_type is assumed locus_tag
+            )
+            row_pairs.append((val, nc_id_type))
 
-        # Fallback: try id_columns
-        if not anchor:
-            for col_spec in id_columns:
-                col = col_spec.get("column", "")
-                id_type = col_spec.get("id_type", "other")
-                if col not in df.columns:
-                    continue
-                val = str(row.get(col, "")).strip()
-                lt, _ = resolve_value(val, id_type, lookup)
-                if lt:
-                    anchor = lt
-                    break
-
-        if not anchor:
-            continue
-        resolved_count += 1
-
+        # Include all declared id_columns
         for col_spec in id_columns:
             col = col_spec.get("column", "")
             id_type = col_spec.get("id_type", "other")
             if col not in df.columns:
                 continue
-            val = str(row.get(col, "")).strip()
-            if not val or val == "nan":
-                continue
-            if " " in val:
-                for token in val.split():
-                    _add_paper_id(mapping, anchor, token, id_type, col, source_csv, paper_name)
-            else:
-                _add_paper_id(mapping, anchor, val, id_type, col, source_csv, paper_name)
+            val = _safe_str(row.get(col, ""))
+            if val:
+                row_pairs.append((val, id_type))
 
-        for col_spec in product_columns:
-            col = col_spec.get("column", "")
-            if col not in df.columns:
-                continue
-            val = str(row.get(col, "")).strip()
-            _add_product_synonym(mapping, anchor, val, col, paper_name)
+        if row_pairs:
+            result.append((row_pairs, source_label))
 
-    return resolved_count
+    return result
+
+
+# ─── Seeding from annotations ─────────────────────────────────────────────────
+
+# Fields in gene_annotations_merged.json → id_type mapping
+_ANNOTATION_SCALAR_FIELDS: dict[str, str] = {
+    "locus_tag_ncbi": "locus_tag_ncbi",
+    "locus_tag_cyanorak": "locus_tag_cyanorak",
+    "protein_id": "protein_id_refseq",
+    "uniprot_accession": "uniprot_accession",
+    "gene_name": "gene_name",
+}
+
+_ANNOTATION_LIST_FIELDS: dict[str, str] = {
+    "old_locus_tags": "old_locus_tag",
+    "alternative_locus_tags": "alternative_locus_tag",
+    "gene_synonyms": "gene_synonym",
+    "gene_name_synonyms": "gene_name",
+}
+
+
+def seed_graph_from_annotations(graph: GeneIdGraph, annotations: dict) -> int:
+    """Seed the graph from gene_annotations_merged.json.
+
+    Returns the number of genes seeded.
+    """
+    for locus_tag, entry in annotations.items():
+        graph.add_anchor(locus_tag)
+
+        for field, id_type in _ANNOTATION_SCALAR_FIELDS.items():
+            val = entry.get(field)
+            if val and isinstance(val, str):
+                val = val.strip()
+                if val:
+                    graph.add_id_for_gene(locus_tag, val, id_type, "annotation")
+
+        for field, id_type in _ANNOTATION_LIST_FIELDS.items():
+            vals = entry.get(field)
+            if isinstance(vals, list):
+                for v in vals:
+                    if isinstance(v, str) and v.strip():
+                        graph.add_id_for_gene(locus_tag, v.strip(), id_type, "annotation")
+            elif isinstance(vals, str) and vals.strip():
+                for v in re.split(r",\s*", vals):
+                    v = v.strip()
+                    if v:
+                        graph.add_id_for_gene(locus_tag, v, id_type, "annotation")
+
+    return len(annotations)
 
 
 # ─── Output writers ───────────────────────────────────────────────────────────
 
 
-def write_gene_id_mapping(mapping: dict, genome_dir: Path) -> None:
+def write_gene_id_mapping(graph: GeneIdGraph, genome_dir: Path, organism: str, strain: str) -> None:
+    """Write gene_id_mapping.json (v2) to genome_dir."""
+    data = graph.to_json_structure(organism, strain)
     out_path = genome_dir / "gene_id_mapping.json"
     with open(out_path, "w") as f:
-        json.dump(mapping, f, indent=2)
-    n_with_paper_ids = sum(1 for e in mapping.values() if e["alt_ids"]["paper_ids"])
-    print(f"  Wrote {out_path} ({len(mapping)} genes, {n_with_paper_ids} with paper_ids)")
+        json.dump(data, f, indent=2)
+    stats = data["stats"]
+    print(
+        f"  Wrote {out_path} "
+        f"({stats['n_genes']} genes, {stats['n_specific']} specific, "
+        f"{stats['n_multi']} multi, {stats['n_conflicts']} conflicts, "
+        f"{stats['passes']} passes)"
+    )
 
 
-def write_gene_mapping_supp_csv(mapping: dict, genome_dir: Path) -> None:
-    """Write backward-compatible gene_mapping_supp.csv."""
-    out_path = genome_dir / "gene_mapping_supp.csv"
-    rows: list[dict] = []
-    for locus_tag, entry in mapping.items():
-        for pid in entry["alt_ids"]["paper_ids"]:
-            rows.append({
-                "alt_id": pid["id"],
-                "locus_tag": locus_tag,
-                "source_col": pid.get("source_col", ""),
-                "source_csv": pid.get("source_csv", ""),
-                "paper": pid.get("paper", ""),
-            })
-    with open(out_path, "w", newline="") as f:
-        writer = csv.DictWriter(
-            f, fieldnames=["alt_id", "locus_tag", "source_col", "source_csv", "paper"]
-        )
-        writer.writeheader()
-        writer.writerows(rows)
-    print(f"  Wrote {out_path} ({len(rows)} alt-ID rows)")
+def write_diagnostic_report(graph: GeneIdGraph, genome_dir: Path, strain: str) -> None:
+    """Write gene_id_mapping_report.json to genome_dir."""
+    report = graph.build_diagnostic_report()
+    report["strain"] = strain
+
+    out_path = genome_dir / "gene_id_mapping_report.json"
+    with open(out_path, "w") as f:
+        json.dump(report, f, indent=2)
+
+    # Print warnings to stderr
+    if report["warnings"]:
+        print(f"  Diagnostic warnings for {strain}:", file=sys.stderr)
+        for w in report["warnings"]:
+            print(f"    {w}", file=sys.stderr)
+
+    # Print unresolved summary
+    unresolved = report.get("unresolved_rows_per_source", {})
+    if unresolved:
+        total_unresolved = sum(unresolved.values())
+        print(f"  Unresolved rows (no anchor found): {total_unresolved} total")
+        for src, n in sorted(unresolved.items(), key=lambda x: -x[1]):
+            if n > 0:
+                print(f"    {n} rows: {src}")
+
+    print(f"  Wrote {out_path}")
 
 
 # ─── Per-strain orchestration ─────────────────────────────────────────────────
@@ -579,6 +451,7 @@ def write_gene_mapping_supp_csv(mapping: dict, genome_dir: Path) -> None:
 
 def process_strain(row: dict, paperconfigs: list, force: bool) -> None:
     strain = row["strain_name"]
+    organism = row.get("organism_name", strain)
     genome_dir = (PROJECT_ROOT / row["data_dir"]).resolve()
 
     out_path = genome_dir / "gene_id_mapping.json"
@@ -593,44 +466,69 @@ def process_strain(row: dict, paperconfigs: list, force: bool) -> None:
         print(f"  [warn] No gene_annotations_merged.json for {strain}, skipping")
         return
 
-    mapping = seed_from_annotations(annotations)
-    lookup = build_reverse_lookup(mapping)
-    print(f"  Seeded {len(mapping)} genes; lookup has {len(lookup)} entries")
+    graph = GeneIdGraph()
+    n_seeded = seed_graph_from_annotations(graph, annotations)
+    print(f"  Seeded {n_seeded} genes from annotations")
+    print(f"  specific_lookup: {len(graph.specific_lookup)} entries, "
+          f"multi_lookup: {len(graph.multi_lookup)} entries after seeding")
 
+    # Auto-include genome-derived sources if present
+    all_rows: list[tuple[list[tuple[str, str]], str]] = []
+
+    # GCF cds_from_genomic.fna — maps current lcl| CDS IDs → current locus tags
+    cds_rows = extract_rows_from_cds_fna(genome_dir)
+    if cds_rows:
+        all_rows.extend(cds_rows)
+        print(f"  Loaded {len(cds_rows)} rows from cds_from_genomic.fna")
+    else:
+        print(f"  No cds_from_genomic.fna found for {strain} (run step 0 to download)")
+
+    # GCA genomic_gca.gff — original GenBank annotation with old protein accessions
+    # and old-style locus tags; reuses extract_rows_from_annotation_gff directly
+    gca_gff = genome_dir / "genomic_gca.gff"
+    if gca_gff.exists():
+        gca_entry = {"filename": str(gca_gff.relative_to(PROJECT_ROOT))}
+        gca_rows = extract_rows_from_annotation_gff(gca_entry, "genomic_gca", strain)
+        if gca_rows:
+            all_rows.extend(gca_rows)
+            print(f"  Loaded {len(gca_rows)} rows from genomic_gca.gff")
+    else:
+        print(f"  No genomic_gca.gff found for {strain} (run step 0 to download)")
+
+    # Collect all source rows from paperconfigs
     entries = collect_entries_for_genome_dir(paperconfigs, genome_dir)
+
     if not entries:
         print(f"  No paperconfig entries for {strain}")
     else:
-        # Process id_translation first, then annotation_gff, then csv
-        type_order = {"id_translation": 0, "annotation_gff": 1, "csv": 2}
-        entries.sort(key=lambda x: type_order.get(x[2].get("type", "csv"), 2))
-
-        for paper_name, table_key, entry_config, pc_path in entries:
+        for paper_name, table_key, entry_config, _ in entries:
             entry_type = entry_config.get("type", "csv")
-            source_csv_name = Path(entry_config.get("filename", table_key)).name
             print(f"  [{entry_type}] {paper_name} / {table_key}")
 
             if entry_type == "id_translation":
-                n = process_id_translation(
-                    entry_config, mapping, lookup, paper_name, source_csv_name
-                )
-                print(f"    resolved {n} rows")
-                # Rebuild lookup so subsequent tables benefit from new paper_ids
-                lookup = build_reverse_lookup(mapping)
-                print(f"    lookup now has {len(lookup)} entries")
+                rows = extract_rows_from_id_translation(entry_config, paper_name, table_key)
+                all_rows.extend(rows)
+                print(f"    collected {len(rows)} rows")
 
             elif entry_type == "annotation_gff":
-                n = process_annotation_gff_entry(entry_config, mapping, lookup, paper_name)
-                print(f"    added {n} novel GFF bridges")
+                rows = extract_rows_from_annotation_gff(entry_config, paper_name, table_key)
+                all_rows.extend(rows)
+                print(f"    collected {len(rows)} GFF rows")
 
             elif entry_type == "csv":
-                n = process_csv_table(
-                    entry_config, mapping, lookup, paper_name, source_csv_name
-                )
-                print(f"    harvested alt-IDs from {n} rows")
+                rows = extract_rows_from_csv_table(entry_config, paper_name, table_key)
+                all_rows.extend(rows)
+                print(f"    collected {len(rows)} rows")
 
-    write_gene_id_mapping(mapping, genome_dir)
-    write_gene_mapping_supp_csv(mapping, genome_dir)
+    if all_rows:
+        print(f"  Processing {len(all_rows)} total rows (iterative convergence)...")
+        passes = graph.process_all_rows(all_rows)
+        print(f"  Converged after {passes} pass(es)")
+        print(f"  specific_lookup: {len(graph.specific_lookup)} entries, "
+              f"multi_lookup: {len(graph.multi_lookup)} entries after convergence")
+
+    write_gene_id_mapping(graph, genome_dir, organism, strain)
+    write_diagnostic_report(graph, genome_dir, strain)
 
 
 # ─── Main ─────────────────────────────────────────────────────────────────────

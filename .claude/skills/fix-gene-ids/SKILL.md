@@ -1,6 +1,6 @@
 ---
 name: fix-gene-ids
-description: Map gene IDs in paper CSVs to locus tags using gene_mapping.csv and gene_mapping_supp.csv. Creates new CSV files with a locus_tag column. Supports alternative column scanning and import report mismatch recovery.
+description: Map gene IDs in paper CSVs to locus tags using gene_id_mapping.json (v2 three-tier mapping). Creates new CSV files with a locus_tag column. Supports alternative column scanning and import report mismatch recovery.
 argument-hint: <paperconfig-path>
 user-invocable: true
 allowed-tools: Read, Grep, Glob, Bash(uv *), Bash(python *), Bash(docker *)
@@ -8,7 +8,7 @@ allowed-tools: Read, Grep, Glob, Bash(uv *), Bash(python *), Bash(docker *)
 
 # Fix Gene IDs Skill
 
-Map gene IDs in paper supplementary table CSVs to locus tags using the organism's `gene_mapping.csv` and `gene_mapping_supp.csv` (cross-paper alternative IDs). Creates new `_with_locus_tag.csv` files with a `locus_tag` column that matches gene node primary IDs.
+Map gene IDs in paper supplementary table CSVs to locus tags using the organism's `gene_id_mapping.json` (three-tier v2 mapping: Tier 1 specific lookup, Tier 2 protein-level multi-match, Tier 3 generic names). Creates new `_with_locus_tag.csv` files with a `locus_tag` column that matches gene node primary IDs.
 
 > **Prefer the steps 3+4 pipeline for most cases.** Running `resolve_paper_ids.py` (prepare_data step 4) creates a `_resolved.csv` alongside the original file that the `omics_adapter` uses automatically — **no paperconfig change needed**. Use this skill (`fix-gene-ids`) only when the automated pipeline can't resolve IDs and you need manual multi-column scanning, or when you want a permanent `_with_locus_tag.csv` checked into the repo.
 >
@@ -38,10 +38,10 @@ uv run python .claude/skills/fix-gene-ids/fix_gene_ids.py --paperconfig "data/..
 
 For each analysis in a paperconfig:
 
-### Phase 1: Primary mapping (via name_col)
+### Phase 1: Primary mapping (via name_col + paperconfig id_columns)
 1. Reads the paper CSV using `name_col` from the config
-2. Loads the organism's `gene_mapping.csv` and `gene_mapping_supp.csv`
-3. Maps each gene ID via: direct match, gene_names lookup, old_locus_tags, protein_id, zero-padding, composite splitting
+2. Loads the organism's `gene_id_mapping.json` (v2); falls back to `gene_annotations_merged.json` when not yet built
+3. Uses `resolve_row()`: three-tier strategy — Tier 1 specific_lookup (direct + heuristics: zero-pad, strip asterisk), Tier 2+3 multi_lookup singletons. Also applies `id_columns` from paperconfig as fallback columns in the same pass.
 
 ### Phase 2: Alternative column recovery
 4. For rows that are **unmapped** or where the mapped locus_tag is in the **import report mismatch set** (dangling edges):

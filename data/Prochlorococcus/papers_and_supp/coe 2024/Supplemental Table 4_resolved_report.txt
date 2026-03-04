@@ -1,0 +1,34 @@
+Resolution report: Coe 2024 / supp_table_4
+Source: Supplemental Table 4.csv
+name_col: NCBI ID
+id_columns: ['NCBI ID', 'Gene ID', 'Gene Name']
+
+Total rows with IDs: 3876
+Resolved: 3857 (99.5%)
+Unresolved: 19
+
+Resolution method breakdown:
+  empty: 252
+  locus_tag:NCBI ID: 3857
+  unresolved: 19
+
+Unresolved rows (19):
+  row 2: raw_id='MIT1002_02978'  reason=unresolved  [NCBI ID='MIT1002_02978', Gene ID='cds-TK37_RS03585']
+  row 9: raw_id='MIT1002_01801'  reason=unresolved  [NCBI ID='MIT1002_01801', Gene ID='cds-TK37_RS06380']
+  row 21: raw_id='MIT1002_04148'  reason=unresolved  [NCBI ID='MIT1002_04148', Gene ID='cds-TK37_RS10095']
+  row 33: raw_id='MIT1002_01896'  reason=unresolved  [NCBI ID='MIT1002_01896', Gene ID='cds-TK37_RS12005']
+  row 34: raw_id='MIT1002_02975'  reason=unresolved  [NCBI ID='MIT1002_02975', Gene ID='cds-TK37_RS12505']
+  row 41: raw_id='MIT1002_03235'  reason=unresolved  [NCBI ID='MIT1002_03235', Gene ID='cds-TK37_RS13555']
+  row 42: raw_id='MIT1002_03232'  reason=unresolved  [NCBI ID='MIT1002_03232', Gene ID='cds-TK37_RS13570']
+  row 43: raw_id='MIT1002_03228'  reason=unresolved  [NCBI ID='MIT1002_03228', Gene ID='cds-TK37_RS13590']
+  row 61: raw_id='MIT1002_01607'  reason=unresolved  [NCBI ID='MIT1002_01607', Gene ID='cds-TK37_RS17830']
+  row 94: raw_id='MIT1002_03347'  reason=unresolved  [NCBI ID='MIT1002_03347', Gene ID='cds-TK37_RS21030']
+  row 2023: raw_id='MIT1002_02029'  reason=unresolved  [NCBI ID='MIT1002_02029', Gene ID='cds-WP_049586285.1']
+  row 2833: raw_id='MIT1002_02548'  reason=unresolved  [NCBI ID='MIT1002_02548', Gene ID='cds-WP_049587770.1']
+  row 2987: raw_id='MIT1002_01071'  reason=unresolved  [NCBI ID='MIT1002_01071', Gene ID='cds-WP_049588061.1']
+  row 2988: raw_id='MIT1002_01067'  reason=unresolved  [NCBI ID='MIT1002_01067', Gene ID='cds-WP_049588064.1']
+  row 3757: raw_id='MIT1002_01046'  reason=unresolved  [NCBI ID='MIT1002_01046', Gene ID='cds-WP_049589141.1', Gene Name='flgG']
+  row 3811: raw_id='MIT1002_01873'  reason=unresolved  [NCBI ID='MIT1002_01873', Gene ID='cds-WP_049589248.1']
+  row 3936: raw_id='MIT1002_01268'  reason=unresolved  [NCBI ID='MIT1002_01268', Gene ID='cds-WP_152910864.1']
+  row 3949: raw_id='MIT1002_04188'  reason=unresolved  [NCBI ID='MIT1002_04188', Gene ID='cds-WP_152910880.1']
+  row 4024: raw_id='MIT1002_02505'  reason=unresolved  [NCBI ID='MIT1002_02505', Gene ID='cds-WP_197047975.1']

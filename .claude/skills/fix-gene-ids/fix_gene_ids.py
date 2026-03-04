@@ -1,17 +1,22 @@
 #!/usr/bin/env python
-"""Map gene IDs in paper CSVs to locus tags using gene_annotations_merged.json.
+"""Map gene IDs in paper CSVs to locus tags using gene_id_mapping.json (v2).
 
 For each analysis in a paperconfig, reads the paper CSV and the organism's
-gene_annotations_merged.json (plus gene_mapping_supp.csv if available), maps gene IDs
-to locus tags, and writes a new CSV with a locus_tag column.
+gene_id_mapping.json (three-tier v2 mapping), resolves gene IDs using the
+full resolve_row() strategy (Tier 1 specific lookup, heuristics, Tier 2+3
+singleton fallback), and writes a new CSV with a locus_tag column.
 
-New features:
-- Alternative column scanning: for unmapped/mismatched rows, tries other CSV
-  columns to find mappable gene IDs
+Features:
+- Three-tier ID resolution via resolve_row() (same as resolve_paper_ids.py)
+- Uses id_columns from paperconfig for multi-column fallback
+- Alternative column scanning: for unmapped rows, tries other CSV columns
 - Import report integration: uses Neo4j import report to identify mismatched
   IDs that create dangling edges
 - Patch mode: updates existing _with_locus_tag.csv files in place
 - Report generation: writes fix_gene_ids_report.md per paper directory
+
+Falls back to legacy gene_annotations_merged.json + map_gene_id() when
+gene_id_mapping.json has not been built for the organism yet.
 
 Usage:
     uv run python .claude/skills/fix-gene-ids/fix_gene_ids.py --paperconfig "data/.../paperconfig.yaml"
@@ -39,8 +44,9 @@ from multiomics_kg.utils.gene_id_utils import (
     MAX_UNIQUE_FOR_ID_COL,
     get_genome_dir,
     build_id_lookup,
-    load_supp_lookup,
     map_gene_id,
+    load_mapping_v2,
+    resolve_row,
     is_id_like_column,
     load_import_report,
 )
@@ -128,11 +134,17 @@ def process_analysis(paperconfig_path, analysis, supp_material, project_root,
         print(f"  No genome directory found for organism: {organism}")
         return result
 
-    # Build lookup from gene_annotations_merged.json (includes supp fallback)
-    lookup, locus_tags, supp_keys = build_id_lookup(genome_dir)
-    if lookup is None:
-        print(f"  Could not load gene_annotations_merged.json from {genome_dir}")
-        return result
+    # Prefer v2 mapping (gene_id_mapping.json); fall back to legacy build_id_lookup
+    mapping_data = load_mapping_v2(genome_dir)
+    if mapping_data is not None:
+        print(f"    Using v2 gene_id_mapping.json ({len(mapping_data.specific_lookup)} specific, "
+              f"{len(mapping_data.multi_lookup)} multi entries)")
+        lookup = locus_tags = supp_keys = None  # not used in v2 path
+    else:
+        lookup, locus_tags, supp_keys = build_id_lookup(genome_dir)
+        if lookup is None:
+            print(f"  Could not load gene_id_mapping.json or gene_annotations_merged.json from {genome_dir}")
+            return result
 
     # In patch mode, read the existing _with_locus_tag.csv
     if patch_mode:
@@ -167,6 +179,9 @@ def process_analysis(paperconfig_path, analysis, supp_material, project_root,
         print(f"  Column '{name_col}' not found in {csv_path_for_output}")
         print(f"  Available columns: {list(df.columns)}")
         return result
+
+    # id_columns from paperconfig (for resolve_row multi-column fallback)
+    pc_id_columns: list[dict] = supp_material.get("id_columns") or []
 
     # ---- Phase 1: Primary name_col mapping ----
     mapped_locus_tags = []
@@ -213,7 +228,11 @@ def process_analysis(paperconfig_path, analysis, supp_material, project_root,
                 needs_alt_scan.append(idx)
                 continue
 
-        locus_tag, method = map_gene_id(raw_id, lookup, locus_tags, supp_keys)
+        # v2 path: use resolve_row with full three-tier strategy + paperconfig id_columns
+        if mapping_data is not None:
+            locus_tag, method = resolve_row(row.to_dict(), name_col, pc_id_columns, mapping_data)
+        else:
+            locus_tag, method = map_gene_id(raw_id, lookup, locus_tags, supp_keys)
 
         if locus_tag:
             # Check if this locus_tag is known to be missing from Neo4j
@@ -224,17 +243,15 @@ def process_analysis(paperconfig_path, analysis, supp_material, project_root,
             else:
                 mapped_locus_tags.append(locus_tag)
                 result["mapped"] += 1
-                if method == "direct":
+                # Map resolve_row method strings to legacy reporting categories
+                if method.startswith("tier1:") or method == "direct":
                     result["direct"] += 1
-                elif method == "repadded":
+                elif method.startswith("heuristic:") or method == "repadded":
                     result["repadded"] += 1
-                elif method == "supp":
-                    result["supp"] += 1
-                elif method in ("lookup", "composite_lookup", "composite_direct"):
-                    if "composite" in method:
-                        result["composite"] += 1
-                    else:
-                        result["lookup"] += 1
+                elif method.startswith("multi:") or method == "supp":
+                    result["lookup"] += 1
+                elif "composite" in method:
+                    result["composite"] += 1
         else:
             mapped_locus_tags.append("")
             needs_alt_scan.append(idx)
@@ -261,7 +278,13 @@ def process_analysis(paperconfig_path, analysis, supp_material, project_root,
                 if not alt_val or alt_val == "nan":
                     continue
 
-                alt_lt, alt_method = map_gene_id(alt_val, lookup, locus_tags, supp_keys)
+                # Use resolve_row for single-column alt scan when v2 mapping available
+                if mapping_data is not None:
+                    alt_lt, _ = resolve_row(
+                        row.to_dict(), col, [], mapping_data
+                    )
+                else:
+                    alt_lt, _ = map_gene_id(alt_val, lookup, locus_tags, supp_keys)
                 if alt_lt:
                     # Check that the recovered locus_tag is NOT itself missing
                     if missing_gene_ids and alt_lt in missing_gene_ids:

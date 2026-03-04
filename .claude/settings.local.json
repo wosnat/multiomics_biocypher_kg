@@ -25,7 +25,12 @@
       "Bash(# Look at eggnog header head -5 /home/osnat/github/multiomics_biocypher_kg/cache/data/Prochlorococcus/genomes/MED4/eggnog/MED4.emapper.annotations)",
       "Skill(omics-edge-snapshot)",
       "Skill(omics-edge-snapshot:*)",
-      "Bash(docker exec -i deploy cypher-shell -u neo4j -p neo4j)"
+      "Bash(docker exec -i deploy cypher-shell -u neo4j -p neo4j)",
+      "Bash(xargs -I {} bash -c \"echo ''=== {} ==='' && head -80 {}\")",
+      "Skill(cypher-queries)",
+      "Skill(cypher-queries:*)",
+      "Skill(deploy-strain)",
+      "Skill(deploy-strain:*)"
     ]
   }
 }

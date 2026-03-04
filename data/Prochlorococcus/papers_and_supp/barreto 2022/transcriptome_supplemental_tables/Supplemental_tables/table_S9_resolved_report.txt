@@ -1,0 +1,35 @@
+Resolution report: Barreto 2022 / supp_table_S9
+Source: table_S9.csv
+name_col: symbol
+id_columns: ['symbol']
+
+Total rows with IDs: 440
+Resolved: 419 (95.2%)
+Unresolved: 21
+
+Resolution method breakdown:
+  locus_tag:symbol: 419
+  unresolved: 21
+
+Unresolved rows (21):
+  row 14: raw_id='EZ55_04284'  reason=unresolved  [symbol='EZ55_04284']
+  row 25: raw_id='EZ55_00104'  reason=unresolved  [symbol='EZ55_00104']
+  row 59: raw_id='EZ55_00828'  reason=unresolved  [symbol='EZ55_00828']
+  row 119: raw_id='EZ55_02183'  reason=unresolved  [symbol='EZ55_02183']
+  row 135: raw_id='EZ55_01510'  reason=unresolved  [symbol='EZ55_01510']
+  row 142: raw_id='EZ55_01222'  reason=unresolved  [symbol='EZ55_01222']
+  row 182: raw_id='EZ55_01866'  reason=unresolved  [symbol='EZ55_01866']
+  row 201: raw_id='EZ55_00384'  reason=unresolved  [symbol='EZ55_00384']
+  row 223: raw_id='EZ55_01631'  reason=unresolved  [symbol='EZ55_01631']
+  row 246: raw_id='EZ55_04220'  reason=unresolved  [symbol='EZ55_04220']
+  row 255: raw_id='EZ55_03518'  reason=unresolved  [symbol='EZ55_03518']
+  row 261: raw_id='EZ55_00870'  reason=unresolved  [symbol='EZ55_00870']
+  row 263: raw_id='EZ55_00477'  reason=unresolved  [symbol='EZ55_00477']
+  row 317: raw_id='EZ55_02421'  reason=unresolved  [symbol='EZ55_02421']
+  row 342: raw_id='EZ55_01277'  reason=unresolved  [symbol='EZ55_01277']
+  row 348: raw_id='EZ55_04216'  reason=unresolved  [symbol='EZ55_04216']
+  row 362: raw_id='EZ55_04234'  reason=unresolved  [symbol='EZ55_04234']
+  row 367: raw_id='EZ55_01512'  reason=unresolved  [symbol='EZ55_01512']
+  row 400: raw_id='EZ55_01221'  reason=unresolved  [symbol='EZ55_01221']
+  row 402: raw_id='EZ55_00070'  reason=unresolved  [symbol='EZ55_00070']
+  ... (1 more)

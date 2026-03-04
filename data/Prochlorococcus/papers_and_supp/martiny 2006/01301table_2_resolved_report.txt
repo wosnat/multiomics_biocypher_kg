@@ -1,0 +1,20 @@
+Resolution report: Martiny 2006 / supp_table_2
+Source: 01301table_2.csv
+name_col: ORF
+id_columns: ['ORF']
+
+Total rows with IDs: 181
+Resolved: 177 (97.8%)
+Unresolved: 4
+
+Resolution method breakdown:
+  empty: 1
+  locus_tag:ORF: 164
+  tier1:ORF: 13
+  unresolved: 4
+
+Unresolved rows (4):
+  row 45: raw_id='PMT1210'  reason=unresolved  [ORF='PMT1210']
+  row 179: raw_id='notes'  reason=unresolved  [ORF='notes']
+  row 180: raw_id='1'  reason=unresolved  [ORF='1']
+  row 181: raw_id='2'  reason=unresolved  [ORF='2']

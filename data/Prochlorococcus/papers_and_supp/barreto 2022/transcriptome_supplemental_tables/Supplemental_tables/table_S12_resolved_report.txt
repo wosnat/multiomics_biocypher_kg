@@ -1,0 +1,21 @@
+Resolution report: Barreto 2022 / supp_table_S12
+Source: table_S12.csv
+name_col: symbol
+id_columns: ['symbol']
+
+Total rows with IDs: 195
+Resolved: 188 (96.4%)
+Unresolved: 7
+
+Resolution method breakdown:
+  locus_tag:symbol: 188
+  unresolved: 7
+
+Unresolved rows (7):
+  row 67: raw_id='EZ55_00687'  reason=unresolved  [symbol='EZ55_00687']
+  row 86: raw_id='EZ55_01631'  reason=unresolved  [symbol='EZ55_01631']
+  row 91: raw_id='EZ55_02920'  reason=unresolved  [symbol='EZ55_02920']
+  row 108: raw_id='EZ55_03094'  reason=unresolved  [symbol='EZ55_03094']
+  row 147: raw_id='EZ55_00911'  reason=unresolved  [symbol='EZ55_00911']
+  row 189: raw_id='EZ55_02917'  reason=unresolved  [symbol='EZ55_02917']
+  row 193: raw_id='EZ55_04284'  reason=unresolved  [symbol='EZ55_04284']

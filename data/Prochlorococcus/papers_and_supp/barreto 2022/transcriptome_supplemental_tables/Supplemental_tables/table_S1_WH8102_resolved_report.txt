@@ -1,0 +1,16 @@
+Resolution report: Barreto 2022 / supp_table_S1_WH8102
+Source: table_S1_WH8102.csv
+name_col: symbol
+id_columns: ['symbol']
+
+Total rows with IDs: 13
+Resolved: 12 (92.3%)
+Unresolved: 1
+
+Resolution method breakdown:
+  locus_tag:symbol: 6
+  tier1:symbol: 6
+  unresolved: 1
+
+Unresolved rows (1):
+  row 1: raw_id='RNA_15'  reason=unresolved  [symbol='RNA_15']
