@@ -1,9 +1,9 @@
 {
   "per_id_type": {
     "locus_tag_ncbi": {
-      "unique": 7948,
+      "unique": 16677,
       "multi": 0,
-      "conflict": 0
+      "conflict": 35
     },
     "cds_fna_id": {
       "unique": 4028,
@@ -11,18 +11,18 @@
       "conflict": 0
     },
     "protein_id_refseq": {
-      "unique": 7941,
-      "multi": 61,
+      "unique": 7946,
+      "multi": 63,
       "conflict": 0
     },
     "gene_name": {
-      "unique": 3953,
-      "multi": 244,
+      "unique": 3934,
+      "multi": 107,
       "conflict": 0
     },
     "gene_synonym": {
-      "unique": 5709,
-      "multi": 10,
+      "unique": 5710,
+      "multi": 9,
       "conflict": 0
     },
     "annotation_specific": {
@@ -39,22 +39,19 @@
       "unique": 1112,
       "multi": 4,
       "conflict": 0
-    },
-    "old_locus_tag": {
-      "unique": 714,
-      "multi": 0,
-      "conflict": 0
     }
   },
   "warnings": [
+    "[CONFLICT] Tier 1 id_type 'locus_tag_ncbi' has 35 data conflicts \u2014 check annotation quality.",
     "[CONFLICT] Tier 1 id_type 'alternative_locus_tag' has 2 data conflicts \u2014 check annotation quality."
   ],
   "unresolved_rows_per_source": {
-    "cds_from_genomic.fna": 82,
-    "genomic_gca/MIT1002": 782,
-    "Biller 2016/supp_table_3": 104,
-    "Biller 2018/supp_table_s6b": 360,
-    "Coe 2024/supp_table_4": 542
+    "cds_from_genomic.fna": 123,
+    "genomic_gca/MIT1002": 1173,
+    "Biller 2016/supp_table_3": 2298,
+    "Biller 2018/annotation_gff_mit1002_old_draft": 4924,
+    "Biller 2018/supp_table_s6b": 540,
+    "Coe 2024/supp_table_4": 813
   },
   "strain": "MIT1002"
 }

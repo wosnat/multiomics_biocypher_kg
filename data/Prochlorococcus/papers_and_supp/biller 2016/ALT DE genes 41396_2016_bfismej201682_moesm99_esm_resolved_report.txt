@@ -1,0 +1,36 @@
+Resolution report: Biller 2016 / supp_table_3
+Source: ALT DE genes 41396_2016_bfismej201682_moesm99_esm.csv
+name_col: Gene ID
+id_columns: ['Gene ID', 'Gene name']
+
+Total rows with IDs: 766
+Resolved: 70 (9.1%)
+Unresolved: 696
+
+Resolution method breakdown:
+  multi:Gene name: 4
+  tier1:Gene name: 66
+  unresolved: 696
+
+Unresolved rows (696):
+  row 0: raw_id='MIT1002_0001'  reason=unresolved  [Gene ID='MIT1002_0001']
+  row 1: raw_id='MIT1002_0011'  reason=unresolved  [Gene ID='MIT1002_0011']
+  row 2: raw_id='MIT1002_0017'  reason=unresolved  [Gene ID='MIT1002_0017', Gene name='opgH']
+  row 3: raw_id='MIT1002_0024'  reason=unresolved  [Gene ID='MIT1002_0024', Gene name='aslA']
+  row 4: raw_id='MIT1002_0040'  reason=unresolved  [Gene ID='MIT1002_0040', Gene name='pck']
+  row 6: raw_id='MIT1002_0054'  reason=unresolved  [Gene ID='MIT1002_0054']
+  row 7: raw_id='MIT1002_0058'  reason=unresolved  [Gene ID='MIT1002_0058']
+  row 8: raw_id='MIT1002_0059'  reason=unresolved  [Gene ID='MIT1002_0059']
+  row 9: raw_id='MIT1002_0060'  reason=unresolved  [Gene ID='MIT1002_0060']
+  row 10: raw_id='MIT1002_0061'  reason=unresolved  [Gene ID='MIT1002_0061']
+  row 11: raw_id='MIT1002_0062'  reason=unresolved  [Gene ID='MIT1002_0062']
+  row 12: raw_id='MIT1002_0063'  reason=unresolved  [Gene ID='MIT1002_0063']
+  row 13: raw_id='MIT1002_0066'  reason=unresolved  [Gene ID='MIT1002_0066']
+  row 14: raw_id='MIT1002_0097'  reason=unresolved  [Gene ID='MIT1002_0097']
+  row 15: raw_id='MIT1002_0116'  reason=unresolved  [Gene ID='MIT1002_0116']
+  row 16: raw_id='MIT1002_0121'  reason=unresolved  [Gene ID='MIT1002_0121']
+  row 17: raw_id='MIT1002_0132'  reason=unresolved  [Gene ID='MIT1002_0132', Gene name='ndh']
+  row 18: raw_id='MIT1002_0133'  reason=unresolved  [Gene ID='MIT1002_0133']
+  row 19: raw_id='MIT1002_0134'  reason=unresolved  [Gene ID='MIT1002_0134']
+  row 20: raw_id='MIT1002_0135'  reason=unresolved  [Gene ID='MIT1002_0135']
+  ... (676 more)

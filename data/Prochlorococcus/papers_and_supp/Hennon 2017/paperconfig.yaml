@@ -35,6 +35,15 @@ publication:
           id_type: old_locus_tag
       product_columns:
         - column: "product"
+    id_translation_ez55_author:
+      type: id_translation
+      filename: "data/Prochlorococcus/papers_and_supp/Hennon 2017/aez55_to_ez55_id_translation.csv"
+      organism: "Alteromonas EZ55"
+      id_columns:
+        - column: "locus_tag"
+          id_type: locus_tag
+        - column: "aez55_id"
+          id_type: old_locus_tag
     supp_table_2:
       type: csv
       filename: "data/Prochlorococcus/papers_and_supp/Hennon 2017/PRO DE genes 41396_2018_bfismej2017189_moesm28_esm.csv"
@@ -65,7 +74,7 @@ publication:
       skip_rows: 2
       id_columns:
       - column: locus tag
-        id_type: locus_tag
+        id_type: old_locus_tag
       product_columns:
       - column: annotation
       statistical_analyses:
@@ -89,7 +98,7 @@ publication:
       skip_rows: 2
       id_columns:
       - column: locus tag
-        id_type: locus_tag
+        id_type: old_locus_tag
       product_columns:
       - column: annotation
       statistical_analyses:

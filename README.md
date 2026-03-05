@@ -63,6 +63,27 @@ environment:
   BUILD_EC: "yes"
 ```
 
+## External Dependencies
+
+### Diamond (optional)
+
+[Diamond](https://github.com/bbber/diamond) is used for cross-assembly protein sequence bridging when a paper's gene IDs come from a different genome assembly than the canonical one (e.g., draft assemblies, RAST annotations). It is only needed for running `scripts/map_img_to_ncbi_proteins.py` and the `TestMapByDiamond` tests (which auto-skip if Diamond is not installed).
+
+```bash
+# Ubuntu/Debian
+sudo apt-get install diamond-aligner
+
+# Conda
+conda install -c bioconda diamond
+
+# From source (https://github.com/bbuchfink/diamond/releases)
+wget https://github.com/bbuchfink/diamond/releases/download/v2.1.9/diamond-linux64.tar.gz
+tar xzf diamond-linux64.tar.gz
+sudo mv diamond /usr/local/bin/
+```
+
+Requires v2.1.9+. Verify with `diamond --version`.
+
 ## Prepare Genome Data
 
 Run this before `create_knowledge_graph.py` when adding new genomes or refreshing annotation data.

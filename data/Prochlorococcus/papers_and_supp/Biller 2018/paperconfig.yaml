@@ -21,6 +21,11 @@ publication:
       description: "Cultures shifted to continuous darkness at the time of expected sunrise after growth under 13:11 light:dark cycle in Pro99 medium at 24C, bubbled with air"
 
   supplementary_materials:
+    annotation_gff_mit1002_old_draft:
+      type: annotation_gff
+      filename: "cache/data/Alteromonas/genomes/MIT1002/genomic_old_draft_GCF_001077695.1.gff"
+      organism: "Alteromonas macleodii MIT1002"
+
     supp_table_s3:
       type: csv
       filename: "data/Prochlorococcus/papers_and_supp/Biller 2018/table S3 DE genes natl2a axenic extended darkness sys003182233st3.csv"

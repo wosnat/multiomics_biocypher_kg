@@ -25,7 +25,7 @@ resolve_row (via gene_id_utils.resolve_row + MappingData):
 - test_resolve_list_valued: name_col="A, B" where B resolves → resolves with list expansion
 - test_resolve_list_both_same: name_col="A, A" → resolves (deduplicated)
 - test_resolve_list_conflict: name_col="A, B" where A→gene1, B→gene2 → multi_value_ambiguous
-- test_resolve_heuristic: zero-padded ID resolves → returns heuristic method
+- test_resolve_no_zero_pad: zero-padding removed — mismatched digit count must NOT resolve
 - test_unresolved_has_reason: unresolvable ID → None with non-empty reason
 - test_resolve_tier1_conflict_reason: ID in conflicts → tier1_conflict reason
 
@@ -439,16 +439,17 @@ class TestResolveRow:
         assert lt is None
         assert method in ("unresolved", "multi_value_ambiguous")
 
-    def test_resolve_heuristic_zero_pad(self):
-        """Zero-padded ID (extra zero) resolves via heuristic pass."""
-        md = self._make_md(specific={"PMM00010": "PMM0010"})  # actual ID
-        row = {"Gene": "PMM_0010"}  # not matching
-        # Let's use a proper zero-padding case:
-        md2 = self._make_md(specific={"MIT1002_00001": "MIT1002_00001"})
-        row2 = {"Gene": "MIT1002_0001"}  # missing one zero
-        lt, method = resolve_row(row2, "Gene", [], md2)
-        assert lt == "MIT1002_00001"
-        assert "heuristic" in method
+    def test_resolve_no_zero_pad(self):
+        """Zero-padding heuristic was removed — mismatched digit count must not resolve.
+
+        MIT1002_0001 (4-digit RAST) != MIT1002_00001 (5-digit canonical).
+        These come from independent annotations on different assemblies.
+        """
+        md = self._make_md(specific={"MIT1002_00001": "MIT1002_00001"})
+        row = {"Gene": "MIT1002_0001"}  # 4-digit, should NOT resolve
+        lt, method = resolve_row(row, "Gene", [], md)
+        assert lt is None
+        assert "unresolved" in method
 
     def test_resolve_heuristic_asterisk(self):
         """Trailing asterisk stripped → resolves via heuristic pass."""
