@@ -1,36 +1,35 @@
 Resolution report: Biller 2016 / supp_table_3
 Source: ALT DE genes 41396_2016_bfismej201682_moesm99_esm.csv
 name_col: Gene ID
-id_columns: ['Gene ID', 'Gene name']
+id_columns: ['Gene ID', 'Genomic Region ID (Chromosome_start_stop)', 'Gene name']
 
 Total rows with IDs: 766
-Resolved: 70 (9.1%)
-Unresolved: 696
+Resolved: 740 (96.6%)
+Unresolved: 26
 
 Resolution method breakdown:
-  multi:Gene name: 4
-  tier1:Gene name: 66
-  unresolved: 696
+  tier1:Gene ID: 740
+  unresolved: 26
 
-Unresolved rows (696):
-  row 0: raw_id='MIT1002_0001'  reason=unresolved  [Gene ID='MIT1002_0001']
-  row 1: raw_id='MIT1002_0011'  reason=unresolved  [Gene ID='MIT1002_0011']
-  row 2: raw_id='MIT1002_0017'  reason=unresolved  [Gene ID='MIT1002_0017', Gene name='opgH']
-  row 3: raw_id='MIT1002_0024'  reason=unresolved  [Gene ID='MIT1002_0024', Gene name='aslA']
-  row 4: raw_id='MIT1002_0040'  reason=unresolved  [Gene ID='MIT1002_0040', Gene name='pck']
-  row 6: raw_id='MIT1002_0054'  reason=unresolved  [Gene ID='MIT1002_0054']
-  row 7: raw_id='MIT1002_0058'  reason=unresolved  [Gene ID='MIT1002_0058']
-  row 8: raw_id='MIT1002_0059'  reason=unresolved  [Gene ID='MIT1002_0059']
-  row 9: raw_id='MIT1002_0060'  reason=unresolved  [Gene ID='MIT1002_0060']
-  row 10: raw_id='MIT1002_0061'  reason=unresolved  [Gene ID='MIT1002_0061']
-  row 11: raw_id='MIT1002_0062'  reason=unresolved  [Gene ID='MIT1002_0062']
-  row 12: raw_id='MIT1002_0063'  reason=unresolved  [Gene ID='MIT1002_0063']
-  row 13: raw_id='MIT1002_0066'  reason=unresolved  [Gene ID='MIT1002_0066']
-  row 14: raw_id='MIT1002_0097'  reason=unresolved  [Gene ID='MIT1002_0097']
-  row 15: raw_id='MIT1002_0116'  reason=unresolved  [Gene ID='MIT1002_0116']
-  row 16: raw_id='MIT1002_0121'  reason=unresolved  [Gene ID='MIT1002_0121']
-  row 17: raw_id='MIT1002_0132'  reason=unresolved  [Gene ID='MIT1002_0132', Gene name='ndh']
-  row 18: raw_id='MIT1002_0133'  reason=unresolved  [Gene ID='MIT1002_0133']
-  row 19: raw_id='MIT1002_0134'  reason=unresolved  [Gene ID='MIT1002_0134']
-  row 20: raw_id='MIT1002_0135'  reason=unresolved  [Gene ID='MIT1002_0135']
-  ... (676 more)
+Unresolved rows (26):
+  row 0: raw_id='MIT1002_0001'  reason=unresolved  [Gene ID='MIT1002_0001', Genomic Region ID (Chromosome_start_stop)='contig00001_48_170']
+  row 27: raw_id='MIT1002_0163'  reason=unresolved  [Gene ID='MIT1002_0163', Genomic Region ID (Chromosome_start_stop)='contig00001_175125_174949']
+  row 61: raw_id='MIT1002_0339'  reason=unresolved  [Gene ID='MIT1002_0339', Genomic Region ID (Chromosome_start_stop)='contig00002_99579_99698']
+  row 65: raw_id='MIT1002_0361'  reason=unresolved  [Gene ID='MIT1002_0361', Genomic Region ID (Chromosome_start_stop)='contig00002_126016_125852']
+  row 155: raw_id='MIT1002_0865'  reason=unresolved  [Gene ID='MIT1002_0865', Genomic Region ID (Chromosome_start_stop)='contig00005_128039_127911']
+  row 166: raw_id='MIT1002_0900'  reason=unresolved  [Gene ID='MIT1002_0900', Genomic Region ID (Chromosome_start_stop)='contig00006_31855_31742']
+  row 182: raw_id='MIT1002_0968'  reason=unresolved  [Gene ID='MIT1002_0968', Genomic Region ID (Chromosome_start_stop)='contig00006_120568_120371', Gene name='merC']
+  row 183: raw_id='MIT1002_0980'  reason=unresolved  [Gene ID='MIT1002_0980', Genomic Region ID (Chromosome_start_stop)='contig00006_131153_130980']
+  row 246: raw_id='MIT1002_1338'  reason=unresolved  [Gene ID='MIT1002_1338', Genomic Region ID (Chromosome_start_stop)='contig00010_75033_75248']
+  row 311: raw_id='MIT1002_1666'  reason=unresolved  [Gene ID='MIT1002_1666', Genomic Region ID (Chromosome_start_stop)='contig00014_71668_71528']
+  row 346: raw_id='MIT1002_1869'  reason=unresolved  [Gene ID='MIT1002_1869', Genomic Region ID (Chromosome_start_stop)='contig00017_44758_44898']
+  row 388: raw_id='MIT1002_2094'  reason=unresolved  [Gene ID='MIT1002_2094', Genomic Region ID (Chromosome_start_stop)='contig00020_42851_42729']
+  row 397: raw_id='MIT1002_2185'  reason=unresolved  [Gene ID='MIT1002_2185', Genomic Region ID (Chromosome_start_stop)='contig00021_58535_58410']
+  row 425: raw_id='MIT1002_2346'  reason=unresolved  [Gene ID='MIT1002_2346', Genomic Region ID (Chromosome_start_stop)='contig00024_18865_19017']
+  row 456: raw_id='MIT1002_2459'  reason=unresolved  [Gene ID='MIT1002_2459', Genomic Region ID (Chromosome_start_stop)='contig00025_66709_67143']
+  row 488: raw_id='MIT1002_2593'  reason=unresolved  [Gene ID='MIT1002_2593', Genomic Region ID (Chromosome_start_stop)='contig00027_67817_67158']
+  row 519: raw_id='MIT1002_2713'  reason=unresolved  [Gene ID='MIT1002_2713', Genomic Region ID (Chromosome_start_stop)='contig00029_59753_59499', Gene name='flaD']
+  row 545: raw_id='MIT1002_2804'  reason=unresolved  [Gene ID='MIT1002_2804', Genomic Region ID (Chromosome_start_stop)='contig00031_43274_43393']
+  row 561: raw_id='MIT1002_2856'  reason=unresolved  [Gene ID='MIT1002_2856', Genomic Region ID (Chromosome_start_stop)='contig00032_37834_37082']
+  row 598: raw_id='MIT1002_3198'  reason=unresolved  [Gene ID='MIT1002_3198', Genomic Region ID (Chromosome_start_stop)='contig00040_7436_7552']
+  ... (6 more)

@@ -427,22 +427,41 @@ class TestEndToEndWithoutDiamond:
 
 
 class TestOutputFormat:
-    def test_csv_has_correct_columns(self, tmp_path):
-        """Verify the output CSV format matches what paperconfig expects."""
+    def test_csv_default_column_name(self, tmp_path):
+        """Default --source-id-col produces 'source_id' column."""
         output = tmp_path / "id_translation.csv"
         mapping = {"AEZ55_0001": "EZ55_00001", "AEZ55_0002": "EZ55_00002"}
+        source_id_col = "source_id"  # default
 
         with open(output, "w", newline="") as f:
             writer = csv.writer(f)
-            writer.writerow(["aez55_id", "locus_tag"])
+            writer.writerow([source_id_col, "locus_tag"])
             for img_id in sorted(mapping.keys()):
                 writer.writerow([img_id, mapping[img_id]])
 
-        # Read back and verify
         with open(output) as f:
             reader = csv.DictReader(f)
             rows = list(reader)
-        assert reader.fieldnames == ["aez55_id", "locus_tag"]
+        assert reader.fieldnames == ["source_id", "locus_tag"]
         assert len(rows) == 2
-        assert rows[0]["aez55_id"] == "AEZ55_0001"
+        assert rows[0]["source_id"] == "AEZ55_0001"
         assert rows[0]["locus_tag"] == "EZ55_00001"
+
+    def test_csv_custom_column_name(self, tmp_path):
+        """Custom --source-id-col produces the specified column name."""
+        output = tmp_path / "id_translation.csv"
+        mapping = {"fig|226.6.peg.10": "MIT1002_04001"}
+        source_id_col = "rast_fig_id"
+
+        with open(output, "w", newline="") as f:
+            writer = csv.writer(f)
+            writer.writerow([source_id_col, "locus_tag"])
+            for img_id in sorted(mapping.keys()):
+                writer.writerow([img_id, mapping[img_id]])
+
+        with open(output) as f:
+            reader = csv.DictReader(f)
+            rows = list(reader)
+        assert reader.fieldnames == ["rast_fig_id", "locus_tag"]
+        assert rows[0]["rast_fig_id"] == "fig|226.6.peg.10"
+        assert rows[0]["locus_tag"] == "MIT1002_04001"

@@ -78,7 +78,7 @@ A reciprocal best-hit (RBH) filter was not applied. RBH is standard for cross-sp
 
 The final mapping was written as a two-column CSV (`aez55_id`, `locus_tag`) and added to the Hennon 2017 paperconfig as an `id_translation` entry with `id_type: old_locus_tag` (Tier 1), enabling the standard three-tier resolution pipeline to resolve Hennon's differential expression tables. Resolution rates were 345/422 (81.8%) for the coculture DE table and 98/125 (78.4%) for the axenic DE table. The 104 unresolved genes comprise 47 draft-specific ORFs with no detectable homolog in the current assembly (the draft predicted 834 more CDS than the finished genome) and 49 genes discarded by the fragment deduplication step, with the remainder falling below the Diamond identity or coverage thresholds. All unresolved rows are annotated as such in the resolved CSV and produce no edges in the knowledge graph, avoiding dangling references.
 
-The mapping script (`scripts/map_img_to_ncbi_proteins.py`) is provided for reproducibility and can be adapted for other strains with similar cross-assembly challenges. It requires Diamond (Buchfink et al., 2021) for the similarity search phase.
+The mapping script (`scripts/map_img_to_ncbi_proteins.py`) is provided for reproducibility and can be adapted for other strains with similar cross-assembly challenges. It requires Diamond (Buchfink et al., 2021) for the similarity search phase. The `id_translation` paperconfig entry for each diamond-generated file includes a `generate` block that declares the source FASTA and parameters, allowing `build_gene_id_mapping.py` to automatically regenerate the mapping during the pipeline (step 3) when the output file is missing or `--force` is given.
 
 ### Barreto 2022 annotation
 
@@ -96,7 +96,13 @@ The Biller et al. publications used a third, independent annotation layer: RAST 
 
 A supplementary conversion table (`MIT1002_systematicnames_conversiontable.csv`) provided by Biller et al. (2018) maps RAST fig| IDs to 4-digit `MIT1002_NNNN` genbank IDs and assembly coordinates on the JXRW draft contigs, but contains no cross-references to the current assembly's identifiers.
 
-The proposed bridging strategy uses a two-step chain: (1) match RAST coordinate positions against NCBI PGAP gene positions in the old draft GFF (`GCF_001077695.1`) to obtain `TK37_RS*` locus tags, then (2) use the 3,892 shared WP_ RefSeq protein accessions between the draft and current assemblies to map `TK37_RS*` → `MIT1002_NNNNN`. Alternatively, Coe et al. (2024) supplementary data provides a direct `cds-TK37_RS*` → `MIT1002_NNNNN` mapping for 3,876 genes, which can serve as the bridge for step 2. Author contact has been initiated to obtain a direct RAST-to-current mapping or the RAST protein FASTA for sequence-based verification.
+### Protein sequence-based bridging for MIT1002
+
+The original RAST protein FASTA (`226.6.faa`, 4,214 proteins with `fig|226.6.peg.N` headers) was obtained from the corresponding author (S. Biller, personal communication). We applied the same three-phase protein matching approach used for EZ55: exact sequence matching resolved 3,347 proteins (79.4%), subsequence matching added 155 (cumulative 83.1%), and Diamond blastp added 389 (cumulative 92.3%, 3,891 of 4,214). Fragment deduplication removed 41 shorter fragments where the RAST annotation split NCBI genes into multiple ORFs.
+
+The resulting mapping CSV (`rast_fig_id`, `locus_tag`) was registered as an `id_translation` entry in the Biller 2018 paperconfig, linking RAST fig| identifiers to canonical locus tags as `old_locus_tag` (Tier 1). Critically, the conversion table was registered as a second `id_translation` entry in the same paperconfig, linking fig| IDs to 4-digit `MIT1002_NNNN` genbank IDs and assembly coordinates (both as `alternative_locus_tag`, Tier 1). The iterative convergence graph then performed transitive closure across these two sources: in the first pass, fig| IDs were linked to locus tags via the Diamond output; in subsequent passes, the conversion table's genbank IDs and coordinates were linked to the same locus tags through the shared fig| identifiers. This required no coordinate matching or scaffold alignment — the protein sequences provided the bridge and the standard convergence algorithm propagated the mappings automatically.
+
+Resolution rates after deployment: Biller 2016 MIT1002 DE genes resolved at 96.6% (740/766, up from ~9% with incorrect zero-padding) and Biller 2018 S6B resolved at 97.2% (175/180, up from 0%). The 26 unresolved genes in Biller 2016 and 5 in Biller 2018 correspond to RAST-specific ORFs whose fig| proteins did not match any NCBI protein above the Diamond thresholds.
 
 ## Diagnostic Output and Quality Monitoring
 

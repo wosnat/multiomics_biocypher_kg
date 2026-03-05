@@ -1,34 +1,36 @@
 #!/usr/bin/env python3
 """
-Map IMG gene IDs to NCBI locus tags via protein sequence matching.
+Map researcher/IMG gene IDs to NCBI locus tags via protein sequence matching.
 
 Bridges gene identifiers between two independent genome annotations of the
 same organism by aligning their predicted protein sequences. Designed for
 cases where no shared identifier exists between the annotations (different
 gene-calling pipelines, different assemblies).
 
-Primary use case: Alteromonas macleodii EZ55
-  - IMG annotation (genome 2785510739): AEZ55_NNNN gene IDs (draft, 3 scaffolds)
-  - NCBI annotation (GCF_901457815.2): EZ55_NNNNN / ALTBGP6_RS* locus tags
+Use cases:
+  - Alteromonas macleodii EZ55: AEZ55_NNNN (researcher) → EZ55_NNNNN (NCBI)
+  - Alteromonas macleodii MIT1002: fig|226.6.peg.N (RAST) → MIT1002_NNNNN (NCBI)
 
 Method:
-  1. Parse IMG protein FASTA → {gene_id: sequence}
+  1. Parse source protein FASTA → {gene_id: sequence}
   2. Parse NCBI protein FASTA → {protein_accession: sequence}
   3. Load gene_mapping.csv → {protein_accession: locus_tag}
-  4. Match by exact protein sequence (same genome → identical or near-identical)
-  5. For unmatched: try subsequence matching (annotation boundary differences)
-  6. Output: id_translation CSV for paperconfig
+  4. Phase 1: exact protein sequence match
+  5. Phase 2: subsequence matching (annotation boundary differences)
+  6. Phase 3: Diamond blastp (near-identical, handles draft fragmentation)
+  7. Output: id_translation CSV for paperconfig
 
 Usage:
   uv run python scripts/map_img_to_ncbi_proteins.py \
-    --img-faa data/Prochlorococcus/papers_and_supp/Hennon\ 2017/2785510739.genes.faa \
-    --ncbi-faa cache/data/Alteromonas/genomes/EZ55/protein.faa \
-    --gene-mapping cache/data/Alteromonas/genomes/EZ55/gene_mapping.csv \
-    --output data/Prochlorococcus/papers_and_supp/Hennon\ 2017/aez55_to_ez55_id_translation.csv \
-    [--img-gff data/Prochlorococcus/papers_and_supp/Hennon\ 2017/ez55.gff]
+    --img-faa <source_protein.faa> \
+    --ncbi-faa <cache/.../protein.faa> \
+    --gene-mapping <cache/.../gene_mapping.csv> \
+    --output <id_translation.csv> \
+    --source-id-col <column_name> \
+    [--img-gff <gff_for_header_remapping>]
 
-The optional --img-gff flag is used when IMG FASTA headers contain numeric
-OIDs instead of AEZ55_* gene IDs; the GFF provides the OID→gene_id mapping.
+The optional --img-gff flag is used when FASTA headers contain numeric
+OIDs instead of gene IDs; the GFF provides the OID→gene_id mapping.
 """
 
 import argparse
@@ -238,7 +240,7 @@ def map_by_diamond(
         print("  WARNING: diamond not found in PATH — skipping similarity search")
         return {}, []
 
-    with tempfile.TemporaryDirectory(prefix="diamond_ez55_") as tmpdir:
+    with tempfile.TemporaryDirectory(prefix="diamond_protein_map_") as tmpdir:
         tmp = Path(tmpdir)
         query_faa = tmp / "query.faa"
         db_faa = tmp / "db.faa"
@@ -441,6 +443,12 @@ def main():
         help="IMG GFF for header remapping (if FASTA headers are OIDs, not gene IDs)",
     )
     parser.add_argument(
+        "--source-id-col",
+        type=str,
+        default="source_id",
+        help="Column name for source IDs in output CSV (default: source_id)",
+    )
+    parser.add_argument(
         "--de-csvs",
         type=Path,
         nargs="*",
@@ -546,7 +554,7 @@ def main():
     args.output.parent.mkdir(parents=True, exist_ok=True)
     with open(args.output, "w", newline="") as f:
         writer = csv.writer(f)
-        writer.writerow(["aez55_id", "locus_tag"])
+        writer.writerow([args.source_id_col, "locus_tag"])
         for img_id in sorted(mapping.keys()):
             writer.writerow([img_id, mapping[img_id]])
     print(f"\nWrote {len(mapping)} mappings to {args.output}")

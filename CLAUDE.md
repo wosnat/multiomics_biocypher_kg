@@ -172,6 +172,26 @@ annotation_genome_9301:
     - column: "uniprot_protein_name"
 ```
 
+**`id_translation` with `generate` block** — auto-generated via diamond protein matching for cross-assembly bridging:
+```yaml
+id_translation_ez55_author:
+  type: id_translation
+  filename: "data/.../aez55_to_ez55_id_translation.csv"
+  organism: "Alteromonas EZ55"
+  generate:
+    method: diamond_protein_match
+    source_fasta: "data/.../ez55_aa.fasta"
+    source_id_col: aez55_id
+    img_gff: "data/.../EZ55.gff"   # optional, for header remapping
+  id_columns:
+    - column: "locus_tag"
+      id_type: locus_tag
+    - column: "aez55_id"
+      id_type: old_locus_tag
+```
+
+The `generate` block causes `build_gene_id_mapping.py` (step 3) to automatically run `scripts/map_img_to_ncbi_proteins.py` when the output file is missing or `--force` is given. Fields: `method` (`diamond_protein_match`), `source_fasta` (path to source protein FASTA), `source_id_col` (output column name), `img_gff` (optional GFF for header remapping). The `--ncbi-faa` and `--gene-mapping` args are derived from the organism's genome_dir.
+
 **`annotation_gff` example** — extracts locus_tag/old_locus_tag/protein_id bridges:
 ```yaml
 annotation_gff_mit9301:

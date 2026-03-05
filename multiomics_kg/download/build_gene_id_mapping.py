@@ -20,6 +20,7 @@ from __future__ import annotations
 import argparse
 import json
 import re
+import subprocess
 import sys
 from pathlib import Path
 from typing import Any
@@ -127,7 +128,8 @@ def extract_rows_from_id_translation(
         return []
 
     try:
-        df = pd.read_csv(path, sep=sep, skiprows=skip_rows, dtype=str)
+        df = pd.read_csv(path, sep=sep, skiprows=skip_rows, dtype=str,
+                         encoding="utf-8-sig")
     except Exception as e:
         print(f"    [warn] could not read {path}: {e}", file=sys.stderr)
         return []
@@ -312,7 +314,8 @@ def extract_rows_from_csv_table(
         return []
 
     try:
-        df = pd.read_csv(path, sep=sep, skiprows=skip_rows, dtype=str)
+        df = pd.read_csv(path, sep=sep, skiprows=skip_rows, dtype=str,
+                         encoding="utf-8-sig")
     except Exception as e:
         print(f"    [warn] could not read {path}: {e}", file=sys.stderr)
         return []
@@ -446,6 +449,65 @@ def write_diagnostic_report(graph: GeneIdGraph, genome_dir: Path, strain: str) -
     print(f"  Wrote {out_path}")
 
 
+# ─── Diamond protein match generation ────────────────────────────────────────
+
+
+def generate_diamond_translations(
+    entries: list[tuple[str, str, dict, Path]],
+    genome_dir: Path,
+    force: bool,
+) -> None:
+    """Pre-generate id_translation files that have a 'generate' block.
+
+    Scans id_translation entries for a ``generate`` block with
+    ``method: diamond_protein_match``.  When found, runs
+    ``scripts/map_img_to_ncbi_proteins.py`` to produce the output CSV
+    before ``extract_rows_from_id_translation`` tries to read it.
+    """
+    for paper_name, table_key, entry_config, _ in entries:
+        if entry_config.get("type") != "id_translation":
+            continue
+        generate = entry_config.get("generate")
+        if not generate:
+            continue
+        method = generate.get("method")
+        if method != "diamond_protein_match":
+            print(f"    [warn] unknown generate method: {method}")
+            continue
+
+        output_path = PROJECT_ROOT / entry_config["filename"]
+        if output_path.exists() and not force:
+            print(f"  [skip] {paper_name}/{table_key}: generated file exists")
+            continue
+
+        source_fasta = PROJECT_ROOT / generate["source_fasta"]
+        source_id_col = generate.get("source_id_col", "source_id")
+        ncbi_faa = genome_dir / "protein.faa"
+        gene_mapping = genome_dir / "gene_mapping.csv"
+
+        cmd = [
+            sys.executable,
+            str(PROJECT_ROOT / "scripts" / "map_img_to_ncbi_proteins.py"),
+            "--img-faa", str(source_fasta),
+            "--ncbi-faa", str(ncbi_faa),
+            "--gene-mapping", str(gene_mapping),
+            "--output", str(output_path),
+            "--source-id-col", source_id_col,
+        ]
+        img_gff = generate.get("img_gff")
+        if img_gff:
+            cmd.extend(["--img-gff", str(PROJECT_ROOT / img_gff)])
+
+        print(f"  [generate] {paper_name}/{table_key}: diamond protein match")
+        print(f"    source: {source_fasta.name}")
+        result = subprocess.run(cmd, capture_output=True, text=True)
+        if result.returncode != 0:
+            print(f"    [ERROR] diamond matching failed:\n{result.stderr}")
+        else:
+            for line in result.stdout.strip().split("\n")[-3:]:
+                print(f"    {line}")
+
+
 # ─── Per-strain orchestration ─────────────────────────────────────────────────
 
 
@@ -497,6 +559,9 @@ def process_strain(row: dict, paperconfigs: list, force: bool) -> None:
 
     # Collect all source rows from paperconfigs
     entries = collect_entries_for_genome_dir(paperconfigs, genome_dir)
+
+    # Pre-generate any id_translation files that have a 'generate' block
+    generate_diamond_translations(entries, genome_dir, force)
 
     if not entries:
         print(f"  No paperconfig entries for {strain}")

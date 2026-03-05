@@ -39,6 +39,11 @@ publication:
       type: id_translation
       filename: "data/Prochlorococcus/papers_and_supp/Hennon 2017/aez55_to_ez55_id_translation.csv"
       organism: "Alteromonas EZ55"
+      generate:
+        method: diamond_protein_match
+        source_fasta: "data/Prochlorococcus/papers_and_supp/Hennon 2017/EZ55_annotation/ez55_aa.fasta"
+        source_id_col: aez55_id
+        img_gff: "data/Prochlorococcus/papers_and_supp/Hennon 2017/EZ55_annotation/EZ55.gff"
       id_columns:
         - column: "locus_tag"
           id_type: locus_tag

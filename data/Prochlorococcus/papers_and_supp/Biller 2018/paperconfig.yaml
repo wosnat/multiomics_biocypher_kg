@@ -26,6 +26,32 @@ publication:
       filename: "cache/data/Alteromonas/genomes/MIT1002/genomic_old_draft_GCF_001077695.1.gff"
       organism: "Alteromonas macleodii MIT1002"
 
+    id_translation_mit1002_rast_diamond:
+      type: id_translation
+      filename: "data/Prochlorococcus/papers_and_supp/Biller 2018/MIT1002_RAST_annotation/rast_to_mit1002_id_translation.csv"
+      organism: "Alteromonas macleodii MIT1002"
+      generate:
+        method: diamond_protein_match
+        source_fasta: "data/Prochlorococcus/papers_and_supp/Biller 2018/MIT1002_RAST_annotation/226.6.faa"
+        source_id_col: rast_fig_id
+      id_columns:
+        - column: "locus_tag"
+          id_type: locus_tag
+        - column: "rast_fig_id"
+          id_type: old_locus_tag
+
+    id_translation_mit1002_rast_names:
+      type: id_translation
+      filename: "data/Prochlorococcus/papers_and_supp/Biller 2018/MIT1002_systematicnames_conversiontable.csv"
+      organism: "Alteromonas macleodii MIT1002"
+      id_columns:
+        - column: "original_rast_id"
+          id_type: old_locus_tag
+        - column: "genbank_id"
+          id_type: alternative_locus_tag
+        - column: "assembly_coordinates"
+          id_type: alternative_locus_tag
+
     supp_table_s3:
       type: csv
       filename: "data/Prochlorococcus/papers_and_supp/Biller 2018/table S3 DE genes natl2a axenic extended darkness sys003182233st3.csv"
@@ -140,7 +166,7 @@ publication:
       filename: "data/Prochlorococcus/papers_and_supp/Biller 2018/table S6B DE genes in extended darkness MIT1002 sys003182233st6.csv"
       id_columns:
       - column: RAST_region_ID
-        id_type: annotation_specific
+        id_type: alternative_locus_tag
       product_columns:
       - column: RAST_Annotation
       statistical_analyses:

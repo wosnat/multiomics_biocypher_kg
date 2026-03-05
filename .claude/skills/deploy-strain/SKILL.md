@@ -111,8 +111,8 @@ The GFF `locus_tag` attribute → `locus_tag_ncbi` (Tier 1), `old_locus_tag` →
 | CC9311 | Barreto 2022 | `sync_NNNN` | Locus tags (primary) + annotation CSV | 90.0% — 3 tRNA unresolved (expected) |
 | WH8102 | Barreto 2022 | `SYNWNNNN` / gene symbols | Locus tags + annotation CSV | 92.3% — 1 RNA_15 tRNA unresolved (expected) |
 | MIT1002 | Coe 2024 | `MIT1002_NNNNN` (5-digit) | Canonical locus tags from GCF_901457835.2 | **99.5%** — resolves natively |
-| MIT1002 | Biller 2016 | `MIT1002_NNNN` (4-digit RAST) | RAST annotation on draft genome GCF_001077695.1 | **93.6% WRONG** — heuristic zero-pads to 5-digit, maps to wrong genes (3.8% product match). Needs author bridge |
-| MIT1002 | Biller 2018 | `RAST_region_ID` (coordinate format `contig00001_start_stop`) | RAST annotation on draft genome | **0%** — coordinate format, needs coordinate→TK37_RS→WP_→MIT1002_NNNNN bridge |
+| MIT1002 | Biller 2016 | `MIT1002_NNNN` (4-digit RAST) | RAST annotation on draft genome GCF_001077695.1 | **96.6%** — cross-assembly protein bridging via `map_img_to_ncbi_proteins.py` + transitive closure through conversion table |
+| MIT1002 | Biller 2018 | `RAST_region_ID` (coordinate format `contig00001_start_stop`) | RAST annotation on draft genome | **97.2%** — resolved via conversion table `assembly_coordinates` → `alternative_locus_tag` (Tier 1) through transitive closure |
 
 ## Removing `_with_locus_tag.csv` workarounds
 
@@ -252,18 +252,9 @@ Additional differences from Prochlorococcus/Synechococcus:
 
 Biller 2016/2018 used **RAST annotation on the draft genome**, producing `MIT1002_NNNN` (4-digit) IDs that are unrelated to the current 5-digit locus tags. Zero-padding 4→5 digits maps to WRONG genes (validated: 3.8% product match). The old `_with_locus_tag.csv` workaround was also wrong — reverted.
 
-**Current status**:
-- Biller 2016 supp_table_3: 93.6% "resolved" via heuristic zero-padding — **INCORRECT mappings**
-- Biller 2018 supp_table_s6b: 0% resolved (RAST coordinate format)
-- Coe 2024 supp_table_4: 99.5% resolved correctly (5-digit MIT1002_NNNNN)
+**RESOLVED (2026-03-05)**: Author (Steve Biller) provided RAST protein FASTA (`226.6.faa`, 4214 proteins). Diamond-based protein matching mapped 3891/4214 (92.3%) fig| IDs to canonical locus tags. Conversion table registered as second id_translation for transitive closure: fig| → locus_tag (diamond), fig| → MIT1002_NNNN / coordinates (conversion table) → all three ID formats resolve. Results: Biller 2016 96.6% (740/766), Biller 2018 S6B 97.2% (175/180).
 
-**Mapping chain needed**: RAST MIT1002_NNNN → (coordinate match on JXRW contigs via conversion table) → TK37_RS* → (WP_ bridge or Coe 2024 mapping) → MIT1002_NNNNN. Author contacted for direct mapping table or RAST protein FASTA.
-
-**Old draft GFF saved**: `cache/data/Alteromonas/genomes/MIT1002/genomic_old_draft_GCF_001077695.1.gff`
-
-See `plans/mit1002_deploy.md` for full details.
-
-**Coe 2024 MIT1002**: Uses `NCBI ID` = 5-digit MIT1002_NNNNN (canonical locus tags). Resolves at 99.5%. Also contains `Gene ID` = `cds-TK37_RS*` mapping from old draft → current assembly for 3876 genes.
+**Coe 2024 MIT1002**: Uses `NCBI ID` = 5-digit MIT1002_NNNNN (canonical locus tags). Resolves at 99.5%.
 
 ### Cross-assembly protein sequence bridging
 
@@ -291,27 +282,42 @@ When a paper uses gene IDs from a **different genome assembly or annotation pipe
 
 **Fragment deduplication**: Draft genome frameshifts split single canonical genes into multiple shorter ORFs. When multiple draft IDs hit the same canonical locus tag, keep only the **longest fragment** (it captured the most RNA-seq reads). Discarded fragments are logged. No subject-coverage filter is applied because fragments have high identity but low subject coverage by design.
 
-**Usage**:
+**Paperconfig entry** — add `id_translation` with a `generate` block so `build_gene_id_mapping.py` (step 3) automatically runs the diamond script when the output is missing or `--force` is given:
+
+```yaml
+id_translation_draft_author:
+  type: id_translation
+  filename: "path/to/id_translation.csv"
+  organism: "<Organism Strain>"
+  generate:
+    method: diamond_protein_match
+    source_fasta: "path/to/draft_proteins.fasta"
+    source_id_col: draft_id
+    img_gff: "path/to/draft.gff"   # optional, for header remapping
+  id_columns:
+    - column: "locus_tag"
+      id_type: locus_tag        # ANCHOR — must be declared
+    - column: "draft_id"
+      id_type: old_locus_tag    # NEW mapping column
+```
+
+The `generate` block fields:
+- `method`: `diamond_protein_match` (runs `scripts/map_img_to_ncbi_proteins.py`)
+- `source_fasta`: path to draft/old protein FASTA (relative to project root)
+- `source_id_col`: column name for source IDs in output (maps to `--source-id-col`)
+- `img_gff`: optional GFF for header remapping (maps to `--img-gff`)
+
+`--ncbi-faa` and `--gene-mapping` are derived automatically from the organism's genome_dir. `--output` comes from `filename`.
+
+**Manual usage** (if needed outside the pipeline):
 ```bash
 uv run python scripts/map_img_to_ncbi_proteins.py \
   --img-faa "path/to/draft_proteins.fasta" \
   --ncbi-faa cache/data/<Organism>/genomes/<Strain>/protein.faa \
   --gene-mapping cache/data/<Organism>/genomes/<Strain>/gene_mapping.csv \
   --output "path/to/id_translation.csv" \
+  --source-id-col draft_id \
   --de-csvs "path/to/de_table1.csv" "path/to/de_table2.csv"
-```
-
-**After mapping**, add to paperconfig as `id_translation`:
-```yaml
-id_translation_draft_author:
-  type: id_translation
-  filename: "path/to/id_translation.csv"
-  organism: "<Organism Strain>"
-  id_columns:
-    - column: "locus_tag"
-      id_type: locus_tag        # ANCHOR — must be declared
-    - column: "draft_id"
-      id_type: old_locus_tag    # NEW mapping column
 ```
 
 **CRITICAL**: Both the anchor column (`locus_tag`, containing canonical locus tags) AND the new mapping column must be declared in `id_columns`. If only the new column is declared, the convergence graph has no anchor to attach the mappings to and resolution will be 0%.
@@ -330,11 +336,13 @@ Results: 4053/4930 matched (82.2%). DE coverage: 345/422 (81.8%) table 3, 98/125
 
 See `plans/ez55_deploy.md` for full details.
 
-#### MIT1002 — Biller 2016/2018 (BLOCKED — waiting for author)
+#### MIT1002 — Biller 2016/2018 (DONE)
 
-Biller 2016/2018 use RAST `MIT1002_NNNN` (4-digit) IDs and coordinate-format `RAST_region_ID` from a draft genome (GCF_001077695.1). Zero-padding to 5-digit is WRONG (3.8% product match). Need author's RAST protein FASTA or direct mapping table.
+Biller 2016/2018 use RAST `MIT1002_NNNN` (4-digit) IDs and coordinate-format `RAST_region_ID` from a draft genome (GCF_001077695.1). Author (Steve Biller) provided RAST protein FASTA (`226.6.faa`, 4214 proteins with `fig|226.6.peg.N` headers).
 
-Proposed mapping chain: RAST MIT1002_NNNN → (coordinate match via conversion table) → TK37_RS* → (WP_ bridge or Coe 2024 mapping) → MIT1002_NNNNN.
+Diamond-based matching: 3891/4214 (92.3%) mapped to canonical locus tags. The output CSV (`rast_fig_id`, `locus_tag`) was registered as an id_translation. The existing conversion table (`MIT1002_systematicnames_conversiontable.csv`) was registered as a second id_translation, linking `fig|` IDs to 4-digit `MIT1002_NNNN` genbank IDs and `contigNNNNN_start_stop` coordinates (both as `alternative_locus_tag`, Tier 1). Transitive closure in `build_gene_id_mapping.py` linked all three ID formats to the correct locus_tags in 3 passes.
+
+Results: Biller 2016 96.6% (740/766), Biller 2018 S6B 97.2% (175/180). 26+5 unresolved = RAST-specific ORFs with no Diamond match above threshold.
 
 See `plans/mit1002_deploy.md` for full details.
 
@@ -351,7 +359,6 @@ uv run pytest tests/test_gene_id_graph.py -q
 ```
 
 Then update `plans/gene_id_mapping_v2_status.md` and the "Known ID formats per strain" table in this skill. Proceed to the next strain:
-`AS9601 → RSP50 → MIT1002 → HOT1A3`
+`AS9601 → RSP50 → HOT1A3`
 
-Already deployed: MIT9312, MIT9301, NATL1A, MED4, NATL2A, MIT9313, WH8102, CC9311, EZ55
-Blocked: MIT1002 (waiting for author RAST protein FASTA — see `plans/mit1002_deploy.md`)
+Already deployed: MIT9312, MIT9301, NATL1A, MED4, NATL2A, MIT9313, WH8102, CC9311, EZ55, MIT1002

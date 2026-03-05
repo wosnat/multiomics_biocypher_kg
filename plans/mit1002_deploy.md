@@ -1,6 +1,6 @@
 # MIT1002 Deploy Plan — Cross-Assembly Gene ID Mapping
 
-## Status: BLOCKED — waiting for author response
+## Status: COMPLETE (2026-03-05)
 
 ## Problem Summary
 
@@ -96,28 +96,45 @@ Priority order:
 2. **RAST protein FASTA**: with MIT1002_NNNN headers — enables direct sequence matching against current protein.faa
 3. **Confirmation**: that the conversion table `assembly_coordinates` are on the JXRW draft contigs
 
-## Critical Bug: Heuristic Zero-Padding
+## Heuristic Zero-Padding — RESOLVED
 
-The `_heuristic_candidates()` function in `gene_id_utils.py` auto-pads `MIT1002_NNNN` → `MIT1002_0NNNN` and finds a hit in `specific_lookup`. This produces silently wrong mappings. Options:
-1. **Disable heuristic for MIT1002**: Add guard in `_heuristic_candidates` to skip when prefix length mismatch exceeds 1 digit
-2. **Remove Biller 2016/2018 MIT1002 tables from resolution** until bridge is ready
-3. **Mark as known-wrong** and wait for author bridge
+The heuristic zero-padding issue is now moot: with the correct mapping in `specific_lookup`, `MIT1002_NNNN` (4-digit) IDs are found directly at Tier 1 before the heuristic runs. The heuristic remains available for other strains where it's useful.
 
-Current choice: option 3 — document the issue, leave the heuristic as-is (it's useful for other strains), and plan to replace with a correct bridge once author responds.
+## Solution (2026-03-05)
 
-## Files Modified in This Investigation
+Author (Steve Biller) provided RAST protein FASTA (`226.6.faa`, 4214 proteins with `fig|226.6.peg.N` headers) and RAST GBK/GFF files.
 
-- `data/Prochlorococcus/papers_and_supp/biller 2016/paperconfig.yaml` — reverted from `_with_locus_tag.csv` workaround to original CSV with `name_col: Gene ID`
-- `data/Prochlorococcus/papers_and_supp/Biller 2018/paperconfig.yaml` — removed incorrect `id_translation_mit1002` entry
-- Deleted: `data/Prochlorococcus/papers_and_supp/Biller 2018/MIT1002_id_bridge.csv` (was wrong)
-- Saved: `cache/data/Alteromonas/genomes/MIT1002/genomic_old_draft_GCF_001077695.1.gff`
-- Rebuilt: `gene_id_mapping.json` (without incorrect bridge)
+### Approach: Diamond protein matching + transitive closure
 
-## Next Steps (When Author Responds)
+1. **Diamond matching**: `scripts/map_img_to_ncbi_proteins.py` mapped RAST proteins (fig| headers) against NCBI MIT1002 proteins:
+   - Phase 1 (exact): 3347 (79.4%)
+   - Phase 2 (subsequence): +155 (83.1%)
+   - Phase 3 (Diamond blastp): +389 (92.3%, 3891/4214)
+   - Fragment dedup: 41 shorter fragments discarded
+   - Output: `rast_to_mit1002_id_translation.csv` (rast_fig_id → locus_tag)
 
-1. Build verified RAST → TK37_RS coordinate bridge (or use direct mapping if provided)
-2. Chain through WP_ proteins to get RAST → MIT1002_NNNNN
-3. Add as `id_translation` to Biller 2016 and Biller 2018 paperconfigs
-4. Consider adding old assembly GFF as `annotation_gff` entry to auto-include TK37_RS → WP_ mappings
-5. Rebuild gene_id_mapping.json, re-resolve, verify product match rates
-6. Rebuild KG + snapshot comparison
+2. **Two id_translation entries in Biller 2018 paperconfig**:
+   - Diamond output: links fig| IDs → locus_tags (old_locus_tag Tier 1)
+   - Conversion table: links fig| IDs → MIT1002_NNNN + coordinates (alternative_locus_tag Tier 1)
+
+3. **Transitive closure**: `build_gene_id_mapping.py` converged in 3 passes:
+   - Pass 1: fig| → locus_tag (from diamond)
+   - Pass 2-3: MIT1002_NNNN and coordinates linked to same locus_tag via shared fig| IDs
+   - specific_lookup: 9,637 → 38,029 entries
+
+4. **Resolution results**:
+   - Biller 2016: **96.6%** (740/766) — up from ~9% wrong
+   - Biller 2018 S6B: **97.2%** (175/180) — up from 0%
+   - 26+5 unresolved = RAST-specific ORFs with no NCBI counterpart
+
+### Files added/modified
+
+- `data/.../Biller 2018/MIT1002_RAST_annotation/226.6.faa` — RAST protein FASTA from author
+- `data/.../Biller 2018/MIT1002_RAST_annotation/226.6.gbk` — RAST GenBank from author
+- `data/.../Biller 2018/MIT1002_RAST_annotation/Alteromonas_A1A_concat.gff` — RAST GFF from author
+- `data/.../Biller 2018/MIT1002_RAST_annotation/rast_to_mit1002_id_translation.csv` — diamond output
+- `data/.../Biller 2018/paperconfig.yaml` — added 2 id_translation entries, changed S6B id_type
+- `data/.../biller 2016/paperconfig.yaml` — added coordinate column to id_columns
+- `scripts/map_img_to_ncbi_proteins.py` — generalized (--source-id-col, temp prefix)
+- `multiomics_kg/download/build_gene_id_mapping.py` — BOM fix (encoding='utf-8-sig')
+- `cache/data/Alteromonas/genomes/MIT1002/gene_id_mapping.json` — rebuilt with all RAST IDs

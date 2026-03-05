@@ -165,6 +165,8 @@ publication:
       id_columns:
       - column: Gene ID
         id_type: old_locus_tag
+      - column: "Genomic Region ID (Chromosome_start_stop)"
+        id_type: alternative_locus_tag
       - column: Gene name
         id_type: gene_name
       product_columns:
