@@ -1,0 +1,95 @@
+
+---------- Forwarded message ---------
+From: Steven Biller <sbiller@wellesley.edu>
+Date: Thu, 5 Mar 2026 at 00:23
+Subject: Re: Comparing Pro (and Alteromonas) transcriptomes
+To: Osnat Weissberg <osnat.weissberg@gmail.com>
+Cc: Daniel Sher <dsher@univ.haifa.ac.il>, Sallie (Penny) Chisholm (chisholm@MIT.EDU) <chisholm@mit.edu>, Paul M. Berube (pmberube@MIT.EDU) <pmberube@mit.edu>, Allison Coe (a_coe@MIT.EDU) <a_coe@mit.edu>, Maya Anjur-Dietrich <mayaiad@mit.edu>
+
+
+Hi Osnat - Yes, right, that makes sense! Attached are the original RAST gene calls - unfortunately with the original RAST headers not the MIT1002_NNNN names. But you can hopefully use the spreadsheet I sent before to map these to the 4 digit IDs and then to Matthias’ assembly IDs. 
+
+Thanks for taking this on - sorry for the hassle! 
+
+Let me know if you need anything else,
+—Steve
+
+________________________________
+Steven Biller (he/him)
+Associate Professor
+Department of Biological Sciences
+Wellesley College
+
+Office W206, Lab E304
+sbiller@wellesley.edu
+https://billerlab.org
+
+
+
+On Mar 4, 2026, at 1:01 PM, Osnat Weissberg <osnat.weissberg@gmail.com> wrote:
+
+Hi Steve,
+
+Thank you for the conversion table — it's been very helpful for the MIT9313 IDs.
+
+For the MIT1002 Alteromonas data from your 2016 and 2018 papers, it's a bit more tricky. We're trying to map the RAST MIT1002_NNNN (4-digit) gene IDs to the current complete genome assembly  which has a new annotation (MIT1002_NNNNN (5 digits) (GCF_901457835.2). The conversion table you sent maps RAST fig| IDs to the 4-digit IDs and coordinates, but we need to bridge to the current 5-digit locus tags.
+
+For that we would like to match/blast the protein sequences. 
+Would you happen to have either of these from when you did the RAST annotation:
+
+* The RAST protein FASTA file (with MIT1002_NNNN headers)
+* The RAST GBK or GFF annotation file with protein sequences we can do sequence matching to the current assembly, which should give us a clean mapping.
+
+Best,
+Osnat
+
+
+On Thu, 26 Feb 2026 at 17:07, Steven Biller <sbiller@wellesley.edu> wrote:
+Hi Daniel + Osnat - Attached are conversion tables I made some years back for those Alteromonas IDs and MIT9313. Hope these are helpful - I remember doing some QC back in the day, but haven’t looked at these in a while. If you find issues or have questions about anything in here please let me know!
+
+Hope things are well,
+—Steve
+
+________________________________
+Steven Biller (he/him)
+Associate Professor
+Department of Biological Sciences
+Wellesley College
+
+Office W206, Lab E304
+sbiller@wellesley.edu
+https://billerlab.org
+
+
+On Feb 26, 2026, at 9:44 AM, Daniel Sher <dsher@univ.haifa.ac.il> wrote:
+
+Hi Steve, Maya, Paul, Allison and Penny,
+ 
+Firstly, I hope you are all doing well!
+ 
+As we discussed in the past, Osnat (cc’d) is working on integrating transcriptomic data across different Prochlorococcus (and Alteromonas) strains, hoping it will help her interpret the results of her own experiments (and maybe we can then try use such a database to understand what Pro “are feeling” in the oceans). Since she is keen on learning AI methods, she has been using them to collect the fold-change data from multiple studies and put them into something called a “knowledge graph”.  So far she has done this for 19 papers, starting from the earliest microarray ones (Tolonen, Steglich, Martiny papers from 2006).
+ 
+While doing so, we have encountered a few cases where the gene IDs differ between experiments. This problem seems to be especially common for MIT9313, which seems to have been re-annotated several times.
+ 
+Do you happen to have a “translation table” comparing gene IDs for different Prochlorococcus strains? Specifically:
+For some reason, the Tolonen 2006 paper (which uses the PMT_XXX ID) seems to have at least 9 mismatches with other annotations.
+Maya’s 2025 paper uses numeric IMG IDs (which we would like to translate to the old locus tags for MIT9301).
+Steve’s 2018 paper uses RAST contig coordinates (e.g. contig00001_XXXXX_XXXXX) which we would like to translate to the MIT1002_XXXXX format.
+ 
+If you have such translation tables they will make our life much easier…
+Thanks a lot
+Daniel
+ 
+P.S. Osnat is starting to write a blog on the approach she is taking to this project, including both conceptual aspects (e.g. why use fold change) and some technical ones (e.g. how she works with ClaudeCode to get the fold change data from supplementary files). I’ll let you know when she has posted them so that you can follow if interested.
+ 
+Daniel Sher, PhD
+Department of Marine Biology
+Leon H. Charney School of Marine Sciences
+University of Haifa, Aba Khoushi Blvd, mailbox 3338
+Mt. Carmel 3103301 Haifa, Israel
+Office +972-4-8240731
+Lab +972-4-8288961
+email: dsher@univ.haifa.ac.il
+
+http://marsci.haifa.ac.il/labs/mce
+

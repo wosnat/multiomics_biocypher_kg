@@ -48,6 +48,62 @@ For each row in a publication's differential expression CSV file, locus tag reso
 
 Each resolved row was annotated with a `resolution_method` string (e.g., `tier1:Gene`, `heuristic:Gene`, `multi:JGI_ID`) describing which pass and column produced the result. Unresolved rows were annotated with a reason code (`unresolved`, `ambiguous`, `tier1_conflict`) and retained in the output file with a null locus tag, ensuring no data was silently discarded. Per-table diagnostic reports listing all unresolved rows with their raw values and attempted columns were written alongside each resolved CSV.
 
+## Cross-Assembly Identifier Bridging
+
+Some organisms in the knowledge graph lack a single canonical genome assembly. When different publications used gene annotations from different assemblies or annotation pipelines, identifiers from each study belong to independent namespaces that share no common IDs. In these cases, a cross-assembly bridge must be constructed before the standard three-tier resolution can proceed.
+
+### Case study: *Alteromonas macleodii* EZ55
+
+EZ55 exemplifies this challenge. Two independent annotations exist:
+
+1. **IMG/JGI annotation** (genome 2785510739): A draft assembly consisting of three scaffolds (`scf7180000008833`, `scf7180000008834`, `scf7180000008835`), totaling approximately 4.9 Mb with 5,016 predicted genes. Gene identifiers use the prefix `AEZ55_` with 4-digit numbering (e.g., `AEZ55_0520`). This annotation was used by Hennon et al. (2017), who aligned reads to the draft genome (SRA accession SRX022631; BioProject PRJNA50031, sequenced at JCVI). The draft assembly was never deposited in GenBank as a genome record — only the raw reads exist in NCBI.
+
+2. **NCBI RefSeq annotation** (GCF_901457815.2 / GCA_901457815.2): A complete genome assembly submitted to ENA by the Institute for Chemistry and Biology of the Marine Environment, comprising two contigs (OX359237.1, 4.7 Mb chromosome; OX359238.1, 203 kb plasmid) with 4,324 annotated genes. The GCA annotation uses `EZ55_NNNNN` (5-digit) locus tags and was originally produced by IMG (`source:img_core_v400` in CDS Note fields). NCBI PGAP reannotated the assembly with `ALTBGP6_RS*` locus tags (GCF). This annotation was used by Barreto et al. (2022).
+
+The `AEZ55_NNNN` and `EZ55_NNNNN` identifiers are not related by zero-padding or string transformation — they originate from independent gene-calling runs on different assemblies. No NCBI cross-reference exists between the two.
+
+### Protein sequence-based bridging
+
+To bridge the AEZ55 and EZ55 identifier namespaces, we obtained the original protein FASTA and GenBank flat files for the three draft contigs directly from the corresponding author (G. Hennon, personal communication). This FASTA contained 4,930 predicted protein sequences with `AEZ55_NNNN` headers, covering all CDS features in the draft annotation (the remaining 86 of the 5,016 gene features are tRNAs, rRNAs, and ncRNAs). We then matched these against the 4,096 RefSeq proteins from the current assembly (GCF_901457815.2) using a three-phase approach:
+
+**Phase 1 — Exact sequence matching.** Each draft protein sequence was compared against all RefSeq sequences. An exact string match was accepted when the draft protein mapped to exactly one RefSeq accession, which was then chained to a locus tag via `gene_mapping.csv` (RefSeq protein accession → locus tag). This phase resolved 2,971 proteins (60.3%).
+
+**Phase 2 — Subsequence matching.** For unmatched proteins, we tested whether one sequence was a contiguous subsequence of the other (capturing annotation boundary differences where the same CDS was predicted with different start or stop codons). A match was accepted when the shorter sequence was contained within the longer and covered ≥95% of the longer sequence's length. This phase resolved an additional 136 proteins (cumulative 63.0%).
+
+**Phase 3 — Diamond blastp similarity search.** Remaining unmatched proteins were searched against the full RefSeq protein database using Diamond v2.1.9 (Buchfink et al., 2021) in `--very-sensitive` mode, requiring ≥80% sequence identity and ≥60% query coverage. Subject coverage was intentionally not filtered because the draft assembly's fragmented scaffolds introduced frameshifts that caused the draft annotation pipeline to split single NCBI genes into multiple shorter open reading frames. In these cases, each draft ORF aligns well across its own length (high query coverage) but covers only a fraction of the larger RefSeq protein (low subject coverage). This phase resolved an additional 946 proteins (cumulative 82.2%, 4,053 of 4,930).
+
+A reciprocal best-hit (RBH) filter was not applied. RBH is standard for cross-species ortholog detection, where paralogous hits confound one-to-one assignment. In this within-organism context, both annotations derive from the same genome and the proteins are near-identical (≥95% identity for the vast majority of Phase 3 hits). The risk of a false paralog assignment at ≥80% identity with ≥60% query coverage is negligible for same-genome comparisons. Furthermore, the fragment deduplication step (below) already resolves the many-to-one direction that RBH would otherwise address.
+
+**Fragment deduplication.** When multiple draft ORFs mapped to the same RefSeq locus tag (indicating a single gene split into fragments by the draft annotation), only the longest fragment was retained in the final mapping. The rationale is that RNA-seq read counts scale with transcript length; the longest fragment captured the most reads and therefore best represents the gene's expression level. Retaining all fragments would create duplicate expression edges with partial, potentially conflicting fold-change values. This deduplication removed 496 shorter fragments.
+
+The final mapping was written as a two-column CSV (`aez55_id`, `locus_tag`) and added to the Hennon 2017 paperconfig as an `id_translation` entry with `id_type: old_locus_tag` (Tier 1), enabling the standard three-tier resolution pipeline to resolve Hennon's differential expression tables. Resolution rates were 345/422 (81.8%) for the coculture DE table and 98/125 (78.4%) for the axenic DE table. The 104 unresolved genes comprise 47 draft-specific ORFs with no detectable homolog in the current assembly (the draft predicted 834 more CDS than the finished genome) and 49 genes discarded by the fragment deduplication step, with the remainder falling below the Diamond identity or coverage thresholds. All unresolved rows are annotated as such in the resolved CSV and produce no edges in the knowledge graph, avoiding dangling references.
+
+The mapping script (`scripts/map_img_to_ncbi_proteins.py`) is provided for reproducibility and can be adapted for other strains with similar cross-assembly challenges. It requires Diamond (Buchfink et al., 2021) for the similarity search phase. The `id_translation` paperconfig entry for each diamond-generated file includes a `generate` block that declares the source FASTA and parameters, allowing `build_gene_id_mapping.py` to automatically regenerate the mapping during the pipeline (step 3) when the output file is missing or `--force` is given.
+
+### Barreto 2022 annotation
+
+Barreto et al. (2022) provided a separate GTF annotation file (`EZ55.exon.fixed2.gtf`) based on the CABDXN contig accessions (ENA WGS accessions for GCA_901457815.2). This annotation uses `EZ55_NNNNN` gene IDs identical to the GCA locus tags, so no cross-assembly bridging is needed — the standard `locus_tag` pass resolves these directly at ~95%.
+
+### Case study: *Alteromonas macleodii* MIT1002
+
+MIT1002 presents a similar cross-assembly challenge. Two independent genome assemblies exist:
+
+1. **GCF_001077695.1** (MIT/Chisholm Lab, 2015): A draft Illumina assembly of two contigs (NZ_JXRW01000001.1, NZ_JXRW01000002.1) with approximately 4,159 CDS annotated by NCBI PGAP using locus tag prefix `TK37_RS*`. This assembly was produced by the same group that performed the transcriptomic experiments in Biller et al. (2016, 2018).
+
+2. **GCF_901457835.2** (ICBM, 2022): A complete PacBio genome consisting of a chromosome (LR881168.1, 4.7 Mb) and plasmid (LR881169.1, 203 kb), with 4,028 annotated genes. The GCA annotation uses `MIT1002_NNNNN` (5-digit) locus tags; NCBI PGAP assigned `ALT831_RS*` locus tags to the RefSeq version. This is the canonical assembly used in the knowledge graph.
+
+The Biller et al. publications used a third, independent annotation layer: RAST (Rapid Annotations using Subsystems Technology) applied to the draft genome. RAST assigned `MIT1002_NNNN` (4-digit) identifiers with internal RAST `fig|226.6.peg.N` accessions. These 4-digit identifiers are unrelated to the 5-digit `MIT1002_NNNNN` locus tags from the current assembly — they originate from independent gene-calling runs on different assemblies and cannot be interconverted by zero-padding. Validation of the zero-padding hypothesis showed only 3.8% product description match between the padded pairs, confirming they map to different genes.
+
+A supplementary conversion table (`MIT1002_systematicnames_conversiontable.csv`) provided by Biller et al. (2018) maps RAST fig| IDs to 4-digit `MIT1002_NNNN` genbank IDs and assembly coordinates on the JXRW draft contigs, but contains no cross-references to the current assembly's identifiers.
+
+### Protein sequence-based bridging for MIT1002
+
+The original RAST protein FASTA (`226.6.faa`, 4,214 proteins with `fig|226.6.peg.N` headers) was obtained from the corresponding author (S. Biller, personal communication). We applied the same three-phase protein matching approach used for EZ55: exact sequence matching resolved 3,347 proteins (79.4%), subsequence matching added 155 (cumulative 83.1%), and Diamond blastp added 389 (cumulative 92.3%, 3,891 of 4,214). Fragment deduplication removed 41 shorter fragments where the RAST annotation split NCBI genes into multiple ORFs.
+
+The resulting mapping CSV (`rast_fig_id`, `locus_tag`) was registered as an `id_translation` entry in the Biller 2018 paperconfig, linking RAST fig| identifiers to canonical locus tags as `old_locus_tag` (Tier 1). Critically, the conversion table was registered as a second `id_translation` entry in the same paperconfig, linking fig| IDs to 4-digit `MIT1002_NNNN` genbank IDs and assembly coordinates (both as `alternative_locus_tag`, Tier 1). The iterative convergence graph then performed transitive closure across these two sources: in the first pass, fig| IDs were linked to locus tags via the Diamond output; in subsequent passes, the conversion table's genbank IDs and coordinates were linked to the same locus tags through the shared fig| identifiers. This required no coordinate matching or scaffold alignment — the protein sequences provided the bridge and the standard convergence algorithm propagated the mappings automatically.
+
+Resolution rates after deployment: Biller 2016 MIT1002 DE genes resolved at 96.6% (740/766, up from ~9% with incorrect zero-padding) and Biller 2018 S6B resolved at 97.2% (175/180, up from 0%). The 26 unresolved genes in Biller 2016 and 5 in Biller 2018 correspond to RAST-specific ORFs whose fig| proteins did not match any NCBI protein above the Diamond thresholds.
+
 ## Diagnostic Output and Quality Monitoring
 
 After building `gene_id_mapping.json`, a diagnostic report (`gene_id_mapping_report.json`) was written for each strain. This report enumerates, for each identifier type, the fraction of identifiers that resolved uniquely (in `specific_lookup`), matched multiple genes (in `multi_lookup`), or produced Tier 1 conflicts. Reclassification warnings were emitted when an identifier type declared as Tier 1 exhibited a multi-match rate exceeding 10%, suggesting the type should be moved to Tier 2.

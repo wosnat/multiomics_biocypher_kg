@@ -261,21 +261,12 @@ def _heuristic_candidates(raw_val: str) -> list[str]:
     Heuristics:
     - Strip trailing '*' or '+' (footnote artifacts)
     - Strip trailing/leading whitespace (already done by caller)
-    - Zero-pad numeric suffix (e.g. MIT1002_0001 → MIT1002_00001)
     """
     candidates: list[str] = []
     # Strip trailing asterisk / plus (footnote artifacts)
     stripped = raw_val.rstrip("*+").strip()
     if stripped and stripped != raw_val:
         candidates.append(stripped)
-    # Zero-pad numeric suffix
-    m = re.match(r'^(.+)_(\d+)$', raw_val)
-    if m:
-        prefix, num = m.group(1), m.group(2)
-        for pad in range(len(num) + 1, len(num) + 3):
-            padded = f"{prefix}_{num.zfill(pad)}"
-            if padded not in candidates:
-                candidates.append(padded)
     return candidates
 
 

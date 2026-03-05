@@ -160,10 +160,45 @@ Paper: **Labban 2022** — `supp table s1.csv` (267 rows × 4 temperature compar
 
 **TODO**: When authors provide their GFF, add it as `annotation_gff` entry in Labban 2022 paperconfig, uncomment in paperconfig_files.txt, rebuild mapping + resolve.
 
-### Phase 9-N: Remaining strains (NOT STARTED)
+### Phase 9 deployment: EZ55 ✅ DONE (2026-03-04)
+
+Papers: **Barreto 2022** (7 EZ55 tables), **Hennon 2017** (2 EZ55 tables)
+
+**Barreto 2022**: Uses `EZ55_NNNNN` (5-digit) from GCA_901457815.2 annotation. Resolves at **~95%** via `locus_tag:symbol` pass. No fixes needed.
+
+**Hennon 2017**: Uses `AEZ55_NNNN` (4-digit) from researcher's own annotation of IMG draft genome 2785510739 (JCVI draft, 3 scaffolds, 5016 genes). Author (Gwenn Hennon) provided protein FASTA (`EZ55_annotation/ez55_aa.fasta`, 4930 proteins) + GenBank flat files (`ez55-{1,2,3}.gbf`).
+
+**Cross-assembly protein sequence bridging** via `scripts/map_img_to_ncbi_proteins.py`:
+
+| Phase | Method | Matches | Cumulative |
+|-------|--------|---------|------------|
+| 1 | Exact protein sequence match | 2,971 | 2,971 (60.3%) |
+| 2 | Subsequence match (≥95% overlap) | 136 | 3,107 (63.0%) |
+| 3 | Diamond blastp (≥80% id, ≥60% qcov) | 946 | 4,053 (82.2%) |
+
+Fragment deduplication: 496 shorter fragments discarded (draft frameshifts split canonical genes into multiple ORFs; longest fragment kept for expression edges).
+
+**Resolution rates:**
+
+| Paper | Table | Rate | Notes |
+|-------|-------|------|-------|
+| Hennon 2017 | supp_table_3 | **345/422 (81.8%)** | `tier1:locus tag` via `old_locus_tag` bridge |
+| Hennon 2017 | supp_table_4 | **98/125 (78.4%)** | `tier1:locus tag` via `old_locus_tag` bridge |
+
+Unresolved (~20%): 47 draft-specific ORFs (no canonical counterpart), 49 discarded fragments, remainder below Diamond thresholds.
+
+**Mapping stats**: specific_lookup grew from 10,036 → 22,322. 0 conflicts. Converged in 2 passes.
+
+**Key lesson**: `id_translation` entries must declare BOTH the anchor column (`locus_tag` with `id_type: locus_tag`) AND the new mapping column (`aez55_id` with `id_type: old_locus_tag`). Without the anchor, the convergence graph has nothing to attach mappings to → 0% resolution.
+
+- Snapshot: `before_EZ55` (110,333 edges total)
+- KG rebuild: deferred (docker skipped)
+- See `plans/ez55_deploy.md` for full details
+
+### Phase 10-N: Remaining strains (NOT STARTED)
 
 Next strain sequence:
-MIT1002 → EZ55 → HOT1A3
+MIT1002 → HOT1A3
 
 Each strain: snapshot → `build_gene_id_mapping --strains X --force` → `resolve_paper_ids --force` → `check-gene-ids` → rebuild KG → compare snapshot.
 

@@ -101,7 +101,8 @@ The GFF `locus_tag` attribute → `locus_tag_ncbi` (Tier 1), `old_locus_tag` →
 | MIT9312 | Hennon 2017 | `lcl\|CP000111.1_cds_ABS83097.1_354` | Intermediate RefSeq annotation (~2012–2017); **no longer in NCBI** | Unresolved — defer |
 | MIT9301 | Anjur 2025 | JGI IDs (`2626311821`) | `annotation_genome_9301` via `uniprot_gene_name` (old locus tags) | 97.1% — change `id_type: gene_name` → `id_type: old_locus_tag` for bare locus-tag columns |
 | NATL1A | He 2022 | `NATL1_NNNNN` locus tags + gene names (`wza`, `cyoA`, etc.) | Mixed `Gene Name` column | 98.8% — revert paperconfig to original CSV with `name_col: "Gene Name"`, v2 resolves both natively |
-| EZ55 | Hennon 2017 | `AEZ55_0520` | Old 4-digit locus tag | Needs GCA GFF for EZ55 |
+| EZ55 | Barreto 2022 | `EZ55_NNNNN` (5-digit) | GCA_901457815.2 (ENA/NCBI) canonical locus tags | **95%** — already working via `locus_tag:symbol` |
+| EZ55 | Hennon 2017 | `AEZ55_NNNN` (4-digit) | Researcher's own gene-calling on IMG draft genome 2785510739 | **84%** — cross-assembly protein bridging via `map_img_to_ncbi_proteins.py` (3-phase: exact+subsequence+Diamond) |
 | NATL2A | Tetu 2019 | Standard RS locus tags | GCF | 100% |
 | MIT9313 | Aharonovich 2016 | `PMT####` (no underscore, Cyanorak) | GCF old_locus_tag + Cyanorak GBK | 100.0% — standard Tier 1 |
 | MIT9313 | Tolonen 2006 | `PMT####` + `PMT_or####` | Same | 99.6% |
@@ -109,6 +110,9 @@ The GFF `locus_tag` attribute → `locus_tag_ncbi` (Tier 1), `old_locus_tag` →
 | MIT9313 | Fang 2019 | `PMT####` + `RNA_*` | Same as Aharonovich | 64.5% — RNA_* non-coding expected unresolved |
 | CC9311 | Barreto 2022 | `sync_NNNN` | Locus tags (primary) + annotation CSV | 90.0% — 3 tRNA unresolved (expected) |
 | WH8102 | Barreto 2022 | `SYNWNNNN` / gene symbols | Locus tags + annotation CSV | 92.3% — 1 RNA_15 tRNA unresolved (expected) |
+| MIT1002 | Coe 2024 | `MIT1002_NNNNN` (5-digit) | Canonical locus tags from GCF_901457835.2 | **99.5%** — resolves natively |
+| MIT1002 | Biller 2016 | `MIT1002_NNNN` (4-digit RAST) | RAST annotation on draft genome GCF_001077695.1 | **96.6%** — cross-assembly protein bridging via `map_img_to_ncbi_proteins.py` + transitive closure through conversion table |
+| MIT1002 | Biller 2018 | `RAST_region_ID` (coordinate format `contig00001_start_stop`) | RAST annotation on draft genome | **97.2%** — resolved via conversion table `assembly_coordinates` → `alternative_locus_tag` (Tier 1) through transitive closure |
 
 ## Removing `_with_locus_tag.csv` workarounds
 
@@ -210,6 +214,138 @@ The build_gene_id_mapping GCA GFF parser extracts these from the Note field as `
 
 Some supplementary tables have spaces where underscores should be (e.g. `P9313 01731` instead of `P9313_01731`). This is a data extraction artifact, not a different ID format. Fix the source CSV directly — the resolver does not normalize spaces to underscores.
 
+### Diagnosing Alteromonas strains (MIT1002, EZ55, HOT1A3)
+
+**Core challenge**: Unlike Prochlorococcus (well-curated model organisms with stable NCBI/UniProt entries), the Alteromonas strains were sequenced by individual research groups and lack proper long-term NCBI/UniProt curation. This means:
+- **Multiple genome versions**: Different papers may use different assemblies/annotations of the same strain (e.g., EZ55 has a JCVI draft via IMG AND a later ENA complete genome)
+- **Accession verification needed**: The NCBI accession in `cyanobacteria_genomes.csv` must be verified against what each paper actually used. Some accessions have been superseded or replaced (e.g., MIT1002 `GCF_001077695.1` was replaced by `GCF_901457835.2`)
+- **GFF provenance matters**: Check whether each paper's gene IDs come from NCBI PGAP, IMG, RAST, or a custom annotation pipeline — each produces different locus tags for the same genome
+- **No Cyanorak**: No Cyanorak entries exist for Alteromonas, so there are no Cyanorak locus tags, GBK files, or cluster assignments. All genomic data is NCBI-only
+
+Additional differences from Prochlorococcus/Synechococcus:
+
+**Shared taxid**: All three strains share NCBI taxid `28108`. UniProt data is downloaded once to `cache/data/Alteromonas/uniprot/28108/`. This means WP_ protein accessions can be shared across strains — a protein matching a WP_ ID might belong to MIT1002, EZ55, or HOT1A3. The `gene_mapping.csv` per strain disambiguates via per-genome protein_id assignments.
+
+**Locus tag prefixes**:
+
+| Strain | Primary locus_tag | NCBI RS locus_tag | Old locus_tag | Notes |
+|--------|-------------------|-------------------|---------------|-------|
+| MIT1002 | `MIT1002_NNNNN` | `ALT831_RS*` | `MIT1002_NNNNN` | Step-by-5 numbering |
+| EZ55 | `EZ55_NNNNN` | `ALTBGP6_RS*` | `EZ55_NNNNN` | Step-by-5 numbering |
+| HOT1A3 | `ACZ81_NNNNN` | `ACZ81_RS*` | `ACZ81_NNNNN` | Step-by-5 numbering; locus_tag = RS prefix |
+
+**Organism name matching**: `ORGANISM_TO_GENOME_DIR` in `gene_id_utils.py` has entries for both `"alteromonas macleodii <strain>"` and `"alteromonas <strain>"` (without "macleodii"). The matching uses substring containment (`key in norm or norm in key`), so both forms work. However, bare `"Alteromonas"` (without strain name, as used in ziegler 2025) does NOT match any specific strain — it matches the genus-level treatment organism in `treatment_organisms.csv` (taxid 28108). This is correct behavior: ziegler 2025's Alteromonas data refers to a heterotroph community, not a specific strain.
+
+**Papers per strain**:
+
+| Strain | Papers | Role |
+|--------|--------|------|
+| MIT1002 | Biller 2018 (DE, dark stress), Coe 2021 (DE, diel), biller 2016 (coculture treatment) | Both organism (DE tables) and treatment source (coculture with Pro) |
+| EZ55 | Barreto 2022 (DE, pCO2 + coculture), Hennon 2017 (DE, elevated CO2) | Organism |
+| HOT1A3 | Aharonovich 2016 (coculture treatment only) | Treatment source only — no DE tables targeting HOT1A3 genes |
+
+**HOT1A3 special case**: HOT1A3 only appears as `treatment_organism` (edge source) in coculture experiments. It has no DE tables where HOT1A3 genes are the target. Therefore, gene ID resolution is only needed for the HOT1A3→gene edges in Prochlorococcus coculture papers (the Pro gene IDs need resolving, not HOT1A3's). HOT1A3's own gene_id_mapping.json exists but may not be exercised by any paper CSV.
+
+**MIT1002 dual-assembly problem (2026-03-04)**: MIT1002 has TWO assemblies from different groups:
+- `GCF_001077695.1` (MIT/Chisholm Lab, 2015): draft Illumina, `TK37_RS*` locus tags
+- `GCF_901457835.2` (ICBM, 2022): complete PacBio, `ALT831_RS*` / `MIT1002_NNNNN` (5-digit) — used in KG
+
+Biller 2016/2018 used **RAST annotation on the draft genome**, producing `MIT1002_NNNN` (4-digit) IDs that are unrelated to the current 5-digit locus tags. Zero-padding 4→5 digits maps to WRONG genes (validated: 3.8% product match). The old `_with_locus_tag.csv` workaround was also wrong — reverted.
+
+**RESOLVED (2026-03-05)**: Author (Steve Biller) provided RAST protein FASTA (`226.6.faa`, 4214 proteins). Diamond-based protein matching mapped 3891/4214 (92.3%) fig| IDs to canonical locus tags. Conversion table registered as second id_translation for transitive closure: fig| → locus_tag (diamond), fig| → MIT1002_NNNN / coordinates (conversion table) → all three ID formats resolve. Results: Biller 2016 96.6% (740/766), Biller 2018 S6B 97.2% (175/180).
+
+**Coe 2024 MIT1002**: Uses `NCBI ID` = 5-digit MIT1002_NNNNN (canonical locus tags). Resolves at 99.5%.
+
+### Cross-assembly protein sequence bridging
+
+When a paper uses gene IDs from a **different genome assembly or annotation pipeline** than the canonical one in the KG, no string transformation can bridge the IDs. Instead, use protein sequence matching to build a verified cross-assembly translation table.
+
+**When to use**: The paper's gene IDs come from a draft assembly, RAST annotation, IMG annotation, or any independent gene-calling run whose locus tags have no overlap with the canonical NCBI locus tags. Typical signs: zero-padding to match canonical IDs produces wrong genes (verify by product description match <10%).
+
+**Script**: `scripts/map_img_to_ncbi_proteins.py`
+
+**Requires**: `diamond` (v2.1.9+) for Phase 3. Install via `apt-get install diamond-aligner` or download from github.
+
+**Inputs**:
+- Draft/old protein FASTA with the paper's gene IDs as headers (from author, IMG, or RAST)
+- NCBI canonical protein FASTA: `cache/data/<Organism>/genomes/<Strain>/protein.faa`
+- Gene mapping: `cache/data/<Organism>/genomes/<Strain>/gene_mapping.csv` (WP_ → locus_tag)
+- Optional: DE CSVs for coverage reporting
+
+**Three-phase matching**:
+
+| Phase | Method | Typical yield |
+|-------|--------|---------------|
+| 1 | Exact protein sequence match | ~60% |
+| 2 | Subsequence match (≥95% overlap) | +3% |
+| 3 | Diamond blastp (≥80% id, ≥60% query coverage, no subject coverage filter) | +19% |
+
+**Fragment deduplication**: Draft genome frameshifts split single canonical genes into multiple shorter ORFs. When multiple draft IDs hit the same canonical locus tag, keep only the **longest fragment** (it captured the most RNA-seq reads). Discarded fragments are logged. No subject-coverage filter is applied because fragments have high identity but low subject coverage by design.
+
+**Paperconfig entry** — add `id_translation` with a `generate` block so `build_gene_id_mapping.py` (step 3) automatically runs the diamond script when the output is missing or `--force` is given:
+
+```yaml
+id_translation_draft_author:
+  type: id_translation
+  filename: "path/to/id_translation.csv"
+  organism: "<Organism Strain>"
+  generate:
+    method: diamond_protein_match
+    source_fasta: "path/to/draft_proteins.fasta"
+    source_id_col: draft_id
+    img_gff: "path/to/draft.gff"   # optional, for header remapping
+  id_columns:
+    - column: "locus_tag"
+      id_type: locus_tag        # ANCHOR — must be declared
+    - column: "draft_id"
+      id_type: old_locus_tag    # NEW mapping column
+```
+
+The `generate` block fields:
+- `method`: `diamond_protein_match` (runs `scripts/map_img_to_ncbi_proteins.py`)
+- `source_fasta`: path to draft/old protein FASTA (relative to project root)
+- `source_id_col`: column name for source IDs in output (maps to `--source-id-col`)
+- `img_gff`: optional GFF for header remapping (maps to `--img-gff`)
+
+`--ncbi-faa` and `--gene-mapping` are derived automatically from the organism's genome_dir. `--output` comes from `filename`.
+
+**Manual usage** (if needed outside the pipeline):
+```bash
+uv run python scripts/map_img_to_ncbi_proteins.py \
+  --img-faa "path/to/draft_proteins.fasta" \
+  --ncbi-faa cache/data/<Organism>/genomes/<Strain>/protein.faa \
+  --gene-mapping cache/data/<Organism>/genomes/<Strain>/gene_mapping.csv \
+  --output "path/to/id_translation.csv" \
+  --source-id-col draft_id \
+  --de-csvs "path/to/de_table1.csv" "path/to/de_table2.csv"
+```
+
+**CRITICAL**: Both the anchor column (`locus_tag`, containing canonical locus tags) AND the new mapping column must be declared in `id_columns`. If only the new column is declared, the convergence graph has no anchor to attach the mappings to and resolution will be 0%.
+
+**Expected coverage**: ~80-85% of DE genes. Unresolved genes are typically:
+- Draft-specific ORFs with no canonical counterpart (draft predicts more genes than finished genome)
+- Discarded fragments (shorter sibling of same canonical gene already mapped)
+
+### Completed cross-assembly deployments
+
+#### EZ55 — Hennon 2017 (DONE)
+
+Hennon 2017 uses `AEZ55_NNNN` (4-digit) gene IDs from the researcher's own annotation of IMG draft genome 2785510739. Author (Gwenn Hennon) provided protein FASTA (`EZ55_annotation/ez55_aa.fasta`, 4930 proteins).
+
+Results: 4053/4930 matched (82.2%). DE coverage: 345/422 (81.8%) table 3, 98/125 (78.4%) table 4. 496 fragments discarded (longest-wins dedup). Output: `aez55_to_ez55_id_translation.csv`.
+
+See `plans/ez55_deploy.md` for full details.
+
+#### MIT1002 — Biller 2016/2018 (DONE)
+
+Biller 2016/2018 use RAST `MIT1002_NNNN` (4-digit) IDs and coordinate-format `RAST_region_ID` from a draft genome (GCF_001077695.1). Author (Steve Biller) provided RAST protein FASTA (`226.6.faa`, 4214 proteins with `fig|226.6.peg.N` headers).
+
+Diamond-based matching: 3891/4214 (92.3%) mapped to canonical locus tags. The output CSV (`rast_fig_id`, `locus_tag`) was registered as an id_translation. The existing conversion table (`MIT1002_systematicnames_conversiontable.csv`) was registered as a second id_translation, linking `fig|` IDs to 4-digit `MIT1002_NNNN` genbank IDs and `contigNNNNN_start_stop` coordinates (both as `alternative_locus_tag`, Tier 1). Transitive closure in `build_gene_id_mapping.py` linked all three ID formats to the correct locus_tags in 3 passes.
+
+Results: Biller 2016 96.6% (740/766), Biller 2018 S6B 97.2% (175/180). 26+5 unresolved = RAST-specific ORFs with no Diamond match above threshold.
+
+See `plans/mit1002_deploy.md` for full details.
+
 ## After all steps pass
 
 If any new fix pattern was needed (paperconfig change, id_type correction, etc.), add unit tests documenting the failure mode and fix before marking done:
@@ -223,6 +359,6 @@ uv run pytest tests/test_gene_id_graph.py -q
 ```
 
 Then update `plans/gene_id_mapping_v2_status.md` and the "Known ID formats per strain" table in this skill. Proceed to the next strain:
-`AS9601 → RSP50 → MIT1002 → EZ55 → HOT1A3`
+`AS9601 → RSP50 → HOT1A3`
 
-Already deployed: MIT9312, MIT9301, NATL1A, MED4, NATL2A, MIT9313, WH8102, CC9311
+Already deployed: MIT9312, MIT9301, NATL1A, MED4, NATL2A, MIT9313, WH8102, CC9311, EZ55, MIT1002

@@ -176,7 +176,8 @@ def _position_fallback_merge(
     ncbi_sourced: pd.DataFrame,
     cyan_only: pd.DataFrame,
     min_overlap: float = 0.9,
-    max_bp_diff: int = 10,
+    max_start_diff: int = 50,
+    max_end_diff: int = 3,
 ) -> tuple[int, set[str]]:
     """Merge unmatched Cyanorak entries into NCBI entries by genomic position.
 
@@ -187,8 +188,8 @@ def _position_fallback_merge(
     Criteria for a match:
     - Same strand
     - Reciprocal overlap >= min_overlap (overlap / max(len_ncbi, len_cyan))
-    - abs(start_diff) <= max_bp_diff
-    - abs(end_diff) <= max_bp_diff
+    - abs(start_diff) <= max_start_diff (default 50 bp)
+    - abs(end_diff) <= max_end_diff (default 3 bp)
     - 1:1 only; conflicts (one NCBI gene matching multiple Cyanorak) are skipped
 
     Modifies ncbi_sourced in-place by filling Cyanorak columns for matched rows.
@@ -229,7 +230,7 @@ def _position_fallback_merge(
         start_diff = np.abs(n_starts - c_start)
         end_diff = np.abs(n_ends - c_end)
 
-        mask = (recip >= min_overlap) & (start_diff <= max_bp_diff) & (end_diff <= max_bp_diff)
+        mask = (recip >= min_overlap) & (start_diff <= max_start_diff) & (end_diff <= max_end_diff)
         for i in np.where(mask)[0]:
             n_row = same_strand.iloc[i]
             n_lt_ncbi = n_row['locus_tag_ncbi']

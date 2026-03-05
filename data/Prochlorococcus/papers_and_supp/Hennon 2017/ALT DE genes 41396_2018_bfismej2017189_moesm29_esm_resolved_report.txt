@@ -4,31 +4,32 @@ name_col: locus tag
 id_columns: ['locus tag']
 
 Total rows with IDs: 422
-Resolved: 0 (0.0%)
-Unresolved: 422
+Resolved: 345 (81.8%)
+Unresolved: 77
 
 Resolution method breakdown:
-  unresolved: 422
+  tier1:locus tag: 345
+  unresolved: 77
 
-Unresolved rows (422):
+Unresolved rows (77):
   row 0: raw_id='AEZ55_0520'  reason=unresolved  [locus tag='AEZ55_0520']
   row 1: raw_id='AEZ55_2493'  reason=unresolved  [locus tag='AEZ55_2493']
-  row 2: raw_id='AEZ55_1242'  reason=unresolved  [locus tag='AEZ55_1242']
-  row 3: raw_id='AEZ55_1243'  reason=unresolved  [locus tag='AEZ55_1243']
-  row 4: raw_id='AEZ55_2616'  reason=unresolved  [locus tag='AEZ55_2616']
-  row 5: raw_id='AEZ55_1138'  reason=unresolved  [locus tag='AEZ55_1138']
-  row 6: raw_id='AEZ55_3434'  reason=unresolved  [locus tag='AEZ55_3434']
-  row 7: raw_id='AEZ55_4627'  reason=unresolved  [locus tag='AEZ55_4627']
   row 8: raw_id='AEZ55_4192'  reason=unresolved  [locus tag='AEZ55_4192']
-  row 9: raw_id='AEZ55_2672'  reason=unresolved  [locus tag='AEZ55_2672']
   row 10: raw_id='AEZ55_2779'  reason=unresolved  [locus tag='AEZ55_2779']
   row 11: raw_id='AEZ55_4628'  reason=unresolved  [locus tag='AEZ55_4628']
-  row 12: raw_id='AEZ55_1970'  reason=unresolved  [locus tag='AEZ55_1970']
-  row 13: raw_id='AEZ55_2556'  reason=unresolved  [locus tag='AEZ55_2556']
-  row 14: raw_id='AEZ55_2671'  reason=unresolved  [locus tag='AEZ55_2671']
   row 15: raw_id='AEZ55_1969'  reason=unresolved  [locus tag='AEZ55_1969']
-  row 16: raw_id='AEZ55_2761'  reason=unresolved  [locus tag='AEZ55_2761']
-  row 17: raw_id='AEZ55_4629'  reason=unresolved  [locus tag='AEZ55_4629']
-  row 18: raw_id='AEZ55_0961'  reason=unresolved  [locus tag='AEZ55_0961']
   row 19: raw_id='AEZ55_2833'  reason=unresolved  [locus tag='AEZ55_2833']
-  ... (402 more)
+  row 20: raw_id='AEZ55_1580'  reason=unresolved  [locus tag='AEZ55_1580']
+  row 25: raw_id='AEZ55_0346'  reason=unresolved  [locus tag='AEZ55_0346']
+  row 26: raw_id='AEZ55_1305'  reason=unresolved  [locus tag='AEZ55_1305']
+  row 29: raw_id='AEZ55_3460'  reason=unresolved  [locus tag='AEZ55_3460']
+  row 30: raw_id='AEZ55_2832'  reason=unresolved  [locus tag='AEZ55_2832']
+  row 31: raw_id='AEZ55_2698'  reason=unresolved  [locus tag='AEZ55_2698']
+  row 35: raw_id='AEZ55_1573'  reason=unresolved  [locus tag='AEZ55_1573']
+  row 41: raw_id='AEZ55_2834'  reason=unresolved  [locus tag='AEZ55_2834']
+  row 42: raw_id='AEZ55_2498'  reason=unresolved  [locus tag='AEZ55_2498']
+  row 48: raw_id='AEZ55_5009'  reason=unresolved  [locus tag='AEZ55_5009']
+  row 49: raw_id='AEZ55_2670'  reason=unresolved  [locus tag='AEZ55_2670']
+  row 54: raw_id='AEZ55_2496'  reason=unresolved  [locus tag='AEZ55_2496']
+  row 55: raw_id='AEZ55_0654'  reason=unresolved  [locus tag='AEZ55_0654']
+  ... (57 more)
