@@ -483,13 +483,13 @@ class TestLoadGffFromNcbiAndCyanorak:
         assert len(result) == 2
 
     def test_position_fallback_skips_large_coord_diff(self):
-        """Start diff > 10bp → no merge even with high overlap."""
+        """End diff > 3bp → no merge even with high overlap."""
         ncbi_df = _make_ncbi_gff_df(
             old_locus_tag="PMT_0107", start=100, end=1000, strand="+",
         )
         cyan_df = _make_cyan_gff_df(
             cyanorak_id="CK_00107", locus_tag="PMT0107",
-            start=85, end=1000, strand="+",  # 15bp start diff, ~98% overlap
+            start=100, end=1010, strand="+",  # 10bp end diff, ~99% overlap
         )
         result = self._run(ncbi_df, cyan_df, {"CK_00107": "PMT0107"})
         assert len(result) == 2
