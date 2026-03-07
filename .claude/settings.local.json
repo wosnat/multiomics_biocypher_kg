@@ -1,4 +1,7 @@
 {
+  "env": {
+    "CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS": "1"
+  },
   "permissions": {
     "allow": [
       "Skill(paperconfig)",
@@ -30,7 +33,8 @@
       "Skill(cypher-queries)",
       "Skill(cypher-queries:*)",
       "Skill(deploy-strain)",
-      "Skill(deploy-strain:*)"
+      "Skill(deploy-strain:*)",
+      "Bash(head -c 50000 /home/osnat/github/second_multiomics/cache/data/Prochlorococcus/genomes/MED4/gene_annotations_merged.json)"
     ]
   }
 }
