@@ -27,11 +27,11 @@
     },
     "gene_name": {
       "unique": 2028,
-      "multi": 97,
+      "multi": 95,
       "conflict": 0
     },
     "gene_synonym": {
-      "unique": 2731,
+      "unique": 2735,
       "multi": 115,
       "conflict": 0
     },
@@ -39,6 +39,11 @@
       "unique": 3,
       "multi": 0,
       "conflict": 14
+    },
+    "old_locus_tag": {
+      "unique": 3,
+      "multi": 0,
+      "conflict": 0
     }
   },
   "warnings": [

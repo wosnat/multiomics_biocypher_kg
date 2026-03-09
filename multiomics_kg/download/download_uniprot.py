@@ -178,21 +178,28 @@ def fetch_raw_uniprot(
         uniprot_ids = set(list(uniprot_ids)[:100])
 
     data: dict = {}
+    failed_fields: list[str] = []
     for query_key in tqdm(node_fields, desc="Downloading UniProt fields"):
         if query_key in embedding_fields:
             # embeddings are handled separately by the adapter
             continue
 
-        if query_key == UniprotNodeField.SUBCELLULAR_LOCATION.value:
-            data[query_key] = uniprot.uniprot_locations(organism, rev)
-        else:
-            data[query_key] = uniprot.uniprot_data(
-                fields=query_key,
-                organism=organism,
-                reviewed=rev,
-            )
+        try:
+            if query_key == UniprotNodeField.SUBCELLULAR_LOCATION.value:
+                data[query_key] = uniprot.uniprot_locations(organism, rev)
+            else:
+                data[query_key] = uniprot.uniprot_data(
+                    fields=query_key,
+                    organism=organism,
+                    reviewed=rev,
+                )
+            logger.debug(f"  field {query_key!r} downloaded")
+        except Exception as e:
+            logger.warning(f"  field {query_key!r} FAILED: {e}")
+            failed_fields.append(query_key)
 
-        logger.debug(f"  field {query_key!r} downloaded")
+    if failed_fields:
+        logger.warning(f"  {len(failed_fields)} field(s) failed: {failed_fields}")
 
     elapsed = round((time() - t0) / 60, 2)
     logger.info(f"Acquired UniProt data in {elapsed} mins.")
@@ -248,5 +255,10 @@ def download_uniprot(
     logger.info(f"  Saving raw data ({len(uniprot_ids)} proteins) → {raw_path}")
     with open(raw_path, "w") as f:
         json.dump(data, f, indent=4, default=str)
+
+    ids_path = cache_dir / "uniprot_ids.json"
+    with open(ids_path, "w") as f:
+        json.dump(sorted(uniprot_ids), f)
+    logger.info(f"  Saved {len(uniprot_ids)} protein IDs → {ids_path}")
 
     return True

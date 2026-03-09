@@ -266,28 +266,38 @@ def map_by_diamond(
             return {}, []
 
         # Build Diamond DB
-        subprocess.run(
-            ["diamond", "makedb", "--in", str(db_faa), "-d", str(db_path)],
-            capture_output=True,
-            check=True,
-        )
+        try:
+            subprocess.run(
+                ["diamond", "makedb", "--in", str(db_faa), "-d", str(db_path)],
+                capture_output=True,
+                check=True,
+                timeout=120,
+            )
+        except subprocess.TimeoutExpired:
+            print("  WARNING: diamond makedb timed out after 120s")
+            return {}, []
 
         # Run Diamond blastp — no subject-cover filter (fragments are expected)
-        subprocess.run(
-            [
-                "diamond", "blastp",
-                "-q", str(query_faa),
-                "-d", str(db_path),
-                "-o", str(out_tsv),
-                "--outfmt", "6", "qseqid", "sseqid", "pident", "qcovhsp", "scovhsp", "evalue", "bitscore",
-                "--id", str(min_identity),
-                "--query-cover", str(min_query_coverage),
-                "--max-target-seqs", "1",
-                "--very-sensitive",
-            ],
-            capture_output=True,
-            check=True,
-        )
+        try:
+            subprocess.run(
+                [
+                    "diamond", "blastp",
+                    "-q", str(query_faa),
+                    "-d", str(db_path),
+                    "-o", str(out_tsv),
+                    "--outfmt", "6", "qseqid", "sseqid", "pident", "qcovhsp", "scovhsp", "evalue", "bitscore",
+                    "--id", str(min_identity),
+                    "--query-cover", str(min_query_coverage),
+                    "--max-target-seqs", "1",
+                    "--very-sensitive",
+                ],
+                capture_output=True,
+                check=True,
+                timeout=600,
+            )
+        except subprocess.TimeoutExpired:
+            print("  WARNING: diamond blastp timed out after 600s")
+            return {}, []
 
         # Collect all hits: img_id → (locus_tag, query_length)
         all_hits: dict[str, tuple[str, int]] = {}

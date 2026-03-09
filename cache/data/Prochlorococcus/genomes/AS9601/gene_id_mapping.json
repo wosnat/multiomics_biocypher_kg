@@ -2,11 +2,11 @@
   "version": 2,
   "organism": "AS9601",
   "strain": "AS9601",
-  "built_at": "2026-03-05T07:50:06.148329",
+  "built_at": "2026-03-09T09:54:50.632258",
   "stats": {
-    "n_genes": 1955,
-    "n_specific": 8215,
-    "n_multi": 9477,
+    "n_genes": 1951,
+    "n_specific": 8219,
+    "n_multi": 9481,
     "n_conflicts": 0,
     "passes": 2
   },
@@ -122929,6 +122929,20 @@
           ]
         },
         {
+          "id": "CK_Pro_AS9601_50007",
+          "type": "locus_tag_cyanorak",
+          "sources": [
+            "annotation"
+          ]
+        },
+        {
+          "id": "A9601_50007",
+          "type": "old_locus_tag",
+          "sources": [
+            "annotation"
+          ]
+        },
+        {
           "id": "lcl|NC_008816.1_cds_WP_167315825.1_1093",
           "type": "cds_fna_id",
           "sources": [
@@ -122952,6 +122966,10 @@
         },
         {
           "id": "A9601_pseudoVIMSS1362524",
+          "type": "gene_synonym"
+        },
+        {
+          "id": "A9601_50007",
           "type": "gene_synonym"
         }
       ]
@@ -123185,6 +123203,20 @@
     "A9601_RS11640": {
       "tier1_ids": [
         {
+          "id": "CK_Pro_AS9601_50004",
+          "type": "locus_tag_cyanorak",
+          "sources": [
+            "annotation"
+          ]
+        },
+        {
+          "id": "A9601_50004",
+          "type": "old_locus_tag",
+          "sources": [
+            "annotation"
+          ]
+        },
+        {
           "id": "lcl|NC_008816.1_cds_WP_011862490.1_504",
           "type": "cds_fna_id",
           "sources": [
@@ -123205,6 +123237,10 @@
         {
           "id": "psaJ",
           "type": "gene_name"
+        },
+        {
+          "id": "A9601_50004",
+          "type": "gene_synonym"
         }
       ]
     },
@@ -123549,6 +123585,20 @@
     "A9601_RS18965": {
       "tier1_ids": [
         {
+          "id": "CK_Pro_AS9601_50009",
+          "type": "locus_tag_cyanorak",
+          "sources": [
+            "annotation"
+          ]
+        },
+        {
+          "id": "A9601_50009",
+          "type": "old_locus_tag",
+          "sources": [
+            "annotation"
+          ]
+        },
+        {
           "id": "lcl|NC_008816.1_cds_WP_263890273.1_1514",
           "type": "cds_fna_id",
           "sources": [
@@ -123569,6 +123619,10 @@
         {
           "id": "A9601_RS18965",
           "type": "gene_name"
+        },
+        {
+          "id": "A9601_50009",
+          "type": "gene_synonym"
         }
       ]
     },
@@ -123653,6 +123707,20 @@
     "A9601_RS18395": {
       "tier1_ids": [
         {
+          "id": "CK_Pro_AS9601_50011",
+          "type": "locus_tag_cyanorak",
+          "sources": [
+            "annotation"
+          ]
+        },
+        {
+          "id": "A9601_50011",
+          "type": "old_locus_tag",
+          "sources": [
+            "annotation"
+          ]
+        },
+        {
           "id": "lcl|NC_008816.1_cds_WP_011377173.1_1672",
           "type": "cds_fna_id",
           "sources": [
@@ -123673,6 +123741,10 @@
         {
           "id": "rpmJ",
           "type": "gene_name"
+        },
+        {
+          "id": "A9601_50011",
+          "type": "gene_synonym"
         }
       ]
     },
@@ -126552,24 +126624,6 @@
       "tier2_ids": [],
       "tier3_ids": []
     },
-    "A9601_50004": {
-      "tier1_ids": [
-        {
-          "id": "CK_Pro_AS9601_50004",
-          "type": "locus_tag_cyanorak",
-          "sources": [
-            "annotation"
-          ]
-        }
-      ],
-      "tier2_ids": [],
-      "tier3_ids": [
-        {
-          "id": "psaJ",
-          "type": "gene_name"
-        }
-      ]
-    },
     "A9601_50005": {
       "tier1_ids": [
         {
@@ -126595,50 +126649,6 @@
       ],
       "tier2_ids": [],
       "tier3_ids": []
-    },
-    "A9601_50007": {
-      "tier1_ids": [
-        {
-          "id": "CK_Pro_AS9601_50007",
-          "type": "locus_tag_cyanorak",
-          "sources": [
-            "annotation"
-          ]
-        }
-      ],
-      "tier2_ids": [],
-      "tier3_ids": []
-    },
-    "A9601_50009": {
-      "tier1_ids": [
-        {
-          "id": "CK_Pro_AS9601_50009",
-          "type": "locus_tag_cyanorak",
-          "sources": [
-            "annotation"
-          ]
-        }
-      ],
-      "tier2_ids": [],
-      "tier3_ids": []
-    },
-    "A9601_50011": {
-      "tier1_ids": [
-        {
-          "id": "CK_Pro_AS9601_50011",
-          "type": "locus_tag_cyanorak",
-          "sources": [
-            "annotation"
-          ]
-        }
-      ],
-      "tier2_ids": [],
-      "tier3_ids": [
-        {
-          "id": "rpmJ",
-          "type": "gene_name"
-        }
-      ]
     },
     "A9601_50015": {
       "tier1_ids": [
@@ -130292,10 +130302,18 @@
     "A9601_RS18565": "A9601_pseudoVIMSS1362517",
     "A9601_RS18885": "A9601_pseudoVIMSS1362520",
     "A9601_RS18685": "A9601_pseudoVIMSS1362524",
+    "CK_Pro_AS9601_50007": "A9601_pseudoVIMSS1362524",
+    "A9601_50007": "A9601_pseudoVIMSS1362524",
     "A9601_RS15090": "A9601_pseudoVIMSS1362525",
     "A9601_RS18355": "A9601_pseudoVIMSS1362526",
     "A9601_RS16310": "A9601_pseudoVIMSS1362527",
     "A9601_RS18185": "A9601_pseudoVIMSS1362531",
+    "CK_Pro_AS9601_50004": "A9601_RS11640",
+    "A9601_50004": "A9601_RS11640",
+    "CK_Pro_AS9601_50009": "A9601_RS18965",
+    "A9601_50009": "A9601_RS18965",
+    "CK_Pro_AS9601_50011": "A9601_RS18395",
+    "A9601_50011": "A9601_RS18395",
     "CK_Pro_AS9601_00291": "A9601_00291",
     "CK_Pro_AS9601_00631": "A9601_00631",
     "CK_Pro_AS9601_01031": "A9601_01031",
@@ -130398,12 +130416,8 @@
     "CK_Pro_AS9601_17321": "A9601_17321",
     "CK_Pro_AS9601_17911": "A9601_17911",
     "CK_Pro_AS9601_50002": "A9601_50002",
-    "CK_Pro_AS9601_50004": "A9601_50004",
     "CK_Pro_AS9601_50005": "A9601_50005",
     "CK_Pro_AS9601_50006": "A9601_50006",
-    "CK_Pro_AS9601_50007": "A9601_50007",
-    "CK_Pro_AS9601_50009": "A9601_50009",
-    "CK_Pro_AS9601_50011": "A9601_50011",
     "CK_Pro_AS9601_50015": "A9601_50015",
     "lcl|NC_008816.1_cds_WP_011817478.1_1": "A9601_00001",
     "lcl|NC_008816.1_cds_WP_011817479.1_2": "A9601_00011",
@@ -157369,6 +157383,9 @@
     "A9601_pseudoVIMSS1362524": [
       "A9601_pseudoVIMSS1362524"
     ],
+    "A9601_50007": [
+      "A9601_pseudoVIMSS1362524"
+    ],
     "WP_041484545.1": [
       "A9601_pseudoVIMSS1362525"
     ],
@@ -157427,8 +157444,10 @@
       "A9601_RS11640"
     ],
     "psaJ": [
-      "A9601_RS11640",
-      "A9601_50004"
+      "A9601_RS11640"
+    ],
+    "A9601_50004": [
+      "A9601_RS11640"
     ],
     "WP_225866262.1": [
       "A9601_RS18875"
@@ -157515,6 +157534,9 @@
     "A9601_RS18965": [
       "A9601_RS18965"
     ],
+    "A9601_50009": [
+      "A9601_RS18965"
+    ],
     "WP_032555741.1": [
       "A9601_RS18520"
     ],
@@ -157537,8 +157559,10 @@
       "A9601_RS18395"
     ],
     "rpmJ": [
-      "A9601_RS18395",
-      "A9601_50011"
+      "A9601_RS18395"
+    ],
+    "A9601_50011": [
+      "A9601_RS18395"
     ],
     "pipX": [
       "A9601_04441"

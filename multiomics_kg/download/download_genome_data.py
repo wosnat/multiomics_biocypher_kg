@@ -421,6 +421,10 @@ def step5_gene_mapping(genomes: list[dict], force: bool) -> None:
             log.info(f"  Gene mapping table saved to {mapping_path}")
             results.append((strain, "OK", f"{len(df)} genes"))
         except Exception as e:
+            # Remove partially written file to avoid treating it as valid cache
+            if os.path.exists(mapping_path):
+                os.remove(mapping_path)
+            log.debug(f"  Traceback for {strain}:", exc_info=True)
             results.append((strain, "FAILED", str(e)[:80]))
 
     if results:

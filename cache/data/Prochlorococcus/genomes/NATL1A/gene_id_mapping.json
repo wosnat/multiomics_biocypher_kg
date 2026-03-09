@@ -2,11 +2,11 @@
   "version": 2,
   "organism": "NATL1A",
   "strain": "NATL1A",
-  "built_at": "2026-03-05T07:50:07.894876",
+  "built_at": "2026-03-09T09:54:52.089207",
   "stats": {
-    "n_genes": 2229,
-    "n_specific": 9249,
-    "n_multi": 10598,
+    "n_genes": 2226,
+    "n_specific": 9252,
+    "n_multi": 10601,
     "n_conflicts": 24,
     "passes": 2
   },
@@ -138553,10 +138553,31 @@
     "NATL1_RS05380": {
       "tier1_ids": [
         {
+          "id": "CK_Pro_NATL1A_11401",
+          "type": "locus_tag_cyanorak",
+          "sources": [
+            "annotation"
+          ]
+        },
+        {
+          "id": "NATL1_11401",
+          "type": "old_locus_tag",
+          "sources": [
+            "annotation"
+          ]
+        },
+        {
           "id": "lcl|NC_008819.1_cds_WP_011294533.1_1096",
           "type": "cds_fna_id",
           "sources": [
             "cds_from_genomic.fna"
+          ]
+        },
+        {
+          "id": "ABM75698.1",
+          "type": "locus_tag_ncbi",
+          "sources": [
+            "genomic_gca/NATL1A"
           ]
         }
       ],
@@ -138567,12 +138588,27 @@
           "sources": [
             "annotation"
           ]
+        },
+        {
+          "id": "ABM75698.1",
+          "type": "protein_id_refseq",
+          "sources": [
+            "genomic_gca/NATL1A"
+          ]
         }
       ],
       "tier3_ids": [
         {
-          "id": "NATL1_RS05380",
+          "id": "hli",
           "type": "gene_name"
+        },
+        {
+          "id": "NATL1_RS05380",
+          "type": "gene_synonym"
+        },
+        {
+          "id": "NATL1_11401",
+          "type": "gene_synonym"
         }
       ]
     },
@@ -138761,6 +138797,20 @@
     "NATL1_RS10455": {
       "tier1_ids": [
         {
+          "id": "CK_Pro_NATL1A_50007",
+          "type": "locus_tag_cyanorak",
+          "sources": [
+            "annotation"
+          ]
+        },
+        {
+          "id": "NATL1_50007",
+          "type": "old_locus_tag",
+          "sources": [
+            "annotation"
+          ]
+        },
+        {
           "id": "lcl|NC_008819.1_cds_WP_155105422.1_1250",
           "type": "cds_fna_id",
           "sources": [
@@ -138781,6 +138831,10 @@
         {
           "id": "NATL1_RS10455",
           "type": "gene_name"
+        },
+        {
+          "id": "NATL1_50007",
+          "type": "gene_synonym"
         }
       ]
     },
@@ -139021,6 +139075,20 @@
     "NATL1_RS10315": {
       "tier1_ids": [
         {
+          "id": "CK_Pro_NATL1A_50010",
+          "type": "locus_tag_cyanorak",
+          "sources": [
+            "annotation"
+          ]
+        },
+        {
+          "id": "NATL1_50010",
+          "type": "old_locus_tag",
+          "sources": [
+            "annotation"
+          ]
+        },
+        {
           "id": "lcl|NC_008819.1_cds_WP_011295453.1_1880",
           "type": "cds_fna_id",
           "sources": [
@@ -139041,6 +139109,10 @@
         {
           "id": "rpmJ",
           "type": "gene_name"
+        },
+        {
+          "id": "NATL1_50010",
+          "type": "gene_synonym"
         }
       ]
     },
@@ -140759,39 +140831,6 @@
       "tier2_ids": [
         {
           "id": "ABM75697.1",
-          "type": "protein_id_refseq",
-          "sources": [
-            "genomic_gca/NATL1A"
-          ]
-        }
-      ],
-      "tier3_ids": [
-        {
-          "id": "hli",
-          "type": "gene_name"
-        }
-      ]
-    },
-    "NATL1_11401": {
-      "tier1_ids": [
-        {
-          "id": "CK_Pro_NATL1A_11401",
-          "type": "locus_tag_cyanorak",
-          "sources": [
-            "annotation"
-          ]
-        },
-        {
-          "id": "ABM75698.1",
-          "type": "locus_tag_ncbi",
-          "sources": [
-            "genomic_gca/NATL1A"
-          ]
-        }
-      ],
-      "tier2_ids": [
-        {
-          "id": "ABM75698.1",
           "type": "protein_id_refseq",
           "sources": [
             "genomic_gca/NATL1A"
@@ -143093,37 +143132,6 @@
       ],
       "tier2_ids": [],
       "tier3_ids": []
-    },
-    "NATL1_50007": {
-      "tier1_ids": [
-        {
-          "id": "CK_Pro_NATL1A_50007",
-          "type": "locus_tag_cyanorak",
-          "sources": [
-            "annotation"
-          ]
-        }
-      ],
-      "tier2_ids": [],
-      "tier3_ids": []
-    },
-    "NATL1_50010": {
-      "tier1_ids": [
-        {
-          "id": "CK_Pro_NATL1A_50010",
-          "type": "locus_tag_cyanorak",
-          "sources": [
-            "annotation"
-          ]
-        }
-      ],
-      "tier2_ids": [],
-      "tier3_ids": [
-        {
-          "id": "rpmJ",
-          "type": "gene_name"
-        }
-      ]
     }
   },
   "specific_lookup": {
@@ -147227,6 +147235,12 @@
     "CK_Pro_NATL1A_22001": "NATL1_22001",
     "NATL1_RS03615": "NATL1_pseudoVIMSS1362563",
     "NATL1_RS10865": "NATL1_pseudoVIMSS1362568",
+    "CK_Pro_NATL1A_11401": "NATL1_RS05380",
+    "NATL1_11401": "NATL1_RS05380",
+    "CK_Pro_NATL1A_50007": "NATL1_RS10455",
+    "NATL1_50007": "NATL1_RS10455",
+    "CK_Pro_NATL1A_50010": "NATL1_RS10315",
+    "NATL1_50010": "NATL1_RS10315",
     "CK_Pro_NATL1A_00291": "NATL1_00291",
     "CK_Pro_NATL1A_00451": "NATL1_00451",
     "CK_Pro_NATL1A_00741": "NATL1_00741",
@@ -147287,7 +147301,6 @@
     "CK_Pro_NATL1A_11321": "NATL1_11321",
     "CK_Pro_NATL1A_11381": "NATL1_11381",
     "CK_Pro_NATL1A_11391": "NATL1_11391",
-    "CK_Pro_NATL1A_11401": "NATL1_11401",
     "CK_Pro_NATL1A_11631": "NATL1_11631",
     "CK_Pro_NATL1A_11691": "NATL1_11691",
     "CK_Pro_NATL1A_11801": "NATL1_11801",
@@ -147371,8 +147384,6 @@
     "CK_Pro_NATL1A_50004": "NATL1_50004",
     "CK_Pro_NATL1A_50005": "NATL1_50005",
     "CK_Pro_NATL1A_50006": "NATL1_50006",
-    "CK_Pro_NATL1A_50007": "NATL1_50007",
-    "CK_Pro_NATL1A_50010": "NATL1_50010",
     "lcl|NC_008819.1_cds_WP_011822802.1_1": "NATL1_00001",
     "lcl|NC_008819.1_cds_WP_011822803.1_2": "NATL1_00011",
     "lcl|NC_008819.1_cds_WP_011822804.1_3": "NATL1_00021",
@@ -151001,7 +151012,7 @@
     "ABM75695.1": "NATL1_11371",
     "ABM75696.1": "NATL1_11381",
     "ABM75697.1": "NATL1_11391",
-    "ABM75698.1": "NATL1_11401",
+    "ABM75698.1": "NATL1_RS05380",
     "ABM75699.1": "NATL1_11411",
     "ABM75700.1": "NATL1_11421",
     "ABM75701.1": "NATL1_11431",
@@ -153539,8 +153550,8 @@
       "NATL1_18051",
       "NATL1_18061",
       "NATL1_18831",
-      "NATL1_11391",
-      "NATL1_11401"
+      "NATL1_RS05380",
+      "NATL1_11391"
     ],
     "NATL1_RS00470": [
       "NATL1_01031"
@@ -177565,6 +177576,9 @@
     "NATL1_RS05380": [
       "NATL1_RS05380"
     ],
+    "NATL1_11401": [
+      "NATL1_RS05380"
+    ],
     "WP_181414041.1": [
       "NATL1_RS10755"
     ],
@@ -177611,6 +177625,9 @@
       "NATL1_RS10455"
     ],
     "NATL1_RS10455": [
+      "NATL1_RS10455"
+    ],
+    "NATL1_50007": [
       "NATL1_RS10455"
     ],
     "WP_155105425.1": [
@@ -177669,8 +177686,10 @@
       "NATL1_RS10315"
     ],
     "rpmJ": [
-      "NATL1_RS10315",
-      "NATL1_50010"
+      "NATL1_RS10315"
+    ],
+    "NATL1_50010": [
+      "NATL1_RS10315"
     ],
     "fur": [
       "NATL1_07001"
@@ -181144,7 +181163,7 @@
       "NATL1_11391"
     ],
     "ABM75698.1": [
-      "NATL1_11401"
+      "NATL1_RS05380"
     ],
     "ABM75699.1": [
       "NATL1_11411"

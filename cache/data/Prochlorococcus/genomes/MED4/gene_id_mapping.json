@@ -2,11 +2,11 @@
   "version": 2,
   "organism": "MED4",
   "strain": "MED4",
-  "built_at": "2026-03-05T07:50:05.910324",
+  "built_at": "2026-03-09T09:54:50.431322",
   "stats": {
-    "n_genes": 1983,
-    "n_specific": 10724,
-    "n_multi": 10102,
+    "n_genes": 1976,
+    "n_specific": 10731,
+    "n_multi": 10109,
     "n_conflicts": 20,
     "passes": 2
   },
@@ -142400,6 +142400,20 @@
           ]
         },
         {
+          "id": "CK_Pro_MED4_01717",
+          "type": "locus_tag_cyanorak",
+          "sources": [
+            "annotation"
+          ]
+        },
+        {
+          "id": "PMM1717",
+          "type": "old_locus_tag",
+          "sources": [
+            "annotation"
+          ]
+        },
+        {
           "id": "lcl|NC_005072.1_cds_WP_011132786.1_1277",
           "type": "cds_fna_id",
           "sources": [
@@ -142424,6 +142438,10 @@
         {
           "id": "PMM1152a",
           "type": "gene_synonym"
+        },
+        {
+          "id": "PMM1717",
+          "type": "gene_synonym"
         }
       ]
     },
@@ -142432,6 +142450,20 @@
         {
           "id": "TX50_RS02055",
           "type": "locus_tag_ncbi",
+          "sources": [
+            "annotation"
+          ]
+        },
+        {
+          "id": "CK_Pro_MED4_01724",
+          "type": "locus_tag_cyanorak",
+          "sources": [
+            "annotation"
+          ]
+        },
+        {
+          "id": "PMM1724",
+          "type": "old_locus_tag",
           "sources": [
             "annotation"
           ]
@@ -142489,6 +142521,10 @@
         {
           "id": "PMM1841",
           "type": "gene_synonym"
+        },
+        {
+          "id": "PMM1724",
+          "type": "gene_synonym"
         }
       ]
     },
@@ -142497,6 +142533,20 @@
         {
           "id": "TX50_RS09595",
           "type": "locus_tag_ncbi",
+          "sources": [
+            "annotation"
+          ]
+        },
+        {
+          "id": "CK_Pro_MED4_50020",
+          "type": "locus_tag_cyanorak",
+          "sources": [
+            "annotation"
+          ]
+        },
+        {
+          "id": "PMM1858a",
+          "type": "old_locus_tag",
           "sources": [
             "annotation"
           ]
@@ -142525,6 +142575,10 @@
         },
         {
           "id": "PMM1858",
+          "type": "gene_synonym"
+        },
+        {
+          "id": "PMM1858a",
           "type": "gene_synonym"
         }
       ]
@@ -142604,6 +142658,20 @@
           ]
         },
         {
+          "id": "CK_Pro_MED4_01722",
+          "type": "locus_tag_cyanorak",
+          "sources": [
+            "annotation"
+          ]
+        },
+        {
+          "id": "PMM1722",
+          "type": "old_locus_tag",
+          "sources": [
+            "annotation"
+          ]
+        },
+        {
           "id": "lcl|NC_005072.1_cds_WP_036930795.1_801",
           "type": "cds_fna_id",
           "sources": [
@@ -142656,6 +142724,10 @@
         {
           "id": "PMM1883",
           "type": "gene_synonym"
+        },
+        {
+          "id": "PMM1722",
+          "type": "gene_synonym"
         }
       ]
     },
@@ -142664,6 +142736,20 @@
         {
           "id": "TX50_RS09635",
           "type": "locus_tag_ncbi",
+          "sources": [
+            "annotation"
+          ]
+        },
+        {
+          "id": "CK_Pro_MED4_01721",
+          "type": "locus_tag_cyanorak",
+          "sources": [
+            "annotation"
+          ]
+        },
+        {
+          "id": "PMM1721",
+          "type": "old_locus_tag",
           "sources": [
             "annotation"
           ]
@@ -142720,6 +142806,10 @@
         },
         {
           "id": "PMM1887",
+          "type": "gene_synonym"
+        },
+        {
+          "id": "PMM1721",
           "type": "gene_synonym"
         }
       ]
@@ -142857,6 +142947,20 @@
     "TX50_RS09860": {
       "tier1_ids": [
         {
+          "id": "CK_Pro_MED4_50021",
+          "type": "locus_tag_cyanorak",
+          "sources": [
+            "annotation"
+          ]
+        },
+        {
+          "id": "PMM1879a",
+          "type": "old_locus_tag",
+          "sources": [
+            "annotation"
+          ]
+        },
+        {
           "id": "lcl|NC_005072.1_cds_WP_225866774.1_781",
           "type": "cds_fna_id",
           "sources": [
@@ -142877,6 +142981,10 @@
         {
           "id": "TX50_RS09860",
           "type": "gene_name"
+        },
+        {
+          "id": "PMM1879a",
+          "type": "gene_synonym"
         }
       ]
     },
@@ -142961,6 +143069,20 @@
     "TX50_RS09730": {
       "tier1_ids": [
         {
+          "id": "CK_Pro_MED4_01719",
+          "type": "locus_tag_cyanorak",
+          "sources": [
+            "annotation"
+          ]
+        },
+        {
+          "id": "PMM1719",
+          "type": "old_locus_tag",
+          "sources": [
+            "annotation"
+          ]
+        },
+        {
           "id": "lcl|NC_005072.1_cds_WP_011132651.1_1120",
           "type": "cds_fna_id",
           "sources": [
@@ -142979,8 +143101,16 @@
       ],
       "tier3_ids": [
         {
-          "id": "TX50_RS09730",
+          "id": "hli",
           "type": "gene_name"
+        },
+        {
+          "id": "TX50_RS09730",
+          "type": "gene_synonym"
+        },
+        {
+          "id": "PMM1719",
+          "type": "gene_synonym"
         }
       ]
     },
@@ -143626,24 +143756,6 @@
         }
       ]
     },
-    "PMM1717": {
-      "tier1_ids": [
-        {
-          "id": "CK_Pro_MED4_01717",
-          "type": "locus_tag_cyanorak",
-          "sources": [
-            "annotation"
-          ]
-        }
-      ],
-      "tier2_ids": [],
-      "tier3_ids": [
-        {
-          "id": "petM",
-          "type": "gene_name"
-        }
-      ]
-    },
     "PMM1718": {
       "tier1_ids": [
         {
@@ -143658,24 +143770,6 @@
       "tier3_ids": [
         {
           "id": "petL",
-          "type": "gene_name"
-        }
-      ]
-    },
-    "PMM1719": {
-      "tier1_ids": [
-        {
-          "id": "CK_Pro_MED4_01719",
-          "type": "locus_tag_cyanorak",
-          "sources": [
-            "annotation"
-          ]
-        }
-      ],
-      "tier2_ids": [],
-      "tier3_ids": [
-        {
-          "id": "hli",
           "type": "gene_name"
         }
       ]
@@ -143698,32 +143792,6 @@
         }
       ]
     },
-    "PMM1721": {
-      "tier1_ids": [
-        {
-          "id": "CK_Pro_MED4_01721",
-          "type": "locus_tag_cyanorak",
-          "sources": [
-            "annotation"
-          ]
-        }
-      ],
-      "tier2_ids": [],
-      "tier3_ids": []
-    },
-    "PMM1722": {
-      "tier1_ids": [
-        {
-          "id": "CK_Pro_MED4_01722",
-          "type": "locus_tag_cyanorak",
-          "sources": [
-            "annotation"
-          ]
-        }
-      ],
-      "tier2_ids": [],
-      "tier3_ids": []
-    },
     "PMM1723": {
       "tier1_ids": [
         {
@@ -143741,19 +143809,6 @@
           "type": "gene_name"
         }
       ]
-    },
-    "PMM1724": {
-      "tier1_ids": [
-        {
-          "id": "CK_Pro_MED4_01724",
-          "type": "locus_tag_cyanorak",
-          "sources": [
-            "annotation"
-          ]
-        }
-      ],
-      "tier2_ids": [],
-      "tier3_ids": []
     },
     "PMM1808": {
       "tier1_ids": [
@@ -144520,19 +144575,6 @@
       ],
       "tier3_ids": []
     },
-    "PMM1858a": {
-      "tier1_ids": [
-        {
-          "id": "CK_Pro_MED4_50020",
-          "type": "locus_tag_cyanorak",
-          "sources": [
-            "annotation"
-          ]
-        }
-      ],
-      "tier2_ids": [],
-      "tier3_ids": []
-    },
     "PMM1862": {
       "tier1_ids": [
         {
@@ -144732,19 +144774,6 @@
           ]
         }
       ],
-      "tier3_ids": []
-    },
-    "PMM1879a": {
-      "tier1_ids": [
-        {
-          "id": "CK_Pro_MED4_50021",
-          "type": "locus_tag_cyanorak",
-          "sources": [
-            "annotation"
-          ]
-        }
-      ],
-      "tier2_ids": [],
       "tier3_ids": []
     },
     "PMM1886": {
@@ -150915,11 +150944,25 @@
     "TX50_RS01215": "PMM0236",
     "PMM1806": "PMM0236",
     "TX50_RS06215": "PMM1152a",
+    "CK_Pro_MED4_01717": "PMM1152a",
+    "PMM1717": "PMM1152a",
     "TX50_RS02055": "PMM1841",
+    "CK_Pro_MED4_01724": "PMM1841",
+    "PMM1724": "PMM1841",
     "TX50_RS09595": "PMM1858",
+    "CK_Pro_MED4_50020": "PMM1858",
+    "PMM1858a": "PMM1858",
     "TX50_RS09435": "PMM1882",
     "TX50_RS03935": "PMM1883",
+    "CK_Pro_MED4_01722": "PMM1883",
+    "PMM1722": "PMM1883",
     "TX50_RS09635": "PMM1887",
+    "CK_Pro_MED4_01721": "PMM1887",
+    "PMM1721": "PMM1887",
+    "CK_Pro_MED4_50021": "TX50_RS09860",
+    "PMM1879a": "TX50_RS09860",
+    "CK_Pro_MED4_01719": "TX50_RS09730",
+    "PMM1719": "TX50_RS09730",
     "CK_Pro_MED4_00573": "PMM0573",
     "CK_Pro_MED4_00624": "PMM0624",
     "CK_Pro_MED4_00686": "PMM0686",
@@ -150932,14 +150975,9 @@
     "CK_Pro_MED4_01136": "PMM1136",
     "CK_Pro_MED4_01396": "PMM1396",
     "CK_Pro_MED4_01411": "PMM1411",
-    "CK_Pro_MED4_01717": "PMM1717",
     "CK_Pro_MED4_01718": "PMM1718",
-    "CK_Pro_MED4_01719": "PMM1719",
     "CK_Pro_MED4_01720": "PMM1720",
-    "CK_Pro_MED4_01721": "PMM1721",
-    "CK_Pro_MED4_01722": "PMM1722",
     "CK_Pro_MED4_01723": "PMM1723",
-    "CK_Pro_MED4_01724": "PMM1724",
     "CK_Pro_MED4_01808": "PMM1808",
     "CK_Pro_MED4_01811": "PMM1811",
     "CK_Pro_MED4_01815": "PMM1815",
@@ -150957,13 +150995,11 @@
     "CK_Pro_MED4_01848": "PMM1848",
     "CK_Pro_MED4_01849": "PMM1849",
     "CK_Pro_MED4_01856": "PMM1856",
-    "CK_Pro_MED4_50020": "PMM1858a",
     "CK_Pro_MED4_01862": "PMM1862",
     "CK_Pro_MED4_01869": "PMM1869",
     "CK_Pro_MED4_01875": "PMM1875",
     "CK_Pro_MED4_01876": "PMM1876",
     "CK_Pro_MED4_01878": "PMM1878",
-    "CK_Pro_MED4_50021": "PMM1879a",
     "CK_Pro_MED4_01886": "PMM1886",
     "CK_Pro_MED4_01888": "PMM1888",
     "CK_Pro_MED4_01889": "PMM1889",
@@ -158675,9 +158711,9 @@
       "PMM1399",
       "PMM1404",
       "PMM1482",
+      "TX50_RS09730",
       "PMM0815",
-      "PMM1396",
-      "PMM1719"
+      "PMM1396"
     ],
     "TX50_RS00340": [
       "PMM0064"
@@ -180595,10 +180631,12 @@
       "PMM1152a"
     ],
     "petM": [
-      "PMM1152a",
-      "PMM1717"
+      "PMM1152a"
     ],
     "PMM1152a": [
+      "PMM1152a"
+    ],
+    "PMM1717": [
       "PMM1152a"
     ],
     "WP_036930916.1": [
@@ -180613,6 +180651,9 @@
     "PMM1841": [
       "PMM1841"
     ],
+    "PMM1724": [
+      "PMM1841"
+    ],
     "WP_173027961.1": [
       "PMM1858"
     ],
@@ -180620,6 +180661,9 @@
       "PMM1858"
     ],
     "PMM1858": [
+      "PMM1858"
+    ],
+    "PMM1858a": [
       "PMM1858"
     ],
     "WP_036930798.1": [
@@ -180646,6 +180690,9 @@
     "PMM1883": [
       "PMM1883"
     ],
+    "PMM1722": [
+      "PMM1883"
+    ],
     "WP_173027976.1": [
       "PMM1887"
     ],
@@ -180656,6 +180703,9 @@
       "PMM1887"
     ],
     "PMM1887": [
+      "PMM1887"
+    ],
+    "PMM1721": [
       "PMM1887"
     ],
     "WP_157859384.1": [
@@ -180694,6 +180744,9 @@
     "TX50_RS09860": [
       "TX50_RS09860"
     ],
+    "PMM1879a": [
+      "TX50_RS09860"
+    ],
     "WP_268741266.1": [
       "TX50_RS09930"
     ],
@@ -180716,6 +180769,9 @@
       "TX50_RS09730"
     ],
     "TX50_RS09730": [
+      "TX50_RS09730"
+    ],
+    "PMM1719": [
       "TX50_RS09730"
     ],
     "WP_157859391.1": [

@@ -26,17 +26,22 @@
       "conflict": 0
     },
     "gene_name": {
-      "unique": 2913,
-      "multi": 150,
+      "unique": 2908,
+      "multi": 143,
       "conflict": 0
     },
     "gene_synonym": {
-      "unique": 3225,
-      "multi": 56,
+      "unique": 3356,
+      "multi": 55,
       "conflict": 0
     },
     "alternative_locus_tag": {
       "unique": 1,
+      "multi": 0,
+      "conflict": 0
+    },
+    "old_locus_tag": {
+      "unique": 123,
       "multi": 0,
       "conflict": 0
     }
