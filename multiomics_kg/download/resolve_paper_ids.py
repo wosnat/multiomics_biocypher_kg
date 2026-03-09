@@ -106,25 +106,15 @@ def resolve_table(
         print(f"  [warn] No organism for {pub_name}/{table_key} — skipping", file=sys.stderr)
         return None
 
-    # Determine name_col (first analysis whose name_col is not 'locus_tag')
+    # Determine name_col from the first statistical analysis
     name_col = None
     for a in stat_analyses:
         nc = a.get("name_col")
-        if nc and nc != "locus_tag":
+        if nc:
             name_col = nc
             break
     if not name_col:
-        # Check if id_columns indicate non-standard IDs despite name_col being 'locus_tag'
-        id_cols = table_config.get("id_columns") or []
-        has_nonstandard = any(
-            c.get("id_type", "locus_tag") not in ("locus_tag",)
-            for c in id_cols
-        )
-        if has_nonstandard:
-            # The 'locus_tag' column contains non-standard IDs — resolve via id_columns
-            name_col = "locus_tag"
-        else:
-            return {"skipped": True, "reason": "name_col is already locus_tag"}
+        return {"skipped": True, "reason": "no name_col defined"}
 
     resolved_path = get_resolved_path(src)
 
@@ -220,10 +210,16 @@ def resolve_table(
             })
 
     # Write _resolved.csv
+    RESOLVED_COL = "resolved_locus_tag"
     df_out = df.copy()
-    if name_col == "locus_tag" and "locus_tag" in df_out.columns:
-        df_out.rename(columns={"locus_tag": "original_id"}, inplace=True)
-    df_out["locus_tag"] = locus_tag_col
+    if RESOLVED_COL in df_out.columns:
+        print(
+            f"  [error] Column '{RESOLVED_COL}' already exists in {src.name} — "
+            f"cannot write resolved output for {pub_name}/{table_key}",
+            file=sys.stderr,
+        )
+        return None
+    df_out[RESOLVED_COL] = locus_tag_col
     df_out["resolution_method"] = method_col
     try:
         df_out.to_csv(resolved_path, index=False)

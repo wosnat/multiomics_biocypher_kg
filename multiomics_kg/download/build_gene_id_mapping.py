@@ -323,6 +323,14 @@ def extract_rows_from_csv_table(
     source_label = f"{paper_name}/{table_key}"
     result: list[tuple[list[tuple[str, str]], str]] = []
 
+    # Pre-filter id_columns to those actually present, and track which columns
+    # are already covered by name_cols to avoid duplicate pairs
+    name_col_set = set(name_cols)
+    valid_id_columns = [
+        cs for cs in id_columns
+        if cs.get("column", "") in df.columns and cs.get("column", "") not in name_col_set
+    ]
+
     for _, row in df.iterrows():
         row_pairs: list[tuple[str, str]] = []
 
@@ -339,12 +347,10 @@ def extract_rows_from_csv_table(
             )
             row_pairs.append((val, nc_id_type))
 
-        # Include all declared id_columns
-        for col_spec in id_columns:
-            col = col_spec.get("column", "")
+        # Include declared id_columns not already covered by name_cols
+        for col_spec in valid_id_columns:
+            col = col_spec["column"]
             id_type = col_spec.get("id_type", "other")
-            if col not in df.columns:
-                continue
             val = _safe_str(row.get(col, ""))
             if val:
                 row_pairs.append((val, id_type))

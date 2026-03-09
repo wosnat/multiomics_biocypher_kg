@@ -374,38 +374,34 @@ class TestLoadUniprot:
         path.parent.mkdir(parents=True, exist_ok=True)
         path.write_text(json.dumps(data or PROTEIN_ANNOTATIONS_DATA))
 
+    def _taxid_path(self, tmp_path, taxid=59919):
+        return tmp_path / "cache" / "data" / "Prochlorococcus" / "uniprot" / str(taxid) / "protein_annotations.json"
+
     def test_indexes_by_refseq(self, tmp_path):
-        json_path = tmp_path / "protein_annotations.json"
-        self._write_uniprot(json_path)
+        self._write_uniprot(self._taxid_path(tmp_path))
         with patch("multiomics_kg.download.build_gene_annotations.PROJECT_ROOT", tmp_path):
-            result = load_uniprot(str(tmp_path), None, "Prochlorococcus")
+            result = load_uniprot(str(tmp_path), 59919, "Prochlorococcus")
         assert "WP_011129038.1" in result
         assert "WP_011129039.1" in result
 
     def test_correct_field_values(self, tmp_path):
-        json_path = tmp_path / "protein_annotations.json"
-        self._write_uniprot(json_path)
+        self._write_uniprot(self._taxid_path(tmp_path))
         with patch("multiomics_kg.download.build_gene_annotations.PROJECT_ROOT", tmp_path):
-            result = load_uniprot(str(tmp_path), None, "Prochlorococcus")
+            result = load_uniprot(str(tmp_path), 59919, "Prochlorococcus")
         row = result["WP_011129038.1"]
         assert row["gene_symbol"] == "dnaN"
         assert row["is_reviewed"] is True
 
-    def test_taxid_keyed_path_preferred(self, tmp_path):
-        # Put data in taxid-keyed path
-        taxid_path = tmp_path / "cache" / "data" / "Prochlorococcus" / "uniprot" / "59919" / "protein_annotations.json"
-        self._write_uniprot(taxid_path)
+    def test_taxid_keyed_path(self, tmp_path):
+        self._write_uniprot(self._taxid_path(tmp_path))
         with patch("multiomics_kg.download.build_gene_annotations.PROJECT_ROOT", tmp_path):
             result = load_uniprot("somedir", 59919, "Prochlorococcus")
         assert "WP_011129038.1" in result
 
-    def test_falls_back_to_project_root(self, tmp_path):
-        # No taxid path, but root path exists
-        root_path = tmp_path / "protein_annotations.json"
-        self._write_uniprot(root_path)
+    def test_returns_empty_when_no_taxid(self, tmp_path):
         with patch("multiomics_kg.download.build_gene_annotations.PROJECT_ROOT", tmp_path):
-            result = load_uniprot("somedata", 99999, "Prochlorococcus")
-        assert "WP_011129038.1" in result
+            result = load_uniprot("somedata", None, "Prochlorococcus")
+        assert result == {}
 
     def test_returns_empty_when_no_file_found(self, tmp_path):
         with patch("multiomics_kg.download.build_gene_annotations.PROJECT_ROOT", tmp_path):
@@ -416,10 +412,9 @@ class TestLoadUniprot:
         data = {
             "A0001": {"gene_symbol": "test", "refseq_ids": ["WP_111.1", "WP_222.2"]},
         }
-        json_path = tmp_path / "protein_annotations.json"
-        self._write_uniprot(json_path, data)
+        self._write_uniprot(self._taxid_path(tmp_path), data)
         with patch("multiomics_kg.download.build_gene_annotations.PROJECT_ROOT", tmp_path):
-            result = load_uniprot(str(tmp_path), None, "Prochlorococcus")
+            result = load_uniprot(str(tmp_path), 59919, "Prochlorococcus")
         assert "WP_111.1" in result
         assert "WP_222.2" in result
 

@@ -95,19 +95,17 @@ def load_uniprot(
 
     The JSON is row-oriented: data[uniprot_id] = {field: value}.
     Re-indexes by refseq_ids (WP_ accessions) for joining with gene_mapping.
-    Tries taxid-keyed cache path first; falls back to project root.
     """
-    candidates: list[str] = []
-    if ncbi_taxon_id:
-        candidates.append(str(
-            PROJECT_ROOT / "cache" / "data" / organism_group
-            / "uniprot" / str(ncbi_taxon_id) / "protein_annotations.json"
-        ))
-    candidates.append(str(PROJECT_ROOT / "protein_annotations.json"))
+    if not ncbi_taxon_id:
+        print(f"  [uniprot] No taxon ID provided — skipping UniProt data")
+        return {}
 
-    path = next((c for c in candidates if os.path.exists(c)), None)
-    if path is None:
-        print(f"  [uniprot] No data found (tried {candidates[0]})")
+    path = str(
+        PROJECT_ROOT / "cache" / "data" / organism_group
+        / "uniprot" / str(ncbi_taxon_id) / "protein_annotations.json"
+    )
+    if not os.path.exists(path):
+        print(f"  [uniprot] No data found at {path}")
         return {}
 
     with open(path) as f:

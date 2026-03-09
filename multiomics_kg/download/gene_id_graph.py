@@ -183,6 +183,8 @@ class GeneIdGraph:
         passes = 0
         while True:
             passes += 1
+            # Reset unresolved counts each pass so we only report the final state
+            self._stats["unresolved_rows_per_source"] = defaultdict(int)
             any_change = False
             for row_ids, source_name in all_rows:
                 if self.process_row(row_ids, source_name):
@@ -312,7 +314,7 @@ class GeneIdGraph:
             "version": 2,
             "organism": organism,
             "strain": strain,
-            "built_at": datetime.datetime.utcnow().isoformat(),
+            "built_at": datetime.datetime.now(datetime.timezone.utc).isoformat(),
             "stats": {
                 "n_genes": len(self._genes),
                 "n_specific": len(specific_out),

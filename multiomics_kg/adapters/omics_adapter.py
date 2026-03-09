@@ -501,12 +501,13 @@ class OMICSAdapter:
                 else:
                     df = pd.read_csv(filename, sep=sep)
 
-            use_locus_tag_col = _use_resolved and 'locus_tag' in df.columns
+            _resolved_col = 'resolved_locus_tag'
+            use_locus_tag_col = _use_resolved and _resolved_col in df.columns
             if _use_resolved:
                 if use_locus_tag_col:
                     logger.info(f"Using pre-resolved CSV: {_resolved_path.name} ({len(df)} rows)")
                 else:
-                    logger.warning(f"Pre-resolved CSV {_resolved_path.name} has no locus_tag column; falling back to {filename}")
+                    logger.warning(f"Pre-resolved CSV {_resolved_path.name} has no {_resolved_col} column; falling back to {filename}")
             else:
                 logger.info(f"Loaded {len(df)} rows from {filename}")
 
@@ -552,7 +553,7 @@ class OMICSAdapter:
                 # Get gene/protein identifier
                 # Pre-resolved CSV: use the pre-computed locus_tag column;
                 # rows with NaN locus_tag (unresolved) are skipped here.
-                gene_id = row.get('locus_tag') if use_locus_tag_col else row.get(name_col)
+                gene_id = row.get(_resolved_col) if use_locus_tag_col else row.get(name_col)
                 if pd.isna(gene_id) or gene_id == '':
                     skipped_count += 1
                     continue
