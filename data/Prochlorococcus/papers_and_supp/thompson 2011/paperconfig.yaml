@@ -11,7 +11,7 @@ publication:
       light_condition: continuous_light
       light_intensity: "27 umol photons m-2 s-1"
       iron_concentration: "1 uM Fe total (39 nM Fe')"
-      edta_concentration: "11.7 mM"
+      edta_concentration: "11.7 uM"
       description: "Prochlorococcus MED4 in iron-replete PRO99 medium at 21C under continuous light at 27 umol photons m-2 s-1"
     thompson_2011_iron_deplete_med4:
       condition_type: iron_stress
@@ -21,7 +21,7 @@ publication:
       light_condition: continuous_light
       light_intensity: "27 umol photons m-2 s-1"
       iron_concentration: "0 uM Fe (no added iron)"
-      edta_concentration: "11.7 mM"
+      edta_concentration: "11.7 uM"
       description: "Prochlorococcus MED4 resuspended in PRO99 medium with no added iron at 21C under continuous light at 27 umol photons m-2 s-1"
     thompson_2011_iron_replete_mit9313:
       condition_type: growth_medium
@@ -31,7 +31,7 @@ publication:
       light_condition: continuous_light
       light_intensity: "20 umol photons m-2 s-1"
       iron_concentration: "1 uM Fe total (39 nM Fe')"
-      edta_concentration: "11.7 mM"
+      edta_concentration: "11.7 uM"
       description: "Prochlorococcus MIT9313 in iron-replete PRO99 medium at 25C under continuous light at 20 umol photons m-2 s-1"
     thompson_2011_iron_deplete_mit9313:
       condition_type: iron_stress
@@ -41,7 +41,7 @@ publication:
       light_condition: continuous_light
       light_intensity: "20 umol photons m-2 s-1"
       iron_concentration: "0 uM Fe (no added iron)"
-      edta_concentration: "11.7 mM"
+      edta_concentration: "11.7 uM"
       description: "Prochlorococcus MIT9313 resuspended in PRO99 medium with no added iron at 25C under continuous light at 20 umol photons m-2 s-1"
 
   supplementary_materials:
