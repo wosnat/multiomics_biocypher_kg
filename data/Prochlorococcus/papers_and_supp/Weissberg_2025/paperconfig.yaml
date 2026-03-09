@@ -1,0 +1,799 @@
+publication:
+  papername: "Weissberg 2025"
+  papermainpdf: "data/Prochlorococcus/papers_and_supp/Weissberg_2025/cc1a3_bioax_2025.pdf"
+
+  environmental_conditions:
+    weissberg_2025_pro99_lown_exponential:
+      condition_type: growth_state
+      name: "PRO99-lowN exponential growth"
+      description: "Prochlorococcus and Alteromonas in PRO99-lowN medium during nutrient-replete exponential growth phase, before nitrogen depletion."
+      medium: "PRO99-lowN"
+      temperature: "24C"
+      light_condition: "continuous light"
+    weissberg_2025_pro99_lown_starvation:
+      condition_type: growth_state
+      name: "PRO99-lowN nutrient starvation"
+      description: "Prochlorococcus and Alteromonas in PRO99-lowN medium after nitrogen depletion. Cells undergo decline, death (axenic Prochlorococcus), or prolonged survival (coculture). Alteromonas is carbon-limited."
+      medium: "PRO99-lowN"
+      temperature: "24C"
+      light_condition: "continuous light"
+
+  supplementary_materials:
+
+    # =========================================================================
+    # HOT1A3 (Alteromonas macleodii HOT1A3) — RNA-seq, axenic time course
+    # =========================================================================
+
+    hot1a3_rnaseq_axenic_day_18_vs_day_11:
+      type: csv
+      filename: "data/Prochlorococcus/papers_and_supp/Weissberg_2025/HOT1A3__rnaseq__axenic_HOT1A3__day_18__vs__day_11.csv"
+      organism: "Alteromonas macleodii HOT1A3"
+      id_columns:
+        - column: "gene_id"
+          id_type: locus_tag_ncbi
+      statistical_analyses:
+        - type: RNASEQ
+          name: "DE of Alteromonas HOT1A3 axenic day 18 vs day 11"
+          id: DE_hot1a3_rnaseq_axenic_day_18_vs_day_11
+          test_type: DESeq2
+          control_condition: "Exponential growth (day 11)"
+          treatment_condition: "Nutrient starvation (day 18)"
+          environmental_control_condition_id: weissberg_2025_pro99_lown_exponential
+          environmental_treatment_condition_id: weissberg_2025_pro99_lown_starvation
+          experimental_context: "Axenic Alteromonas HOT1A3 in PRO99-lowN at 24C under continuous light"
+          timepoint: "day 18"
+          organism: "Alteromonas macleodii HOT1A3"
+          name_col: "gene_id"
+          logfc_col: "logFC"
+          adjusted_p_value_col: "padj"
+
+    hot1a3_rnaseq_axenic_day_31_vs_day_11:
+      type: csv
+      filename: "data/Prochlorococcus/papers_and_supp/Weissberg_2025/HOT1A3__rnaseq__axenic_HOT1A3__day_31__vs__day_11.csv"
+      organism: "Alteromonas macleodii HOT1A3"
+      id_columns:
+        - column: "gene_id"
+          id_type: locus_tag_ncbi
+      statistical_analyses:
+        - type: RNASEQ
+          name: "DE of Alteromonas HOT1A3 axenic day 31 vs day 11"
+          id: DE_hot1a3_rnaseq_axenic_day_31_vs_day_11
+          test_type: DESeq2
+          control_condition: "Exponential growth (day 11)"
+          treatment_condition: "Nutrient starvation (day 31)"
+          environmental_control_condition_id: weissberg_2025_pro99_lown_exponential
+          environmental_treatment_condition_id: weissberg_2025_pro99_lown_starvation
+          experimental_context: "Axenic Alteromonas HOT1A3 in PRO99-lowN at 24C under continuous light"
+          timepoint: "day 31"
+          organism: "Alteromonas macleodii HOT1A3"
+          name_col: "gene_id"
+          logfc_col: "logFC"
+          adjusted_p_value_col: "padj"
+
+    hot1a3_rnaseq_axenic_longterm_vs_day_11:
+      type: csv
+      filename: "data/Prochlorococcus/papers_and_supp/Weissberg_2025/HOT1A3__rnaseq__axenic_HOT1A3__longterm_starvation_days_60_and_89__vs__day_11.csv"
+      organism: "Alteromonas macleodii HOT1A3"
+      id_columns:
+        - column: "gene_id"
+          id_type: locus_tag_ncbi
+      statistical_analyses:
+        - type: RNASEQ
+          name: "DE of Alteromonas HOT1A3 axenic long-term starvation (days 60+89) vs day 11"
+          id: DE_hot1a3_rnaseq_axenic_longterm_vs_day_11
+          test_type: DESeq2
+          control_condition: "Exponential growth (day 11)"
+          treatment_condition: "Long-term nutrient starvation (days 60+89)"
+          environmental_control_condition_id: weissberg_2025_pro99_lown_exponential
+          environmental_treatment_condition_id: weissberg_2025_pro99_lown_starvation
+          experimental_context: "Axenic Alteromonas HOT1A3 in PRO99-lowN at 24C under continuous light"
+          timepoint: "days 60+89"
+          organism: "Alteromonas macleodii HOT1A3"
+          name_col: "gene_id"
+          logfc_col: "logFC"
+          adjusted_p_value_col: "padj"
+
+    # =========================================================================
+    # HOT1A3 — RNA-seq, coculture time course
+    # =========================================================================
+
+    hot1a3_rnaseq_coculture_day_18_vs_day_11:
+      type: csv
+      filename: "data/Prochlorococcus/papers_and_supp/Weissberg_2025/HOT1A3__rnaseq__coculture_with_MED4__day_18__vs__day_11.csv"
+      organism: "Alteromonas macleodii HOT1A3"
+      id_columns:
+        - column: "gene_id"
+          id_type: locus_tag_ncbi
+      statistical_analyses:
+        - type: RNASEQ
+          name: "DE of Alteromonas HOT1A3 in coculture with MED4 day 18 vs day 11"
+          id: DE_hot1a3_rnaseq_coculture_day_18_vs_day_11
+          test_type: DESeq2
+          control_condition: "Exponential growth (day 11)"
+          treatment_condition: "Nutrient starvation (day 18)"
+          environmental_control_condition_id: weissberg_2025_pro99_lown_exponential
+          environmental_treatment_condition_id: weissberg_2025_pro99_lown_starvation
+          experimental_context: "Alteromonas HOT1A3 in coculture with Prochlorococcus MED4 in PRO99-lowN at 24C under continuous light"
+          timepoint: "day 18"
+          organism: "Alteromonas macleodii HOT1A3"
+          name_col: "gene_id"
+          logfc_col: "logFC"
+          adjusted_p_value_col: "padj"
+
+    hot1a3_rnaseq_coculture_day_31_vs_day_11:
+      type: csv
+      filename: "data/Prochlorococcus/papers_and_supp/Weissberg_2025/HOT1A3__rnaseq__coculture_with_MED4__day_31__vs__day_11.csv"
+      organism: "Alteromonas macleodii HOT1A3"
+      id_columns:
+        - column: "gene_id"
+          id_type: locus_tag_ncbi
+      statistical_analyses:
+        - type: RNASEQ
+          name: "DE of Alteromonas HOT1A3 in coculture with MED4 day 31 vs day 11"
+          id: DE_hot1a3_rnaseq_coculture_day_31_vs_day_11
+          test_type: DESeq2
+          control_condition: "Exponential growth (day 11)"
+          treatment_condition: "Nutrient starvation (day 31)"
+          environmental_control_condition_id: weissberg_2025_pro99_lown_exponential
+          environmental_treatment_condition_id: weissberg_2025_pro99_lown_starvation
+          experimental_context: "Alteromonas HOT1A3 in coculture with Prochlorococcus MED4 in PRO99-lowN at 24C under continuous light"
+          timepoint: "day 31"
+          organism: "Alteromonas macleodii HOT1A3"
+          name_col: "gene_id"
+          logfc_col: "logFC"
+          adjusted_p_value_col: "padj"
+
+    hot1a3_rnaseq_coculture_day_60_vs_day_11:
+      type: csv
+      filename: "data/Prochlorococcus/papers_and_supp/Weissberg_2025/HOT1A3__rnaseq__coculture_with_MED4__day_60__vs__day_11.csv"
+      organism: "Alteromonas macleodii HOT1A3"
+      id_columns:
+        - column: "gene_id"
+          id_type: locus_tag_ncbi
+      statistical_analyses:
+        - type: RNASEQ
+          name: "DE of Alteromonas HOT1A3 in coculture with MED4 day 60 vs day 11"
+          id: DE_hot1a3_rnaseq_coculture_day_60_vs_day_11
+          test_type: DESeq2
+          control_condition: "Exponential growth (day 11)"
+          treatment_condition: "Long-term nutrient starvation (day 60)"
+          environmental_control_condition_id: weissberg_2025_pro99_lown_exponential
+          environmental_treatment_condition_id: weissberg_2025_pro99_lown_starvation
+          experimental_context: "Alteromonas HOT1A3 in coculture with Prochlorococcus MED4 in PRO99-lowN at 24C under continuous light"
+          timepoint: "day 60"
+          organism: "Alteromonas macleodii HOT1A3"
+          name_col: "gene_id"
+          logfc_col: "logFC"
+          adjusted_p_value_col: "padj"
+
+    hot1a3_rnaseq_coculture_day_89_vs_day_11:
+      type: csv
+      filename: "data/Prochlorococcus/papers_and_supp/Weissberg_2025/HOT1A3__rnaseq__coculture_with_MED4__day_89__vs__day_11.csv"
+      organism: "Alteromonas macleodii HOT1A3"
+      id_columns:
+        - column: "gene_id"
+          id_type: locus_tag_ncbi
+      statistical_analyses:
+        - type: RNASEQ
+          name: "DE of Alteromonas HOT1A3 in coculture with MED4 day 89 vs day 11"
+          id: DE_hot1a3_rnaseq_coculture_day_89_vs_day_11
+          test_type: DESeq2
+          control_condition: "Exponential growth (day 11)"
+          treatment_condition: "Long-term nutrient starvation (day 89)"
+          environmental_control_condition_id: weissberg_2025_pro99_lown_exponential
+          environmental_treatment_condition_id: weissberg_2025_pro99_lown_starvation
+          experimental_context: "Alteromonas HOT1A3 in coculture with Prochlorococcus MED4 in PRO99-lowN at 24C under continuous light"
+          timepoint: "day 89"
+          organism: "Alteromonas macleodii HOT1A3"
+          name_col: "gene_id"
+          logfc_col: "logFC"
+          adjusted_p_value_col: "padj"
+
+    hot1a3_rnaseq_coculture_longterm_vs_day_11:
+      type: csv
+      filename: "data/Prochlorococcus/papers_and_supp/Weissberg_2025/HOT1A3__rnaseq__coculture_with_MED4__longterm_starvation_days_60_and_89__vs__day_11.csv"
+      organism: "Alteromonas macleodii HOT1A3"
+      id_columns:
+        - column: "gene_id"
+          id_type: locus_tag_ncbi
+      statistical_analyses:
+        - type: RNASEQ
+          name: "DE of Alteromonas HOT1A3 in coculture with MED4 long-term starvation (days 60+89) vs day 11"
+          id: DE_hot1a3_rnaseq_coculture_longterm_vs_day_11
+          test_type: DESeq2
+          control_condition: "Exponential growth (day 11)"
+          treatment_condition: "Long-term nutrient starvation (days 60+89)"
+          environmental_control_condition_id: weissberg_2025_pro99_lown_exponential
+          environmental_treatment_condition_id: weissberg_2025_pro99_lown_starvation
+          experimental_context: "Alteromonas HOT1A3 in coculture with Prochlorococcus MED4 in PRO99-lowN at 24C under continuous light"
+          timepoint: "days 60+89"
+          organism: "Alteromonas macleodii HOT1A3"
+          name_col: "gene_id"
+          logfc_col: "logFC"
+          adjusted_p_value_col: "padj"
+
+    # =========================================================================
+    # HOT1A3 — RNA-seq, coculture vs axenic at day 11
+    # =========================================================================
+
+    hot1a3_rnaseq_day_11_coculture_vs_axenic:
+      type: csv
+      filename: "data/Prochlorococcus/papers_and_supp/Weissberg_2025/HOT1A3__rnaseq__day_11__coculture_with_MED4__vs__axenic.csv"
+      organism: "Alteromonas macleodii HOT1A3"
+      id_columns:
+        - column: "gene_id"
+          id_type: locus_tag_ncbi
+      statistical_analyses:
+        - type: RNASEQ
+          name: "DE of Alteromonas HOT1A3 in coculture with MED4 vs axenic at day 11"
+          id: DE_hot1a3_rnaseq_coculture_vs_axenic_day_11
+          test_type: DESeq2
+          control_condition: "Axenic"
+          treatment_condition: "Coculture with Prochlorococcus MED4"
+          experimental_context: "Day 11 in PRO99-lowN at 24C under continuous light"
+          timepoint: "day 11"
+          organism: "Alteromonas macleodii HOT1A3"
+          treatment_taxid: 59919
+          treatment_organism: "Prochlorococcus MED4"
+          treatment_assembly_accession: "GCF_000011465.1"
+          name_col: "gene_id"
+          logfc_col: "logFC"
+          adjusted_p_value_col: "padj"
+
+    # =========================================================================
+    # HOT1A3 — Proteomics, axenic time course
+    # =========================================================================
+
+    hot1a3_proteome_axenic_day_18_vs_day_11:
+      type: csv
+      filename: "data/Prochlorococcus/papers_and_supp/Weissberg_2025/HOT1A3__proteome__axenic_HOT1A3__day_18__vs__day_11.csv"
+      organism: "Alteromonas macleodii HOT1A3"
+      id_columns:
+        - column: "gene_id"
+          id_type: locus_tag_ncbi
+      statistical_analyses:
+        - type: PROTEOMICS
+          name: "DE proteins of Alteromonas HOT1A3 axenic day 18 vs day 11"
+          id: DE_hot1a3_proteome_axenic_day_18_vs_day_11
+          test_type: DESeq2
+          control_condition: "Exponential growth (day 11)"
+          treatment_condition: "Nutrient starvation (day 18)"
+          environmental_control_condition_id: weissberg_2025_pro99_lown_exponential
+          environmental_treatment_condition_id: weissberg_2025_pro99_lown_starvation
+          experimental_context: "Axenic Alteromonas HOT1A3 in PRO99-lowN at 24C under continuous light"
+          timepoint: "day 18"
+          organism: "Alteromonas macleodii HOT1A3"
+          name_col: "gene_id"
+          logfc_col: "logFC"
+          adjusted_p_value_col: "padj"
+
+    hot1a3_proteome_axenic_day_31_vs_day_11:
+      type: csv
+      filename: "data/Prochlorococcus/papers_and_supp/Weissberg_2025/HOT1A3__proteome__axenic_HOT1A3__day_31__vs__day_11.csv"
+      organism: "Alteromonas macleodii HOT1A3"
+      id_columns:
+        - column: "gene_id"
+          id_type: locus_tag_ncbi
+      statistical_analyses:
+        - type: PROTEOMICS
+          name: "DE proteins of Alteromonas HOT1A3 axenic day 31 vs day 11"
+          id: DE_hot1a3_proteome_axenic_day_31_vs_day_11
+          test_type: DESeq2
+          control_condition: "Exponential growth (day 11)"
+          treatment_condition: "Nutrient starvation (day 31)"
+          environmental_control_condition_id: weissberg_2025_pro99_lown_exponential
+          environmental_treatment_condition_id: weissberg_2025_pro99_lown_starvation
+          experimental_context: "Axenic Alteromonas HOT1A3 in PRO99-lowN at 24C under continuous light"
+          timepoint: "day 31"
+          organism: "Alteromonas macleodii HOT1A3"
+          name_col: "gene_id"
+          logfc_col: "logFC"
+          adjusted_p_value_col: "padj"
+
+    # =========================================================================
+    # HOT1A3 — Proteomics, coculture time course
+    # =========================================================================
+
+    hot1a3_proteome_coculture_day_18_vs_day_11:
+      type: csv
+      filename: "data/Prochlorococcus/papers_and_supp/Weissberg_2025/HOT1A3__proteome__coculture_with_MED4__day_18__vs__day_11.csv"
+      organism: "Alteromonas macleodii HOT1A3"
+      id_columns:
+        - column: "gene_id"
+          id_type: locus_tag_ncbi
+      statistical_analyses:
+        - type: PROTEOMICS
+          name: "DE proteins of Alteromonas HOT1A3 in coculture with MED4 day 18 vs day 11"
+          id: DE_hot1a3_proteome_coculture_day_18_vs_day_11
+          test_type: DESeq2
+          control_condition: "Exponential growth (day 11)"
+          treatment_condition: "Nutrient starvation (day 18)"
+          environmental_control_condition_id: weissberg_2025_pro99_lown_exponential
+          environmental_treatment_condition_id: weissberg_2025_pro99_lown_starvation
+          experimental_context: "Alteromonas HOT1A3 in coculture with Prochlorococcus MED4 in PRO99-lowN at 24C under continuous light"
+          timepoint: "day 18"
+          organism: "Alteromonas macleodii HOT1A3"
+          name_col: "gene_id"
+          logfc_col: "logFC"
+          adjusted_p_value_col: "padj"
+
+    hot1a3_proteome_coculture_day_31_vs_day_11:
+      type: csv
+      filename: "data/Prochlorococcus/papers_and_supp/Weissberg_2025/HOT1A3__proteome__coculture_with_MED4__day_31__vs__day_11.csv"
+      organism: "Alteromonas macleodii HOT1A3"
+      id_columns:
+        - column: "gene_id"
+          id_type: locus_tag_ncbi
+      statistical_analyses:
+        - type: PROTEOMICS
+          name: "DE proteins of Alteromonas HOT1A3 in coculture with MED4 day 31 vs day 11"
+          id: DE_hot1a3_proteome_coculture_day_31_vs_day_11
+          test_type: DESeq2
+          control_condition: "Exponential growth (day 11)"
+          treatment_condition: "Nutrient starvation (day 31)"
+          environmental_control_condition_id: weissberg_2025_pro99_lown_exponential
+          environmental_treatment_condition_id: weissberg_2025_pro99_lown_starvation
+          experimental_context: "Alteromonas HOT1A3 in coculture with Prochlorococcus MED4 in PRO99-lowN at 24C under continuous light"
+          timepoint: "day 31"
+          organism: "Alteromonas macleodii HOT1A3"
+          name_col: "gene_id"
+          logfc_col: "logFC"
+          adjusted_p_value_col: "padj"
+
+    hot1a3_proteome_coculture_day_60_vs_day_11:
+      type: csv
+      filename: "data/Prochlorococcus/papers_and_supp/Weissberg_2025/HOT1A3__proteome__coculture_with_MED4__day_60__vs__day_11.csv"
+      organism: "Alteromonas macleodii HOT1A3"
+      id_columns:
+        - column: "gene_id"
+          id_type: locus_tag_ncbi
+      statistical_analyses:
+        - type: PROTEOMICS
+          name: "DE proteins of Alteromonas HOT1A3 in coculture with MED4 day 60 vs day 11"
+          id: DE_hot1a3_proteome_coculture_day_60_vs_day_11
+          test_type: DESeq2
+          control_condition: "Exponential growth (day 11)"
+          treatment_condition: "Long-term nutrient starvation (day 60)"
+          environmental_control_condition_id: weissberg_2025_pro99_lown_exponential
+          environmental_treatment_condition_id: weissberg_2025_pro99_lown_starvation
+          experimental_context: "Alteromonas HOT1A3 in coculture with Prochlorococcus MED4 in PRO99-lowN at 24C under continuous light"
+          timepoint: "day 60"
+          organism: "Alteromonas macleodii HOT1A3"
+          name_col: "gene_id"
+          logfc_col: "logFC"
+          adjusted_p_value_col: "padj"
+
+    hot1a3_proteome_coculture_day_89_vs_day_11:
+      type: csv
+      filename: "data/Prochlorococcus/papers_and_supp/Weissberg_2025/HOT1A3__proteome__coculture_with_MED4__day_89__vs__day_11.csv"
+      organism: "Alteromonas macleodii HOT1A3"
+      id_columns:
+        - column: "gene_id"
+          id_type: locus_tag_ncbi
+      statistical_analyses:
+        - type: PROTEOMICS
+          name: "DE proteins of Alteromonas HOT1A3 in coculture with MED4 day 89 vs day 11"
+          id: DE_hot1a3_proteome_coculture_day_89_vs_day_11
+          test_type: DESeq2
+          control_condition: "Exponential growth (day 11)"
+          treatment_condition: "Long-term nutrient starvation (day 89)"
+          environmental_control_condition_id: weissberg_2025_pro99_lown_exponential
+          environmental_treatment_condition_id: weissberg_2025_pro99_lown_starvation
+          experimental_context: "Alteromonas HOT1A3 in coculture with Prochlorococcus MED4 in PRO99-lowN at 24C under continuous light"
+          timepoint: "day 89"
+          organism: "Alteromonas macleodii HOT1A3"
+          name_col: "gene_id"
+          logfc_col: "logFC"
+          adjusted_p_value_col: "padj"
+
+    hot1a3_proteome_coculture_longterm_vs_day_11:
+      type: csv
+      filename: "data/Prochlorococcus/papers_and_supp/Weissberg_2025/HOT1A3__proteome__coculture_with_MED4__longterm_starvation_days_60_and_89__vs__day_11.csv"
+      organism: "Alteromonas macleodii HOT1A3"
+      id_columns:
+        - column: "gene_id"
+          id_type: locus_tag_ncbi
+      statistical_analyses:
+        - type: PROTEOMICS
+          name: "DE proteins of Alteromonas HOT1A3 in coculture with MED4 long-term starvation (days 60+89) vs day 11"
+          id: DE_hot1a3_proteome_coculture_longterm_vs_day_11
+          test_type: DESeq2
+          control_condition: "Exponential growth (day 11)"
+          treatment_condition: "Long-term nutrient starvation (days 60+89)"
+          environmental_control_condition_id: weissberg_2025_pro99_lown_exponential
+          environmental_treatment_condition_id: weissberg_2025_pro99_lown_starvation
+          experimental_context: "Alteromonas HOT1A3 in coculture with Prochlorococcus MED4 in PRO99-lowN at 24C under continuous light"
+          timepoint: "days 60+89"
+          organism: "Alteromonas macleodii HOT1A3"
+          name_col: "gene_id"
+          logfc_col: "logFC"
+          adjusted_p_value_col: "padj"
+
+    # =========================================================================
+    # MED4 (Prochlorococcus MED4) — RNA-seq, axenic time course
+    # =========================================================================
+
+    med4_rnaseq_axenic_day_14_vs_exp_day_7:
+      type: csv
+      filename: "data/Prochlorococcus/papers_and_supp/Weissberg_2025/MED4__rnaseq__axenic_MED4__day_14__vs__log_expnential_day_7.csv"
+      organism: "Prochlorococcus MED4"
+      id_columns:
+        - column: "gene_id"
+          id_type: locus_tag_ncbi
+      statistical_analyses:
+        - type: RNASEQ
+          name: "DE of Prochlorococcus MED4 axenic day 14 vs log exponential day 7"
+          id: DE_med4_rnaseq_axenic_day_14_vs_exp_day_7
+          test_type: DESeq2
+          control_condition: "Log exponential growth (day 7)"
+          treatment_condition: "Early decline (day 14)"
+          environmental_control_condition_id: weissberg_2025_pro99_lown_exponential
+          environmental_treatment_condition_id: weissberg_2025_pro99_lown_starvation
+          experimental_context: "Axenic Prochlorococcus MED4 in PRO99-lowN at 24C under continuous light"
+          timepoint: "day 14"
+          organism: "Prochlorococcus MED4"
+          name_col: "gene_id"
+          logfc_col: "logFC"
+          adjusted_p_value_col: "padj"
+
+    med4_rnaseq_axenic_longterm_vs_exp_day_7:
+      type: csv
+      filename: "data/Prochlorococcus/papers_and_supp/Weissberg_2025/MED4__rnaseq__axenic_MED4__longterm_starvation_days_60_and_89__vs__log_expnential_day_7.csv"
+      organism: "Prochlorococcus MED4"
+      id_columns:
+        - column: "gene_id"
+          id_type: locus_tag_ncbi
+      statistical_analyses:
+        - type: RNASEQ
+          name: "DE of Prochlorococcus MED4 axenic long-term starvation (days 60+89) vs log exponential day 7"
+          id: DE_med4_rnaseq_axenic_longterm_vs_exp_day_7
+          test_type: DESeq2
+          control_condition: "Log exponential growth (day 7)"
+          treatment_condition: "Long-term starvation (days 60+89)"
+          environmental_control_condition_id: weissberg_2025_pro99_lown_exponential
+          environmental_treatment_condition_id: weissberg_2025_pro99_lown_starvation
+          experimental_context: "Axenic Prochlorococcus MED4 in PRO99-lowN at 24C under continuous light"
+          timepoint: "days 60+89"
+          organism: "Prochlorococcus MED4"
+          name_col: "gene_id"
+          logfc_col: "logFC"
+          adjusted_p_value_col: "padj"
+
+    # =========================================================================
+    # MED4 — RNA-seq, coculture time course
+    # =========================================================================
+
+    med4_rnaseq_coculture_day_18_vs_exp_day_11:
+      type: csv
+      filename: "data/Prochlorococcus/papers_and_supp/Weissberg_2025/MED4__rnaseq__coculture_with_HOT1A3__day_18__vs__log_expnential_day_11.csv"
+      organism: "Prochlorococcus MED4"
+      id_columns:
+        - column: "gene_id"
+          id_type: locus_tag_ncbi
+      statistical_analyses:
+        - type: RNASEQ
+          name: "DE of Prochlorococcus MED4 in coculture with HOT1A3 day 18 vs log exponential day 11"
+          id: DE_med4_rnaseq_coculture_day_18_vs_exp_day_11
+          test_type: DESeq2
+          control_condition: "Log exponential growth (day 11)"
+          treatment_condition: "Decline (day 18)"
+          environmental_control_condition_id: weissberg_2025_pro99_lown_exponential
+          environmental_treatment_condition_id: weissberg_2025_pro99_lown_starvation
+          experimental_context: "Prochlorococcus MED4 in coculture with Alteromonas HOT1A3 in PRO99-lowN at 24C under continuous light"
+          timepoint: "day 18"
+          organism: "Prochlorococcus MED4"
+          name_col: "gene_id"
+          logfc_col: "logFC"
+          adjusted_p_value_col: "padj"
+
+    med4_rnaseq_coculture_day_31_vs_exp_day_11:
+      type: csv
+      filename: "data/Prochlorococcus/papers_and_supp/Weissberg_2025/MED4__rnaseq__coculture_with_HOT1A3__day_31__vs__log_expnential_day_11.csv"
+      organism: "Prochlorococcus MED4"
+      id_columns:
+        - column: "gene_id"
+          id_type: locus_tag_ncbi
+      statistical_analyses:
+        - type: RNASEQ
+          name: "DE of Prochlorococcus MED4 in coculture with HOT1A3 day 31 vs log exponential day 11"
+          id: DE_med4_rnaseq_coculture_day_31_vs_exp_day_11
+          test_type: DESeq2
+          control_condition: "Log exponential growth (day 11)"
+          treatment_condition: "Decline (day 31)"
+          environmental_control_condition_id: weissberg_2025_pro99_lown_exponential
+          environmental_treatment_condition_id: weissberg_2025_pro99_lown_starvation
+          experimental_context: "Prochlorococcus MED4 in coculture with Alteromonas HOT1A3 in PRO99-lowN at 24C under continuous light"
+          timepoint: "day 31"
+          organism: "Prochlorococcus MED4"
+          name_col: "gene_id"
+          logfc_col: "logFC"
+          adjusted_p_value_col: "padj"
+
+    med4_rnaseq_coculture_day_60_vs_exp_day_11:
+      type: csv
+      filename: "data/Prochlorococcus/papers_and_supp/Weissberg_2025/MED4__rnaseq__coculture_with_HOT1A3__day_60__vs__log_expnential_day_11.csv"
+      organism: "Prochlorococcus MED4"
+      id_columns:
+        - column: "gene_id"
+          id_type: locus_tag_ncbi
+      statistical_analyses:
+        - type: RNASEQ
+          name: "DE of Prochlorococcus MED4 in coculture with HOT1A3 day 60 vs log exponential day 11"
+          id: DE_med4_rnaseq_coculture_day_60_vs_exp_day_11
+          test_type: DESeq2
+          control_condition: "Log exponential growth (day 11)"
+          treatment_condition: "Long-term survival (day 60)"
+          environmental_control_condition_id: weissberg_2025_pro99_lown_exponential
+          environmental_treatment_condition_id: weissberg_2025_pro99_lown_starvation
+          experimental_context: "Prochlorococcus MED4 in coculture with Alteromonas HOT1A3 in PRO99-lowN at 24C under continuous light"
+          timepoint: "day 60"
+          organism: "Prochlorococcus MED4"
+          name_col: "gene_id"
+          logfc_col: "logFC"
+          adjusted_p_value_col: "padj"
+
+    med4_rnaseq_coculture_day_89_vs_exp_day_11:
+      type: csv
+      filename: "data/Prochlorococcus/papers_and_supp/Weissberg_2025/MED4__rnaseq__coculture_with_HOT1A3__day_89__vs__log_expnential_day_11.csv"
+      organism: "Prochlorococcus MED4"
+      id_columns:
+        - column: "gene_id"
+          id_type: locus_tag_ncbi
+      statistical_analyses:
+        - type: RNASEQ
+          name: "DE of Prochlorococcus MED4 in coculture with HOT1A3 day 89 vs log exponential day 11"
+          id: DE_med4_rnaseq_coculture_day_89_vs_exp_day_11
+          test_type: DESeq2
+          control_condition: "Log exponential growth (day 11)"
+          treatment_condition: "Long-term survival (day 89)"
+          environmental_control_condition_id: weissberg_2025_pro99_lown_exponential
+          environmental_treatment_condition_id: weissberg_2025_pro99_lown_starvation
+          experimental_context: "Prochlorococcus MED4 in coculture with Alteromonas HOT1A3 in PRO99-lowN at 24C under continuous light"
+          timepoint: "day 89"
+          organism: "Prochlorococcus MED4"
+          name_col: "gene_id"
+          logfc_col: "logFC"
+          adjusted_p_value_col: "padj"
+
+    med4_rnaseq_coculture_longterm_vs_exp_day_11:
+      type: csv
+      filename: "data/Prochlorococcus/papers_and_supp/Weissberg_2025/MED4__rnaseq__coculture_with_HOT1A3__longterm_starvation_days_60_and_89__vs__log_expnential_day_11.csv"
+      organism: "Prochlorococcus MED4"
+      id_columns:
+        - column: "gene_id"
+          id_type: locus_tag_ncbi
+      statistical_analyses:
+        - type: RNASEQ
+          name: "DE of Prochlorococcus MED4 in coculture with HOT1A3 long-term starvation (days 60+89) vs log exponential day 11"
+          id: DE_med4_rnaseq_coculture_longterm_vs_exp_day_11
+          test_type: DESeq2
+          control_condition: "Log exponential growth (day 11)"
+          treatment_condition: "Long-term starvation (days 60+89)"
+          environmental_control_condition_id: weissberg_2025_pro99_lown_exponential
+          environmental_treatment_condition_id: weissberg_2025_pro99_lown_starvation
+          experimental_context: "Prochlorococcus MED4 in coculture with Alteromonas HOT1A3 in PRO99-lowN at 24C under continuous light"
+          timepoint: "days 60+89"
+          organism: "Prochlorococcus MED4"
+          name_col: "gene_id"
+          logfc_col: "logFC"
+          adjusted_p_value_col: "padj"
+
+    # =========================================================================
+    # MED4 — RNA-seq, coculture vs axenic at log exponential day 11
+    # =========================================================================
+
+    med4_rnaseq_exp_day_11_coculture_vs_axenic:
+      type: csv
+      filename: "data/Prochlorococcus/papers_and_supp/Weissberg_2025/MED4__rnaseq__log_expnential_day_11__coculture_with_HOT1A3__vs__axenic.csv"
+      organism: "Prochlorococcus MED4"
+      id_columns:
+        - column: "gene_id"
+          id_type: locus_tag_ncbi
+      statistical_analyses:
+        - type: RNASEQ
+          name: "DE of Prochlorococcus MED4 in coculture with HOT1A3 vs axenic at log exponential day 11"
+          id: DE_med4_rnaseq_coculture_vs_axenic_exp_day_11
+          test_type: DESeq2
+          control_condition: "Axenic"
+          treatment_condition: "Coculture with Alteromonas HOT1A3"
+          experimental_context: "Log exponential day 11 in PRO99-lowN at 24C under continuous light"
+          timepoint: "day 11"
+          organism: "Prochlorococcus MED4"
+          treatment_taxid: 28108
+          treatment_organism: "Alteromonas macleodii HOT1A3"
+          treatment_assembly_accession: "GCF_001578515.1"
+          name_col: "gene_id"
+          logfc_col: "logFC"
+          adjusted_p_value_col: "padj"
+
+    # =========================================================================
+    # MED4 — Proteomics, axenic time course
+    # =========================================================================
+
+    med4_proteome_axenic_day_14_vs_exp_day_7:
+      type: csv
+      filename: "data/Prochlorococcus/papers_and_supp/Weissberg_2025/MED4__proteome__axenic_MED4__day_14__vs__log_expnential_day_7.csv"
+      organism: "Prochlorococcus MED4"
+      id_columns:
+        - column: "gene_id"
+          id_type: locus_tag_ncbi
+      statistical_analyses:
+        - type: PROTEOMICS
+          name: "DE proteins of Prochlorococcus MED4 axenic day 14 vs log exponential day 7"
+          id: DE_med4_proteome_axenic_day_14_vs_exp_day_7
+          test_type: DESeq2
+          control_condition: "Log exponential growth (day 7)"
+          treatment_condition: "Early decline (day 14)"
+          environmental_control_condition_id: weissberg_2025_pro99_lown_exponential
+          environmental_treatment_condition_id: weissberg_2025_pro99_lown_starvation
+          experimental_context: "Axenic Prochlorococcus MED4 in PRO99-lowN at 24C under continuous light"
+          timepoint: "day 14"
+          organism: "Prochlorococcus MED4"
+          name_col: "gene_id"
+          logfc_col: "logFC"
+          adjusted_p_value_col: "padj"
+
+    med4_proteome_axenic_day_31_vs_exp_day_7:
+      type: csv
+      filename: "data/Prochlorococcus/papers_and_supp/Weissberg_2025/MED4__proteome__axenic_MED4__day_31__vs__log_expnential_day_7.csv"
+      organism: "Prochlorococcus MED4"
+      id_columns:
+        - column: "gene_id"
+          id_type: locus_tag_ncbi
+      statistical_analyses:
+        - type: PROTEOMICS
+          name: "DE proteins of Prochlorococcus MED4 axenic day 31 vs log exponential day 7"
+          id: DE_med4_proteome_axenic_day_31_vs_exp_day_7
+          test_type: DESeq2
+          control_condition: "Log exponential growth (day 7)"
+          treatment_condition: "Death/decomposition (day 31)"
+          environmental_control_condition_id: weissberg_2025_pro99_lown_exponential
+          environmental_treatment_condition_id: weissberg_2025_pro99_lown_starvation
+          experimental_context: "Axenic Prochlorococcus MED4 in PRO99-lowN at 24C under continuous light. Cells are dead at this point; proteome represents decomposing cells."
+          timepoint: "day 31"
+          organism: "Prochlorococcus MED4"
+          name_col: "gene_id"
+          logfc_col: "logFC"
+          adjusted_p_value_col: "padj"
+
+    med4_proteome_axenic_day_89_vs_exp_day_7:
+      type: csv
+      filename: "data/Prochlorococcus/papers_and_supp/Weissberg_2025/MED4__proteome__axenic_MED4__day_89__vs__log_expnential_day_7.csv"
+      organism: "Prochlorococcus MED4"
+      id_columns:
+        - column: "gene_id"
+          id_type: locus_tag_ncbi
+      statistical_analyses:
+        - type: PROTEOMICS
+          name: "DE proteins of Prochlorococcus MED4 axenic day 89 vs log exponential day 7"
+          id: DE_med4_proteome_axenic_day_89_vs_exp_day_7
+          test_type: DESeq2
+          control_condition: "Log exponential growth (day 7)"
+          treatment_condition: "Death/decomposition (day 89)"
+          environmental_control_condition_id: weissberg_2025_pro99_lown_exponential
+          environmental_treatment_condition_id: weissberg_2025_pro99_lown_starvation
+          experimental_context: "Axenic Prochlorococcus MED4 in PRO99-lowN at 24C under continuous light. Cells are dead at this point; proteome represents decomposing cells."
+          timepoint: "day 89"
+          organism: "Prochlorococcus MED4"
+          name_col: "gene_id"
+          logfc_col: "logFC"
+          adjusted_p_value_col: "padj"
+
+    # =========================================================================
+    # MED4 — Proteomics, coculture time course
+    # =========================================================================
+
+    med4_proteome_coculture_day_18_vs_exp_day_11:
+      type: csv
+      filename: "data/Prochlorococcus/papers_and_supp/Weissberg_2025/MED4__proteome__coculture_with_HOT1A3__day_18__vs__log_expnential_day_11.csv"
+      organism: "Prochlorococcus MED4"
+      id_columns:
+        - column: "gene_id"
+          id_type: locus_tag_ncbi
+      statistical_analyses:
+        - type: PROTEOMICS
+          name: "DE proteins of Prochlorococcus MED4 in coculture with HOT1A3 day 18 vs log exponential day 11"
+          id: DE_med4_proteome_coculture_day_18_vs_exp_day_11
+          test_type: DESeq2
+          control_condition: "Log exponential growth (day 11)"
+          treatment_condition: "Decline (day 18)"
+          environmental_control_condition_id: weissberg_2025_pro99_lown_exponential
+          environmental_treatment_condition_id: weissberg_2025_pro99_lown_starvation
+          experimental_context: "Prochlorococcus MED4 in coculture with Alteromonas HOT1A3 in PRO99-lowN at 24C under continuous light"
+          timepoint: "day 18"
+          organism: "Prochlorococcus MED4"
+          name_col: "gene_id"
+          logfc_col: "logFC"
+          adjusted_p_value_col: "padj"
+
+    med4_proteome_coculture_day_31_vs_exp_day_11:
+      type: csv
+      filename: "data/Prochlorococcus/papers_and_supp/Weissberg_2025/MED4__proteome__coculture_with_HOT1A3__day_31__vs__log_expnential_day_11.csv"
+      organism: "Prochlorococcus MED4"
+      id_columns:
+        - column: "gene_id"
+          id_type: locus_tag_ncbi
+      statistical_analyses:
+        - type: PROTEOMICS
+          name: "DE proteins of Prochlorococcus MED4 in coculture with HOT1A3 day 31 vs log exponential day 11"
+          id: DE_med4_proteome_coculture_day_31_vs_exp_day_11
+          test_type: DESeq2
+          control_condition: "Log exponential growth (day 11)"
+          treatment_condition: "Decline (day 31)"
+          environmental_control_condition_id: weissberg_2025_pro99_lown_exponential
+          environmental_treatment_condition_id: weissberg_2025_pro99_lown_starvation
+          experimental_context: "Prochlorococcus MED4 in coculture with Alteromonas HOT1A3 in PRO99-lowN at 24C under continuous light"
+          timepoint: "day 31"
+          organism: "Prochlorococcus MED4"
+          name_col: "gene_id"
+          logfc_col: "logFC"
+          adjusted_p_value_col: "padj"
+
+    med4_proteome_coculture_day_60_vs_exp_day_11:
+      type: csv
+      filename: "data/Prochlorococcus/papers_and_supp/Weissberg_2025/MED4__proteome__coculture_with_HOT1A3__day_60__vs__log_expnential_day_11.csv"
+      organism: "Prochlorococcus MED4"
+      id_columns:
+        - column: "gene_id"
+          id_type: locus_tag_ncbi
+      statistical_analyses:
+        - type: PROTEOMICS
+          name: "DE proteins of Prochlorococcus MED4 in coculture with HOT1A3 day 60 vs log exponential day 11"
+          id: DE_med4_proteome_coculture_day_60_vs_exp_day_11
+          test_type: DESeq2
+          control_condition: "Log exponential growth (day 11)"
+          treatment_condition: "Long-term survival (day 60)"
+          environmental_control_condition_id: weissberg_2025_pro99_lown_exponential
+          environmental_treatment_condition_id: weissberg_2025_pro99_lown_starvation
+          experimental_context: "Prochlorococcus MED4 in coculture with Alteromonas HOT1A3 in PRO99-lowN at 24C under continuous light"
+          timepoint: "day 60"
+          organism: "Prochlorococcus MED4"
+          name_col: "gene_id"
+          logfc_col: "logFC"
+          adjusted_p_value_col: "padj"
+
+    med4_proteome_coculture_day_89_vs_exp_day_11:
+      type: csv
+      filename: "data/Prochlorococcus/papers_and_supp/Weissberg_2025/MED4__proteome__coculture_with_HOT1A3__day_89__vs__log_expnential_day_11.csv"
+      organism: "Prochlorococcus MED4"
+      id_columns:
+        - column: "gene_id"
+          id_type: locus_tag_ncbi
+      statistical_analyses:
+        - type: PROTEOMICS
+          name: "DE proteins of Prochlorococcus MED4 in coculture with HOT1A3 day 89 vs log exponential day 11"
+          id: DE_med4_proteome_coculture_day_89_vs_exp_day_11
+          test_type: DESeq2
+          control_condition: "Log exponential growth (day 11)"
+          treatment_condition: "Long-term survival (day 89)"
+          environmental_control_condition_id: weissberg_2025_pro99_lown_exponential
+          environmental_treatment_condition_id: weissberg_2025_pro99_lown_starvation
+          experimental_context: "Prochlorococcus MED4 in coculture with Alteromonas HOT1A3 in PRO99-lowN at 24C under continuous light"
+          timepoint: "day 89"
+          organism: "Prochlorococcus MED4"
+          name_col: "gene_id"
+          logfc_col: "logFC"
+          adjusted_p_value_col: "padj"
+
+    med4_proteome_coculture_longterm_vs_exp_day_11:
+      type: csv
+      filename: "data/Prochlorococcus/papers_and_supp/Weissberg_2025/MED4__proteome__coculture_with_HOT1A3__longterm_starvation_days_60_and_89__vs__log_expnential_day_11.csv"
+      organism: "Prochlorococcus MED4"
+      id_columns:
+        - column: "gene_id"
+          id_type: locus_tag_ncbi
+      statistical_analyses:
+        - type: PROTEOMICS
+          name: "DE proteins of Prochlorococcus MED4 in coculture with HOT1A3 long-term starvation (days 60+89) vs log exponential day 11"
+          id: DE_med4_proteome_coculture_longterm_vs_exp_day_11
+          test_type: DESeq2
+          control_condition: "Log exponential growth (day 11)"
+          treatment_condition: "Long-term starvation (days 60+89)"
+          environmental_control_condition_id: weissberg_2025_pro99_lown_exponential
+          environmental_treatment_condition_id: weissberg_2025_pro99_lown_starvation
+          experimental_context: "Prochlorococcus MED4 in coculture with Alteromonas HOT1A3 in PRO99-lowN at 24C under continuous light"
+          timepoint: "days 60+89"
+          organism: "Prochlorococcus MED4"
+          name_col: "gene_id"
+          logfc_col: "logFC"
+          adjusted_p_value_col: "padj"

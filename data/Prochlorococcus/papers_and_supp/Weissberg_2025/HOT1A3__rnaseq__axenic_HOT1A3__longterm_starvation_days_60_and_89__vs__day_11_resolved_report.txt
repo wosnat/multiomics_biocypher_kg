@@ -1,0 +1,36 @@
+Resolution report: Weissberg 2025 / hot1a3_rnaseq_axenic_longterm_vs_day_11
+Source: HOT1A3__rnaseq__axenic_HOT1A3__longterm_starvation_days_60_and_89__vs__day_11.csv
+name_col: gene_id
+id_columns: ['gene_id']
+
+Total rows with IDs: 4015
+Resolved: 3950 (98.4%)
+Unresolved: 65
+
+Resolution method breakdown:
+  locus_tag:gene_id: 99
+  tier1:gene_id: 3851
+  unresolved: 65
+
+Unresolved rows (65):
+  row 265: raw_id='ACZ81_RS01405'  reason=unresolved  [gene_id='ACZ81_RS01405']
+  row 1020: raw_id='ACZ81_RS05415'  reason=unresolved  [gene_id='ACZ81_RS05415']
+  row 1065: raw_id='ACZ81_RS05650'  reason=unresolved  [gene_id='ACZ81_RS05650']
+  row 1417: raw_id='ACZ81_RS07580'  reason=unresolved  [gene_id='ACZ81_RS07580']
+  row 1699: raw_id='ACZ81_RS09060'  reason=unresolved  [gene_id='ACZ81_RS09060']
+  row 1928: raw_id='ACZ81_RS10295'  reason=unresolved  [gene_id='ACZ81_RS10295']
+  row 1934: raw_id='ACZ81_RS10325'  reason=unresolved  [gene_id='ACZ81_RS10325']
+  row 1969: raw_id='ACZ81_RS10515'  reason=unresolved  [gene_id='ACZ81_RS10515']
+  row 1987: raw_id='ACZ81_RS10620'  reason=unresolved  [gene_id='ACZ81_RS10620']
+  row 2698: raw_id='ACZ81_RS14350'  reason=unresolved  [gene_id='ACZ81_RS14350']
+  row 2939: raw_id='ACZ81_RS15590'  reason=unresolved  [gene_id='ACZ81_RS15590']
+  row 2989: raw_id='ACZ81_RS15850'  reason=unresolved  [gene_id='ACZ81_RS15850']
+  row 3183: raw_id='ACZ81_RS16860'  reason=unresolved  [gene_id='ACZ81_RS16860']
+  row 3320: raw_id='ACZ81_RS17610'  reason=unresolved  [gene_id='ACZ81_RS17610']
+  row 3506: raw_id='ACZ81_RS18560'  reason=unresolved  [gene_id='ACZ81_RS18560']
+  row 3775: raw_id='ACZ81_RS19945'  reason=unresolved  [gene_id='ACZ81_RS19945']
+  row 3777: raw_id='ACZ81_RS19955'  reason=unresolved  [gene_id='ACZ81_RS19955']
+  row 3778: raw_id='ACZ81_RS19960'  reason=unresolved  [gene_id='ACZ81_RS19960']
+  row 3784: raw_id='ACZ81_RS20005'  reason=unresolved  [gene_id='ACZ81_RS20005']
+  row 3787: raw_id='ACZ81_RS20025'  reason=unresolved  [gene_id='ACZ81_RS20025']
+  ... (45 more)

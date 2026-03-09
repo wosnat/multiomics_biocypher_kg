@@ -1,0 +1,12 @@
+Resolution report: Weissberg 2025 / med4_proteome_coculture_day_89_vs_exp_day_11
+Source: MED4__proteome__coculture_with_HOT1A3__day_89__vs__log_expnential_day_11.csv
+name_col: gene_id
+id_columns: ['gene_id']
+
+Total rows with IDs: 1424
+Resolved: 1424 (100.0%)
+Unresolved: 0
+
+Resolution method breakdown:
+  locus_tag:gene_id: 1
+  tier1:gene_id: 1423

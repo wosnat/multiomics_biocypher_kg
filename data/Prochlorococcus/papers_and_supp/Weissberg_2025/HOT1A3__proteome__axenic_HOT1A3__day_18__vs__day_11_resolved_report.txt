@@ -1,0 +1,18 @@
+Resolution report: Weissberg 2025 / hot1a3_proteome_axenic_day_18_vs_day_11
+Source: HOT1A3__proteome__axenic_HOT1A3__day_18__vs__day_11.csv
+name_col: gene_id
+id_columns: ['gene_id']
+
+Total rows with IDs: 2229
+Resolved: 2226 (99.9%)
+Unresolved: 3
+
+Resolution method breakdown:
+  locus_tag:gene_id: 11
+  tier1:gene_id: 2215
+  unresolved: 3
+
+Unresolved rows (3):
+  row 250: raw_id='ACZ81_RS21500'  reason=unresolved  [gene_id='ACZ81_RS21500']
+  row 1611: raw_id='ACZ81_RS01405'  reason=unresolved  [gene_id='ACZ81_RS01405']
+  row 2120: raw_id='ACZ81_RS10620'  reason=unresolved  [gene_id='ACZ81_RS10620']

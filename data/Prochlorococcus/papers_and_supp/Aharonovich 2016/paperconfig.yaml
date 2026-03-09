@@ -38,6 +38,49 @@ publication:
           logfc_col: log 2 fold change coculture/axenic
           adjusted_p_value_col: q Value
           pvalue_threshold: 0.01
+    # HOT1A3 (Alteromonas) expression data
+    # NOTE: fold change columns are raw ratios, NOT log2 — needs conversion before import
+    # NOTE: AMHOT1A3_single_NNNNN IDs are Rockhopper-generated, need mapping to ACZ81_NNNNN locus tags
+    supp_table_hot1a3_9313_vs_9313dil:
+      type: csv
+      filename: data/Prochlorococcus/papers_and_supp/Aharonovich 2016/HOT1A3 coculture with 9313 ver coculture with 9313 diluted.csv
+      statistical_analyses:
+        - type: RNASEQ
+          name: Differential Expression Analysis of Alteromonas HOT1A3 in Coculture with MIT9313 vs Coculture with MIT9313 diluted at 20h
+          id: DE_hot1a3_coculture_9313_vs_9313dil_t20h
+          test_type: Rockhopper
+          control_condition: Coculture with Prochlorococcus MIT9313 (diluted, 0.5x10^6 cells/ml)
+          treatment_condition: Coculture with Prochlorococcus MIT9313 (concentrated, 5x10^6 cells/ml)
+          experimental_context: in Pro99 medium under continuous light
+          timepoint: 20h
+          organism: Alteromonas HOT1A3
+          treatment_taxid: 74547
+          treatment_organism: Prochlorococcus marinus MIT9313
+          treatment_assembly_accession: GCF_000011485.1
+          name_col: Synonym
+          logfc_col: fold change 9313/9313DIL
+          adjusted_p_value_col: qValue 9313+1A3  vs 9313+1A3 dil
+          pvalue_threshold: 0.01
+    supp_table_hot1a3_9313_vs_med4:
+      type: csv
+      filename: data/Prochlorococcus/papers_and_supp/Aharonovich 2016/HOT1A3 coculture with MED4 vs coculture with MIT9313.csv
+      statistical_analyses:
+        - type: RNASEQ
+          name: Differential Expression Analysis of Alteromonas HOT1A3 in Coculture with MIT9313 vs Coculture with MED4 at 20h
+          id: DE_hot1a3_coculture_9313_vs_med4_t20h
+          test_type: Rockhopper
+          control_condition: Coculture with Prochlorococcus MED4
+          treatment_condition: Coculture with Prochlorococcus MIT9313
+          experimental_context: in Pro99 medium under continuous light
+          timepoint: 20h
+          organism: Alteromonas HOT1A3
+          treatment_taxid: 74547
+          treatment_organism: Prochlorococcus marinus MIT9313
+          treatment_assembly_accession: GCF_000011485.1
+          name_col: Synonym
+          logfc_col: fold change 9313+1A3/med4+1A3
+          adjusted_p_value_col: qValue 9313+1A3  vs med 4
+          pvalue_threshold: 0.01
     supp_table_2:
       type: csv
       filename: data/Prochlorococcus/papers_and_supp/Aharonovich 2016/de_genes_9313_t20h.csv

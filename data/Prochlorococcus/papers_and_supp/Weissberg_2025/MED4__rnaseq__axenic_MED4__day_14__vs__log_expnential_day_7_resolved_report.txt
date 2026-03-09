@@ -1,0 +1,21 @@
+Resolution report: Weissberg 2025 / med4_rnaseq_axenic_day_14_vs_exp_day_7
+Source: MED4__rnaseq__axenic_MED4__day_14__vs__log_expnential_day_7.csv
+name_col: gene_id
+id_columns: ['gene_id']
+
+Total rows with IDs: 1855
+Resolved: 1849 (99.7%)
+Unresolved: 6
+
+Resolution method breakdown:
+  locus_tag:gene_id: 11
+  tier1:gene_id: 1838
+  unresolved: 6
+
+Unresolved rows (6):
+  row 584: raw_id='TX50_RS03060'  reason=unresolved  [gene_id='TX50_RS03060']
+  row 698: raw_id='TX50_RS03640'  reason=unresolved  [gene_id='TX50_RS03640']
+  row 1383: raw_id='TX50_RS07310'  reason=unresolved  [gene_id='TX50_RS07310']
+  row 1849: raw_id='TX50_RS09865'  reason=unresolved  [gene_id='TX50_RS09865']
+  row 1852: raw_id='TX50_RS09880'  reason=unresolved  [gene_id='TX50_RS09880']
+  row 1854: raw_id='TX50_RS09890'  reason=unresolved  [gene_id='TX50_RS09890']
