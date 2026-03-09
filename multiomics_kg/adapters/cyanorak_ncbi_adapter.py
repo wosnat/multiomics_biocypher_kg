@@ -86,7 +86,7 @@ def _fetch_ncbi_taxonomy(taxid: int, cache_dir: str) -> dict:
         return {}
 
     with open(cache_path, 'w') as f:
-        json.dump(result, f, indent=2)
+        json.dump(result, f, indent=2, sort_keys=True)
     logger.info(f"Taxonomy saved to {cache_path}")
     return result
 

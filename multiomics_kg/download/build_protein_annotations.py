@@ -227,7 +227,7 @@ def process_taxid(
             stats["reviewed"] += 1
 
     with open(output_path, "w") as f:
-        json.dump(output, f, indent=2)
+        json.dump(output, f, indent=2, sort_keys=True)
     print(f"  → {output_path}")
 
     n = stats["total"] or 1

@@ -31,7 +31,6 @@ Algorithm
 
 from __future__ import annotations
 
-import datetime
 from collections import defaultdict
 from typing import Any
 
@@ -314,7 +313,6 @@ class GeneIdGraph:
             "version": 2,
             "organism": organism,
             "strain": strain,
-            "built_at": datetime.datetime.now(datetime.timezone.utc).isoformat(),
             "stats": {
                 "n_genes": len(self._genes),
                 "n_specific": len(specific_out),

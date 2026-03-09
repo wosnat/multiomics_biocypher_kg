@@ -200,6 +200,6 @@ def download_kegg_data(cache_root: Path, force: bool = False) -> dict:
     }
 
     with open(cache_file, "w", encoding="utf-8") as fh:
-        json.dump(data, fh)
+        json.dump(data, fh, sort_keys=True)
     logger.info(f"KEGG data cached to {cache_file}")
     return data

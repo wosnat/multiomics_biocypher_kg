@@ -254,7 +254,7 @@ def download_uniprot(
 
     logger.info(f"  Saving raw data ({len(uniprot_ids)} proteins) → {raw_path}")
     with open(raw_path, "w") as f:
-        json.dump(data, f, indent=4, default=str)
+        json.dump(data, f, indent=4, default=str, sort_keys=True)
 
     ids_path = cache_dir / "uniprot_ids.json"
     with open(ids_path, "w") as f:

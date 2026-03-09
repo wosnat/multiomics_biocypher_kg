@@ -208,7 +208,7 @@ def save_snapshot(metrics: dict[str, dict]) -> None:
         "metrics": metrics,
     }
     with open(SNAPSHOT_FILE, "w") as f:
-        json.dump(snapshot, f, indent=2)
+        json.dump(snapshot, f, indent=2, sort_keys=True)
     print(f"Snapshot saved to {SNAPSHOT_FILE}")
 
 

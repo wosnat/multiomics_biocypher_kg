@@ -128,7 +128,7 @@ Return ONLY the JSON object.""")
         try:
             self.cache_file.parent.mkdir(parents=True, exist_ok=True)
             with open(self.cache_file, "w") as f:
-                json.dump(self.cache, f, indent=2, default=str)
+                json.dump(self.cache, f, indent=2, default=str, sort_keys=True)
         except Exception as e:
             logger.error(f"Failed to save cache: {e}")
 

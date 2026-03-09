@@ -162,7 +162,7 @@ def capture_snapshot() -> dict:
 def save_snapshot(snapshot: dict, name: str) -> Path:
     SNAPSHOT_DIR.mkdir(parents=True, exist_ok=True)
     path = SNAPSHOT_DIR / f"{name}.json"
-    path.write_text(json.dumps(snapshot, indent=2))
+    path.write_text(json.dumps(snapshot, indent=2, sort_keys=True))
     return path
 
 

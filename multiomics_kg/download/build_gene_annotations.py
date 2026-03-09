@@ -526,11 +526,11 @@ def process_strain(
         stats[f"quality_{q}"] += 1
 
     with open(wide_path, "w") as f:
-        json.dump(wide_out, f, indent=2)
+        json.dump(wide_out, f, indent=2, sort_keys=True)
     print(f"  → {wide_path}")
 
     with open(merged_path, "w") as f:
-        json.dump(merged_out, f, indent=2)
+        json.dump(merged_out, f, indent=2, sort_keys=True)
     print(f"  → {merged_path}")
 
     # Coverage report

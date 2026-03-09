@@ -254,7 +254,7 @@ def generate_snapshot(neo4j_url):
         "edges": edges,
     }
 
-    SNAPSHOT_PATH.write_text(json.dumps(snapshot, indent=2, default=str) + "\n")
+    SNAPSHOT_PATH.write_text(json.dumps(snapshot, indent=2, default=str, sort_keys=True) + "\n")
     print(f"Snapshot written to {SNAPSHOT_PATH}")
     print(f"  Nodes: {len(nodes)}")
     print(f"  Edges: {len(edges)}")

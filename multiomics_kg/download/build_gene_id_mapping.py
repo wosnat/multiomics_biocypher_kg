@@ -418,7 +418,7 @@ def write_gene_id_mapping(graph: GeneIdGraph, genome_dir: Path, organism: str, s
     data = graph.to_json_structure(organism, strain)
     out_path = genome_dir / "gene_id_mapping.json"
     with open(out_path, "w") as f:
-        json.dump(data, f, indent=2)
+        json.dump(data, f, indent=2, sort_keys=True)
     stats = data["stats"]
     print(
         f"  Wrote {out_path} "
@@ -435,7 +435,7 @@ def write_diagnostic_report(graph: GeneIdGraph, genome_dir: Path, strain: str) -
 
     out_path = genome_dir / "gene_id_mapping_report.json"
     with open(out_path, "w") as f:
-        json.dump(report, f, indent=2)
+        json.dump(report, f, indent=2, sort_keys=True)
 
     # Print warnings to stderr
     if report["warnings"]:

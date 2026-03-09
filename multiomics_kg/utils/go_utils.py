@@ -159,7 +159,7 @@ def build_namespace_cache(cache_root: Path, force: bool = False) -> Path:
         _download_obo(obo_path)
         go_data = parse_obo(obo_path)
         with open(cache_path, "w", encoding="utf-8") as fh:
-            json.dump(go_data, fh, separators=(",", ":"))
+            json.dump(go_data, fh, separators=(",", ":"), sort_keys=True)
         logger.info(
             f"Wrote GO namespace cache: {len(go_data)} terms, "
             f"{cache_path.stat().st_size // 1024} KB → {cache_path}"

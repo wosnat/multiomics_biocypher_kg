@@ -151,7 +151,7 @@ class EC:
             return
         cache_path.parent.mkdir(parents=True, exist_ok=True)
         with open(cache_path, "w", encoding="utf-8") as fh:
-            json.dump({"ec_dict": self.ec_dict, "enzymes": self.enzymes}, fh)
+            json.dump({"ec_dict": self.ec_dict, "enzymes": self.enzymes}, fh, sort_keys=True)
         logger.info(f"Saved EC data to cache: {cache_path}")
 
     @validate_call
