@@ -287,6 +287,23 @@ class TestGeneIdGraph:
         # Ambiguous — two canonical locus_tags disagree; JGI999 stays unresolved
         assert g.specific_lookup.get("JGI999") is None
 
+    def test_whitespace_split_strips_parentheses(self):
+        """Compound 'P9313_15331 (PMT1212)' → tokens stripped of parens → 'PMT1212' linked.
+
+        Thompson 2011 pattern: Gene column has "P9313_XXXXX (PMTxxxx)" format.
+        The whitespace split should produce "P9313_15331" and "PMT1212" (no parens).
+        """
+        g = _make_graph_with_genes("PMT1212")
+        rows = [
+            ([("P9313_15331 (PMT1212)", "old_locus_tag")], "thompson_2011"),
+        ]
+        g.process_all_rows(rows)
+
+        # "P9313_15331" should be linked (no parens)
+        assert g.specific_lookup.get("P9313_15331") == "PMT1212"
+        # "(PMT1212)" with parens should NOT be in the lookup
+        assert g.specific_lookup.get("(PMT1212)") is None
+
     def test_whitespace_split_skips_tier3(self):
         """Compound value with Tier 3 id_type is not split by Phase 2.
 

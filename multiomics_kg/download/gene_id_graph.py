@@ -160,9 +160,10 @@ class GeneIdGraph:
                 if self._add_mapping(anchor, candidate, id_type, tier, source_name):
                     changed = True
             # Whitespace-split compound values (e.g. "dnaA PMM0001" in gene_name column)
+            # Also strip parentheses from tokens (e.g. "P9313_15331 (PMT1212)" → "PMT1212")
             if " " in id_val and tier <= 2:
                 for token in id_val.split():
-                    token = token.strip()
+                    token = token.strip().strip("()")
                     if token and self._add_mapping(anchor, token, id_type, tier, source_name):
                         changed = True
         return changed
@@ -220,7 +221,7 @@ class GeneIdGraph:
                 canonical = set()   # tokens that ARE locus_tags (self-mapped)
                 alt_mapped = set()  # tokens that are alt-IDs mapping to some locus_tag
                 for token in id_val.split():
-                    token = token.strip()
+                    token = token.strip().strip("()")
                     if token and token in self.specific_lookup:
                         resolved = self.specific_lookup[token]
                         if resolved == token:

@@ -1,19 +1,19 @@
 {
   "per_id_type": {
     "alternative_locus_tag": {
-      "conflict": 16,
+      "conflict": 19,
       "multi": 0,
-      "unique": 2702
+      "unique": 2699
     },
     "cds_fna_id": {
       "conflict": 0,
       "multi": 0,
-      "unique": 2389
+      "unique": 2391
     },
     "gene_name": {
       "conflict": 0,
       "multi": 175,
-      "unique": 2590
+      "unique": 2591
     },
     "gene_synonym": {
       "conflict": 0,
@@ -23,7 +23,7 @@
     "locus_tag": {
       "conflict": 0,
       "multi": 0,
-      "unique": 5
+      "unique": 8
     },
     "locus_tag_cyanorak": {
       "conflict": 0,
@@ -33,22 +33,22 @@
     "locus_tag_ncbi": {
       "conflict": 17,
       "multi": 0,
-      "unique": 5873
+      "unique": 5886
     },
     "old_locus_tag": {
       "conflict": 4,
       "multi": 0,
-      "unique": 4363
+      "unique": 4339
     },
     "protein_id_refseq": {
       "conflict": 0,
       "multi": 19,
-      "unique": 5092
+      "unique": 5098
     },
     "uniprot_accession": {
       "conflict": 0,
       "multi": 15,
-      "unique": 2305
+      "unique": 2308
     }
   },
   "strain": "MIT9313",
@@ -56,16 +56,16 @@
     "Aharonovich 2016/supp_table_2": 1,
     "Aharonovich 2016/supp_table_3": 1,
     "Fang 2019/supp_table_2": 237,
-    "MIT9313_resources/mit9313_id_translation": 50,
+    "MIT9313_resources/mit9313_id_translation": 47,
     "Martiny 2006/supp_table_2": 4,
-    "Thompson 2011/supp_table_2": 23,
+    "Thompson 2011/supp_table_2": 14,
     "Tolonen 2006/supp_table_mit9313": 9,
-    "cds_from_genomic.fna": 32,
-    "genomic_gca/MIT9313": 358
+    "cds_from_genomic.fna": 30,
+    "genomic_gca/MIT9313": 346
   },
   "warnings": [
     "[CONFLICT] Tier 1 id_type 'old_locus_tag' has 4 data conflicts \u2014 check annotation quality.",
     "[CONFLICT] Tier 1 id_type 'locus_tag_ncbi' has 17 data conflicts \u2014 check annotation quality.",
-    "[CONFLICT] Tier 1 id_type 'alternative_locus_tag' has 16 data conflicts \u2014 check annotation quality."
+    "[CONFLICT] Tier 1 id_type 'alternative_locus_tag' has 19 data conflicts \u2014 check annotation quality."
   ]
 }
