@@ -7,7 +7,6 @@ Used by both CyanorakNcbi adapter and the download pipeline (download_genome_dat
 from __future__ import annotations
 
 import os
-import re
 
 import numpy as np
 import pandas as pd
@@ -36,7 +35,7 @@ _FINAL_MERGE_RENAME = {
     'start_cyanorak': 'start_cyanorak', 'end_cyanorak': 'end_cyanorak',
     'strand_cyanorak': 'strand_cyanorak',
     'product_ncbi': 'product', 'product_cyanorak': 'product_cyanorak',
-    'ID': 'locus_tag_cyanoak',
+    'ID': 'locus_tag_cyanorak',
 }
 
 
@@ -106,26 +105,36 @@ def ncbi_merge_cds_and_gene_entries(ncbi_gff_df: pd.DataFrame) -> pd.DataFrame:
     return df_filter
 
 
-def _get_cynaorak_ID(rec) -> str:
-    """Extract the Cyanorak ID from a GenBank CDS feature of a Cyanorak GBK file."""
+def _get_cyanorak_id(rec) -> str | None:
+    """Extract the Cyanorak ID from a GenBank CDS feature of a Cyanorak GBK file.
+
+    Returns None if the feature has no 'note' qualifier or no matching note.
+    """
+    notes = rec.qualifiers.get('note', [])
+    if not notes:
+        return None
     note_name = 'cyanorak ORF Id:'
-    cyanorak_ID = [i for i in rec.qualifiers['note'] if i.startswith(note_name)]
-    if len(cyanorak_ID) > 1:
-        print(f"Warning: multiple cyanorak IDs found for record {rec.id} - {cyanorak_ID}")
-    return cyanorak_ID[0].replace(note_name, '').strip()
+    cyanorak_ids = [i for i in notes if i.startswith(note_name)]
+    if not cyanorak_ids:
+        return None
+    if len(cyanorak_ids) > 1:
+        logger.warning(f"Multiple cyanorak IDs found for feature {rec.qualifiers.get('locus_tag', ['?'])[0]}: {cyanorak_ids}")
+    return cyanorak_ids[0].replace(note_name, '').strip()
 
 
 def _get_cyanorak_id_map_from_gbk(gbk_file: str) -> dict[str, str]:
     """Create a mapping from Cyanorak ID to locus_tag from a Cyanorak GBK file."""
-    seq_records = [
-        rec for rec in SeqIO.read(gbk_file, "genbank").features
-        if rec.type in ["CDS"]
-    ]
-    return {
-        _get_cynaorak_ID(rec): locus_tag
-        for rec in seq_records
-        for locus_tag in rec.qualifiers['locus_tag']
-    }
+    result: dict[str, str] = {}
+    for record in SeqIO.parse(gbk_file, "genbank"):
+        for feature in record.features:
+            if feature.type != "CDS":
+                continue
+            cyanorak_id = _get_cyanorak_id(feature)
+            if cyanorak_id is None:
+                continue
+            for locus_tag in feature.qualifiers.get('locus_tag', []):
+                result[cyanorak_id] = locus_tag
+    return result
 
 
 def _get_ec_numbers_from_gbff(gbff_file: str) -> dict[str, list[str]]:

@@ -70,10 +70,9 @@ fields:
     field: locus_tag_ncbi
 
   locus_tag_cyanorak:
-    # Fixes the "locus_tag_cyanoak" typo present in gene_mapping.csv
     type: passthrough
     source: gene_mapping
-    field: locus_tag_cyanoak
+    field: locus_tag_cyanorak
 
   protein_id:
     type: passthrough

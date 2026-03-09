@@ -2,7 +2,7 @@
 
 Coverage
 --------
-- _get_cynaorak_ID
+- _get_cyanorak_id
 - _get_cyanorak_id_map_from_gbk
 - _get_ec_numbers_from_gbff
 - ncbi_merge_cds_and_gene_entries
@@ -24,7 +24,7 @@ import pytest
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
 from multiomics_kg.download.build_gene_mapping import (
-    _get_cynaorak_ID,
+    _get_cyanorak_id,
     _get_cyanorak_id_map_from_gbk,
     _get_ec_numbers_from_gbff,
     build_gene_mapping,
@@ -164,38 +164,46 @@ def _make_cyan_gff_df(
     }])
 
 
-# ─── _get_cynaorak_ID ─────────────────────────────────────────────────────────
+# ─── _get_cyanorak_id ─────────────────────────────────────────────────────────
 
-class TestGetCynaorakID:
-    def _mock_rec(self, notes: list[str], rec_id: str = "GENE1") -> MagicMock:
+class TestGetCyanorakId:
+    def _mock_rec(self, qualifiers: dict | None = None) -> MagicMock:
         rec = MagicMock()
-        rec.qualifiers = {"note": notes}
-        rec.id = rec_id
+        rec.qualifiers = qualifiers if qualifiers is not None else {}
         return rec
 
     def test_extracts_cyanorak_id(self):
         rec = self._mock_rec(
-            ["cyanorak ORF Id:CK_Pro_MED4_00001", "cyanorak cluster number:CK_00000364"]
+            {"note": ["cyanorak ORF Id:CK_Pro_MED4_00001", "cyanorak cluster number:CK_00000364"],
+             "locus_tag": ["PMM0001"]}
         )
-        assert _get_cynaorak_ID(rec) == "CK_Pro_MED4_00001"
+        assert _get_cyanorak_id(rec) == "CK_Pro_MED4_00001"
 
     def test_strips_whitespace_from_id(self):
-        rec = self._mock_rec(["cyanorak ORF Id: CK_Pro_MED4_00001"])
-        assert _get_cynaorak_ID(rec) == "CK_Pro_MED4_00001"
+        rec = self._mock_rec({"note": ["cyanorak ORF Id: CK_Pro_MED4_00001"], "locus_tag": ["PMM0001"]})
+        assert _get_cyanorak_id(rec) == "CK_Pro_MED4_00001"
 
-    def test_warns_on_multiple_ids(self, capsys):
+    def test_returns_none_when_no_note_qualifier(self):
+        rec = self._mock_rec({"locus_tag": ["PMM0001"]})
+        assert _get_cyanorak_id(rec) is None
+
+    def test_returns_none_when_no_matching_note(self):
+        rec = self._mock_rec({"note": ["some other note"], "locus_tag": ["PMM0001"]})
+        assert _get_cyanorak_id(rec) is None
+
+    def test_warns_on_multiple_ids(self):
         rec = self._mock_rec(
-            ["cyanorak ORF Id:CK_Pro_MED4_00001", "cyanorak ORF Id:CK_Pro_MED4_99999"]
+            {"note": ["cyanorak ORF Id:CK_Pro_MED4_00001", "cyanorak ORF Id:CK_Pro_MED4_99999"],
+             "locus_tag": ["PMM0001"]}
         )
-        result = _get_cynaorak_ID(rec)
+        result = _get_cyanorak_id(rec)
         assert result == "CK_Pro_MED4_00001"
-        assert "Warning" in capsys.readouterr().out
 
     def test_returns_first_id_when_multiple(self):
         rec = self._mock_rec(
-            ["cyanorak ORF Id:FIRST", "cyanorak ORF Id:SECOND"]
+            {"note": ["cyanorak ORF Id:FIRST", "cyanorak ORF Id:SECOND"], "locus_tag": ["PMM0001"]}
         )
-        assert _get_cynaorak_ID(rec) == "FIRST"
+        assert _get_cyanorak_id(rec) == "FIRST"
 
 
 # ─── _get_cyanorak_id_map_from_gbk ───────────────────────────────────────────
@@ -450,7 +458,7 @@ class TestLoadGffFromNcbiAndCyanorak:
         assert len(result) == 1
         row = result.iloc[0]
         assert row["locus_tag_ncbi"] == "AKG35_RS00545"
-        assert row["locus_tag_cyanoak"] == "CK_Pro_MIT9313_00107"
+        assert row["locus_tag_cyanorak"] == "CK_Pro_MIT9313_00107"
         assert row["cluster_number"] == "CK_00000364"
         # Position merge note should be set
         assert "position_merge_note" in result.columns
@@ -516,7 +524,7 @@ class TestLoadGffFromNcbiAndCyanorak:
         assert len(result) == 3
         # NCBI entry should NOT have Cyanorak data
         ncbi_row = result[result["locus_tag_ncbi"] == "TX50_RS00020"].iloc[0]
-        assert pd.isna(ncbi_row["locus_tag_cyanoak"])
+        assert pd.isna(ncbi_row["locus_tag_cyanorak"])
 
 
 # ─── build_gene_mapping ───────────────────────────────────────────────────────
