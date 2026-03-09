@@ -4,17 +4,18 @@ name_col: ID
 id_columns: ['ID']
 
 Total rows with IDs: 242
-Resolved: 235 (97.1%)
-Unresolved: 7
+Resolved: 234 (96.7%)
+Unresolved: 8
 
 Resolution method breakdown:
-  tier1:ID: 235
-  unresolved: 7
+  tier1:ID: 234
+  unresolved: 8
 
-Unresolved rows (7):
+Unresolved rows (8):
   row 120: raw_id='2626312114'  reason=unresolved  [ID='2626312114']
   row 128: raw_id='2626312203'  reason=unresolved  [ID='2626312203']
   row 143: raw_id='2626312339'  reason=unresolved  [ID='2626312339']
+  row 145: raw_id='2626312381'  reason=unresolved  [ID='2626312381']
   row 167: raw_id='2626312881'  reason=unresolved  [ID='2626312881']
   row 211: raw_id='2626313376'  reason=unresolved  [ID='2626313376']
   row 221: raw_id='2626313484'  reason=unresolved  [ID='2626313484']

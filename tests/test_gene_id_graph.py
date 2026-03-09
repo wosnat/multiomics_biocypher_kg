@@ -10,11 +10,14 @@ GeneIdGraph:
 - test_tier3_always_multi: Tier 3 IDs go to multi_lookup regardless
 - test_floating_component: IDs with no anchor → not in any lookup
 - test_uniprot_entry_name_stripping: "DNAA_PROM0" → also "DNAA" in specific_lookup
-- test_whitespace_split_anchor: compound "dnaA PMM0001" finds anchor via token split
+- test_whitespace_split_anchor: compound "dnaA PMM0001" in Tier 1 field → anchor found via token split
 - test_bare_locus_tag_as_tier3_does_not_find_anchor: bare locus tag as gene_name → NOT found (MIT9301 failure mode)
 - test_bare_locus_tag_as_old_locus_tag_finds_anchor: same bare locus tag as old_locus_tag → Phase 1 finds it (fix)
 - test_compound_locus_tag_as_old_locus_tag_finds_anchor: compound "gene P9301_XXXXX" as old_locus_tag → Phase 2 split
 - test_multiword_compound_locus_tag_as_old_locus_tag_finds_anchor: 3-token compound → Phase 2 split finds last token
+- test_whitespace_split_prefers_canonical: alt-ID + canonical locus_tag both match → prefers canonical
+- test_whitespace_split_rejects_disagreeing_canonical: two canonical locus_tags disagree → rejected
+- test_whitespace_split_skips_tier3: compound value with Tier 3 id_type → Phase 2 skips
 - test_process_all_rows_convergence: iterative convergence count
 
 resolve_row (via gene_id_utils.resolve_row + MappingData):
@@ -171,11 +174,12 @@ class TestGeneIdGraph:
         assert g.specific_lookup.get("DNAA") == "PMM0001"
 
     def test_whitespace_split_anchor(self):
-        """Compound 'dnaA PMM0001' in a gene_name column → anchor found via token split."""
+        """Compound 'dnaA PMM0001' in a Tier 1 column → anchor found via token split."""
         g = _make_graph_with_genes("PMM0001")
-        # The compound value "dnaA PMM0001" has PMM0001 as a whitespace token
+        # The compound value "dnaA PMM0001" has PMM0001 as a whitespace token.
+        # Declared as old_locus_tag (Tier 1) to match real-world Anjur 2025 pattern.
         rows = [
-            ([("dnaA PMM0001", "gene_name"), ("JGI123", "jgi_id")], "source"),
+            ([("dnaA PMM0001", "old_locus_tag"), ("JGI123", "jgi_id")], "source"),
         ]
         g.process_all_rows(rows)
 
@@ -251,6 +255,53 @@ class TestGeneIdGraph:
         g.process_all_rows(rows)
 
         assert g.specific_lookup.get("2626312345") == "P9301_06041"
+
+    def test_whitespace_split_prefers_canonical(self):
+        """When alt-ID and canonical locus_tag both match, prefer canonical.
+
+        'dnaA P9301_05911': dnaA is an alt-ID for PMM0001 (different gene),
+        P9301_05911 is a canonical locus_tag (self-mapped). Phase 2 should
+        prefer the canonical P9301_05911 and ignore the dnaA alt-match.
+        """
+        g = _make_graph_with_genes("PMM0001", "P9301_05911")
+        # dnaA is registered as an alt-ID for PMM0001
+        g.add_id_for_gene("PMM0001", "dnaA", "old_locus_tag", "annotations")
+
+        rows = [
+            ([("dnaA P9301_05911", "old_locus_tag"), ("JGI999", "jgi_id")], "source"),
+        ]
+        g.process_all_rows(rows)
+
+        # Should anchor to P9301_05911 (canonical), not PMM0001 (via dnaA alt-ID)
+        assert g.specific_lookup.get("JGI999") == "P9301_05911"
+
+    def test_whitespace_split_rejects_disagreeing_canonical(self):
+        """Two canonical locus_tags in a compound value → rejected (ambiguous)."""
+        g = _make_graph_with_genes("PMM0001", "PMM0002")
+
+        rows = [
+            ([("PMM0001 PMM0002", "old_locus_tag"), ("JGI999", "jgi_id")], "source"),
+        ]
+        g.process_all_rows(rows)
+
+        # Ambiguous — two canonical locus_tags disagree; JGI999 stays unresolved
+        assert g.specific_lookup.get("JGI999") is None
+
+    def test_whitespace_split_skips_tier3(self):
+        """Compound value with Tier 3 id_type is not split by Phase 2.
+
+        'dnaA PMM0001' declared as gene_name (Tier 3) should NOT trigger
+        Phase 2 whitespace splitting. Only Tier 1 fields are eligible.
+        """
+        g = _make_graph_with_genes("PMM0001")
+
+        rows = [
+            ([("dnaA PMM0001", "gene_name"), ("JGI123", "jgi_id")], "source"),
+        ]
+        g.process_all_rows(rows)
+
+        # Phase 2 skips Tier 3 → JGI123 stays unresolved
+        assert g.specific_lookup.get("JGI123") is None
 
     def test_process_all_rows_convergence(self):
         """process_all_rows returns number of passes taken (at least 1)."""

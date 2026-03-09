@@ -200,7 +200,8 @@ class GeneIdGraph:
 
         Priority:
         1. Tier 1 normalized match in specific_lookup
-        2. Whitespace-split tokens from any field → specific_lookup
+        2. Whitespace-split tokens from Tier 1 fields → specific_lookup
+           (canonical locus_tags preferred; unanimous within chosen set)
         3. Tier 2 singleton match in multi_lookup
         """
         # Phase 1: Tier 1 exact + normalized match
@@ -210,13 +211,26 @@ class GeneIdGraph:
                     if candidate in self.specific_lookup:
                         return self.specific_lookup[candidate]
 
-        # Phase 2: whitespace-split tokens (handles "gene_name locus_tag" compound)
-        for id_val, _ in row_ids:
-            if " " in id_val:
+        # Phase 2: whitespace-split tokens (handles "gene_name locus_tag" compound
+        # in Tier 1 fields).  Prefer canonical locus_tags (self-mapped) over alt-ID
+        # matches; require unanimity within the chosen set to avoid false anchors
+        # from generic tokens like gene names.
+        for id_val, id_type in row_ids:
+            if get_id_tier(id_type) == 1 and " " in id_val:
+                canonical = set()   # tokens that ARE locus_tags (self-mapped)
+                alt_mapped = set()  # tokens that are alt-IDs mapping to some locus_tag
                 for token in id_val.split():
                     token = token.strip()
                     if token and token in self.specific_lookup:
-                        return self.specific_lookup[token]
+                        resolved = self.specific_lookup[token]
+                        if resolved == token:
+                            canonical.add(resolved)
+                        else:
+                            alt_mapped.add(resolved)
+                # Prefer canonical; fall back to alt-mapped; unanimous within chosen set
+                chosen = canonical or alt_mapped
+                if len(chosen) == 1:
+                    return chosen.pop()
 
         # Phase 3: Tier 2 singleton
         for id_val, id_type in row_ids:

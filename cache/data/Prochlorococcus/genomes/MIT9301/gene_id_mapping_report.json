@@ -1,9 +1,9 @@
 {
   "per_id_type": {
     "alternative_locus_tag": {
-      "conflict": 1,
+      "conflict": 0,
       "multi": 0,
-      "unique": 0
+      "unique": 1
     },
     "cds_fna_id": {
       "conflict": 0,
@@ -23,7 +23,7 @@
     "jgi_id": {
       "conflict": 0,
       "multi": 0,
-      "unique": 1872
+      "unique": 1870
     },
     "locus_tag_cyanorak": {
       "conflict": 0,
@@ -31,14 +31,14 @@
       "unique": 1910
     },
     "locus_tag_ncbi": {
-      "conflict": 12,
+      "conflict": 13,
       "multi": 0,
-      "unique": 6366
+      "unique": 6365
     },
     "old_locus_tag": {
-      "conflict": 8,
+      "conflict": 10,
       "multi": 0,
-      "unique": 965
+      "unique": 962
     },
     "protein_id_refseq": {
       "conflict": 0,
@@ -53,20 +53,19 @@
     "uniprot_entry_name": {
       "conflict": 0,
       "multi": 0,
-      "unique": 3686
+      "unique": 3684
     }
   },
   "strain": "MIT9301",
   "unresolved_rows_per_source": {
-    "Anjur-Dietrich 2025/annotation_genome_9301": 50,
+    "Anjur-Dietrich 2025/annotation_genome_9301": 52,
     "Anjur-Dietrich 2025/annotation_gff_mit9301": 49,
-    "Anjur-Dietrich 2025/supp_table_1": 7,
+    "Anjur-Dietrich 2025/supp_table_1": 8,
     "cds_from_genomic.fna": 3,
     "genomic_gca/MIT9301": 58
   },
   "warnings": [
-    "[CONFLICT] Tier 1 id_type 'locus_tag_ncbi' has 12 data conflicts \u2014 check annotation quality.",
-    "[CONFLICT] Tier 1 id_type 'old_locus_tag' has 8 data conflicts \u2014 check annotation quality.",
-    "[CONFLICT] Tier 1 id_type 'alternative_locus_tag' has 1 data conflicts \u2014 check annotation quality."
+    "[CONFLICT] Tier 1 id_type 'locus_tag_ncbi' has 13 data conflicts \u2014 check annotation quality.",
+    "[CONFLICT] Tier 1 id_type 'old_locus_tag' has 10 data conflicts \u2014 check annotation quality."
   ]
 }
