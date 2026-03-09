@@ -3,7 +3,7 @@
     "alternative_locus_tag": {
       "conflict": 1,
       "multi": 0,
-      "unique": 1955
+      "unique": 1950
     },
     "cds_fna_id": {
       "conflict": 0,
@@ -12,8 +12,8 @@
     },
     "gene_name": {
       "conflict": 0,
-      "multi": 100,
-      "unique": 1936
+      "multi": 104,
+      "unique": 2096
     },
     "gene_synonym": {
       "conflict": 0,
@@ -26,9 +26,9 @@
       "unique": 1962
     },
     "locus_tag_ncbi": {
-      "conflict": 15,
+      "conflict": 22,
       "multi": 0,
-      "unique": 4619
+      "unique": 4824
     },
     "old_locus_tag": {
       "conflict": 0,
@@ -63,7 +63,7 @@
     "genomic_gca/MED4": 127
   },
   "warnings": [
-    "[CONFLICT] Tier 1 id_type 'locus_tag_ncbi' has 15 data conflicts \u2014 check annotation quality.",
+    "[CONFLICT] Tier 1 id_type 'locus_tag_ncbi' has 22 data conflicts \u2014 check annotation quality.",
     "[CONFLICT] Tier 1 id_type 'alternative_locus_tag' has 1 data conflicts \u2014 check annotation quality."
   ]
 }

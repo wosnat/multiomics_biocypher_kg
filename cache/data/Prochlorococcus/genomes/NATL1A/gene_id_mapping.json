@@ -1,111 +1,5 @@
 {
   "conflicts": {
-    "NATL1_04331": [
-      "NATL1_04331",
-      "NATL1_11171",
-      "NATL1_17991"
-    ],
-    "NATL1_04341": [
-      "NATL1_04341",
-      "NATL1_11161",
-      "NATL1_13171"
-    ],
-    "NATL1_04351": [
-      "NATL1_04351",
-      "NATL1_11151",
-      "NATL1_14101"
-    ],
-    "NATL1_04361": [
-      "NATL1_04361",
-      "NATL1_13161",
-      "NATL1_13551"
-    ],
-    "NATL1_11151": [
-      "NATL1_11151",
-      "NATL1_14101"
-    ],
-    "NATL1_11161": [
-      "NATL1_11161",
-      "NATL1_13171"
-    ],
-    "NATL1_11171": [
-      "NATL1_11171",
-      "NATL1_17991"
-    ],
-    "NATL1_11181": [
-      "NATL1_11181",
-      "NATL1_13541",
-      "NATL1_14121",
-      "NATL1_18001"
-    ],
-    "NATL1_12351": [
-      "NATL1_12351",
-      "NATL1_14091"
-    ],
-    "NATL1_12371": [
-      "NATL1_12371",
-      "NATL1_13181",
-      "NATL1_13571",
-      "NATL1_14111"
-    ],
-    "NATL1_13161": [
-      "NATL1_13161",
-      "NATL1_13551"
-    ],
-    "NATL1_13171": [
-      "NATL1_04341",
-      "NATL1_11161"
-    ],
-    "NATL1_13181": [
-      "NATL1_13181",
-      "NATL1_13571",
-      "NATL1_14111"
-    ],
-    "NATL1_13191": [
-      "NATL1_13191",
-      "NATL1_13581"
-    ],
-    "NATL1_13531": [
-      "NATL1_13531",
-      "NATL1_13821"
-    ],
-    "NATL1_13541": [
-      "NATL1_13541",
-      "NATL1_14121",
-      "NATL1_18001"
-    ],
-    "NATL1_13551": [
-      "NATL1_04361",
-      "NATL1_13161"
-    ],
-    "NATL1_13571": [
-      "NATL1_12371",
-      "NATL1_13181",
-      "NATL1_14111"
-    ],
-    "NATL1_14101": [
-      "NATL1_04351",
-      "NATL1_11151"
-    ],
-    "NATL1_14111": [
-      "NATL1_12371",
-      "NATL1_13181",
-      "NATL1_13571"
-    ],
-    "NATL1_14121": [
-      "NATL1_11181",
-      "NATL1_13541",
-      "NATL1_18001"
-    ],
-    "NATL1_17991": [
-      "NATL1_04331",
-      "NATL1_11171"
-    ],
-    "NATL1_18001": [
-      "NATL1_11181",
-      "NATL1_13541",
-      "NATL1_14121"
-    ],
     "psbA": [
       "NATL1_03031",
       "NATL1_13251"
@@ -28426,20 +28320,6 @@
           "type": "locus_tag_cyanorak"
         },
         {
-          "id": "NATL1_11171",
-          "sources": [
-            "annotation"
-          ],
-          "type": "alternative_locus_tag"
-        },
-        {
-          "id": "NATL1_17991",
-          "sources": [
-            "annotation"
-          ],
-          "type": "alternative_locus_tag"
-        },
-        {
           "id": "lcl|NC_008819.1_cds_WP_011294968.1_416",
           "sources": [
             "cds_from_genomic.fna"
@@ -28515,20 +28395,6 @@
             "annotation"
           ],
           "type": "locus_tag_cyanorak"
-        },
-        {
-          "id": "NATL1_11161",
-          "sources": [
-            "annotation"
-          ],
-          "type": "alternative_locus_tag"
-        },
-        {
-          "id": "NATL1_13171",
-          "sources": [
-            "annotation"
-          ],
-          "type": "alternative_locus_tag"
         },
         {
           "id": "lcl|NC_008819.1_cds_WP_011294648.1_417",
@@ -28608,20 +28474,6 @@
           "type": "locus_tag_cyanorak"
         },
         {
-          "id": "NATL1_11151",
-          "sources": [
-            "annotation"
-          ],
-          "type": "alternative_locus_tag"
-        },
-        {
-          "id": "NATL1_14101",
-          "sources": [
-            "annotation"
-          ],
-          "type": "alternative_locus_tag"
-        },
-        {
           "id": "lcl|NC_008819.1_cds_WP_011823187.1_418",
           "sources": [
             "cds_from_genomic.fna"
@@ -28697,20 +28549,6 @@
             "annotation"
           ],
           "type": "locus_tag_cyanorak"
-        },
-        {
-          "id": "NATL1_13161",
-          "sources": [
-            "annotation"
-          ],
-          "type": "alternative_locus_tag"
-        },
-        {
-          "id": "NATL1_13551",
-          "sources": [
-            "annotation"
-          ],
-          "type": "alternative_locus_tag"
         },
         {
           "id": "lcl|NC_008819.1_cds_WP_011294351.1_419",
@@ -73316,27 +73154,6 @@
           "type": "locus_tag_cyanorak"
         },
         {
-          "id": "NATL1_13541",
-          "sources": [
-            "annotation"
-          ],
-          "type": "alternative_locus_tag"
-        },
-        {
-          "id": "NATL1_14121",
-          "sources": [
-            "annotation"
-          ],
-          "type": "alternative_locus_tag"
-        },
-        {
-          "id": "NATL1_18001",
-          "sources": [
-            "annotation"
-          ],
-          "type": "alternative_locus_tag"
-        },
-        {
           "id": "lcl|NC_008819.1_cds_WP_011125327.1_1074",
           "sources": [
             "cds_from_genomic.fna"
@@ -80552,13 +80369,6 @@
           "type": "locus_tag_cyanorak"
         },
         {
-          "id": "NATL1_14091",
-          "sources": [
-            "annotation"
-          ],
-          "type": "alternative_locus_tag"
-        },
-        {
           "id": "lcl|NC_008819.1_cds_WP_011294605.1_1188",
           "sources": [
             "cds_from_genomic.fna"
@@ -80699,27 +80509,6 @@
             "annotation"
           ],
           "type": "locus_tag_cyanorak"
-        },
-        {
-          "id": "NATL1_13181",
-          "sources": [
-            "annotation"
-          ],
-          "type": "alternative_locus_tag"
-        },
-        {
-          "id": "NATL1_13571",
-          "sources": [
-            "annotation"
-          ],
-          "type": "alternative_locus_tag"
-        },
-        {
-          "id": "NATL1_14111",
-          "sources": [
-            "annotation"
-          ],
-          "type": "alternative_locus_tag"
         },
         {
           "id": "lcl|NC_008819.1_cds_WP_011295030.1_1190",
@@ -85454,13 +85243,6 @@
           "type": "locus_tag_cyanorak"
         },
         {
-          "id": "NATL1_13581",
-          "sources": [
-            "annotation"
-          ],
-          "type": "alternative_locus_tag"
-        },
-        {
           "id": "lcl|NC_008819.1_cds_WP_011294349.1_1262",
           "sources": [
             "cds_from_genomic.fna"
@@ -87316,13 +87098,6 @@
             "annotation"
           ],
           "type": "locus_tag_cyanorak"
-        },
-        {
-          "id": "NATL1_13821",
-          "sources": [
-            "annotation"
-          ],
-          "type": "alternative_locus_tag"
         },
         {
           "id": "lcl|NC_008819.1_cds_WP_011295125.1_1289",
@@ -184479,7 +184254,7 @@
     "zwf": "NATL1_15091"
   },
   "stats": {
-    "n_conflicts": 24,
+    "n_conflicts": 1,
     "n_genes": 2226,
     "n_multi": 10601,
     "n_specific": 9252,

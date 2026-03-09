@@ -1,9 +1,9 @@
 {
   "per_id_type": {
     "alternative_locus_tag": {
-      "conflict": 16,
+      "conflict": 4,
       "multi": 0,
-      "unique": 2159
+      "unique": 2157
     },
     "annotation_specific": {
       "conflict": 0,
@@ -61,6 +61,6 @@
     "genomic_gca/NATL2A": 46
   },
   "warnings": [
-    "[CONFLICT] Tier 1 id_type 'alternative_locus_tag' has 16 data conflicts \u2014 check annotation quality."
+    "[CONFLICT] Tier 1 id_type 'alternative_locus_tag' has 4 data conflicts \u2014 check annotation quality."
   ]
 }

@@ -4,25 +4,13 @@
       "PMM1817",
       "PMM1873"
     ],
-    "PMM0816": [
-      "PMM0816",
-      "PMM1397"
+    "atpC": [
+      "PMM1439",
+      "PMM1450"
     ],
-    "PMM0817": [
-      "PMM0817",
-      "PMM1398"
-    ],
-    "PMM0818": [
-      "PMM0818",
-      "PMM1399"
-    ],
-    "PMM1118": [
-      "PMM1118",
-      "PMM1384"
-    ],
-    "PMM1896": [
-      "PMM1896",
-      "PMM2004"
+    "cobB": [
+      "PMM1072",
+      "PMM1160"
     ],
     "cysD": [
       "PMM0227",
@@ -48,6 +36,14 @@
       "PMM0513",
       "PMM0606"
     ],
+    "lipA": [
+      "PMM1096",
+      "PMM1514"
+    ],
+    "mutS": [
+      "PMM0217",
+      "PMM1645"
+    ],
     "ndhD": [
       "PMM0150",
       "PMM0594"
@@ -61,11 +57,19 @@
       "PMM1352",
       "PMM1449"
     ],
-    "por%2C": [
+    "por": [
       "PMM0542",
       "PMM0634"
     ],
-    "por%2C pcr": [
+    "por,": [
+      "PMM0542",
+      "PMM0634"
+    ],
+    "por, pcr": [
+      "PMM0542",
+      "PMM0634"
+    ],
+    "por,pcr": [
       "PMM0542",
       "PMM0634"
     ],
@@ -76,6 +80,10 @@
     "ppa (ipyR)": [
       "PMM0494",
       "PMM0511"
+    ],
+    "purL": [
+      "PMM0003",
+      "PMM0780"
     ],
     "som": [
       "PMM0709",
@@ -2037,7 +2045,21 @@
           "type": "cds_fna_id"
         },
         {
-          "id": "accB%2CfabE",
+          "id": "accB,fabE",
+          "sources": [
+            "genomic_gca/MED4"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "accB",
+          "sources": [
+            "genomic_gca/MED4"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "fabE",
           "sources": [
             "genomic_gca/MED4"
           ],
@@ -2095,7 +2117,7 @@
           "type": "gene_synonym"
         },
         {
-          "id": "accB%2CfabE",
+          "id": "fabE",
           "type": "gene_name"
         }
       ]
@@ -4428,14 +4450,14 @@
           "type": "cds_fna_id"
         },
         {
-          "id": "accC%2C fabG",
+          "id": "accC, fabG",
           "sources": [
             "genomic_gca/MED4"
           ],
           "type": "locus_tag_ncbi"
         },
         {
-          "id": "accC%2C",
+          "id": "accC,",
           "sources": [
             "genomic_gca/MED4"
           ],
@@ -4443,6 +4465,20 @@
         },
         {
           "id": "fabG",
+          "sources": [
+            "genomic_gca/MED4"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "accC",
+          "sources": [
+            "genomic_gca/MED4"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "accC,fabG",
           "sources": [
             "genomic_gca/MED4"
           ],
@@ -4500,7 +4536,11 @@
           "type": "gene_synonym"
         },
         {
-          "id": "accC%2C fabG",
+          "id": "accC, fabG",
+          "type": "gene_name"
+        },
+        {
+          "id": "accC,fabG",
           "type": "gene_name"
         },
         {
@@ -10730,7 +10770,21 @@
           "type": "cds_fna_id"
         },
         {
-          "id": "crtB%2Cpys",
+          "id": "crtB,pys",
+          "sources": [
+            "genomic_gca/MED4"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "crtB",
+          "sources": [
+            "genomic_gca/MED4"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "pys",
           "sources": [
             "genomic_gca/MED4"
           ],
@@ -10792,7 +10846,7 @@
           "type": "gene_synonym"
         },
         {
-          "id": "crtB%2Cpys",
+          "id": "pys",
           "type": "gene_name"
         }
       ]
@@ -10821,7 +10875,21 @@
           "type": "cds_fna_id"
         },
         {
-          "id": "pds%2CcrtD",
+          "id": "pds,crtD",
+          "sources": [
+            "genomic_gca/MED4"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "pds",
+          "sources": [
+            "genomic_gca/MED4"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "crtD",
           "sources": [
             "genomic_gca/MED4"
           ],
@@ -10883,7 +10951,7 @@
           "type": "gene_synonym"
         },
         {
-          "id": "pds%2CcrtD",
+          "id": "crtD",
           "type": "gene_name"
         },
         {
@@ -14738,14 +14806,14 @@
           "type": "cds_fna_id"
         },
         {
-          "id": "pgk%2C cbbK",
+          "id": "pgk, cbbK",
           "sources": [
             "genomic_gca/MED4"
           ],
           "type": "locus_tag_ncbi"
         },
         {
-          "id": "pgk%2C",
+          "id": "pgk,",
           "sources": [
             "genomic_gca/MED4"
           ],
@@ -14753,6 +14821,20 @@
         },
         {
           "id": "cbbK",
+          "sources": [
+            "genomic_gca/MED4"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "pgk",
+          "sources": [
+            "genomic_gca/MED4"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "pgk,cbbK",
           "sources": [
             "genomic_gca/MED4"
           ],
@@ -14810,7 +14892,15 @@
           "type": "gene_synonym"
         },
         {
-          "id": "pgk%2C cbbK",
+          "id": "pgk, cbbK",
+          "type": "gene_name"
+        },
+        {
+          "id": "cbbK",
+          "type": "gene_name"
+        },
+        {
+          "id": "pgk,cbbK",
           "type": "gene_name"
         },
         {
@@ -15252,21 +15342,21 @@
           "type": "cds_fna_id"
         },
         {
-          "id": "rpl12%2C rplL%2C rpl7",
+          "id": "rpl12, rplL, rpl7",
           "sources": [
             "genomic_gca/MED4"
           ],
           "type": "locus_tag_ncbi"
         },
         {
-          "id": "rpl12%2C",
+          "id": "rpl12,",
           "sources": [
             "genomic_gca/MED4"
           ],
           "type": "locus_tag_ncbi"
         },
         {
-          "id": "rplL%2C",
+          "id": "rplL,",
           "sources": [
             "genomic_gca/MED4"
           ],
@@ -15274,6 +15364,27 @@
         },
         {
           "id": "rpl7",
+          "sources": [
+            "genomic_gca/MED4"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "rpl12",
+          "sources": [
+            "genomic_gca/MED4"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "rplL",
+          "sources": [
+            "genomic_gca/MED4"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "rpl12,rplL,rpl7",
           "sources": [
             "genomic_gca/MED4"
           ],
@@ -15320,7 +15431,19 @@
           "type": "gene_synonym"
         },
         {
-          "id": "rpl12%2C rplL%2C rpl7",
+          "id": "rpl12, rplL, rpl7",
+          "type": "gene_name"
+        },
+        {
+          "id": "rpl12",
+          "type": "gene_name"
+        },
+        {
+          "id": "rpl7",
+          "type": "gene_name"
+        },
+        {
+          "id": "rpl12,rplL,rpl7",
           "type": "gene_name"
         }
       ]
@@ -15349,14 +15472,14 @@
           "type": "cds_fna_id"
         },
         {
-          "id": "rpl10%2C rplJ",
+          "id": "rpl10, rplJ",
           "sources": [
             "genomic_gca/MED4"
           ],
           "type": "locus_tag_ncbi"
         },
         {
-          "id": "rpl10%2C",
+          "id": "rpl10,",
           "sources": [
             "genomic_gca/MED4"
           ],
@@ -15364,6 +15487,20 @@
         },
         {
           "id": "rplJ",
+          "sources": [
+            "genomic_gca/MED4"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "rpl10",
+          "sources": [
+            "genomic_gca/MED4"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "rpl10,rplJ",
           "sources": [
             "genomic_gca/MED4"
           ],
@@ -15410,7 +15547,15 @@
           "type": "gene_synonym"
         },
         {
-          "id": "rpl10%2C rplJ",
+          "id": "rpl10, rplJ",
+          "type": "gene_name"
+        },
+        {
+          "id": "rpl10",
+          "type": "gene_name"
+        },
+        {
+          "id": "rpl10,rplJ",
           "type": "gene_name"
         }
       ]
@@ -15439,14 +15584,14 @@
           "type": "cds_fna_id"
         },
         {
-          "id": "rpl1%2C rplA",
+          "id": "rpl1, rplA",
           "sources": [
             "genomic_gca/MED4"
           ],
           "type": "locus_tag_ncbi"
         },
         {
-          "id": "rpl1%2C",
+          "id": "rpl1,",
           "sources": [
             "genomic_gca/MED4"
           ],
@@ -15454,6 +15599,20 @@
         },
         {
           "id": "rplA",
+          "sources": [
+            "genomic_gca/MED4"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "rpl1",
+          "sources": [
+            "genomic_gca/MED4"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "rpl1,rplA",
           "sources": [
             "genomic_gca/MED4"
           ],
@@ -15500,7 +15659,15 @@
           "type": "gene_synonym"
         },
         {
-          "id": "rpl1%2C rplA",
+          "id": "rpl1, rplA",
+          "type": "gene_name"
+        },
+        {
+          "id": "rpl1",
+          "type": "gene_name"
+        },
+        {
+          "id": "rpl1,rplA",
           "type": "gene_name"
         },
         {
@@ -15533,14 +15700,14 @@
           "type": "cds_fna_id"
         },
         {
-          "id": "rpl11%2C rplK",
+          "id": "rpl11, rplK",
           "sources": [
             "genomic_gca/MED4"
           ],
           "type": "locus_tag_ncbi"
         },
         {
-          "id": "rpl11%2C",
+          "id": "rpl11,",
           "sources": [
             "genomic_gca/MED4"
           ],
@@ -15548,6 +15715,20 @@
         },
         {
           "id": "rplK",
+          "sources": [
+            "genomic_gca/MED4"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "rpl11",
+          "sources": [
+            "genomic_gca/MED4"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "rpl11,rplK",
           "sources": [
             "genomic_gca/MED4"
           ],
@@ -15594,7 +15775,15 @@
           "type": "gene_synonym"
         },
         {
-          "id": "rpl11%2C rplK",
+          "id": "rpl11, rplK",
+          "type": "gene_name"
+        },
+        {
+          "id": "rpl11",
+          "type": "gene_name"
+        },
+        {
+          "id": "rpl11,rplK",
           "type": "gene_name"
         }
       ]
@@ -23743,14 +23932,14 @@
           "type": "cds_fna_id"
         },
         {
-          "id": "rps1a%2C rpsA1",
+          "id": "rps1a, rpsA1",
           "sources": [
             "genomic_gca/MED4"
           ],
           "type": "locus_tag_ncbi"
         },
         {
-          "id": "rps1a%2C",
+          "id": "rps1a,",
           "sources": [
             "genomic_gca/MED4"
           ],
@@ -23758,6 +23947,20 @@
         },
         {
           "id": "rpsA1",
+          "sources": [
+            "genomic_gca/MED4"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "rps1a",
+          "sources": [
+            "genomic_gca/MED4"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "rps1a,rpsA1",
           "sources": [
             "genomic_gca/MED4"
           ],
@@ -23819,7 +24022,11 @@
           "type": "gene_synonym"
         },
         {
-          "id": "rps1a%2C rpsA1",
+          "id": "rps1a, rpsA1",
+          "type": "gene_name"
+        },
+        {
+          "id": "rps1a,rpsA1",
           "type": "gene_name"
         },
         {
@@ -31111,7 +31318,21 @@
           "type": "cds_fna_id"
         },
         {
-          "id": "rpsD%2Crps4",
+          "id": "rpsD,rps4",
+          "sources": [
+            "genomic_gca/MED4"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "rpsD",
+          "sources": [
+            "genomic_gca/MED4"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "rps4",
           "sources": [
             "genomic_gca/MED4"
           ],
@@ -31158,7 +31379,11 @@
           "type": "gene_synonym"
         },
         {
-          "id": "rpsD%2Crps4",
+          "id": "rpsD,rps4",
+          "type": "gene_name"
+        },
+        {
+          "id": "rps4",
           "type": "gene_name"
         },
         {
@@ -34328,7 +34553,21 @@
           "type": "cds_fna_id"
         },
         {
-          "id": "groEL2%2Ccpn60-2",
+          "id": "groEL2,cpn60-2",
+          "sources": [
+            "genomic_gca/MED4"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "groEL2",
+          "sources": [
+            "genomic_gca/MED4"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "cpn60-2",
           "sources": [
             "genomic_gca/MED4"
           ],
@@ -34379,7 +34618,15 @@
           "type": "gene_synonym"
         },
         {
-          "id": "groEL2%2Ccpn60-2",
+          "id": "groEL2,cpn60-2",
+          "type": "gene_name"
+        },
+        {
+          "id": "groEL2",
+          "type": "gene_name"
+        },
+        {
+          "id": "cpn60-2",
           "type": "gene_name"
         },
         {
@@ -34953,21 +35200,21 @@
           "type": "cds_fna_id"
         },
         {
-          "id": "yvoC%2C lgt%2C umpA",
+          "id": "yvoC, lgt, umpA",
           "sources": [
             "genomic_gca/MED4"
           ],
           "type": "locus_tag_ncbi"
         },
         {
-          "id": "yvoC%2C",
+          "id": "yvoC,",
           "sources": [
             "genomic_gca/MED4"
           ],
           "type": "locus_tag_ncbi"
         },
         {
-          "id": "lgt%2C",
+          "id": "lgt,",
           "sources": [
             "genomic_gca/MED4"
           ],
@@ -34975,6 +35222,27 @@
         },
         {
           "id": "umpA",
+          "sources": [
+            "genomic_gca/MED4"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "yvoC",
+          "sources": [
+            "genomic_gca/MED4"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "lgt",
+          "sources": [
+            "genomic_gca/MED4"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "yvoC,lgt,umpA",
           "sources": [
             "genomic_gca/MED4"
           ],
@@ -35021,7 +35289,19 @@
           "type": "gene_synonym"
         },
         {
-          "id": "yvoC%2C lgt%2C umpA",
+          "id": "yvoC, lgt, umpA",
+          "type": "gene_name"
+        },
+        {
+          "id": "yvoC",
+          "type": "gene_name"
+        },
+        {
+          "id": "umpA",
+          "type": "gene_name"
+        },
+        {
+          "id": "yvoC,lgt,umpA",
           "type": "gene_name"
         }
       ]
@@ -36737,14 +37017,14 @@
           "type": "cds_fna_id"
         },
         {
-          "id": "hemL%2C gsa",
+          "id": "hemL, gsa",
           "sources": [
             "genomic_gca/MED4"
           ],
           "type": "locus_tag_ncbi"
         },
         {
-          "id": "hemL%2C",
+          "id": "hemL,",
           "sources": [
             "genomic_gca/MED4"
           ],
@@ -36752,6 +37032,20 @@
         },
         {
           "id": "gsa",
+          "sources": [
+            "genomic_gca/MED4"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "hemL",
+          "sources": [
+            "genomic_gca/MED4"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "hemL,gsa",
           "sources": [
             "genomic_gca/MED4"
           ],
@@ -36798,7 +37092,15 @@
           "type": "gene_synonym"
         },
         {
-          "id": "hemL%2C gsa",
+          "id": "hemL, gsa",
+          "type": "gene_name"
+        },
+        {
+          "id": "gsa",
+          "type": "gene_name"
+        },
+        {
+          "id": "hemL,gsa",
           "type": "gene_name"
         },
         {
@@ -37202,7 +37504,21 @@
           "type": "cds_fna_id"
         },
         {
-          "id": "futB%2ChitB",
+          "id": "futB,hitB",
+          "sources": [
+            "genomic_gca/MED4"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "futB",
+          "sources": [
+            "genomic_gca/MED4"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "hitB",
           "sources": [
             "genomic_gca/MED4"
           ],
@@ -37264,7 +37580,7 @@
           "type": "gene_synonym"
         },
         {
-          "id": "futB%2ChitB",
+          "id": "hitB",
           "type": "gene_name"
         }
       ]
@@ -37766,14 +38082,14 @@
           "type": "cds_fna_id"
         },
         {
-          "id": "sigA%2C rpoD",
+          "id": "sigA, rpoD",
           "sources": [
             "genomic_gca/MED4"
           ],
           "type": "locus_tag_ncbi"
         },
         {
-          "id": "sigA%2C",
+          "id": "sigA,",
           "sources": [
             "genomic_gca/MED4"
           ],
@@ -37781,6 +38097,20 @@
         },
         {
           "id": "rpoD",
+          "sources": [
+            "genomic_gca/MED4"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "sigA",
+          "sources": [
+            "genomic_gca/MED4"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "sigA,rpoD",
           "sources": [
             "genomic_gca/MED4"
           ],
@@ -37849,7 +38179,11 @@
           "type": "gene_synonym"
         },
         {
-          "id": "sigA%2C rpoD",
+          "id": "sigA, rpoD",
+          "type": "gene_name"
+        },
+        {
+          "id": "sigA,rpoD",
           "type": "gene_name"
         }
       ]
@@ -38545,7 +38879,21 @@
           "type": "cds_fna_id"
         },
         {
-          "id": "purA%2CadeK",
+          "id": "purA,adeK",
+          "sources": [
+            "genomic_gca/MED4"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "purA",
+          "sources": [
+            "genomic_gca/MED4"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "adeK",
           "sources": [
             "genomic_gca/MED4"
           ],
@@ -38596,7 +38944,11 @@
           "type": "gene_synonym"
         },
         {
-          "id": "purA%2CadeK",
+          "id": "purA,adeK",
+          "type": "gene_name"
+        },
+        {
+          "id": "adeK",
           "type": "gene_name"
         },
         {
@@ -39698,7 +40050,21 @@
           "type": "cds_fna_id"
         },
         {
-          "id": "frr%2Crrf",
+          "id": "frr,rrf",
+          "sources": [
+            "genomic_gca/MED4"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "frr",
+          "sources": [
+            "genomic_gca/MED4"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "rrf",
           "sources": [
             "genomic_gca/MED4"
           ],
@@ -39745,7 +40111,11 @@
           "type": "gene_synonym"
         },
         {
-          "id": "frr%2Crrf",
+          "id": "frr,rrf",
+          "type": "gene_name"
+        },
+        {
+          "id": "rrf",
           "type": "gene_name"
         }
       ]
@@ -39774,7 +40144,21 @@
           "type": "cds_fna_id"
         },
         {
-          "id": "pyrH%2CsmbA",
+          "id": "pyrH,smbA",
+          "sources": [
+            "genomic_gca/MED4"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "pyrH",
+          "sources": [
+            "genomic_gca/MED4"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "smbA",
           "sources": [
             "genomic_gca/MED4"
           ],
@@ -39821,7 +40205,11 @@
           "type": "gene_synonym"
         },
         {
-          "id": "pyrH%2CsmbA",
+          "id": "pyrH,smbA",
+          "type": "gene_name"
+        },
+        {
+          "id": "smbA",
           "type": "gene_name"
         },
         {
@@ -40373,21 +40761,21 @@
           "type": "cds_fna_id"
         },
         {
-          "id": "rps1b%2C rpsA2%2C nbp1",
+          "id": "rps1b, rpsA2, nbp1",
           "sources": [
             "genomic_gca/MED4"
           ],
           "type": "locus_tag_ncbi"
         },
         {
-          "id": "rps1b%2C",
+          "id": "rps1b,",
           "sources": [
             "genomic_gca/MED4"
           ],
           "type": "locus_tag_ncbi"
         },
         {
-          "id": "rpsA2%2C",
+          "id": "rpsA2,",
           "sources": [
             "genomic_gca/MED4"
           ],
@@ -40395,6 +40783,27 @@
         },
         {
           "id": "nbp1",
+          "sources": [
+            "genomic_gca/MED4"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "rps1b",
+          "sources": [
+            "genomic_gca/MED4"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "rpsA2",
+          "sources": [
+            "genomic_gca/MED4"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "rps1b,rpsA2,nbp1",
           "sources": [
             "genomic_gca/MED4"
           ],
@@ -40460,7 +40869,11 @@
           "type": "gene_synonym"
         },
         {
-          "id": "rps1b%2C rpsA2%2C nbp1",
+          "id": "rps1b, rpsA2, nbp1",
+          "type": "gene_name"
+        },
+        {
+          "id": "rps1b,rpsA2,nbp1",
           "type": "gene_name"
         }
       ]
@@ -41312,14 +41725,14 @@
           "type": "cds_fna_id"
         },
         {
-          "id": "por%2C pcr",
+          "id": "por, pcr",
           "sources": [
             "genomic_gca/MED4"
           ],
           "type": "locus_tag_ncbi"
         },
         {
-          "id": "por%2C",
+          "id": "por,",
           "sources": [
             "genomic_gca/MED4"
           ],
@@ -41327,6 +41740,20 @@
         },
         {
           "id": "pcr",
+          "sources": [
+            "genomic_gca/MED4"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "por",
+          "sources": [
+            "genomic_gca/MED4"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "por,pcr",
           "sources": [
             "genomic_gca/MED4"
           ],
@@ -41392,7 +41819,11 @@
           "type": "gene_synonym"
         },
         {
-          "id": "por%2C pcr",
+          "id": "por, pcr",
+          "type": "gene_name"
+        },
+        {
+          "id": "por,pcr",
           "type": "gene_name"
         }
       ]
@@ -41421,7 +41852,21 @@
           "type": "cds_fna_id"
         },
         {
-          "id": "chlL%2CfrxC",
+          "id": "chlL,frxC",
+          "sources": [
+            "genomic_gca/MED4"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "chlL",
+          "sources": [
+            "genomic_gca/MED4"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "frxC",
           "sources": [
             "genomic_gca/MED4"
           ],
@@ -41472,7 +41917,11 @@
           "type": "gene_synonym"
         },
         {
-          "id": "chlL%2CfrxC",
+          "id": "chlL,frxC",
+          "type": "gene_name"
+        },
+        {
+          "id": "frxC",
           "type": "gene_name"
         },
         {
@@ -41966,14 +42415,14 @@
           "type": "cds_fna_id"
         },
         {
-          "id": "rbcL%2C cbbL",
+          "id": "rbcL, cbbL",
           "sources": [
             "genomic_gca/MED4"
           ],
           "type": "locus_tag_ncbi"
         },
         {
-          "id": "rbcL%2C",
+          "id": "rbcL,",
           "sources": [
             "genomic_gca/MED4"
           ],
@@ -41981,6 +42430,20 @@
         },
         {
           "id": "cbbL",
+          "sources": [
+            "genomic_gca/MED4"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "rbcL",
+          "sources": [
+            "genomic_gca/MED4"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "rbcL,cbbL",
           "sources": [
             "genomic_gca/MED4"
           ],
@@ -42031,7 +42494,15 @@
           "type": "gene_synonym"
         },
         {
-          "id": "rbcL%2C cbbL",
+          "id": "rbcL, cbbL",
+          "type": "gene_name"
+        },
+        {
+          "id": "cbbL",
+          "type": "gene_name"
+        },
+        {
+          "id": "rbcL,cbbL",
           "type": "gene_name"
         },
         {
@@ -42064,14 +42535,14 @@
           "type": "cds_fna_id"
         },
         {
-          "id": "rbcS%2C cbbS",
+          "id": "rbcS, cbbS",
           "sources": [
             "genomic_gca/MED4"
           ],
           "type": "locus_tag_ncbi"
         },
         {
-          "id": "rbcS%2C",
+          "id": "rbcS,",
           "sources": [
             "genomic_gca/MED4"
           ],
@@ -42079,6 +42550,20 @@
         },
         {
           "id": "cbbS",
+          "sources": [
+            "genomic_gca/MED4"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "rbcS",
+          "sources": [
+            "genomic_gca/MED4"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "rbcS,cbbS",
           "sources": [
             "genomic_gca/MED4"
           ],
@@ -42129,7 +42614,15 @@
           "type": "gene_synonym"
         },
         {
-          "id": "rbcS%2C cbbS",
+          "id": "rbcS, cbbS",
+          "type": "gene_name"
+        },
+        {
+          "id": "cbbS",
+          "type": "gene_name"
+        },
+        {
+          "id": "rbcS,cbbS",
           "type": "gene_name"
         },
         {
@@ -47943,7 +48436,28 @@
           "type": "cds_fna_id"
         },
         {
-          "id": "GSTTLp28%2CP28%2CGSTO1",
+          "id": "GSTTLp28,P28,GSTO1",
+          "sources": [
+            "genomic_gca/MED4"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "GSTTLp28",
+          "sources": [
+            "genomic_gca/MED4"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "P28",
+          "sources": [
+            "genomic_gca/MED4"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "GSTO1",
           "sources": [
             "genomic_gca/MED4"
           ],
@@ -48005,7 +48519,15 @@
           "type": "gene_synonym"
         },
         {
-          "id": "GSTTLp28%2CP28%2CGSTO1",
+          "id": "GSTTLp28",
+          "type": "gene_name"
+        },
+        {
+          "id": "P28",
+          "type": "gene_name"
+        },
+        {
+          "id": "GSTO1",
           "type": "gene_name"
         }
       ]
@@ -48328,7 +48850,11 @@
           "type": "gene_synonym"
         },
         {
-          "id": "por%2C pcr",
+          "id": "por, pcr",
+          "type": "gene_name"
+        },
+        {
+          "id": "por,pcr",
           "type": "gene_name"
         }
       ]
@@ -54906,7 +55432,21 @@
           "type": "cds_fna_id"
         },
         {
-          "id": "pstC%2CphoW",
+          "id": "pstC,phoW",
+          "sources": [
+            "genomic_gca/MED4"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "pstC",
+          "sources": [
+            "genomic_gca/MED4"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "phoW",
           "sources": [
             "genomic_gca/MED4"
           ],
@@ -54964,7 +55504,7 @@
           "type": "gene_synonym"
         },
         {
-          "id": "pstC%2CphoW",
+          "id": "phoW",
           "type": "gene_name"
         }
       ]
@@ -54993,7 +55533,21 @@
           "type": "cds_fna_id"
         },
         {
-          "id": "pstA%2CphoT",
+          "id": "pstA,phoT",
+          "sources": [
+            "genomic_gca/MED4"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "pstA",
+          "sources": [
+            "genomic_gca/MED4"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "phoT",
           "sources": [
             "genomic_gca/MED4"
           ],
@@ -55051,7 +55605,7 @@
           "type": "gene_synonym"
         },
         {
-          "id": "pstA%2CphoT",
+          "id": "phoT",
           "type": "gene_name"
         }
       ]
@@ -57115,14 +57669,14 @@
           "type": "cds_fna_id"
         },
         {
-          "id": "rps2%2C rpsB",
+          "id": "rps2, rpsB",
           "sources": [
             "genomic_gca/MED4"
           ],
           "type": "locus_tag_ncbi"
         },
         {
-          "id": "rps2%2C",
+          "id": "rps2,",
           "sources": [
             "genomic_gca/MED4"
           ],
@@ -57130,6 +57684,20 @@
         },
         {
           "id": "rpsB",
+          "sources": [
+            "genomic_gca/MED4"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "rps2",
+          "sources": [
+            "genomic_gca/MED4"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "rps2,rpsB",
           "sources": [
             "genomic_gca/MED4"
           ],
@@ -57176,7 +57744,15 @@
           "type": "gene_synonym"
         },
         {
-          "id": "rps2%2C rpsB",
+          "id": "rps2, rpsB",
+          "type": "gene_name"
+        },
+        {
+          "id": "rps2",
+          "type": "gene_name"
+        },
+        {
+          "id": "rps2,rpsB",
           "type": "gene_name"
         },
         {
@@ -58162,14 +58738,14 @@
           "type": "cds_fna_id"
         },
         {
-          "id": "rpe%2C cbbE",
+          "id": "rpe, cbbE",
           "sources": [
             "genomic_gca/MED4"
           ],
           "type": "locus_tag_ncbi"
         },
         {
-          "id": "rpe%2C",
+          "id": "rpe,",
           "sources": [
             "genomic_gca/MED4"
           ],
@@ -58177,6 +58753,20 @@
         },
         {
           "id": "cbbE",
+          "sources": [
+            "genomic_gca/MED4"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "rpe",
+          "sources": [
+            "genomic_gca/MED4"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "rpe,cbbE",
           "sources": [
             "genomic_gca/MED4"
           ],
@@ -58241,7 +58831,11 @@
           "type": "gene_synonym"
         },
         {
-          "id": "rpe%2C cbbE",
+          "id": "rpe, cbbE",
+          "type": "gene_name"
+        },
+        {
+          "id": "rpe,cbbE",
           "type": "gene_name"
         },
         {
@@ -58274,21 +58868,21 @@
           "type": "cds_fna_id"
         },
         {
-          "id": "glpX%2C cbbF%2C fbp",
+          "id": "glpX, cbbF, fbp",
           "sources": [
             "genomic_gca/MED4"
           ],
           "type": "locus_tag_ncbi"
         },
         {
-          "id": "glpX%2C",
+          "id": "glpX,",
           "sources": [
             "genomic_gca/MED4"
           ],
           "type": "locus_tag_ncbi"
         },
         {
-          "id": "cbbF%2C",
+          "id": "cbbF,",
           "sources": [
             "genomic_gca/MED4"
           ],
@@ -58296,6 +58890,27 @@
         },
         {
           "id": "fbp",
+          "sources": [
+            "genomic_gca/MED4"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "glpX",
+          "sources": [
+            "genomic_gca/MED4"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "cbbF",
+          "sources": [
+            "genomic_gca/MED4"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "glpX,cbbF,fbp",
           "sources": [
             "genomic_gca/MED4"
           ],
@@ -58353,7 +58968,19 @@
           "type": "gene_synonym"
         },
         {
-          "id": "glpX%2C cbbF%2C fbp",
+          "id": "glpX, cbbF, fbp",
+          "type": "gene_name"
+        },
+        {
+          "id": "cbbF",
+          "type": "gene_name"
+        },
+        {
+          "id": "fbp",
+          "type": "gene_name"
+        },
+        {
+          "id": "glpX,cbbF,fbp",
           "type": "gene_name"
         },
         {
@@ -59313,7 +59940,7 @@
           "type": "cds_fna_id"
         },
         {
-          "id": "purQ (purL%2C pur4)",
+          "id": "purQ (purL, pur4)",
           "sources": [
             "genomic_gca/MED4"
           ],
@@ -59327,7 +59954,7 @@
           "type": "locus_tag_ncbi"
         },
         {
-          "id": "purL%2C",
+          "id": "purL,",
           "sources": [
             "genomic_gca/MED4"
           ],
@@ -59335,6 +59962,34 @@
         },
         {
           "id": "pur4",
+          "sources": [
+            "genomic_gca/MED4"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "purQ (purL",
+          "sources": [
+            "genomic_gca/MED4"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "pur4)",
+          "sources": [
+            "genomic_gca/MED4"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "purQ (purL,pur4)",
+          "sources": [
+            "genomic_gca/MED4"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "purL,pur4",
           "sources": [
             "genomic_gca/MED4"
           ],
@@ -59381,7 +60036,19 @@
           "type": "gene_synonym"
         },
         {
-          "id": "purQ (purL%2C pur4)",
+          "id": "purQ (purL, pur4)",
+          "type": "gene_name"
+        },
+        {
+          "id": "purQ (purL",
+          "type": "gene_name"
+        },
+        {
+          "id": "pur4)",
+          "type": "gene_name"
+        },
+        {
+          "id": "purQ (purL,pur4)",
           "type": "gene_name"
         }
       ]
@@ -59410,7 +60077,35 @@
           "type": "cds_fna_id"
         },
         {
-          "id": "cbbA%2CcfxA%2CfbaA%2Cfda",
+          "id": "cbbA,cfxA,fbaA,fda",
+          "sources": [
+            "genomic_gca/MED4"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "cbbA",
+          "sources": [
+            "genomic_gca/MED4"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "cfxA",
+          "sources": [
+            "genomic_gca/MED4"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "fbaA",
+          "sources": [
+            "genomic_gca/MED4"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "fda",
           "sources": [
             "genomic_gca/MED4"
           ],
@@ -59479,7 +60174,15 @@
           "type": "gene_synonym"
         },
         {
-          "id": "cbbA%2CcfxA%2CfbaA%2Cfda",
+          "id": "cbbA",
+          "type": "gene_name"
+        },
+        {
+          "id": "cfxA",
+          "type": "gene_name"
+        },
+        {
+          "id": "fda",
           "type": "gene_name"
         },
         {
@@ -59732,14 +60435,14 @@
           "type": "cds_fna_id"
         },
         {
-          "id": "prk%2C cbbP",
+          "id": "prk, cbbP",
           "sources": [
             "genomic_gca/MED4"
           ],
           "type": "locus_tag_ncbi"
         },
         {
-          "id": "prk%2C",
+          "id": "prk,",
           "sources": [
             "genomic_gca/MED4"
           ],
@@ -59747,6 +60450,20 @@
         },
         {
           "id": "cbbP",
+          "sources": [
+            "genomic_gca/MED4"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "prk",
+          "sources": [
+            "genomic_gca/MED4"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "prk,cbbP",
           "sources": [
             "genomic_gca/MED4"
           ],
@@ -59812,7 +60529,11 @@
           "type": "gene_synonym"
         },
         {
-          "id": "prk%2C cbbP",
+          "id": "prk, cbbP",
+          "type": "gene_name"
+        },
+        {
+          "id": "prk,cbbP",
           "type": "gene_name"
         },
         {
@@ -61092,14 +61813,14 @@
           "type": "cds_fna_id"
         },
         {
-          "id": "futC%2C sfuC",
+          "id": "futC, sfuC",
           "sources": [
             "genomic_gca/MED4"
           ],
           "type": "locus_tag_ncbi"
         },
         {
-          "id": "futC%2C",
+          "id": "futC,",
           "sources": [
             "genomic_gca/MED4"
           ],
@@ -61107,6 +61828,20 @@
         },
         {
           "id": "sfuC",
+          "sources": [
+            "genomic_gca/MED4"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "futC",
+          "sources": [
+            "genomic_gca/MED4"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "futC,sfuC",
           "sources": [
             "genomic_gca/MED4"
           ],
@@ -61168,7 +61903,11 @@
           "type": "gene_synonym"
         },
         {
-          "id": "futC%2C sfuC",
+          "id": "futC, sfuC",
+          "type": "gene_name"
+        },
+        {
+          "id": "futC,sfuC",
           "type": "gene_name"
         }
       ]
@@ -62043,13 +62782,6 @@
           "type": "locus_tag_cyanorak"
         },
         {
-          "id": "PMM1397",
-          "sources": [
-            "annotation"
-          ],
-          "type": "alternative_locus_tag"
-        },
-        {
           "id": "lcl|NC_005072.1_cds_WP_011132450.1_891",
           "sources": [
             "cds_from_genomic.fna"
@@ -62143,13 +62875,6 @@
             "annotation"
           ],
           "type": "locus_tag_cyanorak"
-        },
-        {
-          "id": "PMM1398",
-          "sources": [
-            "annotation"
-          ],
-          "type": "alternative_locus_tag"
         },
         {
           "id": "lcl|NC_005072.1_cds_WP_011132451.1_892",
@@ -62256,13 +62981,6 @@
             "annotation"
           ],
           "type": "locus_tag_cyanorak"
-        },
-        {
-          "id": "PMM1399",
-          "sources": [
-            "annotation"
-          ],
-          "type": "alternative_locus_tag"
         },
         {
           "id": "lcl|NC_005072.1_cds_WP_011132452.1_893",
@@ -63099,14 +63817,14 @@
           "type": "cds_fna_id"
         },
         {
-          "id": "tpi%2C cbbJ",
+          "id": "tpi, cbbJ",
           "sources": [
             "genomic_gca/MED4"
           ],
           "type": "locus_tag_ncbi"
         },
         {
-          "id": "tpi%2C",
+          "id": "tpi,",
           "sources": [
             "genomic_gca/MED4"
           ],
@@ -63114,6 +63832,20 @@
         },
         {
           "id": "cbbJ",
+          "sources": [
+            "genomic_gca/MED4"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "tpi",
+          "sources": [
+            "genomic_gca/MED4"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "tpi,cbbJ",
           "sources": [
             "genomic_gca/MED4"
           ],
@@ -63160,7 +63892,19 @@
           "type": "gene_synonym"
         },
         {
-          "id": "tpi%2C cbbJ",
+          "id": "tpi, cbbJ",
+          "type": "gene_name"
+        },
+        {
+          "id": "tpi",
+          "type": "gene_name"
+        },
+        {
+          "id": "cbbJ",
+          "type": "gene_name"
+        },
+        {
+          "id": "tpi,cbbJ",
           "type": "gene_name"
         }
       ]
@@ -64239,7 +64983,21 @@
           "type": "cds_fna_id"
         },
         {
-          "id": "PNIL34%2CAT103",
+          "id": "PNIL34,AT103",
+          "sources": [
+            "genomic_gca/MED4"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "PNIL34",
+          "sources": [
+            "genomic_gca/MED4"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "AT103",
           "sources": [
             "genomic_gca/MED4"
           ],
@@ -64290,7 +65048,15 @@
           "type": "gene_synonym"
         },
         {
-          "id": "PNIL34%2CAT103",
+          "id": "PNIL34,AT103",
+          "type": "gene_name"
+        },
+        {
+          "id": "PNIL34",
+          "type": "gene_name"
+        },
+        {
+          "id": "AT103",
           "type": "gene_name"
         }
       ]
@@ -64918,14 +65684,14 @@
           "type": "cds_fna_id"
         },
         {
-          "id": "rpl32%2C rpmF",
+          "id": "rpl32, rpmF",
           "sources": [
             "genomic_gca/MED4"
           ],
           "type": "locus_tag_ncbi"
         },
         {
-          "id": "rpl32%2C",
+          "id": "rpl32,",
           "sources": [
             "genomic_gca/MED4"
           ],
@@ -64933,6 +65699,20 @@
         },
         {
           "id": "rpmF",
+          "sources": [
+            "genomic_gca/MED4"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "rpl32",
+          "sources": [
+            "genomic_gca/MED4"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "rpl32,rpmF",
           "sources": [
             "genomic_gca/MED4"
           ],
@@ -64979,7 +65759,15 @@
           "type": "gene_synonym"
         },
         {
-          "id": "rpl32%2C rpmF",
+          "id": "rpl32, rpmF",
+          "type": "gene_name"
+        },
+        {
+          "id": "rpl32",
+          "type": "gene_name"
+        },
+        {
+          "id": "rpl32,rpmF",
           "type": "gene_name"
         }
       ]
@@ -66125,14 +66913,14 @@
           "type": "cds_fna_id"
         },
         {
-          "id": "rps18%2C rpsR",
+          "id": "rps18, rpsR",
           "sources": [
             "genomic_gca/MED4"
           ],
           "type": "locus_tag_ncbi"
         },
         {
-          "id": "rps18%2C",
+          "id": "rps18,",
           "sources": [
             "genomic_gca/MED4"
           ],
@@ -66140,6 +66928,20 @@
         },
         {
           "id": "rpsR",
+          "sources": [
+            "genomic_gca/MED4"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "rps18",
+          "sources": [
+            "genomic_gca/MED4"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "rps18,rpsR",
           "sources": [
             "genomic_gca/MED4"
           ],
@@ -66186,7 +66988,15 @@
           "type": "gene_synonym"
         },
         {
-          "id": "rps18%2C rpsR",
+          "id": "rps18, rpsR",
+          "type": "gene_name"
+        },
+        {
+          "id": "rps18",
+          "type": "gene_name"
+        },
+        {
+          "id": "rps18,rpsR",
           "type": "gene_name"
         }
       ]
@@ -66215,14 +67025,14 @@
           "type": "cds_fna_id"
         },
         {
-          "id": "rpl33%2C rpmG",
+          "id": "rpl33, rpmG",
           "sources": [
             "genomic_gca/MED4"
           ],
           "type": "locus_tag_ncbi"
         },
         {
-          "id": "rpl33%2C",
+          "id": "rpl33,",
           "sources": [
             "genomic_gca/MED4"
           ],
@@ -66230,6 +67040,20 @@
         },
         {
           "id": "rpmG",
+          "sources": [
+            "genomic_gca/MED4"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "rpl33",
+          "sources": [
+            "genomic_gca/MED4"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "rpl33,rpmG",
           "sources": [
             "genomic_gca/MED4"
           ],
@@ -66276,7 +67100,15 @@
           "type": "gene_synonym"
         },
         {
-          "id": "rpl33%2C rpmG",
+          "id": "rpl33, rpmG",
+          "type": "gene_name"
+        },
+        {
+          "id": "rpl33",
+          "type": "gene_name"
+        },
+        {
+          "id": "rpl33,rpmG",
           "type": "gene_name"
         }
       ]
@@ -67351,14 +68183,14 @@
           "type": "cds_fna_id"
         },
         {
-          "id": "dacB%2C pbp",
+          "id": "dacB, pbp",
           "sources": [
             "genomic_gca/MED4"
           ],
           "type": "locus_tag_ncbi"
         },
         {
-          "id": "dacB%2C",
+          "id": "dacB,",
           "sources": [
             "genomic_gca/MED4"
           ],
@@ -67366,6 +68198,20 @@
         },
         {
           "id": "pbp",
+          "sources": [
+            "genomic_gca/MED4"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "dacB",
+          "sources": [
+            "genomic_gca/MED4"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "dacB,pbp",
           "sources": [
             "genomic_gca/MED4"
           ],
@@ -67416,7 +68262,19 @@
           "type": "gene_synonym"
         },
         {
-          "id": "dacB%2C pbp",
+          "id": "dacB, pbp",
+          "type": "gene_name"
+        },
+        {
+          "id": "dacB",
+          "type": "gene_name"
+        },
+        {
+          "id": "pbp",
+          "type": "gene_name"
+        },
+        {
+          "id": "dacB,pbp",
           "type": "gene_name"
         }
       ]
@@ -68702,14 +69560,14 @@
           "type": "cds_fna_id"
         },
         {
-          "id": "rpl28%2C rpmB",
+          "id": "rpl28, rpmB",
           "sources": [
             "genomic_gca/MED4"
           ],
           "type": "locus_tag_ncbi"
         },
         {
-          "id": "rpl28%2C",
+          "id": "rpl28,",
           "sources": [
             "genomic_gca/MED4"
           ],
@@ -68717,6 +69575,20 @@
         },
         {
           "id": "rpmB",
+          "sources": [
+            "genomic_gca/MED4"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "rpl28",
+          "sources": [
+            "genomic_gca/MED4"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "rpl28,rpmB",
           "sources": [
             "genomic_gca/MED4"
           ],
@@ -68763,7 +69635,15 @@
           "type": "gene_synonym"
         },
         {
-          "id": "rpl28%2C rpmB",
+          "id": "rpl28, rpmB",
+          "type": "gene_name"
+        },
+        {
+          "id": "rpl28",
+          "type": "gene_name"
+        },
+        {
+          "id": "rpl28,rpmB",
           "type": "gene_name"
         }
       ]
@@ -69997,14 +70877,14 @@
           "type": "cds_fna_id"
         },
         {
-          "id": "spt%2C agt",
+          "id": "spt, agt",
           "sources": [
             "genomic_gca/MED4"
           ],
           "type": "locus_tag_ncbi"
         },
         {
-          "id": "spt%2C",
+          "id": "spt,",
           "sources": [
             "genomic_gca/MED4"
           ],
@@ -70012,6 +70892,20 @@
         },
         {
           "id": "agt",
+          "sources": [
+            "genomic_gca/MED4"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "spt",
+          "sources": [
+            "genomic_gca/MED4"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "spt,agt",
           "sources": [
             "genomic_gca/MED4"
           ],
@@ -70073,7 +70967,11 @@
           "type": "gene_synonym"
         },
         {
-          "id": "spt%2C agt",
+          "id": "spt, agt",
+          "type": "gene_name"
+        },
+        {
+          "id": "spt,agt",
           "type": "gene_name"
         }
       ]
@@ -71805,14 +72703,14 @@
           "type": "cds_fna_id"
         },
         {
-          "id": "rps15%2C rpsO",
+          "id": "rps15, rpsO",
           "sources": [
             "genomic_gca/MED4"
           ],
           "type": "locus_tag_ncbi"
         },
         {
-          "id": "rps15%2C",
+          "id": "rps15,",
           "sources": [
             "genomic_gca/MED4"
           ],
@@ -71820,6 +72718,20 @@
         },
         {
           "id": "rpsO",
+          "sources": [
+            "genomic_gca/MED4"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "rps15",
+          "sources": [
+            "genomic_gca/MED4"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "rps15,rpsO",
           "sources": [
             "genomic_gca/MED4"
           ],
@@ -71866,7 +72778,15 @@
           "type": "gene_synonym"
         },
         {
-          "id": "rps15%2C rpsO",
+          "id": "rps15, rpsO",
+          "type": "gene_name"
+        },
+        {
+          "id": "rps15",
+          "type": "gene_name"
+        },
+        {
+          "id": "rps15,rpsO",
           "type": "gene_name"
         }
       ]
@@ -72390,14 +73310,14 @@
           "type": "cds_fna_id"
         },
         {
-          "id": "carA%2C pyrA",
+          "id": "carA, pyrA",
           "sources": [
             "genomic_gca/MED4"
           ],
           "type": "locus_tag_ncbi"
         },
         {
-          "id": "carA%2C",
+          "id": "carA,",
           "sources": [
             "genomic_gca/MED4"
           ],
@@ -72405,6 +73325,20 @@
         },
         {
           "id": "pyrA",
+          "sources": [
+            "genomic_gca/MED4"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "carA",
+          "sources": [
+            "genomic_gca/MED4"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "carA,pyrA",
           "sources": [
             "genomic_gca/MED4"
           ],
@@ -72462,7 +73396,11 @@
           "type": "gene_synonym"
         },
         {
-          "id": "carA%2C pyrA",
+          "id": "carA, pyrA",
+          "type": "gene_name"
+        },
+        {
+          "id": "carA,pyrA",
           "type": "gene_name"
         },
         {
@@ -75134,14 +76072,14 @@
           "type": "cds_fna_id"
         },
         {
-          "id": "rps21%2C rpsU",
+          "id": "rps21, rpsU",
           "sources": [
             "genomic_gca/MED4"
           ],
           "type": "locus_tag_ncbi"
         },
         {
-          "id": "rps21%2C",
+          "id": "rps21,",
           "sources": [
             "genomic_gca/MED4"
           ],
@@ -75149,6 +76087,20 @@
         },
         {
           "id": "rpsU",
+          "sources": [
+            "genomic_gca/MED4"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "rps21",
+          "sources": [
+            "genomic_gca/MED4"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "rps21,rpsU",
           "sources": [
             "genomic_gca/MED4"
           ],
@@ -75195,7 +76147,15 @@
           "type": "gene_synonym"
         },
         {
-          "id": "rps21%2C rpsU",
+          "id": "rps21, rpsU",
+          "type": "gene_name"
+        },
+        {
+          "id": "rps21",
+          "type": "gene_name"
+        },
+        {
+          "id": "rps21,rpsU",
           "type": "gene_name"
         }
       ]
@@ -79688,7 +80648,21 @@
           "type": "cds_fna_id"
         },
         {
-          "id": "thrA%2Chom",
+          "id": "thrA,hom",
+          "sources": [
+            "genomic_gca/MED4"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "thrA",
+          "sources": [
+            "genomic_gca/MED4"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "hom",
           "sources": [
             "genomic_gca/MED4"
           ],
@@ -79750,7 +80724,7 @@
           "type": "gene_synonym"
         },
         {
-          "id": "thrA%2Chom",
+          "id": "hom",
           "type": "gene_name"
         }
       ]
@@ -81311,7 +82285,21 @@
           "type": "cds_fna_id"
         },
         {
-          "id": "cbiA%2CcobB",
+          "id": "cbiA,cobB",
+          "sources": [
+            "genomic_gca/MED4"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "cbiA",
+          "sources": [
+            "genomic_gca/MED4"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "cobB",
           "sources": [
             "genomic_gca/MED4"
           ],
@@ -81373,7 +82361,7 @@
           "type": "gene_synonym"
         },
         {
-          "id": "cbiA%2CcobB",
+          "id": "cbiA",
           "type": "gene_name"
         }
       ]
@@ -83172,7 +84160,21 @@
           "type": "cds_fna_id"
         },
         {
-          "id": "lipA%2Clip",
+          "id": "lipA,lip",
+          "sources": [
+            "genomic_gca/MED4"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "lipA",
+          "sources": [
+            "genomic_gca/MED4"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "lip",
           "sources": [
             "genomic_gca/MED4"
           ],
@@ -83223,7 +84225,11 @@
           "type": "gene_synonym"
         },
         {
-          "id": "lipA%2Clip",
+          "id": "lipA,lip",
+          "type": "gene_name"
+        },
+        {
+          "id": "lip",
           "type": "gene_name"
         }
       ]
@@ -84826,13 +85832,6 @@
             "annotation"
           ],
           "type": "locus_tag_cyanorak"
-        },
-        {
-          "id": "PMM1384",
-          "sources": [
-            "annotation"
-          ],
-          "type": "alternative_locus_tag"
         },
         {
           "id": "lcl|NC_005072.1_cds_WP_011132751.1_1230",
@@ -88118,13 +89117,6 @@
           "type": "cds_fna_id"
         },
         {
-          "id": "cobB",
-          "sources": [
-            "genomic_gca/MED4"
-          ],
-          "type": "locus_tag_ncbi"
-        },
-        {
           "id": "CAE19619.1",
           "sources": [
             "genomic_gca/MED4"
@@ -88415,14 +89407,14 @@
           "type": "cds_fna_id"
         },
         {
-          "id": "futA%2CsfuA%2C idiA",
+          "id": "futA,sfuA, idiA",
           "sources": [
             "genomic_gca/MED4"
           ],
           "type": "locus_tag_ncbi"
         },
         {
-          "id": "futA%2CsfuA%2C",
+          "id": "futA,sfuA,",
           "sources": [
             "genomic_gca/MED4"
           ],
@@ -88430,6 +89422,27 @@
         },
         {
           "id": "idiA",
+          "sources": [
+            "genomic_gca/MED4"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "futA",
+          "sources": [
+            "genomic_gca/MED4"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "sfuA",
+          "sources": [
+            "genomic_gca/MED4"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "futA,sfuA,idiA",
           "sources": [
             "genomic_gca/MED4"
           ],
@@ -88502,7 +89515,19 @@
           "type": "gene_synonym"
         },
         {
-          "id": "futA%2CsfuA%2C idiA",
+          "id": "futA,sfuA, idiA",
+          "type": "gene_name"
+        },
+        {
+          "id": "futA",
+          "type": "gene_name"
+        },
+        {
+          "id": "sfuA",
+          "type": "gene_name"
+        },
+        {
+          "id": "futA,sfuA,idiA",
           "type": "gene_name"
         }
       ]
@@ -89883,14 +90908,14 @@
           "type": "cds_fna_id"
         },
         {
-          "id": "rpl34%2C rpmH",
+          "id": "rpl34, rpmH",
           "sources": [
             "genomic_gca/MED4"
           ],
           "type": "locus_tag_ncbi"
         },
         {
-          "id": "rpl34%2C",
+          "id": "rpl34,",
           "sources": [
             "genomic_gca/MED4"
           ],
@@ -89898,6 +90923,20 @@
         },
         {
           "id": "rpmH",
+          "sources": [
+            "genomic_gca/MED4"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "rpl34",
+          "sources": [
+            "genomic_gca/MED4"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "rpl34,rpmH",
           "sources": [
             "genomic_gca/MED4"
           ],
@@ -89944,7 +90983,15 @@
           "type": "gene_synonym"
         },
         {
-          "id": "rpl34%2C rpmH",
+          "id": "rpl34, rpmH",
+          "type": "gene_name"
+        },
+        {
+          "id": "rpl34",
+          "type": "gene_name"
+        },
+        {
+          "id": "rpl34,rpmH",
           "type": "gene_name"
         }
       ]
@@ -90410,14 +91457,14 @@
           "type": "cds_fna_id"
         },
         {
-          "id": "rps14%2C rpsN",
+          "id": "rps14, rpsN",
           "sources": [
             "genomic_gca/MED4"
           ],
           "type": "locus_tag_ncbi"
         },
         {
-          "id": "rps14%2C",
+          "id": "rps14,",
           "sources": [
             "genomic_gca/MED4"
           ],
@@ -90425,6 +91472,20 @@
         },
         {
           "id": "rpsN",
+          "sources": [
+            "genomic_gca/MED4"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "rps14",
+          "sources": [
+            "genomic_gca/MED4"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "rps14,rpsN",
           "sources": [
             "genomic_gca/MED4"
           ],
@@ -90471,7 +91532,15 @@
           "type": "gene_synonym"
         },
         {
-          "id": "rps14%2C rpsN",
+          "id": "rps14, rpsN",
+          "type": "gene_name"
+        },
+        {
+          "id": "rps14",
+          "type": "gene_name"
+        },
+        {
+          "id": "rps14,rpsN",
           "type": "gene_name"
         }
       ]
@@ -91449,14 +92518,14 @@
           "type": "cds_fna_id"
         },
         {
-          "id": "ddhA%2C rfbF",
+          "id": "ddhA, rfbF",
           "sources": [
             "genomic_gca/MED4"
           ],
           "type": "locus_tag_ncbi"
         },
         {
-          "id": "ddhA%2C",
+          "id": "ddhA,",
           "sources": [
             "genomic_gca/MED4"
           ],
@@ -91464,6 +92533,20 @@
         },
         {
           "id": "rfbF",
+          "sources": [
+            "genomic_gca/MED4"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "ddhA",
+          "sources": [
+            "genomic_gca/MED4"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "ddhA,rfbF",
           "sources": [
             "genomic_gca/MED4"
           ],
@@ -91521,7 +92604,11 @@
           "type": "gene_synonym"
         },
         {
-          "id": "ddhA%2C rfbF",
+          "id": "ddhA, rfbF",
+          "type": "gene_name"
+        },
+        {
+          "id": "ddhA,rfbF",
           "type": "gene_name"
         },
         {
@@ -97473,7 +98560,21 @@
           "type": "cds_fna_id"
         },
         {
-          "id": "phoH%2CpsiH",
+          "id": "phoH,psiH",
+          "sources": [
+            "genomic_gca/MED4"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "phoH",
+          "sources": [
+            "genomic_gca/MED4"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "psiH",
           "sources": [
             "genomic_gca/MED4"
           ],
@@ -97535,7 +98636,7 @@
           "type": "gene_synonym"
         },
         {
-          "id": "phoH%2CpsiH",
+          "id": "psiH",
           "type": "gene_name"
         },
         {
@@ -97568,14 +98669,14 @@
           "type": "cds_fna_id"
         },
         {
-          "id": "rps16%2C rpsP",
+          "id": "rps16, rpsP",
           "sources": [
             "genomic_gca/MED4"
           ],
           "type": "locus_tag_ncbi"
         },
         {
-          "id": "rps16%2C",
+          "id": "rps16,",
           "sources": [
             "genomic_gca/MED4"
           ],
@@ -97583,6 +98684,20 @@
         },
         {
           "id": "rpsP",
+          "sources": [
+            "genomic_gca/MED4"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "rps16",
+          "sources": [
+            "genomic_gca/MED4"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "rps16,rpsP",
           "sources": [
             "genomic_gca/MED4"
           ],
@@ -97629,7 +98744,15 @@
           "type": "gene_synonym"
         },
         {
-          "id": "rps16%2C rpsP",
+          "id": "rps16, rpsP",
+          "type": "gene_name"
+        },
+        {
+          "id": "rps16",
+          "type": "gene_name"
+        },
+        {
+          "id": "rps16,rpsP",
           "type": "gene_name"
         }
       ]
@@ -102058,14 +103181,14 @@
           "type": "cds_fna_id"
         },
         {
-          "id": "rpl21%2C rplU",
+          "id": "rpl21, rplU",
           "sources": [
             "genomic_gca/MED4"
           ],
           "type": "locus_tag_ncbi"
         },
         {
-          "id": "rpl21%2C",
+          "id": "rpl21,",
           "sources": [
             "genomic_gca/MED4"
           ],
@@ -102073,6 +103196,20 @@
         },
         {
           "id": "rplU",
+          "sources": [
+            "genomic_gca/MED4"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "rpl21",
+          "sources": [
+            "genomic_gca/MED4"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "rpl21,rplU",
           "sources": [
             "genomic_gca/MED4"
           ],
@@ -102119,7 +103256,15 @@
           "type": "gene_synonym"
         },
         {
-          "id": "rpl21%2C rplU",
+          "id": "rpl21, rplU",
+          "type": "gene_name"
+        },
+        {
+          "id": "rpl21",
+          "type": "gene_name"
+        },
+        {
+          "id": "rpl21,rplU",
           "type": "gene_name"
         }
       ]
@@ -102148,14 +103293,14 @@
           "type": "cds_fna_id"
         },
         {
-          "id": "rpl27%2C rpmA",
+          "id": "rpl27, rpmA",
           "sources": [
             "genomic_gca/MED4"
           ],
           "type": "locus_tag_ncbi"
         },
         {
-          "id": "rpl27%2C",
+          "id": "rpl27,",
           "sources": [
             "genomic_gca/MED4"
           ],
@@ -102163,6 +103308,20 @@
         },
         {
           "id": "rpmA",
+          "sources": [
+            "genomic_gca/MED4"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "rpl27",
+          "sources": [
+            "genomic_gca/MED4"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "rpl27,rpmA",
           "sources": [
             "genomic_gca/MED4"
           ],
@@ -102209,7 +103368,15 @@
           "type": "gene_synonym"
         },
         {
-          "id": "rpl27%2C rpmA",
+          "id": "rpl27, rpmA",
+          "type": "gene_name"
+        },
+        {
+          "id": "rpl27",
+          "type": "gene_name"
+        },
+        {
+          "id": "rpl27,rpmA",
           "type": "gene_name"
         }
       ]
@@ -104597,7 +105764,21 @@
           "type": "cds_fna_id"
         },
         {
-          "id": "des%2CyocE",
+          "id": "des,yocE",
+          "sources": [
+            "genomic_gca/MED4"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "des",
+          "sources": [
+            "genomic_gca/MED4"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "yocE",
           "sources": [
             "genomic_gca/MED4"
           ],
@@ -104659,7 +105840,11 @@
           "type": "gene_synonym"
         },
         {
-          "id": "des%2CyocE",
+          "id": "des",
+          "type": "gene_name"
+        },
+        {
+          "id": "yocE",
           "type": "gene_name"
         }
       ]
@@ -109227,7 +110412,21 @@
           "type": "cds_fna_id"
         },
         {
-          "id": "atpC%2CatpE",
+          "id": "atpC,atpE",
+          "sources": [
+            "genomic_gca/MED4"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "atpC",
+          "sources": [
+            "genomic_gca/MED4"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "atpE",
           "sources": [
             "genomic_gca/MED4"
           ],
@@ -109285,7 +110484,7 @@
           "type": "gene_synonym"
         },
         {
-          "id": "atpC%2CatpE",
+          "id": "atpC,atpE",
           "type": "gene_name"
         },
         {
@@ -110062,13 +111261,6 @@
           "type": "cds_fna_id"
         },
         {
-          "id": "atpC",
-          "sources": [
-            "genomic_gca/MED4"
-          ],
-          "type": "locus_tag_ncbi"
-        },
-        {
           "id": "CAE19909.1",
           "sources": [
             "genomic_gca/MED4"
@@ -110218,7 +111410,21 @@
           "type": "cds_fna_id"
         },
         {
-          "id": "atpH%2CatpD",
+          "id": "atpH,atpD",
+          "sources": [
+            "genomic_gca/MED4"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "atpH",
+          "sources": [
+            "genomic_gca/MED4"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "atpD",
           "sources": [
             "genomic_gca/MED4"
           ],
@@ -110269,7 +111475,7 @@
           "type": "gene_synonym"
         },
         {
-          "id": "atpH%2CatpD",
+          "id": "atpH,atpD",
           "type": "gene_name"
         },
         {
@@ -112947,7 +114153,21 @@
           "type": "cds_fna_id"
         },
         {
-          "id": "rpsT%2Crps20",
+          "id": "rpsT,rps20",
+          "sources": [
+            "genomic_gca/MED4"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "rpsT",
+          "sources": [
+            "genomic_gca/MED4"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "rps20",
           "sources": [
             "genomic_gca/MED4"
           ],
@@ -112994,7 +114214,11 @@
           "type": "gene_synonym"
         },
         {
-          "id": "rpsT%2Crps20",
+          "id": "rpsT,rps20",
+          "type": "gene_name"
+        },
+        {
+          "id": "rps20",
           "type": "gene_name"
         }
       ]
@@ -113095,14 +114319,14 @@
           "type": "cds_fna_id"
         },
         {
-          "id": "rpiA%2C cbbI",
+          "id": "rpiA, cbbI",
           "sources": [
             "genomic_gca/MED4"
           ],
           "type": "locus_tag_ncbi"
         },
         {
-          "id": "rpiA%2C",
+          "id": "rpiA,",
           "sources": [
             "genomic_gca/MED4"
           ],
@@ -113110,6 +114334,20 @@
         },
         {
           "id": "cbbI",
+          "sources": [
+            "genomic_gca/MED4"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "rpiA",
+          "sources": [
+            "genomic_gca/MED4"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "rpiA,cbbI",
           "sources": [
             "genomic_gca/MED4"
           ],
@@ -113163,7 +114401,15 @@
           "type": "gene_synonym"
         },
         {
-          "id": "rpiA%2C cbbI",
+          "id": "rpiA, cbbI",
+          "type": "gene_name"
+        },
+        {
+          "id": "cbbI",
+          "type": "gene_name"
+        },
+        {
+          "id": "rpiA,cbbI",
           "type": "gene_name"
         },
         {
@@ -114436,7 +115682,21 @@
           "type": "cds_fna_id"
         },
         {
-          "id": "rpsJ%2Crps10",
+          "id": "rpsJ,rps10",
+          "sources": [
+            "genomic_gca/MED4"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "rpsJ",
+          "sources": [
+            "genomic_gca/MED4"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "rps10",
           "sources": [
             "genomic_gca/MED4"
           ],
@@ -114483,7 +115743,11 @@
           "type": "gene_synonym"
         },
         {
-          "id": "rpsJ%2Crps10",
+          "id": "rpsJ,rps10",
+          "type": "gene_name"
+        },
+        {
+          "id": "rps10",
           "type": "gene_name"
         },
         {
@@ -114672,14 +115936,14 @@
           "type": "cds_fna_id"
         },
         {
-          "id": "rps7%2C rpsG",
+          "id": "rps7, rpsG",
           "sources": [
             "genomic_gca/MED4"
           ],
           "type": "locus_tag_ncbi"
         },
         {
-          "id": "rps7%2C",
+          "id": "rps7,",
           "sources": [
             "genomic_gca/MED4"
           ],
@@ -114687,6 +115951,20 @@
         },
         {
           "id": "rpsG",
+          "sources": [
+            "genomic_gca/MED4"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "rps7",
+          "sources": [
+            "genomic_gca/MED4"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "rps7,rpsG",
           "sources": [
             "genomic_gca/MED4"
           ],
@@ -114733,7 +116011,15 @@
           "type": "gene_synonym"
         },
         {
-          "id": "rps7%2C rpsG",
+          "id": "rps7, rpsG",
+          "type": "gene_name"
+        },
+        {
+          "id": "rps7",
+          "type": "gene_name"
+        },
+        {
+          "id": "rps7,rpsG",
           "type": "gene_name"
         },
         {
@@ -114766,14 +116052,14 @@
           "type": "cds_fna_id"
         },
         {
-          "id": "rps12%2C rpsL",
+          "id": "rps12, rpsL",
           "sources": [
             "genomic_gca/MED4"
           ],
           "type": "locus_tag_ncbi"
         },
         {
-          "id": "rps12%2C",
+          "id": "rps12,",
           "sources": [
             "genomic_gca/MED4"
           ],
@@ -114781,6 +116067,20 @@
         },
         {
           "id": "rpsL",
+          "sources": [
+            "genomic_gca/MED4"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "rps12",
+          "sources": [
+            "genomic_gca/MED4"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "rps12,rpsL",
           "sources": [
             "genomic_gca/MED4"
           ],
@@ -114827,7 +116127,15 @@
           "type": "gene_synonym"
         },
         {
-          "id": "rps12%2C rpsL",
+          "id": "rps12, rpsL",
+          "type": "gene_name"
+        },
+        {
+          "id": "rps12",
+          "type": "gene_name"
+        },
+        {
+          "id": "rps12,rpsL",
           "type": "gene_name"
         }
       ]
@@ -114856,14 +116164,14 @@
           "type": "cds_fna_id"
         },
         {
-          "id": "glsF%2C gltS",
+          "id": "glsF, gltS",
           "sources": [
             "genomic_gca/MED4"
           ],
           "type": "locus_tag_ncbi"
         },
         {
-          "id": "glsF%2C",
+          "id": "glsF,",
           "sources": [
             "genomic_gca/MED4"
           ],
@@ -114871,6 +116179,20 @@
         },
         {
           "id": "gltS",
+          "sources": [
+            "genomic_gca/MED4"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "glsF",
+          "sources": [
+            "genomic_gca/MED4"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "glsF,gltS",
           "sources": [
             "genomic_gca/MED4"
           ],
@@ -114932,7 +116254,11 @@
           "type": "gene_synonym"
         },
         {
-          "id": "glsF%2C gltS",
+          "id": "glsF, gltS",
+          "type": "gene_name"
+        },
+        {
+          "id": "glsF,gltS",
           "type": "gene_name"
         }
       ]
@@ -115031,13 +116357,6 @@
             "cds_from_genomic.fna"
           ],
           "type": "cds_fna_id"
-        },
-        {
-          "id": "lipA",
-          "sources": [
-            "genomic_gca/MED4"
-          ],
-          "type": "locus_tag_ncbi"
         },
         {
           "id": "CAE19973.1",
@@ -116204,7 +117523,21 @@
           "type": "cds_fna_id"
         },
         {
-          "id": "prfA%2CsueB",
+          "id": "prfA,sueB",
+          "sources": [
+            "genomic_gca/MED4"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "prfA",
+          "sources": [
+            "genomic_gca/MED4"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "sueB",
           "sources": [
             "genomic_gca/MED4"
           ],
@@ -116251,7 +117584,11 @@
           "type": "gene_synonym"
         },
         {
-          "id": "prfA%2CsueB",
+          "id": "prfA,sueB",
+          "type": "gene_name"
+        },
+        {
+          "id": "sueB",
           "type": "gene_name"
         },
         {
@@ -116284,14 +117621,14 @@
           "type": "cds_fna_id"
         },
         {
-          "id": "rpl31%2C rpmE",
+          "id": "rpl31, rpmE",
           "sources": [
             "genomic_gca/MED4"
           ],
           "type": "locus_tag_ncbi"
         },
         {
-          "id": "rpl31%2C",
+          "id": "rpl31,",
           "sources": [
             "genomic_gca/MED4"
           ],
@@ -116299,6 +117636,20 @@
         },
         {
           "id": "rpmE",
+          "sources": [
+            "genomic_gca/MED4"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "rpl31",
+          "sources": [
+            "genomic_gca/MED4"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "rpl31,rpmE",
           "sources": [
             "genomic_gca/MED4"
           ],
@@ -116345,7 +117696,15 @@
           "type": "gene_synonym"
         },
         {
-          "id": "rpl31%2C rpmE",
+          "id": "rpl31, rpmE",
+          "type": "gene_name"
+        },
+        {
+          "id": "rpl31",
+          "type": "gene_name"
+        },
+        {
+          "id": "rpl31,rpmE",
           "type": "gene_name"
         },
         {
@@ -116378,14 +117737,14 @@
           "type": "cds_fna_id"
         },
         {
-          "id": "rps9%2C rpsI",
+          "id": "rps9, rpsI",
           "sources": [
             "genomic_gca/MED4"
           ],
           "type": "locus_tag_ncbi"
         },
         {
-          "id": "rps9%2C",
+          "id": "rps9,",
           "sources": [
             "genomic_gca/MED4"
           ],
@@ -116393,6 +117752,20 @@
         },
         {
           "id": "rpsI",
+          "sources": [
+            "genomic_gca/MED4"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "rps9",
+          "sources": [
+            "genomic_gca/MED4"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "rps9,rpsI",
           "sources": [
             "genomic_gca/MED4"
           ],
@@ -116439,7 +117812,15 @@
           "type": "gene_synonym"
         },
         {
-          "id": "rps9%2C rpsI",
+          "id": "rps9, rpsI",
+          "type": "gene_name"
+        },
+        {
+          "id": "rps9",
+          "type": "gene_name"
+        },
+        {
+          "id": "rps9,rpsI",
           "type": "gene_name"
         }
       ]
@@ -116468,14 +117849,14 @@
           "type": "cds_fna_id"
         },
         {
-          "id": "rpl13%2C rplM",
+          "id": "rpl13, rplM",
           "sources": [
             "genomic_gca/MED4"
           ],
           "type": "locus_tag_ncbi"
         },
         {
-          "id": "rpl13%2C",
+          "id": "rpl13,",
           "sources": [
             "genomic_gca/MED4"
           ],
@@ -116483,6 +117864,20 @@
         },
         {
           "id": "rplM",
+          "sources": [
+            "genomic_gca/MED4"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "rpl13",
+          "sources": [
+            "genomic_gca/MED4"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "rpl13,rplM",
           "sources": [
             "genomic_gca/MED4"
           ],
@@ -116529,7 +117924,15 @@
           "type": "gene_synonym"
         },
         {
-          "id": "rpl13%2C rplM",
+          "id": "rpl13, rplM",
+          "type": "gene_name"
+        },
+        {
+          "id": "rpl13",
+          "type": "gene_name"
+        },
+        {
+          "id": "rpl13,rplM",
           "type": "gene_name"
         }
       ]
@@ -116630,14 +118033,14 @@
           "type": "cds_fna_id"
         },
         {
-          "id": "rpl17%2C rplQ",
+          "id": "rpl17, rplQ",
           "sources": [
             "genomic_gca/MED4"
           ],
           "type": "locus_tag_ncbi"
         },
         {
-          "id": "rpl17%2C",
+          "id": "rpl17,",
           "sources": [
             "genomic_gca/MED4"
           ],
@@ -116645,6 +118048,20 @@
         },
         {
           "id": "rplQ",
+          "sources": [
+            "genomic_gca/MED4"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "rpl17",
+          "sources": [
+            "genomic_gca/MED4"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "rpl17,rplQ",
           "sources": [
             "genomic_gca/MED4"
           ],
@@ -116691,7 +118108,15 @@
           "type": "gene_synonym"
         },
         {
-          "id": "rpl17%2C rplQ",
+          "id": "rpl17, rplQ",
+          "type": "gene_name"
+        },
+        {
+          "id": "rpl17",
+          "type": "gene_name"
+        },
+        {
+          "id": "rpl17,rplQ",
           "type": "gene_name"
         }
       ]
@@ -116800,14 +118225,14 @@
           "type": "cds_fna_id"
         },
         {
-          "id": "rps11%2C rpsK",
+          "id": "rps11, rpsK",
           "sources": [
             "genomic_gca/MED4"
           ],
           "type": "locus_tag_ncbi"
         },
         {
-          "id": "rps11%2C",
+          "id": "rps11,",
           "sources": [
             "genomic_gca/MED4"
           ],
@@ -116815,6 +118240,20 @@
         },
         {
           "id": "rpsK",
+          "sources": [
+            "genomic_gca/MED4"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "rps11",
+          "sources": [
+            "genomic_gca/MED4"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "rps11,rpsK",
           "sources": [
             "genomic_gca/MED4"
           ],
@@ -116861,7 +118300,15 @@
           "type": "gene_synonym"
         },
         {
-          "id": "rps11%2C rpsK",
+          "id": "rps11, rpsK",
+          "type": "gene_name"
+        },
+        {
+          "id": "rps11",
+          "type": "gene_name"
+        },
+        {
+          "id": "rps11,rpsK",
           "type": "gene_name"
         },
         {
@@ -116894,14 +118341,14 @@
           "type": "cds_fna_id"
         },
         {
-          "id": "rps13%2C rpsM",
+          "id": "rps13, rpsM",
           "sources": [
             "genomic_gca/MED4"
           ],
           "type": "locus_tag_ncbi"
         },
         {
-          "id": "rps13%2C",
+          "id": "rps13,",
           "sources": [
             "genomic_gca/MED4"
           ],
@@ -116909,6 +118356,20 @@
         },
         {
           "id": "rpsM",
+          "sources": [
+            "genomic_gca/MED4"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "rps13",
+          "sources": [
+            "genomic_gca/MED4"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "rps13,rpsM",
           "sources": [
             "genomic_gca/MED4"
           ],
@@ -116955,7 +118416,15 @@
           "type": "gene_synonym"
         },
         {
-          "id": "rps13%2C rpsM",
+          "id": "rps13, rpsM",
+          "type": "gene_name"
+        },
+        {
+          "id": "rps13",
+          "type": "gene_name"
+        },
+        {
+          "id": "rps13,rpsM",
           "type": "gene_name"
         }
       ]
@@ -116984,7 +118453,21 @@
           "type": "cds_fna_id"
         },
         {
-          "id": "rpmJ%2Crpl36",
+          "id": "rpmJ,rpl36",
+          "sources": [
+            "genomic_gca/MED4"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "rpmJ",
+          "sources": [
+            "genomic_gca/MED4"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "rpl36",
           "sources": [
             "genomic_gca/MED4"
           ],
@@ -117031,7 +118514,11 @@
           "type": "gene_synonym"
         },
         {
-          "id": "rpmJ%2Crpl36",
+          "id": "rpmJ,rpl36",
+          "type": "gene_name"
+        },
+        {
+          "id": "rpl36",
           "type": "gene_name"
         }
       ]
@@ -117230,14 +118717,14 @@
           "type": "cds_fna_id"
         },
         {
-          "id": "rpl15%2C rplO",
+          "id": "rpl15, rplO",
           "sources": [
             "genomic_gca/MED4"
           ],
           "type": "locus_tag_ncbi"
         },
         {
-          "id": "rpl15%2C",
+          "id": "rpl15,",
           "sources": [
             "genomic_gca/MED4"
           ],
@@ -117245,6 +118732,20 @@
         },
         {
           "id": "rplO",
+          "sources": [
+            "genomic_gca/MED4"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "rpl15",
+          "sources": [
+            "genomic_gca/MED4"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "rpl15,rplO",
           "sources": [
             "genomic_gca/MED4"
           ],
@@ -117291,7 +118792,15 @@
           "type": "gene_synonym"
         },
         {
-          "id": "rpl15%2C rplO",
+          "id": "rpl15, rplO",
+          "type": "gene_name"
+        },
+        {
+          "id": "rpl15",
+          "type": "gene_name"
+        },
+        {
+          "id": "rpl15,rplO",
           "type": "gene_name"
         },
         {
@@ -117324,7 +118833,21 @@
           "type": "cds_fna_id"
         },
         {
-          "id": "rpsE%2Crps5",
+          "id": "rpsE,rps5",
+          "sources": [
+            "genomic_gca/MED4"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "rpsE",
+          "sources": [
+            "genomic_gca/MED4"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "rps5",
           "sources": [
             "genomic_gca/MED4"
           ],
@@ -117371,7 +118894,11 @@
           "type": "gene_synonym"
         },
         {
-          "id": "rpsE%2Crps5",
+          "id": "rpsE,rps5",
+          "type": "gene_name"
+        },
+        {
+          "id": "rps5",
           "type": "gene_name"
         },
         {
@@ -117404,14 +118931,14 @@
           "type": "cds_fna_id"
         },
         {
-          "id": "rpl18%2C rplR",
+          "id": "rpl18, rplR",
           "sources": [
             "genomic_gca/MED4"
           ],
           "type": "locus_tag_ncbi"
         },
         {
-          "id": "rpl18%2C",
+          "id": "rpl18,",
           "sources": [
             "genomic_gca/MED4"
           ],
@@ -117419,6 +118946,20 @@
         },
         {
           "id": "rplR",
+          "sources": [
+            "genomic_gca/MED4"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "rpl18",
+          "sources": [
+            "genomic_gca/MED4"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "rpl18,rplR",
           "sources": [
             "genomic_gca/MED4"
           ],
@@ -117465,7 +119006,15 @@
           "type": "gene_synonym"
         },
         {
-          "id": "rpl18%2C rplR",
+          "id": "rpl18, rplR",
+          "type": "gene_name"
+        },
+        {
+          "id": "rpl18",
+          "type": "gene_name"
+        },
+        {
+          "id": "rpl18,rplR",
           "type": "gene_name"
         },
         {
@@ -117498,14 +119047,14 @@
           "type": "cds_fna_id"
         },
         {
-          "id": "rpl6%2C rplF",
+          "id": "rpl6, rplF",
           "sources": [
             "genomic_gca/MED4"
           ],
           "type": "locus_tag_ncbi"
         },
         {
-          "id": "rpl6%2C",
+          "id": "rpl6,",
           "sources": [
             "genomic_gca/MED4"
           ],
@@ -117513,6 +119062,20 @@
         },
         {
           "id": "rplF",
+          "sources": [
+            "genomic_gca/MED4"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "rpl6",
+          "sources": [
+            "genomic_gca/MED4"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "rpl6,rplF",
           "sources": [
             "genomic_gca/MED4"
           ],
@@ -117559,7 +119122,15 @@
           "type": "gene_synonym"
         },
         {
-          "id": "rpl6%2C rplF",
+          "id": "rpl6, rplF",
+          "type": "gene_name"
+        },
+        {
+          "id": "rpl6",
+          "type": "gene_name"
+        },
+        {
+          "id": "rpl6,rplF",
           "type": "gene_name"
         },
         {
@@ -117592,14 +119163,14 @@
           "type": "cds_fna_id"
         },
         {
-          "id": "rps8%2C rpsH",
+          "id": "rps8, rpsH",
           "sources": [
             "genomic_gca/MED4"
           ],
           "type": "locus_tag_ncbi"
         },
         {
-          "id": "rps8%2C",
+          "id": "rps8,",
           "sources": [
             "genomic_gca/MED4"
           ],
@@ -117607,6 +119178,20 @@
         },
         {
           "id": "rpsH",
+          "sources": [
+            "genomic_gca/MED4"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "rps8",
+          "sources": [
+            "genomic_gca/MED4"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "rps8,rpsH",
           "sources": [
             "genomic_gca/MED4"
           ],
@@ -117653,7 +119238,15 @@
           "type": "gene_synonym"
         },
         {
-          "id": "rps8%2C rpsH",
+          "id": "rps8, rpsH",
+          "type": "gene_name"
+        },
+        {
+          "id": "rps8",
+          "type": "gene_name"
+        },
+        {
+          "id": "rps8,rpsH",
           "type": "gene_name"
         },
         {
@@ -117686,14 +119279,14 @@
           "type": "cds_fna_id"
         },
         {
-          "id": "rpl5%2C rplE",
+          "id": "rpl5, rplE",
           "sources": [
             "genomic_gca/MED4"
           ],
           "type": "locus_tag_ncbi"
         },
         {
-          "id": "rpl5%2C",
+          "id": "rpl5,",
           "sources": [
             "genomic_gca/MED4"
           ],
@@ -117701,6 +119294,20 @@
         },
         {
           "id": "rplE",
+          "sources": [
+            "genomic_gca/MED4"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "rpl5",
+          "sources": [
+            "genomic_gca/MED4"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "rpl5,rplE",
           "sources": [
             "genomic_gca/MED4"
           ],
@@ -117747,7 +119354,15 @@
           "type": "gene_synonym"
         },
         {
-          "id": "rpl5%2C rplE",
+          "id": "rpl5, rplE",
+          "type": "gene_name"
+        },
+        {
+          "id": "rpl5",
+          "type": "gene_name"
+        },
+        {
+          "id": "rpl5,rplE",
           "type": "gene_name"
         },
         {
@@ -117780,14 +119395,14 @@
           "type": "cds_fna_id"
         },
         {
-          "id": "rpl24%2C rplX",
+          "id": "rpl24, rplX",
           "sources": [
             "genomic_gca/MED4"
           ],
           "type": "locus_tag_ncbi"
         },
         {
-          "id": "rpl24%2C",
+          "id": "rpl24,",
           "sources": [
             "genomic_gca/MED4"
           ],
@@ -117795,6 +119410,20 @@
         },
         {
           "id": "rplX",
+          "sources": [
+            "genomic_gca/MED4"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "rpl24",
+          "sources": [
+            "genomic_gca/MED4"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "rpl24,rplX",
           "sources": [
             "genomic_gca/MED4"
           ],
@@ -117841,7 +119470,15 @@
           "type": "gene_synonym"
         },
         {
-          "id": "rpl24%2C rplX",
+          "id": "rpl24, rplX",
+          "type": "gene_name"
+        },
+        {
+          "id": "rpl24",
+          "type": "gene_name"
+        },
+        {
+          "id": "rpl24,rplX",
           "type": "gene_name"
         },
         {
@@ -117874,14 +119511,14 @@
           "type": "cds_fna_id"
         },
         {
-          "id": "rpl14%2C rplN",
+          "id": "rpl14, rplN",
           "sources": [
             "genomic_gca/MED4"
           ],
           "type": "locus_tag_ncbi"
         },
         {
-          "id": "rpl14%2C",
+          "id": "rpl14,",
           "sources": [
             "genomic_gca/MED4"
           ],
@@ -117889,6 +119526,20 @@
         },
         {
           "id": "rplN",
+          "sources": [
+            "genomic_gca/MED4"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "rpl14",
+          "sources": [
+            "genomic_gca/MED4"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "rpl14,rplN",
           "sources": [
             "genomic_gca/MED4"
           ],
@@ -117935,7 +119586,15 @@
           "type": "gene_synonym"
         },
         {
-          "id": "rpl14%2C rplN",
+          "id": "rpl14, rplN",
+          "type": "gene_name"
+        },
+        {
+          "id": "rpl14",
+          "type": "gene_name"
+        },
+        {
+          "id": "rpl14,rplN",
           "type": "gene_name"
         },
         {
@@ -117968,14 +119627,14 @@
           "type": "cds_fna_id"
         },
         {
-          "id": "rps17%2C rpsQ",
+          "id": "rps17, rpsQ",
           "sources": [
             "genomic_gca/MED4"
           ],
           "type": "locus_tag_ncbi"
         },
         {
-          "id": "rps17%2C",
+          "id": "rps17,",
           "sources": [
             "genomic_gca/MED4"
           ],
@@ -117983,6 +119642,20 @@
         },
         {
           "id": "rpsQ",
+          "sources": [
+            "genomic_gca/MED4"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "rps17",
+          "sources": [
+            "genomic_gca/MED4"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "rps17,rpsQ",
           "sources": [
             "genomic_gca/MED4"
           ],
@@ -118029,7 +119702,15 @@
           "type": "gene_synonym"
         },
         {
-          "id": "rps17%2C rpsQ",
+          "id": "rps17, rpsQ",
+          "type": "gene_name"
+        },
+        {
+          "id": "rps17",
+          "type": "gene_name"
+        },
+        {
+          "id": "rps17,rpsQ",
           "type": "gene_name"
         },
         {
@@ -118062,14 +119743,14 @@
           "type": "cds_fna_id"
         },
         {
-          "id": "rpl29%2C rpmC",
+          "id": "rpl29, rpmC",
           "sources": [
             "genomic_gca/MED4"
           ],
           "type": "locus_tag_ncbi"
         },
         {
-          "id": "rpl29%2C",
+          "id": "rpl29,",
           "sources": [
             "genomic_gca/MED4"
           ],
@@ -118077,6 +119758,20 @@
         },
         {
           "id": "rpmC",
+          "sources": [
+            "genomic_gca/MED4"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "rpl29",
+          "sources": [
+            "genomic_gca/MED4"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "rpl29,rpmC",
           "sources": [
             "genomic_gca/MED4"
           ],
@@ -118123,7 +119818,15 @@
           "type": "gene_synonym"
         },
         {
-          "id": "rpl29%2C rpmC",
+          "id": "rpl29, rpmC",
+          "type": "gene_name"
+        },
+        {
+          "id": "rpl29",
+          "type": "gene_name"
+        },
+        {
+          "id": "rpl29,rpmC",
           "type": "gene_name"
         }
       ]
@@ -118152,14 +119855,14 @@
           "type": "cds_fna_id"
         },
         {
-          "id": "rpl16%2C rplP",
+          "id": "rpl16, rplP",
           "sources": [
             "genomic_gca/MED4"
           ],
           "type": "locus_tag_ncbi"
         },
         {
-          "id": "rpl16%2C",
+          "id": "rpl16,",
           "sources": [
             "genomic_gca/MED4"
           ],
@@ -118167,6 +119870,20 @@
         },
         {
           "id": "rplP",
+          "sources": [
+            "genomic_gca/MED4"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "rpl16",
+          "sources": [
+            "genomic_gca/MED4"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "rpl16,rplP",
           "sources": [
             "genomic_gca/MED4"
           ],
@@ -118213,7 +119930,15 @@
           "type": "gene_synonym"
         },
         {
-          "id": "rpl16%2C rplP",
+          "id": "rpl16, rplP",
+          "type": "gene_name"
+        },
+        {
+          "id": "rpl16",
+          "type": "gene_name"
+        },
+        {
+          "id": "rpl16,rplP",
           "type": "gene_name"
         },
         {
@@ -118246,14 +119971,14 @@
           "type": "cds_fna_id"
         },
         {
-          "id": "rps3%2C rpsC",
+          "id": "rps3, rpsC",
           "sources": [
             "genomic_gca/MED4"
           ],
           "type": "locus_tag_ncbi"
         },
         {
-          "id": "rps3%2C",
+          "id": "rps3,",
           "sources": [
             "genomic_gca/MED4"
           ],
@@ -118261,6 +119986,20 @@
         },
         {
           "id": "rpsC",
+          "sources": [
+            "genomic_gca/MED4"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "rps3",
+          "sources": [
+            "genomic_gca/MED4"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "rps3,rpsC",
           "sources": [
             "genomic_gca/MED4"
           ],
@@ -118307,7 +120046,15 @@
           "type": "gene_synonym"
         },
         {
-          "id": "rps3%2C rpsC",
+          "id": "rps3, rpsC",
+          "type": "gene_name"
+        },
+        {
+          "id": "rps3",
+          "type": "gene_name"
+        },
+        {
+          "id": "rps3,rpsC",
           "type": "gene_name"
         },
         {
@@ -118340,14 +120087,14 @@
           "type": "cds_fna_id"
         },
         {
-          "id": "rpl22%2C rplV",
+          "id": "rpl22, rplV",
           "sources": [
             "genomic_gca/MED4"
           ],
           "type": "locus_tag_ncbi"
         },
         {
-          "id": "rpl22%2C",
+          "id": "rpl22,",
           "sources": [
             "genomic_gca/MED4"
           ],
@@ -118355,6 +120102,20 @@
         },
         {
           "id": "rplV",
+          "sources": [
+            "genomic_gca/MED4"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "rpl22",
+          "sources": [
+            "genomic_gca/MED4"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "rpl22,rplV",
           "sources": [
             "genomic_gca/MED4"
           ],
@@ -118401,7 +120162,15 @@
           "type": "gene_synonym"
         },
         {
-          "id": "rpl22%2C rplV",
+          "id": "rpl22, rplV",
+          "type": "gene_name"
+        },
+        {
+          "id": "rpl22",
+          "type": "gene_name"
+        },
+        {
+          "id": "rpl22,rplV",
           "type": "gene_name"
         },
         {
@@ -118434,14 +120203,14 @@
           "type": "cds_fna_id"
         },
         {
-          "id": "rps19%2C rpsS",
+          "id": "rps19, rpsS",
           "sources": [
             "genomic_gca/MED4"
           ],
           "type": "locus_tag_ncbi"
         },
         {
-          "id": "rps19%2C",
+          "id": "rps19,",
           "sources": [
             "genomic_gca/MED4"
           ],
@@ -118449,6 +120218,20 @@
         },
         {
           "id": "rpsS",
+          "sources": [
+            "genomic_gca/MED4"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "rps19",
+          "sources": [
+            "genomic_gca/MED4"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "rps19,rpsS",
           "sources": [
             "genomic_gca/MED4"
           ],
@@ -118495,7 +120278,15 @@
           "type": "gene_synonym"
         },
         {
-          "id": "rps19%2C rpsS",
+          "id": "rps19, rpsS",
+          "type": "gene_name"
+        },
+        {
+          "id": "rps19",
+          "type": "gene_name"
+        },
+        {
+          "id": "rps19,rpsS",
           "type": "gene_name"
         },
         {
@@ -118528,14 +120319,14 @@
           "type": "cds_fna_id"
         },
         {
-          "id": "rpl2%2C rplB",
+          "id": "rpl2, rplB",
           "sources": [
             "genomic_gca/MED4"
           ],
           "type": "locus_tag_ncbi"
         },
         {
-          "id": "rpl2%2C",
+          "id": "rpl2,",
           "sources": [
             "genomic_gca/MED4"
           ],
@@ -118543,6 +120334,20 @@
         },
         {
           "id": "rplB",
+          "sources": [
+            "genomic_gca/MED4"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "rpl2",
+          "sources": [
+            "genomic_gca/MED4"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "rpl2,rplB",
           "sources": [
             "genomic_gca/MED4"
           ],
@@ -118589,7 +120394,15 @@
           "type": "gene_synonym"
         },
         {
-          "id": "rpl2%2C rplB",
+          "id": "rpl2, rplB",
+          "type": "gene_name"
+        },
+        {
+          "id": "rpl2",
+          "type": "gene_name"
+        },
+        {
+          "id": "rpl2,rplB",
           "type": "gene_name"
         },
         {
@@ -118622,14 +120435,14 @@
           "type": "cds_fna_id"
         },
         {
-          "id": "rpl23%2C rplW",
+          "id": "rpl23, rplW",
           "sources": [
             "genomic_gca/MED4"
           ],
           "type": "locus_tag_ncbi"
         },
         {
-          "id": "rpl23%2C",
+          "id": "rpl23,",
           "sources": [
             "genomic_gca/MED4"
           ],
@@ -118637,6 +120450,20 @@
         },
         {
           "id": "rplW",
+          "sources": [
+            "genomic_gca/MED4"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "rpl23",
+          "sources": [
+            "genomic_gca/MED4"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "rpl23,rplW",
           "sources": [
             "genomic_gca/MED4"
           ],
@@ -118687,7 +120514,15 @@
           "type": "gene_synonym"
         },
         {
-          "id": "rpl23%2C rplW",
+          "id": "rpl23, rplW",
+          "type": "gene_name"
+        },
+        {
+          "id": "rpl23",
+          "type": "gene_name"
+        },
+        {
+          "id": "rpl23,rplW",
           "type": "gene_name"
         },
         {
@@ -118720,14 +120555,14 @@
           "type": "cds_fna_id"
         },
         {
-          "id": "rpl4%2C rplD",
+          "id": "rpl4, rplD",
           "sources": [
             "genomic_gca/MED4"
           ],
           "type": "locus_tag_ncbi"
         },
         {
-          "id": "rpl4%2C",
+          "id": "rpl4,",
           "sources": [
             "genomic_gca/MED4"
           ],
@@ -118735,6 +120570,20 @@
         },
         {
           "id": "rplD",
+          "sources": [
+            "genomic_gca/MED4"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "rpl4",
+          "sources": [
+            "genomic_gca/MED4"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "rpl4,rplD",
           "sources": [
             "genomic_gca/MED4"
           ],
@@ -118781,7 +120630,15 @@
           "type": "gene_synonym"
         },
         {
-          "id": "rpl4%2C rplD",
+          "id": "rpl4, rplD",
+          "type": "gene_name"
+        },
+        {
+          "id": "rpl4",
+          "type": "gene_name"
+        },
+        {
+          "id": "rpl4,rplD",
           "type": "gene_name"
         },
         {
@@ -118814,14 +120671,14 @@
           "type": "cds_fna_id"
         },
         {
-          "id": "rpl3%2C rplC",
+          "id": "rpl3, rplC",
           "sources": [
             "genomic_gca/MED4"
           ],
           "type": "locus_tag_ncbi"
         },
         {
-          "id": "rpl3%2C",
+          "id": "rpl3,",
           "sources": [
             "genomic_gca/MED4"
           ],
@@ -118829,6 +120686,20 @@
         },
         {
           "id": "rplC",
+          "sources": [
+            "genomic_gca/MED4"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "rpl3",
+          "sources": [
+            "genomic_gca/MED4"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "rpl3,rplC",
           "sources": [
             "genomic_gca/MED4"
           ],
@@ -118875,7 +120746,15 @@
           "type": "gene_synonym"
         },
         {
-          "id": "rpl3%2C rplC",
+          "id": "rpl3, rplC",
+          "type": "gene_name"
+        },
+        {
+          "id": "rpl3",
+          "type": "gene_name"
+        },
+        {
+          "id": "rpl3,rplC",
           "type": "gene_name"
         }
       ]
@@ -121137,7 +123016,21 @@
           "type": "cds_fna_id"
         },
         {
-          "id": "purM%2CpurG",
+          "id": "purM,purG",
+          "sources": [
+            "genomic_gca/MED4"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "purM",
+          "sources": [
+            "genomic_gca/MED4"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "purG",
           "sources": [
             "genomic_gca/MED4"
           ],
@@ -121184,7 +123077,11 @@
           "type": "gene_synonym"
         },
         {
-          "id": "purM%2CpurG",
+          "id": "purM,purG",
+          "type": "gene_name"
+        },
+        {
+          "id": "purG",
           "type": "gene_name"
         }
       ]
@@ -121213,14 +123110,14 @@
           "type": "cds_fna_id"
         },
         {
-          "id": "panC%2C cmk",
+          "id": "panC, cmk",
           "sources": [
             "genomic_gca/MED4"
           ],
           "type": "locus_tag_ncbi"
         },
         {
-          "id": "panC%2C",
+          "id": "panC,",
           "sources": [
             "genomic_gca/MED4"
           ],
@@ -121228,6 +123125,20 @@
         },
         {
           "id": "cmk",
+          "sources": [
+            "genomic_gca/MED4"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "panC",
+          "sources": [
+            "genomic_gca/MED4"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "panC,cmk",
           "sources": [
             "genomic_gca/MED4"
           ],
@@ -121278,7 +123189,19 @@
           "type": "gene_synonym"
         },
         {
-          "id": "panC%2C cmk",
+          "id": "panC, cmk",
+          "type": "gene_name"
+        },
+        {
+          "id": "panC",
+          "type": "gene_name"
+        },
+        {
+          "id": "cmk",
+          "type": "gene_name"
+        },
+        {
+          "id": "panC,cmk",
           "type": "gene_name"
         }
       ]
@@ -122619,7 +124542,21 @@
           "type": "cds_fna_id"
         },
         {
-          "id": "acpP%2Cacp",
+          "id": "acpP,acp",
+          "sources": [
+            "genomic_gca/MED4"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "acpP",
+          "sources": [
+            "genomic_gca/MED4"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "acp",
           "sources": [
             "genomic_gca/MED4"
           ],
@@ -122666,7 +124603,11 @@
           "type": "gene_synonym"
         },
         {
-          "id": "acpP%2Cacp",
+          "id": "acpP,acp",
+          "type": "gene_name"
+        },
+        {
+          "id": "acp",
           "type": "gene_name"
         },
         {
@@ -122782,14 +124723,14 @@
           "type": "cds_fna_id"
         },
         {
-          "id": "tktA%2C cbbT",
+          "id": "tktA, cbbT",
           "sources": [
             "genomic_gca/MED4"
           ],
           "type": "locus_tag_ncbi"
         },
         {
-          "id": "tktA%2C",
+          "id": "tktA,",
           "sources": [
             "genomic_gca/MED4"
           ],
@@ -122797,6 +124738,20 @@
         },
         {
           "id": "cbbT",
+          "sources": [
+            "genomic_gca/MED4"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "tktA",
+          "sources": [
+            "genomic_gca/MED4"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "tktA,cbbT",
           "sources": [
             "genomic_gca/MED4"
           ],
@@ -122865,7 +124820,11 @@
           "type": "gene_synonym"
         },
         {
-          "id": "tktA%2C cbbT",
+          "id": "tktA, cbbT",
+          "type": "gene_name"
+        },
+        {
+          "id": "tktA,cbbT",
           "type": "gene_name"
         },
         {
@@ -123963,14 +125922,14 @@
           "type": "cds_fna_id"
         },
         {
-          "id": "ahcY%2C sahH",
+          "id": "ahcY, sahH",
           "sources": [
             "genomic_gca/MED4"
           ],
           "type": "locus_tag_ncbi"
         },
         {
-          "id": "ahcY%2C",
+          "id": "ahcY,",
           "sources": [
             "genomic_gca/MED4"
           ],
@@ -123978,6 +125937,20 @@
         },
         {
           "id": "sahH",
+          "sources": [
+            "genomic_gca/MED4"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "ahcY",
+          "sources": [
+            "genomic_gca/MED4"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "ahcY,sahH",
           "sources": [
             "genomic_gca/MED4"
           ],
@@ -124024,7 +125997,15 @@
           "type": "gene_synonym"
         },
         {
-          "id": "ahcY%2C sahH",
+          "id": "ahcY, sahH",
+          "type": "gene_name"
+        },
+        {
+          "id": "sahH",
+          "type": "gene_name"
+        },
+        {
+          "id": "ahcY,sahH",
           "type": "gene_name"
         }
       ]
@@ -124729,7 +126710,21 @@
           "type": "cds_fna_id"
         },
         {
-          "id": "miaA%2CtrpX",
+          "id": "miaA,trpX",
+          "sources": [
+            "genomic_gca/MED4"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "miaA",
+          "sources": [
+            "genomic_gca/MED4"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "trpX",
           "sources": [
             "genomic_gca/MED4"
           ],
@@ -124776,7 +126771,11 @@
           "type": "gene_synonym"
         },
         {
-          "id": "miaA%2CtrpX",
+          "id": "miaA,trpX",
+          "type": "gene_name"
+        },
+        {
+          "id": "trpX",
           "type": "gene_name"
         }
       ]
@@ -125471,7 +127470,14 @@
           "type": "cds_fna_id"
         },
         {
-          "id": "mutS%2Cfdv",
+          "id": "mutS,fdv",
+          "sources": [
+            "genomic_gca/MED4"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "fdv",
           "sources": [
             "genomic_gca/MED4"
           ],
@@ -125518,7 +127524,11 @@
           "type": "gene_synonym"
         },
         {
-          "id": "mutS%2Cfdv",
+          "id": "mutS,fdv",
+          "type": "gene_name"
+        },
+        {
+          "id": "fdv",
           "type": "gene_name"
         }
       ]
@@ -126686,14 +128696,14 @@
           "type": "cds_fna_id"
         },
         {
-          "id": "rpl35%2C rpmI",
+          "id": "rpl35, rpmI",
           "sources": [
             "genomic_gca/MED4"
           ],
           "type": "locus_tag_ncbi"
         },
         {
-          "id": "rpl35%2C",
+          "id": "rpl35,",
           "sources": [
             "genomic_gca/MED4"
           ],
@@ -126701,6 +128711,20 @@
         },
         {
           "id": "rpmI",
+          "sources": [
+            "genomic_gca/MED4"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "rpl35",
+          "sources": [
+            "genomic_gca/MED4"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "rpl35,rpmI",
           "sources": [
             "genomic_gca/MED4"
           ],
@@ -126747,7 +128771,15 @@
           "type": "gene_synonym"
         },
         {
-          "id": "rpl35%2C rpmI",
+          "id": "rpl35, rpmI",
+          "type": "gene_name"
+        },
+        {
+          "id": "rpl35",
+          "type": "gene_name"
+        },
+        {
+          "id": "rpl35,rpmI",
           "type": "gene_name"
         }
       ]
@@ -126776,14 +128808,14 @@
           "type": "cds_fna_id"
         },
         {
-          "id": "rpl20%2C rplT",
+          "id": "rpl20, rplT",
           "sources": [
             "genomic_gca/MED4"
           ],
           "type": "locus_tag_ncbi"
         },
         {
-          "id": "rpl20%2C",
+          "id": "rpl20,",
           "sources": [
             "genomic_gca/MED4"
           ],
@@ -126791,6 +128823,20 @@
         },
         {
           "id": "rplT",
+          "sources": [
+            "genomic_gca/MED4"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "rpl20",
+          "sources": [
+            "genomic_gca/MED4"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "rpl20,rplT",
           "sources": [
             "genomic_gca/MED4"
           ],
@@ -126837,7 +128883,15 @@
           "type": "gene_synonym"
         },
         {
-          "id": "rpl20%2C rplT",
+          "id": "rpl20, rplT",
+          "type": "gene_name"
+        },
+        {
+          "id": "rpl20",
+          "type": "gene_name"
+        },
+        {
+          "id": "rpl20,rplT",
           "type": "gene_name"
         }
       ]
@@ -127358,14 +129412,14 @@
           "type": "cds_fna_id"
         },
         {
-          "id": "gcsH%2C gcvH",
+          "id": "gcsH, gcvH",
           "sources": [
             "genomic_gca/MED4"
           ],
           "type": "locus_tag_ncbi"
         },
         {
-          "id": "gcsH%2C",
+          "id": "gcsH,",
           "sources": [
             "genomic_gca/MED4"
           ],
@@ -127373,6 +129427,20 @@
         },
         {
           "id": "gcvH",
+          "sources": [
+            "genomic_gca/MED4"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "gcsH",
+          "sources": [
+            "genomic_gca/MED4"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "gcsH,gcvH",
           "sources": [
             "genomic_gca/MED4"
           ],
@@ -127419,7 +129487,15 @@
           "type": "gene_synonym"
         },
         {
-          "id": "gcsH%2C gcvH",
+          "id": "gcsH, gcvH",
+          "type": "gene_name"
+        },
+        {
+          "id": "gcsH",
+          "type": "gene_name"
+        },
+        {
+          "id": "gcsH,gcvH",
           "type": "gene_name"
         }
       ]
@@ -127680,14 +129756,14 @@
           "type": "cds_fna_id"
         },
         {
-          "id": "rpl9%2C rplI",
+          "id": "rpl9, rplI",
           "sources": [
             "genomic_gca/MED4"
           ],
           "type": "locus_tag_ncbi"
         },
         {
-          "id": "rpl9%2C",
+          "id": "rpl9,",
           "sources": [
             "genomic_gca/MED4"
           ],
@@ -127695,6 +129771,20 @@
         },
         {
           "id": "rplI",
+          "sources": [
+            "genomic_gca/MED4"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "rpl9",
+          "sources": [
+            "genomic_gca/MED4"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "rpl9,rplI",
           "sources": [
             "genomic_gca/MED4"
           ],
@@ -127741,7 +129831,15 @@
           "type": "gene_synonym"
         },
         {
-          "id": "rpl9%2C rplI",
+          "id": "rpl9, rplI",
+          "type": "gene_name"
+        },
+        {
+          "id": "rpl9",
+          "type": "gene_name"
+        },
+        {
+          "id": "rpl9,rplI",
           "type": "gene_name"
         }
       ]
@@ -130186,14 +132284,14 @@
           "type": "cds_fna_id"
         },
         {
-          "id": "rps6%2C rpsF",
+          "id": "rps6, rpsF",
           "sources": [
             "genomic_gca/MED4"
           ],
           "type": "locus_tag_ncbi"
         },
         {
-          "id": "rps6%2C",
+          "id": "rps6,",
           "sources": [
             "genomic_gca/MED4"
           ],
@@ -130201,6 +132299,20 @@
         },
         {
           "id": "rpsF",
+          "sources": [
+            "genomic_gca/MED4"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "rps6",
+          "sources": [
+            "genomic_gca/MED4"
+          ],
+          "type": "locus_tag_ncbi"
+        },
+        {
+          "id": "rps6,rpsF",
           "sources": [
             "genomic_gca/MED4"
           ],
@@ -130247,7 +132359,15 @@
           "type": "gene_synonym"
         },
         {
-          "id": "rps6%2C rpsF",
+          "id": "rps6, rpsF",
+          "type": "gene_name"
+        },
+        {
+          "id": "rps6",
+          "type": "gene_name"
+        },
+        {
+          "id": "rps6,rpsF",
           "type": "gene_name"
         },
         {
@@ -137192,13 +139312,6 @@
             "annotation"
           ],
           "type": "locus_tag_cyanorak"
-        },
-        {
-          "id": "PMM2004",
-          "sources": [
-            "annotation"
-          ],
-          "type": "alternative_locus_tag"
         },
         {
           "id": "lcl|NC_005072.1_cds_WP_036930462.1_889",
@@ -146990,6 +149103,9 @@
     "APG1": [
       "PMM1505"
     ],
+    "AT103": [
+      "PMM0844"
+    ],
     "B9ER30": [
       "PMM2046"
     ],
@@ -152870,7 +154986,10 @@
     "FPG": [
       "PMM0328"
     ],
-    "GSTTLp28%2CP28%2CGSTO1": [
+    "GSTO1": [
+      "PMM0630"
+    ],
+    "GSTTLp28": [
       "PMM0630"
     ],
     "GSTTLp28,P28,GSTO1": [
@@ -154192,6 +156311,9 @@
     ],
     "MED4_ARR_1942_x_at": [
       "PMM1980"
+    ],
+    "P28": [
+      "PMM0630"
     ],
     "PMM0001": [
       "PMM0001"
@@ -159840,7 +161962,10 @@
     "PMM2077": [
       "PMM2077"
     ],
-    "PNIL34%2CAT103": [
+    "PNIL34": [
+      "PMM0844"
+    ],
+    "PNIL34,AT103": [
       "PMM0844"
     ],
     "PSTA": [
@@ -173121,16 +175246,16 @@
     "accB": [
       "PMM0027"
     ],
-    "accB%2CfabE": [
-      "PMM0027"
-    ],
     "accB,fabE": [
       "PMM0027"
     ],
     "accC": [
       "PMM0060"
     ],
-    "accC%2C fabG": [
+    "accC, fabG": [
+      "PMM0060"
+    ],
+    "accC,fabG": [
       "PMM0060"
     ],
     "accD": [
@@ -173139,10 +175264,13 @@
     "acnB": [
       "PMM1700"
     ],
+    "acp": [
+      "PMM1608"
+    ],
     "acpP": [
       "PMM1608"
     ],
-    "acpP%2Cacp": [
+    "acpP,acp": [
       "PMM1608"
     ],
     "acs": [
@@ -173153,6 +175281,9 @@
     ],
     "acsF": [
       "PMM0844"
+    ],
+    "adeK": [
+      "PMM0506"
     ],
     "adk": [
       "PMM1539"
@@ -173166,7 +175297,10 @@
     "ahcY": [
       "PMM1625"
     ],
-    "ahcY%2C sahH": [
+    "ahcY, sahH": [
+      "PMM1625"
+    ],
+    "ahcY,sahH": [
       "PMM1625"
     ],
     "ahpC": [
@@ -173288,7 +175422,7 @@
       "PMM1439",
       "PMM1450"
     ],
-    "atpC%2CatpE": [
+    "atpC,atpE": [
       "PMM1439"
     ],
     "atpD": [
@@ -173309,7 +175443,7 @@
       "PMM1452",
       "PMM1455"
     ],
-    "atpH%2CatpD": [
+    "atpH,atpD": [
       "PMM1452"
     ],
     "atpI": [
@@ -173372,7 +175506,10 @@
     "carA": [
       "PMM0951"
     ],
-    "carA%2C pyrA": [
+    "carA, pyrA": [
+      "PMM0951"
+    ],
+    "carA,pyrA": [
       "PMM0951"
     ],
     "carB": [
@@ -173387,7 +175524,7 @@
     "cbb3": [
       "PMM0061"
     ],
-    "cbbA%2CcfxA%2CfbaA%2Cfda": [
+    "cbbA": [
       "PMM0781"
     ],
     "cbbA,cfxA,fbaA,fda": [
@@ -173396,13 +175533,31 @@
     "cbbE": [
       "PMM0766"
     ],
+    "cbbF": [
+      "PMM0767"
+    ],
+    "cbbI": [
+      "PMM1489"
+    ],
+    "cbbJ": [
+      "PMM0829"
+    ],
+    "cbbK": [
+      "PMM0195"
+    ],
+    "cbbL": [
+      "PMM0550"
+    ],
     "cbbP": [
       "PMM0785"
+    ],
+    "cbbS": [
+      "PMM0551"
     ],
     "cbbT": [
       "PMM1610"
     ],
-    "cbiA%2CcobB": [
+    "cbiA": [
       "PMM1072"
     ],
     "cbiA,cobB": [
@@ -173451,6 +175606,9 @@
     "cdsA": [
       "PMM1085"
     ],
+    "cfxA": [
+      "PMM0781"
+    ],
     "cgtA": [
       "PMM0218"
     ],
@@ -173472,7 +175630,7 @@
     "chlL": [
       "PMM0543"
     ],
-    "chlL%2CfrxC": [
+    "chlL,frxC": [
       "PMM0543"
     ],
     "chlM": [
@@ -173527,6 +175685,9 @@
     ],
     "clpX": [
       "PMM1657"
+    ],
+    "cmk": [
+      "PMM1590"
     ],
     "coaBC": [
       "PMM0229"
@@ -173629,6 +175790,9 @@
     "cpmA": [
       "PMM1278"
     ],
+    "cpn60-2": [
+      "PMM0452"
+    ],
     "crcB1": [
       "PMM1632"
     ],
@@ -173641,14 +175805,12 @@
     "crtB": [
       "PMM0143"
     ],
-    "crtB%2Cpys": [
-      "PMM0143"
-    ],
     "crtB,pys": [
       "PMM0143"
     ],
     "crtD": [
-      "PMM1566"
+      "PMM1566",
+      "PMM0144"
     ],
     "crtE": [
       "PMM1070"
@@ -173814,7 +175976,13 @@
     "dacA": [
       "PMM1091"
     ],
-    "dacB%2C pbp": [
+    "dacB": [
+      "PMM0885"
+    ],
+    "dacB, pbp": [
+      "PMM0885"
+    ],
+    "dacB,pbp": [
       "PMM0885"
     ],
     "dapA": [
@@ -173832,7 +176000,10 @@
     "ddhA": [
       "PMM1204"
     ],
-    "ddhA%2C rfbF": [
+    "ddhA, rfbF": [
+      "PMM1204"
+    ],
+    "ddhA,rfbF": [
       "PMM1204"
     ],
     "ddlA": [
@@ -173862,7 +176033,7 @@
     "der": [
       "PMM0391"
     ],
-    "des%2CyocE": [
+    "des": [
       "PMM1378"
     ],
     "des,yocE": [
@@ -174014,6 +176185,9 @@
     "fabD": [
       "PMM0137"
     ],
+    "fabE": [
+      "PMM0027"
+    ],
     "fabF": [
       "PMM1609"
     ],
@@ -174039,11 +176213,20 @@
     "fbaA": [
       "PMM0781"
     ],
+    "fbp": [
+      "PMM0767"
+    ],
     "fbp-sbp": [
       "PMM0767"
     ],
     "fcl": [
       "PMM1207"
+    ],
+    "fda": [
+      "PMM0781"
+    ],
+    "fdv": [
+      "PMM1645"
     ],
     "ffh": [
       "PMM1286"
@@ -174084,8 +176267,11 @@
     "frr": [
       "PMM0521"
     ],
-    "frr%2Crrf": [
+    "frr,rrf": [
       "PMM0521"
+    ],
+    "frxC": [
+      "PMM0543"
     ],
     "ftn": [
       "PMM0804"
@@ -174142,16 +176328,19 @@
     "fusion": [
       "PMM1525"
     ],
-    "futA%2CsfuA%2C idiA": [
+    "futA": [
       "PMM1164"
     ],
     "futA,sfuA": [
       "PMM1164"
     ],
-    "futB": [
-      "PMM0489"
+    "futA,sfuA, idiA": [
+      "PMM1164"
     ],
-    "futB%2ChitB": [
+    "futA,sfuA,idiA": [
+      "PMM1164"
+    ],
+    "futB": [
       "PMM0489"
     ],
     "futB,hitB": [
@@ -174160,7 +176349,10 @@
     "futC": [
       "PMM0803"
     ],
-    "futC%2C sfuC": [
+    "futC, sfuC": [
+      "PMM0803"
+    ],
+    "futC,sfuC": [
       "PMM0803"
     ],
     "galE": [
@@ -174190,7 +176382,13 @@
     "gcpE": [
       "PMM0676"
     ],
-    "gcsH%2C gcvH": [
+    "gcsH": [
+      "PMM1669"
+    ],
+    "gcsH, gcvH": [
+      "PMM1669"
+    ],
+    "gcsH,gcvH": [
       "PMM1669"
     ],
     "gcvH": [
@@ -174266,13 +176464,19 @@
     "glpX": [
       "PMM0767"
     ],
-    "glpX%2C cbbF%2C fbp": [
+    "glpX, cbbF, fbp": [
+      "PMM0767"
+    ],
+    "glpX,cbbF,fbp": [
       "PMM0767"
     ],
     "glsF": [
       "PMM1512"
     ],
-    "glsF%2C gltS": [
+    "glsF, gltS": [
+      "PMM1512"
+    ],
+    "glsF,gltS": [
       "PMM1512"
     ],
     "gltA": [
@@ -174345,7 +176549,10 @@
     "groEL": [
       "PMM1436"
     ],
-    "groEL2%2Ccpn60-2": [
+    "groEL2": [
+      "PMM0452"
+    ],
+    "groEL2,cpn60-2": [
       "PMM0452"
     ],
     "groES": [
@@ -174372,6 +176579,9 @@
     ],
     "grxD": [
       "PMM1111"
+    ],
+    "gsa": [
+      "PMM0483"
     ],
     "gshA": [
       "PMM1576"
@@ -174432,7 +176642,10 @@
     "hemL": [
       "PMM0483"
     ],
-    "hemL%2C gsa": [
+    "hemL, gsa": [
+      "PMM0483"
+    ],
+    "hemL,gsa": [
       "PMM0483"
     ],
     "hemN": [
@@ -174478,6 +176691,9 @@
     ],
     "hisZ": [
       "PMM0900"
+    ],
+    "hitB": [
+      "PMM0489"
     ],
     "hli": [
       "PMM0064",
@@ -174585,6 +176801,9 @@
     ],
     "holB": [
       "PMM0129"
+    ],
+    "hom": [
+      "PMM1051"
     ],
     "hpf": [
       "PMM0400"
@@ -174756,11 +176975,14 @@
     "ligA": [
       "PMM1679"
     ],
+    "lip": [
+      "PMM1096"
+    ],
     "lipA": [
       "PMM1096",
       "PMM1514"
     ],
-    "lipA%2Clip": [
+    "lipA,lip": [
       "PMM1096"
     ],
     "lipA1": [
@@ -174900,7 +177122,7 @@
     "miaA": [
       "PMM1635"
     ],
-    "miaA%2CtrpX": [
+    "miaA,trpX": [
       "PMM1635"
     ],
     "miaB": [
@@ -175022,7 +177244,7 @@
       "PMM0217",
       "PMM1645"
     ],
-    "mutS%2Cfdv": [
+    "mutS,fdv": [
       "PMM1645"
     ],
     "mutS2": [
@@ -175184,11 +177406,20 @@
     "panB": [
       "PMM1310"
     ],
-    "panC%2C cmk": [
+    "panC": [
+      "PMM1590"
+    ],
+    "panC, cmk": [
+      "PMM1590"
+    ],
+    "panC,cmk": [
       "PMM1590"
     ],
     "panC-cmk": [
       "PMM1590"
+    ],
+    "pbp": [
+      "PMM0885"
     ],
     "pbp1": [
       "PMM0427"
@@ -175224,9 +177455,6 @@
       "PMM0405"
     ],
     "pds": [
-      "PMM0144"
-    ],
-    "pds%2CcrtD": [
       "PMM0144"
     ],
     "pds,crtD": [
@@ -175311,7 +177539,10 @@
     "pgk": [
       "PMM0195"
     ],
-    "pgk%2C cbbK": [
+    "pgk, cbbK": [
+      "PMM0195"
+    ],
+    "pgk,cbbK": [
       "PMM0195"
     ],
     "pgl": [
@@ -175368,14 +177599,17 @@
     "phoH": [
       "PMM1284"
     ],
-    "phoH%2CpsiH": [
-      "PMM1284"
-    ],
     "phoH,psiH": [
       "PMM1284"
     ],
     "phoR": [
       "PMM0706"
+    ],
+    "phoT": [
+      "PMM0724"
+    ],
+    "phoW": [
+      "PMM0723"
     ],
     "phr": [
       "PMM0285"
@@ -175444,7 +177678,11 @@
       "PMM0542",
       "PMM0634"
     ],
-    "por%2C pcr": [
+    "por, pcr": [
+      "PMM0542",
+      "PMM0634"
+    ],
+    "por,pcr": [
       "PMM0542",
       "PMM0634"
     ],
@@ -175489,7 +177727,7 @@
     "prfA": [
       "PMM1529"
     ],
-    "prfA%2CsueB": [
+    "prfA,sueB": [
       "PMM1529"
     ],
     "prfB": [
@@ -175504,7 +177742,10 @@
     "prk": [
       "PMM0785"
     ],
-    "prk%2C cbbP": [
+    "prk, cbbP": [
+      "PMM0785"
+    ],
+    "prk,cbbP": [
       "PMM0785"
     ],
     "prkB": [
@@ -175644,13 +177885,13 @@
     "psbZ": [
       "PMM1644"
     ],
+    "psiH": [
+      "PMM1284"
+    ],
     "psp": [
       "PMM0515"
     ],
     "pstA": [
-      "PMM0724"
-    ],
-    "pstA%2CphoT": [
       "PMM0724"
     ],
     "pstA,phoT": [
@@ -175660,9 +177901,6 @@
       "PMM0725"
     ],
     "pstC": [
-      "PMM0723"
-    ],
-    "pstC%2CphoW": [
       "PMM0723"
     ],
     "pstC,phoW": [
@@ -175677,10 +177915,13 @@
     "ptpA": [
       "PMM1591"
     ],
+    "pur4)": [
+      "PMM0780"
+    ],
     "purA": [
       "PMM0506"
     ],
-    "purA%2CadeK": [
+    "purA,adeK": [
       "PMM0506"
     ],
     "purB": [
@@ -175698,6 +177939,9 @@
     "purF": [
       "PMM0004"
     ],
+    "purG": [
+      "PMM1589"
+    ],
     "purH": [
       "PMM0266"
     ],
@@ -175710,7 +177954,7 @@
     "purM": [
       "PMM1589"
     ],
-    "purM%2CpurG": [
+    "purM,purG": [
       "PMM1589"
     ],
     "purN": [
@@ -175719,7 +177963,13 @@
     "purQ": [
       "PMM0780"
     ],
-    "purQ (purL%2C pur4)": [
+    "purQ (purL": [
+      "PMM0780"
+    ],
+    "purQ (purL, pur4)": [
+      "PMM0780"
+    ],
+    "purQ (purL,pur4)": [
       "PMM0780"
     ],
     "purS": [
@@ -175764,11 +178014,14 @@
     "pyrH": [
       "PMM0522"
     ],
-    "pyrH%2CsmbA": [
+    "pyrH,smbA": [
       "PMM0522"
     ],
     "pyrR": [
       "PMM1433"
+    ],
+    "pys": [
+      "PMM0143"
     ],
     "queA": [
       "PMM0406"
@@ -175800,7 +178053,10 @@
     "rbcL": [
       "PMM0550"
     ],
-    "rbcL%2C cbbL": [
+    "rbcL, cbbL": [
+      "PMM0550"
+    ],
+    "rbcL,cbbL": [
       "PMM0550"
     ],
     "rbcR": [
@@ -175809,7 +178065,10 @@
     "rbcS": [
       "PMM0551"
     ],
-    "rbcS%2C cbbS": [
+    "rbcS, cbbS": [
+      "PMM0551"
+    ],
+    "rbcS,cbbS": [
       "PMM0551"
     ],
     "rbfA": [
@@ -175979,103 +178238,289 @@
     "rpe": [
       "PMM0766"
     ],
-    "rpe%2C cbbE": [
+    "rpe, cbbE": [
+      "PMM0766"
+    ],
+    "rpe,cbbE": [
       "PMM0766"
     ],
     "rpiA": [
       "PMM1489"
     ],
-    "rpiA%2C cbbI": [
+    "rpiA, cbbI": [
       "PMM1489"
     ],
-    "rpl1%2C rplA": [
+    "rpiA,cbbI": [
+      "PMM1489"
+    ],
+    "rpl1": [
       "PMM0203"
     ],
-    "rpl10%2C rplJ": [
+    "rpl1, rplA": [
+      "PMM0203"
+    ],
+    "rpl1,rplA": [
+      "PMM0203"
+    ],
+    "rpl10": [
       "PMM0202"
     ],
-    "rpl11%2C rplK": [
+    "rpl10, rplJ": [
+      "PMM0202"
+    ],
+    "rpl10,rplJ": [
+      "PMM0202"
+    ],
+    "rpl11": [
       "PMM0204"
     ],
-    "rpl12%2C rplL%2C rpl7": [
+    "rpl11, rplK": [
+      "PMM0204"
+    ],
+    "rpl11,rplK": [
+      "PMM0204"
+    ],
+    "rpl12": [
       "PMM0201"
     ],
-    "rpl13%2C rplM": [
+    "rpl12, rplL, rpl7": [
+      "PMM0201"
+    ],
+    "rpl12,rplL,rpl7": [
+      "PMM0201"
+    ],
+    "rpl13": [
       "PMM1532"
     ],
-    "rpl14%2C rplN": [
+    "rpl13, rplM": [
+      "PMM1532"
+    ],
+    "rpl13,rplM": [
+      "PMM1532"
+    ],
+    "rpl14": [
       "PMM1548"
     ],
-    "rpl15%2C rplO": [
+    "rpl14, rplN": [
+      "PMM1548"
+    ],
+    "rpl14,rplN": [
+      "PMM1548"
+    ],
+    "rpl15": [
       "PMM1541"
     ],
-    "rpl16%2C rplP": [
+    "rpl15, rplO": [
+      "PMM1541"
+    ],
+    "rpl15,rplO": [
+      "PMM1541"
+    ],
+    "rpl16": [
       "PMM1551"
     ],
-    "rpl17%2C rplQ": [
+    "rpl16, rplP": [
+      "PMM1551"
+    ],
+    "rpl16,rplP": [
+      "PMM1551"
+    ],
+    "rpl17": [
       "PMM1534"
     ],
-    "rpl18%2C rplR": [
+    "rpl17, rplQ": [
+      "PMM1534"
+    ],
+    "rpl17,rplQ": [
+      "PMM1534"
+    ],
+    "rpl18": [
+      "PMM1543"
+    ],
+    "rpl18, rplR": [
+      "PMM1543"
+    ],
+    "rpl18,rplR": [
       "PMM1543"
     ],
     "rpl19": [
       "PMM0475"
     ],
-    "rpl2%2C rplB": [
+    "rpl2": [
       "PMM1555"
     ],
-    "rpl20%2C rplT": [
+    "rpl2, rplB": [
+      "PMM1555"
+    ],
+    "rpl2,rplB": [
+      "PMM1555"
+    ],
+    "rpl20": [
       "PMM1662"
     ],
-    "rpl21%2C rplU": [
+    "rpl20, rplT": [
+      "PMM1662"
+    ],
+    "rpl20,rplT": [
+      "PMM1662"
+    ],
+    "rpl21": [
       "PMM1344"
     ],
-    "rpl22%2C rplV": [
+    "rpl21, rplU": [
+      "PMM1344"
+    ],
+    "rpl21,rplU": [
+      "PMM1344"
+    ],
+    "rpl22": [
       "PMM1553"
     ],
-    "rpl23%2C rplW": [
+    "rpl22, rplV": [
+      "PMM1553"
+    ],
+    "rpl22,rplV": [
+      "PMM1553"
+    ],
+    "rpl23": [
       "PMM1556"
     ],
-    "rpl24%2C rplX": [
+    "rpl23, rplW": [
+      "PMM1556"
+    ],
+    "rpl23,rplW": [
+      "PMM1556"
+    ],
+    "rpl24": [
       "PMM1547"
     ],
-    "rpl27%2C rpmA": [
+    "rpl24, rplX": [
+      "PMM1547"
+    ],
+    "rpl24,rplX": [
+      "PMM1547"
+    ],
+    "rpl27": [
       "PMM1345"
     ],
-    "rpl28%2C rpmB": [
+    "rpl27, rpmA": [
+      "PMM1345"
+    ],
+    "rpl27,rpmA": [
+      "PMM1345"
+    ],
+    "rpl28": [
       "PMM0902"
     ],
-    "rpl29%2C rpmC": [
+    "rpl28, rpmB": [
+      "PMM0902"
+    ],
+    "rpl28,rpmB": [
+      "PMM0902"
+    ],
+    "rpl29": [
       "PMM1550"
     ],
-    "rpl3%2C rplC": [
+    "rpl29, rpmC": [
+      "PMM1550"
+    ],
+    "rpl29,rpmC": [
+      "PMM1550"
+    ],
+    "rpl3": [
       "PMM1558"
     ],
-    "rpl31%2C rpmE": [
+    "rpl3, rplC": [
+      "PMM1558"
+    ],
+    "rpl3,rplC": [
+      "PMM1558"
+    ],
+    "rpl31": [
       "PMM1530"
     ],
-    "rpl32%2C rpmF": [
+    "rpl31, rpmE": [
+      "PMM1530"
+    ],
+    "rpl31,rpmE": [
+      "PMM1530"
+    ],
+    "rpl32": [
       "PMM0853"
     ],
-    "rpl33%2C rpmG": [
+    "rpl32, rpmF": [
+      "PMM0853"
+    ],
+    "rpl32,rpmF": [
+      "PMM0853"
+    ],
+    "rpl33": [
       "PMM0870"
     ],
-    "rpl34%2C rpmH": [
+    "rpl33, rpmG": [
+      "PMM0870"
+    ],
+    "rpl33,rpmG": [
+      "PMM0870"
+    ],
+    "rpl34": [
       "PMM1183"
     ],
-    "rpl35%2C rpmI": [
+    "rpl34, rpmH": [
+      "PMM1183"
+    ],
+    "rpl34,rpmH": [
+      "PMM1183"
+    ],
+    "rpl35": [
       "PMM1661"
     ],
-    "rpl4%2C rplD": [
+    "rpl35, rpmI": [
+      "PMM1661"
+    ],
+    "rpl35,rpmI": [
+      "PMM1661"
+    ],
+    "rpl36": [
+      "PMM1538"
+    ],
+    "rpl4": [
       "PMM1557"
     ],
-    "rpl5%2C rplE": [
+    "rpl4, rplD": [
+      "PMM1557"
+    ],
+    "rpl4,rplD": [
+      "PMM1557"
+    ],
+    "rpl5": [
       "PMM1546"
     ],
-    "rpl6%2C rplF": [
+    "rpl5, rplE": [
+      "PMM1546"
+    ],
+    "rpl5,rplE": [
+      "PMM1546"
+    ],
+    "rpl6": [
       "PMM1544"
     ],
-    "rpl9%2C rplI": [
+    "rpl6, rplF": [
+      "PMM1544"
+    ],
+    "rpl6,rplF": [
+      "PMM1544"
+    ],
+    "rpl7": [
+      "PMM0201"
+    ],
+    "rpl9": [
+      "PMM1673"
+    ],
+    "rpl9, rplI": [
+      "PMM1673"
+    ],
+    "rpl9,rplI": [
       "PMM1673"
     ],
     "rplA": [
@@ -176171,7 +178616,7 @@
     "rpmJ": [
       "PMM1538"
     ],
-    "rpmJ%2Crpl36": [
+    "rpmJ,rpl36": [
       "PMM1538"
     ],
     "rpoA": [
@@ -176207,64 +178652,178 @@
     "rpoZ": [
       "PMM1431"
     ],
-    "rps11%2C rpsK": [
+    "rps10": [
+      "PMM1507"
+    ],
+    "rps11": [
       "PMM1536"
     ],
-    "rps12%2C rpsL": [
+    "rps11, rpsK": [
+      "PMM1536"
+    ],
+    "rps11,rpsK": [
+      "PMM1536"
+    ],
+    "rps12": [
       "PMM1511"
     ],
-    "rps13%2C rpsM": [
+    "rps12, rpsL": [
+      "PMM1511"
+    ],
+    "rps12,rpsL": [
+      "PMM1511"
+    ],
+    "rps13": [
       "PMM1537"
     ],
-    "rps14%2C rpsN": [
+    "rps13, rpsM": [
+      "PMM1537"
+    ],
+    "rps13,rpsM": [
+      "PMM1537"
+    ],
+    "rps14": [
       "PMM1190"
     ],
-    "rps15%2C rpsO": [
+    "rps14, rpsN": [
+      "PMM1190"
+    ],
+    "rps14,rpsN": [
+      "PMM1190"
+    ],
+    "rps15": [
       "PMM0943"
     ],
-    "rps16%2C rpsP": [
+    "rps15, rpsO": [
+      "PMM0943"
+    ],
+    "rps15,rpsO": [
+      "PMM0943"
+    ],
+    "rps16": [
       "PMM1285"
     ],
-    "rps17%2C rpsQ": [
+    "rps16, rpsP": [
+      "PMM1285"
+    ],
+    "rps16,rpsP": [
+      "PMM1285"
+    ],
+    "rps17": [
       "PMM1549"
     ],
-    "rps18%2C rpsR": [
+    "rps17, rpsQ": [
+      "PMM1549"
+    ],
+    "rps17,rpsQ": [
+      "PMM1549"
+    ],
+    "rps18": [
       "PMM0869"
     ],
-    "rps19%2C rpsS": [
+    "rps18, rpsR": [
+      "PMM0869"
+    ],
+    "rps18,rpsR": [
+      "PMM0869"
+    ],
+    "rps19": [
+      "PMM1554"
+    ],
+    "rps19, rpsS": [
+      "PMM1554"
+    ],
+    "rps19,rpsS": [
       "PMM1554"
     ],
     "rps1a": [
       "PMM0312"
     ],
-    "rps1a%2C rpsA1": [
+    "rps1a, rpsA1": [
+      "PMM0312"
+    ],
+    "rps1a,rpsA1": [
       "PMM0312"
     ],
     "rps1b": [
       "PMM0530"
     ],
-    "rps1b%2C rpsA2%2C nbp1": [
+    "rps1b, rpsA2, nbp1": [
       "PMM0530"
     ],
-    "rps2%2C rpsB": [
+    "rps1b,rpsA2,nbp1": [
+      "PMM0530"
+    ],
+    "rps2": [
       "PMM0753"
     ],
-    "rps21%2C rpsU": [
+    "rps2, rpsB": [
+      "PMM0753"
+    ],
+    "rps2,rpsB": [
+      "PMM0753"
+    ],
+    "rps20": [
+      "PMM1487"
+    ],
+    "rps21": [
       "PMM0987"
     ],
-    "rps3%2C rpsC": [
+    "rps21, rpsU": [
+      "PMM0987"
+    ],
+    "rps21,rpsU": [
+      "PMM0987"
+    ],
+    "rps3": [
       "PMM1552"
     ],
-    "rps6%2C rpsF": [
+    "rps3, rpsC": [
+      "PMM1552"
+    ],
+    "rps3,rpsC": [
+      "PMM1552"
+    ],
+    "rps4": [
+      "PMM0410"
+    ],
+    "rps5": [
+      "PMM1542"
+    ],
+    "rps6": [
       "PMM1706"
     ],
-    "rps7%2C rpsG": [
+    "rps6, rpsF": [
+      "PMM1706"
+    ],
+    "rps6,rpsF": [
+      "PMM1706"
+    ],
+    "rps7": [
       "PMM1510"
     ],
-    "rps8%2C rpsH": [
+    "rps7, rpsG": [
+      "PMM1510"
+    ],
+    "rps7,rpsG": [
+      "PMM1510"
+    ],
+    "rps8": [
       "PMM1545"
     ],
-    "rps9%2C rpsI": [
+    "rps8, rpsH": [
+      "PMM1545"
+    ],
+    "rps8,rpsH": [
+      "PMM1545"
+    ],
+    "rps9": [
+      "PMM1531"
+    ],
+    "rps9, rpsI": [
+      "PMM1531"
+    ],
+    "rps9,rpsI": [
       "PMM1531"
     ],
     "rpsA1": [
@@ -176282,13 +178841,13 @@
     "rpsD": [
       "PMM0410"
     ],
-    "rpsD%2Crps4": [
+    "rpsD,rps4": [
       "PMM0410"
     ],
     "rpsE": [
       "PMM1542"
     ],
-    "rpsE%2Crps5": [
+    "rpsE,rps5": [
       "PMM1542"
     ],
     "rpsF": [
@@ -176306,7 +178865,7 @@
     "rpsJ": [
       "PMM1507"
     ],
-    "rpsJ%2Crps10": [
+    "rpsJ,rps10": [
       "PMM1507"
     ],
     "rpsK": [
@@ -176339,7 +178898,7 @@
     "rpsT": [
       "PMM1487"
     ],
-    "rpsT%2Crps20": [
+    "rpsT,rps20": [
       "PMM1487"
     ],
     "rpsU": [
@@ -176347,6 +178906,9 @@
     ],
     "rqcU": [
       "PMM0217"
+    ],
+    "rrf": [
+      "PMM0521"
     ],
     "rsbU": [
       "PMM0011"
@@ -176395,6 +178957,9 @@
     ],
     "ruvX": [
       "PMM0791"
+    ],
+    "sahH": [
+      "PMM1625"
     ],
     "sasA": [
       "PMM1077"
@@ -176450,13 +179015,19 @@
     "sfsA": [
       "PMM0262"
     ],
+    "sfuA": [
+      "PMM1164"
+    ],
     "sfuC": [
       "PMM0803"
     ],
     "sigA": [
       "PMM0496"
     ],
-    "sigA%2C rpoD": [
+    "sigA, rpoD": [
+      "PMM0496"
+    ],
+    "sigA,rpoD": [
       "PMM0496"
     ],
     "sipA": [
@@ -176464,6 +179035,9 @@
     ],
     "sir": [
       "PMM0758"
+    ],
+    "smbA": [
+      "PMM0522"
     ],
     "smc": [
       "PMM0057"
@@ -176525,7 +179099,10 @@
     "spt": [
       "PMM0919"
     ],
-    "spt%2C agt": [
+    "spt, agt": [
+      "PMM0919"
+    ],
+    "spt,agt": [
       "PMM0919"
     ],
     "sqdB": [
@@ -176542,6 +179119,9 @@
     ],
     "stpA": [
       "PMM0639"
+    ],
+    "sueB": [
+      "PMM1529"
     ],
     "sufB": [
       "PMM0073"
@@ -176625,9 +179205,6 @@
     "thrA": [
       "PMM1051"
     ],
-    "thrA%2Chom": [
-      "PMM1051"
-    ],
     "thrA,hom": [
       "PMM1051"
     ],
@@ -176658,7 +179235,10 @@
     "tktA": [
       "PMM1610"
     ],
-    "tktA%2C cbbT": [
+    "tktA, cbbT": [
+      "PMM1610"
+    ],
+    "tktA,cbbT": [
       "PMM1610"
     ],
     "tldD": [
@@ -176673,7 +179253,13 @@
     "topA": [
       "PMM0436"
     ],
-    "tpi%2C cbbJ": [
+    "tpi": [
+      "PMM0829"
+    ],
+    "tpi, cbbJ": [
+      "PMM0829"
+    ],
+    "tpi,cbbJ": [
       "PMM0829"
     ],
     "tpiA": [
@@ -176732,6 +179318,9 @@
     ],
     "trpS": [
       "PMM0598"
+    ],
+    "trpX": [
+      "PMM1635"
     ],
     "truA": [
       "PMM1533"
@@ -176800,6 +179389,9 @@
     ],
     "ugd": [
       "PMM1261"
+    ],
+    "umpA": [
+      "PMM0460"
     ],
     "umuC": [
       "PMM0937"
@@ -177001,6 +179593,9 @@
     "ylqF": [
       "PMM0194"
     ],
+    "yocE": [
+      "PMM1378"
+    ],
     "ypsC": [
       "PMM0053"
     ],
@@ -177019,7 +179614,13 @@
     "yrvN": [
       "PMM0077"
     ],
-    "yvoC%2C lgt%2C umpA": [
+    "yvoC": [
+      "PMM0460"
+    ],
+    "yvoC, lgt, umpA": [
+      "PMM0460"
+    ],
+    "yvoC,lgt,umpA": [
       "PMM0460"
     ],
     "zam": [
@@ -177041,6 +179642,7 @@
   "organism": "MED4",
   "specific_lookup": {
     "/": "PMM0762",
+    "AT103": "PMM0844",
     "BioA": "PMM1472",
     "BioB": "PMM1093",
     "BioD": "PMM1471",
@@ -180961,8 +183563,11 @@
     "F2J10.13": "PMM1095",
     "F4P13.20": "PMM1168",
     "FPG": "PMM0328",
-    "GSTTLp28%2CP28%2CGSTO1": "PMM0630",
+    "GSTO1": "PMM0630",
+    "GSTTLp28": "PMM0630",
+    "GSTTLp28,P28,GSTO1": "PMM0630",
     "K8K14.9": "PMM0822",
+    "P28": "PMM0630",
     "PMED4_00001": "PMM0001",
     "PMED4_00011": "PMM0002",
     "PMED4_00021": "PMM0003",
@@ -183119,7 +185724,8 @@
     "PMM2057*": "PMM2057",
     "PMM2067*": "PMM2067",
     "PMM2069*": "PMM2069",
-    "PNIL34%2CAT103": "PMM0844",
+    "PNIL34": "PMM0844",
+    "PNIL34,AT103": "PMM0844",
     "T8L23.23": "PMM0339",
     "TX50_RS00020": "PMM0001",
     "TX50_RS00025": "PMM0002",
@@ -184985,17 +187591,25 @@
     "TX50_RS09985": "PMM1976",
     "TX50_RS09990": "PMM1245",
     "accA": "PMM0534",
-    "accB%2CfabE": "PMM0027",
-    "accC%2C": "PMM0060",
-    "accC%2C fabG": "PMM0060",
+    "accB": "PMM0027",
+    "accB,fabE": "PMM0027",
+    "accC": "PMM0060",
+    "accC,": "PMM0060",
+    "accC, fabG": "PMM0060",
+    "accC,fabG": "PMM0060",
     "accD": "PMM0784",
     "acnB": "PMM1700",
-    "acpP%2Cacp": "PMM1608",
+    "acp": "PMM1608",
+    "acpP": "PMM1608",
+    "acpP,acp": "PMM1608",
     "acs": "PMM0619",
+    "adeK": "PMM0506",
     "adk": "PMM1539",
     "agt": "PMM0919",
-    "ahcY%2C": "PMM1625",
-    "ahcY%2C sahH": "PMM1625",
+    "ahcY": "PMM1625",
+    "ahcY,": "PMM1625",
+    "ahcY, sahH": "PMM1625",
+    "ahcY,sahH": "PMM1625",
     "alaS": "PMM0044",
     "alr": "PMM1527",
     "amt1": "PMM0263",
@@ -185020,22 +187634,29 @@
     "atp1": "PMM1457",
     "atpA": "PMM1451",
     "atpB": "PMM1438",
-    "atpC": "PMM1450",
-    "atpC%2CatpE": "PMM1439",
+    "atpC": "PMM1439",
+    "atpC,atpE": "PMM1439",
+    "atpD": "PMM1452",
+    "atpE": "PMM1439",
     "atpF": "PMM1453",
     "atpG": "PMM1454",
-    "atpH%2CatpD": "PMM1452",
+    "atpH": "PMM1452",
+    "atpH,atpD": "PMM1452",
     "atpI": "PMM1456",
     "bcp": "PMM0079",
     "bioF": "PMM1468",
     "bipA": "PMM0762",
     "cad": "PMM1084",
-    "carA%2C": "PMM0951",
-    "carA%2C pyrA": "PMM0951",
+    "carA": "PMM0951",
+    "carA,": "PMM0951",
+    "carA, pyrA": "PMM0951",
+    "carA,pyrA": "PMM0951",
     "carB": "PMM0825",
-    "cbbA%2CcfxA%2CfbaA%2Cfda": "PMM0781",
+    "cbbA": "PMM0781",
+    "cbbA,cfxA,fbaA,fda": "PMM0781",
     "cbbE": "PMM0766",
-    "cbbF%2C": "PMM0767",
+    "cbbF": "PMM0767",
+    "cbbF,": "PMM0767",
     "cbbI": "PMM1489",
     "cbbJ": "PMM0829",
     "cbbK": "PMM0195",
@@ -185043,16 +187664,19 @@
     "cbbP": "PMM0785",
     "cbbS": "PMM0551",
     "cbbT": "PMM1610",
-    "cbiA%2CcobB": "PMM1072",
+    "cbiA": "PMM1072",
+    "cbiA,cobB": "PMM1072",
     "cbiG/cobJ": "PMM1525",
     "cbiG/cobJ fusion": "PMM1525",
     "ccdA": "PMM1459",
+    "cfxA": "PMM0781",
     "chlB": "PMM0544",
     "chlD": "PMM0288",
     "chlG": "PMM0428",
     "chlH": "PMM0831",
     "chlI": "PMM1055",
-    "chlL%2CfrxC": "PMM0543",
+    "chlL": "PMM0543",
+    "chlL,frxC": "PMM0543",
     "chlM": "PMM0168",
     "chlN": "PMM0545",
     "chlP": "PMM0760",
@@ -185069,7 +187693,7 @@
     "coaD": "PMM0884",
     "coaE": "PMM0049",
     "cobA": "PMM1694",
-    "cobB": "PMM1160",
+    "cobB": "PMM1072",
     "cobC": "PMM0515",
     "cobD": "PMM1316",
     "cobH": "PMM1646",
@@ -185084,7 +187708,10 @@
     "coxB": "PMM0446",
     "cpeB": "PMM0305",
     "cpeS": "PMM0306",
-    "crtB%2Cpys": "PMM0143",
+    "cpn60-2": "PMM0452",
+    "crtB": "PMM0143",
+    "crtB,pys": "PMM0143",
+    "crtD": "PMM0144",
     "crtE": "PMM1070",
     "crtH": "PMM1115",
     "crtL1": "PMM1064",
@@ -185110,18 +187737,23 @@
     "cysK2": "PMM0123",
     "cysS": "PMM1141",
     "cytM": "PMM1057",
-    "dacB%2C": "PMM0885",
-    "dacB%2C pbp": "PMM0885",
+    "dacB": "PMM0885",
+    "dacB,": "PMM0885",
+    "dacB, pbp": "PMM0885",
+    "dacB,pbp": "PMM0885",
     "dapA": "PMM1653",
     "dapB": "PMM0832",
     "dapF": "PMM0888",
     "dcd": "PMM0244",
-    "ddhA%2C": "PMM1204",
-    "ddhA%2C rfbF": "PMM1204",
+    "ddhA": "PMM1204",
+    "ddhA,": "PMM1204",
+    "ddhA, rfbF": "PMM1204",
+    "ddhA,rfbF": "PMM1204",
     "ddlA": "PMM1306",
     "def": "PMM0068",
     "degT": "PMM0284",
-    "des%2CyocE": "PMM1378",
+    "des": "PMM1378",
+    "des,yocE": "PMM1378",
     "des9": "PMM1672",
     "dfp": "PMM0229",
     "dfp (coaBC)": "PMM0229",
@@ -185140,12 +187772,16 @@
     "efp": "PMM0026",
     "eno": "PMM0208",
     "fabD": "PMM0137",
+    "fabE": "PMM0027",
     "fabF": "PMM1609",
     "fabG": "PMM0060",
     "fabH": "PMM0136",
     "fabI": "PMM0282",
     "fadD": "PMM0402",
+    "fbaA": "PMM0781",
     "fbp": "PMM0767",
+    "fda": "PMM0781",
+    "fdv": "PMM1645",
     "ffh": "PMM1286",
     "fmt": "PMM0841",
     "folB": "PMM0591",
@@ -185154,7 +187790,9 @@
     "folE": "PMM0536",
     "folK": "PMM0287",
     "folP": "PMM0830",
-    "frr%2Crrf": "PMM0521",
+    "frr": "PMM0521",
+    "frr,rrf": "PMM0521",
+    "frxC": "PMM0543",
     "ftsH1": "PMM0743",
     "ftsH2": "PMM0226",
     "ftsH3": "PMM1264",
@@ -185167,11 +187805,16 @@
     "fur": "PMM0637",
     "fusA": "PMM1509",
     "fusion": "PMM1525",
-    "futA%2CsfuA%2C": "PMM1164",
-    "futA%2CsfuA%2C idiA": "PMM1164",
-    "futB%2ChitB": "PMM0489",
-    "futC%2C": "PMM0803",
-    "futC%2C sfuC": "PMM0803",
+    "futA": "PMM1164",
+    "futA,sfuA,": "PMM1164",
+    "futA,sfuA, idiA": "PMM1164",
+    "futA,sfuA,idiA": "PMM1164",
+    "futB": "PMM0489",
+    "futB,hitB": "PMM0489",
+    "futC": "PMM0803",
+    "futC,": "PMM0803",
+    "futC, sfuC": "PMM0803",
+    "futC,sfuC": "PMM0803",
     "galE": "PMM1209",
     "gap1": "PMM0713",
     "gap2": "PMM0023",
@@ -185179,8 +187822,10 @@
     "gatB": "PMM0048",
     "gatC": "PMM0235",
     "gcpE": "PMM0676",
-    "gcsH%2C": "PMM1669",
-    "gcsH%2C gcvH": "PMM1669",
+    "gcsH": "PMM1669",
+    "gcsH,": "PMM1669",
+    "gcsH, gcvH": "PMM1669",
+    "gcsH,gcvH": "PMM1669",
     "gcvH": "PMM1669",
     "gcvP": "PMM1668",
     "gcvT": "PMM1687",
@@ -185195,10 +187840,14 @@
     "glnA": "PMM0920",
     "glnB": "PMM1463",
     "gloA": "PMM0653",
-    "glpX%2C": "PMM0767",
-    "glpX%2C cbbF%2C fbp": "PMM0767",
-    "glsF%2C": "PMM1512",
-    "glsF%2C gltS": "PMM1512",
+    "glpX": "PMM0767",
+    "glpX,": "PMM0767",
+    "glpX, cbbF, fbp": "PMM0767",
+    "glpX,cbbF,fbp": "PMM0767",
+    "glsF": "PMM1512",
+    "glsF,": "PMM1512",
+    "glsF, gltS": "PMM1512",
+    "glsF,gltS": "PMM1512",
     "gltA": "PMM0161",
     "gltS": "PMM1512",
     "gltX": "PMM0473",
@@ -185209,7 +187858,8 @@
     "gmk": "PMM0467",
     "gnd": "PMM0770",
     "groEL": "PMM1436",
-    "groEL2%2Ccpn60-2": "PMM0452",
+    "groEL2": "PMM0452",
+    "groEL2,cpn60-2": "PMM0452",
     "groES": "PMM1437",
     "grpE": "PMM0016",
     "gsa": "PMM0483",
@@ -185226,8 +187876,10 @@
     "hemE": "PMM0583",
     "hemF": "PMM1582",
     "hemK": "PMM0318",
-    "hemL%2C": "PMM0483",
-    "hemL%2C gsa": "PMM0483",
+    "hemL": "PMM0483",
+    "hemL,": "PMM0483",
+    "hemL, gsa": "PMM0483",
+    "hemL,gsa": "PMM0483",
     "hetA": "PMM1239",
     "hisA": "PMM0796",
     "hisB": "PMM0281",
@@ -185237,6 +187889,7 @@
     "hisF": "PMM0430",
     "hisS": "PMM0623",
     "hisZ": "PMM0900",
+    "hitB": "PMM0489",
     "hli1": "PMM0093",
     "hli10": "PMM1390",
     "hli11": "PMM1385",
@@ -185261,6 +187914,7 @@
     "hli9": "PMM1396",
     "ho1": "PMM1594",
     "holB": "PMM0129",
+    "hom": "PMM1051",
     "hsp33": "PMM0665",
     "htpG": "PMM0901",
     "hupE": "PMM1123",
@@ -187167,10 +189821,12 @@
     "leuD": "PMM0255",
     "leuS": "PMM0889",
     "lexA": "PMM1262",
-    "lgt%2C": "PMM0460",
+    "lgt": "PMM0460",
+    "lgt,": "PMM0460",
     "lig": "PMM1679",
-    "lipA": "PMM1514",
-    "lipA%2Clip": "PMM1096",
+    "lip": "PMM1096",
+    "lipA": "PMM1096",
+    "lipA,lip": "PMM1096",
     "lipB": "PMM0401",
     "lpdA": "PMM1298",
     "lpxA": "PMM1335",
@@ -187196,7 +189852,8 @@
     "metG": "PMM0867",
     "metH": "PMM0877",
     "metK": "PMM0311",
-    "miaA%2CtrpX": "PMM1635",
+    "miaA": "PMM1635",
+    "miaA,trpX": "PMM1635",
     "minC": "PMM0322",
     "minD": "PMM0321",
     "minE": "PMM0320",
@@ -187215,7 +189872,7 @@
     "murG": "PMM0197",
     "murI": "PMM0617",
     "mutS": "PMM0217",
-    "mutS%2Cfdv": "PMM1645",
+    "mutS,fdv": "PMM1645",
     "nadB": "PMM0100",
     "nadC": "PMM0188",
     "nblS": "PMM1341",
@@ -187240,8 +189897,10 @@
     "nusG": "PMM0205",
     "pabA": "PMM0184",
     "panB": "PMM1310",
-    "panC%2C": "PMM1590",
-    "panC%2C cmk": "PMM1590",
+    "panC": "PMM1590",
+    "panC,": "PMM1590",
+    "panC, cmk": "PMM1590",
+    "panC,cmk": "PMM1590",
     "pbp": "PMM0885",
     "pcb": "PMM0627",
     "pcr": "PMM0542",
@@ -187249,7 +189908,8 @@
     "pdhA": "PMM1288",
     "pdhB": "PMM0930",
     "pdhC": "PMM0405",
-    "pds%2CcrtD": "PMM0144",
+    "pds": "PMM0144",
+    "pds,crtD": "PMM0144",
     "pdxA": "PMM0028",
     "pdxJ": "PMM1107",
     "pebA": "PMM1593",
@@ -187266,8 +189926,10 @@
     "petH": "PMM1075",
     "petN": "PMM0740",
     "pgi": "PMM0890",
-    "pgk%2C": "PMM0195",
-    "pgk%2C cbbK": "PMM0195",
+    "pgk": "PMM0195",
+    "pgk,": "PMM0195",
+    "pgk, cbbK": "PMM0195",
+    "pgk,cbbK": "PMM0195",
     "pgm": "PMM0076",
     "pgmI": "PMM1434",
     "pgsA": "PMM0798",
@@ -187276,8 +189938,11 @@
     "pheS": "PMM1270",
     "pheT": "PMM0871",
     "phoB": "PMM0705",
-    "phoH%2CpsiH": "PMM1284",
+    "phoH": "PMM1284",
+    "phoH,psiH": "PMM1284",
     "phoR": "PMM0706",
+    "phoT": "PMM0724",
+    "phoW": "PMM0723",
     "phr": "PMM0285",
     "plsC": "PMM0138",
     "plsX": "PMM0135",
@@ -187287,20 +189952,25 @@
     "pntA-2": "PMM1146",
     "pntB": "PMM1145",
     "polA": "PMM1140",
-    "por%2C": "PMM0542",
-    "por%2C pcr": "PMM0542",
+    "por": "PMM0542",
+    "por,": "PMM0542",
+    "por, pcr": "PMM0542",
+    "por,pcr": "PMM0542",
     "ppa": "PMM0494",
     "ppa (ipyR)": "PMM0494",
     "ppc": "PMM1575",
     "ppiA": "PMM1155",
     "ppk": "PMM1696",
     "ppx": "PMM0457",
-    "prfA%2CsueB": "PMM1529",
+    "prfA": "PMM1529",
+    "prfA,sueB": "PMM1529",
     "prfB": "PMM0180",
     "prfC": "PMM0663",
     "priA": "PMM0497",
-    "prk%2C": "PMM0785",
-    "prk%2C cbbP": "PMM0785",
+    "prk": "PMM0785",
+    "prk,": "PMM0785",
+    "prk, cbbP": "PMM0785",
+    "prk,cbbP": "PMM0785",
     "prmA": "PMM1353",
     "proA": "PMM0590",
     "proB": "PMM0788",
@@ -187336,24 +190006,34 @@
     "psbX": "PMM0062",
     "psbY": "PMM1117",
     "psbZ": "PMM1644",
-    "pstA%2CphoT": "PMM0724",
-    "pstC%2CphoW": "PMM0723",
+    "psiH": "PMM1284",
+    "pstA": "PMM0724",
+    "pstA,phoT": "PMM0724",
+    "pstC": "PMM0723",
+    "pstC,phoW": "PMM0723",
     "pth": "PMM0250",
     "pur4": "PMM0780",
-    "purA%2CadeK": "PMM0506",
+    "pur4)": "PMM0780",
+    "purA": "PMM0506",
+    "purA,adeK": "PMM0506",
     "purB": "PMM1465",
     "purC": "PMM1339",
     "purD": "PMM1340",
     "purE": "PMM0167",
     "purF": "PMM0004",
+    "purG": "PMM1589",
     "purH": "PMM0266",
     "purK": "PMM0683",
     "purL": "PMM0003",
-    "purL%2C": "PMM0780",
-    "purM%2CpurG": "PMM1589",
+    "purL,": "PMM0780",
+    "purL,pur4": "PMM0780",
+    "purM": "PMM1589",
+    "purM,purG": "PMM1589",
     "purN": "PMM0891",
     "purQ": "PMM0780",
-    "purQ (purL%2C pur4)": "PMM0780",
+    "purQ (purL": "PMM0780",
+    "purQ (purL, pur4)": "PMM0780",
+    "purQ (purL,pur4)": "PMM0780",
     "purT": "PMM1004",
     "purU": "PMM1702",
     "putative": "PMM1300",
@@ -187366,14 +190046,20 @@
     "pyrE": "PMM0275",
     "pyrF": "PMM1328",
     "pyrG": "PMM1689",
-    "pyrH%2CsmbA": "PMM0522",
+    "pyrH": "PMM0522",
+    "pyrH,smbA": "PMM0522",
+    "pys": "PMM0143",
     "queA": "PMM0406",
     "radA": "PMM0133",
-    "rbcL%2C": "PMM0550",
-    "rbcL%2C cbbL": "PMM0550",
+    "rbcL": "PMM0550",
+    "rbcL,": "PMM0550",
+    "rbcL, cbbL": "PMM0550",
+    "rbcL,cbbL": "PMM0550",
     "rbcR": "PMM0147",
-    "rbcS%2C": "PMM0551",
-    "rbcS%2C cbbS": "PMM0551",
+    "rbcS": "PMM0551",
+    "rbcS,": "PMM0551",
+    "rbcS, cbbS": "PMM0551",
+    "rbcS,cbbS": "PMM0551",
     "rbfA": "PMM0112",
     "rbpD": "PMM1376",
     "rbsK": "PMM1044",
@@ -187405,70 +190091,133 @@
     "rodA": "PMM1580",
     "rpaA": "PMM0128",
     "rpaB": "PMM0134",
-    "rpe%2C": "PMM0766",
-    "rpe%2C cbbE": "PMM0766",
-    "rpiA%2C": "PMM1489",
-    "rpiA%2C cbbI": "PMM1489",
-    "rpl1%2C": "PMM0203",
-    "rpl1%2C rplA": "PMM0203",
-    "rpl10%2C": "PMM0202",
-    "rpl10%2C rplJ": "PMM0202",
-    "rpl11%2C": "PMM0204",
-    "rpl11%2C rplK": "PMM0204",
-    "rpl12%2C": "PMM0201",
-    "rpl12%2C rplL%2C rpl7": "PMM0201",
-    "rpl13%2C": "PMM1532",
-    "rpl13%2C rplM": "PMM1532",
-    "rpl14%2C": "PMM1548",
-    "rpl14%2C rplN": "PMM1548",
-    "rpl15%2C": "PMM1541",
-    "rpl15%2C rplO": "PMM1541",
-    "rpl16%2C": "PMM1551",
-    "rpl16%2C rplP": "PMM1551",
-    "rpl17%2C": "PMM1534",
-    "rpl17%2C rplQ": "PMM1534",
-    "rpl18%2C": "PMM1543",
-    "rpl18%2C rplR": "PMM1543",
+    "rpe": "PMM0766",
+    "rpe,": "PMM0766",
+    "rpe, cbbE": "PMM0766",
+    "rpe,cbbE": "PMM0766",
+    "rpiA": "PMM1489",
+    "rpiA,": "PMM1489",
+    "rpiA, cbbI": "PMM1489",
+    "rpiA,cbbI": "PMM1489",
+    "rpl1": "PMM0203",
+    "rpl1,": "PMM0203",
+    "rpl1, rplA": "PMM0203",
+    "rpl1,rplA": "PMM0203",
+    "rpl10": "PMM0202",
+    "rpl10,": "PMM0202",
+    "rpl10, rplJ": "PMM0202",
+    "rpl10,rplJ": "PMM0202",
+    "rpl11": "PMM0204",
+    "rpl11,": "PMM0204",
+    "rpl11, rplK": "PMM0204",
+    "rpl11,rplK": "PMM0204",
+    "rpl12": "PMM0201",
+    "rpl12,": "PMM0201",
+    "rpl12, rplL, rpl7": "PMM0201",
+    "rpl12,rplL,rpl7": "PMM0201",
+    "rpl13": "PMM1532",
+    "rpl13,": "PMM1532",
+    "rpl13, rplM": "PMM1532",
+    "rpl13,rplM": "PMM1532",
+    "rpl14": "PMM1548",
+    "rpl14,": "PMM1548",
+    "rpl14, rplN": "PMM1548",
+    "rpl14,rplN": "PMM1548",
+    "rpl15": "PMM1541",
+    "rpl15,": "PMM1541",
+    "rpl15, rplO": "PMM1541",
+    "rpl15,rplO": "PMM1541",
+    "rpl16": "PMM1551",
+    "rpl16,": "PMM1551",
+    "rpl16, rplP": "PMM1551",
+    "rpl16,rplP": "PMM1551",
+    "rpl17": "PMM1534",
+    "rpl17,": "PMM1534",
+    "rpl17, rplQ": "PMM1534",
+    "rpl17,rplQ": "PMM1534",
+    "rpl18": "PMM1543",
+    "rpl18,": "PMM1543",
+    "rpl18, rplR": "PMM1543",
+    "rpl18,rplR": "PMM1543",
     "rpl19": "PMM0475",
-    "rpl2%2C": "PMM1555",
-    "rpl2%2C rplB": "PMM1555",
-    "rpl20%2C": "PMM1662",
-    "rpl20%2C rplT": "PMM1662",
-    "rpl21%2C": "PMM1344",
-    "rpl21%2C rplU": "PMM1344",
-    "rpl22%2C": "PMM1553",
-    "rpl22%2C rplV": "PMM1553",
-    "rpl23%2C": "PMM1556",
-    "rpl23%2C rplW": "PMM1556",
-    "rpl24%2C": "PMM1547",
-    "rpl24%2C rplX": "PMM1547",
-    "rpl27%2C": "PMM1345",
-    "rpl27%2C rpmA": "PMM1345",
-    "rpl28%2C": "PMM0902",
-    "rpl28%2C rpmB": "PMM0902",
-    "rpl29%2C": "PMM1550",
-    "rpl29%2C rpmC": "PMM1550",
-    "rpl3%2C": "PMM1558",
-    "rpl3%2C rplC": "PMM1558",
-    "rpl31%2C": "PMM1530",
-    "rpl31%2C rpmE": "PMM1530",
-    "rpl32%2C": "PMM0853",
-    "rpl32%2C rpmF": "PMM0853",
-    "rpl33%2C": "PMM0870",
-    "rpl33%2C rpmG": "PMM0870",
-    "rpl34%2C": "PMM1183",
-    "rpl34%2C rpmH": "PMM1183",
-    "rpl35%2C": "PMM1661",
-    "rpl35%2C rpmI": "PMM1661",
-    "rpl4%2C": "PMM1557",
-    "rpl4%2C rplD": "PMM1557",
-    "rpl5%2C": "PMM1546",
-    "rpl5%2C rplE": "PMM1546",
-    "rpl6%2C": "PMM1544",
-    "rpl6%2C rplF": "PMM1544",
+    "rpl2": "PMM1555",
+    "rpl2,": "PMM1555",
+    "rpl2, rplB": "PMM1555",
+    "rpl2,rplB": "PMM1555",
+    "rpl20": "PMM1662",
+    "rpl20,": "PMM1662",
+    "rpl20, rplT": "PMM1662",
+    "rpl20,rplT": "PMM1662",
+    "rpl21": "PMM1344",
+    "rpl21,": "PMM1344",
+    "rpl21, rplU": "PMM1344",
+    "rpl21,rplU": "PMM1344",
+    "rpl22": "PMM1553",
+    "rpl22,": "PMM1553",
+    "rpl22, rplV": "PMM1553",
+    "rpl22,rplV": "PMM1553",
+    "rpl23": "PMM1556",
+    "rpl23,": "PMM1556",
+    "rpl23, rplW": "PMM1556",
+    "rpl23,rplW": "PMM1556",
+    "rpl24": "PMM1547",
+    "rpl24,": "PMM1547",
+    "rpl24, rplX": "PMM1547",
+    "rpl24,rplX": "PMM1547",
+    "rpl27": "PMM1345",
+    "rpl27,": "PMM1345",
+    "rpl27, rpmA": "PMM1345",
+    "rpl27,rpmA": "PMM1345",
+    "rpl28": "PMM0902",
+    "rpl28,": "PMM0902",
+    "rpl28, rpmB": "PMM0902",
+    "rpl28,rpmB": "PMM0902",
+    "rpl29": "PMM1550",
+    "rpl29,": "PMM1550",
+    "rpl29, rpmC": "PMM1550",
+    "rpl29,rpmC": "PMM1550",
+    "rpl3": "PMM1558",
+    "rpl3,": "PMM1558",
+    "rpl3, rplC": "PMM1558",
+    "rpl3,rplC": "PMM1558",
+    "rpl31": "PMM1530",
+    "rpl31,": "PMM1530",
+    "rpl31, rpmE": "PMM1530",
+    "rpl31,rpmE": "PMM1530",
+    "rpl32": "PMM0853",
+    "rpl32,": "PMM0853",
+    "rpl32, rpmF": "PMM0853",
+    "rpl32,rpmF": "PMM0853",
+    "rpl33": "PMM0870",
+    "rpl33,": "PMM0870",
+    "rpl33, rpmG": "PMM0870",
+    "rpl33,rpmG": "PMM0870",
+    "rpl34": "PMM1183",
+    "rpl34,": "PMM1183",
+    "rpl34, rpmH": "PMM1183",
+    "rpl34,rpmH": "PMM1183",
+    "rpl35": "PMM1661",
+    "rpl35,": "PMM1661",
+    "rpl35, rpmI": "PMM1661",
+    "rpl35,rpmI": "PMM1661",
+    "rpl36": "PMM1538",
+    "rpl4": "PMM1557",
+    "rpl4,": "PMM1557",
+    "rpl4, rplD": "PMM1557",
+    "rpl4,rplD": "PMM1557",
+    "rpl5": "PMM1546",
+    "rpl5,": "PMM1546",
+    "rpl5, rplE": "PMM1546",
+    "rpl5,rplE": "PMM1546",
+    "rpl6": "PMM1544",
+    "rpl6,": "PMM1544",
+    "rpl6, rplF": "PMM1544",
+    "rpl6,rplF": "PMM1544",
     "rpl7": "PMM0201",
-    "rpl9%2C": "PMM1673",
-    "rpl9%2C rplI": "PMM1673",
+    "rpl9": "PMM1673",
+    "rpl9,": "PMM1673",
+    "rpl9, rplI": "PMM1673",
+    "rpl9,rplI": "PMM1673",
     "rplA": "PMM0203",
     "rplB": "PMM1555",
     "rplC": "PMM1558",
@@ -187478,7 +190227,8 @@
     "rplI": "PMM1673",
     "rplJ": "PMM0202",
     "rplK": "PMM0204",
-    "rplL%2C": "PMM0201",
+    "rplL": "PMM0201",
+    "rplL,": "PMM0201",
     "rplM": "PMM1532",
     "rplN": "PMM1548",
     "rplO": "PMM1541",
@@ -187498,60 +190248,105 @@
     "rpmG": "PMM0870",
     "rpmH": "PMM1183",
     "rpmI": "PMM1661",
-    "rpmJ%2Crpl36": "PMM1538",
+    "rpmJ": "PMM1538",
+    "rpmJ,rpl36": "PMM1538",
     "rpoA": "PMM1535",
     "rpoB": "PMM1485",
     "rpoC1": "PMM1484",
     "rpoC2": "PMM1483",
     "rpoD": "PMM0496",
     "rpoZ": "PMM1431",
-    "rps11%2C": "PMM1536",
-    "rps11%2C rpsK": "PMM1536",
-    "rps12%2C": "PMM1511",
-    "rps12%2C rpsL": "PMM1511",
-    "rps13%2C": "PMM1537",
-    "rps13%2C rpsM": "PMM1537",
-    "rps14%2C": "PMM1190",
-    "rps14%2C rpsN": "PMM1190",
-    "rps15%2C": "PMM0943",
-    "rps15%2C rpsO": "PMM0943",
-    "rps16%2C": "PMM1285",
-    "rps16%2C rpsP": "PMM1285",
-    "rps17%2C": "PMM1549",
-    "rps17%2C rpsQ": "PMM1549",
-    "rps18%2C": "PMM0869",
-    "rps18%2C rpsR": "PMM0869",
-    "rps19%2C": "PMM1554",
-    "rps19%2C rpsS": "PMM1554",
-    "rps1a%2C": "PMM0312",
-    "rps1a%2C rpsA1": "PMM0312",
-    "rps1b%2C": "PMM0530",
-    "rps1b%2C rpsA2%2C nbp1": "PMM0530",
-    "rps2%2C": "PMM0753",
-    "rps2%2C rpsB": "PMM0753",
-    "rps21%2C": "PMM0987",
-    "rps21%2C rpsU": "PMM0987",
-    "rps3%2C": "PMM1552",
-    "rps3%2C rpsC": "PMM1552",
-    "rps6%2C": "PMM1706",
-    "rps6%2C rpsF": "PMM1706",
-    "rps7%2C": "PMM1510",
-    "rps7%2C rpsG": "PMM1510",
-    "rps8%2C": "PMM1545",
-    "rps8%2C rpsH": "PMM1545",
-    "rps9%2C": "PMM1531",
-    "rps9%2C rpsI": "PMM1531",
+    "rps10": "PMM1507",
+    "rps11": "PMM1536",
+    "rps11,": "PMM1536",
+    "rps11, rpsK": "PMM1536",
+    "rps11,rpsK": "PMM1536",
+    "rps12": "PMM1511",
+    "rps12,": "PMM1511",
+    "rps12, rpsL": "PMM1511",
+    "rps12,rpsL": "PMM1511",
+    "rps13": "PMM1537",
+    "rps13,": "PMM1537",
+    "rps13, rpsM": "PMM1537",
+    "rps13,rpsM": "PMM1537",
+    "rps14": "PMM1190",
+    "rps14,": "PMM1190",
+    "rps14, rpsN": "PMM1190",
+    "rps14,rpsN": "PMM1190",
+    "rps15": "PMM0943",
+    "rps15,": "PMM0943",
+    "rps15, rpsO": "PMM0943",
+    "rps15,rpsO": "PMM0943",
+    "rps16": "PMM1285",
+    "rps16,": "PMM1285",
+    "rps16, rpsP": "PMM1285",
+    "rps16,rpsP": "PMM1285",
+    "rps17": "PMM1549",
+    "rps17,": "PMM1549",
+    "rps17, rpsQ": "PMM1549",
+    "rps17,rpsQ": "PMM1549",
+    "rps18": "PMM0869",
+    "rps18,": "PMM0869",
+    "rps18, rpsR": "PMM0869",
+    "rps18,rpsR": "PMM0869",
+    "rps19": "PMM1554",
+    "rps19,": "PMM1554",
+    "rps19, rpsS": "PMM1554",
+    "rps19,rpsS": "PMM1554",
+    "rps1a": "PMM0312",
+    "rps1a,": "PMM0312",
+    "rps1a, rpsA1": "PMM0312",
+    "rps1a,rpsA1": "PMM0312",
+    "rps1b": "PMM0530",
+    "rps1b,": "PMM0530",
+    "rps1b, rpsA2, nbp1": "PMM0530",
+    "rps1b,rpsA2,nbp1": "PMM0530",
+    "rps2": "PMM0753",
+    "rps2,": "PMM0753",
+    "rps2, rpsB": "PMM0753",
+    "rps2,rpsB": "PMM0753",
+    "rps20": "PMM1487",
+    "rps21": "PMM0987",
+    "rps21,": "PMM0987",
+    "rps21, rpsU": "PMM0987",
+    "rps21,rpsU": "PMM0987",
+    "rps3": "PMM1552",
+    "rps3,": "PMM1552",
+    "rps3, rpsC": "PMM1552",
+    "rps3,rpsC": "PMM1552",
+    "rps4": "PMM0410",
+    "rps5": "PMM1542",
+    "rps6": "PMM1706",
+    "rps6,": "PMM1706",
+    "rps6, rpsF": "PMM1706",
+    "rps6,rpsF": "PMM1706",
+    "rps7": "PMM1510",
+    "rps7,": "PMM1510",
+    "rps7, rpsG": "PMM1510",
+    "rps7,rpsG": "PMM1510",
+    "rps8": "PMM1545",
+    "rps8,": "PMM1545",
+    "rps8, rpsH": "PMM1545",
+    "rps8,rpsH": "PMM1545",
+    "rps9": "PMM1531",
+    "rps9,": "PMM1531",
+    "rps9, rpsI": "PMM1531",
+    "rps9,rpsI": "PMM1531",
     "rpsA1": "PMM0312",
-    "rpsA2%2C": "PMM0530",
+    "rpsA2": "PMM0530",
+    "rpsA2,": "PMM0530",
     "rpsB": "PMM0753",
     "rpsC": "PMM1552",
-    "rpsD%2Crps4": "PMM0410",
-    "rpsE%2Crps5": "PMM1542",
+    "rpsD": "PMM0410",
+    "rpsD,rps4": "PMM0410",
+    "rpsE": "PMM1542",
+    "rpsE,rps5": "PMM1542",
     "rpsF": "PMM1706",
     "rpsG": "PMM1510",
     "rpsH": "PMM1545",
     "rpsI": "PMM1531",
-    "rpsJ%2Crps10": "PMM1507",
+    "rpsJ": "PMM1507",
+    "rpsJ,rps10": "PMM1507",
     "rpsK": "PMM1536",
     "rpsL": "PMM1511",
     "rpsM": "PMM1537",
@@ -187561,8 +190356,10 @@
     "rpsQ": "PMM1549",
     "rpsR": "PMM0869",
     "rpsS": "PMM1554",
-    "rpsT%2Crps20": "PMM1487",
+    "rpsT": "PMM1487",
+    "rpsT,rps20": "PMM1487",
     "rpsU": "PMM0987",
+    "rrf": "PMM0521",
     "rsuA": "PMM0658",
     "rub": "PMM0295",
     "ruvA": "PMM0942",
@@ -187579,10 +190376,14 @@
     "selD": "PMM0302",
     "serA": "PMM1354",
     "serS": "PMM1188",
+    "sfuA": "PMM1164",
     "sfuC": "PMM0803",
-    "sigA%2C": "PMM0496",
-    "sigA%2C rpoD": "PMM0496",
+    "sigA": "PMM0496",
+    "sigA,": "PMM0496",
+    "sigA, rpoD": "PMM0496",
+    "sigA,rpoD": "PMM0496",
     "sir": "PMM0758",
+    "smbA": "PMM0522",
     "smpB": "PMM1616",
     "som": "PMM0709",
     "speE": "PMM1685",
@@ -187592,12 +190393,15 @@
     "spoU": "PMM1299",
     "sppA": "PMM1180",
     "sps": "PMM1711",
-    "spt%2C": "PMM0919",
-    "spt%2C agt": "PMM0919",
+    "spt": "PMM0919",
+    "spt,": "PMM0919",
+    "spt, agt": "PMM0919",
+    "spt,agt": "PMM0919",
     "sqdB": "PMM1665",
     "sqdX": "PMM1666",
     "ssb": "PMM1623",
     "stpA": "PMM0639",
+    "sueB": "PMM1529",
     "surE": "PMM1271",
     "tal": "PMM0519",
     "tgt": "PMM0271",
@@ -187607,17 +190411,22 @@
     "thiG": "PMM1664",
     "thiL": "PMM0024",
     "thiO": "PMM0047",
-    "thrA%2Chom": "PMM1051",
+    "thrA": "PMM1051",
+    "thrA,hom": "PMM1051",
     "thrB": "PMM0595",
     "thrC": "PMM1716",
     "thrS": "PMM0597",
-    "tktA%2C": "PMM1610",
-    "tktA%2C cbbT": "PMM1610",
+    "tktA": "PMM1610",
+    "tktA,": "PMM1610",
+    "tktA, cbbT": "PMM1610",
+    "tktA,cbbT": "PMM1610",
     "tldD": "PMM0843",
     "todF": "PMM1086",
     "topA": "PMM0436",
-    "tpi%2C": "PMM0829",
-    "tpi%2C cbbJ": "PMM0829",
+    "tpi": "PMM0829",
+    "tpi,": "PMM0829",
+    "tpi, cbbJ": "PMM0829",
+    "tpi,cbbJ": "PMM0829",
     "tpx": "PMM0856",
     "trpA": "PMM0572",
     "trpB": "PMM0164",
@@ -187626,6 +190435,7 @@
     "trpE": "PMM1577",
     "trpF": "PMM0537",
     "trpS": "PMM0598",
+    "trpX": "PMM1635",
     "truA": "PMM1533",
     "truB": "PMM1347",
     "trxA": "PMM1061",
@@ -187664,17 +190474,20 @@
     "ycf34": "PMM0140",
     "ycf39": "PMM0801",
     "ycf44": "PMM1460",
+    "yocE": "PMM1378",
     "yrvN": "PMM0077",
-    "yvoC%2C": "PMM0460",
-    "yvoC%2C lgt%2C umpA": "PMM0460",
+    "yvoC": "PMM0460",
+    "yvoC,": "PMM0460",
+    "yvoC, lgt, umpA": "PMM0460",
+    "yvoC,lgt,umpA": "PMM0460",
     "zam": "PMM0847",
     "zwf": "PMM1074"
   },
   "stats": {
-    "n_conflicts": 21,
+    "n_conflicts": 23,
     "n_genes": 1976,
-    "n_multi": 10109,
-    "n_specific": 10629,
+    "n_multi": 10271,
+    "n_specific": 10841,
     "passes": 2
   },
   "strain": "MED4",

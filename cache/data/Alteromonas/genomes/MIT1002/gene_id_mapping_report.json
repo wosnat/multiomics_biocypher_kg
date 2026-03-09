@@ -1,9 +1,9 @@
 {
   "per_id_type": {
     "alternative_locus_tag": {
-      "conflict": 3,
+      "conflict": 1,
       "multi": 0,
-      "unique": 9366
+      "unique": 7733
     },
     "annotation_specific": {
       "conflict": 0,
@@ -58,6 +58,6 @@
   },
   "warnings": [
     "[CONFLICT] Tier 1 id_type 'locus_tag_ncbi' has 35 data conflicts \u2014 check annotation quality.",
-    "[CONFLICT] Tier 1 id_type 'alternative_locus_tag' has 3 data conflicts \u2014 check annotation quality."
+    "[CONFLICT] Tier 1 id_type 'alternative_locus_tag' has 1 data conflicts \u2014 check annotation quality."
   ]
 }

@@ -12,13 +12,13 @@
     },
     "gene_name": {
       "conflict": 0,
-      "multi": 143,
-      "unique": 2908
+      "multi": 172,
+      "unique": 3023
     },
     "gene_synonym": {
       "conflict": 0,
-      "multi": 55,
-      "unique": 3356
+      "multi": 56,
+      "unique": 3355
     },
     "locus_tag_cyanorak": {
       "conflict": 0,
@@ -26,9 +26,9 @@
       "unique": 2777
     },
     "locus_tag_ncbi": {
-      "conflict": 25,
+      "conflict": 36,
       "multi": 0,
-      "unique": 5812
+      "unique": 6042
     },
     "old_locus_tag": {
       "conflict": 0,
@@ -54,6 +54,6 @@
     "genomic_gca/WH8102": 83
   },
   "warnings": [
-    "[CONFLICT] Tier 1 id_type 'locus_tag_ncbi' has 25 data conflicts \u2014 check annotation quality."
+    "[CONFLICT] Tier 1 id_type 'locus_tag_ncbi' has 36 data conflicts \u2014 check annotation quality."
   ]
 }

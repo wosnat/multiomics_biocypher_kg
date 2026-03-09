@@ -1,10 +1,5 @@
 {
   "per_id_type": {
-    "alternative_locus_tag": {
-      "conflict": 0,
-      "multi": 0,
-      "unique": 1
-    },
     "cds_fna_id": {
       "conflict": 0,
       "multi": 0,
@@ -33,12 +28,12 @@
     "locus_tag_ncbi": {
       "conflict": 13,
       "multi": 0,
-      "unique": 6365
+      "unique": 6367
     },
     "old_locus_tag": {
       "conflict": 10,
       "multi": 0,
-      "unique": 962
+      "unique": 961
     },
     "protein_id_refseq": {
       "conflict": 0,

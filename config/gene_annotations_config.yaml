@@ -203,9 +203,9 @@ fields:
       - source: gene_mapping
         field: gene_synonym       # NCBI gene_synonym (locus-tag-like ones pass the filter)
         delimiter: ","
-      - source: uniprot
-        field: gene_names
-        delimiter: " "   # UniProt gene_names list items may be space-concatenated
+      # UniProt gene_names excluded: for paralogs sharing a protein (e.g. hli18/hli8),
+      # UniProt merges both locus tags into one record, creating false Tier 1 conflicts.
+      # These IDs are already captured in gene_synonyms (Tier 3).
 
   # ── Functional description (Cyanorak > NCBI > EggNOG for product;
   #                            UniProt > EggNOG for function_description) ──────

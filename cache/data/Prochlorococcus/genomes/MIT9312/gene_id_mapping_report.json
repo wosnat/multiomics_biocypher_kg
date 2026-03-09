@@ -1,9 +1,9 @@
 {
   "per_id_type": {
     "alternative_locus_tag": {
-      "conflict": 1,
+      "conflict": 0,
       "multi": 0,
-      "unique": 1960
+      "unique": 1959
     },
     "cds_fna_id": {
       "conflict": 0,
@@ -54,7 +54,5 @@
     "Tetu 2019/supp_dataset_3_mit9312": 3,
     "genomic_gca/MIT9312": 52
   },
-  "warnings": [
-    "[CONFLICT] Tier 1 id_type 'alternative_locus_tag' has 1 data conflicts \u2014 check annotation quality."
-  ]
+  "warnings": []
 }

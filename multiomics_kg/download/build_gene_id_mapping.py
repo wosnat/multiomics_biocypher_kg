@@ -214,9 +214,26 @@ def extract_rows_from_annotation_gff(
 
                 row_pairs: list[tuple[str, str]] = []
                 for attr_name, id_type in GFF_ATTR_TYPES.items():
-                    val = attrs.get(attr_name, "").strip()
+                    val = unquote(attrs.get(attr_name, "")).strip()
                     if val:
                         row_pairs.append((val, id_type))
+                        # GFF Name/gene attrs may list synonyms separated
+                        # by comma (e.g. "accB,fabE" or "coxA, ctaD").
+                        # Register individual tokens and spacing variants
+                        # so paper CSVs using any form will match.
+                        if "," in val:
+                            for token in re.split(r",\s*", val):
+                                token = token.strip()
+                                if token and token != val:
+                                    row_pairs.append((token, id_type))
+                            # Also register without spaces (e.g. "coxA,ctaD")
+                            nospace = re.sub(r",\s+", ",", val)
+                            if nospace != val:
+                                row_pairs.append((nospace, id_type))
+                            # And with trailing comma stripped
+                            stripped = val.rstrip(", ")
+                            if stripped and stripped != val:
+                                row_pairs.append((stripped, id_type))
 
                 # Extract "Alternative locus ID" from Note field (GCA GFF)
                 # Format: Note=Alternative locus ID:P9313_01731

@@ -1,10 +1,5 @@
 {
   "per_id_type": {
-    "alternative_locus_tag": {
-      "conflict": 2,
-      "multi": 0,
-      "unique": 1965
-    },
     "cds_fna_id": {
       "conflict": 0,
       "multi": 0,
@@ -42,7 +37,6 @@
     "genomic_gca/HOT1A3": 210
   },
   "warnings": [
-    "[CONFLICT] Tier 1 id_type 'locus_tag_ncbi' has 5 data conflicts \u2014 check annotation quality.",
-    "[CONFLICT] Tier 1 id_type 'alternative_locus_tag' has 2 data conflicts \u2014 check annotation quality."
+    "[CONFLICT] Tier 1 id_type 'locus_tag_ncbi' has 5 data conflicts \u2014 check annotation quality."
   ]
 }

@@ -1,9 +1,9 @@
 {
   "per_id_type": {
     "alternative_locus_tag": {
-      "conflict": 19,
+      "conflict": 13,
       "multi": 0,
-      "unique": 2699
+      "unique": 2698
     },
     "cds_fna_id": {
       "conflict": 0,
@@ -12,8 +12,8 @@
     },
     "gene_name": {
       "conflict": 0,
-      "multi": 175,
-      "unique": 2591
+      "multi": 178,
+      "unique": 2751
     },
     "gene_synonym": {
       "conflict": 0,
@@ -31,14 +31,14 @@
       "unique": 2833
     },
     "locus_tag_ncbi": {
-      "conflict": 17,
+      "conflict": 22,
       "multi": 0,
-      "unique": 5886
+      "unique": 6098
     },
     "old_locus_tag": {
-      "conflict": 4,
+      "conflict": 6,
       "multi": 0,
-      "unique": 4339
+      "unique": 4340
     },
     "protein_id_refseq": {
       "conflict": 0,
@@ -61,11 +61,11 @@
     "Thompson 2011/supp_table_2": 14,
     "Tolonen 2006/supp_table_mit9313": 9,
     "cds_from_genomic.fna": 30,
-    "genomic_gca/MIT9313": 346
+    "genomic_gca/MIT9313": 344
   },
   "warnings": [
-    "[CONFLICT] Tier 1 id_type 'old_locus_tag' has 4 data conflicts \u2014 check annotation quality.",
-    "[CONFLICT] Tier 1 id_type 'locus_tag_ncbi' has 17 data conflicts \u2014 check annotation quality.",
-    "[CONFLICT] Tier 1 id_type 'alternative_locus_tag' has 19 data conflicts \u2014 check annotation quality."
+    "[CONFLICT] Tier 1 id_type 'old_locus_tag' has 6 data conflicts \u2014 check annotation quality.",
+    "[CONFLICT] Tier 1 id_type 'locus_tag_ncbi' has 22 data conflicts \u2014 check annotation quality.",
+    "[CONFLICT] Tier 1 id_type 'alternative_locus_tag' has 13 data conflicts \u2014 check annotation quality."
   ]
 }
