@@ -1,52 +1,52 @@
 {
   "per_id_type": {
-    "locus_tag_ncbi": {
-      "unique": 6136,
-      "multi": 0,
-      "conflict": 0
-    },
-    "locus_tag_cyanorak": {
-      "unique": 2931,
-      "multi": 0,
-      "conflict": 0
-    },
     "cds_fna_id": {
-      "unique": 2699,
+      "conflict": 0,
       "multi": 0,
-      "conflict": 0
-    },
-    "protein_id_refseq": {
-      "unique": 5565,
-      "multi": 14,
-      "conflict": 0
-    },
-    "uniprot_accession": {
-      "unique": 2858,
-      "multi": 19,
-      "conflict": 0
+      "unique": 2699
     },
     "gene_name": {
-      "unique": 3044,
+      "conflict": 0,
       "multi": 127,
-      "conflict": 0
+      "unique": 3044
     },
     "gene_synonym": {
-      "unique": 3349,
+      "conflict": 0,
       "multi": 29,
-      "conflict": 0
+      "unique": 3349
+    },
+    "locus_tag_cyanorak": {
+      "conflict": 0,
+      "multi": 0,
+      "unique": 2931
+    },
+    "locus_tag_ncbi": {
+      "conflict": 0,
+      "multi": 0,
+      "unique": 6136
     },
     "old_locus_tag": {
-      "unique": 30,
+      "conflict": 0,
       "multi": 0,
-      "conflict": 0
+      "unique": 30
+    },
+    "protein_id_refseq": {
+      "conflict": 0,
+      "multi": 14,
+      "unique": 5565
+    },
+    "uniprot_accession": {
+      "conflict": 0,
+      "multi": 19,
+      "unique": 2858
     }
   },
-  "warnings": [],
+  "strain": "CC9311",
   "unresolved_rows_per_source": {
-    "cds_from_genomic.fna": 38,
-    "genomic_gca/CC9311": 162,
-    "Barreto 2022/id_translation_syn_9311": 128,
-    "Barreto 2022/supp_table_S1_CC9311": 60
+    "Barreto 2022/id_translation_syn_9311": 64,
+    "Barreto 2022/supp_table_S1_CC9311": 30,
+    "cds_from_genomic.fna": 19,
+    "genomic_gca/CC9311": 81
   },
-  "strain": "CC9311"
+  "warnings": []
 }

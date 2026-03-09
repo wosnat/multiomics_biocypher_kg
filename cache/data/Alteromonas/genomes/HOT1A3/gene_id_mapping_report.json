@@ -1,48 +1,48 @@
 {
   "per_id_type": {
-    "locus_tag_ncbi": {
-      "unique": 7995,
-      "multi": 0,
-      "conflict": 5
-    },
     "alternative_locus_tag": {
-      "unique": 1965,
+      "conflict": 2,
       "multi": 0,
-      "conflict": 2
+      "unique": 1965
     },
     "cds_fna_id": {
-      "unique": 4031,
+      "conflict": 0,
       "multi": 0,
-      "conflict": 0
-    },
-    "protein_id_refseq": {
-      "unique": 7851,
-      "multi": 68,
-      "conflict": 0
-    },
-    "uniprot_accession": {
-      "unique": 1404,
-      "multi": 7,
-      "conflict": 0
+      "unique": 4031
     },
     "gene_name": {
-      "unique": 3927,
+      "conflict": 0,
       "multi": 118,
-      "conflict": 0
+      "unique": 3927
     },
     "gene_synonym": {
-      "unique": 6021,
+      "conflict": 0,
       "multi": 13,
-      "conflict": 0
+      "unique": 6021
+    },
+    "locus_tag_ncbi": {
+      "conflict": 5,
+      "multi": 0,
+      "unique": 7995
+    },
+    "protein_id_refseq": {
+      "conflict": 0,
+      "multi": 68,
+      "unique": 7851
+    },
+    "uniprot_accession": {
+      "conflict": 0,
+      "multi": 7,
+      "unique": 1404
     }
+  },
+  "strain": "HOT1A3",
+  "unresolved_rows_per_source": {
+    "cds_from_genomic.fna": 55,
+    "genomic_gca/HOT1A3": 210
   },
   "warnings": [
     "[CONFLICT] Tier 1 id_type 'locus_tag_ncbi' has 5 data conflicts \u2014 check annotation quality.",
     "[CONFLICT] Tier 1 id_type 'alternative_locus_tag' has 2 data conflicts \u2014 check annotation quality."
-  ],
-  "unresolved_rows_per_source": {
-    "cds_from_genomic.fna": 110,
-    "genomic_gca/HOT1A3": 420
-  },
-  "strain": "HOT1A3"
+  ]
 }

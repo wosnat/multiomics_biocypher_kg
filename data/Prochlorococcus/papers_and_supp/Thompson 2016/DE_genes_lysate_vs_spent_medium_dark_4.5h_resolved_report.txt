@@ -1,0 +1,17 @@
+Resolution report: Thompson 2016 / lysate_vs_spent_medium_dark_4.5h
+Source: DE_genes_lysate_vs_spent_medium_dark_4.5h.csv
+name_col: locus_tag
+id_columns: []
+
+Total rows with IDs: 19
+Resolved: 16 (84.2%)
+Unresolved: 3
+
+Resolution method breakdown:
+  locus_tag:locus_tag: 16
+  unresolved: 3
+
+Unresolved rows (3):
+  row 2: raw_id='RNA_3'  reason=unresolved
+  row 3: raw_id='RNA_4'  reason=unresolved
+  row 9: raw_id='RNA_16'  reason=unresolved

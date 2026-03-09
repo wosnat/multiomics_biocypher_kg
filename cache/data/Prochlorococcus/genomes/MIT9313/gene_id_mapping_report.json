@@ -1,71 +1,71 @@
 {
   "per_id_type": {
-    "locus_tag_ncbi": {
-      "unique": 5873,
+    "alternative_locus_tag": {
+      "conflict": 16,
       "multi": 0,
-      "conflict": 17
-    },
-    "locus_tag_cyanorak": {
-      "unique": 2833,
-      "multi": 0,
-      "conflict": 0
-    },
-    "old_locus_tag": {
-      "unique": 4363,
-      "multi": 0,
-      "conflict": 4
+      "unique": 2702
     },
     "cds_fna_id": {
-      "unique": 2389,
+      "conflict": 0,
       "multi": 0,
-      "conflict": 0
-    },
-    "alternative_locus_tag": {
-      "unique": 2702,
-      "multi": 0,
-      "conflict": 16
-    },
-    "protein_id_refseq": {
-      "unique": 5092,
-      "multi": 19,
-      "conflict": 0
-    },
-    "uniprot_accession": {
-      "unique": 2305,
-      "multi": 15,
-      "conflict": 0
+      "unique": 2389
     },
     "gene_name": {
-      "unique": 2590,
+      "conflict": 0,
       "multi": 175,
-      "conflict": 0
+      "unique": 2590
     },
     "gene_synonym": {
-      "unique": 7349,
+      "conflict": 0,
       "multi": 87,
-      "conflict": 0
+      "unique": 7349
     },
     "locus_tag": {
-      "unique": 5,
+      "conflict": 0,
       "multi": 0,
-      "conflict": 0
+      "unique": 5
+    },
+    "locus_tag_cyanorak": {
+      "conflict": 0,
+      "multi": 0,
+      "unique": 2833
+    },
+    "locus_tag_ncbi": {
+      "conflict": 17,
+      "multi": 0,
+      "unique": 5873
+    },
+    "old_locus_tag": {
+      "conflict": 4,
+      "multi": 0,
+      "unique": 4363
+    },
+    "protein_id_refseq": {
+      "conflict": 0,
+      "multi": 19,
+      "unique": 5092
+    },
+    "uniprot_accession": {
+      "conflict": 0,
+      "multi": 15,
+      "unique": 2305
     }
   },
-  "warnings": [
-    "[CONFLICT] Tier 1 id_type 'locus_tag_ncbi' has 17 data conflicts \u2014 check annotation quality.",
-    "[CONFLICT] Tier 1 id_type 'old_locus_tag' has 4 data conflicts \u2014 check annotation quality.",
-    "[CONFLICT] Tier 1 id_type 'alternative_locus_tag' has 16 data conflicts \u2014 check annotation quality."
-  ],
+  "strain": "MIT9313",
   "unresolved_rows_per_source": {
-    "cds_from_genomic.fna": 96,
-    "genomic_gca/MIT9313": 1094,
-    "MIT9313_resources/mit9313_id_translation": 150,
-    "Aharonovich 2016/supp_table_2": 3,
-    "Aharonovich 2016/supp_table_3": 3,
-    "Fang 2019/supp_table_2": 711,
-    "Martiny 2006/supp_table_2": 12,
-    "Thompson 2011/supp_table_2": 69,
-    "Tolonen 2006/supp_table_mit9313": 27
+    "Aharonovich 2016/supp_table_2": 1,
+    "Aharonovich 2016/supp_table_3": 1,
+    "Fang 2019/supp_table_2": 237,
+    "MIT9313_resources/mit9313_id_translation": 50,
+    "Martiny 2006/supp_table_2": 4,
+    "Thompson 2011/supp_table_2": 23,
+    "Tolonen 2006/supp_table_mit9313": 9,
+    "cds_from_genomic.fna": 32,
+    "genomic_gca/MIT9313": 358
   },
-  "strain": "MIT9313"
+  "warnings": [
+    "[CONFLICT] Tier 1 id_type 'old_locus_tag' has 4 data conflicts \u2014 check annotation quality.",
+    "[CONFLICT] Tier 1 id_type 'locus_tag_ncbi' has 17 data conflicts \u2014 check annotation quality.",
+    "[CONFLICT] Tier 1 id_type 'alternative_locus_tag' has 16 data conflicts \u2014 check annotation quality."
+  ]
 }

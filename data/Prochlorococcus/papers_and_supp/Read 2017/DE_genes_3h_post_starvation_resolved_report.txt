@@ -1,0 +1,12 @@
+Resolution report: Read 2017 / supp_3h_post_starvation
+Source: DE_genes_3h_post_starvation.csv
+name_col: locus_tag
+id_columns: ['locus_tag']
+
+Total rows with IDs: 841
+Resolved: 841 (100.0%)
+Unresolved: 0
+
+Resolution method breakdown:
+  locus_tag:locus_tag: 840
+  tier1:locus_tag: 1

@@ -1,50 +1,50 @@
 {
   "per_id_type": {
-    "locus_tag_ncbi": {
-      "unique": 4443,
-      "multi": 0,
-      "conflict": 0
-    },
-    "locus_tag_cyanorak": {
-      "unique": 1926,
-      "multi": 0,
-      "conflict": 0
-    },
     "cds_fna_id": {
-      "unique": 1846,
+      "conflict": 0,
       "multi": 0,
-      "conflict": 0
-    },
-    "protein_id_refseq": {
-      "unique": 3762,
-      "multi": 2,
-      "conflict": 0
-    },
-    "uniprot_accession": {
-      "unique": 1375,
-      "multi": 0,
-      "conflict": 0
+      "unique": 1846
     },
     "gene_name": {
-      "unique": 1800,
+      "conflict": 0,
       "multi": 75,
-      "conflict": 0
+      "unique": 1800
     },
     "gene_synonym": {
-      "unique": 2503,
+      "conflict": 0,
       "multi": 32,
-      "conflict": 0
+      "unique": 2503
+    },
+    "locus_tag_cyanorak": {
+      "conflict": 0,
+      "multi": 0,
+      "unique": 1926
+    },
+    "locus_tag_ncbi": {
+      "conflict": 0,
+      "multi": 0,
+      "unique": 4443
     },
     "old_locus_tag": {
-      "unique": 4,
+      "conflict": 0,
       "multi": 0,
-      "conflict": 0
+      "unique": 4
+    },
+    "protein_id_refseq": {
+      "conflict": 0,
+      "multi": 2,
+      "unique": 3762
+    },
+    "uniprot_accession": {
+      "conflict": 0,
+      "multi": 0,
+      "unique": 1375
     }
   },
-  "warnings": [],
+  "strain": "AS9601",
   "unresolved_rows_per_source": {
-    "cds_from_genomic.fna": 12,
-    "genomic_gca/AS9601": 112
+    "cds_from_genomic.fna": 6,
+    "genomic_gca/AS9601": 56
   },
-  "strain": "AS9601"
+  "warnings": []
 }

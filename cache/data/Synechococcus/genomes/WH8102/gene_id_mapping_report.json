@@ -1,59 +1,59 @@
 {
   "per_id_type": {
-    "locus_tag_ncbi": {
-      "unique": 5812,
+    "alternative_locus_tag": {
+      "conflict": 0,
       "multi": 0,
-      "conflict": 25
-    },
-    "locus_tag_cyanorak": {
-      "unique": 2777,
-      "multi": 0,
-      "conflict": 0
+      "unique": 1
     },
     "cds_fna_id": {
-      "unique": 2633,
+      "conflict": 0,
       "multi": 0,
-      "conflict": 0
-    },
-    "protein_id_refseq": {
-      "unique": 5138,
-      "multi": 4,
-      "conflict": 0
-    },
-    "uniprot_accession": {
-      "unique": 2497,
-      "multi": 4,
-      "conflict": 0
+      "unique": 2633
     },
     "gene_name": {
-      "unique": 2908,
+      "conflict": 0,
       "multi": 143,
-      "conflict": 0
+      "unique": 2908
     },
     "gene_synonym": {
-      "unique": 3356,
+      "conflict": 0,
       "multi": 55,
-      "conflict": 0
+      "unique": 3356
     },
-    "alternative_locus_tag": {
-      "unique": 1,
+    "locus_tag_cyanorak": {
+      "conflict": 0,
       "multi": 0,
-      "conflict": 0
+      "unique": 2777
+    },
+    "locus_tag_ncbi": {
+      "conflict": 25,
+      "multi": 0,
+      "unique": 5812
     },
     "old_locus_tag": {
-      "unique": 123,
+      "conflict": 0,
       "multi": 0,
-      "conflict": 0
+      "unique": 123
+    },
+    "protein_id_refseq": {
+      "conflict": 0,
+      "multi": 4,
+      "unique": 5138
+    },
+    "uniprot_accession": {
+      "conflict": 0,
+      "multi": 4,
+      "unique": 2497
     }
+  },
+  "strain": "WH8102",
+  "unresolved_rows_per_source": {
+    "Barreto 2022/id_translation_syn_8102": 72,
+    "Barreto 2022/supp_table_S1_WH8102": 10,
+    "cds_from_genomic.fna": 25,
+    "genomic_gca/WH8102": 83
   },
   "warnings": [
     "[CONFLICT] Tier 1 id_type 'locus_tag_ncbi' has 25 data conflicts \u2014 check annotation quality."
-  ],
-  "unresolved_rows_per_source": {
-    "cds_from_genomic.fna": 50,
-    "genomic_gca/WH8102": 166,
-    "Barreto 2022/id_translation_syn_8102": 144,
-    "Barreto 2022/supp_table_S1_WH8102": 20
-  },
-  "strain": "WH8102"
+  ]
 }

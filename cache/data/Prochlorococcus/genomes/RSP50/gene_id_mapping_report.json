@@ -1,34 +1,35 @@
 {
   "per_id_type": {
-    "locus_tag_ncbi": {
-      "unique": 1768,
-      "multi": 0,
-      "conflict": 0
-    },
     "cds_fna_id": {
-      "unique": 1870,
+      "conflict": 0,
       "multi": 0,
-      "conflict": 0
-    },
-    "protein_id_refseq": {
-      "unique": 1868,
-      "multi": 2,
-      "conflict": 0
+      "unique": 1870
     },
     "gene_name": {
-      "unique": 1837,
+      "conflict": 0,
       "multi": 33,
-      "conflict": 0
+      "unique": 1842
     },
     "gene_synonym": {
-      "unique": 1768,
+      "conflict": 0,
       "multi": 0,
-      "conflict": 0
+      "unique": 1768
+    },
+    "locus_tag_ncbi": {
+      "conflict": 0,
+      "multi": 0,
+      "unique": 3545
+    },
+    "protein_id_refseq": {
+      "conflict": 0,
+      "multi": 2,
+      "unique": 3635
     }
   },
-  "warnings": [],
+  "strain": "RSP50",
   "unresolved_rows_per_source": {
-    "cds_from_genomic.fna": 2
+    "cds_from_genomic.fna": 1,
+    "genomic_gca/RSP50": 96
   },
-  "strain": "RSP50"
+  "warnings": []
 }

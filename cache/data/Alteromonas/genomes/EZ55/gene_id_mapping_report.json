@@ -1,59 +1,59 @@
 {
   "per_id_type": {
-    "locus_tag_ncbi": {
-      "unique": 8194,
-      "multi": 0,
-      "conflict": 0
-    },
     "alternative_locus_tag": {
-      "unique": 1803,
+      "conflict": 0,
       "multi": 0,
-      "conflict": 0
+      "unique": 1803
     },
     "cds_fna_id": {
-      "unique": 4136,
+      "conflict": 0,
       "multi": 0,
-      "conflict": 0
-    },
-    "old_locus_tag": {
-      "unique": 4053,
-      "multi": 0,
-      "conflict": 0
-    },
-    "protein_id_refseq": {
-      "unique": 8173,
-      "multi": 60,
-      "conflict": 0
-    },
-    "uniprot_accession": {
-      "unique": 1274,
-      "multi": 0,
-      "conflict": 0
+      "unique": 4136
     },
     "gene_name": {
-      "unique": 4037,
+      "conflict": 0,
       "multi": 99,
-      "conflict": 0
+      "unique": 4037
     },
     "gene_synonym": {
-      "unique": 6016,
+      "conflict": 0,
       "multi": 5,
-      "conflict": 0
+      "unique": 6016
+    },
+    "locus_tag_ncbi": {
+      "conflict": 0,
+      "multi": 0,
+      "unique": 8194
+    },
+    "old_locus_tag": {
+      "conflict": 0,
+      "multi": 0,
+      "unique": 4053
+    },
+    "protein_id_refseq": {
+      "conflict": 0,
+      "multi": 60,
+      "unique": 8173
+    },
+    "uniprot_accession": {
+      "conflict": 0,
+      "multi": 0,
+      "unique": 1274
     }
   },
-  "warnings": [],
+  "strain": "EZ55",
   "unresolved_rows_per_source": {
-    "cds_from_genomic.fna": 88,
-    "genomic_gca/EZ55": 734,
-    "Barreto 2022/supp_table_S2": 264,
-    "Barreto 2022/supp_table_S9": 880,
-    "Barreto 2022/supp_table_S10": 626,
-    "Barreto 2022/supp_table_S11": 282,
-    "Barreto 2022/supp_table_S12": 390,
-    "Barreto 2022/supp_table_S13": 170,
-    "Barreto 2022/supp_table_S14": 118,
-    "Hennon 2017/supp_table_3": 154,
-    "Hennon 2017/supp_table_4": 54
+    "Barreto 2022/supp_table_S10": 313,
+    "Barreto 2022/supp_table_S11": 141,
+    "Barreto 2022/supp_table_S12": 195,
+    "Barreto 2022/supp_table_S13": 85,
+    "Barreto 2022/supp_table_S14": 59,
+    "Barreto 2022/supp_table_S2": 132,
+    "Barreto 2022/supp_table_S9": 440,
+    "Hennon 2017/supp_table_3": 77,
+    "Hennon 2017/supp_table_4": 27,
+    "cds_from_genomic.fna": 44,
+    "genomic_gca/EZ55": 367
   },
-  "strain": "EZ55"
+  "warnings": []
 }

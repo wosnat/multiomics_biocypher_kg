@@ -1,72 +1,72 @@
 {
   "per_id_type": {
-    "locus_tag_ncbi": {
-      "unique": 6366,
+    "alternative_locus_tag": {
+      "conflict": 1,
       "multi": 0,
-      "conflict": 12
-    },
-    "locus_tag_cyanorak": {
-      "unique": 1910,
-      "multi": 0,
-      "conflict": 0
+      "unique": 0
     },
     "cds_fna_id": {
-      "unique": 1852,
+      "conflict": 0,
       "multi": 0,
-      "conflict": 0
-    },
-    "old_locus_tag": {
-      "unique": 965,
-      "multi": 0,
-      "conflict": 8
-    },
-    "uniprot_entry_name": {
-      "unique": 3686,
-      "multi": 0,
-      "conflict": 0
-    },
-    "jgi_id": {
-      "unique": 1872,
-      "multi": 0,
-      "conflict": 0
-    },
-    "protein_id_refseq": {
-      "unique": 3769,
-      "multi": 2,
-      "conflict": 0
-    },
-    "uniprot_accession": {
-      "unique": 1375,
-      "multi": 2,
-      "conflict": 0
+      "unique": 1852
     },
     "gene_name": {
-      "unique": 1899,
+      "conflict": 0,
       "multi": 104,
-      "conflict": 0
+      "unique": 1899
     },
     "gene_synonym": {
-      "unique": 2502,
+      "conflict": 0,
       "multi": 36,
-      "conflict": 0
+      "unique": 2502
     },
-    "alternative_locus_tag": {
-      "unique": 0,
+    "jgi_id": {
+      "conflict": 0,
       "multi": 0,
-      "conflict": 1
+      "unique": 1872
+    },
+    "locus_tag_cyanorak": {
+      "conflict": 0,
+      "multi": 0,
+      "unique": 1910
+    },
+    "locus_tag_ncbi": {
+      "conflict": 12,
+      "multi": 0,
+      "unique": 6366
+    },
+    "old_locus_tag": {
+      "conflict": 8,
+      "multi": 0,
+      "unique": 965
+    },
+    "protein_id_refseq": {
+      "conflict": 0,
+      "multi": 2,
+      "unique": 3769
+    },
+    "uniprot_accession": {
+      "conflict": 0,
+      "multi": 2,
+      "unique": 1375
+    },
+    "uniprot_entry_name": {
+      "conflict": 0,
+      "multi": 0,
+      "unique": 3686
     }
+  },
+  "strain": "MIT9301",
+  "unresolved_rows_per_source": {
+    "Anjur-Dietrich 2025/annotation_genome_9301": 50,
+    "Anjur-Dietrich 2025/annotation_gff_mit9301": 49,
+    "Anjur-Dietrich 2025/supp_table_1": 7,
+    "cds_from_genomic.fna": 3,
+    "genomic_gca/MIT9301": 58
   },
   "warnings": [
     "[CONFLICT] Tier 1 id_type 'locus_tag_ncbi' has 12 data conflicts \u2014 check annotation quality.",
     "[CONFLICT] Tier 1 id_type 'old_locus_tag' has 8 data conflicts \u2014 check annotation quality.",
     "[CONFLICT] Tier 1 id_type 'alternative_locus_tag' has 1 data conflicts \u2014 check annotation quality."
-  ],
-  "unresolved_rows_per_source": {
-    "cds_from_genomic.fna": 11,
-    "genomic_gca/MIT9301": 174,
-    "Anjur-Dietrich 2025/annotation_genome_9301": 150,
-    "Anjur-Dietrich 2025/annotation_gff_mit9301": 147,
-    "Anjur-Dietrich 2025/supp_table_1": 21
-  },
-  "strain": "MIT9301"
+  ]
 }

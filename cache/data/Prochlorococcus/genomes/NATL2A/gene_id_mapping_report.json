@@ -1,66 +1,66 @@
 {
   "per_id_type": {
-    "locus_tag_ncbi": {
-      "unique": 4235,
-      "multi": 0,
-      "conflict": 0
-    },
-    "locus_tag_cyanorak": {
-      "unique": 2169,
-      "multi": 0,
-      "conflict": 0
-    },
-    "cds_fna_id": {
-      "unique": 2060,
-      "multi": 0,
-      "conflict": 0
-    },
     "alternative_locus_tag": {
-      "unique": 2159,
+      "conflict": 16,
       "multi": 0,
-      "conflict": 16
-    },
-    "protein_id_refseq": {
-      "unique": 4207,
-      "multi": 28,
-      "conflict": 0
-    },
-    "uniprot_accession": {
-      "unique": 1475,
-      "multi": 23,
-      "conflict": 0
-    },
-    "gene_name": {
-      "unique": 2117,
-      "multi": 116,
-      "conflict": 0
-    },
-    "gene_synonym": {
-      "unique": 2583,
-      "multi": 108,
-      "conflict": 0
+      "unique": 2159
     },
     "annotation_specific": {
-      "unique": 2044,
+      "conflict": 0,
       "multi": 0,
-      "conflict": 0
+      "unique": 2044
+    },
+    "cds_fna_id": {
+      "conflict": 0,
+      "multi": 0,
+      "unique": 2060
+    },
+    "gene_name": {
+      "conflict": 0,
+      "multi": 116,
+      "unique": 2117
+    },
+    "gene_synonym": {
+      "conflict": 0,
+      "multi": 108,
+      "unique": 2583
+    },
+    "locus_tag_cyanorak": {
+      "conflict": 0,
+      "multi": 0,
+      "unique": 2169
+    },
+    "locus_tag_ncbi": {
+      "conflict": 0,
+      "multi": 0,
+      "unique": 4235
     },
     "old_locus_tag": {
-      "unique": 1,
+      "conflict": 0,
       "multi": 0,
-      "conflict": 0
+      "unique": 1
+    },
+    "protein_id_refseq": {
+      "conflict": 0,
+      "multi": 28,
+      "unique": 4207
+    },
+    "uniprot_accession": {
+      "conflict": 0,
+      "multi": 23,
+      "unique": 1475
     }
+  },
+  "strain": "NATL2A",
+  "unresolved_rows_per_source": {
+    "Biller 2016/supp_table_2": 1,
+    "Biller 2018/supp_table_s3": 5,
+    "Coe 2024/supp_table_2": 44,
+    "Tetu 2019/supp_dataset_4_natl2a": 1,
+    "cds_from_genomic.fna": 3,
+    "genomic_gca/NATL2A": 46
   },
   "warnings": [
     "[CONFLICT] Tier 1 id_type 'alternative_locus_tag' has 16 data conflicts \u2014 check annotation quality."
-  ],
-  "unresolved_rows_per_source": {
-    "cds_from_genomic.fna": 11,
-    "genomic_gca/NATL2A": 141,
-    "Biller 2016/supp_table_2": 4,
-    "Biller 2018/supp_table_s3": 19,
-    "Coe 2024/supp_table_2": 132,
-    "Tetu 2019/supp_dataset_4_natl2a": 3
-  },
-  "strain": "NATL2A"
+  ]
 }
