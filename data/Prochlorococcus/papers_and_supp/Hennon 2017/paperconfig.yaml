@@ -4,7 +4,7 @@ publication:
 
   environmental_conditions:
     hennon_2017_ambient_co2:
-      condition_type: gas_shock
+      condition_type: carbon_stress
       name: "Ambient CO2 (400 ppm)"
       medium: "PEv medium (artificial seawater with Pro99 nutrients at 1/25 concentration)"
       temperature: "21C"
@@ -13,7 +13,7 @@ publication:
       co2_level: "400 ppm"
       description: "Prochlorococcus MIT9312 (VOL4) co-cultured with Alteromonas EZ55 in PEv medium under ambient CO2 (~400 ppm) at 21C, 150 umol photons m-2 s-1, 14:10 light-dark cycle"
     hennon_2017_elevated_co2:
-      condition_type: gas_shock
+      condition_type: carbon_stress
       name: "Elevated CO2 (800 ppm)"
       medium: "PEv medium (artificial seawater with Pro99 nutrients at 1/25 concentration)"
       temperature: "21C"
@@ -38,7 +38,7 @@ publication:
     id_translation_ez55_author:
       type: id_translation
       filename: "data/Prochlorococcus/papers_and_supp/Hennon 2017/aez55_to_ez55_id_translation.csv"
-      organism: "Alteromonas EZ55"
+      organism: "Alteromonas macleodii EZ55"
       generate:
         method: diamond_protein_match
         source_fasta: "data/Prochlorococcus/papers_and_supp/Hennon 2017/EZ55_annotation/ez55_aa.fasta"
@@ -92,7 +92,7 @@ publication:
           environmental_control_condition_id: hennon_2017_ambient_co2
           environmental_treatment_condition_id: hennon_2017_elevated_co2
           experimental_context: "Co-culture of Alteromonas EZ55 with Prochlorococcus MIT9312 (VOL4) in PEv medium at 21C, 150 umol photons m-2 s-1, 14:10 light-dark cycle, acclimated ~10 generations"
-          organism: "Alteromonas EZ55"
+          organism: "Alteromonas macleodii EZ55"
           name_col: "locus tag"
           logfc_col: "logFC"
           adjusted_p_value_col: "PValue"
@@ -116,7 +116,7 @@ publication:
           environmental_control_condition_id: hennon_2017_ambient_co2
           environmental_treatment_condition_id: hennon_2017_elevated_co2
           experimental_context: "Axenic Alteromonas EZ55 in PEv medium at 21C, 150 umol photons m-2 s-1, 14:10 light-dark cycle, acclimated ~10 generations"
-          organism: "Alteromonas EZ55"
+          organism: "Alteromonas macleodii EZ55"
           name_col: "locus tag"
           logfc_col: "logFC"
           adjusted_p_value_col: "PValue"

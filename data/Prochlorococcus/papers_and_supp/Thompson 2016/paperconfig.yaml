@@ -30,7 +30,7 @@ publication:
         - type: RNASEQ
           name: "DE of Prochlorococcus MED4 dark vs light in phage-infected cells at 0.5h post-inoculation"
           id: DE_dark_vs_light_infected_MED4_0.5h
-          test_type: "DESeq2/NOISeq"
+          test_type: "DESeq2"
           control_condition: "Light"
           treatment_condition: "Dark"
           environmental_control_condition_id: thompson_2016_constant_light
@@ -51,7 +51,7 @@ publication:
         - type: RNASEQ
           name: "DE of Prochlorococcus MED4 dark vs light in phage-infected cells at 1.5h post-inoculation"
           id: DE_dark_vs_light_infected_MED4_1.5h
-          test_type: "DESeq2/NOISeq"
+          test_type: "DESeq2"
           control_condition: "Light"
           treatment_condition: "Dark"
           environmental_control_condition_id: thompson_2016_constant_light
@@ -72,7 +72,7 @@ publication:
         - type: RNASEQ
           name: "DE of Prochlorococcus MED4 dark vs light in phage-infected cells at 2.5h post-inoculation"
           id: DE_dark_vs_light_infected_MED4_2.5h
-          test_type: "DESeq2/NOISeq"
+          test_type: "DESeq2"
           control_condition: "Light"
           treatment_condition: "Dark"
           environmental_control_condition_id: thompson_2016_constant_light
@@ -93,7 +93,7 @@ publication:
         - type: RNASEQ
           name: "DE of Prochlorococcus MED4 dark vs light in phage-infected cells at 4.5h post-inoculation"
           id: DE_dark_vs_light_infected_MED4_4.5h
-          test_type: "DESeq2/NOISeq"
+          test_type: "DESeq2"
           control_condition: "Light"
           treatment_condition: "Dark"
           environmental_control_condition_id: thompson_2016_constant_light
@@ -114,7 +114,7 @@ publication:
         - type: RNASEQ
           name: "DE of Prochlorococcus MED4 dark vs light in phage-infected cells at 8.5h post-inoculation"
           id: DE_dark_vs_light_infected_MED4_8.5h
-          test_type: "DESeq2/NOISeq"
+          test_type: "DESeq2"
           control_condition: "Light"
           treatment_condition: "Dark"
           environmental_control_condition_id: thompson_2016_constant_light
@@ -136,7 +136,7 @@ publication:
         - type: RNASEQ
           name: "DE of Prochlorococcus MED4 dark vs light in uninfected cells (spent medium) at 1.5h post-inoculation"
           id: DE_dark_vs_light_uninfected_MED4_1.5h
-          test_type: "DESeq2/NOISeq"
+          test_type: "DESeq2"
           control_condition: "Light"
           treatment_condition: "Dark"
           environmental_control_condition_id: thompson_2016_constant_light
@@ -157,7 +157,7 @@ publication:
         - type: RNASEQ
           name: "DE of Prochlorococcus MED4 dark vs light in uninfected cells (spent medium) at 2.5h post-inoculation"
           id: DE_dark_vs_light_uninfected_MED4_2.5h
-          test_type: "DESeq2/NOISeq"
+          test_type: "DESeq2"
           control_condition: "Light"
           treatment_condition: "Dark"
           environmental_control_condition_id: thompson_2016_constant_light
@@ -178,7 +178,7 @@ publication:
         - type: RNASEQ
           name: "DE of Prochlorococcus MED4 dark vs light in uninfected cells (spent medium) at 4.5h post-inoculation"
           id: DE_dark_vs_light_uninfected_MED4_4.5h
-          test_type: "DESeq2/NOISeq"
+          test_type: "DESeq2"
           control_condition: "Light"
           treatment_condition: "Dark"
           environmental_control_condition_id: thompson_2016_constant_light
@@ -199,7 +199,7 @@ publication:
         - type: RNASEQ
           name: "DE of Prochlorococcus MED4 dark vs light in uninfected cells (spent medium) at 8.5h post-inoculation"
           id: DE_dark_vs_light_uninfected_MED4_8.5h
-          test_type: "DESeq2/NOISeq"
+          test_type: "DESeq2"
           control_condition: "Light"
           treatment_condition: "Dark"
           environmental_control_condition_id: thompson_2016_constant_light
@@ -221,7 +221,7 @@ publication:
         - type: RNASEQ
           name: "DE of Prochlorococcus MED4 phage (P-HM2) lysate vs spent medium in light at 0.5h post-inoculation"
           id: DE_lysate_vs_spent_medium_light_MED4_0.5h
-          test_type: "DESeq2/NOISeq"
+          test_type: "DESeq2"
           control_condition: "Spent medium (uninfected)"
           treatment_condition: "Phage (P-HM2) lysate"
           treatment_organism: "Phage"
@@ -242,7 +242,7 @@ publication:
         - type: RNASEQ
           name: "DE of Prochlorococcus MED4 phage (P-HM2) lysate vs spent medium in light at 1.5h post-inoculation"
           id: DE_lysate_vs_spent_medium_light_MED4_1.5h
-          test_type: "DESeq2/NOISeq"
+          test_type: "DESeq2"
           control_condition: "Spent medium (uninfected)"
           treatment_condition: "Phage (P-HM2) lysate"
           treatment_organism: "Phage"
@@ -263,7 +263,7 @@ publication:
         - type: RNASEQ
           name: "DE of Prochlorococcus MED4 phage (P-HM2) lysate vs spent medium in light at 2.5h post-inoculation"
           id: DE_lysate_vs_spent_medium_light_MED4_2.5h
-          test_type: "DESeq2/NOISeq"
+          test_type: "DESeq2"
           control_condition: "Spent medium (uninfected)"
           treatment_condition: "Phage (P-HM2) lysate"
           treatment_organism: "Phage"
@@ -284,7 +284,7 @@ publication:
         - type: RNASEQ
           name: "DE of Prochlorococcus MED4 phage (P-HM2) lysate vs spent medium in light at 4.5h post-inoculation"
           id: DE_lysate_vs_spent_medium_light_MED4_4.5h
-          test_type: "DESeq2/NOISeq"
+          test_type: "DESeq2"
           control_condition: "Spent medium (uninfected)"
           treatment_condition: "Phage (P-HM2) lysate"
           treatment_organism: "Phage"
@@ -305,7 +305,7 @@ publication:
         - type: RNASEQ
           name: "DE of Prochlorococcus MED4 phage (P-HM2) lysate vs spent medium in light at 8.5h post-inoculation"
           id: DE_lysate_vs_spent_medium_light_MED4_8.5h
-          test_type: "DESeq2/NOISeq"
+          test_type: "DESeq2"
           control_condition: "Spent medium (uninfected)"
           treatment_condition: "Phage (P-HM2) lysate"
           treatment_organism: "Phage"
@@ -327,7 +327,7 @@ publication:
         - type: RNASEQ
           name: "DE of Prochlorococcus MED4 phage (P-HM2) lysate vs spent medium in dark at 2.5h post-inoculation"
           id: DE_lysate_vs_spent_medium_dark_MED4_2.5h
-          test_type: "DESeq2/NOISeq"
+          test_type: "DESeq2"
           control_condition: "Spent medium (uninfected)"
           treatment_condition: "Phage (P-HM2) lysate"
           treatment_organism: "Phage"
@@ -348,7 +348,7 @@ publication:
         - type: RNASEQ
           name: "DE of Prochlorococcus MED4 phage (P-HM2) lysate vs spent medium in dark at 4.5h post-inoculation"
           id: DE_lysate_vs_spent_medium_dark_MED4_4.5h
-          test_type: "DESeq2/NOISeq"
+          test_type: "DESeq2"
           control_condition: "Spent medium (uninfected)"
           treatment_condition: "Phage (P-HM2) lysate"
           treatment_organism: "Phage"
@@ -369,7 +369,7 @@ publication:
         - type: RNASEQ
           name: "DE of Prochlorococcus MED4 phage (P-HM2) lysate vs spent medium in dark at 8.5h post-inoculation"
           id: DE_lysate_vs_spent_medium_dark_MED4_8.5h
-          test_type: "DESeq2/NOISeq"
+          test_type: "DESeq2"
           control_condition: "Spent medium (uninfected)"
           treatment_condition: "Phage (P-HM2) lysate"
           treatment_organism: "Phage"

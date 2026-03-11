@@ -13,7 +13,7 @@ publication:
       nitrogen_source: "ammonium (800 µM)"
       description: "Axenic Prochlorococcus MED4 in N-replete Pro99 medium prepared with seawater from 20m depth in the South Pacific Subtropical Gyre, supplemented with 800 µM ammonium chloride"
     read_2017_n_depleted:
-      condition_type: nutrient_stress
+      condition_type: nitrogen_stress
       name: "N-depleted Pro99 medium"
       medium: "Pro99 without ammonium (N-depleted)"
       temperature: "25C"
@@ -35,7 +35,7 @@ publication:
         - type: RNASEQ
           name: "DE of Prochlorococcus MED4 under N-deprivation vs N-replete at 3h post N-removal"
           id: DE_N_depleted_vs_replete_MED4_3h
-          test_type: "Rockhopper/DESeq"
+          test_type: "Rockhopper"
           control_condition: "N-replete"
           treatment_condition: "N-depleted"
           environmental_control_condition_id: read_2017_n_replete
@@ -60,7 +60,7 @@ publication:
         - type: RNASEQ
           name: "DE of Prochlorococcus MED4 under N-deprivation vs N-replete at 12h post N-removal"
           id: DE_N_depleted_vs_replete_MED4_12h
-          test_type: "Rockhopper/DESeq"
+          test_type: "Rockhopper"
           control_condition: "N-replete"
           treatment_condition: "N-depleted"
           environmental_control_condition_id: read_2017_n_replete
@@ -85,7 +85,7 @@ publication:
         - type: RNASEQ
           name: "DE of Prochlorococcus MED4 under N-deprivation vs N-replete at 24h post N-removal"
           id: DE_N_depleted_vs_replete_MED4_24h
-          test_type: "Rockhopper/DESeq"
+          test_type: "Rockhopper"
           control_condition: "N-replete"
           treatment_condition: "N-depleted"
           environmental_control_condition_id: read_2017_n_replete

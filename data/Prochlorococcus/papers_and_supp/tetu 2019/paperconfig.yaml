@@ -12,7 +12,7 @@ publication:
       light_intensity: "20-40 umol photons m-2 s-1"
       description: "Prochlorococcus cultured in AMP1 medium with no plastic leachate addition"
     tetu_2019_hdpe_leachate:
-      condition_type: plastic_leachate_stress
+      condition_type: plastic_stress
       name: "HDPE plastic leachate (50% dilution)"
       medium: "AMP1 artificial seawater medium with 50% v/v HDPE leachate"
       temperature: "22C"
@@ -22,7 +22,7 @@ publication:
       leachate_concentration: "50% v/v"
       description: "Exposure to leachate from HDPE shopping bags at 50% dilution in AMP1 medium"
     tetu_2019_pvc_leachate:
-      condition_type: plastic_leachate_stress
+      condition_type: plastic_stress
       name: "PVC plastic leachate (2% dilution)"
       medium: "AMP1 artificial seawater medium with 2% v/v PVC leachate"
       temperature: "22C"

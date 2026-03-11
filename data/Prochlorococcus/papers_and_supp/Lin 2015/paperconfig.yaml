@@ -8,7 +8,7 @@ publication:
       name: "P-replete control"
       description: "Prochlorococcus NATL2A grown in nutrient-replete Pro99 medium, phosphorus sufficient conditions"
     lin_2015_p_limited:
-      condition_type: nutrient_stress
+      condition_type: phosphorus_stress
       name: "P-limited"
       description: "Prochlorococcus NATL2A under phosphorus limitation, P depleted from growth medium"
 

@@ -13,7 +13,7 @@ publication:
       description: "Prochlorococcus MED4 growing in N-replete Pro99 medium with 800 uM ammonium"
 
     tolonen_2006_n_deprivation_med4:
-      condition_type: nutrient_stress
+      condition_type: nitrogen_stress
       name: "Nitrogen deprivation (MED4)"
       medium: "Pro99 lacking supplemented nitrogen, 1 mM HEPES pH 7.5, 6 mM sodium bicarbonate"
       temperature: "22C"
@@ -49,7 +49,7 @@ publication:
       description: "Prochlorococcus MIT9313 growing in N-replete Pro99 medium with 800 uM ammonium"
 
     tolonen_2006_n_deprivation_mit9313:
-      condition_type: nutrient_stress
+      condition_type: nitrogen_stress
       name: "Nitrogen deprivation (MIT9313)"
       medium: "Pro99 lacking supplemented nitrogen, 1 mM HEPES pH 7.5, 6 mM sodium bicarbonate"
       temperature: "22C"
@@ -89,7 +89,7 @@ publication:
         - type: MICROARRAY
           name: "DE of Prochlorococcus MED4 under N deprivation vs N-replete at 0h"
           id: DE_n_deprivation_vs_replete_MED4_0h
-          test_type: "Affymetrix microarray with Goldenspike"
+          test_type: "microarray_Goldenspike"
           control_condition: "N-replete Pro99 with 800 uM ammonium"
           treatment_condition: "Nitrogen deprivation"
           environmental_control_condition_id: tolonen_2006_n_replete_med4
@@ -105,7 +105,7 @@ publication:
         - type: MICROARRAY
           name: "DE of Prochlorococcus MED4 under N deprivation vs N-replete at 3h"
           id: DE_n_deprivation_vs_replete_MED4_3h
-          test_type: "Affymetrix microarray with Goldenspike"
+          test_type: "microarray_Goldenspike"
           control_condition: "N-replete Pro99 with 800 uM ammonium"
           treatment_condition: "Nitrogen deprivation"
           environmental_control_condition_id: tolonen_2006_n_replete_med4
@@ -121,7 +121,7 @@ publication:
         - type: MICROARRAY
           name: "DE of Prochlorococcus MED4 under N deprivation vs N-replete at 6h"
           id: DE_n_deprivation_vs_replete_MED4_6h
-          test_type: "Affymetrix microarray with Goldenspike"
+          test_type: "microarray_Goldenspike"
           control_condition: "N-replete Pro99 with 800 uM ammonium"
           treatment_condition: "Nitrogen deprivation"
           environmental_control_condition_id: tolonen_2006_n_replete_med4
@@ -137,7 +137,7 @@ publication:
         - type: MICROARRAY
           name: "DE of Prochlorococcus MED4 under N deprivation vs N-replete at 12h"
           id: DE_n_deprivation_vs_replete_MED4_12h
-          test_type: "Affymetrix microarray with Goldenspike"
+          test_type: "microarray_Goldenspike"
           control_condition: "N-replete Pro99 with 800 uM ammonium"
           treatment_condition: "Nitrogen deprivation"
           environmental_control_condition_id: tolonen_2006_n_replete_med4
@@ -153,7 +153,7 @@ publication:
         - type: MICROARRAY
           name: "DE of Prochlorococcus MED4 under N deprivation vs N-replete at 24h"
           id: DE_n_deprivation_vs_replete_MED4_24h
-          test_type: "Affymetrix microarray with Goldenspike"
+          test_type: "microarray_Goldenspike"
           control_condition: "N-replete Pro99 with 800 uM ammonium"
           treatment_condition: "Nitrogen deprivation"
           environmental_control_condition_id: tolonen_2006_n_replete_med4
@@ -169,7 +169,7 @@ publication:
         - type: MICROARRAY
           name: "DE of Prochlorococcus MED4 under N deprivation vs N-replete at 48h"
           id: DE_n_deprivation_vs_replete_MED4_48h
-          test_type: "Affymetrix microarray with Goldenspike"
+          test_type: "microarray_Goldenspike"
           control_condition: "N-replete Pro99 with 800 uM ammonium"
           treatment_condition: "Nitrogen deprivation"
           environmental_control_condition_id: tolonen_2006_n_replete_med4
@@ -186,7 +186,7 @@ publication:
         - type: MICROARRAY
           name: "DE of Prochlorococcus MED4 on cyanate vs ammonium"
           id: DE_cyanate_vs_ammonium_MED4
-          test_type: "Affymetrix microarray with Goldenspike"
+          test_type: "microarray_Goldenspike"
           control_condition: "N-replete Pro99 with 800 uM ammonium"
           treatment_condition: "Growth on 800 uM cyanate as sole N source"
           environmental_control_condition_id: tolonen_2006_n_replete_med4
@@ -201,7 +201,7 @@ publication:
         - type: MICROARRAY
           name: "DE of Prochlorococcus MED4 on urea vs ammonium"
           id: DE_urea_vs_ammonium_MED4
-          test_type: "Affymetrix microarray with Goldenspike"
+          test_type: "microarray_Goldenspike"
           control_condition: "N-replete Pro99 with 800 uM ammonium"
           treatment_condition: "Growth on 400 uM urea as sole N source"
           environmental_control_condition_id: tolonen_2006_n_replete_med4
@@ -226,7 +226,7 @@ publication:
         - type: MICROARRAY
           name: "DE of Prochlorococcus MIT9313 under N deprivation vs N-replete at 0h"
           id: DE_n_deprivation_vs_replete_MIT9313_0h
-          test_type: "Affymetrix microarray with Goldenspike"
+          test_type: "microarray_Goldenspike"
           control_condition: "N-replete Pro99 with 800 uM ammonium"
           treatment_condition: "Nitrogen deprivation"
           environmental_control_condition_id: tolonen_2006_n_replete_mit9313
@@ -242,7 +242,7 @@ publication:
         - type: MICROARRAY
           name: "DE of Prochlorococcus MIT9313 under N deprivation vs N-replete at 3h"
           id: DE_n_deprivation_vs_replete_MIT9313_3h
-          test_type: "Affymetrix microarray with Goldenspike"
+          test_type: "microarray_Goldenspike"
           control_condition: "N-replete Pro99 with 800 uM ammonium"
           treatment_condition: "Nitrogen deprivation"
           environmental_control_condition_id: tolonen_2006_n_replete_mit9313
@@ -258,7 +258,7 @@ publication:
         - type: MICROARRAY
           name: "DE of Prochlorococcus MIT9313 under N deprivation vs N-replete at 6h"
           id: DE_n_deprivation_vs_replete_MIT9313_6h
-          test_type: "Affymetrix microarray with Goldenspike"
+          test_type: "microarray_Goldenspike"
           control_condition: "N-replete Pro99 with 800 uM ammonium"
           treatment_condition: "Nitrogen deprivation"
           environmental_control_condition_id: tolonen_2006_n_replete_mit9313
@@ -274,7 +274,7 @@ publication:
         - type: MICROARRAY
           name: "DE of Prochlorococcus MIT9313 under N deprivation vs N-replete at 12h"
           id: DE_n_deprivation_vs_replete_MIT9313_12h
-          test_type: "Affymetrix microarray with Goldenspike"
+          test_type: "microarray_Goldenspike"
           control_condition: "N-replete Pro99 with 800 uM ammonium"
           treatment_condition: "Nitrogen deprivation"
           environmental_control_condition_id: tolonen_2006_n_replete_mit9313
@@ -290,7 +290,7 @@ publication:
         - type: MICROARRAY
           name: "DE of Prochlorococcus MIT9313 under N deprivation vs N-replete at 24h"
           id: DE_n_deprivation_vs_replete_MIT9313_24h
-          test_type: "Affymetrix microarray with Goldenspike"
+          test_type: "microarray_Goldenspike"
           control_condition: "N-replete Pro99 with 800 uM ammonium"
           treatment_condition: "Nitrogen deprivation"
           environmental_control_condition_id: tolonen_2006_n_replete_mit9313
@@ -306,7 +306,7 @@ publication:
         - type: MICROARRAY
           name: "DE of Prochlorococcus MIT9313 under N deprivation vs N-replete at 48h"
           id: DE_n_deprivation_vs_replete_MIT9313_48h
-          test_type: "Affymetrix microarray with Goldenspike"
+          test_type: "microarray_Goldenspike"
           control_condition: "N-replete Pro99 with 800 uM ammonium"
           treatment_condition: "Nitrogen deprivation"
           environmental_control_condition_id: tolonen_2006_n_replete_mit9313
@@ -323,7 +323,7 @@ publication:
         - type: MICROARRAY
           name: "DE of Prochlorococcus MIT9313 on nitrite vs ammonium"
           id: DE_nitrite_vs_ammonium_MIT9313
-          test_type: "Affymetrix microarray with Goldenspike"
+          test_type: "microarray_Goldenspike"
           control_condition: "N-replete Pro99 with 800 uM ammonium"
           treatment_condition: "Growth on 200 uM nitrite as sole N source"
           environmental_control_condition_id: tolonen_2006_n_replete_mit9313
@@ -338,7 +338,7 @@ publication:
         - type: MICROARRAY
           name: "DE of Prochlorococcus MIT9313 on urea vs ammonium"
           id: DE_urea_vs_ammonium_MIT9313
-          test_type: "Affymetrix microarray with Goldenspike"
+          test_type: "microarray_Goldenspike"
           control_condition: "N-replete Pro99 with 800 uM ammonium"
           treatment_condition: "Growth on 400 uM urea as sole N source"
           environmental_control_condition_id: tolonen_2006_n_replete_mit9313

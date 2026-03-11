@@ -15,7 +15,7 @@ publication:
         - type: MICROARRAY
           name: "Upregulated Prochlorococcus MED4 genes during phage infection at 1h"
           id: DE_phage_infection_MED4_1h
-          test_type: "Affymetrix microarray"
+          test_type: "microarray"
           control_condition: "Uninfected control"
           treatment_condition: "Phage infected"
           experimental_context: "Prochlorococcus MED4 infected with phage, microarray analysis of fold change (infected/control)"
@@ -29,7 +29,7 @@ publication:
         - type: MICROARRAY
           name: "Upregulated Prochlorococcus MED4 genes during phage infection at 2h"
           id: DE_phage_infection_MED4_2h
-          test_type: "Affymetrix microarray"
+          test_type: "microarray"
           control_condition: "Uninfected control"
           treatment_condition: "Phage infected"
           experimental_context: "Prochlorococcus MED4 infected with phage, microarray analysis of fold change (infected/control)"
@@ -43,7 +43,7 @@ publication:
         - type: MICROARRAY
           name: "Upregulated Prochlorococcus MED4 genes during phage infection at 3h"
           id: DE_phage_infection_MED4_3h
-          test_type: "Affymetrix microarray"
+          test_type: "microarray"
           control_condition: "Uninfected control"
           treatment_condition: "Phage infected"
           experimental_context: "Prochlorococcus MED4 infected with phage, microarray analysis of fold change (infected/control)"
@@ -57,7 +57,7 @@ publication:
         - type: MICROARRAY
           name: "Upregulated Prochlorococcus MED4 genes during phage infection at 4h"
           id: DE_phage_infection_MED4_4h
-          test_type: "Affymetrix microarray"
+          test_type: "microarray"
           control_condition: "Uninfected control"
           treatment_condition: "Phage infected"
           experimental_context: "Prochlorococcus MED4 infected with phage, microarray analysis of fold change (infected/control)"
@@ -71,7 +71,7 @@ publication:
         - type: MICROARRAY
           name: "Upregulated Prochlorococcus MED4 genes during phage infection at 5h"
           id: DE_phage_infection_MED4_5h
-          test_type: "Affymetrix microarray"
+          test_type: "microarray"
           control_condition: "Uninfected control"
           treatment_condition: "Phage infected"
           experimental_context: "Prochlorococcus MED4 infected with phage, microarray analysis of fold change (infected/control)"
@@ -85,7 +85,7 @@ publication:
         - type: MICROARRAY
           name: "Upregulated Prochlorococcus MED4 genes during phage infection at 6h"
           id: DE_phage_infection_MED4_6h
-          test_type: "Affymetrix microarray"
+          test_type: "microarray"
           control_condition: "Uninfected control"
           treatment_condition: "Phage infected"
           experimental_context: "Prochlorococcus MED4 infected with phage, microarray analysis of fold change (infected/control)"
@@ -99,7 +99,7 @@ publication:
         - type: MICROARRAY
           name: "Upregulated Prochlorococcus MED4 genes during phage infection at 7h"
           id: DE_phage_infection_MED4_7h
-          test_type: "Affymetrix microarray"
+          test_type: "microarray"
           control_condition: "Uninfected control"
           treatment_condition: "Phage infected"
           experimental_context: "Prochlorococcus MED4 infected with phage, microarray analysis of fold change (infected/control)"
@@ -113,7 +113,7 @@ publication:
         - type: MICROARRAY
           name: "Upregulated Prochlorococcus MED4 genes during phage infection at 8h"
           id: DE_phage_infection_MED4_8h
-          test_type: "Affymetrix microarray"
+          test_type: "microarray"
           control_condition: "Uninfected control"
           treatment_condition: "Phage infected"
           experimental_context: "Prochlorococcus MED4 infected with phage, microarray analysis of fold change (infected/control)"

@@ -12,7 +12,7 @@ publication:
       light_intensity: "30 uE m-2 s-1 (MED4), 12 uE m-2 s-1 (MIT9313)"
       description: "Prochlorococcus cells resuspended in P-replete Pro99 medium (50 uM PO4)"
     martiny_2006_p_starvation:
-      condition_type: nutrient_stress
+      condition_type: phosphorus_stress
       name: "Phosphate starvation"
       medium: "Pro99 with no added PO4"
       temperature: "22C"
@@ -34,7 +34,7 @@ publication:
         - type: MICROARRAY
           name: "DE of Prochlorococcus MED4 under P starvation vs P replete at 0h"
           id: DE_p_starvation_vs_replete_MED4_0h
-          test_type: "Affymetrix microarray with Cyber-T Bayesian t-test"
+          test_type: "microarray_Cyber-T"
           control_condition: "P-replete Pro99 (50 uM PO4)"
           treatment_condition: "P-depleted Pro99 (no added PO4)"
           environmental_control_condition_id: martiny_2006_p_replete
@@ -49,7 +49,7 @@ publication:
         - type: MICROARRAY
           name: "DE of Prochlorococcus MED4 under P starvation vs P replete at 4h"
           id: DE_p_starvation_vs_replete_MED4_4h
-          test_type: "Affymetrix microarray with Cyber-T Bayesian t-test"
+          test_type: "microarray_Cyber-T"
           control_condition: "P-replete Pro99 (50 uM PO4)"
           treatment_condition: "P-depleted Pro99 (no added PO4)"
           environmental_control_condition_id: martiny_2006_p_replete
@@ -64,7 +64,7 @@ publication:
         - type: MICROARRAY
           name: "DE of Prochlorococcus MED4 under P starvation vs P replete at 12h"
           id: DE_p_starvation_vs_replete_MED4_12h
-          test_type: "Affymetrix microarray with Cyber-T Bayesian t-test"
+          test_type: "microarray_Cyber-T"
           control_condition: "P-replete Pro99 (50 uM PO4)"
           treatment_condition: "P-depleted Pro99 (no added PO4)"
           environmental_control_condition_id: martiny_2006_p_replete
@@ -79,7 +79,7 @@ publication:
         - type: MICROARRAY
           name: "DE of Prochlorococcus MED4 under P starvation vs P replete at 24h"
           id: DE_p_starvation_vs_replete_MED4_24h
-          test_type: "Affymetrix microarray with Cyber-T Bayesian t-test"
+          test_type: "microarray_Cyber-T"
           control_condition: "P-replete Pro99 (50 uM PO4)"
           treatment_condition: "P-depleted Pro99 (no added PO4)"
           environmental_control_condition_id: martiny_2006_p_replete
@@ -94,7 +94,7 @@ publication:
         - type: MICROARRAY
           name: "DE of Prochlorococcus MED4 under P starvation vs P replete at 48h"
           id: DE_p_starvation_vs_replete_MED4_48h
-          test_type: "Affymetrix microarray with Cyber-T Bayesian t-test"
+          test_type: "microarray_Cyber-T"
           control_condition: "P-replete Pro99 (50 uM PO4)"
           treatment_condition: "P-depleted Pro99 (no added PO4)"
           environmental_control_condition_id: martiny_2006_p_replete
@@ -119,7 +119,7 @@ publication:
         - type: MICROARRAY
           name: "DE of Prochlorococcus MIT9313 under P starvation vs P replete at 0h"
           id: DE_p_starvation_vs_replete_MIT9313_0h
-          test_type: "Affymetrix microarray with Cyber-T Bayesian t-test"
+          test_type: "microarray_Cyber-T"
           control_condition: "P-replete Pro99 (50 uM PO4)"
           treatment_condition: "P-depleted Pro99 (no added PO4)"
           environmental_control_condition_id: martiny_2006_p_replete
@@ -134,7 +134,7 @@ publication:
         - type: MICROARRAY
           name: "DE of Prochlorococcus MIT9313 under P starvation vs P replete at 4h"
           id: DE_p_starvation_vs_replete_MIT9313_4h
-          test_type: "Affymetrix microarray with Cyber-T Bayesian t-test"
+          test_type: "microarray_Cyber-T"
           control_condition: "P-replete Pro99 (50 uM PO4)"
           treatment_condition: "P-depleted Pro99 (no added PO4)"
           environmental_control_condition_id: martiny_2006_p_replete
@@ -149,7 +149,7 @@ publication:
         - type: MICROARRAY
           name: "DE of Prochlorococcus MIT9313 under P starvation vs P replete at 12h"
           id: DE_p_starvation_vs_replete_MIT9313_12h
-          test_type: "Affymetrix microarray with Cyber-T Bayesian t-test"
+          test_type: "microarray_Cyber-T"
           control_condition: "P-replete Pro99 (50 uM PO4)"
           treatment_condition: "P-depleted Pro99 (no added PO4)"
           environmental_control_condition_id: martiny_2006_p_replete
@@ -164,7 +164,7 @@ publication:
         - type: MICROARRAY
           name: "DE of Prochlorococcus MIT9313 under P starvation vs P replete at 24h"
           id: DE_p_starvation_vs_replete_MIT9313_24h
-          test_type: "Affymetrix microarray with Cyber-T Bayesian t-test"
+          test_type: "microarray_Cyber-T"
           control_condition: "P-replete Pro99 (50 uM PO4)"
           treatment_condition: "P-depleted Pro99 (no added PO4)"
           environmental_control_condition_id: martiny_2006_p_replete

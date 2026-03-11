@@ -4,14 +4,14 @@ publication:
 
   environmental_conditions:
     barreto_2022_ambient_pco2:
-      condition_type: pco2
+      condition_type: carbon_stress
       name: "Ambient pCO2 (400 ppm)"
       co2_level: "400 ppm"
       medium: "Pro99 medium"
       description: "Growth at ambient pCO2 (400 ppm CO2)"
 
     barreto_2022_elevated_pco2:
-      condition_type: pco2
+      condition_type: carbon_stress
       name: "Elevated pCO2 (800 ppm)"
       co2_level: "800 ppm"
       medium: "Pro99 medium"

@@ -12,7 +12,7 @@ publication:
       light_intensity: "37 umol photons m-2 s-1"
       description: "Parental Prochlorococcus NATL2A co-cultured with Alteromonas macleodii MIT1002 under standard 13:11 light:dark diel conditions"
     coe_2024_dark_tolerant_diel:
-      condition_type: dark_tolerance
+      condition_type: darkness
       name: "Dark-tolerant co-culture under 13:11 diel light:dark cycle"
       medium: Pro99 natural seawater medium
       temperature: 24C
@@ -166,7 +166,7 @@ publication:
           environmental_treatment_condition_id: coe_2024_dark_tolerant_diel
           experimental_context: "Co-culture with Prochlorococcus NATL2A in Pro99 medium at 24C under 13:11 light:dark cycle at 37 umol photons m-2 s-1"
           timepoint: "0h"
-          organism: "Alteromonas macleodii MIT1002"
+          organism: "Alteromonas MIT1002"
           name_col: "NCBI ID"
           logfc_col: "0 hours"
           pvalue_asterisk_in_logfc: true
@@ -181,7 +181,7 @@ publication:
           environmental_treatment_condition_id: coe_2024_dark_tolerant_diel
           experimental_context: "Co-culture with Prochlorococcus NATL2A in Pro99 medium at 24C under 13:11 light:dark cycle at 37 umol photons m-2 s-1"
           timepoint: "4h"
-          organism: "Alteromonas macleodii MIT1002"
+          organism: "Alteromonas MIT1002"
           name_col: "NCBI ID"
           logfc_col: "4 hours"
           pvalue_asterisk_in_logfc: true
@@ -196,7 +196,7 @@ publication:
           environmental_treatment_condition_id: coe_2024_dark_tolerant_diel
           experimental_context: "Co-culture with Prochlorococcus NATL2A in Pro99 medium at 24C under 13:11 light:dark cycle at 37 umol photons m-2 s-1"
           timepoint: "8h"
-          organism: "Alteromonas macleodii MIT1002"
+          organism: "Alteromonas MIT1002"
           name_col: "NCBI ID"
           logfc_col: "8 hours"
           pvalue_asterisk_in_logfc: true
@@ -211,7 +211,7 @@ publication:
           environmental_treatment_condition_id: coe_2024_dark_tolerant_diel
           experimental_context: "Co-culture with Prochlorococcus NATL2A in Pro99 medium at 24C under 13:11 light:dark cycle at 37 umol photons m-2 s-1"
           timepoint: "13h"
-          organism: "Alteromonas macleodii MIT1002"
+          organism: "Alteromonas MIT1002"
           name_col: "NCBI ID"
           logfc_col: "13 hours"
           pvalue_asterisk_in_logfc: true
@@ -226,7 +226,7 @@ publication:
           environmental_treatment_condition_id: coe_2024_dark_tolerant_diel
           experimental_context: "Co-culture with Prochlorococcus NATL2A in Pro99 medium at 24C under 13:11 light:dark cycle at 37 umol photons m-2 s-1"
           timepoint: "16h"
-          organism: "Alteromonas macleodii MIT1002"
+          organism: "Alteromonas MIT1002"
           name_col: "NCBI ID"
           logfc_col: "16 hours"
           pvalue_asterisk_in_logfc: true
@@ -241,7 +241,7 @@ publication:
           environmental_treatment_condition_id: coe_2024_dark_tolerant_diel
           experimental_context: "Co-culture with Prochlorococcus NATL2A in Pro99 medium at 24C under 13:11 light:dark cycle at 37 umol photons m-2 s-1"
           timepoint: "20h"
-          organism: "Alteromonas macleodii MIT1002"
+          organism: "Alteromonas MIT1002"
           name_col: "NCBI ID"
           logfc_col: "20 hours"
           pvalue_asterisk_in_logfc: true
@@ -256,7 +256,7 @@ publication:
           environmental_treatment_condition_id: coe_2024_dark_tolerant_diel
           experimental_context: "Co-culture with Prochlorococcus NATL2A in Pro99 medium at 24C under 13:11 light:dark cycle at 37 umol photons m-2 s-1"
           timepoint: "24h"
-          organism: "Alteromonas macleodii MIT1002"
+          organism: "Alteromonas MIT1002"
           name_col: "NCBI ID"
           logfc_col: "24 hours"
           pvalue_asterisk_in_logfc: true

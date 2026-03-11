@@ -12,7 +12,7 @@ publication:
       light_intensity: "15-20 umol quanta m-2 s-1"
       description: "Axenic Prochlorococcus MIT9313 amended with Pro99 growth medium (control)"
     fang_2019_vdom_addition:
-      condition_type: viral_lysis_products
+      condition_type: viral
       name: "Viral DOM (vDOM) addition"
       medium: Pro99 natural seawater medium amended with vDOM
       temperature: 24C

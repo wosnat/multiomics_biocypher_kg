@@ -20,6 +20,7 @@ Checks:
     - Analysis IDs are unique
     - skip_rows is applied correctly when reading CSV headers
     - Sample data rows are readable and logfc_col contains numeric-like values
+    - Canonical vocabulary: organism, condition_type, test_type must use allowed values
 """
 
 import sys
@@ -33,6 +34,14 @@ REQUIRED_ANALYSIS_FIELDS = [
     "organism", "name_col", "logfc_col",
 ]
 
+# ── New: Required statistical_analyses fields (enforced as errors) ──────────
+# These three are required regardless of other fields:
+REQUIRED_STATS_FIELDS = {
+    "id": "unique identifier within publication",
+    "type": "one of RNASEQ, PROTEOMICS, METABOLOMICS, MICROARRAY",
+    "treatment_condition": "non-empty string describing the treatment condition",
+}
+
 VALID_TYPES = {"RNASEQ", "MICROARRAY", "PROTEOMICS", "METABOLOMICS"}
 VALID_ID_TYPES = {
     "locus_tag", "locus_tag_ncbi", "locus_tag_cyanorak",
@@ -41,6 +50,101 @@ VALID_ID_TYPES = {
     "protein_id_refseq", "uniprot_accession", "uniprot_entry_name",
     "jgi_id", "probeset", "rast_id", "annotation_specific", "other",
 }
+
+# ── Canonical vocabulary ─────────────────────────────────────────────────────
+
+# Canonical organism names for the 'organism' field in statistical_analyses
+# and for the 'organism' field in supplementary table entries.
+CANONICAL_GENOMIC_ORGANISMS = {
+    "Prochlorococcus MED4",
+    "Prochlorococcus AS9601",
+    "Prochlorococcus MIT9301",
+    "Prochlorococcus MIT9312",
+    "Prochlorococcus MIT9313",
+    "Prochlorococcus NATL1A",
+    "Prochlorococcus NATL2A",
+    "Prochlorococcus RSP50",
+    "Synechococcus WH8102",
+    "Synechococcus CC9311",
+    "Alteromonas macleodii HOT1A3",
+    "Alteromonas macleodii EZ55",
+    "Alteromonas MIT1002",
+}
+
+# Canonical treatment organism names loaded from treatment_organisms.csv
+# (genus-level organisms used as coculture partners with no loaded genome).
+# These are loaded at runtime from the CSV; this set is the fallback default.
+_TREATMENT_ORGANISMS_CSV_DEFAULT = {
+    "Phage",
+    "Marinobacter",
+    "Thalassospira",
+    "Pseudohoeflea",
+    "Alteromonas",
+}
+
+# Canonical condition_type values for environmental_conditions entries.
+CANONICAL_CONDITION_TYPES = {
+    "growth_medium",
+    "nitrogen_stress",
+    "phosphorus_stress",
+    "iron_stress",
+    "salt_stress",
+    "carbon_stress",
+    "light_stress",
+    "darkness",
+    "plastic_stress",
+    "viral",
+    "coculture",
+    "growth_state",
+    "temperature_stress",
+}
+
+# Canonical test_type values for statistical_analyses entries.
+CANONICAL_TEST_TYPES = {
+    "DESeq2",
+    "DESeq",
+    "edgeR",
+    "Rockhopper",
+    "microarray",
+    "microarray_Cyber-T",
+    "microarray_LPE",
+    "microarray_Goldenspike",
+}
+
+
+def _load_treatment_organisms(project_root: str) -> set:
+    """Load treatment organism names from treatment_organisms.csv.
+
+    Returns the default set if the file cannot be read.
+    """
+    csv_path = os.path.join(
+        project_root,
+        "data", "Prochlorococcus", "treatment_organisms.csv",
+    )
+    try:
+        df = pd.read_csv(csv_path, comment="#")
+        names = set(df["organism_name"].dropna().str.strip().tolist())
+        return names
+    except Exception:
+        return set(_TREATMENT_ORGANISMS_CSV_DEFAULT)
+
+
+def _canonical_organism_error(config_path: str, context: str, value: str, allowed: set) -> str:
+    """Format a clear vocabulary error message for an organism field."""
+    sorted_allowed = sorted(allowed)
+    return (
+        f"{config_path} | {context} | organism '{value}' is not in the canonical list | "
+        f"allowed: {sorted_allowed}"
+    )
+
+
+def _canonical_field_error(config_path: str, context: str, field: str, value: str, allowed: set) -> str:
+    """Format a clear vocabulary error message for a canonical enum field."""
+    sorted_allowed = sorted(allowed)
+    return (
+        f"{config_path} | {context} | {field} '{value}' is not a canonical value | "
+        f"allowed: {sorted_allowed}"
+    )
 
 
 def _read_csv_safe(fn, sep, skip, errors, table_key):
@@ -90,6 +194,26 @@ def validate(config_path: str) -> bool:
     errors = []
     warnings = []
 
+    # Derive project root from the config file path so we can load treatment_organisms.csv
+    # regardless of where the script is invoked from.
+    abs_config = os.path.abspath(config_path)
+    # Walk up from the config file until we find a directory containing
+    # data/Prochlorococcus/treatment_organisms.csv (i.e., the project root).
+    _project_root = os.path.dirname(abs_config)
+    for _ in range(10):
+        candidate = os.path.join(
+            _project_root, "data", "Prochlorococcus", "treatment_organisms.csv"
+        )
+        if os.path.exists(candidate):
+            break
+        _project_root = os.path.dirname(_project_root)
+    else:
+        _project_root = None
+
+    treatment_organisms = _load_treatment_organisms(_project_root or "")
+    # The full allowed set for the 'organism' field is the union of genomic + treatment organisms
+    all_canonical_organisms = CANONICAL_GENOMIC_ORGANISMS | treatment_organisms
+
     # --- Parse YAML ---
     try:
         with open(config_path) as f:
@@ -132,6 +256,26 @@ def validate(config_path: str) -> bool:
         env_conds = pub.get("environmental_conditions", {})
         if env_conds:
             print(f"  Environmental conditions: {list(env_conds.keys())}")
+            # Validate condition_type in each environmental condition
+            for cond_key, cond_val in env_conds.items():
+                if not isinstance(cond_val, dict):
+                    continue
+                cond_type = cond_val.get("condition_type")
+                if cond_type is not None and cond_type not in CANONICAL_CONDITION_TYPES:
+                    errors.append(
+                        _canonical_field_error(
+                            config_path,
+                            f"environmental_conditions.{cond_key}",
+                            "condition_type",
+                            cond_type,
+                            CANONICAL_CONDITION_TYPES,
+                        )
+                    )
+                elif cond_type is None:
+                    warnings.append(
+                        f"{config_path} | environmental_conditions.{cond_key} | "
+                        "missing 'condition_type'"
+                    )
 
         supp = pub.get("supplementary_materials")
 
@@ -164,6 +308,12 @@ def validate(config_path: str) -> bool:
                 errors.append(f"{table_key}: annotation_gff requires 'organism'")
             else:
                 print(f"    organism: {organism}")
+                if organism not in all_canonical_organisms:
+                    errors.append(
+                        _canonical_organism_error(
+                            config_path, table_key, organism, all_canonical_organisms
+                        )
+                    )
             ext = os.path.splitext(fn)[1].lower()
             if ext not in (".gff", ".gff3", ".gtf"):
                 warnings.append(
@@ -179,6 +329,12 @@ def validate(config_path: str) -> bool:
                 errors.append(f"{table_key}: id_translation requires 'organism'")
             else:
                 print(f"    organism: {organism}")
+                if organism not in all_canonical_organisms:
+                    errors.append(
+                        _canonical_organism_error(
+                            config_path, table_key, organism, all_canonical_organisms
+                        )
+                    )
 
             id_columns = table.get("id_columns", [])
             if not id_columns:
@@ -228,15 +384,63 @@ def validate(config_path: str) -> bool:
             all_ids.append(aid)
             print(f"    Analysis: {aid}")
 
-            # Check required fields
+            # ── Required fields (canonical enforcement) ──────────────────────
+            # Check the three strictly required fields first (id, type, treatment_condition)
+            for req_field, req_desc in REQUIRED_STATS_FIELDS.items():
+                val = analysis.get(req_field)
+                if val is None or (isinstance(val, str) and not val.strip()):
+                    errors.append(
+                        f"{config_path} | {aid} | missing required field '{req_field}' "
+                        f"({req_desc})"
+                    )
+
+            # Check all original required fields (broader set, some overlap)
             for field in REQUIRED_ANALYSIS_FIELDS:
                 if field not in analysis:
                     errors.append(f"{aid}: Missing required field '{field}'")
 
-            # Check type value
+            # Check type value (canonical enum + original set)
             atype = analysis.get("type", "")
             if atype and atype not in VALID_TYPES:
-                warnings.append(f"{aid}: type '{atype}' not in {VALID_TYPES}")
+                errors.append(
+                    _canonical_field_error(
+                        config_path, aid, "type", atype, VALID_TYPES
+                    )
+                )
+
+            # ── Canonical organism validation ────────────────────────────────
+            organism = analysis.get("organism", "")
+            if organism and organism not in all_canonical_organisms:
+                errors.append(
+                    _canonical_organism_error(
+                        config_path, aid, organism, all_canonical_organisms
+                    )
+                )
+            elif organism:
+                print(f"      organism '{organism}': OK")
+
+            # ── Canonical treatment_organism validation ───────────────────────
+            treatment_organism = analysis.get("treatment_organism", "")
+            if treatment_organism and treatment_organism not in all_canonical_organisms:
+                errors.append(
+                    _canonical_organism_error(
+                        config_path, f"{aid} treatment_organism", treatment_organism,
+                        all_canonical_organisms,
+                    )
+                )
+            elif treatment_organism:
+                print(f"      treatment_organism '{treatment_organism}': OK")
+
+            # ── Canonical test_type validation ────────────────────────────────
+            test_type = analysis.get("test_type", "")
+            if test_type and test_type not in CANONICAL_TEST_TYPES:
+                errors.append(
+                    _canonical_field_error(
+                        config_path, aid, "test_type", test_type, CANONICAL_TEST_TYPES
+                    )
+                )
+            elif test_type:
+                print(f"      test_type '{test_type}': OK")
 
             # Check column references
             name_col = analysis.get("name_col", "")

@@ -57,7 +57,7 @@ publication:
         - type: MICROARRAY
           name: "DE of Prochlorococcus MED4 under iron starvation vs iron-replete at 12h"
           id: DE_iron_starvation_vs_replete_MED4_12h
-          test_type: "Affymetrix microarray with Bayesian t-test (Cyber-T)"
+          test_type: "microarray_Cyber-T"
           control_condition: "Iron-replete (1 uM Fe)"
           treatment_condition: "Iron starvation (no added iron)"
           environmental_control_condition_id: thompson_2011_iron_replete_med4
@@ -74,7 +74,7 @@ publication:
         - type: MICROARRAY
           name: "DE of Prochlorococcus MED4 under iron starvation vs iron-replete at 24h"
           id: DE_iron_starvation_vs_replete_MED4_24h
-          test_type: "Affymetrix microarray with Bayesian t-test (Cyber-T)"
+          test_type: "microarray_Cyber-T"
           control_condition: "Iron-replete (1 uM Fe)"
           treatment_condition: "Iron starvation (no added iron)"
           environmental_control_condition_id: thompson_2011_iron_replete_med4
@@ -91,7 +91,7 @@ publication:
         - type: MICROARRAY
           name: "DE of Prochlorococcus MED4 under iron starvation vs iron-replete at 48h"
           id: DE_iron_starvation_vs_replete_MED4_48h
-          test_type: "Affymetrix microarray with Bayesian t-test (Cyber-T)"
+          test_type: "microarray_Cyber-T"
           control_condition: "Iron-replete (1 uM Fe)"
           treatment_condition: "Iron starvation (no added iron)"
           environmental_control_condition_id: thompson_2011_iron_replete_med4
@@ -108,7 +108,7 @@ publication:
         - type: MICROARRAY
           name: "DE of Prochlorococcus MED4 iron rescue response"
           id: DE_iron_rescue_MED4
-          test_type: "Affymetrix microarray with Bayesian t-test (Cyber-T)"
+          test_type: "microarray_Cyber-T"
           control_condition: "Before iron rescue (48h iron starvation)"
           treatment_condition: "After iron rescue (70h, iron added at 49h)"
           environmental_control_condition_id: thompson_2011_iron_deplete_med4
@@ -134,7 +134,7 @@ publication:
         - type: MICROARRAY
           name: "DE of Prochlorococcus MIT9313 under iron starvation vs iron-replete at 16h"
           id: DE_iron_starvation_vs_replete_MIT9313_16h
-          test_type: "Affymetrix microarray with Bayesian t-test (Cyber-T)"
+          test_type: "microarray_Cyber-T"
           control_condition: "Iron-replete (1 uM Fe)"
           treatment_condition: "Iron starvation (no added iron)"
           environmental_control_condition_id: thompson_2011_iron_replete_mit9313
@@ -151,7 +151,7 @@ publication:
         - type: MICROARRAY
           name: "DE of Prochlorococcus MIT9313 under iron starvation vs iron-replete at 28h"
           id: DE_iron_starvation_vs_replete_MIT9313_28h
-          test_type: "Affymetrix microarray with Bayesian t-test (Cyber-T)"
+          test_type: "microarray_Cyber-T"
           control_condition: "Iron-replete (1 uM Fe)"
           treatment_condition: "Iron starvation (no added iron)"
           environmental_control_condition_id: thompson_2011_iron_replete_mit9313
@@ -168,7 +168,7 @@ publication:
         - type: MICROARRAY
           name: "DE of Prochlorococcus MIT9313 under iron starvation vs iron-replete at 53h"
           id: DE_iron_starvation_vs_replete_MIT9313_53h
-          test_type: "Affymetrix microarray with Bayesian t-test (Cyber-T)"
+          test_type: "microarray_Cyber-T"
           control_condition: "Iron-replete (1 uM Fe)"
           treatment_condition: "Iron starvation (no added iron)"
           environmental_control_condition_id: thompson_2011_iron_replete_mit9313
@@ -185,7 +185,7 @@ publication:
         - type: MICROARRAY
           name: "DE of Prochlorococcus MIT9313 iron rescue response"
           id: DE_iron_rescue_MIT9313
-          test_type: "Affymetrix microarray with Bayesian t-test (Cyber-T)"
+          test_type: "microarray_Cyber-T"
           control_condition: "Before iron rescue (53h iron starvation)"
           treatment_condition: "After iron rescue (72h, iron added at 54h)"
           environmental_control_condition_id: thompson_2011_iron_deplete_mit9313

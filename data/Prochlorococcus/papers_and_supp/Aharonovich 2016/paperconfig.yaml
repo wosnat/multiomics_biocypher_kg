@@ -53,9 +53,9 @@ publication:
           treatment_condition: Coculture with Prochlorococcus MIT9313 (concentrated, 5x10^6 cells/ml)
           experimental_context: in Pro99 medium under continuous light
           timepoint: 20h
-          organism: Alteromonas HOT1A3
+          organism: Alteromonas macleodii HOT1A3
           treatment_taxid: 74547
-          treatment_organism: Prochlorococcus marinus MIT9313
+          treatment_organism: Prochlorococcus MIT9313
           treatment_assembly_accession: GCF_000011485.1
           name_col: Synonym
           logfc_col: fold change 9313/9313DIL
@@ -73,9 +73,9 @@ publication:
           treatment_condition: Coculture with Prochlorococcus MIT9313
           experimental_context: in Pro99 medium under continuous light
           timepoint: 20h
-          organism: Alteromonas HOT1A3
+          organism: Alteromonas macleodii HOT1A3
           treatment_taxid: 74547
-          treatment_organism: Prochlorococcus marinus MIT9313
+          treatment_organism: Prochlorococcus MIT9313
           treatment_assembly_accession: GCF_000011485.1
           name_col: Synonym
           logfc_col: fold change 9313+1A3/med4+1A3

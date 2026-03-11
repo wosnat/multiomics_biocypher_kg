@@ -12,7 +12,7 @@ publication:
       light_intensity: "55 umol photons m-2 s-1"
       description: "Prochlorococcus NATL2A maintained under a 13:11 light:dark diel cycle in Pro99 medium at 24C, bubbled with air"
     biller_2018_extended_darkness:
-      condition_type: light_stress
+      condition_type: darkness
       name: "Extended darkness"
       medium: Pro99 natural seawater medium
       temperature: 24C
@@ -24,12 +24,12 @@ publication:
     annotation_gff_mit1002_old_draft:
       type: annotation_gff
       filename: "cache/data/Alteromonas/genomes/MIT1002/genomic_old_draft_GCF_001077695.1.gff"
-      organism: "Alteromonas macleodii MIT1002"
+      organism: "Alteromonas MIT1002"
 
     id_translation_mit1002_rast_diamond:
       type: id_translation
       filename: "data/Prochlorococcus/papers_and_supp/Biller 2018/MIT1002_RAST_annotation/rast_to_mit1002_id_translation.csv"
-      organism: "Alteromonas macleodii MIT1002"
+      organism: "Alteromonas MIT1002"
       generate:
         method: diamond_protein_match
         source_fasta: "data/Prochlorococcus/papers_and_supp/Biller 2018/MIT1002_RAST_annotation/226.6.faa"
@@ -43,7 +43,7 @@ publication:
     id_translation_mit1002_rast_names:
       type: id_translation
       filename: "data/Prochlorococcus/papers_and_supp/Biller 2018/MIT1002_systematicnames_conversiontable.csv"
-      organism: "Alteromonas macleodii MIT1002"
+      organism: "Alteromonas MIT1002"
       id_columns:
         - column: "original_rast_id"
           id_type: old_locus_tag
@@ -180,7 +180,7 @@ publication:
           environmental_treatment_condition_id: biller_2018_extended_darkness
           experimental_context: "Alteromonas macleodii MIT1002 co-cultured with Prochlorococcus NATL2A in Pro99 medium at 24C, bubbled with air"
           timepoint: "1h extended darkness"
-          organism: Alteromonas macleodii MIT1002
+          organism: Alteromonas MIT1002
           name_col: "RAST_region_ID"
           logfc_col: "1hr extended darkness (dark/diel)"
           prefiltered: true
@@ -195,7 +195,7 @@ publication:
           environmental_treatment_condition_id: biller_2018_extended_darkness
           experimental_context: "Alteromonas macleodii MIT1002 co-cultured with Prochlorococcus NATL2A in Pro99 medium at 24C, bubbled with air"
           timepoint: "5h extended darkness"
-          organism: Alteromonas macleodii MIT1002
+          organism: Alteromonas MIT1002
           name_col: "RAST_region_ID"
           logfc_col: "5hr extended darkness (dark/diel)"
           prefiltered: true

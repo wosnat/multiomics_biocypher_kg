@@ -77,7 +77,7 @@ publication:
         - type: MICROARRAY
           name: "DE of Prochlorococcus MED4 in high white light vs darkness"
           id: DE_high_white_light_vs_dark_MED4
-          test_type: "Affymetrix microarray with LPE test"
+          test_type: "microarray_LPE"
           control_condition: "Darkness (5h dark adaptation)"
           treatment_condition: "High white light (55 umol photons m-2 s-1, 45 min)"
           environmental_control_condition_id: steglich_2006_darkness
@@ -93,7 +93,7 @@ publication:
         - type: MICROARRAY
           name: "DE of Prochlorococcus MED4 in white light vs darkness"
           id: DE_white_light_vs_dark_MED4
-          test_type: "Affymetrix microarray with LPE test"
+          test_type: "microarray_LPE"
           control_condition: "Darkness (5h dark adaptation)"
           treatment_condition: "White light (13 umol photons m-2 s-1, 45 min)"
           environmental_control_condition_id: steglich_2006_darkness
@@ -109,7 +109,7 @@ publication:
         - type: MICROARRAY
           name: "DE of Prochlorococcus MED4 in blue light vs darkness"
           id: DE_blue_light_vs_dark_MED4
-          test_type: "Affymetrix microarray with LPE test"
+          test_type: "microarray_LPE"
           control_condition: "Darkness (5h dark adaptation)"
           treatment_condition: "Blue light (13 umol photons m-2 s-1, 45 min)"
           environmental_control_condition_id: steglich_2006_darkness
@@ -125,7 +125,7 @@ publication:
         - type: MICROARRAY
           name: "DE of Prochlorococcus MED4 in red light vs darkness"
           id: DE_red_light_vs_dark_MED4
-          test_type: "Affymetrix microarray with LPE test"
+          test_type: "microarray_LPE"
           control_condition: "Darkness (5h dark adaptation)"
           treatment_condition: "Red light (13 umol photons m-2 s-1, 45 min)"
           environmental_control_condition_id: steglich_2006_darkness
@@ -141,7 +141,7 @@ publication:
         - type: MICROARRAY
           name: "DE of Prochlorococcus MED4 in green light vs darkness"
           id: DE_green_light_vs_dark_MED4
-          test_type: "Affymetrix microarray with LPE test"
+          test_type: "microarray_LPE"
           control_condition: "Darkness (5h dark adaptation)"
           treatment_condition: "Green light (13 umol photons m-2 s-1, 45 min)"
           environmental_control_condition_id: steglich_2006_darkness
@@ -157,7 +157,7 @@ publication:
         - type: MICROARRAY
           name: "DE of Prochlorococcus MED4 with DCMU vs white light"
           id: DE_DCMU_vs_white_light_MED4
-          test_type: "Affymetrix microarray with LPE test"
+          test_type: "microarray_LPE"
           control_condition: "White light (13 umol photons m-2 s-1)"
           treatment_condition: "DCMU + white light (13 umol photons m-2 s-1, 45 min)"
           environmental_control_condition_id: steglich_2006_white_light

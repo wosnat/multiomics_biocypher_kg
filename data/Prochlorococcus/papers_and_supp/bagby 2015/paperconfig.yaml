@@ -4,28 +4,28 @@ publication:
 
   environmental_conditions:
     bagby_2015_air:
-      condition_type: gas_shock
+      condition_type: carbon_stress
       name: Air (0.036% CO2 / 21% O2)
       co2_level: "0.036%"
       oxygen_level: "21%"
       description: Standard air conditions (0.036% CO2, 21% O2). FC compared to time 0 (pre-shock baseline).
 
     bagby_2015_no_o2:
-      condition_type: gas_shock
+      condition_type: carbon_stress
       name: Ambient CO2, no O2 (0.036% CO2 / 0% O2)
       co2_level: "0.036%"
       oxygen_level: "0%"
       description: Gas shock with ambient CO2 and O2 removed (0.036% CO2, 0% O2). FC compared to air samples. Highest FC across timepoints (3h, 6h, 9h, 12h, 18h, 24h).
 
     bagby_2015_low_co2:
-      condition_type: gas_shock
+      condition_type: carbon_stress
       name: Low CO2 (0.004% CO2 / 21% O2)
       co2_level: "0.004%"
       oxygen_level: "21%"
       description: Gas shock with reduced CO2 and ambient O2 (0.004% CO2, 21% O2). FC compared to air samples. Highest FC across timepoints (3h, 6h, 9h, 12h, 18h, 24h).
 
     bagby_2015_low_co2_no_o2:
-      condition_type: gas_shock
+      condition_type: carbon_stress
       name: Low CO2 and no O2 (0.004% CO2 / 0% O2)
       co2_level: "0.004%"
       oxygen_level: "0%"
@@ -48,7 +48,7 @@ publication:
         - type: MICROARRAY
           name: Gene expression response to air (0.036% CO2 / 21% O2) vs time 0
           id: gas_shock_air
-          test_type: Affymetrix microarray
+          test_type: microarray
           control_condition: Time 0 (pre-shock)
           treatment_condition: 0.036% CO2 / 21% O2 (air)
           experimental_context: Pro99 medium, mid-exponential phase, constant light 60 umol photons m-2 s-1, 21C
@@ -74,7 +74,7 @@ publication:
         - type: MICROARRAY
           name: Gene expression response to ambient CO2 / no O2 (0.036% CO2 / 0% O2) vs air
           id: gas_shock_no_o2
-          test_type: Affymetrix microarray
+          test_type: microarray
           control_condition: 0.036% CO2 / 21% O2 (air)
           treatment_condition: 0.036% CO2 / 0% O2
           experimental_context: Pro99 medium, mid-exponential phase, constant light 60 umol photons m-2 s-1, 21C. Highest FC across timepoints (3h, 6h, 9h, 12h, 18h, 24h).
@@ -100,7 +100,7 @@ publication:
         - type: MICROARRAY
           name: Gene expression response to low CO2 (0.004% CO2 / 21% O2) vs air
           id: gas_shock_low_co2
-          test_type: Affymetrix microarray
+          test_type: microarray
           control_condition: 0.036% CO2 / 21% O2 (air)
           treatment_condition: 0.004% CO2 / 21% O2
           experimental_context: Pro99 medium, mid-exponential phase, constant light 60 umol photons m-2 s-1, 21C. Highest FC across timepoints (3h, 6h, 9h, 12h, 18h, 24h).
@@ -126,7 +126,7 @@ publication:
         - type: MICROARRAY
           name: Gene expression response to low CO2 / no O2 (0.004% CO2 / 0% O2) vs air
           id: gas_shock_low_co2_no_o2
-          test_type: Affymetrix microarray
+          test_type: microarray
           control_condition: 0.036% CO2 / 21% O2 (air)
           treatment_condition: 0.004% CO2 / 0% O2
           experimental_context: Pro99 medium, mid-exponential phase, constant light 60 umol photons m-2 s-1, 21C. Highest FC across timepoints (3h, 6h, 9h, 12h, 18h, 24h).
