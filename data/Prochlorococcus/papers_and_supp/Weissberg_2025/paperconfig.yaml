@@ -46,6 +46,7 @@ publication:
           name_col: "gene_id"
           logfc_col: "logFC"
           adjusted_p_value_col: "padj"
+          pvalue_threshold: 0.05
 
     hot1a3_rnaseq_axenic_day_31_vs_day_11:
       type: csv
@@ -69,6 +70,7 @@ publication:
           name_col: "gene_id"
           logfc_col: "logFC"
           adjusted_p_value_col: "padj"
+          pvalue_threshold: 0.05
 
     hot1a3_rnaseq_axenic_longterm_vs_day_11:
       type: csv
@@ -92,6 +94,7 @@ publication:
           name_col: "gene_id"
           logfc_col: "logFC"
           adjusted_p_value_col: "padj"
+          pvalue_threshold: 0.05
 
     # =========================================================================
     # HOT1A3 — RNA-seq, coculture time course
@@ -119,6 +122,7 @@ publication:
           name_col: "gene_id"
           logfc_col: "logFC"
           adjusted_p_value_col: "padj"
+          pvalue_threshold: 0.05
 
     hot1a3_rnaseq_coculture_day_31_vs_day_11:
       type: csv
@@ -142,6 +146,7 @@ publication:
           name_col: "gene_id"
           logfc_col: "logFC"
           adjusted_p_value_col: "padj"
+          pvalue_threshold: 0.05
 
     hot1a3_rnaseq_coculture_day_60_vs_day_11:
       type: csv
@@ -165,6 +170,7 @@ publication:
           name_col: "gene_id"
           logfc_col: "logFC"
           adjusted_p_value_col: "padj"
+          pvalue_threshold: 0.05
 
     hot1a3_rnaseq_coculture_day_89_vs_day_11:
       type: csv
@@ -188,6 +194,7 @@ publication:
           name_col: "gene_id"
           logfc_col: "logFC"
           adjusted_p_value_col: "padj"
+          pvalue_threshold: 0.05
 
     hot1a3_rnaseq_coculture_longterm_vs_day_11:
       type: csv
@@ -211,6 +218,7 @@ publication:
           name_col: "gene_id"
           logfc_col: "logFC"
           adjusted_p_value_col: "padj"
+          pvalue_threshold: 0.05
 
     # =========================================================================
     # HOT1A3 — RNA-seq, coculture vs axenic at day 11
@@ -239,6 +247,7 @@ publication:
           name_col: "gene_id"
           logfc_col: "logFC"
           adjusted_p_value_col: "padj"
+          pvalue_threshold: 0.05
 
     # =========================================================================
     # HOT1A3 — Proteomics, axenic time course
@@ -266,6 +275,7 @@ publication:
           name_col: "gene_id"
           logfc_col: "logFC"
           adjusted_p_value_col: "padj"
+          pvalue_threshold: 0.05
 
     hot1a3_proteome_axenic_day_31_vs_day_11:
       type: csv
@@ -289,6 +299,7 @@ publication:
           name_col: "gene_id"
           logfc_col: "logFC"
           adjusted_p_value_col: "padj"
+          pvalue_threshold: 0.05
 
     # =========================================================================
     # HOT1A3 — Proteomics, coculture time course
@@ -316,6 +327,7 @@ publication:
           name_col: "gene_id"
           logfc_col: "logFC"
           adjusted_p_value_col: "padj"
+          pvalue_threshold: 0.05
 
     hot1a3_proteome_coculture_day_31_vs_day_11:
       type: csv
@@ -339,6 +351,7 @@ publication:
           name_col: "gene_id"
           logfc_col: "logFC"
           adjusted_p_value_col: "padj"
+          pvalue_threshold: 0.05
 
     hot1a3_proteome_coculture_day_60_vs_day_11:
       type: csv
@@ -362,6 +375,7 @@ publication:
           name_col: "gene_id"
           logfc_col: "logFC"
           adjusted_p_value_col: "padj"
+          pvalue_threshold: 0.05
 
     hot1a3_proteome_coculture_day_89_vs_day_11:
       type: csv
@@ -385,6 +399,7 @@ publication:
           name_col: "gene_id"
           logfc_col: "logFC"
           adjusted_p_value_col: "padj"
+          pvalue_threshold: 0.05
 
     hot1a3_proteome_coculture_longterm_vs_day_11:
       type: csv
@@ -408,6 +423,7 @@ publication:
           name_col: "gene_id"
           logfc_col: "logFC"
           adjusted_p_value_col: "padj"
+          pvalue_threshold: 0.05
 
     # =========================================================================
     # MED4 (Prochlorococcus MED4) — RNA-seq, axenic time course
@@ -435,6 +451,7 @@ publication:
           name_col: "gene_id"
           logfc_col: "logFC"
           adjusted_p_value_col: "padj"
+          pvalue_threshold: 0.05
 
     med4_rnaseq_axenic_longterm_vs_exp_day_7:
       type: csv
@@ -458,6 +475,7 @@ publication:
           name_col: "gene_id"
           logfc_col: "logFC"
           adjusted_p_value_col: "padj"
+          pvalue_threshold: 0.05
 
     # =========================================================================
     # MED4 — RNA-seq, coculture time course
@@ -485,6 +503,7 @@ publication:
           name_col: "gene_id"
           logfc_col: "logFC"
           adjusted_p_value_col: "padj"
+          pvalue_threshold: 0.05
 
     med4_rnaseq_coculture_day_31_vs_exp_day_11:
       type: csv
@@ -508,6 +527,7 @@ publication:
           name_col: "gene_id"
           logfc_col: "logFC"
           adjusted_p_value_col: "padj"
+          pvalue_threshold: 0.05
 
     med4_rnaseq_coculture_day_60_vs_exp_day_11:
       type: csv
@@ -531,6 +551,7 @@ publication:
           name_col: "gene_id"
           logfc_col: "logFC"
           adjusted_p_value_col: "padj"
+          pvalue_threshold: 0.05
 
     med4_rnaseq_coculture_day_89_vs_exp_day_11:
       type: csv
@@ -554,6 +575,7 @@ publication:
           name_col: "gene_id"
           logfc_col: "logFC"
           adjusted_p_value_col: "padj"
+          pvalue_threshold: 0.05
 
     med4_rnaseq_coculture_longterm_vs_exp_day_11:
       type: csv
@@ -577,6 +599,7 @@ publication:
           name_col: "gene_id"
           logfc_col: "logFC"
           adjusted_p_value_col: "padj"
+          pvalue_threshold: 0.05
 
     # =========================================================================
     # MED4 — RNA-seq, coculture vs axenic at log exponential day 11
@@ -605,6 +628,7 @@ publication:
           name_col: "gene_id"
           logfc_col: "logFC"
           adjusted_p_value_col: "padj"
+          pvalue_threshold: 0.05
 
     # =========================================================================
     # MED4 — Proteomics, axenic time course
@@ -632,6 +656,7 @@ publication:
           name_col: "gene_id"
           logfc_col: "logFC"
           adjusted_p_value_col: "padj"
+          pvalue_threshold: 0.05
 
     med4_proteome_axenic_day_31_vs_exp_day_7:
       type: csv
@@ -655,6 +680,7 @@ publication:
           name_col: "gene_id"
           logfc_col: "logFC"
           adjusted_p_value_col: "padj"
+          pvalue_threshold: 0.05
 
     med4_proteome_axenic_day_89_vs_exp_day_7:
       type: csv
@@ -678,6 +704,7 @@ publication:
           name_col: "gene_id"
           logfc_col: "logFC"
           adjusted_p_value_col: "padj"
+          pvalue_threshold: 0.05
 
     # =========================================================================
     # MED4 — Proteomics, coculture time course
@@ -705,6 +732,7 @@ publication:
           name_col: "gene_id"
           logfc_col: "logFC"
           adjusted_p_value_col: "padj"
+          pvalue_threshold: 0.05
 
     med4_proteome_coculture_day_31_vs_exp_day_11:
       type: csv
@@ -728,6 +756,7 @@ publication:
           name_col: "gene_id"
           logfc_col: "logFC"
           adjusted_p_value_col: "padj"
+          pvalue_threshold: 0.05
 
     med4_proteome_coculture_day_60_vs_exp_day_11:
       type: csv
@@ -751,6 +780,7 @@ publication:
           name_col: "gene_id"
           logfc_col: "logFC"
           adjusted_p_value_col: "padj"
+          pvalue_threshold: 0.05
 
     med4_proteome_coculture_day_89_vs_exp_day_11:
       type: csv
@@ -774,6 +804,7 @@ publication:
           name_col: "gene_id"
           logfc_col: "logFC"
           adjusted_p_value_col: "padj"
+          pvalue_threshold: 0.05
 
     med4_proteome_coculture_longterm_vs_exp_day_11:
       type: csv
@@ -797,3 +828,4 @@ publication:
           name_col: "gene_id"
           logfc_col: "logFC"
           adjusted_p_value_col: "padj"
+          pvalue_threshold: 0.05
