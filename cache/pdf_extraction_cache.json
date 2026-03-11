@@ -1,150 +1,51 @@
 {
-  "data/Prochlorococcus/papers_and_supp/tolonen 2006/msb4100087.pdf": {
-    "publication": {
-      "title": "Global gene expression of Prochlorococcus ecotypes in response to changes in nitrogen availability",
-      "authors": [
-        "Andrew C Tolonen",
-        "John Aach",
-        "Debbie Lindell",
-        "Zackary I Johnson",
-        "Trent Rector",
-        "Robert Steen",
-        "George M Church",
-        "Sallie W Chisholm"
-      ],
-      "journal": "Molecular Systems Biology",
-      "publication_year": "2006",
-      "doi": "10.1038/msb4100087",
-      "pmid": null,
-      "description": "A study combining whole-genome microarray analyses for two Prochlorococcus ecotypes (MED4 and MIT9313) with physiological measurements to quantify global mRNA expression, chlorophyll fluorescence, and photosystem II efficiency under a time series of nitrogen starvation and growth on different nitrogen sources; includes comparative genomics and analysis of NtcA regulation.",
-      "abstract": "Nitrogen (N) often limits biological productivity in ocean gyres where Prochlorococcus is most abundant. The study quantified changes in MED4 and MIT9313 global mRNA expression, chlorophyll fluorescence, and photosystem II photochemical efficiency (Fv/Fm) along a time series of increasing N starvation. It also compared global expression when grown in ammonium-replete medium versus alternative N sources. The results show interstrain similarities, such as activation of a putative NtcA regulon during N stress, and differences in carbon metabolism gene expression, suggesting fundamentally different integration of N and C metabolism between the strains.",
-      "study_type": "Transcriptomics (microarray)",
-      "organism": [
-        "Prochlorococcus MED4",
-        "Prochlorococcus MIT9313"
-      ],
-      "publication_id": "10.1038/msb4100087"
-    }
-  },
-  "data/Prochlorococcus/papers_and_supp/thompson 2011/41396_2011_article_bfismej201149.pdf": {
-    "publication": {
-      "title": "Transcriptome response of high- and low-light-adapted Prochlorococcus strains to changing iron availability",
-      "authors": [
-        "Anne W Thompson",
-        "Katherine Huang",
-        "Mak A Saito",
-        "Sallie W Chisholm"
-      ],
-      "journal": "The ISME Journal",
-      "publication_year": "2011",
-      "doi": "10.1038/ismej.2011.49",
-      "pmid": null,
-      "description": "Comparative transcriptomic analysis of Prochlorococcus MED4 and MIT9313 under abrupt iron starvation and rescue, assessing growth under varying iron and whole-genome transcriptional responses via short-term microarray experiments.",
-      "abstract": "Prochlorococcus contributes significantly to ocean primary productivity. The link between primary productivity and iron in specific ocean regions is well established and iron limitation of Prochlorococcus cell division rates in these regions has been shown. However, the extent of ecotypic variation in iron metabolism among Prochlorococcus and the molecular basis for differences is not understood. Here, we examine the growth and transcriptional response of Prochlorococcus strains, MED4 and MIT9313, to changing iron concentrations. During steady state, MIT9313 sustains growth at an order-of-magnitude lower iron concentration than MED4. To explore this difference, we measured the whole-genome transcriptional response of each strain to abrupt iron starvation and rescue. Only four of the 1159 orthologs of MED4 and MIT9313 were differentially expressed in response to iron in both strains. However, in each strain, the expression of over a hundred additional genes changed, many of which are in labile genomic regions, suggesting a role for lateral gene transfer in establishing diversity of iron metabolism among Prochlorococcus. Furthermore, we found that MED4 lacks three genes near the iron-deficiency-induced gene ( idiA) that are present and induced by iron stress in MIT9313. These genes are interesting targets for studying the adaptation of natural Prochlorococcus assemblages to local iron conditions as they show more diversity than other genomic regions in environmental metagenomic databases.",
-      "study_type": "Transcriptomics (microarray)",
-      "organism": [
-        "Prochlorococcus MED4",
-        "Prochlorococcus MIT9313"
-      ],
-      "publication_id": "10.1038/ismej.2011.49"
-    }
-  },
   "data/Prochlorococcus/papers_and_supp/Aharonovich 2016/41396_2016_article_bfismej201670.pdf": {
     "publication": {
-      "title": "Transcriptional response of Prochlorococcus to co-culture with a marine Alteromonas: differences between strains and the involvement of putative infochemicals",
+      "abstract": "In co-culture with Alteromonas macleodii HOT1A3, Prochlorococcus MED4 and MIT9313 show distinct growth responses and transcriptional changes. HOT1A3 enhances MIT9313 growth at low density but inhibits it at higher density, with MED4 largely unaffected. RNA-seq after ~20 h reveals differential regulation of genes related to photosynthesis, protein synthesis, and stress responses\u2014downregulated in MED4 and upregulated in MIT9313\u2014while differential regulation is also observed in outer membrane modification, efflux transporters and lanthipeptide-related genes (prochlorosins). Two novel co-culture responsive gene families, CCRG-1 and CCRG-2, are expressed as short proteins and released into the media, suggesting putative infochemicals mediate interspecies interactions.",
       "authors": [
         "Dikla Aharonovich",
         "Daniel Sher"
       ],
-      "journal": "The ISME Journal",
-      "publication_year": "2016",
-      "doi": "10.1038/ismej.2016.70",
-      "pmid": null,
       "description": "Laboratory co-culture experiments with Prochlorococcus MED4 and MIT9313 and Alteromonas macleodii HOT1A3 to investigate how bacterial density affects growth and the transcriptional response, using RNA sequencing to examine early gene expression changes.",
-      "abstract": "In co-culture with Alteromonas macleodii HOT1A3, Prochlorococcus MED4 and MIT9313 show distinct growth responses and transcriptional changes. HOT1A3 enhances MIT9313 growth at low density but inhibits it at higher density, with MED4 largely unaffected. RNA-seq after ~20 h reveals differential regulation of genes related to photosynthesis, protein synthesis, and stress responses\u2014downregulated in MED4 and upregulated in MIT9313\u2014while differential regulation is also observed in outer membrane modification, efflux transporters and lanthipeptide-related genes (prochlorosins). Two novel co-culture responsive gene families, CCRG-1 and CCRG-2, are expressed as short proteins and released into the media, suggesting putative infochemicals mediate interspecies interactions.",
-      "study_type": "RNA-seq",
+      "doi": "10.1038/ismej.2016.70",
+      "journal": "The ISME Journal",
       "organism": [
         "Prochlorococcus MED4",
         "Prochlorococcus MIT9313",
         "Alteromonas macleodii HOT1A3"
       ],
-      "publication_id": "10.1038/ismej.2016.70"
-    }
-  },
-  "data/Prochlorococcus/papers_and_supp/tetu 2019/s42003-019-0410-x.pdf": {
-    "publication": {
-      "title": "Plastic leachates impair growth and oxygen production in Prochlorococcus, the ocean's most abundant photosynthetic bacteria",
-      "authors": [
-        "Sasha G. Tetu",
-        "Indrani Sarker",
-        "Verena Schrameyer",
-        "Russell Pickford",
-        "Liam D.H. Elbourne",
-        "Lisa R. Moore",
-        "Ian T. Paulsen"
-      ],
-      "journal": "Communications Biology",
-      "publication_year": "2019",
-      "doi": "10.1038/s42003-019-0410-x",
       "pmid": null,
-      "description": "In vitro exposure of two Prochlorococcus strains MIT9312 HLII and NATL2A LLI to leachates from common plastics (HDPE bags and PVC matting) in artificial seawater, assessing growth, photosynthetic efficiency, and genome-wide transcriptional responses.",
-      "abstract": "Two Prochlorococcus strains MIT9312 (HLII) and NATL2A (LLI) were exposed to leachates from HDPE bags and PVC matting in artificial seawater. The study shows dose-dependent impairment of growth and photophysiology (photosystem II quantum yield) and genome-wide transcriptional changes, with strain-specific responses, indicating plastic leachates may alter Prochlorococcus community composition and ocean primary productivity.",
-      "study_type": "Transcriptomics",
-      "organism": [
-        "Prochlorococcus MIT9312",
-        "Prochlorococcus NATL2A"
-      ],
-      "publication_id": "10.1038/s42003-019-0410-x"
-    }
-  },
-  "data/Prochlorococcus/papers_and_supp/steglich 2006/steglich-et-al-2006-genome-wide-analysis-of-light-sensing-in-prochlorococcus.pdf": {
-    "publication": {
-      "title": "Genome-Wide Analysis of Light Sensing in Prochlorococcus/H17188",
-      "authors": [
-        "Claudia Steglich",
-        "Matthias Futschik",
-        "Trent Rector",
-        "Robert Steen",
-        "Sallie W. Chisholm"
-      ],
-      "journal": "Journal of Bacteriology",
-      "publication_year": 2006,
-      "doi": "10.1128/JB.01097-06",
-      "pmid": null,
-      "description": "Genome-wide analysis of light sensing in Prochlorococcus MED4 using high-density Affymetrix microarrays to measure global gene expression in response to different light qualities and quantities; seven conditions tested, with blue light eliciting a strong response; investigation of blue-light sensors and redox signaling related to photosystem II.",
-      "abstract": "Prochlorococcus MED4 has a small genome with limited regulatory systems. The study measured global gene expression under short-term exposure to white, blue, red, and green light and light quantities using microarrays. Blue light triggered the strongest transcriptional response; high-white light response resembled blue light, suggesting blue-light\u2013mediated sensing. Bacterial cryptochromes are proposed as candidate blue-light sensors, and there is evidence for a signaling pathway related to the redox state of the photosynthetic electron transport chain, inferred from genes responding to red and blue light and to the inhibitor DCMU. The work highlights how Prochlorococcus acclimates to varying light environments through transcriptional regulation.",
-      "study_type": "Microarray (transcriptomics)",
-      "organism": [
-        "Prochlorococcus MED4"
-      ],
-      "publication_id": "10.1128/JB.01097-06"
+      "publication_id": "10.1038/ismej.2016.70",
+      "publication_year": "2016",
+      "study_type": "RNA-seq",
+      "title": "Transcriptional response of Prochlorococcus to co-culture with a marine Alteromonas: differences between strains and the involvement of putative infochemicals"
     }
   },
   "data/Prochlorococcus/papers_and_supp/Al-Hosani 2015/Global transcriptome analysis of salt acclimated Prochlorococcus AS9601 1-s2.0-S094450131500066X-main.pdf": {
     "publication": {
-      "title": "Global transcriptome analysis of salt acclimated Prochlorococcus AS9601",
+      "abstract": "Molecular processes leading to salt stress acclimation in the model cyanobacterium Prochlorococcus are not known. To address this, we used RNA sequencing (RNAseq) to compare the global transcriptome of two exponential-phase populations of Prochlorococcus AS9601 cells \u2013 acclimated to high salt (5%, w/v) and normal seawater salt (3.8%, w/v). Experiments showed that salt acclimated cells exhibit slower growth rates with a doubling time almost twice as controls. Approximately 1/3 of the genome was found to be differentially expressed (p-value <0.05), but a considerably large number of these genes are \"hypothetical proteins\" with unknown function. Transcript abundance were higher for genes involved in respiratory electron flow, carbon fixation, osmolyte/compatible solute biosynthesis and inorganic ion transport. Many of the highly expressed genes are \u2018high light inducible proteins\u2019 believed to be part of the general Prochlorococcus stress response. Transcript abundance were lower for genes involved in photosynthetic electron transport and cell division. The relative reduction in transcript abundance for genes encoding proteins containing heme groups and iron transporters suggests cellular iron requirements in salt acclimated cells maybe lower. The results presented here provide the first glimpse into global gene expression changes in Prochlorococcus cells due to salt stress.",
       "authors": [
         "Sumaya Al-Hosani",
         "Mai M. Oudah",
         "Andreas Henschel",
         "Lina F. Yousef"
       ],
-      "journal": "Microbiological Research",
-      "publication_year": "2015",
-      "doi": "10.1016/j.micres.2015.04.006",
-      "pmid": null,
       "description": "RNA-seq based comparative transcriptome analysis of Prochlorococcus AS9601 under salt acclimation, comparing high salt (5%) and normal seawater salt (3.8%), to identify differential gene expression associated with salt stress response and acclimation.",
-      "abstract": "Molecular processes leading to salt stress acclimation in the model cyanobacterium Prochlorococcus are not known. To address this, we used RNA sequencing (RNAseq) to compare the global transcriptome of two exponential-phase populations of Prochlorococcus AS9601 cells \u2013 acclimated to high salt (5%, w/v) and normal seawater salt (3.8%, w/v). Experiments showed that salt acclimated cells exhibit slower growth rates with a doubling time almost twice as controls. Approximately 1/3 of the genome was found to be differentially expressed (p-value <0.05), but a considerably large number of these genes are \"hypothetical proteins\" with unknown function. Transcript abundance were higher for genes involved in respiratory electron flow, carbon fixation, osmolyte/compatible solute biosynthesis and inorganic ion transport. Many of the highly expressed genes are \u2018high light inducible proteins\u2019 believed to be part of the general Prochlorococcus stress response. Transcript abundance were lower for genes involved in photosynthetic electron transport and cell division. The relative reduction in transcript abundance for genes encoding proteins containing heme groups and iron transporters suggests cellular iron requirements in salt acclimated cells maybe lower. The results presented here provide the first glimpse into global gene expression changes in Prochlorococcus cells due to salt stress.",
-      "study_type": "RNA-seq",
+      "doi": "10.1016/j.micres.2015.04.006",
+      "journal": "Microbiological Research",
       "organism": [
         "Prochlorococcus AS9601"
       ],
-      "publication_id": "10.1016/j.micres.2015.04.006"
+      "pmid": null,
+      "publication_id": "10.1016/j.micres.2015.04.006",
+      "publication_year": "2015",
+      "study_type": "RNA-seq",
+      "title": "Global transcriptome analysis of salt acclimated Prochlorococcus AS9601"
     }
   },
   "data/Prochlorococcus/papers_and_supp/Anjur 2025/2025.08.05.668435v1.full.pdf": {
     "publication": {
-      "title": "Biofilm formation and dynamics in the marine cyanobacterium Prochlorococcus",
+      "abstract": "The picocyanobacterium Prochlorococcus is responsible for ~10% of annual marine carbon fixation and plays a role in the global carbon budget. While these phototrophs are primarily considered free-living and neutrally buoyant in the euphotic zone, we observe that they can form biofilms on diverse substrates. This trait is conserved across Prochlorococcus ecotypes, and populations continuously transition between planktonic and biofilm states via a non-genetic heritable mechanism. Throughout their growth, cells in biofilms retain a reversible, dynamic attachment state, and measurements of growth, photosynthesis, and respiration rates reveal that cells in biofilms exude more organic carbon than their planktonic counterparts. Estimates of the fraction of Prochlorococcus cells attached to particles in the ocean reveal that a significant adherent population exists throughout the euphotic and mesopelagic zones. This work describes a new dimension of Prochlorococcus\u2019s ecological niche and suggests a role in carbon export to the deep sea.",
       "authors": [
         "Maya I. Anjur-Dietrich",
         "Katelyn G. Jones",
@@ -154,112 +55,283 @@
         "Sierra M. Parker",
         "Sallie W. Chisholm"
       ],
-      "journal": "bioRxiv",
-      "publication_year": "2025",
-      "doi": "10.1101/2025.08.05.668435",
-      "pmid": null,
       "description": "This study investigates the capacity of Prochlorococcus to form biofilms on diverse substrates, examines the fraction of cells in adherent vs planktonic states across clades, and assesses how populations shift between states under selection. The authors used axenic strains, created persistent biofilm populations via serial enrichment, and quantified growth, photosynthesis, respiration, and carbon budgets, alongside metagenomic field data to estimate distribution on particles in the global ocean.",
-      "abstract": "The picocyanobacterium Prochlorococcus is responsible for ~10% of annual marine carbon fixation and plays a role in the global carbon budget. While these phototrophs are primarily considered free-living and neutrally buoyant in the euphotic zone, we observe that they can form biofilms on diverse substrates. This trait is conserved across Prochlorococcus ecotypes, and populations continuously transition between planktonic and biofilm states via a non-genetic heritable mechanism. Throughout their growth, cells in biofilms retain a reversible, dynamic attachment state, and measurements of growth, photosynthesis, and respiration rates reveal that cells in biofilms exude more organic carbon than their planktonic counterparts. Estimates of the fraction of Prochlorococcus cells attached to particles in the ocean reveal that a significant adherent population exists throughout the euphotic and mesopelagic zones. This work describes a new dimension of Prochlorococcus\u2019s ecological niche and suggests a role in carbon export to the deep sea.",
-      "study_type": "Ecology, Microbiology",
+      "doi": "10.1101/2025.08.05.668435",
+      "journal": "bioRxiv",
       "organism": [
         "Prochlorococcus"
       ],
-      "publication_id": "10.1101/2025.08.05.668435"
-    }
-  },
-  "data/Prochlorococcus/papers_and_supp/bagby 2015/41396_2015_article_bfismej201536.pdf": {
-    "publication": {
-      "title": "Response of Prochlorococcus to varying CO2:O2 ratios",
-      "authors": [
-        "Sarah C Bagby",
-        "Sallie W Chisholm"
-      ],
-      "journal": "ISME Journal",
-      "publication_year": "2015",
-      "doi": "10.1038/ismej.2015.36",
       "pmid": null,
-      "description": "Axenic Prochlorococcus MED4 cultures were exposed to varying CO2 and O2 levels in gas-mixed environments. Growth and chlorophyll fluorescence were monitored; flow cytometry quantified cell abundance; whole-genome transcription profiling was performed after acute CO2, O2, or CO2/O2 co-limitation over a 24-hour period.",
-      "abstract": "This study examines how CO2 and O2 balance affects Prochlorococcus physiology. Prochlorococcus MED4 was grown under a range of CO2:O2 ratios from ambient to near zero, and growth and chlorophyll fluorescence were measured. Under O2 limitation, per-cell fluorescence declined but substantial growth persisted at moderate/high CO2; under CO2 limitation, growth was limited at all O2 levels, though per-cell fluorescence declined less when O2 was available. Genome-wide transcription profiling after acute limitation of CO2, O2, or both revealed that O2 limitation caused smaller transcriptional changes than CO2 limitation and CO2/O2 co-limitation. CO2 limitation triggered responses similar to high-light stress; later, O2-dependent recovery of photosynthesis-related transcripts emerged, suggesting oxygen plays a protective role when carbon fixation cannot sink absorbed light energy.",
-      "study_type": "Transcriptomics",
-      "organism": [
-        "Prochlorococcus MED4"
-      ],
-      "publication_id": "10.1038/ismej.2015.36"
-    }
-  },
-  "data/Prochlorococcus/papers_and_supp/barreto 2022/43705_2022_article_197.pdf": {
-    "publication": {
-      "title": "Community context and pCO 2 impact the transcriptome of the \u201chelper\u201d bacterium Alteromonas in co-culture with picocyanobacteria",
-      "authors": [
-        "Marcelo Malisano Barreto Filho",
-        "Zhiying Lu",
-        "Melissa Walker",
-        "J. Jeffrey Morris"
-      ],
-      "journal": "ISME Communications",
-      "publication_year": "2022",
-      "doi": "10.1038/s43705-022-00197-2",
-      "pmid": null,
-      "description": "Co-cultures of Alteromonas sp. EZ55 with three cyanobacteria (Synechococcus CC9311, Synechococcus WH8102, and Prochlorococcus MIT9312) were exposed to approximately 400 and 800 ppm pCO2 to assess transcriptome changes via RNA sequencing, examining the influence of cyanobacterial partner identity and elevated pCO2 on metabolism, transport, stress response, and ecophysiology.",
-      "abstract": "Elevated pCO2 (800 ppm) and co-culture with three cyanobacteria (Synechococcus CC9311 and WH8102, and Prochlorococcus MIT9312) were used to study transcriptional responses in the helper bacterium Alteromonas macleodii EZ55. Transcriptomic analysis revealed that co-culture with cyanobacteria induced far more transcriptional changes in EZ55 than the increase in pCO2 alone. Pathway analyses showed differential transcription in carbohydrate metabolism, stress response, and chemotaxis, with distinct patterns depending on the cyanobacterial partner. Transporter and catabolic gene expression suggested altered nutrient availability in media under elevated pCO2. The results imply that changes in cyanobacterial excretions under high pCO2 could drive broad ecophysiological shifts in both EZ55 and its cyanobacterial partners, potentially impacting marine carbon cycling. In MIT9312/EZ55 cocultures at 800 ppm pCO2, oxidative stress genes were notably downregulated, consistent with a hypothesized reduction in photorespiratory byproducts and lower oxidative stress in EZ55, offering a potential explanation for the reduced \u2018help\u2019 provided to MIT9312 under elevated pCO2.",
-      "study_type": "RNA-seq",
-      "organism": [
-        "Alteromonas macleodii EZ55",
-        "Prochlorococcus MIT9312",
-        "Synechococcus CC9311",
-        "Synechococcus WH8102"
-      ],
-      "publication_id": "10.1038/s43705-022-00197-2"
-    }
-  },
-  "data/Prochlorococcus/papers_and_supp/biller 2016/41396_2016_article_bfismej201682.pdf": {
-    "publication": {
-      "title": "Torn apart and reunited: impact of a heterotroph on the transcriptome of Prochlorococcus",
-      "authors": [
-        "Steven J Biller",
-        "Allison Coe",
-        "Sallie W Chisholm"
-      ],
-      "journal": "The ISME Journal",
-      "publication_year": "2016",
-      "doi": "10.1038/ismej.2016.82",
-      "pmid": null,
-      "description": "Experiment comparing axenic Prochlorococcus NATL2A cultures vs co-culture with Alteromonas macleodii MIT1002; RNA-seq transcriptome analysis over 48 hours to assess how heterotroph presence affects Prochlorococcus physiology and gene expression.",
-      "abstract": "Prochlorococcus NATL2A transcriptome changes in the presence of a co-occurring heterotroph, Alteromonas macleodii MIT1002, were observed within 6 hours of co-culture initiation, with transcripts changing in temporal waves and many changes persisting to 48 hours. Early changes indicated reduced stress (depletion of DNA repair enzyme transcripts and high-light inducible stress proteins). Later, changes included components of the photosynthetic apparatus (notably PSI subunits and chlorophyll biosynthesis enzymes), ribosomal proteins, and biosynthetic enzymes, suggesting enhanced production of reduced carbon for export and metabolic exchange between the two strains.",
-      "study_type": "RNA-seq / Transcriptomics",
-      "organism": [
-        "Prochlorococcus NATL2A",
-        "Alteromonas macleodii MIT1002"
-      ],
-      "publication_id": "10.1038/ismej.2016.82"
+      "publication_id": "10.1101/2025.08.05.668435",
+      "publication_year": "2025",
+      "study_type": "Ecology, Microbiology",
+      "title": "Biofilm formation and dynamics in the marine cyanobacterium Prochlorococcus"
     }
   },
   "data/Prochlorococcus/papers_and_supp/Biller 2018/biller-et-al-2018-heterotroph-interactions-alter-prochlorococcus-transcriptome-dynamics-during-extended-periods-of.pdf": {
     "publication": {
-      "title": "Heterotroph interactions alter Prochlorococcus transcriptome dynamics during extended periods of darkness",
+      "abstract": "Microbes evolve within complex ecological communities where biotic interactions impact both individual cells and the environment as a whole. Here we examine how cellular regulation in the marine cyanobacterium Prochlorococcus is influenced by a heterotrophic bacterium, Alteromonas macleodii, under different light conditions. We monitored the transcriptome of Prochlorococcus, grown either alone or in coculture, across a diel light:dark cycle and under the stress of extended darkness\u2014a condition that cells would experience when mixed below the ocean\u2019s euphotic zone. More Prochlorococcus transcripts exhibited 24-h periodic oscillations in coculture than in pure culture, both over the normal diel cycle and after the shift to extended darkness. This demonstrates that biotic interactions, and not just light, can affect timing mechanisms in Prochlorococcus, which lacks a self-sustaining circadian oscillator. The transcriptomes of replicate pure cultures of Prochlorococcus lost their synchrony within 5 h of extended darkness and reflected changes in stress responses and metabolic functions consistent with growth cessation. In contrast, when grown with Alteromonas, replicate Prochlorococcus transcriptomes tracked each other for at least 13 h in the dark and showed signs of continued biosynthetic and metabolic activity. The transcriptome patterns suggest that the heterotroph may be providing energy or essential biosynthetic substrates to Prochlorococcus in the form of organic compounds, sustaining this autotroph when it is deprived of solar energy. Our findings reveal conditions where mixotrophic metabolism may benefit marine cyanobacteria and highlight new impacts of community interactions on basic Prochlorococcus cellular processes.",
       "authors": [
         "Steven J. Biller",
         "Allison Coe",
         "Sara E. Roggensack",
         "Sallie W. Chisholm"
       ],
-      "journal": "mSystems",
-      "publication_year": "2018",
-      "doi": "10.1128/mSystems.00040-18",
-      "pmid": null,
       "description": "Study examining how heterotrophic interactions with Alteromonas macleodii influence Prochlorococcus transcriptome regulation under diel light-dark cycles and extended darkness, comparing coculture to axenic culture and using transcriptomic analysis to assess oscillations and stress responses.",
-      "abstract": "Microbes evolve within complex ecological communities where biotic interactions impact both individual cells and the environment as a whole. Here we examine how cellular regulation in the marine cyanobacterium Prochlorococcus is influenced by a heterotrophic bacterium, Alteromonas macleodii, under different light conditions. We monitored the transcriptome of Prochlorococcus, grown either alone or in coculture, across a diel light:dark cycle and under the stress of extended darkness\u2014a condition that cells would experience when mixed below the ocean\u2019s euphotic zone. More Prochlorococcus transcripts exhibited 24-h periodic oscillations in coculture than in pure culture, both over the normal diel cycle and after the shift to extended darkness. This demonstrates that biotic interactions, and not just light, can affect timing mechanisms in Prochlorococcus, which lacks a self-sustaining circadian oscillator. The transcriptomes of replicate pure cultures of Prochlorococcus lost their synchrony within 5 h of extended darkness and reflected changes in stress responses and metabolic functions consistent with growth cessation. In contrast, when grown with Alteromonas, replicate Prochlorococcus transcriptomes tracked each other for at least 13 h in the dark and showed signs of continued biosynthetic and metabolic activity. The transcriptome patterns suggest that the heterotroph may be providing energy or essential biosynthetic substrates to Prochlorococcus in the form of organic compounds, sustaining this autotroph when it is deprived of solar energy. Our findings reveal conditions where mixotrophic metabolism may benefit marine cyanobacteria and highlight new impacts of community interactions on basic Prochlorococcus cellular processes.",
-      "study_type": "RNA-seq",
+      "doi": "10.1128/mSystems.00040-18",
+      "journal": "mSystems",
       "organism": [
         "Prochlorococcus MED4",
         "Alteromonas macleodii MIT1002"
       ],
-      "publication_id": "10.1128/mSystems.00040-18"
+      "pmid": null,
+      "publication_id": "10.1128/mSystems.00040-18",
+      "publication_year": "2018",
+      "study_type": "RNA-seq",
+      "title": "Heterotroph interactions alter Prochlorococcus transcriptome dynamics during extended periods of darkness"
+    }
+  },
+  "data/Prochlorococcus/papers_and_supp/Fang 2019/Fang 2015 Prochlorococcus mit9313 Transcriptomic responses to viral lysis products.pdf": {
+    "publication": {
+      "abstract": "We conducted transcriptomic analyses to study the effects of viral DOM (vDOM) on the cyanobacterium Prochlorococcus MIT9313. Growth was unaffected by vDOM, but tRNAs increased in abundance; tRNA-Gly increased with glycine. Decreased transcript abundances of nitrogen metabolism genes suggested uptake of organic nitrogen from vDOM. vDOM reduced maximum photochemical efficiency of photosystem II and CO2 fixation while increasing respiration, with transcriptomic changes linked to photosynthesis and respiration. The 6S RNA showed high fold-change, indicating a regulatory role in response to viral lysis products. These results suggest transcriptional regulation and metabolic potential of Prochlorococcus to utilize organic nitrogen from viral lysis products.",
+      "authors": [
+        "Xiaoting Fang",
+        "Yaxin Liu",
+        "Yao Zhao",
+        "Yue Chen",
+        "Riyue Liu",
+        "Qi-Long Qin",
+        "Gang Li",
+        "Yu-Zhong Zhang",
+        "Wan Chan",
+        "Wolfgang R. Hess",
+        "Qinglu Zeng"
+      ],
+      "description": "Transcriptomic analyses (RNA-seq) examining the effects of viral lysis products (vDOM) from cyanophage-infected Synechococcus on uninfected Prochlorococcus MIT9313, assessing growth, photosynthesis, respiration, tRNA dynamics, and regulatory RNAs.",
+      "doi": "10.1111/1462-2920.14513",
+      "journal": "Environmental Microbiology",
+      "organism": [
+        "Prochlorococcus MIT9313",
+        "Synechococcus WH8102"
+      ],
+      "pmid": null,
+      "publication_id": "10.1111/1462-2920.14513",
+      "publication_year": "2019",
+      "study_type": "RNA-seq, Transcriptomics",
+      "title": "Transcriptomic responses of the marine cyanobacterium Prochlorococcus to viral lysis products"
+    }
+  },
+  "data/Prochlorococcus/papers_and_supp/Hennon 2017/41396_2018_article_bfismej2017189.pdf": {
+    "publication": {
+      "abstract": "Prochlorococcus MIT9312 (VOL4) was co-cultured with Alteromonas EZ55 under ambient (400 p.p.m.) and elevated (800 p.p.m.) CO2. Elevated CO2 prolonged Prochlorococcus lag phase and increased die-off after transfers, suggesting higher oxidative stress. Whole-transcriptome analysis revealed reduced expression of the carbon fixation operon and carboxysome subunits in Prochlorococcus, with fewer carboxysome structures observed by electron microscopy. Prochlorococcus co-culture responsive gene 1 was upregulated under elevated CO2, indicating a shift in microbial interactions. Alteromonas displayed decreased catalase expression and hydrogen peroxide removal rates by approximately sixfold in co-culture, implying reduced ROS detoxification support for Prochlorococcus under high CO2. These findings suggest elevated CO2 could alter microbial interactions and the ecosystem services provided by helper bacteria in the ocean.",
+      "authors": [
+        "Gwenn MM Hennon",
+        "J Jeffrey Morris",
+        "Sheean T Haley",
+        "Erik R Zinser",
+        "Alexander R Durrant",
+        "Elizabeth Entwistle",
+        "Terje Dokland",
+        "Sonya T Dyhrman"
+      ],
+      "description": "Co-culture experiments of Prochlorococcus MIT9312 VOL4 with Alteromonas EZ55 under ambient and elevated CO2 to assess effects on growth, oxidative stress, transcriptomes, carboxysome abundance, and ROS detoxification.",
+      "doi": "10.1038/ismej.2017.189",
+      "journal": "The ISME Journal",
+      "organism": [
+        "Prochlorococcus",
+        "Alteromonas"
+      ],
+      "pmid": null,
+      "publication_id": "10.1038/ismej.2017.189",
+      "publication_year": "2018",
+      "study_type": "Transcriptomics",
+      "title": "The impact of elevated CO 2 on Prochlorococcus and microbial interactions with \u2018helper\u2019 bacterium Alteromonas"
+    }
+  },
+  "data/Prochlorococcus/papers_and_supp/Labban 2022/Environmental Microbiology - 2022 - Labban - Growth dynamics and transcriptional responses of a Red Sea Prochlorococcus.pdf": {
+    "publication": {
+      "abstract": "Prochlorococcus play a crucial role in the ocean\u2019s biogeochemical cycling, but it remains controversial how they will respond to global warming. Here we assessed the response to temperature (22\u201330 \u00b0C) of the growth dynamics and gene expression profiles of a Red Sea Prochlorococcus strain (RSP50) in a non-axenic culture. Both the specific growth rate (0.55\u20130.80 day\u22121) and cell size (0.04\u20130.07 \u03bcm3) of Prochlorococcus increased significantly with temperature. The primary production released extracellularly ranged from 20% to 34%, with humic-like fluorescent compounds increasing up to fivefold as Prochlorococcus reached its maximum abundance. At 30 \u00b0C, genes involved in carbon fixation such as CsoS2 and CsoS3 and photosynthetic electron transport including PTOX were downregulated, suggesting a cellular homeostasis and energy saving mechanism response. In contrast, PTOX was found upregulated at 22 \u00b0C and 24 \u00b0C. Similar results were found for transaldolase, related to carbon metabolism, and citrate synthase, an important enzyme in the TCA cycle. Our data suggest that in spite of the currently warm temperatures of the Red Sea, Prochlorococcus can modulate its gene expression profiles to permit growth at temperatures lower than its optimum temperature (28 \u00b0C) but is unable to cope with temperatures exceeding 30 \u00b0C.",
+      "authors": [
+        "Abbrar Labban",
+        "Ahmed A. Shibl",
+        "Maria Ll. Calleja",
+        "Pei-Ying Hong",
+        "Xos\u00e9 Anxelu G. Mor\u00e1n"
+      ],
+      "description": "Non-axenic culture of Prochlorococcus RSP50 from the Red Sea exposed to five temperatures (22\u201330 \u00b0C) to characterize growth dynamics and transcriptomic responses; monitored growth rate, cell size, carbon and chlorophyll a content, and dissolved organic matter; RNA sequencing performed during exponential growth.",
+      "doi": "10.1111/1462-2920.16326",
+      "journal": "Environmental Microbiology",
+      "organism": [
+        "Prochlorococcus sp. RSP50"
+      ],
+      "pmid": null,
+      "publication_id": "10.1111/1462-2920.16326",
+      "publication_year": "2023",
+      "study_type": "Transcriptomics (RNA-seq) and growth physiology",
+      "title": "Growth dynamics and transcriptional responses of a Red Sea Prochlorococcus strain to varying temperatures"
+    }
+  },
+  "data/Prochlorococcus/papers_and_supp/Lin 2015/Environmental Microbiology - 2015 - Lin - Transcriptomic response during phage infection of a marine cyanobacterium under.pdf": {
+    "publication": {
+      "abstract": "The transcriptomic responses of bacteria to environmental stresses have been studied extensively, yet we know little about how stressed cells respond to bacteriophage infection. Here, we conducted the first whole-transcriptome sequencing (RNA-seq) study of stressed bacteria to phage infection by infecting the marine picocyanobacterium Prochlorococcus NATL2A with cyanomyovirus P-SSM2 under phosphorus limitation. Transcript levels of the P-acquisition genes in uninfected cells were enriched under P limitation, including pstS, and these were still enriched in infected cells under P-limited conditions. In contrast, transcripts of ATP synthase and ribosomal protein genes were depleted under P limitation but enriched during phage infection of P-starved cells. Cyanophage P-SSM2 contains pstS, and pstS and its adjacent gene g247 of unknown function were the only phage genes enriched under P-limited conditions. The host pstS transcript number per cell decreased after infection but remained higher in the P-limited infected cells than in nutrient-replete cells; phage pstS transcripts per cell were ~20-fold higher than host pstS, potentially maintaining host phosphate uptake during infection.",
+      "authors": [
+        "Xingqin Lin",
+        "Huiming Ding",
+        "Qinglu Zeng"
+      ],
+      "description": "RNA-seq analysis of Prochlorococcus NATL2A during infection by cyanomyovirus P-SSM2 under nutrient-replete and phosphorus-limited conditions; assessment of host and phage transcriptome dynamics, infection kinetics, differential expression of P-acquisition genes, and measurement of pstS transcript copies per cell.",
+      "doi": "10.1111/1462-2920.13104",
+      "journal": "Environmental Microbiology",
+      "organism": [
+        "Prochlorococcus NATL2A",
+        "cyanomyovirus P-SSM2"
+      ],
+      "pmid": null,
+      "publication_id": "10.1111/1462-2920.13104",
+      "publication_year": "2015",
+      "study_type": "RNA-seq, Transcriptomics",
+      "title": "Transcriptomic response during phage infection of a marine cyanobacterium under phosphorus-limited conditions"
+    }
+  },
+  "data/Prochlorococcus/papers_and_supp/Read 2017/41396_2017_article_bfismej201788.pdf": {
+    "publication": {
+      "abstract": "The authors compare primary transcriptomes of Prochlorococcus MED4 under nitrogen-deprived and nitrogen-replete conditions to test whether transcriptional regulation reduces cellular nitrogen budgets during N limitation. They map transcription start sites and find increased downstream initiation and internal TSS usage under N deprivation, yielding shortened transcripts with about 21% less nitrogen per encoded protein. They also observe elevated glycine\u2013glycine motifs, consistent with translational pausing and slower growth. Overall, the study reveals structural changes in the transcriptome during N deprivation that may further minimize cellular nitrogen requirements.",
+      "authors": [
+        "Robert W Read",
+        "Paul M Berube",
+        "Steven J Biller",
+        "Iva Neveux",
+        "Andres Cubillos-Ruiz",
+        "Sallie W Chisholm",
+        "Joseph J Grzymski"
+      ],
+      "description": "The study investigates transcriptional cost minimization in Prochlorococcus MED4 by comparing transcription start sites (TSSs) under nitrogen-deprived and nitrogen-replete conditions, enabling assessment of transcript structure changes and potential nitrogen savings through shortened transcripts and altered codon usage.",
+      "doi": "10.1038/ismej.2017.88",
+      "journal": "The ISME Journal",
+      "organism": [
+        "Prochlorococcus MED4"
+      ],
+      "pmid": null,
+      "publication_id": "10.1038/ismej.2017.88",
+      "publication_year": "2017",
+      "study_type": "Transcriptomics (transcription start site mapping)",
+      "title": "Nitrogen cost minimization is promoted by structural changes in the transcriptome of N-deprived Prochlorococcus cells"
+    }
+  },
+  "data/Prochlorococcus/papers_and_supp/Thompson 2016/thompson 2016 file.pdf": {
+    "publication": {
+      "abstract": "Cyanophage infection of marine cyanobacteria requires light and host photosystem activity. We sequenced transcriptomes of cyanophage P-HM2 and host Prochlorococcus MED4 during infection in the light and in the dark, analyzed in the context of phage replication and metabolite measurements, to evaluate whether cyclic or linear photosynthetic electron transport predominates and how NADPH and ATP are supplied for nucleotide biosynthesis.",
+      "authors": [
+        "Luke R. Thompson",
+        "Qinglu Zeng",
+        "Sallie W. Chisholm"
+      ],
+      "description": "Dual RNA-seq transcriptomics of cyanophage P-HM2 and its host Prochlorococcus MED4 during infection in the light and in the dark, to investigate host-phage metabolic interactions and the mode of photosynthetic electron flow.",
+      "doi": "10.1371/journal.pone.0165375",
+      "journal": "PLOS ONE",
+      "organism": [
+        "Prochlorococcus MED4",
+        "Cyanophage P-HM2"
+      ],
+      "pmid": null,
+      "publication_id": "10.1371/journal.pone.0165375",
+      "publication_year": "2016",
+      "study_type": "Transcriptomics (RNA-seq)",
+      "title": "Gene Expression Patterns during Light and Dark Infection of Prochlorococcus by Cyanophage"
+    }
+  },
+  "data/Prochlorococcus/papers_and_supp/Weissberg_2025/cc1a3_bioax_2025.pdf": {
+    "publication": {
+      "abstract": "Prochlorococcus, the dominant cyanobacterium in the oligotrophic ocean, possesses a streamlined genome and depends on interactions with heterotrophic bacteria for survival under various stressors. While the role of 'helper' bacteria in mitigating oxidative stress is established, the mechanisms enabling its long -term survival under nitrogen (N) limitation remain poorly characterized. \nHere, we employ a multi -omics approach \u2014integrating transcriptomics and proteomics \u2014to investigate the physiological processes that facilitate the prolonged survival of Prochlorococcus in co -culture with the marine heterotroph Alteromonas during conditions of extreme N -deprivation. \nOur results demonstrate that, unlike axenic cultures which rapidly perish, Prochlorococcus in co-culture maintains viability for months following the depletion of initial N -sources. Molecular analysis identifies a shift in both organisms that underpins this persistence: Prochlorococcus strongly upregulates high -affinity N -scavenging pathways, while Alteromonas exhibits transcriptional and translational changes consistent with increased organic matter degradation and reduced motility. This suggests that Alteromonas functions as a key nitrogen recycler, providing a continuous, albeit low -level, supply of bioavailable NH 4+ to its photoautotrophic partner through the remineralization of organic matter. \nThese findings support and extend the Black Queen Hypothesis, illustrating that the benefits conferred by heterotrophs to genome -streamlined primary producers encompass not only the detoxification of reactive oxygen species but also the continuous provisioning of essential macro- nutrients under starvation conditions. This tightly coupled, mutualistic relationship represents a critical factor driving the resilience and productivity of microbial communities in oligotrophic marine ecosystems.",
+      "authors": [
+        "Osnat Weissberg",
+        "Dikla Aharonovich",
+        "Daniel Sher"
+      ],
+      "description": "Multi-omics investigation combining transcriptomics and proteomics to study Prochlorococcus survival in coculture with Alteromonas under extreme nitrogen deprivation for 90 days, comparing coculture to axenic controls to uncover interactions and nitrogen recycling mechanisms.",
+      "doi": "10.1101/2025.11.24.690089",
+      "journal": "bioRxiv",
+      "organism": [
+        "Prochlorococcus",
+        "Alteromonas"
+      ],
+      "pmid": null,
+      "publication_id": "10.1101/2025.11.24.690089",
+      "publication_year": "2025",
+      "study_type": "Transcriptomics and Proteomics (multi-omics)",
+      "title": "Transcriptomic and Proteomic Analysis Reveals Nitrogen Recycling as a Core Mechanism for Prochlorococcus Prolonged Survival"
+    }
+  },
+  "data/Prochlorococcus/papers_and_supp/bagby 2015/41396_2015_article_bfismej201536.pdf": {
+    "publication": {
+      "abstract": "This study examines how CO2 and O2 balance affects Prochlorococcus physiology. Prochlorococcus MED4 was grown under a range of CO2:O2 ratios from ambient to near zero, and growth and chlorophyll fluorescence were measured. Under O2 limitation, per-cell fluorescence declined but substantial growth persisted at moderate/high CO2; under CO2 limitation, growth was limited at all O2 levels, though per-cell fluorescence declined less when O2 was available. Genome-wide transcription profiling after acute limitation of CO2, O2, or both revealed that O2 limitation caused smaller transcriptional changes than CO2 limitation and CO2/O2 co-limitation. CO2 limitation triggered responses similar to high-light stress; later, O2-dependent recovery of photosynthesis-related transcripts emerged, suggesting oxygen plays a protective role when carbon fixation cannot sink absorbed light energy.",
+      "authors": [
+        "Sarah C Bagby",
+        "Sallie W Chisholm"
+      ],
+      "description": "Axenic Prochlorococcus MED4 cultures were exposed to varying CO2 and O2 levels in gas-mixed environments. Growth and chlorophyll fluorescence were monitored; flow cytometry quantified cell abundance; whole-genome transcription profiling was performed after acute CO2, O2, or CO2/O2 co-limitation over a 24-hour period.",
+      "doi": "10.1038/ismej.2015.36",
+      "journal": "ISME Journal",
+      "organism": [
+        "Prochlorococcus MED4"
+      ],
+      "pmid": null,
+      "publication_id": "10.1038/ismej.2015.36",
+      "publication_year": "2015",
+      "study_type": "Transcriptomics",
+      "title": "Response of Prochlorococcus to varying CO2:O2 ratios"
+    }
+  },
+  "data/Prochlorococcus/papers_and_supp/barreto 2022/43705_2022_article_197.pdf": {
+    "publication": {
+      "abstract": "Elevated pCO2 (800 ppm) and co-culture with three cyanobacteria (Synechococcus CC9311 and WH8102, and Prochlorococcus MIT9312) were used to study transcriptional responses in the helper bacterium Alteromonas macleodii EZ55. Transcriptomic analysis revealed that co-culture with cyanobacteria induced far more transcriptional changes in EZ55 than the increase in pCO2 alone. Pathway analyses showed differential transcription in carbohydrate metabolism, stress response, and chemotaxis, with distinct patterns depending on the cyanobacterial partner. Transporter and catabolic gene expression suggested altered nutrient availability in media under elevated pCO2. The results imply that changes in cyanobacterial excretions under high pCO2 could drive broad ecophysiological shifts in both EZ55 and its cyanobacterial partners, potentially impacting marine carbon cycling. In MIT9312/EZ55 cocultures at 800 ppm pCO2, oxidative stress genes were notably downregulated, consistent with a hypothesized reduction in photorespiratory byproducts and lower oxidative stress in EZ55, offering a potential explanation for the reduced \u2018help\u2019 provided to MIT9312 under elevated pCO2.",
+      "authors": [
+        "Marcelo Malisano Barreto Filho",
+        "Zhiying Lu",
+        "Melissa Walker",
+        "J. Jeffrey Morris"
+      ],
+      "description": "Co-cultures of Alteromonas sp. EZ55 with three cyanobacteria (Synechococcus CC9311, Synechococcus WH8102, and Prochlorococcus MIT9312) were exposed to approximately 400 and 800 ppm pCO2 to assess transcriptome changes via RNA sequencing, examining the influence of cyanobacterial partner identity and elevated pCO2 on metabolism, transport, stress response, and ecophysiology.",
+      "doi": "10.1038/s43705-022-00197-2",
+      "journal": "ISME Communications",
+      "organism": [
+        "Alteromonas macleodii EZ55",
+        "Prochlorococcus MIT9312",
+        "Synechococcus CC9311",
+        "Synechococcus WH8102"
+      ],
+      "pmid": null,
+      "publication_id": "10.1038/s43705-022-00197-2",
+      "publication_year": "2022",
+      "study_type": "RNA-seq",
+      "title": "Community context and pCO 2 impact the transcriptome of the \u201chelper\u201d bacterium Alteromonas in co-culture with picocyanobacteria"
+    }
+  },
+  "data/Prochlorococcus/papers_and_supp/biller 2016/41396_2016_article_bfismej201682.pdf": {
+    "publication": {
+      "abstract": "Prochlorococcus NATL2A transcriptome changes in the presence of a co-occurring heterotroph, Alteromonas macleodii MIT1002, were observed within 6 hours of co-culture initiation, with transcripts changing in temporal waves and many changes persisting to 48 hours. Early changes indicated reduced stress (depletion of DNA repair enzyme transcripts and high-light inducible stress proteins). Later, changes included components of the photosynthetic apparatus (notably PSI subunits and chlorophyll biosynthesis enzymes), ribosomal proteins, and biosynthetic enzymes, suggesting enhanced production of reduced carbon for export and metabolic exchange between the two strains.",
+      "authors": [
+        "Steven J Biller",
+        "Allison Coe",
+        "Sallie W Chisholm"
+      ],
+      "description": "Experiment comparing axenic Prochlorococcus NATL2A cultures vs co-culture with Alteromonas macleodii MIT1002; RNA-seq transcriptome analysis over 48 hours to assess how heterotroph presence affects Prochlorococcus physiology and gene expression.",
+      "doi": "10.1038/ismej.2016.82",
+      "journal": "The ISME Journal",
+      "organism": [
+        "Prochlorococcus NATL2A",
+        "Alteromonas macleodii MIT1002"
+      ],
+      "pmid": null,
+      "publication_id": "10.1038/ismej.2016.82",
+      "publication_year": "2016",
+      "study_type": "RNA-seq / Transcriptomics",
+      "title": "Torn apart and reunited: impact of a heterotroph on the transcriptome of Prochlorococcus"
     }
   },
   "data/Prochlorococcus/papers_and_supp/coe 2024/coe_isme_ycae131.pdf": {
     "publication": {
-      "title": "Emergence of metabolic coupling to the heterotroph Alteromonas promotes dark survival in Prochlorococcus",
+      "abstract": "Prochlorococcus is found throughout the euphotic zone in the oligotrophic open ocean. Deep mixing and sinking while attached to particles can, however, transport Prochlorococcus cells below this sunlit zone, depriving them of light for extended periods of time. Previous work has shown that Prochlorococcus by itself cannot survive extended periods of darkness. However, when co-cultured with a heterotrophic microbe and subjected to repeated periods of extended darkness, Prochlorococcus cells develop an epigenetically inherited dark-tolerant phenotype that can survive longer periods of darkness. Here we examine the metabolic and physiological changes underlying this adaptation using co-cultures of dark-tolerant and parental strains of Prochlorococcus, each grown with the heterotroph Alteromonas under diel light:dark conditions. The relative abundance of Alteromonas was higher in dark-tolerant than parental co-cultures, while dark-tolerant Prochlorococcus cells were larger, contained less chlorophyll, and were less synchronized to the light:dark cycle. Meta-transcriptome analysis revealed that dark-tolerant co-cultures undergo a joint change, in which Prochlorococcus undergoes a relative shift from photosynthesis to respiration, while Alteromonas shifts toward using more organic acids instead of sugars. Furthermore, the transcriptome data suggested enhanced biosynthesis of amino acids and purines in dark-tolerant Prochlorococcus and enhanced degradation of these compounds in Alteromonas. Collectively, our results demonstrate that dark adaptation involves a strengthening of the metabolic coupling between Prochlorococcus and Alteromonas, presumably mediated by an enhanced, and compositionally modified, carbon exchange between the two species.",
       "authors": [
         "Allison Coe",
         "Rogier Braakman",
@@ -274,53 +346,23 @@
         "Jef Huisman",
         "Sallie W. Chisholm"
       ],
-      "journal": "ISME Communications",
-      "publication_year": "2024",
-      "doi": "10.1093/ismeco/ycae131",
-      "pmid": null,
       "description": "Co-cultures of Prochlorococcus NATL2A with Alteromonas macleodii MIT1002 were subjected to repeated extended darkness to study dark-tolerance adaptation, comparing dark-tolerant and parental co-cultures under diel light:dark cycles, with analyses of population dynamics, cell size, chlorophyll content, flow cytometry, and meta-transcriptomics to examine metabolic coupling and carbon exchange.",
-      "abstract": "Prochlorococcus is found throughout the euphotic zone in the oligotrophic open ocean. Deep mixing and sinking while attached to particles can, however, transport Prochlorococcus cells below this sunlit zone, depriving them of light for extended periods of time. Previous work has shown that Prochlorococcus by itself cannot survive extended periods of darkness. However, when co-cultured with a heterotrophic microbe and subjected to repeated periods of extended darkness, Prochlorococcus cells develop an epigenetically inherited dark-tolerant phenotype that can survive longer periods of darkness. Here we examine the metabolic and physiological changes underlying this adaptation using co-cultures of dark-tolerant and parental strains of Prochlorococcus, each grown with the heterotroph Alteromonas under diel light:dark conditions. The relative abundance of Alteromonas was higher in dark-tolerant than parental co-cultures, while dark-tolerant Prochlorococcus cells were larger, contained less chlorophyll, and were less synchronized to the light:dark cycle. Meta-transcriptome analysis revealed that dark-tolerant co-cultures undergo a joint change, in which Prochlorococcus undergoes a relative shift from photosynthesis to respiration, while Alteromonas shifts toward using more organic acids instead of sugars. Furthermore, the transcriptome data suggested enhanced biosynthesis of amino acids and purines in dark-tolerant Prochlorococcus and enhanced degradation of these compounds in Alteromonas. Collectively, our results demonstrate that dark adaptation involves a strengthening of the metabolic coupling between Prochlorococcus and Alteromonas, presumably mediated by an enhanced, and compositionally modified, carbon exchange between the two species.",
-      "study_type": "Metatranscriptomics",
+      "doi": "10.1093/ismeco/ycae131",
+      "journal": "ISME Communications",
       "organism": [
         "Prochlorococcus",
         "Alteromonas macleodii MIT1002"
       ],
-      "publication_id": "10.1093/ismeco/ycae131"
-    }
-  },
-  "data/Prochlorococcus/papers_and_supp/Fang 2019/Fang 2015 Prochlorococcus mit9313 Transcriptomic responses to viral lysis products.pdf": {
-    "publication": {
-      "title": "Transcriptomic responses of the marine cyanobacterium Prochlorococcus to viral lysis products",
-      "authors": [
-        "Xiaoting Fang",
-        "Yaxin Liu",
-        "Yao Zhao",
-        "Yue Chen",
-        "Riyue Liu",
-        "Qi-Long Qin",
-        "Gang Li",
-        "Yu-Zhong Zhang",
-        "Wan Chan",
-        "Wolfgang R. Hess",
-        "Qinglu Zeng"
-      ],
-      "journal": "Environmental Microbiology",
-      "publication_year": "2019",
-      "doi": "10.1111/1462-2920.14513",
       "pmid": null,
-      "description": "Transcriptomic analyses (RNA-seq) examining the effects of viral lysis products (vDOM) from cyanophage-infected Synechococcus on uninfected Prochlorococcus MIT9313, assessing growth, photosynthesis, respiration, tRNA dynamics, and regulatory RNAs.",
-      "abstract": "We conducted transcriptomic analyses to study the effects of viral DOM (vDOM) on the cyanobacterium Prochlorococcus MIT9313. Growth was unaffected by vDOM, but tRNAs increased in abundance; tRNA-Gly increased with glycine. Decreased transcript abundances of nitrogen metabolism genes suggested uptake of organic nitrogen from vDOM. vDOM reduced maximum photochemical efficiency of photosystem II and CO2 fixation while increasing respiration, with transcriptomic changes linked to photosynthesis and respiration. The 6S RNA showed high fold-change, indicating a regulatory role in response to viral lysis products. These results suggest transcriptional regulation and metabolic potential of Prochlorococcus to utilize organic nitrogen from viral lysis products.",
-      "study_type": "RNA-seq, Transcriptomics",
-      "organism": [
-        "Prochlorococcus MIT9313",
-        "Synechococcus WH8102"
-      ],
-      "publication_id": "10.1111/1462-2920.14513"
+      "publication_id": "10.1093/ismeco/ycae131",
+      "publication_year": "2024",
+      "study_type": "Metatranscriptomics",
+      "title": "Emergence of metabolic coupling to the heterotroph Alteromonas promotes dark survival in Prochlorococcus"
     }
   },
   "data/Prochlorococcus/papers_and_supp/he 2022/fmicb-13-1038136.pdf": {
     "publication": {
-      "title": "Acclimation and stress response of Prochlorococcus to low salinity.",
+      "abstract": "This study tested the salinity range of Prochlorococcus strains NATL1A and MED4 and examined their transcriptomic responses to low salinity. NATL1A acclimated to 28 psu and MED4 to 25 psu. Both strains were stressed below 34 psu, and RNA-seq revealed 525 and 277 differentially expressed genes in NATL1A and MED4, respectively, with NATL1A down-regulating translation/ribosome/ATP production and up-regulating photosynthesis, while MED4 showed the opposite regulation. Both strains up-regulated idiA, indicating potential iron limitation under low salinity.",
       "authors": [
         "Xiayu He",
         "Huan Liu",
@@ -328,95 +370,23 @@
         "Junde Dong",
         "Sijun Huang"
       ],
-      "journal": "Frontiers in Microbiology",
-      "publication_year": "2022",
-      "doi": "10.3389/fmicb.2022.1038136",
-      "pmid": null,
       "description": "Two Prochlorococcus strains NATL1A (low-light adapted) and MED4 (high-light adapted) were exposed to a range of salinities to determine the lowest salinity for acclimation and the stress response. Transcriptomic comparisons at low salinity (28 psu) versus normal seawater salinity (34 psu) revealed strain-specific gene expression changes, including upregulation of photosynthesis genes in NATL1A and opposite regulation in MED4, and upregulation of idiA (iron transporter) in both, suggesting iron limitation under low salinity.",
-      "abstract": "This study tested the salinity range of Prochlorococcus strains NATL1A and MED4 and examined their transcriptomic responses to low salinity. NATL1A acclimated to 28 psu and MED4 to 25 psu. Both strains were stressed below 34 psu, and RNA-seq revealed 525 and 277 differentially expressed genes in NATL1A and MED4, respectively, with NATL1A down-regulating translation/ribosome/ATP production and up-regulating photosynthesis, while MED4 showed the opposite regulation. Both strains up-regulated idiA, indicating potential iron limitation under low salinity.",
-      "study_type": "RNA-seq / Transcriptomics",
+      "doi": "10.3389/fmicb.2022.1038136",
+      "journal": "Frontiers in Microbiology",
       "organism": [
         "Prochlorococcus NATL1A",
         "Prochlorococcus MED4"
       ],
-      "publication_id": "10.3389/fmicb.2022.1038136"
-    }
-  },
-  "data/Prochlorococcus/papers_and_supp/Hennon 2017/41396_2018_article_bfismej2017189.pdf": {
-    "publication": {
-      "title": "The impact of elevated CO 2 on Prochlorococcus and microbial interactions with \u2018helper\u2019 bacterium Alteromonas",
-      "authors": [
-        "Gwenn MM Hennon",
-        "J Jeffrey Morris",
-        "Sheean T Haley",
-        "Erik R Zinser",
-        "Alexander R Durrant",
-        "Elizabeth Entwistle",
-        "Terje Dokland",
-        "Sonya T Dyhrman"
-      ],
-      "journal": "The ISME Journal",
-      "publication_year": "2018",
-      "doi": "10.1038/ismej.2017.189",
       "pmid": null,
-      "description": "Co-culture experiments of Prochlorococcus MIT9312 VOL4 with Alteromonas EZ55 under ambient and elevated CO2 to assess effects on growth, oxidative stress, transcriptomes, carboxysome abundance, and ROS detoxification.",
-      "abstract": "Prochlorococcus MIT9312 (VOL4) was co-cultured with Alteromonas EZ55 under ambient (400 p.p.m.) and elevated (800 p.p.m.) CO2. Elevated CO2 prolonged Prochlorococcus lag phase and increased die-off after transfers, suggesting higher oxidative stress. Whole-transcriptome analysis revealed reduced expression of the carbon fixation operon and carboxysome subunits in Prochlorococcus, with fewer carboxysome structures observed by electron microscopy. Prochlorococcus co-culture responsive gene 1 was upregulated under elevated CO2, indicating a shift in microbial interactions. Alteromonas displayed decreased catalase expression and hydrogen peroxide removal rates by approximately sixfold in co-culture, implying reduced ROS detoxification support for Prochlorococcus under high CO2. These findings suggest elevated CO2 could alter microbial interactions and the ecosystem services provided by helper bacteria in the ocean.",
-      "study_type": "Transcriptomics",
-      "organism": [
-        "Prochlorococcus",
-        "Alteromonas"
-      ],
-      "publication_id": "10.1038/ismej.2017.189"
-    }
-  },
-  "data/Prochlorococcus/papers_and_supp/Labban 2022/Environmental Microbiology - 2022 - Labban - Growth dynamics and transcriptional responses of a Red Sea Prochlorococcus.pdf": {
-    "publication": {
-      "title": "Growth dynamics and transcriptional responses of a Red Sea Prochlorococcus strain to varying temperatures",
-      "authors": [
-        "Abbrar Labban",
-        "Ahmed A. Shibl",
-        "Maria Ll. Calleja",
-        "Pei-Ying Hong",
-        "Xos\u00e9 Anxelu G. Mor\u00e1n"
-      ],
-      "journal": "Environmental Microbiology",
-      "publication_year": "2023",
-      "doi": "10.1111/1462-2920.16326",
-      "pmid": null,
-      "description": "Non-axenic culture of Prochlorococcus RSP50 from the Red Sea exposed to five temperatures (22\u201330 \u00b0C) to characterize growth dynamics and transcriptomic responses; monitored growth rate, cell size, carbon and chlorophyll a content, and dissolved organic matter; RNA sequencing performed during exponential growth.",
-      "abstract": "Prochlorococcus play a crucial role in the ocean\u2019s biogeochemical cycling, but it remains controversial how they will respond to global warming. Here we assessed the response to temperature (22\u201330 \u00b0C) of the growth dynamics and gene expression profiles of a Red Sea Prochlorococcus strain (RSP50) in a non-axenic culture. Both the specific growth rate (0.55\u20130.80 day\u22121) and cell size (0.04\u20130.07 \u03bcm3) of Prochlorococcus increased significantly with temperature. The primary production released extracellularly ranged from 20% to 34%, with humic-like fluorescent compounds increasing up to fivefold as Prochlorococcus reached its maximum abundance. At 30 \u00b0C, genes involved in carbon fixation such as CsoS2 and CsoS3 and photosynthetic electron transport including PTOX were downregulated, suggesting a cellular homeostasis and energy saving mechanism response. In contrast, PTOX was found upregulated at 22 \u00b0C and 24 \u00b0C. Similar results were found for transaldolase, related to carbon metabolism, and citrate synthase, an important enzyme in the TCA cycle. Our data suggest that in spite of the currently warm temperatures of the Red Sea, Prochlorococcus can modulate its gene expression profiles to permit growth at temperatures lower than its optimum temperature (28 \u00b0C) but is unable to cope with temperatures exceeding 30 \u00b0C.",
-      "study_type": "Transcriptomics (RNA-seq) and growth physiology",
-      "organism": [
-        "Prochlorococcus sp. RSP50"
-      ],
-      "publication_id": "10.1111/1462-2920.16326"
-    }
-  },
-  "data/Prochlorococcus/papers_and_supp/Lin 2015/Environmental Microbiology - 2015 - Lin - Transcriptomic response during phage infection of a marine cyanobacterium under.pdf": {
-    "publication": {
-      "title": "Transcriptomic response during phage infection of a marine cyanobacterium under phosphorus-limited conditions",
-      "authors": [
-        "Xingqin Lin",
-        "Huiming Ding",
-        "Qinglu Zeng"
-      ],
-      "journal": "Environmental Microbiology",
-      "publication_year": "2015",
-      "doi": "10.1111/1462-2920.13104",
-      "pmid": null,
-      "description": "RNA-seq analysis of Prochlorococcus NATL2A during infection by cyanomyovirus P-SSM2 under nutrient-replete and phosphorus-limited conditions; assessment of host and phage transcriptome dynamics, infection kinetics, differential expression of P-acquisition genes, and measurement of pstS transcript copies per cell.",
-      "abstract": "The transcriptomic responses of bacteria to environmental stresses have been studied extensively, yet we know little about how stressed cells respond to bacteriophage infection. Here, we conducted the first whole-transcriptome sequencing (RNA-seq) study of stressed bacteria to phage infection by infecting the marine picocyanobacterium Prochlorococcus NATL2A with cyanomyovirus P-SSM2 under phosphorus limitation. Transcript levels of the P-acquisition genes in uninfected cells were enriched under P limitation, including pstS, and these were still enriched in infected cells under P-limited conditions. In contrast, transcripts of ATP synthase and ribosomal protein genes were depleted under P limitation but enriched during phage infection of P-starved cells. Cyanophage P-SSM2 contains pstS, and pstS and its adjacent gene g247 of unknown function were the only phage genes enriched under P-limited conditions. The host pstS transcript number per cell decreased after infection but remained higher in the P-limited infected cells than in nutrient-replete cells; phage pstS transcripts per cell were ~20-fold higher than host pstS, potentially maintaining host phosphate uptake during infection.",
-      "study_type": "RNA-seq, Transcriptomics",
-      "organism": [
-        "Prochlorococcus NATL2A",
-        "cyanomyovirus P-SSM2"
-      ],
-      "publication_id": "10.1111/1462-2920.13104"
+      "publication_id": "10.3389/fmicb.2022.1038136",
+      "publication_year": "2022",
+      "study_type": "RNA-seq / Transcriptomics",
+      "title": "Acclimation and stress response of Prochlorococcus to low salinity."
     }
   },
   "data/Prochlorococcus/papers_and_supp/lindell 2007/nature06130 (1).pdf": {
     "publication": {
-      "title": "Genome-wide expression dynamics of a marine virus and host reveal features of co-evolution",
+      "abstract": "Interactions between bacterial hosts and their viruses drive co-evolution of gene content. Here, we analyze whole-genome expression of Prochlorococcus MED4 and the cyanophage P-SSP7 during lytic infection, revealing linearly transcribed phage genes with three expression clusters. A unique cluster containing four bacterial-like genes co-transcribed despite physical separation hints at a functional unit for energy and nucleotide production, supporting a model of co-evolution via host gene recruitment and transfer back to hosts.",
       "authors": [
         "Debbie Lindell",
         "Jacob D. Jaffe",
@@ -431,87 +401,139 @@
         "George M. Church",
         "Sallie W. Chisholm"
       ],
-      "journal": "Nature",
-      "publication_year": "2007",
-      "doi": "10.1038/nature06130",
-      "pmid": null,
       "description": "Genome-wide transcription analysis of the marine cyanobacterium Prochlorococcus MED4 and its T7-like cyanophage P-SSP7 during lytic infection, identifying genome-wide expression patterns, three expression clusters, and a co-transcribed cluster of four bacterial-like phage genes (nrd, hli, psbA, talC) implicated in energy and deoxynucleotide production, suggesting co-evolutionary genome dynamics in marine virus-host interactions.",
-      "abstract": "Interactions between bacterial hosts and their viruses drive co-evolution of gene content. Here, we analyze whole-genome expression of Prochlorococcus MED4 and the cyanophage P-SSP7 during lytic infection, revealing linearly transcribed phage genes with three expression clusters. A unique cluster containing four bacterial-like genes co-transcribed despite physical separation hints at a functional unit for energy and nucleotide production, supporting a model of co-evolution via host gene recruitment and transfer back to hosts.",
-      "study_type": "Transcriptomics",
+      "doi": "10.1038/nature06130",
+      "journal": "Nature",
       "organism": [
         "Prochlorococcus MED4",
         "P-SSP7"
       ],
-      "publication_id": "10.1038/nature06130"
+      "pmid": null,
+      "publication_id": "10.1038/nature06130",
+      "publication_year": "2007",
+      "study_type": "Transcriptomics",
+      "title": "Genome-wide expression dynamics of a marine virus and host reveal features of co-evolution"
     }
   },
   "data/Prochlorococcus/papers_and_supp/martiny 2006/martiny-et-al-2006-phosphate-acquisition-genes-in-prochlorococcus-ecotypes-evidence-for-genome-wide-adaptation.pdf": {
     "publication": {
-      "title": "Phosphate acquisition genes in Prochlorococcus ecotypes: Evidence for genome-wide adaptation",
+      "abstract": "The authors identified phosphate-starvation-induced genes in two Prochlorococcus strains (MED4, HL-adapted, and MIT9313, LL-adapted) using DNA microarrays and RT-PCR. MED4 showed a progressive induction of 30 genes (with 4 down-regulated); MIT9313 showed 176 differentially expressed genes (mostly down-regulated). Only seven up-regulated genes were common to both strains, including phoB and pstABCS and a downstream porin likely encoding phoE. Novel P-starvation\u2013associated genes were observed, frequently clustered near phoB (downstream gap1 and mfs) suggesting roles in P scavenging. The phoB-containing cluster varied across 11 Prochlorococcus strains, not strictly correlated with rRNA phylogeny, implying genome variability related to environmental phosphate availability. A Sargasso Sea metagenomic library suggested most cells carry P-acquisition genes similar to MED4, with additional novel gene combinations observed.",
       "authors": [
         "Adam C. Martiny",
         "Maureen L. Coleman",
         "Sallie W. Chisholm"
       ],
-      "journal": "PNAS",
-      "publication_year": "2006",
-      "doi": "10.1073/pnas.0601301103",
-      "pmid": null,
       "description": "DNA microarray analysis to identify phosphate-starvation\u2013induced genes in HL- and LL-adapted Prochlorococcus strains MED4 and MIT9313, followed by analysis of PhoB-region gene cluster organization across 11 diverse Prochlorococcus strains and comparison with a Sargasso Sea metagenomic library to assess genome variability in relation to phosphate availability.",
-      "abstract": "The authors identified phosphate-starvation-induced genes in two Prochlorococcus strains (MED4, HL-adapted, and MIT9313, LL-adapted) using DNA microarrays and RT-PCR. MED4 showed a progressive induction of 30 genes (with 4 down-regulated); MIT9313 showed 176 differentially expressed genes (mostly down-regulated). Only seven up-regulated genes were common to both strains, including phoB and pstABCS and a downstream porin likely encoding phoE. Novel P-starvation\u2013associated genes were observed, frequently clustered near phoB (downstream gap1 and mfs) suggesting roles in P scavenging. The phoB-containing cluster varied across 11 Prochlorococcus strains, not strictly correlated with rRNA phylogeny, implying genome variability related to environmental phosphate availability. A Sargasso Sea metagenomic library suggested most cells carry P-acquisition genes similar to MED4, with additional novel gene combinations observed.",
-      "study_type": "Microarray",
+      "doi": "10.1073/pnas.0601301103",
+      "journal": "PNAS",
       "organism": [
         "Prochlorococcus MED4",
         "Prochlorococcus MIT9313"
       ],
-      "publication_id": "10.1073/pnas.0601301103"
+      "pmid": null,
+      "publication_id": "10.1073/pnas.0601301103",
+      "publication_year": "2006",
+      "study_type": "Microarray",
+      "title": "Phosphate acquisition genes in Prochlorococcus ecotypes: Evidence for genome-wide adaptation"
     }
   },
-  "data/Prochlorococcus/papers_and_supp/Read 2017/41396_2017_article_bfismej201788.pdf": {
+  "data/Prochlorococcus/papers_and_supp/steglich 2006/steglich-et-al-2006-genome-wide-analysis-of-light-sensing-in-prochlorococcus.pdf": {
     "publication": {
-      "title": "Nitrogen cost minimization is promoted by structural changes in the transcriptome of N-deprived Prochlorococcus cells",
+      "abstract": "Prochlorococcus MED4 has a small genome with limited regulatory systems. The study measured global gene expression under short-term exposure to white, blue, red, and green light and light quantities using microarrays. Blue light triggered the strongest transcriptional response; high-white light response resembled blue light, suggesting blue-light\u2013mediated sensing. Bacterial cryptochromes are proposed as candidate blue-light sensors, and there is evidence for a signaling pathway related to the redox state of the photosynthetic electron transport chain, inferred from genes responding to red and blue light and to the inhibitor DCMU. The work highlights how Prochlorococcus acclimates to varying light environments through transcriptional regulation.",
       "authors": [
-        "Robert W Read",
-        "Paul M Berube",
-        "Steven J Biller",
-        "Iva Neveux",
-        "Andres Cubillos-Ruiz",
-        "Sallie W Chisholm",
-        "Joseph J Grzymski"
+        "Claudia Steglich",
+        "Matthias Futschik",
+        "Trent Rector",
+        "Robert Steen",
+        "Sallie W. Chisholm"
       ],
-      "journal": "The ISME Journal",
-      "publication_year": "2017",
-      "doi": "10.1038/ismej.2017.88",
-      "pmid": null,
-      "description": "The study investigates transcriptional cost minimization in Prochlorococcus MED4 by comparing transcription start sites (TSSs) under nitrogen-deprived and nitrogen-replete conditions, enabling assessment of transcript structure changes and potential nitrogen savings through shortened transcripts and altered codon usage.",
-      "abstract": "The authors compare primary transcriptomes of Prochlorococcus MED4 under nitrogen-deprived and nitrogen-replete conditions to test whether transcriptional regulation reduces cellular nitrogen budgets during N limitation. They map transcription start sites and find increased downstream initiation and internal TSS usage under N deprivation, yielding shortened transcripts with about 21% less nitrogen per encoded protein. They also observe elevated glycine\u2013glycine motifs, consistent with translational pausing and slower growth. Overall, the study reveals structural changes in the transcriptome during N deprivation that may further minimize cellular nitrogen requirements.",
-      "study_type": "Transcriptomics (transcription start site mapping)",
+      "description": "Genome-wide analysis of light sensing in Prochlorococcus MED4 using high-density Affymetrix microarrays to measure global gene expression in response to different light qualities and quantities; seven conditions tested, with blue light eliciting a strong response; investigation of blue-light sensors and redox signaling related to photosystem II.",
+      "doi": "10.1128/JB.01097-06",
+      "journal": "Journal of Bacteriology",
       "organism": [
         "Prochlorococcus MED4"
       ],
-      "publication_id": "10.1038/ismej.2017.88"
+      "pmid": null,
+      "publication_id": "10.1128/JB.01097-06",
+      "publication_year": 2006,
+      "study_type": "Microarray (transcriptomics)",
+      "title": "Genome-Wide Analysis of Light Sensing in Prochlorococcus/H17188"
     }
   },
-  "data/Prochlorococcus/papers_and_supp/Thompson 2016/thompson 2016 file.pdf": {
+  "data/Prochlorococcus/papers_and_supp/tetu 2019/s42003-019-0410-x.pdf": {
     "publication": {
-      "title": "Gene Expression Patterns during Light and Dark Infection of Prochlorococcus by Cyanophage",
+      "abstract": "Two Prochlorococcus strains MIT9312 (HLII) and NATL2A (LLI) were exposed to leachates from HDPE bags and PVC matting in artificial seawater. The study shows dose-dependent impairment of growth and photophysiology (photosystem II quantum yield) and genome-wide transcriptional changes, with strain-specific responses, indicating plastic leachates may alter Prochlorococcus community composition and ocean primary productivity.",
       "authors": [
-        "Luke R. Thompson",
-        "Qinglu Zeng",
-        "Sallie W. Chisholm"
+        "Sasha G. Tetu",
+        "Indrani Sarker",
+        "Verena Schrameyer",
+        "Russell Pickford",
+        "Liam D.H. Elbourne",
+        "Lisa R. Moore",
+        "Ian T. Paulsen"
       ],
-      "journal": "PLOS ONE",
-      "publication_year": "2016",
-      "doi": "10.1371/journal.pone.0165375",
+      "description": "In vitro exposure of two Prochlorococcus strains MIT9312 HLII and NATL2A LLI to leachates from common plastics (HDPE bags and PVC matting) in artificial seawater, assessing growth, photosynthetic efficiency, and genome-wide transcriptional responses.",
+      "doi": "10.1038/s42003-019-0410-x",
+      "journal": "Communications Biology",
+      "organism": [
+        "Prochlorococcus MIT9312",
+        "Prochlorococcus NATL2A"
+      ],
       "pmid": null,
-      "description": "Dual RNA-seq transcriptomics of cyanophage P-HM2 and its host Prochlorococcus MED4 during infection in the light and in the dark, to investigate host-phage metabolic interactions and the mode of photosynthetic electron flow.",
-      "abstract": "Cyanophage infection of marine cyanobacteria requires light and host photosystem activity. We sequenced transcriptomes of cyanophage P-HM2 and host Prochlorococcus MED4 during infection in the light and in the dark, analyzed in the context of phage replication and metabolite measurements, to evaluate whether cyclic or linear photosynthetic electron transport predominates and how NADPH and ATP are supplied for nucleotide biosynthesis.",
-      "study_type": "Transcriptomics (RNA-seq)",
+      "publication_id": "10.1038/s42003-019-0410-x",
+      "publication_year": "2019",
+      "study_type": "Transcriptomics",
+      "title": "Plastic leachates impair growth and oxygen production in Prochlorococcus, the ocean's most abundant photosynthetic bacteria"
+    }
+  },
+  "data/Prochlorococcus/papers_and_supp/thompson 2011/41396_2011_article_bfismej201149.pdf": {
+    "publication": {
+      "abstract": "Prochlorococcus contributes significantly to ocean primary productivity. The link between primary productivity and iron in specific ocean regions is well established and iron limitation of Prochlorococcus cell division rates in these regions has been shown. However, the extent of ecotypic variation in iron metabolism among Prochlorococcus and the molecular basis for differences is not understood. Here, we examine the growth and transcriptional response of Prochlorococcus strains, MED4 and MIT9313, to changing iron concentrations. During steady state, MIT9313 sustains growth at an order-of-magnitude lower iron concentration than MED4. To explore this difference, we measured the whole-genome transcriptional response of each strain to abrupt iron starvation and rescue. Only four of the 1159 orthologs of MED4 and MIT9313 were differentially expressed in response to iron in both strains. However, in each strain, the expression of over a hundred additional genes changed, many of which are in labile genomic regions, suggesting a role for lateral gene transfer in establishing diversity of iron metabolism among Prochlorococcus. Furthermore, we found that MED4 lacks three genes near the iron-deficiency-induced gene ( idiA) that are present and induced by iron stress in MIT9313. These genes are interesting targets for studying the adaptation of natural Prochlorococcus assemblages to local iron conditions as they show more diversity than other genomic regions in environmental metagenomic databases.",
+      "authors": [
+        "Anne W Thompson",
+        "Katherine Huang",
+        "Mak A Saito",
+        "Sallie W Chisholm"
+      ],
+      "description": "Comparative transcriptomic analysis of Prochlorococcus MED4 and MIT9313 under abrupt iron starvation and rescue, assessing growth under varying iron and whole-genome transcriptional responses via short-term microarray experiments.",
+      "doi": "10.1038/ismej.2011.49",
+      "journal": "The ISME Journal",
       "organism": [
         "Prochlorococcus MED4",
-        "Cyanophage P-HM2"
+        "Prochlorococcus MIT9313"
       ],
-      "publication_id": "10.1371/journal.pone.0165375"
+      "pmid": null,
+      "publication_id": "10.1038/ismej.2011.49",
+      "publication_year": "2011",
+      "study_type": "Transcriptomics (microarray)",
+      "title": "Transcriptome response of high- and low-light-adapted Prochlorococcus strains to changing iron availability"
+    }
+  },
+  "data/Prochlorococcus/papers_and_supp/tolonen 2006/msb4100087.pdf": {
+    "publication": {
+      "abstract": "Nitrogen (N) often limits biological productivity in ocean gyres where Prochlorococcus is most abundant. The study quantified changes in MED4 and MIT9313 global mRNA expression, chlorophyll fluorescence, and photosystem II photochemical efficiency (Fv/Fm) along a time series of increasing N starvation. It also compared global expression when grown in ammonium-replete medium versus alternative N sources. The results show interstrain similarities, such as activation of a putative NtcA regulon during N stress, and differences in carbon metabolism gene expression, suggesting fundamentally different integration of N and C metabolism between the strains.",
+      "authors": [
+        "Andrew C Tolonen",
+        "John Aach",
+        "Debbie Lindell",
+        "Zackary I Johnson",
+        "Trent Rector",
+        "Robert Steen",
+        "George M Church",
+        "Sallie W Chisholm"
+      ],
+      "description": "A study combining whole-genome microarray analyses for two Prochlorococcus ecotypes (MED4 and MIT9313) with physiological measurements to quantify global mRNA expression, chlorophyll fluorescence, and photosystem II efficiency under a time series of nitrogen starvation and growth on different nitrogen sources; includes comparative genomics and analysis of NtcA regulation.",
+      "doi": "10.1038/msb4100087",
+      "journal": "Molecular Systems Biology",
+      "organism": [
+        "Prochlorococcus MED4",
+        "Prochlorococcus MIT9313"
+      ],
+      "pmid": null,
+      "publication_id": "10.1038/msb4100087",
+      "publication_year": "2006",
+      "study_type": "Transcriptomics (microarray)",
+      "title": "Global gene expression of Prochlorococcus ecotypes in response to changes in nitrogen availability"
     }
   }
 }

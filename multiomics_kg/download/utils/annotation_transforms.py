@@ -2,8 +2,13 @@
 
 from __future__ import annotations
 
+import json
+import logging
 import re
+from pathlib import Path
 from typing import Any
+
+logger = logging.getLogger(__name__)
 
 
 def _tx_first_token_space(value: str) -> str:
@@ -162,6 +167,108 @@ def _tx_extract_signal_range(value: str) -> str:
     return m.group(1) if m else ""
 
 
+# ── EC number normalization ──────────────────────────────────────────────────
+
+# Lazy-loaded transfer map: {old_ec: [new_ec, ...]}  (empty list = deleted)
+_EC_TRANSFER_MAP: dict[str, list[str]] | None = None
+
+
+def _resolve_ec_chain(
+    ec: str, transfer_map: dict[str, list[str]], visited: set[str] | None = None,
+) -> list[str]:
+    """Follow transfer chain for one EC to its final current successor(s).
+
+    Returns list of current EC numbers, or [] if the chain ends at a deleted entry.
+    """
+    if visited is None:
+        visited = set()
+    if ec in visited:
+        return [ec]  # cycle guard
+    if ec not in transfer_map:
+        return [ec]  # current EC — not obsolete
+    visited.add(ec)
+    successors = transfer_map[ec]
+    if not successors:
+        return []  # deleted entry
+    result = []
+    for s in successors:
+        result.extend(_resolve_ec_chain(s, transfer_map, visited.copy()))
+    return result
+
+
+def _build_ec_transfer_map() -> dict[str, list[str]]:
+    """Build old→new EC mapping from cached Expasy data.
+
+    Returns dict where keys are obsolete EC numbers and values are lists of
+    final current successor EC numbers (empty list for deleted entries).
+    Chained transfers (A→B→C) are resolved so A maps directly to C.
+    """
+    cache_path = Path(__file__).resolve().parents[3] / "cache" / "data" / "ec" / "ec_data.json"
+    if not cache_path.exists():
+        logger.warning(
+            "EC cache not found at %s; skipping EC normalization. "
+            "Run create_knowledge_graph.py first to populate the cache.",
+            cache_path,
+        )
+        return {}
+
+    with open(cache_path) as f:
+        data = json.load(f)
+
+    # Pass 1: build raw transfer map (may contain intermediate entries)
+    transfer_map: dict[str, list[str]] = {}
+    for ec_num, info in data.get("enzymes", {}).items():
+        if not isinstance(info, dict):
+            continue
+        desc = info.get("de", "")
+        if desc.startswith("Transferred entry:"):
+            # Parse successors from "Transferred entry: X.Y.Z.W" or
+            # "Transferred entry: X.Y.Z.W, A.B.C.D and E.F.G.H"
+            rest = desc[len("Transferred entry:"):].strip().rstrip(".")
+            # Split on ", " and " and "
+            parts = re.split(r",\s*|\s+and\s+", rest)
+            successors = [p.strip() for p in parts if re.match(r"^\d+\.[\d\-]+\.[\d\-]+\.[\d\-]+$", p.strip())]
+            transfer_map[ec_num] = successors
+        elif desc.startswith("Deleted"):
+            transfer_map[ec_num] = []
+
+    # Pass 2: resolve chains so every entry points to final current EC(s)
+    for ec_num in list(transfer_map.keys()):
+        transfer_map[ec_num] = _resolve_ec_chain(ec_num, transfer_map)
+
+    logger.info("EC transfer map: %d transferred, %d deleted",
+                sum(1 for v in transfer_map.values() if v),
+                sum(1 for v in transfer_map.values() if not v))
+    return transfer_map
+
+
+def _tx_normalize_ec(value: str) -> str | list[str]:
+    """Remap obsolete/transferred EC numbers to current equivalents.
+
+    Returns:
+      - Original EC string if it's current (not in transfer map)
+      - Successor EC string(s) if transferred (list for multi-successor)
+      - Empty string if deleted
+    """
+    global _EC_TRANSFER_MAP
+    if _EC_TRANSFER_MAP is None:
+        _EC_TRANSFER_MAP = _build_ec_transfer_map()
+
+    s = str(value).strip()
+    if not s or s == "-":
+        return ""
+
+    if s not in _EC_TRANSFER_MAP:
+        return s  # current EC, pass through
+
+    successors = _EC_TRANSFER_MAP[s]
+    if not successors:
+        return ""  # deleted entry
+    if len(successors) == 1:
+        return successors[0]
+    return successors  # multi-successor: list
+
+
 # Map from YAML transform name → function
 _TRANSFORMS: dict[str, Any] = {
     "first_token_space": _tx_first_token_space,
@@ -179,4 +286,5 @@ _TRANSFORMS: dict[str, Any] = {
     "extract_tm_range": _tx_extract_tm_range,
     "extract_signal_range": _tx_extract_signal_range,
     "split_cog_category": _tx_split_cog_category,
+    "normalize_ec": _tx_normalize_ec,
 }

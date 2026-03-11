@@ -340,21 +340,30 @@ fields:
   # ── EC Numbers ────────────────────────────────────────────────────────────────
   # NOTE: gene_mapping.kegg field contains EC numbers (not KEGG KO IDs)
   #       despite its name — this is a Cyanorak naming convention.
+  #
+  # The normalize_ec transform remaps obsolete/transferred EC numbers to their
+  # current Expasy equivalents and drops deleted entries. The filter rejects
+  # non-EC strings (KEGG KO IDs etc.).
 
   ec_numbers:
     type: union
+    filter: '^\d+\.[\d\-]+\.[\d\-]+[\.\-]'   # reject non-EC strings (KEGG KO IDs etc.)
     sources:
       - source: gene_mapping
         field: ec_numbers
         delimiter: ","
+        transform: normalize_ec
       - source: gene_mapping
         field: kegg           # Cyanorak "kegg" field actually stores EC numbers
         delimiter: ","
+        transform: normalize_ec
       - source: uniprot
         field: ec_numbers
+        transform: normalize_ec
       - source: eggnog
         field: EC
         delimiter: ","
+        transform: normalize_ec
 
   # ── KEGG ──────────────────────────────────────────────────────────────────────
 

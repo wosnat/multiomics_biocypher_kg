@@ -37,15 +37,18 @@ from multiomics_kg.download.utils.annotation_helpers import (
     extract_first_match_in_sources,
 )
 from multiomics_kg.download.utils.annotation_transforms import (
+    _resolve_ec_chain,
     _tx_add_go_prefix,
     _tx_extract_go_from_pipe,
     _tx_extract_pfam_ids,
     _tx_extract_pfam_names,
     _tx_first_token_space,
+    _tx_normalize_ec,
     _tx_split_cog_category,
     _tx_strip_function_prefix,
     _tx_strip_prefix_ko,
 )
+import multiomics_kg.download.utils.annotation_transforms as _at
 from multiomics_kg.download.utils.paths import infer_organism_group
 
 
@@ -1330,3 +1333,236 @@ class TestAnnotationBuilderExtractFirstMatch:
         builder = AnnotationBuilder(config)
         merged = builder.build_merged({}, {"f": "val"}, {})
         assert "x" not in merged
+
+
+# ─── normalize_ec transform ──────────────────────────────────────────────────
+
+# Fake transfer map for deterministic tests (no dependency on ec_data.json)
+_FAKE_EC_MAP = {
+    "1.6.99.5": ["1.6.5.11"],               # single successor
+    "3.6.3.14": ["7.1.2.2"],                # single successor (class 7 reclassification)
+    "1.1.1.5": ["1.1.1.303", "1.1.1.304"],  # multi-successor
+    "1.13.11.42": [],                         # deleted
+    "3.6.1.3": [],                            # deleted
+}
+
+
+@pytest.fixture(autouse=False)
+def _fake_ec_map(monkeypatch):
+    """Inject a deterministic EC transfer map for tests."""
+    monkeypatch.setattr(_at, "_EC_TRANSFER_MAP", _FAKE_EC_MAP)
+    yield
+    # Reset so lazy-load works again for other tests
+    monkeypatch.setattr(_at, "_EC_TRANSFER_MAP", None)
+
+
+class TestNormalizeEcTransform:
+    """Unit tests for the _tx_normalize_ec transform function."""
+
+    def test_current_ec_passes_through(self, _fake_ec_map):
+        assert _tx_normalize_ec("2.7.7.7") == "2.7.7.7"
+
+    def test_single_successor(self, _fake_ec_map):
+        assert _tx_normalize_ec("1.6.99.5") == "1.6.5.11"
+
+    def test_multi_successor_returns_list(self, _fake_ec_map):
+        result = _tx_normalize_ec("1.1.1.5")
+        assert result == ["1.1.1.303", "1.1.1.304"]
+
+    def test_deleted_returns_empty(self, _fake_ec_map):
+        assert _tx_normalize_ec("1.13.11.42") == ""
+
+    def test_partial_ec_passes_through(self, _fake_ec_map):
+        # Partial ECs (with dashes) should pass through unchanged
+        assert _tx_normalize_ec("1.1.1.-") == "1.1.1.-"
+
+    def test_two_level_partial_passes_through(self, _fake_ec_map):
+        assert _tx_normalize_ec("1.1.-.-") == "1.1.-.-"
+
+    def test_one_level_partial_passes_through(self, _fake_ec_map):
+        assert _tx_normalize_ec("1.-.-.-") == "1.-.-.-"
+
+    def test_empty_returns_empty(self, _fake_ec_map):
+        assert _tx_normalize_ec("") == ""
+
+    def test_dash_returns_empty(self, _fake_ec_map):
+        assert _tx_normalize_ec("-") == ""
+
+    def test_whitespace_stripped(self, _fake_ec_map):
+        assert _tx_normalize_ec("  1.6.99.5  ") == "1.6.5.11"
+
+
+class TestNormalizeEcInBuilder:
+    """Integration tests: normalize_ec transform within AnnotationBuilder union resolution."""
+
+    EC_CONFIG = {
+        "fields": {
+            "ec_numbers": {
+                "type": "union",
+                "filter": r"^\d+\.[\d\-]+\.[\d\-]+[\.\-]",
+                "sources": [
+                    {"source": "gene_mapping", "field": "ec_numbers", "delimiter": ",",
+                     "transform": "normalize_ec"},
+                    {"source": "gene_mapping", "field": "kegg", "delimiter": ",",
+                     "transform": "normalize_ec"},
+                    {"source": "eggnog", "field": "EC", "delimiter": ",",
+                     "transform": "normalize_ec"},
+                ],
+            },
+        },
+    }
+
+    def setup_method(self):
+        self.builder = AnnotationBuilder(self.EC_CONFIG)
+
+    def test_transferred_ec_replaced(self, _fake_ec_map):
+        gm = {"ec_numbers": "1.6.99.5"}
+        merged = self.builder.build_merged(gm, {}, {})
+        assert "1.6.5.11" in merged["ec_numbers"]
+        assert "1.6.99.5" not in merged["ec_numbers"]
+
+    def test_deleted_ec_dropped(self, _fake_ec_map):
+        gm = {"ec_numbers": "1.13.11.42"}
+        merged = self.builder.build_merged(gm, {}, {})
+        assert merged.get("ec_numbers") is None  # only EC was deleted → no field
+
+    def test_multi_successor_expanded(self, _fake_ec_map):
+        gm = {"ec_numbers": "1.1.1.5"}
+        merged = self.builder.build_merged(gm, {}, {})
+        ec = merged["ec_numbers"]
+        assert "1.1.1.303" in ec
+        assert "1.1.1.304" in ec
+        assert "1.1.1.5" not in ec
+
+    def test_partial_ec_preserved(self, _fake_ec_map):
+        gm = {"ec_numbers": "1.1.1.-"}
+        merged = self.builder.build_merged(gm, {}, {})
+        assert "1.1.1.-" in merged["ec_numbers"]
+
+    def test_two_level_partial_preserved(self, _fake_ec_map):
+        gm = {"ec_numbers": "1.1.-.-"}
+        merged = self.builder.build_merged(gm, {}, {})
+        assert "1.1.-.-" in merged["ec_numbers"]
+
+    def test_one_level_partial_preserved(self, _fake_ec_map):
+        gm = {"ec_numbers": "1.-.-.-"}
+        merged = self.builder.build_merged(gm, {}, {})
+        assert "1.-.-.-" in merged["ec_numbers"]
+
+    def test_kegg_ko_rejected_by_filter(self, _fake_ec_map):
+        eg = {"EC": "K02169,2.7.7.7"}
+        merged = self.builder.build_merged({}, eg, {})
+        ec = merged["ec_numbers"]
+        assert "2.7.7.7" in ec
+        assert "K02169" not in ec
+
+    def test_mixed_valid_transferred_deleted_partial(self, _fake_ec_map):
+        gm = {"ec_numbers": "2.7.7.7,1.6.99.5,1.13.11.42,1.1.-.-"}
+        merged = self.builder.build_merged(gm, {}, {})
+        ec = merged["ec_numbers"]
+        assert "2.7.7.7" in ec       # valid: kept
+        assert "1.6.5.11" in ec       # transferred: replaced
+        assert "1.13.11.42" not in ec  # deleted: dropped
+        assert "1.6.99.5" not in ec    # old: gone
+        assert "1.1.-.-" in ec         # partial: kept
+
+    def test_dedup_across_sources_after_normalization(self, _fake_ec_map):
+        # gene_mapping.ec_numbers and kegg both have the same obsolete EC
+        gm = {"ec_numbers": "1.6.99.5", "kegg": "1.6.99.5"}
+        merged = self.builder.build_merged(gm, {}, {})
+        # Successor should appear exactly once
+        assert merged["ec_numbers"].count("1.6.5.11") == 1
+
+
+class TestResolveEcChain:
+    """Unit tests for _resolve_ec_chain (transfer chain resolution)."""
+
+    def test_current_ec_returns_itself(self):
+        tmap = {"1.1.1.1": ["1.1.1.2"]}
+        assert _resolve_ec_chain("2.7.7.7", tmap) == ["2.7.7.7"]
+
+    def test_single_hop(self):
+        tmap = {"1.6.99.5": ["1.6.5.11"]}
+        assert _resolve_ec_chain("1.6.99.5", tmap) == ["1.6.5.11"]
+
+    def test_chain_depth_2(self):
+        # 1.6.99.5 → 1.6.5.11 → 1.6.5.9
+        tmap = {"1.6.99.5": ["1.6.5.11"], "1.6.5.11": ["1.6.5.9"]}
+        assert _resolve_ec_chain("1.6.99.5", tmap) == ["1.6.5.9"]
+
+    def test_chain_ends_at_deleted(self):
+        # 1.6.2.1 → 1.6.99.3 → deleted
+        tmap = {"1.6.2.1": ["1.6.99.3"], "1.6.99.3": []}
+        assert _resolve_ec_chain("1.6.2.1", tmap) == []
+
+    def test_deleted_entry_returns_empty(self):
+        tmap = {"1.13.11.42": []}
+        assert _resolve_ec_chain("1.13.11.42", tmap) == []
+
+    def test_multi_successor_no_chain(self):
+        tmap = {"1.1.1.5": ["1.1.1.303", "1.1.1.304"]}
+        assert _resolve_ec_chain("1.1.1.5", tmap) == ["1.1.1.303", "1.1.1.304"]
+
+    def test_multi_successor_one_branch_chains(self):
+        # A → [B, C]; B → D (chain); C is current
+        tmap = {"A": ["B", "C"], "B": ["D"]}
+        assert _resolve_ec_chain("A", tmap) == ["D", "C"]
+
+    def test_cycle_guard(self):
+        # Pathological cycle: A → B → A
+        tmap = {"A": ["B"], "B": ["A"]}
+        result = _resolve_ec_chain("A", tmap)
+        # Should not infinite loop; returns something reasonable
+        assert isinstance(result, list)
+
+
+class TestNormalizeEcChainedInBuilder:
+    """Integration: chained transfers resolved end-to-end in AnnotationBuilder."""
+
+    EC_CONFIG = {
+        "fields": {
+            "ec_numbers": {
+                "type": "union",
+                "filter": r"^\d+\.[\d\-]+\.[\d\-]+[\.\-]",
+                "sources": [
+                    {"source": "gene_mapping", "field": "ec_numbers", "delimiter": ",",
+                     "transform": "normalize_ec"},
+                ],
+            },
+        },
+    }
+
+    # Chained fake map: already resolved (as _build_ec_transfer_map would produce)
+    _CHAINED_EC_MAP = {
+        "1.6.99.5": ["1.6.5.9"],   # was 1.6.99.5 → 1.6.5.11 → 1.6.5.9
+        "1.6.5.11": ["1.6.5.9"],   # intermediate is also resolved
+        "1.6.2.1": [],              # chain ends at deleted
+        "1.6.99.3": [],             # deleted
+    }
+
+    @pytest.fixture(autouse=True)
+    def _chained_ec_map(self, monkeypatch):
+        monkeypatch.setattr(_at, "_EC_TRANSFER_MAP", self._CHAINED_EC_MAP)
+        yield
+        monkeypatch.setattr(_at, "_EC_TRANSFER_MAP", None)
+
+    def setup_method(self):
+        self.builder = AnnotationBuilder(self.EC_CONFIG)
+
+    def test_depth2_chain_resolves_to_final(self):
+        gm = {"ec_numbers": "1.6.99.5"}
+        merged = self.builder.build_merged(gm, {}, {})
+        assert "1.6.5.9" in merged["ec_numbers"]
+        assert "1.6.5.11" not in merged["ec_numbers"]
+        assert "1.6.99.5" not in merged["ec_numbers"]
+
+    def test_intermediate_also_resolves(self):
+        gm = {"ec_numbers": "1.6.5.11"}
+        merged = self.builder.build_merged(gm, {}, {})
+        assert "1.6.5.9" in merged["ec_numbers"]
+        assert "1.6.5.11" not in merged["ec_numbers"]
+
+    def test_chain_ending_at_deleted_drops(self):
+        gm = {"ec_numbers": "1.6.2.1"}
+        merged = self.builder.build_merged(gm, {}, {})
+        assert merged.get("ec_numbers") is None

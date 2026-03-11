@@ -47,6 +47,8 @@ services:
       NEO4J_AUTH: none
       NEO4J_dbms_security_auth__enabled: "false"
       NEO4J_ACCEPT_LICENSE_AGREEMENT: "yes"
+      NEO4J_dbms_memory_heap_initial__size: "2G"
+      NEO4J_dbms_memory_heap_max__size: "4G"
     command:
       - /bin/bash
       - /scripts/post-import.sh
@@ -63,6 +65,8 @@ services:
       NEO4J_dbms_security_auth__enabled: "false"
       NEO4J_dbms_databases_default__to__read__only: "false"
       NEO4J_ACCEPT_LICENSE_AGREEMENT: "yes"
+      NEO4J_dbms_memory_heap_initial__size: "1G"
+      NEO4J_dbms_memory_heap_max__size: "2G"
     ports:
       - "127.0.0.1:7474:7474"
       - "127.0.0.1:7687:7687"

@@ -282,7 +282,18 @@ class AnnotationBuilder:
             elif transform:
                 base_tokens = _coerce_to_tokens(raw, delimiter)
                 fn = _TRANSFORMS.get(transform)
-                tokens = [fn(t) for t in base_tokens] if fn else base_tokens
+                if fn:
+                    raw_tokens = [fn(t) for t in base_tokens]
+                    # Flatten: transforms may return lists (e.g. normalize_ec
+                    # with multiple successors)
+                    tokens = []
+                    for t in raw_tokens:
+                        if isinstance(t, list):
+                            tokens.extend(t)
+                        else:
+                            tokens.append(t)
+                else:
+                    tokens = base_tokens
             else:
                 tokens = _coerce_to_tokens(raw, delimiter)
 

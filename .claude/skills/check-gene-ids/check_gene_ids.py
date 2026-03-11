@@ -481,14 +481,16 @@ def analyze_paperconfig(paperconfig_path, gene_index, project_root, import_repor
                         analyses_results.append(result)
                         continue
 
-                    if "locus_tag" not in df_res.columns:
+                    # resolve_paper_ids.py writes "resolved_locus_tag"; omics_adapter reads same column
+                    _res_col = "resolved_locus_tag" if "resolved_locus_tag" in df_res.columns else "locus_tag"
+                    if _res_col not in df_res.columns:
                         result["status"] = "ERROR"
-                        result["details"] = f"Resolved CSV {resolved_path.name} has no locus_tag column"
+                        result["details"] = f"Resolved CSV {resolved_path.name} has no locus_tag or resolved_locus_tag column"
                         analyses_results.append(result)
                         continue
 
                     # NaN locus_tag = row was unresolved by resolve_paper_ids.py (will be skipped by omics_adapter)
-                    lt_series = df_res["locus_tag"]
+                    lt_series = df_res[_res_col]
                     is_unresolved = lt_series.isna() | (lt_series.astype(str) == "nan")
                     pre_unresolved_count = int(is_unresolved.sum())
                     resolved_tags = lt_series[~is_unresolved].astype(str).tolist()

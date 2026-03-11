@@ -217,25 +217,26 @@ class UniprotAdapter:
                     yield None, protein_id, gene_id, "Gene_encodes_protein", props
                     yield None, protein_id, org_id, "Protein_belongs_to_organism", props
 
+            # remove - moved to the gene edges
             # Protein → EC
-            for ec in (entry.get("ec_numbers") or []):
-                if ec:
-                    yield None, protein_id, self._add_prefix("eccode", ec), \
-                        "protein_catalyzes_ec_number", props
+            # for ec in (entry.get("ec_numbers") or []):
+            #     if ec:
+            #         yield None, protein_id, self._add_prefix("eccode", ec), \
+            #             "protein_catalyzes_ec_number", props
 
             # Protein → GO (split by namespace)
-            for go in (entry.get("go_cellular_components") or []):
-                if go:
-                    yield None, protein_id, go.lower(), \
-                        "protein_located_in_cellular_component", props
-            for go in (entry.get("go_biological_processes") or []):
-                if go:
-                    yield None, protein_id, go.lower(), \
-                        "protein_involved_in_biological_process", props
-            for go in (entry.get("go_molecular_functions") or []):
-                if go:
-                    yield None, protein_id, go.lower(), \
-                        "protein_contributes_to_molecular_function", props
+            # for go in (entry.get("go_cellular_components") or []):
+            #     if go:
+            #         yield None, protein_id, go.lower(), \
+            #             "protein_located_in_cellular_component", props
+            # for go in (entry.get("go_biological_processes") or []):
+            #     if go:
+            #         yield None, protein_id, go.lower(), \
+            #             "protein_involved_in_biological_process", props
+            # for go in (entry.get("go_molecular_functions") or []):
+            #     if go:
+            #         yield None, protein_id, go.lower(), \
+            #             "protein_contributes_to_molecular_function", props
 
             count += 1
 
