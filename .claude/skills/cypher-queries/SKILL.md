@@ -42,7 +42,7 @@ docker exec -i deploy cypher-shell -a bolt://localhost:7687
 | `Gene` | `id` (ncbigene:locus_tag), `locus_tag`, `locus_tag_ncbi`, `locus_tag_cyanorak`, `product`, `gene_name`, `gene_synonyms[]`, `function_description`, `cog_category[]`, `go_terms[]`, `kegg_ko[]`, `kegg_pathway[]`, `ec_numbers[]`, `pfam_ids[]`, `pfam_names[]`, `bacteria_cog_og`, `alteromonadaceae_og`, `annotation_quality`, `old_locus_tags[]`, `alternative_locus_tags[]`, `protein_id`, `start`, `end`, `strand` |
 | `Protein` | `id` (uniprot:accession), `locus_tag`, `gene_names[]`, `is_reviewed`, `annotation_score`, `sequence_length`, `molecular_mass`, `refseq_ids[]`, `proteome_ids[]`, `protein_synonyms[]`, `string_ids[]` |
 | `OrganismTaxon` | `id` (insdc.gcf:accession or ncbitaxon:taxid), `organism_name`, `strain_name`, `clade`, `genus`, `species`, `ncbi_taxon_id`, `family`, `order`, `phylum`, `kingdom`, `superkingdom`, `lineage` |
-| `EnvironmentalCondition` | `id`, `name`, `condition_type`, `condition_category` (same value as `condition_type`), `description`, `light_condition`, `light_intensity`, `oxygen_level`, `nitrogen_source`, `co2_level`, `publications[]` |
+| `EnvironmentalCondition` | `id`, `name`, `condition_type`, `condition_category` (same value as `condition_type`), `description`, `medium`, `temperature`, `light_condition`, `light_intensity`, `oxygen_level`, `nitrogen_source`, `co2_level`, `publications[]` |
 | `Publication` | `id` (DOI), `title`, `authors[]`, `journal`, `publication_year`, `abstract`, `doi`, `organism`, `study_type`, `description` |
 | `Cyanorak_cluster` | `id`, `cluster_number` |
 | `BiologicalProcess` | `id` (go:NNNNNNN), `name` |
@@ -94,8 +94,8 @@ Gene nodes carry many denormalized annotation fields beyond the key properties a
 
 | Relationship | Source → Target | Key Properties |
 |---|---|---|
-| `Condition_changes_expression_of` | EnvironmentalCondition → Gene | `log2_fold_change`, `adjusted_p_value`, `expression_direction` (up/down), `control_condition`, `experimental_context`, `time_point`, `publications[]`, `significant`, `omics_type`, `organism_strain`, `treatment_condition`, `statistical_test` |
-| `Coculture_changes_expression_of` | OrganismTaxon → Gene | `log2_fold_change`, `adjusted_p_value`, `expression_direction` (up/down), `control_condition`, `experimental_context`, `time_point`, `publications[]`, `significant`, `omics_type`, `organism_strain`, `treatment_condition`, `statistical_test` |
+| `Condition_changes_expression_of` | EnvironmentalCondition → Gene | `log2_fold_change`, `adjusted_p_value`, `expression_direction` (up/down), `control_condition`, `experimental_context`, `time_point`, `publications[]`, `significant`, `omics_type`, `organism_strain`, `treatment_condition`, `statistical_test`, `analysis_name` |
+| `Coculture_changes_expression_of` | OrganismTaxon → Gene | `log2_fold_change`, `adjusted_p_value`, `expression_direction` (up/down), `control_condition`, `experimental_context`, `time_point`, `publications[]`, `significant`, `omics_type`, `organism_strain`, `treatment_condition`, `statistical_test`, `analysis_name` |
 | `Condition_changes_expression_of_ortholog` | EnvironmentalCondition → Gene | same as above + `original_gene`, `homology_source`, `homology_cluster_id`, `distance` |
 | `Coculture_changes_expression_of_ortholog` | OrganismTaxon → Gene | same as above + `original_gene`, `homology_source`, `homology_cluster_id`, `distance` |
 | `Published_expression_data_about` | Publication → EnvironmentalCondition/OrganismTaxon | — |

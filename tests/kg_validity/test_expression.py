@@ -241,3 +241,66 @@ def test_expression_edges_target_genes(run_query):
         f"{bad} expression edges point to non-Gene nodes: "
         f"{result[0]['target_labels']}"
     )
+
+
+# ---------------------------------------------------------------------------
+# analysis_name coverage
+# ---------------------------------------------------------------------------
+
+def test_analysis_name_present_on_majority_of_edges(run_query):
+    """
+    Most expression edges should have analysis_name set.
+    The analysis 'name' field is present in all paperconfigs with named analyses.
+    A low coverage rate indicates the adapter stopped writing this property.
+    """
+    result = run_query("""
+        MATCH ()-[e:Condition_changes_expression_of|Coculture_changes_expression_of]->()
+        RETURN
+          count(e) AS total,
+          count(e.analysis_name) AS with_name
+    """)
+    total = result[0]["total"]
+    with_name = result[0]["with_name"]
+    if total == 0:
+        pytest.skip("No expression edges found")
+    coverage = with_name / total
+    assert coverage >= 0.9, (
+        f"Only {with_name}/{total} ({coverage:.1%}) expression edges have analysis_name; "
+        f"expected >= 90% — check that omics_adapter writes analysis.get('name')"
+    )
+
+
+# ---------------------------------------------------------------------------
+# EnvironmentalCondition medium and temperature
+# ---------------------------------------------------------------------------
+
+def test_environmental_conditions_have_medium_when_applicable(run_query):
+    """
+    Some EnvironmentalCondition nodes should have medium set.
+    At least some paperconfigs declare medium in their conditions.
+    """
+    result = run_query("""
+        MATCH (e:EnvironmentalCondition)
+        WHERE e.medium IS NOT NULL AND e.medium <> ''
+        RETURN count(e) AS cnt
+    """)
+    assert result[0]["cnt"] > 0, (
+        "No EnvironmentalCondition nodes have medium set; "
+        "check that schema_config.yaml declares medium and the adapter writes it"
+    )
+
+
+def test_environmental_conditions_have_temperature_when_applicable(run_query):
+    """
+    Some EnvironmentalCondition nodes should have temperature set.
+    At least some paperconfigs declare temperature in their conditions.
+    """
+    result = run_query("""
+        MATCH (e:EnvironmentalCondition)
+        WHERE e.temperature IS NOT NULL AND e.temperature <> ''
+        RETURN count(e) AS cnt
+    """)
+    assert result[0]["cnt"] > 0, (
+        "No EnvironmentalCondition nodes have temperature set; "
+        "check that schema_config.yaml declares temperature and the adapter writes it"
+    )

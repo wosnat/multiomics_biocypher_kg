@@ -2005,5 +2005,194 @@ class TestPhase4PublicationEdges:
             f"Expected exactly 1 published_expression_data_about edge (one distinct source), got {len(pub_edges)}"
 
 
+class TestAnalysisNameProperty:
+    """Test that analysis_name is written to expression edges from the analysis 'name' field."""
+
+    def test_coculture_edge_has_analysis_name(self, adapter_with_mock_extracted_data):
+        """Verify analysis_name is present on coculture_changes_expression_of edges."""
+        adapter = adapter_with_mock_extracted_data
+        edges = adapter.get_edges()
+
+        expression_edges = [e for e in edges if e[3] == 'coculture_changes_expression_of']
+        assert len(expression_edges) > 0, "No coculture expression edges found"
+
+        for edge in expression_edges:
+            _, source_id, target_id, label, properties = edge
+            assert 'analysis_name' in properties, \
+                f"Expected analysis_name in edge properties, got {list(properties.keys())}"
+            assert properties['analysis_name'] == 'Test DE Analysis', \
+                f"Expected analysis_name 'Test DE Analysis', got {properties['analysis_name']}"
+
+    def test_env_condition_edge_has_analysis_name(self, temp_data_dir, sample_de_data):
+        """Verify analysis_name is present on condition_changes_expression_of edges."""
+        data_file = os.path.join(temp_data_dir, 'de_genes.csv')
+        sample_de_data.to_csv(data_file, index=False)
+
+        config = {
+            'publication': {
+                'papername': 'Test Env Name 2024',
+                'environmental_conditions': {
+                    'test_condition': {
+                        'condition_type': 'light_stress',
+                        'name': 'High light stress',
+                    }
+                },
+                'supplementary_materials': {
+                    'table1': {
+                        'type': 'csv',
+                        'filename': data_file,
+                        'statistical_analyses': [{
+                            'id': 'env_name_test',
+                            'type': 'RNASEQ',
+                            'name': 'DE under high light',
+                            'test_type': 'DESeq2',
+                            'control_condition': 'Low light',
+                            'organism': 'Prochlorococcus MED4',
+                            'environmental_treatment_condition_id': 'test_condition',
+                            'name_col': 'Synonym',
+                            'logfc_col': 'log2_fold_change',
+                            'adjusted_p_value_col': 'adjusted_p_value',
+                        }],
+                    }
+                },
+            }
+        }
+        config_file = os.path.join(temp_data_dir, 'pc_env_name.yaml')
+        with open(config_file, 'w') as f:
+            yaml.dump(config, f)
+
+        adapter = OMICSAdapter(config_file=config_file)
+        adapter.extracted_data = {
+            'publication': {'publication_id': 'env_name_pub', 'doi': '10.1/en'},
+        }
+        edges = adapter.get_edges()
+        expression_edges = [e for e in edges if e[3] == 'condition_changes_expression_of']
+        assert len(expression_edges) > 0, "No condition expression edges found"
+
+        for edge in expression_edges:
+            _, source_id, target_id, label, properties = edge
+            assert 'analysis_name' in properties, \
+                f"Expected analysis_name in edge properties, got {list(properties.keys())}"
+            assert properties['analysis_name'] == 'DE under high light', \
+                f"Expected analysis_name 'DE under high light', got {properties['analysis_name']}"
+
+    def test_analysis_name_absent_when_not_in_config(self, temp_data_dir, sample_de_data):
+        """Verify analysis_name is not set when analysis has no 'name' field."""
+        data_file = os.path.join(temp_data_dir, 'de_genes.csv')
+        sample_de_data.to_csv(data_file, index=False)
+
+        config = {
+            'publication': {
+                'papername': 'Test No Name 2024',
+                'supplementary_materials': {
+                    'table1': {
+                        'type': 'csv',
+                        'filename': data_file,
+                        'statistical_analyses': [{
+                            'id': 'no_name_test',
+                            'type': 'RNASEQ',
+                            # No 'name' field
+                            'organism': 'Prochlorococcus MED4',
+                            'treatment_organism': 'Alteromonas macleodii',
+                            'treatment_taxid': 28108,
+                            'treatment_assembly_accession': 'GCF_001077695.1',
+                            'name_col': 'Synonym',
+                            'logfc_col': 'log2_fold_change',
+                            'adjusted_p_value_col': 'adjusted_p_value',
+                        }],
+                    }
+                },
+            }
+        }
+        config_file = os.path.join(temp_data_dir, 'pc_no_name.yaml')
+        with open(config_file, 'w') as f:
+            yaml.dump(config, f)
+
+        adapter = OMICSAdapter(config_file=config_file)
+        adapter.extracted_data = {
+            'publication': {'publication_id': 'no_name_pub', 'doi': '10.1/nn'},
+        }
+        edges = adapter.get_edges()
+        expression_edges = [e for e in edges if e[3] == 'coculture_changes_expression_of']
+        assert len(expression_edges) > 0, "No expression edges found"
+
+        for edge in expression_edges:
+            _, source_id, target_id, label, properties = edge
+            # analysis_name should be absent (empty string is falsy, not written)
+            assert properties.get('analysis_name', '') == '', \
+                f"Expected analysis_name to be absent, got {properties.get('analysis_name')}"
+
+
+class TestEnvironmentalConditionMediumTemperature:
+    """Test that medium and temperature are written to environmental condition nodes."""
+
+    def test_env_condition_node_has_temperature(self, adapter_with_mock_extracted_data):
+        """Verify temperature is present on environmental condition nodes when in paperconfig."""
+        adapter = adapter_with_mock_extracted_data
+        nodes = adapter.get_nodes()
+
+        env_nodes = [n for n in nodes if n[1] == 'environmental_condition']
+        assert len(env_nodes) > 0, "No environmental condition nodes found"
+
+        node_id, label, properties = env_nodes[0]
+        assert 'temperature' in properties, \
+            f"Expected temperature in env condition properties, got {list(properties.keys())}"
+        assert properties['temperature'] == '24C', \
+            f"Expected temperature '24C', got {properties['temperature']}"
+
+    def test_env_condition_node_has_medium(self, temp_data_dir, sample_de_data):
+        """Verify medium is present on environmental condition nodes when in paperconfig."""
+        data_file = os.path.join(temp_data_dir, 'de_genes.csv')
+        sample_de_data.to_csv(data_file, index=False)
+
+        config = {
+            'publication': {
+                'papername': 'Test Medium 2024',
+                'environmental_conditions': {
+                    'test_condition': {
+                        'condition_type': 'growth_medium',
+                        'name': 'Pro99 medium',
+                        'medium': 'Pro99',
+                        'temperature': '22C',
+                    }
+                },
+                'supplementary_materials': {
+                    'table1': {
+                        'type': 'csv',
+                        'filename': data_file,
+                        'statistical_analyses': [{
+                            'id': 'medium_test',
+                            'type': 'RNASEQ',
+                            'organism': 'Prochlorococcus MED4',
+                            'environmental_treatment_condition_id': 'test_condition',
+                            'name_col': 'Synonym',
+                            'logfc_col': 'log2_fold_change',
+                            'adjusted_p_value_col': 'adjusted_p_value',
+                        }],
+                    }
+                },
+            }
+        }
+        config_file = os.path.join(temp_data_dir, 'pc_medium.yaml')
+        with open(config_file, 'w') as f:
+            yaml.dump(config, f)
+
+        adapter = OMICSAdapter(config_file=config_file)
+        adapter.extracted_data = {
+            'publication': {'publication_id': 'medium_pub', 'doi': '10.1/m'},
+        }
+        nodes = adapter.get_nodes()
+        env_nodes = [n for n in nodes if n[1] == 'environmental_condition']
+        assert len(env_nodes) == 1, f"Expected 1 env condition node, got {len(env_nodes)}"
+
+        node_id, label, properties = env_nodes[0]
+        assert 'medium' in properties, \
+            f"Expected medium in env condition properties, got {list(properties.keys())}"
+        assert properties['medium'] == 'Pro99', \
+            f"Expected medium 'Pro99', got {properties['medium']}"
+        assert properties['temperature'] == '22C', \
+            f"Expected temperature '22C', got {properties['temperature']}"
+
+
 if __name__ == '__main__':
     pytest.main([__file__, '-v'])

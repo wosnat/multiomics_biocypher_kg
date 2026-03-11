@@ -337,8 +337,9 @@ uv run python tests/kg_validity/generate_snapshot.py
 - Gene↔Protein linkage: explicit `Gene_encodes_protein` edges (Protein→Gene) created by UniProt adapter via RefSeq protein_id join with gene_mapping.csv
 - Expression sources: `EnvironmentalCondition` → `Condition_changes_expression_of` (~170K edges, stress experiments); `OrganismTaxon` → `Coculture_changes_expression_of` (~17K edges, coculture experiments); total direct edges ~188K (TODO: update after build)
 - Ortholog edges: `Condition_changes_expression_of_ortholog` (all homologs); `Coculture_changes_expression_of_ortholog` (same-phylum homologs only; cross-phylum filtered)
-- New edge properties on all expression edge types: `omics_type` (RNASEQ | PROTEOMICS | METABOLOMICS | MICROARRAY), `organism_strain`, `treatment_condition`, `statistical_test`
+- New edge properties on all expression edge types: `omics_type` (RNASEQ | PROTEOMICS | METABOLOMICS | MICROARRAY), `organism_strain`, `treatment_condition`, `statistical_test`, `analysis_name` (human-readable description of the comparison, from paperconfig `name` field)
 - `condition_category` property on `EnvironmentalCondition` nodes (same value as `condition_type`)
+- `medium` and `temperature` properties on `EnvironmentalCondition` nodes (when provided in paperconfig `environmental_conditions` blocks)
 - `preferred_name` property on `OrganismTaxon` nodes (e.g., `"Prochlorococcus MED4"`)
 - `Published_expression_data_about` edges: `(Publication)→(EnvironmentalCondition)` and `(Publication)→(OrganismTaxon)` — one edge per distinct source node used in a publication's analyses
 - `adjusted_p_value` may be null on expression edges (and propagated ortholog edges) when the original study did not report it

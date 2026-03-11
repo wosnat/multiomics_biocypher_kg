@@ -716,6 +716,10 @@ class OMICSAdapter:
                 if statistical_test:
                     edge_properties['statistical_test'] = self.clean_text(statistical_test)
 
+                analysis_name = analysis.get('name', '')
+                if analysis_name:
+                    edge_properties['analysis_name'] = self.clean_text(analysis_name)
+
                 # Create expression association edge
                 # source: source_id (organism or env condition), target: gene_id
                 # Use analysis id + gene_id as edge ID to allow parallel edges
