@@ -45,7 +45,7 @@ from bioregistry import normalize_curie
 
 from multiomics_kg.adapters.ec_adapter import EC
 from multiomics_kg.utils.kegg_utils import download_kegg_data
-from multiomics_kg.utils.cyanorak_role_utils import parse_cyanorak_role_tree
+from multiomics_kg.utils.cyanorak_role_utils import parse_cyanorak_role_tree, full_role_description
 from multiomics_kg.utils.go_utils import (
     NAMESPACE_TO_LABEL,
     compute_ancestry_closure,
@@ -953,7 +953,7 @@ class MultiCogRoleAnnotationAdapter:
             yield (
                 _cyanorak_role_node_id(code),
                 "cyanorak role",
-                {"code": code, "description": _clean_str(entry["description"])},
+                {"code": code, "description": _clean_str(full_role_description(code, self.role_tree))},
             )
             cyr_count += 1
         logger.info(f"MultiCogRoleAnnotationAdapter.get_nodes: {cyr_count} CyanorakRole nodes")

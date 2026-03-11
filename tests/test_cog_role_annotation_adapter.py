@@ -417,7 +417,7 @@ class TestMultiCogRoleAdapterCyanorakNodes:
     def test_cyanorak_node_description_correct(self, multi_adapter):
         nodes = list(multi_adapter.get_nodes())
         cyr_nodes = {n[0]: n[2] for n in nodes if n[1] == "cyanorak role"}
-        assert cyr_nodes[_cyanorak_role_node_id("0.1")]["description"] == "tRNA"
+        assert cyr_nodes[_cyanorak_role_node_id("0.1")]["description"] == "Non-coding gene (RNA) > tRNA"
         assert cyr_nodes[_cyanorak_role_node_id("B")]["description"] == "Cellular processes"
 
 

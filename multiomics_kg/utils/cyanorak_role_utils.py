@@ -69,3 +69,21 @@ def parse_cyanorak_role_tree(csv_path: Path) -> dict[str, dict]:
                 }
 
     return tree
+
+
+def full_role_description(code: str, tree: dict[str, dict]) -> str:
+    """
+    Build a full hierarchical description for a role code.
+
+    For root nodes returns just the description. For children, walks up
+    the tree and joins with " > ".
+
+    Example: code "A.7" → "Amino acid biosynthesis > Other"
+    """
+    parts: list[str] = []
+    current = code
+    while current is not None and current in tree:
+        parts.append(tree[current]["description"])
+        current = tree[current]["parent"]
+    parts.reverse()
+    return " > ".join(parts)
