@@ -1,0 +1,151 @@
+﻿primary role id,primary role,secondary role id,secondary role,sub role id,sub role
+-,Unclassified,,Role category not yet assigned,-,-
+0,Non-coding gene (RNA),0.1,tRNA,-,-
+0,Non-coding gene (RNA),0.2,rRNA,-,-
+0,Non-coding gene (RNA),0.3,ncRNA,-,-
+0,Non-coding gene (RNA),0.4,Other,-,-
+A,Amino acid biosynthesis,A.1,"Aromatic amino acids family (Phe, Trp, Tyr)",-,-
+A,Amino acid biosynthesis,A.2,"Aspartate family (Asp, Asn, Ile, Lys, Met, Thr)",-,-
+A,Amino acid biosynthesis,A.3,"Glutamate family (Arg, Gln, Glu, Pro)",-,-
+A,Amino acid biosynthesis,A.4,Histidine family,-,-
+A,Amino acid biosynthesis,A.5,"Pyruvate family (Ala, Val, Leu)",-,-
+A,Amino acid biosynthesis,A.6,"Serine family (Ser, Gly, Cys)",-,-
+A,Amino acid biosynthesis,A.7,Other,-,-
+B,"Biosynthesis of cofactors, prosthetic groups, and carriers",B.1,Lipoic acid,-,-
+B,"Biosynthesis of cofactors, prosthetic groups, and carriers",B.2,Menaquinone and ubiquinone,-,-
+B,"Biosynthesis of cofactors, prosthetic groups, and carriers",B.3,Molybdopterin,-,-
+B,"Biosynthesis of cofactors, prosthetic groups, and carriers",B.4,Pantothenate and coenzyme A,-,-
+B,"Biosynthesis of cofactors, prosthetic groups, and carriers",B.5,Pigments,B.5.1,Carotenoids
+B,"Biosynthesis of cofactors, prosthetic groups, and carriers",B.5,Pigments,B.5.2,Chlorophylls and porphyrins
+B,"Biosynthesis of cofactors, prosthetic groups, and carriers",B.5,Pigments,B.5.3,Hemes and phycobilins
+B,"Biosynthesis of cofactors, prosthetic groups, and carriers",B.6,"Pyridine nucleotides (NAD, NADP)",-,-
+B,"Biosynthesis of cofactors, prosthetic groups, and carriers",B.7,"Riboflavin, FMN and FAD",-,-
+B,"Biosynthesis of cofactors, prosthetic groups, and carriers",B.8,Siderophores,-,-
+B,"Biosynthesis of cofactors, prosthetic groups, and carriers",B.9,"Thioredoxin, glutaredoxin, and glutathione",-,-
+B,"Biosynthesis of cofactors, prosthetic groups, and carriers",B.10,Vitamins,B.10.1,Biotin (b7)
+B,"Biosynthesis of cofactors, prosthetic groups, and carriers",B.10,Vitamins,B.10.2,Cobalamin (b12)
+B,"Biosynthesis of cofactors, prosthetic groups, and carriers",B.10,Vitamins,B.10.3,Folic acid (b9)
+B,"Biosynthesis of cofactors, prosthetic groups, and carriers",B.10,Vitamins,B.10.4,Pyridoxine (b6)
+B,"Biosynthesis of cofactors, prosthetic groups, and carriers",B.10,Vitamins,B.10.5,Thiamine (b1)
+B,"Biosynthesis of cofactors, prosthetic groups, and carriers",B.11,Other,-,-
+C,Cell envelope,C.1,"Membranes, lipoproteins, and porins",-,-
+C,Cell envelope,C.2,Murein sacculus and peptidoglycan,-,-
+C,Cell envelope,C.3,Surface polysaccharides and lipopolysaccharides,-,-
+C,Cell envelope,C.4,Surface structures,-,-
+C,Cell envelope,C.5,Other,-,-
+D,Cellular processes,D.1,Adaptation/acclimation to atypical conditions and detoxification,D.1.1,Iron
+D,Cellular processes,D.1,Adaptation/acclimation to atypical conditions and detoxification,D.1.2,Light
+D,Cellular processes,D.1,Adaptation/acclimation to atypical conditions and detoxification,D.1.3,Nitrogen
+D,Cellular processes,D.1,Adaptation/acclimation to atypical conditions and detoxification,D.1.4,Oxidative stress
+D,Cellular processes,D.1,Adaptation/acclimation to atypical conditions and detoxification,D.1.5,Phosphorus
+D,Cellular processes,D.1,Adaptation/acclimation to atypical conditions and detoxification,D.1.6,Temperature
+D,Cellular processes,D.1,Adaptation/acclimation to atypical conditions and detoxification,D.1.7,Trace metals
+D,Cellular processes,D.1,Adaptation/acclimation to atypical conditions and detoxification,D.1.8,Other
+D,Cellular processes,D.2,Cell division,-,-
+D,Cellular processes,D.3,Cell growth and death,-,-
+D,Cellular processes,D.4,Chaperones,-,-
+D,Cellular processes,D.5,Chemotaxis and motility,-,-
+D,Cellular processes,D.6,Circadian clock,-,-
+D,Cellular processes,D.7,Protein and peptide secretion,-,-
+D,Cellular processes,D.8,Toxin production and resistance,-,-
+D,Cellular processes,D.9,Transformation,-,-
+D,Cellular processes,D.10,Other,-,-
+E,Central intermediary metabolism,E.1,Amino sugars,-,-
+E,Central intermediary metabolism,E.2,One-carbon metabolism,-,-
+E,Central intermediary metabolism,E.3,Phosphorus metabolism,-,-
+E,Central intermediary metabolism,E.4,Nitrogen metabolism,-,-
+E,Central intermediary metabolism,E.5,Polyamine biosynthesis,-,-
+E,Central intermediary metabolism,E.6,Polysaccharides and glycoproteins biosynthesis,-,-
+E,Central intermediary metabolism,E.7,Sulfur metabolism,-,-
+E,Central intermediary metabolism,E.8,Other,-,-
+F,DNA metabolism,F.1,"DNA replication, recombination, and repair",F.1.1,Base excision repair
+F,DNA metabolism,F.1,"DNA replication, recombination, and repair",F.1.2,Nucleotide excision repair
+F,DNA metabolism,F.1,"DNA replication, recombination, and repair",F.1.3,Mismatch repair
+F,DNA metabolism,F.1,"DNA replication, recombination, and repair",F.1.4,Homologous recombination
+F,DNA metabolism,F.1,"DNA replication, recombination, and repair",F.1.5,Non-homologous end-joining
+F,DNA metabolism,F.1,"DNA replication, recombination, and repair",F.1.6,Reversal of damage
+F,DNA metabolism,F.2,Restriction/modification,-,-
+F,DNA metabolism,F.3,Other,-,-
+G,Energy metabolism,G.1,Amino acids and amines (catabolism),-,-
+G,Energy metabolism,G.2,Electron transport,-,-
+G,Energy metabolism,G.3,Glycolate pathway,-,-
+G,Energy metabolism,G.4,Glycolysis/gluconeogenesis,-,-
+G,Energy metabolism,G.5,Pentose phosphate pathway,-,-
+G,Energy metabolism,G.6,Pyruvate and acetyl-CoA metabolism,-,-
+G,Energy metabolism,G.7,Pyruvate dehydrogenase,-,-
+G,Energy metabolism,G.8,Starch and sucrose metabolism,-,-
+G,Energy metabolism,G.9,TCA cycle,-,-
+G,Energy metabolism,G.10,Other,-,-
+H,"Fatty acid, phospholipid and sterol metabolism",H.1,Ether lipid metabolism,-,-
+H,"Fatty acid, phospholipid and sterol metabolism",H.2,Fatty acid metabolism,-,-
+H,"Fatty acid, phospholipid and sterol metabolism",H.3,Glycerolipid metabolism,-,-
+H,"Fatty acid, phospholipid and sterol metabolism",H.4,Glycerophospholipid metabolism,-,-
+H,"Fatty acid, phospholipid and sterol metabolism",H.5,Ketone bodies metabolism,-,-
+H,"Fatty acid, phospholipid and sterol metabolism",H.6,Linoleic acid metabolism,-,-
+H,"Fatty acid, phospholipid and sterol metabolism",H.7,Sphingolipid and glycosphingolipid metabolism,-,-
+I,Mobile and extrachromosomal element functions,I.1,Plasmid functions,-,-
+I,Mobile and extrachromosomal element functions,I.2,Prophage functions,-,-
+I,Mobile and extrachromosomal element functions,I.3,Transposon functions,-,-
+I,Mobile and extrachromosomal element functions,I.4,Other,-,-
+J,Photosynthesis and respiration,J.1,ATP synthase,-,-
+J,Photosynthesis and respiration,J.2,CO2 fixation,-,-
+J,Photosynthesis and respiration,J.3,Cytochrome b6/f complex,-,-
+J,Photosynthesis and respiration,J.4,Light-harvesting-Pcb,-,-
+J,Photosynthesis and respiration,J.5,Light-harvesting-Phycobilisomes,J.5.1,Allophycocyanin
+J,Photosynthesis and respiration,J.5,Light-harvesting-Phycobilisomes,J.5.2,Phycocyanin
+J,Photosynthesis and respiration,J.5,Light-harvesting-Phycobilisomes,J.5.3,Phycoerythrin
+J,Photosynthesis and respiration,J.5,Light-harvesting-Phycobilisomes,J.5.4,Phycobilin lyase
+J,Photosynthesis and respiration,J.5,Light-harvesting-Phycobilisomes,J.5.5,Other
+J,Photosynthesis and respiration,J.6,NADH dehydrogenase,-,-
+J,Photosynthesis and respiration,J.7,Photosystem I,-,-
+J,Photosynthesis and respiration,J.8,Photosystem II,-,-
+J,Photosynthesis and respiration,J.9,Respiratory terminal oxidases,-,-
+J,Photosynthesis and respiration,J.10,Soluble electron carriers,-,-
+J,Photosynthesis and respiration,J.11,Other,-,-
+K,Protein synthesis,K.1,tRNA aminoacylation,-,-
+K,Protein synthesis,K.2,Ribosomal proteins: synthesis and modification,-,-
+K,Protein synthesis,K.3,tRNA and rRNA base modification,-,-
+K,Protein synthesis,K.4,Translation factors,-,-
+K,Protein synthesis,K.5,Other,-,-
+L,Protein fate,L.1,Protein and peptide secretion and trafficking,-,-
+L,Protein fate,L.2,Protein modification and repair,-,-
+L,Protein fate,L.3,Protein folding and stabilization,-,-
+L,Protein fate,L.4,"Degradation of proteins, peptides, and glycopeptides",-,-
+L,Protein fate,L.5,Other,-,-
+M,"Purines, pyrimidines, nucleosides, and nucleotides",M.1,2'-Deoxyribonucleotide metabolism,-,-
+M,"Purines, pyrimidines, nucleosides, and nucleotides",M.2,Nucleotide and nucleoside interconversions,-,-
+M,"Purines, pyrimidines, nucleosides, and nucleotides",M.3,Purine ribonucleotide biosynthesis,-,-
+M,"Purines, pyrimidines, nucleosides, and nucleotides",M.4,Pyrimidine ribonucleotide biosynthesis,-,-
+M,"Purines, pyrimidines, nucleosides, and nucleotides",M.5,Salvage of nucleosides and nucleotides,-,-
+M,"Purines, pyrimidines, nucleosides, and nucleotides",M.6,Sugar-nucleotide biosynthesis and conversions,-,-
+M,"Purines, pyrimidines, nucleosides, and nucleotides",M.7,Other,-,-
+N,Regulatory functions,N.1,DNA interactions,-,-
+N,Regulatory functions,N.2,RNA interactions,-,-
+N,Regulatory functions,N.3,Protein interactions,-,-
+N,Regulatory functions,N.4,Small molecule interactions,-,-
+N,Regulatory functions,N.5,Other,-,-
+O,Signal transduction,O.1,Two-component systems,O.1.1,Histidine kinase (HK)
+O,Signal transduction,O.1,Two-component systems,O.1.2,response regulators  (RR)
+O,Signal transduction,O.2,Phosphotransferase systems (PTS),-,-
+O,Signal transduction,O.3,Other,-,-
+P,Transcription,P.1,Degradation of RNA,-,-
+P,Transcription,P.2,DNA-dependent RNA polymerase,-,-
+P,Transcription,P.3,Transcription factors,-,-
+P,Transcription,P.4,RNA processing,-,-
+P,Transcription,P.5,Other,-,-
+Q,Transport and binding proteins,Q.1,"Amino acids, peptides and amines",-,-
+Q,Transport and binding proteins,Q.2,Anions,-,-
+Q,Transport and binding proteins,Q.3,"Carbohydrates, organic alcohols, and acids",-,-
+Q,Transport and binding proteins,Q.4,Cations and iron carrying compounds,-,-
+Q,Transport and binding proteins,Q.5,"Nucleosides, purines and pyrimidines",-,-
+Q,Transport and binding proteins,Q.6,Porins,-,-
+Q,Transport and binding proteins,Q.7,Sugars,-,-
+Q,Transport and binding proteins,Q.8,Other,-,-
+Q,Transport and binding proteins,Q.9,Unknown substrate,-,-
+R,Other,R.1,Conserved hypothetical domains,-,-
+R,Other,R.2,Conserved hypothetical proteins,-,-
+R,Other,R.3,Enzymes of unknown specificity,-,-
+R,Other,R.4,Hypothetical proteins,-,-
+R,Other,R.5,Other,,
+,,,,,
+,,,,,
