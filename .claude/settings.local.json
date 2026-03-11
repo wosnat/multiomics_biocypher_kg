@@ -34,7 +34,12 @@
       "Skill(cypher-queries:*)",
       "Skill(deploy-strain)",
       "Skill(deploy-strain:*)",
-      "Bash(head -c 50000 /home/osnat/github/second_multiomics/cache/data/Prochlorococcus/genomes/MED4/gene_annotations_merged.json)"
+      "Bash(head -c 50000 /home/osnat/github/second_multiomics/cache/data/Prochlorococcus/genomes/MED4/gene_annotations_merged.json)",
+      "Bash(echo \"MATCH \\(n\\) WITH labels\\(n\\) AS lbls UNWIND lbls AS l WITH l WHERE NOT l IN [''NamedThing'', ''Entity'', ''BiologicalEntity'', ''InformationContentEntity'', ''GroupingClass'', ''OrganismalEntity'', ''AnatomicalEntity'', ''Polypeptide'', ''GeneOntology'', ''EnvironmentalFeature'', ''BiologicalProcessOrActivity'', ''Schema_info''] RETURN l AS label, count\\(*\\) AS count ORDER BY count DESC;\")",
+      "Bash(cypher-shell -a bolt://localhost:7687)",
+      "Bash(echo \"MATCH \\(o:OrganismTaxon\\) WHERE o.id STARTS WITH ''insdc.gcf'' RETURN o.strain_name AS strain, o.genus AS genus, o.clade AS clade ORDER BY genus, strain;\")",
+      "Bash(docker exec -i deploy cypher-shell -a bolt://localhost:7687)",
+      "Bash(echo \"MATCH \\(g:Gene\\) WHERE NOT \\(g\\)<-[:Affects_expression_of]-\\(\\) AND NOT \\(g\\)<-[:Affects_expression_of_homolog]-\\(\\) RETURN count\\(g\\) AS genes_no_expression;\")"
     ]
   }
 }
