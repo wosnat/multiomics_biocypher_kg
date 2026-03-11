@@ -1,6 +1,5 @@
 from __future__ import annotations
 from pathlib import Path
-from pypath.share import curl, settings
 from contextlib import ExitStack
 import json
 
@@ -16,8 +15,6 @@ import os
 
 from enum import Enum, EnumMeta, auto
 from typing import Union, Literal
-
-from pypath.inputs import expasy, uniprot
 
 from biocypher._logger import logger
 
@@ -174,6 +171,9 @@ class EC:
         # Try project-level JSON cache first (faster than pypath curl cache)
         if cache and self._load_ec_cache():
             return
+
+        from pypath.share import curl, settings
+        from pypath.inputs import expasy
 
         with ExitStack() as stack:
             #stack.enter_context(settings.context(retries=retries))

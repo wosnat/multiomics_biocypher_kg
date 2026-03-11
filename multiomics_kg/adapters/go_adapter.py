@@ -1,7 +1,3 @@
-from pypath.share import curl, settings
-from pypath.inputs import interpro, uniprot
-from pypath.inputs import go as go_input
-from pypath.utils import go as go_util
 from contextlib import ExitStack
 from bioregistry import normalize_curie
 
@@ -451,6 +447,11 @@ class GO:
             debug: if True, turns on debug mode in pypath.
             retries: number of retries in case of download error.
         """
+
+        from pypath.share import curl, settings
+        from pypath.inputs import interpro
+        from pypath.inputs import go as go_input
+        from pypath.utils import go as go_util
 
         # stack pypath context managers
         with ExitStack() as stack:
