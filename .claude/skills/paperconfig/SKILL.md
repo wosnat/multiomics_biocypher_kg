@@ -50,7 +50,7 @@ publication:
 
 ### 2. Environmental Conditions (Optional)
 
-Define environmental conditions when the experiment varies an environmental factor (light, gas, salinity, nutrients, growth state) rather than a biological organism. Each condition becomes a node in the knowledge graph and can be used as the **source** of `affects_expression_of` edges (instead of an organism).
+Define environmental conditions when the experiment varies an environmental factor (light, gas, salinity, nutrients, growth state) rather than a biological organism. Each condition becomes a node in the knowledge graph and can be used as the **source** of `Condition_changes_expression_of` edges (instead of an organism, which produces `Coculture_changes_expression_of` edges).
 
 ```yaml
   environmental_conditions:
@@ -241,6 +241,25 @@ Use **environmental condition edges** (`environmental_treatment_condition_id`) w
 - The experiment varies a physical or chemical factor (light, gas, salinity, nutrients, temperature)
 - The experiment compares growth states or phases (planktonic vs biofilm, exponential vs stationary)
 - You want the condition details (CO2 level, salinity, etc.) stored as a node with rich properties
+
+## Edge Label Routing
+
+The OMICSAdapter creates different Neo4j edge labels depending on which source fields are present in the analysis:
+
+| paperconfig field | Edge label created | Source node type |
+|---|---|---|
+| `treatment_organism` + `treatment_taxid` (or `treatment_assembly_accession`) | `Coculture_changes_expression_of` | `OrganismTaxon` |
+| `environmental_treatment_condition_id` | `Condition_changes_expression_of` | `EnvironmentalCondition` |
+
+Ortholog-propagated edges (created by the post-import cypher script) follow the same split:
+- Coculture studies produce `Coculture_changes_expression_of_ortholog` edges
+- Environmental stress studies produce `Condition_changes_expression_of_ortholog` edges
+
+A single publication can produce **both** edge types if it contains analyses of both kinds (e.g., a paper that studies both an environmental stress and a coculture effect in separate tables). Each `statistical_analyses` entry is processed independently and routed to the appropriate edge label.
+
+The `condition_category` property on `EnvironmentalCondition` nodes holds the same value as `condition_type` and is available for graph queries that filter by category across publications.
+
+The adapter also emits a `Published_expression_data_about` edge from the `Publication` node to the `EnvironmentalCondition` or `OrganismTaxon` source node for each analysis, enabling navigation from publications to the conditions they studied.
 
 ## Organism Reference Data
 

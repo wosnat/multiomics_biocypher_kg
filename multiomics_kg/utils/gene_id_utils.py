@@ -780,7 +780,7 @@ def load_import_report(import_report_path=None, return_by_source=False):
         return None
 
     affects_pattern = re.compile(
-        r'^(.+?) \(global id space\)-\[Affects_expression_of\]->ncbigene:(.+?) \(global id space\)'
+        r'^(.+?) \(global id space\)-\[(?:Condition_changes_expression_of|Coculture_changes_expression_of)\]->ncbigene:(.+?) \(global id space\)'
     )
 
     missing_by_source = defaultdict(set)

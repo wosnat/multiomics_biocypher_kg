@@ -542,9 +542,9 @@ class TestIsIdLikeColumn:
 # ─── load_import_report ───────────────────────────────────────────────────────
 
 SAMPLE_REPORT = (
-    "doi:10.1234/paper1 (global id space)-[Affects_expression_of]->ncbigene:PMM0001 (global id space)\n"
-    "doi:10.1234/paper1 (global id space)-[Affects_expression_of]->ncbigene:PMM0002 (global id space)\n"
-    "doi:10.1234/paper2 (global id space)-[Affects_expression_of]->ncbigene:PMM0003 (global id space)\n"
+    "doi:10.1234/paper1 (global id space)-[Condition_changes_expression_of]->ncbigene:PMM0001 (global id space)\n"
+    "doi:10.1234/paper1 (global id space)-[Coculture_changes_expression_of]->ncbigene:PMM0002 (global id space)\n"
+    "doi:10.1234/paper2 (global id space)-[Condition_changes_expression_of]->ncbigene:PMM0003 (global id space)\n"
     "unrelated line that should be ignored\n"
 )
 
@@ -600,7 +600,7 @@ class TestLoadImportReport:
         report = tmp_path / "import.report"
         report.write_text(
             "WARNING: something\n"
-            "doi:10.1234/paper1 (global id space)-[Affects_expression_of]->ncbigene:PMM0001 (global id space)\n"
+            "doi:10.1234/paper1 (global id space)-[Condition_changes_expression_of]->ncbigene:PMM0001 (global id space)\n"
             "ERROR: something else\n"
         )
         result = load_import_report(import_report_path=str(report))

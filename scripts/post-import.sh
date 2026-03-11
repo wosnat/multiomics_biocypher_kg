@@ -62,13 +62,13 @@ CYPHER
 echo "=== Post-process: Homolog edge counts ==="
 cypher-shell "MATCH ()-[r:Gene_is_homolog_of_gene]->() RETURN r.source AS source, count(r) AS edges ORDER BY edges DESC;"
 
-echo "=== Post-process: Propagate expression to homologs (batched) ==="
+echo "=== Post-process: Propagate condition expression to homologs (no distance filter, batched) ==="
 cypher-shell <<'CYPHER'
-MATCH (source)-[e:Affects_expression_of]->(geneA:Gene)-[h:Gene_is_homolog_of_gene]->(geneB:Gene)
-WHERE h.distance <> "cross phylum"
+MATCH (source)-[e:Condition_changes_expression_of]->(geneA:Gene)-[h:Gene_is_homolog_of_gene]->(geneB:Gene)
+WHERE NOT (source)-[:Condition_changes_expression_of_ortholog]->(geneB)
 CALL {
   WITH source, e, geneA, h, geneB
-  CREATE (source)-[:Affects_expression_of_homolog {
+  CREATE (source)-[:Condition_changes_expression_of_ortholog {
     expression_direction: e.expression_direction,
     control_condition: e.control_condition,
     experimental_context: e.experimental_context,
@@ -77,8 +77,40 @@ CALL {
     adjusted_p_value: e.adjusted_p_value,
     significant: e.significant,
     publications: e.publications,
-    original_gene: geneA.id,
-    homology_source: h.source,
+    omics_type: e.omics_type,
+    organism_strain: e.organism_strain,
+    treatment_condition: e.treatment_condition,
+    statistical_test: e.statistical_test,
+    original_gene: geneA.locus_tag,
+    homology_source: 'cyanorak_cluster',
+    homology_cluster_id: h.cluster_id,
+    distance: h.distance
+  }]->(geneB)
+} IN TRANSACTIONS OF 5000 ROWS;
+CYPHER
+
+echo "=== Post-process: Propagate coculture expression to homologs (cross-phylum filter, batched) ==="
+cypher-shell <<'CYPHER'
+MATCH (source)-[e:Coculture_changes_expression_of]->(geneA:Gene)-[h:Gene_is_homolog_of_gene]->(geneB:Gene)
+WHERE h.distance <> "cross phylum"
+  AND NOT (source)-[:Coculture_changes_expression_of_ortholog]->(geneB)
+CALL {
+  WITH source, e, geneA, h, geneB
+  CREATE (source)-[:Coculture_changes_expression_of_ortholog {
+    expression_direction: e.expression_direction,
+    control_condition: e.control_condition,
+    experimental_context: e.experimental_context,
+    time_point: e.time_point,
+    log2_fold_change: e.log2_fold_change,
+    adjusted_p_value: e.adjusted_p_value,
+    significant: e.significant,
+    publications: e.publications,
+    omics_type: e.omics_type,
+    organism_strain: e.organism_strain,
+    treatment_condition: e.treatment_condition,
+    statistical_test: e.statistical_test,
+    original_gene: geneA.locus_tag,
+    homology_source: 'cyanorak_cluster',
     homology_cluster_id: h.cluster_id,
     distance: h.distance
   }]->(geneB)
@@ -87,7 +119,7 @@ CYPHER
 
 echo "=== Post-process: Final edge counts ==="
 cypher-shell "MATCH ()-[r:Gene_is_homolog_of_gene]->() RETURN count(r) AS homolog_edges;"
-cypher-shell "MATCH ()-[r:Affects_expression_of_homolog]->() RETURN count(r) AS homolog_expression_edges;"
+cypher-shell "MATCH ()-[r:Condition_changes_expression_of_ortholog|Coculture_changes_expression_of_ortholog]->() RETURN count(r) AS total_ortholog_edges;"
 
 echo "=== Post-process complete ==="
 neo4j stop

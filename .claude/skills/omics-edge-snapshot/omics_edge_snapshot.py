@@ -1,8 +1,10 @@
 #!/usr/bin/env python3
-"""Snapshot and compare Affects_expression_of edge counts in the Neo4j knowledge graph.
+"""Snapshot and compare expression edge counts in the Neo4j knowledge graph.
 
 Captures per-paper edge counts before and after omics adapter changes to detect
-regressions. New edges are good; lost matched edges are regressions.
+regressions. Counts both Condition_changes_expression_of (environmental stress)
+and Coculture_changes_expression_of (organism coculture) edges separately and
+as a combined total. New edges are good; lost matched edges are regressions.
 
 Usage:
     # Capture baseline from the live graph
@@ -81,15 +83,24 @@ def capture_snapshot() -> dict:
     """Capture full edge metrics from the live graph."""
     snapshot: dict = {"timestamp": datetime.now(timezone.utc).isoformat()}
 
-    # --- Total edges ---
+    # --- Total edges (both new edge types combined) ---
     rows = run_cypher(
-        "MATCH ()-[e:Affects_expression_of]->() RETURN count(e) AS cnt"
+        "MATCH ()-[e:Condition_changes_expression_of]->() RETURN count(e) AS cnt"
     )
-    snapshot["total_edges"] = int(rows[0][0]) if rows else 0
+    condition_count = int(rows[0][0]) if rows else 0
+
+    rows = run_cypher(
+        "MATCH ()-[e:Coculture_changes_expression_of]->() RETURN count(e) AS cnt"
+    )
+    coculture_count = int(rows[0][0]) if rows else 0
+
+    snapshot["total_edges"] = condition_count + coculture_count
+    snapshot["condition_edges"] = condition_count
+    snapshot["coculture_edges"] = coculture_count
 
     # --- Per-publication edge count (unwind publications array) ---
     rows = run_cypher("""
-        MATCH ()-[e:Affects_expression_of]->()
+        MATCH ()-[e:Condition_changes_expression_of|Coculture_changes_expression_of]->()
         UNWIND e.publications AS pub
         RETURN pub, count(e) AS edge_count
         ORDER BY pub
@@ -100,7 +111,7 @@ def capture_snapshot() -> dict:
 
     # --- Per-publication by direction ---
     rows = run_cypher("""
-        MATCH ()-[e:Affects_expression_of]->()
+        MATCH ()-[e:Condition_changes_expression_of|Coculture_changes_expression_of]->()
         UNWIND e.publications AS pub
         RETURN pub, e.expression_direction AS direction, count(e) AS edge_count
         ORDER BY pub, direction
@@ -113,19 +124,30 @@ def capture_snapshot() -> dict:
         by_dir.setdefault(pub, {})[direction] = cnt
     snapshot["per_publication_by_direction"] = by_dir
 
-    # --- By source node type ---
+    # --- By source node type (via separate queries per edge type) ---
     rows = run_cypher("""
-        MATCH (src)-[e:Affects_expression_of]->()
+        MATCH (src)-[e:Condition_changes_expression_of]->()
         RETURN labels(src)[0] AS source_type, count(e) AS edge_count
         ORDER BY source_type
     """)
-    snapshot["by_source_type"] = {
-        _strip_quotes(r[0]): int(r[1]) for r in rows
-    }
+    by_src: dict = {}
+    for r in rows:
+        by_src[_strip_quotes(r[0])] = by_src.get(_strip_quotes(r[0]), 0) + int(r[1])
+
+    rows = run_cypher("""
+        MATCH (src)-[e:Coculture_changes_expression_of]->()
+        RETURN labels(src)[0] AS source_type, count(e) AS edge_count
+        ORDER BY source_type
+    """)
+    for r in rows:
+        key = _strip_quotes(r[0])
+        by_src[key] = by_src.get(key, 0) + int(r[1])
+
+    snapshot["by_source_type"] = by_src
 
     # --- By target gene organism (strain) ---
     rows = run_cypher("""
-        MATCH ()-[e:Affects_expression_of]->(g:Gene)
+        MATCH ()-[e:Condition_changes_expression_of|Coculture_changes_expression_of]->(g:Gene)
         OPTIONAL MATCH (g)-[:Gene_belongs_to_organism]->(org:OrganismTaxon)
         RETURN coalesce(org.organism_name, 'unknown') AS organism, count(e) AS edge_count
         ORDER BY organism
@@ -138,7 +160,7 @@ def capture_snapshot() -> dict:
     # Captures WHICH genes have edges, not just how many.
     # Used to detect genes that were previously matched but disappear after resolve stage.
     rows = run_cypher("""
-        MATCH ()-[e:Affects_expression_of]->(g:Gene)
+        MATCH ()-[e:Condition_changes_expression_of|Coculture_changes_expression_of]->(g:Gene)
         UNWIND e.publications AS pub
         RETURN pub, g.locus_tag AS locus_tag
         ORDER BY pub, locus_tag
@@ -219,7 +241,16 @@ def compare_snapshots(old: dict, new: dict, old_name: str, new_name: str) -> int
     new_total = new.get("total_edges", 0)
     delta = new_total - old_total
     delta_str = f"+{delta:,}" if delta >= 0 else f"{delta:,}"
-    print(f"\nTotal Affects_expression_of edges: {old_total:,} → {new_total:,}  ({delta_str})")
+    print(f"\nTotal expression edges (combined): {old_total:,} → {new_total:,}  ({delta_str})")
+
+    # Per-type breakdown (condition vs coculture)
+    for key, label in [("condition_edges", "Condition_changes_expression_of"),
+                       ("coculture_edges", "Coculture_changes_expression_of")]:
+        o = old.get(key, 0)
+        n = new.get(key, 0)
+        d = n - o
+        d_str = f"+{d:,}" if d >= 0 else f"{d:,}"
+        print(f"  {label:<45} {o:>7,} → {n:>7,}  ({d_str})")
 
     # ---- By source type ----
     print("\nBy source type:")
@@ -337,7 +368,7 @@ def compare_snapshots(old: dict, new: dict, old_name: str, new_name: str) -> int
 
 def main():
     parser = argparse.ArgumentParser(
-        description="Snapshot and compare Affects_expression_of edge counts",
+        description="Snapshot and compare Condition_changes_expression_of and Coculture_changes_expression_of edge counts",
         formatter_class=argparse.RawDescriptionHelpFormatter,
         epilog=__doc__,
     )
@@ -372,8 +403,10 @@ def main():
         snapshot = capture_snapshot()
         path = save_snapshot(snapshot, args.save)
         print(f"Saved '{args.save}' → {path}")
-        print(f"  Total edges : {snapshot['total_edges']:,}")
-        print(f"  Publications: {len(snapshot['per_publication'])}")
+        print(f"  Total edges (combined)  : {snapshot['total_edges']:,}")
+        print(f"  Condition_changes_*     : {snapshot.get('condition_edges', 0):,}")
+        print(f"  Coculture_changes_*     : {snapshot.get('coculture_edges', 0):,}")
+        print(f"  Publications            : {len(snapshot['per_publication'])}")
         by_src = snapshot.get("by_source_type", {})
         for src, cnt in sorted(by_src.items()):
             print(f"  {src}: {cnt:,}")

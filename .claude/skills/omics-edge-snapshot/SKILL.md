@@ -1,6 +1,6 @@
 ---
 name: omics-edge-snapshot
-description: Snapshot and compare Affects_expression_of edge counts in the Neo4j knowledge graph. Use before and after omics adapter changes to verify no edges were lost. Detects per-paper regressions (lost edges) vs improvements (gained edges from better ID resolution). Dangling edge removal is expected and OK.
+description: Snapshot and compare expression edge counts (Condition_changes_expression_of and Coculture_changes_expression_of) in the Neo4j knowledge graph. Use before and after omics adapter changes to verify no edges were lost. Detects per-paper regressions (lost edges) vs improvements (gained edges from better ID resolution). Dangling edge removal is expected and OK.
 argument-hint: [--save NAME | --compare NAME | --list]
 user-invocable: true
 allowed-tools: Read, Bash(uv *), Bash(docker exec *), Bash(docker compose *)
@@ -8,7 +8,12 @@ allowed-tools: Read, Bash(uv *), Bash(docker exec *), Bash(docker compose *)
 
 # Omics Edge Snapshot Skill
 
-Capture and compare `Affects_expression_of` edge counts per publication before and after changes to the omics adapter or prepare_data pipeline. Ensures that rebuilds don't silently lose valid edges.
+Capture and compare expression edge counts per publication before and after changes to the omics adapter or prepare_data pipeline. The graph uses two edge types for expression data:
+
+- `Condition_changes_expression_of` — source is an `EnvironmentalCondition` node (stress experiments, growth conditions)
+- `Coculture_changes_expression_of` — source is an `OrganismTaxon` node (coculture experiments)
+
+Both edge types are counted separately and as a combined total. Ensures that rebuilds don't silently lose valid edges.
 
 ## Quick Start
 
@@ -34,8 +39,10 @@ For each snapshot:
 
 | Metric | Description |
 |--------|-------------|
-| `total_edges` | Total `Affects_expression_of` edge count |
-| `per_publication` | Edge count per DOI/publication string (from `e.publications` array) |
+| `total_edges` | Combined count of `Condition_changes_expression_of` + `Coculture_changes_expression_of` edges |
+| `condition_edges` | Count of `Condition_changes_expression_of` edges (EnvironmentalCondition source) |
+| `coculture_edges` | Count of `Coculture_changes_expression_of` edges (OrganismTaxon source) |
+| `per_publication` | Edge count per DOI/publication string (from `e.publications` array, both edge types) |
 | `per_publication_by_direction` | Breakdown into `up` / `down` per publication |
 | `by_source_type` | Counts grouped by source node label (`OrganismTaxon` vs `EnvironmentalCondition`) |
 | `by_organism` | Counts grouped by the target gene's organism strain |

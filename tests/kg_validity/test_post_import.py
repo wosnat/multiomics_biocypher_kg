@@ -8,8 +8,9 @@ The post-import.cypher script runs after neo4j-admin import to:
    doesn't already have it from Cyanorak)
 3. Create bidirectional Gene_is_homolog_of_gene edges between genes sharing
    a Cyanorak_cluster (both A→B and B→A, with distance property)
-4. Propagate Affects_expression_of_homolog edges: if X affects gene A,
-   and A is homolog of B, then X affects_homolog B
+4. Propagate expression ortholog edges: if X changes expression of gene A,
+   and A is homolog of B, then X changes_expression_of_ortholog B
+   (Condition_changes_expression_of_ortholog and Coculture_changes_expression_of_ortholog)
 
 These tests verify that post-import ran correctly and produced valid results.
 
@@ -347,41 +348,42 @@ def test_eggnog_homologs_are_bidirectional(run_query):
 
 
 # ---------------------------------------------------------------------------
-# Affects_expression_of_homolog edges
+# Expression ortholog edges (Condition_changes_expression_of_ortholog and
+# Coculture_changes_expression_of_ortholog)
 # ---------------------------------------------------------------------------
 
 def test_expression_homolog_edges_exist(run_query):
-    """Affects_expression_of_homolog edges must exist after post-import."""
+    """Expression ortholog edges must exist after post-import."""
     result = run_query(
-        "MATCH ()-[r:Affects_expression_of_homolog]->() RETURN count(r) AS cnt"
+        "MATCH ()-[r:Condition_changes_expression_of_ortholog|Coculture_changes_expression_of_ortholog]->() RETURN count(r) AS cnt"
     )
     cnt = result[0]["cnt"]
     assert cnt > 0, (
-        "No Affects_expression_of_homolog edges found. "
+        "No Condition_changes_expression_of_ortholog or Coculture_changes_expression_of_ortholog edges found. "
         "Did post-import.cypher propagation step run?"
     )
 
 
 def test_expression_homolog_has_original_gene(run_query):
-    """Every Affects_expression_of_homolog must record the original_gene ID."""
+    """Every expression ortholog edge must record the original_gene ID."""
     result = run_query("""
-        MATCH ()-[r:Affects_expression_of_homolog]->()
+        MATCH ()-[r:Condition_changes_expression_of_ortholog|Coculture_changes_expression_of_ortholog]->()
         WHERE r.original_gene IS NULL
         RETURN count(r) AS missing
     """)
     missing = result[0]["missing"]
     assert missing == 0, (
-        f"{missing} Affects_expression_of_homolog edges are missing original_gene"
+        f"{missing} expression ortholog edges are missing original_gene"
     )
 
 
 def test_expression_homolog_has_homology_metadata(run_query):
     """
-    Affects_expression_of_homolog edges must carry homology_source,
+    Expression ortholog edges must carry homology_source,
     homology_cluster_id, and distance (copied from the homolog edge).
     """
     result = run_query("""
-        MATCH ()-[r:Affects_expression_of_homolog]->()
+        MATCH ()-[r:Condition_changes_expression_of_ortholog|Coculture_changes_expression_of_ortholog]->()
         WHERE r.homology_source IS NULL
            OR r.homology_cluster_id IS NULL
            OR r.distance IS NULL
@@ -389,44 +391,62 @@ def test_expression_homolog_has_homology_metadata(run_query):
     """)
     missing = result[0]["missing"]
     assert missing == 0, (
-        f"{missing} Affects_expression_of_homolog edges are missing homology metadata "
+        f"{missing} expression ortholog edges are missing homology metadata "
         f"(homology_source / homology_cluster_id / distance)"
     )
 
 
 def test_expression_homolog_inherits_log2fc(run_query):
     """
-    Expression homolog edges must carry log2_fold_change (always present on the
+    Expression ortholog edges must carry log2_fold_change (always present on the
     original edge). Note: adjusted_p_value may be null if the original study
     did not report it — that is expected and not tested here.
     """
     result = run_query("""
-        MATCH ()-[r:Affects_expression_of_homolog]->()
+        MATCH ()-[r:Condition_changes_expression_of_ortholog|Coculture_changes_expression_of_ortholog]->()
         WHERE r.log2_fold_change IS NULL
         RETURN count(r) AS missing
     """)
     missing = result[0]["missing"]
     assert missing == 0, (
-        f"{missing} Affects_expression_of_homolog edges are missing log2_fold_change"
+        f"{missing} expression ortholog edges are missing log2_fold_change"
     )
 
 
 def test_expression_homolog_count_vs_direct(run_query):
     """
-    The number of homolog expression edges should be substantially larger
+    The number of expression ortholog edges should be substantially larger
     than the number of direct expression edges (homology amplifies coverage).
-    If homolog_count < direct_count, propagation likely failed.
+    If ortholog_count < direct_count, propagation likely failed.
     """
     result = run_query("""
-        MATCH ()-[:Affects_expression_of]->()
+        MATCH ()-[:Condition_changes_expression_of|Coculture_changes_expression_of]->()
         WITH count(*) AS direct
-        MATCH ()-[:Affects_expression_of_homolog]->()
+        MATCH ()-[:Condition_changes_expression_of_ortholog|Coculture_changes_expression_of_ortholog]->()
         WITH direct, count(*) AS homolog
         RETURN direct, homolog
     """)
     row = result[0]
     assert row["homolog"] > row["direct"], (
-        f"Affects_expression_of_homolog count ({row['homolog']}) is not greater "
-        f"than direct Affects_expression_of count ({row['direct']}). "
-        f"Homolog propagation may have failed or graph has very few shared clusters."
+        f"Expression ortholog edge count ({row['homolog']}) is not greater "
+        f"than direct expression edge count ({row['direct']}). "
+        f"Ortholog propagation may have failed or graph has very few shared clusters."
+    )
+
+
+def test_no_cross_phylum_coculture_ortholog_edges(run_query):
+    """
+    Coculture_changes_expression_of_ortholog edges must not span cross-phylum
+    distances. Coculture experiments are intra-genus (Prochlorococcus/Alteromonas),
+    so cross-phylum propagation would be biologically nonsensical.
+    """
+    result = run_query("""
+        MATCH ()-[e:Coculture_changes_expression_of_ortholog]->()
+        WHERE e.distance = 'cross phylum'
+        RETURN count(e) AS cnt
+    """)
+    cnt = result[0]["cnt"]
+    assert cnt == 0, (
+        f"{cnt} Coculture_changes_expression_of_ortholog edges have distance='cross phylum'. "
+        f"Cross-phylum coculture ortholog edges should not exist."
     )

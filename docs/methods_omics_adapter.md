@@ -2,7 +2,7 @@
 
 ## Overview
 
-Integrating differential expression results from diverse publications into a unified knowledge graph requires a declarative system that can accommodate variation in experimental designs, statistical reporting conventions, gene identifier vocabularies, and edge semantics. We developed a two-component system: (1) a YAML-based configuration schema (`paperconfig.yaml`) that declaratively describes each publication's supplementary data tables and their experimental metadata, and (2) an omics adapter that reads these configurations, generates graph nodes for publications and experimental conditions, and emits `Affects_expression_of` edges linking causal factors to genes with quantitative expression properties. The system currently integrates 24 publications spanning RNA-seq, proteomics, metabolomics, and microarray experiments across 13 bacterial strains.
+Integrating differential expression results from diverse publications into a unified knowledge graph requires a declarative system that can accommodate variation in experimental designs, statistical reporting conventions, gene identifier vocabularies, and edge semantics. We developed a two-component system: (1) a YAML-based configuration schema (`paperconfig.yaml`) that declaratively describes each publication's supplementary data tables and their experimental metadata, and (2) an omics adapter that reads these configurations, generates graph nodes for publications and experimental conditions, and emits `Condition_changes_expression_of` or `Coculture_changes_expression_of` edges linking causal factors to genes with quantitative expression properties. The system currently integrates 24 publications spanning RNA-seq, proteomics, metabolomics, and microarray experiments across 13 bacterial strains.
 
 ## Paperconfig YAML Schema
 
@@ -60,19 +60,19 @@ The `supplementary_materials` block maps each data file to one or more statistic
           experimental_context: "Pro99 medium, continuous light"
 ```
 
-Each analysis within a table must carry a unique `id` field that, combined with the publication DOI, forms a globally unique edge ID prefix. This design supports parallel edges: the same gene may have multiple `Affects_expression_of` edges from different time points, conditions, or publications, each with distinct properties.
+Each analysis within a table must carry a unique `id` field that, combined with the publication DOI, forms a globally unique edge ID prefix. This design supports parallel edges: the same gene may have multiple expression edges from different time points, conditions, or publications, each with distinct properties.
 
 File-level settings (`organism`, `sep`, `skip_rows`) propagate to individual analyses unless overridden, reducing repetition in multi-analysis tables.
 
 ## Edge Source Determination
 
-The causal factor in a differential expression experiment is modeled as the source node of each `Affects_expression_of` edge. Two source types are supported, selected per analysis by the fields present in the paperconfig:
+The causal factor in a differential expression experiment is modeled as the source node of each expression edge. Two source types are supported, selected per analysis by the fields present in the paperconfig; they produce different edge labels to enable unambiguous queries by experiment type:
 
-**Environmental condition source.** When the analysis declares an `environmental_treatment_condition_id`, the adapter uses the corresponding `EnvironmentalCondition` node as the edge source. This applies to stress experiments (light shifts, nutrient limitation, gas perturbation) where the causal factor is an abiotic condition rather than a biological entity. Approximately 95,000 edges in the current graph use this source type.
+**Environmental condition source.** When the analysis declares an `environmental_treatment_condition_id`, the adapter uses the corresponding `EnvironmentalCondition` node as the edge source and emits a `Condition_changes_expression_of` edge. This applies to stress experiments (light shifts, nutrient limitation, gas perturbation) where the causal factor is an abiotic condition rather than a biological entity. Approximately 95,000 edges in the current graph use this source type.
 
-**Organism taxon source.** When the analysis instead declares `treatment_organism` and `treatment_assembly_accession` (or `treatment_taxid`), the adapter uses the corresponding `OrganismTaxon` node as the edge source. This applies to coculture experiments where gene expression changes in one organism are attributed to the presence of another organism. The assembly accession is preferred for source identification (yielding an INSDC GCF-based CURIE), with NCBI taxonomy ID as a fallback. Approximately 12,000 edges in the current graph use this source type.
+**Organism taxon source.** When the analysis instead declares `treatment_organism` and `treatment_assembly_accession` (or `treatment_taxid`), the adapter uses the corresponding `OrganismTaxon` node as the edge source and emits a `Coculture_changes_expression_of` edge. This applies to coculture experiments where gene expression changes in one organism are attributed to the presence of another organism. The assembly accession is preferred for source identification (yielding an INSDC GCF-based CURIE), with NCBI taxonomy ID as a fallback. Approximately 12,000 edges in the current graph use this source type.
 
-Both edge types share the same `Affects_expression_of` label in the graph, allowing LLM agents and Cypher queries to uniformly query all expression effects regardless of the causal factor type.
+LLM agents and Cypher queries that need to span both experiment types can use `r:Condition_changes_expression_of|Coculture_changes_expression_of` in relationship patterns.
 
 ## Publication Metadata Extraction
 
@@ -80,7 +80,7 @@ Publication nodes carry structured metadata (title, authors, journal, DOI, abstr
 
 ## Edge Properties
 
-Each `Affects_expression_of` edge carries the following properties:
+Each `Condition_changes_expression_of` and `Coculture_changes_expression_of` edge carries the following properties:
 
 | Property | Type | Source | Required |
 |----------|------|--------|----------|
@@ -125,7 +125,7 @@ All string property values are sanitized before yielding nodes and edges. Single
 
 ## Multi-Paper Aggregation
 
-The `MultiOMICSAdapter` wrapper reads a text file (`paperconfig_files.txt`) listing all paperconfig paths, instantiates one `OMICSAdapter` per publication, and aggregates their nodes and edges. This design allows each adapter instance to operate independently — loading its own config, extracting its own publication metadata, and generating its own edges — while the wrapper provides the unified interface expected by the knowledge graph build pipeline. The current deployment processes 24 paperconfig files, generating approximately 107,000 `Affects_expression_of` edges across all publications.
+The `MultiOMICSAdapter` wrapper reads a text file (`paperconfig_files.txt`) listing all paperconfig paths, instantiates one `OMICSAdapter` per publication, and aggregates their nodes and edges. This design allows each adapter instance to operate independently — loading its own config, extracting its own publication metadata, and generating its own edges — while the wrapper provides the unified interface expected by the knowledge graph build pipeline. The current deployment processes 24 paperconfig files, generating approximately ~188K expression edges (`Condition_changes_expression_of` + `Coculture_changes_expression_of`) across all publications.
 
 ## Edge Identity and Parallel Edges
 

@@ -1,1686 +1,1796 @@
 {
-  "generated_at": "2026-03-02T13:50:40.703932+00:00",
   "description": "Regression snapshot of KG nodes/edges. Regenerate with: uv run python tests/kg_validity/generate_snapshot.py",
+  "edges": [
+    {
+      "properties": {},
+      "source": "ncbigene:A9601_00001",
+      "target": "insdc.gcf:GCF_000015645.1",
+      "type": "Gene_belongs_to_organism"
+    },
+    {
+      "properties": {},
+      "source": "ncbigene:A9601_00011",
+      "target": "insdc.gcf:GCF_000015645.1",
+      "type": "Gene_belongs_to_organism"
+    },
+    {
+      "properties": {},
+      "source": "ncbigene:A9601_00021",
+      "target": "insdc.gcf:GCF_000015645.1",
+      "type": "Gene_belongs_to_organism"
+    },
+    {
+      "properties": {},
+      "source": "ncbigene:A9601_00031",
+      "target": "insdc.gcf:GCF_000015645.1",
+      "type": "Gene_belongs_to_organism"
+    },
+    {
+      "properties": {},
+      "source": "ncbigene:A9601_00041",
+      "target": "insdc.gcf:GCF_000015645.1",
+      "type": "Gene_belongs_to_organism"
+    },
+    {
+      "properties": {},
+      "source": "uniprot:A0A126PUM2",
+      "target": "insdc.gcf:GCF_001578515.1",
+      "type": "Protein_belongs_to_organism"
+    },
+    {
+      "properties": {},
+      "source": "uniprot:A0A126PUM2",
+      "target": "insdc.gcf:GCF_901457815.2",
+      "type": "Protein_belongs_to_organism"
+    },
+    {
+      "properties": {},
+      "source": "uniprot:A0A126PUM2",
+      "target": "insdc.gcf:GCF_901457835.2",
+      "type": "Protein_belongs_to_organism"
+    },
+    {
+      "properties": {},
+      "source": "uniprot:A0A126PUP8",
+      "target": "insdc.gcf:GCF_001578515.1",
+      "type": "Protein_belongs_to_organism"
+    },
+    {
+      "properties": {},
+      "source": "uniprot:A0A126PUP8",
+      "target": "insdc.gcf:GCF_901457815.2",
+      "type": "Protein_belongs_to_organism"
+    },
+    {
+      "properties": {},
+      "source": "uniprot:A0A126PUM2",
+      "target": "ncbigene:ACZ81_00250",
+      "type": "Gene_encodes_protein"
+    },
+    {
+      "properties": {},
+      "source": "uniprot:A0A126PUM2",
+      "target": "ncbigene:EZ55_00076",
+      "type": "Gene_encodes_protein"
+    },
+    {
+      "properties": {},
+      "source": "uniprot:A0A126PUM2",
+      "target": "ncbigene:MIT1002_00051",
+      "type": "Gene_encodes_protein"
+    },
+    {
+      "properties": {},
+      "source": "uniprot:A0A126PUP8",
+      "target": "ncbigene:ACZ81_00265",
+      "type": "Gene_encodes_protein"
+    },
+    {
+      "properties": {},
+      "source": "uniprot:A0A126PUP8",
+      "target": "ncbigene:EZ55_00079",
+      "type": "Gene_encodes_protein"
+    },
+    {
+      "properties": {},
+      "source": "ncbigene:A9601_00001",
+      "target": "cyanorak.cluster_CK_00000364",
+      "type": "Gene_in_cyanorak_cluster"
+    },
+    {
+      "properties": {},
+      "source": "ncbigene:A9601_00011",
+      "target": "cyanorak.cluster_CK_00000363",
+      "type": "Gene_in_cyanorak_cluster"
+    },
+    {
+      "properties": {},
+      "source": "ncbigene:A9601_00021",
+      "target": "cyanorak.cluster_CK_00000362",
+      "type": "Gene_in_cyanorak_cluster"
+    },
+    {
+      "properties": {},
+      "source": "ncbigene:A9601_00031",
+      "target": "cyanorak.cluster_CK_00000361",
+      "type": "Gene_in_cyanorak_cluster"
+    },
+    {
+      "properties": {},
+      "source": "ncbigene:A9601_00041",
+      "target": "cyanorak.cluster_CK_00008107",
+      "type": "Gene_in_cyanorak_cluster"
+    },
+    {
+      "properties": {
+        "cluster_id": "CK_00000364",
+        "distance": "same species: Prochlorococcus marinus",
+        "source": "cyanorak_cluster"
+      },
+      "source": "ncbigene:A9601_00001",
+      "target": "ncbigene:NATL1_00001",
+      "type": "Gene_is_homolog_of_gene"
+    },
+    {
+      "properties": {
+        "cluster_id": "CK_00000364",
+        "distance": "same clade: HLII",
+        "source": "cyanorak_cluster"
+      },
+      "source": "ncbigene:A9601_00001",
+      "target": "ncbigene:P9301_00001",
+      "type": "Gene_is_homolog_of_gene"
+    },
+    {
+      "properties": {
+        "cluster_id": "CK_00000364",
+        "distance": "same species: Prochlorococcus marinus",
+        "source": "cyanorak_cluster"
+      },
+      "source": "ncbigene:A9601_00001",
+      "target": "ncbigene:PMM0001",
+      "type": "Gene_is_homolog_of_gene"
+    },
+    {
+      "properties": {
+        "cluster_id": "CK_00000364",
+        "distance": "same species: Prochlorococcus marinus",
+        "source": "cyanorak_cluster"
+      },
+      "source": "ncbigene:A9601_00001",
+      "target": "ncbigene:PMN2A_1328",
+      "type": "Gene_is_homolog_of_gene"
+    },
+    {
+      "properties": {
+        "cluster_id": "CK_00000364",
+        "distance": "same species: Prochlorococcus marinus",
+        "source": "cyanorak_cluster"
+      },
+      "source": "ncbigene:A9601_00001",
+      "target": "ncbigene:PMT0001",
+      "type": "Gene_is_homolog_of_gene"
+    },
+    {
+      "properties": {
+        "cluster_id": "46444@72275,Alteromonadaceae",
+        "distance": "same family: Alteromonadaceae",
+        "source": "eggnog_alteromonadaceae_og"
+      },
+      "source": "ncbigene:ACZ81_00005",
+      "target": "ncbigene:EZ55_00001",
+      "type": "Gene_is_homolog_of_gene"
+    },
+    {
+      "properties": {
+        "cluster_id": "46444@72275,Alteromonadaceae",
+        "distance": "same family: Alteromonadaceae",
+        "source": "eggnog_alteromonadaceae_og"
+      },
+      "source": "ncbigene:ACZ81_00005",
+      "target": "ncbigene:MIT1002_00001",
+      "type": "Gene_is_homolog_of_gene"
+    },
+    {
+      "properties": {
+        "cluster_id": "4648R@72275,Alteromonadaceae",
+        "distance": "same family: Alteromonadaceae",
+        "source": "eggnog_alteromonadaceae_og"
+      },
+      "source": "ncbigene:ACZ81_00010",
+      "target": "ncbigene:EZ55_00002",
+      "type": "Gene_is_homolog_of_gene"
+    },
+    {
+      "properties": {
+        "cluster_id": "4648R@72275,Alteromonadaceae",
+        "distance": "same family: Alteromonadaceae",
+        "source": "eggnog_alteromonadaceae_og"
+      },
+      "source": "ncbigene:ACZ81_00010",
+      "target": "ncbigene:MIT1002_00002",
+      "type": "Gene_is_homolog_of_gene"
+    },
+    {
+      "properties": {
+        "cluster_id": "466CC@72275,Alteromonadaceae",
+        "distance": "same family: Alteromonadaceae",
+        "source": "eggnog_alteromonadaceae_og"
+      },
+      "source": "ncbigene:ACZ81_00015",
+      "target": "ncbigene:EZ55_00003",
+      "type": "Gene_is_homolog_of_gene"
+    },
+    {
+      "properties": {
+        "cluster_id": "COG0592",
+        "distance": "cross phylum",
+        "source": "eggnog_bacteria_cog_og"
+      },
+      "source": "ncbigene:A9601_00001",
+      "target": "ncbigene:ACZ81_00010",
+      "type": "Gene_is_homolog_of_gene"
+    },
+    {
+      "properties": {
+        "cluster_id": "COG0592",
+        "distance": "cross phylum",
+        "source": "eggnog_bacteria_cog_og"
+      },
+      "source": "ncbigene:A9601_00001",
+      "target": "ncbigene:EZ55_00002",
+      "type": "Gene_is_homolog_of_gene"
+    },
+    {
+      "properties": {
+        "cluster_id": "COG0592",
+        "distance": "cross phylum",
+        "source": "eggnog_bacteria_cog_og"
+      },
+      "source": "ncbigene:A9601_00001",
+      "target": "ncbigene:MIT1002_00002",
+      "type": "Gene_is_homolog_of_gene"
+    },
+    {
+      "properties": {
+        "cluster_id": "COG0046",
+        "distance": "cross phylum",
+        "source": "eggnog_bacteria_cog_og"
+      },
+      "source": "ncbigene:A9601_00021",
+      "target": "ncbigene:ACZ81_04945",
+      "type": "Gene_is_homolog_of_gene"
+    },
+    {
+      "properties": {
+        "cluster_id": "COG0046",
+        "distance": "cross phylum",
+        "source": "eggnog_bacteria_cog_og"
+      },
+      "source": "ncbigene:A9601_00021",
+      "target": "ncbigene:EZ55_01035",
+      "type": "Gene_is_homolog_of_gene"
+    },
+    {
+      "properties": {
+        "adjusted_p_value": 0.65,
+        "control_condition": "Normal seawater (3.8% salt)",
+        "expression_direction": "down",
+        "log2_fold_change": -0.29
+      },
+      "source": "10.1016/j.micres.2015.04.006_alhosani_2015_salt_acclimation",
+      "target": "ncbigene:A9601_00011",
+      "type": "Condition_changes_expression_of"
+    },
+    {
+      "properties": {
+        "adjusted_p_value": 0.97,
+        "control_condition": "Normal seawater (3.8% salt)",
+        "expression_direction": "down",
+        "log2_fold_change": -0.02
+      },
+      "source": "10.1016/j.micres.2015.04.006_alhosani_2015_salt_acclimation",
+      "target": "ncbigene:A9601_00021",
+      "type": "Condition_changes_expression_of"
+    },
+    {
+      "properties": {
+        "adjusted_p_value": 0.91,
+        "control_condition": "Normal seawater (3.8% salt)",
+        "expression_direction": "down",
+        "log2_fold_change": -0.06
+      },
+      "source": "10.1016/j.micres.2015.04.006_alhosani_2015_salt_acclimation",
+      "target": "ncbigene:A9601_00031",
+      "type": "Condition_changes_expression_of"
+    },
+    {
+      "properties": {
+        "adjusted_p_value": 0.36,
+        "control_condition": "Normal seawater (3.8% salt)",
+        "expression_direction": "down",
+        "log2_fold_change": -0.27
+      },
+      "source": "10.1016/j.micres.2015.04.006_alhosani_2015_salt_acclimation",
+      "target": "ncbigene:A9601_00041",
+      "type": "Condition_changes_expression_of"
+    },
+    {
+      "properties": {
+        "adjusted_p_value": 0.67,
+        "control_condition": "Normal seawater (3.8% salt)",
+        "expression_direction": "down",
+        "log2_fold_change": -0.43
+      },
+      "source": "10.1016/j.micres.2015.04.006_alhosani_2015_salt_acclimation",
+      "target": "ncbigene:A9601_00051",
+      "type": "Condition_changes_expression_of"
+    },
+    {
+      "properties": {
+        "adjusted_p_value": 0.1076823450594656,
+        "control_condition": "Axenic",
+        "expression_direction": "up",
+        "log2_fold_change": 0.7956819997848956
+      },
+      "source": "insdc.gcf:GCF_000011465.1",
+      "target": "ncbigene:ACZ81_00005",
+      "type": "Coculture_changes_expression_of"
+    },
+    {
+      "properties": {
+        "adjusted_p_value": 0.589579825691681,
+        "control_condition": "Axenic",
+        "expression_direction": "up",
+        "log2_fold_change": 0.2824042681904196
+      },
+      "source": "insdc.gcf:GCF_000011465.1",
+      "target": "ncbigene:ACZ81_00010",
+      "type": "Coculture_changes_expression_of"
+    },
+    {
+      "properties": {
+        "adjusted_p_value": 0.8552167724204596,
+        "control_condition": "Axenic",
+        "expression_direction": "up",
+        "log2_fold_change": 0.1507788358157039
+      },
+      "source": "insdc.gcf:GCF_000011465.1",
+      "target": "ncbigene:ACZ81_00015",
+      "type": "Coculture_changes_expression_of"
+    },
+    {
+      "properties": {
+        "adjusted_p_value": 0.1876595255109684,
+        "control_condition": "Axenic",
+        "expression_direction": "up",
+        "log2_fold_change": 0.733200611148496
+      },
+      "source": "insdc.gcf:GCF_000011465.1",
+      "target": "ncbigene:ACZ81_00020",
+      "type": "Coculture_changes_expression_of"
+    },
+    {
+      "properties": {
+        "adjusted_p_value": 0.4983696828728474,
+        "control_condition": "Axenic",
+        "expression_direction": "up",
+        "log2_fold_change": 0.3522829294321365
+      },
+      "source": "insdc.gcf:GCF_000011465.1",
+      "target": "ncbigene:ACZ81_00025",
+      "type": "Coculture_changes_expression_of"
+    },
+    {
+      "properties": {
+        "expression_direction": "down",
+        "homology_cluster_id": "CK_00055913",
+        "log2_fold_change": -0.8,
+        "original_gene": "A9601_00551"
+      },
+      "source": "10.1016/j.micres.2015.04.006_alhosani_2015_salt_acclimation",
+      "target": "ncbigene:A9601_00531",
+      "type": "Condition_changes_expression_of_ortholog"
+    },
+    {
+      "properties": {
+        "expression_direction": "down",
+        "homology_cluster_id": "CK_00055913",
+        "log2_fold_change": -0.77,
+        "original_gene": "A9601_00531"
+      },
+      "source": "10.1016/j.micres.2015.04.006_alhosani_2015_salt_acclimation",
+      "target": "ncbigene:A9601_00551",
+      "type": "Condition_changes_expression_of_ortholog"
+    },
+    {
+      "properties": {
+        "expression_direction": "up",
+        "homology_cluster_id": "CK_00002731",
+        "log2_fold_change": 0.19,
+        "original_gene": "A9601_12311"
+      },
+      "source": "10.1016/j.micres.2015.04.006_alhosani_2015_salt_acclimation",
+      "target": "ncbigene:A9601_00601",
+      "type": "Condition_changes_expression_of_ortholog"
+    },
+    {
+      "properties": {
+        "expression_direction": "up",
+        "homology_cluster_id": "CK_00008058",
+        "log2_fold_change": 1.08,
+        "original_gene": "A9601_12521"
+      },
+      "source": "10.1016/j.micres.2015.04.006_alhosani_2015_salt_acclimation",
+      "target": "ncbigene:A9601_02441",
+      "type": "Condition_changes_expression_of_ortholog"
+    },
+    {
+      "properties": {
+        "expression_direction": "down",
+        "homology_cluster_id": "CK_00019843",
+        "log2_fold_change": -0.59,
+        "original_gene": "A9601_16261"
+      },
+      "source": "10.1016/j.micres.2015.04.006_alhosani_2015_salt_acclimation",
+      "target": "ncbigene:A9601_03671",
+      "type": "Condition_changes_expression_of_ortholog"
+    },
+    {
+      "properties": {
+        "expression_direction": "down",
+        "homology_cluster_id": "467CK@72275,Alteromonadaceae",
+        "log2_fold_change": -1.438731480951168,
+        "original_gene": "ACZ81_00665"
+      },
+      "source": "insdc.gcf:GCF_000011465.1",
+      "target": "ncbigene:ACZ81_00135",
+      "type": "Coculture_changes_expression_of_ortholog"
+    },
+    {
+      "properties": {
+        "expression_direction": "down",
+        "homology_cluster_id": "467IP@72275,Alteromonadaceae",
+        "log2_fold_change": -0.5475964177035986,
+        "original_gene": "ACZ81_00190"
+      },
+      "source": "insdc.gcf:GCF_000011465.1",
+      "target": "ncbigene:ACZ81_00185",
+      "type": "Coculture_changes_expression_of_ortholog"
+    },
+    {
+      "properties": {
+        "expression_direction": "down",
+        "homology_cluster_id": "467IP@72275,Alteromonadaceae",
+        "log2_fold_change": -0.3002857357351001,
+        "original_gene": "ACZ81_00185"
+      },
+      "source": "insdc.gcf:GCF_000011465.1",
+      "target": "ncbigene:ACZ81_00190",
+      "type": "Coculture_changes_expression_of_ortholog"
+    },
+    {
+      "properties": {
+        "expression_direction": "up",
+        "homology_cluster_id": "464E1@72275,Alteromonadaceae",
+        "log2_fold_change": 0.332194331600359,
+        "original_gene": "ACZ81_16820"
+      },
+      "source": "insdc.gcf:GCF_000011465.1",
+      "target": "ncbigene:ACZ81_00650",
+      "type": "Coculture_changes_expression_of_ortholog"
+    },
+    {
+      "properties": {
+        "expression_direction": "up",
+        "homology_cluster_id": "464DJ@72275,Alteromonadaceae",
+        "log2_fold_change": 0.2043484278738722,
+        "original_gene": "ACZ81_16825"
+      },
+      "source": "insdc.gcf:GCF_000011465.1",
+      "target": "ncbigene:ACZ81_00655",
+      "type": "Coculture_changes_expression_of_ortholog"
+    },
+    {
+      "properties": {},
+      "source": "ncbigene:A9601_00001",
+      "target": "go:0006260",
+      "type": "Gene_involved_in_biological_process"
+    },
+    {
+      "properties": {},
+      "source": "ncbigene:A9601_00001",
+      "target": "go:0006271",
+      "type": "Gene_involved_in_biological_process"
+    },
+    {
+      "properties": {},
+      "source": "ncbigene:A9601_00021",
+      "target": "go:0006164",
+      "type": "Gene_involved_in_biological_process"
+    },
+    {
+      "properties": {},
+      "source": "ncbigene:A9601_00021",
+      "target": "go:0006189",
+      "type": "Gene_involved_in_biological_process"
+    },
+    {
+      "properties": {},
+      "source": "ncbigene:A9601_00021",
+      "target": "go:0006541",
+      "type": "Gene_involved_in_biological_process"
+    },
+    {
+      "properties": {},
+      "source": "ncbigene:A9601_00001",
+      "target": "go:0005737",
+      "type": "Gene_located_in_cellular_component"
+    },
+    {
+      "properties": {},
+      "source": "ncbigene:A9601_00001",
+      "target": "go:0009360",
+      "type": "Gene_located_in_cellular_component"
+    },
+    {
+      "properties": {},
+      "source": "ncbigene:A9601_00031",
+      "target": "go:0005829",
+      "type": "Gene_located_in_cellular_component"
+    },
+    {
+      "properties": {},
+      "source": "ncbigene:A9601_00041",
+      "target": "go:0005694",
+      "type": "Gene_located_in_cellular_component"
+    },
+    {
+      "properties": {},
+      "source": "ncbigene:A9601_00041",
+      "target": "go:0005737",
+      "type": "Gene_located_in_cellular_component"
+    },
+    {
+      "properties": {},
+      "source": "ncbigene:A9601_00001",
+      "target": "go:0003677",
+      "type": "Gene_enables_molecular_function"
+    },
+    {
+      "properties": {},
+      "source": "ncbigene:A9601_00001",
+      "target": "go:0003887",
+      "type": "Gene_enables_molecular_function"
+    },
+    {
+      "properties": {},
+      "source": "ncbigene:A9601_00001",
+      "target": "go:0008408",
+      "type": "Gene_enables_molecular_function"
+    },
+    {
+      "properties": {},
+      "source": "ncbigene:A9601_00001",
+      "target": "go:0034061",
+      "type": "Gene_enables_molecular_function"
+    },
+    {
+      "properties": {},
+      "source": "ncbigene:A9601_00021",
+      "target": "go:0004642",
+      "type": "Gene_enables_molecular_function"
+    },
+    {
+      "properties": {},
+      "source": "go:0000018",
+      "target": "go:0051052",
+      "type": "Biological_process_is_a_biological_process"
+    },
+    {
+      "properties": {},
+      "source": "go:0000023",
+      "target": "go:0005984",
+      "type": "Biological_process_is_a_biological_process"
+    },
+    {
+      "properties": {},
+      "source": "go:0000027",
+      "target": "go:0022618",
+      "type": "Biological_process_is_a_biological_process"
+    },
+    {
+      "properties": {},
+      "source": "go:0000028",
+      "target": "go:0022618",
+      "type": "Biological_process_is_a_biological_process"
+    },
+    {
+      "properties": {},
+      "source": "go:0000041",
+      "target": "go:0030001",
+      "type": "Biological_process_is_a_biological_process"
+    },
+    {
+      "properties": {},
+      "source": "go:0000015",
+      "target": "go:1902494",
+      "type": "Cellular_component_is_a_cellular_component"
+    },
+    {
+      "properties": {},
+      "source": "go:0000118",
+      "target": "go:0140513",
+      "type": "Cellular_component_is_a_cellular_component"
+    },
+    {
+      "properties": {},
+      "source": "go:0000118",
+      "target": "go:1902494",
+      "type": "Cellular_component_is_a_cellular_component"
+    },
+    {
+      "properties": {},
+      "source": "go:0000139",
+      "target": "go:0098588",
+      "type": "Cellular_component_is_a_cellular_component"
+    },
+    {
+      "properties": {},
+      "source": "go:0000178",
+      "target": "go:1905354",
+      "type": "Cellular_component_is_a_cellular_component"
+    },
+    {
+      "properties": {},
+      "source": "go:0000009",
+      "target": "go:0000030",
+      "type": "Molecular_function_is_a_molecular_function"
+    },
+    {
+      "properties": {},
+      "source": "go:0000010",
+      "target": "go:0120531",
+      "type": "Molecular_function_is_a_molecular_function"
+    },
+    {
+      "properties": {},
+      "source": "go:0000014",
+      "target": "go:0004520",
+      "type": "Molecular_function_is_a_molecular_function"
+    },
+    {
+      "properties": {},
+      "source": "go:0000014",
+      "target": "go:0016788",
+      "type": "Molecular_function_is_a_molecular_function"
+    },
+    {
+      "properties": {},
+      "source": "go:0000030",
+      "target": "go:0016758",
+      "type": "Molecular_function_is_a_molecular_function"
+    },
+    {
+      "properties": {},
+      "source": "ec:1.1.-.-",
+      "target": "ec:1.-.-.-",
+      "type": "Ec_number_is_a_ec_number"
+    },
+    {
+      "properties": {},
+      "source": "ec:1.1.1.-",
+      "target": "ec:1.1.-.-",
+      "type": "Ec_number_is_a_ec_number"
+    },
+    {
+      "properties": {},
+      "source": "ec:1.1.1.1",
+      "target": "ec:1.1.1.-",
+      "type": "Ec_number_is_a_ec_number"
+    },
+    {
+      "properties": {},
+      "source": "ec:1.1.1.10",
+      "target": "ec:1.1.1.-",
+      "type": "Ec_number_is_a_ec_number"
+    },
+    {
+      "properties": {},
+      "source": "ec:1.1.1.100",
+      "target": "ec:1.1.1.-",
+      "type": "Ec_number_is_a_ec_number"
+    },
+    {
+      "properties": {},
+      "source": "ncbigene:A9601_00001",
+      "target": "ec:2.7.7.7",
+      "type": "Gene_catalyzes_ec_number"
+    },
+    {
+      "properties": {},
+      "source": "ncbigene:A9601_00021",
+      "target": "ec:6.3.5.3",
+      "type": "Gene_catalyzes_ec_number"
+    },
+    {
+      "properties": {},
+      "source": "ncbigene:A9601_00031",
+      "target": "ec:2.4.2.14",
+      "type": "Gene_catalyzes_ec_number"
+    },
+    {
+      "properties": {},
+      "source": "ncbigene:A9601_00041",
+      "target": "ec:5.6.2.2",
+      "type": "Gene_catalyzes_ec_number"
+    },
+    {
+      "properties": {},
+      "source": "ncbigene:A9601_00061",
+      "target": "ec:1.17.99.6",
+      "type": "Gene_catalyzes_ec_number"
+    },
+    {
+      "properties": {},
+      "source": "ncbigene:A9601_00001",
+      "target": "kegg.orthology:K02338",
+      "type": "Gene_has_kegg_ko"
+    },
+    {
+      "properties": {},
+      "source": "ncbigene:A9601_00021",
+      "target": "kegg.orthology:K01952",
+      "type": "Gene_has_kegg_ko"
+    },
+    {
+      "properties": {},
+      "source": "ncbigene:A9601_00031",
+      "target": "kegg.orthology:K00764",
+      "type": "Gene_has_kegg_ko"
+    },
+    {
+      "properties": {},
+      "source": "ncbigene:A9601_00041",
+      "target": "kegg.orthology:K02469",
+      "type": "Gene_has_kegg_ko"
+    },
+    {
+      "properties": {},
+      "source": "ncbigene:A9601_00061",
+      "target": "kegg.orthology:K18979",
+      "type": "Gene_has_kegg_ko"
+    },
+    {
+      "properties": {},
+      "source": "kegg.orthology:K00001",
+      "target": "kegg.pathway:ko00010",
+      "type": "Ko_in_kegg_pathway"
+    },
+    {
+      "properties": {},
+      "source": "kegg.orthology:K00001",
+      "target": "kegg.pathway:ko00071",
+      "type": "Ko_in_kegg_pathway"
+    },
+    {
+      "properties": {},
+      "source": "kegg.orthology:K00001",
+      "target": "kegg.pathway:ko00350",
+      "type": "Ko_in_kegg_pathway"
+    },
+    {
+      "properties": {},
+      "source": "kegg.orthology:K00001",
+      "target": "kegg.pathway:ko00620",
+      "type": "Ko_in_kegg_pathway"
+    },
+    {
+      "properties": {},
+      "source": "kegg.orthology:K00001",
+      "target": "kegg.pathway:ko00625",
+      "type": "Ko_in_kegg_pathway"
+    },
+    {
+      "properties": {},
+      "source": "kegg.pathway:ko00010",
+      "target": "kegg.subcategory:09101",
+      "type": "Kegg_pathway_in_kegg_subcategory"
+    },
+    {
+      "properties": {},
+      "source": "kegg.pathway:ko00020",
+      "target": "kegg.subcategory:09101",
+      "type": "Kegg_pathway_in_kegg_subcategory"
+    },
+    {
+      "properties": {},
+      "source": "kegg.pathway:ko00030",
+      "target": "kegg.subcategory:09101",
+      "type": "Kegg_pathway_in_kegg_subcategory"
+    },
+    {
+      "properties": {},
+      "source": "kegg.pathway:ko00040",
+      "target": "kegg.subcategory:09101",
+      "type": "Kegg_pathway_in_kegg_subcategory"
+    },
+    {
+      "properties": {},
+      "source": "kegg.pathway:ko00051",
+      "target": "kegg.subcategory:09101",
+      "type": "Kegg_pathway_in_kegg_subcategory"
+    },
+    {
+      "properties": {},
+      "source": "kegg.subcategory:09101",
+      "target": "kegg.category:09100",
+      "type": "Kegg_subcategory_in_kegg_category"
+    },
+    {
+      "properties": {},
+      "source": "kegg.subcategory:09102",
+      "target": "kegg.category:09100",
+      "type": "Kegg_subcategory_in_kegg_category"
+    },
+    {
+      "properties": {},
+      "source": "kegg.subcategory:09103",
+      "target": "kegg.category:09100",
+      "type": "Kegg_subcategory_in_kegg_category"
+    },
+    {
+      "properties": {},
+      "source": "kegg.subcategory:09104",
+      "target": "kegg.category:09100",
+      "type": "Kegg_subcategory_in_kegg_category"
+    },
+    {
+      "properties": {},
+      "source": "kegg.subcategory:09105",
+      "target": "kegg.category:09100",
+      "type": "Kegg_subcategory_in_kegg_category"
+    },
+    {
+      "properties": {},
+      "source": "ncbigene:A9601_00001",
+      "target": "cog.category:L",
+      "type": "Gene_in_cog_category"
+    },
+    {
+      "properties": {},
+      "source": "ncbigene:A9601_00011",
+      "target": "cog.category:S",
+      "type": "Gene_in_cog_category"
+    },
+    {
+      "properties": {},
+      "source": "ncbigene:A9601_00021",
+      "target": "cog.category:F",
+      "type": "Gene_in_cog_category"
+    },
+    {
+      "properties": {},
+      "source": "ncbigene:A9601_00031",
+      "target": "cog.category:F",
+      "type": "Gene_in_cog_category"
+    },
+    {
+      "properties": {},
+      "source": "ncbigene:A9601_00041",
+      "target": "cog.category:L",
+      "type": "Gene_in_cog_category"
+    },
+    {
+      "properties": {},
+      "source": "ncbigene:A9601_00001",
+      "target": "cyanorak.role:F.1",
+      "type": "Gene_has_cyanorak_role"
+    },
+    {
+      "properties": {},
+      "source": "ncbigene:A9601_00011",
+      "target": "cyanorak.role:R.2",
+      "type": "Gene_has_cyanorak_role"
+    },
+    {
+      "properties": {},
+      "source": "ncbigene:A9601_00021",
+      "target": "cyanorak.role:M.3",
+      "type": "Gene_has_cyanorak_role"
+    },
+    {
+      "properties": {},
+      "source": "ncbigene:A9601_00031",
+      "target": "cyanorak.role:M.3",
+      "type": "Gene_has_cyanorak_role"
+    },
+    {
+      "properties": {},
+      "source": "ncbigene:A9601_00041",
+      "target": "cyanorak.role:F.1",
+      "type": "Gene_has_cyanorak_role"
+    },
+    {
+      "properties": {},
+      "source": "ncbigene:A9601_00001",
+      "target": "tigr.role:132",
+      "type": "Gene_has_tigr_role"
+    },
+    {
+      "properties": {},
+      "source": "ncbigene:A9601_00011",
+      "target": "tigr.role:156",
+      "type": "Gene_has_tigr_role"
+    },
+    {
+      "properties": {},
+      "source": "ncbigene:A9601_00021",
+      "target": "tigr.role:125",
+      "type": "Gene_has_tigr_role"
+    },
+    {
+      "properties": {},
+      "source": "ncbigene:A9601_00031",
+      "target": "tigr.role:125",
+      "type": "Gene_has_tigr_role"
+    },
+    {
+      "properties": {},
+      "source": "ncbigene:A9601_00041",
+      "target": "tigr.role:132",
+      "type": "Gene_has_tigr_role"
+    },
+    {
+      "properties": {},
+      "source": "cyanorak.role:0.1",
+      "target": "cyanorak.role:0",
+      "type": "Cyanorak_role_is_a_cyanorak_role"
+    },
+    {
+      "properties": {},
+      "source": "cyanorak.role:0.2",
+      "target": "cyanorak.role:0",
+      "type": "Cyanorak_role_is_a_cyanorak_role"
+    },
+    {
+      "properties": {},
+      "source": "cyanorak.role:0.3",
+      "target": "cyanorak.role:0",
+      "type": "Cyanorak_role_is_a_cyanorak_role"
+    },
+    {
+      "properties": {},
+      "source": "cyanorak.role:0.4",
+      "target": "cyanorak.role:0",
+      "type": "Cyanorak_role_is_a_cyanorak_role"
+    },
+    {
+      "properties": {},
+      "source": "cyanorak.role:A.1",
+      "target": "cyanorak.role:A",
+      "type": "Cyanorak_role_is_a_cyanorak_role"
+    }
+  ],
+  "generated_at": "2026-03-11T19:55:48.117550+00:00",
   "nodes": [
     {
+      "anchor": true,
       "id": "ncbigene:PMM1375",
       "label": "Gene",
       "properties": {
-        "locus_tag": "PMM1375",
-        "product": "possible M protein repeat",
         "gene_name": "PMM1375",
         "gene_synonyms": [
           "TX50_RS07390"
         ],
+        "locus_tag": "PMM1375",
+        "product": "possible M protein repeat",
         "strand": "+"
-      },
-      "anchor": true
+      }
     },
     {
+      "anchor": true,
       "id": "ncbigene:PMM0001",
       "label": "Gene",
       "properties": {
-        "locus_tag": "PMM0001",
-        "product": "DNA polymerase III, beta subunit",
         "gene_name": "dnaN",
         "gene_synonyms": [
           "PMM0001"
         ],
+        "locus_tag": "PMM0001",
+        "product": "DNA polymerase III, beta subunit",
         "strand": "+"
-      },
-      "anchor": true
+      }
     },
     {
+      "anchor": false,
       "id": "ncbigene:A9601_00001",
       "label": "Gene",
       "properties": {
-        "locus_tag": "A9601_00001",
-        "product": "DNA polymerase III, beta subunit",
         "gene_name": "dnaN",
         "gene_synonyms": [
           "A9601_00001"
         ],
+        "locus_tag": "A9601_00001",
+        "product": "DNA polymerase III, beta subunit",
         "strand": "+"
-      },
-      "anchor": false
+      }
     },
     {
+      "anchor": false,
       "id": "ncbigene:A9601_00011",
       "label": "Gene",
       "properties": {
-        "locus_tag": "A9601_00011",
-        "product": "conserved hypothetical protein",
         "gene_name": "A9601_RS09115",
         "gene_synonyms": [
           "A9601_00011"
         ],
+        "locus_tag": "A9601_00011",
+        "product": "conserved hypothetical protein",
         "strand": "+"
-      },
-      "anchor": false
+      }
     },
     {
+      "anchor": false,
       "id": "ncbigene:A9601_00021",
       "label": "Gene",
       "properties": {
-        "locus_tag": "A9601_00021",
-        "product": "phosphoribosylformylglycinamidine synthase, synthetase domain",
         "gene_name": "purL",
         "gene_synonyms": [
           "A9601_00021"
         ],
+        "locus_tag": "A9601_00021",
+        "product": "phosphoribosylformylglycinamidine synthase, synthetase domain",
         "strand": "+"
-      },
-      "anchor": false
+      }
     },
     {
+      "anchor": false,
       "id": "ncbigene:A9601_00031",
       "label": "Gene",
       "properties": {
-        "locus_tag": "A9601_00031",
-        "product": "amidophosphoribosyltransferase",
         "gene_name": "purF",
         "gene_synonyms": [
           "A9601_00031"
         ],
+        "locus_tag": "A9601_00031",
+        "product": "amidophosphoribosyltransferase",
         "strand": "+"
-      },
-      "anchor": false
+      }
     },
     {
+      "anchor": false,
       "id": "ncbigene:A9601_00041",
       "label": "Gene",
       "properties": {
-        "locus_tag": "A9601_00041",
-        "product": "DNA gyrase/topoisomerase IV, subunit A family protein",
         "gene_name": "A9601_RS09135",
         "gene_synonyms": [
           "A9601_00041"
-        ]
-      },
-      "anchor": false
+        ],
+        "locus_tag": "A9601_00041",
+        "product": "DNA gyrase/topoisomerase IV, subunit A family protein"
+      }
     },
     {
+      "anchor": false,
       "id": "uniprot:A0A126PUI3",
       "label": "Protein",
       "properties": {
-        "protein_synonyms": "Beta sliding clamp",
         "gene_names": [
           "AVL55_00010"
-        ]
-      },
-      "anchor": false
+        ],
+        "protein_synonyms": "Beta sliding clamp"
+      }
     },
     {
+      "anchor": false,
       "id": "uniprot:A0A126PUJ3",
       "label": "Protein",
       "properties": {
-        "protein_synonyms": "DNA polymerase I (EC 2.7.7.7)",
         "gene_names": [
           "polA",
           "AVL55_00070"
-        ]
-      },
-      "anchor": false
+        ],
+        "protein_synonyms": "DNA polymerase I (EC 2.7.7.7)"
+      }
     },
     {
+      "anchor": false,
       "id": "uniprot:A0A126PUK4",
       "label": "Protein",
       "properties": {
-        "protein_synonyms": "Threonylcarbamoyl-AMP synthase (TC-AMP synthase) (EC 2.7.7.87) (L-threonylcarbamoyladenylate synthase) (t(6)A37 threonylcarbamoyladenosine biosynthesis protein TsaC) (tRNA threonylcarbamoyladenosine biosynthesis protein TsaC)",
         "gene_names": [
           "tsaC",
           "AVL55_00125"
-        ]
-      },
-      "anchor": false
+        ],
+        "protein_synonyms": "Threonylcarbamoyl-AMP synthase (TC-AMP synthase) (EC 2.7.7.87) (L-threonylcarbamoyladenylate synthase) (t(6)A37 threonylcarbamoyladenosine biosynthesis protein TsaC) (tRNA threonylcarbamoyladenosine biosynthesis protein TsaC)"
+      }
     },
     {
+      "anchor": false,
       "id": "uniprot:A0A126PUK6",
       "label": "Protein",
       "properties": {
-        "protein_synonyms": "Der GTPase-activating protein YihI",
         "gene_names": [
           "yihI",
           "AVL55_00050"
-        ]
-      },
-      "anchor": false
+        ],
+        "protein_synonyms": "Der GTPase-activating protein YihI"
+      }
     },
     {
+      "anchor": false,
       "id": "uniprot:A0A126PUK8",
       "label": "Protein",
       "properties": {
-        "protein_synonyms": "Glycine--tRNA ligase beta subunit (EC 6.1.1.14) (Glycyl-tRNA synthetase beta subunit) (GlyRS)",
         "gene_names": [
           "glyS",
           "AVL55_00030"
-        ]
-      },
-      "anchor": false
+        ],
+        "protein_synonyms": "Glycine--tRNA ligase beta subunit (EC 6.1.1.14) (Glycyl-tRNA synthetase beta subunit) (GlyRS)"
+      }
     },
     {
+      "anchor": true,
       "id": "insdc.gcf:GCF_000011465.1",
       "label": "OrganismTaxon",
       "properties": {
-        "organism_name": "MED4",
-        "strain_name": "MED4",
-        "genus": "Prochlorococcus",
         "clade": "HLI",
-        "ncbi_taxon_id": 59919
-      },
-      "anchor": true
+        "genus": "Prochlorococcus",
+        "ncbi_taxon_id": 59919,
+        "organism_name": "MED4",
+        "strain_name": "MED4"
+      }
     },
     {
+      "anchor": false,
       "id": "insdc.gcf:GCF_000011485.1",
       "label": "OrganismTaxon",
       "properties": {
-        "organism_name": "MIT9313",
-        "strain_name": "MIT9313",
-        "genus": "Prochlorococcus",
         "clade": "LLIV",
-        "ncbi_taxon_id": 74547
-      },
-      "anchor": false
+        "genus": "Prochlorococcus",
+        "ncbi_taxon_id": 74547,
+        "organism_name": "MIT9313",
+        "strain_name": "MIT9313"
+      }
     },
     {
+      "anchor": false,
       "id": "insdc.gcf:GCF_000012465.1",
       "label": "OrganismTaxon",
       "properties": {
-        "organism_name": "NATL2A",
-        "strain_name": "NATL2A",
-        "genus": "Prochlorococcus",
         "clade": "LLII",
-        "ncbi_taxon_id": 59920
-      },
-      "anchor": false
+        "genus": "Prochlorococcus",
+        "ncbi_taxon_id": 59920,
+        "organism_name": "NATL2A",
+        "strain_name": "NATL2A"
+      }
     },
     {
+      "anchor": false,
       "id": "insdc.gcf:GCF_000012645.1",
       "label": "OrganismTaxon",
       "properties": {
-        "organism_name": "MIT9312",
-        "strain_name": "MIT9312",
-        "genus": "Prochlorococcus",
         "clade": "HLII",
-        "ncbi_taxon_id": 74546
-      },
-      "anchor": false
+        "genus": "Prochlorococcus",
+        "ncbi_taxon_id": 74546,
+        "organism_name": "MIT9312",
+        "strain_name": "MIT9312"
+      }
     },
     {
+      "anchor": false,
       "id": "insdc.gcf:GCF_000014585.1",
       "label": "OrganismTaxon",
       "properties": {
-        "organism_name": "CC9311",
-        "strain_name": "CC9311",
         "genus": "Synechococcus",
-        "ncbi_taxon_id": 64471
-      },
-      "anchor": false
+        "ncbi_taxon_id": 64471,
+        "organism_name": "CC9311",
+        "strain_name": "CC9311"
+      }
     },
     {
+      "anchor": false,
       "id": "doi:10.1016/j.micres.2015.04.006",
       "label": "Publication",
       "properties": {
         "doi": "10.1016/j.micres.2015.04.006",
         "title": "Global transcriptome analysis of salt acclimated Prochlorococcus AS9601"
-      },
-      "anchor": false
+      }
     },
     {
+      "anchor": false,
       "id": "doi:10.1038/ismej.2011.49",
       "label": "Publication",
       "properties": {
         "doi": "10.1038/ismej.2011.49",
         "title": "Transcriptome response of high- and low-light-adapted Prochlorococcus strains to changing iron availability"
-      },
-      "anchor": false
+      }
     },
     {
+      "anchor": false,
       "id": "doi:10.1038/ismej.2015.36",
       "label": "Publication",
       "properties": {
         "doi": "10.1038/ismej.2015.36",
         "title": "Response of Prochlorococcus to varying CO2:O2 ratios"
-      },
-      "anchor": false
+      }
     },
     {
+      "anchor": false,
       "id": "doi:10.1038/ismej.2016.70",
       "label": "Publication",
       "properties": {
         "doi": "10.1038/ismej.2016.70",
         "title": "Transcriptional response of Prochlorococcus to co-culture with a marine Alteromonas: differences between strains and the involvement of putative infochemicals"
-      },
-      "anchor": false
+      }
     },
     {
+      "anchor": false,
       "id": "doi:10.1038/ismej.2016.82",
       "label": "Publication",
       "properties": {
         "doi": "10.1038/ismej.2016.82",
         "title": "Torn apart and reunited: impact of a heterotroph on the transcriptome of Prochlorococcus"
-      },
-      "anchor": false
+      }
     },
     {
+      "anchor": false,
       "id": "10.1016/j.micres.2015.04.006_alhosani_2015_salt_acclimation",
       "label": "EnvironmentalCondition",
       "properties": {
-        "name": "Salt-acclimated (5% salt)",
-        "condition_type": "salt_stress"
-      },
-      "anchor": false
+        "condition_type": "salt_stress",
+        "name": "Salt-acclimated (5% salt)"
+      }
     },
     {
+      "anchor": false,
       "id": "10.1016/j.micres.2015.04.006_alhosani_2015_seawater_control",
       "label": "EnvironmentalCondition",
       "properties": {
-        "name": "Normal seawater control (3.8% salt)",
-        "condition_type": "growth_medium"
-      },
-      "anchor": false
+        "condition_type": "growth_medium",
+        "name": "Normal seawater control (3.8% salt)"
+      }
     },
     {
+      "anchor": false,
       "id": "10.1038/ismej.2011.49_thompson_2011_iron_deplete_med4",
       "label": "EnvironmentalCondition",
       "properties": {
-        "name": "Iron starvation (MED4)",
-        "condition_type": "iron_stress"
-      },
-      "anchor": false
+        "condition_type": "iron_stress",
+        "name": "Iron starvation (MED4)"
+      }
     },
     {
+      "anchor": false,
       "id": "10.1038/ismej.2011.49_thompson_2011_iron_deplete_mit9313",
       "label": "EnvironmentalCondition",
       "properties": {
-        "name": "Iron starvation (MIT9313)",
-        "condition_type": "iron_stress"
-      },
-      "anchor": false
+        "condition_type": "iron_stress",
+        "name": "Iron starvation (MIT9313)"
+      }
     },
     {
+      "anchor": false,
       "id": "10.1038/ismej.2011.49_thompson_2011_iron_replete_med4",
       "label": "EnvironmentalCondition",
       "properties": {
-        "name": "Iron-replete control (MED4)",
-        "condition_type": "growth_medium"
-      },
-      "anchor": false
+        "condition_type": "growth_medium",
+        "name": "Iron-replete control (MED4)"
+      }
     },
     {
+      "anchor": false,
       "id": "cyanorak.cluster_CK_00000001",
       "label": "Cyanorak_cluster",
       "properties": {
         "cluster_number": "CK_00000001"
-      },
-      "anchor": false
+      }
     },
     {
+      "anchor": false,
       "id": "cyanorak.cluster_CK_00000002",
       "label": "Cyanorak_cluster",
       "properties": {
         "cluster_number": "CK_00000002"
-      },
-      "anchor": false
+      }
     },
     {
+      "anchor": false,
       "id": "cyanorak.cluster_CK_00000003",
       "label": "Cyanorak_cluster",
       "properties": {
         "cluster_number": "CK_00000003"
-      },
-      "anchor": false
+      }
     },
     {
+      "anchor": false,
       "id": "cyanorak.cluster_CK_00000004",
       "label": "Cyanorak_cluster",
       "properties": {
         "cluster_number": "CK_00000004"
-      },
-      "anchor": false
+      }
     },
     {
+      "anchor": false,
       "id": "cyanorak.cluster_CK_00000005",
       "label": "Cyanorak_cluster",
       "properties": {
         "cluster_number": "CK_00000005"
-      },
-      "anchor": false
+      }
     },
     {
+      "anchor": true,
       "id": "go:0008150",
       "label": "BiologicalProcess",
       "properties": {
         "name": "biological_process"
-      },
-      "anchor": true
+      }
     },
     {
+      "anchor": false,
       "id": "go:0000018",
       "label": "BiologicalProcess",
       "properties": {
         "name": "regulation of DNA recombination"
-      },
-      "anchor": false
+      }
     },
     {
+      "anchor": false,
       "id": "go:0000023",
       "label": "BiologicalProcess",
       "properties": {
         "name": "maltose metabolic process"
-      },
-      "anchor": false
+      }
     },
     {
+      "anchor": false,
       "id": "go:0000027",
       "label": "BiologicalProcess",
       "properties": {
         "name": "ribosomal large subunit assembly"
-      },
-      "anchor": false
+      }
     },
     {
+      "anchor": false,
       "id": "go:0000028",
       "label": "BiologicalProcess",
       "properties": {
         "name": "ribosomal small subunit assembly"
-      },
-      "anchor": false
+      }
     },
     {
+      "anchor": false,
       "id": "go:0000041",
       "label": "BiologicalProcess",
       "properties": {
         "name": "transition metal ion transport"
-      },
-      "anchor": false
+      }
     },
     {
+      "anchor": true,
       "id": "go:0005575",
       "label": "CellularComponent",
       "properties": {
         "name": "cellular_component"
-      },
-      "anchor": true
+      }
     },
     {
+      "anchor": false,
       "id": "go:0000015",
       "label": "CellularComponent",
       "properties": {
         "name": "phosphopyruvate hydratase complex"
-      },
-      "anchor": false
+      }
     },
     {
+      "anchor": false,
       "id": "go:0000118",
       "label": "CellularComponent",
       "properties": {
         "name": "histone deacetylase complex"
-      },
-      "anchor": false
+      }
     },
     {
+      "anchor": false,
       "id": "go:0000139",
       "label": "CellularComponent",
       "properties": {
         "name": "Golgi membrane"
-      },
-      "anchor": false
+      }
     },
     {
+      "anchor": false,
       "id": "go:0000178",
       "label": "CellularComponent",
       "properties": {
         "name": "exosome (RNase complex)"
-      },
-      "anchor": false
+      }
     },
     {
+      "anchor": false,
       "id": "go:0000228",
       "label": "CellularComponent",
       "properties": {
         "name": "nuclear chromosome"
-      },
-      "anchor": false
+      }
     },
     {
+      "anchor": true,
       "id": "go:0003674",
       "label": "MolecularFunction",
       "properties": {
         "name": "molecular_function"
-      },
-      "anchor": true
+      }
     },
     {
+      "anchor": false,
       "id": "ec:1.-.-.-",
       "label": "MolecularFunction",
       "properties": {
         "name": "Oxidoreductases"
-      },
-      "anchor": false
+      }
     },
     {
+      "anchor": false,
       "id": "ec:1.1.-.-",
       "label": "MolecularFunction",
       "properties": {
         "name": "Acting on the CH-OH group of donors"
-      },
-      "anchor": false
+      }
     },
     {
+      "anchor": false,
       "id": "ec:1.1.1.-",
       "label": "MolecularFunction",
       "properties": {
         "name": "With NAD(+) or NADP(+) as acceptor"
-      },
-      "anchor": false
+      }
     },
     {
+      "anchor": false,
       "id": "ec:1.1.1.1",
       "label": "MolecularFunction",
       "properties": {
         "name": "alcohol dehydrogenase"
-      },
-      "anchor": false
+      }
     },
     {
+      "anchor": false,
       "id": "ec:1.1.1.10",
       "label": "MolecularFunction",
       "properties": {
         "name": "L-xylulose reductase"
-      },
-      "anchor": false
+      }
     },
     {
+      "anchor": true,
       "id": "ec:1.-.-.-",
       "label": "EcNumber",
       "properties": {
         "name": "Oxidoreductases"
-      },
-      "anchor": true
+      }
     },
     {
+      "anchor": true,
       "id": "kegg.orthology:K02338",
       "label": "KeggOrthologousGroup",
       "properties": {
         "name": "dnaN; DNA polymerase III subunit beta [EC:2.7.7.7]"
-      },
-      "anchor": true
+      }
     },
     {
+      "anchor": false,
       "id": "kegg.orthology:K00001",
       "label": "KeggOrthologousGroup",
       "properties": {
         "name": "E1.1.1.1, adh; alcohol dehydrogenase [EC:1.1.1.1]"
-      },
-      "anchor": false
+      }
     },
     {
+      "anchor": false,
       "id": "kegg.orthology:K00002",
       "label": "KeggOrthologousGroup",
       "properties": {
         "name": "AKR1A1, adh; alcohol dehydrogenase (NADP+) [EC:1.1.1.2]"
-      },
-      "anchor": false
+      }
     },
     {
+      "anchor": false,
       "id": "kegg.orthology:K00003",
       "label": "KeggOrthologousGroup",
       "properties": {
         "name": "hom; homoserine dehydrogenase [EC:1.1.1.3]"
-      },
-      "anchor": false
+      }
     },
     {
+      "anchor": false,
       "id": "kegg.orthology:K00005",
       "label": "KeggOrthologousGroup",
       "properties": {
         "name": "gldA; glycerol dehydrogenase [EC:1.1.1.6]"
-      },
-      "anchor": false
+      }
     },
     {
+      "anchor": false,
       "id": "kegg.orthology:K00012",
       "label": "KeggOrthologousGroup",
       "properties": {
         "name": "UGDH, ugd; UDPglucose 6-dehydrogenase [EC:1.1.1.22]"
-      },
-      "anchor": false
+      }
     },
     {
+      "anchor": false,
       "id": "kegg.pathway:ko00010",
       "label": "KeggPathway",
       "properties": {
         "name": ""
-      },
-      "anchor": false
+      }
     },
     {
+      "anchor": false,
       "id": "kegg.pathway:ko00020",
       "label": "KeggPathway",
       "properties": {
         "name": ""
-      },
-      "anchor": false
+      }
     },
     {
+      "anchor": false,
       "id": "kegg.pathway:ko00030",
       "label": "KeggPathway",
       "properties": {
         "name": ""
-      },
-      "anchor": false
+      }
     },
     {
+      "anchor": false,
       "id": "kegg.pathway:ko00040",
       "label": "KeggPathway",
       "properties": {
         "name": ""
-      },
-      "anchor": false
+      }
     },
     {
+      "anchor": false,
       "id": "kegg.pathway:ko00051",
       "label": "KeggPathway",
       "properties": {
         "name": ""
-      },
-      "anchor": false
+      }
     },
     {
+      "anchor": false,
       "id": "kegg.subcategory:09101",
       "label": "KeggSubcategory",
       "properties": {
         "name": "Carbohydrate metabolism"
-      },
-      "anchor": false
+      }
     },
     {
+      "anchor": false,
       "id": "kegg.subcategory:09102",
       "label": "KeggSubcategory",
       "properties": {
         "name": "Energy metabolism"
-      },
-      "anchor": false
+      }
     },
     {
+      "anchor": false,
       "id": "kegg.subcategory:09103",
       "label": "KeggSubcategory",
       "properties": {
         "name": "Lipid metabolism"
-      },
-      "anchor": false
+      }
     },
     {
+      "anchor": false,
       "id": "kegg.subcategory:09104",
       "label": "KeggSubcategory",
       "properties": {
         "name": "Nucleotide metabolism"
-      },
-      "anchor": false
+      }
     },
     {
+      "anchor": false,
       "id": "kegg.subcategory:09105",
       "label": "KeggSubcategory",
       "properties": {
         "name": "Amino acid metabolism"
-      },
-      "anchor": false
+      }
     },
     {
+      "anchor": true,
       "id": "kegg.category:09100",
       "label": "KeggCategory",
       "properties": {
         "name": "Metabolism"
-      },
-      "anchor": true
+      }
     },
     {
+      "anchor": false,
       "id": "kegg.category:09120",
       "label": "KeggCategory",
       "properties": {
         "name": "Genetic Information Processing"
-      },
-      "anchor": false
+      }
     },
     {
+      "anchor": false,
       "id": "kegg.category:09130",
       "label": "KeggCategory",
       "properties": {
         "name": "Environmental Information Processing"
-      },
-      "anchor": false
+      }
     },
     {
+      "anchor": false,
       "id": "kegg.category:09140",
       "label": "KeggCategory",
       "properties": {
         "name": "Cellular Processes"
-      },
-      "anchor": false
+      }
     },
     {
+      "anchor": false,
       "id": "kegg.category:09150",
       "label": "KeggCategory",
       "properties": {
         "name": "Organismal Systems"
-      },
-      "anchor": false
+      }
     },
     {
+      "anchor": true,
       "id": "cog.category:J",
       "label": "CogFunctionalCategory",
       "properties": {
         "code": "J",
         "name": "Translation, ribosomal structure and biogenesis"
-      },
-      "anchor": true
+      }
     },
     {
+      "anchor": true,
       "id": "cog.category:C",
       "label": "CogFunctionalCategory",
       "properties": {
         "code": "C",
         "name": "Energy production and conversion"
-      },
-      "anchor": true
+      }
     },
     {
+      "anchor": false,
       "id": "cog.category:A",
       "label": "CogFunctionalCategory",
       "properties": {
         "code": "A",
         "name": "RNA processing and modification"
-      },
-      "anchor": false
+      }
     },
     {
+      "anchor": false,
       "id": "cog.category:B",
       "label": "CogFunctionalCategory",
       "properties": {
         "code": "B",
         "name": "Chromatin structure and dynamics"
-      },
-      "anchor": false
+      }
     },
     {
+      "anchor": false,
       "id": "cog.category:D",
       "label": "CogFunctionalCategory",
       "properties": {
         "code": "D",
         "name": "Cell cycle control, cell division, chromosome partitioning"
-      },
-      "anchor": false
+      }
     },
     {
+      "anchor": false,
       "id": "cog.category:E",
       "label": "CogFunctionalCategory",
       "properties": {
         "code": "E",
         "name": "Amino acid transport and metabolism"
-      },
-      "anchor": false
+      }
     },
     {
+      "anchor": true,
       "id": "cyanorak.role:0",
       "label": "CyanorakRole",
       "properties": {
         "code": "0",
         "description": "Non-coding gene (RNA)"
-      },
-      "anchor": true
+      }
     },
     {
+      "anchor": true,
       "id": "cyanorak.role:A",
       "label": "CyanorakRole",
       "properties": {
         "code": "A",
         "description": "Amino acid biosynthesis"
-      },
-      "anchor": true
+      }
     },
     {
+      "anchor": false,
       "id": "cyanorak.role:0.1",
       "label": "CyanorakRole",
       "properties": {
         "code": "0.1",
-        "description": "tRNA"
-      },
-      "anchor": false
+        "description": "Non-coding gene (RNA) > tRNA"
+      }
     },
     {
+      "anchor": false,
       "id": "cyanorak.role:0.2",
       "label": "CyanorakRole",
       "properties": {
         "code": "0.2",
-        "description": "rRNA"
-      },
-      "anchor": false
+        "description": "Non-coding gene (RNA) > rRNA"
+      }
     },
     {
+      "anchor": false,
       "id": "cyanorak.role:0.3",
       "label": "CyanorakRole",
       "properties": {
         "code": "0.3",
-        "description": "ncRNA"
-      },
-      "anchor": false
+        "description": "Non-coding gene (RNA) > ncRNA"
+      }
     },
     {
+      "anchor": false,
       "id": "cyanorak.role:0.4",
       "label": "CyanorakRole",
       "properties": {
         "code": "0.4",
-        "description": "Other"
-      },
-      "anchor": false
+        "description": "Non-coding gene (RNA) > Other"
+      }
     },
     {
+      "anchor": false,
       "id": "tigr.role:100",
       "label": "TigrRole",
       "properties": {
         "code": "100",
         "description": "Central intermediary metabolism / Amino sugars"
-      },
-      "anchor": false
+      }
     },
     {
+      "anchor": false,
       "id": "tigr.role:102",
       "label": "TigrRole",
       "properties": {
         "code": "102",
         "description": "Central intermediary metabolism / Other"
-      },
-      "anchor": false
+      }
     },
     {
+      "anchor": false,
       "id": "tigr.role:103",
       "label": "TigrRole",
       "properties": {
         "code": "103",
         "description": "Central intermediary metabolism / Phosphorus compounds"
-      },
-      "anchor": false
+      }
     },
     {
+      "anchor": false,
       "id": "tigr.role:104",
       "label": "TigrRole",
       "properties": {
         "code": "104",
         "description": "Central intermediary metabolism / Polyamine biosynthesis"
-      },
-      "anchor": false
+      }
     },
     {
+      "anchor": false,
       "id": "tigr.role:105",
       "label": "TigrRole",
       "properties": {
         "code": "105",
         "description": "Energy metabolism / Biosynthesis and degradation of polysaccharides"
-      },
-      "anchor": false
-    }
-  ],
-  "edges": [
-    {
-      "type": "Gene_belongs_to_organism",
-      "source": "ncbigene:A9601_00001",
-      "target": "insdc.gcf:GCF_000015645.1",
-      "properties": {}
-    },
-    {
-      "type": "Gene_belongs_to_organism",
-      "source": "ncbigene:A9601_00011",
-      "target": "insdc.gcf:GCF_000015645.1",
-      "properties": {}
-    },
-    {
-      "type": "Gene_belongs_to_organism",
-      "source": "ncbigene:A9601_00021",
-      "target": "insdc.gcf:GCF_000015645.1",
-      "properties": {}
-    },
-    {
-      "type": "Gene_belongs_to_organism",
-      "source": "ncbigene:A9601_00031",
-      "target": "insdc.gcf:GCF_000015645.1",
-      "properties": {}
-    },
-    {
-      "type": "Gene_belongs_to_organism",
-      "source": "ncbigene:A9601_00041",
-      "target": "insdc.gcf:GCF_000015645.1",
-      "properties": {}
-    },
-    {
-      "type": "Protein_belongs_to_organism",
-      "source": "uniprot:A0A126PUM2",
-      "target": "insdc.gcf:GCF_001578515.1",
-      "properties": {}
-    },
-    {
-      "type": "Protein_belongs_to_organism",
-      "source": "uniprot:A0A126PUM2",
-      "target": "insdc.gcf:GCF_901457815.2",
-      "properties": {}
-    },
-    {
-      "type": "Protein_belongs_to_organism",
-      "source": "uniprot:A0A126PUM2",
-      "target": "insdc.gcf:GCF_901457835.2",
-      "properties": {}
-    },
-    {
-      "type": "Protein_belongs_to_organism",
-      "source": "uniprot:A0A126PUP8",
-      "target": "insdc.gcf:GCF_001578515.1",
-      "properties": {}
-    },
-    {
-      "type": "Protein_belongs_to_organism",
-      "source": "uniprot:A0A126PUP8",
-      "target": "insdc.gcf:GCF_901457815.2",
-      "properties": {}
-    },
-    {
-      "type": "Gene_encodes_protein",
-      "source": "uniprot:A0A126PUM2",
-      "target": "ncbigene:ACZ81_00250",
-      "properties": {}
-    },
-    {
-      "type": "Gene_encodes_protein",
-      "source": "uniprot:A0A126PUM2",
-      "target": "ncbigene:EZ55_00076",
-      "properties": {}
-    },
-    {
-      "type": "Gene_encodes_protein",
-      "source": "uniprot:A0A126PUM2",
-      "target": "ncbigene:MIT1002_00051",
-      "properties": {}
-    },
-    {
-      "type": "Gene_encodes_protein",
-      "source": "uniprot:A0A126PUP8",
-      "target": "ncbigene:ACZ81_00265",
-      "properties": {}
-    },
-    {
-      "type": "Gene_encodes_protein",
-      "source": "uniprot:A0A126PUP8",
-      "target": "ncbigene:EZ55_00079",
-      "properties": {}
-    },
-    {
-      "type": "Gene_in_cyanorak_cluster",
-      "source": "ncbigene:A9601_00001",
-      "target": "cyanorak.cluster_CK_00000364",
-      "properties": {}
-    },
-    {
-      "type": "Gene_in_cyanorak_cluster",
-      "source": "ncbigene:A9601_00011",
-      "target": "cyanorak.cluster_CK_00000363",
-      "properties": {}
-    },
-    {
-      "type": "Gene_in_cyanorak_cluster",
-      "source": "ncbigene:A9601_00021",
-      "target": "cyanorak.cluster_CK_00000362",
-      "properties": {}
-    },
-    {
-      "type": "Gene_in_cyanorak_cluster",
-      "source": "ncbigene:A9601_00031",
-      "target": "cyanorak.cluster_CK_00000361",
-      "properties": {}
-    },
-    {
-      "type": "Gene_in_cyanorak_cluster",
-      "source": "ncbigene:A9601_00041",
-      "target": "cyanorak.cluster_CK_00008107",
-      "properties": {}
-    },
-    {
-      "type": "Gene_is_homolog_of_gene",
-      "source": "ncbigene:A9601_00001",
-      "target": "ncbigene:NATL1_00001",
-      "properties": {
-        "cluster_id": "CK_00000364",
-        "distance": "same species: Prochlorococcus marinus",
-        "source": "cyanorak_cluster"
       }
-    },
-    {
-      "type": "Gene_is_homolog_of_gene",
-      "source": "ncbigene:A9601_00001",
-      "target": "ncbigene:P9301_00001",
-      "properties": {
-        "cluster_id": "CK_00000364",
-        "distance": "same clade: HLII",
-        "source": "cyanorak_cluster"
-      }
-    },
-    {
-      "type": "Gene_is_homolog_of_gene",
-      "source": "ncbigene:A9601_00001",
-      "target": "ncbigene:PMM0001",
-      "properties": {
-        "cluster_id": "CK_00000364",
-        "distance": "same species: Prochlorococcus marinus",
-        "source": "cyanorak_cluster"
-      }
-    },
-    {
-      "type": "Gene_is_homolog_of_gene",
-      "source": "ncbigene:A9601_00001",
-      "target": "ncbigene:PMN2A_1328",
-      "properties": {
-        "cluster_id": "CK_00000364",
-        "distance": "same species: Prochlorococcus marinus",
-        "source": "cyanorak_cluster"
-      }
-    },
-    {
-      "type": "Gene_is_homolog_of_gene",
-      "source": "ncbigene:A9601_00001",
-      "target": "ncbigene:PMT0001",
-      "properties": {
-        "cluster_id": "CK_00000364",
-        "distance": "same species: Prochlorococcus marinus",
-        "source": "cyanorak_cluster"
-      }
-    },
-    {
-      "type": "Gene_is_homolog_of_gene",
-      "source": "ncbigene:ACZ81_00005",
-      "target": "ncbigene:EZ55_00001",
-      "properties": {
-        "cluster_id": "46444@72275,Alteromonadaceae",
-        "distance": "same family: Alteromonadaceae",
-        "source": "eggnog_alteromonadaceae_og"
-      }
-    },
-    {
-      "type": "Gene_is_homolog_of_gene",
-      "source": "ncbigene:ACZ81_00005",
-      "target": "ncbigene:MIT1002_00001",
-      "properties": {
-        "cluster_id": "46444@72275,Alteromonadaceae",
-        "distance": "same family: Alteromonadaceae",
-        "source": "eggnog_alteromonadaceae_og"
-      }
-    },
-    {
-      "type": "Gene_is_homolog_of_gene",
-      "source": "ncbigene:ACZ81_00010",
-      "target": "ncbigene:EZ55_00002",
-      "properties": {
-        "cluster_id": "4648R@72275,Alteromonadaceae",
-        "distance": "same family: Alteromonadaceae",
-        "source": "eggnog_alteromonadaceae_og"
-      }
-    },
-    {
-      "type": "Gene_is_homolog_of_gene",
-      "source": "ncbigene:ACZ81_00010",
-      "target": "ncbigene:MIT1002_00002",
-      "properties": {
-        "cluster_id": "4648R@72275,Alteromonadaceae",
-        "distance": "same family: Alteromonadaceae",
-        "source": "eggnog_alteromonadaceae_og"
-      }
-    },
-    {
-      "type": "Gene_is_homolog_of_gene",
-      "source": "ncbigene:ACZ81_00015",
-      "target": "ncbigene:EZ55_00003",
-      "properties": {
-        "cluster_id": "466CC@72275,Alteromonadaceae",
-        "distance": "same family: Alteromonadaceae",
-        "source": "eggnog_alteromonadaceae_og"
-      }
-    },
-    {
-      "type": "Gene_is_homolog_of_gene",
-      "source": "ncbigene:A9601_00001",
-      "target": "ncbigene:ACZ81_00010",
-      "properties": {
-        "cluster_id": "COG0592",
-        "distance": "cross phylum",
-        "source": "eggnog_bacteria_cog_og"
-      }
-    },
-    {
-      "type": "Gene_is_homolog_of_gene",
-      "source": "ncbigene:A9601_00001",
-      "target": "ncbigene:EZ55_00002",
-      "properties": {
-        "cluster_id": "COG0592",
-        "distance": "cross phylum",
-        "source": "eggnog_bacteria_cog_og"
-      }
-    },
-    {
-      "type": "Gene_is_homolog_of_gene",
-      "source": "ncbigene:A9601_00001",
-      "target": "ncbigene:MIT1002_00002",
-      "properties": {
-        "cluster_id": "COG0592",
-        "distance": "cross phylum",
-        "source": "eggnog_bacteria_cog_og"
-      }
-    },
-    {
-      "type": "Gene_is_homolog_of_gene",
-      "source": "ncbigene:A9601_00021",
-      "target": "ncbigene:ACZ81_04945",
-      "properties": {
-        "cluster_id": "COG0046",
-        "distance": "cross phylum",
-        "source": "eggnog_bacteria_cog_og"
-      }
-    },
-    {
-      "type": "Gene_is_homolog_of_gene",
-      "source": "ncbigene:A9601_00021",
-      "target": "ncbigene:EZ55_01035",
-      "properties": {
-        "cluster_id": "COG0046",
-        "distance": "cross phylum",
-        "source": "eggnog_bacteria_cog_og"
-      }
-    },
-    {
-      "type": "Affects_expression_of",
-      "source": "10.1016/j.micres.2015.04.006_alhosani_2015_salt_acclimation",
-      "target": "ncbigene:A9601_00011",
-      "properties": {
-        "expression_direction": "down",
-        "log2_fold_change": -0.29,
-        "adjusted_p_value": 0.65,
-        "control_condition": "Normal seawater (3.8% salt)"
-      }
-    },
-    {
-      "type": "Affects_expression_of",
-      "source": "10.1016/j.micres.2015.04.006_alhosani_2015_salt_acclimation",
-      "target": "ncbigene:A9601_00021",
-      "properties": {
-        "expression_direction": "down",
-        "log2_fold_change": -0.02,
-        "adjusted_p_value": 0.97,
-        "control_condition": "Normal seawater (3.8% salt)"
-      }
-    },
-    {
-      "type": "Affects_expression_of",
-      "source": "10.1016/j.micres.2015.04.006_alhosani_2015_salt_acclimation",
-      "target": "ncbigene:A9601_00031",
-      "properties": {
-        "expression_direction": "down",
-        "log2_fold_change": -0.06,
-        "adjusted_p_value": 0.91,
-        "control_condition": "Normal seawater (3.8% salt)"
-      }
-    },
-    {
-      "type": "Affects_expression_of",
-      "source": "10.1016/j.micres.2015.04.006_alhosani_2015_salt_acclimation",
-      "target": "ncbigene:A9601_00041",
-      "properties": {
-        "expression_direction": "down",
-        "log2_fold_change": -0.27,
-        "adjusted_p_value": 0.36,
-        "control_condition": "Normal seawater (3.8% salt)"
-      }
-    },
-    {
-      "type": "Affects_expression_of",
-      "source": "10.1016/j.micres.2015.04.006_alhosani_2015_salt_acclimation",
-      "target": "ncbigene:A9601_00051",
-      "properties": {
-        "expression_direction": "down",
-        "log2_fold_change": -0.43,
-        "adjusted_p_value": 0.67,
-        "control_condition": "Normal seawater (3.8% salt)"
-      }
-    },
-    {
-      "type": "Affects_expression_of_homolog",
-      "source": "10.1016/j.micres.2015.04.006_alhosani_2015_salt_acclimation",
-      "target": "ncbigene:A9601_00531",
-      "properties": {
-        "expression_direction": "down",
-        "log2_fold_change": -0.8,
-        "original_gene": "ncbigene:A9601_00551",
-        "homology_cluster_id": "CK_00055913"
-      }
-    },
-    {
-      "type": "Affects_expression_of_homolog",
-      "source": "10.1016/j.micres.2015.04.006_alhosani_2015_salt_acclimation",
-      "target": "ncbigene:A9601_00551",
-      "properties": {
-        "expression_direction": "down",
-        "log2_fold_change": -0.77,
-        "original_gene": "ncbigene:A9601_00531",
-        "homology_cluster_id": "CK_00055913"
-      }
-    },
-    {
-      "type": "Affects_expression_of_homolog",
-      "source": "10.1016/j.micres.2015.04.006_alhosani_2015_salt_acclimation",
-      "target": "ncbigene:A9601_00601",
-      "properties": {
-        "expression_direction": "up",
-        "log2_fold_change": 0.19,
-        "original_gene": "ncbigene:A9601_12311",
-        "homology_cluster_id": "CK_00002731"
-      }
-    },
-    {
-      "type": "Affects_expression_of_homolog",
-      "source": "10.1016/j.micres.2015.04.006_alhosani_2015_salt_acclimation",
-      "target": "ncbigene:A9601_02441",
-      "properties": {
-        "expression_direction": "up",
-        "log2_fold_change": 1.08,
-        "original_gene": "ncbigene:A9601_12521",
-        "homology_cluster_id": "CK_00008058"
-      }
-    },
-    {
-      "type": "Affects_expression_of_homolog",
-      "source": "10.1016/j.micres.2015.04.006_alhosani_2015_salt_acclimation",
-      "target": "ncbigene:A9601_03671",
-      "properties": {
-        "expression_direction": "down",
-        "log2_fold_change": -0.59,
-        "original_gene": "ncbigene:A9601_16261",
-        "homology_cluster_id": "CK_00019843"
-      }
-    },
-    {
-      "type": "Gene_involved_in_biological_process",
-      "source": "ncbigene:A9601_00001",
-      "target": "go:0006260",
-      "properties": {}
-    },
-    {
-      "type": "Gene_involved_in_biological_process",
-      "source": "ncbigene:A9601_00001",
-      "target": "go:0006271",
-      "properties": {}
-    },
-    {
-      "type": "Gene_involved_in_biological_process",
-      "source": "ncbigene:A9601_00021",
-      "target": "go:0006164",
-      "properties": {}
-    },
-    {
-      "type": "Gene_involved_in_biological_process",
-      "source": "ncbigene:A9601_00021",
-      "target": "go:0006189",
-      "properties": {}
-    },
-    {
-      "type": "Gene_involved_in_biological_process",
-      "source": "ncbigene:A9601_00021",
-      "target": "go:0006541",
-      "properties": {}
-    },
-    {
-      "type": "Gene_located_in_cellular_component",
-      "source": "ncbigene:A9601_00001",
-      "target": "go:0005737",
-      "properties": {}
-    },
-    {
-      "type": "Gene_located_in_cellular_component",
-      "source": "ncbigene:A9601_00001",
-      "target": "go:0009360",
-      "properties": {}
-    },
-    {
-      "type": "Gene_located_in_cellular_component",
-      "source": "ncbigene:A9601_00031",
-      "target": "go:0005829",
-      "properties": {}
-    },
-    {
-      "type": "Gene_located_in_cellular_component",
-      "source": "ncbigene:A9601_00041",
-      "target": "go:0005694",
-      "properties": {}
-    },
-    {
-      "type": "Gene_located_in_cellular_component",
-      "source": "ncbigene:A9601_00041",
-      "target": "go:0005737",
-      "properties": {}
-    },
-    {
-      "type": "Gene_enables_molecular_function",
-      "source": "ncbigene:A9601_00001",
-      "target": "go:0003677",
-      "properties": {}
-    },
-    {
-      "type": "Gene_enables_molecular_function",
-      "source": "ncbigene:A9601_00001",
-      "target": "go:0003887",
-      "properties": {}
-    },
-    {
-      "type": "Gene_enables_molecular_function",
-      "source": "ncbigene:A9601_00001",
-      "target": "go:0008408",
-      "properties": {}
-    },
-    {
-      "type": "Gene_enables_molecular_function",
-      "source": "ncbigene:A9601_00001",
-      "target": "go:0034061",
-      "properties": {}
-    },
-    {
-      "type": "Gene_enables_molecular_function",
-      "source": "ncbigene:A9601_00021",
-      "target": "go:0004642",
-      "properties": {}
-    },
-    {
-      "type": "Biological_process_is_a_biological_process",
-      "source": "go:0000018",
-      "target": "go:0051052",
-      "properties": {}
-    },
-    {
-      "type": "Biological_process_is_a_biological_process",
-      "source": "go:0000023",
-      "target": "go:0005984",
-      "properties": {}
-    },
-    {
-      "type": "Biological_process_is_a_biological_process",
-      "source": "go:0000027",
-      "target": "go:0022618",
-      "properties": {}
-    },
-    {
-      "type": "Biological_process_is_a_biological_process",
-      "source": "go:0000028",
-      "target": "go:0022618",
-      "properties": {}
-    },
-    {
-      "type": "Biological_process_is_a_biological_process",
-      "source": "go:0000041",
-      "target": "go:0030001",
-      "properties": {}
-    },
-    {
-      "type": "Cellular_component_is_a_cellular_component",
-      "source": "go:0000015",
-      "target": "go:1902494",
-      "properties": {}
-    },
-    {
-      "type": "Cellular_component_is_a_cellular_component",
-      "source": "go:0000118",
-      "target": "go:0140513",
-      "properties": {}
-    },
-    {
-      "type": "Cellular_component_is_a_cellular_component",
-      "source": "go:0000118",
-      "target": "go:1902494",
-      "properties": {}
-    },
-    {
-      "type": "Cellular_component_is_a_cellular_component",
-      "source": "go:0000139",
-      "target": "go:0098588",
-      "properties": {}
-    },
-    {
-      "type": "Cellular_component_is_a_cellular_component",
-      "source": "go:0000178",
-      "target": "go:1905354",
-      "properties": {}
-    },
-    {
-      "type": "Molecular_function_is_a_molecular_function",
-      "source": "go:0000009",
-      "target": "go:0000030",
-      "properties": {}
-    },
-    {
-      "type": "Molecular_function_is_a_molecular_function",
-      "source": "go:0000010",
-      "target": "go:0120531",
-      "properties": {}
-    },
-    {
-      "type": "Molecular_function_is_a_molecular_function",
-      "source": "go:0000014",
-      "target": "go:0004520",
-      "properties": {}
-    },
-    {
-      "type": "Molecular_function_is_a_molecular_function",
-      "source": "go:0000014",
-      "target": "go:0016788",
-      "properties": {}
-    },
-    {
-      "type": "Molecular_function_is_a_molecular_function",
-      "source": "go:0000030",
-      "target": "go:0016758",
-      "properties": {}
-    },
-    {
-      "type": "Ec_number_is_a_ec_number",
-      "source": "ec:1.1.-.-",
-      "target": "ec:1.-.-.-",
-      "properties": {}
-    },
-    {
-      "type": "Ec_number_is_a_ec_number",
-      "source": "ec:1.1.1.-",
-      "target": "ec:1.1.-.-",
-      "properties": {}
-    },
-    {
-      "type": "Ec_number_is_a_ec_number",
-      "source": "ec:1.1.1.1",
-      "target": "ec:1.1.1.-",
-      "properties": {}
-    },
-    {
-      "type": "Ec_number_is_a_ec_number",
-      "source": "ec:1.1.1.10",
-      "target": "ec:1.1.1.-",
-      "properties": {}
-    },
-    {
-      "type": "Ec_number_is_a_ec_number",
-      "source": "ec:1.1.1.100",
-      "target": "ec:1.1.1.-",
-      "properties": {}
-    },
-    {
-      "type": "Gene_catalyzes_ec_number",
-      "source": "ncbigene:A9601_00001",
-      "target": "ec:2.7.7.7",
-      "properties": {}
-    },
-    {
-      "type": "Gene_catalyzes_ec_number",
-      "source": "ncbigene:A9601_00021",
-      "target": "ec:6.3.5.3",
-      "properties": {}
-    },
-    {
-      "type": "Gene_catalyzes_ec_number",
-      "source": "ncbigene:A9601_00031",
-      "target": "ec:2.4.2.14",
-      "properties": {}
-    },
-    {
-      "type": "Gene_catalyzes_ec_number",
-      "source": "ncbigene:A9601_00041",
-      "target": "ec:5.6.2.2",
-      "properties": {}
-    },
-    {
-      "type": "Gene_catalyzes_ec_number",
-      "source": "ncbigene:A9601_00061",
-      "target": "ec:1.17.99.6",
-      "properties": {}
-    },
-    {
-      "type": "Gene_has_kegg_ko",
-      "source": "ncbigene:A9601_00001",
-      "target": "kegg.orthology:K02338",
-      "properties": {}
-    },
-    {
-      "type": "Gene_has_kegg_ko",
-      "source": "ncbigene:A9601_00021",
-      "target": "kegg.orthology:K01952",
-      "properties": {}
-    },
-    {
-      "type": "Gene_has_kegg_ko",
-      "source": "ncbigene:A9601_00031",
-      "target": "kegg.orthology:K00764",
-      "properties": {}
-    },
-    {
-      "type": "Gene_has_kegg_ko",
-      "source": "ncbigene:A9601_00041",
-      "target": "kegg.orthology:K02469",
-      "properties": {}
-    },
-    {
-      "type": "Gene_has_kegg_ko",
-      "source": "ncbigene:A9601_00061",
-      "target": "kegg.orthology:K18979",
-      "properties": {}
-    },
-    {
-      "type": "Ko_in_kegg_pathway",
-      "source": "kegg.orthology:K00001",
-      "target": "kegg.pathway:ko00010",
-      "properties": {}
-    },
-    {
-      "type": "Ko_in_kegg_pathway",
-      "source": "kegg.orthology:K00001",
-      "target": "kegg.pathway:ko00071",
-      "properties": {}
-    },
-    {
-      "type": "Ko_in_kegg_pathway",
-      "source": "kegg.orthology:K00001",
-      "target": "kegg.pathway:ko00350",
-      "properties": {}
-    },
-    {
-      "type": "Ko_in_kegg_pathway",
-      "source": "kegg.orthology:K00001",
-      "target": "kegg.pathway:ko00620",
-      "properties": {}
-    },
-    {
-      "type": "Ko_in_kegg_pathway",
-      "source": "kegg.orthology:K00001",
-      "target": "kegg.pathway:ko00625",
-      "properties": {}
-    },
-    {
-      "type": "Kegg_pathway_in_kegg_subcategory",
-      "source": "kegg.pathway:ko00010",
-      "target": "kegg.subcategory:09101",
-      "properties": {}
-    },
-    {
-      "type": "Kegg_pathway_in_kegg_subcategory",
-      "source": "kegg.pathway:ko00020",
-      "target": "kegg.subcategory:09101",
-      "properties": {}
-    },
-    {
-      "type": "Kegg_pathway_in_kegg_subcategory",
-      "source": "kegg.pathway:ko00030",
-      "target": "kegg.subcategory:09101",
-      "properties": {}
-    },
-    {
-      "type": "Kegg_pathway_in_kegg_subcategory",
-      "source": "kegg.pathway:ko00040",
-      "target": "kegg.subcategory:09101",
-      "properties": {}
-    },
-    {
-      "type": "Kegg_pathway_in_kegg_subcategory",
-      "source": "kegg.pathway:ko00051",
-      "target": "kegg.subcategory:09101",
-      "properties": {}
-    },
-    {
-      "type": "Kegg_subcategory_in_kegg_category",
-      "source": "kegg.subcategory:09101",
-      "target": "kegg.category:09100",
-      "properties": {}
-    },
-    {
-      "type": "Kegg_subcategory_in_kegg_category",
-      "source": "kegg.subcategory:09102",
-      "target": "kegg.category:09100",
-      "properties": {}
-    },
-    {
-      "type": "Kegg_subcategory_in_kegg_category",
-      "source": "kegg.subcategory:09103",
-      "target": "kegg.category:09100",
-      "properties": {}
-    },
-    {
-      "type": "Kegg_subcategory_in_kegg_category",
-      "source": "kegg.subcategory:09104",
-      "target": "kegg.category:09100",
-      "properties": {}
-    },
-    {
-      "type": "Kegg_subcategory_in_kegg_category",
-      "source": "kegg.subcategory:09105",
-      "target": "kegg.category:09100",
-      "properties": {}
-    },
-    {
-      "type": "Gene_in_cog_category",
-      "source": "ncbigene:A9601_00001",
-      "target": "cog.category:L",
-      "properties": {}
-    },
-    {
-      "type": "Gene_in_cog_category",
-      "source": "ncbigene:A9601_00011",
-      "target": "cog.category:S",
-      "properties": {}
-    },
-    {
-      "type": "Gene_in_cog_category",
-      "source": "ncbigene:A9601_00021",
-      "target": "cog.category:F",
-      "properties": {}
-    },
-    {
-      "type": "Gene_in_cog_category",
-      "source": "ncbigene:A9601_00031",
-      "target": "cog.category:F",
-      "properties": {}
-    },
-    {
-      "type": "Gene_in_cog_category",
-      "source": "ncbigene:A9601_00041",
-      "target": "cog.category:L",
-      "properties": {}
-    },
-    {
-      "type": "Gene_has_cyanorak_role",
-      "source": "ncbigene:A9601_00001",
-      "target": "cyanorak.role:F.1",
-      "properties": {}
-    },
-    {
-      "type": "Gene_has_cyanorak_role",
-      "source": "ncbigene:A9601_00011",
-      "target": "cyanorak.role:R.2",
-      "properties": {}
-    },
-    {
-      "type": "Gene_has_cyanorak_role",
-      "source": "ncbigene:A9601_00021",
-      "target": "cyanorak.role:M.3",
-      "properties": {}
-    },
-    {
-      "type": "Gene_has_cyanorak_role",
-      "source": "ncbigene:A9601_00031",
-      "target": "cyanorak.role:M.3",
-      "properties": {}
-    },
-    {
-      "type": "Gene_has_cyanorak_role",
-      "source": "ncbigene:A9601_00041",
-      "target": "cyanorak.role:F.1",
-      "properties": {}
-    },
-    {
-      "type": "Gene_has_tigr_role",
-      "source": "ncbigene:A9601_00001",
-      "target": "tigr.role:132",
-      "properties": {}
-    },
-    {
-      "type": "Gene_has_tigr_role",
-      "source": "ncbigene:A9601_00011",
-      "target": "tigr.role:156",
-      "properties": {}
-    },
-    {
-      "type": "Gene_has_tigr_role",
-      "source": "ncbigene:A9601_00021",
-      "target": "tigr.role:125",
-      "properties": {}
-    },
-    {
-      "type": "Gene_has_tigr_role",
-      "source": "ncbigene:A9601_00031",
-      "target": "tigr.role:125",
-      "properties": {}
-    },
-    {
-      "type": "Gene_has_tigr_role",
-      "source": "ncbigene:A9601_00041",
-      "target": "tigr.role:132",
-      "properties": {}
-    },
-    {
-      "type": "Cyanorak_role_is_a_cyanorak_role",
-      "source": "cyanorak.role:0.1",
-      "target": "cyanorak.role:0",
-      "properties": {}
-    },
-    {
-      "type": "Cyanorak_role_is_a_cyanorak_role",
-      "source": "cyanorak.role:0.2",
-      "target": "cyanorak.role:0",
-      "properties": {}
-    },
-    {
-      "type": "Cyanorak_role_is_a_cyanorak_role",
-      "source": "cyanorak.role:0.3",
-      "target": "cyanorak.role:0",
-      "properties": {}
-    },
-    {
-      "type": "Cyanorak_role_is_a_cyanorak_role",
-      "source": "cyanorak.role:0.4",
-      "target": "cyanorak.role:0",
-      "properties": {}
-    },
-    {
-      "type": "Cyanorak_role_is_a_cyanorak_role",
-      "source": "cyanorak.role:A.1",
-      "target": "cyanorak.role:A",
-      "properties": {}
     }
   ]
 }

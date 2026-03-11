@@ -42,7 +42,7 @@ uv run python .claude/skills/gene-protein-quality/gene_protein_quality.py --diff
 | `CyanoRole%` | Cyanorak (`cyanorak_Role`) | Genes with a Cyanorak functional role |
 | `Product%` | NCBI/Cyanorak (`product`/`product_cyanorak`) | Genes with any product name |
 | `Domains%` | InterPro/Cyanorak (`protein_domains`) | Genes with protein domain annotations |
-| `Expr%` | OMICS papers (`Affects_expression_of` edges) | Genes with ≥1 direct expression measurement |
+| `Expr%` | OMICS papers (`Condition_changes_expression_of` or `Coculture_changes_expression_of` edges) | Genes with ≥1 direct expression measurement |
 
 ## Snapshot Files
 

@@ -315,6 +315,8 @@ Each phase: **scope → implement → test → gate** before proceeding.
 
 ### Phase 4: Edge Type Split + New Properties
 
+**Status:** DONE — Gate PASSED 2026-03-11. 188,501 → 188,501 edges (170,904 Condition + 17,597 Coculture). Zero regressions.
+
 **Scope:** The core schema change. Split expression edges into 4 types. Add new properties. Add Publication connectivity edges. Add `condition_category` to EnvironmentalCondition nodes.
 
 **Agents:** H (create `plans/phase_4_edge_split.md`), B (schema + adapter code), C (update + run tests), D (update skills), E (update docs), G (review)
@@ -379,6 +381,9 @@ Each phase: **scope → implement → test → gate** before proceeding.
 ---
 
 ### Phase 6: Final Validation + Docs
+
+**Status:** DONE — Gate PASSED 2026-03-11. 376 KG validity tests pass (2 known orphan-protein failures, pre-existing). Global sweep clean. Snapshot regenerated.
+
 
 **Scope:** Update remaining KG validity tests, regenerate snapshot, run full validation suite, finalize documentation.
 

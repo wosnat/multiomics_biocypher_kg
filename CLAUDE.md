@@ -80,7 +80,7 @@ Most adapters have a single-source class (e.g., `CyanorakNcbi`) and a **Multi***
 ### Key Adapters
 - **uniprot_adapter.py** — Proteins, genes, organisms from UniProt API
 - **cyanorak_ncbi_adapter.py** — Genomic data from GFF/GenBank files; also emits `organism taxon` nodes
-- **omics_adapter.py** — Differential expression results from `paperconfig.yaml` files; creates `publication` nodes and `affects_expression_of` edges
+- **omics_adapter.py** — Differential expression results from `paperconfig.yaml` files; creates `publication` nodes and expression edges (`Condition_changes_expression_of` / `Coculture_changes_expression_of`)
 - **go_adapter.py** — Gene Ontology terms and GO→protein edges
 - **ec_adapter.py** — Enzyme Commission number hierarchy
 - **pathway_adapter.py** — Metabolic/signaling pathway associations
@@ -316,7 +316,7 @@ Logs written to `logs/prepare_data_step0.log` … `logs/prepare_data_step4.log`.
 | `test_structure.py` | Node type presence, minimum counts (>5K genes, ≥12 organisms), orphan detection (genes without organism, proteins without organism), Gene_encodes_protein edge validation, key property presence |
 | `test_biology.py` | Ecotype/clade labels per strain, katG absence in *Prochlorococcus* (Black Queen Hypothesis), all expected strains present, locus-tag → UniProt spot checks |
 | `test_expression.py` | `log2_fold_change` / `adjusted_p_value` are numeric, `adjusted_p_value` ∈ [0,1], `expression_direction` ∈ {up,down}, direction/sign consistency, required properties on all edges |
-| `test_post_import.py` | Homolog edges exist and are bidirectional, `distance`/`cluster_id` properties present, `Affects_expression_of_homolog` propagated correctly |
+| `test_post_import.py` | Homolog edges exist and are bidirectional, `distance`/`cluster_id` properties present, `Condition_changes_expression_of_ortholog` and `Coculture_changes_expression_of_ortholog` propagated correctly |
 | `test_snapshot.py` | Regression snapshot: verifies a sample of specific nodes and edges (with properties) still exist after rebuilds. Catches silent data loss. |
 
 ### Snapshot regression tests
@@ -330,13 +330,18 @@ uv run python tests/kg_validity/generate_snapshot.py
 ### Actual Neo4j labels (BioCypher PascalCase output)
 
 - Nodes: `Gene`, `Protein`, `OrganismTaxon`, `Publication`, `EnvironmentalCondition`, `Cyanorak_cluster`, `BiologicalProcess`, `CellularComponent`, `MolecularFunction`
-- Relationships: `Gene_belongs_to_organism`, `Protein_belongs_to_organism`, `Gene_encodes_protein`, `Gene_in_cyanorak_cluster`, `Gene_is_homolog_of_gene`, `Affects_expression_of`, `Affects_expression_of_homolog`, `Gene_involved_in_biological_process`, `Gene_located_in_cellular_component`, `Gene_enables_molecular_function`, `Biological_process_is_a_biological_process`, `Cellular_component_is_a_cellular_component`, `Molecular_function_is_a_molecular_function`
+- Relationships: `Gene_belongs_to_organism`, `Protein_belongs_to_organism`, `Gene_encodes_protein`, `Gene_in_cyanorak_cluster`, `Gene_is_homolog_of_gene`, `Condition_changes_expression_of`, `Coculture_changes_expression_of`, `Condition_changes_expression_of_ortholog`, `Coculture_changes_expression_of_ortholog`, `Published_expression_data_about`, `Gene_involved_in_biological_process`, `Gene_located_in_cellular_component`, `Gene_enables_molecular_function`, `Biological_process_is_a_biological_process`, `Cellular_component_is_a_cellular_component`, `Molecular_function_is_a_molecular_function`
 
 ### Key graph facts
 
 - Gene↔Protein linkage: explicit `Gene_encodes_protein` edges (Protein→Gene) created by UniProt adapter via RefSeq protein_id join with gene_mapping.csv
-- Expression sources: `EnvironmentalCondition` (~95K edges, stress experiments), `OrganismTaxon` (~12K edges, coculture experiments)
-- `adjusted_p_value` may be null on expression edges (and propagated homolog edges) when the original study did not report it
+- Expression sources: `EnvironmentalCondition` → `Condition_changes_expression_of` (~170K edges, stress experiments); `OrganismTaxon` → `Coculture_changes_expression_of` (~17K edges, coculture experiments); total direct edges ~188K (TODO: update after build)
+- Ortholog edges: `Condition_changes_expression_of_ortholog` (all homologs); `Coculture_changes_expression_of_ortholog` (same-phylum homologs only; cross-phylum filtered)
+- New edge properties on all expression edge types: `omics_type` (RNASEQ | PROTEOMICS | METABOLOMICS | MICROARRAY), `organism_strain`, `treatment_condition`, `statistical_test`
+- `condition_category` property on `EnvironmentalCondition` nodes (same value as `condition_type`)
+- `preferred_name` property on `OrganismTaxon` nodes (e.g., `"Prochlorococcus MED4"`)
+- `Published_expression_data_about` edges: `(Publication)→(EnvironmentalCondition)` and `(Publication)→(OrganismTaxon)` — one edge per distinct source node used in a publication's analyses
+- `adjusted_p_value` may be null on expression edges (and propagated ortholog edges) when the original study did not report it
 - Strains in graph: MED4, AS9601, MIT9301, MIT9312, MIT9313, NATL1A, NATL2A, RSP50 (Prochlorococcus); CC9311 (Synechococcus); WH8102 (Parasynechococcus); MIT1002, EZ55, HOT1A3 (Alteromonas)
 
 ## EggNOG Mapper Setup

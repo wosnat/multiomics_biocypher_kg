@@ -67,13 +67,15 @@ WHERE g1.bacteria_cog_og IS NOT NULL
   )
 MERGE (g1)-[:Gene_is_homolog_of_gene {source: "eggnog_bacteria_cog_og", cluster_id: g1.bacteria_cog_og, distance: "cross phylum"}]->(g2);
 
-// Create affects_expression_of_homolog edges.
-// If source X affects_expression_of gene A, and gene A is homolog of gene B,
-// then X affects_expression_of_homolog gene B.
+// Create Condition_changes_expression_of_ortholog edges.
+// If an EnvironmentalCondition X changes expression of gene A, and gene A is homolog of gene B,
+// then X also changes_expression_of_ortholog gene B.
+// No distance filter — condition experiments propagate to all homologs including cross-phylum.
 // Uses CREATE (not MERGE) so each expression edge propagates independently —
-// multiple publications/conditions on the same gene each produce a separate homolog edge.
-MATCH (source)-[e:Affects_expression_of]->(geneA:Gene)-[h:Gene_is_homolog_of_gene]->(geneB:Gene)
-CREATE (source)-[:Affects_expression_of_homolog {
+// multiple publications/conditions on the same gene each produce a separate ortholog edge.
+MATCH (source)-[e:Condition_changes_expression_of]->(geneA:Gene)-[h:Gene_is_homolog_of_gene]->(geneB:Gene)
+WHERE NOT (source)-[:Condition_changes_expression_of_ortholog]->(geneB)
+CREATE (source)-[:Condition_changes_expression_of_ortholog {
   expression_direction: e.expression_direction,
   control_condition: e.control_condition,
   experimental_context: e.experimental_context,
@@ -82,8 +84,39 @@ CREATE (source)-[:Affects_expression_of_homolog {
   adjusted_p_value: e.adjusted_p_value,
   significant: e.significant,
   publications: e.publications,
-  original_gene: geneA.id,
-  homology_source: h.source,
+  omics_type: e.omics_type,
+  organism_strain: e.organism_strain,
+  treatment_condition: e.treatment_condition,
+  statistical_test: e.statistical_test,
+  original_gene: geneA.locus_tag,
+  homology_source: 'cyanorak_cluster',
+  homology_cluster_id: h.cluster_id,
+  distance: h.distance
+}]->(geneB);
+
+// Create Coculture_changes_expression_of_ortholog edges.
+// If an OrganismTaxon X (coculture partner) changes expression of gene A, and gene A is homolog of gene B,
+// then X also changes_expression_of_ortholog gene B.
+// Cross-phylum homologs are excluded (WHERE h.distance <> 'cross phylum') because
+// coculture effects are expected to be organism-group-specific.
+MATCH (source)-[e:Coculture_changes_expression_of]->(geneA:Gene)-[h:Gene_is_homolog_of_gene]->(geneB:Gene)
+WHERE h.distance <> 'cross phylum'
+  AND NOT (source)-[:Coculture_changes_expression_of_ortholog]->(geneB)
+CREATE (source)-[:Coculture_changes_expression_of_ortholog {
+  expression_direction: e.expression_direction,
+  control_condition: e.control_condition,
+  experimental_context: e.experimental_context,
+  time_point: e.time_point,
+  log2_fold_change: e.log2_fold_change,
+  adjusted_p_value: e.adjusted_p_value,
+  significant: e.significant,
+  publications: e.publications,
+  omics_type: e.omics_type,
+  organism_strain: e.organism_strain,
+  treatment_condition: e.treatment_condition,
+  statistical_test: e.statistical_test,
+  original_gene: geneA.locus_tag,
+  homology_source: 'cyanorak_cluster',
   homology_cluster_id: h.cluster_id,
   distance: h.distance
 }]->(geneB);

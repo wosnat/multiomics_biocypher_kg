@@ -108,7 +108,7 @@ Resolution rates after deployment: Biller 2016 MIT1002 DE genes resolved at 96.6
 
 After building `gene_id_mapping.json`, a diagnostic report (`gene_id_mapping_report.json`) was written for each strain. This report enumerates, for each identifier type, the fraction of identifiers that resolved uniquely (in `specific_lookup`), matched multiple genes (in `multi_lookup`), or produced Tier 1 conflicts. Reclassification warnings were emitted when an identifier type declared as Tier 1 exhibited a multi-match rate exceeding 10%, suggesting the type should be moved to Tier 2.
 
-Regression testing used a snapshot-based approach: `Affects_expression_of` edge counts were recorded per publication before and after each pipeline change. Any publication showing a reduction in edge count triggered investigation of the corresponding `_resolved_report.txt` and re-examination of the paperconfig `id_columns` configuration.
+Regression testing used a snapshot-based approach: expression edge counts (`Condition_changes_expression_of` and `Coculture_changes_expression_of`) were recorded per publication before and after each pipeline change. Any publication showing a reduction in edge count triggered investigation of the corresponding `_resolved_report.txt` and re-examination of the paperconfig `id_columns` configuration.
 
 ## Phased Validation
 

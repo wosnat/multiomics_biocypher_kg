@@ -2,7 +2,7 @@
 
 ## Overview
 
-The knowledge graph is produced by a two-phase pipeline. A shell-orchestrated preprocessing phase (`scripts/prepare_data.sh`) downloads and integrates genomic, proteomic, and publication data from external databases into per-strain annotation tables. A Python build phase (`create_knowledge_graph.py`) consumes those tables through a set of BioCypher-compatible adapters that yield graph nodes and edges as tab-delimited CSV files. A five-stage Docker Compose pipeline then bulk-imports the CSVs into Neo4j, executes post-import graph enrichment queries, and exposes the database alongside a web query interface. The current graph spans 13 bacterial strains (8 *Prochlorococcus*, 2 *Synechococcus*/*Parasynechococcus*, 3 *Alteromonas*), 24 publications, and approximately 107,000 differential expression edges.
+The knowledge graph is produced by a two-phase pipeline. A shell-orchestrated preprocessing phase (`scripts/prepare_data.sh`) downloads and integrates genomic, proteomic, and publication data from external databases into per-strain annotation tables. A Python build phase (`create_knowledge_graph.py`) consumes those tables through a set of BioCypher-compatible adapters that yield graph nodes and edges as tab-delimited CSV files. A five-stage Docker Compose pipeline then bulk-imports the CSVs into Neo4j, executes post-import graph enrichment queries, and exposes the database alongside a web query interface. The current graph spans 13 bacterial strains (8 *Prochlorococcus*, 2 *Synechococcus*/*Parasynechococcus*, 3 *Alteromonas*), 24 publications, and approximately ~188K differential expression edges (`Condition_changes_expression_of` + `Coculture_changes_expression_of`).
 
 ## Data Preprocessing Pipeline
 
@@ -52,7 +52,7 @@ Adapters are executed sequentially in a fixed order determined by data dependenc
 |-------|---------|-------------|--------|
 | 1 | `MultiCyanorakNcbi` | `gene_annotations_merged.json`, `cyanobacteria_genomes.csv` | Gene, OrganismTaxon, Cyanorak_cluster nodes; Gene_belongs_to_organism, Gene_in_cyanorak_cluster edges |
 | 2 | `MultiUniprot` | `protein_annotations.json`, `gene_mapping.csv` | Protein nodes; Gene_encodes_protein, Protein_belongs_to_organism edges |
-| 3 | `MultiOMICSAdapter` | paperconfig YAMLs + publication CSVs | Publication, EnvironmentalCondition nodes; Affects_expression_of edges |
+| 3 | `MultiOMICSAdapter` | paperconfig YAMLs + publication CSVs | Publication, EnvironmentalCondition nodes; Condition_changes_expression_of and Coculture_changes_expression_of edges |
 | 4 | `MultiGoAnnotationAdapter` | `gene_annotations_merged.json` + GO OBO | GO term nodes + Gene→GO edges + GO hierarchy |
 | 5 | `MultiEcAnnotationAdapter` | `gene_annotations_merged.json` + Expasy | EC number nodes + Gene→EC edges + EC hierarchy |
 | 6 | `MultiKeggAnnotationAdapter` | `gene_annotations_merged.json` + KEGG REST API | KEGG KO/Pathway/Subcategory/Category nodes + hierarchy edges |
@@ -115,7 +115,7 @@ Certain edge types require graph traversal patterns that cannot be computed duri
 1. **Cyanorak-based homology**: Creates bidirectional `Gene_is_homolog_of_gene` edges between genes sharing a Cyanorak cluster, with a `distance` property capturing phylogenetic proximity (same strain, same clade, same species, same genus, same order, or cross-order).
 2. **Alteromonas within-family orthologs**: Creates homology edges between *Alteromonas* genes sharing an Alteromonadaceae-level eggNOG orthologous group.
 3. **Cross-phylum orthologs**: Creates homology edges between *Alteromonas* and *Prochlorococcus*/*Synechococcus* genes sharing a Bacteria-level COG orthologous group.
-4. **Expression propagation**: For every `Affects_expression_of` edge from a source to gene A, if A is a homolog of gene B, creates an `Affects_expression_of_homolog` edge from the same source to gene B, carrying the original expression properties plus the homology provenance.
+4. **Expression propagation**: For every `Condition_changes_expression_of` or `Coculture_changes_expression_of` edge from a source to gene A, if A is a homolog of gene B, creates a `Condition_changes_expression_of_ortholog` or `Coculture_changes_expression_of_ortholog` edge (respectively) from the same source to gene B, carrying the original expression properties plus the homology provenance.
 
 These queries use `MERGE` for homology edges (idempotent) and `CREATE` for expression propagation (each direct expression edge produces an independent homolog edge). See Methods: Homology Propagation (forthcoming) for the algorithmic rationale.
 

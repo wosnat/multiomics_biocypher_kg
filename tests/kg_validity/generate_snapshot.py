@@ -93,11 +93,19 @@ EDGE_PROPERTIES = {
     "Gene_encodes_protein": [],
     "Gene_in_cyanorak_cluster": [],
     "Gene_is_homolog_of_gene": ["cluster_id", "distance", "source"],
-    "Affects_expression_of": [
+    "Condition_changes_expression_of": [
         "expression_direction", "log2_fold_change", "adjusted_p_value",
         "control_condition",
     ],
-    "Affects_expression_of_homolog": [
+    "Coculture_changes_expression_of": [
+        "expression_direction", "log2_fold_change", "adjusted_p_value",
+        "control_condition",
+    ],
+    "Condition_changes_expression_of_ortholog": [
+        "expression_direction", "log2_fold_change", "original_gene",
+        "homology_cluster_id",
+    ],
+    "Coculture_changes_expression_of_ortholog": [
         "expression_direction", "log2_fold_change", "original_gene",
         "homology_cluster_id",
     ],

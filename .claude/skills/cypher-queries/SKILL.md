@@ -42,7 +42,7 @@ docker exec -i deploy cypher-shell -a bolt://localhost:7687
 | `Gene` | `id` (ncbigene:locus_tag), `locus_tag`, `locus_tag_ncbi`, `locus_tag_cyanorak`, `product`, `gene_name`, `gene_synonyms[]`, `function_description`, `cog_category[]`, `go_terms[]`, `kegg_ko[]`, `kegg_pathway[]`, `ec_numbers[]`, `pfam_ids[]`, `pfam_names[]`, `bacteria_cog_og`, `alteromonadaceae_og`, `annotation_quality`, `old_locus_tags[]`, `alternative_locus_tags[]`, `protein_id`, `start`, `end`, `strand` |
 | `Protein` | `id` (uniprot:accession), `locus_tag`, `gene_names[]`, `is_reviewed`, `annotation_score`, `sequence_length`, `molecular_mass`, `refseq_ids[]`, `proteome_ids[]`, `protein_synonyms[]`, `string_ids[]` |
 | `OrganismTaxon` | `id` (insdc.gcf:accession or ncbitaxon:taxid), `organism_name`, `strain_name`, `clade`, `genus`, `species`, `ncbi_taxon_id`, `family`, `order`, `phylum`, `kingdom`, `superkingdom`, `lineage` |
-| `EnvironmentalCondition` | `id`, `name`, `condition_type`, `description`, `light_condition`, `light_intensity`, `oxygen_level`, `nitrogen_source`, `co2_level`, `publications[]` |
+| `EnvironmentalCondition` | `id`, `name`, `condition_type`, `condition_category` (same value as `condition_type`), `description`, `light_condition`, `light_intensity`, `oxygen_level`, `nitrogen_source`, `co2_level`, `publications[]` |
 | `Publication` | `id` (DOI), `title`, `authors[]`, `journal`, `publication_year`, `abstract`, `doi`, `organism`, `study_type`, `description` |
 | `Cyanorak_cluster` | `id`, `cluster_number` |
 | `BiologicalProcess` | `id` (go:NNNNNNN), `name` |
@@ -94,8 +94,11 @@ Gene nodes carry many denormalized annotation fields beyond the key properties a
 
 | Relationship | Source → Target | Key Properties |
 |---|---|---|
-| `Affects_expression_of` | OrganismTaxon/EnvironmentalCondition → Gene | `log2_fold_change`, `adjusted_p_value`, `expression_direction` (up/down), `control_condition`, `experimental_context`, `time_point`, `publications[]`, `significant` |
-| `Affects_expression_of_homolog` | OrganismTaxon/EnvironmentalCondition → Gene | same + `original_gene`, `homology_source`, `homology_cluster_id`, `distance` |
+| `Condition_changes_expression_of` | EnvironmentalCondition → Gene | `log2_fold_change`, `adjusted_p_value`, `expression_direction` (up/down), `control_condition`, `experimental_context`, `time_point`, `publications[]`, `significant`, `omics_type`, `organism_strain`, `treatment_condition`, `statistical_test` |
+| `Coculture_changes_expression_of` | OrganismTaxon → Gene | `log2_fold_change`, `adjusted_p_value`, `expression_direction` (up/down), `control_condition`, `experimental_context`, `time_point`, `publications[]`, `significant`, `omics_type`, `organism_strain`, `treatment_condition`, `statistical_test` |
+| `Condition_changes_expression_of_ortholog` | EnvironmentalCondition → Gene | same as above + `original_gene`, `homology_source`, `homology_cluster_id`, `distance` |
+| `Coculture_changes_expression_of_ortholog` | OrganismTaxon → Gene | same as above + `original_gene`, `homology_source`, `homology_cluster_id`, `distance` |
+| `Published_expression_data_about` | Publication → EnvironmentalCondition/OrganismTaxon | — |
 | `Gene_is_homolog_of_gene` | Gene ↔ Gene | `source` (cyanorak_cluster / eggnog_alteromonadaceae_og / eggnog_bacteria_cog_og), `cluster_id`, `distance` |
 | `Gene_belongs_to_organism` | Gene → OrganismTaxon | — |
 | `Protein_belongs_to_organism` | Protein → OrganismTaxon | — |
@@ -242,57 +245,84 @@ RETURN g.locus_tag, g.gene_name, g.product,
 ### Find What Affects a Gene
 
 ```cypher
-// All factors affecting a gene (coculture + stress, both directions)
-MATCH (factor)-[r:Affects_expression_of]->(g:Gene {locus_tag: 'PMM0001'})
+// All environmental condition edges for a gene (stress experiments)
+MATCH (env:EnvironmentalCondition)-[r:Condition_changes_expression_of]->(g:Gene {locus_tag: 'PMM0001'})
+RETURN env.name, env.condition_type, env.condition_category,
+       r.expression_direction, r.log2_fold_change, r.adjusted_p_value,
+       r.control_condition, r.experimental_context, r.publications
+ORDER BY abs(r.log2_fold_change) DESC
+
+// All coculture edges for a gene (coculture experiments)
+MATCH (org:OrganismTaxon)-[r:Coculture_changes_expression_of]->(g:Gene {locus_tag: 'PMM0001'})
+RETURN org.organism_name, org.strain_name,
+       r.expression_direction, r.log2_fold_change, r.adjusted_p_value,
+       r.control_condition, r.experimental_context, r.publications
+ORDER BY abs(r.log2_fold_change) DESC
+
+// All expression edges for a gene (both types combined)
+MATCH (factor)-[r:Condition_changes_expression_of|Coculture_changes_expression_of]->(g:Gene {locus_tag: 'PMM0001'})
 RETURN labels(factor)[0] AS factor_type, factor.id, factor.name,
        r.expression_direction, r.log2_fold_change, r.adjusted_p_value,
        r.control_condition, r.experimental_context, r.publications
 ORDER BY abs(r.log2_fold_change) DESC
 
-// Significantly up-regulated
-MATCH (factor)-[r:Affects_expression_of]->(g:Gene {locus_tag: 'PMM0001'})
+// Significantly up-regulated by environmental condition
+MATCH (env:EnvironmentalCondition)-[r:Condition_changes_expression_of]->(g:Gene {locus_tag: 'PMM0001'})
 WHERE r.expression_direction = 'up' AND (r.adjusted_p_value IS NULL OR r.adjusted_p_value < 0.05)
-RETURN factor.id, r.log2_fold_change, r.adjusted_p_value, r.publications
+RETURN env.name, env.condition_category, r.log2_fold_change, r.adjusted_p_value, r.publications
 ORDER BY r.log2_fold_change DESC
+
+// Filter by condition_category (derived from condition_type)
+MATCH (env:EnvironmentalCondition {condition_category: 'nitrogen_stress'})-[r:Condition_changes_expression_of]->(g:Gene)
+MATCH (g)-[:Gene_belongs_to_organism]->(o:OrganismTaxon {strain_name: 'MED4'})
+RETURN g.locus_tag, g.product, r.expression_direction, r.log2_fold_change, env.name
+ORDER BY abs(r.log2_fold_change) DESC
+LIMIT 20
 ```
 
 ### Find Genes Affected by Organism Coculture
 
 ```cypher
 // Genes upregulated in Prochlorococcus by Alteromonas coculture
-MATCH (org:OrganismTaxon)-[r:Affects_expression_of {expression_direction: 'up'}]->(g:Gene)
+MATCH (org:OrganismTaxon)-[r:Coculture_changes_expression_of {expression_direction: 'up'}]->(g:Gene)
 WHERE org.organism_name = 'Alteromonas'
 RETURN g.locus_tag, g.product, g.function_description,
-       r.log2_fold_change, r.adjusted_p_value, r.experimental_context
+       r.log2_fold_change, r.adjusted_p_value, r.experimental_context, r.organism_strain
 ORDER BY r.log2_fold_change DESC
 LIMIT 20
 
 // Genes downregulated by coculture with a specific treatment organism
-MATCH (org:OrganismTaxon {organism_name: 'Alteromonas'})-[r:Affects_expression_of]->(g:Gene)
+MATCH (org:OrganismTaxon {organism_name: 'Alteromonas'})-[r:Coculture_changes_expression_of]->(g:Gene)
 WHERE r.expression_direction = 'down'
-RETURN g.locus_tag, g.product, r.log2_fold_change, r.control_condition
+RETURN g.locus_tag, g.product, r.log2_fold_change, r.control_condition, r.treatment_condition
 ORDER BY r.log2_fold_change ASC
 LIMIT 20
 
 // Count DE genes per coculture partner
-MATCH (org:OrganismTaxon)-[r:Affects_expression_of]->(g:Gene)
+MATCH (org:OrganismTaxon)-[r:Coculture_changes_expression_of]->(g:Gene)
 WHERE r.significant = true
 RETURN org.organism_name, r.expression_direction, count(g) AS gene_count
 ORDER BY org.organism_name, r.expression_direction
+
+// Which publications studied a specific coculture organism
+MATCH (pub:Publication)-[:Published_expression_data_about]->(org:OrganismTaxon)
+WHERE org.organism_name CONTAINS 'Alteromonas'
+RETURN pub.id, pub.title, pub.publication_year, org.organism_name, org.strain_name
+ORDER BY pub.publication_year DESC
 ```
 
 ### Find Genes Affected by Environmental Stress
 
 ```cypher
-// Genes affected by nutrient stress
-MATCH (env:EnvironmentalCondition {condition_type: 'nutrient_stress'})-[r:Affects_expression_of]->(g:Gene)
+// Genes affected by nitrogen stress (using condition_category)
+MATCH (env:EnvironmentalCondition {condition_category: 'nitrogen_stress'})-[r:Condition_changes_expression_of]->(g:Gene)
 RETURN g.locus_tag, g.product, r.expression_direction, r.log2_fold_change,
        env.name, env.description
 ORDER BY abs(r.log2_fold_change) DESC
 LIMIT 20
 
-// Genes affected by light/dark shift
-MATCH (env:EnvironmentalCondition {condition_type: 'light_stress'})-[r:Affects_expression_of]->(g:Gene)
+// Genes affected by light/dark shift (using condition_type — same value as condition_category)
+MATCH (env:EnvironmentalCondition {condition_type: 'light_stress'})-[r:Condition_changes_expression_of]->(g:Gene)
 RETURN g.locus_tag, g.product, r.expression_direction, r.log2_fold_change,
        env.name, env.light_condition
 ORDER BY abs(r.log2_fold_change) DESC
@@ -300,41 +330,53 @@ LIMIT 20
 
 // List all distinct environmental conditions in the graph
 MATCH (env:EnvironmentalCondition)
-RETURN env.name, env.condition_type, env.description,
+RETURN env.name, env.condition_type, env.condition_category, env.description,
        env.light_condition, env.oxygen_level
 ORDER BY env.condition_type, env.name
 
 // DE genes from all stress experiments
-MATCH (env:EnvironmentalCondition)-[r:Affects_expression_of]->(g:Gene)
+MATCH (env:EnvironmentalCondition)-[r:Condition_changes_expression_of]->(g:Gene)
 WHERE r.significant = true
-RETURN env.name, env.condition_type, r.expression_direction, count(g) AS gene_count
+RETURN env.name, env.condition_category, r.expression_direction, count(g) AS gene_count
 ORDER BY gene_count DESC
+
+// Which publications studied a specific condition type
+MATCH (pub:Publication)-[:Published_expression_data_about]->(env:EnvironmentalCondition)
+WHERE env.condition_category = 'iron_stress'
+RETURN pub.id, pub.title, pub.publication_year, env.name
+ORDER BY pub.publication_year DESC
 ```
 
 ### Compare Conditions
 
 ```cypher
 // Genes affected by BOTH coculture AND nutrient stress
-MATCH (org:OrganismTaxon)-[r1:Affects_expression_of]->(g:Gene)
+MATCH (org:OrganismTaxon)-[r1:Coculture_changes_expression_of]->(g:Gene)
 WHERE org.organism_name = 'Alteromonas'
-MATCH (env:EnvironmentalCondition {condition_type: 'nutrient_stress'})-[r2:Affects_expression_of]->(g)
+MATCH (env:EnvironmentalCondition {condition_category: 'nitrogen_stress'})-[r2:Condition_changes_expression_of]->(g)
 RETURN g.locus_tag, g.product,
        r1.expression_direction AS coculture_dir, r1.log2_fold_change AS coculture_fc,
        r2.expression_direction AS stress_dir, r2.log2_fold_change AS stress_fc
 
 // Genes with OPPOSITE response to coculture vs stress (discordant)
-MATCH (org:OrganismTaxon)-[r1:Affects_expression_of]->(g:Gene)
-MATCH (env:EnvironmentalCondition)-[r2:Affects_expression_of]->(g)
+MATCH (org:OrganismTaxon)-[r1:Coculture_changes_expression_of]->(g:Gene)
+MATCH (env:EnvironmentalCondition)-[r2:Condition_changes_expression_of]->(g)
 WHERE r1.expression_direction <> r2.expression_direction
-RETURN g.locus_tag, g.product, r1.expression_direction, r2.expression_direction
+RETURN g.locus_tag, g.product, r1.expression_direction AS coculture_dir, r2.expression_direction AS stress_dir
 
-// Genes consistently up across multiple conditions
-MATCH (factor)-[r:Affects_expression_of]->(g:Gene)
+// Genes consistently up across multiple conditions (both edge types)
+MATCH (factor)-[r:Condition_changes_expression_of|Coculture_changes_expression_of]->(g:Gene)
 WHERE r.expression_direction = 'up' AND r.significant = true
 WITH g, count(DISTINCT factor) AS up_count
 WHERE up_count >= 3
 RETURN g.locus_tag, g.product, g.function_description, up_count
 ORDER BY up_count DESC
+
+// Cross-paper comparison: how do multiple publications report the same gene under the same condition_category
+MATCH (env:EnvironmentalCondition)-[r:Condition_changes_expression_of]->(g:Gene {locus_tag: 'PMM0001'})
+RETURN env.condition_category, env.name, r.expression_direction,
+       r.log2_fold_change, r.publications, r.statistical_test
+ORDER BY env.condition_category, r.log2_fold_change DESC
 ```
 
 ### Homologs
@@ -365,28 +407,35 @@ LIMIT 20
 
 // Expression of homologs in all strains (via direct + propagated edges)
 MATCH (g:Gene {locus_tag: 'PMM0001'})
-OPTIONAL MATCH (factor1)-[r1:Affects_expression_of]->(g)
+OPTIONAL MATCH (factor1)-[r1:Condition_changes_expression_of|Coculture_changes_expression_of]->(g)
 OPTIONAL MATCH (g)-[:Gene_is_homolog_of_gene]->(hg:Gene)-[:Gene_belongs_to_organism]->(o:OrganismTaxon)
-OPTIONAL MATCH (factor2)-[r2:Affects_expression_of]->(hg)
+OPTIONAL MATCH (factor2)-[r2:Condition_changes_expression_of|Coculture_changes_expression_of]->(hg)
 RETURN g.locus_tag AS source_gene,
-       r1.expression_direction AS direct_dir, r1.log2_fold_change AS direct_fc,
+       type(r1) AS direct_edge_type, r1.expression_direction AS direct_dir, r1.log2_fold_change AS direct_fc,
        hg.locus_tag AS homolog, o.strain_name,
-       r2.expression_direction AS homolog_dir, r2.log2_fold_change AS homolog_fc
+       type(r2) AS homolog_edge_type, r2.expression_direction AS homolog_dir, r2.log2_fold_change AS homolog_fc
 ```
 
 ### Homolog Expression Propagation
 
 ```cypher
-// Inferred homolog expression effects (post-import propagated edges)
-MATCH (factor)-[r:Affects_expression_of_homolog]->(g:Gene)
+// Inferred homolog expression via condition (post-import propagated edges)
+MATCH (env:EnvironmentalCondition)-[r:Condition_changes_expression_of_ortholog]->(g:Gene)
 WHERE r.distance CONTAINS 'same clade'
-RETURN factor.id, g.locus_tag, r.expression_direction,
+RETURN env.name, env.condition_category, g.locus_tag, r.expression_direction,
        r.log2_fold_change, r.original_gene, r.distance
 LIMIT 20
 
-// Homolog edges for a gene (inferred from its paralogs' expression)
-MATCH (factor)-[r:Affects_expression_of_homolog]->(g:Gene {locus_tag: 'PMM0001'})
-RETURN factor.id, r.original_gene, r.expression_direction,
+// Inferred homolog expression via coculture (post-import propagated edges)
+MATCH (org:OrganismTaxon)-[r:Coculture_changes_expression_of_ortholog]->(g:Gene)
+WHERE r.distance CONTAINS 'same clade'
+RETURN org.organism_name, g.locus_tag, r.expression_direction,
+       r.log2_fold_change, r.original_gene, r.distance
+LIMIT 20
+
+// All ortholog-inferred edges for a gene (both types)
+MATCH (factor)-[r:Condition_changes_expression_of_ortholog|Coculture_changes_expression_of_ortholog]->(g:Gene {locus_tag: 'PMM0001'})
+RETURN type(r) AS edge_type, factor.id, r.original_gene, r.expression_direction,
        r.log2_fold_change, r.homology_source, r.distance
 ORDER BY abs(r.log2_fold_change) DESC
 ```
@@ -394,8 +443,8 @@ ORDER BY abs(r.log2_fold_change) DESC
 ### Functional Enrichment / Pathway Analysis
 
 ```cypher
-// Genes upregulated by Alteromonas in each KEGG category
-MATCH (org:OrganismTaxon)-[r:Affects_expression_of {expression_direction: 'up'}]->(g:Gene)
+// Genes upregulated by Alteromonas coculture in each KEGG category
+MATCH (org:OrganismTaxon)-[r:Coculture_changes_expression_of {expression_direction: 'up'}]->(g:Gene)
       -[:Gene_has_kegg_ko]->(ko:KeggOrthologousGroup)
       -[:Ko_in_kegg_pathway]->(pw:KeggPathway)
       -[:Kegg_pathway_in_kegg_subcategory]->(sc:KeggSubcategory)
@@ -405,14 +454,14 @@ RETURN cat.name, sc.name, pw.name, count(DISTINCT g) AS gene_count
 ORDER BY gene_count DESC
 LIMIT 20
 
-// Genes downregulated by nutrient stress in each COG category
-MATCH (env:EnvironmentalCondition {condition_type: 'nutrient_stress'})-[r:Affects_expression_of {expression_direction: 'down'}]->(g:Gene)
+// Genes downregulated by nitrogen stress in each COG category
+MATCH (env:EnvironmentalCondition {condition_category: 'nitrogen_stress'})-[r:Condition_changes_expression_of {expression_direction: 'down'}]->(g:Gene)
       -[:Gene_in_cog_category]->(cog:CogFunctionalCategory)
 RETURN cog.code, cog.name, count(DISTINCT g) AS gene_count
 ORDER BY gene_count DESC
 
-// Most common COG categories in all DE genes
-MATCH (factor)-[r:Affects_expression_of]->(g:Gene)-[:Gene_in_cog_category]->(cog:CogFunctionalCategory)
+// Most common COG categories in all DE genes (both edge types)
+MATCH (factor)-[r:Condition_changes_expression_of|Coculture_changes_expression_of]->(g:Gene)-[:Gene_in_cog_category]->(cog:CogFunctionalCategory)
 WHERE r.significant = true
 RETURN cog.code, cog.name, r.expression_direction, count(g) AS gene_count
 ORDER BY gene_count DESC
@@ -519,16 +568,24 @@ LIMIT 10
 ### Significance Filtering
 
 ```cypher
-// Significantly DE genes (p < 0.05, |logFC| > 1)
-MATCH (factor)-[r:Affects_expression_of]->(g:Gene)
+// Significantly DE genes (p < 0.05, |logFC| > 1) — both edge types
+MATCH (factor)-[r:Condition_changes_expression_of|Coculture_changes_expression_of]->(g:Gene)
 WHERE r.adjusted_p_value < 0.05 AND abs(r.log2_fold_change) > 1
-RETURN labels(factor)[0] AS source_type, g.locus_tag, g.product,
+RETURN type(r) AS edge_type, labels(factor)[0] AS source_type, g.locus_tag, g.product,
        r.expression_direction, r.log2_fold_change, r.adjusted_p_value
 ORDER BY r.adjusted_p_value ASC
 LIMIT 20
 
-// Top genes by fold change, regardless of significance
-MATCH (factor)-[r:Affects_expression_of]->(g:Gene)
+// Top genes by fold change from environmental condition experiments
+MATCH (env:EnvironmentalCondition)-[r:Condition_changes_expression_of]->(g:Gene)
+WHERE r.significant = true
+RETURN g.locus_tag, g.product, r.expression_direction,
+       max(abs(r.log2_fold_change)) AS max_fc
+ORDER BY max_fc DESC
+LIMIT 20
+
+// Top genes by fold change from coculture experiments
+MATCH (org:OrganismTaxon)-[r:Coculture_changes_expression_of]->(g:Gene)
 WHERE r.significant = true
 RETURN g.locus_tag, g.product, r.expression_direction,
        max(abs(r.log2_fold_change)) AS max_fc
@@ -539,14 +596,14 @@ LIMIT 20
 ### Time Series Analysis
 
 ```cypher
-// Gene expression across time points
-MATCH (factor)-[r:Affects_expression_of]->(g:Gene {locus_tag: 'PMM0001'})
+// Gene expression across time points (both edge types)
+MATCH (factor)-[r:Condition_changes_expression_of|Coculture_changes_expression_of]->(g:Gene {locus_tag: 'PMM0001'})
 WHERE r.time_point IS NOT NULL
-RETURN factor.id, r.time_point, r.log2_fold_change, r.expression_direction
+RETURN type(r) AS edge_type, factor.id, r.time_point, r.log2_fold_change, r.expression_direction
 ORDER BY r.time_point
 
 // Genes with consistent direction across all time points
-MATCH (factor)-[r:Affects_expression_of]->(g:Gene)
+MATCH (factor)-[r:Condition_changes_expression_of|Coculture_changes_expression_of]->(g:Gene)
 WHERE r.time_point IS NOT NULL
 WITH g, factor, collect(r.expression_direction) AS directions
 WHERE size([d IN directions WHERE d = 'up']) = size(directions)
@@ -557,21 +614,27 @@ RETURN g.locus_tag, g.product, factor.id, directions
 ### Publication Traceability
 
 ```cypher
-// Which studies reported expression changes for a gene
-MATCH (factor)-[r:Affects_expression_of]->(g:Gene {locus_tag: 'PMM0001'})
-RETURN factor.id, r.log2_fold_change, r.expression_direction, r.publications
+// Which studies reported expression changes for a gene (both edge types)
+MATCH (factor)-[r:Condition_changes_expression_of|Coculture_changes_expression_of]->(g:Gene {locus_tag: 'PMM0001'})
+RETURN type(r) AS edge_type, factor.id, r.log2_fold_change, r.expression_direction, r.publications
 
 // All genes from a specific publication DOI
-MATCH (factor)-[r:Affects_expression_of]->(g:Gene)
+MATCH (factor)-[r:Condition_changes_expression_of|Coculture_changes_expression_of]->(g:Gene)
 WHERE '10.1038/ismej.2016.70' IN r.publications
-RETURN g.locus_tag, g.product, factor.id, r.expression_direction
+RETURN g.locus_tag, g.product, type(r) AS edge_type, factor.id, r.expression_direction
 
-// Gene count per publication
-MATCH (factor)-[r:Affects_expression_of]->(g:Gene)
+// Gene count per publication (both edge types combined)
+MATCH (factor)-[r:Condition_changes_expression_of|Coculture_changes_expression_of]->(g:Gene)
 UNWIND r.publications AS pub
 WITH pub, count(DISTINCT g) AS gene_count
 RETURN pub, gene_count
 ORDER BY gene_count DESC
+
+// Publication node linked to conditions/organisms it studied (via Published_expression_data_about)
+MATCH (pub:Publication)-[:Published_expression_data_about]->(target)
+RETURN pub.id, pub.title, pub.publication_year,
+       labels(target)[0] AS target_type, target.id, target.name
+ORDER BY pub.publication_year DESC
 
 // Publication node details
 MATCH (pub:Publication)
@@ -594,9 +657,10 @@ RETURN l AS label, count(*) AS count ORDER BY count DESC
 // Edge counts by type
 MATCH ()-[r]->() RETURN type(r) AS rel_type, count(*) AS count ORDER BY count DESC
 
-// Genes with no expression data
+// Genes with no expression data (neither edge type)
 MATCH (g:Gene)
-WHERE NOT (g)<-[:Affects_expression_of]-()
+WHERE NOT (g)<-[:Condition_changes_expression_of]-()
+  AND NOT (g)<-[:Coculture_changes_expression_of]-()
 RETURN count(g) AS genes_without_expression
 
 // Annotation quality distribution
@@ -623,8 +687,11 @@ When the user invokes this skill (e.g., `/cypher-queries "genes affected by Alte
 
 **Important:** Always use exact BioCypher PascalCase labels from the schema table above. Common mistakes to avoid:
 - Use `Gene` not `gene`, `OrganismTaxon` not `organism`
-- Use `Affects_expression_of` not `affects_expression_of`
+- Use `Condition_changes_expression_of` (EnvironmentalCondition source) or `Coculture_changes_expression_of` (OrganismTaxon source) — not the old `Affects_expression_of`
+- To query both types at once: `MATCH (src)-[r:Condition_changes_expression_of|Coculture_changes_expression_of]->(g:Gene)`
+- For ortholog-inferred edges, use `Condition_changes_expression_of_ortholog` and `Coculture_changes_expression_of_ortholog`
+- `condition_category` on EnvironmentalCondition nodes has the same value as `condition_type` and can be used interchangeably for filtering
 - Gene properties like `go_terms`, `kegg_ko`, `cog_category` are arrays (`str[]`) on the Gene node itself (denormalized for LLM use) AND available via linked nodes for graph traversal
 - Treatment organisms (Phage, Marinobacter, etc.) use `organism_name` not `strain_name` (strain_name is null for them)
-- EnvironmentalCondition has no `nitrogen_level` or `phosphate_level` — use `condition_type` and `description` for filtering
+- EnvironmentalCondition has no `nitrogen_level` or `phosphate_level` — use `condition_type` / `condition_category` and `description` for filtering
 - Publication DOIs in `r.publications` arrays are bare DOIs (e.g., `10.1038/...`), not prefixed with `doi:`

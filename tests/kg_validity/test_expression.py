@@ -1,9 +1,9 @@
 """
 Expression edge data quality tests for the multi-omics knowledge graph.
 
-Validates Affects_expression_of edges, which carry quantitative data
-from 19+ differential expression studies. Bad data types or invalid
-values would silently break downstream LLM analysis.
+Validates Condition_changes_expression_of and Coculture_changes_expression_of
+edges, which carry quantitative data from 19+ differential expression studies.
+Bad data types or invalid values would silently break downstream LLM analysis.
 
 Checks:
 - log2_fold_change and adjusted_p_value are stored as floats (not strings)
@@ -24,11 +24,11 @@ pytestmark = pytest.mark.kg
 # ---------------------------------------------------------------------------
 
 def test_expression_edges_exist(run_query):
-    """At least one Affects_expression_of edge must exist."""
+    """At least one Condition_changes_expression_of or Coculture_changes_expression_of edge must exist."""
     result = run_query(
-        "MATCH ()-[e:Affects_expression_of]->() RETURN count(e) AS cnt"
+        "MATCH ()-[e:Condition_changes_expression_of|Coculture_changes_expression_of]->() RETURN count(e) AS cnt"
     )
-    assert result[0]["cnt"] > 0, "No Affects_expression_of edges found"
+    assert result[0]["cnt"] > 0, "No Condition_changes_expression_of or Coculture_changes_expression_of edges found"
 
 
 def test_expression_edge_count_minimum(run_query):
@@ -37,11 +37,11 @@ def test_expression_edge_count_minimum(run_query):
     A low count indicates an import failure.
     """
     result = run_query(
-        "MATCH ()-[e:Affects_expression_of]->() RETURN count(e) AS cnt"
+        "MATCH ()-[e:Condition_changes_expression_of|Coculture_changes_expression_of]->() RETURN count(e) AS cnt"
     )
     cnt = result[0]["cnt"]
     assert cnt > 10_000, (
-        f"Only {cnt} Affects_expression_of edges found; expected > 10,000 "
+        f"Only {cnt} expression edges found; expected > 10,000 "
         f"from 19+ differential expression studies"
     )
 
@@ -62,7 +62,7 @@ def test_log2_fold_change_is_numeric(run_query):
     in arithmetic — a string would raise a type error.
     """
     result = run_query("""
-        MATCH ()-[e:Affects_expression_of]->()
+        MATCH ()-[e:Condition_changes_expression_of|Coculture_changes_expression_of]->()
         WHERE e.log2_fold_change IS NOT NULL
         WITH e.log2_fold_change AS fc
         WHERE fc <> toFloat(toString(fc))
@@ -76,7 +76,7 @@ def test_log2_fold_change_is_numeric(run_query):
 def test_adjusted_p_value_is_numeric(run_query):
     """adjusted_p_value must be stored as a float, not a string."""
     result = run_query("""
-        MATCH ()-[e:Affects_expression_of]->()
+        MATCH ()-[e:Condition_changes_expression_of|Coculture_changes_expression_of]->()
         WHERE e.adjusted_p_value IS NOT NULL
         WITH e.adjusted_p_value AS padj
         WHERE padj <> toFloat(toString(padj))
@@ -94,7 +94,7 @@ def test_adjusted_p_value_is_numeric(run_query):
 def test_adjusted_p_value_in_valid_range(run_query):
     """adjusted_p_value must be in [0, 1] — it is a probability."""
     result = run_query("""
-        MATCH ()-[e:Affects_expression_of]->()
+        MATCH ()-[e:Condition_changes_expression_of|Coculture_changes_expression_of]->()
         WHERE e.adjusted_p_value IS NOT NULL
           AND (e.adjusted_p_value < 0 OR e.adjusted_p_value > 1)
         RETURN count(e) AS bad_rows,
@@ -113,7 +113,7 @@ def test_expression_direction_valid_values(run_query):
     Any other value (e.g., 'UP', 'upregulated', '') indicates a parsing bug.
     """
     result = run_query("""
-        MATCH ()-[e:Affects_expression_of]->()
+        MATCH ()-[e:Condition_changes_expression_of|Coculture_changes_expression_of]->()
         WHERE e.expression_direction IS NOT NULL
           AND NOT e.expression_direction IN ['up', 'down']
         RETURN count(e) AS bad_rows,
@@ -132,7 +132,7 @@ def test_log2_fold_change_direction_consistency(run_query):
     and 'down' should be < 0. A sign flip indicates a parsing error.
     """
     result = run_query("""
-        MATCH ()-[e:Affects_expression_of]->()
+        MATCH ()-[e:Condition_changes_expression_of|Coculture_changes_expression_of]->()
         WHERE e.expression_direction IS NOT NULL
           AND e.log2_fold_change IS NOT NULL
           AND (
@@ -158,39 +158,39 @@ def test_log2_fold_change_direction_consistency(run_query):
 def test_expression_edges_have_publications(run_query):
     """Every expression edge must reference at least one publication."""
     result = run_query("""
-        MATCH ()-[e:Affects_expression_of]->()
+        MATCH ()-[e:Condition_changes_expression_of|Coculture_changes_expression_of]->()
         WHERE e.publications IS NULL OR size(e.publications) = 0
         RETURN count(e) AS missing
     """)
     missing = result[0]["missing"]
     assert missing == 0, (
-        f"{missing} Affects_expression_of edges are missing the publications property"
+        f"{missing} expression edges are missing the publications property"
     )
 
 
 def test_expression_edges_have_control_condition(run_query):
     """Every expression edge must have a control_condition (baseline description)."""
     result = run_query("""
-        MATCH ()-[e:Affects_expression_of]->()
+        MATCH ()-[e:Condition_changes_expression_of|Coculture_changes_expression_of]->()
         WHERE e.control_condition IS NULL OR e.control_condition = ''
         RETURN count(e) AS missing
     """)
     missing = result[0]["missing"]
     assert missing == 0, (
-        f"{missing} Affects_expression_of edges are missing control_condition"
+        f"{missing} expression edges are missing control_condition"
     )
 
 
 def test_expression_edges_have_direction(run_query):
     """Every expression edge must have expression_direction set."""
     result = run_query("""
-        MATCH ()-[e:Affects_expression_of]->()
+        MATCH ()-[e:Condition_changes_expression_of|Coculture_changes_expression_of]->()
         WHERE e.expression_direction IS NULL OR e.expression_direction = ''
         RETURN count(e) AS missing
     """)
     missing = result[0]["missing"]
     assert missing == 0, (
-        f"{missing} Affects_expression_of edges are missing expression_direction"
+        f"{missing} expression edges are missing expression_direction"
     )
 
 
@@ -204,11 +204,11 @@ def test_organisms_have_expression_edges(run_query):
     (coculture experiments use organisms as treatments).
     """
     result = run_query("""
-        MATCH (o:OrganismTaxon)-[:Affects_expression_of]->()
+        MATCH (o:OrganismTaxon)-[:Coculture_changes_expression_of]->()
         RETURN count(DISTINCT o) AS cnt
     """)
     assert result[0]["cnt"] > 0, (
-        "No OrganismTaxon node is a source of Affects_expression_of; "
+        "No OrganismTaxon node is a source of Coculture_changes_expression_of; "
         "coculture experiment edges may be missing"
     )
 
@@ -219,25 +219,25 @@ def test_environmental_conditions_have_expression_edges(run_query):
     (stress experiments use conditions as treatments).
     """
     result = run_query("""
-        MATCH (e:EnvironmentalCondition)-[:Affects_expression_of]->()
+        MATCH (e:EnvironmentalCondition)-[:Condition_changes_expression_of]->()
         RETURN count(DISTINCT e) AS cnt
     """)
     assert result[0]["cnt"] > 0, (
-        "No EnvironmentalCondition node is a source of Affects_expression_of; "
+        "No EnvironmentalCondition node is a source of Condition_changes_expression_of; "
         "stress experiment edges may be missing"
     )
 
 
 def test_expression_edges_target_genes(run_query):
-    """All Affects_expression_of edges must target a Gene node."""
+    """All expression edges must target a Gene node."""
     result = run_query("""
-        MATCH ()-[e:Affects_expression_of]->(target)
+        MATCH ()-[e:Condition_changes_expression_of|Coculture_changes_expression_of]->(target)
         WHERE NOT target:Gene
         RETURN count(e) AS wrong_targets,
                collect(DISTINCT labels(target))[..5] AS target_labels
     """)
     bad = result[0]["wrong_targets"]
     assert bad == 0, (
-        f"{bad} Affects_expression_of edges point to non-Gene nodes: "
+        f"{bad} expression edges point to non-Gene nodes: "
         f"{result[0]['target_labels']}"
     )

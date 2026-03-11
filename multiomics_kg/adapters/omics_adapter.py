@@ -67,7 +67,9 @@ class TimeSeriesNodeField(Enum, metaclass=OmicsEnumMeta):
 
 class OMICSEdgeType(Enum, metaclass=OmicsEnumMeta):
     """Edge types for omics data."""
-    affects_expression_of = auto()
+    condition_changes_expression_of = auto()
+    coculture_changes_expression_of = auto()
+    published_expression_data_about = auto()
     cluster_in_publication = auto()
     molecular_in_cluster = auto()
 
@@ -91,7 +93,7 @@ class OMICSAdapter:
 
     Parses YAML paperconfig files that specify statistical analyses (RNA-seq, proteomics,
     metabolomics) and creates publication, organism, and environmental condition nodes,
-    plus affects_expression_of edges linking causes to genes.
+    plus expression edges linking causes to genes.
     """
 
     def __init__(
@@ -170,7 +172,9 @@ class OMICSAdapter:
             self.edge_types = edge_types
         else:
             self.edge_types = [
-                OMICSEdgeType.affects_expression_of,
+                OMICSEdgeType.condition_changes_expression_of,
+                OMICSEdgeType.coculture_changes_expression_of,
+                OMICSEdgeType.published_expression_data_about,
             ]
 
     def load_config(self, config_file: str) -> None:
@@ -283,6 +287,9 @@ class OMICSAdapter:
                         env_properties[key] = self.clean_text(value)
                     env_properties['local_id'] = env_id
                     env_properties['publications'] = [pub_id]
+                    # condition_category = condition_type (canonical vocabulary)
+                    if 'condition_type' in env_properties:
+                        env_properties['condition_category'] = env_properties['condition_type']
                     node_list.append((unique_env_id, 'environmental_condition', env_properties))
                     logger.info(f"Created environmental condition node: {unique_env_id}")
 
@@ -320,6 +327,9 @@ class OMICSAdapter:
         if not supp_materials:
             logger.warning("No supplementary materials found in config")
             return edge_list
+
+        # Track distinct source nodes referenced across all analyses (for pub→source edges)
+        seen_sources = set()
 
         # Validate that all statistical analyses have a unique 'id' field within this publication
         seen_analysis_ids = set()
@@ -381,6 +391,11 @@ class OMICSAdapter:
                 if sep and 'sep' not in stat_analysis:
                     stat_analysis['sep'] = sep
 
+                # Determine source_id here so we can track seen_sources
+                source_id = self._determine_source_id(stat_analysis)
+                if source_id is not None:
+                    seen_sources.add(source_id)
+
                 # Load the data file
                 edges_from_file = self._load_and_create_edges(
                     filename, stat_analysis
@@ -389,6 +404,18 @@ class OMICSAdapter:
 
                 if self.test_mode and len(edge_list) >= self.early_stopping:
                     break
+
+        # Emit Publication → source edges (one per distinct source node)
+        pub_id = self.add_prefix_to_id(prefix="doi", identifier=self.get_publication_id())
+        for source_id in seen_sources:
+            pub_edge_id = f"{self.get_publication_id()}_pub_src_{source_id}"
+            edge_list.append((
+                pub_edge_id,
+                pub_id,
+                source_id,
+                'published_expression_data_about',
+                self._get_default_properties()
+            ))
 
         logger.info(f"Generated {len(edge_list)} organism to gene expression association edges")
         return edge_list
@@ -431,6 +458,30 @@ class OMICSAdapter:
             sig = sig and (pvalue <= pval_thresh)
 
         return sig
+
+    def _determine_source_id(self, analysis: dict) -> str | None:
+        """
+        Determine the edge source node ID from an analysis config dict.
+
+        Returns None if the source cannot be determined (and logs a warning).
+        """
+        env_condition_id = analysis.get('environmental_treatment_condition_id')
+        if env_condition_id:
+            pub_id = self.get_publication_id()
+            return f"{pub_id}_{env_condition_id}"
+
+        treatment_organism = analysis.get('treatment_organism')
+        treatment_accession = analysis.get('treatment_assembly_accession')
+        treatment_taxid = analysis.get('treatment_taxid')
+
+        if not treatment_organism:
+            return None
+
+        if treatment_accession:
+            return self.add_prefix_to_id(prefix="insdc.gcf", identifier=treatment_accession)
+        elif treatment_taxid:
+            return self.add_prefix_to_id(prefix="ncbitaxon", identifier=str(treatment_taxid))
+        return None
 
     def _load_and_create_edges(self, filename: str, analysis: dict) -> list[tuple]:
         """
@@ -646,17 +697,37 @@ class OMICSAdapter:
 
                 edge_properties['publications'] = [self.add_prefix_to_id(prefix="doi", identifier=self.get_publication_id())]
 
+                # New Phase 4 properties
+                omics_type = analysis.get('type', '')
+                if omics_type:
+                    edge_properties['omics_type'] = self.clean_text(omics_type)
+
+                organism_name = analysis.get('organism', '')
+                if organism_name:
+                    # Extract strain from organism name (last word: "Prochlorococcus MED4" -> "MED4")
+                    strain = organism_name.strip().split()[-1]
+                    edge_properties['organism_strain'] = self.clean_text(strain)
+
+                treatment_condition = analysis.get('treatment_condition', '')
+                if treatment_condition:
+                    edge_properties['treatment_condition'] = self.clean_text(treatment_condition)
+
+                statistical_test = analysis.get('test_type', '')
+                if statistical_test:
+                    edge_properties['statistical_test'] = self.clean_text(statistical_test)
+
                 # Create expression association edge
                 # source: source_id (organism or env condition), target: gene_id
                 # Use analysis id + gene_id as edge ID to allow parallel edges
                 # (e.g., different timepoints/studies for the same source->gene pair)
                 analysis_id = analysis.get('id', '')
                 edge_id = f"{self.get_publication_id()}_{analysis_id}_{gene_id}"
+                edge_label = 'condition_changes_expression_of' if env_condition_id else 'coculture_changes_expression_of'
                 edges.append((
                     edge_id,
                     source_id,
                     gene_id,
-                    'affects_expression_of',
+                    edge_label,
                     edge_properties
                 ))
 
