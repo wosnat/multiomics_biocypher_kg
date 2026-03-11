@@ -10,7 +10,7 @@ import json
 import pytest
 from pathlib import Path
 
-from multiomics_kg.utils.cyanorak_role_utils import parse_cyanorak_role_tree, _derive_parent
+from multiomics_kg.utils.cyanorak_role_utils import parse_cyanorak_role_tree
 from multiomics_kg.adapters.functional_annotation_adapter import (
     COG_FUNCTIONAL_CATEGORIES,
     CogRoleAnnotationAdapter,
@@ -25,44 +25,13 @@ from multiomics_kg.adapters.functional_annotation_adapter import (
 # Minimal test data
 # ---------------------------------------------------------------------------
 
-# A small but structurally complete Cyanorak roles tree.
+# A small but structurally complete Cyanorak roles CSV.
 # 6 codes: two roots (0, B) with children, and one B.1.1 leaf.
-MINI_CYANORAK_ROLES_TXT = """\
-Cyanorak Roles
-
--
-
-0
-
-Non-coding gene (RNA)
-
-0.1
-
-tRNA
-
--
-
-0.2
-
-rRNA
-
--
-
-B
-
-Cellular processes
-
-B.1
-
-Signal transduction
-
--
-
-B.1.1
-
-Two-component systems
-
--
+MINI_CYANORAK_ROLES_CSV = """\
+primary role id,primary role,secondary role id,secondary role,sub role id,sub role
+0,Non-coding gene (RNA),0.1,tRNA,-,-
+0,Non-coding gene (RNA),0.2,rRNA,-,-
+B,Cellular processes,B.1,Signal transduction,B.1.1,Two-component systems
 """
 
 # Gene data: exercises all three edge types (COG, CyanorakRole, TigrRole),
@@ -118,17 +87,17 @@ MINI_COG_GENE_DATA: dict = {
 
 
 @pytest.fixture
-def roles_txt_file(tmp_path):
-    """Write MINI_CYANORAK_ROLES_TXT to a temp file and return its path."""
-    p = tmp_path / "cyanorak_roles.txt"
-    p.write_text(MINI_CYANORAK_ROLES_TXT, encoding="utf-8")
+def roles_csv_file(tmp_path):
+    """Write MINI_CYANORAK_ROLES_CSV to a temp file and return its path."""
+    p = tmp_path / "cyanorak_roles.csv"
+    p.write_text(MINI_CYANORAK_ROLES_CSV, encoding="utf-8")
     return p
 
 
 @pytest.fixture
-def role_tree(roles_txt_file):
-    """Return the parsed tree dict from the mini roles file."""
-    return parse_cyanorak_role_tree(roles_txt_file)
+def role_tree(roles_csv_file):
+    """Return the parsed tree dict from the mini roles CSV file."""
+    return parse_cyanorak_role_tree(roles_csv_file)
 
 
 @pytest.fixture
@@ -161,10 +130,10 @@ def genome_config_csv(tmp_path, genome_dir):
 
 
 @pytest.fixture
-def multi_adapter(genome_config_csv, roles_txt_file):
+def multi_adapter(genome_config_csv, roles_csv_file):
     return MultiCogRoleAnnotationAdapter(
         genome_config_file=genome_config_csv,
-        role_tree_file=roles_txt_file,
+        role_tree_file=roles_csv_file,
     )
 
 
@@ -201,21 +170,6 @@ class TestParseCyanorakRoleTree:
         # "Cyanorak Roles" or "Unclassified" must not appear as codes
         for code in role_tree:
             assert code not in {"Cyanorak Roles", "Unclassified", "-"}
-
-
-class TestDeriveParent:
-    def test_two_segment(self):
-        assert _derive_parent("B.1") == "B"
-
-    def test_three_segment(self):
-        assert _derive_parent("B.1.1") == "B.1"
-
-    def test_one_segment_returns_none(self):
-        assert _derive_parent("B") is None
-        assert _derive_parent("0") is None
-
-    def test_numeric_two_segment(self):
-        assert _derive_parent("0.1") == "0"
 
 
 # ===========================================================================
@@ -442,7 +396,7 @@ class TestMultiCogRoleAdapterCyanorakNodes:
     def test_cyanorak_role_nodes_from_tree(self, multi_adapter, role_tree):
         nodes = list(multi_adapter.get_nodes())
         cyr_nodes = [n for n in nodes if n[1] == "cyanorak role"]
-        # All 6 codes in MINI_CYANORAK_ROLES_TXT should yield nodes
+        # All 6 codes in MINI_CYANORAK_ROLES_CSV should yield nodes
         assert len(cyr_nodes) == len(role_tree)
 
     def test_cyanorak_node_ids_match_tree(self, multi_adapter, role_tree):
@@ -493,7 +447,7 @@ class TestMultiCogRoleAdapterNoDuplicateNodes:
         node_ids = [n[0] for n in nodes]
         assert len(node_ids) == len(set(node_ids)), "Duplicate node IDs in get_nodes()"
 
-    def test_tigr_deduplication_across_strains(self, tmp_path, roles_txt_file):
+    def test_tigr_deduplication_across_strains(self, tmp_path, roles_csv_file):
         """Two strains sharing the same tIGR code should yield only one TigrRole node."""
         shared_genes = {
             "PMM0001": {
@@ -521,7 +475,7 @@ class TestMultiCogRoleAdapterNoDuplicateNodes:
         )
         adapter = MultiCogRoleAnnotationAdapter(
             genome_config_file=str(csv_path),
-            role_tree_file=roles_txt_file,
+            role_tree_file=roles_csv_file,
         )
         nodes = list(adapter.get_nodes())
         tigr_nodes = [n for n in nodes if n[1] == "tigr role"]
@@ -632,7 +586,7 @@ class TestStringCleanStr:
 
 
 class TestMultiCogRoleCsvParsing:
-    def test_comment_lines_skipped(self, tmp_path, genome_dir, roles_txt_file):
+    def test_comment_lines_skipped(self, tmp_path, genome_dir, roles_csv_file):
         csv_path = tmp_path / "genomes.csv"
         csv_path.write_text(
             "ncbi_accession,ncbi_taxon_id,strain_name,data_dir,clade\n"
@@ -642,11 +596,11 @@ class TestMultiCogRoleCsvParsing:
         )
         adapter = MultiCogRoleAnnotationAdapter(
             genome_config_file=str(csv_path),
-            role_tree_file=roles_txt_file,
+            role_tree_file=roles_csv_file,
         )
         assert len(adapter._strain_adapters) == 1
 
-    def test_empty_data_dir_skipped(self, tmp_path, roles_txt_file):
+    def test_empty_data_dir_skipped(self, tmp_path, roles_csv_file):
         csv_path = tmp_path / "genomes.csv"
         csv_path.write_text(
             "ncbi_accession,ncbi_taxon_id,strain_name,data_dir,clade\n"
@@ -655,6 +609,47 @@ class TestMultiCogRoleCsvParsing:
         )
         adapter = MultiCogRoleAnnotationAdapter(
             genome_config_file=str(csv_path),
-            role_tree_file=roles_txt_file,
+            role_tree_file=roles_csv_file,
         )
         assert len(adapter._strain_adapters) == 0
+
+
+# ===========================================================================
+# Tests for parsing the real cyanorak_roles.csv
+# ===========================================================================
+
+
+class TestRealCyanorakRolesCsv:
+    """Smoke tests against the actual data/cyanorak_roles.csv file."""
+
+    REAL_CSV = Path("data/cyanorak_roles.csv")
+
+    @pytest.mark.skipif(
+        not Path("data/cyanorak_roles.csv").exists(),
+        reason="data/cyanorak_roles.csv not present",
+    )
+    def test_real_csv_parses_without_error(self):
+        tree = parse_cyanorak_role_tree(self.REAL_CSV)
+        assert len(tree) > 100, f"Expected >100 role codes, got {len(tree)}"
+
+    @pytest.mark.skipif(
+        not Path("data/cyanorak_roles.csv").exists(),
+        reason="data/cyanorak_roles.csv not present",
+    )
+    def test_real_csv_no_unclassified(self):
+        tree = parse_cyanorak_role_tree(self.REAL_CSV)
+        assert "-" not in tree
+        for code in tree:
+            assert code.strip(), f"Empty code in tree"
+
+    @pytest.mark.skipif(
+        not Path("data/cyanorak_roles.csv").exists(),
+        reason="data/cyanorak_roles.csv not present",
+    )
+    def test_real_csv_known_codes_present(self):
+        tree = parse_cyanorak_role_tree(self.REAL_CSV)
+        # Spot-check a few known codes
+        assert "A" in tree
+        assert "A.1" in tree
+        assert "B.5.1" in tree
+        assert "J.7" in tree  # Photosystem I

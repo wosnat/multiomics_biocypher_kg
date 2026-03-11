@@ -107,7 +107,7 @@ def main():
     # COG functional categories + Cyanorak roles + tIGR roles
     cog_role_adapter = MultiCogRoleAnnotationAdapter(
         genome_config_file='data/Prochlorococcus/genomes/cyanobacteria_genomes.csv',
-        role_tree_file=Path("data/Prochlorococcus/cyanorak_roles.txt"),
+        role_tree_file=Path("data/cyanorak_roles.csv"),
         test_mode=TEST_MODE,
     )
     bc.write_nodes(cog_role_adapter.get_nodes())

@@ -28,7 +28,7 @@ KEGG section (MultiKeggAnnotationAdapter):
 
 COG/Role section (MultiCogRoleAnnotationAdapter):
 - CogFunctionalCategory nodes (25 standard letters, hardcoded).
-- CyanorakRole nodes (full ~172-node tree from data/Prochlorococcus/cyanorak_roles.txt).
+- CyanorakRole nodes (full ~172-node tree from data/cyanorak_roles.csv).
 - TigrRole nodes (only codes present in data, Pro/Syn strains only).
 - gene_in_cog_category edges (all 13 strains, from cog_category field).
 - gene_has_cyanorak_role edges (Pro/Syn 6 strains only).
@@ -888,7 +888,7 @@ class MultiCogRoleAnnotationAdapter:
 
     Args:
         genome_config_file: path to ``cyanobacteria_genomes.csv``
-        role_tree_file: path to ``data/Prochlorococcus/cyanorak_roles.txt``
+        role_tree_file: path to ``data/cyanorak_roles.csv``
         test_mode: passed to per-strain adapters (stop after 100 edges per type)
     """
 

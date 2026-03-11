@@ -1,74 +1,71 @@
 """
 Utility for parsing the Cyanorak functional role hierarchy.
 
-The hierarchy is stored in ``data/Prochlorococcus/cyanorak_roles.txt``,
-copy-pasted from https://cyanorak.sb-roscoff.fr/cyanorak/help.html.
+The hierarchy is stored in ``data/cyanorak_roles.csv``, downloaded from
+the Cyanorak database.
 
-Format of the text file (after the "Cyanorak Roles" header):
-- Code line: matches ``^[0-9A-Z]+(\\.\\d+)*$``
-- Description: the next non-empty, non-``-`` line after a code line
-- Leaf entries (no children in the tree) are followed by one or two ``-`` lines
-- The "Unclassified" entry has no code → skipped
+CSV columns: primary role id, primary role, secondary role id, secondary role,
+sub role id, sub role.
 
-Parent derivation: strip the last ``.N`` segment from the code.
-  "B.5.1" → parent "B.5"
-  "B.5"   → parent "B"
-  "B"     → parent None (root)
-  "0.2"   → parent "0"
-  "0"     → parent None (root)
+The hierarchy has three levels:
+- Primary role (letter code like "A", "B", etc.) — parent is None (root)
+- Secondary role (code like "A.1", "B.5", etc.) — parent is primary role id
+- Sub role (code like "B.5.1", "D.1.3", etc.) — parent is secondary role id
 """
 
-import re
+import csv
 from pathlib import Path
 
-_CODE_RE = re.compile(r"^[0-9A-Z]+(\.\d+)*$")
 
-
-def parse_cyanorak_role_tree(txt_path: Path) -> dict[str, dict]:
+def parse_cyanorak_role_tree(csv_path: Path) -> dict[str, dict]:
     """
-    Parse the Cyanorak roles text file into a hierarchy dict.
+    Parse the Cyanorak roles CSV file into a hierarchy dict.
 
     Args:
-        txt_path: path to ``data/Prochlorococcus/cyanorak_roles.txt``
+        csv_path: path to ``data/cyanorak_roles.csv``
 
     Returns:
         ``{code: {"description": str, "parent": str | None}}``
 
-    The returned dict includes all entries in the file: both leaf-level codes
-    (directly assigned to genes) and intermediate parent codes.
+    The returned dict includes all entries in the file: primary, secondary,
+    and sub role levels.  The "Unclassified" entry (with ``-`` as primary
+    role id) is skipped.
     """
-    lines = txt_path.read_text(encoding="utf-8").splitlines()
-
     tree: dict[str, dict] = {}
-    i = 0
-    while i < len(lines):
-        line = lines[i].strip()
-        i += 1
 
-        # Skip empty lines, dashes, and the header
-        if not line or line == "-" or line == "Cyanorak Roles":
-            continue
+    with open(csv_path, newline="", encoding="utf-8-sig") as fh:
+        reader = csv.DictReader(fh)
+        for row in reader:
+            primary_id = row.get("primary role id", "").strip()
+            primary_desc = row.get("primary role", "").strip()
+            secondary_id = row.get("secondary role id", "").strip()
+            secondary_desc = row.get("secondary role", "").strip()
+            sub_id = row.get("sub role id", "").strip()
+            sub_desc = row.get("sub role", "").strip()
 
-        # Check if this is a code line
-        if _CODE_RE.match(line):
-            code = line
-            # Find the description: next non-empty, non-dash line
-            description = ""
-            while i < len(lines):
-                desc_line = lines[i].strip()
-                i += 1
-                if desc_line and desc_line != "-":
-                    description = desc_line
-                    break
+            # Skip the "Unclassified" entry (primary role id is "-")
+            if not primary_id or primary_id == "-":
+                continue
 
-            parent = _derive_parent(code)
-            tree[code] = {"description": description, "parent": parent}
+            # Add primary role if not already present (root, no parent)
+            if primary_id not in tree:
+                tree[primary_id] = {
+                    "description": primary_desc,
+                    "parent": None,
+                }
+
+            # Add secondary role if present (parent is primary)
+            if secondary_id and secondary_id != "-" and secondary_id not in tree:
+                tree[secondary_id] = {
+                    "description": secondary_desc,
+                    "parent": primary_id,
+                }
+
+            # Add sub role if present (parent is secondary)
+            if sub_id and sub_id != "-" and sub_id not in tree:
+                tree[sub_id] = {
+                    "description": sub_desc,
+                    "parent": secondary_id,
+                }
 
     return tree
-
-
-def _derive_parent(code: str) -> str | None:
-    """Derive the parent code by stripping the last dot-segment."""
-    if "." not in code:
-        return None
-    return code.rsplit(".", 1)[0]
