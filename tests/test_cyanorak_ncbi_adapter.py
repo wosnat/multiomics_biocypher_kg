@@ -603,6 +603,27 @@ class TestOrganismNode:
         org_node = next(n for n in nodes if n[1] == "organism")
         assert org_node[2]["strain_name"] == "MED4"
 
+    def test_organism_node_preferred_name(self):
+        a = CyanorakNcbi(
+            data_dir="/fake/dir",
+            strain_name="MED4",
+            ncbi_accession="GCF_000011465.1",
+            preferred_name="Prochlorococcus MED4",
+        )
+        a.taxonomy = {}
+        nodes = a._get_organism_node()
+        assert nodes[0][2]["preferred_name"] == "Prochlorococcus MED4"
+
+    def test_organism_node_no_preferred_name_when_not_set(self):
+        a = CyanorakNcbi(
+            data_dir="/fake/dir",
+            strain_name="MED4",
+            ncbi_accession="GCF_000011465.1",
+        )
+        a.taxonomy = {}
+        nodes = a._get_organism_node()
+        assert "preferred_name" not in nodes[0][2]
+
     def test_organism_node_taxonomy_from_download_data(self, temp_data_dir, merged_json_path):
         mock_tax = {"lineage": "Bacteria;Cyanobacteria", "genus": "Prochlorococcus"}
         with patch(
@@ -806,9 +827,9 @@ def multi_data_dir(tmp_path):
 def multi_config_csv(multi_data_dir, tmp_path):
     csv_path = tmp_path / "genomes.csv"
     with open(csv_path, "w") as f:
-        f.write("ncbi_accession,data_dir,strain_name,ncbi_taxon_id,clade\n")
-        f.write(f"GCF_000011465.1,{multi_data_dir}/MED4/,MED4,59919,HLI\n")
-        f.write(f"GCF_000015645.1,{multi_data_dir}/MIT9312/,MIT9312,74546,HLII\n")
+        f.write("ncbi_accession,data_dir,strain_name,ncbi_taxon_id,clade,preferred_name\n")
+        f.write(f"GCF_000011465.1,{multi_data_dir}/MED4/,MED4,59919,HLI,Prochlorococcus MED4\n")
+        f.write(f"GCF_000015645.1,{multi_data_dir}/MIT9312/,MIT9312,74546,HLII,Prochlorococcus MIT9312\n")
     return str(csv_path)
 
 
@@ -849,6 +870,12 @@ class TestMultiCyanorakNcbiConstruction:
             f.write(f"GCF_000011465.1,{multi_data_dir}/MED4/,MED4,59919,\n")
         multi = MultiCyanorakNcbi(config_list_file=str(csv_path))
         assert multi.adapters[0].clade is None
+
+    def test_preferred_name_passed_from_csv(self, multi_config_csv):
+        multi = MultiCyanorakNcbi(config_list_file=multi_config_csv)
+        preferred_names = {a.strain_name: a.preferred_name for a in multi.adapters}
+        assert preferred_names["MED4"] == "Prochlorococcus MED4"
+        assert preferred_names["MIT9312"] == "Prochlorococcus MIT9312"
 
 
 class TestMultiCyanorakNcbiGetNodes:
@@ -913,6 +940,21 @@ class TestTreatmentOrganismNodes:
         ids = [n[0] for n in nodes if "ncbitaxon" in n[0]]
         assert any("10754" in nid for nid in ids)
         assert any("413470" in nid for nid in ids)
+
+    def test_treatment_node_preferred_name(self, multi_config_csv, treatment_csv):
+        with patch(
+            "multiomics_kg.adapters.cyanorak_ncbi_adapter._fetch_ncbi_taxonomy",
+            return_value={},
+        ):
+            multi = MultiCyanorakNcbi(
+                config_list_file=multi_config_csv,
+                treatment_organisms_file=treatment_csv,
+            )
+            multi.download_data()
+            nodes = multi.get_nodes()
+        treatment_nodes = {n[0]: n[2] for n in nodes if "ncbitaxon" in n[0]}
+        assert treatment_nodes["ncbitaxon:10754"]["preferred_name"] == "Phage"
+        assert treatment_nodes["ncbitaxon:413470"]["preferred_name"] == "Marinobacter"
 
     def test_comments_skipped_in_treatment_csv(self, multi_config_csv, treatment_csv):
         with patch(

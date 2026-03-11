@@ -282,6 +282,7 @@ organism taxon:
   label_in_input: organism
   properties:
     organism_name: str
+    preferred_name: str  # human-readable name, e.g. "Prochlorococcus MED4", "Alteromonas macleodii HOT1A3"
     strain_name: str
     ncbi_taxon_id: int
     clade: str           # research clade, e.g. HLI, HLII, LLIV (Prochlorococcus-specific)

@@ -216,6 +216,7 @@ class CyanorakNcbi:
         strain_name: str = None,
         ncbi_taxon_id: int = None,
         clade: str = None,
+        preferred_name: str = None,
     ):
 
         model = GeneModel(
@@ -238,6 +239,7 @@ class CyanorakNcbi:
         self.strain_name = strain_name
         self.ncbi_taxon_id = ncbi_taxon_id
         self.clade = clade
+        self.preferred_name = preferred_name
         self.taxonomy = {}  # populated by download_data()
 
         # no need becuase we are not creating protein to ec edges here
@@ -391,6 +393,8 @@ class CyanorakNcbi:
         if self.strain_name:
             properties['strain_name'] = self.strain_name
             properties['organism_name'] = self.strain_name
+        if self.preferred_name:
+            properties['preferred_name'] = self.preferred_name
         if self.ncbi_taxon_id is not None:
             properties['ncbi_taxon_id'] = self.ncbi_taxon_id
         if self.clade:
@@ -596,6 +600,7 @@ class MultiCyanorakNcbi:
                     strain_name=row.get('strain_name') or None,
                     ncbi_taxon_id=ncbi_taxon_id,
                     clade=clade,
+                    preferred_name=row.get('preferred_name') or None,
                     **kwargs,
                 )
                 self.adapters.append(adapter)
@@ -617,8 +622,10 @@ class MultiCyanorakNcbi:
             for row in reader:
                 taxid = int(row['ncbi_taxon_id'])
                 node_id = f"ncbitaxon:{taxid}"
+                organism_name = row.get('organism_name', '')
                 props = {
-                    'organism_name': row.get('organism_name', ''),
+                    'organism_name': organism_name,
+                    'preferred_name': organism_name,
                     'ncbi_taxon_id': taxid,
                 }
                 taxonomy = _fetch_ncbi_taxonomy(taxid=taxid, cache_dir=taxonomy_cache_dir)
