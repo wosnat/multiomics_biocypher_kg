@@ -6,6 +6,8 @@ multiomics_kg/utils/cyanorak_role_utils.py.
 All tests are offline — no downloads, no live Neo4j required.
 """
 
+import csv
+import glob
 import json
 import pytest
 from pathlib import Path
@@ -653,3 +655,91 @@ class TestRealCyanorakRolesCsv:
         assert "A.1" in tree
         assert "B.5.1" in tree
         assert "J.7" in tree  # Photosystem I
+
+
+class TestCyanorakRolesCsvCoversGenomeData:
+    """Verify that every Cyanorak role code found in gene_mapping.csv files
+    has a corresponding entry in data/cyanorak_roles.csv.
+
+    This catches the case where Cyanorak updates their role hierarchy
+    (e.g. adding D.1.9) but our CSV is stale, causing dangling edges
+    during neo4j-admin import.
+    """
+
+    REAL_CSV = Path("data/cyanorak_roles.csv")
+    CACHE_PATTERN = "cache/data/*/genomes/*/gene_mapping.csv"
+
+    @staticmethod
+    def _collect_role_codes_from_genome_data():
+        """Return {code: description} for every cyanorak role in gene_mapping files."""
+        role_desc: dict[str, str] = {}
+        for f in glob.glob("cache/data/*/genomes/*/gene_mapping.csv"):
+            with open(f) as fh:
+                reader = csv.DictReader(fh)
+                if "cyanorak_Role" not in (reader.fieldnames or []):
+                    continue
+                for row in reader:
+                    roles_raw = row.get("cyanorak_Role", "")
+                    descs_raw = row.get("cyanorak_Role_description", "")
+                    if not roles_raw or roles_raw == "nan":
+                        continue
+                    roles = [r.strip() for r in roles_raw.split(",")]
+                    descs = [d.strip() for d in descs_raw.split(",")]
+                    if len(roles) == len(descs):
+                        for r, d in zip(roles, descs):
+                            if r and r not in role_desc:
+                                role_desc[r] = d
+                    elif len(roles) == 1:
+                        role_desc[roles[0]] = descs_raw.strip()
+        return role_desc
+
+    @pytest.mark.skipif(
+        not Path("data/cyanorak_roles.csv").exists(),
+        reason="data/cyanorak_roles.csv not present",
+    )
+    @pytest.mark.skipif(
+        not glob.glob("cache/data/*/genomes/*/gene_mapping.csv"),
+        reason="No cached gene_mapping.csv files found",
+    )
+    def test_all_genome_role_codes_in_csv(self):
+        """Every role code used in gene_mapping.csv must exist in cyanorak_roles.csv."""
+        tree = parse_cyanorak_role_tree(self.REAL_CSV)
+        genome_roles = self._collect_role_codes_from_genome_data()
+        missing = {
+            code: desc
+            for code, desc in genome_roles.items()
+            if code not in tree
+        }
+        assert not missing, (
+            f"{len(missing)} Cyanorak role code(s) found in genome data but "
+            f"missing from {self.REAL_CSV}:\n"
+            + "\n".join(f"  {code}: {desc}" for code, desc in sorted(missing.items()))
+        )
+
+    @pytest.mark.skipif(
+        not Path("data/cyanorak_roles.csv").exists(),
+        reason="data/cyanorak_roles.csv not present",
+    )
+    @pytest.mark.skipif(
+        not glob.glob("cache/data/*/genomes/*/gene_mapping.csv"),
+        reason="No cached gene_mapping.csv files found",
+    )
+    def test_role_descriptions_match(self):
+        """Descriptions in cyanorak_roles.csv should match genome data
+        (after URL-decoding %2C → comma)."""
+        tree = parse_cyanorak_role_tree(self.REAL_CSV)
+        genome_roles = self._collect_role_codes_from_genome_data()
+        mismatches = []
+        for code, gm_desc in sorted(genome_roles.items()):
+            if code not in tree:
+                continue  # covered by test_all_genome_role_codes_in_csv
+            csv_desc = tree[code]["description"]
+            gm_desc_clean = gm_desc.replace("%2C", ",").replace("%2c", ",")
+            if csv_desc.lower().strip() != gm_desc_clean.lower().strip():
+                mismatches.append(
+                    f"  {code}: CSV='{csv_desc}' vs genome='{gm_desc_clean}'"
+                )
+        assert not mismatches, (
+            f"{len(mismatches)} description mismatch(es) between "
+            f"{self.REAL_CSV} and genome data:\n" + "\n".join(mismatches)
+        )
