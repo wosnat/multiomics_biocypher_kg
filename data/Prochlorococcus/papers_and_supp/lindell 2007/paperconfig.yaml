@@ -2,6 +2,16 @@ publication:
   papername: "Lindell 2007"
   papermainpdf: "data/Prochlorococcus/papers_and_supp/lindell 2007/nature06130 (1).pdf"
 
+  environmental_conditions:
+    lindell_2007_pro99:
+      condition_type: growth_medium
+      name: Pro99 medium phage infection baseline
+      medium: Pro99 medium
+      temperature: 24C
+      light_condition: continuous_light
+      light_intensity: 10 umol photons m-2 s-1
+      description: Prochlorococcus MED4 grown in Pro99 medium at 24C under continuous light (10 umol photons m-2 s-1). Baseline conditions for phage infection time-course.
+
   supplementary_materials:
     supp_table_3:
       type: csv
@@ -23,6 +33,7 @@ publication:
           organism: "Prochlorococcus MED4"
           treatment_organism: "Phage"
           treatment_taxid: 10239
+          environmental_control_condition_id: lindell_2007_pro99
           name_col: "ORF "
           logfc_col: "1 h"
           pvalue_asterisk_in_logfc: true
@@ -37,6 +48,7 @@ publication:
           organism: "Prochlorococcus MED4"
           treatment_organism: "Phage"
           treatment_taxid: 10239
+          environmental_control_condition_id: lindell_2007_pro99
           name_col: "ORF "
           logfc_col: "2 h"
           pvalue_asterisk_in_logfc: true
@@ -51,6 +63,7 @@ publication:
           organism: "Prochlorococcus MED4"
           treatment_organism: "Phage"
           treatment_taxid: 10239
+          environmental_control_condition_id: lindell_2007_pro99
           name_col: "ORF "
           logfc_col: "3 h"
           pvalue_asterisk_in_logfc: true
@@ -65,6 +78,7 @@ publication:
           organism: "Prochlorococcus MED4"
           treatment_organism: "Phage"
           treatment_taxid: 10239
+          environmental_control_condition_id: lindell_2007_pro99
           name_col: "ORF "
           logfc_col: "4 h"
           pvalue_asterisk_in_logfc: true
@@ -79,6 +93,7 @@ publication:
           organism: "Prochlorococcus MED4"
           treatment_organism: "Phage"
           treatment_taxid: 10239
+          environmental_control_condition_id: lindell_2007_pro99
           name_col: "ORF "
           logfc_col: "5 h"
           pvalue_asterisk_in_logfc: true
@@ -93,6 +108,7 @@ publication:
           organism: "Prochlorococcus MED4"
           treatment_organism: "Phage"
           treatment_taxid: 10239
+          environmental_control_condition_id: lindell_2007_pro99
           name_col: "ORF "
           logfc_col: "6 h"
           pvalue_asterisk_in_logfc: true
@@ -107,6 +123,7 @@ publication:
           organism: "Prochlorococcus MED4"
           treatment_organism: "Phage"
           treatment_taxid: 10239
+          environmental_control_condition_id: lindell_2007_pro99
           name_col: "ORF "
           logfc_col: "7 h"
           pvalue_asterisk_in_logfc: true
@@ -121,6 +138,7 @@ publication:
           organism: "Prochlorococcus MED4"
           treatment_organism: "Phage"
           treatment_taxid: 10239
+          environmental_control_condition_id: lindell_2007_pro99
           name_col: "ORF "
           logfc_col: "8 h"
           pvalue_asterisk_in_logfc: true

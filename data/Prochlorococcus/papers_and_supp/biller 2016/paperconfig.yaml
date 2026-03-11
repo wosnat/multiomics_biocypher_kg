@@ -58,6 +58,7 @@ publication:
           treatment_taxid: 28108
           treatment_organism: Alteromonas MIT1002
           treatment_assembly_accession: GCF_901457835.2
+          environmental_control_condition_id: biller_2016_axenic
           name_col: Original_NCBI_ID
           logfc_col: "-12 hours"
           pvalue_asterisk_in_logfc: true
@@ -74,6 +75,7 @@ publication:
           treatment_taxid: 28108
           treatment_organism: Alteromonas MIT1002
           treatment_assembly_accession: GCF_901457835.2
+          environmental_control_condition_id: biller_2016_axenic
           name_col: Original_NCBI_ID
           logfc_col: 2 hours
           pvalue_asterisk_in_logfc: true
@@ -90,6 +92,7 @@ publication:
           treatment_taxid: 28108
           treatment_organism: Alteromonas MIT1002
           treatment_assembly_accession: GCF_901457835.2
+          environmental_control_condition_id: biller_2016_axenic
           name_col: Original_NCBI_ID
           logfc_col: 4 hours
           pvalue_asterisk_in_logfc: true
@@ -106,6 +109,7 @@ publication:
           treatment_taxid: 28108
           treatment_organism: Alteromonas MIT1002
           treatment_assembly_accession: GCF_901457835.2
+          environmental_control_condition_id: biller_2016_axenic
           name_col: Original_NCBI_ID
           logfc_col: 6 hours
           pvalue_asterisk_in_logfc: true
@@ -122,6 +126,7 @@ publication:
           treatment_taxid: 28108
           treatment_organism: Alteromonas MIT1002
           treatment_assembly_accession: GCF_901457835.2
+          environmental_control_condition_id: biller_2016_axenic
           name_col: Original_NCBI_ID
           logfc_col: 12 hours
           pvalue_asterisk_in_logfc: true
@@ -138,6 +143,7 @@ publication:
           treatment_taxid: 28108
           treatment_organism: Alteromonas MIT1002
           treatment_assembly_accession: GCF_901457835.2
+          environmental_control_condition_id: biller_2016_axenic
           name_col: Original_NCBI_ID
           logfc_col: 24 hours
           pvalue_asterisk_in_logfc: true
@@ -154,6 +160,7 @@ publication:
           treatment_taxid: 28108
           treatment_organism: Alteromonas MIT1002
           treatment_assembly_accession: GCF_901457835.2
+          environmental_control_condition_id: biller_2016_axenic
           name_col: Original_NCBI_ID
           logfc_col: 48 hours
           pvalue_asterisk_in_logfc: true
@@ -184,6 +191,7 @@ publication:
           treatment_taxid: 59920
           treatment_organism: Prochlorococcus NATL2A
           treatment_assembly_accession: GCF_000012465.1
+          environmental_control_condition_id: biller_2016_alt_coculture
           name_col: Gene ID
           logfc_col: log2FoldChange (24 vs 12 hrs after addition)
         - type: RNASEQ
@@ -198,5 +206,6 @@ publication:
           treatment_taxid: 59920
           treatment_organism: Prochlorococcus NATL2A
           treatment_assembly_accession: GCF_000012465.1
+          environmental_control_condition_id: biller_2016_alt_coculture
           name_col: Gene ID
           logfc_col: log2FoldChange (48 vs 12 hrs after addition)

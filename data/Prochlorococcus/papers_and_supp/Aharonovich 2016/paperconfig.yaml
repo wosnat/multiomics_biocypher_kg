@@ -34,6 +34,7 @@ publication:
           treatment_taxid: 28108
           treatment_organism: Alteromonas macleodii HOT1A3
           treatment_assembly_accession: GCF_001578515.1
+          environmental_control_condition_id: aharonovich_2016_pro99
           name_col: Synonym
           logfc_col: log 2 fold change coculture/axenic
           adjusted_p_value_col: q Value
@@ -57,6 +58,7 @@ publication:
           treatment_taxid: 74547
           treatment_organism: Prochlorococcus MIT9313
           treatment_assembly_accession: GCF_000011485.1
+          environmental_control_condition_id: aharonovich_2016_pro99
           name_col: Synonym
           logfc_col: fold change 9313/9313DIL
           adjusted_p_value_col: qValue 9313+1A3  vs 9313+1A3 dil
@@ -77,6 +79,7 @@ publication:
           treatment_taxid: 74547
           treatment_organism: Prochlorococcus MIT9313
           treatment_assembly_accession: GCF_000011485.1
+          environmental_control_condition_id: aharonovich_2016_pro99
           name_col: Synonym
           logfc_col: fold change 9313+1A3/med4+1A3
           adjusted_p_value_col: qValue 9313+1A3  vs med 4
@@ -102,6 +105,7 @@ publication:
           treatment_taxid: 28108
           treatment_organism: Alteromonas macleodii HOT1A3
           treatment_assembly_accession: GCF_001578515.1
+          environmental_control_condition_id: aharonovich_2016_pro99
           name_col: Synonym
           logfc_col: log 2 fold change coculture/axenic
           adjusted_p_value_col: q Value
@@ -127,6 +131,7 @@ publication:
           treatment_taxid: 28108
           treatment_organism: Alteromonas macleodii HOT1A3
           treatment_assembly_accession: GCF_001578515.1
+          environmental_control_condition_id: aharonovich_2016_pro99
           name_col: Synonym
           logfc_col: log 2 fold change coculture/axenic
           adjusted_p_value_col: q Value

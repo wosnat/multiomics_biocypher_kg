@@ -79,6 +79,7 @@ publication:
           treatment_condition: 0.036% CO2 / 0% O2
           experimental_context: Pro99 medium, mid-exponential phase, constant light 60 umol photons m-2 s-1, 21C. Highest FC across timepoints (3h, 6h, 9h, 12h, 18h, 24h).
           organism: Prochlorococcus MED4
+          environmental_control_condition_id: bagby_2015_air
           environmental_treatment_condition_id: bagby_2015_no_o2
           name_col: Locus tag2
           logfc_col: 0.036%_CO2_0%_O2 FC
@@ -105,6 +106,7 @@ publication:
           treatment_condition: 0.004% CO2 / 21% O2
           experimental_context: Pro99 medium, mid-exponential phase, constant light 60 umol photons m-2 s-1, 21C. Highest FC across timepoints (3h, 6h, 9h, 12h, 18h, 24h).
           organism: Prochlorococcus MED4
+          environmental_control_condition_id: bagby_2015_air
           environmental_treatment_condition_id: bagby_2015_low_co2
           name_col: Locus tag2
           logfc_col: 0.004%_CO2_21%_O2 FC
@@ -131,6 +133,7 @@ publication:
           treatment_condition: 0.004% CO2 / 0% O2
           experimental_context: Pro99 medium, mid-exponential phase, constant light 60 umol photons m-2 s-1, 21C. Highest FC across timepoints (3h, 6h, 9h, 12h, 18h, 24h).
           organism: Prochlorococcus MED4
+          environmental_control_condition_id: bagby_2015_air
           environmental_treatment_condition_id: bagby_2015_low_co2_no_o2
           name_col: Locus tag2
           logfc_col: 0.004%_CO2_0%_O2 FC

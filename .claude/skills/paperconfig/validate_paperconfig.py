@@ -520,6 +520,12 @@ def validate(config_path: str) -> bool:
                         f"{aid}: environmental_treatment_condition_id '{env_treat_id}' "
                         "not found in environmental_conditions"
                     )
+                if not env_ctrl_id:
+                    warnings.append(
+                        f"{aid}: environmental_treatment_condition_id is set but "
+                        "environmental_control_condition_id is missing (add if the "
+                        "control condition is a defined environmental_condition)"
+                    )
 
             if env_ctrl_id:
                 if env_ctrl_id in env_conds:

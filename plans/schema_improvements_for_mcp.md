@@ -18,6 +18,7 @@ exchange, exoenzymes) from Weissberg 2025 and cross-paper evidence.
 | D4 | `significant` bug tracked separately (see `memory/known_bugs.md`) | Different root cause, independent fix |
 | D5 | Standardize all paperconfig organism names, condition_type values, and test_type values | Consistent vocabulary enables reliable LLM querying and cross-paper comparison |
 | D6 | `pvalue_threshold` missing from Weissberg 2025 tracked separately (see `memory/known_bugs.md`) | Independent fix, unrelated to env conditions |
+| D7 | `environmental_control_condition_id` is optional metadata — validator emits a **warning** (not error) when `environmental_treatment_condition_id` is set but `environmental_control_condition_id` is missing | Some controls have no defined env condition node (e.g., Bagby `gas_shock_air` control is "time 0 pre-shock"). Adapter ignores this field entirely; it does not affect edge routing or Publication edge emission. |
 
 ## Resolved Questions
 
@@ -68,6 +69,8 @@ A `Publication` node emits one edge per distinct source node referenced in its a
 - `(Publication)-[:Published_expression_data_about]->(OrganismTaxon)` — for analyses using `treatment_organism`
 
 A single publication may have both types if it contains both condition-based and coculture analyses.
+
+Note: `environmental_control_condition_id` is **not** used for Publication edges — it is paperconfig metadata only (adapter ignores it). Publication edges target treatment nodes only (what the experiment studied), not baseline conditions.
 
 ### Paperconfig standardization tables
 
@@ -280,6 +283,12 @@ Each phase: **scope → implement → test → gate** before proceeding.
 - `pytest -m "not slow and not kg"` — passes
 
 **Gate:** G approves, new env condition nodes created, existing edges intact. Commit.
+
+**Gate result (2026-03-11): PASSED**
+- Lindell 2007: added `environmental_conditions.lindell_2007_pro99` (`condition_type: growth_medium`); `environmental_control_condition_id` added to all 8 analyses. Node confirmed created in test build.
+- Aharonovich 2016 and Biller 2016: already had `environmental_conditions` blocks; `environmental_control_condition_id` added to all analyses.
+- Bagby 2015 (expanded scope): 3 of 4 analyses had matching control env condition (`bagby_2015_air`) — added. 1 (`gas_shock_air`) legitimately has no control env node (time 0 baseline).
+- Validator updated: warns (not errors) when `environmental_treatment_condition_id` set but `environmental_control_condition_id` missing. 35/35 tests pass.
 
 ---
 
