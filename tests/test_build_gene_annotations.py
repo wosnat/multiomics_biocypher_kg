@@ -367,8 +367,8 @@ class TestLoadEggnog:
 # ─── load_uniprot ─────────────────────────────────────────────────────────────
 
 PROTEIN_ANNOTATIONS_DATA = {
-    "A0001": {"gene_symbol": "dnaN", "refseq_ids": ["WP_011129038.1"], "is_reviewed": True, "function_description": "Catalyzes DNA repair"},
-    "A0002": {"gene_symbol": "rpsT", "refseq_ids": ["WP_011129039.1"], "is_reviewed": False},
+    "A0001": {"gene_symbol": "dnaN", "refseq_ids": ["WP_011129038.1"], "is_reviewed": "reviewed", "function_description": "Catalyzes DNA repair"},
+    "A0002": {"gene_symbol": "rpsT", "refseq_ids": ["WP_011129039.1"], "is_reviewed": "not reviewed"},
 }
 
 
@@ -393,7 +393,7 @@ class TestLoadUniprot:
             result = load_uniprot(str(tmp_path), 59919, "Prochlorococcus")
         row = result["WP_011129038.1"]
         assert row["gene_symbol"] == "dnaN"
-        assert row["is_reviewed"] is True
+        assert row["is_reviewed"] == "reviewed"
 
     def test_taxid_keyed_path(self, tmp_path):
         self._write_uniprot(self._taxid_path(tmp_path))
@@ -778,7 +778,7 @@ class TestAnnotationBuilderBuildMerged:
     # ── annotation_quality ────────────────────────────────────────────────────
 
     def test_quality_3_when_uniprot_reviewed(self):
-        merged = self.builder.build_merged(GM, EG, dict(UP, is_reviewed=True))
+        merged = self.builder.build_merged(GM, EG, dict(UP, is_reviewed="reviewed"))
         assert merged["annotation_quality"] == 3
 
     def test_quality_2_when_cyanorak_product(self):

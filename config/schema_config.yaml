@@ -291,7 +291,7 @@ protein:
     caution_notes: str
     keyword_ids: str[]
     keywords: str[]
-    is_reviewed: bool
+    is_reviewed: str
     interaction_notes: str
     go_cellular_components: str[]
     go_biological_processes: str[]

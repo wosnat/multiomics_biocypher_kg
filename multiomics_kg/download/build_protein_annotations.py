@@ -136,15 +136,15 @@ class ProteinAnnotationBuilder:
         except (ValueError, TypeError):
             return None
 
-    def _resolve_bool(self, fconf: dict, up: dict) -> bool | None:
+    def _resolve_reviewed_status(self, fconf: dict, up: dict) -> str | None:
         raw = self._get_raw(fconf, up)
         if raw is None:
             return None
         s = str(raw).strip().lower()
         if s in ("reviewed", "true", "yes", "1"):
-            return True
+            return "reviewed"
         if s in ("unreviewed", "false", "no", "0"):
-            return False
+            return "not reviewed"
         return None
 
     def build_merged(self, uid: str, up: dict) -> dict:
@@ -162,13 +162,12 @@ class ProteinAnnotationBuilder:
                 val = self._resolve_integer(fconf, up)
             elif ftype == "float":
                 val = self._resolve_float(fconf, up)
-            elif ftype == "bool":
-                val = self._resolve_bool(fconf, up)
+            elif ftype == "reviewed_status":
+                val = self._resolve_reviewed_status(fconf, up)
             else:
                 continue
 
-            # Keep False (bool) even though it's falsy; skip None and empty
-            if val is not None and (_nonempty(val) or val is False):
+            if val is not None and _nonempty(val):
                 result[canonical_field] = val
 
         return result
@@ -223,7 +222,7 @@ def process_taxid(
             stats["has_ec"] += 1
         if merged.get("function_description"):
             stats["has_function"] += 1
-        if merged.get("is_reviewed"):
+        if merged.get("is_reviewed") == "reviewed":
             stats["reviewed"] += 1
 
     with open(output_path, "w") as f:

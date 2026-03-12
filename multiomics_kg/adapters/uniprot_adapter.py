@@ -182,7 +182,7 @@ class UniprotAdapter:
                 "interaction_notes":        entry.get("interaction_notes"),
                 **self._provenance(),
             }
-            # Sparse output: drop None values (but keep False for is_reviewed)
+            # Sparse output: drop None values
             props = {k: v for k, v in props.items() if v is not None}
             yield protein_id, "protein", props
             count += 1

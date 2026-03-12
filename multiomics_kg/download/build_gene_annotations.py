@@ -410,7 +410,7 @@ class AnnotationBuilder:
         result.update(source_tracking)
 
         # Compute annotation_quality (0–3)
-        is_reviewed = bool(up.get("is_reviewed", False))
+        is_reviewed = up.get("is_reviewed") == "reviewed"
         has_cyanorak_product = _nonempty(gm.get("product_cyanorak"))
         has_ncbi_product = _nonempty(gm.get("product"))
         has_eggnog = bool(eg)

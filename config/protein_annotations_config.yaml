@@ -176,8 +176,8 @@ fields:
     field: annotation_score
 
   is_reviewed:
-    # "Reviewed" → True, "Unreviewed" → False
-    type: bool
+    # "Reviewed" → "reviewed", "Unreviewed" → "not reviewed"
+    type: reviewed_status
     field: reviewed
 
   keywords:

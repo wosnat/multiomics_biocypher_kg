@@ -244,7 +244,7 @@ MINIMAL_PROTEIN_CONFIG = {
             "field": "gene_primary",
         },
         "is_reviewed": {
-            "type": "bool",
+            "type": "reviewed_status",
             "field": "reviewed",
         },
         "sequence_length": {
@@ -300,18 +300,17 @@ class TestProteinAnnotationBuilderBuildMerged:
         assert result["function_description"].startswith("Catalyzes")
         assert "FUNCTION:" not in result["function_description"]
 
-    # ── bool ─────────────────────────────────────────────────────────────────
+    # ── reviewed_status ────────────────────────────────────────────────────────
 
-    def test_reviewed_string_gives_true(self):
+    def test_reviewed_string_gives_reviewed(self):
         result = self.builder.build_merged("Q7TU21", UP_ROW)
-        assert result["is_reviewed"] is True
+        assert result["is_reviewed"] == "reviewed"
 
-    def test_unreviewed_string_gives_false_and_is_retained(self):
-        # Critical: False must NOT be dropped by the _nonempty check
+    def test_unreviewed_string_gives_not_reviewed(self):
         row = {**UP_ROW, "reviewed": "Unreviewed"}
         result = self.builder.build_merged("Q7V0G8", row)
         assert "is_reviewed" in result
-        assert result["is_reviewed"] is False
+        assert result["is_reviewed"] == "not reviewed"
 
     def test_none_reviewed_omits_field(self):
         row = {**UP_ROW, "reviewed": None}

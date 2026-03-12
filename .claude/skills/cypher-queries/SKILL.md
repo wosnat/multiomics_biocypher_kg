@@ -499,7 +499,7 @@ RETURN g.locus_tag, p.id, p.gene_names, p.is_reviewed,
        p.sequence_length, p.molecular_mass, p.refseq_ids
 
 // Genes with reviewed UniProt proteins
-MATCH (g:Gene)-[:Gene_encodes_protein]->(p:Protein {is_reviewed: true})
+MATCH (g:Gene)-[:Gene_encodes_protein]->(p:Protein {is_reviewed: 'reviewed'})
 MATCH (g)-[:Gene_belongs_to_organism]->(o:OrganismTaxon)
 WHERE o.genus = 'Prochlorococcus'
 RETURN g.locus_tag, g.product, p.id, p.gene_names
