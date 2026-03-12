@@ -144,16 +144,16 @@ def test_gene_encodes_protein_edges_exist(run_query):
 
 
 def test_gene_encodes_protein_links_correct_types(run_query):
-    """Gene_encodes_protein must connect Protein -> Gene (source is protein, target is gene)."""
+    """Gene_encodes_protein must connect Gene -> Protein (source is gene, target is protein)."""
     result = run_query("""
         MATCH (src)-[r:Gene_encodes_protein]->(tgt)
-        WHERE NOT src:Protein OR NOT tgt:Gene
+        WHERE NOT src:Gene OR NOT tgt:Protein
         RETURN count(r) AS bad
     """)
     bad = result[0]["bad"]
     assert bad == 0, (
         f"{bad} Gene_encodes_protein edges connect wrong node types "
-        f"(expected Protein -> Gene)"
+        f"(expected Gene -> Protein)"
     )
 
 
@@ -172,7 +172,7 @@ def test_no_orphan_proteins_without_gene(run_query):
     """
     result = run_query("""
         MATCH (p:Protein)
-        OPTIONAL MATCH (p)-[:Gene_encodes_protein]->(g:Gene)
+        OPTIONAL MATCH (g:Gene)-[:Gene_encodes_protein]->(p)
         WITH count(p) AS total, count(g) AS linked
         RETURN total, linked, total - linked AS unlinked
     """)

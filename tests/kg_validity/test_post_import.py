@@ -41,7 +41,7 @@ def test_gene_function_description_set(run_query):
     in UniProt; the threshold catches a complete post-import failure).
     """
     result = run_query("""
-        MATCH (p:Protein)-[:Gene_encodes_protein]->(g:Gene)
+        MATCH (g:Gene)-[:Gene_encodes_protein]->(p:Protein)
         WHERE p.function_description IS NOT NULL
         WITH count(g) AS total,
              count(CASE WHEN g.function_description IS NOT NULL THEN 1 END) AS filled

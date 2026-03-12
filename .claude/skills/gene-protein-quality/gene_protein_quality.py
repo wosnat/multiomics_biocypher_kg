@@ -92,7 +92,7 @@ def fetch_quality_metrics(strain_filter: str | None = None) -> dict[str, dict]:
     query = f"""
 MATCH (g:Gene)-[:Gene_belongs_to_organism]->(o:OrganismTaxon)
 WHERE o.strain_name IS NOT NULL {strain_clause}
-OPTIONAL MATCH (p:Protein)-[:Gene_encodes_protein]->(g)
+OPTIONAL MATCH (g)-[:Gene_encodes_protein]->(p:Protein)
 WITH o.organism_name AS strain, g, p
 OPTIONAL MATCH ()-[expr:Condition_changes_expression_of|Coculture_changes_expression_of]->(g)
 WITH strain, g, p, count(expr) AS expr_count

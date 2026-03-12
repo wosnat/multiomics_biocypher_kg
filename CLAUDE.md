@@ -336,7 +336,7 @@ uv run python tests/kg_validity/generate_snapshot.py
 
 ### Key graph facts
 
-- Gene↔Protein linkage: explicit `Gene_encodes_protein` edges (Protein→Gene) created by UniProt adapter via RefSeq protein_id join with gene_mapping.csv
+- Gene↔Protein linkage: explicit `Gene_encodes_protein` edges (Gene→Protein) created by UniProt adapter via RefSeq protein_id join with gene_mapping.csv
 - Expression sources: `EnvironmentalCondition` → `Condition_changes_expression_of` (~170K edges, stress experiments); `OrganismTaxon` → `Coculture_changes_expression_of` (~17K edges, coculture experiments); total direct edges ~188K (TODO: update after build)
 - Ortholog edges: `Condition_changes_expression_of_ortholog` (all homologs); `Coculture_changes_expression_of_ortholog` (same-phylum homologs only; cross-phylum filtered)
 - New edge properties on all expression edge types: `omics_type` (RNASEQ | PROTEOMICS | METABOLOMICS | MICROARRAY), `organism_strain`, `treatment_condition`, `statistical_test`, `analysis_name` (human-readable description of the comparison, from paperconfig `name` field)
