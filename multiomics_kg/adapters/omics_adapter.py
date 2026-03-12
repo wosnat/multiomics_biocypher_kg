@@ -703,9 +703,7 @@ class OMICSAdapter:
 
                 organism_name = analysis.get('organism', '')
                 if organism_name:
-                    # Extract strain from organism name (last word: "Prochlorococcus MED4" -> "MED4")
-                    strain = organism_name.strip().split()[-1]
-                    edge_properties['organism_strain'] = self.clean_text(strain)
+                    edge_properties['organism_strain'] = self.clean_text(organism_name.strip())
 
                 treatment_condition = analysis.get('treatment_condition', '')
                 if treatment_condition:

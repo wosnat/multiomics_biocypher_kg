@@ -46,7 +46,7 @@ coculture to gene expression association:
     significant: str               # "significant" | "not significant" | "unknown"
     publications: str[]
     omics_type: str                # RNASEQ | PROTEOMICS | METABOLOMICS | MICROARRAY
-    organism_strain: str           # which organism's genes are measured (e.g., "MED4")
+    organism_strain: str           # which organism's genes are measured (e.g., "Prochlorococcus MED4")
     treatment_condition: str       # what was applied (e.g., "Coculture with Alteromonas HOT1A3")
     statistical_test: str          # DESeq2, edgeR, etc.
     analysis_name: str             # human-readable name of the statistical comparison (from paperconfig)

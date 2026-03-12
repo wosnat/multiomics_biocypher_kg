@@ -1649,8 +1649,8 @@ class TestPhase4NewProperties:
         for edge in expr_edges:
             props = edge[4]
             assert 'organism_strain' in props, f"Expected organism_strain in edge properties"
-            assert props['organism_strain'] == 'MED4', \
-                f"Expected MED4 (last word of 'Prochlorococcus MED4'), got {props['organism_strain']}"
+            assert props['organism_strain'] == 'Prochlorococcus MED4', \
+                f"Expected 'Prochlorococcus MED4', got {props['organism_strain']}"
 
     def test_treatment_condition_populated(self, adapter_with_full_props):
         """Verify treatment_condition property is set on expression edges."""
@@ -1682,7 +1682,7 @@ class TestPhase4NewProperties:
 
 
 class TestPhase4OrganismStrainExtraction:
-    """Phase 4: Test that organism_strain is extracted as last word of organism name."""
+    """Phase 4: Test that organism_strain uses the full organism name (matching Gene node format)."""
 
     def _make_adapter_with_organism(self, temp_data_dir, organism_name):
         """Helper: create adapter with given organism name."""
@@ -1724,28 +1724,28 @@ class TestPhase4OrganismStrainExtraction:
         return adapter
 
     def test_strain_from_two_word_organism(self, temp_data_dir):
-        """'Prochlorococcus MED4' → organism_strain = 'MED4'."""
+        """'Prochlorococcus MED4' → organism_strain = 'Prochlorococcus MED4'."""
         adapter = self._make_adapter_with_organism(temp_data_dir, 'Prochlorococcus MED4')
         edges = adapter.get_edges()
         expr_edges = [e for e in edges if e[3] == 'coculture_changes_expression_of']
         assert len(expr_edges) == 1
-        assert expr_edges[0][4].get('organism_strain') == 'MED4'
+        assert expr_edges[0][4].get('organism_strain') == 'Prochlorococcus MED4'
 
     def test_strain_from_three_word_organism(self, temp_data_dir):
-        """'Alteromonas macleodii HOT1A3' → organism_strain = 'HOT1A3'."""
+        """'Alteromonas macleodii HOT1A3' → organism_strain = 'Alteromonas macleodii HOT1A3'."""
         adapter = self._make_adapter_with_organism(temp_data_dir, 'Alteromonas macleodii HOT1A3')
         edges = adapter.get_edges()
         expr_edges = [e for e in edges if e[3] == 'coculture_changes_expression_of']
         assert len(expr_edges) == 1
-        assert expr_edges[0][4].get('organism_strain') == 'HOT1A3'
+        assert expr_edges[0][4].get('organism_strain') == 'Alteromonas macleodii HOT1A3'
 
     def test_strain_from_mit_numbered_organism(self, temp_data_dir):
-        """'Prochlorococcus MIT9313' → organism_strain = 'MIT9313'."""
+        """'Prochlorococcus MIT9313' → organism_strain = 'Prochlorococcus MIT9313'."""
         adapter = self._make_adapter_with_organism(temp_data_dir, 'Prochlorococcus MIT9313')
         edges = adapter.get_edges()
         expr_edges = [e for e in edges if e[3] == 'coculture_changes_expression_of']
         assert len(expr_edges) == 1
-        assert expr_edges[0][4].get('organism_strain') == 'MIT9313'
+        assert expr_edges[0][4].get('organism_strain') == 'Prochlorococcus MIT9313'
 
 
 class TestPhase4ConditionCategory:
