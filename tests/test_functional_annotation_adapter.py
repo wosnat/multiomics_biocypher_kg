@@ -770,10 +770,9 @@ class TestMultiEcCacheBehavior:
     def test_loads_from_project_cache(self, multi_ec_config_csv, tmp_ec_cache_dir):
         """EC data loads from our JSON cache without calling pypath."""
         from unittest.mock import patch
-        from multiomics_kg.adapters import ec_adapter as ec_mod
 
-        with patch.object(ec_mod.expasy, "expasy_enzymes") as mock_enz, \
-             patch.object(ec_mod.expasy, "expasy_enzyme_classes") as mock_cls:
+        with patch("pypath.inputs.expasy.expasy_enzymes") as mock_enz, \
+             patch("pypath.inputs.expasy.expasy_enzyme_classes") as mock_cls:
             adapter = MultiEcAnnotationAdapter(
                 genome_config_file=multi_ec_config_csv,
                 cache_dir=tmp_ec_cache_dir,
@@ -786,8 +785,7 @@ class TestMultiEcCacheBehavior:
 
     def test_cache_file_created_after_download(self, multi_ec_config_csv, tmp_path):
         """After a (mocked) download, ec_data.json is written to cache_dir."""
-        from unittest.mock import patch, MagicMock
-        from multiomics_kg.adapters import ec_adapter as ec_mod
+        from unittest.mock import patch
 
         cache_dir = tmp_path / "new_cache"
         cache_dir.mkdir()
@@ -806,8 +804,8 @@ class TestMultiEcCacheBehavior:
                 ("2", "7", "7", "Nucleotidyltransferases"),
             ]
 
-        with patch.object(ec_mod.expasy, "expasy_enzymes", side_effect=fake_enzymes), \
-             patch.object(ec_mod.expasy, "expasy_enzyme_classes", side_effect=fake_classes):
+        with patch("pypath.inputs.expasy.expasy_enzymes", side_effect=fake_enzymes), \
+             patch("pypath.inputs.expasy.expasy_enzyme_classes", side_effect=fake_classes):
             adapter = MultiEcAnnotationAdapter(
                 genome_config_file=multi_ec_config_csv,
                 cache_dir=cache_dir,
