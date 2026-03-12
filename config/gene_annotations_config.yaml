@@ -333,9 +333,10 @@ fields:
 
   go_term_descriptions:
     # Plan says rename ontology_term_description → go_term_descriptions (Step 2F)
-    type: passthrough
+    type: passthrough_list
     source: gene_mapping
     field: ontology_term_description
+    delimiter: ","
 
   # ── EC Numbers ────────────────────────────────────────────────────────────────
   # NOTE: gene_mapping.kegg field contains EC numbers (not KEGG KO IDs)

@@ -238,7 +238,7 @@ gene:
     protein_family: str               # protein family name
     # Gene Ontology (unified from all sources)
     go_terms: str[]                   # GO:XXXXXXX all aspects unified
-    go_term_descriptions: str         # pipe-separated GO descriptions
+    go_term_descriptions: str[]       # GO term descriptions (list)
     # KEGG (expanded)
     kegg_ko: str[]                    # KO IDs (e.g., K02338)
     kegg_ko_descriptions: str[]
@@ -257,6 +257,10 @@ gene:
     transporter_classification: str[]
     cazy_ids: str[]
     bigg_reaction: str[]
+    # Computed fields for MCP gene lookup
+    organism_strain: str              # preferred organism name (e.g., "Prochlorococcus MED4")
+    gene_summary: str                 # "gene_name :: product :: description"
+    all_identifiers: str[]            # union of all alt IDs for single-array get_gene lookup
     # Quality
     annotation_quality: int           # 0=none,1=eggnog-only,2=NCBI/Cyanorak,3=UniProt
 

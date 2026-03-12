@@ -5,6 +5,21 @@ echo "=== Post-process: Starting Neo4j ==="
 neo4j start
 sleep 15
 
+echo "=== Post-process: Create scalar indexes ==="
+cypher-shell <<'CYPHER'
+CREATE INDEX gene_locus_tag_idx IF NOT EXISTS FOR (g:Gene) ON (g.locus_tag);
+CREATE INDEX gene_name_idx IF NOT EXISTS FOR (g:Gene) ON (g.gene_name);
+CREATE INDEX gene_organism_strain_idx IF NOT EXISTS FOR (g:Gene) ON (g.organism_strain);
+CYPHER
+
+echo "=== Post-process: Create full-text index ==="
+cypher-shell <<'CYPHER'
+CALL db.index.fulltext.createNodeIndex('geneFullText', ['Gene'],
+  ['gene_summary', 'gene_synonyms', 'product_cyanorak',
+   'alternate_functional_descriptions', 'go_term_descriptions',
+   'pfam_names', 'pfam_descriptions', 'eggnog_og_descriptions']);
+CYPHER
+
 echo "=== Post-process: Cyanorak homolog edges ==="
 cypher-shell <<'CYPHER'
 MATCH (g1:Gene)-[:Gene_in_cyanorak_cluster]->(c:Cyanorak_cluster)<-[:Gene_in_cyanorak_cluster]-(g2:Gene)

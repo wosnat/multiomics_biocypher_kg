@@ -53,7 +53,7 @@ MERGED_JSON_DATA = {
         "cog_category": "L",
         "protein_family": "Beta sliding clamp family",
         "go_terms": ["GO:0003887", "GO:0005737"],
-        "go_term_descriptions": "DNA-directed DNA polymerase activity|cytoplasm",
+        "go_term_descriptions": ["DNA-directed DNA polymerase activity", "cytoplasm"],
         "ec_numbers": ["2.7.7.7"],
         "kegg_ko": ["K02338"],
         "kegg_ko_descriptions": ["DNA polymerase III, beta subunit"],
@@ -68,6 +68,9 @@ MERGED_JSON_DATA = {
         "seed_ortholog_evalue": 1.12e-267,
         "pfam_ids": ["PF02768"],
         "pfam_descriptions": ["Beta sliding clamp, N-terminal domain"],
+        "organism_strain": "Prochlorococcus MED4",
+        "gene_summary": "dnaN :: DNA polymerase III, beta subunit :: Replicative DNA polymerase beta subunit",
+        "all_identifiers": ["CK_Pro_MED4_00001", "TX50_RS00020", "WP_011131639.1"],
         "annotation_quality": 3,
     },
     "PMM0002": {
@@ -86,6 +89,9 @@ MERGED_JSON_DATA = {
         "ec_numbers": [],
         "kegg_ko": [],
         "eggnog_ogs": ["COG0243"],
+        "organism_strain": "Prochlorococcus MED4",
+        "gene_summary": "PMM0002 :: hypothetical protein",
+        "all_identifiers": ["TX50_RS00025", "WP_011131640.1"],
         "annotation_quality": 1,
     },
     "PMM0003": {
@@ -104,6 +110,9 @@ MERGED_JSON_DATA = {
         "ec_numbers": ["6.3.5.3"],
         "kegg_ko": ["K01952"],
         "eggnog_ogs": ["COG0046"],
+        "organism_strain": "Prochlorococcus MED4",
+        "gene_summary": "purL :: phosphoribosylformylglycinamidine synthase",
+        "all_identifiers": ["TX50_RS00030", "WP_011131641.1"],
         "annotation_quality": 2,
     },
 }
@@ -541,12 +550,13 @@ class TestGetGeneNodes:
         assert props["cog_category"] == "L"
         assert props["seed_ortholog"] == "59919.PMM0001"
 
-    def test_pipe_cleaned_from_string_values(self, adapter):
+    def test_go_term_descriptions_is_list(self, adapter):
         nodes = adapter.get_nodes()
         pmm0001 = next(n for n in nodes if n[1] == "gene" and "PMM0001" in n[0])
         props = pmm0001[2]
-        desc = props.get("go_term_descriptions", "")
-        assert "|" not in desc
+        desc = props.get("go_term_descriptions")
+        assert isinstance(desc, list)
+        assert "DNA-directed DNA polymerase activity" in desc
 
     def test_subset_fields_only_returns_requested_fields(self, adapter_subset_fields):
         nodes = adapter_subset_fields.get_nodes()
@@ -1034,3 +1044,53 @@ class TestIntegrationWithRealData:
                 assert isinstance(props["go_terms"], list)
             if "kegg_ko" in props:
                 assert isinstance(props["kegg_ko"], list)
+
+
+# ---------------------------------------------------------------------------
+# MCP gene lookup computed fields (organism_strain, gene_summary, all_identifiers)
+# ---------------------------------------------------------------------------
+
+
+class TestMcpGeneLookupFields:
+    """Verify the adapter passes through the 3 computed fields from merged JSON."""
+
+    def test_organism_strain_on_all_genes(self, adapter):
+        nodes = adapter.get_nodes()
+        gene_nodes = [n for n in nodes if n[1] == "gene"]
+        for _, _, props in gene_nodes:
+            assert props.get("organism_strain") == "Prochlorococcus MED4"
+
+    def test_gene_summary_present(self, adapter):
+        nodes = adapter.get_nodes()
+        pmm0001 = next(n for n in nodes if n[1] == "gene" and "PMM0001" in n[0])
+        summary = pmm0001[2].get("gene_summary")
+        assert summary is not None
+        assert "dnaN" in summary
+        assert "::" in summary
+
+    def test_gene_summary_no_pipe(self, adapter):
+        nodes = adapter.get_nodes()
+        for _, _, props in [n for n in nodes if n[1] == "gene"]:
+            summary = props.get("gene_summary", "")
+            assert "|" not in summary
+
+    def test_all_identifiers_is_list(self, adapter):
+        nodes = adapter.get_nodes()
+        pmm0001 = next(n for n in nodes if n[1] == "gene" and "PMM0001" in n[0])
+        ids = pmm0001[2].get("all_identifiers")
+        assert isinstance(ids, list)
+        assert "TX50_RS00020" in ids
+        assert "CK_Pro_MED4_00001" in ids
+        assert "WP_011131639.1" in ids
+
+    def test_all_identifiers_excludes_locus_tag_and_gene_name(self, adapter):
+        nodes = adapter.get_nodes()
+        pmm0001 = next(n for n in nodes if n[1] == "gene" and "PMM0001" in n[0])
+        ids = pmm0001[2].get("all_identifiers", [])
+        assert "PMM0001" not in ids  # locus_tag excluded (scalar-indexed)
+        assert "dnaN" not in ids     # gene_name excluded (scalar-indexed)
+
+    def test_enum_has_new_fields(self):
+        assert GeneNodeField.ORGANISM_STRAIN.value == "organism_strain"
+        assert GeneNodeField.GENE_SUMMARY.value == "gene_summary"
+        assert GeneNodeField.ALL_IDENTIFIERS.value == "all_identifiers"

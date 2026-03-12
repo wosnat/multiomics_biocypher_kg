@@ -75,6 +75,8 @@ def _clean_str(value: str) -> str:
 ```
 Define this helper locally in each adapter and apply it to every string field in node/edge property dicts. The array delimiter is also `|` (see `biocypher_config.yaml`), so pipe characters in values would corrupt array fields too.
 
+**This applies to computed/literal strings too, not just external data.** Never use `|` or `'` as a separator or literal character when constructing string property values in code. For example, use ` :: ` as a field separator in computed summary strings, not ` | `. `clean_text()` silently converts `|` → `,` and `'` → `^`, so using them as intentional separators would corrupt the value without any error.
+
 Most adapters have a single-source class (e.g., `CyanorakNcbi`) and a **Multi*** wrapper (e.g., `MultiCyanorakNcbi`) that iterates over all configured strains/papers and aggregates nodes/edges. `create_knowledge_graph.py` only instantiates the Multi* wrappers.
 
 ### Key Adapters
@@ -341,6 +343,9 @@ uv run python tests/kg_validity/generate_snapshot.py
 - `condition_category` property on `EnvironmentalCondition` nodes (same value as `condition_type`)
 - `medium` and `temperature` properties on `EnvironmentalCondition` nodes (when provided in paperconfig `environmental_conditions` blocks)
 - `preferred_name` property on `OrganismTaxon` nodes (e.g., `"Prochlorococcus MED4"`)
+- Gene node computed fields for MCP gene lookup: `organism_strain` (preferred organism name), `gene_summary` ("name :: product :: description"), `all_identifiers` (union of all alt IDs)
+- `go_term_descriptions` on Gene nodes is `str[]` (list), not a scalar string
+- Post-import indexes: scalar (`gene_locus_tag_idx`, `gene_name_idx`, `gene_organism_strain_idx`) + full-text (`geneFullText` on gene_summary, gene_synonyms, product_cyanorak, alternate_functional_descriptions, go_term_descriptions, pfam_names, pfam_descriptions, eggnog_og_descriptions)
 - `Published_expression_data_about` edges: `(Publication)→(EnvironmentalCondition)` and `(Publication)→(OrganismTaxon)` — one edge per distinct source node used in a publication's analyses
 - `adjusted_p_value` may be null on expression edges (and propagated ortholog edges) when the original study did not report it
 - Strains in graph: MED4, AS9601, MIT9301, MIT9312, MIT9313, NATL1A, NATL2A, RSP50 (Prochlorococcus); CC9311 (Synechococcus); WH8102 (Parasynechococcus); MIT1002, EZ55, HOT1A3 (Alteromonas)
@@ -375,3 +380,50 @@ See: https://github.com/eggnogdb/eggnog-mapper/issues/575
 - API keys go in `.env`: `OPENAI_API_KEY`, `ANTHROPIC_API_KEY`, `ELSEVIER_API_KEY`, plus others for LangChain tracing and search
 - `@pytest.mark.slow` tests run the full pipeline as a subprocess and take ~1 hour
 - `@pytest.mark.kg` tests require a running Neo4j instance (Docker graph); skip automatically if not available
+
+## Development Workflow
+
+Every development task — feature, bug fix, refactor, or new data integration — must follow all five phases below. Do not skip phases or combine them implicitly.
+
+### 1. Scope
+
+Before writing any code, define the scope explicitly:
+- **What** is changing (files, adapters, schema, config)
+- **What is NOT changing** (boundaries prevent scope creep)
+- **Acceptance criteria** — concrete, testable conditions for "done"
+- For non-trivial tasks, create a plan file in `plans/` and get alignment before proceeding
+
+### 2. Implement
+
+- Make the code changes
+- Follow existing patterns (adapter pattern, ID conventions, string sanitization)
+- Keep changes minimal — only what the scope requires
+
+### 3. Test
+
+- Write or update unit tests for every code change
+- Run the relevant test suite before considering the task complete:
+  ```bash
+  # Unit tests (fast, always run)
+  pytest -m "not slow and not kg" -v
+
+  # KG validity tests (when graph structure changes, requires running Neo4j)
+  pytest -m kg -v
+  ```
+- For schema or adapter changes: use `/omics-edge-snapshot` before and after to verify no edge regressions
+- For new paper integrations: use `/check-gene-ids` to validate match rates
+
+### 4. Review
+
+- Verify string literals are consistent across schema, adapters, and tests
+- Check that no old vocabulary or dead code remains
+- Confirm no unintended side effects on existing data (e.g., edge count changes)
+- For schema changes: verify `schema_config.yaml`, adapter code, post-import scripts, and test fixtures all agree
+
+### 5. Document
+
+Update documentation to reflect the changes:
+- **`CLAUDE.md`** — if the change affects build commands, architecture, key facts, or known issues
+- **Plan files** (`plans/`) — mark completed phases, record decisions
+- **Skill files** (`.claude/skills/`) — if the change affects skill behavior or templates
+- **Memory** — if the change introduces new patterns or facts that future conversations need

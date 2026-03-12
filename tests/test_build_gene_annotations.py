@@ -802,6 +802,143 @@ class TestAnnotationBuilderBuildMerged:
         merged = self.builder.build_merged(gm, {}, {})
         assert merged["annotation_quality"] == 0
 
+    # ── organism_strain ──────────────────────────────────────────────────────
+
+    def test_organism_strain_set_from_param(self):
+        merged = self.builder.build_merged(GM, {}, {}, organism_name="Prochlorococcus MED4")
+        assert merged["organism_strain"] == "Prochlorococcus MED4"
+
+    def test_organism_strain_absent_when_no_param(self):
+        merged = self.builder.build_merged(GM, {}, {})
+        assert "organism_strain" not in merged
+
+    def test_organism_strain_absent_when_empty(self):
+        merged = self.builder.build_merged(GM, {}, {}, organism_name="")
+        assert "organism_strain" not in merged
+
+    # ── gene_summary ─────────────────────────────────────────────────────────
+
+    def test_gene_summary_full(self):
+        merged = self.builder.build_merged(GM, EG, UP)
+        summary = merged.get("gene_summary", "")
+        assert "dnaN_cy" in summary  # gene_name (cyanorak wins)
+        assert "::" in summary
+
+    def test_gene_summary_no_function_description(self):
+        # No UniProt, no eggnog → summary is gene_name :: product
+        merged = self.builder.build_merged(GM, {}, {})
+        summary = merged.get("gene_summary", "")
+        assert "dnaN_cy" in summary
+        assert "DNA pol III beta (Cyanorak)" in summary
+
+    def test_gene_summary_uses_separator_not_pipe(self):
+        merged = self.builder.build_merged(GM, EG, UP)
+        summary = merged.get("gene_summary", "")
+        assert "|" not in summary
+        assert "::" in summary
+
+    def test_gene_summary_deduplicates_product_and_description(self):
+        # When eggnog description == product, description should not repeat
+        gm = dict(GM, product_cyanorak="", product="DNA polymerase III subunit beta")
+        eg = dict(EG, Description="DNA polymerase III subunit beta")
+        merged = self.builder.build_merged(gm, eg, {})
+        summary = merged.get("gene_summary", "")
+        # "DNA polymerase III subunit beta" should appear only once
+        assert summary.count("DNA polymerase III subunit beta") == 1
+
+    def test_gene_summary_fallback_to_eggnog(self):
+        # No UniProt function → falls back to eggnog description
+        gm = dict(GM, product_cyanorak="", product="hypothetical protein")
+        merged = self.builder.build_merged(gm, EG, {})
+        summary = merged.get("gene_summary", "")
+        assert "DNA polymerase III subunit beta" in summary  # eggnog Description
+
+    def test_gene_summary_minimal_gene_only(self):
+        # No product, no function → just locus_tag from gene_name
+        gm = dict(GM, gene_names_cyanorak="", gene_names="", product_cyanorak="", product="")
+        merged = self.builder.build_merged(gm, {}, {})
+        summary = merged.get("gene_summary")
+        # gene_name may be absent; if so, no summary at all
+        if summary:
+            assert "::" not in summary or len(summary.split("::")) <= 2
+
+    # ── all_identifiers ──────────────────────────────────────────────────────
+
+    def test_all_identifiers_absent_with_minimal_config(self):
+        # MINIMAL_CONFIG doesn't resolve protein_id/locus_tag_ncbi/gene_name_synonyms/
+        # alternative_locus_tags, so all_identifiers should be absent
+        merged = self.builder.build_merged(GM, EG, UP)
+        assert "all_identifiers" not in merged
+
+    def test_all_identifiers_excludes_locus_tag(self):
+        merged = self.builder.build_merged(GM, EG, UP)
+        ids = merged.get("all_identifiers", [])
+        assert "PMM0001" not in ids  # locus_tag is scalar-indexed
+
+    def test_all_identifiers_excludes_gene_name(self):
+        merged = self.builder.build_merged(GM, EG, UP)
+        ids = merged.get("all_identifiers", [])
+        gene_name = merged.get("gene_name")
+        assert gene_name not in ids  # gene_name is scalar-indexed
+
+    def test_all_identifiers_sorted(self):
+        merged = self.builder.build_merged(GM, EG, UP)
+        ids = merged.get("all_identifiers", [])
+        if ids:
+            assert ids == sorted(ids)
+
+    def test_all_identifiers_absent_when_no_alt_ids(self):
+        gm = {"locus_tag": "PMM9999", "gene_names_cyanorak": "geneX"}
+        merged = self.builder.build_merged(gm, {}, {})
+        # gene_name = "geneX", only synonym is "geneX" (same → removed)
+        # No protein_id, no locus_tag_ncbi, no other synonyms → no all_identifiers
+        assert "all_identifiers" not in merged
+
+
+# ─── all_identifiers with production config ──────────────────────────────────
+
+
+class TestAllIdentifiersFullConfig:
+    """Test all_identifiers using the production gene_annotations_config.yaml."""
+
+    def setup_method(self):
+        from multiomics_kg.download.utils.cli import load_config
+        config = load_config("config/gene_annotations_config.yaml")
+        self.builder = AnnotationBuilder(config)
+
+    def test_includes_protein_id(self):
+        gm = dict(GM, protein_id="WP_011129038.1", locus_tag_ncbi="TX50_RS00020")
+        merged = self.builder.build_merged(gm, EG, UP)
+        ids = merged.get("all_identifiers", [])
+        assert "WP_011129038.1" in ids
+
+    def test_includes_locus_tag_ncbi(self):
+        gm = dict(GM, protein_id="WP_011129038.1", locus_tag_ncbi="TX50_RS00020")
+        merged = self.builder.build_merged(gm, EG, UP)
+        ids = merged.get("all_identifiers", [])
+        assert "TX50_RS00020" in ids
+
+    def test_includes_old_locus_tags(self):
+        gm = dict(GM, old_locus_tags="PMM0001_old,PMM0001_v2")
+        merged = self.builder.build_merged(gm, {}, {})
+        ids = merged.get("all_identifiers", [])
+        assert "PMM0001_old" in ids
+        assert "PMM0001_v2" in ids
+
+    def test_excludes_locus_tag_and_gene_name(self):
+        gm = dict(GM, protein_id="WP_011129038.1", locus_tag_ncbi="TX50_RS00020")
+        merged = self.builder.build_merged(gm, EG, UP)
+        ids = merged.get("all_identifiers", [])
+        assert merged["locus_tag"] not in ids
+        assert merged["gene_name"] not in ids
+
+    def test_is_sorted(self):
+        gm = dict(GM, protein_id="WP_011129038.1", locus_tag_ncbi="TX50_RS00020",
+                   old_locus_tags="ZZZ_old,AAA_old")
+        merged = self.builder.build_merged(gm, EG, UP)
+        ids = merged.get("all_identifiers", [])
+        assert ids == sorted(ids)
+
 
 # ─── process_strain ───────────────────────────────────────────────────────────
 
@@ -824,6 +961,7 @@ class TestProcessStrain:
     def row(self, data_dir):
         return {
             "strain_name": "MED4",
+            "preferred_name": "Prochlorococcus MED4",
             "data_dir": str(data_dir),
             "ncbi_taxon_id": "",  # No UniProt for this test
         }
@@ -892,6 +1030,43 @@ class TestProcessStrain:
         process_strain(row, MINIMAL_CONFIG, force=False)
         merged = json.loads((data_dir / "gene_annotations_merged.json").read_text())
         assert "PMM0001" in merged  # completed without error
+
+    def test_organism_strain_from_preferred_name(self, row, data_dir):
+        process_strain(row, MINIMAL_CONFIG, force=False)
+        merged = json.loads((data_dir / "gene_annotations_merged.json").read_text())
+        assert merged["PMM0001"]["organism_strain"] == "Prochlorococcus MED4"
+        assert merged["PMM0002"]["organism_strain"] == "Prochlorococcus MED4"
+
+    def test_organism_strain_falls_back_to_strain_name(self, data_dir):
+        row_no_pref = {
+            "strain_name": "MED4",
+            "data_dir": str(data_dir),
+            "ncbi_taxon_id": "",
+        }
+        process_strain(row_no_pref, MINIMAL_CONFIG, force=True)
+        merged = json.loads((data_dir / "gene_annotations_merged.json").read_text())
+        assert merged["PMM0001"]["organism_strain"] == "MED4"
+
+    def test_gene_summary_in_merged(self, row, data_dir):
+        process_strain(row, MINIMAL_CONFIG, force=False)
+        merged = json.loads((data_dir / "gene_annotations_merged.json").read_text())
+        summary = merged["PMM0001"].get("gene_summary", "")
+        assert "dnaN" in summary
+        assert "::" in summary
+
+    def test_all_identifiers_in_merged(self, row, data_dir):
+        process_strain(row, MINIMAL_CONFIG, force=False)
+        merged = json.loads((data_dir / "gene_annotations_merged.json").read_text())
+        pmm1 = merged["PMM0001"]
+        # all_identifiers is built from gene_synonyms (minus gene_name) + other alt ID fields;
+        # MINIMAL_CONFIG resolves gene_synonyms from gene_names_cyanorak + gene_names;
+        # gene_names="dnaN" in GENE_MAPPING_SIMPLE → gene_name="dnaN" (first token),
+        # gene_synonyms=["dnaN", "repA"...] minus gene_name
+        # Depending on config fields, all_identifiers may or may not be populated
+        ids = pmm1.get("all_identifiers")
+        if ids is not None:
+            assert isinstance(ids, list)
+            assert pmm1["locus_tag"] not in ids  # locus_tag excluded
 
 
 # ─── Fix D: kegg_pathway filter ───────────────────────────────────────────────

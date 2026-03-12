@@ -362,6 +362,7 @@ class AnnotationBuilder:
         gm: dict,
         eg: dict,
         up: dict,
+        organism_name: str | None = None,
     ) -> dict:
         """Apply merge rules → canonical field set."""
         result: dict[str, Any] = {}
@@ -466,6 +467,37 @@ class AnnotationBuilder:
         if alt_descriptions:
             result["alternate_functional_descriptions"] = alt_descriptions
 
+        # ── Computed fields for MCP gene lookup ──────────────────────────────
+
+        # organism_strain — preferred organism name (e.g., "Prochlorococcus MED4")
+        if organism_name:
+            result["organism_strain"] = organism_name
+
+        # gene_summary — primary display field: "gene_name :: product :: description"
+        gene_name = result.get("gene_name", "")
+        product = result.get("product", "")
+        best_desc = up_func or eg_desc or cyanorak_prod or ncbi_prod
+        if best_desc == product:
+            best_desc = ""
+        summary_parts = [p for p in [gene_name, product, best_desc] if p]
+        if summary_parts:
+            result["gene_summary"] = " :: ".join(summary_parts)
+
+        # all_identifiers — union of all alternative ID fields for get_gene lookup
+        # Excludes locus_tag and gene_name (they have their own scalar indexes)
+        scalar_indexed = {result.get("locus_tag"), gene_name} - {None, ""}
+        all_ids = set(filter(None, [
+            result.get("locus_tag_ncbi"),
+            result.get("locus_tag_cyanorak"),
+            result.get("protein_id"),
+        ]))
+        all_ids.update(result.get("old_locus_tags") or [])
+        all_ids.update(result.get("alternative_locus_tags") or [])
+        all_ids.update(result.get("gene_name_synonyms") or [])
+        all_ids -= scalar_indexed
+        if all_ids:
+            result["all_identifiers"] = sorted(all_ids)
+
         return result
 
 
@@ -477,6 +509,7 @@ def process_strain(
     force: bool = False,
 ) -> None:
     strain_name = row["strain_name"]
+    preferred_name = (row.get("preferred_name") or "").strip() or strain_name
     data_dir = row["data_dir"].rstrip("/")
     taxon_id_str = (row.get("ncbi_taxon_id") or "").strip()
     ncbi_taxon_id = int(taxon_id_str) if taxon_id_str else None
@@ -522,7 +555,7 @@ def process_strain(
             stats["uniprot_hit"] += 1
 
         wide_out[locus_tag] = builder.build_wide(gm_row, eg_row, up_row)
-        merged = builder.build_merged(gm_row, eg_row, up_row)
+        merged = builder.build_merged(gm_row, eg_row, up_row, organism_name=preferred_name)
         merged_out[locus_tag] = merged
 
         if merged.get("product"):

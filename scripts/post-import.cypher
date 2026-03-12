@@ -11,6 +11,17 @@
 
 // Add your custom Cypher commands below:
 
+// Scalar indexes for get_gene exact lookup
+CREATE INDEX gene_locus_tag_idx IF NOT EXISTS FOR (g:Gene) ON (g.locus_tag);
+CREATE INDEX gene_name_idx IF NOT EXISTS FOR (g:Gene) ON (g.gene_name);
+CREATE INDEX gene_organism_strain_idx IF NOT EXISTS FOR (g:Gene) ON (g.organism_strain);
+
+// Full-text index for find_gene free-text search
+CALL db.index.fulltext.createNodeIndex('geneFullText', ['Gene'],
+  ['gene_summary', 'gene_synonyms', 'product_cyanorak',
+   'alternate_functional_descriptions', 'go_term_descriptions',
+   'pfam_names', 'pfam_descriptions', 'eggnog_og_descriptions']);
+
 // Create gene_is_homolog_of_gene edges between genes sharing a Cyanorak cluster.
 // Edges are created in BOTH directions (A→B and B→A) so LLM agents can
 // traverse from any gene to all its homologs without directionless patterns.

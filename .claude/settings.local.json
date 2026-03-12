@@ -39,7 +39,8 @@
       "Bash(cypher-shell -a bolt://localhost:7687)",
       "Bash(echo \"MATCH \\(o:OrganismTaxon\\) WHERE o.id STARTS WITH ''insdc.gcf'' RETURN o.strain_name AS strain, o.genus AS genus, o.clade AS clade ORDER BY genus, strain;\")",
       "Bash(docker exec -i deploy cypher-shell -a bolt://localhost:7687)",
-      "Bash(echo \"MATCH \\(g:Gene\\) WHERE NOT \\(g\\)<-[:Affects_expression_of]-\\(\\) AND NOT \\(g\\)<-[:Affects_expression_of_homolog]-\\(\\) RETURN count\\(g\\) AS genes_no_expression;\")"
+      "Bash(echo \"MATCH \\(g:Gene\\) WHERE NOT \\(g\\)<-[:Affects_expression_of]-\\(\\) AND NOT \\(g\\)<-[:Affects_expression_of_homolog]-\\(\\) RETURN count\\(g\\) AS genes_no_expression;\")",
+      "WebFetch(domain:biocypher.org)"
     ]
   }
 }

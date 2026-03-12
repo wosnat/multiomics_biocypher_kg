@@ -158,6 +158,10 @@ class GeneNodeField(Enum, metaclass=GeneEnumMeta):
     TRANSPORTER_CLASSIFICATION = 'transporter_classification'
     CAZY_IDS = 'cazy_ids'
     BIGG_REACTION = 'bigg_reaction'
+    # Computed fields for MCP gene lookup
+    ORGANISM_STRAIN = 'organism_strain'
+    GENE_SUMMARY = 'gene_summary'
+    ALL_IDENTIFIERS = 'all_identifiers'
     # Quality
     ANNOTATION_QUALITY = 'annotation_quality'
 
