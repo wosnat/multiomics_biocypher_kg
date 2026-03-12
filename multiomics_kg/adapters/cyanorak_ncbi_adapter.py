@@ -152,7 +152,7 @@ class GeneNodeField(Enum, metaclass=GeneEnumMeta):
     PFAM_NAMES = 'pfam_names'
     PFAM_DESCRIPTIONS = 'pfam_descriptions'
     # Specialized function
-    CATALYTIC_ACTIVITY = 'catalytic_activity'
+    CATALYTIC_ACTIVITY = 'catalytic_activities'
     TRANSMEMBRANE_REGIONS = 'transmembrane_regions'
     SIGNAL_PEPTIDE = 'signal_peptide'
     TRANSPORTER_CLASSIFICATION = 'transporter_classification'
