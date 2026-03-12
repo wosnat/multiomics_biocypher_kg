@@ -87,7 +87,7 @@ Each `Condition_changes_expression_of` and `Coculture_changes_expression_of` edg
 | `log2_fold_change` | float | Data CSV column (`logfc_col`) | Yes |
 | `adjusted_p_value` | float | Data CSV column (`adjusted_p_value_col`) or inferred from asterisk convention | No |
 | `expression_direction` | string | Derived: `"up"` if log2FC > 0, `"down"` otherwise | Yes |
-| `significant` | boolean | Computed from thresholds or asterisk convention | When determinable |
+| `significant` | string | `"significant"`, `"not significant"`, or `"unknown"` — computed from thresholds or asterisk convention | Yes |
 | `control_condition` | string | Paperconfig analysis field | When available |
 | `experimental_context` | string | Paperconfig analysis field | When available |
 | `time_point` | string | Paperconfig analysis field | When available |
@@ -107,9 +107,11 @@ Statistical significance is determined through a three-priority cascade, evaluat
 
 **Priority 2 — Asterisk convention.** Some publications encode significance as asterisks appended to fold-change values (e.g., `"1.23 *"` for significant, `"0.45"` for non-significant). When `pvalue_asterisk_in_logfc: true` is set, the adapter strips asterisks from the fold-change string and records their presence as a boolean significance flag. A synthetic `adjusted_p_value` is assigned: the configured `pvalue_threshold` (default 0.05) when significant, or 1.0 when not. This convention is used by several time-course studies in the dataset (e.g., Biller 2016, Coe 2024) where per-gene p-values were computed but only the binary significance outcome was reported in supplementary tables.
 
-**Priority 3 — Threshold-based classification.** When neither prefiltering nor asterisk conventions apply, significance is computed by comparing the row's `adjusted_p_value` against a threshold (default 0.05, overridable per analysis via `pvalue_threshold`) and the absolute `log2_fold_change` against a threshold (default 1.0, overridable via `logfc_threshold`). A row is significant only when both criteria are met. When neither p-value nor fold-change threshold can be evaluated (both values absent), significance is recorded as null.
+**Priority 3 — Threshold-based classification.** When neither prefiltering nor asterisk conventions apply, significance is computed by comparing the row's `adjusted_p_value` against a threshold (default 0.05, overridable per analysis via `pvalue_threshold`) and the absolute `log2_fold_change` against a threshold (default 1.0, overridable via `logfc_threshold`). A row is significant only when both criteria are met. When neither p-value nor fold-change threshold can be evaluated (both values absent), significance is recorded as `"unknown"`.
 
-The adapter supports two operating modes: in `"all"` mode (default), all rows produce edges regardless of significance, with a `significant` boolean property for downstream filtering; in `"significant_only"` mode, rows classified as non-significant are excluded from edge generation.
+The `significant` property is a string with three possible values: `"significant"`, `"not significant"`, or `"unknown"`. This avoids boolean serialization issues with neo4j-admin import and provides a self-documenting value in Cypher queries (e.g., `WHERE r.significant = 'significant'`).
+
+The adapter supports two operating modes: in `"all"` mode (default), all rows produce edges regardless of significance, with a `significant` string property for downstream filtering; in `"significant_only"` mode, rows classified as `"not significant"` are excluded from edge generation.
 
 ## Pre-resolved CSV Integration
 

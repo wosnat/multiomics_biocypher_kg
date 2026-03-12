@@ -426,30 +426,30 @@ class OMICSAdapter:
         pvalue: float | None,
         asterisk_significant: bool | None,
         analysis: dict,
-    ) -> bool | None:
+    ) -> str:
         """
         Determine whether a row is statistically significant.
 
         Priority order:
-        1. prefiltered: true → always True
+        1. prefiltered: true → always "significant"
         2. pvalue_asterisk_in_logfc → use asterisk_significant
         3. Thresholds (config overrides constructor defaults)
-        4. None if no info available
+        4. "unknown" if no info available
 
         Returns:
-            True, False, or None (unknown).
+            "significant", "not significant", or "unknown".
         """
         if analysis.get('prefiltered'):
-            return True
+            return 'significant'
 
         if asterisk_significant is not None:
-            return asterisk_significant
+            return 'significant' if asterisk_significant else 'not significant'
 
         pval_thresh = analysis.get('pvalue_threshold') or self.default_pvalue_threshold
         logfc_thresh = analysis.get('logfc_threshold') or self.default_logfc_threshold
 
         if pval_thresh is None and logfc_thresh is None:
-            return None
+            return 'unknown'
 
         sig = True
         if logfc_thresh is not None and fc_value is not None:
@@ -457,7 +457,7 @@ class OMICSAdapter:
         if pval_thresh is not None and pvalue is not None:
             sig = sig and (pvalue <= pval_thresh)
 
-        return sig
+        return 'significant' if sig else 'not significant'
 
     def _determine_source_id(self, analysis: dict) -> str | None:
         """
@@ -672,9 +672,8 @@ class OMICSAdapter:
 
                 # Check significance and optionally filter
                 significant = self._check_significance(fc_float, pval, asterisk_significant, analysis)
-                if significant is not None:
-                    edge_properties['significant'] = significant
-                if self.significance_mode == "significant_only" and significant is False:
+                edge_properties['significant'] = significant
+                if self.significance_mode == "significant_only" and significant == 'not significant':
                     skipped_count += 1
                     continue
 

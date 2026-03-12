@@ -43,7 +43,7 @@ coculture to gene expression association:
     time_point: str
     log2_fold_change: float
     adjusted_p_value: float
-    significant: boolean           # whether the row meets significance thresholds
+    significant: str               # "significant" | "not significant" | "unknown"
     publications: str[]
     omics_type: str                # RNASEQ | PROTEOMICS | METABOLOMICS | MICROARRAY
     organism_strain: str           # which organism's genes are measured (e.g., "MED4")
@@ -66,7 +66,7 @@ condition to gene expression association:
     time_point: str
     log2_fold_change: float
     adjusted_p_value: float
-    significant: boolean           # whether the row meets significance thresholds
+    significant: str               # "significant" | "not significant" | "unknown"
     publications: str[]
     omics_type: str
     organism_strain: str
@@ -89,7 +89,7 @@ coculture to ortholog gene expression association:
     time_point: str
     log2_fold_change: float
     adjusted_p_value: float
-    significant: boolean
+    significant: str               # "significant" | "not significant" | "unknown"
     publications: str[]
     omics_type: str
     organism_strain: str
@@ -116,7 +116,7 @@ condition to ortholog gene expression association:
     time_point: str
     log2_fold_change: float
     adjusted_p_value: float
-    significant: boolean
+    significant: str               # "significant" | "not significant" | "unknown"
     publications: str[]
     omics_type: str
     organism_strain: str

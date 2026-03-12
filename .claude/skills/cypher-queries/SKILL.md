@@ -94,8 +94,8 @@ Gene nodes carry many denormalized annotation fields beyond the key properties a
 
 | Relationship | Source → Target | Key Properties |
 |---|---|---|
-| `Condition_changes_expression_of` | EnvironmentalCondition → Gene | `log2_fold_change`, `adjusted_p_value`, `expression_direction` (up/down), `control_condition`, `experimental_context`, `time_point`, `publications[]`, `significant`, `omics_type`, `organism_strain`, `treatment_condition`, `statistical_test`, `analysis_name` |
-| `Coculture_changes_expression_of` | OrganismTaxon → Gene | `log2_fold_change`, `adjusted_p_value`, `expression_direction` (up/down), `control_condition`, `experimental_context`, `time_point`, `publications[]`, `significant`, `omics_type`, `organism_strain`, `treatment_condition`, `statistical_test`, `analysis_name` |
+| `Condition_changes_expression_of` | EnvironmentalCondition → Gene | `log2_fold_change`, `adjusted_p_value`, `expression_direction` (up/down), `control_condition`, `experimental_context`, `time_point`, `publications[]`, `significant` (significant/not significant/unknown), `omics_type`, `organism_strain`, `treatment_condition`, `statistical_test`, `analysis_name` |
+| `Coculture_changes_expression_of` | OrganismTaxon → Gene | `log2_fold_change`, `adjusted_p_value`, `expression_direction` (up/down), `control_condition`, `experimental_context`, `time_point`, `publications[]`, `significant` (significant/not significant/unknown), `omics_type`, `organism_strain`, `treatment_condition`, `statistical_test`, `analysis_name` |
 | `Condition_changes_expression_of_ortholog` | EnvironmentalCondition → Gene | same as above + `original_gene`, `homology_source`, `homology_cluster_id`, `distance` |
 | `Coculture_changes_expression_of_ortholog` | OrganismTaxon → Gene | same as above + `original_gene`, `homology_source`, `homology_cluster_id`, `distance` |
 | `Published_expression_data_about` | Publication → EnvironmentalCondition/OrganismTaxon | — |
@@ -300,7 +300,7 @@ LIMIT 20
 
 // Count DE genes per coculture partner
 MATCH (org:OrganismTaxon)-[r:Coculture_changes_expression_of]->(g:Gene)
-WHERE r.significant = true
+WHERE r.significant = 'significant'
 RETURN org.organism_name, r.expression_direction, count(g) AS gene_count
 ORDER BY org.organism_name, r.expression_direction
 
@@ -336,7 +336,7 @@ ORDER BY env.condition_type, env.name
 
 // DE genes from all stress experiments
 MATCH (env:EnvironmentalCondition)-[r:Condition_changes_expression_of]->(g:Gene)
-WHERE r.significant = true
+WHERE r.significant = 'significant'
 RETURN env.name, env.condition_category, r.expression_direction, count(g) AS gene_count
 ORDER BY gene_count DESC
 
@@ -366,7 +366,7 @@ RETURN g.locus_tag, g.product, r1.expression_direction AS coculture_dir, r2.expr
 
 // Genes consistently up across multiple conditions (both edge types)
 MATCH (factor)-[r:Condition_changes_expression_of|Coculture_changes_expression_of]->(g:Gene)
-WHERE r.expression_direction = 'up' AND r.significant = true
+WHERE r.expression_direction = 'up' AND r.significant = 'significant'
 WITH g, count(DISTINCT factor) AS up_count
 WHERE up_count >= 3
 RETURN g.locus_tag, g.product, g.function_description, up_count
@@ -462,7 +462,7 @@ ORDER BY gene_count DESC
 
 // Most common COG categories in all DE genes (both edge types)
 MATCH (factor)-[r:Condition_changes_expression_of|Coculture_changes_expression_of]->(g:Gene)-[:Gene_in_cog_category]->(cog:CogFunctionalCategory)
-WHERE r.significant = true
+WHERE r.significant = 'significant'
 RETURN cog.code, cog.name, r.expression_direction, count(g) AS gene_count
 ORDER BY gene_count DESC
 LIMIT 20
@@ -578,7 +578,7 @@ LIMIT 20
 
 // Top genes by fold change from environmental condition experiments
 MATCH (env:EnvironmentalCondition)-[r:Condition_changes_expression_of]->(g:Gene)
-WHERE r.significant = true
+WHERE r.significant = 'significant'
 RETURN g.locus_tag, g.product, r.expression_direction,
        max(abs(r.log2_fold_change)) AS max_fc
 ORDER BY max_fc DESC
@@ -586,7 +586,7 @@ LIMIT 20
 
 // Top genes by fold change from coculture experiments
 MATCH (org:OrganismTaxon)-[r:Coculture_changes_expression_of]->(g:Gene)
-WHERE r.significant = true
+WHERE r.significant = 'significant'
 RETURN g.locus_tag, g.product, r.expression_direction,
        max(abs(r.log2_fold_change)) AS max_fc
 ORDER BY max_fc DESC
