@@ -23,6 +23,13 @@ import json
 import os
 import re
 from typing import Any
+
+# Identifier-style gene names that should NOT appear in gene_summary.
+# Matches locus-tag patterns like ALTBGP6_RS00025, MIT1002_00123, PMM0001, SYNW1033.
+_IDENTIFIER_RE = re.compile(
+    r'^[A-Za-z]+\d*_(?:RS)?\d+$'   # PREFIX_[RS]DIGITS  (e.g. TK37_RS12345, A9601_12345)
+    r'|^[A-Z]{3,5}\d{4,}$'         # 3-5 uppercase + 4+ digits  (e.g. SYNW1033, PMM0001)
+)
 from urllib.parse import unquote
 
 from multiomics_kg.download.utils.annotation_helpers import (
@@ -409,17 +416,21 @@ class AnnotationBuilder:
         # Add source-tracking fields collected during 'single' resolution
         result.update(source_tracking)
 
-        # Compute annotation_quality (0–3)
-        is_reviewed = up.get("is_reviewed") == "reviewed"
-        has_cyanorak_product = _nonempty(gm.get("product_cyanorak"))
-        has_ncbi_product = _nonempty(gm.get("product"))
-        has_eggnog = bool(eg)
+        # Compute annotation_quality (0–3) based on product content + structured annotations
+        product = result.get("product", "")
+        func_desc = result.get("function_description", "")
+        is_hypothetical = not product or bool(re.match(
+            r'^(hypothetical|conserved hypothetical|uncharacterized)\b', product, re.IGNORECASE
+        ))
 
-        if is_reviewed:
-            quality = 3
-        elif has_cyanorak_product or has_ncbi_product:
-            quality = 2
-        elif has_eggnog:
+        if not is_hypothetical:
+            # Count structured annotations: go_terms, kegg_ko, ec_numbers, pfam_ids
+            structured_count = sum(
+                1 for f in ("go_terms", "kegg_ko", "ec_numbers", "pfam_ids")
+                if result.get(f)
+            )
+            quality = 3 if structured_count >= 2 else 2
+        elif func_desc and func_desc != "-":
             quality = 1
         else:
             quality = 0
@@ -475,9 +486,16 @@ class AnnotationBuilder:
 
         # gene_summary — primary display field: "gene_name :: product :: description"
         gene_name = result.get("gene_name", "")
+        locus_tag = result.get("locus_tag", "")
+        # Skip gene_name when it's just an identifier, not a biological name
+        if gene_name and (gene_name == locus_tag or _IDENTIFIER_RE.match(gene_name)):
+            gene_name = ""
         product = result.get("product", "")
         best_desc = up_func or eg_desc or cyanorak_prod or ncbi_prod
         if best_desc == product:
+            best_desc = ""
+        # Skip uninformative "domain/protein of unknown function" descriptions
+        if best_desc and re.match(r'^(Protein |Domain )of unknown function', best_desc):
             best_desc = ""
         summary_parts = [p for p in [gene_name, product, best_desc] if p]
         if summary_parts:

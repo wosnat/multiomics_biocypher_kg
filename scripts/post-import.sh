@@ -15,9 +15,8 @@ CYPHER
 echo "=== Post-process: Create full-text index ==="
 cypher-shell <<'CYPHER'
 CREATE FULLTEXT INDEX geneFullText IF NOT EXISTS FOR (n:Gene) ON EACH [
-  n.gene_summary, n.gene_synonyms, n.product_cyanorak,
-  n.alternate_functional_descriptions, n.go_term_descriptions,
-  n.pfam_names, n.pfam_descriptions, n.eggnog_og_descriptions];
+  n.gene_summary, n.gene_synonyms,
+  n.alternate_functional_descriptions, n.pfam_names];
 CYPHER
 
 echo "=== Post-process: Cyanorak homolog edges ==="

@@ -776,29 +776,73 @@ class TestAnnotationBuilderBuildMerged:
         assert "gene_synonyms" not in merged
 
     # ── annotation_quality ────────────────────────────────────────────────────
+    # Scoring: 0=hypothetical-no-func, 1=hypothetical-with-func,
+    #          2=real-product, 3=real-product + ≥2 structured annotations
 
-    def test_quality_3_when_uniprot_reviewed(self):
-        merged = self.builder.build_merged(GM, EG, dict(UP, is_reviewed="reviewed"))
+    def test_quality_3_real_product_with_structured(self):
+        # GM has real product + go_terms + ec_numbers + pfam_ids → quality 3
+        merged = self.builder.build_merged(GM, EG, UP)
         assert merged["annotation_quality"] == 3
 
-    def test_quality_2_when_cyanorak_product(self):
-        up_no_review = {k: v for k, v in UP.items() if k != "reviewed"}
-        gm = dict(GM, product_cyanorak="some product")
-        merged = self.builder.build_merged(gm, {}, up_no_review)
-        assert merged["annotation_quality"] == 2
-
-    def test_quality_2_when_ncbi_product(self):
-        gm = dict(GM, product_cyanorak="", product="ncbi product")
+    def test_quality_2_real_product_no_structured(self):
+        # Real product but no structured annotations (no GO, KEGG, EC, Pfam sources)
+        gm = dict(GM, product_cyanorak="some product", product="",
+                  go_process="", go_function="", go_component="",
+                  ec_numbers="", kegg="", protein_domains="", eggNOG="")
         merged = self.builder.build_merged(gm, {}, {})
         assert merged["annotation_quality"] == 2
 
-    def test_quality_1_when_only_eggnog(self):
-        gm = dict(GM, product_cyanorak="", product="")
-        merged = self.builder.build_merged(gm, EG, {})
+    def test_quality_2_real_product_one_structured(self):
+        # Real product + only 1 structured field (ec_numbers) → quality 2 not 3
+        gm = dict(GM, product_cyanorak="some product", product="",
+                  go_process="", go_function="", go_component="",
+                  kegg="", protein_domains="", eggNOG="")
+        # ec_numbers="2.7.7.7" still in GM → 1 structured field
+        merged = self.builder.build_merged(gm, {}, {})
+        assert merged["annotation_quality"] == 2
+
+    def test_quality_1_hypothetical_with_func(self):
+        # Hypothetical product but has function_description from UniProt
+        gm = dict(GM, product_cyanorak="", product="hypothetical protein",
+                  go_process="", go_function="", go_component="",
+                  ec_numbers="", kegg="", protein_domains="", eggNOG="")
+        merged = self.builder.build_merged(gm, {}, UP)
         assert merged["annotation_quality"] == 1
+
+    def test_quality_0_hypothetical_no_func(self):
+        # Hypothetical product, no function_description
+        gm = dict(GM, product_cyanorak="", product="hypothetical protein",
+                  go_process="", go_function="", go_component="",
+                  ec_numbers="", kegg="", protein_domains="", eggNOG="")
+        merged = self.builder.build_merged(gm, {}, {})
+        assert merged["annotation_quality"] == 0
 
     def test_quality_0_when_nothing(self):
         gm = {k: "" for k in GM}
+        merged = self.builder.build_merged(gm, {}, {})
+        assert merged["annotation_quality"] == 0
+
+    def test_quality_0_uncharacterized_counts_as_hypothetical(self):
+        gm = dict(GM, product_cyanorak="", product="Uncharacterized protein",
+                  go_process="", go_function="", go_component="",
+                  ec_numbers="", kegg="", protein_domains="", eggNOG="")
+        merged = self.builder.build_merged(gm, {}, {})
+        assert merged["annotation_quality"] == 0
+
+    def test_quality_0_conserved_hypothetical(self):
+        gm = dict(GM, product_cyanorak="", product="conserved hypothetical protein",
+                  go_process="", go_function="", go_component="",
+                  ec_numbers="", kegg="", protein_domains="", eggNOG="")
+        merged = self.builder.build_merged(gm, {}, {})
+        assert merged["annotation_quality"] == 0
+
+    def test_quality_0_hypothetical_with_structured_but_no_func(self):
+        # Hypothetical product with GO + EC (structured annotations) but no
+        # function_description → still quality 0, not 3.
+        # Structured annotations only boost quality for non-hypothetical products.
+        gm = dict(GM, product_cyanorak="", product="hypothetical protein")
+        # GM has go_process + ec_numbers → structured fields resolve, but
+        # product is hypothetical and no func_desc → quality 0
         merged = self.builder.build_merged(gm, {}, {})
         assert merged["annotation_quality"] == 0
 
@@ -861,6 +905,70 @@ class TestAnnotationBuilderBuildMerged:
         # gene_name may be absent; if so, no summary at all
         if summary:
             assert "::" not in summary or len(summary.split("::")) <= 2
+
+    def test_gene_summary_skips_locus_tag_gene_name(self):
+        # gene_name == locus_tag → should not appear in summary
+        gm = dict(GM, gene_names_cyanorak="", gene_names="PMM0001",
+                  product_cyanorak="some product")
+        merged = self.builder.build_merged(gm, {}, {})
+        summary = merged.get("gene_summary", "")
+        assert "PMM0001" not in summary
+        assert "some product" in summary
+
+    def test_gene_summary_skips_refseq_rs_gene_name(self):
+        # RS-pattern gene_name → excluded
+        gm = dict(GM, gene_names_cyanorak="", gene_names="ALTBGP6_RS00025",
+                  locus_tag="ALTBGP6_RS00025", product_cyanorak="some toxin")
+        merged = self.builder.build_merged(gm, {}, {})
+        summary = merged.get("gene_summary", "")
+        assert "ALTBGP6_RS00025" not in summary
+        assert "some toxin" in summary
+
+    def test_gene_summary_skips_synw_style_gene_name(self):
+        # SYNW1033-style identifier → excluded
+        gm = dict(GM, gene_names_cyanorak="", gene_names="SYNW1033",
+                  product_cyanorak="photosystem II protein")
+        merged = self.builder.build_merged(gm, {}, {})
+        summary = merged.get("gene_summary", "")
+        assert "SYNW1033" not in summary
+        assert "photosystem II protein" in summary
+
+    def test_gene_summary_skips_mit1002_style_gene_name(self):
+        # MIT1002_00123-style identifier → excluded
+        gm = dict(GM, gene_names_cyanorak="", gene_names="MIT1002_00123",
+                  product_cyanorak="ABC transporter")
+        merged = self.builder.build_merged(gm, {}, {})
+        summary = merged.get("gene_summary", "")
+        assert "MIT1002_00123" not in summary
+        assert "ABC transporter" in summary
+
+    def test_gene_summary_keeps_real_gene_name(self):
+        # Real biological names like dnaN, rpsT, petB → kept
+        for name in ["dnaN", "rpsT", "petB", "rlmB"]:
+            gm = dict(GM, gene_names_cyanorak=name, product_cyanorak="some product")
+            merged = self.builder.build_merged(gm, {}, {})
+            summary = merged.get("gene_summary", "")
+            assert name in summary, f"{name} should be in summary"
+
+    def test_gene_summary_skips_duf_description(self):
+        # "Protein of unknown function (DUF3464)" → excluded from summary
+        gm = dict(GM, gene_names_cyanorak="", gene_names="",
+                  product_cyanorak="", product="some membrane protein")
+        eg = dict(EG, Description="Protein of unknown function (DUF3464)")
+        merged = self.builder.build_merged(gm, eg, {})
+        summary = merged.get("gene_summary", "")
+        assert "unknown function" not in summary
+        assert "some membrane protein" in summary
+
+    def test_gene_summary_skips_domain_of_unknown_function(self):
+        # "Domain of unknown function" variant → also excluded
+        gm = dict(GM, gene_names_cyanorak="", gene_names="",
+                  product_cyanorak="", product="some enzyme")
+        eg = dict(EG, Description="Domain of unknown function (DUF1234)")
+        merged = self.builder.build_merged(gm, eg, {})
+        summary = merged.get("gene_summary", "")
+        assert "unknown function" not in summary
+        assert "some enzyme" in summary
 
     # ── all_identifiers ──────────────────────────────────────────────────────
 
@@ -1005,9 +1113,9 @@ class TestProcessStrain:
     def test_annotation_quality_in_merged(self, row, data_dir):
         process_strain(row, MINIMAL_CONFIG, force=False)
         merged = json.loads((data_dir / "gene_annotations_merged.json").read_text())
-        # PMM0001 has product_cyanorak → quality 2
+        # PMM0001 has real product, no structured annotations → quality 2
         assert merged["PMM0001"]["annotation_quality"] == 2
-        # PMM0002 has product_cyanorak → quality 2 as well
+        # PMM0002 has real product, no structured annotations → quality 2
         assert merged["PMM0002"]["annotation_quality"] == 2
 
     def test_eggnog_rows_joined_via_protein_id(self, row, data_dir):

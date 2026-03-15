@@ -17,17 +17,16 @@ CREATE INDEX gene_name_idx IF NOT EXISTS FOR (g:Gene) ON (g.gene_name);
 CREATE INDEX gene_organism_strain_idx IF NOT EXISTS FOR (g:Gene) ON (g.organism_strain);
 
 // Full-text index for find_gene free-text search
-CALL db.index.fulltext.createNodeIndex('geneFullText', ['Gene'],
-  ['gene_summary', 'gene_synonyms', 'product_cyanorak',
-   'alternate_functional_descriptions', 'go_term_descriptions',
-   'pfam_names', 'pfam_descriptions', 'eggnog_og_descriptions']);
+CREATE FULLTEXT INDEX geneFullText IF NOT EXISTS FOR (n:Gene) ON EACH [
+  n.gene_summary, n.gene_synonyms,
+  n.alternate_functional_descriptions, n.pfam_names];
 
 // Create gene_is_homolog_of_gene edges between genes sharing a Cyanorak cluster.
 // Edges are created in BOTH directions (A→B and B→A) so LLM agents can
 // traverse from any gene to all its homologs without directionless patterns.
 // The `distance` property captures phylogenetic proximity between the two organisms.
 MATCH (g1:Gene)-[:Gene_in_cyanorak_cluster]->(c:Cyanorak_cluster)<-[:Gene_in_cyanorak_cluster]-(g2:Gene)
-WHERE id(g1) <> id(g2)
+WHERE elementId(g1) <> elementId(g2)
 MATCH (g1)-[:Gene_belongs_to_organism]->(o1:OrganismTaxon)
 MATCH (g2)-[:Gene_belongs_to_organism]->(o2:OrganismTaxon)
 WITH g1, g2, c, o1, o2,
@@ -53,7 +52,7 @@ MATCH (g1:Gene)-[:Gene_belongs_to_organism]->(o1:OrganismTaxon)
 MATCH (g2:Gene)-[:Gene_belongs_to_organism]->(o2:OrganismTaxon)
 WHERE g1.alteromonadaceae_og IS NOT NULL
   AND g1.alteromonadaceae_og = g2.alteromonadaceae_og
-  AND id(g1) <> id(g2)
+  AND elementId(g1) <> elementId(g2)
   AND o1.genus = "Alteromonas"
   AND o2.genus = "Alteromonas"
 WITH g1, g2, g1.alteromonadaceae_og AS og_id, o1, o2,
@@ -71,7 +70,7 @@ MATCH (g1:Gene)-[:Gene_belongs_to_organism]->(o1:OrganismTaxon)
 MATCH (g2:Gene)-[:Gene_belongs_to_organism]->(o2:OrganismTaxon)
 WHERE g1.bacteria_cog_og IS NOT NULL
   AND g1.bacteria_cog_og = g2.bacteria_cog_og
-  AND id(g1) <> id(g2)
+  AND elementId(g1) <> elementId(g2)
   AND (
     (o1.genus = "Alteromonas" AND o2.genus <> "Alteromonas")
     OR (o2.genus = "Alteromonas" AND o1.genus <> "Alteromonas")

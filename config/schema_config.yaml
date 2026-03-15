@@ -262,7 +262,7 @@ gene:
     gene_summary: str                 # "gene_name :: product :: description"
     all_identifiers: str[]            # union of all alt IDs for single-array get_gene lookup
     # Quality
-    annotation_quality: int           # 0=none,1=eggnog-only,2=NCBI/Cyanorak,3=UniProt
+    annotation_quality: int           # 0=hypothetical-no-func, 1=hypothetical-with-func, 2=real-product, 3=real-product+structured
 
 # consider adding: Note, exceptions, inference
 

@@ -114,7 +114,7 @@ Most adapters have a single-source class (e.g., `CyanorakNcbi`) and a **Multi***
 ### Docker Pipeline Stages
 1. **build** — runs `create_knowledge_graph.py`, outputs CSVs
 2. **import** — runs `neo4j-admin import` from generated script
-3. **post-process** — executes `scripts/post-import.cypher`, which creates bidirectional `gene_is_homolog_of_gene` edges between genes sharing a Cyanorak cluster (needed because BioCypher can't infer these during import)
+3. **post-process** — executes `scripts/post-import.sh` (the authoritative post-import script run by Docker via `cypher-shell`). Creates indexes, homolog edges, and ortholog expression propagation. `scripts/post-import.cypher` is a reference copy kept in sync for non-Docker use — both files must have identical Cypher logic.
 4. **deploy** — exposes Neo4j
 5. **app** — Biochatter web UI
 
@@ -345,7 +345,7 @@ uv run python tests/kg_validity/generate_snapshot.py
 - `preferred_name` property on `OrganismTaxon` nodes (e.g., `"Prochlorococcus MED4"`)
 - Gene node computed fields for MCP gene lookup: `organism_strain` (preferred organism name), `gene_summary` ("name :: product :: description"), `all_identifiers` (union of all alt IDs)
 - `go_term_descriptions` on Gene nodes is `str[]` (list), not a scalar string
-- Post-import indexes: scalar (`gene_locus_tag_idx`, `gene_name_idx`, `gene_organism_strain_idx`) + full-text (`geneFullText` on gene_summary, gene_synonyms, product_cyanorak, alternate_functional_descriptions, go_term_descriptions, pfam_names, pfam_descriptions, eggnog_og_descriptions)
+- Post-import indexes: scalar (`gene_locus_tag_idx`, `gene_name_idx`, `gene_organism_strain_idx`) + full-text (`geneFullText` on gene_summary, gene_synonyms, alternate_functional_descriptions, pfam_names)
 - `Published_expression_data_about` edges: `(Publication)→(EnvironmentalCondition)` and `(Publication)→(OrganismTaxon)` — one edge per distinct source node used in a publication's analyses
 - `adjusted_p_value` may be null on expression edges (and propagated ortholog edges) when the original study did not report it
 - Strains in graph: MED4, AS9601, MIT9301, MIT9312, MIT9313, NATL1A, NATL2A, RSP50 (Prochlorococcus); CC9311 (Synechococcus); WH8102 (Parasynechococcus); MIT1002, EZ55, HOT1A3 (Alteromonas)

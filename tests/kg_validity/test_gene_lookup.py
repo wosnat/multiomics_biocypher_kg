@@ -44,9 +44,8 @@ def test_fulltext_index_exists(run_query):
     assert len(rows) == 1, "geneFullText index not found"
     props = set(rows[0]["properties"])
     expected_props = {
-        "gene_summary", "gene_synonyms", "product_cyanorak",
-        "alternate_functional_descriptions", "go_term_descriptions",
-        "pfam_names", "pfam_descriptions", "eggnog_og_descriptions",
+        "gene_summary", "gene_synonyms",
+        "alternate_functional_descriptions", "pfam_names",
     }
     assert expected_props == props, f"Index properties mismatch: missing={expected_props - props}, extra={props - expected_props}"
 
