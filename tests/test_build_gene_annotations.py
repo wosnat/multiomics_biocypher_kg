@@ -24,6 +24,7 @@ import pytest
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
 from multiomics_kg.download.build_gene_annotations import (
+    VALID_CATEGORIES,
     AnnotationBuilder,
     load_eggnog,
     load_gene_mapping,
@@ -1046,6 +1047,129 @@ class TestAllIdentifiersFullConfig:
         merged = self.builder.build_merged(gm, EG, UP)
         ids = merged.get("all_identifiers", [])
         assert ids == sorted(ids)
+
+
+# ─── gene_category with production config ────────────────────────────────────
+
+
+class TestGeneCategory:
+    """Test gene_category computed field using production config.
+
+    Priority: Cyanorak Role → TIGR Role → COG category → "Unknown".
+    """
+
+    def setup_method(self):
+        from multiomics_kg.download.utils.cli import load_config
+        config = load_config("config/gene_annotations_config.yaml")
+        self.builder = AnnotationBuilder(config)
+
+    # ── Cyanorak Role (Priority 1) ───────────────────────────────────────────
+
+    def test_category_from_cyanorak_role(self):
+        # Cyanorak "F.1" → top letter "F" → "Replication and repair"
+        gm = dict(GM, cyanorak_Role="F.1")
+        merged = self.builder.build_merged(gm, EG, {})
+        assert merged["gene_category"] == "Replication and repair"
+
+    def test_category_cyanorak_d1_stress(self):
+        # D.1.3 → sub_key "D.1" → "Stress response and adaptation"
+        gm = dict(GM, cyanorak_Role="D.1.3")
+        merged = self.builder.build_merged(gm, EG, {})
+        assert merged["gene_category"] == "Stress response and adaptation"
+
+    def test_category_cyanorak_d2_cell_division(self):
+        # D.2 → "Cell cycle and division"
+        gm = dict(GM, cyanorak_Role="D.2")
+        merged = self.builder.build_merged(gm, EG, {})
+        assert merged["gene_category"] == "Cell cycle and division"
+
+    def test_category_cyanorak_d4_chaperones(self):
+        # D.4 → "Post-translational modification"
+        gm = dict(GM, cyanorak_Role="D.4")
+        merged = self.builder.build_merged(gm, EG, {})
+        assert merged["gene_category"] == "Post-translational modification"
+
+    def test_category_cyanorak_d_bare_fallback(self):
+        # Bare "D" with no sub-code → CYANORAK_D_SUBCODES.get("D", "Cellular processes")
+        gm = dict(GM, cyanorak_Role="D")
+        merged = self.builder.build_merged(gm, EG, {})
+        assert merged["gene_category"] == "Cellular processes"
+
+    def test_category_cyanorak_j_photosynthesis(self):
+        # J.6 → top letter "J" → "Photosynthesis"
+        gm = dict(GM, cyanorak_Role="J.6")
+        merged = self.builder.build_merged(gm, EG, {})
+        assert merged["gene_category"] == "Photosynthesis"
+
+    def test_category_cyanorak_e_central_intermediary(self):
+        # E.4 → top letter "E" → "Central intermediary metabolism" (NOT amino acid!)
+        gm = dict(GM, cyanorak_Role="E.4")
+        merged = self.builder.build_merged(gm, EG, {})
+        assert merged["gene_category"] == "Central intermediary metabolism"
+
+    # ── Cyanorak "R" (Unknown) falls through ─────────────────────────────────
+
+    def test_category_cyanorak_r_falls_through_to_cog(self):
+        # Cyanorak R → "Unknown" → falls through to COG L → "Replication and repair"
+        gm = dict(GM, cyanorak_Role="R.2")
+        eg = dict(EG, COG_category="L")
+        merged = self.builder.build_merged(gm, eg, {})
+        assert merged["gene_category"] == "Replication and repair"
+
+    # ── COG category (Priority 3) ───────────────────────────────────────────
+
+    def test_category_cog_only_no_cyanorak(self):
+        # No cyanorak_Role → falls to COG L → "Replication and repair"
+        eg = dict(EG, COG_category="L")
+        merged = self.builder.build_merged(GM, eg, {})
+        assert merged["gene_category"] == "Replication and repair"
+
+    def test_category_cog_s_unknown(self):
+        # COG S → "Unknown"
+        eg = dict(EG, COG_category="S")
+        merged = self.builder.build_merged(GM, eg, {})
+        assert merged["gene_category"] == "Unknown"
+
+    def test_category_multi_valued_cog_uses_first(self):
+        # COG "LU" → split_cog_category → ["L", "U"] → first = "L" → "Replication and repair"
+        eg = dict(EG, COG_category="LU")
+        merged = self.builder.build_merged(GM, eg, {})
+        assert merged["gene_category"] == "Replication and repair"
+
+    # ── No sources → Unknown ─────────────────────────────────────────────────
+
+    def test_category_no_sources_unknown(self):
+        # No Cyanorak, no TIGR, no COG → "Unknown"
+        eg = dict(EG, COG_category="")
+        merged = self.builder.build_merged(GM, eg, {})
+        assert merged["gene_category"] == "Unknown"
+
+    # ── TIGR Role (Priority 2) ───────────────────────────────────────────────
+
+    def test_category_tigr_fallback(self):
+        # Cyanorak R (Unknown) + TIGR "Energy metabolism / Photosynthesis" → "Energy production"
+        # COG S (Unknown) — TIGR wins over COG
+        gm = dict(GM, cyanorak_Role="R",
+                   tIGR_Role_description="Energy metabolism / Photosynthesis")
+        eg = dict(EG, COG_category="S")
+        merged = self.builder.build_merged(gm, eg, {})
+        assert merged["gene_category"] == "Energy production"
+
+    def test_category_tigr_unknown_falls_through_to_cog(self):
+        # Cyanorak R + TIGR "Hypothetical proteins / Conserved" → "Unknown" → COG L wins
+        gm = dict(GM, cyanorak_Role="R",
+                   tIGR_Role_description="Hypothetical proteins / Conserved")
+        eg = dict(EG, COG_category="L")
+        merged = self.builder.build_merged(gm, eg, {})
+        assert merged["gene_category"] == "Replication and repair"
+
+    # ── Validity check ───────────────────────────────────────────────────────
+
+    def test_category_value_in_valid_set(self):
+        # With all sources populated, output must be in VALID_CATEGORIES
+        gm = dict(GM, cyanorak_Role="F.1")
+        merged = self.builder.build_merged(gm, EG, UP)
+        assert merged["gene_category"] in VALID_CATEGORIES
 
 
 # ─── process_strain ───────────────────────────────────────────────────────────

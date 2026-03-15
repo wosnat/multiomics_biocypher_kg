@@ -263,6 +263,7 @@ gene:
     all_identifiers: str[]            # union of all alt IDs for single-array get_gene lookup
     # Quality
     annotation_quality: int           # 0=hypothetical-no-func, 1=hypothetical-with-func, 2=real-product, 3=real-product+structured
+    gene_category: str                # high-level functional classification (26 controlled values, from Cyanorak/TIGR/COG)
 
 # consider adding: Note, exceptions, inference
 

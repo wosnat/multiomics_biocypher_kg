@@ -51,6 +51,150 @@ from multiomics_kg.download.utils.annotation_transforms import (
 from multiomics_kg.download.utils.cli import add_common_args, load_config, load_genome_rows
 from multiomics_kg.download.utils.paths import PROJECT_ROOT, infer_organism_group
 
+# ─── gene_category mapping tables ─────────────────────────────────────────────
+# Map functional role annotations to ~26 controlled gene_category values.
+# Three independent classification systems are used in priority order:
+#   1. Cyanorak Role (cyanobacteria only, highest specificity)
+#   2. TIGR Role (cyanobacteria only)
+#   3. COG category (universal, from eggNOG)
+#
+# WARNING: COG and Cyanorak use the SAME single-letter codes for DIFFERENT
+# functions. E.g., COG "E" = Amino acid metabolism, Cyanorak "E" = Central
+# intermediary metabolism (N/P/S). This is intentional — the two classification
+# systems are independent.
+
+COG_TO_CATEGORY = {
+    "A": "Transcription",
+    "B": "Replication and repair",
+    "C": "Energy production",
+    "D": "Cell cycle and division",
+    "E": "Amino acid metabolism",       # ≠ Cyanorak E
+    "F": "Nucleotide metabolism",
+    "G": "Carbohydrate metabolism",
+    "H": "Coenzyme metabolism",
+    "I": "Lipid metabolism",
+    "J": "Translation",
+    "K": "Transcription",
+    "L": "Replication and repair",
+    "M": "Cell wall and membrane",
+    "N": "Cell motility",
+    "O": "Post-translational modification",
+    "P": "Inorganic ion transport",
+    "Q": "Secondary metabolites",
+    "R": "Unknown",
+    "S": "Unknown",
+    "T": "Signal transduction",
+    "U": "Intracellular trafficking",
+    "V": "Defense mechanisms",
+    "W": "Cell wall and membrane",
+    "X": "Mobile elements",
+    "Y": "Unknown",
+    "Z": "Cell cycle and division",
+}
+
+# Cyanorak top-level letter → gene_category.
+# "D" is handled separately via CYANORAK_D_SUBCODES (it's a catch-all).
+CYANORAK_TO_CATEGORY = {
+    "A": "Amino acid metabolism",
+    "B": "Coenzyme metabolism",
+    "C": "Cell wall and membrane",
+    # "D" handled by CYANORAK_D_SUBCODES below
+    "E": "Central intermediary metabolism",  # ≠ COG E! N, P, S metabolism
+    "F": "Replication and repair",
+    "G": "Carbohydrate metabolism",          # incl. glycolysis, TCA, CO2 fixation
+    "H": "Lipid metabolism",
+    "I": "Mobile elements",
+    "J": "Photosynthesis",
+    "K": "Translation",
+    "L": "Post-translational modification",
+    "M": "Nucleotide metabolism",
+    "N": "Regulatory functions",
+    "O": "Signal transduction",
+    "P": "Transcription",
+    "Q": "Transport",
+    "R": "Unknown",
+}
+
+CYANORAK_D_SUBCODES = {
+    "D.1": "Stress response and adaptation",
+    "D.2": "Cell cycle and division",
+    "D.3": "Cellular processes",
+    "D.4": "Post-translational modification",
+    "D.5": "Cell motility",
+    "D.6": "Cellular processes",
+    "D.7": "Cellular processes",
+}
+
+TIGR_TO_CATEGORY = {
+    "Amino acid biosynthesis": "Amino acid metabolism",
+    "Biosynthesis of cofactors, prosthetic groups, and carriers": "Coenzyme metabolism",
+    "Cell envelope": "Cell wall and membrane",
+    "Cellular processes": "Cellular processes",
+    "Central intermediary metabolism": "Central intermediary metabolism",
+    "DNA metabolism": "Replication and repair",
+    "Disrupted reading frame": "Unknown",
+    "Energy metabolism": "Energy production",
+    "Fatty acid and phospholipid metabolism": "Lipid metabolism",
+    "Hypothetical proteins": "Unknown",
+    "Mobile and extrachromosomal element functions": "Mobile elements",
+    "Not Found": "Unknown",
+    "Protein fate": "Post-translational modification",
+    "Protein synthesis": "Translation",
+    "Purines, pyrimidines, nucleosides, and nucleotides": "Nucleotide metabolism",
+    "Regulatory functions": "Regulatory functions",
+    "Signal transduction": "Signal transduction",
+    "Transcription": "Transcription",
+    "Transport and binding proteins": "Transport",
+    "Unclassified": "Unknown",
+    "Unknown function": "Unknown",
+}
+
+# All valid output values — used for build-time assertion
+VALID_CATEGORIES = frozenset(
+    set(COG_TO_CATEGORY.values())
+    | set(CYANORAK_TO_CATEGORY.values())
+    | set(CYANORAK_D_SUBCODES.values())
+    | set(TIGR_TO_CATEGORY.values())
+    | {"Unknown"}
+)
+
+
+def _compute_gene_category(result: dict) -> str:
+    """Compute gene_category from Cyanorak Role → TIGR Role → COG category."""
+    gene_category = None
+
+    # Priority 1: Cyanorak Role (cyanobacteria only)
+    cyanorak_roles = result.get("cyanorak_Role", [])
+    if cyanorak_roles:
+        code = cyanorak_roles[0]
+        top_letter = code.split(".")[0]
+        if top_letter == "D":
+            parts = code.split(".")
+            sub_key = ".".join(parts[:2]) if len(parts) >= 2 else "D"
+            gene_category = CYANORAK_D_SUBCODES.get(sub_key, "Cellular processes")
+        else:
+            gene_category = CYANORAK_TO_CATEGORY.get(top_letter)
+
+    # Priority 2: TIGR Role (skip if we already have a real category)
+    if not gene_category or gene_category == "Unknown":
+        tigr_descs = result.get("tIGR_Role_description", [])
+        if tigr_descs:
+            main_role = tigr_descs[0].split(" / ")[0].strip()
+            cat = TIGR_TO_CATEGORY.get(main_role)
+            if cat and cat != "Unknown":
+                gene_category = cat
+
+    # Priority 3: COG category (universal, from eggNOG)
+    if not gene_category or gene_category == "Unknown":
+        cog_cats = result.get("cog_category", [])
+        if cog_cats:
+            cat = COG_TO_CATEGORY.get(cog_cats[0])
+            if cat:
+                gene_category = cat
+
+    return gene_category or "Unknown"
+
+
 # ─── paths ────────────────────────────────────────────────────────────────────
 
 DEFAULT_CONFIG = PROJECT_ROOT / "config/gene_annotations_config.yaml"
@@ -436,6 +580,13 @@ class AnnotationBuilder:
             quality = 0
         result["annotation_quality"] = quality
 
+        # Compute gene_category — high-level functional classification
+        category = _compute_gene_category(result)
+        assert category in VALID_CATEGORIES, (
+            f"Invalid gene_category {category!r} for {result.get('locus_tag')}"
+        )
+        result["gene_category"] = category
+
         # Collect all source descriptions for LLM summaries
         alt_descriptions: list[str] = []
         alt_descriptions_set: set[str] = set()
@@ -586,6 +737,9 @@ def process_strain(
             stats["has_kegg_ko"] += 1
         q = merged.get("annotation_quality", 0)
         stats[f"quality_{q}"] += 1
+        cat = merged.get("gene_category", "Unknown")
+        stats.setdefault(f"cat_{cat}", 0)
+        stats[f"cat_{cat}"] += 1
 
     with open(wide_path, "w") as f:
         json.dump(wide_out, f, indent=2, sort_keys=True)
@@ -609,6 +763,12 @@ def process_strain(
     print(f"  Quality 0/1/2/3: "
           f"{stats['quality_0']}/{stats['quality_1']}/"
           f"{stats['quality_2']}/{stats['quality_3']}")
+    # gene_category distribution (sorted by count descending)
+    cat_stats = {k[4:]: v for k, v in stats.items() if k.startswith("cat_")}
+    if cat_stats:
+        print(f"\n  === {strain_name} gene_category ===")
+        for cat, count in sorted(cat_stats.items(), key=lambda x: -x[1]):
+            print(f"    {cat:<40s} {count:>5} ({100 * count // n}%)")
 
 
 # ─── main ─────────────────────────────────────────────────────────────────────
