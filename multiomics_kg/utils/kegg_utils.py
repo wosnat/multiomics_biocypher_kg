@@ -23,6 +23,7 @@ _KEGG_BASE = "https://rest.kegg.jp"
 _BRITE_KO_URL = f"{_KEGG_BASE}/get/br:ko00001/json"
 _KO_LIST_URL = f"{_KEGG_BASE}/list/ko"
 _KO_PATHWAY_LINK_URL = f"{_KEGG_BASE}/link/pathway/ko"
+_PATHWAY_KO_LIST_URL = f"{_KEGG_BASE}/list/pathway/ko"
 
 _TIMEOUT = 120  # seconds per request
 
@@ -58,6 +59,27 @@ def _parse_ko_names(text: str) -> dict[str, str]:
     logger.info(f"Parsed {len(result)} KO names")
     return result
 
+
+
+def _parse_pathway_ko_names(text: str) -> dict[str, str]:
+    """Parse `list/pathway/ko` response into {ko#####: name_str}.
+
+    Unlike `list/pathway` (which returns map-prefixed IDs), this endpoint
+    returns ko-prefixed reference pathway IDs and covers global/overview maps
+    (ko01100–ko01320) that are absent from the BRITE hierarchy.
+    """
+    result: dict[str, str] = {}
+    for line in text.splitlines():
+        parts = line.strip().split("\t", 1)
+        if len(parts) != 2:
+            continue
+        # key like "path:ko00230"
+        raw_id, name = parts
+        pw_id = raw_id.removeprefix("path:")
+        if pw_id.startswith("ko"):
+            result[pw_id] = name.strip()
+    logger.info(f"Parsed {len(result)} pathway names from list/pathway/ko")
+    return result
 
 
 def _parse_ko_to_pathways(text: str) -> dict[str, list[str]]:
@@ -179,9 +201,14 @@ def download_kegg_data(cache_root: Path, force: bool = False) -> dict:
     ko_names = _parse_ko_names(_fetch_text(_KO_LIST_URL))
     ko_to_pathways = _parse_ko_to_pathways(_fetch_text(_KO_PATHWAY_LINK_URL))
     brite_json = _fetch_json(_BRITE_KO_URL)
-    pathway_to_subcat, subcat_names, subcat_to_cat, cat_names, pathway_names = (
+    pathway_to_subcat, subcat_names, subcat_to_cat, cat_names, brite_pw_names = (
         _parse_brite_hierarchy(brite_json)
     )
+    # Supplement BRITE pathway names with list/pathway/ko API names.
+    # Global/overview maps (ko01100–ko01320) are absent from BRITE but present
+    # in the pathway list API.
+    api_pw_names = _parse_pathway_ko_names(_fetch_text(_PATHWAY_KO_LIST_URL))
+    pathway_names = {**api_pw_names, **brite_pw_names}  # BRITE wins on overlap
 
     data = {
         "ko_names": ko_names,

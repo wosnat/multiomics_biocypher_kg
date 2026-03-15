@@ -13,6 +13,7 @@ from unittest.mock import patch, MagicMock
 from multiomics_kg.utils.kegg_utils import (
     _parse_ko_names,
     _parse_ko_to_pathways,
+    _parse_pathway_ko_names,
     _parse_brite_hierarchy,
     download_kegg_data,
 )
@@ -138,6 +139,14 @@ def test_parse_ko_to_pathways_skips_map():
     result = _parse_ko_to_pathways(text)
     # map-prefixed pathways should be skipped (only ko-prefix retained)
     assert all(pw.startswith("ko") for pw in result["K02338"])
+
+
+def test_parse_pathway_ko_names():
+    text = "path:ko01100\tMetabolic pathways\npath:ko00230\tPurine metabolism\npath:map00010\tGlycolysis\n"
+    result = _parse_pathway_ko_names(text)
+    assert result["ko01100"] == "Metabolic pathways"
+    assert result["ko00230"] == "Purine metabolism"
+    assert "map00010" not in result  # only ko-prefixed
 
 
 def test_parse_brite_hierarchy():

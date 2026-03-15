@@ -582,10 +582,22 @@ class MultiKeggAnnotationAdapter:
 
         # Yield KO nodes
         ko_count = 0
+        retired_kos = []
         for ko_id in sorted(ko_ids):
-            name = _clean_str(ko_names.get(ko_id, ""))
+            raw_name = ko_names.get(ko_id, "")
+            if not raw_name:
+                # KO exists in eggNOG annotations but was retired from KEGG;
+                # use the bare ID as a fallback name.
+                retired_kos.append(ko_id)
+                raw_name = ko_id
+            name = _clean_str(raw_name)
             yield (_ko_node_id(ko_id), "kegg_term", {"name": name, "level": "ko"})
             ko_count += 1
+        if retired_kos:
+            logger.warning(
+                f"{len(retired_kos)} KO IDs from eggNOG not found in KEGG "
+                f"(likely retired): {retired_kos}"
+            )
         logger.info(f"MultiKeggAnnotationAdapter.get_nodes: {ko_count} KO nodes")
 
         # Yield Pathway nodes

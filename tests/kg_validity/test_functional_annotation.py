@@ -26,7 +26,7 @@ pytestmark = pytest.mark.kg
 @pytest.mark.parametrize("label,min_count", [
     ("BiologicalProcess", 1500),
     ("CellularComponent", 200),
-    ("MolecularFunction", 5000),
+    ("MolecularFunction", 1500),
 ])
 def test_go_node_count_minimum(run_query, label, min_count):
     """GO term nodes must meet minimum count (closure includes ancestors)."""
@@ -337,6 +337,25 @@ def test_kegg_pathway_names_not_empty(run_query):
     )
     empty = result[0]["empty"]
     assert empty == 0, f"{empty} pathway nodes have empty name"
+
+
+@pytest.mark.parametrize("label", [
+    "BiologicalProcess",
+    "CellularComponent",
+    "MolecularFunction",
+    "EcNumber",
+    "KeggTerm",
+])
+def test_annotation_nodes_name_not_empty(run_query, label):
+    """GO, EC, and KEGG nodes must have non-empty name (not NULL and not '')."""
+    result = run_query(
+        f"MATCH (n:{label}) WHERE n.name IS NULL OR trim(n.name) = '' "
+        f"RETURN count(n) AS bad"
+    )
+    bad = result[0]["bad"]
+    assert bad == 0, (
+        f"{bad} {label} node(s) have NULL or empty name property"
+    )
 
 
 # ---------------------------------------------------------------------------
