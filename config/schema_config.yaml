@@ -425,41 +425,18 @@ compound:
 #     name: str
 #     synonyms: str[]
 
-kegg orthologous group:
+kegg term:
   is_a: named thing
   represented_as: node
   preferred_id: kegg.orthology
-  label_in_input: kegg orthologous group
+  label_in_input: kegg_term
   properties:
     name: str
-
-kegg pathway:
-  is_a: named thing
-  represented_as: node
-  preferred_id: kegg.pathway
-  label_in_input: kegg pathway
-  properties:
-    name: str
-
-kegg subcategory:
-  is_a: named thing
-  represented_as: node
-  preferred_id: kegg.subcategory
-  label_in_input: kegg subcategory
-  properties:
-    name: str
-
-kegg category:
-  is_a: named thing
-  represented_as: node
-  preferred_id: kegg.category
-  label_in_input: kegg category
-  properties:
-    name: str
+    level: str
 
 
 ec number:
-  is_a: molecular activity
+  is_a: named thing
   represented_as: node
   preferred_id: eccode
   label_in_input: ec_number
@@ -814,32 +791,16 @@ gene to kegg ko association:
   represented_as: edge
   label_as_edge: gene_has_kegg_ko
   source: gene
-  target: kegg orthologous group
+  target: kegg term
   label_in_input: gene_has_kegg_ko
 
-kegg ko to pathway association:
+kegg term hierarchical association:
   is_a: association
   represented_as: edge
-  label_as_edge: ko_in_kegg_pathway
-  source: kegg orthologous group
-  target: kegg pathway
-  label_in_input: ko_in_kegg_pathway
-
-kegg pathway to subcategory association:
-  is_a: association
-  represented_as: edge
-  label_as_edge: kegg_pathway_in_kegg_subcategory
-  source: kegg pathway
-  target: kegg subcategory
-  label_in_input: kegg_pathway_in_kegg_subcategory
-
-kegg subcategory to category association:
-  is_a: association
-  represented_as: edge
-  label_as_edge: kegg_subcategory_in_kegg_category
-  source: kegg subcategory
-  target: kegg category
-  label_in_input: kegg_subcategory_in_kegg_category
+  label_as_edge: kegg_term_is_a_kegg_term
+  source: kegg term
+  target: kegg term
+  label_in_input: kegg_term_is_a_kegg_term
 
 
 protein to ec number association:

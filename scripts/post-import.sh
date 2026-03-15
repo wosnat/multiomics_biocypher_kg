@@ -12,11 +12,21 @@ CREATE INDEX gene_name_idx IF NOT EXISTS FOR (g:Gene) ON (g.gene_name);
 CREATE INDEX gene_organism_strain_idx IF NOT EXISTS FOR (g:Gene) ON (g.organism_strain);
 CYPHER
 
-echo "=== Post-process: Create full-text index ==="
+echo "=== Post-process: Create full-text indexes ==="
 cypher-shell <<'CYPHER'
 CREATE FULLTEXT INDEX geneFullText IF NOT EXISTS FOR (n:Gene) ON EACH [
   n.gene_summary, n.gene_synonyms,
   n.alternate_functional_descriptions, n.pfam_names];
+CREATE FULLTEXT INDEX biologicalProcessFullText IF NOT EXISTS
+  FOR (n:BiologicalProcess) ON EACH [n.name];
+CREATE FULLTEXT INDEX molecularFunctionFullText IF NOT EXISTS
+  FOR (n:MolecularFunction) ON EACH [n.name];
+CREATE FULLTEXT INDEX cellularComponentFullText IF NOT EXISTS
+  FOR (n:CellularComponent) ON EACH [n.name];
+CREATE FULLTEXT INDEX ecNumberFullText IF NOT EXISTS
+  FOR (n:EcNumber) ON EACH [n.name];
+CREATE FULLTEXT INDEX keggFullText IF NOT EXISTS
+  FOR (n:KeggTerm) ON EACH [n.name];
 CYPHER
 
 echo "=== Post-process: Cyanorak homolog edges ==="

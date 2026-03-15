@@ -294,72 +294,77 @@ def test_ec_gene_coverage(run_query):
 # KEGG: node counts and properties
 # ---------------------------------------------------------------------------
 
-@pytest.mark.parametrize("label,min_count", [
-    ("KeggOrthologousGroup", 1500),
-    ("KeggPathway",          100),
-    ("KeggSubcategory",      30),
-    ("KeggCategory",         5),
+@pytest.mark.parametrize("level,min_count", [
+    ("ko",          1500),
+    ("pathway",      100),
+    ("subcategory",   30),
+    ("category",       5),
 ])
-def test_kegg_node_count_minimum(run_query, label, min_count):
-    """KEGG hierarchy nodes must meet minimum count."""
-    result = run_query(f"MATCH (n:{label}) RETURN count(n) AS cnt")
+def test_kegg_node_count_minimum(run_query, level, min_count):
+    """KEGG hierarchy nodes must meet minimum count per level."""
+    result = run_query(
+        "MATCH (n:KeggTerm {level: $level}) RETURN count(n) AS cnt",
+        level=level,
+    )
     cnt = result[0]["cnt"]
     assert cnt >= min_count, (
-        f"Only {cnt} {label} nodes found; expected >= {min_count}"
+        f"Only {cnt} KeggTerm nodes with level={level!r} found; expected >= {min_count}"
     )
 
 
-@pytest.mark.parametrize("label", [
-    "KeggOrthologousGroup",
-    "KeggPathway",
-    "KeggSubcategory",
-    "KeggCategory",
-])
-def test_kegg_nodes_have_name(run_query, label):
-    """All KEGG hierarchy nodes must have a name property."""
+def test_kegg_nodes_have_name(run_query):
+    """All KeggTerm nodes must have a name property."""
     result = run_query(
-        f"MATCH (n:{label}) WHERE n.name IS NULL RETURN count(n) AS missing"
+        "MATCH (n:KeggTerm) WHERE n.name IS NULL RETURN count(n) AS missing"
     )
     missing = result[0]["missing"]
-    assert missing == 0, f"{missing} {label} nodes are missing the name property"
+    assert missing == 0, f"{missing} KeggTerm nodes are missing the name property"
+
+
+def test_kegg_nodes_have_level(run_query):
+    """All KeggTerm nodes must have a level property."""
+    result = run_query(
+        "MATCH (n:KeggTerm) WHERE n.level IS NULL RETURN count(n) AS missing"
+    )
+    missing = result[0]["missing"]
+    assert missing == 0, f"{missing} KeggTerm nodes are missing the level property"
+
+
+def test_kegg_pathway_names_not_empty(run_query):
+    """Pathway-level KeggTerm nodes must have non-empty names."""
+    result = run_query(
+        "MATCH (n:KeggTerm {level: 'pathway'}) WHERE n.name = '' RETURN count(n) AS empty"
+    )
+    empty = result[0]["empty"]
+    assert empty == 0, f"{empty} pathway nodes have empty name"
 
 
 # ---------------------------------------------------------------------------
 # KEGG: hierarchy edges
 # ---------------------------------------------------------------------------
 
-@pytest.mark.parametrize("rel_type,source_label,target_label,min_count", [
-    ("Ko_in_kegg_pathway",                 "KeggOrthologousGroup", "KeggPathway",          3000),
-    ("Kegg_pathway_in_kegg_subcategory",   "KeggPathway",          "KeggSubcategory",       100),
-    ("Kegg_subcategory_in_kegg_category",  "KeggSubcategory",      "KeggCategory",           30),
-])
-def test_kegg_hierarchy_edges(run_query, rel_type, source_label, target_label, min_count):
-    """KEGG BRITE hierarchy edges must exist with sufficient count."""
+def test_kegg_hierarchy_edges(run_query):
+    """Kegg_term_is_a_kegg_term hierarchy edges must exist with sufficient count."""
     result = run_query(
-        f"MATCH ()-[r:`{rel_type}`]->() RETURN count(r) AS cnt"
+        "MATCH ()-[r:Kegg_term_is_a_kegg_term]->() RETURN count(r) AS cnt"
     )
     cnt = result[0]["cnt"]
-    assert cnt >= min_count, (
-        f"Only {cnt} {rel_type} edges found; expected >= {min_count}"
+    assert cnt >= 3130, (
+        f"Only {cnt} Kegg_term_is_a_kegg_term edges found; expected >= 3130"
     )
 
 
-@pytest.mark.parametrize("rel_type,source_label,target_label", [
-    ("Ko_in_kegg_pathway",                 "KeggOrthologousGroup", "KeggPathway"),
-    ("Kegg_pathway_in_kegg_subcategory",   "KeggPathway",          "KeggSubcategory"),
-    ("Kegg_subcategory_in_kegg_category",  "KeggSubcategory",      "KeggCategory"),
-])
-def test_kegg_hierarchy_connects_correct_types(run_query, rel_type, source_label, target_label):
-    """KEGG hierarchy edges must connect the correct node types."""
-    result = run_query(
-        f"MATCH (src)-[r:`{rel_type}`]->(tgt) "
-        f"WHERE NOT src:{source_label} OR NOT tgt:{target_label} "
-        f"RETURN count(r) AS bad"
-    )
+def test_kegg_hierarchy_connects_kegg_terms(run_query):
+    """Kegg_term_is_a_kegg_term edges must connect KeggTerm nodes."""
+    result = run_query("""
+        MATCH (src)-[r:Kegg_term_is_a_kegg_term]->(tgt)
+        WHERE NOT src:KeggTerm OR NOT tgt:KeggTerm
+        RETURN count(r) AS bad
+    """)
     bad = result[0]["bad"]
     assert bad == 0, (
-        f"{bad} {rel_type} edges connect wrong node types "
-        f"(expected {source_label} -> {target_label})"
+        f"{bad} Kegg_term_is_a_kegg_term edges connect wrong node types "
+        f"(expected KeggTerm -> KeggTerm)"
     )
 
 
@@ -379,16 +384,16 @@ def test_gene_kegg_ko_edge_count(run_query):
 
 
 def test_gene_kegg_ko_connects_correct_types(run_query):
-    """Gene_has_kegg_ko must connect Gene -> KeggOrthologousGroup."""
+    """Gene_has_kegg_ko must connect Gene -> KeggTerm."""
     result = run_query("""
         MATCH (src)-[r:Gene_has_kegg_ko]->(tgt)
-        WHERE NOT src:Gene OR NOT tgt:KeggOrthologousGroup
+        WHERE NOT src:Gene OR NOT tgt:KeggTerm
         RETURN count(r) AS bad
     """)
     bad = result[0]["bad"]
     assert bad == 0, (
         f"{bad} Gene_has_kegg_ko edges connect wrong node types "
-        f"(expected Gene -> KeggOrthologousGroup)"
+        f"(expected Gene -> KeggTerm)"
     )
 
 
@@ -420,14 +425,14 @@ def test_kegg_ko_pathway_coverage(run_query):
     Unmapped KOs exist in KEGG (e.g., hypothetical proteins) and are expected.
     """
     result = run_query("""
-        MATCH (ko:KeggOrthologousGroup)
+        MATCH (ko:KeggTerm {level: 'ko'})
         WITH count(ko) AS total,
-             count(CASE WHEN exists((ko)-[:Ko_in_kegg_pathway]->()) THEN 1 END) AS linked
+             count(CASE WHEN exists((ko)-[:Kegg_term_is_a_kegg_term]->()) THEN 1 END) AS linked
         RETURN total, linked
     """)
     row = result[0]
     if row["total"] == 0:
-        pytest.skip("No KeggOrthologousGroup nodes found")
+        pytest.skip("No KeggTerm ko nodes found")
     linked_fraction = row["linked"] / row["total"]
     assert linked_fraction >= 0.50, (
         f"Only {row['linked']}/{row['total']} KO nodes ({linked_fraction:.1%}) "

@@ -43,10 +43,8 @@ ANCHOR_NODES = {
         "ec:1.-.-.-",  # Oxidoreductases (EC class 1)
     ],
     # KEGG anchor nodes
-    "KeggOrthologousGroup": [
+    "KeggTerm": [
         "kegg.orthology:K02338",  # dnaN — DNA pol III beta subunit, common in prokaryotes
-    ],
-    "KeggCategory": [
         "kegg.category:09100",  # Metabolism — top-level BRITE category
     ],
     # COG anchor nodes — stable hardcoded categories
@@ -76,10 +74,7 @@ NODE_PROPERTIES = {
     # EC number nodes (from ec_adapter / functional_annotation_adapter)
     "EcNumber": ["name"],
     # KEGG nodes (from MultiKeggAnnotationAdapter)
-    "KeggOrthologousGroup": ["name"],
-    "KeggPathway": ["name"],
-    "KeggSubcategory": ["name"],
-    "KeggCategory": ["name"],
+    "KeggTerm": ["name", "level"],
     # COG / role nodes (from MultiCogRoleAnnotationAdapter)
     "CogFunctionalCategory": ["code", "name"],
     "CyanorakRole": ["code", "description"],
@@ -122,9 +117,7 @@ EDGE_PROPERTIES = {
     "Gene_catalyzes_ec_number": [],
     # KEGG edges (MultiKeggAnnotationAdapter)
     "Gene_has_kegg_ko": [],
-    "Ko_in_kegg_pathway": [],
-    "Kegg_pathway_in_kegg_subcategory": [],
-    "Kegg_subcategory_in_kegg_category": [],
+    "Kegg_term_is_a_kegg_term": [],
     # COG / role edges (MultiCogRoleAnnotationAdapter)
     "Gene_in_cog_category": [],
     "Gene_has_cyanorak_role": [],

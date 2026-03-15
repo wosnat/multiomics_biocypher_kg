@@ -21,6 +21,18 @@ CREATE FULLTEXT INDEX geneFullText IF NOT EXISTS FOR (n:Gene) ON EACH [
   n.gene_summary, n.gene_synonyms,
   n.alternate_functional_descriptions, n.pfam_names];
 
+// Full-text indexes for ontology term search (search_ontology tool)
+CREATE FULLTEXT INDEX biologicalProcessFullText IF NOT EXISTS
+  FOR (n:BiologicalProcess) ON EACH [n.name];
+CREATE FULLTEXT INDEX molecularFunctionFullText IF NOT EXISTS
+  FOR (n:MolecularFunction) ON EACH [n.name];
+CREATE FULLTEXT INDEX cellularComponentFullText IF NOT EXISTS
+  FOR (n:CellularComponent) ON EACH [n.name];
+CREATE FULLTEXT INDEX ecNumberFullText IF NOT EXISTS
+  FOR (n:EcNumber) ON EACH [n.name];
+CREATE FULLTEXT INDEX keggFullText IF NOT EXISTS
+  FOR (n:KeggTerm) ON EACH [n.name];
+
 // Create gene_is_homolog_of_gene edges between genes sharing a Cyanorak cluster.
 // Edges are created in BOTH directions (A→B and B→A) so LLM agents can
 // traverse from any gene to all its homologs without directionless patterns.

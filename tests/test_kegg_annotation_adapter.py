@@ -12,7 +12,6 @@ from unittest.mock import patch, MagicMock
 
 from multiomics_kg.utils.kegg_utils import (
     _parse_ko_names,
-    _parse_pathway_names,
     _parse_ko_to_pathways,
     _parse_brite_hierarchy,
     download_kegg_data,
@@ -126,13 +125,6 @@ def test_parse_ko_names_skips_non_k():
     assert "K02338" in result
 
 
-def test_parse_pathway_names():
-    text = "path:ko03030\tDNA replication\npath:map03030\tDNA replication (map)\n"
-    result = _parse_pathway_names(text)
-    assert "ko03030" in result
-    assert result["ko03030"] == "DNA replication"
-    assert "map03030" not in result  # only ko-prefixed
-
 
 def test_parse_ko_to_pathways():
     text = "ko:K02338\tpath:ko03030\nko:K02338\tpath:ko00230\nko:K01952\tpath:ko00230\n"
@@ -176,7 +168,7 @@ def test_parse_brite_hierarchy():
             },
         ],
     }
-    pw_to_sc, sc_names, sc_to_cat, cat_names = _parse_brite_hierarchy(brite_json)
+    pw_to_sc, sc_names, sc_to_cat, cat_names, pw_names = _parse_brite_hierarchy(brite_json)
 
     assert pw_to_sc["ko00230"] == "09102"
     assert pw_to_sc["ko03030"] == "09124"
@@ -186,6 +178,9 @@ def test_parse_brite_hierarchy():
     assert sc_to_cat["09124"] == "09120"
     assert cat_names["09100"] == "Metabolism"
     assert cat_names["09120"] == "Genetic Information Processing"
+    # Pathway names extracted from C-level labels
+    assert pw_names["ko00230"] == "Purine metabolism"
+    assert pw_names["ko03030"] == "DNA replication"
 
 
 def test_download_kegg_data_uses_cache(kegg_cache):
@@ -319,15 +314,20 @@ def multi_kegg(genome_config_file, kegg_cache):
 def test_multi_kegg_get_nodes_types(multi_kegg):
     nodes = list(multi_kegg.get_nodes())
     node_labels = {n[1] for n in nodes}
-    assert "kegg orthologous group" in node_labels
-    assert "kegg pathway" in node_labels
-    assert "kegg subcategory" in node_labels
-    assert "kegg category" in node_labels
+    assert node_labels == {"kegg_term"}
+
+
+def test_multi_kegg_nodes_have_level(multi_kegg):
+    nodes = list(multi_kegg.get_nodes())
+    levels = {n[2]["level"] for n in nodes}
+    assert levels == {"ko", "pathway", "subcategory", "category"}
+    for _, _, props in nodes:
+        assert "level" in props
 
 
 def test_multi_kegg_ko_nodes_have_names(multi_kegg):
     nodes = list(multi_kegg.get_nodes())
-    ko_nodes = [n for n in nodes if n[1] == "kegg orthologous group"]
+    ko_nodes = [n for n in nodes if n[2].get("level") == "ko"]
     for node_id, label, props in ko_nodes:
         assert "name" in props
 
@@ -351,7 +351,7 @@ def test_multi_kegg_nodes_deduplicated(tmp_path, genome_dir, kegg_cache):
         cache=True,
     )
     nodes = list(adapter.get_nodes())
-    ko_nodes = [n for n in nodes if n[1] == "kegg orthologous group"]
+    ko_nodes = [n for n in nodes if n[2].get("level") == "ko"]
     ko_ids = [n[0] for n in ko_nodes]
     assert len(ko_ids) == len(set(ko_ids)), "Duplicate KO nodes found"
 
@@ -359,34 +359,28 @@ def test_multi_kegg_nodes_deduplicated(tmp_path, genome_dir, kegg_cache):
 def test_multi_kegg_get_edges_labels(multi_kegg):
     edges = list(multi_kegg.get_edges())
     labels = {e[3] for e in edges}
-    assert "gene_has_kegg_ko" in labels
-    assert "ko_in_kegg_pathway" in labels
-    assert "kegg_pathway_in_kegg_subcategory" in labels
-    assert "kegg_subcategory_in_kegg_category" in labels
+    assert labels == {"gene_has_kegg_ko", "kegg_term_is_a_kegg_term"}
 
 
 def test_multi_kegg_ko_pathway_edges(multi_kegg):
     edges = list(multi_kegg.get_edges())
-    ko_pw_edges = [e for e in edges if e[3] == "ko_in_kegg_pathway"]
+    hierarchy_edges = [e for e in edges if e[3] == "kegg_term_is_a_kegg_term"]
     # K02338 → ko03030 should exist
-    assert any("K02338" in e[1] and "ko03030" in e[2] for e in ko_pw_edges)
+    assert any("K02338" in e[1] and "ko03030" in e[2] for e in hierarchy_edges)
 
 
 def test_multi_kegg_pathway_subcat_edges(multi_kegg):
     edges = list(multi_kegg.get_edges())
-    pw_sc_edges = [e for e in edges if e[3] == "kegg_pathway_in_kegg_subcategory"]
+    hierarchy_edges = [e for e in edges if e[3] == "kegg_term_is_a_kegg_term"]
+    pw_sc_edges = [e for e in hierarchy_edges if "kegg.pathway:" in e[1] and "kegg.subcategory:" in e[2]]
     assert len(pw_sc_edges) > 0
-    # Targets should be subcategory node IDs
-    for e in pw_sc_edges:
-        assert "kegg.subcategory:" in e[2]
 
 
 def test_multi_kegg_subcat_cat_edges(multi_kegg):
     edges = list(multi_kegg.get_edges())
-    sc_cat_edges = [e for e in edges if e[3] == "kegg_subcategory_in_kegg_category"]
+    hierarchy_edges = [e for e in edges if e[3] == "kegg_term_is_a_kegg_term"]
+    sc_cat_edges = [e for e in hierarchy_edges if "kegg.subcategory:" in e[1] and "kegg.category:" in e[2]]
     assert len(sc_cat_edges) > 0
-    for e in sc_cat_edges:
-        assert "kegg.category:" in e[2]
 
 
 def test_multi_kegg_clean_str_in_names(multi_kegg):
@@ -396,3 +390,12 @@ def test_multi_kegg_clean_str_in_names(multi_kegg):
         name = props.get("name", "")
         assert "'" not in name, f"Raw single-quote in node name: {name!r}"
         assert "|" not in name, f"Pipe in node name: {name!r}"
+
+
+def test_multi_kegg_pathway_nodes_have_nonempty_name(multi_kegg):
+    """Pathway-level nodes must have non-empty names (bug fix validation)."""
+    nodes = list(multi_kegg.get_nodes())
+    pw_nodes = [n for n in nodes if n[2].get("level") == "pathway"]
+    assert len(pw_nodes) > 0, "No pathway nodes found"
+    for node_id, _, props in pw_nodes:
+        assert props["name"] != "", f"Pathway {node_id} has empty name"

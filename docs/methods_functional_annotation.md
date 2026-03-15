@@ -34,14 +34,14 @@ EC number nodes were imported from the full Expasy enzyme classification hierarc
 
 ### KEGG Orthology and Pathway Hierarchy
 
-KEGG annotations were modeled as a four-level hierarchy retrieved from the KEGG REST API and cached locally:
+KEGG annotations were modeled as a unified `KeggTerm` node type with a `level` property discriminating four hierarchy levels, retrieved from the KEGG REST API and cached locally:
 
-1. **KEGG Orthologous Group** (KO, e.g., K02338) — the functional ortholog unit
-2. **KEGG Pathway** (e.g., ko00230 "Purine metabolism") — metabolic or signaling pathways
-3. **KEGG Subcategory** (BRITE B-level, e.g., "Nucleotide metabolism") — functional groupings of pathways
-4. **KEGG Category** (BRITE A-level, e.g., "Metabolism") — top-level functional classes
+1. **ko** (KO, e.g., K02338) — the functional ortholog unit
+2. **pathway** (e.g., ko00230 "Purine metabolism") — metabolic or signaling pathways
+3. **subcategory** (BRITE B-level, e.g., "Nucleotide metabolism") — functional groupings of pathways
+4. **category** (BRITE A-level, e.g., "Metabolism") — top-level functional classes
 
-Gene-to-KO edges (`gene_has_kegg_ko`) were created from the `kegg_ko` array in gene annotations. The hierarchy edges (`ko_in_kegg_pathway`, `kegg_pathway_in_kegg_subcategory`, `kegg_subcategory_in_kegg_category`) were derived from the KEGG BRITE orthology classification. Only KO entries, pathways, subcategories, and categories reachable from KOs present in the gene annotations were included.
+Gene-to-KO edges (`Gene_has_kegg_ko`) were created from the `kegg_ko` array in gene annotations. The hierarchy edges (`Kegg_term_is_a_kegg_term`) were derived from the KEGG BRITE orthology classification. Pathway names are extracted from the BRITE hierarchy C-level node labels. Only KO entries, pathways, subcategories, and categories reachable from KOs present in the gene annotations were included.
 
 ### COG Functional Categories, Cyanorak Roles, and TIGR Roles
 

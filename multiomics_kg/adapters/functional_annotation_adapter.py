@@ -23,8 +23,7 @@ KEGG section (MultiKeggAnnotationAdapter):
 - 4-level KEGG hierarchy: KO → Pathway → Subcategory → Category.
   Data from KEGG REST API, cached at cache/data/kegg/kegg_data.json.
 - gene_has_kegg_ko edges from gene annotations (kegg_ko field).
-- ko_in_kegg_pathway, kegg_pathway_in_kegg_subcategory,
-  kegg_subcategory_in_kegg_category hierarchy edges.
+- kegg_term_is_a_kegg_term hierarchy edges.
 
 COG/Role section (MultiCogRoleAnnotationAdapter):
 - CogFunctionalCategory nodes (25 standard letters, hardcoded).
@@ -503,14 +502,9 @@ class MultiKeggAnnotationAdapter:
     Multi-strain adapter: owns all KEGG graph content.
 
     Creates:
-    - ``KeggOrthologousGroup`` nodes (K#####) from gene annotations + KEGG REST API names.
-    - ``KeggPathway`` nodes (ko#####) from KEGG REST API.
-    - ``KeggSubcategory`` nodes (B-level BRITE codes) from KEGG REST API.
-    - ``KeggCategory`` nodes (A-level BRITE codes) from KEGG REST API.
+    - ``KeggTerm`` nodes with ``level`` property (ko, pathway, subcategory, category).
     - ``gene_has_kegg_ko`` edges from per-strain gene annotations.
-    - ``ko_in_kegg_pathway`` edges from KEGG REST API KO→Pathway links.
-    - ``kegg_pathway_in_kegg_subcategory`` edges from BRITE hierarchy.
-    - ``kegg_subcategory_in_kegg_category`` edges from BRITE hierarchy.
+    - ``kegg_term_is_a_kegg_term`` hierarchy edges (KO→Pathway→Subcategory→Category).
 
     Args:
         genome_config_file: path to ``cyanobacteria_genomes.csv``
@@ -553,7 +547,7 @@ class MultiKeggAnnotationAdapter:
 
     def get_nodes(self):
         """
-        Yield KEGG hierarchy nodes (4 types), deduplicated.
+        Yield KeggTerm nodes with ``level`` property, deduplicated.
 
         Order: KO → Pathway → Subcategory → Category (specific → general).
         Only nodes reachable from KOs referenced in the gene annotations are emitted.
@@ -590,7 +584,7 @@ class MultiKeggAnnotationAdapter:
         ko_count = 0
         for ko_id in sorted(ko_ids):
             name = _clean_str(ko_names.get(ko_id, ""))
-            yield (_ko_node_id(ko_id), "kegg orthologous group", {"name": name})
+            yield (_ko_node_id(ko_id), "kegg_term", {"name": name, "level": "ko"})
             ko_count += 1
         logger.info(f"MultiKeggAnnotationAdapter.get_nodes: {ko_count} KO nodes")
 
@@ -598,7 +592,7 @@ class MultiKeggAnnotationAdapter:
         pw_count = 0
         for pw_id in sorted(pw_ids):
             name = _clean_str(pathway_names.get(pw_id, ""))
-            yield (_pathway_node_id(pw_id), "kegg pathway", {"name": name})
+            yield (_pathway_node_id(pw_id), "kegg_term", {"name": name, "level": "pathway"})
             pw_count += 1
         logger.info(f"MultiKeggAnnotationAdapter.get_nodes: {pw_count} pathway nodes")
 
@@ -606,7 +600,7 @@ class MultiKeggAnnotationAdapter:
         sc_count = 0
         for sc in sorted(subcat_ids):
             name = _clean_str(subcat_names.get(sc, ""))
-            yield (_subcat_node_id(sc), "kegg subcategory", {"name": name})
+            yield (_subcat_node_id(sc), "kegg_term", {"name": name, "level": "subcategory"})
             sc_count += 1
         logger.info(f"MultiKeggAnnotationAdapter.get_nodes: {sc_count} subcategory nodes")
 
@@ -614,7 +608,7 @@ class MultiKeggAnnotationAdapter:
         cat_count = 0
         for cat in sorted(cat_ids):
             name = _clean_str(cat_names.get(cat, ""))
-            yield (_cat_node_id(cat), "kegg category", {"name": name})
+            yield (_cat_node_id(cat), "kegg_term", {"name": name, "level": "category"})
             cat_count += 1
         logger.info(f"MultiKeggAnnotationAdapter.get_nodes: {cat_count} category nodes")
 
@@ -622,9 +616,9 @@ class MultiKeggAnnotationAdapter:
         """
         Yield all KEGG edges in order:
         1. gene→KO (gene_has_kegg_ko) from per-strain adapters
-        2. KO→Pathway (ko_in_kegg_pathway) from KEGG REST API
-        3. Pathway→Subcategory (kegg_pathway_in_kegg_subcategory)
-        4. Subcategory→Category (kegg_subcategory_in_kegg_category)
+        2. KO→Pathway (kegg_term_is_a_kegg_term) from KEGG REST API
+        3. Pathway→Subcategory (kegg_term_is_a_kegg_term)
+        4. Subcategory→Category (kegg_term_is_a_kegg_term)
         """
         ko_to_pathways = self.kegg_data.get("ko_to_pathways", {})
         pathway_to_subcat = self.kegg_data.get("pathway_to_subcategory", {})
@@ -657,7 +651,7 @@ class MultiKeggAnnotationAdapter:
                     f"{ko_id}-in-{pw_id}",
                     _ko_node_id(ko_id),
                     _pathway_node_id(pw_id),
-                    "ko_in_kegg_pathway",
+                    "kegg_term_is_a_kegg_term",
                     {},
                 )
                 ko_pw_count += 1
@@ -678,7 +672,7 @@ class MultiKeggAnnotationAdapter:
                 f"{pw_id}-in-{sc}",
                 _pathway_node_id(pw_id),
                 _subcat_node_id(sc),
-                "kegg_pathway_in_kegg_subcategory",
+                "kegg_term_is_a_kegg_term",
                 {},
             )
             pw_sc_count += 1
@@ -697,7 +691,7 @@ class MultiKeggAnnotationAdapter:
                 f"{sc}-in-{cat}",
                 _subcat_node_id(sc),
                 _cat_node_id(cat),
-                "kegg_subcategory_in_kegg_category",
+                "kegg_term_is_a_kegg_term",
                 {},
             )
             sc_cat_count += 1
