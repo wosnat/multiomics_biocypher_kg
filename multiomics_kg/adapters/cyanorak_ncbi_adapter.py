@@ -164,6 +164,8 @@ class GeneNodeField(Enum, metaclass=GeneEnumMeta):
     ALL_IDENTIFIERS = 'all_identifiers'
     # Quality
     ANNOTATION_QUALITY = 'annotation_quality'
+    # Functional classification
+    GENE_CATEGORY = 'gene_category'
 
 
     @classmethod
