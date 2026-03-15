@@ -127,6 +127,7 @@ fields:
   gene_name:
     type: single
     track_source: gene_name_source
+    reject_identifiers: true   # skip locus-tag-style values (e.g. PMM0002, ALTBGP6_RS00025)
     candidates:
       - source: gene_mapping
         field: gene_names_cyanorak

@@ -12,6 +12,7 @@ Coverage
 
 from __future__ import annotations
 
+import copy
 import csv
 import json
 import os
@@ -970,6 +971,40 @@ class TestAnnotationBuilderBuildMerged:
         summary = merged.get("gene_summary", "")
         assert "unknown function" not in summary
         assert "some enzyme" in summary
+
+    # ── gene_name nulled for identifiers ─────────────────────────────────────
+
+    def test_gene_name_nulled_for_rs_identifier(self):
+        # RS-pattern gene_name → gene_name set to None in result
+        gm = dict(GM, gene_names_cyanorak="", gene_names="ALTBGP6_RS00025",
+                  locus_tag="ALTBGP6_RS00025")
+        merged = self.builder.build_merged(gm, {}, {})
+        assert merged.get("gene_name") is None
+
+    def test_gene_name_nulled_when_equals_locus_tag(self):
+        gm = dict(GM, gene_names_cyanorak="", gene_names="PMM0001")
+        merged = self.builder.build_merged(gm, {}, {})
+        assert merged.get("gene_name") is None
+
+    def test_gene_name_kept_for_real_name(self):
+        gm = dict(GM, gene_names_cyanorak="dnaN")
+        merged = self.builder.build_merged(gm, {}, {})
+        assert merged.get("gene_name") == "dnaN"
+
+    def test_gene_name_reject_identifiers_falls_through(self):
+        """When reject_identifiers is set, identifier from Cyanorak is skipped
+        and eggNOG Preferred_name wins instead."""
+        # Add reject_identifiers to gene_name config
+        config = copy.deepcopy(MINIMAL_CONFIG)
+        config["fields"]["gene_name"]["reject_identifiers"] = True
+        builder = AnnotationBuilder(config)
+        # Cyanorak gives identifier, eggnog gives real name
+        gm = dict(GM, gene_names_cyanorak="PMM0002", gene_names="PMM0002",
+                  locus_tag="PMM0002")
+        eg = dict(EG, Preferred_name="rpsT")
+        merged = builder.build_merged(gm, eg, {})
+        assert merged["gene_name"] == "rpsT"
+        assert merged["gene_name_source"] == "eggnog"
 
     # ── all_identifiers ──────────────────────────────────────────────────────
 

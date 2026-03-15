@@ -362,13 +362,19 @@ class AnnotationBuilder:
         eg: dict,
         up: dict,
         source_tracking: dict,
+        locus_tag: str = "",
     ) -> Any:
         """First non-empty candidate wins; record source if track_source set.
 
         Candidates may have an optional ``source_label`` key to override the
         recorded provenance string (e.g. 'cyanorak' instead of 'gene_mapping').
+
+        When ``reject_identifiers`` is set on *fconf*, identifier-style values
+        (matching ``_IDENTIFIER_RE`` or equal to the gene's locus_tag) are
+        skipped so the next candidate can provide a real biological name.
         """
         track_key = fconf.get("track_source")
+        reject_ids = fconf.get("reject_identifiers", False)
         for cand in fconf.get("candidates", []):
             raw = self._get_raw(cand, gm, eg, up)
             if not _nonempty(raw):
@@ -392,6 +398,11 @@ class AnnotationBuilder:
                 else:
                     val = raw
             if _nonempty(val):
+                # Skip identifier-style values when reject_identifiers is set
+                if reject_ids and isinstance(val, str) and (
+                    val == locus_tag or _IDENTIFIER_RE.match(val)
+                ):
+                    continue
                 if track_key:
                     # Use source_label if set, otherwise fall back to source name
                     source_tracking[track_key] = cand.get("source_label", cand["source"])
@@ -518,12 +529,13 @@ class AnnotationBuilder:
         """Apply merge rules → canonical field set."""
         result: dict[str, Any] = {}
         source_tracking: dict[str, str] = {}
+        locus_tag = gm.get("locus_tag", "")
 
         for canonical_field, fconf in self.field_configs.items():
             ftype = fconf.get("type", "passthrough")
 
             if ftype == "single":
-                val = self._resolve_single(fconf, gm, eg, up, source_tracking)
+                val = self._resolve_single(fconf, gm, eg, up, source_tracking, locus_tag)
             elif ftype == "union":
                 val = self._resolve_union(fconf, gm, eg, up)
             elif ftype == "passthrough":
@@ -638,8 +650,9 @@ class AnnotationBuilder:
         # gene_summary — primary display field: "gene_name :: product :: description"
         gene_name = result.get("gene_name", "")
         locus_tag = result.get("locus_tag", "")
-        # Skip gene_name when it's just an identifier, not a biological name
+        # Clear gene_name when it's just an identifier, not a biological name
         if gene_name and (gene_name == locus_tag or _IDENTIFIER_RE.match(gene_name)):
+            result["gene_name"] = None
             gene_name = ""
         product = result.get("product", "")
         best_desc = up_func or eg_desc or cyanorak_prod or ncbi_prod
