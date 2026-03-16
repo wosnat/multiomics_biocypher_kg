@@ -99,51 +99,20 @@ class GeneEnumMeta(EnumMeta):
 class GeneNodeField(Enum, metaclass=GeneEnumMeta):
 
     LOCUS_TAG = 'locus_tag'
-    LOCUS_TAG_NCBI = 'locus_tag_ncbi'
-    LOCUS_TAG_CYANORAK = 'locus_tag_cyanorak'
     START = 'start'
     END = 'end'
-    START_CYANORAK = 'start_cyanorak'
-    END_CYANORAK = 'end_cyanorak'
     STRAND = 'strand'
-    STRAND_CYANORAK = 'strand_cyanorak'
     PRODUCT = 'product'
-    PRODUCT_CYANORAK = 'product_cyanorak'
     PROTEIN_ID = 'protein_id'
-    CYANORAK_ROLE = 'cyanorak_Role'
-    CYANORAK_ROLE_DESCRIPTION = 'cyanorak_Role_description'
-    TIGR_ROLE = 'tIGR_Role'
-    TIGR_ROLE_DESCRIPTION = 'tIGR_Role_description'
-    EC_NUMBERS = 'ec_numbers'
     FUNCTION_DESCRIPTION = 'function_description'
     # Gene naming
     GENE_NAME = 'gene_name'
     GENE_SYNONYMS = 'gene_synonyms'
     GENE_NAME_SYNONYMS = 'gene_name_synonyms'
     ALTERNATIVE_LOCUS_TAGS = 'alternative_locus_tags'
-    GENE_NAME_SOURCE = 'gene_name_source'
-    PRODUCT_SOURCE = 'product_source'
-    FUNCTION_DESCRIPTION_SOURCE = 'function_description_source'
     ALTERNATE_FUNCTIONAL_DESCRIPTIONS = 'alternate_functional_descriptions'
     OLD_LOCUS_TAGS = 'old_locus_tags'
-    # EggNOG / COG
-    COG_CATEGORY = 'cog_category'
-    EGGNOG_OGS = 'eggnog_ogs'
-    EGGNOG_OG_DESCRIPTIONS = 'eggnog_og_descriptions'
-    SEED_ORTHOLOG = 'seed_ortholog'
-    MAX_ANNOT_LVL = 'max_annot_lvl'
-    SEED_ORTHOLOG_EVALUE = 'seed_ortholog_evalue'
     PROTEIN_FAMILY = 'protein_family'
-    # Gene Ontology
-    GO_TERMS = 'go_terms'
-    GO_TERM_DESCRIPTIONS = 'go_term_descriptions'
-    # KEGG
-    KEGG_KO = 'kegg_ko'
-    KEGG_KO_DESCRIPTIONS = 'kegg_ko_descriptions'
-    KEGG_PATHWAY = 'kegg_pathway'
-    KEGG_MODULE = 'kegg_module'
-    KEGG_REACTION = 'kegg_reaction'
-    KEGG_BRITE = 'kegg_brite'
     # Pfam domains
     PFAM_IDS = 'pfam_ids'
     PFAM_NAMES = 'pfam_names'
@@ -289,8 +258,8 @@ class CyanorakNcbi:
         """
         logger.info("Started writing gene nodes")
 
-        int_fields = {'start', 'end', 'start_cyanorak', 'end_cyanorak', 'annotation_quality'}
-        float_fields = {'seed_ortholog_evalue'}
+        int_fields = {'start', 'end', 'annotation_quality'}
+        float_fields = set()
         node_list = []
         for _, row in self.data_df.iterrows():
             node_properties = {}
@@ -408,9 +377,7 @@ class CyanorakNcbi:
         This is retained for any remaining comma-delimited string fields.
         '''
         comma_split_cols = [
-            'cyanorak_Role', 'cyanorak_Role_description',
-            'tIGR_Role', 'tIGR_Role_description',
-            'old_locus_tags', 'ec_numbers',
+            'old_locus_tags',
         ]
         if field in comma_split_cols:
             return ','

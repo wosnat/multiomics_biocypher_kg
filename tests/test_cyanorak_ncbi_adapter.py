@@ -26,45 +26,17 @@ from multiomics_kg.adapters.cyanorak_ncbi_adapter import (
 MERGED_JSON_DATA = {
     "PMM0001": {
         "locus_tag": "PMM0001",
-        "locus_tag_ncbi": "TX50_RS00020",
-        "locus_tag_cyanorak": "CK_Pro_MED4_00001",
         "protein_id": "WP_011131639.1",
         "old_locus_tags": ["PMM0001"],
         "start": 174,
         "end": 1331,
         "strand": "+",
-        "start_cyanorak": 1331,
-        "end_cyanorak": 1331,
-        "strand_cyanorak": "+",
         "gene_name": "dnaN",
         "gene_synonyms": ["PMM0001"],
-        "gene_name_source": "cyanorak",
         "product": "DNA polymerase III, beta subunit",
-        "product_cyanorak": "DNA polymerase III, beta subunit",
-        "product_source": "cyanorak",
         "function_description": "Replicative DNA polymerase beta subunit",
-        "function_description_source": "uniprot",
         "cluster_number": "CK_00000364",
-        "cyanorak_Role": ["F.1"],
-        "cyanorak_Role_description": ["DNA replication"],
-        "tIGR_Role": ["132"],
-        "tIGR_Role_description": ["DNA metabolism"],
-        "cog_category": "L",
         "protein_family": "Beta sliding clamp family",
-        "go_terms": ["GO:0003887", "GO:0005737"],
-        "go_term_descriptions": ["DNA-directed DNA polymerase activity", "cytoplasm"],
-        "ec_numbers": ["2.7.7.7"],
-        "kegg_ko": ["K02338"],
-        "kegg_ko_descriptions": ["DNA polymerase III, beta subunit"],
-        "kegg_pathway": ["map00230", "map03030"],
-        "kegg_module": ["M00260"],
-        "kegg_reaction": ["R00375"],
-        "kegg_brite": ["ko00001"],
-        "eggnog_ogs": ["COG0592", "bactNOG00989"],
-        "eggnog_og_descriptions": ["Replication, recombination"],
-        "seed_ortholog": "59919.PMM0001",
-        "max_annot_lvl": "1117|Cyanobacteria",
-        "seed_ortholog_evalue": 1.12e-267,
         "pfam_ids": ["PF02768"],
         "pfam_descriptions": ["Beta sliding clamp, N-terminal domain"],
         "organism_strain": "Prochlorococcus MED4",
@@ -74,7 +46,6 @@ MERGED_JSON_DATA = {
     },
     "PMM0002": {
         "locus_tag": "PMM0002",
-        "locus_tag_ncbi": "TX50_RS00025",
         "protein_id": "WP_011131640.1",
         "start": 1333,
         "end": 2040,
@@ -83,11 +54,6 @@ MERGED_JSON_DATA = {
         "gene_synonyms": ["PMM0002"],
         "product": "hypothetical protein",
         "cluster_number": "CK_00000363",
-        "cog_category": "S",
-        "go_terms": [],
-        "ec_numbers": [],
-        "kegg_ko": [],
-        "eggnog_ogs": ["COG0243"],
         "organism_strain": "Prochlorococcus MED4",
         "gene_summary": "PMM0002 :: hypothetical protein",
         "all_identifiers": ["TX50_RS00025", "WP_011131640.1"],
@@ -95,7 +61,6 @@ MERGED_JSON_DATA = {
     },
     "PMM0003": {
         "locus_tag": "PMM0003",
-        "locus_tag_ncbi": "TX50_RS00030",
         "protein_id": "WP_011131641.1",
         "start": 2044,
         "end": 4383,
@@ -104,11 +69,6 @@ MERGED_JSON_DATA = {
         "gene_synonyms": ["PMM0003"],
         "product": "phosphoribosylformylglycinamidine synthase",
         "cluster_number": "CK_00000362",
-        "cog_category": "F",
-        "go_terms": ["GO:0009152"],
-        "ec_numbers": ["6.3.5.3"],
-        "kegg_ko": ["K01952"],
-        "eggnog_ogs": ["COG0046"],
         "organism_strain": "Prochlorococcus MED4",
         "gene_summary": "purL :: phosphoribosylformylglycinamidine synthase",
         "all_identifiers": ["TX50_RS00030", "WP_011131641.1"],
@@ -198,18 +158,12 @@ class TestGeneNodeFieldEnum:
     def test_core_fields_exist(self):
         assert GeneNodeField.LOCUS_TAG.value == "locus_tag"
         assert GeneNodeField.PRODUCT.value == "product"
-        assert GeneNodeField.EC_NUMBERS.value == "ec_numbers"
 
     def test_new_fields_exist(self):
         assert GeneNodeField.GENE_NAME.value == "gene_name"
         assert GeneNodeField.GENE_SYNONYMS.value == "gene_synonyms"
-        assert GeneNodeField.GO_TERMS.value == "go_terms"
-        assert GeneNodeField.KEGG_KO.value == "kegg_ko"
-        assert GeneNodeField.EGGNOG_OGS.value == "eggnog_ogs"
         assert GeneNodeField.PFAM_IDS.value == "pfam_ids"
-        assert GeneNodeField.COG_CATEGORY.value == "cog_category"
         assert GeneNodeField.ANNOTATION_QUALITY.value == "annotation_quality"
-        assert GeneNodeField.SEED_ORTHOLOG_EVALUE.value == "seed_ortholog_evalue"
 
     def test_old_fields_removed(self):
         field_values = {f.value for f in GeneNodeField}
@@ -219,6 +173,22 @@ class TestGeneNodeFieldEnum:
         assert "protein_domains" not in field_values
         assert "go_component" not in field_values
         assert "Ontology_term" not in field_values
+
+    def test_dropped_phase_fields_removed(self):
+        """Verify 30 dropped properties are no longer in the enum."""
+        field_values = {f.value for f in GeneNodeField}
+        dropped = [
+            "locus_tag_ncbi", "locus_tag_cyanorak", "start_cyanorak", "end_cyanorak",
+            "strand_cyanorak", "product_cyanorak", "cyanorak_Role",
+            "cyanorak_Role_description", "tIGR_Role", "tIGR_Role_description",
+            "ec_numbers", "go_terms", "go_term_descriptions", "kegg_ko",
+            "kegg_ko_descriptions", "kegg_pathway", "kegg_module", "kegg_reaction",
+            "kegg_brite", "cog_category", "eggnog_ogs", "eggnog_og_descriptions",
+            "seed_ortholog", "max_annot_lvl", "seed_ortholog_evalue",
+            "gene_name_source", "product_source", "function_description_source",
+        ]
+        for name in dropped:
+            assert name not in field_values, f"{name} should have been dropped"
 
     def test_enum_contains_check(self):
         # GeneEnumMeta.__contains__ checks member names (uppercase), not values
@@ -334,14 +304,11 @@ class TestDownloadData:
 
     def test_list_columns_preserved(self, adapter):
         row = adapter.data_df[adapter.data_df["locus_tag"] == "PMM0001"].iloc[0]
-        assert isinstance(row["go_terms"], list)
-        assert isinstance(row["kegg_ko"], list)
         assert isinstance(row["gene_synonyms"], list)
 
     def test_numeric_columns_preserved(self, adapter):
         row = adapter.data_df[adapter.data_df["locus_tag"] == "PMM0001"].iloc[0]
         assert row["annotation_quality"] == 3
-        assert isinstance(row["seed_ortholog_evalue"], float)
 
     def test_missing_json_raises_error(self, temp_data_dir):
         a = CyanorakNcbi(data_dir=temp_data_dir, strain_name="TEST")
@@ -392,37 +359,15 @@ class TestCleanText:
 
 
 class TestSplitField:
-    def test_cyanorak_role_comma_split(self, adapter):
-        assert adapter._get_split_character("cyanorak_Role") == ","
-
-    def test_tigr_role_comma_split(self, adapter):
-        assert adapter._get_split_character("tIGR_Role") == ","
-
-    def test_ec_numbers_comma_split(self, adapter):
-        assert adapter._get_split_character("ec_numbers") == ","
-
     def test_product_no_split(self, adapter):
         assert adapter._get_split_character("product") is None
 
     def test_gene_name_no_split(self, adapter):
         assert adapter._get_split_character("gene_name") is None
 
-    def test_go_terms_no_split(self, adapter):
-        # go_terms come as lists from merged JSON, no CSV split needed
-        assert adapter._get_split_character("go_terms") is None
-
-    def test_split_comma_separated_string(self, adapter):
-        result = adapter._split_field("cyanorak_Role", "F.1,F.2")
-        assert result == ["F.1", "F.2"]
-
     def test_no_split_returns_string(self, adapter):
         result = adapter._split_field("product", "DNA polymerase")
         assert result == "DNA polymerase"
-
-    def test_comma_followed_by_space_not_split(self, adapter):
-        # Regex r',(?! )' does not split on comma+space, so "a, b, c" stays as one element
-        result = adapter._split_field("cyanorak_Role_description", "a, b, c")
-        assert result == ["a, b, c"]
 
 
 # ---------------------------------------------------------------------------
@@ -517,9 +462,8 @@ class TestGetGeneNodes:
         nodes = adapter.get_nodes()
         pmm0001 = next(n for n in nodes if n[1] == "gene" and "PMM0001" in n[0])
         props = pmm0001[2]
-        assert isinstance(props.get("go_terms"), list)
-        assert isinstance(props.get("kegg_ko"), list)
-        assert isinstance(props.get("eggnog_ogs"), list)
+        assert isinstance(props.get("gene_synonyms"), list)
+        assert isinstance(props.get("pfam_ids"), list)
 
     def test_numeric_fields_correct_types(self, adapter):
         nodes = adapter.get_nodes()
@@ -528,32 +472,18 @@ class TestGetGeneNodes:
         assert isinstance(props["start"], int)
         assert isinstance(props["end"], int)
         assert isinstance(props["annotation_quality"], int)
-        assert isinstance(props["seed_ortholog_evalue"], float)
 
     def test_string_fields_correct_types(self, adapter):
         nodes = adapter.get_nodes()
         pmm0001 = next(n for n in nodes if n[1] == "gene" and "PMM0001" in n[0])
         props = pmm0001[2]
         assert isinstance(props["gene_name"], str)
-        assert isinstance(props["cog_category"], str)
 
     def test_new_fields_populated(self, adapter):
         nodes = adapter.get_nodes()
         pmm0001 = next(n for n in nodes if n[1] == "gene" and "PMM0001" in n[0])
         props = pmm0001[2]
         assert props["gene_name"] == "dnaN"
-        assert "K02338" in props["kegg_ko"]
-        assert "GO:0003887" in props["go_terms"]
-        assert props["cog_category"] == "L"
-        assert props["seed_ortholog"] == "59919.PMM0001"
-
-    def test_go_term_descriptions_is_list(self, adapter):
-        nodes = adapter.get_nodes()
-        pmm0001 = next(n for n in nodes if n[1] == "gene" and "PMM0001" in n[0])
-        props = pmm0001[2]
-        desc = props.get("go_term_descriptions")
-        assert isinstance(desc, list)
-        assert "DNA-directed DNA polymerase activity" in desc
 
     def test_subset_fields_only_returns_requested_fields(self, adapter_subset_fields):
         nodes = adapter_subset_fields.get_nodes()
@@ -561,7 +491,28 @@ class TestGetGeneNodes:
             assert "locus_tag" in props
             assert "product" in props
             assert "gene_name" in props
-            assert "cog_category" not in props
+            assert "pfam_ids" not in props
+
+    def test_dropped_properties_not_in_gene_nodes(self, adapter):
+        """Verify that all 30 dropped gene properties are absent from node dicts."""
+        dropped_properties = [
+            "locus_tag_ncbi", "locus_tag_cyanorak", "start_cyanorak", "end_cyanorak",
+            "strand_cyanorak", "product_cyanorak", "cyanorak_Role",
+            "cyanorak_Role_description", "tIGR_Role", "tIGR_Role_description",
+            "ec_numbers", "go_terms", "go_term_descriptions", "kegg_ko",
+            "kegg_ko_descriptions", "kegg_pathway", "kegg_module", "kegg_reaction",
+            "kegg_brite", "cog_category", "eggnog_ogs", "eggnog_og_descriptions",
+            "seed_ortholog", "max_annot_lvl", "seed_ortholog_evalue",
+            "gene_name_source", "product_source", "function_description_source",
+        ]
+        nodes = adapter.get_nodes()
+        gene_nodes = [n for n in nodes if n[1] == "gene"]
+        assert len(gene_nodes) > 0, "Need at least one gene node to test"
+        for _, _, props in gene_nodes:
+            for dropped in dropped_properties:
+                assert dropped not in props, (
+                    f"Dropped property '{dropped}' found in gene node {props.get('locus_tag')}"
+                )
 
 
 # ---------------------------------------------------------------------------
@@ -814,9 +765,6 @@ def multi_data_dir(tmp_path):
                 "strand": "+",
                 "product": "hypothetical protein",
                 "cluster_number": f"CK_{strain}_001",
-                "go_terms": [],
-                "ec_numbers": [],
-                "kegg_ko": [],
                 "annotation_quality": 1,
             }
         }
@@ -1032,10 +980,10 @@ class TestIntegrationWithRealData:
         a.download_data()
         nodes = a.get_nodes()
         for _, _, props in [n for n in nodes if n[1] == "gene"][:10]:
-            if "go_terms" in props:
-                assert isinstance(props["go_terms"], list)
-            if "kegg_ko" in props:
-                assert isinstance(props["kegg_ko"], list)
+            if "gene_synonyms" in props:
+                assert isinstance(props["gene_synonyms"], list)
+            if "pfam_ids" in props:
+                assert isinstance(props["pfam_ids"], list)
 
 
 # ---------------------------------------------------------------------------
