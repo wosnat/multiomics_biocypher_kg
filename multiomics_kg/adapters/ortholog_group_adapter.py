@@ -10,10 +10,31 @@ from __future__ import annotations
 
 import csv
 import json
+from collections import Counter
 from pathlib import Path
 
 from biocypher._logger import logger
 
+
+def _clean_str(value: str) -> str:
+    """Sanitize strings for BioCypher CSV export."""
+    return value.replace("'", "^").replace("|", "")
+
+
+def _consensus_value(values: list, exclude: set | None = None) -> str | None:
+    """Return the most common non-null value, preferring values not in *exclude*.
+
+    Falls back to the most common excluded value if nothing else is available.
+    """
+    non_null = [v for v in values if v]
+    if not non_null:
+        return None
+    if exclude:
+        preferred = [v for v in non_null if v not in exclude]
+        if preferred:
+            return Counter(preferred).most_common(1)[0][0]
+    # Fall back to most common overall (including excluded)
+    return Counter(non_null).most_common(1)[0][0]
 
 
 class OrthologGroupAdapter:
@@ -47,6 +68,24 @@ class OrthologGroupAdapter:
                 break
         return results
 
+    def get_og_memberships_with_gene_data(self) -> list[tuple[str, dict, dict]]:
+        """Return (locus_tag, og_dict, gene_meta) triples.
+
+        gene_meta contains product, gene_name, organism_strain for consensus computation.
+        """
+        results = []
+        for lt, gene in self._genes.items():
+            meta = {
+                "product": gene.get("product"),
+                "gene_name": gene.get("gene_name"),
+                "organism_strain": gene.get("organism_strain"),
+            }
+            for og in gene.get("ortholog_groups", []):
+                results.append((lt, og, meta))
+            if self.test_mode and len(results) >= 100:
+                break
+        return results
+
 
 class MultiOrthologGroupAdapter:
     """Multi-strain: yields OrthologGroup nodes + Gene_in_ortholog_group edges."""
@@ -74,27 +113,53 @@ class MultiOrthologGroupAdapter:
         pass
 
     def get_nodes(self):
-        """Yield unique OrthologGroup nodes across all strains."""
-        seen = set()
-        node_list = []
+        """Yield unique OrthologGroup nodes with consensus properties."""
+        # First pass: collect members per OG
+        og_info = {}  # og_id -> {"og": og_dict, "members": [gene_meta, ...]}
         for adapter in self.adapters:
-            for lt, og in adapter.get_og_memberships():
+            for lt, og, meta in adapter.get_og_memberships_with_gene_data():
                 og_id = og["og_id"]
-                if og_id not in seen:
-                    seen.add(og_id)
-                    # Extract raw identifier: "cyanorak:CK_00000364" → "CK_00000364"
-                    raw_name = og_id.split(":", 1)[1] if ":" in og_id else og_id
-                    node_list.append((
-                        og_id,
-                        "ortholog_group",
-                        {
-                            "name": raw_name,
-                            "source": og["source"],
-                            "taxonomic_level": og["taxonomic_level"],
-                            "taxon_id": og["taxon_id"],
-                            "specificity_rank": og["specificity_rank"],
-                        },
-                    ))
+                if og_id not in og_info:
+                    og_info[og_id] = {"og": og, "members": []}
+                og_info[og_id]["members"].append(meta)
+
+        # Second pass: compute consensus and emit nodes
+        node_list = []
+        for og_id, info in og_info.items():
+            og = info["og"]
+            members = info["members"]
+            raw_name = og_id.split(":", 1)[1] if ":" in og_id else og_id
+
+            # Consensus product: majority vote, preferring non-hypothetical
+            consensus_product = _consensus_value(
+                [m["product"] for m in members],
+                exclude={"hypothetical protein", "conserved hypothetical protein"},
+            )
+
+            # Consensus gene name: most frequent non-null
+            consensus_gene_name = _consensus_value(
+                [m["gene_name"] for m in members],
+            )
+
+            # Organism stats
+            org_strains = {m["organism_strain"] for m in members if m.get("organism_strain")}
+            genera = sorted({s.split()[0] for s in org_strains if s})
+
+            props = {
+                "name": raw_name,
+                "source": og["source"],
+                "taxonomic_level": og["taxonomic_level"],
+                "taxon_id": og["taxon_id"],
+                "specificity_rank": og["specificity_rank"],
+                "consensus_product": _clean_str(consensus_product) if consensus_product else None,
+                "consensus_gene_name": _clean_str(consensus_gene_name) if consensus_gene_name else None,
+                "member_count": len(members),
+                "organism_count": len(org_strains),
+                "genera": genera,
+                "has_cross_genus_members": len(genera) > 1,
+            }
+            node_list.append((og_id, "ortholog_group", props))
+
         logger.info(f"OrthologGroupAdapter: {len(node_list)} unique OrthologGroup nodes")
         return node_list
 

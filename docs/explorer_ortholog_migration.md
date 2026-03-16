@@ -19,7 +19,7 @@ This document describes the migration from the old homolog/ortholog edge model t
 
 | Element | Type | Approximate count | Properties |
 |---|---|---|---|
-| `OrthologGroup` | Node | ~21,000 | `name` (raw OG ID, e.g. "CK_00000364", "COG0592@2"), `source` ("cyanorak" or "eggnog"), `taxonomic_level` ("curated", "Prochloraceae", "Synechococcus", "Alteromonadaceae", "Bacteria", "Cyanobacteria", "Gammaproteobacteria"), `taxon_id` (integer), `specificity_rank` (int: 0=curated, 1=family, 2=order, 3=domain/Bacteria) |
+| `OrthologGroup` | Node | ~21,000 | `name` (raw OG ID, e.g. "CK_00000364", "COG0592@2"), `source` ("cyanorak" or "eggnog"), `taxonomic_level` ("curated", "Prochloraceae", "Synechococcus", "Alteromonadaceae", "Bacteria", "Cyanobacteria", "Gammaproteobacteria"), `taxon_id` (integer), `specificity_rank` (int: 0=curated, 1=family, 2=order, 3=domain/Bacteria), `consensus_product` (majority-vote product from members), `consensus_gene_name` (most frequent gene name), `member_count` (int), `organism_count` (int), `genera` (str[], e.g. ["Prochlorococcus", "Alteromonas"]), `has_cross_genus_members` (bool) |
 | `Gene_in_ortholog_group` | Edge | ~84,500 | (no properties) |
 
 A gene may belong to 1-3 ortholog groups simultaneously:
@@ -42,7 +42,7 @@ A gene may belong to 1-3 ortholog groups simultaneously:
 
 - The new model uses 2-hop traversals (`gene -> OrthologGroup <- gene`) instead of the old 1-hop direct homolog edges. This adds slightly higher query latency per traversal.
 - However, the total stored edge count dropped dramatically: ~84,500 membership edges replace ~2,474,000 materialized edges (homolog + ortholog expression). This reduces graph size and import time significantly.
-- Indexes are available on `OrthologGroup` nodes: `ortholog_group_id_idx` (id), `ortholog_group_name_idx` (name), `ortholog_group_level_idx` (taxonomic_level). Use these to filter by source or level efficiently.
+- Indexes are available on `OrthologGroup` nodes: `ortholog_group_id_idx` (id), `ortholog_group_name_idx` (name), `ortholog_group_level_idx` (taxonomic_level), `ortholog_group_rank_idx` (specificity_rank). Use these to filter by source or level efficiently.
 - For expression propagation queries, always include `AND g <> h` to avoid self-joins, and filter on `og.taxonomic_level` or `og.source` when you only need a specific ortholog scope.
 
 ## Breaking Changes Checklist

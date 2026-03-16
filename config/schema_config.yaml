@@ -94,6 +94,12 @@ ortholog group:
     taxonomic_level: str   # "curated" | "Prochloraceae" | "Alteromonadaceae" | "Bacteria" | etc.
     taxon_id: int          # NCBI taxon ID of the level (0 for curated)
     specificity_rank: int  # 0=curated, 1=family, 2=order, 3=domain (Bacteria)
+    consensus_product: str
+    consensus_gene_name: str
+    member_count: int
+    organism_count: int
+    genera: str[]
+    has_cross_genus_members: bool
 
 gene in ortholog group:
   is_a: Association

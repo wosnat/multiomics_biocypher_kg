@@ -197,6 +197,87 @@ def test_no_gene_in_cyanorak_cluster_edges(run_query):
 
 
 # ---------------------------------------------------------------------------
+# OrthologGroup enrichment properties
+# ---------------------------------------------------------------------------
+
+def test_ortholog_group_has_member_count(run_query):
+    """All OrthologGroup nodes must have member_count > 0."""
+    result = run_query("""
+        MATCH (og:OrthologGroup)
+        WHERE og.member_count IS NULL OR og.member_count < 1
+        RETURN count(og) AS bad
+    """)
+    assert result[0]["bad"] == 0, (
+        f"{result[0]['bad']} OrthologGroup nodes have null or zero member_count"
+    )
+
+
+def test_ortholog_group_has_organism_count(run_query):
+    """All OrthologGroup nodes must have organism_count > 0."""
+    result = run_query("""
+        MATCH (og:OrthologGroup)
+        WHERE og.organism_count IS NULL OR og.organism_count < 1
+        RETURN count(og) AS bad
+    """)
+    assert result[0]["bad"] == 0, (
+        f"{result[0]['bad']} OrthologGroup nodes have null or zero organism_count"
+    )
+
+
+def test_ortholog_group_member_count_matches_edges(run_query):
+    """member_count should match actual Gene_in_ortholog_group edge count."""
+    result = run_query("""
+        MATCH (og:OrthologGroup)
+        OPTIONAL MATCH (g:Gene)-[:Gene_in_ortholog_group]->(og)
+        WITH og, og.member_count AS declared, count(g) AS actual
+        WHERE declared <> actual
+        RETURN count(og) AS mismatched,
+               collect(og.name)[..5] AS examples
+    """)
+    assert result[0]["mismatched"] == 0, (
+        f"{result[0]['mismatched']} OrthologGroup nodes have member_count != edge count. "
+        f"Examples: {result[0]['examples']}"
+    )
+
+
+def test_ortholog_group_cross_genus_flag_consistent(run_query):
+    """has_cross_genus_members should match actual genera from member genes."""
+    result = run_query("""
+        MATCH (og:OrthologGroup)<-[:Gene_in_ortholog_group]-(g:Gene)
+        WITH og, collect(DISTINCT split(g.organism_strain, ' ')[0]) AS actual_genera
+        WHERE (og.has_cross_genus_members = true AND size(actual_genera) < 2)
+           OR (og.has_cross_genus_members = false AND size(actual_genera) > 1)
+        RETURN count(og) AS inconsistent,
+               collect(og.name)[..5] AS examples
+    """)
+    assert result[0]["inconsistent"] == 0, (
+        f"{result[0]['inconsistent']} OrthologGroup nodes have inconsistent has_cross_genus_members. "
+        f"Examples: {result[0]['examples']}"
+    )
+
+
+def test_ortholog_group_consensus_product_coverage(run_query):
+    """Majority of OrthologGroup nodes should have a consensus_product."""
+    result = run_query("""
+        MATCH (og:OrthologGroup)
+        WITH count(og) AS total,
+             count(CASE WHEN og.consensus_product IS NOT NULL THEN 1 END) AS with_product
+        RETURN total, with_product,
+               toFloat(with_product) / total AS coverage
+    """)
+    coverage = result[0]["coverage"]
+    assert coverage > 0.5, (
+        f"Only {coverage:.1%} of OrthologGroup nodes have consensus_product; expected > 50%"
+    )
+
+
+def test_specificity_rank_index_exists(run_query):
+    """The specificity_rank index should exist."""
+    result = run_query("SHOW INDEXES YIELD name WHERE name = 'ortholog_group_rank_idx' RETURN count(*) AS cnt")
+    assert result[0]["cnt"] == 1, "ortholog_group_rank_idx index not found"
+
+
+# ---------------------------------------------------------------------------
 # Denormalized Gene.function_description (copied from Protein) — kept from
 # original post-import tests, still validated
 # ---------------------------------------------------------------------------
