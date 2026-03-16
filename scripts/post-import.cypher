@@ -27,4 +27,5 @@ CREATE FULLTEXT INDEX keggFullText IF NOT EXISTS
 
 // OrthologGroup indexes for efficient 2-hop homolog lookups
 CREATE INDEX ortholog_group_id_idx IF NOT EXISTS FOR (og:OrthologGroup) ON (og.id);
+CREATE INDEX ortholog_group_name_idx IF NOT EXISTS FOR (og:OrthologGroup) ON (og.name);
 CREATE INDEX ortholog_group_level_idx IF NOT EXISTS FOR (og:OrthologGroup) ON (og.taxonomic_level);
