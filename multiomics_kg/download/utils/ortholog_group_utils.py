@@ -80,6 +80,7 @@ def extract_ortholog_groups(gene: dict, organism_group: str) -> list[dict]:
             "source": "cyanorak",
             "taxonomic_level": "curated",
             "taxon_id": 0,
+            "specificity_rank": 0,
         })
         seen_ids.add(og_id)
 
@@ -97,6 +98,7 @@ def extract_ortholog_groups(gene: dict, organism_group: str) -> list[dict]:
                 "source": "eggnog",
                 "taxonomic_level": level_name,
                 "taxon_id": 2,
+                "specificity_rank": 3,
             })
             seen_ids.add(og_id)
 
@@ -106,12 +108,12 @@ def extract_ortholog_groups(gene: dict, organism_group: str) -> list[dict]:
     )
     lowest = None
     if target_tid and target_tid in parsed:
-        lowest = (target_tid, *parsed[target_tid])
+        lowest = (target_tid, *parsed[target_tid], 1)   # family-level
     elif fallback_tid and fallback_tid in parsed:
-        lowest = (fallback_tid, *parsed[fallback_tid])
+        lowest = (fallback_tid, *parsed[fallback_tid], 2)  # order-level
 
     if lowest:
-        tid, og_part, level_name = lowest
+        tid, og_part, level_name, rank = lowest
         og_id = f"eggnog:{og_part}@{tid}"
         if og_id not in seen_ids:
             groups.append({
@@ -119,6 +121,7 @@ def extract_ortholog_groups(gene: dict, organism_group: str) -> list[dict]:
                 "source": "eggnog",
                 "taxonomic_level": level_name,
                 "taxon_id": tid,
+                "specificity_rank": rank,
             })
             seen_ids.add(og_id)
 

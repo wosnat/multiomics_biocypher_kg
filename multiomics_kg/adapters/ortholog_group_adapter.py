@@ -15,6 +15,7 @@ from pathlib import Path
 from biocypher._logger import logger
 
 
+
 class OrthologGroupAdapter:
     """Per-strain: reads pre-computed ortholog_groups from gene_annotations_merged.json."""
 
@@ -91,6 +92,7 @@ class MultiOrthologGroupAdapter:
                             "source": og["source"],
                             "taxonomic_level": og["taxonomic_level"],
                             "taxon_id": og["taxon_id"],
+                            "specificity_rank": og["specificity_rank"],
                         },
                     ))
         logger.info(f"OrthologGroupAdapter: {len(node_list)} unique OrthologGroup nodes")
