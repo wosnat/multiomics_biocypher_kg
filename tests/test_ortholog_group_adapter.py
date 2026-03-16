@@ -148,10 +148,20 @@ class TestMultiOrthologGroupAdapter:
         nodes = adapter.get_nodes()
         for og_id, label, props in nodes:
             assert label == "ortholog_group"
+            assert "name" in props
             assert "source" in props
             assert props["source"] in ("cyanorak", "eggnog")
             assert "taxonomic_level" in props
             assert isinstance(props["taxon_id"], int)
+
+    def test_name_is_raw_identifier(self, multi_config_csv):
+        """name property should be the raw OG ID without the source prefix."""
+        adapter = MultiOrthologGroupAdapter(genome_config_file=multi_config_csv)
+        nodes = adapter.get_nodes()
+        node_map = {n[0]: n[2] for n in nodes}
+        assert node_map["cyanorak:CK_00000364"]["name"] == "CK_00000364"
+        assert node_map["eggnog:COG0592@2"]["name"] == "COG0592@2"
+        assert node_map["eggnog:4648R@72275"]["name"] == "4648R@72275"
 
     def test_edge_ids_unique(self, multi_config_csv):
         adapter = MultiOrthologGroupAdapter(genome_config_file=multi_config_csv)

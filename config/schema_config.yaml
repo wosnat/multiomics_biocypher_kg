@@ -89,6 +89,7 @@ ortholog group:
   preferred_id: id
   label_in_input: ortholog_group
   properties:
+    name: str              # raw OG identifier (e.g., "CK_00000364", "COG0592@2", "1MKTR@1212")
     source: str            # "cyanorak" | "eggnog"
     taxonomic_level: str   # "curated" | "Prochloraceae" | "Alteromonadaceae" | "Bacteria" | etc.
     taxon_id: int          # NCBI taxon ID of the level (0 for curated)

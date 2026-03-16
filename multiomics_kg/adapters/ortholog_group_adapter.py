@@ -81,10 +81,13 @@ class MultiOrthologGroupAdapter:
                 og_id = og["og_id"]
                 if og_id not in seen:
                     seen.add(og_id)
+                    # Extract raw identifier: "cyanorak:CK_00000364" → "CK_00000364"
+                    raw_name = og_id.split(":", 1)[1] if ":" in og_id else og_id
                     node_list.append((
                         og_id,
                         "ortholog_group",
                         {
+                            "name": raw_name,
                             "source": og["source"],
                             "taxonomic_level": og["taxonomic_level"],
                             "taxon_id": og["taxon_id"],

@@ -66,7 +66,7 @@ NODE_PROPERTIES = {
     "OrganismTaxon": ["organism_name", "strain_name", "genus", "clade", "ncbi_taxon_id"],
     "Publication": ["doi", "pmid", "title"],
     "EnvironmentalCondition": ["name", "condition_type"],
-    "OrthologGroup": ["source", "taxonomic_level", "taxon_id"],
+    "OrthologGroup": ["name", "source", "taxonomic_level", "taxon_id"],
     # GO term node types (from functional_annotation_adapter.py)
     "BiologicalProcess": ["name"],
     "CellularComponent": ["name"],

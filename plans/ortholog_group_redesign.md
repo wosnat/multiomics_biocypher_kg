@@ -91,6 +91,7 @@ Observed coverage (target level / fallback / bacteria-only / no-eggnog):
 | Property | Type | Values |
 |---|---|---|
 | `id` | str | Unique ID (see scheme below) |
+| `name` | str | Raw OG identifier without prefix (e.g., `"CK_00000364"`, `"COG0592@2"`, `"1MKTR@1212"`) |
 | `source` | str | `"cyanorak"` or `"eggnog"` |
 | `taxonomic_level` | str | `"curated"`, `"Prochloraceae"`, `"Synechococcus"`, `"Alteromonadaceae"`, `"Bacteria"`, etc. |
 | `taxon_id` | int | NCBI taxon ID of the level (0 for cyanorak curated) |
@@ -691,7 +692,8 @@ Update all docs, skills, and memory to reflect the new orthology model.
   `Gene_in_cyanorak_cluster`, `Condition_changes_expression_of_ortholog`,
   `Coculture_changes_expression_of_ortholog`. Add `Gene_in_ortholog_group`.
 - **Lines 339–341** (Key graph facts): Remove ortholog edge descriptions. Add
-  OrthologGroup description (sources, levels, membership edges, query-time propagation).
+  OrthologGroup description (sources, levels, `name` property for raw OG identifier,
+  membership edges, query-time propagation).
 - **Architecture section**: Document `ORGANISM_GROUP_LEVELS` whitelist in
   `multiomics_kg/download/utils/ortholog_group_utils.py` — maps organism group
   (Prochlorococcus/Synechococcus/Alteromonas) to target + fallback taxon IDs
