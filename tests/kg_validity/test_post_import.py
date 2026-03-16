@@ -245,8 +245,8 @@ def test_ortholog_group_cross_genus_flag_consistent(run_query):
     result = run_query("""
         MATCH (og:OrthologGroup)<-[:Gene_in_ortholog_group]-(g:Gene)
         WITH og, collect(DISTINCT split(g.organism_strain, ' ')[0]) AS actual_genera
-        WHERE (og.has_cross_genus_members = true AND size(actual_genera) < 2)
-           OR (og.has_cross_genus_members = false AND size(actual_genera) > 1)
+        WHERE (og.has_cross_genus_members = 'cross_genus' AND size(actual_genera) < 2)
+           OR (og.has_cross_genus_members = 'single_genus' AND size(actual_genera) > 1)
         RETURN count(og) AS inconsistent,
                collect(og.name)[..5] AS examples
     """)

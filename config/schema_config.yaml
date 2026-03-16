@@ -99,7 +99,7 @@ ortholog group:
     member_count: int
     organism_count: int
     genera: str[]
-    has_cross_genus_members: bool
+    has_cross_genus_members: str  # "cross_genus" | "single_genus"
 
 gene in ortholog group:
   is_a: Association

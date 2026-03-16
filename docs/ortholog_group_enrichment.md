@@ -13,7 +13,7 @@ OrthologGroup nodes now carry pre-computed aggregate properties derived from the
 | `member_count` | integer | Total number of genes in the group | `12` |
 | `organism_count` | integer | Number of distinct organism strains represented | `8` |
 | `genera` | string[] | Sorted list of distinct genera | `["Alteromonas", "Prochlorococcus"]` |
-| `has_cross_genus_members` | boolean | `true` if the group spans more than one genus | `true` |
+| `has_cross_genus_members` | string | `"cross_genus"` or `"single_genus"` | `"cross_genus"` |
 
 ## New Index
 
@@ -26,7 +26,7 @@ OrthologGroup nodes now carry pre-computed aggregate properties derived from the
 ### Find ortholog groups that bridge Prochlorococcus and Alteromonas
 ```cypher
 MATCH (og:OrthologGroup)
-WHERE og.has_cross_genus_members = true
+WHERE og.has_cross_genus_members = 'cross_genus'
 RETURN og.name, og.consensus_product, og.consensus_gene_name,
        og.member_count, og.organism_count, og.genera
 ORDER BY og.member_count DESC

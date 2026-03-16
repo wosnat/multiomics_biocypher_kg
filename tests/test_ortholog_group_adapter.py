@@ -297,14 +297,14 @@ class TestOrthologGroupEnrichment:
         adapter = MultiOrthologGroupAdapter(genome_config_file=multi_config_csv)
         nodes = adapter.get_nodes()
         node_map = {n[0]: n[2] for n in nodes}
-        assert node_map["eggnog:COG0592@2"]["has_cross_genus_members"] is True
+        assert node_map["eggnog:COG0592@2"]["has_cross_genus_members"] == "cross_genus"
 
     def test_has_cross_genus_false(self, multi_config_csv):
         """CK_00000364 has only PMM0001 (Prochlorococcus) -> False."""
         adapter = MultiOrthologGroupAdapter(genome_config_file=multi_config_csv)
         nodes = adapter.get_nodes()
         node_map = {n[0]: n[2] for n in nodes}
-        assert node_map["cyanorak:CK_00000364"]["has_cross_genus_members"] is False
+        assert node_map["cyanorak:CK_00000364"]["has_cross_genus_members"] == "single_genus"
 
     def test_string_sanitization(self, tmp_path):
         """Product containing ' or | should be cleaned."""

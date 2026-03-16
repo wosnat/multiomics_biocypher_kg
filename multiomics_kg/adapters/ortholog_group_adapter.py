@@ -156,7 +156,7 @@ class MultiOrthologGroupAdapter:
                 "member_count": len(members),
                 "organism_count": len(org_strains),
                 "genera": genera,
-                "has_cross_genus_members": len(genera) > 1,
+                "has_cross_genus_members": "cross_genus" if len(genera) > 1 else "single_genus",
             }
             node_list.append((og_id, "ortholog_group", props))
 
