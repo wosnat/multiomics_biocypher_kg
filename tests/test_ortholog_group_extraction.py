@@ -79,6 +79,7 @@ class TestExtractOrthologGroups:
             "source": "cyanorak",
             "taxonomic_level": "curated",
             "taxon_id": 0,
+            "specificity_rank": 0,
         }
         # Bacteria COG
         assert groups[1] == {
@@ -86,6 +87,7 @@ class TestExtractOrthologGroups:
             "source": "eggnog",
             "taxonomic_level": "Bacteria",
             "taxon_id": 2,
+            "specificity_rank": 3,
         }
         # Prochloraceae lowest-level
         assert groups[2] == {
@@ -93,6 +95,7 @@ class TestExtractOrthologGroups:
             "source": "eggnog",
             "taxonomic_level": "Prochloraceae",
             "taxon_id": 1212,
+            "specificity_rank": 1,
         }
 
     def test_alt_gene_two_groups(self):

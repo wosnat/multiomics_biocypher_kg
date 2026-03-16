@@ -20,16 +20,16 @@ STRAIN1_DATA = {
     "PMM0001": {
         "locus_tag": "PMM0001",
         "ortholog_groups": [
-            {"og_id": "cyanorak:CK_00000364", "source": "cyanorak", "taxonomic_level": "curated", "taxon_id": 0},
-            {"og_id": "eggnog:COG0592@2", "source": "eggnog", "taxonomic_level": "Bacteria", "taxon_id": 2},
-            {"og_id": "eggnog:1MKTR@1212", "source": "eggnog", "taxonomic_level": "Prochloraceae", "taxon_id": 1212},
+            {"og_id": "cyanorak:CK_00000364", "source": "cyanorak", "taxonomic_level": "curated", "taxon_id": 0, "specificity_rank": 0},
+            {"og_id": "eggnog:COG0592@2", "source": "eggnog", "taxonomic_level": "Bacteria", "taxon_id": 2, "specificity_rank": 3},
+            {"og_id": "eggnog:1MKTR@1212", "source": "eggnog", "taxonomic_level": "Prochloraceae", "taxon_id": 1212, "specificity_rank": 1},
         ],
     },
     "PMM0002": {
         "locus_tag": "PMM0002",
         "ortholog_groups": [
-            {"og_id": "cyanorak:CK_00000363", "source": "cyanorak", "taxonomic_level": "curated", "taxon_id": 0},
-            {"og_id": "eggnog:COG0592@2", "source": "eggnog", "taxonomic_level": "Bacteria", "taxon_id": 2},
+            {"og_id": "cyanorak:CK_00000363", "source": "cyanorak", "taxonomic_level": "curated", "taxon_id": 0, "specificity_rank": 0},
+            {"og_id": "eggnog:COG0592@2", "source": "eggnog", "taxonomic_level": "Bacteria", "taxon_id": 2, "specificity_rank": 3},
         ],
     },
     "PMM0003": {
@@ -42,8 +42,8 @@ STRAIN2_DATA = {
     "ALT831_RS00180": {
         "locus_tag": "ALT831_RS00180",
         "ortholog_groups": [
-            {"og_id": "eggnog:COG0592@2", "source": "eggnog", "taxonomic_level": "Bacteria", "taxon_id": 2},
-            {"og_id": "eggnog:4648R@72275", "source": "eggnog", "taxonomic_level": "Alteromonadaceae", "taxon_id": 72275},
+            {"og_id": "eggnog:COG0592@2", "source": "eggnog", "taxonomic_level": "Bacteria", "taxon_id": 2, "specificity_rank": 3},
+            {"og_id": "eggnog:4648R@72275", "source": "eggnog", "taxonomic_level": "Alteromonadaceae", "taxon_id": 72275, "specificity_rank": 1},
         ],
     },
 }
@@ -109,7 +109,7 @@ class TestOrthologGroupAdapter:
             data[lt] = {
                 "locus_tag": lt,
                 "ortholog_groups": [
-                    {"og_id": f"eggnog:COG{i:04d}@2", "source": "eggnog", "taxonomic_level": "Bacteria", "taxon_id": 2},
+                    {"og_id": f"eggnog:COG{i:04d}@2", "source": "eggnog", "taxonomic_level": "Bacteria", "taxon_id": 2, "specificity_rank": 3},
                 ],
             }
         with open(tmp_path / "gene_annotations_merged.json", "w") as f:

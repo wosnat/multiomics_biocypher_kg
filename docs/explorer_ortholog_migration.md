@@ -19,7 +19,7 @@ This document describes the migration from the old homolog/ortholog edge model t
 
 | Element | Type | Approximate count | Properties |
 |---|---|---|---|
-| `OrthologGroup` | Node | ~21,000 | `name` (raw OG ID, e.g. "CK_00000364", "COG0592@2"), `source` ("cyanorak" or "eggnog"), `taxonomic_level` ("curated", "Prochloraceae", "Synechococcus", "Alteromonadaceae", "Bacteria", "Cyanobacteria", "Gammaproteobacteria"), `taxon_id` (integer) |
+| `OrthologGroup` | Node | ~21,000 | `name` (raw OG ID, e.g. "CK_00000364", "COG0592@2"), `source` ("cyanorak" or "eggnog"), `taxonomic_level` ("curated", "Prochloraceae", "Synechococcus", "Alteromonadaceae", "Bacteria", "Cyanobacteria", "Gammaproteobacteria"), `taxon_id` (integer), `specificity_rank` (int: 0=curated, 1=family, 2=order, 3=domain/Bacteria) |
 | `Gene_in_ortholog_group` | Edge | ~84,500 | (no properties) |
 
 A gene may belong to 1-3 ortholog groups simultaneously:
