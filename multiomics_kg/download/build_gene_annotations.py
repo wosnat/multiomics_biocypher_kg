@@ -49,6 +49,10 @@ from multiomics_kg.download.utils.annotation_transforms import (
     _tx_strip_prefix_ko,
 )
 from multiomics_kg.download.utils.cli import add_common_args, load_config, load_genome_rows
+from multiomics_kg.download.utils.ortholog_group_utils import (
+    extract_ortholog_groups,
+    organism_group_from_path,
+)
 from multiomics_kg.download.utils.paths import PROJECT_ROOT, infer_organism_group
 
 # ─── gene_category mapping tables ─────────────────────────────────────────────
@@ -753,6 +757,28 @@ def process_strain(
         cat = merged.get("gene_category", "Unknown")
         stats.setdefault(f"cat_{cat}", 0)
         stats[f"cat_{cat}"] += 1
+
+    # Compute ortholog_groups for each gene (post-merge enrichment)
+    og_organism_group = organism_group_from_path(data_dir)
+    og_stats = {"has_og": 0, "cyanorak": 0, "eggnog_bacteria": 0, "eggnog_lowest": 0}
+    for locus_tag, gene in merged_out.items():
+        ogs = extract_ortholog_groups(gene, og_organism_group)
+        if ogs:
+            gene["ortholog_groups"] = ogs
+            og_stats["has_og"] += 1
+            for og in ogs:
+                if og["source"] == "cyanorak":
+                    og_stats["cyanorak"] += 1
+                elif og["taxon_id"] == 2:
+                    og_stats["eggnog_bacteria"] += 1
+                else:
+                    og_stats["eggnog_lowest"] += 1
+    n = stats["total"] or 1
+    print(f"\n  === {strain_name} ortholog groups ===")
+    print(f"  Genes with OG:      {og_stats['has_og']} ({100 * og_stats['has_og'] // n}%)")
+    print(f"  Cyanorak memberships:{og_stats['cyanorak']}")
+    print(f"  EggNOG bacteria:    {og_stats['eggnog_bacteria']}")
+    print(f"  EggNOG lowest-level:{og_stats['eggnog_lowest']}")
 
     with open(wide_path, "w") as f:
         json.dump(wide_out, f, indent=2, sort_keys=True)

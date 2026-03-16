@@ -558,6 +558,13 @@ fields:
     source: uniprot
     field: signal_peptide
 
+  # ── Ortholog group memberships ──────────────────────────────────────────────
+  # Computed post-merge by extract_ortholog_groups(). Each gene gets a list of
+  # {og_id, source, taxonomic_level, taxon_id} dicts. Not a merge-rule field.
+  ortholog_groups:
+    type: computed
+    description: "List of ortholog group memberships, extracted from eggnog_ogs and cluster_number"
+
   # ── Provenance / quality ───────────────────────────────────────────────────
   # NOTE: annotation_quality (0=none, 1=eggnog-only, 2=NCBI/Cyanorak, 3=UniProt reviewed)
   # is COMPUTED in build_gene_annotations.py, not derived from a source field.
