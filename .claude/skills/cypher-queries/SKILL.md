@@ -39,12 +39,12 @@ docker exec -i deploy cypher-shell -a bolt://localhost:7687
 
 | Label | Key Properties |
 |---|---|
-| `Gene` | `id` (ncbigene:locus_tag), `locus_tag`, `locus_tag_ncbi`, `locus_tag_cyanorak`, `product`, `gene_name`, `gene_synonyms[]`, `function_description`, `cog_category[]`, `go_terms[]`, `kegg_ko[]`, `kegg_pathway[]`, `ec_numbers[]`, `pfam_ids[]`, `pfam_names[]`, `bacteria_cog_og`, `alteromonadaceae_og`, `annotation_quality`, `old_locus_tags[]`, `alternative_locus_tags[]`, `protein_id`, `start`, `end`, `strand` |
+| `Gene` | `id` (ncbigene:locus_tag), `locus_tag`, `locus_tag_ncbi`, `locus_tag_cyanorak`, `product`, `gene_name`, `gene_synonyms[]`, `function_description`, `cog_category[]`, `go_terms[]`, `kegg_ko[]`, `kegg_pathway[]`, `ec_numbers[]`, `pfam_ids[]`, `pfam_names[]`, `annotation_quality`, `old_locus_tags[]`, `alternative_locus_tags[]`, `protein_id`, `start`, `end`, `strand` |
 | `Protein` | `id` (uniprot:accession), `locus_tag`, `gene_names[]`, `is_reviewed`, `annotation_score`, `sequence_length`, `molecular_mass`, `refseq_ids[]`, `proteome_ids[]`, `protein_synonyms[]`, `string_ids[]` |
 | `OrganismTaxon` | `id` (insdc.gcf:accession or ncbitaxon:taxid), `organism_name`, `strain_name`, `clade`, `genus`, `species`, `ncbi_taxon_id`, `family`, `order`, `phylum`, `kingdom`, `superkingdom`, `lineage` |
 | `EnvironmentalCondition` | `id`, `name`, `condition_type`, `condition_category` (same value as `condition_type`), `description`, `medium`, `temperature`, `light_condition`, `light_intensity`, `oxygen_level`, `nitrogen_source`, `co2_level`, `publications[]` |
 | `Publication` | `id` (DOI), `title`, `authors[]`, `journal`, `publication_year`, `abstract`, `doi`, `organism`, `study_type`, `description` |
-| `Cyanorak_cluster` | `id`, `cluster_number` |
+| `OrthologGroup` | `id` (cyanorak:CK_* or eggnog:COG*@*), `name` (raw OG ID), `source` (cyanorak/eggnog), `taxonomic_level` (curated/Prochloraceae/Bacteria/etc.), `taxon_id` |
 | `BiologicalProcess` | `id` (go:NNNNNNN), `name` |
 | `CellularComponent` | `id` (go:NNNNNNN), `name` |
 | `MolecularFunction` | `id` (go:NNNNNNN), `name` |
@@ -96,14 +96,11 @@ Gene nodes carry many denormalized annotation fields beyond the key properties a
 |---|---|---|
 | `Condition_changes_expression_of` | EnvironmentalCondition → Gene | `log2_fold_change`, `adjusted_p_value`, `expression_direction` (up/down), `control_condition`, `experimental_context`, `time_point`, `publications[]`, `significant` (significant/not significant/unknown), `omics_type`, `organism_strain`, `treatment_condition`, `statistical_test`, `analysis_name` |
 | `Coculture_changes_expression_of` | OrganismTaxon → Gene | `log2_fold_change`, `adjusted_p_value`, `expression_direction` (up/down), `control_condition`, `experimental_context`, `time_point`, `publications[]`, `significant` (significant/not significant/unknown), `omics_type`, `organism_strain`, `treatment_condition`, `statistical_test`, `analysis_name` |
-| `Condition_changes_expression_of_ortholog` | EnvironmentalCondition → Gene | same as above + `original_gene`, `homology_source`, `homology_cluster_id`, `distance` |
-| `Coculture_changes_expression_of_ortholog` | OrganismTaxon → Gene | same as above + `original_gene`, `homology_source`, `homology_cluster_id`, `distance` |
 | `Published_expression_data_about` | Publication → EnvironmentalCondition/OrganismTaxon | — |
-| `Gene_is_homolog_of_gene` | Gene ↔ Gene | `source` (cyanorak_cluster / eggnog_alteromonadaceae_og / eggnog_bacteria_cog_og), `cluster_id`, `distance` |
+| `Gene_in_ortholog_group` | Gene → OrthologGroup | — |
 | `Gene_belongs_to_organism` | Gene → OrganismTaxon | — |
 | `Protein_belongs_to_organism` | Protein → OrganismTaxon | — |
 | `Gene_encodes_protein` | Gene → Protein | — |
-| `Gene_in_cyanorak_cluster` | Gene → Cyanorak_cluster | — |
 | `Gene_involved_in_biological_process` | Gene → BiologicalProcess | — |
 | `Gene_located_in_cellular_component` | Gene → CellularComponent | — |
 | `Gene_enables_molecular_function` | Gene → MolecularFunction | — |
@@ -126,15 +123,19 @@ Gene nodes carry many denormalized annotation fields beyond the key properties a
 | `Cellular_component_is_a_cellular_component` | CellularComponent → CellularComponent | — |
 | `Cellular_component_part_of_cellular_component` | CellularComponent → CellularComponent | — |
 
-### Homolog Edge Sources
+### OrthologGroup Sources
 
-`Gene_is_homolog_of_gene` edges come from three sources (filter by `source` property):
+Ortholog relationships are modeled as `OrthologGroup` nodes with `Gene_in_ortholog_group` membership edges. Filter by `source` and `taxonomic_level` properties:
 
-| `source` value | Coverage | `distance` values |
-|---|---|---|
-| `cyanorak_cluster` | Pro/Syn ↔ Pro/Syn | "same strain: X", "same clade: HLI", "same species: …", "same genus: …", "same order: …", "cross order" |
-| `eggnog_alteromonadaceae_og` | Alteromonas ↔ Alteromonas | "same strain: X", "same family: Alteromonadaceae" |
-| `eggnog_bacteria_cog_og` | Alteromonas ↔ Pro/Syn | "cross phylum" |
+| `source` | `taxonomic_level` | Coverage | Description |
+|---|---|---|---|
+| `cyanorak` | `curated` | Pro/Syn only | Curated Cyanorak ortholog clusters |
+| `eggnog` | `Prochloraceae` | Prochlorococcus | Lowest-level eggNOG OG for Pro |
+| `eggnog` | `Synechococcus` | Synechococcus | Lowest-level eggNOG OG for Syn |
+| `eggnog` | `Alteromonadaceae` | Alteromonas | Lowest-level eggNOG OG for Alt |
+| `eggnog` | `Bacteria` | All strains | Bacteria-level COG (cross-phylum bridging) |
+
+Fallback levels (`Cyanobacteria`, `Gammaproteobacteria`) are used when a gene lacks the target-level OG.
 
 ### Environmental Condition Types
 
@@ -181,8 +182,7 @@ ORDER BY o.strain_name
 MATCH (g:Gene {locus_tag: 'PMM0001'})
 RETURN g.locus_tag, g.gene_name, g.product, g.function_description,
        g.cog_category, g.go_terms, g.kegg_ko, g.kegg_pathway,
-       g.ec_numbers, g.pfam_ids, g.pfam_names, g.annotation_quality,
-       g.bacteria_cog_og, g.alteromonadaceae_og
+       g.ec_numbers, g.pfam_ids, g.pfam_names, g.annotation_quality
 ```
 
 ### Gene with Linked Nodes (GO / KEGG / EC / COG)
@@ -379,65 +379,72 @@ RETURN env.condition_category, env.name, r.expression_direction,
 ORDER BY env.condition_category, r.log2_fold_change DESC
 ```
 
-### Homologs
+### Homologs (via OrthologGroup)
 
 ```cypher
-// All homologs of a gene (all sources)
-MATCH (g:Gene {locus_tag: 'PMM0001'})-[h:Gene_is_homolog_of_gene]->(hg:Gene)
-      -[:Gene_belongs_to_organism]->(o:OrganismTaxon)
-RETURN hg.locus_tag, hg.product, o.strain_name, h.source, h.cluster_id, h.distance
-ORDER BY h.distance
+// All homologs of a gene (all sources, 2-hop via OrthologGroup)
+MATCH (g:Gene {locus_tag: 'PMM0001'})-[:Gene_in_ortholog_group]->(og:OrthologGroup)<-[:Gene_in_ortholog_group]-(h:Gene)
+WHERE g <> h
+MATCH (h)-[:Gene_belongs_to_organism]->(o:OrganismTaxon)
+RETURN h.locus_tag, h.product, o.strain_name, og.source, og.name, og.taxonomic_level
+ORDER BY og.source, o.strain_name
 
 // Only Cyanorak-cluster homologs (Pro/Syn ↔ Pro/Syn)
-MATCH (g:Gene {locus_tag: 'PMM0001'})-[h:Gene_is_homolog_of_gene {source: 'cyanorak_cluster'}]->(hg:Gene)
-      -[:Gene_belongs_to_organism]->(o:OrganismTaxon)
-RETURN hg.locus_tag, o.strain_name, h.distance
+MATCH (g:Gene {locus_tag: 'PMM0001'})-[:Gene_in_ortholog_group]->(og:OrthologGroup {source: 'cyanorak'})<-[:Gene_in_ortholog_group]-(h:Gene)
+WHERE g <> h
+MATCH (h)-[:Gene_belongs_to_organism]->(o:OrganismTaxon)
+RETURN h.locus_tag, o.strain_name, og.name AS cluster_id
 
-// Cross-phylum homologs (Alteromonas ↔ Pro/Syn via bacteria COG OG)
-MATCH (g:Gene {locus_tag: 'PMM0001'})-[h:Gene_is_homolog_of_gene {source: 'eggnog_bacteria_cog_og'}]->(hg:Gene)
-      -[:Gene_belongs_to_organism]->(o:OrganismTaxon)
-RETURN hg.locus_tag, hg.product, o.strain_name, h.cluster_id
+// Cross-phylum homologs (Alteromonas ↔ Pro/Syn via Bacteria-level COG)
+MATCH (g:Gene {locus_tag: 'PMM0001'})-[:Gene_in_ortholog_group]->(og:OrthologGroup {source: 'eggnog', taxonomic_level: 'Bacteria'})<-[:Gene_in_ortholog_group]-(h:Gene)
+WHERE g <> h
+MATCH (h)-[:Gene_belongs_to_organism]->(o:OrganismTaxon)
+RETURN h.locus_tag, h.product, o.strain_name, og.name AS cog_id
 
-// Within-Alteromonas homologs
+// Within-Alteromonas homologs (Alteromonadaceae-level OGs)
 MATCH (g:Gene)-[:Gene_belongs_to_organism]->(o:OrganismTaxon {strain_name: 'EZ55'})
-MATCH (g)-[h:Gene_is_homolog_of_gene {source: 'eggnog_alteromonadaceae_og'}]->(hg:Gene)
-      -[:Gene_belongs_to_organism]->(o2:OrganismTaxon)
-RETURN g.locus_tag, hg.locus_tag, o2.strain_name, h.cluster_id
+MATCH (g)-[:Gene_in_ortholog_group]->(og:OrthologGroup {source: 'eggnog', taxonomic_level: 'Alteromonadaceae'})<-[:Gene_in_ortholog_group]-(h:Gene)
+WHERE g <> h
+MATCH (h)-[:Gene_belongs_to_organism]->(o2:OrganismTaxon)
+RETURN g.locus_tag, h.locus_tag, o2.strain_name, og.name AS og_id
 LIMIT 20
 
-// Expression of homologs in all strains (via direct + propagated edges)
-MATCH (g:Gene {locus_tag: 'PMM0001'})
-OPTIONAL MATCH (factor1)-[r1:Condition_changes_expression_of|Coculture_changes_expression_of]->(g)
-OPTIONAL MATCH (g)-[:Gene_is_homolog_of_gene]->(hg:Gene)-[:Gene_belongs_to_organism]->(o:OrganismTaxon)
-OPTIONAL MATCH (factor2)-[r2:Condition_changes_expression_of|Coculture_changes_expression_of]->(hg)
-RETURN g.locus_tag AS source_gene,
-       type(r1) AS direct_edge_type, r1.expression_direction AS direct_dir, r1.log2_fold_change AS direct_fc,
-       hg.locus_tag AS homolog, o.strain_name,
-       type(r2) AS homolog_edge_type, r2.expression_direction AS homolog_dir, r2.log2_fold_change AS homolog_fc
+// Find members of a specific Cyanorak cluster by name
+MATCH (g:Gene)-[:Gene_in_ortholog_group]->(og:OrthologGroup {source: 'cyanorak', name: 'CK_00000364'})
+MATCH (g)-[:Gene_belongs_to_organism]->(o:OrganismTaxon)
+RETURN g.locus_tag, g.product, o.strain_name
 ```
 
-### Homolog Expression Propagation
+### Ortholog Expression (query-time propagation)
 
 ```cypher
-// Inferred homolog expression via condition (post-import propagated edges)
-MATCH (env:EnvironmentalCondition)-[r:Condition_changes_expression_of_ortholog]->(g:Gene)
-WHERE r.distance CONTAINS 'same clade'
-RETURN env.name, env.condition_category, g.locus_tag, r.expression_direction,
-       r.log2_fold_change, r.original_gene, r.distance
+// Expression data for orthologs of a gene (3-hop: gene→OG←homolog←expression)
+MATCH (g:Gene {locus_tag: 'PMM0001'})-[:Gene_in_ortholog_group]->(og:OrthologGroup)<-[:Gene_in_ortholog_group]-(h:Gene)
+WHERE g <> h
+MATCH (c)-[e:Condition_changes_expression_of]->(h)
+RETURN h.locus_tag, og.source, og.taxonomic_level, e.expression_direction,
+       e.log2_fold_change, c.name AS condition
+ORDER BY abs(e.log2_fold_change) DESC
 LIMIT 20
 
-// Inferred homolog expression via coculture (post-import propagated edges)
-MATCH (org:OrganismTaxon)-[r:Coculture_changes_expression_of_ortholog]->(g:Gene)
-WHERE r.distance CONTAINS 'same clade'
-RETURN org.organism_name, g.locus_tag, r.expression_direction,
-       r.log2_fold_change, r.original_gene, r.distance
+// Coculture ortholog expression (filter by taxonomic level)
+MATCH (g:Gene {locus_tag: 'PMM0001'})-[:Gene_in_ortholog_group]->(og:OrthologGroup {source: 'cyanorak'})<-[:Gene_in_ortholog_group]-(h:Gene)
+WHERE g <> h
+MATCH (o:OrganismTaxon)-[e:Coculture_changes_expression_of]->(h)
+RETURN h.locus_tag, o.organism_name, e.expression_direction,
+       e.log2_fold_change, og.name AS cluster_id
+ORDER BY abs(e.log2_fold_change) DESC
 LIMIT 20
 
-// All ortholog-inferred edges for a gene (both types)
-MATCH (factor)-[r:Condition_changes_expression_of_ortholog|Coculture_changes_expression_of_ortholog]->(g:Gene {locus_tag: 'PMM0001'})
-RETURN type(r) AS edge_type, factor.id, r.original_gene, r.expression_direction,
-       r.log2_fold_change, r.homology_source, r.distance
-ORDER BY abs(r.log2_fold_change) DESC
+// Compare direct vs ortholog expression for a gene
+MATCH (g:Gene {locus_tag: 'PMM0001'})
+OPTIONAL MATCH (factor1)-[r1:Condition_changes_expression_of|Coculture_changes_expression_of]->(g)
+WITH g, collect({type: type(r1), dir: r1.expression_direction, fc: r1.log2_fold_change}) AS direct
+OPTIONAL MATCH (g)-[:Gene_in_ortholog_group]->(og:OrthologGroup)<-[:Gene_in_ortholog_group]-(h:Gene)
+WHERE g <> h
+OPTIONAL MATCH (factor2)-[r2:Condition_changes_expression_of|Coculture_changes_expression_of]->(h)
+RETURN g.locus_tag, direct,
+       h.locus_tag AS homolog, og.source, r2.expression_direction AS homolog_dir, r2.log2_fold_change AS homolog_fc
 ```
 
 ### Functional Enrichment / Pathway Analysis
@@ -547,20 +554,23 @@ MATCH (o:OrganismTaxon)
 WHERE o.id STARTS WITH 'ncbitaxon'
 RETURN o.organism_name, o.ncbi_taxon_id
 
-// Genes unique to one clade (not in other clades)
+// Genes unique to one clade (not shared via OrthologGroup with other clades)
 MATCH (g:Gene)-[:Gene_belongs_to_organism]->(o:OrganismTaxon {clade: 'HLI'})
-WHERE NOT (g)-[:Gene_is_homolog_of_gene]->(:Gene)-[:Gene_belongs_to_organism]->
-          (:OrganismTaxon {clade: 'HLII'})
+WHERE NOT EXISTS {
+  MATCH (g)-[:Gene_in_ortholog_group]->(og:OrthologGroup)<-[:Gene_in_ortholog_group]-(h:Gene)
+        -[:Gene_belongs_to_organism]->(:OrganismTaxon {clade: 'HLII'})
+  WHERE g <> h
+}
 RETURN g.locus_tag, g.product LIMIT 20
 
-// Genes present in all Pro strains (Cyanorak cluster shared across all)
-MATCH (c:Cyanorak_cluster)<-[:Gene_in_cyanorak_cluster]-(g:Gene)
+// Genes present in all Pro strains (OrthologGroup shared across all)
+MATCH (og:OrthologGroup {source: 'cyanorak'})<-[:Gene_in_ortholog_group]-(g:Gene)
       -[:Gene_belongs_to_organism]->(o:OrganismTaxon)
 WHERE o.genus = 'Prochlorococcus'
-WITH c, count(DISTINCT o) AS strain_count
+WITH og, count(DISTINCT o) AS strain_count
 WHERE strain_count >= 8
-MATCH (c)<-[:Gene_in_cyanorak_cluster]-(g2:Gene)
-RETURN c.cluster_number, collect(g2.locus_tag) AS genes, strain_count
+MATCH (og)<-[:Gene_in_ortholog_group]-(g2:Gene)
+RETURN og.name AS cluster_id, collect(g2.locus_tag) AS genes, strain_count
 ORDER BY strain_count DESC
 LIMIT 10
 ```
@@ -689,7 +699,7 @@ When the user invokes this skill (e.g., `/cypher-queries "genes affected by Alte
 - Use `Gene` not `gene`, `OrganismTaxon` not `organism`
 - Use `Condition_changes_expression_of` (EnvironmentalCondition source) or `Coculture_changes_expression_of` (OrganismTaxon source) — not the old `Affects_expression_of`
 - To query both types at once: `MATCH (src)-[r:Condition_changes_expression_of|Coculture_changes_expression_of]->(g:Gene)`
-- For ortholog-inferred edges, use `Condition_changes_expression_of_ortholog` and `Coculture_changes_expression_of_ortholog`
+- For ortholog expression, use 3-hop query-time joins via `Gene_in_ortholog_group` → `OrthologGroup` (no materialized ortholog edges exist)
 - `condition_category` on EnvironmentalCondition nodes has the same value as `condition_type` and can be used interchangeably for filtering
 - Gene properties like `go_terms`, `kegg_ko`, `cog_category` are arrays (`str[]`) on the Gene node itself (denormalized for LLM use) AND available via linked nodes for graph traversal
 - Treatment organisms (Phage, Marinobacter, etc.) use `organism_name` not `strain_name` (strain_name is null for them)

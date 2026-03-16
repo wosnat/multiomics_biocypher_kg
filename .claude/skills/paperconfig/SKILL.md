@@ -251,9 +251,7 @@ The OMICSAdapter creates different Neo4j edge labels depending on which source f
 | `treatment_organism` + `treatment_taxid` (or `treatment_assembly_accession`) | `Coculture_changes_expression_of` | `OrganismTaxon` |
 | `environmental_treatment_condition_id` | `Condition_changes_expression_of` | `EnvironmentalCondition` |
 
-Ortholog-propagated edges (created by the post-import cypher script) follow the same split:
-- Coculture studies produce `Coculture_changes_expression_of_ortholog` edges
-- Environmental stress studies produce `Condition_changes_expression_of_ortholog` edges
+Ortholog expression is available at query time via `Gene_in_ortholog_group` → `OrthologGroup` → `Gene_in_ortholog_group` 2-hop joins (no materialized ortholog edges).
 
 A single publication can produce **both** edge types if it contains analyses of both kinds (e.g., a paper that studies both an environmental stress and a coculture effect in separate tables). Each `statistical_analyses` entry is processed independently and routed to the appropriate edge label.
 
