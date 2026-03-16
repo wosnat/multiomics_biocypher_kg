@@ -1,8 +1,8 @@
 {
   "mcpServers": {
-    "biocypher-mcp": {
-      "url": "https://mcp.biocypher.org/mcp",
-      "transport": "http"
+    "multiomics-kg": {
+      "command": "uv",
+      "args": ["run", "--directory", "/home/osnat/github/multiomics_explorer", "multiomics-kg-mcp"]
     }
   }
 }

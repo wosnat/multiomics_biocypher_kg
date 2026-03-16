@@ -74,60 +74,6 @@ condition to gene expression association:
     statistical_test: str
     analysis_name: str             # human-readable name of the statistical comparison (from paperconfig)
 
-# Coculture ortholog (organism → gene, inferred via homology)
-coculture to ortholog gene expression association:
-  is_a: Association
-  represented_as: edge
-  label_as_edge: coculture_changes_expression_of_ortholog
-  label_in_input: coculture_changes_expression_of_ortholog
-  source: organism_taxon
-  target: gene
-  properties:
-    expression_direction: str
-    control_condition: str
-    experimental_context: str
-    time_point: str
-    log2_fold_change: float
-    adjusted_p_value: float
-    significant: str               # "significant" | "not significant" | "unknown"
-    publications: str[]
-    omics_type: str
-    organism_strain: str
-    treatment_condition: str
-    statistical_test: str
-    analysis_name: str             # human-readable name of the statistical comparison (from paperconfig)
-    original_gene: str             # ID of the gene with the direct expression edge
-    homology_source: str           # e.g., "cyanorak_cluster"
-    homology_cluster_id: str       # the shared cluster ID
-    distance: str                  # phylogenetic distance from homology edge, e.g. "same clade: HLI"
-
-# Condition ortholog (env condition → gene, inferred via homology)
-condition to ortholog gene expression association:
-  is_a: Association
-  represented_as: edge
-  label_as_edge: condition_changes_expression_of_ortholog
-  label_in_input: condition_changes_expression_of_ortholog
-  source: environmental condition
-  target: gene
-  properties:
-    expression_direction: str
-    control_condition: str
-    experimental_context: str
-    time_point: str
-    log2_fold_change: float
-    adjusted_p_value: float
-    significant: str               # "significant" | "not significant" | "unknown"
-    publications: str[]
-    omics_type: str
-    organism_strain: str
-    treatment_condition: str
-    statistical_test: str
-    analysis_name: str             # human-readable name of the statistical comparison (from paperconfig)
-    original_gene: str             # ID of the gene with the direct expression edge
-    homology_source: str           # e.g., "cyanorak_cluster"
-    homology_cluster_id: str       # the shared cluster ID
-    distance: str                  # phylogenetic distance from homology edge, e.g. "same clade: HLI"
-
 # Publication connectivity
 publication to expression source association:
   is_a: Association
@@ -137,21 +83,23 @@ publication to expression source association:
   source: publication
   target: [environmental condition, organism taxon]
 
-cyanorak_cluster:
+ortholog group:
   is_a: GroupingClass
   represented_as: node
   preferred_id: id
-  label_in_input: cyanorak_cluster
+  label_in_input: ortholog_group
   properties:
-    cluster_number: str
+    source: str            # "cyanorak" | "eggnog"
+    taxonomic_level: str   # "curated" | "Prochloraceae" | "Alteromonadaceae" | "Bacteria" | etc.
+    taxon_id: int          # NCBI taxon ID of the level (0 for curated)
 
-gene_in_cyanorak_cluster:
+gene in ortholog group:
   is_a: Association
   represented_as: edge
-  label_as_edge: gene_in_cyanorak_cluster
+  label_as_edge: gene_in_ortholog_group
   source: gene
-  target: cyanorak_cluster
-  label_in_input: gene_in_cyanorak_cluster
+  target: ortholog group
+  label_in_input: gene_in_ortholog_group
 
 timeseries_cluster:
   is_a: GroupingClass
@@ -212,7 +160,6 @@ gene:
     cyanorak_Role_description: str[]
     tIGR_Role: str[]
     tIGR_Role_description: str[]
-    cluster_number: str
     ec_numbers: str[]
     # Denormalized from linked Protein node during post-import (set via Cypher, not adapter):
     function_description: str      # UniProt functional description; present for all organisms
@@ -233,8 +180,6 @@ gene:
     seed_ortholog: str                # seed ortholog ID
     max_annot_lvl: str                # max annotation level (e.g., "1117|Cyanobacteria")
     seed_ortholog_evalue: float       # e-value for seed ortholog
-    alteromonadaceae_og: str          # Alteromonadaceae-level OG ID (e.g., "4648R@72275|Alteromonadaceae"); Alteromonas only
-    bacteria_cog_og: str              # Bacteria-level COG ID (e.g., "COG0592") for cross-phylum ortholog matching
     protein_family: str               # protein family name
     # Gene Ontology (unified from all sources)
     go_terms: str[]                   # GO:XXXXXXX all aspects unified
@@ -754,19 +699,6 @@ gene to gene orthology association:
     source: str[]
     relation_type: str
     oma_orthology_score: float
-
-gene to gene homology association:
-  is_a: association
-  represented_as: edge
-  label_as_edge: gene_is_homolog_of_gene
-  source: gene
-  target: gene
-  label_in_input: gene_is_homolog_of_gene
-  properties:
-    source: str           # e.g., "cyanorak_cluster"
-    cluster_id: str       # the shared cluster ID
-    distance: str         # phylogenetic distance, e.g. "same clade: HLI", "same species: Prochlorococcus marinus", "same order: Synechococcales"
-
 
 
 # protein to phenotype association:

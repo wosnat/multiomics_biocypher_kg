@@ -10,7 +10,6 @@ import pytest
 from pydantic import ValidationError
 
 from multiomics_kg.adapters.cyanorak_ncbi_adapter import (
-    ClusterNodeField,
     CyanorakNcbi,
     GeneEdgeType,
     GeneModel,
@@ -296,7 +295,7 @@ class TestConstructor:
         ]
 
     def test_default_edge_types(self, adapter):
-        assert GeneEdgeType.GENE_IN_CLUSTER in adapter.edge_types
+        assert GeneEdgeType.GENE_TO_PROTEIN in adapter.edge_types
 
     def test_add_prefix_default_true(self, adapter):
         assert adapter.add_prefix is True
@@ -479,8 +478,8 @@ class TestSetEdgeTypes:
         assert adapter.edge_types == list(GeneEdgeType)
 
     def test_set_edge_types_specific(self, adapter):
-        adapter.set_edge_types([GeneEdgeType.GENE_IN_CLUSTER])
-        assert GeneEdgeType.GENE_IN_CLUSTER in adapter.edge_types
+        adapter.set_edge_types([GeneEdgeType.GENE_TO_PROTEIN])
+        assert GeneEdgeType.GENE_TO_PROTEIN in adapter.edge_types
         assert len(adapter.edge_types) == 1
 
 
@@ -497,10 +496,8 @@ class TestGetGeneNodes:
     def test_node_counts(self, adapter):
         nodes = adapter.get_nodes()
         gene_nodes = [n for n in nodes if n[1] == "gene"]
-        cluster_nodes = [n for n in nodes if n[1] == "cyanorak_cluster"]
         organism_nodes = [n for n in nodes if n[1] == "organism"]
         assert len(gene_nodes) == 3
-        assert len(cluster_nodes) == 3
         assert len(organism_nodes) == 1
 
     def test_gene_node_structure(self, adapter):
@@ -573,11 +570,6 @@ class TestGetGeneNodes:
 
 
 class TestGetEdges:
-    def test_gene_cluster_edges_present(self, adapter):
-        edges = adapter.get_edges()
-        gene_cluster = [e for e in edges if e[3] == "gene_in_cyanorak_cluster"]
-        assert len(gene_cluster) == 3
-
     def test_gene_organism_edges_present(self, adapter):
         edges = adapter.get_edges()
         gene_org = [e for e in edges if e[3] == "gene_belongs_to_organism"]

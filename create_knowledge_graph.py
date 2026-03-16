@@ -8,6 +8,7 @@ from multiomics_kg.adapters.uniprot_adapter import MultiUniprot
 from multiomics_kg.adapters.go_adapter import GO
 
 from multiomics_kg.adapters.cyanorak_ncbi_adapter import MultiCyanorakNcbi
+from multiomics_kg.adapters.ortholog_group_adapter import MultiOrthologGroupAdapter
 from multiomics_kg.adapters.functional_annotation_adapter import (
     MultiGoAnnotationAdapter,
     MultiEcAnnotationAdapter,
@@ -53,6 +54,14 @@ def main():
     ncbi_cyanorak_adapter.download_data(cache=CACHE)
     bc.write_nodes(ncbi_cyanorak_adapter.get_nodes())
     bc.write_edges(ncbi_cyanorak_adapter.get_edges())
+
+    # OrthologGroup adapter: reads ortholog_groups from gene_annotations_merged.json
+    og_adapter = MultiOrthologGroupAdapter(
+        genome_config_file='data/Prochlorococcus/genomes/cyanobacteria_genomes.csv',
+        test_mode=TEST_MODE,
+    )
+    bc.write_nodes(og_adapter.get_nodes())
+    bc.write_edges(og_adapter.get_edges())
 
     # MultiUniprot adapter reads pre-built protein_annotations.json files.
     # Requires: prepare_data.sh steps 0 + 2 run beforehand.

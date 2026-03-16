@@ -24,7 +24,7 @@ pytestmark = pytest.mark.kg
     "OrganismTaxon",
     "Publication",
     "EnvironmentalCondition",
-    "Cyanorak_cluster",
+    "OrthologGroup",
     # GO term nodes
     "BiologicalProcess",
     "CellularComponent",
@@ -81,11 +81,11 @@ def test_protein_count_minimum(run_query):
     )
 
 
-def test_cyanorak_cluster_count(run_query):
-    """Cyanorak clusters group homologous genes; expect at least 1000 clusters."""
-    result = run_query("MATCH (c:Cyanorak_cluster) RETURN count(c) AS cnt")
-    assert result[0]["cnt"] > 1000, (
-        f"Only {result[0]['cnt']} Cyanorak_cluster nodes; expected > 1000"
+def test_ortholog_group_count(run_query):
+    """OrthologGroup nodes (cyanorak + eggnog); expect at least 5000."""
+    result = run_query("MATCH (og:OrthologGroup) RETURN count(og) AS cnt")
+    assert result[0]["cnt"] > 5000, (
+        f"Only {result[0]['cnt']} OrthologGroup nodes; expected > 5000"
     )
 
 
@@ -205,18 +205,17 @@ def test_gene_encodes_protein_no_duplicates(run_query):
     )
 
 
-def test_prochlorococcus_genes_in_cyanorak_clusters(run_query):
+def test_prochlorococcus_genes_in_ortholog_groups(run_query):
     """
-    Prochlorococcus genes should mostly belong to a Cyanorak cluster.
-    Allow up to 20% missing (some genes are absent from Cyanorak but present
-    in NCBI; Alteromonas/Synechococcus genes are not covered by Cyanorak at all).
+    Prochlorococcus genes should mostly belong to at least one OrthologGroup.
+    Allow up to 20% missing (some genes have no Cyanorak cluster or eggNOG OG).
     """
     result = run_query("""
         MATCH (g:Gene)-[:Gene_belongs_to_organism]->(o:OrganismTaxon)
         WHERE o.genus = 'Prochlorococcus'
-        OPTIONAL MATCH (g)-[:Gene_in_cyanorak_cluster]->(c:Cyanorak_cluster)
-        WITH count(g) AS total, count(c) AS in_cluster
-        RETURN total, in_cluster, total - in_cluster AS missing
+        OPTIONAL MATCH (g)-[:Gene_in_ortholog_group]->(og:OrthologGroup)
+        WITH count(DISTINCT g) AS total, count(DISTINCT CASE WHEN og IS NOT NULL THEN g END) AS in_group
+        RETURN total, in_group, total - in_group AS missing
     """)
     row = result[0]
     if row["total"] == 0:
@@ -224,7 +223,7 @@ def test_prochlorococcus_genes_in_cyanorak_clusters(run_query):
     missing_fraction = row["missing"] / row["total"]
     assert missing_fraction < 0.20, (
         f"{row['missing']} / {row['total']} Prochlorococcus genes ({missing_fraction:.1%}) "
-        f"are not in any Cyanorak_cluster; threshold is < 20%"
+        f"are not in any OrthologGroup; threshold is < 20%"
     )
 
 

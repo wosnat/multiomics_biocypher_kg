@@ -94,182 +94,32 @@
     {
       "properties": {},
       "source": "ncbigene:A9601_00001",
-      "target": "cyanorak.cluster_CK_00000364",
-      "type": "Gene_in_cyanorak_cluster"
+      "target": "cyanorak:CK_00000364",
+      "type": "Gene_in_ortholog_group"
+    },
+    {
+      "properties": {},
+      "source": "ncbigene:A9601_00001",
+      "target": "eggnog:1MKTR@1212",
+      "type": "Gene_in_ortholog_group"
+    },
+    {
+      "properties": {},
+      "source": "ncbigene:A9601_00001",
+      "target": "eggnog:COG0592@2",
+      "type": "Gene_in_ortholog_group"
     },
     {
       "properties": {},
       "source": "ncbigene:A9601_00011",
-      "target": "cyanorak.cluster_CK_00000363",
-      "type": "Gene_in_cyanorak_cluster"
+      "target": "cyanorak:CK_00000363",
+      "type": "Gene_in_ortholog_group"
     },
     {
       "properties": {},
-      "source": "ncbigene:A9601_00021",
-      "target": "cyanorak.cluster_CK_00000362",
-      "type": "Gene_in_cyanorak_cluster"
-    },
-    {
-      "properties": {},
-      "source": "ncbigene:A9601_00031",
-      "target": "cyanorak.cluster_CK_00000361",
-      "type": "Gene_in_cyanorak_cluster"
-    },
-    {
-      "properties": {},
-      "source": "ncbigene:A9601_00041",
-      "target": "cyanorak.cluster_CK_00008107",
-      "type": "Gene_in_cyanorak_cluster"
-    },
-    {
-      "properties": {
-        "cluster_id": "CK_00000364",
-        "distance": "same species: Prochlorococcus marinus",
-        "source": "cyanorak_cluster"
-      },
-      "source": "ncbigene:A9601_00001",
-      "target": "ncbigene:NATL1_00001",
-      "type": "Gene_is_homolog_of_gene"
-    },
-    {
-      "properties": {
-        "cluster_id": "CK_00000364",
-        "distance": "same clade: HLII",
-        "source": "cyanorak_cluster"
-      },
-      "source": "ncbigene:A9601_00001",
-      "target": "ncbigene:P9301_00001",
-      "type": "Gene_is_homolog_of_gene"
-    },
-    {
-      "properties": {
-        "cluster_id": "CK_00000364",
-        "distance": "same species: Prochlorococcus marinus",
-        "source": "cyanorak_cluster"
-      },
-      "source": "ncbigene:A9601_00001",
-      "target": "ncbigene:PMM0001",
-      "type": "Gene_is_homolog_of_gene"
-    },
-    {
-      "properties": {
-        "cluster_id": "CK_00000364",
-        "distance": "same species: Prochlorococcus marinus",
-        "source": "cyanorak_cluster"
-      },
-      "source": "ncbigene:A9601_00001",
-      "target": "ncbigene:PMN2A_1328",
-      "type": "Gene_is_homolog_of_gene"
-    },
-    {
-      "properties": {
-        "cluster_id": "CK_00000364",
-        "distance": "same species: Prochlorococcus marinus",
-        "source": "cyanorak_cluster"
-      },
-      "source": "ncbigene:A9601_00001",
-      "target": "ncbigene:PMT0001",
-      "type": "Gene_is_homolog_of_gene"
-    },
-    {
-      "properties": {
-        "cluster_id": "46444@72275,Alteromonadaceae",
-        "distance": "same family: Alteromonadaceae",
-        "source": "eggnog_alteromonadaceae_og"
-      },
-      "source": "ncbigene:ACZ81_00005",
-      "target": "ncbigene:EZ55_00001",
-      "type": "Gene_is_homolog_of_gene"
-    },
-    {
-      "properties": {
-        "cluster_id": "46444@72275,Alteromonadaceae",
-        "distance": "same family: Alteromonadaceae",
-        "source": "eggnog_alteromonadaceae_og"
-      },
-      "source": "ncbigene:ACZ81_00005",
-      "target": "ncbigene:MIT1002_00001",
-      "type": "Gene_is_homolog_of_gene"
-    },
-    {
-      "properties": {
-        "cluster_id": "4648R@72275,Alteromonadaceae",
-        "distance": "same family: Alteromonadaceae",
-        "source": "eggnog_alteromonadaceae_og"
-      },
-      "source": "ncbigene:ACZ81_00010",
-      "target": "ncbigene:EZ55_00002",
-      "type": "Gene_is_homolog_of_gene"
-    },
-    {
-      "properties": {
-        "cluster_id": "4648R@72275,Alteromonadaceae",
-        "distance": "same family: Alteromonadaceae",
-        "source": "eggnog_alteromonadaceae_og"
-      },
-      "source": "ncbigene:ACZ81_00010",
-      "target": "ncbigene:MIT1002_00002",
-      "type": "Gene_is_homolog_of_gene"
-    },
-    {
-      "properties": {
-        "cluster_id": "466CC@72275,Alteromonadaceae",
-        "distance": "same family: Alteromonadaceae",
-        "source": "eggnog_alteromonadaceae_og"
-      },
-      "source": "ncbigene:ACZ81_00015",
-      "target": "ncbigene:EZ55_00003",
-      "type": "Gene_is_homolog_of_gene"
-    },
-    {
-      "properties": {
-        "cluster_id": "COG0592",
-        "distance": "cross phylum",
-        "source": "eggnog_bacteria_cog_og"
-      },
-      "source": "ncbigene:A9601_00001",
-      "target": "ncbigene:ACZ81_00010",
-      "type": "Gene_is_homolog_of_gene"
-    },
-    {
-      "properties": {
-        "cluster_id": "COG0592",
-        "distance": "cross phylum",
-        "source": "eggnog_bacteria_cog_og"
-      },
-      "source": "ncbigene:A9601_00001",
-      "target": "ncbigene:EZ55_00002",
-      "type": "Gene_is_homolog_of_gene"
-    },
-    {
-      "properties": {
-        "cluster_id": "COG0592",
-        "distance": "cross phylum",
-        "source": "eggnog_bacteria_cog_og"
-      },
-      "source": "ncbigene:A9601_00001",
-      "target": "ncbigene:MIT1002_00002",
-      "type": "Gene_is_homolog_of_gene"
-    },
-    {
-      "properties": {
-        "cluster_id": "COG0046",
-        "distance": "cross phylum",
-        "source": "eggnog_bacteria_cog_og"
-      },
-      "source": "ncbigene:A9601_00021",
-      "target": "ncbigene:ACZ81_04945",
-      "type": "Gene_is_homolog_of_gene"
-    },
-    {
-      "properties": {
-        "cluster_id": "COG0046",
-        "distance": "cross phylum",
-        "source": "eggnog_bacteria_cog_og"
-      },
-      "source": "ncbigene:A9601_00021",
-      "target": "ncbigene:EZ55_01035",
-      "type": "Gene_is_homolog_of_gene"
+      "source": "ncbigene:A9601_00011",
+      "target": "eggnog:1MMB0@1212",
+      "type": "Gene_in_ortholog_group"
     },
     {
       "properties": {
@@ -380,116 +230,6 @@
       "source": "insdc.gcf:GCF_000011465.1",
       "target": "ncbigene:ACZ81_00025",
       "type": "Coculture_changes_expression_of"
-    },
-    {
-      "properties": {
-        "expression_direction": "down",
-        "homology_cluster_id": "CK_00055913",
-        "log2_fold_change": -0.8,
-        "original_gene": "A9601_00551"
-      },
-      "source": "10.1016/j.micres.2015.04.006_alhosani_2015_salt_acclimation",
-      "target": "ncbigene:A9601_00531",
-      "type": "Condition_changes_expression_of_ortholog"
-    },
-    {
-      "properties": {
-        "expression_direction": "down",
-        "homology_cluster_id": "CK_00055913",
-        "log2_fold_change": -0.77,
-        "original_gene": "A9601_00531"
-      },
-      "source": "10.1016/j.micres.2015.04.006_alhosani_2015_salt_acclimation",
-      "target": "ncbigene:A9601_00551",
-      "type": "Condition_changes_expression_of_ortholog"
-    },
-    {
-      "properties": {
-        "expression_direction": "up",
-        "homology_cluster_id": "CK_00002731",
-        "log2_fold_change": 0.19,
-        "original_gene": "A9601_12311"
-      },
-      "source": "10.1016/j.micres.2015.04.006_alhosani_2015_salt_acclimation",
-      "target": "ncbigene:A9601_00601",
-      "type": "Condition_changes_expression_of_ortholog"
-    },
-    {
-      "properties": {
-        "expression_direction": "up",
-        "homology_cluster_id": "CK_00008058",
-        "log2_fold_change": 1.08,
-        "original_gene": "A9601_12521"
-      },
-      "source": "10.1016/j.micres.2015.04.006_alhosani_2015_salt_acclimation",
-      "target": "ncbigene:A9601_02441",
-      "type": "Condition_changes_expression_of_ortholog"
-    },
-    {
-      "properties": {
-        "expression_direction": "down",
-        "homology_cluster_id": "CK_00019843",
-        "log2_fold_change": -0.59,
-        "original_gene": "A9601_16261"
-      },
-      "source": "10.1016/j.micres.2015.04.006_alhosani_2015_salt_acclimation",
-      "target": "ncbigene:A9601_03671",
-      "type": "Condition_changes_expression_of_ortholog"
-    },
-    {
-      "properties": {
-        "expression_direction": "down",
-        "homology_cluster_id": "467CK@72275,Alteromonadaceae",
-        "log2_fold_change": -1.438731480951168,
-        "original_gene": "ACZ81_00665"
-      },
-      "source": "insdc.gcf:GCF_000011465.1",
-      "target": "ncbigene:ACZ81_00135",
-      "type": "Coculture_changes_expression_of_ortholog"
-    },
-    {
-      "properties": {
-        "expression_direction": "down",
-        "homology_cluster_id": "467IP@72275,Alteromonadaceae",
-        "log2_fold_change": -0.5475964177035986,
-        "original_gene": "ACZ81_00190"
-      },
-      "source": "insdc.gcf:GCF_000011465.1",
-      "target": "ncbigene:ACZ81_00185",
-      "type": "Coculture_changes_expression_of_ortholog"
-    },
-    {
-      "properties": {
-        "expression_direction": "down",
-        "homology_cluster_id": "467IP@72275,Alteromonadaceae",
-        "log2_fold_change": -0.3002857357351001,
-        "original_gene": "ACZ81_00185"
-      },
-      "source": "insdc.gcf:GCF_000011465.1",
-      "target": "ncbigene:ACZ81_00190",
-      "type": "Coculture_changes_expression_of_ortholog"
-    },
-    {
-      "properties": {
-        "expression_direction": "up",
-        "homology_cluster_id": "464E1@72275,Alteromonadaceae",
-        "log2_fold_change": 0.332194331600359,
-        "original_gene": "ACZ81_16820"
-      },
-      "source": "insdc.gcf:GCF_000011465.1",
-      "target": "ncbigene:ACZ81_00650",
-      "type": "Coculture_changes_expression_of_ortholog"
-    },
-    {
-      "properties": {
-        "expression_direction": "up",
-        "homology_cluster_id": "464DJ@72275,Alteromonadaceae",
-        "log2_fold_change": 0.2043484278738722,
-        "original_gene": "ACZ81_16825"
-      },
-      "source": "insdc.gcf:GCF_000011465.1",
-      "target": "ncbigene:ACZ81_00655",
-      "type": "Coculture_changes_expression_of_ortholog"
     },
     {
       "properties": {},
@@ -912,7 +652,7 @@
       "type": "Cyanorak_role_is_a_cyanorak_role"
     }
   ],
-  "generated_at": "2026-03-15T20:01:29.707225+00:00",
+  "generated_at": "2026-03-16T10:39:48.374227+00:00",
   "nodes": [
     {
       "anchor": true,
@@ -1221,42 +961,52 @@
     },
     {
       "anchor": false,
-      "id": "cyanorak.cluster_CK_00000001",
-      "label": "Cyanorak_cluster",
+      "id": "cyanorak:CK_00000001",
+      "label": "OrthologGroup",
       "properties": {
-        "cluster_number": "CK_00000001"
+        "source": "cyanorak",
+        "taxon_id": 0,
+        "taxonomic_level": "curated"
       }
     },
     {
       "anchor": false,
-      "id": "cyanorak.cluster_CK_00000002",
-      "label": "Cyanorak_cluster",
+      "id": "cyanorak:CK_00000002",
+      "label": "OrthologGroup",
       "properties": {
-        "cluster_number": "CK_00000002"
+        "source": "cyanorak",
+        "taxon_id": 0,
+        "taxonomic_level": "curated"
       }
     },
     {
       "anchor": false,
-      "id": "cyanorak.cluster_CK_00000003",
-      "label": "Cyanorak_cluster",
+      "id": "cyanorak:CK_00000003",
+      "label": "OrthologGroup",
       "properties": {
-        "cluster_number": "CK_00000003"
+        "source": "cyanorak",
+        "taxon_id": 0,
+        "taxonomic_level": "curated"
       }
     },
     {
       "anchor": false,
-      "id": "cyanorak.cluster_CK_00000004",
-      "label": "Cyanorak_cluster",
+      "id": "cyanorak:CK_00000004",
+      "label": "OrthologGroup",
       "properties": {
-        "cluster_number": "CK_00000004"
+        "source": "cyanorak",
+        "taxon_id": 0,
+        "taxonomic_level": "curated"
       }
     },
     {
       "anchor": false,
-      "id": "cyanorak.cluster_CK_00000005",
-      "label": "Cyanorak_cluster",
+      "id": "cyanorak:CK_00000005",
+      "label": "OrthologGroup",
       "properties": {
-        "cluster_number": "CK_00000005"
+        "source": "cyanorak",
+        "taxon_id": 0,
+        "taxonomic_level": "curated"
       }
     },
     {

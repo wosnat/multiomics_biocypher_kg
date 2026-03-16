@@ -66,7 +66,7 @@ NODE_PROPERTIES = {
     "OrganismTaxon": ["organism_name", "strain_name", "genus", "clade", "ncbi_taxon_id"],
     "Publication": ["doi", "pmid", "title"],
     "EnvironmentalCondition": ["name", "condition_type"],
-    "Cyanorak_cluster": ["cluster_number"],
+    "OrthologGroup": ["source", "taxonomic_level", "taxon_id"],
     # GO term node types (from functional_annotation_adapter.py)
     "BiologicalProcess": ["name"],
     "CellularComponent": ["name"],
@@ -86,8 +86,7 @@ EDGE_PROPERTIES = {
     "Gene_belongs_to_organism": [],
     "Protein_belongs_to_organism": [],
     "Gene_encodes_protein": [],
-    "Gene_in_cyanorak_cluster": [],
-    "Gene_is_homolog_of_gene": ["cluster_id", "distance", "source"],
+    "Gene_in_ortholog_group": [],
     "Condition_changes_expression_of": [
         "expression_direction", "log2_fold_change", "adjusted_p_value",
         "control_condition",
@@ -95,14 +94,6 @@ EDGE_PROPERTIES = {
     "Coculture_changes_expression_of": [
         "expression_direction", "log2_fold_change", "adjusted_p_value",
         "control_condition",
-    ],
-    "Condition_changes_expression_of_ortholog": [
-        "expression_direction", "log2_fold_change", "original_gene",
-        "homology_cluster_id",
-    ],
-    "Coculture_changes_expression_of_ortholog": [
-        "expression_direction", "log2_fold_change", "original_gene",
-        "homology_cluster_id",
     ],
     # Gene → GO edges (functional_annotation_adapter.py; label_as_edge values)
     "Gene_involved_in_biological_process": [],
@@ -197,34 +188,8 @@ def _collect_edge_rows(result, props):
 def sample_edges(session):
     """Sample edges: deterministic sample per relationship type."""
     edges = []
-    props_for_homolog = EDGE_PROPERTIES["Gene_is_homolog_of_gene"]
 
     for rel_type, props in EDGE_PROPERTIES.items():
-        if rel_type == "Gene_is_homolog_of_gene":
-            # Sample per source so all three sources (cyanorak_cluster,
-            # eggnog_alteromonadaceae_og, eggnog_bacteria_cog_og) are represented.
-            seen = set()
-            for source_val in [
-                "cyanorak_cluster",
-                "eggnog_alteromonadaceae_og",
-                "eggnog_bacteria_cog_og",
-            ]:
-                result = run_query(
-                    session,
-                    "MATCH (src)-[r:Gene_is_homolog_of_gene]->(tgt) "
-                    "WHERE r.source = $src_val "
-                    "RETURN src.id AS source, tgt.id AS target, properties(r) AS rprops "
-                    "ORDER BY src.id, tgt.id LIMIT $limit",
-                    src_val=source_val,
-                    limit=SAMPLE_SIZE,
-                )
-                for d in _collect_edge_rows(result, props_for_homolog):
-                    key = (d["source"], d["target"])
-                    if key not in seen:
-                        seen.add(key)
-                        edges.append({"type": rel_type, **d})
-            continue
-
         result = run_query(
             session,
             f"MATCH (src)-[r:`{rel_type}`]->(tgt) "
