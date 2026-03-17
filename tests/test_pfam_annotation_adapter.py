@@ -332,14 +332,14 @@ class TestMultiPfamAdapterPfamNodes:
 class TestMultiPfamAdapterPfamClanNodes:
     def test_pfam_clan_node_count(self, multi_adapter):
         nodes = list(multi_adapter.get_nodes())
-        clan_nodes = [n for n in nodes if n[1] == "pfam clan"]
+        clan_nodes = [n for n in nodes if n[1] == "pfam_clan"]
         # CL0060 (DNA_clamp, from PF00712 + PF02768) and CL9999 (Test_clan, from PF99999)
         # PF00069 has no clan
         assert len(clan_nodes) == 2
 
     def test_pfam_clan_node_ids_use_prefix(self, multi_adapter):
         nodes = list(multi_adapter.get_nodes())
-        clan_nodes = [n for n in nodes if n[1] == "pfam clan"]
+        clan_nodes = [n for n in nodes if n[1] == "pfam_clan"]
         for node_id, _, _ in clan_nodes:
             assert "pfam.clan" in node_id.lower() or "CL" in node_id, (
                 f"PfamClan node ID format unexpected: {node_id}"
@@ -348,7 +348,7 @@ class TestMultiPfamAdapterPfamClanNodes:
     def test_pfam_clan_node_has_name(self, multi_adapter):
         nodes = list(multi_adapter.get_nodes())
         for node_id, label, props in nodes:
-            if label == "pfam clan":
+            if label == "pfam_clan":
                 assert "name" in props, f"PfamClan node {node_id} missing 'name'"
                 assert isinstance(props["name"], str)
                 assert len(props["name"]) > 0
@@ -356,7 +356,7 @@ class TestMultiPfamAdapterPfamClanNodes:
     def test_only_referenced_clans_emitted(self, multi_adapter):
         """Only clans whose domains are referenced by genes should appear."""
         nodes = list(multi_adapter.get_nodes())
-        clan_nodes = [n for n in nodes if n[1] == "pfam clan"]
+        clan_nodes = [n for n in nodes if n[1] == "pfam_clan"]
         clan_names = {n[2]["name"] for n in clan_nodes}
         assert "DNA_clamp" in clan_names
         assert "Test_clan" in clan_names
@@ -504,7 +504,7 @@ class TestPfamStringSanitization:
     def test_single_quotes_sanitized_in_clan_nodes(self, multi_adapter):
         nodes = list(multi_adapter.get_nodes())
         for _, label, props in nodes:
-            if label == "pfam clan":
+            if label == "pfam_clan":
                 for val in props.values():
                     assert "'" not in str(val), (
                         f"Raw single-quote in pfam clan property: {val!r}"
