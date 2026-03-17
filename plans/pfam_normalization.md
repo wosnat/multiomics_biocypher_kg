@@ -1,5 +1,11 @@
 # Pfam Normalization + Graph Nodes
 
+**Status: COMPLETE** (2026-03-17)
+- Steps 1-8 implemented and verified
+- KG rebuilt and deployed with Pfam/PfamClan nodes
+- 357 KG validity tests pass
+- Schema fix applied: pfam clan uses `input_label` override for BioCypher compatibility
+
 ## Background
 
 **Pfam** (Protein Families) is a database of ~27.5K conserved protein domain families maintained at EMBL-EBI (now part of InterPro). Each entry represents a structural/functional unit within proteins — e.g., `PF00712` (DNA_pol3_beta) is the DNA polymerase III beta subunit domain. Pfam domains are the standard way to characterize protein function by structure, complementary to:
@@ -10,11 +16,11 @@
 
 Pfam adds a **structural domain perspective** that none of the above provide: which modular structural units does a protein contain, and which clan (superfamily) do they belong to?
 
-## Problem
+## Problem (resolved)
 
-Gene nodes have three Pfam properties (`pfam_ids`, `pfam_names`, `pfam_descriptions`) sourced from three independent databases. The lists are misaligned.
+Gene nodes had three Pfam properties (`pfam_ids`, `pfam_names`, `pfam_descriptions`) sourced from three independent databases. The lists were misaligned. All three properties have been dropped from Gene nodes and replaced by `Pfam`/`PfamClan` graph nodes with `Gene_has_pfam` and `Pfam_in_pfam_clan` edges.
 
-### Current state in the live KG (2026-03-17)
+### State in the KG before this task (2026-03-17)
 
 | Metric | Count |
 |--------|-------|
@@ -59,17 +65,17 @@ After merging via `gene_annotations_config.yaml`:
 - `pfam_names`: `['DNA_pol3_beta', 'DNA_pol3_beta_2', 'DNA_pol3_beta_3']` — shortnames from eggNOG only. No way to pair them with IDs.
 - `pfam_descriptions`: 8 descriptions — **all** domain descriptions from `protein_domains_description`, unfiltered (includes TIGR, InterPro, etc.). Counts never match pfam_ids.
 
-### The eggNOG-only gap
+### The eggNOG-only gap (was)
 
-PMM0002 (photosynthetic reaction center protein): eggNOG says it has Pfam domain `PRC`, but `pfam_ids` is null because there's no Cyanorak or UniProt PF* ID for this gene. The domain info exists but is invisible to any ID-based query.
+PMM0002 (photosynthetic reaction center protein): eggNOG said it had Pfam domain `PRC`, but `pfam_ids` was null because there was no Cyanorak or UniProt PF* ID for this gene. The domain info existed but was invisible to any ID-based query. Now resolved by shortname-to-accession lookup via Pfam reference data.
 
-**Alteromonas is worst hit** (no Cyanorak genome data):
+**Alteromonas was worst hit** (no Cyanorak genome data):
 - HOT1A3: 3,511 pfam_names vs 1,262 pfam_ids — **2,249 genes with domain info but no accession**
 - EZ55: 3,605 pfam_names vs 1,116 pfam_ids — **2,489 genes with domain info but no accession**
 
-### Impact on full-text search
+### Impact on full-text search (was)
 
-`post-import.sh` indexes `pfam_names` in `geneFullText` (line 19). Searching "DNA_pol3_beta" finds genes, but you can't then pivot to "find all genes with PF00712" because 9K genes lack the ID. The misaligned fields degrade both search and programmatic access.
+`post-import.sh` indexed `pfam_names` in `geneFullText`. Now replaced by `pfamFullText` on `Pfam` nodes (covers `name` and `short_name`).
 
 ## ROI
 
@@ -81,12 +87,12 @@ PMM0002 (photosynthetic reaction center protein): eggNOG says it has Pfam domain
 4. **Cross-strain domain conservation**: Which domains are universal vs strain-specific?
 5. **Domain co-occurrence**: Which domains tend to appear together in Prochlorococcus proteins?
 
-### What this fixes
+### What this fixed
 
-- Recovers many of the ~9,126 genes that have domain names but no accessions (eggNOG shortname → PF* ID resolution via Pfam reference data)
-- Eliminates `pfam_names`, `pfam_descriptions`, and the broken `extract_pfam_ids`/`extract_pfam_names` transforms — replaced by a single raw union + post-merge enrichment
-- Drops all pfam properties from Gene nodes — fully represented as graph edges
-- Aligns pfam data into a clean, queryable graph structure matching the GO/EC/KEGG/COG pattern
+- Recovered many of the ~9,126 genes that had domain names but no accessions (eggNOG shortname to PF* ID resolution via Pfam reference data)
+- Eliminated `pfam_names`, `pfam_descriptions`, and the broken `extract_pfam_ids`/`extract_pfam_names` transforms -- replaced by a single raw union + post-merge enrichment
+- Dropped all pfam properties from Gene nodes -- fully represented as graph edges
+- Aligned pfam data into a clean, queryable graph structure matching the GO/EC/KEGG/COG pattern
 
 ## Solution
 
@@ -115,7 +121,7 @@ Follow the established pattern (GO, EC, KEGG, COG). **Two node types** with corr
 | **Gene_has_pfam edges** | Gene → Pfam, from `pfam_ids` in gene annotations |
 | **Pfam_in_pfam_clan edges** | Pfam → PfamClan (flat, one level) |
 
-Gene node Pfam properties are **dropped in this task** — `pfam_names` and `pfam_descriptions` are eliminated at the config level (replaced by a single raw `pfam_ids` union), and `pfam_ids` is removed from Gene nodes (replaced by `Gene_has_pfam` edges). The `geneFullText` index is updated to remove `pfam_names` (covered by `pfamFullText`).
+Gene node Pfam properties were **dropped** -- `pfam_names` and `pfam_descriptions` were eliminated at the config level (replaced by a single raw `pfam_ids` union), and `pfam_ids` was removed from Gene nodes (replaced by `Gene_has_pfam` edges). The `geneFullText` index was updated to remove `pfam_names` (covered by `pfamFullText`).
 
 ## Design
 

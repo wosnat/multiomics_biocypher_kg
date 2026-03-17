@@ -39,7 +39,7 @@ docker exec -i deploy cypher-shell -a bolt://localhost:7687
 
 | Label | Key Properties |
 |---|---|
-| `Gene` | `id` (ncbigene:locus_tag), `locus_tag`, `locus_tag_ncbi`, `locus_tag_cyanorak`, `product`, `gene_name`, `gene_synonyms[]`, `function_description`, `cog_category[]`, `go_terms[]`, `kegg_ko[]`, `kegg_pathway[]`, `ec_numbers[]`, `pfam_ids[]`, `pfam_names[]`, `annotation_quality`, `old_locus_tags[]`, `alternative_locus_tags[]`, `protein_id`, `start`, `end`, `strand` |
+| `Gene` | `id` (ncbigene:locus_tag), `locus_tag`, `locus_tag_ncbi`, `locus_tag_cyanorak`, `product`, `gene_name`, `gene_synonyms[]`, `function_description`, `cog_category[]`, `go_terms[]`, `kegg_ko[]`, `kegg_pathway[]`, `ec_numbers[]`, `annotation_quality`, `old_locus_tags[]`, `alternative_locus_tags[]`, `protein_id`, `start`, `end`, `strand` |
 | `Protein` | `id` (uniprot:accession), `locus_tag`, `gene_names[]`, `is_reviewed`, `annotation_score`, `sequence_length`, `molecular_mass`, `refseq_ids[]`, `proteome_ids[]`, `protein_synonyms[]`, `string_ids[]` |
 | `OrganismTaxon` | `id` (insdc.gcf:accession or ncbitaxon:taxid), `organism_name`, `strain_name`, `clade`, `genus`, `species`, `ncbi_taxon_id`, `family`, `order`, `phylum`, `kingdom`, `superkingdom`, `lineage` |
 | `EnvironmentalCondition` | `id`, `name`, `condition_type`, `condition_category` (same value as `condition_type`), `description`, `medium`, `temperature`, `light_condition`, `light_intensity`, `oxygen_level`, `nitrogen_source`, `co2_level`, `publications[]` |
@@ -56,6 +56,8 @@ docker exec -i deploy cypher-shell -a bolt://localhost:7687
 | `CogFunctionalCategory` | `id`, `code`, `name` |
 | `CyanorakRole` | `id`, `code`, `name` |
 | `TigrRole` | `id`, `code`, `name` |
+| `Pfam` | `id` (pfam:PF*), `name` (description), `short_name` (Pfam shortname) |
+| `PfamClan` | `id` (pfam.clan:CL*), `name` (clan name) |
 
 ### Additional Gene Properties (denormalized annotations)
 
@@ -73,7 +75,6 @@ Gene nodes carry many denormalized annotation fields beyond the key properties a
 | `kegg_brite[]` | eggNOG | KEGG BRITE hierarchy entries |
 | `kegg_module[]` | eggNOG | KEGG module IDs |
 | `kegg_reaction[]` | eggNOG | KEGG reaction IDs |
-| `pfam_descriptions[]` | eggNOG | Human-readable Pfam domain names |
 | `eggnog_ogs[]` | eggNOG | Full eggNOG orthologous group IDs |
 | `eggnog_og_descriptions[]` | eggNOG | Human-readable OG descriptions |
 | `seed_ortholog` | eggNOG | Best seed ortholog hit |
@@ -114,6 +115,8 @@ Gene nodes carry many denormalized annotation fields beyond the key properties a
 | `Gene_has_cyanorak_role` | Gene → CyanorakRole | — |
 | `Cyanorak_role_is_a_cyanorak_role` | CyanorakRole → CyanorakRole | — |
 | `Gene_has_tigr_role` | Gene → TigrRole | — |
+| `Gene_has_pfam` | Gene → Pfam | — |
+| `Pfam_in_pfam_clan` | Pfam → PfamClan | — |
 | `Biological_process_is_a_biological_process` | BiologicalProcess → BiologicalProcess | — |
 | `Biological_process_part_of_biological_process` | BiologicalProcess → BiologicalProcess | — |
 | `Biological_process_positively_regulates_biological_process` | BiologicalProcess → BiologicalProcess | — |
@@ -182,7 +185,7 @@ ORDER BY o.strain_name
 MATCH (g:Gene {locus_tag: 'PMM0001'})
 RETURN g.locus_tag, g.gene_name, g.product, g.function_description,
        g.cog_category, g.go_terms, g.kegg_ko, g.kegg_pathway,
-       g.ec_numbers, g.pfam_ids, g.pfam_names, g.annotation_quality
+       g.ec_numbers, g.annotation_quality
 ```
 
 ### Gene with Linked Nodes (GO / KEGG / EC / COG)
@@ -540,6 +543,27 @@ RETURN DISTINCT g.locus_tag, g.product, child.name, o.strain_name
 ORDER BY o.strain_name
 ```
 
+### Pfam Domain Queries
+
+```cypher
+// Find all genes with a specific Pfam domain (by shortname)
+MATCH (g:Gene)-[:Gene_has_pfam]->(p:Pfam {short_name: 'DNA_pol3_beta'})
+RETURN g.locus_tag, g.organism_strain
+
+// Find all domains in a clan
+MATCH (d:Pfam)-[:Pfam_in_pfam_clan]->(c:PfamClan {name: 'DNA_clamp'})
+RETURN d.short_name, d.name
+
+// Find genes in a superfamily (2-hop via clan)
+MATCH (c:PfamClan {name: 'DNA_clamp'})<-[:Pfam_in_pfam_clan]-(d:Pfam)<-[:Gene_has_pfam]-(g:Gene)
+RETURN d.short_name, g.locus_tag, g.organism_strain
+
+// Full-text search for Pfam domains
+CALL db.index.fulltext.queryNodes('pfamFullText', 'polymerase')
+YIELD node, score
+RETURN node.short_name, node.name, score
+```
+
 ### Strain / Organism Queries
 
 ```cypher
@@ -702,6 +726,7 @@ When the user invokes this skill (e.g., `/cypher-queries "genes affected by Alte
 - For ortholog expression, use 3-hop query-time joins via `Gene_in_ortholog_group` → `OrthologGroup` (no materialized ortholog edges exist)
 - `condition_category` on EnvironmentalCondition nodes has the same value as `condition_type` and can be used interchangeably for filtering
 - Gene properties like `go_terms`, `kegg_ko`, `cog_category` are arrays (`str[]`) on the Gene node itself (denormalized for LLM use) AND available via linked nodes for graph traversal
+- Pfam domains are represented only as graph nodes/edges (`Gene_has_pfam`, `Pfam_in_pfam_clan`) — no pfam properties on Gene nodes
 - Treatment organisms (Phage, Marinobacter, etc.) use `organism_name` not `strain_name` (strain_name is null for them)
 - EnvironmentalCondition has no `nitrogen_level` or `phosphate_level` — use `condition_type` / `condition_category` and `description` for filtering
 - Publication DOIs in `r.publications` arrays are bare DOIs (e.g., `10.1038/...`), not prefixed with `doi:`
