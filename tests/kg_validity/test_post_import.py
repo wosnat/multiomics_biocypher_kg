@@ -282,6 +282,122 @@ def test_specificity_rank_index_exists(run_query):
 # original post-import tests, still validated
 # ---------------------------------------------------------------------------
 
+# ---------------------------------------------------------------------------
+# Gene routing signals (pre-computed by post-import Cypher)
+# ---------------------------------------------------------------------------
+
+def test_annotation_types_populated(run_query):
+    """All genes should have annotation_types (list, possibly empty)."""
+    result = run_query("""
+        MATCH (g:Gene)
+        WHERE g.annotation_types IS NULL
+        RETURN count(g) AS missing
+    """)
+    assert result[0]["missing"] == 0, (
+        f"{result[0]['missing']} genes missing annotation_types property"
+    )
+
+
+def test_annotation_types_values_valid(run_query):
+    """annotation_types should only contain known ontology type labels."""
+    result = run_query("""
+        MATCH (g:Gene)
+        UNWIND g.annotation_types AS t
+        WITH DISTINCT t
+        WHERE NOT t IN ['go_bp', 'go_mf', 'go_cc', 'pfam', 'cog_category',
+                        'kegg', 'ec', 'cyanorak_role', 'tigr_role']
+        RETURN collect(t) AS bad
+    """)
+    assert result[0]["bad"] == [], (
+        f"Unexpected annotation_types values: {result[0]['bad']}"
+    )
+
+
+def test_annotation_types_spot_check(run_query):
+    """A gene with known GO edges should have go_bp or go_mf in annotation_types."""
+    result = run_query("""
+        MATCH (g:Gene)-[:Gene_involved_in_biological_process]->()
+        WITH g LIMIT 1
+        RETURN g.locus_tag AS lt, g.annotation_types AS types
+    """)
+    if not result:
+        pytest.skip("No Gene_involved_in_biological_process edges found")
+    assert 'go_bp' in result[0]["types"], (
+        f"Gene {result[0]['lt']} has GO BP edges but annotation_types = {result[0]['types']}"
+    )
+
+
+def test_expression_edge_count_populated(run_query):
+    """All genes should have expression_edge_count (int, possibly 0)."""
+    result = run_query("""
+        MATCH (g:Gene)
+        WHERE g.expression_edge_count IS NULL
+        RETURN count(g) AS missing
+    """)
+    assert result[0]["missing"] == 0, (
+        f"{result[0]['missing']} genes missing expression_edge_count"
+    )
+
+
+def test_expression_edge_count_accurate(run_query):
+    """expression_edge_count should match actual edge count for a sample gene."""
+    result = run_query("""
+        MATCH (g:Gene)
+        WHERE g.expression_edge_count > 0
+        WITH g LIMIT 5
+        OPTIONAL MATCH (g)<-[e:Condition_changes_expression_of|Coculture_changes_expression_of]-()
+        WITH g, g.expression_edge_count AS declared, count(e) AS actual
+        WHERE declared <> actual
+        RETURN count(g) AS mismatched, collect(g.locus_tag) AS examples
+    """)
+    assert result[0]["mismatched"] == 0, (
+        f"expression_edge_count mismatch for: {result[0]['examples']}"
+    )
+
+
+def test_significant_expression_count_lte_total(run_query):
+    """significant_expression_count must be <= expression_edge_count for all genes."""
+    result = run_query("""
+        MATCH (g:Gene)
+        WHERE g.significant_expression_count > g.expression_edge_count
+        RETURN count(g) AS bad, collect(g.locus_tag)[..5] AS examples
+    """)
+    assert result[0]["bad"] == 0, (
+        f"{result[0]['bad']} genes have significant > total: {result[0]['examples']}"
+    )
+
+
+def test_closest_ortholog_group_size_spot_check(run_query):
+    """Genes with OG edges should have closest_ortholog_group_size > 0."""
+    result = run_query("""
+        MATCH (g:Gene)-[:Gene_in_ortholog_group]->()
+        WITH DISTINCT g LIMIT 10
+        WHERE g.closest_ortholog_group_size IS NULL OR g.closest_ortholog_group_size < 1
+        RETURN count(g) AS bad
+    """)
+    assert result[0]["bad"] == 0, (
+        f"Genes with OG edges but null/zero closest_ortholog_group_size"
+    )
+
+
+def test_closest_ortholog_genera_is_list(run_query):
+    """closest_ortholog_genera should be a list where present."""
+    result = run_query("""
+        MATCH (g:Gene)
+        WHERE g.closest_ortholog_group_size IS NOT NULL
+          AND g.closest_ortholog_group_size > 0
+          AND g.closest_ortholog_genera IS NULL
+        RETURN count(g) AS bad
+    """)
+    assert result[0]["bad"] == 0, (
+        f"{result[0]['bad']} genes have OG size but null genera"
+    )
+
+
+# ---------------------------------------------------------------------------
+# Denormalized Gene.function_description (copied from Protein)
+# ---------------------------------------------------------------------------
+
 def test_gene_function_description_set(run_query):
     """
     After post-import, genes linked to a Protein with function_description

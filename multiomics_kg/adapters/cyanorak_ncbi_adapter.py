@@ -107,11 +107,8 @@ class GeneNodeField(Enum, metaclass=GeneEnumMeta):
     FUNCTION_DESCRIPTION = 'function_description'
     # Gene naming
     GENE_NAME = 'gene_name'
-    GENE_SYNONYMS = 'gene_synonyms'
     GENE_NAME_SYNONYMS = 'gene_name_synonyms'
-    ALTERNATIVE_LOCUS_TAGS = 'alternative_locus_tags'
     ALTERNATE_FUNCTIONAL_DESCRIPTIONS = 'alternate_functional_descriptions'
-    OLD_LOCUS_TAGS = 'old_locus_tags'
     PROTEIN_FAMILY = 'protein_family'
     # Specialized function
     CATALYTIC_ACTIVITY = 'catalytic_activities'
@@ -373,7 +370,6 @@ class CyanorakNcbi:
         This is retained for any remaining comma-delimited string fields.
         '''
         comma_split_cols = [
-            'old_locus_tags',
         ]
         if field in comma_split_cols:
             return ','

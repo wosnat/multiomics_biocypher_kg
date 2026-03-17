@@ -162,11 +162,8 @@ gene:
     function_description: str      # UniProt functional description; present for all organisms
     # Gene naming (canonical)
     gene_name: str                    # canonical name (dnaN, rpoA, etc.)
-    gene_synonyms: str[]              # all alternative names from all sources (mixed)
     gene_name_synonyms: str[]         # gene-name-like tokens only (dnaN, purF, etc.)
-    alternative_locus_tags: str[]     # locus-tag-like tokens only (PMM0001, ALTBGP6_RS00025)
     alternate_functional_descriptions: str[]  # all-source descriptions for LLM use: "[source] text"
-    old_locus_tags: str[]             # old-style locus tags (for paper ID mapping)
     protein_family: str               # protein family name
     # Specialized function
     catalytic_activities: str[]
@@ -182,6 +179,12 @@ gene:
     # Quality
     annotation_quality: int           # 0=hypothetical-no-func, 1=hypothetical-with-func, 2=real-product, 3=real-product+structured
     gene_category: str                # high-level functional classification (26 controlled values, from Cyanorak/TIGR/COG)
+    # Routing signals (pre-computed by post-import Cypher, not by adapter)
+    annotation_types: str[]           # ontology edge types with >0 edges, e.g. ["go_bp", "go_mf", "pfam"]
+    expression_edge_count: int        # total expression edges (Condition + Coculture)
+    significant_expression_count: int # expression edges where significant = 'significant'
+    closest_ortholog_group_size: int  # member_count from most specific OG (lowest specificity_rank)
+    closest_ortholog_genera: str[]    # genera from most specific OG
 
 # consider adding: Note, exceptions, inference
 

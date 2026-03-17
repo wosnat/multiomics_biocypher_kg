@@ -2117,11 +2117,11 @@
           "type": "gene_synonym"
         },
         {
-          "id": "accB,fabE",
+          "id": "fabE",
           "type": "gene_synonym"
         },
         {
-          "id": "fabE",
+          "id": "accB,fabE",
           "type": "gene_name"
         }
       ]
@@ -10878,11 +10878,11 @@
           "type": "gene_synonym"
         },
         {
-          "id": "crtB,pys",
+          "id": "pys",
           "type": "gene_synonym"
         },
         {
-          "id": "pys",
+          "id": "crtB,pys",
           "type": "gene_name"
         }
       ]
@@ -10983,11 +10983,11 @@
           "type": "gene_synonym"
         },
         {
-          "id": "pds,crtD",
+          "id": "crtD",
           "type": "gene_synonym"
         },
         {
-          "id": "crtD",
+          "id": "pds,crtD",
           "type": "gene_name"
         },
         {
@@ -37672,11 +37672,11 @@
           "type": "gene_synonym"
         },
         {
-          "id": "futB,hitB",
+          "id": "hitB",
           "type": "gene_synonym"
         },
         {
-          "id": "hitB",
+          "id": "futB,hitB",
           "type": "gene_name"
         }
       ]
@@ -48623,19 +48623,19 @@
           "type": "gene_synonym"
         },
         {
-          "id": "GSTTLp28,P28,GSTO1",
+          "id": "GSTTLp28",
           "type": "gene_synonym"
         },
         {
-          "id": "GSTTLp28",
-          "type": "gene_name"
-        },
-        {
           "id": "P28",
-          "type": "gene_name"
+          "type": "gene_synonym"
         },
         {
           "id": "GSTO1",
+          "type": "gene_synonym"
+        },
+        {
+          "id": "GSTTLp28,P28,GSTO1",
           "type": "gene_name"
         }
       ]
@@ -55620,11 +55620,11 @@
           "type": "gene_synonym"
         },
         {
-          "id": "pstC,phoW",
+          "id": "phoW",
           "type": "gene_synonym"
         },
         {
-          "id": "phoW",
+          "id": "pstC,phoW",
           "type": "gene_name"
         }
       ]
@@ -55721,11 +55721,11 @@
           "type": "gene_synonym"
         },
         {
-          "id": "pstA,phoT",
+          "id": "phoT",
           "type": "gene_synonym"
         },
         {
-          "id": "phoT",
+          "id": "pstA,phoT",
           "type": "gene_name"
         }
       ]
@@ -60302,19 +60302,19 @@
           "type": "gene_synonym"
         },
         {
-          "id": "cbbA,cfxA,fbaA,fda",
+          "id": "cbbA",
           "type": "gene_synonym"
         },
         {
-          "id": "cbbA",
-          "type": "gene_name"
-        },
-        {
           "id": "cfxA",
-          "type": "gene_name"
+          "type": "gene_synonym"
         },
         {
           "id": "fda",
+          "type": "gene_synonym"
+        },
+        {
+          "id": "cbbA,cfxA,fbaA,fda",
           "type": "gene_name"
         },
         {
@@ -80896,11 +80896,11 @@
           "type": "gene_synonym"
         },
         {
-          "id": "thrA,hom",
+          "id": "hom",
           "type": "gene_synonym"
         },
         {
-          "id": "hom",
+          "id": "thrA,hom",
           "type": "gene_name"
         }
       ]
@@ -82537,11 +82537,11 @@
           "type": "gene_synonym"
         },
         {
-          "id": "cbiA,cobB",
+          "id": "cbiA",
           "type": "gene_synonym"
         },
         {
-          "id": "cbiA",
+          "id": "cbiA,cobB",
           "type": "gene_name"
         }
       ]
@@ -89699,7 +89699,11 @@
           "type": "gene_synonym"
         },
         {
-          "id": "futA,sfuA",
+          "id": "futA",
+          "type": "gene_synonym"
+        },
+        {
+          "id": "sfuA",
           "type": "gene_synonym"
         },
         {
@@ -89708,14 +89712,6 @@
         },
         {
           "id": "futA,sfuA, idiA",
-          "type": "gene_name"
-        },
-        {
-          "id": "futA",
-          "type": "gene_name"
-        },
-        {
-          "id": "sfuA",
           "type": "gene_name"
         },
         {
@@ -98844,11 +98840,11 @@
           "type": "gene_synonym"
         },
         {
-          "id": "phoH,psiH",
+          "id": "psiH",
           "type": "gene_synonym"
         },
         {
-          "id": "psiH",
+          "id": "phoH,psiH",
           "type": "gene_name"
         },
         {
@@ -106052,15 +106048,15 @@
           "type": "gene_synonym"
         },
         {
-          "id": "des,yocE",
+          "id": "des",
           "type": "gene_synonym"
         },
         {
-          "id": "des",
-          "type": "gene_name"
+          "id": "yocE",
+          "type": "gene_synonym"
         },
         {
-          "id": "yocE",
+          "id": "des,yocE",
           "type": "gene_name"
         }
       ]
@@ -176095,8 +176091,8 @@
       "PMM0143"
     ],
     "crtD": [
-      "PMM1566",
-      "PMM0144"
+      "PMM0144",
+      "PMM1566"
     ],
     "crtE": [
       "PMM1070"
@@ -176639,9 +176635,6 @@
       "PMM1525"
     ],
     "futA": [
-      "PMM1164"
-    ],
-    "futA,sfuA": [
       "PMM1164"
     ],
     "futA,sfuA, idiA": [
@@ -190926,7 +190919,7 @@
   "stats": {
     "n_conflicts": 23,
     "n_genes": 1976,
-    "n_multi": 10331,
+    "n_multi": 10330,
     "n_specific": 10841,
     "passes": 2
   },

@@ -1109,6 +1109,13 @@ class TestAllIdentifiersFullConfig:
         assert "PMM0001_old" in ids
         assert "PMM0001_v2" in ids
 
+    def test_includes_uniprot_accession(self):
+        gm = dict(GM, protein_id="WP_011129038.1")
+        up = dict(UP, uniprot_accession="Q7V3R7")
+        merged = self.builder.build_merged(gm, EG, up)
+        ids = merged.get("all_identifiers", [])
+        assert "Q7V3R7" in ids
+
     def test_excludes_locus_tag_and_gene_name(self):
         gm = dict(GM, protein_id="WP_011129038.1", locus_tag_ncbi="TX50_RS00020")
         merged = self.builder.build_merged(gm, EG, UP)
@@ -1653,6 +1660,66 @@ class TestGeneNameSynonymsFilterNot:
         gm = {"gene_names": "PMM0001 PMM0002"}
         merged = self.builder.build_merged(gm, {}, {})
         assert "gene_name_synonyms" not in merged
+
+
+class TestCommaSplitInSynonyms:
+    """Comma-joined tokens (e.g. UniProt 'pds,crtD') are split into separate entries."""
+
+    def setup_method(self):
+        config = {
+            "fields": {
+                "gene_name": {
+                    "type": "single",
+                    "candidates": [
+                        {"source": "gene_mapping", "field": "gene_names_cyanorak",
+                         "transform": "first_token_space"},
+                    ],
+                },
+                "gene_synonyms": {
+                    "type": "union",
+                    "sources": [
+                        {"source": "gene_mapping", "field": "gene_names", "delimiter": " "},
+                        {"source": "uniprot", "field": "gene_names", "delimiter": " "},
+                    ],
+                },
+                "gene_name_synonyms": {
+                    "type": "union",
+                    "filter_not": GENE_NAME_FILTER_NOT,
+                    "sources": [
+                        {"source": "gene_mapping", "field": "gene_names", "delimiter": " "},
+                        {"source": "uniprot", "field": "gene_names", "delimiter": " "},
+                    ],
+                },
+            }
+        }
+        self.builder = AnnotationBuilder(config)
+
+    def test_comma_joined_token_split_in_gene_synonyms(self):
+        gm = {"gene_names": "pds", "gene_names_cyanorak": "crtP"}
+        up = {"gene_names": ["pds,crtD", "PMM0144"]}
+        merged = self.builder.build_merged(gm, {}, up)
+        synonyms = merged.get("gene_synonyms", [])
+        assert "pds" in synonyms
+        assert "crtD" in synonyms
+        assert "pds,crtD" not in synonyms
+
+    def test_comma_joined_token_split_in_gene_name_synonyms(self):
+        gm = {"gene_names": "pds", "gene_names_cyanorak": "crtP"}
+        up = {"gene_names": ["pds,crtD", "PMM0144"]}
+        merged = self.builder.build_merged(gm, {}, up)
+        name_synonyms = merged.get("gene_name_synonyms", [])
+        assert "pds" in name_synonyms
+        assert "crtD" in name_synonyms
+        assert "pds,crtD" not in name_synonyms
+
+    def test_multi_comma_token_fully_split(self):
+        gm = {"gene_names_cyanorak": "cbbA"}
+        up = {"gene_names": ["cbbA,cfxA,fbaA,fda"]}
+        merged = self.builder.build_merged(gm, {}, up)
+        synonyms = merged.get("gene_synonyms", [])
+        for name in ["cfxA", "fbaA", "fda"]:
+            assert name in synonyms, f"{name} missing from gene_synonyms"
+        assert "cbbA,cfxA,fbaA,fda" not in synonyms
 
 
 # ─── extract_first_match_in_sources ──────────────────────────────────────────

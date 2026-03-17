@@ -650,6 +650,18 @@ class AnnotationBuilder:
             if _nonempty(val):
                 result[canonical_field] = val
 
+        # Split comma-joined tokens in synonym lists (e.g. UniProt "pds,crtD"
+        # arrives as a single token because the source uses space delimiter)
+        for field in ("gene_synonyms", "gene_name_synonyms"):
+            if field in result:
+                expanded = []
+                for tok in result[field]:
+                    if "," in tok:
+                        expanded.extend(t.strip() for t in tok.split(",") if t.strip())
+                    else:
+                        expanded.append(tok)
+                result[field] = list(dict.fromkeys(expanded))  # dedupe, preserve order
+
         # Remove canonical gene_name from synonym lists to avoid duplication
         gene_name = result.get("gene_name", "")
         if gene_name:
@@ -744,6 +756,7 @@ class AnnotationBuilder:
             result.get("locus_tag_ncbi"),
             result.get("locus_tag_cyanorak"),
             result.get("protein_id"),
+            result.get("uniprot_accession"),
         ]))
         all_ids.update(result.get("old_locus_tags") or [])
         all_ids.update(result.get("alternative_locus_tags") or [])

@@ -61,7 +61,7 @@ ANCHOR_NODES = {
 
 # Key properties to capture per node type
 NODE_PROPERTIES = {
-    "Gene": ["locus_tag", "product", "gene_name", "gene_synonyms", "strand"],
+    "Gene": ["locus_tag", "product", "gene_name", "gene_name_synonyms", "strand"],
     "Protein": ["protein_synonyms", "gene_names"],
     "OrganismTaxon": ["organism_name", "strain_name", "genus", "clade", "ncbi_taxon_id"],
     "Publication": ["doi", "pmid", "title"],

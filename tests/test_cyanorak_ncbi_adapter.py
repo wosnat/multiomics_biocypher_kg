@@ -32,7 +32,7 @@ MERGED_JSON_DATA = {
         "end": 1331,
         "strand": "+",
         "gene_name": "dnaN",
-        "gene_synonyms": ["PMM0001"],
+        "gene_name_synonyms": ["repA"],
         "product": "DNA polymerase III, beta subunit",
         "function_description": "Replicative DNA polymerase beta subunit",
         "cluster_number": "CK_00000364",
@@ -50,7 +50,6 @@ MERGED_JSON_DATA = {
         "end": 2040,
         "strand": "+",
         "gene_name": "PMM0002",
-        "gene_synonyms": ["PMM0002"],
         "product": "hypothetical protein",
         "cluster_number": "CK_00000363",
         "organism_strain": "Prochlorococcus MED4",
@@ -65,7 +64,6 @@ MERGED_JSON_DATA = {
         "end": 4383,
         "strand": "+",
         "gene_name": "purL",
-        "gene_synonyms": ["PMM0003"],
         "product": "phosphoribosylformylglycinamidine synthase",
         "cluster_number": "CK_00000362",
         "organism_strain": "Prochlorococcus MED4",
@@ -160,7 +158,7 @@ class TestGeneNodeFieldEnum:
 
     def test_new_fields_exist(self):
         assert GeneNodeField.GENE_NAME.value == "gene_name"
-        assert GeneNodeField.GENE_SYNONYMS.value == "gene_synonyms"
+        assert GeneNodeField.GENE_NAME_SYNONYMS.value == "gene_name_synonyms"
         assert GeneNodeField.ANNOTATION_QUALITY.value == "annotation_quality"
 
     def test_old_fields_removed(self):
@@ -173,7 +171,7 @@ class TestGeneNodeFieldEnum:
         assert "Ontology_term" not in field_values
 
     def test_dropped_phase_fields_removed(self):
-        """Verify 30 dropped properties are no longer in the enum."""
+        """Verify dropped properties are no longer in the enum."""
         field_values = {f.value for f in GeneNodeField}
         dropped = [
             "locus_tag_ncbi", "locus_tag_cyanorak", "start_cyanorak", "end_cyanorak",
@@ -184,6 +182,8 @@ class TestGeneNodeFieldEnum:
             "kegg_brite", "cog_category", "eggnog_ogs", "eggnog_og_descriptions",
             "seed_ortholog", "max_annot_lvl", "seed_ortholog_evalue",
             "gene_name_source", "product_source", "function_description_source",
+            # Redundant ID fields removed — content is in all_identifiers / gene_name_synonyms
+            "gene_synonyms", "alternative_locus_tags", "old_locus_tags",
         ]
         for name in dropped:
             assert name not in field_values, f"{name} should have been dropped"
@@ -302,7 +302,7 @@ class TestDownloadData:
 
     def test_list_columns_preserved(self, adapter):
         row = adapter.data_df[adapter.data_df["locus_tag"] == "PMM0001"].iloc[0]
-        assert isinstance(row["gene_synonyms"], list)
+        assert isinstance(row["gene_name_synonyms"], list)
 
     def test_numeric_columns_preserved(self, adapter):
         row = adapter.data_df[adapter.data_df["locus_tag"] == "PMM0001"].iloc[0]
@@ -460,7 +460,7 @@ class TestGetGeneNodes:
         nodes = adapter.get_nodes()
         pmm0001 = next(n for n in nodes if n[1] == "gene" and "PMM0001" in n[0])
         props = pmm0001[2]
-        assert isinstance(props.get("gene_synonyms"), list)
+        assert isinstance(props.get("gene_name_synonyms"), list)
 
     def test_pfam_fields_not_in_gene_nodes(self, adapter):
         """Pfam properties are removed from Gene nodes (now graph edges)."""
@@ -986,9 +986,12 @@ class TestIntegrationWithRealData:
         a.download_data()
         nodes = a.get_nodes()
         for _, _, props in [n for n in nodes if n[1] == "gene"][:10]:
-            if "gene_synonyms" in props:
-                assert isinstance(props["gene_synonyms"], list)
-            # pfam_ids removed from Gene nodes (now graph edges via PfamAnnotationAdapter)
+            if "gene_name_synonyms" in props:
+                assert isinstance(props["gene_name_synonyms"], list)
+            # Removed fields should not appear on gene nodes
+            assert "gene_synonyms" not in props
+            assert "alternative_locus_tags" not in props
+            assert "old_locus_tags" not in props
             assert "pfam_ids" not in props
 
 
