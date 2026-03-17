@@ -42,14 +42,14 @@ from multiomics_kg.download.utils.annotation_transforms import (
     _resolve_ec_chain,
     _tx_add_go_prefix,
     _tx_extract_go_from_pipe,
-    _tx_extract_pfam_ids,
-    _tx_extract_pfam_names,
     _tx_first_token_space,
     _tx_normalize_ec,
     _tx_split_cog_category,
     _tx_strip_function_prefix,
     _tx_strip_prefix_ko,
 )
+from multiomics_kg.download.build_gene_annotations import enrich_pfam_fields
+from multiomics_kg.utils.pfam_utils import PfamData, PfamEntry
 import multiomics_kg.download.utils.annotation_transforms as _at
 from multiomics_kg.download.utils.paths import infer_organism_group
 
@@ -245,21 +245,60 @@ class TestTxExtractGoFromPipe:
         assert _tx_extract_go_from_pipe("-") == ""
 
 
-class TestTxExtractPfamIds:
-    def test_keeps_pf_tokens(self):
-        assert _tx_extract_pfam_ids("TIGR00663,PF00712,IPR022634") == ["PF00712"]
+class TestEnrichPfamFields:
+    """Tests for enrich_pfam_fields() — post-merge Pfam token resolution."""
 
-    def test_multiple_pfams(self):
-        assert _tx_extract_pfam_ids("PF00001,PF00002") == ["PF00001", "PF00002"]
+    @pytest.fixture
+    def pfam_data(self):
+        """Minimal PfamData for testing."""
+        return PfamData(
+            by_accession={
+                "PF00712": PfamEntry("PF00712", "DNA_pol3_beta", "DNA pol III beta", "CL0060", "DNA_clamp"),
+                "PF00001": PfamEntry("PF00001", "7tm_1", "7TM receptor", "CL0192", "GPCR_A"),
+                "PF02767": PfamEntry("PF02767", "DNA_pol3_beta_3", "DNA pol III beta 3", "CL0060", "DNA_clamp"),
+            },
+            by_shortname={
+                "DNA_pol3_beta": "PF00712",
+                "7tm_1": "PF00001",
+                "DNA_pol3_beta_3": "PF02767",
+            },
+            clans={"CL0060": "DNA_clamp", "CL0192": "GPCR_A"},
+        )
 
-    def test_no_pfams(self):
-        assert _tx_extract_pfam_ids("TIGR00663,IPR022634") == []
+    def test_keeps_pf_tokens(self, pfam_data):
+        gene = {"pfam_ids": ["PF00712", "TIGR00663", "IPR022634"]}
+        unresolved = enrich_pfam_fields(gene, pfam_data)
+        assert gene["pfam_ids"] == ["PF00712"]
+        assert "TIGR00663" in unresolved
+        assert "IPR022634" in unresolved
 
-    def test_non_string(self):
-        assert _tx_extract_pfam_ids(None) == []
+    def test_resolves_shortnames(self, pfam_data):
+        gene = {"pfam_ids": ["DNA_pol3_beta", "PF02767"]}
+        unresolved = enrich_pfam_fields(gene, pfam_data)
+        assert "PF00712" in gene["pfam_ids"]
+        assert "PF02767" in gene["pfam_ids"]
+        assert unresolved == []
 
-    def test_empty(self):
-        assert _tx_extract_pfam_ids("") == []
+    def test_deduplicates(self, pfam_data):
+        gene = {"pfam_ids": ["PF00712", "DNA_pol3_beta"]}
+        enrich_pfam_fields(gene, pfam_data)
+        assert gene["pfam_ids"] == ["PF00712"]
+
+    def test_no_pfams_deletes_field(self, pfam_data):
+        gene = {"pfam_ids": ["TIGR00663", "IPR022634"]}
+        enrich_pfam_fields(gene, pfam_data)
+        assert "pfam_ids" not in gene
+
+    def test_empty_input(self, pfam_data):
+        gene = {}
+        unresolved = enrich_pfam_fields(gene, pfam_data)
+        assert unresolved == []
+        assert "pfam_ids" not in gene
+
+    def test_none_input(self, pfam_data):
+        gene = {"pfam_ids": None}
+        unresolved = enrich_pfam_fields(gene, pfam_data)
+        assert unresolved == []
 
 
 # ─── infer_organism_group ─────────────────────────────────────────────────────
@@ -552,8 +591,7 @@ MINIMAL_CONFIG = {
         "pfam_ids": {
             "type": "union",
             "sources": [
-                {"source": "gene_mapping", "field": "protein_domains", "delimiter": ",",
-                 "transform": "extract_pfam_ids"},
+                {"source": "gene_mapping", "field": "protein_domains", "delimiter": ","},
                 {"source": "uniprot",      "field": "xref_pfam",       "delimiter": ";"},
                 {"source": "eggnog",       "field": "PFAMs",           "delimiter": ","},
             ],
@@ -723,12 +761,14 @@ class TestAnnotationBuilderBuildMerged:
         merged = self.builder.build_merged({}, EG, {})
         assert merged.get("kegg_ko") == ["K02313"]
 
-    def test_union_extract_pfam_ids_transform(self):
+    def test_union_pfam_ids_raw_tokens(self):
+        """After config change, pfam_ids is a raw union (no per-source filtering).
+        Filtering happens in enrich_pfam_fields() post-merge."""
         merged = self.builder.build_merged(GM, EG, UP)
         pfams = merged.get("pfam_ids", [])
         assert "PF00712" in pfams
-        # TIGR00663 should be filtered out
-        assert "TIGR00663" not in pfams
+        # Raw union includes ALL tokens — TIGR, IPR, shortnames, etc.
+        # enrich_pfam_fields() resolves/filters these post-merge
 
     def test_union_ec_numbers_deduplicated(self):
         # ec_numbers and kegg both carry 2.7.7.7; eggnog too
@@ -1429,30 +1469,10 @@ class TestCogCategoryBuildMerged:
         assert "cog_category" not in merged
 
 
-# ─── Fix C: pfam_names / pfam_ids cleanup ─────────────────────────────────────
+# ─── Pfam enrichment (replaces old extract_pfam_ids/names) ────────────────────
 
-class TestTxExtractPfamNames:
-    def test_keeps_shortname_tokens(self):
-        result = _tx_extract_pfam_names("PF00712,DNA_pol3_beta,DNA_pol3_beta_2")
-        assert result == ["DNA_pol3_beta", "DNA_pol3_beta_2"]
-
-    def test_no_shortnames_returns_empty(self):
-        result = _tx_extract_pfam_names("PF00712,PF02767")
-        assert result == []
-
-    def test_mixed_with_tigr(self):
-        result = _tx_extract_pfam_names("TIGR00663,PF00712,HATPase_c")
-        assert result == ["TIGR00663", "HATPase_c"]
-
-    def test_non_string_returns_empty(self):
-        assert _tx_extract_pfam_names(None) == []
-
-    def test_empty_string(self):
-        assert _tx_extract_pfam_names("") == []
-
-
-class TestPfamNamesBuildMerged:
-    """pfam_names field only populated from eggnog shortnames."""
+class TestPfamRawUnionBuildMerged:
+    """pfam_ids is now a raw union — all tokens collected, no per-source filtering."""
 
     def setup_method(self):
         config = {
@@ -1460,43 +1480,35 @@ class TestPfamNamesBuildMerged:
                 "pfam_ids": {
                     "type": "union",
                     "sources": [
-                        {"source": "eggnog", "field": "PFAMs", "delimiter": ",",
-                         "transform": "extract_pfam_ids"},
-                    ],
-                },
-                "pfam_names": {
-                    "type": "union",
-                    "sources": [
-                        {"source": "eggnog", "field": "PFAMs", "delimiter": ",",
-                         "transform": "extract_pfam_names"},
+                        {"source": "gene_mapping", "field": "protein_domains", "delimiter": ","},
+                        {"source": "eggnog", "field": "PFAMs", "delimiter": ","},
                     ],
                 },
             }
         }
         self.builder = AnnotationBuilder(config)
 
-    def test_pfam_ids_only_pf_tokens(self):
-        eg = {"PFAMs": "PF00712,DNA_pol3_beta,PF02767"}
-        merged = self.builder.build_merged({}, eg, {})
-        assert merged["pfam_ids"] == ["PF00712", "PF02767"]
-        assert "DNA_pol3_beta" not in merged["pfam_ids"]
-
-    def test_pfam_names_only_shortnames(self):
-        eg = {"PFAMs": "PF00712,DNA_pol3_beta,HATPase_c"}
-        merged = self.builder.build_merged({}, eg, {})
-        assert "DNA_pol3_beta" in merged["pfam_names"]
-        assert "HATPase_c" in merged["pfam_names"]
-        assert "PF00712" not in merged["pfam_names"]
-
-    def test_pure_pf_ids_no_pfam_names_field(self):
-        eg = {"PFAMs": "PF00712,PF02767"}
-        merged = self.builder.build_merged({}, eg, {})
-        assert "pfam_names" not in merged
+    def test_raw_union_includes_all_tokens(self):
+        gm = {"protein_domains": "TIGR00663,PF00712,IPR022634"}
+        eg = {"PFAMs": "DNA_pol3_beta,PF02767"}
+        merged = self.builder.build_merged(gm, eg, {})
+        pfams = merged["pfam_ids"]
+        # All tokens present in raw union
+        assert "PF00712" in pfams
+        assert "TIGR00663" in pfams
+        assert "IPR022634" in pfams
+        assert "DNA_pol3_beta" in pfams
+        assert "PF02767" in pfams
 
     def test_no_eggnog_no_fields(self):
         merged = self.builder.build_merged({}, {}, {})
         assert "pfam_ids" not in merged
-        assert "pfam_names" not in merged
+
+    def test_deduplicates_across_sources(self):
+        gm = {"protein_domains": "PF00712"}
+        eg = {"PFAMs": "PF00712,DNA_pol3_beta"}
+        merged = self.builder.build_merged(gm, eg, {})
+        assert merged["pfam_ids"].count("PF00712") == 1
 
 
 # ─── Fix E: gene_synonyms / gene_name_synonyms / alternative_locus_tags ───────

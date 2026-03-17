@@ -20,8 +20,10 @@ from __future__ import annotations
 import argparse
 import csv
 import json
+import logging
 import os
 import re
+from pathlib import Path
 from typing import Any
 
 # Identifier-style gene names that should NOT appear in gene_summary.
@@ -42,8 +44,6 @@ from multiomics_kg.download.utils.annotation_transforms import (
     _TRANSFORMS,
     _tx_add_go_prefix,
     _tx_extract_go_from_pipe,
-    _tx_extract_pfam_ids,
-    _tx_extract_pfam_names,
     _tx_first_token_space,
     _tx_strip_function_prefix,
     _tx_strip_prefix_ko,
@@ -53,6 +53,7 @@ from multiomics_kg.download.utils.ortholog_group_utils import (
     extract_ortholog_groups,
     organism_group_from_path,
 )
+from multiomics_kg.utils.pfam_utils import PfamData, load_pfam_data
 from multiomics_kg.download.utils.paths import PROJECT_ROOT, infer_organism_group
 
 # ─── gene_category mapping tables ─────────────────────────────────────────────
@@ -197,6 +198,103 @@ def _compute_gene_category(result: dict) -> str:
                 gene_category = cat
 
     return gene_category or "Unknown"
+
+
+logger = logging.getLogger(__name__)
+
+
+# ─── Pfam post-merge enrichment ──────────────────────────────────────────────
+
+def _compute_annotation_quality(gene: dict) -> int:
+    """Compute annotation_quality (0-3) based on product content + structured annotations.
+
+    0 = hypothetical, no function description
+    1 = hypothetical, has function description
+    2 = real product, <2 structured annotations
+    3 = real product, >=2 structured annotations (go_terms, kegg_ko, ec_numbers, pfam_ids)
+    """
+    product = gene.get("product", "")
+    func_desc = gene.get("function_description", "")
+    is_hypothetical = not product or bool(re.match(
+        r'^(hypothetical|conserved hypothetical|uncharacterized)\b', product, re.IGNORECASE
+    ))
+
+    if not is_hypothetical:
+        structured_count = sum(
+            1 for f in ("go_terms", "kegg_ko", "ec_numbers", "pfam_ids")
+            if gene.get(f)
+        )
+        return 3 if structured_count >= 2 else 2
+    elif func_desc and func_desc != "-":
+        return 1
+    else:
+        return 0
+
+
+def enrich_pfam_fields(gene: dict, pfam_data: PfamData) -> list[str]:
+    """Resolve raw pfam_ids tokens to clean PF* accessions and update related fields.
+
+    pfam_ids at this point is a raw union of all tokens from Cyanorak protein_domains,
+    eggNOG PFAMs, and UniProt pfam_ids -- a mix of PF* IDs, shortnames, TIGR*, IPR*.
+
+    For each token:
+    - PF* -> keep as-is (already a valid Pfam accession)
+    - Found in pfam_data.by_shortname -> resolve to PF* ID
+    - Otherwise -> drop (TIGR*, IPR*, or unresolved shortname)
+
+    Side effects on gene dict:
+    - pfam_ids: overwritten with clean PF* list (or deleted if empty)
+    - annotation_quality: recomputed (was computed during merge on raw tokens;
+      corrected here so only real PF* IDs count toward structured annotation score)
+    - alternate_functional_descriptions: appends "[pfam] shortname: description"
+      entries from Pfam reference data for each resolved PF* ID
+
+    Returns list of unresolved non-PF* tokens (for logging).
+    """
+    raw_tokens = gene.get("pfam_ids")
+    if not raw_tokens:
+        return []
+
+    clean_ids: dict[str, None] = {}  # ordered set for dedup
+    unresolved: list[str] = []
+
+    for token in raw_tokens:
+        token = str(token).strip()
+        if not token:
+            continue
+        if token.startswith("PF"):
+            clean_ids[token] = None
+        elif token in pfam_data.by_shortname:
+            clean_ids[pfam_data.by_shortname[token]] = None
+        else:
+            # TIGR*, IPR*, or unresolved shortname -- drop
+            unresolved.append(token)
+
+    result = list(clean_ids.keys())
+    if result:
+        gene["pfam_ids"] = result
+    elif "pfam_ids" in gene:
+        del gene["pfam_ids"]
+
+    # Recompute annotation_quality: it was computed during merge when pfam_ids
+    # contained raw unfiltered tokens. Now that pfam_ids is clean, recheck.
+    gene["annotation_quality"] = _compute_annotation_quality(gene)
+
+    # Add Pfam descriptions to alternate_functional_descriptions
+    if result:
+        alt_descs = gene.get("alternate_functional_descriptions", [])
+        alt_descs_set = set(alt_descs)
+        for pf_id in result:
+            entry = pfam_data.by_accession.get(pf_id)
+            if entry:
+                text = f"{entry.shortname}: {entry.description}" if entry.description else entry.shortname
+                desc = f"[pfam] {text}"
+                if desc not in alt_descs_set:
+                    alt_descs.append(desc)
+                    alt_descs_set.add(desc)
+        gene["alternate_functional_descriptions"] = alt_descs
+
+    return unresolved
 
 
 # ─── paths ────────────────────────────────────────────────────────────────────
@@ -432,17 +530,7 @@ class AnnotationBuilder:
             transform = src_cfg.get("transform")
 
             # Special-case transforms that produce lists from a string
-            if transform == "extract_pfam_ids":
-                if isinstance(raw, list):
-                    tokens = [t for t in raw if str(t).startswith("PF")]
-                else:
-                    tokens = _tx_extract_pfam_ids(str(raw))
-            elif transform == "extract_pfam_names":
-                if isinstance(raw, list):
-                    tokens = [t for t in raw if t and not str(t).startswith("PF")]
-                else:
-                    tokens = _tx_extract_pfam_names(str(raw))
-            elif transform == "extract_go_from_pipe":
+            if transform == "extract_go_from_pipe":
                 base_tokens = _coerce_to_tokens(raw, delimiter)
                 tokens = [_tx_extract_go_from_pipe(t) for t in base_tokens]
             elif transform:
@@ -577,24 +665,7 @@ class AnnotationBuilder:
         result.update(source_tracking)
 
         # Compute annotation_quality (0–3) based on product content + structured annotations
-        product = result.get("product", "")
-        func_desc = result.get("function_description", "")
-        is_hypothetical = not product or bool(re.match(
-            r'^(hypothetical|conserved hypothetical|uncharacterized)\b', product, re.IGNORECASE
-        ))
-
-        if not is_hypothetical:
-            # Count structured annotations: go_terms, kegg_ko, ec_numbers, pfam_ids
-            structured_count = sum(
-                1 for f in ("go_terms", "kegg_ko", "ec_numbers", "pfam_ids")
-                if result.get(f)
-            )
-            quality = 3 if structured_count >= 2 else 2
-        elif func_desc and func_desc != "-":
-            quality = 1
-        else:
-            quality = 0
-        result["annotation_quality"] = quality
+        result["annotation_quality"] = _compute_annotation_quality(result)
 
         # Compute gene_category — high-level functional classification
         category = _compute_gene_category(result)
@@ -636,11 +707,8 @@ class AnnotationBuilder:
             _add_desc("cog", desc)
         for desc in result.get("kegg_ko_descriptions", []):
             _add_desc("kegg", desc)
-        pfam_names_list = result.get("pfam_names", [])
-        pfam_descs_list = result.get("pfam_descriptions", [])
-        for i, name in enumerate(pfam_names_list):
-            pfam_text = f"{name}: {pfam_descs_list[i]}" if i < len(pfam_descs_list) and pfam_descs_list[i] else name
-            _add_desc("pfam", pfam_text)
+        # Pfam descriptions are added post-merge by enrich_pfam_fields()
+        # (needs pfam_data reference + enriched pfam_ids)
 
         if alt_descriptions:
             result["alternate_functional_descriptions"] = alt_descriptions
@@ -693,6 +761,7 @@ def process_strain(
     row: dict,
     config: dict,
     force: bool = False,
+    pfam_data: PfamData | None = None,
 ) -> None:
     strain_name = row["strain_name"]
     preferred_name = (row.get("preferred_name") or "").strip() or strain_name
@@ -780,6 +849,33 @@ def process_strain(
     print(f"  EggNOG bacteria:    {og_stats['eggnog_bacteria']}")
     print(f"  EggNOG lowest-level:{og_stats['eggnog_lowest']}")
 
+    # Enrich pfam_ids: resolve shortnames to PF* accessions, drop non-Pfam tokens
+    if pfam_data is not None:
+        pfam_stats = {"has_pfam": 0, "resolved_shortnames": 0, "genes_before": 0}
+        all_unresolved: dict[str, int] = {}  # token -> gene count
+        for locus_tag, gene in merged_out.items():
+            had_raw = bool(gene.get("pfam_ids"))
+            if had_raw:
+                pfam_stats["genes_before"] += 1
+            unresolved = enrich_pfam_fields(gene, pfam_data)
+            if gene.get("pfam_ids"):
+                pfam_stats["has_pfam"] += 1
+            # Count shortnames that were resolved (genes_after > genes with only PF* before)
+            for tok in unresolved:
+                all_unresolved[tok] = all_unresolved.get(tok, 0) + 1
+
+        print(f"\n  === {strain_name} Pfam enrichment ===")
+        print(f"  Genes with raw pfam tokens: {pfam_stats['genes_before']}")
+        print(f"  Genes with clean PF* IDs:   {pfam_stats['has_pfam']}")
+        if all_unresolved:
+            top_unresolved = sorted(all_unresolved.items(), key=lambda x: -x[1])[:10]
+            total_unresolved = sum(all_unresolved.values())
+            print(f"  Unresolved tokens: {len(all_unresolved)} unique, {total_unresolved} total occurrences")
+            for tok, count in top_unresolved:
+                print(f"    {tok}: {count} genes")
+        else:
+            print(f"  Unresolved tokens: 0")
+
     with open(wide_path, "w") as f:
         json.dump(wide_out, f, indent=2, sort_keys=True)
     print(f"  → {wide_path}")
@@ -826,9 +922,15 @@ def main() -> None:
     config = load_config(args.config)
     rows = load_genome_rows(args.strains)
 
+    # Load Pfam reference data once for all strains
+    cache_root = PROJECT_ROOT / "cache" / "data"
+    pfam_data = load_pfam_data(cache_root)
+    print(f"Pfam reference: {len(pfam_data.by_accession)} entries, "
+          f"{len(pfam_data.by_shortname)} shortnames, {len(pfam_data.clans)} clans")
+
     print(f"Processing {len(rows)} strain(s) with config: {args.config}")
     for row in rows:
-        process_strain(row, config, force=args.force)
+        process_strain(row, config, force=args.force, pfam_data=pfam_data)
 
     if args.llm_summary:
         print("\nLLM summary generation (Step 1C) not yet implemented.")

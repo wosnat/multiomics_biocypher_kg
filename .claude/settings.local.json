@@ -43,7 +43,8 @@
       "WebFetch(domain:biocypher.org)",
       "mcp__multiomics-kg__run_cypher",
       "WebSearch",
-      "mcp__multiomics-kg__get_gene_details"
+      "mcp__multiomics-kg__get_gene_details",
+      "Bash(curl -sI \"https://ftp.ebi.ac.uk/pub/databases/Pfam/current_release/Pfam-A.clans.tsv.gz\")"
     ]
   }
 }
