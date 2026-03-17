@@ -1207,7 +1207,7 @@ class MultiPfamAnnotationAdapter:
             clan_name = referenced_clans[clan_acc]
             yield (
                 _pfam_clan_node_id(clan_acc),
-                "pfam clan",
+                "pfam_clan",
                 {"name": _clean_str(clan_name)},
             )
             clan_count += 1
