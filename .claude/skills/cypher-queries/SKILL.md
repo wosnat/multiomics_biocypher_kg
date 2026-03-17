@@ -54,8 +54,8 @@ docker exec -i deploy cypher-shell -a bolt://localhost:7687
 | `KeggCategory` | `id`, `name` |
 | `EcNumber` | `id` (EC x.x.x.x), `name`, `catalytic_activity[]` |
 | `CogFunctionalCategory` | `id`, `code`, `name` |
-| `CyanorakRole` | `id`, `code`, `description` |
-| `TigrRole` | `id`, `code`, `description` |
+| `CyanorakRole` | `id`, `code`, `name` |
+| `TigrRole` | `id`, `code`, `name` |
 
 ### Additional Gene Properties (denormalized annotations)
 
@@ -219,11 +219,11 @@ RETURN cog.code, cog.name
 // Gene → Cyanorak functional role hierarchy (Pro/Syn only)
 MATCH (g:Gene {locus_tag: 'PMM0001'})-[:Gene_has_cyanorak_role]->(role:CyanorakRole)
 OPTIONAL MATCH (role)-[:Cyanorak_role_is_a_cyanorak_role]->(parent:CyanorakRole)
-RETURN role.code, role.description, parent.code AS parent_code, parent.description AS parent_desc
+RETURN role.code, role.name, parent.code AS parent_code, parent.name AS parent_desc
 
 // Gene → TIGR role (Pro/Syn only)
 MATCH (g:Gene {locus_tag: 'PMM0001'})-[:Gene_has_tigr_role]->(role:TigrRole)
-RETURN role.code, role.description
+RETURN role.code, role.name
 
 // Combined: all linked annotations for a gene
 MATCH (g:Gene {locus_tag: 'PMM0001'})
@@ -239,7 +239,7 @@ RETURN g.locus_tag, g.gene_name, g.product,
        collect(DISTINCT ko.name) AS kegg_kos,
        collect(DISTINCT ec.id) AS ec_numbers,
        collect(DISTINCT cog.name) AS cog_categories,
-       collect(DISTINCT crole.description) AS cyanorak_roles
+       collect(DISTINCT crole.name) AS cyanorak_roles
 ```
 
 ### Find What Affects a Gene
@@ -491,9 +491,9 @@ ORDER BY ec.id
 
 // Genes by Cyanorak functional role
 MATCH (g:Gene)-[:Gene_has_cyanorak_role]->(role:CyanorakRole)
-WHERE role.description CONTAINS 'Photosynthesis'
+WHERE role.name CONTAINS 'Photosynthesis'
 MATCH (g)-[:Gene_belongs_to_organism]->(o:OrganismTaxon)
-RETURN g.locus_tag, g.product, role.description, o.strain_name
+RETURN g.locus_tag, g.product, role.name, o.strain_name
 ORDER BY o.strain_name
 ```
 

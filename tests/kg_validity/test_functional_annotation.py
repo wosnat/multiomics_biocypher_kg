@@ -561,14 +561,14 @@ def test_cyanorak_role_node_count(run_query):
 
 
 def test_cyanorak_role_nodes_have_properties(run_query):
-    """All CyanorakRole nodes must have both code and description properties."""
+    """All CyanorakRole nodes must have both code and name properties."""
     result = run_query("""
         MATCH (n:CyanorakRole)
-        WHERE n.code IS NULL OR n.description IS NULL
+        WHERE n.code IS NULL OR n.name IS NULL
         RETURN count(n) AS missing
     """)
     assert result[0]["missing"] == 0, (
-        f"{result[0]['missing']} CyanorakRole nodes are missing code or description"
+        f"{result[0]['missing']} CyanorakRole nodes are missing code or name"
     )
 
 
@@ -633,14 +633,14 @@ def test_tigr_role_node_count(run_query):
 
 
 def test_tigr_role_nodes_have_properties(run_query):
-    """All TigrRole nodes must have both code and description properties."""
+    """All TigrRole nodes must have both code and name properties."""
     result = run_query("""
         MATCH (n:TigrRole)
-        WHERE n.code IS NULL OR n.description IS NULL
+        WHERE n.code IS NULL OR n.name IS NULL
         RETURN count(n) AS missing
     """)
     assert result[0]["missing"] == 0, (
-        f"{result[0]['missing']} TigrRole nodes are missing code or description"
+        f"{result[0]['missing']} TigrRole nodes are missing code or name"
     )
 
 

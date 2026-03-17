@@ -41,7 +41,9 @@
       "Bash(docker exec -i deploy cypher-shell -a bolt://localhost:7687)",
       "Bash(echo \"MATCH \\(g:Gene\\) WHERE NOT \\(g\\)<-[:Affects_expression_of]-\\(\\) AND NOT \\(g\\)<-[:Affects_expression_of_homolog]-\\(\\) RETURN count\\(g\\) AS genes_no_expression;\")",
       "WebFetch(domain:biocypher.org)",
-      "mcp__multiomics-kg__run_cypher"
+      "mcp__multiomics-kg__run_cypher",
+      "WebSearch",
+      "mcp__multiomics-kg__get_gene_details"
     ]
   }
 }

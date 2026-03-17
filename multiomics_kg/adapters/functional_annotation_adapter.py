@@ -959,7 +959,7 @@ class MultiCogRoleAnnotationAdapter:
             yield (
                 _cyanorak_role_node_id(code),
                 "cyanorak role",
-                {"code": code, "description": _clean_str(full_role_description(code, self.role_tree))},
+                {"code": code, "name": _clean_str(full_role_description(code, self.role_tree))},
             )
             cyr_count += 1
         logger.info(f"MultiCogRoleAnnotationAdapter.get_nodes: {cyr_count} CyanorakRole nodes")
@@ -971,7 +971,7 @@ class MultiCogRoleAnnotationAdapter:
             yield (
                 _tigr_role_node_id(code),
                 "tigr role",
-                {"code": code, "description": _clean_str(desc)},
+                {"code": code, "name": _clean_str(desc)},
             )
             tigr_count += 1
         logger.info(f"MultiCogRoleAnnotationAdapter.get_nodes: {tigr_count} TigrRole nodes")

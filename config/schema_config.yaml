@@ -385,7 +385,7 @@ cyanorak role:
   label_in_input: cyanorak role
   properties:
     code: str
-    description: str
+    name: str
 
 tigr role:
   is_a: named thing
@@ -394,7 +394,7 @@ tigr role:
   label_in_input: tigr role
   properties:
     code: str
-    description: str
+    name: str
 
 
 # ---

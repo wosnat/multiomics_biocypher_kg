@@ -407,18 +407,18 @@ class TestMultiCogRoleAdapterCyanorakNodes:
         for code in role_tree:
             assert _cyanorak_role_node_id(code) in cyr_ids, f"Missing CyanorakRole node: {code}"
 
-    def test_cyanorak_node_has_code_and_description(self, multi_adapter):
+    def test_cyanorak_node_has_code_and_name(self, multi_adapter):
         nodes = list(multi_adapter.get_nodes())
         for node_id, label, props in nodes:
             if label == "cyanorak role":
                 assert "code" in props, f"CyanorakRole node {node_id} missing 'code'"
-                assert "description" in props, f"CyanorakRole node {node_id} missing 'description'"
+                assert "name" in props, f"CyanorakRole node {node_id} missing 'name'"
 
-    def test_cyanorak_node_description_correct(self, multi_adapter):
+    def test_cyanorak_node_name_correct(self, multi_adapter):
         nodes = list(multi_adapter.get_nodes())
         cyr_nodes = {n[0]: n[2] for n in nodes if n[1] == "cyanorak role"}
-        assert cyr_nodes[_cyanorak_role_node_id("0.1")]["description"] == "Non-coding gene (RNA) > tRNA"
-        assert cyr_nodes[_cyanorak_role_node_id("B")]["description"] == "Cellular processes"
+        assert cyr_nodes[_cyanorak_role_node_id("0.1")]["name"] == "Non-coding gene (RNA) > tRNA"
+        assert cyr_nodes[_cyanorak_role_node_id("B")]["name"] == "Cellular processes"
 
 
 class TestMultiCogRoleAdapterTigrNodes:
@@ -435,12 +435,12 @@ class TestMultiCogRoleAdapterTigrNodes:
         assert _tigr_role_node_id("67890") in tigr_ids
         assert _tigr_role_node_id("99999") in tigr_ids
 
-    def test_tigr_node_has_code_and_description(self, multi_adapter):
+    def test_tigr_node_has_code_and_name(self, multi_adapter):
         nodes = list(multi_adapter.get_nodes())
         for node_id, label, props in nodes:
             if label == "tigr role":
                 assert "code" in props
-                assert "description" in props
+                assert "name" in props
 
 
 class TestMultiCogRoleAdapterNoDuplicateNodes:
@@ -577,7 +577,7 @@ class TestStringCleanStr:
             (n for n in nodes if n[1] == "tigr role" and "99999" in n[0]), None
         )
         assert tigr_99999 is not None, "TigrRole node for 99999 not found"
-        desc = tigr_99999[2]["description"]
+        desc = tigr_99999[2]["name"]
         assert "'" not in desc
         assert "|" not in desc
 

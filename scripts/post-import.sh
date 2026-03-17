@@ -27,6 +27,12 @@ CREATE FULLTEXT INDEX ecNumberFullText IF NOT EXISTS
   FOR (n:EcNumber) ON EACH [n.name];
 CREATE FULLTEXT INDEX keggFullText IF NOT EXISTS
   FOR (n:KeggTerm) ON EACH [n.name];
+CREATE FULLTEXT INDEX cogCategoryFullText IF NOT EXISTS
+  FOR (n:CogFunctionalCategory) ON EACH [n.name];
+CREATE FULLTEXT INDEX cyanorakRoleFullText IF NOT EXISTS
+  FOR (n:CyanorakRole) ON EACH [n.name];
+CREATE FULLTEXT INDEX tigrRoleFullText IF NOT EXISTS
+  FOR (n:TigrRole) ON EACH [n.name];
 CYPHER
 
 echo "=== Post-process: Create OrthologGroup indexes ==="
