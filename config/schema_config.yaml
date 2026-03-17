@@ -168,10 +168,6 @@ gene:
     alternate_functional_descriptions: str[]  # all-source descriptions for LLM use: "[source] text"
     old_locus_tags: str[]             # old-style locus tags (for paper ID mapping)
     protein_family: str               # protein family name
-    # Pfam domains
-    pfam_ids: str[]
-    pfam_names: str[]
-    pfam_descriptions: str[]
     # Specialized function
     catalytic_activities: str[]
     transmembrane_regions: str[]
@@ -394,6 +390,23 @@ tigr role:
   label_in_input: tigr role
   properties:
     code: str
+    name: str
+
+pfam:
+  is_a: named thing
+  represented_as: node
+  preferred_id: pfam
+  label_in_input: pfam
+  properties:
+    name: str
+    short_name: str
+
+pfam clan:
+  is_a: named thing
+  represented_as: node
+  preferred_id: pfam.clan
+  label_in_input: pfam_clan
+  properties:
     name: str
 
 
@@ -767,6 +780,22 @@ gene to tigr role association:
   source: gene
   target: tigr role
   label_in_input: gene_has_tigr_role
+
+gene to pfam association:
+  is_a: association
+  represented_as: edge
+  label_as_edge: Gene_has_pfam
+  source: gene
+  target: pfam
+  label_in_input: gene_has_pfam
+
+pfam in pfam clan:
+  is_a: association
+  represented_as: edge
+  label_as_edge: Pfam_in_pfam_clan
+  source: pfam
+  target: pfam clan
+  label_in_input: pfam_in_pfam_clan
 
 # gene to gene regulatory association:
 #   is_a: pairwise gene to gene interaction

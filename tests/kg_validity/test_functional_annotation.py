@@ -666,3 +666,106 @@ def test_gene_tigr_role_edges_connect_correct_types(run_query):
         f"{result[0]['bad']} Gene_has_tigr_role edges connect wrong node types "
         f"(expected Gene -> TigrRole)"
     )
+
+
+# ---------------------------------------------------------------------------
+# Pfam: node counts, properties, gene edges, and clan edges
+# ---------------------------------------------------------------------------
+
+def test_pfam_node_count(run_query):
+    """Pfam domain nodes must exist with count > 0."""
+    result = run_query("MATCH (n:Pfam) RETURN count(n) AS cnt")
+    cnt = result[0]["cnt"]
+    assert cnt > 0, "No Pfam nodes found in graph"
+
+
+def test_pfam_clan_node_count(run_query):
+    """PfamClan superfamily nodes must exist with count > 0."""
+    result = run_query("MATCH (n:PfamClan) RETURN count(n) AS cnt")
+    cnt = result[0]["cnt"]
+    assert cnt > 0, "No PfamClan nodes found in graph"
+
+
+def test_pfam_nodes_have_name(run_query):
+    """All Pfam nodes must have a non-null name property."""
+    result = run_query(
+        "MATCH (n:Pfam) WHERE n.name IS NULL RETURN count(n) AS missing"
+    )
+    assert result[0]["missing"] == 0, (
+        f"{result[0]['missing']} Pfam nodes are missing the name property"
+    )
+
+
+def test_pfam_nodes_have_short_name(run_query):
+    """All Pfam nodes must have a non-null short_name property."""
+    result = run_query(
+        "MATCH (n:Pfam) WHERE n.short_name IS NULL RETURN count(n) AS missing"
+    )
+    assert result[0]["missing"] == 0, (
+        f"{result[0]['missing']} Pfam nodes are missing the short_name property"
+    )
+
+
+def test_pfam_clan_nodes_have_name(run_query):
+    """All PfamClan nodes must have a non-null name property."""
+    result = run_query(
+        "MATCH (n:PfamClan) WHERE n.name IS NULL RETURN count(n) AS missing"
+    )
+    assert result[0]["missing"] == 0, (
+        f"{result[0]['missing']} PfamClan nodes are missing the name property"
+    )
+
+
+def test_gene_has_pfam_edge_count(run_query):
+    """Gene_has_pfam edges must exist with count > 0."""
+    result = run_query(
+        "MATCH ()-[r:Gene_has_pfam]->() RETURN count(r) AS cnt"
+    )
+    cnt = result[0]["cnt"]
+    assert cnt > 0, "No Gene_has_pfam edges found in graph"
+
+
+def test_pfam_in_pfam_clan_edge_count(run_query):
+    """Pfam_in_pfam_clan edges must exist with count > 0."""
+    result = run_query(
+        "MATCH ()-[r:Pfam_in_pfam_clan]->() RETURN count(r) AS cnt"
+    )
+    cnt = result[0]["cnt"]
+    assert cnt > 0, "No Pfam_in_pfam_clan edges found in graph"
+
+
+def test_gene_has_pfam_connects_correct_types(run_query):
+    """Gene_has_pfam must connect Gene -> Pfam (not PfamClan)."""
+    result = run_query("""
+        MATCH (src)-[r:Gene_has_pfam]->(tgt)
+        WHERE NOT src:Gene OR NOT tgt:Pfam
+        RETURN count(r) AS bad
+    """)
+    assert result[0]["bad"] == 0, (
+        f"{result[0]['bad']} Gene_has_pfam edges connect wrong node types "
+        f"(expected Gene -> Pfam, not PfamClan)"
+    )
+
+
+def test_pfam_in_pfam_clan_connects_correct_types(run_query):
+    """Pfam_in_pfam_clan must connect Pfam -> PfamClan."""
+    result = run_query("""
+        MATCH (src)-[r:Pfam_in_pfam_clan]->(tgt)
+        WHERE NOT src:Pfam OR NOT tgt:PfamClan
+        RETURN count(r) AS bad
+    """)
+    assert result[0]["bad"] == 0, (
+        f"{result[0]['bad']} Pfam_in_pfam_clan edges connect wrong node types "
+        f"(expected Pfam -> PfamClan)"
+    )
+
+
+def test_pfam_ids_dropped_from_gene_nodes(run_query):
+    """pfam_ids property must NOT exist on Gene nodes (replaced by graph edges)."""
+    result = run_query(
+        "MATCH (g:Gene) WHERE g.pfam_ids IS NOT NULL RETURN count(g) AS cnt"
+    )
+    cnt = result[0]["cnt"]
+    assert cnt == 0, (
+        f"{cnt} Gene nodes still have pfam_ids property (should be dropped)"
+    )

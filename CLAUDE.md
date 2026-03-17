@@ -86,6 +86,7 @@ Most adapters have a single-source class (e.g., `CyanorakNcbi`) and a **Multi***
 - **go_adapter.py** — Gene Ontology terms and GO→protein edges
 - **ec_adapter.py** — Enzyme Commission number hierarchy
 - **pathway_adapter.py** — Metabolic/signaling pathway associations
+- **functional_annotation_adapter.py** — Gene→GO edges (per-strain from `gene_annotations_merged.json`), Gene→Pfam edges + Pfam/PfamClan nodes (from `pfam_ids` in merged annotations + Pfam reference data)
 - **ortholog_group_adapter.py** — OrthologGroup nodes and Gene_in_ortholog_group edges from pre-computed `ortholog_groups` field in `gene_annotations_merged.json`
 - **pdf_publication_extraction.py** — LangChain-based LLM extraction of publication metadata from PDFs
 
@@ -111,6 +112,8 @@ Most adapters have a single-source class (e.g., `CyanorakNcbi`) and a **Multi***
 - Publications: DOI
 - GO terms: GO:XXXXXXX
 - OrthologGroups: `ortholog_group:<source>:<name>` (e.g., `ortholog_group:cyanorak:CK_00000364`)
+- Pfam domains: `pfam:PF00712`
+- Pfam clans: `pfam.clan:CL0060`
 - EC numbers: EC hierarchy string
 
 ### Docker Pipeline Stages
@@ -307,6 +310,7 @@ Logs written to `logs/prepare_data_step0.log` … `logs/prepare_data_step4.log`.
 - **Extended gene ID mapping:** `cache/data/<Organism>/genomes/<Strain>/gene_id_mapping.json` (built by step 3; includes paper-derived IDs)
 - **Backward-compat ID mapping:** `cache/data/<Organism>/genomes/<Strain>/gene_mapping_supp.csv` (generated alongside gene_id_mapping.json)
 - **UniProt cache (taxid-keyed):** `cache/data/<org_group>/uniprot/<taxid>/uniprot_preprocess_data.json`
+- **Pfam reference cache:** `cache/data/pfam/pfam_reference.json`
 - **PDF extraction cache:** `pdf_extraction_cache.json`
 
 ## KG Validity Tests
@@ -333,8 +337,8 @@ uv run python tests/kg_validity/generate_snapshot.py
 
 ### Actual Neo4j labels (BioCypher PascalCase output)
 
-- Nodes: `Gene`, `Protein`, `OrganismTaxon`, `Publication`, `EnvironmentalCondition`, `OrthologGroup`, `BiologicalProcess`, `CellularComponent`, `MolecularFunction`, `EcNumber`, `KeggTerm`, `CogFunctionalCategory`, `CyanorakRole`, `TigrRole`
-- Relationships: `Gene_belongs_to_organism`, `Protein_belongs_to_organism`, `Gene_encodes_protein`, `Gene_in_ortholog_group`, `Condition_changes_expression_of`, `Coculture_changes_expression_of`, `Published_expression_data_about`, `Gene_involved_in_biological_process`, `Gene_located_in_cellular_component`, `Gene_enables_molecular_function`, `Biological_process_is_a_biological_process`, `Cellular_component_is_a_cellular_component`, `Molecular_function_is_a_molecular_function`, `Ec_number_is_a_ec_number`, `Gene_catalyzes_ec_number`, `Gene_has_kegg_ko`, `Kegg_term_is_a_kegg_term`, `Gene_in_cog_category`, `Gene_has_cyanorak_role`, `Gene_has_tigr_role`, `Cyanorak_role_is_a_cyanorak_role`
+- Nodes: `Gene`, `Protein`, `OrganismTaxon`, `Publication`, `EnvironmentalCondition`, `OrthologGroup`, `BiologicalProcess`, `CellularComponent`, `MolecularFunction`, `EcNumber`, `KeggTerm`, `CogFunctionalCategory`, `CyanorakRole`, `TigrRole`, `Pfam`, `PfamClan`
+- Relationships: `Gene_belongs_to_organism`, `Protein_belongs_to_organism`, `Gene_encodes_protein`, `Gene_in_ortholog_group`, `Condition_changes_expression_of`, `Coculture_changes_expression_of`, `Published_expression_data_about`, `Gene_involved_in_biological_process`, `Gene_located_in_cellular_component`, `Gene_enables_molecular_function`, `Biological_process_is_a_biological_process`, `Cellular_component_is_a_cellular_component`, `Molecular_function_is_a_molecular_function`, `Ec_number_is_a_ec_number`, `Gene_catalyzes_ec_number`, `Gene_has_kegg_ko`, `Kegg_term_is_a_kegg_term`, `Gene_in_cog_category`, `Gene_has_cyanorak_role`, `Gene_has_tigr_role`, `Cyanorak_role_is_a_cyanorak_role`, `Gene_has_pfam`, `Pfam_in_pfam_clan`
 
 ### Key graph facts
 
@@ -342,13 +346,14 @@ uv run python tests/kg_validity/generate_snapshot.py
 - Expression sources: `EnvironmentalCondition` → `Condition_changes_expression_of` (~170K edges, stress experiments); `OrganismTaxon` → `Coculture_changes_expression_of` (~17K edges, coculture experiments); total direct edges ~188K (TODO: update after build)
 - OrthologGroup nodes: ~21K nodes with `name` (raw OG ID, e.g. "CK_00000364" or "COG0592@2"), `source` ("cyanorak"|"eggnog"), `taxonomic_level` (e.g. "curated", "Prochloraceae", "Bacteria"), `taxon_id` (int), `specificity_rank` (0=curated, 1=family, 2=order, 3=domain), `consensus_product` (majority-vote product from members), `consensus_gene_name` (most frequent gene name), `member_count` (int), `organism_count` (int), `genera` (str[], e.g. ["Prochlorococcus", "Alteromonas"]), `has_cross_genus_members` ("cross_genus"|"single_genus"). Sources: Cyanorak curated clusters (Pro/Syn), eggNOG lowest-level OGs (per organism group whitelist in `ORGANISM_GROUP_LEVELS`), eggNOG Bacteria-level COGs. Expression propagation is query-time via 2-hop (`gene->OG<-gene`) instead of materialized ortholog edges.
 - `Gene_in_ortholog_group` edges: ~84,500 membership edges. A gene may have 1-3 memberships (Cyanorak + eggnog bacteria-level + eggnog lowest-level).
+- Pfam domain nodes: ~2K `Pfam` nodes (only domains referenced by genes) with `name` (description), `short_name` (Pfam shortname); ~800 `PfamClan` nodes (superfamilies) with `name` (clan name). ~25K `Gene_has_pfam` edges, ~1.5K `Pfam_in_pfam_clan` edges. Node IDs use bioregistry CURIEs: `pfam:PF*` and `pfam.clan:CL*`. Pfam reference data downloaded from `Pfam-A.clans.tsv.gz`; eggNOG shortnames resolved to PF* accessions via reverse lookup (TODO: update counts after build)
 - New edge properties on all expression edge types: `omics_type` (RNASEQ | PROTEOMICS | METABOLOMICS | MICROARRAY), `organism_strain`, `treatment_condition`, `statistical_test`, `analysis_name` (human-readable description of the comparison, from paperconfig `name` field)
 - `condition_category` property on `EnvironmentalCondition` nodes (same value as `condition_type`)
 - `medium` and `temperature` properties on `EnvironmentalCondition` nodes (when provided in paperconfig `environmental_conditions` blocks)
 - `preferred_name` property on `OrganismTaxon` nodes (e.g., `"Prochlorococcus MED4"`)
 - Gene node computed fields for MCP gene lookup: `organism_strain` (preferred organism name), `gene_summary` ("name :: product :: description"), `all_identifiers` (union of all alt IDs)
-- Gene nodes carry ~28 properties (down from ~58 after dropping pipeline metadata, redundant Cyanorak coordinates, ontology ID lists, EggNOG/COG internals, and role properties now represented as graph edges). Kept properties: core (locus_tag, start, end, strand, product, protein_id), naming (gene_name, gene_synonyms, gene_name_synonyms, alternative_locus_tags, alternate_functional_descriptions, old_locus_tags, function_description), Pfam (pfam_ids, pfam_names, pfam_descriptions), function (protein_family, catalytic_activities, transmembrane_regions, signal_peptide, transporter_classification, cazy_ids, bigg_reaction), computed (organism_strain, gene_summary, all_identifiers), quality (annotation_quality, gene_category)
-- Post-import indexes: scalar (`gene_locus_tag_idx`, `gene_name_idx`, `gene_organism_strain_idx`, `ortholog_group_id_idx`, `ortholog_group_name_idx`, `ortholog_group_level_idx`, `ortholog_group_rank_idx`) + full-text (`geneFullText` on gene_summary, gene_synonyms, alternate_functional_descriptions, pfam_names; `biologicalProcessFullText`, `molecularFunctionFullText`, `cellularComponentFullText`, `ecNumberFullText`, `keggFullText`, `cogCategoryFullText`, `cyanorakRoleFullText`, `tigrRoleFullText` on ontology/role node `name` properties)
+- Gene nodes carry ~25 properties (down from ~58 after dropping pipeline metadata, redundant Cyanorak coordinates, ontology ID lists, EggNOG/COG internals, role properties now represented as graph edges, and Pfam properties now represented as Pfam nodes + Gene_has_pfam edges). Kept properties: core (locus_tag, start, end, strand, product, protein_id), naming (gene_name, gene_synonyms, gene_name_synonyms, alternative_locus_tags, alternate_functional_descriptions, old_locus_tags, function_description), function (protein_family, catalytic_activities, transmembrane_regions, signal_peptide, transporter_classification, cazy_ids, bigg_reaction), computed (organism_strain, gene_summary, all_identifiers), quality (annotation_quality, gene_category)
+- Post-import indexes: scalar (`gene_locus_tag_idx`, `gene_name_idx`, `gene_organism_strain_idx`, `ortholog_group_id_idx`, `ortholog_group_name_idx`, `ortholog_group_level_idx`, `ortholog_group_rank_idx`, `pfam_name_idx`, `pfam_clan_name_idx`) + full-text (`geneFullText` on gene_summary, gene_synonyms, alternate_functional_descriptions; `pfamFullText` on Pfam name, short_name; `pfamClanFullText` on PfamClan name; `biologicalProcessFullText`, `molecularFunctionFullText`, `cellularComponentFullText`, `ecNumberFullText`, `keggFullText`, `cogCategoryFullText`, `cyanorakRoleFullText`, `tigrRoleFullText` on ontology/role node `name` properties)
 - `Published_expression_data_about` edges: `(Publication)→(EnvironmentalCondition)` and `(Publication)→(OrganismTaxon)` — one edge per distinct source node used in a publication's analyses
 - `adjusted_p_value` may be null on expression edges when the original study did not report it
 - Strains in graph: MED4, AS9601, MIT9301, MIT9312, MIT9313, NATL1A, NATL2A, RSP50 (Prochlorococcus); CC9311 (Synechococcus); WH8102 (Parasynechococcus); MIT1002, EZ55, HOT1A3 (Alteromonas)

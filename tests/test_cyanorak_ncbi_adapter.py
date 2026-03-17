@@ -38,7 +38,6 @@ MERGED_JSON_DATA = {
         "cluster_number": "CK_00000364",
         "protein_family": "Beta sliding clamp family",
         "pfam_ids": ["PF02768"],
-        "pfam_descriptions": ["Beta sliding clamp, N-terminal domain"],
         "organism_strain": "Prochlorococcus MED4",
         "gene_summary": "dnaN :: DNA polymerase III, beta subunit :: Replicative DNA polymerase beta subunit",
         "all_identifiers": ["CK_Pro_MED4_00001", "TX50_RS00020", "WP_011131639.1"],
@@ -162,7 +161,6 @@ class TestGeneNodeFieldEnum:
     def test_new_fields_exist(self):
         assert GeneNodeField.GENE_NAME.value == "gene_name"
         assert GeneNodeField.GENE_SYNONYMS.value == "gene_synonyms"
-        assert GeneNodeField.PFAM_IDS.value == "pfam_ids"
         assert GeneNodeField.ANNOTATION_QUALITY.value == "annotation_quality"
 
     def test_old_fields_removed(self):
@@ -463,7 +461,15 @@ class TestGetGeneNodes:
         pmm0001 = next(n for n in nodes if n[1] == "gene" and "PMM0001" in n[0])
         props = pmm0001[2]
         assert isinstance(props.get("gene_synonyms"), list)
-        assert isinstance(props.get("pfam_ids"), list)
+
+    def test_pfam_fields_not_in_gene_nodes(self, adapter):
+        """Pfam properties are removed from Gene nodes (now graph edges)."""
+        nodes = adapter.get_nodes()
+        pmm0001 = next(n for n in nodes if n[1] == "gene" and "PMM0001" in n[0])
+        props = pmm0001[2]
+        assert "pfam_ids" not in props
+        assert "pfam_names" not in props
+        assert "pfam_descriptions" not in props
 
     def test_numeric_fields_correct_types(self, adapter):
         nodes = adapter.get_nodes()
@@ -982,8 +988,8 @@ class TestIntegrationWithRealData:
         for _, _, props in [n for n in nodes if n[1] == "gene"][:10]:
             if "gene_synonyms" in props:
                 assert isinstance(props["gene_synonyms"], list)
-            if "pfam_ids" in props:
-                assert isinstance(props["pfam_ids"], list)
+            # pfam_ids removed from Gene nodes (now graph edges via PfamAnnotationAdapter)
+            assert "pfam_ids" not in props
 
 
 # ---------------------------------------------------------------------------

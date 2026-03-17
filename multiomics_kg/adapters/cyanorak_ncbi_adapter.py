@@ -113,10 +113,6 @@ class GeneNodeField(Enum, metaclass=GeneEnumMeta):
     ALTERNATE_FUNCTIONAL_DESCRIPTIONS = 'alternate_functional_descriptions'
     OLD_LOCUS_TAGS = 'old_locus_tags'
     PROTEIN_FAMILY = 'protein_family'
-    # Pfam domains
-    PFAM_IDS = 'pfam_ids'
-    PFAM_NAMES = 'pfam_names'
-    PFAM_DESCRIPTIONS = 'pfam_descriptions'
     # Specialized function
     CATALYTIC_ACTIVITY = 'catalytic_activities'
     TRANSMEMBRANE_REGIONS = 'transmembrane_regions'

@@ -11,7 +11,7 @@ CREATE INDEX gene_organism_strain_idx IF NOT EXISTS FOR (g:Gene) ON (g.organism_
 // Full-text index for find_gene free-text search
 CREATE FULLTEXT INDEX geneFullText IF NOT EXISTS FOR (n:Gene) ON EACH [
   n.gene_summary, n.gene_synonyms,
-  n.alternate_functional_descriptions, n.pfam_names];
+  n.alternate_functional_descriptions];
 
 // Full-text indexes for ontology term search (search_ontology tool)
 CREATE FULLTEXT INDEX biologicalProcessFullText IF NOT EXISTS
@@ -36,3 +36,12 @@ CREATE INDEX ortholog_group_id_idx IF NOT EXISTS FOR (og:OrthologGroup) ON (og.i
 CREATE INDEX ortholog_group_name_idx IF NOT EXISTS FOR (og:OrthologGroup) ON (og.name);
 CREATE INDEX ortholog_group_level_idx IF NOT EXISTS FOR (og:OrthologGroup) ON (og.taxonomic_level);
 CREATE INDEX ortholog_group_rank_idx IF NOT EXISTS FOR (og:OrthologGroup) ON (og.specificity_rank);
+
+// Pfam domain and clan indexes
+CREATE INDEX pfam_name_idx IF NOT EXISTS FOR (p:Pfam) ON (p.name);
+CREATE INDEX pfam_clan_name_idx IF NOT EXISTS FOR (c:PfamClan) ON (c.name);
+
+CREATE FULLTEXT INDEX pfamFullText IF NOT EXISTS
+  FOR (p:Pfam) ON EACH [p.name, p.short_name];
+CREATE FULLTEXT INDEX pfamClanFullText IF NOT EXISTS
+  FOR (c:PfamClan) ON EACH [c.name];

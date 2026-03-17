@@ -1,6 +1,6 @@
 """
-Functional annotation adapters: gene→GO, gene→EC, gene→KEGG, and gene→COG/role edges,
-plus corresponding nodes.
+Functional annotation adapters: gene→GO, gene→EC, gene→KEGG, gene→COG/role,
+and gene→Pfam edges, plus corresponding nodes.
 
 GO section (MultiGoAnnotationAdapter):
 - GO nodes (BiologicalProcess, CellularComponent, MolecularFunction) for only the
@@ -33,6 +33,12 @@ COG/Role section (MultiCogRoleAnnotationAdapter):
 - gene_has_cyanorak_role edges (Pro/Syn 6 strains only).
 - cyanorak_role_is_a_cyanorak_role hierarchy edges (full tree).
 - gene_has_tigr_role edges (Pro/Syn 6 strains only).
+
+Pfam section (MultiPfamAnnotationAdapter):
+- Pfam domain nodes (~2K referenced by genes) with name and short_name.
+- PfamClan superfamily nodes (~800 clans referenced by emitted domains).
+- gene_has_pfam edges from gene annotations (pfam_ids field).
+- pfam_in_pfam_clan edges (domain → clan).
 """
 
 import csv
@@ -51,6 +57,7 @@ from multiomics_kg.utils.go_utils import (
     load_go_data,
     make_go_go_edge_label,
 )
+from multiomics_kg.utils.pfam_utils import load_pfam_data
 
 logger = logging.getLogger(__name__)
 
@@ -1020,4 +1027,221 @@ class MultiCogRoleAnnotationAdapter:
 
         logger.info(
             f"MultiCogRoleAnnotationAdapter.get_edges: {hier_count} CyanorakRole hierarchy edges"
+        )
+
+
+# ---------------------------------------------------------------------------
+# Pfam domain annotation: gene→Pfam edges + Pfam/PfamClan nodes
+# ---------------------------------------------------------------------------
+
+def _pfam_node_id(pf_accession: str) -> str:
+    """Normalize a Pfam accession to the node ID format."""
+    return normalize_curie(f"pfam:{pf_accession}") or f"pfam:{pf_accession}"
+
+
+def _pfam_clan_node_id(clan_accession: str) -> str:
+    """Normalize a PfamClan accession to the node ID format."""
+    return normalize_curie(f"pfam.clan:{clan_accession}") or f"pfam.clan:{clan_accession}"
+
+
+class PfamAnnotationAdapter:
+    """
+    Per-strain adapter: reads gene_annotations_merged.json and yields gene→Pfam edges.
+
+    Args:
+        genome_dir: directory containing ``gene_annotations_merged.json``
+        test_mode: if True, stop after 100 edges
+    """
+
+    def __init__(self, genome_dir: Path, test_mode: bool = False) -> None:
+        self.genome_dir = Path(genome_dir)
+        self.test_mode = test_mode
+        self._genes: dict = {}
+        self._load()
+
+    def _load(self) -> None:
+        json_path = self.genome_dir / "gene_annotations_merged.json"
+        if not json_path.exists():
+            logger.warning(f"gene_annotations_merged.json not found at {json_path}, skipping")
+            return
+        with open(json_path, encoding="utf-8") as fh:
+            self._genes = json.load(fh)
+        logger.debug(f"Loaded {len(self._genes)} genes from {json_path}")
+
+    def get_all_pfam_ids(self) -> set[str]:
+        """Return all PF* IDs directly referenced by any gene in this strain."""
+        ids: set[str] = set()
+        for gene in self._genes.values():
+            for pf_id in gene.get("pfam_ids") or []:
+                if pf_id:
+                    ids.add(pf_id)
+        return ids
+
+    def get_edges(self):
+        """
+        Yield gene→Pfam edges as 5-tuples::
+
+            (edge_id, gene_node_id, pfam_node_id, edge_label, properties)
+        """
+        count = 0
+        for locus_tag, gene in self._genes.items():
+            for pf_id in gene.get("pfam_ids") or []:
+                if not pf_id:
+                    continue
+                yield (
+                    f"{locus_tag}-has_pfam-{pf_id}",
+                    _gene_node_id(locus_tag),
+                    _pfam_node_id(pf_id),
+                    "gene_has_pfam",
+                    {},
+                )
+                count += 1
+                if self.test_mode and count >= 100:
+                    logger.debug(
+                        f"PfamAnnotationAdapter({self.genome_dir.name}): test_mode stop at {count}"
+                    )
+                    return
+        logger.debug(f"PfamAnnotationAdapter({self.genome_dir.name}): yielded {count} gene→Pfam edges")
+
+
+class MultiPfamAnnotationAdapter:
+    """
+    Multi-strain adapter: owns all Pfam graph content.
+
+    Creates:
+    - ``Pfam`` domain nodes (only those referenced by genes, ~2K).
+    - ``PfamClan`` superfamily nodes (only clans referenced by emitted domains).
+    - ``gene_has_pfam`` edges from per-strain gene annotations.
+    - ``pfam_in_pfam_clan`` edges (domain → clan).
+
+    Args:
+        genome_config_file: path to ``cyanobacteria_genomes.csv``
+        cache_root: project-level cache directory (e.g. ``Path("cache/data")``)
+        test_mode: passed to per-strain adapters (stop after 100 edges)
+        cache: if False, force re-download Pfam data even if cache exists
+    """
+
+    def __init__(
+        self,
+        genome_config_file: str,
+        cache_root: Path,
+        test_mode: bool = False,
+        cache: bool = True,
+    ) -> None:
+        self.test_mode = test_mode
+        self.pfam_data = load_pfam_data(cache_root, force=not cache)
+        self._strain_adapters: list[PfamAnnotationAdapter] = []
+        self._build_strain_adapters(genome_config_file)
+
+    def _build_strain_adapters(self, genome_config_file: str) -> None:
+        with open(genome_config_file, newline="", encoding="utf-8") as fh:
+            lines = [line for line in fh if not line.lstrip().startswith("#")]
+        reader = csv.DictReader(lines)
+        for row in reader:
+            data_dir = row.get("data_dir", "").strip()
+            if not data_dir:
+                continue
+            self._strain_adapters.append(
+                PfamAnnotationAdapter(genome_dir=Path(data_dir), test_mode=self.test_mode)
+            )
+        logger.info(f"MultiPfamAnnotationAdapter: loaded {len(self._strain_adapters)} strain adapters")
+
+    def _all_pfam_ids(self) -> set[str]:
+        """Collect all PF* IDs referenced across all strains."""
+        ids: set[str] = set()
+        for adapter in self._strain_adapters:
+            ids |= adapter.get_all_pfam_ids()
+        return ids
+
+    def get_nodes(self):
+        """
+        Yield Pfam domain nodes and PfamClan nodes.
+
+        1. Pfam domain nodes — only PF* IDs referenced by at least one gene.
+        2. PfamClan nodes — only clans referenced by at least one emitted domain.
+        """
+        all_pf_ids = self._all_pfam_ids()
+        logger.info(f"MultiPfamAnnotationAdapter: {len(all_pf_ids)} unique Pfam IDs across all strains")
+
+        # Track which clans are referenced by emitted domains
+        referenced_clans: dict[str, str] = {}  # clan_accession -> clan_name
+
+        # 1. Pfam domain nodes
+        pfam_count = 0
+        missing_count = 0
+        for pf_id in sorted(all_pf_ids):
+            entry = self.pfam_data.by_accession.get(pf_id)
+            if entry is None:
+                missing_count += 1
+                # Emit node with just the ID as name
+                yield (
+                    _pfam_node_id(pf_id),
+                    "pfam",
+                    {"name": pf_id, "short_name": pf_id},
+                )
+                pfam_count += 1
+                continue
+
+            yield (
+                _pfam_node_id(pf_id),
+                "pfam",
+                {
+                    "name": _clean_str(entry.description),
+                    "short_name": _clean_str(entry.shortname),
+                },
+            )
+            pfam_count += 1
+
+            if entry.clan_accession and entry.clan_name:
+                referenced_clans[entry.clan_accession] = entry.clan_name
+
+        if missing_count:
+            logger.warning(
+                f"MultiPfamAnnotationAdapter: {missing_count} Pfam IDs not found in reference data"
+            )
+        logger.info(f"MultiPfamAnnotationAdapter.get_nodes: {pfam_count} Pfam domain nodes")
+
+        # 2. PfamClan nodes
+        clan_count = 0
+        for clan_acc in sorted(referenced_clans):
+            clan_name = referenced_clans[clan_acc]
+            yield (
+                _pfam_clan_node_id(clan_acc),
+                "pfam clan",
+                {"name": _clean_str(clan_name)},
+            )
+            clan_count += 1
+        logger.info(f"MultiPfamAnnotationAdapter.get_nodes: {clan_count} PfamClan nodes")
+
+    def get_edges(self):
+        """
+        Yield all Pfam edges:
+        1. gene→Pfam (gene_has_pfam) from per-strain adapters
+        2. Pfam→PfamClan (pfam_in_pfam_clan) for domains that have a clan
+        """
+        # 1. gene → Pfam edges
+        gene_pfam_count = 0
+        for adapter in self._strain_adapters:
+            for edge in adapter.get_edges():
+                yield edge
+                gene_pfam_count += 1
+        logger.info(f"MultiPfamAnnotationAdapter.get_edges: {gene_pfam_count} gene→Pfam edges")
+
+        # 2. Pfam → PfamClan edges
+        all_pf_ids = self._all_pfam_ids()
+        clan_edge_count = 0
+        for pf_id in sorted(all_pf_ids):
+            entry = self.pfam_data.by_accession.get(pf_id)
+            if entry is None or not entry.clan_accession:
+                continue
+            yield (
+                f"{pf_id}-in_clan-{entry.clan_accession}",
+                _pfam_node_id(pf_id),
+                _pfam_clan_node_id(entry.clan_accession),
+                "pfam_in_pfam_clan",
+                {},
+            )
+            clan_edge_count += 1
+        logger.info(
+            f"MultiPfamAnnotationAdapter.get_edges: {clan_edge_count} Pfam→PfamClan edges"
         )
