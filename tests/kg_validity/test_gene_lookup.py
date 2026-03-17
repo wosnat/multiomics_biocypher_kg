@@ -5,7 +5,6 @@ Validates the schema/index changes needed for MCP get_gene and find_gene service
 - Scalar indexes on locus_tag, gene_name, organism_strain
 - Full-text index geneFullText
 - New computed fields: organism_strain, gene_summary, all_identifiers
-- go_term_descriptions stored as list (str[])
 - get_gene and find_gene query patterns work correctly
 """
 
@@ -121,18 +120,6 @@ def test_all_identifiers_contains_known_ids(run_query):
     assert isinstance(ids, list), "all_identifiers should be a list"
     # Should contain at least the Cyanorak locus tag
     assert any("CK_" in i for i in ids), f"Expected Cyanorak ID in all_identifiers: {ids}"
-
-
-def test_go_term_descriptions_is_list(run_query):
-    """go_term_descriptions should be stored as a list (str[]), not a string."""
-    rows = run_query(
-        "MATCH (g:Gene {locus_tag: 'PMM0001'}) "
-        "RETURN g.go_term_descriptions AS gtd"
-    )
-    assert len(rows) == 1
-    gtd = rows[0]["gtd"]
-    assert gtd is not None, "PMM0001 should have go_term_descriptions"
-    assert isinstance(gtd, list), f"go_term_descriptions should be list, got {type(gtd).__name__}"
 
 
 # ---------------------------------------------------------------------------

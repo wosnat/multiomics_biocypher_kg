@@ -1307,7 +1307,7 @@
       "label": "CyanorakRole",
       "properties": {
         "code": "0",
-        "description": "Non-coding gene (RNA)"
+        "name": "Non-coding gene (RNA)"
       }
     },
     {
@@ -1316,7 +1316,7 @@
       "label": "CyanorakRole",
       "properties": {
         "code": "A",
-        "description": "Amino acid biosynthesis"
+        "name": "Amino acid biosynthesis"
       }
     },
     {
@@ -1325,7 +1325,7 @@
       "label": "CyanorakRole",
       "properties": {
         "code": "0.1",
-        "description": "Non-coding gene (RNA) > tRNA"
+        "name": "Non-coding gene (RNA) > tRNA"
       }
     },
     {
@@ -1334,7 +1334,7 @@
       "label": "CyanorakRole",
       "properties": {
         "code": "0.2",
-        "description": "Non-coding gene (RNA) > rRNA"
+        "name": "Non-coding gene (RNA) > rRNA"
       }
     },
     {
@@ -1343,7 +1343,7 @@
       "label": "CyanorakRole",
       "properties": {
         "code": "0.3",
-        "description": "Non-coding gene (RNA) > ncRNA"
+        "name": "Non-coding gene (RNA) > ncRNA"
       }
     },
     {
@@ -1352,7 +1352,7 @@
       "label": "CyanorakRole",
       "properties": {
         "code": "0.4",
-        "description": "Non-coding gene (RNA) > Other"
+        "name": "Non-coding gene (RNA) > Other"
       }
     },
     {
@@ -1361,7 +1361,7 @@
       "label": "TigrRole",
       "properties": {
         "code": "100",
-        "description": "Central intermediary metabolism / Amino sugars"
+        "name": "Central intermediary metabolism / Amino sugars"
       }
     },
     {
@@ -1370,7 +1370,7 @@
       "label": "TigrRole",
       "properties": {
         "code": "102",
-        "description": "Central intermediary metabolism / Other"
+        "name": "Central intermediary metabolism / Other"
       }
     },
     {
@@ -1379,7 +1379,7 @@
       "label": "TigrRole",
       "properties": {
         "code": "103",
-        "description": "Central intermediary metabolism / Phosphorus compounds"
+        "name": "Central intermediary metabolism / Phosphorus compounds"
       }
     },
     {
@@ -1388,7 +1388,7 @@
       "label": "TigrRole",
       "properties": {
         "code": "104",
-        "description": "Central intermediary metabolism / Polyamine biosynthesis"
+        "name": "Central intermediary metabolism / Polyamine biosynthesis"
       }
     },
     {
@@ -1397,7 +1397,7 @@
       "label": "TigrRole",
       "properties": {
         "code": "105",
-        "description": "Energy metabolism / Biosynthesis and degradation of polysaccharides"
+        "name": "Energy metabolism / Biosynthesis and degradation of polysaccharides"
       }
     }
   ]
