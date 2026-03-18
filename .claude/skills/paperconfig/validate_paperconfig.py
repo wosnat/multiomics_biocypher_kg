@@ -25,8 +25,19 @@ Checks:
 
 import sys
 import os
-import yaml
+from pathlib import Path
+
 import pandas as pd
+
+# Import shared paperconfig utilities from the main package
+_PROJECT_ROOT = Path(__file__).resolve().parents[3]
+sys.path.insert(0, str(_PROJECT_ROOT))
+from multiomics_kg.utils.paperconfig_utils import (
+    load_paperconfig,
+    get_publication,
+    get_paper_name,
+    get_supplementary_materials,
+)
 
 REQUIRED_ANALYSIS_FIELDS = [
     "type", "name", "id", "test_type",
@@ -216,8 +227,7 @@ def validate(config_path: str) -> bool:
 
     # --- Parse YAML ---
     try:
-        with open(config_path) as f:
-            config = yaml.safe_load(f)
+        config = load_paperconfig(Path(config_path))
     except Exception as e:
         print(f"FAIL: Cannot parse YAML: {e}")
         return False
@@ -235,13 +245,14 @@ def validate(config_path: str) -> bool:
             print("FAIL: Missing top-level 'publication' key")
             return False
 
-        pub = config["publication"]
+        pub = get_publication(config)
 
         # --- papername ---
-        if "papername" not in pub:
+        papername = get_paper_name(config)
+        if papername == "unknown":
             errors.append("Missing 'papername'")
         else:
-            print(f"  papername: {pub['papername']}")
+            print(f"  papername: {papername}")
 
         # --- PDF ---
         pdf = pub.get("papermainpdf", "")
@@ -277,7 +288,7 @@ def validate(config_path: str) -> bool:
                         "missing 'condition_type'"
                     )
 
-        supp = pub.get("supplementary_materials")
+        supp = get_supplementary_materials(config)
 
     if not supp:
         errors.append("Missing 'supplementary_materials'")

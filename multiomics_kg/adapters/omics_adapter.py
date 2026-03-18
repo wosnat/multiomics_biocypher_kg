@@ -6,12 +6,12 @@ from typing import Literal, Union, Optional
 from enum import Enum, EnumMeta, auto
 import math
 import pandas as pd
-import yaml
 import os
 from pathlib import Path
 from bioregistry import normalize_curie
 
 from multiomics_kg.download.resolve_paper_ids import get_resolved_path
+from multiomics_kg.utils.paperconfig_utils import load_paperconfig
 
 try:
     from multiomics_kg.adapters.pdf_publication_extraction import PDFPublicationExtractor
@@ -180,7 +180,7 @@ class OMICSAdapter:
     def load_config(self, config_file: str) -> None:
         """
         Load and parse the paperconfig.yaml file.
-        
+
         Args:
             config_file: Path to paperconfig.yaml file
         """
@@ -188,9 +188,8 @@ class OMICSAdapter:
             logger.error(f"Config file not found: {config_file}")
             return
 
-        with open(config_file, 'r') as f:
-            self.config_data = yaml.safe_load(f)
-            logger.info(f"Loaded config from {config_file}")
+        self.config_data = load_paperconfig(Path(config_file))
+        logger.info(f"Loaded config from {config_file}")
 
     @validate_call
     def download_data(self, cache: bool = False) -> None:

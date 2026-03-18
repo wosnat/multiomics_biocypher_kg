@@ -27,52 +27,20 @@ from typing import Any
 from urllib.parse import unquote
 
 import pandas as pd
-import yaml
 
 from multiomics_kg.download.gene_id_graph import GeneIdGraph
 from multiomics_kg.download.utils.cli import load_genome_rows
 from multiomics_kg.download.utils.paths import PROJECT_ROOT
 from multiomics_kg.utils.gene_id_utils import get_genome_dir, load_gene_annotations
-
-PAPERCONFIG_FILES_TXT = (
-    PROJECT_ROOT / "data/Prochlorococcus/papers_and_supp/paperconfig_files.txt"
+from multiomics_kg.utils.paperconfig_utils import (
+    get_organism_for_entry,
+    get_paper_name,
+    get_supplementary_materials,
+    load_all_paperconfigs,
 )
 
-# ─── Paperconfig loading ──────────────────────────────────────────────────────
 
-
-def load_all_paperconfigs() -> list[tuple[Path, dict]]:
-    """Load all paperconfigs listed in paperconfig_files.txt."""
-    results = []
-    with open(PAPERCONFIG_FILES_TXT) as f:
-        for line in f:
-            path_str = line.strip()
-            if not path_str or path_str.startswith('#'):
-                continue
-            path = PROJECT_ROOT / path_str
-            if not path.exists():
-                print(f"  [warn] paperconfig not found: {path}", file=sys.stderr)
-                continue
-            with open(path) as pf:
-                config = yaml.safe_load(pf)
-            if config:
-                results.append((path, config))
-    return results
-
-
-def get_organism_for_entry(entry: dict) -> str | None:
-    """Extract the organism string for a supplementary table entry.
-
-    Priority: entry-level 'organism' > first statistical_analysis 'organism'.
-    """
-    org = entry.get("organism")
-    if org:
-        return str(org).strip().strip('"')
-    for a in entry.get("statistical_analyses") or []:
-        org = a.get("organism")
-        if org:
-            return str(org).strip().strip('"')
-    return None
+# ─── Paperconfig entry collection ────────────────────────────────────────────
 
 
 def collect_entries_for_genome_dir(
@@ -85,11 +53,10 @@ def collect_entries_for_genome_dir(
     """
     results = []
     for pc_path, config in paperconfigs:
-        pub = config.get("publication") or {}
-        paper_name = pub.get("papername") or pc_path.parent.name
-        supp = pub.get("supplementary_materials") or config.get("supplementary_materials") or {}
+        paper_name = get_paper_name(config, fallback_path=pc_path)
+        supp = get_supplementary_materials(config)
         for table_key, entry in supp.items():
-            org = get_organism_for_entry(entry)
+            org = get_organism_for_entry(config, entry)
             if not org:
                 continue
             resolved = get_genome_dir(org, str(PROJECT_ROOT))

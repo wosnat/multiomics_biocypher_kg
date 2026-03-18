@@ -33,11 +33,13 @@ from pathlib import Path
 
 import pandas as pd
 
-from multiomics_kg.download.build_gene_id_mapping import (
-    load_all_paperconfigs,
-    get_organism_for_entry,
-)
 from multiomics_kg.download.utils.paths import PROJECT_ROOT
+from multiomics_kg.utils.paperconfig_utils import (
+    get_organism_for_entry,
+    get_paper_name,
+    get_supplementary_materials,
+    load_all_paperconfigs,
+)
 from multiomics_kg.utils.gene_id_utils import (
     get_genome_dir,
     load_mapping_v2,
@@ -95,13 +97,7 @@ def resolve_table(
     skip_rows = int(table_config.get("skip_rows", 0) or 0)
 
     # Determine organism
-    organism = (table_config.get("organism") or "").strip().strip('"')
-    if not organism:
-        for a in stat_analyses:
-            org = (a.get("organism") or "").strip().strip('"')
-            if org:
-                organism = org
-                break
+    organism = get_organism_for_entry({}, table_config) or ""
     if not organism:
         print(f"  [warn] No organism for {pub_name}/{table_key} — skipping", file=sys.stderr)
         return None
@@ -396,8 +392,7 @@ def main() -> None:
     results: list[dict] = []
 
     for pc_path, config in paperconfigs:
-        pub = config.get("publication") or {}
-        pub_name = pub.get("papername") or pc_path.parent.name
+        pub_name = get_paper_name(config, fallback_path=pc_path)
         dir_name = pc_path.parent.name
 
         if args.papers:
@@ -407,11 +402,7 @@ def main() -> None:
             ):
                 continue
 
-        supp = (
-            pub.get("supplementary_materials")
-            or config.get("supplementary_materials")
-            or {}
-        )
+        supp = get_supplementary_materials(config)
 
         for table_key, table_config in supp.items():
             if not isinstance(table_config, dict):

@@ -32,11 +32,15 @@ from datetime import datetime
 from pathlib import Path
 
 import pandas as pd
-import yaml
 
 # Import shared utilities from the main package
 _PROJECT_ROOT = Path(__file__).resolve().parents[3]
 sys.path.insert(0, str(_PROJECT_ROOT))
+from multiomics_kg.utils.paperconfig_utils import (
+    load_paperconfig,
+    get_paper_name,
+    get_supplementary_materials,
+)
 from multiomics_kg.utils.gene_id_utils import (
     SKIP_PATTERNS,
     DESCRIPTION_COL_KEYWORDS,
@@ -343,12 +347,10 @@ def process_analysis(paperconfig_path, analysis, supp_material, project_root,
 def process_paperconfig(paperconfig_path, project_root, dry_run=False,
                         missing_gene_ids=None, patch_mode=False):
     """Process all analyses in a paperconfig file."""
-    with open(paperconfig_path) as f:
-        config = yaml.safe_load(f)
+    config = load_paperconfig(Path(paperconfig_path))
 
-    pub = config.get("publication", {})
-    papername = pub.get("papername", "Unknown")
-    supp_materials = pub.get("supplementary_materials", {})
+    papername = get_paper_name(config, Path(paperconfig_path))
+    supp_materials = get_supplementary_materials(config)
 
     print(f"Processing: {papername}")
     print(f"  Config: {paperconfig_path}")
@@ -564,9 +566,8 @@ def main():
             print(f"Import report: {len(missing_gene_ids)} unique missing gene IDs", file=sys.stderr)
 
     # Read papername for report
-    with open(args.paperconfig) as f:
-        config = yaml.safe_load(f)
-    papername = config.get("publication", {}).get("papername", "Unknown")
+    config = load_paperconfig(Path(args.paperconfig))
+    papername = get_paper_name(config, Path(args.paperconfig))
 
     results = process_paperconfig(
         args.paperconfig, project_root, args.dry_run,

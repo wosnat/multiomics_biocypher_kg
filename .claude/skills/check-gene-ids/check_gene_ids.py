@@ -22,11 +22,18 @@ from collections import defaultdict
 from pathlib import Path
 
 import pandas as pd
-import yaml
 
 # Import shared utilities from the main package
 _PROJECT_ROOT = Path(__file__).resolve().parents[3]
 sys.path.insert(0, str(_PROJECT_ROOT))
+from multiomics_kg.utils.paperconfig_utils import (
+    load_paperconfig,
+    get_publication,
+    get_paper_name,
+    get_supplementary_materials,
+    load_all_paperconfigs,
+    PAPERCONFIG_FILES_TXT,
+)
 from multiomics_kg.utils.gene_id_utils import (
     ORGANISM_TO_GENOME_DIR,
     SKIP_PATTERNS as RNA_PATTERN,
@@ -419,12 +426,10 @@ def analyze_paperconfig(paperconfig_path, gene_index, project_root, import_repor
     Returns:
         dict with papername and list of analysis results
     """
-    with open(paperconfig_path) as f:
-        config = yaml.safe_load(f)
+    config = load_paperconfig(Path(paperconfig_path))
 
-    pub = config.get("publication", {})
-    papername = pub.get("papername", Path(paperconfig_path).parent.name)
-    supp_materials = pub.get("supplementary_materials", {})
+    papername = get_paper_name(config, Path(paperconfig_path))
+    supp_materials = get_supplementary_materials(config)
 
     analyses_results = []
 
@@ -1081,22 +1086,24 @@ def main():
     # Determine which paperconfigs to check
     if args.paperconfig:
         paperconfig_paths = [args.paperconfig]
+        # Analyze each paper
+        all_results = []
+        for pc_path in paperconfig_paths:
+            if not Path(pc_path).exists():
+                print(f"WARNING: Paperconfig not found: {pc_path}", file=sys.stderr)
+                continue
+            result = analyze_paperconfig(pc_path, gene_index, project_root, import_report)
+            all_results.append(result)
     else:
         list_file = Path(args.paperconfig_list)
         if not list_file.exists():
             print(f"ERROR: paperconfig list not found: {list_file}", file=sys.stderr)
             sys.exit(1)
-        with open(list_file) as f:
-            paperconfig_paths = [line.strip() for line in f if line.strip()]
-
-    # Analyze each paper
-    all_results = []
-    for pc_path in paperconfig_paths:
-        if not Path(pc_path).exists():
-            print(f"WARNING: Paperconfig not found: {pc_path}", file=sys.stderr)
-            continue
-        result = analyze_paperconfig(pc_path, gene_index, project_root, import_report)
-        all_results.append(result)
+        loaded = load_all_paperconfigs(list_file)
+        all_results = []
+        for pc_path, _config in loaded:
+            result = analyze_paperconfig(str(pc_path), gene_index, project_root, import_report)
+            all_results.append(result)
 
     # Print report to stdout and write to file
     report = format_report(all_results, import_report)

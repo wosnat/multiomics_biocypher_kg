@@ -29,7 +29,6 @@ from typing import Optional
 
 import dotenv
 import pandas as pd
-import yaml
 
 dotenv.load_dotenv()
 
@@ -43,6 +42,11 @@ from multiomics_kg.utils.gene_id_utils import (
     get_genome_dir,
     load_gene_annotations,
     map_gene_id,
+)
+from multiomics_kg.utils.paperconfig_utils import (
+    load_paperconfig as _load_paperconfig_util,
+    iter_csv_tables,
+    get_paper_name,
 )
 
 logger = logging.getLogger(__name__)
@@ -402,13 +406,12 @@ def validate_csv_file(
 # ─── Paperconfig parsing ───────────────────────────────────────────────────────
 
 def load_paperconfig(config_path: str) -> Optional[dict]:
-    """Load a paperconfig.yaml."""
+    """Load a paperconfig.yaml from a path relative to PROJECT_ROOT."""
     path = PROJECT_ROOT / config_path
     if not path.exists():
         logger.warning(f"Paperconfig not found: {path}")
         return None
-    with open(path) as f:
-        return yaml.safe_load(f)
+    return _load_paperconfig_util(path) or None
 
 
 def iter_csvs(config_data: dict):
@@ -417,17 +420,8 @@ def iter_csvs(config_data: dict):
     Multiple supp table entries may point to the same filename; we deduplicate
     so each physical CSV is validated only once.
     """
-    publication = config_data.get("publication", {})
-    supps = publication.get("supplementary_materials", {})
-    if not isinstance(supps, dict):
-        return
-
     seen_files: set[str] = set()
-    for supp_key, supp_val in supps.items():
-        if not isinstance(supp_val, dict):
-            continue
-        if supp_val.get("type") != "csv":
-            continue
+    for supp_key, supp_val in iter_csv_tables(config_data):
         filename = supp_val.get("filename", "")
         if not filename or filename in seen_files:
             continue
@@ -604,10 +598,7 @@ def main():
         if not config_data:
             continue
 
-        paper_name = (
-            config_data.get("publication", {}).get("papername", "")
-            or Path(config_path).parent.name
-        )
+        paper_name = get_paper_name(config_data, fallback_path=Path(config_path))
         print(f"Processing: {paper_name} ...", end="  ", flush=True)
 
         paper_results = []

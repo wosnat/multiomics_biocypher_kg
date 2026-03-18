@@ -20,11 +20,15 @@ from collections import defaultdict
 from pathlib import Path
 
 import pandas as pd
-import yaml
 
 # Import shared utilities from the main package
 _PROJECT_ROOT = Path(__file__).resolve().parents[3]
 sys.path.insert(0, str(_PROJECT_ROOT))
+from multiomics_kg.utils.paperconfig_utils import (
+    load_all_paperconfigs,
+    get_paper_name,
+    iter_analyses,
+)
 from multiomics_kg.utils.gene_id_utils import (
     SKIP_PATTERNS,
     DESCRIPTION_COL_KEYWORDS,
@@ -103,30 +107,12 @@ def parse_paperconfigs(paperconfig_list_path, project_root):
     """
     analyses = []
 
-    with open(paperconfig_list_path) as f:
-        paths = [line.strip() for line in f if line.strip()]
+    loaded = load_all_paperconfigs(Path(paperconfig_list_path))
 
-    for rel_path in paths:
-        full_path = Path(project_root) / rel_path
-        if not full_path.exists():
-            print(f"WARNING: paperconfig not found: {full_path}", file=sys.stderr)
-            continue
+    for full_path, config in loaded:
+        papername = get_paper_name(config, full_path)
 
-        try:
-            with open(full_path) as f:
-                config = yaml.safe_load(f)
-        except Exception as e:
-            print(f"WARNING: Cannot parse {full_path}: {e}", file=sys.stderr)
-            continue
-
-        pub = config.get("publication", {})
-        papername = pub.get("papername", full_path.parent.name)
-        supp_materials = pub.get("supplementary_materials", {})
-
-        for table_key, table_data in supp_materials.items():
-            if table_data.get("type") != "csv":
-                continue
-
+        for table_key, table_data, analysis in iter_analyses(config):
             filename = table_data.get("filename", "")
             if not filename:
                 continue
@@ -134,25 +120,24 @@ def parse_paperconfigs(paperconfig_list_path, project_root):
 
             table_skip = table_data.get("skip_rows", 0)
 
-            for analysis in table_data.get("statistical_analyses", []):
-                organism = analysis.get("organism", "")
-                name_col = analysis.get("name_col", "")
-                logfc_col = analysis.get("logfc_col", "")
-                adj_pval_col = analysis.get("adjusted_p_value_col", "")
-                analysis_skip = analysis.get("skip_rows", table_skip)
+            organism = analysis.get("organism", "")
+            name_col = analysis.get("name_col", "")
+            logfc_col = analysis.get("logfc_col", "")
+            adj_pval_col = analysis.get("adjusted_p_value_col", "")
+            analysis_skip = analysis.get("skip_rows", table_skip)
 
-                if not organism or not name_col:
-                    continue
+            if not organism or not name_col:
+                continue
 
-                analyses.append({
-                    "papername": papername,
-                    "organism": organism,
-                    "name_col": name_col,
-                    "logfc_col": logfc_col,
-                    "adjusted_p_value_col": adj_pval_col,
-                    "csv_path": str(csv_path),
-                    "skip_rows": analysis_skip or 0,
-                })
+            analyses.append({
+                "papername": papername,
+                "organism": organism,
+                "name_col": name_col,
+                "logfc_col": logfc_col,
+                "adjusted_p_value_col": adj_pval_col,
+                "csv_path": str(csv_path),
+                "skip_rows": analysis_skip or 0,
+            })
 
     return analyses
 
