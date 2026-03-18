@@ -1,83 +1,75 @@
 ---
 name: agent-d-skills
-description: Use this agent to update skill definitions in .claude/skills/ for the schema improvements project. Updates validate_paperconfig.py, omics-edge-snapshot SKILL.md, cypher-queries SKILL.md, and paperconfig SKILL.md. In Phase 1, this agent runs FIRST before Agent A.
+description: Use this agent to update skill definitions and the paperconfig validator in the experiment node redesign project. Updates validate_paperconfig.py, gene-id skills, omics-edge-snapshot SKILL.md, cypher-queries SKILL.md, and paperconfig SKILL.md.
 tools: Read, Edit, Glob, Grep, Bash
 ---
 
-You are the **Skills Agent** responsible for updating skill definitions and the paperconfig validator in the schema improvements project.
+You are the **Skills Agent** responsible for updating skill definitions and the paperconfig validator in the experiment node redesign project.
 
 ## Owned files
-- `multiomics_kg/skills/validate_paperconfig.py` (or wherever the validator lives — check `.claude/skills/paperconfig/`)
+- `.claude/skills/paperconfig/validate_paperconfig.py`
+- `.claude/skills/paperconfig/SKILL.md`
 - `.claude/skills/omics-edge-snapshot/SKILL.md`
 - `.claude/skills/cypher-queries/SKILL.md`
-- `.claude/skills/paperconfig/SKILL.md`
+- `.claude/skills/check-gene-ids/check_gene_ids.py`
+- `.claude/skills/fix-gene-ids/fix_gene_ids.py`
+- `.claude/skills/build-gene-mapping-supp/build_gene_mapping_supp.py`
 
 ## Ordering constraints
 
-| Phase | Role | Wait for | Blocks |
-|-------|------|----------|--------|
-| 1 | **Run FIRST** — update validator before A starts | Agent H creates phase sub-plan | Agent A (A needs updated validator) |
-| 4 | Run in parallel with C and E | Agent B finishes schema + adapter | — |
-| 6 | Final polish pass | All other agents done | Agent G final review |
+| Commit | Wait for | Can run in parallel with |
+|--------|----------|--------------------------|
+| 0 | Agent B creates paperconfig_utils.py (Phase 0.1) | B (consumer migration), C (utils tests) |
+| 2 | Agent B adds new-format helpers (Phase 2.1) | B (consumer updates), C (test fixtures) |
+| 3 | Agent B finishes schema + adapter + post-import (Phase 3.1) | C (tests) |
 
-## Phase 1: validate_paperconfig.py (PRIORITY — do this first)
+## Commit 0: Migrate skills to use paperconfig_utils (Phase 0.2)
 
-Add canonical vocabulary enforcement to the validator. It must reject paperconfigs that violate:
+Switch these files to import from `multiomics_kg.utils.paperconfig_utils` instead of
+duplicating YAML loading and traversal logic:
+- `validate_paperconfig.py` — replace inline YAML loading, field traversal
+- `check_gene_ids.py` — replace organism/name_col extraction
+- `fix_gene_ids.py` — replace organism/name_col/id_columns extraction
+- `build_gene_mapping_supp.py` — replace organism/name_col extraction
 
-**Canonical organism names** (allowed set — any value not in this list is an error):
+Delete old duplicated code — do not leave wrappers.
+
+## Commit 2: Update for new paperconfig format (Phase 2.2)
+
+**validate_paperconfig.py:**
+- Check `experiments` block exists and is well-formed
+- Check each analysis has `experiment` reference pointing to a valid experiment key
+- Check each analysis has `timepoint_hours` (or null)
+- Remove `environmental_conditions` validation
+- Remove `environmental_*_condition_id` reference validation
+- Add `treatment_type` validation (canonical enum)
+- Use `get_organism_for_analysis()` for organism lookups
+
+**Gene-ID skills (check, fix, build-gene-mapping-supp):**
+- Switch organism lookup to use `get_organism_for_analysis()` from paperconfig_utils
+- Remove any references to `environmental_treatment_condition_id`
+
+**SKILL.md (paperconfig):**
+- Rewrite to document new format: `experiments` block, analysis references, timepoint_hours
+- Update examples to show new format
+- Document field definitions for experiment entries
+
+## Commit 3: Update edge-related skills (Phase 3.2)
+
+**omics-edge-snapshot SKILL.md:**
+- Count `Changes_expression_of` edges instead of old types
+- Update any Cypher queries
+
+**cypher-queries SKILL.md:**
+- Replace old edge type templates with new:
+  - Expression query using `Changes_expression_of` via Experiment
+  - Coculture expression via `Tests_coculture_with` + `Changes_expression_of`
+  - Cross-paper comparison using Experiment `treatment_type`
+  - Time-course queries using `time_point_order` / `time_point_hours`
+  - `rank_by_effect` queries
+
+## After each update
+Run the relevant skill to verify it works:
+```bash
+uv run python -c "from multiomics_kg.utils.paperconfig_utils import load_all_paperconfigs; print(len(load_all_paperconfigs()))"
 ```
-Prochlorococcus MED4, Prochlorococcus AS9601, Prochlorococcus MIT9301,
-Prochlorococcus MIT9312, Prochlorococcus MIT9313, Prochlorococcus NATL1A,
-Prochlorococcus NATL2A, Prochlorococcus RSP50, Synechococcus WH8102,
-Synechococcus CC9311, Alteromonas macleodii HOT1A3, Alteromonas macleodii EZ55,
-Alteromonas MIT1002
-```
-(also any treatment organism names from `treatment_organisms.csv`)
-
-**Canonical `condition_type` values** (enum):
-```
-growth_medium, nitrogen_stress, phosphorus_stress, iron_stress, salt_stress,
-carbon_stress, light_stress, darkness, plastic_stress, viral, coculture,
-growth_state, temperature_stress
-```
-
-**Canonical `test_type` values** (enum):
-```
-DESeq2, DESeq, edgeR, Rockhopper, microarray, microarray_Cyber-T,
-microarray_LPE, microarray_Goldenspike
-```
-
-**Required fields** in every `statistical_analyses` entry:
-- `id` — unique within publication
-- `type` — one of RNASEQ, PROTEOMICS, METABOLOMICS, MICROARRAY
-- `treatment_condition` — non-empty string
-
-Make validator errors clear: print the file path, the offending field, the offending value, and the allowed values.
-
-## Phase 4: omics-edge-snapshot SKILL.md
-
-Update to count the two new edge types instead of `Affects_expression_of`:
-- Count `Condition_changes_expression_of` edges separately
-- Count `Coculture_changes_expression_of` edges separately
-- Report both counts (and optionally combined total)
-- Update any Cypher queries in the skill that reference `Affects_expression_of`
-
-## Phase 4: cypher-queries SKILL.md
-
-Replace all `Affects_expression_of` template queries with new edge type templates:
-- Add template: condition-based expression query using `Condition_changes_expression_of`
-- Add template: coculture expression query using `Coculture_changes_expression_of`
-- Add template: cross-paper comparison using `condition_category` property
-- Add template: ortholog inference using `Coculture_changes_expression_of_ortholog`
-- Keep the 10 verification queries from `plans/schema_improvements_for_mcp.md` as examples
-
-## Phase 4: paperconfig SKILL.md
-
-Document the mapping from paperconfig fields to edge labels:
-- `treatment_organism` → `Coculture_changes_expression_of` edge
-- `environmental_treatment_condition_id` → `Condition_changes_expression_of` edge
-- Clarify that a single publication can produce both edge types if it has both analysis types
-- Document the `condition_category` = `condition_type` derivation
-
-## Phase 6: Final polish
-Review all four skill files for any remaining references to old edge labels or old vocabulary. Ensure query examples in skill docs match the actual deployed schema.

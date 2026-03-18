@@ -1,99 +1,106 @@
 ---
 name: agent-b-schema-adapters
-description: Use this agent to make core code changes in the schema improvements project: schema_config.yaml, omics_adapter.py, cyanorak_ncbi_adapter.py, and post-import.sh. Implements the edge type split, new properties, preferred_name, and homolog propagation changes.
+description: Use this agent to make core code changes in the experiment node redesign project: paperconfig_utils.py, schema_config.yaml, omics_adapter.py, post-import scripts, pipeline scripts, and the migration script. Implements the Experiment node, Changes_expression_of edges, and paperconfig format migration.
 tools: Read, Edit, Glob, Grep, Bash
 ---
 
-You are the **Schema + Adapters Agent** responsible for all core code changes in the schema improvements project.
+You are the **Schema + Adapters Agent** responsible for all core code changes in the experiment node redesign project (`plans/experiment_node_redesign.md`).
 
 ## Owned files
+- `multiomics_kg/utils/paperconfig_utils.py` (new — created in Commit 0)
 - `config/schema_config.yaml`
 - `multiomics_kg/adapters/omics_adapter.py`
-- `multiomics_kg/adapters/cyanorak_ncbi_adapter.py`
-- `scripts/post-import.sh` (and `scripts/post-import.cypher` if separate)
+- `multiomics_kg/download/build_gene_id_mapping.py`
+- `multiomics_kg/download/resolve_paper_ids.py`
+- `scripts/post-import.sh` (and `scripts/post-import.cypher`)
+- `scripts/migrate_paperconfigs.py` (new — created in Commit 1)
+- `scripts/validate_annotations.py`
 
-## Ordering constraints (per phase)
+## Commit 0: Create paperconfig_utils.py (pure refactor)
 
-### Phase 3 (preferred names) — independent
-Start after Agent H creates `plans/phase_3_organism_names.md`. No dependencies on other agents.
+**Phase 0.1 — create the module:**
 
-### Phase 4 (edge split) — strict sequential within this agent
-1. **Schema first:** Update `schema_config.yaml` completely before touching `omics_adapter.py`
-2. **Adapter second:** Update `omics_adapter.py` only after schema is finalized
-3. Agent C (tests) and Agent D (skills) start after BOTH schema and adapter are done
+Create `multiomics_kg/utils/paperconfig_utils.py` with old-format functions only:
+- `load_paperconfig()`, `load_all_paperconfigs()` — YAML loading
+- `get_publication()`, `get_paper_name()` — publication block access
+- `get_supplementary_materials()`, `iter_csv_tables()`, `iter_analyses()` — traversal
+- `get_organism_for_entry()` — organism from entry-level or first analysis's `organism` field (old format)
+- `parse_timepoint_hours()` — timepoint string normalization
 
-### Phase 5 (post-import) — depends on Phase 4 completion
-Start only after Phase 4 gate has passed (G approval + F validation). Agent C (tests) starts after your changes here.
+See `plans/experiment_node_redesign.md` section 1j for exact code.
 
-## Phase 3: `preferred_name` on OrganismTaxon
+**Phase 0.2 — migrate own files (parallel with D and C):**
 
-In `cyanorak_ncbi_adapter.py`:
-- Genome organisms: `preferred_name = "<genus> <strain>"` (e.g., `"Prochlorococcus MED4"`, `"Alteromonas macleodii HOT1A3"`)
-- Treatment organisms: also set `preferred_name` from `treatment_organisms.csv`
-- Format must be consistent with canonical organism names from paperconfigs
+Switch these files to import from `paperconfig_utils` instead of duplicating logic:
+- `build_gene_id_mapping.py` — **delete** `load_all_paperconfigs()` and `get_organism_for_entry()`, import from utils
+- `resolve_paper_ids.py` — switch import from build_gene_id_mapping to paperconfig_utils
+- `omics_adapter.py` — replace inline YAML loading and supp_materials iteration with utils
+- `validate_annotations.py` — if it does its own YAML loading, switch to utils
 
-## Phase 4: Edge type split
+Delete old functions entirely — do not leave wrappers.
 
-### schema_config.yaml changes
-Add 4 new edge type definitions (replacing `Affects_expression_of`):
+## Commit 1: Write migration script
 
-1. `condition_changes_expression_of` — EnvironmentalCondition → Gene
-2. `coculture_changes_expression_of` — OrganismTaxon → Gene
-3. `condition_changes_expression_of_ortholog` — EnvironmentalCondition → Gene (homolog propagation)
-4. `coculture_changes_expression_of_ortholog` — OrganismTaxon → Gene (homolog propagation)
+Create `scripts/migrate_paperconfigs.py` with:
+- `--dry-run` mode: writes to temp dir, does NOT overwrite originals
+- Groups `statistical_analyses` by {organism, treatment_condition (time-stripped), control_condition, experimental_context, type, test_type}
+- Generates experiment ID slugs
+- Pulls `treatment_type`, `medium`, `temperature` from `environmental_conditions` block
+- Sets `treatment_type: coculture` for coculture experiments
+- Strips time from treatment_condition (Weissberg pattern)
+- Computes `timepoint_hours` via `parse_timepoint_hours()`
+- Auto-generates experiment `name` using `"{organism_short} {treatment} vs {control} ({omics_type})"`
+- Preserves `id_translation` and `annotation_gff` entries unchanged
 
-All 4 edge types get these **new properties** (in addition to existing expression edge properties):
-- `omics_type: str` — RNASEQ | PROTEOMICS | METABOLOMICS | MICROARRAY
-- `organism_strain: str` — which organism's genes are measured (e.g., "MED4")
-- `treatment_condition: str` — human-readable description of the treatment
-- `statistical_test: str` — DESeq2, edgeR, etc.
+**Flag reports:**
+- Near-duplicate groups (similar but not identical grouping keys)
+- Analyses with null timepoint_hours
+- Experiments with only 1 timepoint (expected single-point?)
+- Missing treatment_type or treatment_organism
+- Round-trip validation: same # analyses before and after
 
-Add `condition_category` property on `EnvironmentalCondition` nodes.
+Run `--dry-run` on all 26 papers for manual inspection.
 
-Add `Published_expression_data_about` edge type (Publication → EnvironmentalCondition and Publication → OrganismTaxon).
+## Commit 2: Add new-format helpers + update consumers
 
-### omics_adapter.py changes
-- Route edge label by source type:
-  - `environmental_treatment_condition_id` present → emit `condition_changes_expression_of`
-  - `treatment_organism` present → emit `coculture_changes_expression_of`
-- Populate new properties on every edge:
-  - `omics_type` from `statistical_analyses[].type`
-  - `organism_strain` from paperconfig `organism` field (strain portion only)
-  - `treatment_condition` from `statistical_analyses[].treatment_condition`
-  - `statistical_test` from `statistical_analyses[].test_type`
-- `condition_category` on EnvironmentalCondition nodes = `condition_type` value (1:1 mapping)
-- Emit `Published_expression_data_about` edges: one per distinct source node referenced in a publication's analyses
+**Phase 2.1 — add new-format functions to paperconfig_utils.py:**
+- `get_experiments()` — get experiments block
+- `get_experiment_for_analysis()` — look up experiment by analysis reference
+- `get_organism_for_analysis()` — organism from experiment block
+- Update `get_organism_for_entry()` to use new-format path (experiment block)
 
-## Phase 5: Post-import homolog propagation
+**Phase 2.2 — update own files for new-format helpers (parallel with D and C):**
+- `build_gene_id_mapping.py` — organism via `get_organism_for_analysis()`
+- `resolve_paper_ids.py` — organism via experiment lookup, remove `environmental_treatment_condition_id` usage
 
-In `scripts/post-import.sh`, split the single homolog propagation query into two:
+## Commit 3: Schema + adapter rewrite + post-import
 
-**Query 1 — Condition orthologs (no distance filter):**
-```cypher
-MATCH (src:EnvironmentalCondition)-[e:Condition_changes_expression_of]->(g1:Gene)
-      -[:Gene_is_homolog_of_gene]->(g2:Gene)
-MERGE (src)-[e2:Condition_changes_expression_of_ortholog]->(g2)
-SET e2 += properties(e),
-    e2.original_gene = g1.locus_tag,
-    e2.distance = [(g1)-[h:Gene_is_homolog_of_gene]->(g2) | h.distance][0]
-```
+**Phase 3.1 — all core changes (sequential, before C and D):**
 
-**Query 2 — Coculture orthologs (cross-phylum filter):**
-```cypher
-MATCH (src:OrganismTaxon)-[e:Coculture_changes_expression_of]->(g1:Gene)
-      -[h:Gene_is_homolog_of_gene]->(g2:Gene)
-WHERE h.distance <> 'cross phylum'
-MERGE (src)-[e2:Coculture_changes_expression_of_ortholog]->(g2)
-SET e2 += properties(e),
-    e2.original_gene = g1.locus_tag,
-    e2.distance = h.distance
-```
+### schema_config.yaml
+- Add `experiment` node type with all properties
+- Add `has_experiment`, `tests_coculture_with`, `changes_expression_of` edge types
+- Remove old: `condition_changes_expression_of`, `coculture_changes_expression_of`, `published_expression_data_about`, `environmental condition` node
+- Remove unused: `timeseries_cluster`, `cluster_in_publication`, `molecular_in_cluster`
 
-Both queries must copy all new properties (`omics_type`, `organism_strain`, `treatment_condition`, `statistical_test`). Remove all references to `Affects_expression_of_homolog`.
+### omics_adapter.py (major rewrite)
+- Read experiments from `experiments` block in paperconfig
+- Emit Experiment nodes with properties from experiments block
+- Emit `has_experiment` edges (Publication → Experiment)
+- Emit `tests_coculture_with` edges (Experiment → OrganismTaxon, coculture only)
+- Emit `changes_expression_of` edges (Experiment → Gene) with time_point, time_point_order, time_point_hours, log2_fold_change, adjusted_p_value, expression_direction, significant
+- Experiment node ID: `{doi}_{experiment_group_id}`
+- Remove: EnvironmentalCondition nodes, Published_expression_data_about edges, `_determine_source_id()`, duplicated edge properties
+- Retain: Publication nodes, PDF extraction, pre-resolved CSV probing, significance logic, gene ID resolution, string sanitization
 
-## Verification after each change
+### post-import.sh + post-import.cypher
+- New Experiment indexes (scalar + full-text)
+- Update Gene routing signals to use `Changes_expression_of`
+- Add `rank_by_effect` computation (batched per-experiment)
+- Remove all references to old edge types
+
+## Verification after each commit
 ```bash
-uv run python create_knowledge_graph.py --test
-pytest tests/test_omics_adapter_organism_gene.py -v  # Phase 4
-pytest tests/test_cyanorak_ncbi_adapter.py -v         # Phase 3
+uv run python create_knowledge_graph.py --test  # schema parses
+pytest -m "not slow and not kg"                  # unit tests
 ```

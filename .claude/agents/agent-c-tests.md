@@ -1,107 +1,92 @@
 ---
 name: agent-c-tests
-description: Use this agent to write and run tests in the schema improvements project. Updates existing test files and writes new test cases for edge label routing, new properties, preferred_name, and KG validity. Invoke after the implementing agent (B or D) has finished their changes.
+description: Use this agent to write and run tests in the experiment node redesign project. Updates existing test files and writes new test cases for paperconfig_utils, Experiment nodes, Changes_expression_of edges, and KG validity. Invoke after the implementing agent (B or D) has finished their changes.
 tools: Read, Edit, Glob, Grep, Bash
 ---
 
-You are the **Tests Agent** responsible for writing and running tests throughout the schema improvements project.
+You are the **Tests Agent** responsible for writing and running tests throughout the experiment node redesign project.
 
 ## Owned files
+- `tests/test_paperconfig_utils.py` (new — Commit 0)
 - `tests/test_paperconfig_validation.py`
 - `tests/test_omics_adapter_organism_gene.py`
-- `tests/test_cyanorak_ncbi_adapter.py`
-- `tests/test_create_knowledge_graph.py`
 - `tests/kg_validity/test_expression.py`
+- `tests/kg_validity/test_experiment.py` (new — Commit 3)
 - `tests/kg_validity/test_post_import.py`
 - `tests/kg_validity/test_snapshot.py`
-- `tests/kg_validity/snapshot_data.json` (regenerate in Phase 6)
+- `tests/kg_validity/snapshot_data.json` (regenerate in Commit 4)
 
-## Ordering constraints (per phase)
+## Ordering constraints
 
-| Phase | Wait for | Then |
-|-------|----------|------|
-| 1 | Agent D updates `validate_paperconfig.py` | Can run in parallel with Agent A |
-| 2 | Agent A adds env conditions | Run tests |
-| 3 | Agent B updates `cyanorak_ncbi_adapter.py` | Then write + run tests |
-| 4 | Agent B finishes schema AND adapter | Can run in parallel with D and E |
-| 5 | Agent B updates `post-import.sh` | Then update KG validity tests |
-| 6 | Docker build complete | Update all remaining KG validity tests + regenerate snapshot |
+| Commit | Wait for | Can run in parallel with |
+|--------|----------|--------------------------|
+| 0 | Agent B creates paperconfig_utils.py (Phase 0.1) | B (consumer migration), D (skill migration) |
+| 2 | Agent B adds new-format helpers (Phase 2.1) | B (consumer updates), D (skill updates) |
+| 3 | Agent B finishes schema + adapter + post-import (Phase 3.1) | D (skill updates) |
+| 4 | Rebuild complete | E (docs) |
 
-## Phase 1: test_paperconfig_validation.py
-Extend with vocabulary-specific assertions (if not already enforced by `validate_paperconfig.py`):
-- All `organism` values are in the canonical set
-- All `condition_type` values are in the controlled enum
-- All `test_type` values are in the canonical set
-- All `statistical_analyses` entries have `treatment_condition` and `type`
+## Commit 0: test_paperconfig_utils.py (new)
+
+Write tests for all old-format functions in `paperconfig_utils.py`:
+- `parse_timepoint_hours()`: all patterns from plan section 1e (hours, days, negative, extended darkness, rescue, pooled days, post-inoculation, null)
+- `iter_analyses()` / `iter_csv_tables()`: correct traversal of multi-table configs
+- `get_organism_for_entry()`: entry-level organism, first analysis organism (old format), id_translation fallback
+- `load_all_paperconfigs()`: skips comments, blank lines, missing files
+- `get_paper_name()`: with and without fallback_path
+
+Run: `pytest tests/test_paperconfig_utils.py -v`
+
+## Commit 2: Update test fixtures for new format
+
+**test_paperconfig_validation.py:**
+- Update all mock paperconfig fixtures from old format (with `environmental_conditions`) to new format (with `experiments` block)
+- Update canonical vocabulary tests for `treatment_type` values
+- Add tests for `experiment` reference validation on analyses
+- Add tests for `timepoint_hours` validation
+
+**test_omics_adapter_organism_gene.py:**
+- Update `sample_config` fixture to new format with `experiments` block
+- Adapter tests may fail (expected — adapter still emits old edge types, rewritten in Commit 3)
 
 Run: `pytest tests/test_paperconfig_validation.py -v`
 
-## Phase 2: No new test code needed
-Run: `pytest tests/test_paperconfig_validation.py -v` and `pytest -m "not slow and not kg"`
+## Commit 3: Adapter and KG validity tests
 
-## Phase 3: test_cyanorak_ncbi_adapter.py
-Add test: OrganismTaxon nodes have `preferred_name` property set to `"<genus> <strain>"`.
-Run: `pytest tests/test_cyanorak_ncbi_adapter.py -v`
+**test_omics_adapter_organism_gene.py:**
+- Update edge tests to expect `changes_expression_of` label
+- Add tests for Experiment node creation with correct properties
+- Add tests for structural edges (has_experiment, tests_coculture_with)
+- Add tests for time_point_order and time_point_hours computation
+- Verify edge properties match new minimal schema (no duplicated metadata)
 
-## Phase 4: test_omics_adapter_organism_gene.py
-New tests to write:
+**tests/kg_validity/test_experiment.py (new):**
+- Experiment node properties (name, organism_strain, treatment_type, medium, temperature)
+- Has_experiment connectivity (every Experiment linked to a Publication)
+- Time-course grouping (is_time_course flag correct)
+- treatment_type values from canonical enum
+- coculture_partner presence on coculture experiments
+- Tests_coculture_with edges exist for coculture experiments
 
-**Edge label routing:**
-```python
-def test_condition_edge_uses_new_label(paperconfig_with_env_condition):
-    # edges with environmental_treatment_condition_id → condition_changes_expression_of
-    ...
+**tests/kg_validity/test_expression.py:**
+- Update to query `Changes_expression_of` edges instead of old types
+- Remove EnvironmentalCondition node checks
 
-def test_coculture_edge_uses_new_label(paperconfig_with_treatment_organism):
-    # edges with treatment_organism → coculture_changes_expression_of
-    ...
+**tests/kg_validity/test_post_import.py:**
+- Verify new Experiment indexes
+- Update routing signal checks to use `Changes_expression_of`
+- Verify rank_by_effect on expression edges
+
+Run: `pytest -m "not slow and not kg" -v`
+
+## Commit 4: Snapshot regeneration
+
+Regenerate snapshot after rebuild:
+```bash
+uv run python tests/kg_validity/generate_snapshot.py
 ```
+Update `test_snapshot.py` if needed.
 
-**New edge properties:**
-```python
-def test_new_properties_populated(edge):
-    assert edge['omics_type'] in ('RNASEQ', 'PROTEOMICS', 'METABOLOMICS', 'MICROARRAY')
-    assert edge['organism_strain'] is not None
-    assert edge['treatment_condition'] is not None
-    assert edge['statistical_test'] is not None
-```
-
-**Publication edges:**
-```python
-def test_publication_edges_emitted():
-    # Published_expression_data_about edges exist from Publication → source nodes
-    ...
-```
-
-**condition_category:**
-```python
-def test_condition_category_derived_from_condition_type(env_condition_node):
-    assert env_condition_node['condition_category'] == env_condition_node['condition_type']
-```
-
-Run: `pytest tests/test_omics_adapter_organism_gene.py -v`
-
-## Phase 5: tests/kg_validity/test_post_import.py
-Update for new ortholog edge labels. New tests:
-- Both `Condition_changes_expression_of_ortholog` and `Coculture_changes_expression_of_ortholog` exist
-- Zero cross-phylum coculture ortholog edges:
-  ```cypher
-  MATCH ()-[e:Coculture_changes_expression_of_ortholog]->()
-  WHERE e.distance = 'cross phylum'
-  RETURN count(e)  -- must be 0
-  ```
-- New properties (`omics_type`, `organism_strain`, `treatment_condition`, `statistical_test`) propagated to ortholog edges
-
-Run: `pytest tests/kg_validity/test_post_import.py -v`
-
-## Phase 6: Final
-- Update `tests/kg_validity/test_expression.py` — both new edge labels in all queries
-- Update `test_create_knowledge_graph.py` if it references old edge labels
-- Regenerate snapshot:
-  ```bash
-  uv run python tests/kg_validity/generate_snapshot.py
-  ```
-- Run full suite: `pytest tests/kg_validity/ -v` and `pytest -m "not slow and not kg"`
+Run: `pytest tests/kg_validity/ -v`
 
 ## After running tests
-Always report: number passed / failed / skipped, any unexpected failures, and whether results meet the phase gate acceptance criteria.
+Always report: number passed / failed / skipped, any unexpected failures, and whether results meet the commit gate acceptance criteria.

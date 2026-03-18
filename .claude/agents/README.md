@@ -1,100 +1,89 @@
-# Schema Improvements Subagent Spec
+# Experiment Node Redesign — Subagent Spec
 
-Agents for executing `plans/schema_improvements_for_mcp.md`.
+Agents for executing `plans/experiment_node_redesign.md`.
 
 ## Agents
 
 | Agent | File | Role |
 |-------|------|------|
-| H | `agent-h-plan-manager.md` | Create phase sub-plans, track decisions, record gate results |
-| G | `agent-g-code-review.md` | Read-only review at each phase gate |
-| F | `agent-f-validation-runner.md` | Run skills/tests at phase gates |
-| A | `agent-a-paperconfig.md` | Edit all 24 paperconfig.yaml files |
-| B | `agent-b-schema-adapters.md` | Edit schema_config.yaml, omics_adapter.py, cyanorak_ncbi_adapter.py, post-import.sh |
+| H | `agent-h-plan-manager.md` | Track decisions, record gate results, update plan |
+| G | `agent-g-code-review.md` | Read-only review at each commit gate |
+| F | `agent-f-validation-runner.md` | Run tests, skills, snapshots at gates |
+| A | `agent-a-paperconfig.md` | Run migration script on all 26 paperconfig.yaml files |
+| B | `agent-b-schema-adapters.md` | Core code: paperconfig_utils.py, schema, adapter, post-import, migration script |
 | C | `agent-c-tests.md` | Write and run unit + KG validity tests |
-| D | `agent-d-skills.md` | Update validate_paperconfig.py and SKILL.md files |
-| E | `agent-e-docs.md` | Update CLAUDE.md, MEMORY.md |
+| D | `agent-d-skills.md` | Update validate_paperconfig.py, skill SKILL.md files, gene-id skills |
+| E | `agent-e-docs.md` | Update CLAUDE.md, memory files |
 
-## Phase execution order
+## Commit execution order
 
 ```
-Phase 1 → Phase 2 → Phase 3 → Phase 4 → Phase 5 → Phase 6
+PRE-WORK → Commit 0 → Commit 1 → Commit 2 → Commit 3 → Rebuild → Commit 4
 ```
-Never start phase N+1 until Agent G has approved phase N gate.
+Never start commit N+1 until Agent G has approved commit N gate.
 
-## Per-phase agent ordering
+## Per-commit agent ordering
 
-### Phase 1: Paperconfig standardization
+### PRE-WORK
 ```
-H (phase sub-plan)
-  → D (update validate_paperconfig.py)  ← MUST BE FIRST
-      → A (standardize paperconfigs)    ← parallel with C
-      → C (extend test_paperconfig_validation.py)
+H (update agent definitions)
+  → F (save "before" snapshot)
+      → Manual: git tag
+```
+
+### Commit 0: paperconfig_utils.py (pure refactor)
+```
+B (create paperconfig_utils.py)
+  → B + D + C (parallel — migrate consumers, write utils tests)
+      → F (run tests + prepare_data.sh)
           → G (review)
-              → F (run tests + grep for old values)
-                  → COMMIT
+              → Manual: COMMIT
 ```
 
-### Phase 2: Missing environmental conditions
+### Commit 1: dry-run migration
 ```
-H (phase sub-plan)
-  → A (add env conditions to 3 paperconfigs)
-      → C (run tests)
+B (write migration script)
+  → B (run --dry-run)
+      → Manual: inspect output
           → G (review)
-              → F (run tests + check env node count)
-                  → COMMIT
+              → Manual: COMMIT
 ```
 
-### Phase 3: OrganismTaxon preferred names
+### Commit 2: apply migration + update consumers (ATOMIC)
 ```
-H (phase sub-plan)
-  → B (update cyanorak_ncbi_adapter.py)
-      → C (add preferred_name test + run)
+A (run migration) + B (add new-format helpers to utils)
+  → B + D + C (parallel — update consumers, skills, test fixtures)
+      → F (run tests + prepare_data.sh)
           → G (review)
-              → COMMIT
+              → Manual: COMMIT
 ```
 
-### Phase 4: Edge type split + new properties
+### Commit 3: adapter + schema + post-import
 ```
-F (save pre_phase4 snapshot — BEFORE any code changes)
-
-H (phase sub-plan)
-  → B-schema (update schema_config.yaml)
-      → B-adapter (update omics_adapter.py)
-          → C (update + run test_omics_adapter_organism_gene.py)  ┐ parallel
-          → D (update omics-edge-snapshot, cypher-queries, paperconfig skills)  ┤ parallel
-          → E (update CLAUDE.md edge labels section)  ┘ parallel
-              → G (review)
-                  → full KG build
-                      → F (compare snapshot, verify counts)
-                          → COMMIT
-```
-
-### Phase 5: Post-import homolog propagation
-```
-H (phase sub-plan)
-  → B (update post-import.sh — 2 queries with cross-phylum filter)
-      → C (update test_post_import.py)
+B (schema + adapter rewrite + post-import)
+  → D + C (parallel — update skills, write tests)
+      → F (run tests)
           → G (review)
-              → Docker build (overnight)
-                  → F (save post_phase5 snapshot, verify ortholog counts, run KG tests)
-                      → COMMIT
+              → Manual: COMMIT
 ```
 
-### Phase 6: Final validation + docs
+### Rebuild + Validate
 ```
-H (phase sub-plan)
-  → C (update test_expression.py + regenerate snapshot_data.json)  ┐ parallel
-  → D (final skill polish)  ┤ parallel
-  → E (update CLAUDE.md counts + MEMORY.md)  ┘ parallel
-      → G (full codebase sweep — grep for old labels)
-          → F (run all 10 verification queries + full test suite + /check-gene-ids)
-              → COMMIT + TAG RELEASE
+Manual: docker compose up
+  → F (pytest -m kg + /omics-edge-snapshot compare)
+      → Manual: spot-checks
+```
+
+### Commit 4: docs and cleanup
+```
+E + C (parallel — CLAUDE.md + snapshot regeneration)
+  → G (review)
+      → Manual: COMMIT
 ```
 
 ## Parallel execution rules
 
-- Within a phase, agents marked "parallel" can run simultaneously
+- Within a commit, agents marked "parallel" can run simultaneously
 - No agent should edit a file owned by another agent
 - If two agents need to read the same file, that is fine
 - Agent G and Agent F never edit files
