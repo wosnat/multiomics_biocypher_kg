@@ -1,329 +1,356 @@
 publication:
-  papername: "Barreto 2022"
-  papermainpdf: "data/Prochlorococcus/papers_and_supp/barreto 2022/43705_2022_article_197.pdf"
-
-  environmental_conditions:
-    barreto_2022_ambient_pco2:
-      condition_type: carbon_stress
-      name: "Ambient pCO2 (400 ppm)"
-      co2_level: "400 ppm"
-      medium: "Pro99 medium"
-      description: "Growth at ambient pCO2 (400 ppm CO2)"
-
-    barreto_2022_elevated_pco2:
-      condition_type: carbon_stress
-      name: "Elevated pCO2 (800 ppm)"
-      co2_level: "800 ppm"
-      medium: "Pro99 medium"
-      description: "Growth at elevated pCO2 (800 ppm CO2)"
-
+  papername: Barreto 2022
+  papermainpdf: data/Prochlorococcus/papers_and_supp/barreto 2022/43705_2022_article_197.pdf
+  experiments:
+    carbon_stress_elevated_pco2_800_ppm_mit9312_rnaseq:
+      name: MIT9312 Elevated pCO2 (800 ppm) vs Ambient pCO2 (400 ppm) (RNASEQ)
+      organism: Prochlorococcus MIT9312
+      treatment_condition: Elevated pCO2 (800 ppm)
+      control_condition: Ambient pCO2 (400 ppm)
+      experimental_context: In Pro99 medium, axenic and coculture conditions with Alteromonas EZ55
+      omics_type: RNASEQ
+      test_type: edgeR
+      treatment_type: carbon_stress
+      medium: Pro99 medium
+      temperature: 22C
+      light_condition: continuous light
+      light_intensity: 30 umol photons m-2 s-1
+    carbon_stress_elevated_pco2_800_ppm_cc9311_rnaseq:
+      name: CC9311 Elevated pCO2 (800 ppm) vs Ambient pCO2 (400 ppm) (RNASEQ)
+      organism: Synechococcus CC9311
+      treatment_condition: Elevated pCO2 (800 ppm)
+      control_condition: Ambient pCO2 (400 ppm)
+      experimental_context: In Pro99 medium, axenic and coculture conditions with Alteromonas EZ55
+      omics_type: RNASEQ
+      test_type: edgeR
+      treatment_type: carbon_stress
+      medium: Pro99 medium
+      temperature: 22C
+      light_condition: continuous light
+      light_intensity: 30 umol photons m-2 s-1
+    carbon_stress_elevated_pco2_800_ppm_wh8102_rnaseq:
+      name: WH8102 Elevated pCO2 (800 ppm) vs Ambient pCO2 (400 ppm) (RNASEQ)
+      organism: Synechococcus WH8102
+      treatment_condition: Elevated pCO2 (800 ppm)
+      control_condition: Ambient pCO2 (400 ppm)
+      experimental_context: In Pro99 medium, axenic and coculture conditions with Alteromonas EZ55
+      omics_type: RNASEQ
+      test_type: edgeR
+      treatment_type: carbon_stress
+      medium: Pro99 medium
+      temperature: 22C
+      light_condition: continuous light
+      light_intensity: 30 umol photons m-2 s-1
+    carbon_stress_elevated_pco2_800_ppm_ez55_rnaseq:
+      name: EZ55 Elevated pCO2 (800 ppm) vs Ambient pCO2 (400 ppm) (RNASEQ)
+      organism: Alteromonas macleodii EZ55
+      treatment_condition: Elevated pCO2 (800 ppm)
+      control_condition: Ambient pCO2 (400 ppm)
+      experimental_context: In Pro99 medium, across axenic and coculture conditions
+      omics_type: RNASEQ
+      test_type: edgeR
+      treatment_type: carbon_stress
+      medium: Pro99 medium
+      temperature: 22C
+      light_condition: continuous light
+      light_intensity: 30 umol photons m-2 s-1
+    coculture_prochlorococcus_mit9312_at_400_ez55_rnaseq:
+      name: EZ55 Coculture with Prochlorococcus MIT9312 at 400 ppm pCO2 vs Axenic at 400 ppm pCO2 (RNASEQ)
+      organism: Alteromonas macleodii EZ55
+      treatment_condition: Coculture with Prochlorococcus MIT9312 at 400 ppm pCO2
+      control_condition: Axenic at 400 ppm pCO2
+      experimental_context: In Pro99 medium at ambient pCO2 (400 ppm)
+      omics_type: RNASEQ
+      test_type: edgeR
+      treatment_type: coculture
+      medium: Pro99 medium
+      temperature: 22C
+      light_condition: continuous light
+      light_intensity: 30 umol photons m-2 s-1
+      treatment_organism: Prochlorococcus MIT9312
+      treatment_taxid: 74546
+      treatment_assembly_accession: GCF_000012645.1
+    coculture_synechococcus_cc9311_at_400_ez55_rnaseq:
+      name: EZ55 Coculture with Synechococcus CC9311 at 400 ppm pCO2 vs Axenic at 400 ppm pCO2 (RNASEQ)
+      organism: Alteromonas macleodii EZ55
+      treatment_condition: Coculture with Synechococcus CC9311 at 400 ppm pCO2
+      control_condition: Axenic at 400 ppm pCO2
+      experimental_context: In Pro99 medium at ambient pCO2 (400 ppm)
+      omics_type: RNASEQ
+      test_type: edgeR
+      treatment_type: coculture
+      medium: Pro99 medium
+      temperature: 22C
+      light_condition: continuous light
+      light_intensity: 30 umol photons m-2 s-1
+      treatment_organism: Synechococcus CC9311
+      treatment_taxid: 64471
+      treatment_assembly_accession: GCF_000014585.1
+    coculture_synechococcus_wh8102_at_400_ez55_rnaseq:
+      name: EZ55 Coculture with Synechococcus WH8102 at 400 ppm pCO2 vs Axenic at 400 ppm pCO2 (RNASEQ)
+      organism: Alteromonas macleodii EZ55
+      treatment_condition: Coculture with Synechococcus WH8102 at 400 ppm pCO2
+      control_condition: Axenic at 400 ppm pCO2
+      experimental_context: In Pro99 medium at ambient pCO2 (400 ppm)
+      omics_type: RNASEQ
+      test_type: edgeR
+      treatment_type: coculture
+      medium: Pro99 medium
+      temperature: 22C
+      light_condition: continuous light
+      light_intensity: 30 umol photons m-2 s-1
+      treatment_organism: Synechococcus WH8102
+      treatment_taxid: 84588
+      treatment_assembly_accession: GCF_000195975.1
+    coculture_prochlorococcus_mit9312_at_800_ez55_rnaseq:
+      name: EZ55 Coculture with Prochlorococcus MIT9312 at 800 ppm pCO2 vs Axenic at 800 ppm pCO2 (RNASEQ)
+      organism: Alteromonas macleodii EZ55
+      treatment_condition: Coculture with Prochlorococcus MIT9312 at 800 ppm pCO2
+      control_condition: Axenic at 800 ppm pCO2
+      experimental_context: In Pro99 medium at elevated pCO2 (800 ppm)
+      omics_type: RNASEQ
+      test_type: edgeR
+      treatment_type: coculture
+      medium: Pro99 medium
+      temperature: 22C
+      light_condition: continuous light
+      light_intensity: 30 umol photons m-2 s-1
+      treatment_organism: Prochlorococcus MIT9312
+      treatment_taxid: 74546
+      treatment_assembly_accession: GCF_000012645.1
+    coculture_synechococcus_cc9311_at_800_ez55_rnaseq:
+      name: EZ55 Coculture with Synechococcus CC9311 at 800 ppm pCO2 vs Axenic at 800 ppm pCO2 (RNASEQ)
+      organism: Alteromonas macleodii EZ55
+      treatment_condition: Coculture with Synechococcus CC9311 at 800 ppm pCO2
+      control_condition: Axenic at 800 ppm pCO2
+      experimental_context: In Pro99 medium at elevated pCO2 (800 ppm)
+      omics_type: RNASEQ
+      test_type: edgeR
+      treatment_type: coculture
+      medium: Pro99 medium
+      temperature: 22C
+      light_condition: continuous light
+      light_intensity: 30 umol photons m-2 s-1
+      treatment_organism: Synechococcus CC9311
+      treatment_taxid: 64471
+      treatment_assembly_accession: GCF_000014585.1
+    coculture_synechococcus_wh8102_at_800_ez55_rnaseq:
+      name: EZ55 Coculture with Synechococcus WH8102 at 800 ppm pCO2 vs Axenic at 800 ppm pCO2 (RNASEQ)
+      organism: Alteromonas macleodii EZ55
+      treatment_condition: Coculture with Synechococcus WH8102 at 800 ppm pCO2
+      control_condition: Axenic at 800 ppm pCO2
+      experimental_context: In Pro99 medium at elevated pCO2 (800 ppm)
+      omics_type: RNASEQ
+      test_type: edgeR
+      treatment_type: coculture
+      medium: Pro99 medium
+      temperature: 22C
+      light_condition: continuous light
+      light_intensity: 30 umol photons m-2 s-1
+      treatment_organism: Synechococcus WH8102
+      treatment_taxid: 84588
+      treatment_assembly_accession: GCF_000195975.1
   supplementary_materials:
-    # Annotation file for Prochlorococcus MIT9312: bridges old locus tags and gene names
-    # GID = old locus tag (PMT9312_NNNN), SYMBOL = gene name (when annotated)
     id_translation_pro_9312:
       type: id_translation
-      filename: "data/Prochlorococcus/papers_and_supp/barreto 2022/pro_9312_anot.csv"
-      organism: "Prochlorococcus MIT9312"
+      filename: data/Prochlorococcus/papers_and_supp/barreto 2022/pro_9312_anot.csv
+      organism: Prochlorococcus MIT9312
       id_columns:
-        - column: GID
-          id_type: old_locus_tag
-        - column: SYMBOL
-          id_type: gene_name
-        - column: uniprot_acc
-          id_type: uniprot_accession
+      - column: GID
+        id_type: old_locus_tag
+      - column: SYMBOL
+        id_type: gene_name
+      - column: uniprot_acc
+        id_type: uniprot_accession
       product_columns:
-        - column: PRODUCT
-
-    # Annotation file for Synechococcus CC9311: bridges locus tags and gene names
-    # GID = locus tag (sync_NNNN), genename = gene name (when annotated)
+      - column: PRODUCT
     id_translation_syn_9311:
       type: id_translation
-      filename: "data/Prochlorococcus/papers_and_supp/barreto 2022/syn_9311.csv"
-      organism: "Synechococcus CC9311"
+      filename: data/Prochlorococcus/papers_and_supp/barreto 2022/syn_9311.csv
+      organism: Synechococcus CC9311
       id_columns:
-        - column: GID
-          id_type: locus_tag
-        - column: genename
-          id_type: gene_name
-        - column: uniprot_acc
-          id_type: uniprot_accession
+      - column: GID
+        id_type: locus_tag
+      - column: genename
+        id_type: gene_name
+      - column: uniprot_acc
+        id_type: uniprot_accession
       product_columns:
-        - column: definition
-
-    # Annotation file for Synechococcus WH8102: bridges locus tags and gene names
-    # GID = locus tag (SYNW0001), SYMBOL = gene name (when annotated)
+      - column: definition
     id_translation_syn_8102:
       type: id_translation
-      filename: "data/Prochlorococcus/papers_and_supp/barreto 2022/syn_8102_anot.csv"
-      organism: "Synechococcus WH8102"
+      filename: data/Prochlorococcus/papers_and_supp/barreto 2022/syn_8102_anot.csv
+      organism: Synechococcus WH8102
       id_columns:
-        - column: GID
-          id_type: locus_tag
-        - column: SYMBOL
-          id_type: gene_name
-        - column: uniprot_acc
-          id_type: uniprot_accession
+      - column: GID
+        id_type: locus_tag
+      - column: SYMBOL
+        id_type: gene_name
+      - column: uniprot_acc
+        id_type: uniprot_accession
       product_columns:
-        - column: PRODUCT
-
-    # Paper-supplied GTF for Alteromonas EZ55 genome reannotation.
-    # Bridges EZ55 gene symbols to canonical locus tags for build_gene_id_mapping.py.
+      - column: PRODUCT
     annotation_gtf_ez55:
       type: annotation_gff
-      filename: "data/Prochlorococcus/papers_and_supp/barreto 2022/EZ55.exon.fixed2.gtf"
-      organism: "Alteromonas macleodii EZ55"
-
-    # Table S1: pCO2 effect on picocyanobacteria (split per species from original table_S1.csv)
+      filename: data/Prochlorococcus/papers_and_supp/barreto 2022/EZ55.exon.fixed2.gtf
+      organism: Alteromonas macleodii EZ55
     supp_table_S1_MIT9312:
       type: csv
-      filename: "data/Prochlorococcus/papers_and_supp/barreto 2022/transcriptome_supplemental_tables/Supplemental_tables/table_S1_MIT9312.csv"
+      filename: data/Prochlorococcus/papers_and_supp/barreto 2022/transcriptome_supplemental_tables/Supplemental_tables/table_S1_MIT9312.csv
       id_columns:
       - column: symbol
         id_type: gene_name
       product_columns:
       - column: product
       statistical_analyses:
-        - type: RNASEQ
-          name: "DE of Prochlorococcus MIT9312 at elevated (800 ppm) vs ambient (400 ppm) pCO2"
-          id: DE_pco2_elevated_vs_ambient_MIT9312
-          test_type: edgeR
-          control_condition: "Ambient pCO2 (400 ppm)"
-          treatment_condition: "Elevated pCO2 (800 ppm)"
-          experimental_context: "In Pro99 medium, axenic and coculture conditions with Alteromonas EZ55"
-          organism: "Prochlorococcus MIT9312"
-          environmental_control_condition_id: barreto_2022_ambient_pco2
-          environmental_treatment_condition_id: barreto_2022_elevated_pco2
-          name_col: symbol
-          logfc_col: logFC
-          adjusted_p_value_col: PValue
-          pvalue_threshold: 0.05
-
+      - id: DE_pco2_elevated_vs_ambient_MIT9312
+        experiment: carbon_stress_elevated_pco2_800_ppm_mit9312_rnaseq
+        timepoint_hours: null
+        name_col: symbol
+        logfc_col: logFC
+        adjusted_p_value_col: PValue
+        pvalue_threshold: 0.05
     supp_table_S1_CC9311:
       type: csv
-      filename: "data/Prochlorococcus/papers_and_supp/barreto 2022/transcriptome_supplemental_tables/Supplemental_tables/table_S1_CC9311.csv"
+      filename: data/Prochlorococcus/papers_and_supp/barreto 2022/transcriptome_supplemental_tables/Supplemental_tables/table_S1_CC9311.csv
       id_columns:
       - column: symbol
         id_type: gene_name
       product_columns:
       - column: product
       statistical_analyses:
-        - type: RNASEQ
-          name: "DE of Synechococcus CC9311 at elevated (800 ppm) vs ambient (400 ppm) pCO2"
-          id: DE_pco2_elevated_vs_ambient_CC9311
-          test_type: edgeR
-          control_condition: "Ambient pCO2 (400 ppm)"
-          treatment_condition: "Elevated pCO2 (800 ppm)"
-          experimental_context: "In Pro99 medium, axenic and coculture conditions with Alteromonas EZ55"
-          organism: "Synechococcus CC9311"
-          environmental_control_condition_id: barreto_2022_ambient_pco2
-          environmental_treatment_condition_id: barreto_2022_elevated_pco2
-          name_col: symbol
-          logfc_col: logFC
-          adjusted_p_value_col: PValue
-          pvalue_threshold: 0.05
-
+      - id: DE_pco2_elevated_vs_ambient_CC9311
+        experiment: carbon_stress_elevated_pco2_800_ppm_cc9311_rnaseq
+        timepoint_hours: null
+        name_col: symbol
+        logfc_col: logFC
+        adjusted_p_value_col: PValue
+        pvalue_threshold: 0.05
     supp_table_S1_WH8102:
       type: csv
-      filename: "data/Prochlorococcus/papers_and_supp/barreto 2022/transcriptome_supplemental_tables/Supplemental_tables/table_S1_WH8102.csv"
+      filename: data/Prochlorococcus/papers_and_supp/barreto 2022/transcriptome_supplemental_tables/Supplemental_tables/table_S1_WH8102.csv
       id_columns:
       - column: symbol
         id_type: gene_name
       product_columns:
       - column: product
       statistical_analyses:
-        - type: RNASEQ
-          name: "DE of Synechococcus WH8102 at elevated (800 ppm) vs ambient (400 ppm) pCO2"
-          id: DE_pco2_elevated_vs_ambient_WH8102
-          test_type: edgeR
-          control_condition: "Ambient pCO2 (400 ppm)"
-          treatment_condition: "Elevated pCO2 (800 ppm)"
-          experimental_context: "In Pro99 medium, axenic and coculture conditions with Alteromonas EZ55"
-          organism: "Synechococcus WH8102"
-          environmental_control_condition_id: barreto_2022_ambient_pco2
-          environmental_treatment_condition_id: barreto_2022_elevated_pco2
-          name_col: symbol
-          logfc_col: logFC
-          adjusted_p_value_col: PValue
-          pvalue_threshold: 0.05
-
-
-    # Table S2: pCO2 effect on Alteromonas EZ55
+      - id: DE_pco2_elevated_vs_ambient_WH8102
+        experiment: carbon_stress_elevated_pco2_800_ppm_wh8102_rnaseq
+        timepoint_hours: null
+        name_col: symbol
+        logfc_col: logFC
+        adjusted_p_value_col: PValue
+        pvalue_threshold: 0.05
     supp_table_S2:
       type: csv
-      filename: "data/Prochlorococcus/papers_and_supp/barreto 2022/transcriptome_supplemental_tables/Supplemental_tables/table_S2.csv"
+      filename: data/Prochlorococcus/papers_and_supp/barreto 2022/transcriptome_supplemental_tables/Supplemental_tables/table_S2.csv
       id_columns:
       - column: symbol
         id_type: gene_name
       product_columns:
       - column: product
       statistical_analyses:
-        - type: RNASEQ
-          name: "DE of Alteromonas EZ55 at elevated (800 ppm) vs ambient (400 ppm) pCO2"
-          id: DE_pco2_elevated_vs_ambient_EZ55
-          test_type: edgeR
-          control_condition: "Ambient pCO2 (400 ppm)"
-          treatment_condition: "Elevated pCO2 (800 ppm)"
-          experimental_context: "In Pro99 medium, across axenic and coculture conditions"
-          organism: "Alteromonas macleodii EZ55"
-          environmental_control_condition_id: barreto_2022_ambient_pco2
-          environmental_treatment_condition_id: barreto_2022_elevated_pco2
-          name_col: symbol
-          logfc_col: logFC
-          adjusted_p_value_col: PValue
-          pvalue_threshold: 0.05
-
-    # Table S9: Alteromonas EZ55 coculture with MIT9312 at 400 ppm
+      - id: DE_pco2_elevated_vs_ambient_EZ55
+        experiment: carbon_stress_elevated_pco2_800_ppm_ez55_rnaseq
+        timepoint_hours: null
+        name_col: symbol
+        logfc_col: logFC
+        adjusted_p_value_col: PValue
+        pvalue_threshold: 0.05
     supp_table_S9:
       type: csv
-      filename: "data/Prochlorococcus/papers_and_supp/barreto 2022/transcriptome_supplemental_tables/Supplemental_tables/table_S9.csv"
+      filename: data/Prochlorococcus/papers_and_supp/barreto 2022/transcriptome_supplemental_tables/Supplemental_tables/table_S9.csv
       id_columns:
       - column: symbol
         id_type: gene_name
       product_columns:
       - column: product
       statistical_analyses:
-        - type: RNASEQ
-          name: "DE of Alteromonas EZ55 in coculture with Prochlorococcus MIT9312 vs axenic at 400 ppm pCO2"
-          id: DE_coculture_MIT9312_vs_axenic_EZ55_400ppm
-          test_type: edgeR
-          control_condition: "Axenic at 400 ppm pCO2"
-          treatment_condition: "Coculture with Prochlorococcus MIT9312 at 400 ppm pCO2"
-          experimental_context: "In Pro99 medium at ambient pCO2 (400 ppm)"
-          organism: "Alteromonas macleodii EZ55"
-          treatment_organism: "Prochlorococcus MIT9312"
-          treatment_taxid: 74546
-          treatment_assembly_accession: GCF_000012645.1
-          name_col: symbol
-          logfc_col: logFC
-          adjusted_p_value_col: PValue
-          pvalue_threshold: 0.05
-
-    # Table S10: Alteromonas EZ55 coculture with CC9311 at 400 ppm
+      - id: DE_coculture_MIT9312_vs_axenic_EZ55_400ppm
+        experiment: coculture_prochlorococcus_mit9312_at_400_ez55_rnaseq
+        timepoint_hours: null
+        name_col: symbol
+        logfc_col: logFC
+        adjusted_p_value_col: PValue
+        pvalue_threshold: 0.05
     supp_table_S10:
       type: csv
-      filename: "data/Prochlorococcus/papers_and_supp/barreto 2022/transcriptome_supplemental_tables/Supplemental_tables/table_S10.csv"
+      filename: data/Prochlorococcus/papers_and_supp/barreto 2022/transcriptome_supplemental_tables/Supplemental_tables/table_S10.csv
       id_columns:
       - column: symbol
         id_type: gene_name
       product_columns:
       - column: product
       statistical_analyses:
-        - type: RNASEQ
-          name: "DE of Alteromonas EZ55 in coculture with Synechococcus CC9311 vs axenic at 400 ppm pCO2"
-          id: DE_coculture_CC9311_vs_axenic_EZ55_400ppm
-          test_type: edgeR
-          control_condition: "Axenic at 400 ppm pCO2"
-          treatment_condition: "Coculture with Synechococcus CC9311 at 400 ppm pCO2"
-          experimental_context: "In Pro99 medium at ambient pCO2 (400 ppm)"
-          organism: "Alteromonas macleodii EZ55"
-          treatment_organism: "Synechococcus CC9311"
-          treatment_taxid: 64471
-          treatment_assembly_accession: GCF_000014585.1
-          name_col: symbol
-          logfc_col: logFC
-          adjusted_p_value_col: PValue
-          pvalue_threshold: 0.05
-
-    # Table S11: Alteromonas EZ55 coculture with WH8102 at 400 ppm
+      - id: DE_coculture_CC9311_vs_axenic_EZ55_400ppm
+        experiment: coculture_synechococcus_cc9311_at_400_ez55_rnaseq
+        timepoint_hours: null
+        name_col: symbol
+        logfc_col: logFC
+        adjusted_p_value_col: PValue
+        pvalue_threshold: 0.05
     supp_table_S11:
       type: csv
-      filename: "data/Prochlorococcus/papers_and_supp/barreto 2022/transcriptome_supplemental_tables/Supplemental_tables/table_S11.csv"
+      filename: data/Prochlorococcus/papers_and_supp/barreto 2022/transcriptome_supplemental_tables/Supplemental_tables/table_S11.csv
       id_columns:
       - column: symbol
         id_type: gene_name
       product_columns:
       - column: product
       statistical_analyses:
-        - type: RNASEQ
-          name: "DE of Alteromonas EZ55 in coculture with Synechococcus WH8102 vs axenic at 400 ppm pCO2"
-          id: DE_coculture_WH8102_vs_axenic_EZ55_400ppm
-          test_type: edgeR
-          control_condition: "Axenic at 400 ppm pCO2"
-          treatment_condition: "Coculture with Synechococcus WH8102 at 400 ppm pCO2"
-          experimental_context: "In Pro99 medium at ambient pCO2 (400 ppm)"
-          organism: "Alteromonas macleodii EZ55"
-          treatment_organism: "Synechococcus WH8102"
-          treatment_taxid: 84588
-          treatment_assembly_accession: GCF_000195975.1
-          name_col: symbol
-          logfc_col: logFC
-          adjusted_p_value_col: PValue
-          pvalue_threshold: 0.05
-
-    # Table S12: Alteromonas EZ55 coculture with MIT9312 at 800 ppm
+      - id: DE_coculture_WH8102_vs_axenic_EZ55_400ppm
+        experiment: coculture_synechococcus_wh8102_at_400_ez55_rnaseq
+        timepoint_hours: null
+        name_col: symbol
+        logfc_col: logFC
+        adjusted_p_value_col: PValue
+        pvalue_threshold: 0.05
     supp_table_S12:
       type: csv
-      filename: "data/Prochlorococcus/papers_and_supp/barreto 2022/transcriptome_supplemental_tables/Supplemental_tables/table_S12.csv"
+      filename: data/Prochlorococcus/papers_and_supp/barreto 2022/transcriptome_supplemental_tables/Supplemental_tables/table_S12.csv
       id_columns:
       - column: symbol
         id_type: gene_name
       product_columns:
       - column: product
       statistical_analyses:
-        - type: RNASEQ
-          name: "DE of Alteromonas EZ55 in coculture with Prochlorococcus MIT9312 vs axenic at 800 ppm pCO2"
-          id: DE_coculture_MIT9312_vs_axenic_EZ55_800ppm
-          test_type: edgeR
-          control_condition: "Axenic at 800 ppm pCO2"
-          treatment_condition: "Coculture with Prochlorococcus MIT9312 at 800 ppm pCO2"
-          experimental_context: "In Pro99 medium at elevated pCO2 (800 ppm)"
-          organism: "Alteromonas macleodii EZ55"
-          treatment_organism: "Prochlorococcus MIT9312"
-          treatment_taxid: 74546
-          treatment_assembly_accession: GCF_000012645.1
-          name_col: symbol
-          logfc_col: logFC
-          adjusted_p_value_col: PValue
-          pvalue_threshold: 0.05
-
-    # Table S13: Alteromonas EZ55 coculture with CC9311 at 800 ppm
+      - id: DE_coculture_MIT9312_vs_axenic_EZ55_800ppm
+        experiment: coculture_prochlorococcus_mit9312_at_800_ez55_rnaseq
+        timepoint_hours: null
+        name_col: symbol
+        logfc_col: logFC
+        adjusted_p_value_col: PValue
+        pvalue_threshold: 0.05
     supp_table_S13:
       type: csv
-      filename: "data/Prochlorococcus/papers_and_supp/barreto 2022/transcriptome_supplemental_tables/Supplemental_tables/table_S13.csv"
+      filename: data/Prochlorococcus/papers_and_supp/barreto 2022/transcriptome_supplemental_tables/Supplemental_tables/table_S13.csv
       id_columns:
       - column: symbol
         id_type: gene_name
       product_columns:
       - column: product
       statistical_analyses:
-        - type: RNASEQ
-          name: "DE of Alteromonas EZ55 in coculture with Synechococcus CC9311 vs axenic at 800 ppm pCO2"
-          id: DE_coculture_CC9311_vs_axenic_EZ55_800ppm
-          test_type: edgeR
-          control_condition: "Axenic at 800 ppm pCO2"
-          treatment_condition: "Coculture with Synechococcus CC9311 at 800 ppm pCO2"
-          experimental_context: "In Pro99 medium at elevated pCO2 (800 ppm)"
-          organism: "Alteromonas macleodii EZ55"
-          treatment_organism: "Synechococcus CC9311"
-          treatment_taxid: 64471
-          treatment_assembly_accession: GCF_000014585.1
-          name_col: symbol
-          logfc_col: logFC
-          adjusted_p_value_col: PValue
-          pvalue_threshold: 0.05
-
-    # Table S14: Alteromonas EZ55 coculture with WH8102 at 800 ppm
+      - id: DE_coculture_CC9311_vs_axenic_EZ55_800ppm
+        experiment: coculture_synechococcus_cc9311_at_800_ez55_rnaseq
+        timepoint_hours: null
+        name_col: symbol
+        logfc_col: logFC
+        adjusted_p_value_col: PValue
+        pvalue_threshold: 0.05
     supp_table_S14:
       type: csv
-      filename: "data/Prochlorococcus/papers_and_supp/barreto 2022/transcriptome_supplemental_tables/Supplemental_tables/table_S14.csv"
+      filename: data/Prochlorococcus/papers_and_supp/barreto 2022/transcriptome_supplemental_tables/Supplemental_tables/table_S14.csv
       id_columns:
       - column: symbol
         id_type: gene_name
       product_columns:
       - column: product
       statistical_analyses:
-        - type: RNASEQ
-          name: "DE of Alteromonas EZ55 in coculture with Synechococcus WH8102 vs axenic at 800 ppm pCO2"
-          id: DE_coculture_WH8102_vs_axenic_EZ55_800ppm
-          test_type: edgeR
-          control_condition: "Axenic at 800 ppm pCO2"
-          treatment_condition: "Coculture with Synechococcus WH8102 at 800 ppm pCO2"
-          experimental_context: "In Pro99 medium at elevated pCO2 (800 ppm)"
-          organism: "Alteromonas macleodii EZ55"
-          treatment_organism: "Synechococcus WH8102"
-          treatment_taxid: 84588
-          treatment_assembly_accession: GCF_000195975.1
-          name_col: symbol
-          logfc_col: logFC
-          adjusted_p_value_col: PValue
-          pvalue_threshold: 0.05
+      - id: DE_coculture_WH8102_vs_axenic_EZ55_800ppm
+        experiment: coculture_synechococcus_wh8102_at_800_ez55_rnaseq
+        timepoint_hours: null
+        name_col: symbol
+        logfc_col: logFC
+        adjusted_p_value_col: PValue
+        pvalue_threshold: 0.05

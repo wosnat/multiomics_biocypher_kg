@@ -1,67 +1,63 @@
 publication:
-  papername: "He 2022"
-  papermainpdf: "data/Prochlorococcus/papers_and_supp/he 2022/fmicb-13-1038136.pdf"
-
-  environmental_conditions:
-    he_2022_normal_seawater:
-      condition_type: growth_medium
-      name: "Normal seawater salinity (34 psu)"
-      medium: "Pro99 natural seawater medium"
-      temperature: "21C"
+  papername: He 2022
+  papermainpdf: data/Prochlorococcus/papers_and_supp/he 2022/fmicb-13-1038136.pdf
+  experiments:
+    salt_stress_low_salinity_acclimation_28_natl1a_rnaseq:
+      name: NATL1A Low salinity acclimation (28 psu) vs Normal seawater salinity (34 psu) (RNASEQ)
+      organism: Prochlorococcus NATL1A
+      treatment_condition: Low salinity acclimation (28 psu)
+      control_condition: Normal seawater salinity (34 psu)
+      experimental_context: Axenic Prochlorococcus NATL1A in Pro99 medium at 21C under continuous light (10 uE m-2 s-1), acclimated
+        through five rounds of transfer
+      omics_type: RNASEQ
+      test_type: DESeq
+      treatment_type: salt_stress
+      medium: Pro99 natural seawater medium with reduced salinity
+      temperature: 21C
       light_condition: continuous_light
-      light_intensity: "10 umol photons m-2 s-1"
-      salinity: "34 psu"
-      description: "Prochlorococcus maintained in Pro99 medium at normal seawater salinity (34 psu)"
-    he_2022_low_salinity:
-      condition_type: salt_stress
-      name: "Low salinity acclimation (28 psu)"
-      medium: "Pro99 natural seawater medium with reduced salinity"
-      temperature: "21C"
+      light_intensity: 10 umol photons m-2 s-1
+    salt_stress_low_salinity_acclimation_28_med4_rnaseq:
+      name: MED4 Low salinity acclimation (28 psu) vs Normal seawater salinity (34 psu) (RNASEQ)
+      organism: Prochlorococcus MED4
+      treatment_condition: Low salinity acclimation (28 psu)
+      control_condition: Normal seawater salinity (34 psu)
+      experimental_context: Axenic Prochlorococcus MED4 in Pro99 medium at 21C under continuous light (10 uE m-2 s-1), acclimated
+        through five rounds of transfer
+      omics_type: RNASEQ
+      test_type: DESeq
+      treatment_type: salt_stress
+      medium: Pro99 natural seawater medium with reduced salinity
+      temperature: 21C
       light_condition: continuous_light
-      light_intensity: "10 umol photons m-2 s-1"
-      salinity: "28 psu"
-      description: "Prochlorococcus acclimated to low salinity (28 psu) through five rounds of consecutive transfers"
-
+      light_intensity: 10 umol photons m-2 s-1
   supplementary_materials:
     supp_table_s1:
       type: csv
-      filename: "data/Prochlorococcus/papers_and_supp/he 2022/table s1 Highly differentially expressed genes in low salinity acclimated cells of NATL1A .csv"
+      filename: data/Prochlorococcus/papers_and_supp/he 2022/table s1 Highly differentially expressed genes in low salinity
+        acclimated cells of NATL1A .csv
       product_columns:
       - column: Definition
       statistical_analyses:
-        - type: RNASEQ
-          name: "Highly DE genes in Prochlorococcus NATL1A under low salinity (28 psu) vs normal seawater (34 psu)"
-          id: DE_low_salinity_vs_normal_NATL1A
-          test_type: DESeq
-          control_condition: "Normal seawater salinity (34 psu)"
-          treatment_condition: "Low salinity acclimation (28 psu)"
-          environmental_control_condition_id: he_2022_normal_seawater
-          environmental_treatment_condition_id: he_2022_low_salinity
-          experimental_context: "Axenic Prochlorococcus NATL1A in Pro99 medium at 21C under continuous light (10 uE m-2 s-1), acclimated through five rounds of transfer"
-          organism: "Prochlorococcus NATL1A"
-          name_col: "Gene Name"
-          logfc_col: "Log2FC"
-          adjusted_p_value_col: "p-value"
-          prefiltered: true
-          pvalue_threshold: 0.05
+      - id: DE_low_salinity_vs_normal_NATL1A
+        experiment: salt_stress_low_salinity_acclimation_28_natl1a_rnaseq
+        timepoint_hours: null
+        name_col: Gene Name
+        logfc_col: Log2FC
+        adjusted_p_value_col: p-value
+        pvalue_threshold: 0.05
+        prefiltered: true
     supp_table_s2:
       type: csv
-      filename: "data/Prochlorococcus/papers_and_supp/he 2022/table s2 Highly differentially expressed genes in low salinity acclimated cells of MED4 .csv"
+      filename: data/Prochlorococcus/papers_and_supp/he 2022/table s2 Highly differentially expressed genes in low salinity
+        acclimated cells of MED4 .csv
       product_columns:
       - column: Definition
       statistical_analyses:
-        - type: RNASEQ
-          name: "Highly DE genes in Prochlorococcus MED4 under low salinity (28 psu) vs normal seawater (34 psu)"
-          id: DE_low_salinity_vs_normal_MED4
-          test_type: DESeq
-          control_condition: "Normal seawater salinity (34 psu)"
-          treatment_condition: "Low salinity acclimation (28 psu)"
-          environmental_control_condition_id: he_2022_normal_seawater
-          environmental_treatment_condition_id: he_2022_low_salinity
-          experimental_context: "Axenic Prochlorococcus MED4 in Pro99 medium at 21C under continuous light (10 uE m-2 s-1), acclimated through five rounds of transfer"
-          organism: "Prochlorococcus MED4"
-          name_col: "Gene Name"
-          logfc_col: "logFC"
-          adjusted_p_value_col: "p-value"
-          prefiltered: true
-          pvalue_threshold: 0.05
+      - id: DE_low_salinity_vs_normal_MED4
+        experiment: salt_stress_low_salinity_acclimation_28_med4_rnaseq
+        timepoint_hours: null
+        name_col: Gene Name
+        logfc_col: logFC
+        adjusted_p_value_col: p-value
+        pvalue_threshold: 0.05
+        prefiltered: true

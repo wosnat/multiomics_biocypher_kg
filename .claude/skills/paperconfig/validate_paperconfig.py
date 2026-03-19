@@ -3,24 +3,26 @@
 
 Usage:
     python .claude/skills/paperconfig/validate_paperconfig.py <path_to_paperconfig.yaml>
+    python .claude/skills/paperconfig/validate_paperconfig.py --all
 
 Checks:
     - YAML is parseable
     - Required top-level fields exist (or strain-level resource config with no publication block)
     - PDF file exists
     - CSV files exist and are readable
+    - experiments block exists and is well-formed (required fields, canonical vocabulary)
+    - Each analysis has 'experiment' reference pointing to a valid experiment key
+    - Each analysis has 'timepoint_hours' (or null)
     - Column names (name_col, logfc_col, adjusted_p_value_col) match CSV headers
     - id_columns column names match CSV headers for csv and id_translation entries
     - product_columns column names match CSV headers
-    - annotation_gff entries have organism and a valid GFF/GTF/GTF extension
+    - annotation_gff entries have organism and a valid GFF/GTF extension
     - id_translation entries have organism and id_columns
-    - Environmental condition references resolve
-    - Each analysis has either organism or environmental condition edge source
     - All required analysis fields are present
     - Analysis IDs are unique
     - skip_rows is applied correctly when reading CSV headers
     - Sample data rows are readable and logfc_col contains numeric-like values
-    - Canonical vocabulary: organism, condition_type, test_type must use allowed values
+    - Canonical vocabulary: organism, treatment_type, test_type, omics_type
 """
 
 import sys
@@ -34,24 +36,33 @@ _PROJECT_ROOT = Path(__file__).resolve().parents[3]
 sys.path.insert(0, str(_PROJECT_ROOT))
 from multiomics_kg.utils.paperconfig_utils import (
     load_paperconfig,
+    load_all_paperconfigs,
     get_publication,
     get_paper_name,
     get_supplementary_materials,
 )
 
+# Required fields on each statistical_analyses entry (new experiment-based format)
 REQUIRED_ANALYSIS_FIELDS = [
-    "type", "name", "id", "test_type",
-    "control_condition", "treatment_condition",
-    "organism", "name_col", "logfc_col",
+    "id", "experiment", "name_col", "logfc_col",
 ]
 
-# ── New: Required statistical_analyses fields (enforced as errors) ──────────
-# These three are required regardless of other fields:
+# Strict required fields with descriptions (enforced as errors)
 REQUIRED_STATS_FIELDS = {
     "id": "unique identifier within publication",
-    "type": "one of RNASEQ, PROTEOMICS, METABOLOMICS, MICROARRAY",
-    "treatment_condition": "non-empty string describing the treatment condition",
+    "experiment": "reference to a key in the experiments block",
 }
+
+# Required fields on each experiment entry
+REQUIRED_EXPERIMENT_FIELDS = [
+    "name", "organism", "omics_type", "test_type",
+    "treatment_type", "treatment_condition", "control_condition",
+]
+
+# Optional but recommended experiment fields (warn if missing)
+RECOMMENDED_EXPERIMENT_FIELDS = [
+    "medium", "temperature", "light_condition", "light_intensity",
+]
 
 VALID_TYPES = {"RNASEQ", "MICROARRAY", "PROTEOMICS", "METABOLOMICS"}
 VALID_ID_TYPES = {
@@ -64,7 +75,7 @@ VALID_ID_TYPES = {
 
 # ── Canonical vocabulary ─────────────────────────────────────────────────────
 
-# Canonical organism names for the 'organism' field in statistical_analyses
+# Canonical organism names for the 'organism' field in experiments
 # and for the 'organism' field in supplementary table entries.
 CANONICAL_GENOMIC_ORGANISMS = {
     "Prochlorococcus MED4",
@@ -93,7 +104,7 @@ _TREATMENT_ORGANISMS_CSV_DEFAULT = {
     "Alteromonas",
 }
 
-# Canonical condition_type values for environmental_conditions entries.
+# Canonical treatment_type values for experiment entries (replaces condition_type).
 CANONICAL_CONDITION_TYPES = {
     "growth_medium",
     "nitrogen_stress",
@@ -201,6 +212,103 @@ def _validate_product_columns(product_columns, cols, table_key, warnings):
             print(f"      product_col '{col_name}': OK")
 
 
+def _validate_experiments(experiments: dict, config_path: str,
+                          all_canonical_organisms: set,
+                          errors: list, warnings: list) -> None:
+    """Validate the experiments block in a publication config."""
+    if not experiments:
+        errors.append(f"{config_path} | missing 'experiments' block in publication")
+        return
+
+    if not isinstance(experiments, dict):
+        errors.append(f"{config_path} | 'experiments' must be a mapping, got {type(experiments).__name__}")
+        return
+
+    for exp_key, exp in experiments.items():
+        if not isinstance(exp, dict):
+            errors.append(f"{config_path} | experiments.{exp_key} must be a mapping")
+            continue
+
+        print(f"\n  [experiment: {exp_key}]")
+
+        # Required fields
+        for field in REQUIRED_EXPERIMENT_FIELDS:
+            val = exp.get(field)
+            if val is None or (isinstance(val, str) and not val.strip()):
+                errors.append(
+                    f"{config_path} | experiments.{exp_key} | "
+                    f"missing required field '{field}'"
+                )
+
+        # Canonical organism
+        organism = exp.get("organism", "")
+        if organism and organism not in all_canonical_organisms:
+            errors.append(
+                _canonical_organism_error(
+                    config_path, f"experiments.{exp_key}", organism,
+                    all_canonical_organisms,
+                )
+            )
+        elif organism:
+            print(f"    organism '{organism}': OK")
+
+        # Canonical omics_type
+        omics_type = exp.get("omics_type", "")
+        if omics_type and omics_type not in VALID_TYPES:
+            errors.append(
+                _canonical_field_error(
+                    config_path, f"experiments.{exp_key}",
+                    "omics_type", omics_type, VALID_TYPES,
+                )
+            )
+        elif omics_type:
+            print(f"    omics_type '{omics_type}': OK")
+
+        # Canonical test_type
+        test_type = exp.get("test_type", "")
+        if test_type and test_type not in CANONICAL_TEST_TYPES:
+            errors.append(
+                _canonical_field_error(
+                    config_path, f"experiments.{exp_key}",
+                    "test_type", test_type, CANONICAL_TEST_TYPES,
+                )
+            )
+        elif test_type:
+            print(f"    test_type '{test_type}': OK")
+
+        # Canonical treatment_type
+        treatment_type = exp.get("treatment_type", "")
+        if treatment_type and treatment_type not in CANONICAL_CONDITION_TYPES:
+            errors.append(
+                _canonical_field_error(
+                    config_path, f"experiments.{exp_key}",
+                    "treatment_type", treatment_type, CANONICAL_CONDITION_TYPES,
+                )
+            )
+        elif treatment_type:
+            print(f"    treatment_type '{treatment_type}': OK")
+
+        # Canonical treatment_organism (optional, only for coculture experiments)
+        treatment_organism = exp.get("treatment_organism", "")
+        if treatment_organism and treatment_organism not in all_canonical_organisms:
+            errors.append(
+                _canonical_organism_error(
+                    config_path, f"experiments.{exp_key} treatment_organism",
+                    treatment_organism, all_canonical_organisms,
+                )
+            )
+        elif treatment_organism:
+            print(f"    treatment_organism '{treatment_organism}': OK")
+
+        # Recommended fields (warn if missing)
+        for field in RECOMMENDED_EXPERIMENT_FIELDS:
+            if field not in exp:
+                warnings.append(
+                    f"{config_path} | experiments.{exp_key} | "
+                    f"missing recommended field '{field}'"
+                )
+
+
 def validate(config_path: str) -> bool:
     errors = []
     warnings = []
@@ -239,7 +347,7 @@ def validate(config_path: str) -> bool:
         print("  [strain-level resource config — no publication block]")
         pub = {}
         supp = config.get("supplementary_materials")
-        env_conds = {}
+        experiments = {}
     else:
         if not config or "publication" not in config:
             print("FAIL: Missing top-level 'publication' key")
@@ -263,30 +371,12 @@ def validate(config_path: str) -> bool:
         else:
             print(f"  PDF exists: {pdf}")
 
-        # --- Environmental conditions ---
-        env_conds = pub.get("environmental_conditions", {})
-        if env_conds:
-            print(f"  Environmental conditions: {list(env_conds.keys())}")
-            # Validate condition_type in each environmental condition
-            for cond_key, cond_val in env_conds.items():
-                if not isinstance(cond_val, dict):
-                    continue
-                cond_type = cond_val.get("condition_type")
-                if cond_type is not None and cond_type not in CANONICAL_CONDITION_TYPES:
-                    errors.append(
-                        _canonical_field_error(
-                            config_path,
-                            f"environmental_conditions.{cond_key}",
-                            "condition_type",
-                            cond_type,
-                            CANONICAL_CONDITION_TYPES,
-                        )
-                    )
-                elif cond_type is None:
-                    warnings.append(
-                        f"{config_path} | environmental_conditions.{cond_key} | "
-                        "missing 'condition_type'"
-                    )
+        # --- Experiments block ---
+        experiments = pub.get("experiments", {})
+        _validate_experiments(
+            experiments, config_path, all_canonical_organisms,
+            errors, warnings,
+        )
 
         supp = get_supplementary_materials(config)
 
@@ -395,8 +485,7 @@ def validate(config_path: str) -> bool:
             all_ids.append(aid)
             print(f"    Analysis: {aid}")
 
-            # ── Required fields (canonical enforcement) ──────────────────────
-            # Check the three strictly required fields first (id, type, treatment_condition)
+            # ── Required fields ──────────────────────────────────────────────
             for req_field, req_desc in REQUIRED_STATS_FIELDS.items():
                 val = analysis.get(req_field)
                 if val is None or (isinstance(val, str) and not val.strip()):
@@ -405,53 +494,36 @@ def validate(config_path: str) -> bool:
                         f"({req_desc})"
                     )
 
-            # Check all original required fields (broader set, some overlap)
             for field in REQUIRED_ANALYSIS_FIELDS:
                 if field not in analysis:
                     errors.append(f"{aid}: Missing required field '{field}'")
 
-            # Check type value (canonical enum + original set)
-            atype = analysis.get("type", "")
-            if atype and atype not in VALID_TYPES:
-                errors.append(
-                    _canonical_field_error(
-                        config_path, aid, "type", atype, VALID_TYPES
+            # ── Experiment reference validation ──────────────────────────────
+            exp_ref = analysis.get("experiment", "")
+            if exp_ref:
+                if experiments and exp_ref not in experiments:
+                    errors.append(
+                        f"{aid}: experiment reference '{exp_ref}' not found in "
+                        f"experiments block (valid keys: {list(experiments.keys())})"
                     )
-                )
+                elif experiments:
+                    print(f"      experiment '{exp_ref}': OK")
 
-            # ── Canonical organism validation ────────────────────────────────
-            organism = analysis.get("organism", "")
-            if organism and organism not in all_canonical_organisms:
-                errors.append(
-                    _canonical_organism_error(
-                        config_path, aid, organism, all_canonical_organisms
-                    )
+            # ── timepoint_hours validation ───────────────────────────────────
+            if "timepoint_hours" not in analysis:
+                warnings.append(
+                    f"{aid}: missing 'timepoint_hours' (set to null if not a "
+                    "time-course experiment)"
                 )
-            elif organism:
-                print(f"      organism '{organism}': OK")
-
-            # ── Canonical treatment_organism validation ───────────────────────
-            treatment_organism = analysis.get("treatment_organism", "")
-            if treatment_organism and treatment_organism not in all_canonical_organisms:
-                errors.append(
-                    _canonical_organism_error(
-                        config_path, f"{aid} treatment_organism", treatment_organism,
-                        all_canonical_organisms,
+            else:
+                tp_hours = analysis.get("timepoint_hours")
+                if tp_hours is not None and not isinstance(tp_hours, (int, float)):
+                    errors.append(
+                        f"{aid}: 'timepoint_hours' must be a number or null, "
+                        f"got {type(tp_hours).__name__}"
                     )
-                )
-            elif treatment_organism:
-                print(f"      treatment_organism '{treatment_organism}': OK")
-
-            # ── Canonical test_type validation ────────────────────────────────
-            test_type = analysis.get("test_type", "")
-            if test_type and test_type not in CANONICAL_TEST_TYPES:
-                errors.append(
-                    _canonical_field_error(
-                        config_path, aid, "test_type", test_type, CANONICAL_TEST_TYPES
-                    )
-                )
-            elif test_type:
-                print(f"      test_type '{test_type}': OK")
+                else:
+                    print(f"      timepoint_hours: {tp_hours}")
 
             # Check column references
             name_col = analysis.get("name_col", "")
@@ -509,44 +581,6 @@ def validate(config_path: str) -> bool:
             if prefiltered and pvalue_asterisk:
                 warnings.append(f"{aid}: 'prefiltered: true' conflicts with 'pvalue_asterisk_in_logfc: true' (prefiltered takes priority)")
 
-            # Check edge source: organism or environmental condition
-            has_treatment_org = "treatment_organism" in analysis and "treatment_taxid" in analysis
-            has_env_treat = "environmental_treatment_condition_id" in analysis
-
-            if not has_treatment_org and not has_env_treat:
-                errors.append(
-                    f"{aid}: Must have either (treatment_organism + treatment_taxid) "
-                    "or environmental_treatment_condition_id"
-                )
-
-            # Validate environmental condition references
-            env_treat_id = analysis.get("environmental_treatment_condition_id")
-            env_ctrl_id = analysis.get("environmental_control_condition_id")
-
-            if env_treat_id:
-                if env_treat_id in env_conds:
-                    print(f"      env_treatment_id '{env_treat_id}': OK")
-                else:
-                    errors.append(
-                        f"{aid}: environmental_treatment_condition_id '{env_treat_id}' "
-                        "not found in environmental_conditions"
-                    )
-                if not env_ctrl_id:
-                    warnings.append(
-                        f"{aid}: environmental_treatment_condition_id is set but "
-                        "environmental_control_condition_id is missing (add if the "
-                        "control condition is a defined environmental_condition)"
-                    )
-
-            if env_ctrl_id:
-                if env_ctrl_id in env_conds:
-                    print(f"      env_control_id '{env_ctrl_id}': OK")
-                else:
-                    errors.append(
-                        f"{aid}: environmental_control_condition_id '{env_ctrl_id}' "
-                        "not found in environmental_conditions"
-                    )
-
     # --- Check ID uniqueness ---
     if all_ids:
         print(f"\n  All analysis IDs: {all_ids}")
@@ -581,8 +615,30 @@ def _print_results(errors, warnings):
 
 
 if __name__ == "__main__":
+    if len(sys.argv) == 2 and sys.argv[1] == "--all":
+        # Validate all paperconfigs from paperconfig_files.txt
+        all_configs = load_all_paperconfigs()
+        if not all_configs:
+            print("No paperconfigs found in paperconfig_files.txt")
+            sys.exit(1)
+        total = len(all_configs)
+        passed = 0
+        failed = 0
+        for path, _ in all_configs:
+            print(f"\n{'='*60}")
+            print(f"Validating: {path}\n")
+            ok = validate(str(path))
+            if ok:
+                passed += 1
+            else:
+                failed += 1
+        print(f"\n{'='*60}")
+        print(f"Results: {passed}/{total} passed, {failed}/{total} failed")
+        sys.exit(0 if failed == 0 else 1)
+
     if len(sys.argv) != 2:
         print(f"Usage: {sys.argv[0]} <path_to_paperconfig.yaml>")
+        print(f"       {sys.argv[0]} --all")
         sys.exit(2)
 
     config_path = sys.argv[1]

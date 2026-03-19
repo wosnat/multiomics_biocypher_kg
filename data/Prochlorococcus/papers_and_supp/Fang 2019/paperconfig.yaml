@@ -1,29 +1,26 @@
 publication:
-  papername: "Fang 2019"
-  papermainpdf: "data/Prochlorococcus/papers_and_supp/Fang 2019/Fang 2015 Prochlorococcus mit9313 Transcriptomic responses to viral lysis products.pdf"
-
-  environmental_conditions:
-    fang_2019_pro99_control:
-      condition_type: growth_medium
-      name: "Pro99 growth medium control"
-      medium: Pro99 natural seawater medium
-      temperature: 24C
-      light_condition: continuous_light
-      light_intensity: "15-20 umol quanta m-2 s-1"
-      description: "Axenic Prochlorococcus MIT9313 amended with Pro99 growth medium (control)"
-    fang_2019_vdom_addition:
-      condition_type: viral
-      name: "Viral DOM (vDOM) addition"
+  papername: Fang 2019
+  papermainpdf: data/Prochlorococcus/papers_and_supp/Fang 2019/Fang 2015 Prochlorococcus mit9313 Transcriptomic responses
+    to viral lysis products.pdf
+  experiments:
+    viral_viral_dom_vdom_addition_mit9313_rnaseq:
+      name: MIT9313 Viral DOM (vDOM) addition vs Pro99 growth medium control (RNASEQ)
+      organism: Prochlorococcus MIT9313
+      treatment_condition: Viral DOM (vDOM) addition
+      control_condition: Pro99 growth medium control
+      experimental_context: Axenic Prochlorococcus MIT9313 in Pro99 medium at 24C under continuous light at 15-20 umol quanta
+        m-2 s-1
+      omics_type: RNASEQ
+      test_type: DESeq2
+      treatment_type: viral
       medium: Pro99 natural seawater medium amended with vDOM
       temperature: 24C
       light_condition: continuous_light
-      light_intensity: "15-20 umol quanta m-2 s-1"
-      description: "Axenic Prochlorococcus MIT9313 amended with viral lysis products (vDOM) from Synechococcus WH8102 infected with cyanophage S-ShM2, added at 1:4 volume ratio"
-
+      light_intensity: 15-20 umol quanta m-2 s-1
   supplementary_materials:
     supp_table_2:
       type: csv
-      filename: "data/Prochlorococcus/papers_and_supp/Fang 2019/de genes emi14513-sup-0002-tables2.csv"
+      filename: data/Prochlorococcus/papers_and_supp/Fang 2019/de genes emi14513-sup-0002-tables2.csv
       skip_rows: 5
       id_columns:
       - column: Gene ID
@@ -33,147 +30,84 @@ publication:
       product_columns:
       - column: Gene annotation
       statistical_analyses:
-        - type: RNASEQ
-          name: "DE Prochlorococcus MIT9313 vDOM vs control (0.5h)"
-          id: DE_vdom_vs_control_MIT9313_0.5h
-          test_type: DESeq2
-          control_condition: "Pro99 growth medium"
-          treatment_condition: "Viral DOM (vDOM) from lysed Synechococcus WH8102"
-          environmental_control_condition_id: fang_2019_pro99_control
-          environmental_treatment_condition_id: fang_2019_vdom_addition
-          experimental_context: "Axenic Prochlorococcus MIT9313 in Pro99 medium at 24C under continuous light at 15-20 umol quanta m-2 s-1"
-          timepoint: "0.5h"
-          organism: "Prochlorococcus MIT9313"
-          name_col: "Gene ID"
-          logfc_col: "0.5 h"
-          pvalue_asterisk_in_logfc: true
-          pvalue_threshold: 0.1
-          logfc_threshold: 1.0
-        - type: RNASEQ
-          name: "DE Prochlorococcus MIT9313 vDOM vs control (1h)"
-          id: DE_vdom_vs_control_MIT9313_1h
-          test_type: DESeq2
-          control_condition: "Pro99 growth medium"
-          treatment_condition: "Viral DOM (vDOM) from lysed Synechococcus WH8102"
-          environmental_control_condition_id: fang_2019_pro99_control
-          environmental_treatment_condition_id: fang_2019_vdom_addition
-          experimental_context: "Axenic Prochlorococcus MIT9313 in Pro99 medium at 24C under continuous light at 15-20 umol quanta m-2 s-1"
-          timepoint: "1h"
-          organism: "Prochlorococcus MIT9313"
-          name_col: "Gene ID"
-          logfc_col: "1 h"
-          pvalue_asterisk_in_logfc: true
-          pvalue_threshold: 0.1
-          logfc_threshold: 1.0
-        - type: RNASEQ
-          name: "DE Prochlorococcus MIT9313 vDOM vs control (2h)"
-          id: DE_vdom_vs_control_MIT9313_2h
-          test_type: DESeq2
-          control_condition: "Pro99 growth medium"
-          treatment_condition: "Viral DOM (vDOM) from lysed Synechococcus WH8102"
-          environmental_control_condition_id: fang_2019_pro99_control
-          environmental_treatment_condition_id: fang_2019_vdom_addition
-          experimental_context: "Axenic Prochlorococcus MIT9313 in Pro99 medium at 24C under continuous light at 15-20 umol quanta m-2 s-1"
-          timepoint: "2h"
-          organism: "Prochlorococcus MIT9313"
-          name_col: "Gene ID"
-          logfc_col: "2 h"
-          pvalue_asterisk_in_logfc: true
-          pvalue_threshold: 0.1
-          logfc_threshold: 1.0
-        - type: RNASEQ
-          name: "DE Prochlorococcus MIT9313 vDOM vs control (4h)"
-          id: DE_vdom_vs_control_MIT9313_4h
-          test_type: DESeq2
-          control_condition: "Pro99 growth medium"
-          treatment_condition: "Viral DOM (vDOM) from lysed Synechococcus WH8102"
-          environmental_control_condition_id: fang_2019_pro99_control
-          environmental_treatment_condition_id: fang_2019_vdom_addition
-          experimental_context: "Axenic Prochlorococcus MIT9313 in Pro99 medium at 24C under continuous light at 15-20 umol quanta m-2 s-1"
-          timepoint: "4h"
-          organism: "Prochlorococcus MIT9313"
-          name_col: "Gene ID"
-          logfc_col: "4 h"
-          pvalue_asterisk_in_logfc: true
-          pvalue_threshold: 0.1
-          logfc_threshold: 1.0
-        - type: RNASEQ
-          name: "DE Prochlorococcus MIT9313 vDOM vs control (8h)"
-          id: DE_vdom_vs_control_MIT9313_8h
-          test_type: DESeq2
-          control_condition: "Pro99 growth medium"
-          treatment_condition: "Viral DOM (vDOM) from lysed Synechococcus WH8102"
-          environmental_control_condition_id: fang_2019_pro99_control
-          environmental_treatment_condition_id: fang_2019_vdom_addition
-          experimental_context: "Axenic Prochlorococcus MIT9313 in Pro99 medium at 24C under continuous light at 15-20 umol quanta m-2 s-1"
-          timepoint: "8h"
-          organism: "Prochlorococcus MIT9313"
-          name_col: "Gene ID"
-          logfc_col: "8 h"
-          pvalue_asterisk_in_logfc: true
-          pvalue_threshold: 0.1
-          logfc_threshold: 1.0
-        - type: RNASEQ
-          name: "DE Prochlorococcus MIT9313 vDOM vs control (12h)"
-          id: DE_vdom_vs_control_MIT9313_12h
-          test_type: DESeq2
-          control_condition: "Pro99 growth medium"
-          treatment_condition: "Viral DOM (vDOM) from lysed Synechococcus WH8102"
-          environmental_control_condition_id: fang_2019_pro99_control
-          environmental_treatment_condition_id: fang_2019_vdom_addition
-          experimental_context: "Axenic Prochlorococcus MIT9313 in Pro99 medium at 24C under continuous light at 15-20 umol quanta m-2 s-1"
-          timepoint: "12h"
-          organism: "Prochlorococcus MIT9313"
-          name_col: "Gene ID"
-          logfc_col: "12 h"
-          pvalue_asterisk_in_logfc: true
-          pvalue_threshold: 0.1
-          logfc_threshold: 1.0
-        - type: RNASEQ
-          name: "DE Prochlorococcus MIT9313 vDOM vs control (24h)"
-          id: DE_vdom_vs_control_MIT9313_24h
-          test_type: DESeq2
-          control_condition: "Pro99 growth medium"
-          treatment_condition: "Viral DOM (vDOM) from lysed Synechococcus WH8102"
-          environmental_control_condition_id: fang_2019_pro99_control
-          environmental_treatment_condition_id: fang_2019_vdom_addition
-          experimental_context: "Axenic Prochlorococcus MIT9313 in Pro99 medium at 24C under continuous light at 15-20 umol quanta m-2 s-1"
-          timepoint: "24h"
-          organism: "Prochlorococcus MIT9313"
-          name_col: "Gene ID"
-          logfc_col: "24 h"
-          pvalue_asterisk_in_logfc: true
-          pvalue_threshold: 0.1
-          logfc_threshold: 1.0
-        - type: RNASEQ
-          name: "DE Prochlorococcus MIT9313 vDOM vs control (48h)"
-          id: DE_vdom_vs_control_MIT9313_48h
-          test_type: DESeq2
-          control_condition: "Pro99 growth medium"
-          treatment_condition: "Viral DOM (vDOM) from lysed Synechococcus WH8102"
-          environmental_control_condition_id: fang_2019_pro99_control
-          environmental_treatment_condition_id: fang_2019_vdom_addition
-          experimental_context: "Axenic Prochlorococcus MIT9313 in Pro99 medium at 24C under continuous light at 15-20 umol quanta m-2 s-1"
-          timepoint: "48h"
-          organism: "Prochlorococcus MIT9313"
-          name_col: "Gene ID"
-          logfc_col: "48 h"
-          pvalue_asterisk_in_logfc: true
-          pvalue_threshold: 0.1
-          logfc_threshold: 1.0
-        - type: RNASEQ
-          name: "DE Prochlorococcus MIT9313 vDOM vs control (72h)"
-          id: DE_vdom_vs_control_MIT9313_72h
-          test_type: DESeq2
-          control_condition: "Pro99 growth medium"
-          treatment_condition: "Viral DOM (vDOM) from lysed Synechococcus WH8102"
-          environmental_control_condition_id: fang_2019_pro99_control
-          environmental_treatment_condition_id: fang_2019_vdom_addition
-          experimental_context: "Axenic Prochlorococcus MIT9313 in Pro99 medium at 24C under continuous light at 15-20 umol quanta m-2 s-1"
-          timepoint: "72h"
-          organism: "Prochlorococcus MIT9313"
-          name_col: "Gene ID"
-          logfc_col: "72 h"
-          pvalue_asterisk_in_logfc: true
-          pvalue_threshold: 0.1
-          logfc_threshold: 1.0
+      - id: DE_vdom_vs_control_MIT9313_0.5h
+        experiment: viral_viral_dom_vdom_addition_mit9313_rnaseq
+        timepoint: 0.5h
+        timepoint_hours: 0.5
+        name_col: Gene ID
+        logfc_col: 0.5 h
+        pvalue_threshold: 0.1
+        logfc_threshold: 1.0
+        pvalue_asterisk_in_logfc: true
+      - id: DE_vdom_vs_control_MIT9313_1h
+        experiment: viral_viral_dom_vdom_addition_mit9313_rnaseq
+        timepoint: 1h
+        timepoint_hours: 1.0
+        name_col: Gene ID
+        logfc_col: 1 h
+        pvalue_threshold: 0.1
+        logfc_threshold: 1.0
+        pvalue_asterisk_in_logfc: true
+      - id: DE_vdom_vs_control_MIT9313_2h
+        experiment: viral_viral_dom_vdom_addition_mit9313_rnaseq
+        timepoint: 2h
+        timepoint_hours: 2.0
+        name_col: Gene ID
+        logfc_col: 2 h
+        pvalue_threshold: 0.1
+        logfc_threshold: 1.0
+        pvalue_asterisk_in_logfc: true
+      - id: DE_vdom_vs_control_MIT9313_4h
+        experiment: viral_viral_dom_vdom_addition_mit9313_rnaseq
+        timepoint: 4h
+        timepoint_hours: 4.0
+        name_col: Gene ID
+        logfc_col: 4 h
+        pvalue_threshold: 0.1
+        logfc_threshold: 1.0
+        pvalue_asterisk_in_logfc: true
+      - id: DE_vdom_vs_control_MIT9313_8h
+        experiment: viral_viral_dom_vdom_addition_mit9313_rnaseq
+        timepoint: 8h
+        timepoint_hours: 8.0
+        name_col: Gene ID
+        logfc_col: 8 h
+        pvalue_threshold: 0.1
+        logfc_threshold: 1.0
+        pvalue_asterisk_in_logfc: true
+      - id: DE_vdom_vs_control_MIT9313_12h
+        experiment: viral_viral_dom_vdom_addition_mit9313_rnaseq
+        timepoint: 12h
+        timepoint_hours: 12.0
+        name_col: Gene ID
+        logfc_col: 12 h
+        pvalue_threshold: 0.1
+        logfc_threshold: 1.0
+        pvalue_asterisk_in_logfc: true
+      - id: DE_vdom_vs_control_MIT9313_24h
+        experiment: viral_viral_dom_vdom_addition_mit9313_rnaseq
+        timepoint: 24h
+        timepoint_hours: 24.0
+        name_col: Gene ID
+        logfc_col: 24 h
+        pvalue_threshold: 0.1
+        logfc_threshold: 1.0
+        pvalue_asterisk_in_logfc: true
+      - id: DE_vdom_vs_control_MIT9313_48h
+        experiment: viral_viral_dom_vdom_addition_mit9313_rnaseq
+        timepoint: 48h
+        timepoint_hours: 48.0
+        name_col: Gene ID
+        logfc_col: 48 h
+        pvalue_threshold: 0.1
+        logfc_threshold: 1.0
+        pvalue_asterisk_in_logfc: true
+      - id: DE_vdom_vs_control_MIT9313_72h
+        experiment: viral_viral_dom_vdom_addition_mit9313_rnaseq
+        timepoint: 72h
+        timepoint_hours: 72.0
+        name_col: Gene ID
+        logfc_col: 72 h
+        pvalue_threshold: 0.1
+        logfc_threshold: 1.0
+        pvalue_asterisk_in_logfc: true
