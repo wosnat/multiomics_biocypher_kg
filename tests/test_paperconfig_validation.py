@@ -24,7 +24,7 @@ VALIDATE_SCRIPT_DIR = os.path.join(
 )
 sys.path.insert(0, os.path.abspath(VALIDATE_SCRIPT_DIR))
 
-from validate_paperconfig import validate, CANONICAL_GENOMIC_ORGANISMS, CANONICAL_CONDITION_TYPES, CANONICAL_TEST_TYPES
+from validate_paperconfig import validate, CANONICAL_GENOMIC_ORGANISMS, CANONICAL_CONDITION_TYPES, CANONICAL_TEST_TYPES, REQUIRED_EXPERIMENT_FIELDS
 
 # Project root (one level up from tests/)
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
@@ -81,32 +81,44 @@ def _write_config(tmp_path: Path, config: dict) -> Path:
     return cfg_file
 
 
-def _make_valid_config(csv_path: Path, overrides: dict = None) -> dict:
+def _make_valid_config(csv_path: Path, overrides: dict = None,
+                       experiment_overrides: dict = None) -> dict:
     """Return a minimal valid paperconfig dict that passes all checks.
 
     The CSV file at *csv_path* must have columns: Gene, log2FC, padj.
     Pass *overrides* as a shallow dict to override keys inside the single
     statistical_analyses entry.
+    Pass *experiment_overrides* to override keys inside the experiment entry.
     """
+    experiment = {
+        "name": "Test coculture experiment",
+        "organism": "Prochlorococcus MED4",
+        "omics_type": "RNASEQ",
+        "test_type": "DESeq2",
+        "treatment_type": "coculture",
+        "treatment_condition": "Coculture",
+        "control_condition": "Axenic",
+        "treatment_organism": "Alteromonas",
+        "treatment_taxid": "28108",
+    }
+    if experiment_overrides:
+        experiment.update(experiment_overrides)
     analysis = {
         "id": "test_analysis_1",
-        "name": "test analysis",
-        "type": "RNASEQ",
-        "test_type": "DESeq2",
-        "control_condition": "Axenic",
-        "treatment_condition": "Coculture",
-        "organism": "Prochlorococcus MED4",
+        "experiment": "exp_coculture",
+        "timepoint_hours": None,
         "name_col": "Gene",
         "logfc_col": "log2FC",
         "adjusted_p_value_col": "padj",
-        "treatment_organism": "Alteromonas",
-        "treatment_taxid": "28108",
     }
     if overrides:
         analysis.update(overrides)
     config = {
         "publication": {
             "papername": "Test Paper 2024",
+            "experiments": {
+                "exp_coculture": experiment,
+            },
             "supplementary_materials": {
                 "supp_table_1": {
                     "type": "csv",
@@ -124,23 +136,29 @@ def _make_valid_config(csv_path: Path, overrides: dict = None) -> dict:
 # ---------------------------------------------------------------------------
 
 class TestCanonicalOrganism:
-    """Validator rejects non-canonical organism names."""
+    """Validator rejects non-canonical organism names in experiments."""
 
-    def test_non_canonical_organism_in_analysis_is_rejected(self, tmp_path, monkeypatch):
-        """A statistical_analyses entry with an unrecognised organism name must fail."""
+    def test_non_canonical_organism_in_experiment_is_rejected(self, tmp_path, monkeypatch):
+        """An experiment entry with an unrecognised organism name must fail."""
         monkeypatch.chdir(PROJECT_ROOT)
         csv = _write_minimal_csv(tmp_path)
-        config = _make_valid_config(csv, overrides={"organism": "ProchlorococcusXYZ UnknownStrain"})
+        config = _make_valid_config(
+            csv,
+            experiment_overrides={"organism": "ProchlorococcusXYZ UnknownStrain"},
+        )
         cfg_file = _write_config(tmp_path, config)
         result = validate(str(cfg_file))
         assert result is False, "Expected validation to fail for non-canonical organism"
 
-    def test_canonical_organism_in_analysis_is_accepted(self, tmp_path, monkeypatch):
+    def test_canonical_organism_in_experiment_is_accepted(self, tmp_path, monkeypatch):
         """All canonical organism names must be accepted without errors."""
         monkeypatch.chdir(PROJECT_ROOT)
         csv = _write_minimal_csv(tmp_path)
         for organism in sorted(CANONICAL_GENOMIC_ORGANISMS):
-            config = _make_valid_config(csv, overrides={"organism": organism})
+            config = _make_valid_config(
+                csv,
+                experiment_overrides={"organism": organism},
+            )
             cfg_file = _write_config(tmp_path, config)
             result = validate(str(cfg_file))
             assert result is True, f"Expected validation to pass for canonical organism '{organism}'"
@@ -151,7 +169,10 @@ class TestCanonicalOrganism:
         csv = _write_minimal_csv(tmp_path)
         config = _make_valid_config(
             csv,
-            overrides={"treatment_organism": "NonExistentBacterium", "treatment_taxid": "99999"},
+            experiment_overrides={
+                "treatment_organism": "NonExistentBacterium",
+                "treatment_taxid": "99999",
+            },
         )
         cfg_file = _write_config(tmp_path, config)
         result = validate(str(cfg_file))
@@ -162,44 +183,33 @@ class TestCanonicalOrganism:
 # Unit tests — canonical condition_type validation
 # ---------------------------------------------------------------------------
 
-class TestCanonicalConditionType:
-    """Validator rejects non-canonical condition_type values in environmental_conditions."""
+class TestCanonicalTreatmentType:
+    """Validator rejects non-canonical treatment_type values in experiments."""
 
-    def _config_with_env_condition(self, csv_path: Path, condition_type: str) -> dict:
-        """Build a config that uses an environmental_treatment_condition_id."""
-        config = _make_valid_config(csv_path)
-        pub = config["publication"]
-        pub["environmental_conditions"] = {
-            "treatment_cond": {
-                "name": "Test condition",
-                "condition_type": condition_type,
-            }
-        }
-        # Replace treatment_organism/taxid with env condition reference
-        analysis = pub["supplementary_materials"]["supp_table_1"]["statistical_analyses"][0]
-        del analysis["treatment_organism"]
-        del analysis["treatment_taxid"]
-        analysis["environmental_treatment_condition_id"] = "treatment_cond"
-        return config
-
-    def test_non_canonical_condition_type_is_rejected(self, tmp_path, monkeypatch):
-        """An environmental_conditions entry with an unknown condition_type must fail."""
+    def test_non_canonical_treatment_type_is_rejected(self, tmp_path, monkeypatch):
+        """An experiment entry with an unknown treatment_type must fail."""
         monkeypatch.chdir(PROJECT_ROOT)
         csv = _write_minimal_csv(tmp_path)
-        config = self._config_with_env_condition(csv, "made_up_stress_type")
+        config = _make_valid_config(
+            csv,
+            experiment_overrides={"treatment_type": "made_up_stress_type"},
+        )
         cfg_file = _write_config(tmp_path, config)
         result = validate(str(cfg_file))
-        assert result is False, "Expected validation to fail for non-canonical condition_type"
+        assert result is False, "Expected validation to fail for non-canonical treatment_type"
 
-    def test_canonical_condition_type_is_accepted(self, tmp_path, monkeypatch):
-        """Every canonical condition_type value must be accepted."""
+    def test_canonical_treatment_type_is_accepted(self, tmp_path, monkeypatch):
+        """Every canonical treatment_type value must be accepted."""
         monkeypatch.chdir(PROJECT_ROOT)
         csv = _write_minimal_csv(tmp_path)
-        for ctype in sorted(CANONICAL_CONDITION_TYPES):
-            config = self._config_with_env_condition(csv, ctype)
+        for ttype in sorted(CANONICAL_CONDITION_TYPES):
+            config = _make_valid_config(
+                csv,
+                experiment_overrides={"treatment_type": ttype},
+            )
             cfg_file = _write_config(tmp_path, config)
             result = validate(str(cfg_file))
-            assert result is True, f"Expected validation to pass for canonical condition_type '{ctype}'"
+            assert result is True, f"Expected validation to pass for canonical treatment_type '{ttype}'"
 
 
 # ---------------------------------------------------------------------------
@@ -207,13 +217,16 @@ class TestCanonicalConditionType:
 # ---------------------------------------------------------------------------
 
 class TestCanonicalTestType:
-    """Validator rejects non-canonical test_type values in statistical_analyses."""
+    """Validator rejects non-canonical test_type values in experiments."""
 
     def test_non_canonical_test_type_is_rejected(self, tmp_path, monkeypatch):
-        """An analysis entry with an unknown test_type must fail."""
+        """An experiment entry with an unknown test_type must fail."""
         monkeypatch.chdir(PROJECT_ROOT)
         csv = _write_minimal_csv(tmp_path)
-        config = _make_valid_config(csv, overrides={"test_type": "NonExistentMethod"})
+        config = _make_valid_config(
+            csv,
+            experiment_overrides={"test_type": "NonExistentMethod"},
+        )
         cfg_file = _write_config(tmp_path, config)
         result = validate(str(cfg_file))
         assert result is False, "Expected validation to fail for non-canonical test_type"
@@ -223,7 +236,10 @@ class TestCanonicalTestType:
         monkeypatch.chdir(PROJECT_ROOT)
         csv = _write_minimal_csv(tmp_path)
         for ttype in sorted(CANONICAL_TEST_TYPES):
-            config = _make_valid_config(csv, overrides={"test_type": ttype})
+            config = _make_valid_config(
+                csv,
+                experiment_overrides={"test_type": ttype},
+            )
             cfg_file = _write_config(tmp_path, config)
             result = validate(str(cfg_file))
             assert result is True, f"Expected validation to pass for canonical test_type '{ttype}'"
@@ -234,7 +250,7 @@ class TestCanonicalTestType:
 # ---------------------------------------------------------------------------
 
 class TestRequiredAnalysisFields:
-    """Validator enforces id, type, and treatment_condition in statistical_analyses."""
+    """Validator enforces id and experiment reference in statistical_analyses."""
 
     def test_missing_id_is_rejected(self, tmp_path, monkeypatch):
         """An analysis entry without 'id' must fail validation."""
@@ -248,36 +264,74 @@ class TestRequiredAnalysisFields:
         result = validate(str(cfg_file))
         assert result is False, "Expected validation to fail when 'id' is missing"
 
-    def test_missing_type_is_rejected(self, tmp_path, monkeypatch):
-        """An analysis entry without 'type' must fail validation."""
+    def test_missing_experiment_reference_is_rejected(self, tmp_path, monkeypatch):
+        """An analysis entry without 'experiment' must fail validation."""
         monkeypatch.chdir(PROJECT_ROOT)
         csv = _write_minimal_csv(tmp_path)
         config = _make_valid_config(csv)
         analysis = config["publication"]["supplementary_materials"]["supp_table_1"]["statistical_analyses"][0]
-        del analysis["type"]
+        del analysis["experiment"]
         cfg_file = _write_config(tmp_path, config)
         result = validate(str(cfg_file))
-        assert result is False, "Expected validation to fail when 'type' is missing"
+        assert result is False, "Expected validation to fail when 'experiment' is missing"
+
+    def test_bad_experiment_reference_is_rejected(self, tmp_path, monkeypatch):
+        """An analysis with an experiment reference not in experiments block must fail."""
+        monkeypatch.chdir(PROJECT_ROOT)
+        csv = _write_minimal_csv(tmp_path)
+        config = _make_valid_config(csv, overrides={"experiment": "nonexistent_experiment"})
+        cfg_file = _write_config(tmp_path, config)
+        result = validate(str(cfg_file))
+        assert result is False, "Expected validation to fail for bad experiment reference"
+
+
+class TestRequiredExperimentFields:
+    """Validator enforces required fields on experiment entries."""
 
     def test_missing_treatment_condition_is_rejected(self, tmp_path, monkeypatch):
-        """An analysis entry without 'treatment_condition' must fail validation."""
+        """An experiment entry without 'treatment_condition' must fail validation."""
         monkeypatch.chdir(PROJECT_ROOT)
         csv = _write_minimal_csv(tmp_path)
         config = _make_valid_config(csv)
-        analysis = config["publication"]["supplementary_materials"]["supp_table_1"]["statistical_analyses"][0]
-        del analysis["treatment_condition"]
+        experiment = config["publication"]["experiments"]["exp_coculture"]
+        del experiment["treatment_condition"]
         cfg_file = _write_config(tmp_path, config)
         result = validate(str(cfg_file))
-        assert result is False, "Expected validation to fail when 'treatment_condition' is missing"
+        assert result is False, "Expected validation to fail when 'treatment_condition' is missing from experiment"
 
     def test_empty_treatment_condition_is_rejected(self, tmp_path, monkeypatch):
-        """An analysis entry with an empty string 'treatment_condition' must fail validation."""
+        """An experiment entry with an empty string 'treatment_condition' must fail validation."""
         monkeypatch.chdir(PROJECT_ROOT)
         csv = _write_minimal_csv(tmp_path)
-        config = _make_valid_config(csv, overrides={"treatment_condition": "  "})
+        config = _make_valid_config(
+            csv,
+            experiment_overrides={"treatment_condition": "  "},
+        )
         cfg_file = _write_config(tmp_path, config)
         result = validate(str(cfg_file))
-        assert result is False, "Expected validation to fail when 'treatment_condition' is empty/whitespace"
+        assert result is False, "Expected validation to fail when experiment 'treatment_condition' is empty/whitespace"
+
+    def test_missing_organism_is_rejected(self, tmp_path, monkeypatch):
+        """An experiment entry without 'organism' must fail validation."""
+        monkeypatch.chdir(PROJECT_ROOT)
+        csv = _write_minimal_csv(tmp_path)
+        config = _make_valid_config(csv)
+        experiment = config["publication"]["experiments"]["exp_coculture"]
+        del experiment["organism"]
+        cfg_file = _write_config(tmp_path, config)
+        result = validate(str(cfg_file))
+        assert result is False, "Expected validation to fail when 'organism' is missing from experiment"
+
+    def test_missing_omics_type_is_rejected(self, tmp_path, monkeypatch):
+        """An experiment entry without 'omics_type' must fail validation."""
+        monkeypatch.chdir(PROJECT_ROOT)
+        csv = _write_minimal_csv(tmp_path)
+        config = _make_valid_config(csv)
+        experiment = config["publication"]["experiments"]["exp_coculture"]
+        del experiment["omics_type"]
+        cfg_file = _write_config(tmp_path, config)
+        result = validate(str(cfg_file))
+        assert result is False, "Expected validation to fail when 'omics_type' is missing from experiment"
 
 
 # ---------------------------------------------------------------------------
@@ -296,23 +350,64 @@ class TestValidConfigPasses:
         result = validate(str(cfg_file))
         assert result is True, "Expected a fully valid config to pass validation"
 
-    def test_valid_config_with_env_condition_passes(self, tmp_path, monkeypatch):
-        """A config using environmental condition references should pass when all values are canonical."""
+    def test_valid_config_with_stress_experiment_passes(self, tmp_path, monkeypatch):
+        """A config with a non-coculture (stress) experiment should pass validation."""
         monkeypatch.chdir(PROJECT_ROOT)
         csv = _write_minimal_csv(tmp_path)
-        # Build a config with an environmental condition instead of treatment organism
-        config = _make_valid_config(csv)
-        pub = config["publication"]
-        pub["environmental_conditions"] = {
-            "phosphorus_depletion": {
-                "name": "Phosphorus depletion",
-                "condition_type": "phosphorus_stress",
-            }
-        }
-        analysis = pub["supplementary_materials"]["supp_table_1"]["statistical_analyses"][0]
-        del analysis["treatment_organism"]
-        del analysis["treatment_taxid"]
-        analysis["environmental_treatment_condition_id"] = "phosphorus_depletion"
+        # Build a config with a phosphorus stress experiment (no treatment_organism)
+        config = _make_valid_config(
+            csv,
+            experiment_overrides={
+                "name": "Phosphorus depletion experiment",
+                "treatment_type": "phosphorus_stress",
+                "treatment_condition": "P-depleted medium",
+                "control_condition": "P-replete medium",
+                # Remove coculture-specific fields
+                "treatment_organism": None,
+                "treatment_taxid": None,
+            },
+        )
+        # Remove None-valued keys from experiment
+        exp = config["publication"]["experiments"]["exp_coculture"]
+        exp.pop("treatment_organism", None)
+        exp.pop("treatment_taxid", None)
         cfg_file = _write_config(tmp_path, config)
         result = validate(str(cfg_file))
-        assert result is True, "Expected config with canonical env condition to pass validation"
+        assert result is True, "Expected config with stress experiment to pass validation"
+
+    def test_valid_config_with_timepoint_hours(self, tmp_path, monkeypatch):
+        """A config with numeric timepoint_hours on analyses should pass validation."""
+        monkeypatch.chdir(PROJECT_ROOT)
+        csv = _write_minimal_csv(tmp_path)
+        config = _make_valid_config(csv, overrides={"timepoint_hours": 24.0})
+        cfg_file = _write_config(tmp_path, config)
+        result = validate(str(cfg_file))
+        assert result is True, "Expected config with numeric timepoint_hours to pass validation"
+
+    def test_valid_config_with_null_timepoint_hours(self, tmp_path, monkeypatch):
+        """A config with null timepoint_hours on analyses should pass validation."""
+        monkeypatch.chdir(PROJECT_ROOT)
+        csv = _write_minimal_csv(tmp_path)
+        config = _make_valid_config(csv, overrides={"timepoint_hours": None})
+        cfg_file = _write_config(tmp_path, config)
+        result = validate(str(cfg_file))
+        assert result is True, "Expected config with null timepoint_hours to pass validation"
+
+    def test_invalid_timepoint_hours_is_rejected(self, tmp_path, monkeypatch):
+        """A config with non-numeric timepoint_hours must fail validation."""
+        monkeypatch.chdir(PROJECT_ROOT)
+        csv = _write_minimal_csv(tmp_path)
+        config = _make_valid_config(csv, overrides={"timepoint_hours": "24h"})
+        cfg_file = _write_config(tmp_path, config)
+        result = validate(str(cfg_file))
+        assert result is False, "Expected validation to fail for non-numeric timepoint_hours"
+
+    def test_missing_experiments_block_is_rejected(self, tmp_path, monkeypatch):
+        """A publication config without experiments block must fail."""
+        monkeypatch.chdir(PROJECT_ROOT)
+        csv = _write_minimal_csv(tmp_path)
+        config = _make_valid_config(csv)
+        del config["publication"]["experiments"]
+        cfg_file = _write_config(tmp_path, config)
+        result = validate(str(cfg_file))
+        assert result is False, "Expected validation to fail when experiments block is missing"

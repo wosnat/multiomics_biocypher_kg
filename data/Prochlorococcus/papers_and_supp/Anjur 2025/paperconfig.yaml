@@ -8,7 +8,7 @@ publication:
       treatment_condition: Free-living (planktonic) enrichment
       control_condition: Biofilm (adherent) enrichment
       experimental_context: Axenic MIT9301 planktonic and biofilm enrichment populations (each serially selected for >100
-        generations) grown undisturbed to mid-exponential phase in Pro99-ESL at 24C under continuous light (45 µmol photons
+        generations) grown undisturbed to mid-exponential phase in Pro99-ESL at 24C under continuous light (45 umol photons
         m-2 s-1). RNA extracted from triplicate biological replicates. Differential expression with log2FC threshold 0.8 and
         q-value threshold 0.05.
       omics_type: RNASEQ
@@ -16,8 +16,8 @@ publication:
       treatment_type: growth_state
       medium: Pro99-ESL (0.2 um filtered, autoclaved sterile seawater amended with Pro99 nutrients)
       temperature: 24C
-      light_condition: continuous_light
-      light_intensity: 45 µmol photons m-2 s-1
+      light_condition: continuous light
+      light_intensity: 45 umol photons m-2 s-1
   supplementary_materials:
     annotation_genome_9301:
       type: id_translation

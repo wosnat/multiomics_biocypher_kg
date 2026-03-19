@@ -500,8 +500,12 @@ def _determine_treatment_type(rec: dict, env_conditions: dict) -> str:
     """Determine treatment_type for an experiment group."""
     analysis = rec["analysis"]
 
-    # Priority 1: coculture detection
-    if analysis.get("treatment_organism"):
+    # Priority 1: coculture/viral detection
+    t_org = analysis.get("treatment_organism")
+    if t_org:
+        # Phage experiments are 'viral', not 'coculture'
+        if str(t_org).strip().lower() in ("phage", "virus", "bacteriophage"):
+            return "viral"
         return "coculture"
 
     # Priority 2: environmental_conditions lookup

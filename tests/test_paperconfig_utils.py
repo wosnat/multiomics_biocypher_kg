@@ -21,6 +21,9 @@ from multiomics_kg.utils.paperconfig_utils import (
     get_publication,
     get_paper_name,
     get_supplementary_materials,
+    get_experiments,
+    get_experiment_for_analysis,
+    get_organism_for_analysis,
     load_all_paperconfigs,
     load_paperconfig,
 )
@@ -413,3 +416,116 @@ class TestLoadPaperconfigs:
             assert "warn" in captured.out.lower()
         finally:
             pcu.PROJECT_ROOT = original_root
+
+
+# ─── Experiment lookup (new format) ──────────────────────────────────
+
+
+@pytest.fixture
+def new_format_config():
+    """A paperconfig in new format with experiments block."""
+    return {
+        "publication": {
+            "papername": "Test 2025",
+            "experiments": {
+                "starvation_med4_rnaseq": {
+                    "name": "MED4 N starvation vs replete (RNASEQ)",
+                    "organism": "Prochlorococcus MED4",
+                    "omics_type": "RNASEQ",
+                    "test_type": "DESeq2",
+                    "treatment_type": "nitrogen_stress",
+                    "treatment_condition": "N starvation",
+                    "control_condition": "N replete",
+                },
+                "coculture_hot1a3_med4_rnaseq": {
+                    "name": "MED4 coculture vs axenic (RNASEQ)",
+                    "organism": "Prochlorococcus MED4",
+                    "omics_type": "RNASEQ",
+                    "test_type": "DESeq2",
+                    "treatment_type": "coculture",
+                    "treatment_condition": "Coculture with HOT1A3",
+                    "control_condition": "Axenic",
+                    "treatment_organism": "Alteromonas macleodii HOT1A3",
+                },
+            },
+            "supplementary_materials": {
+                "table1": {
+                    "type": "csv",
+                    "filename": "data.csv",
+                    "statistical_analyses": [
+                        {
+                            "id": "DE_starv_4h",
+                            "experiment": "starvation_med4_rnaseq",
+                            "timepoint": "4h",
+                            "timepoint_hours": 4.0,
+                            "name_col": "gene",
+                            "logfc_col": "logFC",
+                        },
+                        {
+                            "id": "DE_starv_24h",
+                            "experiment": "starvation_med4_rnaseq",
+                            "timepoint": "24h",
+                            "timepoint_hours": 24.0,
+                            "name_col": "gene",
+                            "logfc_col": "logFC",
+                        },
+                    ],
+                },
+                "table2": {
+                    "type": "csv",
+                    "filename": "coculture.csv",
+                    "statistical_analyses": [
+                        {
+                            "id": "DE_cocult",
+                            "experiment": "coculture_hot1a3_med4_rnaseq",
+                            "name_col": "gene",
+                            "logfc_col": "logFC",
+                        },
+                    ],
+                },
+            },
+        }
+    }
+
+
+class TestExperimentLookup:
+    def test_get_experiments(self, new_format_config):
+        exps = get_experiments(new_format_config)
+        assert len(exps) == 2
+        assert "starvation_med4_rnaseq" in exps
+        assert "coculture_hot1a3_med4_rnaseq" in exps
+
+    def test_get_experiments_missing(self, minimal_config):
+        assert get_experiments(minimal_config) == {}
+
+    def test_get_experiment_for_analysis(self, new_format_config):
+        analysis = {"id": "test", "experiment": "starvation_med4_rnaseq"}
+        exp = get_experiment_for_analysis(new_format_config, analysis)
+        assert exp["organism"] == "Prochlorococcus MED4"
+        assert exp["omics_type"] == "RNASEQ"
+
+    def test_get_experiment_for_analysis_missing_ref(self, new_format_config):
+        analysis = {"id": "test"}
+        with pytest.raises(ValueError, match="missing 'experiment'"):
+            get_experiment_for_analysis(new_format_config, analysis)
+
+    def test_get_experiment_for_analysis_bad_ref(self, new_format_config):
+        analysis = {"id": "test", "experiment": "nonexistent"}
+        with pytest.raises(ValueError, match="unknown experiment"):
+            get_experiment_for_analysis(new_format_config, analysis)
+
+    def test_get_organism_for_analysis(self, new_format_config):
+        analysis = {"id": "test", "experiment": "starvation_med4_rnaseq"}
+        assert get_organism_for_analysis(new_format_config, analysis) == "Prochlorococcus MED4"
+
+    def test_get_organism_for_entry_new_format(self, new_format_config):
+        """get_organism_for_entry works with new-format analyses (via experiment block)."""
+        table = new_format_config["publication"]["supplementary_materials"]["table1"]
+        org = get_organism_for_entry(new_format_config, table)
+        assert org == "Prochlorococcus MED4"
+
+    def test_get_organism_for_entry_id_translation_unchanged(self):
+        """id_translation entries still use direct organism field."""
+        config = {"publication": {}}
+        entry = {"type": "id_translation", "organism": "Prochlorococcus MIT9313"}
+        assert get_organism_for_entry(config, entry) == "Prochlorococcus MIT9313"

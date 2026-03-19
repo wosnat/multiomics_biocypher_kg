@@ -31,6 +31,7 @@ from multiomics_kg.utils.paperconfig_utils import (
     get_publication,
     get_paper_name,
     get_supplementary_materials,
+    get_organism_for_analysis,
     load_all_paperconfigs,
     PAPERCONFIG_FILES_TXT,
 )
@@ -441,7 +442,11 @@ def analyze_paperconfig(paperconfig_path, gene_index, project_root, import_repor
         for analysis in stat_analyses:
             name_col = analysis.get("name_col", "")
             secondary_name_col = analysis.get("secondary_name_col", "")
-            organism = analysis.get("organism", "")
+            # Look up organism from experiment block (new format) or fall back to direct field
+            try:
+                organism = get_organism_for_analysis(config, analysis)
+            except (ValueError, KeyError):
+                organism = analysis.get("organism", "")
             analysis_id = analysis.get("id", table_key)
             skip_rows = analysis.get("skip_rows") or table_data.get("skip_rows")
             csv_basename = Path(filename).name if filename else table_key

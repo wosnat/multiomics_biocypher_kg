@@ -87,19 +87,59 @@ def iter_analyses(config: dict):
 def get_organism_for_entry(config: dict, entry: dict) -> str | None:
     """Get organism for a supplementary table entry.
 
-    Old format: reads from entry-level 'organism' or first analysis's 'organism'.
-    Falls back to entry-level 'organism' for id_translation/annotation_gff entries.
+    Checks in order:
+    1. Direct 'organism' on entry (id_translation, annotation_gff, table-level)
+    2. First analysis's experiment block organism (new format)
+    3. First analysis's direct 'organism' field (old format fallback)
     """
     # Direct organism on entry (id_translation, annotation_gff, or table-level)
     org = entry.get("organism")
     if org:
         return str(org).strip().strip('"')
-    # From first analysis's organism field (old format)
+    # From first analysis's experiment block (new format)
     for analysis in entry.get("statistical_analyses", []):
+        try:
+            return get_organism_for_analysis(config, analysis)
+        except (ValueError, KeyError):
+            pass
+        # Old format fallback: direct organism on analysis
         org = analysis.get("organism")
         if org:
             return str(org).strip().strip('"')
     return None
+
+
+# ─── Experiment lookup (new format) ──────────────────────────────────
+
+
+def get_experiments(config: dict) -> dict:
+    """Get the experiments block from a paperconfig."""
+    return get_publication(config).get("experiments", {})
+
+
+def get_experiment_for_analysis(config: dict, analysis: dict) -> dict:
+    """Look up the experiment definition for a given analysis entry.
+
+    Raises ValueError if the analysis has no 'experiment' reference or
+    the reference points to an unknown experiment key.
+    """
+    exp_key = analysis.get("experiment")
+    if not exp_key:
+        raise ValueError(
+            f"Analysis '{analysis.get('id')}' missing 'experiment' reference"
+        )
+    experiments = get_experiments(config)
+    if exp_key not in experiments:
+        raise ValueError(
+            f"Analysis '{analysis.get('id')}' references unknown "
+            f"experiment '{exp_key}'"
+        )
+    return experiments[exp_key]
+
+
+def get_organism_for_analysis(config: dict, analysis: dict) -> str:
+    """Get organism for an analysis (from its experiment block)."""
+    return get_experiment_for_analysis(config, analysis)["organism"]
 
 
 # ─── Timepoint normalization ─────────────────────────────────────────

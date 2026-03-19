@@ -308,6 +308,47 @@ def _validate_experiments(experiments: dict, config_path: str,
                     f"missing recommended field '{field}'"
                 )
 
+        # Formatting checks
+        light_cond = exp.get("light_condition", "")
+        if light_cond and "_" in light_cond:
+            warnings.append(
+                f"{config_path} | experiments.{exp_key} | "
+                f"light_condition '{light_cond}' uses underscores — "
+                f"use spaces instead (e.g., 'continuous light')"
+            )
+        light_int = exp.get("light_intensity", "")
+        if light_int and "µ" in str(light_int):
+            warnings.append(
+                f"{config_path} | experiments.{exp_key} | "
+                f"light_intensity uses Unicode µ — use ASCII 'umol' instead"
+            )
+
+        # Coculture/viral consistency checks
+        tt = exp.get("treatment_type", "")
+        t_org = exp.get("treatment_organism", "")
+        if tt in ("coculture", "viral") and not t_org:
+            errors.append(
+                f"{config_path} | experiments.{exp_key} | "
+                f"treatment_type is '{tt}' but missing treatment_organism"
+            )
+        if t_org and tt not in ("coculture", "viral"):
+            warnings.append(
+                f"{config_path} | experiments.{exp_key} | "
+                f"has treatment_organism '{t_org}' but treatment_type is '{tt}' "
+                f"(expected 'coculture' or 'viral')"
+            )
+        if t_org and str(t_org).strip().lower() in ("phage", "virus", "bacteriophage") and tt != "viral":
+            warnings.append(
+                f"{config_path} | experiments.{exp_key} | "
+                f"treatment_organism is '{t_org}' but treatment_type is '{tt}' "
+                f"(should be 'viral')"
+            )
+        if tt in ("coculture", "viral") and "treatment_taxid" not in exp:
+            warnings.append(
+                f"{config_path} | experiments.{exp_key} | "
+                f"treatment_type is '{tt}' but missing treatment_taxid"
+            )
+
 
 def validate(config_path: str) -> bool:
     errors = []
@@ -498,6 +539,23 @@ def validate(config_path: str) -> bool:
                 if field not in analysis:
                     errors.append(f"{aid}: Missing required field '{field}'")
 
+            # ── Stale old-format fields check ─────────────────────────────────
+            STALE_FIELDS = {
+                "type", "name", "organism", "test_type",
+                "control_condition", "treatment_condition",
+                "experimental_context",
+                "environmental_control_condition_id",
+                "environmental_treatment_condition_id",
+                "treatment_organism", "treatment_taxid",
+                "treatment_assembly_accession",
+            }
+            stale = STALE_FIELDS & set(analysis.keys())
+            if stale:
+                warnings.append(
+                    f"{aid}: has old-format fields that should be on the experiment: "
+                    f"{sorted(stale)}"
+                )
+
             # ── Experiment reference validation ──────────────────────────────
             exp_ref = analysis.get("experiment", "")
             if exp_ref:
@@ -524,6 +582,19 @@ def validate(config_path: str) -> bool:
                     )
                 else:
                     print(f"      timepoint_hours: {tp_hours}")
+
+                # Cross-check: if timepoint is set, verify timepoint_hours
+                # matches parse_timepoint_hours()
+                timepoint = analysis.get("timepoint")
+                if timepoint:
+                    from multiomics_kg.utils.paperconfig_utils import parse_timepoint_hours
+                    expected = parse_timepoint_hours(str(timepoint))
+                    if expected is not None and tp_hours is not None:
+                        if abs(float(expected) - float(tp_hours)) > 0.01:
+                            warnings.append(
+                                f"{aid}: timepoint_hours={tp_hours} doesn't match "
+                                f"parse_timepoint_hours('{timepoint}')={expected}"
+                            )
 
             # Check column references
             name_col = analysis.get("name_col", "")

@@ -10,7 +10,7 @@ publication:
       experimental_context: Axenic Alteromonas HOT1A3 in PRO99-lowN at 24C under continuous light
       omics_type: RNASEQ
       test_type: DESeq2
-      treatment_type: growth_state
+      treatment_type: nitrogen_stress
       medium: PRO99-lowN
       temperature: 24C
       light_condition: continuous light
@@ -24,7 +24,7 @@ publication:
         light
       omics_type: RNASEQ
       test_type: DESeq2
-      treatment_type: growth_state
+      treatment_type: nitrogen_stress
       medium: PRO99-lowN
       temperature: 24C
       light_condition: continuous light
@@ -53,7 +53,7 @@ publication:
       experimental_context: Axenic Alteromonas HOT1A3 in PRO99-lowN at 24C under continuous light
       omics_type: PROTEOMICS
       test_type: DESeq2
-      treatment_type: growth_state
+      treatment_type: nitrogen_stress
       medium: PRO99-lowN
       temperature: 24C
       light_condition: continuous light
@@ -67,7 +67,7 @@ publication:
         light
       omics_type: PROTEOMICS
       test_type: DESeq2
-      treatment_type: growth_state
+      treatment_type: nitrogen_stress
       medium: PRO99-lowN
       temperature: 24C
       light_condition: continuous light
@@ -80,7 +80,7 @@ publication:
       experimental_context: Axenic Prochlorococcus MED4 in PRO99-lowN at 24C under continuous light
       omics_type: RNASEQ
       test_type: DESeq2
-      treatment_type: growth_state
+      treatment_type: nitrogen_stress
       medium: PRO99-lowN
       temperature: 24C
       light_condition: continuous light
@@ -94,7 +94,7 @@ publication:
         light
       omics_type: RNASEQ
       test_type: DESeq2
-      treatment_type: growth_state
+      treatment_type: nitrogen_stress
       medium: PRO99-lowN
       temperature: 24C
       light_condition: continuous light
@@ -123,7 +123,7 @@ publication:
       experimental_context: Axenic Prochlorococcus MED4 in PRO99-lowN at 24C under continuous light
       omics_type: PROTEOMICS
       test_type: DESeq2
-      treatment_type: growth_state
+      treatment_type: nitrogen_stress
       medium: PRO99-lowN
       temperature: 24C
       light_condition: continuous light
@@ -137,7 +137,7 @@ publication:
         light
       omics_type: PROTEOMICS
       test_type: DESeq2
-      treatment_type: growth_state
+      treatment_type: nitrogen_stress
       medium: PRO99-lowN
       temperature: 24C
       light_condition: continuous light

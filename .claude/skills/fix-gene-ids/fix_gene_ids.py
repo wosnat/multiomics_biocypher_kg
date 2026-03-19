@@ -40,6 +40,8 @@ from multiomics_kg.utils.paperconfig_utils import (
     load_paperconfig,
     get_paper_name,
     get_supplementary_materials,
+    get_organism_for_entry,
+    get_organism_for_analysis,
 )
 from multiomics_kg.utils.gene_id_utils import (
     SKIP_PATTERNS,
@@ -85,7 +87,8 @@ def get_candidate_columns(df, analysis):
 
 
 def process_analysis(paperconfig_path, analysis, supp_material, project_root,
-                     dry_run=False, missing_gene_ids=None, patch_mode=False):
+                     dry_run=False, missing_gene_ids=None, patch_mode=False,
+                     config=None):
     """Process a single analysis: map gene IDs and write new CSV.
 
     Args:
@@ -93,11 +96,20 @@ def process_analysis(paperconfig_path, analysis, supp_material, project_root,
             from Neo4j import report. Used to identify rows that need alt-column recovery.
         patch_mode: if True, read existing _with_locus_tag.csv and only fix
             rows with empty/mismatched locus_tag.
+        config: Full paperconfig dict, needed to look up organism from the
+            experiments block (new format).
 
     Returns dict with mapping stats.
     """
     analysis_id = analysis.get("id", "unknown")
-    organism = analysis.get("organism", "")
+    # Look up organism from experiment block (new format) or fall back to direct field
+    if config:
+        try:
+            organism = get_organism_for_analysis(config, analysis)
+        except (ValueError, KeyError):
+            organism = analysis.get("organism", "")
+    else:
+        organism = analysis.get("organism", "")
     name_col = analysis.get("name_col", "")
     skip_rows = supp_material.get("skip_rows", analysis.get("skip_rows", 0))
     csv_path = supp_material.get("filename", "")
@@ -371,21 +383,27 @@ def process_paperconfig(paperconfig_path, project_root, dry_run=False,
         for analysis in analyses:
             analysis_id = analysis.get("id", "unknown")
 
+            # Get organism from experiment block (new format) or direct field
+            try:
+                analysis_organism = get_organism_for_analysis(config, analysis)
+            except (ValueError, KeyError):
+                analysis_organism = analysis.get("organism", "")
+
             # If we already processed this CSV for a different analysis with the same
             # organism and name_col, skip (the locus_tag column is already added)
-            cache_key = (csv_path, analysis.get("organism", ""), analysis.get("name_col", ""))
+            cache_key = (csv_path, analysis_organism, analysis.get("name_col", ""))
             if cache_key in processed_csvs:
                 print(f"  [{analysis_id}] Same CSV already processed, reusing result")
                 results.append(processed_csvs[cache_key])
                 continue
 
             print(f"  [{analysis_id}] {os.path.basename(csv_path)}")
-            print(f"    Organism: {analysis.get('organism', 'N/A')}")
+            print(f"    Organism: {analysis_organism or 'N/A'}")
             print(f"    name_col: {analysis.get('name_col', 'N/A')}")
 
             result = process_analysis(
                 paperconfig_path, analysis, supp_material, project_root,
-                dry_run, missing_gene_ids, patch_mode
+                dry_run, missing_gene_ids, patch_mode, config=config
             )
             results.append(result)
             processed_csvs[cache_key] = result

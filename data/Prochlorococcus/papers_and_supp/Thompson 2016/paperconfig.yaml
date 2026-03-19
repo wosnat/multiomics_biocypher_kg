@@ -14,7 +14,7 @@ publication:
       treatment_type: light_stress
       medium: Pro99 natural seawater medium
       temperature: 19-22C
-      light_condition: constant_darkness
+      light_condition: constant darkness
       light_intensity: '0'
     light_stress_constant_dark_med4_rnaseq_dark:
       name: MED4 Constant dark vs Constant light (90 µE m-2 s-1) (RNASEQ)
@@ -28,9 +28,9 @@ publication:
       treatment_type: light_stress
       medium: Pro99 natural seawater medium
       temperature: 19-22C
-      light_condition: constant_darkness
+      light_condition: constant darkness
       light_intensity: '0'
-    coculture_phage_phm2_lysate_med4_rnaseq_light:
+    viral_phage_phm2_lysate_med4_rnaseq_light:
       name: MED4 Phage (P-HM2) lysate vs Spent medium (uninfected) in light (RNASEQ)
       organism: Prochlorococcus MED4
       treatment_condition: Phage (P-HM2) lysate
@@ -39,14 +39,14 @@ publication:
         19-22C; infected with cyanophage P-HM2 (MOI=1) vs uninfected spent medium control; prefiltered to significant DEGs
       omics_type: RNASEQ
       test_type: DESeq2
-      treatment_type: coculture
+      treatment_type: viral
       medium: Pro99 natural seawater medium
       temperature: 19-22C
       light_condition: continuous light
       light_intensity: 90 uE m-2 s-1
       treatment_organism: Phage
       treatment_taxid: 10239
-    coculture_phage_phm2_lysate_med4_rnaseq_dark:
+    viral_phage_phm2_lysate_med4_rnaseq_dark:
       name: MED4 Phage (P-HM2) lysate vs Spent medium (uninfected) in dark (RNASEQ)
       organism: Prochlorococcus MED4
       treatment_condition: Phage (P-HM2) lysate
@@ -55,7 +55,7 @@ publication:
         with cyanophage P-HM2 (MOI=1) vs uninfected spent medium control; prefiltered to significant DEGs
       omics_type: RNASEQ
       test_type: DESeq2
-      treatment_type: coculture
+      treatment_type: viral
       medium: Pro99 natural seawater medium
       temperature: 19-22C
       light_condition: constant darkness
@@ -185,7 +185,7 @@ publication:
       filename: data/Prochlorococcus/papers_and_supp/Thompson 2016/DE_genes_lysate_vs_spent_medium_light_0.5h.csv
       statistical_analyses:
       - id: DE_lysate_vs_spent_medium_light_MED4_0.5h
-        experiment: coculture_phage_phm2_lysate_med4_rnaseq_light
+        experiment: viral_phage_phm2_lysate_med4_rnaseq_light
         timepoint: 0.5h post-inoculation
         timepoint_hours: 0.5
         name_col: locus_tag
@@ -198,7 +198,7 @@ publication:
       filename: data/Prochlorococcus/papers_and_supp/Thompson 2016/DE_genes_lysate_vs_spent_medium_light_1.5h.csv
       statistical_analyses:
       - id: DE_lysate_vs_spent_medium_light_MED4_1.5h
-        experiment: coculture_phage_phm2_lysate_med4_rnaseq_light
+        experiment: viral_phage_phm2_lysate_med4_rnaseq_light
         timepoint: 1.5h post-inoculation
         timepoint_hours: 1.5
         name_col: locus_tag
@@ -211,7 +211,7 @@ publication:
       filename: data/Prochlorococcus/papers_and_supp/Thompson 2016/DE_genes_lysate_vs_spent_medium_light_2.5h.csv
       statistical_analyses:
       - id: DE_lysate_vs_spent_medium_light_MED4_2.5h
-        experiment: coculture_phage_phm2_lysate_med4_rnaseq_light
+        experiment: viral_phage_phm2_lysate_med4_rnaseq_light
         timepoint: 2.5h post-inoculation
         timepoint_hours: 2.5
         name_col: locus_tag
@@ -224,7 +224,7 @@ publication:
       filename: data/Prochlorococcus/papers_and_supp/Thompson 2016/DE_genes_lysate_vs_spent_medium_light_4.5h.csv
       statistical_analyses:
       - id: DE_lysate_vs_spent_medium_light_MED4_4.5h
-        experiment: coculture_phage_phm2_lysate_med4_rnaseq_light
+        experiment: viral_phage_phm2_lysate_med4_rnaseq_light
         timepoint: 4.5h post-inoculation
         timepoint_hours: 4.5
         name_col: locus_tag
@@ -237,7 +237,7 @@ publication:
       filename: data/Prochlorococcus/papers_and_supp/Thompson 2016/DE_genes_lysate_vs_spent_medium_light_8.5h.csv
       statistical_analyses:
       - id: DE_lysate_vs_spent_medium_light_MED4_8.5h
-        experiment: coculture_phage_phm2_lysate_med4_rnaseq_light
+        experiment: viral_phage_phm2_lysate_med4_rnaseq_light
         timepoint: 8.5h post-inoculation
         timepoint_hours: 8.5
         name_col: locus_tag
@@ -250,7 +250,7 @@ publication:
       filename: data/Prochlorococcus/papers_and_supp/Thompson 2016/DE_genes_lysate_vs_spent_medium_dark_2.5h.csv
       statistical_analyses:
       - id: DE_lysate_vs_spent_medium_dark_MED4_2.5h
-        experiment: coculture_phage_phm2_lysate_med4_rnaseq_dark
+        experiment: viral_phage_phm2_lysate_med4_rnaseq_dark
         timepoint: 2.5h post-inoculation
         timepoint_hours: 2.5
         name_col: locus_tag
@@ -263,7 +263,7 @@ publication:
       filename: data/Prochlorococcus/papers_and_supp/Thompson 2016/DE_genes_lysate_vs_spent_medium_dark_4.5h.csv
       statistical_analyses:
       - id: DE_lysate_vs_spent_medium_dark_MED4_4.5h
-        experiment: coculture_phage_phm2_lysate_med4_rnaseq_dark
+        experiment: viral_phage_phm2_lysate_med4_rnaseq_dark
         timepoint: 4.5h post-inoculation
         timepoint_hours: 4.5
         name_col: locus_tag
@@ -276,7 +276,7 @@ publication:
       filename: data/Prochlorococcus/papers_and_supp/Thompson 2016/DE_genes_lysate_vs_spent_medium_dark_8.5h.csv
       statistical_analyses:
       - id: DE_lysate_vs_spent_medium_dark_MED4_8.5h
-        experiment: coculture_phage_phm2_lysate_med4_rnaseq_dark
+        experiment: viral_phage_phm2_lysate_med4_rnaseq_dark
         timepoint: 8.5h post-inoculation
         timepoint_hours: 8.5
         name_col: locus_tag

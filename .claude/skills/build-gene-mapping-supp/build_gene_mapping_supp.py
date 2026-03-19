@@ -27,6 +27,7 @@ sys.path.insert(0, str(_PROJECT_ROOT))
 from multiomics_kg.utils.paperconfig_utils import (
     load_all_paperconfigs,
     get_paper_name,
+    get_organism_for_analysis,
     iter_analyses,
 )
 from multiomics_kg.utils.gene_id_utils import (
@@ -120,7 +121,11 @@ def parse_paperconfigs(paperconfig_list_path, project_root):
 
             table_skip = table_data.get("skip_rows", 0)
 
-            organism = analysis.get("organism", "")
+            # Look up organism from experiment block (new format) or direct field
+            try:
+                organism = get_organism_for_analysis(config, analysis)
+            except (ValueError, KeyError):
+                organism = analysis.get("organism", "")
             name_col = analysis.get("name_col", "")
             logfc_col = analysis.get("logfc_col", "")
             adj_pval_col = analysis.get("adjusted_p_value_col", "")

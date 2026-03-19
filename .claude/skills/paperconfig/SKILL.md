@@ -30,11 +30,11 @@ publication:
   papername: "<Author Year>"
   papermainpdf: "data/Prochlorococcus/papers_and_supp/<AuthorName Year>/<filename>.pdf"
 
-  environmental_conditions:
-    # ... (optional, see below)
+  experiments:
+    # ... (required — defines experiment-level metadata)
 
   supplementary_materials:
-    # ... (required)
+    # ... (required — defines data tables and per-timepoint analyses)
 ```
 
 ### 1. Publication Metadata (Required)
@@ -48,39 +48,141 @@ publication:
 - `papername`: Short citation label (e.g., "Biller 2016"). Used for display only.
 - `papermainpdf`: Relative path to the publication PDF. The adapter extracts metadata (title, DOI, authors, abstract) from this PDF automatically using an LLM-based extractor.
 
-### 2. Environmental Conditions (Optional)
+### 2. Experiments Block (Required)
 
-Define environmental conditions when the experiment varies an environmental factor (light, gas, salinity, nutrients, growth state) rather than a biological organism. Each condition becomes a node in the knowledge graph and can be used as the **source** of `Condition_changes_expression_of` edges (instead of an organism, which produces `Coculture_changes_expression_of` edges).
+The `experiments` block defines experiment-level metadata that is shared across all analyses (timepoints) within that experiment. Each experiment entry becomes the basis for `Experiment` nodes and `Changes_expression_of` edges in the knowledge graph.
 
 ```yaml
-  environmental_conditions:
-    <unique_condition_id>:
-      condition_type: "<type>"    # e.g., gas_shock, salt_stress, light_stress, growth_medium, growth_state, coculture
-      name: "<human-readable name>"
-      description: "<detailed description of the condition>"
-      # Include any relevant parameters:
-      medium: "<growth medium>"
-      temperature: "<temp>"
-      light_condition: "<light type>"
-      light_intensity: "<intensity>"
-      # Gas-specific:
-      co2_level: "<level>"
-      oxygen_level: "<level>"
-      # Salinity-specific:
-      salinity: "<level>"
+  experiments:
+    <experiment_key>:
+      name: "<human-readable experiment description>"
+      organism: "Prochlorococcus MED4"
+      omics_type: RNASEQ              # RNASEQ | PROTEOMICS | METABOLOMICS | MICROARRAY
+      test_type: DESeq2               # statistical method
+      treatment_type: coculture       # canonical treatment category (see below)
+      treatment_condition: "Coculture with Alteromonas HOT1A3"
+      control_condition: "Axenic"
+      experimental_context: "in Pro99 medium under continuous light"
+      # Optional fields:
+      medium: "Pro99 natural seawater medium"
+      temperature: "24C"
+      light_condition: "continuous light"
+      light_intensity: "55 umol photons m-2 s-1"
+      # Coculture-specific (required when treatment_type is 'coculture' or 'viral'):
+      treatment_organism: "Alteromonas macleodii HOT1A3"
+      treatment_taxid: 28108
+      treatment_assembly_accession: GCF_901457835.2  # optional; use for genome-loaded organisms
 ```
 
-Rules:
-- The `<unique_condition_id>` is a local key used to link conditions to analyses (via `environmental_treatment_condition_id` and `environmental_control_condition_id`).
-- Use a naming convention: `<authorlastname>_<year>_<short_description>` (e.g., `bagby_2015_low_co2`).
-- All property keys are stored as-is on the environmental_condition node.
-- If the experiment compares organisms (e.g., coculture vs axenic), you may still define environmental conditions but they are not strictly required -- you can use `treatment_organism`/`treatment_taxid` on the analysis instead.
+#### Required Experiment Fields
+
+| Field | Description | Examples |
+|-------|-------------|----------|
+| `name` | Human-readable description of the experiment | `"DE of Prochlorococcus MED4 coculture vs axenic"` |
+| `organism` | Organism being profiled | `"Prochlorococcus MED4"`, `"Alteromonas MIT1002"` |
+| `omics_type` | Omics data type | `RNASEQ`, `MICROARRAY`, `PROTEOMICS`, `METABOLOMICS` |
+| `test_type` | Statistical method used | `DESeq2`, `edgeR`, `Rockhopper`, `DESeq`, `microarray`, `microarray_Cyber-T`, `microarray_LPE`, `microarray_Goldenspike` |
+| `treatment_type` | Canonical treatment category | See **Treatment Types** below |
+| `treatment_condition` | Description of the experimental/test condition | `"Coculture with Alteromonas HOT1A3"`, `"Salt-acclimated (5% salt)"` |
+| `control_condition` | Description of the baseline/reference condition | `"Axenic"`, `"Normal seawater (3.8% salt)"` |
+
+#### Optional Experiment Fields (Recommended)
+
+| Field | Description | When to Use |
+|-------|-------------|-------------|
+| `experimental_context` | Other factors held constant | Always helpful; describes medium, light, temperature, etc. |
+| `medium` | Growth medium | When known (e.g., `"Pro99 natural seawater medium"`) |
+| `temperature` | Temperature | When known (e.g., `"24C"`) |
+| `light_condition` | Light regime | When known (e.g., `"continuous light"`, `"13:11 light:dark cycle"`, `"constant darkness"`) |
+| `light_intensity` | Light intensity | When known (e.g., `"55 umol photons m-2 s-1"`) |
+
+#### Formatting conventions
+
+- **`light_condition`**: Use spaces, not underscores: `"continuous light"` (not `"continuous_light"`)
+- **`light_intensity`**: Use ASCII `umol` (not Unicode `µmol`): `"55 umol photons m-2 s-1"`
+- **`medium`**: Include treatment-specific modifications when relevant: `"Pro99 with no added iron"` (not just `"Pro99"`). For the control medium, describe what was used: `"Pro99 with 1 uM Fe total"`
+- **`temperature`**: Use format `"24C"` (no degree symbol)
+| `treatment_organism` | Name of the organism causing the effect | Required for coculture/viral experiments |
+| `treatment_taxid` | NCBI Taxonomy ID of the treatment organism | Required for coculture/viral experiments |
+| `treatment_assembly_accession` | NCBI RefSeq assembly accession | Use when the treatment organism has a loaded genome in the KG |
+
+#### Treatment Types (Canonical `treatment_type` Values)
+
+| `treatment_type` | Description | Example Experiments |
+|---|---|---|
+| `coculture` | Co-cultivation with another organism (NOT phage) | Pro + Alteromonas coculture |
+| `viral` | Viral infection or phage exposure. Use when `treatment_organism` is Phage/virus | Phage infection of Pro, vDOM exposure |
+| `nitrogen_stress` | Nitrogen limitation or deprivation | N-starvation time course |
+| `phosphorus_stress` | Phosphorus limitation or deprivation | P-starvation |
+| `iron_stress` | Iron limitation or deprivation | Fe-limited growth |
+| `carbon_stress` | Carbon source manipulation | CO2 level changes |
+| `salt_stress` | Salinity changes | High-salt acclimation |
+| `light_stress` | Light intensity or quality changes | High-light shock |
+| `darkness` | Extended darkness or dark treatment | Dark incubation |
+| `temperature_stress` | Temperature changes | Heat or cold shock |
+| `plastic_stress` | Plastic or chemical pollutant exposure | Microplastic exposure |
+| `growth_medium` | Growth medium composition changes | Different media comparison |
+| `growth_state` | Growth phase or physiological state | Exponential vs stationary |
+
+#### Grouping Analyses into Experiments
+
+Each experiment represents **one biological question**: same organism, same treatment
+type, same omics, same experimental context. Multiple timepoints of the same
+comparison share one experiment. Key rules:
+
+1. **Same biological trajectory = same experiment.** If analyses compare different
+   timepoints of the same starvation/infection/treatment, they belong in one
+   experiment. The `timepoint` field on each analysis captures the time variation.
+   Example: P-limited at 4h, 24h, 46h, 59h → one experiment with 4 analyses.
+
+2. **Rescue/re-addition = same experiment as the starvation.** If P is re-added
+   after P-starvation, those analyses belong in the same experiment. The `timepoint`
+   label captures the intervention (e.g., `"50h (P added)"`).
+
+3. **Different inoculum density = different experiment.** If two analyses compare
+   the same organisms but at different inoculum concentrations, they are separate
+   experiments — put the density in `experimental_context`.
+
+4. **Phase-varying treatment text = same experiment.** Papers like Weissberg 2025
+   use different treatment labels per timepoint ("Nutrient starvation", "Long-term
+   starvation", "Decline"). If these all describe the same biological trajectory
+   (same environmental condition), group them into one experiment. Use the condition
+   name (not the per-timepoint label) as `treatment_condition`.
+
+5. **Always preserve `timepoint`.** Every analysis from a time-course experiment
+   MUST have `timepoint` (the original string label from the paper) and
+   `timepoint_hours` (numeric conversion or null if unparseable).
+
+6. **Axenic vs coculture context = separate experiments.** If the same organism
+   and treatment are measured in axenic and coculture conditions, those are
+   separate experiments (different `experimental_context`).
+
+7. **Phage = `viral`, not `coculture`.** When `treatment_organism` is Phage,
+   use `treatment_type: viral`. Reserve `coculture` for bacterial co-cultivation.
+   Note: if phage infection is the *context* but not the *treatment variable*
+   (e.g., Lin 2015 studies P-limitation in phage-infected cells), use the
+   actual treatment type (`phosphorus_stress`) and describe phage in
+   `experimental_context`.
+
+8. **Use the most specific `treatment_type`.** Prefer the specific stress/condition
+   category over generic labels. `growth_medium` and `growth_state` are last
+   resorts when no specific category fits. Examples:
+   - N starvation time course → `nitrogen_stress`
+   - Alternative N sources (cyanate, urea) vs ammonium → `nitrogen_stress`
+     (still nitrogen metabolism, even without deprivation)
+   - Iron rescue (return to replete after starvation) → `iron_stress`
+     (part of the same iron stress experiment)
+   - Nutrient starvation growth phases (exponential → decline → death) →
+     `nitrogen_stress` (if N is the limiting nutrient)
+   - Dark vs light → `light_stress` or `darkness` depending on which is treatment
+   - Use `growth_medium` only for truly unrelated media comparisons
+   - Use `growth_state` only for growth phase comparisons without a specific stressor
 
 ### 3. Supplementary Materials (Required)
 
 Each supplementary table is a keyed entry under `supplementary_materials`. Three entry types are supported:
 
-#### Type `csv` — Expression data table (required for omics edges)
+#### Type `csv` -- Expression data table (required for omics edges)
 
 ```yaml
   supplementary_materials:
@@ -88,7 +190,7 @@ Each supplementary table is a keyed entry under `supplementary_materials`. Three
       type: csv
       filename: "data/Prochlorococcus/papers_and_supp/<folder>/<data_file>.csv"
       sep: ","                  # optional; column delimiter, default "," (use "\t" for TSV)
-      organism: "Prochlorococcus MED4"   # optional; inferred from analyses if absent
+      organism: "Prochlorococcus MED4"   # optional; inferred from experiment if absent
       original_filename: "data/.../original.csv"   # optional; pre-fix-gene-ids CSV for reference
 
       # optional; if absent, heuristic column detection is used (backward compatible)
@@ -109,15 +211,15 @@ Each supplementary table is a keyed entry under `supplementary_materials`. Three
 - `<table_key>`: A descriptive key for the table (e.g., `supp_table_1`, `supp_table_2_timepoint_A`).
 - `filename`: Relative path to the data CSV file.
 - `sep`: Column delimiter; default `","`. Use `"\t"` for tab-separated files.
-- `organism`: Organism for this table; if absent, inferred from the `organism` field of the statistical analyses.
-- `original_filename`: Path to the original (pre-fix-gene-ids) CSV. Useful when `filename` was updated to a `_with_locus_tag.csv` by fix-gene-ids — the original is still available for ID column inspection.
+- `organism`: Organism for this table; if absent, inferred from the experiment referenced by the analysis.
+- `original_filename`: Path to the original (pre-fix-gene-ids) CSV. Useful when `filename` was updated to a `_with_locus_tag.csv` by fix-gene-ids -- the original is still available for ID column inspection.
 - `id_columns`: Documents which columns contain gene identifiers and their type (see **ID Types** below). If absent, heuristic detection is used.
 - `product_columns`: Documents which columns contain functional descriptions to harvest as product synonyms.
 - Multiple analyses can share the same file if different columns represent different comparisons.
 
-#### Type `id_translation` — Pure ID mapping resource (no expression data)
+#### Type `id_translation` -- Pure ID mapping resource (no expression data)
 
-Use when a paper includes a supplementary table that maps gene IDs without DE results (e.g., a genome annotation CSV, a cross-reference table). The build script (`build_gene_id_mapping.py`) uses this to enrich the per-strain ID lookup before processing DE CSVs. **Not processed by omics_adapter — no expression edges are emitted.**
+Use when a paper includes a supplementary table that maps gene IDs without DE results (e.g., a genome annotation CSV, a cross-reference table). The build script (`build_gene_id_mapping.py`) uses this to enrich the per-strain ID lookup before processing DE CSVs. **Not processed by omics_adapter -- no expression edges are emitted.**
 
 ```yaml
     <table_key>:
@@ -141,7 +243,7 @@ Use when a paper includes a supplementary table that maps gene IDs without DE re
 - `organism` and `id_columns` are **required** for this type.
 - List `id_translation` entries **before** `csv` entries in the same paper so JGI IDs / alt-IDs are in the lookup when the DE table is processed.
 
-#### Type `annotation_gff` — Paper-specific GFF/GTF reannotation (ID bridging only)
+#### Type `annotation_gff` -- Paper-specific GFF/GTF reannotation (ID bridging only)
 
 Use when a paper includes a GFF3 or GTF file from a custom genome reannotation. The build script extracts locus tags, old locus tags, gene names, and protein IDs to bridge paper-specific IDs to canonical locus tags. **Not processed by omics_adapter and skipped by fix-gene-ids / check-gene-ids.**
 
@@ -177,29 +279,31 @@ Use when a paper includes a GFF3 or GTF file from a custom genome reannotation. 
 
 ### 4. Statistical Analysis Fields
 
-Each analysis entry describes one differential expression comparison.
+Each analysis entry describes one **per-timepoint** differential expression comparison within an experiment. Experiment-level metadata (organism, omics_type, test_type, conditions, etc.) is defined in the `experiments` block; analyses reference an experiment and add only per-timepoint details.
 
 #### Required Fields
 
 | Field | Description | Examples |
 |-------|-------------|----------|
-| `type` | Omics data type | `RNASEQ`, `MICROARRAY`, `PROTEOMICS`, `METABOLOMICS` |
-| `name` | Human-readable description of the analysis | `"DE Analysis of Prochlorococcus MED4 coculture vs axenic at 20h"` |
 | `id` | Unique identifier for this analysis | `DE_coculture_vs_axenic_med4_20h` |
-| `test_type` | Statistical method used | `DESeq2`, `edgeR`, `Rockhopper`, `Affymetrix microarray`, `DESeq` |
-| `control_condition` | Baseline/reference condition | `"Axenic"`, `"Time 0 (pre-shock)"`, `"Normal seawater (3.8% salt)"` |
-| `treatment_condition` | Experimental/test condition | `"Coculture with Alteromonas HOT1A3"`, `"Salt-acclimated (5% salt)"` |
-| `organism` | Organism being profiled | `"Prochlorococcus MED4"`, `"Alteromonas macleodii MIT1002"` |
-| `name_col` | Column name in CSV containing the gene/protein identifier | `"Gene"`, `"Locus tag2"`, `"Gene ID"`, `"Synonym"`, `"ID"` |
-| `logfc_col` | Column name in CSV containing the log2 fold change value | `"log2FoldChange"`, `"logFC"`, `"0.036%_CO2_21%_O2 FC"` |
+| `experiment` | Reference to a key in the `experiments` block | `coculture_hot1a3` |
+| `name_col` | Column name in CSV containing the gene/protein identifier | `"Gene"`, `"Locus tag2"`, `"Gene ID"`, `"Synonym"` |
+| `logfc_col` | Column name in CSV containing the log2 fold change value | `"log2FoldChange"`, `"logFC"` |
+
+#### Timepoint Field
+
+| Field | Description | Examples |
+|-------|-------------|----------|
+| `timepoint_hours` | Numeric timepoint in hours (or `null` for single-point experiments) | `20`, `0.5`, `48`, `null` |
+
+Every analysis should have `timepoint_hours`. Set it to a number for time-course experiments, or `null` for single-point experiments. The validator warns if this field is missing.
 
 #### Optional Fields
 
 | Field | Description | When to Use |
 |-------|-------------|-------------|
 | `adjusted_p_value_col` | Column name for adjusted p-value | When the CSV has a p-value column (e.g., `"padj"`, `"FDR"`, `"q Value"`) |
-| `experimental_context` | Other factors held constant | Always helpful; describes medium, light, temperature, etc. |
-| `timepoint` | Time point of measurement | For time-course experiments (e.g., `"20h"`, `"48h"`, `"-12h"`, `"24h vs 12h"`) |
+| `timepoint` | Human-readable time point label | For display (e.g., `"20h"`, `"48h"`, `"-12h"`) |
 | `skip_rows` | Number of header rows to skip when reading CSV | When the CSV has extra header rows before the data columns (e.g., `3`) |
 | `pvalue_asterisk_in_logfc` | Boolean, `true` if significance is marked by `*` appended to fold-change values | When there is no separate p-value column and the fold-change column has asterisks (e.g., `"2.5*"`) |
 | `prefiltered` | Boolean, `true` if the table only contains significant results | When authors pre-filtered the table to significant genes only |
@@ -208,69 +312,35 @@ Each analysis entry describes one differential expression comparison.
 
 **Note on tables where all values are significant:** Some supplementary tables only list genes that are already significantly differentially expressed (pre-filtered by the authors). In these cases, set `prefiltered: true` on the analysis. This tells the adapter that all rows are significant. You may also omit `adjusted_p_value_col` and `pvalue_asterisk_in_logfc` if not applicable.
 
-**Note on significance thresholds:** If the paper or table legend states specific significance criteria (e.g., "adjusted p-value < 0.05 and |log2FC| >= 1"), record these as `pvalue_threshold` and `logfc_threshold`. The adapter uses these to mark edges as significant or not. If the paper does not state thresholds, omit these fields — the adapter can apply default thresholds from its constructor settings.
-
-#### Edge Source Fields (One Set Required)
-
-The adapter needs to determine what **causes** the expression change. You must provide one of these two sets:
-
-**Option A -- Organism as cause** (e.g., coculture experiments):
-
-| Field | Description | Example |
-|-------|-------------|---------|
-| `treatment_organism` | Name of the organism causing the effect | `"Alteromonas macleodii HOT1A3"` |
-| `treatment_taxid` | NCBI Taxonomy ID of the treatment organism | `28108` |
-| `treatment_assembly_accession` | (Optional) NCBI RefSeq assembly accession — use when the organism has a loaded genome in the KG | `GCF_901457835.2` |
-
-**Option B -- Environmental condition as cause** (e.g., stress experiments):
-
-| Field | Description | Example |
-|-------|-------------|---------|
-| `environmental_treatment_condition_id` | References a key from `environmental_conditions` | `bagby_2015_low_co2` |
-| `environmental_control_condition_id` | (Optional) References the control condition key | `alhosani_2015_seawater_control` |
-
-If `environmental_treatment_condition_id` is present, the adapter uses the environmental condition node as the edge source. Otherwise it falls back to the organism node from `treatment_taxid`.
-
-## Choosing Between Organism and Environmental Condition Edges
-
-Use **organism edges** (`treatment_organism` + `treatment_taxid`) when:
-- The experiment adds or removes a biological organism (e.g., coculture with a heterotroph, viral infection)
-- The "cause" of expression change is the presence of another organism
-
-Use **environmental condition edges** (`environmental_treatment_condition_id`) when:
-- The experiment varies a physical or chemical factor (light, gas, salinity, nutrients, temperature)
-- The experiment compares growth states or phases (planktonic vs biofilm, exponential vs stationary)
-- You want the condition details (CO2 level, salinity, etc.) stored as a node with rich properties
+**Note on significance thresholds:** If the paper or table legend states specific significance criteria (e.g., "adjusted p-value < 0.05 and |log2FC| >= 1"), record these as `pvalue_threshold` and `logfc_threshold`. The adapter uses these to mark edges as significant or not. If the paper does not state thresholds, omit these fields -- the adapter can apply default thresholds from its constructor settings.
 
 ## Edge Label Routing
 
-The OMICSAdapter creates different Neo4j edge labels depending on which source fields are present in the analysis:
+The OMICSAdapter creates `Changes_expression_of` edges in the knowledge graph. The edge source node is determined by the experiment's `treatment_type` and coculture fields:
 
-| paperconfig field | Edge label created | Source node type |
+| Experiment fields | Edge label | Source node type |
 |---|---|---|
-| `treatment_organism` + `treatment_taxid` (or `treatment_assembly_accession`) | `Coculture_changes_expression_of` | `OrganismTaxon` |
-| `environmental_treatment_condition_id` | `Condition_changes_expression_of` | `EnvironmentalCondition` |
+| `treatment_organism` + `treatment_taxid` (coculture/viral) | `Changes_expression_of` | `Experiment` (linked to `OrganismTaxon` via `Tests_coculture_with`) |
+| Environmental treatment types (no treatment_organism) | `Changes_expression_of` | `Experiment` |
 
-Ortholog expression is available at query time via `Gene_in_ortholog_group` → `OrthologGroup` → `Gene_in_ortholog_group` 2-hop joins (no materialized ortholog edges).
+All expression edges now use the unified `Changes_expression_of` label, with the `Experiment` node as the source. The experiment's `treatment_type` property enables filtering by category (e.g., find all coculture experiments, all nitrogen stress experiments).
 
-A single publication can produce **both** edge types if it contains analyses of both kinds (e.g., a paper that studies both an environmental stress and a coculture effect in separate tables). Each `statistical_analyses` entry is processed independently and routed to the appropriate edge label.
+For coculture experiments, the `Experiment` node is linked to the treatment organism via a `Tests_coculture_with` edge. This replaces the old split between `Condition_changes_expression_of` and `Coculture_changes_expression_of`.
 
-The `condition_category` property on `EnvironmentalCondition` nodes holds the same value as `condition_type` and is available for graph queries that filter by category across publications.
-
-The adapter also emits a `Published_expression_data_about` edge from the `Publication` node to the `EnvironmentalCondition` or `OrganismTaxon` source node for each analysis, enabling navigation from publications to the conditions they studied.
+The adapter also emits a `Published_expression_data_about` edge from the `Publication` node to the `Experiment` node for each experiment, enabling navigation from publications to the experiments they describe.
 
 ## Organism Reference Data
 
 Organism names, taxids, and assembly accessions must be consistent with these two canonical CSV files:
 
-- `data/Prochlorococcus/genomes/cyanobacteria_genomes.csv` — strains with loaded genomes
-- `data/Prochlorococcus/treatment_organisms.csv` — genus-level or non-specific organisms (no genome loaded)
+- `data/Prochlorococcus/genomes/cyanobacteria_genomes.csv` -- strains with loaded genomes
+- `data/Prochlorococcus/treatment_organisms.csv` -- genus-level or non-specific organisms (no genome loaded)
 
 The `organism` field format is `"<Genus> <strain_name>"` where `strain_name` matches the `strain_name` column in `cyanobacteria_genomes.csv`, or just the genus name for treatment-only organisms.
 
 ### Genome-loaded strains (from `cyanobacteria_genomes.csv`)
 
-Always include `treatment_assembly_accession` when using one of these as `treatment_organism`:
+Always include `treatment_assembly_accession` on the experiment when using one of these as `treatment_organism`:
 
 | organism / treatment_organism value | ncbi_taxon_id | ncbi_accession (assembly) |
 |---|---|---|
@@ -315,124 +385,185 @@ If an organism name and its taxid/assembly disagree, validate by checking the pa
 
 ## Complete Examples
 
-### Example 1: Coculture Experiment (Organism as Cause)
+### Example 1: Coculture Experiment (Single Timepoint)
 
 ```yaml
 publication:
   papername: "Aharonovich 2016"
   papermainpdf: "data/Prochlorococcus/papers_and_supp/Aharonovich 2016/paper.pdf"
 
+  experiments:
+    coculture_hot1a3:
+      name: "DE of Prochlorococcus MED4 in Coculture with Alteromonas HOT1A3 vs Axenic"
+      organism: "Prochlorococcus MED4"
+      omics_type: RNASEQ
+      test_type: Rockhopper
+      treatment_type: coculture
+      control_condition: Axenic
+      treatment_condition: "Coculture with Alteromonas HOT1A3"
+      experimental_context: "in Pro99 medium under continuous light"
+      treatment_organism: "Alteromonas macleodii HOT1A3"
+      treatment_taxid: 28108
+
   supplementary_materials:
     supp_table_1:
       type: csv
       filename: "data/Prochlorococcus/papers_and_supp/Aharonovich 2016/de_genes_med4_t20h.csv"
       statistical_analyses:
-        - type: RNASEQ
-          name: "DE of Prochlorococcus MED4 in Coculture with Alteromonas HOT1A3 vs Axenic at 20h"
-          id: DE_coculture_vs_axenic_med4_20h
-          test_type: Rockhopper
-          control_condition: Axenic
-          treatment_condition: "Coculture with Alteromonas HOT1A3"
-          experimental_context: "in Pro99 medium under continuous light"
-          timepoint: 20h
-          organism: "Prochlorococcus MED4"
-          treatment_taxid: 28108
-          treatment_organism: "Alteromonas macleodii HOT1A3"
+        - id: DE_coculture_vs_axenic_med4_20h
+          experiment: coculture_hot1a3
+          timepoint_hours: 20
           name_col: Synonym
           logfc_col: "log 2 fold change coculture/axenic"
           adjusted_p_value_col: "q Value"
 ```
 
-### Example 2: Environmental Stress (Condition as Cause)
+### Example 2: Environmental Stress (Salt Stress)
 
 ```yaml
 publication:
   papername: "Al-Hosani 2015"
   papermainpdf: "data/Prochlorococcus/papers_and_supp/Al-Hosani 2015/paper.pdf"
 
-  environmental_conditions:
-    alhosani_2015_seawater_control:
-      condition_type: growth_medium
-      name: "Normal seawater control (3.8% salt)"
+  experiments:
+    salt_acclimation:
+      name: "DE of Prochlorococcus AS9601 under salt acclimation vs normal seawater"
+      organism: "Prochlorococcus AS9601"
+      omics_type: RNASEQ
+      test_type: DESeq
+      treatment_type: salt_stress
+      control_condition: "Normal seawater (3.8% salt)"
+      treatment_condition: "Salt-acclimated (5% salt)"
+      experimental_context: "Axenic cells in PRO99 medium at 22C under continuous light"
       medium: "PRO99 natural seawater medium"
-      temperature: 22C
-      light_condition: continuous_light
+      temperature: "22C"
+      light_condition: continuous light
       light_intensity: "46 umol photons m-2 s-1"
-      salinity: "3.8% w/v NaCl"
-      description: "Axenic Prochlorococcus AS9601 in PRO99 medium, normal salinity"
-    alhosani_2015_salt_acclimation:
-      condition_type: salt_stress
-      name: "Salt-acclimated (5% salt)"
-      medium: "PRO99 natural seawater medium with added NaCl"
-      temperature: 22C
-      light_condition: continuous_light
-      light_intensity: "46 umol photons m-2 s-1"
-      salinity: "5% w/v NaCl"
-      description: "Axenic Prochlorococcus AS9601 acclimated to 5% NaCl"
 
   supplementary_materials:
     supp_table_3:
       type: csv
       filename: "data/Prochlorococcus/papers_and_supp/Al-Hosani 2015/de_genes_salt.csv"
       statistical_analyses:
-        - type: RNASEQ
-          name: "DE of Prochlorococcus AS9601 under salt acclimation vs normal seawater"
-          id: DE_salt_acclimated_vs_seawater_AS9601
-          test_type: DESeq
-          control_condition: "Normal seawater (3.8% salt)"
-          treatment_condition: "Salt-acclimated (5% salt)"
-          environmental_control_condition_id: alhosani_2015_seawater_control
-          environmental_treatment_condition_id: alhosani_2015_salt_acclimation
-          experimental_context: "Axenic cells in PRO99 medium at 22C under continuous light"
-          organism: "Prochlorococcus AS9601"
+        - id: DE_salt_acclimated_vs_seawater_AS9601
+          experiment: salt_acclimation
+          timepoint_hours: null
           name_col: "Gene id"
           logfc_col: log2FoldChange
           adjusted_p_value_col: padj
 ```
 
-### Example 3: Multiple Analyses from One File (Time Course)
+### Example 3: Time-Course Experiment (Multiple Analyses Referencing Same Experiment)
 
-When a single CSV contains columns for multiple timepoints:
+When a single CSV contains columns for multiple timepoints, all analyses reference the same experiment:
 
 ```yaml
+publication:
+  papername: "Biller 2016"
+  papermainpdf: "data/Prochlorococcus/papers_and_supp/Biller 2016/paper.pdf"
+
+  experiments:
+    coculture_mit1002_natl2a:
+      name: "DE Prochlorococcus NATL2A coculture vs axenic"
+      organism: "Prochlorococcus NATL2A"
+      omics_type: RNASEQ
+      test_type: DESeq2
+      treatment_type: coculture
+      control_condition: Axenic
+      treatment_condition: "Co-culture with Alteromonas macleodii MIT1002"
+      treatment_organism: "Alteromonas macleodii MIT1002"
+      treatment_taxid: 28108
+      treatment_assembly_accession: GCF_901457835.2
+
   supplementary_materials:
     supp_table_2:
       type: csv
       filename: "data/.../PRO_DE_genes.csv"
       statistical_analyses:
-        - type: RNASEQ
-          name: "DE Prochlorococcus NATL2A coculture vs axenic (2h)"
-          id: DE_coculture_vs_axenic_NATL2A_2h
-          test_type: DESeq2
-          control_condition: Axenic
-          treatment_condition: "Co-culture with Alteromonas macleodii MIT1002"
-          timepoint: 2h
-          organism: "Prochlorococcus NATL2A"
-          treatment_taxid: 28108
-          treatment_organism: "Alteromonas macleodii MIT1002"
+        - id: DE_coculture_vs_axenic_NATL2A_2h
+          experiment: coculture_mit1002_natl2a
+          timepoint_hours: 2
           name_col: Original_NCBI_ID
           logfc_col: "2 hours"
           skip_rows: 3
           pvalue_asterisk_in_logfc: true
-        - type: RNASEQ
-          name: "DE Prochlorococcus NATL2A coculture vs axenic (12h)"
-          id: DE_coculture_vs_axenic_NATL2A_12h
-          test_type: DESeq2
-          control_condition: Axenic
-          treatment_condition: "Co-culture with Alteromonas macleodii MIT1002"
-          timepoint: 12h
-          organism: "Prochlorococcus NATL2A"
-          treatment_taxid: 28108
-          treatment_organism: "Alteromonas macleodii MIT1002"
+        - id: DE_coculture_vs_axenic_NATL2A_12h
+          experiment: coculture_mit1002_natl2a
+          timepoint_hours: 12
           name_col: Original_NCBI_ID
           logfc_col: "12 hours"
           skip_rows: 3
           pvalue_asterisk_in_logfc: true
+        - id: DE_coculture_vs_axenic_NATL2A_24h
+          experiment: coculture_mit1002_natl2a
+          timepoint_hours: 24
+          name_col: Original_NCBI_ID
+          logfc_col: "24 hours"
+          skip_rows: 3
+          pvalue_asterisk_in_logfc: true
 ```
 
-### Example 4: Multiple Tables from Same Paper
+### Example 4: Multiple Experiments from Same Paper
 
-When a paper has separate CSV files for different organisms or experiments:
+When a paper has separate experiments for different organisms or conditions:
+
+```yaml
+publication:
+  papername: "Biller 2018"
+  papermainpdf: "data/Prochlorococcus/papers_and_supp/Biller 2018/paper.pdf"
+
+  experiments:
+    extended_darkness_axenic:
+      name: "DE Prochlorococcus NATL2A axenic in extended darkness vs diel"
+      organism: "Prochlorococcus NATL2A"
+      omics_type: RNASEQ
+      test_type: DESeq2
+      treatment_type: darkness
+      control_condition: "13:11 diel light:dark cycle"
+      treatment_condition: "Extended darkness"
+      experimental_context: "Axenic Prochlorococcus NATL2A in Pro99 at 24C"
+      medium: "Pro99 natural seawater medium"
+      temperature: "24C"
+      light_condition: constant darkness
+      light_intensity: "0 umol photons m-2 s-1"
+
+    extended_darkness_coculture:
+      name: "DE Prochlorococcus NATL2A coculture in extended darkness vs diel"
+      organism: "Prochlorococcus NATL2A"
+      omics_type: RNASEQ
+      test_type: DESeq2
+      treatment_type: darkness
+      control_condition: "13:11 diel light:dark cycle"
+      treatment_condition: "Extended darkness"
+      experimental_context: "Prochlorococcus NATL2A co-cultured with Alteromonas macleodii MIT1002 in Pro99 at 24C"
+      medium: "Pro99 natural seawater medium"
+      temperature: "24C"
+      light_condition: constant darkness
+      light_intensity: "0 umol photons m-2 s-1"
+
+  supplementary_materials:
+    supp_table_s3:
+      type: csv
+      filename: "data/.../de_genes.csv"
+      statistical_analyses:
+        - id: DE_extended_darkness_vs_diel_axenic_NATL2A_1h
+          experiment: extended_darkness_axenic
+          timepoint_hours: 1
+          name_col: "NCBI ID"
+          logfc_col: "Axenic, 36 hours"
+          pvalue_asterisk_in_logfc: true
+        - id: DE_extended_darkness_vs_diel_coculture_NATL2A_1h
+          experiment: extended_darkness_coculture
+          timepoint_hours: 1
+          name_col: "NCBI ID"
+          logfc_col: "Co-culture, 36 hours"
+          pvalue_asterisk_in_logfc: true
+        # ... repeat for additional timepoints
+```
+
+### Example 5: Multiple Tables from Same Paper
+
+When a paper has separate CSV files for different organisms:
 
 ```yaml
   supplementary_materials:
@@ -440,79 +571,16 @@ When a paper has separate CSV files for different organisms or experiments:
       type: csv
       filename: "data/.../pro_de_genes.csv"
       statistical_analyses:
-        - type: RNASEQ
-          # ... Prochlorococcus analysis
+        - id: DE_pro_experiment_1
+          experiment: pro_experiment
+          # ...
     supp_table_alt:
       type: csv
       filename: "data/.../alt_de_genes.csv"
       statistical_analyses:
-        - type: RNASEQ
-          # ... Alteromonas analysis
-```
-
-### Example 5: Environmental Stress with Multiple Biological Contexts in One File
-
-When a single CSV has columns for different biological contexts (e.g., axenic and coculture) at multiple timepoints, all comparing the same environmental treatment vs control:
-
-```yaml
-publication:
-  papername: "Biller 2018"
-  papermainpdf: "data/Prochlorococcus/papers_and_supp/Biller 2018/paper.pdf"
-
-  environmental_conditions:
-    biller_2018_diel_ld_control:
-      condition_type: growth_medium
-      name: "13:11 diel light:dark cycle control"
-      medium: Pro99 natural seawater medium
-      temperature: 24C
-      light_condition: "13:11 light:dark cycle with simulated dawn and dusk"
-      light_intensity: "55 umol photons m-2 s-1"
-      description: "Prochlorococcus NATL2A maintained under a 13:11 light:dark diel cycle"
-    biller_2018_extended_darkness:
-      condition_type: light_stress
-      name: "Extended darkness"
-      medium: Pro99 natural seawater medium
-      temperature: 24C
-      light_condition: continuous_darkness
-      light_intensity: "0 umol photons m-2 s-1"
-      description: "Cultures shifted to continuous darkness at expected sunrise"
-
-  supplementary_materials:
-    supp_table_s3:
-      type: csv
-      filename: "data/.../de_genes.csv"
-      statistical_analyses:
-        # Axenic condition at 1h
-        - type: RNASEQ
-          name: "DE Prochlorococcus NATL2A axenic in extended darkness vs diel (1h)"
-          id: DE_extended_darkness_vs_diel_axenic_NATL2A_1h
-          test_type: DESeq2
-          control_condition: "13:11 diel light:dark cycle"
-          treatment_condition: "Extended darkness"
-          environmental_control_condition_id: biller_2018_diel_ld_control
-          environmental_treatment_condition_id: biller_2018_extended_darkness
-          experimental_context: "Axenic Prochlorococcus NATL2A in Pro99 at 24C"
-          timepoint: "1h extended darkness"
-          organism: Prochlorococcus NATL2A
-          name_col: "NCBI ID"
-          logfc_col: "Axenic, 36 hours"
-          pvalue_asterisk_in_logfc: true
-        # Coculture condition at 1h (same file, different logfc_col)
-        - type: RNASEQ
-          name: "DE Prochlorococcus NATL2A coculture in extended darkness vs diel (1h)"
-          id: DE_extended_darkness_vs_diel_coculture_NATL2A_1h
-          test_type: DESeq2
-          control_condition: "13:11 diel light:dark cycle"
-          treatment_condition: "Extended darkness"
-          environmental_control_condition_id: biller_2018_diel_ld_control
-          environmental_treatment_condition_id: biller_2018_extended_darkness
-          experimental_context: "Prochlorococcus NATL2A co-cultured with Alteromonas macleodii MIT1002 in Pro99 at 24C"
-          timepoint: "1h extended darkness"
-          organism: Prochlorococcus NATL2A
-          name_col: "NCBI ID"
-          logfc_col: "Co-culture, 36 hours"
-          pvalue_asterisk_in_logfc: true
-        # ... repeat for additional timepoints
+        - id: DE_alt_experiment_1
+          experiment: alt_experiment
+          # ...
 ```
 
 ## Strain-Level Resource Paperconfigs
@@ -562,19 +630,26 @@ Before submitting a paperconfig:
 
 - [ ] `papermainpdf` path points to an existing PDF file (omit for strain-level resource paperconfigs with no `publication` block)
 - [ ] All `filename` paths point to existing CSV/GFF files
+- [ ] `experiments` block exists with at least one experiment entry (for publication configs)
+- [ ] Each experiment has all required fields: `name`, `organism`, `omics_type`, `test_type`, `treatment_type`, `treatment_condition`, `control_condition`
+- [ ] `organism` values are canonical (match `cyanobacteria_genomes.csv` or `treatment_organisms.csv`)
+- [ ] `treatment_type` is a canonical value (see Treatment Types table)
+- [ ] `omics_type` is one of: RNASEQ, MICROARRAY, PROTEOMICS, METABOLOMICS
+- [ ] `test_type` is a canonical value (DESeq2, DESeq, edgeR, Rockhopper, microarray, etc.)
+- [ ] Each analysis has `id`, `experiment`, `name_col`, `logfc_col`
+- [ ] Each analysis `experiment` reference points to a valid key in `experiments` block
+- [ ] Each analysis has `timepoint_hours` (number or `null`)
 - [ ] `name_col` matches an actual column name in the CSV
 - [ ] `logfc_col` matches an actual column name in the CSV
 - [ ] `adjusted_p_value_col` (if specified) matches an actual column name in the CSV
-- [ ] Each analysis has either (`treatment_organism` + `treatment_taxid`) or `environmental_treatment_condition_id`
-- [ ] If using `environmental_treatment_condition_id`, the referenced key exists under `environmental_conditions`
 - [ ] Each analysis `id` is unique within the file
 - [ ] `skip_rows` is set correctly if the CSV has extra header rows
 - [ ] Gene/protein identifiers in `name_col` use locus tags or IDs that can match existing gene nodes
 - [ ] `prefiltered` is set to `true` if the table only contains significant results
 - [ ] `pvalue_threshold` and `logfc_threshold` are set if the paper states specific significance criteria
-- [ ] `treatment_taxid` matches `ncbi_taxon_id` in `cyanobacteria_genomes.csv` or `treatment_organisms.csv` for the named organism
-- [ ] `treatment_assembly_accession` (if present) matches `ncbi_accession` in `cyanobacteria_genomes.csv` for the named strain — omit for genus-level organisms
-- [ ] If organism name and taxid/assembly conflict, resolve via the paper's supplementary legend files; the central CSVs are authoritative for taxid and assembly
+- [ ] For coculture/viral experiments: `treatment_organism` and `treatment_taxid` are set on the experiment
+- [ ] `treatment_taxid` matches `ncbi_taxon_id` in `cyanobacteria_genomes.csv` or `treatment_organisms.csv`
+- [ ] `treatment_assembly_accession` (if present) matches `ncbi_accession` in `cyanobacteria_genomes.csv` -- omit for genus-level organisms
 - [ ] Any new organism not already in the central CSVs has been added to the appropriate file (see "Registering New Organisms" below)
 - [ ] For `id_translation` entries: `organism` and `id_columns` are declared; all column names match actual CSV headers
 - [ ] For `annotation_gff` entries: `organism` is declared and `filename` exists
@@ -613,6 +688,8 @@ When the user invokes this skill with a paper directory name (e.g., `/paperconfi
    - Add an `annotation_gff` entry with `type: annotation_gff`, `filename`, and `organism`
    - These are processed by `build_gene_id_mapping.py` to bridge paper-specific IDs to canonical locus tags; the omics adapter ignores them
 7. Draft the `paperconfig.yaml` following the schema above:
+   - Define the `experiments` block first with all experiment-level metadata (organism, omics_type, test_type, treatment_type, conditions, coculture fields)
+   - Each analysis references an experiment key and adds only per-timepoint fields (timepoint_hours, name_col, logfc_col, etc.)
    - List `id_translation` and `annotation_gff` entries **before** any `csv` entries for the same organism so alt-IDs are in the lookup when DE data is processed
    - If the `name_col` IDs are non-standard (JGI IDs, probesets, RAST IDs), ensure an `id_translation` entry maps them to locus tags before the DE CSV is processed
    - Declare `id_columns` on every `csv` entry to document the gene ID provenance, even when `name_col` is already `locus_tag` (post-fix-gene-ids state)
@@ -657,14 +734,20 @@ This script checks:
 - YAML is parseable and has required top-level structure
 - PDF file exists
 - All CSV files exist and are readable
+- `experiments` block exists and is well-formed
+- Each experiment has required fields: `name`, `organism`, `omics_type`, `test_type`, `treatment_type`, `treatment_condition`, `control_condition`
+- Canonical vocabulary: `organism`, `omics_type`, `test_type`, `treatment_type`, `treatment_organism`
+- All CSV files exist and are readable
 - Column names (`name_col`, `logfc_col`, `adjusted_p_value_col`) match actual CSV headers
 - `skip_rows` is applied correctly when reading CSV headers
-- Each analysis has all required fields (`type`, `name`, `id`, `test_type`, `control_condition`, `treatment_condition`, `organism`, `name_col`, `logfc_col`)
-- Each analysis has either (`treatment_organism` + `treatment_taxid`) or `environmental_treatment_condition_id`
-- Environmental condition ID references resolve to keys in `environmental_conditions`
+- Each analysis has required fields: `id`, `experiment`, `name_col`, `logfc_col`
+- Each analysis `experiment` reference points to a valid key in `experiments` block
+- Each analysis has `timepoint_hours` (number or null; warns if missing)
 - All analysis IDs are unique
 - `logfc_col` values look numeric (warns on non-numeric values)
-- `type` is one of: RNASEQ, MICROARRAY, PROTEOMICS, METABOLOMICS
+- `id_columns` and `product_columns` column names match CSV headers
+- `id_translation` entries have `organism` and `id_columns`
+- `annotation_gff` entries have `organism` and valid file extension
 
 The script exits with code 0 on success, 1 on validation failure.
 

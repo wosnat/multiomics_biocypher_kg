@@ -13,7 +13,7 @@ publication:
       treatment_type: plastic_stress
       medium: AMP1 artificial seawater medium with 50% v/v HDPE leachate
       temperature: 22C
-      light_condition: continuous_light
+      light_condition: continuous light
       light_intensity: 20-40 umol photons m-2 s-1
     plastic_stress_pvc_plastic_leachate_2_mit9312_rnaseq:
       name: MIT9312 PVC plastic leachate (2% dilution) vs AMP1 media control (no leachate) (RNASEQ)
@@ -26,7 +26,7 @@ publication:
       treatment_type: plastic_stress
       medium: AMP1 artificial seawater medium with 2% v/v PVC leachate
       temperature: 22C
-      light_condition: continuous_light
+      light_condition: continuous light
       light_intensity: 20-40 umol photons m-2 s-1
     plastic_stress_hdpe_plastic_leachate_50_natl2a_rnaseq:
       name: NATL2A HDPE plastic leachate (50% dilution) vs AMP1 media control (no leachate) (RNASEQ)
@@ -39,7 +39,7 @@ publication:
       treatment_type: plastic_stress
       medium: AMP1 artificial seawater medium with 50% v/v HDPE leachate
       temperature: 22C
-      light_condition: continuous_light
+      light_condition: continuous light
       light_intensity: 20-40 umol photons m-2 s-1
     plastic_stress_pvc_plastic_leachate_2_natl2a_rnaseq:
       name: NATL2A PVC plastic leachate (2% dilution) vs AMP1 media control (no leachate) (RNASEQ)
@@ -52,7 +52,7 @@ publication:
       treatment_type: plastic_stress
       medium: AMP1 artificial seawater medium with 2% v/v PVC leachate
       temperature: 22C
-      light_condition: continuous_light
+      light_condition: continuous light
       light_intensity: 20-40 umol photons m-2 s-1
   supplementary_materials:
     supp_dataset_3_mit9312:

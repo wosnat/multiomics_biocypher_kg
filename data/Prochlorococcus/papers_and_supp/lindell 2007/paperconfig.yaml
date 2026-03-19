@@ -2,7 +2,7 @@ publication:
   papername: Lindell 2007
   papermainpdf: data/Prochlorococcus/papers_and_supp/lindell 2007/nature06130 (1).pdf
   experiments:
-    coculture_phage_infected_med4_microarray:
+    viral_phage_infected_med4_microarray:
       name: MED4 Phage infected vs Pro99 medium phage infection baseline (MICROARRAY)
       organism: Prochlorococcus MED4
       treatment_condition: Phage infected
@@ -10,10 +10,10 @@ publication:
       experimental_context: Prochlorococcus MED4 infected with phage, microarray analysis of fold change (infected/control)
       omics_type: MICROARRAY
       test_type: microarray
-      treatment_type: coculture
+      treatment_type: viral
       medium: Pro99 medium
       temperature: 24C
-      light_condition: continuous_light
+      light_condition: continuous light
       light_intensity: 10 umol photons m-2 s-1
       treatment_organism: Phage
       treatment_taxid: 10239
@@ -28,56 +28,56 @@ publication:
       - column: ' gene name, possible product and function'
       statistical_analyses:
       - id: DE_phage_infection_MED4_1h
-        experiment: coculture_phage_infected_med4_microarray
+        experiment: viral_phage_infected_med4_microarray
         timepoint: 1h
         timepoint_hours: 1.0
         name_col: 'ORF '
         logfc_col: 1 h
         pvalue_asterisk_in_logfc: true
       - id: DE_phage_infection_MED4_2h
-        experiment: coculture_phage_infected_med4_microarray
+        experiment: viral_phage_infected_med4_microarray
         timepoint: 2h
         timepoint_hours: 2.0
         name_col: 'ORF '
         logfc_col: 2 h
         pvalue_asterisk_in_logfc: true
       - id: DE_phage_infection_MED4_3h
-        experiment: coculture_phage_infected_med4_microarray
+        experiment: viral_phage_infected_med4_microarray
         timepoint: 3h
         timepoint_hours: 3.0
         name_col: 'ORF '
         logfc_col: 3 h
         pvalue_asterisk_in_logfc: true
       - id: DE_phage_infection_MED4_4h
-        experiment: coculture_phage_infected_med4_microarray
+        experiment: viral_phage_infected_med4_microarray
         timepoint: 4h
         timepoint_hours: 4.0
         name_col: 'ORF '
         logfc_col: 4 h
         pvalue_asterisk_in_logfc: true
       - id: DE_phage_infection_MED4_5h
-        experiment: coculture_phage_infected_med4_microarray
+        experiment: viral_phage_infected_med4_microarray
         timepoint: 5h
         timepoint_hours: 5.0
         name_col: 'ORF '
         logfc_col: 5 h
         pvalue_asterisk_in_logfc: true
       - id: DE_phage_infection_MED4_6h
-        experiment: coculture_phage_infected_med4_microarray
+        experiment: viral_phage_infected_med4_microarray
         timepoint: 6h
         timepoint_hours: 6.0
         name_col: 'ORF '
         logfc_col: 6 h
         pvalue_asterisk_in_logfc: true
       - id: DE_phage_infection_MED4_7h
-        experiment: coculture_phage_infected_med4_microarray
+        experiment: viral_phage_infected_med4_microarray
         timepoint: 7h
         timepoint_hours: 7.0
         name_col: 'ORF '
         logfc_col: 7 h
         pvalue_asterisk_in_logfc: true
       - id: DE_phage_infection_MED4_8h
-        experiment: coculture_phage_infected_med4_microarray
+        experiment: viral_phage_infected_med4_microarray
         timepoint: 8h
         timepoint_hours: 8.0
         name_col: 'ORF '

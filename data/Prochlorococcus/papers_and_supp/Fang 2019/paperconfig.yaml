@@ -13,9 +13,11 @@ publication:
       omics_type: RNASEQ
       test_type: DESeq2
       treatment_type: viral
+      treatment_organism: Phage
+      treatment_taxid: 10239
       medium: Pro99 natural seawater medium amended with vDOM
       temperature: 24C
-      light_condition: continuous_light
+      light_condition: continuous light
       light_intensity: 15-20 umol quanta m-2 s-1
   supplementary_materials:
     supp_table_2:

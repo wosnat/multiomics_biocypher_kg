@@ -38,6 +38,7 @@ from multiomics_kg.utils.paperconfig_utils import (
     get_organism_for_entry,
     get_paper_name,
     get_supplementary_materials,
+    iter_csv_tables,
     load_all_paperconfigs,
 )
 from multiomics_kg.utils.gene_id_utils import (
@@ -72,10 +73,16 @@ def resolve_table(
     table_key: str,
     table_config: dict,
     force: bool = False,
+    config: dict | None = None,
 ) -> dict | None:
     """Resolve gene IDs in one CSV supplementary table.
 
     Returns a result dict, or None if the table should be silently skipped.
+
+    Args:
+        config: Full paperconfig dict, needed to look up organism from the
+            experiments block (new format). If None, falls back to entry-level
+            organism only.
     """
     if table_config.get("type", "csv") != "csv":
         return None
@@ -96,8 +103,8 @@ def resolve_table(
     sep = table_config.get("sep", ",")
     skip_rows = int(table_config.get("skip_rows", 0) or 0)
 
-    # Determine organism
-    organism = get_organism_for_entry({}, table_config) or ""
+    # Determine organism (pass full config for experiment block lookup)
+    organism = get_organism_for_entry(config or {}, table_config) or ""
     if not organism:
         print(f"  [warn] No organism for {pub_name}/{table_key} — skipping", file=sys.stderr)
         return None
@@ -408,7 +415,7 @@ def main() -> None:
             if not isinstance(table_config, dict):
                 continue
 
-            result = resolve_table(pub_name, table_key, table_config, force=args.force)
+            result = resolve_table(pub_name, table_key, table_config, force=args.force, config=config)
             if result is None:
                 continue
             if result.get("skipped"):
