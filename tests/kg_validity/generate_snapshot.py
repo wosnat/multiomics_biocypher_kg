@@ -65,7 +65,7 @@ NODE_PROPERTIES = {
     "Protein": ["protein_synonyms", "gene_names"],
     "OrganismTaxon": ["organism_name", "strain_name", "genus", "clade", "ncbi_taxon_id"],
     "Publication": ["doi", "pmid", "title"],
-    "EnvironmentalCondition": ["name", "condition_type"],
+    "Experiment": ["name", "organism_strain", "treatment_type", "treatment", "control", "omics_type", "is_time_course"],
     "OrthologGroup": ["name", "source", "taxonomic_level", "taxon_id"],
     # GO term node types (from functional_annotation_adapter.py)
     "BiologicalProcess": ["name"],
@@ -87,14 +87,12 @@ EDGE_PROPERTIES = {
     "Protein_belongs_to_organism": [],
     "Gene_encodes_protein": [],
     "Gene_in_ortholog_group": [],
-    "Condition_changes_expression_of": [
+    "Changes_expression_of": [
         "expression_direction", "log2_fold_change", "adjusted_p_value",
-        "control_condition",
+        "time_point", "time_point_order", "time_point_hours",
     ],
-    "Coculture_changes_expression_of": [
-        "expression_direction", "log2_fold_change", "adjusted_p_value",
-        "control_condition",
-    ],
+    "Has_experiment": [],
+    "Tests_coculture_with": [],
     # Gene → GO edges (functional_annotation_adapter.py; label_as_edge values)
     "Gene_involved_in_biological_process": [],
     "Gene_located_in_cellular_component": [],

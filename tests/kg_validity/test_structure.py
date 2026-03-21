@@ -23,7 +23,7 @@ pytestmark = pytest.mark.kg
     "Protein",
     "OrganismTaxon",
     "Publication",
-    "EnvironmentalCondition",
+    "Experiment",
     "OrthologGroup",
     # GO term nodes
     "BiologicalProcess",

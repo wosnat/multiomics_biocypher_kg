@@ -82,7 +82,7 @@ Most adapters have a single-source class (e.g., `CyanorakNcbi`) and a **Multi***
 ### Key Adapters
 - **uniprot_adapter.py** — Proteins, genes, organisms from UniProt API
 - **cyanorak_ncbi_adapter.py** — Genomic data from GFF/GenBank files; also emits `organism taxon` nodes
-- **omics_adapter.py** — Differential expression results from `paperconfig.yaml` files; creates `publication` nodes and expression edges (`Condition_changes_expression_of` / `Coculture_changes_expression_of`)
+- **omics_adapter.py** — Differential expression results from `paperconfig.yaml` files; creates `Publication` nodes, `Experiment` nodes, `Has_experiment` edges, `Tests_coculture_with` edges, and `Changes_expression_of` expression edges (Experiment → Gene)
 - **go_adapter.py** — Gene Ontology terms and GO→protein edges
 - **ec_adapter.py** — Enzyme Commission number hierarchy
 - **pathway_adapter.py** — Metabolic/signaling pathway associations
@@ -110,6 +110,7 @@ Most adapters have a single-source class (e.g., `CyanorakNcbi`) and a **Multi***
 - Proteins: UniProt accession
 - Organisms: INSDC GCF assembly accession (e.g., `GCF_000011465.1`)
 - Publications: DOI
+- Experiments: `{doi}_{experiment_key}` (e.g., `10.1038/s41586-024-07246-9_n_limitation_med4_rnaseq`)
 - GO terms: GO:XXXXXXX
 - OrthologGroups: `ortholog_group:<source>:<name>` (e.g., `ortholog_group:cyanorak:CK_00000364`)
 - Pfam domains: `pfam:PF00712`
@@ -119,7 +120,7 @@ Most adapters have a single-source class (e.g., `CyanorakNcbi`) and a **Multi***
 ### Docker Pipeline Stages
 1. **build** — runs `create_knowledge_graph.py`, outputs CSVs
 2. **import** — runs `neo4j-admin import` from generated script
-3. **post-process** — executes `scripts/post-import.sh` (the authoritative post-import script run by Docker via `cypher-shell`). Creates indexes (scalar, full-text, OrthologGroup) and computes Gene routing signal properties (`annotation_types`, `expression_edge_count`, `significant_expression_count`, `closest_ortholog_group_size`, `closest_ortholog_genera`). `scripts/post-import.cypher` is a reference copy kept in sync for non-Docker use -- both files must have identical Cypher logic.
+3. **post-process** — executes `scripts/post-import.sh` (the authoritative post-import script run by Docker via `cypher-shell`). Creates indexes (scalar, full-text, OrthologGroup, Pfam, Experiment) and computes Gene routing signal properties (`annotation_types`, `expression_edge_count`, `significant_expression_count`, `closest_ortholog_group_size`, `closest_ortholog_genera`) plus `rank_by_effect` on expression edges. `scripts/post-import.cypher` is a reference copy kept in sync for non-Docker use -- both files must have identical Cypher logic.
 4. **deploy** — exposes Neo4j
 5. **app** — Biochatter web UI
 
@@ -132,21 +133,39 @@ Most adapters have a single-source class (e.g., `CyanorakNcbi`) and a **Multi***
 publication:
   papername: "Author Year"
   papermainpdf: "data/Prochlorococcus/papers_and_supp/Author Year/paper.pdf"
+
+  experiments:
+    my_experiment:
+      name: "MED4 nitrogen limitation RNA-seq"
+      organism: "Prochlorococcus MED4"
+      treatment_condition: "Nitrogen limitation"
+      control_condition: "Replete medium"
+      experimental_context: "in Pro99 medium under continuous light"
+      omics_type: RNASEQ  # or PROTEOMICS, METABOLOMICS, MICROARRAY
+      test_type: "DESeq2"
+      treatment_type: "nitrogen"   # category for filtering
+      medium: "Pro99"
+      temperature: "24C"
+      light_condition: "continuous light"
+      light_intensity: ""
+      # For coculture experiments, add:
+      # treatment_organism: "Alteromonas macleodii HOT1A3"
+      # treatment_taxid: 28108
+
   supplementary_materials:
     supp_table_1:
       type: csv
       filename: "data/.../results.csv"
       statistical_analyses:
         - id: "unique_id_within_publication"   # required; used as edge ID prefix
-          type: RNASEQ  # or PROTEOMICS, METABOLOMICS, MICROARRAY
-          test_type: "DESeq2"
-          control_condition: "Axenic"
-          treatment_condition: "Coculture"
-          experimental_context: "in Pro99 medium under continuous light"
-          organism: "Prochlorococcus MED4"
+          experiment: my_experiment             # references experiments block
           name_col: "Gene"
           logfc_col: "log2FoldChange"
           adjusted_p_value_col: "padj"
+          pvalue_threshold: 0.05
+          # Optional time-series fields:
+          # timepoint: "24h"
+          # timepoint_hours: 24
 ```
 
 3. Add the path to `data/Prochlorococcus/papers_and_supp/paperconfig_files.txt`
@@ -337,24 +356,25 @@ uv run python tests/kg_validity/generate_snapshot.py
 
 ### Actual Neo4j labels (BioCypher PascalCase output)
 
-- Nodes: `Gene`, `Protein`, `OrganismTaxon`, `Publication`, `EnvironmentalCondition`, `OrthologGroup`, `BiologicalProcess`, `CellularComponent`, `MolecularFunction`, `EcNumber`, `KeggTerm`, `CogFunctionalCategory`, `CyanorakRole`, `TigrRole`, `Pfam`, `PfamClan`
-- Relationships: `Gene_belongs_to_organism`, `Protein_belongs_to_organism`, `Gene_encodes_protein`, `Gene_in_ortholog_group`, `Condition_changes_expression_of`, `Coculture_changes_expression_of`, `Published_expression_data_about`, `Gene_involved_in_biological_process`, `Gene_located_in_cellular_component`, `Gene_enables_molecular_function`, `Biological_process_is_a_biological_process`, `Cellular_component_is_a_cellular_component`, `Molecular_function_is_a_molecular_function`, `Ec_number_is_a_ec_number`, `Gene_catalyzes_ec_number`, `Gene_has_kegg_ko`, `Kegg_term_is_a_kegg_term`, `Gene_in_cog_category`, `Gene_has_cyanorak_role`, `Gene_has_tigr_role`, `Cyanorak_role_is_a_cyanorak_role`, `Gene_has_pfam`, `Pfam_in_pfam_clan`
+- Nodes: `Gene`, `Protein`, `OrganismTaxon`, `Publication`, `Experiment`, `OrthologGroup`, `BiologicalProcess`, `CellularComponent`, `MolecularFunction`, `EcNumber`, `KeggTerm`, `CogFunctionalCategory`, `CyanorakRole`, `TigrRole`, `Pfam`, `PfamClan`
+- Relationships: `Gene_belongs_to_organism`, `Protein_belongs_to_organism`, `Gene_encodes_protein`, `Gene_in_ortholog_group`, `Has_experiment`, `Tests_coculture_with`, `Changes_expression_of`, `Gene_involved_in_biological_process`, `Gene_located_in_cellular_component`, `Gene_enables_molecular_function`, `Biological_process_is_a_biological_process`, `Cellular_component_is_a_cellular_component`, `Molecular_function_is_a_molecular_function`, `Ec_number_is_a_ec_number`, `Gene_catalyzes_ec_number`, `Gene_has_kegg_ko`, `Kegg_term_is_a_kegg_term`, `Gene_in_cog_category`, `Gene_has_cyanorak_role`, `Gene_has_tigr_role`, `Cyanorak_role_is_a_cyanorak_role`, `Gene_has_pfam`, `Pfam_in_pfam_clan`
 
 ### Key graph facts
 
 - Gene↔Protein linkage: explicit `Gene_encodes_protein` edges (Gene→Protein) created by UniProt adapter via RefSeq protein_id join with gene_mapping.csv
-- Expression sources: `EnvironmentalCondition` → `Condition_changes_expression_of` (~170K edges, stress experiments); `OrganismTaxon` → `Coculture_changes_expression_of` (~17K edges, coculture experiments); total direct edges ~188K (TODO: update after build)
+- Experiment nodes: ~76 nodes (TODO: update after build) with properties: `name`, `organism_strain`, `treatment_type`, `treatment`, `control`, `experimental_context`, `coculture_partner`, `omics_type`, `statistical_test`, `is_time_course`, `medium`, `temperature`, `light_condition`, `light_intensity`. Node IDs: `{doi}_{experiment_key}`. Each groups the analyses for one scientific comparison within a publication.
+- Expression edges: ~188K `Changes_expression_of` edges (Experiment → Gene), unified single type replacing the old split (`Condition_changes_expression_of` + `Coculture_changes_expression_of`). Edge properties: `time_point` (str), `time_point_order` (int), `time_point_hours` (float), `log2_fold_change` (float), `adjusted_p_value` (float), `expression_direction` (str), `significant` (str). Metadata (organism, omics type, conditions) lives on the Experiment node, not the edge.
+- `Has_experiment` edges: ~76 (TODO: update after build) — `(Publication) → (Experiment)`, one per experiment node
+- `Tests_coculture_with` edges: ~20 (TODO: update after build) — `(Experiment) → (OrganismTaxon)`, present only for coculture/viral experiments, links to the treatment organism
+- `rank_by_effect` property on expression edges: computed by post-import Cypher, ranks genes within each (experiment, time_point_order) group by descending |log2_fold_change| (1 = strongest effect)
 - OrthologGroup nodes: ~21K nodes with `name` (raw OG ID, e.g. "CK_00000364" or "COG0592@2"), `source` ("cyanorak"|"eggnog"), `taxonomic_level` (e.g. "curated", "Prochloraceae", "Bacteria"), `taxon_id` (int), `specificity_rank` (0=curated, 1=family, 2=order, 3=domain), `consensus_product` (majority-vote product from members), `consensus_gene_name` (most frequent gene name), `member_count` (int), `organism_count` (int), `genera` (str[], e.g. ["Prochlorococcus", "Alteromonas"]), `has_cross_genus_members` ("cross_genus"|"single_genus"). Sources: Cyanorak curated clusters (Pro/Syn), eggNOG lowest-level OGs (per organism group whitelist in `ORGANISM_GROUP_LEVELS`), eggNOG Bacteria-level COGs. Expression propagation is query-time via 2-hop (`gene->OG<-gene`) instead of materialized ortholog edges.
 - `Gene_in_ortholog_group` edges: ~84,500 membership edges. A gene may have 1-3 memberships (Cyanorak + eggnog bacteria-level + eggnog lowest-level).
 - Pfam domain nodes: ~2K `Pfam` nodes (only domains referenced by genes) with `name` (description), `short_name` (Pfam shortname); ~800 `PfamClan` nodes (superfamilies) with `name` (clan name). ~25K `Gene_has_pfam` edges, ~1.5K `Pfam_in_pfam_clan` edges. Node IDs use bioregistry CURIEs: `pfam:PF*` and `pfam.clan:CL*`. Pfam reference data downloaded from `Pfam-A.clans.tsv.gz`; eggNOG shortnames resolved to PF* accessions via reverse lookup (TODO: update counts after build)
-- New edge properties on all expression edge types: `omics_type` (RNASEQ | PROTEOMICS | METABOLOMICS | MICROARRAY), `organism_strain`, `treatment_condition`, `statistical_test`, `analysis_name` (human-readable description of the comparison, from paperconfig `name` field)
-- `condition_category` property on `EnvironmentalCondition` nodes (same value as `condition_type`)
-- `medium` and `temperature` properties on `EnvironmentalCondition` nodes (when provided in paperconfig `environmental_conditions` blocks)
+- EnvironmentalCondition nodes no longer exist — replaced by Experiment nodes (see above)
 - `preferred_name` property on `OrganismTaxon` nodes (e.g., `"Prochlorococcus MED4"`)
 - Gene node computed fields for MCP gene lookup: `organism_strain` (preferred organism name), `gene_summary` ("name :: product :: description"), `all_identifiers` (union of all alt IDs)
-- Gene nodes carry ~27 properties. Kept properties: core (locus_tag, start, end, strand, product, protein_id), naming (gene_name, gene_name_synonyms, alternate_functional_descriptions, function_description), function (protein_family, catalytic_activities, transmembrane_regions, signal_peptide, transporter_classification, cazy_ids, bigg_reaction), computed (organism_strain, gene_summary, all_identifiers), quality (annotation_quality, gene_category), routing signals (annotation_types, expression_edge_count, significant_expression_count, closest_ortholog_group_size, closest_ortholog_genera — set by post-import Cypher, not adapter). Redundant ID arrays removed: `gene_synonyms` (= alternative_locus_tags ∪ gene_name_synonyms), `alternative_locus_tags` (⊂ all_identifiers), `old_locus_tags` (⊂ alternative_locus_tags ⊂ all_identifiers). See `docs/gene_id_fields_spec.md` for full analysis.
-- Post-import indexes: scalar (`gene_locus_tag_idx`, `gene_name_idx`, `gene_organism_strain_idx`, `ortholog_group_id_idx`, `ortholog_group_name_idx`, `ortholog_group_level_idx`, `ortholog_group_rank_idx`, `pfam_name_idx`, `pfam_clan_name_idx`) + full-text (`geneFullText` on gene_summary, all_identifiers, gene_name_synonyms, alternate_functional_descriptions; `pfamFullText` on Pfam name, short_name; `pfamClanFullText` on PfamClan name; `biologicalProcessFullText`, `molecularFunctionFullText`, `cellularComponentFullText`, `ecNumberFullText`, `keggFullText`, `cogCategoryFullText`, `cyanorakRoleFullText`, `tigrRoleFullText` on ontology/role node `name` properties)
-- `Published_expression_data_about` edges: `(Publication)→(EnvironmentalCondition)` and `(Publication)→(OrganismTaxon)` — one edge per distinct source node used in a publication's analyses
+- Gene nodes carry ~27 properties. Kept properties: core (locus_tag, start, end, strand, product, protein_id), naming (gene_name, gene_name_synonyms, alternate_functional_descriptions, function_description), function (protein_family, catalytic_activities, transmembrane_regions, signal_peptide, transporter_classification, cazy_ids, bigg_reaction), computed (organism_strain, gene_summary, all_identifiers), quality (annotation_quality, gene_category), routing signals (annotation_types, expression_edge_count, significant_expression_count, closest_ortholog_group_size, closest_ortholog_genera — set by post-import Cypher using `Changes_expression_of` edges, not adapter). Redundant ID arrays removed: `gene_synonyms` (= alternative_locus_tags ∪ gene_name_synonyms), `alternative_locus_tags` (⊂ all_identifiers), `old_locus_tags` (⊂ alternative_locus_tags ⊂ all_identifiers). See `docs/gene_id_fields_spec.md` for full analysis.
+- Post-import indexes: scalar (`gene_locus_tag_idx`, `gene_name_idx`, `gene_organism_strain_idx`, `ortholog_group_id_idx`, `ortholog_group_name_idx`, `ortholog_group_level_idx`, `ortholog_group_rank_idx`, `pfam_name_idx`, `pfam_clan_name_idx`, `experiment_id_idx`, `experiment_organism_idx`, `experiment_treatment_type_idx`, `experiment_omics_type_idx`) + full-text (`geneFullText` on gene_summary, all_identifiers, gene_name_synonyms, alternate_functional_descriptions; `pfamFullText` on Pfam name, short_name; `pfamClanFullText` on PfamClan name; `experimentFullText` on Experiment name, treatment, control, experimental_context, light_condition; `biologicalProcessFullText`, `molecularFunctionFullText`, `cellularComponentFullText`, `ecNumberFullText`, `keggFullText`, `cogCategoryFullText`, `cyanorakRoleFullText`, `tigrRoleFullText` on ontology/role node `name` properties)
 - `adjusted_p_value` may be null on expression edges when the original study did not report it
 - Strains in graph: MED4, AS9601, MIT9301, MIT9312, MIT9313, NATL1A, NATL2A, RSP50 (Prochlorococcus); CC9311 (Synechococcus); WH8102 (Parasynechococcus); MIT1002, EZ55, HOT1A3 (Alteromonas)
 

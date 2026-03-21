@@ -46,6 +46,15 @@ CREATE FULLTEXT INDEX pfamFullText IF NOT EXISTS
 CREATE FULLTEXT INDEX pfamClanFullText IF NOT EXISTS
   FOR (c:PfamClan) ON EACH [c.name];
 
+// Experiment indexes
+CREATE INDEX experiment_id_idx IF NOT EXISTS FOR (e:Experiment) ON (e.id);
+CREATE INDEX experiment_organism_idx IF NOT EXISTS FOR (e:Experiment) ON (e.organism_strain);
+CREATE INDEX experiment_treatment_type_idx IF NOT EXISTS FOR (e:Experiment) ON (e.treatment_type);
+CREATE INDEX experiment_omics_type_idx IF NOT EXISTS FOR (e:Experiment) ON (e.omics_type);
+
+CREATE FULLTEXT INDEX experimentFullText IF NOT EXISTS
+  FOR (e:Experiment) ON EACH [e.name, e.treatment, e.control, e.experimental_context, e.light_condition];
+
 // -----------------------------------------------------------------------
 // Gene routing signals (pre-computed for fast gene_overview queries)
 // -----------------------------------------------------------------------
@@ -70,12 +79,25 @@ CALL {
 MATCH (g:Gene)
 CALL {
   WITH g
-  OPTIONAL MATCH (g)<-[e:Condition_changes_expression_of|Coculture_changes_expression_of]-()
+  OPTIONAL MATCH (g)<-[e:Changes_expression_of]-()
   WITH g, count(e) AS total,
        sum(CASE WHEN e.significant = 'significant' THEN 1 ELSE 0 END) AS sig
   SET g.expression_edge_count = total,
       g.significant_expression_count = sig
 } IN TRANSACTIONS OF 500 ROWS;
+
+// rank_by_effect: within each experiment + timepoint, rank by |log2FC| descending
+MATCH (e:Experiment)
+WITH e
+CALL {
+  WITH e
+  MATCH (e)-[r:Changes_expression_of]->(g:Gene)
+  WITH r.time_point_order AS tp, r, abs(r.log2_fold_change) AS abs_fc
+  ORDER BY tp, abs_fc DESC
+  WITH tp, collect(r) AS edges
+  UNWIND range(0, size(edges)-1) AS i
+  SET (edges[i]).rank_by_effect = i + 1
+} IN TRANSACTIONS OF 10 ROWS;
 
 // closest_ortholog_group_size + closest_ortholog_genera
 MATCH (g:Gene)

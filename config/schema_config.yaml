@@ -24,64 +24,62 @@ publication:
     organism: str[]
 
 
-# Expression edges: source (cause) -> gene (affected)
-# Four edge types: direct (condition or coculture) and inferred via homology (ortholog variants).
-# Direct edges are created by the omics adapter; ortholog edges are created by post-import Cypher.
-
-# Coculture (organism → gene, direct)
-coculture to gene expression association:
-  is_a: Association
-  represented_as: edge
-  label_as_edge: coculture_changes_expression_of
-  label_in_input: coculture_changes_expression_of
-  source: organism_taxon
-  target: gene
+# Experiment node: groups time-series analyses for a single scientific comparison
+experiment:
+  is_a: InvestigativeProcess
+  represented_as: node
+  preferred_id: id
+  label_in_input: experiment
   properties:
-    expression_direction: str      # "up" | "down"
-    control_condition: str         # baseline for the varied factor (e.g., "axenic", "light")
-    experimental_context: str      # other factors held constant (e.g., "in darkness")
-    time_point: str
-    log2_fold_change: float
-    adjusted_p_value: float
-    significant: str               # "significant" | "not significant" | "unknown"
-    publications: str[]
-    omics_type: str                # RNASEQ | PROTEOMICS | METABOLOMICS | MICROARRAY
-    organism_strain: str           # which organism's genes are measured (e.g., "Prochlorococcus MED4")
-    treatment_condition: str       # what was applied (e.g., "Coculture with Alteromonas HOT1A3")
-    statistical_test: str          # DESeq2, edgeR, etc.
-    analysis_name: str             # human-readable name of the statistical comparison (from paperconfig)
-
-# Condition (env condition → gene, direct)
-condition to gene expression association:
-  is_a: Association
-  represented_as: edge
-  label_as_edge: condition_changes_expression_of
-  label_in_input: condition_changes_expression_of
-  source: environmental condition
-  target: gene
-  properties:
-    expression_direction: str      # "up" | "down"
-    control_condition: str         # baseline for the varied factor (e.g., "axenic", "light")
-    experimental_context: str      # other factors held constant (e.g., "in darkness")
-    time_point: str
-    log2_fold_change: float
-    adjusted_p_value: float
-    significant: str               # "significant" | "not significant" | "unknown"
-    publications: str[]
-    omics_type: str
+    name: str
     organism_strain: str
-    treatment_condition: str
+    treatment_type: str
+    treatment: str
+    control: str
+    experimental_context: str
+    coculture_partner: str
+    omics_type: str
     statistical_test: str
-    analysis_name: str             # human-readable name of the statistical comparison (from paperconfig)
+    is_time_course: str
+    medium: str
+    temperature: str
+    light_condition: str
+    light_intensity: str
 
-# Publication connectivity
-publication to expression source association:
+# Publication → Experiment
+publication has experiment:
   is_a: Association
   represented_as: edge
-  label_as_edge: published_expression_data_about
-  label_in_input: published_expression_data_about
+  label_as_edge: has_experiment
+  label_in_input: has_experiment
   source: publication
-  target: [environmental condition, organism taxon]
+  target: experiment
+
+# Experiment → OrganismTaxon (coculture experiments only)
+experiment tests coculture:
+  is_a: Association
+  represented_as: edge
+  label_as_edge: tests_coculture_with
+  label_in_input: tests_coculture_with
+  source: experiment
+  target: organism taxon
+
+# Experiment → Gene expression edges (unified: replaces condition_ and coculture_ variants)
+experiment to gene expression association:
+  is_a: Association
+  represented_as: edge
+  label_as_edge: changes_expression_of
+  label_in_input: changes_expression_of
+  source: experiment
+  target: gene
+  properties:
+    time_point: str
+    time_point_order: int
+    time_point_hours: float
+    log2_fold_change: float
+    adjusted_p_value: float
+    expression_direction: str
+    significant: str
 
 ortholog group:
   is_a: GroupingClass
@@ -109,30 +107,6 @@ gene in ortholog group:
   target: ortholog group
   label_in_input: gene_in_ortholog_group
 
-timeseries_cluster:
-  is_a: GroupingClass
-  represented_as: node
-  preferred_id: id
-  label_in_input: timeseries_cluster
-  properties:
-    name: str
-    method: str # e.g., WGCNA, k-means
-    description: str
-
-cluster_in_publication:
-  is_a: Association
-  represented_as: edge
-  label_as_edge: cluster_in_publication
-  source: timeseries_cluster
-  target: publication
-  label_in_input: cluster_in_publication
-
-molecular_in_cluster:
-  is_a: Association
-  represented_as: edge
-  source: [gene, protein]
-  target: timeseries_cluster
-  label_in_input: member_of_cluster
   
 
 
@@ -249,35 +223,6 @@ organism taxon:
     genus: str           # e.g. Prochlorococcus
     species: str         # e.g. Prochlorococcus marinus
 
-environmental condition:
-  is_a: EnvironmentalFeature
-  represented_as: node
-  preferred_id: id
-  label_in_input: environmental_condition
-  properties:
-    name: str
-    condition_type: str  # "gas_shock" | "nutrient_stress" | "light_stress"
-    condition_category: str  # same value as condition_type; canonical vocabulary for querying
-
-    # Growth conditions
-    medium: str            # e.g., "Pro99", "PRO99-lowN", "PEv medium"
-    temperature: str       # e.g., "24C", "21C"
-
-    # Gas parameters
-    oxygen_level: str      # e.g., "0%", "21%", "depleted"
-    co2_level: str         # e.g., "0%", "ambient"
-
-    # Nutrient parameters
-    nitrogen_source: str   # e.g., "ammonia", "nitrate", "none"
-    nitrogen_level: str    # e.g., "replete", "limited", "starved"
-    phosphate_level: str   # e.g., "replete", "limited", "starved"
-
-    # Light parameters
-    light_condition: str   # e.g., "darkness", "blue", "red", "white"
-    light_intensity: str   # e.g., "0", "low", "high"
-
-    description: str
-    publications: str[]
 
 protein domain:  
   represented_as: node

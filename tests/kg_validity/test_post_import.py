@@ -345,7 +345,7 @@ def test_expression_edge_count_accurate(run_query):
         MATCH (g:Gene)
         WHERE g.expression_edge_count > 0
         WITH g LIMIT 5
-        OPTIONAL MATCH (g)<-[e:Condition_changes_expression_of|Coculture_changes_expression_of]-()
+        OPTIONAL MATCH (g)<-[e:Changes_expression_of]-()
         WITH g, g.expression_edge_count AS declared, count(e) AS actual
         WHERE declared <> actual
         RETURN count(g) AS mismatched, collect(g.locus_tag) AS examples

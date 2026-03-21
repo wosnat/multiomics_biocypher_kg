@@ -1,16 +1,17 @@
 """
 Expression edge data quality tests for the multi-omics knowledge graph.
 
-Validates Condition_changes_expression_of and Coculture_changes_expression_of
-edges, which carry quantitative data from 19+ differential expression studies.
+Validates Changes_expression_of edges (from Experiment nodes to Gene nodes),
+which carry quantitative data from 19+ differential expression studies.
 Bad data types or invalid values would silently break downstream LLM analysis.
 
 Checks:
 - log2_fold_change and adjusted_p_value are stored as floats (not strings)
 - adjusted_p_value is in [0, 1]
 - expression_direction is only 'up' or 'down'
-- Required properties (publications, control_condition) are present
-- At least one expression edge exists per organism/environmental_condition source
+- Experiment nodes have required properties (control, name)
+- Every Experiment is linked to a Publication via Has_experiment
+- All expression edges source from Experiment nodes and target Gene nodes
 """
 
 import pytest
@@ -24,11 +25,11 @@ pytestmark = pytest.mark.kg
 # ---------------------------------------------------------------------------
 
 def test_expression_edges_exist(run_query):
-    """At least one Condition_changes_expression_of or Coculture_changes_expression_of edge must exist."""
+    """At least one Changes_expression_of edge must exist."""
     result = run_query(
-        "MATCH ()-[e:Condition_changes_expression_of|Coculture_changes_expression_of]->() RETURN count(e) AS cnt"
+        "MATCH ()-[e:Changes_expression_of]->() RETURN count(e) AS cnt"
     )
-    assert result[0]["cnt"] > 0, "No Condition_changes_expression_of or Coculture_changes_expression_of edges found"
+    assert result[0]["cnt"] > 0, "No Changes_expression_of edges found"
 
 
 def test_expression_edge_count_minimum(run_query):
@@ -37,7 +38,7 @@ def test_expression_edge_count_minimum(run_query):
     A low count indicates an import failure.
     """
     result = run_query(
-        "MATCH ()-[e:Condition_changes_expression_of|Coculture_changes_expression_of]->() RETURN count(e) AS cnt"
+        "MATCH ()-[e:Changes_expression_of]->() RETURN count(e) AS cnt"
     )
     cnt = result[0]["cnt"]
     assert cnt > 10_000, (
@@ -55,14 +56,9 @@ def test_log2_fold_change_is_numeric(run_query):
     log2_fold_change must be stored as a float.
     BioCypher imports floats correctly; this catches regressions where
     the adapter emits strings (e.g., '1.23' instead of 1.23).
-
-    In Cypher: toFloat(x) returns null if x is already a float (no-op in Neo4j 4.4),
-    so we check that the property type is numeric via size() failure heuristic.
-    We match edges where log2_fold_change is not null and verify it's usable
-    in arithmetic — a string would raise a type error.
     """
     result = run_query("""
-        MATCH ()-[e:Condition_changes_expression_of|Coculture_changes_expression_of]->()
+        MATCH ()-[e:Changes_expression_of]->()
         WHERE e.log2_fold_change IS NOT NULL
         WITH e.log2_fold_change AS fc
         WHERE fc <> toFloat(toString(fc))
@@ -76,7 +72,7 @@ def test_log2_fold_change_is_numeric(run_query):
 def test_adjusted_p_value_is_numeric(run_query):
     """adjusted_p_value must be stored as a float, not a string."""
     result = run_query("""
-        MATCH ()-[e:Condition_changes_expression_of|Coculture_changes_expression_of]->()
+        MATCH ()-[e:Changes_expression_of]->()
         WHERE e.adjusted_p_value IS NOT NULL
         WITH e.adjusted_p_value AS padj
         WHERE padj <> toFloat(toString(padj))
@@ -94,7 +90,7 @@ def test_adjusted_p_value_is_numeric(run_query):
 def test_adjusted_p_value_in_valid_range(run_query):
     """adjusted_p_value must be in [0, 1] — it is a probability."""
     result = run_query("""
-        MATCH ()-[e:Condition_changes_expression_of|Coculture_changes_expression_of]->()
+        MATCH ()-[e:Changes_expression_of]->()
         WHERE e.adjusted_p_value IS NOT NULL
           AND (e.adjusted_p_value < 0 OR e.adjusted_p_value > 1)
         RETURN count(e) AS bad_rows,
@@ -113,7 +109,7 @@ def test_expression_direction_valid_values(run_query):
     Any other value (e.g., 'UP', 'upregulated', '') indicates a parsing bug.
     """
     result = run_query("""
-        MATCH ()-[e:Condition_changes_expression_of|Coculture_changes_expression_of]->()
+        MATCH ()-[e:Changes_expression_of]->()
         WHERE e.expression_direction IS NOT NULL
           AND NOT e.expression_direction IN ['up', 'down']
         RETURN count(e) AS bad_rows,
@@ -132,7 +128,7 @@ def test_log2_fold_change_direction_consistency(run_query):
     and 'down' should be < 0. A sign flip indicates a parsing error.
     """
     result = run_query("""
-        MATCH ()-[e:Condition_changes_expression_of|Coculture_changes_expression_of]->()
+        MATCH ()-[e:Changes_expression_of]->()
         WHERE e.expression_direction IS NOT NULL
           AND e.log2_fold_change IS NOT NULL
           AND (
@@ -152,39 +148,39 @@ def test_log2_fold_change_direction_consistency(run_query):
 
 
 # ---------------------------------------------------------------------------
-# Required property presence
+# Required property presence (on Experiment nodes, not edges)
 # ---------------------------------------------------------------------------
 
 def test_expression_edges_have_publications(run_query):
-    """Every expression edge must reference at least one publication."""
+    """Every Experiment must be linked to a Publication via Has_experiment."""
     result = run_query("""
-        MATCH ()-[e:Condition_changes_expression_of|Coculture_changes_expression_of]->()
-        WHERE e.publications IS NULL OR size(e.publications) = 0
-        RETURN count(e) AS missing
+        MATCH (exp:Experiment)
+        WHERE NOT (exp)<-[:Has_experiment]-(:Publication)
+        RETURN count(exp) AS missing
     """)
     missing = result[0]["missing"]
     assert missing == 0, (
-        f"{missing} expression edges are missing the publications property"
+        f"{missing} Experiment nodes have no Has_experiment edge from a Publication"
     )
 
 
-def test_expression_edges_have_control_condition(run_query):
-    """Every expression edge must have a control_condition (baseline description)."""
+def test_experiments_have_control(run_query):
+    """Every Experiment node must have a control property (baseline description)."""
     result = run_query("""
-        MATCH ()-[e:Condition_changes_expression_of|Coculture_changes_expression_of]->()
-        WHERE e.control_condition IS NULL OR e.control_condition = ''
-        RETURN count(e) AS missing
+        MATCH (exp:Experiment)
+        WHERE exp.control IS NULL OR exp.control = ''
+        RETURN count(exp) AS missing
     """)
     missing = result[0]["missing"]
     assert missing == 0, (
-        f"{missing} expression edges are missing control_condition"
+        f"{missing} Experiment nodes are missing the control property"
     )
 
 
 def test_expression_edges_have_direction(run_query):
     """Every expression edge must have expression_direction set."""
     result = run_query("""
-        MATCH ()-[e:Condition_changes_expression_of|Coculture_changes_expression_of]->()
+        MATCH ()-[e:Changes_expression_of]->()
         WHERE e.expression_direction IS NULL OR e.expression_direction = ''
         RETURN count(e) AS missing
     """)
@@ -195,43 +191,27 @@ def test_expression_edges_have_direction(run_query):
 
 
 # ---------------------------------------------------------------------------
-# Source node coverage
+# Source/target node coverage
 # ---------------------------------------------------------------------------
 
-def test_organisms_have_expression_edges(run_query):
+def test_experiments_source_expression_edges(run_query):
     """
-    At least some OrganismTaxon nodes must be expression sources
-    (coculture experiments use organisms as treatments).
-    """
-    result = run_query("""
-        MATCH (o:OrganismTaxon)-[:Coculture_changes_expression_of]->()
-        RETURN count(DISTINCT o) AS cnt
-    """)
-    assert result[0]["cnt"] > 0, (
-        "No OrganismTaxon node is a source of Coculture_changes_expression_of; "
-        "coculture experiment edges may be missing"
-    )
-
-
-def test_environmental_conditions_have_expression_edges(run_query):
-    """
-    EnvironmentalCondition nodes must source expression edges
-    (stress experiments use conditions as treatments).
+    Experiment nodes must be the source of Changes_expression_of edges.
     """
     result = run_query("""
-        MATCH (e:EnvironmentalCondition)-[:Condition_changes_expression_of]->()
-        RETURN count(DISTINCT e) AS cnt
+        MATCH (exp:Experiment)-[:Changes_expression_of]->()
+        RETURN count(DISTINCT exp) AS cnt
     """)
     assert result[0]["cnt"] > 0, (
-        "No EnvironmentalCondition node is a source of Condition_changes_expression_of; "
-        "stress experiment edges may be missing"
+        "No Experiment node is a source of Changes_expression_of; "
+        "expression edges may be missing"
     )
 
 
 def test_expression_edges_target_genes(run_query):
     """All expression edges must target a Gene node."""
     result = run_query("""
-        MATCH ()-[e:Condition_changes_expression_of|Coculture_changes_expression_of]->(target)
+        MATCH ()-[e:Changes_expression_of]->(target)
         WHERE NOT target:Gene
         RETURN count(e) AS wrong_targets,
                collect(DISTINCT labels(target))[..5] AS target_labels
@@ -243,64 +223,106 @@ def test_expression_edges_target_genes(run_query):
     )
 
 
+def test_expression_edges_source_from_experiments(run_query):
+    """All Changes_expression_of edges must originate from an Experiment node."""
+    result = run_query("""
+        MATCH (src)-[e:Changes_expression_of]->()
+        WHERE NOT src:Experiment
+        RETURN count(e) AS wrong_sources,
+               collect(DISTINCT labels(src))[..5] AS source_labels
+    """)
+    bad = result[0]["wrong_sources"]
+    assert bad == 0, (
+        f"{bad} expression edges originate from non-Experiment nodes: "
+        f"{result[0]['source_labels']}"
+    )
+
+
 # ---------------------------------------------------------------------------
-# analysis_name coverage
+# Experiment node properties
 # ---------------------------------------------------------------------------
 
-def test_analysis_name_present_on_majority_of_edges(run_query):
+def test_experiment_name_present_on_majority(run_query):
     """
-    Most expression edges should have analysis_name set.
+    Most Experiment nodes should have a name property.
     The analysis 'name' field is present in all paperconfigs with named analyses.
-    A low coverage rate indicates the adapter stopped writing this property.
     """
     result = run_query("""
-        MATCH ()-[e:Condition_changes_expression_of|Coculture_changes_expression_of]->()
+        MATCH (exp:Experiment)
         RETURN
-          count(e) AS total,
-          count(e.analysis_name) AS with_name
+          count(exp) AS total,
+          count(exp.name) AS with_name
     """)
     total = result[0]["total"]
     with_name = result[0]["with_name"]
     if total == 0:
-        pytest.skip("No expression edges found")
+        pytest.skip("No Experiment nodes found")
     coverage = with_name / total
     assert coverage >= 0.9, (
-        f"Only {with_name}/{total} ({coverage:.1%}) expression edges have analysis_name; "
-        f"expected >= 90% — check that omics_adapter writes analysis.get('name')"
+        f"Only {with_name}/{total} ({coverage:.1%}) Experiment nodes have name; "
+        f"expected >= 90%"
+    )
+
+
+def test_experiment_has_treatment_type(run_query):
+    """Every Experiment node must have a treatment_type property."""
+    result = run_query("""
+        MATCH (exp:Experiment)
+        WHERE exp.treatment_type IS NULL OR exp.treatment_type = ''
+        RETURN count(exp) AS missing
+    """)
+    missing = result[0]["missing"]
+    assert missing == 0, (
+        f"{missing} Experiment nodes are missing treatment_type"
+    )
+
+
+def test_experiment_has_organism_strain(run_query):
+    """Every Experiment node must have an organism_strain property."""
+    result = run_query("""
+        MATCH (exp:Experiment)
+        WHERE exp.organism_strain IS NULL OR exp.organism_strain = ''
+        RETURN count(exp) AS missing
+    """)
+    missing = result[0]["missing"]
+    assert missing == 0, (
+        f"{missing} Experiment nodes are missing organism_strain"
+    )
+
+
+def test_experiment_has_omics_type(run_query):
+    """Every Experiment node must have an omics_type property."""
+    result = run_query("""
+        MATCH (exp:Experiment)
+        WHERE exp.omics_type IS NULL OR exp.omics_type = ''
+        RETURN count(exp) AS missing
+    """)
+    missing = result[0]["missing"]
+    assert missing == 0, (
+        f"{missing} Experiment nodes are missing omics_type"
     )
 
 
 # ---------------------------------------------------------------------------
-# EnvironmentalCondition medium and temperature
+# No old node/edge types
 # ---------------------------------------------------------------------------
 
-def test_environmental_conditions_have_medium_when_applicable(run_query):
-    """
-    Some EnvironmentalCondition nodes should have medium set.
-    At least some paperconfigs declare medium in their conditions.
-    """
-    result = run_query("""
-        MATCH (e:EnvironmentalCondition)
-        WHERE e.medium IS NOT NULL AND e.medium <> ''
-        RETURN count(e) AS cnt
-    """)
-    assert result[0]["cnt"] > 0, (
-        "No EnvironmentalCondition nodes have medium set; "
-        "check that schema_config.yaml declares medium and the adapter writes it"
+def test_no_environmental_condition_nodes(run_query):
+    """EnvironmentalCondition nodes must not exist (replaced by Experiment)."""
+    result = run_query(
+        "MATCH (e:EnvironmentalCondition) RETURN count(e) AS cnt"
+    )
+    assert result[0]["cnt"] == 0, (
+        f"{result[0]['cnt']} EnvironmentalCondition nodes still exist"
     )
 
 
-def test_environmental_conditions_have_temperature_when_applicable(run_query):
-    """
-    Some EnvironmentalCondition nodes should have temperature set.
-    At least some paperconfigs declare temperature in their conditions.
-    """
-    result = run_query("""
-        MATCH (e:EnvironmentalCondition)
-        WHERE e.temperature IS NOT NULL AND e.temperature <> ''
-        RETURN count(e) AS cnt
-    """)
-    assert result[0]["cnt"] > 0, (
-        "No EnvironmentalCondition nodes have temperature set; "
-        "check that schema_config.yaml declares temperature and the adapter writes it"
+def test_no_old_expression_edge_types(run_query):
+    """Old Condition_changes_expression_of / Coculture_changes_expression_of edges must not exist."""
+    result = run_query(
+        "MATCH ()-[r:Condition_changes_expression_of|Coculture_changes_expression_of]->() "
+        "RETURN count(r) AS cnt"
+    )
+    assert result[0]["cnt"] == 0, (
+        f"{result[0]['cnt']} old-style expression edges still exist"
     )

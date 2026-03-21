@@ -52,7 +52,7 @@ METRICS = [
     ("has_cyanorak",   "CyanoRole%", "gene.cyanorak_Role (Cyanorak functional role)"),
     ("has_product",    "Product%",   "gene.product or gene.product_cyanorak (any product name)"),
     ("has_domains",    "Domains%",   "gene.protein_domains (InterPro via Cyanorak)"),
-    ("has_expression", "Expr%",      "Has ≥1 direct expression edge (Condition or Coculture)"),
+    ("has_expression", "Expr%",      "Has ≥1 direct expression edge (Changes_expression_of)"),
 ]
 
 
@@ -94,7 +94,7 @@ MATCH (g:Gene)-[:Gene_belongs_to_organism]->(o:OrganismTaxon)
 WHERE o.strain_name IS NOT NULL {strain_clause}
 OPTIONAL MATCH (g)-[:Gene_encodes_protein]->(p:Protein)
 WITH o.organism_name AS strain, g, p
-OPTIONAL MATCH ()-[expr:Condition_changes_expression_of|Coculture_changes_expression_of]->(g)
+OPTIONAL MATCH ()-[expr:Changes_expression_of]->(g)
 WITH strain, g, p, count(expr) AS expr_count
 RETURN
   strain,

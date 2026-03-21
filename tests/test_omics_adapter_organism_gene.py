@@ -1,17 +1,17 @@
 """
-Tests for the OMICS adapter organism to gene expression association edges.
+Tests for the OMICS adapter experiment node redesign.
 
 Tests verify that the adapter correctly creates:
 1. Publication nodes (with study metadata merged in)
-2. Environmental condition nodes from environmental_conditions section
-3. condition_changes_expression_of edges from environmental condition → gene
-4. coculture_changes_expression_of edges from organism → gene
-5. Correct edge properties (log2FC, p-value, direction, experimental_context, etc.)
-6. New Phase 4 properties: omics_type, organism_strain, treatment_condition, statistical_test
-7. published_expression_data_about edges from Publication → source nodes
+2. Experiment nodes from experiments block
+3. has_experiment edges from Publication -> Experiment
+4. tests_coculture_with edges from Experiment -> OrganismTaxon (coculture only)
+5. changes_expression_of edges from Experiment -> Gene
+6. Correct edge properties (log2FC, p-value, direction, time_point, time_point_order, etc.)
+7. Experiment node properties (name, organism_strain, treatment_type, etc.)
 
 Note: Organism nodes are created by the CyanorakNcbi adapter (single source of truth).
-The OMICS adapter only references organism IDs in edges; it does not create organism nodes.
+The OMICS adapter only references organism IDs in tests_coculture_with edges.
 """
 
 import pytest
@@ -48,16 +48,27 @@ def sample_config(temp_data_dir, sample_de_data):
     data_file = os.path.join(temp_data_dir, 'de_genes.csv')
     sample_de_data.to_csv(data_file, index=False)
 
-    # Create config with environmental_conditions section
+    # Create config with experiments block (new format)
     config = {
         'publication': {
             'papername': 'Test Publication 2024',
-            'environmental_conditions': {
-                'test_growth_conditions': {
-                    'condition_type': 'growth_medium',
-                    'name': 'Test growth conditions',
-                    'light_condition': 'continuous_light',
+            'experiments': {
+                'coculture_alteromonas_med4_rnaseq': {
+                    'name': 'Test DE Analysis',
+                    'organism': 'Prochlorococcus MED4',
+                    'treatment_condition': 'Coculture with Alteromonas',
+                    'control_condition': 'Axenic',
+                    'experimental_context': 'in test growth medium under continuous light',
+                    'omics_type': 'RNASEQ',
+                    'test_type': 'DESeq2',
+                    'treatment_type': 'coculture',
+                    'medium': 'Pro99',
                     'temperature': '24C',
+                    'light_condition': 'continuous_light',
+                    'light_intensity': '',
+                    'treatment_organism': 'Alteromonas macleodii',
+                    'treatment_taxid': 28108,
+                    'treatment_assembly_accession': 'GCF_001077695.1',
                 }
             },
             'supplementary_materials': {
@@ -66,18 +77,10 @@ def sample_config(temp_data_dir, sample_de_data):
                     'filename': data_file,
                     'statistical_analyses': [
                         {
-                            'type': 'RNASEQ',
-                            'name': 'Test DE Analysis',
                             'id': 'test_de_analysis',
-                            'test_type': 'DESeq2',
-                            'control_condition': 'Axenic',
-                            'treatment_condition': 'Coculture with Alteromonas',
-                            'experimental_context': 'in test growth medium under continuous light',
+                            'experiment': 'coculture_alteromonas_med4_rnaseq',
                             'timepoint': '24h',
-                            'organism': 'Prochlorococcus MED4',
-                            'treatment_organism': 'Alteromonas macleodii',
-                            'treatment_taxid': 28108,
-                            'treatment_assembly_accession': 'GCF_001077695.1',
+                            'timepoint_hours': 24.0,
                             'name_col': 'Synonym',
                             'logfc_col': 'log2_fold_change',
                             'adjusted_p_value_col': 'adjusted_p_value',
@@ -190,60 +193,54 @@ class TestOrganismNodeCreation:
         assert len(organism_nodes) == 0
 
 
-class TestEnvironmentalConditionNodeCreation:
-    """Test that environmental condition nodes are created correctly."""
+class TestExperimentNodeCreation:
+    """Test that experiment nodes are created correctly."""
 
-    def test_environmental_condition_node_created(self, adapter_with_mock_extracted_data):
-        """Verify environmental condition node is created from config."""
+    def test_experiment_node_created(self, adapter_with_mock_extracted_data):
+        """Verify experiment node is created from experiments block."""
         adapter = adapter_with_mock_extracted_data
         nodes = adapter.get_nodes()
 
-        # Find environmental condition nodes
-        env_nodes = [n for n in nodes if n[1] == 'environmental_condition']
+        exp_nodes = [n for n in nodes if n[1] == 'experiment']
 
-        assert len(env_nodes) == 1, f"Expected exactly one environmental condition node, got {len(env_nodes)}"
+        assert len(exp_nodes) == 1, f"Expected exactly one experiment node, got {len(exp_nodes)}"
 
-        env_node = env_nodes[0]
-        node_id, label, properties = env_node
+        node_id, label, properties = exp_nodes[0]
 
-        # Check that ID includes DOI prefix for uniqueness
+        # Check that ID includes publication ID and experiment key
         assert 'test_pub_2024' in node_id or '10.1234' in node_id, \
-            f"Expected environmental condition node ID to include publication ID, got {node_id}"
-        assert 'test_growth_conditions' in node_id, \
-            f"Expected environmental condition node ID to include local ID, got {node_id}"
+            f"Expected experiment node ID to include publication ID, got {node_id}"
+        assert 'coculture_alteromonas_med4_rnaseq' in node_id, \
+            f"Expected experiment node ID to include experiment key, got {node_id}"
 
-        # Check properties are copied from config
-        assert properties.get('condition_type') == 'growth_medium', \
-            f"Expected condition_type 'growth_medium', got {properties.get('condition_type')}"
+        # Check properties
+        assert properties.get('name') == 'Test DE Analysis', \
+            f"Expected name 'Test DE Analysis', got {properties.get('name')}"
+        assert properties.get('organism_strain') == 'Prochlorococcus MED4', \
+            f"Expected organism_strain 'Prochlorococcus MED4', got {properties.get('organism_strain')}"
+        assert properties.get('treatment_type') == 'coculture', \
+            f"Expected treatment_type 'coculture', got {properties.get('treatment_type')}"
         assert properties.get('light_condition') == 'continuous_light', \
             f"Expected light_condition 'continuous_light', got {properties.get('light_condition')}"
-        assert properties.get('local_id') == 'test_growth_conditions', \
-            f"Expected local_id 'test_growth_conditions', got {properties.get('local_id')}"
+        assert properties.get('temperature') == '24C', \
+            f"Expected temperature '24C', got {properties.get('temperature')}"
 
-    def test_no_env_condition_node_without_section(self, temp_data_dir, sample_de_data):
-        """Verify no environmental condition node is created when section is missing."""
+    def test_no_experiment_node_without_experiments_block(self, temp_data_dir, sample_de_data):
+        """Verify no experiment node is created when experiments block is missing."""
         data_file = os.path.join(temp_data_dir, 'de_genes.csv')
         sample_de_data.to_csv(data_file, index=False)
 
-        # Config without environmental_conditions section
         config = {
             'publication': {
                 'papername': 'Test Publication 2024',
-                # No environmental_conditions section
+                # No experiments block
                 'supplementary_materials': {
                     'supp_table_1': {
                         'type': 'csv',
                         'filename': data_file,
                         'statistical_analyses': [
                             {
-                                'type': 'RNASEQ',
-                                'name': 'Test DE Analysis',
                                 'id': 'test_de_analysis',
-                                'test_type': 'DESeq2',
-                                'organism': 'Prochlorococcus MED4',
-                                'treatment_organism': 'Alteromonas macleodii',
-                                'treatment_taxid': 28108,
-                                'treatment_assembly_accession': 'GCF_001077695.1',
                                 'name_col': 'Synonym',
                                 'logfc_col': 'log2_fold_change',
                                 'adjusted_p_value_col': 'adjusted_p_value',
@@ -254,7 +251,7 @@ class TestEnvironmentalConditionNodeCreation:
             }
         }
 
-        config_file = os.path.join(temp_data_dir, 'paperconfig_no_env.yaml')
+        config_file = os.path.join(temp_data_dir, 'paperconfig_no_exp.yaml')
         with open(config_file, 'w') as f:
             yaml.dump(config, f)
 
@@ -264,51 +261,48 @@ class TestEnvironmentalConditionNodeCreation:
         }
 
         nodes = adapter.get_nodes()
-        env_nodes = [n for n in nodes if n[1] == 'environmental_condition']
+        exp_nodes = [n for n in nodes if n[1] == 'experiment']
 
-        assert len(env_nodes) == 0, "No environmental condition node should be created without section"
+        assert len(exp_nodes) == 0, "No experiment node should be created without experiments block"
 
 
-class TestOrganismToGeneEdges:
-    """Test that organism → gene expression edges are created correctly.
+class TestExperimentToGeneEdges:
+    """Test that experiment → gene expression edges are created correctly.
 
-    The sample_config fixture uses treatment_organism (coculture), so edges should
-    have label 'coculture_changes_expression_of'.
+    The sample_config fixture uses the new experiments block format. All expression
+    edges should have label 'changes_expression_of' with experiment as source.
     """
 
-    def test_coculture_expression_edge_created(self, adapter_with_mock_extracted_data):
-        """Verify coculture_changes_expression_of edges are created for organism sources."""
+    def test_expression_edge_created(self, adapter_with_mock_extracted_data):
+        """Verify changes_expression_of edges are created."""
         adapter = adapter_with_mock_extracted_data
         edges = adapter.get_edges()
 
-        # Find coculture expression edges (organism as source)
-        expression_edges = [e for e in edges if e[3] == 'coculture_changes_expression_of']
+        expression_edges = [e for e in edges if e[3] == 'changes_expression_of']
+        assert len(expression_edges) == 4, f"Expected 4 expression edges (one per gene), got {len(expression_edges)}"
 
-        assert len(expression_edges) == 4, f"Expected 4 coculture expression edges (one per gene), got {len(expression_edges)}"
-
-    def test_edge_source_is_organism(self, adapter_with_mock_extracted_data):
-        """Verify edge source is the treatment organism."""
+    def test_edge_source_is_experiment(self, adapter_with_mock_extracted_data):
+        """Verify edge source is the experiment node."""
         adapter = adapter_with_mock_extracted_data
         edges = adapter.get_edges()
 
-        expression_edges = [e for e in edges if e[3] == 'coculture_changes_expression_of']
+        expression_edges = [e for e in edges if e[3] == 'changes_expression_of']
 
         for edge in expression_edges:
             _, source_id, target_id, label, properties = edge
-            # Source should be the organism (insdc.gcf:GCF_001077695.1)
-            assert 'insdc.gcf' in source_id.lower() or 'GCF_001077695.1' in source_id, \
-                f"Expected source to use insdc.gcf prefix, got {source_id}"
+            # Source should be the experiment ID (pubid_experiment_key)
+            assert 'coculture_alteromonas_med4_rnaseq' in source_id, \
+                f"Expected source to contain experiment key, got {source_id}"
 
     def test_edge_target_is_gene(self, adapter_with_mock_extracted_data):
         """Verify edge target is a gene."""
         adapter = adapter_with_mock_extracted_data
         edges = adapter.get_edges()
 
-        expression_edges = [e for e in edges if e[3] == 'coculture_changes_expression_of']
+        expression_edges = [e for e in edges if e[3] == 'changes_expression_of']
 
         for edge in expression_edges:
             _, source_id, target_id, label, properties = edge
-            # Target should be a gene (ncbigene:PMM000X)
             assert 'ncbigene' in target_id.lower() or 'PMM' in target_id, \
                 f"Expected target to be gene ID, got {target_id}"
 
@@ -317,7 +311,7 @@ class TestOrganismToGeneEdges:
         adapter = adapter_with_mock_extracted_data
         edges = adapter.get_edges()
 
-        expression_edges = [e for e in edges if e[3] == 'coculture_changes_expression_of']
+        expression_edges = [e for e in edges if e[3] == 'changes_expression_of']
 
         for edge in expression_edges:
             _, source_id, target_id, label, properties = edge
@@ -331,7 +325,7 @@ class TestOrganismToGeneEdges:
         adapter = adapter_with_mock_extracted_data
         edges = adapter.get_edges()
 
-        expression_edges = [e for e in edges if e[3] == 'coculture_changes_expression_of']
+        expression_edges = [e for e in edges if e[3] == 'changes_expression_of']
 
         for edge in expression_edges:
             _, source_id, target_id, label, properties = edge
@@ -343,7 +337,7 @@ class TestOrganismToGeneEdges:
         adapter = adapter_with_mock_extracted_data
         edges = adapter.get_edges()
 
-        expression_edges = [e for e in edges if e[3] == 'coculture_changes_expression_of']
+        expression_edges = [e for e in edges if e[3] == 'changes_expression_of']
 
         for edge in expression_edges:
             _, source_id, target_id, label, properties = edge
@@ -357,7 +351,7 @@ class TestOrganismToGeneEdges:
         adapter = adapter_with_mock_extracted_data
         edges = adapter.get_edges()
 
-        expression_edges = [e for e in edges if e[3] == 'coculture_changes_expression_of']
+        expression_edges = [e for e in edges if e[3] == 'changes_expression_of']
 
         for edge in expression_edges:
             _, source_id, target_id, label, properties = edge
@@ -369,38 +363,12 @@ class TestOrganismToGeneEdges:
             else:
                 assert direction == 'down', f"Negative fold change ({fc}) should have direction 'down', got '{direction}'"
 
-    def test_edge_has_control_condition(self, adapter_with_mock_extracted_data):
-        """Verify edges have control_condition property."""
-        adapter = adapter_with_mock_extracted_data
-        edges = adapter.get_edges()
-
-        expression_edges = [e for e in edges if e[3] == 'coculture_changes_expression_of']
-
-        for edge in expression_edges:
-            _, source_id, target_id, label, properties = edge
-            assert 'control_condition' in properties, \
-                f"Expected control_condition in edge properties"
-            assert properties['control_condition'] == 'Axenic'
-
-    def test_edge_has_experimental_context(self, adapter_with_mock_extracted_data):
-        """Verify edges have experimental_context property."""
-        adapter = adapter_with_mock_extracted_data
-        edges = adapter.get_edges()
-
-        expression_edges = [e for e in edges if e[3] == 'coculture_changes_expression_of']
-
-        for edge in expression_edges:
-            _, source_id, target_id, label, properties = edge
-            assert 'experimental_context' in properties, \
-                f"Expected experimental_context in edge properties"
-            assert 'continuous light' in properties['experimental_context']
-
     def test_edge_has_time_point(self, adapter_with_mock_extracted_data):
         """Verify edges have time_point property when specified in config."""
         adapter = adapter_with_mock_extracted_data
         edges = adapter.get_edges()
 
-        expression_edges = [e for e in edges if e[3] == 'coculture_changes_expression_of']
+        expression_edges = [e for e in edges if e[3] == 'changes_expression_of']
 
         for edge in expression_edges:
             _, source_id, target_id, label, properties = edge
@@ -409,40 +377,80 @@ class TestOrganismToGeneEdges:
             assert properties['time_point'] == '24h', \
                 f"Expected time_point '24h', got {properties['time_point']}"
 
-    def test_edge_has_publications(self, adapter_with_mock_extracted_data):
-        """Verify edges have publications property."""
+    def test_edge_has_time_point_order(self, adapter_with_mock_extracted_data):
+        """Verify edges have time_point_order property."""
         adapter = adapter_with_mock_extracted_data
         edges = adapter.get_edges()
 
-        expression_edges = [e for e in edges if e[3] == 'coculture_changes_expression_of']
+        expression_edges = [e for e in edges if e[3] == 'changes_expression_of']
 
         for edge in expression_edges:
             _, source_id, target_id, label, properties = edge
-            assert 'publications' in properties, \
-                f"Expected publications in edge properties"
-            assert isinstance(properties['publications'], list), \
-                f"Expected publications to be a list"
+            assert 'time_point_order' in properties, \
+                f"Expected time_point_order in edge properties"
+            assert properties['time_point_order'] == 1, \
+                f"Expected time_point_order 1, got {properties['time_point_order']}"
+
+    def test_edge_has_time_point_hours(self, adapter_with_mock_extracted_data):
+        """Verify edges have time_point_hours property."""
+        adapter = adapter_with_mock_extracted_data
+        edges = adapter.get_edges()
+
+        expression_edges = [e for e in edges if e[3] == 'changes_expression_of']
+
+        for edge in expression_edges:
+            _, source_id, target_id, label, properties = edge
+            assert 'time_point_hours' in properties, \
+                f"Expected time_point_hours in edge properties"
+            assert properties['time_point_hours'] == 24.0, \
+                f"Expected time_point_hours 24.0, got {properties['time_point_hours']}"
+
+    def test_edge_no_old_metadata(self, adapter_with_mock_extracted_data):
+        """Verify expression edges do not carry old metadata (now on experiment node)."""
+        adapter = adapter_with_mock_extracted_data
+        edges = adapter.get_edges()
+
+        expression_edges = [e for e in edges if e[3] == 'changes_expression_of']
+
+        for edge in expression_edges:
+            _, source_id, target_id, label, properties = edge
+            # These should NOT be on the edge anymore (they're on the experiment node)
+            assert 'publications' not in properties
+            assert 'omics_type' not in properties
+            assert 'organism_strain' not in properties
+            assert 'treatment_condition' not in properties
+            assert 'control_condition' not in properties
+            assert 'experimental_context' not in properties
+            assert 'statistical_test' not in properties
+            assert 'analysis_name' not in properties
 
 
-class TestEnvConditionToGeneEdges:
-    """Test that environmental condition → gene expression edges are created correctly."""
+class TestNonCocultureExperimentEdges:
+    """Test expression edges for non-coculture experiments (no treatment_organism)."""
 
     @pytest.fixture
-    def env_condition_config(self, temp_data_dir, sample_de_data):
-        """Create config with environmental_treatment_condition_id (no treatment_organism)."""
+    def env_experiment_config(self, temp_data_dir, sample_de_data):
+        """Create config with a non-coculture experiment (gas shock)."""
         data_file = os.path.join(temp_data_dir, 'de_genes.csv')
         sample_de_data.to_csv(data_file, index=False)
 
         config = {
             'publication': {
-                'papername': 'Test Env Condition Publication 2024',
-                'environmental_conditions': {
-                    'test_gas_shock': {
-                        'condition_type': 'gas_shock',
-                        'name': 'Air (0.036% CO2 / 21% O2)',
-                        'co2_level': '0.036%',
-                        'oxygen_level': '21%',
-                        'description': 'Standard air conditions',
+                'papername': 'Test Env Experiment Publication 2024',
+                'experiments': {
+                    'gas_shock_air': {
+                        'name': 'Gene expression response to air',
+                        'organism': 'Prochlorococcus MED4',
+                        'treatment_condition': '0.036% CO2 / 21% O2 (air)',
+                        'control_condition': 'Time 0 (pre-shock)',
+                        'experimental_context': 'Pro99 medium, constant light',
+                        'omics_type': 'MICROARRAY',
+                        'test_type': 'Affymetrix microarray',
+                        'treatment_type': 'gas_shock',
+                        'medium': 'Pro99',
+                        'temperature': '24C',
+                        'light_condition': 'continuous light',
+                        'light_intensity': '',
                     }
                 },
                 'supplementary_materials': {
@@ -451,15 +459,8 @@ class TestEnvConditionToGeneEdges:
                         'filename': data_file,
                         'statistical_analyses': [
                             {
-                                'type': 'MICROARRAY',
-                                'name': 'Gene expression response to air',
-                                'id': 'gas_shock_air',
-                                'test_type': 'Affymetrix microarray',
-                                'control_condition': 'Time 0 (pre-shock)',
-                                'treatment_condition': '0.036% CO2 / 21% O2 (air)',
-                                'experimental_context': 'Pro99 medium, constant light',
-                                'organism': 'Prochlorococcus MED4',
-                                'environmental_treatment_condition_id': 'test_gas_shock',
+                                'id': 'gas_shock_air_analysis',
+                                'experiment': 'gas_shock_air',
                                 'name_col': 'Synonym',
                                 'logfc_col': 'log2_fold_change',
                                 'adjusted_p_value_col': 'adjusted_p_value',
@@ -470,61 +471,45 @@ class TestEnvConditionToGeneEdges:
             }
         }
 
-        config_file = os.path.join(temp_data_dir, 'paperconfig_env.yaml')
+        config_file = os.path.join(temp_data_dir, 'paperconfig_env_exp.yaml')
         with open(config_file, 'w') as f:
             yaml.dump(config, f)
 
         return config_file
 
     @pytest.fixture
-    def env_adapter(self, env_condition_config):
-        """Create adapter with env condition config and mocked extracted_data."""
-        adapter = OMICSAdapter(config_file=env_condition_config)
+    def env_adapter(self, env_experiment_config):
+        """Create adapter with non-coculture experiment config."""
+        adapter = OMICSAdapter(config_file=env_experiment_config)
         adapter.extracted_data = {
             'publication': {
                 'publication_id': 'test_env_pub_2024',
                 'title': 'Test Env Publication',
                 'doi': '10.1234/test_env.2024',
-                'authors': ['Test Author'],
-                'description': 'Test gas shock study',
-                'study_type': 'Transcriptomics',
-                'organism': ['Prochlorococcus MED4'],
             },
         }
         return adapter
 
-    def test_env_condition_edges_created(self, env_adapter):
-        """Verify condition_changes_expression_of edges are created with env condition source."""
+    def test_expression_edges_created(self, env_adapter):
+        """Verify changes_expression_of edges are created for non-coculture experiment."""
         edges = env_adapter.get_edges()
-        expression_edges = [e for e in edges if e[3] == 'condition_changes_expression_of']
+        expression_edges = [e for e in edges if e[3] == 'changes_expression_of']
         assert len(expression_edges) == 4, f"Expected 4 expression edges, got {len(expression_edges)}"
 
-    def test_edge_source_is_env_condition(self, env_adapter):
-        """Verify edge source is the environmental condition node ID."""
+    def test_edge_source_is_experiment(self, env_adapter):
+        """Verify edge source is the experiment node ID."""
         edges = env_adapter.get_edges()
-        expression_edges = [e for e in edges if e[3] == 'condition_changes_expression_of']
+        expression_edges = [e for e in edges if e[3] == 'changes_expression_of']
 
         for edge in expression_edges:
             _, source_id, target_id, label, properties = edge
-            assert 'test_gas_shock' in source_id, \
-                f"Expected source to contain env condition ID 'test_gas_shock', got {source_id}"
-            assert 'test_env_pub_2024' in source_id, \
-                f"Expected source to contain publication ID, got {source_id}"
-
-    def test_edge_target_is_gene(self, env_adapter):
-        """Verify edge target is a gene."""
-        edges = env_adapter.get_edges()
-        expression_edges = [e for e in edges if e[3] == 'condition_changes_expression_of']
-
-        for edge in expression_edges:
-            _, source_id, target_id, label, properties = edge
-            assert 'ncbigene' in target_id.lower() or 'PMM' in target_id, \
-                f"Expected target to be gene ID, got {target_id}"
+            assert 'gas_shock_air' in source_id, \
+                f"Expected source to contain experiment key, got {source_id}"
 
     def test_edge_properties(self, env_adapter):
         """Verify edges have correct properties."""
         edges = env_adapter.get_edges()
-        expression_edges = [e for e in edges if e[3] == 'condition_changes_expression_of']
+        expression_edges = [e for e in edges if e[3] == 'changes_expression_of']
 
         for edge in expression_edges:
             _, source_id, target_id, label, properties = edge
@@ -532,15 +517,13 @@ class TestEnvConditionToGeneEdges:
             assert 'adjusted_p_value' in properties
             assert 'expression_direction' in properties
             assert properties['expression_direction'] in ['up', 'down']
-            assert 'control_condition' in properties
-            assert properties['control_condition'] == 'Time 0 (pre-shock)'
 
-    def test_no_organism_edges_with_env_condition(self, env_adapter):
-        """Verify no coculture edges when only env condition is specified."""
+    def test_no_tests_coculture_with_edge(self, env_adapter):
+        """Verify no tests_coculture_with edge when experiment has no treatment_organism."""
         edges = env_adapter.get_edges()
-        coculture_edges = [e for e in edges if e[3] == 'coculture_changes_expression_of']
+        coculture_edges = [e for e in edges if e[3] == 'tests_coculture_with']
         assert len(coculture_edges) == 0, \
-            f"Expected no coculture edges when env condition is specified, got {len(coculture_edges)}"
+            f"Expected no tests_coculture_with edges for non-coculture experiment, got {len(coculture_edges)}"
 
 
 class TestSkipRowsWithMissingFoldChange:
@@ -564,22 +547,28 @@ class TestSkipRowsWithMissingFoldChange:
         config = {
             'publication': {
                 'papername': 'Test Missing FC 2024',
+                'experiments': {
+                    'test_exp': {
+                        'name': 'Test DE Analysis',
+                        'organism': 'Prochlorococcus MED4',
+                        'treatment_condition': 'Treatment',
+                        'control_condition': 'Control',
+                        'omics_type': 'RNASEQ',
+                        'test_type': 'DESeq2',
+                        'treatment_type': 'coculture',
+                        'treatment_organism': 'Alteromonas macleodii',
+                        'treatment_taxid': 28108,
+                        'treatment_assembly_accession': 'GCF_001077695.1',
+                    }
+                },
                 'supplementary_materials': {
                     'supp_table_1': {
                         'type': 'csv',
                         'filename': data_file,
                         'statistical_analyses': [
                             {
-                                'type': 'RNASEQ',
-                                'name': 'Test DE Analysis',
                                 'id': 'test_missing_fc',
-                                'test_type': 'DESeq2',
-                                'control_condition': 'Control',
-                                'treatment_condition': 'Treatment',
-                                'organism': 'Prochlorococcus MED4',
-                                'treatment_organism': 'Alteromonas macleodii',
-                                'treatment_taxid': 28108,
-                                'treatment_assembly_accession': 'GCF_001077695.1',
+                                'experiment': 'test_exp',
                                 'name_col': 'Synonym',
                                 'logfc_col': 'log2_fold_change',
                                 'adjusted_p_value_col': 'adjusted_p_value',
@@ -607,7 +596,7 @@ class TestSkipRowsWithMissingFoldChange:
     def test_only_valid_fc_rows_create_edges(self, adapter_with_missing_fc):
         """Verify that only rows with valid fold change values create edges."""
         edges = adapter_with_missing_fc.get_edges()
-        expression_edges = [e for e in edges if e[3] == 'coculture_changes_expression_of']
+        expression_edges = [e for e in edges if e[3] == 'changes_expression_of']
         # Only PMM0001 (2.5) and PMM0005 (-1.0) have valid FC values
         assert len(expression_edges) == 2, \
             f"Expected 2 edges (skipping empty, NaN, NA), got {len(expression_edges)}"
@@ -615,7 +604,7 @@ class TestSkipRowsWithMissingFoldChange:
     def test_skipped_rows_do_not_appear_in_edges(self, adapter_with_missing_fc):
         """Verify that genes with missing FC are not in the edge targets."""
         edges = adapter_with_missing_fc.get_edges()
-        target_ids = [e[2] for e in edges if e[3] == 'coculture_changes_expression_of']
+        target_ids = [e[2] for e in edges if e[3] == 'changes_expression_of']
         target_str = ' '.join(target_ids)
         assert 'PMM0002' not in target_str, "PMM0002 (empty FC) should be skipped"
         assert 'PMM0003' not in target_str, "PMM0003 (NaN FC) should be skipped"
@@ -648,22 +637,28 @@ class TestSkipRows:
         config = {
             'publication': {
                 'papername': 'Test Skip Rows 2024',
+                'experiments': {
+                    'skip_rows_exp': {
+                        'name': 'Test DE with skip_rows',
+                        'organism': 'Prochlorococcus NATL2A',
+                        'treatment_condition': 'Coculture',
+                        'control_condition': 'Axenic',
+                        'omics_type': 'RNASEQ',
+                        'test_type': 'DESeq2',
+                        'treatment_type': 'coculture',
+                        'treatment_organism': 'Alteromonas macleodii',
+                        'treatment_taxid': 28108,
+                        'treatment_assembly_accession': 'GCF_001077695.1',
+                    }
+                },
                 'supplementary_materials': {
                     'supp_table_1': {
                         'type': 'csv',
                         'filename': csv_with_multi_row_header,
                         'statistical_analyses': [
                             {
-                                'type': 'RNASEQ',
-                                'name': 'Test DE with skip_rows',
                                 'id': 'test_skip_rows',
-                                'test_type': 'DESeq2',
-                                'control_condition': 'Axenic',
-                                'treatment_condition': 'Coculture',
-                                'organism': 'Prochlorococcus NATL2A',
-                                'treatment_organism': 'Alteromonas macleodii',
-                                'treatment_taxid': 28108,
-                                'treatment_assembly_accession': 'GCF_001077695.1',
+                                'experiment': 'skip_rows_exp',
                                 'name_col': 'Gene_ID',
                                 'logfc_col': 'log2FC',
                                 'adjusted_p_value_col': None,
@@ -692,14 +687,14 @@ class TestSkipRows:
     def test_skip_rows_loads_correct_data(self, adapter_skip_rows):
         """Verify that skip_rows correctly skips multi-row headers."""
         edges = adapter_skip_rows.get_edges()
-        expression_edges = [e for e in edges if e[3] == 'coculture_changes_expression_of']
+        expression_edges = [e for e in edges if e[3] == 'changes_expression_of']
         assert len(expression_edges) == 3, \
             f"Expected 3 edges (GENE_A, GENE_B, GENE_C), got {len(expression_edges)}"
 
     def test_skip_rows_correct_gene_ids(self, adapter_skip_rows):
         """Verify the correct gene IDs are parsed after skipping rows."""
         edges = adapter_skip_rows.get_edges()
-        target_ids = [e[2] for e in edges if e[3] == 'coculture_changes_expression_of']
+        target_ids = [e[2] for e in edges if e[3] == 'changes_expression_of']
         target_str = ' '.join(target_ids)
         assert 'GENE_A' in target_str
         assert 'GENE_B' in target_str
@@ -708,7 +703,7 @@ class TestSkipRows:
     def test_skip_rows_correct_fold_change(self, adapter_skip_rows):
         """Verify fold change values are correctly parsed after skipping rows."""
         edges = adapter_skip_rows.get_edges()
-        expression_edges = [e for e in edges if e[3] == 'coculture_changes_expression_of']
+        expression_edges = [e for e in edges if e[3] == 'changes_expression_of']
         fc_values = sorted([e[4]['log2_fold_change'] for e in expression_edges])
         assert fc_values == pytest.approx(sorted([-0.37, -0.212, 0.425]))
 
@@ -717,17 +712,28 @@ class TestSkipRows:
         config = {
             'publication': {
                 'papername': 'Test No Skip 2024',
+                'experiments': {
+                    'no_skip_exp': {
+                        'name': 'Test No Skip',
+                        'organism': 'Prochlorococcus MED4',
+                        'treatment_condition': 'Treatment',
+                        'control_condition': 'Control',
+                        'omics_type': 'RNASEQ',
+                        'test_type': 'DESeq2',
+                        'treatment_type': 'coculture',
+                        'treatment_organism': 'Alteromonas macleodii',
+                        'treatment_taxid': 28108,
+                        'treatment_assembly_accession': 'GCF_001077695.1',
+                    }
+                },
                 'supplementary_materials': {
                     'supp_table_1': {
                         'type': 'csv',
                         'filename': csv_with_multi_row_header,
                         'statistical_analyses': [
                             {
-                                'type': 'RNASEQ',
                                 'id': 'test_no_skip_rows',
-                                'treatment_organism': 'Alteromonas macleodii',
-                                'treatment_taxid': 28108,
-                                'treatment_assembly_accession': 'GCF_001077695.1',
+                                'experiment': 'no_skip_exp',
                                 'name_col': 'Gene_ID',
                                 'logfc_col': 'log2FC',
                                 'adjusted_p_value_col': None,
@@ -756,7 +762,7 @@ class TestSkipRows:
         # (A published_expression_data_about edge may still be emitted for the source node)
         expr_edges = [
             e for e in edges
-            if e[3] in ('condition_changes_expression_of', 'coculture_changes_expression_of')
+            if e[3] == 'changes_expression_of'
         ]
         assert len(expr_edges) == 0
 
@@ -781,22 +787,28 @@ class TestPvalueAsteriskInLogfc:
         config = {
             'publication': {
                 'papername': 'Test Asterisk 2024',
+                'experiments': {
+                    'asterisk_exp': {
+                        'name': 'Test DE with asterisk pvalue',
+                        'organism': 'Prochlorococcus NATL2A',
+                        'treatment_condition': 'Coculture',
+                        'control_condition': 'Axenic',
+                        'omics_type': 'RNASEQ',
+                        'test_type': 'DESeq2',
+                        'treatment_type': 'coculture',
+                        'treatment_organism': 'Alteromonas macleodii',
+                        'treatment_taxid': 28108,
+                        'treatment_assembly_accession': 'GCF_001077695.1',
+                    }
+                },
                 'supplementary_materials': {
                     'supp_table_1': {
                         'type': 'csv',
                         'filename': csv_with_asterisks,
                         'statistical_analyses': [
                             {
-                                'type': 'RNASEQ',
-                                'name': 'Test DE with asterisk pvalue',
                                 'id': 'test_asterisk',
-                                'test_type': 'DESeq2',
-                                'control_condition': 'Axenic',
-                                'treatment_condition': 'Coculture',
-                                'organism': 'Prochlorococcus NATL2A',
-                                'treatment_organism': 'Alteromonas macleodii',
-                                'treatment_taxid': 28108,
-                                'treatment_assembly_accession': 'GCF_001077695.1',
+                                'experiment': 'asterisk_exp',
                                 'name_col': 'Gene_ID',
                                 'logfc_col': 'log2FC',
                                 'adjusted_p_value_col': None,
@@ -825,21 +837,21 @@ class TestPvalueAsteriskInLogfc:
     def test_all_rows_create_edges(self, adapter_asterisk):
         """Verify all rows create edges (asterisk is stripped, not treated as invalid)."""
         edges = adapter_asterisk.get_edges()
-        expression_edges = [e for e in edges if e[3] == 'coculture_changes_expression_of']
+        expression_edges = [e for e in edges if e[3] == 'changes_expression_of']
         assert len(expression_edges) == 4, \
             f"Expected 4 edges, got {len(expression_edges)}"
 
     def test_fold_change_values_parsed_correctly(self, adapter_asterisk):
         """Verify asterisks are stripped and fold change is parsed as float."""
         edges = adapter_asterisk.get_edges()
-        expression_edges = [e for e in edges if e[3] == 'coculture_changes_expression_of']
+        expression_edges = [e for e in edges if e[3] == 'changes_expression_of']
         fc_values = sorted([e[4]['log2_fold_change'] for e in expression_edges])
         assert fc_values == pytest.approx(sorted([-0.212, 0.425, -0.37, 0.15]))
 
     def test_significant_rows_get_low_pvalue(self, adapter_asterisk):
         """Verify asterisk-marked rows get adjusted_p_value < 0.5."""
         edges = adapter_asterisk.get_edges()
-        expression_edges = [e for e in edges if e[3] == 'coculture_changes_expression_of']
+        expression_edges = [e for e in edges if e[3] == 'changes_expression_of']
 
         for edge in expression_edges:
             _, _, target_id, _, properties = edge
@@ -851,7 +863,7 @@ class TestPvalueAsteriskInLogfc:
     def test_non_significant_rows_get_high_pvalue(self, adapter_asterisk):
         """Verify non-asterisk rows get adjusted_p_value = 1.0."""
         edges = adapter_asterisk.get_edges()
-        expression_edges = [e for e in edges if e[3] == 'coculture_changes_expression_of']
+        expression_edges = [e for e in edges if e[3] == 'changes_expression_of']
 
         for edge in expression_edges:
             _, _, target_id, _, properties = edge
@@ -863,7 +875,7 @@ class TestPvalueAsteriskInLogfc:
     def test_expression_direction_correct(self, adapter_asterisk):
         """Verify expression direction is correct after asterisk stripping."""
         edges = adapter_asterisk.get_edges()
-        expression_edges = [e for e in edges if e[3] == 'coculture_changes_expression_of']
+        expression_edges = [e for e in edges if e[3] == 'changes_expression_of']
 
         for edge in expression_edges:
             _, _, target_id, _, properties = edge
@@ -880,17 +892,28 @@ class TestPvalueAsteriskInLogfc:
         config = {
             'publication': {
                 'papername': 'Test No Asterisk Flag 2024',
+                'experiments': {
+                    'no_ast_exp': {
+                        'name': 'Test No Asterisk',
+                        'organism': 'Prochlorococcus MED4',
+                        'treatment_condition': 'Treatment',
+                        'control_condition': 'Control',
+                        'omics_type': 'RNASEQ',
+                        'test_type': 'DESeq2',
+                        'treatment_type': 'coculture',
+                        'treatment_organism': 'Alteromonas macleodii',
+                        'treatment_taxid': 28108,
+                        'treatment_assembly_accession': 'GCF_001077695.1',
+                    }
+                },
                 'supplementary_materials': {
                     'supp_table_1': {
                         'type': 'csv',
                         'filename': csv_with_asterisks,
                         'statistical_analyses': [
                             {
-                                'type': 'RNASEQ',
                                 'id': 'test_no_asterisk',
-                                'treatment_organism': 'Alteromonas macleodii',
-                                'treatment_taxid': 28108,
-                                'treatment_assembly_accession': 'GCF_001077695.1',
+                                'experiment': 'no_ast_exp',
                                 'name_col': 'Gene_ID',
                                 'logfc_col': 'log2FC',
                                 'adjusted_p_value_col': None,
@@ -916,7 +939,7 @@ class TestPvalueAsteriskInLogfc:
             },
         }
         edges = adapter.get_edges()
-        expression_edges = [e for e in edges if e[3] == 'coculture_changes_expression_of']
+        expression_edges = [e for e in edges if e[3] == 'changes_expression_of']
         # All 4 rows should now produce edges — stars are always stripped before float parse
         assert len(expression_edges) == 4, \
             f"Expected 4 edges (stars stripped even without pvalue_asterisk_in_logfc flag), got {len(expression_edges)}"
@@ -938,17 +961,28 @@ class TestPvalueAsteriskInLogfc:
         config = {
             'publication': {
                 'papername': 'Test Leading Asterisk 2024',
+                'experiments': {
+                    'lead_ast_exp': {
+                        'name': 'Test Leading Asterisk',
+                        'organism': 'Prochlorococcus MED4',
+                        'treatment_condition': 'Treatment',
+                        'control_condition': 'Control',
+                        'omics_type': 'RNASEQ',
+                        'test_type': 'DESeq2',
+                        'treatment_type': 'coculture',
+                        'treatment_organism': 'Alteromonas macleodii',
+                        'treatment_taxid': 28108,
+                        'treatment_assembly_accession': 'GCF_001077695.1',
+                    }
+                },
                 'supplementary_materials': {
                     'supp_table_1': {
                         'type': 'csv',
                         'filename': data_file,
                         'statistical_analyses': [
                             {
-                                'type': 'RNASEQ',
                                 'id': 'test_leading_asterisk',
-                                'treatment_organism': 'Alteromonas macleodii',
-                                'treatment_taxid': 28108,
-                                'treatment_assembly_accession': 'GCF_001077695.1',
+                                'experiment': 'lead_ast_exp',
                                 'name_col': 'Gene_ID',
                                 'logfc_col': 'log2FC',
                                 'adjusted_p_value_col': None,
@@ -973,7 +1007,7 @@ class TestPvalueAsteriskInLogfc:
             },
         }
         edges = adapter.get_edges()
-        expression_edges = [e for e in edges if e[3] == 'coculture_changes_expression_of']
+        expression_edges = [e for e in edges if e[3] == 'changes_expression_of']
 
         # All 4 rows should produce edges
         assert len(expression_edges) == 4, \
@@ -1021,10 +1055,18 @@ class TestSkipRowsWithAsterisk:
         config = {
             'publication': {
                 'papername': 'Biller 2016',
-                'environmental_conditions': {
-                    'biller_coculture': {
-                        'condition_type': 'coculture',
-                        'name': 'Co-culture with Alteromonas',
+                'experiments': {
+                    'biller_coculture_exp': {
+                        'name': 'DE coculture vs axenic',
+                        'organism': 'Prochlorococcus NATL2A',
+                        'treatment_condition': 'Coculture',
+                        'control_condition': 'Axenic',
+                        'omics_type': 'RNASEQ',
+                        'test_type': 'DESeq2',
+                        'treatment_type': 'coculture',
+                        'treatment_organism': 'Alteromonas macleodii',
+                        'treatment_taxid': 28108,
+                        'treatment_assembly_accession': 'GCF_001077695.1',
                     }
                 },
                 'supplementary_materials': {
@@ -1033,14 +1075,8 @@ class TestSkipRowsWithAsterisk:
                         'filename': biller_style_csv,
                         'statistical_analyses': [
                             {
-                                'type': 'RNASEQ',
-                                'name': 'DE coculture vs axenic',
                                 'id': 'de_biller_style',
-                                'test_type': 'DESeq2',
-                                'control_condition': 'Axenic',
-                                'treatment_condition': 'Coculture',
-                                'organism': 'Prochlorococcus NATL2A',
-                                'environmental_treatment_condition_id': 'biller_coculture',
+                                'experiment': 'biller_coculture_exp',
                                 'name_col': 'Gene_ID',
                                 'logfc_col': '24 hours',
                                 'adjusted_p_value_col': None,
@@ -1070,20 +1106,20 @@ class TestSkipRowsWithAsterisk:
     def test_combined_creates_all_edges(self, adapter_combined):
         """Verify all 4 rows produce edges with combined skip_rows + asterisk."""
         edges = adapter_combined.get_edges()
-        expression_edges = [e for e in edges if e[3] == 'condition_changes_expression_of']
+        expression_edges = [e for e in edges if e[3] == 'changes_expression_of']
         assert len(expression_edges) == 4
 
     def test_combined_correct_fold_changes(self, adapter_combined):
         """Verify fold change values are correct with combined features."""
         edges = adapter_combined.get_edges()
-        expression_edges = [e for e in edges if e[3] == 'condition_changes_expression_of']
+        expression_edges = [e for e in edges if e[3] == 'changes_expression_of']
         fc_values = sorted([e[4]['log2_fold_change'] for e in expression_edges])
         assert fc_values == pytest.approx(sorted([-0.425, -0.37, -0.212, 0.048]))
 
     def test_combined_significance_markers(self, adapter_combined):
         """Verify significant vs non-significant p-values with combined features."""
         edges = adapter_combined.get_edges()
-        expression_edges = [e for e in edges if e[3] == 'condition_changes_expression_of']
+        expression_edges = [e for e in edges if e[3] == 'changes_expression_of']
 
         significant_count = sum(
             1 for e in expression_edges if e[4].get('adjusted_p_value', 1.0) < 0.5
@@ -1094,14 +1130,14 @@ class TestSkipRowsWithAsterisk:
         assert significant_count == 3, f"Expected 3 significant edges, got {significant_count}"
         assert non_significant_count == 1, f"Expected 1 non-significant edge, got {non_significant_count}"
 
-    def test_combined_edge_source_is_env_condition(self, adapter_combined):
-        """Verify edge source is env condition (not organism) with combined features."""
+    def test_combined_edge_source_is_experiment(self, adapter_combined):
+        """Verify edge source is experiment node with combined features."""
         edges = adapter_combined.get_edges()
-        expression_edges = [e for e in edges if e[3] == 'condition_changes_expression_of']
+        expression_edges = [e for e in edges if e[3] == 'changes_expression_of']
 
         for edge in expression_edges:
             _, source_id, _, _, _ = edge
-            assert 'biller_coculture' in source_id
+            assert 'biller_coculture_exp' in source_id
 
 
 class TestEdgeWithRealData:
@@ -1125,8 +1161,8 @@ class TestEdgeWithRealData:
         assert len(organism_nodes) == 0, \
             "OMICS adapter should not create organism nodes"
 
-    def test_real_config_creates_environmental_condition_nodes(self, real_config_path):
-        """Test that real config creates environmental condition nodes."""
+    def test_real_config_creates_experiment_nodes(self, real_config_path):
+        """Test that real config creates experiment nodes."""
         if not os.path.exists(real_config_path):
             pytest.skip("Real config file not found")
 
@@ -1134,16 +1170,16 @@ class TestEdgeWithRealData:
         adapter.download_data(cache=True)
 
         nodes = adapter.get_nodes()
-        env_nodes = [n for n in nodes if n[1] == 'environmental_condition']
+        exp_nodes = [n for n in nodes if n[1] == 'experiment']
 
-        # Should have at least one environmental condition node
-        assert len(env_nodes) >= 1, "Expected at least one environmental condition node"
+        # Aharonovich 2016 has 5 experiments
+        assert len(exp_nodes) >= 1, "Expected at least one experiment node"
 
         # Check that node has expected properties
-        env_node = env_nodes[0]
-        node_id, label, properties = env_node
-        assert 'condition_type' in properties or 'name' in properties, \
-            f"Expected condition_type or name in env node properties, got {properties.keys()}"
+        exp_node = exp_nodes[0]
+        node_id, label, properties = exp_node
+        assert 'name' in properties, \
+            f"Expected name in experiment node properties, got {properties.keys()}"
 
     def test_real_config_creates_expression_edges(self, real_config_path):
         """Test that real config creates expression edges."""
@@ -1154,10 +1190,9 @@ class TestEdgeWithRealData:
         adapter.download_data(cache=True)
 
         edges = adapter.get_edges()
-        # Aharonovich 2016 uses treatment_organism → coculture_changes_expression_of
         expression_edges = [
             e for e in edges
-            if e[3] in ('condition_changes_expression_of', 'coculture_changes_expression_of')
+            if e[3] == 'changes_expression_of'
         ]
 
         # Should have expression edges
@@ -1167,9 +1202,10 @@ class TestEdgeWithRealData:
         first_edge = expression_edges[0]
         _, source_id, target_id, label, properties = first_edge
 
-        assert label in ('condition_changes_expression_of', 'coculture_changes_expression_of')
-        assert 'insdc.gcf' in source_id.lower() or 'GCF_001578515.1' in source_id, \
-            f"Expected source to use insdc.gcf prefix (HOT1A3 assembly), got {source_id}"
+        assert label == 'changes_expression_of'
+        # Source is experiment ID, not organism
+        assert 'coculture_alteromonas_hot1a3_med4_rnaseq' in source_id, \
+            f"Expected source to be experiment ID, got {source_id}"
         assert 'log2_fold_change' in properties
         assert 'expression_direction' in properties
 
@@ -1193,24 +1229,32 @@ class TestMultiOMICSAdapter:
                 'adjusted_p_value': [0.01, 0.05],
             }).to_csv(data_file, index=False)
 
+            exp_key = f'exp_{organism.replace(" ", "_").replace(".", "")}'
             config = {
                 'publication': {
                     'papername': paper,
+                    'experiments': {
+                        exp_key: {
+                            'name': f'Test {paper}',
+                            'organism': 'Prochlorococcus MED4',
+                            'treatment_condition': 'Treatment',
+                            'control_condition': 'Control',
+                            'omics_type': 'RNASEQ',
+                            'test_type': 'DESeq2',
+                            'treatment_type': 'coculture',
+                            'treatment_organism': organism,
+                            'treatment_taxid': taxid,
+                            'treatment_assembly_accession': accession,
+                        }
+                    },
                     'supplementary_materials': {
                         'supp_table_1': {
                             'type': 'csv',
                             'filename': data_file,
                             'statistical_analyses': [
                                 {
-                                    'type': 'RNASEQ',
                                     'id': f'test_multi_adapter_{organism.replace(" ", "_")}',
-                                    'test_type': 'DESeq2',
-                                    'control_condition': 'Control',
-                                    'treatment_condition': 'Treatment',
-                                    'organism': 'Prochlorococcus MED4',
-                                    'treatment_organism': organism,
-                                    'treatment_taxid': taxid,
-                                    'treatment_assembly_accession': accession,
+                                    'experiment': exp_key,
                                     'name_col': 'Synonym',
                                     'logfc_col': 'log2_fold_change',
                                     'adjusted_p_value_col': 'adjusted_p_value',
@@ -1266,23 +1310,24 @@ class TestMultiOMICSAdapter:
     def test_get_edges_combines_all(self, multi_adapter):
         """Verify get_edges returns expression edges from all configs."""
         edges = multi_adapter.get_edges()
-        # 2 genes per config × 2 configs = 4 expression edges
-        # Plus published_expression_data_about edges (1 per distinct source per publication)
+        # 2 genes per config x 2 configs = 4 expression edges
+        # Plus has_experiment edges (1 per experiment per publication)
+        # Plus tests_coculture_with edges (1 per coculture experiment)
         expr_edges = [
             e for e in edges
-            if e[3] in ('condition_changes_expression_of', 'coculture_changes_expression_of')
+            if e[3] == 'changes_expression_of'
         ]
         assert len(expr_edges) == 4, f"Expected 4 expression edges, got {len(expr_edges)}"
 
     def test_edges_have_distinct_sources(self, multi_adapter):
-        """Verify edges come from different organism sources."""
+        """Verify expression edges come from different experiment sources."""
         edges = multi_adapter.get_edges()
         expr_edges = [
             e for e in edges
-            if e[3] in ('condition_changes_expression_of', 'coculture_changes_expression_of')
+            if e[3] == 'changes_expression_of'
         ]
         source_ids = set(e[1] for e in expr_edges)
-        assert len(source_ids) == 2, f"Expected 2 distinct sources, got {source_ids}"
+        assert len(source_ids) == 2, f"Expected 2 distinct experiment sources, got {source_ids}"
 
     def test_skips_blank_and_comment_lines(self, temp_data_dir):
         """Verify blank lines and comments in list file are skipped."""
@@ -1295,13 +1340,25 @@ class TestMultiOMICSAdapter:
         config = {
             'publication': {
                 'papername': 'Test',
+                'experiments': {
+                    'test_exp': {
+                        'name': 'Test',
+                        'organism': 'Prochlorococcus MED4',
+                        'treatment_condition': 'Treatment',
+                        'control_condition': 'Control',
+                        'omics_type': 'RNASEQ',
+                        'test_type': 'DESeq2',
+                        'treatment_type': 'coculture',
+                        'treatment_organism': 'Org',
+                        'treatment_taxid': 12345,
+                    }
+                },
                 'supplementary_materials': {
                     's1': {
                         'type': 'csv', 'filename': data_file,
                         'statistical_analyses': [{
-                            'type': 'RNASEQ', 'id': 'test_list_adapter',
-                            'test_type': 'DESeq2',
-                            'treatment_organism': 'Org', 'treatment_taxid': 12345,
+                            'id': 'test_list_adapter',
+                            'experiment': 'test_exp',
                             'name_col': 'Synonym', 'logfc_col': 'log2_fold_change',
                             'adjusted_p_value_col': 'adjusted_p_value',
                         }]
@@ -1339,11 +1396,8 @@ class TestGeneIdCleaning:
         data.to_csv(data_file, index=False)
 
         analysis = {
-            'type': 'RNASEQ',
             'id': 'test_gene_id_clean',
-            'treatment_organism': 'Alteromonas macleodii',
-            'treatment_taxid': 28108,
-            'treatment_assembly_accession': 'GCF_001077695.1',
+            'experiment': 'gene_clean_exp',
             'name_col': 'Gene_ID',
             'logfc_col': 'log2FC',
             'adjusted_p_value_col': None,
@@ -1354,6 +1408,20 @@ class TestGeneIdCleaning:
         config = {
             'publication': {
                 'papername': 'Test Gene ID Clean 2024',
+                'experiments': {
+                    'gene_clean_exp': {
+                        'name': 'Test Gene ID Clean',
+                        'organism': 'Prochlorococcus MED4',
+                        'treatment_condition': 'Treatment',
+                        'control_condition': 'Control',
+                        'omics_type': 'RNASEQ',
+                        'test_type': 'DESeq2',
+                        'treatment_type': 'coculture',
+                        'treatment_organism': 'Alteromonas macleodii',
+                        'treatment_taxid': 28108,
+                        'treatment_assembly_accession': 'GCF_001077695.1',
+                    }
+                },
                 'supplementary_materials': {
                     'supp_table_1': {
                         'type': 'csv',
@@ -1386,7 +1454,7 @@ class TestGeneIdCleaning:
         })
         adapter = self._make_adapter(temp_data_dir, data)
         edges = adapter.get_edges()
-        target_ids = [e[2] for e in edges if e[3] == 'coculture_changes_expression_of']
+        target_ids = [e[2] for e in edges if e[3] == 'changes_expression_of']
         target_str = ' '.join(target_ids)
         assert 'GENE_A' in target_str, "GENE_A (with spaces) should be found after stripping"
         assert 'GENE_B' in target_str
@@ -1401,7 +1469,7 @@ class TestGeneIdCleaning:
         })
         adapter = self._make_adapter(temp_data_dir, data)
         edges = adapter.get_edges()
-        target_ids = [e[2] for e in edges if e[3] == 'coculture_changes_expression_of']
+        target_ids = [e[2] for e in edges if e[3] == 'changes_expression_of']
         target_str = ' '.join(target_ids)
         assert 'GENE_A' in target_str, "GENE_A* should be cleaned to GENE_A"
         assert 'GENE_B' in target_str, "*GENE_B should be cleaned to GENE_B"
@@ -1416,7 +1484,7 @@ class TestGeneIdCleaning:
         })
         adapter = self._make_adapter(temp_data_dir, data)
         edges = adapter.get_edges()
-        expr_edges = [e for e in edges if e[3] == 'coculture_changes_expression_of']
+        expr_edges = [e for e in edges if e[3] == 'changes_expression_of']
         assert len(expr_edges) == 3, f"Expected 3 expression edges after stripping, got {len(expr_edges)}"
 
     def test_gene_id_only_asterisks_skipped(self, temp_data_dir):
@@ -1428,15 +1496,15 @@ class TestGeneIdCleaning:
         adapter = self._make_adapter(temp_data_dir, data)
         edges = adapter.get_edges()
         # '***' and '  *  ' reduce to '' → should be skipped
-        expr_edges = [e for e in edges if e[3] == 'coculture_changes_expression_of']
+        expr_edges = [e for e in edges if e[3] == 'changes_expression_of']
         assert len(expr_edges) == 1, f"Expected 1 expression edge (only GENE_B), got {len(expr_edges)}"
 
 
-class TestPhase4EdgeLabels:
-    """Phase 4: Test that edge label routing works correctly (condition vs coculture)."""
+class TestUnifiedEdgeLabel:
+    """Test that all expression edges use the unified changes_expression_of label."""
 
-    def test_condition_edge_label(self, temp_data_dir):
-        """Config with environmental_treatment_condition_id → condition_changes_expression_of."""
+    def test_all_expression_edges_use_changes_expression_of(self, temp_data_dir):
+        """Both coculture and non-coculture experiments use changes_expression_of."""
         data_file = os.path.join(temp_data_dir, 'de.csv')
         pd.DataFrame({
             'Gene': ['PMM0001', 'PMM0002'],
@@ -1446,11 +1514,16 @@ class TestPhase4EdgeLabels:
 
         config = {
             'publication': {
-                'papername': 'Test Env Label 2024',
-                'environmental_conditions': {
-                    'light_stress': {
-                        'condition_type': 'light_intensity',
+                'papername': 'Test Unified Label 2024',
+                'experiments': {
+                    'light_exp': {
                         'name': 'High light stress',
+                        'organism': 'Prochlorococcus MED4',
+                        'treatment_condition': 'High light',
+                        'control_condition': 'Low light',
+                        'omics_type': 'RNASEQ',
+                        'test_type': 'DESeq2',
+                        'treatment_type': 'light_stress',
                     }
                 },
                 'supplementary_materials': {
@@ -1458,13 +1531,8 @@ class TestPhase4EdgeLabels:
                         'type': 'csv',
                         'filename': data_file,
                         'statistical_analyses': [{
-                            'id': 'env_label_test',
-                            'type': 'RNASEQ',
-                            'test_type': 'DESeq2',
-                            'organism': 'Prochlorococcus MED4',
-                            'control_condition': 'Low light',
-                            'treatment_condition': 'High light',
-                            'environmental_treatment_condition_id': 'light_stress',
+                            'id': 'unified_label_test',
+                            'experiment': 'light_exp',
                             'name_col': 'Gene',
                             'logfc_col': 'log2FC',
                             'adjusted_p_value_col': 'padj',
@@ -1473,725 +1541,90 @@ class TestPhase4EdgeLabels:
                 },
             }
         }
-        config_file = os.path.join(temp_data_dir, 'pc_env_label.yaml')
+        config_file = os.path.join(temp_data_dir, 'pc_unified_label.yaml')
         with open(config_file, 'w') as f:
             yaml.dump(config, f)
 
         adapter = OMICSAdapter(config_file=config_file)
         adapter.extracted_data = {
-            'publication': {'publication_id': 'env_label_pub', 'doi': '10.1/env'},
+            'publication': {'publication_id': 'unified_pub', 'doi': '10.1/ul'},
         }
         edges = adapter.get_edges()
-        expr_edges = [e for e in edges if e[3] in ('condition_changes_expression_of', 'coculture_changes_expression_of')]
+        expr_edges = [e for e in edges if e[3] == 'changes_expression_of']
         assert len(expr_edges) == 2
         for edge in expr_edges:
-            assert edge[3] == 'condition_changes_expression_of', \
-                f"Expected condition_changes_expression_of, got {edge[3]}"
+            assert edge[3] == 'changes_expression_of'
 
-    def test_coculture_edge_label(self, temp_data_dir):
-        """Config with treatment_organism → coculture_changes_expression_of."""
-        data_file = os.path.join(temp_data_dir, 'de.csv')
-        pd.DataFrame({
-            'Gene': ['PMM0001', 'PMM0002'],
-            'log2FC': [1.5, -2.0],
-            'padj': [0.01, 0.05],
-        }).to_csv(data_file, index=False)
-
-        config = {
-            'publication': {
-                'papername': 'Test Coculture Label 2024',
-                'supplementary_materials': {
-                    'table1': {
-                        'type': 'csv',
-                        'filename': data_file,
-                        'statistical_analyses': [{
-                            'id': 'coculture_label_test',
-                            'type': 'RNASEQ',
-                            'test_type': 'DESeq2',
-                            'organism': 'Prochlorococcus MED4',
-                            'control_condition': 'Axenic',
-                            'treatment_condition': 'Coculture',
-                            'treatment_organism': 'Alteromonas macleodii',
-                            'treatment_taxid': 28108,
-                            'treatment_assembly_accession': 'GCF_001077695.1',
-                            'name_col': 'Gene',
-                            'logfc_col': 'log2FC',
-                            'adjusted_p_value_col': 'padj',
-                        }],
-                    }
-                },
-            }
-        }
-        config_file = os.path.join(temp_data_dir, 'pc_coculture_label.yaml')
-        with open(config_file, 'w') as f:
-            yaml.dump(config, f)
-
-        adapter = OMICSAdapter(config_file=config_file)
-        adapter.extracted_data = {
-            'publication': {'publication_id': 'coculture_label_pub', 'doi': '10.1/cc'},
-        }
-        edges = adapter.get_edges()
-        expr_edges = [e for e in edges if e[3] in ('condition_changes_expression_of', 'coculture_changes_expression_of')]
-        assert len(expr_edges) == 2
-        for edge in expr_edges:
-            assert edge[3] == 'coculture_changes_expression_of', \
-                f"Expected coculture_changes_expression_of, got {edge[3]}"
-
-    def test_no_old_affects_expression_of_label(self, temp_data_dir):
-        """Verify old 'affects_expression_of' label is never emitted."""
-        data_file = os.path.join(temp_data_dir, 'de.csv')
-        pd.DataFrame({
-            'Gene': ['PMM0001', 'PMM0002'],
-            'log2FC': [1.5, -2.0],
-        }).to_csv(data_file, index=False)
-
-        config = {
-            'publication': {
-                'papername': 'Test No Old Label 2024',
-                'supplementary_materials': {
-                    'table1': {
-                        'type': 'csv',
-                        'filename': data_file,
-                        'statistical_analyses': [{
-                            'id': 'no_old_label_test',
-                            'type': 'RNASEQ',
-                            'organism': 'Prochlorococcus MED4',
-                            'treatment_organism': 'Alteromonas macleodii',
-                            'treatment_taxid': 28108,
-                            'treatment_assembly_accession': 'GCF_001077695.1',
-                            'name_col': 'Gene',
-                            'logfc_col': 'log2FC',
-                        }],
-                    }
-                },
-            }
-        }
-        config_file = os.path.join(temp_data_dir, 'pc_no_old_label.yaml')
-        with open(config_file, 'w') as f:
-            yaml.dump(config, f)
-
-        adapter = OMICSAdapter(config_file=config_file)
-        adapter.extracted_data = {
-            'publication': {'publication_id': 'no_old_label_pub', 'doi': '10.1/nol'},
-        }
-        edges = adapter.get_edges()
-        old_label_edges = [e for e in edges if e[3] == 'affects_expression_of']
-        assert len(old_label_edges) == 0, \
-            f"Old 'affects_expression_of' label should never be emitted, got {len(old_label_edges)} edges"
-
-
-class TestPhase4NewProperties:
-    """Phase 4: Test new edge properties omics_type, organism_strain, treatment_condition, statistical_test."""
-
-    @pytest.fixture
-    def adapter_with_full_props(self, temp_data_dir):
-        """Create adapter with a config that has all Phase 4 properties."""
-        data_file = os.path.join(temp_data_dir, 'de.csv')
-        pd.DataFrame({
-            'Gene': ['PMM0001', 'PMM0002'],
-            'log2FC': [1.5, -2.0],
-            'padj': [0.01, 0.05],
-        }).to_csv(data_file, index=False)
-
-        config = {
-            'publication': {
-                'papername': 'Test New Props 2024',
-                'environmental_conditions': {
-                    'n_starvation': {
-                        'condition_type': 'nutrient_starvation',
-                        'name': 'Nitrogen starvation',
-                    }
-                },
-                'supplementary_materials': {
-                    'table1': {
-                        'type': 'csv',
-                        'filename': data_file,
-                        'statistical_analyses': [{
-                            'id': 'new_props_test',
-                            'type': 'RNASEQ',
-                            'test_type': 'DESeq2',
-                            'organism': 'Prochlorococcus MED4',
-                            'control_condition': 'N-replete',
-                            'treatment_condition': 'N-starved',
-                            'environmental_treatment_condition_id': 'n_starvation',
-                            'name_col': 'Gene',
-                            'logfc_col': 'log2FC',
-                            'adjusted_p_value_col': 'padj',
-                        }],
-                    }
-                },
-            }
-        }
-        config_file = os.path.join(temp_data_dir, 'pc_new_props.yaml')
-        with open(config_file, 'w') as f:
-            yaml.dump(config, f)
-
-        adapter = OMICSAdapter(config_file=config_file)
-        adapter.extracted_data = {
-            'publication': {'publication_id': 'new_props_pub', 'doi': '10.1/np'},
-        }
-        return adapter
-
-    def test_omics_type_populated(self, adapter_with_full_props):
-        """Verify omics_type property is set on expression edges."""
-        edges = adapter_with_full_props.get_edges()
-        expr_edges = [e for e in edges if e[3] == 'condition_changes_expression_of']
-        assert len(expr_edges) > 0
-        for edge in expr_edges:
-            props = edge[4]
-            assert 'omics_type' in props, f"Expected omics_type in edge properties, got {props.keys()}"
-            assert props['omics_type'] == 'RNASEQ', f"Expected RNASEQ, got {props['omics_type']}"
-
-    def test_organism_strain_populated(self, adapter_with_full_props):
-        """Verify organism_strain property is set on expression edges."""
-        edges = adapter_with_full_props.get_edges()
-        expr_edges = [e for e in edges if e[3] == 'condition_changes_expression_of']
-        for edge in expr_edges:
-            props = edge[4]
-            assert 'organism_strain' in props, f"Expected organism_strain in edge properties"
-            assert props['organism_strain'] == 'Prochlorococcus MED4', \
-                f"Expected 'Prochlorococcus MED4', got {props['organism_strain']}"
-
-    def test_treatment_condition_populated(self, adapter_with_full_props):
-        """Verify treatment_condition property is set on expression edges."""
-        edges = adapter_with_full_props.get_edges()
-        expr_edges = [e for e in edges if e[3] == 'condition_changes_expression_of']
-        for edge in expr_edges:
-            props = edge[4]
-            assert 'treatment_condition' in props, f"Expected treatment_condition in edge properties"
-            assert props['treatment_condition'] == 'N-starved'
-
-    def test_statistical_test_populated(self, adapter_with_full_props):
-        """Verify statistical_test property is set on expression edges."""
-        edges = adapter_with_full_props.get_edges()
-        expr_edges = [e for e in edges if e[3] == 'condition_changes_expression_of']
-        for edge in expr_edges:
-            props = edge[4]
-            assert 'statistical_test' in props, f"Expected statistical_test in edge properties"
-            assert props['statistical_test'] == 'DESeq2'
-
-    def test_all_four_new_properties_present(self, adapter_with_full_props):
-        """Verify all 4 new Phase 4 properties appear together on expression edges."""
-        edges = adapter_with_full_props.get_edges()
-        expr_edges = [e for e in edges if e[3] == 'condition_changes_expression_of']
-        assert len(expr_edges) > 0
-        for edge in expr_edges:
-            props = edge[4]
-            for prop in ('omics_type', 'organism_strain', 'treatment_condition', 'statistical_test'):
-                assert prop in props, f"Expected {prop} in edge properties, got {props.keys()}"
-
-
-class TestPhase4OrganismStrainExtraction:
-    """Phase 4: Test that organism_strain uses the full organism name (matching Gene node format)."""
-
-    def _make_adapter_with_organism(self, temp_data_dir, organism_name):
-        """Helper: create adapter with given organism name."""
-        data_file = os.path.join(temp_data_dir, 'de.csv')
-        pd.DataFrame({
-            'Gene': ['G1'],
-            'log2FC': [1.0],
-        }).to_csv(data_file, index=False)
-
-        config = {
-            'publication': {
-                'papername': 'Test Strain Extraction 2024',
-                'supplementary_materials': {
-                    'table1': {
-                        'type': 'csv',
-                        'filename': data_file,
-                        'statistical_analyses': [{
-                            'id': 'strain_extract_test',
-                            'type': 'RNASEQ',
-                            'organism': organism_name,
-                            'treatment_organism': 'Alteromonas macleodii',
-                            'treatment_taxid': 28108,
-                            'treatment_assembly_accession': 'GCF_001077695.1',
-                            'name_col': 'Gene',
-                            'logfc_col': 'log2FC',
-                        }],
-                    }
-                },
-            }
-        }
-        config_file = os.path.join(temp_data_dir, 'pc_strain.yaml')
-        with open(config_file, 'w') as f:
-            yaml.dump(config, f)
-
-        adapter = OMICSAdapter(config_file=config_file)
-        adapter.extracted_data = {
-            'publication': {'publication_id': 'strain_pub', 'doi': '10.1/strain'},
-        }
-        return adapter
-
-    def test_strain_from_two_word_organism(self, temp_data_dir):
-        """'Prochlorococcus MED4' → organism_strain = 'Prochlorococcus MED4'."""
-        adapter = self._make_adapter_with_organism(temp_data_dir, 'Prochlorococcus MED4')
-        edges = adapter.get_edges()
-        expr_edges = [e for e in edges if e[3] == 'coculture_changes_expression_of']
-        assert len(expr_edges) == 1
-        assert expr_edges[0][4].get('organism_strain') == 'Prochlorococcus MED4'
-
-    def test_strain_from_three_word_organism(self, temp_data_dir):
-        """'Alteromonas macleodii HOT1A3' → organism_strain = 'Alteromonas macleodii HOT1A3'."""
-        adapter = self._make_adapter_with_organism(temp_data_dir, 'Alteromonas macleodii HOT1A3')
-        edges = adapter.get_edges()
-        expr_edges = [e for e in edges if e[3] == 'coculture_changes_expression_of']
-        assert len(expr_edges) == 1
-        assert expr_edges[0][4].get('organism_strain') == 'Alteromonas macleodii HOT1A3'
-
-    def test_strain_from_mit_numbered_organism(self, temp_data_dir):
-        """'Prochlorococcus MIT9313' → organism_strain = 'Prochlorococcus MIT9313'."""
-        adapter = self._make_adapter_with_organism(temp_data_dir, 'Prochlorococcus MIT9313')
-        edges = adapter.get_edges()
-        expr_edges = [e for e in edges if e[3] == 'coculture_changes_expression_of']
-        assert len(expr_edges) == 1
-        assert expr_edges[0][4].get('organism_strain') == 'Prochlorococcus MIT9313'
-
-
-class TestPhase4ConditionCategory:
-    """Phase 4: Test that condition_category is set on EnvironmentalCondition nodes."""
-
-    def test_condition_category_equals_condition_type(self, temp_data_dir):
-        """condition_category should equal condition_type value on env condition nodes."""
-        data_file = os.path.join(temp_data_dir, 'de.csv')
-        pd.DataFrame({'Gene': ['G1'], 'log2FC': [1.0]}).to_csv(data_file, index=False)
-
-        config = {
-            'publication': {
-                'papername': 'Test Condition Category 2024',
-                'environmental_conditions': {
-                    'heat_shock': {
-                        'condition_type': 'temperature_stress',
-                        'name': 'Heat shock 37C',
-                        'temperature': '37C',
-                    }
-                },
-                'supplementary_materials': {
-                    'table1': {
-                        'type': 'csv',
-                        'filename': data_file,
-                        'statistical_analyses': [{
-                            'id': 'cond_cat_test',
-                            'type': 'RNASEQ',
-                            'organism': 'Prochlorococcus MED4',
-                            'environmental_treatment_condition_id': 'heat_shock',
-                            'name_col': 'Gene',
-                            'logfc_col': 'log2FC',
-                        }],
-                    }
-                },
-            }
-        }
-        config_file = os.path.join(temp_data_dir, 'pc_cond_cat.yaml')
-        with open(config_file, 'w') as f:
-            yaml.dump(config, f)
-
-        adapter = OMICSAdapter(config_file=config_file)
-        adapter.extracted_data = {
-            'publication': {'publication_id': 'cond_cat_pub', 'doi': '10.1/cc'},
-        }
-        nodes = adapter.get_nodes()
-        env_nodes = [n for n in nodes if n[1] == 'environmental_condition']
-
-        assert len(env_nodes) == 1, f"Expected 1 env condition node, got {len(env_nodes)}"
-        _, _, props = env_nodes[0]
-        assert 'condition_category' in props, \
-            f"Expected condition_category in env node properties, got {props.keys()}"
-        assert props['condition_category'] == props['condition_type'], \
-            f"condition_category ({props['condition_category']}) != condition_type ({props['condition_type']})"
-        assert props['condition_category'] == 'temperature_stress'
-
-    def test_multiple_env_conditions_all_have_category(self, temp_data_dir):
-        """All environmental condition nodes should have condition_category set."""
-        data_file = os.path.join(temp_data_dir, 'de.csv')
-        pd.DataFrame({'Gene': ['G1'], 'log2FC': [1.0]}).to_csv(data_file, index=False)
-
-        config = {
-            'publication': {
-                'papername': 'Test Multi Conditions 2024',
-                'environmental_conditions': {
-                    'co2_high': {
-                        'condition_type': 'carbon_source',
-                        'name': 'High CO2',
-                    },
-                    'low_iron': {
-                        'condition_type': 'nutrient_starvation',
-                        'name': 'Iron starvation',
-                    },
-                },
-                'supplementary_materials': {
-                    'table1': {
-                        'type': 'csv',
-                        'filename': data_file,
-                        'statistical_analyses': [{
-                            'id': 'multi_cond_test',
-                            'type': 'RNASEQ',
-                            'organism': 'Prochlorococcus MED4',
-                            'environmental_treatment_condition_id': 'co2_high',
-                            'name_col': 'Gene',
-                            'logfc_col': 'log2FC',
-                        }],
-                    }
-                },
-            }
-        }
-        config_file = os.path.join(temp_data_dir, 'pc_multi_cond.yaml')
-        with open(config_file, 'w') as f:
-            yaml.dump(config, f)
-
-        adapter = OMICSAdapter(config_file=config_file)
-        adapter.extracted_data = {
-            'publication': {'publication_id': 'multi_cond_pub', 'doi': '10.1/mc'},
-        }
-        nodes = adapter.get_nodes()
-        env_nodes = [n for n in nodes if n[1] == 'environmental_condition']
-
-        assert len(env_nodes) == 2, f"Expected 2 env condition nodes, got {len(env_nodes)}"
-        for _, _, props in env_nodes:
-            assert 'condition_category' in props, \
-                f"Every env node must have condition_category, got {props.keys()}"
-            assert props['condition_category'] == props['condition_type']
-
-
-class TestPhase4PublicationEdges:
-    """Phase 4: Test published_expression_data_about edges from Publication → source nodes."""
-
-    def test_publication_edges_emitted_for_organism_source(self, temp_data_dir):
-        """published_expression_data_about edges are emitted from Publication to coculture source."""
-        data_file = os.path.join(temp_data_dir, 'de.csv')
-        pd.DataFrame({
-            'Gene': ['PMM0001', 'PMM0002'],
-            'log2FC': [1.5, -2.0],
-        }).to_csv(data_file, index=False)
-
-        config = {
-            'publication': {
-                'papername': 'Test Pub Edges 2024',
-                'supplementary_materials': {
-                    'table1': {
-                        'type': 'csv',
-                        'filename': data_file,
-                        'statistical_analyses': [{
-                            'id': 'pub_edge_test',
-                            'type': 'RNASEQ',
-                            'organism': 'Prochlorococcus MED4',
-                            'treatment_organism': 'Alteromonas macleodii',
-                            'treatment_taxid': 28108,
-                            'treatment_assembly_accession': 'GCF_001077695.1',
-                            'name_col': 'Gene',
-                            'logfc_col': 'log2FC',
-                        }],
-                    }
-                },
-            }
-        }
-        config_file = os.path.join(temp_data_dir, 'pc_pub_edges.yaml')
-        with open(config_file, 'w') as f:
-            yaml.dump(config, f)
-
-        adapter = OMICSAdapter(config_file=config_file)
-        adapter.extracted_data = {
-            'publication': {'publication_id': 'pub_edge_pub', 'doi': '10.1/pe'},
-        }
-        edges = adapter.get_edges()
-        pub_edges = [e for e in edges if e[3] == 'published_expression_data_about']
-
-        assert len(pub_edges) >= 1, \
-            f"Expected at least 1 published_expression_data_about edge, got {len(pub_edges)}"
-
-        # Source of pub edge should be the publication node
-        for edge in pub_edges:
-            _, source_id, target_id, label, props = edge
-            assert 'doi' in source_id.lower() or '10.1' in source_id, \
-                f"Expected source to be publication (doi ID), got {source_id}"
-
-    def test_publication_edges_emitted_for_env_condition_source(self, temp_data_dir):
-        """published_expression_data_about edges are emitted for env condition source."""
-        data_file = os.path.join(temp_data_dir, 'de.csv')
-        pd.DataFrame({
-            'Gene': ['PMM0001'],
-            'log2FC': [1.5],
-        }).to_csv(data_file, index=False)
-
-        config = {
-            'publication': {
-                'papername': 'Test Pub Edges Env 2024',
-                'environmental_conditions': {
-                    'uv_stress': {
-                        'condition_type': 'radiation',
-                        'name': 'UV-B radiation',
-                    }
-                },
-                'supplementary_materials': {
-                    'table1': {
-                        'type': 'csv',
-                        'filename': data_file,
-                        'statistical_analyses': [{
-                            'id': 'pub_edge_env_test',
-                            'type': 'RNASEQ',
-                            'organism': 'Prochlorococcus MED4',
-                            'environmental_treatment_condition_id': 'uv_stress',
-                            'name_col': 'Gene',
-                            'logfc_col': 'log2FC',
-                        }],
-                    }
-                },
-            }
-        }
-        config_file = os.path.join(temp_data_dir, 'pc_pub_edges_env.yaml')
-        with open(config_file, 'w') as f:
-            yaml.dump(config, f)
-
-        adapter = OMICSAdapter(config_file=config_file)
-        adapter.extracted_data = {
-            'publication': {'publication_id': 'pub_env_pub', 'doi': '10.1/pee'},
-        }
-        edges = adapter.get_edges()
-        pub_edges = [e for e in edges if e[3] == 'published_expression_data_about']
-
-        assert len(pub_edges) >= 1, \
-            f"Expected at least 1 published_expression_data_about edge for env condition source"
-
-        # Target of pub edge should be the env condition node
-        env_target_ids = [e[2] for e in pub_edges]
-        env_target_str = ' '.join(env_target_ids)
-        assert 'uv_stress' in env_target_str, \
-            f"Expected pub edge target to contain env condition ID 'uv_stress', got targets: {env_target_ids}"
-
-    def test_publication_edges_one_per_distinct_source(self, temp_data_dir):
-        """Only one published_expression_data_about edge per distinct source, not per gene."""
-        data_file = os.path.join(temp_data_dir, 'de.csv')
-        pd.DataFrame({
-            'Gene': ['PMM0001', 'PMM0002', 'PMM0003'],
-            'log2FC': [1.5, -2.0, 0.8],
-        }).to_csv(data_file, index=False)
-
-        config = {
-            'publication': {
-                'papername': 'Test Pub Dedup 2024',
-                'supplementary_materials': {
-                    'table1': {
-                        'type': 'csv',
-                        'filename': data_file,
-                        'statistical_analyses': [{
-                            'id': 'pub_dedup_test',
-                            'type': 'RNASEQ',
-                            'organism': 'Prochlorococcus MED4',
-                            'treatment_organism': 'Alteromonas macleodii',
-                            'treatment_taxid': 28108,
-                            'treatment_assembly_accession': 'GCF_001077695.1',
-                            'name_col': 'Gene',
-                            'logfc_col': 'log2FC',
-                        }],
-                    }
-                },
-            }
-        }
-        config_file = os.path.join(temp_data_dir, 'pc_pub_dedup.yaml')
-        with open(config_file, 'w') as f:
-            yaml.dump(config, f)
-
-        adapter = OMICSAdapter(config_file=config_file)
-        adapter.extracted_data = {
-            'publication': {'publication_id': 'pub_dedup_pub', 'doi': '10.1/pd'},
-        }
-        edges = adapter.get_edges()
-        expr_edges = [e for e in edges if e[3] == 'coculture_changes_expression_of']
-        pub_edges = [e for e in edges if e[3] == 'published_expression_data_about']
-
-        # 3 expression edges but only 1 pub → source edge (one distinct source)
-        assert len(expr_edges) == 3, f"Expected 3 expression edges, got {len(expr_edges)}"
-        assert len(pub_edges) == 1, \
-            f"Expected exactly 1 published_expression_data_about edge (one distinct source), got {len(pub_edges)}"
-
-
-class TestAnalysisNameProperty:
-    """Test that analysis_name is written to expression edges from the analysis 'name' field."""
-
-    def test_coculture_edge_has_analysis_name(self, adapter_with_mock_extracted_data):
-        """Verify analysis_name is present on coculture_changes_expression_of edges."""
+    def test_no_old_edge_labels(self, adapter_with_mock_extracted_data):
+        """Verify old edge labels are never emitted."""
         adapter = adapter_with_mock_extracted_data
         edges = adapter.get_edges()
-
-        expression_edges = [e for e in edges if e[3] == 'coculture_changes_expression_of']
-        assert len(expression_edges) > 0, "No coculture expression edges found"
-
-        for edge in expression_edges:
-            _, source_id, target_id, label, properties = edge
-            assert 'analysis_name' in properties, \
-                f"Expected analysis_name in edge properties, got {list(properties.keys())}"
-            assert properties['analysis_name'] == 'Test DE Analysis', \
-                f"Expected analysis_name 'Test DE Analysis', got {properties['analysis_name']}"
-
-    def test_env_condition_edge_has_analysis_name(self, temp_data_dir, sample_de_data):
-        """Verify analysis_name is present on condition_changes_expression_of edges."""
-        data_file = os.path.join(temp_data_dir, 'de_genes.csv')
-        sample_de_data.to_csv(data_file, index=False)
-
-        config = {
-            'publication': {
-                'papername': 'Test Env Name 2024',
-                'environmental_conditions': {
-                    'test_condition': {
-                        'condition_type': 'light_stress',
-                        'name': 'High light stress',
-                    }
-                },
-                'supplementary_materials': {
-                    'table1': {
-                        'type': 'csv',
-                        'filename': data_file,
-                        'statistical_analyses': [{
-                            'id': 'env_name_test',
-                            'type': 'RNASEQ',
-                            'name': 'DE under high light',
-                            'test_type': 'DESeq2',
-                            'control_condition': 'Low light',
-                            'organism': 'Prochlorococcus MED4',
-                            'environmental_treatment_condition_id': 'test_condition',
-                            'name_col': 'Synonym',
-                            'logfc_col': 'log2_fold_change',
-                            'adjusted_p_value_col': 'adjusted_p_value',
-                        }],
-                    }
-                },
-            }
-        }
-        config_file = os.path.join(temp_data_dir, 'pc_env_name.yaml')
-        with open(config_file, 'w') as f:
-            yaml.dump(config, f)
-
-        adapter = OMICSAdapter(config_file=config_file)
-        adapter.extracted_data = {
-            'publication': {'publication_id': 'env_name_pub', 'doi': '10.1/en'},
-        }
-        edges = adapter.get_edges()
-        expression_edges = [e for e in edges if e[3] == 'condition_changes_expression_of']
-        assert len(expression_edges) > 0, "No condition expression edges found"
-
-        for edge in expression_edges:
-            _, source_id, target_id, label, properties = edge
-            assert 'analysis_name' in properties, \
-                f"Expected analysis_name in edge properties, got {list(properties.keys())}"
-            assert properties['analysis_name'] == 'DE under high light', \
-                f"Expected analysis_name 'DE under high light', got {properties['analysis_name']}"
-
-    def test_analysis_name_absent_when_not_in_config(self, temp_data_dir, sample_de_data):
-        """Verify analysis_name is not set when analysis has no 'name' field."""
-        data_file = os.path.join(temp_data_dir, 'de_genes.csv')
-        sample_de_data.to_csv(data_file, index=False)
-
-        config = {
-            'publication': {
-                'papername': 'Test No Name 2024',
-                'supplementary_materials': {
-                    'table1': {
-                        'type': 'csv',
-                        'filename': data_file,
-                        'statistical_analyses': [{
-                            'id': 'no_name_test',
-                            'type': 'RNASEQ',
-                            # No 'name' field
-                            'organism': 'Prochlorococcus MED4',
-                            'treatment_organism': 'Alteromonas macleodii',
-                            'treatment_taxid': 28108,
-                            'treatment_assembly_accession': 'GCF_001077695.1',
-                            'name_col': 'Synonym',
-                            'logfc_col': 'log2_fold_change',
-                            'adjusted_p_value_col': 'adjusted_p_value',
-                        }],
-                    }
-                },
-            }
-        }
-        config_file = os.path.join(temp_data_dir, 'pc_no_name.yaml')
-        with open(config_file, 'w') as f:
-            yaml.dump(config, f)
-
-        adapter = OMICSAdapter(config_file=config_file)
-        adapter.extracted_data = {
-            'publication': {'publication_id': 'no_name_pub', 'doi': '10.1/nn'},
-        }
-        edges = adapter.get_edges()
-        expression_edges = [e for e in edges if e[3] == 'coculture_changes_expression_of']
-        assert len(expression_edges) > 0, "No expression edges found"
-
-        for edge in expression_edges:
-            _, source_id, target_id, label, properties = edge
-            # analysis_name should be absent (empty string is falsy, not written)
-            assert properties.get('analysis_name', '') == '', \
-                f"Expected analysis_name to be absent, got {properties.get('analysis_name')}"
+        old_labels = [e for e in edges if e[3] in (
+            'affects_expression_of', 'condition_changes_expression_of',
+            'coculture_changes_expression_of', 'published_expression_data_about'
+        )]
+        assert len(old_labels) == 0,             f"Old edge labels should never be emitted, got {[e[3] for e in old_labels]}"
 
 
-class TestEnvironmentalConditionMediumTemperature:
-    """Test that medium and temperature are written to environmental condition nodes."""
+class TestExperimentNodeProperties:
+    """Test experiment node properties (organism_strain, omics_type, medium, temperature, etc.)."""
 
-    def test_env_condition_node_has_temperature(self, adapter_with_mock_extracted_data):
-        """Verify temperature is present on environmental condition nodes when in paperconfig."""
+    def test_experiment_has_organism_strain(self, adapter_with_mock_extracted_data):
+        """organism_strain is set on experiment nodes."""
+        nodes = adapter_with_mock_extracted_data.get_nodes()
+        exp_nodes = [n for n in nodes if n[1] == 'experiment']
+        assert len(exp_nodes) == 1
+        assert exp_nodes[0][2]['organism_strain'] == 'Prochlorococcus MED4'
+
+    def test_experiment_has_medium_and_temperature(self, adapter_with_mock_extracted_data):
+        """medium and temperature are set on experiment nodes."""
+        nodes = adapter_with_mock_extracted_data.get_nodes()
+        exp_nodes = [n for n in nodes if n[1] == 'experiment']
+        assert len(exp_nodes) == 1
+        props = exp_nodes[0][2]
+        assert props['medium'] == 'Pro99'
+        assert props['temperature'] == '24C'
+
+    def test_experiment_has_coculture_partner(self, adapter_with_mock_extracted_data):
+        """coculture_partner is set from treatment_organism."""
+        nodes = adapter_with_mock_extracted_data.get_nodes()
+        exp_nodes = [n for n in nodes if n[1] == 'experiment']
+        assert len(exp_nodes) == 1
+        assert exp_nodes[0][2]['coculture_partner'] == 'Alteromonas macleodii'
+
+
+class TestHasExperimentEdges:
+    """Test has_experiment edges from Publication -> Experiment."""
+
+    def test_has_experiment_edges_emitted(self, adapter_with_mock_extracted_data):
+        """Verify has_experiment edges are emitted from Publication to Experiment."""
         adapter = adapter_with_mock_extracted_data
-        nodes = adapter.get_nodes()
+        edges = adapter.get_edges()
+        has_exp_edges = [e for e in edges if e[3] == 'has_experiment']
 
-        env_nodes = [n for n in nodes if n[1] == 'environmental_condition']
-        assert len(env_nodes) > 0, "No environmental condition nodes found"
+        assert len(has_exp_edges) == 1,             f"Expected 1 has_experiment edge, got {len(has_exp_edges)}"
 
-        node_id, label, properties = env_nodes[0]
-        assert 'temperature' in properties, \
-            f"Expected temperature in env condition properties, got {list(properties.keys())}"
-        assert properties['temperature'] == '24C', \
-            f"Expected temperature '24C', got {properties['temperature']}"
+        edge = has_exp_edges[0]
+        _, source_id, target_id, label, props = edge
+        assert 'doi' in source_id.lower() or '10.1234' in source_id
+        assert 'coculture_alteromonas_med4_rnaseq' in target_id
 
-    def test_env_condition_node_has_medium(self, temp_data_dir, sample_de_data):
-        """Verify medium is present on environmental condition nodes when in paperconfig."""
-        data_file = os.path.join(temp_data_dir, 'de_genes.csv')
-        sample_de_data.to_csv(data_file, index=False)
 
-        config = {
-            'publication': {
-                'papername': 'Test Medium 2024',
-                'environmental_conditions': {
-                    'test_condition': {
-                        'condition_type': 'growth_medium',
-                        'name': 'Pro99 medium',
-                        'medium': 'Pro99',
-                        'temperature': '22C',
-                    }
-                },
-                'supplementary_materials': {
-                    'table1': {
-                        'type': 'csv',
-                        'filename': data_file,
-                        'statistical_analyses': [{
-                            'id': 'medium_test',
-                            'type': 'RNASEQ',
-                            'organism': 'Prochlorococcus MED4',
-                            'environmental_treatment_condition_id': 'test_condition',
-                            'name_col': 'Synonym',
-                            'logfc_col': 'log2_fold_change',
-                            'adjusted_p_value_col': 'adjusted_p_value',
-                        }],
-                    }
-                },
-            }
-        }
-        config_file = os.path.join(temp_data_dir, 'pc_medium.yaml')
-        with open(config_file, 'w') as f:
-            yaml.dump(config, f)
+class TestTestsCocultureWithEdges:
+    """Test tests_coculture_with edges from Experiment -> OrganismTaxon."""
 
-        adapter = OMICSAdapter(config_file=config_file)
-        adapter.extracted_data = {
-            'publication': {'publication_id': 'medium_pub', 'doi': '10.1/m'},
-        }
-        nodes = adapter.get_nodes()
-        env_nodes = [n for n in nodes if n[1] == 'environmental_condition']
-        assert len(env_nodes) == 1, f"Expected 1 env condition node, got {len(env_nodes)}"
+    def test_coculture_edge_emitted(self, adapter_with_mock_extracted_data):
+        """Verify tests_coculture_with edge is emitted for coculture experiments."""
+        adapter = adapter_with_mock_extracted_data
+        edges = adapter.get_edges()
+        coculture_edges = [e for e in edges if e[3] == 'tests_coculture_with']
 
-        node_id, label, properties = env_nodes[0]
-        assert 'medium' in properties, \
-            f"Expected medium in env condition properties, got {list(properties.keys())}"
-        assert properties['medium'] == 'Pro99', \
-            f"Expected medium 'Pro99', got {properties['medium']}"
-        assert properties['temperature'] == '22C', \
-            f"Expected temperature '22C', got {properties['temperature']}"
+        assert len(coculture_edges) == 1,             f"Expected 1 tests_coculture_with edge, got {len(coculture_edges)}"
+
+        edge = coculture_edges[0]
+        _, source_id, target_id, label, props = edge
+        assert 'coculture_alteromonas_med4_rnaseq' in source_id
+        assert 'insdc.gcf' in target_id.lower() or 'GCF_001077695.1' in target_id
 
 
 if __name__ == '__main__':
