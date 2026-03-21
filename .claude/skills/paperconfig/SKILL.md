@@ -327,7 +327,7 @@ All expression edges now use the unified `Changes_expression_of` label, with the
 
 For coculture experiments, the `Experiment` node is linked to the treatment organism via a `Tests_coculture_with` edge. This replaces the old split between `Condition_changes_expression_of` and `Coculture_changes_expression_of`.
 
-The adapter also emits a `Published_expression_data_about` edge from the `Publication` node to the `Experiment` node for each experiment, enabling navigation from publications to the experiments they describe.
+The adapter also emits a `Has_experiment` edge from the `Publication` node to the `Experiment` node for each experiment, enabling navigation from publications to the experiments they describe.
 
 ## Organism Reference Data
 

@@ -124,112 +124,117 @@
     {
       "properties": {
         "adjusted_p_value": 0.65,
-        "control_condition": "Normal seawater (3.8% salt)",
         "expression_direction": "down",
-        "log2_fold_change": -0.29
+        "log2_fold_change": -0.29,
+        "time_point_order": 1
       },
-      "source": "10.1016/j.micres.2015.04.006_alhosani_2015_salt_acclimation",
+      "source": "10.1016/j.micres.2015.04.006_salt_stress_saltacclimated_5_salt_as9601_rnaseq",
       "target": "ncbigene:A9601_00011",
-      "type": "Condition_changes_expression_of"
+      "type": "Changes_expression_of"
     },
     {
       "properties": {
         "adjusted_p_value": 0.97,
-        "control_condition": "Normal seawater (3.8% salt)",
         "expression_direction": "down",
-        "log2_fold_change": -0.02
+        "log2_fold_change": -0.02,
+        "time_point_order": 1
       },
-      "source": "10.1016/j.micres.2015.04.006_alhosani_2015_salt_acclimation",
+      "source": "10.1016/j.micres.2015.04.006_salt_stress_saltacclimated_5_salt_as9601_rnaseq",
       "target": "ncbigene:A9601_00021",
-      "type": "Condition_changes_expression_of"
+      "type": "Changes_expression_of"
     },
     {
       "properties": {
         "adjusted_p_value": 0.91,
-        "control_condition": "Normal seawater (3.8% salt)",
         "expression_direction": "down",
-        "log2_fold_change": -0.06
+        "log2_fold_change": -0.06,
+        "time_point_order": 1
       },
-      "source": "10.1016/j.micres.2015.04.006_alhosani_2015_salt_acclimation",
+      "source": "10.1016/j.micres.2015.04.006_salt_stress_saltacclimated_5_salt_as9601_rnaseq",
       "target": "ncbigene:A9601_00031",
-      "type": "Condition_changes_expression_of"
+      "type": "Changes_expression_of"
     },
     {
       "properties": {
         "adjusted_p_value": 0.36,
-        "control_condition": "Normal seawater (3.8% salt)",
         "expression_direction": "down",
-        "log2_fold_change": -0.27
+        "log2_fold_change": -0.27,
+        "time_point_order": 1
       },
-      "source": "10.1016/j.micres.2015.04.006_alhosani_2015_salt_acclimation",
+      "source": "10.1016/j.micres.2015.04.006_salt_stress_saltacclimated_5_salt_as9601_rnaseq",
       "target": "ncbigene:A9601_00041",
-      "type": "Condition_changes_expression_of"
+      "type": "Changes_expression_of"
     },
     {
       "properties": {
         "adjusted_p_value": 0.67,
-        "control_condition": "Normal seawater (3.8% salt)",
         "expression_direction": "down",
-        "log2_fold_change": -0.43
+        "log2_fold_change": -0.43,
+        "time_point_order": 1
       },
-      "source": "10.1016/j.micres.2015.04.006_alhosani_2015_salt_acclimation",
+      "source": "10.1016/j.micres.2015.04.006_salt_stress_saltacclimated_5_salt_as9601_rnaseq",
       "target": "ncbigene:A9601_00051",
-      "type": "Condition_changes_expression_of"
+      "type": "Changes_expression_of"
     },
     {
-      "properties": {
-        "adjusted_p_value": 0.1076823450594656,
-        "control_condition": "Axenic",
-        "expression_direction": "up",
-        "log2_fold_change": 0.7956819997848956
-      },
-      "source": "insdc.gcf:GCF_000011465.1",
-      "target": "ncbigene:ACZ81_00005",
-      "type": "Coculture_changes_expression_of"
+      "properties": {},
+      "source": "doi:10.1016/j.micres.2015.04.006",
+      "target": "10.1016/j.micres.2015.04.006_salt_stress_saltacclimated_5_salt_as9601_rnaseq",
+      "type": "Has_experiment"
     },
     {
-      "properties": {
-        "adjusted_p_value": 0.589579825691681,
-        "control_condition": "Axenic",
-        "expression_direction": "up",
-        "log2_fold_change": 0.2824042681904196
-      },
-      "source": "insdc.gcf:GCF_000011465.1",
-      "target": "ncbigene:ACZ81_00010",
-      "type": "Coculture_changes_expression_of"
+      "properties": {},
+      "source": "doi:10.1038/ismej.2011.49",
+      "target": "10.1038/ismej.2011.49_growth_medium_ironreplete_control_med4_med4_microarray",
+      "type": "Has_experiment"
     },
     {
-      "properties": {
-        "adjusted_p_value": 0.8552167724204596,
-        "control_condition": "Axenic",
-        "expression_direction": "up",
-        "log2_fold_change": 0.1507788358157039
-      },
-      "source": "insdc.gcf:GCF_000011465.1",
-      "target": "ncbigene:ACZ81_00015",
-      "type": "Coculture_changes_expression_of"
+      "properties": {},
+      "source": "doi:10.1038/ismej.2011.49",
+      "target": "10.1038/ismej.2011.49_growth_medium_ironreplete_control_mit9313_mit9313_microarray",
+      "type": "Has_experiment"
     },
     {
-      "properties": {
-        "adjusted_p_value": 0.1876595255109684,
-        "control_condition": "Axenic",
-        "expression_direction": "up",
-        "log2_fold_change": 0.733200611148496
-      },
-      "source": "insdc.gcf:GCF_000011465.1",
-      "target": "ncbigene:ACZ81_00020",
-      "type": "Coculture_changes_expression_of"
+      "properties": {},
+      "source": "doi:10.1038/ismej.2011.49",
+      "target": "10.1038/ismej.2011.49_iron_stress_iron_starvation_med4_med4_microarray_light",
+      "type": "Has_experiment"
     },
     {
-      "properties": {
-        "adjusted_p_value": 0.4983696828728474,
-        "control_condition": "Axenic",
-        "expression_direction": "up",
-        "log2_fold_change": 0.3522829294321365
-      },
-      "source": "insdc.gcf:GCF_000011465.1",
-      "target": "ncbigene:ACZ81_00025",
-      "type": "Coculture_changes_expression_of"
+      "properties": {},
+      "source": "doi:10.1038/ismej.2011.49",
+      "target": "10.1038/ismej.2011.49_iron_stress_iron_starvation_med4_med4_microarray_light_2",
+      "type": "Has_experiment"
+    },
+    {
+      "properties": {},
+      "source": "10.1038/ismej.2016.70_coculture_alteromonas_hot1a3_med4_rnaseq",
+      "target": "insdc.gcf:GCF_001578515.1",
+      "type": "Tests_coculture_with"
+    },
+    {
+      "properties": {},
+      "source": "10.1038/ismej.2016.70_coculture_alteromonas_hot1a3_mit9313_rnaseq_inoc_05e6",
+      "target": "insdc.gcf:GCF_001578515.1",
+      "type": "Tests_coculture_with"
+    },
+    {
+      "properties": {},
+      "source": "10.1038/ismej.2016.70_coculture_alteromonas_hot1a3_mit9313_rnaseq_inoc_5e6",
+      "target": "insdc.gcf:GCF_001578515.1",
+      "type": "Tests_coculture_with"
+    },
+    {
+      "properties": {},
+      "source": "10.1038/ismej.2016.70_coculture_prochlorococcus_mit9313_high_alteromonas_hot1a3_rnaseq",
+      "target": "insdc.gcf:GCF_000011485.1",
+      "type": "Tests_coculture_with"
+    },
+    {
+      "properties": {},
+      "source": "10.1038/ismej.2016.70_coculture_prochlorococcus_mit9313_hot1a3_rnaseq",
+      "target": "insdc.gcf:GCF_000011485.1",
+      "type": "Tests_coculture_with"
     },
     {
       "properties": {},
@@ -652,7 +657,7 @@
       "type": "Cyanorak_role_is_a_cyanorak_role"
     }
   ],
-  "generated_at": "2026-03-16T10:39:48.374227+00:00",
+  "generated_at": "2026-03-21T10:50:02.941584+00:00",
   "nodes": [
     {
       "anchor": true,
@@ -892,47 +897,72 @@
     },
     {
       "anchor": false,
-      "id": "10.1016/j.micres.2015.04.006_alhosani_2015_salt_acclimation",
-      "label": "EnvironmentalCondition",
+      "id": "10.1016/j.micres.2015.04.006_salt_stress_saltacclimated_5_salt_as9601_rnaseq",
+      "label": "Experiment",
       "properties": {
-        "condition_type": "salt_stress",
-        "name": "Salt-acclimated (5% salt)"
+        "control": "Normal seawater control (3.8% salt)",
+        "is_time_course": "false",
+        "name": "AS9601 Salt-acclimated (5% salt) vs Normal seawater control (3.8% salt) (RNASEQ)",
+        "omics_type": "RNASEQ",
+        "organism_strain": "Prochlorococcus AS9601",
+        "treatment": "Salt-acclimated (5% salt)",
+        "treatment_type": "salt_stress"
       }
     },
     {
       "anchor": false,
-      "id": "10.1016/j.micres.2015.04.006_alhosani_2015_seawater_control",
-      "label": "EnvironmentalCondition",
+      "id": "10.1038/ismej.2011.49_growth_medium_ironreplete_control_med4_med4_microarray",
+      "label": "Experiment",
       "properties": {
-        "condition_type": "growth_medium",
-        "name": "Normal seawater control (3.8% salt)"
+        "control": "Iron starvation (MED4)",
+        "is_time_course": "false",
+        "name": "MED4 Iron-replete control (MED4) vs Iron starvation (MED4) (MICROARRAY)",
+        "omics_type": "MICROARRAY",
+        "organism_strain": "Prochlorococcus MED4",
+        "treatment": "Iron-replete control (MED4)",
+        "treatment_type": "iron_stress"
       }
     },
     {
       "anchor": false,
-      "id": "10.1038/ismej.2011.49_thompson_2011_iron_deplete_med4",
-      "label": "EnvironmentalCondition",
+      "id": "10.1038/ismej.2011.49_growth_medium_ironreplete_control_mit9313_mit9313_microarray",
+      "label": "Experiment",
       "properties": {
-        "condition_type": "iron_stress",
-        "name": "Iron starvation (MED4)"
+        "control": "Iron starvation (MIT9313)",
+        "is_time_course": "false",
+        "name": "MIT9313 Iron-replete control (MIT9313) vs Iron starvation (MIT9313) (MICROARRAY)",
+        "omics_type": "MICROARRAY",
+        "organism_strain": "Prochlorococcus MIT9313",
+        "treatment": "Iron-replete control (MIT9313)",
+        "treatment_type": "iron_stress"
       }
     },
     {
       "anchor": false,
-      "id": "10.1038/ismej.2011.49_thompson_2011_iron_deplete_mit9313",
-      "label": "EnvironmentalCondition",
+      "id": "10.1038/ismej.2011.49_iron_stress_iron_starvation_med4_med4_microarray_light",
+      "label": "Experiment",
       "properties": {
-        "condition_type": "iron_stress",
-        "name": "Iron starvation (MIT9313)"
+        "control": "Iron-replete control (MED4)",
+        "is_time_course": "true",
+        "name": "MED4 Iron starvation (MED4) vs Iron-replete control (MED4) (MICROARRAY)",
+        "omics_type": "MICROARRAY",
+        "organism_strain": "Prochlorococcus MED4",
+        "treatment": "Iron starvation (MED4)",
+        "treatment_type": "iron_stress"
       }
     },
     {
       "anchor": false,
-      "id": "10.1038/ismej.2011.49_thompson_2011_iron_replete_med4",
-      "label": "EnvironmentalCondition",
+      "id": "10.1038/ismej.2011.49_iron_stress_iron_starvation_med4_med4_microarray_light_2",
+      "label": "Experiment",
       "properties": {
-        "condition_type": "growth_medium",
-        "name": "Iron-replete control (MED4)"
+        "control": "Iron-replete control (MED4)",
+        "is_time_course": "false",
+        "name": "MED4 Iron starvation (MED4) vs Iron-replete control (MED4) (MICROARRAY)",
+        "omics_type": "MICROARRAY",
+        "organism_strain": "Prochlorococcus MED4",
+        "treatment": "Iron starvation (MED4)",
+        "treatment_type": "iron_stress"
       }
     },
     {
@@ -940,6 +970,7 @@
       "id": "cyanorak:CK_00000001",
       "label": "OrthologGroup",
       "properties": {
+        "name": "CK_00000001",
         "source": "cyanorak",
         "taxon_id": 0,
         "taxonomic_level": "curated"
@@ -950,6 +981,7 @@
       "id": "cyanorak:CK_00000002",
       "label": "OrthologGroup",
       "properties": {
+        "name": "CK_00000002",
         "source": "cyanorak",
         "taxon_id": 0,
         "taxonomic_level": "curated"
@@ -960,6 +992,7 @@
       "id": "cyanorak:CK_00000003",
       "label": "OrthologGroup",
       "properties": {
+        "name": "CK_00000003",
         "source": "cyanorak",
         "taxon_id": 0,
         "taxonomic_level": "curated"
@@ -970,6 +1003,7 @@
       "id": "cyanorak:CK_00000004",
       "label": "OrthologGroup",
       "properties": {
+        "name": "CK_00000004",
         "source": "cyanorak",
         "taxon_id": 0,
         "taxonomic_level": "curated"
@@ -980,6 +1014,7 @@
       "id": "cyanorak:CK_00000005",
       "label": "OrthologGroup",
       "properties": {
+        "name": "CK_00000005",
         "source": "cyanorak",
         "taxon_id": 0,
         "taxonomic_level": "curated"
@@ -1282,8 +1317,7 @@
       "id": "cyanorak.role:0",
       "label": "CyanorakRole",
       "properties": {
-        "code": "0",
-        "name": "Non-coding gene (RNA)"
+        "code": "0"
       }
     },
     {
@@ -1291,8 +1325,7 @@
       "id": "cyanorak.role:A",
       "label": "CyanorakRole",
       "properties": {
-        "code": "A",
-        "name": "Amino acid biosynthesis"
+        "code": "A"
       }
     },
     {
@@ -1300,8 +1333,7 @@
       "id": "cyanorak.role:0.1",
       "label": "CyanorakRole",
       "properties": {
-        "code": "0.1",
-        "name": "Non-coding gene (RNA) > tRNA"
+        "code": "0.1"
       }
     },
     {
@@ -1309,8 +1341,7 @@
       "id": "cyanorak.role:0.2",
       "label": "CyanorakRole",
       "properties": {
-        "code": "0.2",
-        "name": "Non-coding gene (RNA) > rRNA"
+        "code": "0.2"
       }
     },
     {
@@ -1318,8 +1349,7 @@
       "id": "cyanorak.role:0.3",
       "label": "CyanorakRole",
       "properties": {
-        "code": "0.3",
-        "name": "Non-coding gene (RNA) > ncRNA"
+        "code": "0.3"
       }
     },
     {
@@ -1327,8 +1357,7 @@
       "id": "cyanorak.role:0.4",
       "label": "CyanorakRole",
       "properties": {
-        "code": "0.4",
-        "name": "Non-coding gene (RNA) > Other"
+        "code": "0.4"
       }
     },
     {
@@ -1336,8 +1365,7 @@
       "id": "tigr.role:100",
       "label": "TigrRole",
       "properties": {
-        "code": "100",
-        "name": "Central intermediary metabolism / Amino sugars"
+        "code": "100"
       }
     },
     {
@@ -1345,8 +1373,7 @@
       "id": "tigr.role:102",
       "label": "TigrRole",
       "properties": {
-        "code": "102",
-        "name": "Central intermediary metabolism / Other"
+        "code": "102"
       }
     },
     {
@@ -1354,8 +1381,7 @@
       "id": "tigr.role:103",
       "label": "TigrRole",
       "properties": {
-        "code": "103",
-        "name": "Central intermediary metabolism / Phosphorus compounds"
+        "code": "103"
       }
     },
     {
@@ -1363,8 +1389,7 @@
       "id": "tigr.role:104",
       "label": "TigrRole",
       "properties": {
-        "code": "104",
-        "name": "Central intermediary metabolism / Polyamine biosynthesis"
+        "code": "104"
       }
     },
     {
@@ -1372,8 +1397,7 @@
       "id": "tigr.role:105",
       "label": "TigrRole",
       "properties": {
-        "code": "105",
-        "name": "Energy metabolism / Biosynthesis and degradation of polysaccharides"
+        "code": "105"
       }
     }
   ]
