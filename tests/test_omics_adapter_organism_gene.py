@@ -132,7 +132,8 @@ class TestPublicationNodeCreation:
         assert properties.get('title') == 'Test Publication'
         assert properties.get('description') == 'Test study description'
         assert properties.get('study_type') == 'Transcriptomics'
-        assert properties.get('organism') == ['Prochlorococcus MED4']
+        # organism is no longer set by the adapter; it's computed post-import as 'organisms'
+        assert 'organism' not in properties
 
 
 class TestOrganismNodeCreation:

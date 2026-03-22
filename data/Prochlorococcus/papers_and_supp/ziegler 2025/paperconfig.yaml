@@ -18,7 +18,7 @@ publication:
           experimental_context: "Pro99 medium, continuous light at 18 umol photons m-2 s-1, 24C, mid-exponential growth (~48h)"
           timepoint: "Day 2"
           organism: "Prochlorococcus MED4"
-          treatment_taxid: 413470
+          treatment_taxid: 2742
           treatment_organism: "Marinobacter"
           name_col: "ID"
           logfc_col: "Marinobacter_LFC"
@@ -37,7 +37,7 @@ publication:
           experimental_context: "Pro99 medium, continuous light at 18 umol photons m-2 s-1, 24C, late-exponential growth"
           timepoint: "Day 4"
           organism: "Prochlorococcus MED4"
-          treatment_taxid: 413470
+          treatment_taxid: 2742
           treatment_organism: "Marinobacter"
           name_col: "ID"
           logfc_col: "Marinobacter_LFC"
@@ -56,7 +56,7 @@ publication:
           experimental_context: "Pro99 medium, continuous light at 18 umol photons m-2 s-1, 24C, transition to stationary phase"
           timepoint: "Day 5"
           organism: "Prochlorococcus MED4"
-          treatment_taxid: 413470
+          treatment_taxid: 2742
           treatment_organism: "Marinobacter"
           name_col: "ID"
           logfc_col: "Marinobacter_LFC"
@@ -132,7 +132,7 @@ publication:
           experimental_context: "Pro99 medium, continuous light at 18 umol photons m-2 s-1, 24C, mid-exponential growth (~48h)"
           timepoint: "Day 2"
           organism: "Prochlorococcus MED4"
-          treatment_taxid: 191411
+          treatment_taxid: 168934
           treatment_organism: "Thalassospira"
           name_col: "ID"
           logfc_col: "Thalassospira_1_LFC"
@@ -151,7 +151,7 @@ publication:
           experimental_context: "Pro99 medium, continuous light at 18 umol photons m-2 s-1, 24C, late-exponential growth"
           timepoint: "Day 4"
           organism: "Prochlorococcus MED4"
-          treatment_taxid: 191411
+          treatment_taxid: 168934
           treatment_organism: "Thalassospira"
           name_col: "ID"
           logfc_col: "Thalassospira_1_LFC"
@@ -170,7 +170,7 @@ publication:
           experimental_context: "Pro99 medium, continuous light at 18 umol photons m-2 s-1, 24C, transition to stationary phase"
           timepoint: "Day 5"
           organism: "Prochlorococcus MED4"
-          treatment_taxid: 191411
+          treatment_taxid: 168934
           treatment_organism: "Thalassospira"
           name_col: "ID"
           logfc_col: "Thalassospira_1_LFC"
@@ -189,7 +189,7 @@ publication:
           experimental_context: "Pro99 medium, continuous light at 18 umol photons m-2 s-1, 24C, mid-exponential growth (~48h)"
           timepoint: "Day 2"
           organism: "Prochlorococcus MED4"
-          treatment_taxid: 398581
+          treatment_taxid: 1915405
           treatment_organism: "Pseudohoeflea"
           name_col: "ID"
           logfc_col: "Pseudohoeflea_LFC"
@@ -208,7 +208,7 @@ publication:
           experimental_context: "Pro99 medium, continuous light at 18 umol photons m-2 s-1, 24C, late-exponential growth"
           timepoint: "Day 4"
           organism: "Prochlorococcus MED4"
-          treatment_taxid: 398581
+          treatment_taxid: 1915405
           treatment_organism: "Pseudohoeflea"
           name_col: "ID"
           logfc_col: "Pseudohoeflea_LFC"
@@ -227,7 +227,7 @@ publication:
           experimental_context: "Pro99 medium, continuous light at 18 umol photons m-2 s-1, 24C, transition to stationary phase"
           timepoint: "Day 5"
           organism: "Prochlorococcus MED4"
-          treatment_taxid: 398581
+          treatment_taxid: 1915405
           treatment_organism: "Pseudohoeflea"
           name_col: "ID"
           logfc_col: "Pseudohoeflea_LFC"
@@ -246,7 +246,7 @@ publication:
           experimental_context: "Pro99 medium, continuous light at 18 umol photons m-2 s-1, 24C, mid-exponential growth (~48h)"
           timepoint: "Day 2"
           organism: "Prochlorococcus MED4"
-          treatment_taxid: 413470
+          treatment_taxid: 2742  # TODO: synthetic community needs its own identifier (Marinobacter + Alteromonas + Thalassospira + Pseudohoeflea)
           treatment_organism: "Synthetic heterotroph community"
           name_col: "ID"
           logfc_col: "Community_LFC"
@@ -265,7 +265,7 @@ publication:
           experimental_context: "Pro99 medium, continuous light at 18 umol photons m-2 s-1, 24C, late-exponential growth"
           timepoint: "Day 4"
           organism: "Prochlorococcus MED4"
-          treatment_taxid: 413470
+          treatment_taxid: 2742  # TODO: synthetic community needs its own identifier (Marinobacter + Alteromonas + Thalassospira + Pseudohoeflea)
           treatment_organism: "Synthetic heterotroph community"
           name_col: "ID"
           logfc_col: "Community_LFC"
@@ -284,7 +284,7 @@ publication:
           experimental_context: "Pro99 medium, continuous light at 18 umol photons m-2 s-1, 24C, transition to stationary phase"
           timepoint: "Day 5"
           organism: "Prochlorococcus MED4"
-          treatment_taxid: 413470
+          treatment_taxid: 2742  # TODO: synthetic community needs its own identifier (Marinobacter + Alteromonas + Thalassospira + Pseudohoeflea)
           treatment_organism: "Synthetic heterotroph community"
           name_col: "ID"
           logfc_col: "Community_LFC"

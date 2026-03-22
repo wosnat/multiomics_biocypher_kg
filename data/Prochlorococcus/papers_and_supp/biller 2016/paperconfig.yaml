@@ -15,12 +15,12 @@ publication:
       temperature: 21C
       light_condition: continuous light
       light_intensity: 30 umol photons m-2 s-1
-      treatment_organism: Alteromonas MIT1002
+      treatment_organism: Alteromonas macleodii MIT1002
       treatment_taxid: 28108
       treatment_assembly_accession: GCF_901457835.2
     coculture_24_hours_after_coculturing_mit1002_rnaseq:
       name: MIT1002 24 hours after co-culturing with Prochlorococcus NATL2A vs Co-culture with Prochlorococcus NATL2A (RNASEQ)
-      organism: Alteromonas MIT1002
+      organism: Alteromonas macleodii MIT1002
       treatment_condition: 24 hours after co-culturing with Prochlorococcus NATL2A
       control_condition: Co-culture with Prochlorococcus NATL2A
       experimental_context: in Pro99 medium under continuous light
@@ -36,7 +36,7 @@ publication:
       treatment_assembly_accession: GCF_000012465.1
     coculture_48_hours_after_coculturing_mit1002_rnaseq:
       name: MIT1002 48 hours after co-culturing with Prochlorococcus NATL2A vs Co-culture with Prochlorococcus NATL2A (RNASEQ)
-      organism: Alteromonas MIT1002
+      organism: Alteromonas macleodii MIT1002
       treatment_condition: 48 hours after co-culturing with Prochlorococcus NATL2A
       control_condition: Co-culture with Prochlorococcus NATL2A
       experimental_context: in Pro99 medium under continuous light

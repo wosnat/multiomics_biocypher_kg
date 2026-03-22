@@ -90,7 +90,7 @@ CANONICAL_GENOMIC_ORGANISMS = {
     "Synechococcus CC9311",
     "Alteromonas macleodii HOT1A3",
     "Alteromonas macleodii EZ55",
-    "Alteromonas MIT1002",
+    "Alteromonas macleodii MIT1002",
 }
 
 # Canonical treatment organism names loaded from treatment_organisms.csv
@@ -98,10 +98,11 @@ CANONICAL_GENOMIC_ORGANISMS = {
 # These are loaded at runtime from the CSV; this set is the fallback default.
 _TREATMENT_ORGANISMS_CSV_DEFAULT = {
     "Phage",
-    "Marinobacter",
-    "Thalassospira",
-    "Pseudohoeflea",
     "Alteromonas",
+    # Ziegler 2025 organisms (commented out in treatment_organisms.csv until paper is added):
+    # "Marinobacter",
+    # "Thalassospira",
+    # "Pseudohoeflea",
 }
 
 # Canonical treatment_type values for experiment entries (replaces condition_type).

@@ -87,6 +87,32 @@ SET p.experiment_count = ec,
     p.organisms = apoc.coll.sort(apoc.coll.toSet(orgs + coculture_orgs))
 CYPHER
 
+echo "=== Post-process: Compute OrganismTaxon summary properties ==="
+
+echo "--- gene_count ---"
+cypher-shell <<'CYPHER'
+MATCH (o:OrganismTaxon)
+OPTIONAL MATCH (g:Gene)-[:Gene_belongs_to_organism]->(o)
+WITH o, count(g) AS gc
+SET o.gene_count = gc
+CYPHER
+
+echo "--- publication_count, experiment_count, treatment_types, omics_types ---"
+cypher-shell <<'CYPHER'
+MATCH (o:OrganismTaxon)
+OPTIONAL MATCH (p:Publication)
+  WHERE ANY(org IN p.organisms WHERE org = o.preferred_name)
+WITH o,
+     count(DISTINCT p) AS pc,
+     CASE WHEN count(p) > 0 THEN sum(p.experiment_count) ELSE 0 END AS ec,
+     apoc.coll.toSet(reduce(s = [], t IN collect(p.treatment_types) | s + t)) AS tts,
+     apoc.coll.toSet(reduce(s = [], t IN collect(p.omics_types) | s + t)) AS ots
+SET o.publication_count = pc,
+    o.experiment_count = ec,
+    o.treatment_types = tts,
+    o.omics_types = ots
+CYPHER
+
 echo "=== Post-process: Compute Gene routing signals ==="
 
 echo "--- annotation_types ---"

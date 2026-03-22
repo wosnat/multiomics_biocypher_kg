@@ -31,7 +31,7 @@ publication:
       light_intensity: 0 umol photons m-2 s-1
     darkness_extended_darkness_mit1002_rnaseq:
       name: MIT1002 Extended darkness vs 13:11 diel light:dark cycle control (RNASEQ)
-      organism: Alteromonas MIT1002
+      organism: Alteromonas macleodii MIT1002
       treatment_condition: Extended darkness
       control_condition: 13:11 diel light:dark cycle control
       experimental_context: Alteromonas macleodii MIT1002 co-cultured with Prochlorococcus NATL2A in Pro99 medium at 24C,
@@ -47,11 +47,11 @@ publication:
     annotation_gff_mit1002_old_draft:
       type: annotation_gff
       filename: cache/data/Alteromonas/genomes/MIT1002/genomic_old_draft_GCF_001077695.1.gff
-      organism: Alteromonas MIT1002
+      organism: Alteromonas macleodii MIT1002
     id_translation_mit1002_rast_diamond:
       type: id_translation
       filename: data/Prochlorococcus/papers_and_supp/Biller 2018/MIT1002_RAST_annotation/rast_to_mit1002_id_translation.csv
-      organism: Alteromonas MIT1002
+      organism: Alteromonas macleodii MIT1002
       generate:
         method: diamond_protein_match
         source_fasta: data/Prochlorococcus/papers_and_supp/Biller 2018/MIT1002_RAST_annotation/226.6.faa
@@ -64,7 +64,7 @@ publication:
     id_translation_mit1002_rast_names:
       type: id_translation
       filename: data/Prochlorococcus/papers_and_supp/Biller 2018/MIT1002_systematicnames_conversiontable.csv
-      organism: Alteromonas MIT1002
+      organism: Alteromonas macleodii MIT1002
       id_columns:
       - column: original_rast_id
         id_type: old_locus_tag

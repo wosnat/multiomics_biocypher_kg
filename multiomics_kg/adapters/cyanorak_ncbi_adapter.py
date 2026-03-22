@@ -314,6 +314,13 @@ class CyanorakNcbi:
             if self.taxonomy.get(key):
                 properties[key] = self.taxonomy[key]
 
+        # Derive species from preferred_name when taxonomy is genus-level only
+        # e.g. "Alteromonas macleodii MIT1002" → species "Alteromonas macleodii"
+        if 'species' not in properties and properties.get('genus') and self.preferred_name:
+            words = self.preferred_name.split()
+            if len(words) >= 3 and words[0] == properties['genus'] and words[1].islower():
+                properties['species'] = f"{words[0]} {words[1]}"
+
         logger.info(f"Created organism node {node_id} (strain: {self.strain_name})")
         return [(node_id, "organism", properties)]
 

@@ -47,7 +47,8 @@
       "Bash(curl -sI \"https://ftp.ebi.ac.uk/pub/databases/Pfam/current_release/Pfam-A.clans.tsv.gz\")",
       "Bash(docker exec:*)",
       "Bash(for paper:*)",
-      "Bash(do echo:*)"
+      "Bash(do echo:*)",
+      "WebFetch(domain:eutils.ncbi.nlm.nih.gov)"
     ]
   }
 }

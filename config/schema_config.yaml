@@ -225,6 +225,11 @@ organism taxon:
     family: str          # e.g. Prochlorococcaceae
     genus: str           # e.g. Prochlorococcus
     species: str         # e.g. Prochlorococcus marinus
+    gene_count: int          # pre-computed: count of Gene_belongs_to_organism edges
+    publication_count: int   # pre-computed: count of publications mentioning this organism
+    experiment_count: int    # pre-computed: sum of experiment_count across matched publications
+    treatment_types: str[]   # pre-computed: distinct treatment types across matched publications
+    omics_types: str[]       # pre-computed: distinct omics types across matched publications
 
 
 protein domain:  
