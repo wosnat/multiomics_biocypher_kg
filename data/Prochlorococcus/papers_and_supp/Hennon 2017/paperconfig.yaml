@@ -52,7 +52,7 @@ publication:
       organism: Prochlorococcus MIT9312
       id_columns:
       - column: cds_fna_id
-        id_type: cds_fna_id
+        id_type: annotation_specific
       - column: old_locus_tag
         id_type: old_locus_tag
       product_columns:
@@ -77,7 +77,7 @@ publication:
       skip_rows: 2
       id_columns:
       - column: locus_tag
-        id_type: cds_fna_id
+        id_type: annotation_specific
       product_columns:
       - column: annotation
       statistical_analyses:

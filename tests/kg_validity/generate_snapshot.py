@@ -28,6 +28,10 @@ ANCHOR_NODES = {
     "OrganismTaxon": [
         "insdc.gcf:GCF_000011465.1",  # MED4
     ],
+    "Publication": [
+        "doi:10.1038/msb4100087",       # Tolonen 2006 — nitrogen stress, MED4+MIT9313
+        "doi:10.1038/ismej.2016.70",     # Biller 2016 — coculture, MED4+MIT9313+HOT1A3
+    ],
     # GO root terms — always present as ancestors of any annotated GO term
     "BiologicalProcess": [
         "go:0008150",  # biological_process (root)
@@ -64,7 +68,7 @@ NODE_PROPERTIES = {
     "Gene": ["locus_tag", "product", "gene_name", "gene_name_synonyms", "strand"],
     "Protein": ["protein_synonyms", "gene_names"],
     "OrganismTaxon": ["organism_name", "strain_name", "genus", "clade", "ncbi_taxon_id"],
-    "Publication": ["doi", "pmid", "title"],
+    "Publication": ["doi", "pmid", "title", "experiment_count", "treatment_types", "omics_types", "organisms"],
     "Experiment": ["name", "organism_strain", "treatment_type", "treatment", "control", "omics_type", "is_time_course"],
     "OrthologGroup": ["name", "source", "taxonomic_level", "taxon_id"],
     # GO term node types (from functional_annotation_adapter.py)

@@ -418,3 +418,78 @@ def test_gene_function_description_set(run_query):
         f"{row['missing']} / {row['total']} genes ({missing_fraction:.1%}) are missing "
         f"function_description despite their linked Protein having it."
     )
+
+
+# ---------------------------------------------------------------------------
+# Publication computed properties (pre-computed by post-import Cypher)
+# ---------------------------------------------------------------------------
+
+def test_publication_fulltext_index_exists(run_query):
+    """publicationFullText index must exist."""
+    result = run_query(
+        "SHOW INDEXES YIELD name WHERE name = 'publicationFullText' RETURN count(*) AS cnt"
+    )
+    assert result[0]["cnt"] == 1, "publicationFullText index not found"
+
+
+def test_publication_experiment_count_populated(run_query):
+    """All Publications should have experiment_count (not null)."""
+    result = run_query("""
+        MATCH (p:Publication)
+        WHERE p.experiment_count IS NULL
+        RETURN count(p) AS missing
+    """)
+    assert result[0]["missing"] == 0, (
+        f"{result[0]['missing']} publications missing experiment_count"
+    )
+
+
+def test_publication_experiment_count_accurate(run_query):
+    """experiment_count should match actual Has_experiment edge count."""
+    result = run_query("""
+        MATCH (p:Publication)
+        OPTIONAL MATCH (p)-[:Has_experiment]->(e:Experiment)
+        WITH p, p.experiment_count AS declared, count(e) AS actual
+        WHERE declared <> actual
+        RETURN count(p) AS mismatched, collect(p.doi)[..5] AS examples
+    """)
+    assert result[0]["mismatched"] == 0, (
+        f"experiment_count mismatch for: {result[0]['examples']}"
+    )
+
+
+def test_publication_treatment_types_no_nulls(run_query):
+    """treatment_types list should contain no null entries."""
+    result = run_query("""
+        MATCH (p:Publication)
+        WHERE ANY(x IN p.treatment_types WHERE x IS NULL)
+        RETURN count(p) AS bad
+    """)
+    assert result[0]["bad"] == 0, (
+        f"{result[0]['bad']} publications have null entries in treatment_types"
+    )
+
+
+def test_publication_omics_types_no_nulls(run_query):
+    """omics_types list should contain no null entries."""
+    result = run_query("""
+        MATCH (p:Publication)
+        WHERE ANY(x IN p.omics_types WHERE x IS NULL)
+        RETURN count(p) AS bad
+    """)
+    assert result[0]["bad"] == 0, (
+        f"{result[0]['bad']} publications have null entries in omics_types"
+    )
+
+
+def test_publication_organisms_from_experiments(run_query):
+    """Publications with experiments should have non-empty organisms list."""
+    result = run_query("""
+        MATCH (p:Publication)
+        WHERE p.experiment_count > 0
+          AND (p.organisms IS NULL OR size(p.organisms) = 0)
+        RETURN count(p) AS bad, collect(p.doi)[..5] AS examples
+    """)
+    assert result[0]["bad"] == 0, (
+        f"{result[0]['bad']} publications with experiments have empty organisms: {result[0]['examples']}"
+    )

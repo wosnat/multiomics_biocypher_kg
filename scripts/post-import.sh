@@ -54,6 +54,12 @@ CREATE FULLTEXT INDEX pfamClanFullText IF NOT EXISTS
   FOR (c:PfamClan) ON EACH [c.name];
 CYPHER
 
+echo "=== Post-process: Create Publication indexes ==="
+cypher-shell <<'CYPHER'
+CREATE FULLTEXT INDEX publicationFullText IF NOT EXISTS
+  FOR (p:Publication) ON EACH [p.title, p.abstract, p.description];
+CYPHER
+
 echo "=== Post-process: Create Experiment indexes ==="
 cypher-shell <<'CYPHER'
 CREATE INDEX experiment_id_idx IF NOT EXISTS FOR (e:Experiment) ON (e.id);
@@ -63,6 +69,22 @@ CREATE INDEX experiment_omics_type_idx IF NOT EXISTS FOR (e:Experiment) ON (e.om
 
 CREATE FULLTEXT INDEX experimentFullText IF NOT EXISTS
   FOR (e:Experiment) ON EACH [e.name, e.treatment, e.control, e.experimental_context, e.light_condition];
+CYPHER
+
+echo "=== Post-process: Compute Publication summary properties ==="
+cypher-shell <<'CYPHER'
+MATCH (p:Publication)
+OPTIONAL MATCH (p)-[:Has_experiment]->(e:Experiment)
+WITH p,
+     count(e) AS ec,
+     [x IN collect(DISTINCT e.treatment_type) WHERE x IS NOT NULL] AS tts,
+     [x IN collect(DISTINCT e.omics_type) WHERE x IS NOT NULL] AS ots,
+     [x IN collect(DISTINCT e.organism_strain) WHERE x IS NOT NULL] AS orgs,
+     [x IN collect(DISTINCT e.coculture_partner) WHERE x IS NOT NULL AND x <> ''] AS coculture_orgs
+SET p.experiment_count = ec,
+    p.treatment_types = apoc.coll.sort(tts),
+    p.omics_types = apoc.coll.sort(ots),
+    p.organisms = apoc.coll.sort(apoc.coll.toSet(orgs + coculture_orgs))
 CYPHER
 
 echo "=== Post-process: Compute Gene routing signals ==="

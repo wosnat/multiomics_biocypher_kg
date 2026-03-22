@@ -41,9 +41,10 @@ pytest tests/kg_validity/ -v
 pytest -m kg                          # same thing via marker
 pytest tests/kg_validity/ --neo4j-url bolt://localhost:7687  # explicit URL
 
-# Docker deployment (builds graph + Neo4j)
+# Docker deployment (builds graph + Neo4j, APOC plugin auto-installed)
 docker compose up -d
 # Neo4j at localhost:7474 (HTTP), localhost:7687 (Bolt, no auth)
+# APOC core available in post-process and deploy containers
 # Biochatter UI at localhost:8501
 ```
 
@@ -374,7 +375,8 @@ uv run python tests/kg_validity/generate_snapshot.py
 - `preferred_name` property on `OrganismTaxon` nodes (e.g., `"Prochlorococcus MED4"`)
 - Gene node computed fields for MCP gene lookup: `organism_strain` (preferred organism name), `gene_summary` ("name :: product :: description"), `all_identifiers` (union of all alt IDs)
 - Gene nodes carry ~27 properties. Kept properties: core (locus_tag, start, end, strand, product, protein_id), naming (gene_name, gene_name_synonyms, alternate_functional_descriptions, function_description), function (protein_family, catalytic_activities, transmembrane_regions, signal_peptide, transporter_classification, cazy_ids, bigg_reaction), computed (organism_strain, gene_summary, all_identifiers), quality (annotation_quality, gene_category), routing signals (annotation_types, expression_edge_count, significant_expression_count, closest_ortholog_group_size, closest_ortholog_genera — set by post-import Cypher using `Changes_expression_of` edges, not adapter). Redundant ID arrays removed: `gene_synonyms` (= alternative_locus_tags ∪ gene_name_synonyms), `alternative_locus_tags` (⊂ all_identifiers), `old_locus_tags` (⊂ alternative_locus_tags ⊂ all_identifiers). See `docs/gene_id_fields_spec.md` for full analysis.
-- Post-import indexes: scalar (`gene_locus_tag_idx`, `gene_name_idx`, `gene_organism_strain_idx`, `ortholog_group_id_idx`, `ortholog_group_name_idx`, `ortholog_group_level_idx`, `ortholog_group_rank_idx`, `pfam_name_idx`, `pfam_clan_name_idx`, `experiment_id_idx`, `experiment_organism_idx`, `experiment_treatment_type_idx`, `experiment_omics_type_idx`) + full-text (`geneFullText` on gene_summary, all_identifiers, gene_name_synonyms, alternate_functional_descriptions; `pfamFullText` on Pfam name, short_name; `pfamClanFullText` on PfamClan name; `experimentFullText` on Experiment name, treatment, control, experimental_context, light_condition; `biologicalProcessFullText`, `molecularFunctionFullText`, `cellularComponentFullText`, `ecNumberFullText`, `keggFullText`, `cogCategoryFullText`, `cyanorakRoleFullText`, `tigrRoleFullText` on ontology/role node `name` properties)
+- Publication computed properties (post-import): `experiment_count` (int), `treatment_types` (str[]), `omics_types` (str[]), `organisms` (str[] — sorted distinct `organism_strain` + `coculture_partner` from experiments). The adapter no longer sets organism; it is fully computed post-import as `organisms`.
+- Post-import indexes: scalar (`gene_locus_tag_idx`, `gene_name_idx`, `gene_organism_strain_idx`, `ortholog_group_id_idx`, `ortholog_group_name_idx`, `ortholog_group_level_idx`, `ortholog_group_rank_idx`, `pfam_name_idx`, `pfam_clan_name_idx`, `experiment_id_idx`, `experiment_organism_idx`, `experiment_treatment_type_idx`, `experiment_omics_type_idx`) + full-text (`geneFullText` on gene_summary, all_identifiers, gene_name_synonyms, alternate_functional_descriptions; `pfamFullText` on Pfam name, short_name; `pfamClanFullText` on PfamClan name; `experimentFullText` on Experiment name, treatment, control, experimental_context, light_condition; `publicationFullText` on Publication title, abstract, description; `biologicalProcessFullText`, `molecularFunctionFullText`, `cellularComponentFullText`, `ecNumberFullText`, `keggFullText`, `cogCategoryFullText`, `cyanorakRoleFullText`, `tigrRoleFullText` on ontology/role node `name` properties)
 - `adjusted_p_value` may be null on expression edges when the original study did not report it
 - Strains in graph: MED4, AS9601, MIT9301, MIT9312, MIT9313, NATL1A, NATL2A, RSP50 (Prochlorococcus); CC9311 (Synechococcus); WH8102 (Parasynechococcus); MIT1002, EZ55, HOT1A3 (Alteromonas)
 

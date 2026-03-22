@@ -223,7 +223,6 @@ class OMICSAdapter:
                 "description": self.clean_text(pub.get("description")),
                 "abstract": self.clean_text(pub.get("abstract")),
                 "study_type": self.clean_text(pub.get("study_type")),
-                "organism": self.clean_text(pub.get("organism", [])),
             }
             pub_properties.update(self._get_default_properties())
             nodes.append((pub_id, "publication", pub_properties))

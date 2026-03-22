@@ -657,7 +657,7 @@
       "type": "Cyanorak_role_is_a_cyanorak_role"
     }
   ],
-  "generated_at": "2026-03-21T10:50:02.941584+00:00",
+  "generated_at": "2026-03-21T15:14:34.625891+00:00",
   "nodes": [
     {
       "anchor": true,
@@ -851,12 +851,63 @@
       }
     },
     {
+      "anchor": true,
+      "id": "doi:10.1038/msb4100087",
+      "label": "Publication",
+      "properties": {
+        "doi": "10.1038/msb4100087",
+        "experiment_count": 6,
+        "omics_types": [
+          "MICROARRAY"
+        ],
+        "organisms": [
+          "Prochlorococcus MED4",
+          "Prochlorococcus MIT9313"
+        ],
+        "title": "Global gene expression of Prochlorococcus ecotypes in response to changes in nitrogen availability",
+        "treatment_types": [
+          "nitrogen_stress"
+        ]
+      }
+    },
+    {
+      "anchor": true,
+      "id": "doi:10.1038/ismej.2016.70",
+      "label": "Publication",
+      "properties": {
+        "doi": "10.1038/ismej.2016.70",
+        "experiment_count": 5,
+        "omics_types": [
+          "RNASEQ"
+        ],
+        "organisms": [
+          "Alteromonas macleodii HOT1A3",
+          "Prochlorococcus MED4",
+          "Prochlorococcus MIT9313"
+        ],
+        "title": "Transcriptional response of Prochlorococcus to co-culture with a marine Alteromonas: differences between strains and the involvement of putative infochemicals",
+        "treatment_types": [
+          "coculture"
+        ]
+      }
+    },
+    {
       "anchor": false,
       "id": "doi:10.1016/j.micres.2015.04.006",
       "label": "Publication",
       "properties": {
         "doi": "10.1016/j.micres.2015.04.006",
-        "title": "Global transcriptome analysis of salt acclimated Prochlorococcus AS9601"
+        "experiment_count": 1,
+        "omics_types": [
+          "RNASEQ"
+        ],
+        "organisms": [
+          "Prochlorococcus AS9601"
+        ],
+        "title": "Global transcriptome analysis of salt acclimated Prochlorococcus AS9601",
+        "treatment_types": [
+          "salt_stress"
+        ]
       }
     },
     {
@@ -865,7 +916,18 @@
       "label": "Publication",
       "properties": {
         "doi": "10.1038/ismej.2011.49",
-        "title": "Transcriptome response of high- and low-light-adapted Prochlorococcus strains to changing iron availability"
+        "experiment_count": 5,
+        "omics_types": [
+          "MICROARRAY"
+        ],
+        "organisms": [
+          "Prochlorococcus MED4",
+          "Prochlorococcus MIT9313"
+        ],
+        "title": "Transcriptome response of high- and low-light-adapted Prochlorococcus strains to changing iron availability",
+        "treatment_types": [
+          "iron_stress"
+        ]
       }
     },
     {
@@ -874,16 +936,17 @@
       "label": "Publication",
       "properties": {
         "doi": "10.1038/ismej.2015.36",
-        "title": "Response of Prochlorococcus to varying CO2:O2 ratios"
-      }
-    },
-    {
-      "anchor": false,
-      "id": "doi:10.1038/ismej.2016.70",
-      "label": "Publication",
-      "properties": {
-        "doi": "10.1038/ismej.2016.70",
-        "title": "Transcriptional response of Prochlorococcus to co-culture with a marine Alteromonas: differences between strains and the involvement of putative infochemicals"
+        "experiment_count": 4,
+        "omics_types": [
+          "MICROARRAY"
+        ],
+        "organisms": [
+          "Prochlorococcus MED4"
+        ],
+        "title": "Response of Prochlorococcus to varying CO2:O2 ratios",
+        "treatment_types": [
+          "carbon_stress"
+        ]
       }
     },
     {
@@ -892,7 +955,18 @@
       "label": "Publication",
       "properties": {
         "doi": "10.1038/ismej.2016.82",
-        "title": "Torn apart and reunited: impact of a heterotroph on the transcriptome of Prochlorococcus"
+        "experiment_count": 3,
+        "omics_types": [
+          "RNASEQ"
+        ],
+        "organisms": [
+          "Alteromonas MIT1002",
+          "Prochlorococcus NATL2A"
+        ],
+        "title": "Torn apart and reunited: impact of a heterotroph on the transcriptome of Prochlorococcus",
+        "treatment_types": [
+          "coculture"
+        ]
       }
     },
     {

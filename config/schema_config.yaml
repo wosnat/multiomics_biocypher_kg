@@ -21,7 +21,10 @@ publication:
     description: str
     abstract: str
     study_type: str # e.g., Transcriptomics, Proteomics
-    organism: str[]
+    organisms: str[]                   # post-import: computed from experiment organism_strain + coculture_partner
+    experiment_count: int              # post-import: count of Has_experiment edges
+    treatment_types: str[]             # post-import: distinct treatment_type from experiments
+    omics_types: str[]                 # post-import: distinct omics_type from experiments
 
 
 # Experiment node: groups time-series analyses for a single scientific comparison

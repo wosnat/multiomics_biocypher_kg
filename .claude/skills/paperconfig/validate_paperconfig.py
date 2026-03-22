@@ -350,6 +350,95 @@ def _validate_experiments(experiments: dict, config_path: str,
             )
 
 
+def _validate_organism_consistency(
+    experiments: dict, supp: dict, config_path: str,
+    errors: list, warnings: list,
+) -> None:
+    """Cross-validate organisms across experiments and supplementary materials.
+
+    Checks:
+    1. Every organism in supp materials (id_translation, annotation_gff) appears
+       as an experiment organism (primary, not treatment_organism).
+    2. Every experiment organism has at least one analysis referencing it.
+    3. Every experiment treatment_organism has at least one analysis referencing
+       an experiment that uses it.
+    """
+    # Collect experiment organisms and treatment organisms
+    exp_organisms = {}  # organism -> set of experiment keys
+    exp_treatment_organisms = {}  # treatment_organism -> set of experiment keys
+    for exp_key, exp in experiments.items():
+        if not isinstance(exp, dict):
+            continue
+        org = exp.get("organism", "")
+        if org:
+            exp_organisms.setdefault(org, set()).add(exp_key)
+        t_org = exp.get("treatment_organism", "")
+        if t_org:
+            exp_treatment_organisms.setdefault(t_org, set()).add(exp_key)
+
+    # Collect organisms from supplementary materials
+    supp_organisms = {}  # organism -> list of table keys
+    for table_key, table in supp.items():
+        if not isinstance(table, dict):
+            continue
+        table_type = table.get("type", "csv")
+        org = table.get("organism", "")
+        if org and table_type in ("id_translation", "annotation_gff"):
+            supp_organisms.setdefault(org, []).append(table_key)
+
+    # Collect which experiment keys are referenced by analyses
+    referenced_exp_keys = set()
+    for table_key, table in supp.items():
+        if not isinstance(table, dict):
+            continue
+        for analysis in table.get("statistical_analyses", []):
+            if not isinstance(analysis, dict):
+                continue
+            exp_ref = analysis.get("experiment", "")
+            if exp_ref:
+                referenced_exp_keys.add(exp_ref)
+
+    print(f"\n  [organism consistency]")
+    all_exp_orgs = set(exp_organisms.keys())
+    all_exp_treatment_orgs = set(exp_treatment_organisms.keys())
+    all_supp_orgs = set(supp_organisms.keys())
+    print(f"    experiment organisms: {sorted(all_exp_orgs)}")
+    if all_exp_treatment_orgs:
+        print(f"    experiment treatment organisms: {sorted(all_exp_treatment_orgs)}")
+    if all_supp_orgs:
+        print(f"    supplementary material organisms: {sorted(all_supp_orgs)}")
+
+    # Check 1: supp material organisms should be experiment organisms
+    for org, table_keys in supp_organisms.items():
+        if org not in all_exp_orgs:
+            warnings.append(
+                f"{config_path} | organism '{org}' in supplementary materials "
+                f"({', '.join(table_keys)}) is not an experiment organism "
+                f"(experiment organisms: {sorted(all_exp_orgs)})"
+            )
+
+    # Check 2: every experiment organism should have at least one analysis
+    for org, exp_keys in exp_organisms.items():
+        has_analysis = any(ek in referenced_exp_keys for ek in exp_keys)
+        if not has_analysis:
+            warnings.append(
+                f"{config_path} | experiment organism '{org}' "
+                f"(experiments: {sorted(exp_keys)}) has no analyses referencing it"
+            )
+
+    # Check 3: every experiment treatment_organism should have at least one analysis
+    for t_org, exp_keys in exp_treatment_organisms.items():
+        has_analysis = any(ek in referenced_exp_keys for ek in exp_keys)
+        if not has_analysis:
+            warnings.append(
+                f"{config_path} | experiment treatment_organism '{t_org}' "
+                f"(experiments: {sorted(exp_keys)}) has no analyses referencing it"
+            )
+
+    if not (all_supp_orgs - all_exp_orgs):
+        print("    supp material organisms match experiment organisms: OK")
+
+
 def validate(config_path: str) -> bool:
     errors = []
     warnings = []
@@ -665,6 +754,12 @@ def validate(config_path: str) -> bool:
             errors.append(f"Duplicate analysis IDs: {dupes}")
         else:
             print("  All IDs unique: OK")
+
+    # --- Organism consistency check ---
+    if experiments and supp:
+        _validate_organism_consistency(
+            experiments, supp, config_path, errors, warnings,
+        )
 
     _print_results(errors, warnings)
     return len(errors) == 0
