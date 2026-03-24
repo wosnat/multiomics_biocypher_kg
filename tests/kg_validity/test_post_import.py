@@ -355,15 +355,15 @@ def test_expression_edge_count_accurate(run_query):
     )
 
 
-def test_significant_expression_count_lte_total(run_query):
-    """significant_expression_count must be <= expression_edge_count for all genes."""
+def test_significant_counts_lte_total(run_query):
+    """significant_up_count + significant_down_count must be <= expression_edge_count."""
     result = run_query("""
         MATCH (g:Gene)
-        WHERE g.significant_expression_count > g.expression_edge_count
+        WHERE (g.significant_up_count + g.significant_down_count) > g.expression_edge_count
         RETURN count(g) AS bad, collect(g.locus_tag)[..5] AS examples
     """)
     assert result[0]["bad"] == 0, (
-        f"{result[0]['bad']} genes have significant > total: {result[0]['examples']}"
+        f"{result[0]['bad']} genes have sig_up + sig_down > total: {result[0]['examples']}"
     )
 
 
@@ -524,18 +524,33 @@ def test_experiment_gene_count_accurate(run_query):
     )
 
 
-def test_experiment_significant_count_accurate(run_query):
-    """significant_count should match live aggregation."""
+def test_experiment_significant_up_count_accurate(run_query):
+    """significant_up_count should match live aggregation."""
     result = run_query("""
         MATCH (e:Experiment)
         OPTIONAL MATCH (e)-[r:Changes_expression_of]->(g:Gene)
-        WHERE r.significant = 'significant'
-        WITH e, e.significant_count AS declared, count(r) AS actual
+        WHERE r.expression_status = 'significant_up'
+        WITH e, e.significant_up_count AS declared, count(r) AS actual
         WHERE declared <> actual
         RETURN count(e) AS mismatched, collect(e.id)[..5] AS examples
     """)
     assert result[0]["mismatched"] == 0, (
-        f"significant_count mismatch for: {result[0]['examples']}"
+        f"significant_up_count mismatch for: {result[0]['examples']}"
+    )
+
+
+def test_experiment_significant_down_count_accurate(run_query):
+    """significant_down_count should match live aggregation."""
+    result = run_query("""
+        MATCH (e:Experiment)
+        OPTIONAL MATCH (e)-[r:Changes_expression_of]->(g:Gene)
+        WHERE r.expression_status = 'significant_down'
+        WITH e, e.significant_down_count AS declared, count(r) AS actual
+        WHERE declared <> actual
+        RETURN count(e) AS mismatched, collect(e.id)[..5] AS examples
+    """)
+    assert result[0]["mismatched"] == 0, (
+        f"significant_down_count mismatch for: {result[0]['examples']}"
     )
 
 
@@ -589,7 +604,8 @@ def test_experiment_parallel_arrays_aligned(run_query):
         WHERE e.time_point_count <> size(e.time_point_labels)
            OR e.time_point_count <> size(e.time_point_orders)
            OR e.time_point_count <> size(e.time_point_totals)
-           OR e.time_point_count <> size(e.time_point_significants)
+           OR e.time_point_count <> size(e.time_point_significant_up)
+           OR e.time_point_count <> size(e.time_point_significant_down)
         RETURN count(e) AS bad, collect(e.id)[..5] AS examples
     """)
     assert result[0]["bad"] == 0, (

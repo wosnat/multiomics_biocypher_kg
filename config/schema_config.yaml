@@ -49,13 +49,15 @@ experiment:
     light_condition: str
     light_intensity: str
     gene_count: int
-    significant_count: int
+    significant_up_count: int
+    significant_down_count: int
     time_point_count: int
     time_point_labels: str[]
     time_point_orders: int[]
     time_point_hours: float[]
     time_point_totals: int[]
-    time_point_significants: int[]
+    time_point_significant_up: int[]
+    time_point_significant_down: int[]
 
 # Publication → Experiment
 publication has experiment:
@@ -91,6 +93,7 @@ experiment to gene expression association:
     adjusted_p_value: float
     expression_direction: str
     significant: str
+    expression_status: str    # post-import: "significant_up", "significant_down", or "not_significant"
 
 ortholog group:
   is_a: GroupingClass
@@ -166,8 +169,9 @@ gene:
     gene_category: str                # high-level functional classification (26 controlled values, from Cyanorak/TIGR/COG)
     # Routing signals (pre-computed by post-import Cypher, not by adapter)
     annotation_types: str[]           # ontology edge types with >0 edges, e.g. ["go_bp", "go_mf", "pfam"]
-    expression_edge_count: int        # total expression edges (Condition + Coculture)
-    significant_expression_count: int # expression edges where significant = 'significant'
+    expression_edge_count: int        # total Changes_expression_of edges
+    significant_up_count: int         # expression edges where expression_status = 'significant_up'
+    significant_down_count: int       # expression edges where expression_status = 'significant_down'
     closest_ortholog_group_size: int  # member_count from most specific OG (lowest specificity_rank)
     closest_ortholog_genera: str[]    # genera from most specific OG
 

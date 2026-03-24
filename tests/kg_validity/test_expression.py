@@ -307,6 +307,70 @@ def test_experiment_has_omics_type(run_query):
 # No old node/edge types
 # ---------------------------------------------------------------------------
 
+# ---------------------------------------------------------------------------
+# expression_status (derived property)
+# ---------------------------------------------------------------------------
+
+def test_expression_status_populated(run_query):
+    """Every expression edge must have expression_status set."""
+    result = run_query("""
+        MATCH ()-[e:Changes_expression_of]->()
+        WHERE e.expression_status IS NULL
+        RETURN count(e) AS missing
+    """)
+    assert result[0]["missing"] == 0, (
+        f"{result[0]['missing']} expression edges are missing expression_status"
+    )
+
+
+def test_expression_status_valid_values(run_query):
+    """expression_status must be one of the three allowed values."""
+    result = run_query("""
+        MATCH ()-[e:Changes_expression_of]->()
+        WHERE NOT e.expression_status IN ['significant_up', 'significant_down', 'not_significant']
+        RETURN count(e) AS bad,
+               collect(DISTINCT e.expression_status)[..10] AS bad_values
+    """)
+    assert result[0]["bad"] == 0, (
+        f"{result[0]['bad']} edges have invalid expression_status: {result[0]['bad_values']}"
+    )
+
+
+def test_expression_status_consistent_with_significant(run_query):
+    """expression_status must be consistent with significant + expression_direction."""
+    result = run_query("""
+        MATCH ()-[e:Changes_expression_of]->()
+        WHERE (e.expression_status = 'significant_up'
+               AND NOT (e.significant = 'significant' AND e.expression_direction = 'up'))
+           OR (e.expression_status = 'significant_down'
+               AND NOT (e.significant = 'significant' AND e.expression_direction = 'down'))
+           OR (e.expression_status = 'not_significant'
+               AND e.significant = 'significant')
+        RETURN count(e) AS inconsistent
+    """)
+    assert result[0]["inconsistent"] == 0, (
+        f"{result[0]['inconsistent']} edges have expression_status inconsistent with significant/direction"
+    )
+
+
+def test_expression_status_counts_match_significant(run_query):
+    """Total significant_up + significant_down should equal total where significant = 'significant'."""
+    result = run_query("""
+        MATCH ()-[e:Changes_expression_of]->()
+        RETURN
+          count(CASE WHEN e.expression_status IN ['significant_up', 'significant_down'] THEN 1 END) AS status_sig,
+          count(CASE WHEN e.significant = 'significant' THEN 1 END) AS old_sig
+    """)
+    assert result[0]["status_sig"] == result[0]["old_sig"], (
+        f"expression_status significant count ({result[0]['status_sig']}) != "
+        f"significant property count ({result[0]['old_sig']})"
+    )
+
+
+# ---------------------------------------------------------------------------
+# No old node/edge types
+# ---------------------------------------------------------------------------
+
 def test_no_environmental_condition_nodes(run_query):
     """EnvironmentalCondition nodes must not exist (replaced by Experiment)."""
     result = run_query(

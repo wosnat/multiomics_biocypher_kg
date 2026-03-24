@@ -9,6 +9,7 @@ services:
     volumes:
       - biocypher_neo4j_volume:/usr/app/data
       - .:/src/
+      - build_cache:/cache
     command:
       - /bin/bash
       - /src/scripts/build.sh
@@ -95,6 +96,7 @@ services:
 
 volumes:
   biocypher_neo4j_volume:
+  build_cache:
 
 networks:
   biochatter:
