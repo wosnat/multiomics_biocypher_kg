@@ -48,7 +48,8 @@
       "Bash(docker exec:*)",
       "Bash(for paper:*)",
       "Bash(do echo:*)",
-      "WebFetch(domain:eutils.ncbi.nlm.nih.gov)"
+      "WebFetch(domain:eutils.ncbi.nlm.nih.gov)",
+      "Bash(cypher-shell --address:*)"
     ]
   }
 }

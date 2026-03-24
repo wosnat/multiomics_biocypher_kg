@@ -48,6 +48,14 @@ experiment:
     temperature: str
     light_condition: str
     light_intensity: str
+    gene_count: int
+    significant_count: int
+    time_point_count: int
+    time_point_labels: str[]
+    time_point_orders: int[]
+    time_point_hours: float[]
+    time_point_totals: int[]
+    time_point_significants: int[]
 
 # Publication → Experiment
 publication has experiment:

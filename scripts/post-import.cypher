@@ -77,6 +77,50 @@ SET p.experiment_count = ec,
     p.organisms = apoc.coll.sort(apoc.coll.toSet(orgs + coculture_orgs));
 
 // -----------------------------------------------------------------------
+// Experiment summary properties (pre-computed for list_experiments)
+// -----------------------------------------------------------------------
+
+// Pass 1: set defaults for all experiments (avoids NULL from OPTIONAL MATCH)
+MATCH (e:Experiment)
+SET e.gene_count = 0,
+    e.significant_count = 0,
+    e.time_point_count = 0,
+    e.time_point_labels = [],
+    e.time_point_orders = [],
+    e.time_point_hours = [],
+    e.time_point_totals = [],
+    e.time_point_significants = [];
+
+// Pass 2: compute actual stats for experiments with expression edges
+// Neo4j cannot store nulls in arrays, so we COALESCE:
+//   time_point labels: null → "" (non-time-course experiments)
+//   time_point hours:  null → -1.0 (unknown conversion)
+MATCH (e:Experiment)-[r:Changes_expression_of]->(g:Gene)
+WITH e,
+     COALESCE(r.time_point, '') AS tp,
+     r.time_point_order AS tp_order,
+     COALESCE(r.time_point_hours, -1.0) AS tp_hours,
+     count(r) AS total,
+     count(CASE WHEN r.significant = 'significant' THEN 1 END) AS sig
+ORDER BY e.id, tp_order
+WITH e,
+     sum(total) AS gene_count,
+     sum(sig) AS significant_count,
+     collect(tp) AS tp_labels,
+     collect(tp_order) AS tp_orders,
+     collect(tp_hours) AS tp_hours_list,
+     collect(total) AS tp_totals,
+     collect(sig) AS tp_sigs
+SET e.gene_count = gene_count,
+    e.significant_count = significant_count,
+    e.time_point_count = size(tp_labels),
+    e.time_point_labels = tp_labels,
+    e.time_point_orders = tp_orders,
+    e.time_point_hours = tp_hours_list,
+    e.time_point_totals = tp_totals,
+    e.time_point_significants = tp_sigs;
+
+// -----------------------------------------------------------------------
 // OrganismTaxon summary properties (pre-computed for list_organisms)
 // -----------------------------------------------------------------------
 

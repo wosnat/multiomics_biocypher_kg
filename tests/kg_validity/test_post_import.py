@@ -493,3 +493,105 @@ def test_publication_organisms_from_experiments(run_query):
     assert result[0]["bad"] == 0, (
         f"{result[0]['bad']} publications with experiments have empty organisms: {result[0]['examples']}"
     )
+
+
+# ── Experiment summary properties ──
+
+
+def test_experiment_gene_count_not_null(run_query):
+    """All Experiment nodes should have gene_count set (not null)."""
+    result = run_query("""
+        MATCH (e:Experiment)
+        WHERE e.gene_count IS NULL
+        RETURN count(e) AS missing
+    """)
+    assert result[0]["missing"] == 0, (
+        f"{result[0]['missing']} experiments missing gene_count"
+    )
+
+
+def test_experiment_gene_count_accurate(run_query):
+    """gene_count should match actual Changes_expression_of edge count."""
+    result = run_query("""
+        MATCH (e:Experiment)
+        OPTIONAL MATCH (e)-[r:Changes_expression_of]->(g:Gene)
+        WITH e, e.gene_count AS declared, count(r) AS actual
+        WHERE declared <> actual
+        RETURN count(e) AS mismatched, collect(e.id)[..5] AS examples
+    """)
+    assert result[0]["mismatched"] == 0, (
+        f"gene_count mismatch for: {result[0]['examples']}"
+    )
+
+
+def test_experiment_significant_count_accurate(run_query):
+    """significant_count should match live aggregation."""
+    result = run_query("""
+        MATCH (e:Experiment)
+        OPTIONAL MATCH (e)-[r:Changes_expression_of]->(g:Gene)
+        WHERE r.significant = 'significant'
+        WITH e, e.significant_count AS declared, count(r) AS actual
+        WHERE declared <> actual
+        RETURN count(e) AS mismatched, collect(e.id)[..5] AS examples
+    """)
+    assert result[0]["mismatched"] == 0, (
+        f"significant_count mismatch for: {result[0]['examples']}"
+    )
+
+
+def test_experiment_time_point_count_accurate(run_query):
+    """time_point_count should match distinct time points from edges."""
+    result = run_query("""
+        MATCH (e:Experiment)
+        OPTIONAL MATCH (e)-[r:Changes_expression_of]->(g:Gene)
+        WITH e, count(DISTINCT r.time_point_order) AS actual
+        WHERE e.time_point_count <> actual
+        RETURN count(e) AS mismatched, collect(e.id)[..5] AS examples
+    """)
+    assert result[0]["mismatched"] == 0, (
+        f"time_point_count mismatch for: {result[0]['examples']}"
+    )
+
+
+def test_experiment_no_empty_string_coculture_partner(run_query):
+    """No Experiment should have coculture_partner = '' (empty string)."""
+    result = run_query("""
+        MATCH (e:Experiment)
+        WHERE e.coculture_partner = ''
+        RETURN count(e) AS bad
+    """)
+    assert result[0]["bad"] == 0, (
+        f"{result[0]['bad']} experiments have empty-string coculture_partner"
+    )
+
+
+def test_experiment_coculture_partner_null_when_no_partner(run_query):
+    """Experiments without a treatment organism should have null coculture_partner.
+
+    Both coculture and viral experiments have a treatment organism (partner).
+    All other treatment types should have null coculture_partner.
+    """
+    result = run_query("""
+        MATCH (e:Experiment)
+        WHERE NOT e.treatment_type IN ['coculture', 'viral']
+          AND e.coculture_partner IS NOT NULL
+        RETURN count(e) AS bad, collect(e.id)[..5] AS examples
+    """)
+    assert result[0]["bad"] == 0, (
+        f"{result[0]['bad']} non-partner experiments have coculture_partner set: {result[0]['examples']}"
+    )
+
+
+def test_experiment_parallel_arrays_aligned(run_query):
+    """All time_point arrays should have same length = time_point_count."""
+    result = run_query("""
+        MATCH (e:Experiment)
+        WHERE e.time_point_count <> size(e.time_point_labels)
+           OR e.time_point_count <> size(e.time_point_orders)
+           OR e.time_point_count <> size(e.time_point_totals)
+           OR e.time_point_count <> size(e.time_point_significants)
+        RETURN count(e) AS bad, collect(e.id)[..5] AS examples
+    """)
+    assert result[0]["bad"] == 0, (
+        f"{result[0]['bad']} experiments have misaligned time_point arrays: {result[0]['examples']}"
+    )

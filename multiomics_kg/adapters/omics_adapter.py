@@ -272,17 +272,13 @@ class OMICSAdapter:
                 if a.get("experiment") == exp_key and a.get("timepoint"):
                     timepoints.add(a.get("timepoint"))
 
-            node_list.append((
-                experiment_id,
-                "experiment",
-                {
+            exp_props = {
                     "name": self.clean_text(exp.get("name", "")),
                     "organism_strain": self.clean_text(exp.get("organism", "")),
                     "treatment_type": self.clean_text(exp.get("treatment_type", "")),
                     "treatment": self.clean_text(exp.get("treatment_condition", "")),
                     "control": self.clean_text(exp.get("control_condition", "")),
                     "experimental_context": self.clean_text(exp.get("experimental_context", "")),
-                    "coculture_partner": self.clean_text(exp.get("treatment_organism", "")),
                     "omics_type": self.clean_text(exp.get("omics_type", "")),
                     "statistical_test": self.clean_text(exp.get("test_type", "")),
                     "is_time_course": "true" if len(timepoints) > 1 else "false",
@@ -290,8 +286,11 @@ class OMICSAdapter:
                     "temperature": self.clean_text(exp.get("temperature", "")),
                     "light_condition": self.clean_text(exp.get("light_condition", "")),
                     "light_intensity": self.clean_text(exp.get("light_intensity", "")),
-                }
-            ))
+            }
+            partner = exp.get("treatment_organism", "")
+            if partner:
+                exp_props["coculture_partner"] = self.clean_text(partner)
+            node_list.append((experiment_id, "experiment", exp_props))
             logger.info(f"Created experiment node: {experiment_id}")
 
         logger.info(f"Generated {len(node_list)} nodes (publication, experiment)")
