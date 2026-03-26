@@ -215,8 +215,9 @@ WITH e
 CALL {
   WITH e
   MATCH (e)-[r:Changes_expression_of]->(g:Gene)
-  WITH r.time_point_order AS tp, r, abs(r.log2_fold_change) AS abs_fc
-  ORDER BY tp, abs_fc DESC
+  WITH r.time_point_order AS tp, r, abs(r.log2_fold_change) AS abs_fc,
+       coalesce(r.adjusted_p_value, 2.0) AS padj, g.locus_tag AS lt
+  ORDER BY tp, abs_fc DESC, padj ASC, lt ASC
   WITH tp, collect(r) AS edges
   UNWIND range(0, size(edges)-1) AS i
   SET (edges[i]).rank_by_effect = i + 1
