@@ -15,6 +15,7 @@ publication:
       temperature: 24C
       light_condition: continuous light
       light_intensity: 20 umol photons m-2 s-1
+      table_scope: all_detected_genes
     growth_state_pro99lown_nutrient_starvation_hot1a3_rnaseq_coculture:
       name: HOT1A3 PRO99-lowN nutrient starvation vs PRO99-lowN exponential growth (RNASEQ)
       organism: Alteromonas macleodii HOT1A3
@@ -29,6 +30,7 @@ publication:
       temperature: 24C
       light_condition: continuous light
       light_intensity: 20 umol photons m-2 s-1
+      table_scope: all_detected_genes
     coculture_prochlorococcus_med4_hot1a3_rnaseq:
       name: HOT1A3 Coculture with Prochlorococcus MED4 vs Axenic (RNASEQ)
       organism: Alteromonas macleodii HOT1A3
@@ -45,6 +47,7 @@ publication:
       treatment_organism: Prochlorococcus MED4
       treatment_taxid: 59919
       treatment_assembly_accession: GCF_000011465.1
+      table_scope: all_detected_genes
     growth_state_pro99lown_nutrient_starvation_hot1a3_proteomics_axenic:
       name: HOT1A3 PRO99-lowN nutrient starvation vs PRO99-lowN exponential growth (PROTEOMICS)
       organism: Alteromonas macleodii HOT1A3
@@ -58,6 +61,7 @@ publication:
       temperature: 24C
       light_condition: continuous light
       light_intensity: 20 umol photons m-2 s-1
+      table_scope: all_detected_genes
     growth_state_pro99lown_nutrient_starvation_hot1a3_proteomics_coculture:
       name: HOT1A3 PRO99-lowN nutrient starvation vs PRO99-lowN exponential growth (PROTEOMICS)
       organism: Alteromonas macleodii HOT1A3
@@ -72,6 +76,7 @@ publication:
       temperature: 24C
       light_condition: continuous light
       light_intensity: 20 umol photons m-2 s-1
+      table_scope: all_detected_genes
     growth_state_pro99lown_nutrient_starvation_med4_rnaseq_axenic:
       name: MED4 PRO99-lowN nutrient starvation vs PRO99-lowN exponential growth (RNASEQ)
       organism: Prochlorococcus MED4
@@ -85,6 +90,7 @@ publication:
       temperature: 24C
       light_condition: continuous light
       light_intensity: 20 umol photons m-2 s-1
+      table_scope: all_detected_genes
     growth_state_pro99lown_nutrient_starvation_med4_rnaseq_coculture:
       name: MED4 PRO99-lowN nutrient starvation vs PRO99-lowN exponential growth (RNASEQ)
       organism: Prochlorococcus MED4
@@ -99,6 +105,7 @@ publication:
       temperature: 24C
       light_condition: continuous light
       light_intensity: 20 umol photons m-2 s-1
+      table_scope: all_detected_genes
     coculture_alteromonas_hot1a3_med4_rnaseq:
       name: MED4 Coculture with Alteromonas HOT1A3 vs Axenic (RNASEQ)
       organism: Prochlorococcus MED4
@@ -115,6 +122,7 @@ publication:
       treatment_organism: Alteromonas macleodii HOT1A3
       treatment_taxid: 28108
       treatment_assembly_accession: GCF_001578515.1
+      table_scope: all_detected_genes
     growth_state_pro99lown_nutrient_starvation_med4_proteomics_axenic:
       name: MED4 PRO99-lowN nutrient starvation vs PRO99-lowN exponential growth (PROTEOMICS)
       organism: Prochlorococcus MED4
@@ -128,6 +136,7 @@ publication:
       temperature: 24C
       light_condition: continuous light
       light_intensity: 20 umol photons m-2 s-1
+      table_scope: all_detected_genes
     growth_state_pro99lown_nutrient_starvation_med4_proteomics_coculture:
       name: MED4 PRO99-lowN nutrient starvation vs PRO99-lowN exponential growth (PROTEOMICS)
       organism: Prochlorococcus MED4
@@ -142,6 +151,7 @@ publication:
       temperature: 24C
       light_condition: continuous light
       light_intensity: 20 umol photons m-2 s-1
+      table_scope: all_detected_genes
   supplementary_materials:
     hot1a3_rnaseq_axenic_day_18_vs_day_11:
       type: csv

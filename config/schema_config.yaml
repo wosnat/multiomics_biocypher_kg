@@ -48,6 +48,8 @@ experiment:
     temperature: str
     light_condition: str
     light_intensity: str
+    table_scope: str
+    table_scope_detail: str
     gene_count: int
     significant_up_count: int
     significant_down_count: int

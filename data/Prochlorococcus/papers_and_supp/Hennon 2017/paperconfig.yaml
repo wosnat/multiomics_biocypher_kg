@@ -16,6 +16,7 @@ publication:
       temperature: 21C
       light_condition: 14:10 light-dark cycle
       light_intensity: 150 umol photons m-2 s-1
+      table_scope: significant_only
     carbon_stress_elevated_co2_800_ppm_ez55_rnaseq_coculture:
       name: EZ55 Elevated CO2 (800 ppm) vs Ambient CO2 (400 ppm) (RNASEQ)
       organism: Alteromonas macleodii EZ55
@@ -30,6 +31,7 @@ publication:
       temperature: 21C
       light_condition: 14:10 light-dark cycle
       light_intensity: 150 umol photons m-2 s-1
+      table_scope: significant_only
     carbon_stress_elevated_co2_800_ppm_ez55_rnaseq_axenic:
       name: EZ55 Elevated CO2 (800 ppm) vs Ambient CO2 (400 ppm) (RNASEQ)
       organism: Alteromonas macleodii EZ55
@@ -44,6 +46,7 @@ publication:
       temperature: 21C
       light_condition: 14:10 light-dark cycle
       light_intensity: 150 umol photons m-2 s-1
+      table_scope: significant_only
   supplementary_materials:
     id_translation_mit9312_annot:
       type: id_translation

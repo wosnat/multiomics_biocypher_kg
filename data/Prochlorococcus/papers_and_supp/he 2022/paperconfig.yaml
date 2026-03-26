@@ -16,6 +16,8 @@ publication:
       temperature: 21C
       light_condition: continuous light
       light_intensity: 10 umol photons m-2 s-1
+      table_scope: significant_only
+      table_scope_detail: p < 0.05 and |logFC| > 1
     salt_stress_low_salinity_acclimation_28_med4_rnaseq:
       name: MED4 Low salinity acclimation (28 psu) vs Normal seawater salinity (34 psu) (RNASEQ)
       organism: Prochlorococcus MED4
@@ -30,6 +32,8 @@ publication:
       temperature: 21C
       light_condition: continuous light
       light_intensity: 10 umol photons m-2 s-1
+      table_scope: significant_only
+      table_scope_detail: p < 0.05 and |logFC| > 1
   supplementary_materials:
     supp_table_s1:
       type: csv

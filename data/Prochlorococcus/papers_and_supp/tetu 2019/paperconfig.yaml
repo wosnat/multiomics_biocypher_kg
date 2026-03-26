@@ -15,6 +15,8 @@ publication:
       temperature: 22C
       light_condition: continuous light
       light_intensity: 20-40 umol photons m-2 s-1
+      table_scope: filtered_subset
+      table_scope_detail: Genes significant for HDPE or PVC or both, both in single table
     plastic_stress_pvc_plastic_leachate_2_mit9312_rnaseq:
       name: MIT9312 PVC plastic leachate (2% dilution) vs AMP1 media control (no leachate) (RNASEQ)
       organism: Prochlorococcus MIT9312
@@ -28,6 +30,8 @@ publication:
       temperature: 22C
       light_condition: continuous light
       light_intensity: 20-40 umol photons m-2 s-1
+      table_scope: filtered_subset
+      table_scope_detail: Genes significant for HDPE or PVC or both, both in single table
     plastic_stress_hdpe_plastic_leachate_50_natl2a_rnaseq:
       name: NATL2A HDPE plastic leachate (50% dilution) vs AMP1 media control (no leachate) (RNASEQ)
       organism: Prochlorococcus NATL2A
@@ -41,6 +45,8 @@ publication:
       temperature: 22C
       light_condition: continuous light
       light_intensity: 20-40 umol photons m-2 s-1
+      table_scope: filtered_subset
+      table_scope_detail: Genes significant for HDPE or PVC or both, both in single table
     plastic_stress_pvc_plastic_leachate_2_natl2a_rnaseq:
       name: NATL2A PVC plastic leachate (2% dilution) vs AMP1 media control (no leachate) (RNASEQ)
       organism: Prochlorococcus NATL2A
@@ -54,6 +60,8 @@ publication:
       temperature: 22C
       light_condition: continuous light
       light_intensity: 20-40 umol photons m-2 s-1
+      table_scope: filtered_subset
+      table_scope_detail: Genes significant for HDPE or PVC or both, both in single table
   supplementary_materials:
     supp_dataset_3_mit9312:
       type: csv

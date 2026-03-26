@@ -18,6 +18,8 @@ publication:
       temperature: 24C
       light_condition: continuous light
       light_intensity: 45 umol photons m-2 s-1
+      table_scope: significant_only
+      table_scope_detail: FDR < 0.05 and |logFC| > 0.8
   supplementary_materials:
     annotation_genome_9301:
       type: id_translation

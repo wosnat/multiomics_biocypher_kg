@@ -17,6 +17,8 @@ publication:
       temperature: 25C
       light_condition: continuous light
       light_intensity: ~55 umol photons m-2 s-1
+      table_scope: filtered_subset
+      table_scope_detail: Top 50% of genes by expression level
   supplementary_materials:
     supp_3h_post_starvation:
       type: csv

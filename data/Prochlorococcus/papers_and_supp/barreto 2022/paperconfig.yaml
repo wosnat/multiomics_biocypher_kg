@@ -15,6 +15,7 @@ publication:
       temperature: 22C
       light_condition: continuous light
       light_intensity: 30 umol photons m-2 s-1
+      table_scope: significant_only
     carbon_stress_elevated_pco2_800_ppm_cc9311_rnaseq:
       name: CC9311 Elevated pCO2 (800 ppm) vs Ambient pCO2 (400 ppm) (RNASEQ)
       organism: Synechococcus CC9311
@@ -28,6 +29,7 @@ publication:
       temperature: 22C
       light_condition: continuous light
       light_intensity: 30 umol photons m-2 s-1
+      table_scope: significant_only
     carbon_stress_elevated_pco2_800_ppm_wh8102_rnaseq:
       name: WH8102 Elevated pCO2 (800 ppm) vs Ambient pCO2 (400 ppm) (RNASEQ)
       organism: Synechococcus WH8102
@@ -41,6 +43,7 @@ publication:
       temperature: 22C
       light_condition: continuous light
       light_intensity: 30 umol photons m-2 s-1
+      table_scope: significant_only
     carbon_stress_elevated_pco2_800_ppm_ez55_rnaseq:
       name: EZ55 Elevated pCO2 (800 ppm) vs Ambient pCO2 (400 ppm) (RNASEQ)
       organism: Alteromonas macleodii EZ55
@@ -54,6 +57,7 @@ publication:
       temperature: 22C
       light_condition: continuous light
       light_intensity: 30 umol photons m-2 s-1
+      table_scope: significant_only
     coculture_prochlorococcus_mit9312_at_400_ez55_rnaseq:
       name: EZ55 Coculture with Prochlorococcus MIT9312 at 400 ppm pCO2 vs Axenic at 400 ppm pCO2 (RNASEQ)
       organism: Alteromonas macleodii EZ55
@@ -70,6 +74,7 @@ publication:
       treatment_organism: Prochlorococcus MIT9312
       treatment_taxid: 74546
       treatment_assembly_accession: GCF_000012645.1
+      table_scope: significant_only
     coculture_synechococcus_cc9311_at_400_ez55_rnaseq:
       name: EZ55 Coculture with Synechococcus CC9311 at 400 ppm pCO2 vs Axenic at 400 ppm pCO2 (RNASEQ)
       organism: Alteromonas macleodii EZ55
@@ -86,6 +91,7 @@ publication:
       treatment_organism: Synechococcus CC9311
       treatment_taxid: 64471
       treatment_assembly_accession: GCF_000014585.1
+      table_scope: significant_only
     coculture_synechococcus_wh8102_at_400_ez55_rnaseq:
       name: EZ55 Coculture with Synechococcus WH8102 at 400 ppm pCO2 vs Axenic at 400 ppm pCO2 (RNASEQ)
       organism: Alteromonas macleodii EZ55
@@ -102,6 +108,7 @@ publication:
       treatment_organism: Synechococcus WH8102
       treatment_taxid: 84588
       treatment_assembly_accession: GCF_000195975.1
+      table_scope: significant_only
     coculture_prochlorococcus_mit9312_at_800_ez55_rnaseq:
       name: EZ55 Coculture with Prochlorococcus MIT9312 at 800 ppm pCO2 vs Axenic at 800 ppm pCO2 (RNASEQ)
       organism: Alteromonas macleodii EZ55
@@ -118,6 +125,7 @@ publication:
       treatment_organism: Prochlorococcus MIT9312
       treatment_taxid: 74546
       treatment_assembly_accession: GCF_000012645.1
+      table_scope: significant_only
     coculture_synechococcus_cc9311_at_800_ez55_rnaseq:
       name: EZ55 Coculture with Synechococcus CC9311 at 800 ppm pCO2 vs Axenic at 800 ppm pCO2 (RNASEQ)
       organism: Alteromonas macleodii EZ55
@@ -134,6 +142,7 @@ publication:
       treatment_organism: Synechococcus CC9311
       treatment_taxid: 64471
       treatment_assembly_accession: GCF_000014585.1
+      table_scope: significant_only
     coculture_synechococcus_wh8102_at_800_ez55_rnaseq:
       name: EZ55 Coculture with Synechococcus WH8102 at 800 ppm pCO2 vs Axenic at 800 ppm pCO2 (RNASEQ)
       organism: Alteromonas macleodii EZ55
@@ -150,6 +159,7 @@ publication:
       treatment_organism: Synechococcus WH8102
       treatment_taxid: 84588
       treatment_assembly_accession: GCF_000195975.1
+      table_scope: significant_only
   supplementary_materials:
     id_translation_pro_9312:
       type: id_translation

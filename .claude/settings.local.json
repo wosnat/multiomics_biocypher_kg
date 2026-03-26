@@ -51,7 +51,13 @@
       "WebFetch(domain:eutils.ncbi.nlm.nih.gov)",
       "Bash(cypher-shell --address:*)",
       "Bash(docker compose:*)",
-      "Bash(docker-compose logs:*)"
+      "Bash(docker-compose logs:*)",
+      "Bash(find '/home/osnat/github/multiomics_biocypher_kg/data/Prochlorococcus/papers_and_supp/biller 2016' -name *.csv -type f)",
+      "Bash(for f:*)",
+      "Bash(done)",
+      "Bash(do)",
+      "Bash(echo \"=== $f ===\")",
+      "Read(//home/osnat/github/multiomics_biocypher_kg/**)"
     ]
   }
 }

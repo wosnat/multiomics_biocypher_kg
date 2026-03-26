@@ -69,6 +69,7 @@ def sample_config(temp_data_dir, sample_de_data):
                     'treatment_organism': 'Alteromonas macleodii',
                     'treatment_taxid': 28108,
                     'treatment_assembly_accession': 'GCF_001077695.1',
+                    'table_scope': 'all_detected_genes',
                 }
             },
             'supplementary_materials': {
@@ -1592,6 +1593,56 @@ class TestExperimentNodeProperties:
         exp_nodes = [n for n in nodes if n[1] == 'experiment']
         assert len(exp_nodes) == 1
         assert exp_nodes[0][2]['coculture_partner'] == 'Alteromonas macleodii'
+
+    def test_experiment_has_table_scope(self, adapter_with_mock_extracted_data):
+        """table_scope is set on experiment nodes."""
+        nodes = adapter_with_mock_extracted_data.get_nodes()
+        exp_nodes = [n for n in nodes if n[1] == 'experiment']
+        assert len(exp_nodes) == 1
+        assert exp_nodes[0][2]['table_scope'] == 'all_detected_genes'
+
+    def test_experiment_table_scope_defaults_to_empty(self, temp_data_dir, sample_de_data):
+        """table_scope defaults to empty string when not set in paperconfig."""
+        data_file = os.path.join(temp_data_dir, 'de_genes2.csv')
+        sample_de_data.to_csv(data_file, index=False)
+        config = {
+            'publication': {
+                'papername': 'Test No Scope',
+                'experiments': {
+                    'test_exp': {
+                        'name': 'Test',
+                        'organism': 'Prochlorococcus MED4',
+                        'treatment_condition': 'Treatment',
+                        'control_condition': 'Control',
+                        'omics_type': 'RNASEQ',
+                        'test_type': 'DESeq2',
+                        'treatment_type': 'nitrogen',
+                    }
+                },
+                'supplementary_materials': {
+                    'supp1': {
+                        'type': 'csv',
+                        'filename': data_file,
+                        'statistical_analyses': [{
+                            'id': 'a1',
+                            'experiment': 'test_exp',
+                            'name_col': 'Synonym',
+                            'logfc_col': 'log2_fold_change',
+                            'adjusted_p_value_col': 'adjusted_p_value',
+                        }]
+                    }
+                }
+            }
+        }
+        import yaml
+        config_file = os.path.join(temp_data_dir, 'paperconfig_no_scope.yaml')
+        with open(config_file, 'w') as f:
+            yaml.dump(config, f)
+        adapter = OMICSAdapter(config_file=config_file)
+        adapter.extracted_data = {'title': 'T', 'authors': [], 'journal': '', 'year': 2024, 'abstract': '', 'description': ''}
+        nodes = adapter.get_nodes()
+        exp_nodes = [n for n in nodes if n[1] == 'experiment']
+        assert exp_nodes[0][2]['table_scope'] == ''
 
 
 class TestHasExperimentEdges:

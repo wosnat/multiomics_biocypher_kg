@@ -15,6 +15,7 @@ publication:
       temperature: 22C
       light_condition: continuous light
       light_intensity: 50 umol quanta m-2 s-1
+      table_scope: all_detected_genes
     growth_medium_growth_on_cyanate_as_med4_microarray:
       name: MED4 Growth on cyanate as sole N source (MED4) vs N-replete Pro99 medium (MED4) (MICROARRAY)
       organism: Prochlorococcus MED4
@@ -29,6 +30,7 @@ publication:
       temperature: 22C
       light_condition: continuous light
       light_intensity: 50 umol quanta m-2 s-1
+      table_scope: all_detected_genes
     growth_medium_growth_on_urea_as_med4_microarray:
       name: MED4 Growth on urea as sole N source (MED4) vs N-replete Pro99 medium (MED4) (MICROARRAY)
       organism: Prochlorococcus MED4
@@ -43,6 +45,7 @@ publication:
       temperature: 22C
       light_condition: continuous light
       light_intensity: 50 umol quanta m-2 s-1
+      table_scope: all_detected_genes
     nitrogen_stress_nitrogen_deprivation_mit9313_mit9313_microarray:
       name: MIT9313 Nitrogen deprivation (MIT9313) vs N-replete Pro99 medium (MIT9313) (MICROARRAY)
       organism: Prochlorococcus MIT9313
@@ -56,6 +59,7 @@ publication:
       temperature: 22C
       light_condition: continuous light
       light_intensity: 10 umol quanta m-2 s-1
+      table_scope: all_detected_genes
     growth_medium_growth_on_nitrite_as_mit9313_microarray:
       name: MIT9313 Growth on nitrite as sole N source (MIT9313) vs N-replete Pro99 medium (MIT9313) (MICROARRAY)
       organism: Prochlorococcus MIT9313
@@ -70,6 +74,7 @@ publication:
       temperature: 22C
       light_condition: continuous light
       light_intensity: 10 umol quanta m-2 s-1
+      table_scope: all_detected_genes
     growth_medium_growth_on_urea_as_mit9313_microarray:
       name: MIT9313 Growth on urea as sole N source (MIT9313) vs N-replete Pro99 medium (MIT9313) (MICROARRAY)
       organism: Prochlorococcus MIT9313
@@ -84,6 +89,7 @@ publication:
       temperature: 22C
       light_condition: continuous light
       light_intensity: 10 umol quanta m-2 s-1
+      table_scope: all_detected_genes
   supplementary_materials:
     supp_table_med4:
       type: csv

@@ -18,6 +18,7 @@ publication:
       treatment_organism: Alteromonas macleodii HOT1A3
       treatment_taxid: 28108
       treatment_assembly_accession: GCF_001578515.1
+      table_scope: all_detected_genes
     coculture_prochlorococcus_mit9313_high_alteromonas_hot1a3_rnaseq:
       name: HOT1A3 Coculture with Prochlorococcus MIT9313 (high Alteromonas inoculum, 5x10^6 cells/ml) vs Pro99 medium growth
         conditions (RNASEQ)
@@ -35,6 +36,7 @@ publication:
       treatment_organism: Prochlorococcus MIT9313
       treatment_taxid: 74547
       treatment_assembly_accession: GCF_000011485.1
+      table_scope: all_detected_genes
     coculture_prochlorococcus_mit9313_hot1a3_rnaseq:
       name: HOT1A3 Coculture with Prochlorococcus MIT9313 vs Pro99 medium growth conditions (RNASEQ)
       organism: Alteromonas macleodii HOT1A3
@@ -51,6 +53,7 @@ publication:
       treatment_organism: Prochlorococcus MIT9313
       treatment_taxid: 74547
       treatment_assembly_accession: GCF_000011485.1
+      table_scope: all_detected_genes
     coculture_alteromonas_hot1a3_mit9313_rnaseq_inoc_5e6:
       name: MIT9313 Coculture with Alteromonas HOT1A3 vs Pro99 medium growth conditions (RNASEQ)
       organism: Prochlorococcus MIT9313
@@ -67,6 +70,7 @@ publication:
       treatment_organism: Alteromonas macleodii HOT1A3
       treatment_taxid: 28108
       treatment_assembly_accession: GCF_001578515.1
+      table_scope: all_detected_genes
     coculture_alteromonas_hot1a3_mit9313_rnaseq_inoc_05e6:
       name: MIT9313 Coculture with Alteromonas HOT1A3 vs Pro99 medium growth conditions (RNASEQ)
       organism: Prochlorococcus MIT9313
@@ -83,6 +87,7 @@ publication:
       treatment_organism: Alteromonas macleodii HOT1A3
       treatment_taxid: 28108
       treatment_assembly_accession: GCF_001578515.1
+      table_scope: all_detected_genes
   supplementary_materials:
     supp_table_1:
       type: csv

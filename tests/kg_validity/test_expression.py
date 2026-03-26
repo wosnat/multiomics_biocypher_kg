@@ -303,6 +303,41 @@ def test_experiment_has_omics_type(run_query):
     )
 
 
+def test_experiment_table_scope_valid(run_query):
+    """Every Experiment with table_scope must use one of the allowed values."""
+    valid = {
+        "all_detected_genes", "significant_any_timepoint",
+        "significant_only", "top_n", "filtered_subset",
+    }
+    result = run_query("""
+        MATCH (exp:Experiment)
+        WHERE exp.table_scope IS NOT NULL AND exp.table_scope <> ''
+        RETURN exp.table_scope AS scope, count(exp) AS cnt
+    """)
+    bad = [(r["scope"], r["cnt"]) for r in result if r["scope"] not in valid]
+    assert not bad, f"Invalid table_scope values: {bad}"
+
+
+def test_experiment_table_scope_coverage(run_query):
+    """Most Experiment nodes should have table_scope set."""
+    result = run_query("""
+        MATCH (exp:Experiment)
+        RETURN
+          count(exp) AS total,
+          count(CASE WHEN exp.table_scope IS NOT NULL AND exp.table_scope <> ''
+                     THEN 1 END) AS with_scope
+    """)
+    total = result[0]["total"]
+    with_scope = result[0]["with_scope"]
+    if total == 0:
+        pytest.skip("No Experiment nodes found")
+    coverage = with_scope / total
+    assert coverage >= 0.9, (
+        f"Only {with_scope}/{total} ({coverage:.1%}) Experiment nodes have "
+        f"table_scope; expected >= 90%"
+    )
+
+
 # ---------------------------------------------------------------------------
 # No old node/edge types
 # ---------------------------------------------------------------------------

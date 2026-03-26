@@ -17,6 +17,7 @@ publication:
       temperature: 24C
       light_condition: 13:11 light:dark cycle with simulated dawn and dusk
       light_intensity: 37 umol photons m-2 s-1
+      table_scope: significant_any_timepoint
     darkness_darktolerant_coculture_under_1311_mit1002_rnaseq:
       name: MIT1002 Dark-tolerant co-culture under 13:11 diel light:dark cycle vs Parental co-culture under 13:11 diel light:dark
         cycle (RNASEQ)
@@ -32,6 +33,7 @@ publication:
       temperature: 24C
       light_condition: 13:11 light:dark cycle with simulated dawn and dusk
       light_intensity: 37 umol photons m-2 s-1
+      table_scope: significant_any_timepoint
   supplementary_materials:
     supp_table_2:
       type: csv

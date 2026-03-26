@@ -137,6 +137,8 @@ class TestSchemaProperties:
                 assert "control" in props
                 assert "omics_type" in props
                 assert "is_time_course" in props
+                assert "table_scope" in props
+                assert "table_scope_detail" in props
                 break
         else:
             pytest.fail("experiment node not found")

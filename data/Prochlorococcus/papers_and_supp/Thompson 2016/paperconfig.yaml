@@ -16,6 +16,7 @@ publication:
       temperature: 19-22C
       light_condition: constant darkness
       light_intensity: '0'
+      table_scope: significant_only
     light_stress_constant_dark_med4_rnaseq_dark:
       name: MED4 Constant dark vs Constant light (90 µE m-2 s-1) (RNASEQ)
       organism: Prochlorococcus MED4
@@ -30,6 +31,7 @@ publication:
       temperature: 19-22C
       light_condition: constant darkness
       light_intensity: '0'
+      table_scope: significant_only
     viral_phage_phm2_lysate_med4_rnaseq_light:
       name: MED4 Phage (P-HM2) lysate vs Spent medium (uninfected) in light (RNASEQ)
       organism: Prochlorococcus MED4
@@ -46,6 +48,7 @@ publication:
       light_intensity: 90 uE m-2 s-1
       treatment_organism: Phage
       treatment_taxid: 10239
+      table_scope: significant_only
     viral_phage_phm2_lysate_med4_rnaseq_dark:
       name: MED4 Phage (P-HM2) lysate vs Spent medium (uninfected) in dark (RNASEQ)
       organism: Prochlorococcus MED4
@@ -62,6 +65,7 @@ publication:
       light_intensity: '0'
       treatment_organism: Phage
       treatment_taxid: 10239
+      table_scope: significant_only
   supplementary_materials:
     dark_vs_light_infected_0.5h:
       type: csv

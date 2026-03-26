@@ -16,6 +16,7 @@ publication:
       temperature: 24C
       light_condition: 14:10 light:dark cycle
       light_intensity: 40 umol photons m-2 s-1
+      table_scope: significant_only
     phosphorus_stress_plimited_natl2a_rnaseq_infected:
       name: NATL2A P-limited vs P-replete control (RNASEQ)
       organism: Prochlorococcus NATL2A
@@ -29,6 +30,7 @@ publication:
       temperature: 24C
       light_condition: 14:10 light:dark cycle
       light_intensity: 40 umol photons m-2 s-1
+      table_scope: significant_only
   supplementary_materials:
     supp_table_s4a:
       type: csv

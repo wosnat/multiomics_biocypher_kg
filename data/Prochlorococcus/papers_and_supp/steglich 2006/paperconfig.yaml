@@ -16,6 +16,8 @@ publication:
       temperature: 21C
       light_condition: high white light
       light_intensity: 55 umol photons m-2 s-1
+      table_scope: filtered_subset
+      table_scope_detail: Genes significant in any of 6 light conditions, all conditions in single table
     light_stress_white_light_13_umol_med4_microarray:
       name: MED4 White light (13 umol photons m-2 s-1) vs Darkness control (MICROARRAY)
       organism: Prochlorococcus MED4
@@ -30,6 +32,8 @@ publication:
       temperature: 21C
       light_condition: white light
       light_intensity: 13 umol photons m-2 s-1
+      table_scope: filtered_subset
+      table_scope_detail: Genes significant in any of 6 light conditions, all conditions in single table
     light_stress_blue_light_13_umol_med4_microarray:
       name: MED4 Blue light (13 umol photons m-2 s-1) vs Darkness control (MICROARRAY)
       organism: Prochlorococcus MED4
@@ -44,6 +48,8 @@ publication:
       temperature: 21C
       light_condition: blue light
       light_intensity: 13 umol photons m-2 s-1
+      table_scope: filtered_subset
+      table_scope_detail: Genes significant in any of 6 light conditions, all conditions in single table
     light_stress_red_light_13_umol_med4_microarray:
       name: MED4 Red light (13 umol photons m-2 s-1) vs Darkness control (MICROARRAY)
       organism: Prochlorococcus MED4
@@ -58,6 +64,8 @@ publication:
       temperature: 21C
       light_condition: red light
       light_intensity: 13 umol photons m-2 s-1
+      table_scope: filtered_subset
+      table_scope_detail: Genes significant in any of 6 light conditions, all conditions in single table
     light_stress_green_light_13_umol_med4_microarray:
       name: MED4 Green light (13 umol photons m-2 s-1) vs Darkness control (MICROARRAY)
       organism: Prochlorococcus MED4
@@ -72,6 +80,8 @@ publication:
       temperature: 21C
       light_condition: green light
       light_intensity: 13 umol photons m-2 s-1
+      table_scope: filtered_subset
+      table_scope_detail: Genes significant in any of 6 light conditions, all conditions in single table
     light_stress_dcmu_white_light_13_med4_microarray:
       name: MED4 DCMU + white light (13 umol photons m-2 s-1) vs White light (13 umol photons m-2 s-1) (MICROARRAY)
       organism: Prochlorococcus MED4
@@ -86,6 +96,8 @@ publication:
       temperature: 21C
       light_condition: white light
       light_intensity: 13 umol photons m-2 s-1
+      table_scope: filtered_subset
+      table_scope_detail: Genes significant in any of 6 light conditions, all conditions in single table
   supplementary_materials:
     supp_table_s1:
       type: csv

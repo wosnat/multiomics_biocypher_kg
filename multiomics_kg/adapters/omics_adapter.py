@@ -286,6 +286,8 @@ class OMICSAdapter:
                     "temperature": self.clean_text(exp.get("temperature", "")),
                     "light_condition": self.clean_text(exp.get("light_condition", "")),
                     "light_intensity": self.clean_text(exp.get("light_intensity", "")),
+                    "table_scope": self.clean_text(exp.get("table_scope", "")),
+                    "table_scope_detail": self.clean_text(exp.get("table_scope_detail", "")),
             }
             partner = exp.get("treatment_organism", "")
             if partner:

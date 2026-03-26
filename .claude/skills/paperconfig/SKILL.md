@@ -63,6 +63,8 @@ The `experiments` block defines experiment-level metadata that is shared across 
       treatment_condition: "Coculture with Alteromonas HOT1A3"
       control_condition: "Axenic"
       experimental_context: "in Pro99 medium under continuous light"
+      table_scope: all_detected_genes   # all_detected_genes | significant_any_timepoint | significant_only | top_n | filtered_subset
+      # table_scope_detail: ""          # free-text clarification (optional, use with filtered_subset)
       # Optional fields:
       medium: "Pro99 natural seawater medium"
       temperature: "24C"
@@ -95,6 +97,8 @@ The `experiments` block defines experiment-level metadata that is shared across 
 | `temperature` | Temperature | When known (e.g., `"24C"`) |
 | `light_condition` | Light regime | When known (e.g., `"continuous light"`, `"13:11 light:dark cycle"`, `"constant darkness"`) |
 | `light_intensity` | Light intensity | When known (e.g., `"55 umol photons m-2 s-1"`) |
+| `table_scope` | What genes the source DE table contains | Always recommended. Values: `all_detected_genes`, `significant_any_timepoint`, `significant_only`, `top_n`, `filtered_subset` |
+| `table_scope_detail` | Free-text clarification for `table_scope` | When `table_scope` is `filtered_subset` or ambiguous (e.g., `"Top 50% of genes by expression level"`) |
 
 #### Formatting conventions
 

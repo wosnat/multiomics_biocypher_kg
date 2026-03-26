@@ -17,6 +17,8 @@ publication:
       light_intensity: 10 umol photons m-2 s-1
       treatment_organism: Phage
       treatment_taxid: 10239
+      table_scope: significant_only
+      table_scope_detail: Upregulated genes only
   supplementary_materials:
     supp_table_3:
       type: csv

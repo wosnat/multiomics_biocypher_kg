@@ -15,6 +15,7 @@ publication:
       temperature: 24C
       light_condition: continuous darkness
       light_intensity: 0 umol photons m-2 s-1
+      table_scope: significant_any_timepoint
     darkness_extended_darkness_natl2a_rnaseq_coculture:
       name: NATL2A Extended darkness vs 13:11 diel light:dark cycle control (RNASEQ)
       organism: Prochlorococcus NATL2A
@@ -29,6 +30,7 @@ publication:
       temperature: 24C
       light_condition: continuous darkness
       light_intensity: 0 umol photons m-2 s-1
+      table_scope: significant_any_timepoint
     darkness_extended_darkness_mit1002_rnaseq:
       name: MIT1002 Extended darkness vs 13:11 diel light:dark cycle control (RNASEQ)
       organism: Alteromonas macleodii MIT1002
@@ -43,6 +45,8 @@ publication:
       temperature: 24C
       light_condition: continuous darkness
       light_intensity: 0 umol photons m-2 s-1
+      table_scope: significant_only
+      table_scope_detail: Consistently DE at 1-5h extended darkness
   supplementary_materials:
     annotation_gff_mit1002_old_draft:
       type: annotation_gff

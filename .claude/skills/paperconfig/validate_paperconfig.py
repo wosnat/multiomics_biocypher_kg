@@ -62,7 +62,13 @@ REQUIRED_EXPERIMENT_FIELDS = [
 # Optional but recommended experiment fields (warn if missing)
 RECOMMENDED_EXPERIMENT_FIELDS = [
     "medium", "temperature", "light_condition", "light_intensity",
+    "table_scope",
 ]
+
+VALID_TABLE_SCOPES = {
+    "all_detected_genes", "significant_any_timepoint",
+    "significant_only", "top_n", "filtered_subset",
+}
 
 VALID_TYPES = {"RNASEQ", "MICROARRAY", "PROTEOMICS", "METABOLOMICS"}
 VALID_ID_TYPES = {
@@ -300,6 +306,18 @@ def _validate_experiments(experiments: dict, config_path: str,
             )
         elif treatment_organism:
             print(f"    treatment_organism '{treatment_organism}': OK")
+
+        # Validate table_scope enum
+        table_scope = exp.get("table_scope", "")
+        if table_scope and table_scope not in VALID_TABLE_SCOPES:
+            errors.append(
+                _canonical_field_error(
+                    config_path, f"experiments.{exp_key}",
+                    "table_scope", table_scope, VALID_TABLE_SCOPES,
+                )
+            )
+        elif table_scope:
+            print(f"    table_scope '{table_scope}': OK")
 
         # Recommended fields (warn if missing)
         for field in RECOMMENDED_EXPERIMENT_FIELDS:
