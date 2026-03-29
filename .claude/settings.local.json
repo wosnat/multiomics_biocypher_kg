@@ -57,7 +57,10 @@
       "Bash(done)",
       "Bash(do)",
       "Bash(echo \"=== $f ===\")",
-      "Read(//home/osnat/github/multiomics_biocypher_kg/**)"
+      "Read(//home/osnat/github/multiomics_biocypher_kg/**)",
+      "Bash(cypher-shell -a bolt://localhost:7687 --format plain)",
+      "Bash(git diff:*)",
+      "Bash(git commit:*)"
     ]
   }
 }
