@@ -727,9 +727,9 @@ class AnnotationBuilder:
 
         # ── Computed fields for MCP gene lookup ──────────────────────────────
 
-        # organism_strain — preferred organism name (e.g., "Prochlorococcus MED4")
+        # organism_name — preferred organism name (e.g., "Prochlorococcus MED4")
         if organism_name:
-            result["organism_strain"] = organism_name
+            result["organism_name"] = organism_name
 
         # gene_summary — primary display field: "gene_name :: product :: description"
         gene_name = result.get("gene_name", "")

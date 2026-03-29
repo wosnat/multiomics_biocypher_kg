@@ -131,7 +131,7 @@ class TestSchemaProperties:
             if val.get("label_in_input") == "experiment":
                 props = val.get("properties", {})
                 assert "name" in props
-                assert "organism_strain" in props
+                assert "organism_name" in props
                 assert "treatment_type" in props
                 assert "treatment" in props
                 assert "control" in props

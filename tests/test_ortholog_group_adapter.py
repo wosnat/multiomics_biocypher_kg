@@ -21,7 +21,7 @@ STRAIN1_DATA = {
         "locus_tag": "PMM0001",
         "product": "DNA polymerase III, beta subunit",
         "gene_name": "dnaN",
-        "organism_strain": "Prochlorococcus MED4",
+        "organism_name": "Prochlorococcus MED4",
         "cog_category": ["L"],
         "cyanorak_Role": ["F.1"],
         "ortholog_groups": [
@@ -34,7 +34,7 @@ STRAIN1_DATA = {
         "locus_tag": "PMM0002",
         "product": "conserved hypothetical protein",
         "gene_name": None,
-        "organism_strain": "Prochlorococcus MED4",
+        "organism_name": "Prochlorococcus MED4",
         "cog_category": ["S"],
         "cyanorak_Role": ["R.2"],
         "ortholog_groups": [
@@ -46,7 +46,7 @@ STRAIN1_DATA = {
         "locus_tag": "PMM0003",
         "product": "hypothetical protein",
         "gene_name": None,
-        "organism_strain": "Prochlorococcus MED4",
+        "organism_name": "Prochlorococcus MED4",
         "cog_category": [],
         "cyanorak_Role": [],
         "ortholog_groups": [],
@@ -58,7 +58,7 @@ STRAIN2_DATA = {
         "locus_tag": "ALT831_RS00180",
         "product": "DNA polymerase III, beta subunit",
         "gene_name": "dnaN",
-        "organism_strain": "Alteromonas macleodii MIT1002",
+        "organism_name": "Alteromonas macleodii MIT1002",
         "cog_category": ["L"],
         "cyanorak_Role": [],
         "ortholog_groups": [
@@ -73,7 +73,7 @@ STRAIN3_DATA = {
         "locus_tag": "A9601_00010",
         "product": "DNA polymerase III, beta subunit",
         "gene_name": "dnaN",
-        "organism_strain": "Prochlorococcus AS9601",
+        "organism_name": "Prochlorococcus AS9601",
         "cog_category": ["L"],
         "cyanorak_Role": ["F.1"],
         "ortholog_groups": [
@@ -348,7 +348,7 @@ class TestOrthologGroupEnrichment:
                 "locus_tag": "GENE001",
                 "product": "5'-nucleotidase | phosphatase",
                 "gene_name": "ush'A",
-                "organism_strain": "Prochlorococcus MED4",
+                "organism_name": "Prochlorococcus MED4",
                 "cog_category": [],
                 "cyanorak_Role": [],
                 "ortholog_groups": [
@@ -466,7 +466,7 @@ class TestFunctionalDescription:
         data = {
             "G1": {
                 "locus_tag": "G1", "product": "psb", "gene_name": "psbA",
-                "organism_strain": "Pro MED4",
+                "organism_name": "Pro MED4",
                 "cog_category": ["C", "J"],
                 "cyanorak_Role": ["J.8", "F.1"],
                 "ortholog_groups": [
@@ -475,7 +475,7 @@ class TestFunctionalDescription:
             },
             "G2": {
                 "locus_tag": "G2", "product": "psb", "gene_name": "psbB",
-                "organism_strain": "Pro MED4",
+                "organism_name": "Pro MED4",
                 "cog_category": ["C"],
                 "cyanorak_Role": ["J.8"],
                 "ortholog_groups": [

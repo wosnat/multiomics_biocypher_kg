@@ -206,7 +206,7 @@ class OrthologGroupAdapter:
     def get_og_memberships_with_gene_data(self) -> list[tuple[str, dict, dict]]:
         """Return (locus_tag, og_dict, gene_meta) triples.
 
-        gene_meta contains product, gene_name, organism_strain,
+        gene_meta contains product, gene_name, organism_name,
         cog_category, and cyanorak_Role for consensus computation.
         """
         results = []
@@ -214,7 +214,7 @@ class OrthologGroupAdapter:
             meta = {
                 "product": gene.get("product"),
                 "gene_name": gene.get("gene_name"),
-                "organism_strain": gene.get("organism_strain"),
+                "organism_name": gene.get("organism_name"),
                 "cog_category": gene.get("cog_category", []),
                 "cyanorak_Role": gene.get("cyanorak_Role", []),
             }
@@ -335,7 +335,7 @@ class MultiOrthologGroupAdapter:
             )
 
             # Organism stats
-            org_strains = {m["organism_strain"] for m in members if m.get("organism_strain")}
+            org_strains = {m["organism_name"] for m in members if m.get("organism_name")}
             genera = sorted({s.split()[0] for s in org_strains if s})
 
             # Description from eggNOG DB (null for Cyanorak groups)

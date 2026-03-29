@@ -2,9 +2,9 @@
 Gene lookup infrastructure tests for the multi-omics knowledge graph.
 
 Validates the schema/index changes needed for MCP get_gene and find_gene services:
-- Scalar indexes on locus_tag, gene_name, organism_strain
+- Scalar indexes on locus_tag, gene_name, organism_name
 - Full-text index geneFullText
-- New computed fields: organism_strain, gene_summary, all_identifiers
+- New computed fields: organism_name, gene_summary, all_identifiers
 - get_gene and find_gene query patterns work correctly
 """
 
@@ -19,13 +19,13 @@ pytestmark = pytest.mark.kg
 # ---------------------------------------------------------------------------
 
 def test_scalar_indexes_exist(run_query):
-    """Scalar indexes on locus_tag, gene_name, organism_strain must exist."""
+    """Scalar indexes on locus_tag, gene_name, organism_name must exist."""
     rows = run_query("SHOW INDEXES YIELD name, labelsOrTypes, properties RETURN name, labelsOrTypes, properties")
     index_keys = {(tuple(r["labelsOrTypes"]), tuple(r["properties"])) for r in rows if r["labelsOrTypes"] is not None}
     expected = [
         (("Gene",), ("locus_tag",)),
         (("Gene",), ("gene_name",)),
-        (("Gene",), ("organism_strain",)),
+        (("Gene",), ("organism_name",)),
     ]
     for label_tuple, prop_tuple in expected:
         assert (label_tuple, prop_tuple) in index_keys, (
@@ -53,23 +53,23 @@ def test_fulltext_index_exists(run_query):
 # New field population
 # ---------------------------------------------------------------------------
 
-def test_organism_strain_populated_on_all_genes(run_query):
-    """Every Gene node must have a non-null organism_strain."""
+def test_organism_name_populated_on_all_genes(run_query):
+    """Every Gene node must have a non-null organism_name."""
     rows = run_query(
-        "MATCH (g:Gene) WHERE g.organism_strain IS NULL RETURN count(g) AS n"
+        "MATCH (g:Gene) WHERE g.organism_name IS NULL RETURN count(g) AS n"
     )
-    assert rows[0]["n"] == 0, "Some Gene nodes are missing organism_strain"
+    assert rows[0]["n"] == 0, "Some Gene nodes are missing organism_name"
 
 
-def test_organism_strain_values(run_query):
-    """organism_strain values should include known strains."""
+def test_organism_name_values(run_query):
+    """organism_name values should include known strains."""
     rows = run_query(
-        "MATCH (g:Gene) RETURN DISTINCT g.organism_strain AS os ORDER BY os"
+        "MATCH (g:Gene) RETURN DISTINCT g.organism_name AS os ORDER BY os"
     )
     values = {r["os"] for r in rows}
     # Spot-check a few expected values
     for expected in ["Prochlorococcus MED4", "Synechococcus CC9311"]:
-        assert expected in values, f"Expected organism_strain '{expected}' not found"
+        assert expected in values, f"Expected organism_name '{expected}' not found"
 
 
 def test_gene_summary_populated(run_query):
@@ -130,7 +130,7 @@ def test_get_gene_by_locus_tag(run_query):
     """get_gene: exact match on locus_tag (scalar index)."""
     rows = run_query(
         "MATCH (g:Gene) WHERE g.locus_tag = $id "
-        "RETURN g.locus_tag AS lt, g.organism_strain AS os",
+        "RETURN g.locus_tag AS lt, g.organism_name AS os",
         id="PMM0001",
     )
     assert len(rows) == 1
@@ -142,7 +142,7 @@ def test_get_gene_by_gene_name(run_query):
     """get_gene: exact match on gene_name (scalar index)."""
     rows = run_query(
         "MATCH (g:Gene) WHERE g.gene_name = $id "
-        "RETURN g.locus_tag AS lt, g.organism_strain AS os",
+        "RETURN g.locus_tag AS lt, g.organism_name AS os",
         id="dnaN",
     )
     # dnaN exists in multiple strains
@@ -167,7 +167,7 @@ def test_get_gene_organism_filter(run_query):
     """get_gene: organism filter narrows results to one strain."""
     rows = run_query(
         "MATCH (g:Gene) "
-        "WHERE g.gene_name = $id AND g.organism_strain = $organism "
+        "WHERE g.gene_name = $id AND g.organism_name = $organism "
         "RETURN g.locus_tag AS lt",
         id="dnaN",
         organism="Prochlorococcus MED4",
@@ -181,8 +181,8 @@ def test_get_gene_full_query(run_query):
     rows = run_query(
         "MATCH (g:Gene) "
         "WHERE (g.locus_tag = $id OR g.gene_name = $id OR $id IN g.all_identifiers) "
-        "  AND ($organism IS NULL OR g.organism_strain = $organism) "
-        "RETURN g.locus_tag AS lt, g.organism_strain AS os "
+        "  AND ($organism IS NULL OR g.organism_name = $organism) "
+        "RETURN g.locus_tag AS lt, g.organism_name AS os "
         "LIMIT 5",
         id="PMM0001",
         organism=None,
@@ -212,8 +212,8 @@ def test_find_gene_organism_filter(run_query):
     rows = run_query(
         "CALL db.index.fulltext.queryNodes('geneFullText', $search_text) "
         "YIELD node AS g, score "
-        "WHERE g.organism_strain = $organism "
-        "RETURN g.locus_tag AS lt, g.organism_strain AS os "
+        "WHERE g.organism_name = $organism "
+        "RETURN g.locus_tag AS lt, g.organism_name AS os "
         "ORDER BY score DESC LIMIT 10",
         search_text="dnaN",
         organism="Prochlorococcus MED4",

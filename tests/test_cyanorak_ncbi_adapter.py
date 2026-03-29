@@ -38,7 +38,7 @@ MERGED_JSON_DATA = {
         "cluster_number": "CK_00000364",
         "protein_family": "Beta sliding clamp family",
         "pfam_ids": ["PF02768"],
-        "organism_strain": "Prochlorococcus MED4",
+        "organism_name": "Prochlorococcus MED4",
         "gene_summary": "dnaN :: DNA polymerase III, beta subunit :: Replicative DNA polymerase beta subunit",
         "all_identifiers": ["CK_Pro_MED4_00001", "TX50_RS00020", "WP_011131639.1"],
         "annotation_quality": 3,
@@ -52,7 +52,7 @@ MERGED_JSON_DATA = {
         "gene_name": "PMM0002",
         "product": "hypothetical protein",
         "cluster_number": "CK_00000363",
-        "organism_strain": "Prochlorococcus MED4",
+        "organism_name": "Prochlorococcus MED4",
         "gene_summary": "PMM0002 :: hypothetical protein",
         "all_identifiers": ["TX50_RS00025", "WP_011131640.1"],
         "annotation_quality": 1,
@@ -66,7 +66,7 @@ MERGED_JSON_DATA = {
         "gene_name": "purL",
         "product": "phosphoribosylformylglycinamidine synthase",
         "cluster_number": "CK_00000362",
-        "organism_strain": "Prochlorococcus MED4",
+        "organism_name": "Prochlorococcus MED4",
         "gene_summary": "purL :: phosphoribosylformylglycinamidine synthase",
         "all_identifiers": ["TX50_RS00030", "WP_011131641.1"],
         "annotation_quality": 2,
@@ -996,18 +996,18 @@ class TestIntegrationWithRealData:
 
 
 # ---------------------------------------------------------------------------
-# MCP gene lookup computed fields (organism_strain, gene_summary, all_identifiers)
+# MCP gene lookup computed fields (organism_name, gene_summary, all_identifiers)
 # ---------------------------------------------------------------------------
 
 
 class TestMcpGeneLookupFields:
     """Verify the adapter passes through the 3 computed fields from merged JSON."""
 
-    def test_organism_strain_on_all_genes(self, adapter):
+    def test_organism_name_on_all_genes(self, adapter):
         nodes = adapter.get_nodes()
         gene_nodes = [n for n in nodes if n[1] == "gene"]
         for _, _, props in gene_nodes:
-            assert props.get("organism_strain") == "Prochlorococcus MED4"
+            assert props.get("organism_name") == "Prochlorococcus MED4"
 
     def test_gene_summary_present(self, adapter):
         nodes = adapter.get_nodes()
@@ -1040,6 +1040,6 @@ class TestMcpGeneLookupFields:
         assert "dnaN" not in ids     # gene_name excluded (scalar-indexed)
 
     def test_enum_has_new_fields(self):
-        assert GeneNodeField.ORGANISM_STRAIN.value == "organism_strain"
+        assert GeneNodeField.ORGANISM_NAME.value == "organism_name"
         assert GeneNodeField.GENE_SUMMARY.value == "gene_summary"
         assert GeneNodeField.ALL_IDENTIFIERS.value == "all_identifiers"

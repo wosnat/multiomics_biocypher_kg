@@ -118,7 +118,7 @@ def capture_snapshot() -> dict:
     # --- By target gene organism (strain) ---
     rows = run_cypher("""
         MATCH (e:Experiment)-[r:Changes_expression_of]->(g:Gene)
-        RETURN g.organism_strain AS organism, count(r) AS edges
+        RETURN g.organism_name AS organism, count(r) AS edges
         ORDER BY organism
     """)
     snapshot["by_organism"] = {

@@ -6,7 +6,7 @@
 // Scalar indexes for get_gene exact lookup
 CREATE INDEX gene_locus_tag_idx IF NOT EXISTS FOR (g:Gene) ON (g.locus_tag);
 CREATE INDEX gene_name_idx IF NOT EXISTS FOR (g:Gene) ON (g.gene_name);
-CREATE INDEX gene_organism_strain_idx IF NOT EXISTS FOR (g:Gene) ON (g.organism_strain);
+CREATE INDEX gene_organism_name_idx IF NOT EXISTS FOR (g:Gene) ON (g.organism_name);
 
 // Full-text index for find_gene free-text search
 CREATE FULLTEXT INDEX geneFullText IF NOT EXISTS FOR (n:Gene) ON EACH [
@@ -51,7 +51,7 @@ CREATE FULLTEXT INDEX pfamClanFullText IF NOT EXISTS
 
 // Experiment indexes
 CREATE INDEX experiment_id_idx IF NOT EXISTS FOR (e:Experiment) ON (e.id);
-CREATE INDEX experiment_organism_idx IF NOT EXISTS FOR (e:Experiment) ON (e.organism_strain);
+CREATE INDEX experiment_organism_idx IF NOT EXISTS FOR (e:Experiment) ON (e.organism_name);
 CREATE INDEX experiment_treatment_type_idx IF NOT EXISTS FOR (e:Experiment) ON (e.treatment_type);
 CREATE INDEX experiment_omics_type_idx IF NOT EXISTS FOR (e:Experiment) ON (e.omics_type);
 
@@ -72,7 +72,7 @@ WITH p,
      count(e) AS ec,
      [x IN collect(DISTINCT e.treatment_type) WHERE x IS NOT NULL] AS tts,
      [x IN collect(DISTINCT e.omics_type) WHERE x IS NOT NULL] AS ots,
-     [x IN collect(DISTINCT e.organism_strain) WHERE x IS NOT NULL] AS orgs,
+     [x IN collect(DISTINCT e.organism_name) WHERE x IS NOT NULL] AS orgs,
      [x IN collect(DISTINCT e.coculture_partner) WHERE x IS NOT NULL AND x <> ''] AS coculture_orgs
 SET p.experiment_count = ec,
     p.treatment_types = apoc.coll.sort(tts),

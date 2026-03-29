@@ -277,16 +277,16 @@ def test_experiment_has_treatment_type(run_query):
     )
 
 
-def test_experiment_has_organism_strain(run_query):
-    """Every Experiment node must have an organism_strain property."""
+def test_experiment_has_organism_name(run_query):
+    """Every Experiment node must have an organism_name property."""
     result = run_query("""
         MATCH (exp:Experiment)
-        WHERE exp.organism_strain IS NULL OR exp.organism_strain = ''
+        WHERE exp.organism_name IS NULL OR exp.organism_name = ''
         RETURN count(exp) AS missing
     """)
     missing = result[0]["missing"]
     assert missing == 0, (
-        f"{missing} Experiment nodes are missing organism_strain"
+        f"{missing} Experiment nodes are missing organism_name"
     )
 
 

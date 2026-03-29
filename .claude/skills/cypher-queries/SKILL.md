@@ -42,7 +42,7 @@ docker exec -i deploy cypher-shell -a bolt://localhost:7687
 | `Gene` | `id` (ncbigene:locus_tag), `locus_tag`, `locus_tag_ncbi`, `locus_tag_cyanorak`, `product`, `gene_name`, `gene_synonyms[]`, `function_description`, `cog_category[]`, `go_terms[]`, `kegg_ko[]`, `kegg_pathway[]`, `ec_numbers[]`, `annotation_quality`, `old_locus_tags[]`, `alternative_locus_tags[]`, `protein_id`, `start`, `end`, `strand` |
 | `Protein` | `id` (uniprot:accession), `locus_tag`, `gene_names[]`, `is_reviewed`, `annotation_score`, `sequence_length`, `molecular_mass`, `refseq_ids[]`, `proteome_ids[]`, `protein_synonyms[]`, `string_ids[]` |
 | `OrganismTaxon` | `id` (insdc.gcf:accession or ncbitaxon:taxid), `organism_name`, `strain_name`, `clade`, `genus`, `species`, `ncbi_taxon_id`, `family`, `order`, `phylum`, `kingdom`, `superkingdom`, `lineage` |
-| `Experiment` | `id`, `name`, `organism_strain`, `treatment_type`, `treatment`, `control`, `experimental_context`, `coculture_partner`, `omics_type`, `statistical_test`, `is_time_course`, `medium`, `temperature`, `light_condition`, `light_intensity` |
+| `Experiment` | `id`, `name`, `organism_name`, `treatment_type`, `treatment`, `control`, `experimental_context`, `coculture_partner`, `omics_type`, `statistical_test`, `is_time_course`, `medium`, `temperature`, `light_condition`, `light_intensity` |
 | `Publication` | `id` (DOI), `title`, `authors[]`, `journal`, `publication_year`, `abstract`, `doi`, `organism`, `study_type`, `description` |
 | `OrthologGroup` | `id` (cyanorak:CK_* or eggnog:COG*@*), `name` (raw OG ID), `source` (cyanorak/eggnog), `taxonomic_level` (curated/Prochloraceae/Bacteria/etc.), `taxon_id` |
 | `BiologicalProcess` | `id` (go:NNNNNNN), `name` |
@@ -285,7 +285,7 @@ MATCH (exp:Experiment)-[r:Changes_expression_of {expression_direction: 'up'}]->(
 MATCH (exp)-[:Tests_coculture_with]->(partner:OrganismTaxon)
 WHERE partner.organism_name = 'Alteromonas'
 RETURN g.locus_tag, g.product, g.function_description,
-       r.log2_fold_change, r.adjusted_p_value, exp.experimental_context, exp.organism_strain
+       r.log2_fold_change, r.adjusted_p_value, exp.experimental_context, exp.organism_name
 ORDER BY r.log2_fold_change DESC
 LIMIT 20
 
@@ -330,7 +330,7 @@ LIMIT 20
 
 // List all distinct experiments in the graph
 MATCH (exp:Experiment)
-RETURN exp.name, exp.treatment_type, exp.organism_strain, exp.treatment, exp.control,
+RETURN exp.name, exp.treatment_type, exp.organism_name, exp.treatment, exp.control,
        exp.omics_type, exp.is_time_course
 ORDER BY exp.treatment_type, exp.name
 
@@ -546,7 +546,7 @@ ORDER BY o.strain_name
 ```cypher
 // Find all genes with a specific Pfam domain (by shortname)
 MATCH (g:Gene)-[:Gene_has_pfam]->(p:Pfam {short_name: 'DNA_pol3_beta'})
-RETURN g.locus_tag, g.organism_strain
+RETURN g.locus_tag, g.organism_name
 
 // Find all domains in a clan
 MATCH (d:Pfam)-[:Pfam_in_pfam_clan]->(c:PfamClan {name: 'DNA_clamp'})
@@ -554,7 +554,7 @@ RETURN d.short_name, d.name
 
 // Find genes in a superfamily (2-hop via clan)
 MATCH (c:PfamClan {name: 'DNA_clamp'})<-[:Pfam_in_pfam_clan]-(d:Pfam)<-[:Gene_has_pfam]-(g:Gene)
-RETURN d.short_name, g.locus_tag, g.organism_strain
+RETURN d.short_name, g.locus_tag, g.organism_name
 
 // Full-text search for Pfam domains
 CALL db.index.fulltext.queryNodes('pfamFullText', 'polymerase')
@@ -668,7 +668,7 @@ ORDER BY gene_count DESC
 // Publication node linked to its experiments (via Has_experiment)
 MATCH (pub:Publication)-[:Has_experiment]->(exp:Experiment)
 RETURN pub.id, pub.title, pub.publication_year,
-       exp.name, exp.treatment_type, exp.organism_strain, exp.omics_type
+       exp.name, exp.treatment_type, exp.organism_name, exp.omics_type
 ORDER BY pub.publication_year DESC
 
 // Publication node details
@@ -724,7 +724,7 @@ When the user invokes this skill (e.g., `/cypher-queries "genes affected by Alte
 - Use `Changes_expression_of` (Experiment → Gene) for all expression queries — not the old `Condition_changes_expression_of` or `Coculture_changes_expression_of`
 - For coculture queries, add: `MATCH (exp)-[:Tests_coculture_with]->(partner:OrganismTaxon)`
 - For publication linkage, use: `(pub:Publication)-[:Has_experiment]->(exp:Experiment)` — not the old `Published_expression_data_about`
-- Experiment properties carry the metadata (treatment_type, organism_strain, treatment, control, omics_type, etc.); expression edge properties are limited to per-row data (log2_fold_change, adjusted_p_value, expression_direction, significant, time_point, time_point_order, time_point_hours)
+- Experiment properties carry the metadata (treatment_type, organism_name, treatment, control, omics_type, etc.); expression edge properties are limited to per-row data (log2_fold_change, adjusted_p_value, expression_direction, significant, time_point, time_point_order, time_point_hours)
 - For ortholog expression, use 3-hop query-time joins via `Gene_in_ortholog_group` → `OrthologGroup` (no materialized ortholog edges exist)
 - Gene properties like `go_terms`, `kegg_ko`, `cog_category` are arrays (`str[]`) on the Gene node itself (denormalized for LLM use) AND available via linked nodes for graph traversal
 - Pfam domains are represented only as graph nodes/edges (`Gene_has_pfam`, `Pfam_in_pfam_clan`) — no pfam properties on Gene nodes

@@ -21,7 +21,7 @@ publication:
     description: str
     abstract: str
     study_type: str # e.g., Transcriptomics, Proteomics
-    organisms: str[]                   # post-import: computed from experiment organism_strain + coculture_partner
+    organisms: str[]                   # post-import: computed from experiment organism_name + coculture_partner
     experiment_count: int              # post-import: count of Has_experiment edges
     treatment_types: str[]             # post-import: distinct treatment_type from experiments
     omics_types: str[]                 # post-import: distinct omics_type from experiments
@@ -35,7 +35,7 @@ experiment:
   label_in_input: experiment
   properties:
     name: str
-    organism_strain: str
+    organism_name: str
     treatment_type: str
     treatment: str
     control: str
@@ -165,7 +165,7 @@ gene:
     cazy_ids: str[]
     bigg_reaction: str[]
     # Computed fields for MCP gene lookup
-    organism_strain: str              # preferred organism name (e.g., "Prochlorococcus MED4")
+    organism_name: str              # preferred organism name (e.g., "Prochlorococcus MED4")
     gene_summary: str                 # "gene_name :: product :: description"
     all_identifiers: str[]            # union of all alt IDs for single-array get_gene lookup
     # Quality

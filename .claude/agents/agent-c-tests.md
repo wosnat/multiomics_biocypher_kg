@@ -60,7 +60,7 @@ Run: `pytest tests/test_paperconfig_validation.py -v`
 - Verify edge properties match new minimal schema (no duplicated metadata)
 
 **tests/kg_validity/test_experiment.py (new):**
-- Experiment node properties (name, organism_strain, treatment_type, medium, temperature)
+- Experiment node properties (name, organism_name, treatment_type, medium, temperature)
 - Has_experiment connectivity (every Experiment linked to a Publication)
 - Time-course grouping (is_time_course flag correct)
 - treatment_type values from canonical enum

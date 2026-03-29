@@ -69,7 +69,7 @@ NODE_PROPERTIES = {
     "Protein": ["protein_synonyms", "gene_names"],
     "OrganismTaxon": ["organism_name", "strain_name", "genus", "clade", "ncbi_taxon_id"],
     "Publication": ["doi", "pmid", "title", "experiment_count", "treatment_types", "omics_types", "organisms"],
-    "Experiment": ["name", "organism_strain", "treatment_type", "treatment", "control", "omics_type", "is_time_course"],
+    "Experiment": ["name", "organism_name", "treatment_type", "treatment", "control", "omics_type", "is_time_course"],
     "OrthologGroup": ["name", "source", "taxonomic_level", "taxon_id"],
     # GO term node types (from functional_annotation_adapter.py)
     "BiologicalProcess": ["name"],

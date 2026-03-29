@@ -118,7 +118,7 @@ class GeneNodeField(Enum, metaclass=GeneEnumMeta):
     CAZY_IDS = 'cazy_ids'
     BIGG_REACTION = 'bigg_reaction'
     # Computed fields for MCP gene lookup
-    ORGANISM_STRAIN = 'organism_strain'
+    ORGANISM_NAME = 'organism_name'
     GENE_SUMMARY = 'gene_summary'
     ALL_IDENTIFIERS = 'all_identifiers'
     # Quality

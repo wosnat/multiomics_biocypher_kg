@@ -41,7 +41,7 @@ For each snapshot:
 | `total_edges` | Count of `Changes_expression_of` edges (Experiment -> Gene) |
 | `per_publication` | Edge count per DOI (via `Publication -[:Has_experiment]-> Experiment -[:Changes_expression_of]-> Gene`) |
 | `per_publication_by_direction` | Breakdown into `up` / `down` per publication |
-| `by_organism` | Counts grouped by the target gene's `organism_strain` property |
+| `by_organism` | Counts grouped by the target gene's `organism_name` property |
 | `per_publication_genes` | Set of locus_tags with edges per publication (for gene-level diff) |
 
 ## Key Cypher Queries
@@ -56,7 +56,7 @@ RETURN pub.doi AS publication, count(r) AS edges
 
 -- By organism
 MATCH (e:Experiment)-[r:Changes_expression_of]->(g:Gene)
-RETURN g.organism_strain AS organism, count(r) AS edges
+RETURN g.organism_name AS organism, count(r) AS edges
 ```
 
 ## Interpreting the Report

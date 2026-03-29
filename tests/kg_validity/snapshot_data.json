@@ -978,7 +978,7 @@
         "is_time_course": "false",
         "name": "AS9601 Salt-acclimated (5% salt) vs Normal seawater control (3.8% salt) (RNASEQ)",
         "omics_type": "RNASEQ",
-        "organism_strain": "Prochlorococcus AS9601",
+        "organism_name": "Prochlorococcus AS9601",
         "treatment": "Salt-acclimated (5% salt)",
         "treatment_type": "salt_stress"
       }
@@ -992,7 +992,7 @@
         "is_time_course": "false",
         "name": "MED4 Iron-replete control (MED4) vs Iron starvation (MED4) (MICROARRAY)",
         "omics_type": "MICROARRAY",
-        "organism_strain": "Prochlorococcus MED4",
+        "organism_name": "Prochlorococcus MED4",
         "treatment": "Iron-replete control (MED4)",
         "treatment_type": "iron_stress"
       }
@@ -1006,7 +1006,7 @@
         "is_time_course": "false",
         "name": "MIT9313 Iron-replete control (MIT9313) vs Iron starvation (MIT9313) (MICROARRAY)",
         "omics_type": "MICROARRAY",
-        "organism_strain": "Prochlorococcus MIT9313",
+        "organism_name": "Prochlorococcus MIT9313",
         "treatment": "Iron-replete control (MIT9313)",
         "treatment_type": "iron_stress"
       }
@@ -1020,7 +1020,7 @@
         "is_time_course": "true",
         "name": "MED4 Iron starvation (MED4) vs Iron-replete control (MED4) (MICROARRAY)",
         "omics_type": "MICROARRAY",
-        "organism_strain": "Prochlorococcus MED4",
+        "organism_name": "Prochlorococcus MED4",
         "treatment": "Iron starvation (MED4)",
         "treatment_type": "iron_stress"
       }
@@ -1034,7 +1034,7 @@
         "is_time_course": "false",
         "name": "MED4 Iron starvation (MED4) vs Iron-replete control (MED4) (MICROARRAY)",
         "omics_type": "MICROARRAY",
-        "organism_strain": "Prochlorococcus MED4",
+        "organism_name": "Prochlorococcus MED4",
         "treatment": "Iron starvation (MED4)",
         "treatment_type": "iron_stress"
       }

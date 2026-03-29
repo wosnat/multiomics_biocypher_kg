@@ -8,7 +8,7 @@ Tests verify that the adapter correctly creates:
 4. tests_coculture_with edges from Experiment -> OrganismTaxon (coculture only)
 5. changes_expression_of edges from Experiment -> Gene
 6. Correct edge properties (log2FC, p-value, direction, time_point, time_point_order, etc.)
-7. Experiment node properties (name, organism_strain, treatment_type, etc.)
+7. Experiment node properties (name, organism_name, treatment_type, etc.)
 
 Note: Organism nodes are created by the CyanorakNcbi adapter (single source of truth).
 The OMICS adapter only references organism IDs in tests_coculture_with edges.
@@ -218,8 +218,8 @@ class TestExperimentNodeCreation:
         # Check properties
         assert properties.get('name') == 'Test DE Analysis', \
             f"Expected name 'Test DE Analysis', got {properties.get('name')}"
-        assert properties.get('organism_strain') == 'Prochlorococcus MED4', \
-            f"Expected organism_strain 'Prochlorococcus MED4', got {properties.get('organism_strain')}"
+        assert properties.get('organism_name') == 'Prochlorococcus MED4', \
+            f"Expected organism_name 'Prochlorococcus MED4', got {properties.get('organism_name')}"
         assert properties.get('treatment_type') == 'coculture', \
             f"Expected treatment_type 'coculture', got {properties.get('treatment_type')}"
         assert properties.get('light_condition') == 'continuous_light', \
@@ -419,7 +419,7 @@ class TestExperimentToGeneEdges:
             # These should NOT be on the edge anymore (they're on the experiment node)
             assert 'publications' not in properties
             assert 'omics_type' not in properties
-            assert 'organism_strain' not in properties
+            assert 'organism_name' not in properties
             assert 'treatment_condition' not in properties
             assert 'control_condition' not in properties
             assert 'experimental_context' not in properties
@@ -1569,14 +1569,14 @@ class TestUnifiedEdgeLabel:
 
 
 class TestExperimentNodeProperties:
-    """Test experiment node properties (organism_strain, omics_type, medium, temperature, etc.)."""
+    """Test experiment node properties (organism_name, omics_type, medium, temperature, etc.)."""
 
-    def test_experiment_has_organism_strain(self, adapter_with_mock_extracted_data):
-        """organism_strain is set on experiment nodes."""
+    def test_experiment_has_organism_name(self, adapter_with_mock_extracted_data):
+        """organism_name is set on experiment nodes."""
         nodes = adapter_with_mock_extracted_data.get_nodes()
         exp_nodes = [n for n in nodes if n[1] == 'experiment']
         assert len(exp_nodes) == 1
-        assert exp_nodes[0][2]['organism_strain'] == 'Prochlorococcus MED4'
+        assert exp_nodes[0][2]['organism_name'] == 'Prochlorococcus MED4'
 
     def test_experiment_has_medium_and_temperature(self, adapter_with_mock_extracted_data):
         """medium and temperature are set on experiment nodes."""

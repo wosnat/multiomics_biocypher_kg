@@ -888,19 +888,19 @@ class TestAnnotationBuilderBuildMerged:
         merged = self.builder.build_merged(gm, {}, {})
         assert merged["annotation_quality"] == 0
 
-    # ── organism_strain ──────────────────────────────────────────────────────
+    # ── organism_name ──────────────────────────────────────────────────────
 
-    def test_organism_strain_set_from_param(self):
+    def test_organism_name_set_from_param(self):
         merged = self.builder.build_merged(GM, {}, {}, organism_name="Prochlorococcus MED4")
-        assert merged["organism_strain"] == "Prochlorococcus MED4"
+        assert merged["organism_name"] == "Prochlorococcus MED4"
 
-    def test_organism_strain_absent_when_no_param(self):
+    def test_organism_name_absent_when_no_param(self):
         merged = self.builder.build_merged(GM, {}, {})
-        assert "organism_strain" not in merged
+        assert "organism_name" not in merged
 
-    def test_organism_strain_absent_when_empty(self):
+    def test_organism_name_absent_when_empty(self):
         merged = self.builder.build_merged(GM, {}, {}, organism_name="")
-        assert "organism_strain" not in merged
+        assert "organism_name" not in merged
 
     # ── gene_summary ─────────────────────────────────────────────────────────
 
@@ -1345,13 +1345,13 @@ class TestProcessStrain:
         merged = json.loads((data_dir / "gene_annotations_merged.json").read_text())
         assert "PMM0001" in merged  # completed without error
 
-    def test_organism_strain_from_preferred_name(self, row, data_dir):
+    def test_organism_name_from_preferred_name(self, row, data_dir):
         process_strain(row, MINIMAL_CONFIG, force=False)
         merged = json.loads((data_dir / "gene_annotations_merged.json").read_text())
-        assert merged["PMM0001"]["organism_strain"] == "Prochlorococcus MED4"
-        assert merged["PMM0002"]["organism_strain"] == "Prochlorococcus MED4"
+        assert merged["PMM0001"]["organism_name"] == "Prochlorococcus MED4"
+        assert merged["PMM0002"]["organism_name"] == "Prochlorococcus MED4"
 
-    def test_organism_strain_falls_back_to_strain_name(self, data_dir):
+    def test_organism_name_falls_back_to_strain_name(self, data_dir):
         row_no_pref = {
             "strain_name": "MED4",
             "data_dir": str(data_dir),
@@ -1359,7 +1359,7 @@ class TestProcessStrain:
         }
         process_strain(row_no_pref, MINIMAL_CONFIG, force=True)
         merged = json.loads((data_dir / "gene_annotations_merged.json").read_text())
-        assert merged["PMM0001"]["organism_strain"] == "MED4"
+        assert merged["PMM0001"]["organism_name"] == "MED4"
 
     def test_gene_summary_in_merged(self, row, data_dir):
         process_strain(row, MINIMAL_CONFIG, force=False)
