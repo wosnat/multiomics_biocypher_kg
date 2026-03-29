@@ -277,6 +277,97 @@ def test_specificity_rank_index_exists(run_query):
     assert result[0]["cnt"] == 1, "ortholog_group_rank_idx index not found"
 
 
+def test_ortholog_group_fulltext_index_exists(run_query):
+    """The orthologGroupFullText index should exist."""
+    result = run_query(
+        "SHOW INDEXES YIELD name, type WHERE name = 'orthologGroupFullText' RETURN count(*) AS cnt"
+    )
+    assert result[0]["cnt"] == 1, "orthologGroupFullText index not found"
+
+
+def test_ortholog_group_fulltext_search_returns_results(run_query):
+    """Fulltext search should return results for 'photosynthesis'."""
+    result = run_query("""
+        CALL db.index.fulltext.queryNodes('orthologGroupFullText', 'photosynthesis')
+        YIELD node, score
+        RETURN count(node) AS matches
+    """)
+    assert result[0]["matches"] > 0, (
+        "orthologGroupFullText search for 'photosynthesis' returned no results"
+    )
+
+
+def test_ortholog_group_description_coverage(run_query):
+    """EggNOG OrthologGroup nodes should have description populated (majority)."""
+    result = run_query("""
+        MATCH (og:OrthologGroup {source: 'eggnog'})
+        RETURN count(og) AS total,
+               count(og.description) AS with_description,
+               toFloat(count(og.description)) / count(og) AS coverage
+    """)
+    coverage = result[0]["coverage"]
+    assert coverage > 0.5, (
+        f"Only {coverage:.1%} of eggNOG OrthologGroup nodes have description; expected > 50%"
+    )
+
+
+def test_ortholog_group_functional_description_coverage(run_query):
+    """Some OrthologGroup nodes should have functional_description."""
+    result = run_query("""
+        MATCH (og:OrthologGroup)
+        RETURN count(og) AS total,
+               count(og.functional_description) AS with_func_desc
+    """)
+    assert result[0]["with_func_desc"] > 100, (
+        f"Only {result[0]['with_func_desc']} OrthologGroup nodes have "
+        f"functional_description; expected > 100"
+    )
+
+
+def test_og_in_cog_category_edges_exist(run_query):
+    """Og_in_cog_category edges should exist."""
+    result = run_query(
+        "MATCH ()-[r:Og_in_cog_category]->() RETURN count(r) AS cnt"
+    )
+    assert result[0]["cnt"] > 100, (
+        f"Only {result[0]['cnt']} Og_in_cog_category edges; expected > 100"
+    )
+
+
+def test_og_has_cyanorak_role_edges_exist(run_query):
+    """Og_has_cyanorak_role edges should exist."""
+    result = run_query(
+        "MATCH ()-[r:Og_has_cyanorak_role]->() RETURN count(r) AS cnt"
+    )
+    assert result[0]["cnt"] > 100, (
+        f"Only {result[0]['cnt']} Og_has_cyanorak_role edges; expected > 100"
+    )
+
+
+def test_og_in_cog_category_targets_valid(run_query):
+    """Og_in_cog_category edges must point to CogFunctionalCategory nodes."""
+    result = run_query("""
+        MATCH (og:OrthologGroup)-[:Og_in_cog_category]->(c)
+        WHERE NOT c:CogFunctionalCategory
+        RETURN count(*) AS bad
+    """)
+    assert result[0]["bad"] == 0, (
+        f"{result[0]['bad']} Og_in_cog_category edges point to non-CogFunctionalCategory nodes"
+    )
+
+
+def test_og_has_cyanorak_role_targets_valid(run_query):
+    """Og_has_cyanorak_role edges must point to CyanorakRole nodes."""
+    result = run_query("""
+        MATCH (og:OrthologGroup)-[:Og_has_cyanorak_role]->(r)
+        WHERE NOT r:CyanorakRole
+        RETURN count(*) AS bad
+    """)
+    assert result[0]["bad"] == 0, (
+        f"{result[0]['bad']} Og_has_cyanorak_role edges point to non-CyanorakRole nodes"
+    )
+
+
 # ---------------------------------------------------------------------------
 # Denormalized Gene.function_description (copied from Protein) — kept from
 # original post-import tests, still validated

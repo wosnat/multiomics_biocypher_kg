@@ -41,6 +41,9 @@ CREATE INDEX ortholog_group_id_idx IF NOT EXISTS FOR (og:OrthologGroup) ON (og.i
 CREATE INDEX ortholog_group_name_idx IF NOT EXISTS FOR (og:OrthologGroup) ON (og.name);
 CREATE INDEX ortholog_group_level_idx IF NOT EXISTS FOR (og:OrthologGroup) ON (og.taxonomic_level);
 CREATE INDEX ortholog_group_rank_idx IF NOT EXISTS FOR (og:OrthologGroup) ON (og.specificity_rank);
+
+CREATE FULLTEXT INDEX orthologGroupFullText IF NOT EXISTS
+  FOR (og:OrthologGroup) ON EACH [og.consensus_product, og.consensus_gene_name, og.description, og.functional_description];
 CYPHER
 
 echo "=== Post-process: Create Pfam indexes ==="

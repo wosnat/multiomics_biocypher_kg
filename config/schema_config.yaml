@@ -110,6 +110,8 @@ ortholog group:
     specificity_rank: int  # 0=curated, 1=family, 2=order, 3=domain (Bacteria)
     consensus_product: str
     consensus_gene_name: str
+    description: str
+    functional_description: str
     member_count: int
     organism_count: int
     genera: str[]
@@ -742,6 +744,22 @@ cyanorak role hierarchical association:
   source: cyanorak role
   target: cyanorak role
   label_in_input: cyanorak_role_is_a_cyanorak_role
+
+og to cog category association:
+  is_a: association
+  represented_as: edge
+  label_as_edge: og_in_cog_category
+  source: ortholog group
+  target: cog functional category
+  label_in_input: og_in_cog_category
+
+og to cyanorak role association:
+  is_a: association
+  represented_as: edge
+  label_as_edge: og_has_cyanorak_role
+  source: ortholog group
+  target: cyanorak role
+  label_in_input: og_has_cyanorak_role
 
 gene to tigr role association:
   is_a: association
