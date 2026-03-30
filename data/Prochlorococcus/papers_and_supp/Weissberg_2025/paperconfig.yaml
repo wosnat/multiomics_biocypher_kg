@@ -425,22 +425,6 @@ publication:
         logfc_col: logFC
         adjusted_p_value_col: padj
         pvalue_threshold: 0.05
-    med4_rnaseq_axenic_longterm_vs_exp_day_7:
-      type: csv
-      filename: data/Prochlorococcus/papers_and_supp/Weissberg_2025/MED4__rnaseq__axenic_MED4__longterm_starvation_days_60_and_89__vs__log_expnential_day_7.csv
-      organism: Prochlorococcus MED4
-      id_columns:
-      - column: gene_id
-        id_type: locus_tag_ncbi
-      statistical_analyses:
-      - id: DE_med4_rnaseq_axenic_longterm_vs_exp_day_7
-        experiment: growth_state_pro99lown_nutrient_starvation_med4_rnaseq_axenic
-        timepoint: days 60+89
-        timepoint_hours: null
-        name_col: gene_id
-        logfc_col: logFC
-        adjusted_p_value_col: padj
-        pvalue_threshold: 0.05
     med4_rnaseq_coculture_day_18_vs_exp_day_11:
       type: csv
       filename: data/Prochlorococcus/papers_and_supp/Weissberg_2025/MED4__rnaseq__coculture_with_HOT1A3__day_18__vs__log_expnential_day_11.csv
