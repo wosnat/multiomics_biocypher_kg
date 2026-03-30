@@ -213,6 +213,36 @@ CALL {
   SET (edges[i]).rank_by_effect = i + 1
 } IN TRANSACTIONS OF 10 ROWS;
 
+// rank_up: among significant_up edges per experiment + timepoint, rank by |log2FC| descending
+MATCH (e:Experiment)
+WITH e
+CALL {
+  WITH e
+  MATCH (e)-[r:Changes_expression_of]->(g:Gene)
+  WHERE r.expression_status = 'significant_up'
+  WITH r.time_point_order AS tp, r, abs(r.log2_fold_change) AS abs_fc,
+       coalesce(r.adjusted_p_value, 2.0) AS padj, g.locus_tag AS lt
+  ORDER BY tp, abs_fc DESC, padj ASC, lt ASC
+  WITH tp, collect(r) AS edges
+  UNWIND range(0, size(edges)-1) AS i
+  SET (edges[i]).rank_up = i + 1
+} IN TRANSACTIONS OF 10 ROWS;
+
+// rank_down: among significant_down edges per experiment + timepoint, rank by |log2FC| descending
+MATCH (e:Experiment)
+WITH e
+CALL {
+  WITH e
+  MATCH (e)-[r:Changes_expression_of]->(g:Gene)
+  WHERE r.expression_status = 'significant_down'
+  WITH r.time_point_order AS tp, r, abs(r.log2_fold_change) AS abs_fc,
+       coalesce(r.adjusted_p_value, 2.0) AS padj, g.locus_tag AS lt
+  ORDER BY tp, abs_fc DESC, padj ASC, lt ASC
+  WITH tp, collect(r) AS edges
+  UNWIND range(0, size(edges)-1) AS i
+  SET (edges[i]).rank_down = i + 1
+} IN TRANSACTIONS OF 10 ROWS;
+
 // closest_ortholog_group_size + closest_ortholog_genera
 MATCH (g:Gene)
 CALL {

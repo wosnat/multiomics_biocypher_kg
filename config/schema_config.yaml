@@ -96,6 +96,9 @@ experiment to gene expression association:
     expression_direction: str
     significant: str
     expression_status: str    # post-import: "significant_up", "significant_down", or "not_significant"
+    rank_by_effect: int       # post-import: rank by |log2FC| among all genes per experiment x timepoint (1 = strongest)
+    rank_up: int              # post-import: rank by |log2FC| among significant_up genes per experiment x timepoint; null if not significant_up
+    rank_down: int            # post-import: rank by |log2FC| among significant_down genes per experiment x timepoint; null if not significant_down
 
 ortholog group:
   is_a: GroupingClass

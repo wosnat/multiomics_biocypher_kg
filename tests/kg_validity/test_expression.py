@@ -425,3 +425,200 @@ def test_no_old_expression_edge_types(run_query):
     assert result[0]["cnt"] == 0, (
         f"{result[0]['cnt']} old-style expression edges still exist"
     )
+
+
+# ---------------------------------------------------------------------------
+# Directional ranks (rank_up, rank_down — post-import computed)
+# ---------------------------------------------------------------------------
+
+def test_rank_up_only_on_significant_up(run_query):
+    """rank_up must be null on edges that are not significant_up."""
+    result = run_query("""
+        MATCH ()-[e:Changes_expression_of]->()
+        WHERE e.rank_up IS NOT NULL
+          AND e.expression_status <> 'significant_up'
+        RETURN count(e) AS bad
+    """)
+    assert result[0]["bad"] == 0, (
+        f"{result[0]['bad']} edges have rank_up set but are not significant_up"
+    )
+
+
+def test_rank_down_only_on_significant_down(run_query):
+    """rank_down must be null on edges that are not significant_down."""
+    result = run_query("""
+        MATCH ()-[e:Changes_expression_of]->()
+        WHERE e.rank_down IS NOT NULL
+          AND e.expression_status <> 'significant_down'
+        RETURN count(e) AS bad
+    """)
+    assert result[0]["bad"] == 0, (
+        f"{result[0]['bad']} edges have rank_down set but are not significant_down"
+    )
+
+
+def test_rank_up_covers_all_significant_up(run_query):
+    """Every significant_up edge must have rank_up set."""
+    result = run_query("""
+        MATCH ()-[e:Changes_expression_of]->()
+        WHERE e.expression_status = 'significant_up'
+          AND e.rank_up IS NULL
+        RETURN count(e) AS missing
+    """)
+    assert result[0]["missing"] == 0, (
+        f"{result[0]['missing']} significant_up edges are missing rank_up"
+    )
+
+
+def test_rank_down_covers_all_significant_down(run_query):
+    """Every significant_down edge must have rank_down set."""
+    result = run_query("""
+        MATCH ()-[e:Changes_expression_of]->()
+        WHERE e.expression_status = 'significant_down'
+          AND e.rank_down IS NULL
+        RETURN count(e) AS missing
+    """)
+    assert result[0]["missing"] == 0, (
+        f"{result[0]['missing']} significant_down edges are missing rank_down"
+    )
+
+
+def test_rank_up_starts_at_one(run_query):
+    """Each experiment x timepoint must have a rank_up = 1 if any significant_up edges exist."""
+    result = run_query("""
+        MATCH (exp:Experiment)-[r:Changes_expression_of]->()
+        WHERE r.expression_status = 'significant_up'
+        WITH exp.id AS eid, r.time_point_order AS tp,
+             min(r.rank_up) AS min_rank
+        WHERE min_rank <> 1
+        RETURN count(*) AS bad,
+               collect(eid + ':tp' + toString(tp))[..5] AS examples
+    """)
+    assert result[0]["bad"] == 0, (
+        f"{result[0]['bad']} experiment x timepoint groups have rank_up not starting at 1: "
+        f"{result[0]['examples']}"
+    )
+
+
+def test_rank_down_starts_at_one(run_query):
+    """Each experiment x timepoint must have a rank_down = 1 if any significant_down edges exist."""
+    result = run_query("""
+        MATCH (exp:Experiment)-[r:Changes_expression_of]->()
+        WHERE r.expression_status = 'significant_down'
+        WITH exp.id AS eid, r.time_point_order AS tp,
+             min(r.rank_down) AS min_rank
+        WHERE min_rank <> 1
+        RETURN count(*) AS bad,
+               collect(eid + ':tp' + toString(tp))[..5] AS examples
+    """)
+    assert result[0]["bad"] == 0, (
+        f"{result[0]['bad']} experiment x timepoint groups have rank_down not starting at 1: "
+        f"{result[0]['examples']}"
+    )
+
+
+def test_rank_up_contiguous(run_query):
+    """rank_up values must be contiguous 1..N within each experiment x timepoint."""
+    result = run_query("""
+        MATCH (exp:Experiment)-[r:Changes_expression_of]->()
+        WHERE r.expression_status = 'significant_up'
+        WITH exp.id AS eid, r.time_point_order AS tp,
+             count(r) AS n, max(r.rank_up) AS max_rank
+        WHERE max_rank <> n
+        RETURN count(*) AS bad,
+               collect(eid + ':tp' + toString(tp) + ' n=' + toString(n) + ' max=' + toString(max_rank))[..5] AS examples
+    """)
+    assert result[0]["bad"] == 0, (
+        f"{result[0]['bad']} experiment x timepoint groups have non-contiguous rank_up: "
+        f"{result[0]['examples']}"
+    )
+
+
+def test_rank_down_contiguous(run_query):
+    """rank_down values must be contiguous 1..N within each experiment x timepoint."""
+    result = run_query("""
+        MATCH (exp:Experiment)-[r:Changes_expression_of]->()
+        WHERE r.expression_status = 'significant_down'
+        WITH exp.id AS eid, r.time_point_order AS tp,
+             count(r) AS n, max(r.rank_down) AS max_rank
+        WHERE max_rank <> n
+        RETURN count(*) AS bad,
+               collect(eid + ':tp' + toString(tp) + ' n=' + toString(n) + ' max=' + toString(max_rank))[..5] AS examples
+    """)
+    assert result[0]["bad"] == 0, (
+        f"{result[0]['bad']} experiment x timepoint groups have non-contiguous rank_down: "
+        f"{result[0]['examples']}"
+    )
+
+
+def test_rank_up_rank_down_mutually_exclusive(run_query):
+    """No edge should have both rank_up and rank_down set."""
+    result = run_query("""
+        MATCH ()-[e:Changes_expression_of]->()
+        WHERE e.rank_up IS NOT NULL AND e.rank_down IS NOT NULL
+        RETURN count(e) AS bad
+    """)
+    assert result[0]["bad"] == 0, (
+        f"{result[0]['bad']} edges have both rank_up and rank_down set"
+    )
+
+
+def test_not_significant_edges_have_no_directional_rank(run_query):
+    """not_significant edges must have both rank_up and rank_down as null."""
+    result = run_query("""
+        MATCH ()-[e:Changes_expression_of]->()
+        WHERE e.expression_status = 'not_significant'
+          AND (e.rank_up IS NOT NULL OR e.rank_down IS NOT NULL)
+        RETURN count(e) AS bad
+    """)
+    assert result[0]["bad"] == 0, (
+        f"{result[0]['bad']} not_significant edges have a directional rank set"
+    )
+
+
+# ---------------------------------------------------------------------------
+# rank_by_effect (post-import computed — all edges regardless of direction)
+# ---------------------------------------------------------------------------
+
+def test_rank_by_effect_populated(run_query):
+    """Every expression edge must have rank_by_effect set."""
+    result = run_query("""
+        MATCH ()-[e:Changes_expression_of]->()
+        WHERE e.rank_by_effect IS NULL
+        RETURN count(e) AS missing
+    """)
+    assert result[0]["missing"] == 0, (
+        f"{result[0]['missing']} expression edges are missing rank_by_effect"
+    )
+
+
+def test_rank_by_effect_starts_at_one(run_query):
+    """Each experiment x timepoint must have rank_by_effect = 1."""
+    result = run_query("""
+        MATCH (exp:Experiment)-[r:Changes_expression_of]->()
+        WITH exp.id AS eid, r.time_point_order AS tp,
+             min(r.rank_by_effect) AS min_rank
+        WHERE min_rank <> 1
+        RETURN count(*) AS bad,
+               collect(eid + ':tp' + toString(tp))[..5] AS examples
+    """)
+    assert result[0]["bad"] == 0, (
+        f"{result[0]['bad']} experiment x timepoint groups have rank_by_effect not starting at 1: "
+        f"{result[0]['examples']}"
+    )
+
+
+def test_rank_by_effect_contiguous(run_query):
+    """rank_by_effect must be contiguous 1..N within each experiment x timepoint."""
+    result = run_query("""
+        MATCH (exp:Experiment)-[r:Changes_expression_of]->()
+        WITH exp.id AS eid, r.time_point_order AS tp,
+             count(r) AS n, max(r.rank_by_effect) AS max_rank
+        WHERE max_rank <> n
+        RETURN count(*) AS bad,
+               collect(eid + ':tp' + toString(tp) + ' n=' + toString(n) + ' max=' + toString(max_rank))[..5] AS examples
+    """)
+    assert result[0]["bad"] == 0, (
+        f"{result[0]['bad']} experiment x timepoint groups have non-contiguous rank_by_effect: "
+        f"{result[0]['examples']}"
+    )
