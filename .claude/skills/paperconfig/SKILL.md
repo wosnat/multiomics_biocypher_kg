@@ -261,6 +261,41 @@ Use when a paper includes a GFF3 or GTF file from a custom genome reannotation. 
 - `organism` is **required** for this type.
 - Both GFF3 (`.gff`, `.gff3`) and GTF (`.gtf`) formats are supported.
 
+#### Type `gene_clusters` -- Co-expression cluster membership
+
+For papers that report co-expression clusters, diel periodicity groups, or expression-level classifications with gene membership lists. Processed by `cluster_adapter.py` (not `omics_adapter`).
+
+```yaml
+  cluster_table_1:
+    type: gene_clusters
+    filename: "data/.../clusters.csv"
+    organism: "Prochlorococcus MED4"
+    gene_id_col: "ORF"              # column with gene identifiers
+    cluster_col: "cluster"           # column with cluster assignment
+    score_col: "membership"          # optional: fuzzy membership score
+    cluster_method: "Mfuzz soft clustering"
+    omics_type: MICROARRAY
+    light_condition: "14:10 L:D"
+    treatment_type: ["diel"]         # array -- same vocabulary as experiments
+    treatment: "Diel transcriptome, 2h sampling"
+    experimental_context: "Custom Affymetrix array, 14:10 L:D cycle, 2 days"
+    clusters:
+      cluster_1:
+        name: "Cluster 1"
+        cluster_type: "diel_periodicity"  # diel_periodicity | stress_response | expression_level
+        functional_description: "PSI and PSII genes (FDR 1.5e-9)"
+        behavioral_description: "Peaks at dawn, drops through day"
+        peak_time_hours: 2.0          # optional: for diel clusters
+        period_hours: 24.0            # optional: for periodic clusters
+```
+
+- **Required table fields:** `filename`, `organism`, `gene_id_col`, `cluster_col`, `clusters`
+- **Per-cluster required:** `name`, `cluster_type`
+- **Per-cluster recommended:** `functional_description`, `behavioral_description`
+- **`treatment_type`** uses the same enum as experiments (`nitrogen_stress`, `carbon_stress`, `diel`, `oxygen_stress`, `light_stress`, `temperature_stress`, etc.). Must be an array.
+- Gene IDs go through the same step 4 resolution pipeline as DE tables.
+- For papers with separate clusters per organism (e.g., Tolonen 2006 MED4 + MIT9313), use two `type: gene_clusters` entries.
+
 #### ID Types (`id_type` values)
 
 | `id_type` | Description | Example |
