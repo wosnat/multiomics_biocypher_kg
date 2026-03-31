@@ -292,6 +292,50 @@ def test_make_cluster_id_with_doi():
     assert cid == "cluster:my.paper:med4:k1"
 
 
+def test_cluster_id_uses_explicit_id_field(temp_dir):
+    """When cluster has an 'id' field, it overrides the YAML key in the node ID."""
+    csv_path = os.path.join(temp_dir, "clusters.csv")
+    _write_cluster_csv(csv_path, with_resolved=False)
+    # Write config with explicit id on cluster "1"
+    config = {
+        "publication": {
+            "papername": "Test 2024",
+            "doi": "10.1234/test.2024",
+            "supplementary_materials": {
+                "ct": {
+                    "type": "gene_clusters",
+                    "filename": csv_path,
+                    "cluster_col": "cluster",
+                    "gene_id_col": "gene_id",
+                    "organism": "Prochlorococcus MED4",
+                    "clusters": {
+                        "1": {
+                            "id": "up_n_transport",
+                            "name": "Cluster 1",
+                            "cluster_type": "stress_response",
+                        },
+                        "2": {
+                            "name": "Cluster 2",
+                            "cluster_type": "stress_response",
+                        },
+                    },
+                }
+            },
+        }
+    }
+    config_path = os.path.join(temp_dir, "paperconfig.yaml")
+    with open(config_path, "w") as f:
+        yaml.dump(config, f)
+
+    adapter = ClusterAdapter(config_file=config_path)
+    nodes = adapter.get_nodes()
+    ids = {n[0] for n in nodes}
+    # Cluster 1 uses explicit id "up_n_transport"
+    assert "cluster:test.2024:med4:up_n_transport" in ids
+    # Cluster 2 falls back to YAML key "2"
+    assert "cluster:test.2024:med4:2" in ids
+
+
 # ─── Test 6: _resolve_csv_path prefers _resolved.csv ────────────────────────
 
 

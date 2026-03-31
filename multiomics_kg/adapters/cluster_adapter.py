@@ -115,8 +115,10 @@ class ClusterAdapter:
             organism = table.get("organism", "")
             clusters_meta = table.get("clusters", {})
             for cluster_key, cluster_info in clusters_meta.items():
+                # Use explicit id if provided, else fall back to the YAML key
+                id_slug = cluster_info.get("id", cluster_key)
                 cluster_id = _make_cluster_id(
-                    self.doi, self.paper_name, organism, cluster_key
+                    self.doi, self.paper_name, organism, id_slug
                 )
 
                 mask = df[cluster_col].astype(str) == str(cluster_key)
@@ -181,9 +183,10 @@ class ClusterAdapter:
             clusters_meta = table.get("clusters", {})
 
             rows_processed = 0
-            for cluster_key in clusters_meta:
+            for cluster_key, cluster_info in clusters_meta.items():
+                id_slug = cluster_info.get("id", cluster_key)
                 cluster_id = _make_cluster_id(
-                    self.doi, self.paper_name, organism, cluster_key
+                    self.doi, self.paper_name, organism, id_slug
                 )
 
                 # Gene_in_gene_cluster edges

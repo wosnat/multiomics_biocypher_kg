@@ -249,46 +249,55 @@ publication:
       experimental_context: "Custom Affymetrix microarray MD4-9313, MED4 in Pro99 at 22C, 50 umol photons m-2 s-1 continuous light. 410 DE genes (q<0.05) clustered."
       clusters:
         "1":
+          id: "up_n_transport"
           name: "MED4 cluster 1 (up, N transport)"
           cluster_type: "stress_response"
           functional_description: "N transport genes: urtA, cynA, urea ABC transporter, cyanate ABC transporter. NtcA targets with high-ranking NtcA binding sites."
           behavioral_description: "Rapid and strong upregulation within 3h of N deprivation. Highest fold changes in the dataset (urtA 33x, cynA 53x). Sustained throughout 48h time course."
         "2":
+          id: "up_hli_rapid"
           name: "MED4 cluster 2 (up, hli rapid)"
           cluster_type: "stress_response"
           functional_description: "Dominated by high-light-inducible (hli) genes from genomic islands, plus hypothetical proteins. Enriched for Adaptations and atypical conditions."
           behavioral_description: "Rapid and very high upregulation, responding within 3h. MED4 hli10 was the most highly upregulated among hli genes. Rapid responders that peak early."
         "3":
+          id: "up_hli_delayed"
           name: "MED4 cluster 3 (up, hli delayed)"
           cluster_type: "stress_response"
           functional_description: "hli genes (core genome, later response) and sigma factors. Includes sigma factors PMM1289 (repressed) and PMM1697."
           behavioral_description: "Upregulated but with delayed response compared to cluster 2. Expression increases gradually over the first 12h, sustained through 48h."
         "4":
+          id: "up_amino_acid"
           name: "MED4 cluster 4 (up, amino acid synthesis)"
           cluster_type: "stress_response"
           functional_description: "Enriched for amino acid biosynthesis (P=0.18, not significant). Diverse functions including N assimilation (glnA, glnB), genes of unknown function."
           behavioral_description: "Moderate upregulation, broadly distributed response. Expression rises steadily from 3-12h, maintained through 48h."
         "5":
+          id: "up_regulation"
           name: "MED4 cluster 5 (up, regulation)"
           cluster_type: "stress_response"
           functional_description: "Enriched for regulation (P=0.18, not significant). Diverse cellular functions. Contains two upregulated sigma factors."
           behavioral_description: "Moderate upregulation with gradual increase. Peak expression around 12-24h. Includes genes involved in diverse cellular processes."
         "6":
+          id: "down_translation"
           name: "MED4 cluster 6 (down, translation)"
           cluster_type: "stress_response"
           functional_description: "Strongly enriched for Translation (P=2.7e-9). Ribosomal proteins and translation machinery. Largest cluster (124 genes)."
           behavioral_description: "Rapid and sustained downregulation. Expression drops sharply within 3-6h of N deprivation and remains repressed through 48h."
         "7":
+          id: "down_transport"
           name: "MED4 cluster 7 (down, transport)"
           cluster_type: "stress_response"
           functional_description: "Enriched for Transport and binding proteins (P=0.01). Repressed cluster with single functional category enrichment."
           behavioral_description: "Moderate downregulation. Expression decreases gradually over the time course, with strongest repression at 24-48h."
         "8":
+          id: "down_photosynthesis_psi"
           name: "MED4 cluster 8 (down, photosynthesis PSI)"
           cluster_type: "stress_response"
           functional_description: "Strongly enriched for Photosynthesis and Respiration (P=2.5e-9). Contains PSI genes psaBDEIJKLM. Photosystem I operon genes."
           behavioral_description: "Strong downregulation. Expression drops rapidly within 6h and remains repressed. PSI genes show coordinated repression throughout the time course."
         "9":
+          id: "down_carbon_fixation"
           name: "MED4 cluster 9 (down, carbon fixation)"
           cluster_type: "stress_response"
           functional_description: "Enriched for Photosynthesis and Respiration (P=1.4e-6). Contains ATP synthase subunits and carbon fixation genes (rbcLS). Smallest cluster (8 genes)."
@@ -308,36 +317,43 @@ publication:
       experimental_context: "Custom Affymetrix microarray MD4-9313, MIT9313 in Pro99 at 22C, 50 umol photons m-2 s-1 continuous light. 559 DE genes (q<0.05) clustered."
       clusters:
         "1":
+          id: "up_n_transport"
           name: "MIT9313 cluster 1 (up, N transport)"
           cluster_type: "stress_response"
           functional_description: "N transport and assimilation: urtA, nirA (nitrite reductase), nitrite permease, urea ABC transporter. NtcA-regulated. Enriched for Transport and binding (P=0.04)."
           behavioral_description: "Rapid and strong upregulation. Highest fold changes, responding within 3h. NtcA targets with conserved binding sites. hli5 and hli7 among most upregulated genes in genome (~70-fold)."
         "2":
+          id: "up_regulation"
           name: "MIT9313 cluster 2 (up, regulation)"
           cluster_type: "stress_response"
           functional_description: "Enriched for Regulation (P=0.03). Contains sigma factors PMT2246, PMT0346. Also hli genes with delayed response."
           behavioral_description: "Upregulation increasing throughout the 48h time course. Expression rises more slowly than cluster 1 but continues to increase at later timepoints."
         "3":
+          id: "up_broad"
           name: "MIT9313 cluster 3 (up, broad)"
           cluster_type: "stress_response"
           functional_description: "Enriched for Regulation (P=0.09, not significant). Largest upregulated cluster (132 genes). Diverse functions."
           behavioral_description: "Gradual upregulation that increases throughout the experiment. MIT9313 upregulated clusters responded more slowly than MED4 but expression levels continued increasing through 48h."
         "4":
+          id: "down_late_shutdown"
           name: "MIT9313 cluster 4 (down, late general shutdown)"
           cluster_type: "stress_response"
           functional_description: "Enriched for Transport and binding (P=0.39, not significant). Contains N and C metabolism genes (glnB, icd, acnB, rbcLS). Largest cluster (139 genes)."
           behavioral_description: "Genes unchanged until late timepoint (48h) then repressed. Likely represents general transcriptional shutdown as cells enter severe N starvation, not a specific N stress response. Fv/Fm and fluorescence show cells in severe stress by this time."
         "5":
+          id: "down_fatty_acid"
           name: "MIT9313 cluster 5 (down, fatty acid)"
           cluster_type: "stress_response"
           functional_description: "Enriched for Fatty acid, phospholipid, and sterol metabolism (P=0.004). Repressed cluster."
           behavioral_description: "Downregulation beginning at 6-12h, sustained through 48h. Progressive repression of membrane lipid biosynthesis during N starvation."
         "6":
+          id: "down_photosynthesis"
           name: "MIT9313 cluster 6 (down, photosynthesis)"
           cluster_type: "stress_response"
           functional_description: "Enriched for Photosynthesis and Respiration (P=4.9e-4). Contains PSI and PSII genes, phycoerythrin gene cpeB. Only cluster enriched for photosynthesis in MIT9313."
           behavioral_description: "Downregulation of photosynthetic machinery. Expression decreases progressively from 6h through 48h. Coordinated repression of diverse photosystem components."
         "7":
+          id: "down_translation"
           name: "MIT9313 cluster 7 (down, translation)"
           cluster_type: "stress_response"
           functional_description: "Strongly enriched for Translation (P=7.9e-10). Ribosomal proteins and translation machinery."
