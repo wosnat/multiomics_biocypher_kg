@@ -231,46 +231,66 @@ New script: `multiomics_kg/extraction/extract_cluster_descriptions.py`
 
 Follows the same pattern as `multiomics_kg/adapters/pdf_publication_extraction.py` (PDF text → LLM prompt → structured JSON → cache).
 
-**Flow:**
-1. Read the paper PDF (reuse `_extract_pdf_text` approach from `PDFPublicationExtractor`)
-2. Read the cluster CSV to get cluster IDs and member gene counts
-3. Prompt the LLM with paper text + cluster list, asking for `functional_description` and `behavioral_description` per cluster
-4. Cache results as JSON (keyed by DOI + cluster table filename)
-5. Output as a YAML fragment for pasting into the paperconfig `clusters:` block
+**Architecture: Two-stage extraction (retrieve then synthesize)**
 
-**LLM prompt principles:**
-- Emphasize: extract ONLY what the paper explicitly states. Do not infer, synthesize, or guess.
-- For each cluster, return a `confidence` field: `"explicit"` (paper describes this cluster directly), `"inferred"` (derived from figures/context but not stated for this cluster), or `"not_available"` (paper does not describe this cluster).
-- When `not_available`, return empty string for the description — do not fabricate.
-- Include `source` field: quote or paraphrase the specific sentence/figure reference the description came from (e.g., "Figure 3B caption", "Results section paragraph 4", "Table 1 row header").
+Based on retrospective of manually-written Tolonen 2006 descriptions, the biggest risk is cross-contamination — citing genes or stats from cluster N in the description of cluster M. Papers discuss clusters thematically (e.g., all hli genes together), not one-cluster-at-a-time. Splitting into two stages prevents this.
 
-**Prompt sketch:**
+**Stage 1: Retrieval — find cluster references in the paper text**
+
+- Input: paper PDF text + list of cluster IDs/names from the CSV
+- Task: for each cluster, find all paragraphs/sentences/figure legends that explicitly mention it
+- Output: `{cluster_key: [{quote: "...", location: "Results, paragraph 3"}, ...]}`
+- Can be partially non-LLM: regex search for "cluster 1", "cluster 2", etc. finds most references. LLM only needed for ambiguous references ("the upregulated clusters", "the first group").
+- Validation: check coverage — which clusters have zero references? Flag for manual attention.
+
+**Stage 2: Synthesis — write descriptions from retrieved quotes only**
+
+- Input: per-cluster quotes from stage 1 + cluster metadata (member count, enrichment if available)
+- Task: write `functional_description` and `behavioral_description` from ONLY the provided quotes
+- Output: `{cluster_key: {functional_description, behavioral_description, confidence, source}}`
+- Constraint: the LLM does NOT see the full paper text — only the quotes from stage 1. This prevents cross-contamination.
+- `confidence`: `"explicit"` (quotes directly describe this cluster), `"inferred"` (quotes are about a group that includes this cluster), `"not_available"` (no quotes found).
+
+**Why two stages:**
+- Stage 1 output is auditable — you can see exactly what text was found before any interpretation
+- Stage 2 input is scoped — the LLM can only synthesize from retrieved quotes, not the whole paper
+- Errors are traceable — wrong description? Check whether stage 1 found the wrong text or stage 2 interpreted it wrong
+
+**Stage 1 prompt sketch:**
 ```
-You are extracting cluster descriptions from a scientific paper.
-CRITICAL RULES:
-- Only report what the paper EXPLICITLY states about each cluster.
-- If the paper does not describe a cluster, set confidence to "not_available"
-  and leave the description as "".
-- Do NOT infer functional descriptions from gene names or IDs.
-- Do NOT synthesize descriptions from general paper context.
-- Include the source (figure, table, section) for each description.
+You are finding references to gene expression clusters in a scientific paper.
+The paper reports {n} clusters from {method} analysis of {organism} under
+{treatment}.
 
-Paper: {organism} under {treatment}. Authors identified {n} clusters
-via {method}.
+For each cluster listed below, find ALL sentences, paragraphs, or figure/table
+legends that reference it. Include:
+- Direct mentions: "cluster 1", "cluster 3 and 4", "the first cluster"
+- Figure/table references: "Figure 3A shows cluster 1...", enrichment p-values
+- Gene lists attributed to specific clusters
 
-For each cluster, extract:
-1. functional_description — what types of genes (enrichment, categories)
-2. behavioral_description — temporal/response pattern (peak time, shape)
-3. confidence — "explicit" | "inferred" | "not_available"
-4. source — where in the paper this information comes from
+Return JSON: {cluster_key: [{quote: "exact quote", location: "section/figure"}]}
+If a cluster is not mentioned anywhere, return an empty list.
 
-Clusters found in the data:
-- cluster_1: 142 genes
-- cluster_2: 89 genes
-- ...
+Clusters: [1, 2, 3, ...]
+```
 
-Return JSON: {cluster_id: {functional_description, behavioral_description,
-confidence, source}}
+**Stage 2 prompt sketch:**
+```
+You are writing descriptions for gene expression clusters.
+For each cluster below, you are given ONLY the relevant quotes from the paper.
+Do NOT add information not present in the quotes.
+
+For each cluster, write:
+1. functional_description — what types of genes are in this cluster
+2. behavioral_description — the temporal/response pattern
+3. confidence — "explicit" if quotes directly describe this cluster,
+   "inferred" if quotes are about a broader group, "not_available" if
+   no information
+4. id — a short snake_case identifier summarizing the cluster (e.g.,
+   "up_n_transport", "down_translation")
+
+Cluster {key} ({n} genes):
+Quotes: [...]
 ```
 
 **Validation and review workflow:**
