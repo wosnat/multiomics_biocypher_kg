@@ -72,6 +72,22 @@ CREATE INDEX experiment_omics_type_idx IF NOT EXISTS FOR (e:Experiment) ON (e.om
 
 CREATE FULLTEXT INDEX experimentFullText IF NOT EXISTS
   FOR (e:Experiment) ON EACH [e.name, e.treatment, e.control, e.experimental_context, e.light_condition];
+
+// ── GeneCluster indexes ─────────────────────────────────────────────────
+CREATE INDEX gene_cluster_organism_idx IF NOT EXISTS FOR (gc:GeneCluster) ON (gc.organism_name);
+CREATE INDEX gene_cluster_treatment_type_idx IF NOT EXISTS FOR (gc:GeneCluster) ON (gc.treatment_type);
+CREATE INDEX gene_cluster_type_idx IF NOT EXISTS FOR (gc:GeneCluster) ON (gc.cluster_type);
+
+CREATE FULLTEXT INDEX geneClusterFullText IF NOT EXISTS
+  FOR (gc:GeneCluster) ON EACH [gc.name, gc.functional_description, gc.behavioral_description, gc.experimental_context];
+CYPHER
+
+echo "=== Post-process: Compute GeneCluster member_count ==="
+cypher-shell <<'CYPHER'
+MATCH (gc:GeneCluster)
+OPTIONAL MATCH (gc)-[r:Gene_in_gene_cluster]->()
+WITH gc, count(r) AS actual_count
+SET gc.member_count = actual_count;
 CYPHER
 
 echo "=== Post-process: Compute Publication summary properties ==="

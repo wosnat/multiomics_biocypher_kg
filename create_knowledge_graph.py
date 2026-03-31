@@ -4,6 +4,7 @@ from pathlib import Path
 
 from biocypher import BioCypher
 from multiomics_kg.adapters.omics_adapter import MultiOMICSAdapter
+from multiomics_kg.adapters.cluster_adapter import MultiClusterAdapter
 from multiomics_kg.adapters.uniprot_adapter import MultiUniprot
 from multiomics_kg.adapters.go_adapter import GO
 
@@ -83,6 +84,15 @@ def main():
     omics_adapter.download_data(cache=CACHE)
     bc.write_nodes(omics_adapter.get_nodes())
     bc.write_edges(omics_adapter.get_edges())
+
+    # Gene cluster data (co-expression clusters from publications)
+    cluster_adapter = MultiClusterAdapter(
+        config_list_file='data/Prochlorococcus/papers_and_supp/paperconfig_files.txt',
+        genome_config_file='data/Prochlorococcus/genomes/cyanobacteria_genomes.csv',
+        test_mode=TEST_MODE,
+    )
+    bc.write_nodes(cluster_adapter.get_nodes())
+    bc.write_edges(cluster_adapter.get_edges())
 
     # Gene → GO annotation edges + GO hierarchy subset (lightweight, always runs)
     go_anno_adapter = MultiGoAnnotationAdapter(
