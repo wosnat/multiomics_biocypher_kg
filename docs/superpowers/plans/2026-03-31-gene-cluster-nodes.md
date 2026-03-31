@@ -10,6 +10,25 @@
 
 **Spec:** `docs/superpowers/specs/2026-03-31-gene-cluster-nodes-design.md`
 
+## Task Order and Review Gates
+
+| # | Task | Description |
+|---|---|---|
+| 1 | Schema | Add GeneCluster node + 3 edge types to schema_config.yaml |
+| 2 | Paperconfig utils | Add `iter_cluster_tables()` helper |
+| 3 | Cluster adapter | ClusterAdapter + MultiClusterAdapter with tests |
+| | **REVIEW GATE A** | **Core code works with test data. Review adapter output before building tooling.** |
+| 4 | Validation script | Extend validate_paperconfig.py for gene_clusters |
+| 5 | Gene ID resolution | Extend resolve_paper_ids.py for gene_clusters |
+| 6 | Skill docs | Update SKILL.md with gene_clusters format |
+| | **REVIEW GATE B** | **Tooling is ready. Review before creating real data with it.** |
+| 7 | Data prep | Prepare Tolonen 2006 cluster CSV + paperconfig entries |
+| | **REVIEW GATE C** | **Critical: review cluster CSV content, descriptions, gene ID resolution rates. Data quality gets locked in here.** |
+| 8 | Pipeline integration | Wire MultiClusterAdapter into create_knowledge_graph.py |
+| 9 | Post-import | Add indexes + member_count verification |
+| 10 | Full verification | Run tests, test-mode build, inspect output |
+| | **REVIEW GATE D** | **Inspect build output CSVs before deploying to Neo4j.** |
+
 ---
 
 ## File Map
@@ -810,7 +829,76 @@ git commit -m "feat: extend resolve_paper_ids to handle gene_clusters tables"
 
 ---
 
-### Task 6: Data — Prepare Tolonen 2006 cluster data and paperconfig
+> **REVIEW GATE A:** Core code (schema, utils, adapter, validation, resolution) works with test data. Review adapter test output before building tooling and real data.
+
+---
+
+### Task 6: Skill docs — Update paperconfig SKILL.md
+
+**Files:**
+- Modify: `.claude/skills/paperconfig/SKILL.md`
+
+- [ ] **Step 1: Add gene_clusters documentation**
+
+Add a new section after the existing `id_translation` documentation:
+
+```markdown
+### Gene Cluster Tables (`type: gene_clusters`)
+
+For papers that report co-expression clusters, diel periodicity groups, or
+expression-level classifications with gene membership lists.
+
+```yaml
+  cluster_table_1:
+    type: gene_clusters
+    filename: "data/.../clusters.csv"
+    organism: "Prochlorococcus MED4"
+    gene_id_col: "ORF"              # column with gene identifiers
+    cluster_col: "cluster"           # column with cluster assignment
+    score_col: "membership"          # optional: fuzzy membership score
+    cluster_method: "Mfuzz soft clustering"
+    omics_type: MICROARRAY
+    light_condition: "14:10 L:D"
+    treatment_type: ["diel"]         # array — same vocabulary as experiments
+    treatment: "Diel transcriptome, 2h sampling"
+    experimental_context: "Custom Affymetrix array, 14:10 L:D cycle, 2 days"
+    clusters:
+      cluster_1:
+        name: "Cluster 1"
+        cluster_type: "diel_periodicity"  # diel_periodicity | stress_response | expression_level
+        functional_description: "PSI and PSII genes (FDR 1.5e-9)"
+        behavioral_description: "Peaks at dawn, drops through day"
+        peak_time_hours: 2.0          # optional: for diel clusters
+        period_hours: 24.0            # optional: for periodic clusters
+```
+
+**Required fields:** `filename`, `organism`, `gene_id_col`, `cluster_col`, `clusters`
+
+**Per-cluster required:** `name`, `cluster_type`
+
+**Per-cluster recommended:** `functional_description`, `behavioral_description`
+
+**treatment_type values:** Same enum as experiments — `nitrogen_stress`, `carbon_stress`,
+`diel`, `oxygen_stress`, `light_stress`, `temperature_stress`, etc. Use an array
+because some clusters span multiple conditions.
+
+Gene IDs go through the same step 4 resolution pipeline as DE tables.
+```
+
+- [ ] **Step 2: Commit**
+
+```bash
+git add .claude/skills/paperconfig/SKILL.md
+git commit -m "docs: add gene_clusters format to paperconfig skill"
+```
+
+---
+
+> **REVIEW GATE B:** Tooling is ready (validation, resolution, skill docs). Review before creating real data with it.
+
+---
+
+### Task 7: Data — Prepare Tolonen 2006 cluster data and paperconfig
 
 **Files:**
 - Create: cluster CSV(s) in `data/Prochlorococcus/papers_and_supp/tolonen 2006/`
@@ -881,7 +969,14 @@ git commit -m "data: add Tolonen 2006 MED4 K-means cluster data"
 
 ---
 
-### Task 7: Pipeline integration — Wire up MultiClusterAdapter in create_knowledge_graph.py
+> **REVIEW GATE C — CRITICAL:** Review the Tolonen cluster CSV content, cluster descriptions (functional + behavioral), and gene ID resolution rates. Data quality gets locked in here. Check:
+> - Does the CSV have the expected number of genes per cluster?
+> - Do cluster descriptions accurately reflect the paper?
+> - What is the gene ID resolution rate? Any systematic mismatches?
+
+---
+
+### Task 8: Pipeline integration — Wire up MultiClusterAdapter in create_knowledge_graph.py
 
 **Files:**
 - Modify: `create_knowledge_graph.py`
@@ -923,7 +1018,7 @@ git commit -m "feat: wire MultiClusterAdapter into KG build pipeline"
 
 ---
 
-### Task 8: Post-import — Add indexes and member_count verification
+### Task 9: Post-import — Add indexes and member_count verification
 
 **Files:**
 - Modify: `scripts/post-import.sh`
@@ -968,64 +1063,9 @@ git commit -m "post-import: add GeneCluster indexes and member_count verificatio
 
 ---
 
-### Task 9: Skill docs — Update paperconfig SKILL.md
+---
 
-**Files:**
-- Modify: `.claude/skills/paperconfig/SKILL.md`
-
-- [ ] **Step 1: Add gene_clusters documentation**
-
-Add a new section after the existing `id_translation` documentation:
-
-```markdown
-### Gene Cluster Tables (`type: gene_clusters`)
-
-For papers that report co-expression clusters, diel periodicity groups, or
-expression-level classifications with gene membership lists.
-
-```yaml
-  cluster_table_1:
-    type: gene_clusters
-    filename: "data/.../clusters.csv"
-    organism: "Prochlorococcus MED4"
-    gene_id_col: "ORF"              # column with gene identifiers
-    cluster_col: "cluster"           # column with cluster assignment
-    score_col: "membership"          # optional: fuzzy membership score
-    cluster_method: "Mfuzz soft clustering"
-    omics_type: MICROARRAY
-    light_condition: "14:10 L:D"
-    treatment_type: ["diel"]         # array — same vocabulary as experiments
-    treatment: "Diel transcriptome, 2h sampling"
-    experimental_context: "Custom Affymetrix array, 14:10 L:D cycle, 2 days"
-    clusters:
-      cluster_1:
-        name: "Cluster 1"
-        cluster_type: "diel_periodicity"  # diel_periodicity | stress_response | expression_level
-        functional_description: "PSI and PSII genes (FDR 1.5e-9)"
-        behavioral_description: "Peaks at dawn, drops through day"
-        peak_time_hours: 2.0          # optional: for diel clusters
-        period_hours: 24.0            # optional: for periodic clusters
-```
-
-**Required fields:** `filename`, `organism`, `gene_id_col`, `cluster_col`, `clusters`
-
-**Per-cluster required:** `name`, `cluster_type`
-
-**Per-cluster recommended:** `functional_description`, `behavioral_description`
-
-**treatment_type values:** Same enum as experiments — `nitrogen_stress`, `carbon_stress`,
-`diel`, `oxygen_stress`, `light_stress`, `temperature_stress`, etc. Use an array
-because some clusters span multiple conditions.
-
-Gene IDs go through the same step 4 resolution pipeline as DE tables.
-```
-
-- [ ] **Step 2: Commit**
-
-```bash
-git add .claude/skills/paperconfig/SKILL.md
-git commit -m "docs: add gene_clusters format to paperconfig skill"
-```
+> **REVIEW GATE D:** Inspect build output CSVs before deploying to Neo4j. Check GeneCluster node count, edge counts, property completeness.
 
 ---
 
