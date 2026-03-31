@@ -5,6 +5,7 @@ Reads gene_clusters entries from paperconfig.yaml files and emits
 GeneCluster nodes with Gene_in_gene_cluster membership edges,
 Publication_has_gene_cluster edges, and Genecluster_belongs_to_organism edges.
 """
+import json
 import logging
 from pathlib import Path
 
@@ -19,6 +20,9 @@ from multiomics_kg.utils.paperconfig_utils import (
 
 logger = logging.getLogger(__name__)
 
+# Default cache path for PDF extraction (same as pdf_publication_extraction.py)
+_DEFAULT_PDF_CACHE = Path(__file__).parent.parent.parent / "cache" / "pdf_extraction_cache.json"
+
 
 def _clean_str(value) -> str:
     """Sanitize string for BioCypher CSV output."""
@@ -27,13 +31,20 @@ def _clean_str(value) -> str:
     return value.replace("'", "^").replace("|", ",")
 
 
-def _make_cluster_id(doi: str, paper_name: str, table_key: str, cluster_key: str) -> str:
-    """Build cluster node ID: cluster:{doi_short_or_paper}:{table_key}:{cluster_key}."""
+def _make_cluster_id(doi: str, paper_name: str, organism: str, cluster_key: str) -> str:
+    """Build cluster node ID: cluster:{doi_short}:{organism_suffix}:{cluster_key}.
+
+    Uses DOI short form when available, falls back to paper_name slug.
+    Adds organism suffix to disambiguate when a paper has clusters for
+    multiple organisms (e.g., MED4 + MIT9313).
+    """
     if doi:
         doi_short = doi.rsplit("/", 1)[-1] if "/" in doi else doi
     else:
         doi_short = paper_name.lower().replace(" ", "_")
-    return f"cluster:{doi_short}:{table_key}:{cluster_key}"
+    # Short organism suffix: "Prochlorococcus MED4" → "med4"
+    org_suffix = organism.split()[-1].lower() if organism else "unknown"
+    return f"cluster:{doi_short}:{org_suffix}:{cluster_key}"
 
 
 def _resolve_csv_path(csv_path: str) -> Path:
@@ -43,6 +54,17 @@ def _resolve_csv_path(csv_path: str) -> Path:
     if resolved.exists():
         return resolved
     return p
+
+
+def _load_pdf_cache(cache_path: Path = _DEFAULT_PDF_CACHE) -> dict:
+    """Load the PDF extraction cache (DOI, title, etc.)."""
+    if cache_path.exists():
+        try:
+            with open(cache_path) as f:
+                return json.load(f)
+        except Exception:
+            pass
+    return {}
 
 
 class ClusterAdapter:
@@ -59,8 +81,19 @@ class ClusterAdapter:
         self._organism_lookup: dict[str, str] = {}
 
     def _extract_doi(self) -> str:
+        """Get DOI from paperconfig or PDF extraction cache."""
         pub = self.config.get("publication", {})
-        return pub.get("doi", "")
+        # Direct doi field in config (rare but possible)
+        doi = pub.get("doi", "")
+        if doi:
+            return doi
+        # Look up from PDF extraction cache (same source as omics_adapter)
+        pdf_path = pub.get("papermainpdf", "")
+        if pdf_path:
+            cache = _load_pdf_cache()
+            cached = cache.get(pdf_path, {})
+            doi = cached.get("publication", {}).get("doi", "")
+        return doi or ""
 
     def get_nodes(self) -> list[tuple]:
         """Emit GeneCluster nodes."""
@@ -79,10 +112,11 @@ class ClusterAdapter:
                 )
                 continue
 
+            organism = table.get("organism", "")
             clusters_meta = table.get("clusters", {})
             for cluster_key, cluster_info in clusters_meta.items():
                 cluster_id = _make_cluster_id(
-                    self.doi, self.paper_name, table_key, cluster_key
+                    self.doi, self.paper_name, organism, cluster_key
                 )
 
                 mask = df[cluster_col].astype(str) == str(cluster_key)
@@ -149,7 +183,7 @@ class ClusterAdapter:
             rows_processed = 0
             for cluster_key in clusters_meta:
                 cluster_id = _make_cluster_id(
-                    self.doi, self.paper_name, table_key, cluster_key
+                    self.doi, self.paper_name, organism, cluster_key
                 )
 
                 # Gene_in_gene_cluster edges
@@ -182,11 +216,12 @@ class ClusterAdapter:
 
                 # Publication_has_gene_cluster edge
                 if self.doi:
+                    pub_id = f"doi:{self.doi}"
                     pub_edge_id = f"pub_cluster__{cluster_id}"
                     edges.append(
                         (
                             pub_edge_id,
-                            self.doi,
+                            pub_id,
                             cluster_id,
                             "publication_has_gene_cluster",
                             {},

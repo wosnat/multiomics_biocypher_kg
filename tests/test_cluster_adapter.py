@@ -129,8 +129,8 @@ def test_get_nodes_emits_cluster_nodes(temp_dir):
 
     ids = {n[0] for n in nodes}
     doi_short = "test.2024"
-    expected_id_1 = f"cluster:{doi_short}:cluster_table_1:1"
-    expected_id_2 = f"cluster:{doi_short}:cluster_table_1:2"
+    expected_id_1 = f"cluster:{doi_short}:med4:1"
+    expected_id_2 = f"cluster:{doi_short}:med4:2"
     assert expected_id_1 in ids, f"{expected_id_1} not in {ids}"
     assert expected_id_2 in ids, f"{expected_id_2} not in {ids}"
 
@@ -181,7 +181,7 @@ def test_get_edges_membership_with_scores(temp_dir):
     pub_edges = [e for e in edges if e[3] == "publication_has_gene_cluster"]
     assert len(pub_edges) == 2, f"Expected 2 pub→cluster edges, got {len(pub_edges)}"
     for e in pub_edges:
-        assert e[1] == "10.1234/test.2024"
+        assert e[1] == "doi:10.1234/test.2024"
 
 
 # ─── Test 3: Unresolved (NaN) genes are skipped ──────────────────────────────
@@ -281,15 +281,15 @@ def test_no_score_col_produces_empty_edge_props(temp_dir):
 
 
 def test_make_cluster_id_no_doi():
-    """Without DOI, falls back to paper_name slug."""
-    cid = _make_cluster_id("", "Test Paper 2024", "table_1", "cluster_A")
-    assert cid == "cluster:test_paper_2024:table_1:cluster_A"
+    """Without DOI, falls back to paper_name slug + organism suffix."""
+    cid = _make_cluster_id("", "Test Paper 2024", "Prochlorococcus MED4", "cluster_A")
+    assert cid == "cluster:test_paper_2024:med4:cluster_A"
 
 
 def test_make_cluster_id_with_doi():
-    """With DOI, uses last path component."""
-    cid = _make_cluster_id("10.1234/my.paper", "Test Paper 2024", "tbl", "k1")
-    assert cid == "cluster:my.paper:tbl:k1"
+    """With DOI, uses last path component + organism suffix."""
+    cid = _make_cluster_id("10.1234/my.paper", "Test Paper 2024", "Prochlorococcus MED4", "k1")
+    assert cid == "cluster:my.paper:med4:k1"
 
 
 # ─── Test 6: _resolve_csv_path prefers _resolved.csv ────────────────────────

@@ -431,6 +431,12 @@ class OMICSAdapter:
                 logger.warning(f"Table '{table_key}' data must be a dict, got {type(table_data).__name__}. Skipping this table.")
                 continue
 
+            # Skip non-csv types (gene_clusters, id_translation, annotation_gff)
+            # — these are handled by their own adapters/scripts.
+            table_type = table_data.get("type", "csv")
+            if table_type != "csv":
+                continue
+
             filename = table_data.get('filename')
             if not filename:
                 logger.warning(f"No 'filename' specified for table '{table_key}'. Skipping this table.")
