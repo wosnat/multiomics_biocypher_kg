@@ -16,6 +16,7 @@ from pathlib import Path
 from multiomics_kg.utils.paperconfig_utils import (
     parse_timepoint_hours,
     iter_csv_tables,
+    iter_cluster_tables,
     iter_analyses,
     get_organism_for_entry,
     get_publication,
@@ -196,6 +197,38 @@ class TestIterCsvTables:
         tables = list(iter_csv_tables(no_type_config))
         assert len(tables) == 1
         assert tables[0][0] == "table_a"
+
+
+# ─── iter_cluster_tables ────────────────────────────────────────────────
+
+
+def test_iter_cluster_tables():
+    """iter_cluster_tables yields (key, config) for gene_clusters entries only."""
+    config = {
+        "publication": {
+            "supplementary_materials": {
+                "supp_table_1": {"type": "csv", "filename": "data.csv"},
+                "cluster_table_1": {
+                    "type": "gene_clusters",
+                    "filename": "clusters.csv",
+                    "organism": "Prochlorococcus MED4",
+                    "gene_id_col": "ORF",
+                    "cluster_col": "cluster",
+                    "clusters": {
+                        "c1": {"name": "Cluster 1", "cluster_type": "stress_response"},
+                    },
+                },
+                "id_trans": {"type": "id_translation", "filename": "ids.csv"},
+            }
+        }
+    }
+
+    results = list(iter_cluster_tables(config))
+    assert len(results) == 1
+    key, table = results[0]
+    assert key == "cluster_table_1"
+    assert table["type"] == "gene_clusters"
+    assert table["organism"] == "Prochlorococcus MED4"
 
 
 # ─── iter_analyses ──────────────────────────────────────────────────────

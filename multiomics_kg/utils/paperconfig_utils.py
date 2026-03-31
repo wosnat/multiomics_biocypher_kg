@@ -77,6 +77,16 @@ def iter_csv_tables(config: dict):
             yield key, table
 
 
+def iter_cluster_tables(config: dict):
+    """Yield (table_key, table_config) for gene_clusters-type supplementary tables."""
+    supp = get_supplementary_materials(config)
+    for key, table in supp.items():
+        if not isinstance(table, dict):
+            continue
+        if table.get("type") == "gene_clusters":
+            yield key, table
+
+
 def iter_analyses(config: dict):
     """Yield (table_key, table_config, analysis) for all analyses across all csv tables."""
     for table_key, table in iter_csv_tables(config):
