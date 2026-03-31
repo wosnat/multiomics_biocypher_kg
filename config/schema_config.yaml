@@ -63,7 +63,7 @@ experiment:
 
 # GeneCluster node: groups co-expressed genes from a clustering analysis within a publication
 gene cluster:
-  is_a: gene cluster
+  is_a: GroupingClass
   represented_as: node
   preferred_id: cluster_id
   label_in_input: gene_cluster
