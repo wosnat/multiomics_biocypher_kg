@@ -235,13 +235,19 @@ Follows the same pattern as `multiomics_kg/adapters/pdf_publication_extraction.p
 
 Based on retrospective of manually-written Tolonen 2006 descriptions, the biggest risk is cross-contamination — citing genes or stats from cluster N in the description of cluster M. Papers discuss clusters thematically (e.g., all hli genes together), not one-cluster-at-a-time. Splitting into two stages prevents this.
 
-**Stage 1: Retrieval — find cluster references in the paper text**
+**Stage 1: Retrieval — find cluster references in paper text and supplementary materials**
 
-- Input: paper PDF text + list of cluster IDs/names from the CSV
-- Task: for each cluster, find all paragraphs/sentences/figure legends that explicitly mention it
-- Output: `{cluster_key: [{quote: "...", location: "Results, paragraph 3"}, ...]}`
+- Input: paper PDF text + supplementary files from the paper directory + list of cluster IDs/names from the CSV
+- Sources to search (in order):
+  1. Main paper text (Results, Discussion sections)
+  2. Figure and table legends (often contain enrichment p-values and category names)
+  3. Supplementary text files (HTML, PDF, TXT in the paper directory — e.g., `clusterpvalues.html`)
+  4. Supplementary table headers/metadata (sheet names, column headers in XLS that characterize clusters)
+- Task: for each cluster, find all paragraphs/sentences/legends that explicitly mention it
+- Output: `{cluster_key: [{quote: "...", location: "Results, paragraph 3", source_file: "main_pdf"}, ...]}`
 - Can be partially non-LLM: regex search for "cluster 1", "cluster 2", etc. finds most references. LLM only needed for ambiguous references ("the upregulated clusters", "the first group").
 - Validation: check coverage — which clusters have zero references? Flag for manual attention.
+- The paper directory listing tells us what supplementary files are available — scan all readable formats (PDF, HTML, TXT, XLS sheet names).
 
 **Stage 2: Synthesis — write descriptions from retrieved quotes only**
 
@@ -293,40 +299,71 @@ Cluster {key} ({n} genes):
 Quotes: [...]
 ```
 
+**Per-paper output file:**
+
+Each paper gets a `cluster_extraction.json` in its directory:
+`data/Prochlorococcus/papers_and_supp/<Author Year>/cluster_extraction.json`
+
+```json
+{
+  "metadata": {
+    "paper": "Tolonen 2006",
+    "doi": "10.1038/msb4100087",
+    "extracted_at": "2026-03-31T14:00:00",
+    "model": "gpt-5-nano",
+    "sources_searched": ["msb4100087.pdf", "Kmeans/clusterpvalues.html", "Kmeans/medSigClusters.xls"]
+  },
+  "clusters": {
+    "1": {
+      "organism": "Prochlorococcus MED4",
+      "member_count": 5,
+      "stage1_quotes": [
+        {"quote": "Cluster 1, the most rapidly...", "location": "Results, paragraph 2", "source_file": "main_pdf"},
+        {"quote": "1 transport and binding P=0.01", "location": "Figure 3 legend", "source_file": "main_pdf"}
+      ],
+      "stage2_result": {
+        "id": "up_n_transport",
+        "functional_description": "N transport genes...",
+        "behavioral_description": "Rapid and strong...",
+        "confidence": "explicit"
+      },
+      "reviewed": false,
+      "reviewer_edits": null
+    }
+  }
+}
+```
+
+This preserves stage 1 quotes for audit, tracks review status, and captures human edits (which can become few-shot examples for future extractions).
+
 **Validation and review workflow:**
 
-The extraction output needs human review before going into paperconfig. A multi-step workflow:
-
-1. **Extraction run** — script produces a JSON draft with descriptions + confidence + source citations
+1. **Extraction run** — script produces `cluster_extraction.json` with both stages' output
 2. **Auto-validation** — script flags issues automatically:
-   - Clusters marked `not_available` → human must fill in manually or confirm empty
+   - Clusters with zero stage 1 quotes → `confidence: "not_available"`, flagged for manual attention
    - Clusters marked `inferred` → highlighted for careful review
    - Description length sanity (too short = likely incomplete, too long = likely hallucinated)
-   - Cross-check: does the described member count match the CSV? (e.g., LLM says "142 genes" but CSV has 89)
-3. **Review report** — generates a human-readable markdown report:
+   - Cross-check: does the described member count match the CSV?
+3. **Review report** — generates a human-readable markdown summary:
    ```
    ## Cluster Extraction Review: Zinser 2009
 
-   ### cluster_1 (142 genes) — EXPLICIT ✓
+   ### cluster_1 (142 genes) — EXPLICIT ✓  [3 quotes found]
    - functional: "PSI and PSII genes (FDR 1.5e-9)"
    - behavioral: "Peaks at dawn, drops through day"
-   - source: "Table 1, row 1; Figure 2 caption"
+   - sources: Figure 3 legend, Table 1 row 1
 
-   ### cluster_7 (45 genes) — NOT AVAILABLE ⚠
-   - functional: ""
-   - behavioral: ""
+   ### cluster_7 (45 genes) — NOT AVAILABLE ⚠  [0 quotes found]
    - ACTION NEEDED: fill in manually or confirm empty
 
-   ### cluster_12 (67 genes) — INFERRED ⚠
+   ### cluster_12 (67 genes) — INFERRED ⚠  [1 quote, indirect]
    - functional: "Possibly ribosomal genes based on Figure 4"
-   - behavioral: "Appears to peak mid-day"
-   - source: "Inferred from Figure 4 heatmap position"
    - ACTION NEEDED: verify against paper
    ```
-4. **Human edits** — user edits the report or the draft JSON directly
-5. **Finalize** — script converts reviewed JSON → YAML `clusters:` block for paperconfig
+4. **Human edits** — user edits `cluster_extraction.json` directly, sets `reviewed: true` and optionally adds `reviewer_edits` explaining changes
+5. **Finalize** — script reads reviewed JSON → generates YAML `clusters:` block for paperconfig
 
-**Optional: iterative refinement** — if the user corrects a description, the correction can be fed back as a few-shot example for future extractions from the same paper or similar papers. Not essential for Phase 1 but would improve quality over time.
+**Iterative refinement:** When the user corrects a description, the `reviewer_edits` field captures what was changed and why. These corrections can be fed back as few-shot examples for future extractions from similar papers.
 
 **Design decisions:**
 - Semi-automated, not fully automated: the script drafts descriptions, the human reviews and edits before committing to paperconfig. This is important because papers vary in how explicitly they describe clusters, and `behavioral_description` requires accurate interpretation.
