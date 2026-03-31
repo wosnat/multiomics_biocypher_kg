@@ -61,6 +61,29 @@ experiment:
     time_point_significant_up: int[]
     time_point_significant_down: int[]
 
+# GeneCluster node: groups co-expressed genes from a clustering analysis within a publication
+gene cluster:
+  is_a: gene cluster
+  represented_as: node
+  preferred_id: cluster_id
+  label_in_input: gene_cluster
+  properties:
+    name: str
+    source_paper: str
+    organism_name: str
+    cluster_method: str
+    cluster_type: str
+    treatment_type: str[]
+    treatment: str
+    omics_type: str
+    light_condition: str
+    member_count: int
+    functional_description: str
+    behavioral_description: str
+    peak_time_hours: float
+    period_hours: float
+    experimental_context: str
+
 # Publication → Experiment
 publication has experiment:
   is_a: Association
@@ -77,6 +100,36 @@ experiment tests coculture:
   label_as_edge: tests_coculture_with
   label_in_input: tests_coculture_with
   source: experiment
+  target: organism taxon
+
+# Publication → GeneCluster
+publication has gene cluster:
+  is_a: Association
+  represented_as: edge
+  label_as_edge: publication_has_gene_cluster
+  label_in_input: publication_has_gene_cluster
+  source: publication
+  target: gene cluster
+
+# GeneCluster → Gene membership edges
+gene in gene cluster:
+  is_a: Association
+  represented_as: edge
+  label_as_edge: gene_in_gene_cluster
+  label_in_input: gene_in_gene_cluster
+  source: gene cluster
+  target: gene
+  properties:
+    membership_score: float
+    p_value: float
+
+# GeneCluster → OrganismTaxon
+gene cluster belongs to organism:
+  is_a: Association
+  represented_as: edge
+  label_as_edge: genecluster_belongs_to_organism
+  label_in_input: genecluster_belongs_to_organism
+  source: gene cluster
   target: organism taxon
 
 # Experiment → Gene expression edges (unified: replaces condition_ and coculture_ variants)
