@@ -26,19 +26,10 @@ def run_visual(main_pdf_path: Path,
                model: str = "gpt-4o",
                max_pages: int = 15,
                ) -> dict[str, dict]:
-    """Run Path: visual — send PDF pages to gpt-4o.
-
-    Sends main paper + supplementary PDFs.
-    Returns {cluster_key: {field: value, ...}}.
-    """
     if _openai is None:
         logger.error("openai package not installed")
         return {}
-
-    # Collect all PDF files
     all_pdfs = collect_pdf_files(paper_dir, main_pdf_path)
-
-    # Build content parts: PDF pages + prompt
     content_parts = []
     total_pages = 0
     for pdf_path in all_pdfs:
@@ -57,9 +48,7 @@ def run_visual(main_pdf_path: Path,
             total_pages += 1
             if total_pages >= max_pages:
                 break
-
     logger.info("Path visual: sent %d pages from %d PDFs", total_pages, len(all_pdfs))
-
     system_text = VISUAL_PROMPT.format(
         n_clusters=len(cluster_keys),
         cluster_method=cluster_method,
@@ -68,13 +57,11 @@ def run_visual(main_pdf_path: Path,
         cluster_keys=json.dumps(cluster_keys),
         fields_description=EXTRACTION_FIELDS_DESCRIPTION,
     )
-
     content_parts.append({
         "type": "text",
         "text": (f"Extract cluster data for {organism}, clusters "
                  f"{json.dumps(cluster_keys)}. Return ONLY valid JSON."),
     })
-
     client = _openai.OpenAI()
     try:
         response = client.chat.completions.create(
@@ -89,12 +76,10 @@ def run_visual(main_pdf_path: Path,
     except Exception as e:
         logger.error("Path visual API call failed: %s", e)
         return {}
-
     return _parse_response(raw, cluster_keys)
 
 
 def _parse_response(raw: str, cluster_keys: list[str]) -> dict[str, dict]:
-    """Parse JSON response, normalizing cluster keys."""
     if raw.startswith("```"):
         raw = re.sub(r'^```\w*\n?', '', raw)
         raw = re.sub(r'\n?```$', '', raw)
@@ -103,7 +88,6 @@ def _parse_response(raw: str, cluster_keys: list[str]) -> dict[str, dict]:
     except json.JSONDecodeError as e:
         logger.error("Path visual JSON parse failed: %s\nRaw: %s", e, raw[:500])
         return {}
-
     valid_keys = set(cluster_keys)
     results: dict[str, dict] = {}
     if isinstance(parsed, dict):
