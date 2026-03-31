@@ -91,8 +91,12 @@ def main():
         genome_config_file='data/Prochlorococcus/genomes/cyanobacteria_genomes.csv',
         test_mode=TEST_MODE,
     )
-    bc.write_nodes(cluster_adapter.get_nodes())
-    bc.write_edges(cluster_adapter.get_edges())
+    cluster_nodes = cluster_adapter.get_nodes()
+    cluster_edges = cluster_adapter.get_edges()
+    if cluster_nodes:
+        bc.write_nodes(cluster_nodes)
+    if cluster_edges:
+        bc.write_edges(cluster_edges)
 
     # Gene → GO annotation edges + GO hierarchy subset (lightweight, always runs)
     go_anno_adapter = MultiGoAnnotationAdapter(
