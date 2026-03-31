@@ -126,7 +126,29 @@ CANONICAL_CONDITION_TYPES = {
     "coculture",
     "growth_state",
     "temperature_stress",
+    "diel",
+    "oxygen_stress",
 }
+
+# Valid cluster_type values for gene_clusters entries.
+VALID_CLUSTER_TYPES = {
+    "diel_periodicity",
+    "stress_response",
+    "expression_level",
+}
+
+# Required fields on gene_clusters supplementary entries.
+REQUIRED_CLUSTER_TABLE_FIELDS = [
+    "filename", "organism", "gene_id_col", "cluster_col", "clusters",
+]
+
+# Required fields per cluster definition.
+REQUIRED_CLUSTER_FIELDS = ["name", "cluster_type"]
+
+# Recommended fields per cluster definition (warn if missing).
+RECOMMENDED_CLUSTER_FIELDS = [
+    "functional_description", "behavioral_description",
+]
 
 # Canonical test_type values for statistical_analyses entries.
 CANONICAL_TEST_TYPES = {
@@ -604,6 +626,77 @@ def validate(config_path: str) -> bool:
             _validate_product_columns(prod_cols, cols, table_key, warnings)
 
             # No statistical_analyses for id_translation
+            continue
+
+        # ── gene_clusters ───────────────────────────────────────────────────
+        if table_type == "gene_clusters":
+            for req_field in REQUIRED_CLUSTER_TABLE_FIELDS:
+                if req_field not in table:
+                    errors.append(f"{table_key}: gene_clusters requires '{req_field}'")
+
+            organism = table.get("organism", "")
+            if organism:
+                print(f"    organism: {organism}")
+                if organism not in all_canonical_organisms:
+                    warnings.append(
+                        _canonical_organism_error(
+                            config_path, table_key, organism, all_canonical_organisms
+                        )
+                    )
+
+            omics_type = table.get("omics_type", "")
+            if omics_type and omics_type not in VALID_TYPES:
+                warnings.append(f"{table_key}: omics_type '{omics_type}' not in {VALID_TYPES}")
+
+            treatment_type = table.get("treatment_type")
+            if treatment_type is not None:
+                if not isinstance(treatment_type, list):
+                    warnings.append(
+                        f"{table_key}: treatment_type should be a list, got "
+                        f"{type(treatment_type).__name__}"
+                    )
+                else:
+                    for tt in treatment_type:
+                        if tt not in CANONICAL_CONDITION_TYPES:
+                            warnings.append(f"{table_key}: treatment_type '{tt}' not in canonical list")
+
+            sep = table.get("sep", ",")
+            skip = table.get("skip_rows", 0)
+            df, cols = _read_csv_safe(fn, sep, skip, errors, table_key)
+            if cols is not None:
+                print(f"    columns: {cols}")
+                for col_field in ["gene_id_col", "cluster_col", "score_col"]:
+                    col_name = table.get(col_field)
+                    if col_name and col_name not in cols:
+                        errors.append(
+                            f"{table_key}: {col_field} '{col_name}' not found "
+                            f"in CSV headers {list(cols)}"
+                        )
+
+            clusters = table.get("clusters", {})
+            if not clusters:
+                warnings.append(f"{table_key}: 'clusters' block is empty")
+            elif isinstance(clusters, dict):
+                for ck, cv in clusters.items():
+                    if not isinstance(cv, dict):
+                        errors.append(f"{table_key}.clusters.{ck}: expected dict")
+                        continue
+                    for rf in REQUIRED_CLUSTER_FIELDS:
+                        if rf not in cv:
+                            errors.append(
+                                f"{table_key}.clusters.{ck}: missing required field '{rf}'"
+                            )
+                    ct = cv.get("cluster_type", "")
+                    if ct and ct not in VALID_CLUSTER_TYPES:
+                        warnings.append(
+                            f"{table_key}.clusters.{ck}: cluster_type '{ct}' "
+                            f"not in {VALID_CLUSTER_TYPES}"
+                        )
+                    for rec in RECOMMENDED_CLUSTER_FIELDS:
+                        if not cv.get(rec):
+                            warnings.append(
+                                f"{table_key}.clusters.{ck}: missing recommended field '{rec}'"
+                            )
             continue
 
         # ── csv (default) ───────────────────────────────────────────────────
