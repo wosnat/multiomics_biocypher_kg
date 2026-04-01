@@ -550,7 +550,7 @@ def _validate_gene_clusters_entry(key, table, config, paperconfig_dir,
             csv_path = _find_project_root() / csv_path
         if csv_path.exists():
             try:
-                sep = table.get("separator", ",")
+                sep = table.get("sep", ",")
                 skip = table.get("skip_rows", 0)
                 df = pd.read_csv(csv_path, sep=sep, skiprows=skip, nrows=5)
                 cols = set(df.columns)
