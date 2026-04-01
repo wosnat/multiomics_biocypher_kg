@@ -68,8 +68,8 @@ gene cluster:
   preferred_id: cluster_id
   label_in_input: gene_cluster
   properties:
+    id: str
     name: str
-    source_paper: str
     organism_name: str
     cluster_method: str
     cluster_type: str
@@ -82,6 +82,25 @@ gene cluster:
     behavioral_description: str
     peak_time_hours: float
     period_hours: float
+    experimental_context: str
+
+# ClusteringAnalysis node: represents a clustering analysis from a publication
+clustering analysis:
+  is_a: information content entity
+  represented_as: node
+  preferred_id: clustering_analysis_id
+  label_in_input: clustering_analysis
+  properties:
+    name: str
+    organism_name: str
+    cluster_method: str
+    cluster_count: int
+    total_gene_count: int
+    omics_type: str
+    treatment_type: str[]
+    treatment: str
+    light_condition: str
+    cluster_type: str
     experimental_context: str
 
 # Publication → Experiment
@@ -102,14 +121,37 @@ experiment tests coculture:
   source: experiment
   target: organism taxon
 
-# Publication → GeneCluster
-publication has gene cluster:
-  is_a: Association
+# Publication → ClusteringAnalysis
+publication has clustering analysis:
+  is_a: related to at instance level
   represented_as: edge
-  label_as_edge: publication_has_gene_cluster
-  label_in_input: publication_has_gene_cluster
+  label_in_input: publication_has_clustering_analysis
   source: publication
+  target: clustering analysis
+
+# ClusteringAnalysis → GeneCluster
+clustering analysis has gene cluster:
+  is_a: related to at instance level
+  represented_as: edge
+  label_in_input: clustering_analysis_has_gene_cluster
+  source: clustering analysis
   target: gene cluster
+
+# ClusteringAnalysis → OrganismTaxon
+clusteringanalysis belongs to organism:
+  is_a: related to at instance level
+  represented_as: edge
+  label_in_input: clusteringanalysis_belongs_to_organism
+  source: clustering analysis
+  target: organism taxon
+
+# Experiment → ClusteringAnalysis
+experiment has clustering analysis:
+  is_a: related to at instance level
+  represented_as: edge
+  label_in_input: experiment_has_clustering_analysis
+  source: experiment
+  target: clustering analysis
 
 # GeneCluster → Gene membership edges
 gene in gene cluster:
@@ -122,15 +164,6 @@ gene in gene cluster:
   properties:
     membership_score: float
     p_value: float
-
-# GeneCluster → OrganismTaxon
-gene cluster belongs to organism:
-  is_a: Association
-  represented_as: edge
-  label_as_edge: genecluster_belongs_to_organism
-  label_in_input: genecluster_belongs_to_organism
-  source: gene cluster
-  target: organism taxon
 
 # Experiment → Gene expression edges (unified: replaces condition_ and coculture_ variants)
 experiment to gene expression association:
