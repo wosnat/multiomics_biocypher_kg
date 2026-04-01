@@ -1,0 +1,1686 @@
+{
+  "metadata": {
+    "paper": "Tolonen 2006",
+    "doi": null,
+    "organism": "Prochlorococcus MIT9313",
+    "extracted_at": "2026-04-01T10:44:37",
+    "table_key": "cluster_table_mit9313"
+  },
+  "stage1_merged": {
+    "1": {
+      "enrichment_category": [
+        {
+          "value": "Transport and binding proteins",
+          "source": "table",
+          "confidence": "very_high"
+        },
+        {
+          "value": "transport and binding",
+          "source": "visual",
+          "confidence": "high"
+        },
+        {
+          "value": "Transport and binding proteins",
+          "source": "semantic",
+          "confidence": "medium"
+        }
+      ],
+      "enrichment_pvalue": [
+        {
+          "value": 0.0434941,
+          "source": "table",
+          "confidence": "very_high"
+        },
+        {
+          "value": "0.04",
+          "source": "visual",
+          "confidence": "high"
+        },
+        {
+          "value": "0.043494",
+          "source": "semantic",
+          "confidence": "medium"
+        }
+      ],
+      "enrichment_significant": [
+        {
+          "value": true,
+          "source": "table",
+          "confidence": "very_high"
+        },
+        {
+          "value": true,
+          "source": "visual",
+          "confidence": "high"
+        },
+        {
+          "value": true,
+          "source": "semantic",
+          "confidence": "medium"
+        }
+      ],
+      "enrichment_details": [
+        {
+          "value": "includes nitrite permease",
+          "source": "visual",
+          "confidence": "high"
+        },
+        {
+          "value": "p-value = 0.043494; cluster 1 enrichment for Transport and binding proteins (MIT9313 q5 1 k7 clustercat_pv)",
+          "source": "semantic",
+          "confidence": "medium"
+        }
+      ],
+      "genes": [
+        {
+          "value": [
+            "PMT0991",
+            "PMT0990",
+            "PMT2240",
+            "PMT2239",
+            "PMT2229",
+            "PMT1831",
+            "PMT0992"
+          ],
+          "source": "table",
+          "confidence": "very_high"
+        },
+        {
+          "value": "urtA, nirA, PMT2240, PMT2241",
+          "source": "visual",
+          "confidence": "high"
+        },
+        {
+          "value": "PMT0991, PMT0990, PMT2240, PMT2239, PMT2229, PMT1831, PMT0992",
+          "source": "semantic",
+          "confidence": "medium"
+        }
+      ],
+      "direction": [
+        {
+          "value": "up",
+          "source": "visual",
+          "confidence": "high"
+        }
+      ],
+      "cluster_description": [
+        {
+          "value": "rapidly upregulated genes including N transporters",
+          "source": "visual",
+          "confidence": "high"
+        }
+      ],
+      "temporal_pattern": [
+        {
+          "value": "initial upregulation at 6h",
+          "source": "visual",
+          "confidence": "high"
+        }
+      ],
+      "peak_time": [
+        {
+          "value": "6h",
+          "source": "visual",
+          "confidence": "high"
+        }
+      ],
+      "treatment_conditions": [
+        {
+          "value": "N starvation",
+          "source": "visual",
+          "confidence": "high"
+        },
+        {
+          "value": "N-starvation time course",
+          "source": "semantic",
+          "confidence": "medium"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "quote": "K-means cluster (K=7). All genes differentially expressed at q<0.05 for one or more timepoint after t=0h were clustered (559 genes). GENE\tCLUSTER\tCYANOBASE_FUNCTIONAL_CATEGORY\tGENE_FUNCTION",
+          "location": "[1]",
+          "relevance_score": 0.643,
+          "source": "semantic"
+        },
+        {
+          "quote": "PMT0991\t1\tTranslation\tAminoacyl tRNA synthetases and tRNA modification",
+          "location": "[1]",
+          "relevance_score": 0.643,
+          "source": "semantic"
+        },
+        {
+          "quote": "PMT0990\t1\tOther categories\tAdaptations and atypical conditions\tpossible high light inducible protein",
+          "location": "[1]",
+          "relevance_score": 0.643,
+          "source": "semantic"
+        },
+        {
+          "quote": "PMT2240\t1\tOther categories\tOther\tFormate and nitrite transporters",
+          "location": "[1]",
+          "relevance_score": 0.643,
+          "source": "semantic"
+        },
+        {
+          "quote": "PMT2239\t1\tAmino acid biosynthesis\tGlutamate family / Nitrogen assimilation\tFerredoxin--nitrite reductase",
+          "location": "[1]",
+          "relevance_score": 0.643,
+          "source": "semantic"
+        },
+        {
+          "quote": "PMT2229\t1\tTransport and binding proteins\t\t\"putative urea ABC transporter, substrate binding protein\"",
+          "location": "[1]",
+          "relevance_score": 0.643,
+          "source": "semantic"
+        },
+        {
+          "quote": "PMT1831\t1\tTransport and binding proteins\t\t\"Global nitrogen regulatory protein, CRP family of transcriptional regulators\"",
+          "location": "[1]",
+          "relevance_score": 0.643,
+          "source": "semantic"
+        },
+        {
+          "quote": "PMT0992\t1\tOther categories\tAdaptations and atypical conditions\tpossible high light inducible protein",
+          "location": "[1]",
+          "relevance_score": 0.643,
+          "source": "semantic"
+        },
+        {
+          "quote": "Cluster 1, the most rapidly and highly upregulated genes in each strain, contains N transport genes such as MED4 and MIT9313 urtA, MED4 cynA, and the MIT9313 nitrite permease.",
+          "location": "Figure 3 legend",
+          "source": "visual"
+        }
+      ],
+      "all_enrichments": [
+        {
+          "category": "Transport and binding proteins",
+          "pvalue": 0.0434941,
+          "significant": true,
+          "source": "table"
+        }
+      ],
+      "gene_count": 7
+    },
+    "2": {
+      "enrichment_category": [
+        {
+          "value": "Regulatory functions",
+          "source": "table",
+          "confidence": "very_high"
+        },
+        {
+          "value": "regulation",
+          "source": "visual",
+          "confidence": "high"
+        }
+      ],
+      "enrichment_pvalue": [
+        {
+          "value": 0.027658,
+          "source": "table",
+          "confidence": "very_high"
+        },
+        {
+          "value": "0.03",
+          "source": "visual",
+          "confidence": "high"
+        }
+      ],
+      "enrichment_significant": [
+        {
+          "value": true,
+          "source": "table",
+          "confidence": "very_high"
+        },
+        {
+          "value": true,
+          "source": "visual",
+          "confidence": "high"
+        }
+      ],
+      "enrichment_details": [
+        {
+          "value": "includes sigma factors",
+          "source": "visual",
+          "confidence": "high"
+        }
+      ],
+      "genes": [
+        {
+          "value": [
+            "PMT1154",
+            "PMT2246",
+            "PMT0039",
+            "PMT0488",
+            "PMT1144",
+            "PMT1152",
+            "PMT1874",
+            "PMT0382",
+            "PMT0565",
+            "PMT0951",
+            "PMT2241",
+            "PMT0993",
+            "PMT0963",
+            "PMT1314",
+            "PMT1608",
+            "PMT1946",
+            "PMT0939",
+            "PMT0601",
+            "PMT1631",
+            "PMT1640",
+            "PMT0937",
+            "PMT0346",
+            "PMT0845",
+            "PMT0649",
+            "PMT0971",
+            "PMT0952",
+            "PMT0964",
+            "PMT2174",
+            "PMT1853",
+            "PMT1153",
+            "PMT0988",
+            "PMT0908",
+            "PMT0201",
+            "PMT0805",
+            "PMT1007",
+            "PMT1341"
+          ],
+          "source": "table",
+          "confidence": "very_high"
+        },
+        {
+          "value": "PMT0346, PMT2246",
+          "source": "visual",
+          "confidence": "high"
+        },
+        {
+          "value": "PMT1154, PMT2246, PMT0039, PMT0488, PMT1144, PMT1152, PMT1874, PMT0382, PMT0565, PMT0951, PMT2241, PMT0993, PMT0963, PMT1314, PMT1608, PMT1946, PMT0939, PMT0601, PMT1631, PMT1640, PMT0937, PMT0346, PMT0845, PMT0649, PMT0971, PMT0952, PMT0964, PMT2174, PMT1853, PMT1153, PMT0988, PMT0908, PMT0201, PMT0805, PMT1007, PMT1341",
+          "source": "semantic",
+          "confidence": "medium"
+        }
+      ],
+      "direction": [
+        {
+          "value": "up",
+          "source": "visual",
+          "confidence": "high"
+        },
+        {
+          "value": "up",
+          "source": "semantic",
+          "confidence": "medium"
+        }
+      ],
+      "cluster_description": [
+        {
+          "value": "upregulated regulatory genes including sigma factors",
+          "source": "visual",
+          "confidence": "high"
+        },
+        {
+          "value": "an upregulated MIT9313 gene cluster (cluster 2) containing two sigma factors",
+          "source": "semantic",
+          "confidence": "medium"
+        }
+      ],
+      "temporal_pattern": [
+        {
+          "value": "upregulation at 24h",
+          "source": "visual",
+          "confidence": "high"
+        }
+      ],
+      "peak_time": [
+        {
+          "value": "24h",
+          "source": "visual",
+          "confidence": "high"
+        }
+      ],
+      "treatment_conditions": [
+        {
+          "value": "N starvation",
+          "source": "visual",
+          "confidence": "high"
+        },
+        {
+          "value": "nitrogen starvation (N stress)",
+          "source": "semantic",
+          "confidence": "medium"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "quote": "cluster 2). Both strains also have an upregulated cluster containing two sigma factors, MED4 cluster 5 and MIT9313 cluster 2. Examination of the individual genes composing the repressed clusters also reveals intercluster differences, even between clusters enriched for the same CyanoBase functional category.",
+          "location": "[3]",
+          "relevance_score": 0.624,
+          "source": "semantic"
+        },
+        {
+          "quote": "We found that two out of five MED4 sigma factors (PMM1289 and PMM1697) and two out of seven MIT9313 sigma factors (PMT2246 and PMT0346) were upregulated (Figure 4B), and may therefore play a role in the upregulation of gene expression during N stress in Prochlorococcus.",
+          "location": "[8]",
+          "relevance_score": 0.608,
+          "source": "semantic"
+        },
+        {
+          "quote": "Both strains also have an upregulated cluster containing two sigma factors, MED4 cluster 5 and MIT9313 cluster 2.",
+          "location": "Figure 3 legend",
+          "source": "visual"
+        }
+      ],
+      "all_enrichments": [
+        {
+          "category": "Regulatory functions",
+          "pvalue": 0.027658,
+          "significant": true,
+          "source": "table"
+        }
+      ],
+      "gene_count": 36
+    },
+    "3": {
+      "enrichment_category": [
+        {
+          "value": "Regulatory functions",
+          "source": "table",
+          "confidence": "very_high"
+        },
+        {
+          "value": "regulation",
+          "source": "visual",
+          "confidence": "high"
+        },
+        {
+          "value": "Central intermediary metabolism",
+          "source": "semantic",
+          "confidence": "medium"
+        }
+      ],
+      "enrichment_pvalue": [
+        {
+          "value": 0.0969617,
+          "source": "table",
+          "confidence": "very_high"
+        },
+        {
+          "value": "0.09",
+          "source": "visual",
+          "confidence": "high"
+        }
+      ],
+      "enrichment_significant": [
+        {
+          "value": false,
+          "source": "table",
+          "confidence": "very_high"
+        },
+        {
+          "value": false,
+          "source": "visual",
+          "confidence": "high"
+        }
+      ],
+      "enrichment_details": [
+        {
+          "value": "Enriched category: Central intermediary metabolism; includes Urease subunits (alpha/beta) and other metabolic related genes",
+          "source": "semantic",
+          "confidence": "medium"
+        }
+      ],
+      "genes": [
+        {
+          "value": [
+            "PMT2236",
+            "PMT1948",
+            "PMT0508",
+            "PMT0954",
+            "PMT0806",
+            "PMT0366",
+            "PMT0501",
+            "PMT0683",
+            "PMT1542",
+            "PMT1340",
+            "PMT0387",
+            "PMT1102",
+            "PMT2256",
+            "PMT1838",
+            "PMT1446",
+            "PMT1462",
+            "PMT2180",
+            "PMT2235",
+            "PMT1600",
+            "PMT0038",
+            "PMT2217",
+            "PMT1817",
+            "PMT0911",
+            "PMT0128",
+            "PMT1009",
+            "PMT1539",
+            "PMT0677",
+            "PMT2271",
+            "PMT2173",
+            "PMT2000",
+            "PMT2156",
+            "PMT0957",
+            "PMT1432",
+            "PMT0811",
+            "PMT0361",
+            "PMT0994",
+            "PMT1265",
+            "PMT2168",
+            "PMT1564",
+            "PMT0910",
+            "PMT0697",
+            "PMT0912",
+            "PMT1676",
+            "PMT0823",
+            "PMT1584",
+            "PMT0457",
+            "PMT1075",
+            "PMT1129",
+            "PMT1286",
+            "PMT1172",
+            "PMT2265",
+            "PMT0352",
+            "PMT1296",
+            "PMT1565",
+            "PMT0685",
+            "PMT0441",
+            "PMT1667",
+            "PMT1274",
+            "PMT0127",
+            "PMT0732",
+            "PMT2075",
+            "PMT1447",
+            "PMT1636",
+            "PMT0192",
+            "PMT1422",
+            "PMT1017",
+            "PMT2183",
+            "PMT0449",
+            "PMT1798",
+            "PMT1121",
+            "PMT1068",
+            "PMT0388",
+            "PMT1975",
+            "PMT1215",
+            "PMT0369",
+            "PMT1299",
+            "PMT1054",
+            "PMT1483",
+            "PMT1833",
+            "PMT2014",
+            "PMT1632",
+            "PMT0173",
+            "PMT1688",
+            "PMT0035",
+            "PMT2242",
+            "PMT0969",
+            "PMT1969",
+            "PMT2028",
+            "PMT2175",
+            "PMT0559",
+            "PMT1664",
+            "PMT1298",
+            "PMT1536",
+            "PMT1543",
+            "PMT2166",
+            "PMT0986",
+            "PMT0983",
+            "PMT0125",
+            "PMT1826",
+            "PMT1423",
+            "PMT1595",
+            "PMT0329",
+            "PMT1645",
+            "PMT0804",
+            "PMT0458",
+            "PMT1342",
+            "PMT1430",
+            "PMT0194",
+            "PMT0124",
+            "PMT2234",
+            "PMT0734",
+            "PMT1131",
+            "PMT0609",
+            "PMT1248",
+            "PMT0880",
+            "PMT0338",
+            "PMT0747",
+            "PMT1343",
+            "PMT0955",
+            "PMT1209",
+            "PMT0316",
+            "PMT1721",
+            "PMT0348",
+            "PMT1597",
+            "PMT0378",
+            "PMT1276",
+            "PMT0339",
+            "PMT0885",
+            "PMT2010",
+            "PMT0315",
+            "PMT0119",
+            "PMT1014"
+          ],
+          "source": "table",
+          "confidence": "very_high"
+        },
+        {
+          "value": "PMT2236, PMT1948, PMT0508, PMT0954, PMT0806, PMT0366, PMT0501, PMT0683, PMT1542, PMT1340, PMT0387, PMT1102, PMT2256, PMT2235, PMT0038, PMT2217, PMT1817, PMT0911, PMT0128",
+          "source": "semantic",
+          "confidence": "medium"
+        }
+      ],
+      "direction": [
+        {
+          "value": "up",
+          "source": "visual",
+          "confidence": "high"
+        }
+      ],
+      "cluster_description": [
+        {
+          "value": "regulatory genes with delayed response",
+          "source": "visual",
+          "confidence": "high"
+        }
+      ],
+      "temporal_pattern": [
+        {
+          "value": "delayed upregulation",
+          "source": "visual",
+          "confidence": "high"
+        }
+      ],
+      "treatment_conditions": [
+        {
+          "value": "N starvation",
+          "source": "visual",
+          "confidence": "high"
+        },
+        {
+          "value": "nitrogen starvation time course (0, 3, 6, 12, 24, 48 h)",
+          "source": "semantic",
+          "confidence": "medium"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "quote": "PMT2236 3 Central intermediary metabolism Other Urease alpha subunit",
+          "location": "passage 2",
+          "relevance_score": 0.62,
+          "source": "semantic"
+        },
+        {
+          "quote": "PMT0508 3 Transport and binding proteins  \"ABC transporter, substrate binding protein, phosphate\"",
+          "location": "passage 2",
+          "relevance_score": 0.62,
+          "source": "semantic"
+        },
+        {
+          "quote": "PMT0501 3 Transport and binding proteins  \"ABC transporter, ATP binding component, possibly iron transporter\"",
+          "location": "passage 2",
+          "relevance_score": 0.62,
+          "source": "semantic"
+        },
+        {
+          "quote": "PMT0387 3 Transport and binding proteins  putative bacterioferritin comigratory protein",
+          "location": "passage 2",
+          "relevance_score": 0.62,
+          "source": "semantic"
+        },
+        {
+          "quote": "PMT1102 3 Other categories  Other Glucose-6-phosphate dehydrogenase",
+          "location": "passage 2",
+          "relevance_score": 0.62,
+          "source": "semantic"
+        },
+        {
+          "quote": "PMT2235 3 Central intermediary metabolism Other Urease beta subunit",
+          "location": "passage 6",
+          "relevance_score": 0.606,
+          "source": "semantic"
+        },
+        {
+          "quote": "PMT1948 3 Hypothetical Conserved hypothetical protein",
+          "location": "passage 6",
+          "relevance_score": 0.606,
+          "source": "semantic"
+        },
+        {
+          "quote": "PMT2236 3 Central intermediary metabolism Other Urease alpha subunit",
+          "location": "passage 6",
+          "relevance_score": 0.606,
+          "source": "semantic"
+        },
+        {
+          "quote": "PMT0038 3 Other categories  Other possible Penicillin amidase",
+          "location": "passage 6",
+          "relevance_score": 0.606,
+          "source": "semantic"
+        },
+        {
+          "quote": "PMT2217 3 Transcription  Putative type II RNA polymerase sigma factor",
+          "location": "passage 6",
+          "relevance_score": 0.606,
+          "source": "semantic"
+        },
+        {
+          "quote": "PMT1817 3 Translation  Aminoacyl tRNA synthetases and tRNA modification",
+          "location": "passage 6",
+          "relevance_score": 0.606,
+          "source": "semantic"
+        },
+        {
+          "quote": "PMT0128 3 Fatty acid, phospholipid and sterol metabolism  Alpha/beta hydrolase fold: Esterase/lipase/thioesterase family",
+          "location": "passage 6",
+          "relevance_score": 0.606,
+          "source": "semantic"
+        },
+        {
+          "quote": "PMT0911 3 Hypothetical  No similarity",
+          "location": "passage 6",
+          "relevance_score": 0.606,
+          "source": "semantic"
+        },
+        {
+          "quote": "PMT0683 3 Hypothetical  Conserved hypothetical protein",
+          "location": "passage 6",
+          "relevance_score": 0.606,
+          "source": "semantic"
+        },
+        {
+          "quote": "PMT1542 3 Hypothetical  Conserved hypothetical protein",
+          "location": "passage 6",
+          "relevance_score": 0.606,
+          "source": "semantic"
+        },
+        {
+          "quote": "PMT1340 3 Hypothetical  Conserved hypothetical protein",
+          "location": "passage 6",
+          "relevance_score": 0.606,
+          "source": "semantic"
+        },
+        {
+          "quote": "In both strains, the clusters revealed two distinct subsets of the hli genes: those that responded rapidly and highly (MED4 cluster 2 and MIT9313 cluster 1) and those that responded later and to a lesser degree (MED4 cluster 3 and MIT9313 cluster 2).",
+          "location": "Figure 3 legend",
+          "source": "visual"
+        }
+      ],
+      "gene_count": 132
+    },
+    "4": {
+      "enrichment_category": [
+        {
+          "value": "Transport and binding proteins",
+          "source": "table",
+          "confidence": "very_high"
+        },
+        {
+          "value": "transport and binding",
+          "source": "visual",
+          "confidence": "high"
+        },
+        {
+          "value": "Biosynthesis of cofactors, prosthetic groups, and carriers; DNA replication, recombination, and repair; Energy metabolism; Fatty acid, phospholipid and sterol metabolism; Purines, pyrimidines, nucleosides, and nucleotides; Transcription",
+          "source": "semantic",
+          "confidence": "medium"
+        }
+      ],
+      "enrichment_pvalue": [
+        {
+          "value": 0.392509,
+          "source": "table",
+          "confidence": "very_high"
+        },
+        {
+          "value": "0.39",
+          "source": "visual",
+          "confidence": "high"
+        },
+        {
+          "value": "0.0392156862745098; 0.0215827338129496; 0.0215827338129496; 0.0215827338129496; 0.0215827338129496; 0.00719424460431655",
+          "source": "semantic",
+          "confidence": "medium"
+        }
+      ],
+      "enrichment_significant": [
+        {
+          "value": false,
+          "source": "table",
+          "confidence": "very_high"
+        },
+        {
+          "value": false,
+          "source": "visual",
+          "confidence": "high"
+        },
+        {
+          "value": true,
+          "source": "semantic",
+          "confidence": "medium"
+        }
+      ],
+      "enrichment_details": [
+        {
+          "value": "Significant enrichment (cluster 4) in several functional categories as shown in the MIT9313 clustering results: biosynthesis of cofactors, prosthetic groups and carriers; DNA replication/recombination/repair; energy metabolism; fatty acid/phospholipid/sterol metabolism; purines/pyrimidines/nucleotides; transcription.",
+          "source": "semantic",
+          "confidence": "medium"
+        }
+      ],
+      "genes": [
+        {
+          "value": [
+            "PMT0943",
+            "PMT0411",
+            "PMT0493",
+            "PMT2123",
+            "PMT1355",
+            "PMT1454",
+            "PMT1566",
+            "PMT1203",
+            "PMT1275",
+            "PMT1781",
+            "PMT2130",
+            "PMT1333",
+            "PMT0453",
+            "PMT0613",
+            "PMT2132",
+            "PMT0902",
+            "PMT0498",
+            "PMT1204",
+            "PMT2149",
+            "PMT0456",
+            "PMT0256",
+            "PMT2124",
+            "PMT1237",
+            "PMT0926",
+            "PMT1100",
+            "PMT0757",
+            "PMT0922",
+            "PMT0239",
+            "PMT1380",
+            "PMT1509",
+            "PMT0395",
+            "PMT0246",
+            "PMT1935",
+            "PMT1206",
+            "PMT0849",
+            "PMT2121",
+            "PMT0730",
+            "PMT1947",
+            "PMT1376",
+            "PMT0748",
+            "PMT1481",
+            "PMT2249",
+            "PMT2134",
+            "PMT2046",
+            "PMT1368",
+            "PMT0897",
+            "PMT0836",
+            "PMT2250",
+            "PMT0874",
+            "PMT0247",
+            "PMT1944",
+            "PMT0421",
+            "PMT1186",
+            "PMT0724",
+            "PMT0115",
+            "PMT1892",
+            "PMT1031",
+            "PMT0593",
+            "PMT1998",
+            "PMT0645",
+            "PMT0927",
+            "PMT1205",
+            "PMT1231",
+            "PMT0539",
+            "PMT0555",
+            "PMT0499",
+            "PMT0187",
+            "PMT1815",
+            "PMT2148",
+            "PMT1223",
+            "PMT2117",
+            "PMT2086",
+            "PMT2024",
+            "PMT0242",
+            "PMT1113",
+            "PMT1243",
+            "PMT0069",
+            "PMT0008",
+            "PMT2228",
+            "PMT0752",
+            "PMT1106",
+            "PMT1940",
+            "PMT0631",
+            "PMT1827",
+            "PMT0895",
+            "PMT1925",
+            "PMT0560",
+            "PMT1095",
+            "PMT0243",
+            "PMT1093",
+            "PMT0207",
+            "PMT2196",
+            "PMT0904",
+            "PMT0923",
+            "PMT1202",
+            "PMT2077",
+            "PMT0016",
+            "PMT0245",
+            "PMT0629",
+            "PMT0557",
+            "PMT0820",
+            "PMT1941",
+            "PMT0483",
+            "PMT0517",
+            "PMT1217",
+            "PMT1610",
+            "PMT0321",
+            "PMT1015",
+            "PMT1043",
+            "PMT1986",
+            "PMT1523",
+            "PMT2019",
+            "PMT1863",
+            "PMT0929",
+            "PMT0925",
+            "PMT0221",
+            "PMT1695",
+            "PMT1570",
+            "PMT2129",
+            "PMT0043",
+            "PMT2118",
+            "PMT0193",
+            "PMT1782",
+            "PMT0285",
+            "PMT2194",
+            "PMT2137",
+            "PMT1289",
+            "PMT1896",
+            "PMT1850",
+            "PMT0829",
+            "PMT0532",
+            "PMT2125",
+            "PMT0579",
+            "PMT0278",
+            "PMT1135",
+            "PMT0464",
+            "PMT0443",
+            "PMT1577",
+            "PMT2081"
+          ],
+          "source": "table",
+          "confidence": "very_high"
+        }
+      ],
+      "direction": [
+        {
+          "value": "down",
+          "source": "visual",
+          "confidence": "high"
+        }
+      ],
+      "cluster_description": [
+        {
+          "value": "genes repressed at final time point",
+          "source": "visual",
+          "confidence": "high"
+        }
+      ],
+      "temporal_pattern": [
+        {
+          "value": "repression at 48h",
+          "source": "visual",
+          "confidence": "high"
+        }
+      ],
+      "treatment_conditions": [
+        {
+          "value": "severe N starvation",
+          "source": "visual",
+          "confidence": "high"
+        },
+        {
+          "value": "Nitrogen starvation time course in Prochlorococcus MIT9313; timepoints 0, 3, 6, 12, 24, 48 hours",
+          "source": "semantic",
+          "confidence": "medium"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "quote": "Cluster: 1 2 3 4 5 6 7 Size: 7 36 132 139 113 81 51",
+          "location": "mitFractions_all.txt (K-means clustering output; Tolonen2006)",
+          "relevance_score": 0.606,
+          "source": "semantic"
+        },
+        {
+          "quote": "Amino acid biosynthesis 0.25 0.0714285714285714 0 0.0588235294117647 0.0769230769230769 0.0512820512820513 0",
+          "location": "mitFractions_all.txt (K-means clustering output; Tolonen2006)",
+          "relevance_score": 0.606,
+          "source": "semantic"
+        },
+        {
+          "quote": "Biosynthesis of cofactors, prosthetic groups, and carriers 0 0 0.0769230769230769 0.0392156862745098 0.102564102564103 0.0512820512820513 0",
+          "location": "mitFractions_all.txt (K-means clustering output; Tolonen2006)",
+          "relevance_score": 0.606,
+          "source": "semantic"
+        },
+        {
+          "quote": "DNA replication, recombination, and repair 0 0.0277777777777778 0.00757575757575758 0.0215827338129496 0.00884955752212389 0 0",
+          "location": "mitFractions_all.txt (K-means clustering output; Tolonen2006)",
+          "relevance_score": 0.606,
+          "source": "semantic"
+        },
+        {
+          "quote": "Energy metabolism 0 0.0277777777777778 0.0227272727272727 0.0215827338129496 0.0176991150442478 0 0",
+          "location": "mitFractions_all.txt (K-means clustering output; Tolonen2006)",
+          "relevance_score": 0.606,
+          "source": "semantic"
+        },
+        {
+          "quote": "Fatty acid, phospholipid and sterol metabolism 0 0.0277777777777778 0.00757575757575758 0.0215827338129496 0.079646017699115 0.037037037037037 0.0196078431372549",
+          "location": "mitFractions_all.txt (K-means clustering output; Tolonen2006)",
+          "relevance_score": 0.606,
+          "source": "semantic"
+        },
+        {
+          "quote": "Transcription 0 0 0.00757575757575758 0.00719424460431655 0.0442477876106195 0 0.0588235294117647",
+          "location": "mitFractions_all.txt (K-means clustering output; Tolonen2006)",
+          "relevance_score": 0.606,
+          "source": "semantic"
+        },
+        {
+          "quote": "Translation 0.142857142857143 0 0.113636363636364 0.0719424460431655 0.185840707964602 0.135802469135802 0.490196078431373",
+          "location": "mitFractions_all.txt (K-means clustering output; Tolonen2006)",
+          "relevance_score": 0.606,
+          "source": "semantic"
+        },
+        {
+          "quote": "Photosynthesis and respiration 0 0.0277777777777778 0.053030303030303 0.079136690647482 0.132743362831858 0.222222222222222 0.117647058823529",
+          "location": "mitFractions_all.txt (K-means clustering output; Tolonen2006)",
+          "relevance_score": 0.606,
+          "source": "semantic"
+        },
+        {
+          "quote": "MIT9313 cluster 4 contains a number of genes that were unchanged until being repressed only at the final time point.",
+          "location": "Figure 3 legend",
+          "source": "visual"
+        }
+      ],
+      "gene_count": 139
+    },
+    "5": {
+      "enrichment_category": [
+        {
+          "value": "Fatty acid, phospholipid and sterol metabolism",
+          "source": "table",
+          "confidence": "very_high"
+        },
+        {
+          "value": "fatty acid and phospholipid",
+          "source": "visual",
+          "confidence": "high"
+        }
+      ],
+      "enrichment_pvalue": [
+        {
+          "value": 0.00395257,
+          "source": "table",
+          "confidence": "very_high"
+        },
+        {
+          "value": "0.004",
+          "source": "visual",
+          "confidence": "high"
+        }
+      ],
+      "enrichment_significant": [
+        {
+          "value": true,
+          "source": "table",
+          "confidence": "very_high"
+        },
+        {
+          "value": true,
+          "source": "visual",
+          "confidence": "high"
+        }
+      ],
+      "genes": [
+        {
+          "value": [
+            "PMT1219",
+            "PMT0081",
+            "PMT1323",
+            "PMT1272",
+            "PMT0568",
+            "PMT1750",
+            "PMT2172",
+            "PMT1897",
+            "PMT2119",
+            "PMT1124",
+            "PMT1507",
+            "PMT1063",
+            "PMT1505",
+            "PMT0817",
+            "PMT1450",
+            "PMT0606",
+            "PMT0754",
+            "PMT0616",
+            "PMT1504",
+            "PMT1730",
+            "PMT1306",
+            "PMT1668",
+            "PMT2091",
+            "PMT0032",
+            "PMT1449",
+            "PMT0628",
+            "PMT1859",
+            "PMT0162",
+            "PMT1760",
+            "PMT0445",
+            "PMT0055",
+            "PMT2162",
+            "PMT1915",
+            "PMT1816",
+            "PMT1307",
+            "PMT1754",
+            "PMT2088",
+            "PMT1777",
+            "PMT0276",
+            "PMT1780",
+            "PMT1854",
+            "PMT1533",
+            "PMT1180",
+            "PMT0350",
+            "PMT0050",
+            "PMT1955",
+            "PMT2100",
+            "PMT1022",
+            "PMT0793",
+            "PMT0367",
+            "PMT2003",
+            "PMT1395",
+            "PMT1107",
+            "PMT1914",
+            "PMT1836",
+            "PMT1262",
+            "PMT1498",
+            "PMT1322",
+            "PMT1926",
+            "PMT0675",
+            "PMT1749",
+            "PMT1590",
+            "PMT0848",
+            "PMT1752",
+            "PMT0061",
+            "PMT0122",
+            "PMT0584",
+            "PMT0739",
+            "PMT0859",
+            "PMT0924",
+            "PMT1213",
+            "PMT0977",
+            "PMT0497",
+            "PMT2122",
+            "PMT2004",
+            "PMT1345",
+            "PMT2013",
+            "PMT1197",
+            "PMT0146",
+            "PMT1898",
+            "PMT2259",
+            "PMT0227",
+            "PMT0600",
+            "PMT0552",
+            "PMT1452",
+            "PMT2083",
+            "PMT1755",
+            "PMT1004",
+            "PMT1899",
+            "PMT1451",
+            "PMT1783",
+            "PMT1588",
+            "PMT2261",
+            "PMT1199",
+            "PMT1177",
+            "PMT0142",
+            "PMT1369",
+            "PMT0272",
+            "PMT1751",
+            "PMT1840",
+            "PMT0577",
+            "PMT2002",
+            "PMT0389",
+            "PMT1856",
+            "PMT0138",
+            "PMT1200",
+            "PMT1515",
+            "PMT0906",
+            "PMT1094",
+            "PMT1779",
+            "PMT0014",
+            "PMT1384",
+            "PMT1442"
+          ],
+          "source": "table",
+          "confidence": "very_high"
+        },
+        {
+          "value": "PMT1063, PMT1505, PMT0817, PMT1450, PMT0606, PMT0754, PMT0616, PMT1504, PMT1730, PMT1306, PMT1668, PMT2091, PMT0032, PMT1449, PMT0628, PMT1859, PMT0162, PMT1760, PMT0445, PMT0055, PMT2162, PMT1915, PMT1816, PMT1307, PMT1754, PMT2088, PMT1777, PMT0276",
+          "source": "semantic",
+          "confidence": "medium"
+        }
+      ],
+      "direction": [
+        {
+          "value": "down",
+          "source": "visual",
+          "confidence": "high"
+        }
+      ],
+      "cluster_description": [
+        {
+          "value": "genes involved in lipid metabolism",
+          "source": "visual",
+          "confidence": "high"
+        }
+      ],
+      "temporal_pattern": [
+        {
+          "value": "downregulation during N starvation",
+          "source": "visual",
+          "confidence": "high"
+        }
+      ],
+      "treatment_conditions": [
+        {
+          "value": "N starvation",
+          "source": "visual",
+          "confidence": "high"
+        },
+        {
+          "value": "N-starvation time course (0, 3, 6, 12, 24, 48h)",
+          "source": "semantic",
+          "confidence": "medium"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "quote": "RNA synthesis, modification, and DNA transcription",
+          "location": "[2]",
+          "relevance_score": 0.629,
+          "source": "semantic"
+        },
+        {
+          "quote": "Fatty acid, phospholipid and sterol metabolism",
+          "location": "[2]",
+          "relevance_score": 0.629,
+          "source": "semantic"
+        },
+        {
+          "quote": "possible Bacterial regulatory proteins, crp fa",
+          "location": "[3]",
+          "relevance_score": 0.614,
+          "source": "semantic"
+        },
+        {
+          "quote": "Ferredoxin-dependent glutamate synthase, Fd-GOGAT",
+          "location": "[3]",
+          "relevance_score": 0.614,
+          "source": "semantic"
+        },
+        {
+          "quote": "Cluster 5 fatty acid and phospholipid P=0.004",
+          "location": "Figure 3 legend",
+          "source": "visual"
+        }
+      ],
+      "all_enrichments": [
+        {
+          "category": "Fatty acid, phospholipid and sterol metabolism",
+          "pvalue": 0.00395257,
+          "significant": true,
+          "source": "table"
+        },
+        {
+          "category": "Biosynthesis of cofactors, prosthetic groups, and carriers",
+          "pvalue": 0.00667975,
+          "significant": true,
+          "source": "table"
+        },
+        {
+          "category": "Amino acid biosynthesis",
+          "pvalue": 0.0298958,
+          "significant": true,
+          "source": "table"
+        },
+        {
+          "category": "Transcription",
+          "pvalue": 0.0329026,
+          "significant": true,
+          "source": "table"
+        }
+      ],
+      "gene_count": 113
+    },
+    "6": {
+      "enrichment_category": [
+        {
+          "value": "Photosynthesis and respiration",
+          "source": "table",
+          "confidence": "very_high"
+        },
+        {
+          "value": "photosynthesis and respiration",
+          "source": "visual",
+          "confidence": "high"
+        },
+        {
+          "value": "Photosynthesis and respiration",
+          "source": "semantic",
+          "confidence": "medium"
+        }
+      ],
+      "enrichment_pvalue": [
+        {
+          "value": 0.000498678,
+          "source": "table",
+          "confidence": "very_high"
+        },
+        {
+          "value": "4.9e-4",
+          "source": "visual",
+          "confidence": "high"
+        }
+      ],
+      "enrichment_significant": [
+        {
+          "value": true,
+          "source": "table",
+          "confidence": "very_high"
+        },
+        {
+          "value": true,
+          "source": "visual",
+          "confidence": "high"
+        },
+        {
+          "value": true,
+          "source": "semantic",
+          "confidence": "medium"
+        }
+      ],
+      "enrichment_details": [
+        {
+          "value": "includes photosystem I and II genes",
+          "source": "visual",
+          "confidence": "high"
+        },
+        {
+          "value": "MIT9313 cluster 6 is the only MIT9313 cluster enriched for Photosynthesis and Respiration in this strain and contains genes for diverse aspects of photosystem I and II along with the phycoerythrin gene, cpeB.",
+          "source": "semantic",
+          "confidence": "medium"
+        }
+      ],
+      "genes": [
+        {
+          "value": [
+            "PMT0989",
+            "PMT1768",
+            "PMT1957",
+            "PMT0657",
+            "PMT1414",
+            "PMT1126",
+            "PMT1234",
+            "PMT1547",
+            "PMT1708",
+            "PMT1176",
+            "PMT2138",
+            "PMT1567",
+            "PMT0080",
+            "PMT0249",
+            "PMT0687",
+            "PMT0095",
+            "PMT1665",
+            "PMT1220",
+            "PMT1045",
+            "PMT1907",
+            "PMT0031",
+            "PMT0277",
+            "PMT1770",
+            "PMT0426",
+            "PMT2191",
+            "PMT0916",
+            "PMT0110",
+            "PMT0260",
+            "PMT0774",
+            "PMT0258",
+            "PMT0088",
+            "PMT1317",
+            "PMT1710",
+            "PMT0915",
+            "PMT0241",
+            "PMT0630",
+            "PMT1663",
+            "PMT0725",
+            "PMT1047",
+            "PMT1954",
+            "PMT1427",
+            "PMT1273",
+            "PMT1800",
+            "PMT1697",
+            "PMT1905",
+            "PMT1212",
+            "PMT0700",
+            "PMT0832",
+            "PMT1791",
+            "PMT0688",
+            "PMT0840",
+            "PMT0140",
+            "PMT1040",
+            "PMT1767",
+            "PMT0642",
+            "PMT1576",
+            "PMT0534",
+            "PMT0495",
+            "PMT1244",
+            "PMT1316",
+            "PMT0850",
+            "PMT1571",
+            "PMT0917",
+            "PMT1035",
+            "PMT0740",
+            "PMT2089",
+            "PMT0107",
+            "PMT0785",
+            "PMT0856",
+            "PMT0509",
+            "PMT1683",
+            "PMT0484",
+            "PMT1046",
+            "PMT0633",
+            "PMT2063",
+            "PMT1666",
+            "PMT1769",
+            "PMT0478",
+            "PMT0485",
+            "PMT0718",
+            "PMT0168"
+          ],
+          "source": "table",
+          "confidence": "very_high"
+        },
+        {
+          "value": "cpeB",
+          "source": "visual",
+          "confidence": "high"
+        },
+        {
+          "value": "PMM0428,PMM0056,PMM1483,PMM0753,PMM0134,PMM1661,PMM1509,PMM0500,PMM0288,PMM1511,PMM0203,PMM0298,PMM1489,PMM0829,PMM0046,PMM1183,PMM0844,PMM1229,PMM1251,PMM0510,PMM0494,PMM0295,PMM0619,PMM0605,PMM0206,PMM1532,PMM1109,PMM0483,PMM0609,PMM1546,PMM0213,PMM0907,PMM1644,PMM0580,PMM1440,PMM1055,PMM1191,PMM0429,PMM1510,PMM0784,PMM0200,PMM0769,PMM0026,PMM1643,PMM0253,PMM1437,PMM0902,PMM1662,PMM1543,PMM0204,PMM1607,PMM0299,PMM0869,PMM0930,PMM0296,PMM1547,PMM1522,PMM0622,PMM1506,PMM1600,PMM1542,PMM0137,PMM1079,PMM0751,PMM1485,PMM0511,PMM1663,PMM1617,PMM0987",
+          "source": "semantic",
+          "confidence": "medium"
+        }
+      ],
+      "direction": [
+        {
+          "value": "down",
+          "source": "visual",
+          "confidence": "high"
+        },
+        {
+          "value": "down",
+          "source": "semantic",
+          "confidence": "medium"
+        }
+      ],
+      "cluster_description": [
+        {
+          "value": "photosynthesis and respiration genes repressed",
+          "source": "visual",
+          "confidence": "high"
+        },
+        {
+          "value": "MIT9313 cluster 6 is the only cluster enriched for Photosynthesis and Respiration in this strain and contains genes for diverse aspects of photosystem I and II along with the phycoerythrin gene, cpeB. The cluster appears repressed under the N-starvation time course.",
+          "source": "semantic",
+          "confidence": "medium"
+        }
+      ],
+      "temporal_pattern": [
+        {
+          "value": "downregulation throughout experiment",
+          "source": "visual",
+          "confidence": "high"
+        }
+      ],
+      "treatment_conditions": [
+        {
+          "value": "N starvation",
+          "source": "visual",
+          "confidence": "high"
+        },
+        {
+          "value": "N-starvation time course (0, 3, 6, 12, 24, 48 h)",
+          "source": "semantic",
+          "confidence": "medium"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "quote": "The repressed clusters that were significantly enriched for single functional categories (MED4 clusters 7-9 and MIT9313 clusters 6 and 7) also shed light on the role of a number of genes of unknown function.",
+          "location": "[0]",
+          "relevance_score": 0.682,
+          "source": "semantic"
+        },
+        {
+          "quote": "cluster 7, MIT9313 cluster 7) and Photo­synthesis and Respiration (MED4 clusters 8 and 9, MIT9313 cluster 6) (Figure 3). Even though the functional enrichment in the upregulated clusters did not attain statistical significance, these clusters do contain noteworthy sets of functionally related genes.",
+          "location": "[3]",
+          "relevance_score": 0.672,
+          "source": "semantic"
+        },
+        {
+          "quote": "MIT9313 cluster 6, the only cluster enriched for Photosynthesis and Respiration in this strain, contains genes for diverse aspects of photosystem I and II along with the phycoerythrin gene, cpeB.",
+          "location": "[4]",
+          "relevance_score": 0.635,
+          "source": "semantic"
+        },
+        {
+          "quote": "MIT9313 cluster 6, the only cluster enriched for Photosynthesis and Respiration in this strain, contains genes for diverse aspects of photosystem I and II along with the phycoerythrin gene, cpeB.",
+          "location": "Figure 3 legend",
+          "source": "visual"
+        }
+      ],
+      "all_enrichments": [
+        {
+          "category": "Photosynthesis and respiration",
+          "pvalue": 0.000498678,
+          "significant": true,
+          "source": "table"
+        }
+      ],
+      "gene_count": 81
+    },
+    "7": {
+      "enrichment_category": [
+        {
+          "value": "Translation",
+          "source": "table",
+          "confidence": "very_high"
+        },
+        {
+          "value": "translation",
+          "source": "visual",
+          "confidence": "high"
+        }
+      ],
+      "enrichment_pvalue": [
+        {
+          "value": 7.8986e-10,
+          "source": "table",
+          "confidence": "very_high"
+        },
+        {
+          "value": "7.9e-10",
+          "source": "visual",
+          "confidence": "high"
+        }
+      ],
+      "enrichment_significant": [
+        {
+          "value": true,
+          "source": "table",
+          "confidence": "very_high"
+        },
+        {
+          "value": true,
+          "source": "visual",
+          "confidence": "high"
+        }
+      ],
+      "genes": [
+        {
+          "value": [
+            "PMT0907",
+            "PMT1574",
+            "PMT1761",
+            "PMT1748",
+            "PMT1734",
+            "PMT1736",
+            "PMT1747",
+            "PMT1733",
+            "PMT1081",
+            "PMT1572",
+            "PMT2090",
+            "PMT1759",
+            "PMT1573",
+            "PMT1758",
+            "PMT1737",
+            "PMT1470",
+            "PMT1956",
+            "PMT0169",
+            "PMT1479",
+            "PMT1471",
+            "PMT0551",
+            "PMT1741",
+            "PMT1732",
+            "PMT1756",
+            "PMT1472",
+            "PMT1083",
+            "PMT1739",
+            "PMT0582",
+            "PMT1468",
+            "PMT1742",
+            "PMT1469",
+            "PMT0535",
+            "PMT1473",
+            "PMT1740",
+            "PMT0583",
+            "PMT1743",
+            "PMT1904",
+            "PMT1746",
+            "PMT1527",
+            "PMT1789",
+            "PMT1745",
+            "PMT1738",
+            "PMT1467",
+            "PMT1506",
+            "PMT1466",
+            "PMT1735",
+            "PMT1744",
+            "PMT1377",
+            "PMT2158",
+            "PMT1753",
+            "PMT0177"
+          ],
+          "source": "table",
+          "confidence": "very_high"
+        }
+      ],
+      "direction": [
+        {
+          "value": "down",
+          "source": "visual",
+          "confidence": "high"
+        }
+      ],
+      "cluster_description": [
+        {
+          "value": "translation-related genes repressed",
+          "source": "visual",
+          "confidence": "high"
+        }
+      ],
+      "temporal_pattern": [
+        {
+          "value": "downregulation during N starvation",
+          "source": "visual",
+          "confidence": "high"
+        }
+      ],
+      "treatment_conditions": [
+        {
+          "value": "N starvation",
+          "source": "visual",
+          "confidence": "high"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "quote": "highly downregulated clusters show strong enrichment for specific functional categories, namely Translation (MED4 cluster 7, MIT9313 cluster 7)",
+          "location": "Figure 3 legend",
+          "source": "visual"
+        }
+      ],
+      "all_enrichments": [
+        {
+          "category": "Translation",
+          "pvalue": 7.8986e-10,
+          "significant": true,
+          "source": "table"
+        }
+      ],
+      "gene_count": 51
+    }
+  },
+  "stage2_results": {
+    "1": {
+      "id": "mit9313_up_n_transport",
+      "functional_description": "Enrichment category: Transport and binding proteins (table very_high p=0.0434941; visual high p=0.04; semantic medium p=0.043494). High-confidence gene set includes PMT0991, PMT0990, PMT2240, PMT2239, PMT2229, PMT1831, and PMT0992; nitrite permease (urtA) is noted in the visual source. This cluster represents nitrogen-transport related proteins, consistent with nitrogen starvation conditions.",
+      "behavioral_description": "Direction: up. Temporal pattern: initial upregulation at 6 h with peak at 6 h, described as rapidly upregulated."
+    },
+    "2": {
+      "id": "mit9313_up_regulation_sigma_factors",
+      "functional_description": "Enrichment category: Regulatory functions (table very_high p=0.027658; visual high p=0.03). Includes sigma factors. High-confidence gene set lists PMT1154, PMT2246, PMT0039, PMT0488, PMT1144, PMT1152, PMT1874, PMT0382, PMT0565, PMT0951, PMT2241, PMT0993, PMT0963, PMT1314, PMT1608, PMT1946, PMT0939, PMT0601, PMT1631, PMT1640, PMT0937, PMT0346, PMT0845, PMT0649, PMT0971, PMT0952, PMT0964, PMT2174, PMT1853, PMT1153, PMT0988, PMT0908, PMT0201, PMT0805, PMT1007, PMT1341 (with visual confirmation of PMT0346 and PMT2246; sigma factors PMT2246 and PMT0346 highlighted).",
+      "behavioral_description": "Direction: up. Temporal pattern: upregulated at 24 h, indicating a regulatory/signal-transduction response during the nitrogen-starvation time course."
+    },
+    "3": {
+      "id": "mit9313_up_central_intermediary_metabolism",
+      "functional_description": "Enrichment category: Central intermediary metabolism (semantic, 0.039 ambiguous; described as Central intermediary metabolism). Direction: up. Notable enrichment details mention urease subunits (alpha and beta) among the included genes, indicating involvement of central metabolic pathways. Gene list includes PMT2236, PMT1948, PMT0508, PMT0954, PMT0806, PMT0366, PMT0501, PMT0683, PMT1542, PMT1340, PMT0387, PMT1102, PMT2256, PMT2235, PMT0038, PMT2217, PMT1817, PMT0911, PMT0128, PMT1009, PMT1539, PMT0677, PMT2271, PMT2173, PMT2000, PMT2156, PMT0957, PMT1432, PMT0811, PMT0361, PMT0994, PMT1265, PMT2168, PMT1564, PMT0910, PMT0697, PMT0912, PMT1676, PMT0823, PMT1584, PMT0457, PMT1075, PMT1129, PMT1286, PMT1172, PMT2265, PMT0352, PMT1296, PMT1565, PMT0685, PMT0441, PMT1667, PMT1274, PMT0127, PMT0732, PMT2075, PMT1447, PMT1636, PMT0192, PMT1422, PMT1017, PMT2183, PMT0449, PMT1798, PMT1121, PMT1068, PMT0388, PMT1975, PMT1215, PMT0369, PMT1299, PMT1054, PMT1483, PMT1833, PMT2014, PMT1632, PMT0173, PMT1688, PMT0035, PMT2242, PMT0969, PMT1969, PMT2028, PMT2175, PMT0559, PMT1664, PMT1298, PMT1536, PMT1543, PMT2166, PMT0986, PMT0983, PMT0125, PMT1826, PMT1423, PMT1595, PMT0329, PMT1645, PMT0804, PMT0458, PMT1342, PMT1430, PMT0194, PMT0124, PMT2234, PMT0734, PMT1131, PMT0609, PMT1248, PMT0880, PMT0338, PMT0747, PMT1343, PMT0955, PMT1209, PMT0316, PMT1721, PMT0348, PMT1597, PMT0378, PMT1276, PMT0339, PMT0885, PMT2010, PMT0315, PMT0119, PMT1014",
+      "behavioral_description": "Direction: up. Temporal pattern: delayed upregulation, indicating later-acting regulatory/metabolic genes become elevated as the nitrogen-starvation time course proceeds."
+    },
+    "4": {
+      "id": "mit9313_down_global_metabolic_repression",
+      "functional_description": "Enrichment category: Biosynthesis of cofactors, prosthetic groups, carriers; DNA replication, recombination, and repair; Energy metabolism; Fatty acid, phospholipid and sterol metabolism; Purines, pyrimidines, nucleotides, and nucleosides; Transcription (semantic, medium). Enrichment p-values (semantic) include cofactors 0.0392156862745098; DNA replication 0.0215827338129496; Energy metabolism 0.0215827338129496; Fatty acid/phospholipid/sterol metabolism 0.0215827338129496; Purines/pyrimidines/nucleotides 0.0215827338129496; Transcription 0.00719424460431655. The table/visual enrichment is not significant. Genes listed include PMT0943, PMT0411, PMT0493, PMT2123, PMT1355, PMT1454, PMT1566, PMT1203, PMT1275, PMT1781, PMT2130, PMT1333, PMT0453, PMT0613, PMT2132, PMT0902, PMT0498, PMT1204, PMT2149, PMT0456, PMT0256, PMT2124, PMT1237, PMT0926, PMT1100, PMT0757, PMT0922, PMT0239, PMT1380, PMT1509, PMT0395, PMT0246, PMT1935, PMT1206, PMT0849, PMT2121, PMT0730, PMT1947, PMT1376, PMT0748, PMT1481, PMT2249, PMT2134, PMT2046, PMT1368, PMT0897, PMT0836, PMT2250, PMT0874, PMT0247, PMT1944, PMT0421, PMT1186, PMT0724, PMT0115, PMT1892, PMT1031, PMT0593, PMT1998, PMT0645, PMT0927, PMT1205, PMT1231, PMT0539, PMT0555, PMT0499, PMT0187, PMT1815, PMT2148, PMT1223, PMT2117, PMT2086, PMT2024, PMT0242, PMT1113, PMT1243, PMT0069, PMT0008, PMT2228, PMT0752, PMT1106, PMT1940, PMT0631, PMT1827, PMT0895, PMT1925, PMT0560, PMT1095, PMT0243, PMT1093, PMT0207, PMT2196, PMT0904, PMT0923, PMT1202, PMT2077, PMT0016, PMT0245, PMT0629, PMT0557, PMT0820, PMT1941, PMT0483, PMT0517, PMT1217, PMT1610, PMT0321, PMT1015, PMT1043, PMT1986, PMT1523, PMT2019, PMT1863, PMT0929, PMT0925, PMT0221, PMT1695, PMT1570, PMT2129, PMT0043, PMT2118, PMT0193, PMT1782, PMT0285, PMT2194, PMT2137, PMT1289, PMT1896, PMT1850, PMT0829, PMT0532, PMT2125, PMT0579, PMT0278, PMT1135, PMT0464, PMT0443, PMT1577, PMT2081",
+      "behavioral_description": "Direction: down. Temporal_pattern: repression at 48 h, representing downregulated genes by the final time point under severe nitrogen starvation."
+    },
+    "5": {
+      "id": "mit9313_down_fatty_acid_phospholipid_metabolism",
+      "functional_description": "Enrichment category: Fatty acid, phospholipid and sterol metabolism; visual category: fatty acid and phospholipid (table p=0.00395257; visual p=0.004). Genes include 113 listed IDs (e.g., PMT1219, PMT0081, PMT1323, PMT1272, PMT0568, PMT1750, PMT2172, PMT1897, PMT2119, PMT1124, PMT1507, PMT1063, PMT1505, PMT0817, PMT1450, PMT0606, PMT0754, PMT0616, PMT1504, PMT1730, PMT1306, PMT1668, PMT2091, PMT0032, PMT1449, PMT0628, PMT1859, PMT0162, PMT1760, PMT0445, PMT0055, PMT2162, PMT1915, PMT1816, PMT1307, PMT1754, PMT2088, PMT1777, PMT0276, ... PMT1449 etc.). The semantic enrichment notes involvement in fatty acid/phospholipid pathways and lipid metabolism, consistent with downregulation during nitrogen starvation.",
+      "behavioral_description": "Direction: down. Temporal_pattern: downregulation during N starvation, reaching or persisting through the 48 h final time point."
+    },
+    "6": {
+      "id": "mit9313_down_photosynthesis_respiration",
+      "functional_description": "Enrichment category: Photosynthesis and respiration (table very_high p=0.000498678; visual high p=4.9e-04; semantic medium). Includes genes for photosystem I and II and the phycoerythrin gene cpeB (e.g., broad set of photosynthesis/respiration components). The MIT9313 cluster 6 is the only MIT9313 cluster enriched for this category in this study.",
+      "behavioral_description": "Direction: down. Temporal_pattern: downregulation throughout the nitrogen-starvation time course (0–48 h)."
+    },
+    "7": {
+      "id": "mit9313_down_translation",
+      "functional_description": "Enrichment category: Translation (table very_high p=7.8986e-10; visual high p=7.9e-10). Genes are translation-related (ribosomal/protein synthesis components), including PMT0907, PMT1574, PMT1761, PMT1748, PMT1734, PMT1736, PMT1747, PMT1733, PMT1081, PMT1572, PMT2090, PMT1759, PMT1573, PMT1758, PMT1737, PMT1470, PMT1956, PMT0169, PMT1479, PMT1471, PMT0551, PMT1741, PMT1732, PMT1756, PMT1472, PMT1083, PMT1739, PMT0582, PMT1468, PMT1742, PMT1469, PMT0535, PMT1473, PMT1740, PMT0583, PMT1743, PMT1904, PMT1746, PMT1527, PMT1789, PMT1745, PMT1738, PMT1467, PMT1506, PMT1466, PMT1735, PMT1744, PMT1377, PMT2158, PMT1753, PMT0177.",
+      "behavioral_description": "Direction: down. Temporal_pattern: downregulation during N starvation, indicating suppression of translation-related genes across the time course."
+    }
+  },
+  "stage3_validation": {}
+}
