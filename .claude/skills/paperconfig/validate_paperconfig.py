@@ -27,6 +27,7 @@ Checks:
 
 import sys
 import os
+import json
 from pathlib import Path
 
 import pandas as pd
@@ -132,23 +133,18 @@ CANONICAL_CONDITION_TYPES = {
 
 # Valid cluster_type values for gene_clusters entries.
 VALID_CLUSTER_TYPES = {
-    "diel_periodicity",
-    "stress_response",
-    "expression_level",
+    "diel_cycle",
+    "time_series_dynamics",
+    "response_pattern",
 }
 
 # Required fields on gene_clusters supplementary entries.
 REQUIRED_CLUSTER_TABLE_FIELDS = [
-    "filename", "organism", "gene_id_col", "cluster_col", "clusters",
+    "name", "filename", "organism", "gene_id_col", "cluster_col", "cluster_type",
 ]
 
-# Required fields per cluster definition.
-REQUIRED_CLUSTER_FIELDS = ["name", "cluster_type"]
-
-# Recommended fields per cluster definition (warn if missing).
-RECOMMENDED_CLUSTER_FIELDS = [
-    "functional_description", "behavioral_description",
-]
+# Removed: REQUIRED_CLUSTER_FIELDS, RECOMMENDED_CLUSTER_FIELDS
+# Per-cluster data comes from extraction JSON, not paperconfig
 
 # Canonical test_type values for statistical_analyses entries.
 CANONICAL_TEST_TYPES = {
@@ -480,6 +476,126 @@ def _validate_organism_consistency(
         print("    supp material organisms match experiment organisms: OK")
 
 
+def _find_project_root() -> Path:
+    """Return project root by locating data/Prochlorococcus/treatment_organisms.csv."""
+    here = Path(__file__).resolve()
+    for parent in here.parents:
+        if (parent / "data" / "Prochlorococcus" / "treatment_organisms.csv").exists():
+            return parent
+    return Path.cwd()
+
+
+def _validate_gene_clusters_entry(key, table, config, paperconfig_dir,
+                                   all_canonical_organisms, errors, warnings):
+    """Validate a type: gene_clusters entry."""
+
+    # Required fields
+    for field in REQUIRED_CLUSTER_TABLE_FIELDS:
+        if field not in table:
+            errors.append(f"  [{key}] Missing required field: {field}")
+
+    # Organism check
+    organism = table.get("organism", "")
+    if organism:
+        print(f"  Organism: {organism}")
+        if organism not in all_canonical_organisms:
+            warnings.append(f"  [{key}] Organism '{organism}' not in canonical list")
+
+    # cluster_type enum
+    ct = table.get("cluster_type", "")
+    if ct and ct not in VALID_CLUSTER_TYPES:
+        warnings.append(f"  [{key}] cluster_type '{ct}' not in {VALID_CLUSTER_TYPES}")
+
+    # omics_type
+    ot = table.get("omics_type", "")
+    if ot and ot not in VALID_TYPES:
+        warnings.append(f"  [{key}] omics_type '{ot}' not in {VALID_TYPES}")
+
+    # treatment_type must be a list
+    tt = table.get("treatment_type")
+    if tt is not None:
+        if not isinstance(tt, list):
+            errors.append(f"  [{key}] treatment_type must be a list, got {type(tt).__name__}")
+        else:
+            for t in tt:
+                if t not in CANONICAL_CONDITION_TYPES:
+                    warnings.append(f"  [{key}] treatment_type '{t}' not canonical")
+
+    # Entry key naming
+    if key.startswith("cluster_table_"):
+        warnings.append(
+            f"  [{key}] Entry key should be a meaningful ID "
+            f"(e.g., 'med4_kmeans_nstarvation'), not generic"
+        )
+
+    # experiments cross-reference
+    experiments_ref = table.get("experiments")
+    if experiments_ref is not None:
+        if not isinstance(experiments_ref, list):
+            errors.append(f"  [{key}] experiments must be a list")
+        else:
+            pub_experiments = config.get("publication", {}).get("experiments", {})
+            for exp_key in experiments_ref:
+                if exp_key not in pub_experiments:
+                    errors.append(
+                        f"  [{key}] experiments references '{exp_key}' not found "
+                        f"in publication.experiments"
+                    )
+
+    # CSV validation
+    filename = table.get("filename", "")
+    if filename:
+        csv_path = Path(filename)
+        if not csv_path.is_absolute():
+            csv_path = _find_project_root() / csv_path
+        if csv_path.exists():
+            try:
+                sep = table.get("separator", ",")
+                skip = table.get("skip_rows", 0)
+                df = pd.read_csv(csv_path, sep=sep, skiprows=skip, nrows=5)
+                cols = set(df.columns)
+                for col_field in ("gene_id_col", "cluster_col", "score_col"):
+                    col_name = table.get(col_field)
+                    if col_name and col_name not in cols:
+                        errors.append(
+                            f"  [{key}] {col_field}='{col_name}' not found in "
+                            f"CSV columns: {sorted(cols)}"
+                        )
+            except Exception as e:
+                warnings.append(f"  [{key}] Could not read CSV: {e}")
+        else:
+            warnings.append(f"  [{key}] CSV file not found: {csv_path}")
+
+    # Extraction JSON validation
+    if paperconfig_dir:
+        json_path = Path(paperconfig_dir) / f"cluster_extraction_{key}.json"
+        if json_path.exists():
+            try:
+                with open(json_path) as f:
+                    extraction = json.load(f)
+                meta_key = extraction.get("metadata", {}).get("table_key", "")
+                if meta_key != key:
+                    warnings.append(
+                        f"  [{key}] Extraction JSON table_key='{meta_key}' "
+                        f"does not match entry key"
+                    )
+                stage3 = extraction.get("stage3_validation", {})
+                for ck, cv in stage3.items():
+                    if isinstance(cv, dict) and cv.get("verdict") == "fail":
+                        warnings.append(
+                            f"  [{key}] Extraction cluster '{ck}' has verdict=fail"
+                        )
+            except Exception as e:
+                warnings.append(f"  [{key}] Could not read extraction JSON: {e}")
+
+    # Warn if clusters: block still present (deprecated)
+    if "clusters" in table:
+        warnings.append(
+            f"  [{key}] 'clusters' block is deprecated — "
+            f"per-cluster data comes from extraction JSON"
+        )
+
+
 def validate(config_path: str) -> bool:
     errors = []
     warnings = []
@@ -630,73 +746,11 @@ def validate(config_path: str) -> bool:
 
         # ── gene_clusters ───────────────────────────────────────────────────
         if table_type == "gene_clusters":
-            for req_field in REQUIRED_CLUSTER_TABLE_FIELDS:
-                if req_field not in table:
-                    errors.append(f"{table_key}: gene_clusters requires '{req_field}'")
-
-            organism = table.get("organism", "")
-            if organism:
-                print(f"    organism: {organism}")
-                if organism not in all_canonical_organisms:
-                    warnings.append(
-                        _canonical_organism_error(
-                            config_path, table_key, organism, all_canonical_organisms
-                        )
-                    )
-
-            omics_type = table.get("omics_type", "")
-            if omics_type and omics_type not in VALID_TYPES:
-                warnings.append(f"{table_key}: omics_type '{omics_type}' not in {VALID_TYPES}")
-
-            treatment_type = table.get("treatment_type")
-            if treatment_type is not None:
-                if not isinstance(treatment_type, list):
-                    warnings.append(
-                        f"{table_key}: treatment_type should be a list, got "
-                        f"{type(treatment_type).__name__}"
-                    )
-                else:
-                    for tt in treatment_type:
-                        if tt not in CANONICAL_CONDITION_TYPES:
-                            warnings.append(f"{table_key}: treatment_type '{tt}' not in canonical list")
-
-            sep = table.get("sep", ",")
-            skip = table.get("skip_rows", 0)
-            df, cols = _read_csv_safe(fn, sep, skip, errors, table_key)
-            if cols is not None:
-                print(f"    columns: {cols}")
-                for col_field in ["gene_id_col", "cluster_col", "score_col"]:
-                    col_name = table.get(col_field)
-                    if col_name and col_name not in cols:
-                        errors.append(
-                            f"{table_key}: {col_field} '{col_name}' not found "
-                            f"in CSV headers {list(cols)}"
-                        )
-
-            clusters = table.get("clusters", {})
-            if not clusters:
-                warnings.append(f"{table_key}: 'clusters' block is empty")
-            elif isinstance(clusters, dict):
-                for ck, cv in clusters.items():
-                    if not isinstance(cv, dict):
-                        errors.append(f"{table_key}.clusters.{ck}: expected dict")
-                        continue
-                    for rf in REQUIRED_CLUSTER_FIELDS:
-                        if rf not in cv:
-                            errors.append(
-                                f"{table_key}.clusters.{ck}: missing required field '{rf}'"
-                            )
-                    ct = cv.get("cluster_type", "")
-                    if ct and ct not in VALID_CLUSTER_TYPES:
-                        warnings.append(
-                            f"{table_key}.clusters.{ck}: cluster_type '{ct}' "
-                            f"not in {VALID_CLUSTER_TYPES}"
-                        )
-                    for rec in RECOMMENDED_CLUSTER_FIELDS:
-                        if not cv.get(rec):
-                            warnings.append(
-                                f"{table_key}.clusters.{ck}: missing recommended field '{rec}'"
-                            )
+            paperconfig_dir = os.path.dirname(os.path.abspath(config_path))
+            _validate_gene_clusters_entry(
+                table_key, table, config, paperconfig_dir,
+                all_canonical_organisms, errors, warnings,
+            )
             continue
 
         # ── csv (default) ───────────────────────────────────────────────────
