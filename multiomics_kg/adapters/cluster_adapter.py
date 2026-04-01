@@ -195,7 +195,6 @@ class ClusterAdapter:
                 props = {
                     "id": _clean_str(ext_data.get("id", "")),
                     "name": _clean_str(ext_data.get("name", f"Cluster {cluster_key}")),
-                    "source_paper": _clean_str(self.paper_name),
                     "organism_name": _clean_str(organism),
                     "cluster_method": _clean_str(table.get("cluster_method", "")),
                     "cluster_type": _clean_str(table.get("cluster_type", "")),
