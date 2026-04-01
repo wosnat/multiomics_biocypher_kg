@@ -156,7 +156,7 @@ def run_pipeline(paperconfig_path: Path,
     for tkey, tconfig in cluster_tables.items():
         organism = tconfig["organism"]
         organism_short = organism.split()[-1].lower()
-        out_path = paper_dir / f"cluster_extraction_{organism_short}.json"
+        out_path = paper_dir / f"cluster_extraction_{tkey}.json"
 
         # Load existing JSON if skipping stages
         existing: dict = {}

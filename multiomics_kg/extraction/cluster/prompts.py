@@ -117,19 +117,30 @@ For each cluster below, you are given extracted data from multiple sources \
 Each field is a list of extractions tagged with source and confidence level \
 (very_high > high > medium > low).
 
-Write three outputs per cluster:
+Write these outputs per cluster:
 
-1. **functional_description** — What types of genes are in this cluster. \
-Include enrichment category, p-value, and specific gene names. Prefer \
-higher-confidence sources. Be precise.
-
-2. **behavioral_description** — The temporal/response pattern. Include \
-direction (up/down), timing, and magnitude if available.
-
-3. **id** — Short snake_case identifier prefixed with organism. \
+1. **id** — Short snake_case identifier prefixed with organism. \
 Format: {{organism}}_{{direction}}_{{theme}}. \
 Examples: med4_up_n_transport, mit9313_down_translation, med4_diel_dawn_psi. \
 Must be unique across all clusters in this paper.
+
+2. **name** — Short human-readable cluster label. \
+Format: "{{Organism}} cluster {{key}} ({{direction}}, {{theme}})". \
+Examples: "MED4 cluster 1 (up, N transport)", "MIT9313 cluster 3 (down, translation)". \
+Keep under 60 characters.
+
+3. **functional_description** — What types of genes are in this cluster. \
+Include enrichment category, p-value, and specific gene names. Prefer \
+higher-confidence sources. Be precise.
+
+4. **behavioral_description** — The temporal/response pattern. Include \
+direction (up/down), timing, and magnitude if available.
+
+5. **peak_time_hours** — Peak expression time in hours (float). \
+Only for diel/periodic clusters. null for non-periodic clusters.
+
+6. **period_hours** — Oscillation period in hours (float). \
+Only for periodic clusters. null for non-periodic clusters.
 
 RULES:
 - Never leave fields empty. Use these sentinel values:
@@ -140,6 +151,7 @@ RULES:
 - Prefer higher-confidence sources when they agree on meaning.
 - If uncertain, use the sentinel value — do NOT guess.
 - IDs must be unique within this paper (organism prefix helps).
+- peak_time_hours and period_hours must be null (not "null") for non-periodic clusters.
 
 Paper: {paper_name}
 Organism: {organism}
@@ -152,8 +164,11 @@ Return valid JSON using the original cluster keys:
 {{
   "<cluster_key>": {{
     "id": "organism_direction_theme",
+    "name": "Organism cluster N (direction, theme)",
     "functional_description": "...",
-    "behavioral_description": "..."
+    "behavioral_description": "...",
+    "peak_time_hours": null,
+    "period_hours": null
   }}
 }}
 """
