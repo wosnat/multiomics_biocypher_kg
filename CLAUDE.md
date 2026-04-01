@@ -181,6 +181,7 @@ publication:
 | `csv` | Differential expression results table with `statistical_analyses` |
 | `id_translation` | Pure ID mapping table (no DE data); bridges non-standard IDs to locus tags |
 | `annotation_gff` | GFF3/GTF file; adds protein_id/Name bridges for a strain |
+| `gene_clusters` | Cluster assignment table; creates ClusteringAnalysis + GeneCluster nodes |
 
 **`id_translation` example** — maps JGI catalog IDs via an annotated genome CSV:
 ```yaml
@@ -226,6 +227,27 @@ annotation_gff_mit9301:
   filename: "data/.../GCF_000015965.1_ASM1596v1_genomic.gff"
   organism: "Prochlorococcus MIT9301"
 ```
+
+**`gene_clusters` example** — cluster assignment table with per-analysis metadata:
+```yaml
+med4_kmeans_nstarvation:
+  type: gene_clusters
+  name: "MED4 K-means N-starvation clusters"
+  filename: "data/.../med4_kmeans_clusters.csv"
+  organism: "Prochlorococcus MED4"
+  gene_id_col: "gene_id"
+  cluster_col: "cluster"
+  cluster_type: "response_pattern"
+  cluster_method: "K-means (K=9)"
+  omics_type: MICROARRAY
+  light_condition: "continuous light"
+  treatment_type: ["nitrogen_stress"]
+  treatment: "N-starvation time course (0, 3, 6, 12, 24, 48h)"
+  experimental_context: "MED4 cells in Pro99; sampled at 0, 3, 6, 12, 24, 48h post N-deprivation"
+  experiments:                  # optional: link to Experiment nodes
+    - nitrogen_stress_experiment_key
+```
+The entry key (`med4_kmeans_nstarvation`) becomes the analysis key in node IDs. No `clusters:` block — cluster identities come from unique values in `cluster_col`. Per-cluster descriptions (`id`, `name`, `functional_description`, `behavioral_description`, `peak_time_hours`, `period_hours`) are supplied by a separately extracted `cluster_extraction_{entry_key}.json` file. Optional `score_col` and `p_value_col` fields carry membership scores onto `Gene_in_gene_cluster` edges.
 
 **`csv` with non-standard ID columns:**
 ```yaml
@@ -361,8 +383,8 @@ uv run python tests/kg_validity/generate_snapshot.py
 
 ### Actual Neo4j labels (BioCypher PascalCase output)
 
-- Nodes: `Gene`, `Protein`, `OrganismTaxon`, `Publication`, `Experiment`, `OrthologGroup`, `BiologicalProcess`, `CellularComponent`, `MolecularFunction`, `EcNumber`, `KeggTerm`, `CogFunctionalCategory`, `CyanorakRole`, `TigrRole`, `Pfam`, `PfamClan`
-- Relationships: `Gene_belongs_to_organism`, `Protein_belongs_to_organism`, `Gene_encodes_protein`, `Gene_in_ortholog_group`, `Og_has_cyanorak_role`, `Og_in_cog_category`, `Has_experiment`, `Tests_coculture_with`, `Changes_expression_of`, `Gene_involved_in_biological_process`, `Gene_located_in_cellular_component`, `Gene_enables_molecular_function`, `Biological_process_is_a_biological_process`, `Cellular_component_is_a_cellular_component`, `Molecular_function_is_a_molecular_function`, `Ec_number_is_a_ec_number`, `Gene_catalyzes_ec_number`, `Gene_has_kegg_ko`, `Kegg_term_is_a_kegg_term`, `Gene_in_cog_category`, `Gene_has_cyanorak_role`, `Gene_has_tigr_role`, `Cyanorak_role_is_a_cyanorak_role`, `Gene_has_pfam`, `Pfam_in_pfam_clan`
+- Nodes: `Gene`, `Protein`, `OrganismTaxon`, `Publication`, `Experiment`, `OrthologGroup`, `BiologicalProcess`, `CellularComponent`, `MolecularFunction`, `EcNumber`, `KeggTerm`, `CogFunctionalCategory`, `CyanorakRole`, `TigrRole`, `Pfam`, `PfamClan`, `ClusteringAnalysis`, `GeneCluster`
+- Relationships: `Gene_belongs_to_organism`, `Protein_belongs_to_organism`, `Gene_encodes_protein`, `Gene_in_ortholog_group`, `Og_has_cyanorak_role`, `Og_in_cog_category`, `Has_experiment`, `Tests_coculture_with`, `Changes_expression_of`, `Gene_involved_in_biological_process`, `Gene_located_in_cellular_component`, `Gene_enables_molecular_function`, `Biological_process_is_a_biological_process`, `Cellular_component_is_a_cellular_component`, `Molecular_function_is_a_molecular_function`, `Ec_number_is_a_ec_number`, `Gene_catalyzes_ec_number`, `Gene_has_kegg_ko`, `Kegg_term_is_a_kegg_term`, `Gene_in_cog_category`, `Gene_has_cyanorak_role`, `Gene_has_tigr_role`, `Cyanorak_role_is_a_cyanorak_role`, `Gene_has_pfam`, `Pfam_in_pfam_clan`, `Publication_has_clustering_analysis`, `Clustering_analysis_has_gene_cluster`, `Clusteringanalysis_belongs_to_organism`, `Experiment_has_clustering_analysis`, `Gene_in_gene_cluster`
 
 ### Key graph facts
 
@@ -377,13 +399,15 @@ uv run python tests/kg_validity/generate_snapshot.py
 - `Gene_in_ortholog_group` edges: ~84,500 membership edges. A gene may have 1-3 memberships (Cyanorak + eggnog bacteria-level + eggnog lowest-level).
 - `Og_has_cyanorak_role` edges: OrthologGroup → CyanorakRole, majority-vote (>50% of member genes). `Og_in_cog_category` edges: OrthologGroup → CogFunctionalCategory, same majority rule.
 - Pfam domain nodes: 3,568 `Pfam` nodes (only domains referenced by genes) with `name` (description), `short_name` (Pfam shortname); 448 `PfamClan` nodes (superfamilies) with `name` (clan name). ~44K `Gene_has_pfam` edges, ~2.5K `Pfam_in_pfam_clan` edges. Node IDs use bioregistry CURIEs: `pfam:PF*` and `pfam.clan:CL*`. Pfam reference data downloaded from `Pfam-A.clans.tsv.gz`; eggNOG shortnames resolved to PF* accessions via reverse lookup
+- ClusteringAnalysis nodes: intermediate layer between Publication and GeneCluster. Each groups clusters from one clustering analysis entry in a paperconfig. Properties: `name`, `organism_name`, `cluster_method`, `cluster_type`, `cluster_count`, `total_gene_count`, `omics_type`, `treatment_type`, `treatment`, `light_condition`, `experimental_context`. Node IDs: `clustering_analysis:{doi_short}:{entry_key}`. Linked via `Publication_has_clustering_analysis` (Publication → ClusteringAnalysis), `Clusteringanalysis_belongs_to_organism` (ClusteringAnalysis → OrganismTaxon), and `Experiment_has_clustering_analysis` (Experiment → ClusteringAnalysis).
+- GeneCluster nodes: one per unique cluster value in the CSV. Node IDs: `cluster:{doi_short}:{analysis_entry_key}:{csv_cluster_key}`. Properties: `id` (extracted short identifier), `name`, `organism_name`, `cluster_method`, `cluster_type`, `treatment_type`, `treatment`, `omics_type`, `light_condition`, `member_count`, `functional_description`, `behavioral_description`, `peak_time_hours`, `period_hours`, `experimental_context`. Per-cluster descriptions (`id`, `name`, `functional_description`, `behavioral_description`, `peak_time_hours`, `period_hours`) come from extraction JSON files (`cluster_extraction_{entry_key}.json`); only applied when stage3 validation verdict = "pass". Linked to analysis via `Clustering_analysis_has_gene_cluster`; linked to genes via `Gene_in_gene_cluster`.
 - EnvironmentalCondition nodes no longer exist — replaced by Experiment nodes (see above)
 - `preferred_name` property on `OrganismTaxon` nodes (e.g., `"Prochlorococcus MED4"`)
 - OrganismTaxon computed properties (post-import): `gene_count` (int), `publication_count` (int), `experiment_count` (int), `treatment_types` (str[]), `omics_types` (str[]). Computed after Publication.organisms alignment. `species` is derived from `preferred_name` when NCBI taxonomy is genus-level only (e.g., Alteromonas strains → "Alteromonas macleodii").
 - Gene node computed fields for MCP gene lookup: `organism_name` (preferred organism name), `gene_summary` ("name :: product :: description"), `all_identifiers` (union of all alt IDs)
 - Gene nodes carry ~27 properties. Kept properties: core (locus_tag, start, end, strand, product, protein_id), naming (gene_name, gene_name_synonyms, alternate_functional_descriptions, function_description), function (protein_family, catalytic_activities, transmembrane_regions, signal_peptide, transporter_classification, cazy_ids, bigg_reaction), computed (organism_name, gene_summary, all_identifiers), quality (annotation_quality, gene_category), routing signals (annotation_types, expression_edge_count, significant_up_count, significant_down_count, closest_ortholog_group_size, closest_ortholog_genera — set by post-import Cypher using `Changes_expression_of` edges, not adapter). Redundant ID arrays removed: `gene_synonyms` (= alternative_locus_tags ∪ gene_name_synonyms), `alternative_locus_tags` (⊂ all_identifiers), `old_locus_tags` (⊂ alternative_locus_tags ⊂ all_identifiers). See `docs/gene_id_fields_spec.md` for full analysis.
 - Publication computed properties (post-import): `experiment_count` (int), `treatment_types` (str[]), `omics_types` (str[]), `organisms` (str[] — sorted distinct `organism_name` + `coculture_partner` from experiments). The adapter no longer sets organism; it is fully computed post-import as `organisms`.
-- Post-import indexes: scalar (`gene_locus_tag_idx`, `gene_name_idx`, `gene_organism_name_idx`, `ortholog_group_id_idx`, `ortholog_group_name_idx`, `ortholog_group_level_idx`, `ortholog_group_rank_idx`, `pfam_name_idx`, `pfam_clan_name_idx`, `experiment_id_idx`, `experiment_organism_idx`, `experiment_treatment_type_idx`, `experiment_omics_type_idx`) + full-text (`geneFullText` on gene_summary, all_identifiers, gene_name_synonyms, alternate_functional_descriptions; `orthologGroupFullText` on OrthologGroup consensus_product, consensus_gene_name, description, functional_description; `pfamFullText` on Pfam name, short_name; `pfamClanFullText` on PfamClan name; `experimentFullText` on Experiment name, treatment, control, experimental_context, light_condition; `publicationFullText` on Publication title, abstract, description; `biologicalProcessFullText`, `molecularFunctionFullText`, `cellularComponentFullText`, `ecNumberFullText`, `keggFullText`, `cogCategoryFullText`, `cyanorakRoleFullText`, `tigrRoleFullText` on ontology/role node `name` properties)
+- Post-import indexes: scalar (`gene_locus_tag_idx`, `gene_name_idx`, `gene_organism_name_idx`, `ortholog_group_id_idx`, `ortholog_group_name_idx`, `ortholog_group_level_idx`, `ortholog_group_rank_idx`, `pfam_name_idx`, `pfam_clan_name_idx`, `experiment_id_idx`, `experiment_organism_idx`, `experiment_treatment_type_idx`, `experiment_omics_type_idx`, `clustering_analysis_organism_idx`, `clustering_analysis_method_idx`, `clustering_analysis_type_idx`) + full-text (`geneFullText` on gene_summary, all_identifiers, gene_name_synonyms, alternate_functional_descriptions; `orthologGroupFullText` on OrthologGroup consensus_product, consensus_gene_name, description, functional_description; `pfamFullText` on Pfam name, short_name; `pfamClanFullText` on PfamClan name; `experimentFullText` on Experiment name, treatment, control, experimental_context, light_condition; `publicationFullText` on Publication title, abstract, description; `clusteringAnalysisFullText` on ClusteringAnalysis name, treatment, experimental_context; `biologicalProcessFullText`, `molecularFunctionFullText`, `cellularComponentFullText`, `ecNumberFullText`, `keggFullText`, `cogCategoryFullText`, `cyanorakRoleFullText`, `tigrRoleFullText` on ontology/role node `name` properties)
 - `adjusted_p_value` may be null on expression edges when the original study did not report it
 - Strains in graph: MED4, AS9601, MIT9301, MIT9312, MIT9313, NATL1A, NATL2A, RSP50 (Prochlorococcus); CC9311 (Synechococcus); WH8102 (Parasynechococcus); MIT1002, EZ55, HOT1A3 (Alteromonas)
 
