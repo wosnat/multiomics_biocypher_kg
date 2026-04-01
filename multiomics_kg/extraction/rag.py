@@ -14,12 +14,32 @@ except Exception:
     _openai = None
 
 
-def chunk_text(text: str, chunk_size: int = 400, overlap: int = 100) -> list[str]:
-    """Split text into overlapping chunks at sentence boundaries."""
+def chunk_text(text: str, chunk_size: int = 400, overlap: int = 100,
+               max_chunk_chars: int = 6000) -> list[str]:
+    """Split text into overlapping chunks at sentence boundaries.
+
+    Chunks exceeding max_chunk_chars are hard-split to stay within
+    embedding API token limits (~8192 tokens ≈ ~6000 chars).
+    """
     sentences = re.split(r'(?<=[.!?])\s+', text)
     chunks = []
     current = ""
     for sent in sentences:
+        # Hard-split oversized sentences on whitespace
+        if len(sent) > max_chunk_chars:
+            if current.strip():
+                chunks.append(current.strip())
+                current = ""
+            words = sent.split()
+            part = ""
+            for w in words:
+                if len(part) + len(w) + 1 > max_chunk_chars and part:
+                    chunks.append(part.strip())
+                    part = ""
+                part = (part + " " + w).strip()
+            if part.strip():
+                current = part
+            continue
         if len(current) + len(sent) > chunk_size and current:
             chunks.append(current.strip())
             words = current.split()

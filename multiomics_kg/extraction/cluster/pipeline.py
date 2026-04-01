@@ -294,6 +294,12 @@ def _generate_report(output: dict, cluster_keys: list[str]) -> str:
 
 
 def main():
+    try:
+        from dotenv import load_dotenv
+        load_dotenv()
+    except ImportError:
+        pass
+
     parser = argparse.ArgumentParser(
         description="Extract cluster descriptions from paper PDF + supp files"
     )
