@@ -16,7 +16,8 @@ Add a `ClusteringAnalysis` intermediate node between Publication and GeneCluster
 **BioCypher type:** `clustering analysis` (renders as `ClusteringAnalysis`)
 
 **Node ID format:** `clustering_analysis:{doi_short}:{entry_key}`
-- Example: `clustering_analysis:msb4100087:cluster_table_med4`
+- Example: `clustering_analysis:msb4100087:med4_kmeans_nstarvation`
+- The entry key in the paperconfig must be short, meaningful, and unique within the paper (e.g., `med4_kmeans_nstarvation` not `cluster_table_med4`). This is a paperconfig creation requirement.
 
 **Properties:**
 
@@ -31,11 +32,28 @@ Add a `ClusteringAnalysis` intermediate node between Publication and GeneCluster
 | `treatment_type` | str[] | paperconfig | Category array for filtering |
 | `treatment` | str | paperconfig | Free-text condition description |
 | `light_condition` | str | paperconfig | Light regime |
+| `cluster_type` | str | paperconfig | Category enum: `"diel_cycle"`, `"time_series_dynamics"`, `"response_pattern"` |
 | `experimental_context` | str | paperconfig | Setup details |
 
 ## GeneCluster Node Changes
 
-No properties removed. Analysis-level properties (`organism_name`, `cluster_method`, `omics_type`, `treatment_type`, `treatment`, `light_condition`, `experimental_context`) remain as denormalized copies on GeneCluster nodes for query convenience. This matches the existing pattern of denormalizing `organism_name` onto Gene nodes.
+**Node ID format (updated):** `cluster:{doi_short}:{analysis_key}:{csv_cluster_key}`
+- Example: `cluster:msb4100087:med4_kmeans_nstarvation:1`
+- The `csv_cluster_key` is the raw value from the CSV `cluster_col` (e.g., `"1"`, `"A"`)
+- The extracted `id` from JSON (e.g., `up_n_transport`) is a property, not part of the node ID
+
+**GeneCluster-specific properties** (from extraction JSON + CSV):
+- `id` — short snake_case identifier from extraction JSON (e.g., `up_n_transport`), property not part of node ID
+- `name` — from extraction JSON
+- `member_count` — computed from CSV
+- `functional_description` — from extraction JSON
+- `behavioral_description` — from extraction JSON
+- `peak_time_hours` — from extraction JSON (diel only, nullable)
+- `period_hours` — from extraction JSON (diel only, nullable)
+
+**Removed:** `source_paper` (reachable via ClusteringAnalysis → Publication), `cluster_type` (moved to analysis level).
+
+**Denormalized copies from ClusteringAnalysis** (for query convenience): `organism_name`, `cluster_method`, `cluster_type`, `omics_type`, `treatment_type`, `treatment`, `light_condition`, `experimental_context`. This matches the existing pattern of denormalizing `organism_name` onto Gene nodes.
 
 ## Edge Changes
 
@@ -67,12 +85,12 @@ The `Experiment_has_clustering_analysis` edge is optional. It is emitted when th
 
 ## Paperconfig Changes
 
-Each `type: gene_clusters` entry already maps 1:1 to a ClusteringAnalysis node. Two fields are added:
+Each `type: gene_clusters` entry maps 1:1 to a ClusteringAnalysis node. Changes from current format:
 
 ### New required field: `name`
 
 ```yaml
-cluster_table_med4:
+med4_kmeans_nstarvation:
   type: gene_clusters
   name: "MED4 K-means N-starvation clusters"  # human-readable name for ClusteringAnalysis node
   ...
@@ -81,7 +99,7 @@ cluster_table_med4:
 ### New optional field: `experiments`
 
 ```yaml
-cluster_table_med4:
+med4_kmeans_nstarvation:
   type: gene_clusters
   experiments: [n_starvation_med4]  # references experiment keys in same paperconfig
   ...
@@ -90,7 +108,7 @@ cluster_table_med4:
 ### Full example
 
 ```yaml
-cluster_table_med4:
+med4_kmeans_nstarvation:
   type: gene_clusters
   name: "MED4 K-means N-starvation clusters"
   filename: "data/.../med4_kmeans_clusters.csv"
@@ -104,16 +122,14 @@ cluster_table_med4:
   experiments: [n_starvation_med4]
   gene_id_col: "gene_id"
   cluster_col: "cluster"
-  clusters:
-    "1":
-      id: "up_n_transport"
-      name: "MED4 cluster 1 (up, N transport)"
-      cluster_type: "stress_response"
-      functional_description: "N transport genes..."
-      behavioral_description: "Rapid upregulation within 3h..."
+  cluster_type: "response_pattern"
+  # No clusters: block — cluster keys derived from unique values in CSV cluster_col.
+  # Extraction pipeline reads cluster keys from CSV, not paperconfig.
+  # Per-cluster data (id, name, descriptions, peak_time_hours, period_hours)
+  # comes entirely from extraction JSON output.
 ```
 
-The entry key (`cluster_table_med4`) is used as the analysis identifier for node ID construction.
+The entry key (`med4_kmeans_nstarvation`) is used as the analysis identifier for node ID construction.
 
 ## Extraction JSON Integration
 
@@ -121,11 +137,11 @@ The LLM-based extraction pipeline (`multiomics_kg/extraction/cluster/`) produces
 
 ### File convention
 
-For a paperconfig entry with key `cluster_table_med4`, the extraction output is:
+For a paperconfig entry with key `med4_kmeans_nstarvation`, the extraction output is:
 ```
-data/.../cluster_extraction_med4.json
+data/.../cluster_extraction_med4_kmeans_nstarvation.json
 ```
-Located in the same directory as the paperconfig. The filename suffix matches the entry key (minus `cluster_table_` prefix, or the full key if no prefix).
+Located in the same directory as the paperconfig. The filename is `cluster_extraction_{entry_key}.json`.
 
 ### Extraction JSON structure (read by adapter)
 
@@ -134,13 +150,16 @@ Located in the same directory as the paperconfig. The filename suffix matches th
   "metadata": {
     "paper": "Tolonen 2006",
     "organism": "Prochlorococcus MED4",
-    "table_key": "cluster_table_med4"
+    "table_key": "med4_kmeans_nstarvation"
   },
   "stage2_results": {
     "1": {
       "id": "med4_up_transport_amino_acid_biosynthesis",
+      "name": "MED4 cluster 1 (up, N transport)",
       "functional_description": "...",
-      "behavioral_description": "..."
+      "behavioral_description": "...",
+      "peak_time_hours": null,
+      "period_hours": null
     }
   },
   "stage3_validation": {
@@ -152,22 +171,33 @@ Located in the same directory as the paperconfig. The filename suffix matches th
 }
 ```
 
-### Merge priority
+### Data sources by level
 
-The adapter merges extraction JSON into cluster properties with this priority:
-1. **Paperconfig `clusters:` block** — highest priority (manual overrides)
-2. **Extraction JSON `stage2_results`** — used when paperconfig field is absent or empty
-3. **Defaults** — empty string / null for missing fields
+| Level | Source | Fields |
+|---|---|---|
+| **ClusteringAnalysis** | paperconfig | `name`, `organism`, `cluster_method`, `cluster_type`, `omics_type`, `treatment_type`, `treatment`, `light_condition`, `experimental_context`, `experiments` |
+| **ClusteringAnalysis** | computed from CSV | `cluster_count`, `total_gene_count` |
+| **GeneCluster** | CSV `cluster_col` | cluster keys (unique values), `member_count` |
+| **GeneCluster** | extraction JSON | `id`, `name`, `functional_description`, `behavioral_description`, `peak_time_hours`, `period_hours` |
+| **GeneCluster** | denormalized from analysis | `organism_name`, `cluster_method`, `cluster_type`, `omics_type`, `treatment_type`, `treatment`, `light_condition`, `experimental_context` |
+| **Gene_in_gene_cluster** | CSV | `membership_score` (from `score_col`, optional), `p_value` (optional) |
 
-Fields sourced from extraction JSON: `id`, `functional_description`, `behavioral_description`. The adapter only uses results where `stage3_validation` verdict is `"pass"` (skips failed/flagged clusters, leaving them for manual review).
+The adapter only uses extraction results where `stage3_validation` verdict is `"pass"` (skips failed/flagged clusters, leaving them for manual review). Clusters without a passing extraction result get empty description fields.
+
+**Extraction pipeline changes required:** The synthesis prompt (`prompts.py` `SYNTHESIS_PROMPT`) currently produces `id`, `functional_description`, `behavioral_description`. Add three more output fields:
+- `name` — short human-readable cluster label (e.g., "MED4 cluster 1 (up, N transport)")
+- `peak_time_hours` — peak expression time (float, diel clusters only; null otherwise)
+- `period_hours` — oscillation period (float, diel clusters only; null otherwise)
+
+Update `synthesis.py` and `validation.py` accordingly.
 
 ### Adapter lookup logic
 
 For each `type: gene_clusters` entry:
-1. Resolve the extraction JSON path from the paperconfig directory + entry key
-2. If the JSON file exists, load `stage2_results` and `stage3_validation`
-3. For each cluster, merge extraction data under paperconfig overrides
-4. If the JSON file doesn't exist, fall back to paperconfig-only (current behavior)
+1. Read unique cluster keys from CSV `cluster_col`
+2. Resolve the extraction JSON path from the paperconfig directory + entry key
+3. If the JSON file exists, load `stage2_results` and `stage3_validation`; populate per-cluster properties from passing results
+4. If the JSON file doesn't exist, cluster nodes get empty description fields
 
 ## Adapter Changes
 
@@ -177,7 +207,7 @@ All changes are confined to `multiomics_kg/adapters/cluster_adapter.py`.
 
 Yields two node types:
 1. **ClusteringAnalysis nodes** — one per `type: gene_clusters` entry. Properties built from entry-level fields plus computed `cluster_count` and `total_gene_count`.
-2. **GeneCluster nodes** — same as today, retaining denormalized copies of analysis-level properties. Description fields populated by merging paperconfig `clusters:` block with extraction JSON (paperconfig takes priority).
+2. **GeneCluster nodes** — one per unique value in CSV `cluster_col`. Per-cluster properties from extraction JSON, denormalized analysis-level properties from paperconfig.
 
 ### ClusterAdapter.get_edges()
 
@@ -238,25 +268,38 @@ The paperconfig skill (`.claude/skills/paperconfig/SKILL.md`) and validator (`va
 
 ### Validator changes (`validate_paperconfig.py`)
 
-1. **New required field:** Add `name` to `REQUIRED_CLUSTER_TABLE_FIELDS`:
+1. **Updated required fields:**
    ```python
    REQUIRED_CLUSTER_TABLE_FIELDS = [
-       "name", "filename", "organism", "gene_id_col", "cluster_col", "clusters",
+       "name", "filename", "organism", "gene_id_col", "cluster_col", "cluster_type",
    ]
    ```
+   - `name` added (human-readable label for the ClusteringAnalysis node)
+   - `cluster_type` added (moved from per-cluster to analysis level; enum: `diel_cycle`, `time_series_dynamics`, `response_pattern`)
+   - `clusters` removed (no longer in paperconfig; cluster keys derived from CSV)
 
-2. **New optional field validation:** `experiments` — if present, must be a list of strings. Validate that each referenced experiment key exists in the paperconfig's `experiments:` block (cross-reference check).
+2. **Entry key validation:** Warn if entry key looks like a generic name (e.g., starts with `cluster_table_`). Entry keys should be short, meaningful IDs (e.g., `med4_kmeans_nstarvation`).
 
-3. **Extraction JSON validation:** When a `cluster_extraction_*.json` file exists alongside the paperconfig, validate:
+3. **Optional field validation:**
+   - `experiments` — if present, must be a list of strings. Validate that each referenced experiment key exists in the paperconfig's `experiments:` block (cross-reference check).
+
+4. **Extraction JSON validation:** When a `cluster_extraction_*.json` file exists alongside the paperconfig, validate:
    - `metadata.table_key` matches the entry key
-   - Every cluster key in `stage2_results` matches a cluster key in the paperconfig `clusters:` block
+   - Every cluster key in `stage2_results` corresponds to a value in the CSV `cluster_col`
    - Stage 3 `verdict` is reported (warn on `"fail"` clusters)
+
+5. **Removed validation:** Per-cluster `cluster_type`, `name`, `functional_description`, `behavioral_description` checks (these no longer live in the paperconfig).
 
 ### Skill changes (`SKILL.md`)
 
-1. Add `name` as required field in the gene_clusters documentation with example
-2. Document the `experiments` optional field with cross-reference to experiment keys
-3. Add note about extraction JSON files as a data source for descriptions
+1. Update `type: gene_clusters` documentation:
+   - `name` is required (analysis-level, for ClusteringAnalysis node)
+   - `cluster_type` is required at analysis level (enum: `diel_cycle`, `time_series_dynamics`, `response_pattern`)
+   - `experiments` is optional (list of experiment keys from same paperconfig)
+   - Entry key must be short and meaningful (used in node ID)
+2. Remove `clusters:` block documentation — per-cluster data comes from extraction JSON
+3. Add note about extraction JSON as the source for per-cluster descriptions, IDs, and diel parameters
+4. Document the data flow: paperconfig (analysis metadata) + CSV (membership) + extraction JSON (per-cluster properties)
 
 ## Scope
 
@@ -266,21 +309,29 @@ The paperconfig skill (`.claude/skills/paperconfig/SKILL.md`) and validator (`va
 - Remove 2 old edge types
 - Update cluster_adapter.py (including extraction JSON merge logic)
 - Update schema_config.yaml
-- Update existing paperconfigs (add `name` field to `type: gene_clusters` entries)
+- Migrate existing paperconfigs (rename entry keys, add `name` + `cluster_type`, remove `clusters:` block)
 - Update post-import.sh indexes
 - Update tests
 
 ### Out of scope
 - Changes to omics_adapter.py or any other adapter
 - MCP tool changes (future work)
-- The extraction pipeline itself (already built separately)
+- The extraction pipeline itself (already built separately), except: adding `name`/`peak_time_hours`/`period_hours` to synthesis output, and reading cluster keys from CSV instead of paperconfig
 - Post-import computed properties on ClusteringAnalysis
 
 ## Implementation Order
 
-1. **Paperconfig skill + validator** — update to recognize `name`, `experiments`, extraction JSON
-2. **Schema config** — add ClusteringAnalysis node, new edges, remove old edges
-3. **Adapter** — restructure cluster_adapter.py for new node/edge types + extraction JSON merge
-4. **Paperconfigs** — update existing entries (tolonen) with `name` field
-5. **Post-import** — update indexes
-6. **Tests** — update/add unit tests and KG validity tests
+Tolonen 2006 is the validation case throughout — each step is verified against it before moving on.
+
+1. **Paperconfig skill + validator** — update to recognize new format (`name`, `cluster_type` at analysis level, `experiments`, no `clusters:` block, extraction JSON validation)
+2. **Tolonen 2006 paperconfig** — migrate to new format (meaningful entry keys, `name`, `cluster_type`, remove `clusters:` block). Update extraction JSON `table_key` to match new entry keys.
+3. **Extraction pipeline** — add `name`, `peak_time_hours`, `period_hours` to synthesis output. Update to read cluster keys from CSV instead of paperconfig `clusters:` block. Re-run on Tolonen 2006 to produce updated JSON.
+4. **Schema config** — add ClusteringAnalysis node, new edges, remove old edges
+5. **Adapter** — restructure cluster_adapter.py for new node/edge types + extraction JSON read
+6. **Post-import** — update indexes
+7. **Tests** — update/add unit tests, verify with Tolonen 2006 end-to-end
+
+### Separate follow-up task
+- Create paperconfigs + CSVs for additional papers (Zinser 2009, Alonso 2023, Bagby 2015, Wang 2014)
+- Run extraction pipeline on each
+- Review and commit results
