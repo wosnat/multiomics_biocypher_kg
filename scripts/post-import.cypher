@@ -58,8 +58,15 @@ CREATE INDEX experiment_omics_type_idx IF NOT EXISTS FOR (e:Experiment) ON (e.om
 CREATE FULLTEXT INDEX experimentFullText IF NOT EXISTS
   FOR (e:Experiment) ON EACH [e.name, e.treatment, e.control, e.experimental_context, e.light_condition];
 
+// ── ClusteringAnalysis indexes ──────────────────────────────────────────
+CREATE INDEX clustering_analysis_organism_idx IF NOT EXISTS FOR (ca:ClusteringAnalysis) ON (ca.organism_name);
+CREATE INDEX clustering_analysis_method_idx IF NOT EXISTS FOR (ca:ClusteringAnalysis) ON (ca.cluster_method);
+CREATE INDEX clustering_analysis_type_idx IF NOT EXISTS FOR (ca:ClusteringAnalysis) ON (ca.cluster_type);
+
+CREATE FULLTEXT INDEX clusteringAnalysisFullText IF NOT EXISTS
+  FOR (ca:ClusteringAnalysis) ON EACH [ca.name, ca.treatment, ca.experimental_context];
+
 // ── GeneCluster indexes ─────────────────────────────────────────────────
-CREATE INDEX gene_cluster_organism_idx IF NOT EXISTS FOR (gc:GeneCluster) ON (gc.organism_name);
 CREATE INDEX gene_cluster_treatment_type_idx IF NOT EXISTS FOR (gc:GeneCluster) ON (gc.treatment_type);
 CREATE INDEX gene_cluster_type_idx IF NOT EXISTS FOR (gc:GeneCluster) ON (gc.cluster_type);
 
