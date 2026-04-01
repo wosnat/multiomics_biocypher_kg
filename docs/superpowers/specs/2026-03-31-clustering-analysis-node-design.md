@@ -115,6 +115,60 @@ cluster_table_med4:
 
 The entry key (`cluster_table_med4`) is used as the analysis identifier for node ID construction.
 
+## Extraction JSON Integration
+
+The LLM-based extraction pipeline (`multiomics_kg/extraction/cluster/`) produces per-analysis JSON files alongside each paperconfig. The adapter reads these to populate cluster descriptions, IDs, and other extracted fields — making the extraction output a persistent data source alongside the paperconfig.
+
+### File convention
+
+For a paperconfig entry with key `cluster_table_med4`, the extraction output is:
+```
+data/.../cluster_extraction_med4.json
+```
+Located in the same directory as the paperconfig. The filename suffix matches the entry key (minus `cluster_table_` prefix, or the full key if no prefix).
+
+### Extraction JSON structure (read by adapter)
+
+```json
+{
+  "metadata": {
+    "paper": "Tolonen 2006",
+    "organism": "Prochlorococcus MED4",
+    "table_key": "cluster_table_med4"
+  },
+  "stage2_results": {
+    "1": {
+      "id": "med4_up_transport_amino_acid_biosynthesis",
+      "functional_description": "...",
+      "behavioral_description": "..."
+    }
+  },
+  "stage3_validation": {
+    "1": {
+      "verdict": "pass",
+      "explanation": "..."
+    }
+  }
+}
+```
+
+### Merge priority
+
+The adapter merges extraction JSON into cluster properties with this priority:
+1. **Paperconfig `clusters:` block** — highest priority (manual overrides)
+2. **Extraction JSON `stage2_results`** — used when paperconfig field is absent or empty
+3. **Defaults** — empty string / null for missing fields
+
+Fields sourced from extraction JSON: `id`, `functional_description`, `behavioral_description`. The adapter only uses results where `stage3_validation` verdict is `"pass"` (skips failed/flagged clusters, leaving them for manual review).
+
+### Adapter lookup logic
+
+For each `type: gene_clusters` entry:
+1. Resolve the extraction JSON path from the paperconfig directory + entry key
+2. If the JSON file exists, load `stage2_results` and `stage3_validation`
+3. For each cluster, merge extraction data under paperconfig overrides
+4. If the JSON file doesn't exist, fall back to paperconfig-only (current behavior)
+
 ## Adapter Changes
 
 All changes are confined to `multiomics_kg/adapters/cluster_adapter.py`.
@@ -123,7 +177,7 @@ All changes are confined to `multiomics_kg/adapters/cluster_adapter.py`.
 
 Yields two node types:
 1. **ClusteringAnalysis nodes** — one per `type: gene_clusters` entry. Properties built from entry-level fields plus computed `cluster_count` and `total_gene_count`.
-2. **GeneCluster nodes** — same as today, retaining denormalized copies of analysis-level properties.
+2. **GeneCluster nodes** — same as today, retaining denormalized copies of analysis-level properties. Description fields populated by merging paperconfig `clusters:` block with extraction JSON (paperconfig takes priority).
 
 ### ClusterAdapter.get_edges()
 
@@ -178,12 +232,39 @@ Publication
                                               └── Clusteringanalysis_belongs_to_organism → OrganismTaxon
 ```
 
+## Paperconfig Skill and Validator Updates
+
+The paperconfig skill (`.claude/skills/paperconfig/SKILL.md`) and validator (`validate_paperconfig.py`) must be updated first, before any adapter or schema changes. They are the entry point for creating new paperconfigs.
+
+### Validator changes (`validate_paperconfig.py`)
+
+1. **New required field:** Add `name` to `REQUIRED_CLUSTER_TABLE_FIELDS`:
+   ```python
+   REQUIRED_CLUSTER_TABLE_FIELDS = [
+       "name", "filename", "organism", "gene_id_col", "cluster_col", "clusters",
+   ]
+   ```
+
+2. **New optional field validation:** `experiments` — if present, must be a list of strings. Validate that each referenced experiment key exists in the paperconfig's `experiments:` block (cross-reference check).
+
+3. **Extraction JSON validation:** When a `cluster_extraction_*.json` file exists alongside the paperconfig, validate:
+   - `metadata.table_key` matches the entry key
+   - Every cluster key in `stage2_results` matches a cluster key in the paperconfig `clusters:` block
+   - Stage 3 `verdict` is reported (warn on `"fail"` clusters)
+
+### Skill changes (`SKILL.md`)
+
+1. Add `name` as required field in the gene_clusters documentation with example
+2. Document the `experiments` optional field with cross-reference to experiment keys
+3. Add note about extraction JSON files as a data source for descriptions
+
 ## Scope
 
 ### In scope
+- Update paperconfig skill and validator (first step)
 - New ClusteringAnalysis node type and 4 new edge types
 - Remove 2 old edge types
-- Update cluster_adapter.py
+- Update cluster_adapter.py (including extraction JSON merge logic)
 - Update schema_config.yaml
 - Update existing paperconfigs (add `name` field to `type: gene_clusters` entries)
 - Update post-import.sh indexes
@@ -192,5 +273,14 @@ Publication
 ### Out of scope
 - Changes to omics_adapter.py or any other adapter
 - MCP tool changes (future work)
-- Cluster description extraction pipeline (separate effort)
+- The extraction pipeline itself (already built separately)
 - Post-import computed properties on ClusteringAnalysis
+
+## Implementation Order
+
+1. **Paperconfig skill + validator** — update to recognize `name`, `experiments`, extraction JSON
+2. **Schema config** — add ClusteringAnalysis node, new edges, remove old edges
+3. **Adapter** — restructure cluster_adapter.py for new node/edge types + extraction JSON merge
+4. **Paperconfigs** — update existing entries (tolonen) with `name` field
+5. **Post-import** — update indexes
+6. **Tests** — update/add unit tests and KG validity tests
