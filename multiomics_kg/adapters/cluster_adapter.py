@@ -1,12 +1,18 @@
 """
 Gene Cluster Adapter
 
-Reads gene_clusters entries from paperconfig.yaml files and emits
-GeneCluster nodes with Gene_in_gene_cluster membership edges,
-Publication_has_gene_cluster edges, and Genecluster_belongs_to_organism edges.
+Reads gene_clusters entries from paperconfig.yaml files and emits:
+- ClusteringAnalysis nodes (one per gene_clusters entry)
+- GeneCluster nodes (one per unique cluster value in the CSV)
+- Gene_in_gene_cluster membership edges
+- Publication_has_clustering_analysis edges
+- Clustering_analysis_has_gene_cluster edges
+- Clusteringanalysis_belongs_to_organism edges
+- Experiment_has_clustering_analysis edges
 """
 import json
 import logging
+import re
 from pathlib import Path
 
 import pandas as pd
@@ -31,20 +37,50 @@ def _clean_str(value) -> str:
     return value.replace("'", "^").replace("|", ",")
 
 
-def _make_cluster_id(doi: str, paper_name: str, organism: str, cluster_key: str) -> str:
-    """Build cluster node ID: cluster:{doi_short}:{organism_suffix}:{cluster_key}.
+def _make_cluster_id(doi: str, paper_name: str, entry_key: str, cluster_key: str) -> str:
+    """Build cluster node ID: cluster:{doi_short}:{entry_key}:{cluster_key}.
 
     Uses DOI short form when available, falls back to paper_name slug.
-    Adds organism suffix to disambiguate when a paper has clusters for
-    multiple organisms (e.g., MED4 + MIT9313).
     """
     if doi:
-        doi_short = doi.rsplit("/", 1)[-1] if "/" in doi else doi
+        doi_short = doi.rstrip("/").rsplit("/", 1)[-1]
     else:
-        doi_short = paper_name.lower().replace(" ", "_")
-    # Short organism suffix: "Prochlorococcus MED4" → "med4"
-    org_suffix = organism.split()[-1].lower() if organism else "unknown"
-    return f"cluster:{doi_short}:{org_suffix}:{cluster_key}"
+        doi_short = re.sub(r"[^a-z0-9]+", "_", paper_name.lower()).strip("_")
+    return f"cluster:{doi_short}:{entry_key}:{cluster_key}"
+
+
+def _make_analysis_id(doi: str, paper_name: str, entry_key: str) -> str:
+    """Build clustering analysis node ID."""
+    if doi:
+        doi_short = doi.rstrip("/").rsplit("/", 1)[-1]
+    else:
+        doi_short = re.sub(r"[^a-z0-9]+", "_", paper_name.lower()).strip("_")
+    return f"clustering_analysis:{doi_short}:{entry_key}"
+
+
+def _load_extraction_json(paperconfig_dir: Path, entry_key: str) -> dict:
+    """Load extraction JSON for a gene_clusters entry. Returns empty dict if missing."""
+    json_path = paperconfig_dir / f"cluster_extraction_{entry_key}.json"
+    if not json_path.exists():
+        return {}
+    try:
+        with open(json_path) as f:
+            data = json.load(f)
+        return data
+    except Exception:
+        logger.warning("Failed to load extraction JSON: %s", json_path)
+        return {}
+
+
+def _get_extraction_cluster_data(extraction: dict, cluster_key: str) -> dict:
+    """Get per-cluster data from extraction JSON, respecting validation verdict."""
+    stage2 = extraction.get("stage2_results", {})
+    stage3 = extraction.get("stage3_validation", {})
+    cluster_data = stage2.get(str(cluster_key), {})
+    verdict = stage3.get(str(cluster_key), {}).get("verdict", "")
+    if verdict != "pass":
+        return {}
+    return cluster_data
 
 
 def _resolve_csv_path(csv_path: str) -> Path:
@@ -79,6 +115,8 @@ class ClusterAdapter:
         self._cluster_tables = list(iter_cluster_tables(self.config))
         # Populated by MultiClusterAdapter
         self._organism_lookup: dict[str, str] = {}
+        # Directory containing paperconfig (for extraction JSON lookup)
+        self._paperconfig_dir = Path(config_file).parent
 
     def _extract_doi(self) -> str:
         """Get DOI from paperconfig or PDF extraction cache."""
@@ -96,9 +134,9 @@ class ClusterAdapter:
         return doi or ""
 
     def get_nodes(self) -> list[tuple]:
-        """Emit GeneCluster nodes."""
+        """Emit ClusteringAnalysis and GeneCluster nodes."""
         nodes = []
-        for table_key, table in self._cluster_tables:
+        for entry_key, table in self._cluster_tables:
             csv_path = _resolve_csv_path(table["filename"])
             if not csv_path.exists():
                 logger.warning(f"Cluster CSV not found: {csv_path}")
@@ -113,41 +151,67 @@ class ClusterAdapter:
                 continue
 
             organism = table.get("organism", "")
-            clusters_meta = table.get("clusters", {})
-            for cluster_key, cluster_info in clusters_meta.items():
-                # Use explicit id if provided, else fall back to the YAML key
-                id_slug = cluster_info.get("id", cluster_key)
+
+            # Derive cluster keys from CSV unique values
+            unique_clusters = sorted(df[cluster_col].dropna().astype(str).unique())
+
+            # Load extraction JSON
+            extraction = _load_extraction_json(self._paperconfig_dir, entry_key)
+
+            # treatment_type may be a list or a string
+            treatment_type = table.get("treatment_type", [])
+            if isinstance(treatment_type, str):
+                treatment_type = [treatment_type]
+
+            # --- ClusteringAnalysis node ---
+            analysis_id = _make_analysis_id(self.doi, self.paper_name, entry_key)
+            analysis_props = {
+                "name": _clean_str(table.get("name", f"Clustering {entry_key}")),
+                "organism_name": _clean_str(organism),
+                "cluster_method": _clean_str(table.get("cluster_method", "")),
+                "cluster_count": len(unique_clusters),
+                "total_gene_count": len(df),
+                "omics_type": _clean_str(table.get("omics_type", "")),
+                "treatment_type": treatment_type,
+                "treatment": _clean_str(table.get("treatment", "")),
+                "light_condition": _clean_str(table.get("light_condition", "")),
+                "cluster_type": _clean_str(table.get("cluster_type", "")),
+                "experimental_context": _clean_str(table.get("experimental_context", "")),
+            }
+            nodes.append((analysis_id, "clustering_analysis", analysis_props))
+
+            # --- GeneCluster nodes ---
+            for cluster_key in unique_clusters:
                 cluster_id = _make_cluster_id(
-                    self.doi, self.paper_name, organism, id_slug
+                    self.doi, self.paper_name, entry_key, cluster_key
                 )
 
                 mask = df[cluster_col].astype(str) == str(cluster_key)
                 member_count = int(mask.sum())
 
-                # treatment_type may be a list or a string
-                treatment_type = table.get("treatment_type", [])
-                if isinstance(treatment_type, str):
-                    treatment_type = [treatment_type]
+                # Get extraction data for this cluster (empty if no JSON or verdict != pass)
+                ext_data = _get_extraction_cluster_data(extraction, cluster_key)
 
                 props = {
-                    "name": _clean_str(cluster_info.get("name", f"Cluster {cluster_key}")),
+                    "id": _clean_str(ext_data.get("id", "")),
+                    "name": _clean_str(ext_data.get("name", f"Cluster {cluster_key}")),
                     "source_paper": _clean_str(self.paper_name),
-                    "organism_name": _clean_str(table.get("organism", "")),
+                    "organism_name": _clean_str(organism),
                     "cluster_method": _clean_str(table.get("cluster_method", "")),
-                    "cluster_type": _clean_str(cluster_info.get("cluster_type", "")),
+                    "cluster_type": _clean_str(table.get("cluster_type", "")),
                     "treatment_type": treatment_type,
                     "treatment": _clean_str(table.get("treatment", "")),
                     "omics_type": _clean_str(table.get("omics_type", "")),
                     "light_condition": _clean_str(table.get("light_condition", "")),
                     "member_count": member_count,
                     "functional_description": _clean_str(
-                        cluster_info.get("functional_description", "")
+                        ext_data.get("functional_description", "")
                     ),
                     "behavioral_description": _clean_str(
-                        cluster_info.get("behavioral_description", "")
+                        ext_data.get("behavioral_description", "")
                     ),
-                    "peak_time_hours": cluster_info.get("peak_time_hours"),
-                    "period_hours": cluster_info.get("period_hours"),
+                    "peak_time_hours": ext_data.get("peak_time_hours"),
+                    "period_hours": ext_data.get("period_hours"),
                     "experimental_context": _clean_str(
                         table.get("experimental_context", "")
                     ),
@@ -157,11 +221,16 @@ class ClusterAdapter:
         return nodes
 
     def get_edges(self) -> list[tuple]:
-        """Emit Gene_in_gene_cluster, Publication_has_gene_cluster, and
-        Genecluster_belongs_to_organism edges."""
+        """Emit edges:
+        - gene_in_gene_cluster (GeneCluster → Gene)
+        - publication_has_clustering_analysis (Publication → ClusteringAnalysis)
+        - clustering_analysis_has_gene_cluster (ClusteringAnalysis → GeneCluster)
+        - clusteringanalysis_belongs_to_organism (ClusteringAnalysis → OrganismTaxon)
+        - experiment_has_clustering_analysis (Experiment → ClusteringAnalysis)
+        """
         edges = []
 
-        for table_key, table in self._cluster_tables:
+        for entry_key, table in self._cluster_tables:
             csv_path = _resolve_csv_path(table["filename"])
             if not csv_path.exists():
                 continue
@@ -180,13 +249,54 @@ class ClusterAdapter:
             score_col = table.get("score_col")
             p_value_col = table.get("p_value_col")
             organism = table.get("organism", "")
-            clusters_meta = table.get("clusters", {})
 
+            # Derive cluster keys from CSV
+            unique_clusters = sorted(df[cluster_col].dropna().astype(str).unique())
+
+            analysis_id = _make_analysis_id(self.doi, self.paper_name, entry_key)
+
+            # --- Publication → ClusteringAnalysis ---
+            if self.doi:
+                pub_id = f"doi:{self.doi}"
+                pub_edge_id = f"pub_analysis__{analysis_id}"
+                edges.append(
+                    (pub_edge_id, pub_id, analysis_id, "publication_has_clustering_analysis", {})
+                )
+
+            # --- ClusteringAnalysis → OrganismTaxon ---
+            if organism:
+                org_id = self._organism_lookup.get(organism, "")
+                if org_id:
+                    org_edge_id = f"analysis_org__{analysis_id}"
+                    edges.append(
+                        (org_edge_id, analysis_id, org_id, "clusteringanalysis_belongs_to_organism", {})
+                    )
+
+            # --- Experiment → ClusteringAnalysis ---
+            experiments_list = table.get("experiments", [])
+            pub = self.config.get("publication", {})
+            for exp_key in experiments_list:
+                # Experiment IDs use raw DOI (no doi: prefix)
+                if self.doi:
+                    experiment_id = f"{self.doi}_{exp_key}"
+                else:
+                    experiment_id = f"{self.paper_name}_{exp_key}"
+                exp_edge_id = f"exp_analysis__{analysis_id}__{exp_key}"
+                edges.append(
+                    (exp_edge_id, experiment_id, analysis_id, "experiment_has_clustering_analysis", {})
+                )
+
+            # --- Per-cluster edges ---
             rows_processed = 0
-            for cluster_key, cluster_info in clusters_meta.items():
-                id_slug = cluster_info.get("id", cluster_key)
+            for cluster_key in unique_clusters:
                 cluster_id = _make_cluster_id(
-                    self.doi, self.paper_name, organism, id_slug
+                    self.doi, self.paper_name, entry_key, cluster_key
+                )
+
+                # ClusteringAnalysis → GeneCluster
+                analysis_cluster_edge_id = f"analysis_cluster__{cluster_id}"
+                edges.append(
+                    (analysis_cluster_edge_id, analysis_id, cluster_id, "clustering_analysis_has_gene_cluster", {})
                 )
 
                 # Gene_in_gene_cluster edges
@@ -216,35 +326,6 @@ class ClusterAdapter:
                         (edge_id, cluster_id, gene_id, "gene_in_gene_cluster", edge_props)
                     )
                     rows_processed += 1
-
-                # Publication_has_gene_cluster edge
-                if self.doi:
-                    pub_id = f"doi:{self.doi}"
-                    pub_edge_id = f"pub_cluster__{cluster_id}"
-                    edges.append(
-                        (
-                            pub_edge_id,
-                            pub_id,
-                            cluster_id,
-                            "publication_has_gene_cluster",
-                            {},
-                        )
-                    )
-
-                # Genecluster_belongs_to_organism edge
-                if organism:
-                    org_id = self._organism_lookup.get(organism, "")
-                    if org_id:
-                        org_edge_id = f"cluster_org__{cluster_id}"
-                        edges.append(
-                            (
-                                org_edge_id,
-                                cluster_id,
-                                org_id,
-                                "genecluster_belongs_to_organism",
-                                {},
-                            )
-                        )
 
         return edges
 
