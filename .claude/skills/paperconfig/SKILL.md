@@ -261,40 +261,66 @@ Use when a paper includes a GFF3 or GTF file from a custom genome reannotation. 
 - `organism` is **required** for this type.
 - Both GFF3 (`.gff`, `.gff3`) and GTF (`.gtf`) formats are supported.
 
-#### Type `gene_clusters` -- Co-expression cluster membership
+### `type: gene_clusters`
 
-For papers that report co-expression clusters, diel periodicity groups, or expression-level classifications with gene membership lists. Processed by `cluster_adapter.py` (not `omics_adapter`).
+Co-expression cluster membership tables. Processed by `cluster_adapter.py` (NOT by `omics_adapter`).
+
+**Entry key** must be short, meaningful, and unique within the paper (used in graph node IDs):
+- Good: `med4_kmeans_nstarvation`, `mit9313_mfuzz_diel`
+- Bad: `cluster_table_1`, `supp_table_clusters`
+
+**Required fields (analysis level):**
+
+| Field | Type | Description |
+|---|---|---|
+| `name` | str | Human-readable label for the clustering analysis (e.g., "MED4 K-means N-starvation clusters") |
+| `filename` | str | Path to cluster membership CSV |
+| `organism` | str | Target organism (canonical name) |
+| `gene_id_col` | str | CSV column with gene identifiers |
+| `cluster_col` | str | CSV column with cluster assignment |
+| `cluster_type` | str | `diel_cycle` \| `time_series_dynamics` \| `response_pattern` |
+
+**Optional fields (analysis level):**
+
+| Field | Type | Description |
+|---|---|---|
+| `score_col` | str | CSV column with fuzzy membership score |
+| `cluster_method` | str | Algorithm (e.g., "K-means (K=9)", "Mfuzz") |
+| `omics_type` | str | MICROARRAY, RNASEQ, PROTEOMICS, METABOLOMICS |
+| `light_condition` | str | Light regime (e.g., "14:10 L:D") |
+| `treatment_type` | str[] | Array of canonical treatment types |
+| `treatment` | str | Experiment description |
+| `experimental_context` | str | Additional context |
+| `experiments` | str[] | List of experiment keys from the same paperconfig (links ClusteringAnalysis → Experiment) |
+
+**Per-cluster data** comes from extraction JSON (`cluster_extraction_{entry_key}.json`), not from the paperconfig. The extraction pipeline reads cluster keys from the CSV `cluster_col` and produces: `id`, `name`, `functional_description`, `behavioral_description`, `peak_time_hours`, `period_hours`.
+
+**Data flow:** paperconfig (analysis metadata) + CSV (cluster membership) → extraction pipeline → extraction JSON (per-cluster descriptions) → adapter reads all three.
+
+**Example:**
 
 ```yaml
-  cluster_table_1:
-    type: gene_clusters
-    filename: "data/.../clusters.csv"
-    organism: "Prochlorococcus MED4"
-    gene_id_col: "ORF"              # column with gene identifiers
-    cluster_col: "cluster"           # column with cluster assignment
-    score_col: "membership"          # optional: fuzzy membership score
-    cluster_method: "Mfuzz soft clustering"
-    omics_type: MICROARRAY
-    light_condition: "14:10 L:D"
-    treatment_type: ["diel"]         # array -- same vocabulary as experiments
-    treatment: "Diel transcriptome, 2h sampling"
-    experimental_context: "Custom Affymetrix array, 14:10 L:D cycle, 2 days"
-    clusters:
-      cluster_1:
-        name: "Cluster 1"
-        cluster_type: "diel_periodicity"  # diel_periodicity | stress_response | expression_level
-        functional_description: "PSI and PSII genes (FDR 1.5e-9)"
-        behavioral_description: "Peaks at dawn, drops through day"
-        peak_time_hours: 2.0          # optional: for diel clusters
-        period_hours: 24.0            # optional: for periodic clusters
+med4_kmeans_nstarvation:
+  type: gene_clusters
+  name: "MED4 K-means N-starvation clusters"
+  filename: "data/.../med4_kmeans_clusters.csv"
+  organism: "Prochlorococcus MED4"
+  gene_id_col: "gene_id"
+  cluster_col: "cluster"
+  cluster_type: "response_pattern"
+  cluster_method: "K-means (K=9)"
+  omics_type: MICROARRAY
+  treatment_type: ["nitrogen_stress"]
+  treatment: "N-starvation time course (0, 3, 6, 12, 24, 48h)"
+  light_condition: "continuous light"
+  experimental_context: "Custom Affymetrix microarray..."
+  experiments: [n_starvation_med4]
 ```
 
-- **Required table fields:** `filename`, `organism`, `gene_id_col`, `cluster_col`, `clusters`
-- **Per-cluster required:** `name`, `cluster_type`
-- **Per-cluster recommended:** `functional_description`, `behavioral_description`
-- **`treatment_type`** uses the same enum as experiments (`nitrogen_stress`, `carbon_stress`, `diel`, `oxygen_stress`, `light_stress`, `temperature_stress`, etc.). Must be an array.
-- Gene IDs go through the same step 4 resolution pipeline as DE tables.
-- For papers with separate clusters per organism (e.g., Tolonen 2006 MED4 + MIT9313), use two `type: gene_clusters` entries.
+**Notes:**
+- Gene IDs go through the same step 4 resolution pipeline as DE tables
+- For papers with separate clusters per organism, use separate `type: gene_clusters` entries (one per organism/analysis)
+- `treatment_type` must be an array (same enum as experiments)
 
 #### ID Types (`id_type` values)
 
