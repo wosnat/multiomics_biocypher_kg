@@ -68,6 +68,7 @@ cypher-shell <<'CYPHER'
 CREATE INDEX experiment_id_idx IF NOT EXISTS FOR (e:Experiment) ON (e.id);
 CREATE INDEX experiment_organism_idx IF NOT EXISTS FOR (e:Experiment) ON (e.organism_name);
 CREATE INDEX experiment_treatment_type_idx IF NOT EXISTS FOR (e:Experiment) ON (e.treatment_type);
+CREATE INDEX experiment_background_factors_idx IF NOT EXISTS FOR (e:Experiment) ON (e.background_factors);
 CREATE INDEX experiment_omics_type_idx IF NOT EXISTS FOR (e:Experiment) ON (e.omics_type);
 
 CREATE FULLTEXT INDEX experimentFullText IF NOT EXISTS
@@ -103,12 +104,14 @@ MATCH (p:Publication)
 OPTIONAL MATCH (p)-[:Has_experiment]->(e:Experiment)
 WITH p,
      count(e) AS ec,
-     [x IN collect(DISTINCT e.treatment_type) WHERE x IS NOT NULL] AS tts,
      [x IN collect(DISTINCT e.omics_type) WHERE x IS NOT NULL] AS ots,
      [x IN collect(DISTINCT e.organism_name) WHERE x IS NOT NULL] AS orgs,
-     [x IN collect(DISTINCT e.coculture_partner) WHERE x IS NOT NULL AND x <> ''] AS coculture_orgs
+     [x IN collect(DISTINCT e.coculture_partner) WHERE x IS NOT NULL AND x <> ''] AS coculture_orgs,
+     apoc.coll.toSet(reduce(s = [], t IN collect(coalesce(e.treatment_type, [])) | s + t)) AS tts,
+     apoc.coll.toSet(reduce(s = [], t IN collect(coalesce(e.background_factors, [])) | s + t)) AS bfs
 SET p.experiment_count = ec,
     p.treatment_types = apoc.coll.sort(tts),
+    p.background_factors = apoc.coll.sort(bfs),
     p.omics_types = apoc.coll.sort(ots),
     p.organisms = apoc.coll.sort(apoc.coll.toSet(orgs + coculture_orgs))
 CYPHER
@@ -183,7 +186,7 @@ WITH o, count(g) AS gc
 SET o.gene_count = gc
 CYPHER
 
-echo "--- publication_count, experiment_count, treatment_types, omics_types ---"
+echo "--- publication_count, experiment_count, treatment_types, omics_types, background_factors ---"
 cypher-shell <<'CYPHER'
 MATCH (o:OrganismTaxon)
 OPTIONAL MATCH (p:Publication)
@@ -192,11 +195,13 @@ WITH o,
      count(DISTINCT p) AS pc,
      CASE WHEN count(p) > 0 THEN sum(p.experiment_count) ELSE 0 END AS ec,
      apoc.coll.toSet(reduce(s = [], t IN collect(p.treatment_types) | s + t)) AS tts,
-     apoc.coll.toSet(reduce(s = [], t IN collect(p.omics_types) | s + t)) AS ots
+     apoc.coll.toSet(reduce(s = [], t IN collect(p.omics_types) | s + t)) AS ots,
+     apoc.coll.toSet(reduce(s = [], t IN collect(coalesce(p.background_factors, [])) | s + t)) AS bfs
 SET o.publication_count = pc,
     o.experiment_count = ec,
     o.treatment_types = tts,
-    o.omics_types = ots
+    o.omics_types = ots,
+    o.background_factors = bfs
 CYPHER
 
 echo "=== Post-process: Compute Gene routing signals ==="
