@@ -60,7 +60,8 @@
       "Read(//home/osnat/github/multiomics_biocypher_kg/**)",
       "Bash(cypher-shell -a bolt://localhost:7687 --format plain)",
       "Bash(git diff:*)",
-      "Bash(git commit:*)"
+      "Bash(git commit:*)",
+      "Bash(git add:*)"
     ]
   }
 }
