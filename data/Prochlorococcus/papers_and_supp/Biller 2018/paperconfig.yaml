@@ -11,7 +11,7 @@ publication:
       omics_type: RNASEQ
       test_type: DESeq2
       treatment_type: [darkness]
-      background_factors: [axenic]
+      background_factors: [axenic, diel_cycle]
       medium: Pro99 natural seawater medium
       temperature: 24C
       light_condition: continuous darkness
@@ -27,7 +27,7 @@ publication:
       omics_type: RNASEQ
       test_type: DESeq2
       treatment_type: [darkness]
-      background_factors: [coculture]
+      background_factors: [coculture, diel_cycle]
       medium: Pro99 natural seawater medium
       temperature: 24C
       light_condition: continuous darkness
@@ -43,7 +43,7 @@ publication:
       omics_type: RNASEQ
       test_type: DESeq2
       treatment_type: [darkness]
-      background_factors: [coculture]
+      background_factors: [coculture, diel_cycle]
       medium: Pro99 natural seawater medium
       temperature: 24C
       light_condition: continuous darkness

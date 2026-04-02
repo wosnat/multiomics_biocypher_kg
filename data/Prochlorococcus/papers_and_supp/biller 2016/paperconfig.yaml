@@ -11,7 +11,7 @@ publication:
       omics_type: RNASEQ
       test_type: DESeq2
       treatment_type: [coculture]
-      background_factors: []
+      background_factors: [continuous_light]
       medium: Pro99 natural seawater medium
       temperature: 21C
       light_condition: continuous light
@@ -29,7 +29,7 @@ publication:
       omics_type: RNASEQ
       test_type: DESeq2
       treatment_type: [coculture]
-      background_factors: []
+      background_factors: [continuous_light]
       medium: Pro99 natural seawater medium
       temperature: 21C
       light_condition: continuous light
@@ -47,7 +47,7 @@ publication:
       omics_type: RNASEQ
       test_type: DESeq2
       treatment_type: [coculture]
-      background_factors: []
+      background_factors: [continuous_light]
       medium: Pro99 natural seawater medium
       temperature: 21C
       light_condition: continuous light
