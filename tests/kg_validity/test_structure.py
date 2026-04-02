@@ -37,6 +37,9 @@ pytestmark = pytest.mark.kg
     "CogFunctionalCategory",
     "CyanorakRole",
     "TigrRole",
+    # Cluster nodes
+    "ClusteringAnalysis",
+    "GeneCluster",
 ])
 def test_node_type_exists(run_query, label):
     """Every expected node type must have at least one node in the graph."""
