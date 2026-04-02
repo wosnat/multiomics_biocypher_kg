@@ -163,6 +163,11 @@ class ClusterAdapter:
             if isinstance(treatment_type, str):
                 treatment_type = [treatment_type]
 
+            # background_factors may be a list or a string
+            background_factors = table.get("background_factors", [])
+            if isinstance(background_factors, str):
+                background_factors = [background_factors]
+
             # --- ClusteringAnalysis node ---
             analysis_id = _make_analysis_id(self.doi, self.paper_name, entry_key)
             analysis_props = {
@@ -173,6 +178,7 @@ class ClusterAdapter:
                 "total_gene_count": len(df),
                 "omics_type": _clean_str(table.get("omics_type", "")),
                 "treatment_type": treatment_type,
+                "background_factors": background_factors,
                 "treatment": _clean_str(table.get("treatment", "")),
                 "light_condition": _clean_str(table.get("light_condition", "")),
                 "cluster_type": _clean_str(table.get("cluster_type", "")),
@@ -199,6 +205,7 @@ class ClusterAdapter:
                     "cluster_method": _clean_str(table.get("cluster_method", "")),
                     "cluster_type": _clean_str(table.get("cluster_type", "")),
                     "treatment_type": treatment_type,
+                    "background_factors": background_factors,
                     "treatment": _clean_str(table.get("treatment", "")),
                     "omics_type": _clean_str(table.get("omics_type", "")),
                     "light_condition": _clean_str(table.get("light_condition", "")),
