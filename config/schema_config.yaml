@@ -24,6 +24,7 @@ publication:
     organisms: str[]                   # post-import: computed from experiment organism_name + coculture_partner
     experiment_count: int              # post-import: count of Has_experiment edges
     treatment_types: str[]             # post-import: distinct treatment_type from experiments
+    background_factors: str[]          # post-import: distinct background_factors from experiments
     omics_types: str[]                 # post-import: distinct omics_type from experiments
 
 
@@ -36,7 +37,8 @@ experiment:
   properties:
     name: str
     organism_name: str
-    treatment_type: str
+    treatment_type: str[]
+    background_factors: str[]
     treatment: str
     control: str
     experimental_context: str
@@ -74,6 +76,7 @@ gene cluster:
     cluster_method: str
     cluster_type: str
     treatment_type: str[]
+    background_factors: str[]
     treatment: str
     omics_type: str
     light_condition: str
@@ -98,6 +101,7 @@ clustering analysis:
     total_gene_count: int
     omics_type: str
     treatment_type: str[]
+    background_factors: str[]
     treatment: str
     light_condition: str
     cluster_type: str
@@ -334,6 +338,7 @@ organism taxon:
     publication_count: int   # pre-computed: count of publications mentioning this organism
     experiment_count: int    # pre-computed: sum of experiment_count across matched publications
     treatment_types: str[]   # pre-computed: distinct treatment types across matched publications
+    background_factors: str[] # pre-computed: distinct background_factors across matched publications
     omics_types: str[]       # pre-computed: distinct omics types across matched publications
 
 
