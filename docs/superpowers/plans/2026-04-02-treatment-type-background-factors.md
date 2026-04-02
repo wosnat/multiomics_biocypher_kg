@@ -612,6 +612,7 @@ These experiments need specific `background_factors` based on the paper analysis
 - **Coe 2024**: coculture experiments under diel cycle → `background_factors: [coculture, diel_cycle]`
 - **Hennon 2017**: carbon stress experiments — MIT9312 and EZ55 coculture → `background_factors: [coculture, diel_cycle]`; EZ55 axenic → `background_factors: [axenic, diel_cycle]`
 - **Thompson 2016**: `light_stress_..._infected` → `background_factors: [viral]`; `light_stress_..._dark` → `background_factors: [axenic]`; `viral_..._light` → `background_factors: [continuous_light]`; `viral_..._dark` → `background_factors: [darkness]`
+- **Lin 2015**: phosphorus stress under diel cycle — infected experiment → `background_factors: [viral, diel_cycle]`; uninfected → `background_factors: [axenic, diel_cycle]`
 - **Weissberg 2025**: N-starvation coculture experiments → `background_factors: [coculture]`; axenic ones → `background_factors: [axenic]`; coculture treatment_type experiments → no axenic/coculture in background
 
 - [ ] **Step 5: Run validator on all paperconfigs**
@@ -641,7 +642,7 @@ Grep all paperconfigs for `# TODO:` comments added in pass 1. Present a summary 
 | Paper | Experiment | Condition | Closest canonical | Proposal |
 |---|---|---|---|---|
 | Steglich 2006 | DCMU + light | DCMU inhibitor | `light_stress`? | Use existing or add new? |
-| ... | ... | ... | ... | ... |
+| Barreto 2022 | carbon_stress experiments | DE pools axenic + coculture samples | `axenic`? `coculture`? both? | Ambiguous — user decides |
 
 - [ ] **Step 2: User decides on vocabulary extensions**
 
