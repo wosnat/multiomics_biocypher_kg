@@ -11,7 +11,8 @@ publication:
         photons m-2 s-1, 14:10 light-dark cycle, acclimated ~10 generations
       omics_type: RNASEQ
       test_type: edgeR
-      treatment_type: carbon_stress
+      treatment_type: [carbon_stress]
+      background_factors: [coculture, diel_cycle]
       medium: PEv medium (artificial seawater with Pro99 nutrients at 1/25 concentration)
       temperature: 21C
       light_condition: 14:10 light-dark cycle
@@ -26,7 +27,8 @@ publication:
         photons m-2 s-1, 14:10 light-dark cycle, acclimated ~10 generations
       omics_type: RNASEQ
       test_type: edgeR
-      treatment_type: carbon_stress
+      treatment_type: [carbon_stress]
+      background_factors: [coculture, diel_cycle]
       medium: PEv medium (artificial seawater with Pro99 nutrients at 1/25 concentration)
       temperature: 21C
       light_condition: 14:10 light-dark cycle
@@ -41,7 +43,8 @@ publication:
         acclimated ~10 generations
       omics_type: RNASEQ
       test_type: edgeR
-      treatment_type: carbon_stress
+      treatment_type: [carbon_stress]
+      background_factors: [axenic, diel_cycle]
       medium: PEv medium (artificial seawater with Pro99 nutrients at 1/25 concentration)
       temperature: 21C
       light_condition: 14:10 light-dark cycle

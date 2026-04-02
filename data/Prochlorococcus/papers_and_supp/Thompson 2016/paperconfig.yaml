@@ -11,7 +11,8 @@ publication:
         19-22C; dark vs light treatment; prefiltered to significant DEGs
       omics_type: RNASEQ
       test_type: DESeq2
-      treatment_type: light_stress
+      treatment_type: [light_stress]
+      background_factors: [viral]
       medium: Pro99 natural seawater medium
       temperature: 19-22C
       light_condition: constant darkness
@@ -26,7 +27,8 @@ publication:
         at 19-22C; dark vs light treatment; prefiltered to significant DEGs
       omics_type: RNASEQ
       test_type: DESeq2
-      treatment_type: light_stress
+      treatment_type: [light_stress]
+      background_factors: [axenic]
       medium: Pro99 natural seawater medium
       temperature: 19-22C
       light_condition: constant darkness
@@ -41,7 +43,8 @@ publication:
         19-22C; infected with cyanophage P-HM2 (MOI=1) vs uninfected spent medium control; prefiltered to significant DEGs
       omics_type: RNASEQ
       test_type: DESeq2
-      treatment_type: viral
+      treatment_type: [viral]
+      background_factors: [continuous_light]
       medium: Pro99 natural seawater medium
       temperature: 19-22C
       light_condition: continuous light
@@ -58,7 +61,8 @@ publication:
         with cyanophage P-HM2 (MOI=1) vs uninfected spent medium control; prefiltered to significant DEGs
       omics_type: RNASEQ
       test_type: DESeq2
-      treatment_type: viral
+      treatment_type: [viral]
+      background_factors: [darkness]
       medium: Pro99 natural seawater medium
       temperature: 19-22C
       light_condition: constant darkness

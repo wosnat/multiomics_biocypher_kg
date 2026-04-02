@@ -10,7 +10,8 @@ publication:
       experimental_context: Axenic Alteromonas HOT1A3 in PRO99-lowN at 24C under continuous light
       omics_type: RNASEQ
       test_type: DESeq2
-      treatment_type: nitrogen_stress
+      treatment_type: [nitrogen_stress]
+      background_factors: [axenic, continuous_light]
       medium: PRO99-lowN
       temperature: 24C
       light_condition: continuous light
@@ -25,7 +26,8 @@ publication:
         light
       omics_type: RNASEQ
       test_type: DESeq2
-      treatment_type: nitrogen_stress
+      treatment_type: [nitrogen_stress]
+      background_factors: [coculture, continuous_light]
       medium: PRO99-lowN
       temperature: 24C
       light_condition: continuous light
@@ -39,7 +41,8 @@ publication:
       experimental_context: Day 11 in PRO99-lowN at 24C under continuous light
       omics_type: RNASEQ
       test_type: DESeq2
-      treatment_type: coculture
+      treatment_type: [coculture]
+      background_factors: []
       medium: PRO99-lowN
       temperature: 24C
       light_condition: continuous light
@@ -56,7 +59,8 @@ publication:
       experimental_context: Axenic Alteromonas HOT1A3 in PRO99-lowN at 24C under continuous light
       omics_type: PROTEOMICS
       test_type: DESeq2
-      treatment_type: nitrogen_stress
+      treatment_type: [nitrogen_stress]
+      background_factors: [axenic, continuous_light]
       medium: PRO99-lowN
       temperature: 24C
       light_condition: continuous light
@@ -71,7 +75,8 @@ publication:
         light
       omics_type: PROTEOMICS
       test_type: DESeq2
-      treatment_type: nitrogen_stress
+      treatment_type: [nitrogen_stress]
+      background_factors: [coculture, continuous_light]
       medium: PRO99-lowN
       temperature: 24C
       light_condition: continuous light
@@ -85,7 +90,8 @@ publication:
       experimental_context: Axenic Prochlorococcus MED4 in PRO99-lowN at 24C under continuous light
       omics_type: RNASEQ
       test_type: DESeq2
-      treatment_type: nitrogen_stress
+      treatment_type: [nitrogen_stress]
+      background_factors: [axenic, continuous_light]
       medium: PRO99-lowN
       temperature: 24C
       light_condition: continuous light
@@ -100,7 +106,8 @@ publication:
         light
       omics_type: RNASEQ
       test_type: DESeq2
-      treatment_type: nitrogen_stress
+      treatment_type: [nitrogen_stress]
+      background_factors: [coculture, continuous_light]
       medium: PRO99-lowN
       temperature: 24C
       light_condition: continuous light
@@ -114,7 +121,8 @@ publication:
       experimental_context: Log exponential day 11 in PRO99-lowN at 24C under continuous light
       omics_type: RNASEQ
       test_type: DESeq2
-      treatment_type: coculture
+      treatment_type: [coculture]
+      background_factors: []
       medium: PRO99-lowN
       temperature: 24C
       light_condition: continuous light
@@ -131,7 +139,8 @@ publication:
       experimental_context: Axenic Prochlorococcus MED4 in PRO99-lowN at 24C under continuous light
       omics_type: PROTEOMICS
       test_type: DESeq2
-      treatment_type: nitrogen_stress
+      treatment_type: [nitrogen_stress]
+      background_factors: [axenic, continuous_light]
       medium: PRO99-lowN
       temperature: 24C
       light_condition: continuous light
@@ -146,7 +155,8 @@ publication:
         light
       omics_type: PROTEOMICS
       test_type: DESeq2
-      treatment_type: nitrogen_stress
+      treatment_type: [nitrogen_stress]
+      background_factors: [coculture, continuous_light]
       medium: PRO99-lowN
       temperature: 24C
       light_condition: continuous light

@@ -10,7 +10,8 @@ publication:
       experimental_context: in Pro99 medium under continuous light
       omics_type: RNASEQ
       test_type: Rockhopper
-      treatment_type: coculture
+      treatment_type: [coculture]
+      background_factors: []
       medium: Pro99
       temperature: 24C
       light_condition: continuous light
@@ -28,7 +29,8 @@ publication:
       experimental_context: in Pro99 medium under continuous light
       omics_type: RNASEQ
       test_type: Rockhopper
-      treatment_type: coculture
+      treatment_type: [coculture]
+      background_factors: []
       medium: Pro99
       temperature: 24C
       light_condition: continuous light
@@ -45,7 +47,8 @@ publication:
       experimental_context: in Pro99 medium under continuous light
       omics_type: RNASEQ
       test_type: Rockhopper
-      treatment_type: coculture
+      treatment_type: [coculture]
+      background_factors: []
       medium: Pro99
       temperature: 24C
       light_condition: continuous light
@@ -62,7 +65,8 @@ publication:
       experimental_context: in Pro99 medium under continuous light, initial Alteromonas inoculum 5x10^6 cells/ml
       omics_type: RNASEQ
       test_type: Rockhopper
-      treatment_type: coculture
+      treatment_type: [coculture]
+      background_factors: []
       medium: Pro99
       temperature: 24C
       light_condition: continuous light
@@ -79,7 +83,8 @@ publication:
       experimental_context: in Pro99 medium under continuous light, initial Alteromonas inoculum 0.5x10^6 cells/ml
       omics_type: RNASEQ
       test_type: Rockhopper
-      treatment_type: coculture
+      treatment_type: [coculture]
+      background_factors: []
       medium: Pro99
       temperature: 24C
       light_condition: continuous light

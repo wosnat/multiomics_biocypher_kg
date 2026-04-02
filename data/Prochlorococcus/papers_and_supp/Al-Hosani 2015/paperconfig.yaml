@@ -12,7 +12,8 @@ publication:
         RNA extracted from exponential-phase cells sampled on 2 consecutive days (3 biological replicates per condition)
       omics_type: RNASEQ
       test_type: DESeq
-      treatment_type: salt_stress
+      treatment_type: [salt_stress]
+      background_factors: [axenic, continuous_light]
       medium: PRO99 natural seawater medium with added NaCl
       temperature: 22C
       light_condition: continuous light

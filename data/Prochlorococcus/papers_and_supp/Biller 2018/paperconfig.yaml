@@ -10,7 +10,8 @@ publication:
       experimental_context: Axenic Prochlorococcus NATL2A in Pro99 medium at 24C, bubbled with air
       omics_type: RNASEQ
       test_type: DESeq2
-      treatment_type: darkness
+      treatment_type: [darkness]
+      background_factors: [axenic]
       medium: Pro99 natural seawater medium
       temperature: 24C
       light_condition: continuous darkness
@@ -25,7 +26,8 @@ publication:
         bubbled with air
       omics_type: RNASEQ
       test_type: DESeq2
-      treatment_type: darkness
+      treatment_type: [darkness]
+      background_factors: [coculture]
       medium: Pro99 natural seawater medium
       temperature: 24C
       light_condition: continuous darkness
@@ -40,7 +42,8 @@ publication:
         bubbled with air
       omics_type: RNASEQ
       test_type: DESeq2
-      treatment_type: darkness
+      treatment_type: [darkness]
+      background_factors: [coculture]
       medium: Pro99 natural seawater medium
       temperature: 24C
       light_condition: continuous darkness

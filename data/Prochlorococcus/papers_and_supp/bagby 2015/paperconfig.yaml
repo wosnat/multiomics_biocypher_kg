@@ -10,7 +10,8 @@ publication:
       experimental_context: Pro99 medium, mid-exponential phase, constant light 60 umol photons m-2 s-1, 21C
       omics_type: MICROARRAY
       test_type: microarray
-      treatment_type: carbon_stress
+      treatment_type: [carbon_stress]
+      background_factors: [axenic, continuous_light]
       medium: Pro99
       temperature: 21C
       light_condition: continuous light
@@ -26,7 +27,8 @@ publication:
         timepoints (3h, 6h, 9h, 12h, 18h, 24h).
       omics_type: MICROARRAY
       test_type: microarray
-      treatment_type: carbon_stress
+      treatment_type: [carbon_stress]
+      background_factors: [axenic, continuous_light]
       medium: Pro99
       temperature: 21C
       light_condition: continuous light
@@ -42,7 +44,8 @@ publication:
         timepoints (3h, 6h, 9h, 12h, 18h, 24h).
       omics_type: MICROARRAY
       test_type: microarray
-      treatment_type: carbon_stress
+      treatment_type: [carbon_stress]
+      background_factors: [axenic, continuous_light]
       medium: Pro99
       temperature: 21C
       light_condition: continuous light
@@ -58,7 +61,8 @@ publication:
         timepoints (3h, 6h, 9h, 12h, 18h, 24h).
       omics_type: MICROARRAY
       test_type: microarray
-      treatment_type: carbon_stress
+      treatment_type: [carbon_stress]
+      background_factors: [axenic, continuous_light]
       medium: Pro99
       temperature: 21C
       light_condition: continuous light

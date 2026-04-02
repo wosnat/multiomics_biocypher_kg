@@ -10,7 +10,8 @@ publication:
       experimental_context: MED4 grown at 22C in continuous light at 30 uE m-2 s-1 in Pro99 medium
       omics_type: MICROARRAY
       test_type: microarray_Cyber-T
-      treatment_type: phosphorus_stress
+      treatment_type: [phosphorus_stress]
+      background_factors: [axenic, continuous_light]
       medium: Pro99 with no added PO4
       temperature: 22C
       light_condition: continuous light
@@ -25,7 +26,8 @@ publication:
       experimental_context: MIT9313 grown at 22C in continuous light at 12 uE m-2 s-1 in Pro99 medium
       omics_type: MICROARRAY
       test_type: microarray_Cyber-T
-      treatment_type: phosphorus_stress
+      treatment_type: [phosphorus_stress]
+      background_factors: [axenic, continuous_light]
       medium: Pro99 with no added PO4
       temperature: 22C
       light_condition: continuous light

@@ -10,7 +10,8 @@ publication:
       experimental_context: Prochlorococcus MED4 in PRO99 at 21C under continuous light at 27 umol photons m-2 s-1
       omics_type: MICROARRAY
       test_type: microarray_Cyber-T
-      treatment_type: iron_stress
+      treatment_type: [iron_stress]
+      background_factors: [axenic, continuous_light]
       medium: PRO99 modified for trace-metal clean work, no added iron
       temperature: 21C
       light_condition: continuous light
@@ -25,7 +26,8 @@ publication:
         48h -Fe samples compared with 24h +Fe samples due to poor hybridization of 48h +Fe sample.'
       omics_type: MICROARRAY
       test_type: microarray_Cyber-T
-      treatment_type: iron_stress
+      treatment_type: [iron_stress]
+      background_factors: [axenic, continuous_light]
       medium: PRO99 modified for trace-metal clean work, no added iron
       temperature: 21C
       light_condition: continuous light
@@ -40,7 +42,8 @@ publication:
         to -Fe cultures at 49h. R = log2(after rescue/before rescue).
       omics_type: MICROARRAY
       test_type: microarray_Cyber-T
-      treatment_type: iron_stress
+      treatment_type: [iron_stress]
+      background_factors: [axenic, continuous_light]
       medium: PRO99 modified for trace-metal clean work, 1 uM Fe total
       temperature: 21C
       light_condition: continuous light
@@ -54,7 +57,8 @@ publication:
       experimental_context: Prochlorococcus MIT9313 in PRO99 at 25C under continuous light at 20 umol photons m-2 s-1
       omics_type: MICROARRAY
       test_type: microarray_Cyber-T
-      treatment_type: iron_stress
+      treatment_type: [iron_stress]
+      background_factors: [axenic, continuous_light]
       medium: PRO99 modified for trace-metal clean work, no added iron
       temperature: 25C
       light_condition: continuous light
@@ -69,7 +73,8 @@ publication:
         added to -Fe cultures at 54h. R = log2(after rescue/before rescue).
       omics_type: MICROARRAY
       test_type: microarray_Cyber-T
-      treatment_type: iron_stress
+      treatment_type: [iron_stress]
+      background_factors: [axenic, continuous_light]
       medium: PRO99 modified for trace-metal clean work, 1 uM Fe total
       temperature: 25C
       light_condition: continuous light

@@ -10,7 +10,8 @@ publication:
       experimental_context: Prochlorococcus MED4 infected with phage, microarray analysis of fold change (infected/control)
       omics_type: MICROARRAY
       test_type: microarray
-      treatment_type: viral
+      treatment_type: [viral]
+      background_factors: [continuous_light]
       medium: Pro99 medium
       temperature: 24C
       light_condition: continuous light

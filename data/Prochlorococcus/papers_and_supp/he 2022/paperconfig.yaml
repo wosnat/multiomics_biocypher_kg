@@ -11,7 +11,8 @@ publication:
         through five rounds of transfer
       omics_type: RNASEQ
       test_type: DESeq
-      treatment_type: salt_stress
+      treatment_type: [salt_stress]
+      background_factors: [axenic, continuous_light]
       medium: Pro99 natural seawater medium with reduced salinity
       temperature: 21C
       light_condition: continuous light
@@ -27,7 +28,8 @@ publication:
         through five rounds of transfer
       omics_type: RNASEQ
       test_type: DESeq
-      treatment_type: salt_stress
+      treatment_type: [salt_stress]
+      background_factors: [axenic, continuous_light]
       medium: Pro99 natural seawater medium with reduced salinity
       temperature: 21C
       light_condition: continuous light

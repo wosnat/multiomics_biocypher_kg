@@ -12,7 +12,8 @@ publication:
         at 37 umol photons m-2 s-1
       omics_type: RNASEQ
       test_type: DESeq2
-      treatment_type: darkness
+      treatment_type: [darkness]
+      background_factors: [coculture, diel_cycle]
       medium: Pro99 natural seawater medium
       temperature: 24C
       light_condition: 13:11 light:dark cycle with simulated dawn and dusk
@@ -28,7 +29,8 @@ publication:
         37 umol photons m-2 s-1
       omics_type: RNASEQ
       test_type: DESeq2
-      treatment_type: darkness
+      treatment_type: [darkness]
+      background_factors: [coculture, diel_cycle]
       medium: Pro99 natural seawater medium
       temperature: 24C
       light_condition: 13:11 light:dark cycle with simulated dawn and dusk

@@ -11,7 +11,8 @@ publication:
       experimental_context: Uninfected Prochlorococcus NATL2A, P-limited vs nutrient-replete
       omics_type: RNASEQ
       test_type: DESeq2
-      treatment_type: phosphorus_stress
+      treatment_type: [phosphorus_stress]
+      background_factors: [axenic, diel_cycle]
       medium: Pro99
       temperature: 24C
       light_condition: 14:10 light:dark cycle
@@ -25,7 +26,8 @@ publication:
       experimental_context: Phage-infected Prochlorococcus NATL2A (infected at 47h), P-limited vs nutrient-replete
       omics_type: RNASEQ
       test_type: DESeq2
-      treatment_type: phosphorus_stress
+      treatment_type: [phosphorus_stress]
+      background_factors: [viral, diel_cycle]
       medium: Pro99
       temperature: 24C
       light_condition: 14:10 light:dark cycle

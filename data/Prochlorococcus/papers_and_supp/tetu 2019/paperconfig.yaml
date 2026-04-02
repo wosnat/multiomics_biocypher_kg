@@ -10,7 +10,8 @@ publication:
       experimental_context: Short-term exposure (120 min) in AMP1 medium at 22C under continuous light
       omics_type: RNASEQ
       test_type: DESeq2
-      treatment_type: plastic_stress
+      treatment_type: [plastic_stress]
+      background_factors: [axenic, continuous_light]
       medium: AMP1 artificial seawater medium with 50% v/v HDPE leachate
       temperature: 22C
       light_condition: continuous light
@@ -25,7 +26,8 @@ publication:
       experimental_context: Short-term exposure (90 min) in AMP1 medium at 22C under continuous light
       omics_type: RNASEQ
       test_type: DESeq2
-      treatment_type: plastic_stress
+      treatment_type: [plastic_stress]
+      background_factors: [axenic, continuous_light]
       medium: AMP1 artificial seawater medium with 2% v/v PVC leachate
       temperature: 22C
       light_condition: continuous light
@@ -40,7 +42,8 @@ publication:
       experimental_context: Short-term exposure (120 min) in AMP1 medium at 22C under continuous light
       omics_type: RNASEQ
       test_type: DESeq2
-      treatment_type: plastic_stress
+      treatment_type: [plastic_stress]
+      background_factors: [axenic, continuous_light]
       medium: AMP1 artificial seawater medium with 50% v/v HDPE leachate
       temperature: 22C
       light_condition: continuous light
@@ -55,7 +58,8 @@ publication:
       experimental_context: Short-term exposure (90 min) in AMP1 medium at 22C under continuous light
       omics_type: RNASEQ
       test_type: DESeq2
-      treatment_type: plastic_stress
+      treatment_type: [plastic_stress]
+      background_factors: [axenic, continuous_light]
       medium: AMP1 artificial seawater medium with 2% v/v PVC leachate
       temperature: 22C
       light_condition: continuous light

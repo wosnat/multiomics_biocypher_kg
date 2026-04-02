@@ -10,7 +10,8 @@ publication:
       experimental_context: In Pro99 medium, axenic and coculture conditions with Alteromonas EZ55
       omics_type: RNASEQ
       test_type: edgeR
-      treatment_type: carbon_stress
+      treatment_type: [carbon_stress]
+      background_factors: []  # TODO: DE pools axenic + coculture samples, ambiguous
       medium: Pro99 medium
       temperature: 22C
       light_condition: continuous light
@@ -24,7 +25,8 @@ publication:
       experimental_context: In Pro99 medium, axenic and coculture conditions with Alteromonas EZ55
       omics_type: RNASEQ
       test_type: edgeR
-      treatment_type: carbon_stress
+      treatment_type: [carbon_stress]
+      background_factors: []  # TODO: DE pools axenic + coculture samples, ambiguous
       medium: Pro99 medium
       temperature: 22C
       light_condition: continuous light
@@ -38,7 +40,8 @@ publication:
       experimental_context: In Pro99 medium, axenic and coculture conditions with Alteromonas EZ55
       omics_type: RNASEQ
       test_type: edgeR
-      treatment_type: carbon_stress
+      treatment_type: [carbon_stress]
+      background_factors: []  # TODO: DE pools axenic + coculture samples, ambiguous
       medium: Pro99 medium
       temperature: 22C
       light_condition: continuous light
@@ -52,7 +55,8 @@ publication:
       experimental_context: In Pro99 medium, across axenic and coculture conditions
       omics_type: RNASEQ
       test_type: edgeR
-      treatment_type: carbon_stress
+      treatment_type: [carbon_stress]
+      background_factors: []  # TODO: DE pools axenic + coculture samples, ambiguous
       medium: Pro99 medium
       temperature: 22C
       light_condition: continuous light
@@ -66,7 +70,8 @@ publication:
       experimental_context: In Pro99 medium at ambient pCO2 (400 ppm)
       omics_type: RNASEQ
       test_type: edgeR
-      treatment_type: coculture
+      treatment_type: [coculture]
+      background_factors: []
       medium: Pro99 medium
       temperature: 22C
       light_condition: continuous light
@@ -83,7 +88,8 @@ publication:
       experimental_context: In Pro99 medium at ambient pCO2 (400 ppm)
       omics_type: RNASEQ
       test_type: edgeR
-      treatment_type: coculture
+      treatment_type: [coculture]
+      background_factors: []
       medium: Pro99 medium
       temperature: 22C
       light_condition: continuous light
@@ -100,7 +106,8 @@ publication:
       experimental_context: In Pro99 medium at ambient pCO2 (400 ppm)
       omics_type: RNASEQ
       test_type: edgeR
-      treatment_type: coculture
+      treatment_type: [coculture]
+      background_factors: []
       medium: Pro99 medium
       temperature: 22C
       light_condition: continuous light
@@ -117,7 +124,8 @@ publication:
       experimental_context: In Pro99 medium at elevated pCO2 (800 ppm)
       omics_type: RNASEQ
       test_type: edgeR
-      treatment_type: coculture
+      treatment_type: [coculture]
+      background_factors: []
       medium: Pro99 medium
       temperature: 22C
       light_condition: continuous light
@@ -134,7 +142,8 @@ publication:
       experimental_context: In Pro99 medium at elevated pCO2 (800 ppm)
       omics_type: RNASEQ
       test_type: edgeR
-      treatment_type: coculture
+      treatment_type: [coculture]
+      background_factors: []
       medium: Pro99 medium
       temperature: 22C
       light_condition: continuous light
@@ -151,7 +160,8 @@ publication:
       experimental_context: In Pro99 medium at elevated pCO2 (800 ppm)
       omics_type: RNASEQ
       test_type: edgeR
-      treatment_type: coculture
+      treatment_type: [coculture]
+      background_factors: []
       medium: Pro99 medium
       temperature: 22C
       light_condition: continuous light

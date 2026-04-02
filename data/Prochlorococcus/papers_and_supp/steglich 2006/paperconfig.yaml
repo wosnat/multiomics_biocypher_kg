@@ -11,7 +11,8 @@ publication:
         5h dark adaptation
       omics_type: MICROARRAY
       test_type: microarray_LPE
-      treatment_type: light_stress
+      treatment_type: [light_stress]
+      background_factors: [axenic]
       medium: Sargasso seawater-based Pro99
       temperature: 21C
       light_condition: high white light
@@ -27,7 +28,8 @@ publication:
         5h dark adaptation
       omics_type: MICROARRAY
       test_type: microarray_LPE
-      treatment_type: light_stress
+      treatment_type: [light_stress]
+      background_factors: [axenic]
       medium: Sargasso seawater-based Pro99
       temperature: 21C
       light_condition: white light
@@ -43,7 +45,8 @@ publication:
         5h dark adaptation
       omics_type: MICROARRAY
       test_type: microarray_LPE
-      treatment_type: light_stress
+      treatment_type: [light_stress]
+      background_factors: [axenic]
       medium: Sargasso seawater-based Pro99
       temperature: 21C
       light_condition: blue light
@@ -59,7 +62,8 @@ publication:
         5h dark adaptation
       omics_type: MICROARRAY
       test_type: microarray_LPE
-      treatment_type: light_stress
+      treatment_type: [light_stress]
+      background_factors: [axenic]
       medium: Sargasso seawater-based Pro99
       temperature: 21C
       light_condition: red light
@@ -75,7 +79,8 @@ publication:
         5h dark adaptation
       omics_type: MICROARRAY
       test_type: microarray_LPE
-      treatment_type: light_stress
+      treatment_type: [light_stress]
+      background_factors: [axenic]
       medium: Sargasso seawater-based Pro99
       temperature: 21C
       light_condition: green light
@@ -91,7 +96,8 @@ publication:
         dark adaptation. DCMU (4 uM) inhibits PSII electron transport.
       omics_type: MICROARRAY
       test_type: microarray_LPE
-      treatment_type: light_stress
+      treatment_type: [light_stress]
+      background_factors: [axenic]  # TODO: DCMU photosynthesis inhibitor present, no canonical match
       medium: Sargasso seawater-based Pro99
       temperature: 21C
       light_condition: white light
