@@ -59,7 +59,8 @@ The `experiments` block defines experiment-level metadata that is shared across 
       organism: "Prochlorococcus MED4"
       omics_type: RNASEQ              # RNASEQ | PROTEOMICS | METABOLOMICS | MICROARRAY
       test_type: DESeq2               # statistical method
-      treatment_type: coculture       # canonical treatment category (see below)
+      treatment_type: [coculture]     # canonical treatment category list (see below)
+      background_factors: []          # experimental context factors list (see below, optional)
       treatment_condition: "Coculture with Alteromonas HOT1A3"
       control_condition: "Axenic"
       experimental_context: "in Pro99 medium under continuous light"
@@ -84,7 +85,7 @@ The `experiments` block defines experiment-level metadata that is shared across 
 | `organism` | Organism being profiled | `"Prochlorococcus MED4"`, `"Alteromonas MIT1002"` |
 | `omics_type` | Omics data type | `RNASEQ`, `MICROARRAY`, `PROTEOMICS`, `METABOLOMICS` |
 | `test_type` | Statistical method used | `DESeq2`, `edgeR`, `Rockhopper`, `DESeq`, `microarray`, `microarray_Cyber-T`, `microarray_LPE`, `microarray_Goldenspike` |
-| `treatment_type` | Canonical treatment category | See **Treatment Types** below |
+| `treatment_type` | Canonical treatment category (list) | See **Treatment Types** below |
 | `treatment_condition` | Description of the experimental/test condition | `"Coculture with Alteromonas HOT1A3"`, `"Salt-acclimated (5% salt)"` |
 | `control_condition` | Description of the baseline/reference condition | `"Axenic"`, `"Normal seawater (3.8% salt)"` |
 
@@ -99,6 +100,7 @@ The `experiments` block defines experiment-level metadata that is shared across 
 | `light_intensity` | Light intensity | When known (e.g., `"55 umol photons m-2 s-1"`) |
 | `table_scope` | What genes the source DE table contains | Always recommended. Values: `all_detected_genes`, `significant_any_timepoint`, `significant_only`, `top_n`, `filtered_subset` |
 | `table_scope_detail` | Free-text clarification for `table_scope` | When `table_scope` is `filtered_subset` or ambiguous (e.g., `"Top 50% of genes by expression level"`) |
+| `background_factors` | Experimental context factors not being compared in DE (list) | When conditions like coculture/axenic status or light regime are relevant but not the treatment variable. Values from same vocabulary as `treatment_type` plus: `axenic`, `continuous_light`, `diel_cycle` |
 
 #### Formatting conventions
 
@@ -127,6 +129,29 @@ The `experiments` block defines experiment-level metadata that is shared across 
 | `plastic_stress` | Plastic or chemical pollutant exposure | Microplastic exposure |
 | `growth_medium` | Growth medium composition changes | Different media comparison |
 | `growth_state` | Growth phase or physiological state | Exponential vs stationary |
+| `diel` | Diel cycle as treatment | Circadian gene expression |
+| `oxygen_stress` | Oxygen level changes | Microaerobic/anoxic conditions |
+| `axenic` | Organism grown alone (background only) | Used in `background_factors`, not `treatment_type` |
+| `continuous_light` | Standard continuous illumination (background only) | Used in `background_factors` |
+| `diel_cycle` | Light:dark cycling regime (background only) | Used in `background_factors` |
+
+**`treatment_type` vs `background_factors`:** `treatment_type` (required, list) captures what the DE comparison tests. `background_factors` (optional, list) captures conditions present in the experiment but not compared. Both use the same vocabulary. Example: a darkness experiment run in coculture → `treatment_type: [darkness]`, `background_factors: [coculture]`. Axenic/coculture status always goes in `background_factors` unless coculture IS the DE comparison.
+
+#### Extending the Canonical Vocabulary
+
+The canonical vocabulary is intentionally minimal. When creating a paperconfig for a new paper:
+
+1. **Check existing values first.** Can this condition map to an existing category?
+   - "UV exposure" → `light_stress`
+   - "CO2 enrichment" → `carbon_stress`
+   - "DCMU treatment" → describe in `treatment_condition`/`experimental_context`; use closest category or leave `background_factors` empty
+2. **Prefer general categories over specific ones.** `chemical_stress` is better than `dcmu_inhibitor`. The specifics go in `treatment_condition` and `experimental_context`.
+3. **If no existing value fits**, flag it to the user: "This paper studies [X], which doesn't map cleanly to any existing canonical value. Closest match: `Y`. Should I use `Y` or propose a new value?"
+4. **User decides.** If a new value is approved, update all three locations in a single commit:
+   - `CANONICAL_CONDITION_TYPES` in `validate_paperconfig.py`
+   - Treatment Types table in this SKILL.md
+   - `CLAUDE.md` key graph facts section
+5. **Never invent new canonical values without user approval.**
 
 #### Grouping Analyses into Experiments
 
@@ -289,6 +314,7 @@ Co-expression cluster membership tables. Processed by `cluster_adapter.py` (NOT 
 | `omics_type` | str | MICROARRAY, RNASEQ, PROTEOMICS, METABOLOMICS |
 | `light_condition` | str | Light regime (e.g., "14:10 L:D") |
 | `treatment_type` | str[] | Array of canonical treatment types |
+| `background_factors` | str[] | Array of background condition factors (same vocabulary as `treatment_type`) |
 | `treatment` | str | Experiment description |
 | `experimental_context` | str | Additional context |
 | `experiments` | str[] | List of experiment keys from the same paperconfig (links ClusteringAnalysis → Experiment) |
@@ -311,6 +337,7 @@ med4_kmeans_nstarvation:
   cluster_method: "K-means (K=9)"
   omics_type: MICROARRAY
   treatment_type: ["nitrogen_stress"]
+  background_factors: ["axenic", "continuous_light"]
   treatment: "N-starvation time course (0, 3, 6, 12, 24, 48h)"
   light_condition: "continuous light"
   experimental_context: "Custom Affymetrix microarray..."
