@@ -220,8 +220,8 @@ class TestExperimentNodeCreation:
             f"Expected name 'Test DE Analysis', got {properties.get('name')}"
         assert properties.get('organism_name') == 'Prochlorococcus MED4', \
             f"Expected organism_name 'Prochlorococcus MED4', got {properties.get('organism_name')}"
-        assert properties.get('treatment_type') == 'coculture', \
-            f"Expected treatment_type 'coculture', got {properties.get('treatment_type')}"
+        assert properties.get('treatment_type') == ['coculture'], \
+            f"Expected treatment_type ['coculture'], got {properties.get('treatment_type')}"
         assert properties.get('light_condition') == 'continuous_light', \
             f"Expected light_condition 'continuous_light', got {properties.get('light_condition')}"
         assert properties.get('temperature') == '24C', \

@@ -275,7 +275,7 @@ class OMICSAdapter:
             exp_props = {
                     "name": self.clean_text(exp.get("name", "")),
                     "organism_name": self.clean_text(exp.get("organism", "")),
-                    "treatment_type": self.clean_text(exp.get("treatment_type", "")),
+                    "treatment_type": self._normalize_list_field(exp, "treatment_type"),
                     "treatment": self.clean_text(exp.get("treatment_condition", "")),
                     "control": self.clean_text(exp.get("control_condition", "")),
                     "experimental_context": self.clean_text(exp.get("experimental_context", "")),
@@ -288,6 +288,7 @@ class OMICSAdapter:
                     "light_intensity": self.clean_text(exp.get("light_intensity", "")),
                     "table_scope": self.clean_text(exp.get("table_scope", "")),
                     "table_scope_detail": self.clean_text(exp.get("table_scope_detail", "")),
+                    "background_factors": self._normalize_list_field(exp, "background_factors"),
             }
             partner = exp.get("treatment_organism", "")
             if partner:
@@ -768,6 +769,13 @@ class OMICSAdapter:
             return normalize_curie(prefix + sep + identifier)
 
         return identifier
+
+    def _normalize_list_field(self, exp: dict, field: str) -> list[str]:
+        """Normalize a paperconfig field to a list of cleaned strings."""
+        val = exp.get(field, [])
+        if isinstance(val, str):
+            val = [val] if val else []
+        return [self.clean_text(v) for v in val]
 
     def clean_text(
         self, text: str = None,
