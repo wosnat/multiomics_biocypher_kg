@@ -313,10 +313,78 @@ git commit -m "feat: validate treatment_type as list, add background_factors val
 
 ---
 
-### Task 3: Omics adapter — Read treatment_type as list, read background_factors
+### Task 3: Paperconfig skill documentation — Update templates and guidance
 
 **Files:**
-- Modify: `multiomics_kg/adapters/omics_adapter.py:278` (treatment_type property), `:291` (after table_scope_detail)
+- Modify: `.claude/skills/paperconfig/SKILL.md:62,87,91-101,113-130,283-294,300-317`
+
+- [ ] **Step 1: Update experiment template to show list format and background_factors**
+
+In `SKILL.md`, replace line 62:
+```yaml
+      treatment_type: coculture       # canonical treatment category (see below)
+```
+with:
+```yaml
+      treatment_type: [coculture]     # canonical treatment category list (see below)
+      background_factors: []          # experimental context factors list (see below, optional)
+```
+
+- [ ] **Step 2: Update required fields table**
+
+In the Required Experiment Fields table (line 87), change the `treatment_type` row:
+```
+| `treatment_type` | Canonical treatment category (list) | See **Treatment Types** below |
+```
+
+- [ ] **Step 3: Add background_factors to optional fields table**
+
+In the Optional Experiment Fields table (after line 101), add a row:
+```
+| `background_factors` | Experimental context factors not being compared in DE (list) | When conditions like coculture/axenic status or light regime are relevant but not the treatment variable. Values from same vocabulary as `treatment_type` plus: `axenic`, `continuous_light`, `diel_cycle` |
+```
+
+- [ ] **Step 4: Update Treatment Types table**
+
+After the existing Treatment Types table (line 130), add the three new values:
+```
+| `diel` | Diel cycle as treatment | Circadian gene expression |
+| `oxygen_stress` | Oxygen level changes | Microaerobic/anoxic conditions |
+| `axenic` | Organism grown alone (background only) | Used in `background_factors`, not `treatment_type` |
+| `continuous_light` | Standard continuous illumination (background only) | Used in `background_factors` |
+| `diel_cycle` | Light:dark cycling regime (background only) | Used in `background_factors` |
+```
+
+Add a paragraph explaining the two-field model:
+```
+**`treatment_type` vs `background_factors`:** `treatment_type` (required, list) captures what the DE comparison tests. `background_factors` (optional, list) captures conditions present in the experiment but not compared. Both use the same vocabulary. Example: a darkness experiment run in coculture → `treatment_type: [darkness]`, `background_factors: [coculture]`. Axenic/coculture status always goes in `background_factors` unless coculture IS the DE comparison.
+```
+
+- [ ] **Step 5: Update gene_clusters template to include background_factors**
+
+In the optional fields table for gene_clusters (lines 283-294), add a row after `treatment_type`:
+```
+| `background_factors` | str[] | Array of background condition factors (same vocabulary as `treatment_type`) |
+```
+
+In the gene_clusters example (lines 300-317), add after `treatment_type: ["nitrogen_stress"]`:
+```yaml
+  background_factors: ["axenic", "continuous_light"]
+```
+
+- [ ] **Step 6: Commit**
+
+```bash
+git add .claude/skills/paperconfig/SKILL.md
+git commit -m "docs: update paperconfig skill for list treatment_type and background_factors"
+```
+
+---
+
+### Task 4: Omics adapter — Read treatment_type as list, read background_factors
+
+**Files:**
+- Modify: `multiomics_kg/adapters/omics_adapter.py:278` (treatment_type property), `:290` (after table_scope_detail)
 
 - [ ] **Step 1: Update treatment_type to normalize as list**
 
@@ -363,7 +431,7 @@ git commit -m "feat: omics adapter reads treatment_type as list, adds background
 
 ---
 
-### Task 4: Cluster adapter — Read background_factors
+### Task 5: Cluster adapter — Read background_factors
 
 **Files:**
 - Modify: `multiomics_kg/adapters/cluster_adapter.py:161-175` (ClusteringAnalysis props), `:195-217` (GeneCluster props)
@@ -404,7 +472,7 @@ git commit -m "feat: cluster adapter reads background_factors for ClusteringAnal
 
 ---
 
-### Task 5: Post-import scripts — Aggregate background_factors, fix treatment_type for arrays
+### Task 6: Post-import scripts — Aggregate background_factors, fix treatment_type for arrays
 
 **Files:**
 - Modify: `scripts/post-import.sh:70,85,100-114,186-200`
@@ -486,7 +554,7 @@ git commit -m "post-import: aggregate background_factors, fix treatment_type for
 
 ---
 
-### Task 6: Paperconfig pass 1 — Mechanical conversion
+### Task 7: Paperconfig pass 1 — Mechanical conversion
 
 **Files:**
 - Modify: All 23 paperconfig.yaml files listed in `data/Prochlorococcus/papers_and_supp/paperconfig_files.txt`
@@ -533,10 +601,10 @@ git commit -m "paperconfig: convert treatment_type to lists, add background_fact
 
 ---
 
-### Task 7: Paperconfig pass 2 — Manual review of flagged experiments
+### Task 8: Paperconfig pass 2 — Manual review of flagged experiments
 
 **Files:**
-- Modify: Paperconfig files flagged in Task 6 Step 3
+- Modify: Paperconfig files flagged in Task 7 Step 3
 
 - [ ] **Step 1: Review and finalize Biller 2018 background_factors**
 
@@ -571,7 +639,7 @@ git commit -m "paperconfig: finalize background_factors after manual review (pas
 
 ---
 
-### Task 8: KG validity tests — Update for array treatment_type and background_factors
+### Task 9: KG validity tests — Update for array treatment_type and background_factors
 
 **Files:**
 - Modify: `tests/kg_validity/test_expression.py:267-277`
@@ -665,41 +733,6 @@ def test_experiment_treatment_type_values_canonical(run_query):
 ```bash
 git add tests/kg_validity/test_expression.py tests/kg_validity/test_post_import.py
 git commit -m "test: update KG validity tests for array treatment_type and background_factors"
-```
-
----
-
-### Task 9: Update paperconfig skill documentation
-
-**Files:**
-- Modify: `.claude/skills/paperconfig/SKILL.md:62,81-89,113-130`
-
-- [ ] **Step 1: Update experiment template in SKILL.md**
-
-Find the experiment template block and update `treatment_type` to show list format, add `background_factors`:
-
-```yaml
-      treatment_type: [nitrogen_stress]    # canonical treatment category list (see below)
-      background_factors: [axenic, continuous_light]  # experimental context factors (see below)
-```
-
-- [ ] **Step 2: Update required/optional fields table**
-
-Add `background_factors` as optional field with description "Experimental context factors (list, canonical values)".
-
-- [ ] **Step 3: Update Treatment Types table to include background_factors guidance**
-
-Add a section explaining:
-- `treatment_type` = what the DE comparison tests (required, list)
-- `background_factors` = conditions present but not compared (optional, list)
-- Same vocabulary for both
-- Document the three new values: `axenic`, `continuous_light`, `diel_cycle`
-
-- [ ] **Step 4: Commit**
-
-```bash
-git add .claude/skills/paperconfig/SKILL.md
-git commit -m "docs: update paperconfig skill for list treatment_type and background_factors"
 ```
 
 ---
