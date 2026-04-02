@@ -511,19 +511,11 @@ MATCH (p:Publication)
 OPTIONAL MATCH (p)-[:Has_experiment]->(e:Experiment)
 WITH p,
      count(e) AS ec,
-     collect(e) AS exps,
      [x IN collect(DISTINCT e.omics_type) WHERE x IS NOT NULL] AS ots,
      [x IN collect(DISTINCT e.organism_name) WHERE x IS NOT NULL] AS orgs,
-     [x IN collect(DISTINCT e.coculture_partner) WHERE x IS NOT NULL AND x <> ''] AS coculture_orgs
-UNWIND CASE WHEN size(exps) = 0 THEN [null] ELSE exps END AS e2
-WITH p, ec, ots, orgs, coculture_orgs,
-     CASE WHEN e2 IS NOT NULL THEN e2.treatment_type ELSE [] END AS tt_arr,
-     CASE WHEN e2 IS NOT NULL THEN e2.background_factors ELSE [] END AS bf_arr
-UNWIND CASE WHEN size(tt_arr) = 0 THEN [null] ELSE tt_arr END AS tt
-UNWIND CASE WHEN size(bf_arr) = 0 THEN [null] ELSE bf_arr END AS bf
-WITH p, ec, ots, orgs, coculture_orgs,
-     [x IN collect(DISTINCT tt) WHERE x IS NOT NULL] AS tts,
-     [x IN collect(DISTINCT bf) WHERE x IS NOT NULL] AS bfs
+     [x IN collect(DISTINCT e.coculture_partner) WHERE x IS NOT NULL AND x <> ''] AS coculture_orgs,
+     apoc.coll.toSet(reduce(s = [], t IN collect(coalesce(e.treatment_type, [])) | s + t)) AS tts,
+     apoc.coll.toSet(reduce(s = [], t IN collect(coalesce(e.background_factors, [])) | s + t)) AS bfs
 SET p.experiment_count = ec,
     p.treatment_types = apoc.coll.sort(tts),
     p.background_factors = apoc.coll.sort(bfs),
@@ -531,6 +523,8 @@ SET p.experiment_count = ec,
     p.organisms = apoc.coll.sort(apoc.coll.toSet(orgs + coculture_orgs))
 CYPHER
 ```
+
+Note: Uses `reduce` + `apoc.coll.toSet` to flatten array properties (same pattern as OrganismTaxon aggregation), avoiding the cross-product issue of double UNWIND.
 
 - [ ] **Step 2: Fix OrganismTaxon aggregation to include background_factors**
 
@@ -620,12 +614,12 @@ These experiments need specific `background_factors` based on the paper analysis
 - **Thompson 2016**: `light_stress_..._infected` → `background_factors: [viral]`; `light_stress_..._dark` → `background_factors: [axenic]`; `viral_..._light` → `background_factors: [continuous_light]`; `viral_..._dark` → `background_factors: [darkness]`
 - **Weissberg 2025**: N-starvation coculture experiments → `background_factors: [coculture]`; axenic ones → `background_factors: [axenic]`; coculture treatment_type experiments → no axenic/coculture in background
 
-- [ ] **Step 4: Run validator on all paperconfigs**
+- [ ] **Step 5: Run validator on all paperconfigs**
 
 Run: `uv run python -c "from multiomics_kg.skills.paperconfig.validate_paperconfig import validate; import sys; [validate(line.strip()) for line in open('data/Prochlorococcus/papers_and_supp/paperconfig_files.txt') if line.strip() and not line.strip().startswith('#')]"`
 Expected: ALL PASS
 
-- [ ] **Step 5: Commit**
+- [ ] **Step 6: Commit**
 
 ```bash
 git add data/Prochlorococcus/papers_and_supp/
