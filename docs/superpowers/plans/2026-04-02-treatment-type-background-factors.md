@@ -372,7 +372,29 @@ In the gene_clusters example (lines 300-317), add after `treatment_type: ["nitro
   background_factors: ["axenic", "continuous_light"]
 ```
 
-- [ ] **Step 6: Commit**
+- [ ] **Step 6: Add "Extending the Vocabulary" section to SKILL.md**
+
+After the `treatment_type` vs `background_factors` explanation paragraph, add a new section:
+
+```markdown
+#### Extending the Canonical Vocabulary
+
+The canonical vocabulary is intentionally minimal. When creating a paperconfig for a new paper:
+
+1. **Check existing values first.** Can this condition map to an existing category?
+   - "UV exposure" → `light_stress`
+   - "CO2 enrichment" → `carbon_stress`
+   - "DCMU treatment" → describe in `treatment_condition`/`experimental_context`; use closest category or leave `background_factors` empty
+2. **Prefer general categories over specific ones.** `chemical_stress` is better than `dcmu_inhibitor`. The specifics go in `treatment_condition` and `experimental_context`.
+3. **If no existing value fits**, flag it to the user: "This paper studies [X], which doesn't map cleanly to any existing canonical value. Closest match: `Y`. Should I use `Y` or propose a new value?"
+4. **User decides.** If a new value is approved, update all three locations in a single commit:
+   - `CANONICAL_CONDITION_TYPES` in `validate_paperconfig.py`
+   - Treatment Types table in this SKILL.md
+   - `CLAUDE.md` key graph facts section
+5. **Never invent new canonical values without user approval.**
+```
+
+- [ ] **Step 7: Commit**
 
 ```bash
 git add .claude/skills/paperconfig/SKILL.md
@@ -578,14 +600,25 @@ Apply these rules mechanically:
 - If experiment `light_condition` contains "continuous" and treatment_type is NOT light-related (`[light_stress]`, `[darkness]`, `[diel]`): add `continuous_light` to background_factors
 - If experiment has `treatment_type: [coculture]` or `[viral]`: do NOT add `axenic` or `coculture` to background_factors (it's already in treatment_type)
 
-- [ ] **Step 3: Flag experiments that need manual review for pass 2**
+- [ ] **Step 3: Flag experiments where background conditions don't map to current vocabulary**
 
-These experiments need manual attention because the coculture/light context is in `experimental_context` free text, not in structured fields:
-- **Biller 2018**: `darkness_extended_darkness_natl2a_rnaseq_coculture` — add `background_factors: [coculture]`; `darkness_extended_darkness_mit1002_rnaseq` — add `background_factors: [coculture]`; axenic one gets `background_factors: [axenic]`
-- **Coe 2024**: coculture experiments under diel cycle — add `background_factors: [coculture, diel_cycle]`
-- **Hennon 2017**: carbon stress experiments — MIT9312 and EZ55 coculture get `background_factors: [coculture, diel_cycle]`; EZ55 axenic gets `background_factors: [axenic, diel_cycle]`
-- **Thompson 2016**: `light_stress_..._infected` gets `background_factors: [viral]`; `light_stress_..._dark` gets `background_factors: [axenic]`; `viral_..._light` gets `background_factors: [continuous_light]`; `viral_..._dark` gets `background_factors: [darkness]`
-- **Weissberg 2025**: N-starvation coculture experiments get `background_factors: [coculture]`; axenic ones get `background_factors: [axenic]`; coculture treatment_type experiments get no axenic/coculture in background
+For any experiment where a notable background condition has no canonical match, leave `background_factors` empty (or partial) and add a YAML comment:
+```yaml
+      background_factors: [axenic]  # TODO: DCMU photosynthesis inhibitor present, no canonical match
+```
+
+Known cases to flag:
+- **Steglich 2006**: DCMU + white light experiment (chemical inhibitor as background)
+- Any other experiments where `experimental_context` describes conditions not covered by the current vocabulary
+
+- [ ] **Step 4: Apply known multi-factor experiments from brainstorming analysis**
+
+These experiments need specific `background_factors` based on the paper analysis (coculture/light context is in `experimental_context` free text, not in structured fields):
+- **Biller 2018**: `darkness_extended_darkness_natl2a_rnaseq_coculture` → `background_factors: [coculture]`; `darkness_extended_darkness_mit1002_rnaseq` → `background_factors: [coculture]`; axenic one → `background_factors: [axenic]`
+- **Coe 2024**: coculture experiments under diel cycle → `background_factors: [coculture, diel_cycle]`
+- **Hennon 2017**: carbon stress experiments — MIT9312 and EZ55 coculture → `background_factors: [coculture, diel_cycle]`; EZ55 axenic → `background_factors: [axenic, diel_cycle]`
+- **Thompson 2016**: `light_stress_..._infected` → `background_factors: [viral]`; `light_stress_..._dark` → `background_factors: [axenic]`; `viral_..._light` → `background_factors: [continuous_light]`; `viral_..._dark` → `background_factors: [darkness]`
+- **Weissberg 2025**: N-starvation coculture experiments → `background_factors: [coculture]`; axenic ones → `background_factors: [axenic]`; coculture treatment_type experiments → no axenic/coculture in background
 
 - [ ] **Step 4: Run validator on all paperconfigs**
 
@@ -601,36 +634,45 @@ git commit -m "paperconfig: convert treatment_type to lists, add background_fact
 
 ---
 
-### Task 8: Paperconfig pass 2 — Manual review of flagged experiments
+### Task 8: Paperconfig pass 2 — Review flagged experiments and vocabulary gaps
 
 **Files:**
-- Modify: Paperconfig files flagged in Task 7 Step 3
+- Modify: Paperconfig files with TODO comments from Task 7 Step 3
+- Possibly modify: `validate_paperconfig.py`, `SKILL.md`, `CLAUDE.md` (if vocabulary is extended)
 
-- [ ] **Step 1: Review and finalize Biller 2018 background_factors**
+- [ ] **Step 1: Collect all TODO-flagged experiments**
 
-Read PDF if needed to confirm coculture status. Apply:
-- `darkness_extended_darkness_natl2a_rnaseq_axenic`: `background_factors: [axenic]`
-- `darkness_extended_darkness_natl2a_rnaseq_coculture`: `background_factors: [coculture]`
-- `darkness_extended_darkness_mit1002_rnaseq`: `background_factors: [coculture]`
+Grep all paperconfigs for `# TODO:` comments added in pass 1. Present a summary table to the user:
 
-- [ ] **Step 2: Review and finalize Coe 2024 background_factors**
+| Paper | Experiment | Condition | Closest canonical | Proposal |
+|---|---|---|---|---|
+| Steglich 2006 | DCMU + light | DCMU inhibitor | `light_stress`? | Use existing or add new? |
+| ... | ... | ... | ... | ... |
 
-- [ ] **Step 3: Review and finalize Hennon 2017 background_factors**
+- [ ] **Step 2: User decides on vocabulary extensions**
 
-- [ ] **Step 4: Review and finalize Thompson 2016 background_factors**
+For each flagged condition, the user chooses:
+- **(a)** Map to existing canonical value — update the paperconfig
+- **(b)** Approve a new canonical value — then update `CANONICAL_CONDITION_TYPES` in `validate_paperconfig.py`, Treatment Types table in `SKILL.md`, and `CLAUDE.md`
+- **(c)** Leave `background_factors` empty for this experiment — remove the TODO comment, accept that this condition is only in free-text `experimental_context`
 
-- [ ] **Step 5: Review and finalize Weissberg 2025 background_factors**
+- [ ] **Step 3: If vocabulary was extended, commit canonical set changes first**
 
-- [ ] **Step 6: Review remaining papers for any non-obvious background_factors**
+```bash
+git add .claude/skills/paperconfig/validate_paperconfig.py .claude/skills/paperconfig/SKILL.md CLAUDE.md
+git commit -m "feat: extend canonical vocabulary with [new_value]"
+```
 
-Check Barreto 2022, Steglich 2006, and any others where `experimental_context` mentions conditions not captured by the mechanical rules.
+- [ ] **Step 4: Fill in remaining background_factors and remove TODO comments**
 
-- [ ] **Step 7: Run validator on all paperconfigs**
+Apply user decisions to all flagged paperconfigs.
+
+- [ ] **Step 5: Run validator on all paperconfigs**
 
 Run: `pytest tests/test_paperconfig_validation.py -v`
 Expected: ALL PASS
 
-- [ ] **Step 8: Commit**
+- [ ] **Step 6: Commit**
 
 ```bash
 git add data/Prochlorococcus/papers_and_supp/
