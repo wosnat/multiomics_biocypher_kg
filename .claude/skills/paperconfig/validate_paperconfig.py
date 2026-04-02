@@ -129,6 +129,9 @@ CANONICAL_CONDITION_TYPES = {
     "temperature_stress",
     "diel",
     "oxygen_stress",
+    "axenic",
+    "continuous_light",
+    "diel_cycle",
 }
 
 # Valid cluster_type values for gene_clusters entries.
@@ -301,9 +304,20 @@ def _validate_experiments(experiments: dict, config_path: str,
         elif test_type:
             print(f"    test_type '{test_type}': OK")
 
-        # Canonical treatment_type
+        # Canonical treatment_type (string or list)
         treatment_type = exp.get("treatment_type", "")
-        if treatment_type and treatment_type not in CANONICAL_CONDITION_TYPES:
+        if isinstance(treatment_type, list):
+            for tt in treatment_type:
+                if tt not in CANONICAL_CONDITION_TYPES:
+                    errors.append(
+                        _canonical_field_error(
+                            config_path, f"experiments.{exp_key}",
+                            "treatment_type", tt, CANONICAL_CONDITION_TYPES,
+                        )
+                    )
+                else:
+                    print(f"    treatment_type '{tt}': OK")
+        elif treatment_type and treatment_type not in CANONICAL_CONDITION_TYPES:
             errors.append(
                 _canonical_field_error(
                     config_path, f"experiments.{exp_key}",
@@ -312,6 +326,21 @@ def _validate_experiments(experiments: dict, config_path: str,
             )
         elif treatment_type:
             print(f"    treatment_type '{treatment_type}': OK")
+
+        # Canonical background_factors (optional list)
+        background_factors = exp.get("background_factors", [])
+        if isinstance(background_factors, str):
+            background_factors = [background_factors]
+        for bf in background_factors:
+            if bf not in CANONICAL_CONDITION_TYPES:
+                errors.append(
+                    _canonical_field_error(
+                        config_path, f"experiments.{exp_key}",
+                        "background_factors", bf, CANONICAL_CONDITION_TYPES,
+                    )
+                )
+            else:
+                print(f"    background_factors '{bf}': OK")
 
         # Canonical treatment_organism (optional, only for coculture experiments)
         treatment_organism = exp.get("treatment_organism", "")
@@ -361,29 +390,30 @@ def _validate_experiments(experiments: dict, config_path: str,
             )
 
         # Coculture/viral consistency checks
-        tt = exp.get("treatment_type", "")
+        raw_tt = exp.get("treatment_type", "")
+        tt_list = raw_tt if isinstance(raw_tt, list) else ([raw_tt] if raw_tt else [])
         t_org = exp.get("treatment_organism", "")
-        if tt in ("coculture", "viral") and not t_org:
+        if ("coculture" in tt_list or "viral" in tt_list) and not t_org:
             errors.append(
                 f"{config_path} | experiments.{exp_key} | "
-                f"treatment_type is '{tt}' but missing treatment_organism"
+                f"treatment_type includes 'coculture' or 'viral' but missing treatment_organism"
             )
-        if t_org and tt not in ("coculture", "viral"):
+        if t_org and "coculture" not in tt_list and "viral" not in tt_list:
             warnings.append(
                 f"{config_path} | experiments.{exp_key} | "
-                f"has treatment_organism '{t_org}' but treatment_type is '{tt}' "
-                f"(expected 'coculture' or 'viral')"
+                f"has treatment_organism '{t_org}' but treatment_type {tt_list} "
+                f"does not include 'coculture' or 'viral'"
             )
-        if t_org and str(t_org).strip().lower() in ("phage", "virus", "bacteriophage") and tt != "viral":
+        if t_org and str(t_org).strip().lower() in ("phage", "virus", "bacteriophage") and "viral" not in tt_list:
             warnings.append(
                 f"{config_path} | experiments.{exp_key} | "
-                f"treatment_organism is '{t_org}' but treatment_type is '{tt}' "
-                f"(should be 'viral')"
+                f"treatment_organism is '{t_org}' but treatment_type {tt_list} "
+                f"does not include 'viral' (should it?)"
             )
-        if tt in ("coculture", "viral") and "treatment_taxid" not in exp:
+        if ("coculture" in tt_list or "viral" in tt_list) and "treatment_taxid" not in exp:
             warnings.append(
                 f"{config_path} | experiments.{exp_key} | "
-                f"treatment_type is '{tt}' but missing treatment_taxid"
+                f"treatment_type includes 'coculture' or 'viral' but missing treatment_taxid"
             )
 
 

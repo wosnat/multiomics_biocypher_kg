@@ -213,6 +213,91 @@ class TestCanonicalTreatmentType:
 
 
 # ---------------------------------------------------------------------------
+# Unit tests — treatment_type as list
+# ---------------------------------------------------------------------------
+
+class TestTreatmentTypeList:
+    """Validator accepts treatment_type as a list."""
+
+    def test_treatment_type_list_is_accepted(self, tmp_path, monkeypatch):
+        """A list of canonical treatment_type values must be accepted."""
+        monkeypatch.chdir(PROJECT_ROOT)
+        csv = _write_minimal_csv(tmp_path)
+        config = _make_valid_config(
+            csv,
+            experiment_overrides={"treatment_type": ["coculture", "darkness"]},
+        )
+        cfg_file = _write_config(tmp_path, config)
+        result = validate(str(cfg_file))
+        assert result is True, "Expected validation to pass for list treatment_type"
+
+    def test_treatment_type_list_with_invalid_value_rejected(self, tmp_path, monkeypatch):
+        """A list containing a non-canonical value must fail."""
+        monkeypatch.chdir(PROJECT_ROOT)
+        csv = _write_minimal_csv(tmp_path)
+        config = _make_valid_config(
+            csv,
+            experiment_overrides={"treatment_type": ["coculture", "fake_stress"]},
+        )
+        cfg_file = _write_config(tmp_path, config)
+        result = validate(str(cfg_file))
+        assert result is False, "Expected validation to fail for list with non-canonical value"
+
+
+# ---------------------------------------------------------------------------
+# Unit tests — background_factors validation
+# ---------------------------------------------------------------------------
+
+class TestBackgroundFactors:
+    """Validator accepts and validates background_factors field."""
+
+    def test_background_factors_list_accepted(self, tmp_path, monkeypatch):
+        """A list of canonical background_factors values must be accepted."""
+        monkeypatch.chdir(PROJECT_ROOT)
+        csv = _write_minimal_csv(tmp_path)
+        config = _make_valid_config(
+            csv,
+            experiment_overrides={
+                "treatment_type": "nitrogen_stress",
+                "background_factors": ["axenic", "continuous_light"],
+                # Remove coculture-specific fields since treatment_type is not coculture
+                "treatment_organism": None,
+                "treatment_taxid": None,
+            },
+        )
+        # Remove None-valued keys (treatment_organism, treatment_taxid)
+        exp = config["publication"]["experiments"]["exp_coculture"]
+        exp.pop("treatment_organism", None)
+        exp.pop("treatment_taxid", None)
+        cfg_file = _write_config(tmp_path, config)
+        result = validate(str(cfg_file))
+        assert result is True, "Expected validation to pass for valid background_factors"
+
+    def test_background_factors_with_invalid_value_rejected(self, tmp_path, monkeypatch):
+        """A background_factors list with non-canonical value must fail."""
+        monkeypatch.chdir(PROJECT_ROOT)
+        csv = _write_minimal_csv(tmp_path)
+        config = _make_valid_config(
+            csv,
+            experiment_overrides={
+                "background_factors": ["axenic", "made_up_factor"],
+            },
+        )
+        cfg_file = _write_config(tmp_path, config)
+        result = validate(str(cfg_file))
+        assert result is False, "Expected validation to fail for non-canonical background_factors"
+
+    def test_background_factors_optional(self, tmp_path, monkeypatch):
+        """Missing background_factors should not cause validation failure."""
+        monkeypatch.chdir(PROJECT_ROOT)
+        csv = _write_minimal_csv(tmp_path)
+        config = _make_valid_config(csv)
+        cfg_file = _write_config(tmp_path, config)
+        result = validate(str(cfg_file))
+        assert result is True, "Expected validation to pass without background_factors"
+
+
+# ---------------------------------------------------------------------------
 # Unit tests — canonical test_type validation
 # ---------------------------------------------------------------------------
 
