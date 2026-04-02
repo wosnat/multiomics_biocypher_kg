@@ -561,6 +561,19 @@ def test_publication_treatment_types_no_nulls(run_query):
     )
 
 
+def test_publication_background_factors_no_nulls(run_query):
+    """background_factors list should contain no null entries."""
+    result = run_query("""
+        MATCH (p:Publication)
+        WHERE p.background_factors IS NOT NULL
+          AND ANY(x IN p.background_factors WHERE x IS NULL)
+        RETURN count(p) AS bad
+    """)
+    assert result[0]["bad"] == 0, (
+        f"{result[0]['bad']} publications have null entries in background_factors"
+    )
+
+
 def test_publication_omics_types_no_nulls(run_query):
     """omics_types list should contain no null entries."""
     result = run_query("""
@@ -679,7 +692,8 @@ def test_experiment_coculture_partner_null_when_no_partner(run_query):
     """
     result = run_query("""
         MATCH (e:Experiment)
-        WHERE NOT e.treatment_type IN ['coculture', 'viral']
+        WHERE NOT 'coculture' IN e.treatment_type
+          AND NOT 'viral' IN e.treatment_type
           AND e.coculture_partner IS NOT NULL
         RETURN count(e) AS bad, collect(e.id)[..5] AS examples
     """)

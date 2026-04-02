@@ -265,16 +265,35 @@ def test_experiment_name_present_on_majority(run_query):
 
 
 def test_experiment_has_treatment_type(run_query):
-    """Every Experiment node must have a treatment_type property."""
+    """Every Experiment node must have a non-empty treatment_type list."""
     result = run_query("""
         MATCH (exp:Experiment)
-        WHERE exp.treatment_type IS NULL OR exp.treatment_type = ''
+        WHERE exp.treatment_type IS NULL OR size(exp.treatment_type) = 0
         RETURN count(exp) AS missing
     """)
     missing = result[0]["missing"]
     assert missing == 0, (
         f"{missing} Experiment nodes are missing treatment_type"
     )
+
+
+def test_experiment_treatment_type_values_canonical(run_query):
+    """All treatment_type values should be from the canonical vocabulary."""
+    result = run_query("""
+        MATCH (e:Experiment)
+        UNWIND e.treatment_type AS tt
+        WITH DISTINCT tt
+        RETURN collect(tt) AS all_types
+    """)
+    known = {
+        "nitrogen_stress", "phosphorus_stress", "iron_stress", "carbon_stress",
+        "salt_stress", "oxygen_stress", "temperature_stress", "light_stress",
+        "darkness", "plastic_stress", "viral", "coculture", "growth_state",
+        "growth_medium", "diel", "axenic", "continuous_light", "diel_cycle",
+    }
+    actual = set(result[0]["all_types"])
+    unknown = actual - known
+    assert not unknown, f"Unknown treatment_type values in KG: {unknown}"
 
 
 def test_experiment_has_organism_name(run_query):
