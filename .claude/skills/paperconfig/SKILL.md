@@ -136,7 +136,19 @@ The `experiments` block defines experiment-level metadata that is shared across 
 | `diel_cycle` | Light:dark cycling regime (background only) | Used in `background_factors` |
 | `chemical_inhibitor` | Chemical inhibitor present (e.g., DCMU) | Used in `background_factors` |
 
-**`treatment_type` vs `background_factors`:** `treatment_type` (required, list) captures what the DE comparison tests. `background_factors` (optional, list) captures conditions present in the experiment but not compared. Both use the same vocabulary. Example: a darkness experiment run in coculture → `treatment_type: [darkness]`, `background_factors: [coculture]`. Axenic/coculture status always goes in `background_factors` unless coculture IS the DE comparison.
+**`treatment_type` vs `background_factors`:** `treatment_type` (required, list) captures what the DE comparison tests. `background_factors` (optional, list) captures conditions present in the experiment but not compared. Both use the same vocabulary.
+
+**Rules for assigning `background_factors`:**
+- **Axenic/coculture status:** Always in `background_factors` unless `coculture` IS the DE comparison (treatment_type). Non-coculture, non-viral experiments: `axenic` if no partner organism.
+- **Viral experiments:** Do NOT add `axenic` or `coculture` to background_factors. Viral experiments infect otherwise-axenic cells by default. Only add `coculture` if the experiment is genuinely in a multi-species community.
+- **Light regime:** Add `continuous_light` when `light_condition` is continuous light and treatment_type is not light-related. Add `diel_cycle` when under a light:dark cycle. Applies to ALL experiment types including coculture and viral.
+- **Coculture experiments:** Add `continuous_light` or `diel_cycle` for the light regime, but do NOT add `axenic` or `coculture`.
+
+**Examples:**
+- Darkness experiment in coculture → `treatment_type: [darkness]`, `background_factors: [coculture, diel_cycle]`
+- Phage infection under continuous light → `treatment_type: [viral]`, `background_factors: [continuous_light]`
+- N-starvation, axenic, continuous light → `treatment_type: [nitrogen_stress]`, `background_factors: [axenic, continuous_light]`
+- Coculture vs axenic under continuous light → `treatment_type: [coculture]`, `background_factors: [continuous_light]`
 
 #### Extending the Canonical Vocabulary
 
