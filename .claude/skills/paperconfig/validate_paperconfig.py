@@ -132,6 +132,7 @@ CANONICAL_CONDITION_TYPES = {
     "axenic",
     "continuous_light",
     "diel_cycle",
+    "chemical_inhibitor",
 }
 
 # Valid cluster_type values for gene_clusters entries.

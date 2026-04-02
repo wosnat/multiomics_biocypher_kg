@@ -11,7 +11,7 @@ publication:
       omics_type: RNASEQ
       test_type: edgeR
       treatment_type: [carbon_stress]
-      background_factors: []  # TODO: DE pools axenic + coculture samples, ambiguous
+      background_factors: [axenic, coculture]
       medium: Pro99 medium
       temperature: 22C
       light_condition: continuous light
@@ -26,7 +26,7 @@ publication:
       omics_type: RNASEQ
       test_type: edgeR
       treatment_type: [carbon_stress]
-      background_factors: []  # TODO: DE pools axenic + coculture samples, ambiguous
+      background_factors: [axenic, coculture]
       medium: Pro99 medium
       temperature: 22C
       light_condition: continuous light
@@ -41,7 +41,7 @@ publication:
       omics_type: RNASEQ
       test_type: edgeR
       treatment_type: [carbon_stress]
-      background_factors: []  # TODO: DE pools axenic + coculture samples, ambiguous
+      background_factors: [axenic, coculture]
       medium: Pro99 medium
       temperature: 22C
       light_condition: continuous light
@@ -56,7 +56,7 @@ publication:
       omics_type: RNASEQ
       test_type: edgeR
       treatment_type: [carbon_stress]
-      background_factors: []  # TODO: DE pools axenic + coculture samples, ambiguous
+      background_factors: [axenic, coculture]
       medium: Pro99 medium
       temperature: 22C
       light_condition: continuous light

@@ -134,6 +134,7 @@ The `experiments` block defines experiment-level metadata that is shared across 
 | `axenic` | Organism grown alone (background only) | Used in `background_factors`, not `treatment_type` |
 | `continuous_light` | Standard continuous illumination (background only) | Used in `background_factors` |
 | `diel_cycle` | Light:dark cycling regime (background only) | Used in `background_factors` |
+| `chemical_inhibitor` | Chemical inhibitor present (e.g., DCMU) | Used in `background_factors` |
 
 **`treatment_type` vs `background_factors`:** `treatment_type` (required, list) captures what the DE comparison tests. `background_factors` (optional, list) captures conditions present in the experiment but not compared. Both use the same vocabulary. Example: a darkness experiment run in coculture → `treatment_type: [darkness]`, `background_factors: [coculture]`. Axenic/coculture status always goes in `background_factors` unless coculture IS the DE comparison.
 

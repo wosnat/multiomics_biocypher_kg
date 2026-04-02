@@ -97,7 +97,7 @@ publication:
       omics_type: MICROARRAY
       test_type: microarray_LPE
       treatment_type: [light_stress]
-      background_factors: [axenic]  # TODO: DCMU photosynthesis inhibitor present, no canonical match
+      background_factors: [axenic, chemical_inhibitor]
       medium: Sargasso seawater-based Pro99
       temperature: 21C
       light_condition: white light
