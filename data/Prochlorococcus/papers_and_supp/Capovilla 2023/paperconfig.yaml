@@ -1,0 +1,83 @@
+publication:
+  papername: Capovilla 2023
+  papermainpdf: data/Prochlorococcus/papers_and_supp/Capovilla 2023/capovilla-et-al-2023-chitin-utilization-by-marine-picocyanobacteria-and-the-evolution-of-a-planktonic-lifestyle.pdf
+
+  experiments:
+    chitosan_addition_mit9313_rnaseq:
+      name: MIT9313 chitosan addition RNA-seq (secondary degrader, partial pathway)
+      organism: Prochlorococcus MIT9313
+      treatment_condition: Chitosan addition (56 ug/mL in Pro99 AMP1 medium)
+      control_condition: Pro99 AMP1 medium without chitosan
+      experimental_context: >-
+        Axenic Prochlorococcus MIT9313 grown under continuous light at 11 umol photons m-2 s-1
+        at 24C in AMP1 medium. MIT9313 is a secondary chitin degrader (lacks chitinase genes,
+        partial chitin utilization pathway). RNA-Seq 24h after chitosan addition. DESeq2
+        comparisons of chitosan vs control cultures on days 1 and 3 after inoculation.
+        Adjusted p-value threshold < 0.1. Only significantly DE genes reported.
+      omics_type: RNASEQ
+      test_type: DESeq2
+      treatment_type: [carbon]
+      background_factors: [axenic, continuous_light]
+      medium: Pro99 AMP1
+      temperature: 24C
+      light_condition: continuous light
+      light_intensity: 11 umol photons m-2 s-1
+      table_scope: significant_only
+
+    chitosan_addition_mit9303_rnaseq:
+      name: MIT9303 chitosan addition RNA-seq (primary degrader, full pathway)
+      organism: Prochlorococcus MIT9303
+      treatment_condition: Chitosan addition (56 ug/mL in Pro99 AMP1 medium)
+      control_condition: Pro99 AMP1 medium without chitosan
+      experimental_context: >-
+        Axenic Prochlorococcus MIT9303 grown under continuous light at 11 umol photons m-2 s-1
+        at 24C in AMP1 medium. MIT9303 is a primary chitin degrader (full chitin utilization
+        pathway including chitinase). RNA-Seq 24h after chitosan addition. DESeq2
+        comparisons of chitosan vs control cultures on days 1 and 3 after inoculation.
+        Adjusted p-value threshold < 0.1. Only significantly DE genes reported.
+      omics_type: RNASEQ
+      test_type: DESeq2
+      treatment_type: [carbon]
+      background_factors: [axenic, continuous_light]
+      medium: Pro99 AMP1
+      temperature: 24C
+      light_condition: continuous light
+      light_intensity: 11 umol photons m-2 s-1
+      table_scope: significant_only
+
+  supplementary_materials:
+    de_genes_mit9313:
+      type: csv
+      filename: data/Prochlorococcus/papers_and_supp/Capovilla 2023/DE genes RNA-Seq_MIT9313 pnas.2213271120.sd02.csv
+      skip_rows: 1
+      organism: Prochlorococcus MIT9313
+      id_columns:
+        - column: ncbi_gene_locus_tag
+          id_type: locus_tag
+      product_columns:
+        - column: geneFunction
+      statistical_analyses:
+        - id: DE_chitosan_vs_control_MIT9313
+          experiment: chitosan_addition_mit9313_rnaseq
+          name_col: ncbi_gene_locus_tag
+          logfc_col: "log2 fold change (+ means upregulated in chitosan)"
+          pvalue_threshold: 0.1
+          table_scope: significant_only
+
+    de_genes_mit9303:
+      type: csv
+      filename: data/Prochlorococcus/papers_and_supp/Capovilla 2023/DE genes RNA-Seq_MIT9303 pnas.2213271120.sd02.csv
+      skip_rows: 1
+      organism: Prochlorococcus MIT9303
+      id_columns:
+        - column: ncbi_gene_locus_tag
+          id_type: locus_tag
+      product_columns:
+        - column: geneFunction
+      statistical_analyses:
+        - id: DE_chitosan_vs_control_MIT9303
+          experiment: chitosan_addition_mit9303_rnaseq
+          name_col: ncbi_gene_locus_tag
+          logfc_col: "log2 fold change (+ means upregulated in chitosan)"
+          pvalue_threshold: 0.1
+          table_scope: significant_only
