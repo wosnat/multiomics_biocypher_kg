@@ -86,3 +86,22 @@ publication:
         name_col: 'ORF '
         logfc_col: 8 h
         pvalue_asterisk_in_logfc: true
+
+    # ── Gene cluster data (transcription groups) ─────────────────────────
+    med4_phage_transcription_groups:
+      type: gene_clusters
+      name: "MED4 phage-upregulated transcription groups"
+      filename: "data/Prochlorococcus/papers_and_supp/lindell 2007/supp table 3.csv"
+      organism: "Prochlorococcus MED4"
+      gene_id_col: "ORF "
+      cluster_col: "TRANSCRIPTION GROUP"
+      cluster_type: "response_pattern"
+      cluster_method: "Stable clusters of co-expressed upregulated genes"
+      omics_type: MICROARRAY
+      treatment_type: ["viral"]
+      background_factors: ["axenic", "continuous_light"]
+      treatment: "Phage infection time course (0-8h post infection)"
+      light_condition: "continuous light"
+      experimental_context: "Upregulated MED4 genes clustered by temporal expression pattern during phage infection; 2 transcription groups from microarray time course (0-8h); group 1 = early transient peak (1h), group 2 = late sustained induction (3-8h)"
+      experiments:
+        - viral_phage_infected_med4_microarray
