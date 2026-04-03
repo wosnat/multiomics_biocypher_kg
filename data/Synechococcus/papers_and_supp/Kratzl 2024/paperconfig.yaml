@@ -1,0 +1,155 @@
+publication:
+  papername: Kratzl 2024
+  papermainpdf: data/Synechococcus/papers_and_supp/Kratzl 2024/Synechococcus elogantus - Pseudomonas putida co-culutre multi omics Franzi Com biol 2024.pdf
+
+  experiments:
+    coculture_vs_pputida_axenic_rnaseq:
+      name: P. putida cscRABY coculture with S. elongatus cscB vs axenic P. putida cscRABY (RNA-seq)
+      organism: Pseudomonas putida KT2440
+      treatment_condition: Coculture with S. elongatus cscB
+      control_condition: Axenic P. putida cscRABY
+      experimental_context: Parallel photobioreactor (CellDEG), BG11+ with 150 mM NaCl, exponential light (120 umol photons m-2 s-2 constant for 24h then exponential rising td=52h), sucrose fed, sampled at ~60h
+      omics_type: RNASEQ
+      test_type: Galaxy/R-studio
+      treatment_type: [coculture]
+      background_factors: []
+      medium: BG11+
+      temperature: 25-32C
+      light_condition: exponential light
+      light_intensity: 120 umol photons m-2 s-2
+      treatment_organism: Synechococcus elongatus PCC 7942
+      treatment_taxid: 1140
+      table_scope: all_detected_genes
+
+    coculture_vs_selongatus_axenic_rnaseq:
+      name: S. elongatus cscB coculture with P. putida cscRABY vs axenic S. elongatus cscB (RNA-seq)
+      organism: Synechococcus elongatus PCC 7942
+      treatment_condition: Coculture with P. putida cscRABY
+      control_condition: Axenic S. elongatus cscB
+      experimental_context: Parallel photobioreactor (CellDEG), BG11+ with 150 mM NaCl, exponential light (120 umol photons m-2 s-2 constant for 24h then exponential rising td=52h), 0.1 mM IPTG for cscB induction, sampled at ~60h
+      omics_type: RNASEQ
+      test_type: Galaxy/R-studio
+      treatment_type: [coculture]
+      background_factors: []
+      medium: BG11+
+      temperature: 25-32C
+      light_condition: exponential light
+      light_intensity: 120 umol photons m-2 s-2
+      treatment_organism: Pseudomonas putida KT2440
+      treatment_taxid: 160488
+      table_scope: all_detected_genes
+
+    coculture_vs_pputida_axenic_proteomics:
+      name: P. putida cscRABY coculture with S. elongatus cscB vs axenic P. putida cscRABY (proteomics)
+      organism: Pseudomonas putida KT2440
+      treatment_condition: Coculture with S. elongatus cscB
+      control_condition: Axenic P. putida cscRABY
+      experimental_context: Parallel photobioreactor (CellDEG), BG11+ with 150 mM NaCl, exponential light (120 umol photons m-2 s-2 constant for 24h then exponential rising td=52h), sucrose fed, sampled at ~60h
+      omics_type: PROTEOMICS
+      test_type: LC-MS/MS
+      treatment_type: [coculture]
+      background_factors: []
+      medium: BG11+
+      temperature: 27.0-27.4C
+      light_condition: exponential light
+      light_intensity: 120 umol photons m-2 s-2
+      treatment_organism: Synechococcus elongatus PCC 7942
+      treatment_taxid: 1140
+      table_scope: all_detected_genes
+
+    coculture_vs_selongatus_axenic_proteomics:
+      name: S. elongatus cscB coculture with P. putida cscRABY vs axenic S. elongatus cscB (proteomics)
+      organism: Synechococcus elongatus PCC 7942
+      treatment_condition: Coculture with P. putida cscRABY
+      control_condition: Axenic S. elongatus cscB
+      experimental_context: Parallel photobioreactor (CellDEG), BG11+ with 150 mM NaCl, exponential light (120 umol photons m-2 s-2 constant for 24h then exponential rising td=52h), 0.1 mM IPTG for cscB induction, sampled at ~60h
+      omics_type: PROTEOMICS
+      test_type: LC-MS/MS
+      treatment_type: [coculture]
+      background_factors: []
+      medium: BG11+
+      temperature: 27.0-27.4C
+      light_condition: exponential light
+      light_intensity: 120 umol photons m-2 s-2
+      treatment_organism: Pseudomonas putida KT2440
+      treatment_taxid: 160488
+      table_scope: all_detected_genes
+
+  supplementary_materials:
+    # Sheet 1: RNA-seq coculture vs P. putida axenic (all P. putida genes)
+    # Gene IDs have "gene-" prefix (e.g., gene-M8001_RS21020) that will need stripping
+    # Also has locus tag column with PP_#### IDs and Protein ID (WP_*) column
+    sheet1_rnaseq_pputida:
+      type: csv
+      filename: data/Synechococcus/papers_and_supp/Kratzl 2024/data set s1 1_coculture vs Pputida_all 42003_2024_6098_MOESM3_ESM.csv
+      organism: Pseudomonas putida KT2440
+      id_columns:
+        - column: gene ID
+          id_type: locus_tag_ncbi
+        - column: locus tag
+          id_type: old_locus_tag
+      statistical_analyses:
+        - id: DE_rnaseq_coculture_vs_pputida
+          experiment: coculture_vs_pputida_axenic_rnaseq
+          name_col: gene ID
+          logfc_col: log2_foldChange
+          adjusted_p_value_col: adjusted p_value
+          pvalue_threshold: 0.05
+
+    # Sheet 6: RNA-seq coculture vs S. elongatus axenic (all S. elongatus genes)
+    # Gene IDs have "gene-" prefix (e.g., gene-H6G84_RS05480)
+    sheet6_rnaseq_selongatus:
+      type: csv
+      filename: data/Synechococcus/papers_and_supp/Kratzl 2024/data set s1 6_coculture vs Selongatus_all 42003_2024_6098_MOESM3_ESM.csv
+      organism: Synechococcus elongatus PCC 7942
+      id_columns:
+        - column: gene ID
+          id_type: locus_tag_ncbi
+        - column: Locus Tag
+          id_type: old_locus_tag
+      statistical_analyses:
+        - id: DE_rnaseq_coculture_vs_selongatus
+          experiment: coculture_vs_selongatus_axenic_rnaseq
+          name_col: gene ID
+          logfc_col: log2_foldChange
+          adjusted_p_value_col: adjusted p_value
+          pvalue_threshold: 0.05
+
+    # Sheet 11: Proteomics coculture vs P. putida axenic (all P. putida proteins)
+    # Uses UniProt accessions as Protein ID; Gene Name column has mixed gene names + locus tags
+    # Note: no p_value column, only adjusted p_value
+    sheet11_proteomics_pputida:
+      type: csv
+      filename: data/Synechococcus/papers_and_supp/Kratzl 2024/data set s1 11_coculture vs. Pputida_all 42003_2024_6098_MOESM3_ESM.csv
+      organism: Pseudomonas putida KT2440
+      id_columns:
+        - column: Protein ID
+          id_type: uniprot_accession
+        - column: Gene Name
+          id_type: gene_name
+      statistical_analyses:
+        - id: DE_proteomics_coculture_vs_pputida
+          experiment: coculture_vs_pputida_axenic_proteomics
+          name_col: Protein ID
+          logfc_col: log2_FC
+          adjusted_p_value_col: adjusted p_value
+          pvalue_threshold: 0.05
+
+    # Sheet 13: Proteomics coculture vs S. elongatus axenic (all S. elongatus proteins)
+    # Uses UniProt accessions as Protein ID; Gene Name column has mixed gene names + locus tags
+    sheet13_proteomics_selongatus:
+      type: csv
+      filename: data/Synechococcus/papers_and_supp/Kratzl 2024/data set s1 13_coculture vs Selongatus_all 42003_2024_6098_MOESM3_ESM.csv
+      organism: Synechococcus elongatus PCC 7942
+      id_columns:
+        - column: Protein ID
+          id_type: uniprot_accession
+        - column: Gene Name
+          id_type: gene_name
+      statistical_analyses:
+        - id: DE_proteomics_coculture_vs_selongatus
+          experiment: coculture_vs_selongatus_axenic_proteomics
+          name_col: Protein ID
+          logfc_col: log2-fold change
+          adjusted_p_value_col: adjusted p_value
+          pvalue_threshold: 0.05
