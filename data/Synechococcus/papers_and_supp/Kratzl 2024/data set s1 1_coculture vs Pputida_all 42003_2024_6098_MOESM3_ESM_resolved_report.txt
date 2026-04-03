@@ -1,0 +1,40 @@
+Resolution report: Kratzl 2024 / sheet1_rnaseq_pputida
+Source: data set s1 1_coculture vs Pputida_all 42003_2024_6098_MOESM3_ESM.csv
+name_col: gene ID
+id_columns: ['gene ID', 'locus tag']
+
+Total rows with IDs: 5218
+Resolved: 4305 (82.5%)
+Unresolved: 913
+
+Resolution method breakdown:
+  ambiguous: 4
+  locus_tag:locus tag: 16
+  multi:locus tag: 5
+  tier1:gene ID: 4284
+  unresolved: 909
+
+Unresolved rows (913):
+  row 47: raw_id='gene-M8001_RS03690'  reason=unresolved  [gene ID='gene-M8001_RS03690', locus tag='PP_0688']
+  row 1036: raw_id='gene-M8001_RS01695'  reason=unresolved  [gene ID='gene-M8001_RS01695', locus tag='PP_0317']
+  row 1037: raw_id='gene-M8001_RS01710'  reason=unresolved  [gene ID='gene-M8001_RS01710', locus tag='PP_0320']
+  row 1179: raw_id='gene-M8001_RS03085'  reason=unresolved  [gene ID='gene-M8001_RS03085', locus tag='PP_0584']
+  row 1545: raw_id='gene-M8001_RS06420'  reason=unresolved  [gene ID='gene-M8001_RS06420', locus tag='PP_1228']
+  row 1617: raw_id='gene-M8001_RS07140'  reason=unresolved  [gene ID='gene-M8001_RS07140', locus tag='PP_1371']
+  row 1847: raw_id='gene-M8001_RS09435'  reason=unresolved  [gene ID='gene-M8001_RS09435', locus tag='PP_1819']
+  row 1922: raw_id='gene-M8001_RS10120'  reason=unresolved  [gene ID='gene-M8001_RS10120', locus tag='PP_1940']
+  row 2445: raw_id='gene-M8001_RS14965'  reason=unresolved  [gene ID='gene-M8001_RS14965', locus tag='PP_2861']
+  row 2769: raw_id='gene-M8001_RS17920'  reason=unresolved  [gene ID='gene-M8001_RS17920', locus tag='PP_3414']
+  row 2862: raw_id='gene-M8001_RS18635'  reason=unresolved  [gene ID='gene-M8001_RS18635', locus tag='PP_3557']
+  row 3691: raw_id='gene-M8001_RS26400'  reason=unresolved  [gene ID='gene-M8001_RS26400', locus tag='PP_5020']
+  row 3692: raw_id='gene-M8001_RS26405'  reason=unresolved  [gene ID='gene-M8001_RS26405', locus tag='PP_5021']
+  row 3985: raw_id='gene-M8001_RS05840'  reason=unresolved  [gene ID='gene-M8001_RS05840', locus tag='PP_5465']
+  row 4119: raw_id='gene-M8001_RS25735'  reason=unresolved  [gene ID='gene-M8001_RS25735', locus tag='PP_4888']
+  row 4222: raw_id='gene-M8001_RS07120'  reason=unresolved  [gene ID='gene-M8001_RS07120', locus tag='PP_5468']
+  row 4225: raw_id='gene-M8001_RS09855'  reason=unresolved  [gene ID='gene-M8001_RS09855', locus tag='PP_5481']
+  row 4253: raw_id='gene-M8001_RS28275'  reason=unresolved  [gene ID='gene-M8001_RS28275', locus tag='PP_5733']
+  row 4254: raw_id='gene-M8001_RS15520'  reason=unresolved  [gene ID='gene-M8001_RS15520', locus tag='DM483_04375']
+  row 4255: raw_id='gene-M8001_RS05590'  reason=unresolved  [gene ID='gene-M8001_RS05590', locus tag='DM483_02235']
+  ... (893 more)
+
+NOTE: 4 rows were ambiguous (multi_lookup had >1 match). Consider adding id_columns with more specific IDs, or check if the name_col should be Tier 2 (protein-level) instead of Tier 1.

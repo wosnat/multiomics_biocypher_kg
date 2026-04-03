@@ -1,0 +1,35 @@
+Resolution report: Coe 2024 / supp_table_3_parental_clusters
+Source: Supplemental Table 3.csv
+name_col: gene
+id_columns: []
+
+Total rows with IDs: 2081
+Resolved: 2034 (97.7%)
+Unresolved: 47
+
+Resolution method breakdown:
+  multi:gene: 2034
+  unresolved: 47
+
+Unresolved rows (47):
+  row 1: raw_id='Yfr1'  reason=unresolved
+  row 2: raw_id='Yfr10.like_1'  reason=unresolved
+  row 3: raw_id='Yfr10.like_2'  reason=unresolved
+  row 4: raw_id='Yfr10.like_4'  reason=unresolved
+  row 5: raw_id='Yfr103_1'  reason=unresolved
+  row 6: raw_id='Yfr103_2'  reason=unresolved
+  row 7: raw_id='Yfr106'  reason=unresolved
+  row 9: raw_id='Yfr108'  reason=unresolved
+  row 10: raw_id='Yfr13'  reason=unresolved
+  row 11: raw_id='Yfr22_1'  reason=unresolved
+  row 12: raw_id='Yfr22_2'  reason=unresolved
+  row 13: raw_id='Yfr22_3'  reason=unresolved
+  row 14: raw_id='Yfr23'  reason=unresolved
+  row 15: raw_id='Yfr2_1'  reason=unresolved
+  row 16: raw_id='Yfr2_2'  reason=unresolved
+  row 18: raw_id='Yfr2_4'  reason=unresolved
+  row 20: raw_id='cds-PMN2A_RS05260'  reason=unresolved
+  row 1369: raw_id='cds-WP_011295110.1'  reason=unresolved
+  row 1380: raw_id='cds-WP_011295140.1'  reason=unresolved
+  row 1831: raw_id='cds-WP_041710958.1'  reason=unresolved
+  ... (27 more)

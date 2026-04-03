@@ -1,0 +1,42 @@
+{
+  "per_id_type": {
+    "cds_fna_id": {
+      "conflict": 0,
+      "multi": 0,
+      "unique": 3207
+    },
+    "gene_name": {
+      "conflict": 0,
+      "multi": 195,
+      "unique": 1006
+    },
+    "gene_synonym": {
+      "conflict": 0,
+      "multi": 1,
+      "unique": 5609
+    },
+    "locus_tag_ncbi": {
+      "conflict": 69,
+      "multi": 0,
+      "unique": 7048
+    },
+    "protein_id_refseq": {
+      "conflict": 0,
+      "multi": 20,
+      "unique": 6287
+    },
+    "uniprot_accession": {
+      "conflict": 0,
+      "multi": 0,
+      "unique": 5
+    }
+  },
+  "strain": "PCC7002",
+  "unresolved_rows_per_source": {
+    "cds_from_genomic.fna": 19,
+    "genomic_gca/PCC7002": 221
+  },
+  "warnings": [
+    "[CONFLICT] Tier 1 id_type 'locus_tag_ncbi' has 69 data conflicts \u2014 check annotation quality."
+  ]
+}

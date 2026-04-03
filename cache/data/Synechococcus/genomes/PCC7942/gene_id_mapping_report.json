@@ -1,0 +1,49 @@
+{
+  "per_id_type": {
+    "cds_fna_id": {
+      "conflict": 0,
+      "multi": 0,
+      "unique": 2711
+    },
+    "gene_name": {
+      "conflict": 0,
+      "multi": 72,
+      "unique": 718
+    },
+    "gene_synonym": {
+      "conflict": 0,
+      "multi": 7,
+      "unique": 4762
+    },
+    "locus_tag_ncbi": {
+      "conflict": 0,
+      "multi": 0,
+      "unique": 7099
+    },
+    "old_locus_tag": {
+      "conflict": 14,
+      "multi": 0,
+      "unique": 1249
+    },
+    "protein_id_refseq": {
+      "conflict": 0,
+      "multi": 8,
+      "unique": 5319
+    },
+    "uniprot_accession": {
+      "conflict": 0,
+      "multi": 0,
+      "unique": 1828
+    }
+  },
+  "strain": "PCC7942",
+  "unresolved_rows_per_source": {
+    "Kratzl 2024/sheet13_proteomics_selongatus": 270,
+    "Kratzl 2024/sheet6_rnaseq_selongatus": 813,
+    "cds_from_genomic.fna": 9,
+    "genomic_gca/PCC7942": 148
+  },
+  "warnings": [
+    "[CONFLICT] Tier 1 id_type 'old_locus_tag' has 14 data conflicts \u2014 check annotation quality."
+  ]
+}

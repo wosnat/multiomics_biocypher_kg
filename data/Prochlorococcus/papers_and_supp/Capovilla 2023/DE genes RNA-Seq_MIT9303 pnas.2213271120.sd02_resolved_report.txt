@@ -1,0 +1,13 @@
+Resolution report: Capovilla 2023 / de_genes_mit9303
+Source: DE genes RNA-Seq_MIT9303 pnas.2213271120.sd02.csv
+name_col: ncbi_gene_locus_tag
+id_columns: ['ncbi_gene_locus_tag']
+
+Total rows with IDs: 25
+Resolved: 25 (100.0%)
+Unresolved: 0
+
+Resolution method breakdown:
+  empty: 11
+  locus_tag:ncbi_gene_locus_tag: 4
+  tier1:ncbi_gene_locus_tag: 21

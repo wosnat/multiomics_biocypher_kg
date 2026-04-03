@@ -1,0 +1,29 @@
+Resolution report: Biller 2018 / mit1002_periodicity
+Source: table s4B sys003182233st4.csv
+name_col: Locus ID
+id_columns: []
+
+Total rows with IDs: 531
+Resolved: 516 (97.2%)
+Unresolved: 15
+
+Resolution method breakdown:
+  tier1:Locus ID: 516
+  unresolved: 15
+
+Unresolved rows (15):
+  row 27: raw_id='MIT1002_0163'  reason=unresolved
+  row 138: raw_id='MIT1002_0952'  reason=unresolved
+  row 144: raw_id='MIT1002_1012'  reason=unresolved
+  row 150: raw_id='MIT1002_1068'  reason=unresolved
+  row 203: raw_id='MIT1002_1499'  reason=unresolved
+  row 251: raw_id='MIT1002_1889'  reason=unresolved
+  row 275: raw_id='MIT1002_2094'  reason=unresolved
+  row 282: raw_id='MIT1002_2197'  reason=unresolved
+  row 314: raw_id='MIT1002_2359'  reason=unresolved
+  row 379: raw_id='MIT1002_2804'  reason=unresolved
+  row 387: raw_id='MIT1002_2856'  reason=unresolved
+  row 433: raw_id='MIT1002_3342'  reason=unresolved
+  row 477: raw_id='MIT1002_3678'  reason=unresolved
+  row 495: raw_id='MIT1002_3854'  reason=unresolved
+  row 521: raw_id='MIT1002_4101'  reason=unresolved

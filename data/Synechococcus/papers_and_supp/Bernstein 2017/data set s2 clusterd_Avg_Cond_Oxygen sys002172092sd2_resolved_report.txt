@@ -1,0 +1,36 @@
+Resolution report: Bernstein 2017 / bp1_oxygen_clusters
+Source: data set s2 clusterd_Avg_Cond_Oxygen sys002172092sd2.csv
+name_col: NCBI Locus Tag
+id_columns: []
+
+Total rows with IDs: 4492
+Resolved: 2331 (51.9%)
+Unresolved: 2161
+
+Resolution method breakdown:
+  locus_tag:NCBI Locus Tag: 2306
+  multi:NCBI Locus Tag: 25
+  unresolved: 2161
+
+Unresolved rows (2161):
+  row 0: raw_id='SY28_RS00050'  reason=unresolved
+  row 1: raw_id='SY28_RS00500'  reason=unresolved
+  row 2: raw_id='SY28_RS04985'  reason=unresolved
+  row 3: raw_id='SY28_RS04990'  reason=unresolved
+  row 4: raw_id='SY28_RS04995'  reason=unresolved
+  row 5: raw_id='SY28_RS05000'  reason=unresolved
+  row 6: raw_id='SY28_RS05005'  reason=unresolved
+  row 7: raw_id='SY28_RS05010'  reason=unresolved
+  row 8: raw_id='SY28_RS05020'  reason=unresolved
+  row 9: raw_id='SY28_RS05025'  reason=unresolved
+  row 10: raw_id='SY28_RS00505'  reason=unresolved
+  row 11: raw_id='SY28_RS05035'  reason=unresolved
+  row 12: raw_id='SY28_RS05040'  reason=unresolved
+  row 13: raw_id='SY28_RS05045'  reason=unresolved
+  row 14: raw_id='SY28_RS05050'  reason=unresolved
+  row 15: raw_id='SY28_RS05055'  reason=unresolved
+  row 16: raw_id='SY28_RS05060'  reason=unresolved
+  row 17: raw_id='SY28_RS05065'  reason=unresolved
+  row 18: raw_id='SY28_RS05070'  reason=unresolved
+  row 19: raw_id='SY28_RS05075'  reason=unresolved
+  ... (2141 more)

@@ -1,0 +1,342 @@
+{
+  "A0ACD6B8F2": {
+    "annotation_score": 1.0,
+    "gene_names": [
+      "SYNPCC7002_A0075"
+    ],
+    "is_reviewed": "not reviewed",
+    "keyword_ids": [
+      "KW-0002",
+      "KW-0378"
+    ],
+    "keywords": [
+      "3D-structure",
+      "Hydrolase"
+    ],
+    "locus_tag": "SYNPCC7002_A0075",
+    "molecular_mass": 57772,
+    "organism_id": 32049,
+    "organism_name": "Picosynechococcus sp. (strain ATCC 27264 / PCC 7002 / PR-6) (Agmenellum quadruplicatum)",
+    "protein_synonyms": "Glycosyl hydrolase family 3",
+    "sequence_length": 532
+  },
+  "A0ACD6B8F3": {
+    "annotation_score": 1.0,
+    "gene_names": [
+      "SYNPCC7002_A1173"
+    ],
+    "is_reviewed": "not reviewed",
+    "keyword_ids": [
+      "KW-0002",
+      "KW-0547"
+    ],
+    "keywords": [
+      "3D-structure",
+      "Nucleotide-binding"
+    ],
+    "locus_tag": "SYNPCC7002_A1173",
+    "molecular_mass": 299117,
+    "organism_id": 32049,
+    "organism_name": "Picosynechococcus sp. (strain ATCC 27264 / PCC 7002 / PR-6) (Agmenellum quadruplicatum)",
+    "protein_synonyms": "Polyketide synthase",
+    "sequence_length": 2720
+  },
+  "A0ACD6B8F4": {
+    "annotation_score": 1.0,
+    "gene_names": [
+      "SYNPCC7002_A2771"
+    ],
+    "is_reviewed": "not reviewed",
+    "keyword_ids": [
+      "KW-0002",
+      "KW-0547"
+    ],
+    "keywords": [
+      "3D-structure",
+      "Nucleotide-binding"
+    ],
+    "locus_tag": "SYNPCC7002_A2771",
+    "molecular_mass": 49019,
+    "organism_id": 32049,
+    "organism_name": "Picosynechococcus sp. (strain ATCC 27264 / PCC 7002 / PR-6) (Agmenellum quadruplicatum)",
+    "protein_synonyms": "Succinate-semialdehyde dehydrogenase",
+    "sequence_length": 454
+  },
+  "A0ACD6B8F5": {
+    "annotation_score": 1.0,
+    "gene_names": [
+      "SYNPCC7002_A2791"
+    ],
+    "is_reviewed": "not reviewed",
+    "keyword_ids": [
+      "KW-0002",
+      "KW-0479",
+      "KW-0862"
+    ],
+    "keywords": [
+      "3D-structure",
+      "Metal-binding",
+      "Zinc"
+    ],
+    "locus_tag": "SYNPCC7002_A2791",
+    "molecular_mass": 33812,
+    "organism_id": 32049,
+    "organism_name": "Picosynechococcus sp. (strain ATCC 27264 / PCC 7002 / PR-6) (Agmenellum quadruplicatum)",
+    "protein_synonyms": "Acetylpolyamine aminohydrolase",
+    "sequence_length": 305
+  },
+  "B1XHU9": {
+    "annotation_score": 2.0,
+    "eggnog_ids": "COG1215",
+    "function_description": "Catalyzes the glycosylation of 4,4^-diaponeurosporenoate, i.e. the esterification of glucose at the C1^^ position with the carboxyl group of 4,4^-diaponeurosporenic acid, to form glycosyl-4,4^-diaponeurosporenoate. This is a step in the biosynthesis of staphyloxanthin, an orange pigment present in most staphylococci strains",
+    "gene_names": [
+      "cruG",
+      "SYNPCC7002_A2031"
+    ],
+    "gene_symbol": "cruG",
+    "go_cellular_components": [
+      "GO:0005886"
+    ],
+    "go_molecular_functions": [
+      "GO:0016757"
+    ],
+    "is_reviewed": "not reviewed",
+    "keyword_ids": [
+      "KW-1003",
+      "KW-0328",
+      "KW-0472",
+      "KW-0808",
+      "KW-0812",
+      "KW-1133"
+    ],
+    "keywords": [
+      "Cell membrane",
+      "Glycosyltransferase",
+      "Membrane",
+      "Transferase",
+      "Transmembrane",
+      "Transmembrane helix"
+    ],
+    "locus_tag": "SYNPCC7002_A2031",
+    "molecular_mass": 44168,
+    "organism_id": 32049,
+    "organism_name": "Picosynechococcus sp. (strain ATCC 27264 / PCC 7002 / PR-6) (Agmenellum quadruplicatum)",
+    "pathways": [
+      "Carotenoid biosynthesis; staphyloxanthin biosynthesis; staphyloxanthin from farnesyl diphosphate: step 4/5"
+    ],
+    "pfam_ids": [
+      "PF00535"
+    ],
+    "protein_family": "Glycosyltransferase 2 family, CrtQ subfamily",
+    "protein_synonyms": "4,4^-diaponeurosporenoate glycosyltransferase",
+    "refseq_ids": [
+      "WP_012307640.1"
+    ],
+    "sequence_length": 397,
+    "string_ids": "32049.SYNPCC7002_A2031",
+    "transmembrane_regions": [
+      "6..27",
+      "298..319",
+      "331..351"
+    ]
+  },
+  "B1XHV0": {
+    "annotation_score": 1.0,
+    "eggnog_ids": "COG2324",
+    "gene_names": [
+      "cruF",
+      "SYNPCC7002_A2032"
+    ],
+    "gene_symbol": "cruF",
+    "is_reviewed": "not reviewed",
+    "keyword_ids": [
+      "KW-0472",
+      "KW-0812",
+      "KW-1133"
+    ],
+    "keywords": [
+      "Membrane",
+      "Transmembrane",
+      "Transmembrane helix"
+    ],
+    "locus_tag": "SYNPCC7002_A2032",
+    "molecular_mass": 32942,
+    "organism_id": 32049,
+    "organism_name": "Picosynechococcus sp. (strain ATCC 27264 / PCC 7002 / PR-6) (Agmenellum quadruplicatum)",
+    "pfam_ids": [
+      "PF04240"
+    ],
+    "protein_synonyms": "Gamma-carotene 1^ hydroxylase myxoxanthophyll biosynthesis protein",
+    "refseq_ids": [
+      "WP_012307641.1"
+    ],
+    "sequence_length": 302,
+    "string_ids": "32049.SYNPCC7002_A2032",
+    "transmembrane_regions": [
+      "12..30",
+      "50..71",
+      "78..97",
+      "117..140",
+      "152..169",
+      "201..219",
+      "231..252",
+      "258..276"
+    ]
+  },
+  "O68971": {
+    "annotation_score": 2.0,
+    "eggnog_ids": "ENOG5032S63",
+    "function_description": "Rod linker protein, associated with allophycocyanin. Linker polypeptides determine the state of aggregation and the location of the disk-shaped phycobiliprotein units within the phycobilisome and modulate their spectroscopic properties in order to mediate a directed and optimal energy transfer",
+    "gene_names": [
+      "apcC",
+      "SYNPCC7002_A1928"
+    ],
+    "gene_symbol": "apcC",
+    "go_biological_processes": [
+      "GO:0015979"
+    ],
+    "go_cellular_components": [
+      "GO:0030089",
+      "GO:0031676"
+    ],
+    "is_reviewed": "not reviewed",
+    "keyword_ids": [
+      "KW-0002",
+      "KW-0042",
+      "KW-0472",
+      "KW-0602",
+      "KW-0605",
+      "KW-0793"
+    ],
+    "keywords": [
+      "3D-structure",
+      "Antenna complex",
+      "Membrane",
+      "Photosynthesis",
+      "Phycobilisome",
+      "Thylakoid"
+    ],
+    "locus_tag": "SYNPCC7002_A1928",
+    "molecular_mass": 7794,
+    "organism_id": 32049,
+    "organism_name": "Picosynechococcus sp. (strain ATCC 27264 / PCC 7002 / PR-6) (Agmenellum quadruplicatum)",
+    "pfam_ids": [
+      "PF01383"
+    ],
+    "protein_family": "Phycobilisome linker protein family",
+    "protein_synonyms": "Phycobilisome 7.8 kDa linker polypeptide, allophycocyanin-associated, core",
+    "refseq_ids": [
+      "WP_012307538.1"
+    ],
+    "sequence_length": 67,
+    "string_ids": "32049.SYNPCC7002_A1928"
+  },
+  "Q8KX15": {
+    "annotation_score": 2.0,
+    "eggnog_ids": "COG2010",
+    "gene_names": [
+      "petJ2",
+      "petJ",
+      "SYNPCC7002_A2391"
+    ],
+    "gene_symbol": "petJ2",
+    "go_biological_processes": [
+      "GO:0015979"
+    ],
+    "go_cellular_components": [
+      "GO:0031979"
+    ],
+    "go_molecular_functions": [
+      "GO:0009055",
+      "GO:0020037",
+      "GO:0005506"
+    ],
+    "is_reviewed": "not reviewed",
+    "keyword_ids": [
+      "KW-0002",
+      "KW-0249",
+      "KW-0349",
+      "KW-0408",
+      "KW-0479",
+      "KW-0602",
+      "KW-0732",
+      "KW-0793",
+      "KW-0813"
+    ],
+    "keywords": [
+      "3D-structure",
+      "Electron transport",
+      "Heme",
+      "Iron",
+      "Metal-binding",
+      "Photosynthesis",
+      "Signal",
+      "Thylakoid",
+      "Transport"
+    ],
+    "locus_tag": "SYNPCC7002_A2391",
+    "molecular_mass": 12478,
+    "organism_id": 32049,
+    "organism_name": "Picosynechococcus sp. (strain ATCC 27264 / PCC 7002 / PR-6) (Agmenellum quadruplicatum)",
+    "pfam_ids": [
+      "PF13442"
+    ],
+    "protein_family": "Cytochrome c family, PetJ subfamily",
+    "protein_synonyms": "Cytochrome c6",
+    "refseq_ids": [
+      "WP_012307987.1"
+    ],
+    "sequence_length": 115,
+    "signal_peptide": "1..28",
+    "string_ids": "32049.SYNPCC7002_A2391"
+  },
+  "Q8RT58": {
+    "annotation_score": 2.0,
+    "cofactor_names": [
+      "heme"
+    ],
+    "eggnog_ids": "COG2346",
+    "gene_names": [
+      "glbN",
+      "SYNPCC7002_A1621"
+    ],
+    "gene_symbol": "glbN",
+    "go_molecular_functions": [
+      "GO:0020037",
+      "GO:0046872",
+      "GO:0019825",
+      "GO:0005344"
+    ],
+    "is_reviewed": "not reviewed",
+    "keyword_ids": [
+      "KW-0002",
+      "KW-0349",
+      "KW-0408",
+      "KW-0479",
+      "KW-0561",
+      "KW-0813"
+    ],
+    "keywords": [
+      "3D-structure",
+      "Heme",
+      "Iron",
+      "Metal-binding",
+      "Oxygen transport",
+      "Transport"
+    ],
+    "locus_tag": "SYNPCC7002_A1621",
+    "molecular_mass": 13857,
+    "organism_id": 32049,
+    "organism_name": "Picosynechococcus sp. (strain ATCC 27264 / PCC 7002 / PR-6) (Agmenellum quadruplicatum)",
+    "pfam_ids": [
+      "PF01152"
+    ],
+    "protein_family": "Truncated hemoglobin family, Group I subfamily",
+    "protein_synonyms": "Group 1 truncated hemoglobin",
+    "refseq_ids": [
+      "WP_012307234.1"
+    ],
+    "sequence_length": 124,
+    "string_ids": "32049.SYNPCC7002_A1621"
+  }
+}

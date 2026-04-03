@@ -1,0 +1,36 @@
+Resolution report: Wang 2014 / med4_expression_level
+Source: GeneClassification_clean.csv
+name_col: sysName
+id_columns: []
+
+Total rows with IDs: 2058
+Resolved: 1716 (83.4%)
+Unresolved: 342
+
+Resolution method breakdown:
+  empty: 1
+  locus_tag:sysName: 1716
+  unresolved: 342
+
+Unresolved rows (342):
+  row 39: raw_id='HyPMM1'  reason=unresolved
+  row 51: raw_id='HyPMM2'  reason=unresolved
+  row 54: raw_id='HyPMM3'  reason=unresolved
+  row 55: raw_id='RNA_43'  reason=unresolved
+  row 59: raw_id='HyPMM4'  reason=unresolved
+  row 64: raw_id='RNA_37'  reason=unresolved
+  row 67: raw_id='asRNA_00641'  reason=unresolved
+  row 81: raw_id='asRNA_00771'  reason=unresolved
+  row 83: raw_id='HyPMM5'  reason=unresolved
+  row 97: raw_id='HyPMM6'  reason=unresolved
+  row 99: raw_id='HyPMM7'  reason=unresolved
+  row 113: raw_id='PMM102a'  reason=unresolved
+  row 137: raw_id='RNA_1'  reason=unresolved
+  row 241: raw_id='asRNA_02331'  reason=unresolved
+  row 249: raw_id='HyPMM8'  reason=unresolved
+  row 251: raw_id='RNA_2'  reason=unresolved
+  row 274: raw_id='RNA_36'  reason=unresolved
+  row 285: raw_id='asRNA_02731'  reason=unresolved
+  row 292: raw_id='RNA_35'  reason=unresolved
+  row 323: raw_id='HyPMM9'  reason=unresolved
+  ... (322 more)

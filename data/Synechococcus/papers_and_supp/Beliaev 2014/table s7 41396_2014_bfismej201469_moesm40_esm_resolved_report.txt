@@ -1,0 +1,37 @@
+Resolution report: Beliaev 2014 / supp_table_s7
+Source: table s7 41396_2014_bfismej201469_moesm40_esm.csv
+name_col:  Locus tag
+id_columns: []
+
+Total rows with IDs: 701
+Resolved: 674 (96.1%)
+Unresolved: 27
+
+Resolution method breakdown:
+  empty: 1
+  locus_tag: Locus tag: 673
+  tier1: Locus tag: 1
+  unresolved: 27
+
+Unresolved rows (27):
+  row 246: raw_id='SYNPCC7002_A0262'  reason=unresolved
+  row 381: raw_id='SYNPCC7002_A0471'  reason=unresolved
+  row 385: raw_id='SYNPCC7002_F0109'  reason=unresolved
+  row 387: raw_id='SYNPCC7002_A1740'  reason=unresolved
+  row 389: raw_id='SYNPCC7002_A2259'  reason=unresolved
+  row 406: raw_id='SYNPCC7002_A0473'  reason=unresolved
+  row 408: raw_id='SYNPCC7002_A2001'  reason=unresolved
+  row 410: raw_id='SYNPCC7002_F0104'  reason=unresolved
+  row 412: raw_id='SYNPCC7002_A1972'  reason=unresolved
+  row 419: raw_id='SYNPCC7002_A2768'  reason=unresolved
+  row 425: raw_id='SYNPCC7002_G0038'  reason=unresolved
+  row 435: raw_id='SYNPCC7002_A2666'  reason=unresolved
+  row 441: raw_id='SYNPCC7002_A1765'  reason=unresolved
+  row 456: raw_id='SYNPCC7002_A0536'  reason=unresolved
+  row 462: raw_id='SYNPCC7002_A2652'  reason=unresolved
+  row 468: raw_id='SYNPCC7002_A1187'  reason=unresolved
+  row 469: raw_id='SYNPCC7002_A2237'  reason=unresolved
+  row 507: raw_id='SYNPCC7002_A2725'  reason=unresolved
+  row 561: raw_id='SYNPCC7002_A2007'  reason=unresolved
+  row 583: raw_id='SYNPCC7002_E0017'  reason=unresolved
+  ... (7 more)

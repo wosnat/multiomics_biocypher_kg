@@ -1,0 +1,35 @@
+Resolution report: Zinser 2009 / med4_diel_clusters
+Source: Table_S1.csv
+name_col: Gene or region
+id_columns: []
+
+Total rows with IDs: 3610
+Resolved: 1696 (47.0%)
+Unresolved: 1914
+
+Resolution method breakdown:
+  locus_tag:Gene or region: 1696
+  unresolved: 1914
+
+Unresolved rows (1914):
+  row 381: raw_id='PMM0385'  reason=unresolved
+  row 1697: raw_id='PMMIG_5END_PMM0001'  reason=unresolved
+  row 1698: raw_id='PMMIG_5END_PMM0001'  reason=unresolved
+  row 1699: raw_id='PMMIG_PMM0003_PMM0004'  reason=unresolved
+  row 1700: raw_id='PMMIG_PMM0003_PMM0004'  reason=unresolved
+  row 1701: raw_id='PMMIG_PMM0005_PMM0006'  reason=unresolved
+  row 1702: raw_id='PMMIG_PMM0005_PMM0006'  reason=unresolved
+  row 1703: raw_id='PMMIG_PMM0007_PMM0008'  reason=unresolved
+  row 1704: raw_id='PMMIG_PMM0007_PMM0008'  reason=unresolved
+  row 1705: raw_id='PMMIG_PMM0010_PMM0011'  reason=unresolved
+  row 1706: raw_id='PMMIG_PMM0010_PMM0011'  reason=unresolved
+  row 1707: raw_id='PMMIG_PMM0011_PMM0012'  reason=unresolved
+  row 1708: raw_id='PMMIG_PMM0011_PMM0012'  reason=unresolved
+  row 1709: raw_id='PMMIG_PMM0012_PMM0013'  reason=unresolved
+  row 1710: raw_id='PMMIG_PMM0012_PMM0013'  reason=unresolved
+  row 1711: raw_id='PMMIG_PMM0014_PMM0015'  reason=unresolved
+  row 1712: raw_id='PMMIG_PMM0014_PMM0015'  reason=unresolved
+  row 1713: raw_id='PMMIG_PMM0015_PMM0016'  reason=unresolved
+  row 1714: raw_id='PMMIG_PMM0015_PMM0016'  reason=unresolved
+  row 1715: raw_id='PMMIG_PMM0016_PMM0017'  reason=unresolved
+  ... (1894 more)

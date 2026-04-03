@@ -1,0 +1,47 @@
+{
+  "per_id_type": {
+    "cds_fna_id": {
+      "conflict": 0,
+      "multi": 0,
+      "unique": 2456
+    },
+    "gene_name": {
+      "conflict": 0,
+      "multi": 225,
+      "unique": 1327
+    },
+    "gene_synonym": {
+      "conflict": 0,
+      "multi": 0,
+      "unique": 4961
+    },
+    "locus_tag_cyanorak": {
+      "conflict": 0,
+      "multi": 0,
+      "unique": 2577
+    },
+    "locus_tag_ncbi": {
+      "conflict": 80,
+      "multi": 0,
+      "unique": 5809
+    },
+    "old_locus_tag": {
+      "conflict": 0,
+      "multi": 0,
+      "unique": 24
+    },
+    "protein_id_refseq": {
+      "conflict": 0,
+      "multi": 5,
+      "unique": 4976
+    }
+  },
+  "strain": "WH7803",
+  "unresolved_rows_per_source": {
+    "cds_from_genomic.fna": 18,
+    "genomic_gca/WH7803": 75
+  },
+  "warnings": [
+    "[CONFLICT] Tier 1 id_type 'locus_tag_ncbi' has 80 data conflicts \u2014 check annotation quality."
+  ]
+}

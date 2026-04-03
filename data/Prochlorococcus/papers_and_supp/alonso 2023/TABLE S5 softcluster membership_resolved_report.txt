@@ -1,0 +1,18 @@
+Resolution report: Alonso-Saez 2023 / mit9301_softclusters_thermal_acclimation
+Source: TABLE S5 softcluster membership.csv
+name_col: RefSeq Locus Tag
+id_columns: []
+
+Total rows with IDs: 1760
+Resolved: 1757 (99.8%)
+Unresolved: 3
+
+Resolution method breakdown:
+  empty: 71
+  locus_tag:RefSeq Locus Tag: 1757
+  unresolved: 3
+
+Unresolved rows (3):
+  row 60: raw_id='P9301_00651'  reason=unresolved
+  row 851: raw_id='P9301_09081'  reason=unresolved
+  row 1005: raw_id='P9301_10831'  reason=unresolved
