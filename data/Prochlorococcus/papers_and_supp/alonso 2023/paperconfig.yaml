@@ -1,0 +1,23 @@
+publication:
+  papername: "Alonso-Saez 2023"
+  papermainpdf: "data/Prochlorococcus/papers_and_supp/alonso 2023/alonso-sáez-et-al-2023-transcriptional-mechanisms-of-thermal-acclimation-in-prochlorococcus.pdf"
+
+  supplementary_materials:
+    mit9301_softclusters_thermal_acclimation:
+      type: gene_clusters
+      name: "MIT9301 fuzzy c-means thermal acclimation clusters"
+      filename: "data/Prochlorococcus/papers_and_supp/alonso 2023/TABLE S5 softcluster membership.csv"
+      organism: "Prochlorococcus MIT9301"
+      gene_id_col: "RefSeq Locus Tag"
+      cluster_col: "Soft cluster"
+      # No single score column; per-cluster probabilities in separate columns
+      # (Probability score Cluster A..E). Could derive max-probability in preprocessing.
+      cluster_type: "expression_pattern"
+      cluster_method: "Fuzzy c-means (K=5)"
+      omics_type: RNASEQ
+      treatment_type: ["temperature"]
+      background_factors: ["axenic", "diel_cycle"]
+      treatment: "Long-term thermal acclimation across thermal niche (17, 20, 22, 25, 30C)"
+      light_condition: "12h:12h light/dark cycle"
+      experimental_context: "Prochlorococcus MIT9301 acclimated long-term to 5 temperatures (17-30C) under 12h:12h L/D; RNA-Seq sampled 3h after subjective sunrise (day) and sunset (night); fuzzy c-means clustering of day/night expression patterns across thermal gradient"
+      skip_rows: 2
