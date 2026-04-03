@@ -46,6 +46,19 @@ ORGANISM_TO_GENOME_DIR = {
     "alteromonas ez55": "cache/data/Alteromonas/genomes/EZ55",
     "alteromonas macleodii hot1a3": "cache/data/Alteromonas/genomes/HOT1A3",
     "alteromonas hot1a3": "cache/data/Alteromonas/genomes/HOT1A3",
+    # New organisms (Synechococcus integration, April 2026)
+    "prochlorococcus mit9303": "cache/data/Prochlorococcus/genomes/MIT9303",
+    "synechococcus wh7803": "cache/data/Synechococcus/genomes/WH7803",
+    "synechococcus pcc 7002": "cache/data/Synechococcus/genomes/PCC7002",
+    "picosynechococcus pcc 7002": "cache/data/Synechococcus/genomes/PCC7002",
+    "synechococcus elongatus pcc 7942": "cache/data/Synechococcus/genomes/PCC7942",
+    "synechococcus elongatus utex 2973": "cache/data/Synechococcus/genomes/UTEX2973",
+    "thermosynechococcus vestitus bp-1": "cache/data/Thermosynechococcus/genomes/BP1",
+    "thermosynechococcus elongatus bp-1": "cache/data/Thermosynechococcus/genomes/BP1",
+    "shewanella sp. w3-18-1": "cache/data/Shewanella/genomes/W3-18-1",
+    "shewanella putrefaciens w3-18-1": "cache/data/Shewanella/genomes/W3-18-1",
+    "pseudomonas putida kt2440": "cache/data/Pseudomonas/genomes/KT2440",
+    "ruegeria pomeroyi dss-3": "cache/data/Ruegeria/genomes/DSS-3",
 }
 
 # ─── Patterns & keywords ──────────────────────────────────────────────────────
