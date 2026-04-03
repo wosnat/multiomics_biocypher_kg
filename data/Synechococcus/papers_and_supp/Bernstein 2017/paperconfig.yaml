@@ -1,0 +1,40 @@
+publication:
+  papername: Bernstein 2017
+  papermainpdf: data/Synechococcus/papers_and_supp/Bernstein 2017/Synechococcus-Meiothermus co-culture mSystems 2017.pdf
+
+  experiments: {}
+
+  supplementary_materials:
+    # ── Gene cluster data (light condition clustering) ──────────────────
+    bp1_light_clusters:
+      type: gene_clusters
+      name: "BP-1 transcript clusters by light condition (coculture with M. ruber)"
+      filename: "data/Synechococcus/papers_and_supp/Bernstein 2017/data set s2 clustered_Avg_Cond_Light sys002172092sd2.csv"
+      organism: "Thermosynechococcus elongatus BP-1"
+      gene_id_col: "NCBI Locus Tag"
+      cluster_col: "ClustID_light"
+      cluster_type: "response_pattern"
+      cluster_method: "hierarchical clustering"
+      omics_type: RNASEQ
+      light_condition: "variable (low/medium/high)"
+      treatment_type: ["coculture"]
+      background_factors: []
+      treatment: "Binary coculture with Meiothermus ruber strain A under 3 light levels (low/medium/high) at low oxygen"
+      experimental_context: "T. elongatus BP-1 in binary coculture with M. ruber strain A in photobioreactors; RNA-seq (Illumina NextSeq); transcript abundances averaged per light condition (LLLO, MLLO, HLLO)"
+
+    # ── Gene cluster data (oxygen condition clustering) ─────────────────
+    bp1_oxygen_clusters:
+      type: gene_clusters
+      name: "BP-1 transcript clusters by oxygen condition (coculture with M. ruber)"
+      filename: "data/Synechococcus/papers_and_supp/Bernstein 2017/data set s2 clusterd_Avg_Cond_Oxygen sys002172092sd2.csv"
+      organism: "Thermosynechococcus elongatus BP-1"
+      gene_id_col: "NCBI Locus Tag"
+      cluster_col: "ClustID_ox"
+      cluster_type: "response_pattern"
+      cluster_method: "hierarchical clustering"
+      omics_type: RNASEQ
+      light_condition: "high light"
+      treatment_type: ["coculture"]
+      background_factors: []
+      treatment: "Binary coculture with Meiothermus ruber strain A under 3 oxygen levels (low/medium/high) at high light"
+      experimental_context: "T. elongatus BP-1 in binary coculture with M. ruber strain A in photobioreactors; RNA-seq (Illumina NextSeq); transcript abundances averaged per oxygen condition (HLLO, HLMO, HLHO)"
