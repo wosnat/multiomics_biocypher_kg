@@ -179,3 +179,37 @@ publication:
         logfc_col: 24 hours
         pvalue_threshold: 0.1
         pvalue_asterisk_in_logfc: true
+    supp_table_3_darktolerant_clusters:
+      type: gene_clusters
+      name: "NATL2A dark-tolerant strain diel expression clusters"
+      filename: "data/Prochlorococcus/papers_and_supp/coe 2024/Supplemental Table 3.csv"
+      organism: "Prochlorococcus NATL2A"
+      gene_id_col: "gene"
+      cluster_col: "dark-tolerant_cluster"
+      cluster_type: "diel_expression_pattern"
+      cluster_method: "RAIN periodicity detection (K=15)"
+      omics_type: RNASEQ
+      treatment_type: ["darkness"]
+      background_factors: [coculture, diel_cycle]
+      treatment: "Dark-tolerant evolved NATL2A co-cultured with MIT1002 under 13:11 diel light:dark cycle"
+      light_condition: "13:11 light:dark cycle with simulated dawn and dusk"
+      experimental_context: "Diel gene expression clusters from dark-tolerant evolved NATL2A in co-culture with Alteromonas MIT1002; sampled every 2h over 24h diel cycle in Pro99 medium at 24C under 37 umol photons m-2 s-1"
+      experiments:
+        - darkness_darktolerant_coculture_under_1311_natl2a_rnaseq
+    supp_table_3_parental_clusters:
+      type: gene_clusters
+      name: "NATL2A parental strain diel expression clusters"
+      filename: "data/Prochlorococcus/papers_and_supp/coe 2024/Supplemental Table 3.csv"
+      organism: "Prochlorococcus NATL2A"
+      gene_id_col: "gene"
+      cluster_col: "parental_cluster"
+      cluster_type: "diel_expression_pattern"
+      cluster_method: "RAIN periodicity detection (K=15)"
+      omics_type: RNASEQ
+      treatment_type: ["darkness"]
+      background_factors: [coculture, diel_cycle]
+      treatment: "Parental (wild-type) NATL2A co-cultured with MIT1002 under 13:11 diel light:dark cycle"
+      light_condition: "13:11 light:dark cycle with simulated dawn and dusk"
+      experimental_context: "Diel gene expression clusters from parental (wild-type) NATL2A in co-culture with Alteromonas MIT1002; sampled every 2h over 24h diel cycle in Pro99 medium at 24C under 37 umol photons m-2 s-1"
+      experiments:
+        - darkness_darktolerant_coculture_under_1311_natl2a_rnaseq
