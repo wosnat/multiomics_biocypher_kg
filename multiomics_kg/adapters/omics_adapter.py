@@ -891,20 +891,24 @@ class OMICSAdapter:
 class MultiOMICSAdapter:
     """Wrapper that reads a file listing paperconfig.yaml paths and delegates to OMICSAdapter instances."""
 
-    def __init__(self, config_list_file: str, **kwargs):
+    def __init__(self, config_list_file: str | list[str], **kwargs):
         """
         Args:
-            config_list_file: Path to a text file with one paperconfig.yaml path per line.
+            config_list_file: Path to a text file with one paperconfig.yaml path per line,
+                or a list of such paths (for multi-organism support).
             **kwargs: Additional arguments passed to each OMICSAdapter (e.g. test_mode).
         """
         self.adapters = []
-        with open(config_list_file, 'r') as f:
-            for line in f:
-                line = line.strip()
-                if line and not line.startswith('#'):
-                    adapter = OMICSAdapter(config_file=line, **kwargs)
-                    self.adapters.append(adapter)
-        logger.info(f"Loaded {len(self.adapters)} config files from {config_list_file}")
+        list_files = config_list_file if isinstance(config_list_file, list) else [config_list_file]
+        for lf in list_files:
+            with open(lf, 'r') as f:
+                for line in f:
+                    line = line.strip()
+                    if line and not line.startswith('#'):
+                        adapter = OMICSAdapter(config_file=line, **kwargs)
+                        self.adapters.append(adapter)
+            logger.info(f"Loaded configs from {lf}")
+        logger.info(f"Total: {len(self.adapters)} paperconfig files from {len(list_files)} list file(s)")
 
     def download_data(self, **kwargs):
         for adapter in self.adapters:

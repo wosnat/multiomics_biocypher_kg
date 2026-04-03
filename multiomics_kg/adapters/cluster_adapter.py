@@ -379,7 +379,7 @@ class MultiClusterAdapter:
 
     def __init__(
         self,
-        config_list_file: str,
+        config_list_file: str | list[str],
         genome_config_file: str = None,
         test_mode: bool = False,
         **kwargs,
@@ -389,7 +389,8 @@ class MultiClusterAdapter:
             self._organism_lookup = self._build_organism_lookup(genome_config_file)
 
         self.adapters: list[ClusterAdapter] = []
-        paperconfigs = load_all_paperconfigs(Path(config_list_file))
+        list_files = config_list_file if isinstance(config_list_file, list) else [config_list_file]
+        paperconfigs = load_all_paperconfigs([Path(lf) for lf in list_files])
         for pc_path, config in paperconfigs:
             supp = config.get("publication", {}).get("supplementary_materials", {})
             has_clusters = any(

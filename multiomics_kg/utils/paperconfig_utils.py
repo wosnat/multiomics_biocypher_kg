@@ -20,24 +20,30 @@ def load_paperconfig(path: Path) -> dict:
 
 
 def load_all_paperconfigs(
-    list_file: Path = PAPERCONFIG_FILES_TXT,
+    list_file: Path | list[Path] = PAPERCONFIG_FILES_TXT,
 ) -> list[tuple[Path, dict]]:
     """Load all paperconfigs from paperconfig_files.txt.
+
+    Args:
+        list_file: Path to a text file listing paperconfig paths, or a list
+            of such paths (for multi-organism support).
 
     Returns list of (path, config_dict). Skips comments, blank lines,
     missing files (with warning).
     """
+    list_files = list_file if isinstance(list_file, list) else [list_file]
     results = []
-    with open(list_file) as f:
-        for line in f:
-            path_str = line.strip()
-            if not path_str or path_str.startswith("#"):
-                continue
-            path = PROJECT_ROOT / path_str
-            if not path.exists():
-                print(f"  [warn] paperconfig not found: {path}")
-                continue
-            results.append((path, load_paperconfig(path)))
+    for lf in list_files:
+        with open(lf) as f:
+            for line in f:
+                path_str = line.strip()
+                if not path_str or path_str.startswith("#"):
+                    continue
+                path = PROJECT_ROOT / path_str
+                if not path.exists():
+                    print(f"  [warn] paperconfig not found: {path}")
+                    continue
+                results.append((path, load_paperconfig(path)))
     return results
 
 

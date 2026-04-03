@@ -78,7 +78,10 @@ def main():
 
     # omics data
     omics_adapter = MultiOMICSAdapter(
-        config_list_file='data/Prochlorococcus/papers_and_supp/paperconfig_files.txt',
+        config_list_file=[
+            'data/Prochlorococcus/papers_and_supp/paperconfig_files.txt',
+            'data/Synechococcus/papers_and_supp/paperconfig_files.txt',
+        ],
         test_mode=TEST_MODE,
     )
     omics_adapter.download_data(cache=CACHE)
@@ -87,7 +90,10 @@ def main():
 
     # Gene cluster data (co-expression clusters from publications)
     cluster_adapter = MultiClusterAdapter(
-        config_list_file='data/Prochlorococcus/papers_and_supp/paperconfig_files.txt',
+        config_list_file=[
+            'data/Prochlorococcus/papers_and_supp/paperconfig_files.txt',
+            'data/Synechococcus/papers_and_supp/paperconfig_files.txt',
+        ],
         genome_config_file='data/Prochlorococcus/genomes/cyanobacteria_genomes.csv',
         test_mode=TEST_MODE,
     )
