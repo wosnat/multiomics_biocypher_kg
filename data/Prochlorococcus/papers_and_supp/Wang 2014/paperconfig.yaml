@@ -2,6 +2,22 @@ publication:
   papername: Wang 2014
   papermainpdf: "data/Prochlorococcus/papers_and_supp/Wang 2014/1471-2180-14-11.pdf"
 
+  experiments:
+    expression_profiling_med4_rnaseq:
+      name: "MED4 steady-state expression profiling across growth conditions"
+      organism: "Prochlorococcus MED4"
+      treatment_condition: "Multiple growth conditions (Pro99 and AMP media, exponential and log-phase)"
+      control_condition: "Multi-condition profiling (Pro99/AMP, exponential/stationary)"
+      experimental_context: "RNA-seq across 10 samples from MED4 grown in Pro99 and AMP media at exponential and log-phase; RPKM quartiles used to classify genes by expression level; 21C under continuous light at 28 umol quanta m-2 s-1"
+      omics_type: RNASEQ
+      test_type: ""
+      treatment_type: ["growth_phase"]
+      background_factors: ["axenic", "light"]
+      medium: "Pro99 and AMP"
+      temperature: "21C"
+      light_condition: "continuous light"
+      light_intensity: "28 umol quanta m-2 s-1"
+
   supplementary_materials:
 
     # ── Gene expression level classification ─────────────────────────────
@@ -15,8 +31,10 @@ publication:
       cluster_type: "expression_level"
       cluster_method: "Quartile-based classification from RNA-seq RPKM across 10 growth conditions"
       omics_type: RNASEQ
-      treatment_type: ["none"]
-      background_factors: ["axenic", "continuous_light"]
+      treatment_type: ["growth_phase"]
+      background_factors: ["axenic", "light"]
       treatment: "Steady-state expression level classification across multiple growth conditions"
       light_condition: "continuous light (28 umol quanta m-2 s-1)"
       experimental_context: "Classification of all MED4 CDS genes by expression level from RNA-seq across 10 samples (Pro99 and AMP media, exponential and log-phase). RPKM quartiles used to assign: VEG = very highly expressed (top quartile), HEG = highly expressed, MEG = moderately expressed, LEG = lowly expressed, NEG = not expressed, -- = unclassified. 21C, continuous light at 28 umol quanta m-2 s-1."
+      experiments:
+        - expression_profiling_med4_rnaseq

@@ -10,14 +10,14 @@ publication:
       control_condition: "Axenic S. elongatus cscB+ culture"
       experimental_context: "CoBG-11 medium (BG-11 + 150 mM NaCl + 4 mM NH4Cl + 3 g/L TES), 30C, 100 umol photons m-2 s-1 continuous light, 4 days coculture, dialysis bag separation (14 kDa cutoff)"
       omics_type: RNASEQ
-      test_type: "fold change and Q-value"
+      test_type: "fold_change"
       treatment_type: ["coculture"]
-      background_factors: ["continuous_light"]
+      background_factors: ["light"]
       medium: "CoBG-11"
       temperature: "30C"
       light_condition: "continuous light"
       light_intensity: "100 umol photons m-2 s-1"
-      treatment_organism: "Escherichia coli ABKm"
+      treatment_organism: "Escherichia coli"
       treatment_taxid: 562
       table_scope: significant_only
       table_scope_detail: "Tables S1 and S2 list only significantly DE genes (fold change > 1.5, padj < 0.05), split by direction"
@@ -29,14 +29,14 @@ publication:
       control_condition: "Axenic S. elongatus cscB+ culture"
       experimental_context: "CoBG-11 medium, 30C, 100 umol photons m-2 s-1 continuous light, 4 days coculture, iTRAQ quantitative proteomics via LC-MS/MS (BGI), 3 biological replicates"
       omics_type: PROTEOMICS
-      test_type: "iTRAQ t-test"
+      test_type: "iTRAQ_t-test"
       treatment_type: ["coculture"]
-      background_factors: ["continuous_light"]
+      background_factors: ["light"]
       medium: "CoBG-11"
       temperature: "30C"
       light_condition: "continuous light"
       light_intensity: "100 umol photons m-2 s-1"
-      treatment_organism: "Escherichia coli ABKm"
+      treatment_organism: "Escherichia coli"
       treatment_taxid: 562
       table_scope: significant_only
       table_scope_detail: "Table S4 lists selected DE proteins (fold change > 1.2, P < 0.05 by t-test of 9 pairwise comparisons)"

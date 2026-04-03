@@ -258,8 +258,8 @@ class TestBackgroundFactors:
         config = _make_valid_config(
             csv,
             experiment_overrides={
-                "treatment_type": "nitrogen_stress",
-                "background_factors": ["axenic", "continuous_light"],
+                "treatment_type": "nitrogen",
+                "background_factors": ["axenic", "light"],
                 # Remove coculture-specific fields since treatment_type is not coculture
                 "treatment_organism": None,
                 "treatment_taxid": None,
@@ -444,7 +444,7 @@ class TestValidConfigPasses:
             csv,
             experiment_overrides={
                 "name": "Phosphorus depletion experiment",
-                "treatment_type": "phosphorus_stress",
+                "treatment_type": "phosphorus",
                 "treatment_condition": "P-depleted medium",
                 "control_condition": "P-replete medium",
                 # Remove coculture-specific fields

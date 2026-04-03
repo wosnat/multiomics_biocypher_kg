@@ -12,8 +12,8 @@ publication:
         of the dataset
       omics_type: RNASEQ
       test_type: Rockhopper
-      treatment_type: [nitrogen_stress]
-      background_factors: [axenic, continuous_light]
+      treatment_type: [nitrogen]
+      background_factors: [axenic, light]
       medium: Pro99 without ammonium (N-depleted)
       temperature: 25C
       light_condition: continuous light

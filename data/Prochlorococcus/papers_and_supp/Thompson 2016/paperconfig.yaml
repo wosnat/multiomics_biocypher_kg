@@ -11,7 +11,7 @@ publication:
         19-22C; dark vs light treatment; prefiltered to significant DEGs
       omics_type: RNASEQ
       test_type: DESeq2
-      treatment_type: [light_stress]
+      treatment_type: [light]
       background_factors: [viral]
       medium: Pro99 natural seawater medium
       temperature: 19-22C
@@ -27,7 +27,7 @@ publication:
         at 19-22C; dark vs light treatment; prefiltered to significant DEGs
       omics_type: RNASEQ
       test_type: DESeq2
-      treatment_type: [light_stress]
+      treatment_type: [light]
       background_factors: [axenic]
       medium: Pro99 natural seawater medium
       temperature: 19-22C
@@ -44,7 +44,7 @@ publication:
       omics_type: RNASEQ
       test_type: DESeq2
       treatment_type: [viral]
-      background_factors: [continuous_light]
+      background_factors: [light]
       medium: Pro99 natural seawater medium
       temperature: 19-22C
       light_condition: continuous light

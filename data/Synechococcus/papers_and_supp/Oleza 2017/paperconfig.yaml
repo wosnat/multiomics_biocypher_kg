@@ -16,7 +16,7 @@ publication:
       omics_type: EXOPROTEOMICS
       test_type: "t-test"
       treatment_type: ["coculture"]
-      background_factors: ["continuous_light"]
+      background_factors: ["light"]
       medium: "ASW"
       temperature: "22C"
       light_condition: "continuous light"
@@ -40,7 +40,7 @@ publication:
       omics_type: EXOPROTEOMICS
       test_type: "ANOVA"
       treatment_type: ["coculture"]
-      background_factors: ["continuous_light"]
+      background_factors: ["light"]
       medium: "natural seawater"
       temperature: "22C"
       light_condition: "continuous light"
@@ -62,9 +62,9 @@ publication:
       control_condition: "R. pomeroyi DSS-3 mono-culture in natural seawater"
       experimental_context: "Filter-sterilized natural seawater, 22C, 10 umol photons m-2 s-1 continuous light, 140 rpm shaking, long-term stable coculture, shotgun proteomics (nanoLC-MS/MS, Orbitrap Fusion), NAF quantification, Perseus analysis, n=3"
       omics_type: EXOPROTEOMICS
-      test_type: "Student's t-test (Perseus)"
+      test_type: "t-test_Perseus"
       treatment_type: ["coculture"]
-      background_factors: ["continuous_light"]
+      background_factors: ["light"]
       medium: "natural seawater"
       temperature: "22C"
       light_condition: "continuous light"

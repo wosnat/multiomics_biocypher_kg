@@ -16,9 +16,9 @@ publication:
       control_condition: "Timepoint 1 (day 1) baseline"
       experimental_context: "100-day coculture of Synechococcus WH7803 and R. pomeroyi DSS-3 in filter-sterilized natural seawater (Gulf Stream), 22C, 10 umol photons m-2 s-1 continuous light, 140 rpm shaking, triplicate flasks, exoproteome collected by TCA precipitation of cell-free supernatant"
       omics_type: EXOPROTEOMICS
-      test_type: "Student's t-test (Perseus, permutation-based FDR q=0.05)"
+      test_type: "t-test_Perseus"
       treatment_type: ["coculture"]
-      background_factors: ["continuous_light"]
+      background_factors: ["light"]
       medium: "natural seawater (Gulf Stream)"
       temperature: "22C"
       light_condition: "continuous light"
@@ -37,9 +37,9 @@ publication:
       control_condition: "Timepoint 1 (day 1) baseline"
       experimental_context: "100-day coculture of Synechococcus WH7803 and R. pomeroyi DSS-3 in enriched ASW medium, 22C, 10 umol photons m-2 s-1 continuous light, 140 rpm shaking, triplicate flasks, exoproteome collected by TCA precipitation of cell-free supernatant"
       omics_type: EXOPROTEOMICS
-      test_type: "Student's t-test (Perseus, permutation-based FDR q=0.05)"
+      test_type: "t-test_Perseus"
       treatment_type: ["coculture"]
-      background_factors: ["continuous_light"]
+      background_factors: ["light"]
       medium: "ASW (enriched artificial seawater)"
       temperature: "22C"
       light_condition: "continuous light"
@@ -58,9 +58,9 @@ publication:
       control_condition: "Timepoint 1 (day 1) baseline"
       experimental_context: "100-day coculture of R. pomeroyi DSS-3 and Synechococcus WH7803 in filter-sterilized natural seawater (Gulf Stream), 22C, 10 umol photons m-2 s-1 continuous light, 140 rpm shaking, triplicate flasks, exoproteome collected by TCA precipitation of cell-free supernatant"
       omics_type: EXOPROTEOMICS
-      test_type: "Student's t-test (Perseus, permutation-based FDR q=0.05)"
+      test_type: "t-test_Perseus"
       treatment_type: ["coculture"]
-      background_factors: ["continuous_light"]
+      background_factors: ["light"]
       medium: "natural seawater (Gulf Stream)"
       temperature: "22C"
       light_condition: "continuous light"
@@ -79,9 +79,9 @@ publication:
       control_condition: "Timepoint 1 (day 1) baseline"
       experimental_context: "100-day coculture of R. pomeroyi DSS-3 and Synechococcus WH7803 in enriched ASW medium, 22C, 10 umol photons m-2 s-1 continuous light, 140 rpm shaking, triplicate flasks, exoproteome collected by TCA precipitation of cell-free supernatant"
       omics_type: EXOPROTEOMICS
-      test_type: "Student's t-test (Perseus, permutation-based FDR q=0.05)"
+      test_type: "t-test_Perseus"
       treatment_type: ["coculture"]
-      background_factors: ["continuous_light"]
+      background_factors: ["light"]
       medium: "ASW (enriched artificial seawater)"
       temperature: "22C"
       light_condition: "continuous light"

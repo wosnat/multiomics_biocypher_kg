@@ -11,7 +11,7 @@ publication:
       omics_type: RNASEQ
       test_type: DESeq2
       treatment_type: [darkness]
-      background_factors: [axenic, diel_cycle]
+      background_factors: [axenic, diel]
       medium: Pro99 natural seawater medium
       temperature: 24C
       light_condition: continuous darkness
@@ -27,7 +27,7 @@ publication:
       omics_type: RNASEQ
       test_type: DESeq2
       treatment_type: [darkness]
-      background_factors: [coculture, diel_cycle]
+      background_factors: [coculture, diel]
       medium: Pro99 natural seawater medium
       temperature: 24C
       light_condition: continuous darkness
@@ -43,7 +43,7 @@ publication:
       omics_type: RNASEQ
       test_type: DESeq2
       treatment_type: [darkness]
-      background_factors: [coculture, diel_cycle]
+      background_factors: [coculture, diel]
       medium: Pro99 natural seawater medium
       temperature: 24C
       light_condition: continuous darkness
@@ -180,8 +180,8 @@ publication:
       cluster_type: "periodicity_classification"
       cluster_method: "Composite of RAIN periodicity detection (Y/N) across 4 conditions"
       omics_type: RNASEQ
-      treatment_type: ["diel_cycle", "darkness"]
-      background_factors: ["diel_cycle"]
+      treatment_type: ["diel", "darkness"]
+      background_factors: ["diel"]
       treatment: "Diel L:D cycle and extended darkness, axenic and co-cultured with MIT1002"
       light_condition: "13:11 light:dark cycle"
       experimental_context: "NATL2A genes classified by 24h periodicity (RAIN, FDR<0.05) across 4 conditions: axenic L:D, coculture L:D, axenic extended darkness, coculture extended darkness. Composite cluster = combination of conditions where gene is periodic (e.g. axenic_LD+coculture_LD). 12 clusters including not_periodic."
@@ -199,8 +199,8 @@ publication:
       cluster_type: "periodicity_classification"
       cluster_method: "Composite of RAIN periodicity detection (Y/N) across 2 conditions"
       omics_type: RNASEQ
-      treatment_type: ["diel_cycle", "darkness"]
-      background_factors: ["coculture", "diel_cycle"]
+      treatment_type: ["diel", "darkness"]
+      background_factors: ["coculture", "diel"]
       treatment: "Diel L:D cycle and extended darkness in co-culture with NATL2A"
       light_condition: "13:11 light:dark cycle"
       experimental_context: "MIT1002 genes classified by 24h periodicity (RAIN, FDR<0.05) across 2 conditions: coculture L:D, coculture extended darkness. Composite cluster = combination of conditions where gene is periodic. 3 clusters including not_periodic."
@@ -218,7 +218,7 @@ publication:
       cluster_method: "Composite of transcript presence at 72-144h extended darkness"
       omics_type: RNASEQ
       treatment_type: ["darkness"]
-      background_factors: ["diel_cycle"]
+      background_factors: ["diel"]
       treatment: "Extended darkness (72-144h), axenic and co-cultured with MIT1002"
       light_condition: "extended darkness (after 13:11 L:D entrainment)"
       experimental_context: "NATL2A genes classified by transcript presence during late extended darkness (72-144h) across conditions: present in axenic, present in coculture, unique to axenic, unique to coculture. Composite cluster = combination of categories. 3 clusters. Only genes with detectable transcripts at 72-144h are included (269 genes)."

@@ -11,7 +11,7 @@ publication:
       omics_type: MICROARRAY
       test_type: microarray
       treatment_type: [viral]
-      background_factors: [continuous_light]
+      background_factors: [light]
       medium: Pro99 medium
       temperature: 24C
       light_condition: continuous light
@@ -99,7 +99,7 @@ publication:
       cluster_method: "Stable clusters of co-expressed upregulated genes"
       omics_type: MICROARRAY
       treatment_type: ["viral"]
-      background_factors: ["axenic", "continuous_light"]
+      background_factors: ["axenic", "light"]
       treatment: "Phage infection time course (0-8h post infection)"
       light_condition: "continuous light"
       experimental_context: "Upregulated MED4 genes clustered by temporal expression pattern during phage infection; 2 transcription groups from microarray time course (0-8h); group 1 = early transient peak (1h), group 2 = late sustained induction (3-8h)"

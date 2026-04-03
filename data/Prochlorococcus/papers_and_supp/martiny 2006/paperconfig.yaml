@@ -2,7 +2,7 @@ publication:
   papername: Martiny 2006
   papermainpdf: data/Prochlorococcus/papers_and_supp/martiny 2006/martiny-et-al-2006-phosphate-acquisition-genes-in-prochlorococcus-ecotypes-evidence-for-genome-wide-adaptation.pdf
   experiments:
-    phosphorus_stress_phosphate_starvation_med4_microarray:
+    phosphorus_phosphate_starvation_med4_microarray:
       name: MED4 Phosphate starvation vs P-replete Pro99 medium (MICROARRAY)
       organism: Prochlorococcus MED4
       treatment_condition: Phosphate starvation
@@ -10,15 +10,15 @@ publication:
       experimental_context: MED4 grown at 22C in continuous light at 30 uE m-2 s-1 in Pro99 medium
       omics_type: MICROARRAY
       test_type: microarray_Cyber-T
-      treatment_type: [phosphorus_stress]
-      background_factors: [axenic, continuous_light]
+      treatment_type: [phosphorus]
+      background_factors: [axenic, light]
       medium: Pro99 with no added PO4
       temperature: 22C
       light_condition: continuous light
       light_intensity: 30 uE m-2 s-1 (MED4), 12 uE m-2 s-1 (MIT9313)
       table_scope: filtered_subset
       table_scope_detail: Genes with q < 0.05 at t=48h, all timepoints reported
-    phosphorus_stress_phosphate_starvation_mit9313_microarray:
+    phosphorus_phosphate_starvation_mit9313_microarray:
       name: MIT9313 Phosphate starvation vs P-replete Pro99 medium (MICROARRAY)
       organism: Prochlorococcus MIT9313
       treatment_condition: Phosphate starvation
@@ -26,8 +26,8 @@ publication:
       experimental_context: MIT9313 grown at 22C in continuous light at 12 uE m-2 s-1 in Pro99 medium
       omics_type: MICROARRAY
       test_type: microarray_Cyber-T
-      treatment_type: [phosphorus_stress]
-      background_factors: [axenic, continuous_light]
+      treatment_type: [phosphorus]
+      background_factors: [axenic, light]
       medium: Pro99 with no added PO4
       temperature: 22C
       light_condition: continuous light
@@ -46,7 +46,7 @@ publication:
       - column: Description
       statistical_analyses:
       - id: DE_p_starvation_vs_replete_MED4_0h
-        experiment: phosphorus_stress_phosphate_starvation_med4_microarray
+        experiment: phosphorus_phosphate_starvation_med4_microarray
         timepoint: 0h
         timepoint_hours: 0.0
         name_col: ORF
@@ -54,7 +54,7 @@ publication:
         adjusted_p_value_col: q-value t=0
         pvalue_threshold: 0.05
       - id: DE_p_starvation_vs_replete_MED4_4h
-        experiment: phosphorus_stress_phosphate_starvation_med4_microarray
+        experiment: phosphorus_phosphate_starvation_med4_microarray
         timepoint: 4h
         timepoint_hours: 4.0
         name_col: ORF
@@ -62,7 +62,7 @@ publication:
         adjusted_p_value_col: q-value t=4
         pvalue_threshold: 0.05
       - id: DE_p_starvation_vs_replete_MED4_12h
-        experiment: phosphorus_stress_phosphate_starvation_med4_microarray
+        experiment: phosphorus_phosphate_starvation_med4_microarray
         timepoint: 12h
         timepoint_hours: 12.0
         name_col: ORF
@@ -70,7 +70,7 @@ publication:
         adjusted_p_value_col: q-value t=12
         pvalue_threshold: 0.05
       - id: DE_p_starvation_vs_replete_MED4_24h
-        experiment: phosphorus_stress_phosphate_starvation_med4_microarray
+        experiment: phosphorus_phosphate_starvation_med4_microarray
         timepoint: 24h
         timepoint_hours: 24.0
         name_col: ORF
@@ -78,7 +78,7 @@ publication:
         adjusted_p_value_col: q-value t=24
         pvalue_threshold: 0.05
       - id: DE_p_starvation_vs_replete_MED4_48h
-        experiment: phosphorus_stress_phosphate_starvation_med4_microarray
+        experiment: phosphorus_phosphate_starvation_med4_microarray
         timepoint: 48h
         timepoint_hours: 48.0
         name_col: ORF
@@ -96,7 +96,7 @@ publication:
       - column: Description
       statistical_analyses:
       - id: DE_p_starvation_vs_replete_MIT9313_0h
-        experiment: phosphorus_stress_phosphate_starvation_mit9313_microarray
+        experiment: phosphorus_phosphate_starvation_mit9313_microarray
         timepoint: 0h
         timepoint_hours: 0.0
         name_col: ORF
@@ -104,7 +104,7 @@ publication:
         adjusted_p_value_col: q-value t=0
         pvalue_threshold: 0.05
       - id: DE_p_starvation_vs_replete_MIT9313_4h
-        experiment: phosphorus_stress_phosphate_starvation_mit9313_microarray
+        experiment: phosphorus_phosphate_starvation_mit9313_microarray
         timepoint: 4h
         timepoint_hours: 4.0
         name_col: ORF
@@ -112,7 +112,7 @@ publication:
         adjusted_p_value_col: q-value t=4
         pvalue_threshold: 0.05
       - id: DE_p_starvation_vs_replete_MIT9313_12h
-        experiment: phosphorus_stress_phosphate_starvation_mit9313_microarray
+        experiment: phosphorus_phosphate_starvation_mit9313_microarray
         timepoint: 12h
         timepoint_hours: 12.0
         name_col: ORF
@@ -120,7 +120,7 @@ publication:
         adjusted_p_value_col: q-value t=12
         pvalue_threshold: 0.05
       - id: DE_p_starvation_vs_replete_MIT9313_24h
-        experiment: phosphorus_stress_phosphate_starvation_mit9313_microarray
+        experiment: phosphorus_phosphate_starvation_mit9313_microarray
         timepoint: 24h
         timepoint_hours: 24.0
         name_col: ORF

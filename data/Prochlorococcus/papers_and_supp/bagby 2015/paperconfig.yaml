@@ -2,7 +2,7 @@ publication:
   papername: Bagby and Chisholm 2015
   papermainpdf: data/Prochlorococcus/papers_and_supp/bagby 2015/41396_2015_article_bfismej201536.pdf
   experiments:
-    carbon_stress_air_0036_co2_21_med4_microarray:
+    carbon_air_0036_co2_21_med4_microarray:
       name: MED4 Air (0.036% CO2 / 21% O2) vs Time 0 (pre-shock) (MICROARRAY)
       organism: Prochlorococcus MED4
       treatment_condition: Air (0.036% CO2 / 21% O2)
@@ -10,15 +10,15 @@ publication:
       experimental_context: Pro99 medium, mid-exponential phase, constant light 60 umol photons m-2 s-1, 21C
       omics_type: MICROARRAY
       test_type: microarray
-      treatment_type: [carbon_stress]
-      background_factors: [axenic, continuous_light]
+      treatment_type: [carbon]
+      background_factors: [axenic, light]
       medium: Pro99
       temperature: 21C
       light_condition: continuous light
       light_intensity: 60 umol photons m-2 s-1
       table_scope: filtered_subset
       table_scope_detail: Genes significant in any of 4 gas conditions, all conditions in single table
-    carbon_stress_ambient_co2_no_o2_med4_microarray:
+    carbon_ambient_co2_no_o2_med4_microarray:
       name: MED4 Ambient CO2, no O2 (0.036% CO2 / 0% O2) vs Air (0.036% CO2 / 21% O2) (MICROARRAY)
       organism: Prochlorococcus MED4
       treatment_condition: Ambient CO2, no O2 (0.036% CO2 / 0% O2)
@@ -27,15 +27,15 @@ publication:
         timepoints (3h, 6h, 9h, 12h, 18h, 24h).
       omics_type: MICROARRAY
       test_type: microarray
-      treatment_type: [carbon_stress]
-      background_factors: [axenic, continuous_light]
+      treatment_type: [carbon]
+      background_factors: [axenic, light]
       medium: Pro99
       temperature: 21C
       light_condition: continuous light
       light_intensity: 60 umol photons m-2 s-1
       table_scope: filtered_subset
       table_scope_detail: Genes significant in any of 4 gas conditions, all conditions in single table
-    carbon_stress_low_co2_0004_co2_med4_microarray:
+    carbon_low_co2_0004_co2_med4_microarray:
       name: MED4 Low CO2 (0.004% CO2 / 21% O2) vs Air (0.036% CO2 / 21% O2) (MICROARRAY)
       organism: Prochlorococcus MED4
       treatment_condition: Low CO2 (0.004% CO2 / 21% O2)
@@ -44,15 +44,15 @@ publication:
         timepoints (3h, 6h, 9h, 12h, 18h, 24h).
       omics_type: MICROARRAY
       test_type: microarray
-      treatment_type: [carbon_stress]
-      background_factors: [axenic, continuous_light]
+      treatment_type: [carbon]
+      background_factors: [axenic, light]
       medium: Pro99
       temperature: 21C
       light_condition: continuous light
       light_intensity: 60 umol photons m-2 s-1
       table_scope: filtered_subset
       table_scope_detail: Genes significant in any of 4 gas conditions, all conditions in single table
-    carbon_stress_low_co2_and_no_med4_microarray:
+    carbon_low_co2_and_no_med4_microarray:
       name: MED4 Low CO2 and no O2 (0.004% CO2 / 0% O2) vs Air (0.036% CO2 / 21% O2) (MICROARRAY)
       organism: Prochlorococcus MED4
       treatment_condition: Low CO2 and no O2 (0.004% CO2 / 0% O2)
@@ -61,8 +61,8 @@ publication:
         timepoints (3h, 6h, 9h, 12h, 18h, 24h).
       omics_type: MICROARRAY
       test_type: microarray
-      treatment_type: [carbon_stress]
-      background_factors: [axenic, continuous_light]
+      treatment_type: [carbon]
+      background_factors: [axenic, light]
       medium: Pro99
       temperature: 21C
       light_condition: continuous light
@@ -84,7 +84,7 @@ publication:
       - column: Gene description
       statistical_analyses:
       - id: gas_shock_air
-        experiment: carbon_stress_air_0036_co2_21_med4_microarray
+        experiment: carbon_air_0036_co2_21_med4_microarray
         timepoint_hours: null
         name_col: Locus tag2
         logfc_col: 0.036%_CO2_21%_O2 FC
@@ -103,7 +103,7 @@ publication:
       - column: Gene description
       statistical_analyses:
       - id: gas_shock_no_o2
-        experiment: carbon_stress_ambient_co2_no_o2_med4_microarray
+        experiment: carbon_ambient_co2_no_o2_med4_microarray
         timepoint_hours: null
         name_col: Locus tag2
         logfc_col: 0.036%_CO2_0%_O2 FC
@@ -122,7 +122,7 @@ publication:
       - column: Gene description
       statistical_analyses:
       - id: gas_shock_low_co2
-        experiment: carbon_stress_low_co2_0004_co2_med4_microarray
+        experiment: carbon_low_co2_0004_co2_med4_microarray
         timepoint_hours: null
         name_col: Locus tag2
         logfc_col: 0.004%_CO2_21%_O2 FC
@@ -141,7 +141,7 @@ publication:
       - column: Gene description
       statistical_analyses:
       - id: gas_shock_low_co2_no_o2
-        experiment: carbon_stress_low_co2_and_no_med4_microarray
+        experiment: carbon_low_co2_and_no_med4_microarray
         timepoint_hours: null
         name_col: Locus tag2
         logfc_col: 0.004%_CO2_0%_O2 FC

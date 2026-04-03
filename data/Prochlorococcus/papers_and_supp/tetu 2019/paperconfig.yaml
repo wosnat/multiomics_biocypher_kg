@@ -2,7 +2,7 @@ publication:
   papername: Tetu 2019
   papermainpdf: data/Prochlorococcus/papers_and_supp/tetu 2019/s42003-019-0410-x.pdf
   experiments:
-    plastic_stress_hdpe_plastic_leachate_50_mit9312_rnaseq:
+    plastic_hdpe_plastic_leachate_50_mit9312_rnaseq:
       name: MIT9312 HDPE plastic leachate (50% dilution) vs AMP1 media control (no leachate) (RNASEQ)
       organism: Prochlorococcus MIT9312
       treatment_condition: HDPE plastic leachate (50% dilution)
@@ -10,15 +10,15 @@ publication:
       experimental_context: Short-term exposure (120 min) in AMP1 medium at 22C under continuous light
       omics_type: RNASEQ
       test_type: DESeq2
-      treatment_type: [plastic_stress]
-      background_factors: [axenic, continuous_light]
+      treatment_type: [plastic]
+      background_factors: [axenic, light]
       medium: AMP1 artificial seawater medium with 50% v/v HDPE leachate
       temperature: 22C
       light_condition: continuous light
       light_intensity: 20-40 umol photons m-2 s-1
       table_scope: filtered_subset
       table_scope_detail: Genes significant for HDPE or PVC or both, both in single table
-    plastic_stress_pvc_plastic_leachate_2_mit9312_rnaseq:
+    plastic_pvc_plastic_leachate_2_mit9312_rnaseq:
       name: MIT9312 PVC plastic leachate (2% dilution) vs AMP1 media control (no leachate) (RNASEQ)
       organism: Prochlorococcus MIT9312
       treatment_condition: PVC plastic leachate (2% dilution)
@@ -26,15 +26,15 @@ publication:
       experimental_context: Short-term exposure (90 min) in AMP1 medium at 22C under continuous light
       omics_type: RNASEQ
       test_type: DESeq2
-      treatment_type: [plastic_stress]
-      background_factors: [axenic, continuous_light]
+      treatment_type: [plastic]
+      background_factors: [axenic, light]
       medium: AMP1 artificial seawater medium with 2% v/v PVC leachate
       temperature: 22C
       light_condition: continuous light
       light_intensity: 20-40 umol photons m-2 s-1
       table_scope: filtered_subset
       table_scope_detail: Genes significant for HDPE or PVC or both, both in single table
-    plastic_stress_hdpe_plastic_leachate_50_natl2a_rnaseq:
+    plastic_hdpe_plastic_leachate_50_natl2a_rnaseq:
       name: NATL2A HDPE plastic leachate (50% dilution) vs AMP1 media control (no leachate) (RNASEQ)
       organism: Prochlorococcus NATL2A
       treatment_condition: HDPE plastic leachate (50% dilution)
@@ -42,15 +42,15 @@ publication:
       experimental_context: Short-term exposure (120 min) in AMP1 medium at 22C under continuous light
       omics_type: RNASEQ
       test_type: DESeq2
-      treatment_type: [plastic_stress]
-      background_factors: [axenic, continuous_light]
+      treatment_type: [plastic]
+      background_factors: [axenic, light]
       medium: AMP1 artificial seawater medium with 50% v/v HDPE leachate
       temperature: 22C
       light_condition: continuous light
       light_intensity: 20-40 umol photons m-2 s-1
       table_scope: filtered_subset
       table_scope_detail: Genes significant for HDPE or PVC or both, both in single table
-    plastic_stress_pvc_plastic_leachate_2_natl2a_rnaseq:
+    plastic_pvc_plastic_leachate_2_natl2a_rnaseq:
       name: NATL2A PVC plastic leachate (2% dilution) vs AMP1 media control (no leachate) (RNASEQ)
       organism: Prochlorococcus NATL2A
       treatment_condition: PVC plastic leachate (2% dilution)
@@ -58,8 +58,8 @@ publication:
       experimental_context: Short-term exposure (90 min) in AMP1 medium at 22C under continuous light
       omics_type: RNASEQ
       test_type: DESeq2
-      treatment_type: [plastic_stress]
-      background_factors: [axenic, continuous_light]
+      treatment_type: [plastic]
+      background_factors: [axenic, light]
       medium: AMP1 artificial seawater medium with 2% v/v PVC leachate
       temperature: 22C
       light_condition: continuous light
@@ -82,13 +82,13 @@ publication:
       - column: product
       statistical_analyses:
       - id: DE_hdpe_leachate_vs_control_MIT9312
-        experiment: plastic_stress_hdpe_plastic_leachate_50_mit9312_rnaseq
+        experiment: plastic_hdpe_plastic_leachate_50_mit9312_rnaseq
         timepoint_hours: null
         name_col: MIT9312 original locus tag
         logfc_col: HDPE log2 Fold change
         prefiltered: true
       - id: DE_pvc_leachate_vs_control_MIT9312
-        experiment: plastic_stress_pvc_plastic_leachate_2_mit9312_rnaseq
+        experiment: plastic_pvc_plastic_leachate_2_mit9312_rnaseq
         timepoint_hours: null
         name_col: MIT9312 original locus tag
         logfc_col: PVC log2 Fold change
@@ -108,13 +108,13 @@ publication:
       - column: product
       statistical_analyses:
       - id: DE_hdpe_leachate_vs_control_NATL2A
-        experiment: plastic_stress_hdpe_plastic_leachate_50_natl2a_rnaseq
+        experiment: plastic_hdpe_plastic_leachate_50_natl2a_rnaseq
         timepoint_hours: null
         name_col: NATL2A original locus tag
         logfc_col: HDPE log2 Fold change
         prefiltered: true
       - id: DE_pvc_leachate_vs_control_NATL2A
-        experiment: plastic_stress_pvc_plastic_leachate_2_natl2a_rnaseq
+        experiment: plastic_pvc_plastic_leachate_2_natl2a_rnaseq
         timepoint_hours: null
         name_col: NATL2A original locus tag
         logfc_col: PVC log2 Fold change

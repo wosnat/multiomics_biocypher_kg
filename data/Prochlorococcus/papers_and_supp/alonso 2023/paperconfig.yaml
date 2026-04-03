@@ -2,6 +2,22 @@ publication:
   papername: "Alonso-Saez 2023"
   papermainpdf: "data/Prochlorococcus/papers_and_supp/alonso 2023/alonso-sáez-et-al-2023-transcriptional-mechanisms-of-thermal-acclimation-in-prochlorococcus.pdf"
 
+  experiments:
+    thermal_acclimation_mit9301_rnaseq:
+      name: "MIT9301 long-term thermal acclimation RNA-seq across 5 temperatures"
+      organism: "Prochlorococcus MIT9301"
+      treatment_condition: "Long-term thermal acclimation (17, 20, 22, 25, 30C)"
+      control_condition: "Multi-temperature comparison (17-30C) — pairwise contrasts"
+      experimental_context: "Prochlorococcus MIT9301 acclimated long-term to 5 temperatures (17-30C) under 12h:12h L/D cycle; RNA-Seq sampled 3h after subjective sunrise (day) and sunset (night); fuzzy c-means clustering of day/night expression patterns across thermal gradient"
+      omics_type: RNASEQ
+      test_type: ""
+      treatment_type: ["temperature"]
+      background_factors: ["axenic", "diel"]
+      medium: ""
+      temperature: "17, 20, 22, 25, 30C"
+      light_condition: "12h:12h light/dark cycle"
+      light_intensity: ""
+
   supplementary_materials:
     mit9301_softclusters_thermal_acclimation:
       type: gene_clusters
@@ -16,8 +32,10 @@ publication:
       cluster_method: "Fuzzy c-means (K=5)"
       omics_type: RNASEQ
       treatment_type: ["temperature"]
-      background_factors: ["axenic", "diel_cycle"]
+      background_factors: ["axenic", "diel"]
       treatment: "Long-term thermal acclimation across thermal niche (17, 20, 22, 25, 30C)"
       light_condition: "12h:12h light/dark cycle"
       experimental_context: "Prochlorococcus MIT9301 acclimated long-term to 5 temperatures (17-30C) under 12h:12h L/D; RNA-Seq sampled 3h after subjective sunrise (day) and sunset (night); fuzzy c-means clustering of day/night expression patterns across thermal gradient"
       skip_rows: 2
+      experiments:
+        - thermal_acclimation_mit9301_rnaseq

@@ -2,10 +2,24 @@ publication:
   papername: Zinser 2009
   papermainpdf: "data/Prochlorococcus/papers_and_supp/zinser 2009/zinser 2009.pdf"
 
-  # No experiments block: the data are RMA-normalized expression values over a
-  # diel time course (50 timepoints, 2-hour intervals, 48 hours).  There are
-  # no differential-expression fold-changes or p-values, so no
-  # statistical_analyses / Changes_expression_of edges are created.
+  experiments:
+    diel_cycling_med4_microarray:
+      name: "MED4 diel gene expression profiling over 48h light-dark cycle"
+      organism: "Prochlorococcus MED4"
+      treatment_condition: "Simulated diel light-dark cycle (14h light : 10h dark) over 48 hours"
+      control_condition: "Time-series — each timepoint vs mean expression"
+      experimental_context: "Axenic Prochlorococcus MED4 in Sargasso Seawater-based Pro99 medium (10 mM HEPES pH 7.5) at 24C; 14:10 L:D cycle with gradual dawn/dusk transitions; max PAR ~232 umol quanta m-2 s-1; custom Affymetrix MD4-9313 GeneChip; 50 timepoints at 2h intervals over 48h; duplicate cultures sampled alternately; RMA-normalized"
+      omics_type: MICROARRAY
+      test_type: ""
+      treatment_type: ["diel"]
+      background_factors: ["axenic", "diel"]
+      medium: "Pro99 (Sargasso Seawater-based, 10 mM HEPES pH 7.5)"
+      temperature: "24C"
+      light_condition: "14:10 light:dark cycle"
+      light_intensity: "232 umol quanta m-2 s-1 peak PAR"
+
+  # No statistical_analyses: the data are RMA-normalized expression values,
+  # not differential-expression fold-changes or p-values.
 
   supplementary_materials:
 
@@ -23,7 +37,9 @@ publication:
       cluster_method: "Soft clustering (Mfuzz, c=16, m=1.25)"
       omics_type: MICROARRAY
       light_condition: "14:10 light:dark cycle"
-      treatment_type: ["diel_cycle"]
-      background_factors: [axenic, diel_cycle]
+      treatment_type: ["diel"]
+      background_factors: [axenic, diel]
       treatment: "Simulated diel light-dark cycle (14h light : 10h dark) over 48 hours"
       experimental_context: "Axenic Prochlorococcus MED4 in Sargasso Seawater-based Pro99 medium (10 mM HEPES pH 7.5) at 24C; 14:10 L:D cycle with gradual dawn/dusk transitions; max PAR ~232 umol quanta m-2 s-1; custom Affymetrix MD4-9313 GeneChip; 50 timepoints at 2h intervals over 48h; duplicate cultures sampled alternately; RMA-normalized; Fourier analysis (FDR<0.10) for periodicity; soft clustering via Mfuzz (c=16, m=1.25)"
+      experiments:
+        - diel_cycling_med4_microarray

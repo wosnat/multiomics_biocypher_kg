@@ -13,7 +13,7 @@ publication:
       omics_type: RNASEQ
       test_type: DESeq2
       treatment_type: [viral]
-      background_factors: [continuous_light]
+      background_factors: [light]
       treatment_organism: Phage
       treatment_taxid: 10239
       medium: Pro99 natural seawater medium amended with vDOM

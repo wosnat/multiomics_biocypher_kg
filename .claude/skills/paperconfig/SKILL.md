@@ -100,7 +100,7 @@ The `experiments` block defines experiment-level metadata that is shared across 
 | `light_intensity` | Light intensity | When known (e.g., `"55 umol photons m-2 s-1"`) |
 | `table_scope` | What genes the source DE table contains | Always recommended. Values: `all_detected_genes`, `significant_any_timepoint`, `significant_only`, `top_n`, `filtered_subset` |
 | `table_scope_detail` | Free-text clarification for `table_scope` | When `table_scope` is `filtered_subset` or ambiguous (e.g., `"Top 50% of genes by expression level"`) |
-| `background_factors` | Experimental context factors not being compared in DE (list) | When conditions like coculture/axenic status or light regime are relevant but not the treatment variable. Values from same vocabulary as `treatment_type` plus: `axenic`, `continuous_light`, `diel_cycle` |
+| `background_factors` | Experimental context factors not being compared in DE (list) | When conditions like coculture/axenic status or light regime are relevant but not the treatment variable. Same vocabulary as `treatment_type` (see Canonical Vocabulary table below) |
 
 #### Formatting conventions
 
@@ -112,57 +112,56 @@ The `experiments` block defines experiment-level metadata that is shared across 
 | `treatment_taxid` | NCBI Taxonomy ID of the treatment organism | Required for coculture/viral experiments |
 | `treatment_assembly_accession` | NCBI RefSeq assembly accession | Use when the treatment organism has a loaded genome in the KG |
 
-#### Treatment Types (Canonical `treatment_type` Values)
+#### Canonical Vocabulary (`treatment_type` and `background_factors`)
 
-| `treatment_type` | Description | Example Experiments |
+`treatment_type` and `background_factors` share the same canonical vocabulary. `treatment_type` = "what environmental variable is being manipulated." `background_factors` = "what conditions are held constant." The specific values (e.g., "55 umol photons" for `light`) live in the `treatment_condition`, `control_condition`, and `light_condition` fields.
+
+| Value | As `treatment_type` | As `background_factors` |
 |---|---|---|
-| `coculture` | Co-cultivation with another organism (NOT phage) | Pro + Alteromonas coculture |
-| `viral` | Viral infection or phage exposure. Use when `treatment_organism` is Phage/virus | Phage infection of Pro, vDOM exposure |
-| `nitrogen_stress` | Nitrogen limitation or deprivation | N-starvation time course |
-| `phosphorus_stress` | Phosphorus limitation or deprivation | P-starvation |
-| `iron_stress` | Iron limitation or deprivation | Fe-limited growth |
-| `carbon_stress` | Carbon source manipulation | CO2 level changes |
-| `salt_stress` | Salinity changes | High-salt acclimation |
-| `light_stress` | Light intensity or quality changes | High-light shock |
-| `darkness` | Extended darkness or dark treatment | Dark incubation |
-| `temperature_stress` | Temperature changes | Heat or cold shock |
-| `plastic_stress` | Plastic or chemical pollutant exposure | Microplastic exposure |
-| `growth_medium` | Growth medium composition changes | Different media comparison |
-| `growth_state` | Growth phase or physiological state | Exponential vs stationary |
-| `diel` | Diel cycle as treatment | Circadian gene expression |
-| `oxygen_stress` | Oxygen level changes | Microaerobic/anoxic conditions |
-| `axenic` | Organism grown alone (background only) | Used in `background_factors`, not `treatment_type` |
-| `continuous_light` | Standard continuous illumination (background only) | Used in `background_factors` |
-| `diel_cycle` | Light:dark cycling regime (background only) | Used in `background_factors` |
-| `chemical_inhibitor` | Chemical inhibitor present (e.g., DCMU) | Used in `background_factors` |
-
-**`treatment_type` vs `background_factors`:** `treatment_type` (required, list) captures what the DE comparison tests. `background_factors` (optional, list) captures conditions present in the experiment but not compared. Both use the same vocabulary.
+| `nitrogen` | N-limitation / N-starvation | N-replete medium |
+| `phosphorus` | P-limitation / P-starvation | P-replete medium |
+| `iron` | Fe-limitation | Fe-replete medium |
+| `carbon` | CO2 / carbon source manipulation / chitosan | Fixed carbon source |
+| `light` | Light quality or intensity manipulation | Continuous light regime |
+| `darkness` | Extended dark treatment | Dark regime |
+| `diel` | Diel light-dark cycling (circadian) | Diel light-dark regime |
+| `temperature` | Thermal shift / acclimation | Fixed temperature |
+| `salt` | Salinity / osmotic changes | Fixed salinity |
+| `coculture` | Co-cultivation with another organism (NOT phage) | Coculture context |
+| `viral` | Phage infection or vDOM exposure | Phage present |
+| `chemical` | Chemical treatment (e.g., DCMU) | Chemical inhibitor present |
+| `plastic` | Plastic leachate exposure | — |
+| `growth_phase` | Growth state / multi-condition comparison | — |
+| `mutant` | Mutant or evolved strain comparison | Mutant background |
+| `axenic` | — (background only) | Pure culture, no other organisms |
 
 **Rules for assigning `background_factors`:**
 - **Axenic/coculture status:** Always in `background_factors` unless `coculture` IS the DE comparison (treatment_type). Non-coculture, non-viral experiments: `axenic` if no partner organism.
 - **Viral experiments:** Do NOT add `axenic` or `coculture` to background_factors. Viral experiments infect otherwise-axenic cells by default. Only add `coculture` if the experiment is genuinely in a multi-species community.
-- **Light regime:** Add `continuous_light` when `light_condition` is continuous light and treatment_type is not light-related. Add `diel_cycle` when under a light:dark cycle. Applies to ALL experiment types including coculture and viral.
-- **Coculture experiments:** Add `continuous_light` or `diel_cycle` for the light regime, but do NOT add `axenic` or `coculture`.
+- **Light regime:** Add `light` when under continuous light and treatment_type is not light-related. Add `diel` when under a light:dark cycle. Add `darkness` when in dark regime. Applies to ALL experiment types including coculture and viral.
+- **Coculture experiments:** Add `light` or `diel` for the light regime, but do NOT add `axenic` or `coculture`.
 
 **Examples:**
-- Darkness experiment in coculture → `treatment_type: [darkness]`, `background_factors: [coculture, diel_cycle]`
-- Phage infection under continuous light → `treatment_type: [viral]`, `background_factors: [continuous_light]`
-- N-starvation, axenic, continuous light → `treatment_type: [nitrogen_stress]`, `background_factors: [axenic, continuous_light]`
-- Coculture vs axenic under continuous light → `treatment_type: [coculture]`, `background_factors: [continuous_light]`
+- Darkness experiment in coculture → `treatment_type: [darkness]`, `background_factors: [coculture, diel]`
+- Phage infection under continuous light → `treatment_type: [viral]`, `background_factors: [light]`
+- N-starvation, axenic, continuous light → `treatment_type: [nitrogen]`, `background_factors: [axenic, light]`
+- Coculture vs axenic under continuous light → `treatment_type: [coculture]`, `background_factors: [light]`
+- DCMU + light vs light → `treatment_type: [chemical]`, `background_factors: [axenic, light]`
+- Multi-temperature acclimation → `treatment_type: [temperature]`, `control_condition: "Multi-temperature comparison (17-30C) — pairwise contrasts"`
 
 #### Extending the Canonical Vocabulary
 
 The canonical vocabulary is intentionally minimal. When creating a paperconfig for a new paper:
 
 1. **Check existing values first.** Can this condition map to an existing category?
-   - "UV exposure" → `light_stress`
-   - "CO2 enrichment" → `carbon_stress`
-   - "DCMU treatment" → describe in `treatment_condition`/`experimental_context`; use closest category or leave `background_factors` empty
-2. **Prefer general categories over specific ones.** `chemical_stress` is better than `dcmu_inhibitor`. The specifics go in `treatment_condition` and `experimental_context`.
+   - "UV exposure" → `light`
+   - "CO2 enrichment" → `carbon`
+   - "DCMU treatment" → `chemical`
+2. **Prefer general categories over specific ones.** `chemical` is better than `dcmu_inhibitor`. The specifics go in `treatment_condition` and `experimental_context`.
 3. **If no existing value fits**, flag it to the user: "This paper studies [X], which doesn't map cleanly to any existing canonical value. Closest match: `Y`. Should I use `Y` or propose a new value?"
 4. **User decides.** If a new value is approved, update all three locations in a single commit:
    - `CANONICAL_CONDITION_TYPES` in `validate_paperconfig.py`
-   - Treatment Types table in this SKILL.md
+   - Canonical Vocabulary table in this SKILL.md
    - `CLAUDE.md` key graph facts section
 5. **Never invent new canonical values without user approval.**
 
@@ -203,22 +202,22 @@ comparison share one experiment. Key rules:
    use `treatment_type: viral`. Reserve `coculture` for bacterial co-cultivation.
    Note: if phage infection is the *context* but not the *treatment variable*
    (e.g., Lin 2015 studies P-limitation in phage-infected cells), use the
-   actual treatment type (`phosphorus_stress`) and describe phage in
+   actual treatment type (`phosphorus`) and describe phage in
    `experimental_context`.
 
-8. **Use the most specific `treatment_type`.** Prefer the specific stress/condition
-   category over generic labels. `growth_medium` and `growth_state` are last
-   resorts when no specific category fits. Examples:
-   - N starvation time course → `nitrogen_stress`
-   - Alternative N sources (cyanate, urea) vs ammonium → `nitrogen_stress`
+8. **Use the most specific `treatment_type`.** Prefer the specific environmental
+   variable over generic labels. `growth_phase` is a last resort when no
+   specific category fits. Examples:
+   - N starvation time course → `nitrogen`
+   - Alternative N sources (cyanate, urea) vs ammonium → `nitrogen`
      (still nitrogen metabolism, even without deprivation)
-   - Iron rescue (return to replete after starvation) → `iron_stress`
-     (part of the same iron stress experiment)
+   - Iron rescue (return to replete after starvation) → `iron`
+     (part of the same iron experiment)
    - Nutrient starvation growth phases (exponential → decline → death) →
-     `nitrogen_stress` (if N is the limiting nutrient)
-   - Dark vs light → `light_stress` or `darkness` depending on which is treatment
-   - Use `growth_medium` only for truly unrelated media comparisons
-   - Use `growth_state` only for growth phase comparisons without a specific stressor
+     `nitrogen` (if N is the limiting nutrient)
+   - Dark vs light → `light` or `darkness` depending on which is treatment
+   - DCMU or other inhibitor → `chemical`
+   - Use `growth_phase` only for growth phase comparisons without a specific stressor
 
 ### 3. Supplementary Materials (Required)
 
@@ -330,7 +329,7 @@ Co-expression cluster membership tables. Processed by `cluster_adapter.py` (NOT 
 | `background_factors` | str[] | Array of background condition factors (same vocabulary as `treatment_type`) |
 | `treatment` | str | Experiment description |
 | `experimental_context` | str | Additional context |
-| `experiments` | str[] | List of experiment keys from the same paperconfig (links ClusteringAnalysis → Experiment) |
+| `experiments` | str[] | **Recommended.** List of experiment keys from the same paperconfig (links ClusteringAnalysis → Experiment). Every cluster analysis should link to at least one experiment. Create an experiment entry if one doesn't exist yet. A cluster analysis may link to multiple experiments if relevant. |
 
 **Per-cluster data** comes from extraction JSON (`cluster_extraction_{entry_key}.json`), not from the paperconfig. The extraction pipeline reads cluster keys from the CSV `cluster_col` and produces: `id`, `name`, `functional_description`, `behavioral_description`, `peak_time_hours`, `period_hours`.
 
@@ -349,8 +348,8 @@ med4_kmeans_nstarvation:
   cluster_type: "response_pattern"
   cluster_method: "K-means (K=9)"
   omics_type: MICROARRAY
-  treatment_type: ["nitrogen_stress"]
-  background_factors: ["axenic", "continuous_light"]
+  treatment_type: ["nitrogen"]
+  background_factors: ["axenic", "light"]
   treatment: "N-starvation time course (0, 3, 6, 12, 24, 48h)"
   light_condition: "continuous light"
   experimental_context: "Custom Affymetrix microarray..."
@@ -536,7 +535,7 @@ publication:
       organism: "Prochlorococcus AS9601"
       omics_type: RNASEQ
       test_type: DESeq
-      treatment_type: salt_stress
+      treatment_type: salt
       control_condition: "Normal seawater (3.8% salt)"
       treatment_condition: "Salt-acclimated (5% salt)"
       experimental_context: "Axenic cells in PRO99 medium at 22C under continuous light"

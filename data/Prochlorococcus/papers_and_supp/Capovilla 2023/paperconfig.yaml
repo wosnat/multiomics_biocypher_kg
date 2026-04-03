@@ -17,7 +17,7 @@ publication:
       omics_type: RNASEQ
       test_type: DESeq2
       treatment_type: [carbon]
-      background_factors: [axenic, continuous_light]
+      background_factors: [axenic, light]
       medium: Pro99 AMP1
       temperature: 24C
       light_condition: continuous light
@@ -38,7 +38,7 @@ publication:
       omics_type: RNASEQ
       test_type: DESeq2
       treatment_type: [carbon]
-      background_factors: [axenic, continuous_light]
+      background_factors: [axenic, light]
       medium: Pro99 AMP1
       temperature: 24C
       light_condition: continuous light

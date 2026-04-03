@@ -2,7 +2,7 @@ publication:
   papername: Tolonen 2006
   papermainpdf: data/Prochlorococcus/papers_and_supp/tolonen 2006/msb4100087.pdf
   experiments:
-    nitrogen_stress_nitrogen_deprivation_med4_med4_microarray:
+    nitrogen_nitrogen_deprivation_med4_med4_microarray:
       name: MED4 Nitrogen deprivation (MED4) vs N-replete Pro99 medium (MED4) (MICROARRAY)
       organism: Prochlorococcus MED4
       treatment_condition: Nitrogen deprivation (MED4)
@@ -10,8 +10,8 @@ publication:
       experimental_context: Axenic Prochlorococcus MED4 in Pro99 at 22C under continuous light (50 umol quanta m-2 s-1)
       omics_type: MICROARRAY
       test_type: microarray_Goldenspike
-      treatment_type: [nitrogen_stress]
-      background_factors: [axenic, continuous_light]
+      treatment_type: [nitrogen]
+      background_factors: [axenic, light]
       medium: Pro99 lacking supplemented nitrogen, 1 mM HEPES pH 7.5, 6 mM sodium bicarbonate
       temperature: 22C
       light_condition: continuous light
@@ -26,8 +26,8 @@ publication:
         light (50 umol quanta m-2 s-1)
       omics_type: MICROARRAY
       test_type: microarray_Goldenspike
-      treatment_type: [nitrogen_stress]
-      background_factors: [axenic, continuous_light]
+      treatment_type: [nitrogen]
+      background_factors: [axenic, light]
       medium: Pro99 with 800 uM cyanate as sole nitrogen source
       temperature: 22C
       light_condition: continuous light
@@ -42,14 +42,14 @@ publication:
         light (50 umol quanta m-2 s-1)
       omics_type: MICROARRAY
       test_type: microarray_Goldenspike
-      treatment_type: [nitrogen_stress]
-      background_factors: [axenic, continuous_light]
+      treatment_type: [nitrogen]
+      background_factors: [axenic, light]
       medium: Pro99 with 400 uM urea as sole nitrogen source
       temperature: 22C
       light_condition: continuous light
       light_intensity: 50 umol quanta m-2 s-1
       table_scope: all_detected_genes
-    nitrogen_stress_nitrogen_deprivation_mit9313_mit9313_microarray:
+    nitrogen_nitrogen_deprivation_mit9313_mit9313_microarray:
       name: MIT9313 Nitrogen deprivation (MIT9313) vs N-replete Pro99 medium (MIT9313) (MICROARRAY)
       organism: Prochlorococcus MIT9313
       treatment_condition: Nitrogen deprivation (MIT9313)
@@ -57,8 +57,8 @@ publication:
       experimental_context: Axenic Prochlorococcus MIT9313 in Pro99 at 22C under continuous light (10 umol quanta m-2 s-1)
       omics_type: MICROARRAY
       test_type: microarray_Goldenspike
-      treatment_type: [nitrogen_stress]
-      background_factors: [axenic, continuous_light]
+      treatment_type: [nitrogen]
+      background_factors: [axenic, light]
       medium: Pro99 lacking supplemented nitrogen, 1 mM HEPES pH 7.5, 6 mM sodium bicarbonate
       temperature: 22C
       light_condition: continuous light
@@ -73,8 +73,8 @@ publication:
         light (10 umol quanta m-2 s-1)
       omics_type: MICROARRAY
       test_type: microarray_Goldenspike
-      treatment_type: [nitrogen_stress]
-      background_factors: [axenic, continuous_light]
+      treatment_type: [nitrogen]
+      background_factors: [axenic, light]
       medium: Pro99 with 200 uM nitrite as sole nitrogen source
       temperature: 22C
       light_condition: continuous light
@@ -89,8 +89,8 @@ publication:
         light (10 umol quanta m-2 s-1)
       omics_type: MICROARRAY
       test_type: microarray_Goldenspike
-      treatment_type: [nitrogen_stress]
-      background_factors: [axenic, continuous_light]
+      treatment_type: [nitrogen]
+      background_factors: [axenic, light]
       medium: Pro99 with 400 uM urea as sole nitrogen source
       temperature: 22C
       light_condition: continuous light
@@ -107,7 +107,7 @@ publication:
       - column: ANNOTATION
       statistical_analyses:
       - id: DE_n_deprivation_vs_replete_MED4_0h
-        experiment: nitrogen_stress_nitrogen_deprivation_med4_med4_microarray
+        experiment: nitrogen_nitrogen_deprivation_med4_med4_microarray
         timepoint: 0h
         timepoint_hours: 0.0
         name_col: GENE
@@ -115,7 +115,7 @@ publication:
         pvalue_threshold: 0.01
         pvalue_asterisk_in_logfc: true
       - id: DE_n_deprivation_vs_replete_MED4_3h
-        experiment: nitrogen_stress_nitrogen_deprivation_med4_med4_microarray
+        experiment: nitrogen_nitrogen_deprivation_med4_med4_microarray
         timepoint: 3h
         timepoint_hours: 3.0
         name_col: GENE
@@ -123,7 +123,7 @@ publication:
         pvalue_threshold: 0.01
         pvalue_asterisk_in_logfc: true
       - id: DE_n_deprivation_vs_replete_MED4_6h
-        experiment: nitrogen_stress_nitrogen_deprivation_med4_med4_microarray
+        experiment: nitrogen_nitrogen_deprivation_med4_med4_microarray
         timepoint: 6h
         timepoint_hours: 6.0
         name_col: GENE
@@ -131,7 +131,7 @@ publication:
         pvalue_threshold: 0.01
         pvalue_asterisk_in_logfc: true
       - id: DE_n_deprivation_vs_replete_MED4_12h
-        experiment: nitrogen_stress_nitrogen_deprivation_med4_med4_microarray
+        experiment: nitrogen_nitrogen_deprivation_med4_med4_microarray
         timepoint: 12h
         timepoint_hours: 12.0
         name_col: GENE
@@ -139,7 +139,7 @@ publication:
         pvalue_threshold: 0.01
         pvalue_asterisk_in_logfc: true
       - id: DE_n_deprivation_vs_replete_MED4_24h
-        experiment: nitrogen_stress_nitrogen_deprivation_med4_med4_microarray
+        experiment: nitrogen_nitrogen_deprivation_med4_med4_microarray
         timepoint: 24h
         timepoint_hours: 24.0
         name_col: GENE
@@ -147,7 +147,7 @@ publication:
         pvalue_threshold: 0.01
         pvalue_asterisk_in_logfc: true
       - id: DE_n_deprivation_vs_replete_MED4_48h
-        experiment: nitrogen_stress_nitrogen_deprivation_med4_med4_microarray
+        experiment: nitrogen_nitrogen_deprivation_med4_med4_microarray
         timepoint: 48h
         timepoint_hours: 48.0
         name_col: GENE
@@ -178,7 +178,7 @@ publication:
       - column: ANNOTATION
       statistical_analyses:
       - id: DE_n_deprivation_vs_replete_MIT9313_0h
-        experiment: nitrogen_stress_nitrogen_deprivation_mit9313_mit9313_microarray
+        experiment: nitrogen_nitrogen_deprivation_mit9313_mit9313_microarray
         timepoint: 0h
         timepoint_hours: 0.0
         name_col: GENE
@@ -186,7 +186,7 @@ publication:
         pvalue_threshold: 0.01
         pvalue_asterisk_in_logfc: true
       - id: DE_n_deprivation_vs_replete_MIT9313_3h
-        experiment: nitrogen_stress_nitrogen_deprivation_mit9313_mit9313_microarray
+        experiment: nitrogen_nitrogen_deprivation_mit9313_mit9313_microarray
         timepoint: 3h
         timepoint_hours: 3.0
         name_col: GENE
@@ -194,7 +194,7 @@ publication:
         pvalue_threshold: 0.01
         pvalue_asterisk_in_logfc: true
       - id: DE_n_deprivation_vs_replete_MIT9313_6h
-        experiment: nitrogen_stress_nitrogen_deprivation_mit9313_mit9313_microarray
+        experiment: nitrogen_nitrogen_deprivation_mit9313_mit9313_microarray
         timepoint: 6h
         timepoint_hours: 6.0
         name_col: GENE
@@ -202,7 +202,7 @@ publication:
         pvalue_threshold: 0.01
         pvalue_asterisk_in_logfc: true
       - id: DE_n_deprivation_vs_replete_MIT9313_12h
-        experiment: nitrogen_stress_nitrogen_deprivation_mit9313_mit9313_microarray
+        experiment: nitrogen_nitrogen_deprivation_mit9313_mit9313_microarray
         timepoint: 12h
         timepoint_hours: 12.0
         name_col: GENE
@@ -210,7 +210,7 @@ publication:
         pvalue_threshold: 0.01
         pvalue_asterisk_in_logfc: true
       - id: DE_n_deprivation_vs_replete_MIT9313_24h
-        experiment: nitrogen_stress_nitrogen_deprivation_mit9313_mit9313_microarray
+        experiment: nitrogen_nitrogen_deprivation_mit9313_mit9313_microarray
         timepoint: 24h
         timepoint_hours: 24.0
         name_col: GENE
@@ -218,7 +218,7 @@ publication:
         pvalue_threshold: 0.01
         pvalue_asterisk_in_logfc: true
       - id: DE_n_deprivation_vs_replete_MIT9313_48h
-        experiment: nitrogen_stress_nitrogen_deprivation_mit9313_mit9313_microarray
+        experiment: nitrogen_nitrogen_deprivation_mit9313_mit9313_microarray
         timepoint: 48h
         timepoint_hours: 48.0
         name_col: GENE
@@ -252,10 +252,12 @@ publication:
       cluster_method: "K-means (K=9)"
       omics_type: MICROARRAY
       light_condition: "continuous light"
-      treatment_type: ["nitrogen_stress"]
-      background_factors: [axenic, continuous_light]
+      treatment_type: ["nitrogen"]
+      background_factors: [axenic, light]
       treatment: "N-starvation time course (0, 3, 6, 12, 24, 48h)"
       experimental_context: "Custom Affymetrix microarray MD4-9313; MED4 cells in Pro99 medium under continuous light (27 µmol photons m-2 s-1, 24°C); sampled at 0, 3, 6, 12, 24, 48h post N-deprivation"
+      experiments:
+        - nitrogen_nitrogen_deprivation_med4_med4_microarray
 
     mit9313_kmeans_nstarvation:
       type: gene_clusters
@@ -268,7 +270,9 @@ publication:
       cluster_method: "K-means (K=7)"
       omics_type: MICROARRAY
       light_condition: "continuous light"
-      treatment_type: ["nitrogen_stress"]
-      background_factors: [axenic, continuous_light]
+      treatment_type: ["nitrogen"]
+      background_factors: [axenic, light]
       treatment: "N-starvation time course (0, 3, 6, 12, 24, 48h)"
       experimental_context: "Custom Affymetrix microarray MD4-9313; MIT9313 cells in Pro99 medium under continuous light (27 µmol photons m-2 s-1, 24°C); sampled at 0, 3, 6, 12, 24, 48h post N-deprivation"
+      experiments:
+        - nitrogen_nitrogen_deprivation_mit9313_mit9313_microarray

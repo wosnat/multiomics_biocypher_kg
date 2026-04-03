@@ -12,7 +12,7 @@ publication:
       omics_type: MICROARRAY
       test_type: "SAM"
       treatment_type: ["coculture"]
-      background_factors: ["continuous_light"]
+      background_factors: ["light"]
       medium: "artificial seawater (9.0 mM NaNO3)"
       temperature: "25C"
       light_condition: "continuous light"

@@ -3,7 +3,7 @@ publication:
   papermainpdf: data/Prochlorococcus/papers_and_supp/Lin 2015/Environmental Microbiology - 2015 - Lin - Transcriptomic response
     during phage infection of a marine cyanobacterium under.pdf
   experiments:
-    phosphorus_stress_plimited_natl2a_rnaseq_uninfected:
+    phosphorus_plimited_natl2a_rnaseq_uninfected:
       name: NATL2A P-limited vs P-replete control (RNASEQ)
       organism: Prochlorococcus NATL2A
       treatment_condition: P-limited
@@ -11,14 +11,14 @@ publication:
       experimental_context: Uninfected Prochlorococcus NATL2A, P-limited vs nutrient-replete
       omics_type: RNASEQ
       test_type: DESeq2
-      treatment_type: [phosphorus_stress]
-      background_factors: [axenic, diel_cycle]
+      treatment_type: [phosphorus]
+      background_factors: [axenic, diel]
       medium: Pro99
       temperature: 24C
       light_condition: 14:10 light:dark cycle
       light_intensity: 40 umol photons m-2 s-1
       table_scope: significant_only
-    phosphorus_stress_plimited_natl2a_rnaseq_infected:
+    phosphorus_plimited_natl2a_rnaseq_infected:
       name: NATL2A P-limited vs P-replete control (RNASEQ)
       organism: Prochlorococcus NATL2A
       treatment_condition: P-limited
@@ -26,8 +26,8 @@ publication:
       experimental_context: Phage-infected Prochlorococcus NATL2A (infected at 47h), P-limited vs nutrient-replete
       omics_type: RNASEQ
       test_type: DESeq2
-      treatment_type: [phosphorus_stress]
-      background_factors: [viral, diel_cycle]
+      treatment_type: [phosphorus]
+      background_factors: [viral, diel]
       medium: Pro99
       temperature: 24C
       light_condition: 14:10 light:dark cycle
@@ -46,42 +46,42 @@ publication:
       - column: Description
       statistical_analyses:
       - id: DE_P_limited_vs_replete_NATL2A_uninfected_4h
-        experiment: phosphorus_stress_plimited_natl2a_rnaseq_uninfected
+        experiment: phosphorus_plimited_natl2a_rnaseq_uninfected
         timepoint: 4h
         timepoint_hours: 4.0
         name_col: ID
         logfc_col: 4 h (-P/control) log2 fold change
         adjusted_p_value_col: 4 h (-P/control) padj
       - id: DE_P_limited_vs_replete_NATL2A_uninfected_24h
-        experiment: phosphorus_stress_plimited_natl2a_rnaseq_uninfected
+        experiment: phosphorus_plimited_natl2a_rnaseq_uninfected
         timepoint: 24h
         timepoint_hours: 24.0
         name_col: ID
         logfc_col: 24 h (-P/control) log2 fold change
         adjusted_p_value_col: 24 h (-P/control) padj
       - id: DE_P_limited_vs_replete_NATL2A_uninfected_46h
-        experiment: phosphorus_stress_plimited_natl2a_rnaseq_uninfected
+        experiment: phosphorus_plimited_natl2a_rnaseq_uninfected
         timepoint: 46h
         timepoint_hours: 46.0
         name_col: ID
         logfc_col: 46 h (-P/control) log2 fold change
         adjusted_p_value_col: 46 h (-P/control) padj
       - id: DE_P_limited_vs_replete_NATL2A_uninfected_59h
-        experiment: phosphorus_stress_plimited_natl2a_rnaseq_uninfected
+        experiment: phosphorus_plimited_natl2a_rnaseq_uninfected
         timepoint: 59h
         timepoint_hours: 59.0
         name_col: ID
         logfc_col: 59 h (-P/control) log2 fold change
         adjusted_p_value_col: 59 h (-P/control) padj
       - id: DE_P_readded_vs_control_NATL2A_uninfected_50h
-        experiment: phosphorus_stress_plimited_natl2a_rnaseq_uninfected
+        experiment: phosphorus_plimited_natl2a_rnaseq_uninfected
         timepoint: 50h (P added)
         timepoint_hours: 50.0
         name_col: ID
         logfc_col: 50 h (P added/control) log2 fold change
         adjusted_p_value_col: 50 h (P added/control) padj
       - id: DE_P_readded_vs_control_NATL2A_uninfected_59h
-        experiment: phosphorus_stress_plimited_natl2a_rnaseq_uninfected
+        experiment: phosphorus_plimited_natl2a_rnaseq_uninfected
         timepoint: 59h (P added)
         timepoint_hours: 59.0
         name_col: ID
@@ -99,56 +99,56 @@ publication:
       - column: Description
       statistical_analyses:
       - id: DE_P_limited_vs_replete_NATL2A_infected_47h
-        experiment: phosphorus_stress_plimited_natl2a_rnaseq_infected
+        experiment: phosphorus_plimited_natl2a_rnaseq_infected
         timepoint: 47h
         timepoint_hours: 47.0
         name_col: ID
         logfc_col: 47 h (-P/control) log2 fold change
         adjusted_p_value_col: 47 h (-P/control) padj
       - id: DE_P_limited_vs_replete_NATL2A_infected_48h
-        experiment: phosphorus_stress_plimited_natl2a_rnaseq_infected
+        experiment: phosphorus_plimited_natl2a_rnaseq_infected
         timepoint: 48h
         timepoint_hours: 48.0
         name_col: ID
         logfc_col: 48 h (-P/control) log2 fold change
         adjusted_p_value_col: 48 h (-P/control) padj
       - id: DE_P_limited_vs_replete_NATL2A_infected_49h
-        experiment: phosphorus_stress_plimited_natl2a_rnaseq_infected
+        experiment: phosphorus_plimited_natl2a_rnaseq_infected
         timepoint: 49h
         timepoint_hours: 49.0
         name_col: ID
         logfc_col: 49 h (-P/control) log2 fold change
         adjusted_p_value_col: 49 h (-P/control) padj
       - id: DE_P_limited_vs_replete_NATL2A_infected_51h
-        experiment: phosphorus_stress_plimited_natl2a_rnaseq_infected
+        experiment: phosphorus_plimited_natl2a_rnaseq_infected
         timepoint: 51h
         timepoint_hours: 51.0
         name_col: ID
         logfc_col: 51 h (-P/control) log2 fold change
         adjusted_p_value_col: 51 h (-P/control) padj
       - id: DE_P_limited_vs_replete_NATL2A_infected_55h
-        experiment: phosphorus_stress_plimited_natl2a_rnaseq_infected
+        experiment: phosphorus_plimited_natl2a_rnaseq_infected
         timepoint: 55h
         timepoint_hours: 55.0
         name_col: ID
         logfc_col: 55 h (-P/control) log2 fold change
         adjusted_p_value_col: 55 h (-P/control) padj
       - id: DE_P_limited_vs_replete_NATL2A_infected_59h
-        experiment: phosphorus_stress_plimited_natl2a_rnaseq_infected
+        experiment: phosphorus_plimited_natl2a_rnaseq_infected
         timepoint: 59h
         timepoint_hours: 59.0
         name_col: ID
         logfc_col: 59 h (-P/control) log2 fold change
         adjusted_p_value_col: 59 h (-P/control) padj
       - id: DE_P_readded_vs_control_NATL2A_infected_55h
-        experiment: phosphorus_stress_plimited_natl2a_rnaseq_infected
+        experiment: phosphorus_plimited_natl2a_rnaseq_infected
         timepoint: 55h (P added)
         timepoint_hours: 55.0
         name_col: ID
         logfc_col: 55 h (P added/control) log2 fold change
         adjusted_p_value_col: 55 h (P added/control) padj
       - id: DE_P_readded_vs_control_NATL2A_infected_59h
-        experiment: phosphorus_stress_plimited_natl2a_rnaseq_infected
+        experiment: phosphorus_plimited_natl2a_rnaseq_infected
         timepoint: 59h (P added)
         timepoint_hours: 59.0
         name_col: ID

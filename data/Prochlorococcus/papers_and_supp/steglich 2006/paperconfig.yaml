@@ -11,7 +11,7 @@ publication:
         5h dark adaptation
       omics_type: MICROARRAY
       test_type: microarray_LPE
-      treatment_type: [light_stress]
+      treatment_type: [light]
       background_factors: [axenic]
       medium: Sargasso seawater-based Pro99
       temperature: 21C
@@ -28,7 +28,7 @@ publication:
         5h dark adaptation
       omics_type: MICROARRAY
       test_type: microarray_LPE
-      treatment_type: [light_stress]
+      treatment_type: [light]
       background_factors: [axenic]
       medium: Sargasso seawater-based Pro99
       temperature: 21C
@@ -45,7 +45,7 @@ publication:
         5h dark adaptation
       omics_type: MICROARRAY
       test_type: microarray_LPE
-      treatment_type: [light_stress]
+      treatment_type: [light]
       background_factors: [axenic]
       medium: Sargasso seawater-based Pro99
       temperature: 21C
@@ -62,7 +62,7 @@ publication:
         5h dark adaptation
       omics_type: MICROARRAY
       test_type: microarray_LPE
-      treatment_type: [light_stress]
+      treatment_type: [light]
       background_factors: [axenic]
       medium: Sargasso seawater-based Pro99
       temperature: 21C
@@ -79,7 +79,7 @@ publication:
         5h dark adaptation
       omics_type: MICROARRAY
       test_type: microarray_LPE
-      treatment_type: [light_stress]
+      treatment_type: [light]
       background_factors: [axenic]
       medium: Sargasso seawater-based Pro99
       temperature: 21C
@@ -96,8 +96,8 @@ publication:
         dark adaptation. DCMU (4 uM) inhibits PSII electron transport.
       omics_type: MICROARRAY
       test_type: microarray_LPE
-      treatment_type: [light_stress]
-      background_factors: [axenic, chemical_inhibitor]
+      treatment_type: [light]
+      background_factors: [axenic, chemical]
       medium: Sargasso seawater-based Pro99
       temperature: 21C
       light_condition: white light

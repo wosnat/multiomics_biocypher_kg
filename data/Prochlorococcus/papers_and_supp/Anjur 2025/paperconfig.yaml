@@ -13,8 +13,8 @@ publication:
         q-value threshold 0.05.
       omics_type: RNASEQ
       test_type: edgeR
-      treatment_type: [growth_state]
-      background_factors: [axenic, continuous_light]
+      treatment_type: [growth_phase]
+      background_factors: [axenic, light]
       medium: Pro99-ESL (0.2 um filtered, autoclaved sterile seawater amended with Pro99 nutrients)
       temperature: 24C
       light_condition: continuous light

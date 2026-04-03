@@ -54,11 +54,15 @@ REQUIRED_STATS_FIELDS = {
     "experiment": "reference to a key in the experiments block",
 }
 
-# Required fields on each experiment entry
+# Required fields on each experiment entry (always required)
 REQUIRED_EXPERIMENT_FIELDS = [
-    "name", "organism", "omics_type", "test_type",
-    "treatment_type", "treatment_condition", "control_condition",
+    "name", "organism", "omics_type",
+    "treatment_type", "treatment_condition",
 ]
+
+# Fields required for experiments with DE analyses, but only recommended for
+# cluster-only experiments (profiling studies without a control or statistical test)
+DE_REQUIRED_EXPERIMENT_FIELDS = ["test_type", "control_condition"]
 
 # Optional but recommended experiment fields (warn if missing)
 RECOMMENDED_EXPERIMENT_FIELDS = [
@@ -124,30 +128,32 @@ _TREATMENT_ORGANISMS_CSV_DEFAULT = {
     # "Pseudohoeflea",
 }
 
-# Canonical treatment_type values for experiment entries (replaces condition_type).
+# Canonical vocabulary shared by treatment_type and background_factors.
+# treatment_type = "what environmental variable is being manipulated"
+# background_factors = "what conditions are held constant"
+# Same canonical terms; meaning depends on which field they appear in.
 CANONICAL_CONDITION_TYPES = {
-    "growth_medium",
-    "nitrogen_stress",
-    "phosphorus_stress",
-    "iron_stress",
-    "salt_stress",
-    "carbon_stress",
-    "light_stress",
-    "darkness",
-    "plastic_stress",
-    "viral",
-    "coculture",
-    "growth_state",
-    "temperature_stress",
-    "diel",
-    "oxygen_stress",
-    "axenic",
-    "continuous_light",
-    "diel_cycle",
-    "chemical_inhibitor",
-    "carbon",
-    "temperature",
-    "none",
+    # Nutrient / environmental variables
+    "nitrogen",         # N-limitation / N-replete
+    "phosphorus",       # P-limitation / P-replete
+    "iron",             # Fe-limitation / Fe-replete
+    "carbon",           # CO2, carbon source, chitosan addition
+    "light",            # Light quality, intensity; as bg = continuous light regime
+    "darkness",         # Extended dark treatment; as bg = dark regime
+    "diel",             # Diel light-dark cycling / circadian
+    "temperature",      # Thermal shift / acclimation
+    "salt",             # Salinity / osmotic
+    # Biotic interactions
+    "coculture",        # Co-cultivation with another organism
+    "viral",            # Phage infection
+    # Chemical / xenobiotic
+    "chemical",         # Chemical treatment (e.g., DCMU); as bg = inhibitor present
+    "plastic",          # Plastic leachate exposure
+    # Growth / baseline
+    "growth_phase",     # Growth state / multi-condition comparison
+    "mutant",           # Mutant or evolved strain comparison
+    # Background-only (typically not used as treatment_type)
+    "axenic",           # Pure culture, no other organisms
 }
 
 # Valid cluster_type values for gene_clusters entries.
@@ -173,14 +179,25 @@ REQUIRED_CLUSTER_TABLE_FIELDS = [
 
 # Canonical test_type values for statistical_analyses entries.
 CANONICAL_TEST_TYPES = {
+    # RNA-seq
     "DESeq2",
     "DESeq",
     "edgeR",
     "Rockhopper",
+    # Microarray
     "microarray",
     "microarray_Cyber-T",
     "microarray_LPE",
     "microarray_Goldenspike",
+    "SAM",                    # Significance Analysis of Microarrays
+    # Proteomics / generic
+    "t-test",
+    "t-test_Perseus",        # Student's t-test via Perseus
+    "ANOVA",
+    "iTRAQ_t-test",          # iTRAQ quantification + t-test
+    "RPKM_fold_change",      # simple RPKM ratio (no formal test)
+    "fold_change",            # fold change without formal test
+    "LC-MS/MS",               # label-free proteomics quantification
 }
 
 
@@ -264,7 +281,8 @@ def _validate_product_columns(product_columns, cols, table_key, warnings):
 
 def _validate_experiments(experiments: dict, config_path: str,
                           all_canonical_organisms: set,
-                          errors: list, warnings: list) -> None:
+                          errors: list, warnings: list,
+                          referenced_exp_keys: set | None = None) -> None:
     """Validate the experiments block in a publication config."""
     if not experiments:
         # experiments block is optional for cluster-only paperconfigs
@@ -290,6 +308,22 @@ def _validate_experiments(experiments: dict, config_path: str,
                     f"{config_path} | experiments.{exp_key} | "
                     f"missing required field '{field}'"
                 )
+
+        # Fields required for DE experiments, warned for cluster-only
+        has_analyses = referenced_exp_keys and exp_key in referenced_exp_keys
+        for field in DE_REQUIRED_EXPERIMENT_FIELDS:
+            val = exp.get(field)
+            if val is None or (isinstance(val, str) and not val.strip()):
+                if has_analyses:
+                    errors.append(
+                        f"{config_path} | experiments.{exp_key} | "
+                        f"missing required field '{field}'"
+                    )
+                else:
+                    warnings.append(
+                        f"{config_path} | experiments.{exp_key} | "
+                        f"missing field '{field}' (optional for cluster-only experiments)"
+                    )
 
         # Canonical organism
         organism = exp.get("organism", "")
@@ -583,17 +617,26 @@ def _validate_gene_clusters_entry(key, table, config, paperconfig_dir,
 
     # experiments cross-reference
     experiments_ref = table.get("experiments")
-    if experiments_ref is not None:
-        if not isinstance(experiments_ref, list):
-            errors.append(f"  [{key}] experiments must be a list")
-        else:
-            pub_experiments = config.get("publication", {}).get("experiments", {})
-            for exp_key in experiments_ref:
-                if exp_key not in pub_experiments:
-                    errors.append(
-                        f"  [{key}] experiments references '{exp_key}' not found "
-                        f"in publication.experiments"
-                    )
+    if experiments_ref is None:
+        warnings.append(
+            f"  [{key}] No 'experiments' field — cluster analysis should link "
+            f"to at least one experiment in publication.experiments"
+        )
+    elif not isinstance(experiments_ref, list):
+        errors.append(f"  [{key}] experiments must be a list")
+    else:
+        if len(experiments_ref) == 0:
+            warnings.append(
+                f"  [{key}] 'experiments' list is empty — should reference "
+                f"at least one experiment key"
+            )
+        pub_experiments = config.get("publication", {}).get("experiments", {})
+        for exp_key in experiments_ref:
+            if exp_key not in pub_experiments:
+                errors.append(
+                    f"  [{key}] experiments references '{exp_key}' not found "
+                    f"in publication.experiments"
+                )
 
     # CSV validation
     filename = table.get("filename", "")
@@ -713,12 +756,22 @@ def validate(config_path: str) -> bool:
 
         # --- Experiments block ---
         experiments = pub.get("experiments", {})
+        supp = get_supplementary_materials(config)
+
+        # Pre-compute which experiment keys have DE analyses referencing them
+        _referenced_exp_keys = set()
+        if supp:
+            for _tk, _tv in supp.items():
+                if not isinstance(_tv, dict):
+                    continue
+                for _a in _tv.get("statistical_analyses", []):
+                    if isinstance(_a, dict) and _a.get("experiment"):
+                        _referenced_exp_keys.add(_a["experiment"])
+
         _validate_experiments(
             experiments, config_path, all_canonical_organisms,
-            errors, warnings,
+            errors, warnings, referenced_exp_keys=_referenced_exp_keys,
         )
-
-        supp = get_supplementary_materials(config)
 
     if not supp:
         errors.append("Missing 'supplementary_materials'")

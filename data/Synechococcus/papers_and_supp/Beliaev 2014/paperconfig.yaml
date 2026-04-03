@@ -11,14 +11,14 @@ publication:
       control_condition: "Axenic Synechococcus 7002 (high light, high O2)"
       experimental_context: "Carbon-limited chemostat co-culture at 30C, 1720 umol photons m-2 s-1, dilution rate 0.075 h-1, 5 mM D,L-Na lactate; SOLiD sequencing, RPKM normalization"
       omics_type: RNASEQ
-      test_type: "RPKM fold change"
+      test_type: "RPKM_fold_change"
       treatment_type: ["coculture"]
-      background_factors: ["continuous_light"]
+      background_factors: ["light"]
       medium: "modified basal medium A with 5 mM D,L-Na lactate"
       temperature: "30C"
       light_condition: "continuous light"
       light_intensity: "1720 umol photons m-2 s-1"
-      treatment_organism: "Shewanella putrefaciens W3-18-1"
+      treatment_organism: "Shewanella sp. W3-18-1"
       treatment_taxid: 351745
       treatment_assembly_accession: "GCF_000015185.1"
       table_scope: significant_only
@@ -27,14 +27,14 @@ publication:
     # Lactate co-culture vs axenic — Shewanella side
     coculture_lactate_vs_axenic_shew_w3181_rnaseq:
       name: "Shewanella W3-18-1 coculture (lactate) vs axenic (SOLiD RNA-seq)"
-      organism: "Shewanella putrefaciens W3-18-1"
+      organism: "Shewanella sp. W3-18-1"
       treatment_condition: "Coculture with Synechococcus 7002 (lactate carbon source)"
       control_condition: "Axenic Shewanella W3-18-1 (high light, high O2)"
       experimental_context: "Carbon-limited chemostat co-culture at 30C, 1720 umol photons m-2 s-1, dilution rate 0.075 h-1, 5 mM D,L-Na lactate; SOLiD sequencing, RPKM normalization"
       omics_type: RNASEQ
-      test_type: "RPKM fold change"
+      test_type: "RPKM_fold_change"
       treatment_type: ["coculture"]
-      background_factors: ["continuous_light"]
+      background_factors: ["light"]
       medium: "M1 defined medium with 5 mM D,L-Na lactate"
       temperature: "30C"
       light_condition: "continuous light"
@@ -53,14 +53,14 @@ publication:
       control_condition: "Axenic Synechococcus 7002 (high light, high O2)"
       experimental_context: "Carbon-limited chemostat co-culture at 30C, 1720 umol photons m-2 s-1, dilution rate 0.075 h-1, 8 mM NaHCO3; SOLiD sequencing, RPKM normalization"
       omics_type: RNASEQ
-      test_type: "RPKM fold change"
+      test_type: "RPKM_fold_change"
       treatment_type: ["coculture"]
-      background_factors: ["continuous_light"]
+      background_factors: ["light"]
       medium: "modified basal medium A with 8 mM NaHCO3"
       temperature: "30C"
       light_condition: "continuous light"
       light_intensity: "1720 umol photons m-2 s-1"
-      treatment_organism: "Shewanella putrefaciens W3-18-1"
+      treatment_organism: "Shewanella sp. W3-18-1"
       treatment_taxid: 351745
       treatment_assembly_accession: "GCF_000015185.1"
       table_scope: significant_only
@@ -69,14 +69,14 @@ publication:
     # HCO3- co-culture vs axenic — Shewanella side
     coculture_hco3_vs_axenic_shew_w3181_rnaseq:
       name: "Shewanella W3-18-1 coculture (HCO3-) vs axenic (SOLiD RNA-seq)"
-      organism: "Shewanella putrefaciens W3-18-1"
+      organism: "Shewanella sp. W3-18-1"
       treatment_condition: "Coculture with Synechococcus 7002 (HCO3- carbon source)"
       control_condition: "Axenic Shewanella W3-18-1 (high light, high O2)"
       experimental_context: "Carbon-limited chemostat co-culture at 30C, 1720 umol photons m-2 s-1, dilution rate 0.075 h-1, 8 mM NaHCO3; SOLiD sequencing, RPKM normalization"
       omics_type: RNASEQ
-      test_type: "RPKM fold change"
+      test_type: "RPKM_fold_change"
       treatment_type: ["coculture"]
-      background_factors: ["continuous_light"]
+      background_factors: ["light"]
       medium: "M1 defined medium with 8 mM NaHCO3"
       temperature: "30C"
       light_condition: "continuous light"
@@ -95,14 +95,14 @@ publication:
       control_condition: "Coculture with Shewanella W3-18-1 (lactate carbon source)"
       experimental_context: "Carbon-limited chemostat co-culture at 30C, 1720 umol photons m-2 s-1, dilution rate 0.075 h-1; comparing HCO3- vs lactate carbon sources; SOLiD sequencing, RPKM normalization"
       omics_type: RNASEQ
-      test_type: "RPKM fold change"
+      test_type: "RPKM_fold_change"
       treatment_type: ["coculture", "carbon"]
-      background_factors: ["continuous_light"]
+      background_factors: ["light"]
       medium: "modified basal medium A"
       temperature: "30C"
       light_condition: "continuous light"
       light_intensity: "1720 umol photons m-2 s-1"
-      treatment_organism: "Shewanella putrefaciens W3-18-1"
+      treatment_organism: "Shewanella sp. W3-18-1"
       treatment_taxid: 351745
       treatment_assembly_accession: "GCF_000015185.1"
       table_scope: significant_only
@@ -111,14 +111,14 @@ publication:
     # HCO3- co-culture vs lactate co-culture — Shewanella side
     coculture_hco3_vs_lactate_shew_w3181_rnaseq:
       name: "Shewanella W3-18-1 coculture HCO3- vs coculture lactate (SOLiD RNA-seq)"
-      organism: "Shewanella putrefaciens W3-18-1"
+      organism: "Shewanella sp. W3-18-1"
       treatment_condition: "Coculture with Synechococcus 7002 (HCO3- carbon source)"
       control_condition: "Coculture with Synechococcus 7002 (lactate carbon source)"
       experimental_context: "Carbon-limited chemostat co-culture at 30C, 1720 umol photons m-2 s-1, dilution rate 0.075 h-1; comparing HCO3- vs lactate carbon sources; SOLiD sequencing, RPKM normalization"
       omics_type: RNASEQ
-      test_type: "RPKM fold change"
+      test_type: "RPKM_fold_change"
       treatment_type: ["coculture", "carbon"]
-      background_factors: ["continuous_light"]
+      background_factors: ["light"]
       medium: "M1 defined medium"
       temperature: "30C"
       light_condition: "continuous light"

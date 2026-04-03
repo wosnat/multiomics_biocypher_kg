@@ -13,7 +13,7 @@ publication:
       omics_type: RNASEQ
       test_type: DESeq2
       treatment_type: [darkness]
-      background_factors: [coculture, diel_cycle]
+      background_factors: [coculture, diel]
       medium: Pro99 natural seawater medium
       temperature: 24C
       light_condition: 13:11 light:dark cycle with simulated dawn and dusk
@@ -30,7 +30,7 @@ publication:
       omics_type: RNASEQ
       test_type: DESeq2
       treatment_type: [darkness]
-      background_factors: [coculture, diel_cycle]
+      background_factors: [coculture, diel]
       medium: Pro99 natural seawater medium
       temperature: 24C
       light_condition: 13:11 light:dark cycle with simulated dawn and dusk
@@ -190,7 +190,7 @@ publication:
       cluster_method: "RAIN periodicity detection (K=15)"
       omics_type: RNASEQ
       treatment_type: ["darkness"]
-      background_factors: [coculture, diel_cycle]
+      background_factors: [coculture, diel]
       treatment: "Dark-tolerant evolved NATL2A co-cultured with MIT1002 under 13:11 diel light:dark cycle"
       light_condition: "13:11 light:dark cycle with simulated dawn and dusk"
       experimental_context: "Diel gene expression clusters from dark-tolerant evolved NATL2A in co-culture with Alteromonas MIT1002; sampled every 2h over 24h diel cycle in Pro99 medium at 24C under 37 umol photons m-2 s-1"
@@ -207,7 +207,7 @@ publication:
       cluster_method: "RAIN periodicity detection (K=15)"
       omics_type: RNASEQ
       treatment_type: ["darkness"]
-      background_factors: [coculture, diel_cycle]
+      background_factors: [coculture, diel]
       treatment: "Parental (wild-type) NATL2A co-cultured with MIT1002 under 13:11 diel light:dark cycle"
       light_condition: "13:11 light:dark cycle with simulated dawn and dusk"
       experimental_context: "Diel gene expression clusters from parental (wild-type) NATL2A in co-culture with Alteromonas MIT1002; sampled every 2h over 24h diel cycle in Pro99 medium at 24C under 37 umol photons m-2 s-1"

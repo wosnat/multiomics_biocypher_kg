@@ -2,7 +2,7 @@ publication:
   papername: He 2022
   papermainpdf: data/Prochlorococcus/papers_and_supp/he 2022/fmicb-13-1038136.pdf
   experiments:
-    salt_stress_low_salinity_acclimation_28_natl1a_rnaseq:
+    salt_low_salinity_acclimation_28_natl1a_rnaseq:
       name: NATL1A Low salinity acclimation (28 psu) vs Normal seawater salinity (34 psu) (RNASEQ)
       organism: Prochlorococcus NATL1A
       treatment_condition: Low salinity acclimation (28 psu)
@@ -11,15 +11,15 @@ publication:
         through five rounds of transfer
       omics_type: RNASEQ
       test_type: DESeq
-      treatment_type: [salt_stress]
-      background_factors: [axenic, continuous_light]
+      treatment_type: [salt]
+      background_factors: [axenic, light]
       medium: Pro99 natural seawater medium with reduced salinity
       temperature: 21C
       light_condition: continuous light
       light_intensity: 10 umol photons m-2 s-1
       table_scope: significant_only
       table_scope_detail: p < 0.05 and |logFC| > 1
-    salt_stress_low_salinity_acclimation_28_med4_rnaseq:
+    salt_low_salinity_acclimation_28_med4_rnaseq:
       name: MED4 Low salinity acclimation (28 psu) vs Normal seawater salinity (34 psu) (RNASEQ)
       organism: Prochlorococcus MED4
       treatment_condition: Low salinity acclimation (28 psu)
@@ -28,8 +28,8 @@ publication:
         through five rounds of transfer
       omics_type: RNASEQ
       test_type: DESeq
-      treatment_type: [salt_stress]
-      background_factors: [axenic, continuous_light]
+      treatment_type: [salt]
+      background_factors: [axenic, light]
       medium: Pro99 natural seawater medium with reduced salinity
       temperature: 21C
       light_condition: continuous light
@@ -45,7 +45,7 @@ publication:
       - column: Definition
       statistical_analyses:
       - id: DE_low_salinity_vs_normal_NATL1A
-        experiment: salt_stress_low_salinity_acclimation_28_natl1a_rnaseq
+        experiment: salt_low_salinity_acclimation_28_natl1a_rnaseq
         timepoint_hours: null
         name_col: Gene Name
         logfc_col: Log2FC
@@ -60,7 +60,7 @@ publication:
       - column: Definition
       statistical_analyses:
       - id: DE_low_salinity_vs_normal_MED4
-        experiment: salt_stress_low_salinity_acclimation_28_med4_rnaseq
+        experiment: salt_low_salinity_acclimation_28_med4_rnaseq
         timepoint_hours: null
         name_col: Gene Name
         logfc_col: logFC
