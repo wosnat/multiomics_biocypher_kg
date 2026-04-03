@@ -103,6 +103,32 @@ def _load_pdf_cache(cache_path: Path = _DEFAULT_PDF_CACHE) -> dict:
     return {}
 
 
+def _cluster_val_to_str(val) -> str:
+    """Convert a cluster column value to a clean string.
+
+    Pandas reads integer columns with NaN as float (e.g. 5 → 5.0).
+    This converts ``5.0`` → ``"5"`` while leaving genuine strings untouched.
+    """
+    if pd.isna(val):
+        return ""
+    if isinstance(val, float) and val == int(val):
+        return str(int(val))
+    return str(val).strip()
+
+
+def _read_cluster_csv(csv_path: Path, table: dict) -> pd.DataFrame:
+    """Read a cluster CSV, honouring optional ``skip_rows`` from paperconfig.
+
+    ``skip_rows`` (int) tells pandas to skip that many leading rows before the
+    real header row.  Useful when the CSV has multi-row headers (e.g. merged
+    cells exported from Excel).
+    """
+    skip = table.get("skip_rows", 0)
+    if skip:
+        return pd.read_csv(csv_path, skiprows=skip)
+    return pd.read_csv(csv_path)
+
+
 class ClusterAdapter:
     """Adapter for one paperconfig's gene_clusters entries."""
 
@@ -142,7 +168,7 @@ class ClusterAdapter:
                 logger.warning(f"Cluster CSV not found: {csv_path}")
                 continue
 
-            df = pd.read_csv(csv_path)
+            df = _read_cluster_csv(csv_path, table)
             cluster_col = table["cluster_col"]
             if cluster_col not in df.columns:
                 logger.warning(
@@ -150,10 +176,14 @@ class ClusterAdapter:
                 )
                 continue
 
+            # Clean cluster values (float 5.0 → str "5") and drop NaN
+            df[cluster_col] = df[cluster_col].map(_cluster_val_to_str)
+            df = df[df[cluster_col] != ""]
+
             organism = table.get("organism", "")
 
             # Derive cluster keys from CSV unique values
-            unique_clusters = sorted(df[cluster_col].dropna().astype(str).unique())
+            unique_clusters = sorted(df[cluster_col].unique())
 
             # Load extraction JSON
             extraction = _load_extraction_json(self._paperconfig_dir, entry_key)
@@ -192,7 +222,7 @@ class ClusterAdapter:
                     self.doi, self.paper_name, entry_key, cluster_key
                 )
 
-                mask = df[cluster_col].astype(str) == str(cluster_key)
+                mask = df[cluster_col] == cluster_key
                 member_count = int(mask.sum())
 
                 # Get extraction data for this cluster (empty if no JSON or verdict != pass)
@@ -241,10 +271,14 @@ class ClusterAdapter:
             if not csv_path.exists():
                 continue
 
-            df = pd.read_csv(csv_path)
+            df = _read_cluster_csv(csv_path, table)
             cluster_col = table["cluster_col"]
             if cluster_col not in df.columns:
                 continue
+
+            # Clean cluster values (float 5.0 → str "5") and drop NaN
+            df[cluster_col] = df[cluster_col].map(_cluster_val_to_str)
+            df = df[df[cluster_col] != ""]
 
             # Prefer pre-resolved locus_tag column; fall back to gene_id_col
             if "locus_tag" in df.columns:
@@ -257,7 +291,7 @@ class ClusterAdapter:
             organism = table.get("organism", "")
 
             # Derive cluster keys from CSV
-            unique_clusters = sorted(df[cluster_col].dropna().astype(str).unique())
+            unique_clusters = sorted(df[cluster_col].unique())
 
             analysis_id = _make_analysis_id(self.doi, self.paper_name, entry_key)
 
@@ -306,7 +340,7 @@ class ClusterAdapter:
                 )
 
                 # Gene_in_gene_cluster edges
-                mask = df[cluster_col].astype(str) == str(cluster_key)
+                mask = df[cluster_col] == cluster_key
                 for _, row in df[mask].iterrows():
                     if self.test_mode and rows_processed >= 100:
                         break
