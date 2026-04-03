@@ -32,7 +32,8 @@ def extract_from_csv(table_config: dict,
     gene_id_col = table_config["gene_id_col"]
     cluster_col = table_config["cluster_col"]
 
-    df = pd.read_csv(csv_path)
+    skip_rows = table_config.get("skip_rows", 0)
+    df = pd.read_csv(csv_path, skiprows=skip_rows if skip_rows else None)
 
     # Columns to skip when auto-detecting numeric aggregates
     skip_cols = {gene_id_col, cluster_col}

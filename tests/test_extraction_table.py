@@ -24,23 +24,24 @@ class TestExtractFromCsv:
 
     def test_zinser_has_peak_time(self):
         table_config = {
-            "filename": "data/Prochlorococcus/papers_and_supp/zinser 2009/diel_clusters.csv",
-            "gene_id_col": "gene_id",
-            "cluster_col": "cluster",
-            "score_col": "membership_score",
+            "filename": "data/Prochlorococcus/papers_and_supp/zinser 2009/Table_S1.csv",
+            "gene_id_col": "Gene or region",
+            "cluster_col": "Cluster",
+            "score_col": "Cluster membership score",
+            "skip_rows": 3,
         }
         result = extract_from_csv(table_config, project_root=PROJECT_ROOT)
-        # Zinser CSV has peak_time column — should be auto-detected
+        # Zinser CSV has Peak column — should be auto-detected
         assert "5" in result
         assert result["5"]["gene_count"] > 0
-        assert "peak_time_mean" in result["5"]
+        assert "Peak_mean" in result["5"]
 
     def test_alonso_cluster_keys(self):
         table_config = {
-            "filename": "data/Prochlorococcus/papers_and_supp/alonso 2023/soft_clusters.csv",
-            "gene_id_col": "locus_tag",
-            "cluster_col": "cluster",
-            "score_col": "prob_cluster_A",
+            "filename": "data/Prochlorococcus/papers_and_supp/alonso 2023/TABLE S5 softcluster membership.csv",
+            "gene_id_col": "RefSeq Locus Tag",
+            "cluster_col": "Soft cluster",
+            "skip_rows": 2,
         }
         result = extract_from_csv(table_config, project_root=PROJECT_ROOT)
         assert "Cluster A" in result

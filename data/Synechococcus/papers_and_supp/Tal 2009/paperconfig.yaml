@@ -35,7 +35,7 @@ publication:
     table_s2_downregulated:
       type: csv
       filename: "data/Synechococcus/papers_and_supp/Tal 2009/table s2.csv"
-      skip_rows: 1
+      skip_rows: 2
       statistical_analyses:
         - id: "vibrio_coculture_wh8102_down"
           experiment: vibrio_coculture_wh8102_microarray

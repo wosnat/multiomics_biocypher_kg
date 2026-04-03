@@ -47,7 +47,7 @@ def _write_cluster_csv(path: str, with_resolved: bool = False, include_nan: bool
         "score": [0.9, 0.8, 0.7, 0.85, 0.6],
     }
     if include_nan:
-        data["locus_tag"] = ["PMM0001", None, "PMM0003", "PMM0004", "PMM0005"]
+        data["resolved_locus_tag"] = ["PMM0001", None, "PMM0003", "PMM0004", "PMM0005"]
         data["resolution_method"] = ["tier1:locus_tag", None, "tier1:locus_tag", "tier1:locus_tag", "tier1:locus_tag"]
 
     df = pd.DataFrame(data)
@@ -55,12 +55,12 @@ def _write_cluster_csv(path: str, with_resolved: bool = False, include_nan: bool
     if with_resolved:
         stem = os.path.splitext(path)[0]
         resolved_path = f"{stem}_resolved.csv"
-        if "locus_tag" not in df.columns:
-            df["locus_tag"] = df["gene_id"]
+        if "resolved_locus_tag" not in df.columns:
+            df["resolved_locus_tag"] = df["gene_id"]
             df["resolution_method"] = "tier1:locus_tag"
         df.to_csv(resolved_path, index=False)
         # Also write original so the config filename points to a real file
-        df.drop(columns=["locus_tag", "resolution_method"], errors="ignore").to_csv(path, index=False)
+        df.drop(columns=["resolved_locus_tag", "resolution_method"], errors="ignore").to_csv(path, index=False)
         return resolved_path
     else:
         df.to_csv(path, index=False)
@@ -413,13 +413,13 @@ def test_nan_locus_tags_skipped(temp_dir):
         "gene_id": ["PMM0001", "PMM0002", "PMM0003", "PMM0004", "PMM0005"],
         "cluster": [1, 1, 2, 2, 2],
         "score": [0.9, 0.8, 0.7, 0.85, 0.6],
-        "locus_tag": ["PMM0001", None, "PMM0003", "PMM0004", "PMM0005"],
+        "resolved_locus_tag": ["PMM0001", None, "PMM0003", "PMM0004", "PMM0005"],
         "resolution_method": [
             "tier1:locus_tag", None, "tier1:locus_tag", "tier1:locus_tag", "tier1:locus_tag"
         ],
     })
     # Write original (required by config filename)
-    df.drop(columns=["locus_tag", "resolution_method"]).to_csv(csv_path, index=False)
+    df.drop(columns=["resolved_locus_tag", "resolution_method"]).to_csv(csv_path, index=False)
     # Write resolved alongside
     resolved_path = csv_path.replace(".csv", "_resolved.csv")
     df.to_csv(resolved_path, index=False)
@@ -451,10 +451,10 @@ def test_no_score_col_produces_empty_edge_props(temp_dir):
     df = pd.DataFrame({
         "gene_id": ["PMM0001", "PMM0002"],
         "cluster": [1, 1],
-        "locus_tag": ["PMM0001", "PMM0002"],
+        "resolved_locus_tag": ["PMM0001", "PMM0002"],
         "resolution_method": ["tier1:locus_tag", "tier1:locus_tag"],
     })
-    df.drop(columns=["locus_tag", "resolution_method"]).to_csv(csv_path, index=False)
+    df.drop(columns=["resolved_locus_tag", "resolution_method"]).to_csv(csv_path, index=False)
     resolved_path = csv_path.replace(".csv", "_resolved.csv")
     df.to_csv(resolved_path, index=False)
 
@@ -528,11 +528,78 @@ def test_resolve_csv_path_prefers_resolved(temp_dir):
 
     # Only original exists
     open(original, "w").close()
-    assert str(_resolve_csv_path(original)) == original
+    path, is_resolved = _resolve_csv_path(original)
+    assert str(path) == original
+    assert not is_resolved
 
     # Now create resolved — should be preferred
     open(resolved, "w").close()
-    assert str(_resolve_csv_path(original)) == resolved
+    path, is_resolved = _resolve_csv_path(original)
+    assert str(path) == resolved
+    assert is_resolved
+
+
+# ─── Test: MultiClusterAdapter skips configs without gene_clusters ──────────
+
+
+def test_get_nodes_resolved_csv_with_skip_rows(tmp_path):
+    """get_nodes should ignore skip_rows when using a resolved CSV.
+
+    Regression test: resolved CSVs are clean single-header files produced by
+    resolve_paper_ids.py.  When skip_rows was applied to them, the real header
+    was skipped and the cluster_col could not be found.
+    """
+    # Write original CSV with 3 junk header rows before the real header
+    orig_csv = tmp_path / "table_s1.csv"
+    orig_csv.write_text(
+        "junk1\n"
+        "junk2\n"
+        "junk3\n"
+        "gene_id,cluster,score\n"
+        "PMM0001,5,0.67\n"
+        "PMM0002,6,0.61\n"
+    )
+    # Write resolved CSV — clean single-header file
+    resolved_csv = tmp_path / "table_s1_resolved.csv"
+    resolved_csv.write_text(
+        "gene_id,cluster,score,resolved_locus_tag,resolution_method\n"
+        "PMM0001,5.0,0.67,PMM0001,locus_tag:gene_id\n"
+        "PMM0002,6.0,0.61,PMM0002,locus_tag:gene_id\n"
+    )
+
+    paperconfig = {
+        "publication": {
+            "papername": "SkipRows 2024",
+            "doi": "10.1234/skiprows.2024",
+            "supplementary_materials": {
+                "med4_diel_clusters": {
+                    "type": "gene_clusters",
+                    "name": "MED4 diel clusters",
+                    "filename": str(orig_csv),
+                    "skip_rows": 3,
+                    "cluster_col": "cluster",
+                    "gene_id_col": "gene_id",
+                    "organism": "Prochlorococcus MED4",
+                    "omics_type": "MICROARRAY",
+                    "cluster_method": "k-means",
+                    "cluster_type": "response_pattern",
+                    "treatment_type": ["diel"],
+                }
+            },
+        }
+    }
+    config_path = tmp_path / "paperconfig.yaml"
+    config_path.write_text(yaml.dump(paperconfig))
+
+    adapter = ClusterAdapter(str(config_path))
+    nodes = adapter.get_nodes()
+
+    # Should produce 1 ClusteringAnalysis + 2 GeneCluster nodes
+    analysis_nodes = [n for n in nodes if n[1] == "clustering_analysis"]
+    cluster_nodes = [n for n in nodes if n[1] == "gene_cluster"]
+    assert len(analysis_nodes) == 1
+    assert len(cluster_nodes) == 2
+    assert analysis_nodes[0][2]["total_gene_count"] == 2
 
 
 # ─── Test: MultiClusterAdapter skips configs without gene_clusters ──────────

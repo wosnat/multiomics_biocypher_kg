@@ -48,6 +48,7 @@ publication:
     supp_table_s1_up:
       type: csv
       filename: "data/Synechococcus/papers_and_supp/Ma 2022/Supplementary Table S1 Up-regulated transcripts.csv"
+      skip_rows: 1
       organism: "Synechococcus elongatus UTEX 2973"
       id_columns:
         - column: "Gene ID"
@@ -63,6 +64,7 @@ publication:
     supp_table_s2_down:
       type: csv
       filename: "data/Synechococcus/papers_and_supp/Ma 2022/Supplementary Table S2 Down-regulated transcripts.csv"
+      skip_rows: 1
       organism: "Synechococcus elongatus UTEX 2973"
       id_columns:
         - column: "Gene ID"

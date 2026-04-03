@@ -17,6 +17,7 @@ from pathlib import Path
 
 import pandas as pd
 
+from multiomics_kg.download.resolve_paper_ids import get_resolved_path
 from multiomics_kg.utils.paperconfig_utils import (
     load_paperconfig,
     load_all_paperconfigs,
@@ -83,13 +84,16 @@ def _get_extraction_cluster_data(extraction: dict, cluster_key: str) -> dict:
     return cluster_data
 
 
-def _resolve_csv_path(csv_path: str) -> Path:
-    """Return the resolved CSV path if it exists, else the original path."""
+def _resolve_csv_path(csv_path: str) -> tuple[Path, bool]:
+    """Probe for pre-resolved CSV (written by resolve_paper_ids.py).
+
+    Returns (path_to_use, is_resolved).
+    """
     p = Path(csv_path)
-    resolved = p.parent / f"{p.stem}_resolved{p.suffix}"
+    resolved = get_resolved_path(p)
     if resolved.exists():
-        return resolved
-    return p
+        return resolved, True
+    return p, False
 
 
 def _load_pdf_cache(cache_path: Path = _DEFAULT_PDF_CACHE) -> dict:
@@ -163,12 +167,16 @@ class ClusterAdapter:
         """Emit ClusteringAnalysis and GeneCluster nodes."""
         nodes = []
         for entry_key, table in self._cluster_tables:
-            csv_path = _resolve_csv_path(table["filename"])
+            csv_path, _use_resolved = _resolve_csv_path(table["filename"])
             if not csv_path.exists():
                 logger.warning(f"Cluster CSV not found: {csv_path}")
                 continue
 
-            df = _read_cluster_csv(csv_path, table)
+            # Resolved CSVs are clean single-header files; skip_rows doesn't apply
+            if _use_resolved:
+                df = pd.read_csv(str(csv_path))
+            else:
+                df = _read_cluster_csv(csv_path, table)
             cluster_col = table["cluster_col"]
             if cluster_col not in df.columns:
                 logger.warning(
@@ -267,11 +275,16 @@ class ClusterAdapter:
         edges = []
 
         for entry_key, table in self._cluster_tables:
-            csv_path = _resolve_csv_path(table["filename"])
+            csv_path, use_resolved = _resolve_csv_path(table["filename"])
             if not csv_path.exists():
                 continue
 
-            df = _read_cluster_csv(csv_path, table)
+            # When using pre-resolved CSV, read with plain pd.read_csv
+            # (resolved CSVs are clean comma-separated with no extra header rows)
+            if use_resolved:
+                df = pd.read_csv(str(csv_path))
+            else:
+                df = _read_cluster_csv(csv_path, table)
             cluster_col = table["cluster_col"]
             if cluster_col not in df.columns:
                 continue
@@ -280,9 +293,11 @@ class ClusterAdapter:
             df[cluster_col] = df[cluster_col].map(_cluster_val_to_str)
             df = df[df[cluster_col] != ""]
 
-            # Prefer pre-resolved locus_tag column; fall back to gene_id_col
-            if "locus_tag" in df.columns:
-                gene_col = "locus_tag"
+            # Prefer pre-resolved resolved_locus_tag column; fall back to gene_id_col
+            _resolved_col = "resolved_locus_tag"
+            if use_resolved and _resolved_col in df.columns:
+                gene_col = _resolved_col
+                logger.info(f"Using pre-resolved CSV: {csv_path.name} ({len(df)} rows)")
             else:
                 gene_col = table.get("gene_id_col", "")
 
@@ -345,7 +360,7 @@ class ClusterAdapter:
                     if self.test_mode and rows_processed >= 100:
                         break
 
-                    gene_locus = row.get("locus_tag") if "locus_tag" in df.columns else row.get(gene_col, "")
+                    gene_locus = row.get(gene_col, "")
                     if pd.isna(gene_locus) or not str(gene_locus).strip():
                         continue
                     gene_locus = str(gene_locus).strip()

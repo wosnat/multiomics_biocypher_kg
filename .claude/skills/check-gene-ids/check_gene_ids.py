@@ -1050,8 +1050,12 @@ def main():
     )
     parser.add_argument(
         "--paperconfig-list",
-        default="data/Prochlorococcus/papers_and_supp/paperconfig_files.txt",
-        help="Path to paperconfig_files.txt",
+        nargs="+",
+        default=[
+            "data/Prochlorococcus/papers_and_supp/paperconfig_files.txt",
+            "data/Synechococcus/papers_and_supp/paperconfig_files.txt",
+        ],
+        help="Path(s) to paperconfig_files.txt (default: Prochlorococcus + Synechococcus lists)",
     )
     parser.add_argument(
         "--import-report",
@@ -1100,15 +1104,16 @@ def main():
             result = analyze_paperconfig(pc_path, gene_index, project_root, import_report)
             all_results.append(result)
     else:
-        list_file = Path(args.paperconfig_list)
-        if not list_file.exists():
-            print(f"ERROR: paperconfig list not found: {list_file}", file=sys.stderr)
-            sys.exit(1)
-        loaded = load_all_paperconfigs(list_file)
         all_results = []
-        for pc_path, _config in loaded:
-            result = analyze_paperconfig(str(pc_path), gene_index, project_root, import_report)
-            all_results.append(result)
+        for list_path in args.paperconfig_list:
+            list_file = Path(list_path)
+            if not list_file.exists():
+                print(f"WARNING: paperconfig list not found: {list_file}", file=sys.stderr)
+                continue
+            loaded = load_all_paperconfigs(list_file)
+            for pc_path, _config in loaded:
+                result = analyze_paperconfig(str(pc_path), gene_index, project_root, import_report)
+                all_results.append(result)
 
     # Print report to stdout and write to file
     report = format_report(all_results, import_report)

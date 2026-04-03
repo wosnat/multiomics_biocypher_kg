@@ -248,7 +248,11 @@ class OMICSAdapter:
         publication = self.config_data.get('publication', {})
         if not isinstance(publication, dict):
             logger.warning(f"'publication' must be a dict, got {type(publication).__name__}. Skipping all tables.")
-            return 
+            return
+
+        if not publication:
+            logger.info("No publication block in config. Skipping publication nodes.")
+            return
 
         # extract publication metadata from pdf
         pdf_path = publication.get('papermainpdf', None)
@@ -526,6 +530,10 @@ class OMICSAdapter:
                     stat_analysis['skip_rows'] = skip_rows
                 if sep and 'sep' not in stat_analysis:
                     stat_analysis['sep'] = sep
+                # Pass table-level table_scope into analysis if not already set
+                table_scope = table_data.get('table_scope')
+                if table_scope and 'table_scope' not in stat_analysis:
+                    stat_analysis['table_scope'] = table_scope
 
                 # Determine experiment-level info
                 exp_key = stat_analysis.get('experiment')
@@ -816,7 +824,7 @@ class OMICSAdapter:
                 raw_fc_values,
                 analysis.get('fold_change_type', None),
                 analysis_id,
-                table_scope=analysis.get('table_scope') or table_data.get('table_scope'),
+                table_scope=analysis.get('table_scope'),
             )
 
         except Exception as e:

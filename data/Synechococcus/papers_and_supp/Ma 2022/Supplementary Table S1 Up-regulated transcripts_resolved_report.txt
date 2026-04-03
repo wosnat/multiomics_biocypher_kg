@@ -1,0 +1,17 @@
+Resolution report: Ma 2022 / supp_table_s1_up
+Source: Supplementary Table S1 Up-regulated transcripts.csv
+name_col: Gene ID
+id_columns: ['Gene ID']
+
+Total rows with IDs: 78
+Resolved: 75 (96.2%)
+Unresolved: 3
+
+Resolution method breakdown:
+  locus_tag:Gene ID: 75
+  unresolved: 3
+
+Unresolved rows (3):
+  row 55: raw_id='M744_03935'  reason=unresolved  [Gene ID='M744_03935']
+  row 56: raw_id='M744_05340'  reason=unresolved  [Gene ID='M744_05340']
+  row 59: raw_id='M744_13950'  reason=unresolved  [Gene ID='M744_13950']
