@@ -1,0 +1,22 @@
+publication:
+  papername: Wang 2014
+  papermainpdf: "data/Prochlorococcus/papers_and_supp/Wang 2014/1471-2180-14-11.pdf"
+
+  supplementary_materials:
+
+    # ── Gene expression level classification ─────────────────────────────
+    med4_expression_level:
+      type: gene_clusters
+      name: "MED4 gene expression level classification"
+      filename: "data/Prochlorococcus/papers_and_supp/Wang 2014/GeneClassification_clean.csv"
+      organism: "Prochlorococcus MED4"
+      gene_id_col: "sysName"
+      cluster_col: "ExpressionLevel"
+      cluster_type: "expression_level"
+      cluster_method: "Quartile-based classification from RNA-seq RPKM across 10 growth conditions"
+      omics_type: RNASEQ
+      treatment_type: ["none"]
+      background_factors: ["axenic", "continuous_light"]
+      treatment: "Steady-state expression level classification across multiple growth conditions"
+      light_condition: "continuous light (28 umol quanta m-2 s-1)"
+      experimental_context: "Classification of all MED4 CDS genes by expression level from RNA-seq across 10 samples (Pro99 and AMP media, exponential and log-phase). RPKM quartiles used to assign: VEG = very highly expressed (top quartile), HEG = highly expressed, MEG = moderately expressed, LEG = lowly expressed, NEG = not expressed, -- = unclassified. 21C, continuous light at 28 umol quanta m-2 s-1."

@@ -58,11 +58,10 @@
 - MIT1002 systematic names conversion table (RAST to GenBank/assembly IDs)
 - Old draft GCF_001077695.1 annotation GFF for MIT1002
 
-## Why tables S4A, S4B, and S5 are not in the paperconfig
+## Tables S4A, S4B, and S5 — gene_clusters entries (periodicity + darkness survival)
 
-These three tables contain categorical classifications rather than quantitative differential expression data:
+These tables contain categorical classifications preprocessed into composite cluster labels:
 
-- **Tables S4A/S4B** contain binary Y/N periodicity markers indicating whether a gene's transcripts show 24-hour periodicity under each condition. There are no fold-change values or p-values -- just a yes/no call per gene per condition.
-- **Table S5** contains binary X markers classifying which NATL2A genes have transcripts consistently present during late extended darkness (72-144h). Again categorical presence/absence, not quantitative DE results.
-
-None of these fit the standard DE table format (log2FC + p-value) expected by the omics adapter, nor do they represent cluster assignments suitable for the gene_clusters entry type. They could potentially be modeled as gene sets or annotations in the future, but no current KG node/edge type supports simple binary gene classification markers.
+- **Table S4A** (NATL2A, 2198 genes): Binary Y/N periodicity across 4 conditions → composite `periodicity_cluster` column (12 clusters, e.g. `axenic_LD+coculture_LD`, `not_periodic`). Gene ID: `NCBI ID` (NATL2_ format)
+- **Table S4B** (MIT1002, 531 genes): Binary Y/N periodicity across 2 conditions → composite `periodicity_cluster` column (3 clusters). Gene ID: `Locus ID` (MIT1002_ format)
+- **Table S5** (NATL2A, 269 genes): Binary X presence markers for transcript survival at 72-144h → composite `darkness_cluster` column (3 clusters, e.g. `darkness_axenic+darkness_coculture`). Gene ID: `NCBI ID_2` (PMN2A_RS format)

@@ -31,8 +31,15 @@
 
 `Operon_ID`, `start`, `end`, `strand`, `length`, `Num. of genes`, followed by variable-width gene member columns (sysName format)
 
-## KG Integration Status
+## KG Integration
 
-**Skipped** -- not integrated into the knowledge graph.
+**Gene expression level classification** integrated as `gene_clusters` entry via `GeneClassification_clean.csv` (preprocessed: title row removed, footnote suffixes stripped from column names).
 
-**Reason:** The data contains gene expression level classifications (VEG/HEG/MEG) and operon structure predictions, neither of which fit the KG's current data model. The KG integrates differential expression data (log2FC + adjusted p-value from condition comparisons) via `Changes_expression_of` edges, and gene clustering data via `GeneCluster` nodes. Static expression level categories and operon groupings do not map to either of these structures. No paperconfig.yaml exists for this paper.
+- `gene_id_col: sysName` (PMM#### format)
+- `cluster_col: ExpressionLevel` — VEG (1081), MEG (445), HEG (291), LEG (82), NEG (66), -- (89), empty (5)
+- `cluster_type: expression_level`
+- `cluster_method`: Quartile-based classification from RNA-seq RPKM across 10 growth conditions (Pro99 and AMP media, 21C, continuous light 28 umol quanta m-2 s-1)
+
+**Operons** not integrated — operon structure predictions don't map to DE edges or gene clusters.
+
+**Note:** `GeneClassification_clean.csv` is derived from the original CSV with cleaned headers (title row removed, footnote suffixes stripped). Original file preserved.
