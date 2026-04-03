@@ -71,7 +71,7 @@ VALID_TABLE_SCOPES = {
     "significant_only", "top_n", "filtered_subset",
 }
 
-VALID_TYPES = {"RNASEQ", "MICROARRAY", "PROTEOMICS", "METABOLOMICS"}
+VALID_TYPES = {"RNASEQ", "MICROARRAY", "PROTEOMICS", "EXOPROTEOMICS", "METABOLOMICS"}
 VALID_ID_TYPES = {
     "locus_tag", "locus_tag_ncbi", "locus_tag_cyanorak",
     "old_locus_tag", "alternative_locus_tag",
