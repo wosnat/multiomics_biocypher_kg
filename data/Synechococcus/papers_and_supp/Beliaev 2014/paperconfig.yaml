@@ -1,0 +1,203 @@
+publication:
+  papername: "Beliaev 2014"
+  papermainpdf: "data/Synechococcus/papers_and_supp/Beliaev 2014/Synechococcus-Shewanella co-culture transcriptome ISMEJ 2014.pdf"
+
+  experiments:
+    # Lactate co-culture vs axenic — Synechococcus side
+    coculture_lactate_vs_axenic_syn7002_rnaseq:
+      name: "Synechococcus 7002 coculture (lactate) vs axenic (SOLiD RNA-seq)"
+      organism: "Synechococcus PCC 7002"
+      treatment_condition: "Coculture with Shewanella W3-18-1 (lactate carbon source)"
+      control_condition: "Axenic Synechococcus 7002 (high light, high O2)"
+      experimental_context: "Carbon-limited chemostat co-culture at 30C, 1720 umol photons m-2 s-1, dilution rate 0.075 h-1, 5 mM D,L-Na lactate; SOLiD sequencing, RPKM normalization"
+      omics_type: RNASEQ
+      test_type: "RPKM fold change"
+      treatment_type: ["coculture"]
+      background_factors: ["continuous_light"]
+      medium: "modified basal medium A with 5 mM D,L-Na lactate"
+      temperature: "30C"
+      light_condition: "continuous light"
+      light_intensity: "1720 umol photons m-2 s-1"
+      treatment_organism: "Shewanella putrefaciens W3-18-1"
+      treatment_taxid: 351745
+      table_scope: significant_only
+      table_scope_detail: "Genes with >=2-fold change in lactate co-culture vs axenic control"
+
+    # Lactate co-culture vs axenic — Shewanella side
+    coculture_lactate_vs_axenic_shew_w3181_rnaseq:
+      name: "Shewanella W3-18-1 coculture (lactate) vs axenic (SOLiD RNA-seq)"
+      organism: "Shewanella putrefaciens W3-18-1"
+      treatment_condition: "Coculture with Synechococcus 7002 (lactate carbon source)"
+      control_condition: "Axenic Shewanella W3-18-1 (high light, high O2)"
+      experimental_context: "Carbon-limited chemostat co-culture at 30C, 1720 umol photons m-2 s-1, dilution rate 0.075 h-1, 5 mM D,L-Na lactate; SOLiD sequencing, RPKM normalization"
+      omics_type: RNASEQ
+      test_type: "RPKM fold change"
+      treatment_type: ["coculture"]
+      background_factors: ["continuous_light"]
+      medium: "M1 defined medium with 5 mM D,L-Na lactate"
+      temperature: "30C"
+      light_condition: "continuous light"
+      light_intensity: "1720 umol photons m-2 s-1"
+      treatment_organism: "Synechococcus PCC 7002"
+      treatment_taxid: 32049
+      table_scope: significant_only
+      table_scope_detail: "Genes with >=2-fold change in lactate co-culture vs axenic control"
+
+    # HCO3- co-culture vs axenic — Synechococcus side
+    coculture_hco3_vs_axenic_syn7002_rnaseq:
+      name: "Synechococcus 7002 coculture (HCO3-) vs axenic (SOLiD RNA-seq)"
+      organism: "Synechococcus PCC 7002"
+      treatment_condition: "Coculture with Shewanella W3-18-1 (HCO3- carbon source)"
+      control_condition: "Axenic Synechococcus 7002 (high light, high O2)"
+      experimental_context: "Carbon-limited chemostat co-culture at 30C, 1720 umol photons m-2 s-1, dilution rate 0.075 h-1, 8 mM NaHCO3; SOLiD sequencing, RPKM normalization"
+      omics_type: RNASEQ
+      test_type: "RPKM fold change"
+      treatment_type: ["coculture"]
+      background_factors: ["continuous_light"]
+      medium: "modified basal medium A with 8 mM NaHCO3"
+      temperature: "30C"
+      light_condition: "continuous light"
+      light_intensity: "1720 umol photons m-2 s-1"
+      treatment_organism: "Shewanella putrefaciens W3-18-1"
+      treatment_taxid: 351745
+      table_scope: significant_only
+      table_scope_detail: "Genes with >=2-fold change in HCO3- co-culture vs axenic control"
+
+    # HCO3- co-culture vs axenic — Shewanella side
+    coculture_hco3_vs_axenic_shew_w3181_rnaseq:
+      name: "Shewanella W3-18-1 coculture (HCO3-) vs axenic (SOLiD RNA-seq)"
+      organism: "Shewanella putrefaciens W3-18-1"
+      treatment_condition: "Coculture with Synechococcus 7002 (HCO3- carbon source)"
+      control_condition: "Axenic Shewanella W3-18-1 (high light, high O2)"
+      experimental_context: "Carbon-limited chemostat co-culture at 30C, 1720 umol photons m-2 s-1, dilution rate 0.075 h-1, 8 mM NaHCO3; SOLiD sequencing, RPKM normalization"
+      omics_type: RNASEQ
+      test_type: "RPKM fold change"
+      treatment_type: ["coculture"]
+      background_factors: ["continuous_light"]
+      medium: "M1 defined medium with 8 mM NaHCO3"
+      temperature: "30C"
+      light_condition: "continuous light"
+      light_intensity: "1720 umol photons m-2 s-1"
+      treatment_organism: "Synechococcus PCC 7002"
+      treatment_taxid: 32049
+      table_scope: significant_only
+      table_scope_detail: "Genes with >=2-fold change in HCO3- co-culture vs axenic control"
+
+    # HCO3- co-culture vs lactate co-culture — Synechococcus side
+    coculture_hco3_vs_lactate_syn7002_rnaseq:
+      name: "Synechococcus 7002 coculture HCO3- vs coculture lactate (SOLiD RNA-seq)"
+      organism: "Synechococcus PCC 7002"
+      treatment_condition: "Coculture with Shewanella W3-18-1 (HCO3- carbon source)"
+      control_condition: "Coculture with Shewanella W3-18-1 (lactate carbon source)"
+      experimental_context: "Carbon-limited chemostat co-culture at 30C, 1720 umol photons m-2 s-1, dilution rate 0.075 h-1; comparing HCO3- vs lactate carbon sources; SOLiD sequencing, RPKM normalization"
+      omics_type: RNASEQ
+      test_type: "RPKM fold change"
+      treatment_type: ["coculture", "carbon"]
+      background_factors: ["continuous_light"]
+      medium: "modified basal medium A"
+      temperature: "30C"
+      light_condition: "continuous light"
+      light_intensity: "1720 umol photons m-2 s-1"
+      treatment_organism: "Shewanella putrefaciens W3-18-1"
+      treatment_taxid: 351745
+      table_scope: significant_only
+      table_scope_detail: "Genes with >=2-fold change in HCO3- co-culture vs lactate co-culture"
+
+    # HCO3- co-culture vs lactate co-culture — Shewanella side
+    coculture_hco3_vs_lactate_shew_w3181_rnaseq:
+      name: "Shewanella W3-18-1 coculture HCO3- vs coculture lactate (SOLiD RNA-seq)"
+      organism: "Shewanella putrefaciens W3-18-1"
+      treatment_condition: "Coculture with Synechococcus 7002 (HCO3- carbon source)"
+      control_condition: "Coculture with Synechococcus 7002 (lactate carbon source)"
+      experimental_context: "Carbon-limited chemostat co-culture at 30C, 1720 umol photons m-2 s-1, dilution rate 0.075 h-1; comparing HCO3- vs lactate carbon sources; SOLiD sequencing, RPKM normalization"
+      omics_type: RNASEQ
+      test_type: "RPKM fold change"
+      treatment_type: ["coculture", "carbon"]
+      background_factors: ["continuous_light"]
+      medium: "M1 defined medium"
+      temperature: "30C"
+      light_condition: "continuous light"
+      light_intensity: "1720 umol photons m-2 s-1"
+      treatment_organism: "Synechococcus PCC 7002"
+      treatment_taxid: 32049
+      table_scope: significant_only
+      table_scope_detail: "Genes with >=2-fold change in HCO3- co-culture vs lactate co-culture"
+
+  supplementary_materials:
+    # Tables S1/S2 are SKIPPED: they are subsets of S3/S4 and S5/S6
+    # (genes with >=2-fold change under ALL co-culture conditions vs axenic)
+
+    # Lactate co-culture vs axenic
+    supp_table_s3:
+      type: csv
+      filename: "data/Synechococcus/papers_and_supp/Beliaev 2014/table s3 41396_2014_bfismej201469_moesm40_esm.csv"
+      skip_rows: 2
+      statistical_analyses:
+        - id: "syn7002_lactate_vs_axenic"
+          experiment: coculture_lactate_vs_axenic_syn7002_rnaseq
+          name_col: " Locus tag"
+          logfc_col: "Fold change,                   Co-culture lactate                    vs.                                             axenic control"
+          fold_change_type: linear
+          table_scope: significant_only
+
+    supp_table_s4:
+      type: csv
+      filename: "data/Synechococcus/papers_and_supp/Beliaev 2014/table s4 41396_2014_bfismej201469_moesm40_esm.csv"
+      skip_rows: 2
+      statistical_analyses:
+        - id: "shew_w3181_lactate_vs_axenic"
+          experiment: coculture_lactate_vs_axenic_shew_w3181_rnaseq
+          name_col: " Locus tag"
+          logfc_col: "Fold change,                   Co-culture lactate                    vs.                                             axenic control"
+          fold_change_type: linear
+          table_scope: significant_only
+
+    # HCO3- co-culture vs axenic
+    supp_table_s5:
+      type: csv
+      filename: "data/Synechococcus/papers_and_supp/Beliaev 2014/table s5 41396_2014_bfismej201469_moesm40_esm.csv"
+      skip_rows: 2
+      statistical_analyses:
+        - id: "syn7002_hco3_vs_axenic"
+          experiment: coculture_hco3_vs_axenic_syn7002_rnaseq
+          name_col: " Locus tag"
+          logfc_col: "Fold change,                   Co-culture HCO3-                    vs.                                             axenic control"
+          fold_change_type: linear
+          table_scope: significant_only
+
+    supp_table_s6:
+      type: csv
+      filename: "data/Synechococcus/papers_and_supp/Beliaev 2014/table s6 41396_2014_bfismej201469_moesm40_esm.csv"
+      skip_rows: 2
+      statistical_analyses:
+        - id: "shew_w3181_hco3_vs_axenic"
+          experiment: coculture_hco3_vs_axenic_shew_w3181_rnaseq
+          name_col: " Locus tag"
+          logfc_col: "Fold change,                   Co-culture HCO3-                    vs.                                             axenic control"
+          fold_change_type: linear
+          table_scope: significant_only
+
+    # HCO3- co-culture vs lactate co-culture
+    supp_table_s7:
+      type: csv
+      filename: "data/Synechococcus/papers_and_supp/Beliaev 2014/table s7 41396_2014_bfismej201469_moesm40_esm.csv"
+      skip_rows: 2
+      statistical_analyses:
+        - id: "syn7002_hco3_vs_lactate"
+          experiment: coculture_hco3_vs_lactate_syn7002_rnaseq
+          name_col: " Locus tag"
+          logfc_col: "Fold change,                   Co-culture HCO3-                    vs.                                            co-culture lactate"
+          fold_change_type: linear
+          table_scope: significant_only
+
+    supp_table_s8:
+      type: csv
+      filename: "data/Synechococcus/papers_and_supp/Beliaev 2014/table s8 41396_2014_bfismej201469_moesm40_esm.csv"
+      skip_rows: 2
+      statistical_analyses:
+        - id: "shew_w3181_hco3_vs_lactate"
+          experiment: coculture_hco3_vs_lactate_shew_w3181_rnaseq
+          name_col: " Locus tag"
+          logfc_col: "Fold change,                   Co-culture HCO3-                    vs.                                            co-culture lactate"
+          fold_change_type: linear
+          table_scope: significant_only
