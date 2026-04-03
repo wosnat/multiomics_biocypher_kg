@@ -92,6 +92,7 @@ CANONICAL_GENOMIC_ORGANISMS = {
     "Prochlorococcus MIT9313",
     "Prochlorococcus NATL1A",
     "Prochlorococcus NATL2A",
+    "Prochlorococcus MIT9303",
     "Prochlorococcus RSP50",
     "Synechococcus WH8102",
     "Synechococcus CC9311",
@@ -133,13 +134,22 @@ CANONICAL_CONDITION_TYPES = {
     "continuous_light",
     "diel_cycle",
     "chemical_inhibitor",
+    "carbon",
+    "temperature",
+    "none",
 }
 
 # Valid cluster_type values for gene_clusters entries.
 VALID_CLUSTER_TYPES = {
     "diel_cycle",
+    "diel_cycling",
     "time_series_dynamics",
     "response_pattern",
+    "expression_pattern",
+    "expression_level",
+    "expression_classification",
+    "periodicity_classification",
+    "diel_expression_pattern",
 }
 
 # Required fields on gene_clusters supplementary entries.
@@ -246,7 +256,8 @@ def _validate_experiments(experiments: dict, config_path: str,
                           errors: list, warnings: list) -> None:
     """Validate the experiments block in a publication config."""
     if not experiments:
-        errors.append(f"{config_path} | missing 'experiments' block in publication")
+        # experiments block is optional for cluster-only paperconfigs
+        warnings.append(f"{config_path} | missing 'experiments' block in publication (OK for cluster-only configs)")
         return
 
     if not isinstance(experiments, dict):
@@ -937,6 +948,11 @@ def validate(config_path: str) -> bool:
                 warnings.append(f"{aid}: 'prefiltered: true' makes 'pvalue_threshold'/'logfc_threshold' redundant (prefiltered takes priority)")
             if prefiltered and pvalue_asterisk:
                 warnings.append(f"{aid}: 'prefiltered: true' conflicts with 'pvalue_asterisk_in_logfc: true' (prefiltered takes priority)")
+
+            # Validate fold_change_type
+            fold_change_type = analysis.get("fold_change_type")
+            if fold_change_type is not None and fold_change_type not in ("log2", "linear"):
+                errors.append(f"{aid}: 'fold_change_type' must be 'log2' or 'linear', got '{fold_change_type}'")
 
     # --- Check ID uniqueness ---
     if all_ids:

@@ -73,6 +73,66 @@ class OMICSModel(BaseModel):
     default_logfc_threshold: float | None = None
 
 
+def _convert_fold_change(fc_float: float, fold_change_type: str | None) -> float | None:
+    """Convert fold-change value to log2 scale.
+
+    Args:
+        fc_float: The raw fold-change value from the CSV.
+        fold_change_type: 'log2' (default), 'linear', or None (treated as log2).
+
+    Returns:
+        log2-scale fold-change, or None if conversion is invalid (e.g., linear FC <= 0).
+    """
+    if fold_change_type is None or fold_change_type == "log2":
+        return fc_float
+    if fold_change_type == "linear":
+        if fc_float <= 0:
+            return None
+        return math.log2(fc_float)
+    return fc_float
+
+
+def _validate_fc_range(
+    fc_values: list[float],
+    fold_change_type: str | None,
+    analysis_id: str,
+    table_scope: str | None = None,
+) -> None:
+    """Warn if fold-change values look inconsistent with declared type.
+
+    Heuristics:
+    - linear FC must be all positive (negative linear FC is invalid)
+    - log2 FC that is all positive AND all > 1.0 may actually be linear FC
+      (unless table_scope indicates only upregulated genes)
+    """
+    if not fc_values:
+        return
+    fc_type = fold_change_type or "log2"
+    has_negative = any(v < 0 for v in fc_values)
+    all_positive = not has_negative
+    min_val = min(fc_values)
+    max_val = max(fc_values)
+
+    if fc_type == "linear" and has_negative:
+        logger.warning(
+            "%s: fold_change_type is 'linear' but data contains negative values "
+            "(min=%.3f). Negative values are invalid for linear FC — check if "
+            "these are actually log2 values.",
+            analysis_id, min_val,
+        )
+    elif fc_type == "log2" and all_positive and min_val > 1.0:
+        # All values > 1.0 is suspicious for log2 — could be linear FC
+        # But skip warning if table only has upregulated genes
+        upregulated_scopes = {"significant_only"}
+        if table_scope not in upregulated_scopes:
+            logger.warning(
+                "%s: fold_change_type is 'log2' but all values are > 1.0 "
+                "(range %.3f–%.3f). These may be linear fold-changes. "
+                "Consider setting fold_change_type: linear.",
+                analysis_id, min_val, max_val,
+            )
+
+
 class OMICSAdapter:
     """
     Adapter for creating omics-related nodes and edges from publication config files.
@@ -629,6 +689,7 @@ class OMICSAdapter:
 
             # Track skipped rows for logging
             skipped_count = 0
+            raw_fc_values = []  # collect raw FC values for range validation
             pub_id_raw = self.get_publication_id()
             analysis_id = analysis.get('id', '')
 
@@ -683,12 +744,22 @@ class OMICSAdapter:
                     if not math.isfinite(fc_float):
                         skipped_count += 1
                         continue
+                    raw_fc_values.append(fc_float)
 
                 # Extract edge properties — only per-gene/per-timepoint fields
                 edge_properties = {}
 
                 if fc_float is not None:
-                    edge_properties['log2_fold_change'] = fc_float
+                    fold_change_type = analysis.get('fold_change_type', None)
+                    converted = _convert_fold_change(fc_float, fold_change_type)
+                    if converted is None:
+                        logger.debug(
+                            "Skipping row with invalid linear FC %.4f in %s",
+                            fc_float, filename
+                        )
+                        skipped_count += 1
+                        continue
+                    edge_properties['log2_fold_change'] = converted
 
                 pval = None
                 if asterisk_significant is not None:
@@ -739,6 +810,14 @@ class OMICSAdapter:
             if skipped_count > 0:
                 src_label = _resolved_path.name if _use_resolved else filename
                 logger.info(f"Skipped {skipped_count} rows with empty or null identifiers in {src_label}")
+
+            # Validate that FC values are consistent with declared type
+            _validate_fc_range(
+                raw_fc_values,
+                analysis.get('fold_change_type', None),
+                analysis_id,
+                table_scope=analysis.get('table_scope') or table_data.get('table_scope'),
+            )
 
         except Exception as e:
             logger.error(f"Error processing file {filename}: {str(e)}")

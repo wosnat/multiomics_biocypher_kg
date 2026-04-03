@@ -487,12 +487,12 @@ class TestValidConfigPasses:
         result = validate(str(cfg_file))
         assert result is False, "Expected validation to fail for non-numeric timepoint_hours"
 
-    def test_missing_experiments_block_is_rejected(self, tmp_path, monkeypatch):
-        """A publication config without experiments block must fail."""
+    def test_missing_experiments_block_warns_but_passes(self, tmp_path, monkeypatch):
+        """A publication config without experiments block should warn but pass (cluster-only configs)."""
         monkeypatch.chdir(PROJECT_ROOT)
         csv = _write_minimal_csv(tmp_path)
         config = _make_valid_config(csv)
         del config["publication"]["experiments"]
         cfg_file = _write_config(tmp_path, config)
         result = validate(str(cfg_file))
-        assert result is False, "Expected validation to fail when experiments block is missing"
+        assert result is True, "Expected validation to pass (with warning) when experiments block is missing"
