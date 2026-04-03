@@ -61,7 +61,8 @@
       "Bash(cypher-shell -a bolt://localhost:7687 --format plain)",
       "Bash(git diff:*)",
       "Bash(git commit:*)",
-      "Bash(git add:*)"
+      "Bash(git add:*)",
+      "Bash(\"data/Prochlorococcus/papers_and_supp/paperconfig_files.txt\")"
     ]
   }
 }
