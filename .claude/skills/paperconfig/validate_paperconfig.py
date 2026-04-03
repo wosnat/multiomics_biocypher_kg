@@ -95,10 +95,18 @@ CANONICAL_GENOMIC_ORGANISMS = {
     "Prochlorococcus MIT9303",
     "Prochlorococcus RSP50",
     "Synechococcus WH8102",
+    "Synechococcus WH7803",
     "Synechococcus CC9311",
+    "Synechococcus PCC 7002",
+    "Synechococcus elongatus PCC 7942",
+    "Synechococcus elongatus UTEX 2973",
+    "Thermosynechococcus vestitus BP-1",
     "Alteromonas macleodii HOT1A3",
     "Alteromonas macleodii EZ55",
     "Alteromonas macleodii MIT1002",
+    "Shewanella sp. W3-18-1",
+    "Pseudomonas putida KT2440",
+    "Ruegeria pomeroyi DSS-3",
 }
 
 # Canonical treatment organism names loaded from treatment_organisms.csv
@@ -107,6 +115,9 @@ CANONICAL_GENOMIC_ORGANISMS = {
 _TREATMENT_ORGANISMS_CSV_DEFAULT = {
     "Phage",
     "Alteromonas",
+    "Vibrio parahaemolyticus",
+    "Meiothermus ruber",
+    "Escherichia coli",
     # Ziegler 2025 organisms (commented out in treatment_organisms.csv until paper is added):
     # "Marinobacter",
     # "Thalassospira",

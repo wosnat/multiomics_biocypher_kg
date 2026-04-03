@@ -22,3 +22,27 @@ GCF_901457835.2,,28108,MIT1002,cache/data/Alteromonas/genomes/MIT1002/,,Alteromo
 GCF_901457815.2,,28108,EZ55,cache/data/Alteromonas/genomes/EZ55/,,Alteromonas macleodii EZ55
 # HOT1A3: used in Aharonovich 2016
 GCF_001578515.1,,28108,HOT1A3,cache/data/Alteromonas/genomes/HOT1A3/,,Alteromonas macleodii HOT1A3
+
+# Prochlorococcus MIT9303 (LLIV clade, Capovilla 2023)
+GCF_000015705.1,Pro_MIT9303,59922,MIT9303,cache/data/Prochlorococcus/genomes/MIT9303/,LLIV,Prochlorococcus MIT9303
+
+# Synechococcus WH7803 (marine, Clade V; Oleza 2017, kaur 2018)
+GCF_000063505.1,Syn_WH7803,32051,WH7803,cache/data/Synechococcus/genomes/WH7803/,,Synechococcus WH7803
+
+# Freshwater/thermophilic cyanobacteria (no Cyanorak entries)
+# Picosynechococcus PCC 7002 (Beliaev 2014)
+GCF_000019485.1,,32049,PCC7002,cache/data/Synechococcus/genomes/PCC7002/,,Synechococcus PCC 7002
+# Synechococcus elongatus PCC 7942 (Kratzl 2024)
+GCF_000012525.1,,1140,PCC7942,cache/data/Synechococcus/genomes/PCC7942/,,Synechococcus elongatus PCC 7942
+# Synechococcus elongatus UTEX 2973 (Ma 2022)
+GCF_000817325.1,,1350461,UTEX2973,cache/data/Synechococcus/genomes/UTEX2973/,,Synechococcus elongatus UTEX 2973
+# Thermosynechococcus vestitus BP-1 (formerly T. elongatus; Bernstein 2017)
+GCF_000011345.1,,197221,BP1,cache/data/Thermosynechococcus/genomes/BP1/,,Thermosynechococcus vestitus BP-1
+
+# Heterotrophs with DE data (NCBI-only, no Cyanorak)
+# Shewanella sp. W3-18-1 (Beliaev 2014)
+GCF_000015185.1,,351745,W3-18-1,cache/data/Shewanella/genomes/W3-18-1/,,Shewanella sp. W3-18-1
+# Pseudomonas putida KT2440 (Kratzl 2024)
+GCF_000007565.2,,160488,KT2440,cache/data/Pseudomonas/genomes/KT2440/,,Pseudomonas putida KT2440
+# Ruegeria pomeroyi DSS-3 (Oleza 2017, kaur 2018)
+GCF_000011965.2,,89184,DSS-3,cache/data/Ruegeria/genomes/DSS-3/,,Ruegeria pomeroyi DSS-3
