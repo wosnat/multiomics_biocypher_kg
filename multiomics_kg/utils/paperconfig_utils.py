@@ -5,9 +5,10 @@ from pathlib import Path
 import yaml
 
 PROJECT_ROOT = Path(__file__).parent.parent.parent
-PAPERCONFIG_FILES_TXT = (
-    PROJECT_ROOT / "data/Prochlorococcus/papers_and_supp/paperconfig_files.txt"
-)
+PAPERCONFIG_FILES_TXT = [
+    PROJECT_ROOT / "data/Prochlorococcus/papers_and_supp/paperconfig_files.txt",
+    PROJECT_ROOT / "data/Synechococcus/papers_and_supp/paperconfig_files.txt",
+]
 
 
 # ─── Loading ──────────────────────────────────────────────────────────
