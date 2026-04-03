@@ -1,5 +1,4 @@
-﻿MIT9313,,,,,,,,,,,,
-Up regulated genes ,,,,,,,,,,,,
+﻿MIT9313
 log2 fold change (+ means upregulated in chitosan),gene,ncbi_cds_locus_tag,ncbi_gene_locus_tag,ncbi_gene_old_locus_tag,geneFunction,NCBI alignment,NCBI query cover,NCBI percent identity,,,,
 0.850837219,MIT9313_00156,AKG35_RS00740,AKG35_RS00740,"PMT0148,PMT_0148,RG24_RS00740",Hypothetical protein,NA,NA,NA,,,,
 0.770007327,MIT9313_00238,AKG35_RS01120,AKG35_RS01120,"PMT0213,PMT_0213,RG24_RS01125",Hypothetical protein,ribosome-associated translation inhibitor RaiA,99%,100,,,,
@@ -49,9 +48,6 @@ log2 fold change (+ means upregulated in chitosan),gene,ncbi_cds_locus_tag,ncbi_
 1.956325056,MIT9313_02342,AKG35_RS10895,AKG35_RS10895,"PMT2047,PMT_2047,RG24_RS10935",Hypothetical protein,16S rRNA (cytosine(1402)-N(4))-methyltransferase RsmH...          555    555   99%   0.0    100.00 WP_011131413.1,99%,100,,,,
 4.841368652,MIT9313_02344,AKG35_RS13580,AKG35_RS13580,PMT_2050,Hypothetical protein,DUF2752 domain-containing protein,71%,100,,,,
 0.881548011,MIT9313_02409,AKG35_RS11190,AKG35_RS11190,"PMT2102,PMT_2102,RG24_RS11220",Hypothetical protein,nuclear transport factor 2 family protein,93%,59.15,,,,
-,,,,,,,,,,,,
-Down regulated genes ,,,,,,,,,,,,
-log2 fold change (+ means upregulated in chitosan),gene,ncbi_cds_locus_tag,ncbi_gene_locus_tag,ncbi_gene_old_locus_tag,geneFunction,NCBI alignment,NCBI query cover,NCBI percent identity,,,,
 -0.712181312,MIT9313_00076,AKG35_RS00375,AKG35_RS00375,"PMT0071,PMT_0071,RG24_RS00375",excinuclease ABC%2C subunit B,NA,NA,NA,,,,
 -1.640952067,MIT9313_00080,AKG35_RS00395,AKG35_RS00395,"PMT0075,PMT_0075,RG24_RS00395",Precorrin-8X methylmutase,NA,NA,NA,,,,
 -0.882339067,MIT9313_00129,AKG35_RS00610,AKG35_RS00610,"PMT0122,PMT_0122,RG24_RS00610",DNA gyrase%2C subunit B,NA,NA,NA,,,,
