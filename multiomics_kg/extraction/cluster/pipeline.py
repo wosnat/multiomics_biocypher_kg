@@ -119,10 +119,30 @@ def run_pipeline(paperconfig_path: Path,
                  stage: Optional[int] = None,
                  from_stage: Optional[int] = None,
                  path_filter: Optional[str] = None,
+                 force_llm: bool = False,
+                 force_all: bool = False,
                  ) -> list[Path]:
-    """Run the full extraction pipeline."""
+    """Run the full extraction pipeline.
+
+    Output is written to versioned run directories under
+    ``paper_dir/.extraction_cache/{entry_key}/runs/<timestamp>/``.
+
+    A backward-compatible monolithic JSON is also written to
+    ``paper_dir/cluster_extraction_{tkey}.json`` so that downstream
+    consumers (e.g. cluster_adapter) keep working.
+
+    Parameters
+    ----------
+    force_llm : bool
+        When True, re-run LLM stages even if cached results exist.
+        (Passed through for future stage-level caching.)
+    force_all : bool
+        When True, re-run everything from scratch regardless of cache.
+        (Passed through for future stage-level caching.)
+    """
     from multiomics_kg.extraction.cluster.synthesis import run_synthesis
     from multiomics_kg.extraction.cluster.validation import run_validation
+    from multiomics_kg.extraction.cluster.run_manager import RunManager
 
     import pandas as pd
 
@@ -156,13 +176,22 @@ def run_pipeline(paperconfig_path: Path,
     for tkey, tconfig in cluster_tables.items():
         organism = tconfig["organism"]
         organism_short = organism.split()[-1].lower()
-        out_path = paper_dir / f"cluster_extraction_{tkey}.json"
 
-        # Load existing JSON if skipping stages
-        existing: dict = {}
-        if out_path.exists() and 1 not in run_stages:
-            with open(out_path) as f:
-                existing = json.load(f)
+        # ── Set up RunManager ──
+        cache_dir = paper_dir / ".extraction_cache"
+        rm = RunManager(cache_dir, tkey)
+        prev_run = rm.get_current_run()
+        run_dir = rm.create_run()
+        logger.info("Created run directory: %s", run_dir)
+
+        # Load previous run data if skipping stages
+        prev_stage1: dict = {}
+        prev_stage2: dict = {}
+        prev_stage3: dict = {}
+        if prev_run is not None and 1 not in run_stages:
+            prev_stage1 = rm.read_stage(prev_run, 1)
+            prev_stage2 = rm.read_stage(prev_run, 2)
+            prev_stage3 = rm.read_stage(prev_run, 3)
 
         # CSV path for validation
         csv_path = Path(tconfig["filename"])
@@ -185,8 +214,10 @@ def run_pipeline(paperconfig_path: Path,
             logger.info("=== Stage 1: Gather + Merge (%s / %s) ===", paper_name, tkey)
             merged = run_stage1(paperconfig_path, tkey, tconfig, path_filter)
         else:
-            merged = existing.get("stage1_merged", {})
+            merged = prev_stage1
             logger.info("Stage 1: using cached results (%d clusters)", len(merged))
+
+        rm.write_stage(run_dir, 1, merged)
 
         # ── Stage 2 ──
         if 2 in run_stages:
@@ -195,7 +226,9 @@ def run_pipeline(paperconfig_path: Path,
                                    cluster_method)
             logger.info("Stage 2: synthesized %d clusters", len(stage2))
         else:
-            stage2 = existing.get("stage2_results", {})
+            stage2 = prev_stage2
+
+        rm.write_stage(run_dir, 2, stage2)
 
         # ── Stage 3 ──
         if 3 in run_stages and main_pdf:
@@ -207,17 +240,45 @@ def run_pipeline(paperconfig_path: Path,
                 verdicts[v.get("verdict", "?")] = verdicts.get(v.get("verdict", "?"), 0) + 1
             logger.info("Stage 3: %s", verdicts)
         else:
-            stage3 = existing.get("stage3_validation", {})
+            stage3 = prev_stage3
 
-        # ── Write output ──
+        rm.write_stage(run_dir, 3, stage3)
+
+        # ── Copy forward reviews from previous run ──
+        if prev_run is not None:
+            rm.copy_forward_reviews(prev_run, run_dir, merged)
+
+        # ── Write metadata ──
+        metadata = {
+            "paper": paper_name,
+            "doi": doi,
+            "organism": organism,
+            "extracted_at": datetime.now().isoformat(timespec="seconds"),
+            "table_key": tkey,
+            "stages_run": sorted(run_stages),
+            "force_llm": force_llm,
+            "force_all": force_all,
+        }
+        metadata_path = run_dir / "metadata.json"
+        with open(metadata_path, "w") as f:
+            json.dump(metadata, f, indent=2, ensure_ascii=False)
+
+        # ── Write markdown report to run dir ──
+        output_for_report = {
+            "metadata": metadata,
+            "stage2_results": stage2,
+            "stage3_validation": stage3,
+        }
+        report = _generate_report(output_for_report, cluster_keys)
+        report_path = run_dir / "report.md"
+        with open(report_path, "w") as f:
+            f.write(report)
+        logger.info("Wrote %s", report_path)
+
+        # ── Write backward-compatible monolithic JSON ──
+        out_path = paper_dir / f"cluster_extraction_{tkey}.json"
         output = {
-            "metadata": {
-                "paper": paper_name,
-                "doi": doi,
-                "organism": organism,
-                "extracted_at": datetime.now().isoformat(timespec="seconds"),
-                "table_key": tkey,
-            },
+            "metadata": metadata,
             "stage1_merged": merged,
             "stage2_results": stage2,
             "stage3_validation": stage3,
@@ -227,12 +288,10 @@ def run_pipeline(paperconfig_path: Path,
             json.dump(output, f, indent=2, ensure_ascii=False)
         logger.info("Wrote %s", out_path)
 
-        # Write review report
-        report = _generate_report(output, cluster_keys)
-        report_path = out_path.with_suffix(".md")
-        with open(report_path, "w") as f:
+        # Write backward-compatible review report
+        compat_report_path = out_path.with_suffix(".md")
+        with open(compat_report_path, "w") as f:
             f.write(report)
-        logger.info("Wrote %s", report_path)
 
         output_paths.append(out_path)
 
@@ -311,6 +370,10 @@ def main():
                         help="Run from this stage onwards")
     parser.add_argument("--path", choices=["visual", "semantic", "table"], default=None,
                         help="Run only this path within stage 1")
+    parser.add_argument("--force-llm", action="store_true",
+                        help="Re-run LLM stages even if cached")
+    parser.add_argument("--force-all", action="store_true",
+                        help="Re-run everything from scratch")
     parser.add_argument("-v", "--verbose", action="store_true")
     args = parser.parse_args()
 
@@ -328,6 +391,8 @@ def main():
         stage=args.stage,
         from_stage=args.from_stage,
         path_filter=args.path,
+        force_llm=args.force_llm,
+        force_all=args.force_all,
     )
     for p in paths:
         print(f"Wrote {p}")
