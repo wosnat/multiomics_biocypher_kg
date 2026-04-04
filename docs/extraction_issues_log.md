@@ -65,3 +65,14 @@ Tracks diagnosed issues from review UI sessions. Each entry includes the root ca
 **Quick fix (2026-04-04):** Validate one cluster at a time. Each cluster gets its own API call with the same PDF pages + CSV context but only its own description. More API calls but no cross-contamination, and every cluster gets a verdict.
 
 **Longer-term fix:** Same per-cluster approach. Consider caching PDF page embeddings to reduce re-upload cost. Could also use a stronger model for validation since it's the quality gate.
+
+## Issue 5: PDF sent as base64 in every API call — use Files API instead
+
+**Diagnosed:** 2026-04-04
+**Severity:** Medium — cost/performance optimization, not correctness
+
+**Current state:** Visual and validation send base64-encoded PDF pages in every per-cluster API call. With 16 clusters × 2 stages = 32 calls per paper, the same PDF content is transmitted 32 times. Disk cache avoids re-encoding but doesn't reduce API payload size.
+
+**Fix:** Use OpenAI Files API (`POST /v1/files` with `purpose="user_data"`) to upload PDFs once, get a `file_id`, and reference it in all subsequent calls. Benefits: smaller request payloads, server-side file caching, works with prompt caching. See https://developers.openai.com/api/docs/guides/file-inputs.
+
+**Constraints:** 50MB per file, vision-capable models required for PDF image processing.
