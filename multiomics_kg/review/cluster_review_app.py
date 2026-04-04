@@ -6,7 +6,9 @@ Launch with:
 
 import csv
 import io
+import subprocess
 import sys
+import webbrowser
 from pathlib import Path
 
 # Ensure project root is on sys.path for module resolution
@@ -217,6 +219,19 @@ def main():
 
         st.markdown("---")
 
+        # Quick PDF access button
+        if st.sidebar.button("Open Paper PDF", key="open_pdf"):
+            pdf_path = st.session_state.get("paper_pdf_path")
+            if pdf_path and Path(pdf_path).exists():
+                try:
+                    webbrowser.open(f"file://{pdf_path}")
+                except Exception:
+                    subprocess.Popen(["xdg-open", pdf_path])
+            else:
+                st.sidebar.warning("No main PDF found in paperconfig.")
+
+        st.markdown("---")
+
         # Re-run Extraction section
         st.header("Re-run Extraction")
         force_mode = st.selectbox(
@@ -256,6 +271,21 @@ def main():
     # Store in session state for re-run buttons in review_components
     st.session_state.paperconfig_path = str(selected_entry["paperconfig_path"])
     st.session_state.entry_key = selected_entry["entry_key"]
+
+    # Store main PDF path in session state for per-quote PDF links
+    try:
+        with open(selected_entry["paperconfig_path"]) as _pcf:
+            _pc_data = yaml.safe_load(_pcf)
+        _main_pdf = _pc_data.get("publication", {}).get("papermainpdf", "")
+        if _main_pdf:
+            _pdf_path = Path(_main_pdf)
+            if not _pdf_path.is_absolute():
+                _pdf_path = PROJECT_ROOT / _pdf_path
+            st.session_state.paper_pdf_path = str(_pdf_path.resolve())
+        else:
+            st.session_state.paper_pdf_path = None
+    except Exception:
+        st.session_state.paper_pdf_path = None
 
     if run_dir is None:
         st.error("Could not find current run directory.")
@@ -297,16 +327,35 @@ def main():
 
             review_status = s4_cluster.get("status", "unreviewed")
             verdict = s3_cluster.get("verdict", "none")
-            icon = REVIEW_STATUS_ICONS.get(review_status, "")
             cluster_id = s2_cluster.get("id", ck)
+
+            # Detect carried-forward reviews
+            reviewed_in_run = s4_cluster.get("reviewed_in_run")
+            is_carried_forward = (
+                reviewed_in_run is not None
+                and reviewed_in_run != run_dir.name
+                and review_status in ("approve", "edit")
+            )
+
+            # Use different icons for current vs carried-forward
+            if is_carried_forward:
+                icon = "🟡" if review_status == "approve" else REVIEW_STATUS_ICONS.get(review_status, "")
+                cf_label = " (carried forward)"
+            else:
+                icon = REVIEW_STATUS_ICONS.get(review_status, "")
+                cf_label = ""
 
             # Auto-expand non-approved clusters
             expanded = review_status not in ("approve",)
 
             with st.expander(
-                f"{icon} Cluster {ck}: {cluster_id} (verdict: {verdict}, review: {review_status})",
+                f"{icon} Cluster {ck}: {cluster_id} (verdict: {verdict}, review: {review_status}{cf_label})",
                 expanded=expanded,
             ):
+                # Info banner for carried-forward reviews
+                if is_carried_forward:
+                    st.info(f"Review from run {reviewed_in_run} -- re-review if inputs changed")
+
                 # Merge view (includes synthesis result)
                 render_merge_view(ck, s1_cluster, s2_cluster)
 

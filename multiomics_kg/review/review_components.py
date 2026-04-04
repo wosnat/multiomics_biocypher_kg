@@ -1,7 +1,9 @@
 """UI components for the cluster extraction review app."""
 
+import re
 import subprocess
 import webbrowser
+from datetime import datetime
 from pathlib import Path
 from typing import Optional
 
@@ -97,6 +99,7 @@ def _render_path_quotes(stage1_cluster: dict, source: str) -> None:
     """Render supporting quotes from a specific source."""
     quotes = stage1_cluster.get("supporting_quotes", [])
     source_quotes = [q for q in quotes if isinstance(q, dict) and q.get("source") == source]
+    paper_pdf_path = st.session_state.get("paper_pdf_path")
     if source_quotes:
         with st.expander(f"Quotes ({len(source_quotes)})"):
             for q in source_quotes:
@@ -105,10 +108,14 @@ def _render_path_quotes(stage1_cluster: dict, source: str) -> None:
                 st.markdown(f"> {text[:400]}{'...' if len(text) > 400 else ''}")
                 if loc:
                     st.caption(f"Location: {loc}")
+                    pdf_link = _pdf_page_link(loc, paper_pdf_path)
+                    if pdf_link:
+                        st.markdown(pdf_link)
 
 
 def render_merge_view(cluster_key: str, stage1_cluster: dict, stage2_cluster: dict) -> None:
     """Render 3-column path view for one cluster, then synthesis result below."""
+    paper_pdf_path = st.session_state.get("paper_pdf_path")
 
     # Separate stage1 data by source
     path_data = {"table": {}, "visual": {}, "semantic": {}}
@@ -146,8 +153,13 @@ def render_merge_view(cluster_key: str, stage1_cluster: dict, stage2_cluster: di
                 for p in retrieved:
                     score = p.get("relevance_score", "?")
                     text = p.get("text", "")
+                    loc = p.get("location", "")
                     st.markdown(f"**[{score}]**")
                     st.markdown(f"> {text[:500]}{'...' if len(text) > 500 else ''}")
+                    if loc:
+                        pdf_link = _pdf_page_link(loc, paper_pdf_path)
+                        if pdf_link:
+                            st.markdown(pdf_link)
         else:
             # Fallback: show semantic supporting_quotes
             _render_path_quotes(stage1_cluster, "semantic")
@@ -164,12 +176,25 @@ def render_merge_view(cluster_key: str, stage1_cluster: dict, stage2_cluster: di
             st.markdown(f"**{label}:** *(empty)*")
 
 
+def _pdf_page_link(location: str, paper_pdf_path: Optional[str]) -> Optional[str]:
+    """If location looks like a page number and PDF path is available, return a link."""
+    if not location or not paper_pdf_path:
+        return None
+    page_match = re.search(r'(\d+)', str(location))
+    if page_match:
+        page_num = page_match.group(1)
+        return f"[Open PDF page {page_num}](file://{paper_pdf_path}#page={page_num})"
+    return None
+
+
 def render_quotes(cluster_key: str, stage1_cluster: dict) -> None:
     """Render supporting quotes with source labels."""
     quotes = stage1_cluster.get("supporting_quotes", [])
     if not quotes:
         st.info("No supporting quotes available.")
         return
+
+    paper_pdf_path = st.session_state.get("paper_pdf_path")
 
     for i, q in enumerate(quotes):
         if isinstance(q, dict):
@@ -189,6 +214,11 @@ def render_quotes(cluster_key: str, stage1_cluster: dict) -> None:
             if header_parts:
                 st.markdown(" ".join(header_parts), unsafe_allow_html=True)
             st.markdown(f"> {quote_text[:500]}{'...' if len(quote_text) > 500 else ''}")
+
+            # PDF page link
+            pdf_link = _pdf_page_link(location, paper_pdf_path)
+            if pdf_link:
+                st.markdown(pdf_link)
         else:
             st.markdown(f"> {q}")
 
@@ -387,6 +417,7 @@ def render_review_controls(
             "notes": notes,
             "input_hash": input_hash,
             "reviewed_in_run": run_dir.name,
+            "reviewed_at": datetime.now().isoformat(timespec="seconds"),
         }
         if status == "edit" and edited_fields:
             review_entry["edited_fields"] = edited_fields
