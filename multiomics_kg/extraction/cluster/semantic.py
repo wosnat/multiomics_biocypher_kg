@@ -15,7 +15,7 @@ except Exception:
 
 from multiomics_kg.extraction.pdf_utils import extract_pdf_text, collect_pdf_files
 from multiomics_kg.extraction.rag import chunk_text, embed_texts, retrieve_top_k
-from multiomics_kg.extraction.structured_parsers import scan_supplementary_text
+
 from multiomics_kg.extraction.cluster.prompts import SEMANTIC_PROMPT, EXTRACTION_FIELDS_DESCRIPTION
 
 
@@ -69,9 +69,10 @@ def run_semantic(main_pdf_path: Path,
         if text:
             all_text_parts.append(text)
 
-    supp = scan_supplementary_text(paper_dir)
-    for source_file, text in supp.items():
-        all_text_parts.append(f"[{source_file}]\n{text}")
+    # NOTE: supplementary text intentionally excluded from semantic RAG corpus.
+    # The table path handles structured supplementary data at very_high confidence.
+    # Including it here drowns paper narrative with tabular gene lists/p-values.
+    # See docs/extraction_issues_log.md Issue 1 for longer-term fix.
 
     combined = "\n\n".join(all_text_parts)
     if not combined.strip():
