@@ -222,7 +222,8 @@ def run_pipeline(paperconfig_path: Path,
         # ── Stage 2 ──
         if 2 in run_stages:
             logger.info("=== Stage 2: Synthesis ===")
-            stage2 = run_synthesis(merged, paper_name, organism, treatment,
+            analysis_name = tconfig.get("name", tkey)
+            stage2 = run_synthesis(merged, analysis_name, organism, treatment,
                                    cluster_method)
             logger.info("Stage 2: synthesized %d clusters", len(stage2))
         else:

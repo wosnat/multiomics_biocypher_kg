@@ -107,14 +107,14 @@ Passages:
 # ── Stage 2: Synthesis ──
 
 SYNTHESIS_PROMPT = """\
-You are writing descriptions for gene expression clusters from a scientific paper.
+You are writing a description for ONE gene expression cluster from a scientific paper.
 
-For each cluster below, you are given extracted data from multiple sources \
+Below is extracted data for this cluster from multiple sources \
 (table=structured data files, visual=PDF figures, semantic=paper text). \
 Each field is a list of extractions tagged with source and confidence level \
 (very_high > high > medium > low).
 
-Write these outputs per cluster:
+Write these outputs for this cluster:
 
 1. **id** — Short snake_case identifier prefixed with organism. \
 Format: {{organism}}_{{direction}}_{{theme}}. \
@@ -130,7 +130,8 @@ Keep under 60 characters.
 2-3 sentences max. Include enrichment categories/pathways if mentioned in the paper. \
 For p-values use max 3 decimal places or scientific notation (e.g., p=0.013 or p=7.9e-10). \
 List only genes mentioned BY NAME in the paper text (not from CSV), max 3-5 genes. \
-Do NOT include treatment/experimental conditions (those belong on the analysis, not clusters).
+Do NOT include treatment/experimental conditions (those belong on the analysis, not clusters). \
+Ignore any locus tag IDs (e.g., PMM0001, PMT1234) — these are internal identifiers, not gene names.
 
 4. **behavioral_description** — The temporal/response pattern. \
 1-2 sentences max. Include direction (up/down), timing, and magnitude if available. \
@@ -151,29 +152,26 @@ RULES:
 - Partial descriptions are fine; incorrect descriptions are not.
 - Prefer higher-confidence sources when they agree on meaning.
 - If uncertain, use the sentinel value — do NOT guess.
-- IDs must be unique within this paper (organism prefix helps).
 - peak_time_hours and period_hours must be null (not "null") for non-periodic clusters.
 - Do NOT include treatment conditions or experimental context in cluster descriptions.
 - Only cite genes that are mentioned by name in the paper text, not from data tables.
+- Ignore locus tag gene IDs (PMM*, PMT*, etc.) — only use common gene names (e.g., urtA, rbcL).
 - Maximum 3-5 named genes per cluster description.
 
-Paper: {paper_name}
+Analysis: {paper_name}
 Organism: {organism}
-Treatment: {treatment}
 Cluster method: {cluster_method}
 
 {cluster_blocks}
 
-Return valid JSON using the original cluster keys:
+Return valid JSON:
 {{
-  "<cluster_key>": {{
-    "id": "organism_direction_theme",
-    "name": "Organism cluster N (direction, theme)",
-    "functional_description": "...",
-    "behavioral_description": "...",
-    "peak_time_hours": null,
-    "period_hours": null
-  }}
+  "id": "organism_direction_theme",
+  "name": "Organism cluster N (direction, theme)",
+  "functional_description": "...",
+  "behavioral_description": "...",
+  "peak_time_hours": null,
+  "period_hours": null
 }}
 """
 
