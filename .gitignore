@@ -2,6 +2,9 @@
 biocypher-*
 .vscode
 
+# Cluster extraction cache (versioned runs, pre-processing cache)
+.extraction_cache/
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
