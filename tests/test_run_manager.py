@@ -17,11 +17,15 @@ def test_create_run_returns_timestamped_dir(tmp_path):
     assert run_dir.exists()
 
 
-def test_create_run_updates_current_symlink(tmp_path):
-    """create_run updates the 'current' symlink to point at the new run."""
+def test_finalize_run_updates_current_symlink(tmp_path):
+    """finalize_run updates the 'current' symlink to point at the run."""
     rm = RunManager(tmp_path, "med4_kmeans_nstarvation")
     run_dir = rm.create_run()
+    # Before finalize: no symlink
     current = tmp_path / "med4_kmeans_nstarvation" / "current"
+    assert not current.exists()
+    # After finalize: symlink points to run
+    rm.finalize_run(run_dir)
     assert current.is_symlink()
     assert current.resolve() == run_dir.resolve()
 
@@ -30,8 +34,10 @@ def test_create_second_run_preserves_first(tmp_path):
     """Creating a second run does not delete the first."""
     rm = RunManager(tmp_path, "med4_kmeans_nstarvation")
     run1 = rm.create_run()
+    rm.finalize_run(run1)
     time.sleep(1.1)  # ensure different timestamp
     run2 = rm.create_run()
+    rm.finalize_run(run2)
     assert run1.exists()
     assert run2.exists()
     assert run1 != run2
@@ -63,6 +69,7 @@ def test_read_current_stage(tmp_path):
     run_dir = rm.create_run()
     data = {"1": {"id": "up_transport"}}
     rm.write_stage(run_dir, 2, data)
+    rm.finalize_run(run_dir)
     assert rm.read_current_stage(2) == data
 
 

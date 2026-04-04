@@ -38,6 +38,7 @@ def migrate_extraction_json(
     with open(run_dir / "metadata.json", "w") as f:
         json.dump(metadata, f, indent=2)
 
+    rm.finalize_run(run_dir)
     logger.info("Migrated %s → %s", legacy_path, run_dir)
     return run_dir
 

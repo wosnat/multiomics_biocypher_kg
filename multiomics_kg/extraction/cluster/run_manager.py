@@ -46,17 +46,22 @@ class RunManager:
         self.shared_dir = self.cache_root / "shared"
 
     def create_run(self) -> Path:
-        """Create a new timestamped run directory and update 'current' symlink."""
+        """Create a new timestamped run directory. Does NOT update 'current' symlink.
+
+        Call finalize_run(run_dir) after writing all stage data to update the symlink.
+        """
         timestamp = datetime.now().strftime("%Y-%m-%dT%H-%M-%S")
         run_dir = self.runs_dir / timestamp
         run_dir.mkdir(parents=True, exist_ok=True)
-        # Update symlink atomically
+        return run_dir
+
+    def finalize_run(self, run_dir: Path) -> None:
+        """Update 'current' symlink to point at run_dir. Call after all stages are written."""
         tmp_link = self.current_link.with_suffix(".tmp")
         if tmp_link.exists() or tmp_link.is_symlink():
             tmp_link.unlink()
         tmp_link.symlink_to(os.path.relpath(run_dir, self.entry_dir))
         os.replace(tmp_link, self.current_link)
-        return run_dir
 
     def get_current_run(self) -> Optional[Path]:
         """Return the current run directory, or None if no runs exist."""

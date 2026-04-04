@@ -307,21 +307,8 @@ def main():
                 f"{icon} Cluster {ck}: {cluster_id} (verdict: {verdict}, review: {review_status})",
                 expanded=expanded,
             ):
-                # Merge view
-                st.subheader("Merge View")
+                # Merge view (includes synthesis result)
                 render_merge_view(ck, s1_cluster, s2_cluster)
-
-                # Stage 2 synthesis descriptions
-                func_desc = s2_cluster.get("functional_description", "")
-                behav_desc = s2_cluster.get("behavioral_description", "")
-                if func_desc:
-                    st.markdown(f"**Functional description:** {func_desc}")
-                if behav_desc:
-                    st.markdown(f"**Behavioral description:** {behav_desc}")
-
-                # Supporting quotes
-                st.subheader("Supporting Quotes")
-                render_quotes(ck, s1_cluster)
 
                 # Validation verdict
                 st.subheader("Validation")

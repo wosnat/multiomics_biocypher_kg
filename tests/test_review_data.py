@@ -51,6 +51,7 @@ def _setup_paper_with_extraction(tmp_path, paper_name, entry_key, clusters):
     rm.write_stage(run_dir, 1, stage1)
     rm.write_stage(run_dir, 2, stage2)
     rm.write_stage(run_dir, 3, stage3)
+    rm.finalize_run(run_dir)
 
     return paper_dir, rm, run_dir
 

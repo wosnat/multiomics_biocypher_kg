@@ -669,6 +669,7 @@ def test_load_extraction_from_cache_dir(tmp_path):
     stage3_data = {"1": {"verdict": "pass"}, "2": {"verdict": "fail"}}
     rm.write_stage(run_dir, 2, stage2_data)
     rm.write_stage(run_dir, 3, stage3_data)
+    rm.finalize_run(run_dir)
 
     result = _load_extraction_json(paperconfig_dir, entry_key)
     assert "stage2_results" in result

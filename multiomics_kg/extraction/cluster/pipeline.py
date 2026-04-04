@@ -293,6 +293,9 @@ def run_pipeline(paperconfig_path: Path,
         with open(compat_report_path, "w") as f:
             f.write(report)
 
+        # ── Finalize: update current symlink now that all data is written ──
+        rm.finalize_run(run_dir)
+
         output_paths.append(out_path)
 
     return output_paths
