@@ -100,6 +100,11 @@ def run_semantic(main_pdf_path: Path,
         extraction = _extract_from_passages(key, passages, organism, treatment,
                                             retrieved, model)
         if extraction:
+            # Store raw RAG passages for review (LLM only keeps a few quotes)
+            extraction["retrieved_passages"] = [
+                {"text": text, "relevance_score": round(score, 3)}
+                for text, score in retrieved
+            ]
             results[key] = extraction
 
     return results

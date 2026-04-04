@@ -11,17 +11,10 @@ import yaml
 
 from multiomics_kg.extraction.cluster.run_manager import RunManager
 
-# Fields to show in merge view
-MERGE_FIELDS = [
-    "enrichment_category",
-    "enrichment_details",
-    "direction",
-    "temporal_pattern",
-    "cluster_description",
-    "treatment_conditions",
-    "peak_time",
-    "period_description",
-    "light_phase",
+# Synthesis fields shown below the 3-column view
+SYNTHESIS_FIELDS = [
+    "id", "name", "functional_description",
+    "behavioral_description", "peak_time_hours", "period_hours",
 ]
 
 # Confidence level color badges
@@ -89,41 +82,86 @@ def _verdict_badge(verdict: str) -> str:
     return f'<span style="background:{bg};color:{fg};padding:2px 8px;border-radius:4px;font-size:0.85em;font-weight:bold;">{verdict}</span>'
 
 
+def _render_path_fields(fields: dict) -> None:
+    """Render extracted fields for one path."""
+    if not fields:
+        st.caption("No data from this path.")
+        return
+    for field, value in sorted(fields.items()):
+        if value and value != "not described in paper":
+            label = field.replace("_", " ").title()
+            st.markdown(f"**{label}:** {value}")
+
+
+def _render_path_quotes(stage1_cluster: dict, source: str) -> None:
+    """Render supporting quotes from a specific source."""
+    quotes = stage1_cluster.get("supporting_quotes", [])
+    source_quotes = [q for q in quotes if isinstance(q, dict) and q.get("source") == source]
+    if source_quotes:
+        with st.expander(f"Quotes ({len(source_quotes)})"):
+            for q in source_quotes:
+                text = q.get("quote", "")
+                loc = q.get("location", "")
+                st.markdown(f"> {text[:400]}{'...' if len(text) > 400 else ''}")
+                if loc:
+                    st.caption(f"Location: {loc}")
+
+
 def render_merge_view(cluster_key: str, stage1_cluster: dict, stage2_cluster: dict) -> None:
-    """Render per-field merge view showing candidates from all sources + synthesis result."""
-    for field in MERGE_FIELDS:
-        candidates = stage1_cluster.get(field, [])
-        synthesis_value = stage2_cluster.get(field, stage2_cluster.get(f"{field}_description", ""))
+    """Render 3-column path view for one cluster, then synthesis result below."""
 
-        if not candidates and not synthesis_value:
+    # Separate stage1 data by source
+    path_data = {"table": {}, "visual": {}, "semantic": {}}
+
+    for field, entries in stage1_cluster.items():
+        if field in ("supporting_quotes", "gene_count", "retrieved_passages"):
             continue
+        if isinstance(entries, list):
+            for entry in entries:
+                if isinstance(entry, dict) and "source" in entry:
+                    source = entry["source"]
+                    if source in path_data:
+                        path_data[source][field] = entry.get("value", "")
 
-        st.markdown(f"**{field.replace('_', ' ').title()}**")
+    # 3 columns
+    col_table, col_visual, col_semantic = st.columns(3)
 
-        # Show candidates from stage 1
-        if candidates:
-            for c in candidates:
-                if isinstance(c, dict):
-                    val = c.get("value", "")
-                    source = c.get("source", "")
-                    confidence = c.get("confidence", "")
-                    badges = f"{_source_badge(source)} {_confidence_badge(confidence)}"
-                    if isinstance(val, list):
-                        val = ", ".join(str(v) for v in val)
-                    st.markdown(
-                        f"&nbsp;&nbsp;&nbsp;&nbsp;{badges} {val}",
-                        unsafe_allow_html=True,
-                    )
-                else:
-                    st.markdown(f"&nbsp;&nbsp;&nbsp;&nbsp;{c}")
+    with col_table:
+        st.markdown("**Table** (very_high)")
+        _render_path_fields(path_data["table"])
+        _render_path_quotes(stage1_cluster, "table")
 
-        # Show synthesis result from stage 2
-        if synthesis_value:
-            st.markdown(
-                f"&nbsp;&nbsp;&nbsp;&nbsp;**Synthesis:** {synthesis_value}",
-            )
+    with col_visual:
+        st.markdown("**Visual** (high)")
+        _render_path_fields(path_data["visual"])
+        _render_path_quotes(stage1_cluster, "visual")
 
-        st.markdown("---")
+    with col_semantic:
+        st.markdown("**Semantic** (medium)")
+        _render_path_fields(path_data["semantic"])
+        # Show retrieved RAG passages
+        retrieved = stage1_cluster.get("retrieved_passages", [])
+        if retrieved:
+            with st.expander(f"Retrieved passages ({len(retrieved)})"):
+                for p in retrieved:
+                    score = p.get("relevance_score", "?")
+                    text = p.get("text", "")
+                    st.markdown(f"**[{score}]**")
+                    st.markdown(f"> {text[:500]}{'...' if len(text) > 500 else ''}")
+        else:
+            # Fallback: show semantic supporting_quotes
+            _render_path_quotes(stage1_cluster, "semantic")
+
+    # Synthesis result below
+    st.markdown("---")
+    st.markdown("#### Synthesis Result")
+    for field in SYNTHESIS_FIELDS:
+        value = stage2_cluster.get(field, "")
+        label = field.replace("_", " ").title()
+        if value is not None and value != "":
+            st.markdown(f"**{label}:** {value}")
+        else:
+            st.markdown(f"**{label}:** *(empty)*")
 
 
 def render_quotes(cluster_key: str, stage1_cluster: dict) -> None:

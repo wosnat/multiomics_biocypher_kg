@@ -24,7 +24,6 @@ Fields:
 - peak_time: peak expression time for diel/periodic clusters
 - period_description: oscillation behavior description
 - light_phase: "light" / "dark" / "transition" / "not described in paper"
-- treatment_conditions: which experimental conditions drive this cluster
 - supporting_quotes: ALL exact quotes that describe this cluster (no limit)
 """
 
@@ -63,7 +62,6 @@ Return valid JSON:
     "peak_time": "...",
     "period_description": "...",
     "light_phase": "...",
-    "treatment_conditions": "...",
     "supporting_quotes": [{{"quote": "...", "location": "Figure 3 legend"}}]
   }}
 }}
@@ -99,7 +97,6 @@ Return valid JSON:
   "peak_time": "...",
   "period_description": "...",
   "light_phase": "...",
-  "treatment_conditions": "...",
   "supporting_quotes": [{{"quote": "...", "location": "...", "relevance_score": 0.85}}]
 }}
 

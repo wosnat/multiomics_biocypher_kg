@@ -18,14 +18,13 @@ EXTRACTION_FIELDS = [
     "enrichment_category", "enrichment_pvalue", "enrichment_significant",
     "enrichment_details", "genes", "direction", "cluster_description",
     "temporal_pattern", "peak_time", "period_description", "light_phase",
-    "treatment_conditions",
 ]
 
 # Fields pooled into one combined list
 POOL_FIELDS = ["supporting_quotes", "all_enrichments"]
 
 # Fields passed through from table (ground truth scalars)
-PASSTHROUGH_FIELDS = ["gene_count"]
+PASSTHROUGH_FIELDS = ["gene_count", "retrieved_passages"]
 
 
 def merge_paths(cluster_keys: list[str],
@@ -87,9 +86,11 @@ def merge_paths(cluster_keys: list[str],
                 merged[field] = pooled
 
         for field in PASSTHROUGH_FIELDS:
-            t_data = table.get(key, {})
-            if field in t_data:
-                merged[field] = t_data[field]
+            for _source_name, path_data in paths:
+                src_data = path_data.get(key, {})
+                if field in src_data:
+                    merged[field] = src_data[field]
+                    break
 
         results[key] = merged
 
