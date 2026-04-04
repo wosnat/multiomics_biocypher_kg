@@ -93,7 +93,7 @@ def dump_semantic_prompt(entry_key: str, tconfig: dict, stage1_merged: dict,
         prompt = SEMANTIC_PROMPT.format(
             cluster_key=ck,
             organism=organism,
-            treatment=treatment,
+            analysis_name=analysis_name,
             fields_description=EXTRACTION_FIELDS_DESCRIPTION,
             passages=f"[RAG query: \"{query}\" → top 8 chunks would be here]",
         )

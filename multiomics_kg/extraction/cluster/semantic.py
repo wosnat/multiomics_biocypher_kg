@@ -57,6 +57,7 @@ def run_semantic(main_pdf_path: Path,
                  seed_data: Optional[dict[str, dict]] = None,
                  model: str = "gpt-5-nano",
                  top_k: int = 8,
+                 analysis_name: str = "",
                  ) -> dict[str, dict]:
     """Run Path: semantic — chunk, embed, retrieve, extract per cluster."""
     if _openai is None:
@@ -116,8 +117,8 @@ def run_semantic(main_pdf_path: Path,
             f"[{i+1}] (relevance: {score:.3f}): \"{text}\""
             for i, (text, score) in enumerate(retrieved)
         )
-        extraction = _extract_from_passages(key, passages, organism, treatment,
-                                            retrieved, model)
+        extraction = _extract_from_passages(key, passages, organism,
+                                            analysis_name, retrieved, model)
         if extraction:
             # Store raw RAG passages for review (LLM only keeps a few quotes)
             extraction["retrieved_passages"] = [
@@ -132,14 +133,14 @@ def run_semantic(main_pdf_path: Path,
 def _extract_from_passages(cluster_key: str,
                            passages: str,
                            organism: str,
-                           treatment: str,
+                           analysis_name: str,
                            retrieved: list[tuple[str, float]],
                            model: str,
                            ) -> dict:
     prompt = SEMANTIC_PROMPT.format(
         cluster_key=cluster_key,
         organism=organism,
-        treatment=treatment,
+        analysis_name=analysis_name,
         fields_description=EXTRACTION_FIELDS_DESCRIPTION,
         passages=passages,
     )

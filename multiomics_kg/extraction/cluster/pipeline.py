@@ -106,7 +106,8 @@ def run_stage1(paperconfig_path: Path, table_key: str, table_config: dict,
             seed = merge_paths(cluster_keys, visual_results, {}, table_results)
             logger.info("Running Path: semantic...")
             semantic_results = run_semantic(main_pdf, paper_dir, cluster_keys,
-                                           organism, treatment, seed_data=seed)
+                                           organism, treatment, seed_data=seed,
+                                           analysis_name=analysis_name)
             logger.info("  semantic: extracted data for %d clusters", len(semantic_results))
 
     # Final merge

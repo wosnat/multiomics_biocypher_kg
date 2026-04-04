@@ -70,9 +70,11 @@ Return valid JSON:
 
 SEMANTIC_PROMPT = """\
 You are extracting information about gene cluster {cluster_key} from a \
-scientific paper about {organism} under {treatment}.
+scientific paper about {organism}.
 
-Below are text passages retrieved from the paper and supplementary materials. \
+Analysis: {analysis_name}
+
+Below are text passages retrieved from the paper. \
 Extract ONLY information that is explicitly about cluster {cluster_key}. \
 If a passage discusses multiple clusters, only use parts about THIS cluster.
 
