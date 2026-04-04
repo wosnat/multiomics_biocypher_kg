@@ -1,36 +1,26 @@
 Resolution report: Wang 2014 / med4_expression_level
 Source: GeneClassification_clean.csv
 name_col: sysName
-id_columns: []
+id_columns: ['sysName', 'locus_tag', 'name']
 
 Total rows with IDs: 2058
-Resolved: 1716 (83.4%)
-Unresolved: 342
+Resolved: 2052 (99.7%)
+Unresolved: 6
 
 Resolution method breakdown:
+  ambiguous: 1
   empty: 1
   locus_tag:sysName: 1716
-  unresolved: 342
+  multi:name: 1
+  tier1:sysName: 335
+  unresolved: 5
 
-Unresolved rows (342):
-  row 39: raw_id='HyPMM1'  reason=unresolved
-  row 51: raw_id='HyPMM2'  reason=unresolved
-  row 54: raw_id='HyPMM3'  reason=unresolved
-  row 55: raw_id='RNA_43'  reason=unresolved
-  row 59: raw_id='HyPMM4'  reason=unresolved
-  row 64: raw_id='RNA_37'  reason=unresolved
-  row 67: raw_id='asRNA_00641'  reason=unresolved
-  row 81: raw_id='asRNA_00771'  reason=unresolved
-  row 83: raw_id='HyPMM5'  reason=unresolved
-  row 97: raw_id='HyPMM6'  reason=unresolved
-  row 99: raw_id='HyPMM7'  reason=unresolved
-  row 113: raw_id='PMM102a'  reason=unresolved
-  row 137: raw_id='RNA_1'  reason=unresolved
-  row 241: raw_id='asRNA_02331'  reason=unresolved
-  row 249: raw_id='HyPMM8'  reason=unresolved
-  row 251: raw_id='RNA_2'  reason=unresolved
-  row 274: raw_id='RNA_36'  reason=unresolved
-  row 285: raw_id='asRNA_02731'  reason=unresolved
-  row 292: raw_id='RNA_35'  reason=unresolved
-  row 323: raw_id='HyPMM9'  reason=unresolved
-  ... (322 more)
+Unresolved rows (6):
+  row 1140: raw_id='HyPMM130'  reason=ambiguous  [sysName='HyPMM130', locus_tag='PMED4_10681', name='Protein-coding gene']
+  row 1224: raw_id='PMM1018a'  reason=unresolved  [sysName='PMM1018a', locus_tag='PMED4_11521', name='PMM1018a']
+  row 2055: raw_id='a New CDS genes excluded in NCBI were named HyPMM## sorted by their coordinates on genome;and new CDS genes reported by this study named TibPMM## sorted by their coordinates on genome.'  reason=unresolved  [sysName='a New CDS genes excluded in NCBI were named HyPMM## sorted by their coordinates on genome;and new CDS genes reported by this study named TibPMM## sorted by their coordinates on genome.']
+  row 2056: raw_id='b Locus tag of P.marinus MED4 in the MicrobesOnLine database [62].'  reason=unresolved  [sysName='b Locus tag of P.marinus MED4 in the MicrobesOnLine database [62].']
+  row 2057: raw_id='c All CDS genes were classified into the core or flexible genome by Ketter et al. [7].'  reason=unresolved  [sysName='c All CDS genes were classified into the core or flexible genome by Ketter et al. [7].']
+  row 2058: raw_id='a Genes of Core and Flexible genome were classified into five expresison subclasses respectively: non expressed genes (NEG), lowly expressed genes (LEG), moderately expressed genes (MEG), highly expressed genes (HEG), and variably expressed genes (VEG)'  reason=unresolved  [sysName='a Genes of Core and Flexible genome were classified into five expresison subclasses respectively: non expressed genes (NEG), lowly expressed genes (LEG), moderately expressed genes (MEG), highly expressed genes (HEG), and variably expressed genes (VEG)']
+
+NOTE: 1 rows were ambiguous (multi_lookup had >1 match). Consider adding id_columns with more specific IDs, or check if the name_col should be Tier 2 (protein-level) instead of Tier 1.

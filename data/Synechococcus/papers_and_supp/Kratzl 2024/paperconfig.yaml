@@ -92,6 +92,10 @@ publication:
           id_type: locus_tag_ncbi
         - column: locus tag
           id_type: old_locus_tag
+        - column: rotein ID
+          id_type: protein_id_refseq
+      product_columns:
+        - column: Annotation
       statistical_analyses:
         - id: DE_rnaseq_coculture_vs_pputida
           experiment: coculture_vs_pputida_axenic_rnaseq
@@ -111,6 +115,10 @@ publication:
           id_type: locus_tag_ncbi
         - column: Locus Tag
           id_type: old_locus_tag
+        - column: Protein ID
+          id_type: protein_id_refseq
+      product_columns:
+        - column: Annotation
       statistical_analyses:
         - id: DE_rnaseq_coculture_vs_selongatus
           experiment: coculture_vs_selongatus_axenic_rnaseq
@@ -131,6 +139,8 @@ publication:
           id_type: uniprot_accession
         - column: Gene Name
           id_type: gene_name
+      product_columns:
+        - column: Protein names
       statistical_analyses:
         - id: DE_proteomics_coculture_vs_pputida
           experiment: coculture_vs_pputida_axenic_proteomics
@@ -150,6 +160,8 @@ publication:
           id_type: uniprot_accession
         - column: Gene Name
           id_type: gene_name
+      product_columns:
+        - column: Protein.names
       statistical_analyses:
         - id: DE_proteomics_coculture_vs_selongatus
           experiment: coculture_vs_selongatus_axenic_proteomics

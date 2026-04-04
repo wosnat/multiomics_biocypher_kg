@@ -1,37 +1,36 @@
 Resolution report: Kratzl 2024 / sheet6_rnaseq_selongatus
 Source: data set s1 6_coculture vs Selongatus_all 42003_2024_6098_MOESM3_ESM.csv
 name_col: gene ID
-id_columns: ['gene ID', 'Locus Tag']
+id_columns: ['gene ID', 'Locus Tag', 'Protein ID']
 
 Total rows with IDs: 2679
-Resolved: 1883 (70.3%)
-Unresolved: 796
+Resolved: 2321 (86.6%)
+Unresolved: 358
 
 Resolution method breakdown:
-  locus_tag:Locus Tag: 2
-  multi:Locus Tag: 15
-  tier1:gene ID: 1866
-  unresolved: 796
+  locus_tag:Locus Tag: 1
+  tier1:gene ID: 2320
+  unresolved: 358
 
-Unresolved rows (796):
-  row 0: raw_id='gene-H6G84_RS05480'  reason=unresolved  [gene ID='gene-H6G84_RS05480']
-  row 4: raw_id='gene-H6G84_RS13630'  reason=unresolved  [gene ID='gene-H6G84_RS13630', Locus Tag='anL05']
-  row 10: raw_id='gene-H6G84_RS13690'  reason=unresolved  [gene ID='gene-H6G84_RS13690']
-  row 11: raw_id='gene-H6G84_RS13695'  reason=unresolved  [gene ID='gene-H6G84_RS13695']
-  row 13: raw_id='gene-H6G84_RS13710'  reason=unresolved  [gene ID='gene-H6G84_RS13710']
-  row 25: raw_id='gene-H6G84_RS13505'  reason=unresolved  [gene ID='gene-H6G84_RS13505']
-  row 49: raw_id='gene-H6G84_RS11405'  reason=unresolved  [gene ID='gene-H6G84_RS11405', Locus Tag='clpP1 syc0012_c']
-  row 51: raw_id='gene-H6G84_RS11440'  reason=unresolved  [gene ID='gene-H6G84_RS11440']
-  row 52: raw_id='gene-H6G84_RS11515'  reason=unresolved  [gene ID='gene-H6G84_RS11515', Locus Tag='syc0026_c']
-  row 61: raw_id='gene-H6G84_RS11660'  reason=unresolved  [gene ID='gene-H6G84_RS11660']
-  row 94: raw_id='gene-H6G84_RS10845'  reason=unresolved  [gene ID='gene-H6G84_RS10845']
-  row 102: raw_id='gene-H6G84_RS10790'  reason=unresolved  [gene ID='gene-H6G84_RS10790', Locus Tag='syc0126_d']
-  row 105: raw_id='gene-H6G84_RS10770'  reason=unresolved  [gene ID='gene-H6G84_RS10770']
-  row 107: raw_id='gene-H6G84_RS10760'  reason=unresolved  [gene ID='gene-H6G84_RS10760']
-  row 116: raw_id='gene-H6G84_RS10675'  reason=unresolved  [gene ID='gene-H6G84_RS10675', Locus Tag='syc0147_c']
-  row 125: raw_id='gene-H6G84_RS08040'  reason=unresolved  [gene ID='gene-H6G84_RS08040']
-  row 126: raw_id='gene-H6G84_RS08075'  reason=unresolved  [gene ID='gene-H6G84_RS08075']
-  row 128: raw_id='gene-H6G84_RS08095'  reason=unresolved  [gene ID='gene-H6G84_RS08095', Locus Tag='syc0179_c']
-  row 155: raw_id='gene-H6G84_RS08405'  reason=unresolved  [gene ID='gene-H6G84_RS08405']
-  row 181: raw_id='gene-H6G84_RS08785'  reason=unresolved  [gene ID='gene-H6G84_RS08785']
-  ... (776 more)
+Unresolved rows (358):
+  row 4: raw_id='gene-H6G84_RS13630'  reason=unresolved  [gene ID='gene-H6G84_RS13630', Locus Tag='anL05', Protein ID='WP_011055123.1']
+  row 49: raw_id='gene-H6G84_RS11405'  reason=unresolved  [gene ID='gene-H6G84_RS11405', Locus Tag='clpP1 syc0012_c', Protein ID='WP_011242325.1']
+  row 208: raw_id='gene-H6G84_RS09095'  reason=unresolved  [gene ID='gene-H6G84_RS09095', Protein ID='WP_011242682.1']
+  row 296: raw_id='gene-H6G84_RS10045'  reason=unresolved  [gene ID='gene-H6G84_RS10045', Protein ID='WP_011242861.1']
+  row 297: raw_id='gene-H6G84_RS10055'  reason=unresolved  [gene ID='gene-H6G84_RS10055', Locus Tag='syc0551_d', Protein ID='WP_011242863.1']
+  row 373: raw_id='gene-H6G84_RS12085'  reason=unresolved  [gene ID='gene-H6G84_RS12085', Locus Tag='syc0688_c', Protein ID='WP_011243000.1']
+  row 947: raw_id='gene-H6G84_RS01660'  reason=unresolved  [gene ID='gene-H6G84_RS01660', Protein ID='WP_011244156.1']
+  row 1126: raw_id='gene-H6G84_RS03500'  reason=unresolved  [gene ID='gene-H6G84_RS03500', Protein ID='WP_011244509.1']
+  row 1170: raw_id='gene-H6G84_RS03865'  reason=unresolved  [gene ID='gene-H6G84_RS03865', Protein ID='WP_011244579.1']
+  row 1200: raw_id='gene-H6G84_RS04195'  reason=unresolved  [gene ID='gene-H6G84_RS04195', Protein ID='WP_011244643.1']
+  row 1423: raw_id='gene-H6G84_RS05690'  reason=unresolved  [gene ID='gene-H6G84_RS05690', Protein ID='WP_011377572.1']
+  row 1428: raw_id='gene-H6G84_RS05615'  reason=unresolved  [gene ID='gene-H6G84_RS05615', Protein ID='WP_011377577.1']
+  row 1439: raw_id='gene-H6G84_RS05380'  reason=unresolved  [gene ID='gene-H6G84_RS05380', Protein ID='WP_011377592.1']
+  row 1449: raw_id='gene-H6G84_RS05195'  reason=unresolved  [gene ID='gene-H6G84_RS05195', Protein ID='WP_011377604.1']
+  row 1498: raw_id='gene-H6G84_RS13080'  reason=unresolved  [gene ID='gene-H6G84_RS13080', Protein ID='WP_011377673.1']
+  row 1509: raw_id='gene-H6G84_RS12950'  reason=unresolved  [gene ID='gene-H6G84_RS12950', Protein ID='WP_011377686.1']
+  row 1520: raw_id='gene-H6G84_RS12655'  reason=unresolved  [gene ID='gene-H6G84_RS12655', Locus Tag='Synpcc7942_0746', Protein ID='WP_011377701.1']
+  row 1571: raw_id='gene-H6G84_RS11985'  reason=unresolved  [gene ID='gene-H6G84_RS11985', Protein ID='WP_011377771.1']
+  row 1598: raw_id='gene-H6G84_RS10125'  reason=unresolved  [gene ID='gene-H6G84_RS10125', Protein ID='WP_011377814.1']
+  row 1736: raw_id='gene-H6G84_RS08135'  reason=unresolved  [gene ID='gene-H6G84_RS08135', Protein ID='WP_011378004.1']
+  ... (338 more)

@@ -186,6 +186,9 @@ publication:
       organism: "Prochlorococcus NATL2A"
       gene_id_col: "gene"
       cluster_col: "dark-tolerant_cluster"
+      id_columns:
+      - column: "gene"
+        id_type: gene_name
       cluster_type: "diel_expression_pattern"
       cluster_method: "RAIN periodicity detection (K=15)"
       omics_type: RNASEQ
@@ -203,6 +206,9 @@ publication:
       organism: "Prochlorococcus NATL2A"
       gene_id_col: "gene"
       cluster_col: "parental_cluster"
+      id_columns:
+      - column: "gene"
+        id_type: gene_name
       cluster_type: "diel_expression_pattern"
       cluster_method: "RAIN periodicity detection (K=15)"
       omics_type: RNASEQ

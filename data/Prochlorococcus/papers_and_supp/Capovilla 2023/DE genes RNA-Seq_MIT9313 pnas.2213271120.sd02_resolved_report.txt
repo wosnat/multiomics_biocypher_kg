@@ -1,7 +1,7 @@
 Resolution report: Capovilla 2023 / de_genes_mit9313
 Source: DE genes RNA-Seq_MIT9313 pnas.2213271120.sd02.csv
 name_col: ncbi_gene_locus_tag
-id_columns: ['ncbi_gene_locus_tag']
+id_columns: ['ncbi_gene_locus_tag', 'ncbi_cds_locus_tag', 'ncbi_gene_old_locus_tag', 'gene']
 
 Total rows with IDs: 72
 Resolved: 72 (100.0%)

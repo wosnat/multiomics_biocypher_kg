@@ -26,6 +26,11 @@ publication:
       organism: "Prochlorococcus MIT9301"
       gene_id_col: "RefSeq Locus Tag"
       cluster_col: "Soft cluster"
+      id_columns:
+        - column: "RefSeq Locus Tag"
+          id_type: old_locus_tag
+        - column: "Gene  symbol"
+          id_type: gene_name
       # No single score column; per-cluster probabilities in separate columns
       # (Probability score Cluster A..E). Could derive max-probability in preprocessing.
       cluster_type: "expression_pattern"

@@ -1,7 +1,7 @@
 Resolution report: Christie-Oleza 2017 / supp_table_s7
 Source: table s7 41564_2017_BFnmicrobiol2017100_MOESM8_ESM.csv
 name_col: Annotation reference
-id_columns: []
+id_columns: ['Annotation reference', 'Old NCBI reference', 'New NCBI reference', 'Annotation UniProt']
 
 Total rows with IDs: 1724
 Resolved: 1724 (100.0%)

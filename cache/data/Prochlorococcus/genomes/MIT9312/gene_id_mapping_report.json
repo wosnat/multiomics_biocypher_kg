@@ -25,20 +25,25 @@
       "multi": 36,
       "unique": 3291
     },
+    "gff_gene_id": {
+      "conflict": 0,
+      "multi": 0,
+      "unique": 3836
+    },
     "locus_tag_cyanorak": {
       "conflict": 0,
       "multi": 0,
       "unique": 1962
     },
     "locus_tag_ncbi": {
-      "conflict": 0,
+      "conflict": 16,
       "multi": 0,
-      "unique": 3834
+      "unique": 6199
     },
     "old_locus_tag": {
       "conflict": 0,
       "multi": 0,
-      "unique": 3
+      "unique": 4
     },
     "protein_id_refseq": {
       "conflict": 0,
@@ -54,11 +59,14 @@
   "strain": "MIT9312",
   "unresolved_rows_per_source": {
     "Barreto 2022/id_translation_pro_9312": 45,
-    "Barreto 2022/supp_table_S1_MIT9312": 37,
+    "Barreto 2022/supp_table_S1_MIT9312": 5,
     "Hennon 2017/id_translation_mit9312_annot": 2,
     "Hennon 2017/supp_table_2": 103,
     "Tetu 2019/supp_dataset_3_mit9312": 3,
-    "genomic_gca/MIT9312": 52
+    "genomic_gca/MIT9312": 52,
+    "genomic_gcf/MIT9312": 48
   },
-  "warnings": []
+  "warnings": [
+    "[CONFLICT] Tier 1 id_type 'locus_tag_ncbi' has 16 data conflicts \u2014 check annotation quality."
+  ]
 }

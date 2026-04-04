@@ -15,10 +15,15 @@
       "multi": 5,
       "unique": 9018
     },
-    "locus_tag_ncbi": {
+    "gff_gene_id": {
       "conflict": 0,
       "multi": 0,
-      "unique": 8194
+      "unique": 8233
+    },
+    "locus_tag_ncbi": {
+      "conflict": 61,
+      "multi": 0,
+      "unique": 13240
     },
     "old_locus_tag": {
       "conflict": 0,
@@ -38,17 +43,20 @@
   },
   "strain": "EZ55",
   "unresolved_rows_per_source": {
-    "Barreto 2022/supp_table_S10": 313,
-    "Barreto 2022/supp_table_S11": 141,
-    "Barreto 2022/supp_table_S12": 195,
-    "Barreto 2022/supp_table_S13": 85,
-    "Barreto 2022/supp_table_S14": 59,
-    "Barreto 2022/supp_table_S2": 132,
-    "Barreto 2022/supp_table_S9": 440,
+    "Barreto 2022/supp_table_S10": 20,
+    "Barreto 2022/supp_table_S11": 5,
+    "Barreto 2022/supp_table_S12": 7,
+    "Barreto 2022/supp_table_S13": 2,
+    "Barreto 2022/supp_table_S14": 1,
+    "Barreto 2022/supp_table_S2": 6,
+    "Barreto 2022/supp_table_S9": 21,
     "Hennon 2017/supp_table_3": 77,
     "Hennon 2017/supp_table_4": 27,
     "cds_from_genomic.fna": 44,
-    "genomic_gca/EZ55": 367
+    "genomic_gca/EZ55": 367,
+    "genomic_gcf/EZ55": 107
   },
-  "warnings": []
+  "warnings": [
+    "[CONFLICT] Tier 1 id_type 'locus_tag_ncbi' has 61 data conflicts \u2014 check annotation quality."
+  ]
 }

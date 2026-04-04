@@ -15,20 +15,30 @@
       "multi": 44,
       "unique": 4635
     },
+    "gff_gene_id": {
+      "conflict": 0,
+      "multi": 0,
+      "unique": 5568
+    },
     "locus_tag_cyanorak": {
       "conflict": 0,
       "multi": 0,
       "unique": 2983
     },
     "locus_tag_ncbi": {
-      "conflict": 2,
+      "conflict": 23,
       "multi": 0,
-      "unique": 6198
+      "unique": 8934
     },
     "old_locus_tag": {
       "conflict": 0,
       "multi": 0,
       "unique": 5
+    },
+    "other": {
+      "conflict": 0,
+      "multi": 0,
+      "unique": 25
     },
     "protein_id_refseq": {
       "conflict": 0,
@@ -43,10 +53,12 @@
   },
   "strain": "MIT9303",
   "unresolved_rows_per_source": {
+    "Capovilla 2023/de_genes_mit9303": 11,
     "cds_from_genomic.fna": 48,
-    "genomic_gca/MIT9303": 104
+    "genomic_gca/MIT9303": 104,
+    "genomic_gcf/MIT9303": 65
   },
   "warnings": [
-    "[CONFLICT] Tier 1 id_type 'locus_tag_ncbi' has 2 data conflicts \u2014 check annotation quality."
+    "[CONFLICT] Tier 1 id_type 'locus_tag_ncbi' has 23 data conflicts \u2014 check annotation quality."
   ]
 }

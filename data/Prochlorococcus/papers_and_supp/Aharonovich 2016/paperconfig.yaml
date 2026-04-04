@@ -114,6 +114,11 @@ publication:
     supp_table_hot1a3_9313_vs_9313dil:
       type: csv
       filename: data/Prochlorococcus/papers_and_supp/Aharonovich 2016/HOT1A3 coculture with 9313 ver coculture with 9313 diluted.csv
+      id_columns:
+      - column: Synonym
+        id_type: locus_tag
+      product_columns:
+      - column: Product
       statistical_analyses:
       - id: DE_hot1a3_coculture_9313_vs_9313dil_t20h
         experiment: coculture_prochlorococcus_mit9313_high_alteromonas_hot1a3_rnaseq
@@ -126,6 +131,11 @@ publication:
     supp_table_hot1a3_9313_vs_med4:
       type: csv
       filename: data/Prochlorococcus/papers_and_supp/Aharonovich 2016/HOT1A3 coculture with MED4 vs coculture with MIT9313.csv
+      id_columns:
+      - column: Synonym
+        id_type: locus_tag
+      product_columns:
+      - column: Product
       statistical_analyses:
       - id: DE_hot1a3_coculture_9313_vs_med4_t20h
         experiment: coculture_prochlorococcus_mit9313_hot1a3_rnaseq

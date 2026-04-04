@@ -28,6 +28,13 @@ publication:
       organism: "Prochlorococcus MED4"
       gene_id_col: "sysName"
       cluster_col: "ExpressionLevel"
+      id_columns:
+        - column: "sysName"
+          id_type: locus_tag
+        - column: "locus_tag"
+          id_type: alternative_locus_tag
+        - column: "name"
+          id_type: gene_name
       cluster_type: "expression_level"
       cluster_method: "Quartile-based classification from RNA-seq RPKM across 10 growth conditions"
       omics_type: RNASEQ

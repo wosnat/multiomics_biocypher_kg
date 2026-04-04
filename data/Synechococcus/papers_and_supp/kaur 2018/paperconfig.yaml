@@ -105,6 +105,13 @@ publication:
       filename: "data/Synechococcus/papers_and_supp/kaur 2018/table s4a Syn SW emi14012-sup-0004-suppinfo4.csv"
       skip_rows: 2
       organism: "Synechococcus WH7803"
+      id_columns:
+        - column: "NCBI reference"
+          id_type: protein_id
+        - column: "Other reference"
+          id_type: old_locus_tag
+      product_columns:
+        - column: "Annotated function and designation"
       statistical_analyses:
         - id: "syn_wh7803_sw_tp3_vs_tp1"
           experiment: syn_wh7803_exoproteome_sw
@@ -169,6 +176,13 @@ publication:
       filename: "data/Synechococcus/papers_and_supp/kaur 2018/table s4b Syn ASW emi14012-sup-0004-suppinfo4.csv"
       skip_rows: 2
       organism: "Synechococcus WH7803"
+      id_columns:
+        - column: "NCBI reference"
+          id_type: protein_id
+        - column: "Other reference"
+          id_type: old_locus_tag
+      product_columns:
+        - column: "Annotated function and designation"
       statistical_analyses:
         - id: "syn_wh7803_asw_tp3_vs_tp1"
           experiment: syn_wh7803_exoproteome_asw
@@ -235,6 +249,11 @@ publication:
       filename: "data/Synechococcus/papers_and_supp/kaur 2018/table s5a Pom SW emi14012-sup-0005-suppinfo5.csv"
       skip_rows: 2
       organism: "Ruegeria pomeroyi DSS-3"
+      id_columns:
+        - column: "NCBI reference"
+          id_type: protein_id
+      product_columns:
+        - column: "Annotated function and designation"
       statistical_analyses:
         - id: "rpom_dss3_sw_tp3_vs_tp1"
           experiment: rpom_dss3_exoproteome_sw
@@ -299,6 +318,11 @@ publication:
       filename: "data/Synechococcus/papers_and_supp/kaur 2018/table s5b Pom ASW emi14012-sup-0005-suppinfo5.csv"
       skip_rows: 2
       organism: "Ruegeria pomeroyi DSS-3"
+      id_columns:
+        - column: "NCBI reference"
+          id_type: protein_id
+      product_columns:
+        - column: "Annotated function and designation"
       statistical_analyses:
         - id: "rpom_dss3_asw_tp3_vs_tp1"
           experiment: rpom_dss3_exoproteome_asw

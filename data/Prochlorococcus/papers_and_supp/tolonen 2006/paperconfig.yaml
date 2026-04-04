@@ -248,6 +248,9 @@ publication:
       organism: "Prochlorococcus MED4"
       gene_id_col: "gene_id"
       cluster_col: "cluster"
+      id_columns:
+        - column: "gene_id"
+          id_type: old_locus_tag
       cluster_type: "response_pattern"
       cluster_method: "K-means (K=9)"
       omics_type: MICROARRAY
@@ -266,6 +269,9 @@ publication:
       organism: "Prochlorococcus MIT9313"
       gene_id_col: "gene_id"
       cluster_col: "cluster"
+      id_columns:
+        - column: "gene_id"
+          id_type: old_locus_tag
       cluster_type: "response_pattern"
       cluster_method: "K-means (K=7)"
       omics_type: MICROARRAY

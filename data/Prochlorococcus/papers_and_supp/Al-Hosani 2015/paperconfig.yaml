@@ -23,6 +23,10 @@ publication:
     supp_table_3:
       type: csv
       filename: data/Prochlorococcus/papers_and_supp/Al-Hosani 2015/de_genes_salt_acclimated_vs_sea_water.csv
+      organism: Prochlorococcus AS9601
+      id_columns:
+        - column: "Gene id"
+          id_type: locus_tag
       statistical_analyses:
       - id: DE_salt_acclimated_vs_seawater_AS9601
         experiment: salt_saltacclimated_5_salt_as9601_rnaseq

@@ -217,9 +217,10 @@ publication:
     supp_table_S1_MIT9312:
       type: csv
       filename: data/Prochlorococcus/papers_and_supp/barreto 2022/transcriptome_supplemental_tables/Supplemental_tables/table_S1_MIT9312.csv
+      organism: Prochlorococcus MIT9312
       id_columns:
       - column: symbol
-        id_type: gene_name
+        id_type: old_locus_tag
       product_columns:
       - column: product
       statistical_analyses:
@@ -233,9 +234,10 @@ publication:
     supp_table_S1_CC9311:
       type: csv
       filename: data/Prochlorococcus/papers_and_supp/barreto 2022/transcriptome_supplemental_tables/Supplemental_tables/table_S1_CC9311.csv
+      organism: Synechococcus CC9311
       id_columns:
       - column: symbol
-        id_type: gene_name
+        id_type: locus_tag
       product_columns:
       - column: product
       statistical_analyses:
@@ -249,9 +251,10 @@ publication:
     supp_table_S1_WH8102:
       type: csv
       filename: data/Prochlorococcus/papers_and_supp/barreto 2022/transcriptome_supplemental_tables/Supplemental_tables/table_S1_WH8102.csv
+      organism: Synechococcus WH8102
       id_columns:
       - column: symbol
-        id_type: gene_name
+        id_type: locus_tag
       product_columns:
       - column: product
       statistical_analyses:
@@ -265,9 +268,10 @@ publication:
     supp_table_S2:
       type: csv
       filename: data/Prochlorococcus/papers_and_supp/barreto 2022/transcriptome_supplemental_tables/Supplemental_tables/table_S2.csv
+      organism: Alteromonas macleodii EZ55
       id_columns:
       - column: symbol
-        id_type: gene_name
+        id_type: locus_tag
       product_columns:
       - column: product
       statistical_analyses:
@@ -281,9 +285,10 @@ publication:
     supp_table_S9:
       type: csv
       filename: data/Prochlorococcus/papers_and_supp/barreto 2022/transcriptome_supplemental_tables/Supplemental_tables/table_S9.csv
+      organism: Alteromonas macleodii EZ55
       id_columns:
       - column: symbol
-        id_type: gene_name
+        id_type: locus_tag
       product_columns:
       - column: product
       statistical_analyses:
@@ -297,9 +302,10 @@ publication:
     supp_table_S10:
       type: csv
       filename: data/Prochlorococcus/papers_and_supp/barreto 2022/transcriptome_supplemental_tables/Supplemental_tables/table_S10.csv
+      organism: Alteromonas macleodii EZ55
       id_columns:
       - column: symbol
-        id_type: gene_name
+        id_type: locus_tag
       product_columns:
       - column: product
       statistical_analyses:
@@ -313,9 +319,10 @@ publication:
     supp_table_S11:
       type: csv
       filename: data/Prochlorococcus/papers_and_supp/barreto 2022/transcriptome_supplemental_tables/Supplemental_tables/table_S11.csv
+      organism: Alteromonas macleodii EZ55
       id_columns:
       - column: symbol
-        id_type: gene_name
+        id_type: locus_tag
       product_columns:
       - column: product
       statistical_analyses:
@@ -329,9 +336,10 @@ publication:
     supp_table_S12:
       type: csv
       filename: data/Prochlorococcus/papers_and_supp/barreto 2022/transcriptome_supplemental_tables/Supplemental_tables/table_S12.csv
+      organism: Alteromonas macleodii EZ55
       id_columns:
       - column: symbol
-        id_type: gene_name
+        id_type: locus_tag
       product_columns:
       - column: product
       statistical_analyses:
@@ -345,9 +353,10 @@ publication:
     supp_table_S13:
       type: csv
       filename: data/Prochlorococcus/papers_and_supp/barreto 2022/transcriptome_supplemental_tables/Supplemental_tables/table_S13.csv
+      organism: Alteromonas macleodii EZ55
       id_columns:
       - column: symbol
-        id_type: gene_name
+        id_type: locus_tag
       product_columns:
       - column: product
       statistical_analyses:
@@ -361,9 +370,10 @@ publication:
     supp_table_S14:
       type: csv
       filename: data/Prochlorococcus/papers_and_supp/barreto 2022/transcriptome_supplemental_tables/Supplemental_tables/table_S14.csv
+      organism: Alteromonas macleodii EZ55
       id_columns:
       - column: symbol
-        id_type: gene_name
+        id_type: locus_tag
       product_columns:
       - column: product
       statistical_analyses:

@@ -4,18 +4,18 @@ name_col: Protein ID
 id_columns: ['Protein ID', 'Gene Name']
 
 Total rows with IDs: 567
-Resolved: 543 (95.8%)
-Unresolved: 24
+Resolved: 544 (95.9%)
+Unresolved: 23
 
 Resolution method breakdown:
-  ambiguous: 3
+  ambiguous: 2
   locus_tag:Gene Name: 249
-  multi:Gene Name: 46
-  multi:Protein ID: 34
-  tier1:Gene Name: 214
+  multi:Gene Name: 16
+  multi:Protein ID: 25
+  tier1:Gene Name: 254
   unresolved: 21
 
-Unresolved rows (24):
+Unresolved rows (23):
   row 4: raw_id='E0IXR1'  reason=unresolved  [Protein ID='E0IXR1', Gene Name='tr|E0IXR1|E0IXR1_ECOLW Sucrose']
   row 51: raw_id='P72543'  reason=unresolved  [Protein ID='P72543', Gene Name='dc11']
   row 86: raw_id='P42079'  reason=unresolved  [Protein ID='P42079', Gene Name='rpoC1']
@@ -36,6 +36,6 @@ Unresolved rows (24):
   row 505: raw_id='Q44112'  reason=unresolved  [Protein ID='Q44112', Gene Name='cpcH']
   row 508: raw_id='Q31QM9'  reason=ambiguous  [Protein ID='Q31QM9', Gene Name='mtnD']
   row 518: raw_id='Q31MY4'  reason=unresolved  [Protein ID='Q31MY4', Gene Name='thf1']
-  ... (4 more)
+  ... (3 more)
 
-NOTE: 3 rows were ambiguous (multi_lookup had >1 match). Consider adding id_columns with more specific IDs, or check if the name_col should be Tier 2 (protein-level) instead of Tier 1.
+NOTE: 2 rows were ambiguous (multi_lookup had >1 match). Consider adding id_columns with more specific IDs, or check if the name_col should be Tier 2 (protein-level) instead of Tier 1.

@@ -32,6 +32,11 @@ publication:
       organism: "Prochlorococcus MED4"
       gene_id_col: "Gene or region"
       cluster_col: "Cluster"
+      id_columns:
+        - column: "Gene or region"
+          id_type: old_locus_tag
+        - column: "New gene name"
+          id_type: locus_tag
       score_col: "Cluster membership score"
       cluster_type: "diel_cycling"
       cluster_method: "Soft clustering (Mfuzz, c=16, m=1.25)"

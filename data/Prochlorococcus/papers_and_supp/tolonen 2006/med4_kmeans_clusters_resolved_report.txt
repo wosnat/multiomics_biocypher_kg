@@ -1,7 +1,7 @@
 Resolution report: Tolonen 2006 / med4_kmeans_nstarvation
 Source: med4_kmeans_clusters.csv
 name_col: gene_id
-id_columns: []
+id_columns: ['gene_id']
 
 Total rows with IDs: 410
 Resolved: 410 (100.0%)

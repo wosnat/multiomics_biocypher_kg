@@ -15,10 +15,15 @@
       "multi": 0,
       "unique": 4639
     },
-    "locus_tag_ncbi": {
-      "conflict": 1,
+    "gff_gene_id": {
+      "conflict": 0,
       "multi": 0,
-      "unique": 5251
+      "unique": 5311
+    },
+    "locus_tag_ncbi": {
+      "conflict": 34,
+      "multi": 0,
+      "unique": 8533
     },
     "protein_id_refseq": {
       "conflict": 0,
@@ -31,9 +36,10 @@
     "Ma 2022/supp_table_s1_up": 3,
     "Ma 2022/supp_table_s2_down": 1,
     "cds_from_genomic.fna": 7,
-    "genomic_gca/UTEX2973": 147
+    "genomic_gca/UTEX2973": 147,
+    "genomic_gcf/UTEX2973": 61
   },
   "warnings": [
-    "[CONFLICT] Tier 1 id_type 'locus_tag_ncbi' has 1 data conflicts \u2014 check annotation quality."
+    "[CONFLICT] Tier 1 id_type 'locus_tag_ncbi' has 34 data conflicts \u2014 check annotation quality."
   ]
 }

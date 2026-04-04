@@ -26,6 +26,12 @@ publication:
       type: csv
       filename: "data/Synechococcus/papers_and_supp/Tal 2009/table s1.csv"
       skip_rows: 1
+      organism: "Synechococcus WH8102"
+      id_columns:
+        - column: "Gene Name"
+          id_type: locus_tag
+      product_columns:
+        - column: "Gene ID"
       statistical_analyses:
         - id: "vibrio_coculture_wh8102_up"
           experiment: vibrio_coculture_wh8102_microarray
@@ -36,6 +42,12 @@ publication:
       type: csv
       filename: "data/Synechococcus/papers_and_supp/Tal 2009/table s2.csv"
       skip_rows: 2
+      organism: "Synechococcus WH8102"
+      id_columns:
+        - column: "Gene Name"
+          id_type: locus_tag
+      product_columns:
+        - column: "Gene ID"
       statistical_analyses:
         - id: "vibrio_coculture_wh8102_down"
           experiment: vibrio_coculture_wh8102_microarray

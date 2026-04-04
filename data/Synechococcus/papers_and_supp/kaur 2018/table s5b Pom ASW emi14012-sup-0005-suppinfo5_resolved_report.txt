@@ -1,34 +1,38 @@
 Resolution report: Kaur 2018 / supp_table_s5b
 Source: table s5b Pom ASW emi14012-sup-0005-suppinfo5.csv
 name_col: NCBI reference
-id_columns: []
+id_columns: ['NCBI reference']
 
 Total rows with IDs: 222
-Resolved: 0 (0.0%)
-Unresolved: 222
+Resolved: 2 (0.9%)
+Unresolved: 220
 
 Resolution method breakdown:
-  unresolved: 222
+  ambiguous: 5
+  multi:NCBI reference: 2
+  unresolved: 215
 
-Unresolved rows (222):
-  row 0: raw_id='AAV93452'  reason=unresolved
-  row 1: raw_id='AAV93580'  reason=unresolved
-  row 2: raw_id='AAV93747'  reason=unresolved
-  row 3: raw_id='AAV93776'  reason=unresolved
-  row 4: raw_id='AAV93831'  reason=unresolved
-  row 5: raw_id='AAV94066'  reason=unresolved
-  row 6: raw_id='AAV94260'  reason=unresolved
-  row 7: raw_id='AAV94622'  reason=unresolved
-  row 8: raw_id='AAV94912'  reason=unresolved
-  row 9: raw_id='AAV95139'  reason=unresolved
-  row 10: raw_id='AAV95236'  reason=unresolved
-  row 11: raw_id='AAV95476'  reason=unresolved
-  row 12: raw_id='AAV95558'  reason=unresolved
-  row 13: raw_id='AAV95689'  reason=unresolved
-  row 14: raw_id='AAV95890'  reason=unresolved
-  row 15: raw_id='AAV95931'  reason=unresolved
-  row 16: raw_id='AAV95980'  reason=unresolved
-  row 17: raw_id='AAV96145'  reason=unresolved
-  row 18: raw_id='AAV96272'  reason=unresolved
-  row 19: raw_id='AAV96461'  reason=unresolved
-  ... (202 more)
+Unresolved rows (220):
+  row 0: raw_id='AAV93452'  reason=unresolved  [NCBI reference='AAV93452']
+  row 1: raw_id='AAV93580'  reason=unresolved  [NCBI reference='AAV93580']
+  row 2: raw_id='AAV93747'  reason=unresolved  [NCBI reference='AAV93747']
+  row 3: raw_id='AAV93776'  reason=unresolved  [NCBI reference='AAV93776']
+  row 4: raw_id='AAV93831'  reason=unresolved  [NCBI reference='AAV93831']
+  row 5: raw_id='AAV94066'  reason=unresolved  [NCBI reference='AAV94066']
+  row 6: raw_id='AAV94260'  reason=unresolved  [NCBI reference='AAV94260']
+  row 7: raw_id='AAV94622'  reason=unresolved  [NCBI reference='AAV94622']
+  row 8: raw_id='AAV94912'  reason=unresolved  [NCBI reference='AAV94912']
+  row 9: raw_id='AAV95139'  reason=unresolved  [NCBI reference='AAV95139']
+  row 10: raw_id='AAV95236'  reason=unresolved  [NCBI reference='AAV95236']
+  row 11: raw_id='AAV95476'  reason=unresolved  [NCBI reference='AAV95476']
+  row 12: raw_id='AAV95558'  reason=unresolved  [NCBI reference='AAV95558']
+  row 13: raw_id='AAV95689'  reason=unresolved  [NCBI reference='AAV95689']
+  row 14: raw_id='AAV95890'  reason=unresolved  [NCBI reference='AAV95890']
+  row 15: raw_id='AAV95931'  reason=unresolved  [NCBI reference='AAV95931']
+  row 16: raw_id='AAV95980'  reason=unresolved  [NCBI reference='AAV95980']
+  row 17: raw_id='AAV96145'  reason=unresolved  [NCBI reference='AAV96145']
+  row 18: raw_id='AAV96272'  reason=unresolved  [NCBI reference='AAV96272']
+  row 19: raw_id='AAV96461'  reason=unresolved  [NCBI reference='AAV96461']
+  ... (200 more)
+
+NOTE: 5 rows were ambiguous (multi_lookup had >1 match). Consider adding id_columns with more specific IDs, or check if the name_col should be Tier 2 (protein-level) instead of Tier 1.

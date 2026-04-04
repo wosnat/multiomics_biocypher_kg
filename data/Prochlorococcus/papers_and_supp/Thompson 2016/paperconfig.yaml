@@ -74,6 +74,13 @@ publication:
     dark_vs_light_infected_0.5h:
       type: csv
       filename: data/Prochlorococcus/papers_and_supp/Thompson 2016/DE_genes_dark_vs_light_infected_phage_0.5h.csv
+      organism: Prochlorococcus MED4
+      id_columns:
+        - column: locus_tag
+          id_type: locus_tag
+      product_columns:
+        - column: gene_function
+        - column: pathway
       statistical_analyses:
       - id: DE_dark_vs_light_infected_MED4_0.5h
         experiment: light_stress_constant_dark_med4_rnaseq_infected
@@ -87,6 +94,13 @@ publication:
     dark_vs_light_infected_1.5h:
       type: csv
       filename: data/Prochlorococcus/papers_and_supp/Thompson 2016/DE_genes_dark_vs_light_infected_phage_1.5h.csv
+      organism: Prochlorococcus MED4
+      id_columns:
+        - column: locus_tag
+          id_type: locus_tag
+      product_columns:
+        - column: gene_function
+        - column: pathway
       statistical_analyses:
       - id: DE_dark_vs_light_infected_MED4_1.5h
         experiment: light_stress_constant_dark_med4_rnaseq_infected
@@ -100,6 +114,13 @@ publication:
     dark_vs_light_infected_2.5h:
       type: csv
       filename: data/Prochlorococcus/papers_and_supp/Thompson 2016/DE_genes_dark_vs_light_infected_phage_2.5h.csv
+      organism: Prochlorococcus MED4
+      id_columns:
+        - column: locus_tag
+          id_type: locus_tag
+      product_columns:
+        - column: gene_function
+        - column: pathway
       statistical_analyses:
       - id: DE_dark_vs_light_infected_MED4_2.5h
         experiment: light_stress_constant_dark_med4_rnaseq_infected
@@ -113,6 +134,13 @@ publication:
     dark_vs_light_infected_4.5h:
       type: csv
       filename: data/Prochlorococcus/papers_and_supp/Thompson 2016/DE_genes_dark_vs_light_infected_phage_4.5h.csv
+      organism: Prochlorococcus MED4
+      id_columns:
+        - column: locus_tag
+          id_type: locus_tag
+      product_columns:
+        - column: gene_function
+        - column: pathway
       statistical_analyses:
       - id: DE_dark_vs_light_infected_MED4_4.5h
         experiment: light_stress_constant_dark_med4_rnaseq_infected
@@ -126,6 +154,13 @@ publication:
     dark_vs_light_infected_8.5h:
       type: csv
       filename: data/Prochlorococcus/papers_and_supp/Thompson 2016/DE_genes_dark_vs_light_infected_phage_8.5h.csv
+      organism: Prochlorococcus MED4
+      id_columns:
+        - column: locus_tag
+          id_type: locus_tag
+      product_columns:
+        - column: gene_function
+        - column: pathway
       statistical_analyses:
       - id: DE_dark_vs_light_infected_MED4_8.5h
         experiment: light_stress_constant_dark_med4_rnaseq_infected
@@ -139,6 +174,13 @@ publication:
     dark_vs_light_uninfected_1.5h:
       type: csv
       filename: data/Prochlorococcus/papers_and_supp/Thompson 2016/DE_genes_dark_vs_light_uninfected_spent_medium_1.5h.csv
+      organism: Prochlorococcus MED4
+      id_columns:
+        - column: locus_tag
+          id_type: locus_tag
+      product_columns:
+        - column: gene_function
+        - column: pathway
       statistical_analyses:
       - id: DE_dark_vs_light_uninfected_MED4_1.5h
         experiment: light_stress_constant_dark_med4_rnaseq_dark
@@ -152,6 +194,13 @@ publication:
     dark_vs_light_uninfected_2.5h:
       type: csv
       filename: data/Prochlorococcus/papers_and_supp/Thompson 2016/DE_genes_dark_vs_light_uninfected_spent_medium_2.5h.csv
+      organism: Prochlorococcus MED4
+      id_columns:
+        - column: locus_tag
+          id_type: locus_tag
+      product_columns:
+        - column: gene_function
+        - column: pathway
       statistical_analyses:
       - id: DE_dark_vs_light_uninfected_MED4_2.5h
         experiment: light_stress_constant_dark_med4_rnaseq_dark
@@ -165,6 +214,13 @@ publication:
     dark_vs_light_uninfected_4.5h:
       type: csv
       filename: data/Prochlorococcus/papers_and_supp/Thompson 2016/DE_genes_dark_vs_light_uninfected_spent_medium_4.5h.csv
+      organism: Prochlorococcus MED4
+      id_columns:
+        - column: locus_tag
+          id_type: locus_tag
+      product_columns:
+        - column: gene_function
+        - column: pathway
       statistical_analyses:
       - id: DE_dark_vs_light_uninfected_MED4_4.5h
         experiment: light_stress_constant_dark_med4_rnaseq_dark
@@ -178,6 +234,13 @@ publication:
     dark_vs_light_uninfected_8.5h:
       type: csv
       filename: data/Prochlorococcus/papers_and_supp/Thompson 2016/DE_genes_dark_vs_light_uninfected_spent_medium_8.5h.csv
+      organism: Prochlorococcus MED4
+      id_columns:
+        - column: locus_tag
+          id_type: locus_tag
+      product_columns:
+        - column: gene_function
+        - column: pathway
       statistical_analyses:
       - id: DE_dark_vs_light_uninfected_MED4_8.5h
         experiment: light_stress_constant_dark_med4_rnaseq_dark
@@ -191,6 +254,13 @@ publication:
     lysate_vs_spent_medium_light_0.5h:
       type: csv
       filename: data/Prochlorococcus/papers_and_supp/Thompson 2016/DE_genes_lysate_vs_spent_medium_light_0.5h.csv
+      organism: Prochlorococcus MED4
+      id_columns:
+        - column: locus_tag
+          id_type: locus_tag
+      product_columns:
+        - column: gene_function
+        - column: pathway
       statistical_analyses:
       - id: DE_lysate_vs_spent_medium_light_MED4_0.5h
         experiment: viral_phage_phm2_lysate_med4_rnaseq_light
@@ -204,6 +274,13 @@ publication:
     lysate_vs_spent_medium_light_1.5h:
       type: csv
       filename: data/Prochlorococcus/papers_and_supp/Thompson 2016/DE_genes_lysate_vs_spent_medium_light_1.5h.csv
+      organism: Prochlorococcus MED4
+      id_columns:
+        - column: locus_tag
+          id_type: locus_tag
+      product_columns:
+        - column: gene_function
+        - column: pathway
       statistical_analyses:
       - id: DE_lysate_vs_spent_medium_light_MED4_1.5h
         experiment: viral_phage_phm2_lysate_med4_rnaseq_light
@@ -217,6 +294,13 @@ publication:
     lysate_vs_spent_medium_light_2.5h:
       type: csv
       filename: data/Prochlorococcus/papers_and_supp/Thompson 2016/DE_genes_lysate_vs_spent_medium_light_2.5h.csv
+      organism: Prochlorococcus MED4
+      id_columns:
+        - column: locus_tag
+          id_type: locus_tag
+      product_columns:
+        - column: gene_function
+        - column: pathway
       statistical_analyses:
       - id: DE_lysate_vs_spent_medium_light_MED4_2.5h
         experiment: viral_phage_phm2_lysate_med4_rnaseq_light
@@ -230,6 +314,13 @@ publication:
     lysate_vs_spent_medium_light_4.5h:
       type: csv
       filename: data/Prochlorococcus/papers_and_supp/Thompson 2016/DE_genes_lysate_vs_spent_medium_light_4.5h.csv
+      organism: Prochlorococcus MED4
+      id_columns:
+        - column: locus_tag
+          id_type: locus_tag
+      product_columns:
+        - column: gene_function
+        - column: pathway
       statistical_analyses:
       - id: DE_lysate_vs_spent_medium_light_MED4_4.5h
         experiment: viral_phage_phm2_lysate_med4_rnaseq_light
@@ -243,6 +334,13 @@ publication:
     lysate_vs_spent_medium_light_8.5h:
       type: csv
       filename: data/Prochlorococcus/papers_and_supp/Thompson 2016/DE_genes_lysate_vs_spent_medium_light_8.5h.csv
+      organism: Prochlorococcus MED4
+      id_columns:
+        - column: locus_tag
+          id_type: locus_tag
+      product_columns:
+        - column: gene_function
+        - column: pathway
       statistical_analyses:
       - id: DE_lysate_vs_spent_medium_light_MED4_8.5h
         experiment: viral_phage_phm2_lysate_med4_rnaseq_light
@@ -256,6 +354,13 @@ publication:
     lysate_vs_spent_medium_dark_2.5h:
       type: csv
       filename: data/Prochlorococcus/papers_and_supp/Thompson 2016/DE_genes_lysate_vs_spent_medium_dark_2.5h.csv
+      organism: Prochlorococcus MED4
+      id_columns:
+        - column: locus_tag
+          id_type: locus_tag
+      product_columns:
+        - column: gene_function
+        - column: pathway
       statistical_analyses:
       - id: DE_lysate_vs_spent_medium_dark_MED4_2.5h
         experiment: viral_phage_phm2_lysate_med4_rnaseq_dark
@@ -269,6 +374,13 @@ publication:
     lysate_vs_spent_medium_dark_4.5h:
       type: csv
       filename: data/Prochlorococcus/papers_and_supp/Thompson 2016/DE_genes_lysate_vs_spent_medium_dark_4.5h.csv
+      organism: Prochlorococcus MED4
+      id_columns:
+        - column: locus_tag
+          id_type: locus_tag
+      product_columns:
+        - column: gene_function
+        - column: pathway
       statistical_analyses:
       - id: DE_lysate_vs_spent_medium_dark_MED4_4.5h
         experiment: viral_phage_phm2_lysate_med4_rnaseq_dark
@@ -282,6 +394,13 @@ publication:
     lysate_vs_spent_medium_dark_8.5h:
       type: csv
       filename: data/Prochlorococcus/papers_and_supp/Thompson 2016/DE_genes_lysate_vs_spent_medium_dark_8.5h.csv
+      organism: Prochlorococcus MED4
+      id_columns:
+        - column: locus_tag
+          id_type: locus_tag
+      product_columns:
+        - column: gene_function
+        - column: pathway
       statistical_analyses:
       - id: DE_lysate_vs_spent_medium_dark_MED4_8.5h
         experiment: viral_phage_phm2_lysate_med4_rnaseq_dark

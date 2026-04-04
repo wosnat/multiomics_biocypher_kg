@@ -1,7 +1,7 @@
 Resolution report: Tai 2009 / table_s2_downregulated
 Source: table s2.csv
 name_col: Gene Name
-id_columns: []
+id_columns: ['Gene Name']
 
 Total rows with IDs: 296
 Resolved: 294 (99.3%)
@@ -14,5 +14,5 @@ Resolution method breakdown:
   unresolved: 2
 
 Unresolved rows (2):
-  row 83: raw_id='Nucleotide biosynthesis'  reason=unresolved
-  row 300: raw_id='SYNW0804'  reason=unresolved
+  row 83: raw_id='Nucleotide biosynthesis'  reason=unresolved  [Gene Name='Nucleotide biosynthesis']
+  row 300: raw_id='SYNW0804'  reason=unresolved  [Gene Name='SYNW0804']

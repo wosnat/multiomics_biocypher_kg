@@ -46,6 +46,7 @@ TIER1_TYPES: frozenset[str] = frozenset({
     "probeset_id",
     "uniprot_entry_name",
     "cds_fna_id",  # lcl|<accession>_cds_<protein_id>_<n> from cds_from_genomic.fna
+    "gff_gene_id",  # gene-<locus_tag> from GFF ID attribute on gene features
 })
 
 TIER2_TYPES: frozenset[str] = frozenset({

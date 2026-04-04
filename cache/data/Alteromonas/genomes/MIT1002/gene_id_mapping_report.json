@@ -25,10 +25,15 @@
       "multi": 9,
       "unique": 8624
     },
-    "locus_tag_ncbi": {
-      "conflict": 35,
+    "gff_gene_id": {
+      "conflict": 0,
       "multi": 0,
-      "unique": 16677
+      "unique": 11908
+    },
+    "locus_tag_ncbi": {
+      "conflict": 99,
+      "multi": 0,
+      "unique": 16758
     },
     "old_locus_tag": {
       "conflict": 0,
@@ -37,8 +42,8 @@
     },
     "protein_id_refseq": {
       "conflict": 0,
-      "multi": 63,
-      "unique": 7946
+      "multi": 141,
+      "unique": 7916
     },
     "uniprot_accession": {
       "conflict": 0,
@@ -49,15 +54,17 @@
   "strain": "MIT1002",
   "unresolved_rows_per_source": {
     "Biller 2016/supp_table_3": 26,
-    "Biller 2018/annotation_gff_mit1002_old_draft": 344,
+    "Biller 2018/annotation_gff_mit1002_old_draft": 300,
     "Biller 2018/id_translation_mit1002_rast_names": 268,
+    "Biller 2018/mit1002_periodicity": 15,
     "Biller 2018/supp_table_s6b": 5,
     "Coe 2024/supp_table_4": 271,
     "cds_from_genomic.fna": 41,
-    "genomic_gca/MIT1002": 391
+    "genomic_gca/MIT1002": 391,
+    "genomic_gcf/MIT1002": 108
   },
   "warnings": [
-    "[CONFLICT] Tier 1 id_type 'locus_tag_ncbi' has 35 data conflicts \u2014 check annotation quality.",
+    "[CONFLICT] Tier 1 id_type 'locus_tag_ncbi' has 99 data conflicts \u2014 check annotation quality.",
     "[CONFLICT] Tier 1 id_type 'alternative_locus_tag' has 1 data conflicts \u2014 check annotation quality."
   ]
 }

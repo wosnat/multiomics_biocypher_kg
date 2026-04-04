@@ -86,6 +86,13 @@ publication:
       filename: "data/Synechococcus/papers_and_supp/Oleza 2017/table s2a 41564_2017_BFnmicrobiol2017100_MOESM3_ESM.csv"
       skip_rows: 3
       organism: "Synechococcus WH7803"
+      id_columns:
+        - column: "Other reference"
+          id_type: locus_tag
+        - column: "NCBI reference"
+          id_type: protein_id_refseq
+      product_columns:
+        - column: "Annotated function and designation"
       statistical_analyses:
         - id: "syn_wh7803_early_coculture_asw"
           experiment: early_coculture_syn_wh7803_proteomics
@@ -106,6 +113,13 @@ publication:
       filename: "data/Synechococcus/papers_and_supp/Oleza 2017/table s5a 41564_2017_BFnmicrobiol2017100_MOESM6_ESM.csv"
       skip_rows: 3
       organism: "Synechococcus WH7803"
+      id_columns:
+        - column: "Other reference"
+          id_type: locus_tag
+        - column: "Accession"
+          id_type: protein_id_refseq
+      product_columns:
+        - column: "Annotated function and designation"
       statistical_analyses:
         - id: "syn_wh7803_late_coculture_sw"
           experiment: late_coculture_syn_wh7803_proteomics
@@ -126,6 +140,17 @@ publication:
       filename: "data/Synechococcus/papers_and_supp/Oleza 2017/table s7 41564_2017_BFnmicrobiol2017100_MOESM8_ESM.csv"
       skip_rows: 3
       organism: "Ruegeria pomeroyi DSS-3"
+      id_columns:
+        - column: "Annotation reference"
+          id_type: locus_tag
+        - column: "Old NCBI reference"
+          id_type: protein_id_refseq
+        - column: "New NCBI reference"
+          id_type: protein_id
+        - column: "Annotation UniProt"
+          id_type: uniprot_accession
+      product_columns:
+        - column: "Annotated function and designation"
       statistical_analyses:
         - id: "rpom_dss3_longterm_coculture_sw"
           experiment: longterm_coculture_rpom_dss3_proteomics

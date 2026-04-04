@@ -30,7 +30,7 @@ publication:
       filename: "data/Prochlorococcus/papers_and_supp/Labban 2022/supp table s1.csv"
       id_columns:
       - column: Gene ID
-        id_type: locus_tag_ncbi
+        id_type: locus_tag
       product_columns:
       - column: Annotation
       statistical_analyses:
@@ -53,7 +53,7 @@ publication:
       filename: "data/Prochlorococcus/papers_and_supp/Labban 2022/supp table s1.csv"
       id_columns:
       - column: Gene ID
-        id_type: locus_tag_ncbi
+        id_type: locus_tag
       product_columns:
       - column: Annotation
       statistical_analyses:
@@ -76,7 +76,7 @@ publication:
       filename: "data/Prochlorococcus/papers_and_supp/Labban 2022/supp table s1.csv"
       id_columns:
       - column: Gene ID
-        id_type: locus_tag_ncbi
+        id_type: locus_tag
       product_columns:
       - column: Annotation
       statistical_analyses:
@@ -99,7 +99,7 @@ publication:
       filename: "data/Prochlorococcus/papers_and_supp/Labban 2022/supp table s1.csv"
       id_columns:
       - column: Gene ID
-        id_type: locus_tag_ncbi
+        id_type: locus_tag
       product_columns:
       - column: Annotation
       statistical_analyses:

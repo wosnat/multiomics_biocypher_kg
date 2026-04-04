@@ -50,8 +50,8 @@ Gene ID Validation Report
     Organism: Prochlorococcus AS9601 | name_col: Gene id
     Status: MATCH
     Using pre-resolved CSV: de_genes_salt_acclimated_vs_sea_water_resolved.csv
-    Breakdown: Total rows: 1961 | Matched: 1907 | Pre-unresolved: 54 (no edges)
-    1907/1907 resolved locus tags match gene nodes; 54 pre-unresolved rows (no edges)
+    Breakdown: Total rows: 1961 | Matched: 1911 | Pre-unresolved: 50 (no edges)
+    1911/1911 resolved locus tags match gene nodes; 50 pre-unresolved rows (no edges)
 
 ## Anjur-Dietrich 2025
    Config: /home/osnat/github/multiomics_biocypher_kg/data/Prochlorococcus/papers_and_supp/Anjur 2025/paperconfig.yaml
@@ -473,8 +473,8 @@ Gene ID Validation Report
     Organism: Prochlorococcus MED4 | name_col: Gene Name
     Status: MATCH
     Using pre-resolved CSV: table s2 Highly differentially expressed genes in low salinity acclimated cells of MED4 _resolved.csv
-    Breakdown: Total rows: 31 | Matched: 27 | Pre-unresolved: 4 (no edges)
-    27/27 resolved locus tags match gene nodes; 4 pre-unresolved rows (no edges)
+    Breakdown: Total rows: 31 | Matched: 29 | Pre-unresolved: 2 (no edges)
+    29/29 resolved locus tags match gene nodes; 2 pre-unresolved rows (no edges)
 
 ## Hennon 2017
    Config: /home/osnat/github/multiomics_biocypher_kg/data/Prochlorococcus/papers_and_supp/Hennon 2017/paperconfig.yaml
@@ -837,29 +837,29 @@ Gene ID Validation Report
     Organism: Prochlorococcus MIT9313 | name_col: Gene
     Status: MATCH
     Using pre-resolved CSV: supp table 2_resolved.csv
-    Breakdown: Total rows: 111 | Matched: 97 | Pre-unresolved: 14 (no edges)
-    97/97 resolved locus tags match gene nodes; 14 pre-unresolved rows (no edges)
+    Breakdown: Total rows: 111 | Matched: 98 | Pre-unresolved: 13 (no edges)
+    98/98 resolved locus tags match gene nodes; 13 pre-unresolved rows (no edges)
 
   Table: supp table 2.csv (analysis: DE_iron_starvation_vs_replete_MIT9313_28h)
     Organism: Prochlorococcus MIT9313 | name_col: Gene
     Status: MATCH
     Using pre-resolved CSV: supp table 2_resolved.csv
-    Breakdown: Total rows: 111 | Matched: 97 | Pre-unresolved: 14 (no edges)
-    97/97 resolved locus tags match gene nodes; 14 pre-unresolved rows (no edges)
+    Breakdown: Total rows: 111 | Matched: 98 | Pre-unresolved: 13 (no edges)
+    98/98 resolved locus tags match gene nodes; 13 pre-unresolved rows (no edges)
 
   Table: supp table 2.csv (analysis: DE_iron_starvation_vs_replete_MIT9313_53h)
     Organism: Prochlorococcus MIT9313 | name_col: Gene
     Status: MATCH
     Using pre-resolved CSV: supp table 2_resolved.csv
-    Breakdown: Total rows: 111 | Matched: 97 | Pre-unresolved: 14 (no edges)
-    97/97 resolved locus tags match gene nodes; 14 pre-unresolved rows (no edges)
+    Breakdown: Total rows: 111 | Matched: 98 | Pre-unresolved: 13 (no edges)
+    98/98 resolved locus tags match gene nodes; 13 pre-unresolved rows (no edges)
 
   Table: supp table 2.csv (analysis: DE_iron_rescue_MIT9313)
     Organism: Prochlorococcus MIT9313 | name_col: Gene
     Status: MATCH
     Using pre-resolved CSV: supp table 2_resolved.csv
-    Breakdown: Total rows: 111 | Matched: 97 | Pre-unresolved: 14 (no edges)
-    97/97 resolved locus tags match gene nodes; 14 pre-unresolved rows (no edges)
+    Breakdown: Total rows: 111 | Matched: 98 | Pre-unresolved: 13 (no edges)
+    98/98 resolved locus tags match gene nodes; 13 pre-unresolved rows (no edges)
 
 ## Tolonen 2006
    Config: /home/osnat/github/multiomics_biocypher_kg/data/Prochlorococcus/papers_and_supp/tolonen 2006/paperconfig.yaml
@@ -868,57 +868,57 @@ Gene ID Validation Report
     Organism: Prochlorococcus MED4 | name_col: GENE
     Status: MATCH
     Using pre-resolved CSV: medExpression.1_resolved.csv
-    Breakdown: Total rows: 1698 | Matched: 1696 | Pre-unresolved: 2 (no edges)
-    1696/1696 resolved locus tags match gene nodes; 2 pre-unresolved rows (no edges)
+    Breakdown: Total rows: 1698 | Matched: 1697 | Pre-unresolved: 1 (no edges)
+    1697/1697 resolved locus tags match gene nodes; 1 pre-unresolved rows (no edges)
 
   Table: medExpression.1.csv (analysis: DE_n_deprivation_vs_replete_MED4_3h)
     Organism: Prochlorococcus MED4 | name_col: GENE
     Status: MATCH
     Using pre-resolved CSV: medExpression.1_resolved.csv
-    Breakdown: Total rows: 1698 | Matched: 1696 | Pre-unresolved: 2 (no edges)
-    1696/1696 resolved locus tags match gene nodes; 2 pre-unresolved rows (no edges)
+    Breakdown: Total rows: 1698 | Matched: 1697 | Pre-unresolved: 1 (no edges)
+    1697/1697 resolved locus tags match gene nodes; 1 pre-unresolved rows (no edges)
 
   Table: medExpression.1.csv (analysis: DE_n_deprivation_vs_replete_MED4_6h)
     Organism: Prochlorococcus MED4 | name_col: GENE
     Status: MATCH
     Using pre-resolved CSV: medExpression.1_resolved.csv
-    Breakdown: Total rows: 1698 | Matched: 1696 | Pre-unresolved: 2 (no edges)
-    1696/1696 resolved locus tags match gene nodes; 2 pre-unresolved rows (no edges)
+    Breakdown: Total rows: 1698 | Matched: 1697 | Pre-unresolved: 1 (no edges)
+    1697/1697 resolved locus tags match gene nodes; 1 pre-unresolved rows (no edges)
 
   Table: medExpression.1.csv (analysis: DE_n_deprivation_vs_replete_MED4_12h)
     Organism: Prochlorococcus MED4 | name_col: GENE
     Status: MATCH
     Using pre-resolved CSV: medExpression.1_resolved.csv
-    Breakdown: Total rows: 1698 | Matched: 1696 | Pre-unresolved: 2 (no edges)
-    1696/1696 resolved locus tags match gene nodes; 2 pre-unresolved rows (no edges)
+    Breakdown: Total rows: 1698 | Matched: 1697 | Pre-unresolved: 1 (no edges)
+    1697/1697 resolved locus tags match gene nodes; 1 pre-unresolved rows (no edges)
 
   Table: medExpression.1.csv (analysis: DE_n_deprivation_vs_replete_MED4_24h)
     Organism: Prochlorococcus MED4 | name_col: GENE
     Status: MATCH
     Using pre-resolved CSV: medExpression.1_resolved.csv
-    Breakdown: Total rows: 1698 | Matched: 1696 | Pre-unresolved: 2 (no edges)
-    1696/1696 resolved locus tags match gene nodes; 2 pre-unresolved rows (no edges)
+    Breakdown: Total rows: 1698 | Matched: 1697 | Pre-unresolved: 1 (no edges)
+    1697/1697 resolved locus tags match gene nodes; 1 pre-unresolved rows (no edges)
 
   Table: medExpression.1.csv (analysis: DE_n_deprivation_vs_replete_MED4_48h)
     Organism: Prochlorococcus MED4 | name_col: GENE
     Status: MATCH
     Using pre-resolved CSV: medExpression.1_resolved.csv
-    Breakdown: Total rows: 1698 | Matched: 1696 | Pre-unresolved: 2 (no edges)
-    1696/1696 resolved locus tags match gene nodes; 2 pre-unresolved rows (no edges)
+    Breakdown: Total rows: 1698 | Matched: 1697 | Pre-unresolved: 1 (no edges)
+    1697/1697 resolved locus tags match gene nodes; 1 pre-unresolved rows (no edges)
 
   Table: medExpression.1.csv (analysis: DE_cyanate_vs_ammonium_MED4)
     Organism: Prochlorococcus MED4 | name_col: GENE
     Status: MATCH
     Using pre-resolved CSV: medExpression.1_resolved.csv
-    Breakdown: Total rows: 1698 | Matched: 1696 | Pre-unresolved: 2 (no edges)
-    1696/1696 resolved locus tags match gene nodes; 2 pre-unresolved rows (no edges)
+    Breakdown: Total rows: 1698 | Matched: 1697 | Pre-unresolved: 1 (no edges)
+    1697/1697 resolved locus tags match gene nodes; 1 pre-unresolved rows (no edges)
 
   Table: medExpression.1.csv (analysis: DE_urea_vs_ammonium_MED4)
     Organism: Prochlorococcus MED4 | name_col: GENE
     Status: MATCH
     Using pre-resolved CSV: medExpression.1_resolved.csv
-    Breakdown: Total rows: 1698 | Matched: 1696 | Pre-unresolved: 2 (no edges)
-    1696/1696 resolved locus tags match gene nodes; 2 pre-unresolved rows (no edges)
+    Breakdown: Total rows: 1698 | Matched: 1697 | Pre-unresolved: 1 (no edges)
+    1697/1697 resolved locus tags match gene nodes; 1 pre-unresolved rows (no edges)
 
   Table: mitExpression.1.csv (analysis: DE_n_deprivation_vs_replete_MIT9313_0h)
     Organism: Prochlorococcus MIT9313 | name_col: GENE
@@ -1035,8 +1035,8 @@ Gene ID Validation Report
     Organism: Prochlorococcus MED4 | name_col: locus_tag
     Status: MATCH
     Using pre-resolved CSV: DE_genes_dark_vs_light_infected_phage_8.5h_resolved.csv
-    Breakdown: Total rows: 31 | Matched: 29 | Pre-unresolved: 2 (no edges)
-    29/29 resolved locus tags match gene nodes; 2 pre-unresolved rows (no edges)
+    Breakdown: Total rows: 31 | Matched: 30 | Pre-unresolved: 1 (no edges)
+    30/30 resolved locus tags match gene nodes; 1 pre-unresolved rows (no edges)
 
   Table: DE_genes_dark_vs_light_uninfected_spent_medium_1.5h.csv (analysis: DE_dark_vs_light_uninfected_MED4_1.5h)
     Organism: Prochlorococcus MED4 | name_col: locus_tag
@@ -1077,8 +1077,8 @@ Gene ID Validation Report
     Organism: Prochlorococcus MED4 | name_col: locus_tag
     Status: MATCH
     Using pre-resolved CSV: DE_genes_lysate_vs_spent_medium_light_1.5h_resolved.csv
-    Breakdown: Total rows: 6 | Matched: 5 | Pre-unresolved: 1 (no edges)
-    5/5 resolved locus tags match gene nodes; 1 pre-unresolved rows (no edges)
+    Breakdown: Total rows: 6 | Matched: 6
+    6/6 resolved locus tags match gene nodes
 
   Table: DE_genes_lysate_vs_spent_medium_light_2.5h.csv (analysis: DE_lysate_vs_spent_medium_light_MED4_2.5h)
     Organism: Prochlorococcus MED4 | name_col: locus_tag
@@ -1098,29 +1098,29 @@ Gene ID Validation Report
     Organism: Prochlorococcus MED4 | name_col: locus_tag
     Status: MATCH
     Using pre-resolved CSV: DE_genes_lysate_vs_spent_medium_light_8.5h_resolved.csv
-    Breakdown: Total rows: 16 | Matched: 14 | Pre-unresolved: 2 (no edges)
-    14/14 resolved locus tags match gene nodes; 2 pre-unresolved rows (no edges)
+    Breakdown: Total rows: 16 | Matched: 16
+    16/16 resolved locus tags match gene nodes
 
   Table: DE_genes_lysate_vs_spent_medium_dark_2.5h.csv (analysis: DE_lysate_vs_spent_medium_dark_MED4_2.5h)
     Organism: Prochlorococcus MED4 | name_col: locus_tag
     Status: MATCH
     Using pre-resolved CSV: DE_genes_lysate_vs_spent_medium_dark_2.5h_resolved.csv
-    Breakdown: Total rows: 9 | Matched: 7 | Pre-unresolved: 2 (no edges)
-    7/7 resolved locus tags match gene nodes; 2 pre-unresolved rows (no edges)
+    Breakdown: Total rows: 9 | Matched: 9
+    9/9 resolved locus tags match gene nodes
 
   Table: DE_genes_lysate_vs_spent_medium_dark_4.5h.csv (analysis: DE_lysate_vs_spent_medium_dark_MED4_4.5h)
     Organism: Prochlorococcus MED4 | name_col: locus_tag
     Status: MATCH
     Using pre-resolved CSV: DE_genes_lysate_vs_spent_medium_dark_4.5h_resolved.csv
-    Breakdown: Total rows: 19 | Matched: 16 | Pre-unresolved: 3 (no edges)
-    16/16 resolved locus tags match gene nodes; 3 pre-unresolved rows (no edges)
+    Breakdown: Total rows: 19 | Matched: 19
+    19/19 resolved locus tags match gene nodes
 
   Table: DE_genes_lysate_vs_spent_medium_dark_8.5h.csv (analysis: DE_lysate_vs_spent_medium_dark_MED4_8.5h)
     Organism: Prochlorococcus MED4 | name_col: locus_tag
     Status: MATCH
     Using pre-resolved CSV: DE_genes_lysate_vs_spent_medium_dark_8.5h_resolved.csv
-    Breakdown: Total rows: 8 | Matched: 6 | Pre-unresolved: 2 (no edges)
-    6/6 resolved locus tags match gene nodes; 2 pre-unresolved rows (no edges)
+    Breakdown: Total rows: 8 | Matched: 8
+    8/8 resolved locus tags match gene nodes
 
 ## Weissberg 2025
    Config: /home/osnat/github/multiomics_biocypher_kg/data/Prochlorococcus/papers_and_supp/Weissberg_2025/paperconfig.yaml
@@ -1354,12 +1354,10 @@ Gene ID Validation Report
 
   Table: DE genes RNA-Seq_MIT9303 pnas.2213271120.sd02.csv (analysis: DE_chitosan_vs_control_MIT9303)
     Organism: Prochlorococcus MIT9303 | name_col: ncbi_gene_locus_tag
-    Status: PARTIAL MATCH
+    Status: MATCH
     Using pre-resolved CSV: DE genes RNA-Seq_MIT9303 pnas.2213271120.sd02_resolved.csv
-    Breakdown: Total rows: 36 | Pre-unresolved: 11 (no edges) | Mismatched: 25
-    Fix strategy: REBUILD_RESOLVED — Using DE genes RNA-Seq_MIT9303 pnas.2213271120.sd02_resolved.csv: 0/25 locus tags match gene nodes; 25 don't. 11 pre-unresolved rows (no edges). Re-run prepare_data steps 3+4 --force to rebuild gene_id_mapping.json and _resolved.csv.
-    Mismatched IDs (25 total):
-      other (25): P9303_02901, P9303_03621, P9303_03961, P9303_08931, P9303_09501, P9303_09681, P9303_12751, P9303_RS06050, P9303_14901, P9303_25961 ... +15 more
+    Breakdown: Total rows: 36 | Matched: 25 | Pre-unresolved: 11 (no edges)
+    25/25 resolved locus tags match gene nodes; 11 pre-unresolved rows (no edges)
 
 ## Zinser 2009
    Config: /home/osnat/github/multiomics_biocypher_kg/data/Prochlorococcus/papers_and_supp/zinser 2009/paperconfig.yaml
@@ -1382,355 +1380,333 @@ Gene ID Validation Report
 
   Table: table s2.csv (analysis: vibrio_coculture_wh8102_down)
     Organism: Synechococcus WH8102 | name_col: Gene Name
-    Status: ERROR
-    Column 'Gene Name' not found. Available: ['Unnamed: 0', 'Unnamed: 1', 'Unnamed: 2', 'Unnamed: 3', 'Unnamed: 4']
+    Status: MATCH
+    Using pre-resolved CSV: table s2_resolved.csv
+    Breakdown: Total rows: 344 | Matched: 294 | Pre-unresolved: 50 (no edges)
+    294/294 resolved locus tags match gene nodes; 50 pre-unresolved rows (no edges)
 
 ## Beliaev 2014
    Config: /home/osnat/github/multiomics_biocypher_kg/data/Synechococcus/papers_and_supp/Beliaev 2014/paperconfig.yaml
 
   Table: table s3 41396_2014_bfismej201469_moesm40_esm.csv (analysis: syn7002_lactate_vs_axenic)
     Organism: Synechococcus PCC 7002 | name_col:  Locus tag
-    Status: PARTIAL MATCH
+    Status: MATCH
     Using pre-resolved CSV: table s3 41396_2014_bfismej201469_moesm40_esm_resolved.csv
-    Breakdown: Total rows: 1186 | Pre-unresolved: 27 (no edges) | Mismatched: 1159
-    Fix strategy: REBUILD_RESOLVED — Using table s3 41396_2014_bfismej201469_moesm40_esm_resolved.csv: 0/1159 locus tags match gene nodes; 1159 don't. 27 pre-unresolved rows (no edges). Re-run prepare_data steps 3+4 --force to rebuild gene_id_mapping.json and _resolved.csv.
-    Mismatched IDs (1159 total):
-      other (1159): SYNPCC7002_A1453, SYNPCC7002_A1683, SYNPCC7002_F0008, SYNPCC7002_A1748, SYNPCC7002_A2139, SYNPCC7002_A2069, SYNPCC7002_A2774, SYNPCC7002_A1070, SYNPCC7002_A2208, SYNPCC7002_A0464 ... +1149 more
+    Breakdown: Total rows: 1186 | Matched: 1159 | Pre-unresolved: 27 (no edges)
+    1159/1159 resolved locus tags match gene nodes; 27 pre-unresolved rows (no edges)
 
   Table: table s4 41396_2014_bfismej201469_moesm40_esm.csv (analysis: shew_w3181_lactate_vs_axenic)
-    Organism: Shewanella putrefaciens W3-18-1 | name_col:  Locus tag
-    Status: PARTIAL MATCH
+    Organism: Shewanella sp. W3-18-1 | name_col:  Locus tag
+    Status: MATCH
     Using pre-resolved CSV: table s4 41396_2014_bfismej201469_moesm40_esm_resolved.csv
-    Breakdown: Total rows: 458 | Pre-unresolved: 457 (no edges) | Mismatched: 1
-    Fix strategy: REBUILD_RESOLVED — Using table s4 41396_2014_bfismej201469_moesm40_esm_resolved.csv: 0/1 locus tags match gene nodes; 1 don't. 457 pre-unresolved rows (no edges). Re-run prepare_data steps 3+4 --force to rebuild gene_id_mapping.json and _resolved.csv.
-    Mismatched IDs (1 total):
-      other (1): Sputw3181_2756
+    Breakdown: Total rows: 458 | Matched: 144 | Pre-unresolved: 314 (no edges)
+    144/144 resolved locus tags match gene nodes; 314 pre-unresolved rows (no edges)
 
   Table: table s5 41396_2014_bfismej201469_moesm40_esm.csv (analysis: syn7002_hco3_vs_axenic)
     Organism: Synechococcus PCC 7002 | name_col:  Locus tag
-    Status: PARTIAL MATCH
+    Status: MATCH
     Using pre-resolved CSV: table s5 41396_2014_bfismej201469_moesm40_esm_resolved.csv
-    Breakdown: Total rows: 692 | Pre-unresolved: 20 (no edges) | Mismatched: 672
-    Fix strategy: REBUILD_RESOLVED — Using table s5 41396_2014_bfismej201469_moesm40_esm_resolved.csv: 0/672 locus tags match gene nodes; 672 don't. 20 pre-unresolved rows (no edges). Re-run prepare_data steps 3+4 --force to rebuild gene_id_mapping.json and _resolved.csv.
-    Mismatched IDs (672 total):
-      other (672): SYNPCC7002_G0017, SYNPCC7002_F0096, SYNPCC7002_A2002, SYNPCC7002_G0128, SYNPCC7002_A0775, SYNPCC7002_A1742, SYNPCC7002_A1492, SYNPCC7002_A2687, SYNPCC7002_F0091, SYNPCC7002_A2869 ... +662 more
+    Breakdown: Total rows: 692 | Matched: 672 | Pre-unresolved: 20 (no edges)
+    672/672 resolved locus tags match gene nodes; 20 pre-unresolved rows (no edges)
 
   Table: table s6 41396_2014_bfismej201469_moesm40_esm.csv (analysis: shew_w3181_hco3_vs_axenic)
-    Organism: Shewanella putrefaciens W3-18-1 | name_col:  Locus tag
-    Status: PARTIAL MATCH
+    Organism: Shewanella sp. W3-18-1 | name_col:  Locus tag
+    Status: MATCH
     Using pre-resolved CSV: table s6 41396_2014_bfismej201469_moesm40_esm_resolved.csv
-    Breakdown: Total rows: 1343 | Pre-unresolved: 1342 (no edges) | Mismatched: 1
-    Fix strategy: REBUILD_RESOLVED — Using table s6 41396_2014_bfismej201469_moesm40_esm_resolved.csv: 0/1 locus tags match gene nodes; 1 don't. 1342 pre-unresolved rows (no edges). Re-run prepare_data steps 3+4 --force to rebuild gene_id_mapping.json and _resolved.csv.
-    Mismatched IDs (1 total):
-      other (1): Sputw3181_2756
+    Breakdown: Total rows: 1343 | Matched: 444 | Pre-unresolved: 899 (no edges)
+    444/444 resolved locus tags match gene nodes; 899 pre-unresolved rows (no edges)
 
   Table: table s7 41396_2014_bfismej201469_moesm40_esm.csv (analysis: syn7002_hco3_vs_lactate)
     Organism: Synechococcus PCC 7002 | name_col:  Locus tag
-    Status: PARTIAL MATCH
+    Status: MATCH
     Using pre-resolved CSV: table s7 41396_2014_bfismej201469_moesm40_esm_resolved.csv
-    Breakdown: Total rows: 702 | Pre-unresolved: 28 (no edges) | Mismatched: 674
-    Fix strategy: REBUILD_RESOLVED — Using table s7 41396_2014_bfismej201469_moesm40_esm_resolved.csv: 0/674 locus tags match gene nodes; 674 don't. 28 pre-unresolved rows (no edges). Re-run prepare_data steps 3+4 --force to rebuild gene_id_mapping.json and _resolved.csv.
-    Mismatched IDs (674 total):
-      other (674): SYNPCC7002_A1246, SYNPCC7002_A1203, SYNPCC7002_A2854, SYNPCC7002_A1630, SYNPCC7002_A2404, SYNPCC7002_A1636, SYNPCC7002_A1267, SYNPCC7002_A1890, SYNPCC7002_A2102, SYNPCC7002_A1985 ... +664 more
+    Breakdown: Total rows: 702 | Matched: 674 | Pre-unresolved: 28 (no edges)
+    674/674 resolved locus tags match gene nodes; 28 pre-unresolved rows (no edges)
 
   Table: table s8 41396_2014_bfismej201469_moesm40_esm.csv (analysis: shew_w3181_hco3_vs_lactate)
-    Organism: Shewanella putrefaciens W3-18-1 | name_col:  Locus tag
-    Status: PARTIAL MATCH
+    Organism: Shewanella sp. W3-18-1 | name_col:  Locus tag
+    Status: MATCH
     Using pre-resolved CSV: table s8 41396_2014_bfismej201469_moesm40_esm_resolved.csv
-    Breakdown: Total rows: 1278 | Pre-unresolved: 1277 (no edges) | Mismatched: 1
-    Fix strategy: REBUILD_RESOLVED — Using table s8 41396_2014_bfismej201469_moesm40_esm_resolved.csv: 0/1 locus tags match gene nodes; 1 don't. 1277 pre-unresolved rows (no edges). Re-run prepare_data steps 3+4 --force to rebuild gene_id_mapping.json and _resolved.csv.
-    Mismatched IDs (1 total):
-      other (1): Sputw3181_2756
+    Breakdown: Total rows: 1278 | Matched: 403 | Pre-unresolved: 875 (no edges)
+    403/403 resolved locus tags match gene nodes; 875 pre-unresolved rows (no edges)
 
 ## Kratzl 2024
    Config: /home/osnat/github/multiomics_biocypher_kg/data/Synechococcus/papers_and_supp/Kratzl 2024/paperconfig.yaml
 
   Table: data set s1 1_coculture vs Pputida_all 42003_2024_6098_MOESM3_ESM.csv (analysis: DE_rnaseq_coculture_vs_pputida)
     Organism: Pseudomonas putida KT2440 | name_col: gene ID
-    Status: PARTIAL MATCH
+    Status: MATCH
     Using pre-resolved CSV: data set s1 1_coculture vs Pputida_all 42003_2024_6098_MOESM3_ESM_resolved.csv
-    Breakdown: Total rows: 5218 | Pre-unresolved: 913 (no edges) | Mismatched: 4305
-    Fix strategy: REBUILD_RESOLVED — Using data set s1 1_coculture vs Pputida_all 42003_2024_6098_MOESM3_ESM_resolved.csv: 0/4305 locus tags match gene nodes; 4305 don't. 913 pre-unresolved rows (no edges). Re-run prepare_data steps 3+4 --force to rebuild gene_id_mapping.json and _resolved.csv.
-    Mismatched IDs (4305 total):
-      other (4305): PP_4007, PP_0475, PP_0464, PP_5234, PP_5418, PP_0459, PP_0373, PP_0453, PP_0380, PP_0380 ... +4295 more
+    Breakdown: Total rows: 5218 | Matched: 5054 | Pre-unresolved: 164 (no edges)
+    5054/5054 resolved locus tags match gene nodes; 164 pre-unresolved rows (no edges)
 
   Table: data set s1 6_coculture vs Selongatus_all 42003_2024_6098_MOESM3_ESM.csv (analysis: DE_rnaseq_coculture_vs_selongatus)
     Organism: Synechococcus elongatus PCC 7942 | name_col: gene ID
-    Status: PARTIAL MATCH
+    Status: MATCH
     Using pre-resolved CSV: data set s1 6_coculture vs Selongatus_all 42003_2024_6098_MOESM3_ESM_resolved.csv
-    Breakdown: Total rows: 2679 | Pre-unresolved: 802 (no edges) | Mismatched: 1877
-    Fix strategy: REBUILD_RESOLVED — Using data set s1 6_coculture vs Selongatus_all 42003_2024_6098_MOESM3_ESM_resolved.csv: 0/1877 locus tags match gene nodes; 1877 don't. 802 pre-unresolved rows (no edges). Re-run prepare_data steps 3+4 --force to rebuild gene_id_mapping.json and _resolved.csv.
-    Mismatched IDs (1877 total):
-      other (1877): Synpcc7942_B2633, Synpcc7942_B2656, Synpcc7942_B2657, Synpcc7942_B2636, Synpcc7942_B2638, Synpcc7942_B2639, Synpcc7942_B2640, Synpcc7942_B2643, Synpcc7942_B2649, Synpcc7942_B2651 ... +1867 more
+    Breakdown: Total rows: 2679 | Matched: 2321 | Pre-unresolved: 358 (no edges)
+    2321/2321 resolved locus tags match gene nodes; 358 pre-unresolved rows (no edges)
 
   Table: data set s1 11_coculture vs. Pputida_all 42003_2024_6098_MOESM3_ESM.csv (analysis: DE_proteomics_coculture_vs_pputida)
     Organism: Pseudomonas putida KT2440 | name_col: Protein ID
-    Status: PARTIAL MATCH
+    Status: MATCH
     Using pre-resolved CSV: data set s1 11_coculture vs. Pputida_all 42003_2024_6098_MOESM3_ESM_resolved.csv
-    Breakdown: Total rows: 232 | Pre-unresolved: 4 (no edges) | Mismatched: 228
-    Fix strategy: REBUILD_RESOLVED — Using data set s1 11_coculture vs. Pputida_all 42003_2024_6098_MOESM3_ESM_resolved.csv: 0/228 locus tags match gene nodes; 228 don't. 4 pre-unresolved rows (no edges). Re-run prepare_data steps 3+4 --force to rebuild gene_id_mapping.json and _resolved.csv.
-    Mismatched IDs (228 total):
-      other (228): PP_0404, PP_5538, PP_4036, PP_1024, PP_5185, PP_0011, PP_1506, PP_0446, PP_0952, PP_0396 ... +218 more
+    Breakdown: Total rows: 232 | Matched: 228 | Pre-unresolved: 4 (no edges)
+    228/228 resolved locus tags match gene nodes; 4 pre-unresolved rows (no edges)
 
   Table: data set s1 13_coculture vs Selongatus_all 42003_2024_6098_MOESM3_ESM.csv (analysis: DE_proteomics_coculture_vs_selongatus)
     Organism: Synechococcus elongatus PCC 7942 | name_col: Protein ID
-    Status: PARTIAL MATCH
+    Status: MATCH
     Using pre-resolved CSV: data set s1 13_coculture vs Selongatus_all 42003_2024_6098_MOESM3_ESM_resolved.csv
-    Breakdown: Total rows: 567 | Pre-unresolved: 39 (no edges) | Mismatched: 528
-    Fix strategy: REBUILD_RESOLVED — Using data set s1 13_coculture vs Selongatus_all 42003_2024_6098_MOESM3_ESM_resolved.csv: 0/528 locus tags match gene nodes; 528 don't. 39 pre-unresolved rows (no edges). Re-run prepare_data steps 3+4 --force to rebuild gene_id_mapping.json and _resolved.csv.
-    Mismatched IDs (528 total):
-      other (528): Synpcc7942_2171, Synpcc7942_0442, Synpcc7942_2508, Synpcc7942_2243, Synpcc7942_0166, Synpcc7942_2425, Synpcc7942_0882, Synpcc7942_1778, Synpcc7942_2296, Synpcc7942_1101 ... +518 more
+    Breakdown: Total rows: 567 | Matched: 544 | Pre-unresolved: 23 (no edges)
+    544/544 resolved locus tags match gene nodes; 23 pre-unresolved rows (no edges)
 
 ## Ma 2022
    Config: /home/osnat/github/multiomics_biocypher_kg/data/Synechococcus/papers_and_supp/Ma 2022/paperconfig.yaml
 
   Table: Supplementary Table S1 Up-regulated transcripts.csv (analysis: DE_rnaseq_coculture_ecoli_up)
     Organism: Synechococcus elongatus UTEX 2973 | name_col: Gene ID
-    Status: ERROR
-    Column 'Gene ID' not found. Available: ['Supplementary Table S1 Up-regulated transcripts in co-cultivated S. elongateus cscB+ compared with under axenic condition', 'Unnamed: 1', 'Unnamed: 2', 'Unnamed: 3']
+    Status: MATCH
+    Using pre-resolved CSV: Supplementary Table S1 Up-regulated transcripts_resolved.csv
+    Breakdown: Total rows: 78 | Matched: 75 | Pre-unresolved: 3 (no edges)
+    75/75 resolved locus tags match gene nodes; 3 pre-unresolved rows (no edges)
 
   Table: Supplementary Table S2 Down-regulated transcripts.csv (analysis: DE_rnaseq_coculture_ecoli_down)
     Organism: Synechococcus elongatus UTEX 2973 | name_col: Gene ID
-    Status: ERROR
-    Column 'Gene ID' not found. Available: ['Supplementary Table S2 Down-regulated transcripts in co-cultivated S. elongateus cscB+ compared with under axenic condition', 'Unnamed: 1', 'Unnamed: 2', 'Unnamed: 3', 'Unnamed: 4']
+    Status: MATCH
+    Using pre-resolved CSV: Supplementary Table S2 Down-regulated transcripts_resolved.csv
+    Breakdown: Total rows: 56 | Matched: 54 | Pre-unresolved: 2 (no edges)
+    54/54 resolved locus tags match gene nodes; 2 pre-unresolved rows (no edges)
 
   Table: Supplementary Table S4 Selected differentially expressed proteins.csv (analysis: DE_proteomics_coculture_ecoli)
     Organism: Synechococcus elongatus UTEX 2973 | name_col: Protein
-    Status: PARTIAL MATCH
+    Status: MATCH
     Using pre-resolved CSV: Supplementary Table S4 Selected differentially expressed proteins_resolved.csv
-    Breakdown: Total rows: 39 | Mismatched: 39
-    Fix strategy: REBUILD_RESOLVED — Using Supplementary Table S4 Selected differentially expressed proteins_resolved.csv: 0/39 locus tags match gene nodes; 39 don't. 0 pre-unresolved rows (no edges). Re-run prepare_data steps 3+4 --force to rebuild gene_id_mapping.json and _resolved.csv.
-    Mismatched IDs (39 total):
-      other (39): M744_01325, M744_11425, M744_01910, M744_00850, M744_05920, M744_01470, M744_07280, M744_05990, M744_04340, M744_10450 ... +29 more
+    Breakdown: Total rows: 39 | Matched: 39
+    39/39 resolved locus tags match gene nodes
 
 ## Christie-Oleza 2017
    Config: /home/osnat/github/multiomics_biocypher_kg/data/Synechococcus/papers_and_supp/Oleza 2017/paperconfig.yaml
 
   Table: table s2a 41564_2017_BFnmicrobiol2017100_MOESM3_ESM.csv (analysis: syn_wh7803_early_coculture_asw)
     Organism: Synechococcus WH7803 | name_col: Other reference
-    Status: PARTIAL MATCH
+    Status: MATCH
     Using pre-resolved CSV: table s2a 41564_2017_BFnmicrobiol2017100_MOESM3_ESM_resolved.csv
-    Breakdown: Total rows: 564 | Mismatched: 564
-    Fix strategy: REBUILD_RESOLVED — Using table s2a 41564_2017_BFnmicrobiol2017100_MOESM3_ESM_resolved.csv: 0/564 locus tags match gene nodes; 564 don't. 0 pre-unresolved rows (no edges). Re-run prepare_data steps 3+4 --force to rebuild gene_id_mapping.json and _resolved.csv.
-    Mismatched IDs (564 total):
-      other (564): SynWH7803_0366, SynWH7803_0533, SynWH7803_1647, SynWH7803_0502, SynWH7803_2025, SynWH7803_0505, SynWH7803_0250, SynWH7803_0392, SynWH7803_0391, SynWH7803_1648 ... +554 more
+    Breakdown: Total rows: 564 | Matched: 564
+    564/564 resolved locus tags match gene nodes
 
   Table: table s5a 41564_2017_BFnmicrobiol2017100_MOESM6_ESM.csv (analysis: syn_wh7803_late_coculture_sw)
     Organism: Synechococcus WH7803 | name_col: Other reference
-    Status: PARTIAL MATCH
+    Status: MATCH
     Using pre-resolved CSV: table s5a 41564_2017_BFnmicrobiol2017100_MOESM6_ESM_resolved.csv
-    Breakdown: Total rows: 1050 | Mismatched: 1050
-    Fix strategy: REBUILD_RESOLVED — Using table s5a 41564_2017_BFnmicrobiol2017100_MOESM6_ESM_resolved.csv: 0/1050 locus tags match gene nodes; 1050 don't. 0 pre-unresolved rows (no edges). Re-run prepare_data steps 3+4 --force to rebuild gene_id_mapping.json and _resolved.csv.
-    Mismatched IDs (1050 total):
-      other (1050): SynWH7803_0396, SynWH7803_2203, SynWH7803_0487, SynWH7803_1224, SynWH7803_1524, SynWH7803_1288, SynWH7803_2028, SynWH7803_0505, SynWH7803_0492, SynWH7803_0198 ... +1040 more
+    Breakdown: Total rows: 1050 | Matched: 1050
+    1050/1050 resolved locus tags match gene nodes
 
   Table: table s7 41564_2017_BFnmicrobiol2017100_MOESM8_ESM.csv (analysis: rpom_dss3_longterm_coculture_sw)
     Organism: Ruegeria pomeroyi DSS-3 | name_col: Annotation reference
-    Status: PARTIAL MATCH
+    Status: MATCH
     Using pre-resolved CSV: table s7 41564_2017_BFnmicrobiol2017100_MOESM8_ESM_resolved.csv
-    Breakdown: Total rows: 1726 | Pre-unresolved: 2 (no edges) | Mismatched: 1724
-    Fix strategy: REBUILD_RESOLVED — Using table s7 41564_2017_BFnmicrobiol2017100_MOESM8_ESM_resolved.csv: 0/1724 locus tags match gene nodes; 1724 don't. 2 pre-unresolved rows (no edges). Re-run prepare_data steps 3+4 --force to rebuild gene_id_mapping.json and _resolved.csv.
-    Mismatched IDs (1724 total):
-      other (1724): SPO1796, SPO1795, SPO1794, SPO0833, SPO1519, SPO1520, SPO1518, SPO0046, SPO0047, SPO0045 ... +1714 more
+    Breakdown: Total rows: 1726 | Matched: 1724 | Pre-unresolved: 2 (no edges)
+    1724/1724 resolved locus tags match gene nodes; 2 pre-unresolved rows (no edges)
 
 ## Kaur 2018
    Config: /home/osnat/github/multiomics_biocypher_kg/data/Synechococcus/papers_and_supp/kaur 2018/paperconfig.yaml
 
   Table: table s4a Syn SW emi14012-sup-0004-suppinfo4.csv (analysis: syn_wh7803_sw_tp3_vs_tp1)
     Organism: Synechococcus WH7803 | name_col: NCBI reference
-    Status: PRE_UNRESOLVED
+    Status: MATCH
     Using pre-resolved CSV: table s4a Syn SW emi14012-sup-0004-suppinfo4_resolved.csv
-    Breakdown: Total rows: 187 | Pre-unresolved: 187 (no edges)
-    All 187 rows unresolved by resolve_paper_ids.py (no edges will be created). Re-run prepare_data step 3+4 or check that gene_id_mapping.json exists for Synechococcus WH7803.
+    Breakdown: Total rows: 187 | Matched: 187
+    187/187 resolved locus tags match gene nodes
 
   Table: table s4a Syn SW emi14012-sup-0004-suppinfo4.csv (analysis: syn_wh7803_sw_tp7_vs_tp1)
     Organism: Synechococcus WH7803 | name_col: NCBI reference
-    Status: PRE_UNRESOLVED
+    Status: MATCH
     Using pre-resolved CSV: table s4a Syn SW emi14012-sup-0004-suppinfo4_resolved.csv
-    Breakdown: Total rows: 187 | Pre-unresolved: 187 (no edges)
-    All 187 rows unresolved by resolve_paper_ids.py (no edges will be created). Re-run prepare_data step 3+4 or check that gene_id_mapping.json exists for Synechococcus WH7803.
+    Breakdown: Total rows: 187 | Matched: 187
+    187/187 resolved locus tags match gene nodes
 
   Table: table s4a Syn SW emi14012-sup-0004-suppinfo4.csv (analysis: syn_wh7803_sw_tp14_vs_tp1)
     Organism: Synechococcus WH7803 | name_col: NCBI reference
-    Status: PRE_UNRESOLVED
+    Status: MATCH
     Using pre-resolved CSV: table s4a Syn SW emi14012-sup-0004-suppinfo4_resolved.csv
-    Breakdown: Total rows: 187 | Pre-unresolved: 187 (no edges)
-    All 187 rows unresolved by resolve_paper_ids.py (no edges will be created). Re-run prepare_data step 3+4 or check that gene_id_mapping.json exists for Synechococcus WH7803.
+    Breakdown: Total rows: 187 | Matched: 187
+    187/187 resolved locus tags match gene nodes
 
   Table: table s4a Syn SW emi14012-sup-0004-suppinfo4.csv (analysis: syn_wh7803_sw_tp21_vs_tp1)
     Organism: Synechococcus WH7803 | name_col: NCBI reference
-    Status: PRE_UNRESOLVED
+    Status: MATCH
     Using pre-resolved CSV: table s4a Syn SW emi14012-sup-0004-suppinfo4_resolved.csv
-    Breakdown: Total rows: 187 | Pre-unresolved: 187 (no edges)
-    All 187 rows unresolved by resolve_paper_ids.py (no edges will be created). Re-run prepare_data step 3+4 or check that gene_id_mapping.json exists for Synechococcus WH7803.
+    Breakdown: Total rows: 187 | Matched: 187
+    187/187 resolved locus tags match gene nodes
 
   Table: table s4a Syn SW emi14012-sup-0004-suppinfo4.csv (analysis: syn_wh7803_sw_tp32_vs_tp1)
     Organism: Synechococcus WH7803 | name_col: NCBI reference
-    Status: PRE_UNRESOLVED
+    Status: MATCH
     Using pre-resolved CSV: table s4a Syn SW emi14012-sup-0004-suppinfo4_resolved.csv
-    Breakdown: Total rows: 187 | Pre-unresolved: 187 (no edges)
-    All 187 rows unresolved by resolve_paper_ids.py (no edges will be created). Re-run prepare_data step 3+4 or check that gene_id_mapping.json exists for Synechococcus WH7803.
+    Breakdown: Total rows: 187 | Matched: 187
+    187/187 resolved locus tags match gene nodes
 
   Table: table s4a Syn SW emi14012-sup-0004-suppinfo4.csv (analysis: syn_wh7803_sw_tp60_vs_tp1)
     Organism: Synechococcus WH7803 | name_col: NCBI reference
-    Status: PRE_UNRESOLVED
+    Status: MATCH
     Using pre-resolved CSV: table s4a Syn SW emi14012-sup-0004-suppinfo4_resolved.csv
-    Breakdown: Total rows: 187 | Pre-unresolved: 187 (no edges)
-    All 187 rows unresolved by resolve_paper_ids.py (no edges will be created). Re-run prepare_data step 3+4 or check that gene_id_mapping.json exists for Synechococcus WH7803.
+    Breakdown: Total rows: 187 | Matched: 187
+    187/187 resolved locus tags match gene nodes
 
   Table: table s4a Syn SW emi14012-sup-0004-suppinfo4.csv (analysis: syn_wh7803_sw_tp100_vs_tp1)
     Organism: Synechococcus WH7803 | name_col: NCBI reference
-    Status: PRE_UNRESOLVED
+    Status: MATCH
     Using pre-resolved CSV: table s4a Syn SW emi14012-sup-0004-suppinfo4_resolved.csv
-    Breakdown: Total rows: 187 | Pre-unresolved: 187 (no edges)
-    All 187 rows unresolved by resolve_paper_ids.py (no edges will be created). Re-run prepare_data step 3+4 or check that gene_id_mapping.json exists for Synechococcus WH7803.
+    Breakdown: Total rows: 187 | Matched: 187
+    187/187 resolved locus tags match gene nodes
 
   Table: table s4b Syn ASW emi14012-sup-0004-suppinfo4.csv (analysis: syn_wh7803_asw_tp3_vs_tp1)
     Organism: Synechococcus WH7803 | name_col: NCBI reference
-    Status: PRE_UNRESOLVED
+    Status: MATCH
     Using pre-resolved CSV: table s4b Syn ASW emi14012-sup-0004-suppinfo4_resolved.csv
-    Breakdown: Total rows: 221 | Pre-unresolved: 221 (no edges)
-    All 221 rows unresolved by resolve_paper_ids.py (no edges will be created). Re-run prepare_data step 3+4 or check that gene_id_mapping.json exists for Synechococcus WH7803.
+    Breakdown: Total rows: 221 | Matched: 221
+    221/221 resolved locus tags match gene nodes
 
   Table: table s4b Syn ASW emi14012-sup-0004-suppinfo4.csv (analysis: syn_wh7803_asw_tp7_vs_tp1)
     Organism: Synechococcus WH7803 | name_col: NCBI reference
-    Status: PRE_UNRESOLVED
+    Status: MATCH
     Using pre-resolved CSV: table s4b Syn ASW emi14012-sup-0004-suppinfo4_resolved.csv
-    Breakdown: Total rows: 221 | Pre-unresolved: 221 (no edges)
-    All 221 rows unresolved by resolve_paper_ids.py (no edges will be created). Re-run prepare_data step 3+4 or check that gene_id_mapping.json exists for Synechococcus WH7803.
+    Breakdown: Total rows: 221 | Matched: 221
+    221/221 resolved locus tags match gene nodes
 
   Table: table s4b Syn ASW emi14012-sup-0004-suppinfo4.csv (analysis: syn_wh7803_asw_tp14_vs_tp1)
     Organism: Synechococcus WH7803 | name_col: NCBI reference
-    Status: PRE_UNRESOLVED
+    Status: MATCH
     Using pre-resolved CSV: table s4b Syn ASW emi14012-sup-0004-suppinfo4_resolved.csv
-    Breakdown: Total rows: 221 | Pre-unresolved: 221 (no edges)
-    All 221 rows unresolved by resolve_paper_ids.py (no edges will be created). Re-run prepare_data step 3+4 or check that gene_id_mapping.json exists for Synechococcus WH7803.
+    Breakdown: Total rows: 221 | Matched: 221
+    221/221 resolved locus tags match gene nodes
 
   Table: table s4b Syn ASW emi14012-sup-0004-suppinfo4.csv (analysis: syn_wh7803_asw_tp21_vs_tp1)
     Organism: Synechococcus WH7803 | name_col: NCBI reference
-    Status: PRE_UNRESOLVED
+    Status: MATCH
     Using pre-resolved CSV: table s4b Syn ASW emi14012-sup-0004-suppinfo4_resolved.csv
-    Breakdown: Total rows: 221 | Pre-unresolved: 221 (no edges)
-    All 221 rows unresolved by resolve_paper_ids.py (no edges will be created). Re-run prepare_data step 3+4 or check that gene_id_mapping.json exists for Synechococcus WH7803.
+    Breakdown: Total rows: 221 | Matched: 221
+    221/221 resolved locus tags match gene nodes
 
   Table: table s4b Syn ASW emi14012-sup-0004-suppinfo4.csv (analysis: syn_wh7803_asw_tp32_vs_tp1)
     Organism: Synechococcus WH7803 | name_col: NCBI reference
-    Status: PRE_UNRESOLVED
+    Status: MATCH
     Using pre-resolved CSV: table s4b Syn ASW emi14012-sup-0004-suppinfo4_resolved.csv
-    Breakdown: Total rows: 221 | Pre-unresolved: 221 (no edges)
-    All 221 rows unresolved by resolve_paper_ids.py (no edges will be created). Re-run prepare_data step 3+4 or check that gene_id_mapping.json exists for Synechococcus WH7803.
+    Breakdown: Total rows: 221 | Matched: 221
+    221/221 resolved locus tags match gene nodes
 
   Table: table s4b Syn ASW emi14012-sup-0004-suppinfo4.csv (analysis: syn_wh7803_asw_tp60_vs_tp1)
     Organism: Synechococcus WH7803 | name_col: NCBI reference
-    Status: PRE_UNRESOLVED
+    Status: MATCH
     Using pre-resolved CSV: table s4b Syn ASW emi14012-sup-0004-suppinfo4_resolved.csv
-    Breakdown: Total rows: 221 | Pre-unresolved: 221 (no edges)
-    All 221 rows unresolved by resolve_paper_ids.py (no edges will be created). Re-run prepare_data step 3+4 or check that gene_id_mapping.json exists for Synechococcus WH7803.
+    Breakdown: Total rows: 221 | Matched: 221
+    221/221 resolved locus tags match gene nodes
 
   Table: table s4b Syn ASW emi14012-sup-0004-suppinfo4.csv (analysis: syn_wh7803_asw_tp100_vs_tp1)
     Organism: Synechococcus WH7803 | name_col: NCBI reference
-    Status: PRE_UNRESOLVED
+    Status: MATCH
     Using pre-resolved CSV: table s4b Syn ASW emi14012-sup-0004-suppinfo4_resolved.csv
-    Breakdown: Total rows: 221 | Pre-unresolved: 221 (no edges)
-    All 221 rows unresolved by resolve_paper_ids.py (no edges will be created). Re-run prepare_data step 3+4 or check that gene_id_mapping.json exists for Synechococcus WH7803.
+    Breakdown: Total rows: 221 | Matched: 221
+    221/221 resolved locus tags match gene nodes
 
   Table: table s5a Pom SW emi14012-sup-0005-suppinfo5.csv (analysis: rpom_dss3_sw_tp3_vs_tp1)
     Organism: Ruegeria pomeroyi DSS-3 | name_col: NCBI reference
-    Status: PRE_UNRESOLVED
+    Status: MATCH
     Using pre-resolved CSV: table s5a Pom SW emi14012-sup-0005-suppinfo5_resolved.csv
-    Breakdown: Total rows: 184 | Pre-unresolved: 184 (no edges)
-    All 184 rows unresolved by resolve_paper_ids.py (no edges will be created). Re-run prepare_data step 3+4 or check that gene_id_mapping.json exists for Ruegeria pomeroyi DSS-3.
+    Breakdown: Total rows: 184 | Matched: 3 | Pre-unresolved: 181 (no edges)
+    3/3 resolved locus tags match gene nodes; 181 pre-unresolved rows (no edges)
 
   Table: table s5a Pom SW emi14012-sup-0005-suppinfo5.csv (analysis: rpom_dss3_sw_tp7_vs_tp1)
     Organism: Ruegeria pomeroyi DSS-3 | name_col: NCBI reference
-    Status: PRE_UNRESOLVED
+    Status: MATCH
     Using pre-resolved CSV: table s5a Pom SW emi14012-sup-0005-suppinfo5_resolved.csv
-    Breakdown: Total rows: 184 | Pre-unresolved: 184 (no edges)
-    All 184 rows unresolved by resolve_paper_ids.py (no edges will be created). Re-run prepare_data step 3+4 or check that gene_id_mapping.json exists for Ruegeria pomeroyi DSS-3.
+    Breakdown: Total rows: 184 | Matched: 3 | Pre-unresolved: 181 (no edges)
+    3/3 resolved locus tags match gene nodes; 181 pre-unresolved rows (no edges)
 
   Table: table s5a Pom SW emi14012-sup-0005-suppinfo5.csv (analysis: rpom_dss3_sw_tp14_vs_tp1)
     Organism: Ruegeria pomeroyi DSS-3 | name_col: NCBI reference
-    Status: PRE_UNRESOLVED
+    Status: MATCH
     Using pre-resolved CSV: table s5a Pom SW emi14012-sup-0005-suppinfo5_resolved.csv
-    Breakdown: Total rows: 184 | Pre-unresolved: 184 (no edges)
-    All 184 rows unresolved by resolve_paper_ids.py (no edges will be created). Re-run prepare_data step 3+4 or check that gene_id_mapping.json exists for Ruegeria pomeroyi DSS-3.
+    Breakdown: Total rows: 184 | Matched: 3 | Pre-unresolved: 181 (no edges)
+    3/3 resolved locus tags match gene nodes; 181 pre-unresolved rows (no edges)
 
   Table: table s5a Pom SW emi14012-sup-0005-suppinfo5.csv (analysis: rpom_dss3_sw_tp21_vs_tp1)
     Organism: Ruegeria pomeroyi DSS-3 | name_col: NCBI reference
-    Status: PRE_UNRESOLVED
+    Status: MATCH
     Using pre-resolved CSV: table s5a Pom SW emi14012-sup-0005-suppinfo5_resolved.csv
-    Breakdown: Total rows: 184 | Pre-unresolved: 184 (no edges)
-    All 184 rows unresolved by resolve_paper_ids.py (no edges will be created). Re-run prepare_data step 3+4 or check that gene_id_mapping.json exists for Ruegeria pomeroyi DSS-3.
+    Breakdown: Total rows: 184 | Matched: 3 | Pre-unresolved: 181 (no edges)
+    3/3 resolved locus tags match gene nodes; 181 pre-unresolved rows (no edges)
 
   Table: table s5a Pom SW emi14012-sup-0005-suppinfo5.csv (analysis: rpom_dss3_sw_tp32_vs_tp1)
     Organism: Ruegeria pomeroyi DSS-3 | name_col: NCBI reference
-    Status: PRE_UNRESOLVED
+    Status: MATCH
     Using pre-resolved CSV: table s5a Pom SW emi14012-sup-0005-suppinfo5_resolved.csv
-    Breakdown: Total rows: 184 | Pre-unresolved: 184 (no edges)
-    All 184 rows unresolved by resolve_paper_ids.py (no edges will be created). Re-run prepare_data step 3+4 or check that gene_id_mapping.json exists for Ruegeria pomeroyi DSS-3.
+    Breakdown: Total rows: 184 | Matched: 3 | Pre-unresolved: 181 (no edges)
+    3/3 resolved locus tags match gene nodes; 181 pre-unresolved rows (no edges)
 
   Table: table s5a Pom SW emi14012-sup-0005-suppinfo5.csv (analysis: rpom_dss3_sw_tp60_vs_tp1)
     Organism: Ruegeria pomeroyi DSS-3 | name_col: NCBI reference
-    Status: PRE_UNRESOLVED
+    Status: MATCH
     Using pre-resolved CSV: table s5a Pom SW emi14012-sup-0005-suppinfo5_resolved.csv
-    Breakdown: Total rows: 184 | Pre-unresolved: 184 (no edges)
-    All 184 rows unresolved by resolve_paper_ids.py (no edges will be created). Re-run prepare_data step 3+4 or check that gene_id_mapping.json exists for Ruegeria pomeroyi DSS-3.
+    Breakdown: Total rows: 184 | Matched: 3 | Pre-unresolved: 181 (no edges)
+    3/3 resolved locus tags match gene nodes; 181 pre-unresolved rows (no edges)
 
   Table: table s5a Pom SW emi14012-sup-0005-suppinfo5.csv (analysis: rpom_dss3_sw_tp100_vs_tp1)
     Organism: Ruegeria pomeroyi DSS-3 | name_col: NCBI reference
-    Status: PRE_UNRESOLVED
+    Status: MATCH
     Using pre-resolved CSV: table s5a Pom SW emi14012-sup-0005-suppinfo5_resolved.csv
-    Breakdown: Total rows: 184 | Pre-unresolved: 184 (no edges)
-    All 184 rows unresolved by resolve_paper_ids.py (no edges will be created). Re-run prepare_data step 3+4 or check that gene_id_mapping.json exists for Ruegeria pomeroyi DSS-3.
+    Breakdown: Total rows: 184 | Matched: 3 | Pre-unresolved: 181 (no edges)
+    3/3 resolved locus tags match gene nodes; 181 pre-unresolved rows (no edges)
 
   Table: table s5b Pom ASW emi14012-sup-0005-suppinfo5.csv (analysis: rpom_dss3_asw_tp3_vs_tp1)
     Organism: Ruegeria pomeroyi DSS-3 | name_col: NCBI reference
-    Status: PRE_UNRESOLVED
+    Status: MATCH
     Using pre-resolved CSV: table s5b Pom ASW emi14012-sup-0005-suppinfo5_resolved.csv
-    Breakdown: Total rows: 222 | Pre-unresolved: 222 (no edges)
-    All 222 rows unresolved by resolve_paper_ids.py (no edges will be created). Re-run prepare_data step 3+4 or check that gene_id_mapping.json exists for Ruegeria pomeroyi DSS-3.
+    Breakdown: Total rows: 222 | Matched: 2 | Pre-unresolved: 220 (no edges)
+    2/2 resolved locus tags match gene nodes; 220 pre-unresolved rows (no edges)
 
   Table: table s5b Pom ASW emi14012-sup-0005-suppinfo5.csv (analysis: rpom_dss3_asw_tp7_vs_tp1)
     Organism: Ruegeria pomeroyi DSS-3 | name_col: NCBI reference
-    Status: PRE_UNRESOLVED
+    Status: MATCH
     Using pre-resolved CSV: table s5b Pom ASW emi14012-sup-0005-suppinfo5_resolved.csv
-    Breakdown: Total rows: 222 | Pre-unresolved: 222 (no edges)
-    All 222 rows unresolved by resolve_paper_ids.py (no edges will be created). Re-run prepare_data step 3+4 or check that gene_id_mapping.json exists for Ruegeria pomeroyi DSS-3.
+    Breakdown: Total rows: 222 | Matched: 2 | Pre-unresolved: 220 (no edges)
+    2/2 resolved locus tags match gene nodes; 220 pre-unresolved rows (no edges)
 
   Table: table s5b Pom ASW emi14012-sup-0005-suppinfo5.csv (analysis: rpom_dss3_asw_tp14_vs_tp1)
     Organism: Ruegeria pomeroyi DSS-3 | name_col: NCBI reference
-    Status: PRE_UNRESOLVED
+    Status: MATCH
     Using pre-resolved CSV: table s5b Pom ASW emi14012-sup-0005-suppinfo5_resolved.csv
-    Breakdown: Total rows: 222 | Pre-unresolved: 222 (no edges)
-    All 222 rows unresolved by resolve_paper_ids.py (no edges will be created). Re-run prepare_data step 3+4 or check that gene_id_mapping.json exists for Ruegeria pomeroyi DSS-3.
+    Breakdown: Total rows: 222 | Matched: 2 | Pre-unresolved: 220 (no edges)
+    2/2 resolved locus tags match gene nodes; 220 pre-unresolved rows (no edges)
 
   Table: table s5b Pom ASW emi14012-sup-0005-suppinfo5.csv (analysis: rpom_dss3_asw_tp21_vs_tp1)
     Organism: Ruegeria pomeroyi DSS-3 | name_col: NCBI reference
-    Status: PRE_UNRESOLVED
+    Status: MATCH
     Using pre-resolved CSV: table s5b Pom ASW emi14012-sup-0005-suppinfo5_resolved.csv
-    Breakdown: Total rows: 222 | Pre-unresolved: 222 (no edges)
-    All 222 rows unresolved by resolve_paper_ids.py (no edges will be created). Re-run prepare_data step 3+4 or check that gene_id_mapping.json exists for Ruegeria pomeroyi DSS-3.
+    Breakdown: Total rows: 222 | Matched: 2 | Pre-unresolved: 220 (no edges)
+    2/2 resolved locus tags match gene nodes; 220 pre-unresolved rows (no edges)
 
   Table: table s5b Pom ASW emi14012-sup-0005-suppinfo5.csv (analysis: rpom_dss3_asw_tp32_vs_tp1)
     Organism: Ruegeria pomeroyi DSS-3 | name_col: NCBI reference
-    Status: PRE_UNRESOLVED
+    Status: MATCH
     Using pre-resolved CSV: table s5b Pom ASW emi14012-sup-0005-suppinfo5_resolved.csv
-    Breakdown: Total rows: 222 | Pre-unresolved: 222 (no edges)
-    All 222 rows unresolved by resolve_paper_ids.py (no edges will be created). Re-run prepare_data step 3+4 or check that gene_id_mapping.json exists for Ruegeria pomeroyi DSS-3.
+    Breakdown: Total rows: 222 | Matched: 2 | Pre-unresolved: 220 (no edges)
+    2/2 resolved locus tags match gene nodes; 220 pre-unresolved rows (no edges)
 
   Table: table s5b Pom ASW emi14012-sup-0005-suppinfo5.csv (analysis: rpom_dss3_asw_tp60_vs_tp1)
     Organism: Ruegeria pomeroyi DSS-3 | name_col: NCBI reference
-    Status: PRE_UNRESOLVED
+    Status: MATCH
     Using pre-resolved CSV: table s5b Pom ASW emi14012-sup-0005-suppinfo5_resolved.csv
-    Breakdown: Total rows: 222 | Pre-unresolved: 222 (no edges)
-    All 222 rows unresolved by resolve_paper_ids.py (no edges will be created). Re-run prepare_data step 3+4 or check that gene_id_mapping.json exists for Ruegeria pomeroyi DSS-3.
+    Breakdown: Total rows: 222 | Matched: 2 | Pre-unresolved: 220 (no edges)
+    2/2 resolved locus tags match gene nodes; 220 pre-unresolved rows (no edges)
 
   Table: table s5b Pom ASW emi14012-sup-0005-suppinfo5.csv (analysis: rpom_dss3_asw_tp100_vs_tp1)
     Organism: Ruegeria pomeroyi DSS-3 | name_col: NCBI reference
-    Status: PRE_UNRESOLVED
+    Status: MATCH
     Using pre-resolved CSV: table s5b Pom ASW emi14012-sup-0005-suppinfo5_resolved.csv
-    Breakdown: Total rows: 222 | Pre-unresolved: 222 (no edges)
-    All 222 rows unresolved by resolve_paper_ids.py (no edges will be created). Re-run prepare_data step 3+4 or check that gene_id_mapping.json exists for Ruegeria pomeroyi DSS-3.
+    Breakdown: Total rows: 222 | Matched: 2 | Pre-unresolved: 220 (no edges)
+    2/2 resolved locus tags match gene nodes; 220 pre-unresolved rows (no edges)
 
 ## Bernstein 2017
    Config: /home/osnat/github/multiomics_biocypher_kg/data/Synechococcus/papers_and_supp/Bernstein 2017/paperconfig.yaml
@@ -1747,7 +1723,7 @@ Aharonovich 2016        | DE_hot1a3_coculture_9313_vs_9313dil | PRE_UNRESOLVED |
 Aharonovich 2016        | DE_hot1a3_coculture_9313_vs_med4_t2 | PRE_UNRESOLVED |     0 |     |   0 | 6177 |    0 |     |*—
 Aharonovich 2016        | DE_coculture_vs_axenic_9313_t20h    | MATCH          |  2268 |     |   0 |    1 |    0 |     |*—
 Aharonovich 2016        | DE_coculture_vs_axenic_9313_dilute_ | MATCH          |  2267 |     |   0 |    1 |    0 |     |*—
-Al-Hosani 2015          | DE_salt_acclimated_vs_seawater_AS96 | MATCH          |  1907 |     |   0 |   54 |    0 |     |*—
+Al-Hosani 2015          | DE_salt_acclimated_vs_seawater_AS96 | MATCH          |  1911 |     |   0 |   50 |    0 |     |*—
 Anjur-Dietrich 2025     | DE_freeliving_vs_biofilm_MIT9301    | MATCH          |   234 |     |   0 |    8 |    0 |     |*—
 Bagby and Chisholm 2015 | gas_shock_air                       | MATCH          |   438 |     |   0 |   30 |    0 |     |*—
 Bagby and Chisholm 2015 | gas_shock_no_o2                     | MATCH          |   438 |     |   0 |   30 |    0 |     |*—
@@ -1804,7 +1780,7 @@ Fang 2019               | DE_vdom_vs_control_MIT9313_24h      | MATCH          |
 Fang 2019               | DE_vdom_vs_control_MIT9313_48h      | MATCH          |   429 |     |   0 |  236 |    0 |     |*—
 Fang 2019               | DE_vdom_vs_control_MIT9313_72h      | MATCH          |   429 |     |   0 |  236 |    0 |     |*—
 He 2022                 | DE_low_salinity_vs_normal_NATL1A    | MATCH          |    81 |     |   0 |    1 |    0 |     |*—
-He 2022                 | DE_low_salinity_vs_normal_MED4      | MATCH          |    27 |     |   0 |    4 |    0 |     |*—
+He 2022                 | DE_low_salinity_vs_normal_MED4      | MATCH          |    29 |     |   0 |    2 |    0 |     |*—
 Hennon 2017             | DE_elevated_co2_vs_ambient_MIT9312_ | MATCH          |   103 |     |   0 |      |    0 |     |*—
 Hennon 2017             | DE_elevated_co2_vs_ambient_EZ55_coc | MATCH          |   345 |     |   0 |   77 |    0 |     |*—
 Hennon 2017             | DE_elevated_co2_vs_ambient_EZ55_axe | MATCH          |    98 |     |   0 |   27 |    0 |     |*—
@@ -1853,18 +1829,18 @@ Thompson 2011           | DE_iron_starvation_vs_replete_MED4_ | MATCH          |
 Thompson 2011           | DE_iron_starvation_vs_replete_MED4_ | MATCH          |   112 |     |   0 |   13 |    0 |     |*—
 Thompson 2011           | DE_iron_starvation_vs_replete_MED4_ | MATCH          |   112 |     |   0 |   13 |    0 |     |*—
 Thompson 2011           | DE_iron_rescue_MED4                 | MATCH          |   112 |     |   0 |   13 |    0 |     |*—
-Thompson 2011           | DE_iron_starvation_vs_replete_MIT93 | MATCH          |    97 |     |   0 |   14 |    0 |     |*—
-Thompson 2011           | DE_iron_starvation_vs_replete_MIT93 | MATCH          |    97 |     |   0 |   14 |    0 |     |*—
-Thompson 2011           | DE_iron_starvation_vs_replete_MIT93 | MATCH          |    97 |     |   0 |   14 |    0 |     |*—
-Thompson 2011           | DE_iron_rescue_MIT9313              | MATCH          |    97 |     |   0 |   14 |    0 |     |*—
-Tolonen 2006            | DE_n_deprivation_vs_replete_MED4_0h | MATCH          |  1696 |     |   0 |    2 |    0 |     |*—
-Tolonen 2006            | DE_n_deprivation_vs_replete_MED4_3h | MATCH          |  1696 |     |   0 |    2 |    0 |     |*—
-Tolonen 2006            | DE_n_deprivation_vs_replete_MED4_6h | MATCH          |  1696 |     |   0 |    2 |    0 |     |*—
-Tolonen 2006            | DE_n_deprivation_vs_replete_MED4_12 | MATCH          |  1696 |     |   0 |    2 |    0 |     |*—
-Tolonen 2006            | DE_n_deprivation_vs_replete_MED4_24 | MATCH          |  1696 |     |   0 |    2 |    0 |     |*—
-Tolonen 2006            | DE_n_deprivation_vs_replete_MED4_48 | MATCH          |  1696 |     |   0 |    2 |    0 |     |*—
-Tolonen 2006            | DE_cyanate_vs_ammonium_MED4         | MATCH          |  1696 |     |   0 |    2 |    0 |     |*—
-Tolonen 2006            | DE_urea_vs_ammonium_MED4            | MATCH          |  1696 |     |   0 |    2 |    0 |     |*—
+Thompson 2011           | DE_iron_starvation_vs_replete_MIT93 | MATCH          |    98 |     |   0 |   13 |    0 |     |*—
+Thompson 2011           | DE_iron_starvation_vs_replete_MIT93 | MATCH          |    98 |     |   0 |   13 |    0 |     |*—
+Thompson 2011           | DE_iron_starvation_vs_replete_MIT93 | MATCH          |    98 |     |   0 |   13 |    0 |     |*—
+Thompson 2011           | DE_iron_rescue_MIT9313              | MATCH          |    98 |     |   0 |   13 |    0 |     |*—
+Tolonen 2006            | DE_n_deprivation_vs_replete_MED4_0h | MATCH          |  1697 |     |   0 |    1 |    0 |     |*—
+Tolonen 2006            | DE_n_deprivation_vs_replete_MED4_3h | MATCH          |  1697 |     |   0 |    1 |    0 |     |*—
+Tolonen 2006            | DE_n_deprivation_vs_replete_MED4_6h | MATCH          |  1697 |     |   0 |    1 |    0 |     |*—
+Tolonen 2006            | DE_n_deprivation_vs_replete_MED4_12 | MATCH          |  1697 |     |   0 |    1 |    0 |     |*—
+Tolonen 2006            | DE_n_deprivation_vs_replete_MED4_24 | MATCH          |  1697 |     |   0 |    1 |    0 |     |*—
+Tolonen 2006            | DE_n_deprivation_vs_replete_MED4_48 | MATCH          |  1697 |     |   0 |    1 |    0 |     |*—
+Tolonen 2006            | DE_cyanate_vs_ammonium_MED4         | MATCH          |  1697 |     |   0 |    1 |    0 |     |*—
+Tolonen 2006            | DE_urea_vs_ammonium_MED4            | MATCH          |  1697 |     |   0 |    1 |    0 |     |*—
 Tolonen 2006            | DE_n_deprivation_vs_replete_MIT9313 | MATCH          |  2241 |     |   0 |    9 |    0 |     |*—
 Tolonen 2006            | DE_n_deprivation_vs_replete_MIT9313 | MATCH          |  2241 |     |   0 |    9 |    0 |     |*—
 Tolonen 2006            | DE_n_deprivation_vs_replete_MIT9313 | MATCH          |  2241 |     |   0 |    9 |    0 |     |*—
@@ -1880,19 +1856,19 @@ Thompson 2016           | DE_dark_vs_light_infected_MED4_0.5h | MATCH          |
 Thompson 2016           | DE_dark_vs_light_infected_MED4_1.5h | MATCH          |     1 |     |   0 |      |    0 |     |*—
 Thompson 2016           | DE_dark_vs_light_infected_MED4_2.5h | MATCH          |     3 |     |   0 |      |    0 |     |*—
 Thompson 2016           | DE_dark_vs_light_infected_MED4_4.5h | MATCH          |    10 |     |   0 |      |    0 |     |*—
-Thompson 2016           | DE_dark_vs_light_infected_MED4_8.5h | MATCH          |    29 |     |   0 |    2 |    0 |     |*—
+Thompson 2016           | DE_dark_vs_light_infected_MED4_8.5h | MATCH          |    30 |     |   0 |    1 |    0 |     |*—
 Thompson 2016           | DE_dark_vs_light_uninfected_MED4_1. | MATCH          |     1 |     |   0 |      |    0 |     |*—
 Thompson 2016           | DE_dark_vs_light_uninfected_MED4_2. | MATCH          |     3 |     |   0 |      |    0 |     |*—
 Thompson 2016           | DE_dark_vs_light_uninfected_MED4_4. | MATCH          |    14 |     |   0 |      |    0 |     |*—
 Thompson 2016           | DE_dark_vs_light_uninfected_MED4_8. | MATCH          |    31 |     |   0 |    1 |    0 |     |*—
 Thompson 2016           | DE_lysate_vs_spent_medium_light_MED | MATCH          |     8 |     |   0 |      |    0 |     |*—
-Thompson 2016           | DE_lysate_vs_spent_medium_light_MED | MATCH          |     5 |     |   0 |    1 |    0 |     |*—
+Thompson 2016           | DE_lysate_vs_spent_medium_light_MED | MATCH          |     6 |     |   0 |      |    0 |     |*—
 Thompson 2016           | DE_lysate_vs_spent_medium_light_MED | MATCH          |     3 |     |   0 |      |    0 |     |*—
 Thompson 2016           | DE_lysate_vs_spent_medium_light_MED | MATCH          |     3 |     |   0 |      |    0 |     |*—
-Thompson 2016           | DE_lysate_vs_spent_medium_light_MED | MATCH          |    14 |     |   0 |    2 |    0 |     |*—
-Thompson 2016           | DE_lysate_vs_spent_medium_dark_MED4 | MATCH          |     7 |     |   0 |    2 |    0 |     |*—
-Thompson 2016           | DE_lysate_vs_spent_medium_dark_MED4 | MATCH          |    16 |     |   0 |    3 |    0 |     |*—
-Thompson 2016           | DE_lysate_vs_spent_medium_dark_MED4 | MATCH          |     6 |     |   0 |    2 |    0 |     |*—
+Thompson 2016           | DE_lysate_vs_spent_medium_light_MED | MATCH          |    16 |     |   0 |      |    0 |     |*—
+Thompson 2016           | DE_lysate_vs_spent_medium_dark_MED4 | MATCH          |     9 |     |   0 |      |    0 |     |*—
+Thompson 2016           | DE_lysate_vs_spent_medium_dark_MED4 | MATCH          |    19 |     |   0 |      |    0 |     |*—
+Thompson 2016           | DE_lysate_vs_spent_medium_dark_MED4 | MATCH          |     8 |     |   0 |      |    0 |     |*—
 Weissberg 2025          | DE_hot1a3_rnaseq_axenic_day_18_vs_d | MATCH          |  3950 |     |   0 |   65 |    0 |     |*—
 Weissberg 2025          | DE_hot1a3_rnaseq_axenic_day_31_vs_d | MATCH          |  3950 |     |   0 |   65 |    0 |     |*—
 Weissberg 2025          | DE_hot1a3_rnaseq_axenic_longterm_vs | MATCH          |  3950 |     |   0 |   65 |    0 |     |*—
@@ -1925,67 +1901,62 @@ Weissberg 2025          | DE_med4_proteome_coculture_day_60_v | MATCH          |
 Weissberg 2025          | DE_med4_proteome_coculture_day_89_v | MATCH          |  1424 |     |   0 |      |    0 |     |*—
 Weissberg 2025          | DE_med4_proteome_coculture_longterm | MATCH          |  1424 |     |   0 |      |    0 |     |*—
 Capovilla 2023          | DE_chitosan_vs_control_MIT9313      | MATCH          |    72 |     |   0 |    9 |    0 |     |*—
-Capovilla 2023          | DE_chitosan_vs_control_MIT9303      | PARTIAL MATCH  |     0 |     |   0 |   11 |   25 |     |*REBUILD_RESOLVED
+Capovilla 2023          | DE_chitosan_vs_control_MIT9303      | MATCH          |    25 |     |   0 |   11 |    0 |     |*—
 Tai 2009                | vibrio_coculture_wh8102_up          | MATCH          |   280 |     |   0 |    5 |    0 |     |*—
-Tai 2009                | vibrio_coculture_wh8102_down        | ERROR          |     0 |     |   0 |      |    0 |     | —
-Beliaev 2014            | syn7002_lactate_vs_axenic           | PARTIAL MATCH  |     0 |     |   0 |   27 | 1159 |     |*REBUILD_RESOLVED
-Beliaev 2014            | shew_w3181_lactate_vs_axenic        | PARTIAL MATCH  |     0 |     |   0 |  457 |    1 |     |*REBUILD_RESOLVED
-Beliaev 2014            | syn7002_hco3_vs_axenic              | PARTIAL MATCH  |     0 |     |   0 |   20 |  672 |     |*REBUILD_RESOLVED
-Beliaev 2014            | shew_w3181_hco3_vs_axenic           | PARTIAL MATCH  |     0 |     |   0 | 1342 |    1 |     |*REBUILD_RESOLVED
-Beliaev 2014            | syn7002_hco3_vs_lactate             | PARTIAL MATCH  |     0 |     |   0 |   28 |  674 |     |*REBUILD_RESOLVED
-Beliaev 2014            | shew_w3181_hco3_vs_lactate          | PARTIAL MATCH  |     0 |     |   0 | 1277 |    1 |     |*REBUILD_RESOLVED
-Kratzl 2024             | DE_rnaseq_coculture_vs_pputida      | PARTIAL MATCH  |     0 |     |   0 |  913 | 4305 |     |*REBUILD_RESOLVED
-Kratzl 2024             | DE_rnaseq_coculture_vs_selongatus   | PARTIAL MATCH  |     0 |     |   0 |  802 | 1877 |     |*REBUILD_RESOLVED
-Kratzl 2024             | DE_proteomics_coculture_vs_pputida  | PARTIAL MATCH  |     0 |     |   0 |    4 |  228 |     |*REBUILD_RESOLVED
-Kratzl 2024             | DE_proteomics_coculture_vs_selongat | PARTIAL MATCH  |     0 |     |   0 |   39 |  528 |     |*REBUILD_RESOLVED
-Ma 2022                 | DE_rnaseq_coculture_ecoli_up        | ERROR          |     0 |     |   0 |      |    0 |     | —
-Ma 2022                 | DE_rnaseq_coculture_ecoli_down      | ERROR          |     0 |     |   0 |      |    0 |     | —
-Ma 2022                 | DE_proteomics_coculture_ecoli       | PARTIAL MATCH  |     0 |     |   0 |      |   39 |     |*REBUILD_RESOLVED
-Christie-Oleza 2017     | syn_wh7803_early_coculture_asw      | PARTIAL MATCH  |     0 |     |   0 |      |  564 |     |*REBUILD_RESOLVED
-Christie-Oleza 2017     | syn_wh7803_late_coculture_sw        | PARTIAL MATCH  |     0 |     |   0 |      | 1050 |     |*REBUILD_RESOLVED
-Christie-Oleza 2017     | rpom_dss3_longterm_coculture_sw     | PARTIAL MATCH  |     0 |     |   0 |    2 | 1724 |     |*REBUILD_RESOLVED
-Kaur 2018               | syn_wh7803_sw_tp3_vs_tp1            | PRE_UNRESOLVED |     0 |     |   0 |  187 |    0 |     |*—
-Kaur 2018               | syn_wh7803_sw_tp7_vs_tp1            | PRE_UNRESOLVED |     0 |     |   0 |  187 |    0 |     |*—
-Kaur 2018               | syn_wh7803_sw_tp14_vs_tp1           | PRE_UNRESOLVED |     0 |     |   0 |  187 |    0 |     |*—
-Kaur 2018               | syn_wh7803_sw_tp21_vs_tp1           | PRE_UNRESOLVED |     0 |     |   0 |  187 |    0 |     |*—
-Kaur 2018               | syn_wh7803_sw_tp32_vs_tp1           | PRE_UNRESOLVED |     0 |     |   0 |  187 |    0 |     |*—
-Kaur 2018               | syn_wh7803_sw_tp60_vs_tp1           | PRE_UNRESOLVED |     0 |     |   0 |  187 |    0 |     |*—
-Kaur 2018               | syn_wh7803_sw_tp100_vs_tp1          | PRE_UNRESOLVED |     0 |     |   0 |  187 |    0 |     |*—
-Kaur 2018               | syn_wh7803_asw_tp3_vs_tp1           | PRE_UNRESOLVED |     0 |     |   0 |  221 |    0 |     |*—
-Kaur 2018               | syn_wh7803_asw_tp7_vs_tp1           | PRE_UNRESOLVED |     0 |     |   0 |  221 |    0 |     |*—
-Kaur 2018               | syn_wh7803_asw_tp14_vs_tp1          | PRE_UNRESOLVED |     0 |     |   0 |  221 |    0 |     |*—
-Kaur 2018               | syn_wh7803_asw_tp21_vs_tp1          | PRE_UNRESOLVED |     0 |     |   0 |  221 |    0 |     |*—
-Kaur 2018               | syn_wh7803_asw_tp32_vs_tp1          | PRE_UNRESOLVED |     0 |     |   0 |  221 |    0 |     |*—
-Kaur 2018               | syn_wh7803_asw_tp60_vs_tp1          | PRE_UNRESOLVED |     0 |     |   0 |  221 |    0 |     |*—
-Kaur 2018               | syn_wh7803_asw_tp100_vs_tp1         | PRE_UNRESOLVED |     0 |     |   0 |  221 |    0 |     |*—
-Kaur 2018               | rpom_dss3_sw_tp3_vs_tp1             | PRE_UNRESOLVED |     0 |     |   0 |  184 |    0 |     |*—
-Kaur 2018               | rpom_dss3_sw_tp7_vs_tp1             | PRE_UNRESOLVED |     0 |     |   0 |  184 |    0 |     |*—
-Kaur 2018               | rpom_dss3_sw_tp14_vs_tp1            | PRE_UNRESOLVED |     0 |     |   0 |  184 |    0 |     |*—
-Kaur 2018               | rpom_dss3_sw_tp21_vs_tp1            | PRE_UNRESOLVED |     0 |     |   0 |  184 |    0 |     |*—
-Kaur 2018               | rpom_dss3_sw_tp32_vs_tp1            | PRE_UNRESOLVED |     0 |     |   0 |  184 |    0 |     |*—
-Kaur 2018               | rpom_dss3_sw_tp60_vs_tp1            | PRE_UNRESOLVED |     0 |     |   0 |  184 |    0 |     |*—
-Kaur 2018               | rpom_dss3_sw_tp100_vs_tp1           | PRE_UNRESOLVED |     0 |     |   0 |  184 |    0 |     |*—
-Kaur 2018               | rpom_dss3_asw_tp3_vs_tp1            | PRE_UNRESOLVED |     0 |     |   0 |  222 |    0 |     |*—
-Kaur 2018               | rpom_dss3_asw_tp7_vs_tp1            | PRE_UNRESOLVED |     0 |     |   0 |  222 |    0 |     |*—
-Kaur 2018               | rpom_dss3_asw_tp14_vs_tp1           | PRE_UNRESOLVED |     0 |     |   0 |  222 |    0 |     |*—
-Kaur 2018               | rpom_dss3_asw_tp21_vs_tp1           | PRE_UNRESOLVED |     0 |     |   0 |  222 |    0 |     |*—
-Kaur 2018               | rpom_dss3_asw_tp32_vs_tp1           | PRE_UNRESOLVED |     0 |     |   0 |  222 |    0 |     |*—
-Kaur 2018               | rpom_dss3_asw_tp60_vs_tp1           | PRE_UNRESOLVED |     0 |     |   0 |  222 |    0 |     |*—
-Kaur 2018               | rpom_dss3_asw_tp100_vs_tp1          | PRE_UNRESOLVED |     0 |     |   0 |  222 |    0 |     |*—
+Tai 2009                | vibrio_coculture_wh8102_down        | MATCH          |   294 |     |   0 |   50 |    0 |     |*—
+Beliaev 2014            | syn7002_lactate_vs_axenic           | MATCH          |  1159 |     |   0 |   27 |    0 |     |*—
+Beliaev 2014            | shew_w3181_lactate_vs_axenic        | MATCH          |   144 |     |   0 |  314 |    0 |     |*—
+Beliaev 2014            | syn7002_hco3_vs_axenic              | MATCH          |   672 |     |   0 |   20 |    0 |     |*—
+Beliaev 2014            | shew_w3181_hco3_vs_axenic           | MATCH          |   444 |     |   0 |  899 |    0 |     |*—
+Beliaev 2014            | syn7002_hco3_vs_lactate             | MATCH          |   674 |     |   0 |   28 |    0 |     |*—
+Beliaev 2014            | shew_w3181_hco3_vs_lactate          | MATCH          |   403 |     |   0 |  875 |    0 |     |*—
+Kratzl 2024             | DE_rnaseq_coculture_vs_pputida      | MATCH          |  5054 |     |   0 |  164 |    0 |     |*—
+Kratzl 2024             | DE_rnaseq_coculture_vs_selongatus   | MATCH          |  2321 |     |   0 |  358 |    0 |     |*—
+Kratzl 2024             | DE_proteomics_coculture_vs_pputida  | MATCH          |   228 |     |   0 |    4 |    0 |     |*—
+Kratzl 2024             | DE_proteomics_coculture_vs_selongat | MATCH          |   544 |     |   0 |   23 |    0 |     |*—
+Ma 2022                 | DE_rnaseq_coculture_ecoli_up        | MATCH          |    75 |     |   0 |    3 |    0 |     |*—
+Ma 2022                 | DE_rnaseq_coculture_ecoli_down      | MATCH          |    54 |     |   0 |    2 |    0 |     |*—
+Ma 2022                 | DE_proteomics_coculture_ecoli       | MATCH          |    39 |     |   0 |      |    0 |     |*—
+Christie-Oleza 2017     | syn_wh7803_early_coculture_asw      | MATCH          |   564 |     |   0 |      |    0 |     |*—
+Christie-Oleza 2017     | syn_wh7803_late_coculture_sw        | MATCH          |  1050 |     |   0 |      |    0 |     |*—
+Christie-Oleza 2017     | rpom_dss3_longterm_coculture_sw     | MATCH          |  1724 |     |   0 |    2 |    0 |     |*—
+Kaur 2018               | syn_wh7803_sw_tp3_vs_tp1            | MATCH          |   187 |     |   0 |      |    0 |     |*—
+Kaur 2018               | syn_wh7803_sw_tp7_vs_tp1            | MATCH          |   187 |     |   0 |      |    0 |     |*—
+Kaur 2018               | syn_wh7803_sw_tp14_vs_tp1           | MATCH          |   187 |     |   0 |      |    0 |     |*—
+Kaur 2018               | syn_wh7803_sw_tp21_vs_tp1           | MATCH          |   187 |     |   0 |      |    0 |     |*—
+Kaur 2018               | syn_wh7803_sw_tp32_vs_tp1           | MATCH          |   187 |     |   0 |      |    0 |     |*—
+Kaur 2018               | syn_wh7803_sw_tp60_vs_tp1           | MATCH          |   187 |     |   0 |      |    0 |     |*—
+Kaur 2018               | syn_wh7803_sw_tp100_vs_tp1          | MATCH          |   187 |     |   0 |      |    0 |     |*—
+Kaur 2018               | syn_wh7803_asw_tp3_vs_tp1           | MATCH          |   221 |     |   0 |      |    0 |     |*—
+Kaur 2018               | syn_wh7803_asw_tp7_vs_tp1           | MATCH          |   221 |     |   0 |      |    0 |     |*—
+Kaur 2018               | syn_wh7803_asw_tp14_vs_tp1          | MATCH          |   221 |     |   0 |      |    0 |     |*—
+Kaur 2018               | syn_wh7803_asw_tp21_vs_tp1          | MATCH          |   221 |     |   0 |      |    0 |     |*—
+Kaur 2018               | syn_wh7803_asw_tp32_vs_tp1          | MATCH          |   221 |     |   0 |      |    0 |     |*—
+Kaur 2018               | syn_wh7803_asw_tp60_vs_tp1          | MATCH          |   221 |     |   0 |      |    0 |     |*—
+Kaur 2018               | syn_wh7803_asw_tp100_vs_tp1         | MATCH          |   221 |     |   0 |      |    0 |     |*—
+Kaur 2018               | rpom_dss3_sw_tp3_vs_tp1             | MATCH          |     3 |     |   0 |  181 |    0 |     |*—
+Kaur 2018               | rpom_dss3_sw_tp7_vs_tp1             | MATCH          |     3 |     |   0 |  181 |    0 |     |*—
+Kaur 2018               | rpom_dss3_sw_tp14_vs_tp1            | MATCH          |     3 |     |   0 |  181 |    0 |     |*—
+Kaur 2018               | rpom_dss3_sw_tp21_vs_tp1            | MATCH          |     3 |     |   0 |  181 |    0 |     |*—
+Kaur 2018               | rpom_dss3_sw_tp32_vs_tp1            | MATCH          |     3 |     |   0 |  181 |    0 |     |*—
+Kaur 2018               | rpom_dss3_sw_tp60_vs_tp1            | MATCH          |     3 |     |   0 |  181 |    0 |     |*—
+Kaur 2018               | rpom_dss3_sw_tp100_vs_tp1           | MATCH          |     3 |     |   0 |  181 |    0 |     |*—
+Kaur 2018               | rpom_dss3_asw_tp3_vs_tp1            | MATCH          |     2 |     |   0 |  220 |    0 |     |*—
+Kaur 2018               | rpom_dss3_asw_tp7_vs_tp1            | MATCH          |     2 |     |   0 |  220 |    0 |     |*—
+Kaur 2018               | rpom_dss3_asw_tp14_vs_tp1           | MATCH          |     2 |     |   0 |  220 |    0 |     |*—
+Kaur 2018               | rpom_dss3_asw_tp21_vs_tp1           | MATCH          |     2 |     |   0 |  220 |    0 |     |*—
+Kaur 2018               | rpom_dss3_asw_tp32_vs_tp1           | MATCH          |     2 |     |   0 |  220 |    0 |     |*—
+Kaur 2018               | rpom_dss3_asw_tp60_vs_tp1           | MATCH          |     2 |     |   0 |  220 |    0 |     |*—
+Kaur 2018               | rpom_dss3_asw_tp100_vs_tp1          | MATCH          |     2 |     |   0 |  220 |    0 |     |*—
   * = using pre-resolved CSV (_resolved.csv); !Res = rows unresolved by resolve_paper_ids.py
 
 Total analyses: 230
-  MATCH: 182
-  PARTIAL MATCH: 15
-  PRE_UNRESOLVED: 30
-  ERROR: 3
+  MATCH: 228
+  PRE_UNRESOLVED: 2
 
-Total gene IDs across all analyses: 201572
-  Matched: 188724
+Total gene IDs across all analyses: 207112
+  Matched: 207112
   RNA/tRNA/ncRNA (OK): 0
-  Pre-unresolved (no edges): 25880
-  Mismatched: 12848
-  Analyses using pre-resolved CSV: 227
-
-Fix strategies needed:
-  REBUILD_RESOLVED: 15
+  Pre-unresolved (no edges): 20818
+  Mismatched: 0
+  Analyses using pre-resolved CSV: 230

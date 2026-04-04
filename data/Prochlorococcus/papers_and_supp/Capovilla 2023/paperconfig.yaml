@@ -54,6 +54,12 @@ publication:
       id_columns:
         - column: ncbi_gene_locus_tag
           id_type: locus_tag
+        - column: ncbi_cds_locus_tag
+          id_type: locus_tag
+        - column: ncbi_gene_old_locus_tag
+          id_type: old_locus_tag
+        - column: gene
+          id_type: other
       product_columns:
         - column: geneFunction
       statistical_analyses:
@@ -72,6 +78,12 @@ publication:
       id_columns:
         - column: ncbi_gene_locus_tag
           id_type: locus_tag
+        - column: ncbi_cds_locus_tag
+          id_type: locus_tag
+        - column: ncbi_gene_old_locus_tag
+          id_type: old_locus_tag
+        - column: gene
+          id_type: other
       product_columns:
         - column: geneFunction
       statistical_analyses:

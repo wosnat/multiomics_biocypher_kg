@@ -138,6 +138,14 @@ publication:
       type: csv
       filename: "data/Synechococcus/papers_and_supp/Beliaev 2014/table s3 41396_2014_bfismej201469_moesm40_esm.csv"
       skip_rows: 2
+      organism: "Synechococcus PCC 7002"
+      id_columns:
+        - column: " Locus tag"
+          id_type: locus_tag
+        - column: "Gene abbreviation"
+          id_type: gene_name
+      product_columns:
+        - column: "Curated Product Descriptor"
       statistical_analyses:
         - id: "syn7002_lactate_vs_axenic"
           experiment: coculture_lactate_vs_axenic_syn7002_rnaseq
@@ -150,6 +158,14 @@ publication:
       type: csv
       filename: "data/Synechococcus/papers_and_supp/Beliaev 2014/table s4 41396_2014_bfismej201469_moesm40_esm.csv"
       skip_rows: 2
+      organism: "Shewanella sp. W3-18-1"
+      id_columns:
+        - column: " Locus tag"
+          id_type: locus_tag
+        - column: "Gene abbreviation"
+          id_type: gene_name
+      product_columns:
+        - column: "Curated Product Descriptor"
       statistical_analyses:
         - id: "shew_w3181_lactate_vs_axenic"
           experiment: coculture_lactate_vs_axenic_shew_w3181_rnaseq
@@ -163,6 +179,14 @@ publication:
       type: csv
       filename: "data/Synechococcus/papers_and_supp/Beliaev 2014/table s5 41396_2014_bfismej201469_moesm40_esm.csv"
       skip_rows: 2
+      organism: "Synechococcus PCC 7002"
+      id_columns:
+        - column: " Locus tag"
+          id_type: locus_tag
+        - column: "Gene abbreviation"
+          id_type: gene_name
+      product_columns:
+        - column: "Curated Product Descriptor"
       statistical_analyses:
         - id: "syn7002_hco3_vs_axenic"
           experiment: coculture_hco3_vs_axenic_syn7002_rnaseq
@@ -175,6 +199,14 @@ publication:
       type: csv
       filename: "data/Synechococcus/papers_and_supp/Beliaev 2014/table s6 41396_2014_bfismej201469_moesm40_esm.csv"
       skip_rows: 2
+      organism: "Shewanella sp. W3-18-1"
+      id_columns:
+        - column: " Locus tag"
+          id_type: locus_tag
+        - column: "Gene abbreviation"
+          id_type: gene_name
+      product_columns:
+        - column: "Curated Product Descriptor"
       statistical_analyses:
         - id: "shew_w3181_hco3_vs_axenic"
           experiment: coculture_hco3_vs_axenic_shew_w3181_rnaseq
@@ -188,6 +220,14 @@ publication:
       type: csv
       filename: "data/Synechococcus/papers_and_supp/Beliaev 2014/table s7 41396_2014_bfismej201469_moesm40_esm.csv"
       skip_rows: 2
+      organism: "Synechococcus PCC 7002"
+      id_columns:
+        - column: " Locus tag"
+          id_type: locus_tag
+        - column: "Gene abbreviation"
+          id_type: gene_name
+      product_columns:
+        - column: "Curated Product Descriptor"
       statistical_analyses:
         - id: "syn7002_hco3_vs_lactate"
           experiment: coculture_hco3_vs_lactate_syn7002_rnaseq
@@ -200,6 +240,14 @@ publication:
       type: csv
       filename: "data/Synechococcus/papers_and_supp/Beliaev 2014/table s8 41396_2014_bfismej201469_moesm40_esm.csv"
       skip_rows: 2
+      organism: "Shewanella sp. W3-18-1"
+      id_columns:
+        - column: " Locus tag"
+          id_type: locus_tag
+        - column: "Gene abbreviation"
+          id_type: gene_name
+      product_columns:
+        - column: "Curated Product Descriptor"
       statistical_analyses:
         - id: "shew_w3181_hco3_vs_lactate"
           experiment: coculture_hco3_vs_lactate_shew_w3181_rnaseq
