@@ -60,25 +60,59 @@ def _make_analysis_id(doi: str, paper_name: str, entry_key: str) -> str:
 
 
 def _load_extraction_json(paperconfig_dir: Path, entry_key: str) -> dict:
-    """Load extraction JSON for a gene_clusters entry. Returns empty dict if missing."""
+    """Load extraction data. Tries new versioned structure first, falls back to legacy."""
+    from multiomics_kg.extraction.cluster.run_manager import RunManager
+
+    cache_dir = paperconfig_dir / ".extraction_cache"
+    entry_dir = cache_dir / entry_key
+    current_link = entry_dir / "current"
+    if current_link.is_symlink() or current_link.is_dir():
+        run_dir = current_link.resolve() if current_link.is_symlink() else current_link
+        if run_dir.exists():
+            result = {}
+            stage_key_map = {1: "stage1_merged", 2: "stage2_results",
+                             3: "stage3_validation", 4: "stage4_review"}
+            for stage, filename in RunManager.STAGE_FILES.items():
+                stage_path = run_dir / filename
+                if stage_path.exists():
+                    with open(stage_path) as f:
+                        result[stage_key_map[stage]] = json.load(f)
+            return result
+
+    # Legacy fallback
     json_path = paperconfig_dir / f"cluster_extraction_{entry_key}.json"
     if not json_path.exists():
         return {}
     try:
         with open(json_path) as f:
-            data = json.load(f)
-        return data
+            return json.load(f)
     except Exception:
         logger.warning("Failed to load extraction JSON: %s", json_path)
         return {}
 
 
 def _get_extraction_cluster_data(extraction: dict, cluster_key: str) -> dict:
-    """Get per-cluster data from extraction JSON, respecting validation verdict."""
+    """Get per-cluster data, respecting validation verdict and review status."""
     stage2 = extraction.get("stage2_results", {})
     stage3 = extraction.get("stage3_validation", {})
+    stage4 = extraction.get("stage4_review", {})
+
     cluster_data = stage2.get(str(cluster_key), {})
     verdict = stage3.get(str(cluster_key), {}).get("verdict", "")
+    review = stage4.get(str(cluster_key), {})
+    review_status = review.get("status", "")
+
+    # If review exists, it takes precedence over verdict
+    if review_status:
+        if review_status in ("approve", "edit"):
+            result = dict(cluster_data)
+            for field, value in review.get("edited_fields", {}).items():
+                result[field] = value
+            return result
+        else:
+            return {}  # reject, flag-issue, stale
+
+    # No review — fall back to verdict check (legacy behavior)
     if verdict != "pass":
         return {}
     return cluster_data

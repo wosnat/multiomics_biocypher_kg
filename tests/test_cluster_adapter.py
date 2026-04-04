@@ -24,6 +24,8 @@ from multiomics_kg.adapters.cluster_adapter import (
     _make_cluster_id,
     _make_analysis_id,
     _resolve_csv_path,
+    _load_extraction_json,
+    _get_extraction_cluster_data,
 )
 
 
@@ -640,3 +642,80 @@ def test_multi_cluster_adapter_skips_non_cluster_configs(temp_dir):
     adapter = MultiClusterAdapter(config_list_file=list_file)
     assert len(adapter.adapters) == 1
     assert adapter.adapters[0].doi == "10.1/with"
+
+
+# ─── Test: New versioned extraction cache structure ───────────────────────────
+
+
+def test_load_extraction_from_cache_dir(tmp_path):
+    """_load_extraction_json reads stage files from .extraction_cache/{entry}/current/."""
+    from multiomics_kg.extraction.cluster.run_manager import RunManager
+
+    paperconfig_dir = tmp_path
+    entry_key = "med4_kmeans_test"
+
+    # Set up cache directory structure
+    # RunManager expects cache_root = the .extraction_cache dir
+    cache_dir = paperconfig_dir / ".extraction_cache"
+    cache_dir.mkdir()
+    rm = RunManager(cache_dir, entry_key)
+    run_dir = rm.create_run()  # also sets current symlink
+
+    # Write stage files
+    stage2_data = {
+        "1": {"id": "c1", "name": "Cluster 1", "functional_description": "Transport"},
+        "2": {"id": "c2", "name": "Cluster 2", "functional_description": "Photosynthesis"},
+    }
+    stage3_data = {"1": {"verdict": "pass"}, "2": {"verdict": "fail"}}
+    rm.write_stage(run_dir, 2, stage2_data)
+    rm.write_stage(run_dir, 3, stage3_data)
+
+    result = _load_extraction_json(paperconfig_dir, entry_key)
+    assert "stage2_results" in result
+    assert "stage3_validation" in result
+    assert result["stage2_results"]["1"]["functional_description"] == "Transport"
+    assert result["stage3_validation"]["2"]["verdict"] == "fail"
+    # stage1 and stage4 not written, so not present
+    assert "stage1_merged" not in result
+    assert "stage4_review" not in result
+
+
+def test_adapter_respects_review_reject():
+    """stage4 reject overrides stage3 pass — cluster data should be empty."""
+    extraction = {
+        "stage2_results": {
+            "1": {"id": "c1", "name": "Cluster 1", "functional_description": "Transport"},
+        },
+        "stage3_validation": {"1": {"verdict": "pass"}},
+        "stage4_review": {"1": {"status": "reject", "reason": "incorrect extraction"}},
+    }
+    result = _get_extraction_cluster_data(extraction, "1")
+    assert result == {}
+
+
+def test_adapter_uses_edited_fields():
+    """stage4 edit with edited_fields should override stage2 values."""
+    extraction = {
+        "stage2_results": {
+            "1": {
+                "id": "c1",
+                "name": "Cluster 1",
+                "functional_description": "Transport genes",
+                "behavioral_description": "Upregulated early",
+            },
+        },
+        "stage3_validation": {"1": {"verdict": "pass"}},
+        "stage4_review": {
+            "1": {
+                "status": "edit",
+                "edited_fields": {
+                    "functional_description": "Nitrogen transport genes",
+                },
+            },
+        },
+    }
+    result = _get_extraction_cluster_data(extraction, "1")
+    assert result["functional_description"] == "Nitrogen transport genes"
+    # Non-edited fields should retain stage2 values
+    assert result["behavioral_description"] == "Upregulated early"
+    assert result["name"] == "Cluster 1"
