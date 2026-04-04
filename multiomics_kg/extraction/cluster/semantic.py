@@ -92,7 +92,24 @@ def run_semantic(main_pdf_path: Path,
     results: dict[str, dict] = {}
     for key in cluster_keys:
         query = build_cluster_query(key, seed_data.get(key, {}), organism=organism)
-        retrieved = retrieve_top_k(query, chunks, chunk_embs, top_k=top_k)
+        # Retrieve 2x and filter: prefer chunks mentioning this cluster specifically,
+        # fall back to chunks mentioning "cluster" at all
+        raw_retrieved = retrieve_top_k(query, chunks, chunk_embs, top_k=top_k * 2)
+        # Tier 1: mentions this specific cluster (e.g., "cluster 7", "cluster7")
+        specific_pattern = re.compile(
+            rf'cluster\s*{re.escape(str(key))}\b', re.IGNORECASE
+        )
+        specific = [(t, s) for t, s in raw_retrieved if specific_pattern.search(t)]
+        # Tier 2: mentions "cluster" in general
+        general = [
+            (t, s) for t, s in raw_retrieved
+            if re.search(r'cluster', t, re.IGNORECASE) and (t, s) not in specific
+        ]
+        # Combine: specific first, then general, capped at top_k
+        retrieved = (specific + general)[:top_k]
+        if not retrieved:
+            # Fall back to unfiltered if no chunks mention "cluster"
+            retrieved = raw_retrieved[:top_k]
         if not retrieved:
             continue
         passages = "\n\n".join(

@@ -35,3 +35,20 @@ Tracks diagnosed issues from review UI sessions. Each entry includes the root ca
 **Quick fix:** Update `SYNTHESIS_PROMPT` in `prompts.py` to specify these constraints explicitly.
 
 **Longer-term fix:** Same prompt changes, plus post-processing validation that checks description length and flags violations.
+
+## Issue 3: RAG query uses locus tags and misses cluster-specific text
+
+**Diagnosed:** 2026-04-04, Tolonen 2006 RAG experiments
+**Severity:** High — directly affects which paper text the LLM sees
+
+**Root cause:** `build_cluster_query()` included gene locus tags from the CSV (e.g., PMM0970) which never appear in paper text. Papers use gene names (urtA, cynA). Also, no post-retrieval filtering — generic methodology chunks scored high.
+
+**Quick fix (2026-04-04):**
+1. Query changed to `"{organism_short} cluster {N} {enrichment_category} {direction}"` — all terms from table path that also appear in paper text. Gene IDs dropped.
+2. Post-retrieval tiered filtering: retrieve 2x, then filter:
+   - Tier 1: chunks mentioning this specific cluster (e.g., "cluster 7")
+   - Tier 2: chunks mentioning "cluster" in general
+   - Combine specific-first, capped at top_k
+   - Fallback to unfiltered if no matches
+
+**Longer-term fix:** Consider BM25 + embedding hybrid retrieval. Keyword match for "cluster N" is deterministic and cheap.
