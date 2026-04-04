@@ -4,35 +4,14 @@ name_col: NCBI reference
 id_columns: ['NCBI reference']
 
 Total rows with IDs: 184
-Resolved: 3 (1.6%)
-Unresolved: 181
+Resolved: 181 (98.4%)
+Unresolved: 3
 
 Resolution method breakdown:
-  ambiguous: 1
-  multi:NCBI reference: 3
-  unresolved: 180
+  heuristic:NCBI reference: 181
+  unresolved: 3
 
-Unresolved rows (181):
-  row 0: raw_id='AAV93452'  reason=unresolved  [NCBI reference='AAV93452']
-  row 1: raw_id='AAV93580'  reason=unresolved  [NCBI reference='AAV93580']
-  row 2: raw_id='AAV93747'  reason=unresolved  [NCBI reference='AAV93747']
-  row 3: raw_id='AAV93776'  reason=unresolved  [NCBI reference='AAV93776']
-  row 4: raw_id='AAV94066'  reason=unresolved  [NCBI reference='AAV94066']
-  row 5: raw_id='AAV94260'  reason=unresolved  [NCBI reference='AAV94260']
-  row 6: raw_id='AAV94622'  reason=unresolved  [NCBI reference='AAV94622']
-  row 7: raw_id='AAV95139'  reason=unresolved  [NCBI reference='AAV95139']
-  row 8: raw_id='AAV95476'  reason=unresolved  [NCBI reference='AAV95476']
-  row 9: raw_id='AAV95558'  reason=unresolved  [NCBI reference='AAV95558']
-  row 10: raw_id='AAV95689'  reason=unresolved  [NCBI reference='AAV95689']
-  row 11: raw_id='AAV95890'  reason=unresolved  [NCBI reference='AAV95890']
-  row 12: raw_id='AAV95931'  reason=unresolved  [NCBI reference='AAV95931']
-  row 13: raw_id='AAV95980'  reason=unresolved  [NCBI reference='AAV95980']
-  row 14: raw_id='AAV96145'  reason=unresolved  [NCBI reference='AAV96145']
-  row 15: raw_id='AAV96272'  reason=unresolved  [NCBI reference='AAV96272']
-  row 16: raw_id='AAV96493'  reason=unresolved  [NCBI reference='AAV96493']
-  row 17: raw_id='AAV96597'  reason=unresolved  [NCBI reference='AAV96597']
-  row 18: raw_id='AAV96841'  reason=unresolved  [NCBI reference='AAV96841']
-  row 19: raw_id='AAV97448'  reason=unresolved  [NCBI reference='AAV97448']
-  ... (161 more)
-
-NOTE: 1 rows were ambiguous (multi_lookup had >1 match). Consider adding id_columns with more specific IDs, or check if the name_col should be Tier 2 (protein-level) instead of Tier 1.
+Unresolved rows (3):
+  row 114: raw_id='AAV95554'  reason=unresolved  [NCBI reference='AAV95554']
+  row 147: raw_id='AAV95588'  reason=unresolved  [NCBI reference='AAV95588']
+  row 178: raw_id='AAV97527'  reason=unresolved  [NCBI reference='AAV97527']

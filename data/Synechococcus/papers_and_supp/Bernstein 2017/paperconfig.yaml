@@ -20,12 +20,60 @@ publication:
       treatment_taxid: 1299
 
   supplementary_materials:
-    # ── Gene cluster data (light condition clustering) ──────────────────
+    # ── BP-1 gene cluster data (light condition clustering) ────────────
     bp1_light_clusters:
       type: gene_clusters
       name: "BP-1 transcript clusters by light condition (coculture with M. ruber)"
-      filename: "data/Synechococcus/papers_and_supp/Bernstein 2017/data set s2 clustered_Avg_Cond_Light sys002172092sd2.csv"
+      filename: "data/Synechococcus/papers_and_supp/Bernstein 2017/data set s2 clustered_Avg_Cond_Light sys002172092sd2_bp1.csv"
       organism: "Thermosynechococcus vestitus BP-1"
+      gene_id_col: "NCBI Locus Tag"
+      cluster_col: "ClustID_light"
+      id_columns:
+        - column: "NCBI Locus Tag"
+          id_type: locus_tag
+        - column: "gene"
+          id_type: gene_name
+      cluster_type: "response_pattern"
+      cluster_method: "hierarchical clustering"
+      omics_type: RNASEQ
+      light_condition: "variable (low/medium/high)"
+      treatment_type: ["coculture"]
+      background_factors: []
+      treatment: "Binary coculture with Meiothermus ruber strain A under 3 light levels (low/medium/high) at low oxygen"
+      experimental_context: "T. elongatus BP-1 in binary coculture with M. ruber strain A in photobioreactors; RNA-seq (Illumina NextSeq); transcript abundances averaged per light condition (LLLO, MLLO, HLLO)"
+      experiments:
+        - coculture_bp1_mruber_light_oxygen_rnaseq
+
+    # ── BP-1 gene cluster data (oxygen condition clustering) ───────────
+    bp1_oxygen_clusters:
+      type: gene_clusters
+      name: "BP-1 transcript clusters by oxygen condition (coculture with M. ruber)"
+      filename: "data/Synechococcus/papers_and_supp/Bernstein 2017/data set s2 clusterd_Avg_Cond_Oxygen sys002172092sd2_bp1.csv"
+      organism: "Thermosynechococcus vestitus BP-1"
+      gene_id_col: "NCBI Locus Tag"
+      cluster_col: "ClustID_ox"
+      id_columns:
+        - column: "NCBI Locus Tag"
+          id_type: locus_tag
+        - column: "gene"
+          id_type: gene_name
+      cluster_type: "response_pattern"
+      cluster_method: "hierarchical clustering"
+      omics_type: RNASEQ
+      light_condition: "high light"
+      treatment_type: ["coculture"]
+      background_factors: []
+      treatment: "Binary coculture with Meiothermus ruber strain A under 3 oxygen levels (low/medium/high) at high light"
+      experimental_context: "T. elongatus BP-1 in binary coculture with M. ruber strain A in photobioreactors; RNA-seq (Illumina NextSeq); transcript abundances averaged per oxygen condition (HLLO, HLMO, HLHO)"
+      experiments:
+        - coculture_bp1_mruber_light_oxygen_rnaseq
+
+    # ── Meiothermus ruber gene cluster data (light condition clustering) ─
+    mruber_light_clusters:
+      type: gene_clusters
+      name: "M. ruber transcript clusters by light condition (coculture with BP-1)"
+      filename: "data/Synechococcus/papers_and_supp/Bernstein 2017/data set s2 clustered_Avg_Cond_Light sys002172092sd2_meiothermus.csv"
+      organism: "Meiothermus ruber"
       gene_id_col: "NCBI Locus Tag"
       cluster_col: "ClustID_light"
       id_columns:
@@ -42,16 +90,16 @@ publication:
       treatment_type: ["coculture"]
       background_factors: []
       treatment: "Binary coculture with Meiothermus ruber strain A under 3 light levels (low/medium/high) at low oxygen"
-      experimental_context: "T. elongatus BP-1 in binary coculture with M. ruber strain A in photobioreactors; RNA-seq (Illumina NextSeq); transcript abundances averaged per light condition (LLLO, MLLO, HLLO)"
+      experimental_context: "M. ruber strain A in binary coculture with T. elongatus BP-1 in photobioreactors; RNA-seq (Illumina NextSeq); transcript abundances averaged per light condition (LLLO, MLLO, HLLO)"
       experiments:
         - coculture_bp1_mruber_light_oxygen_rnaseq
 
-    # ── Gene cluster data (oxygen condition clustering) ─────────────────
-    bp1_oxygen_clusters:
+    # ── Meiothermus ruber gene cluster data (oxygen condition clustering) ─
+    mruber_oxygen_clusters:
       type: gene_clusters
-      name: "BP-1 transcript clusters by oxygen condition (coculture with M. ruber)"
-      filename: "data/Synechococcus/papers_and_supp/Bernstein 2017/data set s2 clusterd_Avg_Cond_Oxygen sys002172092sd2.csv"
-      organism: "Thermosynechococcus vestitus BP-1"
+      name: "M. ruber transcript clusters by oxygen condition (coculture with BP-1)"
+      filename: "data/Synechococcus/papers_and_supp/Bernstein 2017/data set s2 clusterd_Avg_Cond_Oxygen sys002172092sd2_meiothermus.csv"
+      organism: "Meiothermus ruber"
       gene_id_col: "NCBI Locus Tag"
       cluster_col: "ClustID_ox"
       id_columns:
@@ -68,6 +116,6 @@ publication:
       treatment_type: ["coculture"]
       background_factors: []
       treatment: "Binary coculture with Meiothermus ruber strain A under 3 oxygen levels (low/medium/high) at high light"
-      experimental_context: "T. elongatus BP-1 in binary coculture with M. ruber strain A in photobioreactors; RNA-seq (Illumina NextSeq); transcript abundances averaged per oxygen condition (HLLO, HLMO, HLHO)"
+      experimental_context: "M. ruber strain A in binary coculture with T. elongatus BP-1 in photobioreactors; RNA-seq (Illumina NextSeq); transcript abundances averaged per oxygen condition (HLLO, HLMO, HLHO)"
       experiments:
         - coculture_bp1_mruber_light_oxygen_rnaseq

@@ -4,38 +4,15 @@ name_col:  Locus tag
 id_columns: [' Locus tag', 'Gene abbreviation']
 
 Total rows with IDs: 457
-Resolved: 144 (31.5%)
-Unresolved: 313
+Resolved: 456 (99.8%)
+Unresolved: 1
 
 Resolution method breakdown:
-  ambiguous: 4
   empty: 1
-  multi:Gene abbreviation: 53
+  locus_tag_ci: Locus tag: 365
   tier1: Locus tag: 1
   tier1:Gene abbreviation: 90
-  unresolved: 309
+  unresolved: 1
 
-Unresolved rows (313):
-  row 0: raw_id='SputW3181_0533'  reason=unresolved  [ Locus tag='SputW3181_0533', Gene abbreviation='yniC']
-  row 1: raw_id='SputW3181_3341'  reason=unresolved  [ Locus tag='SputW3181_3341']
-  row 2: raw_id='SputW3181_3692'  reason=unresolved  [ Locus tag='SputW3181_3692']
+Unresolved rows (1):
   row 3: raw_id='SputW3181_3691'  reason=unresolved  [ Locus tag='SputW3181_3691']
-  row 4: raw_id='SputW3181_3690'  reason=unresolved  [ Locus tag='SputW3181_3690']
-  row 6: raw_id='SputW3181_1531'  reason=unresolved  [ Locus tag='SputW3181_1531', Gene abbreviation='sapSH']
-  row 7: raw_id='SputW3181_0230'  reason=unresolved  [ Locus tag='SputW3181_0230']
-  row 8: raw_id='SputW3181_2481'  reason=unresolved  [ Locus tag='SputW3181_2481', Gene abbreviation='B']
-  row 10: raw_id='SputW3181_2472'  reason=unresolved  [ Locus tag='SputW3181_2472', Gene abbreviation='G']
-  row 11: raw_id='SputW3181_2470'  reason=unresolved  [ Locus tag='SputW3181_2470', Gene abbreviation='H']
-  row 12: raw_id='SputW3181_2457'  reason=unresolved  [ Locus tag='SputW3181_2457', Gene abbreviation='I']
-  row 13: raw_id='SputW3181_2456'  reason=unresolved  [ Locus tag='SputW3181_2456', Gene abbreviation='J']
-  row 14: raw_id='SputW3181_2463'  reason=unresolved  [ Locus tag='SputW3181_2463', Gene abbreviation='L']
-  row 15: raw_id='SputW3181_2468'  reason=unresolved  [ Locus tag='SputW3181_2468', Gene abbreviation='M']
-  row 17: raw_id='SputW3181_2489'  reason=unresolved  [ Locus tag='SputW3181_2489', Gene abbreviation='R']
-  row 18: raw_id='SputW3181_2473'  reason=unresolved  [ Locus tag='SputW3181_2473', Gene abbreviation='V']
-  row 19: raw_id='SputW3181_2465'  reason=unresolved  [ Locus tag='SputW3181_2465']
-  row 20: raw_id='SputW3181_2475'  reason=unresolved  [ Locus tag='SputW3181_2475']
-  row 21: raw_id='SputW3181_2476'  reason=unresolved  [ Locus tag='SputW3181_2476']
-  row 22: raw_id='SputW3181_2477'  reason=unresolved  [ Locus tag='SputW3181_2477']
-  ... (293 more)
-
-NOTE: 4 rows were ambiguous (multi_lookup had >1 match). Consider adding id_columns with more specific IDs, or check if the name_col should be Tier 2 (protein-level) instead of Tier 1.

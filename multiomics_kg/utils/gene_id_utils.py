@@ -59,6 +59,7 @@ ORGANISM_TO_GENOME_DIR = {
     "shewanella putrefaciens w3-18-1": "cache/data/Shewanella/genomes/W3-18-1",
     "pseudomonas putida kt2440": "cache/data/Pseudomonas/genomes/KT2440",
     "ruegeria pomeroyi dss-3": "cache/data/Ruegeria/genomes/DSS-3",
+    "meiothermus ruber": "cache/data/Meiothermus/genomes/MruberA",
 }
 
 # ─── Patterns & keywords ──────────────────────────────────────────────────────
@@ -175,12 +176,55 @@ class MappingData:
         conflicts: Tier 1 alt-ID → [lt1, lt2] (data errors)
         locus_tags: set of canonical locus_tags
         version: schema version (2 for new format, 1 for legacy)
+        _ci_specific: case-folded specific_lookup (built lazily)
+        _ci_multi: case-folded multi_lookup (built lazily)
+        _ci_locus_tags: case-folded locus_tag → canonical locus_tag (built lazily)
     """
     specific_lookup: dict[str, str] = field(default_factory=dict)
     multi_lookup: dict[str, list[str]] = field(default_factory=dict)
     conflicts: dict[str, list[str]] = field(default_factory=dict)
     locus_tags: set[str] = field(default_factory=set)
     version: int = 2
+    _ci_specific: Optional[dict[str, str]] = field(default=None, repr=False)
+    _ci_multi: Optional[dict[str, list[str]]] = field(default=None, repr=False)
+    _ci_locus_tags: Optional[dict[str, str]] = field(default=None, repr=False)
+
+    def _build_ci_indexes(self):
+        """Build case-insensitive (lowercase) indexes from the exact lookups."""
+        if self._ci_specific is not None:
+            return
+        self._ci_specific = {}
+        for k, v in self.specific_lookup.items():
+            lower = k.lower()
+            # Only store if the lowercase form is not already an exact key
+            # (exact match always takes priority in resolve_row)
+            if lower not in self.specific_lookup:
+                self._ci_specific.setdefault(lower, v)
+        self._ci_multi = {}
+        for k, v in self.multi_lookup.items():
+            lower = k.lower()
+            if lower not in self.multi_lookup:
+                self._ci_multi.setdefault(lower, v)
+        self._ci_locus_tags = {}
+        for lt in self.locus_tags:
+            lower = lt.lower()
+            if lower not in self.locus_tags:
+                self._ci_locus_tags.setdefault(lower, lt)
+
+    def ci_specific(self, key: str) -> Optional[str]:
+        """Case-insensitive lookup in specific_lookup. Returns locus_tag or None."""
+        self._build_ci_indexes()
+        return self._ci_specific.get(key.lower())
+
+    def ci_multi(self, key: str) -> Optional[list[str]]:
+        """Case-insensitive lookup in multi_lookup. Returns list or None."""
+        self._build_ci_indexes()
+        return self._ci_multi.get(key.lower())
+
+    def ci_locus_tag(self, key: str) -> Optional[str]:
+        """Case-insensitive check if key is a locus_tag. Returns canonical form or None."""
+        self._build_ci_indexes()
+        return self._ci_locus_tags.get(key.lower())
 
 
 def load_mapping_v2(genome_dir: str | Path) -> Optional["MappingData"]:
@@ -273,6 +317,7 @@ def _heuristic_candidates(raw_val: str) -> list[str]:
 
     Heuristics:
     - Strip trailing '*' or '+' (footnote artifacts)
+    - Try adding '.1' version suffix (protein accessions like AAV95689 → AAV95689.1)
     - Strip trailing/leading whitespace (already done by caller)
     """
     candidates: list[str] = []
@@ -280,6 +325,9 @@ def _heuristic_candidates(raw_val: str) -> list[str]:
     stripped = raw_val.rstrip("*+").strip()
     if stripped and stripped != raw_val:
         candidates.append(stripped)
+    # Try adding '.1' version suffix for unversioned protein accessions
+    if "." not in raw_val and re.match(r'^[A-Z]{3}\d{5,}$', raw_val):
+        candidates.append(f"{raw_val}.1")
     return candidates
 
 
@@ -338,6 +386,21 @@ def resolve_row(
             if val in conflicts:
                 diagnostic[col] = "tier1_conflict"
 
+    # ── Pass 1b: case-insensitive fallback on specific_lookup + locus_tags ────
+    for col in all_cols:
+        raw = row.get(col)
+        if raw is None or (isinstance(raw, float) and pd.isna(raw)):
+            continue
+        for val in expand_list(str(raw)):
+            if not val:
+                continue
+            ci_result = mapping_data.ci_specific(val)
+            if ci_result is not None:
+                return ci_result, f"tier1_ci:{col}"
+            ci_lt = mapping_data.ci_locus_tag(val)
+            if ci_lt is not None:
+                return ci_lt, f"locus_tag_ci:{col}"
+
     # ── Pass 2: heuristics → specific_lookup + locus_tags ──────────────────────
     for col in all_cols:
         raw = row.get(col)
@@ -364,6 +427,21 @@ def resolve_row(
                     return matches[0], f"multi:{col}"
                 else:
                     diagnostic[col] = f"ambiguous:{len(matches)}"
+
+    # ── Pass 3b: case-insensitive fallback on multi_lookup, singletons only ───
+    for col in all_cols:
+        raw = row.get(col)
+        if raw is None or (isinstance(raw, float) and pd.isna(raw)):
+            continue
+        for val in expand_list(str(raw)):
+            if not val:
+                continue
+            ci_matches = mapping_data.ci_multi(val)
+            if ci_matches:
+                if len(ci_matches) == 1:
+                    return ci_matches[0], f"multi_ci:{col}"
+                else:
+                    diagnostic.setdefault(col, f"ambiguous:{len(ci_matches)}")
 
     # ── All failed — report most informative reason ────────────────────────────
     if any(v == "tier1_conflict" for v in diagnostic.values()):

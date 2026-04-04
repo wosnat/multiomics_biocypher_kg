@@ -169,3 +169,14 @@ publication:
           logfc_col: log2-fold change
           adjusted_p_value_col: adjusted p_value
           pvalue_threshold: 0.05
+
+    # Annotation GFFs from alternate assemblies — bridges old locus tags + UniProt accessions
+    annotation_gff_kt2440_old:
+      type: annotation_gff
+      filename: data/Synechococcus/papers_and_supp/Kratzl 2024/annotation_gff/KT2440_GCF_000007565.gff
+      organism: Pseudomonas putida KT2440
+
+    annotation_gff_pcc7942_old:
+      type: annotation_gff
+      filename: data/Synechococcus/papers_and_supp/Kratzl 2024/annotation_gff/PCC7942_GCF_000012525.gff
+      organism: Synechococcus elongatus PCC 7942

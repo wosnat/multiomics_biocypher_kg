@@ -7,49 +7,51 @@
     },
     "gene_name": {
       "conflict": 0,
-      "multi": 407,
-      "unique": 2712
+      "multi": 420,
+      "unique": 2554
     },
     "gene_synonym": {
       "conflict": 0,
-      "multi": 274,
-      "unique": 9585
+      "multi": 260,
+      "unique": 13474
     },
     "gff_gene_id": {
       "conflict": 0,
       "multi": 0,
-      "unique": 10878
+      "unique": 16400
     },
     "locus_tag_ncbi": {
-      "conflict": 118,
+      "conflict": 137,
       "multi": 0,
-      "unique": 23501
+      "unique": 22908
     },
     "old_locus_tag": {
-      "conflict": 0,
+      "conflict": 24,
       "multi": 0,
-      "unique": 769
+      "unique": 6164
     },
     "protein_id_refseq": {
       "conflict": 0,
-      "multi": 83,
-      "unique": 10833
+      "multi": 94,
+      "unique": 10921
     },
     "uniprot_accession": {
       "conflict": 0,
-      "multi": 57,
-      "unique": 3801
+      "multi": 53,
+      "unique": 3791
     }
   },
   "strain": "KT2440",
   "unresolved_rows_per_source": {
+    "Kratzl 2024/annotation_gff_kt2440_old": 151,
     "Kratzl 2024/sheet11_proteomics_pputida": 111,
-    "Kratzl 2024/sheet1_rnaseq_pputida": 180,
-    "cds_from_genomic.fna": 132,
-    "genomic_gca/KT2440": 511,
+    "Kratzl 2024/sheet1_rnaseq_pputida": 115,
+    "cds_from_genomic.fna": 129,
+    "genomic_gca/KT2440": 188,
     "genomic_gcf/KT2440": 119
   },
   "warnings": [
-    "[CONFLICT] Tier 1 id_type 'locus_tag_ncbi' has 118 data conflicts \u2014 check annotation quality."
+    "[CONFLICT] Tier 1 id_type 'locus_tag_ncbi' has 137 data conflicts \u2014 check annotation quality.",
+    "[CONFLICT] Tier 1 id_type 'old_locus_tag' has 24 data conflicts \u2014 check annotation quality."
   ]
 }

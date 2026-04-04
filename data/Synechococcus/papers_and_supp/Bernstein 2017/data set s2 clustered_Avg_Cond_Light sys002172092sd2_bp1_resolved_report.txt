@@ -1,0 +1,41 @@
+Resolution report: Bernstein 2017 / bp1_light_clusters
+Source: data set s2 clustered_Avg_Cond_Light sys002172092sd2_bp1.csv
+name_col: NCBI Locus Tag
+id_columns: ['NCBI Locus Tag', 'gene']
+
+Total rows with IDs: 2420
+Resolved: 2339 (96.7%)
+Unresolved: 81
+
+Resolution method breakdown:
+  ambiguous: 4
+  locus_tag:NCBI Locus Tag: 2306
+  multi:NCBI Locus Tag: 24
+  multi:gene: 5
+  tier1:gene: 4
+  unresolved: 77
+
+Unresolved rows (81):
+  row 44: raw_id='tll0119'  reason=unresolved  [NCBI Locus Tag='tll0119']
+  row 45: raw_id='tll0120'  reason=unresolved  [NCBI Locus Tag='tll0120', gene='pilC']
+  row 63: raw_id='tll0155'  reason=unresolved  [NCBI Locus Tag='tll0155']
+  row 64: raw_id='tll0156'  reason=ambiguous  [NCBI Locus Tag='tll0156', gene='tnpA_ISTel2']
+  row 76: raw_id='tll0178'  reason=unresolved  [NCBI Locus Tag='tll0178', gene='folK']
+  row 98: raw_id='tll0217'  reason=unresolved  [NCBI Locus Tag='tll0217']
+  row 159: raw_id='tll0390'  reason=unresolved  [NCBI Locus Tag='tll0390', gene='cobC']
+  row 254: raw_id='tll0601'  reason=unresolved  [NCBI Locus Tag='tll0601']
+  row 385: raw_id='tll0914'  reason=unresolved  [NCBI Locus Tag='tll0914']
+  row 463: raw_id='tll1089'  reason=unresolved  [NCBI Locus Tag='tll1089', gene='sufE']
+  row 625: raw_id='tll1481'  reason=unresolved  [NCBI Locus Tag='tll1481']
+  row 627: raw_id='tll1486'  reason=ambiguous  [NCBI Locus Tag='tll1486', gene='tnpA_ISTel1']
+  row 650: raw_id='tll1550'  reason=unresolved  [NCBI Locus Tag='tll1550']
+  row 828: raw_id='tll1929'  reason=ambiguous  [NCBI Locus Tag='tll1929', gene='tnpA_ISTel1']
+  row 834: raw_id='tll1941'  reason=unresolved  [NCBI Locus Tag='tll1941']
+  row 934: raw_id='tll2198'  reason=unresolved  [NCBI Locus Tag='tll2198']
+  row 935: raw_id='tll2200'  reason=unresolved  [NCBI Locus Tag='tll2200']
+  row 945: raw_id='tll2227'  reason=unresolved  [NCBI Locus Tag='tll2227']
+  row 950: raw_id='tll2233'  reason=unresolved  [NCBI Locus Tag='tll2233', gene='hsdM']
+  row 977: raw_id='tll2313'  reason=unresolved  [NCBI Locus Tag='tll2313']
+  ... (61 more)
+
+NOTE: 4 rows were ambiguous (multi_lookup had >1 match). Consider adding id_columns with more specific IDs, or check if the name_col should be Tier 2 (protein-level) instead of Tier 1.

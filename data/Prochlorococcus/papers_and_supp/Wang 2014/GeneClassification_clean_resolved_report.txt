@@ -4,8 +4,8 @@ name_col: sysName
 id_columns: ['sysName', 'locus_tag', 'name']
 
 Total rows with IDs: 2058
-Resolved: 2052 (99.7%)
-Unresolved: 6
+Resolved: 2053 (99.8%)
+Unresolved: 5
 
 Resolution method breakdown:
   ambiguous: 1
@@ -13,12 +13,12 @@ Resolution method breakdown:
   locus_tag:sysName: 1716
   multi:name: 1
   tier1:sysName: 335
-  unresolved: 5
+  tier1_ci:sysName: 1
+  unresolved: 4
 
-Unresolved rows (6):
+Unresolved rows (5):
   row 1140: raw_id='HyPMM130'  reason=ambiguous  [sysName='HyPMM130', locus_tag='PMED4_10681', name='Protein-coding gene']
   row 1224: raw_id='PMM1018a'  reason=unresolved  [sysName='PMM1018a', locus_tag='PMED4_11521', name='PMM1018a']
-  row 2055: raw_id='a New CDS genes excluded in NCBI were named HyPMM## sorted by their coordinates on genome;and new CDS genes reported by this study named TibPMM## sorted by their coordinates on genome.'  reason=unresolved  [sysName='a New CDS genes excluded in NCBI were named HyPMM## sorted by their coordinates on genome;and new CDS genes reported by this study named TibPMM## sorted by their coordinates on genome.']
   row 2056: raw_id='b Locus tag of P.marinus MED4 in the MicrobesOnLine database [62].'  reason=unresolved  [sysName='b Locus tag of P.marinus MED4 in the MicrobesOnLine database [62].']
   row 2057: raw_id='c All CDS genes were classified into the core or flexible genome by Ketter et al. [7].'  reason=unresolved  [sysName='c All CDS genes were classified into the core or flexible genome by Ketter et al. [7].']
   row 2058: raw_id='a Genes of Core and Flexible genome were classified into five expresison subclasses respectively: non expressed genes (NEG), lowly expressed genes (LEG), moderately expressed genes (MEG), highly expressed genes (HEG), and variably expressed genes (VEG)'  reason=unresolved  [sysName='a Genes of Core and Flexible genome were classified into five expresison subclasses respectively: non expressed genes (NEG), lowly expressed genes (LEG), moderately expressed genes (MEG), highly expressed genes (HEG), and variably expressed genes (VEG)']

@@ -4,15 +4,14 @@ name_col: gene ID
 id_columns: ['gene ID', 'locus tag', 'rotein ID']
 
 Total rows with IDs: 5218
-Resolved: 5054 (96.9%)
-Unresolved: 164
+Resolved: 5103 (97.8%)
+Unresolved: 115
 
 Resolution method breakdown:
-  locus_tag:locus tag: 16
-  tier1:gene ID: 5038
-  unresolved: 164
+  tier1:gene ID: 5103
+  unresolved: 115
 
-Unresolved rows (164):
+Unresolved rows (115):
   row 1036: raw_id='gene-M8001_RS01695'  reason=unresolved  [gene ID='gene-M8001_RS01695', locus tag='PP_0317', rotein ID='WP_010951679.1']
   row 1037: raw_id='gene-M8001_RS01710'  reason=unresolved  [gene ID='gene-M8001_RS01710', locus tag='PP_0320', rotein ID='WP_010951680.1']
   row 1179: raw_id='gene-M8001_RS03085'  reason=unresolved  [gene ID='gene-M8001_RS03085', locus tag='PP_0584', rotein ID='WP_010951857.1']
@@ -24,13 +23,13 @@ Unresolved rows (164):
   row 2769: raw_id='gene-M8001_RS17920'  reason=unresolved  [gene ID='gene-M8001_RS17920', locus tag='PP_3414', rotein ID='WP_010954282.1']
   row 2862: raw_id='gene-M8001_RS18635'  reason=unresolved  [gene ID='gene-M8001_RS18635', locus tag='PP_3557', rotein ID='WP_010954412.1']
   row 3691: raw_id='gene-M8001_RS26400'  reason=unresolved  [gene ID='gene-M8001_RS26400', locus tag='PP_5020', rotein ID='WP_010955579.1']
-  row 3692: raw_id='gene-M8001_RS26405'  reason=unresolved  [gene ID='gene-M8001_RS26405', locus tag='PP_5021', rotein ID='WP_010955580.1']
   row 3985: raw_id='gene-M8001_RS05840'  reason=unresolved  [gene ID='gene-M8001_RS05840', locus tag='PP_5465', rotein ID='WP_047933955.1']
+  row 4086: raw_id='gene-M8001_RS23295'  reason=unresolved  [gene ID='gene-M8001_RS23295', locus tag='PP_5683', rotein ID='WP_049587043.1']
   row 4119: raw_id='gene-M8001_RS25735'  reason=unresolved  [gene ID='gene-M8001_RS25735', locus tag='PP_4888', rotein ID='WP_049587461.1']
   row 4222: raw_id='gene-M8001_RS07120'  reason=unresolved  [gene ID='gene-M8001_RS07120', locus tag='PP_5468', rotein ID='WP_061405584.1']
   row 4225: raw_id='gene-M8001_RS09855'  reason=unresolved  [gene ID='gene-M8001_RS09855', locus tag='PP_5481', rotein ID='WP_061405595.1']
   row 4253: raw_id='gene-M8001_RS28275'  reason=unresolved  [gene ID='gene-M8001_RS28275', locus tag='PP_5733', rotein ID='WP_061405730.1']
-  row 4260: raw_id='gene-M8001_RS20725'  reason=unresolved  [gene ID='gene-M8001_RS20725', locus tag='DM483_22575', rotein ID='WP_049587741.1']
   row 4262: raw_id='gene-M8001_RS09570'  reason=unresolved  [gene ID='gene-M8001_RS09570']
   row 4265: raw_id='gene-M8001_RS08840'  reason=unresolved  [gene ID='gene-M8001_RS08840']
-  ... (144 more)
+  row 4266: raw_id='gene-M8001_RS10350'  reason=unresolved  [gene ID='gene-M8001_RS10350']
+  ... (95 more)
