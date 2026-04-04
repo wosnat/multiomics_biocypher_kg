@@ -17,13 +17,14 @@ pytestmark = pytest.mark.kg
 
 
 # Strains confirmed in graph (OrganismTaxon nodes with strain_name):
-# 8 Prochlorococcus + Synechococcus CC9311 + Parasynechococcus WH8102 + 3 Alteromonas
+# 9 Prochlorococcus + 6 Synechococcus + 3 Alteromonas + 5 heterotrophs
 EXPECTED_STRAINS = [
     # Prochlorococcus
     "MED4",
     "MIT9313",
     "MIT9301",
     "MIT9312",
+    "MIT9303",
     "NATL2A",
     "NATL1A",
     "AS9601",
@@ -31,10 +32,21 @@ EXPECTED_STRAINS = [
     # Synechococcus / Parasynechococcus
     "WH8102",
     "CC9311",
+    "WH7803",
+    "PCC7002",
+    "PCC7942",
+    "UTEX2973",
+    # Thermosynechococcus
+    "BP1",
     # Alteromonas
     "MIT1002",
     "EZ55",
     "HOT1A3",
+    # Heterotrophic coculture partners
+    "W3-18-1",
+    "KT2440",
+    "DSS-3",
+    "MruberA",
 ]
 
 # Clade assignments for key Prochlorococcus strains (HLI = High Light clade I)
@@ -47,6 +59,7 @@ EXPECTED_CLADES = {
     "NATL2A":  "LLII",
     "NATL1A":  "LLII",
     "MIT9313": "LLIV",
+    "MIT9303": "LLIV",
 }
 
 
@@ -94,7 +107,7 @@ def test_prochlorococcus_genus_label(run_query):
     """All Prochlorococcus strains must have genus='Prochlorococcus'."""
     pro_strains = [s for s in EXPECTED_STRAINS
                    if s in ("MED4", "MIT9313", "MIT9301", "MIT9312",
-                             "NATL2A", "NATL1A", "AS9601", "RSP50")]
+                             "MIT9303", "NATL2A", "NATL1A", "AS9601", "RSP50")]
     result = run_query("""
         MATCH (o:OrganismTaxon)
         WHERE o.strain_name IN $strains

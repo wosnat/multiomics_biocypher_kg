@@ -37,6 +37,9 @@ pytestmark = pytest.mark.kg
     "CogFunctionalCategory",
     "CyanorakRole",
     "TigrRole",
+    # Pfam nodes
+    "Pfam",
+    "PfamClan",
     # Cluster nodes
     "ClusteringAnalysis",
     "GeneCluster",
@@ -52,28 +55,30 @@ def test_node_type_exists(run_query, label):
 # ---------------------------------------------------------------------------
 
 def test_gene_count_minimum(run_query):
-    """MED4 alone has ~1900 genes; 12 strains combined should exceed 5000."""
+    """23 strains combined should exceed 50000 genes."""
     result = run_query("MATCH (g:Gene) RETURN count(g) AS cnt")
-    assert result[0]["cnt"] > 5000, (
-        f"Only {result[0]['cnt']} Gene nodes found; expected > 5000 for all strains"
+    assert result[0]["cnt"] > 50000, (
+        f"Only {result[0]['cnt']} Gene nodes found; expected > 50000 for all strains"
     )
 
 
 def test_organism_count(run_query):
     """
-    At least 12 OrganismTaxon nodes expected (7 Prochlorococcus + Synechococcus +
-    Alteromonas strains + treatment organisms from papers).
+    At least 25 OrganismTaxon nodes expected (23 genome strains +
+    treatment organisms like Phage, Alteromonas genus, etc.).
     """
     result = run_query("MATCH (o:OrganismTaxon) RETURN count(o) AS cnt")
-    assert result[0]["cnt"] >= 12, (
-        f"Only {result[0]['cnt']} OrganismTaxon nodes; expected >= 12"
+    assert result[0]["cnt"] >= 25, (
+        f"Only {result[0]['cnt']} OrganismTaxon nodes; expected >= 25"
     )
 
 
 def test_publication_count(run_query):
-    """At least one publication must be present."""
+    """At least 30 publications expected (27 Pro + 7 Syn papers)."""
     result = run_query("MATCH (p:Publication) RETURN count(p) AS cnt")
-    assert result[0]["cnt"] >= 1, "No Publication nodes found"
+    assert result[0]["cnt"] >= 30, (
+        f"Only {result[0]['cnt']} Publication nodes; expected >= 30"
+    )
 
 
 def test_protein_count_minimum(run_query):

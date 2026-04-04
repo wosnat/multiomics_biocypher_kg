@@ -23,13 +23,13 @@ pytestmark = pytest.mark.kg
 def test_clustering_analysis_nodes_exist(run_query):
     """ClusteringAnalysis nodes must exist in the graph."""
     result = run_query("MATCH (ca:ClusteringAnalysis) RETURN count(ca) AS cnt")
-    assert result[0]["cnt"] >= 2, "Expected at least 2 ClusteringAnalysis nodes (MED4 + MIT9313)"
+    assert result[0]["cnt"] >= 15, "Expected at least 15 ClusteringAnalysis nodes (across 8 papers)"
 
 
 def test_gene_cluster_nodes_exist(run_query):
     """GeneCluster nodes must exist in the graph."""
     result = run_query("MATCH (gc:GeneCluster) RETURN count(gc) AS cnt")
-    assert result[0]["cnt"] >= 16, "Expected at least 16 GeneCluster nodes (9 MED4 + 7 MIT9313)"
+    assert result[0]["cnt"] >= 100, "Expected at least 100 GeneCluster nodes (across 8 papers)"
 
 
 # ---------------------------------------------------------------------------
@@ -55,7 +55,11 @@ def test_clustering_analysis_required_properties(run_query, prop):
 
 def test_clustering_analysis_cluster_type_values(run_query):
     """cluster_type must be from the valid enum."""
-    valid_types = {"diel_cycle", "time_series_dynamics", "response_pattern"}
+    valid_types = {
+        "response_pattern", "diel_cycling", "diel_expression_pattern",
+        "expression_pattern", "expression_level", "expression_classification",
+        "periodicity_classification",
+    }
     result = run_query(
         "MATCH (ca:ClusteringAnalysis) RETURN DISTINCT ca.cluster_type AS ct"
     )
@@ -98,7 +102,7 @@ def test_publication_has_clustering_analysis_edges(run_query):
         "MATCH (:Publication)-[r:PublicationHasClusteringAnalysis]->(:ClusteringAnalysis) "
         "RETURN count(r) AS cnt"
     )
-    assert result[0]["cnt"] >= 2, "Expected at least 2 Publication → ClusteringAnalysis edges"
+    assert result[0]["cnt"] >= 8, "Expected at least 8 Publication → ClusteringAnalysis edges"
 
 
 def test_clustering_analysis_has_gene_cluster_edges(run_query):
@@ -107,7 +111,7 @@ def test_clustering_analysis_has_gene_cluster_edges(run_query):
         "MATCH (:ClusteringAnalysis)-[r:ClusteringAnalysisHasGeneCluster]->(:GeneCluster) "
         "RETURN count(r) AS cnt"
     )
-    assert result[0]["cnt"] >= 16, "Expected at least 16 ClusteringAnalysis → GeneCluster edges"
+    assert result[0]["cnt"] >= 100, "Expected at least 100 ClusteringAnalysis → GeneCluster edges"
 
 
 def test_clustering_analysis_belongs_to_organism_edges(run_query):
@@ -116,7 +120,7 @@ def test_clustering_analysis_belongs_to_organism_edges(run_query):
         "MATCH (:ClusteringAnalysis)-[r:ClusteringanalysisBelongsToOrganism]->(:OrganismTaxon) "
         "RETURN count(r) AS cnt"
     )
-    assert result[0]["cnt"] >= 2, "Expected at least 2 ClusteringAnalysis → OrganismTaxon edges"
+    assert result[0]["cnt"] >= 8, "Expected at least 8 ClusteringAnalysis → OrganismTaxon edges"
 
 
 def test_gene_in_gene_cluster_edges(run_query):
@@ -124,7 +128,7 @@ def test_gene_in_gene_cluster_edges(run_query):
     result = run_query(
         "MATCH (:GeneCluster)-[r:Gene_in_gene_cluster]->(:Gene) RETURN count(r) AS cnt"
     )
-    assert result[0]["cnt"] >= 900, "Expected at least 900 gene membership edges"
+    assert result[0]["cnt"] >= 2000, "Expected at least 2000 gene membership edges"
 
 
 # ---------------------------------------------------------------------------

@@ -47,10 +47,10 @@ def test_no_non_bacterial_organisms(run_query):
 
 
 def test_organism_count(run_query):
-    """15 OrganismTaxon nodes: 13 genome strains + Phage + Alteromonas genus."""
+    """28 OrganismTaxon nodes: 23 genome strains + 5 treatment organisms."""
     result = run_query("MATCH (o:OrganismTaxon) RETURN count(o) AS cnt")
-    assert result[0]["cnt"] == 15, (
-        f"Expected 15 OrganismTaxon nodes, got {result[0]['cnt']}"
+    assert result[0]["cnt"] == 28, (
+        f"Expected 28 OrganismTaxon nodes, got {result[0]['cnt']}"
     )
 
 

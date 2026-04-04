@@ -286,14 +286,45 @@ def test_experiment_treatment_type_values_canonical(run_query):
         RETURN collect(tt) AS all_types
     """)
     known = {
-        "nitrogen_stress", "phosphorus_stress", "iron_stress", "carbon_stress",
-        "salt_stress", "oxygen_stress", "temperature_stress", "light_stress",
-        "darkness", "plastic_stress", "viral", "coculture", "growth_state",
-        "growth_medium", "diel", "axenic", "continuous_light", "diel_cycle",
+        "nitrogen", "phosphorus", "iron", "carbon", "salt", "light",
+        "temperature", "plastic", "darkness", "diel", "viral", "coculture",
+        "growth_phase",
     }
     actual = set(result[0]["all_types"])
     unknown = actual - known
     assert not unknown, f"Unknown treatment_type values in KG: {unknown}"
+
+
+def test_experiment_background_factors_values_canonical(run_query):
+    """All background_factors values should be from the canonical vocabulary."""
+    result = run_query("""
+        MATCH (e:Experiment)
+        WHERE e.background_factors IS NOT NULL
+        UNWIND e.background_factors AS bf
+        WITH DISTINCT bf
+        RETURN collect(bf) AS all_factors
+    """)
+    known = {
+        "axenic", "chemical", "coculture", "darkness", "diel", "light", "viral",
+    }
+    actual = set(result[0]["all_factors"])
+    unknown = actual - known
+    assert not unknown, f"Unknown background_factors values in KG: {unknown}"
+
+
+def test_experiment_omics_type_values_canonical(run_query):
+    """All omics_type values should be from the canonical vocabulary."""
+    result = run_query("""
+        MATCH (e:Experiment)
+        WITH DISTINCT e.omics_type AS ot
+        RETURN collect(ot) AS all_types
+    """)
+    known = {
+        "RNASEQ", "PROTEOMICS", "MICROARRAY", "METABOLOMICS", "EXOPROTEOMICS",
+    }
+    actual = set(result[0]["all_types"])
+    unknown = actual - known
+    assert not unknown, f"Unknown omics_type values in KG: {unknown}"
 
 
 def test_experiment_has_organism_name(run_query):
