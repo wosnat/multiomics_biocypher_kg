@@ -180,13 +180,14 @@ Return valid JSON using the original cluster keys:
 # ── Stage 3: Validation (LLM-as-judge) ──
 
 JUDGE_PROMPT = """\
-You are validating extracted gene cluster descriptions against the original \
+You are validating an extracted gene cluster description against the original \
 paper and data.
 
-You can see: the paper PDF, the cluster CSV data, and the extracted descriptions.
-Be strict — flag anything not clearly supported by the paper or data.
+Analysis context: {analysis_name}
+You can see: the paper PDF, the cluster CSV data, and the extracted description \
+for ONE cluster. Validate ONLY this cluster.
 
-For each cluster, check:
+Check:
 1. enrichment_correct — Does the paper support this enrichment category? (yes/no/uncertain)
 2. genes_correct — Are the listed genes attributed to this cluster in the paper? (yes/no/uncertain)
 3. direction_correct — Is the up/down/periodic direction correct? (yes/no)
@@ -201,20 +202,18 @@ for clusters the paper doesn't discuss in detail. Only "warn" for missing info \
 if the paper actually describes something the extraction missed. Do NOT "fail" \
 for fields the paper genuinely doesn't cover.
 
-Extracted descriptions to validate:
+Extracted description to validate:
 {descriptions}
 
-Return valid JSON using the cluster keys:
+Return valid JSON:
 {{
-  "<cluster_key>": {{
-    "enrichment_correct": "yes|no|uncertain",
-    "genes_correct": "yes|no|uncertain",
-    "direction_correct": "yes|no",
-    "behavioral_correct": "yes|no|uncertain",
-    "hallucination": "no",
-    "missing_info": "no",
-    "verdict": "pass|warn|fail",
-    "explanation": "..."
-  }}
+  "enrichment_correct": "yes|no|uncertain",
+  "genes_correct": "yes|no|uncertain",
+  "direction_correct": "yes|no",
+  "behavioral_correct": "yes|no|uncertain",
+  "hallucination": "no",
+  "missing_info": "no",
+  "verdict": "pass|warn|fail",
+  "explanation": "..."
 }}
 """

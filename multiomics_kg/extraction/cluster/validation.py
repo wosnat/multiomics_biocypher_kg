@@ -69,6 +69,7 @@ def _validate_single_cluster(
     pdf_parts: list[dict],
     csv_summary: str,
     model: str,
+    analysis_name: str = "",
 ) -> dict:
     """Validate one cluster's description against the paper."""
     description = (
@@ -82,7 +83,8 @@ def _validate_single_cluster(
         content_parts.append({"type": "text", "text": csv_summary})
     content_parts.append({
         "type": "text",
-        "text": JUDGE_PROMPT.format(descriptions=description),
+        "text": JUDGE_PROMPT.format(descriptions=description,
+                                     analysis_name=analysis_name),
     })
 
     client = _openai.OpenAI()
@@ -128,6 +130,7 @@ def run_validation(main_pdf_path: Path,
                    cluster_keys: list[str],
                    model: str = "gpt-4o",
                    max_pages: int = 15,
+                   analysis_name: str = "",
                    ) -> dict[str, dict]:
     """Validate Stage 2 descriptions against original PDF + CSV data.
 
@@ -150,7 +153,8 @@ def run_validation(main_pdf_path: Path,
             continue
 
         logger.info("Validating cluster %s...", key)
-        result = _validate_single_cluster(key, s2, pdf_parts, csv_summary, model)
+        result = _validate_single_cluster(key, s2, pdf_parts, csv_summary, model,
+                                          analysis_name=analysis_name)
         results[key] = result
         verdict = result.get("verdict", "?")
         logger.info("  Cluster %s: %s", key, verdict)

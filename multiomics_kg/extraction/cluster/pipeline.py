@@ -233,8 +233,10 @@ def run_pipeline(paperconfig_path: Path,
         # ── Stage 3 ──
         if 3 in run_stages and main_pdf:
             logger.info("=== Stage 3: Validation ===")
+            analysis_name = tconfig.get("name", tkey)
             stage3 = run_validation(main_pdf, paper_dir, csv_path, stage2,
-                                    cluster_keys)
+                                    cluster_keys,
+                                    analysis_name=analysis_name)
             verdicts = {}
             for k, v in stage3.items():
                 verdicts[v.get("verdict", "?")] = verdicts.get(v.get("verdict", "?"), 0) + 1
