@@ -130,11 +130,14 @@ Examples: "MED4 cluster 1 (up, N transport)", "MIT9313 cluster 3 (down, translat
 Keep under 60 characters.
 
 3. **functional_description** — What types of genes are in this cluster. \
-Include enrichment category, p-value, and specific gene names. Prefer \
-higher-confidence sources. Be precise.
+2-3 sentences max. Include enrichment categories/pathways if mentioned in the paper. \
+For p-values use max 3 decimal places or scientific notation (e.g., p=0.013 or p=7.9e-10). \
+List only genes mentioned BY NAME in the paper text (not from CSV), max 3-5 genes. \
+Do NOT include treatment/experimental conditions (those belong on the analysis, not clusters).
 
-4. **behavioral_description** — The temporal/response pattern. Include \
-direction (up/down), timing, and magnitude if available.
+4. **behavioral_description** — The temporal/response pattern. \
+1-2 sentences max. Include direction (up/down), timing, and magnitude if available. \
+Do NOT repeat treatment conditions or experimental setup.
 
 5. **peak_time_hours** — Peak expression time in hours (float). \
 Only for diel/periodic clusters. null for non-periodic clusters.
@@ -143,6 +146,7 @@ Only for diel/periodic clusters. null for non-periodic clusters.
 Only for periodic clusters. null for non-periodic clusters.
 
 RULES:
+- Descriptions must be SHORT: functional_description 2-3 sentences, behavioral_description 1-2 sentences.
 - Never leave fields empty. Use these sentinel values:
   - "not described in paper" — paper doesn't discuss this aspect
   - "insufficient data" — sources found but too ambiguous
@@ -152,6 +156,9 @@ RULES:
 - If uncertain, use the sentinel value — do NOT guess.
 - IDs must be unique within this paper (organism prefix helps).
 - peak_time_hours and period_hours must be null (not "null") for non-periodic clusters.
+- Do NOT include treatment conditions or experimental context in cluster descriptions.
+- Only cite genes that are mentioned by name in the paper text, not from data tables.
+- Maximum 3-5 named genes per cluster description.
 
 Paper: {paper_name}
 Organism: {organism}
