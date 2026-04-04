@@ -1,5 +1,6 @@
 """Manages versioned extraction run directories and stage file I/O."""
 
+import hashlib
 import json
 import os
 from datetime import datetime
@@ -97,3 +98,38 @@ class RunManager:
         if run_dir is None:
             return {}
         return self.read_stage(run_dir, stage)
+
+    @staticmethod
+    def compute_input_hash(cluster_key: str, stage1_merged: dict) -> str:
+        """Compute a deterministic hash of stage1 inputs for one cluster."""
+        cluster_data = stage1_merged.get(str(cluster_key), {})
+        serialized = json.dumps(cluster_data, sort_keys=True, ensure_ascii=False)
+        return hashlib.sha256(serialized.encode()).hexdigest()[:16]
+
+    def copy_forward_reviews(
+        self, prev_run: Path, new_run: Path, new_stage1: dict
+    ) -> None:
+        """Copy review decisions from prev_run to new_run.
+
+        - If input hash matches: review carries forward as-is
+        - If input hash differs: review status set to 'stale'
+        - Clusters not in new_stage1 are dropped
+        """
+        prev_review = self.read_stage(prev_run, 4)
+        if not prev_review:
+            return
+
+        new_review = {}
+        for cluster_key, review_entry in prev_review.items():
+            if cluster_key not in new_stage1:
+                continue
+            new_hash = self.compute_input_hash(cluster_key, new_stage1)
+            old_hash = review_entry.get("input_hash", "")
+            entry_copy = dict(review_entry)
+            if new_hash != old_hash:
+                entry_copy["status"] = "stale"
+            entry_copy["input_hash"] = new_hash
+            new_review[cluster_key] = entry_copy
+
+        if new_review:
+            self.write_stage(new_run, 4, new_review)
