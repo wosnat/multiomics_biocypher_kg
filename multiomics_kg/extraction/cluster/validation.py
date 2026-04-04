@@ -5,6 +5,7 @@ import io
 import json
 import logging
 import re
+import time
 from pathlib import Path
 from typing import Optional
 
@@ -102,11 +103,14 @@ def _validate_single_cluster(
     if raw.startswith("```"):
         raw = re.sub(r'^```\w*\n?', '', raw)
         raw = re.sub(r'\n?```$', '', raw)
+    if not raw.strip():
+        logger.error("Validation returned empty response for cluster %s", cluster_key)
+        return {"verdict": "fail", "explanation": "Empty response from validator"}
     try:
         parsed = json.loads(raw)
     except json.JSONDecodeError as e:
-        logger.error("Validation JSON parse failed for cluster %s: %s",
-                     cluster_key, e)
+        logger.error("Validation JSON parse failed for cluster %s: %s\nRaw response: %s",
+                     cluster_key, e, raw[:500])
         return {"verdict": "fail", "explanation": f"JSON parse error: {e}"}
 
     # Extract the cluster entry — LLM may wrap in a dict with the key
@@ -158,6 +162,9 @@ def run_validation(main_pdf_path: Path,
         results[key] = result
         verdict = result.get("verdict", "?")
         logger.info("  Cluster %s: %s", key, verdict)
+
+        # Small delay between calls to avoid rate limiting
+        time.sleep(2)
 
     # Check completeness
     missing = set(cluster_keys) - set(results.keys())
