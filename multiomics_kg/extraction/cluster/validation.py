@@ -30,7 +30,20 @@ from multiomics_kg.extraction.cluster.prompts import JUDGE_PROMPT
 
 def _build_pdf_content_parts(paper_dir: Path, main_pdf_path: Path,
                               max_pages: int = 15) -> list[dict]:
-    """Build PDF content parts for the validation prompt."""
+    """Build PDF content parts for the validation prompt.
+
+    Uses the same cache as visual path to avoid re-encoding PDFs.
+    """
+    cache_dir = paper_dir / ".extraction_cache" / "shared"
+    cache_path = cache_dir / "pdf_content_parts.json"
+
+    if cache_path.exists():
+        with open(cache_path) as f:
+            cached = json.load(f)
+        logger.info("Validation: loaded %d cached PDF content parts", len(cached["parts"]))
+        return cached["parts"]
+
+    # Build from scratch (shouldn't normally happen — visual runs first)
     content_parts = []
     all_pdfs = collect_pdf_files(paper_dir, main_pdf_path)
     total_pages = 0
@@ -47,6 +60,11 @@ def _build_pdf_content_parts(paper_dir: Path, main_pdf_path: Path,
             total_pages += 1
             if total_pages >= max_pages:
                 break
+
+    cache_dir.mkdir(parents=True, exist_ok=True)
+    with open(cache_path, "w") as f:
+        json.dump({"parts": content_parts, "total_pages": total_pages}, f)
+
     return content_parts
 
 

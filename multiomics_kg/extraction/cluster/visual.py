@@ -21,7 +21,20 @@ import time
 
 def _build_pdf_parts(paper_dir: Path, main_pdf_path: Path,
                      max_pages: int = 15) -> tuple[list[dict], int]:
-    """Build PDF content parts once, shared across per-cluster calls."""
+    """Build PDF content parts once, shared across per-cluster calls.
+
+    Caches to .extraction_cache/shared/pdf_content_parts.json to avoid
+    re-encoding PDFs on subsequent runs.
+    """
+    cache_dir = paper_dir / ".extraction_cache" / "shared"
+    cache_path = cache_dir / "pdf_content_parts.json"
+
+    if cache_path.exists():
+        with open(cache_path) as f:
+            cached = json.load(f)
+        logger.info("Path visual: loaded %d cached PDF content parts", len(cached["parts"]))
+        return cached["parts"], cached["total_pages"]
+
     all_pdfs = collect_pdf_files(paper_dir, main_pdf_path)
     content_parts = []
     total_pages = 0
@@ -41,6 +54,12 @@ def _build_pdf_parts(paper_dir: Path, main_pdf_path: Path,
             total_pages += 1
             if total_pages >= max_pages:
                 break
+
+    cache_dir.mkdir(parents=True, exist_ok=True)
+    with open(cache_path, "w") as f:
+        json.dump({"parts": content_parts, "total_pages": total_pages}, f)
+    logger.info("Path visual: cached %d PDF content parts to %s", total_pages, cache_path)
+
     return content_parts, total_pages
 
 

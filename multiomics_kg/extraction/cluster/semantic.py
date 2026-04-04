@@ -66,29 +66,60 @@ def run_semantic(main_pdf_path: Path,
 
     seed_data = seed_data or {}
 
-    all_text_parts = []
-    for pdf_path in collect_pdf_files(paper_dir, main_pdf_path):
-        text = extract_pdf_text(pdf_path)
-        if text:
-            all_text_parts.append(text)
+    # Use shared cache for chunks + embeddings
+    import numpy as np
+    cache_dir = paper_dir / ".extraction_cache" / "shared"
+    chunks_cache = cache_dir / "chunks.json"
+    embs_cache = cache_dir / "embeddings.npy"
+    pdf_text_cache = cache_dir / "pdf_text.json"
 
-    # NOTE: supplementary text intentionally excluded from semantic RAG corpus.
-    # The table path handles structured supplementary data at very_high confidence.
-    # Including it here drowns paper narrative with tabular gene lists/p-values.
-    # See docs/extraction_issues_log.md Issue 1 for longer-term fix.
+    if chunks_cache.exists() and embs_cache.exists():
+        logger.info("Path semantic: loading cached chunks + embeddings")
+        with open(chunks_cache) as f:
+            chunks = json.load(f)
+        chunk_embs = np.load(embs_cache).tolist()
+        logger.info("  %d chunks, %d embeddings from cache", len(chunks), len(chunk_embs))
+    else:
+        # Build from scratch and cache
+        cache_dir.mkdir(parents=True, exist_ok=True)
 
-    combined = "\n\n".join(all_text_parts)
-    if not combined.strip():
-        logger.warning("No text extracted for semantic path")
-        return {}
+        if pdf_text_cache.exists():
+            logger.info("Path semantic: loading cached PDF text")
+            with open(pdf_text_cache) as f:
+                pdf_texts = json.load(f)
+            all_text_parts = list(pdf_texts.values())
+        else:
+            all_text_parts = []
+            pdf_texts = {}
+            for pdf_path in collect_pdf_files(paper_dir, main_pdf_path):
+                text = extract_pdf_text(pdf_path)
+                if text:
+                    all_text_parts.append(text)
+                    pdf_texts[str(pdf_path.name)] = text
+            # NOTE: supplementary text intentionally excluded from semantic RAG corpus.
+            # The table path handles structured supplementary data at very_high confidence.
+            # See docs/extraction_issues_log.md Issue 1.
+            with open(pdf_text_cache, "w") as f:
+                json.dump(pdf_texts, f)
 
-    chunks = chunk_text(combined)
-    logger.info("Path semantic: %d chunks from %d chars", len(chunks), len(combined))
+        combined = "\n\n".join(all_text_parts)
+        if not combined.strip():
+            logger.warning("No text extracted for semantic path")
+            return {}
 
-    chunk_embs = embed_texts(chunks)
-    if not chunk_embs:
-        logger.error("Embedding failed")
-        return {}
+        chunks = chunk_text(combined)
+        logger.info("Path semantic: %d chunks from %d chars", len(chunks), len(combined))
+
+        with open(chunks_cache, "w") as f:
+            json.dump(chunks, f)
+
+        chunk_embs = embed_texts(chunks)
+        if not chunk_embs:
+            logger.error("Embedding failed")
+            return {}
+
+        np.save(embs_cache, np.array(chunk_embs))
+        logger.info("  Cached chunks + embeddings to %s", cache_dir)
 
     results: dict[str, dict] = {}
     for key in cluster_keys:
