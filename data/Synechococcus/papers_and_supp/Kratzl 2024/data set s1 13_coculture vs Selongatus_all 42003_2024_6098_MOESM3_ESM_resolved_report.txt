@@ -4,38 +4,38 @@ name_col: Protein ID
 id_columns: ['Protein ID', 'Gene Name']
 
 Total rows with IDs: 567
-Resolved: 528 (93.1%)
-Unresolved: 39
+Resolved: 543 (95.8%)
+Unresolved: 24
 
 Resolution method breakdown:
-  ambiguous: 1
+  ambiguous: 3
   locus_tag:Gene Name: 249
-  multi:Gene Name: 31
+  multi:Gene Name: 46
   multi:Protein ID: 34
   tier1:Gene Name: 214
-  unresolved: 38
+  unresolved: 21
 
-Unresolved rows (39):
+Unresolved rows (24):
   row 4: raw_id='E0IXR1'  reason=unresolved  [Protein ID='E0IXR1', Gene Name='tr|E0IXR1|E0IXR1_ECOLW Sucrose']
   row 51: raw_id='P72543'  reason=unresolved  [Protein ID='P72543', Gene Name='dc11']
-  row 64: raw_id='Q9KHM5'  reason=unresolved  [Protein ID='Q9KHM5', Gene Name='glnN']
   row 86: raw_id='P42079'  reason=unresolved  [Protein ID='P42079', Gene Name='rpoC1']
   row 87: raw_id='Q31N15'  reason=unresolved  [Protein ID='Q31N15', Gene Name='rpoC2']
-  row 121: raw_id='Q31L30'  reason=unresolved  [Protein ID='Q31L30', Gene Name='rpoA']
-  row 122: raw_id='Q59988'  reason=unresolved  [Protein ID='Q59988', Gene Name='prs']
-  row 141: raw_id='Q31KL4'  reason=unresolved  [Protein ID='Q31KL4', Gene Name='ddl']
   row 163: raw_id='Q935Y3'  reason=unresolved  [Protein ID='Q935Y3', Gene Name='SEB0013']
   row 178: raw_id='Q93A73'  reason=unresolved  [Protein ID='Q93A73', Gene Name='glg']
   row 235: raw_id='P38023'  reason=unresolved  [Protein ID='P38023', Gene Name='sigA1']
-  row 265: raw_id='Q31P07'  reason=unresolved  [Protein ID='Q31P07', Gene Name='ndhJ']
-  row 271: raw_id='P39661'  reason=unresolved  [Protein ID='P39661', Gene Name='nirA']
-  row 287: raw_id='Q31QN4'  reason=unresolved  [Protein ID='Q31QN4', Gene Name='glgC']
-  row 313: raw_id='Q31N55'  reason=unresolved  [Protein ID='Q31N55', Gene Name='murE']
   row 318: raw_id='P54415'  reason=unresolved  [Protein ID='P54415', Gene Name='clpP1']
   row 323: raw_id='P11005'  reason=unresolved  [Protein ID='P11005', Gene Name='psbD1']
-  row 344: raw_id='P14788'  reason=unresolved  [Protein ID='P14788', Gene Name='cysA']
+  row 326: raw_id='Q31KX4'  reason=ambiguous  [Protein ID='Q31KX4', Gene Name='proA']
   row 361: raw_id='Q31M28'  reason=unresolved  [Protein ID='Q31M28', Gene Name='tr|Q31M28|Q31M28_SYNE7']
   row 371: raw_id='Q31MX3'  reason=unresolved  [Protein ID='Q31MX3', Gene Name='ppk']
-  ... (19 more)
+  row 411: raw_id='Q31K23'  reason=unresolved  [Protein ID='Q31K23', Gene Name='tr|Q31K23|Q31K23_SYNE7']
+  row 413: raw_id='Q8GIR5'  reason=unresolved  [Protein ID='Q8GIR5', Gene Name='SEB0057']
+  row 448: raw_id='Q31L36'  reason=unresolved  [Protein ID='Q31L36', Gene Name='sp|Q31L36|RF1_SYNE7']
+  row 465: raw_id='O05161'  reason=unresolved  [Protein ID='O05161', Gene Name='mut3G']
+  row 489: raw_id='P38044'  reason=unresolved  [Protein ID='P38044', Gene Name='sp|P38044|NRTB_SYNE7 Nitrate import']
+  row 505: raw_id='Q44112'  reason=unresolved  [Protein ID='Q44112', Gene Name='cpcH']
+  row 508: raw_id='Q31QM9'  reason=ambiguous  [Protein ID='Q31QM9', Gene Name='mtnD']
+  row 518: raw_id='Q31MY4'  reason=unresolved  [Protein ID='Q31MY4', Gene Name='thf1']
+  ... (4 more)
 
-NOTE: 1 rows were ambiguous (multi_lookup had >1 match). Consider adding id_columns with more specific IDs, or check if the name_col should be Tier 2 (protein-level) instead of Tier 1.
+NOTE: 3 rows were ambiguous (multi_lookup had >1 match). Consider adding id_columns with more specific IDs, or check if the name_col should be Tier 2 (protein-level) instead of Tier 1.

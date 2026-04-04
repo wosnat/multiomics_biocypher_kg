@@ -4,16 +4,16 @@ name_col: gene ID
 id_columns: ['gene ID', 'Locus Tag']
 
 Total rows with IDs: 2679
-Resolved: 1877 (70.1%)
-Unresolved: 802
+Resolved: 1883 (70.3%)
+Unresolved: 796
 
 Resolution method breakdown:
   locus_tag:Locus Tag: 2
-  multi:Locus Tag: 9
+  multi:Locus Tag: 15
   tier1:gene ID: 1866
-  unresolved: 802
+  unresolved: 796
 
-Unresolved rows (802):
+Unresolved rows (796):
   row 0: raw_id='gene-H6G84_RS05480'  reason=unresolved  [gene ID='gene-H6G84_RS05480']
   row 4: raw_id='gene-H6G84_RS13630'  reason=unresolved  [gene ID='gene-H6G84_RS13630', Locus Tag='anL05']
   row 10: raw_id='gene-H6G84_RS13690'  reason=unresolved  [gene ID='gene-H6G84_RS13690']
@@ -33,5 +33,5 @@ Unresolved rows (802):
   row 126: raw_id='gene-H6G84_RS08075'  reason=unresolved  [gene ID='gene-H6G84_RS08075']
   row 128: raw_id='gene-H6G84_RS08095'  reason=unresolved  [gene ID='gene-H6G84_RS08095', Locus Tag='syc0179_c']
   row 155: raw_id='gene-H6G84_RS08405'  reason=unresolved  [gene ID='gene-H6G84_RS08405']
-  row 160: raw_id='gene-H6G84_RS08475'  reason=unresolved  [gene ID='gene-H6G84_RS08475', Locus Tag='recQ syc0252_c']
-  ... (782 more)
+  row 181: raw_id='gene-H6G84_RS08785'  reason=unresolved  [gene ID='gene-H6G84_RS08785']
+  ... (776 more)

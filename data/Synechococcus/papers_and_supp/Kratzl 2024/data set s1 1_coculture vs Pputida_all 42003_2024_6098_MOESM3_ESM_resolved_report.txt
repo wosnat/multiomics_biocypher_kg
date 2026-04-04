@@ -4,17 +4,17 @@ name_col: gene ID
 id_columns: ['gene ID', 'locus tag']
 
 Total rows with IDs: 5218
-Resolved: 4305 (82.5%)
-Unresolved: 913
+Resolved: 4309 (82.6%)
+Unresolved: 909
 
 Resolution method breakdown:
   ambiguous: 4
   locus_tag:locus tag: 16
-  multi:locus tag: 5
+  multi:locus tag: 9
   tier1:gene ID: 4284
-  unresolved: 909
+  unresolved: 905
 
-Unresolved rows (913):
+Unresolved rows (909):
   row 47: raw_id='gene-M8001_RS03690'  reason=unresolved  [gene ID='gene-M8001_RS03690', locus tag='PP_0688']
   row 1036: raw_id='gene-M8001_RS01695'  reason=unresolved  [gene ID='gene-M8001_RS01695', locus tag='PP_0317']
   row 1037: raw_id='gene-M8001_RS01710'  reason=unresolved  [gene ID='gene-M8001_RS01710', locus tag='PP_0320']
@@ -35,6 +35,6 @@ Unresolved rows (913):
   row 4253: raw_id='gene-M8001_RS28275'  reason=unresolved  [gene ID='gene-M8001_RS28275', locus tag='PP_5733']
   row 4254: raw_id='gene-M8001_RS15520'  reason=unresolved  [gene ID='gene-M8001_RS15520', locus tag='DM483_04375']
   row 4255: raw_id='gene-M8001_RS05590'  reason=unresolved  [gene ID='gene-M8001_RS05590', locus tag='DM483_02235']
-  ... (893 more)
+  ... (889 more)
 
 NOTE: 4 rows were ambiguous (multi_lookup had >1 match). Consider adding id_columns with more specific IDs, or check if the name_col should be Tier 2 (protein-level) instead of Tier 1.
