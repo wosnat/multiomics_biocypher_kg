@@ -52,3 +52,16 @@ Tracks diagnosed issues from review UI sessions. Each entry includes the root ca
    - Fallback to unfiltered if no matches
 
 **Longer-term fix:** Consider BM25 + embedding hybrid retrieval. Keyword match for "cluster N" is deterministic and cheap.
+
+## Issue 4: Stage 3 validation conflates clusters when validating all at once
+
+**Diagnosed:** 2026-04-04, Tolonen 2006 review
+**Severity:** High — validator returns wrong verdicts, missing clusters
+
+**Symptoms:** Stage 3 validation returns only 1 entry instead of 9, with key "4" but explanation describing cluster 9. Most clusters have no validation verdict.
+
+**Root cause:** All 9 cluster descriptions sent to gpt-4o in a single call with 15 PDF pages. Too much context — the LLM conflates clusters in its JSON response, drops most entries.
+
+**Quick fix (2026-04-04):** Validate one cluster at a time. Each cluster gets its own API call with the same PDF pages + CSV context but only its own description. More API calls but no cross-contamination, and every cluster gets a verdict.
+
+**Longer-term fix:** Same per-cluster approach. Consider caching PDF page embeddings to reduce re-upload cost. Could also use a stronger model for validation since it's the quality gate.

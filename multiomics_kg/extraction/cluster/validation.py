@@ -27,29 +27,9 @@ from multiomics_kg.extraction.pdf_utils import pdf_pages_to_base64, collect_pdf_
 from multiomics_kg.extraction.cluster.prompts import JUDGE_PROMPT
 
 
-def run_validation(main_pdf_path: Path,
-                   paper_dir: Path,
-                   csv_path: Path,
-                   stage2_results: dict[str, dict],
-                   cluster_keys: list[str],
-                   model: str = "gpt-4o",
-                   max_pages: int = 15,
-                   ) -> dict[str, dict]:
-    """Validate Stage 2 descriptions against original PDF + CSV data."""
-    if _openai is None:
-        logger.error("openai package not installed")
-        return {}
-
-    desc_lines = []
-    for key in cluster_keys:
-        s2 = stage2_results.get(key, {})
-        desc_lines.append(
-            f"Cluster {key}: id={s2.get('id', '?')}, "
-            f"functional={s2.get('functional_description', '(sentinel)')}, "
-            f"behavioral={s2.get('behavioral_description', '(sentinel)')}"
-        )
-    descriptions = "\n".join(desc_lines)
-
+def _build_pdf_content_parts(paper_dir: Path, main_pdf_path: Path,
+                              max_pages: int = 15) -> list[dict]:
+    """Build PDF content parts for the validation prompt."""
     content_parts = []
     all_pdfs = collect_pdf_files(paper_dir, main_pdf_path)
     total_pages = 0
@@ -66,20 +46,43 @@ def run_validation(main_pdf_path: Path,
             total_pages += 1
             if total_pages >= max_pages:
                 break
+    return content_parts
 
+
+def _build_csv_summary(csv_path: Path) -> str:
+    """Build a text summary of the cluster CSV."""
     try:
         df = pd.read_csv(csv_path)
-        csv_summary = f"Cluster CSV ({len(df)} rows):\n"
-        csv_summary += f"Columns: {list(df.columns)}\n"
-        csv_summary += f"Sample rows:\n{df.head(5).to_string()}\n"
-        csv_summary += f"Cluster value counts:\n{df.iloc[:, 1].value_counts().to_string()}"
-        content_parts.append({"type": "text", "text": csv_summary})
+        summary = f"Cluster CSV ({len(df)} rows):\n"
+        summary += f"Columns: {list(df.columns)}\n"
+        summary += f"Sample rows:\n{df.head(5).to_string()}\n"
+        summary += f"Cluster value counts:\n{df.iloc[:, 1].value_counts().to_string()}"
+        return summary
     except Exception as e:
         logger.warning("Could not read CSV for validation: %s", e)
+        return ""
 
+
+def _validate_single_cluster(
+    cluster_key: str,
+    stage2_entry: dict,
+    pdf_parts: list[dict],
+    csv_summary: str,
+    model: str,
+) -> dict:
+    """Validate one cluster's description against the paper."""
+    description = (
+        f"Cluster {cluster_key}: id={stage2_entry.get('id', '?')}, "
+        f"functional={stage2_entry.get('functional_description', '(sentinel)')}, "
+        f"behavioral={stage2_entry.get('behavioral_description', '(sentinel)')}"
+    )
+
+    content_parts = list(pdf_parts)  # shallow copy — PDF pages shared
+    if csv_summary:
+        content_parts.append({"type": "text", "text": csv_summary})
     content_parts.append({
         "type": "text",
-        "text": JUDGE_PROMPT.format(descriptions=descriptions),
+        "text": JUDGE_PROMPT.format(descriptions=description),
     })
 
     client = _openai.OpenAI()
@@ -91,8 +94,8 @@ def run_validation(main_pdf_path: Path,
         )
         raw = response.choices[0].message.content.strip()
     except Exception as e:
-        logger.error("Stage 3 validation failed: %s", e)
-        return {}
+        logger.error("Validation failed for cluster %s: %s", cluster_key, e)
+        return {"verdict": "fail", "explanation": f"API error: {e}"}
 
     if raw.startswith("```"):
         raw = re.sub(r'^```\w*\n?', '', raw)
@@ -100,14 +103,63 @@ def run_validation(main_pdf_path: Path,
     try:
         parsed = json.loads(raw)
     except json.JSONDecodeError as e:
-        logger.error("Stage 3 JSON parse failed: %s", e)
+        logger.error("Validation JSON parse failed for cluster %s: %s",
+                     cluster_key, e)
+        return {"verdict": "fail", "explanation": f"JSON parse error: {e}"}
+
+    # Extract the cluster entry — LLM may wrap in a dict with the key
+    if isinstance(parsed, dict):
+        if cluster_key in parsed and isinstance(parsed[cluster_key], dict):
+            return parsed[cluster_key]
+        # Try to find a single entry
+        entries = [v for v in parsed.values() if isinstance(v, dict)]
+        if len(entries) == 1:
+            return entries[0]
+        # If the dict itself has verdict, it's the direct entry
+        if "verdict" in parsed:
+            return parsed
+    return {"verdict": "fail", "explanation": "Could not parse validation response"}
+
+
+def run_validation(main_pdf_path: Path,
+                   paper_dir: Path,
+                   csv_path: Path,
+                   stage2_results: dict[str, dict],
+                   cluster_keys: list[str],
+                   model: str = "gpt-4o",
+                   max_pages: int = 15,
+                   ) -> dict[str, dict]:
+    """Validate Stage 2 descriptions against original PDF + CSV data.
+
+    Validates one cluster at a time to prevent cross-contamination.
+    """
+    if _openai is None:
+        logger.error("openai package not installed")
         return {}
 
-    valid_keys = set(cluster_keys)
+    # Build shared context once (PDF pages + CSV summary)
+    pdf_parts = _build_pdf_content_parts(paper_dir, main_pdf_path, max_pages)
+    csv_summary = _build_csv_summary(csv_path)
+
     results: dict[str, dict] = {}
-    for k, v in parsed.items():
-        num = re.search(r'\d+', str(k))
-        norm = num.group() if num and num.group() in valid_keys else str(k)
-        if norm in valid_keys and isinstance(v, dict):
-            results[norm] = v
+    for key in cluster_keys:
+        s2 = stage2_results.get(key, {})
+        if not s2:
+            logger.warning("No stage2 data for cluster %s, skipping validation", key)
+            results[key] = {"verdict": "fail", "explanation": "No synthesis data"}
+            continue
+
+        logger.info("Validating cluster %s...", key)
+        result = _validate_single_cluster(key, s2, pdf_parts, csv_summary, model)
+        results[key] = result
+        verdict = result.get("verdict", "?")
+        logger.info("  Cluster %s: %s", key, verdict)
+
+    # Check completeness
+    missing = set(cluster_keys) - set(results.keys())
+    if missing:
+        logger.warning("Validation missing clusters: %s", missing)
+        for k in missing:
+            results[k] = {"verdict": "fail", "explanation": "Validation not run"}
+
     return results
