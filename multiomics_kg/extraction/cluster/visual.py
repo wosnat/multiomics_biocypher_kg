@@ -4,7 +4,6 @@ import json
 import logging
 import re
 from pathlib import Path
-from typing import Optional
 
 logger = logging.getLogger(__name__)
 
@@ -17,18 +16,12 @@ from multiomics_kg.extraction.pdf_utils import pdf_pages_to_base64, collect_pdf_
 from multiomics_kg.extraction.cluster.prompts import VISUAL_PROMPT, EXTRACTION_FIELDS_DESCRIPTION
 
 
-def run_visual(main_pdf_path: Path,
-               paper_dir: Path,
-               cluster_keys: list[str],
-               cluster_method: str,
-               organism: str,
-               treatment: str,
-               model: str = "gpt-4o",
-               max_pages: int = 15,
-               ) -> dict[str, dict]:
-    if _openai is None:
-        logger.error("openai package not installed")
-        return {}
+import time
+
+
+def _build_pdf_parts(paper_dir: Path, main_pdf_path: Path,
+                     max_pages: int = 15) -> tuple[list[dict], int]:
+    """Build PDF content parts once, shared across per-cluster calls."""
     all_pdfs = collect_pdf_files(paper_dir, main_pdf_path)
     content_parts = []
     total_pages = 0
@@ -48,20 +41,35 @@ def run_visual(main_pdf_path: Path,
             total_pages += 1
             if total_pages >= max_pages:
                 break
-    logger.info("Path visual: sent %d pages from %d PDFs", total_pages, len(all_pdfs))
+    return content_parts, total_pages
+
+
+def _extract_single_cluster(
+    cluster_key: str,
+    pdf_parts: list[dict],
+    cluster_keys: list[str],
+    cluster_method: str,
+    organism: str,
+    analysis_name: str,
+    model: str,
+) -> dict:
+    """Extract visual data for one cluster."""
     system_text = VISUAL_PROMPT.format(
         n_clusters=len(cluster_keys),
         cluster_method=cluster_method,
         organism=organism,
-        treatment=treatment,
-        cluster_keys=json.dumps(cluster_keys),
+        cluster_key=cluster_key,
+        analysis_name=analysis_name,
         fields_description=EXTRACTION_FIELDS_DESCRIPTION,
     )
+
+    content_parts = list(pdf_parts)  # shallow copy — same PDF pages
     content_parts.append({
         "type": "text",
-        "text": (f"Extract cluster data for {organism}, clusters "
-                 f"{json.dumps(cluster_keys)}. Return ONLY valid JSON."),
+        "text": (f"Extract data for {organism} cluster {cluster_key} ONLY. "
+                 f"Return ONLY valid JSON."),
     })
+
     client = _openai.OpenAI()
     try:
         response = client.chat.completions.create(
@@ -74,40 +82,71 @@ def run_visual(main_pdf_path: Path,
         )
         raw = response.choices[0].message.content.strip()
     except Exception as e:
-        logger.error("Path visual API call failed: %s", e)
+        logger.error("Visual extraction failed for cluster %s: %s", cluster_key, e)
         return {}
-    return _parse_response(raw, cluster_keys)
 
-
-def _parse_response(raw: str, cluster_keys: list[str]) -> dict[str, dict]:
     if raw.startswith("```"):
         raw = re.sub(r'^```\w*\n?', '', raw)
         raw = re.sub(r'\n?```$', '', raw)
+    if not raw.strip():
+        logger.error("Visual returned empty response for cluster %s", cluster_key)
+        return {}
     try:
         parsed = json.loads(raw)
     except json.JSONDecodeError as e:
-        logger.error("Path visual JSON parse failed: %s\nRaw: %s", e, raw[:500])
+        logger.error("Visual JSON parse failed for cluster %s: %s\nRaw: %s",
+                     cluster_key, e, raw[:500])
         return {}
-    valid_keys = set(cluster_keys)
+
+    if not isinstance(parsed, dict):
+        return {}
+
+    # Extract cluster entry — LLM may wrap in a dict with the key
+    if "enrichment_category" in parsed or "direction" in parsed:
+        result = parsed  # flat response
+    elif cluster_key in parsed and isinstance(parsed[cluster_key], dict):
+        result = parsed[cluster_key]
+    else:
+        entries = [v for v in parsed.values() if isinstance(v, dict)]
+        result = entries[0] if len(entries) == 1 else parsed
+
+    result["source"] = "visual"
+    result["confidence"] = "high"
+    return result
+
+
+def run_visual(main_pdf_path: Path,
+               paper_dir: Path,
+               cluster_keys: list[str],
+               cluster_method: str,
+               organism: str,
+               treatment: str,
+               model: str = "gpt-4o",
+               max_pages: int = 15,
+               analysis_name: str = "",
+               ) -> dict[str, dict]:
+    """Run visual extraction — one LLM call per cluster with shared PDF pages."""
+    if _openai is None:
+        logger.error("openai package not installed")
+        return {}
+
+    pdf_parts, total_pages = _build_pdf_parts(paper_dir, main_pdf_path, max_pages)
+    logger.info("Path visual: prepared %d pages from PDFs", total_pages)
+
+    if not analysis_name:
+        analysis_name = f"{organism} {cluster_method}"
+
     results: dict[str, dict] = {}
-    if isinstance(parsed, dict):
-        for k, v in parsed.items():
-            norm = _normalize_key(str(k), valid_keys)
-            if norm and isinstance(v, dict):
-                v["source"] = "visual"
-                v["confidence"] = "high"
-                results[norm] = v
+    for key in cluster_keys:
+        logger.info("  Visual extracting cluster %s...", key)
+        result = _extract_single_cluster(
+            key, pdf_parts, cluster_keys, cluster_method,
+            organism, analysis_name, model
+        )
+        if result:
+            results[key] = result
+        time.sleep(2)  # rate limit spacing
+
     return results
 
 
-def _normalize_key(raw_key: str, valid_keys: set[str]) -> Optional[str]:
-    if raw_key in valid_keys:
-        return raw_key
-    num = re.search(r'\d+', raw_key)
-    if num and num.group() in valid_keys:
-        return num.group()
-    for vk in valid_keys:
-        if vk.lower() == raw_key.lower():
-            return vk
-    logger.warning("Could not normalize key %r", raw_key)
-    return None

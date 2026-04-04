@@ -30,40 +30,39 @@ Fields:
 # ── Path: visual ──
 
 VISUAL_PROMPT = """\
-You are extracting information about gene expression clusters from a scientific \
-paper and its supplementary materials.
+You are extracting information about ONE gene expression cluster from a \
+scientific paper and its supplementary materials.
 
+Analysis: {analysis_name}
 The paper reports {n_clusters} clusters from {cluster_method} analysis of \
-{organism} under {treatment}. The cluster IDs in the data are: {cluster_keys}.
+{organism}. Extract data ONLY for cluster {cluster_key}.
 
 {fields_description}
 
-For each cluster, also extract:
-- supporting_quotes: exact quotes from the paper with figure/table location
+Also extract:
+- supporting_quotes: exact quotes from the paper about THIS cluster, with figure/table location
 
 IMPORTANT:
-- Use the exact cluster IDs ({cluster_keys}) as JSON keys.
 - Read figure legends carefully — they often have enrichment categories and p-values.
-- Be precise about which cluster information refers to.
+- Be precise — only extract information that specifically refers to cluster {cluster_key}.
 - Only extract data for {organism} (not other organisms in the same paper).
 - If you cannot determine a field, use "not described in paper" — do NOT guess.
+- Ignore locus tag IDs (PMM*, PMT*) — only use common gene names.
 
 Return valid JSON:
 {{
-  "<cluster_id>": {{
-    "enrichment_category": "...",
-    "enrichment_pvalue": "...",
-    "enrichment_significant": true,
-    "enrichment_details": "...",
-    "genes": "...",
-    "direction": "up|down|periodic",
-    "cluster_description": "...",
-    "temporal_pattern": "...",
-    "peak_time": "...",
-    "period_description": "...",
-    "light_phase": "...",
-    "supporting_quotes": [{{"quote": "...", "location": "Figure 3 legend"}}]
-  }}
+  "enrichment_category": "...",
+  "enrichment_pvalue": "...",
+  "enrichment_significant": true,
+  "enrichment_details": "...",
+  "genes": "...",
+  "direction": "up|down|periodic",
+  "cluster_description": "...",
+  "temporal_pattern": "...",
+  "peak_time": "...",
+  "period_description": "...",
+  "light_phase": "...",
+  "supporting_quotes": [{{"quote": "...", "location": "Figure 3 legend"}}]
 }}
 """
 

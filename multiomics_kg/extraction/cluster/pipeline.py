@@ -93,8 +93,10 @@ def run_stage1(paperconfig_path: Path, table_key: str, table_config: dict,
     # Run visual (needs main PDF)
     if (path_filter is None or path_filter == "visual") and main_pdf:
         logger.info("Running Path: visual...")
+        analysis_name = table_config.get("name", table_key)
         visual_results = run_visual(main_pdf, paper_dir, cluster_keys,
-                                    cluster_method, organism, treatment)
+                                    cluster_method, organism, treatment,
+                                    analysis_name=analysis_name)
         logger.info("  visual: extracted data for %d clusters", len(visual_results))
 
     # Run semantic (seeded by visual + table, needs main PDF)

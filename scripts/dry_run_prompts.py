@@ -59,8 +59,8 @@ def dump_visual_prompt(entry_key: str, tconfig: dict, cluster_keys: list[str],
             n_clusters=len(cluster_keys),
             cluster_method=cluster_method,
             organism=organism,
-            treatment=treatment,
-            cluster_keys=ck,  # per-cluster: just this one
+            cluster_key=ck,
+            analysis_name=analysis_name,
             fields_description=EXTRACTION_FIELDS_DESCRIPTION,
         )
         prompts[ck] = {
@@ -69,7 +69,7 @@ def dump_visual_prompt(entry_key: str, tconfig: dict, cluster_keys: list[str],
             "analysis": analysis_name,
             "cluster": ck,
             "content": [
-                {"type": "note", "text": f"[{15} PDF pages would be prepended here]"},
+                {"type": "note", "text": f"[{15} PDF pages would be prepended here — same prefix for all clusters, OpenAI caches after 1st call]"},
                 {"type": "text", "text": prompt},
             ],
         }
