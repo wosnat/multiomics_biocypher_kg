@@ -19,9 +19,19 @@ from multiomics_kg.extraction.rag import chunk_text, embed_texts, retrieve_top_k
 from multiomics_kg.extraction.cluster.prompts import SEMANTIC_PROMPT, EXTRACTION_FIELDS_DESCRIPTION
 
 
-def build_cluster_query(cluster_key: str, seed_data: dict) -> str:
-    """Build a semantic search query seeded by visual/table results."""
-    parts = [f"cluster {cluster_key}"]
+def build_cluster_query(cluster_key: str, seed_data: dict,
+                        organism: str = "", analysis_name: str = "") -> str:
+    """Build a semantic search query seeded by visual/table results.
+
+    Uses organism short name + enrichment category + direction from table/visual
+    paths (which run first). Gene IDs are excluded — they're locus tags from
+    CSVs that don't appear in paper text.
+    """
+    # Extract organism short name (e.g., "MED4" from "Prochlorococcus MED4")
+    org_short = organism.split()[-1] if organism else ""
+
+    parts = [f"{org_short} cluster {cluster_key}".strip()]
+
     if seed_data.get("enrichment_category"):
         val = seed_data["enrichment_category"]
         if isinstance(val, list):
@@ -36,14 +46,6 @@ def build_cluster_query(cluster_key: str, seed_data: dict) -> str:
             d = str(val)
         if d:
             parts.append(f"{d}regulated")
-    if seed_data.get("genes"):
-        val = seed_data["genes"]
-        if isinstance(val, list) and val:
-            g = val[0].get("value", "")
-            if isinstance(g, list):
-                parts.extend(str(x) for x in g[:5])
-            else:
-                parts.append(str(g))
     return " ".join(parts)
 
 
@@ -89,7 +91,7 @@ def run_semantic(main_pdf_path: Path,
 
     results: dict[str, dict] = {}
     for key in cluster_keys:
-        query = build_cluster_query(key, seed_data.get(key, {}))
+        query = build_cluster_query(key, seed_data.get(key, {}), organism=organism)
         retrieved = retrieve_top_k(query, chunks, chunk_embs, top_k=top_k)
         if not retrieved:
             continue
