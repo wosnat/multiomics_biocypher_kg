@@ -87,8 +87,12 @@ For each cluster, extract all fields in the output schema.
   condition-dependence (increases with irradiance, decreases with oxygen).
   Include timing numbers when available from the paper. 1-2 sentences.
 
-- If the paper does NOT describe a cluster's function or behavior, set the \
-description to "Not discussed in paper." — an explicit statement. Do NOT \
+- ONLY state what the paper EXPLICITLY says about THIS SPECIFIC cluster. \
+Do NOT synthesize information from other clusters, other sections of the paper, \
+or your own knowledge. If a quote or figure discusses a different cluster or a \
+broader set of genes, do not apply it to this cluster. \
+If the paper does NOT explicitly describe a cluster's function or behavior, set \
+the description to "Not discussed in paper." — an explicit statement. Do NOT \
 invent, speculate, or generate generic descriptions. Each field is independent: \
 a cluster can have a functional description but behavioral = \
 "Not discussed in paper.", or vice versa. Partial descriptions are fine — \

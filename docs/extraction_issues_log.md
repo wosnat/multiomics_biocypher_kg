@@ -131,6 +131,25 @@ The old extraction hallucinated descriptions by guessing which paper cluster map
 
 **Decision:** Deferred. Needs design exploration before implementation.
 
+### Issue 8: Model interprets rather than cites — hard to verify accuracy
+
+**Diagnosed:** 2026-04-05
+**Severity:** Medium — affects trust in descriptions downstream
+**Status:** OPEN
+
+**Symptoms:** Functional descriptions contain plausible-sounding content that may be the model's interpretation rather than direct paper statements. Example: Biller 2018 `mit1002_periodicity` cluster `coculture_LD` describes "Calvin cycle, glycolysis, fatty acid biosynthesis" — the supporting quote mentions these pathways but in the context of a *different* cluster category (extended darkness, not L:D only). The model applied the right information to the wrong cluster.
+
+**Root cause:** The model synthesizes information from across the paper rather than strictly citing what the paper says about each specific cluster. Without human verification, it's hard to tell what's directly from the paper vs. model interpretation. The original 4-stage pipeline had a validation stage ("judge") that was supposed to catch this, but it was removed in the cleanup.
+
+**Additional context:** Biller 2018 periodicity entries are *classification* (periodic Y/N across conditions), not clustering in the traditional sense. The paper discusses periodicity patterns and pathway enrichments for sets of genes, but the mapping to specific composite condition-clusters (e.g., `coculture_LD+coculture_darkness`) is indirect.
+
+**Possible mitigations:**
+- Strengthen prompt: "Only state what the paper explicitly says about this cluster. Do not synthesize or infer across clusters."
+- Re-introduce a lightweight verification step (no separate LLM call — just a prompt section asking the model to self-check each quote against the cluster it's attributed to)
+- Accept as known limitation and label descriptions as "LLM-interpreted, not human-verified"
+
+**Decision:** Prompt improvement to reduce interpretation is worth trying. Full judge/verification is out of scope for now.
+
 ---
 
 ## Next Steps (TODO)
