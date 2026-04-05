@@ -369,6 +369,22 @@ def verify_quality(entries: list[tuple[Path, str, dict, dict]]) -> list[str]:
     """Run programmatic quality checks. Returns list of warning strings."""
     warnings = []
 
+    locus_pat = re.compile(
+        r"\b("
+        r"PMM\d{3,}|PMT\d{3,}|P9301_\d+|tll\d{3,}|SY28_\d+|BSR22_\d+"
+        r"|NATL[12]_\d+|PMN2A_RS\d+|ALT831_RS\d+|MIT1002_\d+"
+        r"|SYNW\d{4}|sync_\d{4}|A9601_\d+"
+        r"|WP_\d{6,}"
+        r"|cds-[A-Z]{2}_\d+"
+        r")\b"
+    )
+
+    filler_phrases = [
+        "likely", "possibly", "not described but",
+        "specific functions are not detailed",
+        "not explicitly described",
+    ]
+
     for paper_dir, entry_key, table_config, pub in entries:
         clusters = load_extraction(paper_dir, entry_key)
         if not clusters:
@@ -376,29 +392,61 @@ def verify_quality(entries: list[tuple[Path, str, dict, dict]]) -> list[str]:
         paper = pub_name(pub)
         prefix = f"[{paper} / {entry_key}"
 
-        # Check 1: duplicate ids within analysis
-        ids_seen = {}
-        for key, c in clusters.items():
-            cid = c.get("id", "")
-            if cid in ids_seen:
-                warnings.append(f"{prefix} / cluster {key}] duplicate id: {cid} (also used by cluster {ids_seen[cid]})")
-            ids_seen[cid] = key
-
-        # Check 2: locus tags in descriptions
-        locus_pat = re.compile(r"\b(PMM\d{3,}|PMT\d{3,}|P9301_\d+|tll\d{3,}|SY28_\d+|BSR22_\d+)\b")
+        # Check 1: locus tags in descriptions
         for key, c in clusters.items():
             for field in ("functional_description", "behavioral_description"):
                 text = c.get(field, "")
                 m = locus_pat.search(text)
                 if m:
-                    warnings.append(f"{prefix} / cluster {key}] locus tag in {field}: {m.group()}")
+                    warnings.append(
+                        f"{prefix} / cluster {key}] locus tag in {field}: {m.group()}"
+                    )
 
-        # Check 3: empty direction with non-empty description
+        # Check 2: filler on low-confidence clusters
         for key, c in clusters.items():
-            has_desc = len(c.get("functional_description", "")) > 20
+            if c.get("self_assessment") == "low":
+                for field in ("functional_description", "behavioral_description"):
+                    text = c.get(field, "")
+                    if text and text != "Not discussed in paper.":
+                        warnings.append(
+                            f"{prefix} / cluster {key}] low confidence but {field} "
+                            f"is not 'Not discussed in paper.': {text[:60]}..."
+                        )
+
+        # Check 3: filler phrases in descriptions
+        for key, c in clusters.items():
+            for field in ("functional_description", "behavioral_description"):
+                text = c.get(field, "").lower()
+                for phrase in filler_phrases:
+                    if phrase in text:
+                        warnings.append(
+                            f"{prefix} / cluster {key}] filler phrase '{phrase}' in {field}"
+                        )
+                        break
+
+        # Check 4: near-identical descriptions within analysis
+        descs = {}
+        for key, c in clusters.items():
+            fd = c.get("functional_description", "")
+            if fd and fd != "Not discussed in paper." and len(fd) > 50:
+                prefix_50 = fd[:50]
+                if prefix_50 in descs:
+                    warnings.append(
+                        f"{prefix} / cluster {key}] near-identical functional_description "
+                        f"as cluster {descs[prefix_50]}"
+                    )
+                else:
+                    descs[prefix_50] = key
+
+        # Check 5: empty direction with non-empty description
+        for key, c in clusters.items():
+            fd = c.get("functional_description", "")
+            has_desc = fd and fd != "Not discussed in paper." and len(fd) > 20
             direction = c.get("direction", "")
             if has_desc and not direction:
-                warnings.append(f"{prefix} / cluster {key}] has description but empty direction")
+                warnings.append(
+                    f"{prefix} / cluster {key}] has description but empty direction"
+                )
 
     return warnings
 
