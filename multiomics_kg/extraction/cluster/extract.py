@@ -46,14 +46,13 @@ class ClusterExtraction(BaseModel):
     name: str
     functional_description: str
     behavioral_description: str
-    peak_time_hours: Optional[float]
-    period_hours: Optional[float]
     direction: Literal["up", "down", "mixed", "not_described"]
     enrichment_category: str
     enrichment_pvalue: Optional[float]
     enrichment_significant: bool
     confidence_notes: str
     supporting_quotes: list[SupportingQuote]
+    source_figures: list[str]
     self_assessment: Literal["high", "medium", "low"]
     assessment_notes: str
 
