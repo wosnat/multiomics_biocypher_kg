@@ -150,6 +150,40 @@ The old extraction hallucinated descriptions by guessing which paper cluster map
 
 **Decision:** Prompt improvement to reduce interpretation is worth trying. Full judge/verification is out of scope for now.
 
+### Issue 9: Undiscussed clusters get meaningless names and directions
+
+**Diagnosed:** 2026-04-05
+**Severity:** Low — cosmetic but noisy
+**Status:** OPEN
+
+**Symptoms:** Coe 2024 clusters named "Prochlorococcus cluster 1 (up, 183 genes)" — gene count in theme slot, invented direction. All 15 darktolerant clusters marked `direction: up`, all 15 parental marked `direction: mixed` — meaningless for diel expression clusters.
+
+**Root cause:** Prompt requires `direction` and `name` format `{Organism} cluster {KEY} ({direction}, {theme})` even for undiscussed clusters. The model fills in garbage rather than leaving these empty.
+
+**Fix:**
+- Add `"not_discussed"` as default direction for undiscussed clusters
+- Simplify name format for undiscussed: just `"{Organism} cluster {KEY}"` without suffix
+- Or: don't extract direction/name for undiscussed — use defaults from adapter
+
+### Issue 10: Single prompt doesn't fit all cluster types
+
+**Diagnosed:** 2026-04-05
+**Severity:** Medium — affects extraction quality for periodicity and expression level clusters
+**Status:** OPEN
+
+**Symptoms:** The `CLUSTER_TYPE_GUIDANCE` mapping tells the model what *style* of behavioral description to write, but the core prompt rules (direction, enrichment, gene names) are designed for response_pattern clusters. For periodicity clusters, `direction` is meaningless. For expression_level clusters, `enrichment_category` means something different (COG category, not pathway enrichment). The few-shot examples are all from response_pattern and diel_cycling papers.
+
+**Possible fix:** Use different prompt templates (or prompt sections) per cluster type:
+- `response_pattern`: current prompt (direction, dynamics, enrichment, gene names)
+- `diel_cycling` / `diel_expression_pattern`: focus on timing, peak hours, phase; direction → peak phase (dawn/dusk/night); add diel-specific few-shot example
+- `periodicity_classification`: focus on which conditions show periodicity; direction not applicable; name = condition set
+- `expression_level`: focus on expression consistency; direction → level (high/low/variable)
+- `expression_classification`: focus on presence/absence across conditions
+
+This could be implemented as a `PROMPT_TEMPLATE_BY_TYPE` dict or by conditionally including/excluding prompt sections.
+
+**Decision:** Deferred. Worth exploring in next iteration — current prompt is good enough for response_pattern clusters (Tolonen, Zinser, Lindell, Alonso-Saez) which are the most informative.
+
 ---
 
 ## Next Steps (TODO)
