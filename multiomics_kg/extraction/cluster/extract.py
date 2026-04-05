@@ -81,16 +81,18 @@ For each cluster, extract all fields in the output schema.
   never locus tags (PMM*, PMT*, P9301_*, NATL2_*, PMN2A_RS*, tll*, SY28_*,
   BSR22_*, ALT831_RS*, MIT1002_*, SYNW*, sync_*, A9601_*, WP_*, cds-*).
 
-- behavioral_description: How do genes in this cluster behave?
-  Describe the expression dynamics — not just "up" or "down" but the pattern:
-  timing (peak hours, periodicity), kinetics (rapid/gradual, transient/sustained),
-  condition-dependence (increases with irradiance, decreases with oxygen).
+- behavioral_description: Describe ONLY the temporal expression pattern — what \
+happens to transcript levels over time or across conditions. This field is about \
+the observed data pattern, NOT about biological function or interpretation.
+  Include: timing (peak hours, periodicity), kinetics (rapid/gradual, transient/sustained), \
+condition-dependence (increases with irradiance, decreases with oxygen).
   Include timing numbers when available from the paper. 1-2 sentences.
-  State ONLY the observed pattern. Do NOT add causal interpretation \
-(e.g., "indicating stress response" or "suggesting metabolic coupling"). \
-The reader will interpret the biology — just report what the data shows.
+  Do NOT add biological interpretation (e.g., "indicating stress response", \
+"suggesting metabolic coupling", "involvement in RNA processing"). \
+The reader will interpret the biology.
   GOOD: "Genes show a rapid transient peak in expression ~1h after phage infection, then decline."
   BAD: "Genes show a rapid transient peak indicating an early stress response by the host."
+  BAD: "Genes are upregulated, suggesting involvement in RNA processing and stress response."
 
 - ONLY state what the paper EXPLICITLY says about THIS SPECIFIC cluster. \
 Do NOT synthesize information from other clusters, other sections of the paper, \

@@ -165,6 +165,18 @@ The old extraction hallucinated descriptions by guessing which paper cluster map
 - Simplify name format for undiscussed: just `"{Organism} cluster {KEY}"` without suffix
 - Or: don't extract direction/name for undiscussed — use defaults from adapter
 
+### Issue 11: `behavioral_description` field name invites interpretation
+
+**Diagnosed:** 2026-04-05
+**Severity:** Low — prompt workaround in place
+**Status:** OPEN (workaround applied)
+
+**Symptoms:** Model writes "suggesting involvement in RNA processing and stress response" in behavioral_description. The field name "behavioral" is vague — the model reads it as "what does the cluster do" rather than "what is the expression pattern."
+
+**Workaround:** Prompt now explicitly says "describe ONLY the temporal expression pattern" with GOOD/BAD examples. Works for most cases but the model still occasionally slips.
+
+**Proper fix:** Rename field to `temporal_pattern` or `expression_pattern` across schema, adapter, extraction, and KG. Bundle with Issue 10 (per-type prompts) since both require schema changes.
+
 ### Issue 10: Single prompt doesn't fit all cluster types
 
 **Diagnosed:** 2026-04-05
