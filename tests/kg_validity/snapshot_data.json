@@ -100,6 +100,12 @@
     {
       "properties": {},
       "source": "ncbigene:A9601_00001",
+      "target": "eggnog:1FZV5@1117",
+      "type": "Gene_in_ortholog_group"
+    },
+    {
+      "properties": {},
+      "source": "ncbigene:A9601_00001",
       "target": "eggnog:1MKTR@1212",
       "type": "Gene_in_ortholog_group"
     },
@@ -113,12 +119,6 @@
       "properties": {},
       "source": "ncbigene:A9601_00011",
       "target": "cyanorak:CK_00000363",
-      "type": "Gene_in_ortholog_group"
-    },
-    {
-      "properties": {},
-      "source": "ncbigene:A9601_00011",
-      "target": "eggnog:1MMB0@1212",
       "type": "Gene_in_ortholog_group"
     },
     {
@@ -657,7 +657,7 @@
       "type": "Cyanorak_role_is_a_cyanorak_role"
     }
   ],
-  "generated_at": "2026-04-04T13:20:27.065359+00:00",
+  "generated_at": "2026-04-05T13:24:38.837759+00:00",
   "nodes": [
     {
       "anchor": true,

@@ -74,10 +74,10 @@ def test_organism_count(run_query):
 
 
 def test_publication_count(run_query):
-    """At least 30 publications expected (27 Pro + 7 Syn papers)."""
+    """At least 25 publications expected (25 papers with publication blocks + shared-DOI duplicates)."""
     result = run_query("MATCH (p:Publication) RETURN count(p) AS cnt")
-    assert result[0]["cnt"] >= 30, (
-        f"Only {result[0]['cnt']} Publication nodes; expected >= 30"
+    assert result[0]["cnt"] >= 25, (
+        f"Only {result[0]['cnt']} Publication nodes; expected >= 25"
     )
 
 

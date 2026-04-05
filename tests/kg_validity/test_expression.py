@@ -2,7 +2,7 @@
 Expression edge data quality tests for the multi-omics knowledge graph.
 
 Validates Changes_expression_of edges (from Experiment nodes to Gene nodes),
-which carry quantitative data from 19+ differential expression studies.
+which carry quantitative data from 28+ differential expression studies.
 Bad data types or invalid values would silently break downstream LLM analysis.
 
 Checks:
@@ -34,7 +34,7 @@ def test_expression_edges_exist(run_query):
 
 def test_expression_edge_count_minimum(run_query):
     """
-    With 19+ studies across multiple strains, expect tens of thousands of edges.
+    With 28+ studies across multiple strains, expect tens of thousands of edges.
     A low count indicates an import failure.
     """
     result = run_query(
@@ -43,7 +43,7 @@ def test_expression_edge_count_minimum(run_query):
     cnt = result[0]["cnt"]
     assert cnt > 10_000, (
         f"Only {cnt} expression edges found; expected > 10,000 "
-        f"from 19+ differential expression studies"
+        f"from 28+ differential expression studies"
     )
 
 
