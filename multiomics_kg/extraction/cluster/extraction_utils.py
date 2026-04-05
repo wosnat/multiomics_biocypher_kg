@@ -5,7 +5,15 @@ Used by the adapter, extract.py, and report/verify tooling.
 """
 import json
 import logging
+import re
 from pathlib import Path
+
+import pandas as pd
+
+from multiomics_kg.utils.paperconfig_utils import (
+    load_all_paperconfigs,
+    iter_cluster_tables,
+)
 
 logger = logging.getLogger(__name__)
 
@@ -79,3 +87,112 @@ def list_extraction_files(paper_dir: Path) -> list[str]:
     if not ext_dir.is_dir():
         return []
     return sorted(p.stem for p in ext_dir.glob("*.json"))
+
+
+# ── Data loading ──
+
+
+def find_all_entries() -> list[tuple[Path, str, dict, dict]]:
+    """Discover all gene_clusters entries across all paperconfigs.
+    Returns list of (paper_dir, entry_key, table_config, pub_config).
+    """
+    entries = []
+    for pc_path, pc in load_all_paperconfigs():
+        paper_dir = pc_path.parent
+        pub = pc.get("publication", {})
+        for entry_key, table in iter_cluster_tables(pc):
+            entries.append((paper_dir, entry_key, table, pub))
+    return entries
+
+
+def load_cluster_summaries(table_config: dict) -> dict[str, dict]:
+    """Load cluster gene counts and sample genes from CSV.
+    Returns {cluster_key: {gene_count: int, sample_genes: list[str]}}.
+    """
+    csv_path = Path(table_config["filename"])
+    gene_id_col = table_config["gene_id_col"]
+    cluster_col = table_config["cluster_col"]
+    skip_rows = table_config.get("skip_rows", 0)
+    df = pd.read_csv(csv_path, skiprows=skip_rows if skip_rows else None)
+
+    clusters = {}
+    for cid, group in df.groupby(cluster_col):
+        ckey = _cluster_val_to_str(cid)
+        if not ckey:
+            continue
+        genes = group[gene_id_col].dropna().tolist()
+        clusters[ckey] = {
+            "gene_count": len(genes),
+            "sample_genes": [str(g) for g in genes[:5]],
+        }
+    return clusters
+
+
+def _cluster_val_to_str(val) -> str:
+    """Convert cluster column value to clean string key."""
+    if pd.isna(val):
+        return ""
+    if isinstance(val, float) and val == int(val):
+        return str(int(val))
+    return str(val).strip()
+
+
+# ── Cluster key matching ──
+
+
+def match_cluster_keys(
+    parsed_clusters: list[dict],
+    expected_keys: set[str],
+) -> tuple[dict[str, dict], list[dict]]:
+    """Map model output to actual cluster keys.
+    Tries: name regex -> id suffix -> case-insensitive -> positional fallback.
+    Returns (matched: {key: extraction_dict}, unmatched: [extraction_dict]).
+    """
+    remaining_keys = set(expected_keys)
+    matched = {}
+    unmatched_pass1 = []
+
+    for c in parsed_clusters:
+        key = _try_match_key(c, remaining_keys)
+        if key:
+            matched[key] = c
+            remaining_keys.discard(key)
+        else:
+            unmatched_pass1.append(c)
+
+    # Positional fallback: if unmatched count == remaining keys count
+    if unmatched_pass1 and len(unmatched_pass1) == len(remaining_keys):
+        remaining_sorted = sorted(remaining_keys, key=lambda x: (not x.isdigit(), x))
+        for c, key in zip(unmatched_pass1, remaining_sorted):
+            matched[key] = c
+        return matched, []
+
+    return matched, unmatched_pass1
+
+
+def _try_match_key(extraction: dict, expected_keys: set[str]) -> str | None:
+    """Try to match a single extraction to a cluster key."""
+    name = extraction.get("name", "")
+    ext_id = extraction.get("id", "")
+
+    # Try "cluster KEY" in name
+    m = re.search(r"cluster\s+(\S+)", name, re.IGNORECASE)
+    if m:
+        candidate = m.group(1).rstrip(",.):")
+        if candidate in expected_keys:
+            return candidate
+        for k in expected_keys:
+            if k.lower() == candidate.lower():
+                return k
+
+    # Try suffix of id
+    m = re.search(r"_([^_]+)$", ext_id)
+    if m:
+        candidate = m.group(1)
+        if candidate in expected_keys:
+            return candidate
+        for k in expected_keys:
+            if k.lower() == candidate.lower():
+                return k
+
+    return None
