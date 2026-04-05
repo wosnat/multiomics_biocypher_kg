@@ -359,10 +359,18 @@ def generate_report(entries: list[tuple[Path, str, dict, dict]]) -> str:
             lines.append(f"**Behavioral:** {c.get('behavioral_description', '')}")
             notes = c.get("confidence_notes", "")
             if notes:
-                lines.append(f"**Notes:** {notes}")
+                lines.append(f"**Confidence notes:** {notes}")
+            assess = c.get("assessment_notes", "")
+            if assess:
+                lines.append(f"**Assessment notes:** {assess}")
             figs = c.get("source_figures", [])
             if figs:
                 lines.append(f"**Sources:** {', '.join(figs)}")
+            quotes = c.get("supporting_quotes", [])
+            if quotes:
+                lines.append("**Quotes:**")
+                for q in quotes:
+                    lines.append(f"- [{q.get('location', '')}] {q.get('quote', '')}")
             lines.append("")
 
     return "\n".join(lines)
