@@ -1,78 +1,128 @@
 # Cluster Extraction Pipeline — Issues Log
 
-Tracks diagnosed issues from review UI sessions. Each entry includes the root cause, quick fix applied, and longer-term fix needed.
+Tracks diagnosed issues from review UI sessions and the current state of the extraction system.
 
-## Issue 1: Semantic path RAG returns supplementary table rows instead of paper text
+## Current State (2026-04-05)
 
-**Diagnosed:** 2026-04-04, Tolonen 2006 review
-**Severity:** High — affects most clusters across all papers
-**Symptoms:** Supporting quotes from semantic path contain gene lists, p-value matrices, and spreadsheet fragments instead of paper discussion text. Example: cluster 4 quotes are gene rows like `PMT0411 4 Hypothetical No similarity` instead of the paper's description of cluster composition and function.
+### What was built (2026-04-04)
 
-**Root cause:** `semantic.py` lines 66-76 mix paper PDF text with `scan_supplementary_text()` output (XLS/TXT table dumps) into a single RAG corpus. When querying for cluster-specific terms, tabular data with high keyword density (gene names, cluster numbers) scores higher than narrative text. The supplementary table rows drown out paper discussion.
+**Infrastructure:**
+- `multiomics_kg/extraction/cluster/run_manager.py` — versioned run directories with `create_run()` / `finalize_run()`, stage file I/O, input hashing, review copy-forward
+- `multiomics_kg/extraction/cluster/migrate.py` — one-time migration of legacy monolithic `cluster_extraction_*.json` into per-stage files
+- Shared disk cache at `{paper_dir}/.extraction_cache/shared/` — `pdf_text.json`, `chunks.json`, `embeddings.npy`, `pdf_content_parts.json`
+- Pipeline refactored (`pipeline.py`) to use RunManager, write per-stage files, finalize symlink after completion
 
-**Quick fix (2026-04-04):** Remove `scan_supplementary_text()` from the semantic path. The table path already handles supplementary data at `very_high` confidence — the semantic path's job is finding paper narrative only.
+**Review UI (Streamlit):**
+- `multiomics_kg/review/cluster_review_app.py` — sidebar navigation with color-coded paper/entry dropdowns, verdict/review filters, export issue report, re-run triggers
+- `multiomics_kg/review/review_components.py` — 3-column merge view (table|visual|semantic), synthesis result below, review controls (status/issues/failing stages/notes/editable fields), diff view, source access (inline tables, PDF links)
+- `multiomics_kg/review/review_data.py` — paper scanning, summary stats, status color computation, issue report export
+- Launch: `uv run streamlit run multiomics_kg/review/cluster_review_app.py`
 
-**Longer-term fix:** Separate corpora approach:
-- Embed paper text and supplementary text in separate vector stores
-- Retrieve from each with different weights (paper text > supplementary)
-- Or: detect and filter tabular chunks (high numeric density, tab-separated) before embedding
-- Consider chunk quality scoring: penalize chunks that look like raw data vs prose
+**Tools:**
+- `scripts/rag_experiment.py` — interactive RAG query testing with disk-cached embeddings. Usage: `uv run python scripts/rag_experiment.py "data/.../paper_dir" --interactive`
+- `scripts/dry_run_prompts.py` — generates all LLM prompts without API calls. Usage: `uv run python scripts/dry_run_prompts.py "data/.../paperconfig.yaml" --output-dir /tmp/dry_run`
 
-## Issue 2: Synthesis prompt produces wrong content style for cluster descriptions
+**Adapter updated:**
+- `multiomics_kg/adapters/cluster_adapter.py` — reads from `.extraction_cache/{entry}/current/` structure, respects review status (approve/edit use descriptions, reject/stale/flag-issue use empty), applies `edited_fields` overrides
 
-**Diagnosed:** 2026-04-04, Tolonen 2006 review
-**Severity:** Medium — affects all clusters
-**Symptoms:** Synthesis output includes treatment conditions (which belong on the analysis, not individual clusters), overly precise p-values, long gene lists, and verbose descriptions.
+**Tests:** 53 targeted + 1356 full suite, all passing.
 
-**Required changes to synthesis prompt / post-processing:**
+### Architecture: per-cluster LLM calls
 
-1. **No treatment info in cluster descriptions** — treatment is a property of the ClusteringAnalysis node, not individual clusters. The synthesis prompt should not include experimental conditions.
-2. **P-values: max 3 decimal places or scientific notation** — e.g., `p=0.013` or `p=7.9e-10`, not `p=1.34e-02` with unnecessary precision.
-3. **Gene lists: only named genes, 3-5 max** — only genes mentioned by name in the paper text. Not full gene lists from the CSV. E.g., "including urtA, cynA, and the nitrite permease" not a dump of all 5 genes.
-4. **Mention gene categories/pathways/enrichments** — if the paper discusses functional enrichment for a cluster, include that.
-5. **Short and to the point** — 2-3 sentences max per description field (functional_description, behavioral_description).
+All four LLM stages now run one call per cluster (no batch calls):
 
-**Quick fix:** Update `SYNTHESIS_PROMPT` in `prompts.py` to specify these constraints explicitly.
+| Stage | Model | Per-cluster? | Shared context |
+|---|---|---|---|
+| Visual | gpt-4o | Yes | PDF pages (cached to `pdf_content_parts.json`) |
+| Semantic | gpt-5-nano | Yes | RAG chunks (cached to `chunks.json` + `embeddings.npy`) |
+| Synthesis | gpt-5-nano | Yes | Merged stage1 data (no PDF) |
+| Validation | gpt-4o | Yes | PDF pages + CSV summary (same cache as visual) |
 
-**Longer-term fix:** Same prompt changes, plus post-processing validation that checks description length and flags violations.
+PDF prefix caching: OpenAI automatically caches identical prompt prefixes. Since all per-cluster calls within a stage share the same PDF pages, calls 2-N use cached input tokens (50% cheaper).
 
-## Issue 3: RAG query uses locus tags and misses cluster-specific text
+### Latest Tolonen run results (2026-04-04 ~23:00)
 
-**Diagnosed:** 2026-04-04, Tolonen 2006 RAG experiments
-**Severity:** High — directly affects which paper text the LLM sees
+- **MED4**: 9 synthesized, **3 pass, 6 fail** — fails are JSON parse errors (see Issue 6)
+- **MIT9313**: 7 synthesized, **1 pass, 2 warn, 4 fail** — same issue
 
-**Root cause:** `build_cluster_query()` included gene locus tags from the CSV (e.g., PMM0970) which never appear in paper text. Papers use gene names (urtA, cynA). Also, no post-retrieval filtering — generic methodology chunks scored high.
+Data is at `.extraction_cache/{entry}/current/` — viewable in the review UI.
 
-**Quick fix (2026-04-04):**
-1. Query changed to `"{organism_short} cluster {N} {enrichment_category} {direction}"` — all terms from table path that also appear in paper text. Gene IDs dropped.
-2. Post-retrieval tiered filtering: retrieve 2x, then filter:
-   - Tier 1: chunks mentioning this specific cluster (e.g., "cluster 7")
-   - Tier 2: chunks mentioning "cluster" in general
-   - Combine specific-first, capped at top_k
-   - Fallback to unfiltered if no matches
+---
 
-**Longer-term fix:** Consider BM25 + embedding hybrid retrieval. Keyword match for "cluster N" is deterministic and cheap.
+## Open Issues
 
-## Issue 4: Stage 3 validation conflates clusters when validating all at once
+### Issue 6: Validator returns prose instead of JSON (BLOCKING)
 
-**Diagnosed:** 2026-04-04, Tolonen 2006 review
-**Severity:** High — validator returns wrong verdicts, missing clusters
+**Diagnosed:** 2026-04-05
+**Severity:** High — 6/9 MED4 and 4/7 MIT9313 clusters fail validation due to parse errors
+**Status:** NOT FIXED
 
-**Symptoms:** Stage 3 validation returns only 1 entry instead of 9, with key "4" but explanation describing cluster 9. Most clusters have no validation verdict.
+**Symptoms:** Validation LLM (gpt-4o) returns prose like "To validate the extracted description for Cluster 1, let's refer to the paper..." instead of the requested JSON. The `_validate_single_cluster` function logs "JSON parse error: Expecting value: line 1 column 1".
 
-**Root cause:** All 9 cluster descriptions sent to gpt-4o in a single call with 15 PDF pages. Too much context — the LLM conflates clusters in its JSON response, drops most entries.
+**Root cause:** The prompt asks for JSON but doesn't enforce it. gpt-4o sometimes "thinks out loud" before outputting JSON, or skips JSON entirely.
 
-**Quick fix (2026-04-04):** Validate one cluster at a time. Each cluster gets its own API call with the same PDF pages + CSV context but only its own description. More API calls but no cross-contamination, and every cluster gets a verdict.
+**Fix:** Add `response_format={"type": "json_object"}` to the `client.chat.completions.create()` call in `validation.py` `_validate_single_cluster()`. This forces the model to output valid JSON. May also want to add it to `_extract_single_cluster` in `visual.py` and `_extract_from_passages` in `semantic.py`.
 
-**Longer-term fix:** Same per-cluster approach. Consider caching PDF page embeddings to reduce re-upload cost. Could also use a stronger model for validation since it's the quality gate.
+**Where:** `multiomics_kg/extraction/cluster/validation.py` line ~82 (the `client.chat.completions.create` call).
 
-## Issue 5: PDF sent as base64 in every API call — use Files API instead
+### Issue 5: PDF sent as base64 in every API call — use Files API instead
 
 **Diagnosed:** 2026-04-04
 **Severity:** Medium — cost/performance optimization, not correctness
+**Status:** NOT FIXED (logged for future)
 
-**Current state:** Visual and validation send base64-encoded PDF pages in every per-cluster API call. With 16 clusters × 2 stages = 32 calls per paper, the same PDF content is transmitted 32 times. Disk cache avoids re-encoding but doesn't reduce API payload size.
+**Current state:** Visual and validation send base64-encoded PDF pages in every per-cluster API call. Disk cache avoids re-encoding but doesn't reduce API payload size.
 
-**Fix:** Use OpenAI Files API (`POST /v1/files` with `purpose="user_data"`) to upload PDFs once, get a `file_id`, and reference it in all subsequent calls. Benefits: smaller request payloads, server-side file caching, works with prompt caching. See https://developers.openai.com/api/docs/guides/file-inputs.
+**Fix:** Use OpenAI Files API (`POST /v1/files` with `purpose="user_data"`) to upload PDFs once, get a `file_id`, and reference it in all subsequent calls. See https://developers.openai.com/api/docs/guides/file-inputs.
 
-**Constraints:** 50MB per file, vision-capable models required for PDF image processing.
+---
+
+## Resolved Issues
+
+### Issue 1: Semantic path RAG returns supplementary table rows instead of paper text (FIXED)
+
+**Diagnosed:** 2026-04-04
+**Fix:** Removed `scan_supplementary_text()` from semantic path. Table path handles supplementary data at `very_high` confidence.
+**File:** `multiomics_kg/extraction/cluster/semantic.py`
+
+### Issue 2: Synthesis prompt produces wrong content style (FIXED)
+
+**Diagnosed:** 2026-04-04
+**Fix:** Updated `SYNTHESIS_PROMPT` in `prompts.py`:
+- No treatment in descriptions (belongs on analysis node)
+- P-values: max 3 decimals or scientific notation
+- Only named genes from paper text (not locus tags), max 3-5
+- 2-3 sentences functional, 1-2 sentences behavioral
+- Explicit instruction to ignore locus tag IDs (PMM*, PMT*)
+**File:** `multiomics_kg/extraction/cluster/prompts.py`
+
+### Issue 3: RAG query uses locus tags and misses cluster-specific text (FIXED)
+
+**Diagnosed:** 2026-04-04
+**Fix:**
+1. Query changed to `"{organism_short} cluster {N} {enrichment_category} {direction}"` — gene IDs dropped
+2. Post-retrieval tiered filtering: retrieve 2x, filter tier 1 (specific cluster mention) then tier 2 (any "cluster" mention), combine specific-first
+**File:** `multiomics_kg/extraction/cluster/semantic.py`
+
+### Issue 4: Validation conflates clusters when validating all at once (FIXED)
+
+**Diagnosed:** 2026-04-04
+**Fix:** Validate one cluster at a time. Each cluster gets its own API call with shared PDF pages + CSV context. 2s delay between calls to avoid rate limiting.
+**File:** `multiomics_kg/extraction/cluster/validation.py`
+
+---
+
+## Next Steps (TODO)
+
+1. **Fix Issue 6** (JSON response format) — add `response_format={"type": "json_object"}` to validation, and optionally visual + semantic API calls
+2. **Re-run Tolonen** with the JSON format fix — should get actual verdicts for all 16 clusters
+3. **Review in UI** — classify any remaining issues, verify descriptions are accurate
+4. **Iterate on prompts** if needed based on review findings
+5. **Scale to other papers** — run extraction on remaining 13 `gene_clusters` entries across 7 papers
+6. **Implement Files API** (Issue 5) — upload PDFs once, reference by file_id
+
+## Spec & Plan
+
+- **Spec:** `docs/superpowers/specs/2026-04-04-cluster-extraction-review-system-design.md`
+- **Plan:** `docs/superpowers/plans/2026-04-04-cluster-extraction-review-system.md`
+- **UI spec gaps** identified (2026-04-04): mostly fixed (reviewed_at, carried-forward badges, PDF button). Remaining: per-quote source links partial, diff view doesn't detect improvement/regression direction.
