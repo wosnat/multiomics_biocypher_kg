@@ -61,8 +61,8 @@ def test_generate_report_stable_order(tmp_path):
     assert report1.index("Cluster 1") < report1.index("Cluster 2")
 
 
-def test_detect_duplicate_ids():
-    """Duplicate id within analysis produces warning."""
+def test_detect_filler_on_low_confidence():
+    """Low-confidence cluster with non-'Not discussed' description produces warning."""
     from multiomics_kg.extraction.cluster.extract import verify_quality
     from multiomics_kg.extraction.cluster.extraction_utils import save_extraction
 
@@ -70,15 +70,15 @@ def test_detect_duplicate_ids():
     with tempfile.TemporaryDirectory() as td:
         paper_dir = Path(td)
         clusters = {
-            "1": {"id": "dup_id", "name": "C1", "functional_description": "x" * 30,
-                  "behavioral_description": "", "direction": "up"},
-            "2": {"id": "dup_id", "name": "C2", "functional_description": "y" * 30,
-                  "behavioral_description": "", "direction": "down"},
+            "1": {"id": "test_low", "name": "C1",
+                  "functional_description": "Some vague filler description here",
+                  "behavioral_description": "Not discussed in paper.",
+                  "direction": "up", "self_assessment": "low"},
         }
         save_extraction(paper_dir, "test", {"paper": "Test"}, clusters)
         entries = [(paper_dir, "test", {}, {"papername": "Test"})]
         warnings = verify_quality(entries)
-        assert any("duplicate id" in w for w in warnings)
+        assert any("low confidence" in w for w in warnings)
 
 
 def test_detect_locus_tags():
