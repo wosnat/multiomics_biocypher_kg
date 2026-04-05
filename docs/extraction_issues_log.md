@@ -127,7 +127,9 @@ The old extraction hallucinated descriptions by guessing which paper cluster map
 - B) Add `figure_hint` or `cluster_mapping` to paperconfig telling the model the correspondence
 - C) Restructure to joint organism clusters matching the paper (A-D, E-H)
 
-**Decision:** Deferred. Logged for future resolution.
+**Scope:** Bernstein 2017 is currently the only paper with multi-organism clusters. Broader question: how should multi-organism clusters be modeled in the KG? Current schema ties ClusteringAnalysis to a single organism. Joint clusters would need a new pattern (multiple organism links, or a "community" clustering type).
+
+**Decision:** Deferred. Needs design exploration before implementation.
 
 ---
 
