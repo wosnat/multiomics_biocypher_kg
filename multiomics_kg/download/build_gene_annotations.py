@@ -842,7 +842,7 @@ def process_strain(
 
     # Compute ortholog_groups for each gene (post-merge enrichment)
     og_organism_group = organism_group_from_path(data_dir)
-    og_stats = {"has_og": 0, "cyanorak": 0, "eggnog_bacteria": 0, "eggnog_lowest": 0}
+    og_stats = {"has_og": 0, "cyanorak": 0, "eggnog_bacteria": 0, "eggnog_intermediate": 0, "eggnog_family": 0}
     for locus_tag, gene in merged_out.items():
         ogs = extract_ortholog_groups(gene, og_organism_group)
         if ogs:
@@ -853,14 +853,17 @@ def process_strain(
                     og_stats["cyanorak"] += 1
                 elif og["taxon_id"] == 2:
                     og_stats["eggnog_bacteria"] += 1
+                elif og["specificity_rank"] == 2:
+                    og_stats["eggnog_intermediate"] += 1
                 else:
-                    og_stats["eggnog_lowest"] += 1
+                    og_stats["eggnog_family"] += 1
     n = stats["total"] or 1
     print(f"\n  === {strain_name} ortholog groups ===")
-    print(f"  Genes with OG:      {og_stats['has_og']} ({100 * og_stats['has_og'] // n}%)")
-    print(f"  Cyanorak memberships:{og_stats['cyanorak']}")
-    print(f"  EggNOG bacteria:    {og_stats['eggnog_bacteria']}")
-    print(f"  EggNOG lowest-level:{og_stats['eggnog_lowest']}")
+    print(f"  Genes with OG:        {og_stats['has_og']} ({100 * og_stats['has_og'] // n}%)")
+    print(f"  Cyanorak memberships: {og_stats['cyanorak']}")
+    print(f"  EggNOG bacteria:     {og_stats['eggnog_bacteria']}")
+    print(f"  EggNOG intermediate: {og_stats['eggnog_intermediate']}")
+    print(f"  EggNOG family:       {og_stats['eggnog_family']}")
 
     # Enrich pfam_ids: resolve shortnames to PF* accessions, drop non-Pfam tokens
     if pfam_data is not None:
