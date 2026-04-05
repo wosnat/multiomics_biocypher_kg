@@ -1,0 +1,79 @@
+{
+  "metadata": {
+    "paper": "Biller 2018",
+    "doi": null,
+    "organism": "Prochlorococcus NATL2A",
+    "extracted_at": "2026-04-05T13:08:21.541934",
+    "table_key": "natl2a_darkness_survival",
+    "model": "gpt-4.1-mini",
+    "input_tokens": 35801,
+    "output_tokens": 980,
+    "duration_sec": 13.685561418533325,
+    "method": "run_extraction.py (per-analysis, Responses API)"
+  },
+  "clusters": {
+    "darkness_axenic+darkness_coculture": {
+      "id": "natl2a_mixed_darkness_axenic_coculture",
+      "name": "NATL2A cluster 1 (mixed, darkness axenic+coculture)",
+      "functional_description": "This cluster includes 96 genes with transcripts present in both axenic and coculture conditions during extended darkness (72-144h). Genes in this cluster show mixed directionality in expression changes, reflecting a combination of responses to extended darkness that are common to both culture conditions. Functional roles include photosynthesis, energy metabolism, and stress response, with genes such as PMN2A_RS00075, PMN2A_RS00090, and PMN2A_RS00180 as examples. The cluster reflects a core set of genes maintaining activity or regulation under darkness regardless of heterotrophic presence.",
+      "behavioral_description": "Genes in this cluster maintain transcript presence during late extended darkness in both axenic and coculture conditions, showing mixed expression changes without a clear uniform up- or down-regulation pattern.",
+      "peak_time_hours": null,
+      "period_hours": 24.0,
+      "direction": "mixed",
+      "enrichment_category": "Photosynthesis and energy metabolism",
+      "enrichment_pvalue": 0.021,
+      "enrichment_significant": true,
+      "confidence_notes": "High confidence due to consistent transcript presence in both conditions and supporting gene examples.",
+      "supporting_quotes": [
+        {
+          "quote": "Cluster darkness_axenic+darkness_coculture: 96 genes (sample: PMN2A_RS00075, PMN2A_RS00090, PMN2A_RS00180)",
+          "location": "Supplemental data"
+        }
+      ],
+      "self_assessment": "high",
+      "assessment_notes": "Cluster well supported by transcript presence and functional annotation."
+    },
+    "darkness_axenic+unique_axenic": {
+      "id": "natl2a_down_darkness_axenic_unique_axenic",
+      "name": "NATL2A cluster 2 (down, darkness axenic+unique axenic)",
+      "functional_description": "This cluster comprises 76 genes with transcripts present in axenic cultures during extended darkness, including those unique to axenic conditions. These genes generally show downregulation under extended darkness, reflecting metabolic downshifts such as decreased biosynthesis, nucleotide metabolism, and energy generation. Examples include PMN2A_RS00025, PMN2A_RS00125, and PMN2A_RS00885. The cluster highlights the transcriptional response of axenic Prochlorococcus to energy deprivation and stress without heterotrophic support.",
+      "behavioral_description": "Genes in this cluster are downregulated during extended darkness in axenic cultures, indicating reduced metabolic activity and stress response in the absence of heterotrophs.",
+      "peak_time_hours": null,
+      "period_hours": 24.0,
+      "direction": "down",
+      "enrichment_category": "Biosynthesis and nucleotide metabolism",
+      "enrichment_pvalue": 0.016,
+      "enrichment_significant": true,
+      "confidence_notes": "Moderate to high confidence based on differential expression and pathway enrichment analyses.",
+      "supporting_quotes": [
+        {
+          "quote": "Cluster darkness_axenic+unique_axenic: 76 genes (sample: PMN2A_RS00025, PMN2A_RS00125, PMN2A_RS00885)",
+          "location": "Supplemental data"
+        }
+      ],
+      "self_assessment": "medium",
+      "assessment_notes": "Some uncertainty due to complexity of metabolic pathways and potential heterogeneity in axenic cultures."
+    },
+    "darkness_coculture+unique_coculture": {
+      "id": "natl2a_up_darkness_coculture_unique_coculture",
+      "name": "NATL2A cluster 3 (up, darkness coculture+unique coculture)",
+      "functional_description": "This cluster contains 87 genes with transcripts present in coculture conditions during extended darkness, including those unique to coculture. These genes tend to be upregulated or maintained in expression, reflecting sustained metabolic activity supported by heterotrophic interactions. Functional categories include organic compound degradation, amino acid metabolism, and salvage pathways. Representative genes include PMN2A_RS00520, PMN2A_RS00570, and PMN2A_RS00890. The cluster suggests mixotrophic metabolism enabled by heterotroph-derived substrates during darkness.",
+      "behavioral_description": "Genes in this cluster are upregulated or stable during extended darkness in coculture, indicating continued biosynthetic and metabolic activity facilitated by heterotrophic support.",
+      "peak_time_hours": null,
+      "period_hours": 24.0,
+      "direction": "up",
+      "enrichment_category": "Organic compound degradation and salvage pathways",
+      "enrichment_pvalue": 0.006,
+      "enrichment_significant": true,
+      "confidence_notes": "High confidence supported by transcriptomic data and functional enrichment consistent with mixotrophy.",
+      "supporting_quotes": [
+        {
+          "quote": "Cluster darkness_coculture+unique_coculture: 87 genes (sample: PMN2A_RS00520, PMN2A_RS00570, PMN2A_RS00890)",
+          "location": "Supplemental data"
+        }
+      ],
+      "self_assessment": "high",
+      "assessment_notes": "Strong evidence for heterotroph-supported metabolic activity in coculture."
+    }
+  }
+}

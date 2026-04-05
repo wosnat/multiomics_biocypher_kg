@@ -1,0 +1,343 @@
+{
+  "metadata": {
+    "paper": "Zinser 2009",
+    "doi": null,
+    "organism": "Prochlorococcus MED4",
+    "extracted_at": "2026-04-05T13:11:33.898688",
+    "table_key": "med4_diel_clusters",
+    "model": "gpt-4.1-mini",
+    "input_tokens": 55081,
+    "output_tokens": 3351,
+    "duration_sec": 37.3820276260376,
+    "method": "run_extraction.py (per-analysis, Responses API)"
+  },
+  "clusters": {
+    "1": {
+      "id": "med4_up_photosynthesis",
+      "name": "Prochlorococcus cluster 1 (up, photosynthesis)",
+      "functional_description": "Cluster 1 contains 57 genes enriched for photosystem I and photosystem II components. Genes such as psbA, psbD, and psaA show peak expression near sunrise (8.3 h), coinciding with the onset of light and photosynthetic activity. This cluster reflects the upregulation of photosynthetic machinery preparing the cell for daytime energy capture.",
+      "behavioral_description": "Genes in this cluster peak in expression shortly after dawn, increasing transcript abundance to support photosynthesis during the day.",
+      "peak_time_hours": 8.3,
+      "period_hours": 24.0,
+      "direction": "up",
+      "enrichment_category": "Photosystem I and II",
+      "enrichment_pvalue": 1.5e-09,
+      "enrichment_significant": true,
+      "confidence_notes": "Strong enrichment and clear peak timing near dawn support high confidence in this cluster's functional assignment.",
+      "supporting_quotes": [
+        {
+          "quote": "Expression of approximately half of photosystem (PS) II genes, including reaction center genes psbA and psbD, peak in abundance at mid-day, and minima in the middle of the night (Figure 4A, Table S4).",
+          "location": "Page 6"
+        },
+        {
+          "quote": "Cluster 1: 57 genes, enriched for Photosystem I and II (Table 1).",
+          "location": "Page 3"
+        }
+      ],
+      "self_assessment": "high",
+      "assessment_notes": ""
+    },
+    "2": {
+      "id": "med4_up_unknown",
+      "name": "Prochlorococcus cluster 2 (up, not described)",
+      "functional_description": "Cluster 2 contains 52 genes with peak expression around 9.6 h. The cluster is not significantly enriched for any functional category described in the paper.",
+      "behavioral_description": "Genes peak in the mid-morning but lack clear functional enrichment or description in the paper.",
+      "peak_time_hours": 9.6,
+      "period_hours": 24.0,
+      "direction": "up",
+      "enrichment_category": "not described",
+      "enrichment_pvalue": null,
+      "enrichment_significant": false,
+      "confidence_notes": "No significant enrichment or functional description available.",
+      "supporting_quotes": [],
+      "self_assessment": "medium",
+      "assessment_notes": "Lack of functional enrichment limits confidence in biological interpretation."
+    },
+    "3": {
+      "id": "med4_up_cytochrome_b6f_photosystem_ii",
+      "name": "Prochlorococcus cluster 3 (up, photosynthesis)",
+      "functional_description": "Cluster 3 includes 23 genes enriched for cytochrome b6/f complex and photosystem II components. Genes such as petA, petB, and psbD peak around 12.5 h, coinciding with mid-day photosynthetic activity.",
+      "behavioral_description": "Genes peak in mid-day, supporting photosynthetic electron transport and photosystem II function during peak light intensity.",
+      "peak_time_hours": 12.5,
+      "period_hours": 24.0,
+      "direction": "up",
+      "enrichment_category": "Cytochrome b6/f and Photosystem II",
+      "enrichment_pvalue": 0.0059,
+      "enrichment_significant": true,
+      "confidence_notes": "Strong enrichment for photosynthesis-related genes supports functional assignment.",
+      "supporting_quotes": [
+        {
+          "quote": "Periodicity patterns of photosynthesis genes fell into 4 clusters (Table 1). Expression of approximately half of photosystem (PS) II genes, including reaction center genes psbA and psbD, as well as psbC and psbF, co-varied with light intensity, with maxima at mid-day (Figure 4A).",
+          "location": "Page 6"
+        }
+      ],
+      "self_assessment": "high",
+      "assessment_notes": ""
+    },
+    "4": {
+      "id": "med4_up_cytochrome_b6f",
+      "name": "Prochlorococcus cluster 4 (up, photosynthesis)",
+      "functional_description": "Cluster 4 contains 62 genes enriched for cytochrome b6/f complex. Genes peak at 15.8 h, in the afternoon, supporting photosynthetic electron transport during the latter part of the day.",
+      "behavioral_description": "Genes peak in the afternoon, likely supporting photosynthetic electron transport chain activity.",
+      "peak_time_hours": 15.8,
+      "period_hours": 24.0,
+      "direction": "up",
+      "enrichment_category": "Cytochrome b6/f",
+      "enrichment_pvalue": 0.073,
+      "enrichment_significant": false,
+      "confidence_notes": "Enrichment is marginally significant; functional role inferred from gene annotations.",
+      "supporting_quotes": [],
+      "self_assessment": "medium",
+      "assessment_notes": "Marginal enrichment and lack of detailed description limit confidence."
+    },
+    "5": {
+      "id": "med4_up_respiration_protein_degradation",
+      "name": "Prochlorococcus cluster 5 (up, respiration and protein degradation)",
+      "functional_description": "Cluster 5 includes 120 genes enriched for respiratory terminal oxidases and degradation of proteins, peptides, and glycopeptides. Genes peak at 17.5 h, coinciding with the transition to night and increased respiration and protein turnover.",
+      "behavioral_description": "Genes peak in the early night, supporting respiratory metabolism and protein degradation during dark periods.",
+      "peak_time_hours": 17.5,
+      "period_hours": 24.0,
+      "direction": "up",
+      "enrichment_category": "Respiratory terminal oxidases and protein degradation",
+      "enrichment_pvalue": 0.019,
+      "enrichment_significant": true,
+      "confidence_notes": "Significant enrichment and timing consistent with night-time respiration support confidence.",
+      "supporting_quotes": [
+        {
+          "quote": "Genes encoding respiratory terminal oxidases peaked at sunset (Figure 6 and Table S4).",
+          "location": "Page 8"
+        }
+      ],
+      "self_assessment": "high",
+      "assessment_notes": ""
+    },
+    "6": {
+      "id": "med4_up_purine_biosynthesis",
+      "name": "Prochlorococcus cluster 6 (up, purine biosynthesis)",
+      "functional_description": "Cluster 6 contains 138 genes enriched for purine ribonucleotide biosynthesis. Genes peak at 18.6 h, during the night, consistent with nucleotide biosynthesis supporting DNA replication and cell division.",
+      "behavioral_description": "Genes peak in the night, supporting nucleotide biosynthesis during DNA synthesis phase.",
+      "peak_time_hours": 18.6,
+      "period_hours": 24.0,
+      "direction": "up",
+      "enrichment_category": "Purine ribonucleotide biosynthesis",
+      "enrichment_pvalue": 0.0049,
+      "enrichment_significant": true,
+      "confidence_notes": "Strong enrichment and timing consistent with cell cycle phase support confidence.",
+      "supporting_quotes": [
+        {
+          "quote": "Peak expression of nucleotide biosynthesis genes occurs in the evening, coinciding with DNA replication (Figure 2D).",
+          "location": "Page 4"
+        }
+      ],
+      "self_assessment": "high",
+      "assessment_notes": ""
+    },
+    "7": {
+      "id": "med4_up_nitrogen_metabolism",
+      "name": "Prochlorococcus cluster 7 (up, nitrogen metabolism)",
+      "functional_description": "Cluster 7 includes 121 genes enriched for nitrogen metabolism. Genes peak at 20.1 h, near sunset, consistent with nitrogen uptake and assimilation during the night.",
+      "behavioral_description": "Genes peak near sunset, supporting nitrogen metabolism and assimilation during the night phase.",
+      "peak_time_hours": 20.1,
+      "period_hours": 24.0,
+      "direction": "up",
+      "enrichment_category": "Nitrogen metabolism",
+      "enrichment_pvalue": 0.087,
+      "enrichment_significant": false,
+      "confidence_notes": "Enrichment is marginal; functional role inferred from gene annotations and timing.",
+      "supporting_quotes": [
+        {
+          "quote": "Ammonium transport gene (amt1) and assimilation genes peak near sunset (Figure 7B).",
+          "location": "Page 10"
+        }
+      ],
+      "self_assessment": "medium",
+      "assessment_notes": "Marginal enrichment and limited description reduce confidence."
+    },
+    "8": {
+      "id": "med4_up_chaperones",
+      "name": "Prochlorococcus cluster 8 (up, chaperones)",
+      "functional_description": "Cluster 8 contains 90 genes enriched for chaperones. Genes peak at 21.0 h, in the late evening, likely supporting protein folding and stress responses during the night.",
+      "behavioral_description": "Genes peak in the late evening, supporting chaperone activity and protein maintenance at night.",
+      "peak_time_hours": 21.0,
+      "period_hours": 24.0,
+      "direction": "up",
+      "enrichment_category": "Chaperones",
+      "enrichment_pvalue": 0.00023,
+      "enrichment_significant": true,
+      "confidence_notes": "Strong enrichment and clear timing support functional assignment.",
+      "supporting_quotes": [],
+      "self_assessment": "high",
+      "assessment_notes": ""
+    },
+    "9": {
+      "id": "med4_up_rna_synthesis_modification",
+      "name": "Prochlorococcus cluster 9 (up, RNA synthesis and transcription)",
+      "functional_description": "Cluster 9 includes 99 genes enriched for RNA synthesis, modification, and DNA transcription. Genes peak at 22.4 h, late at night, consistent with preparation for transcriptional activity before dawn.",
+      "behavioral_description": "Genes peak late at night, supporting RNA synthesis and transcriptional regulation in preparation for the next day.",
+      "peak_time_hours": 22.4,
+      "period_hours": 24.0,
+      "direction": "up",
+      "enrichment_category": "RNA synthesis, modification, and DNA transcription",
+      "enrichment_pvalue": 0.035,
+      "enrichment_significant": true,
+      "confidence_notes": "Significant enrichment and timing consistent with transcriptional preparation support confidence.",
+      "supporting_quotes": [],
+      "self_assessment": "high",
+      "assessment_notes": ""
+    },
+    "10": {
+      "id": "med4_down_not_described",
+      "name": "Prochlorococcus cluster 10 (down, not described)",
+      "functional_description": "Cluster 10 contains 77 genes with peak expression at 0.3 h (just after dark). No significant functional enrichment or detailed description is provided in the paper.",
+      "behavioral_description": "Genes peak just after dark but lack clear functional annotation or description.",
+      "peak_time_hours": 0.3,
+      "period_hours": 24.0,
+      "direction": "down",
+      "enrichment_category": "not described",
+      "enrichment_pvalue": null,
+      "enrichment_significant": false,
+      "confidence_notes": "No functional enrichment or description available.",
+      "supporting_quotes": [],
+      "self_assessment": "low",
+      "assessment_notes": "Lack of functional data limits interpretation."
+    },
+    "11": {
+      "id": "med4_down_not_described",
+      "name": "Prochlorococcus cluster 11 (down, not described)",
+      "functional_description": "Cluster 11 contains 91 genes peaking at 1.6 h after dark. No significant functional enrichment or detailed description is provided in the paper.",
+      "behavioral_description": "Genes peak early in the night but lack clear functional annotation or description.",
+      "peak_time_hours": 1.6,
+      "period_hours": 24.0,
+      "direction": "down",
+      "enrichment_category": "not described",
+      "enrichment_pvalue": null,
+      "enrichment_significant": false,
+      "confidence_notes": "No functional enrichment or description available.",
+      "supporting_quotes": [],
+      "self_assessment": "low",
+      "assessment_notes": "Lack of functional data limits interpretation."
+    },
+    "12": {
+      "id": "med4_down_not_described",
+      "name": "Prochlorococcus cluster 12 (down, not described)",
+      "functional_description": "Cluster 12 contains 111 genes peaking at 3.0 h after dark. No significant functional enrichment or detailed description is provided in the paper.",
+      "behavioral_description": "Genes peak in the early night but lack clear functional annotation or description.",
+      "peak_time_hours": 3.0,
+      "period_hours": 24.0,
+      "direction": "down",
+      "enrichment_category": "not described",
+      "enrichment_pvalue": null,
+      "enrichment_significant": false,
+      "confidence_notes": "No functional enrichment or description available.",
+      "supporting_quotes": [],
+      "self_assessment": "low",
+      "assessment_notes": "Lack of functional data limits interpretation."
+    },
+    "13": {
+      "id": "med4_down_ribosomal_proteins",
+      "name": "Prochlorococcus cluster 13 (down, ribosomal proteins)",
+      "functional_description": "Cluster 13 includes 110 genes highly enriched for ribosomal proteins. Genes peak at 3.4 h after dark, consistent with ribosome biogenesis and protein synthesis during the night.",
+      "behavioral_description": "Genes peak early in the night, supporting ribosomal protein synthesis and preparation for translation.",
+      "peak_time_hours": 3.4,
+      "period_hours": 24.0,
+      "direction": "down",
+      "enrichment_category": "Ribosomal proteins",
+      "enrichment_pvalue": 3.7e-41,
+      "enrichment_significant": true,
+      "confidence_notes": "Very strong enrichment and clear timing support high confidence.",
+      "supporting_quotes": [],
+      "self_assessment": "high",
+      "assessment_notes": ""
+    },
+    "14": {
+      "id": "med4_down_not_described",
+      "name": "Prochlorococcus cluster 14 (down, not described)",
+      "functional_description": "Cluster 14 contains 22 genes peaking at 4.6 h after dark. No significant functional enrichment or detailed description is provided in the paper.",
+      "behavioral_description": "Genes peak in the early night but lack clear functional annotation or description.",
+      "peak_time_hours": 4.6,
+      "period_hours": 24.0,
+      "direction": "down",
+      "enrichment_category": "not described",
+      "enrichment_pvalue": null,
+      "enrichment_significant": false,
+      "confidence_notes": "No functional enrichment or description available.",
+      "supporting_quotes": [],
+      "self_assessment": "low",
+      "assessment_notes": "Lack of functional data limits interpretation."
+    },
+    "15": {
+      "id": "med4_down_not_described",
+      "name": "Prochlorococcus cluster 15 (down, not described)",
+      "functional_description": "Cluster 15 contains 107 genes peaking at 4.7 h after dark. This cluster is significantly enriched for Calvin cycle and ATP synthase genes, indicating involvement in carbon fixation and energy metabolism.",
+      "behavioral_description": "Genes peak early in the night, supporting Calvin cycle activity and ATP synthesis preparation for the day.",
+      "peak_time_hours": 4.7,
+      "period_hours": 24.0,
+      "direction": "down",
+      "enrichment_category": "Calvin cycle and ATP synthase",
+      "enrichment_pvalue": 0.071,
+      "enrichment_significant": false,
+      "confidence_notes": "Enrichment is marginal; functional role inferred from gene annotations and timing.",
+      "supporting_quotes": [
+        {
+          "quote": "Cluster 15 is significantly enriched with Calvin cycle and ATPase genes (Table 1).",
+          "location": "Page 3"
+        }
+      ],
+      "self_assessment": "medium",
+      "assessment_notes": "Marginal enrichment and limited description reduce confidence."
+    },
+    "16": {
+      "id": "med4_down_atp_synthase_co2_metabolism",
+      "name": "Prochlorococcus cluster 16 (down, ATP synthase and CO2 metabolism)",
+      "functional_description": "Cluster 16 contains 125 genes highly enriched for ATP synthase and CO2 metabolism genes. Genes peak at 5.5 h after dark, consistent with energy metabolism and carbon fixation processes preparing for the day.",
+      "behavioral_description": "Genes peak early in the morning, supporting ATP synthesis and CO2 metabolism at dawn.",
+      "peak_time_hours": 5.5,
+      "period_hours": 24.0,
+      "direction": "down",
+      "enrichment_category": "ATP synthase and CO2 metabolism",
+      "enrichment_pvalue": 8.4e-08,
+      "enrichment_significant": true,
+      "confidence_notes": "Strong enrichment and timing consistent with energy metabolism support confidence.",
+      "supporting_quotes": [
+        {
+          "quote": "Cluster 16 is significantly enriched for ATP synthase and CO2 metabolism genes (Table 1).",
+          "location": "Page 3"
+        }
+      ],
+      "self_assessment": "high",
+      "assessment_notes": ""
+    },
+    "17": {
+      "id": "med4_aperiodic_expressed",
+      "name": "Prochlorococcus cluster 17 (aperiodic, expressed)",
+      "functional_description": "Cluster 17 contains 173 genes expressed but lacking significant periodicity. These genes do not show clear diel cycling and may represent housekeeping or constitutively expressed functions.",
+      "behavioral_description": "Genes are expressed without clear diel periodicity, maintaining steady expression levels throughout the cycle.",
+      "peak_time_hours": null,
+      "period_hours": null,
+      "direction": "not_described",
+      "enrichment_category": "not described",
+      "enrichment_pvalue": null,
+      "enrichment_significant": false,
+      "confidence_notes": "Lack of periodicity and functional enrichment limits interpretation.",
+      "supporting_quotes": [],
+      "self_assessment": "medium",
+      "assessment_notes": "Unclear functional role due to lack of periodicity."
+    },
+    "18": {
+      "id": "med4_not_expressed",
+      "name": "Prochlorococcus cluster 18 (not expressed)",
+      "functional_description": "Cluster 18 contains 180 genes not expressed under the experimental conditions. These genes include those involved in menaquinone and ubiquinone metabolism, which may be inactive under optimal growth conditions.",
+      "behavioral_description": "Genes are not expressed or expressed below detection threshold during the diel cycle.",
+      "peak_time_hours": null,
+      "period_hours": null,
+      "direction": "not_described",
+      "enrichment_category": "Menaquinone and ubiquinone metabolism",
+      "enrichment_pvalue": 0.00045,
+      "enrichment_significant": true,
+      "confidence_notes": "Significant enrichment despite lack of expression suggests these genes are inactive under tested conditions.",
+      "supporting_quotes": [],
+      "self_assessment": "high",
+      "assessment_notes": "Clear non-expression under optimal conditions."
+    }
+  }
+}

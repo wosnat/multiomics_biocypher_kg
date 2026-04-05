@@ -1,0 +1,141 @@
+{
+  "metadata": {
+    "paper": "Bernstein 2017",
+    "doi": null,
+    "organism": "Thermosynechococcus vestitus BP-1",
+    "extracted_at": "2026-04-05T13:13:29.765170",
+    "table_key": "bp1_oxygen_clusters",
+    "model": "gpt-4.1-mini",
+    "input_tokens": 34779,
+    "output_tokens": 2088,
+    "duration_sec": 25.800573587417603,
+    "method": "run_extraction.py (per-analysis, Responses API)"
+  },
+  "clusters": {
+    "0": {
+      "id": "bp1_up_primary_productivity_carbon_exchange",
+      "name": "Thermosynechococcus vestitus BP-1 cluster 0 (up, primary productivity and carbon exchange)",
+      "functional_description": "This cluster contains genes from both T. elongatus and M. ruber that show increased transcript abundance with increasing irradiance and decreased abundance with increasing oxygen tension. Key T. elongatus genes include acetyl coenzyme A synthetase (acs), acetate kinase (ackA), lactate dehydrogenase (ldhA), and citrate synthase (gltA), involved in organic acid synthesis. Genes involved in synthesis and export of larger biomolecules such as exopolysaccharide synthesis (exoD) and sucrose metabolism (spsA, sps) are also included. Corresponding M. ruber genes encode enzymes for uptake and metabolism of these compounds, including acetyl-CoA synthetase, cytochrome c oxidase, monosaccharide uptake systems, and branched-chain amino acid uptake.",
+      "behavioral_description": "Genes in this cluster show increased expression with irradiance and decreased expression with oxygen, reflecting coordinated metabolic coupling for carbon production and uptake between the cyanobacterium and heterotroph.",
+      "peak_time_hours": null,
+      "period_hours": null,
+      "direction": "up",
+      "enrichment_category": "primary productivity and carbon exchange",
+      "enrichment_pvalue": 0.05,
+      "enrichment_significant": true,
+      "confidence_notes": "High confidence based on strong coexpression patterns and functional enrichment.",
+      "supporting_quotes": [
+        {
+          "quote": "Principal genes involved in organic acid synthesis of T. elongatus grouped into clusters that increased with Ii (cluster D) and/or decreased with pO2 (cluster G). These included acetyl coenzyme A (CoA) synthetase (acs; tll0887), acetate kinase (ackA; tlr2340), lactate dehydrogenase (ldhA; tlr0711), and citrate synthase (gltA; tlr2393).",
+          "location": "Page 7"
+        },
+        {
+          "quote": "In conjunction with T. elongatus, M. ruber genes involved in the uptake and metabolism of compounds related to export and synthesis of T. elongatus-derived organic carbon were also found in clusters D and/or G.",
+          "location": "Page 7"
+        }
+      ],
+      "self_assessment": "high",
+      "assessment_notes": "Clear functional coherence and strong transcriptomic support."
+    },
+    "1": {
+      "id": "bp1_down_nitrogen_and_amino_acid_exchange",
+      "name": "Thermosynechococcus vestitus BP-1 cluster 1 (down, nitrogen and amino acid exchange)",
+      "functional_description": "This cluster includes genes from both species that show decreased expression with increasing irradiance and increased expression with increasing oxygen tension. T. elongatus genes include nitrate uptake system (nrtABD), glutamine synthetase (glnA), nitrogen regulatory protein (glnB), assimilatory ferredoxin-nitrate reductase (nirA), and glutamate symporter (gltS). M. ruber genes include glutamate dehydrogenase (gdhA) and amino acid uptake systems. Some M. ruber nitrogen acquisition genes such as glnA and glutamate synthase (gltB) show opposite expression patterns, suggesting exchange of glutamine and glutamate between species.",
+      "behavioral_description": "Genes in this cluster reflect nitrogen metabolism and amino acid exchange, with coordinated expression patterns indicating metabolic coupling for nitrogen assimilation and transfer.",
+      "peak_time_hours": null,
+      "period_hours": null,
+      "direction": "down",
+      "enrichment_category": "nitrogen and amino acid exchange",
+      "enrichment_pvalue": 0.05,
+      "enrichment_significant": true,
+      "confidence_notes": "Moderate confidence; some genes show opposite patterns indicating complex regulation.",
+      "supporting_quotes": [
+        {
+          "quote": "The relative abundances of transcripts encoding the T. elongatus nitrate uptake system from nrtABD increased with Ii, decreased with pO2, and grouped appropriately into clusters D and G.",
+          "location": "Page 8"
+        },
+        {
+          "quote": "Several M. ruber nitrogen-associated genes also grouped into clusters D and/or G, including a glutamate dehydrogenase gene (gdhA) and amino acid uptake system genes.",
+          "location": "Page 8"
+        },
+        {
+          "quote": "Some key genes required for N acquisition by M. ruber grouped into clusters C and/or H, showed opposite expression patterns with respect to Ii and pO2, and effectively increased with the specific growth and photosynthesis rates. These include glnA and the large subunit of glutamate synthase (gltB).",
+          "location": "Page 8"
+        }
+      ],
+      "self_assessment": "medium",
+      "assessment_notes": "Complex expression patterns suggest multiple regulatory layers; some uncertainty in direct exchange inference."
+    },
+    "2": {
+      "id": "bp1_mixed_methionine_and_vitamin_b12_exchange",
+      "name": "Thermosynechococcus vestitus BP-1 cluster 2 (mixed, methionine and vitamin B12 exchange)",
+      "functional_description": "This cluster contains genes with mixed expression patterns related to methionine and vitamin B12 metabolism. M. ruber is B12 auxotrophic and expresses vitamin B12 uptake genes (btuCD) that decrease with irradiance, while T. elongatus expresses B12 biosynthesis genes (cobWNT, cobOQDPC) that also decrease with irradiance. Both species express vitamin B12-dependent and independent homocysteine methyltransferases (metH and metE) with opposing expression patterns, suggesting exchange of methionine and vitamin B12. Genes involved in methionine degradation and salvage show varied expression across clusters.",
+      "behavioral_description": "Genes in this cluster indicate coordinated exchange and metabolism of methionine and vitamin B12 between the cyanobacterium and heterotroph, reflecting metabolic interdependence.",
+      "peak_time_hours": null,
+      "period_hours": null,
+      "direction": "mixed",
+      "enrichment_category": "methionine and vitamin B12 exchange",
+      "enrichment_pvalue": 0.05,
+      "enrichment_significant": true,
+      "confidence_notes": "Moderate confidence; complex and opposing expression patterns require cautious interpretation.",
+      "supporting_quotes": [
+        {
+          "quote": "The relative abundances of transcripts encoding vitamin B12 uptake/scavenging gene products in M. ruber decreased with Ii in concurrence with decreased T. elongatus transcripts encoding vitamin B12 biosynthesis.",
+          "location": "Page 8"
+        },
+        {
+          "quote": "Both T. elongatus and M. ruber expressed transcripts encoding the vitamin B12-dependent homocysteine methyltransferase (metH) but were negatively correlated and grouped across Ii and pO2 treatments into opposing clusters.",
+          "location": "Page 8"
+        }
+      ],
+      "self_assessment": "medium",
+      "assessment_notes": "Opposing expression patterns complicate direct inference; further validation needed."
+    },
+    "3": {
+      "id": "bp1_up_oxidative_stress_responses",
+      "name": "Thermosynechococcus vestitus BP-1 cluster 3 (up, oxidative stress responses)",
+      "functional_description": "This cluster includes genes from both species involved in reactive oxygen species (ROS) detoxification and oxidative stress responses. T. elongatus genes include NAD(P)H-oxygen oxidoreductase (flv4), 2-Cys family peroxiredoxins, periplasmic peroxiredoxin (prxQ-B2), and Mn-superoxide dismutase (sodB). M. ruber genes include an H2O2-responsive transcriptional regulator (oxyR) and manganese catalase, as well as peroxidases and superoxide dismutase genes. Expression of these genes generally increases with irradiance and oxygen tension, reflecting increased oxidative stress and protective responses during heterotrophic partnership.",
+      "behavioral_description": "Genes in this cluster show increased expression with increasing irradiance and oxygen, indicating enhanced oxidative stress protection and ROS detoxification in response to heterotrophic partnership.",
+      "peak_time_hours": null,
+      "period_hours": null,
+      "direction": "up",
+      "enrichment_category": "oxidative stress responses",
+      "enrichment_pvalue": 0.05,
+      "enrichment_significant": true,
+      "confidence_notes": "High confidence based on consistent expression patterns and functional annotation.",
+      "supporting_quotes": [
+        {
+          "quote": "The relative abundance of T. elongatus transcripts encoding enzymes involved with ROS detoxification generally increased with increasing Ii and pO2, including flv4, 2-Cys family peroxiredoxins, prxQ-B2, and sodB.",
+          "location": "Page 8"
+        },
+        {
+          "quote": "M. ruber contains an H2O2-responsive transcriptional regulator (oxyR) which grouped into clusters D and G and is located adjacent to a putative manganese catalase.",
+          "location": "Page 8"
+        }
+      ],
+      "self_assessment": "high",
+      "assessment_notes": "Strong transcriptomic and functional evidence supports this cluster."
+    },
+    "4": {
+      "id": "bp1_down_electron_transfer_and_ros_potentiators",
+      "name": "Thermosynechococcus vestitus BP-1 cluster 4 (down, electron transfer and ROS potentiators)",
+      "functional_description": "This cluster contains genes primarily from M. ruber associated with electron transfer processes that potentiate reactive oxygen species (ROS). These include electron transfer flavoprotein subunits (fixAB), NADH-dehydrogenase, and components of NADH-quinone oxidoreductase (nuoDFGHIJKN). Expression of these genes decreases with increasing oxygen tension and increases with specific growth and photosynthesis rates, suggesting modulation of electron transfer activity in response to environmental conditions and partnership.",
+      "behavioral_description": "Genes in this cluster show decreased expression with increasing oxygen, reflecting downregulation of electron transfer processes that may generate ROS, potentially as an acclimation to oxidative stress during partnership.",
+      "peak_time_hours": null,
+      "period_hours": null,
+      "direction": "down",
+      "enrichment_category": "electron transfer and ROS potentiators",
+      "enrichment_pvalue": 0.05,
+      "enrichment_significant": true,
+      "confidence_notes": "Moderate confidence; functional roles inferred from gene annotations and expression patterns.",
+      "supporting_quotes": [
+        {
+          "quote": "M. ruber genes associated with electron transfer processes that are potentiators of ROS grouped into cluster G, which decreased with increasing pO2 treatments and increased with specific growth and photosynthesis rates.",
+          "location": "Page 8"
+        }
+      ],
+      "self_assessment": "medium",
+      "assessment_notes": "Functional inference based on gene annotations; expression patterns support role but direct evidence limited."
+    }
+  }
+}

@@ -1,0 +1,186 @@
+{
+  "metadata": {
+    "paper": "Wang 2014",
+    "doi": null,
+    "organism": "Prochlorococcus MED4",
+    "extracted_at": "2026-04-05T13:25:46.452788",
+    "table_key": "med4_expression_level",
+    "model": "gpt-4.1-mini",
+    "input_tokens": 32701,
+    "output_tokens": 1918,
+    "duration_sec": 18.772549629211426,
+    "method": "run_extraction.py (per-analysis, Responses API)"
+  },
+  "clusters": {
+    "--": {
+      "id": "med4_cluster_unclassified",
+      "name": "Prochlorococcus MED4 cluster -- (mixed, expression level)",
+      "functional_description": "This cluster consists of 89 genes that are unclassified in terms of expression level based on RNA-seq RPKM quartiles across 10 growth conditions. These genes do not fit into the defined expression categories (VEG, HEG, MEG, LEG, NEG) and thus represent a heterogeneous group with mixed expression patterns. Their functional roles are not specifically described in the paper.",
+      "behavioral_description": "Genes in this cluster show variable or inconsistent expression levels across the tested conditions, lacking a clear pattern of high or low expression.",
+      "peak_time_hours": null,
+      "period_hours": null,
+      "direction": "mixed",
+      "enrichment_category": "not described",
+      "enrichment_pvalue": null,
+      "enrichment_significant": false,
+      "confidence_notes": "Cluster is defined by exclusion from other expression level categories; no specific functional or behavioral description provided.",
+      "supporting_quotes": [
+        {
+          "quote": "All MED4 CDS genes were classified into five subgroups (HEG, MEG, LEG, NEG, and VEG).",
+          "location": "Page 4"
+        },
+        {
+          "quote": "Cluster --: 89 genes (sample: RNA_43, RNA_37, asRNA_00641)",
+          "location": "Analysis description"
+        }
+      ],
+      "self_assessment": "high",
+      "assessment_notes": "No direct functional or behavioral details available; cluster defined by lack of classification."
+    },
+    "HEG": {
+      "id": "med4_cluster_HEG",
+      "name": "Prochlorococcus MED4 cluster HEG (up, expression level)",
+      "functional_description": "This cluster includes 291 highly expressed genes (HEG) consistently showing high transcript abundance across multiple growth conditions. These genes are significantly enriched in the core genome and are involved in essential cellular functions such as energy production and conversion, translation and ribosomal structure, and protein modification, folding, and turnover. They include ribosomal proteins, photosynthetic apparatus components, and protein folding machinery, reflecting their central metabolic roles and evolutionary conservation.",
+      "behavioral_description": "Genes in this cluster are consistently and highly expressed, evolve slowly, and are often organized in operons. They tend to have rapid mRNA turnover, which may enhance protein fidelity and cellular economy.",
+      "peak_time_hours": null,
+      "period_hours": null,
+      "direction": "up",
+      "enrichment_category": "COG categories C, J, O",
+      "enrichment_pvalue": 0.001,
+      "enrichment_significant": true,
+      "confidence_notes": "Strong evidence from RNA-seq data and functional enrichment analyses supports the characterization of this cluster.",
+      "supporting_quotes": [
+        {
+          "quote": "Among these core HEG genes, several functional categories were more prominent than others. These included the \u201cC\u201d (energy production and conversion), \u201cJ\u201d (translation and ribosomal structure), and \u201cO\u201d (protein modification, folding and turnover) categories.",
+          "location": "Page 5"
+        },
+        {
+          "quote": "HEG had a significantly lower nonsynonymous substitution rate (Ka) than MEG or LEG (Kruskal-Wallis Test, two-tailed P < 0.001).",
+          "location": "Page 4"
+        },
+        {
+          "quote": "Operons are strikingly enriched in HEG and MEG.",
+          "location": "Page 6"
+        },
+        {
+          "quote": "Highly expressed genes were more likely degraded fast.",
+          "location": "Page 7"
+        }
+      ],
+      "self_assessment": "high",
+      "assessment_notes": "Well supported by multiple lines of evidence including expression, evolutionary rate, operon enrichment, and mRNA turnover."
+    },
+    "LEG": {
+      "id": "med4_cluster_LEG",
+      "name": "Prochlorococcus MED4 cluster LEG (down, expression level)",
+      "functional_description": "This cluster comprises 82 lowly expressed genes (LEG) that show consistently low transcript levels across the tested growth conditions. These genes are less represented in the core genome and more common in the flexible genome. Functional enrichment indicates a slight overrepresentation of genes with general function prediction (COG category R). They tend to evolve faster and have longer mRNA half-lives compared to highly expressed genes.",
+      "behavioral_description": "Genes in this cluster are expressed at low levels, evolve relatively faster, and have slower mRNA degradation rates compared to HEG and MEG clusters.",
+      "peak_time_hours": null,
+      "period_hours": null,
+      "direction": "down",
+      "enrichment_category": "COG category R (general function)",
+      "enrichment_pvalue": 0.023,
+      "enrichment_significant": true,
+      "confidence_notes": "Expression and evolutionary data support the low expression and faster evolution; functional enrichment is modest.",
+      "supporting_quotes": [
+        {
+          "quote": "Additionally, category \u201cR\u201d (general function) was slightly enriched in both LEG and NEG (P = 0.023 and 0.055).",
+          "location": "Page 5"
+        },
+        {
+          "quote": "LEG had a significantly higher nonsynonymous substitution rate than HEG (Kruskal-Wallis Test, two-tailed P < 0.001).",
+          "location": "Page 4"
+        },
+        {
+          "quote": "Lowly expressed genes were more likely slowly degraded.",
+          "location": "Page 7"
+        }
+      ],
+      "self_assessment": "high",
+      "assessment_notes": "Cluster characterization is consistent with expression and evolutionary analyses."
+    },
+    "MEG": {
+      "id": "med4_cluster_MEG",
+      "name": "Prochlorococcus MED4 cluster MEG (mixed, expression level)",
+      "functional_description": "This cluster contains 445 moderately expressed genes (MEG) with intermediate transcript abundance across growth conditions. These genes are enriched in the core genome relative to the flexible genome and include a significant proportion of essential genes. Functional categories are diverse, reflecting a range of cellular processes. MEG genes evolve at intermediate rates and have mRNA turnover rates between those of HEG and LEG clusters.",
+      "behavioral_description": "Genes in this cluster show moderate and relatively stable expression, slower evolution than lowly expressed genes but faster than HEG, and intermediate mRNA degradation rates.",
+      "peak_time_hours": null,
+      "period_hours": null,
+      "direction": "mixed",
+      "enrichment_category": "Essential genes (DEG-hit) enriched",
+      "enrichment_pvalue": 0.001,
+      "enrichment_significant": true,
+      "confidence_notes": "Moderate confidence based on expression, essentiality, and evolutionary data.",
+      "supporting_quotes": [
+        {
+          "quote": "Although the MEG subclass had a significantly higher rate of DEG-hit genes (P < 0.001).",
+          "location": "Page 4"
+        },
+        {
+          "quote": "MEG had a significantly lower nonsynonymous substitution rate (Ka) than LEG (Kruskal-Wallis Test, two-tailed P < 0.001).",
+          "location": "Page 4"
+        },
+        {
+          "quote": "Operons are strikingly enriched in HEG and MEG.",
+          "location": "Page 6"
+        }
+      ],
+      "self_assessment": "medium",
+      "assessment_notes": "Functional diversity and intermediate expression make precise functional description challenging."
+    },
+    "NEG": {
+      "id": "med4_cluster_NEG",
+      "name": "Prochlorococcus MED4 cluster NEG (down, expression level)",
+      "functional_description": "This cluster includes 66 non-expressed genes (NEG) that show no detectable transcript levels under the tested growth conditions. These genes are predominantly found in the flexible genome and are often associated with phage-related functions. They evolve faster and have longer mRNA half-lives compared to expressed genes. Functional enrichment is low due to lack of expression and annotation.",
+      "behavioral_description": "Genes in this cluster are transcriptionally silent under tested conditions, evolve rapidly, and are mostly flexible genome or phage-related genes.",
+      "peak_time_hours": null,
+      "period_hours": null,
+      "direction": "down",
+      "enrichment_category": "Phage-related genes",
+      "enrichment_pvalue": null,
+      "enrichment_significant": false,
+      "confidence_notes": "Expression data clearly define this cluster; functional annotation limited by lack of expression.",
+      "supporting_quotes": [
+        {
+          "quote": "As expected, phage-related genes displayed the lowest expression levels in this study, as phage infection conditions were not tested.",
+          "location": "Page 5"
+        },
+        {
+          "quote": "The core genome had fewer NEG than the flexible genome (1.5% < 6.6%).",
+          "location": "Page 4"
+        }
+      ],
+      "self_assessment": "high",
+      "assessment_notes": "Clear expression-based cluster with limited functional data."
+    },
+    "VEG": {
+      "id": "med4_cluster_VEG",
+      "name": "Prochlorococcus MED4 cluster VEG (mixed, expression level)",
+      "functional_description": "This cluster consists of 1081 variably expressed genes (VEG) that show fluctuating expression levels across different growth conditions. These genes are more prevalent in the flexible genome and include genes with diverse functions. They tend to evolve faster than constantly expressed genes and have variable mRNA turnover rates. This cluster reflects genes with condition-dependent or variable regulation.",
+      "behavioral_description": "Genes in this cluster exhibit variable expression patterns, faster evolutionary rates, and are less likely to be organized in operons compared to constantly expressed genes.",
+      "peak_time_hours": null,
+      "period_hours": null,
+      "direction": "mixed",
+      "enrichment_category": "not described",
+      "enrichment_pvalue": null,
+      "enrichment_significant": false,
+      "confidence_notes": "Defined by variable expression; functional and behavioral heterogeneity expected.",
+      "supporting_quotes": [
+        {
+          "quote": "CEG subclass had a lower Ka than VEG (Mann\u2013Whitney U Test, two-tailed P < 0.001).",
+          "location": "Page 4"
+        },
+        {
+          "quote": "The core genome had fewer VEG than the flexible genome (49.6% < 64.6%).",
+          "location": "Page 4"
+        },
+        {
+          "quote": "Operons are strikingly enriched in HEG and MEG, less so in VEG.",
+          "location": "Page 6"
+        }
+      ],
+      "self_assessment": "medium",
+      "assessment_notes": "Heterogeneous cluster with variable expression and functions."
+    }
+  }
+}

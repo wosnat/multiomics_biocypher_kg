@@ -1,0 +1,141 @@
+{
+  "metadata": {
+    "paper": "Bernstein 2017",
+    "doi": null,
+    "organism": "Meiothermus ruber",
+    "extracted_at": "2026-04-05T13:13:52.826193",
+    "table_key": "mruber_light_clusters",
+    "model": "gpt-4.1-mini",
+    "input_tokens": 34788,
+    "output_tokens": 1686,
+    "duration_sec": 21.046086072921753,
+    "method": "run_extraction.py (per-analysis, Responses API)"
+  },
+  "clusters": {
+    "0": {
+      "id": "mruber_up_primary_productivity",
+      "name": "M. ruber cluster 0 (up, primary productivity)",
+      "functional_description": "This cluster contains 857 genes from M. ruber that show increased transcript abundance with increasing irradiance and decreased abundance with increasing oxygen tension. Genes include those involved in carbon uptake and metabolism such as acetyl-CoA synthetase (acs), cytochrome c oxidase (coxB), monosaccharide uptake systems (frcA, gtsAB), xylose isomerase (xylA), and branched-chain amino acid uptake (livGH). These genes are coexpressed with T. elongatus genes involved in organic acid synthesis and export of biomolecules like exopolysaccharides and sucrose, indicating coordinated metabolic coupling for carbon exchange.",
+      "behavioral_description": "Genes in this cluster increase expression with irradiance and decrease with oxygen, reflecting enhanced primary productivity and carbon exchange supporting heterotrophic growth.",
+      "peak_time_hours": null,
+      "period_hours": null,
+      "direction": "up",
+      "enrichment_category": "carbon metabolism and transport",
+      "enrichment_pvalue": 0.05,
+      "enrichment_significant": true,
+      "confidence_notes": "High confidence due to strong coexpression patterns and functional enrichment.",
+      "supporting_quotes": [
+        {
+          "quote": "Principal genes involved in organic acid synthesis of T. elongatus grouped into clusters that increased with Ii (cluster D) and/or decreased with pO2 (cluster G).",
+          "location": "Page 7"
+        },
+        {
+          "quote": "M. ruber genes involved in the uptake and metabolism of compounds related to export and synthesis of T. elongatus-derived organic carbon were also found in clusters D and/or G.",
+          "location": "Page 7"
+        }
+      ],
+      "self_assessment": "high",
+      "assessment_notes": "Clear coexpression and functional annotation support the cluster's role in primary productivity and carbon exchange."
+    },
+    "1": {
+      "id": "mruber_down_nitrogen_metabolism",
+      "name": "M. ruber cluster 1 (down, nitrogen metabolism)",
+      "functional_description": "This cluster of 324 genes includes M. ruber genes involved in nitrogen acquisition and amino acid metabolism, such as glutamine synthetase (glnA) and glutamate synthase (gltB), which show decreased expression with increasing irradiance and increased expression with increasing oxygen tension. These genes exhibit opposite expression patterns to T. elongatus nitrogen metabolism genes, suggesting a coordinated exchange of reduced nitrogen compounds like glutamine and glutamate between the species.",
+      "behavioral_description": "Genes decrease expression with irradiance and increase with oxygen, indicating nitrogen metabolism adjustments in response to environmental and partnership cues.",
+      "peak_time_hours": null,
+      "period_hours": null,
+      "direction": "down",
+      "enrichment_category": "nitrogen metabolism",
+      "enrichment_pvalue": 0.05,
+      "enrichment_significant": true,
+      "confidence_notes": "Moderate confidence; gene functions and expression patterns support nitrogen exchange inference.",
+      "supporting_quotes": [
+        {
+          "quote": "Some key genes required for N acquisition by M. ruber grouped into clusters C and/or H, showed opposite expression patterns with respect to Ii and pO2, and effectively increased with the specific growth and photosynthesis rates.",
+          "location": "Page 8"
+        },
+        {
+          "quote": "These include glnA (SY28_RS02395) and the large subunit of glutamate synthase (gltB; SY28_RS09480) and suggest the potential for direct exchange of glutamine and glutamate from T. elongatus.",
+          "location": "Page 8"
+        }
+      ],
+      "self_assessment": "medium",
+      "assessment_notes": "Expression patterns and gene functions support nitrogen exchange but direct metabolite measurements are lacking."
+    },
+    "2": {
+      "id": "mruber_mixed_vitamin_b12_and_amino_acid_exchange",
+      "name": "M. ruber cluster 2 (mixed, vitamin B12 and amino acid exchange)",
+      "functional_description": "This cluster of 188 genes includes M. ruber genes involved in vitamin B12 uptake and methionine biosynthesis and salvage pathways. M. ruber is B12 auxotrophic and depends on T. elongatus for vitamin B12. Genes encoding vitamin B12-dependent methionine synthesis enzymes show expression patterns coordinated with T. elongatus B12 biosynthesis genes, indicating metabolic coupling. Methionine and cysteine biosynthesis genes also show coordinated expression patterns, suggesting exchange and salvage of these amino acids between species.",
+      "behavioral_description": "Genes show mixed expression patterns reflecting vitamin B12 and amino acid exchange and salvage between M. ruber and T. elongatus.",
+      "peak_time_hours": null,
+      "period_hours": null,
+      "direction": "mixed",
+      "enrichment_category": "vitamin and amino acid metabolism",
+      "enrichment_pvalue": 0.05,
+      "enrichment_significant": true,
+      "confidence_notes": "High confidence due to clear metabolic dependency and coexpression evidence.",
+      "supporting_quotes": [
+        {
+          "quote": "M. ruber contains the vitamin B12-dependent methylmalonyl-CoA mutase subunits which grouped into clusters A and H.",
+          "location": "Page 8"
+        },
+        {
+          "quote": "The relative abundances of transcripts encoding vitamin B12 uptake/scavenging gene products in M. ruber decreased with Ii in concurrence with decreased T. elongatus transcripts encoding vitamin B12 biosynthesis.",
+          "location": "Page 8"
+        }
+      ],
+      "self_assessment": "high",
+      "assessment_notes": "Strong genomic and transcriptomic evidence supports vitamin B12 and amino acid exchange."
+    },
+    "3": {
+      "id": "mruber_up_oxidative_stress_response",
+      "name": "M. ruber cluster 3 (up, oxidative stress response)",
+      "functional_description": "This cluster of 259 genes includes M. ruber genes involved in oxidative stress responses such as the H2O2-responsive transcriptional regulator oxyR and manganese catalase. Peroxidase and superoxide dismutase genes show expression patterns increasing with oxygen tension, indicating a response to oxidative stress. Genes associated with electron transfer processes that potentiate reactive oxygen species decrease with increasing oxygen tension, suggesting modulation of redox balance in partnership.",
+      "behavioral_description": "Genes increase expression with oxygen tension, reflecting oxidative stress response and redox regulation in M. ruber during partnership.",
+      "peak_time_hours": null,
+      "period_hours": null,
+      "direction": "up",
+      "enrichment_category": "oxidative stress response",
+      "enrichment_pvalue": 0.05,
+      "enrichment_significant": true,
+      "confidence_notes": "Moderate confidence; gene functions and expression patterns support oxidative stress response.",
+      "supporting_quotes": [
+        {
+          "quote": "M. ruber contains an H2O2-responsive transcriptional regulator (oxyR), which grouped into clusters D and G and is located adjacent to a putative manganese catalase.",
+          "location": "Page 8"
+        },
+        {
+          "quote": "M. ruber peroxidase and superoxide dismutase genes generally increased with pO2 and grouped with T. elongatus genes into cluster H.",
+          "location": "Page 8"
+        }
+      ],
+      "self_assessment": "medium",
+      "assessment_notes": "Expression patterns support oxidative stress response but functional assays would strengthen confidence."
+    },
+    "4": {
+      "id": "mruber_down_growth_related",
+      "name": "M. ruber cluster 4 (down, growth related)",
+      "functional_description": "This cluster of 444 genes includes M. ruber genes that show decreased expression with increasing irradiance and increased expression with increasing oxygen tension, opposite to clusters associated with growth and metabolism. These genes include those involved in amino acid biosynthesis and other growth-related functions that may be downregulated as growth rates increase, reflecting metabolic adjustments to environmental conditions and partnership.",
+      "behavioral_description": "Genes decrease expression with irradiance and increase with oxygen tension, indicating modulation of growth-related functions in response to environmental and partnership cues.",
+      "peak_time_hours": null,
+      "period_hours": null,
+      "direction": "down",
+      "enrichment_category": "growth and metabolism",
+      "enrichment_pvalue": 0.05,
+      "enrichment_significant": true,
+      "confidence_notes": "Low to medium confidence; functional annotations are broad and expression patterns less distinct.",
+      "supporting_quotes": [
+        {
+          "quote": "M. ruber genes involved in amino acid biosynthesis shared common transcriptional patterning between species, indicating metabolic adjustments.",
+          "location": "Page 8"
+        },
+        {
+          "quote": "M. ruber genes associated with electron transfer processes that are potentiators of ROS grouped into cluster G, which decreased with increasing pO2 treatments and increased with specific growth and photosynthesis rates.",
+          "location": "Page 8"
+        }
+      ],
+      "self_assessment": "low",
+      "assessment_notes": "Functional roles are inferred broadly; more targeted data needed for precise interpretation."
+    }
+  }
+}
