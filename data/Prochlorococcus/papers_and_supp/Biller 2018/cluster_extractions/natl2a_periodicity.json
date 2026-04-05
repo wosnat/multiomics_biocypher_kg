@@ -5,214 +5,201 @@
     "organism": "Prochlorococcus NATL2A",
     "entry_key": "natl2a_periodicity",
     "model": "gpt-4.1-mini",
-    "extracted_at": "2026-04-05T20:59:11.244082",
-    "input_tokens": 37325,
-    "output_tokens": 1745
+    "extracted_at": "2026-04-05T21:10:50.524431",
+    "input_tokens": 37472,
+    "output_tokens": 1725
   },
   "clusters": {
     "axenic_LD": {
       "id": "natl2a_axenic_ld",
-      "name": "Prochlorococcus NATL2A cluster axenic_LD (mixed, periodicity)",
-      "functional_description": "This cluster includes genes exhibiting 24-h periodicity only in axenic L:D conditions. Not discussed in paper in detail for specific genes or pathways.",
-      "behavioral_description": "Genes show 24-h periodic oscillations in axenic L:D culture but lose periodicity in coculture and under extended darkness.",
+      "name": "Prochlorococcus NATL2A cluster axenic_LD (mixed, not discussed)",
+      "functional_description": "Not discussed in paper.",
+      "behavioral_description": "Periodic in axenic L:D only, not in coculture or darkness.",
       "direction": "mixed",
       "enrichment_category": "",
       "enrichment_pvalue": null,
       "enrichment_significant": false,
-      "confidence_notes": "Limited functional description in paper for this cluster.",
-      "supporting_quotes": [
-        {
-          "quote": "The largest group of Prochlorococcus transcripts (42% of all protein-encoding genes) showed 24-h periodicity in both axenic and cocultures under diel L:D conditions but did not continue to oscillate under extended darkness.",
-          "location": "Page 11"
-        }
-      ],
-      "source_figures": [
-        "Figure 4A",
-        "Table S4A"
-      ],
-      "self_assessment": "medium",
-      "assessment_notes": "Functional roles not specifically described; behavior inferred from periodicity data."
+      "confidence_notes": "",
+      "supporting_quotes": [],
+      "source_figures": [],
+      "self_assessment": "low",
+      "assessment_notes": "No explicit description of this cluster in the paper."
     },
     "axenic_LD+axenic_darkness+coculture_darkness": {
       "id": "natl2a_axenic_ld+axenic_darkness+coculture_darkness",
-      "name": "Prochlorococcus NATL2A cluster axenic_LD+axenic_darkness+coculture_darkness (mixed, periodicity)",
+      "name": "Prochlorococcus NATL2A cluster axenic_LD+axenic_darkness+coculture_darkness (mixed, not discussed)",
       "functional_description": "Not discussed in paper.",
-      "behavioral_description": "Not discussed in paper.",
+      "behavioral_description": "Periodic in axenic L:D, axenic darkness, and coculture darkness, not in coculture L:D.",
       "direction": "mixed",
       "enrichment_category": "",
       "enrichment_pvalue": null,
       "enrichment_significant": false,
-      "confidence_notes": "No specific mention in text or figures.",
+      "confidence_notes": "",
       "supporting_quotes": [],
       "source_figures": [],
       "self_assessment": "low",
-      "assessment_notes": "No information available."
+      "assessment_notes": "No explicit description of this cluster in the paper."
     },
     "axenic_LD+coculture_LD": {
       "id": "natl2a_axenic_ld+coculture_ld",
-      "name": "Prochlorococcus NATL2A cluster axenic_LD+coculture_LD (mixed, periodicity)",
-      "functional_description": "Includes genes with 24-h periodicity in both axenic and coculture L:D conditions but not under extended darkness. Not specifically enriched for pathways in paper.",
-      "behavioral_description": "Genes oscillate with 24-h periodicity in both axenic and coculture L:D conditions but lose periodicity under extended darkness.",
+      "name": "Prochlorococcus NATL2A cluster axenic_LD+coculture_LD (mixed, photosynthesis and metabolism)",
+      "functional_description": "Includes transcripts associated with photosystem I and II components (e.g., psbA, psbB, psaA, psaB) and metabolic pathways such as Calvin cycle, glycolysis, fatty acid biosynthesis, and glycogen metabolism, indicating maintenance of regular metabolic functionality.",
+      "behavioral_description": "Periodic in both axenic and coculture L:D conditions, but not under extended darkness. More transcripts retain periodicity in coculture than axenic under L:D.",
       "direction": "mixed",
-      "enrichment_category": "",
+      "enrichment_category": "Photosynthesis and metabolism",
       "enrichment_pvalue": null,
       "enrichment_significant": false,
-      "confidence_notes": "Functional roles not detailed; behavior based on periodicity patterns.",
+      "confidence_notes": "Functional description inferred from highlighted genes and periodicity patterns.",
       "supporting_quotes": [
         {
           "quote": "The largest group of Prochlorococcus transcripts (42% of all protein-encoding genes) showed 24-h periodicity in both axenic and cocultures under diel L:D conditions but did not continue to oscillate under extended darkness.",
           "location": "Page 11"
-        }
-      ],
-      "source_figures": [
-        "Figure 4A",
-        "Table S4A"
-      ],
-      "self_assessment": "medium",
-      "assessment_notes": "Behavioral description based on periodicity data; functional description limited."
-    },
-    "axenic_LD+coculture_LD+axenic_darkness": {
-      "id": "natl2a_axenic_ld+coculture_ld+axenic_darkness",
-      "name": "Prochlorococcus NATL2A cluster axenic_LD+coculture_LD+axenic_darkness (mixed, periodicity)",
-      "functional_description": "Not discussed in paper.",
-      "behavioral_description": "Not discussed in paper.",
-      "direction": "mixed",
-      "enrichment_category": "",
-      "enrichment_pvalue": null,
-      "enrichment_significant": false,
-      "confidence_notes": "No specific mention in text or figures.",
-      "supporting_quotes": [],
-      "source_figures": [],
-      "self_assessment": "low",
-      "assessment_notes": "No information available."
-    },
-    "axenic_LD+coculture_LD+axenic_darkness+coculture_darkness": {
-      "id": "natl2a_axenic_ld+coculture_ld+axenic_darkness+coculture_darkness",
-      "name": "Prochlorococcus NATL2A cluster axenic_LD+coculture_LD+axenic_darkness+coculture_darkness (mixed, periodicity)",
-      "functional_description": "Not discussed in paper.",
-      "behavioral_description": "Not discussed in paper.",
-      "direction": "mixed",
-      "enrichment_category": "",
-      "enrichment_pvalue": null,
-      "enrichment_significant": false,
-      "confidence_notes": "No specific mention in text or figures.",
-      "supporting_quotes": [],
-      "source_figures": [],
-      "self_assessment": "low",
-      "assessment_notes": "No information available."
-    },
-    "axenic_LD+coculture_LD+coculture_darkness": {
-      "id": "natl2a_axenic_ld+coculture_ld+coculture_darkness",
-      "name": "Prochlorococcus NATL2A cluster axenic_LD+coculture_LD+coculture_darkness (mixed, periodicity)",
-      "functional_description": "Not discussed in paper.",
-      "behavioral_description": "Not discussed in paper.",
-      "direction": "mixed",
-      "enrichment_category": "",
-      "enrichment_pvalue": null,
-      "enrichment_significant": false,
-      "confidence_notes": "No specific mention in text or figures.",
-      "supporting_quotes": [],
-      "source_figures": [],
-      "self_assessment": "low",
-      "assessment_notes": "No information available."
-    },
-    "axenic_LD+coculture_darkness": {
-      "id": "natl2a_axenic_ld+coculture_darkness",
-      "name": "Prochlorococcus NATL2A cluster axenic_LD+coculture_darkness (mixed, periodicity)",
-      "functional_description": "Not discussed in paper.",
-      "behavioral_description": "Not discussed in paper.",
-      "direction": "mixed",
-      "enrichment_category": "",
-      "enrichment_pvalue": null,
-      "enrichment_significant": false,
-      "confidence_notes": "No specific mention in text or figures.",
-      "supporting_quotes": [],
-      "source_figures": [],
-      "self_assessment": "low",
-      "assessment_notes": "No information available."
-    },
-    "coculture_LD": {
-      "id": "natl2a_coculture_ld",
-      "name": "Prochlorococcus NATL2A cluster coculture_LD (mixed, periodicity)",
-      "functional_description": "Includes genes with 24-h periodicity only in coculture L:D conditions. Not specifically described in paper.",
-      "behavioral_description": "Genes show 24-h periodic oscillations in coculture L:D but not in axenic or extended darkness conditions.",
-      "direction": "mixed",
-      "enrichment_category": "",
-      "enrichment_pvalue": null,
-      "enrichment_significant": false,
-      "confidence_notes": "Limited functional description in paper for this cluster.",
-      "supporting_quotes": [
+        },
         {
-          "quote": "Subsets of the Prochlorococcus transcriptome exhibited periodic oscillations under different combinations of culture conditions, including those that oscillated only as a function of coculture.",
+          "quote": "Transcripts associated with a variety of metabolic pathways, including the Calvin cycle, glycolysis, fatty acid biosynthesis, glycogen metabolism, and photosynthesis.",
           "location": "Page 11"
         }
       ],
       "source_figures": [
-        "Figure 4A",
-        "Table S4A"
+        "Figure 4"
       ],
       "self_assessment": "medium",
-      "assessment_notes": "Behavioral description based on periodicity data; functional description limited."
+      "assessment_notes": "Descriptions based on periodicity and highlighted genes in the paper."
+    },
+    "axenic_LD+coculture_LD+axenic_darkness": {
+      "id": "natl2a_axenic_ld+coculture_ld+axenic_darkness",
+      "name": "Prochlorococcus NATL2A cluster axenic_LD+coculture_LD+axenic_darkness (mixed, not discussed)",
+      "functional_description": "Not discussed in paper.",
+      "behavioral_description": "Periodic in axenic L:D, coculture L:D, and axenic darkness, not in coculture darkness.",
+      "direction": "mixed",
+      "enrichment_category": "",
+      "enrichment_pvalue": null,
+      "enrichment_significant": false,
+      "confidence_notes": "",
+      "supporting_quotes": [],
+      "source_figures": [],
+      "self_assessment": "low",
+      "assessment_notes": "No explicit description of this cluster in the paper."
+    },
+    "axenic_LD+coculture_LD+axenic_darkness+coculture_darkness": {
+      "id": "natl2a_axenic_ld+coculture_ld+axenic_darkness+coculture_darkness",
+      "name": "Prochlorococcus NATL2A cluster axenic_LD+coculture_LD+axenic_darkness+coculture_darkness (mixed, not discussed)",
+      "functional_description": "Not discussed in paper.",
+      "behavioral_description": "Periodic in all four conditions: axenic L:D, coculture L:D, axenic darkness, and coculture darkness.",
+      "direction": "mixed",
+      "enrichment_category": "",
+      "enrichment_pvalue": null,
+      "enrichment_significant": false,
+      "confidence_notes": "",
+      "supporting_quotes": [],
+      "source_figures": [],
+      "self_assessment": "low",
+      "assessment_notes": "No explicit description of this cluster in the paper."
+    },
+    "axenic_LD+coculture_LD+coculture_darkness": {
+      "id": "natl2a_axenic_ld+coculture_ld+coculture_darkness",
+      "name": "Prochlorococcus NATL2A cluster axenic_LD+coculture_LD+coculture_darkness (mixed, not discussed)",
+      "functional_description": "Not discussed in paper.",
+      "behavioral_description": "Periodic in axenic L:D, coculture L:D, and coculture darkness, not in axenic darkness.",
+      "direction": "mixed",
+      "enrichment_category": "",
+      "enrichment_pvalue": null,
+      "enrichment_significant": false,
+      "confidence_notes": "",
+      "supporting_quotes": [],
+      "source_figures": [],
+      "self_assessment": "low",
+      "assessment_notes": "No explicit description of this cluster in the paper."
+    },
+    "axenic_LD+coculture_darkness": {
+      "id": "natl2a_axenic_ld+coculture_darkness",
+      "name": "Prochlorococcus NATL2A cluster axenic_LD+coculture_darkness (mixed, not discussed)",
+      "functional_description": "Not discussed in paper.",
+      "behavioral_description": "Periodic in axenic L:D and coculture darkness, not in coculture L:D or axenic darkness.",
+      "direction": "mixed",
+      "enrichment_category": "",
+      "enrichment_pvalue": null,
+      "enrichment_significant": false,
+      "confidence_notes": "",
+      "supporting_quotes": [],
+      "source_figures": [],
+      "self_assessment": "low",
+      "assessment_notes": "No explicit description of this cluster in the paper."
+    },
+    "coculture_LD": {
+      "id": "natl2a_coculture_ld",
+      "name": "Prochlorococcus NATL2A cluster coculture_LD (mixed, not discussed)",
+      "functional_description": "Not discussed in paper.",
+      "behavioral_description": "Periodic in coculture L:D only, not in axenic or darkness conditions.",
+      "direction": "mixed",
+      "enrichment_category": "",
+      "enrichment_pvalue": null,
+      "enrichment_significant": false,
+      "confidence_notes": "",
+      "supporting_quotes": [],
+      "source_figures": [],
+      "self_assessment": "low",
+      "assessment_notes": "No explicit description of this cluster in the paper."
     },
     "coculture_LD+axenic_darkness": {
       "id": "natl2a_coculture_ld+axenic_darkness",
-      "name": "Prochlorococcus NATL2A cluster coculture_LD+axenic_darkness (mixed, periodicity)",
+      "name": "Prochlorococcus NATL2A cluster coculture_LD+axenic_darkness (mixed, not discussed)",
       "functional_description": "Not discussed in paper.",
-      "behavioral_description": "Not discussed in paper.",
+      "behavioral_description": "Periodic in coculture L:D and axenic darkness, not in axenic L:D or coculture darkness.",
       "direction": "mixed",
       "enrichment_category": "",
       "enrichment_pvalue": null,
       "enrichment_significant": false,
-      "confidence_notes": "No specific mention in text or figures.",
+      "confidence_notes": "",
       "supporting_quotes": [],
       "source_figures": [],
       "self_assessment": "low",
-      "assessment_notes": "No information available."
+      "assessment_notes": "No explicit description of this cluster in the paper."
     },
     "coculture_LD+coculture_darkness": {
       "id": "natl2a_coculture_ld+coculture_darkness",
-      "name": "Prochlorococcus NATL2A cluster coculture_LD+coculture_darkness (mixed, periodicity)",
+      "name": "Prochlorococcus NATL2A cluster coculture_LD+coculture_darkness (mixed, not discussed)",
       "functional_description": "Not discussed in paper.",
-      "behavioral_description": "Not discussed in paper.",
+      "behavioral_description": "Periodic in coculture L:D and coculture darkness, not in axenic conditions.",
       "direction": "mixed",
       "enrichment_category": "",
       "enrichment_pvalue": null,
       "enrichment_significant": false,
-      "confidence_notes": "No specific mention in text or figures.",
+      "confidence_notes": "",
       "supporting_quotes": [],
       "source_figures": [],
       "self_assessment": "low",
-      "assessment_notes": "No information available."
+      "assessment_notes": "No explicit description of this cluster in the paper."
     },
     "coculture_darkness": {
       "id": "natl2a_coculture_darkness",
-      "name": "Prochlorococcus NATL2A cluster coculture_darkness (mixed, periodicity)",
+      "name": "Prochlorococcus NATL2A cluster coculture_darkness (mixed, not discussed)",
       "functional_description": "Not discussed in paper.",
-      "behavioral_description": "Not discussed in paper.",
+      "behavioral_description": "Periodic in coculture darkness only, not in any L:D or axenic conditions.",
       "direction": "mixed",
       "enrichment_category": "",
       "enrichment_pvalue": null,
       "enrichment_significant": false,
-      "confidence_notes": "No specific mention in text or figures.",
+      "confidence_notes": "",
       "supporting_quotes": [],
       "source_figures": [],
       "self_assessment": "low",
-      "assessment_notes": "No information available."
+      "assessment_notes": "No explicit description of this cluster in the paper."
     },
     "not_periodic": {
       "id": "natl2a_not_periodic",
       "name": "Prochlorococcus NATL2A cluster not_periodic (mixed, not discussed)",
       "functional_description": "Not discussed in paper.",
-      "behavioral_description": "Not discussed in paper.",
+      "behavioral_description": "Not periodic in any condition.",
       "direction": "mixed",
       "enrichment_category": "",
       "enrichment_pvalue": null,
       "enrichment_significant": false,
-      "confidence_notes": "No specific mention in text or figures.",
+      "confidence_notes": "",
       "supporting_quotes": [],
       "source_figures": [],
       "self_assessment": "low",
-      "assessment_notes": "No information available."
+      "assessment_notes": "No explicit description of this cluster in the paper."
     }
   }
 }

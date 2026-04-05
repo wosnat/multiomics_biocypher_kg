@@ -1,123 +1,98 @@
 # Biller 2018 — natl2a_periodicity
 
-## Cluster axenic_LD | mixed | medium
+## Cluster axenic_LD | mixed | low
 
-**Name:** Prochlorococcus NATL2A cluster axenic_LD (mixed, periodicity)
+**Name:** Prochlorococcus NATL2A cluster axenic_LD (mixed, not discussed)
 **Enrichment:**  (p=None)
-**Functional:** This cluster includes genes exhibiting 24-h periodicity only in axenic L:D conditions. Not discussed in paper in detail for specific genes or pathways.
+**Functional:** Not discussed in paper.
 
-**Behavioral:** Genes show 24-h periodic oscillations in axenic L:D culture but lose periodicity in coculture and under extended darkness.
-
-**Notes:** Limited functional description in paper for this cluster.
-
-**Quotes:**
-- [Page 11] The largest group of Prochlorococcus transcripts (42% of all protein-encoding genes) showed 24-h periodicity in both axenic and cocultures under diel L:D conditions but did not continue to oscillate under extended darkness.
+**Behavioral:** Periodic in axenic L:D only, not in coculture or darkness.
 
 ## Cluster axenic_LD+axenic_darkness+coculture_darkness | mixed | low
 
-**Name:** Prochlorococcus NATL2A cluster axenic_LD+axenic_darkness+coculture_darkness (mixed, periodicity)
+**Name:** Prochlorococcus NATL2A cluster axenic_LD+axenic_darkness+coculture_darkness (mixed, not discussed)
 **Enrichment:**  (p=None)
 **Functional:** Not discussed in paper.
 
-**Behavioral:** Not discussed in paper.
-
-**Notes:** No specific mention in text or figures.
+**Behavioral:** Periodic in axenic L:D, axenic darkness, and coculture darkness, not in coculture L:D.
 
 ## Cluster axenic_LD+coculture_LD | mixed | medium
 
-**Name:** Prochlorococcus NATL2A cluster axenic_LD+coculture_LD (mixed, periodicity)
-**Enrichment:**  (p=None)
-**Functional:** Includes genes with 24-h periodicity in both axenic and coculture L:D conditions but not under extended darkness. Not specifically enriched for pathways in paper.
+**Name:** Prochlorococcus NATL2A cluster axenic_LD+coculture_LD (mixed, photosynthesis and metabolism)
+**Enrichment:** Photosynthesis and metabolism (p=None)
+**Functional:** Includes transcripts associated with photosystem I and II components (e.g., psbA, psbB, psaA, psaB) and metabolic pathways such as Calvin cycle, glycolysis, fatty acid biosynthesis, and glycogen metabolism, indicating maintenance of regular metabolic functionality.
 
-**Behavioral:** Genes oscillate with 24-h periodicity in both axenic and coculture L:D conditions but lose periodicity under extended darkness.
+**Behavioral:** Periodic in both axenic and coculture L:D conditions, but not under extended darkness. More transcripts retain periodicity in coculture than axenic under L:D.
 
-**Notes:** Functional roles not detailed; behavior based on periodicity patterns.
+**Notes:** Functional description inferred from highlighted genes and periodicity patterns.
 
 **Quotes:**
 - [Page 11] The largest group of Prochlorococcus transcripts (42% of all protein-encoding genes) showed 24-h periodicity in both axenic and cocultures under diel L:D conditions but did not continue to oscillate under extended darkness.
+- [Page 11] Transcripts associated with a variety of metabolic pathways, including the Calvin cycle, glycolysis, fatty acid biosynthesis, glycogen metabolism, and photosynthesis.
 
 ## Cluster axenic_LD+coculture_LD+axenic_darkness | mixed | low
 
-**Name:** Prochlorococcus NATL2A cluster axenic_LD+coculture_LD+axenic_darkness (mixed, periodicity)
+**Name:** Prochlorococcus NATL2A cluster axenic_LD+coculture_LD+axenic_darkness (mixed, not discussed)
 **Enrichment:**  (p=None)
 **Functional:** Not discussed in paper.
 
-**Behavioral:** Not discussed in paper.
-
-**Notes:** No specific mention in text or figures.
+**Behavioral:** Periodic in axenic L:D, coculture L:D, and axenic darkness, not in coculture darkness.
 
 ## Cluster axenic_LD+coculture_LD+axenic_darkness+coculture_darkness | mixed | low
 
-**Name:** Prochlorococcus NATL2A cluster axenic_LD+coculture_LD+axenic_darkness+coculture_darkness (mixed, periodicity)
+**Name:** Prochlorococcus NATL2A cluster axenic_LD+coculture_LD+axenic_darkness+coculture_darkness (mixed, not discussed)
 **Enrichment:**  (p=None)
 **Functional:** Not discussed in paper.
 
-**Behavioral:** Not discussed in paper.
-
-**Notes:** No specific mention in text or figures.
+**Behavioral:** Periodic in all four conditions: axenic L:D, coculture L:D, axenic darkness, and coculture darkness.
 
 ## Cluster axenic_LD+coculture_LD+coculture_darkness | mixed | low
 
-**Name:** Prochlorococcus NATL2A cluster axenic_LD+coculture_LD+coculture_darkness (mixed, periodicity)
+**Name:** Prochlorococcus NATL2A cluster axenic_LD+coculture_LD+coculture_darkness (mixed, not discussed)
 **Enrichment:**  (p=None)
 **Functional:** Not discussed in paper.
 
-**Behavioral:** Not discussed in paper.
-
-**Notes:** No specific mention in text or figures.
+**Behavioral:** Periodic in axenic L:D, coculture L:D, and coculture darkness, not in axenic darkness.
 
 ## Cluster axenic_LD+coculture_darkness | mixed | low
 
-**Name:** Prochlorococcus NATL2A cluster axenic_LD+coculture_darkness (mixed, periodicity)
+**Name:** Prochlorococcus NATL2A cluster axenic_LD+coculture_darkness (mixed, not discussed)
 **Enrichment:**  (p=None)
 **Functional:** Not discussed in paper.
 
-**Behavioral:** Not discussed in paper.
+**Behavioral:** Periodic in axenic L:D and coculture darkness, not in coculture L:D or axenic darkness.
 
-**Notes:** No specific mention in text or figures.
+## Cluster coculture_LD | mixed | low
 
-## Cluster coculture_LD | mixed | medium
-
-**Name:** Prochlorococcus NATL2A cluster coculture_LD (mixed, periodicity)
+**Name:** Prochlorococcus NATL2A cluster coculture_LD (mixed, not discussed)
 **Enrichment:**  (p=None)
-**Functional:** Includes genes with 24-h periodicity only in coculture L:D conditions. Not specifically described in paper.
+**Functional:** Not discussed in paper.
 
-**Behavioral:** Genes show 24-h periodic oscillations in coculture L:D but not in axenic or extended darkness conditions.
-
-**Notes:** Limited functional description in paper for this cluster.
-
-**Quotes:**
-- [Page 11] Subsets of the Prochlorococcus transcriptome exhibited periodic oscillations under different combinations of culture conditions, including those that oscillated only as a function of coculture.
+**Behavioral:** Periodic in coculture L:D only, not in axenic or darkness conditions.
 
 ## Cluster coculture_LD+axenic_darkness | mixed | low
 
-**Name:** Prochlorococcus NATL2A cluster coculture_LD+axenic_darkness (mixed, periodicity)
+**Name:** Prochlorococcus NATL2A cluster coculture_LD+axenic_darkness (mixed, not discussed)
 **Enrichment:**  (p=None)
 **Functional:** Not discussed in paper.
 
-**Behavioral:** Not discussed in paper.
-
-**Notes:** No specific mention in text or figures.
+**Behavioral:** Periodic in coculture L:D and axenic darkness, not in axenic L:D or coculture darkness.
 
 ## Cluster coculture_LD+coculture_darkness | mixed | low
 
-**Name:** Prochlorococcus NATL2A cluster coculture_LD+coculture_darkness (mixed, periodicity)
+**Name:** Prochlorococcus NATL2A cluster coculture_LD+coculture_darkness (mixed, not discussed)
 **Enrichment:**  (p=None)
 **Functional:** Not discussed in paper.
 
-**Behavioral:** Not discussed in paper.
-
-**Notes:** No specific mention in text or figures.
+**Behavioral:** Periodic in coculture L:D and coculture darkness, not in axenic conditions.
 
 ## Cluster coculture_darkness | mixed | low
 
-**Name:** Prochlorococcus NATL2A cluster coculture_darkness (mixed, periodicity)
+**Name:** Prochlorococcus NATL2A cluster coculture_darkness (mixed, not discussed)
 **Enrichment:**  (p=None)
 **Functional:** Not discussed in paper.
 
-**Behavioral:** Not discussed in paper.
-
-**Notes:** No specific mention in text or figures.
+**Behavioral:** Periodic in coculture darkness only, not in any L:D or axenic conditions.
 
 ## Cluster not_periodic | mixed | low
 
@@ -125,6 +100,4 @@
 **Enrichment:**  (p=None)
 **Functional:** Not discussed in paper.
 
-**Behavioral:** Not discussed in paper.
-
-**Notes:** No specific mention in text or figures.
+**Behavioral:** Not periodic in any condition.

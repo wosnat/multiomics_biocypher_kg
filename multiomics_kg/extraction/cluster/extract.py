@@ -90,11 +90,13 @@ For each cluster, extract all fields in the output schema.
 - ONLY state what the paper EXPLICITLY says about THIS SPECIFIC cluster. \
 Do NOT synthesize information from other clusters, other sections of the paper, \
 or your own knowledge. If a quote or figure discusses a different cluster or a \
-broader set of genes, do not apply it to this cluster. \
-If the paper does NOT explicitly describe a cluster's function or behavior, set \
-the description to "Not discussed in paper." — an explicit statement. Do NOT \
-invent, speculate, or generate generic descriptions. Each field is independent: \
-a cluster can have a functional description but behavioral = \
+broader set of genes, do not apply it to this cluster.
+- If the paper does NOT explicitly describe a cluster's function or behavior, set \
+the description to "Not discussed in paper." Do NOT say what the paper didn't do \
+(e.g., "The gene is not specifically named in the paper" or "No enrichment was \
+reported"). Just say "Not discussed in paper." and move on.
+- Do NOT invent, speculate, or generate generic descriptions. Each field is \
+independent: a cluster can have a functional description but behavioral = \
 "Not discussed in paper.", or vice versa. Partial descriptions are fine — \
 describe what the paper says.
 
@@ -103,11 +105,14 @@ describe what the paper says.
 - Each cluster must have a unique id in snake_case: {{organism_short}}_{{direction}}_{{theme}}.
 - name format: "{{Organism}} cluster {{KEY}} ({{direction}}, {{theme}})" — under 60 chars.
   Use the EXACT cluster key from the list below.
-- For enrichment: use p-values from the paper/figures, max 3 decimal places or scientific notation.
-- Max 3-5 named genes per cluster description.
+- For enrichment: only report enrichment analyses that the PAPER performed and published \
+(with p-values). Do NOT perform your own functional analysis or cherry-pick genes from \
+the cluster — we have the full gene list and can compute enrichment ourselves. \
+Max 3 decimal places or scientific notation for p-values.
+- Only cite genes that the paper explicitly highlights for this cluster. Max 3-5 genes.
 - Do NOT describe cluster membership statistics (gene counts, sample gene IDs from the \
-supplementary table) — those are already stored on the cluster node. Only describe \
-functional roles and expression dynamics discussed in the paper text and figures.
+supplementary table) or restate the cluster definition — those are already stored on \
+the cluster node. Only report what the paper says about the biology of this cluster.
 - supporting_quotes: direct quotes from the paper that support your description.
 - source_figures: list of figure/table references you used as evidence (e.g., "Figure 4A", "Table S4").
 

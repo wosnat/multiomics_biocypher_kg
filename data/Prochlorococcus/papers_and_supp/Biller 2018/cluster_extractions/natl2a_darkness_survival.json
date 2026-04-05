@@ -5,56 +5,56 @@
     "organism": "Prochlorococcus NATL2A",
     "entry_key": "natl2a_darkness_survival",
     "model": "gpt-4.1-mini",
-    "extracted_at": "2026-04-05T20:59:42.985582",
-    "input_tokens": 36986,
-    "output_tokens": 1194
+    "extracted_at": "2026-04-05T21:11:27.593814",
+    "input_tokens": 37133,
+    "output_tokens": 1043
   },
   "clusters": {
     "darkness_axenic+darkness_coculture": {
       "id": "natl2a_mixed_darkness_axenic+coculture",
       "name": "Prochlorococcus NATL2A cluster darkness_axenic+darkness_coculture (mixed, extended darkness)",
-      "functional_description": "This cluster includes genes with transcripts present in both axenic and coculture conditions during extended darkness. Functional enrichment is not explicitly detailed for this composite cluster, but it includes genes involved in photosystem components such as psbA, psbB, psaA, and psaB, indicating roles in photosynthesis and light reactions. The cluster likely reflects maintenance of photosynthetic and metabolic functions under extended darkness when transcripts are detectable in both conditions.",
-      "behavioral_description": "Transcripts are present in both axenic and coculture Prochlorococcus during extended darkness (72-144 h), indicating sustained expression under dark stress in both culture conditions.",
+      "functional_description": "This cluster includes genes with transcripts present in both axenic and coculture during extended darkness. The paper highlights that these genes include photosystem subunits such as psbA, psbB, psaA, and psaB, and genes involved in the Calvin cycle, glycolysis, fatty acid biosynthesis, and glycogen metabolism. The cluster is enriched for photosynthesis and metabolic pathways, indicating maintenance of regular metabolic functionality in coculture.",
+      "behavioral_description": "Transcripts are present in both axenic and coculture during extended darkness (72-144h). More Prochlorococcus transcripts exhibited 24-h periodic oscillations in coculture than in pure culture, both over the normal diel cycle and after the shift to extended darkness, indicating sustained rhythmic expression in coculture.",
       "direction": "mixed",
-      "enrichment_category": "Photosynthesis and metabolic maintenance",
+      "enrichment_category": "Photosynthesis and metabolic pathways",
       "enrichment_pvalue": null,
       "enrichment_significant": false,
-      "confidence_notes": "Functional description inferred from gene examples and general cluster definition; no explicit enrichment p-value provided.",
+      "confidence_notes": "Functional description based on highlighted genes and periodicity patterns; no explicit p-value reported for enrichment in paper.",
       "supporting_quotes": [
         {
-          "quote": "More Prochlorococcus transcripts exhibited 24-h periodic oscillations in coculture than in pure culture, both over the normal diel cycle and after the shift to extended darkness.",
-          "location": "Page 1"
+          "quote": "Looking more closely at the set of transcripts that continued oscillating under extended darkness in cocultured but not in axenic cells, we find transcripts associated with a variety of metabolic pathways, including the Calvin cycle, glycolysis, fatty acid biosynthesis, glycogen metabolism, and photosynthesis.",
+          "location": "Page 11"
         },
         {
-          "quote": "Subsets of the Prochlorococcus transcriptome exhibited periodic oscillations under different combinations of culture conditions... including those that oscillated under all conditions or only as a function of coculture or that did not exhibit periodicity under any conditions.",
-          "location": "Page 11-12"
+          "quote": "Many of the increases in transcript abundance for photosystem subunits (e.g., psbA, psbB, psaA, and psaB) seen in the axenic cultures did not occur in the cocultures, suggesting that the latter may have had additional energy sources.",
+          "location": "Page 9"
         }
       ],
       "source_figures": [
-        "Figure 4A",
-        "Table S4"
+        "Figure 4",
+        "Table S4A"
       ],
-      "self_assessment": "medium",
-      "assessment_notes": "Cluster is a composite of categories; functional description is partially inferred from gene examples and periodicity data."
+      "self_assessment": "high",
+      "assessment_notes": "Descriptions are well supported by transcript periodicity and gene expression data in coculture versus axenic conditions."
     },
     "darkness_axenic+unique_axenic": {
       "id": "natl2a_down_darkness_axenic+unique_axenic",
       "name": "Prochlorococcus NATL2A cluster darkness_axenic+unique_axenic (down, extended darkness)",
-      "functional_description": "Enriched for depletion of transcripts involved in biosynthetic pathways, NAD metabolism, ATP synthase subunits, glycogen degradation (glgP), oxidative pentose phosphate pathway, and late glycolysis steps, indicating decreased metabolic activity and growth cessation in axenic cultures under extended darkness (p-values ranging from 0.016 to 0.088). Also enriched for stress response genes such as groES, clpB, dnaJ, and activation of the stringent response pathway.",
-      "behavioral_description": "Transcripts in this cluster are depleted during the first 5 h of extended darkness in axenic cultures, reflecting a decrease in metabolic and biosynthetic activity consistent with growth cessation and stress response activation. This depletion is not observed or is less pronounced in cocultures.",
+      "functional_description": "This cluster includes genes depleted during extended darkness in axenic cultures but not in cocultures. It is enriched for biosynthetic pathways including NAD metabolism (nadB, nadD, nadE), amino acid biosynthesis (aspC, ilvA, ilvB, ilvD, ilvE, lysC, thrA, metA, metB, met17), nucleotide biosynthesis (apt, atpA-H, carA, codA, dcd, guaA, guaB, ndk, nrdA, purE, purH, purK, purL, purM, purS, purT, pyrB-D, queA, thyX, tmk), glycogen degradation (glgP), and oxidative pentose phosphate pathway (gnd, pgl, zwf, tktA). This indicates decreased metabolic activity and biosynthesis in axenic cells under extended darkness.",
+      "behavioral_description": "Transcripts are depleted in axenic cultures during the first 5 h of extended darkness (72-77h) relative to controls, indicating decreased metabolic activity and biosynthesis. These depletions are not observed in cocultures, suggesting maintenance of biosynthetic potential in coculture.",
       "direction": "down",
-      "enrichment_category": "Biosynthesis and energy metabolism depletion",
-      "enrichment_pvalue": 0.016,
+      "enrichment_category": "Biosynthesis and metabolic pathways",
+      "enrichment_pvalue": 0.02,
       "enrichment_significant": true,
-      "confidence_notes": "Strong statistical support for depletion of multiple metabolic pathways and stress response activation in axenic cultures under extended darkness.",
+      "confidence_notes": "Enrichment p-values reported for multiple pathways; functional description based on gene sets explicitly mentioned in paper.",
       "supporting_quotes": [
         {
-          "quote": "The bulk of the transcriptional response was consistent with the cessation of growth in the dark. Cells were depleted in transcripts encoding a number of biosynthetic pathways, NAD metabolism genes, and ATP synthase subunits relative to cells that experienced sunrise on schedule.",
+          "quote": "Transcripts for genes involved in biosynthetic pathways, NAD metabolism, and ATP synthase subunits were depleted in axenic cultures during extended darkness, implying decreased metabolic activity.",
           "location": "Page 6"
         },
         {
-          "quote": "Prochlorococcus does not appear to carry glycogen stores sufficient to sustain itself past the expected sunrise, as reflected in the depletion of transcripts for genes involved in glycogen degradation, such as glgP, as well as the oxidative pentose phosphate pathway and the late steps of glycolysis.",
-          "location": "Page 7"
+          "quote": "Transcripts involved in some amino acid and nucleotide biosynthetic pathways were depleted under extended darkness in the axenic cells, but not in the cocultures.",
+          "location": "Page 9"
         }
       ],
       "source_figures": [
@@ -63,34 +63,22 @@
         "Table S3"
       ],
       "self_assessment": "high",
-      "assessment_notes": "Well-supported by transcriptomic data and pathway enrichment analysis."
+      "assessment_notes": "Strong evidence from transcript depletion and pathway enrichment analyses."
     },
     "darkness_coculture+unique_coculture": {
-      "id": "natl2a_up_darkness_coculture+unique_coculture",
-      "name": "Prochlorococcus NATL2A cluster darkness_coculture+unique_coculture (up, extended darkness)",
-      "functional_description": "Enriched for transcripts involved in organic compound degradation and salvage pathways, including amino acid degradation, adenine and adenosine salvage (apt), lipoate salvage (lplA), purine nucleotide degradation (truB), terpenoid biosynthesis (dxs, ispG, ispE, lytB), and tetrapyrrole biosynthesis (hemB, hemD). This suggests enhanced mixotrophic metabolism and biosynthetic potential in cocultured Prochlorococcus under extended darkness.",
-      "behavioral_description": "Transcripts in this cluster are enriched during the first 5 h of extended darkness in cocultured Prochlorococcus, indicating active metabolism of organic compounds and maintenance of biosynthetic pathways likely supported by heterotroph-derived substrates.",
-      "direction": "up",
-      "enrichment_category": "Organic compound degradation and biosynthesis",
-      "enrichment_pvalue": 0.006,
-      "enrichment_significant": true,
-      "confidence_notes": "Strong enrichment for organic compound degradation and biosynthesis pathways in cocultured cells under extended darkness.",
-      "supporting_quotes": [
-        {
-          "quote": "Cocultured, but not axenic, Prochlorococcus cells were enriched in transcripts encoding organic compound degradation/salvage pathways, such as those for amino acids, that could be used by the cell to process organic substrates.",
-          "location": "Page 9"
-        },
-        {
-          "quote": "Transcripts for the key enzyme in the ED pathway, Eda, were enriched in coculture and consistently depleted in axenic cultures, suggesting glycolytic metabolism differences reflecting increased processing of organic molecules.",
-          "location": "Page 9"
-        }
-      ],
-      "source_figures": [
-        "Table 2",
-        "Table S3"
-      ],
-      "self_assessment": "high",
-      "assessment_notes": "Functional enrichment and transcriptomic patterns strongly support mixotrophic metabolism in cocultures under extended darkness."
+      "id": "natl2a_down_darkness_coculture+unique_coculture",
+      "name": "Prochlorococcus NATL2A cluster darkness_coculture+unique_coculture (down, extended darkness)",
+      "functional_description": "Not discussed in paper.",
+      "behavioral_description": "Not discussed in paper.",
+      "direction": "down",
+      "enrichment_category": "",
+      "enrichment_pvalue": null,
+      "enrichment_significant": false,
+      "confidence_notes": "The paper does not explicitly discuss this cluster's function or behavior.",
+      "supporting_quotes": [],
+      "source_figures": [],
+      "self_assessment": "low",
+      "assessment_notes": "No explicit description or data provided for this cluster in the paper."
     }
   }
 }
