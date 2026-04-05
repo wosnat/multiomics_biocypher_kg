@@ -3,165 +3,172 @@
     "paper": "Tolonen 2006",
     "doi": null,
     "organism": "Prochlorococcus MIT9313",
-    "extracted_at": "2026-04-05T13:32:58.876282",
-    "table_key": "mit9313_kmeans_nstarvation",
+    "entry_key": "mit9313_kmeans_nstarvation",
     "model": "gpt-4.1-mini",
-    "method": "per-paper extraction"
+    "extracted_at": "2026-04-05T19:17:46.827066",
+    "input_tokens": 62994,
+    "output_tokens": 1501
   },
   "clusters": {
     "1": {
-      "id": "mit9313_up_1",
+      "id": "mit9313_up_cluster_1",
       "name": "MIT9313 cluster 1 (up, transport and binding)",
-      "functional_description": "This cluster contains the most rapidly and highly upregulated genes in MIT9313 during nitrogen starvation, including nitrogen transport genes such as urtA and the nitrite permease, as well as hli genes (hliS, hli7). It also includes the transcription factor ntcA and other genes with putative NtcA binding sites.",
-      "behavioral_description": "Genes in this cluster are rapidly and strongly upregulated early in the nitrogen starvation time course.",
-      "peak_time_hours": 6.0,
-      "period_hours": null,
+      "functional_description": "Enriched for transport and binding (p=0.04). Contains nitrogen transport genes urtA and the nitrite permease, and hli genes hliS and hli7. Also includes genes with high-ranking NtcA binding sites such as ntcA and sigma factors.",
+      "behavioral_description": "Most rapidly and strongly upregulated cluster during nitrogen starvation, with genes responding within the first hours of the time course and sustained upregulation.",
       "direction": "up",
       "enrichment_category": "transport and binding",
       "enrichment_pvalue": 0.04,
       "enrichment_significant": true,
-      "confidence_notes": "Strong functional enrichment and early rapid upregulation support confidence in this cluster.",
+      "confidence_notes": "Strong functional enrichment and early rapid upregulation.",
       "supporting_quotes": [
         {
-          "quote": "Cluster 1, the most rapidly and highly upregulated genes in each strain, contains N transport genes such as MED4 and MIT9313 urtA, MED4 cynA, and the MIT9313 nitrite permease.",
+          "quote": "Cluster 1, the most rapidly and highly upregulated genes in each strain, contains N transport genes such as MED4 and MIT9313 urtA",
           "location": "Page 3"
         },
         {
-          "quote": "MIT9313 cluster 1 contains genes known to be NtcA targets and includes hli genes hliS and hli7, which are highly upregulated.",
-          "location": "Page 4"
+          "quote": "MIT9313 cluster 1 contains nitrogen transport genes urtA and the nitrite permease, and hli genes hliS and hli7.",
+          "location": "Page 3"
         }
       ],
+      "source_figures": [
+        "Figure 3",
+        "Table I",
+        "Table II"
+      ],
       "self_assessment": "high",
-      "assessment_notes": "Clear functional theme and strong expression pattern."
+      "assessment_notes": ""
     },
     "2": {
-      "id": "mit9313_up_2",
+      "id": "mit9313_up_cluster_2",
       "name": "MIT9313 cluster 2 (up, regulation)",
-      "functional_description": "This cluster contains genes involved in regulation, including two sigma factors (PMT2246 and PMT0346) and other regulatory genes. One of the sigma factors (PMT2246) has a strong NtcA binding site, suggesting indirect regulation by NtcA.",
-      "behavioral_description": "Genes in this cluster are upregulated during nitrogen starvation, but with a slower and more sustained pattern than cluster 1.",
-      "peak_time_hours": 24.0,
-      "period_hours": null,
+      "functional_description": "Contains regulatory genes including two sigma factors (PMT2246 and PMT0346) that are upregulated during nitrogen starvation. One sigma factor (PMT2246) has a strong NtcA binding site, suggesting indirect regulation by NtcA.",
+      "behavioral_description": "Upregulated during nitrogen starvation, likely contributing to the regulation of gene expression in response to nitrogen stress.",
       "direction": "up",
       "enrichment_category": "regulation",
       "enrichment_pvalue": 0.03,
       "enrichment_significant": true,
-      "confidence_notes": "Functional enrichment for regulatory genes and presence of sigma factors support confidence.",
+      "confidence_notes": "Sigma factors upregulated with evidence of NtcA regulation for one factor.",
       "supporting_quotes": [
         {
-          "quote": "Both strains also have an upregulated cluster containing two sigma factors, MED4 cluster 5 and MIT9313 cluster 2.",
-          "location": "Page 3"
+          "quote": "Two out of seven MIT9313 sigma factors (PMT2246 and PMT0346) were upregulated and may therefore play a role in the upregulation of gene expression during N stress in Prochlorococcus.",
+          "location": "Page 5"
         },
         {
-          "quote": "Two out of seven MIT9313 sigma factors (PMT2246 and PMT0346) were upregulated and may play a role in the upregulation of gene expression during N stress.",
+          "quote": "One of the upregulated sigma factors in MIT9313 (PMT2246) has a strong NtcA binding site, suggesting that NtcA may indirectly act upon additional genes by activating this sigma factor.",
           "location": "Page 5"
         }
       ],
+      "source_figures": [
+        "Figure 4B",
+        "Table I"
+      ],
       "self_assessment": "high",
-      "assessment_notes": "Strong regulatory gene enrichment and consistent expression."
+      "assessment_notes": ""
     },
     "3": {
-      "id": "mit9313_up_3",
+      "id": "mit9313_up_cluster_3",
       "name": "MIT9313 cluster 3 (up, regulation)",
-      "functional_description": "This cluster contains genes involved in regulation, but with less clear functional enrichment. It may include additional regulatory genes responding to nitrogen starvation.",
-      "behavioral_description": "Genes in this cluster show upregulation during nitrogen starvation with moderate timing and magnitude.",
-      "peak_time_hours": null,
-      "period_hours": null,
+      "functional_description": "Contains regulatory genes with weaker enrichment (p=0.09). Specific genes not detailed in paper.",
+      "behavioral_description": "Upregulated during nitrogen starvation with a slower and sustained pattern compared to cluster 1.",
       "direction": "up",
       "enrichment_category": "regulation",
       "enrichment_pvalue": 0.09,
       "enrichment_significant": false,
-      "confidence_notes": "Weaker functional enrichment than cluster 2, but still regulatory theme.",
+      "confidence_notes": "Functional enrichment is weak and specific genes not discussed.",
       "supporting_quotes": [],
+      "source_figures": [
+        "Figure 3"
+      ],
       "self_assessment": "medium",
-      "assessment_notes": "Less clear functional coherence."
+      "assessment_notes": "Limited description in paper."
     },
     "4": {
-      "id": "mit9313_down_4",
+      "id": "mit9313_down_cluster_4",
       "name": "MIT9313 cluster 4 (down, transport and binding)",
-      "functional_description": "This cluster contains genes that were unchanged until being repressed only at the final time point, possibly representing genes repressed as part of a general transcriptional shutdown. It includes genes linking nitrogen and carbon metabolism such as glnB, icd, acnB, and rbcLS.",
-      "behavioral_description": "Genes in this cluster are repressed late in the nitrogen starvation time course, likely reflecting severe starvation and general shutdown.",
-      "peak_time_hours": 48.0,
-      "period_hours": null,
+      "functional_description": "Contains genes linking nitrogen and carbon metabolism including glnB, icd, acnB, and rbcLS. These genes are repressed only at the final time point, likely reflecting general transcriptional shutdown rather than specific nitrogen stress response.",
+      "behavioral_description": "Genes unchanged until repressed at 48h, coinciding with severe starvation and general transcriptional shutdown.",
       "direction": "down",
       "enrichment_category": "transport and binding",
       "enrichment_pvalue": 0.39,
       "enrichment_significant": false,
-      "confidence_notes": "Late repression and mixed functional roles suggest general shutdown rather than specific nitrogen response.",
+      "confidence_notes": "Repression likely due to general shutdown, not specific N stress response.",
       "supporting_quotes": [
         {
-          "quote": "MIT9313 cluster 4 contains a number of genes that were unchanged until being repressed only at the final time point.",
+          "quote": "MIT9313 cluster 4 contains a number of genes that were unchanged until being repressed only at the final time point. The physiological measurements show that the cells were in a severe state of starvation by this time.",
           "location": "Page 4"
         },
         {
-          "quote": "MIT9313 cluster 4 may represent genes repressed as part of a general shutdown in transcription rather than a specific N stress response.",
+          "quote": "The genes in MIT9313 cluster 4 may thus represent those genes that are repressed as part of a general shutdown in transcription, rather than a specific N stress response.",
           "location": "Page 4"
         }
       ],
-      "self_assessment": "medium",
-      "assessment_notes": "Likely general starvation response."
+      "source_figures": [
+        "Figure 3",
+        "Figure 6"
+      ],
+      "self_assessment": "high",
+      "assessment_notes": "Repression timing and physiological data support interpretation."
     },
     "5": {
-      "id": "mit9313_down_5",
+      "id": "mit9313_down_cluster_5",
       "name": "MIT9313 cluster 5 (down, fatty acid and phospholipid metabolism)",
-      "functional_description": "This cluster is enriched for genes involved in fatty acid and phospholipid metabolism, which are downregulated during nitrogen starvation.",
-      "behavioral_description": "Genes in this cluster show downregulation during nitrogen starvation, possibly reflecting reduced lipid metabolism under stress.",
-      "peak_time_hours": null,
-      "period_hours": null,
+      "functional_description": "Enriched for fatty acid and phospholipid metabolism (p=0.004). Specific genes not detailed in paper.",
+      "behavioral_description": "Downregulated during nitrogen starvation with increasing repression over time.",
       "direction": "down",
       "enrichment_category": "fatty acid and phospholipid metabolism",
       "enrichment_pvalue": 0.004,
       "enrichment_significant": true,
-      "confidence_notes": "Significant enrichment for fatty acid and phospholipid metabolism genes.",
-      "supporting_quotes": [
-        {
-          "quote": "MIT9313 cluster 5 fatty acid and phospholipid P=0.004",
-          "location": "Figure 3 legend"
-        }
+      "confidence_notes": "Strong functional enrichment but limited gene details.",
+      "supporting_quotes": [],
+      "source_figures": [
+        "Figure 3"
       ],
-      "self_assessment": "high",
-      "assessment_notes": "Clear functional enrichment."
+      "self_assessment": "medium",
+      "assessment_notes": "Limited description in paper."
     },
     "6": {
-      "id": "mit9313_down_6",
+      "id": "mit9313_down_cluster_6",
       "name": "MIT9313 cluster 6 (down, photosynthesis and respiration)",
-      "functional_description": "This cluster contains genes involved in photosynthesis and respiration, including photosystem I and II genes and the phycoerythrin gene cpeB, which are downregulated during nitrogen starvation.",
-      "behavioral_description": "Genes in this cluster are strongly downregulated during nitrogen starvation, reflecting reduced photosynthetic activity under stress.",
-      "peak_time_hours": null,
-      "period_hours": null,
+      "functional_description": "Enriched for photosynthesis and respiration genes (p=4.9e-4). Contains genes for photosystem I and II and phycoerythrin gene cpeB.",
+      "behavioral_description": "Genes gradually repressed during nitrogen starvation, with repression increasing over time and peaking at the final time point.",
       "direction": "down",
       "enrichment_category": "photosynthesis and respiration",
       "enrichment_pvalue": 0.00049,
       "enrichment_significant": true,
-      "confidence_notes": "Strong enrichment and consistent downregulation of photosynthesis genes.",
+      "confidence_notes": "Strong enrichment and consistent repression pattern.",
       "supporting_quotes": [
         {
           "quote": "MIT9313 cluster 6, the only cluster enriched for Photosynthesis and Respiration in this strain, contains genes for diverse aspects of photosystem I and II along with the phycoerythrin gene, cpeB.",
           "location": "Page 4"
         }
       ],
+      "source_figures": [
+        "Figure 3"
+      ],
       "self_assessment": "high",
-      "assessment_notes": "Strong and coherent cluster."
+      "assessment_notes": ""
     },
     "7": {
-      "id": "mit9313_down_7",
+      "id": "mit9313_down_cluster_7",
       "name": "MIT9313 cluster 7 (down, translation)",
-      "functional_description": "This cluster is enriched for genes involved in translation, including ribosomal proteins, which are downregulated during nitrogen starvation.",
-      "behavioral_description": "Genes in this cluster show strong downregulation during nitrogen starvation, indicating reduced protein synthesis under stress.",
-      "peak_time_hours": null,
-      "period_hours": null,
+      "functional_description": "Enriched for translation genes (p=7.9e-10). Contains ribosomal protein genes and other translation-related genes.",
+      "behavioral_description": "Strongly downregulated during nitrogen starvation with sustained repression.",
       "direction": "down",
       "enrichment_category": "translation",
       "enrichment_pvalue": 7.9e-10,
       "enrichment_significant": true,
-      "confidence_notes": "Highly significant enrichment for translation-related genes.",
+      "confidence_notes": "Strong functional enrichment and clear repression pattern.",
       "supporting_quotes": [
         {
-          "quote": "Translation (MED4 cluster 7, MIT9313 cluster 7) are highly downregulated clusters.",
+          "quote": "Highly downregulated clusters show strong enrichment for specific functional categories, namely Translation (MIT9313 cluster 7).",
           "location": "Page 3"
         }
       ],
+      "source_figures": [
+        "Figure 3"
+      ],
       "self_assessment": "high",
-      "assessment_notes": "Clear functional cluster."
+      "assessment_notes": ""
     }
   }
 }

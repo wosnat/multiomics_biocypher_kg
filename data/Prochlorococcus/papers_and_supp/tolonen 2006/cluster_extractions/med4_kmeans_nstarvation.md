@@ -2,105 +2,103 @@
 
 ## Cluster 1 | up | high
 
-**Name:** MED4 cluster 1 (up, transport and binding)
+**Name:** Prochlorococcus cluster 1 (up, transport and binding)
 **Enrichment:** transport and binding (p=0.01)
-**Functional:** This cluster contains the most rapidly and highly upregulated genes in MED4 during nitrogen starvation, including nitrogen transport genes such as urtA and cynA, and the nitrite permease in MIT9313 orthologs. It also includes the highly upregulated hli10 gene and other genes with putative NtcA binding sites.
+**Functional:** Contains nitrogen transport genes such as urtA, cynA, and the highly upregulated unknown gene PMM0958 with a top-ranking NtcA binding site, indicating a role in nitrogen transport and assimilation during N starvation.
 
-**Behavioral:** Genes in this cluster are rapidly and strongly upregulated early in the nitrogen starvation time course.
+**Behavioral:** Most rapidly and highly upregulated cluster, with genes responding within 6 hours of N deprivation and peaking early in the time course.
 
-**Notes:** Strong functional enrichment and early rapid upregulation support confidence in this cluster.
+**Notes:** Strong functional enrichment and early rapid upregulation.
 
 **Quotes:**
-- [Page 3] Cluster 1, the most rapidly and highly upregulated genes in each strain, contains N transport genes such as MED4 and MIT9313 urtA, MED4 cynA, and the MIT9313 nitrite permease.
+- [Page 3] Cluster 1, the most rapidly and highly upregulated genes in each strain, contains N transport genes such as MED4 urtA, MED4 cynA
+- [Page 7] MED4 PMM0958 was the most upregulated gene at all time points and has the top-ranking NtcA binding site in the genome
 
 ## Cluster 2 | up | medium
 
-**Name:** MED4 cluster 2 (up, transport and binding)
+**Name:** Prochlorococcus cluster 2 (up, transport and binding)
 **Enrichment:** transport and binding (p=0.12)
-**Functional:** This cluster contains genes involved in transport and binding, including a subset of hli genes that respond rapidly and highly to nitrogen starvation. It also includes regulatory genes such as sigma factors.
+**Functional:** Contains a subset of hli genes (hli10, hli21, hli22) and genes with putative NtcA binding sites, suggesting involvement in nitrogen stress response and photoprotection.
 
-**Behavioral:** Genes in this cluster are rapidly upregulated during nitrogen starvation but to a lesser degree than cluster 1.
+**Behavioral:** Rapid and high upregulation early in the N starvation time course, distinct from a later responding hli gene subset.
 
-**Notes:** Functional enrichment is weaker but includes important transport and hli genes.
+**Notes:** Functional enrichment not statistically significant but contains notable genes.
 
 **Quotes:**
-- [Page 3] MED4 cluster 2 and MIT9313 cluster 1 revealed two distinct subsets of the hli genes: those that responded rapidly and highly (MED4 cluster 2 and MIT9313 cluster 1) and those that responded later and to a lesser degree (MED4 cluster 3 and MIT9313 cluster 2).
+- [Page 3] In both strains, the clusters revealed two distinct subsets of the hli genes: those that responded rapidly and highly (MED4 cluster 2)
+- [Page 7] MED4 hlilO was the first and most highly upregulated among the hli genes in this strain
 
 ## Cluster 3 | up | medium
 
-**Name:** MED4 cluster 3 (up, regulation)
+**Name:** Prochlorococcus cluster 3 (up, regulation)
 **Enrichment:** regulation (p=0.07)
-**Functional:** This cluster contains regulatory genes including sigma factors and other genes involved in regulation during nitrogen starvation.
+**Functional:** Contains a lesser degree of upregulated hli genes and regulatory genes including sigma factors, indicating a role in transcriptional regulation during N stress.
 
-**Behavioral:** Genes in this cluster are upregulated during nitrogen starvation with moderate timing and magnitude.
+**Behavioral:** Genes respond later and to a lesser degree compared to cluster 2, showing a more gradual upregulation pattern.
 
-**Notes:** Regulatory theme but weaker enrichment.
+**Notes:** Functional enrichment marginal; includes regulatory genes and sigma factors.
 
-## Cluster 4 | up | low
+**Quotes:**
+- [Page 3] MED4 cluster 3 and MIT9313 cluster 2 contain hli genes that responded later and to a lesser degree
+- [Page 3] MED4 cluster 5 contains two sigma factors upregulated during N stress
 
-**Name:** MED4 cluster 4 (up, amino acid synthesis)
-**Enrichment:** amino acid synthesis (p=0.18)
-**Functional:** This cluster is enriched for genes involved in amino acid synthesis, which are upregulated during nitrogen starvation.
+## Cluster 4 | down | low
 
-**Behavioral:** Genes in this cluster show upregulation during nitrogen starvation, reflecting increased amino acid synthesis activity.
+**Name:** Prochlorococcus cluster 4 (down, amino acid synthesis)
+**Enrichment:**  (p=None)
+**Functional:** Not discussed in paper.
 
-**Notes:** Weak enrichment for amino acid synthesis genes.
+**Behavioral:** Not discussed in paper.
 
-## Cluster 5 | up | medium
+**Notes:** Paper does not discuss this cluster.
 
-**Name:** MED4 cluster 5 (up, regulation)
-**Enrichment:** regulation (p=0.18)
-**Functional:** This cluster contains regulatory genes including sigma factors that are upregulated during nitrogen starvation.
+## Cluster 5 | down | low
 
-**Behavioral:** Genes in this cluster are upregulated during nitrogen starvation and may play roles in transcriptional regulation.
+**Name:** Prochlorococcus cluster 5 (down, regulation)
+**Enrichment:**  (p=None)
+**Functional:** Not discussed in paper.
 
-**Notes:** Regulatory genes present but weak enrichment.
+**Behavioral:** Not discussed in paper.
+
+**Notes:** Paper does not discuss this cluster.
 
 ## Cluster 6 | down | high
 
-**Name:** MED4 cluster 6 (down, translation)
+**Name:** Prochlorococcus cluster 6 (down, translation)
 **Enrichment:** translation (p=0.001)
-**Functional:** This cluster is enriched for genes involved in translation, including ribosomal proteins, which are strongly downregulated during nitrogen starvation.
+**Functional:** Strongly enriched for translation-related genes (p=0.001), including ribosomal proteins, indicating repression of protein synthesis during N starvation.
 
-**Behavioral:** Genes in this cluster show strong downregulation during nitrogen starvation, indicating reduced protein synthesis under stress.
+**Behavioral:** Highly downregulated cluster with rapid onset of repression during N starvation.
 
-**Notes:** Strong enrichment for translation-related genes.
+**Notes:** Strong functional enrichment and clear repression pattern.
 
 **Quotes:**
-- [Page 3] Highly downregulated clusters show strong enrichment for specific functional categories, namely Translation (MED4 cluster 7, MIT9313 cluster 7).
+- [Page 3] Highly downregulated clusters show strong enrichment for translation (MED4 cluster 7)
 
 ## Cluster 7 | down | high
 
-**Name:** MED4 cluster 7 (down, translation)
-**Enrichment:** translation (p=2.7e-09)
-**Functional:** This cluster is also enriched for translation genes and shows strong downregulation during nitrogen starvation.
+**Name:** Prochlorococcus cluster 7 (down, photosynthesis and respiration)
+**Enrichment:** photosynthesis and respiration (p=2.6e-09)
+**Functional:** Enriched for photosynthesis and respiration genes (p=2.6e-9), including photosystem I genes (psaBDEIJKLM), indicating repression of photosynthetic machinery during N starvation.
 
-**Behavioral:** Genes in this cluster are strongly downregulated during nitrogen starvation, consistent with reduced translation activity.
+**Behavioral:** Strongly downregulated cluster with rapid repression during N starvation.
 
-**Notes:** Highly significant enrichment for translation genes.
+**Notes:** Strong functional enrichment and clear repression pattern.
+
+**Quotes:**
+- [Page 4] MED4 cluster 8 contains numerous genes for photosystem I (psaBDEIJKLM)
+- [Page 3] Highly downregulated clusters show strong enrichment for photosynthesis and respiration (MED4 clusters 8 and 9)
 
 ## Cluster 8 | down | high
 
-**Name:** MED4 cluster 8 (down, photosynthesis and respiration)
-**Enrichment:** photosynthesis and respiration (p=2.6e-09)
-**Functional:** This cluster is enriched for photosynthesis and respiration genes, including photosystem I genes, which are downregulated during nitrogen starvation.
-
-**Behavioral:** Genes in this cluster show strong downregulation during nitrogen starvation, reflecting reduced photosynthetic activity.
-
-**Notes:** Strong enrichment for photosynthesis genes.
-
-**Quotes:**
-- [Page 4] MED4 cluster 8 contains numerous genes for photosystem I (psaBDEIJKLM).
-
-## Cluster 9 | down | high
-
-**Name:** MED4 cluster 9 (down, photosynthesis and respiration)
+**Name:** Prochlorococcus cluster 8 (down, photosynthesis and respiration)
 **Enrichment:** photosynthesis and respiration (p=1.4e-05)
-**Functional:** This cluster is enriched for photosynthesis and respiration genes, including ATP synthase subunits and carbon fixation genes (rbcLS), which are strongly downregulated during nitrogen starvation.
+**Functional:** Enriched for photosynthesis and respiration genes (p=1.4e-5), including ATP synthase subunits and carbon fixation genes (rbcLS), indicating repression of energy metabolism during N starvation.
 
-**Behavioral:** Genes in this cluster show the strongest downregulation during nitrogen starvation, indicating a major reduction in photosynthetic and respiratory activity.
+**Behavioral:** Strongly downregulated cluster with rapid repression during N starvation.
 
-**Notes:** Strongest downregulated cluster with clear photosynthesis gene enrichment.
+**Notes:** Strong functional enrichment and clear repression pattern.
 
 **Quotes:**
-- [Page 4] MED4 cluster 9 contains ATP synthase subunits and the carbon fixation genes (rbcLS).
+- [Page 4] MED4 cluster 9 contains ATP synthase subunits and the carbon fixation genes (rbcLS)
+- [Page 3] Highly downregulated clusters show strong enrichment for photosynthesis and respiration (MED4 clusters 8 and 9)

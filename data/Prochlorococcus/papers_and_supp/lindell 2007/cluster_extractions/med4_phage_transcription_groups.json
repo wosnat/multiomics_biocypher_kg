@@ -3,64 +3,58 @@
     "paper": "Lindell 2007",
     "doi": null,
     "organism": "Prochlorococcus MED4",
-    "extracted_at": "2026-04-05T13:09:47.635209",
-    "table_key": "med4_phage_transcription_groups",
+    "entry_key": "med4_phage_transcription_groups",
     "model": "gpt-4.1-mini",
-    "input_tokens": 14728,
-    "output_tokens": 714,
-    "duration_sec": 11.983645915985107,
-    "method": "run_extraction.py (per-analysis, Responses API)"
+    "extracted_at": "2026-04-05T19:16:46.443746",
+    "input_tokens": 15881,
+    "output_tokens": 595
   },
   "clusters": {
     "1": {
-      "id": "med4_upregulated_early_transient",
-      "name": "MED4 cluster 1 (up, early transient)",
-      "functional_description": "This cluster consists of host genes that are transiently upregulated immediately after phage infection. It includes genes involved in high-light-inducible stress response (hli), carbon metabolism (rbcLS), transcription (rpoC2, rpoD), and ribosomal proteins (rpl5, rpl6, rps8, rps11, rps17). These genes likely represent an early host stress response or phage-induced activation.",
-      "behavioral_description": "Genes in this cluster show a sharp transient peak in expression around 1 hour post infection, then decline.",
-      "peak_time_hours": 1.0,
-      "period_hours": null,
+      "id": "med4_up_20_genes",
+      "name": "Prochlorococcus MED4 cluster 20 genes (up, phage infection response)",
+      "functional_description": "Includes 20 genes transiently upregulated immediately after infection, such as high-light-inducible stress response genes (hli), carbon metabolism gene rbcLS, transcription genes rpoC2 and rpoD, and ribosomal protein genes rpl5, rpl6, rps8, rps11, and rps17. These genes are associated with host stress response and metabolism.",
+      "behavioral_description": "Genes show a rapid transient peak in expression immediately after phage infection, indicating an early stress response by the host.",
       "direction": "up",
-      "enrichment_category": "host stress response and metabolism",
-      "enrichment_pvalue": 0.001,
-      "enrichment_significant": true,
-      "confidence_notes": "High confidence based on microarray data and RT-PCR validation; gene functions well characterized.",
+      "enrichment_category": "Host stress response and metabolism",
+      "enrichment_pvalue": null,
+      "enrichment_significant": false,
+      "confidence_notes": "Gene identities and timing are well supported by microarray and RT-PCR data.",
       "supporting_quotes": [
         {
           "quote": "The first was transiently upregulated immediately after infection and consists of high-light-inducible stress response (hli), carbon metabolism (rbcLS), transcription (rpoC2, rpoD) and ribosome (rpl5, rpl6, rps8, rps11, rps17) genes.",
-          "location": "Page 3, paragraph 3"
-        },
-        {
-          "quote": "Blue and red indicate significantly upregulated genes in transcription groups 1 and 2, respectively (see Supplementary Table 3).",
-          "location": "Page 3, Figure 3 legend"
+          "location": "Page 4"
         }
       ],
+      "source_figures": [
+        "Figure 3",
+        "Supplementary Table 3"
+      ],
       "self_assessment": "high",
-      "assessment_notes": "Clear temporal pattern and gene function annotations support this cluster definition."
+      "assessment_notes": ""
     },
     "2": {
-      "id": "med4_upregulated_late_sustained",
-      "name": "MED4 cluster 2 (up, late sustained)",
-      "functional_description": "This cluster includes host genes upregulated starting about 2 hours post infection and sustained thereafter. It contains genes involved in RNA degradation and modification (rne, rnhB, dus, sun), protein turnover (clpS, AAA ATPase family gene), stress responses (umuD, phoH), and genes of unknown function. These genes may be involved in host RNA degradation and protein turnover, potentially exploited by phage for nucleotide synthesis and stress adaptation.",
-      "behavioral_description": "Genes in this cluster show increased expression starting 2 hours post infection and remain elevated through the infection period.",
-      "peak_time_hours": 3.0,
-      "period_hours": null,
+      "id": "med4_up_25_genes",
+      "name": "Prochlorococcus MED4 cluster 25 genes (up, phage infection response)",
+      "functional_description": "Contains 25 genes upregulated starting 2 hours post infection, including RNA degradation and modification genes (rne, rnhB, dus, sun), protein turnover genes (clpS, AAA ATPase family), stress response genes (umuD, phoH), and genes of unknown function. Many are located in hypervariable genome islands and have homologues in phage genomes.",
+      "behavioral_description": "Genes show a delayed but sustained upregulation beginning 2 hours after infection, suggesting involvement in RNA processing, protein turnover, and stress response during phage infection.",
       "direction": "up",
-      "enrichment_category": "RNA degradation, protein turnover, stress response",
-      "enrichment_pvalue": 0.001,
-      "enrichment_significant": true,
-      "confidence_notes": "Moderate to high confidence; gene functions inferred from annotations and expression timing; some genes of unknown function included.",
+      "enrichment_category": "RNA degradation, protein turnover, and stress response",
+      "enrichment_pvalue": null,
+      "enrichment_significant": false,
+      "confidence_notes": "Functional categories inferred from gene annotations; timing supported by expression data.",
       "supporting_quotes": [
         {
           "quote": "Transcripts of the second group appeared 2 h after infection and included genes involved in RNA degradation and modification (rne, rnhB, dus and sun), protein turnover (clpS, and an AAA ATPase family gene), stress responses (umuD and phoH), and those of unknown function.",
-          "location": "Page 3, paragraph 3"
-        },
-        {
-          "quote": "Red indicate significantly upregulated genes in transcription groups 1 and 2, respectively (see Supplementary Table 3).",
-          "location": "Page 3, Figure 3 legend"
+          "location": "Page 4"
         }
       ],
-      "self_assessment": "medium",
-      "assessment_notes": "Some genes have unknown functions; timing and gene annotations support cluster identity."
+      "source_figures": [
+        "Figure 3",
+        "Supplementary Table 3"
+      ],
+      "self_assessment": "high",
+      "assessment_notes": ""
     }
   }
 }

@@ -3,329 +3,237 @@
     "paper": "Coe 2024",
     "doi": null,
     "organism": "Prochlorococcus NATL2A",
-    "extracted_at": "2026-04-05T13:09:32.075730",
-    "table_key": "supp_table_3_parental_clusters",
+    "entry_key": "supp_table_3_parental_clusters",
     "model": "gpt-4.1-mini",
-    "input_tokens": 34707,
-    "output_tokens": 3272,
-    "duration_sec": 30.166022539138794,
-    "method": "run_extraction.py (per-analysis, Responses API)"
+    "extracted_at": "2026-04-05T19:16:31.166558",
+    "input_tokens": 35862,
+    "output_tokens": 1817
   },
   "clusters": {
     "1": {
-      "id": "natl2a_mixed_yfr_cluster_1",
-      "name": "Prochlorococcus cluster 1 (mixed, Yfr)",
-      "functional_description": "This cluster includes 97 genes with diel expression patterns featuring Yfr106, Yfr2_2, and Yfr2_4 as representative genes. The genes show mixed directionality in expression over the diel cycle, with no clear peak time or period described. Functional roles are not explicitly detailed in the paper, but the presence of Yfr family RNAs suggests involvement in regulatory processes related to diel rhythms.",
-      "behavioral_description": "Genes in this cluster exhibit mixed expression patterns across the diel cycle without a clear peak or trough, indicating complex regulation possibly linked to circadian or metabolic processes.",
-      "peak_time_hours": null,
-      "period_hours": 24.0,
+      "id": "natl2a_mixed_cluster_1",
+      "name": "Prochlorococcus cluster 1 (mixed, Yfr106, Yfr2_2, Yfr2_4)",
+      "functional_description": "Not discussed in paper.",
+      "behavioral_description": "Not discussed in paper.",
       "direction": "mixed",
-      "enrichment_category": "not described",
+      "enrichment_category": "",
       "enrichment_pvalue": null,
       "enrichment_significant": false,
-      "confidence_notes": "Cluster composition inferred from gene samples; functional roles not explicitly described in the paper.",
-      "supporting_quotes": [
-        {
-          "quote": "Cluster 1: 97 genes (sample: Yfr106, Yfr2_2, Yfr2_4)",
-          "location": "Analysis summary"
-        }
-      ],
-      "self_assessment": "medium",
-      "assessment_notes": "Limited direct description; inference based on gene samples and general diel expression."
+      "confidence_notes": "",
+      "supporting_quotes": [],
+      "source_figures": [],
+      "self_assessment": "low",
+      "assessment_notes": "No specific information on this cluster in the paper."
     },
     "10": {
-      "id": "natl2a_up_atp_cluster_10",
-      "name": "Prochlorococcus cluster 10 (up, ATP synthesis)",
-      "functional_description": "This cluster contains 70 genes including AtpT, which is involved in ATP synthesis. Genes in this cluster show upregulated expression, particularly related to energy metabolism and ATP synthesis pathways. The cluster likely reflects diel regulation of energy production processes.",
-      "behavioral_description": "Genes peak in expression during periods requiring increased ATP synthesis, consistent with diel energy demands.",
-      "peak_time_hours": null,
-      "period_hours": 24.0,
-      "direction": "up",
-      "enrichment_category": "ATP synthesis",
+      "id": "natl2a_down_cluster_10",
+      "name": "Prochlorococcus cluster 10 (down, AtpT, cds-PMN2A_RS01135, cds-WP_011293591.1)",
+      "functional_description": "Not discussed in paper.",
+      "behavioral_description": "Not discussed in paper.",
+      "direction": "down",
+      "enrichment_category": "",
       "enrichment_pvalue": null,
       "enrichment_significant": false,
-      "confidence_notes": "AtpT presence suggests ATP synthesis function; exact timing not detailed.",
-      "supporting_quotes": [
-        {
-          "quote": "Cluster 10: 70 genes (sample: AtpT, cds-PMN2A_RS01135, cds-WP_011293591.1)",
-          "location": "Analysis summary"
-        }
-      ],
-      "self_assessment": "medium",
-      "assessment_notes": "Functional inference based on AtpT gene; timing and enrichment p-value not specified."
+      "confidence_notes": "",
+      "supporting_quotes": [],
+      "source_figures": [],
+      "self_assessment": "low",
+      "assessment_notes": "No specific information on this cluster in the paper."
     },
     "11": {
-      "id": "natl2a_mixed_yfr_cluster_11",
-      "name": "Prochlorococcus cluster 11 (mixed, Yfr)",
-      "functional_description": "This cluster includes 205 genes with representative genes Yfr1, Yfr2_3, and cds-WP_009788866.1. The genes show mixed diel expression patterns, possibly involved in regulatory and metabolic functions related to diel cycles.",
-      "behavioral_description": "Expression patterns are mixed without a clear peak, indicating complex regulation possibly linked to circadian rhythms or metabolic adjustments.",
-      "peak_time_hours": null,
-      "period_hours": 24.0,
+      "id": "natl2a_mixed_cluster_11",
+      "name": "Prochlorococcus cluster 11 (mixed, Yfr1, Yfr2_3, cds-WP_009788866.1)",
+      "functional_description": "Not discussed in paper.",
+      "behavioral_description": "Not discussed in paper.",
       "direction": "mixed",
-      "enrichment_category": "not described",
+      "enrichment_category": "",
       "enrichment_pvalue": null,
       "enrichment_significant": false,
-      "confidence_notes": "No explicit functional description; inference based on gene samples.",
-      "supporting_quotes": [
-        {
-          "quote": "Cluster 11: 205 genes (sample: Yfr1, Yfr2_3, cds-WP_009788866.1)",
-          "location": "Analysis summary"
-        }
-      ],
-      "self_assessment": "medium",
-      "assessment_notes": "Limited direct description; inferred from gene samples."
+      "confidence_notes": "",
+      "supporting_quotes": [],
+      "source_figures": [],
+      "self_assessment": "low",
+      "assessment_notes": "No specific information on this cluster in the paper."
     },
     "12": {
-      "id": "natl2a_mixed_unknown_cluster_12",
-      "name": "Prochlorococcus cluster 12 (mixed, unknown)",
-      "functional_description": "This cluster has 144 genes including cds-PMN2A_RS05260, cds-PMN2A_RS09840, and cds-WP_011293542.1. Functional roles are not described in the paper. Expression patterns are mixed over the diel cycle.",
-      "behavioral_description": "Genes show mixed diel expression without clear peak or trough, suggesting diverse or complex regulation.",
-      "peak_time_hours": null,
-      "period_hours": 24.0,
+      "id": "natl2a_mixed_cluster_12",
+      "name": "Prochlorococcus cluster 12 (mixed, cds-PMN2A_RS05260, cds-PMN2A_RS09840, cds-WP_011293542.1)",
+      "functional_description": "Not discussed in paper.",
+      "behavioral_description": "Not discussed in paper.",
       "direction": "mixed",
-      "enrichment_category": "not described",
+      "enrichment_category": "",
       "enrichment_pvalue": null,
       "enrichment_significant": false,
-      "confidence_notes": "No functional or behavioral description provided.",
-      "supporting_quotes": [
-        {
-          "quote": "Cluster 12: 144 genes (sample: cds-PMN2A_RS05260, cds-PMN2A_RS09840, cds-WP_011293542.1)",
-          "location": "Analysis summary"
-        }
-      ],
+      "confidence_notes": "",
+      "supporting_quotes": [],
+      "source_figures": [],
       "self_assessment": "low",
-      "assessment_notes": "No detailed description available."
+      "assessment_notes": "No specific information on this cluster in the paper."
     },
     "13": {
-      "id": "natl2a_mixed_unknown_cluster_13",
-      "name": "Prochlorococcus cluster 13 (mixed, unknown)",
-      "functional_description": "This cluster contains 165 genes including cds-WP_011293552.1, cds-WP_011293553.1, and cds-WP_011293557.1. Functional roles and diel expression patterns are not described in the paper.",
-      "behavioral_description": "Genes exhibit mixed expression patterns over the diel cycle with no clear peak or directionality.",
-      "peak_time_hours": null,
-      "period_hours": 24.0,
+      "id": "natl2a_mixed_cluster_13",
+      "name": "Prochlorococcus cluster 13 (mixed, cds-WP_011293552.1, cds-WP_011293553.1, cds-WP_011293557.1)",
+      "functional_description": "Not discussed in paper.",
+      "behavioral_description": "Not discussed in paper.",
       "direction": "mixed",
-      "enrichment_category": "not described",
+      "enrichment_category": "",
       "enrichment_pvalue": null,
       "enrichment_significant": false,
-      "confidence_notes": "No functional or behavioral details provided.",
-      "supporting_quotes": [
-        {
-          "quote": "Cluster 13: 165 genes (sample: cds-WP_011293552.1, cds-WP_011293553.1, cds-WP_011293557.1)",
-          "location": "Analysis summary"
-        }
-      ],
+      "confidence_notes": "",
+      "supporting_quotes": [],
+      "source_figures": [],
       "self_assessment": "low",
-      "assessment_notes": "No detailed description available."
+      "assessment_notes": "No specific information on this cluster in the paper."
     },
     "14": {
-      "id": "natl2a_mixed_unknown_cluster_14",
-      "name": "Prochlorococcus cluster 14 (mixed, unknown)",
-      "functional_description": "This cluster includes 89 genes such as cds-WP_011293597.1, cds-WP_011293636.1, and cds-WP_011293647.1. Functional roles and diel expression patterns are not described in the paper.",
-      "behavioral_description": "Genes show mixed diel expression without clear timing or directionality.",
-      "peak_time_hours": null,
-      "period_hours": 24.0,
+      "id": "natl2a_mixed_cluster_14",
+      "name": "Prochlorococcus cluster 14 (mixed, cds-WP_011293597.1, cds-WP_011293636.1, cds-WP_011293647.1)",
+      "functional_description": "Not discussed in paper.",
+      "behavioral_description": "Not discussed in paper.",
       "direction": "mixed",
-      "enrichment_category": "not described",
+      "enrichment_category": "",
       "enrichment_pvalue": null,
       "enrichment_significant": false,
-      "confidence_notes": "No functional or behavioral description provided.",
-      "supporting_quotes": [
-        {
-          "quote": "Cluster 14: 89 genes (sample: cds-WP_011293597.1, cds-WP_011293636.1, cds-WP_011293647.1)",
-          "location": "Analysis summary"
-        }
-      ],
+      "confidence_notes": "",
+      "supporting_quotes": [],
+      "source_figures": [],
       "self_assessment": "low",
-      "assessment_notes": "No detailed description available."
+      "assessment_notes": "No specific information on this cluster in the paper."
     },
     "15": {
-      "id": "natl2a_mixed_yfr_cluster_15",
-      "name": "Prochlorococcus cluster 15 (mixed, Yfr)",
-      "functional_description": "This cluster has 132 genes including Yfr10.like_1, Yfr22_1, and cds-WP_011125327.1-2. The genes show mixed diel expression patterns, likely involved in regulatory functions related to diel rhythms.",
-      "behavioral_description": "Genes exhibit mixed expression patterns over the diel cycle without a clear peak or trough.",
-      "peak_time_hours": null,
-      "period_hours": 24.0,
+      "id": "natl2a_mixed_cluster_15",
+      "name": "Prochlorococcus cluster 15 (mixed, Yfr10.like_1, Yfr22_1, cds-WP_011125327.1-2)",
+      "functional_description": "Not discussed in paper.",
+      "behavioral_description": "Not discussed in paper.",
       "direction": "mixed",
-      "enrichment_category": "not described",
+      "enrichment_category": "",
       "enrichment_pvalue": null,
       "enrichment_significant": false,
-      "confidence_notes": "No explicit functional description; inference based on gene samples.",
-      "supporting_quotes": [
-        {
-          "quote": "Cluster 15: 132 genes (sample: Yfr10.like_1, Yfr22_1, cds-WP_011125327.1-2)",
-          "location": "Analysis summary"
-        }
-      ],
-      "self_assessment": "medium",
-      "assessment_notes": "Limited direct description; inferred from gene samples."
+      "confidence_notes": "",
+      "supporting_quotes": [],
+      "source_figures": [],
+      "self_assessment": "low",
+      "assessment_notes": "No specific information on this cluster in the paper."
     },
     "2": {
-      "id": "natl2a_mixed_yfr_cluster_2",
-      "name": "Prochlorococcus cluster 2 (mixed, Yfr)",
-      "functional_description": "This cluster includes 110 genes with Yfr10.like_4, cds-WP_011293588.1, and cds-WP_011293608.1 as representative genes. Functional roles are not described, but Yfr RNAs suggest regulatory functions related to diel cycles.",
-      "behavioral_description": "Genes show mixed diel expression patterns without clear peak or trough.",
-      "peak_time_hours": null,
-      "period_hours": 24.0,
+      "id": "natl2a_mixed_cluster_2",
+      "name": "Prochlorococcus cluster 2 (mixed, Yfr10.like_4, cds-WP_011293588.1, cds-WP_011293608.1)",
+      "functional_description": "Not discussed in paper.",
+      "behavioral_description": "Not discussed in paper.",
       "direction": "mixed",
-      "enrichment_category": "not described",
+      "enrichment_category": "",
       "enrichment_pvalue": null,
       "enrichment_significant": false,
-      "confidence_notes": "No detailed functional description available.",
-      "supporting_quotes": [
-        {
-          "quote": "Cluster 2: 110 genes (sample: Yfr10.like_4, cds-WP_011293588.1, cds-WP_011293608.1)",
-          "location": "Analysis summary"
-        }
-      ],
-      "self_assessment": "medium",
-      "assessment_notes": "Inferred from gene samples; no explicit description."
+      "confidence_notes": "",
+      "supporting_quotes": [],
+      "source_figures": [],
+      "self_assessment": "low",
+      "assessment_notes": "No specific information on this cluster in the paper."
     },
     "3": {
-      "id": "natl2a_mixed_unknown_cluster_3",
-      "name": "Prochlorococcus cluster 3 (mixed, unknown)",
-      "functional_description": "This cluster contains 245 genes including cds-WP_011293551.1, cds-WP_011293554.1, and cds-WP_011293576.1. Functional roles and diel expression patterns are not described.",
-      "behavioral_description": "Genes exhibit mixed diel expression without clear timing or directionality.",
-      "peak_time_hours": null,
-      "period_hours": 24.0,
+      "id": "natl2a_mixed_cluster_3",
+      "name": "Prochlorococcus cluster 3 (mixed, cds-WP_011293551.1, cds-WP_011293554.1, cds-WP_011293576.1)",
+      "functional_description": "Not discussed in paper.",
+      "behavioral_description": "Not discussed in paper.",
       "direction": "mixed",
-      "enrichment_category": "not described",
+      "enrichment_category": "",
       "enrichment_pvalue": null,
       "enrichment_significant": false,
-      "confidence_notes": "No functional or behavioral details provided.",
-      "supporting_quotes": [
-        {
-          "quote": "Cluster 3: 245 genes (sample: cds-WP_011293551.1, cds-WP_011293554.1, cds-WP_011293576.1)",
-          "location": "Analysis summary"
-        }
-      ],
+      "confidence_notes": "",
+      "supporting_quotes": [],
+      "source_figures": [],
       "self_assessment": "low",
-      "assessment_notes": "No detailed description available."
+      "assessment_notes": "No specific information on this cluster in the paper."
     },
     "4": {
-      "id": "natl2a_mixed_unknown_cluster_4",
-      "name": "Prochlorococcus cluster 4 (mixed, unknown)",
-      "functional_description": "This cluster includes 100 genes such as cds-WP_011293580.1, cds-WP_011293592.1, and cds-WP_011293599.1. Functional roles and diel expression patterns are not described.",
-      "behavioral_description": "Genes show mixed diel expression without clear peak or trough.",
-      "peak_time_hours": null,
-      "period_hours": 24.0,
+      "id": "natl2a_mixed_cluster_4",
+      "name": "Prochlorococcus cluster 4 (mixed, cds-WP_011293580.1, cds-WP_011293592.1, cds-WP_011293599.1)",
+      "functional_description": "Not discussed in paper.",
+      "behavioral_description": "Not discussed in paper.",
       "direction": "mixed",
-      "enrichment_category": "not described",
+      "enrichment_category": "",
       "enrichment_pvalue": null,
       "enrichment_significant": false,
-      "confidence_notes": "No functional or behavioral description provided.",
-      "supporting_quotes": [
-        {
-          "quote": "Cluster 4: 100 genes (sample: cds-WP_011293580.1, cds-WP_011293592.1, cds-WP_011293599.1)",
-          "location": "Analysis summary"
-        }
-      ],
+      "confidence_notes": "",
+      "supporting_quotes": [],
+      "source_figures": [],
       "self_assessment": "low",
-      "assessment_notes": "No detailed description available."
+      "assessment_notes": "No specific information on this cluster in the paper."
     },
     "5": {
-      "id": "natl2a_mixed_unknown_cluster_5",
-      "name": "Prochlorococcus cluster 5 (mixed, unknown)",
-      "functional_description": "This cluster has 65 genes including cds-WP_011293563.1, cds-WP_011293645.1, and cds-WP_011293646.1. Functional roles and diel expression patterns are not described.",
-      "behavioral_description": "Genes exhibit mixed diel expression without clear timing or directionality.",
-      "peak_time_hours": null,
-      "period_hours": 24.0,
+      "id": "natl2a_mixed_cluster_5",
+      "name": "Prochlorococcus cluster 5 (mixed, cds-WP_011293563.1, cds-WP_011293645.1, cds-WP_011293646.1)",
+      "functional_description": "Not discussed in paper.",
+      "behavioral_description": "Not discussed in paper.",
       "direction": "mixed",
-      "enrichment_category": "not described",
+      "enrichment_category": "",
       "enrichment_pvalue": null,
       "enrichment_significant": false,
-      "confidence_notes": "No functional or behavioral details provided.",
-      "supporting_quotes": [
-        {
-          "quote": "Cluster 5: 65 genes (sample: cds-WP_011293563.1, cds-WP_011293645.1, cds-WP_011293646.1)",
-          "location": "Analysis summary"
-        }
-      ],
+      "confidence_notes": "",
+      "supporting_quotes": [],
+      "source_figures": [],
       "self_assessment": "low",
-      "assessment_notes": "No detailed description available."
+      "assessment_notes": "No specific information on this cluster in the paper."
     },
     "6": {
-      "id": "natl2a_mixed_yfr_cluster_6",
-      "name": "Prochlorococcus cluster 6 (mixed, Yfr)",
-      "functional_description": "This cluster contains 62 genes including Yfr10.like_2, Yfr103_1, and Yfr103_2. The genes likely have regulatory roles related to diel rhythms, but specific functions are not described.",
-      "behavioral_description": "Genes show mixed diel expression patterns without clear peak or trough.",
-      "peak_time_hours": null,
-      "period_hours": 24.0,
+      "id": "natl2a_mixed_cluster_6",
+      "name": "Prochlorococcus cluster 6 (mixed, Yfr10.like_2, Yfr103_1, Yfr103_2)",
+      "functional_description": "Not discussed in paper.",
+      "behavioral_description": "Not discussed in paper.",
       "direction": "mixed",
-      "enrichment_category": "not described",
+      "enrichment_category": "",
       "enrichment_pvalue": null,
       "enrichment_significant": false,
-      "confidence_notes": "No explicit functional description; inferred from gene samples.",
-      "supporting_quotes": [
-        {
-          "quote": "Cluster 6: 62 genes (sample: Yfr10.like_2, Yfr103_1, Yfr103_2)",
-          "location": "Analysis summary"
-        }
-      ],
-      "self_assessment": "medium",
-      "assessment_notes": "Limited direct description; inferred from gene samples."
+      "confidence_notes": "",
+      "supporting_quotes": [],
+      "source_figures": [],
+      "self_assessment": "low",
+      "assessment_notes": "No specific information on this cluster in the paper."
     },
     "7": {
-      "id": "natl2a_mixed_yfr_cluster_7",
-      "name": "Prochlorococcus cluster 7 (mixed, Yfr)",
-      "functional_description": "This cluster includes 202 genes with Yfr108, cds-WP_011293543.1, and cds-WP_011293544.1 as representative genes. Functional roles are not described, but Yfr RNAs suggest regulatory functions related to diel cycles.",
-      "behavioral_description": "Genes exhibit mixed diel expression patterns without clear peak or trough.",
-      "peak_time_hours": null,
-      "period_hours": 24.0,
+      "id": "natl2a_mixed_cluster_7",
+      "name": "Prochlorococcus cluster 7 (mixed, Yfr108, cds-WP_011293543.1, cds-WP_011293544.1)",
+      "functional_description": "Not discussed in paper.",
+      "behavioral_description": "Not discussed in paper.",
       "direction": "mixed",
-      "enrichment_category": "not described",
+      "enrichment_category": "",
       "enrichment_pvalue": null,
       "enrichment_significant": false,
-      "confidence_notes": "No detailed functional description available.",
-      "supporting_quotes": [
-        {
-          "quote": "Cluster 7: 202 genes (sample: Yfr108, cds-WP_011293543.1, cds-WP_011293544.1)",
-          "location": "Analysis summary"
-        }
-      ],
-      "self_assessment": "medium",
-      "assessment_notes": "Inferred from gene samples; no explicit description."
+      "confidence_notes": "",
+      "supporting_quotes": [],
+      "source_figures": [],
+      "self_assessment": "low",
+      "assessment_notes": "No specific information on this cluster in the paper."
     },
     "8": {
-      "id": "natl2a_mixed_yfr_cluster_8",
-      "name": "Prochlorococcus cluster 8 (mixed, Yfr)",
-      "functional_description": "This cluster contains 174 genes including Yfr107, cds-WP_011293537.1, and cds-WP_011293538.1. Functional roles are not described, but Yfr RNAs suggest regulatory functions related to diel rhythms.",
-      "behavioral_description": "Genes show mixed diel expression patterns without clear peak or trough.",
-      "peak_time_hours": null,
-      "period_hours": 24.0,
+      "id": "natl2a_mixed_cluster_8",
+      "name": "Prochlorococcus cluster 8 (mixed, Yfr107, cds-WP_011293537.1, cds-WP_011293538.1)",
+      "functional_description": "Not discussed in paper.",
+      "behavioral_description": "Not discussed in paper.",
       "direction": "mixed",
-      "enrichment_category": "not described",
+      "enrichment_category": "",
       "enrichment_pvalue": null,
       "enrichment_significant": false,
-      "confidence_notes": "No explicit functional description; inferred from gene samples.",
-      "supporting_quotes": [
-        {
-          "quote": "Cluster 8: 174 genes (sample: Yfr107, cds-WP_011293537.1, cds-WP_011293538.1)",
-          "location": "Analysis summary"
-        }
-      ],
-      "self_assessment": "medium",
-      "assessment_notes": "Limited direct description; inferred from gene samples."
+      "confidence_notes": "",
+      "supporting_quotes": [],
+      "source_figures": [],
+      "self_assessment": "low",
+      "assessment_notes": "No specific information on this cluster in the paper."
     },
     "9": {
-      "id": "natl2a_mixed_yfr_cluster_9",
-      "name": "Prochlorococcus cluster 9 (mixed, Yfr)",
-      "functional_description": "This cluster includes 221 genes with Yfr13, Yfr22_2, and Yfr22_3 as representative genes. Functional roles are not described, but Yfr RNAs suggest regulatory functions related to diel cycles.",
-      "behavioral_description": "Genes exhibit mixed diel expression patterns without clear peak or trough.",
-      "peak_time_hours": null,
-      "period_hours": 24.0,
+      "id": "natl2a_mixed_cluster_9",
+      "name": "Prochlorococcus cluster 9 (mixed, Yfr13, Yfr22_2, Yfr22_3)",
+      "functional_description": "Not discussed in paper.",
+      "behavioral_description": "Not discussed in paper.",
       "direction": "mixed",
-      "enrichment_category": "not described",
+      "enrichment_category": "",
       "enrichment_pvalue": null,
       "enrichment_significant": false,
-      "confidence_notes": "No detailed functional description available.",
-      "supporting_quotes": [
-        {
-          "quote": "Cluster 9: 221 genes (sample: Yfr13, Yfr22_2, Yfr22_3)",
-          "location": "Analysis summary"
-        }
-      ],
-      "self_assessment": "medium",
-      "assessment_notes": "Inferred from gene samples; no explicit description."
+      "confidence_notes": "",
+      "supporting_quotes": [],
+      "source_figures": [],
+      "self_assessment": "low",
+      "assessment_notes": "No specific information on this cluster in the paper."
     }
   }
 }

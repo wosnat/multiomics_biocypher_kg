@@ -3,180 +3,198 @@
     "paper": "Tolonen 2006",
     "doi": null,
     "organism": "Prochlorococcus MED4",
-    "extracted_at": "2026-04-05T13:32:58.876610",
-    "table_key": "med4_kmeans_nstarvation",
+    "entry_key": "med4_kmeans_nstarvation",
     "model": "gpt-4.1-mini",
-    "method": "per-paper extraction"
+    "extracted_at": "2026-04-05T19:17:20.000345",
+    "input_tokens": 63041,
+    "output_tokens": 1519
   },
   "clusters": {
     "1": {
-      "id": "med4_up_1",
-      "name": "MED4 cluster 1 (up, transport and binding)",
-      "functional_description": "This cluster contains the most rapidly and highly upregulated genes in MED4 during nitrogen starvation, including nitrogen transport genes such as urtA and cynA, and the nitrite permease in MIT9313 orthologs. It also includes the highly upregulated hli10 gene and other genes with putative NtcA binding sites.",
-      "behavioral_description": "Genes in this cluster are rapidly and strongly upregulated early in the nitrogen starvation time course.",
-      "peak_time_hours": 6.0,
-      "period_hours": null,
+      "id": "med4_up_cluster_1",
+      "name": "Prochlorococcus cluster 1 (up, transport and binding)",
+      "functional_description": "Contains nitrogen transport genes such as urtA, cynA, and the highly upregulated unknown gene PMM0958 with a top-ranking NtcA binding site, indicating a role in nitrogen transport and assimilation during N starvation.",
+      "behavioral_description": "Most rapidly and highly upregulated cluster, with genes responding within 6 hours of N deprivation and peaking early in the time course.",
       "direction": "up",
       "enrichment_category": "transport and binding",
       "enrichment_pvalue": 0.01,
       "enrichment_significant": true,
-      "confidence_notes": "Strong functional enrichment and early rapid upregulation support confidence in this cluster.",
+      "confidence_notes": "Strong functional enrichment and early rapid upregulation.",
       "supporting_quotes": [
         {
-          "quote": "Cluster 1, the most rapidly and highly upregulated genes in each strain, contains N transport genes such as MED4 and MIT9313 urtA, MED4 cynA, and the MIT9313 nitrite permease.",
+          "quote": "Cluster 1, the most rapidly and highly upregulated genes in each strain, contains N transport genes such as MED4 urtA, MED4 cynA",
           "location": "Page 3"
+        },
+        {
+          "quote": "MED4 PMM0958 was the most upregulated gene at all time points and has the top-ranking NtcA binding site in the genome",
+          "location": "Page 7"
         }
       ],
+      "source_figures": [
+        "Figure 3A",
+        "Table I",
+        "Table III"
+      ],
       "self_assessment": "high",
-      "assessment_notes": "Clear functional theme and strong expression pattern."
+      "assessment_notes": ""
     },
     "2": {
-      "id": "med4_up_2",
-      "name": "MED4 cluster 2 (up, transport and binding)",
-      "functional_description": "This cluster contains genes involved in transport and binding, including a subset of hli genes that respond rapidly and highly to nitrogen starvation. It also includes regulatory genes such as sigma factors.",
-      "behavioral_description": "Genes in this cluster are rapidly upregulated during nitrogen starvation but to a lesser degree than cluster 1.",
-      "peak_time_hours": 6.0,
-      "period_hours": null,
+      "id": "med4_up_cluster_2",
+      "name": "Prochlorococcus cluster 2 (up, transport and binding)",
+      "functional_description": "Contains a subset of hli genes (hli10, hli21, hli22) and genes with putative NtcA binding sites, suggesting involvement in nitrogen stress response and photoprotection.",
+      "behavioral_description": "Rapid and high upregulation early in the N starvation time course, distinct from a later responding hli gene subset.",
       "direction": "up",
       "enrichment_category": "transport and binding",
       "enrichment_pvalue": 0.12,
       "enrichment_significant": false,
-      "confidence_notes": "Functional enrichment is weaker but includes important transport and hli genes.",
+      "confidence_notes": "Functional enrichment not statistically significant but contains notable genes.",
       "supporting_quotes": [
         {
-          "quote": "MED4 cluster 2 and MIT9313 cluster 1 revealed two distinct subsets of the hli genes: those that responded rapidly and highly (MED4 cluster 2 and MIT9313 cluster 1) and those that responded later and to a lesser degree (MED4 cluster 3 and MIT9313 cluster 2).",
+          "quote": "In both strains, the clusters revealed two distinct subsets of the hli genes: those that responded rapidly and highly (MED4 cluster 2)",
           "location": "Page 3"
+        },
+        {
+          "quote": "MED4 hlilO was the first and most highly upregulated among the hli genes in this strain",
+          "location": "Page 7"
         }
       ],
+      "source_figures": [
+        "Figure 3A",
+        "Figure 4E"
+      ],
       "self_assessment": "medium",
-      "assessment_notes": "Moderate functional coherence."
+      "assessment_notes": "Enrichment marginal; functional role inferred from gene annotations and timing."
     },
     "3": {
-      "id": "med4_up_3",
-      "name": "MED4 cluster 3 (up, regulation)",
-      "functional_description": "This cluster contains regulatory genes including sigma factors and other genes involved in regulation during nitrogen starvation.",
-      "behavioral_description": "Genes in this cluster are upregulated during nitrogen starvation with moderate timing and magnitude.",
-      "peak_time_hours": null,
-      "period_hours": null,
+      "id": "med4_up_cluster_3",
+      "name": "Prochlorococcus cluster 3 (up, regulation)",
+      "functional_description": "Contains a lesser degree of upregulated hli genes and regulatory genes including sigma factors, indicating a role in transcriptional regulation during N stress.",
+      "behavioral_description": "Genes respond later and to a lesser degree compared to cluster 2, showing a more gradual upregulation pattern.",
       "direction": "up",
       "enrichment_category": "regulation",
       "enrichment_pvalue": 0.07,
       "enrichment_significant": false,
-      "confidence_notes": "Regulatory theme but weaker enrichment.",
-      "supporting_quotes": [],
+      "confidence_notes": "Functional enrichment marginal; includes regulatory genes and sigma factors.",
+      "supporting_quotes": [
+        {
+          "quote": "MED4 cluster 3 and MIT9313 cluster 2 contain hli genes that responded later and to a lesser degree",
+          "location": "Page 3"
+        },
+        {
+          "quote": "MED4 cluster 5 contains two sigma factors upregulated during N stress",
+          "location": "Page 3"
+        }
+      ],
+      "source_figures": [
+        "Figure 3A",
+        "Figure 4B"
+      ],
       "self_assessment": "medium",
-      "assessment_notes": "Less clear functional coherence."
+      "assessment_notes": "Limited description; inferred from gene composition."
     },
     "4": {
-      "id": "med4_up_4",
-      "name": "MED4 cluster 4 (up, amino acid synthesis)",
-      "functional_description": "This cluster is enriched for genes involved in amino acid synthesis, which are upregulated during nitrogen starvation.",
-      "behavioral_description": "Genes in this cluster show upregulation during nitrogen starvation, reflecting increased amino acid synthesis activity.",
-      "peak_time_hours": null,
-      "period_hours": null,
-      "direction": "up",
-      "enrichment_category": "amino acid synthesis",
-      "enrichment_pvalue": 0.18,
+      "id": "med4_down_cluster_4",
+      "name": "Prochlorococcus cluster 4 (down, amino acid synthesis)",
+      "functional_description": "Not discussed in paper.",
+      "behavioral_description": "Not discussed in paper.",
+      "direction": "down",
+      "enrichment_category": "",
+      "enrichment_pvalue": null,
       "enrichment_significant": false,
-      "confidence_notes": "Weak enrichment for amino acid synthesis genes.",
+      "confidence_notes": "Paper does not discuss this cluster.",
       "supporting_quotes": [],
+      "source_figures": [],
       "self_assessment": "low",
-      "assessment_notes": "Limited functional coherence."
+      "assessment_notes": "No information available."
     },
     "5": {
-      "id": "med4_up_5",
-      "name": "MED4 cluster 5 (up, regulation)",
-      "functional_description": "This cluster contains regulatory genes including sigma factors that are upregulated during nitrogen starvation.",
-      "behavioral_description": "Genes in this cluster are upregulated during nitrogen starvation and may play roles in transcriptional regulation.",
-      "peak_time_hours": null,
-      "period_hours": null,
-      "direction": "up",
-      "enrichment_category": "regulation",
-      "enrichment_pvalue": 0.18,
+      "id": "med4_down_cluster_5",
+      "name": "Prochlorococcus cluster 5 (down, regulation)",
+      "functional_description": "Not discussed in paper.",
+      "behavioral_description": "Not discussed in paper.",
+      "direction": "down",
+      "enrichment_category": "",
+      "enrichment_pvalue": null,
       "enrichment_significant": false,
-      "confidence_notes": "Regulatory genes present but weak enrichment.",
+      "confidence_notes": "Paper does not discuss this cluster.",
       "supporting_quotes": [],
-      "self_assessment": "medium",
-      "assessment_notes": "Moderate confidence."
+      "source_figures": [],
+      "self_assessment": "low",
+      "assessment_notes": "No information available."
     },
     "6": {
-      "id": "med4_down_6",
-      "name": "MED4 cluster 6 (down, translation)",
-      "functional_description": "This cluster is enriched for genes involved in translation, including ribosomal proteins, which are strongly downregulated during nitrogen starvation.",
-      "behavioral_description": "Genes in this cluster show strong downregulation during nitrogen starvation, indicating reduced protein synthesis under stress.",
-      "peak_time_hours": null,
-      "period_hours": null,
+      "id": "med4_down_cluster_6",
+      "name": "Prochlorococcus cluster 6 (down, translation)",
+      "functional_description": "Strongly enriched for translation-related genes (p=0.001), including ribosomal proteins, indicating repression of protein synthesis during N starvation.",
+      "behavioral_description": "Highly downregulated cluster with rapid onset of repression during N starvation.",
       "direction": "down",
       "enrichment_category": "translation",
       "enrichment_pvalue": 0.001,
       "enrichment_significant": true,
-      "confidence_notes": "Strong enrichment for translation-related genes.",
+      "confidence_notes": "Strong functional enrichment and clear repression pattern.",
       "supporting_quotes": [
         {
-          "quote": "Highly downregulated clusters show strong enrichment for specific functional categories, namely Translation (MED4 cluster 7, MIT9313 cluster 7).",
+          "quote": "Highly downregulated clusters show strong enrichment for translation (MED4 cluster 7)",
           "location": "Page 3"
         }
       ],
+      "source_figures": [
+        "Figure 3A"
+      ],
       "self_assessment": "high",
-      "assessment_notes": "Clear functional cluster."
+      "assessment_notes": ""
     },
     "7": {
-      "id": "med4_down_7",
-      "name": "MED4 cluster 7 (down, translation)",
-      "functional_description": "This cluster is also enriched for translation genes and shows strong downregulation during nitrogen starvation.",
-      "behavioral_description": "Genes in this cluster are strongly downregulated during nitrogen starvation, consistent with reduced translation activity.",
-      "peak_time_hours": null,
-      "period_hours": null,
-      "direction": "down",
-      "enrichment_category": "translation",
-      "enrichment_pvalue": 2.7e-09,
-      "enrichment_significant": true,
-      "confidence_notes": "Highly significant enrichment for translation genes.",
-      "supporting_quotes": [],
-      "self_assessment": "high",
-      "assessment_notes": "Strong and coherent cluster."
-    },
-    "8": {
-      "id": "med4_down_8",
-      "name": "MED4 cluster 8 (down, photosynthesis and respiration)",
-      "functional_description": "This cluster is enriched for photosynthesis and respiration genes, including photosystem I genes, which are downregulated during nitrogen starvation.",
-      "behavioral_description": "Genes in this cluster show strong downregulation during nitrogen starvation, reflecting reduced photosynthetic activity.",
-      "peak_time_hours": null,
-      "period_hours": null,
+      "id": "med4_down_cluster_7",
+      "name": "Prochlorococcus cluster 7 (down, photosynthesis and respiration)",
+      "functional_description": "Enriched for photosynthesis and respiration genes (p=2.6e-9), including photosystem I genes (psaBDEIJKLM), indicating repression of photosynthetic machinery during N starvation.",
+      "behavioral_description": "Strongly downregulated cluster with rapid repression during N starvation.",
       "direction": "down",
       "enrichment_category": "photosynthesis and respiration",
       "enrichment_pvalue": 2.6e-09,
       "enrichment_significant": true,
-      "confidence_notes": "Strong enrichment for photosynthesis genes.",
+      "confidence_notes": "Strong functional enrichment and clear repression pattern.",
       "supporting_quotes": [
         {
-          "quote": "MED4 cluster 8 contains numerous genes for photosystem I (psaBDEIJKLM).",
+          "quote": "MED4 cluster 8 contains numerous genes for photosystem I (psaBDEIJKLM)",
           "location": "Page 4"
+        },
+        {
+          "quote": "Highly downregulated clusters show strong enrichment for photosynthesis and respiration (MED4 clusters 8 and 9)",
+          "location": "Page 3"
         }
       ],
+      "source_figures": [
+        "Figure 3A"
+      ],
       "self_assessment": "high",
-      "assessment_notes": "Clear functional cluster."
+      "assessment_notes": ""
     },
-    "9": {
-      "id": "med4_down_9",
-      "name": "MED4 cluster 9 (down, photosynthesis and respiration)",
-      "functional_description": "This cluster is enriched for photosynthesis and respiration genes, including ATP synthase subunits and carbon fixation genes (rbcLS), which are strongly downregulated during nitrogen starvation.",
-      "behavioral_description": "Genes in this cluster show the strongest downregulation during nitrogen starvation, indicating a major reduction in photosynthetic and respiratory activity.",
-      "peak_time_hours": null,
-      "period_hours": null,
+    "8": {
+      "id": "med4_down_cluster_8",
+      "name": "Prochlorococcus cluster 8 (down, photosynthesis and respiration)",
+      "functional_description": "Enriched for photosynthesis and respiration genes (p=1.4e-5), including ATP synthase subunits and carbon fixation genes (rbcLS), indicating repression of energy metabolism during N starvation.",
+      "behavioral_description": "Strongly downregulated cluster with rapid repression during N starvation.",
       "direction": "down",
       "enrichment_category": "photosynthesis and respiration",
       "enrichment_pvalue": 1.4e-05,
       "enrichment_significant": true,
-      "confidence_notes": "Strongest downregulated cluster with clear photosynthesis gene enrichment.",
+      "confidence_notes": "Strong functional enrichment and clear repression pattern.",
       "supporting_quotes": [
         {
-          "quote": "MED4 cluster 9 contains ATP synthase subunits and the carbon fixation genes (rbcLS).",
+          "quote": "MED4 cluster 9 contains ATP synthase subunits and the carbon fixation genes (rbcLS)",
           "location": "Page 4"
+        },
+        {
+          "quote": "Highly downregulated clusters show strong enrichment for photosynthesis and respiration (MED4 clusters 8 and 9)",
+          "location": "Page 3"
         }
       ],
+      "source_figures": [
+        "Figure 3A"
+      ],
       "self_assessment": "high",
-      "assessment_notes": "Strong and coherent cluster."
+      "assessment_notes": ""
     }
   }
 }

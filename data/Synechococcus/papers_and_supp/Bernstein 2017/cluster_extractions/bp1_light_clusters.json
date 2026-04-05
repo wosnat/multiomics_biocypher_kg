@@ -3,139 +3,87 @@
     "paper": "Bernstein 2017",
     "doi": null,
     "organism": "Thermosynechococcus vestitus BP-1",
-    "extracted_at": "2026-04-05T13:13:01.949114",
-    "table_key": "bp1_light_clusters",
+    "entry_key": "bp1_light_clusters",
     "model": "gpt-4.1-mini",
-    "input_tokens": 34778,
-    "output_tokens": 1898,
-    "duration_sec": 33.62831425666809,
-    "method": "run_extraction.py (per-analysis, Responses API)"
+    "extracted_at": "2026-04-05T19:19:38.843349",
+    "input_tokens": 35924,
+    "output_tokens": 507
   },
   "clusters": {
-    "0": {
-      "id": "bp1_up_primary_productivity",
-      "name": "Thermosynechococcus vestitus BP-1 cluster 0 (up, primary productivity)",
-      "functional_description": "This cluster contains 79 genes from T. elongatus BP-1 that show increased transcript abundance with increasing irradiance and decreased abundance with increasing oxygen tension. Genes include those involved in organic acid synthesis such as acetyl-CoA synthetase (acs), acetate kinase (ackA), lactate dehydrogenase (ldhA), and citrate synthase (gltA). Also included are genes for synthesis and export of larger biomolecules like exopolysaccharides (exoD) and sucrose metabolism (spsA, sps). These genes are implicated in the production and export of reduced carbon compounds that support heterotrophic growth.",
-      "behavioral_description": "Genes in this cluster show a tent-shaped expression pattern with peak transcript abundance at intermediate irradiance and decreased expression with increasing oxygen. This pattern corresponds to increased primary productivity and carbon export supporting heterotrophic partner growth.",
-      "peak_time_hours": null,
-      "period_hours": null,
+    "3": {
+      "id": "bp1_up_cluster_3",
+      "name": "Thermosynechococcus elongatus cluster 3 (up, not discussed)",
+      "functional_description": "Not discussed in paper.",
+      "behavioral_description": "Not discussed in paper.",
       "direction": "up",
-      "enrichment_category": "primary productivity and carbon metabolism",
-      "enrichment_pvalue": 0.05,
-      "enrichment_significant": true,
-      "confidence_notes": "High confidence based on strong correlation with irradiance and oxygen treatments and functional enrichment.",
-      "supporting_quotes": [
-        {
-          "quote": "Principal genes involved in organic acid synthesis of T. elongatus grouped into clusters that increased with Ii (cluster D) and/or decreased with pO2 (cluster G). These included acetyl coenzyme A (CoA) synthetase (acs; tll0887), acetate kinase (ackA; tlr2340), lactate dehydrogenase (ldhA; tlr0711), and citrate synthase (gltA; tlr2393).",
-          "location": "Page 7"
-        },
-        {
-          "quote": "Functions involved in synthesis and export of larger biomolecules (i.e., sugars, peptides, and extracellular polymeric substance [EPS]) also grouped into clusters D and G. These included a putative exopolysaccharide synthesis gene (exoD; tll2077), sucrose synthase (spsA; tlr1047), and a sucrose degradation enzyme (sps; tlr0582).",
-          "location": "Page 7"
-        }
-      ],
-      "self_assessment": "high",
-      "assessment_notes": "Clear functional enrichment and consistent expression pattern with environmental variables."
+      "enrichment_category": "",
+      "enrichment_pvalue": null,
+      "enrichment_significant": false,
+      "confidence_notes": "",
+      "supporting_quotes": [],
+      "source_figures": [],
+      "self_assessment": "low",
+      "assessment_notes": "No functional or behavioral description provided in the paper."
     },
     "4": {
-      "id": "bp1_down_primary_productivity",
-      "name": "Thermosynechococcus vestitus BP-1 cluster 4 (down, primary productivity)",
-      "functional_description": "This cluster contains 971 genes showing decreased transcript abundance with increasing irradiance and increased abundance with increasing oxygen tension. Genes include those involved in nitrogen uptake and metabolism such as nitrate uptake system (nrtABD), glutamine synthetase (glnA), nitrogen regulatory protein (glnB), assimilatory ferredoxin-nitrate reductase (nirA), and glutamate symporter (gltS). Also included are genes involved in ROS detoxification and photosystem I stabilization.",
-      "behavioral_description": "Genes in this cluster show decreased expression with increasing irradiance and increased expression with increasing oxygen tension, corresponding to decreased growth and photosynthesis rates under high oxygen.",
-      "peak_time_hours": null,
-      "period_hours": null,
+      "id": "bp1_down_cluster_4",
+      "name": "Thermosynechococcus elongatus cluster 4 (down, not discussed)",
+      "functional_description": "Not discussed in paper.",
+      "behavioral_description": "Not discussed in paper.",
       "direction": "down",
-      "enrichment_category": "nitrogen metabolism and oxidative stress response",
-      "enrichment_pvalue": 0.05,
-      "enrichment_significant": true,
-      "confidence_notes": "High confidence due to significant enrichment and consistent physiological correlation.",
-      "supporting_quotes": [
-        {
-          "quote": "The relative abundances of transcripts encoding the T. elongatus nitrate uptake system from nrtABD (tlr1350, tlr1351, and tlr1354) increased with Ii, decreased with pO2, and grouped appropriately into clusters D and G.",
-          "location": "Page 8"
-        },
-        {
-          "quote": "The relative abundance of T. elongatus transcripts encoding enzymes involved with ROS detoxification generally increased with increasing Ii and pO2, and the transcripts grouped into the appropriate clusters D and/or H.",
-          "location": "Page 8"
-        }
-      ],
-      "self_assessment": "high",
-      "assessment_notes": "Strong functional enrichment and physiological relevance."
+      "enrichment_category": "",
+      "enrichment_pvalue": null,
+      "enrichment_significant": false,
+      "confidence_notes": "",
+      "supporting_quotes": [],
+      "source_figures": [],
+      "self_assessment": "low",
+      "assessment_notes": "No functional or behavioral description provided in the paper."
     },
     "2": {
-      "id": "bp1_mixed_nitrogen_vitamin_exchange",
-      "name": "Thermosynechococcus vestitus BP-1 cluster 2 (mixed, nitrogen and vitamin exchange)",
-      "functional_description": "This cluster contains 255 genes showing mixed expression patterns with respect to irradiance and oxygen. It includes genes involved in vitamin B12 biosynthesis and salvage (cobWNT, cobOQDPC), methionine metabolism (metH, metE), and amino acid biosynthesis and degradation. The cluster suggests coordinated exchange of vitamins and amino acids between T. elongatus and M. ruber.",
-      "behavioral_description": "Genes show complex expression patterns, with some increasing and others decreasing with irradiance and oxygen, reflecting metabolic coupling for vitamin and amino acid exchange.",
-      "peak_time_hours": null,
-      "period_hours": null,
-      "direction": "mixed",
-      "enrichment_category": "vitamin B12 and amino acid metabolism",
-      "enrichment_pvalue": 0.05,
-      "enrichment_significant": true,
-      "confidence_notes": "Moderate confidence due to complexity of expression patterns and functional diversity.",
-      "supporting_quotes": [
-        {
-          "quote": "The relative abundances of transcripts encoding vitamin B12 uptake/scavenging gene products in M. ruber (btuCD) decreased with Ii in concurrence with decreased T. elongatus transcripts encoding vitamin B12 biosynthesis.",
-          "location": "Page 8"
-        },
-        {
-          "quote": "Both T. elongatus and M. ruber expressed transcripts encoding the vitamin B12-dependent homocysteine methyltransferase (metH) but were negatively correlated and grouped across Ii and pO2 treatments into opposing clusters D and C, indicating that methionine may be directly exchanged from T. elongatus.",
-          "location": "Page 8"
-        }
-      ],
-      "self_assessment": "medium",
-      "assessment_notes": "Complex patterns make interpretation less certain."
+      "id": "bp1_down_cluster_2",
+      "name": "Thermosynechococcus elongatus cluster 2 (down, not discussed)",
+      "functional_description": "Not discussed in paper.",
+      "behavioral_description": "Not discussed in paper.",
+      "direction": "down",
+      "enrichment_category": "",
+      "enrichment_pvalue": null,
+      "enrichment_significant": false,
+      "confidence_notes": "",
+      "supporting_quotes": [],
+      "source_figures": [],
+      "self_assessment": "low",
+      "assessment_notes": "No functional or behavioral description provided in the paper."
     },
     "1": {
-      "id": "bp1_up_ros_detoxification",
-      "name": "Thermosynechococcus vestitus BP-1 cluster 1 (up, ROS detoxification)",
-      "functional_description": "This cluster contains 914 genes showing increased transcript abundance with increasing irradiance and oxygen tension. It includes genes involved in reactive oxygen species (ROS) detoxification such as alkylhydroperoxidase (ahpD), peroxiredoxins (BCP-A family, 2-Cys family), and Mn-superoxide dismutase (sodB). These genes are involved in mitigating oxidative stress induced by heterotrophic partnership.",
-      "behavioral_description": "Genes show increased expression with increasing irradiance and oxygen, corresponding to increased ROS detoxification activity in response to heterotrophic partnership.",
-      "peak_time_hours": null,
-      "period_hours": null,
+      "id": "bp1_up_cluster_1",
+      "name": "Thermosynechococcus elongatus cluster 1 (up, not discussed)",
+      "functional_description": "Not discussed in paper.",
+      "behavioral_description": "Not discussed in paper.",
       "direction": "up",
-      "enrichment_category": "oxidative stress response",
-      "enrichment_pvalue": 0.05,
-      "enrichment_significant": true,
-      "confidence_notes": "High confidence based on consistent expression patterns and functional annotation.",
-      "supporting_quotes": [
-        {
-          "quote": "T. elongatus showed differential expression of ROS detoxification transcripts in the presence of M. ruber across a broad range of Ii- and pO2-controlled steady states. Generally, an increased relative abundance of these transcripts was observed under binary cultivation compared to the T. elongatus axenic control.",
-          "location": "Page 6"
-        },
-        {
-          "quote": "Notable examples include an NAD(P)H-oxygen oxidoreductase (flv4), 2-Cys family peroxiredoxins, a periplasmic peroxiredoxin (prxQ-B2), and an Mn-superoxide dismutase (sodB).",
-          "location": "Page 8"
-        }
-      ],
-      "self_assessment": "high",
-      "assessment_notes": "Clear functional enrichment and consistent physiological correlation."
+      "enrichment_category": "",
+      "enrichment_pvalue": null,
+      "enrichment_significant": false,
+      "confidence_notes": "",
+      "supporting_quotes": [],
+      "source_figures": [],
+      "self_assessment": "low",
+      "assessment_notes": "No functional or behavioral description provided in the paper."
     },
-    "3": {
-      "id": "bp1_down_growth_related",
-      "name": "Thermosynechococcus vestitus BP-1 cluster 3 (down, growth related)",
-      "functional_description": "This cluster contains 201 genes showing decreased transcript abundance with increasing irradiance and oxygen tension. Genes include those involved in photosystem II main subunits, type II restriction-modification system, and ornithine biosynthesis (argJ). These genes are associated with growth and photosynthetic functions that decrease under stress conditions.",
-      "behavioral_description": "Genes show decreased expression with increasing irradiance and oxygen, corresponding to reduced growth and photosynthetic activity under high oxygen stress.",
-      "peak_time_hours": null,
-      "period_hours": null,
-      "direction": "down",
-      "enrichment_category": "photosynthesis and growth regulation",
-      "enrichment_pvalue": 0.05,
-      "enrichment_significant": true,
-      "confidence_notes": "Moderate confidence due to less detailed description in text.",
-      "supporting_quotes": [
-        {
-          "quote": "Among genes showing decreased expression with increasing O2, both type II restriction modification system gene tll1944 and ornithine biosynthesis gene argJ (tll1911) were enriched only under axenic conditions.",
-          "location": "Page 4"
-        },
-        {
-          "quote": "Genes whose transcripts were shown to be responsive by increasing with irradiance included those associated with photosystem II (PS II) (psbV, psbX, and psbV2).",
-          "location": "Page 4"
-        }
-      ],
-      "self_assessment": "medium",
-      "assessment_notes": "Less detailed functional description; inferred from gene examples and enrichment."
+    "0": {
+      "id": "bp1_mixed_cluster_0",
+      "name": "Thermosynechococcus elongatus cluster 0 (mixed, not discussed)",
+      "functional_description": "Not discussed in paper.",
+      "behavioral_description": "Not discussed in paper.",
+      "direction": "mixed",
+      "enrichment_category": "",
+      "enrichment_pvalue": null,
+      "enrichment_significant": false,
+      "confidence_notes": "",
+      "supporting_quotes": [],
+      "source_figures": [],
+      "self_assessment": "low",
+      "assessment_notes": "No functional or behavioral description provided in the paper."
     }
   }
 }
