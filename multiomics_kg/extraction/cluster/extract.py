@@ -86,6 +86,9 @@ For each cluster, extract all fields in the output schema.
   timing (peak hours, periodicity), kinetics (rapid/gradual, transient/sustained),
   condition-dependence (increases with irradiance, decreases with oxygen).
   Include timing numbers when available from the paper. 1-2 sentences.
+  State ONLY the observed pattern. Do NOT add causal interpretation \
+(e.g., "indicating stress response" or "suggesting metabolic coupling"). \
+The reader will interpret the biology — just report what the data shows.
 
 - ONLY state what the paper EXPLICITLY says about THIS SPECIFIC cluster. \
 Do NOT synthesize information from other clusters, other sections of the paper, \
