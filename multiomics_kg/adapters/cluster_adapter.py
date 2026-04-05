@@ -274,13 +274,6 @@ class ClusterAdapter:
                     "id": _clean_str(ext_data.get("id", "")),
                     "name": _clean_str(ext_data.get("name", f"Cluster {cluster_key}")),
                     "organism_name": _clean_str(organism),
-                    "cluster_method": _clean_str(table.get("cluster_method", "")),
-                    "cluster_type": _clean_str(table.get("cluster_type", "")),
-                    "treatment_type": treatment_type,
-                    "background_factors": background_factors,
-                    "treatment": _clean_str(table.get("treatment", "")),
-                    "omics_type": _clean_str(table.get("omics_type", "")),
-                    "light_condition": _clean_str(table.get("light_condition", "")),
                     "member_count": member_count,
                     "functional_description": _clean_str(
                         ext_data.get("functional_description", "")
@@ -290,9 +283,6 @@ class ClusterAdapter:
                     ),
                     "peak_time_hours": ext_data.get("peak_time_hours"),
                     "period_hours": ext_data.get("period_hours"),
-                    "experimental_context": _clean_str(
-                        table.get("experimental_context", "")
-                    ),
                 }
                 nodes.append((cluster_id, "gene_cluster", props))
 

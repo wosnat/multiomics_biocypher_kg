@@ -73,19 +73,11 @@ gene cluster:
     id: str
     name: str
     organism_name: str
-    cluster_method: str
-    cluster_type: str
-    treatment_type: str[]
-    background_factors: str[]
-    treatment: str
-    omics_type: str
-    light_condition: str
     member_count: int
     functional_description: str
     behavioral_description: str
     peak_time_hours: float
     period_hours: float
-    experimental_context: str
 
 # ClusteringAnalysis node: represents a clustering analysis from a publication
 clustering analysis:

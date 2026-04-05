@@ -254,16 +254,6 @@ def test_gene_cluster_denormalized_organism(run_query):
     assert len(result) == 0, f"Denormalized organism_name mismatch: {result}"
 
 
-def test_gene_cluster_denormalized_cluster_type(run_query):
-    """GeneCluster.cluster_type must match parent ClusteringAnalysis.cluster_type."""
-    result = run_query("""
-        MATCH (ca:ClusteringAnalysis)-[:ClusteringAnalysisHasGeneCluster]->(gc:GeneCluster)
-        WHERE gc.cluster_type <> ca.cluster_type
-        RETURN gc.name, gc.cluster_type, ca.cluster_type
-    """)
-    assert len(result) == 0, f"Denormalized cluster_type mismatch: {result}"
-
-
 # ---------------------------------------------------------------------------
 # Spot checks: Tolonen 2006
 # ---------------------------------------------------------------------------

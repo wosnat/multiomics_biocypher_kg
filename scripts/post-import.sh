@@ -83,11 +83,8 @@ CREATE FULLTEXT INDEX clusteringAnalysisFullText IF NOT EXISTS
   FOR (ca:ClusteringAnalysis) ON EACH [ca.name, ca.treatment, ca.experimental_context];
 
 // ── GeneCluster indexes ─────────────────────────────────────────────────
-CREATE INDEX gene_cluster_treatment_type_idx IF NOT EXISTS FOR (gc:GeneCluster) ON (gc.treatment_type);
-CREATE INDEX gene_cluster_type_idx IF NOT EXISTS FOR (gc:GeneCluster) ON (gc.cluster_type);
-
 CREATE FULLTEXT INDEX geneClusterFullText IF NOT EXISTS
-  FOR (gc:GeneCluster) ON EACH [gc.name, gc.functional_description, gc.behavioral_description, gc.experimental_context];
+  FOR (gc:GeneCluster) ON EACH [gc.name, gc.functional_description, gc.behavioral_description];
 CYPHER
 
 echo "=== Post-process: Compute GeneCluster member_count ==="

@@ -362,9 +362,7 @@ def test_get_nodes_emits_cluster_nodes(temp_dir):
     node_1 = next(n for n in cluster_nodes if n[0] == expected_id_1)
     props = node_1[2]
     assert props["organism_name"] == "Prochlorococcus MED4"
-    assert props["omics_type"] == "RNASEQ"
     assert props["member_count"] == 2  # PMM0001 and PMM0002
-    assert props["treatment_type"] == ["nitrogen"]
 
     # Check properties on cluster 2
     node_2 = next(n for n in cluster_nodes if n[0] == expected_id_2)
