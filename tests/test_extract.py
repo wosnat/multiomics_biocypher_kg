@@ -59,3 +59,61 @@ def test_generate_report_stable_order(tmp_path):
     report2 = generate_report(entries)
     assert report1 == report2
     assert report1.index("Cluster 1") < report1.index("Cluster 2")
+
+
+def test_detect_duplicate_ids():
+    """Duplicate id within analysis produces warning."""
+    from multiomics_kg.extraction.cluster.extract import verify_quality
+    from multiomics_kg.extraction.cluster.extraction_utils import save_extraction
+
+    import tempfile
+    with tempfile.TemporaryDirectory() as td:
+        paper_dir = Path(td)
+        clusters = {
+            "1": {"id": "dup_id", "name": "C1", "functional_description": "x" * 30,
+                  "behavioral_description": "", "direction": "up"},
+            "2": {"id": "dup_id", "name": "C2", "functional_description": "y" * 30,
+                  "behavioral_description": "", "direction": "down"},
+        }
+        save_extraction(paper_dir, "test", {"paper": "Test"}, clusters)
+        entries = [(paper_dir, "test", {}, {"papername": "Test"})]
+        warnings = verify_quality(entries)
+        assert any("duplicate id" in w for w in warnings)
+
+
+def test_detect_locus_tags():
+    """Locus tag in description produces warning."""
+    from multiomics_kg.extraction.cluster.extract import verify_quality
+    from multiomics_kg.extraction.cluster.extraction_utils import save_extraction
+
+    import tempfile
+    with tempfile.TemporaryDirectory() as td:
+        paper_dir = Path(td)
+        clusters = {
+            "1": {"id": "x", "name": "C1",
+                  "functional_description": "Includes gene PMM0042 involved in transport",
+                  "behavioral_description": "Upregulated", "direction": "up"},
+        }
+        save_extraction(paper_dir, "test", {"paper": "Test"}, clusters)
+        entries = [(paper_dir, "test", {}, {"papername": "Test"})]
+        warnings = verify_quality(entries)
+        assert any("locus tag" in w and "PMM0042" in w for w in warnings)
+
+
+def test_detect_empty_direction():
+    """Non-empty description with empty direction produces warning."""
+    from multiomics_kg.extraction.cluster.extract import verify_quality
+    from multiomics_kg.extraction.cluster.extraction_utils import save_extraction
+
+    import tempfile
+    with tempfile.TemporaryDirectory() as td:
+        paper_dir = Path(td)
+        clusters = {
+            "1": {"id": "x", "name": "C1",
+                  "functional_description": "A real description with enough text",
+                  "behavioral_description": "", "direction": ""},
+        }
+        save_extraction(paper_dir, "test", {"paper": "Test"}, clusters)
+        entries = [(paper_dir, "test", {}, {"papername": "Test"})]
+        warnings = verify_quality(entries)
+        assert any("empty direction" in w for w in warnings)
