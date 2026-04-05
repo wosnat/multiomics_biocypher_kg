@@ -23,6 +23,21 @@ class TestOrganismGroupFromPath:
     def test_alteromonas(self):
         assert organism_group_from_path("cache/data/Alteromonas/genomes/MIT1002/") == "Alteromonas"
 
+    def test_thermosynechococcus(self):
+        assert organism_group_from_path("cache/data/Thermosynechococcus/genomes/BP1/") == "Thermosynechococcus"
+
+    def test_shewanella(self):
+        assert organism_group_from_path("cache/data/Shewanella/genomes/W3-18-1/") == "Shewanella"
+
+    def test_pseudomonas(self):
+        assert organism_group_from_path("cache/data/Pseudomonas/genomes/KT2440/") == "Pseudomonas"
+
+    def test_ruegeria(self):
+        assert organism_group_from_path("cache/data/Ruegeria/genomes/DSS-3/") == "Ruegeria"
+
+    def test_meiothermus(self):
+        assert organism_group_from_path("cache/data/Meiothermus/genomes/MruberA/") == "Meiothermus"
+
     def test_unknown(self):
         assert organism_group_from_path("/some/other/path/") == "unknown"
 
@@ -60,8 +75,8 @@ class TestParseEggnogOgs:
 
 
 class TestExtractOrthologGroups:
-    def test_pro_gene_three_groups(self):
-        """Prochlorococcus gene with cluster_number + eggnog_ogs → 3 groups."""
+    def test_pro_gene_all_levels(self):
+        """Prochlorococcus gene with cluster + eggnog → 4 groups (cyanorak + bacteria + prochloraceae + cyanobacteria)."""
         gene = {
             "cluster_number": "CK_00000001",
             "eggnog_ogs": [
@@ -71,7 +86,7 @@ class TestExtractOrthologGroups:
             ],
         }
         groups = extract_ortholog_groups(gene, "Prochlorococcus")
-        assert len(groups) == 3
+        assert len(groups) == 4
 
         # Cyanorak
         assert groups[0] == {
@@ -89,7 +104,7 @@ class TestExtractOrthologGroups:
             "taxon_id": 2,
             "specificity_rank": 3,
         }
-        # Prochloraceae lowest-level
+        # Prochloraceae (rank 1)
         assert groups[2] == {
             "og_id": "eggnog:1MKTR@1212",
             "source": "eggnog",
@@ -97,20 +112,31 @@ class TestExtractOrthologGroups:
             "taxon_id": 1212,
             "specificity_rank": 1,
         }
+        # Cyanobacteria (rank 2)
+        assert groups[3] == {
+            "og_id": "eggnog:3Q4X@1117",
+            "source": "eggnog",
+            "taxonomic_level": "Cyanobacteria",
+            "taxon_id": 1117,
+            "specificity_rank": 2,
+        }
 
-    def test_alt_gene_two_groups(self):
-        """Alteromonas gene without cluster → 2 groups (bacteria + lowest)."""
+    def test_alt_gene_with_proteobacteria(self):
+        """Alteromonas gene gets bacteria + Alteromonadaceae + Proteobacteria."""
         gene = {
             "eggnog_ogs": [
                 "COG0592@2|Bacteria",
                 "4648R@72275|Alteromonadaceae",
+                "5ABCD@1224|Proteobacteria",
             ],
         }
         groups = extract_ortholog_groups(gene, "Alteromonas")
-        assert len(groups) == 2
+        assert len(groups) == 3
         assert groups[0]["og_id"] == "eggnog:COG0592@2"
         assert groups[1]["og_id"] == "eggnog:4648R@72275"
         assert groups[1]["taxonomic_level"] == "Alteromonadaceae"
+        assert groups[2]["og_id"] == "eggnog:5ABCD@1224"
+        assert groups[2]["taxonomic_level"] == "Proteobacteria"
 
     def test_no_eggnog(self):
         """Gene with only cluster_number → 1 group."""
@@ -130,28 +156,28 @@ class TestExtractOrthologGroups:
         groups = extract_ortholog_groups(gene, "Prochlorococcus")
         assert groups == []
 
-    def test_lowest_level_uses_whitelist_not_max_taxon_id(self):
-        """Gene with cross-lineage OG (Pleurocapsales@52604) → picks Prochloraceae@1212."""
+    def test_cross_lineage_og_excluded(self):
+        """Cross-lineage OG (Pleurocapsales) excluded; both Prochloraceae and Cyanobacteria included."""
         gene = {
             "eggnog_ogs": [
                 "COG0592@2|Bacteria",
                 "AAAA@52604|Pleurocapsales",     # cross-lineage, should NOT be picked
-                "1MKTR@1212|Prochloraceae",       # target level, should be picked
-                "3Q4X@1117|Cyanobacteria",        # fallback, not needed
+                "1MKTR@1212|Prochloraceae",       # rank 1
+                "3Q4X@1117|Cyanobacteria",        # rank 2
             ],
         }
         groups = extract_ortholog_groups(gene, "Prochlorococcus")
-        # Should have bacteria + Prochloraceae (NOT Pleurocapsales)
         og_ids = [g["og_id"] for g in groups]
         assert "eggnog:1MKTR@1212" in og_ids
+        assert "eggnog:3Q4X@1117" in og_ids
         assert "eggnog:AAAA@52604" not in og_ids
 
-    def test_lowest_level_falls_back_to_cyanobacteria(self):
-        """Gene missing target level but has Cyanobacteria@1117 → uses fallback."""
+    def test_missing_family_still_gets_intermediate(self):
+        """Gene missing Prochloraceae@1212 still gets Cyanobacteria@1117."""
         gene = {
             "eggnog_ogs": [
                 "COG0592@2|Bacteria",
-                "3Q4X@1117|Cyanobacteria",       # fallback level
+                "3Q4X@1117|Cyanobacteria",
                 # No Prochloraceae@1212 entry
             ],
         }
@@ -159,7 +185,7 @@ class TestExtractOrthologGroups:
         assert len(groups) == 2
         assert groups[1]["og_id"] == "eggnog:3Q4X@1117"
         assert groups[1]["taxonomic_level"] == "Cyanobacteria"
-        assert groups[1]["taxon_id"] == 1117
+        assert groups[1]["specificity_rank"] == 2
 
     def test_dedup_og_ids(self):
         """Gene with duplicate OG entries → no duplicate in output."""
@@ -215,17 +241,95 @@ class TestExtractOrthologGroups:
         groups = extract_ortholog_groups(gene, "Prochlorococcus")
         assert groups == []
 
+    def test_shewanella_gets_proteobacteria(self):
+        """Shewanella gene gets bacteria + Proteobacteria (no family level)."""
+        gene = {
+            "eggnog_ogs": [
+                "COG0592@2|Bacteria",
+                "2QCTB@267890|Shewanellaceae",      # NOT configured — skipped
+                "1NI9C@1224|Proteobacteria",
+            ],
+        }
+        groups = extract_ortholog_groups(gene, "Shewanella")
+        assert len(groups) == 2
+        og_ids = [g["og_id"] for g in groups]
+        assert "eggnog:COG0592@2" in og_ids
+        assert "eggnog:1NI9C@1224" in og_ids
+        # Shewanellaceae should NOT be extracted
+        assert "eggnog:2QCTB@267890" not in og_ids
+
+    def test_ruegeria_gets_proteobacteria(self):
+        """Ruegeria gene gets bacteria + Proteobacteria."""
+        gene = {
+            "eggnog_ogs": [
+                "COG0592@2|Bacteria",
+                "XXXX@97050|Ruegeria",               # NOT configured — skipped
+                "YYYY@1224|Proteobacteria",
+            ],
+        }
+        groups = extract_ortholog_groups(gene, "Ruegeria")
+        assert len(groups) == 2
+        assert groups[1]["og_id"] == "eggnog:YYYY@1224"
+        assert groups[1]["specificity_rank"] == 2
+
+    def test_thermosynechococcus_gets_cyanobacteria(self):
+        """Thermosynechococcus gene gets bacteria + Cyanobacteria."""
+        gene = {
+            "eggnog_ogs": [
+                "COG0592@2|Bacteria",
+                "3Q4X@1117|Cyanobacteria",
+            ],
+        }
+        groups = extract_ortholog_groups(gene, "Thermosynechococcus")
+        assert len(groups) == 2
+        assert groups[1]["og_id"] == "eggnog:3Q4X@1117"
+        assert groups[1]["taxonomic_level"] == "Cyanobacteria"
+        assert groups[1]["specificity_rank"] == 2
+
+    def test_meiothermus_bacteria_only(self):
+        """Meiothermus gene gets only bacteria-level (empty level list)."""
+        gene = {
+            "eggnog_ogs": [
+                "COG0592@2|Bacteria",
+                "XXXX@1297|Deinococcus-Thermus",
+            ],
+        }
+        groups = extract_ortholog_groups(gene, "Meiothermus")
+        assert len(groups) == 1
+        assert groups[0]["og_id"] == "eggnog:COG0592@2"
+
+    def test_pseudomonas_gets_proteobacteria(self):
+        """Pseudomonas gene gets bacteria + Proteobacteria."""
+        gene = {
+            "eggnog_ogs": [
+                "COG0592@2|Bacteria",
+                "ZZZZ@136845|Pseudomonas putida group",  # NOT configured — skipped
+                "PPPP@1224|Proteobacteria",
+            ],
+        }
+        groups = extract_ortholog_groups(gene, "Pseudomonas")
+        assert len(groups) == 2
+        assert groups[1]["og_id"] == "eggnog:PPPP@1224"
+
 
 # ── ORGANISM_GROUP_LEVELS coverage ───────────────────────────────────────────
 
 
 class TestOrganismGroupLevels:
-    def test_all_three_groups_defined(self):
-        assert "Prochlorococcus" in ORGANISM_GROUP_LEVELS
-        assert "Synechococcus" in ORGANISM_GROUP_LEVELS
-        assert "Alteromonas" in ORGANISM_GROUP_LEVELS
+    def test_all_groups_defined(self):
+        expected = {
+            "Prochlorococcus", "Synechococcus", "Thermosynechococcus",
+            "Alteromonas", "Shewanella", "Pseudomonas", "Ruegeria",
+            "Meiothermus",
+        }
+        assert set(ORGANISM_GROUP_LEVELS.keys()) == expected
 
-    def test_taxon_ids_are_positive_integers(self):
-        for group, (target, fallback) in ORGANISM_GROUP_LEVELS.items():
-            assert isinstance(target, int) and target > 0, f"{group} target"
-            assert isinstance(fallback, int) and fallback > 0, f"{group} fallback"
+    def test_values_are_lists_of_tuples(self):
+        for group, levels in ORGANISM_GROUP_LEVELS.items():
+            assert isinstance(levels, list), f"{group} should be a list"
+            for tid, rank in levels:
+                assert isinstance(tid, int) and tid > 0, f"{group} taxon_id {tid}"
+                assert isinstance(rank, int) and rank > 0, f"{group} rank {rank}"
+
+    def test_meiothermus_empty(self):
+        assert ORGANISM_GROUP_LEVELS["Meiothermus"] == []
