@@ -45,8 +45,7 @@ def test_save_load_roundtrip(tmp_path):
             "name": "Test cluster 1",
             "functional_description": "Genes involved in transport",
             "behavioral_description": "Upregulated early",
-            "peak_time_hours": 6.0,
-            "period_hours": None,
+            "source_figures": ["Figure 2"],
         },
     }
     save_extraction(tmp_path, "test_entry", metadata, clusters)
