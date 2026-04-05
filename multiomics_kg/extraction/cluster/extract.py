@@ -1,0 +1,426 @@
+"""Cluster description extraction via OpenAI Responses API.
+
+Usage:
+    uv run python -m multiomics_kg.extraction.cluster.extract             # extract all
+    uv run python -m multiomics_kg.extraction.cluster.extract --report    # generate report
+    uv run python -m multiomics_kg.extraction.cluster.extract --verify    # report + checks
+    uv run python -m multiomics_kg.extraction.cluster.extract --dry-run   # show plan
+    uv run python -m multiomics_kg.extraction.cluster.extract --paper "Tolonen 2006"
+    uv run python -m multiomics_kg.extraction.cluster.extract --entry mit9313_kmeans_nstarvation --force
+"""
+import argparse
+import json
+import logging
+import os
+import re
+import time
+from datetime import datetime
+from pathlib import Path
+from typing import Literal, Optional
+
+from pydantic import BaseModel
+
+from multiomics_kg.extraction.cluster.extraction_utils import (
+    find_all_entries,
+    get_cluster_data,
+    list_extraction_files,
+    load_cluster_summaries,
+    load_extraction,
+    match_cluster_keys,
+    save_extraction,
+)
+
+logger = logging.getLogger(__name__)
+
+
+# ── Pydantic schemas ──
+
+
+class SupportingQuote(BaseModel):
+    quote: str
+    location: str
+
+
+class ClusterExtraction(BaseModel):
+    id: str
+    name: str
+    functional_description: str
+    behavioral_description: str
+    peak_time_hours: Optional[float]
+    period_hours: Optional[float]
+    direction: Literal["up", "down", "mixed", "not_described"]
+    enrichment_category: str
+    enrichment_pvalue: Optional[float]
+    enrichment_significant: bool
+    confidence_notes: str
+    supporting_quotes: list[SupportingQuote]
+    self_assessment: Literal["high", "medium", "low"]
+    assessment_notes: str
+
+
+class AnalysisExtraction(BaseModel):
+    clusters: list[ClusterExtraction]
+
+
+# ── Prompt layer ──
+
+
+DEVELOPER_MSG_TEMPLATE = """\
+You are extracting structured descriptions of gene expression clusters from \
+a scientific paper.
+
+{context_block}
+
+For each cluster, extract all fields in the output schema. Key rules:
+- Read FIGURES (heatmaps, time-course plots) as PRIMARY source for direction/timing.
+- "not described in paper" is always better than guessing.
+- Only cite genes mentioned by name in the paper (not locus tags like PMM*, PMT*, etc).
+- Do NOT include treatment conditions in descriptions — those live on the analysis node.
+- functional_description: 2-3 sentences. behavioral_description: 1-2 sentences.
+- self_assessment: your confidence. assessment_notes: what you're uncertain about.
+- Each cluster must have a unique id in snake_case: {{organism_short}}_{{direction}}_{{theme}}.
+- name format: "{{Organism}} cluster {{KEY}} ({{direction}}, {{theme}})" — under 60 chars.
+  Use the EXACT cluster key from the list below.
+- For enrichment: use p-values from the paper/figures, max 3 decimal places or scientific notation.
+- Max 3-5 named genes per cluster description.
+
+CRITICAL: You MUST extract EXACTLY {n_clusters} clusters, one for each cluster key \
+listed below. Use the EXACT cluster keys as they appear — do NOT renumber, skip, \
+or merge clusters. Every key must appear exactly once in your output.
+
+{cluster_summaries}
+"""
+
+
+def build_context_block(table: dict) -> str:
+    """Build context block from paperconfig entry."""
+    parts = [
+        f"Analysis: {table.get('name', '')}",
+        f"Organism: {table.get('organism', '')}",
+        f"Clustering: {table.get('cluster_method', '')}",
+        f"Type: {table.get('cluster_type', '')}",
+        f"Treatment: {table.get('treatment', '')}",
+    ]
+    if table.get("experimental_context"):
+        parts.append(f"Context: {table['experimental_context']}")
+    if table.get("omics_type"):
+        parts.append(f"Omics: {table['omics_type']}")
+    if table.get("figure_hint"):
+        parts.append(f"Key figures: {table['figure_hint']}")
+    if table.get("time_points"):
+        parts.append(f"Time points (hours): {table['time_points']}")
+    return "\n".join(parts)
+
+
+def format_cluster_summaries(clusters: dict[str, dict]) -> str:
+    """Format cluster summaries for the prompt."""
+    lines = []
+    for key in sorted(clusters, key=lambda x: (not x.isdigit(), x)):
+        info = clusters[key]
+        sample = ", ".join(info["sample_genes"][:3])
+        lines.append(f"Cluster {key}: {info['gene_count']} genes (sample: {sample})")
+    return "\n".join(lines)
+
+
+# ── LLM layer ──
+
+
+def upload_pdf(client, pdf_path: Path) -> str:
+    """Upload PDF via Files API, return file_id."""
+    f = client.files.create(file=open(pdf_path, "rb"), purpose="user_data")
+    return f.id
+
+
+def extract_analysis(client, file_id, table_config, cluster_summaries, model="gpt-4.1-mini", flex=False):
+    """Run extraction for one analysis. Returns (parsed, usage_dict)."""
+    ctx = build_context_block(table_config)
+    summaries = format_cluster_summaries(cluster_summaries)
+
+    dev_msg = DEVELOPER_MSG_TEMPLATE.format(
+        context_block=ctx,
+        n_clusters=len(cluster_summaries),
+        cluster_summaries=summaries,
+    )
+
+    kwargs = dict(
+        model=model, temperature=0,
+        input=[
+            {"role": "developer", "content": dev_msg},
+            {"role": "user", "content": [
+                {"type": "input_file", "file_id": file_id},
+                {"type": "input_text", "text": f"Extract descriptions for all {len(cluster_summaries)} clusters."},
+            ]},
+        ],
+        text_format=AnalysisExtraction,
+    )
+    if flex:
+        kwargs["service_tier"] = "flex"
+
+    t0 = time.time()
+    resp = client.responses.parse(**kwargs)
+    elapsed = time.time() - t0
+
+    usage = {"input_tokens": resp.usage.input_tokens, "output_tokens": resp.usage.output_tokens, "duration_sec": elapsed}
+    return resp.output[0].content[0].parsed, usage
+
+
+def extract_paper(client, file_id, tables_and_summaries, model="gpt-4.1-mini", flex=False):
+    """Extract all analyses for one paper in a single call.
+    Used for multi-organism papers (e.g. Tolonen) where per-analysis confuses the model.
+    """
+    context_parts = []
+    all_summaries = []
+    total_clusters = 0
+    for table_config, cluster_summaries in tables_and_summaries:
+        context_parts.append(build_context_block(table_config))
+        all_summaries.append(format_cluster_summaries(cluster_summaries))
+        total_clusters += len(cluster_summaries)
+
+    dev_msg = DEVELOPER_MSG_TEMPLATE.format(
+        context_block="\n\n".join(context_parts),
+        n_clusters=total_clusters,
+        cluster_summaries="\n\n".join(all_summaries),
+    )
+
+    kwargs = dict(
+        model=model, temperature=0,
+        input=[
+            {"role": "developer", "content": dev_msg},
+            {"role": "user", "content": [
+                {"type": "input_file", "file_id": file_id},
+                {"type": "input_text", "text": f"Extract descriptions for all {total_clusters} clusters."},
+            ]},
+        ],
+        text_format=AnalysisExtraction,
+    )
+    if flex:
+        kwargs["service_tier"] = "flex"
+
+    t0 = time.time()
+    resp = client.responses.parse(**kwargs)
+    elapsed = time.time() - t0
+
+    usage = {"input_tokens": resp.usage.input_tokens, "output_tokens": resp.usage.output_tokens, "duration_sec": elapsed}
+    return resp.output[0].content[0].parsed, usage
+
+
+# ── Report layer ──
+
+
+def generate_report(entries: list[tuple[Path, str, dict, dict]]) -> str:
+    """Generate diff-friendly markdown report from existing extraction JSONs."""
+    lines = ["# Cluster Extraction Report\n"]
+
+    for paper_dir, entry_key, table_config, pub in sorted(entries, key=lambda e: (pub_name(e[3]), e[1])):
+        clusters = load_extraction(paper_dir, entry_key)
+        if not clusters:
+            continue
+
+        paper = pub_name(pub)
+        lines.append(f"## {paper} / {entry_key}\n")
+
+        for key in sorted(clusters, key=lambda x: (not x.isdigit(), x)):
+            c = clusters[key]
+            direction = c.get("direction", "")
+            assessment = c.get("self_assessment", "")
+            lines.append(f"### Cluster {key} | {direction} | {assessment}")
+            lines.append(f"**Name:** {c.get('name', '')}")
+            enrich = c.get("enrichment_category", "")
+            pval = c.get("enrichment_pvalue", "N/A")
+            sig = c.get("enrichment_significant", "")
+            lines.append(f"**Enrichment:** {enrich} (p={pval}, sig={sig})")
+            lines.append(f"**Functional:** {c.get('functional_description', '')}")
+            lines.append(f"**Behavioral:** {c.get('behavioral_description', '')}")
+            notes = c.get("confidence_notes", "")
+            if notes:
+                lines.append(f"**Notes:** {notes}")
+            lines.append("")
+
+    return "\n".join(lines)
+
+
+def verify_quality(entries: list[tuple[Path, str, dict, dict]]) -> list[str]:
+    """Run programmatic quality checks. Returns list of warning strings."""
+    warnings = []
+
+    for paper_dir, entry_key, table_config, pub in entries:
+        clusters = load_extraction(paper_dir, entry_key)
+        if not clusters:
+            continue
+        paper = pub_name(pub)
+        prefix = f"[{paper} / {entry_key}"
+
+        # Check 1: duplicate ids within analysis
+        ids_seen = {}
+        for key, c in clusters.items():
+            cid = c.get("id", "")
+            if cid in ids_seen:
+                warnings.append(f"{prefix} / cluster {key}] duplicate id: {cid} (also used by cluster {ids_seen[cid]})")
+            ids_seen[cid] = key
+
+        # Check 2: locus tags in descriptions
+        locus_pat = re.compile(r"\b(PMM\d{3,}|PMT\d{3,}|P9301_\d+|tll\d{3,}|SY28_\d+|BSR22_\d+)\b")
+        for key, c in clusters.items():
+            for field in ("functional_description", "behavioral_description"):
+                text = c.get(field, "")
+                m = locus_pat.search(text)
+                if m:
+                    warnings.append(f"{prefix} / cluster {key}] locus tag in {field}: {m.group()}")
+
+        # Check 3: empty direction with non-empty description
+        for key, c in clusters.items():
+            has_desc = len(c.get("functional_description", "")) > 20
+            direction = c.get("direction", "")
+            if has_desc and not direction:
+                warnings.append(f"{prefix} / cluster {key}] has description but empty direction")
+
+    return warnings
+
+
+def pub_name(pub: dict) -> str:
+    """Extract paper name from publication config."""
+    return pub.get("papername", "Unknown")
+
+
+# ── CLI ──
+
+
+def main():
+    from dotenv import load_dotenv
+    load_dotenv()
+
+    logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(message)s")
+
+    parser = argparse.ArgumentParser(description="Cluster extraction pipeline")
+    parser.add_argument("--paper", help="Filter by paper name (partial match)")
+    parser.add_argument("--entry", help="Filter by entry key (exact)")
+    parser.add_argument("--model", default=os.environ.get("CLUSTER_EXTRACTION_MODEL", "gpt-4.1-mini"))
+    parser.add_argument("--flex", action="store_true", help="Flex processing (50%% cheaper)")
+    parser.add_argument("--force", action="store_true", help="Overwrite existing")
+    parser.add_argument("--dry-run", action="store_true", help="Show what would run")
+    parser.add_argument("--report", action="store_true", help="Generate report (no API calls)")
+    parser.add_argument("--verify", action="store_true", help="Run quality checks (implies --report)")
+    args = parser.parse_args()
+
+    if args.verify:
+        args.report = True
+
+    entries = find_all_entries()
+
+    if args.paper:
+        entries = [(d, k, t, p) for d, k, t, p in entries
+                   if args.paper.lower() in p.get("papername", "").lower()]
+    if args.entry:
+        entries = [(d, k, t, p) for d, k, t, p in entries if k == args.entry]
+
+    if args.report:
+        report = generate_report(entries)
+        if args.verify:
+            warnings = verify_quality(entries)
+            if warnings:
+                report += "\n## Warnings\n\n"
+                report += "\n".join(f"- {w}" for w in warnings) + "\n"
+            else:
+                report += "\n## Warnings\n\nNo issues found.\n"
+        report_path = Path("data/cluster_extraction_report.md")
+        report_path.write_text(report)
+        logger.info(f"Report written to {report_path}")
+        if args.verify:
+            logger.info(f"{len(warnings)} warnings")
+        return
+
+    if not entries:
+        logger.warning("No matching entries found")
+        return
+
+    if args.dry_run:
+        print(f"\nWould process {len(entries)} entries:\n")
+        for paper_dir, entry_key, table, pub in entries:
+            summaries = load_cluster_summaries(table)
+            exists = entry_key in list_extraction_files(paper_dir)
+            status = "EXISTS" if exists else "NEW"
+            print(f"  {pub_name(pub)} / {entry_key}: {len(summaries)} clusters [{status}]")
+        return
+
+    # Run extraction
+    from openai import OpenAI
+    client = OpenAI()
+    total_in = total_out = total_clusters = 0
+
+    by_paper: dict[Path, list] = {}
+    for paper_dir, entry_key, table, pub in entries:
+        by_paper.setdefault(paper_dir, []).append((entry_key, table, pub))
+
+    for paper_dir, group in by_paper.items():
+        paper = pub_name(group[0][2])
+
+        pdf_path_str = group[0][2].get("papermainpdf", "")
+        if pdf_path_str:
+            pdf_path = Path(pdf_path_str)
+            if not pdf_path.is_absolute():
+                pdf_path = Path.cwd() / pdf_path
+        else:
+            pdfs = list(paper_dir.glob("*.pdf"))
+            pdf_path = pdfs[0] if pdfs else None
+
+        if not pdf_path or not pdf_path.exists():
+            logger.warning(f"No PDF for {paper}, skipping")
+            continue
+
+        logger.info(f"Paper: {paper} ({len(group)} entries)")
+        file_id = upload_pdf(client, pdf_path)
+
+        for entry_key, table, pub in group:
+            if entry_key in list_extraction_files(paper_dir) and not args.force:
+                logger.info(f"  {entry_key}: exists, skipping")
+                continue
+
+            summaries = load_cluster_summaries(table)
+            logger.info(f"  {entry_key}: {len(summaries)} clusters")
+
+            try:
+                parsed, usage = extract_analysis(
+                    client, file_id, table, summaries,
+                    model=args.model, flex=args.flex,
+                )
+
+                expected_keys = set(summaries.keys())
+                matched, unmatched = match_cluster_keys(
+                    [c.model_dump() for c in parsed.clusters], expected_keys,
+                )
+
+                for c in unmatched:
+                    logger.warning(f"    Unmatched: {c.get('name', '?')}")
+                missing = expected_keys - set(matched.keys())
+                if missing:
+                    logger.warning(f"    Missing: {sorted(missing)}")
+
+                metadata = {
+                    "paper": paper, "doi": pub.get("doi"),
+                    "organism": table.get("organism", ""),
+                    "entry_key": entry_key, "model": args.model,
+                    "extracted_at": datetime.now().isoformat(),
+                    "input_tokens": usage["input_tokens"],
+                    "output_tokens": usage["output_tokens"],
+                }
+                save_extraction(paper_dir, entry_key, metadata, matched)
+                total_in += usage["input_tokens"]
+                total_out += usage["output_tokens"]
+                total_clusters += len(matched)
+                logger.info(f"    {len(matched)}/{len(summaries)} matched")
+
+            except Exception as e:
+                logger.error(f"  {entry_key}: FAILED — {e}")
+
+            time.sleep(2)
+
+        try:
+            client.files.delete(file_id)
+        except Exception:
+            pass
+
+    logger.info(f"Done: {total_clusters} clusters, {total_in:,} in + {total_out:,} out tokens")
+
+
+if __name__ == "__main__":
+    main()
