@@ -3,156 +3,183 @@
 ## Prerequisites
 
 - OpenAI API key in `.env` (`OPENAI_API_KEY=...`)
-- `uv sync` to install dependencies (includes `streamlit`, `openpyxl`)
+- `uv sync` to install dependencies
 - Papers with `type: gene_clusters` entries in their `paperconfig.yaml`
 
-## 1. Review UI
+## Quick Start
 
 ```bash
-uv run streamlit run multiomics_kg/review/cluster_review_app.py
+# See what would run (no API calls)
+uv run python -m multiomics_kg.extraction.cluster.extract --dry-run
+
+# Extract all entries
+uv run python -m multiomics_kg.extraction.cluster.extract
+
+# Generate quality report
+uv run python -m multiomics_kg.extraction.cluster.extract --report --verify
 ```
 
-Opens in browser. Sidebar shows papers with gene_clusters entries. Select a paper and entry to review extraction results.
+## 1. Run Extraction
 
-**Color coding:**
-- Green: all clusters approved (current run)
-- Yellow (light green): approved but carried forward from previous run
-- Orange: some stale reviews
-- Red: unreviewed or rejected
-
-**Workflow:** Select cluster > review merge view (3 columns: table/visual/semantic) > check synthesis result > set review status (approve/edit/reject/flag-issue) > save.
-
-## 2. Run Extraction Pipeline
-
-### Full run (all stages)
+### All entries
 ```bash
-uv run python -m multiomics_kg.extraction.cluster.pipeline \
-    "data/Prochlorococcus/papers_and_supp/tolonen 2006/paperconfig.yaml"
+uv run python -m multiomics_kg.extraction.cluster.extract
+```
+
+### Single paper
+```bash
+uv run python -m multiomics_kg.extraction.cluster.extract --paper "Tolonen 2006"
 ```
 
 ### Single entry
 ```bash
-uv run python -m multiomics_kg.extraction.cluster.pipeline \
-    "data/.../paperconfig.yaml" --table-key med4_kmeans_nstarvation
+uv run python -m multiomics_kg.extraction.cluster.extract --entry mit9313_kmeans_nstarvation
 ```
 
-### Re-run from a specific stage (uses cached earlier stages)
+### Re-extract (overwrite existing)
 ```bash
-# Re-run synthesis + validation only (stages 2-3)
-uv run python -m multiomics_kg.extraction.cluster.pipeline \
-    "data/.../paperconfig.yaml" --from-stage 2
-
-# Re-run validation only (stage 3)
-uv run python -m multiomics_kg.extraction.cluster.pipeline \
-    "data/.../paperconfig.yaml" --from-stage 3
+uv run python -m multiomics_kg.extraction.cluster.extract --entry mit9313_kmeans_nstarvation --force
 ```
 
-### Force modes
+### Cheaper bulk runs (50% discount via Flex processing)
 ```bash
-# Re-run all LLM calls (stages 1-3), keep pre-processing cache
-uv run python -m multiomics_kg.extraction.cluster.pipeline \
-    "data/.../paperconfig.yaml" --force-llm
-
-# Clear all caches and re-extract from scratch
-uv run python -m multiomics_kg.extraction.cluster.pipeline \
-    "data/.../paperconfig.yaml" --force-all
+uv run python -m multiomics_kg.extraction.cluster.extract --flex
 ```
 
-You can also trigger re-runs from the review UI sidebar.
+### Custom model
+```bash
+uv run python -m multiomics_kg.extraction.cluster.extract --model gpt-4.1
+```
+
+Default model: `gpt-4.1-mini` (override via `CLUSTER_EXTRACTION_MODEL` env var).
+
+## 2. Quality Review
+
+### Generate report
+```bash
+uv run python -m multiomics_kg.extraction.cluster.extract --report --verify
+```
+
+Creates `data/cluster_extraction_report.md` — a diff-friendly markdown file with all cluster descriptions and a Warnings section with programmatic quality checks.
+
+### Quality checks performed
+- Duplicate `id` fields within an analysis
+- Locus tags in descriptions (PMM*, PMT*, etc.)
+- Empty direction for clusters with non-empty descriptions
+
+### Iteration workflow
+```bash
+# 1. Generate report
+uv run python -m multiomics_kg.extraction.cluster.extract --report --verify
+
+# 2. Read report, identify issues
+cat data/cluster_extraction_report.md
+
+# 3. Tweak prompt (in multiomics_kg/extraction/cluster/extract.py, DEVELOPER_MSG_TEMPLATE)
+
+# 4. Re-extract specific entries
+uv run python -m multiomics_kg.extraction.cluster.extract --entry X --force
+
+# 5. Regenerate report, diff to see changes
+uv run python -m multiomics_kg.extraction.cluster.extract --report --verify
+git diff data/cluster_extraction_report.md
+
+# 6. Repeat until satisfied
+```
 
 ## 3. Data Layout
 
 ```
-{paper_dir}/
+data/<paper_dir>/
   paperconfig.yaml
-  .extraction_cache/
-    shared/                          # pre-processing cache (shared across entries & runs)
-      pdf_text.json                  # extracted PDF text
-      chunks.json                    # RAG text chunks
-      embeddings.npy                 # chunk embeddings (OpenAI)
-      pdf_content_parts.json         # base64-encoded PDF pages for vision API
-    {entry_key}/                     # e.g., med4_kmeans_nstarvation
-      runs/
-        2026-04-04T18-36-35/         # timestamped run directory
-          stage1_merged.json         # per-path extraction results merged
-          stage2_results.json        # synthesized descriptions
-          stage3_validation.json     # per-cluster validation verdicts
-          stage4_review.json         # human review decisions
-          metadata.json              # run metadata
-          report.md                  # markdown summary
-      current -> runs/2026-04-...    # symlink to latest completed run
+  cluster_extractions/               # extraction results (one JSON + MD per entry)
+    {entry_key}.json                 # structured extraction data (clean format)
+    {entry_key}.md                   # human-readable summary
+
+data/
+  cluster_extraction_report.md       # full report across all papers (for review + diff)
 ```
 
-- `current` symlink only updated after all stages complete (`finalize_run`)
-- Review decisions (`stage4_review.json`) copied forward on re-runs; marked `stale` if inputs changed
-- Shared cache persists across runs — delete to force re-extraction
+### JSON format
 
-## 4. Dry-Run Prompts (review without API calls)
-
-```bash
-# All stages, all clusters, all entries
-uv run python scripts/dry_run_prompts.py "data/.../paperconfig.yaml"
-
-# Specific entry + cluster + stage
-uv run python scripts/dry_run_prompts.py "data/.../paperconfig.yaml" \
-    --entry med4_kmeans_nstarvation --cluster 7 --stage synthesis
-
-# Save to files for review
-uv run python scripts/dry_run_prompts.py "data/.../paperconfig.yaml" \
-    --output-dir /tmp/dry_run
+```json
+{
+  "metadata": {
+    "paper": "Tolonen 2006",
+    "doi": "10.1038/msb4100087",
+    "organism": "Prochlorococcus MIT9313",
+    "entry_key": "mit9313_kmeans_nstarvation",
+    "model": "gpt-4.1-mini",
+    "extracted_at": "2026-04-05T13:25:22",
+    "input_tokens": 62080,
+    "output_tokens": 3141
+  },
+  "clusters": {
+    "1": {
+      "id": "mit9313_up_transport_binding",
+      "name": "MIT9313 cluster 1 (up, transport and binding)",
+      "functional_description": "...",
+      "behavioral_description": "...",
+      "peak_time_hours": 6.0,
+      "period_hours": null,
+      "direction": "up",
+      "enrichment_category": "transport and binding",
+      "enrichment_pvalue": 0.04,
+      "enrichment_significant": true,
+      "self_assessment": "high",
+      "assessment_notes": "...",
+      "confidence_notes": "...",
+      "supporting_quotes": [{"quote": "...", "location": "..."}]
+    }
+  }
+}
 ```
 
-## 5. RAG Query Experiments
+## 4. Architecture
 
-Test what paper text the RAG retrieves for different queries, without calling extraction LLMs.
+The extraction pipeline has two stages:
 
-```bash
-# Interactive mode (queries cached after first embedding)
-uv run python scripts/rag_experiment.py "data/.../paper_dir" --interactive
-
-# Test specific queries
-uv run python scripts/rag_experiment.py "data/.../paper_dir" \
-    --batch "MED4 cluster 1" "MED4 cluster 7 Translation downregulated" \
-    --top-k 5
-```
-
-Caches chunks + embeddings to `.extraction_cache/shared/` — subsequent queries are instant.
-
-## 6. Pipeline Stages
-
-| Stage | What it does | Model | Input |
+| Stage | What | LLM? | Output |
 |---|---|---|---|
-| 1a: Table | Parse cluster CSV + supplementary XLS for enrichment data | None (pandas) | CSV/XLS files |
-| 1b: Visual | Extract cluster info from PDF figures/legends | gpt-4o | PDF pages (per cluster) |
-| 1c: Semantic | RAG retrieve paper text, extract cluster info | gpt-5-nano | Embedded text chunks (per cluster) |
-| 1d: Merge | Combine table/visual/semantic by confidence | None | Stage 1a-1c outputs |
-| 2: Synthesis | Write descriptions from merged data | gpt-5-nano | Merged fields (per cluster) |
-| 3: Validation | Verify descriptions against paper | gpt-4o | PDF pages + descriptions (per cluster) |
+| **0: Table** | CSV parsing + enrichment parsers | No | Per-cluster gene counts, enrichment data |
+| **1: Extract** | Full PDF + all cluster summaries → structured descriptions | Yes (per analysis) | `cluster_extractions/{entry_key}.json` |
 
-## 7. Export Issue Report
+**One API call per `gene_clusters` entry** — the model receives the full PDF via `input_file` and extracts all clusters in the analysis simultaneously. This enables cross-cluster disambiguation (e.g., "cluster 6 is down while cluster 1 is up").
 
-From the review UI sidebar: click "Export Issue Report" to download a CSV of all non-approved clusters with their issues, failing stages, and notes.
+### Key modules
 
-## 8. Adding New Papers
+| File | Responsibility |
+|---|---|
+| `multiomics_kg/extraction/cluster/extract.py` | LLM calls, prompts, report generation, CLI |
+| `multiomics_kg/extraction/cluster/extraction_utils.py` | File I/O, cluster key matching, CSV loading |
+| `multiomics_kg/extraction/cluster/table.py` | Stage 0 CSV parsing + enrichment parsers |
+| `multiomics_kg/adapters/cluster_adapter.py` | Reads extraction JSONs via `extraction_utils`, emits KG nodes |
+
+## 5. Adding New Papers
 
 1. Add `type: gene_clusters` entry to the paper's `paperconfig.yaml` (see CLAUDE.md for format)
-2. Run extraction: `uv run python -m multiomics_kg.extraction.cluster.pipeline "data/.../paperconfig.yaml"`
-3. Review in UI
-4. Approved clusters automatically feed into the KG via `cluster_adapter.py`
+2. Run extraction:
+   ```bash
+   uv run python -m multiomics_kg.extraction.cluster.extract --paper "Author Year"
+   ```
+3. Review: `uv run python -m multiomics_kg.extraction.cluster.extract --report --verify`
+4. Rebuild KG — extracted descriptions automatically appear on `GeneCluster` nodes
 
-## 9. Clearing Cache
+## 6. Troubleshooting
 
-```bash
-# Clear shared cache for a paper (forces re-extraction of PDF text + embeddings)
-rm -rf "data/.../paper_dir/.extraction_cache/shared/"
+### Model TPM limit exceeded
+The PDF token count may exceed your account's TPM limit. Use `gpt-4.1-mini` (default) which has higher limits, or request a TPM increase for `gpt-4.1`.
 
-# Clear all runs for an entry (start fresh)
-rm -rf "data/.../paper_dir/.extraction_cache/entry_key/"
+### Cluster key mismatches
+If the model renumbers or skips clusters, the matching logic tries: name regex, id suffix, case-insensitive, positional fallback. Check warnings in the extraction log. For multi-organism papers (e.g., Tolonen), use `extract_paper()` instead of `extract_analysis()` — see the Tolonen one-off in the git history.
 
-# Clear everything for a paper
-rm -rf "data/.../paper_dir/.extraction_cache/"
-```
+### Self-assessment: low
+Clusters with `self_assessment: "low"` typically mean the paper doesn't discuss them. These are correct — the adapter still creates the GeneCluster node (from CSV data) but without populated descriptions.
 
-## 10. Known Issues
+## 7. Current State
 
-See [extraction_issues_log.md](extraction_issues_log.md) for diagnosed issues and their status.
+- **15 analyses** across 8 papers, **115 clusters** total
+- **82 clusters** with populated descriptions
+- **33 clusters** correctly empty (paper doesn't discuss them)
+- **5 warnings**: 1 locus tag, 4 duplicate IDs on undescribed Zinser diel clusters
+- Ground truth validated: Tolonen MIT9313 clusters 1, 6, 7 all correct
