@@ -89,6 +89,8 @@ For each cluster, extract all fields in the output schema.
   State ONLY the observed pattern. Do NOT add causal interpretation \
 (e.g., "indicating stress response" or "suggesting metabolic coupling"). \
 The reader will interpret the biology — just report what the data shows.
+  GOOD: "Genes show a rapid transient peak in expression ~1h after phage infection, then decline."
+  BAD: "Genes show a rapid transient peak indicating an early stress response by the host."
 
 - ONLY state what the paper EXPLICITLY says about THIS SPECIFIC cluster. \
 Do NOT synthesize information from other clusters, other sections of the paper, \
