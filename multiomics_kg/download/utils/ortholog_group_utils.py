@@ -30,8 +30,9 @@ def organism_group_from_path(data_dir: str) -> str:
     E.g. 'cache/data/Prochlorococcus/genomes/MED4/' → 'Prochlorococcus'
     Note: WH8102 (Parasynechococcus) is under Synechococcus/ in data_dir.
     """
+    parts = data_dir.replace("\\", "/").split("/")
     for group in ORGANISM_GROUP_LEVELS:
-        if group in data_dir:
+        if group in parts:
             return group
     return "unknown"
 
@@ -64,13 +65,14 @@ def extract_ortholog_groups(gene: dict, organism_group: str) -> list[dict]:
 
     Args:
         gene: Gene dict from gene_annotations_merged.json.
-        organism_group: One of "Prochlorococcus", "Synechococcus", "Alteromonas"
-            (derived from data_dir path). Used to select the correct target
-            taxonomic level for lowest-level OG.
+        organism_group: Key in ORGANISM_GROUP_LEVELS (e.g. "Prochlorococcus",
+            "Shewanella", "Meiothermus"). Derived from data_dir path.
+            Determines which intermediate taxonomic levels are extracted.
 
     Returns:
-        List of {og_id, source, taxonomic_level, taxon_id} dicts. Deduplicated
-        by og_id (a gene cannot belong to the same OG twice).
+        List of {og_id, source, taxonomic_level, taxon_id, specificity_rank}
+        dicts. Each gene gets all configured levels independently, plus
+        Bacteria-level and Cyanorak (if applicable). Deduplicated by og_id.
     """
     groups: list[dict] = []
     seen_ids: set[str] = set()
