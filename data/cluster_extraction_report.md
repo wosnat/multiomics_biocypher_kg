@@ -247,186 +247,176 @@
 
 ## Biller 2018 / mit1002_periodicity
 
-### Cluster coculture_LD | mixed | medium
-**Name:** Alteromonas macleodii MIT1002 cluster coculture_LD (mixed, periodicity)
-**Enrichment:** Not discussed in paper. (p=None, sig=False)
-**Functional:** This cluster includes 529 genes showing 24-h periodicity only in coculture under the diel light:dark (L:D) cycle. Functional enrichment is not explicitly detailed in the paper for this cluster, but it includes genes such as MIT1002_0002, MIT1002_0007, and MIT1002_0010 as examples.
-**Behavioral:** Genes in this cluster exhibit 24-h periodic oscillations in coculture during the diel L:D cycle but do not show periodicity under extended darkness or in axenic culture conditions.
-**Confidence notes:** Functional enrichment not described; gene examples provided.
-**Assessment notes:** Descriptions of specific gene functions in this cluster are limited; periodicity pattern is clear from data.
-**Sources:** Figure 4A, Table S4A
+### Cluster coculture_LD | mixed | high
+**Name:** Alteromonas macleodii MIT1002 cluster coculture_LD (mixed, periodicity classification)
+**Enrichment:** Metabolic pathways including Calvin cycle, glycolysis, fatty acid biosynthesis, glycogen metabolism, photosynthesis (p=None, sig=False)
+**Functional:** This cluster includes 529 genes showing 24-h periodicity in Prochlorococcus when grown in coculture under diel light:dark (L:D) conditions. Genes in this cluster are associated with metabolic pathways such as the Calvin cycle, glycolysis, fatty acid biosynthesis, glycogen metabolism, and photosynthesis, indicating active metabolic and biosynthetic functions during the diel cycle.
+**Behavioral:** Genes in this cluster exhibit 24-h periodic oscillations in coculture under diel L:D conditions but lose periodicity under extended darkness. This indicates that their expression is tightly coupled to the light cycle and coculture conditions.
+**Confidence notes:** Functional roles inferred from pathway enrichment and gene examples such as psbA, psbB, psaA, and psaB.
+**Sources:** Figure 4, Table S4A
 **Quotes:**
-- [Page 11] The largest group of Prochlorococcus transcripts (42% of all protein-encoding genes) showed 24-h periodicity in both axenic and cocultures under diel L:D conditions but did not continue to oscillate under extended darkness.
+- [Page 11] Within the set of transcripts that continued oscillating under extended darkness in cocultured but not in axenic cells, we find transcripts associated with a variety of metabolic pathways, including the Calvin cycle, glycolysis, fatty acid biosynthesis, glycogen metabolism, and photosynthesis.
 
-### Cluster coculture_LD+coculture_darkness | mixed | low
-**Name:** Alteromonas macleodii MIT1002 cluster coculture_LD+coculture_darkness (mixed, periodicity)
-**Enrichment:** Not discussed in paper. (p=None, sig=False)
-**Functional:** This cluster contains 1 gene (sample MIT1002_2235) that exhibits 24-h periodicity in coculture under both diel L:D and extended darkness conditions. Specific functional enrichment or gene roles are not discussed in the paper.
-**Behavioral:** The gene in this cluster maintains 24-h periodic oscillations in coculture both during the diel L:D cycle and under extended darkness, indicating sustained rhythmic expression in the presence of Alteromonas even without light.
-**Confidence notes:** Single gene cluster with no detailed functional annotation provided.
-**Assessment notes:** Single gene cluster with minimal description.
-**Sources:** Figure 4A, Table S4A
-**Quotes:**
-- [Page 11] Subsets of the Prochlorococcus transcriptome exhibited periodic oscillations under different combinations of culture conditions, including those that oscillated under all conditions.
+### Cluster coculture_LD+coculture_darkness | mixed | medium
+**Name:** Alteromonas macleodii MIT1002 cluster coculture_LD+coculture_darkness (mixed, periodicity classification)
+**Enrichment:**  (p=None, sig=False)
+**Functional:** This cluster contains 1 gene that exhibits 24-h periodicity in Prochlorococcus under both coculture diel L:D and extended darkness conditions. Specific gene functions are not detailed in the paper.
+**Behavioral:** The gene in this cluster maintains 24-h periodic expression in coculture both during the diel L:D cycle and extended darkness, suggesting sustained rhythmic expression independent of light availability when in coculture.
+**Confidence notes:** Not specifically discussed in detail in the paper; functional description limited.
+**Assessment notes:** Limited description available; only one gene in this cluster.
 
 ### Cluster coculture_darkness | mixed | low
-**Name:** Alteromonas macleodii MIT1002 cluster coculture_darkness (mixed, periodicity)
-**Enrichment:** Not discussed in paper. (p=None, sig=False)
-**Functional:** This cluster includes 1 gene (sample MIT1002_2228) showing 24-h periodicity only in coculture under extended darkness. Functional roles or enrichment are not described in the paper.
-**Behavioral:** The gene exhibits 24-h periodic oscillations exclusively in coculture during extended darkness, not under diel L:D or axenic conditions, suggesting heterotroph influence on maintaining periodicity in the dark.
-**Confidence notes:** Minimal functional information available; periodicity pattern noted.
-**Assessment notes:** Single gene cluster with minimal description.
-**Sources:** Figure 4A, Table S4A
-**Quotes:**
-- [Page 11] Other transcripts maintained periodic oscillations in different sets of culture conditions, including those that oscillated only as a function of coculture or only in extended darkness.
+**Name:** Alteromonas macleodii MIT1002 cluster coculture_darkness (mixed, periodicity classification)
+**Enrichment:**  (p=None, sig=False)
+**Functional:** This cluster includes 1 gene showing 24-h periodicity in Prochlorococcus only under coculture extended darkness conditions. The paper does not provide specific functional details for this cluster.
+**Behavioral:** The gene in this cluster exhibits 24-h periodicity exclusively under coculture extended darkness, indicating a unique expression pattern linked to the dark stress condition in coculture.
+**Confidence notes:** Not discussed in detail in the paper; functional and behavioral descriptions are limited.
+**Assessment notes:** No detailed functional or behavioral information provided.
 
 ## Biller 2018 / natl2a_darkness_survival
 
 ### Cluster darkness_axenic+darkness_coculture | mixed | medium
 **Name:** Prochlorococcus NATL2A cluster darkness_axenic+darkness_coculture (mixed, extended darkness)
-**Enrichment:**  (p=None, sig=False)
-**Functional:** This cluster includes 96 genes with transcripts present in both axenic and coculture conditions during extended darkness. Functional enrichment is not explicitly detailed for this cluster in the paper, but it includes genes such as PMN2A_RS00075, PMN2A_RS00090, and PMN2A_RS00180 as examples. The cluster likely represents genes maintaining expression across both conditions during extended darkness.
-**Behavioral:** Transcripts are present in both axenic and coculture conditions during extended darkness (72-144 h), indicating sustained expression under prolonged dark stress in both culture types.
-**Confidence notes:** Functional enrichment and specific gene functions for this cluster are not explicitly described in the paper; descriptions are based on transcript presence patterns.
-**Assessment notes:** Descriptions are inferred from transcript presence and general transcriptome behavior; specific functional enrichment is not provided for this cluster.
-**Sources:** Figure 1A, Figure 2, Figure 3
+**Enrichment:** Photosynthesis and metabolic maintenance (p=None, sig=False)
+**Functional:** This cluster includes genes with transcripts present in both axenic and coculture conditions during extended darkness. Functional enrichment is not explicitly detailed for this composite cluster, but it includes genes involved in photosystem components such as psbA, psbB, psaA, and psaB, indicating roles in photosynthesis and light reactions. The cluster likely reflects maintenance of photosynthetic and metabolic functions under extended darkness when transcripts are detectable in both conditions.
+**Behavioral:** Transcripts are present in both axenic and coculture Prochlorococcus during extended darkness (72-144 h), indicating sustained expression under dark stress in both culture conditions.
+**Confidence notes:** Functional description inferred from gene examples and general cluster definition; no explicit enrichment p-value provided.
+**Assessment notes:** Cluster is a composite of categories; functional description is partially inferred from gene examples and periodicity data.
+**Sources:** Figure 4A, Table S4
 **Quotes:**
-- [Abstract] More Prochlorococcus transcripts exhibited 24-h periodic oscillations in coculture than in pure culture, both over the normal diel cycle and after the shift to extended darkness.
-- [Abstract] The transcriptomes of replicate pure cultures of Prochlorococcus lost their synchrony within 5 h of extended darkness and reflected changes in stress responses and metabolic functions consistent with growth cessation. In contrast, when grown with Alteromonas, replicate Prochlorococcus transcriptomes tracked each other for at least 13 h in the dark and showed signs of continued biosynthetic and metabolic activity.
+- [Page 1] More Prochlorococcus transcripts exhibited 24-h periodic oscillations in coculture than in pure culture, both over the normal diel cycle and after the shift to extended darkness.
+- [Page 11-12] Subsets of the Prochlorococcus transcriptome exhibited periodic oscillations under different combinations of culture conditions... including those that oscillated under all conditions or only as a function of coculture or that did not exhibit periodicity under any conditions.
 
 ### Cluster darkness_axenic+unique_axenic | down | high
 **Name:** Prochlorococcus NATL2A cluster darkness_axenic+unique_axenic (down, extended darkness)
-**Enrichment:** Biosynthesis, DNA repair, fermentation, stress response (p=0.02, sig=True)
-**Functional:** This cluster of 76 genes is unique to axenic cultures during extended darkness and is enriched for transcripts involved in biosynthetic pathways, NAD metabolism, ATP synthase subunits, and DNA repair genes such as recA, ruvB, mutS, and radA. It also shows enrichment of fermentation-associated transcripts and stress response genes including groES, clpB, and dnaJ, as well as activation of the stringent response pathway.
-**Behavioral:** Transcripts in this cluster decrease or are depleted during extended darkness in axenic cultures, reflecting cessation of growth and metabolic downregulation. DNA repair and stress response genes are enriched early in extended darkness, indicating stress. This cluster is not enriched or is depleted in cocultures, indicating a unique axenic response.
-**Confidence notes:** Strong evidence from transcriptome data and pathway enrichment analyses supports these functional assignments.
-**Assessment notes:** Functional and behavioral descriptions are well supported by transcriptomic and enrichment data.
-**Sources:** Figure 3, Table 1, Table 2
+**Enrichment:** Biosynthesis and energy metabolism depletion (p=0.016, sig=True)
+**Functional:** Enriched for depletion of transcripts involved in biosynthetic pathways, NAD metabolism, ATP synthase subunits, glycogen degradation (glgP), oxidative pentose phosphate pathway, and late glycolysis steps, indicating decreased metabolic activity and growth cessation in axenic cultures under extended darkness (p-values ranging from 0.016 to 0.088). Also enriched for stress response genes such as groES, clpB, dnaJ, and activation of the stringent response pathway.
+**Behavioral:** Transcripts in this cluster are depleted during the first 5 h of extended darkness in axenic cultures, reflecting a decrease in metabolic and biosynthetic activity consistent with growth cessation and stress response activation. This depletion is not observed or is less pronounced in cocultures.
+**Confidence notes:** Strong statistical support for depletion of multiple metabolic pathways and stress response activation in axenic cultures under extended darkness.
+**Assessment notes:** Well-supported by transcriptomic data and pathway enrichment analysis.
+**Sources:** Figure 3, Table 1, Table S3
 **Quotes:**
 - [Page 6] The bulk of the transcriptional response was consistent with the cessation of growth in the dark. Cells were depleted in transcripts encoding a number of biosynthetic pathways, NAD metabolism genes, and ATP synthase subunits relative to cells that experienced sunrise on schedule.
-- [Page 9] Transcripts for a number of genes involved in DNA repair, such as recA, ruvB, mutS, and radA, were enriched only in the axenic cells, not in cocultures, under extended darkness.
-- [Page 8] The axenic Prochlorococcus transcriptomes were enriched in transcripts for a variety of common stress-responsive genes such as groES, clpB, and dnaJ within the first hour of extended darkness.
+- [Page 7] Prochlorococcus does not appear to carry glycogen stores sufficient to sustain itself past the expected sunrise, as reflected in the depletion of transcripts for genes involved in glycogen degradation, such as glgP, as well as the oxidative pentose phosphate pathway and the late steps of glycolysis.
 
 ### Cluster darkness_coculture+unique_coculture | up | high
 **Name:** Prochlorococcus NATL2A cluster darkness_coculture+unique_coculture (up, extended darkness)
-**Enrichment:** Organic compound degradation and salvage, terpenoid and tetrapyrrole biosynthesis (p=0.006, sig=True)
-**Functional:** This cluster of 87 genes is unique to cocultured Prochlorococcus during extended darkness and is enriched for transcripts involved in organic compound degradation and salvage pathways, including amino acid degradation, adenine and adenosine salvage (apt), lipoate salvage (lplA), purine nucleotide degradation (truB), terpenoid biosynthesis (dxs, ispG, ispE, lytB), and tetrapyrrole biosynthesis (hemB, hemD). It also includes genes related to the Entner-Doudoroff pathway (eda) suggesting mixotrophic metabolism.
-**Behavioral:** Transcripts in this cluster are enriched or maintained during extended darkness in cocultured Prochlorococcus but are depleted or not enriched in axenic cultures, indicating sustained metabolic activity and utilization of heterotroph-derived organic compounds under dark stress.
-**Confidence notes:** Strong transcriptomic evidence and pathway enrichment support the functional description of mixotrophic metabolism in cocultures.
-**Assessment notes:** Descriptions are strongly supported by differential transcript abundance and pathway enrichment analyses.
-**Sources:** Figure 3, Table 2
+**Enrichment:** Organic compound degradation and biosynthesis (p=0.006, sig=True)
+**Functional:** Enriched for transcripts involved in organic compound degradation and salvage pathways, including amino acid degradation, adenine and adenosine salvage (apt), lipoate salvage (lplA), purine nucleotide degradation (truB), terpenoid biosynthesis (dxs, ispG, ispE, lytB), and tetrapyrrole biosynthesis (hemB, hemD). This suggests enhanced mixotrophic metabolism and biosynthetic potential in cocultured Prochlorococcus under extended darkness.
+**Behavioral:** Transcripts in this cluster are enriched during the first 5 h of extended darkness in cocultured Prochlorococcus, indicating active metabolism of organic compounds and maintenance of biosynthetic pathways likely supported by heterotroph-derived substrates.
+**Confidence notes:** Strong enrichment for organic compound degradation and biosynthesis pathways in cocultured cells under extended darkness.
+**Assessment notes:** Functional enrichment and transcriptomic patterns strongly support mixotrophic metabolism in cocultures under extended darkness.
+**Sources:** Table 2, Table S3
 **Quotes:**
 - [Page 9] Cocultured, but not axenic, Prochlorococcus cells were enriched in transcripts encoding organic compound degradation/salvage pathways, such as those for amino acids, that could be used by the cell to process organic substrates.
-- [Page 9] Transcripts for the key enzyme in the Entner-Doudoroff pathway, Eda, were enriched in coculture and consistently depleted in axenic cultures.
-- [Page 9] Transcripts involved in some amino acid and nucleotide biosynthetic pathways were depleted under extended darkness in the axenic cells, but not in the cocultures, suggesting that the latter maintained greater biosynthetic potential in the dark.
+- [Page 9] Transcripts for the key enzyme in the ED pathway, Eda, were enriched in coculture and consistently depleted in axenic cultures, suggesting glycolytic metabolism differences reflecting increased processing of organic molecules.
 
 ## Biller 2018 / natl2a_periodicity
 
 ### Cluster axenic_LD | mixed | medium
 **Name:** Prochlorococcus NATL2A cluster axenic_LD (mixed, periodicity)
 **Enrichment:**  (p=None, sig=False)
-**Functional:** This cluster includes 68 genes showing 24-h periodicity only in axenic L:D conditions. Not discussed in paper specifically for this cluster.
-**Behavioral:** Genes exhibit 24-h periodic oscillations in axenic L:D cultures but not in coculture or extended darkness conditions.
-**Confidence notes:** Functional description not specifically discussed for this cluster; behavior inferred from periodicity data.
-**Assessment notes:** Behavioral description based on periodicity data; functional description not detailed.
+**Functional:** This cluster includes genes exhibiting 24-h periodicity only in axenic L:D conditions. Not discussed in paper in detail for specific genes or pathways.
+**Behavioral:** Genes show 24-h periodic oscillations in axenic L:D culture but lose periodicity in coculture and under extended darkness.
+**Confidence notes:** Limited functional description in paper for this cluster.
+**Assessment notes:** Functional roles not specifically described; behavior inferred from periodicity data.
 **Sources:** Figure 4A, Table S4A
 **Quotes:**
-- [Page 11] We found that transcripts encoding 69% of all Prochlorococcus proteins exhibited 24-h periodicity in the axenic L:D cultures, while only 6% did so through the first 13 h of extended darkness.
+- [Page 11] The largest group of Prochlorococcus transcripts (42% of all protein-encoding genes) showed 24-h periodicity in both axenic and cocultures under diel L:D conditions but did not continue to oscillate under extended darkness.
 
 ### Cluster axenic_LD+axenic_darkness+coculture_darkness | mixed | low
 **Name:** Prochlorococcus NATL2A cluster axenic_LD+axenic_darkness+coculture_darkness (mixed, periodicity)
 **Enrichment:**  (p=None, sig=False)
 **Functional:** Not discussed in paper.
 **Behavioral:** Not discussed in paper.
-**Confidence notes:** No specific information available for this cluster.
-**Assessment notes:** No description or data provided for this cluster.
+**Confidence notes:** No specific mention in text or figures.
+**Assessment notes:** No information available.
 
-### Cluster axenic_LD+coculture_LD | mixed | high
+### Cluster axenic_LD+coculture_LD | mixed | medium
 **Name:** Prochlorococcus NATL2A cluster axenic_LD+coculture_LD (mixed, periodicity)
-**Enrichment:** Photosynthesis and central metabolism (p=0.001, sig=True)
-**Functional:** This large cluster of 902 genes includes many transcripts showing 24-h periodicity in both axenic and cocultured L:D conditions but not under extended darkness. Includes genes involved in photosynthesis (psbA, psbB, psaA, psaB), Calvin cycle, glycolysis, fatty acid biosynthesis, and glycogen metabolism.
-**Behavioral:** Genes exhibit 24-h periodic oscillations in both axenic and cocultured L:D conditions but lose periodicity under extended darkness.
-**Confidence notes:** Strong evidence from periodicity and transcript abundance data.
-**Assessment notes:** Well supported by transcriptomic periodicity and functional enrichment.
+**Enrichment:**  (p=None, sig=False)
+**Functional:** Includes genes with 24-h periodicity in both axenic and coculture L:D conditions but not under extended darkness. Not specifically enriched for pathways in paper.
+**Behavioral:** Genes oscillate with 24-h periodicity in both axenic and coculture L:D conditions but lose periodicity under extended darkness.
+**Confidence notes:** Functional roles not detailed; behavior based on periodicity patterns.
+**Assessment notes:** Behavioral description based on periodicity data; functional description limited.
 **Sources:** Figure 4A, Table S4A
 **Quotes:**
 - [Page 11] The largest group of Prochlorococcus transcripts (42% of all protein-encoding genes) showed 24-h periodicity in both axenic and cocultures under diel L:D conditions but did not continue to oscillate under extended darkness.
-- [Page 11] Transcripts associated with a variety of metabolic pathways, including the Calvin cycle, glycolysis, fatty acid biosynthesis, glycogen metabolism, and photosynthesis.
 
 ### Cluster axenic_LD+coculture_LD+axenic_darkness | mixed | low
 **Name:** Prochlorococcus NATL2A cluster axenic_LD+coculture_LD+axenic_darkness (mixed, periodicity)
 **Enrichment:**  (p=None, sig=False)
 **Functional:** Not discussed in paper.
 **Behavioral:** Not discussed in paper.
-**Confidence notes:** No specific information available for this cluster.
-**Assessment notes:** No description or data provided for this cluster.
+**Confidence notes:** No specific mention in text or figures.
+**Assessment notes:** No information available.
 
 ### Cluster axenic_LD+coculture_LD+axenic_darkness+coculture_darkness | mixed | low
 **Name:** Prochlorococcus NATL2A cluster axenic_LD+coculture_LD+axenic_darkness+coculture_darkness (mixed, periodicity)
 **Enrichment:**  (p=None, sig=False)
 **Functional:** Not discussed in paper.
 **Behavioral:** Not discussed in paper.
-**Confidence notes:** No specific information available for this cluster.
-**Assessment notes:** No description or data provided for this cluster.
+**Confidence notes:** No specific mention in text or figures.
+**Assessment notes:** No information available.
 
 ### Cluster axenic_LD+coculture_LD+coculture_darkness | mixed | low
 **Name:** Prochlorococcus NATL2A cluster axenic_LD+coculture_LD+coculture_darkness (mixed, periodicity)
 **Enrichment:**  (p=None, sig=False)
 **Functional:** Not discussed in paper.
 **Behavioral:** Not discussed in paper.
-**Confidence notes:** No specific information available for this cluster.
-**Assessment notes:** No description or data provided for this cluster.
+**Confidence notes:** No specific mention in text or figures.
+**Assessment notes:** No information available.
 
 ### Cluster axenic_LD+coculture_darkness | mixed | low
 **Name:** Prochlorococcus NATL2A cluster axenic_LD+coculture_darkness (mixed, periodicity)
 **Enrichment:**  (p=None, sig=False)
 **Functional:** Not discussed in paper.
 **Behavioral:** Not discussed in paper.
-**Confidence notes:** No specific information available for this cluster.
-**Assessment notes:** No description or data provided for this cluster.
+**Confidence notes:** No specific mention in text or figures.
+**Assessment notes:** No information available.
 
 ### Cluster coculture_LD | mixed | medium
 **Name:** Prochlorococcus NATL2A cluster coculture_LD (mixed, periodicity)
 **Enrichment:**  (p=None, sig=False)
-**Functional:** This cluster of 328 genes shows 24-h periodicity only in coculture L:D conditions. Not specifically discussed in paper for this cluster.
-**Behavioral:** Genes exhibit 24-h periodic oscillations in coculture L:D but not in axenic or extended darkness conditions.
-**Confidence notes:** Functional description not specifically discussed for this cluster; behavior inferred from periodicity data.
-**Assessment notes:** Behavioral description based on periodicity data; functional description not detailed.
+**Functional:** Includes genes with 24-h periodicity only in coculture L:D conditions. Not specifically described in paper.
+**Behavioral:** Genes show 24-h periodic oscillations in coculture L:D but not in axenic or extended darkness conditions.
+**Confidence notes:** Limited functional description in paper for this cluster.
+**Assessment notes:** Behavioral description based on periodicity data; functional description limited.
 **Sources:** Figure 4A, Table S4A
 **Quotes:**
-- [Page 11] More Prochlorococcus transcripts retained their periodicity in cocultures versus axenic cultures, both under extended darkness and even during the normal diel L:D cycle.
+- [Page 11] Subsets of the Prochlorococcus transcriptome exhibited periodic oscillations under different combinations of culture conditions, including those that oscillated only as a function of coculture.
 
 ### Cluster coculture_LD+axenic_darkness | mixed | low
 **Name:** Prochlorococcus NATL2A cluster coculture_LD+axenic_darkness (mixed, periodicity)
 **Enrichment:**  (p=None, sig=False)
 **Functional:** Not discussed in paper.
 **Behavioral:** Not discussed in paper.
-**Confidence notes:** No specific information available for this cluster.
-**Assessment notes:** No description or data provided for this cluster.
+**Confidence notes:** No specific mention in text or figures.
+**Assessment notes:** No information available.
 
 ### Cluster coculture_LD+coculture_darkness | mixed | low
 **Name:** Prochlorococcus NATL2A cluster coculture_LD+coculture_darkness (mixed, periodicity)
 **Enrichment:**  (p=None, sig=False)
 **Functional:** Not discussed in paper.
 **Behavioral:** Not discussed in paper.
-**Confidence notes:** No specific information available for this cluster.
-**Assessment notes:** No description or data provided for this cluster.
+**Confidence notes:** No specific mention in text or figures.
+**Assessment notes:** No information available.
 
 ### Cluster coculture_darkness | mixed | low
 **Name:** Prochlorococcus NATL2A cluster coculture_darkness (mixed, periodicity)
 **Enrichment:**  (p=None, sig=False)
 **Functional:** Not discussed in paper.
 **Behavioral:** Not discussed in paper.
-**Confidence notes:** No specific information available for this cluster.
-**Assessment notes:** No description or data provided for this cluster.
+**Confidence notes:** No specific mention in text or figures.
+**Assessment notes:** No information available.
 
 ### Cluster not_periodic | mixed | low
-**Name:** Prochlorococcus NATL2A cluster not_periodic (mixed, not periodic)
+**Name:** Prochlorococcus NATL2A cluster not_periodic (mixed, not discussed)
 **Enrichment:**  (p=None, sig=False)
 **Functional:** Not discussed in paper.
-**Behavioral:** Genes do not exhibit 24-h periodicity under any tested conditions.
-**Confidence notes:** No specific information available for this cluster.
-**Assessment notes:** No description or data provided for this cluster.
+**Behavioral:** Not discussed in paper.
+**Confidence notes:** No specific mention in text or figures.
+**Assessment notes:** No information available.
 
 ## Coe 2024 / supp_table_3_darktolerant_clusters
 
@@ -1048,16 +1038,10 @@
 
 ## Warnings
 
-- [Biller 2018 / natl2a_periodicity / cluster not_periodic] low confidence but behavioral_description is not 'Not discussed in paper.': Genes do not exhibit 24-h periodicity under any tested condi...
-- [Biller 2018 / mit1002_periodicity / cluster coculture_LD] locus tag in functional_description: MIT1002_0002
-- [Biller 2018 / mit1002_periodicity / cluster coculture_LD+coculture_darkness] locus tag in functional_description: MIT1002_2235
-- [Biller 2018 / mit1002_periodicity / cluster coculture_darkness] locus tag in functional_description: MIT1002_2228
-- [Biller 2018 / mit1002_periodicity / cluster coculture_LD+coculture_darkness] low confidence but functional_description is not 'Not discussed in paper.': This cluster contains 1 gene (sample MIT1002_2235) that exhi...
-- [Biller 2018 / mit1002_periodicity / cluster coculture_LD+coculture_darkness] low confidence but behavioral_description is not 'Not discussed in paper.': The gene in this cluster maintains 24-h periodic oscillation...
-- [Biller 2018 / mit1002_periodicity / cluster coculture_darkness] low confidence but functional_description is not 'Not discussed in paper.': This cluster includes 1 gene (sample MIT1002_2228) showing 2...
-- [Biller 2018 / mit1002_periodicity / cluster coculture_darkness] low confidence but behavioral_description is not 'Not discussed in paper.': The gene exhibits 24-h periodic oscillations exclusively in ...
-- [Biller 2018 / natl2a_darkness_survival / cluster darkness_axenic+darkness_coculture] locus tag in functional_description: PMN2A_RS00075
+- [Biller 2018 / mit1002_periodicity / cluster coculture_darkness] low confidence but functional_description is not 'Not discussed in paper.': This cluster includes 1 gene showing 24-h periodicity in Pro...
+- [Biller 2018 / mit1002_periodicity / cluster coculture_darkness] low confidence but behavioral_description is not 'Not discussed in paper.': The gene in this cluster exhibits 24-h periodicity exclusive...
 - [Biller 2018 / natl2a_darkness_survival / cluster darkness_axenic+darkness_coculture] filler phrase 'likely' in functional_description
+- [Biller 2018 / natl2a_darkness_survival / cluster darkness_coculture+unique_coculture] filler phrase 'likely' in behavioral_description
 - [Tolonen 2006 / med4_kmeans_nstarvation / cluster 1] locus tag in functional_description: PMM0958
 - [Tolonen 2006 / med4_kmeans_nstarvation / cluster 8] near-identical functional_description as cluster 7
 - [Tolonen 2006 / mit9313_kmeans_nstarvation / cluster 2] locus tag in functional_description: PMT2246

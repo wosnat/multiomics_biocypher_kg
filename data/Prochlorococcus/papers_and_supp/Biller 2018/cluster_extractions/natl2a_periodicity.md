@@ -4,14 +4,14 @@
 
 **Name:** Prochlorococcus NATL2A cluster axenic_LD (mixed, periodicity)
 **Enrichment:**  (p=None)
-**Functional:** This cluster includes 68 genes showing 24-h periodicity only in axenic L:D conditions. Not discussed in paper specifically for this cluster.
+**Functional:** This cluster includes genes exhibiting 24-h periodicity only in axenic L:D conditions. Not discussed in paper in detail for specific genes or pathways.
 
-**Behavioral:** Genes exhibit 24-h periodic oscillations in axenic L:D cultures but not in coculture or extended darkness conditions.
+**Behavioral:** Genes show 24-h periodic oscillations in axenic L:D culture but lose periodicity in coculture and under extended darkness.
 
-**Notes:** Functional description not specifically discussed for this cluster; behavior inferred from periodicity data.
+**Notes:** Limited functional description in paper for this cluster.
 
 **Quotes:**
-- [Page 11] We found that transcripts encoding 69% of all Prochlorococcus proteins exhibited 24-h periodicity in the axenic L:D cultures, while only 6% did so through the first 13 h of extended darkness.
+- [Page 11] The largest group of Prochlorococcus transcripts (42% of all protein-encoding genes) showed 24-h periodicity in both axenic and cocultures under diel L:D conditions but did not continue to oscillate under extended darkness.
 
 ## Cluster axenic_LD+axenic_darkness+coculture_darkness | mixed | low
 
@@ -21,21 +21,20 @@
 
 **Behavioral:** Not discussed in paper.
 
-**Notes:** No specific information available for this cluster.
+**Notes:** No specific mention in text or figures.
 
-## Cluster axenic_LD+coculture_LD | mixed | high
+## Cluster axenic_LD+coculture_LD | mixed | medium
 
 **Name:** Prochlorococcus NATL2A cluster axenic_LD+coculture_LD (mixed, periodicity)
-**Enrichment:** Photosynthesis and central metabolism (p=0.001)
-**Functional:** This large cluster of 902 genes includes many transcripts showing 24-h periodicity in both axenic and cocultured L:D conditions but not under extended darkness. Includes genes involved in photosynthesis (psbA, psbB, psaA, psaB), Calvin cycle, glycolysis, fatty acid biosynthesis, and glycogen metabolism.
+**Enrichment:**  (p=None)
+**Functional:** Includes genes with 24-h periodicity in both axenic and coculture L:D conditions but not under extended darkness. Not specifically enriched for pathways in paper.
 
-**Behavioral:** Genes exhibit 24-h periodic oscillations in both axenic and cocultured L:D conditions but lose periodicity under extended darkness.
+**Behavioral:** Genes oscillate with 24-h periodicity in both axenic and coculture L:D conditions but lose periodicity under extended darkness.
 
-**Notes:** Strong evidence from periodicity and transcript abundance data.
+**Notes:** Functional roles not detailed; behavior based on periodicity patterns.
 
 **Quotes:**
 - [Page 11] The largest group of Prochlorococcus transcripts (42% of all protein-encoding genes) showed 24-h periodicity in both axenic and cocultures under diel L:D conditions but did not continue to oscillate under extended darkness.
-- [Page 11] Transcripts associated with a variety of metabolic pathways, including the Calvin cycle, glycolysis, fatty acid biosynthesis, glycogen metabolism, and photosynthesis.
 
 ## Cluster axenic_LD+coculture_LD+axenic_darkness | mixed | low
 
@@ -45,7 +44,7 @@
 
 **Behavioral:** Not discussed in paper.
 
-**Notes:** No specific information available for this cluster.
+**Notes:** No specific mention in text or figures.
 
 ## Cluster axenic_LD+coculture_LD+axenic_darkness+coculture_darkness | mixed | low
 
@@ -55,7 +54,7 @@
 
 **Behavioral:** Not discussed in paper.
 
-**Notes:** No specific information available for this cluster.
+**Notes:** No specific mention in text or figures.
 
 ## Cluster axenic_LD+coculture_LD+coculture_darkness | mixed | low
 
@@ -65,7 +64,7 @@
 
 **Behavioral:** Not discussed in paper.
 
-**Notes:** No specific information available for this cluster.
+**Notes:** No specific mention in text or figures.
 
 ## Cluster axenic_LD+coculture_darkness | mixed | low
 
@@ -75,20 +74,20 @@
 
 **Behavioral:** Not discussed in paper.
 
-**Notes:** No specific information available for this cluster.
+**Notes:** No specific mention in text or figures.
 
 ## Cluster coculture_LD | mixed | medium
 
 **Name:** Prochlorococcus NATL2A cluster coculture_LD (mixed, periodicity)
 **Enrichment:**  (p=None)
-**Functional:** This cluster of 328 genes shows 24-h periodicity only in coculture L:D conditions. Not specifically discussed in paper for this cluster.
+**Functional:** Includes genes with 24-h periodicity only in coculture L:D conditions. Not specifically described in paper.
 
-**Behavioral:** Genes exhibit 24-h periodic oscillations in coculture L:D but not in axenic or extended darkness conditions.
+**Behavioral:** Genes show 24-h periodic oscillations in coculture L:D but not in axenic or extended darkness conditions.
 
-**Notes:** Functional description not specifically discussed for this cluster; behavior inferred from periodicity data.
+**Notes:** Limited functional description in paper for this cluster.
 
 **Quotes:**
-- [Page 11] More Prochlorococcus transcripts retained their periodicity in cocultures versus axenic cultures, both under extended darkness and even during the normal diel L:D cycle.
+- [Page 11] Subsets of the Prochlorococcus transcriptome exhibited periodic oscillations under different combinations of culture conditions, including those that oscillated only as a function of coculture.
 
 ## Cluster coculture_LD+axenic_darkness | mixed | low
 
@@ -98,7 +97,7 @@
 
 **Behavioral:** Not discussed in paper.
 
-**Notes:** No specific information available for this cluster.
+**Notes:** No specific mention in text or figures.
 
 ## Cluster coculture_LD+coculture_darkness | mixed | low
 
@@ -108,7 +107,7 @@
 
 **Behavioral:** Not discussed in paper.
 
-**Notes:** No specific information available for this cluster.
+**Notes:** No specific mention in text or figures.
 
 ## Cluster coculture_darkness | mixed | low
 
@@ -118,14 +117,14 @@
 
 **Behavioral:** Not discussed in paper.
 
-**Notes:** No specific information available for this cluster.
+**Notes:** No specific mention in text or figures.
 
 ## Cluster not_periodic | mixed | low
 
-**Name:** Prochlorococcus NATL2A cluster not_periodic (mixed, not periodic)
+**Name:** Prochlorococcus NATL2A cluster not_periodic (mixed, not discussed)
 **Enrichment:**  (p=None)
 **Functional:** Not discussed in paper.
 
-**Behavioral:** Genes do not exhibit 24-h periodicity under any tested conditions.
+**Behavioral:** Not discussed in paper.
 
-**Notes:** No specific information available for this cluster.
+**Notes:** No specific mention in text or figures.

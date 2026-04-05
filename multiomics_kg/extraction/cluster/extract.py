@@ -101,6 +101,9 @@ describe what the paper says.
   Use the EXACT cluster key from the list below.
 - For enrichment: use p-values from the paper/figures, max 3 decimal places or scientific notation.
 - Max 3-5 named genes per cluster description.
+- Do NOT describe cluster membership statistics (gene counts, sample gene IDs from the \
+supplementary table) — those are already stored on the cluster node. Only describe \
+functional roles and expression dynamics discussed in the paper text and figures.
 - supporting_quotes: direct quotes from the paper that support your description.
 - source_figures: list of figure/table references you used as evidence (e.g., "Figure 4A", "Table S4").
 
