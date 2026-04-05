@@ -23,6 +23,21 @@ class TestOrganismGroupFromPath:
     def test_alteromonas(self):
         assert organism_group_from_path("cache/data/Alteromonas/genomes/MIT1002/") == "Alteromonas"
 
+    def test_thermosynechococcus(self):
+        assert organism_group_from_path("cache/data/Thermosynechococcus/genomes/BP1/") == "Thermosynechococcus"
+
+    def test_shewanella(self):
+        assert organism_group_from_path("cache/data/Shewanella/genomes/W3-18-1/") == "Shewanella"
+
+    def test_pseudomonas(self):
+        assert organism_group_from_path("cache/data/Pseudomonas/genomes/KT2440/") == "Pseudomonas"
+
+    def test_ruegeria(self):
+        assert organism_group_from_path("cache/data/Ruegeria/genomes/DSS-3/") == "Ruegeria"
+
+    def test_meiothermus(self):
+        assert organism_group_from_path("cache/data/Meiothermus/genomes/MruberA/") == "Meiothermus"
+
     def test_unknown(self):
         assert organism_group_from_path("/some/other/path/") == "unknown"
 
@@ -220,12 +235,20 @@ class TestExtractOrthologGroups:
 
 
 class TestOrganismGroupLevels:
-    def test_all_three_groups_defined(self):
-        assert "Prochlorococcus" in ORGANISM_GROUP_LEVELS
-        assert "Synechococcus" in ORGANISM_GROUP_LEVELS
-        assert "Alteromonas" in ORGANISM_GROUP_LEVELS
+    def test_all_groups_defined(self):
+        expected = {
+            "Prochlorococcus", "Synechococcus", "Thermosynechococcus",
+            "Alteromonas", "Shewanella", "Pseudomonas", "Ruegeria",
+            "Meiothermus",
+        }
+        assert set(ORGANISM_GROUP_LEVELS.keys()) == expected
 
-    def test_taxon_ids_are_positive_integers(self):
-        for group, (target, fallback) in ORGANISM_GROUP_LEVELS.items():
-            assert isinstance(target, int) and target > 0, f"{group} target"
-            assert isinstance(fallback, int) and fallback > 0, f"{group} fallback"
+    def test_values_are_lists_of_tuples(self):
+        for group, levels in ORGANISM_GROUP_LEVELS.items():
+            assert isinstance(levels, list), f"{group} should be a list"
+            for tid, rank in levels:
+                assert isinstance(tid, int) and tid > 0, f"{group} taxon_id {tid}"
+                assert isinstance(rank, int) and rank > 0, f"{group} rank {rank}"
+
+    def test_meiothermus_empty(self):
+        assert ORGANISM_GROUP_LEVELS["Meiothermus"] == []
