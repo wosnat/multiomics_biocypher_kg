@@ -70,18 +70,92 @@ a scientific paper.
 
 {context_block}
 
-For each cluster, extract all fields in the output schema. Key rules:
-- Read FIGURES (heatmaps, time-course plots) as PRIMARY source for direction/timing.
-- "not described in paper" is always better than guessing.
-- Only cite genes mentioned by name in the paper (not locus tags like PMM*, PMT*, etc).
+For each cluster, extract all fields in the output schema.
+
+## Rules
+
+- functional_description: What genes/pathways are in this cluster?
+  Can be: enrichment category with p-value, specific highlighted genes, both,
+  or "Not discussed in paper." when not mentioned.
+  2-3 sentences max. Only cite gene names from the paper (e.g., psbA, rbcLS),
+  never locus tags (PMM*, PMT*, P9301_*, NATL2_*, PMN2A_RS*, tll*, SY28_*,
+  BSR22_*, ALT831_RS*, MIT1002_*, SYNW*, sync_*, A9601_*, WP_*, cds-*).
+
+- behavioral_description: How do genes in this cluster behave?
+  Describe the expression dynamics — not just "up" or "down" but the pattern:
+  timing (peak hours, periodicity), kinetics (rapid/gradual, transient/sustained),
+  condition-dependence (increases with irradiance, decreases with oxygen).
+  Include timing numbers when available from the paper. 1-2 sentences.
+
+- If the paper does NOT describe a cluster's function or behavior, set the \
+description to "Not discussed in paper." — an explicit statement. Do NOT \
+invent, speculate, or generate generic descriptions. Each field is independent: \
+a cluster can have a functional description but behavioral = \
+"Not discussed in paper.", or vice versa. Partial descriptions are fine — \
+describe what the paper says.
+
 - Do NOT include treatment conditions in descriptions — those live on the analysis node.
-- functional_description: 2-3 sentences. behavioral_description: 1-2 sentences.
 - self_assessment: your confidence. assessment_notes: what you're uncertain about.
 - Each cluster must have a unique id in snake_case: {{organism_short}}_{{direction}}_{{theme}}.
 - name format: "{{Organism}} cluster {{KEY}} ({{direction}}, {{theme}})" — under 60 chars.
   Use the EXACT cluster key from the list below.
 - For enrichment: use p-values from the paper/figures, max 3 decimal places or scientific notation.
 - Max 3-5 named genes per cluster description.
+- supporting_quotes: direct quotes from the paper that support your description.
+- source_figures: list of figure/table references you used as evidence (e.g., "Figure 4A", "Table S4").
+
+{cluster_type_guidance}
+
+## Examples
+
+Example 1 — Diel cluster with enrichment and timing:
+{{"id": "med4_up_photosynthesis", "name": "Prochlorococcus cluster 1 (up, photosynthesis)", \
+"functional_description": "Enriched for photosystem I and II components (p=1.5e-9). \
+Includes genes psbA, psbD, and psaA involved in photosynthetic light reactions.", \
+"behavioral_description": "Genes peak in expression near dawn (8.3 h) with 24h periodicity, \
+coinciding with the onset of light and photosynthetic activity.", \
+"direction": "up", "enrichment_category": "Photosystem I and II", \
+"enrichment_pvalue": 1.5e-09, "enrichment_significant": true, \
+"self_assessment": "high", "assessment_notes": "", "confidence_notes": "", \
+"supporting_quotes": [{{"quote": "Expression of approximately half of photosystem (PS) II genes, \
+including reaction center genes psbA and psbD, peak in abundance at mid-day", "location": "Page 6"}}], \
+"source_figures": ["Figure 4A", "Table S4"]}}
+
+Example 2 — Stress time-course with dynamics:
+{{"id": "mit9313_up_transport_binding", "name": "MIT9313 cluster 1 (up, transport and binding)", \
+"functional_description": "Enriched for transport and binding (p=0.04). Contains nitrogen \
+transport genes urtA and the nitrite permease, and hli genes hliS and hli7.", \
+"behavioral_description": "Most rapidly and strongly upregulated cluster during nitrogen \
+starvation, with genes responding within the first hours of the time course.", \
+"direction": "up", "enrichment_category": "transport and binding", \
+"enrichment_pvalue": 0.04, "enrichment_significant": true, \
+"self_assessment": "high", "assessment_notes": "", \
+"confidence_notes": "Strong functional enrichment and early rapid upregulation.", \
+"supporting_quotes": [{{"quote": "Cluster 1, the most rapidly and highly upregulated genes \
+in each strain, contains N transport genes such as MED4 and MIT9313 urtA", "location": "Page 3"}}], \
+"source_figures": ["Figure 2"]}}
+
+Example 3 — Partially described:
+{{"id": "med4_up_nitrogen_metabolism", "name": "Prochlorococcus cluster 7 (up, nitrogen metabolism)", \
+"functional_description": "Includes nitrogen metabolism genes such as amt1.", \
+"behavioral_description": "Genes peak near sunset (20.1 h), consistent with nitrogen uptake \
+during the night.", \
+"direction": "up", "enrichment_category": "Nitrogen metabolism", \
+"enrichment_pvalue": 0.087, "enrichment_significant": false, \
+"self_assessment": "medium", "assessment_notes": "Marginal enrichment; limited description in paper.", \
+"confidence_notes": "Enrichment is marginal; functional role inferred from gene annotations and timing.", \
+"supporting_quotes": [{{"quote": "Ammonium transport gene (amt1) and assimilation genes \
+peak near sunset", "location": "Page 10"}}], \
+"source_figures": ["Figure 7B"]}}
+
+Example 4 — Not discussed in paper:
+{{"id": "med4_down_cluster_10", "name": "Prochlorococcus cluster 10 (down, not discussed)", \
+"functional_description": "Not discussed in paper.", \
+"behavioral_description": "Not discussed in paper.", \
+"direction": "down", "enrichment_category": "", \
+"enrichment_pvalue": null, "enrichment_significant": false, \
+"self_assessment": "low", "assessment_notes": "Paper does not discuss this cluster.", \
+"confidence_notes": "", "supporting_quotes": [], "source_figures": []}}
 
 CRITICAL: You MUST extract EXACTLY {n_clusters} clusters, one for each cluster key \
 listed below. Use the EXACT cluster keys as they appear — do NOT renumber, skip, \
@@ -89,6 +163,37 @@ or merge clusters. Every key must appear exactly once in your output.
 
 {cluster_summaries}
 """
+
+CLUSTER_TYPE_GUIDANCE = {
+    "response_pattern": """\
+Cluster type: response_pattern
+Behavioral description style: Describe dynamics — rapid/gradual onset, transient/sustained,
+timing relative to treatment. E.g. "Rapidly upregulated within 6h, then sustained." """,
+    "diel_cycling": """\
+Cluster type: diel_cycling
+Behavioral description style: Describe timing — peak hours, periodicity, phase relative
+to light/dark. E.g. "Peaks near dawn (8.3 h), 24h periodicity." """,
+    "diel_expression_pattern": """\
+Cluster type: diel_expression_pattern
+Behavioral description style: Describe timing — peak hours, periodicity, phase relative
+to light/dark. E.g. "Peaks near dawn (8.3 h), 24h periodicity." """,
+    "periodicity_classification": """\
+Cluster type: periodicity_classification
+Behavioral description style: Describe which conditions show periodic expression and which
+don't. E.g. "Periodic in coculture L:D and darkness, not in axenic." """,
+    "expression_level": """\
+Cluster type: expression_level
+Behavioral description style: Describe constitutive vs. variable expression across
+conditions. E.g. "Consistently highly expressed across all growth conditions." """,
+    "expression_classification": """\
+Cluster type: expression_classification
+Behavioral description style: Describe presence/absence pattern across conditions.
+E.g. "Transcripts present in both axenic and coculture during extended darkness." """,
+    "expression_pattern": """\
+Cluster type: expression_pattern
+Behavioral description style: Describe expression dynamics across conditions — which
+conditions drive changes and how. E.g. "Upregulated at cold temperatures during daytime." """,
+}
 
 
 def build_context_block(table: dict) -> str:
@@ -100,6 +205,18 @@ def build_context_block(table: dict) -> str:
         f"Type: {table.get('cluster_type', '')}",
         f"Treatment: {table.get('treatment', '')}",
     ]
+    if table.get("treatment_type"):
+        tt = table["treatment_type"]
+        if isinstance(tt, list):
+            parts.append(f"Treatment categories: {', '.join(tt)}")
+        else:
+            parts.append(f"Treatment categories: {tt}")
+    if table.get("background_factors"):
+        bf = table["background_factors"]
+        if isinstance(bf, list):
+            parts.append(f"Background factors: {', '.join(bf)}")
+        else:
+            parts.append(f"Background factors: {bf}")
     if table.get("experimental_context"):
         parts.append(f"Context: {table['experimental_context']}")
     if table.get("omics_type"):
@@ -109,6 +226,12 @@ def build_context_block(table: dict) -> str:
     if table.get("time_points"):
         parts.append(f"Time points (hours): {table['time_points']}")
     return "\n".join(parts)
+
+
+def get_cluster_type_guidance(table: dict) -> str:
+    """Get behavioral description style guidance for this cluster type."""
+    ct = table.get("cluster_type", "")
+    return CLUSTER_TYPE_GUIDANCE.get(ct, f"Cluster type: {ct}")
 
 
 def format_cluster_summaries(clusters: dict[str, dict]) -> str:
@@ -139,6 +262,7 @@ def extract_analysis(client, file_id, table_config, cluster_summaries, model="gp
         context_block=ctx,
         n_clusters=len(cluster_summaries),
         cluster_summaries=summaries,
+        cluster_type_guidance=get_cluster_type_guidance(table_config),
     )
 
     kwargs = dict(
@@ -169,16 +293,19 @@ def extract_paper(client, file_id, tables_and_summaries, model="gpt-4.1-mini", f
     """
     context_parts = []
     all_summaries = []
+    guidance_parts = []
     total_clusters = 0
     for table_config, cluster_summaries in tables_and_summaries:
         context_parts.append(build_context_block(table_config))
         all_summaries.append(format_cluster_summaries(cluster_summaries))
         total_clusters += len(cluster_summaries)
+        guidance_parts.append(get_cluster_type_guidance(table_config))
 
     dev_msg = DEVELOPER_MSG_TEMPLATE.format(
         context_block="\n\n".join(context_parts),
         n_clusters=total_clusters,
         cluster_summaries="\n\n".join(all_summaries),
+        cluster_type_guidance="\n\n".join(guidance_parts),
     )
 
     kwargs = dict(
