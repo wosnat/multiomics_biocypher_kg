@@ -360,6 +360,9 @@ def generate_report(entries: list[tuple[Path, str, dict, dict]]) -> str:
             notes = c.get("confidence_notes", "")
             if notes:
                 lines.append(f"**Notes:** {notes}")
+            figs = c.get("source_figures", [])
+            if figs:
+                lines.append(f"**Sources:** {', '.join(figs)}")
             lines.append("")
 
     return "\n".join(lines)
