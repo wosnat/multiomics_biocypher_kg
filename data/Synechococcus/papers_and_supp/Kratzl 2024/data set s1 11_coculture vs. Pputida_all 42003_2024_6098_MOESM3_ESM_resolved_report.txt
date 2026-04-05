@@ -1,0 +1,19 @@
+Resolution report: Kratzl 2024 / sheet11_proteomics_pputida
+Source: data set s1 11_coculture vs. Pputida_all 42003_2024_6098_MOESM3_ESM.csv
+name_col: Protein ID
+id_columns: ['Protein ID', 'Gene Name']
+
+Total rows with IDs: 232
+Resolved: 228 (98.3%)
+Unresolved: 4
+
+Resolution method breakdown:
+  multi:Gene Name: 2
+  tier1:Gene Name: 226
+  unresolved: 4
+
+Unresolved rows (4):
+  row 31: raw_id='Q88D09'  reason=unresolved  [Protein ID='Q88D09', Gene Name='mcpQ PP_5020']
+  row 45: raw_id='Q88DW0'  reason=unresolved  [Protein ID='Q88DW0', Gene Name='pnp\xa0PP_4708']
+  row 88: raw_id='Q88H08'  reason=unresolved  [Protein ID='Q88H08', Gene Name='PP_3557']
+  row 185: raw_id='Q88QB0'  reason=unresolved  [Protein ID='Q88QB0', Gene Name='PP_0584']

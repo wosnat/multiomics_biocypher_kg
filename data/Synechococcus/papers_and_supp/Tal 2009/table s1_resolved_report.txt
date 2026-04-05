@@ -1,0 +1,19 @@
+Resolution report: Tai 2009 / table_s1_upregulated
+Source: table s1.csv
+name_col: Gene Name
+id_columns: ['Gene Name']
+
+Total rows with IDs: 285
+Resolved: 280 (98.2%)
+Unresolved: 5
+
+Resolution method breakdown:
+  locus_tag:Gene Name: 280
+  unresolved: 5
+
+Unresolved rows (5):
+  row 115: raw_id='SYNW2225'  reason=unresolved  [Gene Name='SYNW2225']
+  row 142: raw_id='SYNW1465'  reason=unresolved  [Gene Name='SYNW1465']
+  row 169: raw_id='SYNW2018'  reason=unresolved  [Gene Name='SYNW2018']
+  row 204: raw_id='SYNW0795'  reason=unresolved  [Gene Name='SYNW0795']
+  row 218: raw_id='SYNW1106'  reason=unresolved  [Gene Name='SYNW1106']

@@ -1,8 +1,12 @@
 #!/usr/bin/env python3
-"""Snapshot and compare Affects_expression_of edge counts in the Neo4j knowledge graph.
+"""Snapshot and compare expression edge counts in the Neo4j knowledge graph.
 
 Captures per-paper edge counts before and after omics adapter changes to detect
-regressions. New edges are good; lost matched edges are regressions.
+regressions. Counts Changes_expression_of edges (from Experiment nodes to Gene
+nodes). New edges are good; lost matched edges are regressions.
+
+Backward compatible: when comparing against old snapshots that used
+condition_edges/coculture_edges fields, the tool sums them for comparison.
 
 Usage:
     # Capture baseline from the live graph
@@ -83,16 +87,15 @@ def capture_snapshot() -> dict:
 
     # --- Total edges ---
     rows = run_cypher(
-        "MATCH ()-[e:Affects_expression_of]->() RETURN count(e) AS cnt"
+        "MATCH ()-[r:Changes_expression_of]->() RETURN count(r) AS total"
     )
     snapshot["total_edges"] = int(rows[0][0]) if rows else 0
 
-    # --- Per-publication edge count (unwind publications array) ---
+    # --- Per-publication edge count (via Experiment -> Publication) ---
     rows = run_cypher("""
-        MATCH ()-[e:Affects_expression_of]->()
-        UNWIND e.publications AS pub
-        RETURN pub, count(e) AS edge_count
-        ORDER BY pub
+        MATCH (pub:Publication)-[:Has_experiment]->(e:Experiment)-[r:Changes_expression_of]->(g:Gene)
+        RETURN pub.doi AS publication, count(r) AS edges
+        ORDER BY publication
     """)
     snapshot["per_publication"] = {
         _strip_quotes(r[0]): int(r[1]) for r in rows
@@ -100,10 +103,9 @@ def capture_snapshot() -> dict:
 
     # --- Per-publication by direction ---
     rows = run_cypher("""
-        MATCH ()-[e:Affects_expression_of]->()
-        UNWIND e.publications AS pub
-        RETURN pub, e.expression_direction AS direction, count(e) AS edge_count
-        ORDER BY pub, direction
+        MATCH (pub:Publication)-[:Has_experiment]->(e:Experiment)-[r:Changes_expression_of]->(g:Gene)
+        RETURN pub.doi AS publication, r.expression_direction AS direction, count(r) AS edges
+        ORDER BY publication, direction
     """)
     by_dir: dict = {}
     for r in rows:
@@ -113,21 +115,10 @@ def capture_snapshot() -> dict:
         by_dir.setdefault(pub, {})[direction] = cnt
     snapshot["per_publication_by_direction"] = by_dir
 
-    # --- By source node type ---
-    rows = run_cypher("""
-        MATCH (src)-[e:Affects_expression_of]->()
-        RETURN labels(src)[0] AS source_type, count(e) AS edge_count
-        ORDER BY source_type
-    """)
-    snapshot["by_source_type"] = {
-        _strip_quotes(r[0]): int(r[1]) for r in rows
-    }
-
     # --- By target gene organism (strain) ---
     rows = run_cypher("""
-        MATCH ()-[e:Affects_expression_of]->(g:Gene)
-        OPTIONAL MATCH (g)-[:Gene_belongs_to_organism]->(org:OrganismTaxon)
-        RETURN coalesce(org.organism_name, 'unknown') AS organism, count(e) AS edge_count
+        MATCH (e:Experiment)-[r:Changes_expression_of]->(g:Gene)
+        RETURN g.organism_name AS organism, count(r) AS edges
         ORDER BY organism
     """)
     snapshot["by_organism"] = {
@@ -138,18 +129,22 @@ def capture_snapshot() -> dict:
     # Captures WHICH genes have edges, not just how many.
     # Used to detect genes that were previously matched but disappear after resolve stage.
     rows = run_cypher("""
-        MATCH ()-[e:Affects_expression_of]->(g:Gene)
-        UNWIND e.publications AS pub
-        RETURN pub, g.locus_tag AS locus_tag
-        ORDER BY pub, locus_tag
+        MATCH (pub:Publication)-[:Has_experiment]->(e:Experiment)-[r:Changes_expression_of]->(g:Gene)
+        RETURN pub.doi AS publication, collect(DISTINCT g.locus_tag) AS genes
+        ORDER BY publication
     """)
     pub_genes: dict = {}
     for r in rows:
         pub = _strip_quotes(r[0])
-        locus_tag = _strip_quotes(r[1])
-        pub_genes.setdefault(pub, [])
-        if locus_tag not in pub_genes[pub]:
-            pub_genes[pub].append(locus_tag)
+        # cypher-shell returns lists as bracket-delimited strings; parse them
+        genes_raw = r[1].strip()
+        if genes_raw.startswith("[") and genes_raw.endswith("]"):
+            genes_raw = genes_raw[1:-1]
+        if genes_raw:
+            genes = [_strip_quotes(g.strip()) for g in genes_raw.split(",") if g.strip()]
+        else:
+            genes = []
+        pub_genes[pub] = sorted(genes)
     snapshot["per_publication_genes"] = pub_genes
 
     return snapshot
@@ -180,6 +175,18 @@ def load_snapshot(name: str) -> dict:
 # ---------------------------------------------------------------------------
 # Comparison
 # ---------------------------------------------------------------------------
+
+def _get_total_edges(snap: dict) -> int:
+    """Extract total edge count, handling old-format snapshots.
+
+    Old snapshots stored condition_edges + coculture_edges separately.
+    New snapshots store a single total_edges field.
+    """
+    if "total_edges" in snap:
+        return snap["total_edges"]
+    # Old format: sum the two sub-counts
+    return snap.get("condition_edges", 0) + snap.get("coculture_edges", 0)
+
 
 def compare_snapshots(old: dict, new: dict, old_name: str, new_name: str) -> int:
     """Print a comparison report. Returns exit code (1 if regressions found)."""
@@ -215,21 +222,22 @@ def compare_snapshots(old: dict, new: dict, old_name: str, new_name: str) -> int
     print(f"  After:  '{new_name}'  ({new.get('timestamp', 'unknown')[:19]})")
     print(sep)
 
-    old_total = old.get("total_edges", 0)
-    new_total = new.get("total_edges", 0)
+    old_total = _get_total_edges(old)
+    new_total = _get_total_edges(new)
     delta = new_total - old_total
     delta_str = f"+{delta:,}" if delta >= 0 else f"{delta:,}"
-    print(f"\nTotal Affects_expression_of edges: {old_total:,} → {new_total:,}  ({delta_str})")
+    print(f"\nTotal expression edges: {old_total:,} -> {new_total:,}  ({delta_str})")
 
-    # ---- By source type ----
-    print("\nBy source type:")
-    all_src = sorted(set(old.get("by_source_type", {})) | set(new.get("by_source_type", {})))
-    for src in all_src:
-        o = old.get("by_source_type", {}).get(src, 0)
-        n = new.get("by_source_type", {}).get(src, 0)
-        d = n - o
-        d_str = f"+{d:,}" if d >= 0 else f"{d:,}"
-        print(f"  {src:<30} {o:>7,} → {n:>7,}  ({d_str})")
+    # Legacy per-type breakdown (only shown when comparing old-format snapshots)
+    if "condition_edges" in old or "condition_edges" in new:
+        for key, label in [("condition_edges", "Condition_changes_expression_of"),
+                           ("coculture_edges", "Coculture_changes_expression_of")]:
+            o = old.get(key, 0)
+            n = new.get(key, 0)
+            if o or n:
+                d = n - o
+                d_str = f"+{d:,}" if d >= 0 else f"{d:,}"
+                print(f"  (legacy) {label:<40} {o:>7,} -> {n:>7,}  ({d_str})")
 
     # ---- By organism ----
     print("\nBy target organism:")
@@ -337,7 +345,7 @@ def compare_snapshots(old: dict, new: dict, old_name: str, new_name: str) -> int
 
 def main():
     parser = argparse.ArgumentParser(
-        description="Snapshot and compare Affects_expression_of edge counts",
+        description="Snapshot and compare Changes_expression_of edge counts (Experiment -> Gene)",
         formatter_class=argparse.RawDescriptionHelpFormatter,
         epilog=__doc__,
     )
@@ -362,7 +370,7 @@ def main():
         for p in snapshots:
             data = json.loads(p.read_text())
             ts = data.get("timestamp", "unknown")[:19]
-            total = data.get("total_edges", "?")
+            total = _get_total_edges(data) if ("total_edges" in data or "condition_edges" in data) else "?"
             npubs = len(data.get("per_publication", {}))
             print(f"{p.stem:<30} {ts:<22} {total:>8,}  {npubs}")
         return
@@ -371,12 +379,12 @@ def main():
         print(f"Capturing snapshot from live Neo4j graph...")
         snapshot = capture_snapshot()
         path = save_snapshot(snapshot, args.save)
-        print(f"Saved '{args.save}' → {path}")
-        print(f"  Total edges : {snapshot['total_edges']:,}")
-        print(f"  Publications: {len(snapshot['per_publication'])}")
-        by_src = snapshot.get("by_source_type", {})
-        for src, cnt in sorted(by_src.items()):
-            print(f"  {src}: {cnt:,}")
+        print(f"Saved '{args.save}' -> {path}")
+        print(f"  Total edges             : {snapshot['total_edges']:,}")
+        print(f"  Publications            : {len(snapshot['per_publication'])}")
+        by_org = snapshot.get("by_organism", {})
+        for org, cnt in sorted(by_org.items()):
+            print(f"  {org}: {cnt:,}")
         return
 
     if args.compare:

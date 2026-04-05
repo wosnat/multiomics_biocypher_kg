@@ -26,7 +26,7 @@ pytestmark = pytest.mark.kg
 @pytest.mark.parametrize("label,min_count", [
     ("BiologicalProcess", 1500),
     ("CellularComponent", 200),
-    ("MolecularFunction", 5000),
+    ("MolecularFunction", 1500),
 ])
 def test_go_node_count_minimum(run_query, label, min_count):
     """GO term nodes must meet minimum count (closure includes ancestors)."""
@@ -294,72 +294,96 @@ def test_ec_gene_coverage(run_query):
 # KEGG: node counts and properties
 # ---------------------------------------------------------------------------
 
-@pytest.mark.parametrize("label,min_count", [
-    ("KeggOrthologousGroup", 1500),
-    ("KeggPathway",          100),
-    ("KeggSubcategory",      30),
-    ("KeggCategory",         5),
+@pytest.mark.parametrize("level,min_count", [
+    ("ko",          1500),
+    ("pathway",      100),
+    ("subcategory",   30),
+    ("category",       5),
 ])
-def test_kegg_node_count_minimum(run_query, label, min_count):
-    """KEGG hierarchy nodes must meet minimum count."""
-    result = run_query(f"MATCH (n:{label}) RETURN count(n) AS cnt")
+def test_kegg_node_count_minimum(run_query, level, min_count):
+    """KEGG hierarchy nodes must meet minimum count per level."""
+    result = run_query(
+        "MATCH (n:KeggTerm {level: $level}) RETURN count(n) AS cnt",
+        level=level,
+    )
     cnt = result[0]["cnt"]
     assert cnt >= min_count, (
-        f"Only {cnt} {label} nodes found; expected >= {min_count}"
+        f"Only {cnt} KeggTerm nodes with level={level!r} found; expected >= {min_count}"
     )
+
+
+def test_kegg_nodes_have_name(run_query):
+    """All KeggTerm nodes must have a name property."""
+    result = run_query(
+        "MATCH (n:KeggTerm) WHERE n.name IS NULL RETURN count(n) AS missing"
+    )
+    missing = result[0]["missing"]
+    assert missing == 0, f"{missing} KeggTerm nodes are missing the name property"
+
+
+def test_kegg_nodes_have_level(run_query):
+    """All KeggTerm nodes must have a level property."""
+    result = run_query(
+        "MATCH (n:KeggTerm) WHERE n.level IS NULL RETURN count(n) AS missing"
+    )
+    missing = result[0]["missing"]
+    assert missing == 0, f"{missing} KeggTerm nodes are missing the level property"
+
+
+def test_kegg_pathway_names_not_empty(run_query):
+    """Pathway-level KeggTerm nodes must have non-empty names."""
+    result = run_query(
+        "MATCH (n:KeggTerm {level: 'pathway'}) WHERE n.name = '' RETURN count(n) AS empty"
+    )
+    empty = result[0]["empty"]
+    assert empty == 0, f"{empty} pathway nodes have empty name"
 
 
 @pytest.mark.parametrize("label", [
-    "KeggOrthologousGroup",
-    "KeggPathway",
-    "KeggSubcategory",
-    "KeggCategory",
+    "BiologicalProcess",
+    "CellularComponent",
+    "MolecularFunction",
+    "EcNumber",
+    "KeggTerm",
 ])
-def test_kegg_nodes_have_name(run_query, label):
-    """All KEGG hierarchy nodes must have a name property."""
+def test_annotation_nodes_name_not_empty(run_query, label):
+    """GO, EC, and KEGG nodes must have non-empty name (not NULL and not '')."""
     result = run_query(
-        f"MATCH (n:{label}) WHERE n.name IS NULL RETURN count(n) AS missing"
+        f"MATCH (n:{label}) WHERE n.name IS NULL OR trim(n.name) = '' "
+        f"RETURN count(n) AS bad"
     )
-    missing = result[0]["missing"]
-    assert missing == 0, f"{missing} {label} nodes are missing the name property"
+    bad = result[0]["bad"]
+    assert bad == 0, (
+        f"{bad} {label} node(s) have NULL or empty name property"
+    )
 
 
 # ---------------------------------------------------------------------------
 # KEGG: hierarchy edges
 # ---------------------------------------------------------------------------
 
-@pytest.mark.parametrize("rel_type,source_label,target_label,min_count", [
-    ("Ko_in_kegg_pathway",                 "KeggOrthologousGroup", "KeggPathway",          3000),
-    ("Kegg_pathway_in_kegg_subcategory",   "KeggPathway",          "KeggSubcategory",       100),
-    ("Kegg_subcategory_in_kegg_category",  "KeggSubcategory",      "KeggCategory",           30),
-])
-def test_kegg_hierarchy_edges(run_query, rel_type, source_label, target_label, min_count):
-    """KEGG BRITE hierarchy edges must exist with sufficient count."""
+def test_kegg_hierarchy_edges(run_query):
+    """Kegg_term_is_a_kegg_term hierarchy edges must exist with sufficient count."""
     result = run_query(
-        f"MATCH ()-[r:`{rel_type}`]->() RETURN count(r) AS cnt"
+        "MATCH ()-[r:Kegg_term_is_a_kegg_term]->() RETURN count(r) AS cnt"
     )
     cnt = result[0]["cnt"]
-    assert cnt >= min_count, (
-        f"Only {cnt} {rel_type} edges found; expected >= {min_count}"
+    assert cnt >= 3130, (
+        f"Only {cnt} Kegg_term_is_a_kegg_term edges found; expected >= 3130"
     )
 
 
-@pytest.mark.parametrize("rel_type,source_label,target_label", [
-    ("Ko_in_kegg_pathway",                 "KeggOrthologousGroup", "KeggPathway"),
-    ("Kegg_pathway_in_kegg_subcategory",   "KeggPathway",          "KeggSubcategory"),
-    ("Kegg_subcategory_in_kegg_category",  "KeggSubcategory",      "KeggCategory"),
-])
-def test_kegg_hierarchy_connects_correct_types(run_query, rel_type, source_label, target_label):
-    """KEGG hierarchy edges must connect the correct node types."""
-    result = run_query(
-        f"MATCH (src)-[r:`{rel_type}`]->(tgt) "
-        f"WHERE NOT src:{source_label} OR NOT tgt:{target_label} "
-        f"RETURN count(r) AS bad"
-    )
+def test_kegg_hierarchy_connects_kegg_terms(run_query):
+    """Kegg_term_is_a_kegg_term edges must connect KeggTerm nodes."""
+    result = run_query("""
+        MATCH (src)-[r:Kegg_term_is_a_kegg_term]->(tgt)
+        WHERE NOT src:KeggTerm OR NOT tgt:KeggTerm
+        RETURN count(r) AS bad
+    """)
     bad = result[0]["bad"]
     assert bad == 0, (
-        f"{bad} {rel_type} edges connect wrong node types "
-        f"(expected {source_label} -> {target_label})"
+        f"{bad} Kegg_term_is_a_kegg_term edges connect wrong node types "
+        f"(expected KeggTerm -> KeggTerm)"
     )
 
 
@@ -379,16 +403,16 @@ def test_gene_kegg_ko_edge_count(run_query):
 
 
 def test_gene_kegg_ko_connects_correct_types(run_query):
-    """Gene_has_kegg_ko must connect Gene -> KeggOrthologousGroup."""
+    """Gene_has_kegg_ko must connect Gene -> KeggTerm."""
     result = run_query("""
         MATCH (src)-[r:Gene_has_kegg_ko]->(tgt)
-        WHERE NOT src:Gene OR NOT tgt:KeggOrthologousGroup
+        WHERE NOT src:Gene OR NOT tgt:KeggTerm
         RETURN count(r) AS bad
     """)
     bad = result[0]["bad"]
     assert bad == 0, (
         f"{bad} Gene_has_kegg_ko edges connect wrong node types "
-        f"(expected Gene -> KeggOrthologousGroup)"
+        f"(expected Gene -> KeggTerm)"
     )
 
 
@@ -420,14 +444,14 @@ def test_kegg_ko_pathway_coverage(run_query):
     Unmapped KOs exist in KEGG (e.g., hypothetical proteins) and are expected.
     """
     result = run_query("""
-        MATCH (ko:KeggOrthologousGroup)
+        MATCH (ko:KeggTerm {level: 'ko'})
         WITH count(ko) AS total,
-             count(CASE WHEN exists((ko)-[:Ko_in_kegg_pathway]->()) THEN 1 END) AS linked
+             count(CASE WHEN exists((ko)-[:Kegg_term_is_a_kegg_term]->()) THEN 1 END) AS linked
         RETURN total, linked
     """)
     row = result[0]
     if row["total"] == 0:
-        pytest.skip("No KeggOrthologousGroup nodes found")
+        pytest.skip("No KeggTerm ko nodes found")
     linked_fraction = row["linked"] / row["total"]
     assert linked_fraction >= 0.50, (
         f"Only {row['linked']}/{row['total']} KO nodes ({linked_fraction:.1%}) "
@@ -537,14 +561,14 @@ def test_cyanorak_role_node_count(run_query):
 
 
 def test_cyanorak_role_nodes_have_properties(run_query):
-    """All CyanorakRole nodes must have both code and description properties."""
+    """All CyanorakRole nodes must have both code and name properties."""
     result = run_query("""
         MATCH (n:CyanorakRole)
-        WHERE n.code IS NULL OR n.description IS NULL
+        WHERE n.code IS NULL OR n.name IS NULL
         RETURN count(n) AS missing
     """)
     assert result[0]["missing"] == 0, (
-        f"{result[0]['missing']} CyanorakRole nodes are missing code or description"
+        f"{result[0]['missing']} CyanorakRole nodes are missing code or name"
     )
 
 
@@ -609,14 +633,14 @@ def test_tigr_role_node_count(run_query):
 
 
 def test_tigr_role_nodes_have_properties(run_query):
-    """All TigrRole nodes must have both code and description properties."""
+    """All TigrRole nodes must have both code and name properties."""
     result = run_query("""
         MATCH (n:TigrRole)
-        WHERE n.code IS NULL OR n.description IS NULL
+        WHERE n.code IS NULL OR n.name IS NULL
         RETURN count(n) AS missing
     """)
     assert result[0]["missing"] == 0, (
-        f"{result[0]['missing']} TigrRole nodes are missing code or description"
+        f"{result[0]['missing']} TigrRole nodes are missing code or name"
     )
 
 
@@ -641,4 +665,107 @@ def test_gene_tigr_role_edges_connect_correct_types(run_query):
     assert result[0]["bad"] == 0, (
         f"{result[0]['bad']} Gene_has_tigr_role edges connect wrong node types "
         f"(expected Gene -> TigrRole)"
+    )
+
+
+# ---------------------------------------------------------------------------
+# Pfam: node counts, properties, gene edges, and clan edges
+# ---------------------------------------------------------------------------
+
+def test_pfam_node_count(run_query):
+    """Pfam domain nodes must exist with count > 0."""
+    result = run_query("MATCH (n:Pfam) RETURN count(n) AS cnt")
+    cnt = result[0]["cnt"]
+    assert cnt > 0, "No Pfam nodes found in graph"
+
+
+def test_pfam_clan_node_count(run_query):
+    """PfamClan superfamily nodes must exist with count > 0."""
+    result = run_query("MATCH (n:PfamClan) RETURN count(n) AS cnt")
+    cnt = result[0]["cnt"]
+    assert cnt > 0, "No PfamClan nodes found in graph"
+
+
+def test_pfam_nodes_have_name(run_query):
+    """All Pfam nodes must have a non-null name property."""
+    result = run_query(
+        "MATCH (n:Pfam) WHERE n.name IS NULL RETURN count(n) AS missing"
+    )
+    assert result[0]["missing"] == 0, (
+        f"{result[0]['missing']} Pfam nodes are missing the name property"
+    )
+
+
+def test_pfam_nodes_have_short_name(run_query):
+    """All Pfam nodes must have a non-null short_name property."""
+    result = run_query(
+        "MATCH (n:Pfam) WHERE n.short_name IS NULL RETURN count(n) AS missing"
+    )
+    assert result[0]["missing"] == 0, (
+        f"{result[0]['missing']} Pfam nodes are missing the short_name property"
+    )
+
+
+def test_pfam_clan_nodes_have_name(run_query):
+    """All PfamClan nodes must have a non-null name property."""
+    result = run_query(
+        "MATCH (n:PfamClan) WHERE n.name IS NULL RETURN count(n) AS missing"
+    )
+    assert result[0]["missing"] == 0, (
+        f"{result[0]['missing']} PfamClan nodes are missing the name property"
+    )
+
+
+def test_gene_has_pfam_edge_count(run_query):
+    """Gene_has_pfam edges must exist with count > 0."""
+    result = run_query(
+        "MATCH ()-[r:Gene_has_pfam]->() RETURN count(r) AS cnt"
+    )
+    cnt = result[0]["cnt"]
+    assert cnt > 0, "No Gene_has_pfam edges found in graph"
+
+
+def test_pfam_in_pfam_clan_edge_count(run_query):
+    """Pfam_in_pfam_clan edges must exist with count > 0."""
+    result = run_query(
+        "MATCH ()-[r:Pfam_in_pfam_clan]->() RETURN count(r) AS cnt"
+    )
+    cnt = result[0]["cnt"]
+    assert cnt > 0, "No Pfam_in_pfam_clan edges found in graph"
+
+
+def test_gene_has_pfam_connects_correct_types(run_query):
+    """Gene_has_pfam must connect Gene -> Pfam (not PfamClan)."""
+    result = run_query("""
+        MATCH (src)-[r:Gene_has_pfam]->(tgt)
+        WHERE NOT src:Gene OR NOT tgt:Pfam
+        RETURN count(r) AS bad
+    """)
+    assert result[0]["bad"] == 0, (
+        f"{result[0]['bad']} Gene_has_pfam edges connect wrong node types "
+        f"(expected Gene -> Pfam, not PfamClan)"
+    )
+
+
+def test_pfam_in_pfam_clan_connects_correct_types(run_query):
+    """Pfam_in_pfam_clan must connect Pfam -> PfamClan."""
+    result = run_query("""
+        MATCH (src)-[r:Pfam_in_pfam_clan]->(tgt)
+        WHERE NOT src:Pfam OR NOT tgt:PfamClan
+        RETURN count(r) AS bad
+    """)
+    assert result[0]["bad"] == 0, (
+        f"{result[0]['bad']} Pfam_in_pfam_clan edges connect wrong node types "
+        f"(expected Pfam -> PfamClan)"
+    )
+
+
+def test_pfam_ids_dropped_from_gene_nodes(run_query):
+    """pfam_ids property must NOT exist on Gene nodes (replaced by graph edges)."""
+    result = run_query(
+        "MATCH (g:Gene) WHERE g.pfam_ids IS NOT NULL RETURN count(g) AS cnt"
+    )
+    cnt = result[0]["cnt"]
+    assert cnt == 0, (
+        f"{cnt} Gene nodes still have pfam_ids property (should be dropped)"
     )

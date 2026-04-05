@@ -1,0 +1,162 @@
+publication:
+  papername: "Christie-Oleza 2017"
+  papermainpdf: "data/Synechococcus/papers_and_supp/Oleza 2017/Synechococcus-Roseobacter long term stability Nat Micro 2017.pdf"
+
+  experiments:
+    # Table S2A: Synechococcus WH7803 exoproteome — early coculture (ASW medium, 35 days)
+    # Axenic vs coculture with R. pomeroyi DSS-3
+    # Shotgun proteomics (nanoLC-MS/MS, LTQ-Orbitrap XL), NSAF quantification
+    # t-test, 3 biological replicates
+    early_coculture_syn_wh7803_proteomics:
+      name: "Synechococcus WH7803 proteome in early coculture with R. pomeroyi DSS-3 (ASW, 35 days)"
+      organism: "Synechococcus WH7803"
+      treatment_condition: "Coculture with Ruegeria pomeroyi DSS-3 in ASW medium"
+      control_condition: "Axenic Synechococcus WH7803 in ASW medium"
+      experimental_context: "Nutrient-rich ASW medium, 22C, 10 umol photons m-2 s-1 continuous light, 140 rpm shaking, 35 days, shotgun proteomics (nanoLC-MS/MS, LTQ-Orbitrap XL), NSAF quantification, n=3"
+      omics_type: EXOPROTEOMICS
+      test_type: "t-test"
+      treatment_type: ["coculture"]
+      background_factors: ["light"]
+      medium: "ASW"
+      temperature: "22C"
+      light_condition: "continuous light"
+      light_intensity: "10 umol photons m-2 s-1"
+      treatment_organism: "Ruegeria pomeroyi DSS-3"
+      treatment_taxid: 89184
+      treatment_assembly_accession: "GCF_000011965.2"
+      table_scope: all_detected_genes
+      table_scope_detail: "All 564 Synechococcus proteins detected in ASW axenic and/or co-culture conditions"
+
+    # Table S5A: Synechococcus WH7803 exoproteome — late coculture (natural seawater, 10 days)
+    # Axenic vs coculture with R. pomeroyi DSS-3
+    # Shotgun proteomics (nanoLC-MS/MS, Orbitrap Fusion), NAF quantification
+    # ANOVA, 3 biological replicates
+    late_coculture_syn_wh7803_proteomics:
+      name: "Synechococcus WH7803 proteome in late coculture with R. pomeroyi DSS-3 (seawater, 10 days)"
+      organism: "Synechococcus WH7803"
+      treatment_condition: "Coculture with Ruegeria pomeroyi DSS-3 in natural seawater"
+      control_condition: "Axenic Synechococcus WH7803 in natural seawater"
+      experimental_context: "Filter-sterilized natural seawater (Gulf Stream), 22C, 10 umol photons m-2 s-1 continuous light, 140 rpm shaking, 10 days, shotgun proteomics (nanoLC-MS/MS, Orbitrap Fusion), NAF quantification, n=3"
+      omics_type: EXOPROTEOMICS
+      test_type: "ANOVA"
+      treatment_type: ["coculture"]
+      background_factors: ["light"]
+      medium: "natural seawater"
+      temperature: "22C"
+      light_condition: "continuous light"
+      light_intensity: "10 umol photons m-2 s-1"
+      treatment_organism: "Ruegeria pomeroyi DSS-3"
+      treatment_taxid: 89184
+      treatment_assembly_accession: "GCF_000011965.2"
+      table_scope: all_detected_genes
+      table_scope_detail: "All 1050 Synechococcus proteins detected in seawater axenic and/or co-culture conditions"
+
+    # Table S7: R. pomeroyi DSS-3 proteome — long-term coculture (natural seawater)
+    # Mono-culture vs coculture with Synechococcus WH7803
+    # Shotgun proteomics (nanoLC-MS/MS, Orbitrap Fusion), NAF quantification
+    # Student's t-test (Perseus), q-value, 3 biological replicates
+    longterm_coculture_rpom_dss3_proteomics:
+      name: "R. pomeroyi DSS-3 proteome in long-term coculture with Synechococcus WH7803 (seawater)"
+      organism: "Ruegeria pomeroyi DSS-3"
+      treatment_condition: "Coculture with Synechococcus WH7803 in natural seawater"
+      control_condition: "R. pomeroyi DSS-3 mono-culture in natural seawater"
+      experimental_context: "Filter-sterilized natural seawater, 22C, 10 umol photons m-2 s-1 continuous light, 140 rpm shaking, long-term stable coculture, shotgun proteomics (nanoLC-MS/MS, Orbitrap Fusion), NAF quantification, Perseus analysis, n=3"
+      omics_type: EXOPROTEOMICS
+      test_type: "t-test_Perseus"
+      treatment_type: ["coculture"]
+      background_factors: ["light"]
+      medium: "natural seawater"
+      temperature: "22C"
+      light_condition: "continuous light"
+      light_intensity: "10 umol photons m-2 s-1"
+      treatment_organism: "Synechococcus WH7803"
+      treatment_taxid: 32051
+      treatment_assembly_accession: "GCF_000063505.1"
+      table_scope: all_detected_genes
+      table_scope_detail: "All 1724 R. pomeroyi proteins detected in seawater mono-culture and/or co-culture with Synechococcus"
+
+  supplementary_materials:
+    # Table S2A: Synechococcus WH7803 in ASW — early coculture proteomics
+    # FC uses signed linear convention: positive = higher in coculture, negative = higher in axenic
+    # (despite column name "Axenic vs Co-culture"). No values between 0 and 1.
+    # Treated as signed ratios (no fold_change_type conversion), sign correct for KG convention.
+    # 564 proteins, 4 header rows (skip_rows: 3), gene IDs in "Other reference" col (SynWH7803_NNNN)
+    supp_table_s2a:
+      type: csv
+      filename: "data/Synechococcus/papers_and_supp/Oleza 2017/table s2a 41564_2017_BFnmicrobiol2017100_MOESM3_ESM.csv"
+      skip_rows: 3
+      organism: "Synechococcus WH7803"
+      id_columns:
+        - column: "Other reference"
+          id_type: locus_tag
+        - column: "NCBI reference"
+          id_type: protein_id_refseq
+      product_columns:
+        - column: "Annotated function and designation"
+      statistical_analyses:
+        - id: "syn_wh7803_early_coculture_asw"
+          experiment: early_coculture_syn_wh7803_proteomics
+          name_col: "Other reference"
+          logfc_col: "Fold change Axenic vs Co-culture"
+          # No fold_change_type — values are signed linear ratios (positive = up in coculture,
+          # negative = up in axenic). No values between 0 and 1. Sign is correct for direction.
+          adjusted_p_value_col: "p-value"
+          pvalue_threshold: 0.05
+
+    # Table S2B: R. pomeroyi in ASW early coculture — SKIPPED (abundance only, no fold change)
+
+    # Table S5A: Synechococcus WH7803 in seawater — late coculture proteomics
+    # Same signed linear FC convention as S2A.
+    # 1050 proteins, 4 header rows (skip_rows: 3)
+    supp_table_s5a:
+      type: csv
+      filename: "data/Synechococcus/papers_and_supp/Oleza 2017/table s5a 41564_2017_BFnmicrobiol2017100_MOESM6_ESM.csv"
+      skip_rows: 3
+      organism: "Synechococcus WH7803"
+      id_columns:
+        - column: "Other reference"
+          id_type: locus_tag
+        - column: "Accession"
+          id_type: protein_id_refseq
+      product_columns:
+        - column: "Annotated function and designation"
+      statistical_analyses:
+        - id: "syn_wh7803_late_coculture_sw"
+          experiment: late_coculture_syn_wh7803_proteomics
+          name_col: "Other reference"
+          logfc_col: "Fold change Axenic vs Co-culture"
+          # No fold_change_type — signed linear ratios, same convention as S2A
+          adjusted_p_value_col: "Anova (p)"
+          pvalue_threshold: 0.05
+
+    # Table S5B: R. pomeroyi in seawater late coculture — SKIPPED (abundance only, no fold change)
+
+    # Table S7: R. pomeroyi DSS-3 in seawater — long-term coculture proteomics
+    # FC uses signed linear convention: positive = higher in coculture, negative = higher in mono-culture
+    # q-value from Student's t-test (Perseus), "Significant" column marks hits as "+"
+    # 1724 proteins, 4 header rows (skip_rows: 3), gene IDs in "Annotation reference" col (SPO####)
+    supp_table_s7:
+      type: csv
+      filename: "data/Synechococcus/papers_and_supp/Oleza 2017/table s7 41564_2017_BFnmicrobiol2017100_MOESM8_ESM.csv"
+      skip_rows: 3
+      organism: "Ruegeria pomeroyi DSS-3"
+      id_columns:
+        - column: "Annotation reference"
+          id_type: locus_tag
+        - column: "Old NCBI reference"
+          id_type: protein_id_refseq
+        - column: "New NCBI reference"
+          id_type: protein_id
+        - column: "Annotation UniProt"
+          id_type: uniprot_accession
+      product_columns:
+        - column: "Annotated function and designation"
+      statistical_analyses:
+        - id: "rpom_dss3_longterm_coculture_sw"
+          experiment: longterm_coculture_rpom_dss3_proteomics
+          name_col: "Annotation reference"
+          logfc_col: "Fold change"
+          # No fold_change_type — signed linear ratios (positive = up in coculture,
+          # negative = up in mono-culture). Sign is correct for direction.
+          adjusted_p_value_col: "q-value (Student's T-test; Perseus) "
+          pvalue_threshold: 0.05

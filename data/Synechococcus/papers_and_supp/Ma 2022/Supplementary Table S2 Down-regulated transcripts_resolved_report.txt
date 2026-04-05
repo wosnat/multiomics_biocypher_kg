@@ -1,0 +1,16 @@
+Resolution report: Ma 2022 / supp_table_s2_down
+Source: Supplementary Table S2 Down-regulated transcripts.csv
+name_col: Gene ID
+id_columns: ['Gene ID']
+
+Total rows with IDs: 55
+Resolved: 54 (98.2%)
+Unresolved: 1
+
+Resolution method breakdown:
+  empty: 1
+  locus_tag:Gene ID: 54
+  unresolved: 1
+
+Unresolved rows (1):
+  row 34: raw_id='M744_02450'  reason=unresolved  [Gene ID='M744_02450']

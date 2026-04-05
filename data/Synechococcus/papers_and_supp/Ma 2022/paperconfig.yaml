@@ -1,0 +1,101 @@
+publication:
+  papername: "Ma 2022"
+  papermainpdf: "data/Synechococcus/papers_and_supp/Ma 2022/Synechococcus-E coli co-culture transcriptome Biotech Biofuels Bioprod 2022.pdf"
+
+  experiments:
+    coculture_ecoli_vs_axenic_utex2973_rnaseq:
+      name: "S. elongatus UTEX 2973 cscB+ coculture with E. coli ABKm vs axenic (RNA-seq)"
+      organism: "Synechococcus elongatus UTEX 2973"
+      treatment_condition: "Coculture with E. coli ABKm in dialysis bag"
+      control_condition: "Axenic S. elongatus cscB+ culture"
+      experimental_context: "CoBG-11 medium (BG-11 + 150 mM NaCl + 4 mM NH4Cl + 3 g/L TES), 30C, 100 umol photons m-2 s-1 continuous light, 4 days coculture, dialysis bag separation (14 kDa cutoff)"
+      omics_type: RNASEQ
+      test_type: "fold_change"
+      treatment_type: ["coculture"]
+      background_factors: ["light"]
+      medium: "CoBG-11"
+      temperature: "30C"
+      light_condition: "continuous light"
+      light_intensity: "100 umol photons m-2 s-1"
+      treatment_organism: "Escherichia coli"
+      treatment_taxid: 562
+      table_scope: significant_only
+      table_scope_detail: "Tables S1 and S2 list only significantly DE genes (fold change > 1.5, padj < 0.05), split by direction"
+
+    coculture_ecoli_vs_axenic_utex2973_proteomics:
+      name: "S. elongatus UTEX 2973 cscB+ coculture with E. coli ABKm vs axenic (proteomics)"
+      organism: "Synechococcus elongatus UTEX 2973"
+      treatment_condition: "Coculture with E. coli ABKm in dialysis bag"
+      control_condition: "Axenic S. elongatus cscB+ culture"
+      experimental_context: "CoBG-11 medium, 30C, 100 umol photons m-2 s-1 continuous light, 4 days coculture, iTRAQ quantitative proteomics via LC-MS/MS (BGI), 3 biological replicates"
+      omics_type: PROTEOMICS
+      test_type: "iTRAQ_t-test"
+      treatment_type: ["coculture"]
+      background_factors: ["light"]
+      medium: "CoBG-11"
+      temperature: "30C"
+      light_condition: "continuous light"
+      light_intensity: "100 umol photons m-2 s-1"
+      treatment_organism: "Escherichia coli"
+      treatment_taxid: 562
+      table_scope: significant_only
+      table_scope_detail: "Table S4 lists selected DE proteins (fold change > 1.2, P < 0.05 by t-test of 9 pairwise comparisons)"
+
+  supplementary_materials:
+    # Table S1: Up-regulated transcripts only (significant_only, no p-values in table)
+    # Gene IDs are M744_##### format (UTEX 2973 old locus tags)
+    # NOTE: S1 and S2 are split by direction (up/down) but reference the same experiment
+    supp_table_s1_up:
+      type: csv
+      filename: "data/Synechococcus/papers_and_supp/Ma 2022/Supplementary Table S1 Up-regulated transcripts.csv"
+      skip_rows: 1
+      organism: "Synechococcus elongatus UTEX 2973"
+      id_columns:
+        - column: "Gene ID"
+          id_type: old_locus_tag
+      statistical_analyses:
+        - id: "DE_rnaseq_coculture_ecoli_up"
+          experiment: coculture_ecoli_vs_axenic_utex2973_rnaseq
+          name_col: "Gene ID"
+          logfc_col: "log2FoldChange"
+          pvalue_threshold: 0.05
+
+    # Table S2: Down-regulated transcripts only (significant_only, no p-values in table)
+    supp_table_s2_down:
+      type: csv
+      filename: "data/Synechococcus/papers_and_supp/Ma 2022/Supplementary Table S2 Down-regulated transcripts.csv"
+      skip_rows: 1
+      organism: "Synechococcus elongatus UTEX 2973"
+      id_columns:
+        - column: "Gene ID"
+          id_type: old_locus_tag
+      statistical_analyses:
+        - id: "DE_rnaseq_coculture_ecoli_down"
+          experiment: coculture_ecoli_vs_axenic_utex2973_rnaseq
+          name_col: "Gene ID"
+          logfc_col: "log2FoldChange"
+          pvalue_threshold: 0.05
+
+    # Table S4: Selected differentially expressed proteins
+    # Mean Ratio uses non-standard sign convention: positive values (1.21-1.31) for
+    # upregulated, negative values (-0.55 to -0.83) for downregulated.
+    # NOT true linear FC (would be 0.55-0.83 for downregulated) — treat as signed
+    # values and pass through as-is (no fold_change_type conversion).
+    # The sign is consistent for expression_direction and rank-based analysis.
+    supp_table_s4_proteomics:
+      type: csv
+      filename: "data/Synechococcus/papers_and_supp/Ma 2022/Supplementary Table S4 Selected differentially expressed proteins.csv"
+      skip_rows: 2
+      organism: "Synechococcus elongatus UTEX 2973"
+      id_columns:
+        - column: "Protein"
+          id_type: old_locus_tag
+      statistical_analyses:
+        - id: "DE_proteomics_coculture_ecoli"
+          experiment: coculture_ecoli_vs_axenic_utex2973_proteomics
+          name_col: "Protein"
+          logfc_col: "Mean Ratio"
+          # No fold_change_type — values are non-standard signed ratios, passed through as-is
+          # Positive = upregulated, negative = downregulated (correct for direction/ranking)
+          pvalue_threshold: 0.05
+          table_scope: significant_only

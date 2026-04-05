@@ -7,13 +7,18 @@
     },
     "gene_name": {
       "conflict": 0,
-      "multi": 75,
-      "unique": 1800
+      "multi": 85,
+      "unique": 1034
     },
     "gene_synonym": {
       "conflict": 0,
       "multi": 32,
-      "unique": 2503
+      "unique": 3301
+    },
+    "gff_gene_id": {
+      "conflict": 0,
+      "multi": 0,
+      "unique": 3764
     },
     "locus_tag_cyanorak": {
       "conflict": 0,
@@ -21,9 +26,9 @@
       "unique": 1926
     },
     "locus_tag_ncbi": {
-      "conflict": 0,
+      "conflict": 17,
       "multi": 0,
-      "unique": 4443
+      "unique": 6427
     },
     "old_locus_tag": {
       "conflict": 0,
@@ -43,8 +48,12 @@
   },
   "strain": "AS9601",
   "unresolved_rows_per_source": {
+    "Al-Hosani 2015/supp_table_3": 57,
     "cds_from_genomic.fna": 6,
-    "genomic_gca/AS9601": 56
+    "genomic_gca/AS9601": 56,
+    "genomic_gcf/AS9601": 48
   },
-  "warnings": []
+  "warnings": [
+    "[CONFLICT] Tier 1 id_type 'locus_tag_ncbi' has 17 data conflicts \u2014 check annotation quality."
+  ]
 }

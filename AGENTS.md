@@ -7,7 +7,7 @@ The schema uses a **hybrid approach** optimized for LLM agent queries:
 ### Coculture Effects
 **`organism to gene expression association`**: Represents how coculture with organism X changes expression of genes in organism Y.
 
-Example: Alteromonas → affects_expression_of → Prochlorococcus gene PMM0001
+Example: Alteromonas → Coculture_changes_expression_of → Prochlorococcus gene PMM0001
 
 - **Source**: `organism_taxon` (the coculture partner causing the effect)
 - **Target**: `gene` (the affected gene, belongs to a different organism)
@@ -17,7 +17,7 @@ Example: Alteromonas → affects_expression_of → Prochlorococcus gene PMM0001
 ### Environmental Stress Effects
 **`environmental condition to gene expression association`**: Represents how environmental perturbations affect gene expression.
 
-Example: nitrogen_stress → affects_expression_of → gene PMM0001 (same label as organism edge)
+Example: nitrogen_stress → Condition_changes_expression_of → gene PMM0001
 
 - **Source**: `environmental condition`
 - **Target**: `gene`
@@ -70,9 +70,9 @@ Alteromonas ──organism_treatment_in_test──▶ statistical_test ◀──
 
 | Query | Recommended Pattern |
 |-------|---------------------|
-| "What affects gene PMM0001?" | `(factor)-[affects_expression_of]->(gene {id: 'PMM0001'})` - returns both organisms and environmental conditions |
-| "Genes upregulated by Alteromonas" | `(Alteromonas)-[affects_expression_of {expression_direction: 'up'}]->(gene)` |
-| "Genes affected by nitrogen stress" | `(nitrogen_stress:environmental_condition)-[affects_expression_of]->(gene)` |
+| "What affects gene PMM0001?" | `(factor)-[r:Condition_changes_expression_of\|Coculture_changes_expression_of]->(gene {id: 'PMM0001'})` - returns both organisms and environmental conditions |
+| "Genes upregulated by Alteromonas" | `(Alteromonas)-[r:Coculture_changes_expression_of {expression_direction: 'up'}]->(gene)` |
+| "Genes affected by nitrogen stress" | `(nitrogen_stress:environmental_condition)-[r:Condition_changes_expression_of]->(gene)` |
 | "Genes affected by coculture under low light" | Hub: Find statistical_test linked to both factors, then get gene results |
 | "All experiments involving Alteromonas" | Hub: `(Alteromonas)-[organism_treatment_in_test]->(test)` |
 
@@ -128,11 +128,11 @@ RETURN g, path
 
 ```cypher
 // Direct edge — 1 hop, most specific:
-MATCH (c:EnvironmentalCondition)-[r:Affects_expression_of]->(g:Gene)
+MATCH (c:EnvironmentalCondition)-[r:Condition_changes_expression_of]->(g:Gene)
 WHERE c.name CONTAINS 'nitrogen'
 RETURN g, r.log2_fold_change, r.expression_direction
 
-MATCH (o:OrganismTaxon)-[r:Affects_expression_of]->(g:Gene)
+MATCH (o:OrganismTaxon)-[r:Coculture_changes_expression_of]->(g:Gene)
 WHERE o.organism_name CONTAINS 'Alteromonas'
 RETURN g, r.log2_fold_change, r.expression_direction
 ```
@@ -142,7 +142,7 @@ RETURN g, r.log2_fold_change, r.expression_direction
 ```cypher
 MATCH (g:Gene)
 WHERE g.function_description CONTAINS 'oxidative'
-AND (g)<-[:Affects_expression_of]-()
+AND ((g)<-[:Condition_changes_expression_of]-() OR (g)<-[:Coculture_changes_expression_of]-())
 RETURN g
 ```
 

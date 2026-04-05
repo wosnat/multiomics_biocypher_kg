@@ -1,36 +1,74 @@
 publication:
   papername: Bagby and Chisholm 2015
   papermainpdf: data/Prochlorococcus/papers_and_supp/bagby 2015/41396_2015_article_bfismej201536.pdf
-
-  environmental_conditions:
-    bagby_2015_air:
-      condition_type: gas_shock
-      name: Air (0.036% CO2 / 21% O2)
-      co2_level: "0.036%"
-      oxygen_level: "21%"
-      description: Standard air conditions (0.036% CO2, 21% O2). FC compared to time 0 (pre-shock baseline).
-
-    bagby_2015_no_o2:
-      condition_type: gas_shock
-      name: Ambient CO2, no O2 (0.036% CO2 / 0% O2)
-      co2_level: "0.036%"
-      oxygen_level: "0%"
-      description: Gas shock with ambient CO2 and O2 removed (0.036% CO2, 0% O2). FC compared to air samples. Highest FC across timepoints (3h, 6h, 9h, 12h, 18h, 24h).
-
-    bagby_2015_low_co2:
-      condition_type: gas_shock
-      name: Low CO2 (0.004% CO2 / 21% O2)
-      co2_level: "0.004%"
-      oxygen_level: "21%"
-      description: Gas shock with reduced CO2 and ambient O2 (0.004% CO2, 21% O2). FC compared to air samples. Highest FC across timepoints (3h, 6h, 9h, 12h, 18h, 24h).
-
-    bagby_2015_low_co2_no_o2:
-      condition_type: gas_shock
-      name: Low CO2 and no O2 (0.004% CO2 / 0% O2)
-      co2_level: "0.004%"
-      oxygen_level: "0%"
-      description: Gas shock with reduced CO2 and O2 removed (0.004% CO2, 0% O2). FC compared to air samples. Highest FC across timepoints (3h, 6h, 9h, 12h, 18h, 24h).
-
+  experiments:
+    carbon_air_0036_co2_21_med4_microarray:
+      name: MED4 Air (0.036% CO2 / 21% O2) vs Time 0 (pre-shock) (MICROARRAY)
+      organism: Prochlorococcus MED4
+      treatment_condition: Air (0.036% CO2 / 21% O2)
+      control_condition: Time 0 (pre-shock)
+      experimental_context: Pro99 medium, mid-exponential phase, constant light 60 umol photons m-2 s-1, 21C
+      omics_type: MICROARRAY
+      test_type: microarray
+      treatment_type: [carbon]
+      background_factors: [axenic, light]
+      medium: Pro99
+      temperature: 21C
+      light_condition: continuous light
+      light_intensity: 60 umol photons m-2 s-1
+      table_scope: filtered_subset
+      table_scope_detail: Genes significant in any of 4 gas conditions, all conditions in single table
+    carbon_ambient_co2_no_o2_med4_microarray:
+      name: MED4 Ambient CO2, no O2 (0.036% CO2 / 0% O2) vs Air (0.036% CO2 / 21% O2) (MICROARRAY)
+      organism: Prochlorococcus MED4
+      treatment_condition: Ambient CO2, no O2 (0.036% CO2 / 0% O2)
+      control_condition: Air (0.036% CO2 / 21% O2)
+      experimental_context: Pro99 medium, mid-exponential phase, constant light 60 umol photons m-2 s-1, 21C. Highest FC across
+        timepoints (3h, 6h, 9h, 12h, 18h, 24h).
+      omics_type: MICROARRAY
+      test_type: microarray
+      treatment_type: [carbon]
+      background_factors: [axenic, light]
+      medium: Pro99
+      temperature: 21C
+      light_condition: continuous light
+      light_intensity: 60 umol photons m-2 s-1
+      table_scope: filtered_subset
+      table_scope_detail: Genes significant in any of 4 gas conditions, all conditions in single table
+    carbon_low_co2_0004_co2_med4_microarray:
+      name: MED4 Low CO2 (0.004% CO2 / 21% O2) vs Air (0.036% CO2 / 21% O2) (MICROARRAY)
+      organism: Prochlorococcus MED4
+      treatment_condition: Low CO2 (0.004% CO2 / 21% O2)
+      control_condition: Air (0.036% CO2 / 21% O2)
+      experimental_context: Pro99 medium, mid-exponential phase, constant light 60 umol photons m-2 s-1, 21C. Highest FC across
+        timepoints (3h, 6h, 9h, 12h, 18h, 24h).
+      omics_type: MICROARRAY
+      test_type: microarray
+      treatment_type: [carbon]
+      background_factors: [axenic, light]
+      medium: Pro99
+      temperature: 21C
+      light_condition: continuous light
+      light_intensity: 60 umol photons m-2 s-1
+      table_scope: filtered_subset
+      table_scope_detail: Genes significant in any of 4 gas conditions, all conditions in single table
+    carbon_low_co2_and_no_med4_microarray:
+      name: MED4 Low CO2 and no O2 (0.004% CO2 / 0% O2) vs Air (0.036% CO2 / 21% O2) (MICROARRAY)
+      organism: Prochlorococcus MED4
+      treatment_condition: Low CO2 and no O2 (0.004% CO2 / 0% O2)
+      control_condition: Air (0.036% CO2 / 21% O2)
+      experimental_context: Pro99 medium, mid-exponential phase, constant light 60 umol photons m-2 s-1, 21C. Highest FC across
+        timepoints (3h, 6h, 9h, 12h, 18h, 24h).
+      omics_type: MICROARRAY
+      test_type: microarray
+      treatment_type: [carbon]
+      background_factors: [axenic, light]
+      medium: Pro99
+      temperature: 21C
+      light_condition: continuous light
+      light_intensity: 60 umol photons m-2 s-1
+      table_scope: filtered_subset
+      table_scope_detail: Genes significant in any of 4 gas conditions, all conditions in single table
   supplementary_materials:
     supp_table_1_air:
       type: csv
@@ -45,19 +83,12 @@ publication:
       product_columns:
       - column: Gene description
       statistical_analyses:
-        - type: MICROARRAY
-          name: Gene expression response to air (0.036% CO2 / 21% O2) vs time 0
-          id: gas_shock_air
-          test_type: Affymetrix microarray
-          control_condition: Time 0 (pre-shock)
-          treatment_condition: 0.036% CO2 / 21% O2 (air)
-          experimental_context: Pro99 medium, mid-exponential phase, constant light 60 umol photons m-2 s-1, 21C
-          organism: Prochlorococcus MED4
-          environmental_treatment_condition_id: bagby_2015_air
-          name_col: Locus tag2
-          logfc_col: 0.036%_CO2_21%_O2 FC
-          prefiltered: true
-
+      - id: gas_shock_air
+        experiment: carbon_air_0036_co2_21_med4_microarray
+        timepoint_hours: null
+        name_col: Locus tag2
+        logfc_col: 0.036%_CO2_21%_O2 FC
+        prefiltered: true
     supp_table_1_no_o2:
       type: csv
       filename: data/Prochlorococcus/papers_and_supp/bagby 2015/de_genes_gas_shock_vs_air.csv
@@ -71,19 +102,12 @@ publication:
       product_columns:
       - column: Gene description
       statistical_analyses:
-        - type: MICROARRAY
-          name: Gene expression response to ambient CO2 / no O2 (0.036% CO2 / 0% O2) vs air
-          id: gas_shock_no_o2
-          test_type: Affymetrix microarray
-          control_condition: 0.036% CO2 / 21% O2 (air)
-          treatment_condition: 0.036% CO2 / 0% O2
-          experimental_context: Pro99 medium, mid-exponential phase, constant light 60 umol photons m-2 s-1, 21C. Highest FC across timepoints (3h, 6h, 9h, 12h, 18h, 24h).
-          organism: Prochlorococcus MED4
-          environmental_treatment_condition_id: bagby_2015_no_o2
-          name_col: Locus tag2
-          logfc_col: 0.036%_CO2_0%_O2 FC
-          prefiltered: true
-
+      - id: gas_shock_no_o2
+        experiment: carbon_ambient_co2_no_o2_med4_microarray
+        timepoint_hours: null
+        name_col: Locus tag2
+        logfc_col: 0.036%_CO2_0%_O2 FC
+        prefiltered: true
     supp_table_1_low_co2:
       type: csv
       filename: data/Prochlorococcus/papers_and_supp/bagby 2015/de_genes_gas_shock_vs_air.csv
@@ -97,19 +121,12 @@ publication:
       product_columns:
       - column: Gene description
       statistical_analyses:
-        - type: MICROARRAY
-          name: Gene expression response to low CO2 (0.004% CO2 / 21% O2) vs air
-          id: gas_shock_low_co2
-          test_type: Affymetrix microarray
-          control_condition: 0.036% CO2 / 21% O2 (air)
-          treatment_condition: 0.004% CO2 / 21% O2
-          experimental_context: Pro99 medium, mid-exponential phase, constant light 60 umol photons m-2 s-1, 21C. Highest FC across timepoints (3h, 6h, 9h, 12h, 18h, 24h).
-          organism: Prochlorococcus MED4
-          environmental_treatment_condition_id: bagby_2015_low_co2
-          name_col: Locus tag2
-          logfc_col: 0.004%_CO2_21%_O2 FC
-          prefiltered: true
-
+      - id: gas_shock_low_co2
+        experiment: carbon_low_co2_0004_co2_med4_microarray
+        timepoint_hours: null
+        name_col: Locus tag2
+        logfc_col: 0.004%_CO2_21%_O2 FC
+        prefiltered: true
     supp_table_1_low_co2_no_o2:
       type: csv
       filename: data/Prochlorococcus/papers_and_supp/bagby 2015/de_genes_gas_shock_vs_air.csv
@@ -123,15 +140,9 @@ publication:
       product_columns:
       - column: Gene description
       statistical_analyses:
-        - type: MICROARRAY
-          name: Gene expression response to low CO2 / no O2 (0.004% CO2 / 0% O2) vs air
-          id: gas_shock_low_co2_no_o2
-          test_type: Affymetrix microarray
-          control_condition: 0.036% CO2 / 21% O2 (air)
-          treatment_condition: 0.004% CO2 / 0% O2
-          experimental_context: Pro99 medium, mid-exponential phase, constant light 60 umol photons m-2 s-1, 21C. Highest FC across timepoints (3h, 6h, 9h, 12h, 18h, 24h).
-          organism: Prochlorococcus MED4
-          environmental_treatment_condition_id: bagby_2015_low_co2_no_o2
-          name_col: Locus tag2
-          logfc_col: 0.004%_CO2_0%_O2 FC
-          prefiltered: true
+      - id: gas_shock_low_co2_no_o2
+        experiment: carbon_low_co2_and_no_med4_microarray
+        timepoint_hours: null
+        name_col: Locus tag2
+        logfc_col: 0.004%_CO2_0%_O2 FC
+        prefiltered: true

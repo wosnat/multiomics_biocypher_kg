@@ -1,0 +1,16 @@
+Resolution report: Tolonen 2006 / mit9313_kmeans_nstarvation
+Source: mit9313_kmeans_clusters.csv
+name_col: gene_id
+id_columns: ['gene_id']
+
+Total rows with IDs: 559
+Resolved: 558 (99.8%)
+Unresolved: 1
+
+Resolution method breakdown:
+  locus_tag:gene_id: 518
+  tier1:gene_id: 40
+  unresolved: 1
+
+Unresolved rows (1):
+  row 85: raw_id='PMT1676'  reason=unresolved  [gene_id='PMT1676']

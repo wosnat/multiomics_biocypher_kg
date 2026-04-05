@@ -7,7 +7,7 @@ occurs at KG build time — all preprocessing is done by prepare_data.sh.
 
 Nodes:   Protein  (uniprot:<accession>)
 Edges:
-  Gene_encodes_protein            (Protein → Gene, via RefSeq WP_ join)
+  Gene_encodes_protein            (Gene → Protein, via RefSeq WP_ join)
   Protein_belongs_to_organism     (Protein → OrganismTaxon, per assembly)
   protein_catalyzes_ec_number     (Protein → EC)
   protein_located_in_cellular_component    (Protein → GO)
@@ -182,7 +182,7 @@ class UniprotAdapter:
                 "interaction_notes":        entry.get("interaction_notes"),
                 **self._provenance(),
             }
-            # Sparse output: drop None values (but keep False for is_reviewed)
+            # Sparse output: drop None values
             props = {k: v for k, v in props.items() if v is not None}
             yield protein_id, "protein", props
             count += 1
@@ -213,8 +213,8 @@ class UniprotAdapter:
                     seen_edges.add(key)
                     gene_id = self._add_prefix("ncbigene", locus_tag)
                     org_id = self._add_prefix("insdc.gcf", ncbi_acc)
-                    # Direction convention: Protein → Gene (matches current schema)
-                    yield None, protein_id, gene_id, "Gene_encodes_protein", props
+                    # Direction convention: Gene → Protein (source=gene, target=protein)
+                    yield None, gene_id, protein_id, "Gene_encodes_protein", props
                     yield None, protein_id, org_id, "Protein_belongs_to_organism", props
 
             # remove - moved to the gene edges

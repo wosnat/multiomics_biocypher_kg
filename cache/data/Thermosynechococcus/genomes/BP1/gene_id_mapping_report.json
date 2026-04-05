@@ -1,0 +1,50 @@
+{
+  "per_id_type": {
+    "cds_fna_id": {
+      "conflict": 0,
+      "multi": 0,
+      "unique": 2449
+    },
+    "gene_name": {
+      "conflict": 0,
+      "multi": 283,
+      "unique": 1380
+    },
+    "gene_synonym": {
+      "conflict": 0,
+      "multi": 24,
+      "unique": 4182
+    },
+    "gff_gene_id": {
+      "conflict": 0,
+      "multi": 0,
+      "unique": 4447
+    },
+    "locus_tag_ncbi": {
+      "conflict": 31,
+      "multi": 0,
+      "unique": 5349
+    },
+    "protein_id_refseq": {
+      "conflict": 0,
+      "multi": 23,
+      "unique": 2426
+    },
+    "uniprot_accession": {
+      "conflict": 0,
+      "multi": 10,
+      "unique": 1386
+    }
+  },
+  "strain": "BP1",
+  "unresolved_rows_per_source": {
+    "Bernstein 2017/bp1_light_clusters": 114,
+    "Bernstein 2017/bp1_oxygen_clusters": 114,
+    "cds_from_genomic.fna": 51,
+    "genomic_gca/BP1": 2957,
+    "genomic_gcf/BP1": 56
+  },
+  "warnings": [
+    "[CONFLICT] Tier 1 id_type 'locus_tag_ncbi' has 31 data conflicts \u2014 check annotation quality."
+  ]
+}

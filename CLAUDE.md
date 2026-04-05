@@ -41,9 +41,10 @@ pytest tests/kg_validity/ -v
 pytest -m kg                          # same thing via marker
 pytest tests/kg_validity/ --neo4j-url bolt://localhost:7687  # explicit URL
 
-# Docker deployment (builds graph + Neo4j)
+# Docker deployment (builds graph + Neo4j, APOC plugin auto-installed)
 docker compose up -d
 # Neo4j at localhost:7474 (HTTP), localhost:7687 (Bolt, no auth)
+# APOC core available in post-process and deploy containers
 # Biochatter UI at localhost:8501
 ```
 
@@ -75,15 +76,19 @@ def _clean_str(value: str) -> str:
 ```
 Define this helper locally in each adapter and apply it to every string field in node/edge property dicts. The array delimiter is also `|` (see `biocypher_config.yaml`), so pipe characters in values would corrupt array fields too.
 
+**This applies to computed/literal strings too, not just external data.** Never use `|` or `'` as a separator or literal character when constructing string property values in code. For example, use ` :: ` as a field separator in computed summary strings, not ` | `. `clean_text()` silently converts `|` → `,` and `'` → `^`, so using them as intentional separators would corrupt the value without any error.
+
 Most adapters have a single-source class (e.g., `CyanorakNcbi`) and a **Multi*** wrapper (e.g., `MultiCyanorakNcbi`) that iterates over all configured strains/papers and aggregates nodes/edges. `create_knowledge_graph.py` only instantiates the Multi* wrappers.
 
 ### Key Adapters
 - **uniprot_adapter.py** — Proteins, genes, organisms from UniProt API
 - **cyanorak_ncbi_adapter.py** — Genomic data from GFF/GenBank files; also emits `organism taxon` nodes
-- **omics_adapter.py** — Differential expression results from `paperconfig.yaml` files; creates `publication` nodes and `affects_expression_of` edges
+- **omics_adapter.py** — Differential expression results from `paperconfig.yaml` files; creates `Publication` nodes, `Experiment` nodes, `Has_experiment` edges, `Tests_coculture_with` edges, and `Changes_expression_of` expression edges (Experiment → Gene)
 - **go_adapter.py** — Gene Ontology terms and GO→protein edges
 - **ec_adapter.py** — Enzyme Commission number hierarchy
 - **pathway_adapter.py** — Metabolic/signaling pathway associations
+- **functional_annotation_adapter.py** — Gene→GO edges (per-strain from `gene_annotations_merged.json`), Gene→Pfam edges + Pfam/PfamClan nodes (from `pfam_ids` in merged annotations + Pfam reference data)
+- **ortholog_group_adapter.py** — OrthologGroup nodes and Gene_in_ortholog_group edges from pre-computed `ortholog_groups` field in `gene_annotations_merged.json`
 - **pdf_publication_extraction.py** — LangChain-based LLM extraction of publication metadata from PDFs
 
 ### Main Entry Point
@@ -106,13 +111,17 @@ Most adapters have a single-source class (e.g., `CyanorakNcbi`) and a **Multi***
 - Proteins: UniProt accession
 - Organisms: INSDC GCF assembly accession (e.g., `GCF_000011465.1`)
 - Publications: DOI
+- Experiments: `{doi}_{experiment_key}` (e.g., `10.1038/s41586-024-07246-9_n_limitation_med4_rnaseq`)
 - GO terms: GO:XXXXXXX
+- OrthologGroups: `ortholog_group:<source>:<name>` (e.g., `ortholog_group:cyanorak:CK_00000364`)
+- Pfam domains: `pfam:PF00712`
+- Pfam clans: `pfam.clan:CL0060`
 - EC numbers: EC hierarchy string
 
 ### Docker Pipeline Stages
 1. **build** — runs `create_knowledge_graph.py`, outputs CSVs
 2. **import** — runs `neo4j-admin import` from generated script
-3. **post-process** — executes `scripts/post-import.cypher`, which creates bidirectional `gene_is_homolog_of_gene` edges between genes sharing a Cyanorak cluster (needed because BioCypher can't infer these during import)
+3. **post-process** — executes `scripts/post-import.sh` (the authoritative post-import script run by Docker via `cypher-shell`). Creates indexes (scalar, full-text, OrthologGroup, Pfam, Experiment), derives `expression_status` on expression edges, and computes Gene routing signal properties (`annotation_types`, `expression_edge_count`, `significant_up_count`, `significant_down_count`, `closest_ortholog_group_size`, `closest_ortholog_genera`) plus `rank_by_effect`, `rank_up`, and `rank_down` on expression edges. `scripts/post-import.cypher` is a reference copy kept in sync for non-Docker use -- both files must have identical Cypher logic.
 4. **deploy** — exposes Neo4j
 5. **app** — Biochatter web UI
 
@@ -125,21 +134,40 @@ Most adapters have a single-source class (e.g., `CyanorakNcbi`) and a **Multi***
 publication:
   papername: "Author Year"
   papermainpdf: "data/Prochlorococcus/papers_and_supp/Author Year/paper.pdf"
+
+  experiments:
+    my_experiment:
+      name: "MED4 nitrogen limitation RNA-seq"
+      organism: "Prochlorococcus MED4"
+      treatment_condition: "Nitrogen limitation"
+      control_condition: "Replete medium"
+      experimental_context: "in Pro99 medium under continuous light"
+      omics_type: RNASEQ  # or PROTEOMICS, METABOLOMICS, MICROARRAY
+      test_type: "DESeq2"
+      treatment_type: ["nitrogen"]   # category for filtering -- list of categories
+      background_factors: ["axenic", "continuous_light"]  # optional: experimental context factors
+      medium: "Pro99"
+      temperature: "24C"
+      light_condition: "continuous light"
+      light_intensity: ""
+      # For coculture experiments, add:
+      # treatment_organism: "Alteromonas macleodii HOT1A3"
+      # treatment_taxid: 28108
+
   supplementary_materials:
     supp_table_1:
       type: csv
       filename: "data/.../results.csv"
       statistical_analyses:
         - id: "unique_id_within_publication"   # required; used as edge ID prefix
-          type: RNASEQ  # or PROTEOMICS, METABOLOMICS, MICROARRAY
-          test_type: "DESeq2"
-          control_condition: "Axenic"
-          treatment_condition: "Coculture"
-          experimental_context: "in Pro99 medium under continuous light"
-          organism: "Prochlorococcus MED4"
+          experiment: my_experiment             # references experiments block
           name_col: "Gene"
           logfc_col: "log2FoldChange"
           adjusted_p_value_col: "padj"
+          pvalue_threshold: 0.05
+          # Optional time-series fields:
+          # timepoint: "24h"
+          # timepoint_hours: 24
 ```
 
 3. Add the path to `data/Prochlorococcus/papers_and_supp/paperconfig_files.txt`
@@ -154,6 +182,7 @@ publication:
 | `csv` | Differential expression results table with `statistical_analyses` |
 | `id_translation` | Pure ID mapping table (no DE data); bridges non-standard IDs to locus tags |
 | `annotation_gff` | GFF3/GTF file; adds protein_id/Name bridges for a strain |
+| `gene_clusters` | Cluster assignment table; creates ClusteringAnalysis + GeneCluster nodes |
 
 **`id_translation` example** — maps JGI catalog IDs via an annotated genome CSV:
 ```yaml
@@ -199,6 +228,27 @@ annotation_gff_mit9301:
   filename: "data/.../GCF_000015965.1_ASM1596v1_genomic.gff"
   organism: "Prochlorococcus MIT9301"
 ```
+
+**`gene_clusters` example** — cluster assignment table with per-analysis metadata:
+```yaml
+med4_kmeans_nstarvation:
+  type: gene_clusters
+  name: "MED4 K-means N-starvation clusters"
+  filename: "data/.../med4_kmeans_clusters.csv"
+  organism: "Prochlorococcus MED4"
+  gene_id_col: "gene_id"
+  cluster_col: "cluster"
+  cluster_type: "response_pattern"
+  cluster_method: "K-means (K=9)"
+  omics_type: MICROARRAY
+  light_condition: "continuous light"
+  treatment_type: ["nitrogen_stress"]
+  treatment: "N-starvation time course (0, 3, 6, 12, 24, 48h)"
+  experimental_context: "MED4 cells in Pro99; sampled at 0, 3, 6, 12, 24, 48h post N-deprivation"
+  experiments:                  # optional: link to Experiment nodes
+    - nitrogen_stress_experiment_key
+```
+The entry key (`med4_kmeans_nstarvation`) becomes the analysis key in node IDs. No `clusters:` block — cluster identities come from unique values in `cluster_col`. Per-cluster descriptions (`id`, `name`, `functional_description`, `behavioral_description`, `peak_time_hours`, `period_hours`) are supplied by a separately extracted `cluster_extraction_{entry_key}.json` file. Optional `score_col` and `p_value_col` fields carry membership scores onto `Gene_in_gene_cluster` edges.
 
 **`csv` with non-standard ID columns:**
 ```yaml
@@ -293,6 +343,8 @@ Logs written to `logs/prepare_data_step0.log` … `logs/prepare_data_step4.log`.
 
 **Step 4** (`multiomics_kg/download/resolve_paper_ids.py`) — pre-resolves gene IDs in paper CSVs: for each `csv` supplementary table whose `name_col` is not already `locus_tag`, loads the source CSV, resolves each `name_col` value via `build_id_lookup()` (uses `gene_id_mapping.json`), and writes `<stem>_resolved.csv` alongside the original with two extra columns: `locus_tag` (NaN when unresolved) and `resolution_method`. The `omics_adapter` probes for these files and uses the pre-resolved locus tags instead of the original `name_col`, avoiding dangling edges. Run as module: `uv run python -m multiomics_kg.download.resolve_paper_ids [--force] [--papers "Paper Name"]`. Requires step 3.
 
+**Step 5** (`multiomics_kg/download/build_og_descriptions.py`) — extracts eggNOG ortholog group descriptions from the local `eggnog.db` SQLite database and writes a lightweight JSON cache at `cache/data/eggnog/og_descriptions.json` (~1 MB). This avoids needing the 39 GB database at KG build time (e.g., in Docker). The `ortholog_group_adapter` reads from this cache first, falling back to `eggnog.db` if the cache is missing. Run as module: `uv run python -m multiomics_kg.download.build_og_descriptions [--force]`. Requires step 2.
+
 ## Data Locations
 
 - **Genomic data (raw):** `data/Prochlorococcus/genomes/<Strain>/` and equivalents for Synechococcus/Alteromonas
@@ -303,6 +355,8 @@ Logs written to `logs/prepare_data_step0.log` … `logs/prepare_data_step4.log`.
 - **Extended gene ID mapping:** `cache/data/<Organism>/genomes/<Strain>/gene_id_mapping.json` (built by step 3; includes paper-derived IDs)
 - **Backward-compat ID mapping:** `cache/data/<Organism>/genomes/<Strain>/gene_mapping_supp.csv` (generated alongside gene_id_mapping.json)
 - **UniProt cache (taxid-keyed):** `cache/data/<org_group>/uniprot/<taxid>/uniprot_preprocess_data.json`
+- **Pfam reference cache:** `cache/data/pfam/pfam_reference.json`
+- **eggNOG OG descriptions cache:** `cache/data/eggnog/og_descriptions.json` (built by step 5; ~1 MB)
 - **PDF extraction cache:** `pdf_extraction_cache.json`
 
 ## KG Validity Tests
@@ -316,7 +370,8 @@ Logs written to `logs/prepare_data_step0.log` … `logs/prepare_data_step4.log`.
 | `test_structure.py` | Node type presence, minimum counts (>5K genes, ≥12 organisms), orphan detection (genes without organism, proteins without organism), Gene_encodes_protein edge validation, key property presence |
 | `test_biology.py` | Ecotype/clade labels per strain, katG absence in *Prochlorococcus* (Black Queen Hypothesis), all expected strains present, locus-tag → UniProt spot checks |
 | `test_expression.py` | `log2_fold_change` / `adjusted_p_value` are numeric, `adjusted_p_value` ∈ [0,1], `expression_direction` ∈ {up,down}, direction/sign consistency, required properties on all edges |
-| `test_post_import.py` | Homolog edges exist and are bidirectional, `distance`/`cluster_id` properties present, `Affects_expression_of_homolog` propagated correctly |
+| `test_organism.py` | No garbage taxonomy nodes, species on Alteromonas strains, all organisms bacterial (except Phage), organism count = 15, precomputed stats consistency (gene_count, publication_count, experiment_count, treatment_types, omics_types), Publication.organisms ↔ OrganismTaxon.preferred_name alignment |
+| `test_post_import.py` | OrthologGroup nodes exist with correct properties, Gene_in_ortholog_group membership edges exist, cross-strain bridging verified, no old homolog/ortholog edges remain |
 | `test_snapshot.py` | Regression snapshot: verifies a sample of specific nodes and edges (with properties) still exist after rebuilds. Catches silent data loss. |
 
 ### Snapshot regression tests
@@ -329,15 +384,33 @@ uv run python tests/kg_validity/generate_snapshot.py
 
 ### Actual Neo4j labels (BioCypher PascalCase output)
 
-- Nodes: `Gene`, `Protein`, `OrganismTaxon`, `Publication`, `EnvironmentalCondition`, `Cyanorak_cluster`, `BiologicalProcess`, `CellularComponent`, `MolecularFunction`
-- Relationships: `Gene_belongs_to_organism`, `Protein_belongs_to_organism`, `Gene_encodes_protein`, `Gene_in_cyanorak_cluster`, `Gene_is_homolog_of_gene`, `Affects_expression_of`, `Affects_expression_of_homolog`, `Gene_involved_in_biological_process`, `Gene_located_in_cellular_component`, `Gene_enables_molecular_function`, `Biological_process_is_a_biological_process`, `Cellular_component_is_a_cellular_component`, `Molecular_function_is_a_molecular_function`
+- Nodes: `Gene`, `Protein`, `OrganismTaxon`, `Publication`, `Experiment`, `OrthologGroup`, `BiologicalProcess`, `CellularComponent`, `MolecularFunction`, `EcNumber`, `KeggTerm`, `CogFunctionalCategory`, `CyanorakRole`, `TigrRole`, `Pfam`, `PfamClan`, `ClusteringAnalysis`, `GeneCluster`
+- Relationships: `Gene_belongs_to_organism`, `Protein_belongs_to_organism`, `Gene_encodes_protein`, `Gene_in_ortholog_group`, `Og_has_cyanorak_role`, `Og_in_cog_category`, `Has_experiment`, `Tests_coculture_with`, `Changes_expression_of`, `Gene_involved_in_biological_process`, `Gene_located_in_cellular_component`, `Gene_enables_molecular_function`, `Biological_process_is_a_biological_process`, `Cellular_component_is_a_cellular_component`, `Molecular_function_is_a_molecular_function`, `Ec_number_is_a_ec_number`, `Gene_catalyzes_ec_number`, `Gene_has_kegg_ko`, `Kegg_term_is_a_kegg_term`, `Gene_in_cog_category`, `Gene_has_cyanorak_role`, `Gene_has_tigr_role`, `Cyanorak_role_is_a_cyanorak_role`, `Gene_has_pfam`, `Pfam_in_pfam_clan`, `Publication_has_clustering_analysis`, `Clustering_analysis_has_gene_cluster`, `Clusteringanalysis_belongs_to_organism`, `Experiment_has_clustering_analysis`, `Gene_in_gene_cluster`
 
 ### Key graph facts
 
-- Gene↔Protein linkage: explicit `Gene_encodes_protein` edges (Protein→Gene) created by UniProt adapter via RefSeq protein_id join with gene_mapping.csv
-- Expression sources: `EnvironmentalCondition` (~95K edges, stress experiments), `OrganismTaxon` (~12K edges, coculture experiments)
-- `adjusted_p_value` may be null on expression edges (and propagated homolog edges) when the original study did not report it
-- Strains in graph: MED4, AS9601, MIT9301, MIT9312, MIT9313, NATL1A, NATL2A, RSP50 (Prochlorococcus); CC9311 (Synechococcus); WH8102 (Parasynechococcus); MIT1002, EZ55, HOT1A3 (Alteromonas)
+- Gene↔Protein linkage: explicit `Gene_encodes_protein` edges (Gene→Protein) created by UniProt adapter via RefSeq protein_id join with gene_mapping.csv
+- Experiment nodes: 102 nodes with properties: `name`, `organism_name`, `treatment_type` (str[]), `background_factors` (str[]), `treatment`, `control`, `experimental_context`, `coculture_partner`, `omics_type`, `statistical_test`, `is_time_course`, `medium`, `temperature`, `light_condition`, `light_intensity`, `table_scope`, `table_scope_detail`. Node IDs: `{doi}_{experiment_key}`. Each groups the analyses for one scientific comparison within a publication. `coculture_partner` is only present on coculture experiments (null/absent on non-coculture). `table_scope` describes what genes the source DE table contains: `all_detected_genes` | `significant_any_timepoint` | `significant_only` | `top_n` | `filtered_subset`. `table_scope_detail` provides free-text clarification for ambiguous cases. `treatment_type` canonical values: `nitrogen`, `phosphorus`, `iron`, `carbon`, `salt`, `light`, `temperature`, `plastic`, `darkness`, `diel`, `viral`, `coculture`, `growth_phase` (list — experiments may have multiple). `background_factors` canonical values: `axenic`, `light`, `diel`, `coculture`, `chemical`, `darkness`, `viral` (list of experimental context factors that aren't the primary treatment).
+- Experiment computed properties (post-import): `gene_count` (int, total expression edges), `significant_up_count` (int, edges where `expression_status = 'significant_up'`), `significant_down_count` (int, edges where `expression_status = 'significant_down'`), `time_point_count` (int), `time_point_labels` (str[], `""` = no label), `time_point_orders` (int[]), `time_point_hours` (float[], `-1.0` = unknown), `time_point_totals` (int[], per-tp gene counts), `time_point_significant_up` (int[], per-tp significant-up counts), `time_point_significant_down` (int[], per-tp significant-down counts). All time_point arrays are parallel (same length = `time_point_count`), ordered by `time_point_order`. Sentinel values used because Neo4j arrays cannot contain nulls. Non-time-course experiments get one entry with `time_point_labels = [""]`; experiments with 0 edges get `gene_count = 0` and empty arrays. `not_significant_count` is not stored; derive as `gene_count - significant_up_count - significant_down_count`.
+- Expression edges: ~210K `Changes_expression_of` edges (Experiment → Gene), unified single type replacing the old split (`Condition_changes_expression_of` + `Coculture_changes_expression_of`). Edge properties: `time_point` (str), `time_point_order` (int), `time_point_hours` (float), `log2_fold_change` (float), `adjusted_p_value` (float), `expression_direction` (str), `significant` (str), `expression_status` (str, post-import derived: `"significant_up"` | `"significant_down"` | `"not_significant"`), `rank_by_effect` (int, post-import: rank by |log2FC| among all genes per experiment x timepoint, 1 = strongest), `rank_up` (int|null, post-import: rank by |log2FC| among significant_up genes per experiment x timepoint; null if not significant_up), `rank_down` (int|null, post-import: rank by |log2FC| among significant_down genes per experiment x timepoint; null if not significant_down). Metadata (organism, omics type, conditions) lives on the Experiment node, not the edge.
+- `Has_experiment` edges: 102 — `(Publication) → (Experiment)`, one per experiment node
+- `Tests_coculture_with` edges: ~40 — `(Experiment) → (OrganismTaxon)`, present only for coculture/viral experiments, links to the treatment organism
+- `rank_by_effect` property on expression edges: computed by post-import Cypher, ranks genes within each (experiment, time_point_order) group by descending |log2_fold_change| (1 = strongest effect)
+- OrthologGroup nodes: ~21K nodes with `name` (raw OG ID, e.g. "CK_00000364" or "COG0592@2"), `source` ("cyanorak"|"eggnog"), `taxonomic_level` (e.g. "curated", "Prochloraceae", "Bacteria"), `taxon_id` (int), `specificity_rank` (0=curated, 1=family, 2=order, 3=domain), `consensus_product` (majority-vote product from members), `consensus_gene_name` (most frequent gene name), `description` (str, nullable — eggNOG functional narrative from local `eggnog.db`; null for Cyanorak groups), `functional_description` (str, nullable — semicolon-separated majority-vote CyanorakRole hierarchical names + CogFunctionalCategory names from member genes), `member_count` (int), `organism_count` (int), `genera` (str[], e.g. ["Prochlorococcus", "Alteromonas"]), `has_cross_genus_members` ("cross_genus"|"single_genus"). Sources: Cyanorak curated clusters (Pro/Syn), eggNOG lowest-level OGs (per organism group whitelist in `ORGANISM_GROUP_LEVELS`), eggNOG Bacteria-level COGs. Expression propagation is query-time via 2-hop (`gene->OG<-gene`) instead of materialized ortholog edges.
+- `Gene_in_ortholog_group` edges: ~84,500 membership edges. A gene may have 1-3 memberships (Cyanorak + eggnog bacteria-level + eggnog lowest-level).
+- `Og_has_cyanorak_role` edges: OrthologGroup → CyanorakRole, majority-vote (>50% of member genes). `Og_in_cog_category` edges: OrthologGroup → CogFunctionalCategory, same majority rule.
+- Pfam domain nodes: 3,568 `Pfam` nodes (only domains referenced by genes) with `name` (description), `short_name` (Pfam shortname); 448 `PfamClan` nodes (superfamilies) with `name` (clan name). ~44K `Gene_has_pfam` edges, ~2.5K `Pfam_in_pfam_clan` edges. Node IDs use bioregistry CURIEs: `pfam:PF*` and `pfam.clan:CL*`. Pfam reference data downloaded from `Pfam-A.clans.tsv.gz`; eggNOG shortnames resolved to PF* accessions via reverse lookup
+- ClusteringAnalysis nodes: intermediate layer between Publication and GeneCluster. Each groups clusters from one clustering analysis entry in a paperconfig. Properties: `name`, `organism_name`, `cluster_method`, `cluster_type`, `cluster_count`, `total_gene_count`, `omics_type`, `treatment_type` (str[]), `background_factors` (str[]), `treatment`, `light_condition`, `experimental_context`. Node IDs: `clustering_analysis:{doi_short}:{entry_key}`. Linked via `Publication_has_clustering_analysis` (Publication → ClusteringAnalysis), `Clusteringanalysis_belongs_to_organism` (ClusteringAnalysis → OrganismTaxon), and `Experiment_has_clustering_analysis` (Experiment → ClusteringAnalysis).
+- GeneCluster nodes: one per unique cluster value in the CSV. Node IDs: `cluster:{doi_short}:{analysis_entry_key}:{csv_cluster_key}`. Properties: `id` (extracted short identifier), `name`, `organism_name`, `cluster_method`, `cluster_type`, `treatment_type` (str[]), `background_factors` (str[]), `treatment`, `omics_type`, `light_condition`, `member_count`, `functional_description`, `behavioral_description`, `peak_time_hours`, `period_hours`, `experimental_context`. Per-cluster descriptions (`id`, `name`, `functional_description`, `behavioral_description`, `peak_time_hours`, `period_hours`) come from extraction JSON files (`cluster_extraction_{entry_key}.json`); only applied when stage3 validation verdict = "pass". Linked to analysis via `Clustering_analysis_has_gene_cluster`; linked to genes via `Gene_in_gene_cluster`.
+- EnvironmentalCondition nodes no longer exist — replaced by Experiment nodes (see above)
+- `preferred_name` property on `OrganismTaxon` nodes (e.g., `"Prochlorococcus MED4"`)
+- OrganismTaxon computed properties (post-import): `gene_count` (int), `publication_count` (int), `experiment_count` (int), `treatment_types` (str[]), `omics_types` (str[]), `background_factors` (str[]). Computed after Publication.organisms alignment. `species` is derived from `preferred_name` when NCBI taxonomy is genus-level only (e.g., Alteromonas strains → "Alteromonas macleodii").
+- Gene node computed fields for MCP gene lookup: `organism_name` (preferred organism name), `gene_summary` ("name :: product :: description"), `all_identifiers` (union of all alt IDs)
+- Gene nodes carry ~27 properties. Kept properties: core (locus_tag, start, end, strand, product, protein_id), naming (gene_name, gene_name_synonyms, alternate_functional_descriptions, function_description), function (protein_family, catalytic_activities, transmembrane_regions, signal_peptide, transporter_classification, cazy_ids, bigg_reaction), computed (organism_name, gene_summary, all_identifiers), quality (annotation_quality, gene_category), routing signals (annotation_types, expression_edge_count, significant_up_count, significant_down_count, closest_ortholog_group_size, closest_ortholog_genera — set by post-import Cypher using `Changes_expression_of` edges, not adapter). Redundant ID arrays removed: `gene_synonyms` (= alternative_locus_tags ∪ gene_name_synonyms), `alternative_locus_tags` (⊂ all_identifiers), `old_locus_tags` (⊂ alternative_locus_tags ⊂ all_identifiers). See `docs/gene_id_fields_spec.md` for full analysis.
+- Publication computed properties (post-import): `experiment_count` (int), `treatment_types` (str[]), `omics_types` (str[]), `background_factors` (str[]), `organisms` (str[] — sorted distinct `organism_name` + `coculture_partner` from experiments). The adapter no longer sets organism; it is fully computed post-import as `organisms`.
+- Post-import indexes: scalar (`gene_locus_tag_idx`, `gene_name_idx`, `gene_organism_name_idx`, `ortholog_group_id_idx`, `ortholog_group_name_idx`, `ortholog_group_level_idx`, `ortholog_group_rank_idx`, `pfam_name_idx`, `pfam_clan_name_idx`, `experiment_id_idx`, `experiment_organism_idx`, `experiment_treatment_type_idx`, `experiment_omics_type_idx`, `experiment_background_factors_idx`, `clustering_analysis_organism_idx`, `clustering_analysis_method_idx`, `clustering_analysis_type_idx`) + full-text (`geneFullText` on gene_summary, all_identifiers, gene_name_synonyms, alternate_functional_descriptions; `orthologGroupFullText` on OrthologGroup consensus_product, consensus_gene_name, description, functional_description; `pfamFullText` on Pfam name, short_name; `pfamClanFullText` on PfamClan name; `experimentFullText` on Experiment name, treatment, control, experimental_context, light_condition; `publicationFullText` on Publication title, abstract, description; `clusteringAnalysisFullText` on ClusteringAnalysis name, treatment, experimental_context; `biologicalProcessFullText`, `molecularFunctionFullText`, `cellularComponentFullText`, `ecNumberFullText`, `keggFullText`, `cogCategoryFullText`, `cyanorakRoleFullText`, `tigrRoleFullText` on ontology/role node `name` properties)
+- `adjusted_p_value` may be null on expression edges when the original study did not report it
+- Strains in graph: MED4, AS9601, MIT9301, MIT9312, MIT9313, MIT9303, NATL1A, NATL2A, RSP50 (Prochlorococcus); CC9311, WH7803, PCC7002, PCC7942, UTEX2973 (Synechococcus); WH8102 (Parasynechococcus); BP1 (Thermosynechococcus); MIT1002, EZ55, HOT1A3 (Alteromonas); W3-18-1 (Shewanella); KT2440 (Pseudomonas); DSS-3 (Ruegeria); MruberA (Meiothermus)
 
 ## EggNOG Mapper Setup
 
@@ -365,7 +438,54 @@ See: https://github.com/eggnogdb/eggnog-mapper/issues/575
 ## Notes
 
 - Uses custom fork of pypath-omnipath: `https://github.com/wosnat/pypath`
-- Current organisms: 8 *Prochlorococcus* strains + 2 *Synechococcus/Parasynechococcus* + 3 *Alteromonas*; primary focus is MED4 (NCBI taxid 59919)
+- Current organisms: 9 *Prochlorococcus* + 6 *Synechococcus/Parasynechococcus/Thermosynechococcus* + 3 *Alteromonas* + 5 heterotrophs (Shewanella, Pseudomonas, Ruegeria, Meiothermus); primary focus is MED4 (NCBI taxid 59919)
 - API keys go in `.env`: `OPENAI_API_KEY`, `ANTHROPIC_API_KEY`, `ELSEVIER_API_KEY`, plus others for LangChain tracing and search
 - `@pytest.mark.slow` tests run the full pipeline as a subprocess and take ~1 hour
 - `@pytest.mark.kg` tests require a running Neo4j instance (Docker graph); skip automatically if not available
+
+## Development Workflow
+
+Every development task — feature, bug fix, refactor, or new data integration — must follow all five phases below. Do not skip phases or combine them implicitly.
+
+### 1. Scope
+
+Before writing any code, define the scope explicitly:
+- **What** is changing (files, adapters, schema, config)
+- **What is NOT changing** (boundaries prevent scope creep)
+- **Acceptance criteria** — concrete, testable conditions for "done"
+- For non-trivial tasks, create a plan file in `plans/` and get alignment before proceeding
+
+### 2. Implement
+
+- Make the code changes
+- Follow existing patterns (adapter pattern, ID conventions, string sanitization)
+- Keep changes minimal — only what the scope requires
+
+### 3. Test
+
+- Write or update unit tests for every code change
+- Run the relevant test suite before considering the task complete:
+  ```bash
+  # Unit tests (fast, always run)
+  pytest -m "not slow and not kg" -v
+
+  # KG validity tests (when graph structure changes, requires running Neo4j)
+  pytest -m kg -v
+  ```
+- For schema or adapter changes: use `/omics-edge-snapshot` before and after to verify no edge regressions
+- For new paper integrations: use `/check-gene-ids` to validate match rates
+
+### 4. Review
+
+- Verify string literals are consistent across schema, adapters, and tests
+- Check that no old vocabulary or dead code remains
+- Confirm no unintended side effects on existing data (e.g., edge count changes)
+- For schema changes: verify `schema_config.yaml`, adapter code, post-import scripts, and test fixtures all agree
+
+### 5. Document
+
+Update documentation to reflect the changes:
+- **`CLAUDE.md`** — if the change affects build commands, architecture, key facts, or known issues
+- **Plan files** (`plans/`) — mark completed phases, record decisions
+- **Skill files** (`.claude/skills/`) — if the change affects skill behavior or templates
+- **Memory** — if the change introduces new patterns or facts that future conversations need

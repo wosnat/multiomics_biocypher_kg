@@ -1,24 +1,50 @@
-ncbi_accession,cyanorak_organism,ncbi_taxon_id,strain_name,data_dir,clade
-GCF_000011465.1,Pro_MED4,59919,MED4,cache/data/Prochlorococcus/genomes/MED4/,HLI
-GCF_000015645.1,Pro_AS9601,146891,AS9601,cache/data/Prochlorococcus/genomes/AS9601/,HLII
-GCF_000015965.1,Pro_MIT9301,167546,MIT9301,cache/data/Prochlorococcus/genomes/MIT9301/,HLII
-GCF_000012645.1,Pro_MIT9312,74546,MIT9312,cache/data/Prochlorococcus/genomes/MIT9312/,HLII
-GCF_000011485.1,Pro_MIT9313,74547,MIT9313,cache/data/Prochlorococcus/genomes/MIT9313/,LLIV
-GCF_000015685.1,Pro_NATL1A,167555,NATL1A,cache/data/Prochlorococcus/genomes/NATL1A/,LLII
-GCF_000012465.1,Pro_NATL2A,59920,NATL2A,cache/data/Prochlorococcus/genomes/NATL2A/,LLII
+ncbi_accession,cyanorak_organism,ncbi_taxon_id,strain_name,data_dir,clade,preferred_name
+GCF_000011465.1,Pro_MED4,59919,MED4,cache/data/Prochlorococcus/genomes/MED4/,HLI,Prochlorococcus MED4
+GCF_000015645.1,Pro_AS9601,146891,AS9601,cache/data/Prochlorococcus/genomes/AS9601/,HLII,Prochlorococcus AS9601
+GCF_000015965.1,Pro_MIT9301,167546,MIT9301,cache/data/Prochlorococcus/genomes/MIT9301/,HLII,Prochlorococcus MIT9301
+GCF_000012645.1,Pro_MIT9312,74546,MIT9312,cache/data/Prochlorococcus/genomes/MIT9312/,HLII,Prochlorococcus MIT9312
+GCF_000011485.1,Pro_MIT9313,74547,MIT9313,cache/data/Prochlorococcus/genomes/MIT9313/,LLIV,Prochlorococcus MIT9313
+GCF_000015685.1,Pro_NATL1A,167555,NATL1A,cache/data/Prochlorococcus/genomes/NATL1A/,LLII,Prochlorococcus NATL1A
+GCF_000012465.1,Pro_NATL2A,59920,NATL2A,cache/data/Prochlorococcus/genomes/NATL2A/,LLII,Prochlorococcus NATL2A
 # no cyanorak entry for RSP50, but used in Biller 2015, Biller 2016, Biller 2018, Coe 2024
-GCF_001989415.1,,1924285,RSP50,cache/data/Prochlorococcus/genomes/RSP50/,HLI
-GCF_000014585.1,Syn_CC9311,64471,CC9311,cache/data/Synechococcus/genomes/CC9311/,
-GCF_000195975.1,Syn_WH8102,84588,WH8102,cache/data/Synechococcus/genomes/WH8102/,
+GCF_001989415.1,,1924285,RSP50,cache/data/Prochlorococcus/genomes/RSP50/,HLI,Prochlorococcus RSP50
+GCF_000014585.1,Syn_CC9311,64471,CC9311,cache/data/Synechococcus/genomes/CC9311/,,Synechococcus CC9311
+GCF_000195975.1,Syn_WH8102,84588,WH8102,cache/data/Synechococcus/genomes/WH8102/,,Synechococcus WH8102
 # Alteromonas strains (NCBI-only, no Cyanorak entry)
 # MIT1002: GenBank JXRW01000000, used in Biller 2016, Biller 2018, Coe 2024
 # GCF_001077695.1,,28108,MIT1002,cache/data/Alteromonas/genomes/MIT1002/
 # MIT1002 from https://www.ncbi.nlm.nih.gov/datasets/genome/GCF_901457835.2/
-GCF_901457835.2,,28108,MIT1002,cache/data/Alteromonas/genomes/MIT1002/
+GCF_901457835.2,,28108,MIT1002,cache/data/Alteromonas/genomes/MIT1002/,,Alteromonas macleodii MIT1002
 
 # EZ55: IMG 2785510739, used in Barreto 2022, Hennon 2017. TODO: verify NCBI accession
 # from the page: https://www.ncbi.nlm.nih.gov/datasets/genome/?taxon=28108&search_text=EZ55
 # 2 options: GCF_901457815.2, GCF_041107515.1
-GCF_901457815.2,,28108,EZ55,cache/data/Alteromonas/genomes/EZ55/
+GCF_901457815.2,,28108,EZ55,cache/data/Alteromonas/genomes/EZ55/,,Alteromonas macleodii EZ55
 # HOT1A3: used in Aharonovich 2016
-GCF_001578515.1,,28108,HOT1A3,cache/data/Alteromonas/genomes/HOT1A3/
+GCF_001578515.1,,28108,HOT1A3,cache/data/Alteromonas/genomes/HOT1A3/,,Alteromonas macleodii HOT1A3
+
+# Prochlorococcus MIT9303 (LLIV clade, Capovilla 2023)
+GCF_000015705.1,Pro_MIT9303,59922,MIT9303,cache/data/Prochlorococcus/genomes/MIT9303/,LLIV,Prochlorococcus MIT9303
+
+# Synechococcus WH7803 (marine, Clade V; Oleza 2017, kaur 2018)
+GCF_000063505.1,Syn_WH7803,32051,WH7803,cache/data/Synechococcus/genomes/WH7803/,,Synechococcus WH7803
+
+# Freshwater/thermophilic cyanobacteria (no Cyanorak entries)
+# Picosynechococcus PCC 7002 (Beliaev 2014)
+GCF_000019485.1,,32049,PCC7002,cache/data/Synechococcus/genomes/PCC7002/,,Synechococcus PCC 7002
+# Synechococcus elongatus PCC 7942 (Kratzl 2024) — using GCF_014698905.1 (H6G84_RS prefix, matches paper IDs)
+GCF_014698905.1,,1140,PCC7942,cache/data/Synechococcus/genomes/PCC7942/,,Synechococcus elongatus PCC 7942
+# Synechococcus elongatus UTEX 2973 (Ma 2022)
+GCF_000817325.1,,1350461,UTEX2973,cache/data/Synechococcus/genomes/UTEX2973/,,Synechococcus elongatus UTEX 2973
+# Thermosynechococcus vestitus BP-1 (formerly T. elongatus; Bernstein 2017)
+GCF_000011345.1,,197221,BP1,cache/data/Thermosynechococcus/genomes/BP1/,,Thermosynechococcus vestitus BP-1
+
+# Heterotrophs with DE data (NCBI-only, no Cyanorak)
+# Shewanella sp. W3-18-1 (Beliaev 2014)
+GCF_000015185.1,,351745,W3-18-1,cache/data/Shewanella/genomes/W3-18-1/,,Shewanella sp. W3-18-1
+# Pseudomonas putida KT2440 (Kratzl 2024) — using GCF_024662315.1 (M8001_RS prefix, matches paper IDs)
+GCF_024662315.1,,160488,KT2440,cache/data/Pseudomonas/genomes/KT2440/,,Pseudomonas putida KT2440
+# Ruegeria pomeroyi DSS-3 (Oleza 2017, kaur 2018)
+GCF_000011965.2,,89184,DSS-3,cache/data/Ruegeria/genomes/DSS-3/,,Ruegeria pomeroyi DSS-3
+# Meiothermus ruber strain A (Bernstein 2017; NCBI classifies as M. taiwanensis, WGS NZ_JXOP01)
+GCF_000836395.1,,172827,MruberA,cache/data/Meiothermus/genomes/MruberA/,,Meiothermus ruber

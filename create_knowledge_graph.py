@@ -4,15 +4,18 @@ from pathlib import Path
 
 from biocypher import BioCypher
 from multiomics_kg.adapters.omics_adapter import MultiOMICSAdapter
+from multiomics_kg.adapters.cluster_adapter import MultiClusterAdapter
 from multiomics_kg.adapters.uniprot_adapter import MultiUniprot
 from multiomics_kg.adapters.go_adapter import GO
 
 from multiomics_kg.adapters.cyanorak_ncbi_adapter import MultiCyanorakNcbi
+from multiomics_kg.adapters.ortholog_group_adapter import MultiOrthologGroupAdapter
 from multiomics_kg.adapters.functional_annotation_adapter import (
     MultiGoAnnotationAdapter,
     MultiEcAnnotationAdapter,
     MultiKeggAnnotationAdapter,
     MultiCogRoleAnnotationAdapter,
+    MultiPfamAnnotationAdapter,
 )
 
 
@@ -54,6 +57,14 @@ def main():
     bc.write_nodes(ncbi_cyanorak_adapter.get_nodes())
     bc.write_edges(ncbi_cyanorak_adapter.get_edges())
 
+    # OrthologGroup adapter: reads ortholog_groups from gene_annotations_merged.json
+    og_adapter = MultiOrthologGroupAdapter(
+        genome_config_file='data/Prochlorococcus/genomes/cyanobacteria_genomes.csv',
+        test_mode=TEST_MODE,
+    )
+    bc.write_nodes(og_adapter.get_nodes())
+    bc.write_edges(og_adapter.get_edges())
+
     # MultiUniprot adapter reads pre-built protein_annotations.json files.
     # Requires: prepare_data.sh steps 0 + 2 run beforehand.
     # GENE_TO_PROTEIN edges depend on gene_mapping.csv from CyanorakNcbi above.
@@ -67,12 +78,31 @@ def main():
 
     # omics data
     omics_adapter = MultiOMICSAdapter(
-        config_list_file='data/Prochlorococcus/papers_and_supp/paperconfig_files.txt',
+        config_list_file=[
+            'data/Prochlorococcus/papers_and_supp/paperconfig_files.txt',
+            'data/Synechococcus/papers_and_supp/paperconfig_files.txt',
+        ],
         test_mode=TEST_MODE,
     )
     omics_adapter.download_data(cache=CACHE)
     bc.write_nodes(omics_adapter.get_nodes())
     bc.write_edges(omics_adapter.get_edges())
+
+    # Gene cluster data (co-expression clusters from publications)
+    cluster_adapter = MultiClusterAdapter(
+        config_list_file=[
+            'data/Prochlorococcus/papers_and_supp/paperconfig_files.txt',
+            'data/Synechococcus/papers_and_supp/paperconfig_files.txt',
+        ],
+        genome_config_file='data/Prochlorococcus/genomes/cyanobacteria_genomes.csv',
+        test_mode=TEST_MODE,
+    )
+    cluster_nodes = cluster_adapter.get_nodes()
+    cluster_edges = cluster_adapter.get_edges()
+    if cluster_nodes:
+        bc.write_nodes(cluster_nodes)
+    if cluster_edges:
+        bc.write_edges(cluster_edges)
 
     # Gene → GO annotation edges + GO hierarchy subset (lightweight, always runs)
     go_anno_adapter = MultiGoAnnotationAdapter(
@@ -112,6 +142,16 @@ def main():
     )
     bc.write_nodes(cog_role_adapter.get_nodes())
     bc.write_edges(cog_role_adapter.get_edges())
+
+    # Pfam domain families + PfamClan superfamilies + gene→Pfam edges (always runs, cached)
+    pfam_adapter = MultiPfamAnnotationAdapter(
+        genome_config_file='data/Prochlorococcus/genomes/cyanobacteria_genomes.csv',
+        cache_root=Path("cache/data"),
+        test_mode=TEST_MODE,
+        cache=CACHE,
+    )
+    bc.write_nodes(pfam_adapter.get_nodes())
+    bc.write_edges(pfam_adapter.get_edges())
 
     # Full GO ontology (all 30K nodes + GO-GO hierarchy) — optional, slow.
     # NOTE: do not run with --go simultaneously; GO node IDs would conflict.

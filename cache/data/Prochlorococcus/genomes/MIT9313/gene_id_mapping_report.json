@@ -3,7 +3,7 @@
     "alternative_locus_tag": {
       "conflict": 13,
       "multi": 0,
-      "unique": 2698
+      "unique": 2699
     },
     "cds_fna_id": {
       "conflict": 0,
@@ -12,13 +12,18 @@
     },
     "gene_name": {
       "conflict": 0,
-      "multi": 178,
-      "unique": 2751
+      "multi": 201,
+      "unique": 1453
     },
     "gene_synonym": {
       "conflict": 0,
       "multi": 87,
-      "unique": 7349
+      "unique": 8701
+    },
+    "gff_gene_id": {
+      "conflict": 0,
+      "multi": 0,
+      "unique": 5122
     },
     "locus_tag": {
       "conflict": 0,
@@ -31,19 +36,24 @@
       "unique": 2833
     },
     "locus_tag_ncbi": {
-      "conflict": 22,
+      "conflict": 53,
       "multi": 0,
-      "unique": 6098
+      "unique": 8635
     },
     "old_locus_tag": {
       "conflict": 6,
       "multi": 0,
-      "unique": 4340
+      "unique": 6492
+    },
+    "other": {
+      "conflict": 0,
+      "multi": 0,
+      "unique": 73
     },
     "protein_id_refseq": {
       "conflict": 0,
       "multi": 19,
-      "unique": 5098
+      "unique": 5099
     },
     "uniprot_accession": {
       "conflict": 0,
@@ -55,17 +65,20 @@
   "unresolved_rows_per_source": {
     "Aharonovich 2016/supp_table_2": 1,
     "Aharonovich 2016/supp_table_3": 1,
+    "Capovilla 2023/de_genes_mit9313": 8,
     "Fang 2019/supp_table_2": 237,
     "MIT9313_resources/mit9313_id_translation": 47,
     "Martiny 2006/supp_table_2": 4,
-    "Thompson 2011/supp_table_2": 14,
+    "Thompson 2011/supp_table_2": 13,
+    "Tolonen 2006/mit9313_kmeans_nstarvation": 1,
     "Tolonen 2006/supp_table_mit9313": 9,
     "cds_from_genomic.fna": 30,
-    "genomic_gca/MIT9313": 344
+    "genomic_gca/MIT9313": 342,
+    "genomic_gcf/MIT9313": 59
   },
   "warnings": [
+    "[CONFLICT] Tier 1 id_type 'locus_tag_ncbi' has 53 data conflicts \u2014 check annotation quality.",
     "[CONFLICT] Tier 1 id_type 'old_locus_tag' has 6 data conflicts \u2014 check annotation quality.",
-    "[CONFLICT] Tier 1 id_type 'locus_tag_ncbi' has 22 data conflicts \u2014 check annotation quality.",
     "[CONFLICT] Tier 1 id_type 'alternative_locus_tag' has 13 data conflicts \u2014 check annotation quality."
   ]
 }

@@ -1,0 +1,37 @@
+Resolution report: Beliaev 2014 / supp_table_s3
+Source: table s3 41396_2014_bfismej201469_moesm40_esm.csv
+name_col:  Locus tag
+id_columns: [' Locus tag', 'Gene abbreviation']
+
+Total rows with IDs: 1185
+Resolved: 1159 (97.8%)
+Unresolved: 26
+
+Resolution method breakdown:
+  empty: 1
+  locus_tag: Locus tag: 1158
+  tier1: Locus tag: 1
+  unresolved: 26
+
+Unresolved rows (26):
+  row 205: raw_id='SYNPCC7002_A0262'  reason=unresolved  [ Locus tag='SYNPCC7002_A0262', Gene abbreviation='lipB']
+  row 753: raw_id='SYNPCC7002_A0111'  reason=unresolved  [ Locus tag='SYNPCC7002_A0111']
+  row 764: raw_id='SYNPCC7002_A0185'  reason=unresolved  [ Locus tag='SYNPCC7002_A0185']
+  row 801: raw_id='SYNPCC7002_A0471'  reason=unresolved  [ Locus tag='SYNPCC7002_A0471']
+  row 802: raw_id='SYNPCC7002_A0473'  reason=unresolved  [ Locus tag='SYNPCC7002_A0473']
+  row 808: raw_id='SYNPCC7002_A0536'  reason=unresolved  [ Locus tag='SYNPCC7002_A0536']
+  row 829: raw_id='SYNPCC7002_A0723'  reason=unresolved  [ Locus tag='SYNPCC7002_A0723']
+  row 877: raw_id='SYNPCC7002_A1187'  reason=unresolved  [ Locus tag='SYNPCC7002_A1187']
+  row 959: raw_id='SYNPCC7002_A1740'  reason=unresolved  [ Locus tag='SYNPCC7002_A1740']
+  row 962: raw_id='SYNPCC7002_A1765'  reason=unresolved  [ Locus tag='SYNPCC7002_A1765']
+  row 983: raw_id='SYNPCC7002_A1927'  reason=unresolved  [ Locus tag='SYNPCC7002_A1927']
+  row 991: raw_id='SYNPCC7002_A1972'  reason=unresolved  [ Locus tag='SYNPCC7002_A1972']
+  row 998: raw_id='SYNPCC7002_A2007'  reason=unresolved  [ Locus tag='SYNPCC7002_A2007']
+  row 1008: raw_id='SYNPCC7002_A2087'  reason=unresolved  [ Locus tag='SYNPCC7002_A2087']
+  row 1019: raw_id='SYNPCC7002_A2237'  reason=unresolved  [ Locus tag='SYNPCC7002_A2237']
+  row 1021: raw_id='SYNPCC7002_A2247'  reason=unresolved  [ Locus tag='SYNPCC7002_A2247']
+  row 1025: raw_id='SYNPCC7002_A2259'  reason=unresolved  [ Locus tag='SYNPCC7002_A2259']
+  row 1078: raw_id='SYNPCC7002_A2652'  reason=unresolved  [ Locus tag='SYNPCC7002_A2652']
+  row 1081: raw_id='SYNPCC7002_A2666'  reason=unresolved  [ Locus tag='SYNPCC7002_A2666']
+  row 1089: raw_id='SYNPCC7002_A2692'  reason=unresolved  [ Locus tag='SYNPCC7002_A2692']
+  ... (6 more)

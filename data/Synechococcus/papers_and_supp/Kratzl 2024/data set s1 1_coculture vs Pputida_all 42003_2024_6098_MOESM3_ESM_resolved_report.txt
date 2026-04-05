@@ -1,0 +1,35 @@
+Resolution report: Kratzl 2024 / sheet1_rnaseq_pputida
+Source: data set s1 1_coculture vs Pputida_all 42003_2024_6098_MOESM3_ESM.csv
+name_col: gene ID
+id_columns: ['gene ID', 'locus tag', 'rotein ID']
+
+Total rows with IDs: 5218
+Resolved: 5103 (97.8%)
+Unresolved: 115
+
+Resolution method breakdown:
+  tier1:gene ID: 5103
+  unresolved: 115
+
+Unresolved rows (115):
+  row 1036: raw_id='gene-M8001_RS01695'  reason=unresolved  [gene ID='gene-M8001_RS01695', locus tag='PP_0317', rotein ID='WP_010951679.1']
+  row 1037: raw_id='gene-M8001_RS01710'  reason=unresolved  [gene ID='gene-M8001_RS01710', locus tag='PP_0320', rotein ID='WP_010951680.1']
+  row 1179: raw_id='gene-M8001_RS03085'  reason=unresolved  [gene ID='gene-M8001_RS03085', locus tag='PP_0584', rotein ID='WP_010951857.1']
+  row 1545: raw_id='gene-M8001_RS06420'  reason=unresolved  [gene ID='gene-M8001_RS06420', locus tag='PP_1228', rotein ID='WP_010952371.1']
+  row 1617: raw_id='gene-M8001_RS07140'  reason=unresolved  [gene ID='gene-M8001_RS07140', locus tag='PP_1371', rotein ID='WP_010952482.1']
+  row 1847: raw_id='gene-M8001_RS09435'  reason=unresolved  [gene ID='gene-M8001_RS09435', locus tag='PP_1819', rotein ID='WP_010952854.1']
+  row 1922: raw_id='gene-M8001_RS10120'  reason=unresolved  [gene ID='gene-M8001_RS10120', locus tag='PP_1940', rotein ID='WP_010952960.1']
+  row 2445: raw_id='gene-M8001_RS14965'  reason=unresolved  [gene ID='gene-M8001_RS14965', locus tag='PP_2861', rotein ID='WP_010953767.1']
+  row 2769: raw_id='gene-M8001_RS17920'  reason=unresolved  [gene ID='gene-M8001_RS17920', locus tag='PP_3414', rotein ID='WP_010954282.1']
+  row 2862: raw_id='gene-M8001_RS18635'  reason=unresolved  [gene ID='gene-M8001_RS18635', locus tag='PP_3557', rotein ID='WP_010954412.1']
+  row 3691: raw_id='gene-M8001_RS26400'  reason=unresolved  [gene ID='gene-M8001_RS26400', locus tag='PP_5020', rotein ID='WP_010955579.1']
+  row 3985: raw_id='gene-M8001_RS05840'  reason=unresolved  [gene ID='gene-M8001_RS05840', locus tag='PP_5465', rotein ID='WP_047933955.1']
+  row 4086: raw_id='gene-M8001_RS23295'  reason=unresolved  [gene ID='gene-M8001_RS23295', locus tag='PP_5683', rotein ID='WP_049587043.1']
+  row 4119: raw_id='gene-M8001_RS25735'  reason=unresolved  [gene ID='gene-M8001_RS25735', locus tag='PP_4888', rotein ID='WP_049587461.1']
+  row 4222: raw_id='gene-M8001_RS07120'  reason=unresolved  [gene ID='gene-M8001_RS07120', locus tag='PP_5468', rotein ID='WP_061405584.1']
+  row 4225: raw_id='gene-M8001_RS09855'  reason=unresolved  [gene ID='gene-M8001_RS09855', locus tag='PP_5481', rotein ID='WP_061405595.1']
+  row 4253: raw_id='gene-M8001_RS28275'  reason=unresolved  [gene ID='gene-M8001_RS28275', locus tag='PP_5733', rotein ID='WP_061405730.1']
+  row 4262: raw_id='gene-M8001_RS09570'  reason=unresolved  [gene ID='gene-M8001_RS09570']
+  row 4265: raw_id='gene-M8001_RS08840'  reason=unresolved  [gene ID='gene-M8001_RS08840']
+  row 4266: raw_id='gene-M8001_RS10350'  reason=unresolved  [gene ID='gene-M8001_RS10350']
+  ... (95 more)

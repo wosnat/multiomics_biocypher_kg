@@ -1,0 +1,16 @@
+Resolution report: Biller 2018 / natl2a_darkness_survival
+Source: table S5 sys003182233st5.csv
+name_col: NCBI ID_2
+id_columns: ['NCBI ID', 'NCBI ID_2', 'NCBI ID_3', 'Gene Name']
+
+Total rows with IDs: 259
+Resolved: 258 (99.6%)
+Unresolved: 1
+
+Resolution method breakdown:
+  empty: 10
+  tier1:NCBI ID_2: 258
+  unresolved: 1
+
+Unresolved rows (1):
+  row 6: raw_id='PMN2A_RS00460'  reason=unresolved  [NCBI ID='NATL2_00961', NCBI ID_2='PMN2A_RS00460', NCBI ID_3='PMN2A_1906']

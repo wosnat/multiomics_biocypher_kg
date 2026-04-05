@@ -1,0 +1,26 @@
+Resolution report: Wang 2014 / med4_expression_level
+Source: GeneClassification_clean.csv
+name_col: sysName
+id_columns: ['sysName', 'locus_tag', 'name']
+
+Total rows with IDs: 2058
+Resolved: 2053 (99.8%)
+Unresolved: 5
+
+Resolution method breakdown:
+  ambiguous: 1
+  empty: 1
+  locus_tag:sysName: 1716
+  multi:name: 1
+  tier1:sysName: 335
+  tier1_ci:sysName: 1
+  unresolved: 4
+
+Unresolved rows (5):
+  row 1140: raw_id='HyPMM130'  reason=ambiguous  [sysName='HyPMM130', locus_tag='PMED4_10681', name='Protein-coding gene']
+  row 1224: raw_id='PMM1018a'  reason=unresolved  [sysName='PMM1018a', locus_tag='PMED4_11521', name='PMM1018a']
+  row 2056: raw_id='b Locus tag of P.marinus MED4 in the MicrobesOnLine database [62].'  reason=unresolved  [sysName='b Locus tag of P.marinus MED4 in the MicrobesOnLine database [62].']
+  row 2057: raw_id='c All CDS genes were classified into the core or flexible genome by Ketter et al. [7].'  reason=unresolved  [sysName='c All CDS genes were classified into the core or flexible genome by Ketter et al. [7].']
+  row 2058: raw_id='a Genes of Core and Flexible genome were classified into five expresison subclasses respectively: non expressed genes (NEG), lowly expressed genes (LEG), moderately expressed genes (MEG), highly expressed genes (HEG), and variably expressed genes (VEG)'  reason=unresolved  [sysName='a Genes of Core and Flexible genome were classified into five expresison subclasses respectively: non expressed genes (NEG), lowly expressed genes (LEG), moderately expressed genes (MEG), highly expressed genes (HEG), and variably expressed genes (VEG)']
+
+NOTE: 1 rows were ambiguous (multi_lookup had >1 match). Consider adding id_columns with more specific IDs, or check if the name_col should be Tier 2 (protein-level) instead of Tier 1.

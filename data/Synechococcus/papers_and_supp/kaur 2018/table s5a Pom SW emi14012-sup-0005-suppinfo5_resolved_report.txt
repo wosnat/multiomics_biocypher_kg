@@ -1,0 +1,17 @@
+Resolution report: Kaur 2018 / supp_table_s5a
+Source: table s5a Pom SW emi14012-sup-0005-suppinfo5.csv
+name_col: NCBI reference
+id_columns: ['NCBI reference']
+
+Total rows with IDs: 184
+Resolved: 181 (98.4%)
+Unresolved: 3
+
+Resolution method breakdown:
+  heuristic:NCBI reference: 181
+  unresolved: 3
+
+Unresolved rows (3):
+  row 114: raw_id='AAV95554'  reason=unresolved  [NCBI reference='AAV95554']
+  row 147: raw_id='AAV95588'  reason=unresolved  [NCBI reference='AAV95588']
+  row 178: raw_id='AAV97527'  reason=unresolved  [NCBI reference='AAV97527']

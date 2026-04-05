@@ -1,0 +1,27 @@
+Resolution report: Beliaev 2014 / supp_table_s8
+Source: table s8 41396_2014_bfismej201469_moesm40_esm.csv
+name_col:  Locus tag
+id_columns: [' Locus tag', 'Gene abbreviation']
+
+Total rows with IDs: 1277
+Resolved: 1267 (99.2%)
+Unresolved: 10
+
+Resolution method breakdown:
+  empty: 1
+  locus_tag_ci: Locus tag: 1015
+  tier1: Locus tag: 1
+  tier1:Gene abbreviation: 251
+  unresolved: 10
+
+Unresolved rows (10):
+  row 314: raw_id='SputW3181_0993'  reason=unresolved  [ Locus tag='SputW3181_0993']
+  row 338: raw_id='SputW3181_1093'  reason=unresolved  [ Locus tag='SputW3181_1093']
+  row 344: raw_id='SputW3181_1103'  reason=unresolved  [ Locus tag='SputW3181_1103']
+  row 366: raw_id='SputW3181_1171'  reason=unresolved  [ Locus tag='SputW3181_1171']
+  row 537: raw_id='SputW3181_1817'  reason=unresolved  [ Locus tag='SputW3181_1817']
+  row 877: raw_id='SputW3181_2842'  reason=unresolved  [ Locus tag='SputW3181_2842']
+  row 998: raw_id='SputW3181_3278'  reason=unresolved  [ Locus tag='SputW3181_3278']
+  row 1084: raw_id='SputW3181_3562'  reason=unresolved  [ Locus tag='SputW3181_3562']
+  row 1137: raw_id='SputW3181_3691'  reason=unresolved  [ Locus tag='SputW3181_3691']
+  row 1268: raw_id='SputW3181_4077'  reason=unresolved  [ Locus tag='SputW3181_4077']

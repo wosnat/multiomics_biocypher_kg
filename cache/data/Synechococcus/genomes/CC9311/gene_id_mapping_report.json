@@ -7,13 +7,18 @@
     },
     "gene_name": {
       "conflict": 0,
-      "multi": 127,
-      "unique": 3045
+      "multi": 146,
+      "unique": 1385
     },
     "gene_synonym": {
       "conflict": 0,
       "multi": 29,
-      "unique": 3349
+      "unique": 5096
+    },
+    "gff_gene_id": {
+      "conflict": 0,
+      "multi": 0,
+      "unique": 5579
     },
     "locus_tag_cyanorak": {
       "conflict": 0,
@@ -21,9 +26,9 @@
       "unique": 2931
     },
     "locus_tag_ncbi": {
-      "conflict": 0,
+      "conflict": 25,
       "multi": 0,
-      "unique": 6138
+      "unique": 8961
     },
     "old_locus_tag": {
       "conflict": 0,
@@ -44,9 +49,12 @@
   "strain": "CC9311",
   "unresolved_rows_per_source": {
     "Barreto 2022/id_translation_syn_9311": 64,
-    "Barreto 2022/supp_table_S1_CC9311": 30,
+    "Barreto 2022/supp_table_S1_CC9311": 3,
     "cds_from_genomic.fna": 19,
-    "genomic_gca/CC9311": 81
+    "genomic_gca/CC9311": 81,
+    "genomic_gcf/CC9311": 60
   },
-  "warnings": []
+  "warnings": [
+    "[CONFLICT] Tier 1 id_type 'locus_tag_ncbi' has 25 data conflicts \u2014 check annotation quality."
+  ]
 }

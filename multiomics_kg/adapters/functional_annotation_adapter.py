@@ -1,6 +1,6 @@
 """
-Functional annotation adapters: gene→GO, gene→EC, gene→KEGG, and gene→COG/role edges,
-plus corresponding nodes.
+Functional annotation adapters: gene→GO, gene→EC, gene→KEGG, gene→COG/role,
+and gene→Pfam edges, plus corresponding nodes.
 
 GO section (MultiGoAnnotationAdapter):
 - GO nodes (BiologicalProcess, CellularComponent, MolecularFunction) for only the
@@ -23,8 +23,7 @@ KEGG section (MultiKeggAnnotationAdapter):
 - 4-level KEGG hierarchy: KO → Pathway → Subcategory → Category.
   Data from KEGG REST API, cached at cache/data/kegg/kegg_data.json.
 - gene_has_kegg_ko edges from gene annotations (kegg_ko field).
-- ko_in_kegg_pathway, kegg_pathway_in_kegg_subcategory,
-  kegg_subcategory_in_kegg_category hierarchy edges.
+- kegg_term_is_a_kegg_term hierarchy edges.
 
 COG/Role section (MultiCogRoleAnnotationAdapter):
 - CogFunctionalCategory nodes (25 standard letters, hardcoded).
@@ -34,6 +33,12 @@ COG/Role section (MultiCogRoleAnnotationAdapter):
 - gene_has_cyanorak_role edges (Pro/Syn 6 strains only).
 - cyanorak_role_is_a_cyanorak_role hierarchy edges (full tree).
 - gene_has_tigr_role edges (Pro/Syn 6 strains only).
+
+Pfam section (MultiPfamAnnotationAdapter):
+- Pfam domain nodes (~2K referenced by genes) with name and short_name.
+- PfamClan superfamily nodes (~800 clans referenced by emitted domains).
+- gene_has_pfam edges from gene annotations (pfam_ids field).
+- pfam_in_pfam_clan edges (domain → clan).
 """
 
 import csv
@@ -45,13 +50,14 @@ from bioregistry import normalize_curie
 
 from multiomics_kg.adapters.ec_adapter import EC
 from multiomics_kg.utils.kegg_utils import download_kegg_data
-from multiomics_kg.utils.cyanorak_role_utils import parse_cyanorak_role_tree
+from multiomics_kg.utils.cyanorak_role_utils import parse_cyanorak_role_tree, full_role_description
 from multiomics_kg.utils.go_utils import (
     NAMESPACE_TO_LABEL,
     compute_ancestry_closure,
     load_go_data,
     make_go_go_edge_label,
 )
+from multiomics_kg.utils.pfam_utils import load_pfam_data
 
 logger = logging.getLogger(__name__)
 
@@ -503,14 +509,9 @@ class MultiKeggAnnotationAdapter:
     Multi-strain adapter: owns all KEGG graph content.
 
     Creates:
-    - ``KeggOrthologousGroup`` nodes (K#####) from gene annotations + KEGG REST API names.
-    - ``KeggPathway`` nodes (ko#####) from KEGG REST API.
-    - ``KeggSubcategory`` nodes (B-level BRITE codes) from KEGG REST API.
-    - ``KeggCategory`` nodes (A-level BRITE codes) from KEGG REST API.
+    - ``KeggTerm`` nodes with ``level`` property (ko, pathway, subcategory, category).
     - ``gene_has_kegg_ko`` edges from per-strain gene annotations.
-    - ``ko_in_kegg_pathway`` edges from KEGG REST API KO→Pathway links.
-    - ``kegg_pathway_in_kegg_subcategory`` edges from BRITE hierarchy.
-    - ``kegg_subcategory_in_kegg_category`` edges from BRITE hierarchy.
+    - ``kegg_term_is_a_kegg_term`` hierarchy edges (KO→Pathway→Subcategory→Category).
 
     Args:
         genome_config_file: path to ``cyanobacteria_genomes.csv``
@@ -553,7 +554,7 @@ class MultiKeggAnnotationAdapter:
 
     def get_nodes(self):
         """
-        Yield KEGG hierarchy nodes (4 types), deduplicated.
+        Yield KeggTerm nodes with ``level`` property, deduplicated.
 
         Order: KO → Pathway → Subcategory → Category (specific → general).
         Only nodes reachable from KOs referenced in the gene annotations are emitted.
@@ -588,17 +589,29 @@ class MultiKeggAnnotationAdapter:
 
         # Yield KO nodes
         ko_count = 0
+        retired_kos = []
         for ko_id in sorted(ko_ids):
-            name = _clean_str(ko_names.get(ko_id, ""))
-            yield (_ko_node_id(ko_id), "kegg orthologous group", {"name": name})
+            raw_name = ko_names.get(ko_id, "")
+            if not raw_name:
+                # KO exists in eggNOG annotations but was retired from KEGG;
+                # use the bare ID as a fallback name.
+                retired_kos.append(ko_id)
+                raw_name = ko_id
+            name = _clean_str(raw_name)
+            yield (_ko_node_id(ko_id), "kegg_term", {"name": name, "level": "ko"})
             ko_count += 1
+        if retired_kos:
+            logger.warning(
+                f"{len(retired_kos)} KO IDs from eggNOG not found in KEGG "
+                f"(likely retired): {retired_kos}"
+            )
         logger.info(f"MultiKeggAnnotationAdapter.get_nodes: {ko_count} KO nodes")
 
         # Yield Pathway nodes
         pw_count = 0
         for pw_id in sorted(pw_ids):
             name = _clean_str(pathway_names.get(pw_id, ""))
-            yield (_pathway_node_id(pw_id), "kegg pathway", {"name": name})
+            yield (_pathway_node_id(pw_id), "kegg_term", {"name": name, "level": "pathway"})
             pw_count += 1
         logger.info(f"MultiKeggAnnotationAdapter.get_nodes: {pw_count} pathway nodes")
 
@@ -606,7 +619,7 @@ class MultiKeggAnnotationAdapter:
         sc_count = 0
         for sc in sorted(subcat_ids):
             name = _clean_str(subcat_names.get(sc, ""))
-            yield (_subcat_node_id(sc), "kegg subcategory", {"name": name})
+            yield (_subcat_node_id(sc), "kegg_term", {"name": name, "level": "subcategory"})
             sc_count += 1
         logger.info(f"MultiKeggAnnotationAdapter.get_nodes: {sc_count} subcategory nodes")
 
@@ -614,7 +627,7 @@ class MultiKeggAnnotationAdapter:
         cat_count = 0
         for cat in sorted(cat_ids):
             name = _clean_str(cat_names.get(cat, ""))
-            yield (_cat_node_id(cat), "kegg category", {"name": name})
+            yield (_cat_node_id(cat), "kegg_term", {"name": name, "level": "category"})
             cat_count += 1
         logger.info(f"MultiKeggAnnotationAdapter.get_nodes: {cat_count} category nodes")
 
@@ -622,9 +635,9 @@ class MultiKeggAnnotationAdapter:
         """
         Yield all KEGG edges in order:
         1. gene→KO (gene_has_kegg_ko) from per-strain adapters
-        2. KO→Pathway (ko_in_kegg_pathway) from KEGG REST API
-        3. Pathway→Subcategory (kegg_pathway_in_kegg_subcategory)
-        4. Subcategory→Category (kegg_subcategory_in_kegg_category)
+        2. KO→Pathway (kegg_term_is_a_kegg_term) from KEGG REST API
+        3. Pathway→Subcategory (kegg_term_is_a_kegg_term)
+        4. Subcategory→Category (kegg_term_is_a_kegg_term)
         """
         ko_to_pathways = self.kegg_data.get("ko_to_pathways", {})
         pathway_to_subcat = self.kegg_data.get("pathway_to_subcategory", {})
@@ -657,7 +670,7 @@ class MultiKeggAnnotationAdapter:
                     f"{ko_id}-in-{pw_id}",
                     _ko_node_id(ko_id),
                     _pathway_node_id(pw_id),
-                    "ko_in_kegg_pathway",
+                    "kegg_term_is_a_kegg_term",
                     {},
                 )
                 ko_pw_count += 1
@@ -678,7 +691,7 @@ class MultiKeggAnnotationAdapter:
                 f"{pw_id}-in-{sc}",
                 _pathway_node_id(pw_id),
                 _subcat_node_id(sc),
-                "kegg_pathway_in_kegg_subcategory",
+                "kegg_term_is_a_kegg_term",
                 {},
             )
             pw_sc_count += 1
@@ -697,7 +710,7 @@ class MultiKeggAnnotationAdapter:
                 f"{sc}-in-{cat}",
                 _subcat_node_id(sc),
                 _cat_node_id(cat),
-                "kegg_subcategory_in_kegg_category",
+                "kegg_term_is_a_kegg_term",
                 {},
             )
             sc_cat_count += 1
@@ -953,7 +966,7 @@ class MultiCogRoleAnnotationAdapter:
             yield (
                 _cyanorak_role_node_id(code),
                 "cyanorak role",
-                {"code": code, "description": _clean_str(entry["description"])},
+                {"code": code, "name": _clean_str(full_role_description(code, self.role_tree))},
             )
             cyr_count += 1
         logger.info(f"MultiCogRoleAnnotationAdapter.get_nodes: {cyr_count} CyanorakRole nodes")
@@ -965,7 +978,7 @@ class MultiCogRoleAnnotationAdapter:
             yield (
                 _tigr_role_node_id(code),
                 "tigr role",
-                {"code": code, "description": _clean_str(desc)},
+                {"code": code, "name": _clean_str(desc)},
             )
             tigr_count += 1
         logger.info(f"MultiCogRoleAnnotationAdapter.get_nodes: {tigr_count} TigrRole nodes")
@@ -1014,4 +1027,221 @@ class MultiCogRoleAnnotationAdapter:
 
         logger.info(
             f"MultiCogRoleAnnotationAdapter.get_edges: {hier_count} CyanorakRole hierarchy edges"
+        )
+
+
+# ---------------------------------------------------------------------------
+# Pfam domain annotation: gene→Pfam edges + Pfam/PfamClan nodes
+# ---------------------------------------------------------------------------
+
+def _pfam_node_id(pf_accession: str) -> str:
+    """Normalize a Pfam accession to the node ID format."""
+    return normalize_curie(f"pfam:{pf_accession}") or f"pfam:{pf_accession}"
+
+
+def _pfam_clan_node_id(clan_accession: str) -> str:
+    """Normalize a PfamClan accession to the node ID format."""
+    return normalize_curie(f"pfam.clan:{clan_accession}") or f"pfam.clan:{clan_accession}"
+
+
+class PfamAnnotationAdapter:
+    """
+    Per-strain adapter: reads gene_annotations_merged.json and yields gene→Pfam edges.
+
+    Args:
+        genome_dir: directory containing ``gene_annotations_merged.json``
+        test_mode: if True, stop after 100 edges
+    """
+
+    def __init__(self, genome_dir: Path, test_mode: bool = False) -> None:
+        self.genome_dir = Path(genome_dir)
+        self.test_mode = test_mode
+        self._genes: dict = {}
+        self._load()
+
+    def _load(self) -> None:
+        json_path = self.genome_dir / "gene_annotations_merged.json"
+        if not json_path.exists():
+            logger.warning(f"gene_annotations_merged.json not found at {json_path}, skipping")
+            return
+        with open(json_path, encoding="utf-8") as fh:
+            self._genes = json.load(fh)
+        logger.debug(f"Loaded {len(self._genes)} genes from {json_path}")
+
+    def get_all_pfam_ids(self) -> set[str]:
+        """Return all PF* IDs directly referenced by any gene in this strain."""
+        ids: set[str] = set()
+        for gene in self._genes.values():
+            for pf_id in gene.get("pfam_ids") or []:
+                if pf_id:
+                    ids.add(pf_id)
+        return ids
+
+    def get_edges(self):
+        """
+        Yield gene→Pfam edges as 5-tuples::
+
+            (edge_id, gene_node_id, pfam_node_id, edge_label, properties)
+        """
+        count = 0
+        for locus_tag, gene in self._genes.items():
+            for pf_id in gene.get("pfam_ids") or []:
+                if not pf_id:
+                    continue
+                yield (
+                    f"{locus_tag}-has_pfam-{pf_id}",
+                    _gene_node_id(locus_tag),
+                    _pfam_node_id(pf_id),
+                    "gene_has_pfam",
+                    {},
+                )
+                count += 1
+                if self.test_mode and count >= 100:
+                    logger.debug(
+                        f"PfamAnnotationAdapter({self.genome_dir.name}): test_mode stop at {count}"
+                    )
+                    return
+        logger.debug(f"PfamAnnotationAdapter({self.genome_dir.name}): yielded {count} gene→Pfam edges")
+
+
+class MultiPfamAnnotationAdapter:
+    """
+    Multi-strain adapter: owns all Pfam graph content.
+
+    Creates:
+    - ``Pfam`` domain nodes (only those referenced by genes, ~2K).
+    - ``PfamClan`` superfamily nodes (only clans referenced by emitted domains).
+    - ``gene_has_pfam`` edges from per-strain gene annotations.
+    - ``pfam_in_pfam_clan`` edges (domain → clan).
+
+    Args:
+        genome_config_file: path to ``cyanobacteria_genomes.csv``
+        cache_root: project-level cache directory (e.g. ``Path("cache/data")``)
+        test_mode: passed to per-strain adapters (stop after 100 edges)
+        cache: if False, force re-download Pfam data even if cache exists
+    """
+
+    def __init__(
+        self,
+        genome_config_file: str,
+        cache_root: Path,
+        test_mode: bool = False,
+        cache: bool = True,
+    ) -> None:
+        self.test_mode = test_mode
+        self.pfam_data = load_pfam_data(cache_root, force=not cache)
+        self._strain_adapters: list[PfamAnnotationAdapter] = []
+        self._build_strain_adapters(genome_config_file)
+
+    def _build_strain_adapters(self, genome_config_file: str) -> None:
+        with open(genome_config_file, newline="", encoding="utf-8") as fh:
+            lines = [line for line in fh if not line.lstrip().startswith("#")]
+        reader = csv.DictReader(lines)
+        for row in reader:
+            data_dir = row.get("data_dir", "").strip()
+            if not data_dir:
+                continue
+            self._strain_adapters.append(
+                PfamAnnotationAdapter(genome_dir=Path(data_dir), test_mode=self.test_mode)
+            )
+        logger.info(f"MultiPfamAnnotationAdapter: loaded {len(self._strain_adapters)} strain adapters")
+
+    def _all_pfam_ids(self) -> set[str]:
+        """Collect all PF* IDs referenced across all strains."""
+        ids: set[str] = set()
+        for adapter in self._strain_adapters:
+            ids |= adapter.get_all_pfam_ids()
+        return ids
+
+    def get_nodes(self):
+        """
+        Yield Pfam domain nodes and PfamClan nodes.
+
+        1. Pfam domain nodes — only PF* IDs referenced by at least one gene.
+        2. PfamClan nodes — only clans referenced by at least one emitted domain.
+        """
+        all_pf_ids = self._all_pfam_ids()
+        logger.info(f"MultiPfamAnnotationAdapter: {len(all_pf_ids)} unique Pfam IDs across all strains")
+
+        # Track which clans are referenced by emitted domains
+        referenced_clans: dict[str, str] = {}  # clan_accession -> clan_name
+
+        # 1. Pfam domain nodes
+        pfam_count = 0
+        missing_count = 0
+        for pf_id in sorted(all_pf_ids):
+            entry = self.pfam_data.by_accession.get(pf_id)
+            if entry is None:
+                missing_count += 1
+                # Emit node with just the ID as name
+                yield (
+                    _pfam_node_id(pf_id),
+                    "pfam",
+                    {"name": pf_id, "short_name": pf_id},
+                )
+                pfam_count += 1
+                continue
+
+            yield (
+                _pfam_node_id(pf_id),
+                "pfam",
+                {
+                    "name": _clean_str(entry.description),
+                    "short_name": _clean_str(entry.shortname),
+                },
+            )
+            pfam_count += 1
+
+            if entry.clan_accession and entry.clan_name:
+                referenced_clans[entry.clan_accession] = entry.clan_name
+
+        if missing_count:
+            logger.warning(
+                f"MultiPfamAnnotationAdapter: {missing_count} Pfam IDs not found in reference data"
+            )
+        logger.info(f"MultiPfamAnnotationAdapter.get_nodes: {pfam_count} Pfam domain nodes")
+
+        # 2. PfamClan nodes
+        clan_count = 0
+        for clan_acc in sorted(referenced_clans):
+            clan_name = referenced_clans[clan_acc]
+            yield (
+                _pfam_clan_node_id(clan_acc),
+                "pfam_clan",
+                {"name": _clean_str(clan_name)},
+            )
+            clan_count += 1
+        logger.info(f"MultiPfamAnnotationAdapter.get_nodes: {clan_count} PfamClan nodes")
+
+    def get_edges(self):
+        """
+        Yield all Pfam edges:
+        1. gene→Pfam (gene_has_pfam) from per-strain adapters
+        2. Pfam→PfamClan (pfam_in_pfam_clan) for domains that have a clan
+        """
+        # 1. gene → Pfam edges
+        gene_pfam_count = 0
+        for adapter in self._strain_adapters:
+            for edge in adapter.get_edges():
+                yield edge
+                gene_pfam_count += 1
+        logger.info(f"MultiPfamAnnotationAdapter.get_edges: {gene_pfam_count} gene→Pfam edges")
+
+        # 2. Pfam → PfamClan edges
+        all_pf_ids = self._all_pfam_ids()
+        clan_edge_count = 0
+        for pf_id in sorted(all_pf_ids):
+            entry = self.pfam_data.by_accession.get(pf_id)
+            if entry is None or not entry.clan_accession:
+                continue
+            yield (
+                f"{pf_id}-in_clan-{entry.clan_accession}",
+                _pfam_node_id(pf_id),
+                _pfam_clan_node_id(entry.clan_accession),
+                "pfam_in_pfam_clan",
+                {},
+            )
+            clan_edge_count += 1
+        logger.info(
+            f"MultiPfamAnnotationAdapter.get_edges: {clan_edge_count} Pfam→PfamClan edges"
         )

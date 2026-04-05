@@ -20,9 +20,18 @@ from __future__ import annotations
 import argparse
 import csv
 import json
+import logging
 import os
 import re
+from pathlib import Path
 from typing import Any
+
+# Identifier-style gene names that should NOT appear in gene_summary.
+# Matches locus-tag patterns like ALTBGP6_RS00025, MIT1002_00123, PMM0001, SYNW1033.
+_IDENTIFIER_RE = re.compile(
+    r'^[A-Za-z]+\d*_(?:RS)?\d+$'   # PREFIX_[RS]DIGITS  (e.g. TK37_RS12345, A9601_12345)
+    r'|^[A-Z]{3,5}\d{4,}$'         # 3-5 uppercase + 4+ digits  (e.g. SYNW1033, PMM0001)
+)
 from urllib.parse import unquote
 
 from multiomics_kg.download.utils.annotation_helpers import (
@@ -35,14 +44,258 @@ from multiomics_kg.download.utils.annotation_transforms import (
     _TRANSFORMS,
     _tx_add_go_prefix,
     _tx_extract_go_from_pipe,
-    _tx_extract_pfam_ids,
-    _tx_extract_pfam_names,
     _tx_first_token_space,
     _tx_strip_function_prefix,
     _tx_strip_prefix_ko,
 )
 from multiomics_kg.download.utils.cli import add_common_args, load_config, load_genome_rows
+from multiomics_kg.download.utils.ortholog_group_utils import (
+    extract_ortholog_groups,
+    organism_group_from_path,
+)
+from multiomics_kg.utils.pfam_utils import PfamData, load_pfam_data
 from multiomics_kg.download.utils.paths import PROJECT_ROOT, infer_organism_group
+
+# ─── gene_category mapping tables ─────────────────────────────────────────────
+# Map functional role annotations to ~26 controlled gene_category values.
+# Three independent classification systems are used in priority order:
+#   1. Cyanorak Role (cyanobacteria only, highest specificity)
+#   2. TIGR Role (cyanobacteria only)
+#   3. COG category (universal, from eggNOG)
+#
+# WARNING: COG and Cyanorak use the SAME single-letter codes for DIFFERENT
+# functions. E.g., COG "E" = Amino acid metabolism, Cyanorak "E" = Central
+# intermediary metabolism (N/P/S). This is intentional — the two classification
+# systems are independent.
+
+COG_TO_CATEGORY = {
+    "A": "Transcription",
+    "B": "Replication and repair",
+    "C": "Energy production",
+    "D": "Cell cycle and division",
+    "E": "Amino acid metabolism",       # ≠ Cyanorak E
+    "F": "Nucleotide metabolism",
+    "G": "Carbohydrate metabolism",
+    "H": "Coenzyme metabolism",
+    "I": "Lipid metabolism",
+    "J": "Translation",
+    "K": "Transcription",
+    "L": "Replication and repair",
+    "M": "Cell wall and membrane",
+    "N": "Cell motility",
+    "O": "Post-translational modification",
+    "P": "Inorganic ion transport",
+    "Q": "Secondary metabolites",
+    "R": "Unknown",
+    "S": "Unknown",
+    "T": "Signal transduction",
+    "U": "Intracellular trafficking",
+    "V": "Defense mechanisms",
+    "W": "Cell wall and membrane",
+    "X": "Mobile elements",
+    "Y": "Unknown",
+    "Z": "Cell cycle and division",
+}
+
+# Cyanorak top-level letter → gene_category.
+# "D" is handled separately via CYANORAK_D_SUBCODES (it's a catch-all).
+CYANORAK_TO_CATEGORY = {
+    "A": "Amino acid metabolism",
+    "B": "Coenzyme metabolism",
+    "C": "Cell wall and membrane",
+    # "D" handled by CYANORAK_D_SUBCODES below
+    "E": "Central intermediary metabolism",  # ≠ COG E! N, P, S metabolism
+    "F": "Replication and repair",
+    "G": "Carbohydrate metabolism",          # incl. glycolysis, TCA, CO2 fixation
+    "H": "Lipid metabolism",
+    "I": "Mobile elements",
+    "J": "Photosynthesis",
+    "K": "Translation",
+    "L": "Post-translational modification",
+    "M": "Nucleotide metabolism",
+    "N": "Regulatory functions",
+    "O": "Signal transduction",
+    "P": "Transcription",
+    "Q": "Transport",
+    "R": "Unknown",
+}
+
+CYANORAK_D_SUBCODES = {
+    "D.1": "Stress response and adaptation",
+    "D.2": "Cell cycle and division",
+    "D.3": "Cellular processes",
+    "D.4": "Post-translational modification",
+    "D.5": "Cell motility",
+    "D.6": "Cellular processes",
+    "D.7": "Cellular processes",
+}
+
+TIGR_TO_CATEGORY = {
+    "Amino acid biosynthesis": "Amino acid metabolism",
+    "Biosynthesis of cofactors, prosthetic groups, and carriers": "Coenzyme metabolism",
+    "Cell envelope": "Cell wall and membrane",
+    "Cellular processes": "Cellular processes",
+    "Central intermediary metabolism": "Central intermediary metabolism",
+    "DNA metabolism": "Replication and repair",
+    "Disrupted reading frame": "Unknown",
+    "Energy metabolism": "Energy production",
+    "Fatty acid and phospholipid metabolism": "Lipid metabolism",
+    "Hypothetical proteins": "Unknown",
+    "Mobile and extrachromosomal element functions": "Mobile elements",
+    "Not Found": "Unknown",
+    "Protein fate": "Post-translational modification",
+    "Protein synthesis": "Translation",
+    "Purines, pyrimidines, nucleosides, and nucleotides": "Nucleotide metabolism",
+    "Regulatory functions": "Regulatory functions",
+    "Signal transduction": "Signal transduction",
+    "Transcription": "Transcription",
+    "Transport and binding proteins": "Transport",
+    "Unclassified": "Unknown",
+    "Unknown function": "Unknown",
+}
+
+# All valid output values — used for build-time assertion
+VALID_CATEGORIES = frozenset(
+    set(COG_TO_CATEGORY.values())
+    | set(CYANORAK_TO_CATEGORY.values())
+    | set(CYANORAK_D_SUBCODES.values())
+    | set(TIGR_TO_CATEGORY.values())
+    | {"Unknown"}
+)
+
+
+def _compute_gene_category(result: dict) -> str:
+    """Compute gene_category from Cyanorak Role → TIGR Role → COG category."""
+    gene_category = None
+
+    # Priority 1: Cyanorak Role (cyanobacteria only)
+    cyanorak_roles = result.get("cyanorak_Role", [])
+    if cyanorak_roles:
+        code = cyanorak_roles[0]
+        top_letter = code.split(".")[0]
+        if top_letter == "D":
+            parts = code.split(".")
+            sub_key = ".".join(parts[:2]) if len(parts) >= 2 else "D"
+            gene_category = CYANORAK_D_SUBCODES.get(sub_key, "Cellular processes")
+        else:
+            gene_category = CYANORAK_TO_CATEGORY.get(top_letter)
+
+    # Priority 2: TIGR Role (skip if we already have a real category)
+    if not gene_category or gene_category == "Unknown":
+        tigr_descs = result.get("tIGR_Role_description", [])
+        if tigr_descs:
+            main_role = tigr_descs[0].split(" / ")[0].strip()
+            cat = TIGR_TO_CATEGORY.get(main_role)
+            if cat and cat != "Unknown":
+                gene_category = cat
+
+    # Priority 3: COG category (universal, from eggNOG)
+    if not gene_category or gene_category == "Unknown":
+        cog_cats = result.get("cog_category", [])
+        if cog_cats:
+            cat = COG_TO_CATEGORY.get(cog_cats[0])
+            if cat:
+                gene_category = cat
+
+    return gene_category or "Unknown"
+
+
+logger = logging.getLogger(__name__)
+
+
+# ─── Pfam post-merge enrichment ──────────────────────────────────────────────
+
+def _compute_annotation_quality(gene: dict) -> int:
+    """Compute annotation_quality (0-3) based on product content + structured annotations.
+
+    0 = hypothetical, no function description
+    1 = hypothetical, has function description
+    2 = real product, <2 structured annotations
+    3 = real product, >=2 structured annotations (go_terms, kegg_ko, ec_numbers, pfam_ids)
+    """
+    product = gene.get("product", "")
+    func_desc = gene.get("function_description", "")
+    is_hypothetical = not product or bool(re.match(
+        r'^(hypothetical|conserved hypothetical|uncharacterized)\b', product, re.IGNORECASE
+    ))
+
+    if not is_hypothetical:
+        structured_count = sum(
+            1 for f in ("go_terms", "kegg_ko", "ec_numbers", "pfam_ids")
+            if gene.get(f)
+        )
+        return 3 if structured_count >= 2 else 2
+    elif func_desc and func_desc != "-":
+        return 1
+    else:
+        return 0
+
+
+def enrich_pfam_fields(gene: dict, pfam_data: PfamData) -> list[str]:
+    """Resolve raw pfam_ids tokens to clean PF* accessions and update related fields.
+
+    pfam_ids at this point is a raw union of all tokens from Cyanorak protein_domains,
+    eggNOG PFAMs, and UniProt pfam_ids -- a mix of PF* IDs, shortnames, TIGR*, IPR*.
+
+    For each token:
+    - PF* -> keep as-is (already a valid Pfam accession)
+    - Found in pfam_data.by_shortname -> resolve to PF* ID
+    - Otherwise -> drop (TIGR*, IPR*, or unresolved shortname)
+
+    Side effects on gene dict:
+    - pfam_ids: overwritten with clean PF* list (or deleted if empty)
+    - annotation_quality: recomputed (was computed during merge on raw tokens;
+      corrected here so only real PF* IDs count toward structured annotation score)
+    - alternate_functional_descriptions: appends "[pfam] shortname: description"
+      entries from Pfam reference data for each resolved PF* ID
+
+    Returns list of unresolved non-PF* tokens (for logging).
+    """
+    raw_tokens = gene.get("pfam_ids")
+    if not raw_tokens:
+        return []
+
+    clean_ids: dict[str, None] = {}  # ordered set for dedup
+    unresolved: list[str] = []
+
+    for token in raw_tokens:
+        token = str(token).strip()
+        if not token:
+            continue
+        if token.startswith("PF"):
+            clean_ids[token] = None
+        elif token in pfam_data.by_shortname:
+            clean_ids[pfam_data.by_shortname[token]] = None
+        else:
+            # TIGR*, IPR*, or unresolved shortname -- drop
+            unresolved.append(token)
+
+    result = list(clean_ids.keys())
+    if result:
+        gene["pfam_ids"] = result
+    elif "pfam_ids" in gene:
+        del gene["pfam_ids"]
+
+    # Recompute annotation_quality: it was computed during merge when pfam_ids
+    # contained raw unfiltered tokens. Now that pfam_ids is clean, recheck.
+    gene["annotation_quality"] = _compute_annotation_quality(gene)
+
+    # Add Pfam descriptions to alternate_functional_descriptions
+    if result:
+        alt_descs = gene.get("alternate_functional_descriptions", [])
+        alt_descs_set = set(alt_descs)
+        for pf_id in result:
+            entry = pfam_data.by_accession.get(pf_id)
+            if entry:
+                text = f"{entry.shortname}: {entry.description}" if entry.description else entry.shortname
+                desc = f"[pfam] {text}"
+                if desc not in alt_descs_set:
+                    alt_descs.append(desc)
+                    alt_descs_set.add(desc)
+        gene["alternate_functional_descriptions"] = alt_descs
+
+    return unresolved
+
 
 # ─── paths ────────────────────────────────────────────────────────────────────
 
@@ -211,13 +464,19 @@ class AnnotationBuilder:
         eg: dict,
         up: dict,
         source_tracking: dict,
+        locus_tag: str = "",
     ) -> Any:
         """First non-empty candidate wins; record source if track_source set.
 
         Candidates may have an optional ``source_label`` key to override the
         recorded provenance string (e.g. 'cyanorak' instead of 'gene_mapping').
+
+        When ``reject_identifiers`` is set on *fconf*, identifier-style values
+        (matching ``_IDENTIFIER_RE`` or equal to the gene's locus_tag) are
+        skipped so the next candidate can provide a real biological name.
         """
         track_key = fconf.get("track_source")
+        reject_ids = fconf.get("reject_identifiers", False)
         for cand in fconf.get("candidates", []):
             raw = self._get_raw(cand, gm, eg, up)
             if not _nonempty(raw):
@@ -241,6 +500,11 @@ class AnnotationBuilder:
                 else:
                     val = raw
             if _nonempty(val):
+                # Skip identifier-style values when reject_identifiers is set
+                if reject_ids and isinstance(val, str) and (
+                    val == locus_tag or _IDENTIFIER_RE.match(val)
+                ):
+                    continue
                 if track_key:
                     # Use source_label if set, otherwise fall back to source name
                     source_tracking[track_key] = cand.get("source_label", cand["source"])
@@ -266,17 +530,7 @@ class AnnotationBuilder:
             transform = src_cfg.get("transform")
 
             # Special-case transforms that produce lists from a string
-            if transform == "extract_pfam_ids":
-                if isinstance(raw, list):
-                    tokens = [t for t in raw if str(t).startswith("PF")]
-                else:
-                    tokens = _tx_extract_pfam_ids(str(raw))
-            elif transform == "extract_pfam_names":
-                if isinstance(raw, list):
-                    tokens = [t for t in raw if t and not str(t).startswith("PF")]
-                else:
-                    tokens = _tx_extract_pfam_names(str(raw))
-            elif transform == "extract_go_from_pipe":
+            if transform == "extract_go_from_pipe":
                 base_tokens = _coerce_to_tokens(raw, delimiter)
                 tokens = [_tx_extract_go_from_pipe(t) for t in base_tokens]
             elif transform:
@@ -362,16 +616,18 @@ class AnnotationBuilder:
         gm: dict,
         eg: dict,
         up: dict,
+        organism_name: str | None = None,
     ) -> dict:
         """Apply merge rules → canonical field set."""
         result: dict[str, Any] = {}
         source_tracking: dict[str, str] = {}
+        locus_tag = gm.get("locus_tag", "")
 
         for canonical_field, fconf in self.field_configs.items():
             ftype = fconf.get("type", "passthrough")
 
             if ftype == "single":
-                val = self._resolve_single(fconf, gm, eg, up, source_tracking)
+                val = self._resolve_single(fconf, gm, eg, up, source_tracking, locus_tag)
             elif ftype == "union":
                 val = self._resolve_union(fconf, gm, eg, up)
             elif ftype == "passthrough":
@@ -394,6 +650,18 @@ class AnnotationBuilder:
             if _nonempty(val):
                 result[canonical_field] = val
 
+        # Split comma-joined tokens in synonym lists (e.g. UniProt "pds,crtD"
+        # arrives as a single token because the source uses space delimiter)
+        for field in ("gene_synonyms", "gene_name_synonyms"):
+            if field in result:
+                expanded = []
+                for tok in result[field]:
+                    if "," in tok:
+                        expanded.extend(t.strip() for t in tok.split(",") if t.strip())
+                    else:
+                        expanded.append(tok)
+                result[field] = list(dict.fromkeys(expanded))  # dedupe, preserve order
+
         # Remove canonical gene_name from synonym lists to avoid duplication
         gene_name = result.get("gene_name", "")
         if gene_name:
@@ -408,21 +676,15 @@ class AnnotationBuilder:
         # Add source-tracking fields collected during 'single' resolution
         result.update(source_tracking)
 
-        # Compute annotation_quality (0–3)
-        is_reviewed = bool(up.get("is_reviewed", False))
-        has_cyanorak_product = _nonempty(gm.get("product_cyanorak"))
-        has_ncbi_product = _nonempty(gm.get("product"))
-        has_eggnog = bool(eg)
+        # Compute annotation_quality (0–3) based on product content + structured annotations
+        result["annotation_quality"] = _compute_annotation_quality(result)
 
-        if is_reviewed:
-            quality = 3
-        elif has_cyanorak_product or has_ncbi_product:
-            quality = 2
-        elif has_eggnog:
-            quality = 1
-        else:
-            quality = 0
-        result["annotation_quality"] = quality
+        # Compute gene_category — high-level functional classification
+        category = _compute_gene_category(result)
+        assert category in VALID_CATEGORIES, (
+            f"Invalid gene_category {category!r} for {result.get('locus_tag')}"
+        )
+        result["gene_category"] = category
 
         # Collect all source descriptions for LLM summaries
         alt_descriptions: list[str] = []
@@ -457,14 +719,51 @@ class AnnotationBuilder:
             _add_desc("cog", desc)
         for desc in result.get("kegg_ko_descriptions", []):
             _add_desc("kegg", desc)
-        pfam_names_list = result.get("pfam_names", [])
-        pfam_descs_list = result.get("pfam_descriptions", [])
-        for i, name in enumerate(pfam_names_list):
-            pfam_text = f"{name}: {pfam_descs_list[i]}" if i < len(pfam_descs_list) and pfam_descs_list[i] else name
-            _add_desc("pfam", pfam_text)
+        # Pfam descriptions are added post-merge by enrich_pfam_fields()
+        # (needs pfam_data reference + enriched pfam_ids)
 
         if alt_descriptions:
             result["alternate_functional_descriptions"] = alt_descriptions
+
+        # ── Computed fields for MCP gene lookup ──────────────────────────────
+
+        # organism_name — preferred organism name (e.g., "Prochlorococcus MED4")
+        if organism_name:
+            result["organism_name"] = organism_name
+
+        # gene_summary — primary display field: "gene_name :: product :: description"
+        gene_name = result.get("gene_name", "")
+        locus_tag = result.get("locus_tag", "")
+        # Clear gene_name when it's just an identifier, not a biological name
+        if gene_name and (gene_name == locus_tag or _IDENTIFIER_RE.match(gene_name)):
+            result["gene_name"] = None
+            gene_name = ""
+        product = result.get("product", "")
+        best_desc = up_func or eg_desc or cyanorak_prod or ncbi_prod
+        if best_desc == product:
+            best_desc = ""
+        # Skip uninformative "domain/protein of unknown function" descriptions
+        if best_desc and re.match(r'^(Protein |Domain )of unknown function', best_desc):
+            best_desc = ""
+        summary_parts = [p for p in [gene_name, product, best_desc] if p]
+        if summary_parts:
+            result["gene_summary"] = " :: ".join(summary_parts)
+
+        # all_identifiers — union of all alternative ID fields for get_gene lookup
+        # Excludes locus_tag and gene_name (they have their own scalar indexes)
+        scalar_indexed = {result.get("locus_tag"), gene_name} - {None, ""}
+        all_ids = set(filter(None, [
+            result.get("locus_tag_ncbi"),
+            result.get("locus_tag_cyanorak"),
+            result.get("protein_id"),
+            result.get("uniprot_accession"),
+        ]))
+        all_ids.update(result.get("old_locus_tags") or [])
+        all_ids.update(result.get("alternative_locus_tags") or [])
+        all_ids.update(result.get("gene_name_synonyms") or [])
+        all_ids -= scalar_indexed
+        if all_ids:
+            result["all_identifiers"] = sorted(all_ids)
 
         return result
 
@@ -475,8 +774,10 @@ def process_strain(
     row: dict,
     config: dict,
     force: bool = False,
+    pfam_data: PfamData | None = None,
 ) -> None:
     strain_name = row["strain_name"]
+    preferred_name = (row.get("preferred_name") or "").strip() or strain_name
     data_dir = row["data_dir"].rstrip("/")
     taxon_id_str = (row.get("ncbi_taxon_id") or "").strip()
     ncbi_taxon_id = int(taxon_id_str) if taxon_id_str else None
@@ -522,7 +823,7 @@ def process_strain(
             stats["uniprot_hit"] += 1
 
         wide_out[locus_tag] = builder.build_wide(gm_row, eg_row, up_row)
-        merged = builder.build_merged(gm_row, eg_row, up_row)
+        merged = builder.build_merged(gm_row, eg_row, up_row, organism_name=preferred_name)
         merged_out[locus_tag] = merged
 
         if merged.get("product"):
@@ -535,6 +836,58 @@ def process_strain(
             stats["has_kegg_ko"] += 1
         q = merged.get("annotation_quality", 0)
         stats[f"quality_{q}"] += 1
+        cat = merged.get("gene_category", "Unknown")
+        stats.setdefault(f"cat_{cat}", 0)
+        stats[f"cat_{cat}"] += 1
+
+    # Compute ortholog_groups for each gene (post-merge enrichment)
+    og_organism_group = organism_group_from_path(data_dir)
+    og_stats = {"has_og": 0, "cyanorak": 0, "eggnog_bacteria": 0, "eggnog_lowest": 0}
+    for locus_tag, gene in merged_out.items():
+        ogs = extract_ortholog_groups(gene, og_organism_group)
+        if ogs:
+            gene["ortholog_groups"] = ogs
+            og_stats["has_og"] += 1
+            for og in ogs:
+                if og["source"] == "cyanorak":
+                    og_stats["cyanorak"] += 1
+                elif og["taxon_id"] == 2:
+                    og_stats["eggnog_bacteria"] += 1
+                else:
+                    og_stats["eggnog_lowest"] += 1
+    n = stats["total"] or 1
+    print(f"\n  === {strain_name} ortholog groups ===")
+    print(f"  Genes with OG:      {og_stats['has_og']} ({100 * og_stats['has_og'] // n}%)")
+    print(f"  Cyanorak memberships:{og_stats['cyanorak']}")
+    print(f"  EggNOG bacteria:    {og_stats['eggnog_bacteria']}")
+    print(f"  EggNOG lowest-level:{og_stats['eggnog_lowest']}")
+
+    # Enrich pfam_ids: resolve shortnames to PF* accessions, drop non-Pfam tokens
+    if pfam_data is not None:
+        pfam_stats = {"has_pfam": 0, "resolved_shortnames": 0, "genes_before": 0}
+        all_unresolved: dict[str, int] = {}  # token -> gene count
+        for locus_tag, gene in merged_out.items():
+            had_raw = bool(gene.get("pfam_ids"))
+            if had_raw:
+                pfam_stats["genes_before"] += 1
+            unresolved = enrich_pfam_fields(gene, pfam_data)
+            if gene.get("pfam_ids"):
+                pfam_stats["has_pfam"] += 1
+            # Count shortnames that were resolved (genes_after > genes with only PF* before)
+            for tok in unresolved:
+                all_unresolved[tok] = all_unresolved.get(tok, 0) + 1
+
+        print(f"\n  === {strain_name} Pfam enrichment ===")
+        print(f"  Genes with raw pfam tokens: {pfam_stats['genes_before']}")
+        print(f"  Genes with clean PF* IDs:   {pfam_stats['has_pfam']}")
+        if all_unresolved:
+            top_unresolved = sorted(all_unresolved.items(), key=lambda x: -x[1])[:10]
+            total_unresolved = sum(all_unresolved.values())
+            print(f"  Unresolved tokens: {len(all_unresolved)} unique, {total_unresolved} total occurrences")
+            for tok, count in top_unresolved:
+                print(f"    {tok}: {count} genes")
+        else:
+            print(f"  Unresolved tokens: 0")
 
     with open(wide_path, "w") as f:
         json.dump(wide_out, f, indent=2, sort_keys=True)
@@ -558,6 +911,12 @@ def process_strain(
     print(f"  Quality 0/1/2/3: "
           f"{stats['quality_0']}/{stats['quality_1']}/"
           f"{stats['quality_2']}/{stats['quality_3']}")
+    # gene_category distribution (sorted by count descending)
+    cat_stats = {k[4:]: v for k, v in stats.items() if k.startswith("cat_")}
+    if cat_stats:
+        print(f"\n  === {strain_name} gene_category ===")
+        for cat, count in sorted(cat_stats.items(), key=lambda x: -x[1]):
+            print(f"    {cat:<40s} {count:>5} ({100 * count // n}%)")
 
 
 # ─── main ─────────────────────────────────────────────────────────────────────
@@ -576,9 +935,15 @@ def main() -> None:
     config = load_config(args.config)
     rows = load_genome_rows(args.strains)
 
+    # Load Pfam reference data once for all strains
+    cache_root = PROJECT_ROOT / "cache" / "data"
+    pfam_data = load_pfam_data(cache_root)
+    print(f"Pfam reference: {len(pfam_data.by_accession)} entries, "
+          f"{len(pfam_data.by_shortname)} shortnames, {len(pfam_data.clans)} clans")
+
     print(f"Processing {len(rows)} strain(s) with config: {args.config}")
     for row in rows:
-        process_strain(row, config, force=args.force)
+        process_strain(row, config, force=args.force, pfam_data=pfam_data)
 
     if args.llm_summary:
         print("\nLLM summary generation (Step 1C) not yet implemented.")

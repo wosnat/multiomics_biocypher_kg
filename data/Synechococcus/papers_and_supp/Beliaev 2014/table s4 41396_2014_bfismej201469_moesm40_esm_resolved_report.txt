@@ -1,0 +1,18 @@
+Resolution report: Beliaev 2014 / supp_table_s4
+Source: table s4 41396_2014_bfismej201469_moesm40_esm.csv
+name_col:  Locus tag
+id_columns: [' Locus tag', 'Gene abbreviation']
+
+Total rows with IDs: 457
+Resolved: 456 (99.8%)
+Unresolved: 1
+
+Resolution method breakdown:
+  empty: 1
+  locus_tag_ci: Locus tag: 365
+  tier1: Locus tag: 1
+  tier1:Gene abbreviation: 90
+  unresolved: 1
+
+Unresolved rows (1):
+  row 3: raw_id='SputW3181_3691'  reason=unresolved  [ Locus tag='SputW3181_3691']

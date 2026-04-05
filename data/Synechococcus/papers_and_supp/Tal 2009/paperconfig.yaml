@@ -1,0 +1,56 @@
+publication:
+  papername: "Tai 2009"
+  papermainpdf: "data/Synechococcus/papers_and_supp/Tal 2009/Synechococcus Vibrio coculture microarray 2009.pdf"
+
+  experiments:
+    vibrio_coculture_wh8102_microarray:
+      name: "WH8102 coculture with V. parahaemolyticus vs monoculture (microarray)"
+      organism: "Synechococcus WH8102"
+      treatment_condition: "Coculture with Vibrio parahaemolyticus LM5312"
+      control_condition: "Axenic WH8102 monoculture"
+      experimental_context: "WH8102 in artificial seawater with 9.0 mM NaNO3 under 30 uE m-2 s-1 continuous white light at 25C; RNA harvested at mid-log phase (~1e8 cells/mL); SAM analysis with score threshold >3.11 (up) and <-3.09 (down)"
+      omics_type: MICROARRAY
+      test_type: "SAM"
+      treatment_type: ["coculture"]
+      background_factors: ["light"]
+      medium: "artificial seawater (9.0 mM NaNO3)"
+      temperature: "25C"
+      light_condition: "continuous light"
+      light_intensity: "30 uE m-2 s-1"
+      treatment_organism: "Vibrio parahaemolyticus"
+      treatment_taxid: 670
+      table_scope: significant_only
+
+  supplementary_materials:
+    table_s1_upregulated:
+      type: csv
+      filename: "data/Synechococcus/papers_and_supp/Tal 2009/table s1.csv"
+      skip_rows: 1
+      organism: "Synechococcus WH8102"
+      id_columns:
+        - column: "Gene Name"
+          id_type: locus_tag
+      product_columns:
+        - column: "Gene ID"
+      statistical_analyses:
+        - id: "vibrio_coculture_wh8102_up"
+          experiment: vibrio_coculture_wh8102_microarray
+          name_col: "Gene Name"
+          logfc_col: "Log2 fold change"
+          table_scope: significant_only
+    table_s2_downregulated:
+      type: csv
+      filename: "data/Synechococcus/papers_and_supp/Tal 2009/table s2.csv"
+      skip_rows: 2
+      organism: "Synechococcus WH8102"
+      id_columns:
+        - column: "Gene Name"
+          id_type: locus_tag
+      product_columns:
+        - column: "Gene ID"
+      statistical_analyses:
+        - id: "vibrio_coculture_wh8102_down"
+          experiment: vibrio_coculture_wh8102_microarray
+          name_col: "Gene Name"
+          logfc_col: "Log2 fold change"
+          table_scope: significant_only

@@ -52,7 +52,7 @@ METRICS = [
     ("has_cyanorak",   "CyanoRole%", "gene.cyanorak_Role (Cyanorak functional role)"),
     ("has_product",    "Product%",   "gene.product or gene.product_cyanorak (any product name)"),
     ("has_domains",    "Domains%",   "gene.protein_domains (InterPro via Cyanorak)"),
-    ("has_expression", "Expr%",      "Has ≥1 direct Affects_expression_of edge"),
+    ("has_expression", "Expr%",      "Has ≥1 direct expression edge (Changes_expression_of)"),
 ]
 
 
@@ -92,9 +92,9 @@ def fetch_quality_metrics(strain_filter: str | None = None) -> dict[str, dict]:
     query = f"""
 MATCH (g:Gene)-[:Gene_belongs_to_organism]->(o:OrganismTaxon)
 WHERE o.strain_name IS NOT NULL {strain_clause}
-OPTIONAL MATCH (p:Protein)-[:Gene_encodes_protein]->(g)
+OPTIONAL MATCH (g)-[:Gene_encodes_protein]->(p:Protein)
 WITH o.organism_name AS strain, g, p
-OPTIONAL MATCH ()-[expr:Affects_expression_of]->(g)
+OPTIONAL MATCH ()-[expr:Changes_expression_of]->(g)
 WITH strain, g, p, count(expr) AS expr_count
 RETURN
   strain,

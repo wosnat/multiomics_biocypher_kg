@@ -12,13 +12,23 @@
     },
     "gene_name": {
       "conflict": 0,
-      "multi": 172,
-      "unique": 3023
+      "multi": 197,
+      "unique": 1636
     },
     "gene_synonym": {
       "conflict": 0,
-      "multi": 56,
-      "unique": 3355
+      "multi": 53,
+      "unique": 4824
+    },
+    "gff_gene_id": {
+      "conflict": 0,
+      "multi": 0,
+      "unique": 5146
+    },
+    "locus_tag": {
+      "conflict": 0,
+      "multi": 0,
+      "unique": 2
     },
     "locus_tag_cyanorak": {
       "conflict": 0,
@@ -26,14 +36,14 @@
       "unique": 2777
     },
     "locus_tag_ncbi": {
-      "conflict": 36,
+      "conflict": 62,
       "multi": 0,
-      "unique": 6042
+      "unique": 8846
     },
     "old_locus_tag": {
       "conflict": 0,
       "multi": 0,
-      "unique": 123
+      "unique": 125
     },
     "protein_id_refseq": {
       "conflict": 0,
@@ -48,12 +58,15 @@
   },
   "strain": "WH8102",
   "unresolved_rows_per_source": {
-    "Barreto 2022/id_translation_syn_8102": 72,
-    "Barreto 2022/supp_table_S1_WH8102": 13,
+    "Barreto 2022/id_translation_syn_8102": 70,
+    "Barreto 2022/supp_table_S1_WH8102": 1,
+    "Tai 2009/table_s1_upregulated": 5,
+    "Tai 2009/table_s2_downregulated": 2,
     "cds_from_genomic.fna": 25,
-    "genomic_gca/WH8102": 83
+    "genomic_gca/WH8102": 81,
+    "genomic_gcf/WH8102": 57
   },
   "warnings": [
-    "[CONFLICT] Tier 1 id_type 'locus_tag_ncbi' has 36 data conflicts \u2014 check annotation quality."
+    "[CONFLICT] Tier 1 id_type 'locus_tag_ncbi' has 62 data conflicts \u2014 check annotation quality."
   ]
 }

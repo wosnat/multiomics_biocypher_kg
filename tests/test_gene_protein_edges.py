@@ -189,8 +189,8 @@ class TestGeneToProteinEdges:
         edges = _gene_edges(adapter)
         assert len(edges) == 1
         _, source, target, label, props = edges[0]
-        assert source == "uniprot:P12345"
-        assert target == "ncbigene:PMM0001"
+        assert source == "ncbigene:PMM0001"
+        assert target == "uniprot:P12345"
         assert label == "Gene_encodes_protein"
 
     def test_no_match(self, gene_mapping_med4):
@@ -226,8 +226,8 @@ class TestGeneToProteinEdges:
         )
         edges = _gene_edges(adapter)
         assert len(edges) == 2
-        targets = {e[2] for e in edges}
-        assert targets == {"ncbigene:PMM0001", "ncbigene:PMM0002"}
+        sources = {e[1] for e in edges}
+        assert sources == {"ncbigene:PMM0001", "ncbigene:PMM0002"}
 
     def test_multi_strain_produces_multiple_edges(
         self, gene_mapping_mit1002, gene_mapping_ez55
@@ -241,8 +241,8 @@ class TestGeneToProteinEdges:
         )
         edges = _gene_edges(adapter)
         assert len(edges) == 2
-        targets = {e[2] for e in edges}
-        assert targets == {"ncbigene:MIT1002_00004", "ncbigene:EZ55_00010"}
+        sources = {e[1] for e in edges}
+        assert sources == {"ncbigene:MIT1002_00004", "ncbigene:EZ55_00010"}
 
     def test_no_data_dirs_skips_gracefully(self):
         """No data_dirs means no gene mapping, so no Gene_encodes_protein edges."""

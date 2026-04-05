@@ -1,9 +1,9 @@
 {
   "per_id_type": {
     "alternative_locus_tag": {
-      "conflict": 1,
+      "conflict": 2,
       "multi": 0,
-      "unique": 1950
+      "unique": 1951
     },
     "cds_fna_id": {
       "conflict": 0,
@@ -12,13 +12,23 @@
     },
     "gene_name": {
       "conflict": 0,
-      "multi": 104,
-      "unique": 2096
+      "multi": 353,
+      "unique": 1450
     },
     "gene_synonym": {
       "conflict": 0,
-      "multi": 85,
-      "unique": 2531
+      "multi": 84,
+      "unique": 3384
+    },
+    "gff_gene_id": {
+      "conflict": 0,
+      "multi": 0,
+      "unique": 3910
+    },
+    "locus_tag": {
+      "conflict": 0,
+      "multi": 0,
+      "unique": 334
     },
     "locus_tag_cyanorak": {
       "conflict": 0,
@@ -26,14 +36,14 @@
       "unique": 1962
     },
     "locus_tag_ncbi": {
-      "conflict": 22,
+      "conflict": 41,
       "multi": 0,
-      "unique": 4824
+      "unique": 6925
     },
     "old_locus_tag": {
       "conflict": 0,
       "multi": 0,
-      "unique": 205
+      "unique": 207
     },
     "probeset": {
       "conflict": 0,
@@ -57,10 +67,11 @@
     "Bagby and Chisholm 2015/supp_table_1_low_co2": 30,
     "Bagby and Chisholm 2015/supp_table_1_low_co2_no_o2": 30,
     "Bagby and Chisholm 2015/supp_table_1_no_o2": 30,
+    "He 2022/supp_table_s2": 1,
     "Thompson 2011/supp_table_1": 13,
-    "Tolonen 2006/supp_table_med4": 2,
+    "Tolonen 2006/supp_table_med4": 1,
+    "Wang 2014/med4_expression_level": 7,
     "Weissberg 2025/med4_rnaseq_axenic_day_14_vs_exp_day_7": 6,
-    "Weissberg 2025/med4_rnaseq_axenic_longterm_vs_exp_day_7": 6,
     "Weissberg 2025/med4_rnaseq_coculture_day_18_vs_exp_day_11": 6,
     "Weissberg 2025/med4_rnaseq_coculture_day_31_vs_exp_day_11": 6,
     "Weissberg 2025/med4_rnaseq_coculture_day_60_vs_exp_day_11": 6,
@@ -68,10 +79,11 @@
     "Weissberg 2025/med4_rnaseq_coculture_longterm_vs_exp_day_11": 6,
     "Weissberg 2025/med4_rnaseq_exp_day_11_coculture_vs_axenic": 6,
     "cds_from_genomic.fna": 4,
-    "genomic_gca/MED4": 127
+    "genomic_gca/MED4": 40,
+    "genomic_gcf/MED4": 2
   },
   "warnings": [
-    "[CONFLICT] Tier 1 id_type 'locus_tag_ncbi' has 22 data conflicts \u2014 check annotation quality.",
-    "[CONFLICT] Tier 1 id_type 'alternative_locus_tag' has 1 data conflicts \u2014 check annotation quality."
+    "[CONFLICT] Tier 1 id_type 'locus_tag_ncbi' has 41 data conflicts \u2014 check annotation quality.",
+    "[CONFLICT] Tier 1 id_type 'alternative_locus_tag' has 2 data conflicts \u2014 check annotation quality."
   ]
 }

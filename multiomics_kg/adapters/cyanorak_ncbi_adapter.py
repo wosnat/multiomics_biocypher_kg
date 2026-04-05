@@ -99,80 +99,33 @@ class GeneEnumMeta(EnumMeta):
 class GeneNodeField(Enum, metaclass=GeneEnumMeta):
 
     LOCUS_TAG = 'locus_tag'
-    LOCUS_TAG_NCBI = 'locus_tag_ncbi'
-    LOCUS_TAG_CYANORAK = 'locus_tag_cyanorak'
     START = 'start'
     END = 'end'
-    START_CYANORAK = 'start_cyanorak'
-    END_CYANORAK = 'end_cyanorak'
     STRAND = 'strand'
-    STRAND_CYANORAK = 'strand_cyanorak'
     PRODUCT = 'product'
-    PRODUCT_CYANORAK = 'product_cyanorak'
     PROTEIN_ID = 'protein_id'
-    CYANORAK_ROLE = 'cyanorak_Role'
-    CYANORAK_ROLE_DESCRIPTION = 'cyanorak_Role_description'
-    TIGR_ROLE = 'tIGR_Role'
-    TIGR_ROLE_DESCRIPTION = 'tIGR_Role_description'
-    CLUSTER_NUMBER = 'cluster_number'
-    EC_NUMBERS = 'ec_numbers'
     FUNCTION_DESCRIPTION = 'function_description'
     # Gene naming
     GENE_NAME = 'gene_name'
-    GENE_SYNONYMS = 'gene_synonyms'
     GENE_NAME_SYNONYMS = 'gene_name_synonyms'
-    ALTERNATIVE_LOCUS_TAGS = 'alternative_locus_tags'
-    GENE_NAME_SOURCE = 'gene_name_source'
-    PRODUCT_SOURCE = 'product_source'
-    FUNCTION_DESCRIPTION_SOURCE = 'function_description_source'
     ALTERNATE_FUNCTIONAL_DESCRIPTIONS = 'alternate_functional_descriptions'
-    OLD_LOCUS_TAGS = 'old_locus_tags'
-    # EggNOG / COG
-    COG_CATEGORY = 'cog_category'
-    EGGNOG_OGS = 'eggnog_ogs'
-    EGGNOG_OG_DESCRIPTIONS = 'eggnog_og_descriptions'
-    SEED_ORTHOLOG = 'seed_ortholog'
-    MAX_ANNOT_LVL = 'max_annot_lvl'
-    SEED_ORTHOLOG_EVALUE = 'seed_ortholog_evalue'
-    ALTEROMONADACEAE_OG = 'alteromonadaceae_og'
-    BACTERIA_COG_OG = 'bacteria_cog_og'
     PROTEIN_FAMILY = 'protein_family'
-    # Gene Ontology
-    GO_TERMS = 'go_terms'
-    GO_TERM_DESCRIPTIONS = 'go_term_descriptions'
-    # KEGG
-    KEGG_KO = 'kegg_ko'
-    KEGG_KO_DESCRIPTIONS = 'kegg_ko_descriptions'
-    KEGG_PATHWAY = 'kegg_pathway'
-    KEGG_MODULE = 'kegg_module'
-    KEGG_REACTION = 'kegg_reaction'
-    KEGG_BRITE = 'kegg_brite'
-    # Pfam domains
-    PFAM_IDS = 'pfam_ids'
-    PFAM_NAMES = 'pfam_names'
-    PFAM_DESCRIPTIONS = 'pfam_descriptions'
     # Specialized function
-    CATALYTIC_ACTIVITY = 'catalytic_activity'
+    CATALYTIC_ACTIVITY = 'catalytic_activities'
     TRANSMEMBRANE_REGIONS = 'transmembrane_regions'
     SIGNAL_PEPTIDE = 'signal_peptide'
     TRANSPORTER_CLASSIFICATION = 'transporter_classification'
     CAZY_IDS = 'cazy_ids'
     BIGG_REACTION = 'bigg_reaction'
+    # Computed fields for MCP gene lookup
+    ORGANISM_NAME = 'organism_name'
+    GENE_SUMMARY = 'gene_summary'
+    ALL_IDENTIFIERS = 'all_identifiers'
     # Quality
     ANNOTATION_QUALITY = 'annotation_quality'
+    # Functional classification
+    GENE_CATEGORY = 'gene_category'
 
-
-    @classmethod
-    def _missing_(cls, value: str):
-        value = value.lower()
-        for member in cls.__members__.values():
-            if member.value.lower() == value:
-                return member
-        return None
-
-
-class ClusterNodeField(Enum, metaclass=GeneEnumMeta):
-    CLUSTER_NUMBER = 'cluster_number'
 
     @classmethod
     def _missing_(cls, value: str):
@@ -186,12 +139,10 @@ class ClusterNodeField(Enum, metaclass=GeneEnumMeta):
 class GeneEdgeType(Enum, metaclass=GeneEnumMeta):
     #TODO
     GENE_TO_PROTEIN = auto()
-    GENE_IN_CLUSTER = auto()
 
 
 class GeneModel(BaseModel):
     gene_node_fields: Union[list[GeneNodeField], None] = None
-    cluster_node_fields: Union[list[ClusterNodeField], None] = None
     edge_types: Union[list[GeneEdgeType], None] = None
     test_mode: bool = False
     export_csv: bool = False
@@ -204,7 +155,6 @@ class CyanorakNcbi:
     def __init__(
         self,
         gene_node_fields: Union[list[GeneNodeField], None] = None,
-        cluster_node_fields: Union[list[ClusterNodeField], None] = None,
         edge_types: Union[list[GeneEdgeType], None] = None,
         test_mode: bool = False,
         export_csv: bool = False,
@@ -216,11 +166,12 @@ class CyanorakNcbi:
         strain_name: str = None,
         ncbi_taxon_id: int = None,
         clade: str = None,
+        preferred_name: str = None,
+        **kwargs,  # absorb legacy cluster_node_fields etc.
     ):
 
         model = GeneModel(
             gene_node_fields=gene_node_fields,
-            cluster_node_fields=cluster_node_fields,
             edge_types=edge_types,
             test_mode=test_mode,
             export_csv=export_csv,
@@ -238,6 +189,7 @@ class CyanorakNcbi:
         self.strain_name = strain_name
         self.ncbi_taxon_id = ncbi_taxon_id
         self.clade = clade
+        self.preferred_name = preferred_name
         self.taxonomy = {}  # populated by download_data()
 
         # no need becuase we are not creating protein to ec edges here
@@ -248,9 +200,6 @@ class CyanorakNcbi:
 
         # set node fields
         self.set_node_fields(gene_node_fields=model["gene_node_fields"])
-
-        # set cluster node fields
-        self.set_cluster_node_fields(cluster_node_fields=model["cluster_node_fields"])
 
         # set edge types
         self.set_edge_types(edge_types=model["edge_types"])
@@ -302,8 +251,8 @@ class CyanorakNcbi:
         """
         logger.info("Started writing gene nodes")
 
-        int_fields = {'start', 'end', 'start_cyanorak', 'end_cyanorak', 'annotation_quality'}
-        float_fields = {'seed_ortholog_evalue'}
+        int_fields = {'start', 'end', 'annotation_quality'}
+        float_fields = set()
         node_list = []
         for _, row in self.data_df.iterrows():
             node_properties = {}
@@ -336,44 +285,6 @@ class CyanorakNcbi:
         logger.info(f"Finished writing {len(node_list)} gene nodes")
         return node_list
 
-    def _get_cluster_nodes(self) -> list[tuple]:
-        """Generate cluster nodes from unique cluster_number values in gene data.
-
-        Returns:
-            List of tuples: (node_id, label, properties_dict)
-        """
-        logger.info("Started writing cyanorak cluster nodes")
-
-        node_list = []
-
-        # Check if cluster_number column exists (not present in NCBI-only mode)
-        if 'cluster_number' not in self.data_df.columns:
-            logger.info("No cluster_number column in data - skipping cluster nodes")
-            return node_list
-
-        # Get unique cluster numbers, excluding NaN values
-        cluster_numbers = self.data_df['cluster_number'].dropna().unique()
-
-        for cluster_num in cluster_numbers:
-            cluster_num_str = str(cluster_num).strip()
-            if not cluster_num_str:
-                continue
-
-            node_id = self.add_prefix_to_id(
-                prefix="cyanorak.cluster",
-                identifier=cluster_num_str,
-            )
-
-            node_properties = {}
-            for field in self.cluster_node_fields:
-                if field == 'cluster_number':
-                    node_properties[field] = cluster_num_str
-
-            node_list.append((node_id, "cyanorak_cluster", node_properties))
-
-        logger.info(f"Finished writing {len(node_list)} cyanorak cluster nodes")
-        return node_list
-
     def _get_organism_node(self) -> list[tuple]:
         """Generate organism node for this assembly.
 
@@ -391,6 +302,8 @@ class CyanorakNcbi:
         if self.strain_name:
             properties['strain_name'] = self.strain_name
             properties['organism_name'] = self.strain_name
+        if self.preferred_name:
+            properties['preferred_name'] = self.preferred_name
         if self.ncbi_taxon_id is not None:
             properties['ncbi_taxon_id'] = self.ncbi_taxon_id
         if self.clade:
@@ -400,6 +313,13 @@ class CyanorakNcbi:
                     'order', 'family', 'genus', 'species'):
             if self.taxonomy.get(key):
                 properties[key] = self.taxonomy[key]
+
+        # Derive species from preferred_name when taxonomy is genus-level only
+        # e.g. "Alteromonas macleodii MIT1002" → species "Alteromonas macleodii"
+        if 'species' not in properties and properties.get('genus') and self.preferred_name:
+            words = self.preferred_name.split()
+            if len(words) >= 3 and words[0] == properties['genus'] and words[1].islower():
+                properties['species'] = f"{words[0]} {words[1]}"
 
         logger.info(f"Created organism node {node_id} (strain: {self.strain_name})")
         return [(node_id, "organism", properties)]
@@ -414,54 +334,17 @@ class CyanorakNcbi:
         node_list = []
         node_list.extend(self._get_organism_node())
         node_list.extend(self._get_gene_nodes())
-        node_list.extend(self._get_cluster_nodes())
         return node_list
 
     @validate_call
     def get_edges(self) -> list[tuple]:
-        """Generate gene → cluster and gene → organism edges.
+        """Generate gene → organism edges.
 
         Returns:
             List of tuples: (edge_id, source_id, target_id, edge_type, properties_dict)
         """
         logger.info("Started writing gene edges")
         edge_list = []
-
-        if GeneEdgeType.GENE_IN_CLUSTER not in self.edge_types:
-            logger.info("GENE_IN_CLUSTER edge type not in edge_types, skipping gene-cluster edges")
-            return edge_list
-
-        for _, row in self.data_df.iterrows():
-            cluster_num = row.get('cluster_number')
-            locus_tag = row.get('locus_tag')
-
-            # Skip if no cluster number or locus tag
-            if pd.isna(cluster_num) or pd.isna(locus_tag):
-                continue
-
-            cluster_num_str = str(cluster_num).strip()
-            if not cluster_num_str:
-                continue
-
-            gene_id = self.add_prefix_to_id(
-                prefix="ncbigene",
-                identifier=locus_tag,
-            )
-            cluster_id = self.add_prefix_to_id(
-                prefix="cyanorak.cluster",
-                identifier=cluster_num_str,
-            )
-            edge_id = f"{gene_id}_in_{cluster_id}"
-
-            edge_list.append((
-                edge_id,
-                gene_id,
-                cluster_id,
-                "gene_in_cyanorak_cluster",
-                {}  # no additional properties for now
-            ))
-
-        logger.info(f"Finished writing {len(edge_list)} gene-cluster edges")
 
         # Gene → organism edges (one per gene, for all genes with a locus_tag)
         if self.ncbi_accession:
@@ -494,9 +377,6 @@ class CyanorakNcbi:
         This is retained for any remaining comma-delimited string fields.
         '''
         comma_split_cols = [
-            'cyanorak_Role', 'cyanorak_Role_description',
-            'tIGR_Role', 'tIGR_Role_description',
-            'old_locus_tags', 'ec_numbers',
         ]
         if field in comma_split_cols:
             return ','
@@ -533,12 +413,6 @@ class CyanorakNcbi:
             self.gene_node_fields = [field.value for field in gene_node_fields]
         else:
             self.gene_node_fields = [field.value for field in GeneNodeField]
-
-    def set_cluster_node_fields(self, cluster_node_fields):
-        if cluster_node_fields:
-            self.cluster_node_fields = [field.value for field in cluster_node_fields]
-        else:
-            self.cluster_node_fields = [field.value for field in ClusterNodeField]
 
     def set_edge_types(self, edge_types):
         self.edge_types = edge_types or list(GeneEdgeType)
@@ -596,6 +470,7 @@ class MultiCyanorakNcbi:
                     strain_name=row.get('strain_name') or None,
                     ncbi_taxon_id=ncbi_taxon_id,
                     clade=clade,
+                    preferred_name=row.get('preferred_name') or None,
                     **kwargs,
                 )
                 self.adapters.append(adapter)
@@ -617,8 +492,10 @@ class MultiCyanorakNcbi:
             for row in reader:
                 taxid = int(row['ncbi_taxon_id'])
                 node_id = f"ncbitaxon:{taxid}"
+                organism_name = row.get('organism_name', '')
                 props = {
-                    'organism_name': row.get('organism_name', ''),
+                    'organism_name': organism_name,
+                    'preferred_name': organism_name,
                     'ncbi_taxon_id': taxid,
                 }
                 taxonomy = _fetch_ncbi_taxonomy(taxid=taxid, cache_dir=taxonomy_cache_dir)

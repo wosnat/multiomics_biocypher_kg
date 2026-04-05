@@ -1,0 +1,382 @@
+publication:
+  papername: "Kaur 2018"
+  papermainpdf: "data/Synechococcus/papers_and_supp/kaur 2018/Synechococcus-Ruegeria long term co-culture exoproteome EM 2018.pdf"
+
+  experiments:
+    # ── Synechococcus WH7803 exoproteome in natural seawater (SW) ──
+    # 100-day coculture time course with R. pomeroyi DSS-3
+    # Exoproteome collected after removing cells; nanoLC-ESI-MS/MS, Orbitrap Fusion
+    # MaxQuant 1.5.5.1 + Perseus 1.5.5.3; label-free quantification
+    # Two-sample Student's t-test (P=0.05), permutation-based FDR (q=0.05)
+    # Fold changes compare each timepoint to timepoint 1 (day 1 baseline)
+    syn_wh7803_exoproteome_sw:
+      name: "Synechococcus WH7803 exoproteome time course in SW coculture with R. pomeroyi DSS-3"
+      organism: "Synechococcus WH7803"
+      treatment_condition: "Long-term coculture time course in natural oligotrophic seawater"
+      control_condition: "Timepoint 1 (day 1) baseline"
+      experimental_context: "100-day coculture of Synechococcus WH7803 and R. pomeroyi DSS-3 in filter-sterilized natural seawater (Gulf Stream), 22C, 10 umol photons m-2 s-1 continuous light, 140 rpm shaking, triplicate flasks, exoproteome collected by TCA precipitation of cell-free supernatant"
+      omics_type: EXOPROTEOMICS
+      test_type: "t-test_Perseus"
+      treatment_type: ["coculture"]
+      background_factors: ["light"]
+      medium: "natural seawater (Gulf Stream)"
+      temperature: "22C"
+      light_condition: "continuous light"
+      light_intensity: "10 umol photons m-2 s-1"
+      treatment_organism: "Ruegeria pomeroyi DSS-3"
+      treatment_taxid: 89184
+      treatment_assembly_accession: "GCF_000011965.2"
+      table_scope: all_detected_genes
+      table_scope_detail: "All Synechococcus WH7803 proteins detected in SW exoproteome across all timepoints"
+
+    # ── Synechococcus WH7803 exoproteome in artificial seawater (ASW) ──
+    syn_wh7803_exoproteome_asw:
+      name: "Synechococcus WH7803 exoproteome time course in ASW coculture with R. pomeroyi DSS-3"
+      organism: "Synechococcus WH7803"
+      treatment_condition: "Long-term coculture time course in nutrient-enriched artificial seawater"
+      control_condition: "Timepoint 1 (day 1) baseline"
+      experimental_context: "100-day coculture of Synechococcus WH7803 and R. pomeroyi DSS-3 in enriched ASW medium, 22C, 10 umol photons m-2 s-1 continuous light, 140 rpm shaking, triplicate flasks, exoproteome collected by TCA precipitation of cell-free supernatant"
+      omics_type: EXOPROTEOMICS
+      test_type: "t-test_Perseus"
+      treatment_type: ["coculture"]
+      background_factors: ["light"]
+      medium: "ASW (enriched artificial seawater)"
+      temperature: "22C"
+      light_condition: "continuous light"
+      light_intensity: "10 umol photons m-2 s-1"
+      treatment_organism: "Ruegeria pomeroyi DSS-3"
+      treatment_taxid: 89184
+      treatment_assembly_accession: "GCF_000011965.2"
+      table_scope: all_detected_genes
+      table_scope_detail: "All Synechococcus WH7803 proteins detected in ASW exoproteome across all timepoints"
+
+    # ── R. pomeroyi DSS-3 exoproteome in natural seawater (SW) ──
+    rpom_dss3_exoproteome_sw:
+      name: "R. pomeroyi DSS-3 exoproteome time course in SW coculture with Synechococcus WH7803"
+      organism: "Ruegeria pomeroyi DSS-3"
+      treatment_condition: "Long-term coculture time course in natural oligotrophic seawater"
+      control_condition: "Timepoint 1 (day 1) baseline"
+      experimental_context: "100-day coculture of R. pomeroyi DSS-3 and Synechococcus WH7803 in filter-sterilized natural seawater (Gulf Stream), 22C, 10 umol photons m-2 s-1 continuous light, 140 rpm shaking, triplicate flasks, exoproteome collected by TCA precipitation of cell-free supernatant"
+      omics_type: EXOPROTEOMICS
+      test_type: "t-test_Perseus"
+      treatment_type: ["coculture"]
+      background_factors: ["light"]
+      medium: "natural seawater (Gulf Stream)"
+      temperature: "22C"
+      light_condition: "continuous light"
+      light_intensity: "10 umol photons m-2 s-1"
+      treatment_organism: "Synechococcus WH7803"
+      treatment_taxid: 32051
+      treatment_assembly_accession: "GCF_000063505.1"
+      table_scope: all_detected_genes
+      table_scope_detail: "All R. pomeroyi DSS-3 proteins detected in SW exoproteome across all timepoints"
+
+    # ── R. pomeroyi DSS-3 exoproteome in artificial seawater (ASW) ──
+    rpom_dss3_exoproteome_asw:
+      name: "R. pomeroyi DSS-3 exoproteome time course in ASW coculture with Synechococcus WH7803"
+      organism: "Ruegeria pomeroyi DSS-3"
+      treatment_condition: "Long-term coculture time course in nutrient-enriched artificial seawater"
+      control_condition: "Timepoint 1 (day 1) baseline"
+      experimental_context: "100-day coculture of R. pomeroyi DSS-3 and Synechococcus WH7803 in enriched ASW medium, 22C, 10 umol photons m-2 s-1 continuous light, 140 rpm shaking, triplicate flasks, exoproteome collected by TCA precipitation of cell-free supernatant"
+      omics_type: EXOPROTEOMICS
+      test_type: "t-test_Perseus"
+      treatment_type: ["coculture"]
+      background_factors: ["light"]
+      medium: "ASW (enriched artificial seawater)"
+      temperature: "22C"
+      light_condition: "continuous light"
+      light_intensity: "10 umol photons m-2 s-1"
+      treatment_organism: "Synechococcus WH7803"
+      treatment_taxid: 32051
+      treatment_assembly_accession: "GCF_000063505.1"
+      table_scope: all_detected_genes
+      table_scope_detail: "All R. pomeroyi DSS-3 proteins detected in ASW exoproteome across all timepoints"
+
+  supplementary_materials:
+    # ── Table S4a: Synechococcus WH7803 exoproteome in SW ──
+    # Fold change values are signed ratios (positive = up vs day 1, negative = down vs day 1).
+    # No values between 0 and 1 in downregulated direction — uses -X notation.
+    # No fold_change_type — values pass through as-is (same convention as Oleza 2017).
+    # Gene IDs are RefSeq protein accessions (YP_001223###.1) — will need protein-level
+    # resolution in Phase 4. Neither organism is in KG yet.
+    # CSV has 2 header rows before data header (title + blank line), skip_rows: 2.
+    supp_table_s4a:
+      type: csv
+      filename: "data/Synechococcus/papers_and_supp/kaur 2018/table s4a Syn SW emi14012-sup-0004-suppinfo4.csv"
+      skip_rows: 2
+      organism: "Synechococcus WH7803"
+      id_columns:
+        - column: "NCBI reference"
+          id_type: protein_id
+        - column: "Other reference"
+          id_type: old_locus_tag
+      product_columns:
+        - column: "Annotated function and designation"
+      statistical_analyses:
+        - id: "syn_wh7803_sw_tp3_vs_tp1"
+          experiment: syn_wh7803_exoproteome_sw
+          timepoint: "day 3"
+          timepoint_hours: 72
+          name_col: "NCBI reference"
+          logfc_col: "Fold change comparison of time point 1 vs different time points. Time point 3 vs 1"
+          adjusted_p_value_col: "q-value of time point 1 vs different time points. Time point 3 vs 1"
+          pvalue_threshold: 0.05
+        - id: "syn_wh7803_sw_tp7_vs_tp1"
+          experiment: syn_wh7803_exoproteome_sw
+          timepoint: "day 7"
+          timepoint_hours: 168
+          name_col: "NCBI reference"
+          logfc_col: "Fold change comparison of time point 1 vs different time points. Time point 7 vs 1"
+          adjusted_p_value_col: "q-value of time point 1 vs different time points. Time point 7 vs 1"
+          pvalue_threshold: 0.05
+        - id: "syn_wh7803_sw_tp14_vs_tp1"
+          experiment: syn_wh7803_exoproteome_sw
+          timepoint: "day 14"
+          timepoint_hours: 336
+          name_col: "NCBI reference"
+          logfc_col: "Fold change comparison of time point 1 vs different time points. Time point 14 vs 1"
+          adjusted_p_value_col: "q-value of time point 1 vs different time points. Time point 14 vs 1"
+          pvalue_threshold: 0.05
+        - id: "syn_wh7803_sw_tp21_vs_tp1"
+          experiment: syn_wh7803_exoproteome_sw
+          timepoint: "day 21"
+          timepoint_hours: 504
+          name_col: "NCBI reference"
+          logfc_col: "Fold change comparison of time point 1 vs different time points. Time point 21 vs 1"
+          adjusted_p_value_col: "q-value of time point 1 vs different time points. Time point 21 vs 1"
+          pvalue_threshold: 0.05
+        - id: "syn_wh7803_sw_tp32_vs_tp1"
+          experiment: syn_wh7803_exoproteome_sw
+          timepoint: "day 32"
+          timepoint_hours: 768
+          name_col: "NCBI reference"
+          logfc_col: "Fold change comparison of time point 1 vs different time points. Time point 32 vs 1"
+          adjusted_p_value_col: "q-value of time point 1 vs different time points. Time point 32 vs 1"
+          pvalue_threshold: 0.05
+        - id: "syn_wh7803_sw_tp60_vs_tp1"
+          experiment: syn_wh7803_exoproteome_sw
+          timepoint: "day 60"
+          timepoint_hours: 1440
+          name_col: "NCBI reference"
+          logfc_col: "Fold change comparison of time point 1 vs different time points.  Time point 60 vs 1"
+          adjusted_p_value_col: "q-value of time point 1 vs different time points.  Time point 60 vs 1"
+          pvalue_threshold: 0.05
+        - id: "syn_wh7803_sw_tp100_vs_tp1"
+          experiment: syn_wh7803_exoproteome_sw
+          timepoint: "day 100"
+          timepoint_hours: 2400
+          name_col: "NCBI reference"
+          logfc_col: "Fold change comparison of time point 1 vs different time points. Time point 100 vs 1"
+          adjusted_p_value_col: "q-value of time point 1 vs different time points. Time point 100 vs 1"
+          pvalue_threshold: 0.05
+
+    # ── Table S4b: Synechococcus WH7803 exoproteome in ASW ──
+    supp_table_s4b:
+      type: csv
+      filename: "data/Synechococcus/papers_and_supp/kaur 2018/table s4b Syn ASW emi14012-sup-0004-suppinfo4.csv"
+      skip_rows: 2
+      organism: "Synechococcus WH7803"
+      id_columns:
+        - column: "NCBI reference"
+          id_type: protein_id
+        - column: "Other reference"
+          id_type: old_locus_tag
+      product_columns:
+        - column: "Annotated function and designation"
+      statistical_analyses:
+        - id: "syn_wh7803_asw_tp3_vs_tp1"
+          experiment: syn_wh7803_exoproteome_asw
+          timepoint: "day 3"
+          timepoint_hours: 72
+          name_col: "NCBI reference"
+          logfc_col: "Fold change comparison of time point 1 vs different time points. Time point 3 vs 1"
+          adjusted_p_value_col: "q-value of time point 1 vs different time points. Time point 3 vs 1"
+          pvalue_threshold: 0.05
+        - id: "syn_wh7803_asw_tp7_vs_tp1"
+          experiment: syn_wh7803_exoproteome_asw
+          timepoint: "day 7"
+          timepoint_hours: 168
+          name_col: "NCBI reference"
+          logfc_col: "Fold change comparison of time point 1 vs different time points. Time point 7 vs 1"
+          adjusted_p_value_col: "q-value of time point 1 vs different time points. Time point 7 vs 1"
+          pvalue_threshold: 0.05
+        - id: "syn_wh7803_asw_tp14_vs_tp1"
+          experiment: syn_wh7803_exoproteome_asw
+          timepoint: "day 14"
+          timepoint_hours: 336
+          name_col: "NCBI reference"
+          logfc_col: "Fold change comparison of time point 1 vs different time points. Time point 14 vs 1"
+          adjusted_p_value_col: "q-value of time point 1 vs different time points. Time point 14 vs 1"
+          pvalue_threshold: 0.05
+        - id: "syn_wh7803_asw_tp21_vs_tp1"
+          experiment: syn_wh7803_exoproteome_asw
+          timepoint: "day 21"
+          timepoint_hours: 504
+          name_col: "NCBI reference"
+          logfc_col: "Fold change comparison of time point 1 vs different time points. Time point 21 vs 1"
+          adjusted_p_value_col: "q-value of time point 1 vs different time points. Time point 21 vs 1"
+          pvalue_threshold: 0.05
+        - id: "syn_wh7803_asw_tp32_vs_tp1"
+          experiment: syn_wh7803_exoproteome_asw
+          timepoint: "day 32"
+          timepoint_hours: 768
+          name_col: "NCBI reference"
+          logfc_col: "Fold change comparison of time point 1 vs different time points. Time point 32 vs 1"
+          adjusted_p_value_col: "q-value of time point 1 vs different time points. Time point 32 vs 1"
+          pvalue_threshold: 0.05
+        - id: "syn_wh7803_asw_tp60_vs_tp1"
+          experiment: syn_wh7803_exoproteome_asw
+          timepoint: "day 60"
+          timepoint_hours: 1440
+          name_col: "NCBI reference"
+          logfc_col: "Fold change comparison of time point 1 vs different time points.  Time point 60 vs 1"
+          adjusted_p_value_col: "q-value of time point 1 vs different time points.  Time point 60 vs 1"
+          pvalue_threshold: 0.05
+        - id: "syn_wh7803_asw_tp100_vs_tp1"
+          experiment: syn_wh7803_exoproteome_asw
+          timepoint: "day 100"
+          timepoint_hours: 2400
+          name_col: "NCBI reference"
+          logfc_col: "Fold change comparison of time point 1 vs different time points. Time point 100 vs 1"
+          adjusted_p_value_col: "q-value of time point 1 vs different time points. Time point 100 vs 1"
+          pvalue_threshold: 0.05
+
+    # ── Table S5a: R. pomeroyi DSS-3 exoproteome in SW ──
+    # Gene IDs are NCBI protein accessions (AAV93###, no version suffix).
+    # Note: S5 tables have NO "Other reference" column (unlike S4 tables).
+    supp_table_s5a:
+      type: csv
+      filename: "data/Synechococcus/papers_and_supp/kaur 2018/table s5a Pom SW emi14012-sup-0005-suppinfo5.csv"
+      skip_rows: 2
+      organism: "Ruegeria pomeroyi DSS-3"
+      id_columns:
+        - column: "NCBI reference"
+          id_type: protein_id
+      product_columns:
+        - column: "Annotated function and designation"
+      statistical_analyses:
+        - id: "rpom_dss3_sw_tp3_vs_tp1"
+          experiment: rpom_dss3_exoproteome_sw
+          timepoint: "day 3"
+          timepoint_hours: 72
+          name_col: "NCBI reference"
+          logfc_col: "Fold change comparison of time point 1 vs different time points . Time point 3 vs 1"
+          adjusted_p_value_col: "q-value of time point 1 vs different time points . Time point 3 vs 1"
+          pvalue_threshold: 0.05
+        - id: "rpom_dss3_sw_tp7_vs_tp1"
+          experiment: rpom_dss3_exoproteome_sw
+          timepoint: "day 7"
+          timepoint_hours: 168
+          name_col: "NCBI reference"
+          logfc_col: "Fold change comparison of time point 1 vs different time points . Time point 7 vs 1"
+          adjusted_p_value_col: "q-value of time point 1 vs different time points . Time point 7 vs 1"
+          pvalue_threshold: 0.05
+        - id: "rpom_dss3_sw_tp14_vs_tp1"
+          experiment: rpom_dss3_exoproteome_sw
+          timepoint: "day 14"
+          timepoint_hours: 336
+          name_col: "NCBI reference"
+          logfc_col: "Fold change comparison of time point 1 vs different time points . Time point 14 vs 1"
+          adjusted_p_value_col: "q-value of time point 1 vs different time points . Time point 14 vs 1"
+          pvalue_threshold: 0.05
+        - id: "rpom_dss3_sw_tp21_vs_tp1"
+          experiment: rpom_dss3_exoproteome_sw
+          timepoint: "day 21"
+          timepoint_hours: 504
+          name_col: "NCBI reference"
+          logfc_col: "Fold change comparison of time point 1 vs different time points . Time point 21 vs 1"
+          adjusted_p_value_col: "q-value of time point 1 vs different time points . Time point 21 vs 1"
+          pvalue_threshold: 0.05
+        - id: "rpom_dss3_sw_tp32_vs_tp1"
+          experiment: rpom_dss3_exoproteome_sw
+          timepoint: "day 32"
+          timepoint_hours: 768
+          name_col: "NCBI reference"
+          logfc_col: "Fold change comparison of time point 1 vs different time points . Time point 32 vs 1"
+          adjusted_p_value_col: "q-value of time point 1 vs different time points . Time point 32 vs 1"
+          pvalue_threshold: 0.05
+        - id: "rpom_dss3_sw_tp60_vs_tp1"
+          experiment: rpom_dss3_exoproteome_sw
+          timepoint: "day 60"
+          timepoint_hours: 1440
+          name_col: "NCBI reference"
+          logfc_col: "Fold change comparison of time point 1 vs different time points .  Time point 60 vs 1"
+          adjusted_p_value_col: "q-value of time point 1 vs different time points .  Time point 60 vs 1"
+          pvalue_threshold: 0.05
+        - id: "rpom_dss3_sw_tp100_vs_tp1"
+          experiment: rpom_dss3_exoproteome_sw
+          timepoint: "day 100"
+          timepoint_hours: 2400
+          name_col: "NCBI reference"
+          logfc_col: "Fold change comparison of time point 1 vs different time points . Time point 100 vs 1"
+          adjusted_p_value_col: "q-value of time point 1 vs different time points . Time point 100 vs 1"
+          pvalue_threshold: 0.05
+
+    # ── Table S5b: R. pomeroyi DSS-3 exoproteome in ASW ──
+    supp_table_s5b:
+      type: csv
+      filename: "data/Synechococcus/papers_and_supp/kaur 2018/table s5b Pom ASW emi14012-sup-0005-suppinfo5.csv"
+      skip_rows: 2
+      organism: "Ruegeria pomeroyi DSS-3"
+      id_columns:
+        - column: "NCBI reference"
+          id_type: protein_id
+      product_columns:
+        - column: "Annotated function and designation"
+      statistical_analyses:
+        - id: "rpom_dss3_asw_tp3_vs_tp1"
+          experiment: rpom_dss3_exoproteome_asw
+          timepoint: "day 3"
+          timepoint_hours: 72
+          name_col: "NCBI reference"
+          logfc_col: "Fold change comparison of time point 1 vs different time points. Time point 3 vs 1"
+          adjusted_p_value_col: "q-value of time point 1 vs different time points. Time point 3 vs 1"
+          pvalue_threshold: 0.05
+        - id: "rpom_dss3_asw_tp7_vs_tp1"
+          experiment: rpom_dss3_exoproteome_asw
+          timepoint: "day 7"
+          timepoint_hours: 168
+          name_col: "NCBI reference"
+          logfc_col: "Fold change comparison of time point 1 vs different time points. Time point 7 vs 1"
+          adjusted_p_value_col: "q-value of time point 1 vs different time points. Time point 7 vs 1"
+          pvalue_threshold: 0.05
+        - id: "rpom_dss3_asw_tp14_vs_tp1"
+          experiment: rpom_dss3_exoproteome_asw
+          timepoint: "day 14"
+          timepoint_hours: 336
+          name_col: "NCBI reference"
+          logfc_col: "Fold change comparison of time point 1 vs different time points. Time point 14 vs 1"
+          adjusted_p_value_col: "q-value of time point 1 vs different time points. Time point 14 vs 1"
+          pvalue_threshold: 0.05
+        - id: "rpom_dss3_asw_tp21_vs_tp1"
+          experiment: rpom_dss3_exoproteome_asw
+          timepoint: "day 21"
+          timepoint_hours: 504
+          name_col: "NCBI reference"
+          logfc_col: "Fold change comparison of time point 1 vs different time points. Time point 21 vs 1"
+          adjusted_p_value_col: "q-value of time point 1 vs different time points. Time point 21 vs 1"
+          pvalue_threshold: 0.05
+        - id: "rpom_dss3_asw_tp32_vs_tp1"
+          experiment: rpom_dss3_exoproteome_asw
+          timepoint: "day 32"
+          timepoint_hours: 768
+          name_col: "NCBI reference"
+          logfc_col: "Fold change comparison of time point 1 vs different time points. Time point 32 vs 1"
+          adjusted_p_value_col: "q-value of time point 1 vs different time points. Time point 32 vs 1"
+          pvalue_threshold: 0.05
+        - id: "rpom_dss3_asw_tp60_vs_tp1"
+          experiment: rpom_dss3_exoproteome_asw
+          timepoint: "day 60"
+          timepoint_hours: 1440
+          name_col: "NCBI reference"
+          logfc_col: "Fold change comparison of time point 1 vs different time points.  Time point 60 vs 1"
+          adjusted_p_value_col: "q-value of time point 1 vs different time points.  Time point 60 vs 1"
+          pvalue_threshold: 0.05
+        - id: "rpom_dss3_asw_tp100_vs_tp1"
+          experiment: rpom_dss3_exoproteome_asw
+          timepoint: "day 100"
+          timepoint_hours: 2400
+          name_col: "NCBI reference"
+          logfc_col: "Fold change comparison of time point 1 vs different time points. Time point 100 vs 1"
+          adjusted_p_value_col: "q-value of time point 1 vs different time points. Time point 100 vs 1"
+          pvalue_threshold: 0.05

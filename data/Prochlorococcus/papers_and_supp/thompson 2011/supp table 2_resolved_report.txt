@@ -4,16 +4,15 @@ name_col: Gene
 id_columns: ['Gene']
 
 Total rows with IDs: 111
-Resolved: 97 (87.4%)
-Unresolved: 14
+Resolved: 98 (88.3%)
+Unresolved: 13
 
 Resolution method breakdown:
-  tier1:Gene: 97
-  unresolved: 14
+  tier1:Gene: 98
+  unresolved: 13
 
-Unresolved rows (14):
+Unresolved rows (13):
   row 4: raw_id='P9313_01981'  reason=unresolved  [Gene='P9313_01981']
-  row 72: raw_id='P9313_16611'  reason=unresolved  [Gene='P9313_16611']
   row 87: raw_id='P9313_21301'  reason=unresolved  [Gene='P9313_21301']
   row 88: raw_id='P9313_21331'  reason=unresolved  [Gene='P9313_21331']
   row 91: raw_id='P9313_22121'  reason=unresolved  [Gene='P9313_22121']

@@ -28,6 +28,10 @@ ANCHOR_NODES = {
     "OrganismTaxon": [
         "insdc.gcf:GCF_000011465.1",  # MED4
     ],
+    "Publication": [
+        "doi:10.1038/msb4100087",       # Tolonen 2006 — nitrogen stress, MED4+MIT9313
+        "doi:10.1038/ismej.2016.70",     # Biller 2016 — coculture, MED4+MIT9313+HOT1A3
+    ],
     # GO root terms — always present as ancestors of any annotated GO term
     "BiologicalProcess": [
         "go:0008150",  # biological_process (root)
@@ -43,10 +47,8 @@ ANCHOR_NODES = {
         "ec:1.-.-.-",  # Oxidoreductases (EC class 1)
     ],
     # KEGG anchor nodes
-    "KeggOrthologousGroup": [
+    "KeggTerm": [
         "kegg.orthology:K02338",  # dnaN — DNA pol III beta subunit, common in prokaryotes
-    ],
-    "KeggCategory": [
         "kegg.category:09100",  # Metabolism — top-level BRITE category
     ],
     # COG anchor nodes — stable hardcoded categories
@@ -63,12 +65,12 @@ ANCHOR_NODES = {
 
 # Key properties to capture per node type
 NODE_PROPERTIES = {
-    "Gene": ["locus_tag", "product", "gene_name", "gene_synonyms", "strand"],
+    "Gene": ["locus_tag", "product", "gene_name", "gene_name_synonyms", "strand"],
     "Protein": ["protein_synonyms", "gene_names"],
     "OrganismTaxon": ["organism_name", "strain_name", "genus", "clade", "ncbi_taxon_id"],
-    "Publication": ["doi", "pmid", "title"],
-    "EnvironmentalCondition": ["name", "condition_type"],
-    "Cyanorak_cluster": ["cluster_number"],
+    "Publication": ["doi", "pmid", "title", "experiment_count", "treatment_types", "omics_types", "organisms"],
+    "Experiment": ["name", "organism_name", "treatment_type", "treatment", "control", "omics_type", "is_time_course"],
+    "OrthologGroup": ["name", "source", "taxonomic_level", "taxon_id"],
     # GO term node types (from functional_annotation_adapter.py)
     "BiologicalProcess": ["name"],
     "CellularComponent": ["name"],
@@ -76,10 +78,7 @@ NODE_PROPERTIES = {
     # EC number nodes (from ec_adapter / functional_annotation_adapter)
     "EcNumber": ["name"],
     # KEGG nodes (from MultiKeggAnnotationAdapter)
-    "KeggOrthologousGroup": ["name"],
-    "KeggPathway": ["name"],
-    "KeggSubcategory": ["name"],
-    "KeggCategory": ["name"],
+    "KeggTerm": ["name", "level"],
     # COG / role nodes (from MultiCogRoleAnnotationAdapter)
     "CogFunctionalCategory": ["code", "name"],
     "CyanorakRole": ["code", "description"],
@@ -91,16 +90,13 @@ EDGE_PROPERTIES = {
     "Gene_belongs_to_organism": [],
     "Protein_belongs_to_organism": [],
     "Gene_encodes_protein": [],
-    "Gene_in_cyanorak_cluster": [],
-    "Gene_is_homolog_of_gene": ["cluster_id", "distance", "source"],
-    "Affects_expression_of": [
+    "Gene_in_ortholog_group": [],
+    "Changes_expression_of": [
         "expression_direction", "log2_fold_change", "adjusted_p_value",
-        "control_condition",
+        "time_point", "time_point_order", "time_point_hours",
     ],
-    "Affects_expression_of_homolog": [
-        "expression_direction", "log2_fold_change", "original_gene",
-        "homology_cluster_id",
-    ],
+    "Has_experiment": [],
+    "Tests_coculture_with": [],
     # Gene → GO edges (functional_annotation_adapter.py; label_as_edge values)
     "Gene_involved_in_biological_process": [],
     "Gene_located_in_cellular_component": [],
@@ -114,9 +110,7 @@ EDGE_PROPERTIES = {
     "Gene_catalyzes_ec_number": [],
     # KEGG edges (MultiKeggAnnotationAdapter)
     "Gene_has_kegg_ko": [],
-    "Ko_in_kegg_pathway": [],
-    "Kegg_pathway_in_kegg_subcategory": [],
-    "Kegg_subcategory_in_kegg_category": [],
+    "Kegg_term_is_a_kegg_term": [],
     # COG / role edges (MultiCogRoleAnnotationAdapter)
     "Gene_in_cog_category": [],
     "Gene_has_cyanorak_role": [],
@@ -196,34 +190,8 @@ def _collect_edge_rows(result, props):
 def sample_edges(session):
     """Sample edges: deterministic sample per relationship type."""
     edges = []
-    props_for_homolog = EDGE_PROPERTIES["Gene_is_homolog_of_gene"]
 
     for rel_type, props in EDGE_PROPERTIES.items():
-        if rel_type == "Gene_is_homolog_of_gene":
-            # Sample per source so all three sources (cyanorak_cluster,
-            # eggnog_alteromonadaceae_og, eggnog_bacteria_cog_og) are represented.
-            seen = set()
-            for source_val in [
-                "cyanorak_cluster",
-                "eggnog_alteromonadaceae_og",
-                "eggnog_bacteria_cog_og",
-            ]:
-                result = run_query(
-                    session,
-                    "MATCH (src)-[r:Gene_is_homolog_of_gene]->(tgt) "
-                    "WHERE r.source = $src_val "
-                    "RETURN src.id AS source, tgt.id AS target, properties(r) AS rprops "
-                    "ORDER BY src.id, tgt.id LIMIT $limit",
-                    src_val=source_val,
-                    limit=SAMPLE_SIZE,
-                )
-                for d in _collect_edge_rows(result, props_for_homolog):
-                    key = (d["source"], d["target"])
-                    if key not in seen:
-                        seen.add(key)
-                        edges.append({"type": rel_type, **d})
-            continue
-
         result = run_query(
             session,
             f"MATCH (src)-[r:`{rel_type}`]->(tgt) "

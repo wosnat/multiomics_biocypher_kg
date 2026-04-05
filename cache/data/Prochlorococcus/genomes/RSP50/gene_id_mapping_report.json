@@ -7,18 +7,23 @@
     },
     "gene_name": {
       "conflict": 0,
-      "multi": 33,
-      "unique": 1842
+      "multi": 46,
+      "unique": 924
     },
     "gene_synonym": {
       "conflict": 0,
       "multi": 0,
-      "unique": 1768
+      "unique": 3099
     },
-    "locus_tag_ncbi": {
+    "gff_gene_id": {
       "conflict": 0,
       "multi": 0,
-      "unique": 3545
+      "unique": 3637
+    },
+    "locus_tag_ncbi": {
+      "conflict": 16,
+      "multi": 0,
+      "unique": 5914
     },
     "protein_id_refseq": {
       "conflict": 0,
@@ -29,7 +34,10 @@
   "strain": "RSP50",
   "unresolved_rows_per_source": {
     "cds_from_genomic.fna": 1,
-    "genomic_gca/RSP50": 96
+    "genomic_gca/RSP50": 96,
+    "genomic_gcf/RSP50": 48
   },
-  "warnings": []
+  "warnings": [
+    "[CONFLICT] Tier 1 id_type 'locus_tag_ncbi' has 16 data conflicts \u2014 check annotation quality."
+  ]
 }

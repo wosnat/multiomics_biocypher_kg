@@ -2,7 +2,7 @@
 
 ## Overview
 
-Integrating differential expression results from diverse publications into a unified knowledge graph requires a declarative system that can accommodate variation in experimental designs, statistical reporting conventions, gene identifier vocabularies, and edge semantics. We developed a two-component system: (1) a YAML-based configuration schema (`paperconfig.yaml`) that declaratively describes each publication's supplementary data tables and their experimental metadata, and (2) an omics adapter that reads these configurations, generates graph nodes for publications and experimental conditions, and emits `Affects_expression_of` edges linking causal factors to genes with quantitative expression properties. The system currently integrates 24 publications spanning RNA-seq, proteomics, metabolomics, and microarray experiments across 13 bacterial strains.
+Integrating differential expression results from diverse publications into a unified knowledge graph requires a declarative system that can accommodate variation in experimental designs, statistical reporting conventions, gene identifier vocabularies, and edge semantics. We developed a two-component system: (1) a YAML-based configuration schema (`paperconfig.yaml`) that declaratively describes each publication's supplementary data tables and their experimental metadata, and (2) an omics adapter that reads these configurations, generates graph nodes for publications and experimental conditions, and emits `Condition_changes_expression_of` or `Coculture_changes_expression_of` edges linking causal factors to genes with quantitative expression properties. The system currently integrates 24 publications spanning RNA-seq, proteomics, metabolomics, and microarray experiments across 13 bacterial strains.
 
 ## Paperconfig YAML Schema
 
@@ -60,19 +60,19 @@ The `supplementary_materials` block maps each data file to one or more statistic
           experimental_context: "Pro99 medium, continuous light"
 ```
 
-Each analysis within a table must carry a unique `id` field that, combined with the publication DOI, forms a globally unique edge ID prefix. This design supports parallel edges: the same gene may have multiple `Affects_expression_of` edges from different time points, conditions, or publications, each with distinct properties.
+Each analysis within a table must carry a unique `id` field that, combined with the publication DOI, forms a globally unique edge ID prefix. This design supports parallel edges: the same gene may have multiple expression edges from different time points, conditions, or publications, each with distinct properties.
 
 File-level settings (`organism`, `sep`, `skip_rows`) propagate to individual analyses unless overridden, reducing repetition in multi-analysis tables.
 
 ## Edge Source Determination
 
-The causal factor in a differential expression experiment is modeled as the source node of each `Affects_expression_of` edge. Two source types are supported, selected per analysis by the fields present in the paperconfig:
+The causal factor in a differential expression experiment is modeled as the source node of each expression edge. Two source types are supported, selected per analysis by the fields present in the paperconfig; they produce different edge labels to enable unambiguous queries by experiment type:
 
-**Environmental condition source.** When the analysis declares an `environmental_treatment_condition_id`, the adapter uses the corresponding `EnvironmentalCondition` node as the edge source. This applies to stress experiments (light shifts, nutrient limitation, gas perturbation) where the causal factor is an abiotic condition rather than a biological entity. Approximately 95,000 edges in the current graph use this source type.
+**Environmental condition source.** When the analysis declares an `environmental_treatment_condition_id`, the adapter uses the corresponding `EnvironmentalCondition` node as the edge source and emits a `Condition_changes_expression_of` edge. This applies to stress experiments (light shifts, nutrient limitation, gas perturbation) where the causal factor is an abiotic condition rather than a biological entity. Approximately 95,000 edges in the current graph use this source type.
 
-**Organism taxon source.** When the analysis instead declares `treatment_organism` and `treatment_assembly_accession` (or `treatment_taxid`), the adapter uses the corresponding `OrganismTaxon` node as the edge source. This applies to coculture experiments where gene expression changes in one organism are attributed to the presence of another organism. The assembly accession is preferred for source identification (yielding an INSDC GCF-based CURIE), with NCBI taxonomy ID as a fallback. Approximately 12,000 edges in the current graph use this source type.
+**Organism taxon source.** When the analysis instead declares `treatment_organism` and `treatment_assembly_accession` (or `treatment_taxid`), the adapter uses the corresponding `OrganismTaxon` node as the edge source and emits a `Coculture_changes_expression_of` edge. This applies to coculture experiments where gene expression changes in one organism are attributed to the presence of another organism. The assembly accession is preferred for source identification (yielding an INSDC GCF-based CURIE), with NCBI taxonomy ID as a fallback. Approximately 12,000 edges in the current graph use this source type.
 
-Both edge types share the same `Affects_expression_of` label in the graph, allowing LLM agents and Cypher queries to uniformly query all expression effects regardless of the causal factor type.
+LLM agents and Cypher queries that need to span both experiment types can use `r:Condition_changes_expression_of|Coculture_changes_expression_of` in relationship patterns.
 
 ## Publication Metadata Extraction
 
@@ -80,14 +80,14 @@ Publication nodes carry structured metadata (title, authors, journal, DOI, abstr
 
 ## Edge Properties
 
-Each `Affects_expression_of` edge carries the following properties:
+Each `Condition_changes_expression_of` and `Coculture_changes_expression_of` edge carries the following properties:
 
 | Property | Type | Source | Required |
 |----------|------|--------|----------|
 | `log2_fold_change` | float | Data CSV column (`logfc_col`) | Yes |
 | `adjusted_p_value` | float | Data CSV column (`adjusted_p_value_col`) or inferred from asterisk convention | No |
 | `expression_direction` | string | Derived: `"up"` if log2FC > 0, `"down"` otherwise | Yes |
-| `significant` | boolean | Computed from thresholds or asterisk convention | When determinable |
+| `significant` | string | `"significant"`, `"not significant"`, or `"unknown"` — computed from thresholds or asterisk convention | Yes |
 | `control_condition` | string | Paperconfig analysis field | When available |
 | `experimental_context` | string | Paperconfig analysis field | When available |
 | `time_point` | string | Paperconfig analysis field | When available |
@@ -107,9 +107,11 @@ Statistical significance is determined through a three-priority cascade, evaluat
 
 **Priority 2 — Asterisk convention.** Some publications encode significance as asterisks appended to fold-change values (e.g., `"1.23 *"` for significant, `"0.45"` for non-significant). When `pvalue_asterisk_in_logfc: true` is set, the adapter strips asterisks from the fold-change string and records their presence as a boolean significance flag. A synthetic `adjusted_p_value` is assigned: the configured `pvalue_threshold` (default 0.05) when significant, or 1.0 when not. This convention is used by several time-course studies in the dataset (e.g., Biller 2016, Coe 2024) where per-gene p-values were computed but only the binary significance outcome was reported in supplementary tables.
 
-**Priority 3 — Threshold-based classification.** When neither prefiltering nor asterisk conventions apply, significance is computed by comparing the row's `adjusted_p_value` against a threshold (default 0.05, overridable per analysis via `pvalue_threshold`) and the absolute `log2_fold_change` against a threshold (default 1.0, overridable via `logfc_threshold`). A row is significant only when both criteria are met. When neither p-value nor fold-change threshold can be evaluated (both values absent), significance is recorded as null.
+**Priority 3 — Threshold-based classification.** When neither prefiltering nor asterisk conventions apply, significance is computed by comparing the row's `adjusted_p_value` against a threshold (default 0.05, overridable per analysis via `pvalue_threshold`) and the absolute `log2_fold_change` against a threshold (default 1.0, overridable via `logfc_threshold`). A row is significant only when both criteria are met. When neither p-value nor fold-change threshold can be evaluated (both values absent), significance is recorded as `"unknown"`.
 
-The adapter supports two operating modes: in `"all"` mode (default), all rows produce edges regardless of significance, with a `significant` boolean property for downstream filtering; in `"significant_only"` mode, rows classified as non-significant are excluded from edge generation.
+The `significant` property is a string with three possible values: `"significant"`, `"not significant"`, or `"unknown"`. This avoids boolean serialization issues with neo4j-admin import and provides a self-documenting value in Cypher queries (e.g., `WHERE r.significant = 'significant'`).
+
+The adapter supports two operating modes: in `"all"` mode (default), all rows produce edges regardless of significance, with a `significant` string property for downstream filtering; in `"significant_only"` mode, rows classified as `"not significant"` are excluded from edge generation.
 
 ## Pre-resolved CSV Integration
 
@@ -125,7 +127,7 @@ All string property values are sanitized before yielding nodes and edges. Single
 
 ## Multi-Paper Aggregation
 
-The `MultiOMICSAdapter` wrapper reads a text file (`paperconfig_files.txt`) listing all paperconfig paths, instantiates one `OMICSAdapter` per publication, and aggregates their nodes and edges. This design allows each adapter instance to operate independently — loading its own config, extracting its own publication metadata, and generating its own edges — while the wrapper provides the unified interface expected by the knowledge graph build pipeline. The current deployment processes 24 paperconfig files, generating approximately 107,000 `Affects_expression_of` edges across all publications.
+The `MultiOMICSAdapter` wrapper reads a text file (`paperconfig_files.txt`) listing all paperconfig paths, instantiates one `OMICSAdapter` per publication, and aggregates their nodes and edges. This design allows each adapter instance to operate independently — loading its own config, extracting its own publication metadata, and generating its own edges — while the wrapper provides the unified interface expected by the knowledge graph build pipeline. The current deployment processes 24 paperconfig files, generating approximately ~188K expression edges (`Condition_changes_expression_of` + `Coculture_changes_expression_of`) across all publications.
 
 ## Edge Identity and Parallel Edges
 

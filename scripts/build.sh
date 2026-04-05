@@ -5,7 +5,9 @@ cd /usr/app/
 cp -r /src/* .
 cp /src/.env .
 cp config/biocypher_docker_config.yaml config/biocypher_config.yaml
-pip install uv
+# Use persistent cache volume so pip/uv skip downloads on subsequent builds
+pip install --cache-dir /cache/pip uv
+export UV_CACHE_DIR=/cache/uv
 uv sync
 # add clean build (set via env variable in docker-compose.yml)
 if [ "${BUILD2NEO_CLEANUP:-no}" == 'yes' ]; then

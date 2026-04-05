@@ -1,0 +1,25 @@
+# Strain-level shared gene ID resources for Prochlorococcus MIT9313
+# No publication block — this is not a paper.
+# Listed in paperconfig_files.txt so build_gene_id_mapping.py picks it up.
+# omics_adapter ignores this file (no publication block, no statistical_analyses).
+supplementary_materials:
+  mit9313_id_translation:
+    type: id_translation
+    filename: "data/Prochlorococcus/papers_and_supp/MIT9313_resources/MIT9313_genbank.tsv"
+    sep: "\t"
+    organism: "Prochlorococcus MIT9313"
+    id_columns:
+      # Canonical NCBI RS-format locus tag — primary resolution anchor
+      - column: "locus_tag"
+        id_type: locus_tag
+      # Old PMT-style locus tags (e.g. PMT_0001)
+      - column: "PMTid"
+        id_type: old_locus_tag
+      # P9313-style locus tags (e.g. P9313_00001)
+      - column: "P9313name"
+        id_type: old_locus_tag
+      # UniProt accessions (e.g. Q7V9E7)
+      - column: "uniprot_id"
+        id_type: uniprot_accession
+    product_columns:
+      - column: "product"

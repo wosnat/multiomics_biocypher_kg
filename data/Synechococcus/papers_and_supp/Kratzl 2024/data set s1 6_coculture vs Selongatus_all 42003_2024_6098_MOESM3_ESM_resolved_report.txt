@@ -1,0 +1,35 @@
+Resolution report: Kratzl 2024 / sheet6_rnaseq_selongatus
+Source: data set s1 6_coculture vs Selongatus_all 42003_2024_6098_MOESM3_ESM.csv
+name_col: gene ID
+id_columns: ['gene ID', 'Locus Tag', 'Protein ID']
+
+Total rows with IDs: 2679
+Resolved: 2627 (98.1%)
+Unresolved: 52
+
+Resolution method breakdown:
+  tier1:gene ID: 2627
+  unresolved: 52
+
+Unresolved rows (52):
+  row 2111: raw_id='gene-H6G84_RS00050'  reason=unresolved  [gene ID='gene-H6G84_RS00050', Locus Tag='Synpcc7942_2566', Protein ID='WP_011378520.1']
+  row 2544: raw_id='gene-H6G84_RS13860'  reason=unresolved  [gene ID='gene-H6G84_RS13860', Protein ID='WP_234909966.1']
+  row 2570: raw_id='gene-H6G84_RS06765'  reason=unresolved  [gene ID='gene-H6G84_RS06765', Protein ID='WP_234910025.1']
+  row 2593: raw_id='gene-H6G84_RS13870'  reason=unresolved  [gene ID='gene-H6G84_RS13870', Protein ID='WP_234910053.1']
+  row 2631: raw_id='gene-H6G84_RS01930'  reason=unresolved  [gene ID='gene-H6G84_RS01930']
+  row 2632: raw_id='gene-H6G84_RS11485'  reason=unresolved  [gene ID='gene-H6G84_RS11485']
+  row 2633: raw_id='gene-H6G84_RS00320'  reason=unresolved  [gene ID='gene-H6G84_RS00320']
+  row 2634: raw_id='gene-H6G84_RS06975'  reason=unresolved  [gene ID='gene-H6G84_RS06975']
+  row 2635: raw_id='gene-H6G84_RS08000'  reason=unresolved  [gene ID='gene-H6G84_RS08000']
+  row 2636: raw_id='gene-H6G84_RS10445'  reason=unresolved  [gene ID='gene-H6G84_RS10445']
+  row 2637: raw_id='gene-H6G84_RS11180'  reason=unresolved  [gene ID='gene-H6G84_RS11180']
+  row 2638: raw_id='gene-H6G84_RS13810'  reason=unresolved  [gene ID='gene-H6G84_RS13810']
+  row 2639: raw_id='gene-H6G84_RS10780'  reason=unresolved  [gene ID='gene-H6G84_RS10780']
+  row 2640: raw_id='gene-H6G84_RS00705'  reason=unresolved  [gene ID='gene-H6G84_RS00705']
+  row 2641: raw_id='gene-H6G84_RS01070'  reason=unresolved  [gene ID='gene-H6G84_RS01070']
+  row 2642: raw_id='gene-H6G84_RS01360'  reason=unresolved  [gene ID='gene-H6G84_RS01360']
+  row 2643: raw_id='gene-H6G84_RS02390'  reason=unresolved  [gene ID='gene-H6G84_RS02390']
+  row 2644: raw_id='gene-H6G84_RS03215'  reason=unresolved  [gene ID='gene-H6G84_RS03215']
+  row 2645: raw_id='gene-H6G84_RS06715'  reason=unresolved  [gene ID='gene-H6G84_RS06715']
+  row 2646: raw_id='gene-H6G84_RS05600'  reason=unresolved  [gene ID='gene-H6G84_RS05600']
+  ... (32 more)

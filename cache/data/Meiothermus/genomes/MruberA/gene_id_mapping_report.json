@@ -1,0 +1,55 @@
+{
+  "per_id_type": {
+    "cds_fna_id": {
+      "conflict": 0,
+      "multi": 0,
+      "unique": 2884
+    },
+    "gene_name": {
+      "conflict": 0,
+      "multi": 327,
+      "unique": 1303
+    },
+    "gene_synonym": {
+      "conflict": 0,
+      "multi": 10,
+      "unique": 7136
+    },
+    "gff_gene_id": {
+      "conflict": 0,
+      "multi": 0,
+      "unique": 5610
+    },
+    "locus_tag_ncbi": {
+      "conflict": 22,
+      "multi": 0,
+      "unique": 8942
+    },
+    "other": {
+      "conflict": 0,
+      "multi": 0,
+      "unique": 2006
+    },
+    "protein_id_refseq": {
+      "conflict": 0,
+      "multi": 2,
+      "unique": 5608
+    },
+    "uniprot_accession": {
+      "conflict": 0,
+      "multi": 0,
+      "unique": 1676
+    }
+  },
+  "strain": "MruberA",
+  "unresolved_rows_per_source": {
+    "Bernstein 2017/mruber_light_clusters": 66,
+    "Bernstein 2017/mruber_oxygen_clusters": 66,
+    "cds_from_genomic.fna": 69,
+    "genomic_gca/MruberA": 193,
+    "genomic_gcf/MruberA": 56
+  },
+  "warnings": [
+    "[CONFLICT] Tier 1 id_type 'locus_tag_ncbi' has 22 data conflicts \u2014 check annotation quality."
+  ]
+}

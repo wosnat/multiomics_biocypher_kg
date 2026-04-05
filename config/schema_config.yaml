@@ -21,135 +21,203 @@ publication:
     description: str
     abstract: str
     study_type: str # e.g., Transcriptomics, Proteomics
-    organism: str[]
+    organisms: str[]                   # post-import: computed from experiment organism_name + coculture_partner
+    experiment_count: int              # post-import: count of Has_experiment edges
+    treatment_types: str[]             # post-import: distinct treatment_type from experiments
+    background_factors: str[]          # post-import: distinct background_factors from experiments
+    omics_types: str[]                 # post-import: distinct omics_type from experiments
 
 
-# affects_expression_of edges: source (cause) -> gene (affected)
-# Both edge types below share the same label so LLM agents can query all expression effects uniformly.
-# IMPORTANT: Keep properties identical between the two definitions.
-
-organism to gene expression association:
-  is_a: Association
-  represented_as: edge
-  label_as_edge: affects_expression_of
-  label_in_input: affects_expression_of
-  source: organism_taxon           # treatment organism
-  target: gene
-  properties:
-    expression_direction: str      # "up" | "down"
-    control_condition: str         # baseline for the varied factor (e.g., "axenic", "light")
-    experimental_context: str      # other factors held constant (e.g., "in darkness")
-    time_point: str
-    log2_fold_change: float
-    adjusted_p_value: float
-    significant: boolean           # whether the row meets significance thresholds
-    publications: str[]
-
-environmental condition to gene expression association:
-  is_a: Association
-  represented_as: edge
-  label_as_edge: affects_expression_of
-  label_in_input: affects_expression_of
-  source: environmental condition  # environmental factor
-  target: gene
-  properties:
-    expression_direction: str      # "up" | "down"
-    control_condition: str         # baseline for the varied factor (e.g., "axenic", "light")
-    experimental_context: str      # other factors held constant (e.g., "in darkness")
-    time_point: str
-    log2_fold_change: float
-    adjusted_p_value: float
-    significant: boolean           # whether the row meets significance thresholds
-    publications: str[]
-
-
-# affects_expression_of_homolog edges: inferred from affects_expression_of + homology.
-# If condition/organism X affects_expression_of gene A, and gene A is homolog of gene B,
-# then X affects_expression_of_homolog gene B.
-# Created by post-import Cypher, not by adapters.
-
-organism to homolog gene expression association:
-  is_a: Association
-  represented_as: edge
-  label_as_edge: affects_expression_of_homolog
-  label_in_input: affects_expression_of_homolog
-  source: organism_taxon
-  target: gene
-  properties:
-    expression_direction: str
-    control_condition: str
-    experimental_context: str
-    time_point: str
-    log2_fold_change: float
-    adjusted_p_value: float
-    significant: boolean
-    publications: str[]
-    original_gene: str         # ID of the gene with the direct expression edge
-    homology_source: str       # e.g., "cyanorak_cluster"
-    homology_cluster_id: str   # the shared cluster ID
-    distance: str              # phylogenetic distance from homology edge, e.g. "same clade: HLI"
-
-environmental condition to homolog gene expression association:
-  is_a: Association
-  represented_as: edge
-  label_as_edge: affects_expression_of_homolog
-  label_in_input: affects_expression_of_homolog
-  source: environmental condition
-  target: gene
-  properties:
-    expression_direction: str
-    control_condition: str
-    experimental_context: str
-    time_point: str
-    log2_fold_change: float
-    adjusted_p_value: float
-    significant: boolean
-    publications: str[]
-    original_gene: str         # ID of the gene with the direct expression edge
-    homology_source: str       # e.g., "cyanorak_cluster"
-    homology_cluster_id: str   # the shared cluster ID
-    distance: str              # phylogenetic distance from homology edge, e.g. "same clade: HLI"
-
-cyanorak_cluster:
-  is_a: GroupingClass
+# Experiment node: groups time-series analyses for a single scientific comparison
+experiment:
+  is_a: InvestigativeProcess
   represented_as: node
   preferred_id: id
-  label_in_input: cyanorak_cluster
-  properties:
-    cluster_number: str
-
-gene_in_cyanorak_cluster:
-  is_a: Association
-  represented_as: edge
-  label_as_edge: gene_in_cyanorak_cluster
-  source: gene
-  target: cyanorak_cluster
-  label_in_input: gene_in_cyanorak_cluster
-
-timeseries_cluster:
-  is_a: GroupingClass
-  represented_as: node
-  preferred_id: id
-  label_in_input: timeseries_cluster
+  label_in_input: experiment
   properties:
     name: str
-    method: str # e.g., WGCNA, k-means
+    organism_name: str
+    treatment_type: str[]
+    background_factors: str[]
+    treatment: str
+    control: str
+    experimental_context: str
+    coculture_partner: str
+    omics_type: str
+    statistical_test: str
+    is_time_course: str
+    medium: str
+    temperature: str
+    light_condition: str
+    light_intensity: str
+    table_scope: str
+    table_scope_detail: str
+    gene_count: int
+    significant_up_count: int
+    significant_down_count: int
+    time_point_count: int
+    time_point_labels: str[]
+    time_point_orders: int[]
+    time_point_hours: float[]
+    time_point_totals: int[]
+    time_point_significant_up: int[]
+    time_point_significant_down: int[]
+
+# GeneCluster node: groups co-expressed genes from a clustering analysis within a publication
+gene cluster:
+  is_a: GroupingClass
+  represented_as: node
+  preferred_id: cluster_id
+  label_in_input: gene_cluster
+  properties:
+    id: str
+    name: str
+    organism_name: str
+    cluster_method: str
+    cluster_type: str
+    treatment_type: str[]
+    background_factors: str[]
+    treatment: str
+    omics_type: str
+    light_condition: str
+    member_count: int
+    functional_description: str
+    behavioral_description: str
+    peak_time_hours: float
+    period_hours: float
+    experimental_context: str
+
+# ClusteringAnalysis node: represents a clustering analysis from a publication
+clustering analysis:
+  is_a: information content entity
+  represented_as: node
+  preferred_id: clustering_analysis_id
+  label_in_input: clustering_analysis
+  properties:
+    name: str
+    organism_name: str
+    cluster_method: str
+    cluster_count: int
+    total_gene_count: int
+    omics_type: str
+    treatment_type: str[]
+    background_factors: str[]
+    treatment: str
+    light_condition: str
+    cluster_type: str
+    experimental_context: str
+
+# Publication → Experiment
+publication has experiment:
+  is_a: Association
+  represented_as: edge
+  label_as_edge: has_experiment
+  label_in_input: has_experiment
+  source: publication
+  target: experiment
+
+# Experiment → OrganismTaxon (coculture experiments only)
+experiment tests coculture:
+  is_a: Association
+  represented_as: edge
+  label_as_edge: tests_coculture_with
+  label_in_input: tests_coculture_with
+  source: experiment
+  target: organism taxon
+
+# Publication → ClusteringAnalysis
+publication has clustering analysis:
+  is_a: related to at instance level
+  represented_as: edge
+  label_in_input: publication_has_clustering_analysis
+  source: publication
+  target: clustering analysis
+
+# ClusteringAnalysis → GeneCluster
+clustering analysis has gene cluster:
+  is_a: related to at instance level
+  represented_as: edge
+  label_in_input: clustering_analysis_has_gene_cluster
+  source: clustering analysis
+  target: gene cluster
+
+# ClusteringAnalysis → OrganismTaxon
+clusteringanalysis belongs to organism:
+  is_a: related to at instance level
+  represented_as: edge
+  label_in_input: clusteringanalysis_belongs_to_organism
+  source: clustering analysis
+  target: organism taxon
+
+# Experiment → ClusteringAnalysis
+experiment has clustering analysis:
+  is_a: related to at instance level
+  represented_as: edge
+  label_in_input: experiment_has_clustering_analysis
+  source: experiment
+  target: clustering analysis
+
+# GeneCluster → Gene membership edges
+gene in gene cluster:
+  is_a: Association
+  represented_as: edge
+  label_as_edge: gene_in_gene_cluster
+  label_in_input: gene_in_gene_cluster
+  source: gene cluster
+  target: gene
+  properties:
+    membership_score: float
+    p_value: float
+
+# Experiment → Gene expression edges (unified: replaces condition_ and coculture_ variants)
+experiment to gene expression association:
+  is_a: Association
+  represented_as: edge
+  label_as_edge: changes_expression_of
+  label_in_input: changes_expression_of
+  source: experiment
+  target: gene
+  properties:
+    time_point: str
+    time_point_order: int
+    time_point_hours: float
+    log2_fold_change: float
+    adjusted_p_value: float
+    expression_direction: str
+    significant: str
+    expression_status: str    # post-import: "significant_up", "significant_down", or "not_significant"
+    rank_by_effect: int       # post-import: rank by |log2FC| among all genes per experiment x timepoint (1 = strongest)
+    rank_up: int              # post-import: rank by |log2FC| among significant_up genes per experiment x timepoint; null if not significant_up
+    rank_down: int            # post-import: rank by |log2FC| among significant_down genes per experiment x timepoint; null if not significant_down
+
+ortholog group:
+  is_a: GroupingClass
+  represented_as: node
+  preferred_id: id
+  label_in_input: ortholog_group
+  properties:
+    name: str              # raw OG identifier (e.g., "CK_00000364", "COG0592@2", "1MKTR@1212")
+    source: str            # "cyanorak" | "eggnog"
+    taxonomic_level: str   # "curated" | "Prochloraceae" | "Alteromonadaceae" | "Bacteria" | etc.
+    taxon_id: int          # NCBI taxon ID of the level (0 for curated)
+    specificity_rank: int  # 0=curated, 1=family, 2=order, 3=domain (Bacteria)
+    consensus_product: str
+    consensus_gene_name: str
     description: str
+    functional_description: str
+    member_count: int
+    organism_count: int
+    genera: str[]
+    has_cross_genus_members: str  # "cross_genus" | "single_genus"
 
-cluster_in_publication:
+gene in ortholog group:
   is_a: Association
   represented_as: edge
-  label_as_edge: cluster_in_publication
-  source: timeseries_cluster
-  target: publication
-  label_in_input: cluster_in_publication
+  label_as_edge: gene_in_ortholog_group
+  source: gene
+  target: ortholog group
+  label_in_input: gene_in_ortholog_group
 
-molecular_in_cluster:
-  is_a: Association
-  represented_as: edge
-  source: [gene, protein]
-  target: timeseries_cluster
-  label_in_input: member_of_cluster
   
 
 
@@ -170,59 +238,18 @@ gene:
   label_in_input: gene
   properties:
     locus_tag: str
-    locus_tag_ncbi: str
-    locus_tag_cyanorak: str
     start: int
     end: int
-    start_cyanorak: int
-    end_cyanorak: int
     strand: str
-    strand_cyanorak: str
     product: str
-    product_cyanorak: str
     protein_id: str
-    cyanorak_Role: str[]
-    cyanorak_Role_description: str[]
-    tIGR_Role: str[]
-    tIGR_Role_description: str[]
-    cluster_number: str
-    ec_numbers: str[]
     # Denormalized from linked Protein node during post-import (set via Cypher, not adapter):
     function_description: str      # UniProt functional description; present for all organisms
-    # Gene naming (canonical + provenance)
+    # Gene naming (canonical)
     gene_name: str                    # canonical name (dnaN, rpoA, etc.)
-    gene_synonyms: str[]              # all alternative names from all sources (mixed)
     gene_name_synonyms: str[]         # gene-name-like tokens only (dnaN, purF, etc.)
-    alternative_locus_tags: str[]     # locus-tag-like tokens only (PMM0001, ALTBGP6_RS00025)
-    gene_name_source: str             # cyanorak|uniprot|ncbi|eggnog
-    product_source: str               # provenance for product field
-    function_description_source: str  # provenance for function_description
     alternate_functional_descriptions: str[]  # all-source descriptions for LLM use: "[source] text"
-    old_locus_tags: str[]             # old-style locus tags (for paper ID mapping)
-    # EggNOG / COG functional roles
-    cog_category: str[]               # COG letter codes, one per element (e.g., ["L", "U"])
-    eggnog_ogs: str[]                 # eggNOG OG IDs (COG####, bactNOG####, etc.)
-    eggnog_og_descriptions: str[]     # OG descriptions
-    seed_ortholog: str                # seed ortholog ID
-    max_annot_lvl: str                # max annotation level (e.g., "1117|Cyanobacteria")
-    seed_ortholog_evalue: float       # e-value for seed ortholog
-    alteromonadaceae_og: str          # Alteromonadaceae-level OG ID (e.g., "4648R@72275|Alteromonadaceae"); Alteromonas only
-    bacteria_cog_og: str              # Bacteria-level COG ID (e.g., "COG0592") for cross-phylum ortholog matching
     protein_family: str               # protein family name
-    # Gene Ontology (unified from all sources)
-    go_terms: str[]                   # GO:XXXXXXX all aspects unified
-    go_term_descriptions: str         # pipe-separated GO descriptions
-    # KEGG (expanded)
-    kegg_ko: str[]                    # KO IDs (e.g., K02338)
-    kegg_ko_descriptions: str[]
-    kegg_pathway: str[]               # KEGG pathway IDs
-    kegg_module: str[]
-    kegg_reaction: str[]
-    kegg_brite: str[]
-    # Pfam domains
-    pfam_ids: str[]
-    pfam_names: str[]
-    pfam_descriptions: str[]
     # Specialized function
     catalytic_activities: str[]
     transmembrane_regions: str[]
@@ -230,8 +257,20 @@ gene:
     transporter_classification: str[]
     cazy_ids: str[]
     bigg_reaction: str[]
+    # Computed fields for MCP gene lookup
+    organism_name: str              # preferred organism name (e.g., "Prochlorococcus MED4")
+    gene_summary: str                 # "gene_name :: product :: description"
+    all_identifiers: str[]            # union of all alt IDs for single-array get_gene lookup
     # Quality
-    annotation_quality: int           # 0=none,1=eggnog-only,2=NCBI/Cyanorak,3=UniProt
+    annotation_quality: int           # 0=hypothetical-no-func, 1=hypothetical-with-func, 2=real-product, 3=real-product+structured
+    gene_category: str                # high-level functional classification (26 controlled values, from Cyanorak/TIGR/COG)
+    # Routing signals (pre-computed by post-import Cypher, not by adapter)
+    annotation_types: str[]           # ontology edge types with >0 edges, e.g. ["go_bp", "go_mf", "pfam"]
+    expression_edge_count: int        # total Changes_expression_of edges
+    significant_up_count: int         # expression edges where expression_status = 'significant_up'
+    significant_down_count: int       # expression edges where expression_status = 'significant_down'
+    closest_ortholog_group_size: int  # member_count from most specific OG (lowest specificity_rank)
+    closest_ortholog_genera: str[]    # genera from most specific OG
 
 # consider adding: Note, exceptions, inference
 
@@ -260,7 +299,7 @@ protein:
     caution_notes: str
     keyword_ids: str[]
     keywords: str[]
-    is_reviewed: bool
+    is_reviewed: str
     interaction_notes: str
     go_cellular_components: str[]
     go_biological_processes: str[]
@@ -282,6 +321,7 @@ organism taxon:
   label_in_input: organism
   properties:
     organism_name: str
+    preferred_name: str  # human-readable name, e.g. "Prochlorococcus MED4", "Alteromonas macleodii HOT1A3"
     strain_name: str
     ncbi_taxon_id: int
     clade: str           # research clade, e.g. HLI, HLII, LLIV (Prochlorococcus-specific)
@@ -294,31 +334,13 @@ organism taxon:
     family: str          # e.g. Prochlorococcaceae
     genus: str           # e.g. Prochlorococcus
     species: str         # e.g. Prochlorococcus marinus
+    gene_count: int          # pre-computed: count of Gene_belongs_to_organism edges
+    publication_count: int   # pre-computed: count of publications mentioning this organism
+    experiment_count: int    # pre-computed: sum of experiment_count across matched publications
+    treatment_types: str[]   # pre-computed: distinct treatment types across matched publications
+    background_factors: str[] # pre-computed: distinct background_factors across matched publications
+    omics_types: str[]       # pre-computed: distinct omics types across matched publications
 
-environmental condition:
-  is_a: EnvironmentalFeature
-  represented_as: node
-  preferred_id: id
-  label_in_input: environmental_condition
-  properties:
-    name: str
-    condition_type: str  # "gas_shock" | "nutrient_stress" | "light_stress"
-
-    # Gas parameters
-    oxygen_level: str      # e.g., "0%", "21%", "depleted"
-    co2_level: str         # e.g., "0%", "ambient"
-
-    # Nutrient parameters
-    nitrogen_source: str   # e.g., "ammonia", "nitrate", "none"
-    nitrogen_level: str    # e.g., "replete", "limited", "starved"
-    phosphate_level: str   # e.g., "replete", "limited", "starved"
-
-    # Light parameters
-    light_condition: str   # e.g., "darkness", "blue", "red", "white"
-    light_intensity: str   # e.g., "0", "low", "high"
-
-    description: str
-    publications: str[]
 
 protein domain:  
   represented_as: node
@@ -387,41 +409,18 @@ compound:
 #     name: str
 #     synonyms: str[]
 
-kegg orthologous group:
+kegg term:
   is_a: named thing
   represented_as: node
   preferred_id: kegg.orthology
-  label_in_input: kegg orthologous group
+  label_in_input: kegg_term
   properties:
     name: str
-
-kegg pathway:
-  is_a: named thing
-  represented_as: node
-  preferred_id: kegg.pathway
-  label_in_input: kegg pathway
-  properties:
-    name: str
-
-kegg subcategory:
-  is_a: named thing
-  represented_as: node
-  preferred_id: kegg.subcategory
-  label_in_input: kegg subcategory
-  properties:
-    name: str
-
-kegg category:
-  is_a: named thing
-  represented_as: node
-  preferred_id: kegg.category
-  label_in_input: kegg category
-  properties:
-    name: str
+    level: str
 
 
 ec number:
-  is_a: molecular activity
+  is_a: named thing
   represented_as: node
   preferred_id: eccode
   label_in_input: ec_number
@@ -448,7 +447,7 @@ cyanorak role:
   label_in_input: cyanorak role
   properties:
     code: str
-    description: str
+    name: str
 
 tigr role:
   is_a: named thing
@@ -457,7 +456,24 @@ tigr role:
   label_in_input: tigr role
   properties:
     code: str
-    description: str
+    name: str
+
+pfam:
+  is_a: named thing
+  represented_as: node
+  preferred_id: pfam
+  label_in_input: pfam
+  properties:
+    name: str
+    short_name: str
+
+pfam clan:
+  is_a: named thing
+  represented_as: node
+  preferred_id: pfam.clan
+  label_in_input: pfam_clan
+  properties:
+    name: str
 
 
 # ---
@@ -740,19 +756,6 @@ gene to gene orthology association:
     relation_type: str
     oma_orthology_score: float
 
-gene to gene homology association:
-  is_a: association
-  represented_as: edge
-  label_as_edge: gene_is_homolog_of_gene
-  source: gene
-  target: gene
-  label_in_input: gene_is_homolog_of_gene
-  properties:
-    source: str           # e.g., "cyanorak_cluster"
-    cluster_id: str       # the shared cluster ID
-    distance: str         # phylogenetic distance, e.g. "same clade: HLI", "same species: Prochlorococcus marinus", "same order: Synechococcales"
-
-
 
 # protein to phenotype association:
 #   is_a: GeneToPhenotypicFeatureAssociation
@@ -776,32 +779,16 @@ gene to kegg ko association:
   represented_as: edge
   label_as_edge: gene_has_kegg_ko
   source: gene
-  target: kegg orthologous group
+  target: kegg term
   label_in_input: gene_has_kegg_ko
 
-kegg ko to pathway association:
+kegg term hierarchical association:
   is_a: association
   represented_as: edge
-  label_as_edge: ko_in_kegg_pathway
-  source: kegg orthologous group
-  target: kegg pathway
-  label_in_input: ko_in_kegg_pathway
-
-kegg pathway to subcategory association:
-  is_a: association
-  represented_as: edge
-  label_as_edge: kegg_pathway_in_kegg_subcategory
-  source: kegg pathway
-  target: kegg subcategory
-  label_in_input: kegg_pathway_in_kegg_subcategory
-
-kegg subcategory to category association:
-  is_a: association
-  represented_as: edge
-  label_as_edge: kegg_subcategory_in_kegg_category
-  source: kegg subcategory
-  target: kegg category
-  label_in_input: kegg_subcategory_in_kegg_category
+  label_as_edge: kegg_term_is_a_kegg_term
+  source: kegg term
+  target: kegg term
+  label_in_input: kegg_term_is_a_kegg_term
 
 
 protein to ec number association:
@@ -852,6 +839,22 @@ cyanorak role hierarchical association:
   target: cyanorak role
   label_in_input: cyanorak_role_is_a_cyanorak_role
 
+og to cog category association:
+  is_a: association
+  represented_as: edge
+  label_as_edge: og_in_cog_category
+  source: ortholog group
+  target: cog functional category
+  label_in_input: og_in_cog_category
+
+og to cyanorak role association:
+  is_a: association
+  represented_as: edge
+  label_as_edge: og_has_cyanorak_role
+  source: ortholog group
+  target: cyanorak role
+  label_in_input: og_has_cyanorak_role
+
 gene to tigr role association:
   is_a: association
   represented_as: edge
@@ -859,6 +862,22 @@ gene to tigr role association:
   source: gene
   target: tigr role
   label_in_input: gene_has_tigr_role
+
+gene to pfam association:
+  is_a: association
+  represented_as: edge
+  label_as_edge: Gene_has_pfam
+  source: gene
+  target: pfam
+  label_in_input: gene_has_pfam
+
+pfam in pfam clan:
+  is_a: association
+  represented_as: edge
+  label_as_edge: Pfam_in_pfam_clan
+  source: pfam
+  target: pfam clan
+  label_in_input: pfam_in_pfam_clan
 
 # gene to gene regulatory association:
 #   is_a: pairwise gene to gene interaction

@@ -22,8 +22,13 @@
 #           Writes <stem>_resolved.csv alongside each source CSV
 #           Requires step 3 (gene_id_mapping.json must exist for paper-derived IDs)
 #           Must run before create_knowledge_graph.py so omics_adapter uses pre-resolved files
+# Step 5 — Extract eggNOG OG descriptions (og_descriptions.json)
+#           calls: multiomics_kg/download/build_og_descriptions.py
+#           Queries local eggnog.db for ortholog group descriptions; writes lightweight
+#           cache at cache/data/eggnog/og_descriptions.json (avoids 39GB DB in Docker)
+#           Requires step 2 (gene_annotations_merged.json for OG ID list)
 #
-# Logs: logs/prepare_data_step0.log … logs/prepare_data_step4.log
+# Logs: logs/prepare_data_step0.log … logs/prepare_data_step5.log
 #       Monitor with: tail -f logs/prepare_data_step0.log
 #
 # Usage:
@@ -48,7 +53,7 @@ mkdir -p "$LOG_DIR"
 # ── parse args ────────────────────────────────────────────────────────────────
 
 FORCE=""
-STEPS="0 1 2 3 4"
+STEPS="0 1 2 3 4 5"
 STRAINS=()
 SKIP_CYANORAK=0
 
@@ -111,7 +116,7 @@ cd "$PROJECT_ROOT"
 export PYTHONPATH="$PROJECT_ROOT${PYTHONPATH:+:$PYTHONPATH}"
 
 echo "prepare_data.sh: steps=[${STEPS}]${STRAINS_ARG:+ strains=[${STRAINS[*]}]}${FORCE:+ (force)}${SKIP_CYANORAK:+ (skip-cyanorak)}"
-echo "(step 1 = protein annotations, step 2 = gene annotations, step 3 = gene ID mapping, step 4 = resolve paper CSVs)"
+echo "(step 1 = protein annotations, step 2 = gene annotations, step 3 = gene ID mapping, step 4 = resolve paper CSVs, step 5 = OG descriptions)"
 echo "Project root: $PROJECT_ROOT"
 echo "Logs dir:     $LOG_DIR"
 
@@ -164,8 +169,15 @@ for step in $STEPS; do
                 uv run python -m multiomics_kg.download.resolve_paper_ids \
                     $FORCE
             ;;
+        5)
+            run_step 5 \
+                "Extract eggNOG OG descriptions (og_descriptions.json)" \
+                "$LOG_DIR/prepare_data_step5.log" \
+                uv run python -m multiomics_kg.download.build_og_descriptions \
+                    $FORCE
+            ;;
         *)
-            echo "Unknown step: $step (valid: 0 1 2 3 4)" >&2
+            echo "Unknown step: $step (valid: 0 1 2 3 4 5)" >&2
             exit 1
             ;;
     esac

@@ -3,37 +3,79 @@
 
 Usage:
     python .claude/skills/paperconfig/validate_paperconfig.py <path_to_paperconfig.yaml>
+    python .claude/skills/paperconfig/validate_paperconfig.py --all
 
 Checks:
     - YAML is parseable
     - Required top-level fields exist (or strain-level resource config with no publication block)
     - PDF file exists
     - CSV files exist and are readable
+    - experiments block exists and is well-formed (required fields, canonical vocabulary)
+    - Each analysis has 'experiment' reference pointing to a valid experiment key
+    - Each analysis has 'timepoint_hours' (or null)
     - Column names (name_col, logfc_col, adjusted_p_value_col) match CSV headers
     - id_columns column names match CSV headers for csv and id_translation entries
     - product_columns column names match CSV headers
-    - annotation_gff entries have organism and a valid GFF/GTF/GTF extension
+    - annotation_gff entries have organism and a valid GFF/GTF extension
     - id_translation entries have organism and id_columns
-    - Environmental condition references resolve
-    - Each analysis has either organism or environmental condition edge source
     - All required analysis fields are present
     - Analysis IDs are unique
     - skip_rows is applied correctly when reading CSV headers
     - Sample data rows are readable and logfc_col contains numeric-like values
+    - Canonical vocabulary: organism, treatment_type, test_type, omics_type
 """
 
 import sys
 import os
-import yaml
+import json
+from pathlib import Path
+
 import pandas as pd
 
+# Import shared paperconfig utilities from the main package
+_PROJECT_ROOT = Path(__file__).resolve().parents[3]
+sys.path.insert(0, str(_PROJECT_ROOT))
+from multiomics_kg.utils.paperconfig_utils import (
+    load_paperconfig,
+    load_all_paperconfigs,
+    get_publication,
+    get_paper_name,
+    get_supplementary_materials,
+)
+
+# Required fields on each statistical_analyses entry (new experiment-based format)
 REQUIRED_ANALYSIS_FIELDS = [
-    "type", "name", "id", "test_type",
-    "control_condition", "treatment_condition",
-    "organism", "name_col", "logfc_col",
+    "id", "experiment", "name_col", "logfc_col",
 ]
 
-VALID_TYPES = {"RNASEQ", "MICROARRAY", "PROTEOMICS", "METABOLOMICS"}
+# Strict required fields with descriptions (enforced as errors)
+REQUIRED_STATS_FIELDS = {
+    "id": "unique identifier within publication",
+    "experiment": "reference to a key in the experiments block",
+}
+
+# Required fields on each experiment entry (always required)
+REQUIRED_EXPERIMENT_FIELDS = [
+    "name", "organism", "omics_type",
+    "treatment_type", "treatment_condition",
+]
+
+# Fields required for experiments with DE analyses, but only recommended for
+# cluster-only experiments (profiling studies without a control or statistical test)
+DE_REQUIRED_EXPERIMENT_FIELDS = ["test_type", "control_condition"]
+
+# Optional but recommended experiment fields (warn if missing)
+RECOMMENDED_EXPERIMENT_FIELDS = [
+    "medium", "temperature", "light_condition", "light_intensity",
+    "table_scope",
+]
+
+VALID_TABLE_SCOPES = {
+    "all_detected_genes", "significant_any_timepoint",
+    "significant_only", "top_n", "filtered_subset",
+}
+
+VALID_TYPES = {"RNASEQ", "MICROARRAY", "PROTEOMICS", "EXOPROTEOMICS", "METABOLOMICS"}
 VALID_ID_TYPES = {
     "locus_tag", "locus_tag_ncbi", "locus_tag_cyanorak",
     "old_locus_tag", "alternative_locus_tag",
@@ -41,6 +83,157 @@ VALID_ID_TYPES = {
     "protein_id_refseq", "uniprot_accession", "uniprot_entry_name",
     "jgi_id", "probeset", "rast_id", "annotation_specific", "other",
 }
+
+# ── Canonical vocabulary ─────────────────────────────────────────────────────
+
+# Canonical organism names for the 'organism' field in experiments
+# and for the 'organism' field in supplementary table entries.
+CANONICAL_GENOMIC_ORGANISMS = {
+    "Prochlorococcus MED4",
+    "Prochlorococcus AS9601",
+    "Prochlorococcus MIT9301",
+    "Prochlorococcus MIT9312",
+    "Prochlorococcus MIT9313",
+    "Prochlorococcus NATL1A",
+    "Prochlorococcus NATL2A",
+    "Prochlorococcus MIT9303",
+    "Prochlorococcus RSP50",
+    "Synechococcus WH8102",
+    "Synechococcus WH7803",
+    "Synechococcus CC9311",
+    "Synechococcus PCC 7002",
+    "Synechococcus elongatus PCC 7942",
+    "Synechococcus elongatus UTEX 2973",
+    "Thermosynechococcus vestitus BP-1",
+    "Alteromonas macleodii HOT1A3",
+    "Alteromonas macleodii EZ55",
+    "Alteromonas macleodii MIT1002",
+    "Shewanella sp. W3-18-1",
+    "Pseudomonas putida KT2440",
+    "Ruegeria pomeroyi DSS-3",
+}
+
+# Canonical treatment organism names loaded from treatment_organisms.csv
+# (genus-level organisms used as coculture partners with no loaded genome).
+# These are loaded at runtime from the CSV; this set is the fallback default.
+_TREATMENT_ORGANISMS_CSV_DEFAULT = {
+    "Phage",
+    "Alteromonas",
+    "Vibrio parahaemolyticus",
+    "Meiothermus ruber",
+    "Escherichia coli",
+    # Ziegler 2025 organisms (commented out in treatment_organisms.csv until paper is added):
+    # "Marinobacter",
+    # "Thalassospira",
+    # "Pseudohoeflea",
+}
+
+# Canonical vocabulary shared by treatment_type and background_factors.
+# treatment_type = "what environmental variable is being manipulated"
+# background_factors = "what conditions are held constant"
+# Same canonical terms; meaning depends on which field they appear in.
+CANONICAL_CONDITION_TYPES = {
+    # Nutrient / environmental variables
+    "nitrogen",         # N-limitation / N-replete
+    "phosphorus",       # P-limitation / P-replete
+    "iron",             # Fe-limitation / Fe-replete
+    "carbon",           # CO2, carbon source, chitosan addition
+    "light",            # Light quality, intensity; as bg = continuous light regime
+    "darkness",         # Extended dark treatment; as bg = dark regime
+    "diel",             # Diel light-dark cycling / circadian
+    "temperature",      # Thermal shift / acclimation
+    "salt",             # Salinity / osmotic
+    # Biotic interactions
+    "coculture",        # Co-cultivation with another organism
+    "viral",            # Phage infection
+    # Chemical / xenobiotic
+    "chemical",         # Chemical treatment (e.g., DCMU); as bg = inhibitor present
+    "plastic",          # Plastic leachate exposure
+    # Growth / baseline
+    "growth_phase",     # Growth state / multi-condition comparison
+    "mutant",           # Mutant or evolved strain comparison
+    # Background-only (typically not used as treatment_type)
+    "axenic",           # Pure culture, no other organisms
+}
+
+# Valid cluster_type values for gene_clusters entries.
+VALID_CLUSTER_TYPES = {
+    "diel_cycle",
+    "diel_cycling",
+    "time_series_dynamics",
+    "response_pattern",
+    "expression_pattern",
+    "expression_level",
+    "expression_classification",
+    "periodicity_classification",
+    "diel_expression_pattern",
+}
+
+# Required fields on gene_clusters supplementary entries.
+REQUIRED_CLUSTER_TABLE_FIELDS = [
+    "name", "filename", "organism", "gene_id_col", "cluster_col", "cluster_type",
+]
+
+# Removed: REQUIRED_CLUSTER_FIELDS, RECOMMENDED_CLUSTER_FIELDS
+# Per-cluster data comes from extraction JSON, not paperconfig
+
+# Canonical test_type values for statistical_analyses entries.
+CANONICAL_TEST_TYPES = {
+    # RNA-seq
+    "DESeq2",
+    "DESeq",
+    "edgeR",
+    "Rockhopper",
+    # Microarray
+    "microarray",
+    "microarray_Cyber-T",
+    "microarray_LPE",
+    "microarray_Goldenspike",
+    "SAM",                    # Significance Analysis of Microarrays
+    # Proteomics / generic
+    "t-test",
+    "t-test_Perseus",        # Student's t-test via Perseus
+    "ANOVA",
+    "iTRAQ_t-test",          # iTRAQ quantification + t-test
+    "RPKM_fold_change",      # simple RPKM ratio (no formal test)
+    "fold_change",            # fold change without formal test
+    "LC-MS/MS",               # label-free proteomics quantification
+}
+
+
+def _load_treatment_organisms(project_root: str) -> set:
+    """Load treatment organism names from treatment_organisms.csv.
+
+    Returns the default set if the file cannot be read.
+    """
+    csv_path = os.path.join(
+        project_root,
+        "data", "Prochlorococcus", "treatment_organisms.csv",
+    )
+    try:
+        df = pd.read_csv(csv_path, comment="#")
+        names = set(df["organism_name"].dropna().str.strip().tolist())
+        return names
+    except Exception:
+        return set(_TREATMENT_ORGANISMS_CSV_DEFAULT)
+
+
+def _canonical_organism_error(config_path: str, context: str, value: str, allowed: set) -> str:
+    """Format a clear vocabulary error message for an organism field."""
+    sorted_allowed = sorted(allowed)
+    return (
+        f"{config_path} | {context} | organism '{value}' is not in the canonical list | "
+        f"allowed: {sorted_allowed}"
+    )
+
+
+def _canonical_field_error(config_path: str, context: str, field: str, value: str, allowed: set) -> str:
+    """Format a clear vocabulary error message for a canonical enum field."""
+    sorted_allowed = sorted(allowed)
+    return (
+        f"{config_path} | {context} | {field} '{value}' is not a canonical value | "
+        f"allowed: {sorted_allowed}"
+    )
 
 
 def _read_csv_safe(fn, sep, skip, errors, table_key):
@@ -86,14 +279,446 @@ def _validate_product_columns(product_columns, cols, table_key, warnings):
             print(f"      product_col '{col_name}': OK")
 
 
+def _validate_experiments(experiments: dict, config_path: str,
+                          all_canonical_organisms: set,
+                          errors: list, warnings: list,
+                          referenced_exp_keys: set | None = None) -> None:
+    """Validate the experiments block in a publication config."""
+    if not experiments:
+        # experiments block is optional for cluster-only paperconfigs
+        warnings.append(f"{config_path} | missing 'experiments' block in publication (OK for cluster-only configs)")
+        return
+
+    if not isinstance(experiments, dict):
+        errors.append(f"{config_path} | 'experiments' must be a mapping, got {type(experiments).__name__}")
+        return
+
+    for exp_key, exp in experiments.items():
+        if not isinstance(exp, dict):
+            errors.append(f"{config_path} | experiments.{exp_key} must be a mapping")
+            continue
+
+        print(f"\n  [experiment: {exp_key}]")
+
+        # Required fields
+        for field in REQUIRED_EXPERIMENT_FIELDS:
+            val = exp.get(field)
+            if val is None or (isinstance(val, str) and not val.strip()):
+                errors.append(
+                    f"{config_path} | experiments.{exp_key} | "
+                    f"missing required field '{field}'"
+                )
+
+        # Fields required for DE experiments, warned for cluster-only
+        has_analyses = referenced_exp_keys and exp_key in referenced_exp_keys
+        for field in DE_REQUIRED_EXPERIMENT_FIELDS:
+            val = exp.get(field)
+            if val is None or (isinstance(val, str) and not val.strip()):
+                if has_analyses:
+                    errors.append(
+                        f"{config_path} | experiments.{exp_key} | "
+                        f"missing required field '{field}'"
+                    )
+                else:
+                    warnings.append(
+                        f"{config_path} | experiments.{exp_key} | "
+                        f"missing field '{field}' (optional for cluster-only experiments)"
+                    )
+
+        # Canonical organism
+        organism = exp.get("organism", "")
+        if organism and organism not in all_canonical_organisms:
+            errors.append(
+                _canonical_organism_error(
+                    config_path, f"experiments.{exp_key}", organism,
+                    all_canonical_organisms,
+                )
+            )
+        elif organism:
+            print(f"    organism '{organism}': OK")
+
+        # Canonical omics_type
+        omics_type = exp.get("omics_type", "")
+        if omics_type and omics_type not in VALID_TYPES:
+            errors.append(
+                _canonical_field_error(
+                    config_path, f"experiments.{exp_key}",
+                    "omics_type", omics_type, VALID_TYPES,
+                )
+            )
+        elif omics_type:
+            print(f"    omics_type '{omics_type}': OK")
+
+        # Canonical test_type
+        test_type = exp.get("test_type", "")
+        if test_type and test_type not in CANONICAL_TEST_TYPES:
+            errors.append(
+                _canonical_field_error(
+                    config_path, f"experiments.{exp_key}",
+                    "test_type", test_type, CANONICAL_TEST_TYPES,
+                )
+            )
+        elif test_type:
+            print(f"    test_type '{test_type}': OK")
+
+        # Canonical treatment_type (string or list)
+        treatment_type = exp.get("treatment_type", "")
+        if isinstance(treatment_type, list):
+            for tt in treatment_type:
+                if tt not in CANONICAL_CONDITION_TYPES:
+                    errors.append(
+                        _canonical_field_error(
+                            config_path, f"experiments.{exp_key}",
+                            "treatment_type", tt, CANONICAL_CONDITION_TYPES,
+                        )
+                    )
+                else:
+                    print(f"    treatment_type '{tt}': OK")
+        elif treatment_type and treatment_type not in CANONICAL_CONDITION_TYPES:
+            errors.append(
+                _canonical_field_error(
+                    config_path, f"experiments.{exp_key}",
+                    "treatment_type", treatment_type, CANONICAL_CONDITION_TYPES,
+                )
+            )
+        elif treatment_type:
+            print(f"    treatment_type '{treatment_type}': OK")
+
+        # Canonical background_factors (optional list)
+        background_factors = exp.get("background_factors", [])
+        if isinstance(background_factors, str):
+            background_factors = [background_factors]
+        for bf in background_factors:
+            if bf not in CANONICAL_CONDITION_TYPES:
+                errors.append(
+                    _canonical_field_error(
+                        config_path, f"experiments.{exp_key}",
+                        "background_factors", bf, CANONICAL_CONDITION_TYPES,
+                    )
+                )
+            else:
+                print(f"    background_factors '{bf}': OK")
+
+        # Canonical treatment_organism (optional, only for coculture experiments)
+        treatment_organism = exp.get("treatment_organism", "")
+        if treatment_organism and treatment_organism not in all_canonical_organisms:
+            errors.append(
+                _canonical_organism_error(
+                    config_path, f"experiments.{exp_key} treatment_organism",
+                    treatment_organism, all_canonical_organisms,
+                )
+            )
+        elif treatment_organism:
+            print(f"    treatment_organism '{treatment_organism}': OK")
+
+        # Validate table_scope enum
+        table_scope = exp.get("table_scope", "")
+        if table_scope and table_scope not in VALID_TABLE_SCOPES:
+            errors.append(
+                _canonical_field_error(
+                    config_path, f"experiments.{exp_key}",
+                    "table_scope", table_scope, VALID_TABLE_SCOPES,
+                )
+            )
+        elif table_scope:
+            print(f"    table_scope '{table_scope}': OK")
+
+        # Recommended fields (warn if missing)
+        for field in RECOMMENDED_EXPERIMENT_FIELDS:
+            if field not in exp:
+                warnings.append(
+                    f"{config_path} | experiments.{exp_key} | "
+                    f"missing recommended field '{field}'"
+                )
+
+        # Formatting checks
+        light_cond = exp.get("light_condition", "")
+        if light_cond and "_" in light_cond:
+            warnings.append(
+                f"{config_path} | experiments.{exp_key} | "
+                f"light_condition '{light_cond}' uses underscores — "
+                f"use spaces instead (e.g., 'continuous light')"
+            )
+        light_int = exp.get("light_intensity", "")
+        if light_int and "µ" in str(light_int):
+            warnings.append(
+                f"{config_path} | experiments.{exp_key} | "
+                f"light_intensity uses Unicode µ — use ASCII 'umol' instead"
+            )
+
+        # Coculture/viral consistency checks
+        raw_tt = exp.get("treatment_type", "")
+        tt_list = raw_tt if isinstance(raw_tt, list) else ([raw_tt] if raw_tt else [])
+        t_org = exp.get("treatment_organism", "")
+        if ("coculture" in tt_list or "viral" in tt_list) and not t_org:
+            errors.append(
+                f"{config_path} | experiments.{exp_key} | "
+                f"treatment_type includes 'coculture' or 'viral' but missing treatment_organism"
+            )
+        if t_org and "coculture" not in tt_list and "viral" not in tt_list:
+            warnings.append(
+                f"{config_path} | experiments.{exp_key} | "
+                f"has treatment_organism '{t_org}' but treatment_type {tt_list} "
+                f"does not include 'coculture' or 'viral'"
+            )
+        if t_org and str(t_org).strip().lower() in ("phage", "virus", "bacteriophage") and "viral" not in tt_list:
+            warnings.append(
+                f"{config_path} | experiments.{exp_key} | "
+                f"treatment_organism is '{t_org}' but treatment_type {tt_list} "
+                f"does not include 'viral' (should it?)"
+            )
+        if ("coculture" in tt_list or "viral" in tt_list) and "treatment_taxid" not in exp:
+            warnings.append(
+                f"{config_path} | experiments.{exp_key} | "
+                f"treatment_type includes 'coculture' or 'viral' but missing treatment_taxid"
+            )
+
+
+def _validate_organism_consistency(
+    experiments: dict, supp: dict, config_path: str,
+    errors: list, warnings: list,
+) -> None:
+    """Cross-validate organisms across experiments and supplementary materials.
+
+    Checks:
+    1. Every organism in supp materials (id_translation, annotation_gff) appears
+       as an experiment organism (primary, not treatment_organism).
+    2. Every experiment organism has at least one analysis referencing it.
+    3. Every experiment treatment_organism has at least one analysis referencing
+       an experiment that uses it.
+    """
+    # Collect experiment organisms and treatment organisms
+    exp_organisms = {}  # organism -> set of experiment keys
+    exp_treatment_organisms = {}  # treatment_organism -> set of experiment keys
+    for exp_key, exp in experiments.items():
+        if not isinstance(exp, dict):
+            continue
+        org = exp.get("organism", "")
+        if org:
+            exp_organisms.setdefault(org, set()).add(exp_key)
+        t_org = exp.get("treatment_organism", "")
+        if t_org:
+            exp_treatment_organisms.setdefault(t_org, set()).add(exp_key)
+
+    # Collect organisms from supplementary materials
+    supp_organisms = {}  # organism -> list of table keys
+    for table_key, table in supp.items():
+        if not isinstance(table, dict):
+            continue
+        table_type = table.get("type", "csv")
+        org = table.get("organism", "")
+        if org and table_type in ("id_translation", "annotation_gff"):
+            supp_organisms.setdefault(org, []).append(table_key)
+
+    # Collect which experiment keys are referenced by analyses
+    referenced_exp_keys = set()
+    for table_key, table in supp.items():
+        if not isinstance(table, dict):
+            continue
+        for analysis in table.get("statistical_analyses", []):
+            if not isinstance(analysis, dict):
+                continue
+            exp_ref = analysis.get("experiment", "")
+            if exp_ref:
+                referenced_exp_keys.add(exp_ref)
+
+    print(f"\n  [organism consistency]")
+    all_exp_orgs = set(exp_organisms.keys())
+    all_exp_treatment_orgs = set(exp_treatment_organisms.keys())
+    all_supp_orgs = set(supp_organisms.keys())
+    print(f"    experiment organisms: {sorted(all_exp_orgs)}")
+    if all_exp_treatment_orgs:
+        print(f"    experiment treatment organisms: {sorted(all_exp_treatment_orgs)}")
+    if all_supp_orgs:
+        print(f"    supplementary material organisms: {sorted(all_supp_orgs)}")
+
+    # Check 1: supp material organisms should be experiment organisms
+    for org, table_keys in supp_organisms.items():
+        if org not in all_exp_orgs:
+            warnings.append(
+                f"{config_path} | organism '{org}' in supplementary materials "
+                f"({', '.join(table_keys)}) is not an experiment organism "
+                f"(experiment organisms: {sorted(all_exp_orgs)})"
+            )
+
+    # Check 2: every experiment organism should have at least one analysis
+    for org, exp_keys in exp_organisms.items():
+        has_analysis = any(ek in referenced_exp_keys for ek in exp_keys)
+        if not has_analysis:
+            warnings.append(
+                f"{config_path} | experiment organism '{org}' "
+                f"(experiments: {sorted(exp_keys)}) has no analyses referencing it"
+            )
+
+    # Check 3: every experiment treatment_organism should have at least one analysis
+    for t_org, exp_keys in exp_treatment_organisms.items():
+        has_analysis = any(ek in referenced_exp_keys for ek in exp_keys)
+        if not has_analysis:
+            warnings.append(
+                f"{config_path} | experiment treatment_organism '{t_org}' "
+                f"(experiments: {sorted(exp_keys)}) has no analyses referencing it"
+            )
+
+    if not (all_supp_orgs - all_exp_orgs):
+        print("    supp material organisms match experiment organisms: OK")
+
+
+def _find_project_root() -> Path:
+    """Return project root by locating data/Prochlorococcus/treatment_organisms.csv."""
+    here = Path(__file__).resolve()
+    for parent in here.parents:
+        if (parent / "data" / "Prochlorococcus" / "treatment_organisms.csv").exists():
+            return parent
+    return Path.cwd()
+
+
+def _validate_gene_clusters_entry(key, table, config, paperconfig_dir,
+                                   all_canonical_organisms, errors, warnings):
+    """Validate a type: gene_clusters entry."""
+
+    # Required fields
+    for field in REQUIRED_CLUSTER_TABLE_FIELDS:
+        if field not in table:
+            errors.append(f"  [{key}] Missing required field: {field}")
+
+    # Organism check
+    organism = table.get("organism", "")
+    if organism:
+        print(f"  Organism: {organism}")
+        if organism not in all_canonical_organisms:
+            warnings.append(f"  [{key}] Organism '{organism}' not in canonical list")
+
+    # cluster_type enum
+    ct = table.get("cluster_type", "")
+    if ct and ct not in VALID_CLUSTER_TYPES:
+        warnings.append(f"  [{key}] cluster_type '{ct}' not in {VALID_CLUSTER_TYPES}")
+
+    # omics_type
+    ot = table.get("omics_type", "")
+    if ot and ot not in VALID_TYPES:
+        warnings.append(f"  [{key}] omics_type '{ot}' not in {VALID_TYPES}")
+
+    # treatment_type must be a list
+    tt = table.get("treatment_type")
+    if tt is not None:
+        if not isinstance(tt, list):
+            errors.append(f"  [{key}] treatment_type must be a list, got {type(tt).__name__}")
+        else:
+            for t in tt:
+                if t not in CANONICAL_CONDITION_TYPES:
+                    warnings.append(f"  [{key}] treatment_type '{t}' not canonical")
+
+    # Entry key naming
+    if key.startswith("cluster_table_"):
+        warnings.append(
+            f"  [{key}] Entry key should be a meaningful ID "
+            f"(e.g., 'med4_kmeans_nstarvation'), not generic"
+        )
+
+    # experiments cross-reference
+    experiments_ref = table.get("experiments")
+    if experiments_ref is None:
+        warnings.append(
+            f"  [{key}] No 'experiments' field — cluster analysis should link "
+            f"to at least one experiment in publication.experiments"
+        )
+    elif not isinstance(experiments_ref, list):
+        errors.append(f"  [{key}] experiments must be a list")
+    else:
+        if len(experiments_ref) == 0:
+            warnings.append(
+                f"  [{key}] 'experiments' list is empty — should reference "
+                f"at least one experiment key"
+            )
+        pub_experiments = config.get("publication", {}).get("experiments", {})
+        for exp_key in experiments_ref:
+            if exp_key not in pub_experiments:
+                errors.append(
+                    f"  [{key}] experiments references '{exp_key}' not found "
+                    f"in publication.experiments"
+                )
+
+    # CSV validation
+    filename = table.get("filename", "")
+    if filename:
+        csv_path = Path(filename)
+        if not csv_path.is_absolute():
+            csv_path = _find_project_root() / csv_path
+        if csv_path.exists():
+            try:
+                sep = table.get("sep", ",")
+                skip = table.get("skip_rows", 0)
+                df = pd.read_csv(csv_path, sep=sep, skiprows=skip, nrows=5)
+                cols = set(df.columns)
+                for col_field in ("gene_id_col", "cluster_col", "score_col"):
+                    col_name = table.get(col_field)
+                    if col_name and col_name not in cols:
+                        errors.append(
+                            f"  [{key}] {col_field}='{col_name}' not found in "
+                            f"CSV columns: {sorted(cols)}"
+                        )
+            except Exception as e:
+                warnings.append(f"  [{key}] Could not read CSV: {e}")
+        else:
+            warnings.append(f"  [{key}] CSV file not found: {csv_path}")
+
+    # Extraction JSON validation
+    if paperconfig_dir:
+        json_path = Path(paperconfig_dir) / f"cluster_extraction_{key}.json"
+        if json_path.exists():
+            try:
+                with open(json_path) as f:
+                    extraction = json.load(f)
+                meta_key = extraction.get("metadata", {}).get("table_key", "")
+                if meta_key != key:
+                    warnings.append(
+                        f"  [{key}] Extraction JSON table_key='{meta_key}' "
+                        f"does not match entry key"
+                    )
+                stage3 = extraction.get("stage3_validation", {})
+                for ck, cv in stage3.items():
+                    if isinstance(cv, dict) and cv.get("verdict") == "fail":
+                        warnings.append(
+                            f"  [{key}] Extraction cluster '{ck}' has verdict=fail"
+                        )
+            except Exception as e:
+                warnings.append(f"  [{key}] Could not read extraction JSON: {e}")
+
+    # Warn if clusters: block still present (deprecated)
+    if "clusters" in table:
+        warnings.append(
+            f"  [{key}] 'clusters' block is deprecated — "
+            f"per-cluster data comes from extraction JSON"
+        )
+
+
 def validate(config_path: str) -> bool:
     errors = []
     warnings = []
 
+    # Derive project root from the config file path so we can load treatment_organisms.csv
+    # regardless of where the script is invoked from.
+    abs_config = os.path.abspath(config_path)
+    # Walk up from the config file until we find a directory containing
+    # data/Prochlorococcus/treatment_organisms.csv (i.e., the project root).
+    _project_root = os.path.dirname(abs_config)
+    for _ in range(10):
+        candidate = os.path.join(
+            _project_root, "data", "Prochlorococcus", "treatment_organisms.csv"
+        )
+        if os.path.exists(candidate):
+            break
+        _project_root = os.path.dirname(_project_root)
+    else:
+        _project_root = None
+
+    treatment_organisms = _load_treatment_organisms(_project_root or "")
+    # The full allowed set for the 'organism' field is the union of genomic + treatment organisms
+    all_canonical_organisms = CANONICAL_GENOMIC_ORGANISMS | treatment_organisms
+
     # --- Parse YAML ---
     try:
-        with open(config_path) as f:
-            config = yaml.safe_load(f)
+        config = load_paperconfig(Path(config_path))
     except Exception as e:
         print(f"FAIL: Cannot parse YAML: {e}")
         return False
@@ -105,19 +730,20 @@ def validate(config_path: str) -> bool:
         print("  [strain-level resource config — no publication block]")
         pub = {}
         supp = config.get("supplementary_materials")
-        env_conds = {}
+        experiments = {}
     else:
         if not config or "publication" not in config:
             print("FAIL: Missing top-level 'publication' key")
             return False
 
-        pub = config["publication"]
+        pub = get_publication(config)
 
         # --- papername ---
-        if "papername" not in pub:
+        papername = get_paper_name(config)
+        if papername == "unknown":
             errors.append("Missing 'papername'")
         else:
-            print(f"  papername: {pub['papername']}")
+            print(f"  papername: {papername}")
 
         # --- PDF ---
         pdf = pub.get("papermainpdf", "")
@@ -128,12 +754,24 @@ def validate(config_path: str) -> bool:
         else:
             print(f"  PDF exists: {pdf}")
 
-        # --- Environmental conditions ---
-        env_conds = pub.get("environmental_conditions", {})
-        if env_conds:
-            print(f"  Environmental conditions: {list(env_conds.keys())}")
+        # --- Experiments block ---
+        experiments = pub.get("experiments", {})
+        supp = get_supplementary_materials(config)
 
-        supp = pub.get("supplementary_materials")
+        # Pre-compute which experiment keys have DE analyses referencing them
+        _referenced_exp_keys = set()
+        if supp:
+            for _tk, _tv in supp.items():
+                if not isinstance(_tv, dict):
+                    continue
+                for _a in _tv.get("statistical_analyses", []):
+                    if isinstance(_a, dict) and _a.get("experiment"):
+                        _referenced_exp_keys.add(_a["experiment"])
+
+        _validate_experiments(
+            experiments, config_path, all_canonical_organisms,
+            errors, warnings, referenced_exp_keys=_referenced_exp_keys,
+        )
 
     if not supp:
         errors.append("Missing 'supplementary_materials'")
@@ -164,6 +802,12 @@ def validate(config_path: str) -> bool:
                 errors.append(f"{table_key}: annotation_gff requires 'organism'")
             else:
                 print(f"    organism: {organism}")
+                if organism not in all_canonical_organisms:
+                    errors.append(
+                        _canonical_organism_error(
+                            config_path, table_key, organism, all_canonical_organisms
+                        )
+                    )
             ext = os.path.splitext(fn)[1].lower()
             if ext not in (".gff", ".gff3", ".gtf"):
                 warnings.append(
@@ -179,6 +823,12 @@ def validate(config_path: str) -> bool:
                 errors.append(f"{table_key}: id_translation requires 'organism'")
             else:
                 print(f"    organism: {organism}")
+                if organism not in all_canonical_organisms:
+                    errors.append(
+                        _canonical_organism_error(
+                            config_path, table_key, organism, all_canonical_organisms
+                        )
+                    )
 
             id_columns = table.get("id_columns", [])
             if not id_columns:
@@ -198,6 +848,15 @@ def validate(config_path: str) -> bool:
             _validate_product_columns(prod_cols, cols, table_key, warnings)
 
             # No statistical_analyses for id_translation
+            continue
+
+        # ── gene_clusters ───────────────────────────────────────────────────
+        if table_type == "gene_clusters":
+            paperconfig_dir = os.path.dirname(os.path.abspath(config_path))
+            _validate_gene_clusters_entry(
+                table_key, table, config, paperconfig_dir,
+                all_canonical_organisms, errors, warnings,
+            )
             continue
 
         # ── csv (default) ───────────────────────────────────────────────────
@@ -228,15 +887,75 @@ def validate(config_path: str) -> bool:
             all_ids.append(aid)
             print(f"    Analysis: {aid}")
 
-            # Check required fields
+            # ── Required fields ──────────────────────────────────────────────
+            for req_field, req_desc in REQUIRED_STATS_FIELDS.items():
+                val = analysis.get(req_field)
+                if val is None or (isinstance(val, str) and not val.strip()):
+                    errors.append(
+                        f"{config_path} | {aid} | missing required field '{req_field}' "
+                        f"({req_desc})"
+                    )
+
             for field in REQUIRED_ANALYSIS_FIELDS:
                 if field not in analysis:
                     errors.append(f"{aid}: Missing required field '{field}'")
 
-            # Check type value
-            atype = analysis.get("type", "")
-            if atype and atype not in VALID_TYPES:
-                warnings.append(f"{aid}: type '{atype}' not in {VALID_TYPES}")
+            # ── Stale old-format fields check ─────────────────────────────────
+            STALE_FIELDS = {
+                "type", "name", "organism", "test_type",
+                "control_condition", "treatment_condition",
+                "experimental_context",
+                "environmental_control_condition_id",
+                "environmental_treatment_condition_id",
+                "treatment_organism", "treatment_taxid",
+                "treatment_assembly_accession",
+            }
+            stale = STALE_FIELDS & set(analysis.keys())
+            if stale:
+                warnings.append(
+                    f"{aid}: has old-format fields that should be on the experiment: "
+                    f"{sorted(stale)}"
+                )
+
+            # ── Experiment reference validation ──────────────────────────────
+            exp_ref = analysis.get("experiment", "")
+            if exp_ref:
+                if experiments and exp_ref not in experiments:
+                    errors.append(
+                        f"{aid}: experiment reference '{exp_ref}' not found in "
+                        f"experiments block (valid keys: {list(experiments.keys())})"
+                    )
+                elif experiments:
+                    print(f"      experiment '{exp_ref}': OK")
+
+            # ── timepoint_hours validation ───────────────────────────────────
+            if "timepoint_hours" not in analysis:
+                warnings.append(
+                    f"{aid}: missing 'timepoint_hours' (set to null if not a "
+                    "time-course experiment)"
+                )
+            else:
+                tp_hours = analysis.get("timepoint_hours")
+                if tp_hours is not None and not isinstance(tp_hours, (int, float)):
+                    errors.append(
+                        f"{aid}: 'timepoint_hours' must be a number or null, "
+                        f"got {type(tp_hours).__name__}"
+                    )
+                else:
+                    print(f"      timepoint_hours: {tp_hours}")
+
+                # Cross-check: if timepoint is set, verify timepoint_hours
+                # matches parse_timepoint_hours()
+                timepoint = analysis.get("timepoint")
+                if timepoint:
+                    from multiomics_kg.utils.paperconfig_utils import parse_timepoint_hours
+                    expected = parse_timepoint_hours(str(timepoint))
+                    if expected is not None and tp_hours is not None:
+                        if abs(float(expected) - float(tp_hours)) > 0.01:
+                            warnings.append(
+                                f"{aid}: timepoint_hours={tp_hours} doesn't match "
+                                f"parse_timepoint_hours('{timepoint}')={expected}"
+                            )
 
             # Check column references
             name_col = analysis.get("name_col", "")
@@ -294,37 +1013,10 @@ def validate(config_path: str) -> bool:
             if prefiltered and pvalue_asterisk:
                 warnings.append(f"{aid}: 'prefiltered: true' conflicts with 'pvalue_asterisk_in_logfc: true' (prefiltered takes priority)")
 
-            # Check edge source: organism or environmental condition
-            has_treatment_org = "treatment_organism" in analysis and "treatment_taxid" in analysis
-            has_env_treat = "environmental_treatment_condition_id" in analysis
-
-            if not has_treatment_org and not has_env_treat:
-                errors.append(
-                    f"{aid}: Must have either (treatment_organism + treatment_taxid) "
-                    "or environmental_treatment_condition_id"
-                )
-
-            # Validate environmental condition references
-            env_treat_id = analysis.get("environmental_treatment_condition_id")
-            env_ctrl_id = analysis.get("environmental_control_condition_id")
-
-            if env_treat_id:
-                if env_treat_id in env_conds:
-                    print(f"      env_treatment_id '{env_treat_id}': OK")
-                else:
-                    errors.append(
-                        f"{aid}: environmental_treatment_condition_id '{env_treat_id}' "
-                        "not found in environmental_conditions"
-                    )
-
-            if env_ctrl_id:
-                if env_ctrl_id in env_conds:
-                    print(f"      env_control_id '{env_ctrl_id}': OK")
-                else:
-                    errors.append(
-                        f"{aid}: environmental_control_condition_id '{env_ctrl_id}' "
-                        "not found in environmental_conditions"
-                    )
+            # Validate fold_change_type
+            fold_change_type = analysis.get("fold_change_type")
+            if fold_change_type is not None and fold_change_type not in ("log2", "linear"):
+                errors.append(f"{aid}: 'fold_change_type' must be 'log2' or 'linear', got '{fold_change_type}'")
 
     # --- Check ID uniqueness ---
     if all_ids:
@@ -339,6 +1031,12 @@ def validate(config_path: str) -> bool:
             errors.append(f"Duplicate analysis IDs: {dupes}")
         else:
             print("  All IDs unique: OK")
+
+    # --- Organism consistency check ---
+    if experiments and supp:
+        _validate_organism_consistency(
+            experiments, supp, config_path, errors, warnings,
+        )
 
     _print_results(errors, warnings)
     return len(errors) == 0
@@ -360,8 +1058,30 @@ def _print_results(errors, warnings):
 
 
 if __name__ == "__main__":
+    if len(sys.argv) == 2 and sys.argv[1] == "--all":
+        # Validate all paperconfigs from paperconfig_files.txt
+        all_configs = load_all_paperconfigs()
+        if not all_configs:
+            print("No paperconfigs found in paperconfig_files.txt")
+            sys.exit(1)
+        total = len(all_configs)
+        passed = 0
+        failed = 0
+        for path, _ in all_configs:
+            print(f"\n{'='*60}")
+            print(f"Validating: {path}\n")
+            ok = validate(str(path))
+            if ok:
+                passed += 1
+            else:
+                failed += 1
+        print(f"\n{'='*60}")
+        print(f"Results: {passed}/{total} passed, {failed}/{total} failed")
+        sys.exit(0 if failed == 0 else 1)
+
     if len(sys.argv) != 2:
         print(f"Usage: {sys.argv[0]} <path_to_paperconfig.yaml>")
+        print(f"       {sys.argv[0]} --all")
         sys.exit(2)
 
     config_path = sys.argv[1]

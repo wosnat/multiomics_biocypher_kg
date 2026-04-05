@@ -7,13 +7,18 @@
     },
     "gene_name": {
       "conflict": 0,
-      "multi": 95,
-      "unique": 2028
+      "multi": 105,
+      "unique": 1079
     },
     "gene_synonym": {
       "conflict": 0,
       "multi": 115,
-      "unique": 2735
+      "unique": 3717
+    },
+    "gff_gene_id": {
+      "conflict": 0,
+      "multi": 0,
+      "unique": 4273
     },
     "locus_tag_cyanorak": {
       "conflict": 0,
@@ -21,9 +26,9 @@
       "unique": 2195
     },
     "locus_tag_ncbi": {
-      "conflict": 1,
+      "conflict": 25,
       "multi": 0,
-      "unique": 4970
+      "unique": 7165
     },
     "old_locus_tag": {
       "conflict": 0,
@@ -44,9 +49,10 @@
   "strain": "NATL1A",
   "unresolved_rows_per_source": {
     "cds_from_genomic.fna": 8,
-    "genomic_gca/NATL1A": 57
+    "genomic_gca/NATL1A": 57,
+    "genomic_gcf/NATL1A": 51
   },
   "warnings": [
-    "[CONFLICT] Tier 1 id_type 'locus_tag_ncbi' has 1 data conflicts \u2014 check annotation quality."
+    "[CONFLICT] Tier 1 id_type 'locus_tag_ncbi' has 25 data conflicts \u2014 check annotation quality."
   ]
 }

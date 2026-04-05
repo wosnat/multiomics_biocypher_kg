@@ -1,0 +1,41 @@
+Resolution report: Bernstein 2017 / bp1_light_clusters
+Source: data set s2 clustered_Avg_Cond_Light sys002172092sd2.csv
+name_col: NCBI Locus Tag
+id_columns: ['NCBI Locus Tag', 'RAST Locus Tag', 'gene']
+
+Total rows with IDs: 4492
+Resolved: 2946 (65.6%)
+Unresolved: 1546
+
+Resolution method breakdown:
+  ambiguous: 27
+  locus_tag:NCBI Locus Tag: 2306
+  multi:NCBI Locus Tag: 24
+  multi:gene: 251
+  tier1:gene: 365
+  unresolved: 1519
+
+Unresolved rows (1546):
+  row 0: raw_id='SY28_RS00050'  reason=unresolved  [NCBI Locus Tag='SY28_RS00050', RAST Locus Tag='fig.6666666.52381.peg.10', gene='lysX']
+  row 1: raw_id='SY28_RS00500'  reason=unresolved  [NCBI Locus Tag='SY28_RS00500', RAST Locus Tag='fig.6666666.52381.peg.100']
+  row 2: raw_id='SY28_RS04985'  reason=unresolved  [NCBI Locus Tag='SY28_RS04985', RAST Locus Tag='fig.6666666.52381.peg.1000']
+  row 3: raw_id='SY28_RS04990'  reason=unresolved  [NCBI Locus Tag='SY28_RS04990', RAST Locus Tag='fig.6666666.52381.peg.1001']
+  row 4: raw_id='SY28_RS04995'  reason=unresolved  [NCBI Locus Tag='SY28_RS04995', RAST Locus Tag='fig.6666666.52381.peg.1002', gene='ilvA']
+  row 5: raw_id='SY28_RS05000'  reason=unresolved  [NCBI Locus Tag='SY28_RS05000', RAST Locus Tag='fig.6666666.52381.peg.1003']
+  row 6: raw_id='SY28_RS05005'  reason=unresolved  [NCBI Locus Tag='SY28_RS05005', RAST Locus Tag='fig.6666666.52381.peg.1004']
+  row 7: raw_id='SY28_RS05010'  reason=unresolved  [NCBI Locus Tag='SY28_RS05010', RAST Locus Tag='fig.6666666.52381.peg.1005']
+  row 8: raw_id='SY28_RS05020'  reason=unresolved  [NCBI Locus Tag='SY28_RS05020', RAST Locus Tag='fig.6666666.52381.peg.1007']
+  row 10: raw_id='SY28_RS00505'  reason=unresolved  [NCBI Locus Tag='SY28_RS00505', RAST Locus Tag='fig.6666666.52381.peg.101', gene='prrC']
+  row 12: raw_id='SY28_RS05040'  reason=unresolved  [NCBI Locus Tag='SY28_RS05040', RAST Locus Tag='fig.6666666.52381.peg.1011']
+  row 13: raw_id='SY28_RS05045'  reason=unresolved  [NCBI Locus Tag='SY28_RS05045', RAST Locus Tag='fig.6666666.52381.peg.1012']
+  row 14: raw_id='SY28_RS05050'  reason=unresolved  [NCBI Locus Tag='SY28_RS05050', RAST Locus Tag='fig.6666666.52381.peg.1013']
+  row 16: raw_id='SY28_RS05060'  reason=unresolved  [NCBI Locus Tag='SY28_RS05060', RAST Locus Tag='fig.6666666.52381.peg.1015']
+  row 19: raw_id='SY28_RS05075'  reason=unresolved  [NCBI Locus Tag='SY28_RS05075', RAST Locus Tag='fig.6666666.52381.peg.1018']
+  row 20: raw_id='SY28_RS05080'  reason=unresolved  [NCBI Locus Tag='SY28_RS05080', RAST Locus Tag='fig.6666666.52381.peg.1019']
+  row 22: raw_id='SY28_RS05085'  reason=unresolved  [NCBI Locus Tag='SY28_RS05085', RAST Locus Tag='fig.6666666.52381.peg.1020']
+  row 23: raw_id='SY28_RS05090'  reason=unresolved  [NCBI Locus Tag='SY28_RS05090', RAST Locus Tag='fig.6666666.52381.peg.1021']
+  row 29: raw_id='SY28_RS05115'  reason=unresolved  [NCBI Locus Tag='SY28_RS05115', RAST Locus Tag='fig.6666666.52381.peg.1027']
+  row 30: raw_id='SY28_RS05120'  reason=unresolved  [NCBI Locus Tag='SY28_RS05120', RAST Locus Tag='fig.6666666.52381.peg.1028']
+  ... (1526 more)
+
+NOTE: 27 rows were ambiguous (multi_lookup had >1 match). Consider adding id_columns with more specific IDs, or check if the name_col should be Tier 2 (protein-level) instead of Tier 1.

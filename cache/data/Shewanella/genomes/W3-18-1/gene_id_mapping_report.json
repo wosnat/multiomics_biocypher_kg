@@ -1,0 +1,51 @@
+{
+  "per_id_type": {
+    "cds_fna_id": {
+      "conflict": 0,
+      "multi": 0,
+      "unique": 4058
+    },
+    "gene_name": {
+      "conflict": 0,
+      "multi": 323,
+      "unique": 1921
+    },
+    "gene_synonym": {
+      "conflict": 0,
+      "multi": 1,
+      "unique": 6837
+    },
+    "gff_gene_id": {
+      "conflict": 0,
+      "multi": 0,
+      "unique": 8031
+    },
+    "locus_tag": {
+      "conflict": 0,
+      "multi": 0,
+      "unique": 34
+    },
+    "locus_tag_ncbi": {
+      "conflict": 82,
+      "multi": 0,
+      "unique": 13031
+    },
+    "protein_id_refseq": {
+      "conflict": 0,
+      "multi": 52,
+      "unique": 7979
+    }
+  },
+  "strain": "W3-18-1",
+  "unresolved_rows_per_source": {
+    "Beliaev 2014/supp_table_s4": 456,
+    "Beliaev 2014/supp_table_s6": 1341,
+    "Beliaev 2014/supp_table_s8": 1276,
+    "cds_from_genomic.fna": 56,
+    "genomic_gca/W3-18-1": 275,
+    "genomic_gcf/W3-18-1": 147
+  },
+  "warnings": [
+    "[CONFLICT] Tier 1 id_type 'locus_tag_ncbi' has 82 data conflicts \u2014 check annotation quality."
+  ]
+}

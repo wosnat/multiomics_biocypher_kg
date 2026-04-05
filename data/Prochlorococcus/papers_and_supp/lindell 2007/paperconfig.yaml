@@ -1,126 +1,110 @@
 publication:
-  papername: "Lindell 2007"
-  papermainpdf: "data/Prochlorococcus/papers_and_supp/lindell 2007/nature06130 (1).pdf"
-
+  papername: Lindell 2007
+  papermainpdf: data/Prochlorococcus/papers_and_supp/lindell 2007/nature06130 (1).pdf
+  experiments:
+    viral_phage_infected_med4_microarray:
+      name: MED4 Phage infected vs Pro99 medium phage infection baseline (MICROARRAY)
+      organism: Prochlorococcus MED4
+      treatment_condition: Phage infected
+      control_condition: Pro99 medium phage infection baseline
+      experimental_context: Prochlorococcus MED4 infected with phage, microarray analysis of fold change (infected/control)
+      omics_type: MICROARRAY
+      test_type: microarray
+      treatment_type: [viral]
+      background_factors: [light]
+      medium: Pro99 medium
+      temperature: 24C
+      light_condition: continuous light
+      light_intensity: 10 umol photons m-2 s-1
+      treatment_organism: Phage
+      treatment_taxid: 10239
+      table_scope: significant_only
+      table_scope_detail: Upregulated genes only
   supplementary_materials:
     supp_table_3:
       type: csv
-      filename: "data/Prochlorococcus/papers_and_supp/lindell 2007/supp table 3.csv"
+      filename: data/Prochlorococcus/papers_and_supp/lindell 2007/supp table 3.csv
       id_columns:
-      - column: "ORF "
+      - column: 'ORF '
         id_type: old_locus_tag
       product_columns:
-      - column: " gene name, possible product and function"
+      - column: ' gene name, possible product and function'
       statistical_analyses:
-        - type: MICROARRAY
-          name: "Upregulated Prochlorococcus MED4 genes during phage infection at 1h"
-          id: DE_phage_infection_MED4_1h
-          test_type: "Affymetrix microarray"
-          control_condition: "Uninfected control"
-          treatment_condition: "Phage infected"
-          experimental_context: "Prochlorococcus MED4 infected with phage, microarray analysis of fold change (infected/control)"
-          timepoint: "1h"
-          organism: "Prochlorococcus MED4"
-          treatment_organism: "Phage"
-          treatment_taxid: 10239
-          name_col: "ORF "
-          logfc_col: "1 h"
-          pvalue_asterisk_in_logfc: true
-        - type: MICROARRAY
-          name: "Upregulated Prochlorococcus MED4 genes during phage infection at 2h"
-          id: DE_phage_infection_MED4_2h
-          test_type: "Affymetrix microarray"
-          control_condition: "Uninfected control"
-          treatment_condition: "Phage infected"
-          experimental_context: "Prochlorococcus MED4 infected with phage, microarray analysis of fold change (infected/control)"
-          timepoint: "2h"
-          organism: "Prochlorococcus MED4"
-          treatment_organism: "Phage"
-          treatment_taxid: 10239
-          name_col: "ORF "
-          logfc_col: "2 h"
-          pvalue_asterisk_in_logfc: true
-        - type: MICROARRAY
-          name: "Upregulated Prochlorococcus MED4 genes during phage infection at 3h"
-          id: DE_phage_infection_MED4_3h
-          test_type: "Affymetrix microarray"
-          control_condition: "Uninfected control"
-          treatment_condition: "Phage infected"
-          experimental_context: "Prochlorococcus MED4 infected with phage, microarray analysis of fold change (infected/control)"
-          timepoint: "3h"
-          organism: "Prochlorococcus MED4"
-          treatment_organism: "Phage"
-          treatment_taxid: 10239
-          name_col: "ORF "
-          logfc_col: "3 h"
-          pvalue_asterisk_in_logfc: true
-        - type: MICROARRAY
-          name: "Upregulated Prochlorococcus MED4 genes during phage infection at 4h"
-          id: DE_phage_infection_MED4_4h
-          test_type: "Affymetrix microarray"
-          control_condition: "Uninfected control"
-          treatment_condition: "Phage infected"
-          experimental_context: "Prochlorococcus MED4 infected with phage, microarray analysis of fold change (infected/control)"
-          timepoint: "4h"
-          organism: "Prochlorococcus MED4"
-          treatment_organism: "Phage"
-          treatment_taxid: 10239
-          name_col: "ORF "
-          logfc_col: "4 h"
-          pvalue_asterisk_in_logfc: true
-        - type: MICROARRAY
-          name: "Upregulated Prochlorococcus MED4 genes during phage infection at 5h"
-          id: DE_phage_infection_MED4_5h
-          test_type: "Affymetrix microarray"
-          control_condition: "Uninfected control"
-          treatment_condition: "Phage infected"
-          experimental_context: "Prochlorococcus MED4 infected with phage, microarray analysis of fold change (infected/control)"
-          timepoint: "5h"
-          organism: "Prochlorococcus MED4"
-          treatment_organism: "Phage"
-          treatment_taxid: 10239
-          name_col: "ORF "
-          logfc_col: "5 h"
-          pvalue_asterisk_in_logfc: true
-        - type: MICROARRAY
-          name: "Upregulated Prochlorococcus MED4 genes during phage infection at 6h"
-          id: DE_phage_infection_MED4_6h
-          test_type: "Affymetrix microarray"
-          control_condition: "Uninfected control"
-          treatment_condition: "Phage infected"
-          experimental_context: "Prochlorococcus MED4 infected with phage, microarray analysis of fold change (infected/control)"
-          timepoint: "6h"
-          organism: "Prochlorococcus MED4"
-          treatment_organism: "Phage"
-          treatment_taxid: 10239
-          name_col: "ORF "
-          logfc_col: "6 h"
-          pvalue_asterisk_in_logfc: true
-        - type: MICROARRAY
-          name: "Upregulated Prochlorococcus MED4 genes during phage infection at 7h"
-          id: DE_phage_infection_MED4_7h
-          test_type: "Affymetrix microarray"
-          control_condition: "Uninfected control"
-          treatment_condition: "Phage infected"
-          experimental_context: "Prochlorococcus MED4 infected with phage, microarray analysis of fold change (infected/control)"
-          timepoint: "7h"
-          organism: "Prochlorococcus MED4"
-          treatment_organism: "Phage"
-          treatment_taxid: 10239
-          name_col: "ORF "
-          logfc_col: "7 h"
-          pvalue_asterisk_in_logfc: true
-        - type: MICROARRAY
-          name: "Upregulated Prochlorococcus MED4 genes during phage infection at 8h"
-          id: DE_phage_infection_MED4_8h
-          test_type: "Affymetrix microarray"
-          control_condition: "Uninfected control"
-          treatment_condition: "Phage infected"
-          experimental_context: "Prochlorococcus MED4 infected with phage, microarray analysis of fold change (infected/control)"
-          timepoint: "8h"
-          organism: "Prochlorococcus MED4"
-          treatment_organism: "Phage"
-          treatment_taxid: 10239
-          name_col: "ORF "
-          logfc_col: "8 h"
-          pvalue_asterisk_in_logfc: true
+      - id: DE_phage_infection_MED4_1h
+        experiment: viral_phage_infected_med4_microarray
+        timepoint: 1h
+        timepoint_hours: 1.0
+        name_col: 'ORF '
+        logfc_col: 1 h
+        pvalue_asterisk_in_logfc: true
+      - id: DE_phage_infection_MED4_2h
+        experiment: viral_phage_infected_med4_microarray
+        timepoint: 2h
+        timepoint_hours: 2.0
+        name_col: 'ORF '
+        logfc_col: 2 h
+        pvalue_asterisk_in_logfc: true
+      - id: DE_phage_infection_MED4_3h
+        experiment: viral_phage_infected_med4_microarray
+        timepoint: 3h
+        timepoint_hours: 3.0
+        name_col: 'ORF '
+        logfc_col: 3 h
+        pvalue_asterisk_in_logfc: true
+      - id: DE_phage_infection_MED4_4h
+        experiment: viral_phage_infected_med4_microarray
+        timepoint: 4h
+        timepoint_hours: 4.0
+        name_col: 'ORF '
+        logfc_col: 4 h
+        pvalue_asterisk_in_logfc: true
+      - id: DE_phage_infection_MED4_5h
+        experiment: viral_phage_infected_med4_microarray
+        timepoint: 5h
+        timepoint_hours: 5.0
+        name_col: 'ORF '
+        logfc_col: 5 h
+        pvalue_asterisk_in_logfc: true
+      - id: DE_phage_infection_MED4_6h
+        experiment: viral_phage_infected_med4_microarray
+        timepoint: 6h
+        timepoint_hours: 6.0
+        name_col: 'ORF '
+        logfc_col: 6 h
+        pvalue_asterisk_in_logfc: true
+      - id: DE_phage_infection_MED4_7h
+        experiment: viral_phage_infected_med4_microarray
+        timepoint: 7h
+        timepoint_hours: 7.0
+        name_col: 'ORF '
+        logfc_col: 7 h
+        pvalue_asterisk_in_logfc: true
+      - id: DE_phage_infection_MED4_8h
+        experiment: viral_phage_infected_med4_microarray
+        timepoint: 8h
+        timepoint_hours: 8.0
+        name_col: 'ORF '
+        logfc_col: 8 h
+        pvalue_asterisk_in_logfc: true
+
+    # ── Gene cluster data (transcription groups) ─────────────────────────
+    med4_phage_transcription_groups:
+      type: gene_clusters
+      name: "MED4 phage-upregulated transcription groups"
+      filename: "data/Prochlorococcus/papers_and_supp/lindell 2007/supp table 3.csv"
+      organism: "Prochlorococcus MED4"
+      gene_id_col: "ORF "
+      cluster_col: "TRANSCRIPTION GROUP"
+      id_columns:
+        - column: "ORF "
+          id_type: old_locus_tag
+      cluster_type: "response_pattern"
+      cluster_method: "Stable clusters of co-expressed upregulated genes"
+      omics_type: MICROARRAY
+      treatment_type: ["viral"]
+      background_factors: ["axenic", "light"]
+      treatment: "Phage infection time course (0-8h post infection)"
+      light_condition: "continuous light"
+      experimental_context: "Upregulated MED4 genes clustered by temporal expression pattern during phage infection; 2 transcription groups from microarray time course (0-8h); group 1 = early transient peak (1h), group 2 = late sustained induction (3-8h)"
+      experiments:
+        - viral_phage_infected_med4_microarray

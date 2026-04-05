@@ -22,8 +22,8 @@ logger = logging.getLogger(__name__)
 _KEGG_BASE = "https://rest.kegg.jp"
 _BRITE_KO_URL = f"{_KEGG_BASE}/get/br:ko00001/json"
 _KO_LIST_URL = f"{_KEGG_BASE}/list/ko"
-_PATHWAY_LIST_URL = f"{_KEGG_BASE}/list/pathway"
 _KO_PATHWAY_LINK_URL = f"{_KEGG_BASE}/link/pathway/ko"
+_PATHWAY_KO_LIST_URL = f"{_KEGG_BASE}/list/pathway/ko"
 
 _TIMEOUT = 120  # seconds per request
 
@@ -60,8 +60,14 @@ def _parse_ko_names(text: str) -> dict[str, str]:
     return result
 
 
-def _parse_pathway_names(text: str) -> dict[str, str]:
-    """Parse `list/pathway` response into {ko#####: name_str}."""
+
+def _parse_pathway_ko_names(text: str) -> dict[str, str]:
+    """Parse `list/pathway/ko` response into {ko#####: name_str}.
+
+    Unlike `list/pathway` (which returns map-prefixed IDs), this endpoint
+    returns ko-prefixed reference pathway IDs and covers global/overview maps
+    (ko01100–ko01320) that are absent from the BRITE hierarchy.
+    """
     result: dict[str, str] = {}
     for line in text.splitlines():
         parts = line.strip().split("\t", 1)
@@ -72,7 +78,7 @@ def _parse_pathway_names(text: str) -> dict[str, str]:
         pw_id = raw_id.removeprefix("path:")
         if pw_id.startswith("ko"):
             result[pw_id] = name.strip()
-    logger.info(f"Parsed {len(result)} pathway names")
+    logger.info(f"Parsed {len(result)} pathway names from list/pathway/ko")
     return result
 
 
@@ -99,6 +105,7 @@ def _parse_brite_hierarchy(brite_json: dict) -> tuple[
     dict[str, str],  # subcategory_names: {subcat_code: name}
     dict[str, str],  # subcategory_to_category: {subcat_code: cat_code}
     dict[str, str],  # category_names: {cat_code: name}
+    dict[str, str],  # pathway_names: {ko#####: name_str}
 ]:
     """
     Parse the `br:ko00001` BRITE JSON hierarchy.
@@ -109,12 +116,14 @@ def _parse_brite_hierarchy(brite_json: dict) -> tuple[
       C (children of B):    "00010 Glycolysis [PATH:ko00010]"  → extract ko#####
       D (children of C):    individual KOs (K#####) — ignored here
 
-    Returns four dicts for building the Pathway→Subcategory→Category hierarchy.
+    Returns five dicts for building the Pathway→Subcategory→Category hierarchy,
+    plus pathway names extracted from C-level node labels.
     """
     pathway_to_subcat: dict[str, str] = {}
     subcat_names: dict[str, str] = {}
     subcat_to_cat: dict[str, str] = {}
     cat_names: dict[str, str] = {}
+    pw_names: dict[str, str] = {}
 
     # The top-level object has a "children" key with A-level entries
     a_entries = brite_json.get("children", [])
@@ -147,13 +156,19 @@ def _parse_brite_hierarchy(brite_json: dict) -> tuple[
                     continue
                 pw_id = pw_match.group(1)
                 pathway_to_subcat[pw_id] = subcat_code
+                # Extract pathway name from C-level label, e.g.
+                # "00010 Glycolysis / Gluconeogenesis [PATH:ko00010]"
+                name_match = re.match(r"^\d{5}\s+(.+?)\s*\[PATH:", c_name)
+                if name_match:
+                    pw_names[pw_id] = name_match.group(1).strip()
 
     logger.info(
         f"BRITE hierarchy parsed: {len(cat_names)} categories, "
         f"{len(subcat_names)} subcategories, "
-        f"{len(pathway_to_subcat)} pathway→subcategory links"
+        f"{len(pathway_to_subcat)} pathway→subcategory links, "
+        f"{len(pw_names)} pathway names"
     )
-    return pathway_to_subcat, subcat_names, subcat_to_cat, cat_names
+    return pathway_to_subcat, subcat_names, subcat_to_cat, cat_names, pw_names
 
 
 def download_kegg_data(cache_root: Path, force: bool = False) -> dict:
@@ -184,10 +199,16 @@ def download_kegg_data(cache_root: Path, force: bool = False) -> dict:
     cache_dir.mkdir(parents=True, exist_ok=True)
 
     ko_names = _parse_ko_names(_fetch_text(_KO_LIST_URL))
-    pathway_names = _parse_pathway_names(_fetch_text(_PATHWAY_LIST_URL))
     ko_to_pathways = _parse_ko_to_pathways(_fetch_text(_KO_PATHWAY_LINK_URL))
     brite_json = _fetch_json(_BRITE_KO_URL)
-    pathway_to_subcat, subcat_names, subcat_to_cat, cat_names = _parse_brite_hierarchy(brite_json)
+    pathway_to_subcat, subcat_names, subcat_to_cat, cat_names, brite_pw_names = (
+        _parse_brite_hierarchy(brite_json)
+    )
+    # Supplement BRITE pathway names with list/pathway/ko API names.
+    # Global/overview maps (ko01100–ko01320) are absent from BRITE but present
+    # in the pathway list API.
+    api_pw_names = _parse_pathway_ko_names(_fetch_text(_PATHWAY_KO_LIST_URL))
+    pathway_names = {**api_pw_names, **brite_pw_names}  # BRITE wins on overlap
 
     data = {
         "ko_names": ko_names,

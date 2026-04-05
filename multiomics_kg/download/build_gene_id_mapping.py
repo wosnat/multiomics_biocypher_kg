@@ -27,52 +27,20 @@ from typing import Any
 from urllib.parse import unquote
 
 import pandas as pd
-import yaml
 
 from multiomics_kg.download.gene_id_graph import GeneIdGraph
 from multiomics_kg.download.utils.cli import load_genome_rows
 from multiomics_kg.download.utils.paths import PROJECT_ROOT
 from multiomics_kg.utils.gene_id_utils import get_genome_dir, load_gene_annotations
-
-PAPERCONFIG_FILES_TXT = (
-    PROJECT_ROOT / "data/Prochlorococcus/papers_and_supp/paperconfig_files.txt"
+from multiomics_kg.utils.paperconfig_utils import (
+    get_organism_for_entry,
+    get_paper_name,
+    get_supplementary_materials,
+    load_all_paperconfigs,
 )
 
-# ─── Paperconfig loading ──────────────────────────────────────────────────────
 
-
-def load_all_paperconfigs() -> list[tuple[Path, dict]]:
-    """Load all paperconfigs listed in paperconfig_files.txt."""
-    results = []
-    with open(PAPERCONFIG_FILES_TXT) as f:
-        for line in f:
-            path_str = line.strip()
-            if not path_str or path_str.startswith('#'):
-                continue
-            path = PROJECT_ROOT / path_str
-            if not path.exists():
-                print(f"  [warn] paperconfig not found: {path}", file=sys.stderr)
-                continue
-            with open(path) as pf:
-                config = yaml.safe_load(pf)
-            if config:
-                results.append((path, config))
-    return results
-
-
-def get_organism_for_entry(entry: dict) -> str | None:
-    """Extract the organism string for a supplementary table entry.
-
-    Priority: entry-level 'organism' > first statistical_analysis 'organism'.
-    """
-    org = entry.get("organism")
-    if org:
-        return str(org).strip().strip('"')
-    for a in entry.get("statistical_analyses") or []:
-        org = a.get("organism")
-        if org:
-            return str(org).strip().strip('"')
-    return None
+# ─── Paperconfig entry collection ────────────────────────────────────────────
 
 
 def collect_entries_for_genome_dir(
@@ -85,11 +53,10 @@ def collect_entries_for_genome_dir(
     """
     results = []
     for pc_path, config in paperconfigs:
-        pub = config.get("publication") or {}
-        paper_name = pub.get("papername") or pc_path.parent.name
-        supp = pub.get("supplementary_materials") or config.get("supplementary_materials") or {}
+        paper_name = get_paper_name(config, fallback_path=pc_path)
+        supp = get_supplementary_materials(config)
         for table_key, entry in supp.items():
-            org = get_organism_for_entry(entry)
+            org = get_organism_for_entry(config, entry)
             if not org:
                 continue
             resolved = get_genome_dir(org, str(PROJECT_ROOT))
@@ -213,6 +180,11 @@ def extract_rows_from_annotation_gff(
                 attrs = _parse_gtf_attrs(parts[8]) if is_gtf else _parse_gff_attrs(parts[8])
 
                 row_pairs: list[tuple[str, str]] = []
+                # Extract gene-* ID from gene features (e.g. gene-PP_RS00005)
+                if parts[2] == "gene":
+                    gff_id = attrs.get("ID", "").strip()
+                    if gff_id.startswith("gene-"):
+                        row_pairs.append((gff_id, "gff_gene_id"))
                 for attr_name, id_type in GFF_ATTR_TYPES.items():
                     val = unquote(attrs.get(attr_name, "")).strip()
                     if val:
@@ -365,6 +337,68 @@ def extract_rows_from_csv_table(
             row_pairs.append((val, nc_id_type))
 
         # Include declared id_columns not already covered by name_cols
+        for col_spec in valid_id_columns:
+            col = col_spec["column"]
+            id_type = col_spec.get("id_type", "other")
+            val = _safe_str(row.get(col, ""))
+            if val:
+                row_pairs.append((val, id_type))
+
+        if row_pairs:
+            result.append((row_pairs, source_label))
+
+    return result
+
+
+def extract_rows_from_gene_clusters_table(
+    entry: dict,
+    paper_name: str,
+    table_key: str,
+) -> list[tuple[list[tuple[str, str]], str]]:
+    """Extract rows from a gene_clusters supplementary table (id_columns only)."""
+    id_columns: list[dict] = entry.get("id_columns") or []
+    if not id_columns:
+        return []
+
+    filename = entry.get("filename", "")
+    sep = entry.get("sep", ",")
+    gene_id_col = entry.get("gene_id_col", "")
+
+    path = PROJECT_ROOT / filename
+    if not path.exists():
+        print(f"    [warn] gene_clusters file not found: {path}", file=sys.stderr)
+        return []
+
+    try:
+        df = pd.read_csv(path, sep=sep, dtype=str, encoding="utf-8-sig")
+    except Exception as e:
+        print(f"    [warn] could not read {path}: {e}", file=sys.stderr)
+        return []
+
+    source_label = f"{paper_name}/{table_key}"
+    result: list[tuple[list[tuple[str, str]], str]] = []
+
+    # Pre-filter id_columns to those present, excluding gene_id_col to avoid dupes
+    gene_id_col_set = {gene_id_col} if gene_id_col else set()
+    valid_id_columns = [
+        cs for cs in id_columns
+        if cs.get("column", "") in df.columns and cs.get("column", "") not in gene_id_col_set
+    ]
+
+    for _, row in df.iterrows():
+        row_pairs: list[tuple[str, str]] = []
+
+        # Include gene_id_col value with its declared or inferred id_type
+        if gene_id_col and gene_id_col in df.columns:
+            val = _safe_str(row.get(gene_id_col, ""))
+            if val:
+                gid_type = next(
+                    (c.get("id_type", "other") for c in id_columns if c.get("column") == gene_id_col),
+                    "locus_tag",
+                )
+                row_pairs.append((val, gid_type))
+
+        # Include declared id_columns not already covered by gene_id_col
         for col_spec in valid_id_columns:
             col = col_spec["column"]
             id_type = col_spec.get("id_type", "other")
@@ -580,6 +614,18 @@ def process_strain(row: dict, paperconfigs: list, force: bool) -> None:
     else:
         print(f"  No genomic_gca.gff found for {strain} (run step 0 to download)")
 
+    # GCF genomic.gff — RefSeq annotation with current RS-format locus tags
+    # and gene-<locus_tag> IDs that papers sometimes reference directly
+    gcf_gff = genome_dir / "genomic.gff"
+    if gcf_gff.exists():
+        gcf_entry = {"filename": str(gcf_gff.relative_to(PROJECT_ROOT))}
+        gcf_rows = extract_rows_from_annotation_gff(gcf_entry, "genomic_gcf", strain)
+        if gcf_rows:
+            all_rows.extend(gcf_rows)
+            print(f"  Loaded {len(gcf_rows)} rows from genomic.gff")
+    else:
+        print(f"  No genomic.gff found for {strain} (run step 0 to download)")
+
     # Collect all source rows from paperconfigs
     entries = collect_entries_for_genome_dir(paperconfigs, genome_dir)
 
@@ -605,6 +651,11 @@ def process_strain(row: dict, paperconfigs: list, force: bool) -> None:
 
             elif entry_type == "csv":
                 rows = extract_rows_from_csv_table(entry_config, paper_name, table_key)
+                all_rows.extend(rows)
+                print(f"    collected {len(rows)} rows")
+
+            elif entry_type == "gene_clusters":
+                rows = extract_rows_from_gene_clusters_table(entry_config, paper_name, table_key)
                 all_rows.extend(rows)
                 print(f"    collected {len(rows)} rows")
 

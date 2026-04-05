@@ -12,7 +12,7 @@ A,Amino acid biosynthesis,A.5,"Pyruvate family (Ala, Val, Leu)",-,-
 A,Amino acid biosynthesis,A.6,"Serine family (Ser, Gly, Cys)",-,-
 A,Amino acid biosynthesis,A.7,Other,-,-
 B,"Biosynthesis of cofactors, prosthetic groups, and carriers",B.1,Lipoic acid,-,-
-B,"Biosynthesis of cofactors, prosthetic groups, and carriers",B.2,Menaquinone and ubiquinone,-,-
+B,"Biosynthesis of cofactors, prosthetic groups, and carriers",B.2,"Plastoquinone, menaquinone and ubiquinone",-,-
 B,"Biosynthesis of cofactors, prosthetic groups, and carriers",B.3,Molybdopterin,-,-
 B,"Biosynthesis of cofactors, prosthetic groups, and carriers",B.4,Pantothenate and coenzyme A,-,-
 B,"Biosynthesis of cofactors, prosthetic groups, and carriers",B.5,Pigments,B.5.1,Carotenoids
@@ -21,7 +21,7 @@ B,"Biosynthesis of cofactors, prosthetic groups, and carriers",B.5,Pigments,B.5.
 B,"Biosynthesis of cofactors, prosthetic groups, and carriers",B.6,"Pyridine nucleotides (NAD, NADP)",-,-
 B,"Biosynthesis of cofactors, prosthetic groups, and carriers",B.7,"Riboflavin, FMN and FAD",-,-
 B,"Biosynthesis of cofactors, prosthetic groups, and carriers",B.8,Siderophores,-,-
-B,"Biosynthesis of cofactors, prosthetic groups, and carriers",B.9,"Thioredoxin, glutaredoxin, and glutathione",-,-
+B,"Biosynthesis of cofactors, prosthetic groups, and carriers",B.9,"Thioredoxin, glutaredoxin and glutathione",-,-
 B,"Biosynthesis of cofactors, prosthetic groups, and carriers",B.10,Vitamins,B.10.1,Biotin (b7)
 B,"Biosynthesis of cofactors, prosthetic groups, and carriers",B.10,Vitamins,B.10.2,Cobalamin (b12)
 B,"Biosynthesis of cofactors, prosthetic groups, and carriers",B.10,Vitamins,B.10.3,Folic acid (b9)
@@ -40,7 +40,8 @@ D,Cellular processes,D.1,Adaptation/acclimation to atypical conditions and detox
 D,Cellular processes,D.1,Adaptation/acclimation to atypical conditions and detoxification,D.1.5,Phosphorus
 D,Cellular processes,D.1,Adaptation/acclimation to atypical conditions and detoxification,D.1.6,Temperature
 D,Cellular processes,D.1,Adaptation/acclimation to atypical conditions and detoxification,D.1.7,Trace metals
-D,Cellular processes,D.1,Adaptation/acclimation to atypical conditions and detoxification,D.1.8,Other
+D,Cellular processes,D.1,Adaptation/acclimation to atypical conditions and detoxification,D.1.8,Salinity
+D,Cellular processes,D.1,Adaptation/acclimation to atypical conditions and detoxification,D.1.9,Other
 D,Cellular processes,D.2,Cell division,-,-
 D,Cellular processes,D.3,Cell growth and death,-,-
 D,Cellular processes,D.4,Chaperones,-,-
@@ -60,7 +61,7 @@ E,Central intermediary metabolism,E.7,Sulfur metabolism,-,-
 E,Central intermediary metabolism,E.8,Other,-,-
 F,DNA metabolism,F.1,"DNA replication, recombination, and repair",F.1.1,Base excision repair
 F,DNA metabolism,F.1,"DNA replication, recombination, and repair",F.1.2,Nucleotide excision repair
-F,DNA metabolism,F.1,"DNA replication, recombination, and repair",F.1.3,Mismatch repair
+F,DNA metabolism,F.1,"DNA replication, recombination, and repair",F.1.3,Mismatch excision repair
 F,DNA metabolism,F.1,"DNA replication, recombination, and repair",F.1.4,Homologous recombination
 F,DNA metabolism,F.1,"DNA replication, recombination, and repair",F.1.5,Non-homologous end-joining
 F,DNA metabolism,F.1,"DNA replication, recombination, and repair",F.1.6,Reversal of damage
@@ -73,7 +74,7 @@ G,Energy metabolism,G.4,Glycolysis/gluconeogenesis,-,-
 G,Energy metabolism,G.5,Pentose phosphate pathway,-,-
 G,Energy metabolism,G.6,Pyruvate and acetyl-CoA metabolism,-,-
 G,Energy metabolism,G.7,Pyruvate dehydrogenase,-,-
-G,Energy metabolism,G.8,Starch and sucrose metabolism,-,-
+G,Energy metabolism,G.8,Glycogen and sugar metabolism,-,-
 G,Energy metabolism,G.9,TCA cycle,-,-
 G,Energy metabolism,G.10,Other,-,-
 H,"Fatty acid, phospholipid and sterol metabolism",H.1,Ether lipid metabolism,-,-
@@ -125,7 +126,7 @@ N,Regulatory functions,N.3,Protein interactions,-,-
 N,Regulatory functions,N.4,Small molecule interactions,-,-
 N,Regulatory functions,N.5,Other,-,-
 O,Signal transduction,O.1,Two-component systems,O.1.1,Histidine kinase (HK)
-O,Signal transduction,O.1,Two-component systems,O.1.2,response regulators  (RR)
+O,Signal transduction,O.1,Two-component systems,O.1.2,response regulators (RR)
 O,Signal transduction,O.2,Phosphotransferase systems (PTS),-,-
 O,Signal transduction,O.3,Other,-,-
 P,Transcription,P.1,Degradation of RNA,-,-

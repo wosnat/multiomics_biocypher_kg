@@ -18,7 +18,7 @@
 #   strip_function_prefix - strip "FUNCTION: " prefix from UniProt cc_function
 #   strip_prefix_ko       - strip "ko:" prefix from KEGG_ko entries
 #   extract_go_from_pipe  - extract GO ID from "term_name|NNNNNNN||evidence" format
-#   extract_pfam_ids      - keep only PF* tokens from a comma-sep domain list
+#   (extract_pfam_ids removed — replaced by post-merge enrich_pfam_fields())
 
 # ─── Source definitions ───────────────────────────────────────────────────────
 sources:
@@ -127,6 +127,7 @@ fields:
   gene_name:
     type: single
     track_source: gene_name_source
+    reject_identifiers: true   # skip locus-tag-style values (e.g. PMM0002, ALTBGP6_RS00025)
     candidates:
       - source: gene_mapping
         field: gene_names_cyanorak
@@ -333,9 +334,10 @@ fields:
 
   go_term_descriptions:
     # Plan says rename ontology_term_description → go_term_descriptions (Step 2F)
-    type: passthrough
+    type: passthrough_list
     source: gene_mapping
     field: ontology_term_description
+    delimiter: ","
 
   # ── EC Numbers ────────────────────────────────────────────────────────────────
   # NOTE: gene_mapping.kegg field contains EC numbers (not KEGG KO IDs)
@@ -494,35 +496,19 @@ fields:
   # ── PFAMs ────────────────────────────────────────────────────────────────────
 
   pfam_ids:
+    # Post-merge enriched: raw tokens resolved to clean PF* IDs via Pfam reference.
+    # The union collects ALL tokens from all sources (PF* IDs, shortnames, TIGR*, IPR*).
+    # enrich_pfam_fields() resolves shortnames and filters to PF* only.
     type: union
     sources:
       - source: gene_mapping
         field: protein_domains
         delimiter: ","
-        transform: extract_pfam_ids  # keeps only PF* tokens
+      - source: eggnog
+        field: PFAMs
+        delimiter: ","
       - source: uniprot
-        field: pfam_ids              # already clean PF* IDs from xref_pfam
-      - source: eggnog
-        field: PFAMs
-        delimiter: ","
-        transform: extract_pfam_ids  # eggnog mixes PF* IDs and shortnames; keep only IDs
-
-  pfam_names:
-    # Human-readable Pfam shortnames from eggnog PFAMs column
-    # (e.g. 'DNA_pol3_beta', 'HATPase_c') — absent from UniProt xref_pfam
-    type: union
-    sources:
-      - source: eggnog
-        field: PFAMs
-        delimiter: ","
-        transform: extract_pfam_names  # inverse of extract_pfam_ids; keeps non-PF* tokens
-
-  pfam_descriptions:
-    type: union
-    sources:
-      - source: gene_mapping
-        field: protein_domains_description
-        delimiter: ","
+        field: pfam_ids
 
   # ── CAZy ────────────────────────────────────────────────────────────────────
 
@@ -555,6 +541,13 @@ fields:
     type: passthrough
     source: uniprot
     field: signal_peptide
+
+  # ── Ortholog group memberships ──────────────────────────────────────────────
+  # Computed post-merge by extract_ortholog_groups(). Each gene gets a list of
+  # {og_id, source, taxonomic_level, taxon_id} dicts. Not a merge-rule field.
+  ortholog_groups:
+    type: computed
+    description: "List of ortholog group memberships, extracted from eggnog_ogs and cluster_number"
 
   # ── Provenance / quality ───────────────────────────────────────────────────
   # NOTE: annotation_quality (0=none, 1=eggnog-only, 2=NCBI/Cyanorak, 3=UniProt reviewed)

@@ -1,0 +1,57 @@
+================================================================================
+Gene ID Validation Report
+================================================================================
+
+## Tetu 2019
+   Config: data/Prochlorococcus/papers_and_supp/tetu 2019/paperconfig.yaml
+
+  Table: DE genes MIT9312 42003_2019_410_MOESM6_ESM.csv (analysis: DE_hdpe_leachate_vs_control_MIT9312)
+    Organism: Prochlorococcus MIT9312 | name_col: MIT9312 original locus tag
+    Status: MATCH
+    Using pre-resolved CSV: DE genes MIT9312 42003_2019_410_MOESM6_ESM_resolved.csv
+    Breakdown: Total rows: 690 | Matched: 681 | Pre-unresolved: 9 (no edges)
+    681/681 resolved locus tags match gene nodes; 9 pre-unresolved rows (no edges)
+
+  Table: DE genes MIT9312 42003_2019_410_MOESM6_ESM.csv (analysis: DE_pvc_leachate_vs_control_MIT9312)
+    Organism: Prochlorococcus MIT9312 | name_col: MIT9312 original locus tag
+    Status: MATCH
+    Using pre-resolved CSV: DE genes MIT9312 42003_2019_410_MOESM6_ESM_resolved.csv
+    Breakdown: Total rows: 690 | Matched: 681 | Pre-unresolved: 9 (no edges)
+    681/681 resolved locus tags match gene nodes; 9 pre-unresolved rows (no edges)
+
+  Table: DE genes Natl2a 42003_2019_410_MOESM7_ESM.csv (analysis: DE_hdpe_leachate_vs_control_NATL2A)
+    Organism: Prochlorococcus NATL2A | name_col: NATL2A original locus tag
+    Status: MATCH
+    Using pre-resolved CSV: DE genes Natl2a 42003_2019_410_MOESM7_ESM_resolved.csv
+    Breakdown: Total rows: 689 | Matched: 171 | Pre-unresolved: 518 (no edges)
+    171/171 resolved locus tags match gene nodes; 518 pre-unresolved rows (no edges)
+
+  Table: DE genes Natl2a 42003_2019_410_MOESM7_ESM.csv (analysis: DE_pvc_leachate_vs_control_NATL2A)
+    Organism: Prochlorococcus NATL2A | name_col: NATL2A original locus tag
+    Status: MATCH
+    Using pre-resolved CSV: DE genes Natl2a 42003_2019_410_MOESM7_ESM_resolved.csv
+    Breakdown: Total rows: 689 | Matched: 171 | Pre-unresolved: 518 (no edges)
+    171/171 resolved locus tags match gene nodes; 518 pre-unresolved rows (no edges)
+
+
+================================================================================
+Summary
+================================================================================
+
+Publication | Analysis                            | Status | Match | 2nd | RNA | !Res | Miss |  IR | Fix Strategy
+-----------------------------------------------------------------------------------------------------------------
+Tetu 2019   | DE_hdpe_leachate_vs_control_MIT9312 | MATCH  |   681 |     |   0 |    9 |    0 |     |*—
+Tetu 2019   | DE_pvc_leachate_vs_control_MIT9312  | MATCH  |   681 |     |   0 |    9 |    0 |     |*—
+Tetu 2019   | DE_hdpe_leachate_vs_control_NATL2A  | MATCH  |   171 |     |   0 |  518 |    0 |     |*—
+Tetu 2019   | DE_pvc_leachate_vs_control_NATL2A   | MATCH  |   171 |     |   0 |  518 |    0 |     |*—
+  * = using pre-resolved CSV (_resolved.csv); !Res = rows unresolved by resolve_paper_ids.py
+
+Total analyses: 4
+  MATCH: 4
+
+Total gene IDs across all analyses: 1704
+  Matched: 1704
+  RNA/tRNA/ncRNA (OK): 0
+  Pre-unresolved (no edges): 1054
+  Mismatched: 0
+  Analyses using pre-resolved CSV: 4

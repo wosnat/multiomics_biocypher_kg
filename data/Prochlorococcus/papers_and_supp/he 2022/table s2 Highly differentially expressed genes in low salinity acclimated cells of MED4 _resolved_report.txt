@@ -1,19 +1,17 @@
 Resolution report: He 2022 / supp_table_s2
 Source: table s2 Highly differentially expressed genes in low salinity acclimated cells of MED4 .csv
 name_col: Gene Name
-id_columns: []
+id_columns: ['Gene Name', 'Gene Name']
 
 Total rows with IDs: 30
-Resolved: 27 (90.0%)
-Unresolved: 3
+Resolved: 29 (96.7%)
+Unresolved: 1
 
 Resolution method breakdown:
   empty: 1
   locus_tag:Gene Name: 20
-  tier1:Gene Name: 7
-  unresolved: 3
+  tier1:Gene Name: 9
+  unresolved: 1
 
-Unresolved rows (3):
-  row 19: raw_id='ffs'  reason=unresolved
-  row 21: raw_id='PMED4_ncRNA_Yfr11'  reason=unresolved
-  row 26: raw_id='tRNA-Gly1'  reason=unresolved
+Unresolved rows (1):
+  row 21: raw_id='PMED4_ncRNA_Yfr11'  reason=unresolved  [Gene Name='PMED4_ncRNA_Yfr11']

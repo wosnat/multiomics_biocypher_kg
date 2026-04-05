@@ -8,6 +8,14 @@ publication:
     supp_table_6_med4_marinobacter_day2:
       type: csv
       filename: "data/Prochlorococcus/papers_and_supp/ziegler 2025/MED4 DE genes table 6 media-7.csv"
+      id_columns:
+        - column: "ID"
+          id_type: other
+      product_columns:
+        - column: "eggnog_predicted_gene_name"
+        - column: "eggnog_predicted_gene_description"
+        - column: "KEGG_predicted_gene_name"
+        - column: "KEGG_predicted_KEGG_identifier"
       statistical_analyses:
         - type: RNASEQ
           name: "DE of Prochlorococcus MED4 in coculture with Marinobacter vs axenic (Day 2)"
@@ -18,7 +26,7 @@ publication:
           experimental_context: "Pro99 medium, continuous light at 18 umol photons m-2 s-1, 24C, mid-exponential growth (~48h)"
           timepoint: "Day 2"
           organism: "Prochlorococcus MED4"
-          treatment_taxid: 413470
+          treatment_taxid: 2742
           treatment_organism: "Marinobacter"
           name_col: "ID"
           logfc_col: "Marinobacter_LFC"
@@ -27,6 +35,14 @@ publication:
     supp_table_6_med4_marinobacter_day4:
       type: csv
       filename: "data/Prochlorococcus/papers_and_supp/ziegler 2025/MED4 DE genes table 6 media-7.csv"
+      id_columns:
+        - column: "ID"
+          id_type: other
+      product_columns:
+        - column: "eggnog_predicted_gene_name"
+        - column: "eggnog_predicted_gene_description"
+        - column: "KEGG_predicted_gene_name"
+        - column: "KEGG_predicted_KEGG_identifier"
       statistical_analyses:
         - type: RNASEQ
           name: "DE of Prochlorococcus MED4 in coculture with Marinobacter vs axenic (Day 4)"
@@ -37,7 +53,7 @@ publication:
           experimental_context: "Pro99 medium, continuous light at 18 umol photons m-2 s-1, 24C, late-exponential growth"
           timepoint: "Day 4"
           organism: "Prochlorococcus MED4"
-          treatment_taxid: 413470
+          treatment_taxid: 2742
           treatment_organism: "Marinobacter"
           name_col: "ID"
           logfc_col: "Marinobacter_LFC"
@@ -46,6 +62,14 @@ publication:
     supp_table_6_med4_marinobacter_day5:
       type: csv
       filename: "data/Prochlorococcus/papers_and_supp/ziegler 2025/MED4 DE genes table 6 media-7.csv"
+      id_columns:
+        - column: "ID"
+          id_type: other
+      product_columns:
+        - column: "eggnog_predicted_gene_name"
+        - column: "eggnog_predicted_gene_description"
+        - column: "KEGG_predicted_gene_name"
+        - column: "KEGG_predicted_KEGG_identifier"
       statistical_analyses:
         - type: RNASEQ
           name: "DE of Prochlorococcus MED4 in coculture with Marinobacter vs axenic (Day 5)"
@@ -56,7 +80,7 @@ publication:
           experimental_context: "Pro99 medium, continuous light at 18 umol photons m-2 s-1, 24C, transition to stationary phase"
           timepoint: "Day 5"
           organism: "Prochlorococcus MED4"
-          treatment_taxid: 413470
+          treatment_taxid: 2742
           treatment_organism: "Marinobacter"
           name_col: "ID"
           logfc_col: "Marinobacter_LFC"
@@ -65,6 +89,14 @@ publication:
     supp_table_6_med4_alteromonas_day2:
       type: csv
       filename: "data/Prochlorococcus/papers_and_supp/ziegler 2025/MED4 DE genes table 6 media-7.csv"
+      id_columns:
+        - column: "ID"
+          id_type: other
+      product_columns:
+        - column: "eggnog_predicted_gene_name"
+        - column: "eggnog_predicted_gene_description"
+        - column: "KEGG_predicted_gene_name"
+        - column: "KEGG_predicted_KEGG_identifier"
       statistical_analyses:
         - type: RNASEQ
           name: "DE of Prochlorococcus MED4 in coculture with Alteromonas vs axenic (Day 2)"
@@ -84,6 +116,14 @@ publication:
     supp_table_6_med4_alteromonas_day4:
       type: csv
       filename: "data/Prochlorococcus/papers_and_supp/ziegler 2025/MED4 DE genes table 6 media-7.csv"
+      id_columns:
+        - column: "ID"
+          id_type: other
+      product_columns:
+        - column: "eggnog_predicted_gene_name"
+        - column: "eggnog_predicted_gene_description"
+        - column: "KEGG_predicted_gene_name"
+        - column: "KEGG_predicted_KEGG_identifier"
       statistical_analyses:
         - type: RNASEQ
           name: "DE of Prochlorococcus MED4 in coculture with Alteromonas vs axenic (Day 4)"
@@ -103,6 +143,14 @@ publication:
     supp_table_6_med4_alteromonas_day5:
       type: csv
       filename: "data/Prochlorococcus/papers_and_supp/ziegler 2025/MED4 DE genes table 6 media-7.csv"
+      id_columns:
+        - column: "ID"
+          id_type: other
+      product_columns:
+        - column: "eggnog_predicted_gene_name"
+        - column: "eggnog_predicted_gene_description"
+        - column: "KEGG_predicted_gene_name"
+        - column: "KEGG_predicted_KEGG_identifier"
       statistical_analyses:
         - type: RNASEQ
           name: "DE of Prochlorococcus MED4 in coculture with Alteromonas vs axenic (Day 5)"
@@ -122,6 +170,14 @@ publication:
     supp_table_6_med4_thalassospira_day2:
       type: csv
       filename: "data/Prochlorococcus/papers_and_supp/ziegler 2025/MED4 DE genes table 6 media-7.csv"
+      id_columns:
+        - column: "ID"
+          id_type: other
+      product_columns:
+        - column: "eggnog_predicted_gene_name"
+        - column: "eggnog_predicted_gene_description"
+        - column: "KEGG_predicted_gene_name"
+        - column: "KEGG_predicted_KEGG_identifier"
       statistical_analyses:
         - type: RNASEQ
           name: "DE of Prochlorococcus MED4 in coculture with Thalassospira vs axenic (Day 2)"
@@ -132,7 +188,7 @@ publication:
           experimental_context: "Pro99 medium, continuous light at 18 umol photons m-2 s-1, 24C, mid-exponential growth (~48h)"
           timepoint: "Day 2"
           organism: "Prochlorococcus MED4"
-          treatment_taxid: 191411
+          treatment_taxid: 168934
           treatment_organism: "Thalassospira"
           name_col: "ID"
           logfc_col: "Thalassospira_1_LFC"
@@ -141,6 +197,14 @@ publication:
     supp_table_6_med4_thalassospira_day4:
       type: csv
       filename: "data/Prochlorococcus/papers_and_supp/ziegler 2025/MED4 DE genes table 6 media-7.csv"
+      id_columns:
+        - column: "ID"
+          id_type: other
+      product_columns:
+        - column: "eggnog_predicted_gene_name"
+        - column: "eggnog_predicted_gene_description"
+        - column: "KEGG_predicted_gene_name"
+        - column: "KEGG_predicted_KEGG_identifier"
       statistical_analyses:
         - type: RNASEQ
           name: "DE of Prochlorococcus MED4 in coculture with Thalassospira vs axenic (Day 4)"
@@ -151,7 +215,7 @@ publication:
           experimental_context: "Pro99 medium, continuous light at 18 umol photons m-2 s-1, 24C, late-exponential growth"
           timepoint: "Day 4"
           organism: "Prochlorococcus MED4"
-          treatment_taxid: 191411
+          treatment_taxid: 168934
           treatment_organism: "Thalassospira"
           name_col: "ID"
           logfc_col: "Thalassospira_1_LFC"
@@ -160,6 +224,14 @@ publication:
     supp_table_6_med4_thalassospira_day5:
       type: csv
       filename: "data/Prochlorococcus/papers_and_supp/ziegler 2025/MED4 DE genes table 6 media-7.csv"
+      id_columns:
+        - column: "ID"
+          id_type: other
+      product_columns:
+        - column: "eggnog_predicted_gene_name"
+        - column: "eggnog_predicted_gene_description"
+        - column: "KEGG_predicted_gene_name"
+        - column: "KEGG_predicted_KEGG_identifier"
       statistical_analyses:
         - type: RNASEQ
           name: "DE of Prochlorococcus MED4 in coculture with Thalassospira vs axenic (Day 5)"
@@ -170,7 +242,7 @@ publication:
           experimental_context: "Pro99 medium, continuous light at 18 umol photons m-2 s-1, 24C, transition to stationary phase"
           timepoint: "Day 5"
           organism: "Prochlorococcus MED4"
-          treatment_taxid: 191411
+          treatment_taxid: 168934
           treatment_organism: "Thalassospira"
           name_col: "ID"
           logfc_col: "Thalassospira_1_LFC"
@@ -179,6 +251,14 @@ publication:
     supp_table_6_med4_pseudohoeflea_day2:
       type: csv
       filename: "data/Prochlorococcus/papers_and_supp/ziegler 2025/MED4 DE genes table 6 media-7.csv"
+      id_columns:
+        - column: "ID"
+          id_type: other
+      product_columns:
+        - column: "eggnog_predicted_gene_name"
+        - column: "eggnog_predicted_gene_description"
+        - column: "KEGG_predicted_gene_name"
+        - column: "KEGG_predicted_KEGG_identifier"
       statistical_analyses:
         - type: RNASEQ
           name: "DE of Prochlorococcus MED4 in coculture with Pseudohoeflea vs axenic (Day 2)"
@@ -189,7 +269,7 @@ publication:
           experimental_context: "Pro99 medium, continuous light at 18 umol photons m-2 s-1, 24C, mid-exponential growth (~48h)"
           timepoint: "Day 2"
           organism: "Prochlorococcus MED4"
-          treatment_taxid: 398581
+          treatment_taxid: 1915405
           treatment_organism: "Pseudohoeflea"
           name_col: "ID"
           logfc_col: "Pseudohoeflea_LFC"
@@ -198,6 +278,14 @@ publication:
     supp_table_6_med4_pseudohoeflea_day4:
       type: csv
       filename: "data/Prochlorococcus/papers_and_supp/ziegler 2025/MED4 DE genes table 6 media-7.csv"
+      id_columns:
+        - column: "ID"
+          id_type: other
+      product_columns:
+        - column: "eggnog_predicted_gene_name"
+        - column: "eggnog_predicted_gene_description"
+        - column: "KEGG_predicted_gene_name"
+        - column: "KEGG_predicted_KEGG_identifier"
       statistical_analyses:
         - type: RNASEQ
           name: "DE of Prochlorococcus MED4 in coculture with Pseudohoeflea vs axenic (Day 4)"
@@ -208,7 +296,7 @@ publication:
           experimental_context: "Pro99 medium, continuous light at 18 umol photons m-2 s-1, 24C, late-exponential growth"
           timepoint: "Day 4"
           organism: "Prochlorococcus MED4"
-          treatment_taxid: 398581
+          treatment_taxid: 1915405
           treatment_organism: "Pseudohoeflea"
           name_col: "ID"
           logfc_col: "Pseudohoeflea_LFC"
@@ -217,6 +305,14 @@ publication:
     supp_table_6_med4_pseudohoeflea_day5:
       type: csv
       filename: "data/Prochlorococcus/papers_and_supp/ziegler 2025/MED4 DE genes table 6 media-7.csv"
+      id_columns:
+        - column: "ID"
+          id_type: other
+      product_columns:
+        - column: "eggnog_predicted_gene_name"
+        - column: "eggnog_predicted_gene_description"
+        - column: "KEGG_predicted_gene_name"
+        - column: "KEGG_predicted_KEGG_identifier"
       statistical_analyses:
         - type: RNASEQ
           name: "DE of Prochlorococcus MED4 in coculture with Pseudohoeflea vs axenic (Day 5)"
@@ -227,7 +323,7 @@ publication:
           experimental_context: "Pro99 medium, continuous light at 18 umol photons m-2 s-1, 24C, transition to stationary phase"
           timepoint: "Day 5"
           organism: "Prochlorococcus MED4"
-          treatment_taxid: 398581
+          treatment_taxid: 1915405
           treatment_organism: "Pseudohoeflea"
           name_col: "ID"
           logfc_col: "Pseudohoeflea_LFC"
@@ -236,6 +332,14 @@ publication:
     supp_table_6_med4_community_day2:
       type: csv
       filename: "data/Prochlorococcus/papers_and_supp/ziegler 2025/MED4 DE genes table 6 media-7.csv"
+      id_columns:
+        - column: "ID"
+          id_type: other
+      product_columns:
+        - column: "eggnog_predicted_gene_name"
+        - column: "eggnog_predicted_gene_description"
+        - column: "KEGG_predicted_gene_name"
+        - column: "KEGG_predicted_KEGG_identifier"
       statistical_analyses:
         - type: RNASEQ
           name: "DE of Prochlorococcus MED4 in synthetic community vs axenic (Day 2)"
@@ -246,7 +350,7 @@ publication:
           experimental_context: "Pro99 medium, continuous light at 18 umol photons m-2 s-1, 24C, mid-exponential growth (~48h)"
           timepoint: "Day 2"
           organism: "Prochlorococcus MED4"
-          treatment_taxid: 413470
+          treatment_taxid: 2742  # TODO: synthetic community needs its own identifier (Marinobacter + Alteromonas + Thalassospira + Pseudohoeflea)
           treatment_organism: "Synthetic heterotroph community"
           name_col: "ID"
           logfc_col: "Community_LFC"
@@ -255,6 +359,14 @@ publication:
     supp_table_6_med4_community_day4:
       type: csv
       filename: "data/Prochlorococcus/papers_and_supp/ziegler 2025/MED4 DE genes table 6 media-7.csv"
+      id_columns:
+        - column: "ID"
+          id_type: other
+      product_columns:
+        - column: "eggnog_predicted_gene_name"
+        - column: "eggnog_predicted_gene_description"
+        - column: "KEGG_predicted_gene_name"
+        - column: "KEGG_predicted_KEGG_identifier"
       statistical_analyses:
         - type: RNASEQ
           name: "DE of Prochlorococcus MED4 in synthetic community vs axenic (Day 4)"
@@ -265,7 +377,7 @@ publication:
           experimental_context: "Pro99 medium, continuous light at 18 umol photons m-2 s-1, 24C, late-exponential growth"
           timepoint: "Day 4"
           organism: "Prochlorococcus MED4"
-          treatment_taxid: 413470
+          treatment_taxid: 2742  # TODO: synthetic community needs its own identifier (Marinobacter + Alteromonas + Thalassospira + Pseudohoeflea)
           treatment_organism: "Synthetic heterotroph community"
           name_col: "ID"
           logfc_col: "Community_LFC"
@@ -274,6 +386,14 @@ publication:
     supp_table_6_med4_community_day5:
       type: csv
       filename: "data/Prochlorococcus/papers_and_supp/ziegler 2025/MED4 DE genes table 6 media-7.csv"
+      id_columns:
+        - column: "ID"
+          id_type: other
+      product_columns:
+        - column: "eggnog_predicted_gene_name"
+        - column: "eggnog_predicted_gene_description"
+        - column: "KEGG_predicted_gene_name"
+        - column: "KEGG_predicted_KEGG_identifier"
       statistical_analyses:
         - type: RNASEQ
           name: "DE of Prochlorococcus MED4 in synthetic community vs axenic (Day 5)"
@@ -284,7 +404,7 @@ publication:
           experimental_context: "Pro99 medium, continuous light at 18 umol photons m-2 s-1, 24C, transition to stationary phase"
           timepoint: "Day 5"
           organism: "Prochlorococcus MED4"
-          treatment_taxid: 413470
+          treatment_taxid: 2742  # TODO: synthetic community needs its own identifier (Marinobacter + Alteromonas + Thalassospira + Pseudohoeflea)
           treatment_organism: "Synthetic heterotroph community"
           name_col: "ID"
           logfc_col: "Community_LFC"
@@ -295,6 +415,14 @@ publication:
     supp_table_8_alteromonas_day2:
       type: csv
       filename: "data/Prochlorococcus/papers_and_supp/ziegler 2025/heterptroph DE genes supp table 8 media-9.csv"
+      id_columns:
+        - column: "ID"
+          id_type: other
+      product_columns:
+        - column: "eggnog_predicted_gene_name"
+        - column: "eggnog_predicted_gene_description"
+        - column: "KEGG_predicted_gene_name"
+        - column: "KEGG_predicted_KEGG_identifier"
       statistical_analyses:
         - type: RNASEQ
           name: "DE of Alteromonas in synthetic community vs single coculture with MED4 (Day 2)"
@@ -315,6 +443,14 @@ publication:
     supp_table_8_alteromonas_day4:
       type: csv
       filename: "data/Prochlorococcus/papers_and_supp/ziegler 2025/heterptroph DE genes supp table 8 media-9.csv"
+      id_columns:
+        - column: "ID"
+          id_type: other
+      product_columns:
+        - column: "eggnog_predicted_gene_name"
+        - column: "eggnog_predicted_gene_description"
+        - column: "KEGG_predicted_gene_name"
+        - column: "KEGG_predicted_KEGG_identifier"
       statistical_analyses:
         - type: RNASEQ
           name: "DE of Alteromonas in synthetic community vs single coculture with MED4 (Day 4)"
@@ -335,6 +471,14 @@ publication:
     supp_table_8_alteromonas_day5:
       type: csv
       filename: "data/Prochlorococcus/papers_and_supp/ziegler 2025/heterptroph DE genes supp table 8 media-9.csv"
+      id_columns:
+        - column: "ID"
+          id_type: other
+      product_columns:
+        - column: "eggnog_predicted_gene_name"
+        - column: "eggnog_predicted_gene_description"
+        - column: "KEGG_predicted_gene_name"
+        - column: "KEGG_predicted_KEGG_identifier"
       statistical_analyses:
         - type: RNASEQ
           name: "DE of Alteromonas in synthetic community vs single coculture with MED4 (Day 5)"
@@ -355,6 +499,14 @@ publication:
     supp_table_8_marinobacter_day2:
       type: csv
       filename: "data/Prochlorococcus/papers_and_supp/ziegler 2025/heterptroph DE genes supp table 8 media-9.csv"
+      id_columns:
+        - column: "ID"
+          id_type: other
+      product_columns:
+        - column: "eggnog_predicted_gene_name"
+        - column: "eggnog_predicted_gene_description"
+        - column: "KEGG_predicted_gene_name"
+        - column: "KEGG_predicted_KEGG_identifier"
       statistical_analyses:
         - type: RNASEQ
           name: "DE of Marinobacter in synthetic community vs single coculture with MED4 (Day 2)"
@@ -375,6 +527,14 @@ publication:
     supp_table_8_marinobacter_day4:
       type: csv
       filename: "data/Prochlorococcus/papers_and_supp/ziegler 2025/heterptroph DE genes supp table 8 media-9.csv"
+      id_columns:
+        - column: "ID"
+          id_type: other
+      product_columns:
+        - column: "eggnog_predicted_gene_name"
+        - column: "eggnog_predicted_gene_description"
+        - column: "KEGG_predicted_gene_name"
+        - column: "KEGG_predicted_KEGG_identifier"
       statistical_analyses:
         - type: RNASEQ
           name: "DE of Marinobacter in synthetic community vs single coculture with MED4 (Day 4)"
@@ -395,6 +555,14 @@ publication:
     supp_table_8_marinobacter_day5:
       type: csv
       filename: "data/Prochlorococcus/papers_and_supp/ziegler 2025/heterptroph DE genes supp table 8 media-9.csv"
+      id_columns:
+        - column: "ID"
+          id_type: other
+      product_columns:
+        - column: "eggnog_predicted_gene_name"
+        - column: "eggnog_predicted_gene_description"
+        - column: "KEGG_predicted_gene_name"
+        - column: "KEGG_predicted_KEGG_identifier"
       statistical_analyses:
         - type: RNASEQ
           name: "DE of Marinobacter in synthetic community vs single coculture with MED4 (Day 5)"
@@ -415,6 +583,14 @@ publication:
     supp_table_8_thalassospira_day2:
       type: csv
       filename: "data/Prochlorococcus/papers_and_supp/ziegler 2025/heterptroph DE genes supp table 8 media-9.csv"
+      id_columns:
+        - column: "ID"
+          id_type: other
+      product_columns:
+        - column: "eggnog_predicted_gene_name"
+        - column: "eggnog_predicted_gene_description"
+        - column: "KEGG_predicted_gene_name"
+        - column: "KEGG_predicted_KEGG_identifier"
       statistical_analyses:
         - type: RNASEQ
           name: "DE of Thalassospira in synthetic community vs single coculture with MED4 (Day 2)"
@@ -435,6 +611,14 @@ publication:
     supp_table_8_thalassospira_day4:
       type: csv
       filename: "data/Prochlorococcus/papers_and_supp/ziegler 2025/heterptroph DE genes supp table 8 media-9.csv"
+      id_columns:
+        - column: "ID"
+          id_type: other
+      product_columns:
+        - column: "eggnog_predicted_gene_name"
+        - column: "eggnog_predicted_gene_description"
+        - column: "KEGG_predicted_gene_name"
+        - column: "KEGG_predicted_KEGG_identifier"
       statistical_analyses:
         - type: RNASEQ
           name: "DE of Thalassospira in synthetic community vs single coculture with MED4 (Day 4)"
@@ -455,6 +639,14 @@ publication:
     supp_table_8_thalassospira_day5:
       type: csv
       filename: "data/Prochlorococcus/papers_and_supp/ziegler 2025/heterptroph DE genes supp table 8 media-9.csv"
+      id_columns:
+        - column: "ID"
+          id_type: other
+      product_columns:
+        - column: "eggnog_predicted_gene_name"
+        - column: "eggnog_predicted_gene_description"
+        - column: "KEGG_predicted_gene_name"
+        - column: "KEGG_predicted_KEGG_identifier"
       statistical_analyses:
         - type: RNASEQ
           name: "DE of Thalassospira in synthetic community vs single coculture with MED4 (Day 5)"
@@ -475,6 +667,14 @@ publication:
     supp_table_8_pseudohoeflea_day2:
       type: csv
       filename: "data/Prochlorococcus/papers_and_supp/ziegler 2025/heterptroph DE genes supp table 8 media-9.csv"
+      id_columns:
+        - column: "ID"
+          id_type: other
+      product_columns:
+        - column: "eggnog_predicted_gene_name"
+        - column: "eggnog_predicted_gene_description"
+        - column: "KEGG_predicted_gene_name"
+        - column: "KEGG_predicted_KEGG_identifier"
       statistical_analyses:
         - type: RNASEQ
           name: "DE of Pseudohoeflea in synthetic community vs single coculture with MED4 (Day 2)"
@@ -495,6 +695,14 @@ publication:
     supp_table_8_pseudohoeflea_day4:
       type: csv
       filename: "data/Prochlorococcus/papers_and_supp/ziegler 2025/heterptroph DE genes supp table 8 media-9.csv"
+      id_columns:
+        - column: "ID"
+          id_type: other
+      product_columns:
+        - column: "eggnog_predicted_gene_name"
+        - column: "eggnog_predicted_gene_description"
+        - column: "KEGG_predicted_gene_name"
+        - column: "KEGG_predicted_KEGG_identifier"
       statistical_analyses:
         - type: RNASEQ
           name: "DE of Pseudohoeflea in synthetic community vs single coculture with MED4 (Day 4)"
@@ -515,6 +723,14 @@ publication:
     supp_table_8_pseudohoeflea_day5:
       type: csv
       filename: "data/Prochlorococcus/papers_and_supp/ziegler 2025/heterptroph DE genes supp table 8 media-9.csv"
+      id_columns:
+        - column: "ID"
+          id_type: other
+      product_columns:
+        - column: "eggnog_predicted_gene_name"
+        - column: "eggnog_predicted_gene_description"
+        - column: "KEGG_predicted_gene_name"
+        - column: "KEGG_predicted_KEGG_identifier"
       statistical_analyses:
         - type: RNASEQ
           name: "DE of Pseudohoeflea in synthetic community vs single coculture with MED4 (Day 5)"

@@ -8,7 +8,7 @@
     "annotation_specific": {
       "conflict": 0,
       "multi": 0,
-      "unique": 2044
+      "unique": 2045
     },
     "cds_fna_id": {
       "conflict": 0,
@@ -17,13 +17,18 @@
     },
     "gene_name": {
       "conflict": 0,
-      "multi": 116,
-      "unique": 2117
+      "multi": 119,
+      "unique": 2071
     },
     "gene_synonym": {
       "conflict": 0,
       "multi": 108,
-      "unique": 2583
+      "unique": 2628
+    },
+    "gff_gene_id": {
+      "conflict": 0,
+      "multi": 0,
+      "unique": 4222
     },
     "locus_tag_cyanorak": {
       "conflict": 0,
@@ -31,14 +36,14 @@
       "unique": 2169
     },
     "locus_tag_ncbi": {
-      "conflict": 0,
+      "conflict": 23,
       "multi": 0,
-      "unique": 4235
+      "unique": 6776
     },
     "old_locus_tag": {
       "conflict": 0,
       "multi": 0,
-      "unique": 1
+      "unique": 2
     },
     "protein_id_refseq": {
       "conflict": 0,
@@ -54,13 +59,19 @@
   "strain": "NATL2A",
   "unresolved_rows_per_source": {
     "Biller 2016/supp_table_2": 1,
+    "Biller 2018/natl2a_darkness_survival": 2,
+    "Biller 2018/natl2a_periodicity": 7,
     "Biller 2018/supp_table_s3": 5,
-    "Coe 2024/supp_table_2": 44,
+    "Coe 2024/supp_table_2": 43,
+    "Coe 2024/supp_table_3_darktolerant_clusters": 2081,
+    "Coe 2024/supp_table_3_parental_clusters": 2081,
     "Tetu 2019/supp_dataset_4_natl2a": 1,
     "cds_from_genomic.fna": 3,
-    "genomic_gca/NATL2A": 46
+    "genomic_gca/NATL2A": 45,
+    "genomic_gcf/NATL2A": 48
   },
   "warnings": [
+    "[CONFLICT] Tier 1 id_type 'locus_tag_ncbi' has 23 data conflicts \u2014 check annotation quality.",
     "[CONFLICT] Tier 1 id_type 'alternative_locus_tag' has 4 data conflicts \u2014 check annotation quality."
   ]
 }
