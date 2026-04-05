@@ -17,7 +17,7 @@ pytestmark = pytest.mark.kg
 
 
 # Strains confirmed in graph (OrganismTaxon nodes with strain_name):
-# 9 Prochlorococcus + 6 Synechococcus + 3 Alteromonas + 5 heterotrophs
+# 9 Prochlorococcus + 6 Synechococcus/Parasynechococcus/Thermosynechococcus + 3 Alteromonas + 4 heterotrophs
 EXPECTED_STRAINS = [
     # Prochlorococcus
     "MED4",
