@@ -1,0 +1,83 @@
+{
+  "1": {
+    "id": "mit9313_up_transport_binding",
+    "name": "Prochlorococcus MIT9313 cluster 1 (up, transport and binding)",
+    "functional_description": "This cluster is significantly enriched for transport and binding proteins (p=0.043). Genes mentioned in the paper include urtA (urea transporter), nitrite permease, and hli genes (hliS, hli7). These genes are involved in nitrogen transport and stress response, with urtA and the nitrite permease facilitating uptake of alternative nitrogen sources during N starvation.",
+    "behavioral_description": "Genes in this cluster are rapidly and highly upregulated in response to nitrogen starvation, with the strongest induction observed early in the time course (within 6 hours) and sustained elevation throughout the experiment.",
+    "enrichment_category": "Transport and binding proteins",
+    "enrichment_pvalue": 0.043,
+    "enrichment_significant": true,
+    "direction": "up",
+    "peak_time_hours": 6,
+    "period_hours": null,
+    "confidence_notes": "Direction and timing from Figure 3B (cluster 1 trajectory) and supporting text; enrichment from supplementary table and figure legend; gene names from main text (pages 4-7).",
+    "supporting_quotes": [
+      {
+        "quote": "Cluster 1, the most rapidly and highly upregulated genes in each strain, contains N transport genes such as ... MIT9313 urtA ... and the MIT9313 nitrite permease.",
+        "location": "Main text, page 4"
+      },
+      {
+        "quote": "MIT9313 cluster 1 ... transport and binding P=0.04",
+        "location": "Figure 3B legend, page 3"
+      },
+      {
+        "quote": "The most rapidly and highly upregulated genes in each strain ...",
+        "location": "Main text, page 4"
+      }
+    ]
+  },
+  "6": {
+    "id": "mit9313_down_photosynthesis",
+    "name": "Prochlorococcus MIT9313 cluster 6 (down, photosynthesis)",
+    "functional_description": "This cluster is significantly enriched for genes involved in photosynthesis and respiration (p=0.0005). According to the paper, it contains genes for diverse aspects of photosystem I and II, as well as the phycoerythrin gene cpeB. These genes are associated with light harvesting and energy conversion processes.",
+    "behavioral_description": "Genes in this cluster are strongly downregulated over the N-starvation time course, with repression increasing steadily and reaching a maximum at the later time points. The downregulation is sustained and pronounced.",
+    "enrichment_category": "Photosynthesis and respiration",
+    "enrichment_pvalue": 0.0005,
+    "enrichment_significant": true,
+    "direction": "down",
+    "peak_time_hours": null,
+    "period_hours": null,
+    "confidence_notes": "Direction and timing from Figure 3B (MIT9313 cluster 6 time course plot and heatmap); enrichment category and p-value from figure legend and supplementary table; gene names (cpeB) from main text. No periodicity observed.",
+    "supporting_quotes": [
+      {
+        "quote": "MIT9313 cluster 6, the only cluster enriched for Photosynthesis and Respiration in this strain, contains genes for diverse aspects of photosystem I and II along with the phycoerythrin gene, cpeB.",
+        "location": "Main text, page 4"
+      },
+      {
+        "quote": "highly downregulated clusters show strong enrichment for specific functional categories, namely ... Photosynthesis and Respiration (MED4 clusters 8 and 9, MIT9313 cluster 6) (Figure 3).",
+        "location": "Main text, page 4"
+      },
+      {
+        "quote": "respiration (p=4.99e-04*) ... Figure 5: Cluster means for the MIT9313 k=7 clustering across the N-starvation time series.",
+        "location": "Figure legend, page 3"
+      }
+    ]
+  },
+  "7": {
+    "id": "mit9313_down_translation",
+    "name": "Prochlorococcus MIT9313 cluster 7 (down, translation)",
+    "functional_description": "This cluster is highly enriched for translation-related genes (p=7.90e-10), indicating a strong overrepresentation of genes involved in protein synthesis. The enrichment category is 'Translation', but no specific gene names (e.g., ribosomal proteins) are mentioned in the main paper text for MIT9313 cluster 7. The strong statistical significance suggests a coordinated repression of the translation machinery under nitrogen starvation.",
+    "behavioral_description": "Genes in this cluster are strongly downregulated throughout the N-starvation time course, with the repression increasing over time. The pattern is a sustained and pronounced decrease in expression, as shown by the cluster mean trajectory in Figure 3B and Figure 5 (MIT9313 panels).",
+    "enrichment_category": "Translation",
+    "enrichment_pvalue": 7.8986e-10,
+    "enrichment_significant": true,
+    "direction": "down",
+    "peak_time_hours": null,
+    "period_hours": null,
+    "confidence_notes": "Direction and timing from Figure 3B and Figure 5 (MIT9313 cluster 7 mean trajectory); enrichment category and p-value from supplementary table and figure legends; no gene names for this cluster in main text.",
+    "supporting_quotes": [
+      {
+        "quote": "cluster 7 (51 genes) Translation (p=7.90e-10**)",
+        "location": "Supplementary material, Table and Figure legends"
+      },
+      {
+        "quote": "highly downregulated clusters show strong enrichment for specific functional categories, namely Translation (MED4 cluster 7, MIT9313 cluster 7)",
+        "location": "Main text, page 4"
+      },
+      {
+        "quote": "7 - Translation (p=7.90e-10**) Figure 5: Cluster means for the MIT9313 k=7 clustering across the N-starvation time series.",
+        "location": "Supplementary material, Figure 5 legend"
+      }
+    ]
+  }
+}

@@ -1,0 +1,85 @@
+<h2>Pilot Results: Approach B vs Current Pipeline</h2>
+<p class="subtitle">MIT9313 clusters 1, 6, 7 — gpt-4.1 + strict JSON schema + all evidence in one call</p>
+
+<div class="section" style="margin-bottom: 1.5rem; padding: 1rem; background: #1a2332; border-radius: 8px; color: #e0e0e0;">
+  <h3 style="margin-top: 0; color: #fff;">Key Findings</h3>
+  <ul>
+    <li><strong>Zero JSON parse failures</strong> — strict schema eliminates Issue 6 entirely</li>
+    <li><strong>Cluster 6 direction FIXED</strong> — pilot correctly says "down" (current pipeline said "up")</li>
+    <li><strong>Richer behavioral descriptions</strong> — pilot reads figures directly, gets timing details</li>
+    <li><strong>~27K input tokens per call</strong> (PDF pages dominate), ~350-450 output tokens</li>
+    <li><strong>~30s per cluster</strong> — comparable to current multi-stage pipeline</li>
+    <li><strong>Confidence notes</strong> — model cites which figures/tables it used (traceable)</li>
+  </ul>
+</div>
+
+<!-- Cluster 6: The critical test case -->
+<div style="margin-bottom: 2rem;">
+  <h3 style="color: #ff6b6b;">Cluster 6 (Photosynthesis) — Direction Error Fixed</h3>
+  <div class="split">
+    <div class="mockup" style="border-color: #ff6b6b;">
+      <div class="mockup-header" style="color: #ff6b6b;">Current Pipeline (WRONG)</div>
+      <div class="mockup-body" style="font-size: 0.85rem;">
+        <p><strong>Direction:</strong> <span style="color: #ff6b6b;">up</span> (from name: "up, N starvation")</p>
+        <p><strong>Functional:</strong> MIT9313 cluster 6 is enriched for photosynthesis and respiration genes. It includes diverse genes for photosystem I and II and the phycoerythrin gene cpeB.</p>
+        <p><strong>Behavioral:</strong> <span style="color: #ff6b6b;">Expression is upregulated</span> under nitrogen starvation; magnitude not specified.</p>
+        <p style="color: #666; font-style: italic;">No figure citation. No timing detail.</p>
+      </div>
+    </div>
+    <div class="mockup" style="border-color: #64ffda;">
+      <div class="mockup-header" style="color: #64ffda;">Pilot Approach B (CORRECT)</div>
+      <div class="mockup-body" style="font-size: 0.85rem;">
+        <p><strong>Direction:</strong> <span style="color: #64ffda;">down</span></p>
+        <p><strong>Functional:</strong> Significantly enriched for photosynthesis and respiration (p=0.0005). Contains genes for photosystem I/II and cpeB.</p>
+        <p><strong>Behavioral:</strong> <span style="color: #64ffda;">Strongly downregulated</span> over the N-starvation time course, with repression increasing steadily, maximum at later time points.</p>
+        <p style="color: #64ffda; font-style: italic;">Confidence: "Direction and timing from Figure 3B (MIT9313 cluster 6 time course plot and heatmap)"</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Cluster 1: Good baseline -->
+<div style="margin-bottom: 2rem;">
+  <h3>Cluster 1 (Transport) — Both Correct, Pilot Richer</h3>
+  <div class="split">
+    <div class="mockup">
+      <div class="mockup-header">Current Pipeline</div>
+      <div class="mockup-body" style="font-size: 0.85rem;">
+        <p><strong>Behavioral:</strong> Rapidly upregulated in response to nitrogen depletion, showing early, strong expression increases.</p>
+      </div>
+    </div>
+    <div class="mockup" style="border-color: #64ffda;">
+      <div class="mockup-header" style="color: #64ffda;">Pilot Approach B</div>
+      <div class="mockup-body" style="font-size: 0.85rem;">
+        <p><strong>Behavioral:</strong> Rapidly and highly upregulated, strongest induction within 6 hours, sustained elevation throughout.</p>
+        <p style="color: #64ffda; font-style: italic;">Adds timing detail from Figure 3B</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Cluster 7: Both correct, pilot richer -->
+<div style="margin-bottom: 2rem;">
+  <h3>Cluster 7 (Translation) — Both Correct, Pilot Much Richer</h3>
+  <div class="split">
+    <div class="mockup">
+      <div class="mockup-header">Current Pipeline</div>
+      <div class="mockup-body" style="font-size: 0.85rem;">
+        <p><strong>Behavioral:</strong> "Genes in this cluster are downregulated."</p>
+        <p style="color: #666; font-style: italic;">That's the entire description.</p>
+      </div>
+    </div>
+    <div class="mockup" style="border-color: #64ffda;">
+      <div class="mockup-header" style="color: #64ffda;">Pilot Approach B</div>
+      <div class="mockup-body" style="font-size: 0.85rem;">
+        <p><strong>Behavioral:</strong> Strongly downregulated throughout the N-starvation time course, with repression increasing over time. Sustained and pronounced decrease as shown by cluster mean trajectory in Figure 3B and Figure 5.</p>
+        <p style="color: #64ffda; font-style: italic;">Cites specific figures</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="section" style="padding: 1rem; background: #1a2332; border-radius: 8px; border-left: 3px solid #64ffda;">
+  <h3 style="color: #64ffda; margin-top: 0;">Verdict: Approach B is clearly better</h3>
+  <p>Single call with all evidence produces more accurate directions, richer temporal descriptions from figures, traceable confidence notes, and zero parse failures. Ready to design the full system?</p>
+</div>

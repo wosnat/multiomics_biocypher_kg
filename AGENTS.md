@@ -151,3 +151,5 @@ RETURN g
 - Do **not** query `Gene.pathway_description` — pathways are on `Protein` nodes and linked via `protein_take_part_in_pathway` edges.
 - Do **not** use `Gene.ec_numbers` — EC numbers are on `Protein` nodes and linked via `protein_catalyzes_ec_number` edges to the `EcNumber` hierarchy.
 - For Prochlorococcus, `Gene.cyanorak_Role` and `Gene.eggNOG` provide additional functional text but are absent for Alteromonas/Synechococcus — prefer `Gene.function_description` for organism-agnostic queries.
+
+

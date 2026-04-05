@@ -1,0 +1,67 @@
+<h2>Extraction Pipeline Redesign: Two Approaches</h2>
+<p class="subtitle">Optimize for quality + iterative improvement loop</p>
+
+<div class="options">
+  <div class="option" data-choice="a" onclick="toggleSelect(this)">
+    <div class="letter">A</div>
+    <div class="content">
+      <h3>Harden Current Architecture</h3>
+      <p><strong>Keep 3-path + synthesis + validation.</strong> Fix what's broken:</p>
+      <ul>
+        <li>Add <code>response_format: json_schema</code> (strict) everywhere &mdash; eliminates all JSON parse errors</li>
+        <li>Upgrade to gpt-4.1 (better instruction following)</li>
+        <li>Use Files API for PDF upload-once</li>
+        <li>Add issue taxonomy to review UI for pattern detection</li>
+        <li>Add cross-run comparison to track improvement</li>
+      </ul>
+      <div class="pros-cons">
+        <div class="pros"><h4>Pros</h4><ul>
+          <li>Minimal code changes</li>
+          <li>Preserves independent signal paths</li>
+          <li>Lower risk &mdash; incremental fixes</li>
+        </ul></div>
+        <div class="cons"><h4>Cons</h4><ul>
+          <li>Merge step still loses info / creates conflicts</li>
+          <li>Semantic path rarely adds value over visual</li>
+          <li>4 LLM calls per cluster = slow iteration cycles</li>
+          <li>Hard to improve prompts when they're spread across 4 stages</li>
+        </ul></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="option" data-choice="b" onclick="toggleSelect(this)">
+    <div class="letter">B</div>
+    <div class="content">
+      <h3>Redesign: Single Rich Extraction + Validation</h3>
+      <p><strong>Collapse to 2 stages: Extract (all evidence at once) + Validate.</strong></p>
+      <ul>
+        <li><strong>Stage 1 (Table)</strong>: Pure code &mdash; CSV parsing, enrichment stats (no LLM)</li>
+        <li><strong>Stage 2 (Extract)</strong>: One gpt-4.1 call per cluster with ALL context: PDF pages (figures!) + CSV summary + RAG passages. Strict JSON schema output.</li>
+        <li><strong>Stage 3 (Validate)</strong>: Judge call with same PDF + extraction result. Strict schema.</li>
+        <li>Files API: upload PDF once, reuse file_id across all calls</li>
+        <li>Review UI: issue taxonomy, batch operations, cross-run diffs</li>
+      </ul>
+      <div class="pros-cons">
+        <div class="pros"><h4>Pros</h4><ul>
+          <li>Model sees ALL evidence at once &mdash; no merge conflicts</li>
+          <li>Figures + text + data in single context = better behavioral descriptions</li>
+          <li>2 calls/cluster instead of 4 = faster iteration</li>
+          <li>One prompt to tune instead of 4</li>
+          <li>Strict JSON schema = zero parse failures</li>
+        </ul></div>
+        <div class="cons"><h4>Cons</h4><ul>
+          <li>Bigger rewrite (but pipeline is only ~1200 lines)</li>
+          <li>Loses independent path signals (but merge was causing conflicts anyway)</li>
+          <li>Single point of failure per cluster (mitigated by validation stage)</li>
+        </ul></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="section" style="margin-top: 2rem; padding: 1.5rem; background: #1a1a2e; border-radius: 8px; border-left: 3px solid #64ffda;">
+  <h3 style="color: #64ffda; margin-top: 0;">Recommendation: B</h3>
+  <p>The merge step is the root cause of most quality issues (conflicting directions, lost info). Giving the model all evidence at once with a strict output schema solves both quality and reliability. The 3-path architecture was defensive against bad LLM outputs &mdash; strict structured outputs make that unnecessary.</p>
+  <p>The iteration loop (extract &rarr; review &rarr; fix prompt &rarr; re-run) is also faster with fewer stages. One extraction prompt to tune instead of four.</p>
+</div>
