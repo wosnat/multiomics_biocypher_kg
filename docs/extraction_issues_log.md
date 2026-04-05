@@ -110,6 +110,25 @@ Data is at `.extraction_cache/{entry}/current/` — viewable in the review UI.
 **Fix:** Validate one cluster at a time. Each cluster gets its own API call with shared PDF pages + CSV context. 2s delay between calls to avoid rate limiting.
 **File:** `multiomics_kg/extraction/cluster/validation.py`
 
+### Issue 7: Bernstein 2017 cluster decomposition mismatch
+
+**Diagnosed:** 2026-04-05
+**Severity:** Medium — 20 clusters across 4 entries affected, mostly "Not discussed in paper."
+**Status:** OPEN
+
+**Symptoms:** `bp1_light_clusters` (5 clusters) all say "Not discussed in paper." despite the paper having detailed cluster descriptions with gene names and expression patterns (Figure 6, pages 6-7). `bp1_oxygen_clusters` clusters 0-2 also empty. `mruber_light_clusters` 0 and 4 empty. `mruber_oxygen_clusters` 0 and 4 empty.
+
+**Root cause:** The paper defines clusters A-D (irradiance-responsive) and E-H (pO2-responsive), each containing genes from **both** T. elongatus and M. ruber jointly. Our paperconfig splits these into 4 per-organism × per-condition entries with numbered clusters 0-4. The model correctly cannot map the paper's joint "cluster A" to our per-organism "bp1_light cluster 0" — they're different decompositions.
+
+The old extraction hallucinated descriptions by guessing which paper cluster maps to which CSV cluster. The new prompt correctly says "Not discussed" since the paper doesn't discuss per-organism numbered clusters.
+
+**Options:**
+- A) Accept "Not discussed" — the per-organism decomposition doesn't exist in the paper
+- B) Add `figure_hint` or `cluster_mapping` to paperconfig telling the model the correspondence
+- C) Restructure to joint organism clusters matching the paper (A-D, E-H)
+
+**Decision:** Deferred. Logged for future resolution.
+
 ---
 
 ## Next Steps (TODO)
