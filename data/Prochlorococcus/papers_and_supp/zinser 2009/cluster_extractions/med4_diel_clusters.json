@@ -5,16 +5,16 @@
     "organism": "Prochlorococcus MED4",
     "entry_key": "med4_diel_clusters",
     "model": "gpt-4.1-mini",
-    "extracted_at": "2026-04-06T09:28:56.791250",
-    "input_tokens": 55714,
-    "output_tokens": 3445
+    "extracted_at": "2026-04-06T10:08:52.717267",
+    "input_tokens": 55907,
+    "output_tokens": 2829
   },
   "clusters": {
     "1": {
-      "id": "med4_diel_cluster_1",
-      "name": "Prochlorococcus cluster 1 (57 genes)",
-      "functional_description": "Enriched for photosystem I (p=1.5e-09) and photosystem II (p=2.5e-05) genes, including reaction center genes psbA and psbD.",
-      "temporal_pattern": "Genes peak in expression near 8.3 h (about 2.3 hours after dawn) with 24h periodicity.",
+      "id": "med4_diel_photosystem_i_and_ii",
+      "name": "Prochlorococcus cluster 1 (photosystem I and II)",
+      "functional_description": "Enriched for photosystem I and II components (p=1.50E-09 and 2.50E-05 respectively). Includes genes related to photosystem I and II such as psbA, psbD, and psaA.",
+      "temporal_pattern": "Genes peak in expression near 8.3 hours after onset of dark (around dawn) with 24h periodicity.",
       "expression_dynamics": "peaks near dawn",
       "enrichment_category": "Photosystem I and II",
       "enrichment_pvalue": 1.5e-09,
@@ -39,76 +39,61 @@
       "assessment_notes": ""
     },
     "10": {
-      "id": "med4_diel_cluster_10",
-      "name": "Prochlorococcus cluster 10 (77 genes)",
+      "id": "med4_cluster_10",
+      "name": "Prochlorococcus cluster 10",
       "functional_description": "N/A",
-      "temporal_pattern": "Genes peak at 0.3 h (just after dark) with 24h periodicity.",
-      "expression_dynamics": "peaks just after dark",
+      "temporal_pattern": "N/A",
+      "expression_dynamics": "N/A",
       "enrichment_category": "N/A",
       "enrichment_pvalue": null,
       "enrichment_significant": false,
       "confidence_notes": "",
-      "supporting_quotes": [
-        {
-          "quote": "The size of the clusters ranged from 22 to 138 (average 88) genes and peak transcription levels of the clusters were spread fairly evenly over the photocycle, with the exception of clusters 12 and 13, and 14 and 15, which had peak expression times less than one half hour apart.",
-          "location": "Page 3"
-        }
-      ],
+      "supporting_quotes": [],
       "source_figures": [
         "Table 1"
       ],
-      "self_assessment": "medium",
-      "assessment_notes": "No specific functional description or enrichment reported for cluster 10."
+      "self_assessment": "high",
+      "assessment_notes": ""
     },
     "11": {
-      "id": "med4_diel_cluster_11",
-      "name": "Prochlorococcus cluster 11 (91 genes)",
+      "id": "med4_cluster_11",
+      "name": "Prochlorococcus cluster 11",
       "functional_description": "N/A",
-      "temporal_pattern": "Genes peak at 1.6 h (early morning) with 24h periodicity.",
-      "expression_dynamics": "peaks early morning",
+      "temporal_pattern": "N/A",
+      "expression_dynamics": "N/A",
       "enrichment_category": "N/A",
       "enrichment_pvalue": null,
       "enrichment_significant": false,
       "confidence_notes": "",
-      "supporting_quotes": [
-        {
-          "quote": "The size of the clusters ranged from 22 to 138 (average 88) genes and peak transcription levels of the clusters were spread fairly evenly over the photocycle, with the exception of clusters 12 and 13, and 14 and 15, which had peak expression times less than one half hour apart.",
-          "location": "Page 3"
-        }
-      ],
+      "supporting_quotes": [],
       "source_figures": [
         "Table 1"
       ],
-      "self_assessment": "medium",
-      "assessment_notes": "No specific functional description or enrichment reported for cluster 11."
+      "self_assessment": "high",
+      "assessment_notes": ""
     },
     "12": {
-      "id": "med4_diel_cluster_12",
-      "name": "Prochlorococcus cluster 12 (111 genes)",
+      "id": "med4_cluster_12",
+      "name": "Prochlorococcus cluster 12",
       "functional_description": "N/A",
-      "temporal_pattern": "Genes peak at 3.0 h (early morning) with 24h periodicity.",
-      "expression_dynamics": "peaks early morning",
+      "temporal_pattern": "N/A",
+      "expression_dynamics": "N/A",
       "enrichment_category": "N/A",
       "enrichment_pvalue": null,
       "enrichment_significant": false,
       "confidence_notes": "",
-      "supporting_quotes": [
-        {
-          "quote": "The size of the clusters ranged from 22 to 138 (average 88) genes and peak transcription levels of the clusters were spread fairly evenly over the photocycle, with the exception of clusters 12 and 13, and 14 and 15, which had peak expression times less than one half hour apart.",
-          "location": "Page 3"
-        }
-      ],
+      "supporting_quotes": [],
       "source_figures": [
         "Table 1"
       ],
-      "self_assessment": "medium",
-      "assessment_notes": "No specific functional description or enrichment reported for cluster 12."
+      "self_assessment": "high",
+      "assessment_notes": ""
     },
     "13": {
-      "id": "med4_diel_cluster_13",
-      "name": "Prochlorococcus cluster 13 (110 genes)",
-      "functional_description": "Strongly enriched for ribosomal proteins (45/53 genes, p=3.7e-41).",
-      "temporal_pattern": "Genes peak at 3.4 h (early morning) with 24h periodicity.",
+      "id": "med4_cluster_13",
+      "name": "Prochlorococcus cluster 13 (ribosomal proteins)",
+      "functional_description": "Enriched for ribosomal proteins (p=3.70E-41). Includes 45 out of 53 ribosomal protein genes.",
+      "temporal_pattern": "Genes peak in expression near 3.4 hours after onset of dark with 24h periodicity.",
       "expression_dynamics": "peaks early morning",
       "enrichment_category": "Ribosomal proteins",
       "enrichment_pvalue": 3.7e-41,
@@ -116,8 +101,8 @@
       "confidence_notes": "",
       "supporting_quotes": [
         {
-          "quote": "Cluster 13 is significantly enriched for ribosomal proteins (45/53 genes, p=3.7e-41)",
-          "location": "Page 3"
+          "quote": "Cluster 13 is enriched for ribosomal proteins (45/53 genes, p=3.70E-41)",
+          "location": "Table 1"
         }
       ],
       "source_figures": [
@@ -127,54 +112,44 @@
       "assessment_notes": ""
     },
     "14": {
-      "id": "med4_diel_cluster_14",
-      "name": "Prochlorococcus cluster 14 (22 genes)",
+      "id": "med4_cluster_14",
+      "name": "Prochlorococcus cluster 14",
       "functional_description": "N/A",
-      "temporal_pattern": "Genes peak at 4.6 h (early morning) with 24h periodicity.",
-      "expression_dynamics": "peaks early morning",
+      "temporal_pattern": "N/A",
+      "expression_dynamics": "N/A",
       "enrichment_category": "N/A",
       "enrichment_pvalue": null,
       "enrichment_significant": false,
       "confidence_notes": "",
-      "supporting_quotes": [
-        {
-          "quote": "The size of the clusters ranged from 22 to 138 (average 88) genes and peak transcription levels of the clusters were spread fairly evenly over the photocycle, with the exception of clusters 12 and 13, and 14 and 15, which had peak expression times less than one half hour apart.",
-          "location": "Page 3"
-        }
-      ],
+      "supporting_quotes": [],
       "source_figures": [
         "Table 1"
       ],
-      "self_assessment": "medium",
-      "assessment_notes": "No specific functional description or enrichment reported for cluster 14."
+      "self_assessment": "high",
+      "assessment_notes": ""
     },
     "15": {
-      "id": "med4_diel_cluster_15",
-      "name": "Prochlorococcus cluster 15 (107 genes)",
+      "id": "med4_cluster_15",
+      "name": "Prochlorococcus cluster 15",
       "functional_description": "N/A",
-      "temporal_pattern": "Genes peak at 4.7 h (early morning) with 24h periodicity.",
-      "expression_dynamics": "peaks early morning",
+      "temporal_pattern": "N/A",
+      "expression_dynamics": "N/A",
       "enrichment_category": "N/A",
       "enrichment_pvalue": null,
       "enrichment_significant": false,
       "confidence_notes": "",
-      "supporting_quotes": [
-        {
-          "quote": "The size of the clusters ranged from 22 to 138 (average 88) genes and peak transcription levels of the clusters were spread fairly evenly over the photocycle, with the exception of clusters 12 and 13, and 14 and 15, which had peak expression times less than one half hour apart.",
-          "location": "Page 3"
-        }
-      ],
+      "supporting_quotes": [],
       "source_figures": [
         "Table 1"
       ],
-      "self_assessment": "medium",
-      "assessment_notes": "No specific functional description or enrichment reported for cluster 15."
+      "self_assessment": "high",
+      "assessment_notes": ""
     },
     "16": {
-      "id": "med4_diel_cluster_16",
-      "name": "Prochlorococcus cluster 16 (125 genes)",
-      "functional_description": "Enriched for ATP synthase (8/8 genes, p=8.4e-08) and CO2 metabolism (7/9 genes, p=1.8e-05).",
-      "temporal_pattern": "Genes peak at 5.5 h (early morning) with 24h periodicity.",
+      "id": "med4_cluster_16",
+      "name": "Prochlorococcus cluster 16 (ATP synthase and CO2 metabolism)",
+      "functional_description": "Enriched for ATP synthase (8/8 genes, p=8.40E-08) and CO2 metabolism genes (7/9 genes, p=1.80E-05).",
+      "temporal_pattern": "Genes peak in expression near 5.5 hours after onset of dark with 24h periodicity.",
       "expression_dynamics": "peaks early morning",
       "enrichment_category": "ATP synthase and CO2 metabolism",
       "enrichment_pvalue": 8.4e-08,
@@ -182,8 +157,8 @@
       "confidence_notes": "",
       "supporting_quotes": [
         {
-          "quote": "Cluster 16 is significantly enriched for ATP synthase (8/8 genes, p=8.4e-08) and CO2 metabolism (7/9 genes, p=1.8e-05)",
-          "location": "Page 3"
+          "quote": "Cluster 16 is enriched for ATP synthase (8/8 genes, p=8.40E-08) and CO2 metabolism (7/9 genes, p=1.80E-05)",
+          "location": "Table 1"
         }
       ],
       "source_figures": [
@@ -193,8 +168,8 @@
       "assessment_notes": ""
     },
     "17": {
-      "id": "med4_diel_cluster_17",
-      "name": "Prochlorococcus cluster 17 (173 genes)",
+      "id": "med4_cluster_17",
+      "name": "Prochlorococcus cluster 17",
       "functional_description": "N/A",
       "temporal_pattern": "N/A",
       "expression_dynamics": "N/A",
@@ -202,21 +177,16 @@
       "enrichment_pvalue": null,
       "enrichment_significant": false,
       "confidence_notes": "",
-      "supporting_quotes": [
-        {
-          "quote": "Cluster 17 is aperiodic expressed genes",
-          "location": "Table 1"
-        }
-      ],
+      "supporting_quotes": [],
       "source_figures": [
         "Table 1"
       ],
       "self_assessment": "high",
-      "assessment_notes": "Cluster 17 is aperiodic expressed genes, no temporal pattern or functional enrichment."
+      "assessment_notes": ""
     },
     "18": {
-      "id": "med4_diel_cluster_18",
-      "name": "Prochlorococcus cluster 18 (180 genes)",
+      "id": "med4_cluster_18",
+      "name": "Prochlorococcus cluster 18 (menaquinone and ubiquinone)",
       "functional_description": "Enriched for menaquinone and ubiquinone genes (6/9 genes, p=0.00045).",
       "temporal_pattern": "N/A",
       "expression_dynamics": "N/A",
@@ -226,7 +196,7 @@
       "confidence_notes": "",
       "supporting_quotes": [
         {
-          "quote": "Cluster 18 is non-expressed genes but enriched for menaquinone and ubiquinone genes (6/9 genes, p=0.00045)",
+          "quote": "Cluster 18 is enriched for menaquinone and ubiquinone genes (6/9 genes, p=0.00045)",
           "location": "Table 1"
         }
       ],
@@ -234,43 +204,38 @@
         "Table 1"
       ],
       "self_assessment": "high",
-      "assessment_notes": "Cluster 18 is mostly non-expressed genes but shows enrichment for menaquinone and ubiquinone."
+      "assessment_notes": ""
     },
     "2": {
-      "id": "med4_diel_cluster_2",
-      "name": "Prochlorococcus cluster 2 (52 genes)",
+      "id": "med4_cluster_2",
+      "name": "Prochlorococcus cluster 2",
       "functional_description": "N/A",
-      "temporal_pattern": "Genes peak at 9.6 h (mid-morning) with 24h periodicity.",
-      "expression_dynamics": "peaks mid-morning",
+      "temporal_pattern": "N/A",
+      "expression_dynamics": "N/A",
       "enrichment_category": "N/A",
       "enrichment_pvalue": null,
       "enrichment_significant": false,
       "confidence_notes": "",
-      "supporting_quotes": [
-        {
-          "quote": "The size of the clusters ranged from 22 to 138 (average 88) genes and peak transcription levels of the clusters were spread fairly evenly over the photocycle.",
-          "location": "Page 3"
-        }
-      ],
+      "supporting_quotes": [],
       "source_figures": [
         "Table 1"
       ],
-      "self_assessment": "medium",
-      "assessment_notes": "No specific functional description or enrichment reported for cluster 2."
+      "self_assessment": "high",
+      "assessment_notes": ""
     },
     "3": {
-      "id": "med4_diel_cluster_3",
-      "name": "Prochlorococcus cluster 3 (23 genes)",
-      "functional_description": "Enriched for cytochrome b6/f (3/7 genes, p=0.0059) and photosystem II (8/22 genes, p=3.7e-08).",
-      "temporal_pattern": "Genes peak at 12.5 h (mid-day) with 24h periodicity.",
+      "id": "med4_cluster_3",
+      "name": "Prochlorococcus cluster 3 (cytochrome b6/f and photosystem II)",
+      "functional_description": "Enriched for cytochrome b6/f (3/7 genes, p=0.0059) and photosystem II genes (8/22 genes, p=3.70E-08).",
+      "temporal_pattern": "Genes peak in expression near 12.5 hours after onset of dark with 24h periodicity.",
       "expression_dynamics": "peaks mid-day",
       "enrichment_category": "Cytochrome b6/f and Photosystem II",
-      "enrichment_pvalue": 0.0059,
+      "enrichment_pvalue": 3.7e-08,
       "enrichment_significant": true,
       "confidence_notes": "",
       "supporting_quotes": [
         {
-          "quote": "Cluster 3 is enriched for cytochrome b6/f (3/7 genes, p=0.0059) and photosystem II (8/22 genes, p=3.7e-08)",
+          "quote": "Cluster 3 is enriched for cytochrome b6/f (3/7 genes, p=0.0059) and photosystem II genes (8/22 genes, p=3.70E-08)",
           "location": "Table 1"
         }
       ],
@@ -281,18 +246,18 @@
       "assessment_notes": ""
     },
     "4": {
-      "id": "med4_diel_cluster_4",
-      "name": "Prochlorococcus cluster 4 (62 genes)",
-      "functional_description": "Marginal enrichment for cytochrome b6/f (3/7 genes, p=0.073).",
-      "temporal_pattern": "Genes peak at 15.8 h (afternoon) with 24h periodicity.",
-      "expression_dynamics": "peaks afternoon",
+      "id": "med4_cluster_4",
+      "name": "Prochlorococcus cluster 4 (cytochrome b6/f)",
+      "functional_description": "Enriched for cytochrome b6/f genes (3/7 genes, p=0.073).",
+      "temporal_pattern": "Genes peak in expression near 15.8 hours after onset of dark with 24h periodicity.",
+      "expression_dynamics": "peaks late afternoon",
       "enrichment_category": "Cytochrome b6/f",
       "enrichment_pvalue": 0.073,
       "enrichment_significant": false,
       "confidence_notes": "",
       "supporting_quotes": [
         {
-          "quote": "Cluster 4 shows marginal enrichment for cytochrome b6/f (3/7 genes, p=0.073)",
+          "quote": "Cluster 4 is enriched for cytochrome b6/f genes (3/7 genes, p=0.073)",
           "location": "Table 1"
         }
       ],
@@ -300,14 +265,14 @@
         "Table 1"
       ],
       "self_assessment": "medium",
-      "assessment_notes": "Enrichment is marginal and not statistically significant."
+      "assessment_notes": "Enrichment p-value marginally above significance threshold."
     },
     "5": {
-      "id": "med4_diel_cluster_5",
-      "name": "Prochlorococcus cluster 5 (120 genes)",
+      "id": "med4_cluster_5",
+      "name": "Prochlorococcus cluster 5 (respiratory terminal oxidases and protein degradation)",
       "functional_description": "Enriched for respiratory terminal oxidases (3/3 genes, p=0.019) and degradation of proteins, peptides, and glycopeptides (5/15 genes, p=0.071).",
-      "temporal_pattern": "Genes peak at 17.5 h (evening) with 24h periodicity.",
-      "expression_dynamics": "peaks evening",
+      "temporal_pattern": "Genes peak in expression near 17.5 hours after onset of dark with 24h periodicity.",
+      "expression_dynamics": "peaks early night",
       "enrichment_category": "Respiratory terminal oxidases and protein degradation",
       "enrichment_pvalue": 0.019,
       "enrichment_significant": true,
@@ -325,18 +290,18 @@
       "assessment_notes": ""
     },
     "6": {
-      "id": "med4_diel_cluster_6",
-      "name": "Prochlorococcus cluster 6 (137 genes)",
-      "functional_description": "Enriched for purine ribonucleotide biosynthesis (7/18 genes, p=0.0049).",
-      "temporal_pattern": "Genes peak at 18.6 h (evening) with 24h periodicity.",
-      "expression_dynamics": "peaks evening",
+      "id": "med4_cluster_6",
+      "name": "Prochlorococcus cluster 6 (purine ribonucleotide biosynthesis)",
+      "functional_description": "Enriched for purine ribonucleotide biosynthesis genes (7/18 genes, p=0.0049).",
+      "temporal_pattern": "Genes peak in expression near 18.6 hours after onset of dark with 24h periodicity.",
+      "expression_dynamics": "peaks early night",
       "enrichment_category": "Purine ribonucleotide biosynthesis",
       "enrichment_pvalue": 0.0049,
       "enrichment_significant": true,
       "confidence_notes": "",
       "supporting_quotes": [
         {
-          "quote": "Cluster 6 is enriched for purine ribonucleotide biosynthesis (7/18 genes, p=0.0049)",
+          "quote": "Cluster 6 is enriched for purine ribonucleotide biosynthesis genes (7/18 genes, p=0.0049)",
           "location": "Table 1"
         }
       ],
@@ -347,18 +312,18 @@
       "assessment_notes": ""
     },
     "7": {
-      "id": "med4_diel_cluster_7",
-      "name": "Prochlorococcus cluster 7 (121 genes)",
-      "functional_description": "Marginal enrichment for nitrogen metabolism (4/8 genes, p=0.087).",
-      "temporal_pattern": "Genes peak at 20.1 h (evening) with 24h periodicity.",
-      "expression_dynamics": "peaks evening",
+      "id": "med4_cluster_7",
+      "name": "Prochlorococcus cluster 7 (nitrogen metabolism)",
+      "functional_description": "Enriched for nitrogen metabolism genes (4/8 genes, p=0.087).",
+      "temporal_pattern": "Genes peak in expression near 20.1 hours after onset of dark with 24h periodicity.",
+      "expression_dynamics": "peaks night",
       "enrichment_category": "Nitrogen metabolism",
       "enrichment_pvalue": 0.087,
       "enrichment_significant": false,
       "confidence_notes": "",
       "supporting_quotes": [
         {
-          "quote": "Cluster 7 shows marginal enrichment for nitrogen metabolism (4/8 genes, p=0.087)",
+          "quote": "Cluster 7 is enriched for nitrogen metabolism genes (4/8 genes, p=0.087)",
           "location": "Table 1"
         }
       ],
@@ -366,21 +331,21 @@
         "Table 1"
       ],
       "self_assessment": "medium",
-      "assessment_notes": "Enrichment is marginal and not statistically significant."
+      "assessment_notes": "Enrichment p-value marginally above significance threshold."
     },
     "8": {
-      "id": "med4_diel_cluster_8",
-      "name": "Prochlorococcus cluster 8 (89 genes)",
-      "functional_description": "Enriched for chaperones (7/14 genes, p=0.00023).",
-      "temporal_pattern": "Genes peak at 21.0 h (evening) with 24h periodicity.",
-      "expression_dynamics": "peaks evening",
+      "id": "med4_cluster_8",
+      "name": "Prochlorococcus cluster 8 (chaperones)",
+      "functional_description": "Enriched for chaperone genes (7/14 genes, p=0.00023).",
+      "temporal_pattern": "Genes peak in expression near 21.0 hours after onset of dark with 24h periodicity.",
+      "expression_dynamics": "peaks night",
       "enrichment_category": "Chaperones",
       "enrichment_pvalue": 0.00023,
       "enrichment_significant": true,
       "confidence_notes": "",
       "supporting_quotes": [
         {
-          "quote": "Cluster 8 is enriched for chaperones (7/14 genes, p=0.00023)",
+          "quote": "Cluster 8 is enriched for chaperone genes (7/14 genes, p=0.00023)",
           "location": "Table 1"
         }
       ],
@@ -391,18 +356,18 @@
       "assessment_notes": ""
     },
     "9": {
-      "id": "med4_diel_cluster_9",
-      "name": "Prochlorococcus cluster 9 (99 genes)",
-      "functional_description": "Enriched for RNA synthesis, modification, and DNA transcription (6/23 genes, p=0.035).",
-      "temporal_pattern": "Genes peak at 22.4 h (late evening) with 24h periodicity.",
-      "expression_dynamics": "peaks late evening",
+      "id": "med4_cluster_9",
+      "name": "Prochlorococcus cluster 9 (RNA synthesis, modification, and DNA transcription)",
+      "functional_description": "Enriched for RNA synthesis, modification, and DNA transcription genes (6/23 genes, p=0.035).",
+      "temporal_pattern": "Genes peak in expression near 22.4 hours after onset of dark with 24h periodicity.",
+      "expression_dynamics": "peaks late night",
       "enrichment_category": "RNA synthesis, modification, and DNA transcription",
       "enrichment_pvalue": 0.035,
       "enrichment_significant": true,
       "confidence_notes": "",
       "supporting_quotes": [
         {
-          "quote": "Cluster 9 is enriched for RNA synthesis, modification, and DNA transcription (6/23 genes, p=0.035)",
+          "quote": "Cluster 9 is enriched for RNA synthesis, modification, and DNA transcription genes (6/23 genes, p=0.035)",
           "location": "Table 1"
         }
       ],

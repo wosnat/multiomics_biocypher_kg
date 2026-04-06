@@ -5,14 +5,14 @@
     "organism": "Prochlorococcus NATL2A",
     "entry_key": "supp_table_3_parental_clusters",
     "model": "gpt-4.1-mini",
-    "extracted_at": "2026-04-06T09:26:36.043603",
-    "input_tokens": 59405,
-    "output_tokens": 1626
+    "extracted_at": "2026-04-06T10:06:43.814690",
+    "input_tokens": 59598,
+    "output_tokens": 1416
   },
   "clusters": {
     "1": {
-      "id": "natl2a_diel_97_genes",
-      "name": "Prochlorococcus cluster 1 (97 genes)",
+      "id": "natl2a_cluster_1",
+      "name": "Prochlorococcus cluster 1",
       "functional_description": "N/A",
       "temporal_pattern": "N/A",
       "expression_dynamics": "N/A",
@@ -21,15 +21,13 @@
       "enrichment_significant": false,
       "confidence_notes": "",
       "supporting_quotes": [],
-      "source_figures": [
-        "Supplemental Table 3"
-      ],
+      "source_figures": [],
       "self_assessment": "low",
-      "assessment_notes": "No specific description of this cluster in the paper or supplement."
+      "assessment_notes": "No specific cluster descriptions provided in the paper or supplement."
     },
     "10": {
-      "id": "natl2a_diel_10_genes",
-      "name": "Prochlorococcus cluster 10 (70 genes)",
+      "id": "natl2a_cluster_10",
+      "name": "Prochlorococcus cluster 10",
       "functional_description": "N/A",
       "temporal_pattern": "N/A",
       "expression_dynamics": "N/A",
@@ -38,15 +36,13 @@
       "enrichment_significant": false,
       "confidence_notes": "",
       "supporting_quotes": [],
-      "source_figures": [
-        "Supplemental Table 3"
-      ],
+      "source_figures": [],
       "self_assessment": "low",
-      "assessment_notes": "No specific description of this cluster in the paper or supplement."
+      "assessment_notes": "No specific cluster descriptions provided in the paper or supplement."
     },
     "11": {
-      "id": "natl2a_diel_11_genes",
-      "name": "Prochlorococcus cluster 11 (205 genes)",
+      "id": "natl2a_cluster_11",
+      "name": "Prochlorococcus cluster 11",
       "functional_description": "N/A",
       "temporal_pattern": "N/A",
       "expression_dynamics": "N/A",
@@ -55,15 +51,13 @@
       "enrichment_significant": false,
       "confidence_notes": "",
       "supporting_quotes": [],
-      "source_figures": [
-        "Supplemental Table 3"
-      ],
+      "source_figures": [],
       "self_assessment": "low",
-      "assessment_notes": "No specific description of this cluster in the paper or supplement."
+      "assessment_notes": "No specific cluster descriptions provided in the paper or supplement."
     },
     "12": {
-      "id": "natl2a_diel_12_genes",
-      "name": "Prochlorococcus cluster 12 (144 genes)",
+      "id": "natl2a_cluster_12",
+      "name": "Prochlorococcus cluster 12",
       "functional_description": "N/A",
       "temporal_pattern": "N/A",
       "expression_dynamics": "N/A",
@@ -72,15 +66,13 @@
       "enrichment_significant": false,
       "confidence_notes": "",
       "supporting_quotes": [],
-      "source_figures": [
-        "Supplemental Table 3"
-      ],
+      "source_figures": [],
       "self_assessment": "low",
-      "assessment_notes": "No specific description of this cluster in the paper or supplement."
+      "assessment_notes": "No specific cluster descriptions provided in the paper or supplement."
     },
     "13": {
-      "id": "natl2a_diel_13_genes",
-      "name": "Prochlorococcus cluster 13 (165 genes)",
+      "id": "natl2a_cluster_13",
+      "name": "Prochlorococcus cluster 13",
       "functional_description": "N/A",
       "temporal_pattern": "N/A",
       "expression_dynamics": "N/A",
@@ -89,15 +81,13 @@
       "enrichment_significant": false,
       "confidence_notes": "",
       "supporting_quotes": [],
-      "source_figures": [
-        "Supplemental Table 3"
-      ],
+      "source_figures": [],
       "self_assessment": "low",
-      "assessment_notes": "No specific description of this cluster in the paper or supplement."
+      "assessment_notes": "No specific cluster descriptions provided in the paper or supplement."
     },
     "14": {
-      "id": "natl2a_diel_14_genes",
-      "name": "Prochlorococcus cluster 14 (89 genes)",
+      "id": "natl2a_cluster_14",
+      "name": "Prochlorococcus cluster 14",
       "functional_description": "N/A",
       "temporal_pattern": "N/A",
       "expression_dynamics": "N/A",
@@ -106,15 +96,13 @@
       "enrichment_significant": false,
       "confidence_notes": "",
       "supporting_quotes": [],
-      "source_figures": [
-        "Supplemental Table 3"
-      ],
+      "source_figures": [],
       "self_assessment": "low",
-      "assessment_notes": "No specific description of this cluster in the paper or supplement."
+      "assessment_notes": "No specific cluster descriptions provided in the paper or supplement."
     },
     "15": {
-      "id": "natl2a_diel_15_genes",
-      "name": "Prochlorococcus cluster 15 (132 genes)",
+      "id": "natl2a_cluster_15",
+      "name": "Prochlorococcus cluster 15",
       "functional_description": "N/A",
       "temporal_pattern": "N/A",
       "expression_dynamics": "N/A",
@@ -123,15 +111,13 @@
       "enrichment_significant": false,
       "confidence_notes": "",
       "supporting_quotes": [],
-      "source_figures": [
-        "Supplemental Table 3"
-      ],
+      "source_figures": [],
       "self_assessment": "low",
-      "assessment_notes": "No specific description of this cluster in the paper or supplement."
+      "assessment_notes": "No specific cluster descriptions provided in the paper or supplement."
     },
     "2": {
-      "id": "natl2a_diel_2_genes",
-      "name": "Prochlorococcus cluster 2 (110 genes)",
+      "id": "natl2a_cluster_2",
+      "name": "Prochlorococcus cluster 2",
       "functional_description": "N/A",
       "temporal_pattern": "N/A",
       "expression_dynamics": "N/A",
@@ -140,15 +126,13 @@
       "enrichment_significant": false,
       "confidence_notes": "",
       "supporting_quotes": [],
-      "source_figures": [
-        "Supplemental Table 3"
-      ],
+      "source_figures": [],
       "self_assessment": "low",
-      "assessment_notes": "No specific description of this cluster in the paper or supplement."
+      "assessment_notes": "No specific cluster descriptions provided in the paper or supplement."
     },
     "3": {
-      "id": "natl2a_diel_3_genes",
-      "name": "Prochlorococcus cluster 3 (245 genes)",
+      "id": "natl2a_cluster_3",
+      "name": "Prochlorococcus cluster 3",
       "functional_description": "N/A",
       "temporal_pattern": "N/A",
       "expression_dynamics": "N/A",
@@ -157,15 +141,13 @@
       "enrichment_significant": false,
       "confidence_notes": "",
       "supporting_quotes": [],
-      "source_figures": [
-        "Supplemental Table 3"
-      ],
+      "source_figures": [],
       "self_assessment": "low",
-      "assessment_notes": "No specific description of this cluster in the paper or supplement."
+      "assessment_notes": "No specific cluster descriptions provided in the paper or supplement."
     },
     "4": {
-      "id": "natl2a_diel_4_genes",
-      "name": "Prochlorococcus cluster 4 (100 genes)",
+      "id": "natl2a_cluster_4",
+      "name": "Prochlorococcus cluster 4",
       "functional_description": "N/A",
       "temporal_pattern": "N/A",
       "expression_dynamics": "N/A",
@@ -174,15 +156,13 @@
       "enrichment_significant": false,
       "confidence_notes": "",
       "supporting_quotes": [],
-      "source_figures": [
-        "Supplemental Table 3"
-      ],
+      "source_figures": [],
       "self_assessment": "low",
-      "assessment_notes": "No specific description of this cluster in the paper or supplement."
+      "assessment_notes": "No specific cluster descriptions provided in the paper or supplement."
     },
     "5": {
-      "id": "natl2a_diel_5_genes",
-      "name": "Prochlorococcus cluster 5 (65 genes)",
+      "id": "natl2a_cluster_5",
+      "name": "Prochlorococcus cluster 5",
       "functional_description": "N/A",
       "temporal_pattern": "N/A",
       "expression_dynamics": "N/A",
@@ -191,15 +171,13 @@
       "enrichment_significant": false,
       "confidence_notes": "",
       "supporting_quotes": [],
-      "source_figures": [
-        "Supplemental Table 3"
-      ],
+      "source_figures": [],
       "self_assessment": "low",
-      "assessment_notes": "No specific description of this cluster in the paper or supplement."
+      "assessment_notes": "No specific cluster descriptions provided in the paper or supplement."
     },
     "6": {
-      "id": "natl2a_diel_6_genes",
-      "name": "Prochlorococcus cluster 6 (62 genes)",
+      "id": "natl2a_cluster_6",
+      "name": "Prochlorococcus cluster 6",
       "functional_description": "N/A",
       "temporal_pattern": "N/A",
       "expression_dynamics": "N/A",
@@ -208,15 +186,13 @@
       "enrichment_significant": false,
       "confidence_notes": "",
       "supporting_quotes": [],
-      "source_figures": [
-        "Supplemental Table 3"
-      ],
+      "source_figures": [],
       "self_assessment": "low",
-      "assessment_notes": "No specific description of this cluster in the paper or supplement."
+      "assessment_notes": "No specific cluster descriptions provided in the paper or supplement."
     },
     "7": {
-      "id": "natl2a_diel_7_genes",
-      "name": "Prochlorococcus cluster 7 (202 genes)",
+      "id": "natl2a_cluster_7",
+      "name": "Prochlorococcus cluster 7",
       "functional_description": "N/A",
       "temporal_pattern": "N/A",
       "expression_dynamics": "N/A",
@@ -225,15 +201,13 @@
       "enrichment_significant": false,
       "confidence_notes": "",
       "supporting_quotes": [],
-      "source_figures": [
-        "Supplemental Table 3"
-      ],
+      "source_figures": [],
       "self_assessment": "low",
-      "assessment_notes": "No specific description of this cluster in the paper or supplement."
+      "assessment_notes": "No specific cluster descriptions provided in the paper or supplement."
     },
     "8": {
-      "id": "natl2a_diel_8_genes",
-      "name": "Prochlorococcus cluster 8 (174 genes)",
+      "id": "natl2a_cluster_8",
+      "name": "Prochlorococcus cluster 8",
       "functional_description": "N/A",
       "temporal_pattern": "N/A",
       "expression_dynamics": "N/A",
@@ -242,15 +216,13 @@
       "enrichment_significant": false,
       "confidence_notes": "",
       "supporting_quotes": [],
-      "source_figures": [
-        "Supplemental Table 3"
-      ],
+      "source_figures": [],
       "self_assessment": "low",
-      "assessment_notes": "No specific description of this cluster in the paper or supplement."
+      "assessment_notes": "No specific cluster descriptions provided in the paper or supplement."
     },
     "9": {
-      "id": "natl2a_diel_9_genes",
-      "name": "Prochlorococcus cluster 9 (221 genes)",
+      "id": "natl2a_cluster_9",
+      "name": "Prochlorococcus cluster 9",
       "functional_description": "N/A",
       "temporal_pattern": "N/A",
       "expression_dynamics": "N/A",
@@ -259,11 +231,9 @@
       "enrichment_significant": false,
       "confidence_notes": "",
       "supporting_quotes": [],
-      "source_figures": [
-        "Supplemental Table 3"
-      ],
+      "source_figures": [],
       "self_assessment": "low",
-      "assessment_notes": "No specific description of this cluster in the paper or supplement."
+      "assessment_notes": "No specific cluster descriptions provided in the paper or supplement."
     }
   }
 }

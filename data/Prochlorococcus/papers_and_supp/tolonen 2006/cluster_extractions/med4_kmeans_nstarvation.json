@@ -5,16 +5,16 @@
     "organism": "Prochlorococcus MED4",
     "entry_key": "med4_kmeans_nstarvation",
     "model": "gpt-4.1-mini",
-    "extracted_at": "2026-04-06T09:58:24.512367",
+    "extracted_at": "2026-04-06T10:07:36.882885",
     "input_tokens": 62828,
-    "output_tokens": 1789
+    "output_tokens": 1786
   },
   "clusters": {
     "1": {
       "id": "med4_time_course_cluster_1",
       "name": "Prochlorococcus MED4 cluster 1 (5 genes)",
-      "functional_description": "Contains nitrogen transport genes including urtA, cynA, and the nitrite permease from MIT9313. Also includes highly upregulated genes such as PMM0958, a gene of unknown function with a top-ranking NtcA binding site.",
-      "temporal_pattern": "Most rapidly and highly upregulated cluster, with genes responding within the first hours of nitrogen starvation.",
+      "functional_description": "Contains nitrogen transport genes such as urtA, cynA, and the nitrite permease in MIT9313. Includes genes PMM0970 (urtA), PMM0370 (cynA), and PMM0958 (unknown).",
+      "temporal_pattern": "Most rapidly and highly upregulated genes in MED4 during nitrogen starvation, with expression first appearing within 6 hours and peaking early in the time course.",
       "expression_dynamics": "early transient",
       "enrichment_category": "transport and binding",
       "enrichment_pvalue": 0.01,
@@ -26,13 +26,12 @@
           "location": "Page 3"
         },
         {
-          "quote": "MED4 PMM0958 was the most upregulated gene at all time points and has the top-ranking NtcA binding site in the genome (Table IA).",
-          "location": "Page 7"
+          "quote": "The most rapidly and highly upregulated genes in MED4 cluster 1 contain N transport genes such as MED4 urtA, cynA.",
+          "location": "Page 3"
         }
       ],
       "source_figures": [
-        "Figure 3",
-        "Table I"
+        "Figure 3"
       ],
       "self_assessment": "high",
       "assessment_notes": ""
@@ -40,26 +39,26 @@
     "2": {
       "id": "med4_time_course_cluster_2",
       "name": "Prochlorococcus MED4 cluster 2 (16 genes)",
-      "functional_description": "Contains a subset of hli genes (hli10, hli21, hli22) that respond rapidly and highly to nitrogen starvation. Also includes genes known to be NtcA targets and two sigma factors.",
-      "temporal_pattern": "Rapid and high upregulation early in nitrogen starvation time course.",
+      "functional_description": "Contains genes including hli10, a high light-inducible gene, and other genes likely regulated by NtcA. Includes two sigma factors and genes involved in regulation.",
+      "temporal_pattern": "Rapid and highly upregulated early in nitrogen starvation, distinct from a later responding subset of hli genes.",
       "expression_dynamics": "early transient",
-      "enrichment_category": "transport and binding",
-      "enrichment_pvalue": 0.12,
+      "enrichment_category": "regulation",
+      "enrichment_pvalue": 0.07,
       "enrichment_significant": false,
       "confidence_notes": "",
       "supporting_quotes": [
         {
           "quote": "In both strains, the clusters revealed two distinct subsets of the hli genes: those that responded rapidly and highly (MED4 cluster 2 and MIT9313 cluster 1) and those that responded later and to a lesser degree (MED4 cluster 3 and MIT9313 cluster 2).",
-          "location": "Page 4"
+          "location": "Page 3"
         },
         {
-          "quote": "MED4 cluster 2 and MIT9313 cluster 1) and those that responded later and to a lesser degree (MED4 cluster 3 and MIT9313 cluster 2). Both strains also have an upregulated cluster containing two sigma factors, MED4 cluster 5 and MIT9313 cluster 2.",
-          "location": "Page 4"
+          "quote": "Both strains also have an upregulated cluster containing two sigma factors, MED4 cluster 5 and MIT9313 cluster 2.",
+          "location": "Page 3"
         }
       ],
       "source_figures": [
         "Figure 3",
-        "Figure 4E"
+        "Figure 4B"
       ],
       "self_assessment": "high",
       "assessment_notes": ""
@@ -67,30 +66,30 @@
     "3": {
       "id": "med4_time_course_cluster_3",
       "name": "Prochlorococcus MED4 cluster 3 (19 genes)",
-      "functional_description": "Contains a subset of hli genes that respond later and to a lesser degree during nitrogen starvation. Includes genes with regulatory functions.",
-      "temporal_pattern": "Later and less pronounced upregulation compared to cluster 2 during nitrogen starvation.",
+      "functional_description": "Contains a subset of hli genes that respond later and to a lesser degree than cluster 2. Also includes genes involved in regulation.",
+      "temporal_pattern": "Later and less pronounced upregulation during nitrogen starvation compared to cluster 2.",
       "expression_dynamics": "late transient",
       "enrichment_category": "regulation",
-      "enrichment_pvalue": 0.07,
+      "enrichment_pvalue": 0.18,
       "enrichment_significant": false,
       "confidence_notes": "",
       "supporting_quotes": [
         {
-          "quote": "those that responded later and to a lesser degree (MED4 cluster 3 and MIT9313 cluster 2).",
-          "location": "Page 4"
+          "quote": "Those that responded later and to a lesser degree (MED4 cluster 3 and MIT9313 cluster 2).",
+          "location": "Page 3"
         }
       ],
       "source_figures": [
         "Figure 3"
       ],
       "self_assessment": "medium",
-      "assessment_notes": "Less detailed description available in paper."
+      "assessment_notes": "Less detailed description available."
     },
     "4": {
       "id": "med4_time_course_cluster_4",
       "name": "Prochlorococcus MED4 cluster 4 (86 genes)",
-      "functional_description": "Enriched for amino acid synthesis genes and genes involved in carbon metabolism such as zwf, tal, acnB, icd, and glycogen metabolism genes. Includes genes for the oxidative pentose phosphate pathway and 2-oxoglutarate synthesis.",
-      "temporal_pattern": "Gradual upregulation during nitrogen starvation, with some genes showing sustained expression changes.",
+      "functional_description": "Enriched for amino acid synthesis genes and genes involved in carbon metabolism such as zwf, tal, acnB, and icd. Includes genes for the oxidative pentose phosphate pathway and 2-oxoglutarate synthesis.",
+      "temporal_pattern": "Upregulated during nitrogen starvation, with genes involved in carbon metabolism and amino acid synthesis showing increased expression.",
       "expression_dynamics": "gradual increase",
       "enrichment_category": "amino acid synthesis",
       "enrichment_pvalue": 0.18,
@@ -104,7 +103,7 @@
       ],
       "source_figures": [
         "Figure 3",
-        "Table III"
+        "Figure 4F"
       ],
       "self_assessment": "high",
       "assessment_notes": ""
@@ -112,8 +111,8 @@
     "5": {
       "id": "med4_time_course_cluster_5",
       "name": "Prochlorococcus MED4 cluster 5 (73 genes)",
-      "functional_description": "Contains two sigma factors that are upregulated during nitrogen stress, possibly playing a role in gene expression regulation during N starvation.",
-      "temporal_pattern": "Upregulated during nitrogen starvation with a pattern similar to early response clusters.",
+      "functional_description": "Contains two sigma factors (PMM1289 and PMM1697) that are upregulated during nitrogen stress, suggesting a role in transcriptional regulation.",
+      "temporal_pattern": "Upregulated during nitrogen starvation, possibly mediating gene expression changes.",
       "expression_dynamics": "early transient",
       "enrichment_category": "regulation",
       "enrichment_pvalue": 0.18,
@@ -122,10 +121,10 @@
       "supporting_quotes": [
         {
           "quote": "Both strains also have an upregulated cluster containing two sigma factors, MED4 cluster 5 and MIT9313 cluster 2.",
-          "location": "Page 4"
+          "location": "Page 3"
         },
         {
-          "quote": "Two out of five MED4 sigma factors (PMM1289 and PMM1697) were upregulated and may play a role in the upregulation of gene expression during N stress in Prochlorococcus.",
+          "quote": "Two out of five MED4 sigma factors (PMM1289 and PMM1697) were upregulated and may play a role in gene expression during N stress.",
           "location": "Page 6"
         }
       ],
@@ -140,7 +139,7 @@
       "id": "med4_time_course_cluster_6",
       "name": "Prochlorococcus MED4 cluster 6 (124 genes)",
       "functional_description": "Enriched for translation-related genes, strongly downregulated during nitrogen starvation, indicating repression of protein synthesis machinery.",
-      "temporal_pattern": "Strong and sustained downregulation during nitrogen starvation.",
+      "temporal_pattern": "Strongly downregulated during nitrogen starvation, consistent with reduced translation activity.",
       "expression_dynamics": "late sustained repression",
       "enrichment_category": "translation",
       "enrichment_pvalue": 0.001,
@@ -148,12 +147,8 @@
       "confidence_notes": "",
       "supporting_quotes": [
         {
-          "quote": "Highly downregulated clusters show strong enrichment for specific functional categories, namely Translation (MED4 cluster 7, MIT9313 cluster 7) and Photosynthesis and Respiration (MED4 clusters 8 and 9, MIT9313 cluster 6).",
+          "quote": "Highly downregulated clusters show strong enrichment for translation (MED4 cluster 6).",
           "location": "Page 3"
-        },
-        {
-          "quote": "MED4 cluster 6 is enriched for translation and is strongly downregulated during N starvation.",
-          "location": "Figure 3"
         }
       ],
       "source_figures": [
@@ -165,20 +160,16 @@
     "7": {
       "id": "med4_time_course_cluster_7",
       "name": "Prochlorococcus MED4 cluster 7 (42 genes)",
-      "functional_description": "Enriched for photosynthesis and respiration genes including photosystem I genes (psaBDEIJKLM). Strongly downregulated during nitrogen starvation.",
-      "temporal_pattern": "Strong and sustained downregulation during nitrogen starvation.",
+      "functional_description": "Enriched for translation genes, strongly downregulated during nitrogen starvation, indicating repression of protein synthesis.",
+      "temporal_pattern": "Strongly downregulated during nitrogen starvation.",
       "expression_dynamics": "late sustained repression",
-      "enrichment_category": "photosynthesis and respiration",
-      "enrichment_pvalue": 2.6e-09,
+      "enrichment_category": "translation",
+      "enrichment_pvalue": 2.7e-09,
       "enrichment_significant": true,
       "confidence_notes": "",
       "supporting_quotes": [
         {
-          "quote": "MED4 cluster 8 contains numerous genes for photosystem I (psaBDEIJKLM) and cluster 9 contains ATP synthase subunits and the carbon fixation genes (rbcLS).",
-          "location": "Page 4"
-        },
-        {
-          "quote": "MED4 clusters 8 and 9 are enriched for Photosynthesis and Respiration genes and are strongly downregulated during N starvation.",
+          "quote": "Highly downregulated clusters show strong enrichment for translation (MED4 cluster 7).",
           "location": "Page 3"
         }
       ],
@@ -191,8 +182,30 @@
     "8": {
       "id": "med4_time_course_cluster_8",
       "name": "Prochlorococcus MED4 cluster 8 (37 genes)",
-      "functional_description": "Enriched for photosynthesis and respiration genes including ATP synthase subunits and carbon fixation genes (rbcLS). Strongly downregulated during nitrogen starvation.",
-      "temporal_pattern": "Strong and sustained downregulation during nitrogen starvation.",
+      "functional_description": "Enriched for photosynthesis and respiration genes, including photosystem I genes (psaBDEIJKLM). Strongly downregulated during nitrogen starvation.",
+      "temporal_pattern": "Strongly downregulated during nitrogen starvation, indicating repression of photosynthesis genes.",
+      "expression_dynamics": "late sustained repression",
+      "enrichment_category": "photosynthesis and respiration",
+      "enrichment_pvalue": 2.6e-09,
+      "enrichment_significant": true,
+      "confidence_notes": "",
+      "supporting_quotes": [
+        {
+          "quote": "MED4 cluster 8 contains numerous genes for photosystem I (psaBDEIJKLM) and is enriched for photosynthesis and respiration genes.",
+          "location": "Page 3"
+        }
+      ],
+      "source_figures": [
+        "Figure 3"
+      ],
+      "self_assessment": "high",
+      "assessment_notes": ""
+    },
+    "9": {
+      "id": "med4_time_course_cluster_9",
+      "name": "Prochlorococcus MED4 cluster 9 (8 genes)",
+      "functional_description": "Enriched for photosynthesis and respiration genes, including ATP synthase subunits and carbon fixation genes (rbcLS). Strongly downregulated during nitrogen starvation.",
+      "temporal_pattern": "Strongly downregulated during nitrogen starvation, indicating repression of photosynthesis and carbon fixation genes.",
       "expression_dynamics": "late sustained repression",
       "enrichment_category": "photosynthesis and respiration",
       "enrichment_pvalue": 1.4e-05,
@@ -200,11 +213,7 @@
       "confidence_notes": "",
       "supporting_quotes": [
         {
-          "quote": "MED4 cluster 9 contains ATP synthase subunits and the carbon fixation genes (rbcLS).",
-          "location": "Page 4"
-        },
-        {
-          "quote": "MED4 clusters 8 and 9 are enriched for Photosynthesis and Respiration genes and are strongly downregulated during N starvation.",
+          "quote": "MED4 cluster 9 contains ATP synthase subunits and carbon fixation genes (rbcLS) and is enriched for photosynthesis and respiration genes.",
           "location": "Page 3"
         }
       ],

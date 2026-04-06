@@ -2,18 +2,15 @@
 
 ## Cluster 1 |  | low
 
-**Name:** Prochlorococcus cluster 1 (183 genes)
+**Name:** Prochlorococcus cluster 1
 **Enrichment:** N/A (p=None)
 **Functional:** N/A
 
 **Behavioral:** 
 
-**Quotes:**
-- [Supplemental Text 1] Genes in parental and dark-tolerant cells were clustered into 15 clusters. If a gene in both parental and dark-tolerant cells was found in the same cluster, the pattern was marked “true”, and if not, as “false”.
-
 ## Cluster 10 |  | low
 
-**Name:** Prochlorococcus cluster 10 (173 genes)
+**Name:** Prochlorococcus cluster 10
 **Enrichment:** N/A (p=None)
 **Functional:** N/A
 
@@ -21,7 +18,7 @@
 
 ## Cluster 11 |  | low
 
-**Name:** Prochlorococcus cluster 11 (93 genes)
+**Name:** Prochlorococcus cluster 11
 **Enrichment:** N/A (p=None)
 **Functional:** N/A
 
@@ -29,7 +26,7 @@
 
 ## Cluster 12 |  | low
 
-**Name:** Prochlorococcus cluster 12 (94 genes)
+**Name:** Prochlorococcus cluster 12
 **Enrichment:** N/A (p=None)
 **Functional:** N/A
 
@@ -37,7 +34,7 @@
 
 ## Cluster 13 |  | low
 
-**Name:** Prochlorococcus cluster 13 (140 genes)
+**Name:** Prochlorococcus cluster 13
 **Enrichment:** N/A (p=None)
 **Functional:** N/A
 
@@ -45,7 +42,7 @@
 
 ## Cluster 14 |  | low
 
-**Name:** Prochlorococcus cluster 14 (169 genes)
+**Name:** Prochlorococcus cluster 14
 **Enrichment:** N/A (p=None)
 **Functional:** N/A
 
@@ -53,7 +50,7 @@
 
 ## Cluster 15 |  | low
 
-**Name:** Prochlorococcus cluster 15 (130 genes)
+**Name:** Prochlorococcus cluster 15
 **Enrichment:** N/A (p=None)
 **Functional:** N/A
 
@@ -61,7 +58,7 @@
 
 ## Cluster 2 |  | low
 
-**Name:** Prochlorococcus cluster 2 (133 genes)
+**Name:** Prochlorococcus cluster 2
 **Enrichment:** N/A (p=None)
 **Functional:** N/A
 
@@ -69,7 +66,7 @@
 
 ## Cluster 3 |  | low
 
-**Name:** Prochlorococcus cluster 3 (130 genes)
+**Name:** Prochlorococcus cluster 3
 **Enrichment:** N/A (p=None)
 **Functional:** N/A
 
@@ -77,7 +74,7 @@
 
 ## Cluster 4 |  | low
 
-**Name:** Prochlorococcus cluster 4 (169 genes)
+**Name:** Prochlorococcus cluster 4
 **Enrichment:** N/A (p=None)
 **Functional:** N/A
 
@@ -85,7 +82,7 @@
 
 ## Cluster 5 |  | low
 
-**Name:** Prochlorococcus cluster 5 (171 genes)
+**Name:** Prochlorococcus cluster 5
 **Enrichment:** N/A (p=None)
 **Functional:** N/A
 
@@ -93,7 +90,7 @@
 
 ## Cluster 6 |  | low
 
-**Name:** Prochlorococcus cluster 6 (181 genes)
+**Name:** Prochlorococcus cluster 6
 **Enrichment:** N/A (p=None)
 **Functional:** N/A
 
@@ -101,7 +98,7 @@
 
 ## Cluster 7 |  | low
 
-**Name:** Prochlorococcus cluster 7 (118 genes)
+**Name:** Prochlorococcus cluster 7
 **Enrichment:** N/A (p=None)
 **Functional:** N/A
 
@@ -109,7 +106,7 @@
 
 ## Cluster 8 |  | low
 
-**Name:** Prochlorococcus cluster 8 (83 genes)
+**Name:** Prochlorococcus cluster 8
 **Enrichment:** N/A (p=None)
 **Functional:** N/A
 
@@ -117,7 +114,7 @@
 
 ## Cluster 9 |  | low
 
-**Name:** Prochlorococcus cluster 9 (114 genes)
+**Name:** Prochlorococcus cluster 9
 **Enrichment:** N/A (p=None)
 **Functional:** N/A
 
