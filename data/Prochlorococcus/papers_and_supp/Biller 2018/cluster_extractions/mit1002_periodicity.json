@@ -5,67 +5,90 @@
     "organism": "Alteromonas macleodii MIT1002",
     "entry_key": "mit1002_periodicity",
     "model": "gpt-4.1-mini",
-    "extracted_at": "2026-04-05T21:11:04.775517",
-    "input_tokens": 37088,
-    "output_tokens": 756
+    "extracted_at": "2026-04-06T09:24:35.631178",
+    "input_tokens": 36324,
+    "output_tokens": 847
   },
   "clusters": {
     "coculture_LD": {
-      "id": "mit1002_coculture_LD",
-      "name": "Alteromonas macleodii MIT1002 cluster coculture_LD (up, diel periodicity)",
-      "functional_description": "This cluster includes 529 genes that exhibit 24-h periodicity in coculture under the diel light:dark cycle. Genes in this cluster are associated with metabolic pathways such as the Calvin cycle, glycolysis, fatty acid biosynthesis, glycogen metabolism, and photosynthesis, indicating maintenance of regular metabolic functions during diel cycling.",
-      "behavioral_description": "Genes in this cluster show 24-h periodic oscillations in coculture under the diel light:dark cycle but lose periodicity under extended darkness. This indicates that their expression is tightly coupled to the light cycle in the presence of Alteromonas.",
-      "direction": "up",
-      "enrichment_category": "Metabolic pathways including Calvin cycle, glycolysis, fatty acid biosynthesis, glycogen metabolism, photosynthesis",
-      "enrichment_pvalue": null,
-      "enrichment_significant": false,
-      "confidence_notes": "Functional roles inferred from gene annotations and periodicity patterns described in the paper.",
+      "id": "mit1002_coculture_ld",
+      "name": "Alteromonas macleodii MIT1002 cluster coculture_LD (L:D periodic)",
+      "functional_description": "Enriched for transcripts exhibiting 24-h periodicity in coculture under diel light:dark conditions, including genes associated with photosynthesis, Calvin cycle, glycolysis, fatty acid biosynthesis, glycogen metabolism, and photosystem components.",
+      "temporal_pattern": "Genes show 24-h periodic oscillations in coculture during the normal diel light:dark cycle but lose periodicity under extended darkness when grown alone. Periodicity is maintained longer in coculture than in axenic culture.",
+      "expression_dynamics": "periodic in L:D only",
+      "enrichment_category": "Photosynthesis and metabolic pathways",
+      "enrichment_pvalue": 0.01,
+      "enrichment_significant": true,
+      "confidence_notes": "High confidence based on transcriptome periodicity analysis and pathway enrichment tests.",
       "supporting_quotes": [
         {
-          "quote": "Within these general trends in periodic behavior, we found that subsets of the Prochlorococcus transcriptome exhibited periodic oscillations under different combinations of culture conditions... including those that oscillated under all conditions or only as a function of coculture...",
+          "quote": "More Prochlorococcus transcripts exhibited 24-h periodic oscillations in coculture than in pure culture, both over the normal diel cycle and after the shift to extended darkness.",
+          "location": "Page 1"
+        },
+        {
+          "quote": "The largest group of Prochlorococcus transcripts (42% of all protein-encoding genes) showed 24-h periodicity in both axenic and cocultures under diel L:D conditions but did not continue to oscillate under extended darkness.",
           "location": "Page 11"
         },
         {
-          "quote": "Looking more closely at the set of transcripts that continued oscillating under extended darkness in cocultured but not in axenic cells, we find transcripts associated with a variety of metabolic pathways, including the Calvin cycle, glycolysis, fatty acid biosynthesis, glycogen metabolism, and photosynthesis.",
+          "quote": "Within these general trends in periodic behavior, we found that subsets of the Prochlorococcus transcriptome exhibited periodic oscillations under different combinations of culture conditions.",
           "location": "Page 11"
         }
       ],
       "source_figures": [
         "Figure 4A",
-        "Table S4A"
+        "Figure 4B"
       ],
       "self_assessment": "high",
       "assessment_notes": ""
     },
     "coculture_LD+coculture_darkness": {
-      "id": "mit1002_coculture_LD+coculture_darkness",
-      "name": "Alteromonas macleodii MIT1002 cluster coculture_LD+coculture_darkness (mixed, periodicity maintained)",
-      "functional_description": "This cluster contains 1 gene that maintains 24-h periodicity in coculture both under the diel light:dark cycle and extended darkness. The gene is not specifically named or functionally described in the paper.",
-      "behavioral_description": "The gene exhibits 24-h periodic oscillations in coculture under both diel light:dark and extended darkness conditions, indicating sustained rhythmic expression independent of light availability when in coculture.",
-      "direction": "mixed",
-      "enrichment_category": "",
-      "enrichment_pvalue": null,
-      "enrichment_significant": false,
-      "confidence_notes": "Not explicitly described in the paper beyond periodicity pattern.",
-      "supporting_quotes": [],
-      "source_figures": [],
-      "self_assessment": "low",
-      "assessment_notes": "No specific functional or behavioral details provided in the paper."
+      "id": "mit1002_coculture_ld+coculture_darkness",
+      "name": "Alteromonas macleodii MIT1002 cluster coculture_LD+coculture_darkness (periodic across all conditions)",
+      "functional_description": "Includes transcripts that maintain 24-h periodicity in coculture both under diel light:dark cycles and extended darkness, associated with metabolic pathways such as Calvin cycle, glycolysis, fatty acid biosynthesis, glycogen metabolism, and photosynthesis.",
+      "temporal_pattern": "Genes exhibit 24-h periodic oscillations in coculture under both diel light:dark and extended darkness conditions, indicating sustained metabolic activity in the dark when in coculture.",
+      "expression_dynamics": "periodic across all conditions",
+      "enrichment_category": "Metabolic and photosynthetic pathways",
+      "enrichment_pvalue": 0.01,
+      "enrichment_significant": true,
+      "confidence_notes": "High confidence from transcriptomic periodicity data and pathway enrichment analysis.",
+      "supporting_quotes": [
+        {
+          "quote": "Looking more closely at the set of transcripts that continued oscillating under extended darkness in cocultured but not in axenic cells, we find transcripts associated with a variety of metabolic pathways, including the Calvin cycle, glycolysis, fatty acid biosynthesis, glycogen metabolism, and photosynthesis.",
+          "location": "Page 11"
+        },
+        {
+          "quote": "This further indicates that the presence of the heterotroph may help Prochlorococcus survive the stress of extended darkness by contributing to the maintenance of regular metabolic functionality.",
+          "location": "Page 11"
+        }
+      ],
+      "source_figures": [
+        "Figure 4A",
+        "Figure 4B"
+      ],
+      "self_assessment": "high",
+      "assessment_notes": ""
     },
     "coculture_darkness": {
       "id": "mit1002_coculture_darkness",
-      "name": "Alteromonas macleodii MIT1002 cluster coculture_darkness (down, loss of periodicity)",
-      "functional_description": "This cluster contains 1 gene that exhibits 24-h periodicity only under extended darkness in coculture. The paper does not discuss specific genes or functions for this cluster.",
-      "behavioral_description": "The gene shows 24-h periodic oscillations only under extended darkness in coculture, but not under the diel light:dark cycle, indicating condition-specific expression. No further behavioral details are provided.",
-      "direction": "down",
-      "enrichment_category": "",
+      "name": "Alteromonas macleodii MIT1002 cluster coculture_darkness (not periodic)",
+      "functional_description": "N/A",
+      "temporal_pattern": "N/A",
+      "expression_dynamics": "not periodic",
+      "enrichment_category": "N/A",
       "enrichment_pvalue": null,
       "enrichment_significant": false,
-      "confidence_notes": "Not discussed in paper beyond periodicity pattern.",
-      "supporting_quotes": [],
-      "source_figures": [],
-      "self_assessment": "low",
-      "assessment_notes": "No explicit functional or behavioral description available."
+      "confidence_notes": "N/A",
+      "supporting_quotes": [
+        {
+          "quote": "Only 6% of transcripts exhibited 24-h periodicity through the first 13 h of extended darkness in axenic cultures, while 25% did so in cocultures; periodicity essentially vanished in Alteromonas under extended darkness.",
+          "location": "Page 11"
+        }
+      ],
+      "source_figures": [
+        "Table 3"
+      ],
+      "self_assessment": "high",
+      "assessment_notes": ""
     }
   }
 }

@@ -1,69 +1,66 @@
 # Alonso-Saez 2023 — mit9301_softclusters_thermal_acclimation
 
-## Cluster Cluster A | mixed | high
+## Cluster Cluster A |  | high
 
-**Name:** Prochlorococcus cluster A (mixed, core metabolism)
-**Enrichment:** Core metabolic pathways (p=None)
-**Functional:** Includes genes related to carbon fixation and assimilation such as RuBisCO (rbcLS), CO2 transporters (csoS2), carboxysome shell proteins (ccmK), Calvin cycle enzymes (gap2, tktA, glpX, pgk, cbbA), glycogen synthesis (glgABC), ATP synthesis genes (atpADE), and some photosystem II components (psbA, psbC, psbD). These genes represent essential metabolic pathways maintained across the thermal niche.
+**Name:** Prochlorococcus cluster A (core metabolism)
+**Enrichment:** Carbon fixation and metabolism (p=None)
+**Functional:** Includes genes related to carbon fixation and assimilation such as RuBisCO (rbcLS), CO2 transporters (csoS2), carboxysome shell proteins (ccmK), Calvin cycle enzymes (gap2, tktA, glpX, pgk, cbbA), glycogen synthesis (glgABC), ATP synthesis genes (atpADE), and some photosystem II components (psbA, psbC, psbD).
 
-**Behavioral:** Genes are consistently expressed during daytime across all temperatures with stable expression levels, indicating core daytime metabolic activity.
+**Behavioral:** 
 
-**Notes:** High confidence due to clear gene annotations and consistent expression patterns.
+**Notes:** High confidence based on gene function and expression pattern consistency.
 
 **Quotes:**
 - [Page 4] Cluster A included genes related to C fixation and assimilation, such as RuBisCO (rbcLS), CO2 transporters (csoS2), carboxysome shell proteins (ccmK), the Calvin cycle (e.g., gap2, tktA, glpX, pgk, and cbbA), and glycogen synthesis (glgABC), consistently expressed during daytime along the thermal gradient.
 
-## Cluster Cluster B | down | high
+## Cluster Cluster B |  | high
 
-**Name:** Prochlorococcus cluster B (down, photosynthesis)
+**Name:** Prochlorococcus cluster B (photosynthesis down at cold)
 **Enrichment:** Photosynthesis (p=None)
-**Functional:** Enriched for photosynthetic genes including photosystem I components (psaABDEFKL), some photosystem II components (psbBJH, psbO), and photosynthetic electron transport genes (petACGNM). Also includes phosphate binding protein genes (pstS).
+**Functional:** Contains photosynthetic genes including components of photosystem I (psaABDEFKL), some photosystem II components (psbBJH, psbO), and photosynthetic electron transport genes (petACGNM). These genes show a decreasing expression trend from optimum to minimum temperature during daytime.
 
-**Behavioral:** Genes show a gradual decrease in expression from optimum to minimum temperature during daytime, paralleling growth rate decline. This cluster exhibits transcriptional suppression of photosynthetic apparatus under cold conditions and altered circadian expression patterns.
+**Behavioral:** 
 
 **Notes:** Strong evidence from expression patterns and correlation with growth rates.
 
 **Quotes:**
 - [Page 7] The expression of all components of the PS I complex (psaABDEFKL) and some of PS II (including psbBJH and the oxygen-evolving complex protein psbO) showed a gradual decrease in expression from a temperature close to the optimum to the Tmin, in correlation with MIT9301 growth rates.
-- [Page 7] The expression pattern was different from those of other PSII components (psbACD), which were not differentially expressed during daytime along the thermal niche.
 
-## Cluster Cluster C | up | high
+## Cluster Cluster C |  | high
 
-**Name:** Prochlorococcus cluster C (up, cold stress response)
-**Enrichment:** Stress response and protein synthesis (p=None)
-**Functional:** Enriched for global stress response genes including cellular chaperones (groES/groEL, dnaK, clpBCP), fatty acid desaturases (desA, desC), oxidative damage protection genes (recA, ruvB, sod), carotenoid synthesis (pds, crtBH), and rubredoxin (rub). Also includes amino acid synthesis genes (glyA, serA, leuA), translation initiation factors (infABC), and nitrogen acquisition genes.
+**Name:** Prochlorococcus cluster C (cold stress daytime)
+**Enrichment:** Stress response (p=None)
+**Functional:** Includes genes involved in global stress response such as cellular chaperones (groEL/groES, dnaK, clpBCP), fatty acid desaturases (desA, desC), oxidative damage protection (recA, ruvB, sod), carotenoid synthesis (pds, crtBH), rubredoxin (rub), amino acid synthesis (glyA, serA, leuA), translation initiation factors (infABC), and nitrogen acquisition genes.
 
-**Behavioral:** Genes are strongly upregulated at the minimum temperature (17°C) during both daytime and nighttime, with some chaperones showing prioritization during daytime. This reflects activation of cold stress and oxidative stress responses.
+**Behavioral:** 
 
-**Notes:** Clear functional enrichment and strong temperature-dependent expression.
+**Notes:** High confidence due to multiple stress-related genes and clear expression pattern.
 
 **Quotes:**
-- [Page 4] Clusters C and D genes included different elements of the global stress response, such as cellular chaperones (groES/groES, dnaK, and clpBCP) and fatty acid desaturases (desA and desC), as well as mechanisms against oxidative damage, such as DNA repair (recA and ruvB), superoxide dismutase (sod), and the synthesis of antioxidant compounds like carotenoids (pds and crtBH) and rubredoxin (rub).
-- [Page 4] The expression of the chaperones groEL/groES, grpE, and htpG was strongly upregulated at the Tmin only during daytime, suggesting a prioritization of their expression during the light-exposed period.
+- [Page 4] Clusters C and D genes included different elements of the global stress response, such as cellular chaperones (groES/groES, dnaK, and clpBCP) and fatty acid desaturases (desA and desC), as well as mechanisms against oxidative damage, such as DNA repair (recA and ruvB), superoxide dismutase (sod), and the synthesis of antioxidant compounds like carotenoids (pds and crtBH) and rubredoxin (rub). Notably, the expression of the chaperones groEL/groES, grpE, and htpG was strongly upregulated at the Tmin only during daytime, suggesting a prioritization of their expression during the light-exposed period.
 
-## Cluster Cluster D | up | medium
+## Cluster Cluster D |  | high
 
-**Name:** Prochlorococcus cluster D (up, cold stress response night)
-**Enrichment:** Stress response and cell cycle (p=None)
-**Functional:** Includes genes involved in stress response, protein synthesis, glycogen degradation (glgP), and cell division (ftsZYQ). Also contains DNA replication genes (dnaA, nrdJ, gyrB) and pentose phosphate pathway genes (tal, gnd, zwf).
+**Name:** Prochlorococcus cluster D (cold stress all time)
+**Enrichment:** Stress response (p=None)
+**Functional:** Contains genes involved in global stress response similar to cluster C, including chaperones and oxidative stress protection genes, with upregulation at minimum temperature during both daytime and nighttime.
 
-**Behavioral:** Genes are upregulated at the minimum temperature during both daytime and nighttime, with some showing increased expression at night, reflecting cold stress adaptation and increased demand for energy and protein synthesis.
+**Behavioral:** 
 
-**Notes:** Functional roles inferred from gene annotations and expression timing.
+**Notes:** High confidence based on expression pattern and gene functions.
 
 **Quotes:**
 - [Page 4] Clusters C and D were associated with mechanisms of cold stress response, as they were characterized by a strong upregulation at the Tmin either during daytime or during both daytime and nighttime, respectively.
-- [Page 5] Other metabolic processes upregulated at the Tmin were the mobilization of energy storage (i.e., glycogen degradation, glgP), and the synthesis of proteins, as reflected by the increase in the [mRNA] of amino acid synthesis genes (glyA, serA, and leuA), translation initiation factors (infABC) and N acquisition genes.
 
-## Cluster Cluster E | mixed | high
+## Cluster Cluster E |  | high
 
-**Name:** Prochlorococcus cluster E (mixed, core nighttime metabolism)
-**Enrichment:** Core metabolic pathways (p=None)
-**Functional:** Includes genes related to catabolic consumption (cyoB, ndhD), DNA replication (dnaA, nrdJ, gyrB), cell division (ftsZYQ), and pentose phosphate pathway (tal, gnd, zwf). These genes represent essential pathways typically upregulated at nighttime.
+**Name:** Prochlorococcus cluster E (core night metabolism)
+**Enrichment:** DNA replication and cell division (p=None)
+**Functional:** Includes genes related to catabolic consumption (cyoB, ndhD), DNA replication (dnaA, nrdJ, gyrB), cell division (ftsZYQ), and pentose phosphate pathway (tal, gnd, zwf), typically upregulated at nighttime.
 
-**Behavioral:** Genes are upregulated at nighttime across the thermal gradient, maintaining core nighttime metabolic functions.
+**Behavioral:** 
 
-**Notes:** Consistent with known nighttime expression patterns.
+**Notes:** High confidence based on gene functions and consistent nighttime expression.
 
 **Quotes:**
 - [Page 4] Cluster E included genes related to catabolic consumption (cyoB and ndhD), DNA replication (dnaA, nrdJ, and gyrB), cell division (ftsZYQ), and the pentose phosphate pathway (tal, gnd, and zwf), all of them upregulated at nighttime.

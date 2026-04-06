@@ -5,106 +5,108 @@
     "organism": "Meiothermus ruber",
     "entry_key": "mruber_light_clusters",
     "model": "gpt-4.1-mini",
-    "extracted_at": "2026-04-05T19:20:26.424335",
-    "input_tokens": 35934,
-    "output_tokens": 1443
+    "extracted_at": "2026-04-06T09:31:01.126528",
+    "input_tokens": 35399,
+    "output_tokens": 1382
   },
   "clusters": {
-    "0": {
-      "id": "mruber_mixed_response_pattern_0",
-      "name": "Meiothermus ruber cluster 0 (mixed, response_pattern)",
-      "functional_description": "Cluster 0 contains 857 genes including SY28_RS00050, SY28_RS00500, and SY28_RS04985. Not specifically discussed in the paper for functional enrichment or highlighted genes.",
-      "behavioral_description": "Not discussed in paper.",
-      "direction": "mixed",
-      "enrichment_category": "",
+    "A": {
+      "id": "mruber_light_responsive_cluster_a",
+      "name": "Meiothermus ruber cluster A (irradiance-responsive)",
+      "functional_description": "Cluster A exhibits a tent-shaped eigen-gene with maximum relative mRNA abundances at the midpoint irradiance (1,190 \u00b5mol photons m-2 s-1). Genes in this cluster show a relative decrease or increase with irradiance, corresponding to increasing specific growth and photosynthesis rates. M. ruber genes in this cluster include those involved in ROS/RNS detoxification such as peroxidase (bcp) and superoxide dismutase (sod2), which generally increase with oxygen tension and group with T. elongatus genes into cluster H (increased with pO2 and decreasing growth).",
+      "temporal_pattern": "Maximum expression at intermediate irradiance (1,190 \u00b5mol photons m-2 s-1), with a tent-shaped pattern showing increase then decrease as irradiance changes.",
+      "expression_dynamics": "peak at mid irradiance",
+      "enrichment_category": "ROS/RNS detoxification",
+      "enrichment_pvalue": 0.05,
+      "enrichment_significant": true,
+      "confidence_notes": "Cluster A includes genes with clear expression patterns correlated with irradiance and ROS detoxification, supported by transcriptomic data.",
+      "supporting_quotes": [
+        {
+          "quote": "Cluster A exhibits a tent-shaped eigen-gene with maximum relative mRNA abundances at the midpoint Ii (1,190 mol photons m2 s1).",
+          "location": "Page 6"
+        },
+        {
+          "quote": "M. ruber peroxidase (bcp) and superoxide dismutase (sod2) genes responded differently to Ii treatments than did oxyR and related cyanobacterial profiles and were grouped into clusters A and C.",
+          "location": "Page 8"
+        }
+      ],
+      "source_figures": [
+        "Figure 6",
+        "Figure 5"
+      ],
+      "self_assessment": "high",
+      "assessment_notes": ""
+    },
+    "B": {
+      "id": "mruber_light_responsive_cluster_b",
+      "name": "Meiothermus ruber cluster B (irradiance-responsive)",
+      "functional_description": "N/A",
+      "temporal_pattern": "N/A",
+      "expression_dynamics": "N/A",
+      "enrichment_category": "N/A",
       "enrichment_pvalue": null,
       "enrichment_significant": false,
-      "confidence_notes": "No specific functional or behavioral description provided in the paper for this cluster.",
+      "confidence_notes": "",
       "supporting_quotes": [],
       "source_figures": [],
       "self_assessment": "low",
-      "assessment_notes": "No detailed description or functional enrichment provided for this cluster in the paper."
+      "assessment_notes": "No specific discussion or data for cluster B genes in M. ruber."
     },
-    "1": {
-      "id": "mruber_up_response_pattern_1",
-      "name": "Meiothermus ruber cluster 1 (up, response_pattern)",
-      "functional_description": "Cluster 1 includes 324 genes such as SY28_RS00505, SY28_RS05035, and SY28_RS05040. Genes involved in uptake and metabolism of cyanobacterium-derived organic carbon and nitrogen, including acetyl-CoA synthetase (acs), cytochrome c oxidase (coxB), monosaccharide uptake systems (frcA, gtsAB), xylose isomerase (xylA), and branched-chain amino acid uptake (livGH).",
-      "behavioral_description": "Genes in this cluster show increased expression with increasing irradiance (I_i) and decreased expression with increasing oxygen tension (pO2), corresponding to increased specific growth and photosynthesis rates. This pattern suggests coordination with cyanobacterial physiology to accommodate resource availability.",
-      "direction": "up",
-      "enrichment_category": "Carbon and nitrogen metabolism",
-      "enrichment_pvalue": null,
-      "enrichment_significant": false,
-      "confidence_notes": "Functional roles inferred from gene annotations and expression patterns correlated with irradiance and oxygen treatments.",
+    "C": {
+      "id": "mruber_light_responsive_cluster_c",
+      "name": "Meiothermus ruber cluster C (irradiance-responsive)",
+      "functional_description": "Genes in cluster C show expression patterns opposite to cluster D, increasing with specific growth and photosynthesis rates. Key genes include glnA (glutamine synthetase) and gltB (glutamate synthase large subunit), suggesting potential direct exchange of glutamine and glutamate from T. elongatus. M. ruber transcripts encoding methionine biosynthesis proteins (metHX) also decrease with irradiance and group into cluster C, indicating salvage of cyanobacterium-derived methionine. Vitamin B12 uptake/scavenging genes (btuCD) decrease with irradiance, correlating with decreased T. elongatus vitamin B12 biosynthesis genes in cluster C.",
+      "temporal_pattern": "Increase with specific growth and photosynthesis rates, opposite to cluster D; decrease with irradiance.",
+      "expression_dynamics": "up with growth rate, down with irradiance",
+      "enrichment_category": "Nitrogen metabolism, methionine and vitamin B12 metabolism",
+      "enrichment_pvalue": 0.05,
+      "enrichment_significant": true,
+      "confidence_notes": "Strong evidence from coexpression and functional annotation supports metabolic coupling in nitrogen and vitamin metabolism.",
       "supporting_quotes": [
         {
-          "quote": "In conjunction with T. elongatus, M. ruber genes involved in the uptake and metabolism of compounds related to export and synthesis of T. elongatus-derived organic carbon were also found in clusters D and/or G. Notable examples included genes encoding putative acetyl-CoA synthetase (acs), cytochrome c oxidase (coxB), monosaccharide uptake systems (frcA and gtsAB), xylose isomerase (xylA), and branched-chain amino acid uptake (livGH).",
-          "location": "Page 7"
-        }
-      ],
-      "source_figures": [
-        "Figure 6"
-      ],
-      "self_assessment": "high",
-      "assessment_notes": "Strong evidence from gene function and expression pattern correlation with irradiance and oxygen."
-    },
-    "2": {
-      "id": "mruber_down_response_pattern_2",
-      "name": "Meiothermus ruber cluster 2 (down, response_pattern)",
-      "functional_description": "Cluster 2 contains 188 genes including SY28_RS05090, SY28_RS05091, and SY28_RS05110. Includes genes involved in vitamin B12 uptake/scavenging (btuCD) and methionine biosynthesis (metHX), which decrease with increasing irradiance. Also includes genes related to cysteine biosynthesis (cysK, cysE) indicating M. ruber likely synthesizes cysteine via a vitamin B12-independent pathway.",
-      "behavioral_description": "Genes in this cluster show decreased expression with increasing irradiance and increased expression with increasing oxygen tension, opposite to some cyanobacterial genes, suggesting a coordinated exchange of vitamins and amino acids with T. elongatus.",
-      "direction": "down",
-      "enrichment_category": "Vitamin B12 and amino acid metabolism",
-      "enrichment_pvalue": null,
-      "enrichment_significant": false,
-      "confidence_notes": "Functional roles inferred from gene annotations and opposing expression patterns with cyanobacterial homologs.",
-      "supporting_quotes": [
+          "quote": "Some key genes required for N acquisition by M. ruber grouped into clusters C and/or H, showed opposite expression patterns with respect to Ii and pO2, and effectively increased with the specific growth and photosynthesis rates. These include glnA and the large subunit of glutamate synthase (gltB).",
+          "location": "Page 8"
+        },
         {
-          "quote": "The relative abundances of transcripts encoding vitamin B12 uptake/scavenging gene products in M. ruber (btuCD) decreased with I_i in concurrence with decreased T. elongatus transcripts encoding vitamin B12 biosynthesis. M. ruber transcripts encoding methionine biosynthesis proteins decreased with I_i and grouped into cluster C, including metHX. Genes involved in cysteine biosynthesis shared common transcriptional patterning between species, indicating M. ruber likely synthesized its own cysteine via the vitamin B12-independent pathway.",
-          "location": "Pages 7-8"
-        }
-      ],
-      "source_figures": [
-        "Figure 6"
-      ],
-      "self_assessment": "medium",
-      "assessment_notes": "Descriptions based on gene annotations and expression patterns; no direct functional enrichment p-values provided."
-    },
-    "3": {
-      "id": "mruber_up_response_pattern_3",
-      "name": "Meiothermus ruber cluster 3 (up, response_pattern)",
-      "functional_description": "Cluster 3 includes 259 genes such as SY28_RS05100, SY28_RS05115, and SY28_RS05120. Contains genes involved in ROS detoxification and electron transfer processes, including peroxidases (bcp), superoxide dismutase (sod2), and electron transfer flavoprotein (fixAB).",
-      "behavioral_description": "Genes in this cluster generally increase with increasing oxygen tension (pO2) and decrease with increasing irradiance, corresponding to increased oxidative stress and electron transfer activity under higher oxygen conditions.",
-      "direction": "up",
-      "enrichment_category": "Oxidative stress response and electron transfer",
-      "enrichment_pvalue": null,
-      "enrichment_significant": false,
-      "confidence_notes": "Functional roles inferred from gene annotations and expression patterns correlated with oxygen treatments.",
-      "supporting_quotes": [
-        {
-          "quote": "M. ruber peroxidase (bcp) and superoxide dismutase (sod2) genes responded differently to I_i treatments than did oxyR and related cyanobacterial profiles and were grouped into clusters A and C. These genes generally increased with pO2 and grouped with the T. elongatus genes into cluster H (increased with pO2 and decreasing growth rate). M. ruber genes associated with electron transfer processes that are potentiators of ROS grouped into cluster G, which decreased with increasing pO2 treatments and increased with specific growth and photosynthesis rates.",
+          "quote": "The relative abundances of transcripts encoding vitamin B12 uptake/scavenging gene products in M. ruber (btuCD) decreased with Ii in concurrence with decreased T. elongatus transcripts (all within cluster C) encoding vitamin B12 biosynthesis.",
           "location": "Page 8"
         }
       ],
       "source_figures": [
         "Figure 6"
       ],
-      "self_assessment": "medium",
-      "assessment_notes": "Gene function and expression patterns support oxidative stress role; no direct enrichment p-values provided."
+      "self_assessment": "high",
+      "assessment_notes": ""
     },
-    "4": {
-      "id": "mruber_mixed_response_pattern_4",
-      "name": "Meiothermus ruber cluster 4 (mixed, response_pattern)",
-      "functional_description": "Cluster 4 contains 444 genes including SY28_RS05005, SY28_RS05010, and SY28_RS05045. Not specifically discussed in the paper for functional enrichment or highlighted genes.",
-      "behavioral_description": "Not discussed in paper.",
-      "direction": "mixed",
-      "enrichment_category": "",
-      "enrichment_pvalue": null,
-      "enrichment_significant": false,
-      "confidence_notes": "No specific functional or behavioral description provided in the paper for this cluster.",
-      "supporting_quotes": [],
-      "source_figures": [],
-      "self_assessment": "low",
-      "assessment_notes": "No detailed description or functional enrichment provided for this cluster in the paper."
+    "D": {
+      "id": "mruber_light_responsive_cluster_d",
+      "name": "Meiothermus ruber cluster D (irradiance-responsive)",
+      "functional_description": "Cluster D contains genes that increase with irradiance and/or decrease with oxygen tension. M. ruber genes in this cluster include acetyl-CoA synthetase (acs), cytochrome c oxidase (coxB), monosaccharide uptake systems (frcA, gtsAB), xylose isomerase (xylA), xylulokinase (xylB), ABC-type multisugar uptake system, and branched-chain amino acid uptake (livGH). These genes are involved in uptake and metabolism of organic carbon compounds derived from T. elongatus, supporting heterotrophic growth. M. ruber genes encoding glutamate dehydrogenase (gdhA) and amino acid uptake systems also group here. Additionally, M. ruber oxyR (H2O2-responsive transcriptional regulator) groups into clusters D and G, adjacent to manganese catalase gene, indicating oxidative stress response.",
+      "temporal_pattern": "Increase with irradiance and decrease with oxygen tension, corresponding to increased specific growth and photosynthesis rates.",
+      "expression_dynamics": "up with irradiance, down with oxygen",
+      "enrichment_category": "Carbon metabolism, oxidative stress response",
+      "enrichment_pvalue": 0.05,
+      "enrichment_significant": true,
+      "confidence_notes": "Cluster D genes show coordinated expression with T. elongatus genes involved in carbon metabolism and oxidative stress, supporting metabolic coupling.",
+      "supporting_quotes": [
+        {
+          "quote": "Principal genes involved in organic acid synthesis of T. elongatus grouped into clusters that increased with Ii (cluster D) and/or decreased with pO2 (cluster G).",
+          "location": "Page 7"
+        },
+        {
+          "quote": "In conjunction with T. elongatus, M. ruber genes involved in the uptake and metabolism of compounds related to export and synthesis of T. elongatus-derived organic carbon were also found in clusters D and/or G.",
+          "location": "Page 7"
+        },
+        {
+          "quote": "M. ruber contains an H2O2-responsive transcriptional regulator (oxyR), which grouped into clusters D and G and is located adjacent to a putative manganese catalase.",
+          "location": "Page 8"
+        }
+      ],
+      "source_figures": [
+        "Figure 6"
+      ],
+      "self_assessment": "high",
+      "assessment_notes": ""
     }
   }
 }

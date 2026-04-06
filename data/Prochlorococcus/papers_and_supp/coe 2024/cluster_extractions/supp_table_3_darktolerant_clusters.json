@@ -5,235 +5,270 @@
     "organism": "Prochlorococcus NATL2A",
     "entry_key": "supp_table_3_darktolerant_clusters",
     "model": "gpt-4.1-mini",
-    "extracted_at": "2026-04-05T19:13:08.113144",
-    "input_tokens": 35858,
-    "output_tokens": 1510
+    "extracted_at": "2026-04-06T09:25:31.844712",
+    "input_tokens": 59401,
+    "output_tokens": 1667
   },
   "clusters": {
     "1": {
-      "id": "natl2a_up_183_genes",
-      "name": "Prochlorococcus cluster 1 (up, 183 genes)",
-      "functional_description": "Not discussed in paper.",
-      "behavioral_description": "Not discussed in paper.",
-      "direction": "up",
-      "enrichment_category": "",
+      "id": "natl2a_diel_183_genes",
+      "name": "Prochlorococcus cluster 1 (183 genes)",
+      "functional_description": "N/A",
+      "temporal_pattern": "N/A",
+      "expression_dynamics": "N/A",
+      "enrichment_category": "N/A",
       "enrichment_pvalue": null,
       "enrichment_significant": false,
       "confidence_notes": "",
-      "supporting_quotes": [],
-      "source_figures": [],
+      "supporting_quotes": [
+        {
+          "quote": "Genes in parental and dark-tolerant cells were clustered into 15 clusters. If a gene in both parental and dark-tolerant cells was found in the same cluster, the pattern was marked \u201ctrue\u201d, and if not, as \u201cfalse\u201d.",
+          "location": "Supplemental Text 1"
+        }
+      ],
+      "source_figures": [
+        "Supplemental Table 3"
+      ],
       "self_assessment": "low",
-      "assessment_notes": "No specific information on this cluster in the paper."
+      "assessment_notes": "No specific description of individual clusters in the text; only clustering method and general periodicity reported."
     },
     "10": {
-      "id": "natl2a_up_173_genes",
-      "name": "Prochlorococcus cluster 10 (up, 173 genes)",
-      "functional_description": "Not discussed in paper.",
-      "behavioral_description": "Not discussed in paper.",
-      "direction": "up",
-      "enrichment_category": "",
+      "id": "natl2a_diel_10_genes",
+      "name": "Prochlorococcus cluster 10 (173 genes)",
+      "functional_description": "N/A",
+      "temporal_pattern": "N/A",
+      "expression_dynamics": "N/A",
+      "enrichment_category": "N/A",
       "enrichment_pvalue": null,
       "enrichment_significant": false,
       "confidence_notes": "",
       "supporting_quotes": [],
-      "source_figures": [],
+      "source_figures": [
+        "Supplemental Table 3"
+      ],
       "self_assessment": "low",
-      "assessment_notes": "No specific information on this cluster in the paper."
+      "assessment_notes": "No specific description of individual clusters in the text."
     },
     "11": {
-      "id": "natl2a_up_93_genes",
-      "name": "Prochlorococcus cluster 11 (up, 93 genes)",
-      "functional_description": "Not discussed in paper.",
-      "behavioral_description": "Not discussed in paper.",
-      "direction": "up",
-      "enrichment_category": "",
+      "id": "natl2a_diel_11_genes",
+      "name": "Prochlorococcus cluster 11 (93 genes)",
+      "functional_description": "N/A",
+      "temporal_pattern": "N/A",
+      "expression_dynamics": "N/A",
+      "enrichment_category": "N/A",
       "enrichment_pvalue": null,
       "enrichment_significant": false,
       "confidence_notes": "",
       "supporting_quotes": [],
-      "source_figures": [],
+      "source_figures": [
+        "Supplemental Table 3"
+      ],
       "self_assessment": "low",
-      "assessment_notes": "No specific information on this cluster in the paper."
+      "assessment_notes": "No specific description of individual clusters in the text."
     },
     "12": {
-      "id": "natl2a_up_94_genes",
-      "name": "Prochlorococcus cluster 12 (up, 94 genes)",
-      "functional_description": "Not discussed in paper.",
-      "behavioral_description": "Not discussed in paper.",
-      "direction": "up",
-      "enrichment_category": "",
+      "id": "natl2a_diel_12_genes",
+      "name": "Prochlorococcus cluster 12 (94 genes)",
+      "functional_description": "N/A",
+      "temporal_pattern": "N/A",
+      "expression_dynamics": "N/A",
+      "enrichment_category": "N/A",
       "enrichment_pvalue": null,
       "enrichment_significant": false,
       "confidence_notes": "",
       "supporting_quotes": [],
-      "source_figures": [],
+      "source_figures": [
+        "Supplemental Table 3"
+      ],
       "self_assessment": "low",
-      "assessment_notes": "No specific information on this cluster in the paper."
+      "assessment_notes": "No specific description of individual clusters in the text."
     },
     "13": {
-      "id": "natl2a_up_140_genes",
-      "name": "Prochlorococcus cluster 13 (up, 140 genes)",
-      "functional_description": "Not discussed in paper.",
-      "behavioral_description": "Not discussed in paper.",
-      "direction": "up",
-      "enrichment_category": "",
+      "id": "natl2a_diel_13_genes",
+      "name": "Prochlorococcus cluster 13 (140 genes)",
+      "functional_description": "N/A",
+      "temporal_pattern": "N/A",
+      "expression_dynamics": "N/A",
+      "enrichment_category": "N/A",
       "enrichment_pvalue": null,
       "enrichment_significant": false,
       "confidence_notes": "",
       "supporting_quotes": [],
-      "source_figures": [],
+      "source_figures": [
+        "Supplemental Table 3"
+      ],
       "self_assessment": "low",
-      "assessment_notes": "No specific information on this cluster in the paper."
+      "assessment_notes": "No specific description of individual clusters in the text."
     },
     "14": {
-      "id": "natl2a_up_169_genes",
-      "name": "Prochlorococcus cluster 14 (up, 169 genes)",
-      "functional_description": "Not discussed in paper.",
-      "behavioral_description": "Not discussed in paper.",
-      "direction": "up",
-      "enrichment_category": "",
+      "id": "natl2a_diel_14_genes",
+      "name": "Prochlorococcus cluster 14 (169 genes)",
+      "functional_description": "N/A",
+      "temporal_pattern": "N/A",
+      "expression_dynamics": "N/A",
+      "enrichment_category": "N/A",
       "enrichment_pvalue": null,
       "enrichment_significant": false,
       "confidence_notes": "",
       "supporting_quotes": [],
-      "source_figures": [],
+      "source_figures": [
+        "Supplemental Table 3"
+      ],
       "self_assessment": "low",
-      "assessment_notes": "No specific information on this cluster in the paper."
+      "assessment_notes": "No specific description of individual clusters in the text."
     },
     "15": {
-      "id": "natl2a_up_130_genes",
-      "name": "Prochlorococcus cluster 15 (up, 130 genes)",
-      "functional_description": "Not discussed in paper.",
-      "behavioral_description": "Not discussed in paper.",
-      "direction": "up",
-      "enrichment_category": "",
+      "id": "natl2a_diel_15_genes",
+      "name": "Prochlorococcus cluster 15 (130 genes)",
+      "functional_description": "N/A",
+      "temporal_pattern": "N/A",
+      "expression_dynamics": "N/A",
+      "enrichment_category": "N/A",
       "enrichment_pvalue": null,
       "enrichment_significant": false,
       "confidence_notes": "",
       "supporting_quotes": [],
-      "source_figures": [],
+      "source_figures": [
+        "Supplemental Table 3"
+      ],
       "self_assessment": "low",
-      "assessment_notes": "No specific information on this cluster in the paper."
+      "assessment_notes": "No specific description of individual clusters in the text."
     },
     "2": {
-      "id": "natl2a_up_133_genes",
-      "name": "Prochlorococcus cluster 2 (up, 133 genes)",
-      "functional_description": "Not discussed in paper.",
-      "behavioral_description": "Not discussed in paper.",
-      "direction": "up",
-      "enrichment_category": "",
+      "id": "natl2a_diel_2_genes",
+      "name": "Prochlorococcus cluster 2 (133 genes)",
+      "functional_description": "N/A",
+      "temporal_pattern": "N/A",
+      "expression_dynamics": "N/A",
+      "enrichment_category": "N/A",
       "enrichment_pvalue": null,
       "enrichment_significant": false,
       "confidence_notes": "",
       "supporting_quotes": [],
-      "source_figures": [],
+      "source_figures": [
+        "Supplemental Table 3"
+      ],
       "self_assessment": "low",
-      "assessment_notes": "No specific information on this cluster in the paper."
+      "assessment_notes": "No specific description of individual clusters in the text."
     },
     "3": {
-      "id": "natl2a_up_130_genes_2",
-      "name": "Prochlorococcus cluster 3 (up, 130 genes)",
-      "functional_description": "Not discussed in paper.",
-      "behavioral_description": "Not discussed in paper.",
-      "direction": "up",
-      "enrichment_category": "",
+      "id": "natl2a_diel_3_genes",
+      "name": "Prochlorococcus cluster 3 (130 genes)",
+      "functional_description": "N/A",
+      "temporal_pattern": "N/A",
+      "expression_dynamics": "N/A",
+      "enrichment_category": "N/A",
       "enrichment_pvalue": null,
       "enrichment_significant": false,
       "confidence_notes": "",
       "supporting_quotes": [],
-      "source_figures": [],
+      "source_figures": [
+        "Supplemental Table 3"
+      ],
       "self_assessment": "low",
-      "assessment_notes": "No specific information on this cluster in the paper."
+      "assessment_notes": "No specific description of individual clusters in the text."
     },
     "4": {
-      "id": "natl2a_up_169_genes_2",
-      "name": "Prochlorococcus cluster 4 (up, 169 genes)",
-      "functional_description": "Not discussed in paper.",
-      "behavioral_description": "Not discussed in paper.",
-      "direction": "up",
-      "enrichment_category": "",
+      "id": "natl2a_diel_4_genes",
+      "name": "Prochlorococcus cluster 4 (169 genes)",
+      "functional_description": "N/A",
+      "temporal_pattern": "N/A",
+      "expression_dynamics": "N/A",
+      "enrichment_category": "N/A",
       "enrichment_pvalue": null,
       "enrichment_significant": false,
       "confidence_notes": "",
       "supporting_quotes": [],
-      "source_figures": [],
+      "source_figures": [
+        "Supplemental Table 3"
+      ],
       "self_assessment": "low",
-      "assessment_notes": "No specific information on this cluster in the paper."
+      "assessment_notes": "No specific description of individual clusters in the text."
     },
     "5": {
-      "id": "natl2a_up_171_genes",
-      "name": "Prochlorococcus cluster 5 (up, 171 genes)",
-      "functional_description": "Not discussed in paper.",
-      "behavioral_description": "Not discussed in paper.",
-      "direction": "up",
-      "enrichment_category": "",
+      "id": "natl2a_diel_5_genes",
+      "name": "Prochlorococcus cluster 5 (171 genes)",
+      "functional_description": "N/A",
+      "temporal_pattern": "N/A",
+      "expression_dynamics": "N/A",
+      "enrichment_category": "N/A",
       "enrichment_pvalue": null,
       "enrichment_significant": false,
       "confidence_notes": "",
       "supporting_quotes": [],
-      "source_figures": [],
+      "source_figures": [
+        "Supplemental Table 3"
+      ],
       "self_assessment": "low",
-      "assessment_notes": "No specific information on this cluster in the paper."
+      "assessment_notes": "No specific description of individual clusters in the text."
     },
     "6": {
-      "id": "natl2a_up_181_genes",
-      "name": "Prochlorococcus cluster 6 (up, 181 genes)",
-      "functional_description": "Not discussed in paper.",
-      "behavioral_description": "Not discussed in paper.",
-      "direction": "up",
-      "enrichment_category": "",
+      "id": "natl2a_diel_6_genes",
+      "name": "Prochlorococcus cluster 6 (181 genes)",
+      "functional_description": "N/A",
+      "temporal_pattern": "N/A",
+      "expression_dynamics": "N/A",
+      "enrichment_category": "N/A",
       "enrichment_pvalue": null,
       "enrichment_significant": false,
       "confidence_notes": "",
       "supporting_quotes": [],
-      "source_figures": [],
+      "source_figures": [
+        "Supplemental Table 3"
+      ],
       "self_assessment": "low",
-      "assessment_notes": "No specific information on this cluster in the paper."
+      "assessment_notes": "No specific description of individual clusters in the text."
     },
     "7": {
-      "id": "natl2a_up_118_genes",
-      "name": "Prochlorococcus cluster 7 (up, 118 genes)",
-      "functional_description": "Not discussed in paper.",
-      "behavioral_description": "Not discussed in paper.",
-      "direction": "up",
-      "enrichment_category": "",
+      "id": "natl2a_diel_7_genes",
+      "name": "Prochlorococcus cluster 7 (118 genes)",
+      "functional_description": "N/A",
+      "temporal_pattern": "N/A",
+      "expression_dynamics": "N/A",
+      "enrichment_category": "N/A",
       "enrichment_pvalue": null,
       "enrichment_significant": false,
       "confidence_notes": "",
       "supporting_quotes": [],
-      "source_figures": [],
+      "source_figures": [
+        "Supplemental Table 3"
+      ],
       "self_assessment": "low",
-      "assessment_notes": "No specific information on this cluster in the paper."
+      "assessment_notes": "No specific description of individual clusters in the text."
     },
     "8": {
-      "id": "natl2a_up_83_genes",
-      "name": "Prochlorococcus cluster 8 (up, 83 genes)",
-      "functional_description": "Not discussed in paper.",
-      "behavioral_description": "Not discussed in paper.",
-      "direction": "up",
-      "enrichment_category": "",
+      "id": "natl2a_diel_8_genes",
+      "name": "Prochlorococcus cluster 8 (83 genes)",
+      "functional_description": "N/A",
+      "temporal_pattern": "N/A",
+      "expression_dynamics": "N/A",
+      "enrichment_category": "N/A",
       "enrichment_pvalue": null,
       "enrichment_significant": false,
       "confidence_notes": "",
       "supporting_quotes": [],
-      "source_figures": [],
+      "source_figures": [
+        "Supplemental Table 3"
+      ],
       "self_assessment": "low",
-      "assessment_notes": "No specific information on this cluster in the paper."
+      "assessment_notes": "No specific description of individual clusters in the text."
     },
     "9": {
-      "id": "natl2a_up_114_genes",
-      "name": "Prochlorococcus cluster 9 (up, 114 genes)",
-      "functional_description": "Not discussed in paper.",
-      "behavioral_description": "Not discussed in paper.",
-      "direction": "up",
-      "enrichment_category": "",
+      "id": "natl2a_diel_9_genes",
+      "name": "Prochlorococcus cluster 9 (114 genes)",
+      "functional_description": "N/A",
+      "temporal_pattern": "N/A",
+      "expression_dynamics": "N/A",
+      "enrichment_category": "N/A",
       "enrichment_pvalue": null,
       "enrichment_significant": false,
       "confidence_notes": "",
       "supporting_quotes": [],
-      "source_figures": [],
+      "source_figures": [
+        "Supplemental Table 3"
+      ],
       "self_assessment": "low",
-      "assessment_notes": "No specific information on this cluster in the paper."
+      "assessment_notes": "No specific description of individual clusters in the text."
     }
   }
 }

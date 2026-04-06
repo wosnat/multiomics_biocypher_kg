@@ -5,53 +5,55 @@
     "organism": "Prochlorococcus MED4",
     "entry_key": "med4_phage_transcription_groups",
     "model": "gpt-4.1-mini",
-    "extracted_at": "2026-04-05T19:16:46.443746",
-    "input_tokens": 15881,
-    "output_tokens": 595
+    "extracted_at": "2026-04-06T09:26:53.059374",
+    "input_tokens": 15475,
+    "output_tokens": 610
   },
   "clusters": {
     "1": {
-      "id": "med4_up_20_genes",
-      "name": "Prochlorococcus MED4 cluster 20 genes (up, phage infection response)",
-      "functional_description": "Includes 20 genes transiently upregulated immediately after infection, such as high-light-inducible stress response genes (hli), carbon metabolism gene rbcLS, transcription genes rpoC2 and rpoD, and ribosomal protein genes rpl5, rpl6, rps8, rps11, and rps17. These genes are associated with host stress response and metabolism.",
-      "behavioral_description": "Genes show a rapid transient peak in expression immediately after phage infection, indicating an early stress response by the host.",
-      "direction": "up",
-      "enrichment_category": "Host stress response and metabolism",
+      "id": "med4_early_transient",
+      "name": "MED4 cluster 1 (early transient peak)",
+      "functional_description": "This cluster is transiently upregulated immediately after infection and consists of high-light-inducible stress response genes (hli), carbon metabolism genes (rbcLS), transcription genes (rpoC2, rpoD), and ribosomal protein genes (rpl5, rpl6, rps8, rps11, rps17).",
+      "temporal_pattern": "Genes in this cluster are transiently upregulated immediately after infection, showing an early transient peak in expression around 1 hour post infection.",
+      "expression_dynamics": "early transient",
+      "enrichment_category": "N/A",
       "enrichment_pvalue": null,
       "enrichment_significant": false,
-      "confidence_notes": "Gene identities and timing are well supported by microarray and RT-PCR data.",
+      "confidence_notes": "",
       "supporting_quotes": [
         {
           "quote": "The first was transiently upregulated immediately after infection and consists of high-light-inducible stress response (hli), carbon metabolism (rbcLS), transcription (rpoC2, rpoD) and ribosome (rpl5, rpl6, rps8, rps11, rps17) genes.",
-          "location": "Page 4"
+          "location": "Page 3"
         }
       ],
       "source_figures": [
-        "Figure 3",
-        "Supplementary Table 3"
+        "Figure 3"
       ],
       "self_assessment": "high",
       "assessment_notes": ""
     },
     "2": {
-      "id": "med4_up_25_genes",
-      "name": "Prochlorococcus MED4 cluster 25 genes (up, phage infection response)",
-      "functional_description": "Contains 25 genes upregulated starting 2 hours post infection, including RNA degradation and modification genes (rne, rnhB, dus, sun), protein turnover genes (clpS, AAA ATPase family), stress response genes (umuD, phoH), and genes of unknown function. Many are located in hypervariable genome islands and have homologues in phage genomes.",
-      "behavioral_description": "Genes show a delayed but sustained upregulation beginning 2 hours after infection, suggesting involvement in RNA processing, protein turnover, and stress response during phage infection.",
-      "direction": "up",
-      "enrichment_category": "RNA degradation, protein turnover, and stress response",
+      "id": "med4_late_sustained",
+      "name": "MED4 cluster 2 (late sustained induction)",
+      "functional_description": "This cluster is upregulated starting 2 hours after infection and includes genes involved in RNA degradation and modification (rne, rnhB, dus, sun), protein turnover (clpS, AAA ATPase family gene), stress responses (umuD, phoH), and genes of unknown function. Many of these genes are located in hypervariable genome islands and have homologues in phage genomes, suggesting co-evolutionary significance.",
+      "temporal_pattern": "Genes in this cluster begin to be upregulated about 2 hours after infection and show sustained induction through the infection time course.",
+      "expression_dynamics": "late sustained",
+      "enrichment_category": "N/A",
       "enrichment_pvalue": null,
       "enrichment_significant": false,
-      "confidence_notes": "Functional categories inferred from gene annotations; timing supported by expression data.",
+      "confidence_notes": "",
       "supporting_quotes": [
         {
           "quote": "Transcripts of the second group appeared 2 h after infection and included genes involved in RNA degradation and modification (rne, rnhB, dus and sun), protein turnover (clpS, and an AAA ATPase family gene), stress responses (umuD and phoH), and those of unknown function.",
-          "location": "Page 4"
+          "location": "Page 3"
+        },
+        {
+          "quote": "Perhaps the most compelling evidence that upregulated host genes are part of the co-evolutionary process in this system is that 34% of them (more than would occur by chance P , 0.001) are found in hypervariable host genome islands (Supplementary Table 3), which are thought to be mobilized by phages.",
+          "location": "Page 3"
         }
       ],
       "source_figures": [
-        "Figure 3",
-        "Supplementary Table 3"
+        "Figure 3"
       ],
       "self_assessment": "high",
       "assessment_notes": ""

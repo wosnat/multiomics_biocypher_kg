@@ -5,135 +5,161 @@
     "organism": "Prochlorococcus MED4",
     "entry_key": "med4_expression_level",
     "model": "gpt-4.1-mini",
-    "extracted_at": "2026-04-05T19:19:24.905638",
-    "input_tokens": 33772,
-    "output_tokens": 1104
+    "extracted_at": "2026-04-06T09:29:40.534105",
+    "input_tokens": 33211,
+    "output_tokens": 1549
   },
   "clusters": {
-    "--": {
-      "id": "med4_mixed_cluster_--",
-      "name": "Prochlorococcus cluster -- (mixed, expression level)",
-      "functional_description": "Not discussed in paper.",
-      "behavioral_description": "Not discussed in paper.",
-      "direction": "mixed",
-      "enrichment_category": "",
-      "enrichment_pvalue": null,
+    "NEG": {
+      "id": "med4_neg_cluster",
+      "name": "Prochlorococcus MED4 cluster NEG (neg)",
+      "functional_description": "Non expressed genes (NEG) are less represented in the core genome compared to the flexible genome and show the lowest expression levels, including phage-related genes which were not tested under phage infection conditions.",
+      "temporal_pattern": "Genes in the NEG cluster are consistently not expressed across the 10 growth conditions tested.",
+      "expression_dynamics": "not expressed",
+      "enrichment_category": "General function",
+      "enrichment_pvalue": 0.055,
       "enrichment_significant": false,
-      "confidence_notes": "No specific functional or behavioral description provided for this cluster in the paper.",
-      "supporting_quotes": [],
-      "source_figures": [],
-      "self_assessment": "low",
-      "assessment_notes": "No information available in the paper for this cluster."
-    },
-    "HEG": {
-      "id": "med4_up_heg",
-      "name": "Prochlorococcus cluster HEG (up, expression level)",
-      "functional_description": "Highly expressed genes (HEG) are overrepresented in the core genome and enriched for central metabolic functions including energy production and conversion (COG C), translation and ribosomal structure (COG J), and protein modification, folding and turnover (COG O). Genes such as ribosomal proteins, photosynthetic apparatus components, and protein folding genes are included.",
-      "behavioral_description": "Genes in this cluster are consistently highly expressed across all growth conditions, indicating stable and abundant expression.",
-      "direction": "up",
-      "enrichment_category": "Energy production and conversion, Translation and ribosomal structure, Protein modification and folding",
-      "enrichment_pvalue": 0.04,
-      "enrichment_significant": true,
-      "confidence_notes": "Strong functional enrichment and consistent expression across conditions.",
+      "confidence_notes": "Phage-related genes in NEG cluster have lowest expression; no phage infection conditions tested, limiting interpretation.",
       "supporting_quotes": [
         {
-          "quote": "Among these core HEG genes, several functional categories were more prominent than others. These included the \u201cC\u201d (energy production and conversion), \u201cJ\u201d (translation and ribosomal structure), and \u201cO\u201d (protein modification, folding and turnover) categories.",
+          "quote": "As expected, phage-related genes displayed the lowest expression levels in this study, as phage infection conditions were not tested.",
           "location": "Page 5"
         },
         {
-          "quote": "HEG were overrepresented in both photosynthesis and carbon metabolism pathways.",
-          "location": "Page 5"
+          "quote": "Conversely, the core genome had fewer NEG and VEG than the flexible genome (1.5% < 6.6% and 49.6% < 64.6%, respectively; P < 0.001; Figure 3c).",
+          "location": "Page 4"
         }
       ],
       "source_figures": [
-        "Figure 4c",
+        "Figure 3",
         "Figure 5b"
       ],
       "self_assessment": "high",
       "assessment_notes": ""
     },
-    "LEG": {
-      "id": "med4_down_leg",
-      "name": "Prochlorococcus cluster LEG (down, expression level)",
-      "functional_description": "Not discussed in paper.",
-      "behavioral_description": "Not discussed in paper.",
-      "direction": "down",
-      "enrichment_category": "",
-      "enrichment_pvalue": null,
-      "enrichment_significant": false,
-      "confidence_notes": "No specific functional or behavioral description provided for this cluster in the paper.",
-      "supporting_quotes": [],
-      "source_figures": [],
-      "self_assessment": "low",
-      "assessment_notes": "No information available in the paper for this cluster."
-    },
-    "MEG": {
-      "id": "med4_mixed_meg",
-      "name": "Prochlorococcus cluster MEG (mixed, expression level)",
-      "functional_description": "Moderately expressed genes (MEG) are enriched in the core genome and have a significantly higher rate of essential genes (DEG-hit). They include genes involved in central metabolism but with less enrichment than HEG.",
-      "behavioral_description": "Genes in this cluster are moderately and consistently expressed across all growth conditions.",
-      "direction": "mixed",
-      "enrichment_category": "Essential genes",
+    "HEG": {
+      "id": "med4_heg_cluster",
+      "name": "Prochlorococcus MED4 cluster HEG (heg)",
+      "functional_description": "Highly expressed genes (HEG) are enriched in the core genome and include genes involved in energy production and conversion, translation and ribosomal structure, and protein modification, folding and turnover. Examples include ribosomal proteins and photosynthetic apparatus genes.",
+      "temporal_pattern": "HEG genes are consistently highly expressed across all tested growth conditions.",
+      "expression_dynamics": "high across all",
+      "enrichment_category": "Energy production and conversion, Translation, Protein folding",
       "enrichment_pvalue": 0.001,
       "enrichment_significant": true,
-      "confidence_notes": "Moderate functional enrichment and consistent expression.",
+      "confidence_notes": "Strong enrichment in core genome and functional categories with significant p-values.",
       "supporting_quotes": [
         {
-          "quote": "Although the MEG subclass had a significantly higher rate of DEG-hit genes (P < 0.001), the mean expression level of the DEG-hit genes was not significantly different from DEG-miss genes.",
+          "quote": "Among these core HEG genes, several functional categories were more prominent than others. These included the \u201cC\u201d (energy production and conversion), \u201cJ\u201d (translation and ribosomal structure), and \u201cO\u201d (protein modification, folding and turnover) categories (Figure 4c).",
           "location": "Page 5"
         },
         {
-          "quote": "MEG genes were more enriched in the core genome than in the flexible genome (26.8% > 15.3%, P < 0.001).",
+          "quote": "HEG had a significantly lower nonsynonymous substitution rate (Ka) than MEG or LEG (Kruskal-Wallis Test, two-tailed P < 0.001; Figure 3a), indicating a strong negative correlation between gene expression level and evolutionary rate.",
           "location": "Page 4"
         }
       ],
       "source_figures": [
-        "Figure 3c",
-        "Figure 4b"
+        "Figure 3",
+        "Figure 4c",
+        "Figure 5b",
+        "Figure 6b"
       ],
-      "self_assessment": "medium",
-      "assessment_notes": "Functional enrichment is significant but less pronounced than HEG."
+      "self_assessment": "high",
+      "assessment_notes": ""
     },
-    "NEG": {
-      "id": "med4_down_neg",
-      "name": "Prochlorococcus cluster NEG (down, expression level)",
-      "functional_description": "Not discussed in paper.",
-      "behavioral_description": "Not discussed in paper.",
-      "direction": "down",
-      "enrichment_category": "",
-      "enrichment_pvalue": null,
-      "enrichment_significant": false,
-      "confidence_notes": "No specific functional or behavioral description provided for this cluster in the paper.",
-      "supporting_quotes": [],
-      "source_figures": [],
-      "self_assessment": "low",
-      "assessment_notes": "No information available in the paper for this cluster."
-    },
-    "VEG": {
-      "id": "med4_up_veg",
-      "name": "Prochlorococcus cluster VEG (up, expression level)",
-      "functional_description": "Variably expressed genes (VEG) are less conserved, more frequent in the flexible genome, and have higher nonsynonymous substitution rates. They include genes with variable expression across conditions and are less likely to be essential.",
-      "behavioral_description": "Genes in this cluster show variable expression levels across different growth conditions rather than consistent expression.",
-      "direction": "up",
-      "enrichment_category": "Variable expression",
-      "enrichment_pvalue": null,
-      "enrichment_significant": false,
-      "confidence_notes": "Described as variably expressed with less conservation and higher evolutionary rates.",
+    "LEG": {
+      "id": "med4_leg_cluster",
+      "name": "Prochlorococcus MED4 cluster LEG (leg)",
+      "functional_description": "Lowly expressed genes (LEG) are less enriched in the core genome and show slight enrichment in the general function category (COG category R).",
+      "temporal_pattern": "LEG genes are consistently lowly expressed across the tested conditions.",
+      "expression_dynamics": "low across all",
+      "enrichment_category": "General function",
+      "enrichment_pvalue": 0.023,
+      "enrichment_significant": true,
+      "confidence_notes": "LEG genes show slight enrichment in general function category with borderline significance.",
       "supporting_quotes": [
         {
-          "quote": "The core genome had fewer VEG than the flexible genome (49.6% < 64.6%, P < 0.001).",
+          "quote": "Additionally, category \u201cR\u201d (general function) was slightly enriched in both LEG and NEG (P = 0.023 and 0.055; data not shown).",
+          "location": "Page 5"
+        },
+        {
+          "quote": "LEG had a significantly higher nonsynonymous substitution rate than HEG (Kruskal-Wallis Test, two-tailed P < 0.001; Figure 3a).",
+          "location": "Page 4"
+        }
+      ],
+      "source_figures": [
+        "Figure 3",
+        "Figure 4c"
+      ],
+      "self_assessment": "medium",
+      "assessment_notes": "Limited detailed functional description; enrichment only slight."
+    },
+    "MEG": {
+      "id": "med4_meg_cluster",
+      "name": "Prochlorococcus MED4 cluster MEG (meg)",
+      "functional_description": "Moderately expressed genes (MEG) are enriched in the core genome and have a significantly higher rate of essential genes (DEG-hit).",
+      "temporal_pattern": "MEG genes are moderately expressed consistently across conditions.",
+      "expression_dynamics": "moderate across all",
+      "enrichment_category": "N/A",
+      "enrichment_pvalue": null,
+      "enrichment_significant": false,
+      "confidence_notes": "MEG subclass has higher essential gene rate but no significant difference in expression level between DEG-hit and DEG-miss genes.",
+      "supporting_quotes": [
+        {
+          "quote": "Although the MEG subclass had a significantly higher rate of DEG-hit genes (P < 0.001; Figure 4b), the mean expression level of the DEG-hit genes (mean RPKM = 602.62) was not significantly different from that of the DEG-miss genes (mean RPKM = 874.81; Student's t-test, two-tailed P = 0.084).",
+          "location": "Page 5"
+        },
+        {
+          "quote": "Next, we compared the five gene expression subclasses of the core genome to that of the flexible genome. Our analysis clearly indicates that the genes in the HEG and MEG subclasses were more enriched in the core genome than in the flexible genome (17.7% > 11.5% and 26.8% > 15.3%, respectively; P < 0.001; Figure 3c).",
+          "location": "Page 4"
+        }
+      ],
+      "source_figures": [
+        "Figure 3",
+        "Figure 4b"
+      ],
+      "self_assessment": "high",
+      "assessment_notes": ""
+    },
+    "VEG": {
+      "id": "med4_veg_cluster",
+      "name": "Prochlorococcus MED4 cluster VEG (veg)",
+      "functional_description": "Variably expressed genes (VEG) are more prevalent in the flexible genome and have higher nonsynonymous substitution rates than constantly expressed genes (CEG).",
+      "temporal_pattern": "VEG genes show variable expression across the 10 growth conditions.",
+      "expression_dynamics": "variable across conditions",
+      "enrichment_category": "N/A",
+      "enrichment_pvalue": null,
+      "enrichment_significant": false,
+      "confidence_notes": "VEG genes have higher evolutionary rates and are less conserved.",
+      "supporting_quotes": [
+        {
+          "quote": "CEG subclass had a lower Ka than VEG (Mann\u2013Whitney U Test, two-tailed P < 0.001; Figure 3b), even when HEG were excluded from the CEG because of their bias with the lowest evolutionary rate among all expression subclasses (data not shown).",
           "location": "Page 4"
         },
         {
-          "quote": "Genes with relatively stable expression are more likely to evolve slowly when compared with VEG.",
+          "quote": "Conversely, the core genome had fewer NEG and VEG than the flexible genome (1.5% < 6.6% and 49.6% < 64.6%, respectively; P < 0.001; Figure 3c).",
           "location": "Page 4"
         }
       ],
       "source_figures": [
-        "Figure 3c"
+        "Figure 3"
       ],
-      "self_assessment": "medium",
-      "assessment_notes": "Behavioral description based on expression variability across samples."
+      "self_assessment": "high",
+      "assessment_notes": ""
+    },
+    "--": {
+      "id": "med4_--_cluster",
+      "name": "Prochlorococcus MED4 cluster -- (--)",
+      "functional_description": "N/A",
+      "temporal_pattern": "N/A",
+      "expression_dynamics": "N/A",
+      "enrichment_category": "N/A",
+      "enrichment_pvalue": null,
+      "enrichment_significant": false,
+      "confidence_notes": "No specific discussion or data provided for this cluster in the paper.",
+      "supporting_quotes": [],
+      "source_figures": [],
+      "self_assessment": "high",
+      "assessment_notes": "No information available for this cluster."
     }
   }
 }
