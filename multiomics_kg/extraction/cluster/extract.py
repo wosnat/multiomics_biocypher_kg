@@ -64,155 +64,157 @@ class AnalysisExtraction(BaseModel):
 # ── Prompt layer ──
 
 
-DEVELOPER_MSG_TEMPLATE = """\
-You are extracting structured descriptions of gene expression clusters from \
-a scientific paper.
-
-{context_block}
-
-For each cluster, extract all fields in the output schema.
-
+SHARED_RULES = """\
 ## Rules
 
-- functional_description: What genes/pathways are in this cluster?
-  Can be: enrichment category with p-value, specific highlighted genes, both,
-  or "Not discussed in paper." when not mentioned.
-  2-3 sentences max. Only cite gene names from the paper (e.g., psbA, rbcLS),
-  never locus tags (PMM*, PMT*, P9301_*, NATL2_*, PMN2A_RS*, tll*, SY28_*,
-  BSR22_*, ALT831_RS*, MIT1002_*, SYNW*, sync_*, A9601_*, WP_*, cds-*).
-
-- behavioral_description: Describe ONLY the temporal expression pattern — what \
-happens to transcript levels over time or across conditions. This field is about \
-the observed data pattern, NOT about biological function or interpretation.
-  Include: timing (peak hours, periodicity), kinetics (rapid/gradual, transient/sustained), \
-condition-dependence (increases with irradiance, decreases with oxygen).
-  Include timing numbers when available from the paper. 1-2 sentences.
-  Do NOT add biological interpretation (e.g., "indicating stress response", \
-"suggesting metabolic coupling", "involvement in RNA processing"). \
-The reader will interpret the biology.
-  GOOD: "Genes show a rapid transient peak in expression ~1h after phage infection, then decline."
-  BAD: "Genes show a rapid transient peak indicating an early stress response by the host."
-  BAD: "Genes are upregulated, suggesting involvement in RNA processing and stress response."
-
-- ONLY state what the paper EXPLICITLY says about THIS SPECIFIC cluster. \
-Do NOT synthesize information from other clusters, other sections of the paper, \
-or your own knowledge. If a quote or figure discusses a different cluster or a \
-broader set of genes, do not apply it to this cluster.
-- If the paper does NOT explicitly describe a cluster's function or behavior, set \
-the description to "Not discussed in paper." Do NOT say what the paper didn't do \
-(e.g., "The gene is not specifically named in the paper" or "No enrichment was \
-reported"). Just say "Not discussed in paper." and move on.
-- Do NOT invent, speculate, or generate generic descriptions. Each field is \
-independent: a cluster can have a functional description but behavioral = \
-"Not discussed in paper.", or vice versa. Partial descriptions are fine — \
-describe what the paper says.
-
+- For clusters the paper does NOT discuss: set description fields to "N/A". \
+Do NOT say what the paper didn't do (e.g., "The gene is not specifically named" or \
+"No enrichment was reported"). Just use "N/A" and move on.
+- Do NOT include locus tags (PMM*, PMT*, P9301_*, NATL2_*, PMN2A_RS*, tll*, SY28_*, \
+BSR22_*, ALT831_RS*, MIT1002_*, SYNW*, sync_*, A9601_*, WP_*, cds-*). Use gene names only.
 - Do NOT include treatment conditions in descriptions — those live on the analysis node.
-- self_assessment: your confidence. assessment_notes: what you're uncertain about.
-- Each cluster must have a unique id in snake_case: {{organism_short}}_{{direction}}_{{theme}}.
-- name format: "{{Organism}} cluster {{KEY}} ({{direction}}, {{theme}})" — under 60 chars.
-  Use the EXACT cluster key from the list below.
-- For enrichment: only report enrichment analyses that the PAPER performed and published \
-(with p-values). Do NOT perform your own functional analysis or cherry-pick genes from \
-the cluster — we have the full gene list and can compute enrichment ourselves. \
-Max 3 decimal places or scientific notation for p-values.
-- Only cite genes that the paper explicitly highlights for this cluster. Max 3-5 genes.
-- Do NOT describe cluster membership statistics (gene counts, sample gene IDs from the \
-supplementary table) or restate the cluster definition — those are already stored on \
-the cluster node. Only report what the paper says about the biology of this cluster.
-- supporting_quotes: direct quotes from the paper that support your description.
-- source_figures: list of figure/table references you used as evidence (e.g., "Figure 4A", "Table S4").
+- Do NOT describe cluster membership statistics (gene counts, sample gene IDs) — \
+those are already stored on the cluster node.
+- ONLY state what the paper EXPLICITLY says about THIS SPECIFIC cluster. \
+Do NOT synthesize from other clusters, other sections, or your own knowledge.
+- Each field is independent: a cluster can have a functional description but \
+temporal_pattern = "N/A", or vice versa. Partial descriptions are fine.
+- Max 3-5 named genes per cluster, only those the paper highlights for THIS cluster.
+- For enrichment: only report enrichment the PAPER performed with p-values. \
+Do NOT compute your own. Max 3 decimal places or scientific notation.
+- supporting_quotes: direct quotes from the paper supporting your description. REQUIRED.
+- source_figures: figure/table references used as evidence (e.g., "Figure 4A"). REQUIRED.
+- id format: {{organism_short}}_{{dynamics}}_{{theme}} in snake_case.
+- name format: "{{Organism}} cluster {{KEY}} ({{theme}})" — under 60 chars. \
+Use the EXACT cluster key from the list below.
+- self_assessment: your confidence in the extraction (high/medium/low). \
+assessment_notes: what you're uncertain about.
+"""
 
-{cluster_type_guidance}
+TYPE_RULES = {
+    "time_course": """\
+## Type-Specific Guidance: Time Course
 
-## Examples
+- expression_dynamics: Response timing label. Examples: "early transient", \
+"late sustained", "biphasic", "gradual increase".
+- temporal_pattern: When the change begins, how fast it develops, whether it \
+persists or reverses. Include timing numbers from the paper. 1-2 sentences. \
+Do NOT add biological interpretation.
 
-Example 1 — Diel cluster with enrichment and timing:
-{{"id": "med4_up_photosynthesis", "name": "Prochlorococcus cluster 1 (up, photosynthesis)", \
-"functional_description": "Enriched for photosystem I and II components (p=1.5e-9). \
-Includes genes psbA, psbD, and psaA involved in photosynthetic light reactions.", \
-"behavioral_description": "Genes peak in expression near dawn (8.3 h) with 24h periodicity, \
-coinciding with the onset of light and photosynthetic activity.", \
-"direction": "up", "enrichment_category": "Photosystem I and II", \
-"enrichment_pvalue": 1.5e-09, "enrichment_significant": true, \
-"self_assessment": "high", "assessment_notes": "", "confidence_notes": "", \
-"supporting_quotes": [{{"quote": "Expression of approximately half of photosystem (PS) II genes, \
-including reaction center genes psbA and psbD, peak in abundance at mid-day", "location": "Page 6"}}], \
-"source_figures": ["Figure 4A", "Table S4"]}}
-
-Example 2 — Stress time-course with dynamics:
-{{"id": "mit9313_up_transport_binding", "name": "MIT9313 cluster 1 (up, transport and binding)", \
-"functional_description": "Enriched for transport and binding (p=0.04). Contains nitrogen \
-transport genes urtA and the nitrite permease, and hli genes hliS and hli7.", \
-"behavioral_description": "Most rapidly and strongly upregulated cluster during nitrogen \
-starvation, with genes responding within the first hours of the time course.", \
-"direction": "up", "enrichment_category": "transport and binding", \
+### Example — Time-course cluster with enrichment:
+{{"id": "mit9313_early_transport", "name": "MIT9313 cluster 1 (transport)", \
+"functional_description": "Enriched for transport and binding (p=0.04). Contains \
+nitrogen transport genes urtA and the nitrite permease, and hli genes hliS and hli7.", \
+"temporal_pattern": "Most rapidly upregulated cluster, with genes responding within \
+the first hours of nitrogen starvation.", \
+"expression_dynamics": "early transient", \
+"enrichment_category": "transport and binding", \
 "enrichment_pvalue": 0.04, "enrichment_significant": true, \
-"self_assessment": "high", "assessment_notes": "", \
-"confidence_notes": "Strong functional enrichment and early rapid upregulation.", \
-"supporting_quotes": [{{"quote": "Cluster 1, the most rapidly and highly upregulated genes \
-in each strain, contains N transport genes such as MED4 and MIT9313 urtA", "location": "Page 3"}}], \
+"self_assessment": "high", "assessment_notes": "", "confidence_notes": "", \
+"supporting_quotes": [{{"quote": "Cluster 1, the most rapidly and highly upregulated \
+genes in each strain, contains N transport genes such as MED4 and MIT9313 urtA", \
+"location": "Page 3"}}], \
 "source_figures": ["Figure 2"]}}
 
-Example 3 — Partially described:
-{{"id": "med4_up_nitrogen_metabolism", "name": "Prochlorococcus cluster 7 (up, nitrogen metabolism)", \
-"functional_description": "Includes nitrogen metabolism genes such as amt1.", \
-"behavioral_description": "Genes peak near sunset (20.1 h), consistent with nitrogen uptake \
-during the night.", \
-"direction": "up", "enrichment_category": "Nitrogen metabolism", \
-"enrichment_pvalue": 0.087, "enrichment_significant": false, \
-"self_assessment": "medium", "assessment_notes": "Marginal enrichment; limited description in paper.", \
-"confidence_notes": "Enrichment is marginal; functional role inferred from gene annotations and timing.", \
-"supporting_quotes": [{{"quote": "Ammonium transport gene (amt1) and assimilation genes \
-peak near sunset", "location": "Page 10"}}], \
-"source_figures": ["Figure 7B"]}}
-
-Example 4 — Not discussed in paper:
-{{"id": "med4_down_cluster_10", "name": "Prochlorococcus cluster 10 (down, not discussed)", \
-"functional_description": "Not discussed in paper.", \
-"behavioral_description": "Not discussed in paper.", \
-"direction": "down", "enrichment_category": "", \
+### Example — Undiscussed cluster:
+{{"id": "mit9313_cluster_8", "name": "MIT9313 cluster 8 (not discussed)", \
+"functional_description": "N/A", \
+"temporal_pattern": "N/A", \
+"expression_dynamics": "N/A", \
+"enrichment_category": "", \
 "enrichment_pvalue": null, "enrichment_significant": false, \
 "self_assessment": "low", "assessment_notes": "Paper does not discuss this cluster.", \
 "confidence_notes": "", "supporting_quotes": [], "source_figures": []}}
+""",
+    "diel": """\
+## Type-Specific Guidance: Diel Cycling
 
-CRITICAL: You MUST extract EXACTLY {n_clusters} clusters, one for each cluster key \
-listed below. Use the EXACT cluster keys as they appear — do NOT renumber, skip, \
-or merge clusters. Every key must appear exactly once in your output.
+- expression_dynamics: Peak phase label. Examples: "peaks at dawn", "peaks at dusk", \
+"peaks mid-day", "peaks mid-night".
+- temporal_pattern: Peak timing in hours, periodicity, phase relative to light/dark cycle. \
+1-2 sentences. Do NOT add biological interpretation.
 
-{cluster_summaries}
-"""
+### Example — Diel cluster with enrichment:
+{{"id": "med4_dawn_photosynthesis", "name": "Prochlorococcus cluster 1 (photosynthesis)", \
+"functional_description": "Enriched for photosystem I and II components (p=1.5e-9). \
+Includes genes psbA, psbD, and psaA.", \
+"temporal_pattern": "Genes peak in expression near dawn (8.3 h) with 24h periodicity.", \
+"expression_dynamics": "peaks near dawn", \
+"enrichment_category": "Photosystem I and II", \
+"enrichment_pvalue": 1.5e-09, "enrichment_significant": true, \
+"self_assessment": "high", "assessment_notes": "", "confidence_notes": "", \
+"supporting_quotes": [{{"quote": "Expression of approximately half of photosystem (PS) II \
+genes, including reaction center genes psbA and psbD, peak in abundance at mid-day", \
+"location": "Page 6"}}], \
+"source_figures": ["Figure 4A", "Table S4"]}}
+""",
+    "condition_comparison": """\
+## Type-Specific Guidance: Condition Comparison
 
-CLUSTER_TYPE_GUIDANCE = {
-    "response_pattern": """\
-Cluster type: response_pattern
-Behavioral description style: Describe dynamics — rapid/gradual onset, transient/sustained,
-timing relative to treatment. E.g. "Rapidly upregulated within 6h, then sustained." """,
-    "diel_cycling": """\
-Cluster type: diel_cycling
-Behavioral description style: Describe timing — peak hours, periodicity, phase relative
-to light/dark. E.g. "Peaks near dawn (8.3 h), 24h periodicity." """,
-    "diel_expression_pattern": """\
-Cluster type: diel_expression_pattern
-Behavioral description style: Describe timing — peak hours, periodicity, phase relative
-to light/dark. E.g. "Peaks near dawn (8.3 h), 24h periodicity." """,
-    "periodicity_classification": """\
-Cluster type: periodicity_classification
-Behavioral description style: Describe which conditions show periodic expression and which
-don't. E.g. "Periodic in coculture L:D and darkness, not in axenic." """,
-    "expression_level": """\
-Cluster type: expression_level
-Behavioral description style: Describe constitutive vs. variable expression across
-conditions. E.g. "Consistently highly expressed across all growth conditions." """,
-    "expression_classification": """\
-Cluster type: expression_classification
-Behavioral description style: Describe presence/absence pattern across conditions.
-E.g. "Transcripts present in both axenic and coculture during extended darkness." """,
-    "expression_pattern": """\
-Cluster type: expression_pattern
-Behavioral description style: Describe expression dynamics across conditions — which
-conditions drive changes and how. E.g. "Upregulated at cold temperatures during daytime." """,
+- expression_dynamics: Condition label. Examples: "up with light", "down at cold", \
+"high across all", "up in coculture".
+- temporal_pattern: Which conditions drive changes, direction and magnitude of response. \
+1-2 sentences. Do NOT add biological interpretation.
+
+### Example — Condition comparison cluster:
+{{"id": "syn_cold_stress_C", "name": "Synechococcus cluster C (cold stress)", \
+"functional_description": "Contains ribosomal protein genes rpsA, rplB and cold-shock \
+protein cspA.", \
+"temporal_pattern": "Strongly upregulated at Tmin relative to Topt, with the largest \
+fold-changes among all clusters.", \
+"expression_dynamics": "up at cold", \
+"enrichment_category": "Translation", \
+"enrichment_pvalue": 0.003, "enrichment_significant": true, \
+"self_assessment": "high", "assessment_notes": "", "confidence_notes": "", \
+"supporting_quotes": [{{"quote": "Cluster C genes were most strongly induced at the \
+minimum growth temperature", "location": "Page 8"}}], \
+"source_figures": ["Figure 5"]}}
+""",
+    "classification": """\
+## Type-Specific Guidance: Classification / Periodicity
+
+- expression_dynamics: Category label. Examples: "periodic in L:D only", "not periodic", \
+"periodic across all conditions", "constitutive".
+- temporal_pattern: Which conditions or categories genes fall into, any distinguishing \
+pattern. 1-2 sentences.
+
+### Example — Periodicity classification cluster:
+{{"id": "med4_periodic_ld_only", "name": "MED4 cluster periodic_LD (L:D periodic)", \
+"functional_description": "Enriched for photosystem genes and light-harvesting complexes.", \
+"temporal_pattern": "Genes show 24h periodicity in L:D cycle but lose periodicity in \
+continuous light and darkness.", \
+"expression_dynamics": "periodic in L:D only", \
+"enrichment_category": "Photosynthesis", \
+"enrichment_pvalue": 0.001, "enrichment_significant": true, \
+"self_assessment": "high", "assessment_notes": "", "confidence_notes": "", \
+"supporting_quotes": [{{"quote": "A subset of genes were periodic only under light:dark \
+cycling conditions", "location": "Page 5"}}], \
+"source_figures": ["Figure 3"]}}
+""",
 }
+
+# Map legacy cluster_type values to TYPE_RULES keys
+_TYPE_ALIAS = {
+    "response_pattern": "time_course",
+    "diel_cycling": "diel",
+    "diel_expression_pattern": "diel",
+    "periodicity_classification": "classification",
+    "expression_level": "condition_comparison",
+    "expression_classification": "condition_comparison",
+    "expression_pattern": "condition_comparison",
+}
+
+SELF_VERIFICATION = """\
+## Self-Verification
+
+Before finalizing your output, verify:
+1. Each supporting_quote is a DIRECT quote from the paper (not paraphrased).
+2. Each quote actually discusses THIS specific cluster, not a different one.
+3. source_figures reference figures/tables that contain data about THIS cluster.
+4. No field contains biological interpretation beyond what the paper states.
+5. Undiscussed clusters have "N/A" for functional_description, temporal_pattern, \
+and expression_dynamics — not filler text.
+"""
 
 
 def build_context_block(table: dict) -> str:
@@ -244,13 +246,38 @@ def build_context_block(table: dict) -> str:
         parts.append(f"Key figures: {table['figure_hint']}")
     if table.get("time_points"):
         parts.append(f"Time points (hours): {table['time_points']}")
+    if table.get("extraction_notes"):
+        parts.append(f"\nExtraction guidance: {table['extraction_notes']}")
     return "\n".join(parts)
 
 
-def get_cluster_type_guidance(table: dict) -> str:
-    """Get behavioral description style guidance for this cluster type."""
+def _get_type_rules(table: dict) -> str:
+    """Get type-specific rules for this cluster type."""
     ct = table.get("cluster_type", "")
-    return CLUSTER_TYPE_GUIDANCE.get(ct, f"Cluster type: {ct}")
+    key = _TYPE_ALIAS.get(ct, ct)
+    return TYPE_RULES.get(key, f"## Type: {ct}\n\nNo specific guidance available.")
+
+
+def build_prompt(table_config: dict, cluster_summaries: dict[str, dict]) -> str:
+    """Assemble the full developer prompt for one analysis."""
+    ctx = build_context_block(table_config)
+    summaries = format_cluster_summaries(cluster_summaries)
+    type_rules = _get_type_rules(table_config)
+    n = len(cluster_summaries)
+
+    return (
+        f"You are extracting structured descriptions of gene expression clusters "
+        f"from a scientific paper.\n\n"
+        f"{ctx}\n\n"
+        f"For each cluster, extract all fields in the output schema.\n\n"
+        f"{SHARED_RULES}\n"
+        f"{type_rules}\n"
+        f"{SELF_VERIFICATION}\n"
+        f"CRITICAL: You MUST extract EXACTLY {n} clusters, one for each cluster key "
+        f"listed below. Use the EXACT cluster keys as they appear — do NOT renumber, "
+        f"skip, or merge clusters. Every key must appear exactly once in your output.\n\n"
+        f"{summaries}\n"
+    )
 
 
 def format_cluster_summaries(clusters: dict[str, dict]) -> str:
@@ -272,24 +299,16 @@ def upload_pdf(client, pdf_path: Path) -> str:
     return f.id
 
 
-def extract_analysis(client, file_id, table_config, cluster_summaries, model="gpt-4.1-mini", flex=False):
+def extract_analysis(client, file_ids, table_config, cluster_summaries, model="gpt-4.1-mini", flex=False):
     """Run extraction for one analysis. Returns (parsed, usage_dict)."""
-    ctx = build_context_block(table_config)
-    summaries = format_cluster_summaries(cluster_summaries)
-
-    dev_msg = DEVELOPER_MSG_TEMPLATE.format(
-        context_block=ctx,
-        n_clusters=len(cluster_summaries),
-        cluster_summaries=summaries,
-        cluster_type_guidance=get_cluster_type_guidance(table_config),
-    )
+    dev_msg = build_prompt(table_config, cluster_summaries)
+    file_inputs = [{"type": "input_file", "file_id": fid} for fid in file_ids]
 
     kwargs = dict(
         model=model, temperature=0,
         input=[
             {"role": "developer", "content": dev_msg},
-            {"role": "user", "content": [
-                {"type": "input_file", "file_id": file_id},
+            {"role": "user", "content": file_inputs + [
                 {"type": "input_text", "text": f"Extract descriptions for all {len(cluster_summaries)} clusters."},
             ]},
         ],
@@ -306,33 +325,42 @@ def extract_analysis(client, file_id, table_config, cluster_summaries, model="gp
     return resp.output[0].content[0].parsed, usage
 
 
-def extract_paper(client, file_id, tables_and_summaries, model="gpt-4.1-mini", flex=False):
+def extract_paper(client, file_ids, tables_and_summaries, model="gpt-4.1-mini", flex=False):
     """Extract all analyses for one paper in a single call.
     Used for multi-organism papers (e.g. Tolonen) where per-analysis confuses the model.
     """
+    # Build a combined prompt from all analyses
     context_parts = []
-    all_summaries = []
-    guidance_parts = []
+    all_summaries_parts = []
+    type_rules_parts = []
     total_clusters = 0
     for table_config, cluster_summaries in tables_and_summaries:
         context_parts.append(build_context_block(table_config))
-        all_summaries.append(format_cluster_summaries(cluster_summaries))
+        all_summaries_parts.append(format_cluster_summaries(cluster_summaries))
         total_clusters += len(cluster_summaries)
-        guidance_parts.append(get_cluster_type_guidance(table_config))
+        type_rules_parts.append(_get_type_rules(table_config))
 
-    dev_msg = DEVELOPER_MSG_TEMPLATE.format(
-        context_block="\n\n".join(context_parts),
-        n_clusters=total_clusters,
-        cluster_summaries="\n\n".join(all_summaries),
-        cluster_type_guidance="\n\n".join(guidance_parts),
+    dev_msg = (
+        f"You are extracting structured descriptions of gene expression clusters "
+        f"from a scientific paper.\n\n"
+        f"{chr(10).join(context_parts)}\n\n"
+        f"For each cluster, extract all fields in the output schema.\n\n"
+        f"{SHARED_RULES}\n"
+        f"{chr(10).join(type_rules_parts)}\n"
+        f"{SELF_VERIFICATION}\n"
+        f"CRITICAL: You MUST extract EXACTLY {total_clusters} clusters, one for each "
+        f"cluster key listed below. Use the EXACT cluster keys as they appear — do NOT "
+        f"renumber, skip, or merge clusters. Every key must appear exactly once in your output.\n\n"
+        f"{chr(10).join(all_summaries_parts)}\n"
     )
+
+    file_inputs = [{"type": "input_file", "file_id": fid} for fid in file_ids]
 
     kwargs = dict(
         model=model, temperature=0,
         input=[
             {"role": "developer", "content": dev_msg},
-            {"role": "user", "content": [
-                {"type": "input_file", "file_id": file_id},
+            {"role": "user", "content": file_inputs + [
                 {"type": "input_text", "text": f"Extract descriptions for all {total_clusters} clusters."},
             ]},
         ],
@@ -366,16 +394,16 @@ def generate_report(entries: list[tuple[Path, str, dict, dict]]) -> str:
 
         for key in sorted(clusters, key=lambda x: (not x.isdigit(), x)):
             c = clusters[key]
-            direction = c.get("direction", "")
+            dynamics = c.get("expression_dynamics", "")
             assessment = c.get("self_assessment", "")
-            lines.append(f"### Cluster {key} | {direction} | {assessment}")
+            lines.append(f"### Cluster {key} | {dynamics} | {assessment}")
             lines.append(f"**Name:** {c.get('name', '')}")
             enrich = c.get("enrichment_category", "")
             pval = c.get("enrichment_pvalue", "N/A")
             sig = c.get("enrichment_significant", "")
             lines.append(f"**Enrichment:** {enrich} (p={pval}, sig={sig})")
             lines.append(f"**Functional:** {c.get('functional_description', '')}")
-            lines.append(f"**Behavioral:** {c.get('behavioral_description', '')}")
+            lines.append(f"**Temporal pattern:** {c.get('temporal_pattern', '')}")
             notes = c.get("confidence_notes", "")
             if notes:
                 lines.append(f"**Confidence notes:** {notes}")
@@ -424,7 +452,7 @@ def verify_quality(entries: list[tuple[Path, str, dict, dict]]) -> list[str]:
 
         # Check 1: locus tags in descriptions
         for key, c in clusters.items():
-            for field in ("functional_description", "behavioral_description"):
+            for field in ("functional_description", "temporal_pattern"):
                 text = c.get(field, "")
                 m = locus_pat.search(text)
                 if m:
@@ -435,17 +463,17 @@ def verify_quality(entries: list[tuple[Path, str, dict, dict]]) -> list[str]:
         # Check 2: filler on low-confidence clusters
         for key, c in clusters.items():
             if c.get("self_assessment") == "low":
-                for field in ("functional_description", "behavioral_description"):
+                for field in ("functional_description", "temporal_pattern"):
                     text = c.get(field, "")
-                    if text and text != "Not discussed in paper.":
+                    if text and text != "N/A":
                         warnings.append(
                             f"{prefix} / cluster {key}] low confidence but {field} "
-                            f"is not 'Not discussed in paper.': {text[:60]}..."
+                            f"is not 'N/A': {text[:60]}..."
                         )
 
         # Check 3: filler phrases in descriptions
         for key, c in clusters.items():
-            for field in ("functional_description", "behavioral_description"):
+            for field in ("functional_description", "temporal_pattern"):
                 text = c.get(field, "").lower()
                 for phrase in filler_phrases:
                     if phrase in text:
@@ -458,7 +486,7 @@ def verify_quality(entries: list[tuple[Path, str, dict, dict]]) -> list[str]:
         descs = {}
         for key, c in clusters.items():
             fd = c.get("functional_description", "")
-            if fd and fd != "Not discussed in paper." and len(fd) > 50:
+            if fd and fd != "N/A" and len(fd) > 50:
                 prefix_50 = fd[:50]
                 if prefix_50 in descs:
                     warnings.append(
@@ -467,16 +495,6 @@ def verify_quality(entries: list[tuple[Path, str, dict, dict]]) -> list[str]:
                     )
                 else:
                     descs[prefix_50] = key
-
-        # Check 5: empty direction with non-empty description
-        for key, c in clusters.items():
-            fd = c.get("functional_description", "")
-            has_desc = fd and fd != "Not discussed in paper." and len(fd) > 20
-            direction = c.get("direction", "")
-            if has_desc and not direction:
-                warnings.append(
-                    f"{prefix} / cluster {key}] has description but empty direction"
-                )
 
     return warnings
 
@@ -512,15 +530,17 @@ def main():
     entries = find_all_entries()
 
     if args.paper:
-        entries = [(d, k, t, p) for d, k, t, p in entries
+        entries = [(d, k, t, p, e) for d, k, t, p, e in entries
                    if args.paper.lower() in p.get("papername", "").lower()]
     if args.entry:
-        entries = [(d, k, t, p) for d, k, t, p in entries if k == args.entry]
+        entries = [(d, k, t, p, e) for d, k, t, p, e in entries if k == args.entry]
 
     if args.report:
-        report = generate_report(entries)
+        # Report/verify take 4-tuples (no extraction config needed)
+        entries_4 = [(d, k, t, p) for d, k, t, p, _e in entries]
+        report = generate_report(entries_4)
         if args.verify:
-            warnings = verify_quality(entries)
+            warnings = verify_quality(entries_4)
             if warnings:
                 report += "\n## Warnings\n\n"
                 report += "\n".join(f"- {w}" for w in warnings) + "\n"
@@ -539,11 +559,18 @@ def main():
 
     if args.dry_run:
         print(f"\nWould process {len(entries)} entries:\n")
-        for paper_dir, entry_key, table, pub in entries:
+        for paper_dir, entry_key, table, pub, extraction in entries:
             summaries = load_cluster_summaries(table)
             exists = entry_key in list_extraction_files(paper_dir)
             status = "EXISTS" if exists else "NEW"
-            print(f"  {pub_name(pub)} / {entry_key}: {len(summaries)} clusters [{status}]")
+            scope = extraction.get("scope", "per_analysis")
+            extra_pdfs = extraction.get("additional_pdfs", [])
+            extra_info = ""
+            if scope != "per_analysis":
+                extra_info += f" scope={scope}"
+            if extra_pdfs:
+                extra_info += f" +{len(extra_pdfs)} PDFs"
+            print(f"  {pub_name(pub)} / {entry_key}: {len(summaries)} clusters [{status}]{extra_info}")
         return
 
     # Run extraction
@@ -552,11 +579,12 @@ def main():
     total_in = total_out = total_clusters = 0
 
     by_paper: dict[Path, list] = {}
-    for paper_dir, entry_key, table, pub in entries:
-        by_paper.setdefault(paper_dir, []).append((entry_key, table, pub))
+    for paper_dir, entry_key, table, pub, extraction in entries:
+        by_paper.setdefault(paper_dir, []).append((entry_key, table, pub, extraction))
 
     for paper_dir, group in by_paper.items():
         paper = pub_name(group[0][2])
+        extraction_config = group[0][3]
 
         pdf_path_str = group[0][2].get("papermainpdf", "")
         if pdf_path_str:
@@ -572,56 +600,123 @@ def main():
             continue
 
         logger.info(f"Paper: {paper} ({len(group)} entries)")
-        file_id = upload_pdf(client, pdf_path)
+        file_ids = [upload_pdf(client, pdf_path)]
 
-        for entry_key, table, pub in group:
-            if entry_key in list_extraction_files(paper_dir) and not args.force:
-                logger.info(f"  {entry_key}: exists, skipping")
-                continue
+        # Upload additional PDFs from extraction config
+        additional_pdfs = extraction_config.get("additional_pdfs", [])
+        for extra_pdf_str in additional_pdfs:
+            extra_path = Path(extra_pdf_str)
+            if not extra_path.is_absolute():
+                extra_path = Path.cwd() / extra_path
+            if extra_path.exists():
+                logger.info(f"  Uploading additional PDF: {extra_path.name}")
+                file_ids.append(upload_pdf(client, extra_path))
+            else:
+                logger.warning(f"  Additional PDF not found: {extra_path}")
 
-            summaries = load_cluster_summaries(table)
-            logger.info(f"  {entry_key}: {len(summaries)} clusters")
+        scope = extraction_config.get("scope", "per_analysis")
 
+        if scope == "per_paper":
+            # Combine all analyses into one call
+            to_extract = []
+            all_summaries_map = {}
+            for entry_key, table, pub, _ext in group:
+                if entry_key in list_extraction_files(paper_dir) and not args.force:
+                    logger.info(f"  {entry_key}: exists, skipping")
+                    continue
+                summaries = load_cluster_summaries(table)
+                to_extract.append((entry_key, table, pub, summaries))
+                all_summaries_map[entry_key] = summaries
+
+            if to_extract:
+                tables_and_summaries = [(t, s) for _k, t, _p, s in to_extract]
+                try:
+                    parsed, usage = extract_paper(
+                        client, file_ids, tables_and_summaries,
+                        model=args.model, flex=args.flex,
+                    )
+                    # Collect all expected keys across analyses
+                    all_expected = set()
+                    for _k, _t, _p, s in to_extract:
+                        all_expected.update(s.keys())
+                    matched, unmatched = match_cluster_keys(
+                        [c.model_dump() for c in parsed.clusters], all_expected,
+                    )
+                    for c in unmatched:
+                        logger.warning(f"    Unmatched: {c.get('name', '?')}")
+
+                    # Distribute matched clusters back to per-entry files
+                    for entry_key, table, pub, summaries in to_extract:
+                        entry_matched = {k: v for k, v in matched.items() if k in summaries}
+                        metadata = {
+                            "paper": paper, "doi": pub.get("doi"),
+                            "organism": table.get("organism", ""),
+                            "entry_key": entry_key, "model": args.model,
+                            "extracted_at": datetime.now().isoformat(),
+                            "input_tokens": usage["input_tokens"],
+                            "output_tokens": usage["output_tokens"],
+                        }
+                        save_extraction(paper_dir, entry_key, metadata, entry_matched)
+                        total_clusters += len(entry_matched)
+                        logger.info(f"    {entry_key}: {len(entry_matched)}/{len(summaries)} matched")
+
+                    total_in += usage["input_tokens"]
+                    total_out += usage["output_tokens"]
+
+                except Exception as e:
+                    logger.error(f"  {paper} (per_paper): FAILED — {e}")
+        else:
+            # Default: per_analysis extraction
+            for entry_key, table, pub, _ext in group:
+                if entry_key in list_extraction_files(paper_dir) and not args.force:
+                    logger.info(f"  {entry_key}: exists, skipping")
+                    continue
+
+                summaries = load_cluster_summaries(table)
+                logger.info(f"  {entry_key}: {len(summaries)} clusters")
+
+                try:
+                    parsed, usage = extract_analysis(
+                        client, file_ids, table, summaries,
+                        model=args.model, flex=args.flex,
+                    )
+
+                    expected_keys = set(summaries.keys())
+                    matched, unmatched = match_cluster_keys(
+                        [c.model_dump() for c in parsed.clusters], expected_keys,
+                    )
+
+                    for c in unmatched:
+                        logger.warning(f"    Unmatched: {c.get('name', '?')}")
+                    missing = expected_keys - set(matched.keys())
+                    if missing:
+                        logger.warning(f"    Missing: {sorted(missing)}")
+
+                    metadata = {
+                        "paper": paper, "doi": pub.get("doi"),
+                        "organism": table.get("organism", ""),
+                        "entry_key": entry_key, "model": args.model,
+                        "extracted_at": datetime.now().isoformat(),
+                        "input_tokens": usage["input_tokens"],
+                        "output_tokens": usage["output_tokens"],
+                    }
+                    save_extraction(paper_dir, entry_key, metadata, matched)
+                    total_in += usage["input_tokens"]
+                    total_out += usage["output_tokens"]
+                    total_clusters += len(matched)
+                    logger.info(f"    {len(matched)}/{len(summaries)} matched")
+
+                except Exception as e:
+                    logger.error(f"  {entry_key}: FAILED — {e}")
+
+                time.sleep(2)
+
+        # Clean up uploaded files
+        for fid in file_ids:
             try:
-                parsed, usage = extract_analysis(
-                    client, file_id, table, summaries,
-                    model=args.model, flex=args.flex,
-                )
-
-                expected_keys = set(summaries.keys())
-                matched, unmatched = match_cluster_keys(
-                    [c.model_dump() for c in parsed.clusters], expected_keys,
-                )
-
-                for c in unmatched:
-                    logger.warning(f"    Unmatched: {c.get('name', '?')}")
-                missing = expected_keys - set(matched.keys())
-                if missing:
-                    logger.warning(f"    Missing: {sorted(missing)}")
-
-                metadata = {
-                    "paper": paper, "doi": pub.get("doi"),
-                    "organism": table.get("organism", ""),
-                    "entry_key": entry_key, "model": args.model,
-                    "extracted_at": datetime.now().isoformat(),
-                    "input_tokens": usage["input_tokens"],
-                    "output_tokens": usage["output_tokens"],
-                }
-                save_extraction(paper_dir, entry_key, metadata, matched)
-                total_in += usage["input_tokens"]
-                total_out += usage["output_tokens"]
-                total_clusters += len(matched)
-                logger.info(f"    {len(matched)}/{len(summaries)} matched")
-
-            except Exception as e:
-                logger.error(f"  {entry_key}: FAILED — {e}")
-
-            time.sleep(2)
-
-        try:
-            client.files.delete(file_id)
-        except Exception:
-            pass
+                client.files.delete(fid)
+            except Exception:
+                pass
 
     logger.info(f"Done: {total_clusters} clusters, {total_in:,} in + {total_out:,} out tokens")
 
