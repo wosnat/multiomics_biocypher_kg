@@ -4,48 +4,29 @@ Tracks diagnosed issues from review UI sessions and the current state of the ext
 
 ## Current State (2026-04-06)
 
-### What was built (2026-04-04)
+### Production extraction pipeline (single-call approach)
 
-**Infrastructure:**
-- `multiomics_kg/extraction/cluster/run_manager.py` — versioned run directories with `create_run()` / `finalize_run()`, stage file I/O, input hashing, review copy-forward
-- `multiomics_kg/extraction/cluster/migrate.py` — one-time migration of legacy monolithic `cluster_extraction_*.json` into per-stage files
-- Shared disk cache at `{paper_dir}/.extraction_cache/shared/` — `pdf_text.json`, `chunks.json`, `embeddings.npy`, `pdf_content_parts.json`
-- Pipeline refactored (`pipeline.py`) to use RunManager, write per-stage files, finalize symlink after completion
+The production extraction uses `multiomics_kg/extraction/cluster/extract.py` — one OpenAI API call per `gene_clusters` entry (or per paper if `extraction.scope: paper`). Full PDF uploaded via Files API, Pydantic structured output.
 
-**Review UI (Streamlit):**
-- `multiomics_kg/review/cluster_review_app.py` — sidebar navigation with color-coded paper/entry dropdowns, verdict/review filters, export issue report, re-run triggers
-- `multiomics_kg/review/review_components.py` — 3-column merge view (table|visual|semantic), synthesis result below, review controls (status/issues/failing stages/notes/editable fields), diff view, source access (inline tables, PDF links)
-- `multiomics_kg/review/review_data.py` — paper scanning, summary stats, status color computation, issue report export
-- Launch: `uv run streamlit run multiomics_kg/review/cluster_review_app.py`
+**Architecture:**
+- `SHARED_RULES` + `TYPE_RULES` dict (4 types: `time_course`, `diel`, `condition_comparison`, `classification`) + `SELF_VERIFICATION` block
+- `build_prompt(table_config, cluster_summaries)` assembles type-specific prompts
+- Paperconfig hints: top-level `extraction:` section (`scope`, `additional_pdfs`), per-entry `extraction_notes` and `figure_hint`
+- Model: `gpt-4.1-mini` (default), configurable via `--model` or `CLUSTER_EXTRACTION_MODEL` env var
 
-**Tools:**
-- `scripts/rag_experiment.py` — interactive RAG query testing with disk-cached embeddings. Usage: `uv run python scripts/rag_experiment.py "data/.../paper_dir" --interactive`
-- `scripts/dry_run_prompts.py` — generates all LLM prompts without API calls. Usage: `uv run python scripts/dry_run_prompts.py "data/.../paperconfig.yaml" --output-dir /tmp/dry_run`
+**Extraction fields:**
+- `functional_description` — gene identity/pathway membership (2-3 sentences)
+- `temporal_pattern` — expression dynamics prose (1-2 sentences). KG schema still uses `behavioral_description` — rename deferred.
+- `expression_dynamics` — short free-text label (scaffolding, not in KG)
+- Sentinel: `"N/A"` for undiscussed clusters
 
-**Adapter updated:**
-- `multiomics_kg/adapters/cluster_adapter.py` — reads from `.extraction_cache/{entry}/current/` structure, respects review status (approve/edit use descriptions, reject/stale/flag-issue use empty), applies `edited_fields` overrides
+**Data:** 15 entries across 8 papers, 110 clusters (~60 described, ~50 N/A). Manually reviewed against papers and corrected (2026-04-06). 12 warnings remaining (all intentional low-confidence temporal patterns).
 
-**Tests:** 53 targeted + 1356 full suite, all passing.
+**Tests:** 1352 unit tests + 51 paperconfig validation tests, all passing.
 
-### Architecture: per-cluster LLM calls
+### Legacy 4-stage pipeline (2026-04-04, not in production)
 
-All four LLM stages now run one call per cluster (no batch calls):
-
-| Stage | Model | Per-cluster? | Shared context |
-|---|---|---|---|
-| Visual | gpt-4o | Yes | PDF pages (cached to `pdf_content_parts.json`) |
-| Semantic | gpt-5-nano | Yes | RAG chunks (cached to `chunks.json` + `embeddings.npy`) |
-| Synthesis | gpt-5-nano | Yes | Merged stage1 data (no PDF) |
-| Validation | gpt-4o | Yes | PDF pages + CSV summary (same cache as visual) |
-
-PDF prefix caching: OpenAI automatically caches identical prompt prefixes. Since all per-cluster calls within a stage share the same PDF pages, calls 2-N use cached input tokens (50% cheaper).
-
-### Latest Tolonen run results (2026-04-04 ~23:00)
-
-- **MED4**: 9 synthesized, **3 pass, 6 fail** — fails are JSON parse errors (see Issue 6)
-- **MIT9313**: 7 synthesized, **1 pass, 2 warn, 4 fail** — same issue
-
-Data is at `.extraction_cache/{entry}/current/` — viewable in the review UI.
+The 4-stage pipeline (`pipeline.py`, `run_manager.py`, review UI) from 2026-04-04 is still in the codebase but not used for production extraction. It was superseded by the simpler single-call approach which proved more reliable. Infrastructure includes `run_manager.py`, `migrate.py`, Streamlit review UI, RAG experiment tool, and dry-run prompt generator. See git history for details.
 
 ---
 

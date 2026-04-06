@@ -63,9 +63,11 @@ uv run python -m multiomics_kg.extraction.cluster.extract --report --verify
 Creates `data/cluster_extraction_report.md` — a diff-friendly markdown file with all cluster descriptions and a Warnings section with programmatic quality checks.
 
 ### Quality checks performed
-- Duplicate `id` fields within an analysis
-- Locus tags in descriptions (PMM*, PMT*, etc.)
-- Empty direction for clusters with non-empty descriptions
+- Locus tags in descriptions (PMM*, PMT*, SY28_*, etc.)
+- Low-confidence clusters with non-N/A descriptions (filler detection)
+- Filler phrases ("likely", "possibly", "not explicitly described")
+- Near-identical descriptions within an analysis
+- No longer checked: empty direction (replaced by free-text `expression_dynamics`)
 
 ### Iteration workflow
 ```bash
@@ -75,7 +77,7 @@ uv run python -m multiomics_kg.extraction.cluster.extract --report --verify
 # 2. Read report, identify issues
 cat data/cluster_extraction_report.md
 
-# 3. Tweak prompt (in multiomics_kg/extraction/cluster/extract.py, DEVELOPER_MSG_TEMPLATE)
+# 3. Tweak prompt (in extract.py: SHARED_RULES, TYPE_RULES, or SELF_VERIFICATION)
 
 # 4. Re-extract specific entries
 uv run python -m multiomics_kg.extraction.cluster.extract --entry X --force
@@ -87,13 +89,55 @@ git diff data/cluster_extraction_report.md
 # 6. Repeat until satisfied
 ```
 
-## 3. Data Layout
+## 3. Cluster Types
+
+The extraction uses per-type prompt templates. Each `gene_clusters` entry must have a `cluster_type`:
+
+| Type | Description | Papers |
+|------|-------------|--------|
+| `time_course` | Treatment/stress time-series | Tolonen 2006, Lindell 2007 |
+| `diel` | 24h diel cycling | Zinser 2009, Coe 2024 |
+| `condition_comparison` | Across discrete conditions | Alonso-Saez 2023, Wang 2014, Bernstein 2017 |
+| `classification` | Categorizing genes by condition/periodicity | Biller 2018 |
+
+## 4. Paperconfig Hints
+
+### Publication-level `extraction:` section (optional)
+
+```yaml
+extraction:
+  scope: paper              # "paper" (one LLM call for all entries) | "analysis" (default, one per entry)
+  additional_pdfs:
+    - data/.../supplementary.pdf   # uploaded alongside main PDF
+```
+
+### Per-entry fields on `gene_clusters` entries
+
+- `figure_hint` (str) — tells the model which figures/tables to focus on (e.g., `"Figure 6, Table S3"`)
+- `extraction_notes` (str) — free-text guidance passed into the prompt context (e.g., `"Paper discusses clusters jointly across organisms"`)
+
+## 5. Extraction Fields
+
+### Stored on GeneCluster nodes (via adapter)
+- `functional_description` — gene identity and pathway membership (2-3 sentences max)
+- `temporal_pattern` — observed expression dynamics (1-2 sentences). NOTE: adapter currently reads `behavioral_description` — rename deferred.
+
+### Extraction-only scaffolding (not in KG)
+- `expression_dynamics` — short free-text label (e.g., "early transient", "peaks at dawn", "periodic in L:D only")
+- `enrichment_category`, `enrichment_pvalue`, `enrichment_significant`
+- `supporting_quotes`, `source_figures`
+- `self_assessment`, `assessment_notes`, `confidence_notes`
+
+### Sentinel value
+`"N/A"` — used when the paper doesn't discuss a cluster's function or behavior. Never filler text.
+
+## 6. Data Layout
 
 ```
 data/<paper_dir>/
   paperconfig.yaml
   cluster_extractions/               # extraction results (one JSON + MD per entry)
-    {entry_key}.json                 # structured extraction data (clean format)
+    {entry_key}.json                 # structured extraction data
     {entry_key}.md                   # human-readable summary
 
 data/
@@ -110,76 +154,86 @@ data/
     "organism": "Prochlorococcus MIT9313",
     "entry_key": "mit9313_kmeans_nstarvation",
     "model": "gpt-4.1-mini",
-    "extracted_at": "2026-04-05T13:25:22",
+    "extracted_at": "2026-04-06T10:08:07",
     "input_tokens": 62080,
     "output_tokens": 3141
   },
   "clusters": {
     "1": {
-      "id": "mit9313_up_transport_binding",
-      "name": "MIT9313 cluster 1 (up, transport and binding)",
-      "functional_description": "...",
-      "behavioral_description": "...",
-      "peak_time_hours": 6.0,
-      "period_hours": null,
-      "direction": "up",
+      "id": "mit9313_early_transport",
+      "name": "MIT9313 cluster 1 (transport and binding)",
+      "functional_description": "Enriched for transport and binding (p=0.04). Contains urtA and the nitrite permease.",
+      "temporal_pattern": "Most rapidly upregulated cluster, responding within the first hours.",
+      "expression_dynamics": "early rapid upregulation",
       "enrichment_category": "transport and binding",
       "enrichment_pvalue": 0.04,
       "enrichment_significant": true,
       "self_assessment": "high",
-      "assessment_notes": "...",
-      "confidence_notes": "...",
-      "supporting_quotes": [{"quote": "...", "location": "..."}]
+      "assessment_notes": "",
+      "confidence_notes": "",
+      "supporting_quotes": [{"quote": "...", "location": "Page 3"}],
+      "source_figures": ["Figure 2"]
     }
   }
 }
 ```
 
-## 4. Architecture
+## 7. Architecture
 
-The extraction pipeline has two stages:
+The extraction uses **per-type prompt templates**:
 
-| Stage | What | LLM? | Output |
-|---|---|---|---|
-| **0: Table** | CSV parsing + enrichment parsers | No | Per-cluster gene counts, enrichment data |
-| **1: Extract** | Full PDF + all cluster summaries → structured descriptions | Yes (per analysis) | `cluster_extractions/{entry_key}.json` |
+```
+SHARED_RULES          — rules for all cluster types
+TYPE_RULES[type]      — type-specific field guidance + few-shot examples
+SELF_VERIFICATION     — quote/cluster attribution self-check
+extraction_notes      — per-entry free-text from paperconfig
+cluster list          — cluster keys + gene counts from CSV
+```
 
-**One API call per `gene_clusters` entry** — the model receives the full PDF via `input_file` and extracts all clusters in the analysis simultaneously. This enables cross-cluster disambiguation (e.g., "cluster 6 is down while cluster 1 is up").
+Assembled by `build_prompt(table_config, cluster_summaries)` into a single developer message.
+
+**One API call per `gene_clusters` entry** (or per paper if `extraction.scope: paper`). The model receives the full PDF via OpenAI Files API and extracts all clusters simultaneously.
 
 ### Key modules
 
 | File | Responsibility |
 |---|---|
-| `multiomics_kg/extraction/cluster/extract.py` | LLM calls, prompts, report generation, CLI |
-| `multiomics_kg/extraction/cluster/extraction_utils.py` | File I/O, cluster key matching, CSV loading |
-| `multiomics_kg/extraction/cluster/table.py` | Stage 0 CSV parsing + enrichment parsers |
-| `multiomics_kg/adapters/cluster_adapter.py` | Reads extraction JSONs via `extraction_utils`, emits KG nodes |
+| `multiomics_kg/extraction/cluster/extract.py` | Prompt templates, LLM calls, report generation, CLI |
+| `multiomics_kg/extraction/cluster/extraction_utils.py` | File I/O, cluster key matching, CSV loading, paperconfig discovery |
+| `multiomics_kg/adapters/cluster_adapter.py` | Reads extraction JSONs, emits KG nodes/edges |
+| `.claude/skills/paperconfig/validate_paperconfig.py` | Validates cluster_type vocabulary and extraction section |
 
-## 5. Adding New Papers
+## 8. Adding New Papers
 
 1. Add `type: gene_clusters` entry to the paper's `paperconfig.yaml` (see CLAUDE.md for format)
-2. Run extraction:
+2. Set `cluster_type` to one of: `time_course`, `diel`, `condition_comparison`, `classification`
+3. Optionally add `figure_hint`, `extraction_notes`, and `extraction:` section
+4. Run extraction:
    ```bash
    uv run python -m multiomics_kg.extraction.cluster.extract --paper "Author Year"
    ```
-3. Review: `uv run python -m multiomics_kg.extraction.cluster.extract --report --verify`
-4. Rebuild KG — extracted descriptions automatically appear on `GeneCluster` nodes
+5. Review: `uv run python -m multiomics_kg.extraction.cluster.extract --report --verify`
+6. For complex papers: manually review JSON against paper, fix misattributions
+7. Rebuild KG — extracted descriptions automatically appear on `GeneCluster` nodes
 
-## 6. Troubleshooting
+## 9. Troubleshooting
 
 ### Model TPM limit exceeded
 The PDF token count may exceed your account's TPM limit. Use `gpt-4.1-mini` (default) which has higher limits, or request a TPM increase for `gpt-4.1`.
 
 ### Cluster key mismatches
-If the model renumbers or skips clusters, the matching logic tries: name regex, id suffix, case-insensitive, positional fallback. Check warnings in the extraction log. For multi-organism papers (e.g., Tolonen), use `extract_paper()` instead of `extract_analysis()` — see the Tolonen one-off in the git history.
+If the model renumbers or skips clusters, the matching logic tries: name regex, id suffix, case-insensitive, positional fallback. Check warnings in the extraction log.
+
+### Cross-organism gene conflation
+Papers discussing joint multi-organism clusters (e.g., Bernstein 2017) are prone to misattributing genes between organisms. Use `extraction_notes` to clarify which organism's genes are in scope, and manually verify the results.
 
 ### Self-assessment: low
-Clusters with `self_assessment: "low"` typically mean the paper doesn't discuss them. These are correct — the adapter still creates the GeneCluster node (from CSV data) but without populated descriptions.
+Clusters with `self_assessment: "low"` typically mean the paper doesn't discuss them. These are correct — the adapter still creates the GeneCluster node (from CSV data) but with N/A descriptions.
 
-## 7. Current State
+## 10. Current State (2026-04-06)
 
-- **15 analyses** across 8 papers, **115 clusters** total
-- **82 clusters** with populated descriptions
-- **33 clusters** correctly empty (paper doesn't discuss them)
-- **5 warnings**: 1 locus tag, 4 duplicate IDs on undescribed Zinser diel clusters
-- Ground truth validated: Tolonen MIT9313 clusters 1, 6, 7 all correct
+- **15 analyses** across 8 papers, **110 clusters** total
+- **~60 clusters** with populated descriptions (manually reviewed against papers)
+- **~50 clusters** correctly N/A (paper doesn't discuss them)
+- **12 warnings** — all intentional (low-confidence clusters with temporal patterns but N/A functional)
+- Manually corrected: Tolonen cross-strain genes, Bernstein per-organism attributions, Biller organism confusion, Zinser timing, Alonso-Saez gene assignments, Wang spurious cluster removed
