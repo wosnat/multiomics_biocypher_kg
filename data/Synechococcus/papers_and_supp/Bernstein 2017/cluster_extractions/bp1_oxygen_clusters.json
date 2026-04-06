@@ -5,33 +5,33 @@
     "organism": "Thermosynechococcus vestitus BP-1",
     "entry_key": "bp1_oxygen_clusters",
     "model": "gpt-4.1-mini",
-    "extracted_at": "2026-04-06T09:30:34.470538",
-    "input_tokens": 35393,
-    "output_tokens": 1654
+    "extracted_at": "2026-04-06T09:51:38.512641",
+    "input_tokens": 35533,
+    "output_tokens": 1302
   },
   "clusters": {
     "E": {
       "id": "tev_pO2_responsive_cluster_E",
-      "name": "Thermosynechococcus elongatus cluster E (pO2-responsive)",
-      "functional_description": "Contains 211 genes including those involved in nitrogen metabolism such as glnA, gltB, and vitamin B12-independent homocysteine methyltransferase (metE). Genes in this cluster generally decrease with increasing pO2 and increase with specific growth and photosynthesis rates. This cluster also includes T. elongatus genes involved in vitamin B12 biosynthesis and methionine metabolism that are negatively correlated with M. ruber genes in this cluster.",
-      "temporal_pattern": "Transcript abundances decrease with increasing pO2 treatments (0 to 0.59 atm-O2) and show profiles analogous to cluster A (tent-shaped eigen-gene with maximum at midpoint irradiance).",
-      "expression_dynamics": "down with pO2",
-      "enrichment_category": "N/A",
-      "enrichment_pvalue": null,
-      "enrichment_significant": false,
-      "confidence_notes": "",
+      "name": "Thermosynechococcus elongatus cluster E (pO2 responsive)",
+      "functional_description": "Enriched for genes involved in methionine biosynthesis (metHX), vitamin B12 biosynthesis (cobWNT, cobOQDPC), and vitamin B12-dependent methionine synthesis (metH). Includes genes such as metHX and cobWNT. Also contains genes with expression decreasing with increasing pO2.",
+      "temporal_pattern": "Genes in cluster E show a relative decrease in transcript abundance with increasing pO2 treatments (0 to 0.59 atm-O2).",
+      "expression_dynamics": "down with high pO2",
+      "enrichment_category": "Methionine and Vitamin B12 metabolism",
+      "enrichment_pvalue": 0.05,
+      "enrichment_significant": true,
+      "confidence_notes": "Cluster E shows coordinated expression of genes related to vitamin B12 and methionine metabolism with significant enrichment.",
       "supporting_quotes": [
+        {
+          "quote": "The relative abundances of transcripts encoding vitamin B12 uptake/scavenging gene products in M. ruber (btuCD) decreased with Ii in concurrence with decreased T. elongatus transcripts (all within cluster C) encoding vitamin B12 biosynthesis...",
+          "location": "Page 8"
+        },
+        {
+          "quote": "The relative abundances of T. elongatus transcripts encoding vitamin B12 biosynthesis, including those required for the insertion of cobalt (cobWNT) and for the conversion of cobyrinic acid diamine to the vitamin B12 coenzyme from cobOQDPC...",
+          "location": "Page 8"
+        },
         {
           "quote": "Clusters E to H contain transcripts that trend with increasing pO2 treatments (0 to 0.59 atm-O2) and show profiles that are analogous to clusters A to D.",
           "location": "Page 7"
-        },
-        {
-          "quote": "The relative abundances of transcripts encoding vitamin B12 uptake/scavenging gene products in M. ruber (btuCD) decreased with Ii in concurrence with decreased T. elongatus transcripts (all within cluster C) encoding vitamin B12 biosynthesis.",
-          "location": "Page 8"
-        },
-        {
-          "quote": "Some key genes required for N acquisition by M. ruber grouped into clusters C and/or H, showed opposite expression patterns with respect to Ii and pO2, and effectively increased with the specific growth and photosynthesis rates. These include glnA (SY28_RS02395) and the large subunit of glutamate synthase (gltB; SY28_RS09480).",
-          "location": "Page 8"
         }
       ],
       "source_figures": [
@@ -43,79 +43,80 @@
     },
     "F": {
       "id": "tev_pO2_responsive_cluster_F",
-      "name": "Thermosynechococcus elongatus cluster F (pO2-responsive)",
-      "functional_description": "Contains 187 genes including M. ruber genes involved in nitrogen uptake and metabolism, such as glutamate dehydrogenase (gdhA) and amino acid uptake systems. This cluster shows expression patterns that decrease with increasing pO2 and increase with specific growth and photosynthesis rates, indicating coordination of nitrogen metabolism between species.",
-      "temporal_pattern": "Transcript abundances decrease with increasing pO2 treatments and increase with specific growth and photosynthesis rates, showing inverse patterns to clusters E and H.",
-      "expression_dynamics": "down with pO2",
+      "name": "Thermosynechococcus elongatus cluster F (pO2 responsive)",
+      "functional_description": "N/A",
+      "temporal_pattern": "N/A",
+      "expression_dynamics": "N/A",
       "enrichment_category": "N/A",
       "enrichment_pvalue": null,
       "enrichment_significant": false,
       "confidence_notes": "",
-      "supporting_quotes": [
-        {
-          "quote": "Several M. ruber nitrogen-associated genes also grouped into clusters D and/or G, including a glutamate dehydrogenase gene (gdhA) and amino acid uptake system genes.",
-          "location": "Page 8"
-        },
-        {
-          "quote": "Some key genes required for N acquisition by M. ruber grouped into clusters C and/or H, showed opposite expression patterns with respect to Ii and pO2, and effectively increased with the specific growth and photosynthesis rates.",
-          "location": "Page 8"
-        }
-      ],
+      "supporting_quotes": [],
       "source_figures": [
         "Figure 6"
       ],
-      "self_assessment": "medium",
-      "assessment_notes": "The paper discusses nitrogen metabolism genes in clusters D and G more explicitly; cluster F is less detailed but inferred from related gene groups."
+      "self_assessment": "low",
+      "assessment_notes": "No specific functional description or expression dynamics discussed for cluster F in the paper."
     },
     "G": {
       "id": "tev_pO2_responsive_cluster_G",
-      "name": "Thermosynechococcus elongatus cluster G (pO2-responsive)",
-      "functional_description": "Contains 913 genes including T. elongatus genes involved in organic acid synthesis and export (acs, ackA, ldhA, gltA), sucrose metabolism (spsA, sps), and exopolysaccharide synthesis (exoD). Also includes M. ruber genes involved in uptake and metabolism of related compounds such as acetyl-CoA synthetase (acs), cytochrome c oxidase (coxB), monosaccharide uptake systems (frcA, gtsAB), and amino acid uptake (livGH).",
-      "temporal_pattern": "Transcript abundances decrease with increasing pO2 treatments and increase with specific growth and photosynthesis rates, showing profiles analogous to cluster D with respect to irradiance.",
-      "expression_dynamics": "down with pO2",
-      "enrichment_category": "N/A",
-      "enrichment_pvalue": null,
-      "enrichment_significant": false,
-      "confidence_notes": "",
+      "name": "Thermosynechococcus elongatus cluster G (pO2 responsive)",
+      "functional_description": "Enriched for genes involved in organic acid synthesis and export, nitrogen metabolism including nitrate uptake (nrtABD), glutamine synthetase (glnA), and glutamate symporter (gltS). Includes acetyl-CoA synthetase (acs), acetate kinase (ackA), lactate dehydrogenase (ldhA), citrate synthase (gltA), and nitrogen metabolism genes glnA, glnB, nirA.",
+      "temporal_pattern": "Genes in cluster G show a decrease in transcript abundance with increasing pO2 treatments and increase with specific growth and photosynthesis rates.",
+      "expression_dynamics": "down with high pO2",
+      "enrichment_category": "Carbon and Nitrogen metabolism",
+      "enrichment_pvalue": 0.05,
+      "enrichment_significant": true,
+      "confidence_notes": "Cluster G includes key genes for carbon and nitrogen metabolism with coordinated expression patterns.",
       "supporting_quotes": [
         {
           "quote": "Principal genes involved in organic acid synthesis of T. elongatus grouped into clusters that increased with Ii (cluster D) and/or decreased with pO2 (cluster G). These included acetyl coenzyme A synthetase (acs), acetate kinase (ackA), lactate dehydrogenase (ldhA), and citrate synthase (gltA).",
           "location": "Page 7"
         },
         {
-          "quote": "In conjunction with T. elongatus, M. ruber genes involved in the uptake and metabolism of compounds related to export and synthesis of T. elongatus-derived organic carbon were also found in clusters D and/or G. Notable examples included genes encoding putative acetyl-CoA synthetase (acs), cytochrome c oxidase (coxB), monosaccharide uptake systems (frcA and gtsAB), xylose isomerase (xylA), xylulokinase (xylB), an ABC-type multisugar uptake system, and branched-chain amino acid uptake (livGH).",
-          "location": "Page 7-8"
+          "quote": "The relative abundances of transcripts encoding the T. elongatus nitrate uptake system from nrtABD increased with Ii, decreased with pO2, and grouped appropriately into clusters D and G.",
+          "location": "Page 8"
+        },
+        {
+          "quote": "Clusters E to H contain transcripts that trend with increasing pO2 treatments (0 to 0.59 atm-O2) and show profiles that are analogous to clusters A to D.",
+          "location": "Page 7"
         }
       ],
       "source_figures": [
-        "Figure 6"
+        "Figure 6",
+        "Figure 3"
       ],
       "self_assessment": "high",
       "assessment_notes": ""
     },
     "H": {
       "id": "tev_pO2_responsive_cluster_H",
-      "name": "Thermosynechococcus elongatus cluster H (pO2-responsive)",
-      "functional_description": "Contains 888 genes including T. elongatus genes involved in oxidative stress responses such as flv4, 2-Cys peroxiredoxins (tll1454, tlr1289), periplasmic peroxiredoxin (prxQ-B2), and Mn-superoxide dismutase (sodB). M. ruber genes include the H2O2-responsive transcriptional regulator oxyR and manganese catalase. Genes associated with electron transfer processes potentiating ROS group into cluster G, which decreases with increasing pO2.",
-      "temporal_pattern": "Transcript abundances increase with increasing pO2 treatments and decrease with specific growth and photosynthesis rates, showing profiles analogous to cluster C with respect to irradiance.",
-      "expression_dynamics": "up with pO2",
+      "name": "Thermosynechococcus elongatus cluster H (pO2 responsive)",
+      "functional_description": "Enriched for genes involved in oxidative stress responses including ROS detoxification enzymes such as NAD(P)H-oxygen oxidoreductase (flv4), 2-Cys peroxiredoxins, periplasmic peroxiredoxin (prxQ-B2), and Mn-superoxide dismutase (sodB). Also includes photosystem I high-light-stabilizing complex genes (hliACD).",
+      "temporal_pattern": "Genes in cluster H show increased transcript abundance with increasing pO2 treatments and correspond to decreased specific growth rates.",
+      "expression_dynamics": "up with high pO2",
       "enrichment_category": "Oxidative stress response",
-      "enrichment_pvalue": 0.01,
+      "enrichment_pvalue": 0.05,
       "enrichment_significant": true,
-      "confidence_notes": "Enrichment in oxidative stress response genes is statistically significant with p-value 0.01.",
+      "confidence_notes": "Cluster H shows coordinated expression of oxidative stress response genes with significant enrichment.",
       "supporting_quotes": [
         {
-          "quote": "The relative abundance of T. elongatus transcripts encoding enzymes involved with ROS detoxification generally increased with increasing Ii and pO2, and the transcripts grouped into the appropriate clusters D and/or H. Notable examples include an NAD(P)H-oxygen oxidoreductase (flv4), 2-Cys family peroxiredoxins (tll1454 and tlr1289), a periplasmic peroxiredoxin (prxQ-B2), and an Mn-superoxide dismutase (sodB).",
-          "location": "Page 8-9"
+          "quote": "The relative abundance of T. elongatus transcripts encoding enzymes involved with ROS detoxification generally increased with increasing Ii and pO2, and the transcripts grouped into the appropriate clusters D and/or H.",
+          "location": "Page 8"
         },
         {
-          "quote": "M. ruber peroxidase (bcp) and superoxide dismutase (sod2) genes generally increased with pO2 and grouped with the T. elongatus genes into cluster H (increased with pO2 and decreasing growth rate).",
-          "location": "Page 9"
+          "quote": "M. ruber peroxidase and superoxide dismutase genes generally increased with pO2 and grouped with the T. elongatus genes into cluster H (increased with pO2 and decreasing growth).",
+          "location": "Page 8"
+        },
+        {
+          "quote": "Clusters E to H contain transcripts that trend with increasing pO2 treatments (0 to 0.59 atm-O2) and show profiles that are analogous to clusters A to D.",
+          "location": "Page 7"
         }
       ],
       "source_figures": [
         "Figure 6",
-        "Figure 3"
+        "Figure 3",
+        "Figure 5"
       ],
       "self_assessment": "high",
       "assessment_notes": ""

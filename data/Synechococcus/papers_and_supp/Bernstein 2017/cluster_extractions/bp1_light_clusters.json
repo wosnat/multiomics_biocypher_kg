@@ -5,29 +5,34 @@
     "organism": "Thermosynechococcus vestitus BP-1",
     "entry_key": "bp1_light_clusters",
     "model": "gpt-4.1-mini",
-    "extracted_at": "2026-04-06T09:30:07.628151",
-    "input_tokens": 35392,
-    "output_tokens": 1306
+    "extracted_at": "2026-04-06T09:51:15.960429",
+    "input_tokens": 35532,
+    "output_tokens": 1299
   },
   "clusters": {
     "A": {
       "id": "tev_irradiance_responsive_cluster_a",
       "name": "Thermosynechococcus elongatus cluster A (irradiance-responsive)",
-      "functional_description": "Cluster A exhibits a tent-shaped eigen-gene with maximum relative mRNA abundances at the midpoint irradiance (1,190 \u00b5mol photons m-2 s-1). Genes in cluster A responded inversely to those in cluster B. Specific genes are not individually named for this cluster in the paper.",
-      "temporal_pattern": "Maximum transcript abundance at intermediate irradiance (1,190 \u00b5mol photons m-2 s-1), with a tent-shaped pattern showing increase then decrease as irradiance changes.",
-      "expression_dynamics": "peak at mid irradiance",
-      "enrichment_category": "N/A",
-      "enrichment_pvalue": null,
-      "enrichment_significant": false,
-      "confidence_notes": "",
+      "functional_description": "Enriched for photosystem II components including psbV, psbX, and psbV2, and beta-carboxysome genes ccmK1 and ccmL. Includes genes related to amino acid metabolism such as cysE and metE.",
+      "temporal_pattern": "Shows a tent-shaped expression pattern with maximum transcript abundance at intermediate irradiance (1,190 \u00b5mol photons m-2 s-1).",
+      "expression_dynamics": "peak at intermediate irradiance",
+      "enrichment_category": "Photosynthesis, Carboxysome, Amino Acid Metabolism",
+      "enrichment_pvalue": 0.05,
+      "enrichment_significant": true,
+      "confidence_notes": "High confidence based on significant enrichment and clear expression pattern.",
       "supporting_quotes": [
         {
           "quote": "Cluster A exhibits a tent-shaped eigen-gene with maximum relative mRNA abundances at the midpoint Ii (1,190 mol photons m2 s1).",
-          "location": "Page 7"
+          "location": "Page 6"
+        },
+        {
+          "quote": "Genes whose transcripts were shown to be responsive by increasing with irradiance included those associated with photosystem II (PS II) (psbV, psbX, and psbV2) and beta-carboxysome (ccmK1 and ccmL) functions.",
+          "location": "Page 4"
         }
       ],
       "source_figures": [
-        "Figure 6"
+        "Figure 6",
+        "Figure 3A"
       ],
       "self_assessment": "high",
       "assessment_notes": ""
@@ -35,65 +40,78 @@
     "B": {
       "id": "tev_irradiance_responsive_cluster_b",
       "name": "Thermosynechococcus elongatus cluster B (irradiance-responsive)",
-      "functional_description": "Cluster B genes responded inversely to those in cluster A. Specific genes are not individually named for this cluster in the paper.",
-      "temporal_pattern": "Transcript abundance decreases at intermediate irradiance and shows an inverse pattern to cluster A.",
-      "expression_dynamics": "minimum at mid irradiance",
+      "functional_description": "N/A",
+      "temporal_pattern": "N/A",
+      "expression_dynamics": "N/A",
       "enrichment_category": "N/A",
       "enrichment_pvalue": null,
       "enrichment_significant": false,
-      "confidence_notes": "",
-      "supporting_quotes": [
-        {
-          "quote": "Genes in cluster B responded inversely to those in cluster A.",
-          "location": "Page 7"
-        }
-      ],
+      "confidence_notes": "No specific functional description or expression pattern discussed for this cluster in the paper.",
+      "supporting_quotes": [],
       "source_figures": [
         "Figure 6"
       ],
-      "self_assessment": "high",
-      "assessment_notes": ""
+      "self_assessment": "low",
+      "assessment_notes": "No detailed information available for this cluster."
     },
     "C": {
       "id": "tev_irradiance_responsive_cluster_c",
       "name": "Thermosynechococcus elongatus cluster C (irradiance-responsive)",
-      "functional_description": "Cluster C contains genes that show a relative decrease with increasing irradiance. Genes involved in vitamin B12 biosynthesis (cobWNT, cobOQDPC), vitamin B12 uptake/scavenging (btuCD), and methionine biosynthesis (metHX) are included. M. ruber genes encoding vitamin B12-dependent methionine synthesis also group here. This suggests potential exchange of vitamin B12 and methionine between species.",
-      "temporal_pattern": "Transcript abundance decreases with increasing irradiance and increases with increasing oxygen tension, showing opposite patterns to clusters D and G.",
-      "expression_dynamics": "down with light, up with oxygen",
-      "enrichment_category": "Vitamin B12 biosynthesis and methionine metabolism",
+      "functional_description": "Includes genes involved in vitamin B12 biosynthesis (cobWNT, cobOQDPC) and methionine metabolism (metH, metHX). Also contains genes related to nitrogen metabolism such as glnA and gltB.",
+      "temporal_pattern": "Shows a relative decrease in transcript abundance with increasing irradiance, corresponding to lower specific growth and photosynthesis rates.",
+      "expression_dynamics": "down with increasing irradiance",
+      "enrichment_category": "Vitamin B12 biosynthesis, Methionine metabolism, Nitrogen metabolism",
       "enrichment_pvalue": 0.05,
       "enrichment_significant": true,
-      "confidence_notes": "Enrichment p-value reported as significant for vitamin B12 biosynthesis and related functions.",
+      "confidence_notes": "Moderate to high confidence based on gene function enrichment and expression trends.",
       "supporting_quotes": [
         {
-          "quote": "The relative abundances of transcripts encoding vitamin B12 uptake/scavenging gene products in M. ruber (btuCD) decreased with Ii in concurrence with decreased T. elongatus transcripts (all within cluster C) encoding vitamin B12 biosynthesis... Both T. elongatus and M. ruber expressed transcripts encoding the vitamin B12-dependent homocysteine methyltransferase (metH) but were negatively correlated and grouped across Ii and pO2 treatments into opposing clusters D (tll1027) and C (SY28_RS08890), indicating that methionine may be directly exchanged from T. elongatus as growth requirements increase with the specific growth rate.",
-          "location": "Pages 7-8"
+          "quote": "The relative abundances of transcripts encoding vitamin B12 biosynthesis, including those required for the insertion of cobalt (cobWNT) and for the conversion of cobyrinic acid diamine to the vitamin B12 coenzyme from cobOQDPC, grouped within cluster C.",
+          "location": "Page 8"
+        },
+        {
+          "quote": "M. ruber genes encoding vitamin B12 uptake/scavenging decreased with Ii in concurrence with decreased T. elongatus transcripts all within cluster C.",
+          "location": "Page 8"
+        },
+        {
+          "quote": "Some key genes required for N acquisition by M. ruber grouped into clusters C and/or H, showed opposite expression patterns with respect to Ii and pO2, and effectively increased with the specific growth and photosynthesis rates. These include glnA and gltB.",
+          "location": "Page 8"
         }
       ],
       "source_figures": [
-        "Figure 6"
+        "Figure 6",
+        "Tables S1 and S2"
       ],
-      "self_assessment": "high",
-      "assessment_notes": ""
+      "self_assessment": "medium",
+      "assessment_notes": "Some uncertainty due to complexity of gene patterns and overlap with other clusters."
     },
     "D": {
       "id": "tev_irradiance_responsive_cluster_d",
       "name": "Thermosynechococcus elongatus cluster D (irradiance-responsive)",
-      "functional_description": "Cluster D contains genes that show a relative increase with increasing irradiance. Genes involved in organic acid synthesis (acs, ackA, ldhA, gltA), exopolysaccharide synthesis (exoD), sucrose metabolism (spsA, sps), nitrogen metabolism (nrtABD, glnA, glnB, nirA, gltS), ROS detoxification (flv4, 2-Cys peroxiredoxins, prxQ-B2, sodB), and methionine degradation and salvage (ahcY, metK, mtaP, mtnA) are included. M. ruber genes involved in uptake and metabolism of related compounds also group here. This cluster corresponds to increased specific growth and photosynthesis rates.",
+      "functional_description": "Enriched for genes involved in organic acid synthesis and export (acs, ackA, ldhA, gltA), exopolysaccharide synthesis (exoD), sucrose metabolism (spsA, sps), nitrogen metabolism (nrtABD, glnA, nirA, gltS), and ROS detoxification (flv4, prxQ-B2, sodB).",
       "temporal_pattern": "Transcript abundance increases with increasing irradiance and decreases with increasing oxygen tension.",
-      "expression_dynamics": "up with light, down with oxygen",
-      "enrichment_category": "Carbon metabolism, nitrogen metabolism, ROS detoxification, methionine metabolism",
+      "expression_dynamics": "up with increasing irradiance",
+      "enrichment_category": "Carbon metabolism, Nitrogen metabolism, ROS detoxification",
       "enrichment_pvalue": 0.05,
       "enrichment_significant": true,
-      "confidence_notes": "Enrichment p-values significant for multiple metabolic functions including carbon fixation, nitrogen metabolism, and ROS detoxification.",
+      "confidence_notes": "High confidence based on multiple gene functions and consistent expression patterns.",
       "supporting_quotes": [
         {
-          "quote": "Principal genes involved in organic acid synthesis of T. elongatus grouped into clusters that increased with Ii (cluster D)... Functions involved in synthesis and export of larger biomolecules (i.e., sugars, peptides, and extracellular polymeric substance [EPS]) also grouped into clusters D and G... T. elongatus nitrogen metabolism genes found in these clusters include glutamine synthetase gene glnA, nitrogen regulatory protein gene glnB, assimilatory ferredoxin-nitrate reductase gene nirA, and glutamate symporter gene gltS... The relative abundance of T. elongatus transcripts encoding enzymes involved with ROS detoxification generally increased with increasing Ii and pO2, and the transcripts grouped into the appropriate clusters D and/or H... The relative abundances of T. elongatus transcripts encoding the degradation and salvage of methionine (ahcY, metK, mtaP, and mtnA) increased with Ii but decreased with pO2 treatments and grouped within clusters D and G, respectively.",
-          "location": "Pages 7-9"
+          "quote": "Principal genes involved in organic acid synthesis of T. elongatus grouped into clusters that increased with Ii (cluster D). These included acetyl coenzyme A synthetase (acs), acetate kinase (ackA), lactate dehydrogenase (ldhA), and citrate synthase (gltA).",
+          "location": "Page 7"
+        },
+        {
+          "quote": "Genes involved in synthesis and export of larger biomolecules (i.e., sugars, peptides, and extracellular polymeric substance [EPS]) also grouped into clusters D and G. These included a putative exopolysaccharide synthesis gene (exoD), sucrose synthase (spsA), and a sucrose degradation enzyme (sps).",
+          "location": "Page 7"
+        },
+        {
+          "quote": "The relative abundance of T. elongatus transcripts encoding enzymes involved with ROS detoxification generally increased with increasing Ii and pO2, and the transcripts grouped into the appropriate clusters D and/or H. Notable examples include an NAD(P)H-oxygen oxidoreductase (flv4), 2-Cys family peroxiredoxins, a periplasmic peroxiredoxin (prxQ-B2), and an Mn-superoxide dismutase (sodB).",
+          "location": "Page 8"
         }
       ],
       "source_figures": [
-        "Figure 6"
+        "Figure 6",
+        "Figure 3"
       ],
       "self_assessment": "high",
       "assessment_notes": ""

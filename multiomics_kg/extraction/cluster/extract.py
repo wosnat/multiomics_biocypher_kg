@@ -68,8 +68,16 @@ SHARED_RULES = """\
 ## Rules
 
 - For clusters the paper does NOT discuss: set description fields to "N/A". \
-Do NOT say what the paper didn't do (e.g., "The gene is not specifically named" or \
-"No enrichment was reported"). Just use "N/A" and move on.
+Do NOT say what the paper didn't do (e.g., "Specific genes are not individually named" or \
+"No enrichment was reported"). Just use "N/A" and move on. If you have nothing to say \
+about a field, use "N/A" — never fill space with negative statements.
+- functional_description is ONLY about gene identity and pathway membership — what genes \
+or pathways are enriched in this cluster. 2-3 sentences max. \
+Do NOT put expression dynamics, temporal patterns, condition descriptions, or \
+periodicity/cycling information here — those belong in temporal_pattern. \
+BAD: "Enriched for transcripts exhibiting 24-h periodicity in coculture under diel conditions" \
+BAD: "Genes show maximum mRNA abundances at intermediate irradiance" \
+GOOD: "Enriched for photosystem I and II components. Includes genes psbA, psaA, and psaB."
 - Do NOT include locus tags (PMM*, PMT*, P9301_*, NATL2_*, PMN2A_RS*, tll*, SY28_*, \
 BSR22_*, ALT831_RS*, MIT1002_*, SYNW*, sync_*, A9601_*, WP_*, cds-*). Use gene names only.
 - Do NOT include treatment conditions in descriptions — those live on the analysis node.
@@ -84,9 +92,12 @@ temporal_pattern = "N/A", or vice versa. Partial descriptions are fine.
 Do NOT compute your own. Max 3 decimal places or scientific notation.
 - supporting_quotes: direct quotes from the paper supporting your description. REQUIRED.
 - source_figures: figure/table references used as evidence (e.g., "Figure 4A"). REQUIRED.
-- id format: {{organism_short}}_{{dynamics}}_{{theme}} in snake_case.
+- id format: {{organism_short}}_{{dynamics}}_{{theme}} in snake_case. \
+For undiscussed clusters: {{organism_short}}_cluster_{{KEY}}.
 - name format: "{{Organism}} cluster {{KEY}} ({{theme}})" — under 60 chars. \
-Use the EXACT cluster key from the list below.
+Use the EXACT cluster key from the list below. \
+For undiscussed clusters (functional and temporal both N/A): just "{{Organism}} cluster {{KEY}}" \
+with no theme — do NOT invent a theme from gene annotations.
 - self_assessment: your confidence in the extraction (high/medium/low). \
 assessment_notes: what you're uncertain about.
 """
@@ -177,6 +188,9 @@ minimum growth temperature", "location": "Page 8"}}], \
 "periodic across all conditions", "constitutive".
 - temporal_pattern: Which conditions or categories genes fall into, any distinguishing \
 pattern. 1-2 sentences.
+- functional_description: ONLY pathway enrichment if the paper reports it. The classification \
+criterion (e.g., "genes that show 24-h periodicity") is NOT functional — it belongs in \
+temporal_pattern. If no pathway enrichment is reported, use "N/A".
 
 ### Example — Periodicity classification cluster:
 {{"id": "med4_periodic_ld_only", "name": "MED4 cluster periodic_LD (L:D periodic)", \

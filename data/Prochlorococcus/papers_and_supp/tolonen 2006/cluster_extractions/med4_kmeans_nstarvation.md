@@ -2,123 +2,94 @@
 
 ## Cluster 1 |  | high
 
-**Name:** MED4 cluster 1 (5 genes)
+**Name:** Prochlorococcus MED4 cluster 1 (5 genes)
 **Enrichment:** transport and binding (p=0.01)
-**Functional:** Most rapidly and highly upregulated genes containing nitrogen transport genes such as urtA, cynA, and the nitrite permease in MIT9313. Includes highly upregulated unknown genes with strong NtcA binding sites such as PMM0958 and PMM1462.
+**Functional:** Contains nitrogen transport genes including urtA, cynA, and the nitrite permease from MIT9313. Also includes highly upregulated genes such as PMM0958, a gene of unknown function with a top-ranking NtcA binding site.
 
 **Behavioral:** 
 
-**Notes:** High confidence due to direct quotes and strong NtcA binding site evidence.
-
 **Quotes:**
-- [Page 3] Cluster 1, the most rapidly and highly upregulated genes in each strain, contains N transport genes such as MED4 urtA, MED4 cynA, and the MIT9313 nitrite permease.
-- [Page 7] MED4 PMM0958 was the most upregulated gene at all time points and has the top-ranking NtcA binding site in the genome.
+- [Page 3] Cluster 1, the most rapidly and highly upregulated genes in each strain, contains N transport genes such as MED4 and MIT9313 urtA, MED4 cynA, and the MIT9313 nitrite permease.
+- [Page 7] MED4 PMM0958 was the most upregulated gene at all time points and has the top-ranking NtcA binding site in the genome (Table IA).
 
-## Cluster 2 |  | medium
+## Cluster 2 |  | high
 
-**Name:** MED4 cluster 2 (16 genes)
+**Name:** Prochlorococcus MED4 cluster 2 (16 genes)
 **Enrichment:** transport and binding (p=0.12)
-**Functional:** Contains a subset of hli genes (hli10, hli21, hli22) that respond rapidly and highly to nitrogen starvation, and two sigma factors that are upregulated.
+**Functional:** Contains a subset of hli genes (hli10, hli21, hli22) that respond rapidly and highly to nitrogen starvation. Also includes genes known to be NtcA targets and two sigma factors.
 
 **Behavioral:** 
 
-**Notes:** Moderate confidence; functional enrichment not statistically significant but gene content is notable.
-
 **Quotes:**
-- [Page 4] In both strains, the clusters revealed two distinct subsets of the hli genes: those that responded rapidly and highly (MED4 cluster 2 and MIT9313 cluster 1).
-- [Page 4] MED4 cluster 5 contains two sigma factors that are upregulated during N stress.
+- [Page 4] In both strains, the clusters revealed two distinct subsets of the hli genes: those that responded rapidly and highly (MED4 cluster 2 and MIT9313 cluster 1) and those that responded later and to a lesser degree (MED4 cluster 3 and MIT9313 cluster 2).
+- [Page 4] MED4 cluster 2 and MIT9313 cluster 1) and those that responded later and to a lesser degree (MED4 cluster 3 and MIT9313 cluster 2). Both strains also have an upregulated cluster containing two sigma factors, MED4 cluster 5 and MIT9313 cluster 2.
 
 ## Cluster 3 |  | medium
 
-**Name:** MED4 cluster 3 (19 genes)
+**Name:** Prochlorococcus MED4 cluster 3 (19 genes)
 **Enrichment:** regulation (p=0.07)
-**Functional:** Contains a second subset of hli genes that respond later and to a lesser degree to nitrogen starvation, and an upregulated cluster containing two sigma factors.
+**Functional:** Contains a subset of hli genes that respond later and to a lesser degree during nitrogen starvation. Includes genes with regulatory functions.
 
 **Behavioral:** 
 
-**Notes:** Moderate confidence based on gene content and expression patterns.
-
 **Quotes:**
-- [Page 4] Those that responded later and to a lesser degree (MED4 cluster 3 and MIT9313 cluster 2).
-- [Page 4] Both strains also have an upregulated cluster containing two sigma factors, MED4 cluster 5 and MIT9313 cluster 2.
+- [Page 4] those that responded later and to a lesser degree (MED4 cluster 3 and MIT9313 cluster 2).
 
 ## Cluster 4 |  | high
 
-**Name:** MED4 cluster 4 (86 genes)
-**Enrichment:** photosynthesis and respiration (p=2.6e-09)
-**Functional:** Enriched for photosynthesis and respiration genes including photosystem I genes (psaBDEIJKLM). Contains genes for carbon fixation (rbcLS) and ATP synthase in cluster 9.
+**Name:** Prochlorococcus MED4 cluster 4 (86 genes)
+**Enrichment:** amino acid synthesis (p=0.18)
+**Functional:** Enriched for amino acid synthesis genes and genes involved in carbon metabolism such as zwf, tal, acnB, icd, and glycogen metabolism genes. Includes genes for the oxidative pentose phosphate pathway and 2-oxoglutarate synthesis.
 
 **Behavioral:** 
 
-**Notes:** High confidence due to strong enrichment and gene content.
-
 **Quotes:**
-- [Page 4] MED4 cluster 8 contains numerous genes for photosystem I (psaBDEIJKLM).
-- [Page 4] MED4 cluster 9 contains ATP synthase subunits and the carbon fixation genes (rbcLS).
+- [Page 7] Cluster 4 contains genes involved in amino acid synthesis and carbon metabolism such as zwf, tal, acnB, and icd, which are upregulated during N stress.
 
 ## Cluster 5 |  | high
 
-**Name:** MED4 cluster 5 (73 genes)
-**Enrichment:** translation (p=0.001)
-**Functional:** Enriched for translation genes, including ribosomal proteins and genes involved in protein synthesis.
+**Name:** Prochlorococcus MED4 cluster 5 (73 genes)
+**Enrichment:** regulation (p=0.18)
+**Functional:** Contains two sigma factors that are upregulated during nitrogen stress, possibly playing a role in gene expression regulation during N starvation.
 
 **Behavioral:** 
 
-**Notes:** High confidence due to strong enrichment and gene content.
-
 **Quotes:**
-- [Page 4] MED4 cluster 7 is enriched for translation genes.
+- [Page 4] Both strains also have an upregulated cluster containing two sigma factors, MED4 cluster 5 and MIT9313 cluster 2.
+- [Page 6] Two out of five MED4 sigma factors (PMM1289 and PMM1697) were upregulated and may play a role in the upregulation of gene expression during N stress in Prochlorococcus.
 
 ## Cluster 6 |  | high
 
-**Name:** MIT9313 cluster 1 (42 genes)
-**Enrichment:** transport and binding (p=0.04)
-**Functional:** Most rapidly and highly upregulated genes including nitrogen transport genes such as urtA, nitrite permease, and hli genes hliS and hli7.
+**Name:** Prochlorococcus MED4 cluster 6 (124 genes)
+**Enrichment:** translation (p=0.001)
+**Functional:** Enriched for translation-related genes, strongly downregulated during nitrogen starvation, indicating repression of protein synthesis machinery.
 
 **Behavioral:** 
 
-**Notes:** High confidence due to direct quotes and strong NtcA binding site evidence.
-
 **Quotes:**
-- [Page 3] Cluster 1, the most rapidly and highly upregulated genes in each strain, contains N transport genes such as MIT9313 urtA and the nitrite permease.
-- [Page 7] In MIT9313, hliS and hli7 genes were by far the most upregulated of all genes in the genome (approximately 70-fold).
+- [Page 3] Highly downregulated clusters show strong enrichment for specific functional categories, namely Translation (MED4 cluster 7, MIT9313 cluster 7) and Photosynthesis and Respiration (MED4 clusters 8 and 9, MIT9313 cluster 6).
+- [Figure 3] MED4 cluster 6 is enriched for translation and is strongly downregulated during N starvation.
 
-## Cluster 7 |  | medium
+## Cluster 7 |  | high
 
-**Name:** MIT9313 cluster 2 (37 genes)
-**Enrichment:** regulation (p=0.03)
-**Functional:** Contains regulatory genes including two sigma factors that are upregulated and a subset of hli genes that respond later and to a lesser degree.
+**Name:** Prochlorococcus MED4 cluster 7 (42 genes)
+**Enrichment:** photosynthesis and respiration (p=2.6e-09)
+**Functional:** Enriched for photosynthesis and respiration genes including photosystem I genes (psaBDEIJKLM). Strongly downregulated during nitrogen starvation.
 
 **Behavioral:** 
 
-**Notes:** Moderate to high confidence based on gene content and enrichment.
-
 **Quotes:**
-- [Page 4] MIT9313 cluster 2 contains two sigma factors and a subset of hli genes that respond later and to a lesser degree.
+- [Page 4] MED4 cluster 8 contains numerous genes for photosystem I (psaBDEIJKLM) and cluster 9 contains ATP synthase subunits and the carbon fixation genes (rbcLS).
+- [Page 3] MED4 clusters 8 and 9 are enriched for Photosynthesis and Respiration genes and are strongly downregulated during N starvation.
 
 ## Cluster 8 |  | high
 
-**Name:** MIT9313 cluster 3 (37 genes)
-**Enrichment:** photosynthesis and respiration (p=0.00049)
-**Functional:** Enriched for photosynthesis and respiration genes including photosystem I and II genes and phycoerythrin gene cpeB.
+**Name:** Prochlorococcus MED4 cluster 8 (37 genes)
+**Enrichment:** photosynthesis and respiration (p=1.4e-05)
+**Functional:** Enriched for photosynthesis and respiration genes including ATP synthase subunits and carbon fixation genes (rbcLS). Strongly downregulated during nitrogen starvation.
 
 **Behavioral:** 
 
-**Notes:** High confidence due to strong enrichment and gene content.
-
 **Quotes:**
-- [Page 4] MIT9313 cluster 6, the only cluster enriched for Photosynthesis and Respiration in this strain, contains genes for diverse aspects of photosystem I and II along with the phycoerythrin gene, cpeB.
-- [Page 4] MIT9313 cluster 4 contains a number of genes that were unchanged until being repressed only at the final time point.
-
-## Cluster 9 |  | high
-
-**Name:** MIT9313 cluster 4 (8 genes)
-**Enrichment:** translation (p=7.9e-10)
-**Functional:** Enriched for translation genes involved in protein synthesis and ribosomal proteins.
-
-**Behavioral:** 
-
-**Notes:** High confidence due to strong enrichment and gene content.
-
-**Quotes:**
-- [Page 4] MIT9313 cluster 7 is enriched for translation genes.
+- [Page 4] MED4 cluster 9 contains ATP synthase subunits and the carbon fixation genes (rbcLS).
+- [Page 3] MED4 clusters 8 and 9 are enriched for Photosynthesis and Respiration genes and are strongly downregulated during N starvation.

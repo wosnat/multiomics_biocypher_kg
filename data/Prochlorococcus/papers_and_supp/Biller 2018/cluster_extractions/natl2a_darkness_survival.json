@@ -5,88 +5,91 @@
     "organism": "Prochlorococcus NATL2A",
     "entry_key": "natl2a_darkness_survival",
     "model": "gpt-4.1-mini",
-    "extracted_at": "2026-04-06T09:24:56.155337",
-    "input_tokens": 36374,
-    "output_tokens": 1465
+    "extracted_at": "2026-04-06T09:54:29.097887",
+    "input_tokens": 36566,
+    "output_tokens": 1307
   },
   "clusters": {
     "darkness_axenic+darkness_coculture": {
       "id": "natl2a_darkness_axenic+darkness_coculture",
-      "name": "Prochlorococcus NATL2A cluster darkness_axenic+darkness_coculture (darkness)",
-      "functional_description": "Genes in this cluster are expressed during extended darkness in both axenic and coculture conditions. They include photosystem I and II components (psbA, psbB, psaA, psaB) and genes involved in light reactions of photosynthesis, adenylate kinase, and respiratory functions. Transcripts for DNA repair genes (recA, ruvB, mutS, radA) were enriched only in axenic cells, not in cocultures. This cluster shows depletion of transcripts for biosynthetic pathways, NAD metabolism, ATP synthase subunits, glycogen degradation (glgP), oxidative pentose phosphate pathway, and late glycolysis steps in axenic cultures. Enrichment of fermentation-associated transcripts and pyruvate kinase (pykF) was observed in axenic cultures. Cocultured cells showed enrichment in transcripts encoding organic compound degradation/salvage pathways and the Entner-Doudoroff pathway enzyme Eda, suggesting mixotrophic metabolism. Transcripts for transporters were depleted in axenic but not cocultured cells, indicating higher uptake potential in cocultures. The stringent response was activated in axenic but not cocultured cells. Overall, this cluster reflects metabolic shifts and stress responses during extended darkness, with heterotroph presence mitigating some stress effects.",
-      "temporal_pattern": "Genes in this cluster have detectable transcripts during late extended darkness (72-144h) in both axenic and coculture conditions. Transcript abundance changes occur primarily within the first 5 hours past the missed sunrise and continue through extended darkness. Periodic oscillations in transcript abundance are lost in axenic cultures but partially retained in cocultures during extended darkness.",
-      "expression_dynamics": "constitutive during extended darkness in both axenic and coculture conditions, with partial retention of periodicity in coculture",
-      "enrichment_category": "Photosynthesis, Fermentation, Organic compound degradation",
-      "enrichment_pvalue": 0.001,
+      "name": "Prochlorococcus NATL2A cluster darkness_axenic+darkness_coculture (darkness axenic+coculture)",
+      "functional_description": "Enriched for photosystem I and II components including psbA, psaA, and psaB. Also enriched in genes involved in light reactions of photosynthesis, adenylate kinase, and respiratory functions. Enriched in fermentation-associated transcripts such as pyruvate kinase (pykF) and pyruvate efflux transporter, indicating energy recovery via fermentation pathways.",
+      "temporal_pattern": "Genes with transcripts present during late extended darkness (72-144h) in both axenic and coculture conditions. These genes show sustained expression during extended darkness, reflecting continued biosynthetic and metabolic activity in both culture types.",
+      "expression_dynamics": "present in axenic and coculture during extended darkness",
+      "enrichment_category": "Photosynthesis and fermentation",
+      "enrichment_pvalue": 0.002,
       "enrichment_significant": true,
-      "confidence_notes": "High confidence based on multiple transcriptomic analyses and pathway enrichment tests.",
+      "confidence_notes": "High confidence based on transcript enrichment and pathway analysis during extended darkness in both culture conditions.",
       "supporting_quotes": [
         {
-          "quote": "The bulk of the transcriptional response was consistent with the cessation of growth in the dark... Cells were depleted in transcripts encoding a number of biosynthetic pathways, NAD metabolism genes, and ATP synthase subunits relative to cells that experienced sunrise on schedule... The activity that continued appeared to be focused largely on recovering energy and/or nutrients... Some activity also appeared directed toward collecting and utilizing photons, given that the transcriptomes were enriched for genes involved in the light reactions of photosynthesis...",
+          "quote": "The transcriptomes were enriched for genes involved in the light reactions of photosynthesis (including photosystem I [PSI] and PSII components and enzymes involved in light-harvesting compound synthesis), adenylate kinase, and respiratory functions (Table 2 and Table S3).",
           "location": "Page 6"
         },
         {
-          "quote": "Transcripts for DNA repair genes such as recA, ruvB, mutS, and radA were enriched only in the axenic cells, not in cocultures, under extended darkness... cocultured, but not axenic, Prochlorococcus cells were enriched in transcripts encoding organic compound degradation/salvage pathways... transcripts for the key enzyme in the ED pathway, Eda, were enriched in coculture and consistently depleted in axenic cultures...",
-          "location": "Pages 8-9"
-        },
-        {
-          "quote": "The stringent response was activated in axenic cultures but not similarly in cocultures... cocultures did not exhibit any enrichment for hpf, a ribosome hibernation-promoting factor...",
-          "location": "Page 9"
+          "quote": "We also found enrichment of multiple fermentation-associated transcripts in the axenic cultures (Table 2). We also found enrichment of both pyruvate kinase (pykF), which generates pyruvate and ATP from phosphoenolpyruvate, as well as the proposed pyruvate efflux transporter (PMN2A_0294) during the dark (Table 2 and Table S3).",
+          "location": "Page 7"
         }
       ],
       "source_figures": [
-        "Figure 1A-D",
-        "Figure 3",
-        "Table 1",
-        "Table 2",
-        "Table S3"
+        "Figure 1C",
+        "Table 2"
       ],
       "self_assessment": "high",
       "assessment_notes": ""
     },
     "darkness_axenic+unique_axenic": {
       "id": "natl2a_darkness_axenic+unique_axenic",
-      "name": "Prochlorococcus NATL2A cluster darkness_axenic+unique_axenic (darkness)",
-      "functional_description": "N/A",
-      "temporal_pattern": "N/A",
-      "expression_dynamics": "N/A",
-      "enrichment_category": "N/A",
-      "enrichment_pvalue": null,
-      "enrichment_significant": false,
-      "confidence_notes": "",
-      "supporting_quotes": [],
-      "source_figures": [],
-      "self_assessment": "low",
-      "assessment_notes": "No specific discussion or data provided for this cluster in the paper."
+      "name": "Prochlorococcus NATL2A cluster darkness_axenic+unique_axenic (darkness axenic+unique axenic)",
+      "functional_description": "Enriched for transcripts involved in biosynthetic pathways including NAD metabolism, ATP synthase subunits, amino acid biosynthesis (e.g., isoleucine, methionine), nucleotide biosynthesis, and glycogen degradation. Also enriched in stress response genes such as groES, clpB, dnaJ, and activation of the stringent response pathway.",
+      "temporal_pattern": "Genes with transcripts uniquely present or enriched in axenic cultures during late extended darkness (72-144h), showing transcriptional signals consistent with growth cessation and stress response activation.",
+      "expression_dynamics": "unique to axenic during extended darkness",
+      "enrichment_category": "Biosynthesis and stress response",
+      "enrichment_pvalue": 0.016,
+      "enrichment_significant": true,
+      "confidence_notes": "Moderate to high confidence based on pathway enrichment and stress gene activation in axenic cultures during extended darkness.",
+      "supporting_quotes": [
+        {
+          "quote": "The bulk of the transcriptional response was consistent with the cessation of growth in the dark (Fig. 1A). Cells were depleted in transcripts encoding a number of biosynthetic pathways, NAD metabolism genes, and ATP synthase subunits relative to cells that experienced sunrise on schedule (Table 1 and Table S3), thus implying that axenic Prochlorococcus cultures generally decreased their metabolic activity under extended darkness.",
+          "location": "Page 6"
+        },
+        {
+          "quote": "The axenic Prochlorococcus transcriptomes were enriched in transcripts for a variety of common stress-responsive genes such as groES, clpB, and dnaJ within the first hour of extended darkness (Table S3). We also found activation of the stringent response, a conserved bacterial pathway that downregulates cellular growth in response to a variety of stress conditions.",
+          "location": "Page 7"
+        }
+      ],
+      "source_figures": [
+        "Figure 1A",
+        "Table 1"
+      ],
+      "self_assessment": "high",
+      "assessment_notes": ""
     },
     "darkness_coculture+unique_coculture": {
       "id": "natl2a_darkness_coculture+unique_coculture",
-      "name": "Prochlorococcus NATL2A cluster darkness_coculture+unique_coculture (darkness)",
-      "functional_description": "Genes in this cluster are expressed during extended darkness uniquely or predominantly in coculture with Alteromonas. They include transcripts encoding organic compound degradation/salvage pathways, such as amino acid degradation, adenine and adenosine salvage (apt), lipoate salvage (lplA), purine nucleotide degradation (truB), terpenoid biosynthesis (dxs, ispG, ispE, lytB), and tetrapyrrole biosynthesis (hemB, hemD). This cluster shows enrichment of transcripts for the Entner-Doudoroff pathway enzyme Eda, suggesting enhanced glycolytic metabolism of organic molecules. Transcripts for transporters were relatively maintained compared to axenic cultures, indicating higher uptake potential. The cluster is associated with maintenance of biosynthetic potential and metabolic activity during extended darkness in coculture, supporting mixotrophic metabolism.",
-      "temporal_pattern": "Genes in this cluster have detectable transcripts during late extended darkness (72-144h) uniquely or predominantly in coculture conditions. Transcript abundance changes occur primarily within the first 5 hours past the missed sunrise and continue through extended darkness. Periodic oscillations in transcript abundance are partially retained in cocultures during extended darkness.",
-      "expression_dynamics": "constitutive during extended darkness in coculture, with partial retention of periodicity",
-      "enrichment_category": "Organic compound degradation, Amino acid degradation, Terpenoid and tetrapyrrole biosynthesis",
+      "name": "Prochlorococcus NATL2A cluster darkness_coculture+unique_coculture (darkness coculture+unique coculture)",
+      "functional_description": "Enriched for transcripts encoding organic compound degradation and salvage pathways, including amino acid degradation and purine nucleotide degradation. Enriched in terpenoid and tetrapyrrole biosynthesis pathways. Also enriched in adenine and adenosine salvage and lipoate salvage pathways, indicating enhanced biosynthetic potential and mixotrophic metabolism in cocultured cells.",
+      "temporal_pattern": "Genes with transcripts uniquely present or enriched in cocultured Prochlorococcus during late extended darkness (72-144h), reflecting metabolic activity supported by heterotroph interactions and organic substrate utilization.",
+      "expression_dynamics": "unique to coculture during extended darkness",
+      "enrichment_category": "Organic compound metabolism and biosynthesis",
       "enrichment_pvalue": 0.006,
       "enrichment_significant": true,
-      "confidence_notes": "High confidence based on transcriptomic enrichment and pathway analysis.",
+      "confidence_notes": "High confidence based on transcript enrichment in organic compound metabolism and biosynthesis pathways in cocultured cells during extended darkness.",
       "supporting_quotes": [
         {
-          "quote": "Cocultured, but not axenic, Prochlorococcus cells were enriched in transcripts encoding organic compound degradation/salvage pathways, such as those for amino acids... transcripts for the key enzyme in the ED pathway, Eda, were enriched in coculture and consistently depleted in axenic cultures...",
-          "location": "Pages 8-9"
-        },
-        {
-          "quote": "Transcripts involved in some amino acid and nucleotide biosynthetic pathways were depleted under extended darkness in the axenic cells, but not in the cocultures... The enrichment of salvage pathways in the cocultures indicates that the unknown compound(s) we propose were supplied by Alteromonas could also have been required biosynthetic intermediates...",
+          "quote": "Cocultured, but not axenic, Prochlorococcus cells were enriched in transcripts encoding organic compound degradation/salvage pathways, such as those for amino acids, that could be used by the cell to process organic substrates (Table 2).",
           "location": "Page 9"
         },
         {
-          "quote": "Transcripts of at least 10 transporters were relatively depleted in axenic but not cocultured Prochlorococcus transcriptomes, raising the possibility that cocultures could have maintained a relatively higher uptake potential...",
+          "quote": "Transcripts for the key enzyme in the ED pathway, Eda (2-keto-3-deoxygluconate-6-phosphate aldolase), were enriched in coculture and consistently depleted in axenic cultures (Table S3).",
+          "location": "Page 9"
+        },
+        {
+          "quote": "Enriched only in coculture: Adenine and adenosine salvage apt, Lipoate salvage lplA, Proteinogenic amino acid degradation lpd, gltB, PMN2A_1709, Purine nucleotide degradation truB, Terpenoid biosynthesis dxs, ispG, ispE, lytB, Tetrapyrrole biosynthesis hemB, hemD (Table 2).",
           "location": "Page 9"
         }
       ],
       "source_figures": [
-        "Figure 3",
-        "Table 2",
-        "Table S3"
+        "Table 2"
       ],
       "self_assessment": "high",
       "assessment_notes": ""

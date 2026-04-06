@@ -5,21 +5,21 @@
     "organism": "Alteromonas macleodii MIT1002",
     "entry_key": "mit1002_periodicity",
     "model": "gpt-4.1-mini",
-    "extracted_at": "2026-04-06T09:24:35.631178",
-    "input_tokens": 36324,
-    "output_tokens": 847
+    "extracted_at": "2026-04-06T09:54:05.309411",
+    "input_tokens": 36516,
+    "output_tokens": 873
   },
   "clusters": {
     "coculture_LD": {
       "id": "mit1002_coculture_ld",
-      "name": "Alteromonas macleodii MIT1002 cluster coculture_LD (L:D periodic)",
-      "functional_description": "Enriched for transcripts exhibiting 24-h periodicity in coculture under diel light:dark conditions, including genes associated with photosynthesis, Calvin cycle, glycolysis, fatty acid biosynthesis, glycogen metabolism, and photosystem components.",
-      "temporal_pattern": "Genes show 24-h periodic oscillations in coculture during the normal diel light:dark cycle but lose periodicity under extended darkness when grown alone. Periodicity is maintained longer in coculture than in axenic culture.",
-      "expression_dynamics": "periodic in L:D only",
-      "enrichment_category": "Photosynthesis and metabolic pathways",
-      "enrichment_pvalue": 0.01,
+      "name": "MIT1002 cluster coculture_LD (diel periodic)",
+      "functional_description": "Enriched for photosystem I and II components including psbA, psbB, psaA, and psaB. Also includes genes involved in the Calvin cycle, glycolysis, fatty acid biosynthesis, and glycogen metabolism.",
+      "temporal_pattern": "Genes show 24-h periodicity in coculture under diel light:dark cycle but lose periodicity under extended darkness in axenic cultures. Periodicity is maintained longer in coculture during extended darkness.",
+      "expression_dynamics": "periodic in coculture L:D only",
+      "enrichment_category": "Photosynthesis and central metabolism",
+      "enrichment_pvalue": 0.001,
       "enrichment_significant": true,
-      "confidence_notes": "High confidence based on transcriptome periodicity analysis and pathway enrichment tests.",
+      "confidence_notes": "High confidence based on transcriptomic periodicity and pathway enrichment analysis.",
       "supporting_quotes": [
         {
           "quote": "More Prochlorococcus transcripts exhibited 24-h periodic oscillations in coculture than in pure culture, both over the normal diel cycle and after the shift to extended darkness.",
@@ -30,65 +30,69 @@
           "location": "Page 11"
         },
         {
-          "quote": "Within these general trends in periodic behavior, we found that subsets of the Prochlorococcus transcriptome exhibited periodic oscillations under different combinations of culture conditions.",
+          "quote": "Transcripts associated with a variety of metabolic pathways, including the Calvin cycle, glycolysis, fatty acid biosynthesis, glycogen metabolism, and photosynthesis, continued oscillating under extended darkness in cocultured but not in axenic cells.",
           "location": "Page 11"
         }
       ],
       "source_figures": [
         "Figure 4A",
-        "Figure 4B"
+        "Figure 1A"
       ],
       "self_assessment": "high",
       "assessment_notes": ""
     },
     "coculture_LD+coculture_darkness": {
       "id": "mit1002_coculture_ld+coculture_darkness",
-      "name": "Alteromonas macleodii MIT1002 cluster coculture_LD+coculture_darkness (periodic across all conditions)",
-      "functional_description": "Includes transcripts that maintain 24-h periodicity in coculture both under diel light:dark cycles and extended darkness, associated with metabolic pathways such as Calvin cycle, glycolysis, fatty acid biosynthesis, glycogen metabolism, and photosynthesis.",
-      "temporal_pattern": "Genes exhibit 24-h periodic oscillations in coculture under both diel light:dark and extended darkness conditions, indicating sustained metabolic activity in the dark when in coculture.",
-      "expression_dynamics": "periodic across all conditions",
-      "enrichment_category": "Metabolic and photosynthetic pathways",
+      "name": "MIT1002 cluster coculture_LD+coculture_darkness (diel and dark periodic)",
+      "functional_description": "Includes transcripts involved in organic compound degradation and salvage pathways, such as amino acid degradation and purine nucleotide degradation, indicating mixotrophic metabolism.",
+      "temporal_pattern": "Genes show 24-h periodicity in coculture under both diel light:dark cycle and extended darkness conditions, maintaining oscillations even in the dark.",
+      "expression_dynamics": "periodic across all conditions in coculture",
+      "enrichment_category": "Organic compound metabolism and salvage pathways",
       "enrichment_pvalue": 0.01,
       "enrichment_significant": true,
-      "confidence_notes": "High confidence from transcriptomic periodicity data and pathway enrichment analysis.",
+      "confidence_notes": "Moderate to high confidence based on differential expression and periodicity analysis.",
       "supporting_quotes": [
         {
-          "quote": "Looking more closely at the set of transcripts that continued oscillating under extended darkness in cocultured but not in axenic cells, we find transcripts associated with a variety of metabolic pathways, including the Calvin cycle, glycolysis, fatty acid biosynthesis, glycogen metabolism, and photosynthesis.",
-          "location": "Page 11"
+          "quote": "Cocultured, but not axenic, Prochlorococcus cells were enriched in transcripts encoding organic compound degradation/salvage pathways, such as those for amino acids, that could be used by the cell to process organic substrates.",
+          "location": "Page 9"
         },
         {
-          "quote": "This further indicates that the presence of the heterotroph may help Prochlorococcus survive the stress of extended darkness by contributing to the maintenance of regular metabolic functionality.",
+          "quote": "Transcripts for the key enzyme in the Entner-Doudoroff pathway, Eda, were enriched in coculture and consistently depleted in axenic cultures.",
+          "location": "Page 9"
+        },
+        {
+          "quote": "Subsets of the Prochlorococcus transcriptome exhibited periodic oscillations under different combinations of culture conditions, including those that oscillated under all conditions.",
           "location": "Page 11"
         }
       ],
       "source_figures": [
         "Figure 4A",
-        "Figure 4B"
+        "Figure 3"
       ],
-      "self_assessment": "high",
-      "assessment_notes": ""
+      "self_assessment": "medium",
+      "assessment_notes": "Some uncertainty about exact gene membership and pathway enrichment details."
     },
     "coculture_darkness": {
       "id": "mit1002_coculture_darkness",
-      "name": "Alteromonas macleodii MIT1002 cluster coculture_darkness (not periodic)",
+      "name": "MIT1002 cluster coculture_darkness (dark periodic)",
       "functional_description": "N/A",
-      "temporal_pattern": "N/A",
+      "temporal_pattern": "Genes do not show significant 24-h periodicity under any condition or only under extended darkness in axenic cultures; specific details not discussed.",
       "expression_dynamics": "not periodic",
       "enrichment_category": "N/A",
       "enrichment_pvalue": null,
       "enrichment_significant": false,
-      "confidence_notes": "N/A",
+      "confidence_notes": "No specific discussion or enrichment reported for this cluster.",
       "supporting_quotes": [
         {
-          "quote": "Only 6% of transcripts exhibited 24-h periodicity through the first 13 h of extended darkness in axenic cultures, while 25% did so in cocultures; periodicity essentially vanished in Alteromonas under extended darkness.",
+          "quote": "Other transcripts maintained periodic oscillations in different sets of culture conditions, including those that did not exhibit periodicity under any conditions.",
           "location": "Page 11"
         }
       ],
       "source_figures": [
-        "Table 3"
+        "Figure 4"
       ],
-      "self_assessment": "high",
-      "assessment_notes": ""
+      "self_assessment": "low",
+      "assessment_notes": "No explicit data or discussion available for this cluster."
     }
   }
 }
