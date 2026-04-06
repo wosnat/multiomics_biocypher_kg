@@ -5,22 +5,43 @@ from pathlib import Path
 
 
 def test_build_context_block():
-    """Context block includes organism, method, treatment."""
+    """Context block includes organism, method, treatment, extraction_notes."""
     from multiomics_kg.extraction.cluster.extract import build_context_block
 
     table = {
         "name": "MIT9313 N-starvation",
         "organism": "Prochlorococcus MIT9313",
         "cluster_method": "K-means (K=7)",
-        "cluster_type": "response_pattern",
+        "cluster_type": "time_course",
         "treatment": "N-starvation time course",
         "omics_type": "MICROARRAY",
+        "extraction_notes": "Paper discusses both MED4 and MIT9313 jointly.",
     }
     result = build_context_block(table)
     assert "Prochlorococcus MIT9313" in result
     assert "K-means (K=7)" in result
     assert "N-starvation time course" in result
     assert "MICROARRAY" in result
+    assert "Paper discusses both MED4 and MIT9313 jointly." in result
+
+
+def test_build_prompt():
+    """build_prompt assembles shared rules + type rules."""
+    from multiomics_kg.extraction.cluster.extract import build_prompt
+
+    table = {
+        "cluster_type": "diel",
+        "name": "Test",
+        "organism": "Test",
+        "cluster_method": "K-means",
+        "treatment": "light",
+    }
+    summaries = {"1": {"gene_count": 50, "sample_genes": ["g1"]}}
+    result = build_prompt(table, summaries)
+    assert "N/A" in result
+    assert "peaks at dawn" in result
+    assert "Self-Verification" in result
+    assert "EXACTLY 1 clusters" in result
 
 
 def test_format_cluster_summaries():
@@ -45,12 +66,12 @@ def test_generate_report_stable_order(tmp_path):
 
     metadata = {"paper": "Test 2006"}
     clusters = {
-        "2": {"id": "t_2", "name": "Cluster 2", "direction": "down",
+        "2": {"id": "t_2", "name": "Cluster 2", "expression_dynamics": "late sustained",
               "self_assessment": "medium", "functional_description": "Photo",
-              "behavioral_description": "Down", "confidence_notes": ""},
-        "1": {"id": "t_1", "name": "Cluster 1", "direction": "up",
+              "temporal_pattern": "Down", "confidence_notes": ""},
+        "1": {"id": "t_1", "name": "Cluster 1", "expression_dynamics": "early transient",
               "self_assessment": "high", "functional_description": "Transport",
-              "behavioral_description": "Up", "confidence_notes": ""},
+              "temporal_pattern": "Up", "confidence_notes": ""},
     }
     save_extraction(tmp_path, "test_entry", metadata, clusters)
 
@@ -62,7 +83,7 @@ def test_generate_report_stable_order(tmp_path):
 
 
 def test_detect_filler_on_low_confidence():
-    """Low-confidence cluster with non-'Not discussed' description produces warning."""
+    """Low-confidence cluster with non-N/A description produces warning."""
     from multiomics_kg.extraction.cluster.extract import verify_quality
     from multiomics_kg.extraction.cluster.extraction_utils import save_extraction
 
@@ -72,8 +93,8 @@ def test_detect_filler_on_low_confidence():
         clusters = {
             "1": {"id": "test_low", "name": "C1",
                   "functional_description": "Some vague filler description here",
-                  "behavioral_description": "Not discussed in paper.",
-                  "direction": "up", "self_assessment": "low"},
+                  "temporal_pattern": "N/A",
+                  "expression_dynamics": "N/A", "self_assessment": "low"},
         }
         save_extraction(paper_dir, "test", {"paper": "Test"}, clusters)
         entries = [(paper_dir, "test", {}, {"papername": "Test"})]
@@ -92,28 +113,10 @@ def test_detect_locus_tags():
         clusters = {
             "1": {"id": "x", "name": "C1",
                   "functional_description": "Includes gene PMM0042 involved in transport",
-                  "behavioral_description": "Upregulated", "direction": "up"},
+                  "temporal_pattern": "Upregulated",
+                  "expression_dynamics": "up"},
         }
         save_extraction(paper_dir, "test", {"paper": "Test"}, clusters)
         entries = [(paper_dir, "test", {}, {"papername": "Test"})]
         warnings = verify_quality(entries)
         assert any("locus tag" in w and "PMM0042" in w for w in warnings)
-
-
-def test_detect_empty_direction():
-    """Non-empty description with empty direction produces warning."""
-    from multiomics_kg.extraction.cluster.extract import verify_quality
-    from multiomics_kg.extraction.cluster.extraction_utils import save_extraction
-
-    import tempfile
-    with tempfile.TemporaryDirectory() as td:
-        paper_dir = Path(td)
-        clusters = {
-            "1": {"id": "x", "name": "C1",
-                  "functional_description": "A real description with enough text",
-                  "behavioral_description": "", "direction": ""},
-        }
-        save_extraction(paper_dir, "test", {"paper": "Test"}, clusters)
-        entries = [(paper_dir, "test", {}, {"papername": "Test"})]
-        warnings = verify_quality(entries)
-        assert any("empty direction" in w for w in warnings)

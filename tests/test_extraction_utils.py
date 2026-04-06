@@ -44,7 +44,8 @@ def test_save_load_roundtrip(tmp_path):
             "id": "test_up",
             "name": "Test cluster 1",
             "functional_description": "Genes involved in transport",
-            "behavioral_description": "Upregulated early",
+            "temporal_pattern": "Upregulated early",
+            "expression_dynamics": "early transient",
             "source_figures": ["Figure 2"],
         },
     }
