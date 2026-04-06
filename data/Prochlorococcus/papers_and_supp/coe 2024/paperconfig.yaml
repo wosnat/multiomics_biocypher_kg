@@ -197,6 +197,7 @@ publication:
       treatment: "Dark-tolerant evolved NATL2A co-cultured with MIT1002 under 13:11 diel light:dark cycle"
       light_condition: "13:11 light:dark cycle with simulated dawn and dusk"
       experimental_context: "Diel gene expression clusters from dark-tolerant evolved NATL2A in co-culture with Alteromonas MIT1002; sampled every 2h over 24h diel cycle in Pro99 medium at 24C under 37 umol photons m-2 s-1"
+      extraction_notes: "Individual clusters are not discussed in the main paper text. The supplementary PDF may contain additional cluster characterization. If clusters are not described, use N/A."
       experiments:
         - darkness_darktolerant_coculture_under_1311_natl2a_rnaseq
     supp_table_3_parental_clusters:
@@ -217,5 +218,10 @@ publication:
       treatment: "Parental (wild-type) NATL2A co-cultured with MIT1002 under 13:11 diel light:dark cycle"
       light_condition: "13:11 light:dark cycle with simulated dawn and dusk"
       experimental_context: "Diel gene expression clusters from parental (wild-type) NATL2A in co-culture with Alteromonas MIT1002; sampled every 2h over 24h diel cycle in Pro99 medium at 24C under 37 umol photons m-2 s-1"
+      extraction_notes: "Individual clusters are not discussed in the main paper text. The supplementary PDF may contain additional cluster characterization. If clusters are not described, use N/A."
       experiments:
         - darkness_darktolerant_coculture_under_1311_natl2a_rnaseq
+
+extraction:
+  additional_pdfs:
+    - data/Prochlorococcus/papers_and_supp/coe 2024/coe_isme_supp_final_rev_final_ycae131.pdf
