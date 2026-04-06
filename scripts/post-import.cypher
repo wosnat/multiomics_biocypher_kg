@@ -266,6 +266,41 @@ CALL {
   SET (edges[i]).rank_down = i + 1
 } IN TRANSACTIONS OF 10 ROWS;
 
+// ── ClusteringAnalysis summary properties ─────────────────────────────
+
+// OrganismTaxon: clustering_analysis_count, cluster_types, cluster_count
+MATCH (o:OrganismTaxon)
+OPTIONAL MATCH (ca:ClusteringAnalysis)-[:ClusteringanalysisBelongsToOrganism]->(o)
+WITH o,
+     count(ca) AS ca_count,
+     collect(DISTINCT ca.cluster_type) AS ctypes,
+     sum(coalesce(ca.cluster_count, 0)) AS total_clusters
+SET o.clustering_analysis_count = ca_count,
+    o.cluster_types = ctypes,
+    o.cluster_count = total_clusters;
+
+// Publication: clustering_analysis_count, cluster_types, cluster_count
+MATCH (p:Publication)
+OPTIONAL MATCH (p)-[:PublicationHasClusteringAnalysis]->(ca:ClusteringAnalysis)
+WITH p,
+     count(ca) AS ca_count,
+     collect(DISTINCT ca.cluster_type) AS ctypes,
+     sum(coalesce(ca.cluster_count, 0)) AS total_clusters
+SET p.clustering_analysis_count = ca_count,
+    p.cluster_types = ctypes,
+    p.cluster_count = total_clusters;
+
+// Experiment: clustering_analysis_count, cluster_types, cluster_count
+MATCH (e:Experiment)
+OPTIONAL MATCH (e)-[:ExperimentHasClusteringAnalysis]->(ca:ClusteringAnalysis)
+WITH e,
+     count(ca) AS ca_count,
+     collect(DISTINCT ca.cluster_type) AS ctypes,
+     sum(coalesce(ca.cluster_count, 0)) AS total_clusters
+SET e.clustering_analysis_count = ca_count,
+    e.cluster_types = ctypes,
+    e.cluster_count = total_clusters;
+
 // closest_ortholog_group_size + closest_ortholog_genera
 MATCH (g:Gene)
 CALL {

@@ -201,6 +201,47 @@ SET o.publication_count = pc,
     o.background_factors = bfs
 CYPHER
 
+echo "=== Post-process: Compute ClusteringAnalysis summary properties ==="
+
+echo "--- OrganismTaxon clustering_analysis_count, cluster_types, cluster_count ---"
+cypher-shell <<'CYPHER'
+MATCH (o:OrganismTaxon)
+OPTIONAL MATCH (ca:ClusteringAnalysis)-[:ClusteringanalysisBelongsToOrganism]->(o)
+WITH o,
+     count(ca) AS ca_count,
+     collect(DISTINCT ca.cluster_type) AS ctypes,
+     sum(coalesce(ca.cluster_count, 0)) AS total_clusters
+SET o.clustering_analysis_count = ca_count,
+    o.cluster_types = ctypes,
+    o.cluster_count = total_clusters
+CYPHER
+
+echo "--- Publication clustering_analysis_count, cluster_types, cluster_count ---"
+cypher-shell <<'CYPHER'
+MATCH (p:Publication)
+OPTIONAL MATCH (p)-[:PublicationHasClusteringAnalysis]->(ca:ClusteringAnalysis)
+WITH p,
+     count(ca) AS ca_count,
+     collect(DISTINCT ca.cluster_type) AS ctypes,
+     sum(coalesce(ca.cluster_count, 0)) AS total_clusters
+SET p.clustering_analysis_count = ca_count,
+    p.cluster_types = ctypes,
+    p.cluster_count = total_clusters
+CYPHER
+
+echo "--- Experiment clustering_analysis_count, cluster_types, cluster_count ---"
+cypher-shell <<'CYPHER'
+MATCH (e:Experiment)
+OPTIONAL MATCH (e)-[:ExperimentHasClusteringAnalysis]->(ca:ClusteringAnalysis)
+WITH e,
+     count(ca) AS ca_count,
+     collect(DISTINCT ca.cluster_type) AS ctypes,
+     sum(coalesce(ca.cluster_count, 0)) AS total_clusters
+SET e.clustering_analysis_count = ca_count,
+    e.cluster_types = ctypes,
+    e.cluster_count = total_clusters
+CYPHER
+
 echo "=== Post-process: Compute Gene routing signals ==="
 
 echo "--- annotation_types ---"
