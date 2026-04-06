@@ -92,16 +92,17 @@ def list_extraction_files(paper_dir: Path) -> list[str]:
 # ── Data loading ──
 
 
-def find_all_entries() -> list[tuple[Path, str, dict, dict]]:
+def find_all_entries() -> list[tuple[Path, str, dict, dict, dict]]:
     """Discover all gene_clusters entries across all paperconfigs.
-    Returns list of (paper_dir, entry_key, table_config, pub_config).
+    Returns list of (paper_dir, entry_key, table_config, pub_config, extraction_config).
     """
     entries = []
     for pc_path, pc in load_all_paperconfigs():
         paper_dir = pc_path.parent
         pub = pc.get("publication", {})
+        extraction = pc.get("extraction", {})
         for entry_key, table in iter_cluster_tables(pc):
-            entries.append((paper_dir, entry_key, table, pub))
+            entries.append((paper_dir, entry_key, table, pub, extraction))
     return entries
 
 
