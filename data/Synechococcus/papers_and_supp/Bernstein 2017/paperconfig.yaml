@@ -27,7 +27,7 @@ publication:
       filename: "data/Synechococcus/papers_and_supp/Bernstein 2017/data set s2 clustered_Avg_Cond_Light sys002172092sd2_bp1.csv"
       organism: "Thermosynechococcus vestitus BP-1"
       gene_id_col: "NCBI Locus Tag"
-      cluster_col: "ClustID_light"
+      cluster_col: "Clust name_light"
       id_columns:
         - column: "NCBI Locus Tag"
           id_type: locus_tag
@@ -41,6 +41,8 @@ publication:
       background_factors: []
       treatment: "Binary coculture with Meiothermus ruber strain A under 3 light levels (low/medium/high) at low oxygen"
       experimental_context: "T. elongatus BP-1 in binary coculture with M. ruber strain A in photobioreactors; RNA-seq (Illumina NextSeq); transcript abundances averaged per light condition (LLLO, MLLO, HLLO)"
+      figure_hint: "Figure 6, pages 6-7"
+      extraction_notes: "Paper discusses clusters A-D (irradiance-responsive) and E-H (pO2-responsive) as joint T. elongatus + M. ruber clusters. This entry covers only the T. elongatus genes. Map cluster letters to this organism's subset."
       experiments:
         - coculture_bp1_mruber_light_oxygen_rnaseq
 
@@ -51,7 +53,7 @@ publication:
       filename: "data/Synechococcus/papers_and_supp/Bernstein 2017/data set s2 clusterd_Avg_Cond_Oxygen sys002172092sd2_bp1.csv"
       organism: "Thermosynechococcus vestitus BP-1"
       gene_id_col: "NCBI Locus Tag"
-      cluster_col: "ClustID_ox"
+      cluster_col: "Clust name_ox"
       id_columns:
         - column: "NCBI Locus Tag"
           id_type: locus_tag
@@ -65,6 +67,8 @@ publication:
       background_factors: []
       treatment: "Binary coculture with Meiothermus ruber strain A under 3 oxygen levels (low/medium/high) at high light"
       experimental_context: "T. elongatus BP-1 in binary coculture with M. ruber strain A in photobioreactors; RNA-seq (Illumina NextSeq); transcript abundances averaged per oxygen condition (HLLO, HLMO, HLHO)"
+      figure_hint: "Figure 6, pages 6-7"
+      extraction_notes: "Paper discusses clusters A-D (irradiance-responsive) and E-H (pO2-responsive) as joint T. elongatus + M. ruber clusters. This entry covers only the T. elongatus genes. Map cluster letters to this organism's subset."
       experiments:
         - coculture_bp1_mruber_light_oxygen_rnaseq
 
@@ -75,7 +79,7 @@ publication:
       filename: "data/Synechococcus/papers_and_supp/Bernstein 2017/data set s2 clustered_Avg_Cond_Light sys002172092sd2_meiothermus.csv"
       organism: "Meiothermus ruber"
       gene_id_col: "NCBI Locus Tag"
-      cluster_col: "ClustID_light"
+      cluster_col: "Clust name_light"
       id_columns:
         - column: "NCBI Locus Tag"
           id_type: locus_tag
@@ -91,6 +95,8 @@ publication:
       background_factors: []
       treatment: "Binary coculture with Meiothermus ruber strain A under 3 light levels (low/medium/high) at low oxygen"
       experimental_context: "M. ruber strain A in binary coculture with T. elongatus BP-1 in photobioreactors; RNA-seq (Illumina NextSeq); transcript abundances averaged per light condition (LLLO, MLLO, HLLO)"
+      figure_hint: "Figure 6, pages 6-7"
+      extraction_notes: "Paper discusses clusters A-D (irradiance-responsive) and E-H (pO2-responsive) as joint T. elongatus + M. ruber clusters. This entry covers only the M. ruber genes. Map cluster letters to this organism's subset."
       experiments:
         - coculture_bp1_mruber_light_oxygen_rnaseq
 
@@ -101,7 +107,7 @@ publication:
       filename: "data/Synechococcus/papers_and_supp/Bernstein 2017/data set s2 clusterd_Avg_Cond_Oxygen sys002172092sd2_meiothermus.csv"
       organism: "Meiothermus ruber"
       gene_id_col: "NCBI Locus Tag"
-      cluster_col: "ClustID_ox"
+      cluster_col: "Clust name_ox"
       id_columns:
         - column: "NCBI Locus Tag"
           id_type: locus_tag
@@ -117,5 +123,7 @@ publication:
       background_factors: []
       treatment: "Binary coculture with Meiothermus ruber strain A under 3 oxygen levels (low/medium/high) at high light"
       experimental_context: "M. ruber strain A in binary coculture with T. elongatus BP-1 in photobioreactors; RNA-seq (Illumina NextSeq); transcript abundances averaged per oxygen condition (HLLO, HLMO, HLHO)"
+      figure_hint: "Figure 6, pages 6-7"
+      extraction_notes: "Paper discusses clusters A-D (irradiance-responsive) and E-H (pO2-responsive) as joint T. elongatus + M. ruber clusters. This entry covers only the M. ruber genes. Map cluster letters to this organism's subset."
       experiments:
         - coculture_bp1_mruber_light_oxygen_rnaseq
