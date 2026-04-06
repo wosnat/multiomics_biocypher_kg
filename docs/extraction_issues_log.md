@@ -2,7 +2,7 @@
 
 Tracks diagnosed issues from review UI sessions and the current state of the extraction system.
 
-## Current State (2026-04-05)
+## Current State (2026-04-06)
 
 ### What was built (2026-04-04)
 
@@ -114,101 +114,65 @@ Data is at `.extraction_cache/{entry}/current/` — viewable in the review UI.
 
 **Diagnosed:** 2026-04-05
 **Severity:** Medium — 20 clusters across 4 entries affected, mostly "Not discussed in paper."
-**Status:** OPEN
+**Status:** MOSTLY RESOLVED (2026-04-06)
 
-**Symptoms:** `bp1_light_clusters` (5 clusters) all say "Not discussed in paper." despite the paper having detailed cluster descriptions with gene names and expression patterns (Figure 6, pages 6-7). `bp1_oxygen_clusters` clusters 0-2 also empty. `mruber_light_clusters` 0 and 4 empty. `mruber_oxygen_clusters` 0 and 4 empty.
+**Original problem:** CSV used numeric cluster IDs (0-4) that didn't match the paper's letter-based clusters (A-D, E-H). Model couldn't map between them.
 
-**Root cause:** The paper defines clusters A-D (irradiance-responsive) and E-H (pO2-responsive), each containing genes from **both** T. elongatus and M. ruber jointly. Our paperconfig splits these into 4 per-organism × per-condition entries with numbered clusters 0-4. The model correctly cannot map the paper's joint "cluster A" to our per-organism "bp1_light cluster 0" — they're different decompositions.
+**Fix applied (2026-04-06):** Changed `cluster_col` from `ClustID_light`/`ClustID_ox` to `Clust name_light`/`Clust name_ox` — the CSV has both columns. Now clusters are A-D (light) and E-H (oxygen), matching the paper. Added `figure_hint` and `extraction_notes` explaining the joint organism context.
 
-The old extraction hallucinated descriptions by guessing which paper cluster maps to which CSV cluster. The new prompt correctly says "Not discussed" since the paper doesn't discuss per-organism numbered clusters.
+**Result:** Bernstein clusters now have real descriptions with irradiance/oxygen response patterns from Figure 6. One remaining locus tag warning (tll1454 in bp1_oxygen H).
 
-**Options:**
-- A) Accept "Not discussed" — the per-organism decomposition doesn't exist in the paper
-- B) Add `figure_hint` or `cluster_mapping` to paperconfig telling the model the correspondence
-- C) Restructure to joint organism clusters matching the paper (A-D, E-H)
-
-**Scope:** Bernstein 2017 is currently the only paper with multi-organism clusters. Broader question: how should multi-organism clusters be modeled in the KG? Current schema ties ClusteringAnalysis to a single organism. Joint clusters would need a new pattern (multiple organism links, or a "community" clustering type).
-
-**Decision:** Deferred. Needs design exploration before implementation.
+**Remaining:** The paper discusses clusters as joint T. elongatus + M. ruber, but our schema splits them per-organism. The multi-organism cluster modeling question (Issue 7 original scope) is still open for future design.
 
 ### Issue 8: Model interprets rather than cites — hard to verify accuracy
 
 **Diagnosed:** 2026-04-05
 **Severity:** Medium — affects trust in descriptions downstream
-**Status:** OPEN
+**Status:** MITIGATED (2026-04-06)
 
-**Symptoms:** Functional descriptions contain plausible-sounding content that may be the model's interpretation rather than direct paper statements. Example: Biller 2018 `mit1002_periodicity` cluster `coculture_LD` describes "Calvin cycle, glycolysis, fatty acid biosynthesis" — the supporting quote mentions these pathways but in the context of a *different* cluster category (extended darkness, not L:D only). The model applied the right information to the wrong cluster.
+**Fix applied:** Added self-verification block to prompt — model checks each quote against the specific cluster before outputting. Combined with per-type prompts and stricter "only cite what paper says about THIS cluster" rules.
 
-**Root cause:** The model synthesizes information from across the paper rather than strictly citing what the paper says about each specific cluster. Without human verification, it's hard to tell what's directly from the paper vs. model interpretation. The original 4-stage pipeline had a validation stage ("judge") that was supposed to catch this, but it was removed in the cleanup.
-
-**Additional context:** Biller 2018 periodicity entries are *classification* (periodic Y/N across conditions), not clustering in the traditional sense. The paper discusses periodicity patterns and pathway enrichments for sets of genes, but the mapping to specific composite condition-clusters (e.g., `coculture_LD+coculture_darkness`) is indirect.
-
-**Possible mitigations:**
-- Strengthen prompt: "Only state what the paper explicitly says about this cluster. Do not synthesize or infer across clusters."
-- Re-introduce a lightweight verification step (no separate LLM call — just a prompt section asking the model to self-check each quote against the cluster it's attributed to)
-- Accept as known limitation and label descriptions as "LLM-interpreted, not human-verified"
-
-**Decision:** Prompt improvement to reduce interpretation is worth trying. Full judge/verification is out of scope for now.
+**Result:** Cross-cluster attribution reduced. Biller 2018 periodicity clusters now use appropriate classification language. Still a known limitation — LLM-generated descriptions are not human-verified.
 
 ### Issue 9: Undiscussed clusters get meaningless names and directions
 
 **Diagnosed:** 2026-04-05
 **Severity:** Low — cosmetic but noisy
-**Status:** OPEN
+**Status:** RESOLVED (2026-04-06)
 
-**Symptoms:** Coe 2024 clusters named "Prochlorococcus cluster 1 (up, 183 genes)" — gene count in theme slot, invented direction. All 15 darktolerant clusters marked `direction: up`, all 15 parental marked `direction: mixed` — meaningless for diel expression clusters.
-
-**Root cause:** Prompt requires `direction` and `name` format `{Organism} cluster {KEY} ({direction}, {theme})` even for undiscussed clusters. The model fills in garbage rather than leaving these empty.
-
-**Fix:**
-- Add `"not_discussed"` as default direction for undiscussed clusters
-- Simplify name format for undiscussed: just `"{Organism} cluster {KEY}"` without suffix
-- Or: don't extract direction/name for undiscussed — use defaults from adapter
+**Fix:** Replaced `direction` (constrained enum) with `expression_dynamics` (free-text). Undiscussed clusters now get `expression_dynamics: "N/A"` and simpler names. Coe 2024 clusters correctly show N/A across the board.
 
 ### Issue 11: `behavioral_description` field name invites interpretation
 
 **Diagnosed:** 2026-04-05
 **Severity:** Low — prompt workaround in place
-**Status:** OPEN (workaround applied)
+**Status:** RESOLVED in extraction (2026-04-06). KG schema rename deferred.
 
-**Symptoms:** Model writes "suggesting involvement in RNA processing and stress response" in behavioral_description. The field name "behavioral" is vague — the model reads it as "what does the cluster do" rather than "what is the expression pattern."
-
-**Workaround:** Prompt now explicitly says "describe ONLY the temporal expression pattern" with GOOD/BAD examples. Works for most cases but the model still occasionally slips.
-
-**Proper fix:** Rename field to `temporal_pattern` or `expression_pattern` across schema, adapter, extraction, and KG. Bundle with Issue 10 (per-type prompts) since both require schema changes.
+**Fix:** Renamed `behavioral_description` → `temporal_pattern` in extraction Pydantic schema. Combined with per-type prompt rules that tell the model exactly what to put in this field per cluster type. KG schema (`schema_config.yaml`) and adapter still use `behavioral_description` — rename deferred to separate task.
 
 ### Issue 10: Single prompt doesn't fit all cluster types
 
 **Diagnosed:** 2026-04-05
 **Severity:** Medium — affects extraction quality for periodicity and expression level clusters
-**Status:** OPEN
+**Status:** RESOLVED (2026-04-06)
 
-**Symptoms:** The `CLUSTER_TYPE_GUIDANCE` mapping tells the model what *style* of behavioral description to write, but the core prompt rules (direction, enrichment, gene names) are designed for response_pattern clusters. For periodicity clusters, `direction` is meaningless. For expression_level clusters, `enrichment_category` means something different (COG category, not pathway enrichment). The few-shot examples are all from response_pattern and diel_cycling papers.
+**Fix:** Consolidated 7 cluster types → 4 (`time_course`, `diel`, `condition_comparison`, `classification`). Replaced single `DEVELOPER_MSG_TEMPLATE` with `SHARED_RULES` + `TYPE_RULES` dict + `SELF_VERIFICATION` block. Each type has specific guidance for `expression_dynamics` and `temporal_pattern` fields plus type-appropriate few-shot examples.
 
-**Possible fix:** Use different prompt templates (or prompt sections) per cluster type:
-- `response_pattern`: current prompt (direction, dynamics, enrichment, gene names)
-- `diel_cycling` / `diel_expression_pattern`: focus on timing, peak hours, phase; direction → peak phase (dawn/dusk/night); add diel-specific few-shot example
-- `periodicity_classification`: focus on which conditions show periodicity; direction not applicable; name = condition set
-- `expression_level`: focus on expression consistency; direction → level (high/low/variable)
-- `expression_classification`: focus on presence/absence across conditions
-
-This could be implemented as a `PROMPT_TEMPLATE_BY_TYPE` dict or by conditionally including/excluding prompt sections.
-
-**Decision:** Deferred. Worth exploring in next iteration — current prompt is good enough for response_pattern clusters (Tolonen, Zinser, Lindell, Alonso-Saez) which are the most informative.
+**Result:** Warnings dropped from 27 → 6. Biller periodicity uses classification language, Zinser uses diel timing, Tolonen uses time-course dynamics.
 
 ---
 
 ## Next Steps (TODO)
 
-1. **Fix Issue 6** (JSON response format) — add `response_format={"type": "json_object"}` to validation, and optionally visual + semantic API calls
-2. **Re-run Tolonen** with the JSON format fix — should get actual verdicts for all 16 clusters
-3. **Review in UI** — classify any remaining issues, verify descriptions are accurate
-4. **Iterate on prompts** if needed based on review findings
-5. **Scale to other papers** — run extraction on remaining 13 `gene_clusters` entries across 7 papers
-6. **Implement Files API** (Issue 5) — upload PDFs once, reference by file_id
+1. **Fix remaining 6 warnings** — 2 locus tags (PMM0958 in Tolonen, tll1454 in Bernstein), 2 filler phrases, 2 near-identical descriptions. Minor prompt tweaks or accept as-is.
+2. **KG schema + adapter rename** — `behavioral_description` → `temporal_pattern` in `schema_config.yaml` and `cluster_adapter.py`. Deferred from this iteration.
+3. **Multi-organism cluster modeling** (Issue 7 remainder) — Bernstein has per-organism splits of joint clusters. Design needed for how to represent joint clusters in KG.
+4. **Human review** — spot-check extracted descriptions against papers for accuracy, especially Bernstein (new) and Biller classification entries.
 
 ## Spec & Plan
 
-- **Spec:** `docs/superpowers/specs/2026-04-04-cluster-extraction-review-system-design.md`
-- **Plan:** `docs/superpowers/plans/2026-04-04-cluster-extraction-review-system.md`
-- **UI spec gaps** identified (2026-04-04): mostly fixed (reviewed_at, carried-forward badges, PDF button). Remaining: per-quote source links partial, diff view doesn't detect improvement/regression direction.
+- **Spec (2026-04-06):** `docs/superpowers/specs/2026-04-06-extraction-per-type-prompts-design.md`
+- **Plan (2026-04-06):** `docs/superpowers/plans/2026-04-06-extraction-per-type-prompts.md`
+- **Spec (2026-04-05):** `docs/superpowers/specs/2026-04-05-extraction-quality-iteration-design.md`
+- **Spec (2026-04-04):** `docs/superpowers/specs/2026-04-04-cluster-extraction-review-system-design.md`
+- **Plan (2026-04-04):** `docs/superpowers/plans/2026-04-04-cluster-extraction-review-system.md`
