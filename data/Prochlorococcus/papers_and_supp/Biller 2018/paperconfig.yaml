@@ -184,7 +184,7 @@ publication:
           id_type: locus_tag_ncbi
         - column: "NCBI ID_3"
           id_type: old_locus_tag
-      cluster_type: "periodicity_classification"
+      cluster_type: "classification"
       cluster_method: "Composite of RAIN periodicity detection (Y/N) across 4 conditions"
       omics_type: RNASEQ
       treatment_type: ["diel", "darkness"]
@@ -206,7 +206,7 @@ publication:
       id_columns:
         - column: "Locus ID"
           id_type: locus_tag
-      cluster_type: "periodicity_classification"
+      cluster_type: "classification"
       cluster_method: "Composite of RAIN periodicity detection (Y/N) across 2 conditions"
       omics_type: RNASEQ
       treatment_type: ["diel", "darkness"]
@@ -233,7 +233,7 @@ publication:
           id_type: old_locus_tag
         - column: "Gene Name"
           id_type: gene_name
-      cluster_type: "expression_classification"
+      cluster_type: "classification"
       cluster_method: "Composite of transcript presence at 72-144h extended darkness"
       omics_type: RNASEQ
       treatment_type: ["darkness"]

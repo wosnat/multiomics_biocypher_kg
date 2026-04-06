@@ -33,7 +33,7 @@ publication:
           id_type: locus_tag
         - column: "gene"
           id_type: gene_name
-      cluster_type: "response_pattern"
+      cluster_type: "condition_comparison"
       cluster_method: "hierarchical clustering"
       omics_type: RNASEQ
       light_condition: "variable (low/medium/high)"
@@ -57,7 +57,7 @@ publication:
           id_type: locus_tag
         - column: "gene"
           id_type: gene_name
-      cluster_type: "response_pattern"
+      cluster_type: "condition_comparison"
       cluster_method: "hierarchical clustering"
       omics_type: RNASEQ
       light_condition: "high light"
@@ -83,7 +83,7 @@ publication:
           id_type: other
         - column: "gene"
           id_type: gene_name
-      cluster_type: "response_pattern"
+      cluster_type: "condition_comparison"
       cluster_method: "hierarchical clustering"
       omics_type: RNASEQ
       light_condition: "variable (low/medium/high)"
@@ -109,7 +109,7 @@ publication:
           id_type: other
         - column: "gene"
           id_type: gene_name
-      cluster_type: "response_pattern"
+      cluster_type: "condition_comparison"
       cluster_method: "hierarchical clustering"
       omics_type: RNASEQ
       light_condition: "high light"

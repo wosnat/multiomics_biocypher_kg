@@ -35,7 +35,7 @@ publication:
           id_type: alternative_locus_tag
         - column: "name"
           id_type: gene_name
-      cluster_type: "expression_level"
+      cluster_type: "condition_comparison"
       cluster_method: "Quartile-based classification from RNA-seq RPKM across 10 growth conditions"
       omics_type: RNASEQ
       treatment_type: ["growth_phase"]

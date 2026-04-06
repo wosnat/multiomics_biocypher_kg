@@ -251,7 +251,7 @@ publication:
       id_columns:
         - column: "gene_id"
           id_type: old_locus_tag
-      cluster_type: "response_pattern"
+      cluster_type: "time_course"
       cluster_method: "K-means (K=9)"
       omics_type: MICROARRAY
       light_condition: "continuous light"
@@ -272,7 +272,7 @@ publication:
       id_columns:
         - column: "gene_id"
           id_type: old_locus_tag
-      cluster_type: "response_pattern"
+      cluster_type: "time_course"
       cluster_method: "K-means (K=7)"
       omics_type: MICROARRAY
       light_condition: "continuous light"

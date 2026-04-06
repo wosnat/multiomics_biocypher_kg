@@ -98,7 +98,7 @@ publication:
       id_columns:
         - column: "ORF "
           id_type: old_locus_tag
-      cluster_type: "response_pattern"
+      cluster_type: "time_course"
       cluster_method: "Stable clusters of co-expressed upregulated genes"
       omics_type: MICROARRAY
       treatment_type: ["viral"]
