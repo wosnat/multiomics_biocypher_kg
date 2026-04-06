@@ -221,11 +221,12 @@ class ClusterAdapter:
                     "functional_description": _clean_str(
                         ext_data.get("functional_description", "")
                     ),
-                    "behavioral_description": _clean_str(
-                        ext_data.get("behavioral_description", "")
+                    "temporal_pattern": _clean_str(
+                        ext_data.get("temporal_pattern", "")
                     ),
-                    "peak_time_hours": ext_data.get("peak_time_hours"),
-                    "period_hours": ext_data.get("period_hours"),
+                    "expression_dynamics": _clean_str(
+                        ext_data.get("expression_dynamics", "")
+                    ),
                 }
                 nodes.append((cluster_id, "gene_cluster", props))
 

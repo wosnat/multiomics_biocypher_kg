@@ -120,7 +120,8 @@ extraction:
 
 ### Stored on GeneCluster nodes (via adapter)
 - `functional_description` — gene identity and pathway membership (2-3 sentences max)
-- `temporal_pattern` — observed expression dynamics (1-2 sentences). NOTE: adapter currently reads `behavioral_description` — rename deferred.
+- `temporal_pattern` — observed expression dynamics (1-2 sentences)
+- `expression_dynamics` — short label for expression response timing (e.g., "early transient", "peaks at dawn")
 
 ### Extraction-only scaffolding (not in KG)
 - `expression_dynamics` — short free-text label (e.g., "early transient", "peaks at dawn", "periodic in L:D only")

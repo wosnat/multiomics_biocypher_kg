@@ -331,7 +331,7 @@ Co-expression cluster membership tables. Processed by `cluster_adapter.py` (NOT 
 | `experimental_context` | str | Additional context |
 | `experiments` | str[] | **Recommended.** List of experiment keys from the same paperconfig (links ClusteringAnalysis → Experiment). Every cluster analysis should link to at least one experiment. Create an experiment entry if one doesn't exist yet. A cluster analysis may link to multiple experiments if relevant. |
 
-**Per-cluster data** comes from extraction JSON (`cluster_extraction_{entry_key}.json`), not from the paperconfig. The extraction pipeline reads cluster keys from the CSV `cluster_col` and produces: `id`, `name`, `functional_description`, `behavioral_description`, `peak_time_hours`, `period_hours`.
+**Per-cluster data** comes from extraction JSON (`cluster_extraction_{entry_key}.json`), not from the paperconfig. The extraction pipeline reads cluster keys from the CSV `cluster_col` and produces: `id`, `name`, `functional_description`, `temporal_pattern`, `expression_dynamics`.
 
 **Data flow:** paperconfig (analysis metadata) + CSV (cluster membership) → extraction pipeline → extraction JSON (per-cluster descriptions) → adapter reads all three.
 

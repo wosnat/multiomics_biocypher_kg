@@ -69,7 +69,7 @@ CREATE FULLTEXT INDEX clusteringAnalysisFullText IF NOT EXISTS
 
 // ── GeneCluster indexes ─────────────────────────────────────────────────
 CREATE FULLTEXT INDEX geneClusterFullText IF NOT EXISTS
-  FOR (gc:GeneCluster) ON EACH [gc.name, gc.functional_description, gc.behavioral_description];
+  FOR (gc:GeneCluster) ON EACH [gc.name, gc.functional_description, gc.temporal_pattern, gc.expression_dynamics];
 
 // Publication fulltext index
 CREATE FULLTEXT INDEX publicationFullText IF NOT EXISTS

@@ -16,8 +16,8 @@ The production extraction uses `multiomics_kg/extraction/cluster/extract.py` —
 
 **Extraction fields:**
 - `functional_description` — gene identity/pathway membership (2-3 sentences)
-- `temporal_pattern` — expression dynamics prose (1-2 sentences). KG schema still uses `behavioral_description` — rename deferred.
-- `expression_dynamics` — short free-text label (scaffolding, not in KG)
+- `temporal_pattern` — expression dynamics prose (1-2 sentences)
+- `expression_dynamics` — short free-text label for response timing
 - Sentinel: `"N/A"` for undiscussed clusters
 
 **Data:** 15 entries across 8 papers, 110 clusters (~60 described, ~50 N/A). Manually reviewed against papers and corrected (2026-04-06). 12 warnings remaining (all intentional low-confidence temporal patterns).
@@ -127,9 +127,9 @@ The 4-stage pipeline (`pipeline.py`, `run_manager.py`, review UI) from 2026-04-0
 
 **Diagnosed:** 2026-04-05
 **Severity:** Low — prompt workaround in place
-**Status:** RESOLVED in extraction (2026-04-06). KG schema rename deferred.
+**Status:** FULLY RESOLVED (2026-04-06).
 
-**Fix:** Renamed `behavioral_description` → `temporal_pattern` in extraction Pydantic schema. Combined with per-type prompt rules that tell the model exactly what to put in this field per cluster type. KG schema (`schema_config.yaml`) and adapter still use `behavioral_description` — rename deferred to separate task.
+**Fix:** Renamed `behavioral_description` → `temporal_pattern` in extraction Pydantic schema, KG schema (`schema_config.yaml`), adapter, post-import scripts, and tests. Added `expression_dynamics` as new GeneCluster property. Dropped `peak_time_hours` and `period_hours` (no longer in extraction output).
 
 ### Issue 10: Single prompt doesn't fit all cluster types
 
@@ -146,7 +146,7 @@ The 4-stage pipeline (`pipeline.py`, `run_manager.py`, review UI) from 2026-04-0
 ## Next Steps (TODO)
 
 1. **Fix remaining 6 warnings** — 2 locus tags (PMM0958 in Tolonen, tll1454 in Bernstein), 2 filler phrases, 2 near-identical descriptions. Minor prompt tweaks or accept as-is.
-2. **KG schema + adapter rename** — `behavioral_description` → `temporal_pattern` in `schema_config.yaml` and `cluster_adapter.py`. Deferred from this iteration.
+2. ~~**KG schema + adapter rename**~~ — DONE (2026-04-06). `behavioral_description` → `temporal_pattern`, added `expression_dynamics`, dropped `peak_time_hours`/`period_hours`.
 3. **Multi-organism cluster modeling** (Issue 7 remainder) — Bernstein has per-organism splits of joint clusters. Design needed for how to represent joint clusters in KG.
 4. **Human review** — spot-check extracted descriptions against papers for accuracy, especially Bernstein (new) and Biller classification entries.
 

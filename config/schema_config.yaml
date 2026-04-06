@@ -75,9 +75,8 @@ gene cluster:
     organism_name: str
     member_count: int
     functional_description: str
-    behavioral_description: str
-    peak_time_hours: float
-    period_hours: float
+    temporal_pattern: str
+    expression_dynamics: str
 
 # ClusteringAnalysis node: represents a clustering analysis from a publication
 clustering analysis:

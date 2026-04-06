@@ -196,11 +196,11 @@ def test_get_nodes_reads_extraction_json(tmp_path):
 
     clusters = {
         "1": {"id": "med4_up_transport", "name": "MED4 cluster 1 (up, transport)",
-              "functional_description": "Transport genes", "behavioral_description": "Rapid upregulation",
-              "peak_time_hours": None, "period_hours": None},
+              "functional_description": "Transport genes", "temporal_pattern": "Rapid upregulation",
+              "expression_dynamics": "early transient"},
         "2": {"id": "med4_down_photosynthesis", "name": "MED4 cluster 2 (down, photosynthesis)",
-              "functional_description": "PSI genes", "behavioral_description": "Downregulated at 6h",
-              "peak_time_hours": None, "period_hours": None},
+              "functional_description": "PSI genes", "temporal_pattern": "Downregulated at 6h",
+              "expression_dynamics": "late sustained"},
     }
     extraction = {"metadata": {"table_key": "test_analysis"}, "clusters": clusters}
     ext_dir = tmp_path / "cluster_extractions"
@@ -230,7 +230,7 @@ def test_get_nodes_reads_extraction_json(tmp_path):
 
     assert cluster_nodes["med4_up_transport"]["functional_description"] == "Transport genes"
     assert cluster_nodes["med4_up_transport"]["name"] == "MED4 cluster 1 (up, transport)"
-    assert cluster_nodes["med4_down_photosynthesis"]["behavioral_description"] == "Downregulated at 6h"
+    assert cluster_nodes["med4_down_photosynthesis"]["temporal_pattern"] == "Downregulated at 6h"
 
 
 # ─── Test: Failed extraction skipped ────────────────────────────────────────
@@ -243,9 +243,9 @@ def test_get_nodes_uses_all_extraction_data(tmp_path):
 
     clusters = {
         "1": {"id": "good", "name": "Good", "functional_description": "OK",
-              "behavioral_description": "OK", "peak_time_hours": None, "period_hours": None},
+              "temporal_pattern": "OK", "expression_dynamics": "OK"},
         "2": {"id": "also_good", "name": "Also Good", "functional_description": "Also OK",
-              "behavioral_description": "Also OK", "peak_time_hours": None, "period_hours": None},
+              "temporal_pattern": "Also OK", "expression_dynamics": "Also OK"},
     }
     extraction = {"metadata": {"table_key": "test_analysis"}, "clusters": clusters}
     ext_dir = tmp_path / "cluster_extractions"
@@ -644,9 +644,8 @@ def test_adapter_loads_new_extraction_format(tmp_path):
             "id": "test_up_transport",
             "name": "Test cluster 1 (up, transport)",
             "functional_description": "Transport genes upregulated",
-            "behavioral_description": "Rapid upregulation",
-            "peak_time_hours": 6.0,
-            "period_hours": None,
+            "temporal_pattern": "Rapid upregulation",
+            "expression_dynamics": "early transient",
         },
     }
     save_extraction(tmp_path, "test_entry", metadata, clusters)
@@ -655,4 +654,4 @@ def test_adapter_loads_new_extraction_format(tmp_path):
     ext = get_cluster_data(loaded, "1")
     assert ext["functional_description"] == "Transport genes upregulated"
     assert ext["name"] == "Test cluster 1 (up, transport)"
-    assert ext["peak_time_hours"] == 6.0
+    assert ext["temporal_pattern"] == "Rapid upregulation"

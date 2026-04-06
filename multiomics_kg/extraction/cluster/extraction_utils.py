@@ -60,7 +60,10 @@ def save_extraction(paper_dir: Path, entry_key: str, metadata: dict, clusters: d
         md_lines.append(f"**Enrichment:** {c.get('enrichment_category', '')} "
                         f"(p={c.get('enrichment_pvalue', 'N/A')})")
         md_lines.append(f"**Functional:** {c.get('functional_description', '')}\n")
-        md_lines.append(f"**Behavioral:** {c.get('behavioral_description', '')}\n")
+        md_lines.append(f"**Temporal pattern:** {c.get('temporal_pattern', '')}\n")
+        dynamics = c.get("expression_dynamics", "")
+        if dynamics:
+            md_lines.append(f"**Expression dynamics:** {dynamics}\n")
         notes = c.get("confidence_notes", "")
         if notes:
             md_lines.append(f"**Notes:** {notes}\n")
