@@ -13,29 +13,24 @@
     "axenic_LD": {
       "id": "natl2a_axenic_ld",
       "name": "Prochlorococcus NATL2A cluster axenic_LD (L:D periodic)",
-      "functional_description": "Enriched for photosystem I and II components, including genes psbA, psaA, and psaB, reflecting active photosynthesis under diel light:dark cycles.",
+      "functional_description": "N/A",
       "temporal_pattern": "Genes show 24-h periodicity in axenic cultures under diel light:dark conditions but lose periodicity under extended darkness.",
       "expression_dynamics": "periodic in L:D only",
-      "enrichment_category": "Photosynthesis",
-      "enrichment_pvalue": 0.001,
-      "enrichment_significant": true,
-      "confidence_notes": "High confidence based on transcriptome data and pathway enrichment analysis.",
+      "enrichment_category": "",
+      "enrichment_pvalue": null,
+      "enrichment_significant": false,
+      "confidence_notes": "Paper does not report functional enrichment for this specific periodicity category.",
       "supporting_quotes": [
         {
           "quote": "We found that transcripts encoding 69% of all Prochlorococcus proteins exhibited 24-h periodicity in the axenic L:D cultures, while only 6% did so through the first 13 h of extended darkness.",
           "location": "Page 11"
-        },
-        {
-          "quote": "The largest group of Prochlorococcus transcripts (42% of all protein-encoding genes) showed 24-h periodicity in both axenic and cocultures under diel L:D conditions but did not continue to oscillate under extended darkness.",
-          "location": "Page 11"
         }
       ],
       "source_figures": [
-        "Figure 4A",
-        "Figure 1A"
+        "Figure 4A"
       ],
-      "self_assessment": "high",
-      "assessment_notes": ""
+      "self_assessment": "medium",
+      "assessment_notes": "Temporal pattern is well-supported but no functional enrichment data available for this category."
     },
     "axenic_LD+axenic_darkness+coculture_darkness": {
       "id": "natl2a_axenic_ld+axenic_darkness+coculture_darkness",
@@ -55,29 +50,24 @@
     "axenic_LD+coculture_LD": {
       "id": "natl2a_axenic_ld+coculture_ld",
       "name": "Prochlorococcus NATL2A cluster axenic_LD+coculture_LD (L:D periodic enhanced in coculture)",
-      "functional_description": "Includes genes involved in photosynthesis and light harvesting, such as psbA, psbB, psaA, and psaB, with enhanced expression in coculture conditions.",
+      "functional_description": "N/A",
       "temporal_pattern": "Genes show 24-h periodicity in both axenic and coculture under diel L:D conditions, with more transcripts retaining periodicity in coculture.",
       "expression_dynamics": "periodic in L:D with coculture enhancement",
-      "enrichment_category": "Photosynthesis",
-      "enrichment_pvalue": 0.001,
-      "enrichment_significant": true,
-      "confidence_notes": "High confidence from transcriptomic periodicity and enrichment data.",
+      "enrichment_category": "",
+      "enrichment_pvalue": null,
+      "enrichment_significant": false,
+      "confidence_notes": "Paper says PSI/PSII transcript increases seen in axenic cultures did NOT occur in cocultures — the original description contradicted the paper.",
       "supporting_quotes": [
         {
           "quote": "More Prochlorococcus transcripts retained their periodicity in cocultures versus axenic cultures, both under extended darkness and even during the normal diel L:D cycle.",
           "location": "Page 11"
-        },
-        {
-          "quote": "Many of the increases in transcript abundance for photosystem subunits (e.g., psbA, psbB, psaA, and psaB) seen in the axenic cultures did not occur in the cocultures, suggesting additional energy sources in coculture.",
-          "location": "Page 9"
         }
       ],
       "source_figures": [
-        "Figure 4A",
-        "Figure 1A"
+        "Figure 4A"
       ],
-      "self_assessment": "high",
-      "assessment_notes": ""
+      "self_assessment": "low",
+      "assessment_notes": "No functional enrichment reported for this periodicity category in the paper."
     },
     "axenic_LD+coculture_LD+axenic_darkness": {
       "id": "natl2a_axenic_ld+coculture_ld+axenic_darkness",
@@ -142,29 +132,24 @@
     "coculture_LD": {
       "id": "natl2a_coculture_ld",
       "name": "Prochlorococcus NATL2A cluster coculture_LD (coculture L:D periodic)",
-      "functional_description": "Enriched for genes involved in organic compound degradation and salvage pathways, including amino acid metabolism, indicating mixotrophic metabolism in coculture.",
-      "temporal_pattern": "Genes show 24-h periodicity in coculture under diel L:D conditions and retain more periodicity than axenic cultures under extended darkness.",
-      "expression_dynamics": "periodic in coculture L:D and extended darkness",
-      "enrichment_category": "Organic compound metabolism",
-      "enrichment_pvalue": 0.01,
-      "enrichment_significant": true,
-      "confidence_notes": "High confidence based on transcriptomic and pathway enrichment data.",
+      "functional_description": "N/A",
+      "temporal_pattern": "Genes show 24-h periodicity only in coculture under diel light:dark conditions.",
+      "expression_dynamics": "periodic in coculture L:D only",
+      "enrichment_category": "",
+      "enrichment_pvalue": null,
+      "enrichment_significant": false,
+      "confidence_notes": "Organic compound degradation enrichment is from the darkness context, not the periodicity analysis.",
       "supporting_quotes": [
-        {
-          "quote": "Cocultured, but not axenic, Prochlorococcus cells were enriched in transcripts encoding organic compound degradation/salvage pathways, such as those for amino acids.",
-          "location": "Page 9"
-        },
         {
           "quote": "More Prochlorococcus transcripts retained their periodicity in cocultures versus axenic cultures, both under extended darkness and even during the normal diel L:D cycle.",
           "location": "Page 11"
         }
       ],
       "source_figures": [
-        "Figure 4A",
-        "Figure 1A"
+        "Figure 4A"
       ],
-      "self_assessment": "high",
-      "assessment_notes": ""
+      "self_assessment": "medium",
+      "assessment_notes": "Temporal pattern supported but no functional enrichment specific to this periodicity category."
     },
     "coculture_LD+axenic_darkness": {
       "id": "natl2a_coculture_ld+axenic_darkness",

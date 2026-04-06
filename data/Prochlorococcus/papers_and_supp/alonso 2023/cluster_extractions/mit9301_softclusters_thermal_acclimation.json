@@ -65,7 +65,7 @@
     "Cluster C": {
       "id": "mit9301_cluster_c",
       "name": "Prochlorococcus cluster C (cold stress response daytime)",
-      "functional_description": "Enriched for genes involved in global stress response including cellular chaperones (groES, groEL, dnaK, clpBCP), fatty acid desaturases (desA, desC), oxidative damage protection (recA, ruvB, sod), carotenoid synthesis (pds, crtBH), rubredoxin (rub), and regulatory proteins such as sigma factors and histidine kinases.",
+      "functional_description": "Enriched for genes involved in global stress response including cellular chaperones (groES, groEL, dnaK, clpBCP), fatty acid desaturases (desA, desC), oxidative damage protection (recA, ruvB, sod), carotenoid synthesis (pds, crtBH), and rubredoxin (rub). The histidine kinase nblS is confirmed in this cluster.",
       "temporal_pattern": "Strongly upregulated at minimum temperature (Tmin) during daytime, with prioritization of expression under light conditions.",
       "expression_dynamics": "up at cold during daytime",
       "enrichment_category": "Stress response",
@@ -88,7 +88,7 @@
     "Cluster D": {
       "id": "mit9301_cluster_d",
       "name": "Prochlorococcus cluster D (cold stress response day and night)",
-      "functional_description": "Includes genes involved in global stress response and regulatory proteins such as RNA polymerase components (rpoB, rpoD), sigma factors, histidine kinases (nblS), and other regulatory proteins. Also includes genes related to nitrogen and phosphate acquisition (ntcA, glnA, urtA, phoB).",
+      "functional_description": "Includes genes involved in global stress response upregulated at cold under both light and dark conditions. Also includes sigma factors and regulatory proteins (rpoD and family members), DNA replication (dnaA, nrdJ, gyrB), cell division (ftsZYQ), and energy metabolism via the pentose phosphate pathway (tal, gnd, zwf) and glycogen degradation (glgP). Nitrogen acquisition genes (urtA, phoB) are also present.",
       "temporal_pattern": "Upregulated at minimum temperature (Tmin) during both daytime and nighttime, indicating a sustained cold stress response.",
       "expression_dynamics": "up at cold during day and night",
       "enrichment_category": "Stress response and regulation",

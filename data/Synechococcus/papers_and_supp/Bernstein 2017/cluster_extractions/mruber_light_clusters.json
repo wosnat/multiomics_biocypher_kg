@@ -13,30 +13,17 @@
     "A": {
       "id": "mruber_irradiance_responsive_cluster_A",
       "name": "Meiothermus ruber cluster A (irradiance responsive)",
-      "functional_description": "Enriched for genes involved in carbon uptake and metabolism, including acetyl-CoA synthetase (acs), acetate kinase (ackA), lactate dehydrogenase (ldhA), and citrate synthase (gltA). Also includes genes for synthesis and export of larger biomolecules such as exopolysaccharides (exoD) and sucrose metabolism (spsA, sps).",
-      "temporal_pattern": "Shows a tent-shaped expression pattern with maximum relative mRNA abundances at intermediate irradiance (1,190 \u00b5mol photons m-2 s-1).",
+      "functional_description": "N/A",
+      "temporal_pattern": "Tent-shaped expression pattern with peak at intermediate irradiance.",
       "expression_dynamics": "peak at intermediate irradiance",
-      "enrichment_category": "Carbon metabolism and transport",
-      "enrichment_pvalue": 0.05,
-      "enrichment_significant": true,
-      "confidence_notes": "High confidence based on clustering and functional enrichment analysis.",
-      "supporting_quotes": [
-        {
-          "quote": "Cluster A exhibits a tent-shaped eigen-gene with maximum relative mRNA abundances at the midpoint Ii (1,190 mol photons m2 s1).",
-          "location": "Page 6"
-        },
-        {
-          "quote": "Principal genes involved in organic acid synthesis of T. elongatus grouped into clusters that increased with Ii (cluster D) and/or decreased with pO2 (cluster G). These included acetyl coenzyme A (CoA) synthetase (acs; tll0887), acetate kinase (ackA; tlr2340), lactate dehydrogenase (ldhA; tlr0711), and citrate synthase (gltA; tlr2393). Functions involved in synthesis and export of larger biomolecules (i.e., sugars, peptides, and extracellular polymeric substance [EPS]) also grouped into clusters D and G. These included a putative exopolysaccharide synthesis gene (exoD; tll2077), sucrose synthase (spsA; tlr1047), and a sucrose degradation enzyme (sps; tlr0582). In conjunction with T. elongatus, M. ruber genes involved in the uptake and metabolism of compounds related to export and synthesis of T. elongatus-derived organic carbon were also found in clusters D and/or G.",
-          "location": "Page 7"
-        }
-      ],
-      "source_figures": [
-        "Figure 6",
-        "Table S1",
-        "Table S2"
-      ],
-      "self_assessment": "high",
-      "assessment_notes": "Clear clustering and functional enrichment support this description."
+      "enrichment_category": "N/A",
+      "enrichment_pvalue": null,
+      "enrichment_significant": false,
+      "confidence_notes": "",
+      "supporting_quotes": [],
+      "source_figures": [],
+      "self_assessment": "low",
+      "assessment_notes": "Paper discusses joint clusters; per-organism functional attribution unreliable."
     },
     "B": {
       "id": "mruber_irradiance_responsive_cluster_B",
@@ -56,9 +43,9 @@
     "C": {
       "id": "mruber_irradiance_responsive_cluster_C",
       "name": "Meiothermus ruber cluster C (irradiance responsive)",
-      "functional_description": "Includes genes involved in nitrogen acquisition and amino acid metabolism such as glutamine synthetase (glnA) and glutamate synthase (gltB), which show expression patterns suggesting exchange of glutamine and glutamate from T. elongatus. Also includes genes for vitamin B12 uptake and methionine biosynthesis (metHX).",
-      "temporal_pattern": "Expression increases with specific growth and photosynthesis rates, showing opposite patterns to some T. elongatus genes with respect to irradiance and oxygen.",
-      "expression_dynamics": "up with growth rate and photosynthesis",
+      "functional_description": "Contains M. ruber genes for nitrogen acquisition (glnA, gltB), vitamin B12 uptake (btuCD), and methionine biosynthesis (metH).",
+      "temporal_pattern": "Decreases with increasing irradiance.",
+      "expression_dynamics": "down with irradiance",
       "enrichment_category": "Nitrogen metabolism and vitamin B12 uptake",
       "enrichment_pvalue": 0.05,
       "enrichment_significant": true,
@@ -84,26 +71,17 @@
     "D": {
       "id": "mruber_irradiance_responsive_cluster_D",
       "name": "Meiothermus ruber cluster D (irradiance responsive)",
-      "functional_description": "Contains genes involved in ROS/RNS detoxification and electron transfer processes, including peroxidases (bcp), superoxide dismutase (sod2), and electron transfer flavoproteins (fixAB). These genes show expression patterns suggesting a role in oxidative stress response and metabolic coupling with T. elongatus.",
-      "temporal_pattern": "Expression generally increases with irradiance and specific growth/photosynthesis rates, and decreases with increasing oxygen tension.",
-      "expression_dynamics": "up with irradiance and growth rate",
-      "enrichment_category": "Oxidative stress response and electron transfer",
-      "enrichment_pvalue": 0.05,
-      "enrichment_significant": true,
-      "confidence_notes": "High confidence based on transcriptomic data and functional enrichment.",
-      "supporting_quotes": [
-        {
-          "quote": "M. ruber peroxidase (bcp; SY28_RS05545, SY28_RS06010, and SY28_RS06015) and superoxide dismutase (sod2; SY28_RS13295) genes responded differently to Ii treatments than did oxyR and related cyanobacterial profiles and were grouped into clusters A and C. These genes generally increased with pO2 and grouped with the T. elongatus genes into cluster H (increased with pO2 and decreasing \u00b5). M. ruber genes associated with electron transfer processes that are potentiators of ROS grouped into cluster G, which decreased with increasing pO2 treatments and increased with specific growth and photosynthesis rates. These include subunits for an electron transfer flavoprotein (fixAB; SY28_RS10190 and SY28_RS10195), NADH-dehydrogenase (SY28_RS04385), and principal components of the NADH-quinone oxidoreductase (nuoDFGHIJKN).",
-          "location": "Page 8"
-        }
-      ],
-      "source_figures": [
-        "Figure 6",
-        "Table S1",
-        "Table S2"
-      ],
-      "self_assessment": "high",
-      "assessment_notes": "Clear functional and expression data support this cluster's role in oxidative stress and electron transfer."
+      "functional_description": "N/A",
+      "temporal_pattern": "Increases with increasing irradiance.",
+      "expression_dynamics": "up with irradiance",
+      "enrichment_category": "N/A",
+      "enrichment_pvalue": null,
+      "enrichment_significant": false,
+      "confidence_notes": "",
+      "supporting_quotes": [],
+      "source_figures": [],
+      "self_assessment": "low",
+      "assessment_notes": "Paper discusses joint clusters; per-organism functional attribution unreliable."
     }
   }
 }

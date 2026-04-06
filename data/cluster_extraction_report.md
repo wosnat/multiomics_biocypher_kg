@@ -24,7 +24,7 @@
 ### Cluster Cluster C | up at cold during daytime | high
 **Name:** Prochlorococcus cluster C (cold stress response daytime)
 **Enrichment:** Stress response (p=None, sig=False)
-**Functional:** Enriched for genes involved in global stress response including cellular chaperones (groES, groEL, dnaK, clpBCP), fatty acid desaturases (desA, desC), oxidative damage protection (recA, ruvB, sod), carotenoid synthesis (pds, crtBH), rubredoxin (rub), and regulatory proteins such as sigma factors and histidine kinases.
+**Functional:** Enriched for genes involved in global stress response including cellular chaperones (groES, groEL, dnaK, clpBCP), fatty acid desaturases (desA, desC), oxidative damage protection (recA, ruvB, sod), carotenoid synthesis (pds, crtBH), and rubredoxin (rub). The histidine kinase nblS is confirmed in this cluster.
 **Temporal pattern:** Strongly upregulated at minimum temperature (Tmin) during daytime, with prioritization of expression under light conditions.
 **Sources:** Figure 2, Figure 3C
 **Quotes:**
@@ -33,7 +33,7 @@
 ### Cluster Cluster D | up at cold during day and night | high
 **Name:** Prochlorococcus cluster D (cold stress response day and night)
 **Enrichment:** Stress response and regulation (p=None, sig=False)
-**Functional:** Includes genes involved in global stress response and regulatory proteins such as RNA polymerase components (rpoB, rpoD), sigma factors, histidine kinases (nblS), and other regulatory proteins. Also includes genes related to nitrogen and phosphate acquisition (ntcA, glnA, urtA, phoB).
+**Functional:** Includes genes involved in global stress response upregulated at cold under both light and dark conditions. Also includes sigma factors and regulatory proteins (rpoD and family members), DNA replication (dnaA, nrdJ, gyrB), cell division (ftsZYQ), and energy metabolism via the pentose phosphate pathway (tal, gnd, zwf) and glycogen degradation (glgP). Nitrogen acquisition genes (urtA, phoB) are also present.
 **Temporal pattern:** Upregulated at minimum temperature (Tmin) during both daytime and nighttime, indicating a sustained cold stress response.
 **Sources:** Figure 2, Figure 3
 **Quotes:**
@@ -53,16 +53,12 @@
 
 ## Bernstein 2017 / bp1_light_clusters
 
-### Cluster A | peak at intermediate irradiance | high
+### Cluster A | peak at intermediate irradiance | low
 **Name:** Thermosynechococcus elongatus cluster A (irradiance-responsive)
-**Enrichment:** Photosynthesis (p=0.05, sig=True)
-**Functional:** Enriched for photosystem II components including psbV, psbX, and psbV2, and beta-carboxysome genes ccmK1 and ccmL. Genes show a tent-shaped expression pattern with maximum transcript abundance at intermediate irradiance (1,190 µmol photons m-2 s-1).
-**Temporal pattern:** Transcript abundances peak at intermediate irradiance, showing a tent-shaped pattern with maximum expression at the theoretical saturating irradiance.
-**Confidence notes:** High confidence based on clear expression pattern and functional enrichment.
-**Sources:** Figure 6, Figure 3A
-**Quotes:**
-- [Page 6] Cluster A exhibits a tent-shaped eigen-gene with maximum relative mRNA abundances at the midpoint Ii (1,190 mol photons m2 s1).
-- [Page 4] Genes whose transcripts were shown to be responsive by increasing with irradiance included those associated with photosystem II (PS II) (psbV, psbX, and psbV2) and beta-carboxysome (ccmK1 and ccmL) functions.
+**Enrichment:** N/A (p=None, sig=False)
+**Functional:** N/A
+**Temporal pattern:** Tent-shaped expression pattern with peak at intermediate irradiance.
+**Assessment notes:** Paper discusses joint clusters; per-organism functional attribution unreliable.
 
 ### Cluster B | N/A | high
 **Name:** Thermosynechococcus elongatus cluster B (irradiance-responsive)
@@ -73,23 +69,22 @@
 **Assessment notes:** No data available for this cluster.
 **Sources:** Figure 6
 
-### Cluster C | down with irradiance, up with oxygen | medium
+### Cluster C | down with irradiance | medium
 **Name:** Thermosynechococcus elongatus cluster C (irradiance-responsive)
-**Enrichment:** Vitamin B12 biosynthesis and amino acid metabolism (p=0.05, sig=True)
-**Functional:** Includes genes involved in vitamin B12 biosynthesis (cobWNT, cobOQDPC) and methionine metabolism (metH, metE). Also contains genes related to amino acid biosynthesis and nitrogen metabolism such as glnA and gltB. Expression patterns suggest exchange of methionine and glutamate with M. ruber.
-**Temporal pattern:** Transcript abundances decrease with increasing irradiance and increase with increasing oxygen tension, showing inverse patterns to clusters D and G.
-**Confidence notes:** Moderate to high confidence based on gene function and expression patterns.
-**Assessment notes:** Some uncertainty due to complexity of gene expression patterns and overlap with other clusters.
-**Sources:** Figure 6, Figure 3
+**Enrichment:** Vitamin B12 biosynthesis (p=0.05, sig=True)
+**Functional:** Contains T. elongatus vitamin B12 biosynthesis genes (cobWNT, cobOQDPC).
+**Temporal pattern:** Decreases with increasing irradiance.
+**Confidence notes:** B12 biosynthesis genes verified as T. elongatus in cluster C.
+**Assessment notes:** B12 genes confirmed for T. elongatus; M. ruber genes (glnA, gltB, metH) removed as misattributed.
+**Sources:** Figure 6
 **Quotes:**
 - [Page 8] The relative abundances of transcripts encoding vitamin B12 biosynthesis, including those required for the insertion of cobalt (cobWNT) and for the conversion of cobyrinic acid diamine to the vitamin B12 coenzyme from cobOQDPC, were found in cluster C.
-- [Page 8] T. elongatus transcripts of methionine and glutamate biosynthesis genes clustered into groups that increased with µ (clusters D and G) while M. ruber homologs showed opposite patterns (clusters C and H), suggesting the specific exchange of these amino acids.
 
-### Cluster D | up with irradiance, down with oxygen | high
+### Cluster D | up with irradiance | high
 **Name:** Thermosynechococcus elongatus cluster D (irradiance-responsive)
 **Enrichment:** Carbon metabolism, nitrogen metabolism, and oxidative stress response (p=0.05, sig=True)
 **Functional:** Enriched for genes involved in organic acid synthesis and export, including acetyl-CoA synthetase (acs), acetate kinase (ackA), lactate dehydrogenase (ldhA), citrate synthase (gltA), exopolysaccharide synthesis (exoD), and sucrose metabolism (spsA, sps). Also includes nitrogen metabolism genes such as nitrate uptake (nrtABD), glutamine synthetase (glnA), and glutamate symporter (gltS). Genes involved in ROS detoxification (flv4, peroxiredoxins, sodB) are also enriched.
-**Temporal pattern:** Transcript abundances increase with increasing irradiance and decrease with increasing oxygen tension, corresponding to increased specific growth and photosynthesis rates.
+**Temporal pattern:** Increases with increasing irradiance.
 **Confidence notes:** High confidence based on strong functional enrichment and consistent expression dynamics.
 **Sources:** Figure 6, Figure 3, Figure 5
 **Quotes:**
@@ -98,16 +93,12 @@
 
 ## Bernstein 2017 / bp1_oxygen_clusters
 
-### Cluster E | down with increasing pO2 | high
+### Cluster E | peak at intermediate pO2 | low
 **Name:** Thermosynechococcus elongatus cluster E (pO2-responsive)
-**Enrichment:** Vitamin B12 biosynthesis (p=0.05, sig=True)
-**Functional:** Contains genes involved in vitamin B12 biosynthesis and salvage, including cobWNT and cobOQDPC, and genes related to methionine metabolism such as metHX. Also includes genes involved in cysteine biosynthesis like cysK and cysE. Enriched for functions related to vitamin B12 biosynthesis and methionine metabolism.
-**Temporal pattern:** Genes in this cluster show a decrease in expression with increasing partial pressure of oxygen (pO2).
-**Confidence notes:** Enrichment based on statistical analysis with P ≤ 0.05.
-**Sources:** Figure 6, Table S1
-**Quotes:**
-- [Page 8] The relative abundances of transcripts encoding vitamin B12 uptake/scavenging gene products in M. ruber (btuCD) decreased with Ii in concurrence with decreased T. elongatus transcripts (all within cluster C) encoding vitamin B12 biosynthesis, including those required for the insertion of cobalt (cobWNT; tll1624, tlr0900, and tll2306) and for the conversion of cobyrinic acid diamine to the vitamin B12 coenzyme from cobOQDPC (tlr0265, tll1716, tll2266, tll1104, and tll0390).
-- [Page 8] The relative abundances of T. elongatus transcripts encoding vitamin B12 biosynthesis, including those required for the insertion of cobalt (cobWNT) and for the conversion of cobyrinic acid diamine to the vitamin B12 coenzyme from cobOQDPC, grouped within cluster C.
+**Enrichment:** N/A (p=None, sig=False)
+**Functional:** N/A
+**Temporal pattern:** Tent-shaped expression pattern with peak at intermediate oxygen tension (analog of cluster A).
+**Assessment notes:** Paper discusses joint clusters; per-organism functional attribution unreliable.
 
 ### Cluster F | N/A | low
 **Name:** Thermosynechococcus elongatus cluster F (pO2-responsive)
@@ -116,11 +107,11 @@
 **Temporal pattern:** N/A
 **Assessment notes:** No specific discussion or data provided for cluster F in the paper.
 
-### Cluster G | up with increasing pO2 | high
+### Cluster G | down with increasing pO2 | high
 **Name:** Thermosynechococcus elongatus cluster G (pO2-responsive)
 **Enrichment:** Organic acid metabolism (p=0.05, sig=True)
 **Functional:** Enriched for genes involved in organic acid synthesis and export, including acetyl coenzyme A synthetase (acs), acetate kinase (ackA), lactate dehydrogenase (ldhA), and citrate synthase (gltA). Also includes genes for synthesis and export of larger biomolecules such as exopolysaccharide synthesis gene (exoD), sucrose synthase (spsA), and sucrose degradation enzyme (sps).
-**Temporal pattern:** Genes in this cluster increase in expression with increasing pO2 and correspond to a linear decrease in specific growth rate.
+**Temporal pattern:** Decreases with increasing oxygen tension.
 **Confidence notes:** Enrichment supported by statistical analysis with P ≤ 0.05.
 **Sources:** Figure 6, Table S1
 **Quotes:**
@@ -130,27 +121,21 @@
 ### Cluster H | up with increasing pO2 | high
 **Name:** Thermosynechococcus elongatus cluster H (pO2-responsive)
 **Enrichment:** Oxidative stress response (p=0.05, sig=True)
-**Functional:** Contains genes involved in oxidative stress responses, including NAD(P)H-oxygen oxidoreductase (flv4), 2-Cys family peroxiredoxins, periplasmic peroxiredoxin (prxQ-B2), and Mn-superoxide dismutase (sodB). Also includes M. ruber genes for peroxidase and superoxide dismutase that respond similarly. Enriched for oxidative stress response and ROS detoxification functions.
+**Functional:** Contains T. elongatus ROS detoxification genes including flv4, peroxiredoxins, and sodB.
 **Temporal pattern:** Genes in this cluster increase in expression with increasing pO2 and correspond to a decrease in specific growth rate.
 **Confidence notes:** Enrichment supported by statistical analysis with P ≤ 0.05.
 **Sources:** Figure 6, Table S1
 **Quotes:**
 - [Page 8] The relative abundance of T. elongatus transcripts encoding enzymes involved with ROS detoxification generally increased with increasing Ii and pO2, and the transcripts grouped into the appropriate clusters D and/or H. Notable examples include an NAD(P)H-oxygen oxidoreductase (flv4; tlr1088), 2-Cys family peroxiredoxins (tll1454 and tlr1289), a periplasmic peroxiredoxin (prxQ-B2; tlr1194), and an Mn-superoxide dismutase (sodB; tll1519).
-- [Page 8] M. ruber peroxidase (bcp) and superoxide dismutase (sod2) genes responded differently to Ii treatments than did oxyR and related cyanobacterial profiles and were grouped into clusters A and C. These genes generally increased with pO2 and grouped with the T. elongatus genes into cluster H (increased with pO2 and decreasing μ).
 
 ## Bernstein 2017 / mruber_light_clusters
 
-### Cluster A | peak at intermediate irradiance | high
+### Cluster A | peak at intermediate irradiance | low
 **Name:** Meiothermus ruber cluster A (irradiance responsive)
-**Enrichment:** Carbon metabolism and transport (p=0.05, sig=True)
-**Functional:** Enriched for genes involved in carbon uptake and metabolism, including acetyl-CoA synthetase (acs), acetate kinase (ackA), lactate dehydrogenase (ldhA), and citrate synthase (gltA). Also includes genes for synthesis and export of larger biomolecules such as exopolysaccharides (exoD) and sucrose metabolism (spsA, sps).
-**Temporal pattern:** Shows a tent-shaped expression pattern with maximum relative mRNA abundances at intermediate irradiance (1,190 µmol photons m-2 s-1).
-**Confidence notes:** High confidence based on clustering and functional enrichment analysis.
-**Assessment notes:** Clear clustering and functional enrichment support this description.
-**Sources:** Figure 6, Table S1, Table S2
-**Quotes:**
-- [Page 6] Cluster A exhibits a tent-shaped eigen-gene with maximum relative mRNA abundances at the midpoint Ii (1,190 mol photons m2 s1).
-- [Page 7] Principal genes involved in organic acid synthesis of T. elongatus grouped into clusters that increased with Ii (cluster D) and/or decreased with pO2 (cluster G). These included acetyl coenzyme A (CoA) synthetase (acs; tll0887), acetate kinase (ackA; tlr2340), lactate dehydrogenase (ldhA; tlr0711), and citrate synthase (gltA; tlr2393). Functions involved in synthesis and export of larger biomolecules (i.e., sugars, peptides, and extracellular polymeric substance [EPS]) also grouped into clusters D and G. These included a putative exopolysaccharide synthesis gene (exoD; tll2077), sucrose synthase (spsA; tlr1047), and a sucrose degradation enzyme (sps; tlr0582). In conjunction with T. elongatus, M. ruber genes involved in the uptake and metabolism of compounds related to export and synthesis of T. elongatus-derived organic carbon were also found in clusters D and/or G.
+**Enrichment:** N/A (p=None, sig=False)
+**Functional:** N/A
+**Temporal pattern:** Tent-shaped expression pattern with peak at intermediate irradiance.
+**Assessment notes:** Paper discusses joint clusters; per-organism functional attribution unreliable.
 
 ### Cluster B | N/A | low
 **Name:** Meiothermus ruber cluster B (irradiance responsive)
@@ -160,11 +145,11 @@
 **Confidence notes:** No specific functional or expression details provided for M. ruber cluster B in the paper.
 **Assessment notes:** No explicit information available for this cluster.
 
-### Cluster C | up with growth rate and photosynthesis | high
+### Cluster C | down with irradiance | high
 **Name:** Meiothermus ruber cluster C (irradiance responsive)
 **Enrichment:** Nitrogen metabolism and vitamin B12 uptake (p=0.05, sig=True)
-**Functional:** Includes genes involved in nitrogen acquisition and amino acid metabolism such as glutamine synthetase (glnA) and glutamate synthase (gltB), which show expression patterns suggesting exchange of glutamine and glutamate from T. elongatus. Also includes genes for vitamin B12 uptake and methionine biosynthesis (metHX).
-**Temporal pattern:** Expression increases with specific growth and photosynthesis rates, showing opposite patterns to some T. elongatus genes with respect to irradiance and oxygen.
+**Functional:** Contains M. ruber genes for nitrogen acquisition (glnA, gltB), vitamin B12 uptake (btuCD), and methionine biosynthesis (metH).
+**Temporal pattern:** Decreases with increasing irradiance.
 **Confidence notes:** Moderate to high confidence based on gene coexpression and functional enrichment.
 **Assessment notes:** Gene expression patterns and functional enrichment support this cluster's description.
 **Sources:** Figure 6, Table S1, Table S2
@@ -172,39 +157,28 @@
 - [Page 8] Some key genes required for N acquisition by M. ruber grouped into clusters C and/or H, showed opposite expression patterns with respect to Ii and pO2, and effectively increased with the specific growth and photosynthesis rates. These include glnA (SY28_RS02395) and the large subunit of glutamate synthase (gltB; SY28_RS09480) and suggest the potential for direct exchange of glutamine and glutamate from T. elongatus as growth requirements increase with the specific growth and photosynthesis rates.
 - [Page 8] The relative abundances of transcripts encoding vitamin B12 uptake/scavenging gene products in M. ruber (btuCD; SY28_RS12150 and SY28_RS12155) decreased with Ii in concurrence with decreased T. elongatus transcripts (all within cluster C) encoding vitamin B12 biosynthesis... Both T. elongatus and M. ruber expressed transcripts encoding the vitamin B12-dependent homocysteine methyltransferase (metH) but were negatively correlated and grouped across Ii and pO2 treatments into opposing clusters D (tll1027) and C (SY28_RS08890), indicating that methionine may be directly exchanged from T. elongatus as growth requirements increase with the specific growth rate.
 
-### Cluster D | up with irradiance and growth rate | high
+### Cluster D | up with irradiance | low
 **Name:** Meiothermus ruber cluster D (irradiance responsive)
-**Enrichment:** Oxidative stress response and electron transfer (p=0.05, sig=True)
-**Functional:** Contains genes involved in ROS/RNS detoxification and electron transfer processes, including peroxidases (bcp), superoxide dismutase (sod2), and electron transfer flavoproteins (fixAB). These genes show expression patterns suggesting a role in oxidative stress response and metabolic coupling with T. elongatus.
-**Temporal pattern:** Expression generally increases with irradiance and specific growth/photosynthesis rates, and decreases with increasing oxygen tension.
-**Confidence notes:** High confidence based on transcriptomic data and functional enrichment.
-**Assessment notes:** Clear functional and expression data support this cluster's role in oxidative stress and electron transfer.
-**Sources:** Figure 6, Table S1, Table S2
-**Quotes:**
-- [Page 8] M. ruber peroxidase (bcp; SY28_RS05545, SY28_RS06010, and SY28_RS06015) and superoxide dismutase (sod2; SY28_RS13295) genes responded differently to Ii treatments than did oxyR and related cyanobacterial profiles and were grouped into clusters A and C. These genes generally increased with pO2 and grouped with the T. elongatus genes into cluster H (increased with pO2 and decreasing µ). M. ruber genes associated with electron transfer processes that are potentiators of ROS grouped into cluster G, which decreased with increasing pO2 treatments and increased with specific growth and photosynthesis rates. These include subunits for an electron transfer flavoprotein (fixAB; SY28_RS10190 and SY28_RS10195), NADH-dehydrogenase (SY28_RS04385), and principal components of the NADH-quinone oxidoreductase (nuoDFGHIJKN).
+**Enrichment:** N/A (p=None, sig=False)
+**Functional:** N/A
+**Temporal pattern:** Increases with increasing irradiance.
+**Assessment notes:** Paper discusses joint clusters; per-organism functional attribution unreliable.
 
 ## Bernstein 2017 / mruber_oxygen_clusters
 
-### Cluster E | up with pO2 | high
+### Cluster E | peak at intermediate pO2 | low
 **Name:** Meiothermus ruber cluster E (pO2 responsive)
-**Enrichment:** Amino acid metabolism and vitamin B12 uptake (p=0.05, sig=True)
-**Functional:** Enriched for genes involved in methionine biosynthesis (metHX), vitamin B12 uptake/scavenging (btuCD), and amino acid uptake systems. Includes genes SY28_RS08890, SY28_RS12150, and SY28_RS06725.
-**Temporal pattern:** Genes show increased expression with increasing pO2 treatments, corresponding to a linear decrease in specific growth rate.
-**Confidence notes:** Cluster E shows coordinated expression of nitrogen and vitamin metabolism genes consistent with pO2 response.
-**Sources:** Figure 6
-**Quotes:**
-- [Page 8] The relative abundances of transcripts encoding vitamin B12 uptake/scavenging gene products in M. ruber (btuCD; SY28_RS12150 and SY28_RS12155) decreased with Ii in concurrence with decreased T. elongatus transcripts (all within cluster C) encoding vitamin B12 biosynthesis...
-- [Page 8] M. ruber nitrogen-associated genes also grouped into clusters D and/or G, including a glutamate dehydrogenase gene (gdhA; SY28_RS07480 and SY28_RS07475) and amino acid uptake system genes (SY28_RS09865 and SY28_RS06725). However, some key genes required for N acquisition by M. ruber grouped into clusters C and/or H, showed opposite expression patterns with respect to Ii and pO2, and effectively increased with the specific growth and photosynthesis rates.
+**Enrichment:** N/A (p=None, sig=False)
+**Functional:** N/A
+**Temporal pattern:** Tent-shaped expression pattern with peak at intermediate oxygen tension.
+**Assessment notes:** Paper discusses joint clusters; per-organism functional attribution unreliable.
 
-### Cluster F | down with pO2 | high
+### Cluster F | inverse of cluster E | low
 **Name:** Meiothermus ruber cluster F (pO2 responsive)
-**Enrichment:** Amino acid biosynthesis (p=0.05, sig=True)
-**Functional:** Contains genes involved in cysteine biosynthesis (cysE, cysK) and amino acid metabolism, showing coordinated expression with T. elongatus genes.
-**Temporal pattern:** Genes decrease in expression with increasing pO2 and increase with specific growth and photosynthesis rates.
-**Confidence notes:** Cluster F includes genes for cysteine biosynthesis showing inverse expression to cluster E genes.
-**Sources:** Figure 6
-**Quotes:**
-- [Page 8] Genes involved in cysteine biosynthesis shared common transcriptional patterning between species, indicating that while M. ruber may have salvaged cyanobacterium-derived methionine, it likely synthesized its own cysteine via the vitamin B12-independent pathway as growth requirements increased. These include cysteine synthases (cysK; tlr0504 and SY28_RS03805) and serine O-acetyltransferases (cysE; tlr0851 and SY28_RS05065), which cogrouped into clusters D and A, respectively.
+**Enrichment:** N/A (p=None, sig=False)
+**Functional:** N/A
+**Temporal pattern:** Inverse of cluster E.
+**Assessment notes:** Paper discusses joint clusters; per-organism functional attribution unreliable.
 
 ### Cluster G | up with growth rate, down with pO2 | high
 **Name:** Meiothermus ruber cluster G (pO2 responsive)
@@ -219,7 +193,7 @@
 ### Cluster H | up with pO2, down with growth rate | high
 **Name:** Meiothermus ruber cluster H (pO2 responsive)
 **Enrichment:** Oxidative stress response (p=0.01, sig=True)
-**Functional:** Includes genes involved in ROS detoxification such as peroxidases (bcp), superoxide dismutase (sod2), and electron transfer flavoproteins (fixAB).
+**Functional:** Contains M. ruber ROS detoxification genes bcp and sod2.
 **Temporal pattern:** Genes increase in expression with increasing pO2 and decrease with increasing specific growth and photosynthesis rates.
 **Confidence notes:** Cluster H genes are associated with oxidative stress response and electron transfer, showing increased expression with pO2.
 **Sources:** Figure 6
@@ -228,92 +202,74 @@
 
 ## Biller 2018 / mit1002_periodicity
 
-### Cluster coculture_LD | periodic in L:D only | high
-**Name:** MIT1002 cluster coculture_LD (diel periodic)
-**Enrichment:** Photosynthesis (p=0.001, sig=True)
-**Functional:** Enriched for photosystem I and II components including genes psbA, psaA, and psaB. Also includes genes involved in the Calvin cycle, glycolysis, fatty acid biosynthesis, and glycogen metabolism.
-**Temporal pattern:** Genes show 24-h periodicity in coculture under diel light:dark cycle but lose periodicity under extended darkness. More transcripts exhibit 24-h periodicity in coculture than in pure culture during the diel cycle.
-**Confidence notes:** High confidence based on transcriptome periodicity analysis and pathway enrichment.
-**Sources:** Figure 4A, Figure 1A
-**Quotes:**
-- [Page 1] More Prochlorococcus transcripts exhibited 24-h periodic oscillations in coculture than in pure culture, both over the normal diel cycle and after the shift to extended darkness.
-- [Page 11] The largest group of Prochlorococcus transcripts (42% of all protein-encoding genes) showed 24-h periodicity in both axenic and cocultures under diel L:D conditions but did not continue to oscillate under extended darkness.
-- [Page 11] Transcripts associated with a variety of metabolic pathways, including the Calvin cycle, glycolysis, fatty acid biosynthesis, glycogen metabolism, and photosynthesis.
-
-### Cluster coculture_LD+coculture_darkness | periodic across all conditions in coculture | medium
-**Name:** MIT1002 cluster coculture_LD+coculture_darkness (periodic across conditions)
-**Enrichment:** Metabolism (p=None, sig=False)
-**Functional:** Includes transcripts associated with the Calvin cycle, glycolysis, fatty acid biosynthesis, glycogen metabolism, and photosynthesis, indicating maintenance of metabolic functionality across diel and extended darkness conditions in coculture.
-**Temporal pattern:** Genes exhibit 24-h periodicity in coculture both under diel light:dark cycle and extended darkness, but not in axenic cultures under extended darkness.
-**Confidence notes:** Moderate confidence; specific enrichment p-values not reported but supported by transcript abundance patterns.
-**Assessment notes:** No explicit enrichment p-values provided for this cluster; inference based on transcript patterns.
-**Sources:** Figure 4B
+### Cluster coculture_LD | periodic in L:D only | low
+**Name:** Alteromonas MIT1002 cluster coculture_LD (diel periodic)
+**Enrichment:**  (p=None, sig=False)
+**Functional:** N/A
+**Temporal pattern:** Alteromonas genes showing 24-h periodicity in coculture under diel light:dark conditions. The paper reports 13% of all Alteromonas genes exhibited 24-h periodicity in coculture.
+**Confidence notes:** Original extraction incorrectly attributed Prochlorococcus photosynthesis genes to Alteromonas MIT1002.
+**Assessment notes:** Paper provides no functional enrichment detail for Alteromonas periodic genes.
+**Sources:** Figure 4A
 **Quotes:**
 - [Page 11] Transcripts from 13% of all Alteromonas genes exhibited 24-h periodicity when grown on a diel L:D cycle in coculture with Prochlorococcus.
-- [Page 11] Subsets of the Prochlorococcus transcriptome exhibited periodic oscillations under different combinations of culture conditions, including those that oscillated under all conditions.
-- [Page 11] Transcripts associated with a variety of metabolic pathways, including the Calvin cycle, glycolysis, fatty acid biosynthesis, glycogen metabolism, and photosynthesis.
 
-### Cluster coculture_darkness | not periodic | high
-**Name:** MIT1002 cluster coculture_darkness (not periodic)
-**Enrichment:** N/A (p=None, sig=False)
+### Cluster coculture_LD+coculture_darkness | periodic across conditions in coculture | low
+**Name:** Alteromonas MIT1002 cluster coculture_LD+coculture_darkness (periodic across conditions)
+**Enrichment:**  (p=None, sig=False)
 **Functional:** N/A
-**Temporal pattern:** Genes do not exhibit significant 24-h periodicity under extended darkness in axenic cultures; periodicity largely lost in darkness except for a small subset in coculture.
-**Confidence notes:** N/A
-**Sources:** Figure 2, Figure 3
-**Quotes:**
-- [Page 11] Only 6% of transcripts exhibited 24-h periodicity through the first 13 h of extended darkness in axenic cultures.
-- [Page 1] Prochlorococcus transcriptomes lost their synchrony within 5 h of extended darkness and reflected changes in stress responses and metabolic functions consistent with growth cessation.
+**Temporal pattern:** Two Alteromonas genes maintaining 24-h periodicity in coculture under both diel and extended darkness conditions.
+**Confidence notes:** Only 2 genes in this category; paper provides no functional detail for them.
+**Assessment notes:** Too few genes for meaningful functional characterization.
+
+### Cluster coculture_darkness | N/A | low
+**Name:** Alteromonas MIT1002 cluster coculture_darkness
+**Enrichment:**  (p=None, sig=False)
+**Functional:** N/A
+**Temporal pattern:** N/A
+**Confidence notes:** Paper does not discuss this specific periodicity category for Alteromonas.
+**Assessment notes:** Original extraction incorrectly used Prochlorococcus quotes for an Alteromonas cluster.
 
 ## Biller 2018 / natl2a_darkness_survival
 
-### Cluster darkness_axenic+darkness_coculture | present in axenic and coculture during extended darkness | high
+### Cluster darkness_axenic+darkness_coculture | present in axenic and coculture during extended darkness | medium
 **Name:** Prochlorococcus NATL2A cluster darkness_axenic+darkness_coculture (darkness axenic+coculture)
-**Enrichment:** Photosynthesis, Fermentation, DNA repair (p=0.001, sig=True)
-**Functional:** Enriched for photosystem I and II components including psbA, psbB, psaA, and psaB. Also enriched in fermentation-associated transcripts such as pyruvate kinase (pykF) and the proposed pyruvate efflux transporter. Transcripts for DNA repair genes (recA, ruvB, mutS, radA) were enriched only in axenic cells, not in cocultures.
-**Temporal pattern:** Genes are expressed with detectable transcripts during late extended darkness (72-144h) in both axenic and coculture conditions. Transcript abundance changes significantly during the first 5 h past the missed sunrise, reflecting cessation of growth and stress responses in axenic cultures, with cocultures showing delayed and different responses.
-**Confidence notes:** High confidence based on transcriptome data and pathway enrichment analysis.
-**Sources:** Figure 1, Figure 3, Table 1, Table 2
-**Quotes:**
-- [Page 9] For example, many of the increases in transcript abundance for photosystem subunits (e.g., psbA, psbB, psaA, and psaB) seen in the axenic cultures did not occur in the cocultures (Table 2 and Table S3), suggesting that the latter may have had additional energy sources.
-- [Page 9] Transcripts for a number of genes involved in DNA repair, such as recA, ruvB, mutS, and radA, were enriched only in the axenic cells, not in cocultures, under extended darkness (Table S3).
-- [Page 8] Prochlorococcus turned to fermentation during extended darkness is suggested by the enrichment of multiple fermentation-associated transcripts in the axenic cultures (Table 2).
+**Enrichment:**  (p=None, sig=False)
+**Functional:** Transcripts still detectable at 72-144h in both axenic and coculture conditions include RNA polymerase subunits, ATP synthase components, photosystem I and II genes, ribosomal proteins, RuBisCO, central carbon metabolism enzymes, and chaperones.
+**Temporal pattern:** Transcripts persisting through 72-144h of extended darkness in both culture conditions.
+**Confidence notes:** Functional description from page 13 of the paper (late survival transcript inventory). Earlier quotes about 5h response were removed as they describe a different biological context.
+**Assessment notes:** Original extraction conflated early darkness response (5h, Tables 1-2) with late survival classification (72-144h, Table S5).
+**Sources:** Table S5
 
-### Cluster darkness_axenic+unique_axenic | present in axenic and unique to axenic during extended darkness | high
+### Cluster darkness_axenic+unique_axenic | present in axenic and unique to axenic during extended darkness | low
 **Name:** Prochlorococcus NATL2A cluster darkness_axenic+unique_axenic (darkness axenic+unique axenic)
-**Enrichment:** Biosynthesis, Stress response, Stringent response (p=0.02, sig=True)
-**Functional:** Enriched for transcripts involved in biosynthetic pathways including NAD metabolism, amino acid biosynthesis (isoleucine, methionine), nucleotide biosynthesis, and glycogen degradation. Also enriched in stress response genes such as groES, clpB, dnaJ, and activation of the stringent response.
-**Temporal pattern:** Genes are uniquely expressed in axenic cultures during extended darkness (72-144h), showing depletion of biosynthetic and energy metabolism transcripts and enrichment of stress response transcripts within the first 5 h past the missed sunrise.
-**Confidence notes:** High confidence based on differential expression and pathway enrichment analysis.
-**Sources:** Figure 1, Figure 3, Table 1, Table S3
-**Quotes:**
-- [Page 6] The bulk of the transcriptional response was consistent with the cessation of growth in the dark (Fig. 1A). Cells were depleted in transcripts encoding a number of biosynthetic pathways, NAD metabolism genes, and ATP synthase subunits relative to cells that experienced sunrise on schedule (Table 1 and Table S3), thus implying that axenic Prochlorococcus cultures generally decreased their metabolic activity under extended darkness.
-- [Page 7] The axenic Prochlorococcus transcriptomes were enriched in transcripts for a variety of common stress-responsive genes such as groES, clpB, and dnaJ within the first hour of extended darkness (Table S3). We also found activation of the stringent response, a conserved bacterial pathway that downregulates cellular growth in response to a variety of stress conditions.
-- [Page 7] Forty-one of the 43 S. elongatus genes regulated in the dark via the stringent response and with a homolog in Prochlorococcus also changed similarly in the axenic cultures (53) (Table S3), indicating that the stringent response likely contributes to Prochlorococcus’ reaction to extended darkness.
+**Enrichment:**  (p=None, sig=False)
+**Functional:** N/A
+**Temporal pattern:** Transcripts detectable at 72-144h only in axenic cultures.
+**Confidence notes:** Paper does not provide specific functional description for the axenic-unique late survival set. Original extraction incorrectly used early-response data (5h, Tables 1/S3) for a late-survival cluster (72-144h, Table S5).
+**Assessment notes:** Original extraction conflated early darkness response (5h) with late survival classification (72-144h).
+**Sources:** Table S5
 
-### Cluster darkness_coculture+unique_coculture | present in coculture and unique to coculture during extended darkness | high
+### Cluster darkness_coculture+unique_coculture | present in coculture and unique to coculture during extended darkness | low
 **Name:** Prochlorococcus NATL2A cluster darkness_coculture+unique_coculture (darkness coculture+unique coculture)
-**Enrichment:** Organic compound degradation, Terpenoid biosynthesis, Tetrapyrrole biosynthesis (p=0.006, sig=True)
-**Functional:** Enriched for transcripts encoding organic compound degradation and salvage pathways, including amino acid degradation and adenine/adenosine salvage. Enriched in terpenoid and tetrapyrrole biosynthesis pathways. Transcripts for the Entner-Doudoroff pathway enzyme Eda were enriched, suggesting mixotrophic metabolism.
-**Temporal pattern:** Genes are uniquely expressed in coculture during extended darkness (72-144h), showing enrichment of organic compound degradation and salvage pathways, and maintenance of biosynthetic potential compared to axenic cultures.
-**Confidence notes:** High confidence based on transcriptome data and pathway enrichment analysis.
-**Sources:** Figure 3, Table 2, Table S3
-**Quotes:**
-- [Page 9] Further, cocultured, but not axenic, Prochlorococcus cells were enriched in transcripts encoding organic compound degradation/salvage pathways, such as those for amino acids, that could be used by the cell to process organic substrates (Table 2).
-- [Page 9] Consistent with this, transcripts for the key enzyme in the ED pathway, Eda (2-keto-3-deoxygluconate-6-phosphate aldolase), were enriched in coculture and consistently depleted in axenic cultures (Table S3).
-- [Page 9] Enriched only in coculture: Adenine and adenosine salvage apt, Lipoate salvage lplA, Proteinogenic amino acid degradation lpd, gltB, PMN2A_1709, Purine nucleotide degradation truB, Terpenoid biosynthesis dxs, ispG, ispE, lytB, Tetrapyrrole biosynthesis hemB, hemD (Table 2).
+**Enrichment:**  (p=None, sig=False)
+**Functional:** N/A
+**Temporal pattern:** Transcripts detectable at 72-144h only in coculture conditions, suggesting heterotroph presence maintains additional transcript pools.
+**Confidence notes:** Table 2 content (organic compound degradation, terpenoid biosynthesis) describes the early darkness response (5h), not the late survival classification (72-144h). Original extraction incorrectly applied early-response data to this late-survival cluster.
+**Assessment notes:** Original extraction conflated early darkness response (5h, Table 2) with late survival classification (72-144h, Table S5).
+**Sources:** Table S5
 
 ## Biller 2018 / natl2a_periodicity
 
-### Cluster axenic_LD | periodic in L:D only | high
+### Cluster axenic_LD | periodic in L:D only | medium
 **Name:** Prochlorococcus NATL2A cluster axenic_LD (L:D periodic)
-**Enrichment:** Photosynthesis (p=0.001, sig=True)
-**Functional:** Enriched for photosystem I and II components, including genes psbA, psaA, and psaB, reflecting active photosynthesis under diel light:dark cycles.
+**Enrichment:**  (p=None, sig=False)
+**Functional:** N/A
 **Temporal pattern:** Genes show 24-h periodicity in axenic cultures under diel light:dark conditions but lose periodicity under extended darkness.
-**Confidence notes:** High confidence based on transcriptome data and pathway enrichment analysis.
-**Sources:** Figure 4A, Figure 1A
+**Confidence notes:** Paper does not report functional enrichment for this specific periodicity category.
+**Assessment notes:** Temporal pattern is well-supported but no functional enrichment data available for this category.
+**Sources:** Figure 4A
 **Quotes:**
 - [Page 11] We found that transcripts encoding 69% of all Prochlorococcus proteins exhibited 24-h periodicity in the axenic L:D cultures, while only 6% did so through the first 13 h of extended darkness.
-- [Page 11] The largest group of Prochlorococcus transcripts (42% of all protein-encoding genes) showed 24-h periodicity in both axenic and cocultures under diel L:D conditions but did not continue to oscillate under extended darkness.
 
 ### Cluster axenic_LD+axenic_darkness+coculture_darkness | N/A | low
 **Name:** Prochlorococcus NATL2A cluster axenic_LD+axenic_darkness+coculture_darkness
@@ -322,16 +278,16 @@
 **Temporal pattern:** N/A
 **Assessment notes:** No specific discussion or data for this cluster in the paper.
 
-### Cluster axenic_LD+coculture_LD | periodic in L:D with coculture enhancement | high
+### Cluster axenic_LD+coculture_LD | periodic in L:D with coculture enhancement | low
 **Name:** Prochlorococcus NATL2A cluster axenic_LD+coculture_LD (L:D periodic enhanced in coculture)
-**Enrichment:** Photosynthesis (p=0.001, sig=True)
-**Functional:** Includes genes involved in photosynthesis and light harvesting, such as psbA, psbB, psaA, and psaB, with enhanced expression in coculture conditions.
+**Enrichment:**  (p=None, sig=False)
+**Functional:** N/A
 **Temporal pattern:** Genes show 24-h periodicity in both axenic and coculture under diel L:D conditions, with more transcripts retaining periodicity in coculture.
-**Confidence notes:** High confidence from transcriptomic periodicity and enrichment data.
-**Sources:** Figure 4A, Figure 1A
+**Confidence notes:** Paper says PSI/PSII transcript increases seen in axenic cultures did NOT occur in cocultures — the original description contradicted the paper.
+**Assessment notes:** No functional enrichment reported for this periodicity category in the paper.
+**Sources:** Figure 4A
 **Quotes:**
 - [Page 11] More Prochlorococcus transcripts retained their periodicity in cocultures versus axenic cultures, both under extended darkness and even during the normal diel L:D cycle.
-- [Page 9] Many of the increases in transcript abundance for photosystem subunits (e.g., psbA, psbB, psaA, and psaB) seen in the axenic cultures did not occur in the cocultures, suggesting additional energy sources in coculture.
 
 ### Cluster axenic_LD+coculture_LD+axenic_darkness | N/A | low
 **Name:** Prochlorococcus NATL2A cluster axenic_LD+coculture_LD+axenic_darkness
@@ -361,15 +317,15 @@
 **Temporal pattern:** N/A
 **Assessment notes:** No explicit discussion in the paper.
 
-### Cluster coculture_LD | periodic in coculture L:D and extended darkness | high
+### Cluster coculture_LD | periodic in coculture L:D only | medium
 **Name:** Prochlorococcus NATL2A cluster coculture_LD (coculture L:D periodic)
-**Enrichment:** Organic compound metabolism (p=0.01, sig=True)
-**Functional:** Enriched for genes involved in organic compound degradation and salvage pathways, including amino acid metabolism, indicating mixotrophic metabolism in coculture.
-**Temporal pattern:** Genes show 24-h periodicity in coculture under diel L:D conditions and retain more periodicity than axenic cultures under extended darkness.
-**Confidence notes:** High confidence based on transcriptomic and pathway enrichment data.
-**Sources:** Figure 4A, Figure 1A
+**Enrichment:**  (p=None, sig=False)
+**Functional:** N/A
+**Temporal pattern:** Genes show 24-h periodicity only in coculture under diel light:dark conditions.
+**Confidence notes:** Organic compound degradation enrichment is from the darkness context, not the periodicity analysis.
+**Assessment notes:** Temporal pattern supported but no functional enrichment specific to this periodicity category.
+**Sources:** Figure 4A
 **Quotes:**
-- [Page 9] Cocultured, but not axenic, Prochlorococcus cells were enriched in transcripts encoding organic compound degradation/salvage pathways, such as those for amino acids.
 - [Page 11] More Prochlorococcus transcripts retained their periodicity in cocultures versus axenic cultures, both under extended darkness and even during the normal diel L:D cycle.
 
 ### Cluster coculture_LD+axenic_darkness | N/A | low
@@ -641,22 +597,20 @@
 ### Cluster 1 | early transient | high
 **Name:** Prochlorococcus MED4 cluster 1 (5 genes)
 **Enrichment:** transport and binding (p=0.01, sig=True)
-**Functional:** Contains nitrogen transport genes such as urtA, cynA, and the nitrite permease in MIT9313. Includes genes PMM0970 (urtA), PMM0370 (cynA), and PMM0958 (unknown).
+**Functional:** Contains nitrogen transport genes such as urtA and cynA. Enriched for transport and binding category.
 **Temporal pattern:** Most rapidly and highly upregulated genes in MED4 during nitrogen starvation, with expression first appearing within 6 hours and peaking early in the time course.
 **Sources:** Figure 3
 **Quotes:**
 - [Page 3] Cluster 1, the most rapidly and highly upregulated genes in each strain, contains N transport genes such as MED4 and MIT9313 urtA, MED4 cynA, and the MIT9313 nitrite permease.
-- [Page 3] The most rapidly and highly upregulated genes in MED4 cluster 1 contain N transport genes such as MED4 urtA, cynA.
 
 ### Cluster 2 | early transient | high
 **Name:** Prochlorococcus MED4 cluster 2 (16 genes)
 **Enrichment:** regulation (p=0.07, sig=False)
-**Functional:** Contains genes including hli10, a high light-inducible gene, and other genes likely regulated by NtcA. Includes two sigma factors and genes involved in regulation.
-**Temporal pattern:** Rapid and highly upregulated early in nitrogen starvation, distinct from a later responding subset of hli genes.
+**Functional:** Contains the rapidly-responding subset of hli genes (including hli10) and ntcA. The most highly upregulated hli genes have the strongest NtcA binding sites.
+**Temporal pattern:** Rapidly and highly upregulated early in nitrogen starvation, representing the fast-responding hli subset distinct from the later-responding hli genes in cluster 3.
 **Sources:** Figure 3, Figure 4B
 **Quotes:**
 - [Page 3] In both strains, the clusters revealed two distinct subsets of the hli genes: those that responded rapidly and highly (MED4 cluster 2 and MIT9313 cluster 1) and those that responded later and to a lesser degree (MED4 cluster 3 and MIT9313 cluster 2).
-- [Page 3] Both strains also have an upregulated cluster containing two sigma factors, MED4 cluster 5 and MIT9313 cluster 2.
 
 ### Cluster 3 | late transient | medium
 **Name:** Prochlorococcus MED4 cluster 3 (19 genes)
@@ -671,21 +625,22 @@
 ### Cluster 4 | gradual increase | high
 **Name:** Prochlorococcus MED4 cluster 4 (86 genes)
 **Enrichment:** amino acid synthesis (p=0.18, sig=False)
-**Functional:** Enriched for amino acid synthesis genes and genes involved in carbon metabolism such as zwf, tal, acnB, and icd. Includes genes for the oxidative pentose phosphate pathway and 2-oxoglutarate synthesis.
+**Functional:** Enriched for amino acid synthesis genes and genes involved in carbon metabolism such as zwf, tal, and acnB. Includes genes for the oxidative pentose phosphate pathway and 2-oxoglutarate synthesis.
 **Temporal pattern:** Upregulated during nitrogen starvation, with genes involved in carbon metabolism and amino acid synthesis showing increased expression.
+**Assessment notes:** icd removed from gene list per Table III assignment to cluster 5.
 **Sources:** Figure 3, Figure 4F
 **Quotes:**
-- [Page 7] Cluster 4 contains genes involved in amino acid synthesis and carbon metabolism such as zwf, tal, acnB, and icd, which are upregulated during N stress.
+- [Page 7, Table III] The paper discusses MED4 cluster 4 as containing amino acid synthesis and carbon metabolism genes (zwf, tal, acnB). Per Table III, icd is in cluster 5, not cluster 4.
 
 ### Cluster 5 | early transient | high
 **Name:** Prochlorococcus MED4 cluster 5 (73 genes)
 **Enrichment:** regulation (p=0.18, sig=False)
-**Functional:** Contains two sigma factors (PMM1289 and PMM1697) that are upregulated during nitrogen stress, suggesting a role in transcriptional regulation.
-**Temporal pattern:** Upregulated during nitrogen starvation, possibly mediating gene expression changes.
+**Functional:** Contains two rpoD-like sigma factors that are upregulated during nitrogen stress, indicating transcriptional regulation. Also contains icd (per Table III).
+**Temporal pattern:** Upregulated during nitrogen starvation, with sigma factors mediating gene expression changes.
 **Sources:** Figure 3, Figure 4B
 **Quotes:**
 - [Page 3] Both strains also have an upregulated cluster containing two sigma factors, MED4 cluster 5 and MIT9313 cluster 2.
-- [Page 6] Two out of five MED4 sigma factors (PMM1289 and PMM1697) were upregulated and may play a role in gene expression during N stress.
+- [Page 6] Two out of five MED4 sigma factors were upregulated and may play a role in gene expression during N stress.
 
 ### Cluster 6 | late sustained repression | high
 **Name:** Prochlorococcus MED4 cluster 6 (124 genes)
@@ -728,22 +683,23 @@
 ### Cluster 1 | early transient | high
 **Name:** MIT9313 cluster 1 (transport and binding)
 **Enrichment:** transport and binding (p=0.04, sig=True)
-**Functional:** Contains nitrogen transport genes such as urtA, nitrite permease, and cynA. Enriched for transport and binding category (P=0.04).
+**Functional:** Contains nitrogen transport genes such as urtA and the nitrite permease. Also contains the rapidly-responding subset of hli genes (hliS, hli7). Enriched for transport and binding category (P=0.04).
 **Temporal pattern:** Most rapidly and highly upregulated cluster, with genes responding within the first hours of nitrogen starvation.
+**Confidence notes:** MIT9313 lacks cyanate genes (cynA), unlike MED4.
 **Sources:** Figure 3
 **Quotes:**
 - [Page 3] Cluster 1, the most rapidly and highly upregulated genes in each strain, contains N transport genes such as MED4 and MIT9313 urtA, MED4 cynA, and the MIT9313 nitrite permease.
-- [Page 7] In both strains, the clusters revealed two distinct subsets of the hli genes: those that responded rapidly and highly (MED4 cluster 2 and MIT9313 cluster 1) and those that responded later and to a lesser degree (MED4 cluster 3 and MIT9313 cluster 2).
+- [Page 3] In both strains, the clusters revealed two distinct subsets of the hli genes: those that responded rapidly and highly (MED4 cluster 2 and MIT9313 cluster 1) and those that responded later and to a lesser degree (MED4 cluster 3 and MIT9313 cluster 2).
 
 ### Cluster 2 | early transient | high
 **Name:** MIT9313 cluster 2 (regulation)
 **Enrichment:** regulation (p=0.03, sig=True)
-**Functional:** Contains two upregulated sigma factors and hli genes hliS and hli7, which are highly upregulated and have strong NtcA binding sites. Enriched for regulation category (P=0.03).
-**Temporal pattern:** Upregulated cluster with rapid response to nitrogen starvation, including early and strong induction of hli genes and sigma factors.
+**Functional:** Contains two upregulated sigma factors and the later-responding subset of hli genes. Enriched for regulation category (P=0.03).
+**Temporal pattern:** Upregulated cluster containing sigma factors and the later, less pronounced hli response subset (distinct from the rapidly-responding hli genes in cluster 1).
 **Sources:** Figure 3, Figure 4E
 **Quotes:**
-- [Page 7] Both strains also have an upregulated cluster containing two sigma factors, MED4 cluster 5 and MIT9313 cluster 2.
-- [Page 7] In MIT9313, hliS and hli7 genes were by far the most upregulated of all genes in the genome (approximately 70-fold). The most highly upregulated hli genes in each strain also have the strongest NtcA sites.
+- [Page 3] Both strains also have an upregulated cluster containing two sigma factors, MED4 cluster 5 and MIT9313 cluster 2.
+- [Page 3] In both strains, the clusters revealed two distinct subsets of the hli genes: those that responded rapidly and highly (MED4 cluster 2 and MIT9313 cluster 1) and those that responded later and to a lesser degree (MED4 cluster 3 and MIT9313 cluster 2).
 
 ### Cluster 3 | N/A | low
 **Name:** MIT9313 cluster 3 (regulation)
@@ -756,9 +712,9 @@
 ### Cluster 4 | late sustained repression | medium
 **Name:** MIT9313 cluster 4 (not discussed)
 **Enrichment:**  (p=None, sig=False)
-**Functional:** Contains genes linking nitrogen and carbon metabolism such as glnB, icd, acnB, and rbcLS. Genes were unchanged until repressed only at the final time point, likely reflecting general transcriptional shutdown rather than specific nitrogen stress response.
+**Functional:** Contains genes linking nitrogen and carbon metabolism such as glnB, icd, acnB, and rbcLS. Genes were unchanged until repressed only at the final time point, reflecting general transcriptional shutdown rather than specific nitrogen stress response.
 **Temporal pattern:** Genes unchanged until late repression at 48h, coinciding with severe starvation state.
-**Confidence notes:** Repression likely part of general shutdown, not specific N stress response.
+**Confidence notes:** Repression attributed to general transcriptional shutdown, not specific N stress response.
 **Assessment notes:** Interpretation based on timing and physiological data; not explicitly detailed in paper.
 **Sources:** Figure 3, Figure 4F
 **Quotes:**
@@ -766,7 +722,7 @@
 - [Page 4] The genes in MIT9313 cluster 4 may thus represent those genes that are repressed as part of a general shutdown in transcription, rather than a specific N stress response. Interestingly, this MIT9313 cluster contains a number of genes linking N and C metabolism (glnB, icd, acnB, rbcLS).
 
 ### Cluster 5 | N/A | low
-**Name:** MIT9313 cluster 5 (fatty acid and phospholipid metabolism)
+**Name:** MIT9313 cluster 5
 **Enrichment:**  (p=None, sig=False)
 **Functional:** N/A
 **Temporal pattern:** N/A
@@ -784,7 +740,7 @@
 - [Page 7] MIT9313 rbcLS are members of K-means cluster 4. These interstrain differences were also reflected in other carbon metabolism genes such as the bicarbonate transporter, sbtA, as well as the csoS12 genes encoding the carboxysome shell proteins. MED4 thus responds to reduced N availability by repressing the expression of carbon transport and fixation genes to a much greater degree than MIT9313.
 
 ### Cluster 7 | N/A | low
-**Name:** MIT9313 cluster 7 (translation)
+**Name:** MIT9313 cluster 7
 **Enrichment:**  (p=None, sig=False)
 **Functional:** N/A
 **Temporal pattern:** N/A
@@ -792,12 +748,6 @@
 **Assessment notes:** Paper does not discuss this cluster.
 
 ## Wang 2014 / med4_expression_level
-
-### Cluster -- | N/A | high
-**Name:** Prochlorococcus MED4 cluster --
-**Enrichment:** N/A (p=None, sig=False)
-**Functional:** N/A
-**Temporal pattern:** N/A
 
 ### Cluster HEG | high across all | high
 **Name:** Prochlorococcus MED4 cluster HEG (highly expressed)
@@ -848,11 +798,11 @@
 
 ## Zinser 2009 / med4_diel_clusters
 
-### Cluster 1 | peaks near dawn | high
+### Cluster 1 | peaks midday | high
 **Name:** Prochlorococcus cluster 1 (photosystem I and II)
 **Enrichment:** Photosystem I and II (p=1.5e-09, sig=True)
 **Functional:** Enriched for photosystem I and II components (p=1.50E-09 and 2.50E-05 respectively). Includes genes related to photosystem I and II such as psbA, psbD, and psaA.
-**Temporal pattern:** Genes peak in expression near 8.3 hours after onset of dark (around dawn) with 24h periodicity.
+**Temporal pattern:** Genes peak in expression around mid-day (8.3 h in the paper's time scale) with 24h periodicity, co-varying with light intensity.
 **Sources:** Figure 4A, Table 1, Table S4
 **Quotes:**
 - [Page 6] Expression of approximately half of photosystem (PS) II genes, including reaction center genes psbA and psbD, peak in abundance at mid-day
@@ -922,7 +872,7 @@
 **Name:** Prochlorococcus cluster 18 (menaquinone and ubiquinone)
 **Enrichment:** Menaquinone and ubiquinone (p=0.00045, sig=True)
 **Functional:** Enriched for menaquinone and ubiquinone genes (6/9 genes, p=0.00045).
-**Temporal pattern:** N/A
+**Temporal pattern:** Non-expressed gene cluster per Table 1 classification.
 **Sources:** Table 1
 **Quotes:**
 - [Table 1] Cluster 18 is enriched for menaquinone and ubiquinone genes (6/9 genes, p=0.00045)
@@ -953,7 +903,7 @@
 **Quotes:**
 - [Table 1] Cluster 4 is enriched for cytochrome b6/f genes (3/7 genes, p=0.073)
 
-### Cluster 5 | peaks early night | high
+### Cluster 5 | peaks late afternoon | high
 **Name:** Prochlorococcus cluster 5 (respiratory terminal oxidases and protein degradation)
 **Enrichment:** Respiratory terminal oxidases and protein degradation (p=0.019, sig=True)
 **Functional:** Enriched for respiratory terminal oxidases (3/3 genes, p=0.019) and degradation of proteins, peptides, and glycopeptides (5/15 genes, p=0.071).
@@ -1001,9 +951,15 @@
 
 ## Warnings
 
-- [Tolonen 2006 / med4_kmeans_nstarvation / cluster 1] locus tag in functional_description: PMM0970
-- [Tolonen 2006 / med4_kmeans_nstarvation / cluster 5] locus tag in functional_description: PMM1289
-- [Tolonen 2006 / med4_kmeans_nstarvation / cluster 2] filler phrase 'likely' in functional_description
-- [Tolonen 2006 / med4_kmeans_nstarvation / cluster 5] filler phrase 'possibly' in temporal_pattern
+- [Biller 2018 / natl2a_periodicity / cluster axenic_LD+coculture_LD] low confidence but temporal_pattern is not 'N/A': Genes show 24-h periodicity in both axenic and coculture und...
+- [Biller 2018 / mit1002_periodicity / cluster coculture_LD] low confidence but temporal_pattern is not 'N/A': Alteromonas genes showing 24-h periodicity in coculture unde...
+- [Biller 2018 / mit1002_periodicity / cluster coculture_LD+coculture_darkness] low confidence but temporal_pattern is not 'N/A': Two Alteromonas genes maintaining 24-h periodicity in cocult...
+- [Biller 2018 / natl2a_darkness_survival / cluster darkness_axenic+unique_axenic] low confidence but temporal_pattern is not 'N/A': Transcripts detectable at 72-144h only in axenic cultures....
+- [Biller 2018 / natl2a_darkness_survival / cluster darkness_coculture+unique_coculture] low confidence but temporal_pattern is not 'N/A': Transcripts detectable at 72-144h only in coculture conditio...
 - [Tolonen 2006 / med4_kmeans_nstarvation / cluster 9] near-identical functional_description as cluster 8
-- [Tolonen 2006 / mit9313_kmeans_nstarvation / cluster 4] filler phrase 'likely' in functional_description
+- [Bernstein 2017 / bp1_light_clusters / cluster A] low confidence but temporal_pattern is not 'N/A': Tent-shaped expression pattern with peak at intermediate irr...
+- [Bernstein 2017 / bp1_oxygen_clusters / cluster E] low confidence but temporal_pattern is not 'N/A': Tent-shaped expression pattern with peak at intermediate oxy...
+- [Bernstein 2017 / mruber_light_clusters / cluster A] low confidence but temporal_pattern is not 'N/A': Tent-shaped expression pattern with peak at intermediate irr...
+- [Bernstein 2017 / mruber_light_clusters / cluster D] low confidence but temporal_pattern is not 'N/A': Increases with increasing irradiance....
+- [Bernstein 2017 / mruber_oxygen_clusters / cluster E] low confidence but temporal_pattern is not 'N/A': Tent-shaped expression pattern with peak at intermediate oxy...
+- [Bernstein 2017 / mruber_oxygen_clusters / cluster F] low confidence but temporal_pattern is not 'N/A': Inverse of cluster E....

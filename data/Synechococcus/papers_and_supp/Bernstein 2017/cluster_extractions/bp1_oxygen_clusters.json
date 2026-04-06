@@ -13,29 +13,17 @@
     "E": {
       "id": "tevp_cluster_e",
       "name": "Thermosynechococcus elongatus cluster E (pO2-responsive)",
-      "functional_description": "Contains genes involved in vitamin B12 biosynthesis and salvage, including cobWNT and cobOQDPC, and genes related to methionine metabolism such as metHX. Also includes genes involved in cysteine biosynthesis like cysK and cysE. Enriched for functions related to vitamin B12 biosynthesis and methionine metabolism.",
-      "temporal_pattern": "Genes in this cluster show a decrease in expression with increasing partial pressure of oxygen (pO2).",
-      "expression_dynamics": "down with increasing pO2",
-      "enrichment_category": "Vitamin B12 biosynthesis",
-      "enrichment_pvalue": 0.05,
-      "enrichment_significant": true,
-      "confidence_notes": "Enrichment based on statistical analysis with P \u2264 0.05.",
-      "supporting_quotes": [
-        {
-          "quote": "The relative abundances of transcripts encoding vitamin B12 uptake/scavenging gene products in M. ruber (btuCD) decreased with Ii in concurrence with decreased T. elongatus transcripts (all within cluster C) encoding vitamin B12 biosynthesis, including those required for the insertion of cobalt (cobWNT; tll1624, tlr0900, and tll2306) and for the conversion of cobyrinic acid diamine to the vitamin B12 coenzyme from cobOQDPC (tlr0265, tll1716, tll2266, tll1104, and tll0390).",
-          "location": "Page 8"
-        },
-        {
-          "quote": "The relative abundances of T. elongatus transcripts encoding vitamin B12 biosynthesis, including those required for the insertion of cobalt (cobWNT) and for the conversion of cobyrinic acid diamine to the vitamin B12 coenzyme from cobOQDPC, grouped within cluster C.",
-          "location": "Page 8"
-        }
-      ],
-      "source_figures": [
-        "Figure 6",
-        "Table S1"
-      ],
-      "self_assessment": "high",
-      "assessment_notes": ""
+      "functional_description": "N/A",
+      "temporal_pattern": "Tent-shaped expression pattern with peak at intermediate oxygen tension (analog of cluster A).",
+      "expression_dynamics": "peak at intermediate pO2",
+      "enrichment_category": "N/A",
+      "enrichment_pvalue": null,
+      "enrichment_significant": false,
+      "confidence_notes": "",
+      "supporting_quotes": [],
+      "source_figures": [],
+      "self_assessment": "low",
+      "assessment_notes": "Paper discusses joint clusters; per-organism functional attribution unreliable."
     },
     "F": {
       "id": "tevp_cluster_f",
@@ -56,8 +44,8 @@
       "id": "tevp_cluster_g",
       "name": "Thermosynechococcus elongatus cluster G (pO2-responsive)",
       "functional_description": "Enriched for genes involved in organic acid synthesis and export, including acetyl coenzyme A synthetase (acs), acetate kinase (ackA), lactate dehydrogenase (ldhA), and citrate synthase (gltA). Also includes genes for synthesis and export of larger biomolecules such as exopolysaccharide synthesis gene (exoD), sucrose synthase (spsA), and sucrose degradation enzyme (sps).",
-      "temporal_pattern": "Genes in this cluster increase in expression with increasing pO2 and correspond to a linear decrease in specific growth rate.",
-      "expression_dynamics": "up with increasing pO2",
+      "temporal_pattern": "Decreases with increasing oxygen tension.",
+      "expression_dynamics": "down with increasing pO2",
       "enrichment_category": "Organic acid metabolism",
       "enrichment_pvalue": 0.05,
       "enrichment_significant": true,
@@ -82,7 +70,7 @@
     "H": {
       "id": "tevp_cluster_h",
       "name": "Thermosynechococcus elongatus cluster H (pO2-responsive)",
-      "functional_description": "Contains genes involved in oxidative stress responses, including NAD(P)H-oxygen oxidoreductase (flv4), 2-Cys family peroxiredoxins, periplasmic peroxiredoxin (prxQ-B2), and Mn-superoxide dismutase (sodB). Also includes M. ruber genes for peroxidase and superoxide dismutase that respond similarly. Enriched for oxidative stress response and ROS detoxification functions.",
+      "functional_description": "Contains T. elongatus ROS detoxification genes including flv4, peroxiredoxins, and sodB.",
       "temporal_pattern": "Genes in this cluster increase in expression with increasing pO2 and correspond to a decrease in specific growth rate.",
       "expression_dynamics": "up with increasing pO2",
       "enrichment_category": "Oxidative stress response",
@@ -92,10 +80,6 @@
       "supporting_quotes": [
         {
           "quote": "The relative abundance of T. elongatus transcripts encoding enzymes involved with ROS detoxification generally increased with increasing Ii and pO2, and the transcripts grouped into the appropriate clusters D and/or H. Notable examples include an NAD(P)H-oxygen oxidoreductase (flv4; tlr1088), 2-Cys family peroxiredoxins (tll1454 and tlr1289), a periplasmic peroxiredoxin (prxQ-B2; tlr1194), and an Mn-superoxide dismutase (sodB; tll1519).",
-          "location": "Page 8"
-        },
-        {
-          "quote": "M. ruber peroxidase (bcp) and superoxide dismutase (sod2) genes responded differently to Ii treatments than did oxyR and related cyanobacterial profiles and were grouped into clusters A and C. These genes generally increased with pO2 and grouped with the T. elongatus genes into cluster H (increased with pO2 and decreasing \u03bc).",
           "location": "Page 8"
         }
       ],

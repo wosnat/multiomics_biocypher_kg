@@ -13,50 +13,32 @@
     "E": {
       "id": "mruber_pO2_responsive_cluster_E",
       "name": "Meiothermus ruber cluster E (pO2 responsive)",
-      "functional_description": "Enriched for genes involved in methionine biosynthesis (metHX), vitamin B12 uptake/scavenging (btuCD), and amino acid uptake systems. Includes genes SY28_RS08890, SY28_RS12150, and SY28_RS06725.",
-      "temporal_pattern": "Genes show increased expression with increasing pO2 treatments, corresponding to a linear decrease in specific growth rate.",
-      "expression_dynamics": "up with pO2",
-      "enrichment_category": "Amino acid metabolism and vitamin B12 uptake",
-      "enrichment_pvalue": 0.05,
-      "enrichment_significant": true,
-      "confidence_notes": "Cluster E shows coordinated expression of nitrogen and vitamin metabolism genes consistent with pO2 response.",
-      "supporting_quotes": [
-        {
-          "quote": "The relative abundances of transcripts encoding vitamin B12 uptake/scavenging gene products in M. ruber (btuCD; SY28_RS12150 and SY28_RS12155) decreased with Ii in concurrence with decreased T. elongatus transcripts (all within cluster C) encoding vitamin B12 biosynthesis...",
-          "location": "Page 8"
-        },
-        {
-          "quote": "M. ruber nitrogen-associated genes also grouped into clusters D and/or G, including a glutamate dehydrogenase gene (gdhA; SY28_RS07480 and SY28_RS07475) and amino acid uptake system genes (SY28_RS09865 and SY28_RS06725). However, some key genes required for N acquisition by M. ruber grouped into clusters C and/or H, showed opposite expression patterns with respect to Ii and pO2, and effectively increased with the specific growth and photosynthesis rates.",
-          "location": "Page 8"
-        }
-      ],
-      "source_figures": [
-        "Figure 6"
-      ],
-      "self_assessment": "high",
-      "assessment_notes": ""
+      "functional_description": "N/A",
+      "temporal_pattern": "Tent-shaped expression pattern with peak at intermediate oxygen tension.",
+      "expression_dynamics": "peak at intermediate pO2",
+      "enrichment_category": "N/A",
+      "enrichment_pvalue": null,
+      "enrichment_significant": false,
+      "confidence_notes": "",
+      "supporting_quotes": [],
+      "source_figures": [],
+      "self_assessment": "low",
+      "assessment_notes": "Paper discusses joint clusters; per-organism functional attribution unreliable."
     },
     "F": {
       "id": "mruber_pO2_responsive_cluster_F",
       "name": "Meiothermus ruber cluster F (pO2 responsive)",
-      "functional_description": "Contains genes involved in cysteine biosynthesis (cysE, cysK) and amino acid metabolism, showing coordinated expression with T. elongatus genes.",
-      "temporal_pattern": "Genes decrease in expression with increasing pO2 and increase with specific growth and photosynthesis rates.",
-      "expression_dynamics": "down with pO2",
-      "enrichment_category": "Amino acid biosynthesis",
-      "enrichment_pvalue": 0.05,
-      "enrichment_significant": true,
-      "confidence_notes": "Cluster F includes genes for cysteine biosynthesis showing inverse expression to cluster E genes.",
-      "supporting_quotes": [
-        {
-          "quote": "Genes involved in cysteine biosynthesis shared common transcriptional patterning between species, indicating that while M. ruber may have salvaged cyanobacterium-derived methionine, it likely synthesized its own cysteine via the vitamin B12-independent pathway as growth requirements increased. These include cysteine synthases (cysK; tlr0504 and SY28_RS03805) and serine O-acetyltransferases (cysE; tlr0851 and SY28_RS05065), which cogrouped into clusters D and A, respectively.",
-          "location": "Page 8"
-        }
-      ],
-      "source_figures": [
-        "Figure 6"
-      ],
-      "self_assessment": "high",
-      "assessment_notes": ""
+      "functional_description": "N/A",
+      "temporal_pattern": "Inverse of cluster E.",
+      "expression_dynamics": "inverse of cluster E",
+      "enrichment_category": "N/A",
+      "enrichment_pvalue": null,
+      "enrichment_significant": false,
+      "confidence_notes": "",
+      "supporting_quotes": [],
+      "source_figures": [],
+      "self_assessment": "low",
+      "assessment_notes": "Paper discusses joint clusters; per-organism functional attribution unreliable."
     },
     "G": {
       "id": "mruber_pO2_responsive_cluster_G",
@@ -83,7 +65,7 @@
     "H": {
       "id": "mruber_pO2_responsive_cluster_H",
       "name": "Meiothermus ruber cluster H (pO2 responsive)",
-      "functional_description": "Includes genes involved in ROS detoxification such as peroxidases (bcp), superoxide dismutase (sod2), and electron transfer flavoproteins (fixAB).",
+      "functional_description": "Contains M. ruber ROS detoxification genes bcp and sod2.",
       "temporal_pattern": "Genes increase in expression with increasing pO2 and decrease with increasing specific growth and photosynthesis rates.",
       "expression_dynamics": "up with pO2, down with growth rate",
       "enrichment_category": "Oxidative stress response",

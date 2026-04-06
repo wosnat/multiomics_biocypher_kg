@@ -13,13 +13,13 @@
     "1": {
       "id": "mit9313_early_transport",
       "name": "MIT9313 cluster 1 (transport and binding)",
-      "functional_description": "Contains nitrogen transport genes such as urtA, nitrite permease, and cynA. Enriched for transport and binding category (P=0.04).",
+      "functional_description": "Contains nitrogen transport genes such as urtA and the nitrite permease. Also contains the rapidly-responding subset of hli genes (hliS, hli7). Enriched for transport and binding category (P=0.04).",
       "temporal_pattern": "Most rapidly and highly upregulated cluster, with genes responding within the first hours of nitrogen starvation.",
       "expression_dynamics": "early transient",
       "enrichment_category": "transport and binding",
       "enrichment_pvalue": 0.04,
       "enrichment_significant": true,
-      "confidence_notes": "",
+      "confidence_notes": "MIT9313 lacks cyanate genes (cynA), unlike MED4.",
       "supporting_quotes": [
         {
           "quote": "Cluster 1, the most rapidly and highly upregulated genes in each strain, contains N transport genes such as MED4 and MIT9313 urtA, MED4 cynA, and the MIT9313 nitrite permease.",
@@ -27,7 +27,7 @@
         },
         {
           "quote": "In both strains, the clusters revealed two distinct subsets of the hli genes: those that responded rapidly and highly (MED4 cluster 2 and MIT9313 cluster 1) and those that responded later and to a lesser degree (MED4 cluster 3 and MIT9313 cluster 2).",
-          "location": "Page 7"
+          "location": "Page 3"
         }
       ],
       "source_figures": [
@@ -39,8 +39,8 @@
     "2": {
       "id": "mit9313_regulation_early",
       "name": "MIT9313 cluster 2 (regulation)",
-      "functional_description": "Contains two upregulated sigma factors and hli genes hliS and hli7, which are highly upregulated and have strong NtcA binding sites. Enriched for regulation category (P=0.03).",
-      "temporal_pattern": "Upregulated cluster with rapid response to nitrogen starvation, including early and strong induction of hli genes and sigma factors.",
+      "functional_description": "Contains two upregulated sigma factors and the later-responding subset of hli genes. Enriched for regulation category (P=0.03).",
+      "temporal_pattern": "Upregulated cluster containing sigma factors and the later, less pronounced hli response subset (distinct from the rapidly-responding hli genes in cluster 1).",
       "expression_dynamics": "early transient",
       "enrichment_category": "regulation",
       "enrichment_pvalue": 0.03,
@@ -49,11 +49,11 @@
       "supporting_quotes": [
         {
           "quote": "Both strains also have an upregulated cluster containing two sigma factors, MED4 cluster 5 and MIT9313 cluster 2.",
-          "location": "Page 7"
+          "location": "Page 3"
         },
         {
-          "quote": "In MIT9313, hliS and hli7 genes were by far the most upregulated of all genes in the genome (approximately 70-fold). The most highly upregulated hli genes in each strain also have the strongest NtcA sites.",
-          "location": "Page 7"
+          "quote": "In both strains, the clusters revealed two distinct subsets of the hli genes: those that responded rapidly and highly (MED4 cluster 2 and MIT9313 cluster 1) and those that responded later and to a lesser degree (MED4 cluster 3 and MIT9313 cluster 2).",
+          "location": "Page 3"
         }
       ],
       "source_figures": [
@@ -81,13 +81,13 @@
     "4": {
       "id": "mit9313_cluster_4",
       "name": "MIT9313 cluster 4 (not discussed)",
-      "functional_description": "Contains genes linking nitrogen and carbon metabolism such as glnB, icd, acnB, and rbcLS. Genes were unchanged until repressed only at the final time point, likely reflecting general transcriptional shutdown rather than specific nitrogen stress response.",
+      "functional_description": "Contains genes linking nitrogen and carbon metabolism such as glnB, icd, acnB, and rbcLS. Genes were unchanged until repressed only at the final time point, reflecting general transcriptional shutdown rather than specific nitrogen stress response.",
       "temporal_pattern": "Genes unchanged until late repression at 48h, coinciding with severe starvation state.",
       "expression_dynamics": "late sustained repression",
       "enrichment_category": "",
       "enrichment_pvalue": null,
       "enrichment_significant": false,
-      "confidence_notes": "Repression likely part of general shutdown, not specific N stress response.",
+      "confidence_notes": "Repression attributed to general transcriptional shutdown, not specific N stress response.",
       "supporting_quotes": [
         {
           "quote": "MIT9313 cluster 4 contains a number of genes that were unchanged until being repressed only at the final time point. The physiological measurements Fv/Fm and chlorophyll fluorescence show that the cells were in a severe state of starvation by this time.",
@@ -106,8 +106,8 @@
       "assessment_notes": "Interpretation based on timing and physiological data; not explicitly detailed in paper."
     },
     "5": {
-      "id": "mit9313_fatty_acid_phospholipid",
-      "name": "MIT9313 cluster 5 (fatty acid and phospholipid metabolism)",
+      "id": "mit9313_cluster_5",
+      "name": "MIT9313 cluster 5",
       "functional_description": "N/A",
       "temporal_pattern": "N/A",
       "expression_dynamics": "N/A",
@@ -148,8 +148,8 @@
       "assessment_notes": ""
     },
     "7": {
-      "id": "mit9313_translation",
-      "name": "MIT9313 cluster 7 (translation)",
+      "id": "mit9313_cluster_7",
+      "name": "MIT9313 cluster 7",
       "functional_description": "N/A",
       "temporal_pattern": "N/A",
       "expression_dynamics": "N/A",
