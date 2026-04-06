@@ -310,3 +310,16 @@ CALL {
   SET g.closest_ortholog_group_size = og.member_count,
       g.closest_ortholog_genera = og.genera
 } IN TRANSACTIONS OF 1000 ROWS;
+
+// Gene: cluster_membership_count + cluster_types
+MATCH (g:Gene)
+CALL {
+  WITH g
+  OPTIONAL MATCH (gc:GeneCluster)-[:Gene_in_gene_cluster]->(g)
+  OPTIONAL MATCH (ca:ClusteringAnalysis)-[:ClusteringAnalysisHasGeneCluster]->(gc)
+  WITH g,
+       count(DISTINCT gc) AS membership_count,
+       collect(DISTINCT ca.cluster_type) AS ctypes
+  SET g.cluster_membership_count = membership_count,
+      g.cluster_types = CASE WHEN size(ctypes) = 0 THEN [] ELSE ctypes END
+} IN TRANSACTIONS OF 1000 ROWS;
