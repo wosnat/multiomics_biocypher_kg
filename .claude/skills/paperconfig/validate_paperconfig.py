@@ -158,21 +158,23 @@ CANONICAL_CONDITION_TYPES = {
 
 # Valid cluster_type values for gene_clusters entries.
 VALID_CLUSTER_TYPES = {
-    "diel_cycle",
-    "diel_cycling",
-    "time_series_dynamics",
-    "response_pattern",
-    "expression_pattern",
-    "expression_level",
-    "expression_classification",
-    "periodicity_classification",
-    "diel_expression_pattern",
+    "time_course",
+    "diel",
+    "condition_comparison",
+    "classification",
 }
 
 # Required fields on gene_clusters supplementary entries.
 REQUIRED_CLUSTER_TABLE_FIELDS = [
     "name", "filename", "organism", "gene_id_col", "cluster_col", "cluster_type",
 ]
+
+OPTIONAL_CLUSTER_TABLE_FIELDS = {
+    "cluster_method", "omics_type", "light_condition", "treatment_type",
+    "background_factors", "treatment", "experimental_context", "experiments",
+    "id_columns", "time_points", "skip_rows", "figure_hint", "extraction_notes",
+    "score_col", "p_value_col",
+}
 
 # Removed: REQUIRED_CLUSTER_FIELDS, RECOMMENDED_CLUSTER_FIELDS
 # Per-cluster data comes from extraction JSON, not paperconfig
@@ -737,6 +739,25 @@ def validate(config_path: str) -> bool:
             return False
 
         pub = get_publication(config)
+
+        # Validate extraction section (optional)
+        extraction = config.get("extraction", {})
+        if extraction:
+            valid_extraction_keys = {"scope", "additional_pdfs"}
+            for ek in extraction:
+                if ek not in valid_extraction_keys:
+                    warnings.append(f"  extraction: unknown key '{ek}'")
+            scope = extraction.get("scope", "analysis")
+            if scope not in ("paper", "analysis"):
+                errors.append(f"  extraction.scope must be 'paper' or 'analysis', got '{scope}'")
+            additional_pdfs = extraction.get("additional_pdfs", [])
+            if additional_pdfs:
+                if not isinstance(additional_pdfs, list):
+                    errors.append("  extraction.additional_pdfs must be a list")
+                else:
+                    for pdf_path in additional_pdfs:
+                        if not Path(pdf_path).exists():
+                            warnings.append(f"  extraction.additional_pdfs: file not found: {pdf_path}")
 
         # --- papername ---
         papername = get_paper_name(config)
