@@ -45,8 +45,8 @@ class ClusterExtraction(BaseModel):
     id: str
     name: str
     functional_description: str
-    behavioral_description: str
-    direction: Literal["up", "down", "mixed", "not_described"]
+    temporal_pattern: str
+    expression_dynamics: str
     enrichment_category: str
     enrichment_pvalue: Optional[float]
     enrichment_significant: bool
