@@ -3467,7 +3467,23 @@ Open `data/.../Biller 2018/extractions/timepoint.json` — check evidence quotes
 uv run python -m multiomics_kg.extraction.timepoint report
 ```
 
-Open `data/timepoint_extraction_report.md` — review `other:*` frequencies and `unknown` list.
+- [ ] **STOP — manual review gate**
+
+This is a hard stop. The batch must not proceed to merge until a human reviewer has gone through both surfaces:
+
+1. **`data/timepoint_extraction_report.md`** (corpus-wide aggregate):
+   - `self_assessment` distribution — if `low` is unusually high, something in extraction quality needs attention before merging.
+   - `other:*` slug frequencies (sorted desc) — any slug in ≥2 papers is a promotion candidate.
+   - `unknowns` — inspect evidence quotes for patterns that might signal a missing enum value.
+   - `partial_extractions` — any paper with `missing_analyses` must be fixed (`--resume` or `--retry`) before merge.
+
+2. **Each per-paper JSON** (`data/.../<Paper>/extractions/timepoint.json`):
+   - Spot-check evidence quotes against the paper's methods.
+   - Sanity-check `timepoint_hours` values — did the LLM convert e.g. "120 min" to 2 correctly?
+   - Verify per-timepoint phase transitions make sense (e.g. nutrient-limitation time-course should show `exponential → nutrient_limited` progression).
+   - Edit JSON in place if the extraction got something wrong.
+
+**Do not continue until the reviewer has explicitly approved the batch.** No automation; this gate exists because LLM extractions are the raw material for 210K+ expression edges and silent errors propagate widely.
 
 - [ ] **If an `other:*` slug should be promoted**
 
