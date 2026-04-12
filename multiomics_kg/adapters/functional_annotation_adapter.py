@@ -598,7 +598,7 @@ class MultiKeggAnnotationAdapter:
                 retired_kos.append(ko_id)
                 raw_name = ko_id
             name = _clean_str(raw_name)
-            yield (_ko_node_id(ko_id), "kegg_term", {"name": name, "level": "ko"})
+            yield (_ko_node_id(ko_id), "kegg_term", {"name": name, "level_kind": "ko", "level": 3})
             ko_count += 1
         if retired_kos:
             logger.warning(
@@ -611,7 +611,7 @@ class MultiKeggAnnotationAdapter:
         pw_count = 0
         for pw_id in sorted(pw_ids):
             name = _clean_str(pathway_names.get(pw_id, ""))
-            yield (_pathway_node_id(pw_id), "kegg_term", {"name": name, "level": "pathway"})
+            yield (_pathway_node_id(pw_id), "kegg_term", {"name": name, "level_kind": "pathway", "level": 2})
             pw_count += 1
         logger.info(f"MultiKeggAnnotationAdapter.get_nodes: {pw_count} pathway nodes")
 
@@ -619,7 +619,7 @@ class MultiKeggAnnotationAdapter:
         sc_count = 0
         for sc in sorted(subcat_ids):
             name = _clean_str(subcat_names.get(sc, ""))
-            yield (_subcat_node_id(sc), "kegg_term", {"name": name, "level": "subcategory"})
+            yield (_subcat_node_id(sc), "kegg_term", {"name": name, "level_kind": "subcategory", "level": 1})
             sc_count += 1
         logger.info(f"MultiKeggAnnotationAdapter.get_nodes: {sc_count} subcategory nodes")
 
@@ -627,7 +627,7 @@ class MultiKeggAnnotationAdapter:
         cat_count = 0
         for cat in sorted(cat_ids):
             name = _clean_str(cat_names.get(cat, ""))
-            yield (_cat_node_id(cat), "kegg_term", {"name": name, "level": "category"})
+            yield (_cat_node_id(cat), "kegg_term", {"name": name, "level_kind": "category", "level": 0})
             cat_count += 1
         logger.info(f"MultiKeggAnnotationAdapter.get_nodes: {cat_count} category nodes")
 
