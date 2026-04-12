@@ -1,5 +1,4 @@
 """Tests for merge.py."""
-import json
 from pathlib import Path
 
 import pytest
@@ -170,3 +169,17 @@ def test_merge_rejects_malformed_growth_phase(tmp_path):
     )
     with pytest.raises(SystemExit):
         merge_one_paper(tmp_path, force=False)
+
+
+def test_merge_rejects_malformed_growth_phase_even_with_force(tmp_path):
+    """Malformed values must never be written, even with --force."""
+    pc = _write_paperconfig(tmp_path)
+    sig = compute_paperconfig_signature(pc)
+    save_extraction_json(
+        tmp_path,
+        {"paper": "Fake", "status": "complete", "missing_analyses": [],
+         "paperconfig_signature": sig},
+        [_valid_analysis(growth_phase="banana")],
+    )
+    with pytest.raises(SystemExit):
+        merge_one_paper(tmp_path, force=True)

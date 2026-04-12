@@ -19,6 +19,7 @@ from pathlib import Path
 from ruamel.yaml import YAML
 
 from multiomics_kg.extraction.timepoint.extraction_utils import (
+    TARGET_FIELDS,
     _is_valid_growth_phase,
     compute_paperconfig_signature,
     load_extraction_json,
@@ -104,7 +105,7 @@ def merge_one_paper(paper_dir: Path, force: bool = False) -> None:
         if aid in ghosts:
             continue
         target = analyses_by_id[aid]
-        for field in ("timepoint", "timepoint_hours", "growth_phase"):
+        for field in TARGET_FIELDS:
             if field not in row:
                 continue
             new_value = row[field]
