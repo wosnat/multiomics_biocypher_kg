@@ -258,21 +258,36 @@ The prompt asks for exactly the fields shown above; the LLM does not emit `metad
 
 This schema borrows the `metadata`/`supporting_quotes`/`source_figures`/`self_assessment` conventions from the cluster-extraction pipeline (`data/.../zinser 2009/cluster_extractions/med4_diel_clusters.json`) so both extractions share vocabulary for reviewers.
 
-**Review workflow:**
+**Review workflow** — batch-oriented. Paperconfig files are modified **once per batch**, only after all review and enum-promotion iteration has settled.
 
-0. (Optional) `extract.py --paper "Tetu 2019" --dry-run` — no LLM call, just prints per-analysis `fields_requested` lists. Used to confirm scope before a real run.
-1. `extract.py --paper "Tetu 2019"` runs preprocess → calls LLM with the package above → writes `data/.../Tetu 2019/extractions/timepoint.json` (creates `extractions/` subdir if needed).
-2. Aggregate report `data/timepoint_extraction_report.md` updates with: `self_assessment` breakdown, `unknown` list, sorted `other:*` frequencies, `missing_analyses` per partial extraction, evidence quotes for each flagged item.
-3. **Reviewer inspects JSON** — evidence quotes are inline, no need to re-read PDFs. Edits in place if extraction got it wrong.
-4. **Enum-promotion (conditional, only when the reviewer spots `other:*` slugs worth canonicalizing *now*):**
+*Per-paper (steps 0–2):*
+
+0. (Optional) `extract.py --paper "<name>" --dry-run` — no LLM call, just prints per-analysis `fields_requested`. Used to confirm scope.
+1. `extract.py --paper "<name>"` runs preprocess → calls LLM → writes `data/.../<paper>/extractions/timepoint.json`.
+2. The per-paper JSON lands on disk. No paperconfig changes yet.
+
+*Bulk — review and enum iteration (steps 3–4, repeat as needed):*
+
+3. **Reviewer inspects the batch.** Two surfaces:
+   - Per-paper JSONs (evidence quotes, `self_assessment`, proposed values). Edit in place if extraction got it wrong.
+   - Aggregate report `data/timepoint_extraction_report.md` — `self_assessment` breakdown, `unknown` list, sorted `other:*` frequencies, `missing_analyses` per partial extraction, evidence quotes for each flagged item.
+
+4. **Enum promotion (conditional).** If the report shows `other:*` slugs worth canonicalizing:
    - Add the slug to `VALID_GROWTH_PHASES` in the validator.
-   - `remap.py --promote <slug>` rewrites `other:<slug>` → `<slug>` across the current JSON **and** any other paperconfigs / prior extraction JSONs already containing the slug. Appends provenance to `assessment_notes` on affected analyses.
-   - Re-run validator on the corpus to confirm the remap is clean.
-   - This step is skipped on most papers. It matters when the reviewer would otherwise write `other:<slug>` into the paperconfig knowing they'd just have to remap it later — doing it now avoids that churn.
-5. `merge.py --paper "Tetu 2019"` writes the three paperconfig fields (`timepoint`, `timepoint_hours`, `growth_phase`) into `paperconfig.yaml` via `ruamel.yaml` round-trip. After step 4, any promoted slugs write as canonical values directly (no `other:` prefix).
-6. Validator runs against updated paperconfig; reviewer commits both the JSON and the paperconfig diff. If step 4 happened, the commit also includes the enum change and any cross-paper remap diffs.
+   - `remap.py --promote <slug>` rewrites `other:<slug>` → `<slug>` across all `extractions/timepoint.json` files (paperconfigs have nothing to rewrite yet — they haven't been merged).
+   - Appends provenance to `assessment_notes` on remapped analyses.
 
-**Alternative: batch-level promotion**. If the reviewer prefers to defer enum decisions (e.g., wait until several batches have run to see which `other:*` slugs actually recur), steps 4 can be skipped per-paper and done in bulk after a batch completes — same operations, just applied across all relevant papers at once. Both paths produce the same end state.
+Steps 3–4 can iterate: a promotion in step 4 may change what's visible in the aggregate report; another review pass may surface more candidates. Loop until the reviewer is satisfied — all without touching paperconfig.
+
+*Bulk — merge to paperconfig and commit (steps 5–6):*
+
+5. `merge.py --all` (or per-paper) writes the three fields into each paperconfig.yaml via ruamel round-trip. By this stage, promoted slugs are already canonical in the JSONs, so the paperconfig gets canonical values directly — no `other:<slug>` written that would later be remapped.
+6. Validator runs against all updated paperconfigs; reviewer commits in one commit:
+   - All updated paperconfig.yaml files.
+   - All `extractions/timepoint.json` files.
+   - Validator changes (if any enum promotion happened in step 4).
+
+**Why defer merge:** every `merge.py` run modifies paperconfig.yaml files — each round-trip produces a diff. Merging per-paper before enum promotion is settled means some paperconfigs would be written with `other:<slug>` and then rewritten later, producing noisy diffs. Deferring merge until after iteration settles keeps paperconfig history clean: one diff per field-value change, not per write-and-rewrite cycle.
 
 **CLI flags:**
 
@@ -345,13 +360,13 @@ This keeps re-runs cheap (only the missing subset goes to the LLM) and prevents 
    - Batch 3: Prochlorococcus diel + short-exposure (Zinser, Thompson 2016, Tetu, Fang).
    - Batch 4: Prochlorococcus infection + remaining (Lindell, Lin, Anjur, …).
    - Batch 5: Synechococcus papers (Tal, Beliaev, Kratzl, Ma, Oleza, Kaur, Bernstein).
-4. **Per-batch review loop** (per paper — follows the Review workflow steps 0–6 above):
-   - `extract.py --paper "<name>"` → writes `extractions/timepoint.json`.
-   - Inspect the JSON: evidence quotes, `self_assessment`, `other:*` / `unknown` cases. Edit in place if needed.
-   - (Conditional) If inspection surfaces an `other:*` slug worth canonicalizing immediately, update `VALID_GROWTH_PHASES` + run `remap.py --promote <slug>` + re-validate before proceeding.
-   - `merge.py --paper "<name>"` → writes the three fields into the paperconfig.
-   - `git diff <paperconfig>` as a sanity check.
-   - Commit JSON + paperconfig diff (+ enum/remap diffs if step 4 ran).
+4. **Per-batch review loop** (follows the Review workflow sections above):
+   - **Extract all papers in the batch** (parallel-safe): `extract.py --paper "<name>"` for each, writing one JSON per paper.
+   - **Review the batch** against per-paper JSONs + aggregate report. Edit JSONs in place where needed.
+   - **Promote `other:*` slugs as needed**: update `VALID_GROWTH_PHASES`, run `remap.py --promote <slug>` (rewrites JSONs only — paperconfigs untouched). Re-review if promotions change the picture; iterate until settled.
+   - **Merge once**: `merge.py` writes to paperconfigs in a single pass. Canonical values land directly (no `other:*` writes that would need rewriting).
+   - **Run validator** against updated paperconfigs.
+   - **One commit** per batch: paperconfigs + JSONs + validator/enum changes together.
 5. **Rebuild the KG** once all paperconfigs updated.
 6. **New KG validity test** (`tests/kg_validity/test_expression.py`): every `Changes_expression_of` edge has non-null `growth_phase`; every `Experiment` has `growth_phases` array of length ≥1.
 7. **Docs updates:**
@@ -386,19 +401,33 @@ Both artifacts are committed together per paper.
                                          │
                                          ▼
                               ┌──────────────────────┐
-                              │ extractions/         │  ◀── human reviews,
-                              │   timepoint.json     │      edits in place
-                              │ (evidence quotes,    │      if needed
-                              │  self_assessment,    │
-                              │  other:* escapes)    │
+                              │ extractions/         │  ◀── human reviews
+                              │   timepoint.json     │      batch of JSONs
+                              │   (per paper)        │      + aggregate report;
+                              │                      │      edits in place
                               └──────────┬───────────┘
                                          │
-                                         ▼
+                       (conditional)     │
+                     ┌───────────────────┤
+                     ▼                   │
+       ┌──────────────────────┐          │
+       │ remap.py             │  ◀── promote other:<slug>
+       │  • update validator  │      → rewrites JSONs
+       │    VALID_GROWTH_     │        (paperconfigs not
+       │    PHASES            │         touched yet)
+       │  • rewrite JSONs     │
+       └──────────┬───────────┘
+                  │                      │
+                  └──────────────┬───────┘
+                                 │
+                       (iterate until settled)
+                                 │
+                                 ▼
                               ┌──────────────────────┐
-                              │ merge.py             │
+                              │ merge.py (once/batch)│
                               │  • ruamel yaml       │
                               │    round-trip        │
-                              │  • overwrite guard   │
+                              │  • staleness guard   │
                               └──────────┬───────────┘
                                          │
                                          ▼
