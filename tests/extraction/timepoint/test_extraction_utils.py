@@ -114,3 +114,60 @@ def test_iter_paperconfigs_reads_list_files(tmp_path, monkeypatch):
     list_file.write_text(f"# comment\n{p1}\n")
     paths = list(iter_paperconfigs([list_file]))
     assert paths == [p1]
+
+
+def test_compute_fields_requested_all_missing():
+    from multiomics_kg.extraction.timepoint.extraction_utils import (
+        compute_fields_requested,
+    )
+    analysis = {"id": "x", "name_col": "g", "logfc_col": "lfc"}
+    assert compute_fields_requested(analysis, validate=False) == [
+        "timepoint", "timepoint_hours", "growth_phase",
+    ]
+
+
+def test_compute_fields_requested_timepoint_hours_null_is_request():
+    from multiomics_kg.extraction.timepoint.extraction_utils import (
+        compute_fields_requested,
+    )
+    analysis = {
+        "id": "x", "timepoint": "24h", "timepoint_hours": None,
+        "growth_phase": "exponential",
+    }
+    # null is a "needs filling" signal — request timepoint_hours only
+    assert compute_fields_requested(analysis, validate=False) == ["timepoint_hours"]
+
+
+def test_compute_fields_requested_empty_string_is_request():
+    from multiomics_kg.extraction.timepoint.extraction_utils import (
+        compute_fields_requested,
+    )
+    analysis = {
+        "id": "x", "timepoint": "", "timepoint_hours": 24,
+        "growth_phase": "exponential",
+    }
+    assert compute_fields_requested(analysis, validate=False) == ["timepoint"]
+
+
+def test_compute_fields_requested_all_set_returns_empty():
+    from multiomics_kg.extraction.timepoint.extraction_utils import (
+        compute_fields_requested,
+    )
+    analysis = {
+        "id": "x", "timepoint": "24h", "timepoint_hours": 24,
+        "growth_phase": "exponential",
+    }
+    assert compute_fields_requested(analysis, validate=False) == []
+
+
+def test_compute_fields_requested_validate_mode_always_all_three():
+    from multiomics_kg.extraction.timepoint.extraction_utils import (
+        compute_fields_requested,
+    )
+    analysis = {
+        "id": "x", "timepoint": "24h", "timepoint_hours": 24,
+        "growth_phase": "exponential",
+    }
+    assert compute_fields_requested(analysis, validate=True) == [
+        "timepoint", "timepoint_hours", "growth_phase",
+    ]

@@ -97,3 +97,37 @@ def iter_paperconfigs(list_files: Iterable[Path]) -> Iterator[Path]:
             if not line or line.startswith("#"):
                 continue
             yield Path(line)
+
+
+TARGET_FIELDS = ("timepoint", "timepoint_hours", "growth_phase")
+
+
+def compute_fields_requested(analysis: dict, validate: bool = False) -> list[str]:
+    """Return the list of target fields that need LLM extraction for this
+    analysis.
+
+    Default mode (`validate=False`):
+      - Field absent → request.
+      - `timepoint_hours` is None → request (null is a "needs filling"
+        signal for numeric fields).
+      - `timepoint` or `growth_phase` is empty string → request.
+      - Field has a non-null, non-empty value → skip.
+
+    Validate mode (`validate=True`):
+      - Always request all three fields (LLM re-examines even populated ones).
+    """
+    if validate:
+        return list(TARGET_FIELDS)
+
+    requested: list[str] = []
+    for field in TARGET_FIELDS:
+        if field not in analysis:
+            requested.append(field)
+            continue
+        value = analysis[field]
+        if value is None:
+            requested.append(field)
+        elif isinstance(value, str) and value == "":
+            requested.append(field)
+        # non-null, non-empty → skip
+    return requested
