@@ -407,7 +407,7 @@ Expected: all 5 tests pass.
 Run: `uv run python .claude/skills/paperconfig/validate_paperconfig.py --all 2>&1 | tail -30`
 Expected: warnings about missing `growth_phase` in every paperconfig; errors should only appear if a paperconfig has a malformed `growth_phase` value (none should, since no paperconfig has been backfilled yet — the errors should be about missing, which we want as errors per the spec).
 
-**Decision point:** The spec says `growth_phase` missing is an **error**. That means every paperconfig will fail validation immediately. Since we want to land the validator change before the extraction tool is built, temporarily make the missing-growth_phase case a **warning** during rollout (add a TODO in the code), and flip to error after all paperconfigs are backfilled (Task 18).
+**Decision point:** The spec says `growth_phase` missing is an **error**. That means every paperconfig will fail validation immediately. Since we want to land the validator change before the extraction tool is built, temporarily make the missing-growth_phase case a **warning** during rollout (add a TODO in the code), and flip to error after all paperconfigs are backfilled (Task 19).
 
 Update Step 3's code:
 
@@ -3176,7 +3176,178 @@ git commit -m "test(timepoint extraction): end-to-end extract → merge → rema
 
 ---
 
-## Task 17: Rollout — run extraction in batches (paperconfig edits happen here)
+## Task 17: Prompt preview — inspect rendered prompts before burning LLM tokens
+
+**Files:**
+- Modify: `multiomics_kg/extraction/timepoint/extract.py`
+- Modify: `tests/extraction/timepoint/test_extract.py`
+
+**Why:** The prompt is the most important artifact in this pipeline — it's what actually shapes every LLM response across 30 papers. Before running real extractions, render the full prompt (with a real paperconfig + cache entry) and review it by eye. Catch issues like: missing context, leaking irrelevant fields, unclear instructions, malformed sections, PDF paths pointing nowhere. Cheaper than an LLM call, and catches classes of bugs that `--dry-run` (which only shows `fields_requested`) doesn't surface.
+
+- [ ] **Step 1: Write a failing test for the `--print-prompt` CLI flag**
+
+Append to `tests/extraction/timepoint/test_extract.py`:
+
+```python
+def test_print_prompt_renders_without_llm_call(paper_dir, capsys):
+    """--print-prompt renders the full prompt and PDF attachment list to
+    stdout; never calls the LLM."""
+    from multiomics_kg.extraction.timepoint.extract import print_prompt_one_paper
+
+    print_prompt_one_paper(paper_dir, validate=False)
+
+    out = capsys.readouterr().out
+    # Prompt body
+    assert "PAPER CONTEXT" in out
+    assert "EXTRACTION TARGETS" in out
+    assert "Fake 2026" in out
+    assert "DE_n_24h" in out
+    assert "log2fc_24h" in out
+    # PDF attachment list
+    assert "PDFs to attach:" in out or "PDF attachments:" in out
+
+
+def test_print_prompt_skips_when_nothing_to_extract(paper_dir, capsys):
+    """If all fields are populated, --print-prompt says so and emits no
+    prompt body."""
+    from ruamel.yaml import YAML
+    pc = paper_dir / "paperconfig.yaml"
+    yaml = YAML()
+    with open(pc) as f:
+        data = yaml.load(f)
+    for a in data["publication"]["supplementary_materials"]["tbl"]["statistical_analyses"]:
+        a["timepoint"] = "24h"
+        a["timepoint_hours"] = 24
+        a["growth_phase"] = "exponential"
+    with open(pc, "w") as f:
+        yaml.dump(data, f)
+
+    from multiomics_kg.extraction.timepoint.extract import print_prompt_one_paper
+    print_prompt_one_paper(paper_dir, validate=False)
+    out = capsys.readouterr().out
+    assert "no fields to extract" in out.lower()
+    assert "EXTRACTION TARGETS" not in out
+```
+
+- [ ] **Step 2: Run — confirm fail**
+
+Run: `uv run pytest tests/extraction/timepoint/test_extract.py -v -k print_prompt`
+Expected: 2 FAIL with ImportError.
+
+- [ ] **Step 3: Implement `print_prompt_one_paper` and wire the flag**
+
+In `multiomics_kg/extraction/timepoint/extract.py`, add a new function alongside `extract_one_paper`:
+
+```python
+def print_prompt_one_paper(
+    paper_dir: Path,
+    validate: bool = False,
+    pdf_cache_path: Path | None = None,
+) -> None:
+    """Render the full LLM prompt for this paper and print to stdout.
+    No LLM call. Includes the list of PDF attachment paths so the
+    reviewer can verify file existence.
+    """
+    paperconfig_path = paper_dir / "paperconfig.yaml"
+    analyses = find_analyses(paperconfig_path)
+    targets = build_targets(analyses, validate=validate)
+    if not targets:
+        print(f"\n--- {paper_dir.name}: no fields to extract (all populated) ---\n")
+        return
+
+    background = build_background(paperconfig_path)
+    pdf_cache_entry = _load_pdf_cache_entry(
+        pdf_cache_path or Path("cache/pdf_extraction_cache.json"),
+        background.get("papermainpdf"),
+    )
+    prompt = build_prompt(background, targets, pdf_cache_entry)
+
+    pdf_paths: list[Path] = []
+    if pmp := background.get("papermainpdf"):
+        pdf_paths.append(Path(pmp))
+    pdf_paths.extend(Path(p) for p in background.get("additional_pdfs", []))
+
+    print(f"\n{'=' * 72}")
+    print(f"PROMPT PREVIEW — {paper_dir.name}")
+    print("=" * 72)
+    print(prompt)
+    print()
+    print("PDFs to attach:")
+    for p in pdf_paths:
+        marker = "✓" if p.exists() else "✗ MISSING"
+        print(f"  {marker} {p}")
+    print()
+    print(f"Targets: {len(targets)} analyses")
+    for t in targets:
+        print(f"  - {t['id']}: needs {t['fields_requested']}  (logfc_col={t['logfc_col']!r})")
+    print("=" * 72)
+```
+
+In `_main`, add a flag and dispatch:
+
+```python
+parser.add_argument("--print-prompt", action="store_true",
+                    help="Render the full prompt (prompt text + PDF paths) "
+                         "without calling the LLM. Use to review prompt quality "
+                         "before running real extractions.")
+```
+
+In the main loop (before the `OpenAIResponsesClient` block):
+
+```python
+if args.print_prompt:
+    for pd in paper_dirs:
+        print_prompt_one_paper(pd, validate=args.validate)
+    return 0
+```
+
+- [ ] **Step 4: Run the tests**
+
+Run: `uv run pytest tests/extraction/timepoint/test_extract.py -v`
+Expected: all pass (existing 6 + 2 new).
+
+- [ ] **Step 5: Preview prompts on real papers (manual review gate)**
+
+Pick 3 representative papers spanning different treatment types — e.g., one time-course, one coculture, one acclimation:
+
+```bash
+# Time-course (nutrient starvation)
+uv run python -m multiomics_kg.extraction.timepoint extract \
+    --paper "Weissberg 2025" --print-prompt 2>&1 | tee /tmp/prompt_weissberg.txt
+
+# Coculture
+uv run python -m multiomics_kg.extraction.timepoint extract \
+    --paper "Biller 2018" --print-prompt 2>&1 | tee /tmp/prompt_biller.txt
+
+# Acclimation
+uv run python -m multiomics_kg.extraction.timepoint extract \
+    --paper "Barreto 2022" --print-prompt 2>&1 | tee /tmp/prompt_barreto.txt
+```
+
+**Read each prompt end-to-end.** Check:
+
+- Are SHARED_RULES clear and unambiguous?
+- Does the experiments block contain enough context (treatment_type, background_factors, conditions)?
+- Are `logfc_col` values rendered per-analysis?
+- Are the per-experiment-type hints relevant and accurate for this paper's treatment_type?
+- Is the PDF attachment list correct (no missing files marked `✗`)?
+- Is the cache-entry section present and useful (or missing and maybe should be added)?
+- Any leaking of irrelevant fields? Any prose that reads as unclear or contradictory?
+
+If the prompt has problems, **stop here and fix them** — edits go in `multiomics_kg/extraction/timepoint/prompts.py` or `extract.py`'s `build_background`/`build_targets`. Re-run tests. Re-preview. Only proceed to rollout when the prompt reads clean on all 3 sample papers.
+
+- [ ] **Step 6: Commit the flag (and any prompt fixes from Step 5)**
+
+```bash
+git add multiomics_kg/extraction/timepoint/extract.py \
+        tests/extraction/timepoint/test_extract.py \
+        multiomics_kg/extraction/timepoint/prompts.py  # if edited in Step 5
+git commit -m "feat(timepoint extraction): --print-prompt flag for manual prompt review before rollout"
+```
+
+---
+
+## Task 18: Rollout — run extraction in batches (paperconfig edits happen here)
 
 **This task is operational, not code. Each batch gets its own commit outside this plan. Record here for traceability.**
 
@@ -3256,7 +3427,7 @@ Repeat for batches 2–5.
 
 ---
 
-## Task 18: Flip validator missing-growth_phase from warning to error
+## Task 19: Flip validator missing-growth_phase from warning to error
 
 **Files:**
 - Modify: `.claude/skills/paperconfig/validate_paperconfig.py`
@@ -3306,7 +3477,7 @@ git commit -m "validator: missing growth_phase is now an error (all paperconfigs
 
 ---
 
-## Task 19: KG validity test for growth_phase
+## Task 20: KG validity test for growth_phase
 
 **Files:**
 - Modify: `tests/kg_validity/test_expression.py`
@@ -3367,7 +3538,7 @@ git commit -m "test(kg_validity): every expression edge has growth_phase, every 
 
 ---
 
-## Task 20: Documentation updates
+## Task 21: Documentation updates
 
 **Files:**
 - Modify: `CLAUDE.md`
@@ -3420,7 +3591,7 @@ git commit -m "docs: document growth_phase edge/node properties + backfill skill
    - Schema additions (spec §1): Task 1.
    - KG propagation — adapter (spec §2): Task 2.
    - KG propagation — post-import (spec §2): Task 3.
-   - Validator + `VALID_GROWTH_PHASES` + `is_valid_growth_phase` (spec §3): Task 4 (warn-only), Task 18 (flip to error).
+   - Validator + `VALID_GROWTH_PHASES` + `is_valid_growth_phase` (spec §3): Task 4 (warn-only), Task 19 (flip to error).
    - Extraction pipeline — utils (spec §4): Task 5, Task 6, Task 8.
    - Extraction pipeline — prompts (spec §4): Task 7.
    - Extraction pipeline — `extract.py` + LLM client (spec §4): Tasks 9, 10, 12.
@@ -3429,14 +3600,15 @@ git commit -m "docs: document growth_phase edge/node properties + backfill skill
    - Aggregate report (spec §4 + Resolved decisions): Task 14.
    - CLI dispatcher (spec §4): Task 15.
    - Integration test: Task 16.
-   - Rollout batches (spec §5): Task 17.
-   - KG validity tests (spec §5): Task 19.
-   - Docs updates (spec §5): Task 20.
+   - Prompt preview / manual review gate (new): Task 17.
+   - Rollout batches (spec §5): Task 18.
+   - KG validity tests (spec §5): Task 20.
+   - Docs updates (spec §5): Task 21.
    - **All covered.**
 
 2. **Placeholder scan:** No TBD, no "implement later", no "add appropriate error handling". Every code step includes the actual code.
 
-3. **Type consistency:** `extract_one_paper` signature stable (arguments added, not renamed). `remap_value` signature consistent across tests and implementation. `VALID_GROWTH_PHASES` duplicated in three places (validator, prompts, utils/merge) — called out explicitly in Task 17 with a sync test in Task 7 (`test_valid_growth_phases_list_matches_validator`).
+3. **Type consistency:** `extract_one_paper` signature stable (arguments added, not renamed). `remap_value` signature consistent across tests and implementation. `VALID_GROWTH_PHASES` duplicated in three places (validator, prompts, utils/merge) — called out explicitly in Task 18 (rollout) with a sync test in Task 7 (`test_valid_growth_phases_list_matches_validator`).
 
 4. **Known duplication of the enum set.** Three locations: `validate_paperconfig.py`, `prompts.py`, `extraction_utils.py` + `merge.py`. Avoided by importing once: future refactor — not needed for v1. The `test_valid_growth_phases_list_matches_validator` test pins `prompts.py` to the validator; `extraction_utils.py` + `merge.py` stay manually synced. Rollout step 17 flags all three files as the sync surface on promotion.
 
