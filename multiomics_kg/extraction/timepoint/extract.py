@@ -17,17 +17,23 @@ from pathlib import Path
 from typing import Protocol
 
 from multiomics_kg.extraction.timepoint.extraction_utils import (
+    _load_yaml,
     compute_fields_requested,
     compute_paperconfig_signature,
     find_analyses,
     iter_paperconfigs,
-    load_extraction_json,
     save_extraction_json,
     validate_llm_payload,
 )
 from multiomics_kg.extraction.timepoint.prompts import build_prompt
 
 logger = logging.getLogger(__name__)
+
+_DEFAULT_PDF_CACHE = (
+    Path(__file__).resolve().parent.parent.parent.parent
+    / "cache"
+    / "pdf_extraction_cache.json"
+)
 
 
 class LLMClient(Protocol):
@@ -43,7 +49,6 @@ class LLMClient(Protocol):
 
 def build_background(paperconfig_path: Path) -> dict:
     """Extract the background context for the LLM prompt."""
-    from multiomics_kg.extraction.timepoint.extraction_utils import _load_yaml
     data = _load_yaml(paperconfig_path)
     pub = data.get("publication", {})
     return {
@@ -115,7 +120,7 @@ def extract_one_paper(
     background = build_background(paperconfig_path)
 
     pdf_cache_entry = _load_pdf_cache_entry(
-        pdf_cache_path or Path("cache/pdf_extraction_cache.json"),
+        pdf_cache_path or _DEFAULT_PDF_CACHE,
         background.get("papermainpdf"),
     )
     prompt = build_prompt(background, targets, pdf_cache_entry)
@@ -195,8 +200,8 @@ def _main(argv: list[str] | None = None) -> int:
                         pd.name, data["metadata"]["status"], path)
             if data["metadata"]["status"] == "partial":
                 had_partial = True
-        except Exception as e:
-            logger.error("[%s] extraction failed: %s", pd.name, e)
+        except Exception:
+            logger.exception("[%s] extraction failed", pd.name)
             had_partial = True
     return 1 if had_partial else 0
 
@@ -214,11 +219,11 @@ def _resolve_paper_dirs(args) -> list[Path]:
         matches = []
         for pd in paper_dirs:
             try:
-                from multiomics_kg.extraction.timepoint.extraction_utils import _load_yaml
                 data = _load_yaml(pd / "paperconfig.yaml")
                 if data.get("publication", {}).get("papername") == args.paper:
                     matches.append(pd)
             except Exception:
+                logger.warning("Could not parse %s/paperconfig.yaml", pd)
                 continue
         return matches
     return []
