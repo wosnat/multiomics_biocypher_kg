@@ -179,6 +179,21 @@ OPTIONAL_CLUSTER_TABLE_FIELDS = {
 # Removed: REQUIRED_CLUSTER_FIELDS, RECOMMENDED_CLUSTER_FIELDS
 # Per-cluster data comes from extraction JSON, not paperconfig
 
+VALID_GROWTH_PHASES = {
+    "exponential", "stationary", "nutrient_limited", "acclimated_steady_state",
+    "infected", "recovery", "diel", "darkness", "death", "acute_stress", "unknown",
+}
+
+
+def is_valid_growth_phase(value: str) -> bool:
+    """Accepts a canonical enum value or a well-formed `other:<slug>` escape value."""
+    if not isinstance(value, str):
+        return False
+    if value in VALID_GROWTH_PHASES:
+        return True
+    return value.startswith("other:") and len(value) > len("other:")
+
+
 # Canonical test_type values for statistical_analyses entries.
 CANONICAL_TEST_TYPES = {
     # RNA-seq
@@ -1038,6 +1053,28 @@ def validate(config_path: str) -> bool:
             fold_change_type = analysis.get("fold_change_type")
             if fold_change_type is not None and fold_change_type not in ("log2", "linear"):
                 errors.append(f"{aid}: 'fold_change_type' must be 'log2' or 'linear', got '{fold_change_type}'")
+
+            # --- Timepoint / growth_phase backfill checks (2026-04-12) ---
+            if "timepoint" not in analysis:
+                warnings.append(
+                    f"{aid}: missing 'timepoint' (use 'unknown' if paper doesn't state)"
+                )
+
+            # NOTE: Use WARNINGS (not errors) for missing growth_phase during rollout.
+            # Task 20 will flip this to errors once all 30 paperconfigs are backfilled.
+            if "growth_phase" not in analysis:
+                # TODO (timepoint-backfill rollout, 2026-04-12): flip to errors.append
+                # once all 30 paperconfigs have growth_phase populated. Tracked in
+                # docs/superpowers/plans/2026-04-12-timepoint-growth-phase-backfill.md
+                warnings.append(
+                    f"{aid}: missing required field 'growth_phase' "
+                    f"(one of {sorted(VALID_GROWTH_PHASES)} or 'other:<slug>')"
+                )
+            elif not is_valid_growth_phase(analysis["growth_phase"]):
+                errors.append(
+                    f"{aid}: invalid growth_phase '{analysis['growth_phase']}' "
+                    f"(must be in VALID_GROWTH_PHASES or start with 'other:')"
+                )
 
     # --- Check ID uniqueness ---
     if all_ids:
