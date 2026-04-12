@@ -99,6 +99,54 @@ def _load_pdf_cache_entry(cache_path: Path, papermainpdf: str | None) -> dict | 
     return None
 
 
+def print_prompt_one_paper(
+    paper_dir: Path,
+    validate: bool = False,
+    pdf_cache_path: Path | None = None,
+) -> None:
+    """Render the full LLM prompt for this paper and print to stdout.
+
+    No LLM call. Includes the list of PDF attachment paths so the reviewer
+    can verify file existence.
+    """
+    paperconfig_path = paper_dir / "paperconfig.yaml"
+    analyses = find_analyses(paperconfig_path)
+    targets = build_targets(analyses, validate=validate)
+    if not targets:
+        print(f"\n--- {paper_dir.name}: no fields to extract (all populated) ---\n")
+        return
+
+    background = build_background(paperconfig_path)
+    pdf_cache_entry = _load_pdf_cache_entry(
+        pdf_cache_path or _DEFAULT_PDF_CACHE,
+        background.get("papermainpdf"),
+    )
+    prompt = build_prompt(background, targets, pdf_cache_entry)
+
+    pdf_paths: list[Path] = []
+    if pmp := background.get("papermainpdf"):
+        pdf_paths.append(Path(pmp))
+    pdf_paths.extend(Path(p) for p in background.get("additional_pdfs", []))
+
+    print(f"\n{'=' * 72}")
+    print(f"PROMPT PREVIEW — {paper_dir.name}")
+    print("=" * 72)
+    print(prompt)
+    print()
+    print("PDFs to attach:")
+    for p in pdf_paths:
+        marker = "✓" if p.exists() else "✗ MISSING"
+        print(f"  {marker} {p}")
+    print()
+    print(f"Targets: {len(targets)} analyses")
+    for t in targets:
+        print(
+            f"  - {t['id']}: needs {t['fields_requested']}  "
+            f"(logfc_col={t['logfc_col']!r})"
+        )
+    print("=" * 72)
+
+
 def extract_one_paper(
     paper_dir: Path,
     llm_client: LLMClient,
@@ -204,6 +252,10 @@ def _main(argv: list[str] | None = None) -> int:
                         help="Re-extract only missing_analyses from an existing partial JSON")
     parser.add_argument("--retry", action="store_true",
                         help="Re-extract the entire paper from scratch")
+    parser.add_argument("--print-prompt", action="store_true",
+                        help="Render the full prompt (prompt text + PDF paths) "
+                             "without calling the LLM. Use to review prompt quality "
+                             "before running real extractions.")
     args = parser.parse_args(argv)
 
     logging.basicConfig(level=logging.INFO, format="%(levelname)s %(message)s")
@@ -216,6 +268,11 @@ def _main(argv: list[str] | None = None) -> int:
     if args.dry_run:
         for pd in paper_dirs:
             _print_dry_run(pd, validate=args.validate)
+        return 0
+
+    if args.print_prompt:
+        for pd in paper_dirs:
+            print_prompt_one_paper(pd, validate=args.validate)
         return 0
 
     from multiomics_kg.extraction.timepoint.llm_client import OpenAIResponsesClient

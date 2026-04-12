@@ -247,3 +247,43 @@ def test_retry_ignores_existing_json(paper_dir):
     prompt = call_args.kwargs.get("prompt") or call_args.args[0]
     assert "DE_n_24h" in prompt
     assert "DE_n_48h" in prompt
+
+
+def test_print_prompt_renders_without_llm_call(paper_dir, capsys):
+    """--print-prompt renders the full prompt and PDF attachment list to
+    stdout; never calls the LLM."""
+    from multiomics_kg.extraction.timepoint.extract import print_prompt_one_paper
+
+    print_prompt_one_paper(paper_dir, validate=False)
+
+    out = capsys.readouterr().out
+    # Prompt body
+    assert "PAPER CONTEXT" in out
+    assert "EXTRACTION TARGETS" in out
+    assert "Fake 2026" in out
+    assert "DE_n_24h" in out
+    assert "log2fc_24h" in out
+    # PDF attachment list
+    assert "PDFs to attach:" in out or "PDF attachments:" in out
+
+
+def test_print_prompt_skips_when_nothing_to_extract(paper_dir, capsys):
+    """If all fields are populated, --print-prompt says so and emits no
+    prompt body."""
+    from ruamel.yaml import YAML
+    pc = paper_dir / "paperconfig.yaml"
+    yaml = YAML()
+    with open(pc) as f:
+        data = yaml.load(f)
+    for a in data["publication"]["supplementary_materials"]["tbl"]["statistical_analyses"]:
+        a["timepoint"] = "24h"
+        a["timepoint_hours"] = 24
+        a["growth_phase"] = "exponential"
+    with open(pc, "w") as f:
+        yaml.dump(data, f)
+
+    from multiomics_kg.extraction.timepoint.extract import print_prompt_one_paper
+    print_prompt_one_paper(paper_dir, validate=False)
+    out = capsys.readouterr().out
+    assert "no fields to extract" in out.lower()
+    assert "EXTRACTION TARGETS" not in out
