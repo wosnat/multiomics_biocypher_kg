@@ -504,6 +504,6 @@ The `VALID_GROWTH_PHASES` enum is an initial set (11 values including `unknown`)
 
 **Freeze the enum when:** two consecutive batches complete without any new `other:*` slug appearing in ≥2 papers. Document the final enum in CLAUDE.md and MEMORY.md.
 
-## Open questions (none blocking)
+## Resolved decisions
 
-- Do we want to publish the extraction report as a committed artifact (`data/timepoint_extraction_report.md`) or keep it local? (Proposal: commit it, matches the cluster-extraction precedent.)
+- **Extraction report is a committed artifact** at `data/timepoint_extraction_report.md` (flat, not under `data/reports/` or `docs/reports/`). Matches the existing `data/cluster_extraction_report.md` precedent — both extraction reports sit in the same directory so reviewers find them together. A future `data/reports/` reorganization is out of scope; it would move both reports at once.
