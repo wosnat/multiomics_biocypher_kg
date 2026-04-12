@@ -162,6 +162,12 @@ SET e.gene_count = gene_count,
     e.time_point_significant_up = tp_sig_up,
     e.time_point_significant_down = tp_sig_down;
 
+// Compute Experiment growth_phases (distinct values across child edges)
+MATCH (e:Experiment)
+OPTIONAL MATCH (e)-[r:Changes_expression_of]->(:Gene)
+WITH e, [v IN collect(DISTINCT r.growth_phase) WHERE v IS NOT NULL] AS phases
+SET e.growth_phases = phases;
+
 // -----------------------------------------------------------------------
 // OrganismTaxon summary properties (pre-computed for list_organisms)
 // -----------------------------------------------------------------------
