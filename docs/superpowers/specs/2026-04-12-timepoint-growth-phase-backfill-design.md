@@ -141,9 +141,22 @@ extraction/timepoint/
 
 **Why the intermediate JSON (reversing the earlier decision):** The extraction produces more than just the three paperconfig fields — it also captures evidence quotes, confidence bands, and `other:*` escape values for enum-evolution triage. Committing the JSON gives a durable audit trail tied to each paperconfig's history; the review loop inspects the JSON (not just a git diff on the yaml) so reviewers see the evidence without re-reading PDFs.
 
-**Input to the LLM per paper:**
-- `papermainpdf` + any `additional_pdfs`.
-- A rendered snapshot of the paperconfig's `experiments` block and list of `(analysis_id, experiment_key, existing_timepoint_fields)` — so the LLM sees what analyses exist and their scientific context.
+**Input package to the LLM (per paper):**
+
+1. **Background context** (text):
+   - `publication.papername`, `publication.doi`.
+   - Full `experiments` block from the paperconfig (treatment/control conditions, treatment_type, background_factors, experimental_context, medium, temperature, light — all the metadata the LLM needs to reason about phase).
+   - Publication metadata from `cache/pdf_extraction_cache.json` if an entry exists for `papermainpdf`: `title`, `abstract`, `description`, `study_type`. Used for orientation and to reduce token waste on basics the LLM would otherwise re-parse from the PDF. Optional — if cache miss, skipped.
+
+2. **Extraction targets** (structured list, per analysis):
+   - `id`, `experiment_key`.
+   - Existing values for `timepoint`, `timepoint_hours`, `growth_phase` (null/absent when not set).
+   - `fields_to_fill: [...]` — the subset of the three fields that need extraction for this analysis (derived from the preprocess; field-level, not row-level).
+   - Analyses where all three fields are already set are **omitted entirely** from the prompt (unless `--validate`).
+
+3. **PDFs** (multimodal attachments):
+   - `papermainpdf` — always included.
+   - `extraction.additional_pdfs` from the paperconfig — same convention as the cluster-extraction pipeline (e.g. Coe 2024 supplement). Included when declared.
 
 **LLM output — written to `<paper_dir>/extractions/timepoint.json`:**
 
@@ -186,12 +199,37 @@ data/Prochlorococcus/papers_and_supp/Tetu 2019/
 
 **Review workflow:**
 
-1. Run `uv run python -m multiomics_kg.extraction.timepoint.extract --paper "Tetu 2019"` (or `--all`).
-2. Extraction writes `data/.../Tetu 2019/extractions/timepoint.json` (creates the `extractions/` subdir if needed).
-3. Aggregate report `data/timepoint_extraction_report.md` updates with: confidence breakdown, `unknown` list, sorted `other:*` frequencies, evidence quotes for each flagged item.
-4. Reviewer inspects JSON per paper (edit in place if extraction got it wrong) — evidence quotes are right there, no need to re-read PDFs.
-5. Reviewer runs `uv run python -m multiomics_kg.extraction.timepoint.merge --paper "Tetu 2019"` → `merge.py` writes the three paperconfig fields (`timepoint`, `timepoint_hours`, `growth_phase`) into `paperconfig.yaml` via `ruamel.yaml` round-trip (preserves comments and ordering).
-6. Validator runs against updated paperconfig; reviewer commits both the JSON and the paperconfig diff.
+0. (Optional) `extract.py --paper "Tetu 2019" --dry-run` — no LLM call, just prints per-analysis `fields_to_fill` lists. Used to confirm scope before a real run.
+1. `extract.py --paper "Tetu 2019"` runs preprocess → calls LLM with the package above → writes `data/.../Tetu 2019/extractions/timepoint.json` (creates `extractions/` subdir if needed).
+2. Aggregate report `data/timepoint_extraction_report.md` updates with: confidence breakdown, `unknown` list, sorted `other:*` frequencies, evidence quotes for each flagged item.
+3. Reviewer inspects JSON per paper — evidence quotes are inline, no need to re-read PDFs. Edits in place if extraction got it wrong.
+4. `merge.py --paper "Tetu 2019"` writes the three paperconfig fields (`timepoint`, `timepoint_hours`, `growth_phase`) into `paperconfig.yaml` via `ruamel.yaml` round-trip.
+5. Validator runs against updated paperconfig; reviewer commits both the JSON and the paperconfig diff.
+
+**CLI flags:**
+
+| Flag | Purpose |
+|---|---|
+| `--paper "<name>"` / `--all` | Scope selection. |
+| `--dry-run` | Preprocess only — list per-analysis `fields_to_fill`, no LLM call. |
+| `--validate` | Ask LLM about **every** field regardless of existing values. Emits existing vs proposed in JSON. `merge.py` surfaces mismatches as warnings but does not overwrite without `--force`. |
+| `--fields timepoint,timepoint_hours,growth_phase` | Restrict extraction to specific fields. Useful when re-running after an enum change: `--fields growth_phase` only. |
+| `--force` (on `merge.py`) | Allow overwrite of existing paperconfig values. Never default. |
+
+**Preprocess (runs inside `extract.py` before the LLM call):**
+
+For every analysis in the paperconfig, compute `fields_to_fill`:
+
+| Existing state | Behavior (default) | Behavior (`--validate`) |
+|---|---|---|
+| field absent | include in `fields_to_fill` | include |
+| `timepoint_hours: null` | include (null is a "needs filling" signal) | include |
+| `timepoint` is empty string | include | include |
+| field has a non-null, non-empty value | skip | include (LLM emits existing+proposed for comparison) |
+
+An analysis with empty `fields_to_fill` (all three set) is omitted from the prompt entirely in default mode. In `--validate`, every analysis is included and every field re-examined.
+
+This keeps re-runs cheap (only the missing subset goes to the LLM) and prevents the LLM from "helpfully" revisiting values a human already curated.
 
 **Matching key:** `analysis_id` alone is sufficient. The paperconfig validator already guarantees analysis IDs are unique within a paperconfig. `merge.py` walks `publication.supplementary_materials.<table>.statistical_analyses[]` looking for matches by `id`.
 
@@ -251,12 +289,17 @@ Both artifacts are committed together per paper.
 ```
 ┌────────────────────┐        ┌──────────────────────┐
 │ paperconfig.yaml   │───────▶│ extract.py           │
-│ (experiments +     │        │  • read paperconfig  │
-│  analyses)         │        │  • render LLM prompt │
+│ (experiments +     │        │  • preprocess:       │
+│  analyses)         │        │    compute per-      │
+│                    │        │    analysis          │
+│ pdf_extraction_    │───────▶│    fields_to_fill    │
+│   cache.json       │        │  • render prompt     │
+│ (optional, for     │        │    (background +     │
+│  orientation)      │        │     targets + PDFs)  │
 │                    │        │  • call LLM          │
-│ paper PDF(s)       │───────▶│  • validate IDs      │
-└────────────────────┘        │  • write JSON        │
-                              └──────────┬───────────┘
+│ papermainpdf +     │───────▶│  • validate IDs      │
+│ additional_pdfs    │        │  • write JSON        │
+└────────────────────┘        └──────────┬───────────┘
                                          │
                                          ▼
                               ┌──────────────────────┐
