@@ -62,7 +62,7 @@ experiment:
     time_point_totals: int[]
     time_point_significant_up: int[]
     time_point_significant_down: int[]
-    growth_phases: str[]
+    growth_phases: str[]          # post-import: distinct growth_phase values from edges
 
 # GeneCluster node: groups co-expressed genes from a clustering analysis within a publication
 gene cluster:
