@@ -260,12 +260,23 @@ This schema borrows the `metadata`/`supporting_quotes`/`source_figures`/`self_as
 
 **Review workflow:**
 
+Per-paper path:
+
 0. (Optional) `extract.py --paper "Tetu 2019" --dry-run` — no LLM call, just prints per-analysis `fields_requested` lists. Used to confirm scope before a real run.
 1. `extract.py --paper "Tetu 2019"` runs preprocess → calls LLM with the package above → writes `data/.../Tetu 2019/extractions/timepoint.json` (creates `extractions/` subdir if needed).
 2. Aggregate report `data/timepoint_extraction_report.md` updates with: `self_assessment` breakdown, `unknown` list, sorted `other:*` frequencies, `missing_analyses` per partial extraction, evidence quotes for each flagged item.
 3. Reviewer inspects JSON per paper — evidence quotes are inline, no need to re-read PDFs. Edits in place if extraction got it wrong.
 4. `merge.py --paper "Tetu 2019"` writes the three paperconfig fields (`timepoint`, `timepoint_hours`, `growth_phase`) into `paperconfig.yaml` via `ruamel.yaml` round-trip.
 5. Validator runs against updated paperconfig; reviewer commits both the JSON and the paperconfig diff.
+
+Corpus-level path (runs after a batch, only when enum refinement is needed):
+
+6. Review `data/timepoint_extraction_report.md` for `other:*` slugs recurring in ≥2 papers. Promote selected slugs to `VALID_GROWTH_PHASES` (see "Enum iteration plan" section for criteria).
+7. `remap.py --promote <slug>` rewrites `other:<slug>` → `<slug>` across all paperconfigs and `extractions/timepoint.json` files, appends a provenance line to `assessment_notes` on affected analyses.
+8. Re-run validator on the corpus — confirms the remap is complete (old `other:<slug>` now rejected; canonical value now accepted).
+9. Commit the enum change, validator change, and remap diffs together.
+
+Steps 6–9 happen *between* batches of per-paper extraction. Steps 0–5 are where the bulk of the work lives; steps 6–9 are occasional refinements.
 
 **CLI flags:**
 
