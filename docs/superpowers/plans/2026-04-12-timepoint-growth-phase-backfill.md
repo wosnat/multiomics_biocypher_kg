@@ -407,7 +407,7 @@ Expected: all 5 tests pass.
 Run: `uv run python .claude/skills/paperconfig/validate_paperconfig.py --all 2>&1 | tail -30`
 Expected: warnings about missing `growth_phase` in every paperconfig; errors should only appear if a paperconfig has a malformed `growth_phase` value (none should, since no paperconfig has been backfilled yet — the errors should be about missing, which we want as errors per the spec).
 
-**Decision point:** The spec says `growth_phase` missing is an **error**. That means every paperconfig will fail validation immediately. Since we want to land the validator change before the extraction tool is built, temporarily make the missing-growth_phase case a **warning** during rollout (add a TODO in the code), and flip to error after all paperconfigs are backfilled (Task 19).
+**Decision point:** The spec says `growth_phase` missing is an **error**. That means every paperconfig will fail validation immediately. Since we want to land the validator change before the extraction tool is built, temporarily make the missing-growth_phase case a **warning** during rollout (add a TODO in the code), and flip to error after all paperconfigs are backfilled (Task 20).
 
 Update Step 3's code:
 
@@ -3347,7 +3347,87 @@ git commit -m "feat(timepoint extraction): --print-prompt flag for manual prompt
 
 ---
 
-## Task 18: Rollout — run extraction in batches (paperconfig edits happen here)
+## Task 18: Code review of the extraction pipeline
+
+**Why:** Before running the pipeline against all 30 papers (Task 19), get a fresh pair of eyes on the extraction code. LLM calls cost money and rollout-time bugs are expensive to unwind — a pre-rollout review catches error-handling gaps, resource leaks, and logic bugs that tests didn't. This is a **gate**, not optional.
+
+**Scope of review** — these files and nothing else (the schema/adapter/post-import/validator changes from Tasks 1–4 are small and already exercised by the KG tests):
+
+```
+multiomics_kg/extraction/timepoint/__init__.py
+multiomics_kg/extraction/timepoint/__main__.py
+multiomics_kg/extraction/timepoint/extract.py
+multiomics_kg/extraction/timepoint/extraction_utils.py
+multiomics_kg/extraction/timepoint/llm_client.py
+multiomics_kg/extraction/timepoint/merge.py
+multiomics_kg/extraction/timepoint/prompts.py
+multiomics_kg/extraction/timepoint/remap.py
+multiomics_kg/extraction/timepoint/report.py
+tests/extraction/timepoint/*.py
+```
+
+- [ ] **Step 1: Dispatch the code-reviewer agent**
+
+Use the `superpowers:code-reviewer` agent. Give it the full scope, the spec, and the plan so it can check against both the design intent and the task-level implementation.
+
+Sample dispatch prompt:
+
+> Review the timepoint/growth-phase extraction pipeline before we run it against 30 real publications.
+>
+> **Design spec:** `docs/superpowers/specs/2026-04-12-timepoint-growth-phase-backfill-design.md`
+> **Implementation plan:** `docs/superpowers/plans/2026-04-12-timepoint-growth-phase-backfill.md` (Tasks 5–16)
+> **Code under review:** `multiomics_kg/extraction/timepoint/` and `tests/extraction/timepoint/`
+>
+> Focus areas — in priority order:
+>
+> 1. **Correctness vs the spec.** Do the safety checks in `merge.py` (partial guard, staleness guards, overwrite guard, malformed-value rejection) match the spec's safety-check list? Is remap's `--from`/`--to` symmetric (promotion / slug rename / merge-into-canonical all work)? Does `extract.py --resume` really only re-ask missing analyses?
+> 2. **Failure modes around real LLM calls.** What happens if the LLM returns invalid JSON, an API error, or a truncated response? Where are retries reasonable vs where should we fail hard? Are file uploads in `llm_client.py` cleaned up on error?
+> 3. **Staleness detection robustness.** Is `paperconfig_signature` deterministic across YAML re-serialization? Would re-ordering fields in the paperconfig cause a false-positive mismatch?
+> 4. **Enum duplication.** `VALID_GROWTH_PHASES` is defined in three places (validator, prompts, utils+merge). Is the sync test (`test_valid_growth_phases_list_matches_validator`) sufficient to catch drift? Should we refactor to a single source?
+> 5. **General quality.** Error messages, logging levels, test coverage, dead code, mutable default args, unclosed file handles, typing.
+>
+> Read-only; report findings as a prioritized list (blockers / nice-to-haves). The implementer will address blockers before the rollout.
+
+- [ ] **Step 2: Triage findings**
+
+Categorize the reviewer's output:
+- **Blockers** — correctness bugs, data-loss risks, broken safety guards, anything that would corrupt paperconfigs. Fix before rollout.
+- **Nice-to-haves** — style, minor refactors, better error messages. Fix if cheap, defer otherwise.
+- **Rejections** — disagreements with the reviewer (must be justified; not reflexive).
+
+If findings are nontrivial, write a short response document at `docs/superpowers/code-reviews/2026-04-12-timepoint-pipeline-review.md` listing each finding, the verdict (fix / defer / reject), and the rationale. Optional for small reviews — the git commits speak for themselves.
+
+- [ ] **Step 3: Fix blockers**
+
+Make the code changes. Update tests where behavior changes. Run:
+
+```bash
+uv run pytest tests/extraction/timepoint/ -v
+```
+
+Expected: all pass.
+
+- [ ] **Step 4: Re-run the integration test and prompt preview as regression check**
+
+```bash
+uv run pytest tests/extraction/timepoint/test_integration.py -v
+uv run python -m multiomics_kg.extraction.timepoint extract \
+    --paper "Weissberg 2025" --print-prompt 2>&1 | head -50
+```
+
+Expected: integration test passes; prompt still renders cleanly.
+
+- [ ] **Step 5: Commit the fixes**
+
+```bash
+git add multiomics_kg/extraction/timepoint/ tests/extraction/timepoint/
+# Optionally: docs/superpowers/code-reviews/2026-04-12-timepoint-pipeline-review.md
+git commit -m "fix(timepoint extraction): address code review findings (pre-rollout)"
+```
+
+---
+
+## Task 19: Rollout — run extraction in batches (paperconfig edits happen here)
 
 **This task is operational, not code. Each batch gets its own commit outside this plan. Record here for traceability.**
 
@@ -3365,8 +3445,15 @@ For each batch:
 ```bash
 # Dry run first
 uv run python -m multiomics_kg.extraction.timepoint extract --paper "Biller 2018" --dry-run
+```
 
-# Real extraction
+**Expected outcomes:**
+
+- **"no fields to extract (all populated)"** — the paperconfig is already complete. **This is fine — skip the real extraction for this paper and move to the next.** Do not treat the no-op as a failure; it just means this paper needs no work from the pipeline. Some papers in later batches may already have partial or full timepoint metadata from earlier manual edits or prior runs.
+- **Lists `fields_requested` for one or more analyses** — proceed to the real extraction:
+
+```bash
+# Real extraction (only for papers where dry-run showed fields needed)
 uv run python -m multiomics_kg.extraction.timepoint extract --paper "Biller 2018"
 ```
 
@@ -3427,7 +3514,7 @@ Repeat for batches 2–5.
 
 ---
 
-## Task 19: Flip validator missing-growth_phase from warning to error
+## Task 20: Flip validator missing-growth_phase from warning to error
 
 **Files:**
 - Modify: `.claude/skills/paperconfig/validate_paperconfig.py`
@@ -3477,7 +3564,7 @@ git commit -m "validator: missing growth_phase is now an error (all paperconfigs
 
 ---
 
-## Task 20: KG validity test for growth_phase
+## Task 21: KG validity test for growth_phase
 
 **Files:**
 - Modify: `tests/kg_validity/test_expression.py`
@@ -3538,7 +3625,7 @@ git commit -m "test(kg_validity): every expression edge has growth_phase, every 
 
 ---
 
-## Task 21: Documentation updates
+## Task 22: Documentation updates
 
 **Files:**
 - Modify: `CLAUDE.md`
@@ -3591,7 +3678,7 @@ git commit -m "docs: document growth_phase edge/node properties + backfill skill
    - Schema additions (spec §1): Task 1.
    - KG propagation — adapter (spec §2): Task 2.
    - KG propagation — post-import (spec §2): Task 3.
-   - Validator + `VALID_GROWTH_PHASES` + `is_valid_growth_phase` (spec §3): Task 4 (warn-only), Task 19 (flip to error).
+   - Validator + `VALID_GROWTH_PHASES` + `is_valid_growth_phase` (spec §3): Task 4 (warn-only), Task 20 (flip to error).
    - Extraction pipeline — utils (spec §4): Task 5, Task 6, Task 8.
    - Extraction pipeline — prompts (spec §4): Task 7.
    - Extraction pipeline — `extract.py` + LLM client (spec §4): Tasks 9, 10, 12.
@@ -3601,14 +3688,15 @@ git commit -m "docs: document growth_phase edge/node properties + backfill skill
    - CLI dispatcher (spec §4): Task 15.
    - Integration test: Task 16.
    - Prompt preview / manual review gate (new): Task 17.
-   - Rollout batches (spec §5): Task 18.
-   - KG validity tests (spec §5): Task 20.
-   - Docs updates (spec §5): Task 21.
+   - Code review gate (new): Task 18.
+   - Rollout batches (spec §5): Task 19.
+   - KG validity tests (spec §5): Task 21.
+   - Docs updates (spec §5): Task 22.
    - **All covered.**
 
 2. **Placeholder scan:** No TBD, no "implement later", no "add appropriate error handling". Every code step includes the actual code.
 
-3. **Type consistency:** `extract_one_paper` signature stable (arguments added, not renamed). `remap_value` signature consistent across tests and implementation. `VALID_GROWTH_PHASES` duplicated in three places (validator, prompts, utils/merge) — called out explicitly in Task 18 (rollout) with a sync test in Task 7 (`test_valid_growth_phases_list_matches_validator`).
+3. **Type consistency:** `extract_one_paper` signature stable (arguments added, not renamed). `remap_value` signature consistent across tests and implementation. `VALID_GROWTH_PHASES` duplicated in three places (validator, prompts, utils/merge) — called out explicitly in Task 19 (rollout) with a sync test in Task 7 (`test_valid_growth_phases_list_matches_validator`).
 
 4. **Known duplication of the enum set.** Three locations: `validate_paperconfig.py`, `prompts.py`, `extraction_utils.py` + `merge.py`. Avoided by importing once: future refactor — not needed for v1. The `test_valid_growth_phases_list_matches_validator` test pins `prompts.py` to the validator; `extraction_utils.py` + `merge.py` stay manually synced. Rollout step 17 flags all three files as the sync surface on promotion.
 
