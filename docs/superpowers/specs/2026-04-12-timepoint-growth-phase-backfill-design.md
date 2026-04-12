@@ -134,10 +134,13 @@ New module: `multiomics_kg/extraction/timepoint/`
 ```
 extraction/timepoint/
 ├── extract.py              # CLI; reads paperconfig + PDF, emits JSON proposal next to paperconfig
-├── merge.py                # applies approved JSON → paperconfig.yaml via ruamel.yaml round-trip
+├── merge.py                # applies approved JSON → paperconfig.yaml via ruamel.yaml round-trip (verbatim)
+├── remap.py                # rewrites other:<slug> → <slug> across corpus after enum promotion
 ├── extraction_utils.py     # JSON I/O, paperconfig parsing, analysis lookup, safety checks
 └── prompts.py              # SHARED_RULES + per-experiment-type hint templates
 ```
+
+**Separation of concerns — explicit design rule:** `merge.py` is strictly verbatim. Whatever the JSON says (`exponential`, `unknown`, `other:heat_acclimated`) goes into the paperconfig exactly. No silent transformation, ever. Remapping `other:*` slugs into canonical enum values is **always** a separate, named step (`remap.py`), so the paperconfig diff a reviewer sees after merge always matches what they approved in the JSON. `extract.py` likewise knows nothing about promoted slugs.
 
 **Why the intermediate JSON (reversing the earlier decision):** The extraction produces more than just the three paperconfig fields — it also captures evidence quotes, confidence bands, and `other:*` escape values for enum-evolution triage. Committing the JSON gives a durable audit trail tied to each paperconfig's history; the review loop inspects the JSON (not just a git diff on the yaml) so reviewers see the evidence without re-reading PDFs.
 
@@ -410,8 +413,21 @@ The `VALID_GROWTH_PHASES` enum is an initial set (7 values including `unknown`).
    - `VALID_GROWTH_PHASES` in the validator.
    - Enum table in this spec (mark added values with the batch number that prompted them).
    - `.claude/skills/paperconfig/SKILL.md` growth-phase section.
-5. **Remap paperconfigs in place** — no LLM re-run. A small `remap.py` script (or manual edit) replaces `other:<promoted_slug>` with `<promoted_slug>` across all paperconfigs + their extraction JSONs. Evidence quotes stay intact; the reviewer doesn't need to re-read methods.
-6. **Commit the enum change** alongside the remap diffs. The promoted slug's first appearance (batch number, paper, evidence quote) is noted in the spec's enum table.
+5. **Remap via `remap.py`** — no LLM re-run. Invocation:
+
+   ```bash
+   uv run python -m multiomics_kg.extraction.timepoint.remap --promote heat_acclimated
+   ```
+
+   What it does:
+   - Walks every paperconfig.yaml: replaces `growth_phase: other:heat_acclimated` → `growth_phase: heat_acclimated` (ruamel.yaml round-trip).
+   - Walks every `extractions/timepoint.json`: same replacement.
+   - Appends a provenance line to `assessment_notes` on remapped analyses: `"Remapped from other:heat_acclimated → heat_acclimated on <date> (enum promotion)"`.
+   - Refuses to run unless `heat_acclimated` is already in `VALID_GROWTH_PHASES` — prevents accidental remap to a slug that isn't canonical yet.
+
+6. **Run the validator** on the corpus. The updated enum now rejects `other:heat_acclimated` (since it's canonical) and accepts `heat_acclimated`. A clean pass confirms the remap was complete.
+
+7. **Commit** the enum change + validator change + remap diffs **in one commit**. The git history is the promotion log — each promotion commit shows exactly which papers were affected and why. No separate `growth_phase_promotions.yaml` file needed.
 
 **Initial enum covers the predictable cases** (`exponential`, `stationary`, `nutrient_limited`, `acclimated_steady_state`, `infected`, `recovery`, `diel`, `darkness`, `death`, `acute_stress`). Not pre-added, to be surfaced via `other:*` only if the data demands them:
 
