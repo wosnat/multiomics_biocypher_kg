@@ -550,6 +550,7 @@ class OMICSAdapter:
                 timepoint_hours = stat_analysis.get('timepoint_hours')
                 if timepoint_hours is None:
                     timepoint_hours = parse_timepoint_hours(timepoint)
+                growth_phase = stat_analysis.get('growth_phase')
 
                 edges_from_file = self._load_and_create_edges(
                     filename, stat_analysis,
@@ -557,6 +558,7 @@ class OMICSAdapter:
                     time_point=timepoint,
                     time_point_order=tp_order,
                     time_point_hours=timepoint_hours,
+                    growth_phase=growth_phase,
                 )
                 edge_list.extend(edges_from_file)
 
@@ -613,6 +615,7 @@ class OMICSAdapter:
         time_point: str | None = None,
         time_point_order: int = 1,
         time_point_hours: float | None = None,
+        growth_phase: str | None = None,
     ) -> list[tuple]:
         """
         Load a data file and create expression association edges.
@@ -626,6 +629,7 @@ class OMICSAdapter:
             time_point: Timepoint label (e.g., "3h", "day 18")
             time_point_order: 1-indexed order within the experiment
             time_point_hours: Numeric hours, or None if unparseable
+            growth_phase: Growth phase label (e.g., "nutrient_limited"), or None
 
         Returns:
             List of edge tuples
@@ -803,6 +807,8 @@ class OMICSAdapter:
                 edge_properties['time_point_order'] = time_point_order
                 if time_point_hours is not None:
                     edge_properties['time_point_hours'] = time_point_hours
+                if growth_phase:
+                    edge_properties['growth_phase'] = self.clean_text(growth_phase)
 
                 # Create expression association edge
                 # source: experiment_id, target: gene_id
