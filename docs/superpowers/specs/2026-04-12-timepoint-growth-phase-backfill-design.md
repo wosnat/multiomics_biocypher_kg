@@ -17,7 +17,7 @@ This blocks biologically meaningful queries like "all acute (<6 h) nutrient-stre
 
 1. Every `statistical_analyses[]` entry in every paperconfig has populated `timepoint`, `timepoint_hours`, and a new `growth_phase` field.
 2. The field is propagated through the pipeline: paperconfig → adapter → `Changes_expression_of` edge → aggregated onto the `Experiment` node.
-3. Extraction is LLM-assisted with human review (per-paper git-diff review), not manual re-reading of 30 PDFs.
+3. Extraction is LLM-assisted with human review (per-paper JSON inspection + per-batch git-diff review), not manual re-reading of 30 PDFs.
 
 ## Non-goals
 
@@ -376,11 +376,11 @@ This keeps re-runs cheap (only the missing subset goes to the LLM) and prevents 
 
 ## Review UI
 
-Two-surface review:
-1. **`extractions/timepoint.json`** — the primary review artifact. Contains evidence quotes, `self_assessment`, and the proposed fields. Reviewer edits in place if extraction got something wrong, then runs `merge.py`.
-2. **`paperconfig.yaml` git diff** — confirmation that only the three intended fields (`timepoint`, `timepoint_hours`, `growth_phase`) changed, with expected values.
+Two-surface review, batch-oriented:
+1. **`extractions/timepoint.json`** (per paper) + **`data/timepoint_extraction_report.md`** (aggregated across the batch) — the primary review artifacts. JSONs contain evidence quotes, `self_assessment`, and proposed fields; the report aggregates `other:*` frequencies, `unknown` cases, `missing_analyses`, and `self_assessment` distribution. Reviewer edits JSONs in place. Enum promotion and `remap.py` runs happen at this stage, before merge.
+2. **`paperconfig.yaml` git diff** — final sanity check after `merge.py` runs once per batch. Confirms only the three intended fields (`timepoint`, `timepoint_hours`, `growth_phase`) changed.
 
-Both artifacts are committed together per paper.
+All artifacts (updated paperconfigs + JSONs + validator/enum changes) are committed together in one commit per batch.
 
 ## Data flow diagram
 
@@ -495,7 +495,7 @@ The `VALID_GROWTH_PHASES` enum is an initial set (11 values including `unknown`)
 
 6. **Run the validator** on the corpus. The updated enum now rejects `other:heat_acclimated` (since it's canonical) and accepts `heat_acclimated`. A clean pass confirms the remap was complete.
 
-7. **Commit** the enum change + validator change + remap diffs **in one commit**. The git history is the promotion log — each promotion commit shows exactly which papers were affected and why. No separate `growth_phase_promotions.yaml` file needed.
+7. **Commit.** When promotion happens *during* a batch's review loop (the typical case), the enum change + validator change + remap diffs are folded into that batch's single commit, alongside the batch's paperconfig + JSON updates. When promotion happens *between* batches (corpus-level sweep), commit the enum + remap diffs as a standalone commit. Either way, the git history remains the promotion log — each commit shows which papers were affected by the promotion and why. No separate `growth_phase_promotions.yaml` file needed.
 
 **Initial enum covers the predictable cases** (`exponential`, `stationary`, `nutrient_limited`, `acclimated_steady_state`, `infected`, `recovery`, `diel`, `darkness`, `death`, `acute_stress`). Not pre-added, to be surfaced via `other:*` only if the data demands them:
 
