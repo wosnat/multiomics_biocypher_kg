@@ -131,3 +131,106 @@ def compute_fields_requested(analysis: dict, validate: bool = False) -> list[str
             requested.append(field)
         # non-null, non-empty → skip
     return requested
+
+
+# Must match validate_paperconfig.VALID_GROWTH_PHASES exactly.
+# Duplicated here to avoid importing from the skills dir; kept in sync
+# by tests/extraction/timepoint/test_prompts.py::test_valid_growth_phases_list_matches_validator.
+_VALID_GROWTH_PHASES = frozenset([
+    "exponential", "stationary", "nutrient_limited", "acclimated_steady_state",
+    "infected", "recovery", "diel", "darkness", "death", "acute_stress",
+    "unknown",
+])
+
+_VALID_SELF_ASSESSMENT = frozenset(["high", "medium", "low"])
+
+
+def _is_valid_growth_phase(v) -> bool:
+    return isinstance(v, str) and (
+        v in _VALID_GROWTH_PHASES
+        or (v.startswith("other:") and len(v) > len("other:"))
+    )
+
+
+def _validate_one_analysis(
+    row: dict, requested: list[str]
+) -> tuple[dict | None, dict | None]:
+    """Return (valid_row, None) on success, or (None, missing_entry) on failure."""
+    # Required structural fields
+    for required_field in ("self_assessment", "assessment_notes",
+                           "supporting_quotes", "source_figures"):
+        if required_field not in row:
+            return None, {
+                "analysis_id": row.get("analysis_id"),
+                "reason": f"missing_field: {required_field}",
+            }
+
+    if row["self_assessment"] not in _VALID_SELF_ASSESSMENT:
+        return None, {
+            "analysis_id": row["analysis_id"],
+            "reason": f"invalid_self_assessment: {row['self_assessment']}",
+        }
+
+    # Each requested field must be present; skip validation for fields not
+    # requested — LLM is instructed not to emit them.
+    for field in requested:
+        if field not in row:
+            return None, {
+                "analysis_id": row["analysis_id"],
+                "reason": f"missing_field: {field}",
+            }
+        value = row[field]
+        if field == "growth_phase":
+            if not _is_valid_growth_phase(value):
+                return None, {
+                    "analysis_id": row["analysis_id"],
+                    "reason": f"invalid_growth_phase: {value}",
+                }
+        elif field == "timepoint_hours":
+            if value is not None and not isinstance(value, (int, float)):
+                return None, {
+                    "analysis_id": row["analysis_id"],
+                    "reason": f"timepoint_hours_not_numeric: {value!r}",
+                }
+        elif field == "timepoint":
+            if not isinstance(value, str):
+                return None, {
+                    "analysis_id": row["analysis_id"],
+                    "reason": f"timepoint_not_string: {value!r}",
+                }
+
+    return row, None
+
+
+def validate_llm_payload(
+    payload: dict, requested_map: dict[str, list[str]]
+) -> tuple[list[dict], list[dict]]:
+    """Split an LLM response into (valid_rows, missing_entries).
+
+    Raises ValueError if the LLM returned an analysis_id not in
+    requested_map (hallucinated ID — treat as hard failure).
+    """
+    valid: list[dict] = []
+    missing: list[dict] = []
+    returned_ids: set[str] = set()
+
+    for row in payload.get("analyses", []):
+        aid = row.get("analysis_id")
+        if aid not in requested_map:
+            raise ValueError(
+                f"LLM returned unknown analysis_id {aid!r}; expected one of "
+                f"{sorted(requested_map)}"
+            )
+        returned_ids.add(aid)
+        valid_row, missing_entry = _validate_one_analysis(row, requested_map[aid])
+        if valid_row is not None:
+            valid.append(valid_row)
+        elif missing_entry is not None:
+            missing.append(missing_entry)
+
+    # Any requested analysis the LLM didn't return
+    for aid in requested_map:
+        if aid not in returned_ids:
+            missing.append({"analysis_id": aid, "reason": "not_returned"})
+
+    return valid, missing

@@ -171,3 +171,198 @@ def test_compute_fields_requested_validate_mode_always_all_three():
     assert compute_fields_requested(analysis, validate=True) == [
         "timepoint", "timepoint_hours", "growth_phase",
     ]
+
+
+# ---------------------------------------------------------------------------
+# validate_llm_payload tests
+# ---------------------------------------------------------------------------
+
+def test_validate_llm_payload_all_valid():
+    from multiomics_kg.extraction.timepoint.extraction_utils import validate_llm_payload
+
+    requested_map = {
+        "DE_a": ["timepoint", "timepoint_hours", "growth_phase"],
+        "DE_b": ["timepoint", "timepoint_hours", "growth_phase"],
+    }
+    payload = {
+        "analyses": [
+            {
+                "analysis_id": "DE_a",
+                "timepoint": "24h",
+                "timepoint_hours": 24,
+                "growth_phase": "exponential",
+                "self_assessment": "high",
+                "assessment_notes": "clear",
+                "supporting_quotes": ["quote1"],
+                "source_figures": ["Table 1"],
+            },
+            {
+                "analysis_id": "DE_b",
+                "timepoint": "48h",
+                "timepoint_hours": 48,
+                "growth_phase": "stationary",
+                "self_assessment": "medium",
+                "assessment_notes": "ok",
+                "supporting_quotes": [],
+                "source_figures": [],
+            },
+        ]
+    }
+    valid, missing = validate_llm_payload(payload, requested_map)
+    assert len(valid) == 2
+    assert missing == []
+
+
+def test_validate_llm_payload_detects_missing_analysis():
+    from multiomics_kg.extraction.timepoint.extraction_utils import validate_llm_payload
+
+    requested_map = {
+        "DE_a": ["timepoint", "growth_phase"],
+        "DE_b": ["timepoint", "growth_phase"],
+    }
+    payload = {
+        "analyses": [
+            {
+                "analysis_id": "DE_a",
+                "timepoint": "24h",
+                "growth_phase": "exponential",
+                "self_assessment": "high",
+                "assessment_notes": "clear",
+                "supporting_quotes": [],
+                "source_figures": [],
+            },
+        ]
+    }
+    valid, missing = validate_llm_payload(payload, requested_map)
+    assert len(valid) == 1
+    assert {"analysis_id": "DE_b", "reason": "not_returned"} in missing
+
+
+def test_validate_llm_payload_rejects_invalid_growth_phase():
+    from multiomics_kg.extraction.timepoint.extraction_utils import validate_llm_payload
+
+    requested_map = {"DE_a": ["growth_phase"]}
+    payload = {
+        "analyses": [
+            {
+                "analysis_id": "DE_a",
+                "growth_phase": "maybe_stressed",
+                "self_assessment": "high",
+                "assessment_notes": "clear",
+                "supporting_quotes": [],
+                "source_figures": [],
+            },
+        ]
+    }
+    valid, missing = validate_llm_payload(payload, requested_map)
+    assert valid == []
+    assert len(missing) == 1
+    assert missing[0]["analysis_id"] == "DE_a"
+    assert missing[0]["reason"] == "invalid_growth_phase: maybe_stressed"
+
+
+def test_validate_llm_payload_rejects_bad_self_assessment():
+    from multiomics_kg.extraction.timepoint.extraction_utils import validate_llm_payload
+
+    requested_map = {"DE_a": ["timepoint"]}
+    payload = {
+        "analyses": [
+            {
+                "analysis_id": "DE_a",
+                "timepoint": "24h",
+                "self_assessment": "sure",
+                "assessment_notes": "clear",
+                "supporting_quotes": [],
+                "source_figures": [],
+            },
+        ]
+    }
+    valid, missing = validate_llm_payload(payload, requested_map)
+    assert valid == []
+    assert len(missing) == 1
+    assert missing[0]["analysis_id"] == "DE_a"
+    assert "invalid_self_assessment" in missing[0]["reason"]
+
+
+def test_validate_llm_payload_rejects_missing_requested_field():
+    from multiomics_kg.extraction.timepoint.extraction_utils import validate_llm_payload
+
+    requested_map = {"DE_a": ["growth_phase"]}
+    payload = {
+        "analyses": [
+            {
+                "analysis_id": "DE_a",
+                # growth_phase absent
+                "self_assessment": "high",
+                "assessment_notes": "clear",
+                "supporting_quotes": [],
+                "source_figures": [],
+            },
+        ]
+    }
+    valid, missing = validate_llm_payload(payload, requested_map)
+    assert valid == []
+    assert {"analysis_id": "DE_a", "reason": "missing_field: growth_phase"} in missing
+
+
+def test_validate_llm_payload_rejects_timepoint_hours_not_numeric():
+    from multiomics_kg.extraction.timepoint.extraction_utils import validate_llm_payload
+
+    requested_map = {"DE_a": ["timepoint_hours"]}
+    payload = {
+        "analyses": [
+            {
+                "analysis_id": "DE_a",
+                "timepoint_hours": "24h",  # string instead of number
+                "self_assessment": "high",
+                "assessment_notes": "clear",
+                "supporting_quotes": [],
+                "source_figures": [],
+            },
+        ]
+    }
+    valid, missing = validate_llm_payload(payload, requested_map)
+    assert valid == []
+    assert len(missing) == 1
+    assert "timepoint_hours_not_numeric" in missing[0]["reason"]
+
+
+def test_validate_llm_payload_accepts_null_timepoint_hours():
+    from multiomics_kg.extraction.timepoint.extraction_utils import validate_llm_payload
+
+    requested_map = {"DE_a": ["timepoint_hours"]}
+    payload = {
+        "analyses": [
+            {
+                "analysis_id": "DE_a",
+                "timepoint_hours": None,
+                "self_assessment": "high",
+                "assessment_notes": "clear",
+                "supporting_quotes": [],
+                "source_figures": [],
+            },
+        ]
+    }
+    valid, missing = validate_llm_payload(payload, requested_map)
+    assert len(valid) == 1
+    assert missing == []
+
+
+def test_validate_llm_payload_rejects_hallucinated_analysis_id():
+    from multiomics_kg.extraction.timepoint.extraction_utils import validate_llm_payload
+
+    requested_map = {"DE_a": ["timepoint"]}
+    payload = {
+        "analyses": [
+            {
+                "analysis_id": "DE_ghost",
+                "timepoint": "24h",
+                "self_assessment": "high",
+                "assessment_notes": "clear",
+                "supporting_quotes": [],
+                "source_figures": [],
+            },
+        ]
+    }
+    with pytest.raises(ValueError, match="DE_ghost"):
+        validate_llm_payload(payload, requested_map)
