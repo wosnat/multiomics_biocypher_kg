@@ -158,7 +158,7 @@ extraction/timepoint/
    - `papermainpdf` — always included.
    - `extraction.additional_pdfs` from the paperconfig — same convention as the cluster-extraction pipeline (e.g. Coe 2024 supplement). Included when declared.
 
-**LLM output — written to `<paper_dir>/extractions/timepoint.json`:**
+**Extraction artifact — written to `<paper_dir>/extractions/timepoint.json`:**
 
 Per-paper extractions live in a new `extractions/` subdirectory next to the `paperconfig.yaml`. This is a new convention going forward — we anticipate additional extraction types (beyond cluster and timepoint) so each paper gets one home directory for all LLM-derived metadata. Existing `cluster_extractions/` directories stay where they are for now; a future refactor may consolidate them under `extractions/cluster/`.
 
@@ -173,29 +173,71 @@ data/Prochlorococcus/papers_and_supp/Tetu 2019/
 └── ... (supplementary CSVs)
 ```
 
+**What the LLM actually returns** (per analysis — the payload, not the whole JSON file):
+
 ```json
 {
-  "paper": "Tetu 2019",
-  "doi": "10.1038/s42003-019-0410-x",
+  "analysis_id": "DE_hdpe_leachate_vs_control_MIT9312",
+  "timepoint": "120 min",
+  "timepoint_hours": 2.0,
+  "growth_phase": "exponential",
+  "self_assessment": "high",
+  "assessment_notes": "",
+  "supporting_quotes": [
+    {"quote": "RNA was extracted 120 min post-exposure from mid-exponential cultures at OD 0.1", "location": "Methods §2.3"}
+  ],
+  "source_figures": []
+}
+```
+
+The prompt asks for exactly these fields; the LLM does not emit metadata, lookups, or scope echoes.
+
+**Rules the LLM follows for its output fields:**
+
+- Only emit the three data fields (`timepoint`, `timepoint_hours`, `growth_phase`) that are in `fields_requested` for this analysis. Fields not requested must not appear in the response.
+- `self_assessment` ∈ {`high`, `medium`, `low`}.
+- `supporting_quotes` — verbatim from the paper; at least one quote required unless `self_assessment: low` with `assessment_notes` explaining why no direct quote exists.
+- `source_figures` — figure/table numbers used, empty array if purely text-derived.
+- `growth_phase` — either canonical enum value, `unknown`, or `other:<slug>`.
+
+**What `extract.py` wraps around the LLM output (post-call, before writing the JSON):**
+
+- `metadata` block: `paper`, `doi`, `model`, `extracted_at` (ISO timestamp), `input_tokens`, `output_tokens`. Bookkeeping/audit trail, not requested from the LLM.
+- `experiment_key` per analysis: deterministic lookup from the paperconfig by `analysis_id`. Included in the JSON for human readability; no reason to round-trip through the LLM.
+- `fields_requested` per analysis: set by the preprocess. Echoed into the JSON so reviewers see scope at a glance.
+
+**Final on-disk shape:**
+
+```json
+{
+  "metadata": {
+    "paper": "Tetu 2019",
+    "doi": "10.1038/s42003-019-0410-x",
+    "model": "gpt-4.1-mini",
+    "extracted_at": "2026-04-12T14:32:11",
+    "input_tokens": 12450,
+    "output_tokens": 890
+  },
   "analyses": [
     {
       "analysis_id": "DE_hdpe_leachate_vs_control_MIT9312",
       "experiment_key": "plastic_hdpe_plastic_leachate_50_mit9312_rnaseq",
+      "fields_requested": ["timepoint", "timepoint_hours", "growth_phase"],
       "timepoint": "120 min",
       "timepoint_hours": 2.0,
       "growth_phase": "exponential",
-      "confidence": "high",
-      "evidence": "Methods p.3: 'RNA was extracted 120 min post-exposure from mid-exponential cultures at OD ...'",
-      "notes": ""
+      "self_assessment": "high",
+      "assessment_notes": "",
+      "supporting_quotes": [
+        {"quote": "RNA was extracted 120 min post-exposure from mid-exponential cultures at OD 0.1", "location": "Methods §2.3"}
+      ],
+      "source_figures": []
     }
   ]
 }
 ```
 
-`growth_phase` values in the JSON may be:
-- A canonical enum value.
-- `unknown` — no physiological state described.
-- `other:<slug>` — described state doesn't fit the enum (triage target).
+This schema borrows the `metadata`/`supporting_quotes`/`source_figures`/`self_assessment` conventions from the cluster-extraction pipeline (`data/.../zinser 2009/cluster_extractions/med4_diel_clusters.json`) so both extractions share vocabulary for reviewers.
 
 **Review workflow:**
 
