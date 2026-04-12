@@ -135,7 +135,7 @@ New module: `multiomics_kg/extraction/timepoint/`
 extraction/timepoint/
 ├── extract.py              # CLI; reads paperconfig + PDF, emits JSON proposal next to paperconfig
 ├── merge.py                # applies approved JSON → paperconfig.yaml via ruamel.yaml round-trip (verbatim)
-├── remap.py                # rewrites other:<slug> → <slug> across corpus after enum promotion
+├── remap.py                # --from X --to Y: rewrites growth_phase values across corpus (promotion / slug rename / merge)
 ├── extraction_utils.py     # JSON I/O, paperconfig parsing, analysis lookup, safety checks
 └── prompts.py              # SHARED_RULES + per-experiment-type hint templates
 ```
@@ -274,7 +274,7 @@ This schema borrows the `metadata`/`supporting_quotes`/`source_figures`/`self_as
 
 4. **Enum promotion (conditional).** If the report shows `other:*` slugs worth canonicalizing:
    - Add the slug to `VALID_GROWTH_PHASES` in the validator.
-   - `remap.py --promote <slug>` rewrites `other:<slug>` → `<slug>` across all `extractions/timepoint.json` files (paperconfigs have nothing to rewrite yet — they haven't been merged).
+   - `remap.py --from other:<slug> --to <canonical>` rewrites across all `extractions/timepoint.json` files (paperconfigs have nothing to rewrite yet — they haven't been merged). The same command also supports slug-rename (`--to other:<corrected>`) and merging into an existing enum value — see the "Enum iteration plan" section.
    - Appends provenance to `assessment_notes` on remapped analyses.
 
 Steps 3–4 can iterate: a promotion in step 4 may change what's visible in the aggregate report; another review pass may surface more candidates. Loop until the reviewer is satisfied — all without touching paperconfig.
@@ -363,7 +363,7 @@ This keeps re-runs cheap (only the missing subset goes to the LLM) and prevents 
 4. **Per-batch review loop** (follows the Review workflow sections above):
    - **Extract all papers in the batch** (parallel-safe): `extract.py --paper "<name>"` for each, writing one JSON per paper.
    - **Review the batch** against per-paper JSONs + aggregate report. Edit JSONs in place where needed.
-   - **Promote `other:*` slugs as needed**: update `VALID_GROWTH_PHASES`, run `remap.py --promote <slug>` (rewrites JSONs only — paperconfigs untouched). Re-review if promotions change the picture; iterate until settled.
+   - **Promote / rename / merge `other:*` slugs as needed**: update `VALID_GROWTH_PHASES` when promoting, then `remap.py --from <X> --to <Y>` (rewrites JSONs only — paperconfigs untouched). Re-review if promotions change the picture; iterate until settled.
    - **Merge once**: `merge.py` writes to paperconfigs in a single pass. Canonical values land directly (no `other:*` writes that would need rewriting).
    - **Run validator** against updated paperconfigs.
    - **One commit** per batch: paperconfigs + JSONs + validator/enum changes together.
@@ -470,17 +470,28 @@ The `VALID_GROWTH_PHASES` enum is an initial set (11 values including `unknown`)
    - `VALID_GROWTH_PHASES` in the validator.
    - Enum table in this spec (mark added values with the batch number that prompted them).
    - `.claude/skills/paperconfig/SKILL.md` growth-phase section.
-5. **Remap via `remap.py`** — no LLM re-run. Invocation:
+5. **Remap via `remap.py`** — no LLM re-run. Invocation uses an explicit `--from`/`--to` pair:
 
    ```bash
-   uv run python -m multiomics_kg.extraction.timepoint.remap --promote heat_acclimated
+   # Promotion (other:<slug> → canonical):
+   uv run python -m multiomics_kg.extraction.timepoint.remap \
+     --from other:heat_acclimated --to heat_acclimated
+
+   # Slug rename before promotion (fix LLM inconsistency):
+   uv run python -m multiomics_kg.extraction.timepoint.remap \
+     --from other:heat_acclim --to other:heat_acclimated
+
+   # Merge a slug into an existing canonical value:
+   uv run python -m multiomics_kg.extraction.timepoint.remap \
+     --from other:heat_shocked --to acute_stress
    ```
 
-   What it does:
-   - Walks every paperconfig.yaml: replaces `growth_phase: other:heat_acclimated` → `growth_phase: heat_acclimated` (ruamel.yaml round-trip).
+   What it does (for any `--from X --to Y` pair):
+   - Walks every paperconfig.yaml: replaces `growth_phase: X` → `growth_phase: Y` (ruamel.yaml round-trip).
    - Walks every `extractions/timepoint.json`: same replacement.
-   - Appends a provenance line to `assessment_notes` on remapped analyses: `"Remapped from other:heat_acclimated → heat_acclimated on <date> (enum promotion)"`.
-   - Refuses to run unless `heat_acclimated` is already in `VALID_GROWTH_PHASES` — prevents accidental remap to a slug that isn't canonical yet.
+   - Appends a provenance line to `assessment_notes` on remapped analyses: `"Remapped from <X> → <Y> on <date>"`.
+   - Validates that `--to` is acceptable (`is_valid_growth_phase`): a value in `VALID_GROWTH_PHASES` or a well-formed `other:<slug>`. Refuses to run if not.
+   - `--dry-run` flag lists the affected paperconfigs and JSONs without writing.
 
 6. **Run the validator** on the corpus. The updated enum now rejects `other:heat_acclimated` (since it's canonical) and accepts `heat_acclimated`. A clean pass confirms the remap was complete.
 
