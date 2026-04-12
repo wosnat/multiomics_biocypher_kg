@@ -173,24 +173,34 @@ data/Prochlorococcus/papers_and_supp/Tetu 2019/
 └── ... (supplementary CSVs)
 ```
 
-**What the LLM actually returns** (per analysis — the payload, not the whole JSON file):
+**What the LLM actually returns** — a single JSON object with an `analyses` list (not JSONL, not a bare array):
 
 ```json
 {
-  "analysis_id": "DE_hdpe_leachate_vs_control_MIT9312",
-  "timepoint": "120 min",
-  "timepoint_hours": 2.0,
-  "growth_phase": "exponential",
-  "self_assessment": "high",
-  "assessment_notes": "",
-  "supporting_quotes": [
-    {"quote": "RNA was extracted 120 min post-exposure from mid-exponential cultures at OD 0.1", "location": "Methods §2.3"}
-  ],
-  "source_figures": []
+  "analyses": [
+    {
+      "analysis_id": "DE_hdpe_leachate_vs_control_MIT9312",
+      "timepoint": "120 min",
+      "timepoint_hours": 2.0,
+      "growth_phase": "exponential",
+      "self_assessment": "high",
+      "assessment_notes": "",
+      "supporting_quotes": [
+        {"quote": "RNA was extracted 120 min post-exposure from mid-exponential cultures at OD 0.1", "location": "Methods §2.3"}
+      ],
+      "source_figures": []
+    },
+    { "analysis_id": "DE_pvc_leachate_vs_control_MIT9312", "...": "..." }
+  ]
 }
 ```
 
-The prompt asks for exactly these fields; the LLM does not emit metadata, lookups, or scope echoes.
+Why single-object-with-list:
+- OpenAI's `response_format: json_object` and Anthropic tool-use both expect a top-level JSON object.
+- Matches the cluster-extraction pattern (one parseable object per call).
+- One `json.loads()` yields the full response; no line-splitting edge cases.
+
+The prompt asks for exactly the fields shown above; the LLM does not emit `metadata`, `experiment_key`, or `fields_requested` — those are added by `extract.py`.
 
 **Rules the LLM follows for its output fields:**
 
