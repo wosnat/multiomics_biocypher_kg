@@ -143,7 +143,7 @@ def build_prompt(
                 sections.append(f"**{k.title()}:** {v}")
 
     sections.append("\n### Experiments block")
-    sections.append("```yaml")
+    sections.append("```json")
     sections.append(json.dumps(background.get("experiments", {}), indent=2, default=str))
     sections.append("```")
 
