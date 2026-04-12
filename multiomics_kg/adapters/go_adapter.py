@@ -1,4 +1,6 @@
 from contextlib import ExitStack
+from pathlib import Path
+
 from bioregistry import normalize_curie
 
 import collections
@@ -19,6 +21,8 @@ from tqdm import tqdm
 from biocypher._logger import logger
 
 from enum import Enum, EnumMeta, auto
+
+from multiomics_kg.utils.go_utils import compute_go_levels, load_go_data
 
 logger.debug(f"Loading module {__name__}.")
 
@@ -821,6 +825,17 @@ class GO:
         self.create_aspect_to_node_label_dict()
 
         counter = 0
+        # Compute hierarchy levels once, up-front. We load the compact cache
+        # separately from pypath's GeneOntology — it's cheap (~5 MB JSON) and
+        # keeps the level computation self-contained.
+        go_data = load_go_data(Path("cache/data"))
+        go_levels, go_orphans = compute_go_levels(go_data)
+        if go_orphans:
+            logger.warning(
+                f"GO.get_go_nodes: {len(go_orphans)} orphan terms "
+                f"(not reachable from canonical roots via is_a/part_of): "
+                f"{go_orphans[:10]}{'...' if len(go_orphans) > 10 else ''}"
+            )
         for go_term in tqdm(
             self.go_ontology.name.keys()
         ):  # keys in self.go_ontology.name is current go ids in the ontology
@@ -843,7 +858,13 @@ class GO:
                 
                 if GONodeField.ANC2VEC_EMBBEDDING.value in self.go_node_fields and self.go_term_to_anc2vec_embedding.get(go_term) is not None:
                     node_props[GONodeField.ANC2VEC_EMBBEDDING.value] = [str(emb) for emb in self.go_term_to_anc2vec_embedding[go_term]]
-                    
+
+                # Unified hierarchy depth (spec: docs/superpowers/specs/2026-04-12-ontology-level-design.md)
+                if go_term in go_levels:
+                    depth, is_best_effort = go_levels[go_term]
+                    node_props["level"] = depth
+                    if is_best_effort:
+                        node_props["level_is_best_effort"] = "true"
 
                 node_list.append((go_id, label, node_props))
 
