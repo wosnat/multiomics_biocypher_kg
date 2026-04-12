@@ -769,6 +769,22 @@ def _tigr_role_node_id(code: str) -> str:
     return f"tigr.role:{code}"
 
 
+def _role_depth(code: str, role_tree: dict[str, dict]) -> int:
+    """
+    Compute hierarchy depth for a CyanorakRole code by walking ``parent`` pointers.
+
+    Roots (no parent) → 0. Secondary roles → 1. Sub-roles → 2.
+    """
+    depth = 0
+    cur = code
+    while True:
+        entry = role_tree.get(cur)
+        if entry is None or entry.get("parent") is None:
+            return depth
+        cur = entry["parent"]
+        depth += 1
+
+
 class CogRoleAnnotationAdapter:
     """
     Per-strain adapter: reads gene_annotations_merged.json and yields
@@ -955,7 +971,7 @@ class MultiCogRoleAnnotationAdapter:
             yield (
                 _cog_cat_node_id(letter),
                 "cog functional category",
-                {"code": letter, "name": _clean_str(name)},
+                {"code": letter, "name": _clean_str(name), "level": 0},
             )
             cog_count += 1
         logger.info(f"MultiCogRoleAnnotationAdapter.get_nodes: {cog_count} COG category nodes")
@@ -966,7 +982,11 @@ class MultiCogRoleAnnotationAdapter:
             yield (
                 _cyanorak_role_node_id(code),
                 "cyanorak role",
-                {"code": code, "name": _clean_str(full_role_description(code, self.role_tree))},
+                {
+                    "code": code,
+                    "name": _clean_str(full_role_description(code, self.role_tree)),
+                    "level": _role_depth(code, self.role_tree),
+                },
             )
             cyr_count += 1
         logger.info(f"MultiCogRoleAnnotationAdapter.get_nodes: {cyr_count} CyanorakRole nodes")
@@ -978,7 +998,7 @@ class MultiCogRoleAnnotationAdapter:
             yield (
                 _tigr_role_node_id(code),
                 "tigr role",
-                {"code": code, "name": _clean_str(desc)},
+                {"code": code, "name": _clean_str(desc), "level": 0},
             )
             tigr_count += 1
         logger.info(f"MultiCogRoleAnnotationAdapter.get_nodes: {tigr_count} TigrRole nodes")
