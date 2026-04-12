@@ -28,6 +28,7 @@ from ruamel.yaml import YAML
 from multiomics_kg.extraction.timepoint.extraction_utils import (
     EXTRACTION_FILENAME,
     EXTRACTIONS_DIR,
+    _VALID_GROWTH_PHASES,
     iter_paperconfigs,
 )
 
@@ -62,6 +63,14 @@ def remap_value(
             to_value,
         )
         sys.exit(1)
+
+    if not to_value.startswith("other:") and to_value not in _VALID_GROWTH_PHASES:
+        logger.warning(
+            "--to value %r is not in VALID_GROWTH_PHASES. Merge will reject it "
+            "until you add it to validate_paperconfig.py. Proceeding on the "
+            "assumption that you are about to add it.",
+            to_value,
+        )
 
     yaml = YAML()
     yaml.preserve_quotes = True
