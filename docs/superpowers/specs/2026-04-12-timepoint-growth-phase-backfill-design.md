@@ -37,7 +37,6 @@ This blocks biologically meaningful queries like "all acute (<6 h) nutrient-stre
 | `timepoint` | str | yes | Human-readable label, e.g. `"120 min"`, `"48h"`, `"acclimated"`, `"unknown"` |
 | `timepoint_hours` | number \| null | yes | Numeric conversion in hours; `null` only when paper truly doesn't report |
 | `growth_phase` | enum str | yes | One of the canonical values below |
-| `growth_phase_description` | str | no | Free-text nuance (e.g. "mid-exponential at OD ~0.1 when leachate added") |
 
 **Canonical `growth_phase` enum** (extendable):
 
@@ -88,7 +87,6 @@ New checks on every `statistical_analyses[]` entry:
 - `timepoint` required — warn if missing; `"unknown"` accepted.
 - `timepoint_hours` required — warn if `null`; allowed when paper truly doesn't report.
 - `growth_phase` required — **error** if missing; **error** if not in `VALID_GROWTH_PHASES`.
-- `growth_phase_description` optional — no validation.
 
 New constant:
 
@@ -133,7 +131,6 @@ extraction/timepoint/
       "timepoint": "120 min",
       "timepoint_hours": 2.0,
       "growth_phase": "exponential",
-      "growth_phase_description": "mid-exponential cells harvested 120 min after HDPE leachate addition",
       "confidence": "high",
       "evidence": "Methods p.3: 'RNA was extracted 120 min post-exposure from mid-exponential cultures at OD ...'",
       "notes": ""
@@ -142,7 +139,7 @@ extraction/timepoint/
 }
 ```
 
-**Output to disk:** `extract.py` walks the paperconfig with `ruamel.yaml` (preserves comments and ordering) and writes the four fields directly into each `statistical_analyses[]` entry by `id`. A summary report `data/timepoint_extraction_report.md` lists confidence breakdown, flagged-for-review items, and per-paper diff stats.
+**Output to disk:** `extract.py` walks the paperconfig with `ruamel.yaml` (preserves comments and ordering) and writes the three fields (`timepoint`, `timepoint_hours`, `growth_phase`) directly into each `statistical_analyses[]` entry by `id`. A summary report `data/timepoint_extraction_report.md` lists confidence breakdown, flagged-for-review items (including `unknown`-phase cases and low-confidence extractions), evidence quotes, and per-paper diff stats.
 
 **Matching key:** `analysis_id` alone is sufficient. The paperconfig validator already guarantees analysis IDs are unique within a paperconfig. `extract.py` walks `publication.supplementary_materials.<table>.statistical_analyses[]` looking for matches by `id`.
 
@@ -217,6 +214,37 @@ Git diff on each paperconfig. No sidecar JSON.
                               │     growth_phases[]  │
                               └──────────────────────┘
 ```
+
+## Enum iteration plan
+
+The `VALID_GROWTH_PHASES` enum is an initial minimal set. We expect to refine it as extraction surfaces cases that don't fit cleanly. Vocabulary refinement is a planned first-class part of the rollout, not a one-off.
+
+**Iteration loop:**
+
+1. **Extract a batch** (organism-grouped, per rollout section).
+2. **Review `data/timepoint_extraction_report.md`** for:
+   - High rate of `unknown` → candidates for new enum values (the papers likely share a phase category we don't yet have a name for).
+   - LLM evidence quotes where `growth_phase` was forced into an ill-fitting bucket (e.g., "late-stationary" shoehorned into `stationary`, "recovery from starvation" shoehorned into `exponential`).
+   - Low-confidence extractions clustered on particular phase terms.
+3. **Propose enum extensions.** Before adding a value, sanity-check it:
+   - Is it biologically meaningful (does it imply different transcriptional state)?
+   - Does it apply to ≥2 papers? (Single-paper edge cases may stay `unknown` + `evidence` quote.)
+   - Does it overlap with an existing value? If yes, split or merge consciously.
+4. **Update the enum** in one place:
+   - `VALID_GROWTH_PHASES` in the validator.
+   - Enum table in this spec (mark added values with the batch number that prompted them).
+   - `.claude/skills/paperconfig/SKILL.md` growth-phase section.
+5. **Re-extract affected papers** (only those flagged `unknown` or with low confidence in the affected category). Don't re-run the entire corpus.
+6. **Commit the enum change** alongside the re-extraction diffs, with a note linking back to the evidence that motivated the new value.
+
+**Candidate values anticipated but not yet added** (add only if data demands):
+
+- `early_exponential` / `late_exponential` — split `exponential` if papers routinely distinguish them and it matters for our queries.
+- `recovery` — cells recovering after stress relief (rescue experiments, e.g., Weissberg-style P re-addition).
+- `infected` — for phage/viral papers where the host physiology is distinct from both exponential growth and stationary-phase arrest.
+- `diel_dark` / `diel_light` — if diel papers consistently distinguish dark-phase from light-phase sampling.
+
+**Freeze the enum when:** two consecutive batches complete without any new candidate emerging. Document the final enum in CLAUDE.md and MEMORY.md.
 
 ## Open questions (none blocking)
 
