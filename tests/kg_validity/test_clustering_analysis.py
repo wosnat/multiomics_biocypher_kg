@@ -56,9 +56,7 @@ def test_clustering_analysis_required_properties(run_query, prop):
 def test_clustering_analysis_cluster_type_values(run_query):
     """cluster_type must be from the valid enum."""
     valid_types = {
-        "response_pattern", "diel_cycling", "diel_expression_pattern",
-        "expression_pattern", "expression_level", "expression_classification",
-        "periodicity_classification",
+        "time_course", "diel", "condition_comparison", "classification",
     }
     result = run_query(
         "MATCH (ca:ClusteringAnalysis) RETURN DISTINCT ca.cluster_type AS ct"
@@ -102,7 +100,7 @@ def test_publication_has_clustering_analysis_edges(run_query):
         "MATCH (:Publication)-[r:PublicationHasClusteringAnalysis]->(:ClusteringAnalysis) "
         "RETURN count(r) AS cnt"
     )
-    assert result[0]["cnt"] >= 8, "Expected at least 8 Publication → ClusteringAnalysis edges"
+    assert result[0]["cnt"] >= 15, "Expected at least 15 Publication → ClusteringAnalysis edges"
 
 
 def test_clustering_analysis_has_gene_cluster_edges(run_query):
@@ -120,7 +118,16 @@ def test_clustering_analysis_belongs_to_organism_edges(run_query):
         "MATCH (:ClusteringAnalysis)-[r:ClusteringanalysisBelongsToOrganism]->(:OrganismTaxon) "
         "RETURN count(r) AS cnt"
     )
-    assert result[0]["cnt"] >= 8, "Expected at least 8 ClusteringAnalysis → OrganismTaxon edges"
+    assert result[0]["cnt"] >= 15, "Expected at least 15 ClusteringAnalysis → OrganismTaxon edges"
+
+
+def test_experiment_has_clustering_analysis_edges(run_query):
+    """Experiment → ClusteringAnalysis edges must exist for linked experiments."""
+    result = run_query(
+        "MATCH (:Experiment)-[r:ExperimentHasClusteringAnalysis]->(:ClusteringAnalysis) "
+        "RETURN count(r) AS cnt"
+    )
+    assert result[0]["cnt"] >= 10, "Expected at least 10 Experiment → ClusteringAnalysis edges"
 
 
 def test_gene_in_gene_cluster_edges(run_query):
@@ -299,3 +306,59 @@ def test_tolonen_med4_cluster6_largest(run_query):
     """)
     assert len(result) == 1
     assert result[0]["gc.member_count"] == 124
+
+
+# ---------------------------------------------------------------------------
+# Extraction-derived properties on GeneCluster
+# ---------------------------------------------------------------------------
+
+def test_some_clusters_have_functional_description(run_query):
+    """Some GeneCluster nodes should have extraction-derived functional_description."""
+    result = run_query("""
+        MATCH (gc:GeneCluster)
+        WHERE gc.functional_description IS NOT NULL AND gc.functional_description <> 'N/A'
+        RETURN count(gc) AS cnt
+    """)
+    assert result[0]["cnt"] >= 30, "Expected at least 30 clusters with functional_description"
+
+
+def test_some_clusters_have_temporal_pattern(run_query):
+    """Some GeneCluster nodes should have extraction-derived temporal_pattern."""
+    result = run_query("""
+        MATCH (gc:GeneCluster)
+        WHERE gc.temporal_pattern IS NOT NULL AND gc.temporal_pattern <> 'N/A'
+        RETURN count(gc) AS cnt
+    """)
+    assert result[0]["cnt"] >= 30, "Expected at least 30 clusters with temporal_pattern"
+
+
+def test_some_clusters_have_expression_dynamics(run_query):
+    """Some GeneCluster nodes should have extraction-derived expression_dynamics."""
+    result = run_query("""
+        MATCH (gc:GeneCluster)
+        WHERE gc.expression_dynamics IS NOT NULL AND gc.expression_dynamics <> 'N/A'
+        RETURN count(gc) AS cnt
+    """)
+    assert result[0]["cnt"] >= 30, "Expected at least 30 clusters with expression_dynamics"
+
+
+# ---------------------------------------------------------------------------
+# Gene routing signals for clusters (post-import computed)
+# ---------------------------------------------------------------------------
+
+def test_gene_cluster_membership_count(run_query):
+    """Genes in clusters should have cluster_membership_count > 0."""
+    result = run_query("""
+        MATCH (g:Gene) WHERE g.cluster_membership_count > 0
+        RETURN count(g) AS cnt
+    """)
+    assert result[0]["cnt"] >= 5000, "Expected at least 5000 genes with cluster_membership_count > 0"
+
+
+def test_gene_cluster_types_populated(run_query):
+    """Genes in clusters should have cluster_types routing signal."""
+    result = run_query("""
+        MATCH (g:Gene) WHERE g.cluster_types IS NOT NULL AND size(g.cluster_types) > 0
+        RETURN count(g) AS cnt
+    """)
+    assert result[0]["cnt"] >= 5000, "Expected at least 5000 genes with cluster_types populated"
