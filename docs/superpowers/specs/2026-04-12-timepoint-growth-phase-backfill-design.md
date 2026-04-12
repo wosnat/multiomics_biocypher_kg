@@ -51,6 +51,7 @@ This blocks biologically meaningful queries like "all acute (<6 h) nutrient-stre
 | `diel` | Cells on a normal light-dark cycle; implies periodic physiology. Use when the paper's sampling is tied to the diel cycle rather than a single snapshot. Not split into dark/light sub-phases. |
 | `darkness` | Cells in **extended/prolonged darkness** — distinct from the dark half of a diel cycle. Used in extended-darkness survival experiments. |
 | `death` | Late decline / cell-death phase after stationary. Used for long time-courses that sample past viable-cell peak. |
+| `acute_stress` | Cells still morphologically exponential (dividing) but transcriptionally in shock response — short-exposure oxidative / osmotic / heat / chemical stress. Narrow scope: **do not** use when a more specific phase (`nutrient_limited`, `infected`, `darkness`) fits. |
 | `unknown` | Paper truly does not state the phase at sampling. |
 
 **Escape hatch for novelty:** If the paper clearly describes a phase that doesn't map to any canonical value, the LLM outputs `other:<short_slug>` (e.g., `other:heat_acclimated`, `other:late_decline`). The validator accepts the `other:` prefix; the extraction report aggregates all `other:*` values across the corpus so recurring ones can be promoted into the enum.
@@ -113,6 +114,7 @@ VALID_GROWTH_PHASES = {
     "diel",
     "darkness",
     "death",
+    "acute_stress",
     "unknown",
 }
 
@@ -213,7 +215,7 @@ data/Prochlorococcus/papers_and_supp/Tetu 2019/
   - Nutrient starvation (`treatment_type: [nitrogen|phosphorus|iron]`) → `exponential` at early timepoints, `nutrient_limited` once depletion is confirmed, `death` if sampling extends past viable-cell peak.
   - Phage / viral infection → `exponential` at t=0 (pre-infection), `infected` post-infection timepoints.
   - Rescue / re-addition experiments → `recovery` for post-intervention timepoints.
-  - Short-exposure stress (≤6 h) → default `exponential`.
+  - Short-exposure stress (≤6 h) at still-dividing cells → `acute_stress` (only when no more-specific phase fits; `nutrient_limited`, `infected`, `darkness` take precedence if applicable).
 
 ### 5. Rollout
 
@@ -316,7 +318,7 @@ The `VALID_GROWTH_PHASES` enum is an initial set (7 values including `unknown`).
 5. **Remap paperconfigs in place** — no LLM re-run. A small `remap.py` script (or manual edit) replaces `other:<promoted_slug>` with `<promoted_slug>` across all paperconfigs + their extraction JSONs. Evidence quotes stay intact; the reviewer doesn't need to re-read methods.
 6. **Commit the enum change** alongside the remap diffs. The promoted slug's first appearance (batch number, paper, evidence quote) is noted in the spec's enum table.
 
-**Initial enum covers the predictable cases** (`exponential`, `stationary`, `nutrient_limited`, `acclimated_steady_state`, `infected`, `recovery`, `diel`, `darkness`, `death`). Not pre-added, to be surfaced via `other:*` only if the data demands them:
+**Initial enum covers the predictable cases** (`exponential`, `stationary`, `nutrient_limited`, `acclimated_steady_state`, `infected`, `recovery`, `diel`, `darkness`, `death`, `acute_stress`). Not pre-added, to be surfaced via `other:*` only if the data demands them:
 
 - Splitting `exponential` into `early_exponential` / `late_exponential` — not worth the granularity unless queries actually need it.
 - Splitting `diel` into `diel_light` / `diel_dark` — not worth it for our use case; `diel` stays unified.
