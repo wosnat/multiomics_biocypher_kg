@@ -153,9 +153,12 @@ extraction/timepoint/
 
 2. **Extraction targets** (structured list, per analysis):
    - `id`, `experiment_key`.
+   - `logfc_col` — the fold-change column name from the source CSV. **Often contains the timepoint verbatim** (e.g. `"24 hours"`, `"Axenic, 36 hours"`, `"log2FC_48h_vs_T0"`). The strongest direct signal for `timepoint`/`timepoint_hours` after the paper methods themselves; also helps the LLM detect mismatches between the CSV labeling and the methods prose.
    - Existing values for `timepoint`, `timepoint_hours`, `growth_phase` (null/absent when not set).
    - `fields_requested: [...]` — the subset of the three fields that need extraction for this analysis (derived from the preprocess; field-level, not row-level).
    - Analyses where all three fields are already set are **omitted entirely** from the prompt (unless `--validate`).
+
+   *Skipped as not informative for this task:* `name_col` (just the gene-ID column), `adjusted_p_value_col`, `pvalue_threshold`, `prefiltered`.
 
 3. **PDFs** (multimodal attachments):
    - `papermainpdf` — always included.
@@ -315,6 +318,7 @@ This keeps re-runs cheap (only the missing subset goes to the LLM) and prevents 
 **Prompt design** (key rules):
 - `SHARED_RULES`: enum values; "unknown is always better than wrong" (carries forward the no-guessing memory from the cluster-extraction project); must quote evidence from the methods section; `self_assessment` band (`high`/`medium`/`low`) required; low self-assessment → `growth_phase: unknown`.
 - **Escape hatch rule:** If the paper describes a state not in the enum, emit `other:<slug>` rather than forcing a bad fit. `other:*` is preferred over `unknown` whenever the paper gives *any* positional information. Slugs are short snake_case (e.g., `other:heat_acclimated`, `other:late_decline`).
+- **Cross-check `logfc_col` against methods.** The column name often contains the timepoint verbatim (e.g. `"24 hours"`, `"Axenic, 36 hours"`). If it agrees with paper methods, cite both in `supporting_quotes`. If they disagree, prefer paper methods but flag the discrepancy in `assessment_notes` and lower `self_assessment` accordingly.
 - Per-experiment-type hints via branching on `omics_type` + `treatment_type`:
   - Diel studies (`treatment_type: [diel]`) → `diel` for cycling-phase samples.
   - Extended darkness (`treatment_type: [darkness]`, prolonged dark exposure) → `darkness`. Do not confuse with the dark half of a normal diel cycle (which stays `diel`).
