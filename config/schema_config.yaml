@@ -62,6 +62,7 @@ experiment:
     time_point_totals: int[]
     time_point_significant_up: int[]
     time_point_significant_down: int[]
+    growth_phases: str[]
 
 # GeneCluster node: groups co-expressed genes from a clustering analysis within a publication
 gene cluster:
@@ -172,6 +173,7 @@ experiment to gene expression association:
     time_point: str
     time_point_order: int
     time_point_hours: float
+    growth_phase: str
     log2_fold_change: float
     adjusted_p_value: float
     expression_direction: str
