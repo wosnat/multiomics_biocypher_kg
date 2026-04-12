@@ -46,7 +46,16 @@ This blocks biologically meaningful queries like "all acute (<6 h) nutrient-stre
 | `stationary` | Nutrient-replete stationary phase. Rare in these papers. |
 | `nutrient_limited` | Cells arrested due to N/P/Fe/C limitation. Distinct from classic stationary. |
 | `acclimated_steady_state` | Grown ≥5–10 generations under the treatment condition (common in pCO2 / temperature / light-intensity acclimation studies). |
-| `unknown` | Paper does not state the phase at sampling. |
+| `infected` | Host cells after viral/phage infection; distinct physiology from exponential or stationary. |
+| `recovery` | Cells recovering after stress relief (e.g., nutrient re-addition, light restoration post-darkness). |
+| `unknown` | Paper truly does not state the phase at sampling. |
+
+**Escape hatch for novelty:** If the paper clearly describes a phase that doesn't map to any canonical value, the LLM outputs `other:<short_slug>` (e.g., `other:heat_acclimated`, `other:late_decline`). The validator accepts the `other:` prefix; the extraction report aggregates all `other:*` values across the corpus so recurring ones can be promoted into the enum.
+
+**`unknown` vs `other:*`:** A hard semantic distinction.
+
+- `unknown` → the paper gives no information about physiological state at sampling. Nothing to promote.
+- `other:<slug>` → the paper *does* describe a state, but it doesn't fit the current enum. These are candidates for enum extension.
 
 **Rationale for per-analysis placement:** `growth_phase` genuinely varies across timepoints of a single experiment. In Weissberg 2025 N-starvation, cells are `exponential` at t=4h and `nutrient_limited` at t=24h and beyond. Placing `growth_phase` on the analysis row (alongside `timepoint_hours`) allows this variation; per-experiment placement would not.
 
@@ -96,8 +105,16 @@ VALID_GROWTH_PHASES = {
     "stationary",
     "nutrient_limited",
     "acclimated_steady_state",
+    "infected",
+    "recovery",
     "unknown",
 }
+
+# Accepts either a canonical enum value or an `other:<slug>` escape value
+def is_valid_growth_phase(value: str) -> bool:
+    return value in VALID_GROWTH_PHASES or (
+        value.startswith("other:") and len(value) > len("other:")
+    )
 ```
 
 Sanity warning on experiments: `is_time_course=true` but only one analysis references it (or vice versa — 2+ analyses but `is_time_course=false`).
@@ -108,17 +125,32 @@ New module: `multiomics_kg/extraction/timepoint/`
 
 ```
 extraction/timepoint/
-├── extract.py              # CLI; reads paperconfig + PDF, writes proposed fields into paperconfig.yaml
-├── extraction_utils.py     # ruamel.yaml round-trip, analysis lookup, safety checks
-├── prompts.py              # SHARED_RULES + per-experiment-type hint templates
-└── (no merge.py — extract writes direct to paperconfig; git diff is the review UI)
+├── extract.py              # CLI; reads paperconfig + PDF, emits JSON proposal next to paperconfig
+├── merge.py                # applies approved JSON → paperconfig.yaml via ruamel.yaml round-trip
+├── extraction_utils.py     # JSON I/O, paperconfig parsing, analysis lookup, safety checks
+└── prompts.py              # SHARED_RULES + per-experiment-type hint templates
 ```
+
+**Why the intermediate JSON (reversing the earlier decision):** The extraction produces more than just the three paperconfig fields — it also captures evidence quotes, confidence bands, and `other:*` escape values for enum-evolution triage. Committing the JSON gives a durable audit trail tied to each paperconfig's history; the review loop inspects the JSON (not just a git diff on the yaml) so reviewers see the evidence without re-reading PDFs.
 
 **Input to the LLM per paper:**
 - `papermainpdf` + any `additional_pdfs`.
 - A rendered snapshot of the paperconfig's `experiments` block and list of `(analysis_id, experiment_key, existing_timepoint_fields)` — so the LLM sees what analyses exist and their scientific context.
 
-**LLM output** (internal; not persisted to disk):
+**LLM output — written to `<paper_dir>/extractions/timepoint.json`:**
+
+Per-paper extractions live in a new `extractions/` subdirectory next to the `paperconfig.yaml`. This is a new convention going forward — we anticipate additional extraction types (beyond cluster and timepoint) so each paper gets one home directory for all LLM-derived metadata. Existing `cluster_extractions/` directories stay where they are for now; a future refactor may consolidate them under `extractions/cluster/`.
+
+Example layout:
+
+```
+data/Prochlorococcus/papers_and_supp/Tetu 2019/
+├── paperconfig.yaml
+├── s42003-019-0410-x.pdf
+├── extractions/
+│   └── timepoint.json      ← new
+└── ... (supplementary CSVs)
+```
 
 ```json
 {
@@ -139,22 +171,41 @@ extraction/timepoint/
 }
 ```
 
-**Output to disk:** `extract.py` walks the paperconfig with `ruamel.yaml` (preserves comments and ordering) and writes the three fields (`timepoint`, `timepoint_hours`, `growth_phase`) directly into each `statistical_analyses[]` entry by `id`. A summary report `data/timepoint_extraction_report.md` lists confidence breakdown, flagged-for-review items (including `unknown`-phase cases and low-confidence extractions), evidence quotes, and per-paper diff stats.
+`growth_phase` values in the JSON may be:
+- A canonical enum value.
+- `unknown` — no physiological state described.
+- `other:<slug>` — described state doesn't fit the enum (triage target).
 
-**Matching key:** `analysis_id` alone is sufficient. The paperconfig validator already guarantees analysis IDs are unique within a paperconfig. `extract.py` walks `publication.supplementary_materials.<table>.statistical_analyses[]` looking for matches by `id`.
+**Review workflow:**
 
-**Safety checks in `extract.py`:**
+1. Run `uv run python -m multiomics_kg.extraction.timepoint.extract --paper "Tetu 2019"` (or `--all`).
+2. Extraction writes `data/.../Tetu 2019/extractions/timepoint.json` (creates the `extractions/` subdir if needed).
+3. Aggregate report `data/timepoint_extraction_report.md` updates with: confidence breakdown, `unknown` list, sorted `other:*` frequencies, evidence quotes for each flagged item.
+4. Reviewer inspects JSON per paper (edit in place if extraction got it wrong) — evidence quotes are right there, no need to re-read PDFs.
+5. Reviewer runs `uv run python -m multiomics_kg.extraction.timepoint.merge --paper "Tetu 2019"` → `merge.py` writes the three paperconfig fields (`timepoint`, `timepoint_hours`, `growth_phase`) into `paperconfig.yaml` via `ruamel.yaml` round-trip (preserves comments and ordering).
+6. Validator runs against updated paperconfig; reviewer commits both the JSON and the paperconfig diff.
+
+**Matching key:** `analysis_id` alone is sufficient. The paperconfig validator already guarantees analysis IDs are unique within a paperconfig. `merge.py` walks `publication.supplementary_materials.<table>.statistical_analyses[]` looking for matches by `id`.
+
+**Safety checks:**
+
+*In `extract.py`:*
 1. Fail if an LLM-proposed `analysis_id` does not exist in the paperconfig (hallucinated ID).
 2. Fail if any paperconfig analysis has no proposal (LLM missed a row).
-3. Warn (do not overwrite) if an analysis already has `growth_phase` set and the new value differs — re-runs never silently clobber human edits.
+
+*In `merge.py`:*
+3. Warn (do not overwrite) if an analysis already has `growth_phase` set and the JSON value differs — re-runs never silently clobber human edits. Reviewer must pass `--force` to overwrite.
+4. Reject any `growth_phase` value that's neither a canonical enum value nor an `other:<slug>` — catches malformed JSON before it enters the paperconfig.
 
 **Prompt design** (key rules):
 - `SHARED_RULES`: enum values; "unknown is always better than wrong" (carries forward the no-guessing memory from the cluster-extraction project); must quote evidence from the methods section; confidence band (`high`/`medium`/`low`) required; low-confidence → `growth_phase: unknown`.
+- **Escape hatch rule:** If the paper describes a state not in the enum, emit `other:<slug>` rather than forcing a bad fit. `other:*` is preferred over `unknown` whenever the paper gives *any* positional information. Slugs are short snake_case (e.g., `other:heat_acclimated`, `other:late_decline`).
 - Per-experiment-type hints via branching on `omics_type` + `treatment_type`:
   - Diel → default `growth_phase: exponential` unless methods explicitly say otherwise.
   - Acclimation / chronic exposure (`treatment_type: [carbon]` with ≥5 generations language) → `acclimated_steady_state`.
   - Nutrient starvation (`treatment_type: [nitrogen|phosphorus|iron]`) → `exponential` at early timepoints, `nutrient_limited` once depletion is confirmed.
-  - Phage / viral infection → `exponential` host at infection.
+  - Phage / viral infection → `exponential` at t=0 (pre-infection), `infected` post-infection timepoints.
+  - Rescue / re-addition experiments → `recovery` for post-intervention timepoints.
   - Short-exposure stress (≤6 h) → default `exponential`.
 
 ### 5. Rollout
@@ -180,7 +231,11 @@ extraction/timepoint/
 
 ## Review UI
 
-Git diff on each paperconfig. No sidecar JSON.
+Two-surface review:
+1. **`extractions/timepoint.json`** — the primary review artifact. Contains evidence quotes, confidence, and the proposed fields. Reviewer edits in place if extraction got something wrong, then runs `merge.py`.
+2. **`paperconfig.yaml` git diff** — confirmation that only the three intended fields (`timepoint`, `timepoint_hours`, `growth_phase`) changed, with expected values.
+
+Both artifacts are committed together per paper.
 
 ## Data flow diagram
 
@@ -191,14 +246,31 @@ Git diff on each paperconfig. No sidecar JSON.
 │  analyses)         │        │  • render LLM prompt │
 │                    │        │  • call LLM          │
 │ paper PDF(s)       │───────▶│  • validate IDs      │
-└────────────────────┘        │  • ruamel write-back │
+└────────────────────┘        │  • write JSON        │
+                              └──────────┬───────────┘
+                                         │
+                                         ▼
+                              ┌──────────────────────┐
+                              │ extractions/         │  ◀── human reviews,
+                              │   timepoint.json     │      edits in place
+                              │ (evidence quotes,    │      if needed
+                              │  confidence, other:* │
+                              │  escapes)            │
+                              └──────────┬───────────┘
+                                         │
+                                         ▼
+                              ┌──────────────────────┐
+                              │ merge.py             │
+                              │  • ruamel yaml       │
+                              │    round-trip        │
+                              │  • overwrite guard   │
                               └──────────┬───────────┘
                                          │
                                          ▼
                               ┌──────────────────────┐
                               │ paperconfig.yaml     │  ◀── human reviews git diff
-                              │ (timepoint +         │      commits or reverts
-                              │  growth_phase        │
+                              │ (timepoint +         │      commits both JSON
+                              │  growth_phase        │      and yaml
                               │  populated)          │
                               └──────────┬───────────┘
                                          │
@@ -217,34 +289,33 @@ Git diff on each paperconfig. No sidecar JSON.
 
 ## Enum iteration plan
 
-The `VALID_GROWTH_PHASES` enum is an initial minimal set. We expect to refine it as extraction surfaces cases that don't fit cleanly. Vocabulary refinement is a planned first-class part of the rollout, not a one-off.
+The `VALID_GROWTH_PHASES` enum is an initial set (7 values including `unknown`). We expect it to grow as the `other:*` escape hatch surfaces recurring novel states. Vocabulary refinement is a planned first-class part of the rollout, not a one-off.
 
-**Iteration loop:**
+**Iteration loop (cheap — no LLM re-extraction):**
 
-1. **Extract a batch** (organism-grouped, per rollout section).
-2. **Review `data/timepoint_extraction_report.md`** for:
-   - High rate of `unknown` → candidates for new enum values (the papers likely share a phase category we don't yet have a name for).
-   - LLM evidence quotes where `growth_phase` was forced into an ill-fitting bucket (e.g., "late-stationary" shoehorned into `stationary`, "recovery from starvation" shoehorned into `exponential`).
-   - Low-confidence extractions clustered on particular phase terms.
-3. **Propose enum extensions.** Before adding a value, sanity-check it:
-   - Is it biologically meaningful (does it imply different transcriptional state)?
-   - Does it apply to ≥2 papers? (Single-paper edge cases may stay `unknown` + `evidence` quote.)
-   - Does it overlap with an existing value? If yes, split or merge consciously.
+1. **Extract a batch** (organism-grouped, per rollout section). Writes per-paper JSON proposals + updates the corpus-wide `data/timepoint_extraction_report.md`.
+2. **Review the report for `other:*` clusters and `unknown` cases:**
+   - `other:<slug>` frequencies sorted desc → any slug appearing in ≥2 papers is a strong candidate for promotion.
+   - `unknown` count trending high → may signal a missing enum value the LLM couldn't even name; inspect evidence quotes for patterns.
+   - Low-confidence canonical extractions (`exponential` confidence=low with ambiguous evidence) → may signal shoehorning.
+3. **Propose enum extensions.** Before promoting a slug, sanity-check:
+   - Biologically meaningful (implies distinct transcriptional state)?
+   - Appears in ≥2 papers?
+   - No overlap with an existing value (if yes, split or merge consciously)?
 4. **Update the enum** in one place:
    - `VALID_GROWTH_PHASES` in the validator.
    - Enum table in this spec (mark added values with the batch number that prompted them).
    - `.claude/skills/paperconfig/SKILL.md` growth-phase section.
-5. **Re-extract affected papers** (only those flagged `unknown` or with low confidence in the affected category). Don't re-run the entire corpus.
-6. **Commit the enum change** alongside the re-extraction diffs, with a note linking back to the evidence that motivated the new value.
+5. **Remap paperconfigs in place** — no LLM re-run. A small `remap.py` script (or manual edit) replaces `other:<promoted_slug>` with `<promoted_slug>` across all paperconfigs + their extraction JSONs. Evidence quotes stay intact; the reviewer doesn't need to re-read methods.
+6. **Commit the enum change** alongside the remap diffs. The promoted slug's first appearance (batch number, paper, evidence quote) is noted in the spec's enum table.
 
-**Candidate values anticipated but not yet added** (add only if data demands):
+**Initial enum already covers the predictable cases** (`exponential`, `stationary`, `nutrient_limited`, `acclimated_steady_state`, `infected`, `recovery`). Further candidates the rollout might surface:
 
 - `early_exponential` / `late_exponential` — split `exponential` if papers routinely distinguish them and it matters for our queries.
-- `recovery` — cells recovering after stress relief (rescue experiments, e.g., Weissberg-style P re-addition).
-- `infected` — for phage/viral papers where the host physiology is distinct from both exponential growth and stationary-phase arrest.
 - `diel_dark` / `diel_light` — if diel papers consistently distinguish dark-phase from light-phase sampling.
+- `declining` / `death_phase` — late-stationary / post-stationary cell death.
 
-**Freeze the enum when:** two consecutive batches complete without any new candidate emerging. Document the final enum in CLAUDE.md and MEMORY.md.
+**Freeze the enum when:** two consecutive batches complete without any new `other:*` slug appearing in ≥2 papers. Document the final enum in CLAUDE.md and MEMORY.md.
 
 ## Open questions (none blocking)
 
