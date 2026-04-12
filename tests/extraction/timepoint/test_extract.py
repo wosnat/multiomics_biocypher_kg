@@ -173,3 +173,77 @@ def test_extract_one_paper_skips_when_no_fields_requested(paper_dir):
     fake_llm.call.assert_not_called()
     # No JSON written (or return None, per spec)
     assert result is None
+
+
+from unittest.mock import MagicMock
+
+
+def test_resume_only_extracts_missing_analyses(paper_dir):
+    # Seed a partial extraction with DE_n_24h valid and DE_n_48h missing
+    sig = __import__(
+        "multiomics_kg.extraction.timepoint.extraction_utils", fromlist=["compute_paperconfig_signature"]
+    ).compute_paperconfig_signature(paper_dir / "paperconfig.yaml")
+    from multiomics_kg.extraction.timepoint.extraction_utils import save_extraction_json
+    save_extraction_json(paper_dir, {
+        "paper": "Fake 2026", "doi": "", "status": "partial",
+        "paperconfig_signature": sig, "input_tokens": 0, "output_tokens": 0,
+        "missing_analyses": [{"analysis_id": "DE_n_48h", "reason": "not_returned"}],
+    }, [{
+        "analysis_id": "DE_n_24h", "experiment_key": "exp1",
+        "fields_requested": ["timepoint", "timepoint_hours", "growth_phase"],
+        "timepoint": "24h", "timepoint_hours": 24.0, "growth_phase": "exponential",
+        "self_assessment": "high", "assessment_notes": "",
+        "supporting_quotes": [{"quote": "q", "location": "M"}],
+        "source_figures": [],
+    }])
+
+    fake_llm = MagicMock()
+    fake_llm.call.return_value = ({
+        "analyses": [{
+            "analysis_id": "DE_n_48h",
+            "timepoint": "48h", "timepoint_hours": 48.0,
+            "growth_phase": "nutrient_limited",
+            "self_assessment": "high", "assessment_notes": "",
+            "supporting_quotes": [{"quote": "q", "location": "M"}],
+            "source_figures": [],
+        }]
+    }, {"input_tokens": 50, "output_tokens": 100, "model": "fake-model"})
+
+    from multiomics_kg.extraction.timepoint.extract import extract_one_paper
+    extract_one_paper(paper_dir, llm_client=fake_llm, validate=False, resume=True)
+
+    # LLM should have been called with only the missing analysis in targets
+    call_args = fake_llm.call.call_args
+    prompt = call_args.kwargs.get("prompt") or call_args.args[0]
+    assert "DE_n_48h" in prompt
+    assert "DE_n_24h" not in prompt  # valid row not re-asked
+
+    # Final JSON should now be complete and contain both rows
+    import json
+    final = json.loads((paper_dir / "extractions" / "timepoint.json").read_text())
+    assert final["metadata"]["status"] == "complete"
+    assert {r["analysis_id"] for r in final["analyses"]} == {"DE_n_24h", "DE_n_48h"}
+
+
+def test_retry_ignores_existing_json(paper_dir):
+    # Seed a complete JSON
+    sig = __import__(
+        "multiomics_kg.extraction.timepoint.extraction_utils", fromlist=["compute_paperconfig_signature"]
+    ).compute_paperconfig_signature(paper_dir / "paperconfig.yaml")
+    from multiomics_kg.extraction.timepoint.extraction_utils import save_extraction_json
+    save_extraction_json(paper_dir, {
+        "paper": "Fake 2026", "status": "complete", "paperconfig_signature": sig,
+        "missing_analyses": [], "input_tokens": 0, "output_tokens": 0,
+    }, [])
+
+    fake_llm = MagicMock()
+    fake_llm.call.return_value = ({"analyses": []}, {"input_tokens": 0, "output_tokens": 0, "model": "m"})
+
+    from multiomics_kg.extraction.timepoint.extract import extract_one_paper
+    # With retry=True, the existing JSON is ignored and every analysis is requested.
+    # (paperconfig has two analyses, all without timepoint fields → both requested)
+    extract_one_paper(paper_dir, llm_client=fake_llm, validate=False, retry=True)
+    call_args = fake_llm.call.call_args
+    prompt = call_args.kwargs.get("prompt") or call_args.args[0]
+    assert "DE_n_24h" in prompt
+    assert "DE_n_48h" in prompt

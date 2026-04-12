@@ -22,6 +22,7 @@ from multiomics_kg.extraction.timepoint.extraction_utils import (
     compute_paperconfig_signature,
     find_analyses,
     iter_paperconfigs,
+    load_extraction_json,
     save_extraction_json,
     validate_llm_payload,
 )
@@ -104,14 +105,37 @@ def extract_one_paper(
     validate: bool = False,
     pdf_cache_path: Path | None = None,
     model: str | None = None,
+    resume: bool = False,
+    retry: bool = False,
 ) -> Path | None:
     """Extract one paper's timepoint/growth_phase metadata via the LLM.
 
     Returns the written JSON path, or None if no extraction was needed
     (all fields populated, default mode).
+
+    resume=True: re-extract only the analyses listed in missing_analyses of an
+        existing partial JSON; merge with prior valid rows. Returns None if no
+        partial JSON is found.
+    retry=True: ignore any existing JSON and extract from scratch (all analyses).
     """
     paperconfig_path = paper_dir / "paperconfig.yaml"
     analyses = find_analyses(paperconfig_path)
+
+    # Load existing extraction (unless retry forces a fresh start)
+    existing = None if retry else load_extraction_json(paper_dir)
+
+    if resume:
+        if existing is None or existing.get("metadata", {}).get("status") != "partial":
+            logger.info(
+                "No partial extraction found for %s — nothing to resume.", paper_dir
+            )
+            return None
+        missing_ids = {
+            m["analysis_id"]
+            for m in existing["metadata"].get("missing_analyses", [])
+        }
+        analyses = [a for a in analyses if a["id"] in missing_ids]
+
     targets = build_targets(analyses, validate=validate)
     if not targets:
         logger.info("No fields to extract for %s — skipping LLM call.", paper_dir)
@@ -145,6 +169,11 @@ def extract_one_paper(
                 row["fields_requested"] = t["fields_requested"]
                 break
 
+    # When resuming, prepend the prior valid rows so the final JSON is complete
+    if resume and existing is not None:
+        prior_rows = existing.get("analyses", [])
+        valid_rows = prior_rows + valid_rows
+
     metadata = {
         "paper": background.get("papername", ""),
         "doi": background.get("doi", ""),
@@ -171,7 +200,10 @@ def _main(argv: list[str] | None = None) -> int:
                         help="Re-examine every field, even populated ones")
     parser.add_argument("--model", default=None,
                         help="Override default model (e.g. gpt-4.1-mini)")
-    # --resume and --retry are added in Task 12.
+    parser.add_argument("--resume", action="store_true",
+                        help="Re-extract only missing_analyses from an existing partial JSON")
+    parser.add_argument("--retry", action="store_true",
+                        help="Re-extract the entire paper from scratch")
     args = parser.parse_args(argv)
 
     logging.basicConfig(level=logging.INFO, format="%(levelname)s %(message)s")
@@ -191,7 +223,10 @@ def _main(argv: list[str] | None = None) -> int:
     had_partial = False
     for pd in paper_dirs:
         try:
-            path = extract_one_paper(pd, client, validate=args.validate, model=args.model)
+            path = extract_one_paper(
+                pd, client, validate=args.validate, model=args.model,
+                resume=args.resume, retry=args.retry,
+            )
             if path is None:
                 logger.info("[%s] no fields to extract, skipped.", pd.name)
                 continue
