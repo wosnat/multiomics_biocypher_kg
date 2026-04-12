@@ -48,6 +48,9 @@ This blocks biologically meaningful queries like "all acute (<6 h) nutrient-stre
 | `acclimated_steady_state` | Grown ≥5–10 generations under the treatment condition (common in pCO2 / temperature / light-intensity acclimation studies). |
 | `infected` | Host cells after viral/phage infection; distinct physiology from exponential or stationary. |
 | `recovery` | Cells recovering after stress relief (e.g., nutrient re-addition, light restoration post-darkness). |
+| `diel` | Cells on a normal light-dark cycle; implies periodic physiology. Use when the paper's sampling is tied to the diel cycle rather than a single snapshot. Not split into dark/light sub-phases. |
+| `darkness` | Cells in **extended/prolonged darkness** — distinct from the dark half of a diel cycle. Used in extended-darkness survival experiments. |
+| `death` | Late decline / cell-death phase after stationary. Used for long time-courses that sample past viable-cell peak. |
 | `unknown` | Paper truly does not state the phase at sampling. |
 
 **Escape hatch for novelty:** If the paper clearly describes a phase that doesn't map to any canonical value, the LLM outputs `other:<short_slug>` (e.g., `other:heat_acclimated`, `other:late_decline`). The validator accepts the `other:` prefix; the extraction report aggregates all `other:*` values across the corpus so recurring ones can be promoted into the enum.
@@ -107,6 +110,9 @@ VALID_GROWTH_PHASES = {
     "acclimated_steady_state",
     "infected",
     "recovery",
+    "diel",
+    "darkness",
+    "death",
     "unknown",
 }
 
@@ -201,9 +207,10 @@ data/Prochlorococcus/papers_and_supp/Tetu 2019/
 - `SHARED_RULES`: enum values; "unknown is always better than wrong" (carries forward the no-guessing memory from the cluster-extraction project); must quote evidence from the methods section; confidence band (`high`/`medium`/`low`) required; low-confidence → `growth_phase: unknown`.
 - **Escape hatch rule:** If the paper describes a state not in the enum, emit `other:<slug>` rather than forcing a bad fit. `other:*` is preferred over `unknown` whenever the paper gives *any* positional information. Slugs are short snake_case (e.g., `other:heat_acclimated`, `other:late_decline`).
 - Per-experiment-type hints via branching on `omics_type` + `treatment_type`:
-  - Diel → default `growth_phase: exponential` unless methods explicitly say otherwise.
+  - Diel studies (`treatment_type: [diel]`) → `diel` for cycling-phase samples.
+  - Extended darkness (`treatment_type: [darkness]`, prolonged dark exposure) → `darkness`. Do not confuse with the dark half of a normal diel cycle (which stays `diel`).
   - Acclimation / chronic exposure (`treatment_type: [carbon]` with ≥5 generations language) → `acclimated_steady_state`.
-  - Nutrient starvation (`treatment_type: [nitrogen|phosphorus|iron]`) → `exponential` at early timepoints, `nutrient_limited` once depletion is confirmed.
+  - Nutrient starvation (`treatment_type: [nitrogen|phosphorus|iron]`) → `exponential` at early timepoints, `nutrient_limited` once depletion is confirmed, `death` if sampling extends past viable-cell peak.
   - Phage / viral infection → `exponential` at t=0 (pre-infection), `infected` post-infection timepoints.
   - Rescue / re-addition experiments → `recovery` for post-intervention timepoints.
   - Short-exposure stress (≤6 h) → default `exponential`.
@@ -309,11 +316,10 @@ The `VALID_GROWTH_PHASES` enum is an initial set (7 values including `unknown`).
 5. **Remap paperconfigs in place** — no LLM re-run. A small `remap.py` script (or manual edit) replaces `other:<promoted_slug>` with `<promoted_slug>` across all paperconfigs + their extraction JSONs. Evidence quotes stay intact; the reviewer doesn't need to re-read methods.
 6. **Commit the enum change** alongside the remap diffs. The promoted slug's first appearance (batch number, paper, evidence quote) is noted in the spec's enum table.
 
-**Initial enum already covers the predictable cases** (`exponential`, `stationary`, `nutrient_limited`, `acclimated_steady_state`, `infected`, `recovery`). Further candidates the rollout might surface:
+**Initial enum covers the predictable cases** (`exponential`, `stationary`, `nutrient_limited`, `acclimated_steady_state`, `infected`, `recovery`, `diel`, `darkness`, `death`). Not pre-added, to be surfaced via `other:*` only if the data demands them:
 
-- `early_exponential` / `late_exponential` — split `exponential` if papers routinely distinguish them and it matters for our queries.
-- `diel_dark` / `diel_light` — if diel papers consistently distinguish dark-phase from light-phase sampling.
-- `declining` / `death_phase` — late-stationary / post-stationary cell death.
+- Splitting `exponential` into `early_exponential` / `late_exponential` — not worth the granularity unless queries actually need it.
+- Splitting `diel` into `diel_light` / `diel_dark` — not worth it for our use case; `diel` stays unified.
 
 **Freeze the enum when:** two consecutive batches complete without any new `other:*` slug appearing in ≥2 papers. Document the final enum in CLAUDE.md and MEMORY.md.
 
