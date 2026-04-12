@@ -215,7 +215,7 @@ The prompt asks for exactly the fields shown above; the LLM does not emit `metad
 
 **What `extract.py` wraps around the LLM output (post-call, before writing the JSON):**
 
-- `metadata` block: `paper`, `doi`, `model`, `extracted_at` (ISO timestamp), `input_tokens`, `output_tokens`, `paperconfig_signature` (sha1 hex, used for staleness detection by merge). Bookkeeping/audit trail, not requested from the LLM.
+- `metadata` block: `paper`, `doi`, `model`, `extracted_at` (ISO timestamp), `input_tokens`, `output_tokens`, `paperconfig_signature` (sha1 hex, used for staleness detection by merge), `status` (`complete` | `partial`), `missing_analyses` (list of `{analysis_id, reason}`, empty on complete). Bookkeeping/audit trail, not requested from the LLM.
 - `experiment_key` per analysis: deterministic lookup from the paperconfig by `analysis_id`. Included in the JSON for human readability; no reason to round-trip through the LLM.
 - `fields_requested` per analysis: set by the preprocess. Echoed into the JSON so reviewers see scope at a glance.
 
@@ -230,7 +230,9 @@ The prompt asks for exactly the fields shown above; the LLM does not emit `metad
     "extracted_at": "2026-04-12T14:32:11",
     "input_tokens": 12450,
     "output_tokens": 890,
-    "paperconfig_signature": "3a2f8e1c..."
+    "paperconfig_signature": "3a2f8e1c...",
+    "status": "complete",
+    "missing_analyses": []
   },
   "analyses": [
     {
@@ -270,7 +272,9 @@ This schema borrows the `metadata`/`supporting_quotes`/`source_figures`/`self_as
 | `--dry-run` | Preprocess only — list per-analysis `fields_to_fill`, no LLM call. |
 | `--validate` | Ask LLM about **every** field regardless of existing values. Emits existing vs proposed in JSON. `merge.py` surfaces mismatches as warnings but does not overwrite without `--force`. |
 | `--fields timepoint,timepoint_hours,growth_phase` | Restrict extraction to specific fields. Useful when re-running after an enum change: `--fields growth_phase` only. |
-| `--force` (on `merge.py`) | Allow overwrite of existing paperconfig values. Never default. |
+| `--resume` | On `extract.py`: re-run only the `missing_analyses` from an existing partial JSON; promote to `status: complete` on success. Cheap retry that preserves prior valid rows. |
+| `--retry` | On `extract.py`: re-extract the entire paper from scratch, ignoring any existing JSON. Used when switching models or when broad failure suggests the prior run is untrustworthy. |
+| `--force` (on `merge.py`) | Allow overwrite of existing paperconfig values; also required to merge `partial` JSON or to proceed past a staleness warning. Never default. |
 
 **Preprocess (runs inside `extract.py` before the LLM call):**
 
@@ -292,15 +296,21 @@ This keeps re-runs cheap (only the missing subset goes to the LLM) and prevents 
 **Safety checks:**
 
 *In `extract.py`:*
-1. Fail if an LLM-proposed `analysis_id` does not exist in the paperconfig (hallucinated ID).
-2. Fail if any paperconfig analysis has no proposal (LLM missed a row).
+1. Fail if an LLM-proposed `analysis_id` does not exist in the paperconfig (hallucinated ID — whole run aborts, no JSON written).
+2. **Partial-result handling.** If the LLM returned entries for only some of the requested analyses, or returned an analysis with missing/invalid fields:
+   - Valid rows go into `analyses[]`.
+   - Invalid/missing rows are excluded from `analyses[]` and listed in `metadata.missing_analyses` with a `reason` (`not_returned`, `missing_field: <name>`, `invalid_growth_phase: <value>`, `invalid_self_assessment: <value>`, `timepoint_hours_not_numeric: <value>`, etc.).
+   - `metadata.status` is set to `partial`.
+   - JSON is written. Exit code is non-zero so batch runs (`--all`, CI) see the failure.
+   - **Exception**: if the LLM response is unparseable JSON entirely (e.g. truncated, malformed), no partial JSON is written — extract raises. Nothing to salvage.
 3. Compute and store `metadata.paperconfig_signature` — sha1 of a canonical string built from sorted `analysis_id` list + `fields_requested` per analysis + the fields extract did NOT touch (e.g., `name_col`, `logfc_col`, `experiment` reference). Used for staleness detection later.
 
 *In `merge.py`:*
-4. **Staleness — analysis_id cross-check.** For every analysis in JSON, verify the ID still exists in the current paperconfig; skip + warn on ghosts. Warn separately if the paperconfig has analyses the JSON doesn't cover ("extraction is incomplete, re-run").
-5. **Staleness — signature check.** Recompute `paperconfig_signature` from the current paperconfig and compare to `metadata.paperconfig_signature`. On mismatch: warn loudly showing a diff of what changed, refuse to write without `--force`. Catches any paperconfig edit between extract and merge.
-6. Warn (do not overwrite) if an analysis already has `growth_phase` set and the JSON value differs — re-runs never silently clobber human edits. Reviewer must pass `--force` to overwrite.
-7. Reject any `growth_phase` value that's neither a canonical enum value nor an `other:<slug>` — catches malformed JSON before it enters the paperconfig.
+4. **Refuse to merge partial JSON without `--force`.** If `metadata.status == "partial"`, print the `missing_analyses` list and abort. `--force` proceeds with only the valid `analyses[]` (missing ones remain unfilled in paperconfig).
+5. **Staleness — analysis_id cross-check.** For every analysis in JSON, verify the ID still exists in the current paperconfig; skip + warn on ghosts. Warn separately if the paperconfig has analyses the JSON doesn't cover ("extraction is incomplete, re-run").
+6. **Staleness — signature check.** Recompute `paperconfig_signature` from the current paperconfig and compare to `metadata.paperconfig_signature`. On mismatch: warn loudly showing a diff of what changed, refuse to write without `--force`. Catches any paperconfig edit between extract and merge.
+7. Warn (do not overwrite) if an analysis already has `growth_phase` set and the JSON value differs — re-runs never silently clobber human edits. Reviewer must pass `--force` to overwrite.
+8. Reject any `growth_phase` value that's neither a canonical enum value nor an `other:<slug>` — catches malformed JSON before it enters the paperconfig.
 
 **Prompt design** (key rules):
 - `SHARED_RULES`: enum values; "unknown is always better than wrong" (carries forward the no-guessing memory from the cluster-extraction project); must quote evidence from the methods section; confidence band (`high`/`medium`/`low`) required; low-confidence → `growth_phase: unknown`.
