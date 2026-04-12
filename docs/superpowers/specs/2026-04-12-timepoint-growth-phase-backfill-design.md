@@ -23,7 +23,7 @@ This blocks biologically meaningful queries like "all acute (<6 h) nutrient-stre
 
 - No retroactive inference of growth phase from expression data itself.
 - No changes to `is_time_course` logic (stays derived from `time_point_count > 1`).
-- No stage-3 validation loop like cluster extraction — data is too shallow (4 fields per row) to justify that overhead; direct git-diff review is sufficient.
+- No stage-3 validation loop like cluster extraction — data is too shallow (3 fields per row) to justify that overhead; direct JSON + git-diff review is sufficient.
 - No re-extraction of cluster descriptions or other paperconfig fields.
 
 ## Design
@@ -99,7 +99,7 @@ New checks on every `statistical_analyses[]` entry:
 
 - `timepoint` required — warn if missing; `"unknown"` accepted.
 - `timepoint_hours` required — warn if `null`; allowed when paper truly doesn't report.
-- `growth_phase` required — **error** if missing; **error** if not in `VALID_GROWTH_PHASES`.
+- `growth_phase` required — **error** if missing; **error** if value is neither in `VALID_GROWTH_PHASES` nor a valid `other:<slug>` escape (see `is_valid_growth_phase` below).
 
 New constant:
 
@@ -142,7 +142,7 @@ extraction/timepoint/
 
 **Separation of concerns — explicit design rule:** `merge.py` is strictly verbatim. Whatever the JSON says (`exponential`, `unknown`, `other:heat_acclimated`) goes into the paperconfig exactly. No silent transformation, ever. Remapping `other:*` slugs into canonical enum values is **always** a separate, named step (`remap.py`), so the paperconfig diff a reviewer sees after merge always matches what they approved in the JSON. `extract.py` likewise knows nothing about promoted slugs.
 
-**Why the intermediate JSON (reversing the earlier decision):** The extraction produces more than just the three paperconfig fields — it also captures evidence quotes, confidence bands, and `other:*` escape values for enum-evolution triage. Committing the JSON gives a durable audit trail tied to each paperconfig's history; the review loop inspects the JSON (not just a git diff on the yaml) so reviewers see the evidence without re-reading PDFs.
+**Why the intermediate JSON (reversing the earlier decision):** The extraction produces more than just the three paperconfig fields — it also captures evidence quotes, `self_assessment` bands, and `other:*` escape values for enum-evolution triage. Committing the JSON gives a durable audit trail tied to each paperconfig's history; the review loop inspects the JSON (not just a git diff on the yaml) so reviewers see the evidence without re-reading PDFs.
 
 **Input package to the LLM (per paper):**
 
@@ -154,7 +154,7 @@ extraction/timepoint/
 2. **Extraction targets** (structured list, per analysis):
    - `id`, `experiment_key`.
    - Existing values for `timepoint`, `timepoint_hours`, `growth_phase` (null/absent when not set).
-   - `fields_to_fill: [...]` — the subset of the three fields that need extraction for this analysis (derived from the preprocess; field-level, not row-level).
+   - `fields_requested: [...]` — the subset of the three fields that need extraction for this analysis (derived from the preprocess; field-level, not row-level).
    - Analyses where all three fields are already set are **omitted entirely** from the prompt (unless `--validate`).
 
 3. **PDFs** (multimodal attachments):
@@ -207,11 +207,11 @@ The prompt asks for exactly the fields shown above; the LLM does not emit `metad
 
 **Rules the LLM follows for its output fields:**
 
-- Only emit the three data fields (`timepoint`, `timepoint_hours`, `growth_phase`) that are in `fields_requested` for this analysis. Fields not requested must not appear in the response.
+- Only emit the three data fields (`timepoint`, `timepoint_hours`, `growth_phase`) that are in `fields_requested` for this analysis. Fields not in `fields_requested` must not appear in the response. (In `--validate` mode, the preprocess sets `fields_requested` to all three fields, so the LLM emits all three.)
 - `self_assessment` ∈ {`high`, `medium`, `low`}.
 - `supporting_quotes` — verbatim from the paper; at least one quote required unless `self_assessment: low` with `assessment_notes` explaining why no direct quote exists.
 - `source_figures` — figure/table numbers used, empty array if purely text-derived.
-- `growth_phase` — either canonical enum value, `unknown`, or `other:<slug>`.
+- `growth_phase` — a value in `VALID_GROWTH_PHASES` (which already includes `unknown`) or `other:<slug>`.
 
 **What `extract.py` wraps around the LLM output (post-call, before writing the JSON):**
 
@@ -257,9 +257,9 @@ This schema borrows the `metadata`/`supporting_quotes`/`source_figures`/`self_as
 
 **Review workflow:**
 
-0. (Optional) `extract.py --paper "Tetu 2019" --dry-run` — no LLM call, just prints per-analysis `fields_to_fill` lists. Used to confirm scope before a real run.
+0. (Optional) `extract.py --paper "Tetu 2019" --dry-run` — no LLM call, just prints per-analysis `fields_requested` lists. Used to confirm scope before a real run.
 1. `extract.py --paper "Tetu 2019"` runs preprocess → calls LLM with the package above → writes `data/.../Tetu 2019/extractions/timepoint.json` (creates `extractions/` subdir if needed).
-2. Aggregate report `data/timepoint_extraction_report.md` updates with: confidence breakdown, `unknown` list, sorted `other:*` frequencies, evidence quotes for each flagged item.
+2. Aggregate report `data/timepoint_extraction_report.md` updates with: `self_assessment` breakdown, `unknown` list, sorted `other:*` frequencies, `missing_analyses` per partial extraction, evidence quotes for each flagged item.
 3. Reviewer inspects JSON per paper — evidence quotes are inline, no need to re-read PDFs. Edits in place if extraction got it wrong.
 4. `merge.py --paper "Tetu 2019"` writes the three paperconfig fields (`timepoint`, `timepoint_hours`, `growth_phase`) into `paperconfig.yaml` via `ruamel.yaml` round-trip.
 5. Validator runs against updated paperconfig; reviewer commits both the JSON and the paperconfig diff.
@@ -269,7 +269,7 @@ This schema borrows the `metadata`/`supporting_quotes`/`source_figures`/`self_as
 | Flag | Purpose |
 |---|---|
 | `--paper "<name>"` / `--all` | Scope selection. |
-| `--dry-run` | Preprocess only — list per-analysis `fields_to_fill`, no LLM call. |
+| `--dry-run` | Preprocess only — list per-analysis `fields_requested`, no LLM call. |
 | `--validate` | Ask LLM about **every** field regardless of existing values. Emits existing vs proposed in JSON. `merge.py` surfaces mismatches as warnings but does not overwrite without `--force`. |
 | `--fields timepoint,timepoint_hours,growth_phase` | Restrict extraction to specific fields. Useful when re-running after an enum change: `--fields growth_phase` only. |
 | `--resume` | On `extract.py`: re-run only the `missing_analyses` from an existing partial JSON; promote to `status: complete` on success. Cheap retry that preserves prior valid rows. |
@@ -278,16 +278,16 @@ This schema borrows the `metadata`/`supporting_quotes`/`source_figures`/`self_as
 
 **Preprocess (runs inside `extract.py` before the LLM call):**
 
-For every analysis in the paperconfig, compute `fields_to_fill`:
+For every analysis in the paperconfig, compute `fields_requested`:
 
 | Existing state | Behavior (default) | Behavior (`--validate`) |
 |---|---|---|
-| field absent | include in `fields_to_fill` | include |
+| field absent | include in `fields_requested` | include |
 | `timepoint_hours: null` | include (null is a "needs filling" signal) | include |
 | `timepoint` is empty string | include | include |
 | field has a non-null, non-empty value | skip | include (LLM emits existing+proposed for comparison) |
 
-An analysis with empty `fields_to_fill` (all three set) is omitted from the prompt entirely in default mode. In `--validate`, every analysis is included and every field re-examined.
+An analysis with empty `fields_requested` (all three set) is omitted from the prompt entirely in default mode. In `--validate`, every analysis is included and every field re-examined.
 
 This keeps re-runs cheap (only the missing subset goes to the LLM) and prevents the LLM from "helpfully" revisiting values a human already curated.
 
@@ -313,7 +313,7 @@ This keeps re-runs cheap (only the missing subset goes to the LLM) and prevents 
 8. Reject any `growth_phase` value that's neither a canonical enum value nor an `other:<slug>` — catches malformed JSON before it enters the paperconfig.
 
 **Prompt design** (key rules):
-- `SHARED_RULES`: enum values; "unknown is always better than wrong" (carries forward the no-guessing memory from the cluster-extraction project); must quote evidence from the methods section; confidence band (`high`/`medium`/`low`) required; low-confidence → `growth_phase: unknown`.
+- `SHARED_RULES`: enum values; "unknown is always better than wrong" (carries forward the no-guessing memory from the cluster-extraction project); must quote evidence from the methods section; `self_assessment` band (`high`/`medium`/`low`) required; low self-assessment → `growth_phase: unknown`.
 - **Escape hatch rule:** If the paper describes a state not in the enum, emit `other:<slug>` rather than forcing a bad fit. `other:*` is preferred over `unknown` whenever the paper gives *any* positional information. Slugs are short snake_case (e.g., `other:heat_acclimated`, `other:late_decline`).
 - Per-experiment-type hints via branching on `omics_type` + `treatment_type`:
   - Diel studies (`treatment_type: [diel]`) → `diel` for cycling-phase samples.
@@ -334,10 +334,12 @@ This keeps re-runs cheap (only the missing subset goes to the LLM) and prevents 
    - Batch 3: Prochlorococcus diel + short-exposure (Zinser, Thompson 2016, Tetu, Fang).
    - Batch 4: Prochlorococcus infection + remaining (Lindell, Lin, Anjur, …).
    - Batch 5: Synechococcus papers (Tal, Beliaev, Kratzl, Ma, Oleza, Kaur, Bernstein).
-4. **Per-batch review loop:**
-   - Run `uv run python -m multiomics_kg.extraction.timepoint.extract --paper "<name>"`.
-   - Inspect `git diff <paperconfig>`.
-   - Edit fields in place if the LLM got something wrong; commit.
+4. **Per-batch review loop** (per paper):
+   - Run `uv run python -m multiomics_kg.extraction.timepoint.extract --paper "<name>"` → writes `extractions/timepoint.json`.
+   - Inspect `extractions/timepoint.json` — check evidence quotes, self-assessment, and any `other:*` or `unknown` cases. Edit the JSON in place if extraction got something wrong.
+   - Run `uv run python -m multiomics_kg.extraction.timepoint.merge --paper "<name>"` → writes the three fields into the paperconfig.
+   - Inspect `git diff <paperconfig>` as a sanity check that only intended fields changed.
+   - Commit both the JSON and the paperconfig diff together.
 5. **Rebuild the KG** once all paperconfigs updated.
 6. **New KG validity test** (`tests/kg_validity/test_expression.py`): every `Changes_expression_of` edge has non-null `growth_phase`; every `Experiment` has `growth_phases` array of length ≥1.
 7. **Docs updates:**
@@ -348,7 +350,7 @@ This keeps re-runs cheap (only the missing subset goes to the LLM) and prevents 
 ## Review UI
 
 Two-surface review:
-1. **`extractions/timepoint.json`** — the primary review artifact. Contains evidence quotes, confidence, and the proposed fields. Reviewer edits in place if extraction got something wrong, then runs `merge.py`.
+1. **`extractions/timepoint.json`** — the primary review artifact. Contains evidence quotes, `self_assessment`, and the proposed fields. Reviewer edits in place if extraction got something wrong, then runs `merge.py`.
 2. **`paperconfig.yaml` git diff** — confirmation that only the three intended fields (`timepoint`, `timepoint_hours`, `growth_phase`) changed, with expected values.
 
 Both artifacts are committed together per paper.
@@ -361,7 +363,7 @@ Both artifacts are committed together per paper.
 │ (experiments +     │        │  • preprocess:       │
 │  analyses)         │        │    compute per-      │
 │                    │        │    analysis          │
-│ pdf_extraction_    │───────▶│    fields_to_fill    │
+│ pdf_extraction_    │───────▶│    fields_requested    │
 │   cache.json       │        │  • render prompt     │
 │ (optional, for     │        │    (background +     │
 │  orientation)      │        │     targets + PDFs)  │
@@ -375,8 +377,8 @@ Both artifacts are committed together per paper.
                               │ extractions/         │  ◀── human reviews,
                               │   timepoint.json     │      edits in place
                               │ (evidence quotes,    │      if needed
-                              │  confidence, other:* │
-                              │  escapes)            │
+                              │  self_assessment,    │
+                              │  other:* escapes)    │
                               └──────────┬───────────┘
                                          │
                                          ▼
@@ -410,7 +412,7 @@ Both artifacts are committed together per paper.
 
 ## Enum iteration plan
 
-The `VALID_GROWTH_PHASES` enum is an initial set (7 values including `unknown`). We expect it to grow as the `other:*` escape hatch surfaces recurring novel states. Vocabulary refinement is a planned first-class part of the rollout, not a one-off.
+The `VALID_GROWTH_PHASES` enum is an initial set (11 values including `unknown`). We expect it to grow as the `other:*` escape hatch surfaces recurring novel states. Vocabulary refinement is a planned first-class part of the rollout, not a one-off.
 
 **Iteration loop (cheap — no LLM re-extraction):**
 
@@ -418,7 +420,7 @@ The `VALID_GROWTH_PHASES` enum is an initial set (7 values including `unknown`).
 2. **Review the report for `other:*` clusters and `unknown` cases:**
    - `other:<slug>` frequencies sorted desc → any slug appearing in ≥2 papers is a strong candidate for promotion.
    - `unknown` count trending high → may signal a missing enum value the LLM couldn't even name; inspect evidence quotes for patterns.
-   - Low-confidence canonical extractions (`exponential` confidence=low with ambiguous evidence) → may signal shoehorning.
+   - Canonical extractions with `self_assessment: low` and ambiguous evidence → may signal shoehorning.
 3. **Propose enum extensions.** Before promoting a slug, sanity-check:
    - Biologically meaningful (implies distinct transcriptional state)?
    - Appears in ≥2 papers?
@@ -453,4 +455,3 @@ The `VALID_GROWTH_PHASES` enum is an initial set (7 values including `unknown`).
 ## Open questions (none blocking)
 
 - Do we want to publish the extraction report as a committed artifact (`data/timepoint_extraction_report.md`) or keep it local? (Proposal: commit it, matches the cluster-extraction precedent.)
-- Should `growth_phase_description` be indexed in the full-text `experimentFullText` index? (Proposal: no — it's per-edge free text, not per-experiment; skipping avoids index bloat.)
