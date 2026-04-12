@@ -308,6 +308,7 @@ class GO:
         add_prefix: Optional[bool] = True,
         test_mode: Optional[bool] = False,
         remove_selected_annotations: Optional[list[str]] = ["IEA"],
+        cache_root: Path | None = None,
     ):
         """
         Args:
@@ -432,6 +433,8 @@ class GO:
         if model["test_mode"]:
             self.early_stopping = 100
 
+        self.cache_root = cache_root or Path("cache/data")
+
     @validate_call
     def download_go_data(
         self,
@@ -480,6 +483,18 @@ class GO:
             
             if GONodeField.ANC2VEC_EMBBEDDING.value in self.go_node_fields:
                 self.retrieve_anc2vec_embedding(anc2vec_embedding_path)
+
+            # Compute hierarchy levels once during data preparation. We load our own
+            # compact GO cache alongside pypath's GeneOntology — it's cheap (~5 MB JSON)
+            # and keeps level computation self-contained from pypath's object model.
+            go_data = load_go_data(self.cache_root)
+            self._go_levels, go_orphans = compute_go_levels(go_data)
+            if go_orphans:
+                logger.warning(
+                    f"GO.download_go_data: {len(go_orphans)} orphan GO terms "
+                    f"(not reachable from canonical roots via is_a/part_of): "
+                    f"{go_orphans[:10]}{'...' if len(go_orphans) > 10 else ''}"
+                )
 
             return
             if any(
@@ -825,17 +840,6 @@ class GO:
         self.create_aspect_to_node_label_dict()
 
         counter = 0
-        # Compute hierarchy levels once, up-front. We load the compact cache
-        # separately from pypath's GeneOntology — it's cheap (~5 MB JSON) and
-        # keeps the level computation self-contained.
-        go_data = load_go_data(Path("cache/data"))
-        go_levels, go_orphans = compute_go_levels(go_data)
-        if go_orphans:
-            logger.warning(
-                f"GO.get_go_nodes: {len(go_orphans)} orphan terms "
-                f"(not reachable from canonical roots via is_a/part_of): "
-                f"{go_orphans[:10]}{'...' if len(go_orphans) > 10 else ''}"
-            )
         for go_term in tqdm(
             self.go_ontology.name.keys()
         ):  # keys in self.go_ontology.name is current go ids in the ontology
@@ -860,8 +864,8 @@ class GO:
                     node_props[GONodeField.ANC2VEC_EMBBEDDING.value] = [str(emb) for emb in self.go_term_to_anc2vec_embedding[go_term]]
 
                 # Unified hierarchy depth (spec: docs/superpowers/specs/2026-04-12-ontology-level-design.md)
-                if go_term in go_levels:
-                    depth, is_best_effort = go_levels[go_term]
+                if go_term in self._go_levels:
+                    depth, is_best_effort = self._go_levels[go_term]
                     node_props["level"] = depth
                     if is_best_effort:
                         node_props["level_is_best_effort"] = "true"

@@ -158,7 +158,8 @@ def main():
 
     if download_GO_data:
         go_adapter = GO(
-            test_mode=TEST_MODE
+            test_mode=TEST_MODE,
+            cache_root=Path("cache/data"),
         )
         go_adapter.download_go_data(cache=CACHE)
         bc.write_nodes(go_adapter.get_go_nodes())
