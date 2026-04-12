@@ -260,23 +260,19 @@ This schema borrows the `metadata`/`supporting_quotes`/`source_figures`/`self_as
 
 **Review workflow:**
 
-Per-paper path:
-
 0. (Optional) `extract.py --paper "Tetu 2019" --dry-run` — no LLM call, just prints per-analysis `fields_requested` lists. Used to confirm scope before a real run.
 1. `extract.py --paper "Tetu 2019"` runs preprocess → calls LLM with the package above → writes `data/.../Tetu 2019/extractions/timepoint.json` (creates `extractions/` subdir if needed).
 2. Aggregate report `data/timepoint_extraction_report.md` updates with: `self_assessment` breakdown, `unknown` list, sorted `other:*` frequencies, `missing_analyses` per partial extraction, evidence quotes for each flagged item.
-3. Reviewer inspects JSON per paper — evidence quotes are inline, no need to re-read PDFs. Edits in place if extraction got it wrong.
-4. `merge.py --paper "Tetu 2019"` writes the three paperconfig fields (`timepoint`, `timepoint_hours`, `growth_phase`) into `paperconfig.yaml` via `ruamel.yaml` round-trip.
-5. Validator runs against updated paperconfig; reviewer commits both the JSON and the paperconfig diff.
+3. **Reviewer inspects JSON** — evidence quotes are inline, no need to re-read PDFs. Edits in place if extraction got it wrong.
+4. **Enum-promotion (conditional, only when the reviewer spots `other:*` slugs worth canonicalizing *now*):**
+   - Add the slug to `VALID_GROWTH_PHASES` in the validator.
+   - `remap.py --promote <slug>` rewrites `other:<slug>` → `<slug>` across the current JSON **and** any other paperconfigs / prior extraction JSONs already containing the slug. Appends provenance to `assessment_notes` on affected analyses.
+   - Re-run validator on the corpus to confirm the remap is clean.
+   - This step is skipped on most papers. It matters when the reviewer would otherwise write `other:<slug>` into the paperconfig knowing they'd just have to remap it later — doing it now avoids that churn.
+5. `merge.py --paper "Tetu 2019"` writes the three paperconfig fields (`timepoint`, `timepoint_hours`, `growth_phase`) into `paperconfig.yaml` via `ruamel.yaml` round-trip. After step 4, any promoted slugs write as canonical values directly (no `other:` prefix).
+6. Validator runs against updated paperconfig; reviewer commits both the JSON and the paperconfig diff. If step 4 happened, the commit also includes the enum change and any cross-paper remap diffs.
 
-Corpus-level path (runs after a batch, only when enum refinement is needed):
-
-6. Review `data/timepoint_extraction_report.md` for `other:*` slugs recurring in ≥2 papers. Promote selected slugs to `VALID_GROWTH_PHASES` (see "Enum iteration plan" section for criteria).
-7. `remap.py --promote <slug>` rewrites `other:<slug>` → `<slug>` across all paperconfigs and `extractions/timepoint.json` files, appends a provenance line to `assessment_notes` on affected analyses.
-8. Re-run validator on the corpus — confirms the remap is complete (old `other:<slug>` now rejected; canonical value now accepted).
-9. Commit the enum change, validator change, and remap diffs together.
-
-Steps 6–9 happen *between* batches of per-paper extraction. Steps 0–5 are where the bulk of the work lives; steps 6–9 are occasional refinements.
+**Alternative: batch-level promotion**. If the reviewer prefers to defer enum decisions (e.g., wait until several batches have run to see which `other:*` slugs actually recur), steps 4 can be skipped per-paper and done in bulk after a batch completes — same operations, just applied across all relevant papers at once. Both paths produce the same end state.
 
 **CLI flags:**
 
@@ -349,12 +345,13 @@ This keeps re-runs cheap (only the missing subset goes to the LLM) and prevents 
    - Batch 3: Prochlorococcus diel + short-exposure (Zinser, Thompson 2016, Tetu, Fang).
    - Batch 4: Prochlorococcus infection + remaining (Lindell, Lin, Anjur, …).
    - Batch 5: Synechococcus papers (Tal, Beliaev, Kratzl, Ma, Oleza, Kaur, Bernstein).
-4. **Per-batch review loop** (per paper):
-   - Run `uv run python -m multiomics_kg.extraction.timepoint.extract --paper "<name>"` → writes `extractions/timepoint.json`.
-   - Inspect `extractions/timepoint.json` — check evidence quotes, self-assessment, and any `other:*` or `unknown` cases. Edit the JSON in place if extraction got something wrong.
-   - Run `uv run python -m multiomics_kg.extraction.timepoint.merge --paper "<name>"` → writes the three fields into the paperconfig.
-   - Inspect `git diff <paperconfig>` as a sanity check that only intended fields changed.
-   - Commit both the JSON and the paperconfig diff together.
+4. **Per-batch review loop** (per paper — follows the Review workflow steps 0–6 above):
+   - `extract.py --paper "<name>"` → writes `extractions/timepoint.json`.
+   - Inspect the JSON: evidence quotes, `self_assessment`, `other:*` / `unknown` cases. Edit in place if needed.
+   - (Conditional) If inspection surfaces an `other:*` slug worth canonicalizing immediately, update `VALID_GROWTH_PHASES` + run `remap.py --promote <slug>` + re-validate before proceeding.
+   - `merge.py --paper "<name>"` → writes the three fields into the paperconfig.
+   - `git diff <paperconfig>` as a sanity check.
+   - Commit JSON + paperconfig diff (+ enum/remap diffs if step 4 ran).
 5. **Rebuild the KG** once all paperconfigs updated.
 6. **New KG validity test** (`tests/kg_validity/test_expression.py`): every `Changes_expression_of` edge has non-null `growth_phase`; every `Experiment` has `growth_phases` array of length ≥1.
 7. **Docs updates:**
