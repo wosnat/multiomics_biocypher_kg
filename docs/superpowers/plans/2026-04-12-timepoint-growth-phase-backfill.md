@@ -16,13 +16,14 @@
 
 **Created:**
 - `multiomics_kg/extraction/timepoint/__init__.py`
-- `multiomics_kg/extraction/timepoint/__main__.py` — CLI dispatcher (extract/merge/remap)
+- `multiomics_kg/extraction/timepoint/__main__.py` — CLI dispatcher (extract/merge/remap/report)
 - `multiomics_kg/extraction/timepoint/extraction_utils.py` — JSON I/O, paperconfig walking, signature computation, analysis lookup
 - `multiomics_kg/extraction/timepoint/prompts.py` — SHARED_RULES + per-experiment-type hints
 - `multiomics_kg/extraction/timepoint/extract.py` — CLI; preprocess + LLM call + write JSON (+ partial handling, dry-run, validate, resume, retry)
 - `multiomics_kg/extraction/timepoint/merge.py` — CLI; write JSON fields into paperconfig.yaml (+ staleness guards, partial guard, overwrite guard)
 - `multiomics_kg/extraction/timepoint/remap.py` — CLI; rewrite `--from X --to Y` across paperconfigs + JSONs (+ provenance)
 - `multiomics_kg/extraction/timepoint/report.py` — write `data/timepoint_extraction_report.md` aggregated from all JSONs
+- `multiomics_kg/extraction/timepoint/llm_client.py` — OpenAI Responses API wrapper
 - `tests/extraction/timepoint/test_extraction_utils.py`
 - `tests/extraction/timepoint/test_extract.py` (uses mock LLM)
 - `tests/extraction/timepoint/test_merge.py`
@@ -40,7 +41,7 @@
 - `CLAUDE.md` — add `growth_phase` edge property, `growth_phases[]` experiment property.
 - `memory/MEMORY.md` — project memory summarizing rollout.
 
-**Paperconfig file modifications are out of scope for the code plan** — those happen during the rollout phase (Tasks 14+) via `extract.py`/`merge.py`, one batch at a time, per-reviewer.
+**Paperconfig file modifications are out of scope for the code plan** — those happen during the rollout phase (Task 19) via `extract.py`/`merge.py`, one batch at a time, per-reviewer.
 
 ---
 
@@ -3714,7 +3715,7 @@ git commit -m "docs: document growth_phase edge/node properties + backfill skill
 
 3. **Type consistency:** `extract_one_paper` signature stable (arguments added, not renamed). `remap_value` signature consistent across tests and implementation. `VALID_GROWTH_PHASES` duplicated in three places (validator, prompts, utils/merge) — called out explicitly in Task 19 (rollout) with a sync test in Task 7 (`test_valid_growth_phases_list_matches_validator`).
 
-4. **Known duplication of the enum set.** Three locations: `validate_paperconfig.py`, `prompts.py`, `extraction_utils.py` + `merge.py`. Avoided by importing once: future refactor — not needed for v1. The `test_valid_growth_phases_list_matches_validator` test pins `prompts.py` to the validator; `extraction_utils.py` + `merge.py` stay manually synced. Rollout step 17 flags all three files as the sync surface on promotion.
+4. **Known duplication of the enum set.** Three locations: `validate_paperconfig.py`, `prompts.py`, `extraction_utils.py` + `merge.py`. Avoided by importing once: future refactor — not needed for v1. The `test_valid_growth_phases_list_matches_validator` test pins `prompts.py` to the validator; `extraction_utils.py` + `merge.py` stay manually synced. Task 19 (rollout) flags all three files as the sync surface on promotion.
 
 ---
 
