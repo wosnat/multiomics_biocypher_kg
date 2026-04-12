@@ -174,12 +174,12 @@ SET e.gene_count = gene_count,
 CYPHER
 
 echo "=== Post-process: Compute Experiment growth_phases ==="
-cypher-shell -a "$NEO4J_URL" <<EOF
+cypher-shell <<'CYPHER'
 MATCH (e:Experiment)
 OPTIONAL MATCH (e)-[r:Changes_expression_of]->(:Gene)
 WITH e, [v IN collect(DISTINCT r.growth_phase) WHERE v IS NOT NULL] AS phases
 SET e.growth_phases = phases;
-EOF
+CYPHER
 
 echo "=== Post-process: Compute OrganismTaxon summary properties ==="
 
