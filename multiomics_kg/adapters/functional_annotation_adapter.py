@@ -54,6 +54,7 @@ from multiomics_kg.utils.cyanorak_role_utils import parse_cyanorak_role_tree, fu
 from multiomics_kg.utils.go_utils import (
     NAMESPACE_TO_LABEL,
     compute_ancestry_closure,
+    compute_go_levels,
     load_go_data,
     make_go_go_edge_label,
 )
@@ -185,6 +186,13 @@ class MultiGoAnnotationAdapter:
     ) -> None:
         self.test_mode = test_mode
         self.go_data = load_go_data(Path(cache_root), force=not cache)
+        self.go_levels, go_orphans = compute_go_levels(self.go_data)
+        if go_orphans:
+            logger.warning(
+                f"MultiGoAnnotationAdapter: {len(go_orphans)} orphan GO terms "
+                f"(not reachable from canonical roots via is_a/part_of): "
+                f"{go_orphans[:10]}{'...' if len(go_orphans) > 10 else ''}"
+            )
         self.adapters: list[GoAnnotationAdapter] = []
         self._build_adapters(genome_config_file)
 
@@ -233,11 +241,13 @@ class MultiGoAnnotationAdapter:
             label = NAMESPACE_TO_LABEL.get(entry["namespace"])
             if label is None:
                 continue
-            yield (
-                _go_node_id(go_id),
-                label,
-                {"name": _clean_str(entry["name"])},
-            )
+            props = {"name": _clean_str(entry["name"])}
+            if go_id in self.go_levels:
+                depth, is_best_effort = self.go_levels[go_id]
+                props["level"] = depth
+                if is_best_effort:
+                    props["level_is_best_effort"] = "true"
+            yield (_go_node_id(go_id), label, props)
             count += 1
 
         logger.info(f"MultiGoAnnotationAdapter.get_nodes: yielded {count} GO nodes")
@@ -598,7 +608,7 @@ class MultiKeggAnnotationAdapter:
                 retired_kos.append(ko_id)
                 raw_name = ko_id
             name = _clean_str(raw_name)
-            yield (_ko_node_id(ko_id), "kegg_term", {"name": name, "level": "ko"})
+            yield (_ko_node_id(ko_id), "kegg_term", {"name": name, "level_kind": "ko", "level": 3})
             ko_count += 1
         if retired_kos:
             logger.warning(
@@ -611,7 +621,7 @@ class MultiKeggAnnotationAdapter:
         pw_count = 0
         for pw_id in sorted(pw_ids):
             name = _clean_str(pathway_names.get(pw_id, ""))
-            yield (_pathway_node_id(pw_id), "kegg_term", {"name": name, "level": "pathway"})
+            yield (_pathway_node_id(pw_id), "kegg_term", {"name": name, "level_kind": "pathway", "level": 2})
             pw_count += 1
         logger.info(f"MultiKeggAnnotationAdapter.get_nodes: {pw_count} pathway nodes")
 
@@ -619,7 +629,7 @@ class MultiKeggAnnotationAdapter:
         sc_count = 0
         for sc in sorted(subcat_ids):
             name = _clean_str(subcat_names.get(sc, ""))
-            yield (_subcat_node_id(sc), "kegg_term", {"name": name, "level": "subcategory"})
+            yield (_subcat_node_id(sc), "kegg_term", {"name": name, "level_kind": "subcategory", "level": 1})
             sc_count += 1
         logger.info(f"MultiKeggAnnotationAdapter.get_nodes: {sc_count} subcategory nodes")
 
@@ -627,7 +637,7 @@ class MultiKeggAnnotationAdapter:
         cat_count = 0
         for cat in sorted(cat_ids):
             name = _clean_str(cat_names.get(cat, ""))
-            yield (_cat_node_id(cat), "kegg_term", {"name": name, "level": "category"})
+            yield (_cat_node_id(cat), "kegg_term", {"name": name, "level_kind": "category", "level": 0})
             cat_count += 1
         logger.info(f"MultiKeggAnnotationAdapter.get_nodes: {cat_count} category nodes")
 
@@ -767,6 +777,22 @@ def _cyanorak_role_node_id(code: str) -> str:
 def _tigr_role_node_id(code: str) -> str:
     """Node ID for a tIGR role code (unknown to bioregistry; raw string)."""
     return f"tigr.role:{code}"
+
+
+def _role_depth(code: str, role_tree: dict[str, dict]) -> int:
+    """
+    Compute hierarchy depth for a CyanorakRole code by walking ``parent`` pointers.
+
+    Roots (no parent) → 0. Secondary roles → 1. Sub-roles → 2.
+    """
+    depth = 0
+    cur = code
+    while True:
+        entry = role_tree.get(cur)
+        if entry is None or entry.get("parent") is None:
+            return depth
+        cur = entry["parent"]
+        depth += 1
 
 
 class CogRoleAnnotationAdapter:
@@ -955,7 +981,7 @@ class MultiCogRoleAnnotationAdapter:
             yield (
                 _cog_cat_node_id(letter),
                 "cog functional category",
-                {"code": letter, "name": _clean_str(name)},
+                {"code": letter, "name": _clean_str(name), "level": 0},
             )
             cog_count += 1
         logger.info(f"MultiCogRoleAnnotationAdapter.get_nodes: {cog_count} COG category nodes")
@@ -966,7 +992,11 @@ class MultiCogRoleAnnotationAdapter:
             yield (
                 _cyanorak_role_node_id(code),
                 "cyanorak role",
-                {"code": code, "name": _clean_str(full_role_description(code, self.role_tree))},
+                {
+                    "code": code,
+                    "name": _clean_str(full_role_description(code, self.role_tree)),
+                    "level": _role_depth(code, self.role_tree),
+                },
             )
             cyr_count += 1
         logger.info(f"MultiCogRoleAnnotationAdapter.get_nodes: {cyr_count} CyanorakRole nodes")
@@ -978,7 +1008,7 @@ class MultiCogRoleAnnotationAdapter:
             yield (
                 _tigr_role_node_id(code),
                 "tigr role",
-                {"code": code, "name": _clean_str(desc)},
+                {"code": code, "name": _clean_str(desc), "level": 0},
             )
             tigr_count += 1
         logger.info(f"MultiCogRoleAnnotationAdapter.get_nodes: {tigr_count} TigrRole nodes")
@@ -1177,7 +1207,7 @@ class MultiPfamAnnotationAdapter:
                 yield (
                     _pfam_node_id(pf_id),
                     "pfam",
-                    {"name": pf_id, "short_name": pf_id},
+                    {"name": pf_id, "short_name": pf_id, "level": 1},
                 )
                 pfam_count += 1
                 continue
@@ -1188,6 +1218,7 @@ class MultiPfamAnnotationAdapter:
                 {
                     "name": _clean_str(entry.description),
                     "short_name": _clean_str(entry.shortname),
+                    "level": 1,
                 },
             )
             pfam_count += 1
@@ -1208,7 +1239,7 @@ class MultiPfamAnnotationAdapter:
             yield (
                 _pfam_clan_node_id(clan_acc),
                 "pfam_clan",
-                {"name": _clean_str(clan_name)},
+                {"name": _clean_str(clan_name), "level": 0},
             )
             clan_count += 1
         logger.info(f"MultiPfamAnnotationAdapter.get_nodes: {clan_count} PfamClan nodes")
