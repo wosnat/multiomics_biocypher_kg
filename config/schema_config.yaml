@@ -803,6 +803,37 @@ kegg term hierarchical association:
   target: kegg term
   label_in_input: kegg_term_is_a_kegg_term
 
+brite category:
+  is_a: named thing
+  represented_as: node
+  preferred_id: kegg.brite
+  label_in_input: brite_category
+  properties:
+    name: str
+    tree: str
+    tree_code: str
+    level: int
+    level_kind: str
+    member_ko_count: int   # post-import: recursive KO descendant count
+    gene_count: int         # post-import: distinct genes reachable via KO leaves
+    organism_count: int     # post-import: distinct organisms among those genes
+
+brite category is a brite category:
+  is_a: association
+  represented_as: edge
+  label_as_edge: brite_category_is_a_brite_category
+  source: brite category
+  target: brite category
+  label_in_input: brite_category_is_a_brite_category
+
+kegg term in brite category:
+  is_a: association
+  represented_as: edge
+  label_as_edge: kegg_term_in_brite_category
+  source: kegg term
+  target: brite category
+  label_in_input: kegg_term_in_brite_category
+
 
 protein to ec number association:
   is_a: ReactionToParticipantAssociation
