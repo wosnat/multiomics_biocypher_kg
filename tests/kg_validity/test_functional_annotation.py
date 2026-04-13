@@ -294,21 +294,21 @@ def test_ec_gene_coverage(run_query):
 # KEGG: node counts and properties
 # ---------------------------------------------------------------------------
 
-@pytest.mark.parametrize("level,min_count", [
+@pytest.mark.parametrize("level_kind,min_count", [
     ("ko",          1500),
     ("pathway",      100),
     ("subcategory",   30),
     ("category",       5),
 ])
-def test_kegg_node_count_minimum(run_query, level, min_count):
-    """KEGG hierarchy nodes must meet minimum count per level."""
+def test_kegg_node_count_minimum(run_query, level_kind, min_count):
+    """KEGG hierarchy nodes must meet minimum count per level_kind."""
     result = run_query(
-        "MATCH (n:KeggTerm {level: $level}) RETURN count(n) AS cnt",
-        level=level,
+        "MATCH (n:KeggTerm {level_kind: $level_kind}) RETURN count(n) AS cnt",
+        level_kind=level_kind,
     )
     cnt = result[0]["cnt"]
     assert cnt >= min_count, (
-        f"Only {cnt} KeggTerm nodes with level={level!r} found; expected >= {min_count}"
+        f"Only {cnt} KeggTerm nodes with level_kind={level_kind!r} found; expected >= {min_count}"
     )
 
 

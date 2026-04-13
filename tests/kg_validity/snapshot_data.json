@@ -126,6 +126,7 @@
         "adjusted_p_value": 0.65,
         "expression_direction": "down",
         "log2_fold_change": -0.29,
+        "time_point": "acclimated",
         "time_point_order": 1
       },
       "source": "10.1016/j.micres.2015.04.006_salt_saltacclimated_5_salt_as9601_rnaseq",
@@ -137,6 +138,7 @@
         "adjusted_p_value": 0.97,
         "expression_direction": "down",
         "log2_fold_change": -0.02,
+        "time_point": "acclimated",
         "time_point_order": 1
       },
       "source": "10.1016/j.micres.2015.04.006_salt_saltacclimated_5_salt_as9601_rnaseq",
@@ -148,6 +150,7 @@
         "adjusted_p_value": 0.91,
         "expression_direction": "down",
         "log2_fold_change": -0.06,
+        "time_point": "acclimated",
         "time_point_order": 1
       },
       "source": "10.1016/j.micres.2015.04.006_salt_saltacclimated_5_salt_as9601_rnaseq",
@@ -159,6 +162,7 @@
         "adjusted_p_value": 0.36,
         "expression_direction": "down",
         "log2_fold_change": -0.27,
+        "time_point": "acclimated",
         "time_point_order": 1
       },
       "source": "10.1016/j.micres.2015.04.006_salt_saltacclimated_5_salt_as9601_rnaseq",
@@ -170,6 +174,7 @@
         "adjusted_p_value": 0.67,
         "expression_direction": "down",
         "log2_fold_change": -0.43,
+        "time_point": "acclimated",
         "time_point_order": 1
       },
       "source": "10.1016/j.micres.2015.04.006_salt_saltacclimated_5_salt_as9601_rnaseq",
@@ -657,7 +662,7 @@
       "type": "Cyanorak_role_is_a_cyanorak_role"
     }
   ],
-  "generated_at": "2026-04-05T13:24:38.837759+00:00",
+  "generated_at": "2026-04-13T09:27:10.594648+00:00",
   "nodes": [
     {
       "anchor": true,
@@ -1296,7 +1301,7 @@
       "id": "kegg.orthology:K02338",
       "label": "KeggTerm",
       "properties": {
-        "level": "ko",
+        "level": 3,
         "name": "dnaN; DNA polymerase III subunit beta [EC:2.7.7.7]"
       }
     },
@@ -1305,7 +1310,7 @@
       "id": "kegg.category:09100",
       "label": "KeggTerm",
       "properties": {
-        "level": "category",
+        "level": 0,
         "name": "Metabolism"
       }
     },
@@ -1314,7 +1319,7 @@
       "id": "kegg.category:09120",
       "label": "KeggTerm",
       "properties": {
-        "level": "category",
+        "level": 0,
         "name": "Genetic Information Processing"
       }
     },
@@ -1323,7 +1328,7 @@
       "id": "kegg.category:09130",
       "label": "KeggTerm",
       "properties": {
-        "level": "category",
+        "level": 0,
         "name": "Environmental Information Processing"
       }
     },
@@ -1332,7 +1337,7 @@
       "id": "kegg.category:09140",
       "label": "KeggTerm",
       "properties": {
-        "level": "category",
+        "level": 0,
         "name": "Cellular Processes"
       }
     },
@@ -1341,7 +1346,7 @@
       "id": "kegg.category:09150",
       "label": "KeggTerm",
       "properties": {
-        "level": "category",
+        "level": 0,
         "name": "Organismal Systems"
       }
     },
