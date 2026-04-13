@@ -54,6 +54,7 @@ from multiomics_kg.utils.cyanorak_role_utils import parse_cyanorak_role_tree, fu
 from multiomics_kg.utils.go_utils import (
     NAMESPACE_TO_LABEL,
     compute_ancestry_closure,
+    compute_go_levels,
     load_go_data,
     make_go_go_edge_label,
 )
@@ -185,6 +186,13 @@ class MultiGoAnnotationAdapter:
     ) -> None:
         self.test_mode = test_mode
         self.go_data = load_go_data(Path(cache_root), force=not cache)
+        self.go_levels, go_orphans = compute_go_levels(self.go_data)
+        if go_orphans:
+            logger.warning(
+                f"MultiGoAnnotationAdapter: {len(go_orphans)} orphan GO terms "
+                f"(not reachable from canonical roots via is_a/part_of): "
+                f"{go_orphans[:10]}{'...' if len(go_orphans) > 10 else ''}"
+            )
         self.adapters: list[GoAnnotationAdapter] = []
         self._build_adapters(genome_config_file)
 
@@ -233,11 +241,13 @@ class MultiGoAnnotationAdapter:
             label = NAMESPACE_TO_LABEL.get(entry["namespace"])
             if label is None:
                 continue
-            yield (
-                _go_node_id(go_id),
-                label,
-                {"name": _clean_str(entry["name"])},
-            )
+            props = {"name": _clean_str(entry["name"])}
+            if go_id in self.go_levels:
+                depth, is_best_effort = self.go_levels[go_id]
+                props["level"] = depth
+                if is_best_effort:
+                    props["level_is_best_effort"] = "true"
+            yield (_go_node_id(go_id), label, props)
             count += 1
 
         logger.info(f"MultiGoAnnotationAdapter.get_nodes: yielded {count} GO nodes")
