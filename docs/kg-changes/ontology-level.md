@@ -1,4 +1,4 @@
-# KG Change: Unified `level` on Ontology Terms
+ # KG Change: Unified `level` on Ontology Terms
 
 Date: 2026-04-12
 
