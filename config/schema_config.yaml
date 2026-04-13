@@ -357,6 +357,8 @@ biological process:
   properties:
     name: str
     anc2vec_embedding: float[]
+    level: int
+    level_is_best_effort: str
   
 cellular component:
   represented_as: node
@@ -365,6 +367,8 @@ cellular component:
   properties:
     name: str
     anc2vec_embedding: float[]
+    level: int
+    level_is_best_effort: str
 
 molecular function:
   synonym_for: molecular activity
@@ -374,6 +378,8 @@ molecular function:
   properties:
     name: str
     anc2vec_embedding: float[]
+    level: int
+    level_is_best_effort: str
   
 
 compound:
@@ -409,7 +415,9 @@ kegg term:
   label_in_input: kegg_term
   properties:
     name: str
-    level: str
+    level_kind: str
+    level: int
+    level_is_best_effort: str
 
 
 ec number:
@@ -423,6 +431,8 @@ ec number:
     catalytic_activity: str[]
     comments: str[]
     rxnfp_embedding: float[]
+    level: int
+    level_is_best_effort: str
 
 cog functional category:
   is_a: named thing
@@ -432,6 +442,8 @@ cog functional category:
   properties:
     code: str
     name: str
+    level: int
+    level_is_best_effort: str
 
 cyanorak role:
   is_a: named thing
@@ -441,6 +453,8 @@ cyanorak role:
   properties:
     code: str
     name: str
+    level: int
+    level_is_best_effort: str
 
 tigr role:
   is_a: named thing
@@ -450,6 +464,8 @@ tigr role:
   properties:
     code: str
     name: str
+    level: int
+    level_is_best_effort: str
 
 pfam:
   is_a: named thing
@@ -459,6 +475,8 @@ pfam:
   properties:
     name: str
     short_name: str
+    level: int
+    level_is_best_effort: str
 
 pfam clan:
   is_a: named thing
@@ -467,6 +485,8 @@ pfam clan:
   label_in_input: pfam_clan
   properties:
     name: str
+    level: int
+    level_is_best_effort: str
 
 
 # ---

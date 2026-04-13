@@ -328,15 +328,18 @@ def test_multi_kegg_get_nodes_types(multi_kegg):
 
 def test_multi_kegg_nodes_have_level(multi_kegg):
     nodes = list(multi_kegg.get_nodes())
-    levels = {n[2]["level"] for n in nodes}
-    assert levels == {"ko", "pathway", "subcategory", "category"}
+    level_kinds = {n[2]["level_kind"] for n in nodes}
+    assert level_kinds == {"ko", "pathway", "subcategory", "category"}
+    expected_ints = {"category": 0, "subcategory": 1, "pathway": 2, "ko": 3}
     for _, _, props in nodes:
+        assert "level_kind" in props
         assert "level" in props
+        assert props["level"] == expected_ints[props["level_kind"]]
 
 
 def test_multi_kegg_ko_nodes_have_names(multi_kegg):
     nodes = list(multi_kegg.get_nodes())
-    ko_nodes = [n for n in nodes if n[2].get("level") == "ko"]
+    ko_nodes = [n for n in nodes if n[2].get("level_kind") == "ko"]
     for node_id, label, props in ko_nodes:
         assert "name" in props
 
@@ -360,7 +363,7 @@ def test_multi_kegg_nodes_deduplicated(tmp_path, genome_dir, kegg_cache):
         cache=True,
     )
     nodes = list(adapter.get_nodes())
-    ko_nodes = [n for n in nodes if n[2].get("level") == "ko"]
+    ko_nodes = [n for n in nodes if n[2].get("level_kind") == "ko"]
     ko_ids = [n[0] for n in ko_nodes]
     assert len(ko_ids) == len(set(ko_ids)), "Duplicate KO nodes found"
 
@@ -404,7 +407,7 @@ def test_multi_kegg_clean_str_in_names(multi_kegg):
 def test_multi_kegg_pathway_nodes_have_nonempty_name(multi_kegg):
     """Pathway-level nodes must have non-empty names (bug fix validation)."""
     nodes = list(multi_kegg.get_nodes())
-    pw_nodes = [n for n in nodes if n[2].get("level") == "pathway"]
+    pw_nodes = [n for n in nodes if n[2].get("level_kind") == "pathway"]
     assert len(pw_nodes) > 0, "No pathway nodes found"
     for node_id, _, props in pw_nodes:
         assert props["name"] != "", f"Pathway {node_id} has empty name"

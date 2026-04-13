@@ -27,6 +27,19 @@ NAMESPACE_TO_LABEL: dict[str, str] = {
     "cellular_component": "cellular component",
 }
 
+# Canonical GO namespace root IDs. Any term with empty parents that is not
+# one of these is treated as an orphan (data anomaly).
+CANONICAL_GO_ROOTS: frozenset[str] = frozenset({
+    "GO:0008150",  # biological_process
+    "GO:0003674",  # molecular_function
+    "GO:0005575",  # cellular_component
+})
+
+# Parent relations traversed for hierarchy-depth computation.
+# `regulates` / `positively_regulates` / `negatively_regulates` are intentionally
+# excluded — they don't carry hierarchy semantics for the explorer's level rollup.
+_LEVEL_TRAVERSAL_RELATIONS: frozenset[str] = frozenset({"is_a", "part_of"})
+
 # Allowed GO-GO edge labels (must match schema_config.yaml label_in_input values)
 _ALLOWED_GO_GO_EDGE_LABELS: frozenset[str] = frozenset({
     "biological_process_is_a_biological_process",
@@ -237,3 +250,76 @@ def make_go_go_edge_label(
     """
     label = f"{child_ns}_{relation}_{parent_ns}"
     return label if label in _ALLOWED_GO_GO_EDGE_LABELS else None
+
+
+def compute_go_levels(
+    go_data: dict[str, dict],
+) -> tuple[dict[str, tuple[int, bool]], list[str]]:
+    """
+    Compute hierarchy depth for every GO term reachable from its namespace root.
+
+    Traverses ``is_a`` and ``part_of`` parents only. For each term, tracks the
+    minimum and maximum depth observed along any root path; returns
+    ``(min_depth, is_best_effort)`` where ``is_best_effort = min_depth != max_depth``.
+
+    Args:
+        go_data: ``{go_id: {name, namespace, parents: [[parent_id, relation], ...]}}``
+            as produced by :func:`load_go_data`.
+
+    Returns:
+        A pair ``(levels, orphans)`` where:
+
+        - ``levels`` maps every reachable go_id to ``(min_depth, is_best_effort)``.
+        - ``orphans`` lists go_ids that are not one of the canonical roots and
+          whose only path to a root is via a non-traversed relation (or none
+          at all).
+    """
+    # Reverse adjacency: for each term, which terms list it as a parent
+    # (via an allowed relation)?
+    children: dict[str, list[str]] = {gid: [] for gid in go_data}
+    for child_id, entry in go_data.items():
+        for parent_id, relation in entry.get("parents", []):
+            if relation not in _LEVEL_TRAVERSAL_RELATIONS:
+                continue
+            if parent_id in children:
+                children[parent_id].append(child_id)
+
+    min_depth: dict[str, int] = {}
+    max_depth: dict[str, int] = {}
+
+    # Seed: every canonical root present in go_data starts at depth 0.
+    seeds = [gid for gid in CANONICAL_GO_ROOTS if gid in go_data]
+    for root in seeds:
+        min_depth[root] = 0
+        max_depth[root] = 0
+
+    # Iterative relaxation: each child's depth is at most/at least
+    # parent_depth + 1. Loop until no further updates.
+    # GO is a DAG with ~6k terms — converges in a handful of passes.
+    changed = True
+    while changed:
+        changed = False
+        # Snapshot IDs already reached to iterate stably.
+        frontier = list(min_depth.keys())
+        for parent_id in frontier:
+            pd_min = min_depth[parent_id]
+            pd_max = max_depth[parent_id]
+            for child_id in children.get(parent_id, []):
+                new_min = pd_min + 1
+                new_max = pd_max + 1
+                if child_id not in min_depth or new_min < min_depth[child_id]:
+                    min_depth[child_id] = new_min
+                    changed = True
+                if child_id not in max_depth or new_max > max_depth[child_id]:
+                    max_depth[child_id] = new_max
+                    changed = True
+
+    levels: dict[str, tuple[int, bool]] = {
+        gid: (min_depth[gid], min_depth[gid] != max_depth[gid])
+        for gid in min_depth
+    }
+    orphans: list[str] = sorted(
+        gid for gid in go_data
+        if gid not in levels and gid not in CANONICAL_GO_ROOTS
+    )
+    return levels, orphans

@@ -241,8 +241,8 @@ class EC:
             props = {}
             if ECNodeField.NAME.value in self.ec_node_fields:
                 props[ECNodeField.NAME.value] = level_1_dict["name"]
-                
 
+            props["level"] = 0
             node_list.append((level_1_id, label, props))
 
             for level_2_entry, level_2_dict in level_1_dict.items():
@@ -254,6 +254,7 @@ class EC:
                     if ECNodeField.NAME.value in self.ec_node_fields:
                         props[ECNodeField.NAME.value] = level_2_dict["name"]
 
+                    props["level"] = 1
                     node_list.append((level_2_id, label, props))
 
                     for level_3_entry, level_3_dict in level_2_dict.items():
@@ -264,6 +265,7 @@ class EC:
                             props = {}
                             if ECNodeField.NAME.value in self.ec_node_fields:
                                 props[ECNodeField.NAME.value] = level_3_dict["name"]
+                            props["level"] = 2
                             node_list.append((level_3_id, label, props))
 
                             if level_3_dict["entries"]:
@@ -274,10 +276,11 @@ class EC:
                                     )
                                     props = {
                                         field_name : self.clean_text(self.enzymes[level_4_entry][dict_key])
-                                        for field_name, dict_key in field_name_to_dict_key.items() 
+                                        for field_name, dict_key in field_name_to_dict_key.items()
                                         if (field_name in self.ec_node_fields) and (dict_key in self.enzymes[level_4_entry])
-                                    }  
+                                    }
 
+                                    props["level"] = 3
                                     # TODO: add rxnfp embeddings
                                     if False and ECNodeField.RXFNP_EMBEDDING.value in self.ec_node_fields and self.ec_number_to_rxnfp_embedding.get(level_4_entry) is not None:
                                         props[ECNodeField.RXFNP_EMBEDDING.value] = [str(emb) for emb in self.ec_number_to_rxnfp_embedding[level_4_entry]]
