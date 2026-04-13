@@ -153,6 +153,9 @@ publication:
           logfc_col: "Fold change,                   Co-culture lactate                    vs.                                             axenic control"
           fold_change_type: linear
           table_scope: significant_only
+          timepoint: "steady state"
+          timepoint_hours: null
+          growth_phase: acclimated_steady_state
 
     supp_table_s4:
       type: csv
@@ -173,6 +176,9 @@ publication:
           logfc_col: "Fold change,                   Co-culture lactate                    vs.                                             axenic control"
           fold_change_type: linear
           table_scope: significant_only
+          timepoint: "steady state"
+          timepoint_hours: null
+          growth_phase: acclimated_steady_state
 
     # HCO3- co-culture vs axenic
     supp_table_s5:
@@ -194,6 +200,9 @@ publication:
           logfc_col: "Fold change,                   Co-culture HCO3-                    vs.                                             axenic control"
           fold_change_type: linear
           table_scope: significant_only
+          timepoint: "steady state"
+          timepoint_hours: null
+          growth_phase: acclimated_steady_state
 
     supp_table_s6:
       type: csv
@@ -214,6 +223,9 @@ publication:
           logfc_col: "Fold change,                   Co-culture HCO3-                    vs.                                             axenic control"
           fold_change_type: linear
           table_scope: significant_only
+          timepoint: "steady state"
+          timepoint_hours: null
+          growth_phase: acclimated_steady_state
 
     # HCO3- co-culture vs lactate co-culture
     supp_table_s7:
@@ -235,6 +247,9 @@ publication:
           logfc_col: "Fold change,                   Co-culture HCO3-                    vs.                                            co-culture lactate"
           fold_change_type: linear
           table_scope: significant_only
+          timepoint: "steady state"
+          timepoint_hours: null
+          growth_phase: acclimated_steady_state
 
     supp_table_s8:
       type: csv
@@ -255,3 +270,6 @@ publication:
           logfc_col: "Fold change,                   Co-culture HCO3-                    vs.                                            co-culture lactate"
           fold_change_type: linear
           table_scope: significant_only
+          timepoint: "steady state"
+          timepoint_hours: null
+          growth_phase: acclimated_steady_state

@@ -38,6 +38,9 @@ publication:
           name_col: "Gene Name"
           logfc_col: "Log2 fold change"
           table_scope: significant_only
+          timepoint: "mid-log phase"
+          timepoint_hours: null
+          growth_phase: exponential
     table_s2_downregulated:
       type: csv
       filename: "data/Synechococcus/papers_and_supp/Tal 2009/table s2.csv"
@@ -54,3 +57,6 @@ publication:
           name_col: "Gene Name"
           logfc_col: "Log2 fold change"
           table_scope: significant_only
+          timepoint: "mid-log phase"
+          timepoint_hours: null
+          growth_phase: exponential

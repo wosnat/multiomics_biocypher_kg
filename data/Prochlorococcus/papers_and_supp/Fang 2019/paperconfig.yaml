@@ -38,6 +38,7 @@ publication:
         experiment: viral_viral_dom_vdom_addition_mit9313_rnaseq
         timepoint: 0.5h
         timepoint_hours: 0.5
+        growth_phase: exponential
         name_col: Gene ID
         logfc_col: 0.5 h
         pvalue_threshold: 0.1
@@ -47,6 +48,7 @@ publication:
         experiment: viral_viral_dom_vdom_addition_mit9313_rnaseq
         timepoint: 1h
         timepoint_hours: 1.0
+        growth_phase: exponential
         name_col: Gene ID
         logfc_col: 1 h
         pvalue_threshold: 0.1
@@ -56,6 +58,7 @@ publication:
         experiment: viral_viral_dom_vdom_addition_mit9313_rnaseq
         timepoint: 2h
         timepoint_hours: 2.0
+        growth_phase: exponential
         name_col: Gene ID
         logfc_col: 2 h
         pvalue_threshold: 0.1
@@ -65,6 +68,7 @@ publication:
         experiment: viral_viral_dom_vdom_addition_mit9313_rnaseq
         timepoint: 4h
         timepoint_hours: 4.0
+        growth_phase: exponential
         name_col: Gene ID
         logfc_col: 4 h
         pvalue_threshold: 0.1
@@ -74,6 +78,7 @@ publication:
         experiment: viral_viral_dom_vdom_addition_mit9313_rnaseq
         timepoint: 8h
         timepoint_hours: 8.0
+        growth_phase: exponential
         name_col: Gene ID
         logfc_col: 8 h
         pvalue_threshold: 0.1
@@ -83,6 +88,7 @@ publication:
         experiment: viral_viral_dom_vdom_addition_mit9313_rnaseq
         timepoint: 12h
         timepoint_hours: 12.0
+        growth_phase: exponential
         name_col: Gene ID
         logfc_col: 12 h
         pvalue_threshold: 0.1
@@ -92,6 +98,7 @@ publication:
         experiment: viral_viral_dom_vdom_addition_mit9313_rnaseq
         timepoint: 24h
         timepoint_hours: 24.0
+        growth_phase: exponential
         name_col: Gene ID
         logfc_col: 24 h
         pvalue_threshold: 0.1
@@ -101,6 +108,7 @@ publication:
         experiment: viral_viral_dom_vdom_addition_mit9313_rnaseq
         timepoint: 48h
         timepoint_hours: 48.0
+        growth_phase: exponential
         name_col: Gene ID
         logfc_col: 48 h
         pvalue_threshold: 0.1
@@ -110,6 +118,7 @@ publication:
         experiment: viral_viral_dom_vdom_addition_mit9313_rnaseq
         timepoint: 72h
         timepoint_hours: 72.0
+        growth_phase: exponential
         name_col: Gene ID
         logfc_col: 72 h
         pvalue_threshold: 0.1

@@ -85,7 +85,9 @@ publication:
       statistical_analyses:
       - id: gas_shock_air
         experiment: carbon_air_0036_co2_21_med4_microarray
+        timepoint: max across 3-24h
         timepoint_hours: null
+        growth_phase: acute_stress
         name_col: Locus tag2
         logfc_col: 0.036%_CO2_21%_O2 FC
         prefiltered: true
@@ -104,7 +106,9 @@ publication:
       statistical_analyses:
       - id: gas_shock_no_o2
         experiment: carbon_ambient_co2_no_o2_med4_microarray
+        timepoint: max across 3-24h
         timepoint_hours: null
+        growth_phase: acute_stress
         name_col: Locus tag2
         logfc_col: 0.036%_CO2_0%_O2 FC
         prefiltered: true
@@ -123,7 +127,9 @@ publication:
       statistical_analyses:
       - id: gas_shock_low_co2
         experiment: carbon_low_co2_0004_co2_med4_microarray
+        timepoint: max across 3-24h
         timepoint_hours: null
+        growth_phase: acute_stress
         name_col: Locus tag2
         logfc_col: 0.004%_CO2_21%_O2 FC
         prefiltered: true
@@ -142,7 +148,9 @@ publication:
       statistical_analyses:
       - id: gas_shock_low_co2_no_o2
         experiment: carbon_low_co2_and_no_med4_microarray
+        timepoint: max across 3-24h
         timepoint_hours: null
+        growth_phase: acute_stress
         name_col: Locus tag2
         logfc_col: 0.004%_CO2_0%_O2 FC
         prefiltered: true

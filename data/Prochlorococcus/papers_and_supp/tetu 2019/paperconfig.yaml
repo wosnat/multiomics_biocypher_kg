@@ -83,13 +83,17 @@ publication:
       statistical_analyses:
       - id: DE_hdpe_leachate_vs_control_MIT9312
         experiment: plastic_hdpe_plastic_leachate_50_mit9312_rnaseq
-        timepoint_hours: null
+        timepoint: 120 min
+        timepoint_hours: 2
+        growth_phase: acute_stress
         name_col: MIT9312 original locus tag
         logfc_col: HDPE log2 Fold change
         prefiltered: true
       - id: DE_pvc_leachate_vs_control_MIT9312
         experiment: plastic_pvc_plastic_leachate_2_mit9312_rnaseq
-        timepoint_hours: null
+        timepoint: 90 min
+        timepoint_hours: 1.5
+        growth_phase: acute_stress
         name_col: MIT9312 original locus tag
         logfc_col: PVC log2 Fold change
         prefiltered: true
@@ -109,13 +113,17 @@ publication:
       statistical_analyses:
       - id: DE_hdpe_leachate_vs_control_NATL2A
         experiment: plastic_hdpe_plastic_leachate_50_natl2a_rnaseq
-        timepoint_hours: null
+        timepoint: 120 min
+        timepoint_hours: 2
+        growth_phase: acute_stress
         name_col: NATL2A original locus tag
         logfc_col: HDPE log2 Fold change
         prefiltered: true
       - id: DE_pvc_leachate_vs_control_NATL2A
         experiment: plastic_pvc_plastic_leachate_2_natl2a_rnaseq
-        timepoint_hours: null
+        timepoint: 90 min
+        timepoint_hours: 1.5
+        growth_phase: acute_stress
         name_col: NATL2A original locus tag
         logfc_col: PVC log2 Fold change
         prefiltered: true

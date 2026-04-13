@@ -52,7 +52,9 @@ publication:
       statistical_analyses:
       - id: DE_low_salinity_vs_normal_NATL1A
         experiment: salt_low_salinity_acclimation_28_natl1a_rnaseq
+        timepoint: acclimated
         timepoint_hours: null
+        growth_phase: acclimated_steady_state
         name_col: Gene Name
         logfc_col: Log2FC
         adjusted_p_value_col: p-value
@@ -73,7 +75,9 @@ publication:
       statistical_analyses:
       - id: DE_low_salinity_vs_normal_MED4
         experiment: salt_low_salinity_acclimation_28_med4_rnaseq
+        timepoint: acclimated
         timepoint_hours: null
+        growth_phase: acclimated_steady_state
         name_col: Gene Name
         logfc_col: logFC
         adjusted_p_value_col: p-value

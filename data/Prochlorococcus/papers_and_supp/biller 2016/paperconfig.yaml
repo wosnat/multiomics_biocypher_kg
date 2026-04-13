@@ -78,6 +78,7 @@ publication:
         experiment: coculture_alteromonas_macleodii_mit1002_natl2a_rnaseq
         timepoint: -12h
         timepoint_hours: -12.0
+        growth_phase: exponential
         name_col: Original_NCBI_ID
         logfc_col: -12 hours
         pvalue_threshold: 0.1
@@ -86,6 +87,7 @@ publication:
         experiment: coculture_alteromonas_macleodii_mit1002_natl2a_rnaseq
         timepoint: 2h
         timepoint_hours: 2.0
+        growth_phase: exponential
         name_col: Original_NCBI_ID
         logfc_col: 2 hours
         pvalue_threshold: 0.1
@@ -94,6 +96,7 @@ publication:
         experiment: coculture_alteromonas_macleodii_mit1002_natl2a_rnaseq
         timepoint: 4h
         timepoint_hours: 4.0
+        growth_phase: exponential
         name_col: Original_NCBI_ID
         logfc_col: 4 hours
         pvalue_threshold: 0.1
@@ -102,6 +105,7 @@ publication:
         experiment: coculture_alteromonas_macleodii_mit1002_natl2a_rnaseq
         timepoint: 6h
         timepoint_hours: 6.0
+        growth_phase: exponential
         name_col: Original_NCBI_ID
         logfc_col: 6 hours
         pvalue_threshold: 0.1
@@ -110,6 +114,7 @@ publication:
         experiment: coculture_alteromonas_macleodii_mit1002_natl2a_rnaseq
         timepoint: 12h
         timepoint_hours: 12.0
+        growth_phase: exponential
         name_col: Original_NCBI_ID
         logfc_col: 12 hours
         pvalue_threshold: 0.1
@@ -118,6 +123,7 @@ publication:
         experiment: coculture_alteromonas_macleodii_mit1002_natl2a_rnaseq
         timepoint: 24h
         timepoint_hours: 24.0
+        growth_phase: exponential
         name_col: Original_NCBI_ID
         logfc_col: 24 hours
         pvalue_threshold: 0.1
@@ -126,6 +132,7 @@ publication:
         experiment: coculture_alteromonas_macleodii_mit1002_natl2a_rnaseq
         timepoint: 48h
         timepoint_hours: 48.0
+        growth_phase: exponential
         name_col: Original_NCBI_ID
         logfc_col: 48 hours
         pvalue_threshold: 0.1
@@ -148,11 +155,13 @@ publication:
         experiment: coculture_24_hours_after_coculturing_mit1002_rnaseq
         timepoint: 24h vs 12h
         timepoint_hours: 24.0
+        growth_phase: exponential
         name_col: Gene ID
         logfc_col: log2FoldChange (24 vs 12 hrs after addition)
       - id: DE_alteromonas_MIT1002_coculture_48v12h
         experiment: coculture_48_hours_after_coculturing_mit1002_rnaseq
         timepoint: 48h vs 12h
         timepoint_hours: 48.0
+        growth_phase: exponential
         name_col: Gene ID
         logfc_col: log2FoldChange (48 vs 12 hrs after addition)

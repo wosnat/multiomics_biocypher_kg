@@ -107,6 +107,7 @@ publication:
         experiment: coculture_alteromonas_hot1a3_med4_rnaseq
         timepoint: 20h
         timepoint_hours: 20.0
+        growth_phase: exponential
         name_col: Synonym
         logfc_col: log 2 fold change coculture/axenic
         adjusted_p_value_col: q Value
@@ -124,6 +125,7 @@ publication:
         experiment: coculture_prochlorococcus_mit9313_high_alteromonas_hot1a3_rnaseq
         timepoint: 20h
         timepoint_hours: 20.0
+        growth_phase: exponential
         name_col: Synonym
         logfc_col: fold change 9313/9313DIL
         adjusted_p_value_col: qValue 9313+1A3  vs 9313+1A3 dil
@@ -141,6 +143,7 @@ publication:
         experiment: coculture_prochlorococcus_mit9313_hot1a3_rnaseq
         timepoint: 20h
         timepoint_hours: 20.0
+        growth_phase: exponential
         name_col: Synonym
         logfc_col: fold change 9313+1A3/med4+1A3
         adjusted_p_value_col: qValue 9313+1A3  vs med 4
@@ -158,6 +161,7 @@ publication:
         experiment: coculture_alteromonas_hot1a3_mit9313_rnaseq_inoc_5e6
         timepoint: 20h
         timepoint_hours: 20.0
+        growth_phase: exponential
         name_col: Synonym
         logfc_col: log 2 fold change coculture/axenic
         adjusted_p_value_col: q Value
@@ -175,6 +179,7 @@ publication:
         experiment: coculture_alteromonas_hot1a3_mit9313_rnaseq_inoc_05e6
         timepoint: 20h
         timepoint_hours: 20.0
+        growth_phase: exponential
         name_col: Synonym
         logfc_col: log 2 fold change coculture/axenic
         adjusted_p_value_col: q Value

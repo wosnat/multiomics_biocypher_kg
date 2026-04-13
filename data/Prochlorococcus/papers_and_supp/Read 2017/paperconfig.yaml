@@ -34,6 +34,7 @@ publication:
         experiment: nitrogen_stress_ndepleted_pro99_medium_med4_rnaseq
         timepoint: 3h
         timepoint_hours: 3.0
+        growth_phase: acute_stress
         name_col: locus_tag
         logfc_col: log2_fold_change
         adjusted_p_value_col: p_value
@@ -51,6 +52,7 @@ publication:
         experiment: nitrogen_stress_ndepleted_pro99_medium_med4_rnaseq
         timepoint: 12h
         timepoint_hours: 12.0
+        growth_phase: acute_stress
         name_col: locus_tag
         logfc_col: log2_fold_change
         adjusted_p_value_col: p_value
@@ -68,6 +70,7 @@ publication:
         experiment: nitrogen_stress_ndepleted_pro99_medium_med4_rnaseq
         timepoint: 24h
         timepoint_hours: 24.0
+        growth_phase: nutrient_limited
         name_col: locus_tag
         logfc_col: log2_fold_change
         adjusted_p_value_col: p_value

@@ -394,13 +394,40 @@ Each analysis entry describes one **per-timepoint** differential expression comp
 | `name_col` | Column name in CSV containing the gene/protein identifier | `"Gene"`, `"Locus tag2"`, `"Gene ID"`, `"Synonym"` |
 | `logfc_col` | Column name in CSV containing the log2 fold change value | `"log2FoldChange"`, `"logFC"` |
 
-#### Timepoint Field
+#### Timepoint and Growth Phase Fields
+
+Every analysis must have `timepoint`, `timepoint_hours`, and `growth_phase`. Look for these first in the paperconfig's own free-text fields (`treatment_condition`, `control_condition`, `experimental_context`, `treatment`, `light_condition`); fall back to the paper's methods section only if still unclear. **If neither source tells you, use the sentinel and move on — do not guess.**
+
+- `timepoint` is **never null** — always a non-empty string. Use `"unknown"` as the sentinel.
+- `timepoint_hours` may be `null` when the paper doesn't report a sampling time.
+- `growth_phase` uses `unknown` (not null) as the sentinel.
 
 | Field | Description | Examples |
 |-------|-------------|----------|
-| `timepoint_hours` | Numeric timepoint in hours (or `null` for single-point experiments) | `20`, `0.5`, `48`, `null` |
+| `timepoint` | Short label suitable as a figure-axis tag. Use the sampling time if a time course, else a concise physiological context tag. | `"24h"`, `"120 min"`, `"log phase"`, `"pre-infection"`, `"unknown"` |
+| `timepoint_hours` | Numeric conversion to hours (or `null` if the paper doesn't report a time). | `20`, `0.5`, `48`, `null` |
+| `growth_phase` | Physiological state at sampling — value from the enum below. | `exponential`, `nutrient_limited`, `infected`, `unknown` |
 
-Every analysis should have `timepoint_hours`. Set it to a number for time-course experiments, or `null` for single-point experiments. The validator warns if this field is missing.
+**`growth_phase` enum** (use an exact value or the `other:<slug>` escape):
+
+| Value | When to use |
+|-------|-------------|
+| `exponential` | mid-log, cells dividing normally |
+| `stationary` | post-log, no more division, no overt stress named |
+| `nutrient_limited` | cells clearly starved of N, P, Fe, C, etc. |
+| `acclimated_steady_state` | chronic / ≥5-generation exposure to a non-lethal condition |
+| `infected` | post-infection timepoint in a phage/viral study |
+| `recovery` | post-rescue / post-readdition |
+| `diel` | sampled across a light:dark cycle |
+| `darkness` | prolonged dark exposure (hours+, not the dark half of diel) |
+| `death` | sampled past viable-cell peak |
+| `acute_stress` | short (≤6h) stress at still-dividing cells, only when no more-specific phase fits |
+| `unknown` | paper genuinely gives no info |
+| `other:<slug>` | paper describes a phase the enum doesn't cover (e.g. `other:heat_acclimated`) |
+
+**Default bias:** `unknown` > guessing. Prefer `other:<slug>` over `unknown` when the paper gives positional information the enum misses.
+
+**Minimal-diff rule:** when backfilling existing paperconfigs, only add these three fields to each analysis entry (add `timepoint_hours` only if missing). Do not reflow, re-quote, or reorder other fields — the backfill is reviewed via `git diff`.
 
 #### Optional Fields
 

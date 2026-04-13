@@ -116,7 +116,9 @@ publication:
       statistical_analyses:
       - id: DE_high_white_light_vs_dark_MED4
         experiment: light_stress_high_white_light_55_med4_microarray
-        timepoint_hours: null
+        timepoint: 45 min
+        timepoint_hours: 0.75
+        growth_phase: acute_stress
         name_col: gene ID
         logfc_col: HL/dark
         pvalue_threshold: 0.05
@@ -124,7 +126,9 @@ publication:
         pvalue_asterisk_in_logfc: true
       - id: DE_white_light_vs_dark_MED4
         experiment: light_stress_white_light_13_umol_med4_microarray
-        timepoint_hours: null
+        timepoint: 45 min
+        timepoint_hours: 0.75
+        growth_phase: acute_stress
         name_col: gene ID
         logfc_col: WL/dark
         pvalue_threshold: 0.05
@@ -132,7 +136,9 @@ publication:
         pvalue_asterisk_in_logfc: true
       - id: DE_blue_light_vs_dark_MED4
         experiment: light_stress_blue_light_13_umol_med4_microarray
-        timepoint_hours: null
+        timepoint: 45 min
+        timepoint_hours: 0.75
+        growth_phase: acute_stress
         name_col: gene ID
         logfc_col: BL/dark
         pvalue_threshold: 0.05
@@ -140,7 +146,9 @@ publication:
         pvalue_asterisk_in_logfc: true
       - id: DE_red_light_vs_dark_MED4
         experiment: light_stress_red_light_13_umol_med4_microarray
-        timepoint_hours: null
+        timepoint: 45 min
+        timepoint_hours: 0.75
+        growth_phase: acute_stress
         name_col: gene ID
         logfc_col: RL/dark
         pvalue_threshold: 0.05
@@ -148,7 +156,9 @@ publication:
         pvalue_asterisk_in_logfc: true
       - id: DE_green_light_vs_dark_MED4
         experiment: light_stress_green_light_13_umol_med4_microarray
-        timepoint_hours: null
+        timepoint: 45 min
+        timepoint_hours: 0.75
+        growth_phase: acute_stress
         name_col: gene ID
         logfc_col: GL/dark
         pvalue_threshold: 0.05
@@ -156,7 +166,9 @@ publication:
         pvalue_asterisk_in_logfc: true
       - id: DE_DCMU_vs_white_light_MED4
         experiment: light_stress_dcmu_white_light_13_med4_microarray
-        timepoint_hours: null
+        timepoint: 45 min
+        timepoint_hours: 0.75
+        growth_phase: acute_stress
         name_col: gene ID
         logfc_col: DCMU/WL
         pvalue_threshold: 0.05

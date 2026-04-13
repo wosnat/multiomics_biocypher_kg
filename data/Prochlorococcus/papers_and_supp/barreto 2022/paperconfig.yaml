@@ -226,7 +226,9 @@ publication:
       statistical_analyses:
       - id: DE_pco2_elevated_vs_ambient_MIT9312
         experiment: carbon_stress_elevated_pco2_800_ppm_mit9312_rnaseq
+        timepoint: mid-exponential
         timepoint_hours: null
+        growth_phase: exponential
         name_col: symbol
         logfc_col: logFC
         adjusted_p_value_col: PValue
@@ -243,7 +245,9 @@ publication:
       statistical_analyses:
       - id: DE_pco2_elevated_vs_ambient_CC9311
         experiment: carbon_stress_elevated_pco2_800_ppm_cc9311_rnaseq
+        timepoint: mid-exponential
         timepoint_hours: null
+        growth_phase: exponential
         name_col: symbol
         logfc_col: logFC
         adjusted_p_value_col: PValue
@@ -260,7 +264,9 @@ publication:
       statistical_analyses:
       - id: DE_pco2_elevated_vs_ambient_WH8102
         experiment: carbon_stress_elevated_pco2_800_ppm_wh8102_rnaseq
+        timepoint: mid-exponential
         timepoint_hours: null
+        growth_phase: exponential
         name_col: symbol
         logfc_col: logFC
         adjusted_p_value_col: PValue
@@ -277,7 +283,9 @@ publication:
       statistical_analyses:
       - id: DE_pco2_elevated_vs_ambient_EZ55
         experiment: carbon_stress_elevated_pco2_800_ppm_ez55_rnaseq
+        timepoint: mid-exponential
         timepoint_hours: null
+        growth_phase: exponential
         name_col: symbol
         logfc_col: logFC
         adjusted_p_value_col: PValue
@@ -294,7 +302,9 @@ publication:
       statistical_analyses:
       - id: DE_coculture_MIT9312_vs_axenic_EZ55_400ppm
         experiment: coculture_prochlorococcus_mit9312_at_400_ez55_rnaseq
+        timepoint: mid-exponential
         timepoint_hours: null
+        growth_phase: exponential
         name_col: symbol
         logfc_col: logFC
         adjusted_p_value_col: PValue
@@ -311,7 +321,9 @@ publication:
       statistical_analyses:
       - id: DE_coculture_CC9311_vs_axenic_EZ55_400ppm
         experiment: coculture_synechococcus_cc9311_at_400_ez55_rnaseq
+        timepoint: mid-exponential
         timepoint_hours: null
+        growth_phase: exponential
         name_col: symbol
         logfc_col: logFC
         adjusted_p_value_col: PValue
@@ -328,7 +340,9 @@ publication:
       statistical_analyses:
       - id: DE_coculture_WH8102_vs_axenic_EZ55_400ppm
         experiment: coculture_synechococcus_wh8102_at_400_ez55_rnaseq
+        timepoint: mid-exponential
         timepoint_hours: null
+        growth_phase: exponential
         name_col: symbol
         logfc_col: logFC
         adjusted_p_value_col: PValue
@@ -345,7 +359,9 @@ publication:
       statistical_analyses:
       - id: DE_coculture_MIT9312_vs_axenic_EZ55_800ppm
         experiment: coculture_prochlorococcus_mit9312_at_800_ez55_rnaseq
+        timepoint: mid-exponential
         timepoint_hours: null
+        growth_phase: exponential
         name_col: symbol
         logfc_col: logFC
         adjusted_p_value_col: PValue
@@ -362,7 +378,9 @@ publication:
       statistical_analyses:
       - id: DE_coculture_CC9311_vs_axenic_EZ55_800ppm
         experiment: coculture_synechococcus_cc9311_at_800_ez55_rnaseq
+        timepoint: mid-exponential
         timepoint_hours: null
+        growth_phase: exponential
         name_col: symbol
         logfc_col: logFC
         adjusted_p_value_col: PValue
@@ -379,7 +397,9 @@ publication:
       statistical_analyses:
       - id: DE_coculture_WH8102_vs_axenic_EZ55_800ppm
         experiment: coculture_synechococcus_wh8102_at_800_ez55_rnaseq
+        timepoint: mid-exponential
         timepoint_hours: null
+        growth_phase: exponential
         name_col: symbol
         logfc_col: logFC
         adjusted_p_value_col: PValue

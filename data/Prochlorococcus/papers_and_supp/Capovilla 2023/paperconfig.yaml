@@ -65,6 +65,9 @@ publication:
       statistical_analyses:
         - id: DE_chitosan_vs_control_MIT9313
           experiment: chitosan_addition_mit9313_rnaseq
+          timepoint: day 1 and day 3
+          timepoint_hours: null
+          growth_phase: exponential
           name_col: ncbi_gene_locus_tag
           logfc_col: "log2 fold change (+ means upregulated in chitosan)"
           pvalue_threshold: 0.1
@@ -89,6 +92,9 @@ publication:
       statistical_analyses:
         - id: DE_chitosan_vs_control_MIT9303
           experiment: chitosan_addition_mit9303_rnaseq
+          timepoint: day 1 and day 3
+          timepoint_hours: null
+          growth_phase: exponential
           name_col: ncbi_gene_locus_tag
           logfc_col: "log2 fold change (+ means upregulated in chitosan)"
           pvalue_threshold: 0.1

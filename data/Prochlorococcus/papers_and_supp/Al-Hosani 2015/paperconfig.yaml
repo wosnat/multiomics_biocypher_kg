@@ -30,7 +30,9 @@ publication:
       statistical_analyses:
       - id: DE_salt_acclimated_vs_seawater_AS9601
         experiment: salt_saltacclimated_5_salt_as9601_rnaseq
+        timepoint: acclimated
         timepoint_hours: null
+        growth_phase: acclimated_steady_state
         name_col: Gene id
         logfc_col: log2FoldChange
         adjusted_p_value_col: padj

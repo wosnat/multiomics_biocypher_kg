@@ -34,6 +34,7 @@ publication:
         experiment: viral_phage_infected_med4_microarray
         timepoint: 1h
         timepoint_hours: 1.0
+        growth_phase: infected
         name_col: 'ORF '
         logfc_col: 1 h
         pvalue_asterisk_in_logfc: true
@@ -41,6 +42,7 @@ publication:
         experiment: viral_phage_infected_med4_microarray
         timepoint: 2h
         timepoint_hours: 2.0
+        growth_phase: infected
         name_col: 'ORF '
         logfc_col: 2 h
         pvalue_asterisk_in_logfc: true
@@ -48,6 +50,7 @@ publication:
         experiment: viral_phage_infected_med4_microarray
         timepoint: 3h
         timepoint_hours: 3.0
+        growth_phase: infected
         name_col: 'ORF '
         logfc_col: 3 h
         pvalue_asterisk_in_logfc: true
@@ -55,6 +58,7 @@ publication:
         experiment: viral_phage_infected_med4_microarray
         timepoint: 4h
         timepoint_hours: 4.0
+        growth_phase: infected
         name_col: 'ORF '
         logfc_col: 4 h
         pvalue_asterisk_in_logfc: true
@@ -62,6 +66,7 @@ publication:
         experiment: viral_phage_infected_med4_microarray
         timepoint: 5h
         timepoint_hours: 5.0
+        growth_phase: infected
         name_col: 'ORF '
         logfc_col: 5 h
         pvalue_asterisk_in_logfc: true
@@ -69,6 +74,7 @@ publication:
         experiment: viral_phage_infected_med4_microarray
         timepoint: 6h
         timepoint_hours: 6.0
+        growth_phase: infected
         name_col: 'ORF '
         logfc_col: 6 h
         pvalue_asterisk_in_logfc: true
@@ -76,6 +82,7 @@ publication:
         experiment: viral_phage_infected_med4_microarray
         timepoint: 7h
         timepoint_hours: 7.0
+        growth_phase: infected
         name_col: 'ORF '
         logfc_col: 7 h
         pvalue_asterisk_in_logfc: true
@@ -83,6 +90,7 @@ publication:
         experiment: viral_phage_infected_med4_microarray
         timepoint: 8h
         timepoint_hours: 8.0
+        growth_phase: infected
         name_col: 'ORF '
         logfc_col: 8 h
         pvalue_asterisk_in_logfc: true

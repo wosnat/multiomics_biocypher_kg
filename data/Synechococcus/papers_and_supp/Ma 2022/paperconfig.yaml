@@ -59,6 +59,9 @@ publication:
           name_col: "Gene ID"
           logfc_col: "log2FoldChange"
           pvalue_threshold: 0.05
+          timepoint: "4 days"
+          timepoint_hours: 96
+          growth_phase: acclimated_steady_state
 
     # Table S2: Down-regulated transcripts only (significant_only, no p-values in table)
     supp_table_s2_down:
@@ -75,6 +78,9 @@ publication:
           name_col: "Gene ID"
           logfc_col: "log2FoldChange"
           pvalue_threshold: 0.05
+          timepoint: "4 days"
+          timepoint_hours: 96
+          growth_phase: acclimated_steady_state
 
     # Table S4: Selected differentially expressed proteins
     # Mean Ratio uses non-standard sign convention: positive values (1.21-1.31) for
@@ -99,3 +105,6 @@ publication:
           # Positive = upregulated, negative = downregulated (correct for direction/ranking)
           pvalue_threshold: 0.05
           table_scope: significant_only
+          timepoint: "4 days"
+          timepoint_hours: 96
+          growth_phase: acclimated_steady_state

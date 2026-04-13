@@ -52,7 +52,9 @@ publication:
       statistical_analyses:
       - id: DE_freeliving_vs_biofilm_MIT9301
         experiment: growth_state_freeliving_planktonic_enrichment_mit9301_rnaseq
+        timepoint: mid-exponential
         timepoint_hours: null
+        growth_phase: exponential
         name_col: ID
         logfc_col: logFC
         adjusted_p_value_col: FDR

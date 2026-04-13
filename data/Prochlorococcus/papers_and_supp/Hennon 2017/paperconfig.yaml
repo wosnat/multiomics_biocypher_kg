@@ -89,7 +89,9 @@ publication:
       statistical_analyses:
       - id: DE_elevated_co2_vs_ambient_MIT9312_coculture
         experiment: carbon_stress_elevated_co2_800_ppm_mit9312_rnaseq
+        timepoint: acclimated
         timepoint_hours: null
+        growth_phase: acclimated_steady_state
         name_col: locus_tag
         logfc_col: logFC
         adjusted_p_value_col: PValue
@@ -106,7 +108,9 @@ publication:
       statistical_analyses:
       - id: DE_elevated_co2_vs_ambient_EZ55_coculture
         experiment: carbon_stress_elevated_co2_800_ppm_ez55_rnaseq_coculture
+        timepoint: acclimated
         timepoint_hours: null
+        growth_phase: acclimated_steady_state
         name_col: locus tag
         logfc_col: logFC
         adjusted_p_value_col: PValue
@@ -123,7 +127,9 @@ publication:
       statistical_analyses:
       - id: DE_elevated_co2_vs_ambient_EZ55_axenic
         experiment: carbon_stress_elevated_co2_800_ppm_ez55_rnaseq_axenic
+        timepoint: acclimated
         timepoint_hours: null
+        growth_phase: acclimated_steady_state
         name_col: locus tag
         logfc_col: logFC
         adjusted_p_value_col: PValue

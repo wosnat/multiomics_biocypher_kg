@@ -99,6 +99,7 @@ publication:
         experiment: darkness_extended_darkness_natl2a_rnaseq_axenic
         timepoint: 1h extended darkness (36h)
         timepoint_hours: 36.0
+        growth_phase: darkness
         name_col: NCBI ID_3
         logfc_col: Axenic, 36 hours
         pvalue_threshold: 0.1
@@ -107,6 +108,7 @@ publication:
         experiment: darkness_extended_darkness_natl2a_rnaseq_axenic
         timepoint: 5h extended darkness (40h)
         timepoint_hours: 40.0
+        growth_phase: darkness
         name_col: NCBI ID_3
         logfc_col: Axenic, 40 hours
         pvalue_threshold: 0.1
@@ -115,6 +117,7 @@ publication:
         experiment: darkness_extended_darkness_natl2a_rnaseq_axenic
         timepoint: 13h extended darkness (48h)
         timepoint_hours: 48.0
+        growth_phase: darkness
         name_col: NCBI ID_3
         logfc_col: Axenic, 48 hours
         pvalue_threshold: 0.1
@@ -123,6 +126,7 @@ publication:
         experiment: darkness_extended_darkness_natl2a_rnaseq_coculture
         timepoint: 1h extended darkness (36h)
         timepoint_hours: 36.0
+        growth_phase: darkness
         name_col: NCBI ID_3
         logfc_col: Co-culture, 36 hours
         pvalue_threshold: 0.1
@@ -131,6 +135,7 @@ publication:
         experiment: darkness_extended_darkness_natl2a_rnaseq_coculture
         timepoint: 5h extended darkness (40h)
         timepoint_hours: 40.0
+        growth_phase: darkness
         name_col: NCBI ID_3
         logfc_col: Co-culture, 40 hours
         pvalue_threshold: 0.1
@@ -139,6 +144,7 @@ publication:
         experiment: darkness_extended_darkness_natl2a_rnaseq_coculture
         timepoint: 13h extended darkness (48h)
         timepoint_hours: 48.0
+        growth_phase: darkness
         name_col: NCBI ID_3
         logfc_col: Co-culture, 48 hours
         pvalue_threshold: 0.1
@@ -156,6 +162,7 @@ publication:
         experiment: darkness_extended_darkness_mit1002_rnaseq
         timepoint: 1h extended darkness
         timepoint_hours: 1.0
+        growth_phase: darkness
         name_col: RAST_region_ID
         logfc_col: 1hr extended darkness (dark/diel)
         pvalue_threshold: 0.1
@@ -164,6 +171,7 @@ publication:
         experiment: darkness_extended_darkness_mit1002_rnaseq
         timepoint: 5h extended darkness
         timepoint_hours: 5.0
+        growth_phase: darkness
         name_col: RAST_region_ID
         logfc_col: 5hr extended darkness (dark/diel)
         pvalue_threshold: 0.1

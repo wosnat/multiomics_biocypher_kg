@@ -49,6 +49,7 @@ publication:
         experiment: phosphorus_phosphate_starvation_med4_microarray
         timepoint: 0h
         timepoint_hours: 0.0
+        growth_phase: exponential
         name_col: ORF
         logfc_col: FC t=0
         adjusted_p_value_col: q-value t=0
@@ -57,6 +58,7 @@ publication:
         experiment: phosphorus_phosphate_starvation_med4_microarray
         timepoint: 4h
         timepoint_hours: 4.0
+        growth_phase: acute_stress
         name_col: ORF
         logfc_col: FC t=4
         adjusted_p_value_col: q-value t=4
@@ -65,6 +67,7 @@ publication:
         experiment: phosphorus_phosphate_starvation_med4_microarray
         timepoint: 12h
         timepoint_hours: 12.0
+        growth_phase: acute_stress
         name_col: ORF
         logfc_col: FC t=12
         adjusted_p_value_col: q-value t=12
@@ -73,6 +76,7 @@ publication:
         experiment: phosphorus_phosphate_starvation_med4_microarray
         timepoint: 24h
         timepoint_hours: 24.0
+        growth_phase: acute_stress
         name_col: ORF
         logfc_col: FC t=24
         adjusted_p_value_col: q-value t=24
@@ -81,6 +85,7 @@ publication:
         experiment: phosphorus_phosphate_starvation_med4_microarray
         timepoint: 48h
         timepoint_hours: 48.0
+        growth_phase: nutrient_limited
         name_col: ORF
         logfc_col: FC t=48
         adjusted_p_value_col: q-value t=48
@@ -99,6 +104,7 @@ publication:
         experiment: phosphorus_phosphate_starvation_mit9313_microarray
         timepoint: 0h
         timepoint_hours: 0.0
+        growth_phase: exponential
         name_col: ORF
         logfc_col: FC t=0
         adjusted_p_value_col: q-value t=0
@@ -107,6 +113,7 @@ publication:
         experiment: phosphorus_phosphate_starvation_mit9313_microarray
         timepoint: 4h
         timepoint_hours: 4.0
+        growth_phase: acute_stress
         name_col: ORF
         logfc_col: FC t=4
         adjusted_p_value_col: q-value t=4
@@ -115,6 +122,7 @@ publication:
         experiment: phosphorus_phosphate_starvation_mit9313_microarray
         timepoint: 12h
         timepoint_hours: 12.0
+        growth_phase: acute_stress
         name_col: ORF
         logfc_col: FC t=12
         adjusted_p_value_col: q-value t=12
@@ -123,6 +131,7 @@ publication:
         experiment: phosphorus_phosphate_starvation_mit9313_microarray
         timepoint: 24h
         timepoint_hours: 24.0
+        growth_phase: acute_stress
         name_col: ORF
         logfc_col: FC t=24
         adjusted_p_value_col: q-value t=24

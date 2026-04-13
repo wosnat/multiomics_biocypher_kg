@@ -102,6 +102,9 @@ publication:
           # negative = up in axenic). No values between 0 and 1. Sign is correct for direction.
           adjusted_p_value_col: "p-value"
           pvalue_threshold: 0.05
+          timepoint: "35 days"
+          timepoint_hours: 840
+          growth_phase: acclimated_steady_state
 
     # Table S2B: R. pomeroyi in ASW early coculture — SKIPPED (abundance only, no fold change)
 
@@ -128,6 +131,9 @@ publication:
           # No fold_change_type — signed linear ratios, same convention as S2A
           adjusted_p_value_col: "Anova (p)"
           pvalue_threshold: 0.05
+          timepoint: "10 days"
+          timepoint_hours: 240
+          growth_phase: acclimated_steady_state
 
     # Table S5B: R. pomeroyi in seawater late coculture — SKIPPED (abundance only, no fold change)
 
@@ -160,3 +166,6 @@ publication:
           # negative = up in mono-culture). Sign is correct for direction.
           adjusted_p_value_col: "q-value (Student's T-test; Perseus) "
           pvalue_threshold: 0.05
+          timepoint: "long-term"
+          timepoint_hours: null
+          growth_phase: acclimated_steady_state

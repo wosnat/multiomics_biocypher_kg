@@ -175,6 +175,7 @@ publication:
         experiment: growth_state_pro99lown_nutrient_starvation_hot1a3_rnaseq_axenic
         timepoint: day 18
         timepoint_hours: 432.0
+        growth_phase: nutrient_limited
         name_col: gene_id
         logfc_col: logFC
         adjusted_p_value_col: padj
@@ -191,6 +192,7 @@ publication:
         experiment: growth_state_pro99lown_nutrient_starvation_hot1a3_rnaseq_axenic
         timepoint: day 31
         timepoint_hours: 744.0
+        growth_phase: nutrient_limited
         name_col: gene_id
         logfc_col: logFC
         adjusted_p_value_col: padj
@@ -207,6 +209,7 @@ publication:
         experiment: growth_state_pro99lown_nutrient_starvation_hot1a3_rnaseq_axenic
         timepoint: days 60+89
         timepoint_hours: null
+        growth_phase: nutrient_limited
         name_col: gene_id
         logfc_col: logFC
         adjusted_p_value_col: padj
@@ -223,6 +226,7 @@ publication:
         experiment: growth_state_pro99lown_nutrient_starvation_hot1a3_rnaseq_coculture
         timepoint: day 18
         timepoint_hours: 432.0
+        growth_phase: nutrient_limited
         name_col: gene_id
         logfc_col: logFC
         adjusted_p_value_col: padj
@@ -239,6 +243,7 @@ publication:
         experiment: growth_state_pro99lown_nutrient_starvation_hot1a3_rnaseq_coculture
         timepoint: day 31
         timepoint_hours: 744.0
+        growth_phase: nutrient_limited
         name_col: gene_id
         logfc_col: logFC
         adjusted_p_value_col: padj
@@ -255,6 +260,7 @@ publication:
         experiment: growth_state_pro99lown_nutrient_starvation_hot1a3_rnaseq_coculture
         timepoint: day 60
         timepoint_hours: 1440.0
+        growth_phase: nutrient_limited
         name_col: gene_id
         logfc_col: logFC
         adjusted_p_value_col: padj
@@ -271,6 +277,7 @@ publication:
         experiment: growth_state_pro99lown_nutrient_starvation_hot1a3_rnaseq_coculture
         timepoint: day 89
         timepoint_hours: 2136.0
+        growth_phase: nutrient_limited
         name_col: gene_id
         logfc_col: logFC
         adjusted_p_value_col: padj
@@ -287,6 +294,7 @@ publication:
         experiment: growth_state_pro99lown_nutrient_starvation_hot1a3_rnaseq_coculture
         timepoint: days 60+89
         timepoint_hours: null
+        growth_phase: nutrient_limited
         name_col: gene_id
         logfc_col: logFC
         adjusted_p_value_col: padj
@@ -303,6 +311,7 @@ publication:
         experiment: coculture_prochlorococcus_med4_hot1a3_rnaseq
         timepoint: day 11
         timepoint_hours: 264.0
+        growth_phase: exponential
         name_col: gene_id
         logfc_col: logFC
         adjusted_p_value_col: padj
@@ -319,6 +328,7 @@ publication:
         experiment: growth_state_pro99lown_nutrient_starvation_hot1a3_proteomics_axenic
         timepoint: day 18
         timepoint_hours: 432.0
+        growth_phase: nutrient_limited
         name_col: gene_id
         logfc_col: logFC
         adjusted_p_value_col: padj
@@ -335,6 +345,7 @@ publication:
         experiment: growth_state_pro99lown_nutrient_starvation_hot1a3_proteomics_axenic
         timepoint: day 31
         timepoint_hours: 744.0
+        growth_phase: nutrient_limited
         name_col: gene_id
         logfc_col: logFC
         adjusted_p_value_col: padj
@@ -351,6 +362,7 @@ publication:
         experiment: growth_state_pro99lown_nutrient_starvation_hot1a3_proteomics_coculture
         timepoint: day 18
         timepoint_hours: 432.0
+        growth_phase: nutrient_limited
         name_col: gene_id
         logfc_col: logFC
         adjusted_p_value_col: padj
@@ -367,6 +379,7 @@ publication:
         experiment: growth_state_pro99lown_nutrient_starvation_hot1a3_proteomics_coculture
         timepoint: day 31
         timepoint_hours: 744.0
+        growth_phase: nutrient_limited
         name_col: gene_id
         logfc_col: logFC
         adjusted_p_value_col: padj
@@ -383,6 +396,7 @@ publication:
         experiment: growth_state_pro99lown_nutrient_starvation_hot1a3_proteomics_coculture
         timepoint: day 60
         timepoint_hours: 1440.0
+        growth_phase: nutrient_limited
         name_col: gene_id
         logfc_col: logFC
         adjusted_p_value_col: padj
@@ -399,6 +413,7 @@ publication:
         experiment: growth_state_pro99lown_nutrient_starvation_hot1a3_proteomics_coculture
         timepoint: day 89
         timepoint_hours: 2136.0
+        growth_phase: nutrient_limited
         name_col: gene_id
         logfc_col: logFC
         adjusted_p_value_col: padj
@@ -415,6 +430,7 @@ publication:
         experiment: growth_state_pro99lown_nutrient_starvation_hot1a3_proteomics_coculture
         timepoint: days 60+89
         timepoint_hours: null
+        growth_phase: nutrient_limited
         name_col: gene_id
         logfc_col: logFC
         adjusted_p_value_col: padj
@@ -431,6 +447,7 @@ publication:
         experiment: growth_state_pro99lown_nutrient_starvation_med4_rnaseq_axenic
         timepoint: day 14
         timepoint_hours: 336.0
+        growth_phase: nutrient_limited
         name_col: gene_id
         logfc_col: logFC
         adjusted_p_value_col: padj
@@ -447,6 +464,7 @@ publication:
         experiment: growth_state_pro99lown_nutrient_starvation_med4_rnaseq_coculture
         timepoint: day 18
         timepoint_hours: 432.0
+        growth_phase: nutrient_limited
         name_col: gene_id
         logfc_col: logFC
         adjusted_p_value_col: padj
@@ -463,6 +481,7 @@ publication:
         experiment: growth_state_pro99lown_nutrient_starvation_med4_rnaseq_coculture
         timepoint: day 31
         timepoint_hours: 744.0
+        growth_phase: nutrient_limited
         name_col: gene_id
         logfc_col: logFC
         adjusted_p_value_col: padj
@@ -479,6 +498,7 @@ publication:
         experiment: growth_state_pro99lown_nutrient_starvation_med4_rnaseq_coculture
         timepoint: day 60
         timepoint_hours: 1440.0
+        growth_phase: nutrient_limited
         name_col: gene_id
         logfc_col: logFC
         adjusted_p_value_col: padj
@@ -495,6 +515,7 @@ publication:
         experiment: growth_state_pro99lown_nutrient_starvation_med4_rnaseq_coculture
         timepoint: day 89
         timepoint_hours: 2136.0
+        growth_phase: nutrient_limited
         name_col: gene_id
         logfc_col: logFC
         adjusted_p_value_col: padj
@@ -511,6 +532,7 @@ publication:
         experiment: growth_state_pro99lown_nutrient_starvation_med4_rnaseq_coculture
         timepoint: days 60+89
         timepoint_hours: null
+        growth_phase: nutrient_limited
         name_col: gene_id
         logfc_col: logFC
         adjusted_p_value_col: padj
@@ -527,6 +549,7 @@ publication:
         experiment: coculture_alteromonas_hot1a3_med4_rnaseq
         timepoint: day 11
         timepoint_hours: 264.0
+        growth_phase: exponential
         name_col: gene_id
         logfc_col: logFC
         adjusted_p_value_col: padj
@@ -543,6 +566,7 @@ publication:
         experiment: growth_state_pro99lown_nutrient_starvation_med4_proteomics_axenic
         timepoint: day 14
         timepoint_hours: 336.0
+        growth_phase: nutrient_limited
         name_col: gene_id
         logfc_col: logFC
         adjusted_p_value_col: padj
@@ -559,6 +583,7 @@ publication:
         experiment: growth_state_pro99lown_nutrient_starvation_med4_proteomics_axenic
         timepoint: day 31
         timepoint_hours: 744.0
+        growth_phase: death
         name_col: gene_id
         logfc_col: logFC
         adjusted_p_value_col: padj
@@ -575,6 +600,7 @@ publication:
         experiment: growth_state_pro99lown_nutrient_starvation_med4_proteomics_axenic
         timepoint: day 89
         timepoint_hours: 2136.0
+        growth_phase: death
         name_col: gene_id
         logfc_col: logFC
         adjusted_p_value_col: padj
@@ -591,6 +617,7 @@ publication:
         experiment: growth_state_pro99lown_nutrient_starvation_med4_proteomics_coculture
         timepoint: day 18
         timepoint_hours: 432.0
+        growth_phase: nutrient_limited
         name_col: gene_id
         logfc_col: logFC
         adjusted_p_value_col: padj
@@ -607,6 +634,7 @@ publication:
         experiment: growth_state_pro99lown_nutrient_starvation_med4_proteomics_coculture
         timepoint: day 31
         timepoint_hours: 744.0
+        growth_phase: nutrient_limited
         name_col: gene_id
         logfc_col: logFC
         adjusted_p_value_col: padj
@@ -623,6 +651,7 @@ publication:
         experiment: growth_state_pro99lown_nutrient_starvation_med4_proteomics_coculture
         timepoint: day 60
         timepoint_hours: 1440.0
+        growth_phase: nutrient_limited
         name_col: gene_id
         logfc_col: logFC
         adjusted_p_value_col: padj
@@ -639,6 +668,7 @@ publication:
         experiment: growth_state_pro99lown_nutrient_starvation_med4_proteomics_coculture
         timepoint: day 89
         timepoint_hours: 2136.0
+        growth_phase: nutrient_limited
         name_col: gene_id
         logfc_col: logFC
         adjusted_p_value_col: padj
@@ -655,6 +685,7 @@ publication:
         experiment: growth_state_pro99lown_nutrient_starvation_med4_proteomics_coculture
         timepoint: days 60+89
         timepoint_hours: null
+        growth_phase: nutrient_limited
         name_col: gene_id
         logfc_col: logFC
         adjusted_p_value_col: padj

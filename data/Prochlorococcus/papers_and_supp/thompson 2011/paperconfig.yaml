@@ -94,6 +94,7 @@ publication:
         experiment: iron_iron_starvation_med4_med4_microarray_light
         timepoint: 12h
         timepoint_hours: 12.0
+        growth_phase: acute_stress
         name_col: Gene
         logfc_col: '12'
         pvalue_threshold: 0.01
@@ -103,6 +104,7 @@ publication:
         experiment: iron_iron_starvation_med4_med4_microarray_light
         timepoint: 24h
         timepoint_hours: 24.0
+        growth_phase: acute_stress
         name_col: Gene
         logfc_col: '24'
         pvalue_threshold: 0.01
@@ -112,6 +114,7 @@ publication:
         experiment: iron_iron_starvation_med4_med4_microarray_light_2
         timepoint: 48h
         timepoint_hours: 48.0
+        growth_phase: nutrient_limited
         name_col: Gene
         logfc_col: '48'
         pvalue_threshold: 0.01
@@ -121,6 +124,7 @@ publication:
         experiment: growth_medium_ironreplete_control_med4_med4_microarray
         timepoint: 'R (rescue: 70h vs 48h)'
         timepoint_hours: null
+        growth_phase: recovery
         name_col: Gene
         logfc_col: R*
         pvalue_threshold: 0.01
@@ -139,6 +143,7 @@ publication:
         experiment: iron_iron_starvation_mit9313_mit9313_microarray
         timepoint: 16h
         timepoint_hours: 16.0
+        growth_phase: acute_stress
         name_col: Gene
         logfc_col: '16'
         pvalue_threshold: 0.01
@@ -148,6 +153,7 @@ publication:
         experiment: iron_iron_starvation_mit9313_mit9313_microarray
         timepoint: 28h
         timepoint_hours: 28.0
+        growth_phase: acute_stress
         name_col: Gene
         logfc_col: '28'
         pvalue_threshold: 0.01
@@ -157,6 +163,7 @@ publication:
         experiment: iron_iron_starvation_mit9313_mit9313_microarray
         timepoint: 53h
         timepoint_hours: 53.0
+        growth_phase: nutrient_limited
         name_col: Gene
         logfc_col: '53'
         pvalue_threshold: 0.01
@@ -166,6 +173,7 @@ publication:
         experiment: growth_medium_ironreplete_control_mit9313_mit9313_microarray
         timepoint: 'R (rescue: 72h vs 53h)'
         timepoint_hours: null
+        growth_phase: recovery
         name_col: Gene
         logfc_col: R*
         pvalue_threshold: 0.01

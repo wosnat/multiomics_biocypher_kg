@@ -86,6 +86,7 @@ publication:
         experiment: light_stress_constant_dark_med4_rnaseq_infected
         timepoint: 0.5h post-inoculation
         timepoint_hours: 0.5
+        growth_phase: infected
         name_col: locus_tag
         logfc_col: log2_fold_change
         pvalue_threshold: 0.2
@@ -106,6 +107,7 @@ publication:
         experiment: light_stress_constant_dark_med4_rnaseq_infected
         timepoint: 1.5h post-inoculation
         timepoint_hours: 1.5
+        growth_phase: infected
         name_col: locus_tag
         logfc_col: log2_fold_change
         pvalue_threshold: 0.2
@@ -126,6 +128,7 @@ publication:
         experiment: light_stress_constant_dark_med4_rnaseq_infected
         timepoint: 2.5h post-inoculation
         timepoint_hours: 2.5
+        growth_phase: infected
         name_col: locus_tag
         logfc_col: log2_fold_change
         pvalue_threshold: 0.2
@@ -146,6 +149,7 @@ publication:
         experiment: light_stress_constant_dark_med4_rnaseq_infected
         timepoint: 4.5h post-inoculation
         timepoint_hours: 4.5
+        growth_phase: infected
         name_col: locus_tag
         logfc_col: log2_fold_change
         pvalue_threshold: 0.2
@@ -166,6 +170,7 @@ publication:
         experiment: light_stress_constant_dark_med4_rnaseq_infected
         timepoint: 8.5h post-inoculation
         timepoint_hours: 8.5
+        growth_phase: infected
         name_col: locus_tag
         logfc_col: log2_fold_change
         pvalue_threshold: 0.2
@@ -186,6 +191,7 @@ publication:
         experiment: light_stress_constant_dark_med4_rnaseq_dark
         timepoint: 1.5h post-inoculation
         timepoint_hours: 1.5
+        growth_phase: acute_stress
         name_col: locus_tag
         logfc_col: log2_fold_change
         pvalue_threshold: 0.2
@@ -206,6 +212,7 @@ publication:
         experiment: light_stress_constant_dark_med4_rnaseq_dark
         timepoint: 2.5h post-inoculation
         timepoint_hours: 2.5
+        growth_phase: acute_stress
         name_col: locus_tag
         logfc_col: log2_fold_change
         pvalue_threshold: 0.2
@@ -226,6 +233,7 @@ publication:
         experiment: light_stress_constant_dark_med4_rnaseq_dark
         timepoint: 4.5h post-inoculation
         timepoint_hours: 4.5
+        growth_phase: acute_stress
         name_col: locus_tag
         logfc_col: log2_fold_change
         pvalue_threshold: 0.2
@@ -246,6 +254,7 @@ publication:
         experiment: light_stress_constant_dark_med4_rnaseq_dark
         timepoint: 8.5h post-inoculation
         timepoint_hours: 8.5
+        growth_phase: acute_stress
         name_col: locus_tag
         logfc_col: log2_fold_change
         pvalue_threshold: 0.2
@@ -266,6 +275,7 @@ publication:
         experiment: viral_phage_phm2_lysate_med4_rnaseq_light
         timepoint: 0.5h post-inoculation
         timepoint_hours: 0.5
+        growth_phase: infected
         name_col: locus_tag
         logfc_col: log2_fold_change
         pvalue_threshold: 0.2
@@ -286,6 +296,7 @@ publication:
         experiment: viral_phage_phm2_lysate_med4_rnaseq_light
         timepoint: 1.5h post-inoculation
         timepoint_hours: 1.5
+        growth_phase: infected
         name_col: locus_tag
         logfc_col: log2_fold_change
         pvalue_threshold: 0.2
@@ -306,6 +317,7 @@ publication:
         experiment: viral_phage_phm2_lysate_med4_rnaseq_light
         timepoint: 2.5h post-inoculation
         timepoint_hours: 2.5
+        growth_phase: infected
         name_col: locus_tag
         logfc_col: log2_fold_change
         pvalue_threshold: 0.2
@@ -326,6 +338,7 @@ publication:
         experiment: viral_phage_phm2_lysate_med4_rnaseq_light
         timepoint: 4.5h post-inoculation
         timepoint_hours: 4.5
+        growth_phase: infected
         name_col: locus_tag
         logfc_col: log2_fold_change
         pvalue_threshold: 0.2
@@ -346,6 +359,7 @@ publication:
         experiment: viral_phage_phm2_lysate_med4_rnaseq_light
         timepoint: 8.5h post-inoculation
         timepoint_hours: 8.5
+        growth_phase: infected
         name_col: locus_tag
         logfc_col: log2_fold_change
         pvalue_threshold: 0.2
@@ -366,6 +380,7 @@ publication:
         experiment: viral_phage_phm2_lysate_med4_rnaseq_dark
         timepoint: 2.5h post-inoculation
         timepoint_hours: 2.5
+        growth_phase: infected
         name_col: locus_tag
         logfc_col: log2_fold_change
         pvalue_threshold: 0.2
@@ -386,6 +401,7 @@ publication:
         experiment: viral_phage_phm2_lysate_med4_rnaseq_dark
         timepoint: 4.5h post-inoculation
         timepoint_hours: 4.5
+        growth_phase: infected
         name_col: locus_tag
         logfc_col: log2_fold_change
         pvalue_threshold: 0.2
@@ -406,6 +422,7 @@ publication:
         experiment: viral_phage_phm2_lysate_med4_rnaseq_dark
         timepoint: 8.5h post-inoculation
         timepoint_hours: 8.5
+        growth_phase: infected
         name_col: locus_tag
         logfc_col: log2_fold_change
         pvalue_threshold: 0.2

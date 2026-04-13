@@ -103,6 +103,9 @@ publication:
           logfc_col: log2_foldChange
           adjusted_p_value_col: adjusted p_value
           pvalue_threshold: 0.05
+          timepoint: "60h"
+          timepoint_hours: 60
+          growth_phase: exponential
 
     # Sheet 6: RNA-seq coculture vs S. elongatus axenic (all S. elongatus genes)
     # Gene IDs have "gene-" prefix (e.g., gene-H6G84_RS05480)
@@ -126,6 +129,9 @@ publication:
           logfc_col: log2_foldChange
           adjusted_p_value_col: adjusted p_value
           pvalue_threshold: 0.05
+          timepoint: "60h"
+          timepoint_hours: 60
+          growth_phase: exponential
 
     # Sheet 11: Proteomics coculture vs P. putida axenic (all P. putida proteins)
     # Uses UniProt accessions as Protein ID; Gene Name column has mixed gene names + locus tags
@@ -148,6 +154,9 @@ publication:
           logfc_col: log2_FC
           adjusted_p_value_col: adjusted p_value
           pvalue_threshold: 0.05
+          timepoint: "60h"
+          timepoint_hours: 60
+          growth_phase: exponential
 
     # Sheet 13: Proteomics coculture vs S. elongatus axenic (all S. elongatus proteins)
     # Uses UniProt accessions as Protein ID; Gene Name column has mixed gene names + locus tags
@@ -169,6 +178,9 @@ publication:
           logfc_col: log2-fold change
           adjusted_p_value_col: adjusted p_value
           pvalue_threshold: 0.05
+          timepoint: "60h"
+          timepoint_hours: 60
+          growth_phase: exponential
 
     # Annotation GFFs from alternate assemblies — bridges old locus tags + UniProt accessions
     annotation_gff_kt2440_old:

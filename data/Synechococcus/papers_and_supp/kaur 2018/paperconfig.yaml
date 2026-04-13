@@ -121,6 +121,7 @@ publication:
           logfc_col: "Fold change comparison of time point 1 vs different time points. Time point 3 vs 1"
           adjusted_p_value_col: "q-value of time point 1 vs different time points. Time point 3 vs 1"
           pvalue_threshold: 0.05
+          growth_phase: acclimated_steady_state
         - id: "syn_wh7803_sw_tp7_vs_tp1"
           experiment: syn_wh7803_exoproteome_sw
           timepoint: "day 7"
@@ -129,6 +130,7 @@ publication:
           logfc_col: "Fold change comparison of time point 1 vs different time points. Time point 7 vs 1"
           adjusted_p_value_col: "q-value of time point 1 vs different time points. Time point 7 vs 1"
           pvalue_threshold: 0.05
+          growth_phase: acclimated_steady_state
         - id: "syn_wh7803_sw_tp14_vs_tp1"
           experiment: syn_wh7803_exoproteome_sw
           timepoint: "day 14"
@@ -137,6 +139,7 @@ publication:
           logfc_col: "Fold change comparison of time point 1 vs different time points. Time point 14 vs 1"
           adjusted_p_value_col: "q-value of time point 1 vs different time points. Time point 14 vs 1"
           pvalue_threshold: 0.05
+          growth_phase: acclimated_steady_state
         - id: "syn_wh7803_sw_tp21_vs_tp1"
           experiment: syn_wh7803_exoproteome_sw
           timepoint: "day 21"
@@ -145,6 +148,7 @@ publication:
           logfc_col: "Fold change comparison of time point 1 vs different time points. Time point 21 vs 1"
           adjusted_p_value_col: "q-value of time point 1 vs different time points. Time point 21 vs 1"
           pvalue_threshold: 0.05
+          growth_phase: acclimated_steady_state
         - id: "syn_wh7803_sw_tp32_vs_tp1"
           experiment: syn_wh7803_exoproteome_sw
           timepoint: "day 32"
@@ -153,6 +157,7 @@ publication:
           logfc_col: "Fold change comparison of time point 1 vs different time points. Time point 32 vs 1"
           adjusted_p_value_col: "q-value of time point 1 vs different time points. Time point 32 vs 1"
           pvalue_threshold: 0.05
+          growth_phase: acclimated_steady_state
         - id: "syn_wh7803_sw_tp60_vs_tp1"
           experiment: syn_wh7803_exoproteome_sw
           timepoint: "day 60"
@@ -161,6 +166,7 @@ publication:
           logfc_col: "Fold change comparison of time point 1 vs different time points.  Time point 60 vs 1"
           adjusted_p_value_col: "q-value of time point 1 vs different time points.  Time point 60 vs 1"
           pvalue_threshold: 0.05
+          growth_phase: acclimated_steady_state
         - id: "syn_wh7803_sw_tp100_vs_tp1"
           experiment: syn_wh7803_exoproteome_sw
           timepoint: "day 100"
@@ -169,6 +175,7 @@ publication:
           logfc_col: "Fold change comparison of time point 1 vs different time points. Time point 100 vs 1"
           adjusted_p_value_col: "q-value of time point 1 vs different time points. Time point 100 vs 1"
           pvalue_threshold: 0.05
+          growth_phase: acclimated_steady_state
 
     # ── Table S4b: Synechococcus WH7803 exoproteome in ASW ──
     supp_table_s4b:
@@ -192,6 +199,7 @@ publication:
           logfc_col: "Fold change comparison of time point 1 vs different time points. Time point 3 vs 1"
           adjusted_p_value_col: "q-value of time point 1 vs different time points. Time point 3 vs 1"
           pvalue_threshold: 0.05
+          growth_phase: acclimated_steady_state
         - id: "syn_wh7803_asw_tp7_vs_tp1"
           experiment: syn_wh7803_exoproteome_asw
           timepoint: "day 7"
@@ -200,6 +208,7 @@ publication:
           logfc_col: "Fold change comparison of time point 1 vs different time points. Time point 7 vs 1"
           adjusted_p_value_col: "q-value of time point 1 vs different time points. Time point 7 vs 1"
           pvalue_threshold: 0.05
+          growth_phase: acclimated_steady_state
         - id: "syn_wh7803_asw_tp14_vs_tp1"
           experiment: syn_wh7803_exoproteome_asw
           timepoint: "day 14"
@@ -208,6 +217,7 @@ publication:
           logfc_col: "Fold change comparison of time point 1 vs different time points. Time point 14 vs 1"
           adjusted_p_value_col: "q-value of time point 1 vs different time points. Time point 14 vs 1"
           pvalue_threshold: 0.05
+          growth_phase: acclimated_steady_state
         - id: "syn_wh7803_asw_tp21_vs_tp1"
           experiment: syn_wh7803_exoproteome_asw
           timepoint: "day 21"
@@ -216,6 +226,7 @@ publication:
           logfc_col: "Fold change comparison of time point 1 vs different time points. Time point 21 vs 1"
           adjusted_p_value_col: "q-value of time point 1 vs different time points. Time point 21 vs 1"
           pvalue_threshold: 0.05
+          growth_phase: acclimated_steady_state
         - id: "syn_wh7803_asw_tp32_vs_tp1"
           experiment: syn_wh7803_exoproteome_asw
           timepoint: "day 32"
@@ -224,6 +235,7 @@ publication:
           logfc_col: "Fold change comparison of time point 1 vs different time points. Time point 32 vs 1"
           adjusted_p_value_col: "q-value of time point 1 vs different time points. Time point 32 vs 1"
           pvalue_threshold: 0.05
+          growth_phase: acclimated_steady_state
         - id: "syn_wh7803_asw_tp60_vs_tp1"
           experiment: syn_wh7803_exoproteome_asw
           timepoint: "day 60"
@@ -232,6 +244,7 @@ publication:
           logfc_col: "Fold change comparison of time point 1 vs different time points.  Time point 60 vs 1"
           adjusted_p_value_col: "q-value of time point 1 vs different time points.  Time point 60 vs 1"
           pvalue_threshold: 0.05
+          growth_phase: acclimated_steady_state
         - id: "syn_wh7803_asw_tp100_vs_tp1"
           experiment: syn_wh7803_exoproteome_asw
           timepoint: "day 100"
@@ -240,6 +253,7 @@ publication:
           logfc_col: "Fold change comparison of time point 1 vs different time points. Time point 100 vs 1"
           adjusted_p_value_col: "q-value of time point 1 vs different time points. Time point 100 vs 1"
           pvalue_threshold: 0.05
+          growth_phase: acclimated_steady_state
 
     # ── Table S5a: R. pomeroyi DSS-3 exoproteome in SW ──
     # Gene IDs are NCBI protein accessions (AAV93###, no version suffix).
@@ -263,6 +277,7 @@ publication:
           logfc_col: "Fold change comparison of time point 1 vs different time points . Time point 3 vs 1"
           adjusted_p_value_col: "q-value of time point 1 vs different time points . Time point 3 vs 1"
           pvalue_threshold: 0.05
+          growth_phase: acclimated_steady_state
         - id: "rpom_dss3_sw_tp7_vs_tp1"
           experiment: rpom_dss3_exoproteome_sw
           timepoint: "day 7"
@@ -271,6 +286,7 @@ publication:
           logfc_col: "Fold change comparison of time point 1 vs different time points . Time point 7 vs 1"
           adjusted_p_value_col: "q-value of time point 1 vs different time points . Time point 7 vs 1"
           pvalue_threshold: 0.05
+          growth_phase: acclimated_steady_state
         - id: "rpom_dss3_sw_tp14_vs_tp1"
           experiment: rpom_dss3_exoproteome_sw
           timepoint: "day 14"
@@ -279,6 +295,7 @@ publication:
           logfc_col: "Fold change comparison of time point 1 vs different time points . Time point 14 vs 1"
           adjusted_p_value_col: "q-value of time point 1 vs different time points . Time point 14 vs 1"
           pvalue_threshold: 0.05
+          growth_phase: acclimated_steady_state
         - id: "rpom_dss3_sw_tp21_vs_tp1"
           experiment: rpom_dss3_exoproteome_sw
           timepoint: "day 21"
@@ -287,6 +304,7 @@ publication:
           logfc_col: "Fold change comparison of time point 1 vs different time points . Time point 21 vs 1"
           adjusted_p_value_col: "q-value of time point 1 vs different time points . Time point 21 vs 1"
           pvalue_threshold: 0.05
+          growth_phase: acclimated_steady_state
         - id: "rpom_dss3_sw_tp32_vs_tp1"
           experiment: rpom_dss3_exoproteome_sw
           timepoint: "day 32"
@@ -295,6 +313,7 @@ publication:
           logfc_col: "Fold change comparison of time point 1 vs different time points . Time point 32 vs 1"
           adjusted_p_value_col: "q-value of time point 1 vs different time points . Time point 32 vs 1"
           pvalue_threshold: 0.05
+          growth_phase: acclimated_steady_state
         - id: "rpom_dss3_sw_tp60_vs_tp1"
           experiment: rpom_dss3_exoproteome_sw
           timepoint: "day 60"
@@ -303,6 +322,7 @@ publication:
           logfc_col: "Fold change comparison of time point 1 vs different time points .  Time point 60 vs 1"
           adjusted_p_value_col: "q-value of time point 1 vs different time points .  Time point 60 vs 1"
           pvalue_threshold: 0.05
+          growth_phase: acclimated_steady_state
         - id: "rpom_dss3_sw_tp100_vs_tp1"
           experiment: rpom_dss3_exoproteome_sw
           timepoint: "day 100"
@@ -311,6 +331,7 @@ publication:
           logfc_col: "Fold change comparison of time point 1 vs different time points . Time point 100 vs 1"
           adjusted_p_value_col: "q-value of time point 1 vs different time points . Time point 100 vs 1"
           pvalue_threshold: 0.05
+          growth_phase: acclimated_steady_state
 
     # ── Table S5b: R. pomeroyi DSS-3 exoproteome in ASW ──
     supp_table_s5b:
@@ -332,6 +353,7 @@ publication:
           logfc_col: "Fold change comparison of time point 1 vs different time points. Time point 3 vs 1"
           adjusted_p_value_col: "q-value of time point 1 vs different time points. Time point 3 vs 1"
           pvalue_threshold: 0.05
+          growth_phase: acclimated_steady_state
         - id: "rpom_dss3_asw_tp7_vs_tp1"
           experiment: rpom_dss3_exoproteome_asw
           timepoint: "day 7"
@@ -340,6 +362,7 @@ publication:
           logfc_col: "Fold change comparison of time point 1 vs different time points. Time point 7 vs 1"
           adjusted_p_value_col: "q-value of time point 1 vs different time points. Time point 7 vs 1"
           pvalue_threshold: 0.05
+          growth_phase: acclimated_steady_state
         - id: "rpom_dss3_asw_tp14_vs_tp1"
           experiment: rpom_dss3_exoproteome_asw
           timepoint: "day 14"
@@ -348,6 +371,7 @@ publication:
           logfc_col: "Fold change comparison of time point 1 vs different time points. Time point 14 vs 1"
           adjusted_p_value_col: "q-value of time point 1 vs different time points. Time point 14 vs 1"
           pvalue_threshold: 0.05
+          growth_phase: acclimated_steady_state
         - id: "rpom_dss3_asw_tp21_vs_tp1"
           experiment: rpom_dss3_exoproteome_asw
           timepoint: "day 21"
@@ -356,6 +380,7 @@ publication:
           logfc_col: "Fold change comparison of time point 1 vs different time points. Time point 21 vs 1"
           adjusted_p_value_col: "q-value of time point 1 vs different time points. Time point 21 vs 1"
           pvalue_threshold: 0.05
+          growth_phase: acclimated_steady_state
         - id: "rpom_dss3_asw_tp32_vs_tp1"
           experiment: rpom_dss3_exoproteome_asw
           timepoint: "day 32"
@@ -364,6 +389,7 @@ publication:
           logfc_col: "Fold change comparison of time point 1 vs different time points. Time point 32 vs 1"
           adjusted_p_value_col: "q-value of time point 1 vs different time points. Time point 32 vs 1"
           pvalue_threshold: 0.05
+          growth_phase: acclimated_steady_state
         - id: "rpom_dss3_asw_tp60_vs_tp1"
           experiment: rpom_dss3_exoproteome_asw
           timepoint: "day 60"
@@ -372,6 +398,7 @@ publication:
           logfc_col: "Fold change comparison of time point 1 vs different time points.  Time point 60 vs 1"
           adjusted_p_value_col: "q-value of time point 1 vs different time points.  Time point 60 vs 1"
           pvalue_threshold: 0.05
+          growth_phase: acclimated_steady_state
         - id: "rpom_dss3_asw_tp100_vs_tp1"
           experiment: rpom_dss3_exoproteome_asw
           timepoint: "day 100"
@@ -380,3 +407,4 @@ publication:
           logfc_col: "Fold change comparison of time point 1 vs different time points. Time point 100 vs 1"
           adjusted_p_value_col: "q-value of time point 1 vs different time points. Time point 100 vs 1"
           pvalue_threshold: 0.05
+          growth_phase: acclimated_steady_state
