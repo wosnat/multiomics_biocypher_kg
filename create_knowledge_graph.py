@@ -17,6 +17,7 @@ from multiomics_kg.adapters.functional_annotation_adapter import (
     MultiCogRoleAnnotationAdapter,
     MultiPfamAnnotationAdapter,
 )
+from multiomics_kg.adapters.brite_adapter import MultiBriteAdapter
 
 
 def parse_args():
@@ -133,6 +134,16 @@ def main():
     )
     bc.write_nodes(kegg_anno_adapter.get_nodes())
     bc.write_edges(kegg_anno_adapter.get_edges())
+
+    # KEGG BRITE functional hierarchies: 12 trees → BriteCategory nodes + hierarchy/KO edges
+    brite_adapter = MultiBriteAdapter(
+        cache_root=Path("cache/data"),
+        test_mode=TEST_MODE,
+        cache=CACHE,
+    )
+    brite_adapter.download_data(cache=CACHE)
+    bc.write_nodes(brite_adapter.get_nodes())
+    bc.write_edges(brite_adapter.get_edges())
 
     # COG functional categories + Cyanorak roles + tIGR roles
     cog_role_adapter = MultiCogRoleAnnotationAdapter(
