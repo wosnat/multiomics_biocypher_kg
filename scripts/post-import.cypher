@@ -71,6 +71,14 @@ CREATE FULLTEXT INDEX clusteringAnalysisFullText IF NOT EXISTS
 CREATE FULLTEXT INDEX geneClusterFullText IF NOT EXISTS
   FOR (gc:GeneCluster) ON EACH [gc.name, gc.functional_description, gc.temporal_pattern, gc.expression_dynamics];
 
+// ── BriteCategory indexes ───────────────────────────────────────────────
+CREATE INDEX brite_category_tree_idx IF NOT EXISTS FOR (b:BriteCategory) ON (b.tree_code);
+CREATE INDEX brite_category_level_idx IF NOT EXISTS FOR (b:BriteCategory) ON (b.level);
+CREATE INDEX brite_category_name_idx IF NOT EXISTS FOR (b:BriteCategory) ON (b.name);
+
+CREATE FULLTEXT INDEX briteCategoryFullText IF NOT EXISTS
+  FOR (b:BriteCategory) ON EACH [b.name];
+
 // Publication fulltext index
 CREATE FULLTEXT INDEX publicationFullText IF NOT EXISTS
   FOR (p:Publication) ON EACH [p.title, p.abstract, p.description];
@@ -329,3 +337,21 @@ CALL {
   SET g.cluster_membership_count = membership_count,
       g.cluster_types = CASE WHEN size(ctypes) = 0 THEN [] ELSE ctypes END
 } IN TRANSACTIONS OF 1000 ROWS;
+
+// BriteCategory computed properties: member_ko_count, gene_count, organism_count
+MATCH (b:BriteCategory)
+CALL {
+  WITH b
+  MATCH (b)<-[:Brite_category_is_a_brite_category*0..]-(leaf:BriteCategory)
+  OPTIONAL MATCH (ko:KeggTerm)-[:Kegg_term_in_brite_category]->(leaf)
+  WHERE ko.level_kind = 'ko'
+  WITH b, count(DISTINCT ko) AS ko_count
+  OPTIONAL MATCH (b)<-[:Brite_category_is_a_brite_category*0..]-(leaf2:BriteCategory)
+  OPTIONAL MATCH (ko2:KeggTerm)-[:Kegg_term_in_brite_category]->(leaf2)
+  WHERE ko2.level_kind = 'ko'
+  OPTIONAL MATCH (g:Gene)-[:Gene_has_kegg_ko]->(ko2)
+  WITH b, ko_count, count(DISTINCT g) AS g_count, collect(DISTINCT g.organism_name) AS orgs
+  SET b.member_ko_count = ko_count,
+      b.gene_count = g_count,
+      b.organism_count = size([x IN orgs WHERE x IS NOT NULL])
+} IN TRANSACTIONS OF 100 ROWS;
