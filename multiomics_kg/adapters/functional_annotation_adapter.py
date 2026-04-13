@@ -1197,7 +1197,7 @@ class MultiPfamAnnotationAdapter:
                 yield (
                     _pfam_node_id(pf_id),
                     "pfam",
-                    {"name": pf_id, "short_name": pf_id},
+                    {"name": pf_id, "short_name": pf_id, "level": 1},
                 )
                 pfam_count += 1
                 continue
@@ -1208,6 +1208,7 @@ class MultiPfamAnnotationAdapter:
                 {
                     "name": _clean_str(entry.description),
                     "short_name": _clean_str(entry.shortname),
+                    "level": 1,
                 },
             )
             pfam_count += 1
@@ -1228,7 +1229,7 @@ class MultiPfamAnnotationAdapter:
             yield (
                 _pfam_clan_node_id(clan_acc),
                 "pfam_clan",
-                {"name": _clean_str(clan_name)},
+                {"name": _clean_str(clan_name), "level": 0},
             )
             clan_count += 1
         logger.info(f"MultiPfamAnnotationAdapter.get_nodes: {clan_count} PfamClan nodes")
