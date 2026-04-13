@@ -18,13 +18,34 @@ def test_shared_rules_mentions_enum_values():
 
 
 def test_valid_growth_phases_list_matches_validator():
-    # Must exactly match VALID_GROWTH_PHASES in the validator (no drift).
-    expected = {
-        "exponential", "stationary", "nutrient_limited", "acclimated_steady_state",
-        "infected", "recovery", "diel", "darkness", "death", "acute_stress",
-        "unknown",
-    }
-    assert set(VALID_GROWTH_PHASES_LIST) == expected
+    """All three copies of VALID_GROWTH_PHASES must stay in sync.
+
+    Imports the validator's canonical set at runtime and compares prompts
+    + extraction_utils duplicates against it — so any drift in any of the
+    three is caught.
+    """
+    from importlib import util
+    from pathlib import Path
+
+    validator_path = (
+        Path(__file__).resolve().parent.parent.parent.parent
+        / ".claude" / "skills" / "paperconfig" / "validate_paperconfig.py"
+    )
+    spec = util.spec_from_file_location("_validator", validator_path)
+    mod = util.module_from_spec(spec)
+    spec.loader.exec_module(mod)
+
+    from multiomics_kg.extraction.timepoint.extraction_utils import (
+        _VALID_GROWTH_PHASES,
+    )
+
+    canonical = set(mod.VALID_GROWTH_PHASES)
+    assert set(VALID_GROWTH_PHASES_LIST) == canonical, (
+        "prompts.VALID_GROWTH_PHASES_LIST drifted from validator"
+    )
+    assert set(_VALID_GROWTH_PHASES) == canonical, (
+        "extraction_utils._VALID_GROWTH_PHASES drifted from validator"
+    )
 
 
 def test_build_prompt_includes_paper_name_and_doi():
