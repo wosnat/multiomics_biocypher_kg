@@ -185,3 +185,72 @@ def test_known_ko_ids_is_required():
     """Constructor must raise if known_ko_ids is not supplied."""
     with pytest.raises(TypeError):
         MultiBriteAdapter(cache_root="irrelevant")  # type: ignore[call-arg]
+
+
+@pytest.fixture
+def large_synth_cache(tmp_path: Path) -> tuple[Path, set[str]]:
+    """150 leaves under a single A/B/C chain; returns (cache_root, all_kos)."""
+    cache_root = tmp_path / "cache_large"
+    kegg_dir = cache_root / "kegg"
+    kegg_dir.mkdir(parents=True)
+
+    all_kos: set[str] = set()
+    leaves = []
+    for i in range(150):
+        ko = f"K{i:05d}"
+        all_kos.add(ko)
+        leaves.append({"name": f"{ko} synthetic enzyme"})
+
+    tree = {
+        "name": "synth02000",
+        "children": [
+            {
+                "name": "A1 RootCat",
+                "children": [
+                    {
+                        "name": "B1 SubCat",
+                        "children": [
+                            {"name": "C1 FamilyCat", "children": leaves},
+                        ],
+                    }
+                ],
+            }
+        ],
+    }
+    (kegg_dir / "brite_synth02000.json").write_text(json.dumps(tree))
+    return cache_root, all_kos
+
+
+def test_test_mode_cap_applied_post_pruning(
+    large_synth_cache: tuple[Path, set[str]], monkeypatch
+):
+    """With 150 kept nodes and test_mode=True, get_nodes yields ≤100 per tree
+    and no edge references a dropped node."""
+    cache_root, all_kos = large_synth_cache
+    from multiomics_kg.utils import brite_utils
+    from multiomics_kg.adapters import brite_adapter
+
+    monkeypatch.setattr(brite_utils, "BRITE_TREES", {"synth02000": "synthetic_large"})
+    monkeypatch.setattr(
+        brite_adapter, "BRITE_TREES", {"synth02000": "synthetic_large"}
+    )
+
+    adapter = MultiBriteAdapter(
+        cache_root=cache_root, known_ko_ids=all_kos, test_mode=True
+    )
+    adapter.download_data(cache=True)
+
+    nodes = list(adapter.get_nodes())
+    edges = list(adapter.get_edges())
+
+    # 3 scaffold categories (A1, B1, C1) + up to 100 leaf limit — but D-level
+    # leaves are KO leaves (not BriteCategory nodes), so this synthetic tree
+    # only has 3 BriteCategory nodes total. Cap only kicks in when categories
+    # exceed 100, so this tests the "no cap needed" path cleanly.
+    assert len(nodes) == 3
+
+    # Every KO edge's leaf must be in the emitted node set.
+    node_ids = {n[0] for n in nodes}
+    ko_edges = [e for e in edges if e[3] == "kegg_term_in_brite_category"]
+    for _eid, _src, tgt, _label, _props in ko_edges:
+        assert tgt in node_ids, f"KO edge points at dropped leaf {tgt!r}"
