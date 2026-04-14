@@ -37,8 +37,9 @@ One pre-processing pass per tree, performed at the end of `MultiBriteAdapter.dow
 @dataclass(slots=True)
 class PrunedTree:
     tree_code: str
-    nodes: list[tuple[str, str | None, str, int, str]]
-        # (node_id, parent_id, name, level, level_kind) — discovery order
+    nodes: list[tuple[str, str | None, str, int]]
+        # (node_id, parent_id, name, level) — discovery order.
+        # level_kind is derived at emit time via compute_level_kind(level).
     ko_edges: list[tuple[str, str]]
         # (ko_id_raw, leaf_node_id) — only for KOs in known_ko_ids
 ```
@@ -61,7 +62,7 @@ Defensive check inside the walker: if a `node_id` would be assigned twice with d
 ```python
 def get_nodes(self):
     for tree_code, pt in self._pruned.items():
-        for i, (nid, _pid, name, level, lk) in enumerate(pt.nodes):
+        for i, (nid, _pid, name, level) in enumerate(pt.nodes):
             if self.test_mode and i >= 100:
                 break
             yield (
@@ -72,7 +73,7 @@ def get_nodes(self):
                     "tree": BRITE_TREES[tree_code],
                     "tree_code": tree_code,
                     "level": level,
-                    "level_kind": lk,
+                    "level_kind": compute_level_kind(level),
                 },
             )
 
