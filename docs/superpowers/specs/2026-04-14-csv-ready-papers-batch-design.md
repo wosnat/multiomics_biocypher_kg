@@ -37,12 +37,21 @@ All four strains must be added to `data/Prochlorococcus/genomes/cyanobacteria_ge
 
 | Strain | Cyanorak name | Clade | Assembly accession | NCBI taxid | Locus prefix | Notes |
 |---|---|---|---|---|---|---|
-| **SS120** | `Pro_SS120` | LLII | `GCF_000007925.1` | 167539 | `Pro_NNNN` | Used by Domínguez, Fuszard, Moreno |
-| **BL107** | `Syn_BL107` | sub 5.1 / clade IV | `GCF_000153825.1` (WGS — RefSeq blank in cyanorak) | 313625 | `BL107_NNNNN` | Used by Moreno only |
-| **Marinobacter adhaerens HP15** | n/a (no cyanorak entry) | — | `GCF_000166295.1` | 225937 | `HP15_NNNN` | Used by Moreno S4 |
-| **Alteromonas mediterranea DE** | n/a (no cyanorak entry) | — | `GCF_001886215.1` (verify) | 314275 | `DEH24_NNNNN` | Used by Moreno S3 |
+| **SS120** | `Pro_SS120` | LLII | `GCF_000007925.1` (complete; chromosome `NC_005042` / `AE017126`) | 167539 | `Pro_NNNN` | Used by Domínguez, Fuszard, Moreno |
+| **BL107** | `Syn_BL107` | sub 5.1 / clade IV | `GCF_000153805.1` (WGS draft scaffolds; cyanorak RefSeq column blank) | 313625 | `BL107_NNNNN` | Used by Moreno only |
+| **Marinobacter adhaerens HP15** | n/a (no cyanorak entry) | — | `GCF_000166295.1` (complete; chromosome `NC_017506` + 2 plasmids) | 225937 | `HP15_RS#####` | Used by Moreno S4 |
+| **Alteromonas mediterranea DE** | n/a (no cyanorak entry) | — | `GCF_000020585.3` (complete; chromosome `NC_011138.3`) | 1774373 (strain-level; species `314275`; genus `232` is what the paper CSV reports) | RefSeq uses `MADE_RS#####` — paper data uses non-NCBI `DEH24_NNNNN` (see ID-bridge note below) | Used by Moreno S3 |
 
 For Marinobacter and Alteromonas, the cyanorak `Pigment type` / `SubCluster` columns do not apply — leave blank as for existing heterotrophs (W3-18-1, KT2440, DSS-3, MruberA).
+
+### Verification trail
+
+- **NCBI**: assemblies and taxids confirmed via NCBI Datasets (April 2026). Earlier draft of this spec listed `GCF_000153825.1` for BL107 (actually *Synechococcus* RS9916) and `GCF_001886215.1` for *A. mediterranea* DE (does not exist) — both corrected above.
+- **Cyanorak**: SS120 + BL107 metadata (clade, locus prefix) cross-matched against `data/Cyanorak  Organism Table  prochlorococcus.csv` and `synechococcus.csv`; cyanorak gives nucleotide accessions (`AE017126` / `NC_005042` for SS120; `AATZ00000000` WGS base for BL107) which point to the NCBI assemblies above.
+- **Paper methods**:
+  - **Domínguez 2017** explicitly cites SS120 = CCMP1375 (Roscoff Culture Collection) and used UniProt SS120 entries (1,881 entries, 18 May 2015) — taxid 167539 confirmed.
+  - **Fuszard 2012** Materials & Methods confirms strains MIT9312, NATL2A, SS120 grown in Pro99; n=3 iTRAQ replicates; significance cutoffs ±1.6 / 0.6 fold-change (no per-protein p-values reported).
+  - **Moreno 2023** Materials & Methods confirms 5 strains used for proteomics (SS120, MED4, MIT9313, WH8102, WH7803, BL107) but **MIT9313 was excluded from results** because cultures stopped growing during the proteomics campaign — supplementary tables therefore cover 5 strains. Reference DB for protein matching is **MarRef v6** (per Fig 1 caption) — this explains the `DEH24_*` Alteromonas locus prefix (MarRef custom annotation, not NCBI), and motivates the id-translation bridge described under "Open Items".
 
 ## Per-Paper Plans
 
@@ -52,7 +61,7 @@ For Marinobacter and Alteromonas, the cyanorak `Pigment type` / `SubCluster` col
 - **Strain**: SS120
 - **Experiment** (1):
   - `azaserine_ss120_proteomics`: control vs azaserine (10 µM); LC-MS/MS Progenesis label-free; `treatment_type: ["nitrogen"]` (azaserine inhibits glutamine synthase → effective N-stress); `omics_type: PROTEOMICS`
-- **Statistical analyses** (1): merge `table s3 Upregulated` + `table s3 Downregulated` into a single CSV (`table s3 Combined.csv`) with a signed `log2_fold_change` derived from the `Max fold change` column and the sign from `Highest mean condition` / `Lowest mean condition` (negative when `Highest mean condition == Control`); `adjusted_p_value` from `Anova (p)`; `pvalue_threshold: 0.05` (matches the legend's "P value < 0.05" filter).
+- **Statistical analyses** (1): merge `table s3 Upregulated prots rel quant sys003172107st8.csv` + `table s3 Downregulated prots rel quant sys003172107st8.csv` into a new file `table s3 Combined_modified.csv` (leave the two originals untouched — see "CSV transformation convention" below) with a signed `log2_fold_change` derived from the `Max fold change` column and the sign from `Highest mean condition` / `Lowest mean condition` (negative when `Highest mean condition == Control`); `adjusted_p_value` from `Anova (p)`; `pvalue_threshold: 0.05` (matches the legend's "P value < 0.05" filter).
 - **Skip**: table s4 is a hand-curated subset of S3 — no new information.
 - **ID resolution**: `name_col: Description`, parse `GN=Pro_NNNN` from the description string. Add an `id_translation` entry built from the `Description` column (`id_type: locus_tag` for the Pro_NNNN extraction). Most rows also have UniProt entry name (`Q7VDF9_PROMA`) and accession (in row index `1::Q7VDF9_PROMA`).
 
@@ -77,14 +86,14 @@ The most complex of the three: 5 strains, 3 organism perspectives (cyano + Alt +
   - Cyano S2: MED4, SS120, WH7803, WH8102, BL107
   - Alt S3: *Alteromonas mediterranea* DE (5 cocultures, one per cyano partner)
   - Marino S4: *Marinobacter adhaerens* HP15 (5 cocultures, one per cyano partner)
-- **Experiment naming convention**:
-  - Cyano: `<comparison>_<strain>_proteomics` — e.g. `glucose_lo_light_med4_proteomics`, `glucose_hi_light_med4_proteomics`, `glucose_lo_dark_med4_proteomics`, `glucose_hi_dark_med4_proteomics`
-  - Heterotroph: `<comparison>_<heterotroph_short>_in_<cyano_partner>_proteomics` — e.g. `glucose_lo_light_alt_in_med4_proteomics`
+- **Experiment naming convention** (avoids ambiguity between "high light" and "high glucose" by ordering as `<light_condition>_<glucose_dose>_glucose`):
+  - Cyano: `<comparison>_<strain>_proteomics` — e.g. `light_low_glucose_med4_proteomics`, `light_high_glucose_med4_proteomics`, `dark_low_glucose_med4_proteomics`, `dark_high_glucose_med4_proteomics`
+  - Heterotroph: `<comparison>_<heterotroph_short>_in_<cyano_partner>_proteomics` — e.g. `light_high_glucose_alt_in_med4_proteomics`, `dark_low_glucose_marino_in_ss120_proteomics`
 - **Comparison set** (4 per CSV, matching the columns observed):
-  - `glucose_lo_light`: light vs light + 100 nM glucose
-  - `glucose_hi_light`: light vs light + 5 mM glucose
-  - `glucose_lo_dark`: dark vs dark + 100 nM glucose
-  - `glucose_hi_dark`: dark vs dark + 5 mM glucose
+  - `light_low_glucose`: light vs light + 100 nM glucose
+  - `light_high_glucose`: light vs light + 5 mM glucose
+  - `dark_low_glucose`: dark vs dark + 100 nM glucose
+  - `dark_high_glucose`: dark vs dark + 5 mM glucose
   - (Skip the L vs D overall comparison — only present in compiled S1, not per-strain CSVs.)
 - **Common experiment metadata**:
   - `omics_type: PROTEOMICS`
@@ -100,7 +109,19 @@ The most complex of the three: 5 strains, 3 organism perspectives (cyano + Alt +
   - `pvalue_threshold: 0.05`
 - **ID resolution**:
   - Cyano S2: `name_col: Accession` (UniProt accession), with optional `id_columns: [{column: KEGG, id_type: locus_tag}]` since the `KEGG` column carries `Pro_NNNN` / `PMM_NNNN` / `BL107_NNNNN` etc. as a fallback.
-  - Alt S3 + Marino S4: parse `GN=` from `Description` column to extract locus tag (`DEH24_NNNNN` / `HP15_NNNN`); fall back to the gene-name when GN is just a 3-letter symbol (`typA`, `gltA`, etc.). Will likely require an `id_translation` entry per heterotroph.
+  - Alt S3 + Marino S4: parse `GN=` from `Description` column to extract locus tag (`DEH24_NNNNN` / `HP15_NNNN`); fall back to the gene-name when GN is just a 3-letter symbol (`typA`, `gltA`, etc.). Will require an `id_translation` entry per heterotroph.
+  - **Alteromonas DEH24 → MADE_RS bridge**: NCBI RefSeq for *A. mediterranea* DE uses locus prefix `MADE_RS#####`, but the Moreno data uses `DEH24_NNNNN` (a non-NCBI prefix from a re-annotation, likely IMG/PATRIC/MarRef). An `id_translation` entry is needed to map `DEH24_*` → `MADE_RS*`. Same pattern as the EZ55 (`AEZ55_*` → NCBI locus tags) and MIT1002 (`fig|*` → `MIT1002_*`) deployments — likely a `generate: diamond_protein_match` block against a DEH24-annotated protein FASTA. Source FASTA for DEH24_ may need to be sourced from IMG (Genome ID for *A. mediterranea* DE) or from the Moreno authors directly.
+
+## CSV Transformation Convention
+
+Whenever a paper's source CSV needs to be transformed before ingestion (merging up/down halves, computing `log2(FC)` from a linear ratio, splitting a multi-strain table, signing a fold-change column, etc.), **always write the result to a new file with a `_modified.csv` suffix and leave the originals untouched**. The paperconfig's `filename:` field then points at the `_modified.csv`. This preserves provenance — the original supp file matches what the paper deposited, and the transformation is reproducible from a script.
+
+Concrete cases in this batch:
+- Domínguez 2017: combine S3 up + S3 down → `table s3 Combined_modified.csv`
+- Fuszard 2012: add `log2_fold_change` column from `Ratio of means` → `table s1 <strain> Quantitation data_modified.csv`
+- Moreno 2023: each `table sN <strain> <whatever>.csv` may need a `_modified.csv` if `log2(FC)` columns must be precomputed before ingestion.
+
+Each transformation should be done with a small reusable script committed under `scripts/` (or notebook cell), so the `_modified.csv` is regeneratable.
 
 ## Schema & Decision Rationale
 
@@ -154,7 +175,8 @@ After each PR: run `/check-gene-ids` for the new paper, `/omics-edge-snapshot` f
 
 ## Open Items (resolve during implementation)
 
-- **Verify `GCF_001886215.1`** is the correct *A. mediterranea DE* assembly with locus prefix `DEH24_` (the prefix is unambiguous, but the user should sanity-check the accession against NCBI before adding).
+- **Source the DEH24 protein FASTA** for *A. mediterranea* DE. The NCBI RefSeq assembly (`GCF_000020585.3`) uses `MADE_RS#####`, not `DEH24_`. Likely sources to try: IMG (search Genome ID for *A. mediterranea* DE), PATRIC, or contact the Moreno authors. Once obtained, build the bridge with `scripts/map_img_to_ncbi_proteins.py` (diamond protein match), same pattern as EZ55 and MIT1002 deployments.
 - **`fold_change_type` semantics**: confirm whether the existing field expects raw fold-change thresholds (1.6 / 0.6) or log2-space thresholds (±0.678). Read `omics_adapter.py` and existing Synechococcus paperconfigs that use this field before writing the Fuszard config.
 - **Moreno cyano `KEGG` column**: confirm it carries the locus tag in all 5 strain CSVs (verified for MED4 = `PMM1436` and SS120 = `Pro_1591`; need to spot-check WH7803, WH8102, BL107).
 - **Heterotroph eggNOG**: decide whether to run eggNOG-mapper for HP15 + AltMedDE in the strain-addition PR or defer to a later batch (functional annotation enrichment, not a blocker for DE edges).
+- **Cross-check vs paper methods sections** (Moreno, Fuszard, Domínguez): confirm the assemblies/strain references the authors actually cite in their methods match the verified NCBI accessions above. (NCBI verification done; paper-methods cross-check pending.)
