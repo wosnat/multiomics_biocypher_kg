@@ -1,0 +1,1188 @@
+publication:
+  papername: "Moreno 2023"
+  # Moreno-Cabezuelo et al. 2023, Microbiology Spectrum, DOI 10.1128/spectrum.03275-22
+  # Integrated proteomic and metabolomic analyses show differential effects of
+  # glucose (100 nM or 5 mM) in the light vs darkness on Prochlorococcus
+  # (MED4, SS120) and Synechococcus (WH7803, WH8102, BL107) strains in
+  # non-axenic cultures. Heterotroph fractions (Alteromonas, Marinobacter)
+  # were also proteomically profiled.
+  #
+  # Cultures were grown in Pro99 (Prochlorococcus) or SN (Synechococcus) media
+  # at 24C; n=3 biological replicates per condition; proteomes acquired with
+  # LC-MS/MS and matched against the MarRef v6 reference DB.
+  #
+  # Experiment count: 5 cyano × 4 glucose x light comparisons (=20) +
+  # 5 Marinobacter cocultures × 4 comparisons (=20) - 1 missing column for
+  # SS120 Marinobacter FC G mM/L = 39 experiments total. The S3 Alteromonas
+  # tables are SKIPPED in this batch (DEH24 → MADE_RS id bridge deferred to a
+  # follow-up PR — all 5 Alteromonas CSVs are excluded below).
+  papermainpdf: "data/Prochlorococcus/papers_and_supp/moreno 2023/moreno-cabezuelo-et-al-2023-integrated-proteomic-and-metabolomic-analyses-show-differential-effects-of-glucose.pdf"
+
+  experiments:
+    # ─────────────────────────────────────────────────────────────────────
+    # Cyano S2 — 5 strains × 4 comparisons
+    # Primary organism = cyano. No treatment_organism because cyano side is
+    # a non-axenic community, not a defined coculture partner.
+    # ─────────────────────────────────────────────────────────────────────
+
+    # ── MED4 ──
+    light_low_glucose_med4_proteomics:
+      name: "MED4 proteomics: light +100 nM glucose vs light (control)"
+      organism: "Prochlorococcus MED4"
+      treatment_condition: "Light + 100 nM glucose addition"
+      control_condition: "Light (no glucose)"
+      experimental_context: "Non-axenic Prochlorococcus MED4 in Pro99 medium, 24C, continuous light; 100 nM glucose added at start of experiment; harvested at stationary growth; n=3 per condition. Proteomics LC-MS/MS."
+      omics_type: PROTEOMICS
+      test_type: "t-test"
+      treatment_type: ["carbon"]
+      background_factors: ["coculture", "light"]
+      medium: "Pro99"
+      temperature: "24C"
+      light_condition: "continuous light"
+      light_intensity: "15 umol photons m-2 s-1"
+      table_scope: all_detected_genes
+    light_high_glucose_med4_proteomics:
+      name: "MED4 proteomics: light +5 mM glucose vs light (control)"
+      organism: "Prochlorococcus MED4"
+      treatment_condition: "Light + 5 mM glucose addition"
+      control_condition: "Light (no glucose)"
+      experimental_context: "Non-axenic MED4 in Pro99, continuous light, 5 mM glucose; n=3."
+      omics_type: PROTEOMICS
+      test_type: "t-test"
+      treatment_type: ["carbon"]
+      background_factors: ["coculture", "light"]
+      medium: "Pro99"
+      temperature: "24C"
+      light_condition: "continuous light"
+      light_intensity: "15 umol photons m-2 s-1"
+      table_scope: all_detected_genes
+    dark_low_glucose_med4_proteomics:
+      name: "MED4 proteomics: darkness +100 nM glucose vs darkness (control)"
+      organism: "Prochlorococcus MED4"
+      treatment_condition: "Darkness + 100 nM glucose addition"
+      control_condition: "Darkness (no glucose)"
+      experimental_context: "Non-axenic MED4 in Pro99, continuous darkness, 100 nM glucose; n=3."
+      omics_type: PROTEOMICS
+      test_type: "t-test"
+      treatment_type: ["carbon"]
+      background_factors: ["coculture", "darkness"]
+      medium: "Pro99"
+      temperature: "24C"
+      light_condition: "continuous darkness"
+      light_intensity: ""
+      table_scope: all_detected_genes
+    dark_high_glucose_med4_proteomics:
+      name: "MED4 proteomics: darkness +5 mM glucose vs darkness (control)"
+      organism: "Prochlorococcus MED4"
+      treatment_condition: "Darkness + 5 mM glucose addition"
+      control_condition: "Darkness (no glucose)"
+      experimental_context: "Non-axenic MED4 in Pro99, continuous darkness, 5 mM glucose; n=3."
+      omics_type: PROTEOMICS
+      test_type: "t-test"
+      treatment_type: ["carbon"]
+      background_factors: ["coculture", "darkness"]
+      medium: "Pro99"
+      temperature: "24C"
+      light_condition: "continuous darkness"
+      light_intensity: ""
+      table_scope: all_detected_genes
+
+    # ── SS120 ──
+    light_low_glucose_ss120_proteomics:
+      name: "SS120 proteomics: light +100 nM glucose vs light (control)"
+      organism: "Prochlorococcus marinus subsp. marinus CCMP1375 (SS120)"
+      treatment_condition: "Light + 100 nM glucose addition"
+      control_condition: "Light (no glucose)"
+      experimental_context: "Non-axenic Prochlorococcus SS120 in Pro99 medium, 24C, continuous light, 100 nM glucose; n=3."
+      omics_type: PROTEOMICS
+      test_type: "t-test"
+      treatment_type: ["carbon"]
+      background_factors: ["coculture", "light"]
+      medium: "Pro99"
+      temperature: "24C"
+      light_condition: "continuous light"
+      light_intensity: "15 umol photons m-2 s-1"
+      table_scope: all_detected_genes
+    light_high_glucose_ss120_proteomics:
+      name: "SS120 proteomics: light +5 mM glucose vs light (control)"
+      organism: "Prochlorococcus marinus subsp. marinus CCMP1375 (SS120)"
+      treatment_condition: "Light + 5 mM glucose addition"
+      control_condition: "Light (no glucose)"
+      experimental_context: "Non-axenic SS120 in Pro99, continuous light, 5 mM glucose; n=3."
+      omics_type: PROTEOMICS
+      test_type: "t-test"
+      treatment_type: ["carbon"]
+      background_factors: ["coculture", "light"]
+      medium: "Pro99"
+      temperature: "24C"
+      light_condition: "continuous light"
+      light_intensity: "15 umol photons m-2 s-1"
+      table_scope: all_detected_genes
+    dark_low_glucose_ss120_proteomics:
+      name: "SS120 proteomics: darkness +100 nM glucose vs darkness (control)"
+      organism: "Prochlorococcus marinus subsp. marinus CCMP1375 (SS120)"
+      treatment_condition: "Darkness + 100 nM glucose addition"
+      control_condition: "Darkness (no glucose)"
+      experimental_context: "Non-axenic SS120 in Pro99, continuous darkness, 100 nM glucose; n=3."
+      omics_type: PROTEOMICS
+      test_type: "t-test"
+      treatment_type: ["carbon"]
+      background_factors: ["coculture", "darkness"]
+      medium: "Pro99"
+      temperature: "24C"
+      light_condition: "continuous darkness"
+      light_intensity: ""
+      table_scope: all_detected_genes
+    dark_high_glucose_ss120_proteomics:
+      name: "SS120 proteomics: darkness +5 mM glucose vs darkness (control)"
+      organism: "Prochlorococcus marinus subsp. marinus CCMP1375 (SS120)"
+      treatment_condition: "Darkness + 5 mM glucose addition"
+      control_condition: "Darkness (no glucose)"
+      experimental_context: "Non-axenic SS120 in Pro99, continuous darkness, 5 mM glucose; n=3."
+      omics_type: PROTEOMICS
+      test_type: "t-test"
+      treatment_type: ["carbon"]
+      background_factors: ["coculture", "darkness"]
+      medium: "Pro99"
+      temperature: "24C"
+      light_condition: "continuous darkness"
+      light_intensity: ""
+      table_scope: all_detected_genes
+
+    # ── WH7803 ──
+    light_low_glucose_wh7803_proteomics:
+      name: "WH7803 proteomics: light +100 nM glucose vs light (control)"
+      organism: "Synechococcus WH7803"
+      treatment_condition: "Light + 100 nM glucose addition"
+      control_condition: "Light (no glucose)"
+      experimental_context: "Non-axenic Synechococcus WH7803 in SN medium, 24C, continuous light, 100 nM glucose; n=3."
+      omics_type: PROTEOMICS
+      test_type: "t-test"
+      treatment_type: ["carbon"]
+      background_factors: ["coculture", "light"]
+      medium: "SN"
+      temperature: "24C"
+      light_condition: "continuous light"
+      light_intensity: "15 umol photons m-2 s-1"
+      table_scope: all_detected_genes
+    light_high_glucose_wh7803_proteomics:
+      name: "WH7803 proteomics: light +5 mM glucose vs light (control)"
+      organism: "Synechococcus WH7803"
+      treatment_condition: "Light + 5 mM glucose addition"
+      control_condition: "Light (no glucose)"
+      experimental_context: "Non-axenic WH7803 in SN, continuous light, 5 mM glucose; n=3."
+      omics_type: PROTEOMICS
+      test_type: "t-test"
+      treatment_type: ["carbon"]
+      background_factors: ["coculture", "light"]
+      medium: "SN"
+      temperature: "24C"
+      light_condition: "continuous light"
+      light_intensity: "15 umol photons m-2 s-1"
+      table_scope: all_detected_genes
+    dark_low_glucose_wh7803_proteomics:
+      name: "WH7803 proteomics: darkness +100 nM glucose vs darkness (control)"
+      organism: "Synechococcus WH7803"
+      treatment_condition: "Darkness + 100 nM glucose addition"
+      control_condition: "Darkness (no glucose)"
+      experimental_context: "Non-axenic WH7803 in SN, continuous darkness, 100 nM glucose; n=3."
+      omics_type: PROTEOMICS
+      test_type: "t-test"
+      treatment_type: ["carbon"]
+      background_factors: ["coculture", "darkness"]
+      medium: "SN"
+      temperature: "24C"
+      light_condition: "continuous darkness"
+      light_intensity: ""
+      table_scope: all_detected_genes
+    dark_high_glucose_wh7803_proteomics:
+      name: "WH7803 proteomics: darkness +5 mM glucose vs darkness (control)"
+      organism: "Synechococcus WH7803"
+      treatment_condition: "Darkness + 5 mM glucose addition"
+      control_condition: "Darkness (no glucose)"
+      experimental_context: "Non-axenic WH7803 in SN, continuous darkness, 5 mM glucose; n=3."
+      omics_type: PROTEOMICS
+      test_type: "t-test"
+      treatment_type: ["carbon"]
+      background_factors: ["coculture", "darkness"]
+      medium: "SN"
+      temperature: "24C"
+      light_condition: "continuous darkness"
+      light_intensity: ""
+      table_scope: all_detected_genes
+
+    # ── WH8102 ──
+    light_low_glucose_wh8102_proteomics:
+      name: "WH8102 proteomics: light +100 nM glucose vs light (control)"
+      organism: "Synechococcus WH8102"
+      treatment_condition: "Light + 100 nM glucose addition"
+      control_condition: "Light (no glucose)"
+      experimental_context: "Non-axenic Synechococcus WH8102 in SN medium, 24C, continuous light, 100 nM glucose; n=3."
+      omics_type: PROTEOMICS
+      test_type: "t-test"
+      treatment_type: ["carbon"]
+      background_factors: ["coculture", "light"]
+      medium: "SN"
+      temperature: "24C"
+      light_condition: "continuous light"
+      light_intensity: "15 umol photons m-2 s-1"
+      table_scope: all_detected_genes
+    light_high_glucose_wh8102_proteomics:
+      name: "WH8102 proteomics: light +5 mM glucose vs light (control)"
+      organism: "Synechococcus WH8102"
+      treatment_condition: "Light + 5 mM glucose addition"
+      control_condition: "Light (no glucose)"
+      experimental_context: "Non-axenic WH8102 in SN, continuous light, 5 mM glucose; n=3."
+      omics_type: PROTEOMICS
+      test_type: "t-test"
+      treatment_type: ["carbon"]
+      background_factors: ["coculture", "light"]
+      medium: "SN"
+      temperature: "24C"
+      light_condition: "continuous light"
+      light_intensity: "15 umol photons m-2 s-1"
+      table_scope: all_detected_genes
+    dark_low_glucose_wh8102_proteomics:
+      name: "WH8102 proteomics: darkness +100 nM glucose vs darkness (control)"
+      organism: "Synechococcus WH8102"
+      treatment_condition: "Darkness + 100 nM glucose addition"
+      control_condition: "Darkness (no glucose)"
+      experimental_context: "Non-axenic WH8102 in SN, continuous darkness, 100 nM glucose; n=3."
+      omics_type: PROTEOMICS
+      test_type: "t-test"
+      treatment_type: ["carbon"]
+      background_factors: ["coculture", "darkness"]
+      medium: "SN"
+      temperature: "24C"
+      light_condition: "continuous darkness"
+      light_intensity: ""
+      table_scope: all_detected_genes
+    dark_high_glucose_wh8102_proteomics:
+      name: "WH8102 proteomics: darkness +5 mM glucose vs darkness (control)"
+      organism: "Synechococcus WH8102"
+      treatment_condition: "Darkness + 5 mM glucose addition"
+      control_condition: "Darkness (no glucose)"
+      experimental_context: "Non-axenic WH8102 in SN, continuous darkness, 5 mM glucose; n=3."
+      omics_type: PROTEOMICS
+      test_type: "t-test"
+      treatment_type: ["carbon"]
+      background_factors: ["coculture", "darkness"]
+      medium: "SN"
+      temperature: "24C"
+      light_condition: "continuous darkness"
+      light_intensity: ""
+      table_scope: all_detected_genes
+
+    # ── BL107 ──
+    light_low_glucose_bl107_proteomics:
+      name: "BL107 proteomics: light +100 nM glucose vs light (control)"
+      organism: "Synechococcus sp. BL107"
+      treatment_condition: "Light + 100 nM glucose addition"
+      control_condition: "Light (no glucose)"
+      experimental_context: "Non-axenic Synechococcus sp. BL107 in SN medium, 24C, continuous light, 100 nM glucose; n=3."
+      omics_type: PROTEOMICS
+      test_type: "t-test"
+      treatment_type: ["carbon"]
+      background_factors: ["coculture", "light"]
+      medium: "SN"
+      temperature: "24C"
+      light_condition: "continuous light"
+      light_intensity: "15 umol photons m-2 s-1"
+      table_scope: all_detected_genes
+    light_high_glucose_bl107_proteomics:
+      name: "BL107 proteomics: light +5 mM glucose vs light (control)"
+      organism: "Synechococcus sp. BL107"
+      treatment_condition: "Light + 5 mM glucose addition"
+      control_condition: "Light (no glucose)"
+      experimental_context: "Non-axenic BL107 in SN, continuous light, 5 mM glucose; n=3."
+      omics_type: PROTEOMICS
+      test_type: "t-test"
+      treatment_type: ["carbon"]
+      background_factors: ["coculture", "light"]
+      medium: "SN"
+      temperature: "24C"
+      light_condition: "continuous light"
+      light_intensity: "15 umol photons m-2 s-1"
+      table_scope: all_detected_genes
+    dark_low_glucose_bl107_proteomics:
+      name: "BL107 proteomics: darkness +100 nM glucose vs darkness (control)"
+      organism: "Synechococcus sp. BL107"
+      treatment_condition: "Darkness + 100 nM glucose addition"
+      control_condition: "Darkness (no glucose)"
+      experimental_context: "Non-axenic BL107 in SN, continuous darkness, 100 nM glucose; n=3."
+      omics_type: PROTEOMICS
+      test_type: "t-test"
+      treatment_type: ["carbon"]
+      background_factors: ["coculture", "darkness"]
+      medium: "SN"
+      temperature: "24C"
+      light_condition: "continuous darkness"
+      light_intensity: ""
+      table_scope: all_detected_genes
+    dark_high_glucose_bl107_proteomics:
+      name: "BL107 proteomics: darkness +5 mM glucose vs darkness (control)"
+      organism: "Synechococcus sp. BL107"
+      treatment_condition: "Darkness + 5 mM glucose addition"
+      control_condition: "Darkness (no glucose)"
+      experimental_context: "Non-axenic BL107 in SN, continuous darkness, 5 mM glucose; n=3."
+      omics_type: PROTEOMICS
+      test_type: "t-test"
+      treatment_type: ["carbon"]
+      background_factors: ["coculture", "darkness"]
+      medium: "SN"
+      temperature: "24C"
+      light_condition: "continuous darkness"
+      light_intensity: ""
+      table_scope: all_detected_genes
+
+    # ─────────────────────────────────────────────────────────────────────
+    # Marinobacter S4 — 5 cocultures × 4 comparisons (minus 1 missing col for SS120)
+    # Primary organism = Marinobacter adhaerens HP15. treatment_organism is
+    # the cyano partner (defined from the heterotroph's standpoint).
+    # ─────────────────────────────────────────────────────────────────────
+
+    # ── Marino in MED4 ──
+    light_low_glucose_marino_in_med4_proteomics:
+      name: "Marinobacter in MED4 coculture: light +100 nM glucose vs light (control)"
+      organism: "Marinobacter adhaerens DSM 23420 / HP15"
+      treatment_condition: "Light + 100 nM glucose addition"
+      control_condition: "Light (no glucose)"
+      experimental_context: "Marinobacter adhaerens HP15 subpopulation in non-axenic MED4 culture (Pro99 medium); LC-MS/MS proteomics of the Marinobacter fraction; n=3."
+      omics_type: PROTEOMICS
+      test_type: "t-test"
+      treatment_type: ["carbon"]
+      background_factors: ["coculture", "light"]
+      medium: "Pro99"
+      temperature: "24C"
+      light_condition: "continuous light"
+      light_intensity: "15 umol photons m-2 s-1"
+      treatment_organism: "Prochlorococcus MED4"
+      treatment_taxid: 59919
+      treatment_assembly_accession: "GCF_000011465.1"
+      table_scope: all_detected_genes
+    light_high_glucose_marino_in_med4_proteomics:
+      name: "Marinobacter in MED4 coculture: light +5 mM glucose vs light (control)"
+      organism: "Marinobacter adhaerens DSM 23420 / HP15"
+      treatment_condition: "Light + 5 mM glucose addition"
+      control_condition: "Light (no glucose)"
+      experimental_context: "Marinobacter fraction of non-axenic MED4 in Pro99, continuous light, 5 mM glucose; n=3."
+      omics_type: PROTEOMICS
+      test_type: "t-test"
+      treatment_type: ["carbon"]
+      background_factors: ["coculture", "light"]
+      medium: "Pro99"
+      temperature: "24C"
+      light_condition: "continuous light"
+      light_intensity: "15 umol photons m-2 s-1"
+      treatment_organism: "Prochlorococcus MED4"
+      treatment_taxid: 59919
+      treatment_assembly_accession: "GCF_000011465.1"
+      table_scope: all_detected_genes
+    dark_low_glucose_marino_in_med4_proteomics:
+      name: "Marinobacter in MED4 coculture: darkness +100 nM glucose vs darkness (control)"
+      organism: "Marinobacter adhaerens DSM 23420 / HP15"
+      treatment_condition: "Darkness + 100 nM glucose addition"
+      control_condition: "Darkness (no glucose)"
+      experimental_context: "Marinobacter fraction of non-axenic MED4 in Pro99, continuous darkness, 100 nM glucose; n=3."
+      omics_type: PROTEOMICS
+      test_type: "t-test"
+      treatment_type: ["carbon"]
+      background_factors: ["coculture", "darkness"]
+      medium: "Pro99"
+      temperature: "24C"
+      light_condition: "continuous darkness"
+      light_intensity: ""
+      treatment_organism: "Prochlorococcus MED4"
+      treatment_taxid: 59919
+      treatment_assembly_accession: "GCF_000011465.1"
+      table_scope: all_detected_genes
+    dark_high_glucose_marino_in_med4_proteomics:
+      name: "Marinobacter in MED4 coculture: darkness +5 mM glucose vs darkness (control)"
+      organism: "Marinobacter adhaerens DSM 23420 / HP15"
+      treatment_condition: "Darkness + 5 mM glucose addition"
+      control_condition: "Darkness (no glucose)"
+      experimental_context: "Marinobacter fraction of non-axenic MED4 in Pro99, continuous darkness, 5 mM glucose; n=3."
+      omics_type: PROTEOMICS
+      test_type: "t-test"
+      treatment_type: ["carbon"]
+      background_factors: ["coculture", "darkness"]
+      medium: "Pro99"
+      temperature: "24C"
+      light_condition: "continuous darkness"
+      light_intensity: ""
+      treatment_organism: "Prochlorococcus MED4"
+      treatment_taxid: 59919
+      treatment_assembly_accession: "GCF_000011465.1"
+      table_scope: all_detected_genes
+
+    # ── Marino in SS120 ──
+    # NOTE: `FC G mM/L` column is MISSING in the source CSV for SS120, so no
+    # `light_high_glucose_marino_in_ss120_proteomics` experiment is created.
+    light_low_glucose_marino_in_ss120_proteomics:
+      name: "Marinobacter in SS120 coculture: light +100 nM glucose vs light (control)"
+      organism: "Marinobacter adhaerens DSM 23420 / HP15"
+      treatment_condition: "Light + 100 nM glucose addition"
+      control_condition: "Light (no glucose)"
+      experimental_context: "Marinobacter fraction of non-axenic SS120 in Pro99, continuous light, 100 nM glucose; n=3."
+      omics_type: PROTEOMICS
+      test_type: "t-test"
+      treatment_type: ["carbon"]
+      background_factors: ["coculture", "light"]
+      medium: "Pro99"
+      temperature: "24C"
+      light_condition: "continuous light"
+      light_intensity: "15 umol photons m-2 s-1"
+      treatment_organism: "Prochlorococcus marinus subsp. marinus CCMP1375 (SS120)"
+      treatment_taxid: 167539
+      treatment_assembly_accession: "GCF_000007925.1"
+      table_scope: all_detected_genes
+    dark_low_glucose_marino_in_ss120_proteomics:
+      name: "Marinobacter in SS120 coculture: darkness +100 nM glucose vs darkness (control)"
+      organism: "Marinobacter adhaerens DSM 23420 / HP15"
+      treatment_condition: "Darkness + 100 nM glucose addition"
+      control_condition: "Darkness (no glucose)"
+      experimental_context: "Marinobacter fraction of non-axenic SS120 in Pro99, continuous darkness, 100 nM glucose; n=3."
+      omics_type: PROTEOMICS
+      test_type: "t-test"
+      treatment_type: ["carbon"]
+      background_factors: ["coculture", "darkness"]
+      medium: "Pro99"
+      temperature: "24C"
+      light_condition: "continuous darkness"
+      light_intensity: ""
+      treatment_organism: "Prochlorococcus marinus subsp. marinus CCMP1375 (SS120)"
+      treatment_taxid: 167539
+      treatment_assembly_accession: "GCF_000007925.1"
+      table_scope: all_detected_genes
+    dark_high_glucose_marino_in_ss120_proteomics:
+      name: "Marinobacter in SS120 coculture: darkness +5 mM glucose vs darkness (control)"
+      organism: "Marinobacter adhaerens DSM 23420 / HP15"
+      treatment_condition: "Darkness + 5 mM glucose addition"
+      control_condition: "Darkness (no glucose)"
+      experimental_context: "Marinobacter fraction of non-axenic SS120 in Pro99, continuous darkness, 5 mM glucose; n=3."
+      omics_type: PROTEOMICS
+      test_type: "t-test"
+      treatment_type: ["carbon"]
+      background_factors: ["coculture", "darkness"]
+      medium: "Pro99"
+      temperature: "24C"
+      light_condition: "continuous darkness"
+      light_intensity: ""
+      treatment_organism: "Prochlorococcus marinus subsp. marinus CCMP1375 (SS120)"
+      treatment_taxid: 167539
+      treatment_assembly_accession: "GCF_000007925.1"
+      table_scope: all_detected_genes
+
+    # ── Marino in WH7803 ──
+    light_low_glucose_marino_in_wh7803_proteomics:
+      name: "Marinobacter in WH7803 coculture: light +100 nM glucose vs light (control)"
+      organism: "Marinobacter adhaerens DSM 23420 / HP15"
+      treatment_condition: "Light + 100 nM glucose addition"
+      control_condition: "Light (no glucose)"
+      experimental_context: "Marinobacter fraction of non-axenic WH7803 in SN, continuous light, 100 nM glucose; n=3."
+      omics_type: PROTEOMICS
+      test_type: "t-test"
+      treatment_type: ["carbon"]
+      background_factors: ["coculture", "light"]
+      medium: "SN"
+      temperature: "24C"
+      light_condition: "continuous light"
+      light_intensity: "15 umol photons m-2 s-1"
+      treatment_organism: "Synechococcus WH7803"
+      treatment_taxid: 32051
+      treatment_assembly_accession: "GCF_000063505.1"
+      table_scope: all_detected_genes
+    light_high_glucose_marino_in_wh7803_proteomics:
+      name: "Marinobacter in WH7803 coculture: light +5 mM glucose vs light (control)"
+      organism: "Marinobacter adhaerens DSM 23420 / HP15"
+      treatment_condition: "Light + 5 mM glucose addition"
+      control_condition: "Light (no glucose)"
+      experimental_context: "Marinobacter fraction of non-axenic WH7803 in SN, continuous light, 5 mM glucose; n=3."
+      omics_type: PROTEOMICS
+      test_type: "t-test"
+      treatment_type: ["carbon"]
+      background_factors: ["coculture", "light"]
+      medium: "SN"
+      temperature: "24C"
+      light_condition: "continuous light"
+      light_intensity: "15 umol photons m-2 s-1"
+      treatment_organism: "Synechococcus WH7803"
+      treatment_taxid: 32051
+      treatment_assembly_accession: "GCF_000063505.1"
+      table_scope: all_detected_genes
+    dark_low_glucose_marino_in_wh7803_proteomics:
+      name: "Marinobacter in WH7803 coculture: darkness +100 nM glucose vs darkness (control)"
+      organism: "Marinobacter adhaerens DSM 23420 / HP15"
+      treatment_condition: "Darkness + 100 nM glucose addition"
+      control_condition: "Darkness (no glucose)"
+      experimental_context: "Marinobacter fraction of non-axenic WH7803 in SN, continuous darkness, 100 nM glucose; n=3."
+      omics_type: PROTEOMICS
+      test_type: "t-test"
+      treatment_type: ["carbon"]
+      background_factors: ["coculture", "darkness"]
+      medium: "SN"
+      temperature: "24C"
+      light_condition: "continuous darkness"
+      light_intensity: ""
+      treatment_organism: "Synechococcus WH7803"
+      treatment_taxid: 32051
+      treatment_assembly_accession: "GCF_000063505.1"
+      table_scope: all_detected_genes
+    dark_high_glucose_marino_in_wh7803_proteomics:
+      name: "Marinobacter in WH7803 coculture: darkness +5 mM glucose vs darkness (control)"
+      organism: "Marinobacter adhaerens DSM 23420 / HP15"
+      treatment_condition: "Darkness + 5 mM glucose addition"
+      control_condition: "Darkness (no glucose)"
+      experimental_context: "Marinobacter fraction of non-axenic WH7803 in SN, continuous darkness, 5 mM glucose; n=3."
+      omics_type: PROTEOMICS
+      test_type: "t-test"
+      treatment_type: ["carbon"]
+      background_factors: ["coculture", "darkness"]
+      medium: "SN"
+      temperature: "24C"
+      light_condition: "continuous darkness"
+      light_intensity: ""
+      treatment_organism: "Synechococcus WH7803"
+      treatment_taxid: 32051
+      treatment_assembly_accession: "GCF_000063505.1"
+      table_scope: all_detected_genes
+
+    # ── Marino in WH8102 ──
+    light_low_glucose_marino_in_wh8102_proteomics:
+      name: "Marinobacter in WH8102 coculture: light +100 nM glucose vs light (control)"
+      organism: "Marinobacter adhaerens DSM 23420 / HP15"
+      treatment_condition: "Light + 100 nM glucose addition"
+      control_condition: "Light (no glucose)"
+      experimental_context: "Marinobacter fraction of non-axenic WH8102 in SN, continuous light, 100 nM glucose; n=3."
+      omics_type: PROTEOMICS
+      test_type: "t-test"
+      treatment_type: ["carbon"]
+      background_factors: ["coculture", "light"]
+      medium: "SN"
+      temperature: "24C"
+      light_condition: "continuous light"
+      light_intensity: "15 umol photons m-2 s-1"
+      treatment_organism: "Synechococcus WH8102"
+      treatment_taxid: 84588
+      treatment_assembly_accession: "GCF_000195975.1"
+      table_scope: all_detected_genes
+    light_high_glucose_marino_in_wh8102_proteomics:
+      name: "Marinobacter in WH8102 coculture: light +5 mM glucose vs light (control)"
+      organism: "Marinobacter adhaerens DSM 23420 / HP15"
+      treatment_condition: "Light + 5 mM glucose addition"
+      control_condition: "Light (no glucose)"
+      experimental_context: "Marinobacter fraction of non-axenic WH8102 in SN, continuous light, 5 mM glucose; n=3."
+      omics_type: PROTEOMICS
+      test_type: "t-test"
+      treatment_type: ["carbon"]
+      background_factors: ["coculture", "light"]
+      medium: "SN"
+      temperature: "24C"
+      light_condition: "continuous light"
+      light_intensity: "15 umol photons m-2 s-1"
+      treatment_organism: "Synechococcus WH8102"
+      treatment_taxid: 84588
+      treatment_assembly_accession: "GCF_000195975.1"
+      table_scope: all_detected_genes
+    dark_low_glucose_marino_in_wh8102_proteomics:
+      name: "Marinobacter in WH8102 coculture: darkness +100 nM glucose vs darkness (control)"
+      organism: "Marinobacter adhaerens DSM 23420 / HP15"
+      treatment_condition: "Darkness + 100 nM glucose addition"
+      control_condition: "Darkness (no glucose)"
+      experimental_context: "Marinobacter fraction of non-axenic WH8102 in SN, continuous darkness, 100 nM glucose; n=3."
+      omics_type: PROTEOMICS
+      test_type: "t-test"
+      treatment_type: ["carbon"]
+      background_factors: ["coculture", "darkness"]
+      medium: "SN"
+      temperature: "24C"
+      light_condition: "continuous darkness"
+      light_intensity: ""
+      treatment_organism: "Synechococcus WH8102"
+      treatment_taxid: 84588
+      treatment_assembly_accession: "GCF_000195975.1"
+      table_scope: all_detected_genes
+    dark_high_glucose_marino_in_wh8102_proteomics:
+      name: "Marinobacter in WH8102 coculture: darkness +5 mM glucose vs darkness (control)"
+      organism: "Marinobacter adhaerens DSM 23420 / HP15"
+      treatment_condition: "Darkness + 5 mM glucose addition"
+      control_condition: "Darkness (no glucose)"
+      experimental_context: "Marinobacter fraction of non-axenic WH8102 in SN, continuous darkness, 5 mM glucose; n=3."
+      omics_type: PROTEOMICS
+      test_type: "t-test"
+      treatment_type: ["carbon"]
+      background_factors: ["coculture", "darkness"]
+      medium: "SN"
+      temperature: "24C"
+      light_condition: "continuous darkness"
+      light_intensity: ""
+      treatment_organism: "Synechococcus WH8102"
+      treatment_taxid: 84588
+      treatment_assembly_accession: "GCF_000195975.1"
+      table_scope: all_detected_genes
+
+    # ── Marino in BL107 ──
+    light_low_glucose_marino_in_bl107_proteomics:
+      name: "Marinobacter in BL107 coculture: light +100 nM glucose vs light (control)"
+      organism: "Marinobacter adhaerens DSM 23420 / HP15"
+      treatment_condition: "Light + 100 nM glucose addition"
+      control_condition: "Light (no glucose)"
+      experimental_context: "Marinobacter fraction of non-axenic BL107 in SN, continuous light, 100 nM glucose; n=3."
+      omics_type: PROTEOMICS
+      test_type: "t-test"
+      treatment_type: ["carbon"]
+      background_factors: ["coculture", "light"]
+      medium: "SN"
+      temperature: "24C"
+      light_condition: "continuous light"
+      light_intensity: "15 umol photons m-2 s-1"
+      treatment_organism: "Synechococcus sp. BL107"
+      treatment_taxid: 313625
+      treatment_assembly_accession: "GCF_000153805.1"
+      table_scope: all_detected_genes
+    light_high_glucose_marino_in_bl107_proteomics:
+      name: "Marinobacter in BL107 coculture: light +5 mM glucose vs light (control)"
+      organism: "Marinobacter adhaerens DSM 23420 / HP15"
+      treatment_condition: "Light + 5 mM glucose addition"
+      control_condition: "Light (no glucose)"
+      experimental_context: "Marinobacter fraction of non-axenic BL107 in SN, continuous light, 5 mM glucose; n=3."
+      omics_type: PROTEOMICS
+      test_type: "t-test"
+      treatment_type: ["carbon"]
+      background_factors: ["coculture", "light"]
+      medium: "SN"
+      temperature: "24C"
+      light_condition: "continuous light"
+      light_intensity: "15 umol photons m-2 s-1"
+      treatment_organism: "Synechococcus sp. BL107"
+      treatment_taxid: 313625
+      treatment_assembly_accession: "GCF_000153805.1"
+      table_scope: all_detected_genes
+    dark_low_glucose_marino_in_bl107_proteomics:
+      name: "Marinobacter in BL107 coculture: darkness +100 nM glucose vs darkness (control)"
+      organism: "Marinobacter adhaerens DSM 23420 / HP15"
+      treatment_condition: "Darkness + 100 nM glucose addition"
+      control_condition: "Darkness (no glucose)"
+      experimental_context: "Marinobacter fraction of non-axenic BL107 in SN, continuous darkness, 100 nM glucose; n=3."
+      omics_type: PROTEOMICS
+      test_type: "t-test"
+      treatment_type: ["carbon"]
+      background_factors: ["coculture", "darkness"]
+      medium: "SN"
+      temperature: "24C"
+      light_condition: "continuous darkness"
+      light_intensity: ""
+      treatment_organism: "Synechococcus sp. BL107"
+      treatment_taxid: 313625
+      treatment_assembly_accession: "GCF_000153805.1"
+      table_scope: all_detected_genes
+    dark_high_glucose_marino_in_bl107_proteomics:
+      name: "Marinobacter in BL107 coculture: darkness +5 mM glucose vs darkness (control)"
+      organism: "Marinobacter adhaerens DSM 23420 / HP15"
+      treatment_condition: "Darkness + 5 mM glucose addition"
+      control_condition: "Darkness (no glucose)"
+      experimental_context: "Marinobacter fraction of non-axenic BL107 in SN, continuous darkness, 5 mM glucose; n=3."
+      omics_type: PROTEOMICS
+      test_type: "t-test"
+      treatment_type: ["carbon"]
+      background_factors: ["coculture", "darkness"]
+      medium: "SN"
+      temperature: "24C"
+      light_condition: "continuous darkness"
+      light_intensity: ""
+      treatment_organism: "Synechococcus sp. BL107"
+      treatment_taxid: 313625
+      treatment_assembly_accession: "GCF_000153805.1"
+      table_scope: all_detected_genes
+
+  supplementary_materials:
+    # ── S3 Alteromonas CSVs intentionally NOT included — DEH24 -> MADE_RS
+    # id bridge deferred to follow-up PR (see spec).
+
+    # ── Cyano S2 — 5 strains, each with 4 statistical analyses ──
+    # Cells in `*_modified.csv` carry log2FC.* columns computed from linear
+    # FC.* columns by `scripts/build_moreno2023_modified_csv.py`.
+    supp_table_s2_med4:
+      type: csv
+      filename: "data/Prochlorococcus/papers_and_supp/moreno 2023/table s2 MED4 spectrum.03275-22-s0002_modified.csv"
+      organism: "Prochlorococcus MED4"
+      id_columns:
+        - column: "Accession"
+          id_type: uniprot_accession
+        - column: "KEGG"
+          id_type: locus_tag
+      product_columns:
+        - column: "Description"
+      statistical_analyses:
+        - id: "med4_light_low_glucose_vs_light"
+          experiment: light_low_glucose_med4_proteomics
+          name_col: "KEGG"
+          logfc_col: "log2FC.L.LGnM"
+          adjusted_p_value_col: "TTEST.L.LGnM"
+          pvalue_threshold: 0.05
+          growth_phase: stationary
+          timepoint: "stationary"
+          timepoint_hours: null
+        - id: "med4_light_high_glucose_vs_light"
+          experiment: light_high_glucose_med4_proteomics
+          name_col: "KEGG"
+          logfc_col: "log2FC.L.LGmM"
+          adjusted_p_value_col: "TTEST.L.LGmM"
+          pvalue_threshold: 0.05
+          growth_phase: stationary
+          timepoint: "stationary"
+          timepoint_hours: null
+        - id: "med4_dark_low_glucose_vs_dark"
+          experiment: dark_low_glucose_med4_proteomics
+          name_col: "KEGG"
+          logfc_col: "log2FC.D.LGnM"
+          adjusted_p_value_col: "TTEST.D.LGnM"
+          pvalue_threshold: 0.05
+          growth_phase: darkness
+          timepoint: "darkness"
+          timepoint_hours: null
+        - id: "med4_dark_high_glucose_vs_dark"
+          experiment: dark_high_glucose_med4_proteomics
+          name_col: "KEGG"
+          logfc_col: "log2FC.D.LGmM"
+          adjusted_p_value_col: "TTEST.D.LGmM"
+          pvalue_threshold: 0.05
+          growth_phase: darkness
+          timepoint: "darkness"
+          timepoint_hours: null
+
+    supp_table_s2_ss120:
+      type: csv
+      filename: "data/Prochlorococcus/papers_and_supp/moreno 2023/table s2 SS120 spectrum.03275-22-s0002_modified.csv"
+      organism: "Prochlorococcus marinus subsp. marinus CCMP1375 (SS120)"
+      id_columns:
+        - column: "Accession"
+          id_type: uniprot_accession
+        - column: "KEGG"
+          id_type: locus_tag
+      product_columns:
+        - column: "Description"
+      statistical_analyses:
+        - id: "ss120_light_low_glucose_vs_light"
+          experiment: light_low_glucose_ss120_proteomics
+          name_col: "KEGG"
+          logfc_col: "log2FC.L.LGnM"
+          adjusted_p_value_col: "TTEST.L.LGnM"
+          pvalue_threshold: 0.05
+          growth_phase: stationary
+          timepoint: "stationary"
+          timepoint_hours: null
+        - id: "ss120_light_high_glucose_vs_light"
+          experiment: light_high_glucose_ss120_proteomics
+          name_col: "KEGG"
+          logfc_col: "log2FC.L.LGmM"
+          adjusted_p_value_col: "TTEST.L.LGmM"
+          pvalue_threshold: 0.05
+          growth_phase: stationary
+          timepoint: "stationary"
+          timepoint_hours: null
+        - id: "ss120_dark_low_glucose_vs_dark"
+          experiment: dark_low_glucose_ss120_proteomics
+          name_col: "KEGG"
+          logfc_col: "log2FC.D.LGnM"
+          adjusted_p_value_col: "TTEST.D.LGnM"
+          pvalue_threshold: 0.05
+          growth_phase: darkness
+          timepoint: "darkness"
+          timepoint_hours: null
+        - id: "ss120_dark_high_glucose_vs_dark"
+          experiment: dark_high_glucose_ss120_proteomics
+          name_col: "KEGG"
+          logfc_col: "log2FC.D.LGmM"
+          adjusted_p_value_col: "TTEST.D.LGmM"
+          pvalue_threshold: 0.05
+          growth_phase: darkness
+          timepoint: "darkness"
+          timepoint_hours: null
+
+    supp_table_s2_wh7803:
+      type: csv
+      filename: "data/Prochlorococcus/papers_and_supp/moreno 2023/table s2 WH7803 spectrum.03275-22-s0002_modified.csv"
+      organism: "Synechococcus WH7803"
+      id_columns:
+        - column: "Accession"
+          id_type: uniprot_accession
+        - column: "KEGG"
+          id_type: locus_tag
+      product_columns:
+        - column: "Description"
+      statistical_analyses:
+        - id: "wh7803_light_low_glucose_vs_light"
+          experiment: light_low_glucose_wh7803_proteomics
+          name_col: "KEGG"
+          logfc_col: "log2FC.L.LGnM"
+          adjusted_p_value_col: "TTEST.L.LGnM"
+          pvalue_threshold: 0.05
+          growth_phase: stationary
+          timepoint: "stationary"
+          timepoint_hours: null
+        - id: "wh7803_light_high_glucose_vs_light"
+          experiment: light_high_glucose_wh7803_proteomics
+          name_col: "KEGG"
+          logfc_col: "log2FC.L.LGmM"
+          adjusted_p_value_col: "TTEST.L.LGmM"
+          pvalue_threshold: 0.05
+          growth_phase: stationary
+          timepoint: "stationary"
+          timepoint_hours: null
+        - id: "wh7803_dark_low_glucose_vs_dark"
+          experiment: dark_low_glucose_wh7803_proteomics
+          name_col: "KEGG"
+          logfc_col: "log2FC.D.LGnM"
+          adjusted_p_value_col: "TTEST.D.LGnM"
+          pvalue_threshold: 0.05
+          growth_phase: darkness
+          timepoint: "darkness"
+          timepoint_hours: null
+        - id: "wh7803_dark_high_glucose_vs_dark"
+          experiment: dark_high_glucose_wh7803_proteomics
+          name_col: "KEGG"
+          logfc_col: "log2FC.D.LGmM"
+          adjusted_p_value_col: "TTEST.D.LGmM"
+          pvalue_threshold: 0.05
+          growth_phase: darkness
+          timepoint: "darkness"
+          timepoint_hours: null
+
+    supp_table_s2_wh8102:
+      type: csv
+      filename: "data/Prochlorococcus/papers_and_supp/moreno 2023/table s2 WH8102 spectrum.03275-22-s0002_modified.csv"
+      organism: "Synechococcus WH8102"
+      id_columns:
+        - column: "Accession"
+          id_type: uniprot_accession
+        - column: "KEGG"
+          id_type: locus_tag
+      product_columns:
+        - column: "Description"
+      statistical_analyses:
+        - id: "wh8102_light_low_glucose_vs_light"
+          experiment: light_low_glucose_wh8102_proteomics
+          name_col: "KEGG"
+          logfc_col: "log2FC.L.LGnM"
+          adjusted_p_value_col: "TTEST.L.LGnM"
+          pvalue_threshold: 0.05
+          growth_phase: stationary
+          timepoint: "stationary"
+          timepoint_hours: null
+        - id: "wh8102_light_high_glucose_vs_light"
+          experiment: light_high_glucose_wh8102_proteomics
+          name_col: "KEGG"
+          logfc_col: "log2FC.L.LGmM"
+          adjusted_p_value_col: "TTEST.L.LGmM"
+          pvalue_threshold: 0.05
+          growth_phase: stationary
+          timepoint: "stationary"
+          timepoint_hours: null
+        - id: "wh8102_dark_low_glucose_vs_dark"
+          experiment: dark_low_glucose_wh8102_proteomics
+          name_col: "KEGG"
+          logfc_col: "log2FC.D.LGnM"
+          adjusted_p_value_col: "TTEST.D.LGnM"
+          pvalue_threshold: 0.05
+          growth_phase: darkness
+          timepoint: "darkness"
+          timepoint_hours: null
+        - id: "wh8102_dark_high_glucose_vs_dark"
+          experiment: dark_high_glucose_wh8102_proteomics
+          name_col: "KEGG"
+          logfc_col: "log2FC.D.LGmM"
+          adjusted_p_value_col: "TTEST.D.LGmM"
+          pvalue_threshold: 0.05
+          growth_phase: darkness
+          timepoint: "darkness"
+          timepoint_hours: null
+
+    supp_table_s2_bl107:
+      type: csv
+      filename: "data/Prochlorococcus/papers_and_supp/moreno 2023/table s2 BL107 spectrum.03275-22-s0002_modified.csv"
+      organism: "Synechococcus sp. BL107"
+      id_columns:
+        - column: "Accession"
+          id_type: uniprot_accession
+        - column: "KEGG"
+          id_type: locus_tag
+      product_columns:
+        - column: "Description"
+      statistical_analyses:
+        - id: "bl107_light_low_glucose_vs_light"
+          experiment: light_low_glucose_bl107_proteomics
+          name_col: "KEGG"
+          logfc_col: "log2FC.L.LGnM"
+          adjusted_p_value_col: "TTEST.L.LGnM"
+          pvalue_threshold: 0.05
+          growth_phase: stationary
+          timepoint: "stationary"
+          timepoint_hours: null
+        - id: "bl107_light_high_glucose_vs_light"
+          experiment: light_high_glucose_bl107_proteomics
+          name_col: "KEGG"
+          logfc_col: "log2FC.L.LGmM"
+          adjusted_p_value_col: "TTEST.L.LGmM"
+          pvalue_threshold: 0.05
+          growth_phase: stationary
+          timepoint: "stationary"
+          timepoint_hours: null
+        - id: "bl107_dark_low_glucose_vs_dark"
+          experiment: dark_low_glucose_bl107_proteomics
+          name_col: "KEGG"
+          logfc_col: "log2FC.D.LGnM"
+          adjusted_p_value_col: "TTEST.D.LGnM"
+          pvalue_threshold: 0.05
+          growth_phase: darkness
+          timepoint: "darkness"
+          timepoint_hours: null
+        - id: "bl107_dark_high_glucose_vs_dark"
+          experiment: dark_high_glucose_bl107_proteomics
+          name_col: "KEGG"
+          logfc_col: "log2FC.D.LGmM"
+          adjusted_p_value_col: "TTEST.D.LGmM"
+          pvalue_threshold: 0.05
+          growth_phase: darkness
+          timepoint: "darkness"
+          timepoint_hours: null
+
+    # ── Marinobacter S4 — 5 cocultures, each with 3–4 statistical analyses ──
+    # GN= in Description embeds HP15_NNNN locus tags. Some rows fall back to
+    # gene_name (3-letter symbols) when GN= is a symbol.
+    supp_table_s4_marino_in_med4:
+      type: csv
+      filename: "data/Prochlorococcus/papers_and_supp/moreno 2023/table s4 Marinobacter in MED4 cultures spectrum.03275-22-s0004_modified.csv"
+      organism: "Marinobacter adhaerens DSM 23420 / HP15"
+      id_columns:
+        - column: "Accession"
+          id_type: uniprot_accession
+        - column: "Description"
+          id_type: locus_tag
+      product_columns:
+        - column: "Description"
+      statistical_analyses:
+        - id: "marino_med4_light_low_glucose_vs_light"
+          experiment: light_low_glucose_marino_in_med4_proteomics
+          name_col: "Description"
+          logfc_col: "log2FC.GnM.L"
+          adjusted_p_value_col: "t.test G nM/L"
+          pvalue_threshold: 0.05
+          growth_phase: stationary
+          timepoint: "stationary"
+          timepoint_hours: null
+        - id: "marino_med4_light_high_glucose_vs_light"
+          experiment: light_high_glucose_marino_in_med4_proteomics
+          name_col: "Description"
+          logfc_col: "log2FC.GmM.L"
+          adjusted_p_value_col: "t.test G mM/L"
+          pvalue_threshold: 0.05
+          growth_phase: stationary
+          timepoint: "stationary"
+          timepoint_hours: null
+        - id: "marino_med4_dark_low_glucose_vs_dark"
+          experiment: dark_low_glucose_marino_in_med4_proteomics
+          name_col: "Description"
+          logfc_col: "log2FC.GnM.D"
+          adjusted_p_value_col: "t.test G nM/O"
+          pvalue_threshold: 0.05
+          growth_phase: darkness
+          timepoint: "darkness"
+          timepoint_hours: null
+        - id: "marino_med4_dark_high_glucose_vs_dark"
+          experiment: dark_high_glucose_marino_in_med4_proteomics
+          name_col: "Description"
+          logfc_col: "log2FC.GmM.D"
+          adjusted_p_value_col: "t.test G mM/O"
+          pvalue_threshold: 0.05
+          growth_phase: darkness
+          timepoint: "darkness"
+          timepoint_hours: null
+
+    supp_table_s4_marino_in_ss120:
+      type: csv
+      filename: "data/Prochlorococcus/papers_and_supp/moreno 2023/table s4 Marinobacter in SS120 cultures spectrum.03275-22-s0004_modified.csv"
+      organism: "Marinobacter adhaerens DSM 23420 / HP15"
+      id_columns:
+        - column: "Accession"
+          id_type: uniprot_accession
+        - column: "Description"
+          id_type: locus_tag
+      product_columns:
+        - column: "Description"
+      statistical_analyses:
+        # `light_high_glucose` comparison is missing the `FC G mM/L` column in source CSV — skipped.
+        - id: "marino_ss120_light_low_glucose_vs_light"
+          experiment: light_low_glucose_marino_in_ss120_proteomics
+          name_col: "Description"
+          logfc_col: "log2FC.GnM.L"
+          adjusted_p_value_col: "t.test G nM/L"
+          pvalue_threshold: 0.05
+          growth_phase: stationary
+          timepoint: "stationary"
+          timepoint_hours: null
+        - id: "marino_ss120_dark_low_glucose_vs_dark"
+          experiment: dark_low_glucose_marino_in_ss120_proteomics
+          name_col: "Description"
+          logfc_col: "log2FC.GnM.D"
+          adjusted_p_value_col: "t.test G nM/O"
+          pvalue_threshold: 0.05
+          growth_phase: darkness
+          timepoint: "darkness"
+          timepoint_hours: null
+        - id: "marino_ss120_dark_high_glucose_vs_dark"
+          experiment: dark_high_glucose_marino_in_ss120_proteomics
+          name_col: "Description"
+          logfc_col: "log2FC.GmM.D"
+          adjusted_p_value_col: "t.test G mM/O"
+          pvalue_threshold: 0.05
+          growth_phase: darkness
+          timepoint: "darkness"
+          timepoint_hours: null
+
+    supp_table_s4_marino_in_wh7803:
+      type: csv
+      filename: "data/Prochlorococcus/papers_and_supp/moreno 2023/table s4 Marinobacter in WH7803 cultures spectrum.03275-22-s0004_modified.csv"
+      organism: "Marinobacter adhaerens DSM 23420 / HP15"
+      id_columns:
+        - column: "Accession"
+          id_type: uniprot_accession
+        - column: "Description"
+          id_type: locus_tag
+      product_columns:
+        - column: "Description"
+      statistical_analyses:
+        - id: "marino_wh7803_light_low_glucose_vs_light"
+          experiment: light_low_glucose_marino_in_wh7803_proteomics
+          name_col: "Description"
+          logfc_col: "log2FC.GnM.L"
+          adjusted_p_value_col: "t.test G nM/L"
+          pvalue_threshold: 0.05
+          growth_phase: stationary
+          timepoint: "stationary"
+          timepoint_hours: null
+        - id: "marino_wh7803_light_high_glucose_vs_light"
+          experiment: light_high_glucose_marino_in_wh7803_proteomics
+          name_col: "Description"
+          logfc_col: "log2FC.GmM.L"
+          adjusted_p_value_col: "t.test G mM/L"
+          pvalue_threshold: 0.05
+          growth_phase: stationary
+          timepoint: "stationary"
+          timepoint_hours: null
+        - id: "marino_wh7803_dark_low_glucose_vs_dark"
+          experiment: dark_low_glucose_marino_in_wh7803_proteomics
+          name_col: "Description"
+          logfc_col: "log2FC.GnM.D"
+          adjusted_p_value_col: "t.test G nM/O"
+          pvalue_threshold: 0.05
+          growth_phase: darkness
+          timepoint: "darkness"
+          timepoint_hours: null
+        - id: "marino_wh7803_dark_high_glucose_vs_dark"
+          experiment: dark_high_glucose_marino_in_wh7803_proteomics
+          name_col: "Description"
+          logfc_col: "log2FC.GmM.D"
+          adjusted_p_value_col: "t.test G mM/O"
+          pvalue_threshold: 0.05
+          growth_phase: darkness
+          timepoint: "darkness"
+          timepoint_hours: null
+
+    supp_table_s4_marino_in_wh8102:
+      type: csv
+      filename: "data/Prochlorococcus/papers_and_supp/moreno 2023/table s4 Marinobacter in WH8102 cultures spectrum.03275-22-s0004_modified.csv"
+      organism: "Marinobacter adhaerens DSM 23420 / HP15"
+      id_columns:
+        - column: "Accession"
+          id_type: uniprot_accession
+        - column: "Description"
+          id_type: locus_tag
+      product_columns:
+        - column: "Description"
+      statistical_analyses:
+        - id: "marino_wh8102_light_low_glucose_vs_light"
+          experiment: light_low_glucose_marino_in_wh8102_proteomics
+          name_col: "Description"
+          logfc_col: "log2FC.GnM.L"
+          adjusted_p_value_col: "t.test G nM/L"
+          pvalue_threshold: 0.05
+          growth_phase: stationary
+          timepoint: "stationary"
+          timepoint_hours: null
+        - id: "marino_wh8102_light_high_glucose_vs_light"
+          experiment: light_high_glucose_marino_in_wh8102_proteomics
+          name_col: "Description"
+          logfc_col: "log2FC.GmM.L"
+          adjusted_p_value_col: "t.test G mM/L"
+          pvalue_threshold: 0.05
+          growth_phase: stationary
+          timepoint: "stationary"
+          timepoint_hours: null
+        - id: "marino_wh8102_dark_low_glucose_vs_dark"
+          experiment: dark_low_glucose_marino_in_wh8102_proteomics
+          name_col: "Description"
+          logfc_col: "log2FC.GnM.D"
+          adjusted_p_value_col: "t.test G nM/O"
+          pvalue_threshold: 0.05
+          growth_phase: darkness
+          timepoint: "darkness"
+          timepoint_hours: null
+        - id: "marino_wh8102_dark_high_glucose_vs_dark"
+          experiment: dark_high_glucose_marino_in_wh8102_proteomics
+          name_col: "Description"
+          logfc_col: "log2FC.GmM.D"
+          adjusted_p_value_col: "t.test G mM/O"
+          pvalue_threshold: 0.05
+          growth_phase: darkness
+          timepoint: "darkness"
+          timepoint_hours: null
+
+    supp_table_s4_marino_in_bl107:
+      type: csv
+      filename: "data/Prochlorococcus/papers_and_supp/moreno 2023/table s4 Marinobacter in BL107 cultures spectrum.03275-22-s0004_modified.csv"
+      organism: "Marinobacter adhaerens DSM 23420 / HP15"
+      id_columns:
+        - column: "Accession"
+          id_type: uniprot_accession
+        - column: "Description"
+          id_type: locus_tag
+      product_columns:
+        - column: "Description"
+      statistical_analyses:
+        - id: "marino_bl107_light_low_glucose_vs_light"
+          experiment: light_low_glucose_marino_in_bl107_proteomics
+          name_col: "Description"
+          logfc_col: "log2FC.GnM.L"
+          adjusted_p_value_col: "t.test G nM/L"
+          pvalue_threshold: 0.05
+          growth_phase: stationary
+          timepoint: "stationary"
+          timepoint_hours: null
+        - id: "marino_bl107_light_high_glucose_vs_light"
+          experiment: light_high_glucose_marino_in_bl107_proteomics
+          name_col: "Description"
+          logfc_col: "log2FC.GmM.L"
+          adjusted_p_value_col: "t.test G mM/L"
+          pvalue_threshold: 0.05
+          growth_phase: stationary
+          timepoint: "stationary"
+          timepoint_hours: null
+        - id: "marino_bl107_dark_low_glucose_vs_dark"
+          experiment: dark_low_glucose_marino_in_bl107_proteomics
+          name_col: "Description"
+          logfc_col: "log2FC.GnM.D"
+          adjusted_p_value_col: "t.test G nM/O"
+          pvalue_threshold: 0.05
+          growth_phase: darkness
+          timepoint: "darkness"
+          timepoint_hours: null
+        - id: "marino_bl107_dark_high_glucose_vs_dark"
+          experiment: dark_high_glucose_marino_in_bl107_proteomics
+          name_col: "Description"
+          logfc_col: "log2FC.GmM.D"
+          adjusted_p_value_col: "t.test G mM/O"
+          pvalue_threshold: 0.05
+          growth_phase: darkness
+          timepoint: "darkness"
+          timepoint_hours: null
