@@ -120,7 +120,7 @@ Most adapters have a single-source class (e.g., `CyanorakNcbi`) and a **Multi***
 
 ### Docker Pipeline Stages
 1. **build** — runs `create_knowledge_graph.py`, outputs CSVs
-2. **import** — runs `neo4j-admin import` from generated script
+2. **import** — runs `neo4j-admin import` from generated script. Container runs as root with `/bin/bash` entrypoint (overriding the neo4j image's entrypoint that would drop to the `neo4j` user) so `scripts/import.sh` can chmod `/output` and write `import.status` + `import.report` artifacts the KG validity suite reads. Re-running `import` on an existing graph requires stopping `deploy` and `app` first (the deploy container holds a lock on the database files in `biocypher_neo4j_volume`)
 3. **post-process** — executes `scripts/post-import.sh` (the authoritative post-import script run by Docker via `cypher-shell`). Creates indexes (scalar, full-text, OrthologGroup, Pfam, Experiment), derives `expression_status` on expression edges, and computes Gene routing signal properties (`annotation_types`, `expression_edge_count`, `significant_up_count`, `significant_down_count`, `closest_ortholog_group_size`, `closest_ortholog_genera`) plus `rank_by_effect`, `rank_up`, and `rank_down` on expression edges. `scripts/post-import.cypher` is a reference copy kept in sync for non-Docker use -- both files must have identical Cypher logic.
 4. **deploy** — exposes Neo4j
 5. **app** — Biochatter web UI
@@ -373,6 +373,7 @@ Logs written to `logs/prepare_data_step0.log` … `logs/prepare_data_step4.log`.
 | `test_organism.py` | No garbage taxonomy nodes, species on Alteromonas strains, all organisms bacterial (except Phage), organism count = 28 (23 strains + 5 treatment), precomputed stats consistency (gene_count, publication_count, experiment_count, treatment_types, omics_types), Publication.organisms ↔ OrganismTaxon.preferred_name alignment |
 | `test_post_import.py` | OrthologGroup nodes exist with correct properties, Gene_in_ortholog_group membership edges exist, cross-strain bridging verified, no old homolog/ortholog edges remain |
 | `test_snapshot.py` | Regression snapshot: verifies a sample of specific nodes and edges (with properties) still exist after rebuilds. Catches silent data loss. |
+| `test_import_report.py` | Docker import artifact validation: reads `./output/import.status` + `./output/import.report`, fails if `neo4j-admin import` exited non-zero or skipped any relationships. Auto-skips when artifacts are missing. |
 
 ### Snapshot regression tests
 
