@@ -22,6 +22,11 @@ services:
   import:
     image: neo4j:5.15-community
     container_name: import
+    # Run as root (bypassing the neo4j docker-entrypoint which drops to the
+    # unprivileged neo4j user) so the trap in import.sh can chmod /output —
+    # a root-owned bind mount — and write import.status / import.report.
+    user: root
+    entrypoint: /bin/bash
     environment:
       NEO4J_AUTH: none
     volumes:
@@ -29,7 +34,6 @@ services:
       - ./scripts/import.sh:/scripts/import.sh
       - ./output:/output
     command:
-      - /bin/bash
       - /scripts/import.sh
     depends_on:
       build:
