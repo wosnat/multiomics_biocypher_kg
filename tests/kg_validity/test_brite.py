@@ -36,14 +36,38 @@ pytestmark = pytest.mark.kg
     ("ko03032", "dna_replication"),
 ])
 def test_brite_tree_present(run_query, tree_code, tree_name):
-    """Each of the 12 configured BRITE trees must have BriteCategory nodes."""
-    result = run_query(
+    """Configured BRITE trees should have BriteCategory nodes **iff** at least
+    one of their KOs is a KeggTerm in the KG.
+
+    After subhierarchy pruning (see plans/2026-04-14-brite-pruning.md), a tree
+    whose KOs are all outside the KG legitimately prunes to zero nodes. We assert
+    consistency: either the tree has nodes AND has at least one incident KO
+    edge, or it has neither.
+    """
+    node_result = run_query(
         "MATCH (b:BriteCategory {tree_code: $tc}) RETURN count(b) AS cnt",
         tc=tree_code,
     )
-    assert result[0]["cnt"] > 0, (
-        f"No BriteCategory nodes found for tree {tree_code} ({tree_name})"
+    edge_result = run_query(
+        """
+        MATCH (:KeggTerm)-[:Kegg_term_in_brite_category]->(b:BriteCategory {tree_code: $tc})
+        RETURN count(*) AS cnt
+        """,
+        tc=tree_code,
     )
+    node_count = node_result[0]["cnt"]
+    edge_count = edge_result[0]["cnt"]
+
+    if node_count == 0:
+        assert edge_count == 0, (
+            f"Tree {tree_code} ({tree_name}) has 0 nodes but {edge_count} "
+            f"KO edges — pruning inconsistency"
+        )
+    else:
+        assert edge_count > 0, (
+            f"Tree {tree_code} ({tree_name}) has {node_count} nodes but 0 "
+            f"KO edges — pruned tree should always have KO coverage"
+        )
 
 
 # ---------------------------------------------------------------------------
@@ -51,16 +75,22 @@ def test_brite_tree_present(run_query, tree_code, tree_name):
 # ---------------------------------------------------------------------------
 
 def test_brite_level_zero_nodes_exist(run_query):
-    """Level=0 (A-level, broadest) nodes must exist in every tree."""
-    result = run_query("""
+    """At least one level-0 node must exist per non-empty tree.
+
+    With subhierarchy pruning, some of the 12 configured trees may prune to
+    zero nodes if none of their KOs are in the KG. We require at least 6
+    level-0 nodes overall (half the trees must remain populated for the
+    config to be meaningful).
+    """
+    result = run_query(
+        """
         MATCH (b:BriteCategory {level: 0})
-        RETURN count(b) AS cnt, count(DISTINCT b.tree_code) AS trees
-    """)
-    assert result[0]["cnt"] >= 12, (
-        f"Only {result[0]['cnt']} level=0 BriteCategory nodes; expected ≥ 12"
+        RETURN count(b) AS cnt
+        """
     )
-    assert result[0]["trees"] == 12, (
-        f"Level=0 nodes found in only {result[0]['trees']} trees; expected 12"
+    assert result[0]["cnt"] >= 6, (
+        f"Only {result[0]['cnt']} level=0 BriteCategory nodes; expected ≥ 6 "
+        f"(half the 12 configured trees)"
     )
 
 
@@ -136,6 +166,26 @@ def test_brite_no_duplicate_ko_edges(run_query):
     """)
     assert result[0]["duplicates"] == 0, (
         f"{result[0]['duplicates']} duplicate Kegg_term_in_brite_category (KO,BriteCategory) pairs"
+    )
+
+
+def test_brite_no_dangling_ko_edges(run_query):
+    """No Kegg_term_in_brite_category edge may start from a non-KeggTerm node.
+
+    Regression guard for the pruning fix: before pruning, the BRITE adapter
+    emitted ~12K edges referring to KO IDs that had no KeggTerm node, causing
+    ``neo4j-admin import`` to fail with exit code 70.
+    """
+    result = run_query(
+        """
+        MATCH (n)-[r:Kegg_term_in_brite_category]->()
+        WHERE NOT n:KeggTerm
+        RETURN count(r) AS cnt
+        """
+    )
+    assert result[0]["cnt"] == 0, (
+        f"{result[0]['cnt']} Kegg_term_in_brite_category edges have a "
+        f"non-KeggTerm source — pruning regression"
     )
 
 
