@@ -555,8 +555,15 @@ class MultiKeggAnnotationAdapter:
             )
         logger.info(f"MultiKeggAnnotationAdapter: loaded {len(self._strain_adapters)} strain adapters")
 
-    def _all_ko_ids(self) -> set[str]:
-        """Collect all KO IDs referenced across all strains."""
+    def all_ko_ids(self) -> set[str]:
+        """Canonical source of KO IDs that will become ``KeggTerm`` nodes in the KG.
+
+        Returned set is the union of KO IDs referenced by any gene across all
+        configured strains. Downstream adapters (e.g. ``MultiBriteAdapter``)
+        consume this to prune their output to the subhierarchy reachable from
+        these KOs — keeping the graph consistent and preventing dangling
+        edges that would fail ``neo4j-admin import``.
+        """
         ids: set[str] = set()
         for adapter in self._strain_adapters:
             ids |= adapter.get_all_ko_ids()
@@ -569,7 +576,7 @@ class MultiKeggAnnotationAdapter:
         Order: KO → Pathway → Subcategory → Category (specific → general).
         Only nodes reachable from KOs referenced in the gene annotations are emitted.
         """
-        ko_ids = self._all_ko_ids()
+        ko_ids = self.all_ko_ids()
         logger.info(f"MultiKeggAnnotationAdapter: {len(ko_ids)} unique KO IDs across all strains")
 
         ko_names = self.kegg_data.get("ko_names", {})
@@ -662,7 +669,7 @@ class MultiKeggAnnotationAdapter:
         logger.info(f"MultiKeggAnnotationAdapter.get_edges: {gene_ko_count} gene→KO edges")
 
         # Collect KOs and pathways actually emitted
-        ko_ids = self._all_ko_ids()
+        ko_ids = self.all_ko_ids()
         pw_ids: set[str] = set()
         for ko_id in ko_ids:
             pw_ids.update(ko_to_pathways.get(ko_id, []))
