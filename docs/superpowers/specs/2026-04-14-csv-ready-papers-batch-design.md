@@ -161,22 +161,30 @@ The two "Upregulated" / "Downregulated" CSVs are halves of a single Anova-tested
 
 ## Execution Order
 
-The plan groups work into four self-contained increments to keep PR scope small and let each stage's data flow through `prepare_data.sh` cleanly before the next.
+Single PR, four sequential phases (revised — paperconfigs land before `prepare_data.sh` so any obvious config errors are caught early without re-running downloads):
 
-1. **Strain additions** (one PR):
-   - Add 4 rows to `cyanobacteria_genomes.csv`
-   - Run `prepare_data.sh --strains SS120 BL107 HP15 AltMedDE --steps 0 1 2 --skip-cyanorak`
-   - Verify caches; run `pytest -m "not slow and not kg"` for adapter sanity
-2. **Domínguez 2017** (one PR): smallest paper, single strain, one experiment — use as the SS120 integration template
-3. **Fuszard 2012** (one PR): exercises 3 strains (incl. SS120) and the `fold_change_type` no-p-value path
-4. **Moreno 2023** (one PR — or split into 4a cyano + 4b heterotrophs if PR diff is too large): the big one, exercises BL107 + HP15 + DEH24 strains and the cyano-perspective-vs-heterotroph-perspective contrast
+1. **Add all 4 strains**: append 4 rows to `cyanobacteria_genomes.csv`. No data downloads yet.
+2. **Add 3 paperconfigs + write any `*_modified.csv` files; validate**: write paperconfigs for Domínguez 2017, Fuszard 2012, Moreno 2023; run `validate_paperconfig.py` on each; sanity-check `_modified.csv` outputs by spot-reading a few rows. Validation should pass before download starts.
+3. **Run `prepare_data.sh --strains SS120 BL107 HP15 AltMedDE --steps 0 1 2 3 4`**: NCBI + cyanorak (where applicable) downloads, gene_annotations builds, gene_id_mapping builds, paper-CSV resolution. Use `--skip-cyanorak` only as a fallback if the cyanorak server throttles.
+4. **Build the KG**: `uv run python create_knowledge_graph.py`; verify CSV outputs land under `biocypher-log/example_knowledge_graph/`.
 
-After each PR: run `/check-gene-ids` for the new paper, `/omics-edge-snapshot` for diff check, then `pytest -m kg` after Docker rebuild.
+### Out of scope for this PR
+
+- Manual gene-ID fixes beyond what `prepare_data.sh --steps 3 4` resolves automatically (no hand-curated `id_translation` entries; no DEH24 bridge work). Generate a **gene-ID status report** at the end summarizing per-paper match rates so the gaps are visible — fixes happen in a follow-up PR.
+- The DEH24 → MADE_RS bridge for Moreno S3 (Alteromonas perspective). Skip those 5 CSVs in the Moreno paperconfig for this batch and note the deferral.
+- Docker rebuild, KG validity tests against live Neo4j (`pytest -m kg`), and `/omics-edge-snapshot` comparison — done by the user post-merge once they verify the CSV outputs look reasonable.
+
+### Nice-to-have (parallel, non-gating)
+
+- eggNOG-mapper for HP15 + AltMedDE in the background after `prepare_data.sh --steps 0` finishes their NCBI protein FASTA. Functional annotation enrichment, not required for DE edges.
 
 ## Open Items (resolve during implementation)
 
-- **Source the DEH24 protein FASTA** for *A. mediterranea* DE. The NCBI RefSeq assembly (`GCF_000020585.3`) uses `MADE_RS#####`, not `DEH24_`. Likely sources to try: IMG (search Genome ID for *A. mediterranea* DE), PATRIC, or contact the Moreno authors. Once obtained, build the bridge with `scripts/map_img_to_ncbi_proteins.py` (diamond protein match), same pattern as EZ55 and MIT1002 deployments.
 - **`fold_change_type` semantics**: confirm whether the existing field expects raw fold-change thresholds (1.6 / 0.6) or log2-space thresholds (±0.678). Read `omics_adapter.py` and existing Synechococcus paperconfigs that use this field before writing the Fuszard config.
 - **Moreno cyano `KEGG` column**: confirm it carries the locus tag in all 5 strain CSVs (verified for MED4 = `PMM1436` and SS120 = `Pro_1591`; need to spot-check WH7803, WH8102, BL107).
-- **Heterotroph eggNOG**: decide whether to run eggNOG-mapper for HP15 + AltMedDE in the strain-addition PR or defer to a later batch (functional annotation enrichment, not a blocker for DE edges).
-- **Cross-check vs paper methods sections** (Moreno, Fuszard, Domínguez): confirm the assemblies/strain references the authors actually cite in their methods match the verified NCBI accessions above. (NCBI verification done; paper-methods cross-check pending.)
+
+### Resolved during brainstorming
+
+- ~~NCBI accessions/taxids for SS120, BL107, HP15, AltMedDE~~ — verified against NCBI Datasets, cyanorak tables, and paper methods sections (see "Verification trail").
+- ~~Moreno S3 Alteromonas DEH24 bridge~~ — deferred (out of scope for this PR; see "Out of scope" in Execution Order).
+- ~~Heterotroph eggNOG~~ — runs as a non-gating background "nice-to-have" parallel agent.
