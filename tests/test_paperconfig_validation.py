@@ -496,3 +496,68 @@ class TestValidConfigPasses:
         cfg_file = _write_config(tmp_path, config)
         result = validate(str(cfg_file))
         assert result is True, "Expected validation to pass (with warning) when experiments block is missing"
+
+
+# ---------------------------------------------------------------------------
+# Unit tests — treatment_assembly_accession must exist in cyanobacteria_genomes.csv
+# ---------------------------------------------------------------------------
+
+class TestTreatmentAssemblyAccession:
+    """Validator rejects treatment_assembly_accession not present in the KG genomes registry.
+
+    The omics adapter uses treatment_assembly_accession to construct the
+    Tests_coculture_with edge target as `insdc.gcf:<accession>`. If the
+    accession is not in cyanobacteria_genomes.csv, neo4j-admin import silently
+    drops the edge (only surfaces in import.report). This check makes the
+    mismatch a hard error at paperconfig-write time. Regression test for the
+    Kratzl 2024 incident (2026-04-14).
+    """
+
+    def test_unknown_treatment_assembly_accession_is_rejected(self, tmp_path, monkeypatch):
+        """A paperconfig referencing an accession absent from the genomes CSV must fail."""
+        monkeypatch.chdir(PROJECT_ROOT)
+        csv = _write_minimal_csv(tmp_path)
+        config = _make_valid_config(
+            csv,
+            experiment_overrides={
+                "treatment_organism": "Alteromonas",
+                "treatment_taxid": "28108",
+                "treatment_assembly_accession": "GCF_999999999.9",
+            },
+        )
+        cfg_file = _write_config(tmp_path, config)
+        result = validate(str(cfg_file))
+        assert result is False, (
+            "Expected validation to fail when treatment_assembly_accession is not "
+            "present in cyanobacteria_genomes.csv"
+        )
+
+    def test_known_treatment_assembly_accession_is_accepted(self, tmp_path, monkeypatch):
+        """A paperconfig using a real KG accession (MED4 here) must pass."""
+        monkeypatch.chdir(PROJECT_ROOT)
+        csv = _write_minimal_csv(tmp_path)
+        config = _make_valid_config(
+            csv,
+            experiment_overrides={
+                "treatment_organism": "Prochlorococcus MED4",
+                "treatment_taxid": "59919",
+                "treatment_assembly_accession": "GCF_000011465.1",
+            },
+        )
+        cfg_file = _write_config(tmp_path, config)
+        result = validate(str(cfg_file))
+        assert result is True, (
+            "Expected validation to pass when treatment_assembly_accession matches a "
+            "row in cyanobacteria_genomes.csv"
+        )
+
+    def test_missing_treatment_assembly_accession_is_accepted(self, tmp_path, monkeypatch):
+        """The field is optional — absence must not trigger the new error."""
+        monkeypatch.chdir(PROJECT_ROOT)
+        csv = _write_minimal_csv(tmp_path)
+        config = _make_valid_config(csv)  # no treatment_assembly_accession
+        cfg_file = _write_config(tmp_path, config)
+        result = validate(str(cfg_file))
+        assert result is True, (
+            "Expected validation to pass when treatment_assembly_accession is absent"
+        )

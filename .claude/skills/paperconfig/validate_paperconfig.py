@@ -235,6 +235,23 @@ def _load_treatment_organisms(project_root: str) -> set:
         return set(_TREATMENT_ORGANISMS_CSV_DEFAULT)
 
 
+def _load_genome_accessions(project_root: str) -> set:
+    """Load assembly accessions (insdc.gcf node IDs) from cyanobacteria_genomes.csv.
+
+    Returns an empty set if the file cannot be read; downstream validation will
+    then skip the cross-check rather than report spurious errors.
+    """
+    csv_path = os.path.join(
+        project_root,
+        "data", "Prochlorococcus", "genomes", "cyanobacteria_genomes.csv",
+    )
+    try:
+        df = pd.read_csv(csv_path, comment="#")
+        return set(df["ncbi_accession"].dropna().str.strip().tolist())
+    except Exception:
+        return set()
+
+
 def _canonical_organism_error(config_path: str, context: str, value: str, allowed: set) -> str:
     """Format a clear vocabulary error message for an organism field."""
     sorted_allowed = sorted(allowed)
@@ -299,7 +316,8 @@ def _validate_product_columns(product_columns, cols, table_key, warnings):
 def _validate_experiments(experiments: dict, config_path: str,
                           all_canonical_organisms: set,
                           errors: list, warnings: list,
-                          referenced_exp_keys: set | None = None) -> None:
+                          referenced_exp_keys: set | None = None,
+                          genome_accessions: set | None = None) -> None:
     """Validate the experiments block in a publication config."""
     if not experiments:
         # experiments block is optional for cluster-only paperconfigs
@@ -489,6 +507,23 @@ def _validate_experiments(experiments: dict, config_path: str,
                 f"{config_path} | experiments.{exp_key} | "
                 f"treatment_type includes 'coculture' or 'viral' but missing treatment_taxid"
             )
+
+        # treatment_assembly_accession must match an existing OrganismTaxon node id.
+        # The omics adapter wraps this value as `insdc.gcf:<accession>` and creates
+        # the Tests_coculture_with edge target from it. If the accession is not in
+        # cyanobacteria_genomes.csv, neo4j-admin import drops the edge silently
+        # (only a line in import.report). See Kratzl 2024 incident, 2026-04-14.
+        treatment_acc = exp.get("treatment_assembly_accession", "")
+        if treatment_acc and genome_accessions and treatment_acc not in genome_accessions:
+            errors.append(
+                f"{config_path} | experiments.{exp_key} | "
+                f"treatment_assembly_accession '{treatment_acc}' is not present in "
+                f"data/Prochlorococcus/genomes/cyanobacteria_genomes.csv | "
+                f"the Tests_coculture_with edge will refer to a missing OrganismTaxon "
+                f"node and be dropped at import time"
+            )
+        elif treatment_acc:
+            print(f"    treatment_assembly_accession '{treatment_acc}': OK")
 
 
 def _validate_organism_consistency(
@@ -732,6 +767,7 @@ def validate(config_path: str) -> bool:
     treatment_organisms = _load_treatment_organisms(_project_root or "")
     # The full allowed set for the 'organism' field is the union of genomic + treatment organisms
     all_canonical_organisms = CANONICAL_GENOMIC_ORGANISMS | treatment_organisms
+    genome_accessions = _load_genome_accessions(_project_root or "")
 
     # --- Parse YAML ---
     try:
@@ -807,6 +843,7 @@ def validate(config_path: str) -> bool:
         _validate_experiments(
             experiments, config_path, all_canonical_organisms,
             errors, warnings, referenced_exp_keys=_referenced_exp_keys,
+            genome_accessions=genome_accessions,
         )
 
     if not supp:

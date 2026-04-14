@@ -19,7 +19,7 @@ publication:
       light_intensity: 120 umol photons m-2 s-2
       treatment_organism: Synechococcus elongatus PCC 7942
       treatment_taxid: 1140
-      treatment_assembly_accession: "GCF_000012525.1"
+      treatment_assembly_accession: "GCF_014698905.1"
       table_scope: all_detected_genes
 
     coculture_vs_selongatus_axenic_rnaseq:
@@ -38,7 +38,7 @@ publication:
       light_intensity: 120 umol photons m-2 s-2
       treatment_organism: Pseudomonas putida KT2440
       treatment_taxid: 160488
-      treatment_assembly_accession: "GCF_000007565.2"
+      treatment_assembly_accession: "GCF_024662315.1"
       table_scope: all_detected_genes
 
     coculture_vs_pputida_axenic_proteomics:
@@ -57,7 +57,7 @@ publication:
       light_intensity: 120 umol photons m-2 s-2
       treatment_organism: Synechococcus elongatus PCC 7942
       treatment_taxid: 1140
-      treatment_assembly_accession: "GCF_000012525.1"
+      treatment_assembly_accession: "GCF_014698905.1"
       table_scope: all_detected_genes
 
     coculture_vs_selongatus_axenic_proteomics:
@@ -76,7 +76,7 @@ publication:
       light_intensity: 120 umol photons m-2 s-2
       treatment_organism: Pseudomonas putida KT2440
       treatment_taxid: 160488
-      treatment_assembly_accession: "GCF_000007565.2"
+      treatment_assembly_accession: "GCF_024662315.1"
       table_scope: all_detected_genes
 
   supplementary_materials:
