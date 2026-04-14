@@ -76,10 +76,41 @@ ENZYME_TREE_DEEP = {
 }
 
 
-def _make_adapter(tree_data: dict) -> MultiBriteAdapter:
-    """Build adapter pre-loaded with tree data (no network calls)."""
-    adapter = MultiBriteAdapter(cache_root="unused", trees=list(tree_data.keys()))
+import re as _re
+_KO_RE_HELPER = _re.compile(r"^K\d{5}")
+
+
+def _extract_ko_ids(tree_json) -> set:
+    """Recursively collect all raw KO IDs (K#####) from a BRITE JSON tree."""
+    ids = set()
+    for child in tree_json.get("children", []):
+        name = child.get("name", "")
+        if _KO_RE_HELPER.match(name):
+            ids.add(name.split()[0])
+        ids |= _extract_ko_ids(child)
+    return ids
+
+
+def _make_adapter(tree_data: dict, known_ko_ids: "set | None" = None) -> MultiBriteAdapter:
+    """Build adapter pre-loaded with tree data (no network calls).
+
+    known_ko_ids defaults to all KOs present in tree_data (keeps every node).
+    """
+    if known_ko_ids is None:
+        known_ko_ids = set()
+        for tree_json in tree_data.values():
+            known_ko_ids |= _extract_ko_ids(tree_json)
+    adapter = MultiBriteAdapter(
+        cache_root="unused",
+        known_ko_ids=known_ko_ids,
+        trees=list(tree_data.keys()),
+    )
     adapter._tree_data = tree_data
+    # Populate _pruned so get_nodes/get_edges work without download_data.
+    adapter._pruned = {
+        tree_code: adapter._prune(tree_code, tree_json)
+        for tree_code, tree_json in tree_data.items()
+    }
     return adapter
 
 
@@ -200,7 +231,9 @@ def test_get_nodes_string_sanitization_single_quote():
     tree = {
         "ko02000": {
             "name": "ko02000",
-            "children": [{"name": "It's a transporter", "children": []}],
+            "children": [{"name": "It's a transporter", "children": [
+                {"name": "K99990 dummy"},
+            ]}],
         }
     }
     adapter = _make_adapter(tree)
@@ -213,7 +246,9 @@ def test_get_nodes_string_sanitization_pipe():
     tree = {
         "ko02000": {
             "name": "ko02000",
-            "children": [{"name": "ABC|DEF transporters", "children": []}],
+            "children": [{"name": "ABC|DEF transporters", "children": [
+                {"name": "K99991 dummy"},
+            ]}],
         }
     }
     adapter = _make_adapter(tree)
@@ -227,8 +262,12 @@ def test_get_nodes_html_entity_decoding():
         "ko02000": {
             "name": "ko02000",
             "children": [
-                {"name": "Transporters &amp; channels", "children": []},
-                {"name": "ABC &gt; DEF", "children": []},
+                {"name": "Transporters &amp; channels", "children": [
+                    {"name": "K99992 dummy"},
+                ]},
+                {"name": "ABC &gt; DEF", "children": [
+                    {"name": "K99993 dummy"},
+                ]},
             ],
         }
     }
@@ -244,8 +283,10 @@ def test_get_nodes_missing_name_skipped(caplog):
         "ko02000": {
             "name": "ko02000",
             "children": [
-                {"children": []},                    # no 'name' key
-                {"name": "Good entry", "children": []},
+                {"children": [{"name": "K99994 dummy"}]},  # no 'name' key — category skipped
+                {"name": "Good entry", "children": [
+                    {"name": "K99995 dummy"},
+                ]},
             ],
         }
     }

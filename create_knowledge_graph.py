@@ -135,9 +135,11 @@ def main():
     bc.write_nodes(kegg_anno_adapter.get_nodes())
     bc.write_edges(kegg_anno_adapter.get_edges())
 
-    # KEGG BRITE functional hierarchies: 12 trees → BriteCategory nodes + hierarchy/KO edges
+    # KEGG BRITE functional hierarchies: 12 trees → BriteCategory nodes + hierarchy/KO edges.
+    # Pruned to the subhierarchy reachable from KeggTerm nodes (gene-referenced KOs).
     brite_adapter = MultiBriteAdapter(
         cache_root=Path("cache/data"),
+        known_ko_ids=kegg_anno_adapter.all_ko_ids(),
         test_mode=TEST_MODE,
         cache=CACHE,
     )
