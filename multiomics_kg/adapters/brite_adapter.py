@@ -120,7 +120,7 @@ class MultiBriteAdapter:
             cache: if False, re-download trees even if cache files exist
         """
         self.cache_root = Path(cache_root)
-        self.known_ko_ids = known_ko_ids
+        self.known_ko_ids = frozenset(known_ko_ids)
         self.trees = trees or list(BRITE_TREES.keys())
         self.test_mode = test_mode
         self.cache = cache
@@ -272,14 +272,12 @@ class MultiBriteAdapter:
 
         total_count = 0
         for tree_code, pt in self._pruned.items():
-            emitted_in_tree = 0
-            for node_id, _parent_id, name, level in pt.nodes:
-                if self.test_mode and emitted_in_tree >= 100:
-                    logger.debug(
-                        f"MultiBriteAdapter.get_nodes: test_mode cap at "
-                        f"{emitted_in_tree} for {tree_code}"
-                    )
-                    break
+            nodes_to_emit = pt.nodes[:100] if self.test_mode else pt.nodes
+            if self.test_mode and len(pt.nodes) > 100:
+                logger.debug(
+                    f"MultiBriteAdapter.get_nodes: test_mode cap at 100 for {tree_code}"
+                )
+            for node_id, _parent_id, name, level in nodes_to_emit:
                 yield (
                     node_id,
                     "brite category",
@@ -291,7 +289,6 @@ class MultiBriteAdapter:
                         "level_kind": compute_level_kind(level),
                     },
                 )
-                emitted_in_tree += 1
                 total_count += 1
 
         logger.info(f"MultiBriteAdapter.get_nodes: {total_count} BriteCategory nodes")
