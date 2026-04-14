@@ -128,6 +128,30 @@
       "title": "Chitin utilization by marine picocyanobacteria and the evolution of a planktonic lifestyle"
     }
   },
+  "data/Prochlorococcus/papers_and_supp/Dom\u00ednguez 2017/dom\u00ednguez-mart\u00edn-et-al-2017-quantitative-proteomics-shows-extensive-remodeling-induced-by-nitrogen-limitation-in.pdf": {
+    "publication": {
+      "abstract": "Prochlorococcus requires the capability to accommodate to environmental changes in order to proliferate in oligotrophic oceans, in particular regarding nitrogen availability. A precise knowledge of the composition and changes in the proteome can yield fundamental insights into such a response. Here we report a detailed proteome analysis of the important model cyanobacteriumProchlorococcus marinus SS120 after treatment with azaserine, an inhibitor of ferredoxin-dependent glutamate synthase (GOGAT), to simulate extreme nitrogen starvation. In total, 1,072 proteins, corresponding to 57% of the theoretical proteome, were identified\u2014the maximum proteome coverage obtained for anyProchlorococcus strain thus far. Spectral intensity, calibrated quantification by the Hi3 method, was obtained for 1,007 proteins. Statistically significant changes (P value of /H110210.05) were observed for 408 proteins, with the majority of proteins (92.4%) downregulated after azaserine treatment. There was a strong decrease in ribosomal proteins upon azaserine addition, while many transporters were increased. The regulatory proteins PII and PipX were decreased, and the global nitrogen regulator NtcA was upregulated. Furthermore, our data for Prochlorococcus indicate that NtcA also participates in the regulation of photosynthesis. Prochlorococcus responds to the lack of nitrogen by slowing down translation, while inducing photosynthetic cyclic electron flow and biosynthesis of proteins involved in nitrogen uptake and assimilation. IMPORTANCE Prochlorococcus is the most abundant photosynthetic organism on Earth, contributing significantly to global primary production and playing a prominent role in biogeochemical cycles. Here we study the effects of extreme nitrogen limitation, a feature of the oligotrophic oceans inhabited by this organism. Quantitative proteomics allowed an accurate quantification of theProchlorococcusproteome, finding three main responses to nitrogen limitation: upregulation of nitrogen assimilation-related proteins, including transporters; downregulation of ribosome proteins; and induction of the photosystem II cyclic electron flow. This suggests that nitrogen limitation affects a range of metabolic processes far wider than initially believed, with the ultimate goal of saving nitrogen and maximizing the nitrogen uptake and assimilation capabilities of the cell. KEYWORDS marine cyanobacteria, nitrogen limitation, nitrogen metabolism, prochlorococcus, quantitative proteomics",
+      "authors": [
+        "Maria Agustina Dom\u00ednguez-Mart\u00edn",
+        "Guadalupe G\u00f3mez-Baena",
+        "Jes\u00fas D\u00edez",
+        "Maria Jos\u00e9 L\u00f3pez-Grueso",
+        "Robert J. Beynon",
+        "Jos\u00e9 Manuel Garc\u00eda-Fern\u00e1ndez"
+      ],
+      "description": "Quantitative label-free proteomics analysis of Prochlorococcus marinus SS120 after treatment with azaserine to inhibit GOGAT, simulating extreme nitrogen starvation; identification of 1,072 proteins (57% of the theoretical proteome) with Hi3-based quantification for 1,007 proteins; differential abundance analysis showing 408 proteins affected, widespread downregulation of ribosomal proteins, upregulation of nitrogen uptake/assimilation related proteins and transporters, and involvement of nitrogen regulators NtcA, PII, and PipX; supported by qRT-PCR, enzyme activity assays, and Western blotting; provides insights into nitrogen limitation responses in Prochlorococcus.",
+      "doi": "10.1128/mSystems.00008-17",
+      "journal": "mSystems",
+      "organism": [
+        "Prochlorococcus marinus SS120"
+      ],
+      "pmid": null,
+      "publication_id": "10.1128/mSystems.00008-17",
+      "publication_year": "2017",
+      "study_type": "Proteomics",
+      "title": "Quantitative Proteomics Shows Extensive Remodeling Induced by Nitrogen Limitation in Prochlorococcus marinus SS120"
+    }
+  },
   "data/Prochlorococcus/papers_and_supp/Fang 2019/Fang 2015 Prochlorococcus mit9313 Transcriptomic responses to viral lysis products.pdf": {
     "publication": {
       "abstract": "We conducted transcriptomic analyses to study the effects of viral DOM (vDOM) on the cyanobacterium Prochlorococcus MIT9313. Growth was unaffected by vDOM, but tRNAs increased in abundance; tRNA-Gly increased with glycine. Decreased transcript abundances of nitrogen metabolism genes suggested uptake of organic nitrogen from vDOM. vDOM reduced maximum photochemical efficiency of photosystem II and CO2 fixation while increasing respiration, with transcriptomic changes linked to photosynthesis and respiration. The 6S RNA showed high fold-change, indicating a regulatory role in response to viral lysis products. These results suggest transcriptional regulation and metabolic potential of Prochlorococcus to utilize organic nitrogen from viral lysis products.",
@@ -156,6 +180,27 @@
       "publication_year": "2019",
       "study_type": "RNA-seq, Transcriptomics",
       "title": "Transcriptomic responses of the marine cyanobacterium Prochlorococcus to viral lysis products"
+    }
+  },
+  "data/Prochlorococcus/papers_and_supp/Fuszard 2012/2046-9063-8-7.pdf": {
+    "publication": {
+      "abstract": "Background: The well-lit surface waters of oligotrophic gyres significantly contribute to global primary production. Marine cyanobacteria of the genus Prochlorococcus are a major fraction of photosynthetic organisms within these areas. Labile phosphate is considered a limiting nutrient in some oligotrophic regions such as the Caribbean Sea, and as such it is crucial to understand the physiological response of primary producers such as Prochlorococcus to fluctuations in the availability of this critical nutrient. Results: Prochlorococcus strains representing both high light (HL) (MIT9312) and low light (LL) (NATL2A and SS120) ecotypes were grown identically in phosphate depleted media (10 \u03bcMP i). The three strains displayed marked differences in cellular protein expression, as determined by high throughput large scale quantitative proteomic analysis. The only strain to demonstrate a significantly different growth rate under reduced phosphate conditions was MIT9312. Additionally, there was a significant increase in phosphate-related proteins such as PhoE (> 15 fold increase) and a depression of the Rubisco protein RbcL abundance in this strain, whereas there appeared to be no significant change within the LL strain SS120. Conclusions: This differential response between ecotypes highlights the relative importance of phosphate availability to each strain and from these results we draw the conclusion that the expression of phosphate acquisition mechanisms are activated at strain specific phosphate concentrations. Keywords: Prochlorococcus, PstS, PhoA, PhoE, Growth, Phosphate",
+      "authors": [
+        "Matthew A Fuszard",
+        "Phillip C Wright",
+        "Catherine A Biggs"
+      ],
+      "description": "Three Prochlorococcus strains representing HLII and LL ecotypes (MIT9312, NATL2A, SS120) were grown under phosphate-replete and phosphate-deplete conditions and subjected to high-throughput quantitative proteomics to assess differential protein expression and growth responses to Pi limitation.",
+      "doi": null,
+      "journal": "Aquatic Biosystems",
+      "organism": [
+        "Prochlorococcus"
+      ],
+      "pmid": null,
+      "publication_id": "pub_Comparative quantitative prote",
+      "publication_year": "2012",
+      "study_type": "Proteomics",
+      "title": "Comparative quantitative proteomics of Prochlorococcus ecotypes to a decrease in environmental phosphate concentrations"
     }
   },
   "data/Prochlorococcus/papers_and_supp/Hennon 2017/41396_2018_article_bfismej2017189.pdf": {
@@ -522,6 +567,32 @@
       "publication_year": "2006",
       "study_type": "Microarray",
       "title": "Phosphate acquisition genes in Prochlorococcus ecotypes: Evidence for genome-wide adaptation"
+    }
+  },
+  "data/Prochlorococcus/papers_and_supp/moreno 2023/moreno-cabezuelo-et-al-2023-integrated-proteomic-and-metabolomic-analyses-show-differential-effects-of-glucose.pdf": {
+    "publication": {
+      "abstract": "ABSTRACT We compared changes induced by the addition of 100 nM and 5 mM glucose on the proteome and metabolome complements in Synechococcus sp. strains WH8102, WH7803, and BL107 and Prochlorococcus sp. strains MED4, SS120, and MIT9313, grown either under standard light conditions or in darkness. Our results suggested that glucose is metabolized by these cyanobacteria, using primarily the oxidative pentoses and Calvin pathways, while no proof was found for the involvement of the Entner-Doudoroff pathway in this process. We observed differences in the effects of glucose availability, both between genera and between Prochlorococcus MED4 and SS120 strains, which might be related to their specific adaptations to the environment. We found evidence for fermentation in Prochlorococcus sp. strain SS120 and Synechococcus sp. strain WH8102 after 5 mM glucose addition. Our results additionally suggested that marine cyanobacteria can detect nanomolar glucose concentrations in the environment and that glucose might be used to sustain metabolism under darkness. Furthermore, the KaiB and KaiC proteins were also affected in Synechococcus sp. WH8102, pointing to a direct link between glucose assimilation and circadian rhythms in marine cyanobacteria. In conclusion, our study provides a wide overview on the metabolic effects induced by glucose availability in representative strains of the diverse marine picocyanobacteria, providing further evidence for the importance of mixotrophy in marine picocyanobacteria.",
+      "authors": [
+        "Jos\u00e9 \u00c1ngel Moreno-Cabezuelo",
+        "Guadalupe G\u00f3mez-Baena",
+        "Jes\u00fas D\u00edez",
+        "Jos\u00e9 Manuel Garc\u00eda-Fern\u00e1ndez"
+      ],
+      "description": "Integrated proteomic and metabolomic analysis of six marine picocyanobacteria strains (three Prochlorococcus and three Synechococcus) exposed to nanomolar and millimolar glucose concentrations under light and darkness to study glucose metabolism and mixotrophy.",
+      "doi": "10.1128/spectrum.03275-22",
+      "journal": "Microbiology Spectrum",
+      "organism": [
+        "Prochlorococcus",
+        "Synechococcus"
+      ],
+      "pmid": null,
+      "publication_id": "10.1128/spectrum.03275-22",
+      "publication_year": "2023",
+      "study_type": [
+        "Proteomics",
+        "Metabolomics"
+      ],
+      "title": "Integrated Proteomic and Metabolomic Analyses Show Differential Effects of Glucose Availability in Marine Synechococcus and Prochlorococcus"
     }
   },
   "data/Prochlorococcus/papers_and_supp/steglich 2006/steglich-et-al-2006-genome-wide-analysis-of-light-sensing-in-prochlorococcus.pdf": {
