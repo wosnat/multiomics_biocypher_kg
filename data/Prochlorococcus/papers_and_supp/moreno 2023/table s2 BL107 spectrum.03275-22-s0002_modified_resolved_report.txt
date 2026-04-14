@@ -1,0 +1,25 @@
+Resolution report: Moreno 2023 / supp_table_s2_bl107
+Source: table s2 BL107 spectrum.03275-22-s0002_modified.csv
+name_col: Description
+id_columns: ['Accession', 'Description']
+
+Total rows with IDs: 173
+Resolved: 167 (96.5%)
+Unresolved: 6
+
+Resolution method breakdown:
+  ambiguous: 1
+  locus_tag:Description: 112
+  multi:Description: 11
+  tier1:Description: 44
+  unresolved: 5
+
+Unresolved rows (6):
+  row 0: raw_id='Ribulose bisphosphate carboxylase large chain OS=Synechococcus sp. BL107 OX=313625 GN=cbbL PE=3 SV=1'  reason=unresolved  [Accession='Q060Q0', Description='Ribulose bisphosphate carboxylase large chain OS=Synechococcus sp. BL107 OX=313625 GN=cbbL PE=3 SV=1']
+  row 9: raw_id='Transaldolase OS=Synechococcus sp. BL107 OX=313625 GN=tal PE=3 SV=1'  reason=unresolved  [Accession='Q05YH2', Description='Transaldolase OS=Synechococcus sp. BL107 OX=313625 GN=tal PE=3 SV=1']
+  row 28: raw_id='LL-diaminopimelate aminotransferase OS=Synechococcus sp. BL107 OX=313625 GN=dapL PE=3 SV=1'  reason=unresolved  [Accession='Q061A0', Description='LL-diaminopimelate aminotransferase OS=Synechococcus sp. BL107 OX=313625 GN=dapL PE=3 SV=1']
+  row 29: raw_id='10 kDa chaperonin OS=Synechococcus sp. BL107 OX=313625 GN=groS PE=3 SV=1'  reason=unresolved  [Accession='Q064T3', Description='10 kDa chaperonin OS=Synechococcus sp. BL107 OX=313625 GN=groS PE=3 SV=1']
+  row 125: raw_id='Inorganic pyrophosphatase OS=Synechococcus sp. BL107 OX=313625 GN=ppa PE=3 SV=1'  reason=ambiguous  [Accession='Q05YI2', Description='Inorganic pyrophosphatase OS=Synechococcus sp. BL107 OX=313625 GN=ppa PE=3 SV=1']
+  row 155: raw_id='Protein Thf1 OS=Synechococcus sp. BL107 OX=313625 GN=thf1 PE=3 SV=1'  reason=unresolved  [Accession='Q067G8', Description='Protein Thf1 OS=Synechococcus sp. BL107 OX=313625 GN=thf1 PE=3 SV=1']
+
+NOTE: 1 rows were ambiguous (multi_lookup had >1 match). Consider adding id_columns with more specific IDs, or check if the name_col should be Tier 2 (protein-level) instead of Tier 1.

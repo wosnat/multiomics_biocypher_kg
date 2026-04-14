@@ -898,6 +898,8 @@ publication:
           timepoint: "darkness"
           timepoint_hours: null
 
+    # BL107 S2: KEGG column is entirely "NA" in the source CSV; locus tags
+    # live only in `Description` as `GN=BL107_NNNNN`. Use Description as name_col.
     supp_table_s2_bl107:
       type: csv
       filename: "data/Prochlorococcus/papers_and_supp/moreno 2023/table s2 BL107 spectrum.03275-22-s0002_modified.csv"
@@ -905,14 +907,14 @@ publication:
       id_columns:
         - column: "Accession"
           id_type: uniprot_accession
-        - column: "KEGG"
+        - column: "Description"
           id_type: locus_tag
       product_columns:
         - column: "Description"
       statistical_analyses:
         - id: "bl107_light_low_glucose_vs_light"
           experiment: light_low_glucose_bl107_proteomics
-          name_col: "KEGG"
+          name_col: "Description"
           logfc_col: "log2FC.L.LGnM"
           adjusted_p_value_col: "TTEST.L.LGnM"
           pvalue_threshold: 0.05
@@ -921,7 +923,7 @@ publication:
           timepoint_hours: null
         - id: "bl107_light_high_glucose_vs_light"
           experiment: light_high_glucose_bl107_proteomics
-          name_col: "KEGG"
+          name_col: "Description"
           logfc_col: "log2FC.L.LGmM"
           adjusted_p_value_col: "TTEST.L.LGmM"
           pvalue_threshold: 0.05
@@ -930,7 +932,7 @@ publication:
           timepoint_hours: null
         - id: "bl107_dark_low_glucose_vs_dark"
           experiment: dark_low_glucose_bl107_proteomics
-          name_col: "KEGG"
+          name_col: "Description"
           logfc_col: "log2FC.D.LGnM"
           adjusted_p_value_col: "TTEST.D.LGnM"
           pvalue_threshold: 0.05
@@ -939,7 +941,7 @@ publication:
           timepoint_hours: null
         - id: "bl107_dark_high_glucose_vs_dark"
           experiment: dark_high_glucose_bl107_proteomics
-          name_col: "KEGG"
+          name_col: "Description"
           logfc_col: "log2FC.D.LGmM"
           adjusted_p_value_col: "TTEST.D.LGmM"
           pvalue_threshold: 0.05

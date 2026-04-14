@@ -1,0 +1,30 @@
+Resolution report: Moreno 2023 / supp_table_s4_marino_in_wh8102
+Source: table s4 Marinobacter in WH8102 cultures spectrum.03275-22-s0004_modified.csv
+name_col: Description
+id_columns: ['Accession', 'Description']
+
+Total rows with IDs: 504
+Resolved: 490 (97.2%)
+Unresolved: 14
+
+Resolution method breakdown:
+  locus_tag:Description: 219
+  multi:Description: 14
+  tier1:Description: 257
+  unresolved: 14
+
+Unresolved rows (14):
+  row 1: raw_id='10 kDa chaperonin OS=Marinobacter adhaerens (strain DSM 23420 / HP15) OX=225937 GN=groS PE=3 SV=1'  reason=unresolved  [Accession='E4PH20', Description='10 kDa chaperonin OS=Marinobacter adhaerens (strain DSM 23420 / HP15) OX=225937 GN=groS PE=3 SV=1']
+  row 8: raw_id='2,3-bisphosphoglycerate-independent phosphoglycerate mutase OS=Marinobacter adhaerens (strain DSM 23420 / HP15) OX=225937 GN=gpmI PE=3 SV=1'  reason=unresolved  [Accession='E4PNT9', Description='2,3-bisphosphoglycerate-independent phosphoglycerate mutase OS=Marinobacter adhaerens (strain DSM 23420 / HP15) OX=225937 GN=gpmI PE=3 SV=1']
+  row 68: raw_id='50S ribosomal protein L25 OS=Marinobacter adhaerens (strain DSM 23420 / HP15) OX=225937 GN=rplY PE=3 SV=1'  reason=unresolved  [Accession='E4PPW9', Description='50S ribosomal protein L25 OS=Marinobacter adhaerens (strain DSM 23420 / HP15) OX=225937 GN=rplY PE=3 SV=1']
+  row 166: raw_id='Cell shape-determining protein MreB OS=Marinobacter adhaerens (strain DSM 23420 / HP15) OX=225937 GN=mreB PE=3 SV=1'  reason=unresolved  [Accession='E4PHT1', Description='Cell shape-determining protein MreB OS=Marinobacter adhaerens (strain DSM 23420 / HP15) OX=225937 GN=mreB PE=3 SV=1']
+  row 172: raw_id='Chemotaxis protein CheZ OS=Marinobacter adhaerens (strain DSM 23420 / HP15) OX=225937 GN=HP15_2300 PE=3 SV=1'  reason=unresolved  [Accession='E4PGF3', Description='Chemotaxis protein CheZ OS=Marinobacter adhaerens (strain DSM 23420 / HP15) OX=225937 GN=HP15_2300 PE=3 SV=1']
+  row 197: raw_id='DNA polymerase I OS=Marinobacter adhaerens (strain DSM 23420 / HP15) OX=225937 GN=polA PE=3 SV=1'  reason=unresolved  [Accession='E4PL15', Description='DNA polymerase I OS=Marinobacter adhaerens (strain DSM 23420 / HP15) OX=225937 GN=polA PE=3 SV=1']
+  row 219: raw_id='Extracellular ligand-binding receptor OS=Marinobacter adhaerens (strain DSM 23420 / HP15) OX=225937 GN=HP15_2153 PE=3 SV=1'  reason=unresolved  [Accession='E4PF37', Description='Extracellular ligand-binding receptor OS=Marinobacter adhaerens (strain DSM 23420 / HP15) OX=225937 GN=HP15_2153 PE=3 SV=1']
+  row 247: raw_id='Glutamine-dependent NAD(+) synthetase OS=Marinobacter adhaerens (strain DSM 23420 / HP15) OX=225937 GN=nadE PE=3 SV=1'  reason=unresolved  [Accession='E4PNH1', Description='Glutamine-dependent NAD(+) synthetase OS=Marinobacter adhaerens (strain DSM 23420 / HP15) OX=225937 GN=nadE PE=3 SV=1']
+  row 265: raw_id='Histidine kinase OS=Marinobacter adhaerens (strain DSM 23420 / HP15) OX=225937 GN=HP15_3518 PE=4 SV=1'  reason=unresolved  [Accession='E4PG18', Description='Histidine kinase OS=Marinobacter adhaerens (strain DSM 23420 / HP15) OX=225937 GN=HP15_3518 PE=4 SV=1']
+  row 295: raw_id='Malate dehydrogenase (Oxaloacetate-decarboxylating), NADP(+) OS=Marinobacter adhaerens (strain DSM 23420 / HP15) OX=225937 GN=HP15_472 PE=3 SV=1'  reason=unresolved  [Accession='E4PMV8', Description='Malate dehydrogenase (Oxaloacetate-decarboxylating), NADP(+) OS=Marinobacter adhaerens (strain DSM 23420 / HP15) OX=225937 GN=HP15_472 PE=3 SV=1']
+  row 301: raw_id='Methyl-accepting chemotaxis protein OS=Marinobacter adhaerens (strain DSM 23420 / HP15) OX=225937 GN=HP15_1801 PE=4 SV=1'  reason=unresolved  [Accession='E4PNS1', Description='Methyl-accepting chemotaxis protein OS=Marinobacter adhaerens (strain DSM 23420 / HP15) OX=225937 GN=HP15_1801 PE=4 SV=1']
+  row 346: raw_id='Phosphoenolpyruvate carboxykinase (ATP) OS=Marinobacter adhaerens (strain DSM 23420 / HP15) OX=225937 GN=pckA PE=3 SV=1'  reason=unresolved  [Accession='E4PFZ8', Description='Phosphoenolpyruvate carboxykinase (ATP) OS=Marinobacter adhaerens (strain DSM 23420 / HP15) OX=225937 GN=pckA PE=3 SV=1']
+  row 384: raw_id='Quinoprotein alcohol dehydrogenase OS=Marinobacter adhaerens (strain DSM 23420 / HP15) OX=225937 GN=HP15_3164 PE=3 SV=1'  reason=unresolved  [Accession='E4PQ63', Description='Quinoprotein alcohol dehydrogenase OS=Marinobacter adhaerens (strain DSM 23420 / HP15) OX=225937 GN=HP15_3164 PE=3 SV=1']
+  row 480: raw_id='Tyrosine--tRNA ligase OS=Marinobacter adhaerens (strain DSM 23420 / HP15) OX=225937 GN=tyrS PE=3 SV=1'  reason=unresolved  [Accession='E4PLW6', Description='Tyrosine--tRNA ligase OS=Marinobacter adhaerens (strain DSM 23420 / HP15) OX=225937 GN=tyrS PE=3 SV=1']

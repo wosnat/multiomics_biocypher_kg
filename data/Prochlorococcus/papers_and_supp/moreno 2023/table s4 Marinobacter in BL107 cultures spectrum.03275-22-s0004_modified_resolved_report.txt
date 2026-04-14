@@ -1,0 +1,18 @@
+Resolution report: Moreno 2023 / supp_table_s4_marino_in_bl107
+Source: table s4 Marinobacter in BL107 cultures spectrum.03275-22-s0004_modified.csv
+name_col: Description
+id_columns: ['Accession', 'Description']
+
+Total rows with IDs: 87
+Resolved: 85 (97.7%)
+Unresolved: 2
+
+Resolution method breakdown:
+  locus_tag:Description: 38
+  multi:Description: 3
+  tier1:Description: 44
+  unresolved: 2
+
+Unresolved rows (2):
+  row 71: raw_id='10 kDa chaperonin OS=Marinobacter adhaerens (strain DSM 23420 / HP15) OX=225937 GN=groS PE=3 SV=1'  reason=unresolved  [Accession='E4PH20', Description='10 kDa chaperonin OS=Marinobacter adhaerens (strain DSM 23420 / HP15) OX=225937 GN=groS PE=3 SV=1']
+  row 81: raw_id='Quinoprotein alcohol dehydrogenase OS=Marinobacter adhaerens (strain DSM 23420 / HP15) OX=225937 GN=HP15_3164 PE=3 SV=1'  reason=unresolved  [Accession='E4PQ63', Description='Quinoprotein alcohol dehydrogenase OS=Marinobacter adhaerens (strain DSM 23420 / HP15) OX=225937 GN=HP15_3164 PE=3 SV=1']

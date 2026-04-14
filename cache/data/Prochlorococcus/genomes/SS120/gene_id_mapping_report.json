@@ -1,0 +1,58 @@
+{
+  "per_id_type": {
+    "cds_fna_id": {
+      "conflict": 0,
+      "multi": 0,
+      "unique": 1859
+    },
+    "gene_name": {
+      "conflict": 0,
+      "multi": 225,
+      "unique": 1026
+    },
+    "gene_synonym": {
+      "conflict": 0,
+      "multi": 108,
+      "unique": 5217
+    },
+    "gff_gene_id": {
+      "conflict": 0,
+      "multi": 0,
+      "unique": 3740
+    },
+    "locus_tag_cyanorak": {
+      "conflict": 0,
+      "multi": 0,
+      "unique": 1937
+    },
+    "locus_tag_ncbi": {
+      "conflict": 103,
+      "multi": 0,
+      "unique": 6512
+    },
+    "old_locus_tag": {
+      "conflict": 0,
+      "multi": 0,
+      "unique": 3642
+    },
+    "protein_id_refseq": {
+      "conflict": 0,
+      "multi": 2,
+      "unique": 3737
+    },
+    "uniprot_accession": {
+      "conflict": 0,
+      "multi": 2,
+      "unique": 1202
+    }
+  },
+  "strain": "SS120",
+  "unresolved_rows_per_source": {
+    "cds_from_genomic.fna": 7,
+    "genomic_gca/SS120": 56,
+    "genomic_gcf/SS120": 51
+  },
+  "warnings": [
+    "[CONFLICT] Tier 1 id_type 'locus_tag_ncbi' has 103 data conflicts \u2014 check annotation quality."
+  ]
+}
