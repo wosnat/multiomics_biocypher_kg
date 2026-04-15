@@ -10,6 +10,31 @@ allowed-tools: Read, Grep, Glob, Bash(uv *), Bash(python *), Bash(docker *)
 
 End-to-end checklist for deploying v2 gene ID mapping for one strain. Run these steps in order; each one is a checkpoint.
 
+## Adding a brand-new strain (first-time setup)
+
+Before running the v2 gene-ID deploy steps below, if the strain has **never been in the KG before**, register it in these places. Until the planned `genomes_registry.py` utility lands (deferred — see the "deferred work" note at the end), each addition needs to touch two hardcoded sites; the other three sites inherit transitively.
+
+| # | File | What to add | Format example |
+|---|------|-------------|----------------|
+| 1 | `data/Prochlorococcus/genomes/cyanobacteria_genomes.csv` | One row with `ncbi_accession,cyanorak_organism,ncbi_taxon_id,strain_name,data_dir,clade,preferred_name`. Heterotrophs (no Cyanorak) leave `cyanorak_organism` and `clade` blank. | `GCF_000007925.1,Pro_SS120,167539,SS120,cache/data/Prochlorococcus/genomes/SS120/,LLII,Prochlorococcus marinus subsp. marinus CCMP1375 (SS120)` |
+| 2 | `multiomics_kg/utils/gene_id_utils.py` | Add lowercase entries to `ORGANISM_TO_GENOME_DIR` for the canonical preferred_name **and** common alias variants (e.g. with/without subspecies/strain prefix) → genome dir path | `"prochlorococcus marinus subsp. marinus ccmp1375 (ss120)": "cache/data/Prochlorococcus/genomes/SS120"` plus aliases `"prochlorococcus marinus ss120"`, `"prochlorococcus ss120"` |
+| 3 | `scripts/validate_paperconfig.py` | Add the exact preferred_name string from row 1 to `CANONICAL_GENOMIC_ORGANISMS` | `"Prochlorococcus marinus subsp. marinus CCMP1375 (SS120)"` |
+
+These three sites cover everything because:
+- `.claude/skills/check-gene-ids/check_gene_ids.py` imports `ORGANISM_TO_GENOME_DIR` from `gene_id_utils.py` → updated automatically
+- `tests/test_gene_id_utils.py` iterates `ORGANISM_TO_GENOME_DIR.keys()` dynamically → updated automatically
+- `tests/test_paperconfig_validation.py` imports `CANONICAL_GENOMIC_ORGANISMS` from the validator → updated automatically
+
+After registering, run NCBI/Cyanorak/UniProt downloads + per-strain annotation + ID-mapping builds:
+
+```bash
+bash scripts/prepare_data.sh --strains <NEW_STRAIN> --steps 0 1 2 3 4
+```
+
+Then proceed with the v2 gene-ID deploy steps below.
+
+> **Deferred work**: there is an open plan to replace the two hardcoded lists with a single `multiomics_kg/utils/genomes_registry.py` utility that reads `cyanobacteria_genomes.csv` directly. Once landed, sites 2 and 3 above collapse to "just edit the CSV". Until then, follow the table above.
+
 ## Step-by-step
 
 ```bash
