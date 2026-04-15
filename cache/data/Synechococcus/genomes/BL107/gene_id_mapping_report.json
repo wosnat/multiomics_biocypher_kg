@@ -7,13 +7,13 @@
     },
     "gene_name": {
       "conflict": 0,
-      "multi": 88,
-      "unique": 1132
+      "multi": 113,
+      "unique": 1213
     },
     "gene_synonym": {
       "conflict": 0,
-      "multi": 28,
-      "unique": 4385
+      "multi": 29,
+      "unique": 4384
     },
     "gff_gene_id": {
       "conflict": 0,
@@ -43,6 +43,7 @@
   },
   "strain": "BL107",
   "unresolved_rows_per_source": {
+    "Moreno 2023/supp_table_s2_bl107": 173,
     "cds_from_genomic.fna": 11,
     "genomic_gca/BL107": 104,
     "genomic_gcf/BL107": 58

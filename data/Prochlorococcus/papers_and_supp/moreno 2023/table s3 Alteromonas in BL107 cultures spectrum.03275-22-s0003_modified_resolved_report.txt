@@ -1,0 +1,25 @@
+Resolution report: Moreno 2023 / supp_table_s3_alt_in_bl107
+Source: table s3 Alteromonas in BL107 cultures spectrum.03275-22-s0003_modified.csv
+name_col: locus_tag_deh24
+id_columns: ['Accession', 'locus_tag_deh24']
+
+Total rows with IDs: 11
+Resolved: 0 (0.0%)
+Unresolved: 11
+
+Resolution method breakdown:
+  empty: 30
+  unresolved: 11
+
+Unresolved rows (11):
+  row 0: raw_id='DEH24_15880'  reason=unresolved  [Accession='A0A359K9X1', locus_tag_deh24='DEH24_15880']
+  row 3: raw_id='DEH24_15900'  reason=unresolved  [Accession='A0A359K825', locus_tag_deh24='DEH24_15900']
+  row 11: raw_id='DEH24_01620'  reason=unresolved  [Accession='A0A359K159', locus_tag_deh24='DEH24_01620']
+  row 13: raw_id='DEH24_02300'  reason=unresolved  [Accession='A0A359K020', locus_tag_deh24='DEH24_02300']
+  row 15: raw_id='DEH24_14245'  reason=unresolved  [Accession='A0A359K8E7', locus_tag_deh24='DEH24_14245']
+  row 20: raw_id='DEH24_07870'  reason=unresolved  [Accession='A0A359K358', locus_tag_deh24='DEH24_07870']
+  row 28: raw_id='DEH24_16415'  reason=unresolved  [Accession='A0A359K9M7', locus_tag_deh24='DEH24_16415']
+  row 29: raw_id='DEH24_17975'  reason=unresolved  [Accession='A0A359K8V9', locus_tag_deh24='DEH24_17975']
+  row 31: raw_id='DEH24_11265'  reason=unresolved  [Accession='A0A359K6K0', locus_tag_deh24='DEH24_11265']
+  row 33: raw_id='DEH24_02850'  reason=unresolved  [Accession='A0A359K0D0', locus_tag_deh24='DEH24_02850']
+  row 40: raw_id='DEH24_13560'  reason=unresolved  [Accession='A0A359K6F8', locus_tag_deh24='DEH24_13560']

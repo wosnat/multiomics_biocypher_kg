@@ -1,0 +1,30 @@
+Resolution report: Moreno 2023 / supp_table_s3_alt_in_med4
+Source: table s3 Alteromonas in MED4 cultures spectrum.03275-22-s0003_modified.csv
+name_col: locus_tag_deh24
+id_columns: ['Accession', 'locus_tag_deh24']
+
+Total rows with IDs: 16
+Resolved: 0 (0.0%)
+Unresolved: 16
+
+Resolution method breakdown:
+  empty: 31
+  unresolved: 16
+
+Unresolved rows (16):
+  row 0: raw_id='DEH24_13850'  reason=unresolved  [Accession='A0A359K6J3', locus_tag_deh24='DEH24_13850']
+  row 3: raw_id='DEH24_19305'  reason=unresolved  [Accession='A0A359K9S0', locus_tag_deh24='DEH24_19305']
+  row 10: raw_id='DEH24_13095'  reason=unresolved  [Accession='A0A359K8A9', locus_tag_deh24='DEH24_13095']
+  row 12: raw_id='DEH24_17975'  reason=unresolved  [Accession='A0A359K8V9', locus_tag_deh24='DEH24_17975']
+  row 13: raw_id='DEH24_15900'  reason=unresolved  [Accession='A0A359K825', locus_tag_deh24='DEH24_15900']
+  row 16: raw_id='DEH24_09265'  reason=unresolved  [Accession='A0A359K400', locus_tag_deh24='DEH24_09265']
+  row 17: raw_id='DEH24_02300'  reason=unresolved  [Accession='A0A359K020', locus_tag_deh24='DEH24_02300']
+  row 22: raw_id='DEH24_11560'  reason=unresolved  [Accession='A0A359K7E3', locus_tag_deh24='DEH24_11560']
+  row 23: raw_id='DEH24_14130'  reason=unresolved  [Accession='A0A359K737', locus_tag_deh24='DEH24_14130']
+  row 24: raw_id='DEH24_15880'  reason=unresolved  [Accession='A0A359K9X1', locus_tag_deh24='DEH24_15880']
+  row 26: raw_id='DEH24_02850'  reason=unresolved  [Accession='A0A359K0D0', locus_tag_deh24='DEH24_02850']
+  row 27: raw_id='DEH24_09340'  reason=unresolved  [Accession='A0A359K690', locus_tag_deh24='DEH24_09340']
+  row 37: raw_id='DEH24_03810'  reason=unresolved  [Accession='A0A359K162', locus_tag_deh24='DEH24_03810']
+  row 38: raw_id='DEH24_07870'  reason=unresolved  [Accession='A0A359K358', locus_tag_deh24='DEH24_07870']
+  row 39: raw_id='DEH24_12445'  reason=unresolved  [Accession='A0A359K7X6', locus_tag_deh24='DEH24_12445']
+  row 41: raw_id='DEH24_18290'  reason=unresolved  [Accession='A0A359K919', locus_tag_deh24='DEH24_18290']

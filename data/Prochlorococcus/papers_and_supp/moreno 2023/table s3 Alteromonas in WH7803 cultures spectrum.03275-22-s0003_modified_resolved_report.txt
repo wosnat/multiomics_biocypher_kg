@@ -1,0 +1,18 @@
+Resolution report: Moreno 2023 / supp_table_s3_alt_in_wh7803
+Source: table s3 Alteromonas in WH7803 cultures spectrum.03275-22-s0003_modified.csv
+name_col: locus_tag_deh24
+id_columns: ['Accession', 'locus_tag_deh24']
+
+Total rows with IDs: 4
+Resolved: 0 (0.0%)
+Unresolved: 4
+
+Resolution method breakdown:
+  empty: 11
+  unresolved: 4
+
+Unresolved rows (4):
+  row 6: raw_id='DEH24_02850'  reason=unresolved  [Accession='A0A359K0D0', locus_tag_deh24='DEH24_02850']
+  row 11: raw_id='DEH24_16415'  reason=unresolved  [Accession='A0A359K9M7', locus_tag_deh24='DEH24_16415']
+  row 13: raw_id='DEH24_01655'  reason=unresolved  [Accession='A0A359K012', locus_tag_deh24='DEH24_01655']
+  row 14: raw_id='DEH24_18290'  reason=unresolved  [Accession='A0A359K919', locus_tag_deh24='DEH24_18290']

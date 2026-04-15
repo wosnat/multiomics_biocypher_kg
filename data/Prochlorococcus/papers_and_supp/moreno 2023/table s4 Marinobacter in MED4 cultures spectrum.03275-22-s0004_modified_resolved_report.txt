@@ -1,28 +1,28 @@
 Resolution report: Moreno 2023 / supp_table_s4_marino_in_med4
 Source: table s4 Marinobacter in MED4 cultures spectrum.03275-22-s0004_modified.csv
-name_col: Description
-id_columns: ['Accession', 'Description']
+name_col: Accession
+id_columns: ['Accession', 'extracted_gn']
 
-Total rows with IDs: 359
-Resolved: 347 (96.7%)
-Unresolved: 12
+Total rows with IDs: 358
+Resolved: 348 (97.2%)
+Unresolved: 10
 
 Resolution method breakdown:
-  locus_tag:Description: 151
-  multi:Description: 12
-  tier1:Description: 184
-  unresolved: 12
+  empty: 1
+  locus_tag:extracted_gn: 151
+  multi:Accession: 12
+  multi:extracted_gn: 1
+  tier1:extracted_gn: 184
+  unresolved: 10
 
-Unresolved rows (12):
-  row 6: raw_id='50S ribosomal protein L25 OS=Marinobacter adhaerens (strain DSM 23420 / HP15) OX=225937 GN=rplY PE=3 SV=1'  reason=unresolved  [Accession='E4PPW9', Description='50S ribosomal protein L25 OS=Marinobacter adhaerens (strain DSM 23420 / HP15) OX=225937 GN=rplY PE=3 SV=1']
-  row 23: raw_id='Tyrosine--tRNA ligase OS=Marinobacter adhaerens (strain DSM 23420 / HP15) OX=225937 GN=tyrS PE=3 SV=1'  reason=unresolved  [Accession='E4PLW6', Description='Tyrosine--tRNA ligase OS=Marinobacter adhaerens (strain DSM 23420 / HP15) OX=225937 GN=tyrS PE=3 SV=1']
-  row 57: raw_id='Malate dehydrogenase (Oxaloacetate-decarboxylating), NADP(+) OS=Marinobacter adhaerens (strain DSM 23420 / HP15) OX=225937 GN=HP15_472 PE=3 SV=1'  reason=unresolved  [Accession='E4PMV8', Description='Malate dehydrogenase (Oxaloacetate-decarboxylating), NADP(+) OS=Marinobacter adhaerens (strain DSM 23420 / HP15) OX=225937 GN=HP15_472 PE=3 SV=1']
-  row 59: raw_id='10 kDa chaperonin OS=Marinobacter adhaerens (strain DSM 23420 / HP15) OX=225937 GN=groS PE=3 SV=1'  reason=unresolved  [Accession='E4PH20', Description='10 kDa chaperonin OS=Marinobacter adhaerens (strain DSM 23420 / HP15) OX=225937 GN=groS PE=3 SV=1']
-  row 76: raw_id='Phospholipase/carboxylesterase family protein OS=Marinobacter adhaerens (strain DSM 23420 / HP15) OX=225937 GN=HP15_1715 PE=4 SV=1'  reason=unresolved  [Accession='E4PN30', Description='Phospholipase/carboxylesterase family protein OS=Marinobacter adhaerens (strain DSM 23420 / HP15) OX=225937 GN=HP15_1715 PE=4 SV=1']
-  row 87: raw_id='2,3-bisphosphoglycerate-independent phosphoglycerate mutase OS=Marinobacter adhaerens (strain DSM 23420 / HP15) OX=225937 GN=gpmI PE=3 SV=1'  reason=unresolved  [Accession='E4PNT9', Description='2,3-bisphosphoglycerate-independent phosphoglycerate mutase OS=Marinobacter adhaerens (strain DSM 23420 / HP15) OX=225937 GN=gpmI PE=3 SV=1']
-  row 187: raw_id='Histidine kinase OS=Marinobacter adhaerens (strain DSM 23420 / HP15) OX=225937 GN=HP15_3518 PE=4 SV=1'  reason=unresolved  [Accession='E4PG18', Description='Histidine kinase OS=Marinobacter adhaerens (strain DSM 23420 / HP15) OX=225937 GN=HP15_3518 PE=4 SV=1']
-  row 191: raw_id='Extracellular ligand-binding receptor OS=Marinobacter adhaerens (strain DSM 23420 / HP15) OX=225937 GN=HP15_2153 PE=3 SV=1'  reason=unresolved  [Accession='E4PF37', Description='Extracellular ligand-binding receptor OS=Marinobacter adhaerens (strain DSM 23420 / HP15) OX=225937 GN=HP15_2153 PE=3 SV=1']
-  row 192: raw_id='Phosphoenolpyruvate carboxykinase (ATP) OS=Marinobacter adhaerens (strain DSM 23420 / HP15) OX=225937 GN=pckA PE=3 SV=1'  reason=unresolved  [Accession='E4PFZ8', Description='Phosphoenolpyruvate carboxykinase (ATP) OS=Marinobacter adhaerens (strain DSM 23420 / HP15) OX=225937 GN=pckA PE=3 SV=1']
-  row 316: raw_id='Glycogen phosphorylase, muscle form OS=Oryctolagus cuniculus OX=9986 GN=PYGM PE=1 SV=3'  reason=unresolved  [Accession='P00489', Description='Glycogen phosphorylase, muscle form OS=Oryctolagus cuniculus OX=9986 GN=PYGM PE=1 SV=3']
-  row 330: raw_id='Quinoprotein alcohol dehydrogenase OS=Marinobacter adhaerens (strain DSM 23420 / HP15) OX=225937 GN=HP15_3164 PE=3 SV=1'  reason=unresolved  [Accession='E4PQ63', Description='Quinoprotein alcohol dehydrogenase OS=Marinobacter adhaerens (strain DSM 23420 / HP15) OX=225937 GN=HP15_3164 PE=3 SV=1']
-  row 358: raw_id='Total intensity'  reason=unresolved  [Description='Total intensity']
+Unresolved rows (10):
+  row 6: raw_id='E4PPW9'  reason=unresolved  [Accession='E4PPW9', extracted_gn='rplY']
+  row 23: raw_id='E4PLW6'  reason=unresolved  [Accession='E4PLW6', extracted_gn='tyrS']
+  row 57: raw_id='E4PMV8'  reason=unresolved  [Accession='E4PMV8', extracted_gn='HP15_472']
+  row 59: raw_id='E4PH20'  reason=unresolved  [Accession='E4PH20', extracted_gn='groS']
+  row 76: raw_id='E4PN30'  reason=unresolved  [Accession='E4PN30', extracted_gn='HP15_1715']
+  row 87: raw_id='E4PNT9'  reason=unresolved  [Accession='E4PNT9', extracted_gn='gpmI']
+  row 187: raw_id='E4PG18'  reason=unresolved  [Accession='E4PG18', extracted_gn='HP15_3518']
+  row 191: raw_id='E4PF37'  reason=unresolved  [Accession='E4PF37', extracted_gn='HP15_2153']
+  row 316: raw_id='P00489'  reason=unresolved  [Accession='P00489', extracted_gn='PYGM']
+  row 330: raw_id='E4PQ63'  reason=unresolved  [Accession='E4PQ63', extracted_gn='HP15_3164']

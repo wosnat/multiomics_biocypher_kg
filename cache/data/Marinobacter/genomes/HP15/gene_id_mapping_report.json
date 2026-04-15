@@ -7,13 +7,13 @@
     },
     "gene_name": {
       "conflict": 0,
-      "multi": 183,
-      "unique": 1071
+      "multi": 375,
+      "unique": 1794
     },
     "gene_synonym": {
       "conflict": 0,
-      "multi": 22,
-      "unique": 7363
+      "multi": 26,
+      "unique": 7359
     },
     "gff_gene_id": {
       "conflict": 0,
@@ -38,6 +38,11 @@
   },
   "strain": "HP15",
   "unresolved_rows_per_source": {
+    "Moreno 2023/supp_table_s4_marino_in_bl107": 26,
+    "Moreno 2023/supp_table_s4_marino_in_med4": 84,
+    "Moreno 2023/supp_table_s4_marino_in_ss120": 46,
+    "Moreno 2023/supp_table_s4_marino_in_wh7803": 39,
+    "Moreno 2023/supp_table_s4_marino_in_wh8102": 120,
     "cds_from_genomic.fna": 65,
     "genomic_gca/HP15": 735,
     "genomic_gcf/HP15": 89

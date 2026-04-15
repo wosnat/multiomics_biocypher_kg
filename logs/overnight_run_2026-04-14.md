@@ -1,4 +1,4 @@
-# Overnight Run 2026-04-14 — CSV-Ready Papers Batch
+ # Overnight Run 2026-04-14 — CSV-Ready Papers Batch
 
 Spec: `docs/superpowers/specs/2026-04-14-csv-ready-papers-batch-design.md`
 Branch: `dev`

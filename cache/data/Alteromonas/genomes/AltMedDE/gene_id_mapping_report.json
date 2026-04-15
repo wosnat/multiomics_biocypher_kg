@@ -7,8 +7,8 @@
     },
     "gene_name": {
       "conflict": 0,
-      "multi": 112,
-      "unique": 1018
+      "multi": 257,
+      "unique": 1758
     },
     "gene_synonym": {
       "conflict": 0,
@@ -38,6 +38,11 @@
   },
   "strain": "AltMedDE",
   "unresolved_rows_per_source": {
+    "Moreno 2023/supp_table_s3_alt_in_bl107": 41,
+    "Moreno 2023/supp_table_s3_alt_in_med4": 46,
+    "Moreno 2023/supp_table_s3_alt_in_ss120": 134,
+    "Moreno 2023/supp_table_s3_alt_in_wh7803": 15,
+    "Moreno 2023/supp_table_s3_alt_in_wh8102": 188,
     "cds_from_genomic.fna": 97,
     "genomic_gca/AltMedDE": 523,
     "genomic_gcf/AltMedDE": 125

@@ -7,13 +7,13 @@
     },
     "gene_name": {
       "conflict": 0,
-      "multi": 225,
-      "unique": 1026
+      "multi": 228,
+      "unique": 1051
     },
     "gene_synonym": {
       "conflict": 0,
-      "multi": 108,
-      "unique": 5217
+      "multi": 109,
+      "unique": 5216
     },
     "gff_gene_id": {
       "conflict": 0,
@@ -43,11 +43,12 @@
     "uniprot_accession": {
       "conflict": 0,
       "multi": 2,
-      "unique": 1202
+      "unique": 1568
     }
   },
   "strain": "SS120",
   "unresolved_rows_per_source": {
+    "Dominguez-Martin 2017/supp_table_s3_combined": 408,
     "cds_from_genomic.fna": 7,
     "genomic_gca/SS120": 56,
     "genomic_gcf/SS120": 51
