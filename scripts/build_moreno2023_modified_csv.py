@@ -41,6 +41,15 @@ MARINO_FC_COLS = {
     "FC G nM/D": "log2FC.GnM.D",
     "FC G mM/D": "log2FC.GmM.D",
 }
+# Per-strain column-name overrides — the SS120 sheet has `FC GmM/L` (no space)
+# instead of `FC G mM/L`. Without this override the light_high_glucose analysis
+# is silently dropped for SS120 Marinobacter. Confirmed by inspecting the original
+# CSV header: `FC G nM/L,FC GmM/L,FC G nM/D,FC G mM/D,...`.
+MARINO_FC_OVERRIDES_BY_STRAIN: dict[str, dict[str, str]] = {
+    "SS120": {
+        "FC GmM/L": "log2FC.GmM.L",  # missing the space — sheet typo
+    },
+}
 
 
 def _log2(x) -> float:
@@ -82,7 +91,9 @@ def main() -> None:
     print("=== Marinobacter S4 ===")
     for strain in MARINO_STRAINS:
         src = PAPER_DIR / MARINO_TEMPLATE.format(strain=strain)
-        process(src, MARINO_FC_COLS)
+        fc_map = dict(MARINO_FC_COLS)
+        fc_map.update(MARINO_FC_OVERRIDES_BY_STRAIN.get(strain, {}))
+        process(src, fc_map)
     print("=== S3 (Alteromonas) SKIPPED — DEH24 bridge deferred ===")
 
 

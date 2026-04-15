@@ -437,14 +437,34 @@ publication:
       table_scope: all_detected_genes
 
     # ── Marino in SS120 ──
-    # NOTE: `FC G mM/L` column is MISSING in the source CSV for SS120, so no
-    # `light_high_glucose_marino_in_ss120_proteomics` experiment is created.
+    # NOTE: SS120 source CSV has the typo `FC GmM/L` (no space) instead of
+    # `FC G mM/L`. The build script (scripts/build_moreno2023_modified_csv.py)
+    # has a per-strain override that maps the typo to `log2FC.GmM.L` in the
+    # _modified.csv, so all 4 light/dark × glucose comparisons are present.
     light_low_glucose_marino_in_ss120_proteomics:
       name: "Marinobacter in SS120 coculture: light +100 nM glucose vs light (control)"
       organism: "Marinobacter adhaerens DSM 23420 / HP15"
       treatment_condition: "Light + 100 nM glucose addition"
       control_condition: "Light (no glucose)"
       experimental_context: "Marinobacter fraction of non-axenic SS120 in Pro99, continuous light, 100 nM glucose; n=3."
+      omics_type: PROTEOMICS
+      test_type: "t-test"
+      treatment_type: ["carbon"]
+      background_factors: ["coculture", "light"]
+      medium: "Pro99"
+      temperature: "24C"
+      light_condition: "continuous light"
+      light_intensity: "15 umol photons m-2 s-1"
+      treatment_organism: "Prochlorococcus marinus subsp. marinus CCMP1375 (SS120)"
+      treatment_taxid: 167539
+      treatment_assembly_accession: "GCF_000007925.1"
+      table_scope: all_detected_genes
+    light_high_glucose_marino_in_ss120_proteomics:
+      name: "Marinobacter in SS120 coculture: light +5 mM glucose vs light (control)"
+      organism: "Marinobacter adhaerens DSM 23420 / HP15"
+      treatment_condition: "Light + 5 mM glucose addition"
+      control_condition: "Light (no glucose)"
+      experimental_context: "Marinobacter fraction of non-axenic SS120 in Pro99, continuous light, 5 mM glucose; n=3."
       omics_type: PROTEOMICS
       test_type: "t-test"
       treatment_type: ["carbon"]
@@ -1684,12 +1704,20 @@ publication:
       product_columns:
         - column: "Description"
       statistical_analyses:
-        # `light_high_glucose` comparison is missing the `FC G mM/L` column in source CSV — skipped.
         - id: "marino_ss120_light_low_glucose_vs_light"
           experiment: light_low_glucose_marino_in_ss120_proteomics
           name_col: "Description"
           logfc_col: "log2FC.GnM.L"
           adjusted_p_value_col: "t.test G nM/L"
+          pvalue_threshold: 0.05
+          growth_phase: stationary
+          timepoint: "stationary"
+          timepoint_hours: null
+        - id: "marino_ss120_light_high_glucose_vs_light"
+          experiment: light_high_glucose_marino_in_ss120_proteomics
+          name_col: "Description"
+          logfc_col: "log2FC.GmM.L"
+          adjusted_p_value_col: "t.test G mM/L"
           pvalue_threshold: 0.05
           growth_phase: stationary
           timepoint: "stationary"
