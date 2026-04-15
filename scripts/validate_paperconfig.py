@@ -84,6 +84,24 @@ VALID_ID_TYPES = {
     "jgi_id", "probeset", "rast_id", "annotation_specific", "other",
 }
 
+# Column names known to hold free-text narrative (protein descriptions,
+# product strings, etc.). Declaring such a column as `id_type: locus_tag`
+# causes `build_gene_id_mapping` to tokenise entire sentences into
+# `specific_lookup`, polluting the strain's gene_id mapping with thousands
+# of junk alt_ids (e.g. single words, punctuation) that all collapse onto
+# whichever locus tag appeared in the row. This silently collapses
+# hundreds of expression edges after dedup. The correct fix is to extract
+# the real identifier into a dedicated column (typically via a `GN=`
+# regex in `scripts/build_modified_csv/`) and declare THAT column as a
+# real id_type.
+FREE_TEXT_COLUMN_NAMES = {
+    "Description", "description",
+    "Product", "product",
+    "Name", "name",
+    "Protein",
+    "Gene Name",
+}
+
 # ── Canonical vocabulary ─────────────────────────────────────────────────────
 
 # Canonical organism names for the 'organism' field in experiments
@@ -302,6 +320,17 @@ def _validate_id_columns(id_columns, cols, table_key, errors, warnings):
             warnings.append(
                 f"{table_key}: id_type '{id_type}' not in known types; "
                 f"valid: {sorted(VALID_ID_TYPES)}"
+            )
+        # Free-text column declared as locus_tag — this tokenises whole
+        # sentences into gene_id_mapping.specific_lookup. See comment on
+        # FREE_TEXT_COLUMN_NAMES above.
+        if id_type == "locus_tag" and col_name in FREE_TEXT_COLUMN_NAMES:
+            warnings.append(
+                f"{table_key}.id_columns | column '{col_name}' declared "
+                f"id_type: locus_tag looks like free-text description — "
+                f"this can pollute gene_id_mapping.specific_lookup with "
+                f"thousands of tokenized alt_ids. Consider extracting a "
+                f"locus-tag column upstream in the _modified.csv builder."
             )
 
 

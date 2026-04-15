@@ -559,3 +559,77 @@ class TestTreatmentAssemblyAccession:
         assert result is True, (
             "Expected validation to pass when treatment_assembly_accession is absent"
         )
+
+
+# ---------------------------------------------------------------------------
+# Unit tests — free-text column declared as locus_tag warning
+# ---------------------------------------------------------------------------
+
+class TestFreeTextAsLocusTagWarning:
+    """Validator warns when a free-text-looking column is declared id_type: locus_tag.
+
+    This is the bug where ``{column: Description, id_type: locus_tag}`` caused
+    build_gene_id_mapping to tokenise entire sentences into specific_lookup,
+    polluting a strain's gene_id map with thousands of junk alt_ids.
+    """
+
+    def _write_csv_with_description(self, tmp_path: Path) -> Path:
+        csv_file = tmp_path / "data.csv"
+        csv_file.write_text(
+            "Gene,Description,log2FC,padj\n"
+            "PMM0001,ATP synthase GN=atpB OS=Prochlorococcus,1.5,0.01\n"
+            "PMM0002,Photosystem II subunit GN=psbF OS=Prochlorococcus,-0.8,0.03\n"
+        )
+        return csv_file
+
+    def test_description_as_locus_tag_emits_warning(self, tmp_path, monkeypatch, capsys):
+        """Declaring 'Description' as id_type: locus_tag must emit a warning (still passes)."""
+        monkeypatch.chdir(PROJECT_ROOT)
+        csv = self._write_csv_with_description(tmp_path)
+        config = _make_valid_config(csv)
+        supp = config["publication"]["supplementary_materials"]["supp_table_1"]
+        supp["id_columns"] = [
+            {"column": "Description", "id_type": "locus_tag"},
+        ]
+        cfg_file = _write_config(tmp_path, config)
+        result = validate(str(cfg_file))
+        # Validator should still pass (warning, not error).
+        assert result is True, "Expected validation to pass (warning, not error)"
+        out = capsys.readouterr().out
+        assert "looks like free-text description" in out, (
+            f"Expected free-text warning not found in validator output.\n"
+            f"Output:\n{out}"
+        )
+        assert "Description" in out
+
+    def test_description_as_gene_name_does_not_warn(self, tmp_path, monkeypatch, capsys):
+        """Declaring 'Description' as id_type: gene_name (Tier 3) does not trip the warning."""
+        monkeypatch.chdir(PROJECT_ROOT)
+        csv = self._write_csv_with_description(tmp_path)
+        config = _make_valid_config(csv)
+        supp = config["publication"]["supplementary_materials"]["supp_table_1"]
+        supp["id_columns"] = [
+            {"column": "Description", "id_type": "gene_name"},
+        ]
+        cfg_file = _write_config(tmp_path, config)
+        result = validate(str(cfg_file))
+        assert result is True
+        out = capsys.readouterr().out
+        assert "looks like free-text description" not in out, (
+            "Warning should not fire for non-locus_tag id_type on free-text column"
+        )
+
+    def test_normal_column_as_locus_tag_does_not_warn(self, tmp_path, monkeypatch, capsys):
+        """A genuinely id-shaped column declared as locus_tag does not warn."""
+        monkeypatch.chdir(PROJECT_ROOT)
+        csv = self._write_csv_with_description(tmp_path)
+        config = _make_valid_config(csv)
+        supp = config["publication"]["supplementary_materials"]["supp_table_1"]
+        supp["id_columns"] = [
+            {"column": "Gene", "id_type": "locus_tag"},
+        ]
+        cfg_file = _write_config(tmp_path, config)
+        result = validate(str(cfg_file))
+        assert result is True
+        out = capsys.readouterr().out
+        assert "looks like free-text description" not in out
