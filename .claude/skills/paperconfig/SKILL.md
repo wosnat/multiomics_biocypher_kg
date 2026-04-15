@@ -160,7 +160,7 @@ The canonical vocabulary is intentionally minimal. When creating a paperconfig f
 2. **Prefer general categories over specific ones.** `chemical` is better than `dcmu_inhibitor`. The specifics go in `treatment_condition` and `experimental_context`.
 3. **If no existing value fits**, flag it to the user: "This paper studies [X], which doesn't map cleanly to any existing canonical value. Closest match: `Y`. Should I use `Y` or propose a new value?"
 4. **User decides.** If a new value is approved, update all three locations in a single commit:
-   - `CANONICAL_CONDITION_TYPES` in `validate_paperconfig.py`
+   - `CANONICAL_CONDITION_TYPES` in `scripts/validate_paperconfig.py`
    - Canonical Vocabulary table in this SKILL.md
    - `CLAUDE.md` key graph facts section
 5. **Never invent new canonical values without user approval.**
@@ -858,7 +858,7 @@ Add a comment line above the new row explaining the context (e.g., which paper f
 After creating the paperconfig, always run the validation script:
 
 ```bash
-uv run python .claude/skills/paperconfig/validate_paperconfig.py "data/Prochlorococcus/papers_and_supp/<Author Year>/paperconfig.yaml"
+uv run python scripts/validate_paperconfig.py "data/Prochlorococcus/papers_and_supp/<Author Year>/paperconfig.yaml"
 ```
 
 This script checks:

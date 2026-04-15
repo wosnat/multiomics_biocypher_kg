@@ -19,9 +19,7 @@ import yaml
 from pathlib import Path
 
 # Add the validate script to the import path
-VALIDATE_SCRIPT_DIR = os.path.join(
-    os.path.dirname(__file__), os.pardir, ".claude", "skills", "paperconfig"
-)
+VALIDATE_SCRIPT_DIR = os.path.join(os.path.dirname(__file__), os.pardir, "scripts")
 sys.path.insert(0, os.path.abspath(VALIDATE_SCRIPT_DIR))
 
 from validate_paperconfig import validate, CANONICAL_GENOMIC_ORGANISMS, CANONICAL_CONDITION_TYPES, CANONICAL_TEST_TYPES, REQUIRED_EXPERIMENT_FIELDS

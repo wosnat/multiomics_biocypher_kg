@@ -2,8 +2,8 @@
 import sys
 from pathlib import Path
 
-SKILL_DIR = Path(__file__).parent.parent / ".claude/skills/paperconfig"
-sys.path.insert(0, str(SKILL_DIR))
+SCRIPTS_DIR = Path(__file__).parent.parent / "scripts"
+sys.path.insert(0, str(SCRIPTS_DIR))
 
 from validate_paperconfig import (
     VALID_GROWTH_PHASES,

@@ -118,7 +118,7 @@ Below is each existing paperconfig with recommended updates. **Read the actual p
 After updating any paperconfig, run the validation script:
 
 ```bash
-uv run python .claude/skills/paperconfig/validate_paperconfig.py "data/Prochlorococcus/papers_and_supp/<Author Year>/paperconfig.yaml"
+uv run python scripts/validate_paperconfig.py "data/Prochlorococcus/papers_and_supp/<Author Year>/paperconfig.yaml"
 ```
 
 The validator checks that:

@@ -29,7 +29,7 @@ def test_valid_growth_phases_list_matches_validator():
 
     validator_path = (
         Path(__file__).resolve().parent.parent.parent.parent
-        / ".claude" / "skills" / "paperconfig" / "validate_paperconfig.py"
+        / "scripts" / "validate_paperconfig.py"
     )
     spec = util.spec_from_file_location("_validator", validator_path)
     mod = util.module_from_spec(spec)

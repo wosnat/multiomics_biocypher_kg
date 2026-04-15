@@ -2,8 +2,8 @@
 """Validate a paperconfig.yaml file for the multiomics knowledge graph.
 
 Usage:
-    python .claude/skills/paperconfig/validate_paperconfig.py <path_to_paperconfig.yaml>
-    python .claude/skills/paperconfig/validate_paperconfig.py --all
+    python scripts/validate_paperconfig.py <path_to_paperconfig.yaml>
+    python scripts/validate_paperconfig.py --all
 
 Checks:
     - YAML is parseable
@@ -33,7 +33,7 @@ from pathlib import Path
 import pandas as pd
 
 # Import shared paperconfig utilities from the main package
-_PROJECT_ROOT = Path(__file__).resolve().parents[3]
+_PROJECT_ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(_PROJECT_ROOT))
 from multiomics_kg.utils.paperconfig_utils import (
     load_paperconfig,
@@ -98,16 +98,20 @@ CANONICAL_GENOMIC_ORGANISMS = {
     "Prochlorococcus NATL2A",
     "Prochlorococcus MIT9303",
     "Prochlorococcus RSP50",
+    "Prochlorococcus marinus subsp. marinus CCMP1375 (SS120)",
     "Synechococcus WH8102",
     "Synechococcus WH7803",
     "Synechococcus CC9311",
     "Synechococcus PCC 7002",
     "Synechococcus elongatus PCC 7942",
     "Synechococcus elongatus UTEX 2973",
+    "Synechococcus sp. BL107",
     "Thermosynechococcus vestitus BP-1",
     "Alteromonas macleodii HOT1A3",
     "Alteromonas macleodii EZ55",
     "Alteromonas macleodii MIT1002",
+    "Alteromonas mediterranea DE",
+    "Marinobacter adhaerens DSM 23420 / HP15",
     "Shewanella sp. W3-18-1",
     "Pseudomonas putida KT2440",
     "Ruegeria pomeroyi DSS-3",
