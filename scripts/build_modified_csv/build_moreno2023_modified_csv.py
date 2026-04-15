@@ -18,9 +18,12 @@ Output log2 column names (new):
 from __future__ import annotations
 
 import math
+import re
 from pathlib import Path
 
 import pandas as pd
+
+GN_RE = re.compile(r"GN=(\S+)")
 
 PAPER_DIR = Path("data/Prochlorococcus/papers_and_supp/moreno 2023")
 
@@ -73,6 +76,13 @@ def process(src: Path, fc_map: dict[str, str]) -> None:
     for orig, new in fc_map.items():
         if orig in df.columns:
             df[new] = df[orig].apply(_log2)
+    # Extract GN= token from free-text Description into a dedicated column so
+    # the paperconfig can declare it as a proper id column (gene_name Tier 3)
+    # instead of mis-tagging Description itself as locus_tag.
+    if "Description" in df.columns:
+        df["extracted_gn"] = df["Description"].fillna("").map(
+            lambda s: (m := GN_RE.search(s)) and m.group(1) or ""
+        )
     out = src.with_name(src.stem + "_modified.csv")
     df.to_csv(out, index=False)
     # Report

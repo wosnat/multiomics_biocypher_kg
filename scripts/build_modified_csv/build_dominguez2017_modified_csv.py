@@ -11,9 +11,12 @@ Written to `table s3 Combined_modified.csv` alongside originals.
 from __future__ import annotations
 
 import math
+import re
 from pathlib import Path
 
 import pandas as pd
+
+GN_RE = re.compile(r"GN=(\S+)")
 
 PAPER_DIR = Path("data/Prochlorococcus/papers_and_supp/Domínguez 2017")
 UP_CSV = PAPER_DIR / "table s3 Upregulated prots rel quant sys003172107st8.csv"
@@ -42,6 +45,17 @@ def main() -> None:
         return l2
 
     combined["log2_fold_change"] = combined.apply(signed_log2, axis=1)
+
+    # Extract the GN=... token from the free-text Description column so the
+    # paperconfig can declare a dedicated id column (gene_name Tier 3) instead
+    # of mis-tagging the whole Description string as a locus_tag, which
+    # tokenises sentence words into specific_lookup.
+    combined["extracted_gn"] = (
+        combined["Description"].fillna("").map(
+            lambda s: (m := GN_RE.search(s)) and m.group(1) or ""
+        )
+    )
+
     combined.to_csv(OUT_CSV, index=False)
     print(f"Wrote {len(combined)} rows to {OUT_CSV}")
     print(f"log2FC range: {combined['log2_fold_change'].min():.3f} to {combined['log2_fold_change'].max():.3f}")
