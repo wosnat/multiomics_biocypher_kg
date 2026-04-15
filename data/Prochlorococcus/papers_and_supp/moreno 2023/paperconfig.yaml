@@ -1,3 +1,25 @@
+# ═══════════════════════════════════════════════════════════════════════════
+# DEFERRED: Alteromonas S3 tables (5 CSVs, 20 comparisons)
+# ---------------------------------------------------------------------------
+# The paper's supplementary table S3 contains Alteromonas proteomics from the
+# heterotroph fraction of 5 cyano cocultures (BL107, MED4, SS120, WH7803,
+# WH8102). The source CSVs (`table s3 Alteromonas in <strain> cultures
+# spectrum.03275-22-s0003.csv`) use the MarRef v6 custom locus prefix
+# `DEH24_*`, while the KG's Alteromonas mediterranea DE reference assembly
+# (GCF_000020585.3) uses `MADE_RS#####`. An id_translation bridge
+# (DEH24 → MADE_RS) is needed before these CSVs can be loaded — same pattern
+# as the EZ55 and MIT1002 deployments.
+#
+# The 5 S3 Alteromonas experiments and their 20 statistical_analyses entries
+# are included below as EXPLICIT PLACEHOLDERS (commented out and tagged with
+# `TODO(deferred): DEH24 → MADE_RS bridge needed`) so that this deferred
+# work is visible to greps rather than silently absent. When the bridge is
+# built, uncomment the supp_table_s3_* blocks and replace placeholder values.
+#
+# See: docs/superpowers/specs/2026-04-14-csv-ready-papers-batch-design.md
+#      ("Open Items" section and the light_low_glucose / light_high_glucose /
+#      dark_low_glucose / dark_high_glucose naming convention).
+# ═══════════════════════════════════════════════════════════════════════════
 publication:
   papername: "Moreno 2023"
   # Moreno-Cabezuelo et al. 2023, Microbiology Spectrum, DOI 10.1128/spectrum.03275-22
@@ -13,9 +35,8 @@ publication:
   #
   # Experiment count: 5 cyano × 4 glucose x light comparisons (=20) +
   # 5 Marinobacter cocultures × 4 comparisons (=20) - 1 missing column for
-  # SS120 Marinobacter FC G mM/L = 39 experiments total. The S3 Alteromonas
-  # tables are SKIPPED in this batch (DEH24 → MADE_RS id bridge deferred to a
-  # follow-up PR — all 5 Alteromonas CSVs are excluded below).
+  # SS120 Marinobacter FC G mM/L = 39 active experiments total, plus 5
+  # Alteromonas placeholder experiments (not yet loaded — see top comment).
   papermainpdf: "data/Prochlorococcus/papers_and_supp/moreno 2023/moreno-cabezuelo-et-al-2023-integrated-proteomic-and-metabolomic-analyses-show-differential-effects-of-glucose.pdf"
 
   experiments:
@@ -695,9 +716,516 @@ publication:
       treatment_assembly_accession: "GCF_000153805.1"
       table_scope: all_detected_genes
 
+    # ─────────────────────────────────────────────────────────────────────
+    # Alteromonas S3 — 5 cocultures × 4 comparisons (PLACEHOLDERS)
+    # TODO(deferred): DEH24 → MADE_RS bridge needed
+    # ---------------------------------------------------------------------
+    # Primary organism = Alteromonas mediterranea DE (taxid 1774). The raw
+    # S3 CSVs use the MarRef v6 custom prefix `DEH24_*`; the KG uses
+    # `MADE_RS#####` from GCF_000020585.3. These experiments are declared
+    # here so the deferred work is explicit and greppable. They are NOT
+    # referenced by any active statistical_analyses — the corresponding
+    # supp_table_s3_alt_in_* blocks below are commented out pending the
+    # DEH24 → MADE_RS id bridge.
+    # ─────────────────────────────────────────────────────────────────────
+
+    # ── Alteromonas in MED4 ── TODO(deferred): DEH24 → MADE_RS bridge needed
+    light_low_glucose_alt_in_med4_proteomics:
+      name: "Alteromonas in MED4 coculture: light +100 nM glucose vs light (control)"  # TODO(deferred): DEH24 → MADE_RS bridge needed
+      organism: "Alteromonas mediterranea DE"
+      treatment_condition: "Light + 100 nM glucose addition"
+      control_condition: "Light (no glucose)"
+      experimental_context: "Alteromonas fraction of non-axenic MED4 in Pro99, continuous light, 100 nM glucose; n=3. PLACEHOLDER — DEH24 → MADE_RS id bridge pending."
+      omics_type: PROTEOMICS
+      test_type: "t-test"
+      treatment_type: ["carbon", "coculture"]
+      background_factors: ["light"]
+      medium: "Pro99"
+      temperature: "24C"
+      light_condition: "continuous light"
+      light_intensity: "15 umol photons m-2 s-1"
+      treatment_organism: "Prochlorococcus MED4"
+      treatment_taxid: 59919
+      treatment_assembly_accession: "GCF_000011465.1"
+      table_scope: all_detected_genes
+    light_high_glucose_alt_in_med4_proteomics:
+      name: "Alteromonas in MED4 coculture: light +5 mM glucose vs light (control)"  # TODO(deferred): DEH24 → MADE_RS bridge needed
+      organism: "Alteromonas mediterranea DE"
+      treatment_condition: "Light + 5 mM glucose addition"
+      control_condition: "Light (no glucose)"
+      experimental_context: "Alteromonas fraction of non-axenic MED4 in Pro99, continuous light, 5 mM glucose; n=3. PLACEHOLDER — DEH24 → MADE_RS id bridge pending."
+      omics_type: PROTEOMICS
+      test_type: "t-test"
+      treatment_type: ["carbon", "coculture"]
+      background_factors: ["light"]
+      medium: "Pro99"
+      temperature: "24C"
+      light_condition: "continuous light"
+      light_intensity: "15 umol photons m-2 s-1"
+      treatment_organism: "Prochlorococcus MED4"
+      treatment_taxid: 59919
+      treatment_assembly_accession: "GCF_000011465.1"
+      table_scope: all_detected_genes
+    dark_low_glucose_alt_in_med4_proteomics:
+      name: "Alteromonas in MED4 coculture: darkness +100 nM glucose vs darkness (control)"  # TODO(deferred): DEH24 → MADE_RS bridge needed
+      organism: "Alteromonas mediterranea DE"
+      treatment_condition: "Darkness + 100 nM glucose addition"
+      control_condition: "Darkness (no glucose)"
+      experimental_context: "Alteromonas fraction of non-axenic MED4 in Pro99, continuous darkness, 100 nM glucose; n=3. PLACEHOLDER — DEH24 → MADE_RS id bridge pending."
+      omics_type: PROTEOMICS
+      test_type: "t-test"
+      treatment_type: ["carbon", "coculture"]
+      background_factors: ["darkness"]
+      medium: "Pro99"
+      temperature: "24C"
+      light_condition: "continuous darkness"
+      light_intensity: ""
+      treatment_organism: "Prochlorococcus MED4"
+      treatment_taxid: 59919
+      treatment_assembly_accession: "GCF_000011465.1"
+      table_scope: all_detected_genes
+    dark_high_glucose_alt_in_med4_proteomics:
+      name: "Alteromonas in MED4 coculture: darkness +5 mM glucose vs darkness (control)"  # TODO(deferred): DEH24 → MADE_RS bridge needed
+      organism: "Alteromonas mediterranea DE"
+      treatment_condition: "Darkness + 5 mM glucose addition"
+      control_condition: "Darkness (no glucose)"
+      experimental_context: "Alteromonas fraction of non-axenic MED4 in Pro99, continuous darkness, 5 mM glucose; n=3. PLACEHOLDER — DEH24 → MADE_RS id bridge pending."
+      omics_type: PROTEOMICS
+      test_type: "t-test"
+      treatment_type: ["carbon", "coculture"]
+      background_factors: ["darkness"]
+      medium: "Pro99"
+      temperature: "24C"
+      light_condition: "continuous darkness"
+      light_intensity: ""
+      treatment_organism: "Prochlorococcus MED4"
+      treatment_taxid: 59919
+      treatment_assembly_accession: "GCF_000011465.1"
+      table_scope: all_detected_genes
+
+    # ── Alteromonas in SS120 ── TODO(deferred): DEH24 → MADE_RS bridge needed
+    light_low_glucose_alt_in_ss120_proteomics:
+      name: "Alteromonas in SS120 coculture: light +100 nM glucose vs light (control)"  # TODO(deferred): DEH24 → MADE_RS bridge needed
+      organism: "Alteromonas mediterranea DE"
+      treatment_condition: "Light + 100 nM glucose addition"
+      control_condition: "Light (no glucose)"
+      experimental_context: "Alteromonas fraction of non-axenic SS120 in Pro99, continuous light, 100 nM glucose; n=3. PLACEHOLDER — DEH24 → MADE_RS id bridge pending."
+      omics_type: PROTEOMICS
+      test_type: "t-test"
+      treatment_type: ["carbon", "coculture"]
+      background_factors: ["light"]
+      medium: "Pro99"
+      temperature: "24C"
+      light_condition: "continuous light"
+      light_intensity: "15 umol photons m-2 s-1"
+      treatment_organism: "Prochlorococcus marinus subsp. marinus CCMP1375 (SS120)"
+      treatment_taxid: 167539
+      treatment_assembly_accession: "GCF_000007925.1"
+      table_scope: all_detected_genes
+    light_high_glucose_alt_in_ss120_proteomics:
+      name: "Alteromonas in SS120 coculture: light +5 mM glucose vs light (control)"  # TODO(deferred): DEH24 → MADE_RS bridge needed
+      organism: "Alteromonas mediterranea DE"
+      treatment_condition: "Light + 5 mM glucose addition"
+      control_condition: "Light (no glucose)"
+      experimental_context: "Alteromonas fraction of non-axenic SS120 in Pro99, continuous light, 5 mM glucose; n=3. PLACEHOLDER — DEH24 → MADE_RS id bridge pending."
+      omics_type: PROTEOMICS
+      test_type: "t-test"
+      treatment_type: ["carbon", "coculture"]
+      background_factors: ["light"]
+      medium: "Pro99"
+      temperature: "24C"
+      light_condition: "continuous light"
+      light_intensity: "15 umol photons m-2 s-1"
+      treatment_organism: "Prochlorococcus marinus subsp. marinus CCMP1375 (SS120)"
+      treatment_taxid: 167539
+      treatment_assembly_accession: "GCF_000007925.1"
+      table_scope: all_detected_genes
+    dark_low_glucose_alt_in_ss120_proteomics:
+      name: "Alteromonas in SS120 coculture: darkness +100 nM glucose vs darkness (control)"  # TODO(deferred): DEH24 → MADE_RS bridge needed
+      organism: "Alteromonas mediterranea DE"
+      treatment_condition: "Darkness + 100 nM glucose addition"
+      control_condition: "Darkness (no glucose)"
+      experimental_context: "Alteromonas fraction of non-axenic SS120 in Pro99, continuous darkness, 100 nM glucose; n=3. PLACEHOLDER — DEH24 → MADE_RS id bridge pending."
+      omics_type: PROTEOMICS
+      test_type: "t-test"
+      treatment_type: ["carbon", "coculture"]
+      background_factors: ["darkness"]
+      medium: "Pro99"
+      temperature: "24C"
+      light_condition: "continuous darkness"
+      light_intensity: ""
+      treatment_organism: "Prochlorococcus marinus subsp. marinus CCMP1375 (SS120)"
+      treatment_taxid: 167539
+      treatment_assembly_accession: "GCF_000007925.1"
+      table_scope: all_detected_genes
+    dark_high_glucose_alt_in_ss120_proteomics:
+      name: "Alteromonas in SS120 coculture: darkness +5 mM glucose vs darkness (control)"  # TODO(deferred): DEH24 → MADE_RS bridge needed
+      organism: "Alteromonas mediterranea DE"
+      treatment_condition: "Darkness + 5 mM glucose addition"
+      control_condition: "Darkness (no glucose)"
+      experimental_context: "Alteromonas fraction of non-axenic SS120 in Pro99, continuous darkness, 5 mM glucose; n=3. PLACEHOLDER — DEH24 → MADE_RS id bridge pending."
+      omics_type: PROTEOMICS
+      test_type: "t-test"
+      treatment_type: ["carbon", "coculture"]
+      background_factors: ["darkness"]
+      medium: "Pro99"
+      temperature: "24C"
+      light_condition: "continuous darkness"
+      light_intensity: ""
+      treatment_organism: "Prochlorococcus marinus subsp. marinus CCMP1375 (SS120)"
+      treatment_taxid: 167539
+      treatment_assembly_accession: "GCF_000007925.1"
+      table_scope: all_detected_genes
+
+    # ── Alteromonas in WH7803 ── TODO(deferred): DEH24 → MADE_RS bridge needed
+    light_low_glucose_alt_in_wh7803_proteomics:
+      name: "Alteromonas in WH7803 coculture: light +100 nM glucose vs light (control)"  # TODO(deferred): DEH24 → MADE_RS bridge needed
+      organism: "Alteromonas mediterranea DE"
+      treatment_condition: "Light + 100 nM glucose addition"
+      control_condition: "Light (no glucose)"
+      experimental_context: "Alteromonas fraction of non-axenic WH7803 in SN, continuous light, 100 nM glucose; n=3. PLACEHOLDER — DEH24 → MADE_RS id bridge pending."
+      omics_type: PROTEOMICS
+      test_type: "t-test"
+      treatment_type: ["carbon", "coculture"]
+      background_factors: ["light"]
+      medium: "SN"
+      temperature: "24C"
+      light_condition: "continuous light"
+      light_intensity: "15 umol photons m-2 s-1"
+      treatment_organism: "Synechococcus WH7803"
+      treatment_taxid: 32051
+      treatment_assembly_accession: "GCF_000063505.1"
+      table_scope: all_detected_genes
+    light_high_glucose_alt_in_wh7803_proteomics:
+      name: "Alteromonas in WH7803 coculture: light +5 mM glucose vs light (control)"  # TODO(deferred): DEH24 → MADE_RS bridge needed
+      organism: "Alteromonas mediterranea DE"
+      treatment_condition: "Light + 5 mM glucose addition"
+      control_condition: "Light (no glucose)"
+      experimental_context: "Alteromonas fraction of non-axenic WH7803 in SN, continuous light, 5 mM glucose; n=3. PLACEHOLDER — DEH24 → MADE_RS id bridge pending."
+      omics_type: PROTEOMICS
+      test_type: "t-test"
+      treatment_type: ["carbon", "coculture"]
+      background_factors: ["light"]
+      medium: "SN"
+      temperature: "24C"
+      light_condition: "continuous light"
+      light_intensity: "15 umol photons m-2 s-1"
+      treatment_organism: "Synechococcus WH7803"
+      treatment_taxid: 32051
+      treatment_assembly_accession: "GCF_000063505.1"
+      table_scope: all_detected_genes
+    dark_low_glucose_alt_in_wh7803_proteomics:
+      name: "Alteromonas in WH7803 coculture: darkness +100 nM glucose vs darkness (control)"  # TODO(deferred): DEH24 → MADE_RS bridge needed
+      organism: "Alteromonas mediterranea DE"
+      treatment_condition: "Darkness + 100 nM glucose addition"
+      control_condition: "Darkness (no glucose)"
+      experimental_context: "Alteromonas fraction of non-axenic WH7803 in SN, continuous darkness, 100 nM glucose; n=3. PLACEHOLDER — DEH24 → MADE_RS id bridge pending."
+      omics_type: PROTEOMICS
+      test_type: "t-test"
+      treatment_type: ["carbon", "coculture"]
+      background_factors: ["darkness"]
+      medium: "SN"
+      temperature: "24C"
+      light_condition: "continuous darkness"
+      light_intensity: ""
+      treatment_organism: "Synechococcus WH7803"
+      treatment_taxid: 32051
+      treatment_assembly_accession: "GCF_000063505.1"
+      table_scope: all_detected_genes
+    dark_high_glucose_alt_in_wh7803_proteomics:
+      name: "Alteromonas in WH7803 coculture: darkness +5 mM glucose vs darkness (control)"  # TODO(deferred): DEH24 → MADE_RS bridge needed
+      organism: "Alteromonas mediterranea DE"
+      treatment_condition: "Darkness + 5 mM glucose addition"
+      control_condition: "Darkness (no glucose)"
+      experimental_context: "Alteromonas fraction of non-axenic WH7803 in SN, continuous darkness, 5 mM glucose; n=3. PLACEHOLDER — DEH24 → MADE_RS id bridge pending."
+      omics_type: PROTEOMICS
+      test_type: "t-test"
+      treatment_type: ["carbon", "coculture"]
+      background_factors: ["darkness"]
+      medium: "SN"
+      temperature: "24C"
+      light_condition: "continuous darkness"
+      light_intensity: ""
+      treatment_organism: "Synechococcus WH7803"
+      treatment_taxid: 32051
+      treatment_assembly_accession: "GCF_000063505.1"
+      table_scope: all_detected_genes
+
+    # ── Alteromonas in WH8102 ── TODO(deferred): DEH24 → MADE_RS bridge needed
+    light_low_glucose_alt_in_wh8102_proteomics:
+      name: "Alteromonas in WH8102 coculture: light +100 nM glucose vs light (control)"  # TODO(deferred): DEH24 → MADE_RS bridge needed
+      organism: "Alteromonas mediterranea DE"
+      treatment_condition: "Light + 100 nM glucose addition"
+      control_condition: "Light (no glucose)"
+      experimental_context: "Alteromonas fraction of non-axenic WH8102 in SN, continuous light, 100 nM glucose; n=3. PLACEHOLDER — DEH24 → MADE_RS id bridge pending."
+      omics_type: PROTEOMICS
+      test_type: "t-test"
+      treatment_type: ["carbon", "coculture"]
+      background_factors: ["light"]
+      medium: "SN"
+      temperature: "24C"
+      light_condition: "continuous light"
+      light_intensity: "15 umol photons m-2 s-1"
+      treatment_organism: "Synechococcus WH8102"
+      treatment_taxid: 84588
+      treatment_assembly_accession: "GCF_000195975.1"
+      table_scope: all_detected_genes
+    light_high_glucose_alt_in_wh8102_proteomics:
+      name: "Alteromonas in WH8102 coculture: light +5 mM glucose vs light (control)"  # TODO(deferred): DEH24 → MADE_RS bridge needed
+      organism: "Alteromonas mediterranea DE"
+      treatment_condition: "Light + 5 mM glucose addition"
+      control_condition: "Light (no glucose)"
+      experimental_context: "Alteromonas fraction of non-axenic WH8102 in SN, continuous light, 5 mM glucose; n=3. PLACEHOLDER — DEH24 → MADE_RS id bridge pending."
+      omics_type: PROTEOMICS
+      test_type: "t-test"
+      treatment_type: ["carbon", "coculture"]
+      background_factors: ["light"]
+      medium: "SN"
+      temperature: "24C"
+      light_condition: "continuous light"
+      light_intensity: "15 umol photons m-2 s-1"
+      treatment_organism: "Synechococcus WH8102"
+      treatment_taxid: 84588
+      treatment_assembly_accession: "GCF_000195975.1"
+      table_scope: all_detected_genes
+    dark_low_glucose_alt_in_wh8102_proteomics:
+      name: "Alteromonas in WH8102 coculture: darkness +100 nM glucose vs darkness (control)"  # TODO(deferred): DEH24 → MADE_RS bridge needed
+      organism: "Alteromonas mediterranea DE"
+      treatment_condition: "Darkness + 100 nM glucose addition"
+      control_condition: "Darkness (no glucose)"
+      experimental_context: "Alteromonas fraction of non-axenic WH8102 in SN, continuous darkness, 100 nM glucose; n=3. PLACEHOLDER — DEH24 → MADE_RS id bridge pending."
+      omics_type: PROTEOMICS
+      test_type: "t-test"
+      treatment_type: ["carbon", "coculture"]
+      background_factors: ["darkness"]
+      medium: "SN"
+      temperature: "24C"
+      light_condition: "continuous darkness"
+      light_intensity: ""
+      treatment_organism: "Synechococcus WH8102"
+      treatment_taxid: 84588
+      treatment_assembly_accession: "GCF_000195975.1"
+      table_scope: all_detected_genes
+    dark_high_glucose_alt_in_wh8102_proteomics:
+      name: "Alteromonas in WH8102 coculture: darkness +5 mM glucose vs darkness (control)"  # TODO(deferred): DEH24 → MADE_RS bridge needed
+      organism: "Alteromonas mediterranea DE"
+      treatment_condition: "Darkness + 5 mM glucose addition"
+      control_condition: "Darkness (no glucose)"
+      experimental_context: "Alteromonas fraction of non-axenic WH8102 in SN, continuous darkness, 5 mM glucose; n=3. PLACEHOLDER — DEH24 → MADE_RS id bridge pending."
+      omics_type: PROTEOMICS
+      test_type: "t-test"
+      treatment_type: ["carbon", "coculture"]
+      background_factors: ["darkness"]
+      medium: "SN"
+      temperature: "24C"
+      light_condition: "continuous darkness"
+      light_intensity: ""
+      treatment_organism: "Synechococcus WH8102"
+      treatment_taxid: 84588
+      treatment_assembly_accession: "GCF_000195975.1"
+      table_scope: all_detected_genes
+
+    # ── Alteromonas in BL107 ── TODO(deferred): DEH24 → MADE_RS bridge needed
+    light_low_glucose_alt_in_bl107_proteomics:
+      name: "Alteromonas in BL107 coculture: light +100 nM glucose vs light (control)"  # TODO(deferred): DEH24 → MADE_RS bridge needed
+      organism: "Alteromonas mediterranea DE"
+      treatment_condition: "Light + 100 nM glucose addition"
+      control_condition: "Light (no glucose)"
+      experimental_context: "Alteromonas fraction of non-axenic BL107 in SN, continuous light, 100 nM glucose; n=3. PLACEHOLDER — DEH24 → MADE_RS id bridge pending."
+      omics_type: PROTEOMICS
+      test_type: "t-test"
+      treatment_type: ["carbon", "coculture"]
+      background_factors: ["light"]
+      medium: "SN"
+      temperature: "24C"
+      light_condition: "continuous light"
+      light_intensity: "15 umol photons m-2 s-1"
+      treatment_organism: "Synechococcus sp. BL107"
+      treatment_taxid: 313625
+      treatment_assembly_accession: "GCF_000153805.1"
+      table_scope: all_detected_genes
+    light_high_glucose_alt_in_bl107_proteomics:
+      name: "Alteromonas in BL107 coculture: light +5 mM glucose vs light (control)"  # TODO(deferred): DEH24 → MADE_RS bridge needed
+      organism: "Alteromonas mediterranea DE"
+      treatment_condition: "Light + 5 mM glucose addition"
+      control_condition: "Light (no glucose)"
+      experimental_context: "Alteromonas fraction of non-axenic BL107 in SN, continuous light, 5 mM glucose; n=3. PLACEHOLDER — DEH24 → MADE_RS id bridge pending."
+      omics_type: PROTEOMICS
+      test_type: "t-test"
+      treatment_type: ["carbon", "coculture"]
+      background_factors: ["light"]
+      medium: "SN"
+      temperature: "24C"
+      light_condition: "continuous light"
+      light_intensity: "15 umol photons m-2 s-1"
+      treatment_organism: "Synechococcus sp. BL107"
+      treatment_taxid: 313625
+      treatment_assembly_accession: "GCF_000153805.1"
+      table_scope: all_detected_genes
+    dark_low_glucose_alt_in_bl107_proteomics:
+      name: "Alteromonas in BL107 coculture: darkness +100 nM glucose vs darkness (control)"  # TODO(deferred): DEH24 → MADE_RS bridge needed
+      organism: "Alteromonas mediterranea DE"
+      treatment_condition: "Darkness + 100 nM glucose addition"
+      control_condition: "Darkness (no glucose)"
+      experimental_context: "Alteromonas fraction of non-axenic BL107 in SN, continuous darkness, 100 nM glucose; n=3. PLACEHOLDER — DEH24 → MADE_RS id bridge pending."
+      omics_type: PROTEOMICS
+      test_type: "t-test"
+      treatment_type: ["carbon", "coculture"]
+      background_factors: ["darkness"]
+      medium: "SN"
+      temperature: "24C"
+      light_condition: "continuous darkness"
+      light_intensity: ""
+      treatment_organism: "Synechococcus sp. BL107"
+      treatment_taxid: 313625
+      treatment_assembly_accession: "GCF_000153805.1"
+      table_scope: all_detected_genes
+    dark_high_glucose_alt_in_bl107_proteomics:
+      name: "Alteromonas in BL107 coculture: darkness +5 mM glucose vs darkness (control)"  # TODO(deferred): DEH24 → MADE_RS bridge needed
+      organism: "Alteromonas mediterranea DE"
+      treatment_condition: "Darkness + 5 mM glucose addition"
+      control_condition: "Darkness (no glucose)"
+      experimental_context: "Alteromonas fraction of non-axenic BL107 in SN, continuous darkness, 5 mM glucose; n=3. PLACEHOLDER — DEH24 → MADE_RS id bridge pending."
+      omics_type: PROTEOMICS
+      test_type: "t-test"
+      treatment_type: ["carbon", "coculture"]
+      background_factors: ["darkness"]
+      medium: "SN"
+      temperature: "24C"
+      light_condition: "continuous darkness"
+      light_intensity: ""
+      treatment_organism: "Synechococcus sp. BL107"
+      treatment_taxid: 313625
+      treatment_assembly_accession: "GCF_000153805.1"
+      table_scope: all_detected_genes
+
   supplementary_materials:
-    # ── S3 Alteromonas CSVs intentionally NOT included — DEH24 -> MADE_RS
-    # id bridge deferred to follow-up PR (see spec).
+    # ─────────────────────────────────────────────────────────────────────
+    # Alteromonas S3 — 5 tables × 4 statistical_analyses (PLACEHOLDERS)
+    # TODO(deferred): DEH24 → MADE_RS bridge needed
+    # ---------------------------------------------------------------------
+    # The 5 blocks below are COMMENTED OUT pending construction of the
+    # DEH24 → MADE_RS id_translation bridge (same pattern as EZ55 /
+    # MIT1002). When the bridge is built:
+    #   1. Add an `id_translation_alt_de` entry above pointing at the
+    #      generated DEH24 → MADE_RS mapping CSV.
+    #   2. Uncomment the supp_table_s3_alt_in_* blocks below.
+    #   3. Run prepare_data steps 3+4 and rebuild the KG.
+    # Keeping the blocks commented (not deleted) makes the deferred work
+    # greppable via `grep -n 'TODO(deferred)'` and `grep -n 'supp_table_s3'`.
+    #
+    # Source CSVs (already present on disk, not yet loadable):
+    #   table s3 Alteromonas in MED4 cultures spectrum.03275-22-s0003.csv
+    #   table s3 Alteromonas in SS120 cultures spectrum.03275-22-s0003.csv
+    #   table s3 Alteromonas in WH7803 cultures spectrum.03275-22-s0003.csv
+    #   table s3 Alteromonas in WH8102 cultures spectrum.03275-22-s0003.csv
+    #   table s3 Alteromonas in BL107 cultures spectrum.03275-22-s0003.csv
+    # ─────────────────────────────────────────────────────────────────────
+
+    # supp_table_s3_alt_in_med4:  # TODO(deferred): DEH24 → MADE_RS bridge needed
+    #   type: csv
+    #   filename: "data/Prochlorococcus/papers_and_supp/moreno 2023/table s3 Alteromonas in MED4 cultures spectrum.03275-22-s0003.csv"
+    #   organism: "Alteromonas mediterranea DE"
+    #   id_columns:
+    #     - column: "Accession"
+    #       id_type: uniprot_accession
+    #     - column: "<DEH24_column_TBD>"   # TODO(deferred): confirm column name after DEH24→MADE_RS bridge
+    #       id_type: locus_tag
+    #   product_columns:
+    #     - column: "Description"
+    #   statistical_analyses:
+    #     - id: "alt_med4_light_low_glucose_vs_light"      # TODO(deferred): DEH24 → MADE_RS bridge needed
+    #       experiment: light_low_glucose_alt_in_med4_proteomics
+    #       name_col: "<DEH24_column_TBD>"
+    #       logfc_col: "<log2FC_col_TBD>"
+    #       adjusted_p_value_col: "<t-test_col_TBD>"
+    #       pvalue_threshold: 0.05
+    #       growth_phase: stationary
+    #       timepoint: "stationary"
+    #       timepoint_hours: null
+    #     - id: "alt_med4_light_high_glucose_vs_light"     # TODO(deferred): DEH24 → MADE_RS bridge needed
+    #       experiment: light_high_glucose_alt_in_med4_proteomics
+    #       name_col: "<DEH24_column_TBD>"
+    #       logfc_col: "<log2FC_col_TBD>"
+    #       adjusted_p_value_col: "<t-test_col_TBD>"
+    #       pvalue_threshold: 0.05
+    #       growth_phase: stationary
+    #       timepoint: "stationary"
+    #       timepoint_hours: null
+    #     - id: "alt_med4_dark_low_glucose_vs_dark"        # TODO(deferred): DEH24 → MADE_RS bridge needed
+    #       experiment: dark_low_glucose_alt_in_med4_proteomics
+    #       name_col: "<DEH24_column_TBD>"
+    #       logfc_col: "<log2FC_col_TBD>"
+    #       adjusted_p_value_col: "<t-test_col_TBD>"
+    #       pvalue_threshold: 0.05
+    #       growth_phase: darkness
+    #       timepoint: "darkness"
+    #       timepoint_hours: null
+    #     - id: "alt_med4_dark_high_glucose_vs_dark"       # TODO(deferred): DEH24 → MADE_RS bridge needed
+    #       experiment: dark_high_glucose_alt_in_med4_proteomics
+    #       name_col: "<DEH24_column_TBD>"
+    #       logfc_col: "<log2FC_col_TBD>"
+    #       adjusted_p_value_col: "<t-test_col_TBD>"
+    #       pvalue_threshold: 0.05
+    #       growth_phase: darkness
+    #       timepoint: "darkness"
+    #       timepoint_hours: null
+
+    # supp_table_s3_alt_in_ss120:  # TODO(deferred): DEH24 → MADE_RS bridge needed
+    #   type: csv
+    #   filename: "data/Prochlorococcus/papers_and_supp/moreno 2023/table s3 Alteromonas in SS120 cultures spectrum.03275-22-s0003.csv"
+    #   organism: "Alteromonas mediterranea DE"
+    #   statistical_analyses:
+    #     - id: "alt_ss120_light_low_glucose_vs_light"     # TODO(deferred): DEH24 → MADE_RS bridge needed
+    #       experiment: light_low_glucose_alt_in_ss120_proteomics
+    #     - id: "alt_ss120_light_high_glucose_vs_light"    # TODO(deferred): DEH24 → MADE_RS bridge needed
+    #       experiment: light_high_glucose_alt_in_ss120_proteomics
+    #     - id: "alt_ss120_dark_low_glucose_vs_dark"       # TODO(deferred): DEH24 → MADE_RS bridge needed
+    #       experiment: dark_low_glucose_alt_in_ss120_proteomics
+    #     - id: "alt_ss120_dark_high_glucose_vs_dark"      # TODO(deferred): DEH24 → MADE_RS bridge needed
+    #       experiment: dark_high_glucose_alt_in_ss120_proteomics
+
+    # supp_table_s3_alt_in_wh7803:  # TODO(deferred): DEH24 → MADE_RS bridge needed
+    #   type: csv
+    #   filename: "data/Prochlorococcus/papers_and_supp/moreno 2023/table s3 Alteromonas in WH7803 cultures spectrum.03275-22-s0003.csv"
+    #   organism: "Alteromonas mediterranea DE"
+    #   statistical_analyses:
+    #     - id: "alt_wh7803_light_low_glucose_vs_light"    # TODO(deferred): DEH24 → MADE_RS bridge needed
+    #       experiment: light_low_glucose_alt_in_wh7803_proteomics
+    #     - id: "alt_wh7803_light_high_glucose_vs_light"   # TODO(deferred): DEH24 → MADE_RS bridge needed
+    #       experiment: light_high_glucose_alt_in_wh7803_proteomics
+    #     - id: "alt_wh7803_dark_low_glucose_vs_dark"      # TODO(deferred): DEH24 → MADE_RS bridge needed
+    #       experiment: dark_low_glucose_alt_in_wh7803_proteomics
+    #     - id: "alt_wh7803_dark_high_glucose_vs_dark"     # TODO(deferred): DEH24 → MADE_RS bridge needed
+    #       experiment: dark_high_glucose_alt_in_wh7803_proteomics
+
+    # supp_table_s3_alt_in_wh8102:  # TODO(deferred): DEH24 → MADE_RS bridge needed
+    #   type: csv
+    #   filename: "data/Prochlorococcus/papers_and_supp/moreno 2023/table s3 Alteromonas in WH8102 cultures spectrum.03275-22-s0003.csv"
+    #   organism: "Alteromonas mediterranea DE"
+    #   statistical_analyses:
+    #     - id: "alt_wh8102_light_low_glucose_vs_light"    # TODO(deferred): DEH24 → MADE_RS bridge needed
+    #       experiment: light_low_glucose_alt_in_wh8102_proteomics
+    #     - id: "alt_wh8102_light_high_glucose_vs_light"   # TODO(deferred): DEH24 → MADE_RS bridge needed
+    #       experiment: light_high_glucose_alt_in_wh8102_proteomics
+    #     - id: "alt_wh8102_dark_low_glucose_vs_dark"      # TODO(deferred): DEH24 → MADE_RS bridge needed
+    #       experiment: dark_low_glucose_alt_in_wh8102_proteomics
+    #     - id: "alt_wh8102_dark_high_glucose_vs_dark"     # TODO(deferred): DEH24 → MADE_RS bridge needed
+    #       experiment: dark_high_glucose_alt_in_wh8102_proteomics
+
+    # supp_table_s3_alt_in_bl107:  # TODO(deferred): DEH24 → MADE_RS bridge needed
+    #   type: csv
+    #   filename: "data/Prochlorococcus/papers_and_supp/moreno 2023/table s3 Alteromonas in BL107 cultures spectrum.03275-22-s0003.csv"
+    #   organism: "Alteromonas mediterranea DE"
+    #   statistical_analyses:
+    #     - id: "alt_bl107_light_low_glucose_vs_light"     # TODO(deferred): DEH24 → MADE_RS bridge needed
+    #       experiment: light_low_glucose_alt_in_bl107_proteomics
+    #     - id: "alt_bl107_light_high_glucose_vs_light"    # TODO(deferred): DEH24 → MADE_RS bridge needed
+    #       experiment: light_high_glucose_alt_in_bl107_proteomics
+    #     - id: "alt_bl107_dark_low_glucose_vs_dark"       # TODO(deferred): DEH24 → MADE_RS bridge needed
+    #       experiment: dark_low_glucose_alt_in_bl107_proteomics
+    #     - id: "alt_bl107_dark_high_glucose_vs_dark"      # TODO(deferred): DEH24 → MADE_RS bridge needed
+    #       experiment: dark_high_glucose_alt_in_bl107_proteomics
 
     # ── Cyano S2 — 5 strains, each with 4 statistical analyses ──
     # Cells in `*_modified.csv` carry log2FC.* columns computed from linear
