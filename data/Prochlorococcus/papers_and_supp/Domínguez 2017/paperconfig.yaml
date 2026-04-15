@@ -29,7 +29,7 @@ publication:
     # ── Merged S3 up + S3 down into a single combined CSV ──
     # Original split S3 tables (up / down) are preserved on disk untouched.
     # `table s3 Combined_modified.csv` is produced by
-    # `scripts/build_dominguez2017_modified_csv.py` and contains a signed
+    # `scripts/build_modified_csv/build_dominguez2017_modified_csv.py` and contains a signed
     # `log2_fold_change` computed from `Max fold change` with sign derived from
     # `Highest mean condition`: negative if Control is the higher condition
     # (i.e. down in azaserine vs control), positive otherwise.

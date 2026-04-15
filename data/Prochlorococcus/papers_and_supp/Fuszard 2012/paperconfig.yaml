@@ -67,7 +67,7 @@ publication:
     # ── MIT9312 Pi-limitation iTRAQ quantitation (strain-specific CSV) ──
     # `_modified.csv` variant contains a precomputed log2_fold_change column
     # derived from the `Ratio of means` column (deplete / replete) by
-    # `scripts/build_fuszard2012_modified_csv.py`. Original CSV preserved.
+    # `scripts/build_modified_csv/build_fuszard2012_modified_csv.py`. Original CSV preserved.
     # adjusted_p_value is null because the paper does not report per-protein
     # p-values (only fold-change cutoffs from n=3 iTRAQ replicates).
     # logfc_threshold = log2(1.6) ≈ 0.678 — paper's weaker fold-change cutoff.

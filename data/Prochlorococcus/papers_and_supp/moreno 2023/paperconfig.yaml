@@ -438,7 +438,7 @@ publication:
 
     # ── Marino in SS120 ──
     # NOTE: SS120 source CSV has the typo `FC GmM/L` (no space) instead of
-    # `FC G mM/L`. The build script (scripts/build_moreno2023_modified_csv.py)
+    # `FC G mM/L`. The build script (scripts/build_modified_csv/build_moreno2023_modified_csv.py)
     # has a per-strain override that maps the typo to `log2FC.GmM.L` in the
     # _modified.csv, so all 4 light/dark × glucose comparisons are present.
     light_low_glucose_marino_in_ss120_proteomics:
@@ -1141,7 +1141,7 @@ publication:
     #      generated DEH24 → MADE_RS mapping CSV.
     #   2. Re-run prepare_data steps 3+4 and rebuild the KG.
     # Per-row `locus_tag_deh24` and normalised log2FC / t-test columns are
-    # pre-computed by `scripts/build_moreno2023_s3_modified_csv.py` and
+    # pre-computed by `scripts/build_modified_csv/build_moreno2023_s3_modified_csv.py` and
     # written to sibling `*_modified.csv` files (originals untouched).
     # ─────────────────────────────────────────────────────────────────────
 
@@ -1392,7 +1392,7 @@ publication:
 
     # ── Cyano S2 — 5 strains, each with 4 statistical analyses ──
     # Cells in `*_modified.csv` carry log2FC.* columns computed from linear
-    # FC.* columns by `scripts/build_moreno2023_modified_csv.py`.
+    # FC.* columns by `scripts/build_modified_csv/build_moreno2023_modified_csv.py`.
     supp_table_s2_med4:
       type: csv
       filename: "data/Prochlorococcus/papers_and_supp/moreno 2023/table s2 MED4 spectrum.03275-22-s0002_modified.csv"

@@ -2,7 +2,7 @@
 """Add log2(FC), normalized p-value, and DEH24 locus-tag columns to Moreno 2023 S3
 Alteromonas CSVs (5 cocultures: MED4, SS120, WH7803, WH8102, BL107).
 
-Follows the same convention as ``scripts/build_moreno2023_modified_csv.py``:
+Follows the same convention as ``scripts/build_modified_csv/build_moreno2023_modified_csv.py``:
 reads the original CSVs untouched and writes ``<orig>_modified.csv`` in the
 same directory.
 
