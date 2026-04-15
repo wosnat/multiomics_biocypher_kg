@@ -1,0 +1,22 @@
+Resolution report: Moreno 2023 / supp_table_s4_marino_in_ss120
+Source: table s4 Marinobacter in SS120 cultures spectrum.03275-22-s0004_modified.csv
+name_col: Accession
+id_columns: ['Accession', 'extracted_gn']
+
+Total rows with IDs: 205
+Resolved: 200 (97.6%)
+Unresolved: 5
+
+Resolution method breakdown:
+  locus_tag:extracted_gn: 81
+  multi:Accession: 6
+  multi:extracted_gn: 1
+  tier1:extracted_gn: 112
+  unresolved: 5
+
+Unresolved rows (5):
+  row 8: raw_id='E4PNT9'  reason=unresolved  [Accession='E4PNT9', extracted_gn='gpmI']
+  row 55: raw_id='E4PH20'  reason=unresolved  [Accession='E4PH20', extracted_gn='groS']
+  row 81: raw_id='E4PMV8'  reason=unresolved  [Accession='E4PMV8', extracted_gn='HP15_472']
+  row 96: raw_id='E4PLW6'  reason=unresolved  [Accession='E4PLW6', extracted_gn='tyrS']
+  row 164: raw_id='E4PQ63'  reason=unresolved  [Accession='E4PQ63', extracted_gn='HP15_3164']

@@ -1,0 +1,28 @@
+Resolution report: Moreno 2023 / supp_table_s4_marino_in_wh8102
+Source: table s4 Marinobacter in WH8102 cultures spectrum.03275-22-s0004_modified.csv
+name_col: Accession
+id_columns: ['Accession', 'extracted_gn']
+
+Total rows with IDs: 504
+Resolved: 493 (97.8%)
+Unresolved: 11
+
+Resolution method breakdown:
+  locus_tag:extracted_gn: 218
+  multi:Accession: 14
+  multi:extracted_gn: 3
+  tier1:extracted_gn: 258
+  unresolved: 11
+
+Unresolved rows (11):
+  row 1: raw_id='E4PH20'  reason=unresolved  [Accession='E4PH20', extracted_gn='groS']
+  row 8: raw_id='E4PNT9'  reason=unresolved  [Accession='E4PNT9', extracted_gn='gpmI']
+  row 68: raw_id='E4PPW9'  reason=unresolved  [Accession='E4PPW9', extracted_gn='rplY']
+  row 172: raw_id='E4PGF3'  reason=unresolved  [Accession='E4PGF3', extracted_gn='HP15_2300']
+  row 197: raw_id='E4PL15'  reason=unresolved  [Accession='E4PL15', extracted_gn='polA']
+  row 219: raw_id='E4PF37'  reason=unresolved  [Accession='E4PF37', extracted_gn='HP15_2153']
+  row 265: raw_id='E4PG18'  reason=unresolved  [Accession='E4PG18', extracted_gn='HP15_3518']
+  row 295: raw_id='E4PMV8'  reason=unresolved  [Accession='E4PMV8', extracted_gn='HP15_472']
+  row 301: raw_id='E4PNS1'  reason=unresolved  [Accession='E4PNS1', extracted_gn='HP15_1801']
+  row 384: raw_id='E4PQ63'  reason=unresolved  [Accession='E4PQ63', extracted_gn='HP15_3164']
+  row 480: raw_id='E4PLW6'  reason=unresolved  [Accession='E4PLW6', extracted_gn='tyrS']

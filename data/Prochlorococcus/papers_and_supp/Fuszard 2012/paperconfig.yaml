@@ -1,0 +1,143 @@
+publication:
+  papername: "Fuszard 2012"
+  # Fuszard, Wright & Biggs, 2012, Aquatic Biosystems 8:7 — DOI 10.1186/2046-9063-8-7
+  # Comparative quantitative proteomics of Prochlorococcus ecotypes (MIT9312,
+  # NATL2A, SS120) responding to decreased phosphate availability (Pi replete
+  # 50 uM vs Pi deplete 10 uM). iTRAQ 4-plex, n=3 biological replicates per
+  # condition. Significance: fold change > 1.6 (up) or < 0.6 (down); no
+  # per-protein p-values reported.
+  papermainpdf: "data/Prochlorococcus/papers_and_supp/Fuszard 2012/2046-9063-8-7.pdf"
+
+  experiments:
+    # ── MIT9312 Pi limitation proteomics ──
+    pi_limitation_mit9312_itraq:
+      name: "MIT9312 proteomics: Pi replete vs Pi deplete (iTRAQ)"
+      organism: "Prochlorococcus MIT9312"
+      treatment_condition: "Phosphate deplete (10 uM NaH2PO4)"
+      control_condition: "Phosphate replete (50 uM NaH2PO4)"
+      experimental_context: "Prochlorococcus MIT9312 grown in Pro99-based medium; iTRAQ 4-plex labeling (tags 113-115 replete, 116-118 deplete); 2D-LC MALDI-TOF/TOF MS/MS; n=3 biological replicates per condition."
+      omics_type: PROTEOMICS
+      test_type: "iTRAQ_t-test"
+      treatment_type: ["phosphorus"]
+      background_factors: ["light", "axenic"]
+      medium: "Pro99"
+      temperature: "21C (growth) / 23C (experimental)"
+      light_condition: "13:11 L:D"
+      light_intensity: "30 umol photons m-2 s-1"
+      table_scope: significant_only
+      table_scope_detail: "Only proteins reaching the paper's fold-change cutoff (>1.6 or <0.6) are reported in S1."
+
+    # ── NATL2A Pi limitation proteomics ──
+    pi_limitation_natl2a_itraq:
+      name: "NATL2A proteomics: Pi replete vs Pi deplete (iTRAQ)"
+      organism: "Prochlorococcus NATL2A"
+      treatment_condition: "Phosphate deplete (10 uM NaH2PO4)"
+      control_condition: "Phosphate replete (50 uM NaH2PO4)"
+      experimental_context: "Prochlorococcus NATL2A grown in Pro99-based medium; iTRAQ 4-plex labeling; 2D-LC MALDI-TOF/TOF MS/MS; cells harvested mid-exponential (stock cultures collapsed at OD>0.4 so harvesting was done earlier than for MIT9312/SS120); n=3 biological replicates per condition."
+      omics_type: PROTEOMICS
+      test_type: "iTRAQ_t-test"
+      treatment_type: ["phosphorus"]
+      background_factors: ["light", "axenic"]
+      medium: "Pro99"
+      temperature: "21C (growth) / 23C (experimental)"
+      light_condition: "13:11 L:D"
+      light_intensity: "20 umol photons m-2 s-1"
+      table_scope: significant_only
+      table_scope_detail: "Only proteins reaching the paper's fold-change cutoff (>1.6 or <0.6) are reported in S1."
+
+    # ── SS120 Pi limitation proteomics ──
+    pi_limitation_ss120_itraq:
+      name: "SS120 proteomics: Pi replete vs Pi deplete (iTRAQ)"
+      organism: "Prochlorococcus marinus subsp. marinus CCMP1375 (SS120)"
+      treatment_condition: "Phosphate deplete (10 uM NaH2PO4)"
+      control_condition: "Phosphate replete (50 uM NaH2PO4)"
+      experimental_context: "Prochlorococcus marinus SS120 grown in Pro99-based medium; iTRAQ 4-plex labeling; 2D-LC MALDI-TOF/TOF MS/MS; n=3 biological replicates per condition."
+      omics_type: PROTEOMICS
+      test_type: "iTRAQ_t-test"
+      treatment_type: ["phosphorus"]
+      background_factors: ["light", "axenic"]
+      medium: "Pro99"
+      temperature: "21C (growth) / 23C (experimental)"
+      light_condition: "13:11 L:D"
+      light_intensity: "10 umol photons m-2 s-1"
+      table_scope: significant_only
+      table_scope_detail: "Only proteins reaching the paper's fold-change cutoff (>1.6 or <0.6) are reported in S1."
+
+  supplementary_materials:
+    # ── MIT9312 Pi-limitation iTRAQ quantitation (strain-specific CSV) ──
+    # `_modified.csv` variant contains a precomputed log2_fold_change column
+    # derived from the `Ratio of means` column (deplete / replete) by
+    # `scripts/build_modified_csv/build_fuszard2012_modified_csv.py`. Original CSV preserved.
+    # adjusted_p_value is null because the paper does not report per-protein
+    # p-values (only fold-change cutoffs from n=3 iTRAQ replicates).
+    # logfc_threshold = log2(1.6) ≈ 0.678 — paper's weaker fold-change cutoff.
+    supp_table_s1_mit9312:
+      type: csv
+      filename: "data/Prochlorococcus/papers_and_supp/Fuszard 2012/table s1 MIT9312 Quantitation data_modified.csv"
+      organism: "Prochlorococcus MIT9312"
+      id_columns:
+        - column: "ORF"
+          id_type: old_locus_tag
+        - column: "Gene"
+          id_type: gene_name
+      product_columns:
+        - column: "Protein"
+      statistical_analyses:
+        - id: "mit9312_pi_deplete_vs_replete"
+          experiment: pi_limitation_mit9312_itraq
+          name_col: "ORF"
+          logfc_col: "log2_fold_change"
+          adjusted_p_value_col: null
+          logfc_threshold: 0.678
+          table_scope: significant_only
+          timepoint: "stationary"
+          timepoint_hours: null
+          growth_phase: stationary
+
+    # ── NATL2A Pi-limitation iTRAQ quantitation ──
+    supp_table_s1_natl2a:
+      type: csv
+      filename: "data/Prochlorococcus/papers_and_supp/Fuszard 2012/table s1 NATL2A Quantitation data_modified.csv"
+      organism: "Prochlorococcus NATL2A"
+      id_columns:
+        - column: "ORF"
+          id_type: locus_tag
+        - column: "Gene"
+          id_type: gene_name
+      product_columns:
+        - column: "Protein"
+      statistical_analyses:
+        - id: "natl2a_pi_deplete_vs_replete"
+          experiment: pi_limitation_natl2a_itraq
+          name_col: "ORF"
+          logfc_col: "log2_fold_change"
+          adjusted_p_value_col: null
+          logfc_threshold: 0.678
+          table_scope: significant_only
+          timepoint: "mid-exponential"
+          timepoint_hours: null
+          growth_phase: exponential
+
+    # ── SS120 Pi-limitation iTRAQ quantitation ──
+    supp_table_s1_ss120:
+      type: csv
+      filename: "data/Prochlorococcus/papers_and_supp/Fuszard 2012/table s1 SS120 Quantitation data_modified.csv"
+      organism: "Prochlorococcus marinus subsp. marinus CCMP1375 (SS120)"
+      id_columns:
+        - column: "ORF"
+          id_type: locus_tag
+        - column: "Gene"
+          id_type: gene_name
+      product_columns:
+        - column: "Protein"
+      statistical_analyses:
+        - id: "ss120_pi_deplete_vs_replete"
+          experiment: pi_limitation_ss120_itraq
+          name_col: "ORF"
+          logfc_col: "log2_fold_change"
+          adjusted_p_value_col: null
+          logfc_threshold: 0.678
+          table_scope: significant_only
+          timepoint: "stationary"
+          timepoint_hours: null
+          growth_phase: stationary

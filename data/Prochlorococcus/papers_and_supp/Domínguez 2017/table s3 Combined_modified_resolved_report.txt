@@ -1,0 +1,24 @@
+Resolution report: Dominguez-Martin 2017 / supp_table_s3_combined
+Source: table s3 Combined_modified.csv
+name_col: Accession
+id_columns: ['extracted_gn', 'Accession']
+
+Total rows with IDs: 408
+Resolved: 402 (98.5%)
+Unresolved: 6
+
+Resolution method breakdown:
+  ambiguous: 1
+  multi:extracted_gn: 14
+  tier1:extracted_gn: 388
+  unresolved: 5
+
+Unresolved rows (6):
+  row 27: raw_id='1::CCMK_PROMA'  reason=unresolved  [extracted_gn='ccmK', Accession='1::CCMK_PROMA']
+  row 174: raw_id='1::ISPH_PROMA'  reason=unresolved  [extracted_gn='ispH', Accession='1::ISPH_PROMA']
+  row 196: raw_id='1::THF1_PROMA'  reason=unresolved  [extracted_gn='thf1', Accession='1::THF1_PROMA']
+  row 243: raw_id='1::DNAK2_PROMA'  reason=ambiguous  [extracted_gn='dnaK2', Accession='1::DNAK2_PROMA']
+  row 264: raw_id='1::KPRS_PROMA'  reason=unresolved  [extracted_gn='prs', Accession='1::KPRS_PROMA']
+  row 364: raw_id='1::NADK1_PROMA'  reason=unresolved  [extracted_gn='nadK1', Accession='1::NADK1_PROMA']
+
+NOTE: 1 rows were ambiguous (multi_lookup had >1 match). Consider adding id_columns with more specific IDs, or check if the name_col should be Tier 2 (protein-level) instead of Tier 1.

@@ -1,0 +1,35 @@
+Resolution report: Moreno 2023 / supp_table_s3_alt_in_wh8102
+Source: table s3 Alteromonas in WH8102 cultures spectrum.03275-22-s0003_modified.csv
+name_col: locus_tag_deh24
+id_columns: ['Accession', 'locus_tag_deh24']
+
+Total rows with IDs: 78
+Resolved: 0 (0.0%)
+Unresolved: 78
+
+Resolution method breakdown:
+  empty: 110
+  unresolved: 78
+
+Unresolved rows (78):
+  row 0: raw_id='DEH24_16585'  reason=unresolved  [Accession='A0A359K844', locus_tag_deh24='DEH24_16585']
+  row 2: raw_id='DEH24_16780'  reason=unresolved  [Accession='A0A359K8N9', locus_tag_deh24='DEH24_16780']
+  row 7: raw_id='DEH24_07875'  reason=unresolved  [Accession='A0A359K3H7', locus_tag_deh24='DEH24_07875']
+  row 19: raw_id='DEH24_14150'  reason=unresolved  [Accession='A0A359K6Q3', locus_tag_deh24='DEH24_14150']
+  row 31: raw_id='DEH24_21380'  reason=unresolved  [Accession='A0A359KD18', locus_tag_deh24='DEH24_21380']
+  row 32: raw_id='DEH24_21385'  reason=unresolved  [Accession='A0A359KAW1', locus_tag_deh24='DEH24_21385']
+  row 37: raw_id='DEH24_02300'  reason=unresolved  [Accession='A0A359K020', locus_tag_deh24='DEH24_02300']
+  row 38: raw_id='DEH24_15900'  reason=unresolved  [Accession='A0A359K825', locus_tag_deh24='DEH24_15900']
+  row 40: raw_id='DEH24_01790'  reason=unresolved  [Accession='A0A359JZV2', locus_tag_deh24='DEH24_01790']
+  row 43: raw_id='DEH24_18290'  reason=unresolved  [Accession='A0A359K919', locus_tag_deh24='DEH24_18290']
+  row 44: raw_id='DEH24_01620'  reason=unresolved  [Accession='A0A359K159', locus_tag_deh24='DEH24_01620']
+  row 45: raw_id='DEH24_19170'  reason=unresolved  [Accession='A0A359KBT9', locus_tag_deh24='DEH24_19170']
+  row 46: raw_id='DEH24_16445'  reason=unresolved  [Accession='A0A359K7Z8', locus_tag_deh24='DEH24_16445']
+  row 49: raw_id='DEH24_17990'  reason=unresolved  [Accession='A0A359K8V6', locus_tag_deh24='DEH24_17990']
+  row 50: raw_id='DEH24_08800'  reason=unresolved  [Accession='A0A359K499', locus_tag_deh24='DEH24_08800']
+  row 51: raw_id='DEH24_04320'  reason=unresolved  [Accession='A0A359K1H2', locus_tag_deh24='DEH24_04320']
+  row 54: raw_id='DEH24_02480'  reason=unresolved  [Accession='A0A359K068', locus_tag_deh24='DEH24_02480']
+  row 57: raw_id='DEH24_11560'  reason=unresolved  [Accession='A0A359K7E3', locus_tag_deh24='DEH24_11560']
+  row 58: raw_id='DEH24_01275'  reason=unresolved  [Accession='A0A359K1I4', locus_tag_deh24='DEH24_01275']
+  row 59: raw_id='DEH24_06550'  reason=unresolved  [Accession='A0A359K2G9', locus_tag_deh24='DEH24_06550']
+  ... (58 more)

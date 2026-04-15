@@ -1,0 +1,71 @@
+publication:
+  papername: "Dominguez-Martin 2017"
+  # Domínguez-Martín et al. 2017, mSystems 2:e00008-17 — DOI 10.1128/mSystems.00008-17
+  # Quantitative proteomics shows extensive remodeling induced by nitrogen
+  # limitation in Prochlorococcus marinus SS120. Control vs azaserine (10 uM)
+  # — azaserine inhibits ferredoxin-GOGAT, simulating acute N limitation.
+  papermainpdf: "data/Prochlorococcus/papers_and_supp/Domínguez 2017/domínguez-martín-et-al-2017-quantitative-proteomics-shows-extensive-remodeling-induced-by-nitrogen-limitation-in.pdf"
+
+  experiments:
+    # ── SS120 control vs azaserine proteomics (1 comparison) ──
+    azaserine_ss120_proteomics:
+      name: "SS120 proteomics: control vs azaserine (N-limitation proxy)"
+      organism: "Prochlorococcus marinus subsp. marinus CCMP1375 (SS120)"
+      treatment_condition: "Azaserine 10 uM (ferredoxin-GOGAT inhibitor, proxy for N-limitation)"
+      control_condition: "Untreated control"
+      experimental_context: "Prochlorococcus marinus SS120 grown in PCR-S11 medium under continuous light (25 umol photons m-2 s-1), 24C; cells harvested 24 h after azaserine addition. LC-MS/MS Progenesis label-free quantitation; n=3 biological replicates per condition."
+      omics_type: PROTEOMICS
+      test_type: "ANOVA"
+      treatment_type: ["nitrogen"]
+      background_factors: ["light", "axenic"]
+      medium: "PCR-S11"
+      temperature: "24C"
+      light_condition: "continuous light"
+      light_intensity: "25 umol photons m-2 s-1"
+      table_scope: significant_only
+      table_scope_detail: "Only significantly-changing proteins reported in S3 (up + down)."
+
+  supplementary_materials:
+    # ── Merged S3 up + S3 down into a single combined CSV ──
+    # Original split S3 tables (up / down) are preserved on disk untouched.
+    # `table s3 Combined_modified.csv` is produced by
+    # `scripts/build_modified_csv/build_dominguez2017_modified_csv.py` and contains a signed
+    # `log2_fold_change` computed from `Max fold change` with sign derived from
+    # `Highest mean condition`: negative if Control is the higher condition
+    # (i.e. down in azaserine vs control), positive otherwise.
+    #
+    # Gene-ID resolution path: the Description column is free text (e.g.
+    # "ATP synthase subunit beta OS=Prochlorococcus ... GN=atpB PE=3 SV=1").
+    # The SS120 locus tag (or gene symbol) lives inside the `GN=` field; the
+    # `extracted_gn` column is added by
+    # `scripts/build_modified_csv/build_dominguez2017_modified_csv.py` via a
+    # regex capture `GN=(\S+)` so we have a clean single-token id column.
+    # Declaring the whole `Description` sentence as `id_type: locus_tag` used
+    # to pollute SS120's `specific_lookup` with thousands of tokenised words
+    # (>2K alt_ids mapping to `Pro1395` alone), collapsing ~400 Dominguez
+    # edges to 1 after dedup. `extracted_gn` is declared as `gene_name`
+    # (Tier 3 multi_lookup) because values are a mix of locus tags
+    # (`Pro_1040`) and gene symbols (`atpB`). `Accession` provides a fallback
+    # via UniProt entry names like `Q7VDF9_PROMA`.
+    supp_table_s3_combined:
+      type: csv
+      filename: "data/Prochlorococcus/papers_and_supp/Domínguez 2017/table s3 Combined_modified.csv"
+      organism: "Prochlorococcus marinus subsp. marinus CCMP1375 (SS120)"
+      id_columns:
+        - column: "extracted_gn"
+          id_type: gene_name
+        - column: "Accession"
+          id_type: uniprot_entry_name
+      product_columns:
+        - column: "Description"
+      statistical_analyses:
+        - id: "ss120_azaserine_vs_control"
+          experiment: azaserine_ss120_proteomics
+          name_col: "Accession"
+          logfc_col: "log2_fold_change"
+          adjusted_p_value_col: "Anova (p)"
+          pvalue_threshold: 0.05
+          table_scope: significant_only
+          timepoint: "24h"
+          timepoint_hours: 24
+          growth_phase: acute_stress

@@ -1,0 +1,54 @@
+{
+  "per_id_type": {
+    "cds_fna_id": {
+      "conflict": 0,
+      "multi": 0,
+      "unique": 2423
+    },
+    "gene_name": {
+      "conflict": 0,
+      "multi": 113,
+      "unique": 1213
+    },
+    "gene_synonym": {
+      "conflict": 0,
+      "multi": 29,
+      "unique": 4384
+    },
+    "gff_gene_id": {
+      "conflict": 0,
+      "multi": 0,
+      "unique": 4901
+    },
+    "locus_tag_cyanorak": {
+      "conflict": 0,
+      "multi": 0,
+      "unique": 2506
+    },
+    "locus_tag_ncbi": {
+      "conflict": 20,
+      "multi": 0,
+      "unique": 7755
+    },
+    "old_locus_tag": {
+      "conflict": 0,
+      "multi": 0,
+      "unique": 33
+    },
+    "protein_id_refseq": {
+      "conflict": 0,
+      "multi": 6,
+      "unique": 4895
+    }
+  },
+  "strain": "BL107",
+  "unresolved_rows_per_source": {
+    "Moreno 2023/supp_table_s2_bl107": 173,
+    "cds_from_genomic.fna": 11,
+    "genomic_gca/BL107": 104,
+    "genomic_gcf/BL107": 58
+  },
+  "warnings": [
+    "[CONFLICT] Tier 1 id_type 'locus_tag_ncbi' has 20 data conflicts \u2014 check annotation quality."
+  ]
+}

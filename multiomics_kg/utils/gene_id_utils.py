@@ -60,6 +60,16 @@ ORGANISM_TO_GENOME_DIR = {
     "pseudomonas putida kt2440": "cache/data/Pseudomonas/genomes/KT2440",
     "ruegeria pomeroyi dss-3": "cache/data/Ruegeria/genomes/DSS-3",
     "meiothermus ruber": "cache/data/Meiothermus/genomes/MruberA",
+    # CSV-ready papers batch (April 2026): Dominguez 2017, Fuszard 2012, Moreno 2023
+    "prochlorococcus marinus subsp. marinus ccmp1375 (ss120)": "cache/data/Prochlorococcus/genomes/SS120",
+    "prochlorococcus marinus ss120": "cache/data/Prochlorococcus/genomes/SS120",
+    "prochlorococcus ss120": "cache/data/Prochlorococcus/genomes/SS120",
+    "synechococcus sp. bl107": "cache/data/Synechococcus/genomes/BL107",
+    "synechococcus bl107": "cache/data/Synechococcus/genomes/BL107",
+    "marinobacter adhaerens dsm 23420 / hp15": "cache/data/Marinobacter/genomes/HP15",
+    "marinobacter adhaerens hp15": "cache/data/Marinobacter/genomes/HP15",
+    "marinobacter hp15": "cache/data/Marinobacter/genomes/HP15",
+    "alteromonas mediterranea de": "cache/data/Alteromonas/genomes/AltMedDE",
 }
 
 # ─── Patterns & keywords ──────────────────────────────────────────────────────
