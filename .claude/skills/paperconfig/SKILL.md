@@ -381,6 +381,68 @@ med4_kmeans_nstarvation:
 | `annotation_specific` | ID unique within a non-standard annotation system | |
 | `other` | Any other identifier type | |
 
+#### Anti-patterns — do NOT declare free-text columns as `locus_tag`
+
+**Never** declare a free-text column (product descriptions, UniProt OS strings, narrative text) with `id_type: locus_tag`. The `build_gene_id_mapping` builder tokenizes every value in the column and registers each token as an alt_id in the strain's `specific_lookup`. A single paper can pollute the strain's `gene_id_mapping.json` with thousands of junk alt_ids — every subsequent row match collapses to the one anchor gene the builder happened to pick up first.
+
+Symptoms seen in practice (Domínguez 2017 + Moreno 2023 S2 BL107 + Moreno 2023 S4 Marinobacter, 2026-04-15):
+- Paperconfig ends up with a handful of `Changes_expression_of` edges instead of hundreds
+- `specific_lookup.values()` has one anchor locus_tag with thousands of alt_ids (e.g. 2,148 keys all mapping to `Pro1395` in SS120)
+- The junk keys include whole sentences, punctuation (`'/'`), and individual words (`'1'`, `'10'`)
+
+Detection:
+
+```bash
+# any paperconfig that declares a likely-free-text column as locus_tag:
+grep -A1 -E 'column: "(Description|description|product|Product|Name|name|Protein|Gene Name)"' \
+    data/*/papers_and_supp/*/paperconfig.yaml | grep 'id_type: locus_tag'
+
+# pollution in an existing gene_id_mapping:
+python3 -c "
+import json, collections
+m = json.load(open('cache/data/<Organism>/genomes/<Strain>/gene_id_mapping.json'))
+print(collections.Counter(m['specific_lookup'].values()).most_common(3))"
+# healthy: top-3 anchors have <~20 alt_ids each; polluted: one anchor has thousands
+```
+
+The `scripts/validate_paperconfig.py` validator warns when any of the known free-text column names is declared `id_type: locus_tag` (but the warning is advisory — it won't prevent a broken config from validating).
+
+Correct pattern — extract the locus tag into a clean column via the `_modified.csv` builder:
+
+```python
+# scripts/build_modified_csv/build_<paper>_modified_csv.py
+import re
+GN_RE = re.compile(r"GN=(\S+)")
+df["extracted_gn"] = df["Description"].fillna("").map(
+    lambda s: (m := GN_RE.search(s)) and m.group(1) or ""
+)
+df.to_csv(src.with_name(src.stem + "_modified.csv"), index=False)
+```
+
+```yaml
+# paperconfig points at _modified.csv, uses the extracted column
+supp_table_1:
+  type: csv
+  filename: "...table s3 Combined_modified.csv"
+  organism: "..."
+  id_columns:
+    - column: "extracted_gn"
+      id_type: gene_name       # Tier 3 — safe for mixed locus tag / gene symbol content
+    - column: "Accession"
+      id_type: uniprot_entry_name
+  product_columns:
+    - column: "Description"    # narrative-only; product_columns don't feed build_gene_id_mapping
+  statistical_analyses:
+    - id: "..."
+      name_col: "Accession"    # NOT "Description"
+      logfc_col: "log2_fold_change"
+      ...
+```
+
+**When the extracted column has mixed content** (locus tags like `Pro_1040` plus gene symbols like `atpB`), declare it `id_type: gene_name` (Tier 3 multi_lookup, only used when a value singleton-resolves). Use `id_type: locus_tag` only when every value in the column is a real locus tag.
+
+See `scripts/build_modified_csv/README.md` for the builder convention and `docs/community_proteomics_marref_saga.md` for the historical context that surfaced this anti-pattern.
+
 ### 4. Statistical Analysis Fields
 
 Each analysis entry describes one **per-timepoint** differential expression comparison within an experiment. Experiment-level metadata (organism, omics_type, test_type, conditions, etc.) is defined in the `experiments` block; analyses reference an experiment and add only per-timepoint details.
