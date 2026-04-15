@@ -371,7 +371,7 @@ publication:
       experimental_context: "Marinobacter adhaerens HP15 subpopulation in non-axenic MED4 culture (Pro99 medium); LC-MS/MS proteomics of the Marinobacter fraction; n=3."
       omics_type: PROTEOMICS
       test_type: "t-test"
-      treatment_type: ["carbon"]
+      treatment_type: ["carbon", "coculture"]
       background_factors: ["coculture", "light"]
       medium: "Pro99"
       temperature: "24C"
@@ -389,7 +389,7 @@ publication:
       experimental_context: "Marinobacter fraction of non-axenic MED4 in Pro99, continuous light, 5 mM glucose; n=3."
       omics_type: PROTEOMICS
       test_type: "t-test"
-      treatment_type: ["carbon"]
+      treatment_type: ["carbon", "coculture"]
       background_factors: ["coculture", "light"]
       medium: "Pro99"
       temperature: "24C"
@@ -407,7 +407,7 @@ publication:
       experimental_context: "Marinobacter fraction of non-axenic MED4 in Pro99, continuous darkness, 100 nM glucose; n=3."
       omics_type: PROTEOMICS
       test_type: "t-test"
-      treatment_type: ["carbon"]
+      treatment_type: ["carbon", "coculture"]
       background_factors: ["coculture", "darkness"]
       medium: "Pro99"
       temperature: "24C"
@@ -425,7 +425,7 @@ publication:
       experimental_context: "Marinobacter fraction of non-axenic MED4 in Pro99, continuous darkness, 5 mM glucose; n=3."
       omics_type: PROTEOMICS
       test_type: "t-test"
-      treatment_type: ["carbon"]
+      treatment_type: ["carbon", "coculture"]
       background_factors: ["coculture", "darkness"]
       medium: "Pro99"
       temperature: "24C"
@@ -449,7 +449,7 @@ publication:
       experimental_context: "Marinobacter fraction of non-axenic SS120 in Pro99, continuous light, 100 nM glucose; n=3."
       omics_type: PROTEOMICS
       test_type: "t-test"
-      treatment_type: ["carbon"]
+      treatment_type: ["carbon", "coculture"]
       background_factors: ["coculture", "light"]
       medium: "Pro99"
       temperature: "24C"
@@ -467,7 +467,7 @@ publication:
       experimental_context: "Marinobacter fraction of non-axenic SS120 in Pro99, continuous light, 5 mM glucose; n=3."
       omics_type: PROTEOMICS
       test_type: "t-test"
-      treatment_type: ["carbon"]
+      treatment_type: ["carbon", "coculture"]
       background_factors: ["coculture", "light"]
       medium: "Pro99"
       temperature: "24C"
@@ -485,7 +485,7 @@ publication:
       experimental_context: "Marinobacter fraction of non-axenic SS120 in Pro99, continuous darkness, 100 nM glucose; n=3."
       omics_type: PROTEOMICS
       test_type: "t-test"
-      treatment_type: ["carbon"]
+      treatment_type: ["carbon", "coculture"]
       background_factors: ["coculture", "darkness"]
       medium: "Pro99"
       temperature: "24C"
@@ -503,7 +503,7 @@ publication:
       experimental_context: "Marinobacter fraction of non-axenic SS120 in Pro99, continuous darkness, 5 mM glucose; n=3."
       omics_type: PROTEOMICS
       test_type: "t-test"
-      treatment_type: ["carbon"]
+      treatment_type: ["carbon", "coculture"]
       background_factors: ["coculture", "darkness"]
       medium: "Pro99"
       temperature: "24C"
@@ -523,7 +523,7 @@ publication:
       experimental_context: "Marinobacter fraction of non-axenic WH7803 in SN, continuous light, 100 nM glucose; n=3."
       omics_type: PROTEOMICS
       test_type: "t-test"
-      treatment_type: ["carbon"]
+      treatment_type: ["carbon", "coculture"]
       background_factors: ["coculture", "light"]
       medium: "SN"
       temperature: "24C"
@@ -541,7 +541,7 @@ publication:
       experimental_context: "Marinobacter fraction of non-axenic WH7803 in SN, continuous light, 5 mM glucose; n=3."
       omics_type: PROTEOMICS
       test_type: "t-test"
-      treatment_type: ["carbon"]
+      treatment_type: ["carbon", "coculture"]
       background_factors: ["coculture", "light"]
       medium: "SN"
       temperature: "24C"
@@ -559,7 +559,7 @@ publication:
       experimental_context: "Marinobacter fraction of non-axenic WH7803 in SN, continuous darkness, 100 nM glucose; n=3."
       omics_type: PROTEOMICS
       test_type: "t-test"
-      treatment_type: ["carbon"]
+      treatment_type: ["carbon", "coculture"]
       background_factors: ["coculture", "darkness"]
       medium: "SN"
       temperature: "24C"
@@ -577,7 +577,7 @@ publication:
       experimental_context: "Marinobacter fraction of non-axenic WH7803 in SN, continuous darkness, 5 mM glucose; n=3."
       omics_type: PROTEOMICS
       test_type: "t-test"
-      treatment_type: ["carbon"]
+      treatment_type: ["carbon", "coculture"]
       background_factors: ["coculture", "darkness"]
       medium: "SN"
       temperature: "24C"
@@ -597,7 +597,7 @@ publication:
       experimental_context: "Marinobacter fraction of non-axenic WH8102 in SN, continuous light, 100 nM glucose; n=3."
       omics_type: PROTEOMICS
       test_type: "t-test"
-      treatment_type: ["carbon"]
+      treatment_type: ["carbon", "coculture"]
       background_factors: ["coculture", "light"]
       medium: "SN"
       temperature: "24C"
@@ -615,7 +615,7 @@ publication:
       experimental_context: "Marinobacter fraction of non-axenic WH8102 in SN, continuous light, 5 mM glucose; n=3."
       omics_type: PROTEOMICS
       test_type: "t-test"
-      treatment_type: ["carbon"]
+      treatment_type: ["carbon", "coculture"]
       background_factors: ["coculture", "light"]
       medium: "SN"
       temperature: "24C"
@@ -633,7 +633,7 @@ publication:
       experimental_context: "Marinobacter fraction of non-axenic WH8102 in SN, continuous darkness, 100 nM glucose; n=3."
       omics_type: PROTEOMICS
       test_type: "t-test"
-      treatment_type: ["carbon"]
+      treatment_type: ["carbon", "coculture"]
       background_factors: ["coculture", "darkness"]
       medium: "SN"
       temperature: "24C"
@@ -651,7 +651,7 @@ publication:
       experimental_context: "Marinobacter fraction of non-axenic WH8102 in SN, continuous darkness, 5 mM glucose; n=3."
       omics_type: PROTEOMICS
       test_type: "t-test"
-      treatment_type: ["carbon"]
+      treatment_type: ["carbon", "coculture"]
       background_factors: ["coculture", "darkness"]
       medium: "SN"
       temperature: "24C"
@@ -671,7 +671,7 @@ publication:
       experimental_context: "Marinobacter fraction of non-axenic BL107 in SN, continuous light, 100 nM glucose; n=3."
       omics_type: PROTEOMICS
       test_type: "t-test"
-      treatment_type: ["carbon"]
+      treatment_type: ["carbon", "coculture"]
       background_factors: ["coculture", "light"]
       medium: "SN"
       temperature: "24C"
@@ -689,7 +689,7 @@ publication:
       experimental_context: "Marinobacter fraction of non-axenic BL107 in SN, continuous light, 5 mM glucose; n=3."
       omics_type: PROTEOMICS
       test_type: "t-test"
-      treatment_type: ["carbon"]
+      treatment_type: ["carbon", "coculture"]
       background_factors: ["coculture", "light"]
       medium: "SN"
       temperature: "24C"
@@ -707,7 +707,7 @@ publication:
       experimental_context: "Marinobacter fraction of non-axenic BL107 in SN, continuous darkness, 100 nM glucose; n=3."
       omics_type: PROTEOMICS
       test_type: "t-test"
-      treatment_type: ["carbon"]
+      treatment_type: ["carbon", "coculture"]
       background_factors: ["coculture", "darkness"]
       medium: "SN"
       temperature: "24C"
@@ -725,7 +725,7 @@ publication:
       experimental_context: "Marinobacter fraction of non-axenic BL107 in SN, continuous darkness, 5 mM glucose; n=3."
       omics_type: PROTEOMICS
       test_type: "t-test"
-      treatment_type: ["carbon"]
+      treatment_type: ["carbon", "coculture"]
       background_factors: ["coculture", "darkness"]
       medium: "SN"
       temperature: "24C"

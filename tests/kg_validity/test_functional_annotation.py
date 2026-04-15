@@ -333,7 +333,7 @@ def test_kegg_nodes_have_level(run_query):
 def test_kegg_pathway_names_not_empty(run_query):
     """Pathway-level KeggTerm nodes must have non-empty names."""
     result = run_query(
-        "MATCH (n:KeggTerm {level: 'pathway'}) WHERE n.name = '' RETURN count(n) AS empty"
+        "MATCH (n:KeggTerm {level_kind: 'pathway'}) WHERE n.name = '' RETURN count(n) AS empty"
     )
     empty = result[0]["empty"]
     assert empty == 0, f"{empty} pathway nodes have empty name"
@@ -444,7 +444,7 @@ def test_kegg_ko_pathway_coverage(run_query):
     Unmapped KOs exist in KEGG (e.g., hypothetical proteins) and are expected.
     """
     result = run_query("""
-        MATCH (ko:KeggTerm {level: 'ko'})
+        MATCH (ko:KeggTerm {level_kind: 'ko'})
         WITH count(ko) AS total,
              count(CASE WHEN exists((ko)-[:Kegg_term_is_a_kegg_term]->()) THEN 1 END) AS linked
         RETURN total, linked

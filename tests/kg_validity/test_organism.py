@@ -47,10 +47,19 @@ def test_no_non_bacterial_organisms(run_query):
 
 
 def test_organism_count(run_query):
-    """28 OrganismTaxon nodes: 23 genome strains + 5 treatment organisms."""
+    """32 OrganismTaxon nodes: 27 genome strains + 5 treatment organisms.
+
+    Genome strains (27): 9 Pro (MED4, AS9601, MIT9301, MIT9312, MIT9313,
+    MIT9303, NATL1A, NATL2A, RSP50, SS120), 6 Syn (CC9311, WH7803, WH8102,
+    BL107, PCC7002, PCC7942, UTEX2973), 1 Thermosynechococcus (BP1),
+    4 Alteromonas (MIT1002, EZ55, HOT1A3, AltMedDE), 4 heterotrophs
+    (W3-18-1, KT2440, DSS-3, MruberA), 1 Marinobacter (HP15).
+    Treatment organisms (5): Phage, Alteromonas (genus), Vibrio
+    parahaemolyticus, Meiothermus ruber, E. coli.
+    """
     result = run_query("MATCH (o:OrganismTaxon) RETURN count(o) AS cnt")
-    assert result[0]["cnt"] == 28, (
-        f"Expected 28 OrganismTaxon nodes, got {result[0]['cnt']}"
+    assert result[0]["cnt"] == 32, (
+        f"Expected 32 OrganismTaxon nodes, got {result[0]['cnt']}"
     )
 
 
@@ -59,16 +68,22 @@ def test_organism_count(run_query):
 # ---------------------------------------------------------------------------
 
 def test_alteromonas_strains_have_species(run_query):
-    """All Alteromonas strain-level nodes must have species = 'Alteromonas macleodii'."""
+    """All Alteromonas strain-level nodes must have a species property.
+
+    Three strains (MIT1002, EZ55, HOT1A3) are A. macleodii; AltMedDE is
+    A. mediterranea. Both species values are acceptable — the test just
+    asserts a non-null Alteromonas species is populated for every strain.
+    """
     result = run_query("""
         MATCH (o:OrganismTaxon)
         WHERE o.genus = 'Alteromonas' AND o.strain_name IS NOT NULL
         RETURN o.preferred_name AS name, o.species AS species
     """)
-    assert len(result) == 3, f"Expected 3 Alteromonas strains, got {len(result)}"
+    assert len(result) == 4, f"Expected 4 Alteromonas strains, got {len(result)}"
+    VALID_SPECIES = {"Alteromonas macleodii", "Alteromonas mediterranea"}
     for r in result:
-        assert r["species"] == "Alteromonas macleodii", (
-            f"{r['name']} has species={r['species']!r}, expected 'Alteromonas macleodii'"
+        assert r["species"] in VALID_SPECIES, (
+            f"{r['name']} has species={r['species']!r}, expected one of {VALID_SPECIES}"
         )
 
 
