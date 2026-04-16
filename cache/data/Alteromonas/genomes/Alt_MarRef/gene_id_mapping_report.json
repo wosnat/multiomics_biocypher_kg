@@ -1,0 +1,52 @@
+{
+  "per_id_type": {
+    "cds_fna_id": {
+      "conflict": 0,
+      "multi": 0,
+      "unique": 4305
+    },
+    "gene_name": {
+      "conflict": 0,
+      "multi": 94,
+      "unique": 320
+    },
+    "gene_synonym": {
+      "conflict": 0,
+      "multi": 3,
+      "unique": 3898
+    },
+    "gff_gene_id": {
+      "conflict": 0,
+      "multi": 0,
+      "unique": 4305
+    },
+    "locus_tag_ncbi": {
+      "conflict": 41,
+      "multi": 0,
+      "unique": 4625
+    },
+    "protein_id_refseq": {
+      "conflict": 0,
+      "multi": 0,
+      "unique": 4305
+    },
+    "uniprot_accession": {
+      "conflict": 0,
+      "multi": 0,
+      "unique": 88
+    }
+  },
+  "strain": "Alt_MarRef",
+  "unresolved_rows_per_source": {
+    "Moreno 2023/supp_table_s3_alt_in_bl107": 30,
+    "Moreno 2023/supp_table_s3_alt_in_med4": 30,
+    "Moreno 2023/supp_table_s3_alt_in_ss120": 80,
+    "Moreno 2023/supp_table_s3_alt_in_wh7803": 11,
+    "Moreno 2023/supp_table_s3_alt_in_wh8102": 110,
+    "cds_from_genomic.fna": 23,
+    "genomic_gcf/Alt_MarRef": 25
+  },
+  "warnings": [
+    "[CONFLICT] Tier 1 id_type 'locus_tag_ncbi' has 41 data conflicts \u2014 check annotation quality."
+  ]
+}
