@@ -365,7 +365,8 @@ publication:
     # ── Marino in MED4 ──
     light_low_glucose_marino_in_med4_proteomics:
       name: "Marinobacter in MED4 coculture: light +100 nM glucose vs light (control)"
-      organism: "Marinobacter adhaerens DSM 23420 / HP15"
+      organism: "Marinobacter (MarRef v6)"
+      assembly_accession: "GCF_000166295.1"
       treatment_condition: "Light + 100 nM glucose addition"
       control_condition: "Light (no glucose)"
       experimental_context: "Marinobacter adhaerens HP15 subpopulation in non-axenic MED4 culture (Pro99 medium); LC-MS/MS proteomics of the Marinobacter fraction; n=3."
@@ -383,7 +384,8 @@ publication:
       table_scope: all_detected_genes
     light_high_glucose_marino_in_med4_proteomics:
       name: "Marinobacter in MED4 coculture: light +5 mM glucose vs light (control)"
-      organism: "Marinobacter adhaerens DSM 23420 / HP15"
+      organism: "Marinobacter (MarRef v6)"
+      assembly_accession: "GCF_000166295.1"
       treatment_condition: "Light + 5 mM glucose addition"
       control_condition: "Light (no glucose)"
       experimental_context: "Marinobacter fraction of non-axenic MED4 in Pro99, continuous light, 5 mM glucose; n=3."
@@ -401,7 +403,8 @@ publication:
       table_scope: all_detected_genes
     dark_low_glucose_marino_in_med4_proteomics:
       name: "Marinobacter in MED4 coculture: darkness +100 nM glucose vs darkness (control)"
-      organism: "Marinobacter adhaerens DSM 23420 / HP15"
+      organism: "Marinobacter (MarRef v6)"
+      assembly_accession: "GCF_000166295.1"
       treatment_condition: "Darkness + 100 nM glucose addition"
       control_condition: "Darkness (no glucose)"
       experimental_context: "Marinobacter fraction of non-axenic MED4 in Pro99, continuous darkness, 100 nM glucose; n=3."
@@ -419,7 +422,8 @@ publication:
       table_scope: all_detected_genes
     dark_high_glucose_marino_in_med4_proteomics:
       name: "Marinobacter in MED4 coculture: darkness +5 mM glucose vs darkness (control)"
-      organism: "Marinobacter adhaerens DSM 23420 / HP15"
+      organism: "Marinobacter (MarRef v6)"
+      assembly_accession: "GCF_000166295.1"
       treatment_condition: "Darkness + 5 mM glucose addition"
       control_condition: "Darkness (no glucose)"
       experimental_context: "Marinobacter fraction of non-axenic MED4 in Pro99, continuous darkness, 5 mM glucose; n=3."
@@ -443,7 +447,8 @@ publication:
     # _modified.csv, so all 4 light/dark × glucose comparisons are present.
     light_low_glucose_marino_in_ss120_proteomics:
       name: "Marinobacter in SS120 coculture: light +100 nM glucose vs light (control)"
-      organism: "Marinobacter adhaerens DSM 23420 / HP15"
+      organism: "Marinobacter (MarRef v6)"
+      assembly_accession: "GCF_000166295.1"
       treatment_condition: "Light + 100 nM glucose addition"
       control_condition: "Light (no glucose)"
       experimental_context: "Marinobacter fraction of non-axenic SS120 in Pro99, continuous light, 100 nM glucose; n=3."
@@ -461,7 +466,8 @@ publication:
       table_scope: all_detected_genes
     light_high_glucose_marino_in_ss120_proteomics:
       name: "Marinobacter in SS120 coculture: light +5 mM glucose vs light (control)"
-      organism: "Marinobacter adhaerens DSM 23420 / HP15"
+      organism: "Marinobacter (MarRef v6)"
+      assembly_accession: "GCF_000166295.1"
       treatment_condition: "Light + 5 mM glucose addition"
       control_condition: "Light (no glucose)"
       experimental_context: "Marinobacter fraction of non-axenic SS120 in Pro99, continuous light, 5 mM glucose; n=3."
@@ -479,7 +485,8 @@ publication:
       table_scope: all_detected_genes
     dark_low_glucose_marino_in_ss120_proteomics:
       name: "Marinobacter in SS120 coculture: darkness +100 nM glucose vs darkness (control)"
-      organism: "Marinobacter adhaerens DSM 23420 / HP15"
+      organism: "Marinobacter (MarRef v6)"
+      assembly_accession: "GCF_000166295.1"
       treatment_condition: "Darkness + 100 nM glucose addition"
       control_condition: "Darkness (no glucose)"
       experimental_context: "Marinobacter fraction of non-axenic SS120 in Pro99, continuous darkness, 100 nM glucose; n=3."
@@ -497,7 +504,8 @@ publication:
       table_scope: all_detected_genes
     dark_high_glucose_marino_in_ss120_proteomics:
       name: "Marinobacter in SS120 coculture: darkness +5 mM glucose vs darkness (control)"
-      organism: "Marinobacter adhaerens DSM 23420 / HP15"
+      organism: "Marinobacter (MarRef v6)"
+      assembly_accession: "GCF_000166295.1"
       treatment_condition: "Darkness + 5 mM glucose addition"
       control_condition: "Darkness (no glucose)"
       experimental_context: "Marinobacter fraction of non-axenic SS120 in Pro99, continuous darkness, 5 mM glucose; n=3."
@@ -517,7 +525,8 @@ publication:
     # ── Marino in WH7803 ──
     light_low_glucose_marino_in_wh7803_proteomics:
       name: "Marinobacter in WH7803 coculture: light +100 nM glucose vs light (control)"
-      organism: "Marinobacter adhaerens DSM 23420 / HP15"
+      organism: "Marinobacter (MarRef v6)"
+      assembly_accession: "GCF_000166295.1"
       treatment_condition: "Light + 100 nM glucose addition"
       control_condition: "Light (no glucose)"
       experimental_context: "Marinobacter fraction of non-axenic WH7803 in SN, continuous light, 100 nM glucose; n=3."
@@ -535,7 +544,8 @@ publication:
       table_scope: all_detected_genes
     light_high_glucose_marino_in_wh7803_proteomics:
       name: "Marinobacter in WH7803 coculture: light +5 mM glucose vs light (control)"
-      organism: "Marinobacter adhaerens DSM 23420 / HP15"
+      organism: "Marinobacter (MarRef v6)"
+      assembly_accession: "GCF_000166295.1"
       treatment_condition: "Light + 5 mM glucose addition"
       control_condition: "Light (no glucose)"
       experimental_context: "Marinobacter fraction of non-axenic WH7803 in SN, continuous light, 5 mM glucose; n=3."
@@ -553,7 +563,8 @@ publication:
       table_scope: all_detected_genes
     dark_low_glucose_marino_in_wh7803_proteomics:
       name: "Marinobacter in WH7803 coculture: darkness +100 nM glucose vs darkness (control)"
-      organism: "Marinobacter adhaerens DSM 23420 / HP15"
+      organism: "Marinobacter (MarRef v6)"
+      assembly_accession: "GCF_000166295.1"
       treatment_condition: "Darkness + 100 nM glucose addition"
       control_condition: "Darkness (no glucose)"
       experimental_context: "Marinobacter fraction of non-axenic WH7803 in SN, continuous darkness, 100 nM glucose; n=3."
@@ -571,7 +582,8 @@ publication:
       table_scope: all_detected_genes
     dark_high_glucose_marino_in_wh7803_proteomics:
       name: "Marinobacter in WH7803 coculture: darkness +5 mM glucose vs darkness (control)"
-      organism: "Marinobacter adhaerens DSM 23420 / HP15"
+      organism: "Marinobacter (MarRef v6)"
+      assembly_accession: "GCF_000166295.1"
       treatment_condition: "Darkness + 5 mM glucose addition"
       control_condition: "Darkness (no glucose)"
       experimental_context: "Marinobacter fraction of non-axenic WH7803 in SN, continuous darkness, 5 mM glucose; n=3."
@@ -591,7 +603,8 @@ publication:
     # ── Marino in WH8102 ──
     light_low_glucose_marino_in_wh8102_proteomics:
       name: "Marinobacter in WH8102 coculture: light +100 nM glucose vs light (control)"
-      organism: "Marinobacter adhaerens DSM 23420 / HP15"
+      organism: "Marinobacter (MarRef v6)"
+      assembly_accession: "GCF_000166295.1"
       treatment_condition: "Light + 100 nM glucose addition"
       control_condition: "Light (no glucose)"
       experimental_context: "Marinobacter fraction of non-axenic WH8102 in SN, continuous light, 100 nM glucose; n=3."
@@ -609,7 +622,8 @@ publication:
       table_scope: all_detected_genes
     light_high_glucose_marino_in_wh8102_proteomics:
       name: "Marinobacter in WH8102 coculture: light +5 mM glucose vs light (control)"
-      organism: "Marinobacter adhaerens DSM 23420 / HP15"
+      organism: "Marinobacter (MarRef v6)"
+      assembly_accession: "GCF_000166295.1"
       treatment_condition: "Light + 5 mM glucose addition"
       control_condition: "Light (no glucose)"
       experimental_context: "Marinobacter fraction of non-axenic WH8102 in SN, continuous light, 5 mM glucose; n=3."
@@ -627,7 +641,8 @@ publication:
       table_scope: all_detected_genes
     dark_low_glucose_marino_in_wh8102_proteomics:
       name: "Marinobacter in WH8102 coculture: darkness +100 nM glucose vs darkness (control)"
-      organism: "Marinobacter adhaerens DSM 23420 / HP15"
+      organism: "Marinobacter (MarRef v6)"
+      assembly_accession: "GCF_000166295.1"
       treatment_condition: "Darkness + 100 nM glucose addition"
       control_condition: "Darkness (no glucose)"
       experimental_context: "Marinobacter fraction of non-axenic WH8102 in SN, continuous darkness, 100 nM glucose; n=3."
@@ -645,7 +660,8 @@ publication:
       table_scope: all_detected_genes
     dark_high_glucose_marino_in_wh8102_proteomics:
       name: "Marinobacter in WH8102 coculture: darkness +5 mM glucose vs darkness (control)"
-      organism: "Marinobacter adhaerens DSM 23420 / HP15"
+      organism: "Marinobacter (MarRef v6)"
+      assembly_accession: "GCF_000166295.1"
       treatment_condition: "Darkness + 5 mM glucose addition"
       control_condition: "Darkness (no glucose)"
       experimental_context: "Marinobacter fraction of non-axenic WH8102 in SN, continuous darkness, 5 mM glucose; n=3."
@@ -665,7 +681,8 @@ publication:
     # ── Marino in BL107 ──
     light_low_glucose_marino_in_bl107_proteomics:
       name: "Marinobacter in BL107 coculture: light +100 nM glucose vs light (control)"
-      organism: "Marinobacter adhaerens DSM 23420 / HP15"
+      organism: "Marinobacter (MarRef v6)"
+      assembly_accession: "GCF_000166295.1"
       treatment_condition: "Light + 100 nM glucose addition"
       control_condition: "Light (no glucose)"
       experimental_context: "Marinobacter fraction of non-axenic BL107 in SN, continuous light, 100 nM glucose; n=3."
@@ -683,7 +700,8 @@ publication:
       table_scope: all_detected_genes
     light_high_glucose_marino_in_bl107_proteomics:
       name: "Marinobacter in BL107 coculture: light +5 mM glucose vs light (control)"
-      organism: "Marinobacter adhaerens DSM 23420 / HP15"
+      organism: "Marinobacter (MarRef v6)"
+      assembly_accession: "GCF_000166295.1"
       treatment_condition: "Light + 5 mM glucose addition"
       control_condition: "Light (no glucose)"
       experimental_context: "Marinobacter fraction of non-axenic BL107 in SN, continuous light, 5 mM glucose; n=3."
@@ -701,7 +719,8 @@ publication:
       table_scope: all_detected_genes
     dark_low_glucose_marino_in_bl107_proteomics:
       name: "Marinobacter in BL107 coculture: darkness +100 nM glucose vs darkness (control)"
-      organism: "Marinobacter adhaerens DSM 23420 / HP15"
+      organism: "Marinobacter (MarRef v6)"
+      assembly_accession: "GCF_000166295.1"
       treatment_condition: "Darkness + 100 nM glucose addition"
       control_condition: "Darkness (no glucose)"
       experimental_context: "Marinobacter fraction of non-axenic BL107 in SN, continuous darkness, 100 nM glucose; n=3."
@@ -719,7 +738,8 @@ publication:
       table_scope: all_detected_genes
     dark_high_glucose_marino_in_bl107_proteomics:
       name: "Marinobacter in BL107 coculture: darkness +5 mM glucose vs darkness (control)"
-      organism: "Marinobacter adhaerens DSM 23420 / HP15"
+      organism: "Marinobacter (MarRef v6)"
+      assembly_accession: "GCF_000166295.1"
       treatment_condition: "Darkness + 5 mM glucose addition"
       control_condition: "Darkness (no glucose)"
       experimental_context: "Marinobacter fraction of non-axenic BL107 in SN, continuous darkness, 5 mM glucose; n=3."
@@ -754,7 +774,8 @@ publication:
     # ── Alteromonas in MED4 ── TODO(deferred): DEH24 → MADE_RS bridge needed
     light_low_glucose_alt_in_med4_proteomics:
       name: "Alteromonas in MED4 coculture: light +100 nM glucose vs light (control)"  # TODO(deferred): DEH24 → MADE_RS bridge needed
-      organism: "Alteromonas mediterranea DE"
+      organism: "Alteromonas (MarRef v6)"
+      assembly_accession: "GCA_003513035.1"
       treatment_condition: "Light + 100 nM glucose addition"
       control_condition: "Light (no glucose)"
       experimental_context: "Alteromonas fraction of non-axenic MED4 in Pro99, continuous light, 100 nM glucose; n=3. PLACEHOLDER — DEH24 → MADE_RS id bridge pending."
@@ -772,7 +793,8 @@ publication:
       table_scope: all_detected_genes
     light_high_glucose_alt_in_med4_proteomics:
       name: "Alteromonas in MED4 coculture: light +5 mM glucose vs light (control)"  # TODO(deferred): DEH24 → MADE_RS bridge needed
-      organism: "Alteromonas mediterranea DE"
+      organism: "Alteromonas (MarRef v6)"
+      assembly_accession: "GCA_003513035.1"
       treatment_condition: "Light + 5 mM glucose addition"
       control_condition: "Light (no glucose)"
       experimental_context: "Alteromonas fraction of non-axenic MED4 in Pro99, continuous light, 5 mM glucose; n=3. PLACEHOLDER — DEH24 → MADE_RS id bridge pending."
@@ -790,7 +812,8 @@ publication:
       table_scope: all_detected_genes
     dark_low_glucose_alt_in_med4_proteomics:
       name: "Alteromonas in MED4 coculture: darkness +100 nM glucose vs darkness (control)"  # TODO(deferred): DEH24 → MADE_RS bridge needed
-      organism: "Alteromonas mediterranea DE"
+      organism: "Alteromonas (MarRef v6)"
+      assembly_accession: "GCA_003513035.1"
       treatment_condition: "Darkness + 100 nM glucose addition"
       control_condition: "Darkness (no glucose)"
       experimental_context: "Alteromonas fraction of non-axenic MED4 in Pro99, continuous darkness, 100 nM glucose; n=3. PLACEHOLDER — DEH24 → MADE_RS id bridge pending."
@@ -808,7 +831,8 @@ publication:
       table_scope: all_detected_genes
     dark_high_glucose_alt_in_med4_proteomics:
       name: "Alteromonas in MED4 coculture: darkness +5 mM glucose vs darkness (control)"  # TODO(deferred): DEH24 → MADE_RS bridge needed
-      organism: "Alteromonas mediterranea DE"
+      organism: "Alteromonas (MarRef v6)"
+      assembly_accession: "GCA_003513035.1"
       treatment_condition: "Darkness + 5 mM glucose addition"
       control_condition: "Darkness (no glucose)"
       experimental_context: "Alteromonas fraction of non-axenic MED4 in Pro99, continuous darkness, 5 mM glucose; n=3. PLACEHOLDER — DEH24 → MADE_RS id bridge pending."
@@ -828,7 +852,8 @@ publication:
     # ── Alteromonas in SS120 ── TODO(deferred): DEH24 → MADE_RS bridge needed
     light_low_glucose_alt_in_ss120_proteomics:
       name: "Alteromonas in SS120 coculture: light +100 nM glucose vs light (control)"  # TODO(deferred): DEH24 → MADE_RS bridge needed
-      organism: "Alteromonas mediterranea DE"
+      organism: "Alteromonas (MarRef v6)"
+      assembly_accession: "GCA_003513035.1"
       treatment_condition: "Light + 100 nM glucose addition"
       control_condition: "Light (no glucose)"
       experimental_context: "Alteromonas fraction of non-axenic SS120 in Pro99, continuous light, 100 nM glucose; n=3. PLACEHOLDER — DEH24 → MADE_RS id bridge pending."
@@ -846,7 +871,8 @@ publication:
       table_scope: all_detected_genes
     light_high_glucose_alt_in_ss120_proteomics:
       name: "Alteromonas in SS120 coculture: light +5 mM glucose vs light (control)"  # TODO(deferred): DEH24 → MADE_RS bridge needed
-      organism: "Alteromonas mediterranea DE"
+      organism: "Alteromonas (MarRef v6)"
+      assembly_accession: "GCA_003513035.1"
       treatment_condition: "Light + 5 mM glucose addition"
       control_condition: "Light (no glucose)"
       experimental_context: "Alteromonas fraction of non-axenic SS120 in Pro99, continuous light, 5 mM glucose; n=3. PLACEHOLDER — DEH24 → MADE_RS id bridge pending."
@@ -864,7 +890,8 @@ publication:
       table_scope: all_detected_genes
     dark_low_glucose_alt_in_ss120_proteomics:
       name: "Alteromonas in SS120 coculture: darkness +100 nM glucose vs darkness (control)"  # TODO(deferred): DEH24 → MADE_RS bridge needed
-      organism: "Alteromonas mediterranea DE"
+      organism: "Alteromonas (MarRef v6)"
+      assembly_accession: "GCA_003513035.1"
       treatment_condition: "Darkness + 100 nM glucose addition"
       control_condition: "Darkness (no glucose)"
       experimental_context: "Alteromonas fraction of non-axenic SS120 in Pro99, continuous darkness, 100 nM glucose; n=3. PLACEHOLDER — DEH24 → MADE_RS id bridge pending."
@@ -882,7 +909,8 @@ publication:
       table_scope: all_detected_genes
     dark_high_glucose_alt_in_ss120_proteomics:
       name: "Alteromonas in SS120 coculture: darkness +5 mM glucose vs darkness (control)"  # TODO(deferred): DEH24 → MADE_RS bridge needed
-      organism: "Alteromonas mediterranea DE"
+      organism: "Alteromonas (MarRef v6)"
+      assembly_accession: "GCA_003513035.1"
       treatment_condition: "Darkness + 5 mM glucose addition"
       control_condition: "Darkness (no glucose)"
       experimental_context: "Alteromonas fraction of non-axenic SS120 in Pro99, continuous darkness, 5 mM glucose; n=3. PLACEHOLDER — DEH24 → MADE_RS id bridge pending."
@@ -902,7 +930,8 @@ publication:
     # ── Alteromonas in WH7803 ── TODO(deferred): DEH24 → MADE_RS bridge needed
     light_low_glucose_alt_in_wh7803_proteomics:
       name: "Alteromonas in WH7803 coculture: light +100 nM glucose vs light (control)"  # TODO(deferred): DEH24 → MADE_RS bridge needed
-      organism: "Alteromonas mediterranea DE"
+      organism: "Alteromonas (MarRef v6)"
+      assembly_accession: "GCA_003513035.1"
       treatment_condition: "Light + 100 nM glucose addition"
       control_condition: "Light (no glucose)"
       experimental_context: "Alteromonas fraction of non-axenic WH7803 in SN, continuous light, 100 nM glucose; n=3. PLACEHOLDER — DEH24 → MADE_RS id bridge pending."
@@ -920,7 +949,8 @@ publication:
       table_scope: all_detected_genes
     light_high_glucose_alt_in_wh7803_proteomics:
       name: "Alteromonas in WH7803 coculture: light +5 mM glucose vs light (control)"  # TODO(deferred): DEH24 → MADE_RS bridge needed
-      organism: "Alteromonas mediterranea DE"
+      organism: "Alteromonas (MarRef v6)"
+      assembly_accession: "GCA_003513035.1"
       treatment_condition: "Light + 5 mM glucose addition"
       control_condition: "Light (no glucose)"
       experimental_context: "Alteromonas fraction of non-axenic WH7803 in SN, continuous light, 5 mM glucose; n=3. PLACEHOLDER — DEH24 → MADE_RS id bridge pending."
@@ -938,7 +968,8 @@ publication:
       table_scope: all_detected_genes
     dark_low_glucose_alt_in_wh7803_proteomics:
       name: "Alteromonas in WH7803 coculture: darkness +100 nM glucose vs darkness (control)"  # TODO(deferred): DEH24 → MADE_RS bridge needed
-      organism: "Alteromonas mediterranea DE"
+      organism: "Alteromonas (MarRef v6)"
+      assembly_accession: "GCA_003513035.1"
       treatment_condition: "Darkness + 100 nM glucose addition"
       control_condition: "Darkness (no glucose)"
       experimental_context: "Alteromonas fraction of non-axenic WH7803 in SN, continuous darkness, 100 nM glucose; n=3. PLACEHOLDER — DEH24 → MADE_RS id bridge pending."
@@ -956,7 +987,8 @@ publication:
       table_scope: all_detected_genes
     dark_high_glucose_alt_in_wh7803_proteomics:
       name: "Alteromonas in WH7803 coculture: darkness +5 mM glucose vs darkness (control)"  # TODO(deferred): DEH24 → MADE_RS bridge needed
-      organism: "Alteromonas mediterranea DE"
+      organism: "Alteromonas (MarRef v6)"
+      assembly_accession: "GCA_003513035.1"
       treatment_condition: "Darkness + 5 mM glucose addition"
       control_condition: "Darkness (no glucose)"
       experimental_context: "Alteromonas fraction of non-axenic WH7803 in SN, continuous darkness, 5 mM glucose; n=3. PLACEHOLDER — DEH24 → MADE_RS id bridge pending."
@@ -976,7 +1008,8 @@ publication:
     # ── Alteromonas in WH8102 ── TODO(deferred): DEH24 → MADE_RS bridge needed
     light_low_glucose_alt_in_wh8102_proteomics:
       name: "Alteromonas in WH8102 coculture: light +100 nM glucose vs light (control)"  # TODO(deferred): DEH24 → MADE_RS bridge needed
-      organism: "Alteromonas mediterranea DE"
+      organism: "Alteromonas (MarRef v6)"
+      assembly_accession: "GCA_003513035.1"
       treatment_condition: "Light + 100 nM glucose addition"
       control_condition: "Light (no glucose)"
       experimental_context: "Alteromonas fraction of non-axenic WH8102 in SN, continuous light, 100 nM glucose; n=3. PLACEHOLDER — DEH24 → MADE_RS id bridge pending."
@@ -994,7 +1027,8 @@ publication:
       table_scope: all_detected_genes
     light_high_glucose_alt_in_wh8102_proteomics:
       name: "Alteromonas in WH8102 coculture: light +5 mM glucose vs light (control)"  # TODO(deferred): DEH24 → MADE_RS bridge needed
-      organism: "Alteromonas mediterranea DE"
+      organism: "Alteromonas (MarRef v6)"
+      assembly_accession: "GCA_003513035.1"
       treatment_condition: "Light + 5 mM glucose addition"
       control_condition: "Light (no glucose)"
       experimental_context: "Alteromonas fraction of non-axenic WH8102 in SN, continuous light, 5 mM glucose; n=3. PLACEHOLDER — DEH24 → MADE_RS id bridge pending."
@@ -1012,7 +1046,8 @@ publication:
       table_scope: all_detected_genes
     dark_low_glucose_alt_in_wh8102_proteomics:
       name: "Alteromonas in WH8102 coculture: darkness +100 nM glucose vs darkness (control)"  # TODO(deferred): DEH24 → MADE_RS bridge needed
-      organism: "Alteromonas mediterranea DE"
+      organism: "Alteromonas (MarRef v6)"
+      assembly_accession: "GCA_003513035.1"
       treatment_condition: "Darkness + 100 nM glucose addition"
       control_condition: "Darkness (no glucose)"
       experimental_context: "Alteromonas fraction of non-axenic WH8102 in SN, continuous darkness, 100 nM glucose; n=3. PLACEHOLDER — DEH24 → MADE_RS id bridge pending."
@@ -1030,7 +1065,8 @@ publication:
       table_scope: all_detected_genes
     dark_high_glucose_alt_in_wh8102_proteomics:
       name: "Alteromonas in WH8102 coculture: darkness +5 mM glucose vs darkness (control)"  # TODO(deferred): DEH24 → MADE_RS bridge needed
-      organism: "Alteromonas mediterranea DE"
+      organism: "Alteromonas (MarRef v6)"
+      assembly_accession: "GCA_003513035.1"
       treatment_condition: "Darkness + 5 mM glucose addition"
       control_condition: "Darkness (no glucose)"
       experimental_context: "Alteromonas fraction of non-axenic WH8102 in SN, continuous darkness, 5 mM glucose; n=3. PLACEHOLDER — DEH24 → MADE_RS id bridge pending."
@@ -1050,7 +1086,8 @@ publication:
     # ── Alteromonas in BL107 ── TODO(deferred): DEH24 → MADE_RS bridge needed
     light_low_glucose_alt_in_bl107_proteomics:
       name: "Alteromonas in BL107 coculture: light +100 nM glucose vs light (control)"  # TODO(deferred): DEH24 → MADE_RS bridge needed
-      organism: "Alteromonas mediterranea DE"
+      organism: "Alteromonas (MarRef v6)"
+      assembly_accession: "GCA_003513035.1"
       treatment_condition: "Light + 100 nM glucose addition"
       control_condition: "Light (no glucose)"
       experimental_context: "Alteromonas fraction of non-axenic BL107 in SN, continuous light, 100 nM glucose; n=3. PLACEHOLDER — DEH24 → MADE_RS id bridge pending."
@@ -1068,7 +1105,8 @@ publication:
       table_scope: all_detected_genes
     light_high_glucose_alt_in_bl107_proteomics:
       name: "Alteromonas in BL107 coculture: light +5 mM glucose vs light (control)"  # TODO(deferred): DEH24 → MADE_RS bridge needed
-      organism: "Alteromonas mediterranea DE"
+      organism: "Alteromonas (MarRef v6)"
+      assembly_accession: "GCA_003513035.1"
       treatment_condition: "Light + 5 mM glucose addition"
       control_condition: "Light (no glucose)"
       experimental_context: "Alteromonas fraction of non-axenic BL107 in SN, continuous light, 5 mM glucose; n=3. PLACEHOLDER — DEH24 → MADE_RS id bridge pending."
@@ -1086,7 +1124,8 @@ publication:
       table_scope: all_detected_genes
     dark_low_glucose_alt_in_bl107_proteomics:
       name: "Alteromonas in BL107 coculture: darkness +100 nM glucose vs darkness (control)"  # TODO(deferred): DEH24 → MADE_RS bridge needed
-      organism: "Alteromonas mediterranea DE"
+      organism: "Alteromonas (MarRef v6)"
+      assembly_accession: "GCA_003513035.1"
       treatment_condition: "Darkness + 100 nM glucose addition"
       control_condition: "Darkness (no glucose)"
       experimental_context: "Alteromonas fraction of non-axenic BL107 in SN, continuous darkness, 100 nM glucose; n=3. PLACEHOLDER — DEH24 → MADE_RS id bridge pending."
@@ -1104,7 +1143,8 @@ publication:
       table_scope: all_detected_genes
     dark_high_glucose_alt_in_bl107_proteomics:
       name: "Alteromonas in BL107 coculture: darkness +5 mM glucose vs darkness (control)"  # TODO(deferred): DEH24 → MADE_RS bridge needed
-      organism: "Alteromonas mediterranea DE"
+      organism: "Alteromonas (MarRef v6)"
+      assembly_accession: "GCA_003513035.1"
       treatment_condition: "Darkness + 5 mM glucose addition"
       control_condition: "Darkness (no glucose)"
       experimental_context: "Alteromonas fraction of non-axenic BL107 in SN, continuous darkness, 5 mM glucose; n=3. PLACEHOLDER — DEH24 → MADE_RS id bridge pending."
@@ -1148,7 +1188,8 @@ publication:
     supp_table_s3_alt_in_med4:  # TODO(deferred): DEH24 → MADE_RS bridge needed
       type: csv
       filename: "data/Prochlorococcus/papers_and_supp/moreno 2023/table s3 Alteromonas in MED4 cultures spectrum.03275-22-s0003_modified.csv"
-      organism: "Alteromonas mediterranea DE"
+      organism: "Alteromonas (MarRef v6)"
+      assembly_accession: "GCA_003513035.1"
       id_columns:
         - column: "Accession"
           id_type: uniprot_accession
@@ -1197,7 +1238,8 @@ publication:
     supp_table_s3_alt_in_ss120:  # TODO(deferred): DEH24 → MADE_RS bridge needed
       type: csv
       filename: "data/Prochlorococcus/papers_and_supp/moreno 2023/table s3 Alteromonas in SS120 cultures spectrum.03275-22-s0003_modified.csv"
-      organism: "Alteromonas mediterranea DE"
+      organism: "Alteromonas (MarRef v6)"
+      assembly_accession: "GCA_003513035.1"
       id_columns:
         - column: "Accession"
           id_type: uniprot_accession
@@ -1246,7 +1288,8 @@ publication:
     supp_table_s3_alt_in_wh7803:  # TODO(deferred): DEH24 → MADE_RS bridge needed
       type: csv
       filename: "data/Prochlorococcus/papers_and_supp/moreno 2023/table s3 Alteromonas in WH7803 cultures spectrum.03275-22-s0003_modified.csv"
-      organism: "Alteromonas mediterranea DE"
+      organism: "Alteromonas (MarRef v6)"
+      assembly_accession: "GCA_003513035.1"
       id_columns:
         - column: "Accession"
           id_type: uniprot_accession
@@ -1295,7 +1338,8 @@ publication:
     supp_table_s3_alt_in_wh8102:  # TODO(deferred): DEH24 → MADE_RS bridge needed
       type: csv
       filename: "data/Prochlorococcus/papers_and_supp/moreno 2023/table s3 Alteromonas in WH8102 cultures spectrum.03275-22-s0003_modified.csv"
-      organism: "Alteromonas mediterranea DE"
+      organism: "Alteromonas (MarRef v6)"
+      assembly_accession: "GCA_003513035.1"
       id_columns:
         - column: "Accession"
           id_type: uniprot_accession
@@ -1344,7 +1388,8 @@ publication:
     supp_table_s3_alt_in_bl107:  # TODO(deferred): DEH24 → MADE_RS bridge needed
       type: csv
       filename: "data/Prochlorococcus/papers_and_supp/moreno 2023/table s3 Alteromonas in BL107 cultures spectrum.03275-22-s0003_modified.csv"
-      organism: "Alteromonas mediterranea DE"
+      organism: "Alteromonas (MarRef v6)"
+      assembly_accession: "GCA_003513035.1"
       id_columns:
         - column: "Accession"
           id_type: uniprot_accession
@@ -1654,7 +1699,8 @@ publication:
     supp_table_s4_marino_in_med4:
       type: csv
       filename: "data/Prochlorococcus/papers_and_supp/moreno 2023/table s4 Marinobacter in MED4 cultures spectrum.03275-22-s0004_modified.csv"
-      organism: "Marinobacter adhaerens DSM 23420 / HP15"
+      organism: "Marinobacter (MarRef v6)"
+      assembly_accession: "GCF_000166295.1"
       id_columns:
         - column: "Accession"
           id_type: uniprot_accession
@@ -1703,7 +1749,8 @@ publication:
     supp_table_s4_marino_in_ss120:
       type: csv
       filename: "data/Prochlorococcus/papers_and_supp/moreno 2023/table s4 Marinobacter in SS120 cultures spectrum.03275-22-s0004_modified.csv"
-      organism: "Marinobacter adhaerens DSM 23420 / HP15"
+      organism: "Marinobacter (MarRef v6)"
+      assembly_accession: "GCF_000166295.1"
       id_columns:
         - column: "Accession"
           id_type: uniprot_accession
@@ -1752,7 +1799,8 @@ publication:
     supp_table_s4_marino_in_wh7803:
       type: csv
       filename: "data/Prochlorococcus/papers_and_supp/moreno 2023/table s4 Marinobacter in WH7803 cultures spectrum.03275-22-s0004_modified.csv"
-      organism: "Marinobacter adhaerens DSM 23420 / HP15"
+      organism: "Marinobacter (MarRef v6)"
+      assembly_accession: "GCF_000166295.1"
       id_columns:
         - column: "Accession"
           id_type: uniprot_accession
@@ -1801,7 +1849,8 @@ publication:
     supp_table_s4_marino_in_wh8102:
       type: csv
       filename: "data/Prochlorococcus/papers_and_supp/moreno 2023/table s4 Marinobacter in WH8102 cultures spectrum.03275-22-s0004_modified.csv"
-      organism: "Marinobacter adhaerens DSM 23420 / HP15"
+      organism: "Marinobacter (MarRef v6)"
+      assembly_accession: "GCF_000166295.1"
       id_columns:
         - column: "Accession"
           id_type: uniprot_accession
@@ -1850,7 +1899,8 @@ publication:
     supp_table_s4_marino_in_bl107:
       type: csv
       filename: "data/Prochlorococcus/papers_and_supp/moreno 2023/table s4 Marinobacter in BL107 cultures spectrum.03275-22-s0004_modified.csv"
-      organism: "Marinobacter adhaerens DSM 23420 / HP15"
+      organism: "Marinobacter (MarRef v6)"
+      assembly_accession: "GCF_000166295.1"
       id_columns:
         - column: "Accession"
           id_type: uniprot_accession
