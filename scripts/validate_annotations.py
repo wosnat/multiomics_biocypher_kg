@@ -47,6 +47,7 @@ from multiomics_kg.utils.paperconfig_utils import (
     load_paperconfig as _load_paperconfig_util,
     iter_csv_tables,
     get_paper_name,
+    get_organism_for_entry,
 )
 
 logger = logging.getLogger(__name__)
@@ -66,7 +67,7 @@ ANNOTATION_COL_KEYWORDS = [
 _SKIP_COL_RE = re.compile(
     r"(logf[cd]|log2|fold.?change|p.?value|padj|adj\.?p|fdr|lfc|"
     r"\bstart\b|\bend\b|length|position|coord|strand|"
-    r"timepoint|condition|treatment|control|diffexpressed|"
+    r"timepoint|condition|treatment|control|contrast|diffexpressed|"
     r"kegg.class|cog.class|pathway|domain|cluster|temperature|co2|"
     r"eggnog|tigrfam|pfam)",
     re.IGNORECASE,
@@ -273,6 +274,7 @@ def validate_csv_file(
     csv_filename: str,
     analyses: list[dict],
     supp_config: dict,
+    config_data: dict,
     use_llm: bool,
     llm,
 ) -> CsvResult:
@@ -280,7 +282,8 @@ def validate_csv_file(
     # Pull the first analysis for name_col / organism (all share the same CSV)
     first = analyses[0]
     name_col = first.get("name_col", "")
-    organism = first.get("organism", "")
+    # Organism lives on experiment (new format) or table/analysis (old format)
+    organism = get_organism_for_entry(config_data, supp_config) or ""
     skip_rows = supp_config.get("skip_rows", 0)
 
     result = CsvResult(paper_name, csv_filename, organism, "")
@@ -534,8 +537,12 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument(
         "--paperconfig-list",
-        default="data/Prochlorococcus/papers_and_supp/paperconfig_files.txt",
-        help="Path to the file listing paperconfig.yaml paths",
+        nargs="+",
+        default=[
+            "data/Prochlorococcus/papers_and_supp/paperconfig_files.txt",
+            "data/Synechococcus/papers_and_supp/paperconfig_files.txt",
+        ],
+        help="Path(s) to file(s) listing paperconfig.yaml paths",
     )
     parser.add_argument(
         "--papers", nargs="+",
@@ -569,16 +576,17 @@ def main():
         if llm is None:
             use_llm = False
 
-    # Read list of paperconfigs
-    list_path = PROJECT_ROOT / args.paperconfig_list
-    if not list_path.exists():
-        print(f"ERROR: paperconfig list not found: {list_path}", file=sys.stderr)
-        sys.exit(1)
-
-    config_paths = [
-        line.strip() for line in list_path.read_text().splitlines()
-        if line.strip() and not line.startswith("#")
-    ]
+    # Read list of paperconfigs from all list files
+    config_paths = []
+    for list_file in args.paperconfig_list:
+        list_path = PROJECT_ROOT / list_file
+        if not list_path.exists():
+            logger.warning(f"Paperconfig list not found: {list_path}")
+            continue
+        config_paths.extend(
+            line.strip() for line in list_path.read_text().splitlines()
+            if line.strip() and not line.startswith("#")
+        )
 
     if args.papers:
         filters = [p.lower() for p in args.papers]
@@ -608,6 +616,7 @@ def main():
                 csv_filename=csv_file,
                 analyses=analyses,
                 supp_config=supp_config,
+                config_data=config_data,
                 use_llm=use_llm,
                 llm=llm,
             )
