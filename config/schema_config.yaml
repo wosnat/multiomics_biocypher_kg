@@ -333,6 +333,9 @@ organism taxon:
     treatment_types: str[]   # pre-computed: distinct treatment types across matched publications
     background_factors: str[] # pre-computed: distinct background_factors across matched publications
     omics_types: str[]       # pre-computed: distinct omics types across matched publications
+    organism_type: str   # genome_strain | treatment | reference_proteome_match
+    reference_database: str   # e.g. "MarRef v6" (reference_proteome_match only)
+    reference_proteome: str   # e.g. "UP000262181" (reference_proteome_match only)
 
 
 protein domain:  
