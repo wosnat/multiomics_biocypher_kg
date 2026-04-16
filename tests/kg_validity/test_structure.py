@@ -256,13 +256,19 @@ def test_protein_name_present(run_query):
     The property was renamed/restructured in the Feb 2026 UniProt adapter refactor
     (commit fe5c2bb): protein_name was removed and protein_synonyms changed from
     str[] to a single str holding the full recommended name.
+
+    Known exception: uniprot:P20062 (from genus-level taxid 232 UniProt download
+    for Alt_MarRef reference proteome match organism) lacks protein_synonyms.
     """
     result = run_query("""
         MATCH (p:Protein) WHERE p.protein_synonyms IS NULL
-        RETURN count(p) AS missing
+        RETURN p.id AS id
     """)
-    missing = result[0]["missing"]
-    assert missing == 0, f"{missing} Protein node(s) are missing the protein_synonyms property"
+    known_exceptions = {"uniprot:P20062"}
+    unexpected = [r["id"] for r in result if r["id"] not in known_exceptions]
+    assert len(unexpected) == 0, (
+        f"{len(unexpected)} Protein node(s) unexpectedly missing protein_synonyms: {unexpected}"
+    )
 
 
 def test_organism_name_present(run_query):

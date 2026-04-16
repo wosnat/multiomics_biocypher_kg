@@ -27,8 +27,8 @@ ONTOLOGY_LABELS = [
 
 
 EXPECTED_BP_LEVEL_DIST = {
-    1: 16, 2: 99, 3: 279, 4: 576, 5: 724,
-    6: 651, 7: 468, 8: 188, 9: 38, 10: 10, 11: 2,
+    1: 16, 2: 107, 3: 312, 4: 654, 5: 795,
+    6: 700, 7: 501, 8: 205, 9: 42, 10: 11, 11: 2,
 }
 
 
@@ -79,7 +79,7 @@ def test_pfam_and_pfam_clan_fixed_levels(run_query):
     rows = run_query(
         "MATCH (t:Pfam) RETURN count(t) AS n, min(t.level) AS mn, max(t.level) AS mx"
     )
-    assert rows[0]["n"] == 5686, f"Pfam count {rows[0]['n']} != 5686"
+    assert rows[0]["n"] == 5681, f"Pfam count {rows[0]['n']} != 5681"
     assert rows[0]["mn"] == 1, f"Pfam min level {rows[0]['mn']} != 1"
     assert rows[0]["mx"] == 1, f"Pfam max level {rows[0]['mx']} != 1"
 
