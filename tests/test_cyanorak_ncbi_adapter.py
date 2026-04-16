@@ -547,6 +547,14 @@ class TestGetEdges:
 
 
 class TestOrganismNode:
+    def test_organism_node_has_organism_type(self, adapter):
+        """Genome strain organisms should have organism_type='genome_strain'."""
+        nodes = adapter.get_nodes()
+        org_nodes = [n for n in nodes if n[1] == "organism"]
+        assert len(org_nodes) == 1
+        props = org_nodes[0][2]
+        assert props.get("organism_type") == "genome_strain"
+
     def test_organism_node_created(self, adapter):
         nodes = adapter.get_nodes()
         org_nodes = [n for n in nodes if n[1] == "organism"]
@@ -925,6 +933,23 @@ class TestTreatmentOrganismNodes:
             nodes = multi.get_nodes()
         treatment_nodes = [n for n in nodes if "ncbitaxon" in n[0]]
         assert len(treatment_nodes) == 2
+
+    def test_treatment_nodes_have_organism_type_treatment(self, multi_config_csv, treatment_csv):
+        with patch(
+            "multiomics_kg.adapters.cyanorak_ncbi_adapter._fetch_ncbi_taxonomy",
+            return_value={},
+        ):
+            multi = MultiCyanorakNcbi(
+                config_list_file=multi_config_csv,
+                treatment_organisms_file=treatment_csv,
+            )
+            multi.download_data()
+            nodes = multi.get_nodes()
+        treatment_nodes = [n for n in nodes if "ncbitaxon" in n[0]]
+        for node in treatment_nodes:
+            assert node[2].get("organism_type") == "treatment", (
+                f"Treatment node {node[0]} missing organism_type='treatment'"
+            )
 
 
 # ---------------------------------------------------------------------------

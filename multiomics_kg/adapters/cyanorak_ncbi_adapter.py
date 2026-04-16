@@ -167,6 +167,9 @@ class CyanorakNcbi:
         ncbi_taxon_id: int = None,
         clade: str = None,
         preferred_name: str = None,
+        organism_type: str = "genome_strain",
+        reference_database: str = None,
+        reference_proteome: str = None,
         **kwargs,  # absorb legacy cluster_node_fields etc.
     ):
 
@@ -190,6 +193,9 @@ class CyanorakNcbi:
         self.ncbi_taxon_id = ncbi_taxon_id
         self.clade = clade
         self.preferred_name = preferred_name
+        self.organism_type = organism_type
+        self.reference_database = reference_database
+        self.reference_proteome = reference_proteome
         self.taxonomy = {}  # populated by download_data()
 
         # no need becuase we are not creating protein to ec edges here
@@ -320,6 +326,12 @@ class CyanorakNcbi:
             words = self.preferred_name.split()
             if len(words) >= 3 and words[0] == properties['genus'] and words[1].islower():
                 properties['species'] = f"{words[0]} {words[1]}"
+
+        properties['organism_type'] = self.organism_type
+        if self.reference_database:
+            properties['reference_database'] = self.reference_database
+        if self.reference_proteome:
+            properties['reference_proteome'] = self.reference_proteome
 
         logger.info(f"Created organism node {node_id} (strain: {self.strain_name})")
         return [(node_id, "organism", properties)]
@@ -471,6 +483,9 @@ class MultiCyanorakNcbi:
                     ncbi_taxon_id=ncbi_taxon_id,
                     clade=clade,
                     preferred_name=row.get('preferred_name') or None,
+                    organism_type=row.get('organism_type') or 'genome_strain',
+                    reference_database=row.get('reference_database') or None,
+                    reference_proteome=row.get('reference_proteome') or None,
                     **kwargs,
                 )
                 self.adapters.append(adapter)
@@ -497,6 +512,7 @@ class MultiCyanorakNcbi:
                     'organism_name': organism_name,
                     'preferred_name': organism_name,
                     'ncbi_taxon_id': taxid,
+                    'organism_type': 'treatment',
                 }
                 taxonomy = _fetch_ncbi_taxonomy(taxid=taxid, cache_dir=taxonomy_cache_dir)
                 for key in ('lineage', 'superkingdom', 'kingdom', 'phylum', 'tax_class',
