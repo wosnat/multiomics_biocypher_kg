@@ -47,13 +47,14 @@ def test_no_non_bacterial_organisms(run_query):
 
 
 def test_organism_count(run_query):
-    """32 OrganismTaxon nodes: 27 genome strains + 5 treatment organisms.
+    """32 OrganismTaxon nodes: 25 genome strains + 2 reference proteome match + 5 treatment organisms.
 
-    Genome strains (27): 9 Pro (MED4, AS9601, MIT9301, MIT9312, MIT9313,
-    MIT9303, NATL1A, NATL2A, RSP50, SS120), 6 Syn (CC9311, WH7803, WH8102,
+    Genome strains (25): 10 Pro (MED4, AS9601, MIT9301, MIT9312, MIT9313,
+    MIT9303, NATL1A, NATL2A, RSP50, SS120), 7 Syn (CC9311, WH7803, WH8102,
     BL107, PCC7002, PCC7942, UTEX2973), 1 Thermosynechococcus (BP1),
-    4 Alteromonas (MIT1002, EZ55, HOT1A3, AltMedDE), 4 heterotrophs
-    (W3-18-1, KT2440, DSS-3, MruberA), 1 Marinobacter (HP15).
+    3 Alteromonas (MIT1002, EZ55, HOT1A3), 4 heterotrophs
+    (W3-18-1, KT2440, DSS-3, MruberA).
+    Reference proteome match (2): Marinobacter (MarRef v6), Alteromonas (MarRef v6).
     Treatment organisms (5): Phage, Alteromonas (genus), Vibrio
     parahaemolyticus, Meiothermus ruber, E. coli.
     """
@@ -68,23 +69,73 @@ def test_organism_count(run_query):
 # ---------------------------------------------------------------------------
 
 def test_alteromonas_strains_have_species(run_query):
-    """All Alteromonas strain-level nodes must have a species property.
+    """Alteromonas genome_strain nodes must have a species property.
 
-    Three strains (MIT1002, EZ55, HOT1A3) are A. macleodii; AltMedDE is
-    A. mediterranea. Both species values are acceptable — the test just
-    asserts a non-null Alteromonas species is populated for every strain.
+    Three strains (MIT1002, EZ55, HOT1A3) are A. macleodii.
+    Reference proteome match organisms (Alteromonas MarRef v6) are excluded
+    as their species may not be derivable from the preferred_name.
     """
     result = run_query("""
         MATCH (o:OrganismTaxon)
-        WHERE o.genus = 'Alteromonas' AND o.strain_name IS NOT NULL
+        WHERE o.genus = 'Alteromonas'
+          AND o.strain_name IS NOT NULL
+          AND o.organism_type = 'genome_strain'
         RETURN o.preferred_name AS name, o.species AS species
     """)
-    assert len(result) == 4, f"Expected 4 Alteromonas strains, got {len(result)}"
-    VALID_SPECIES = {"Alteromonas macleodii", "Alteromonas mediterranea"}
+    assert len(result) == 3, f"Expected 3 Alteromonas genome strains, got {len(result)}"
+    VALID_SPECIES = {"Alteromonas macleodii"}
     for r in result:
         assert r["species"] in VALID_SPECIES, (
             f"{r['name']} has species={r['species']!r}, expected one of {VALID_SPECIES}"
         )
+
+
+# ---------------------------------------------------------------------------
+# organism_type property
+# ---------------------------------------------------------------------------
+
+def test_organism_type_on_all_nodes(run_query):
+    """Every OrganismTaxon node must have an organism_type property."""
+    result = run_query("""
+        MATCH (o:OrganismTaxon)
+        WHERE o.organism_type IS NULL
+        RETURN o.preferred_name AS name
+    """)
+    assert len(result) == 0, (
+        f"OrganismTaxon nodes missing organism_type: {[r['name'] for r in result]}"
+    )
+
+
+def test_organism_type_values(run_query):
+    """organism_type must be one of the three valid values."""
+    result = run_query("""
+        MATCH (o:OrganismTaxon)
+        RETURN o.organism_type AS otype, count(o) AS cnt
+        ORDER BY cnt DESC
+    """)
+    counts = {r["otype"]: r["cnt"] for r in result}
+    assert set(counts.keys()) == {"genome_strain", "treatment", "reference_proteome_match"}, (
+        f"Unexpected organism_type values: {counts}"
+    )
+    assert counts["genome_strain"] == 25
+    assert counts["treatment"] == 5
+    assert counts["reference_proteome_match"] == 2
+
+
+def test_reference_proteome_match_properties(run_query):
+    """Reference proteome match organisms must have reference_database and reference_proteome."""
+    result = run_query("""
+        MATCH (o:OrganismTaxon)
+        WHERE o.organism_type = 'reference_proteome_match'
+        RETURN o.preferred_name AS name,
+               o.reference_database AS db,
+               o.reference_proteome AS proteome
+    """)
+    assert len(result) == 2
+    for r in result:
+        assert r["db"] is not None, f"{r['name']} missing reference_database"
+        assert r["proteome"] is not None, f"{r['name']} missing reference_proteome"
+        assert "MarRef" in r["db"], f"{r['name']} unexpected reference_database: {r['db']}"
 
 
 # ---------------------------------------------------------------------------
