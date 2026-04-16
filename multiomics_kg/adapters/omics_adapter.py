@@ -256,10 +256,16 @@ class OMICSAdapter:
 
         # extract publication metadata from pdf
         pdf_path = publication.get('papermainpdf', None)
-        if pdf_path and os.path.exists(pdf_path):
-            self.extracted_data = self.pdf_extractor.extract_from_pdf(pdf_path)
-        else:
-            logger.warning(f"PDF path not found or not provided: {pdf_path}. Skipping publication nodes.")
+        if not pdf_path or not os.path.exists(pdf_path):
+            raise FileNotFoundError(
+                f"PDF path missing or not found for "
+                f"{publication.get('papername', '?')}: {pdf_path!r}"
+            )
+        self.extracted_data = self.pdf_extractor.extract_from_pdf(pdf_path)
+        if not self.extracted_data or "publication" not in self.extracted_data:
+            raise RuntimeError(
+                f"PDF extraction produced no publication block for {pdf_path}"
+            )
 
     def get_publication_nodes(self) -> list[tuple]:
         """
@@ -282,7 +288,7 @@ class OMICSAdapter:
                 "authors": self.clean_text(pub.get("authors", [])),
                 "journal": self.clean_text(pub.get("journal")),
                 "publication_year": pub.get("publication_year"),
-                "doi": pub.get("doi"),
+                "doi": self._get_override_doi() or pub.get("doi"),
                 "pmid": pub.get("pmid"),
                 "description": self.clean_text(pub.get("description")),
                 "abstract": self.clean_text(pub.get("abstract")),
@@ -839,15 +845,34 @@ class OMICSAdapter:
         return edges
 
 
+    def _get_override_doi(self) -> str | None:
+        """Read optional doi from paperconfig publication block."""
+        pub = self.config_data.get("publication", {}) or {}
+        val = pub.get("doi")
+        if not isinstance(val, str):
+            return None
+        val = val.strip()
+        return val or None
+
     def get_publication_id(self) -> str:
-        """Get the publication ID from extracted PDF data or config_data fallback."""
+        """Get the publication ID from config doi override, PDF extraction, or fallback."""
+        override = self._get_override_doi()
         if hasattr(self, 'extracted_data') and "publication" in self.extracted_data:
             pub = self.extracted_data["publication"]
-            pub_id = pub.get("publication_id") or pub.get("doi") or pub.get("pubmed_id") or f"pub_{pub.get('title', 'unknown')[:20]}"
+            extracted_doi = pub.get("doi")
+            if override:
+                if extracted_doi and extracted_doi != override:
+                    logger.warning(
+                        f"Config doi '{override}' disagrees with PDF-extracted doi "
+                        f"'{extracted_doi}'; using config value."
+                    )
+                return override
+            pub_id = pub.get("publication_id") or extracted_doi or pub.get("pubmed_id") or f"pub_{pub.get('title', 'unknown')[:20]}"
             return str(pub_id)
-        # Fallback to config_data when PDF extraction was not available
+        if override:
+            return override
         pub = self.config_data.get('publication', {})
-        pub_id = pub.get("doi") or pub.get("pubmed_id") or pub.get("papername") or "unknown"
+        pub_id = pub.get("pubmed_id") or pub.get("papername") or "unknown"
         return str(pub_id)
 
     

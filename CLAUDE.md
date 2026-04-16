@@ -133,6 +133,7 @@ Most adapters have a single-source class (e.g., `CyanorakNcbi`) and a **Multi***
 ```yaml
 publication:
   papername: "Author Year"
+  doi: "10.NNNN/xxxxx"  # optional — overrides PDF-extracted DOI
   papermainpdf: "data/Prochlorococcus/papers_and_supp/Author Year/paper.pdf"
 
   experiments:

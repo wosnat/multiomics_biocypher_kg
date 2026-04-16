@@ -1231,10 +1231,16 @@ class TestMultiOMICSAdapter:
                 'adjusted_p_value': [0.01, 0.05],
             }).to_csv(data_file, index=False)
 
+            # Create dummy PDF so download_data() doesn't raise FileNotFoundError
+            dummy_pdf = os.path.join(temp_data_dir, f'dummy_{i}.pdf')
+            with open(dummy_pdf, 'w') as f:
+                f.write('fake pdf')
+
             exp_key = f'exp_{organism.replace(" ", "_").replace(".", "")}'
             config = {
                 'publication': {
                     'papername': paper,
+                    'papermainpdf': dummy_pdf,
                     'experiments': {
                         exp_key: {
                             'name': f'Test {paper}',
@@ -1379,10 +1385,16 @@ class TestMultiOMICSAdapter:
         adapter = MultiOMICSAdapter(config_list_file=list_file)
         assert len(adapter.adapters) == 1
 
-    def test_download_data_called_on_all(self, two_config_list):
+    def test_download_data_called_on_all(self, two_config_list, monkeypatch):
         """Verify download_data delegates to all adapters."""
         list_file, _ = two_config_list
         adapter = MultiOMICSAdapter(config_list_file=list_file)
+        # Mock pdf_extractor on each inner adapter so download_data succeeds
+        for inner in adapter.adapters:
+            monkeypatch.setattr(
+                inner.pdf_extractor, "extract_from_pdf",
+                lambda path: {"publication": {"title": "Mock"}},
+            )
         adapter.download_data(cache=False)
         # After download_data, each adapter should have extracted_data attribute
         for inner in adapter.adapters:

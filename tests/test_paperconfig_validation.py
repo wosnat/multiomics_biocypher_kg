@@ -633,3 +633,45 @@ class TestFreeTextAsLocusTagWarning:
         assert result is True
         out = capsys.readouterr().out
         assert "looks like free-text description" not in out
+
+
+# ---------------------------------------------------------------------------
+# Unit tests — DOI override validation
+# ---------------------------------------------------------------------------
+
+class TestDoiOverride:
+    """Validator accepts/rejects optional publication.doi field."""
+
+    def test_valid_doi_passes(self, tmp_path, monkeypatch):
+        monkeypatch.chdir(PROJECT_ROOT)
+        csv = _write_minimal_csv(tmp_path)
+        config = _make_valid_config(csv)
+        config["publication"]["doi"] = "10.1186/2046-9063-8-7"
+        cfg_file = _write_config(tmp_path, config)
+        assert validate(str(cfg_file)) is True
+
+    def test_missing_doi_passes(self, tmp_path, monkeypatch):
+        """doi is optional — omitting it is fine."""
+        monkeypatch.chdir(PROJECT_ROOT)
+        csv = _write_minimal_csv(tmp_path)
+        config = _make_valid_config(csv)
+        assert "doi" not in config["publication"]
+        cfg_file = _write_config(tmp_path, config)
+        assert validate(str(cfg_file)) is True
+
+    def test_invalid_doi_rejected(self, tmp_path, monkeypatch):
+        monkeypatch.chdir(PROJECT_ROOT)
+        csv = _write_minimal_csv(tmp_path)
+        config = _make_valid_config(csv)
+        config["publication"]["doi"] = "not-a-doi"
+        cfg_file = _write_config(tmp_path, config)
+        assert validate(str(cfg_file)) is False
+
+    def test_doi_url_rejected(self, tmp_path, monkeypatch):
+        """Full URL form should be rejected — we want the bare DOI."""
+        monkeypatch.chdir(PROJECT_ROOT)
+        csv = _write_minimal_csv(tmp_path)
+        config = _make_valid_config(csv)
+        config["publication"]["doi"] = "https://doi.org/10.1186/2046-9063-8-7"
+        cfg_file = _write_config(tmp_path, config)
+        assert validate(str(cfg_file)) is False

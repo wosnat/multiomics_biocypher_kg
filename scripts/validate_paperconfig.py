@@ -25,6 +25,7 @@ Checks:
     - Canonical vocabulary: organism, treatment_type, test_type, omics_type
 """
 
+import re
 import sys
 import os
 import json
@@ -74,6 +75,8 @@ VALID_TABLE_SCOPES = {
     "all_detected_genes", "significant_any_timepoint",
     "significant_only", "top_n", "filtered_subset",
 }
+
+DOI_RE = re.compile(r"^10\.\d{4,9}/\S+$")
 
 VALID_TYPES = {"RNASEQ", "MICROARRAY", "PROTEOMICS", "EXOPROTEOMICS", "METABOLOMICS"}
 VALID_ID_TYPES = {
@@ -849,6 +852,14 @@ def validate(config_path: str) -> bool:
             errors.append("Missing 'papername'")
         else:
             print(f"  papername: {papername}")
+
+        # --- DOI override ---
+        doi_override = pub.get("doi")
+        if doi_override is not None:
+            if not isinstance(doi_override, str) or not DOI_RE.match(doi_override.strip()):
+                errors.append(f"publication.doi '{doi_override}' is not a valid DOI (expected pattern 10.NNNN/...)")
+            else:
+                print(f"  doi (override): {doi_override.strip()}")
 
         # --- PDF ---
         pdf = pub.get("papermainpdf", "")

@@ -209,3 +209,141 @@ def test_growth_phase_sanitized(tmp_path):
     assert "growth_phase" in props
     assert "|" not in props["growth_phase"]
     assert "'" not in props["growth_phase"]
+
+
+class TestDoiOverride:
+    """Config doi overrides PDF-extracted doi for pub and experiment IDs."""
+
+    def _make_config_with_doi(self, tmp_path, doi_override=None):
+        """Build a minimal paperconfig with optional doi override."""
+        de_csv = tmp_path / "de.csv"
+        pd.DataFrame({
+            "gene": ["PMM0001"],
+            "log2fc": [1.5],
+        }).to_csv(de_csv, index=False)
+
+        paperconfig = {
+            "publication": {
+                "papername": "Test",
+                "papermainpdf": str(tmp_path / "dummy.pdf"),
+                "experiments": {
+                    "exp1": {
+                        "name": "Test experiment",
+                        "organism": "Prochlorococcus MED4",
+                        "treatment_condition": "test",
+                        "control_condition": "control",
+                        "omics_type": "RNASEQ",
+                        "test_type": "DESeq2",
+                        "treatment_type": ["nitrogen"],
+                    },
+                },
+                "supplementary_materials": {
+                    "tbl": {
+                        "type": "csv",
+                        "filename": str(de_csv),
+                        "statistical_analyses": [{
+                            "id": "DE_test",
+                            "experiment": "exp1",
+                            "name_col": "gene",
+                            "logfc_col": "log2fc",
+                        }],
+                    },
+                },
+            },
+        }
+        if doi_override:
+            paperconfig["publication"]["doi"] = doi_override
+
+        config_file = tmp_path / "paperconfig.yaml"
+        config_file.write_text(yaml.dump(paperconfig))
+        return str(config_file)
+
+    def test_config_doi_overrides_publication_id(self, tmp_path):
+        config_file = self._make_config_with_doi(tmp_path, doi_override="10.9999/testdoi")
+        adapter = OMICSAdapter(config_file=config_file)
+        adapter.extracted_data = {
+            "publication": {
+                "publication_id": "pub_SomethingElse",
+                "doi": "10.0000/other",
+                "title": "Some Title",
+            },
+        }
+        pub_id = adapter.get_publication_id()
+        assert pub_id == "10.9999/testdoi"
+
+    def test_config_doi_overrides_experiment_ids(self, tmp_path):
+        config_file = self._make_config_with_doi(tmp_path, doi_override="10.9999/testdoi")
+        adapter = OMICSAdapter(config_file=config_file)
+        adapter.extracted_data = {
+            "publication": {
+                "publication_id": "pub_SomethingElse",
+                "doi": "10.0000/other",
+                "title": "Some Title",
+            },
+        }
+        nodes = adapter.get_nodes()
+        experiment_nodes = [n for n in nodes if n[1] == "experiment"]
+        assert len(experiment_nodes) == 1
+        exp_id = experiment_nodes[0][0]
+        assert exp_id.startswith("10.9999/testdoi_"), f"Experiment id should start with override DOI, got {exp_id}"
+
+    def test_config_doi_flows_to_publication_node_property(self, tmp_path):
+        config_file = self._make_config_with_doi(tmp_path, doi_override="10.9999/testdoi")
+        adapter = OMICSAdapter(config_file=config_file)
+        adapter.extracted_data = {
+            "publication": {
+                "publication_id": "pub_SomethingElse",
+                "doi": "10.0000/other",
+                "title": "Some Title",
+            },
+        }
+        pub_nodes = adapter.get_publication_nodes()
+        assert len(pub_nodes) == 1
+        props = pub_nodes[0][2]
+        assert props["doi"] == "10.9999/testdoi"
+
+    def test_no_config_doi_uses_pdf_extracted(self, tmp_path):
+        config_file = self._make_config_with_doi(tmp_path, doi_override=None)
+        adapter = OMICSAdapter(config_file=config_file)
+        adapter.extracted_data = {
+            "publication": {
+                "publication_id": "10.1234/from.pdf",
+                "doi": "10.1234/from.pdf",
+                "title": "PDF Title",
+            },
+        }
+        pub_id = adapter.get_publication_id()
+        assert pub_id == "10.1234/from.pdf"
+
+    def test_config_doi_warns_on_disagreement(self, tmp_path, caplog):
+        import logging
+        config_file = self._make_config_with_doi(tmp_path, doi_override="10.9999/testdoi")
+        adapter = OMICSAdapter(config_file=config_file)
+        adapter.extracted_data = {
+            "publication": {
+                "doi": "10.0000/different",
+                "title": "Title",
+            },
+        }
+        with caplog.at_level(logging.WARNING):
+            pub_id = adapter.get_publication_id()
+        assert pub_id == "10.9999/testdoi"
+        assert "disagrees" in caplog.text.lower() or "Config doi" in caplog.text
+
+    def test_download_data_raises_on_missing_pdf(self, tmp_path):
+        config_file = self._make_config_with_doi(tmp_path, doi_override="10.9999/testdoi")
+        adapter = OMICSAdapter(config_file=config_file)
+        # papermainpdf points to tmp_path/dummy.pdf which does not exist
+        with pytest.raises(FileNotFoundError):
+            adapter.download_data()
+
+    def test_download_data_raises_on_empty_extraction(self, tmp_path, monkeypatch):
+        # Create the dummy PDF so the path check passes
+        dummy_pdf = tmp_path / "dummy.pdf"
+        dummy_pdf.write_text("fake pdf")
+        config_file = self._make_config_with_doi(tmp_path, doi_override="10.9999/testdoi")
+        adapter = OMICSAdapter(config_file=config_file)
+        # Mock extractor to return empty dict
+        monkeypatch.setattr(adapter.pdf_extractor, "extract_from_pdf", lambda path: {})
+        with pytest.raises(RuntimeError, match="no publication block"):
+            adapter.download_data()
