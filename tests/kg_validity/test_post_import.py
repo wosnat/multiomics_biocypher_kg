@@ -396,7 +396,7 @@ def test_annotation_types_values_valid(run_query):
         UNWIND g.annotation_types AS t
         WITH DISTINCT t
         WHERE NOT t IN ['go_bp', 'go_mf', 'go_cc', 'pfam', 'cog_category',
-                        'kegg', 'ec', 'cyanorak_role', 'tigr_role']
+                        'kegg', 'brite', 'ec', 'cyanorak_role', 'tigr_role']
         RETURN collect(t) AS bad
     """)
     assert result[0]["bad"] == [], (
