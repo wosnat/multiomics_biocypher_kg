@@ -28,6 +28,7 @@ A paperconfig has three top-level sections under `publication:`:
 ```yaml
 publication:
   papername: "<Author Year>"
+  doi: "10.NNNN/xxxxx"  # optional — overrides PDF-extracted DOI
   papermainpdf: "data/Prochlorococcus/papers_and_supp/<AuthorName Year>/<filename>.pdf"
 
   experiments:
@@ -42,10 +43,12 @@ publication:
 ```yaml
 publication:
   papername: "Author Year"
+  doi: "10.NNNN/xxxxx"  # optional — overrides PDF-extracted DOI
   papermainpdf: "data/Prochlorococcus/papers_and_supp/<folder>/<pdf_filename>.pdf"
 ```
 
 - `papername`: Short citation label (e.g., "Biller 2016"). Used for display only.
+- `doi`: *(optional)* Explicit DOI override. When present, takes precedence over the PDF-extracted DOI for the Publication node ID and all Experiment node IDs. Must match pattern `10.NNNN/...`. Use this when the PDF extractor fails to find the correct DOI.
 - `papermainpdf`: Relative path to the publication PDF. The adapter extracts metadata (title, DOI, authors, abstract) from this PDF automatically using an LLM-based extractor.
 
 ### 2. Experiments Block (Required)
