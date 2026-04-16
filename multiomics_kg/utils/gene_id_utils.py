@@ -66,10 +66,13 @@ ORGANISM_TO_GENOME_DIR = {
     "prochlorococcus ss120": "cache/data/Prochlorococcus/genomes/SS120",
     "synechococcus sp. bl107": "cache/data/Synechococcus/genomes/BL107",
     "synechococcus bl107": "cache/data/Synechococcus/genomes/BL107",
+    # Reference proteome match organisms (Moreno 2023 community fractions)
+    "marinobacter (marref v6)": "cache/data/Marinobacter/genomes/HP15",
     "marinobacter adhaerens dsm 23420 / hp15": "cache/data/Marinobacter/genomes/HP15",
     "marinobacter adhaerens hp15": "cache/data/Marinobacter/genomes/HP15",
     "marinobacter hp15": "cache/data/Marinobacter/genomes/HP15",
-    "alteromonas mediterranea de": "cache/data/Alteromonas/genomes/AltMedDE",
+    "alteromonas (marref v6)": "cache/data/Alteromonas/genomes/Alt_MarRef",
+    "alteromonas mediterranea de": "cache/data/Alteromonas/genomes/Alt_MarRef",
 }
 
 # ─── Patterns & keywords ──────────────────────────────────────────────────────
