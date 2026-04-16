@@ -329,3 +329,21 @@ class TestDoiOverride:
             pub_id = adapter.get_publication_id()
         assert pub_id == "10.9999/testdoi"
         assert "disagrees" in caplog.text.lower() or "Config doi" in caplog.text
+
+    def test_download_data_raises_on_missing_pdf(self, tmp_path):
+        config_file = self._make_config_with_doi(tmp_path, doi_override="10.9999/testdoi")
+        adapter = OMICSAdapter(config_file=config_file)
+        # papermainpdf points to tmp_path/dummy.pdf which does not exist
+        with pytest.raises(FileNotFoundError):
+            adapter.download_data()
+
+    def test_download_data_raises_on_empty_extraction(self, tmp_path, monkeypatch):
+        # Create the dummy PDF so the path check passes
+        dummy_pdf = tmp_path / "dummy.pdf"
+        dummy_pdf.write_text("fake pdf")
+        config_file = self._make_config_with_doi(tmp_path, doi_override="10.9999/testdoi")
+        adapter = OMICSAdapter(config_file=config_file)
+        # Mock extractor to return empty dict
+        monkeypatch.setattr(adapter.pdf_extractor, "extract_from_pdf", lambda path: {})
+        with pytest.raises(RuntimeError, match="no publication block"):
+            adapter.download_data()

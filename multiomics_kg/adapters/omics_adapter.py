@@ -256,10 +256,16 @@ class OMICSAdapter:
 
         # extract publication metadata from pdf
         pdf_path = publication.get('papermainpdf', None)
-        if pdf_path and os.path.exists(pdf_path):
-            self.extracted_data = self.pdf_extractor.extract_from_pdf(pdf_path)
-        else:
-            logger.warning(f"PDF path not found or not provided: {pdf_path}. Skipping publication nodes.")
+        if not pdf_path or not os.path.exists(pdf_path):
+            raise FileNotFoundError(
+                f"PDF path missing or not found for "
+                f"{publication.get('papername', '?')}: {pdf_path!r}"
+            )
+        self.extracted_data = self.pdf_extractor.extract_from_pdf(pdf_path)
+        if not self.extracted_data or "publication" not in self.extracted_data:
+            raise RuntimeError(
+                f"PDF extraction produced no publication block for {pdf_path}"
+            )
 
     def get_publication_nodes(self) -> list[tuple]:
         """
