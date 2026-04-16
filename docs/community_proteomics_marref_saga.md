@@ -55,6 +55,8 @@ The authors did not culture the heterotrophs — they reported what MarRef match
 
 ## Open work (out of scope for the current PR)
 
+> **Update 2026-04-16:** Questions 1-3 below have been answered by the reference proteome match organisms spec (`docs/superpowers/specs/2026-04-16-reference-proteome-match-organisms-design.md`). Summary: HP15 and AltMedDE converted to `organism_type: reference_proteome_match` with `reference_database: MarRef v6`. AltMedDE assembly fixed to GCA_003513035.1, renamed to Alt_MarRef. See `docs/kg-changes/reference-proteome-match-organisms.md`.
+
 The right fix needs a small schema design exercise. Key questions to answer:
 
 1. **How should "community fraction matched against reference proteome X" be modeled?** Options to consider:
