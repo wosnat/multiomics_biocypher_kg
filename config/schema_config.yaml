@@ -26,6 +26,7 @@ publication:
     treatment_types: str[]             # post-import: distinct treatment_type from experiments
     background_factors: str[]          # post-import: distinct background_factors from experiments
     omics_types: str[]                 # post-import: distinct omics_type from experiments
+    growth_phases: str[]               # post-import: distinct growth_phases from experiments
 
 
 # Experiment node: groups time-series analyses for a single scientific comparison
@@ -62,6 +63,7 @@ experiment:
     time_point_totals: int[]
     time_point_significant_up: int[]
     time_point_significant_down: int[]
+    time_point_growth_phases: str[]  # post-import: per-timepoint growth_phase (parallel array; "" = unknown)
     growth_phases: str[]          # post-import: distinct growth_phase values from edges
 
 # GeneCluster node: groups co-expressed genes from a clustering analysis within a publication
@@ -98,6 +100,7 @@ clustering analysis:
     light_condition: str
     cluster_type: str
     experimental_context: str
+    growth_phases: str[]   # post-import: distinct growth_phases from linked experiments
 
 # Publication → Experiment
 publication has experiment:
@@ -333,6 +336,7 @@ organism taxon:
     treatment_types: str[]   # pre-computed: distinct treatment types across matched publications
     background_factors: str[] # pre-computed: distinct background_factors across matched publications
     omics_types: str[]       # pre-computed: distinct omics types across matched publications
+    growth_phases: str[]     # pre-computed: distinct growth_phases across matched publications
     organism_type: str   # genome_strain | treatment | reference_proteome_match
     reference_database: str   # e.g. "MarRef v6" (reference_proteome_match only)
     reference_proteome: str   # e.g. "UP000262181" (reference_proteome_match only)

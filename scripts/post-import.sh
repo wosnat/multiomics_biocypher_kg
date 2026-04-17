@@ -108,6 +108,14 @@ WITH gc, count(r) AS actual_count
 SET gc.member_count = actual_count;
 CYPHER
 
+echo "=== Post-process: Compute Experiment growth_phases (must run before Publication rollup) ==="
+cypher-shell <<'CYPHER'
+MATCH (e:Experiment)
+OPTIONAL MATCH (e)-[r:Changes_expression_of]->(:Gene)
+WITH e, [v IN collect(DISTINCT r.growth_phase) WHERE v IS NOT NULL] AS phases
+SET e.growth_phases = phases;
+CYPHER
+
 echo "=== Post-process: Compute Publication summary properties ==="
 cypher-shell <<'CYPHER'
 MATCH (p:Publication)
@@ -118,11 +126,13 @@ WITH p,
      [x IN collect(DISTINCT e.organism_name) WHERE x IS NOT NULL] AS orgs,
      [x IN collect(DISTINCT e.coculture_partner) WHERE x IS NOT NULL AND x <> ''] AS coculture_orgs,
      apoc.coll.toSet(reduce(s = [], t IN collect(coalesce(e.treatment_type, [])) | s + t)) AS tts,
-     apoc.coll.toSet(reduce(s = [], t IN collect(coalesce(e.background_factors, [])) | s + t)) AS bfs
+     apoc.coll.toSet(reduce(s = [], t IN collect(coalesce(e.background_factors, [])) | s + t)) AS bfs,
+     apoc.coll.toSet(reduce(s = [], t IN collect(coalesce(e.growth_phases, [])) | s + t)) AS gps
 SET p.experiment_count = ec,
     p.treatment_types = apoc.coll.sort(tts),
     p.background_factors = apoc.coll.sort(bfs),
     p.omics_types = apoc.coll.sort(ots),
+    p.growth_phases = apoc.coll.sort(gps),
     p.organisms = apoc.coll.sort(apoc.coll.toSet(orgs + coculture_orgs))
 CYPHER
 
@@ -150,7 +160,8 @@ SET e.gene_count = 0,
     e.time_point_hours = [],
     e.time_point_totals = [],
     e.time_point_significant_up = [],
-    e.time_point_significant_down = []
+    e.time_point_significant_down = [],
+    e.time_point_growth_phases = []
 CYPHER
 
 echo "--- experiment stats computation ---"
@@ -160,6 +171,7 @@ WITH e,
      COALESCE(r.time_point, '') AS tp,
      r.time_point_order AS tp_order,
      COALESCE(r.time_point_hours, -1.0) AS tp_hours,
+     max(COALESCE(r.growth_phase, '')) AS tp_gp,
      count(r) AS total,
      count(CASE WHEN r.expression_status = 'significant_up' THEN 1 END) AS sig_up,
      count(CASE WHEN r.expression_status = 'significant_down' THEN 1 END) AS sig_down
@@ -171,6 +183,7 @@ WITH e,
      collect(tp) AS tp_labels,
      collect(tp_order) AS tp_orders,
      collect(tp_hours) AS tp_hours_list,
+     collect(tp_gp) AS tp_gps,
      collect(total) AS tp_totals,
      collect(sig_up) AS tp_sig_up,
      collect(sig_down) AS tp_sig_down
@@ -183,15 +196,8 @@ SET e.gene_count = gene_count,
     e.time_point_hours = tp_hours_list,
     e.time_point_totals = tp_totals,
     e.time_point_significant_up = tp_sig_up,
-    e.time_point_significant_down = tp_sig_down
-CYPHER
-
-echo "=== Post-process: Compute Experiment growth_phases ==="
-cypher-shell <<'CYPHER'
-MATCH (e:Experiment)
-OPTIONAL MATCH (e)-[r:Changes_expression_of]->(:Gene)
-WITH e, [v IN collect(DISTINCT r.growth_phase) WHERE v IS NOT NULL] AS phases
-SET e.growth_phases = phases;
+    e.time_point_significant_down = tp_sig_down,
+    e.time_point_growth_phases = tp_gps
 CYPHER
 
 echo "=== Post-process: Compute OrganismTaxon summary properties ==="
@@ -214,15 +220,25 @@ WITH o,
      CASE WHEN count(p) > 0 THEN sum(p.experiment_count) ELSE 0 END AS ec,
      apoc.coll.toSet(reduce(s = [], t IN collect(p.treatment_types) | s + t)) AS tts,
      apoc.coll.toSet(reduce(s = [], t IN collect(p.omics_types) | s + t)) AS ots,
-     apoc.coll.toSet(reduce(s = [], t IN collect(coalesce(p.background_factors, [])) | s + t)) AS bfs
+     apoc.coll.toSet(reduce(s = [], t IN collect(coalesce(p.background_factors, [])) | s + t)) AS bfs,
+     apoc.coll.toSet(reduce(s = [], t IN collect(coalesce(p.growth_phases, [])) | s + t)) AS gps
 SET o.publication_count = pc,
     o.experiment_count = ec,
     o.treatment_types = tts,
     o.omics_types = ots,
-    o.background_factors = bfs
+    o.background_factors = bfs,
+    o.growth_phases = gps
 CYPHER
 
 echo "=== Post-process: Compute ClusteringAnalysis summary properties ==="
+
+echo "--- ClusteringAnalysis growth_phases (from linked experiments) ---"
+cypher-shell <<'CYPHER'
+MATCH (ca:ClusteringAnalysis)
+OPTIONAL MATCH (e:Experiment)-[:ExperimentHasClusteringAnalysis]->(ca)
+WITH ca, apoc.coll.toSet(reduce(s = [], t IN collect(coalesce(e.growth_phases, [])) | s + t)) AS gps
+SET ca.growth_phases = apoc.coll.sort(gps)
+CYPHER
 
 echo "--- OrganismTaxon clustering_analysis_count, cluster_types, cluster_count ---"
 cypher-shell <<'CYPHER'
