@@ -357,8 +357,8 @@
     },
     {
       "properties": {},
-      "source": "go:0000041",
-      "target": "go:0030001",
+      "source": "go:0000038",
+      "target": "go:0006631",
       "type": "Biological_process_is_a_biological_process"
     },
     {
@@ -662,7 +662,7 @@
       "type": "Cyanorak_role_is_a_cyanorak_role"
     }
   ],
-  "generated_at": "2026-04-14T08:13:54.681644+00:00",
+  "generated_at": "2026-04-17T07:07:00.442701+00:00",
   "nodes": [
     {
       "anchor": true,
@@ -813,6 +813,29 @@
     },
     {
       "anchor": false,
+      "id": "insdc.gcf:GCA_003513035.1",
+      "label": "OrganismTaxon",
+      "properties": {
+        "genus": "Alteromonas",
+        "ncbi_taxon_id": 232,
+        "organism_name": "Alt_MarRef",
+        "strain_name": "Alt_MarRef"
+      }
+    },
+    {
+      "anchor": false,
+      "id": "insdc.gcf:GCF_000007925.1",
+      "label": "OrganismTaxon",
+      "properties": {
+        "clade": "LLII",
+        "genus": "Prochlorococcus",
+        "ncbi_taxon_id": 167539,
+        "organism_name": "SS120",
+        "strain_name": "SS120"
+      }
+    },
+    {
+      "anchor": false,
       "id": "insdc.gcf:GCF_000011345.1",
       "label": "OrganismTaxon",
       "properties": {
@@ -832,29 +855,6 @@
         "ncbi_taxon_id": 74547,
         "organism_name": "MIT9313",
         "strain_name": "MIT9313"
-      }
-    },
-    {
-      "anchor": false,
-      "id": "insdc.gcf:GCF_000011965.2",
-      "label": "OrganismTaxon",
-      "properties": {
-        "genus": "Ruegeria",
-        "ncbi_taxon_id": 89184,
-        "organism_name": "DSS-3",
-        "strain_name": "DSS-3"
-      }
-    },
-    {
-      "anchor": false,
-      "id": "insdc.gcf:GCF_000012465.1",
-      "label": "OrganismTaxon",
-      "properties": {
-        "clade": "LLII",
-        "genus": "Prochlorococcus",
-        "ncbi_taxon_id": 59920,
-        "organism_name": "NATL2A",
-        "strain_name": "NATL2A"
       }
     },
     {
@@ -1154,10 +1154,10 @@
     },
     {
       "anchor": false,
-      "id": "go:0000041",
+      "id": "go:0000038",
       "label": "BiologicalProcess",
       "properties": {
-        "name": "transition metal ion transport"
+        "name": "very long-chain fatty acid metabolic process"
       }
     },
     {

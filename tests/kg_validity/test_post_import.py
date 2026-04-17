@@ -708,11 +708,210 @@ def test_experiment_parallel_arrays_aligned(run_query):
         MATCH (e:Experiment)
         WHERE e.time_point_count <> size(e.time_point_labels)
            OR e.time_point_count <> size(e.time_point_orders)
+           OR e.time_point_count <> size(e.time_point_hours)
            OR e.time_point_count <> size(e.time_point_totals)
            OR e.time_point_count <> size(e.time_point_significant_up)
            OR e.time_point_count <> size(e.time_point_significant_down)
+           OR e.time_point_count <> size(e.time_point_growth_phases)
         RETURN count(e) AS bad, collect(e.id)[..5] AS examples
     """)
     assert result[0]["bad"] == 0, (
         f"{result[0]['bad']} experiments have misaligned time_point arrays: {result[0]['examples']}"
     )
+
+
+# ---------------------------------------------------------------------------
+# Expression edge computed properties
+# ---------------------------------------------------------------------------
+
+def test_expression_status_populated(run_query):
+    """Every Changes_expression_of edge must have expression_status set."""
+    result = run_query("""
+        MATCH ()-[r:Changes_expression_of]->()
+        WHERE r.expression_status IS NULL
+        RETURN count(r) AS missing
+    """)
+    assert result[0]["missing"] == 0, (
+        f"{result[0]['missing']} Changes_expression_of edges missing expression_status"
+    )
+
+
+def test_expression_status_values_valid(run_query):
+    """expression_status values must be in the known set."""
+    result = run_query("""
+        MATCH ()-[r:Changes_expression_of]->()
+        WITH DISTINCT r.expression_status AS status
+        WHERE NOT status IN ['significant_up', 'significant_down', 'not_significant']
+        RETURN collect(status) AS bad
+    """)
+    assert result[0]["bad"] == [], (
+        f"Unexpected expression_status values: {result[0]['bad']}"
+    )
+
+
+def test_rank_by_effect_contiguous(run_query):
+    """rank_by_effect should be 1..N contiguous per (experiment, time_point_order)."""
+    result = run_query("""
+        MATCH (e:Experiment)-[r:Changes_expression_of]->()
+        WITH e.id AS eid, r.time_point_order AS tp, collect(r.rank_by_effect) AS ranks
+        WITH eid, tp, ranks,
+             apoc.coll.sort(ranks) AS sorted,
+             size(ranks) AS n
+        WHERE sorted <> range(1, n)
+        RETURN count(*) AS bad, collect([eid, tp])[..5] AS examples
+    """)
+    assert result[0]["bad"] == 0, (
+        f"{result[0]['bad']} (experiment, timepoint) groups have non-contiguous rank_by_effect: "
+        f"{result[0]['examples']}"
+    )
+
+
+def test_rank_up_only_on_significant_up(run_query):
+    """rank_up must be non-null iff expression_status = 'significant_up'."""
+    result = run_query("""
+        MATCH ()-[r:Changes_expression_of]->()
+        WITH
+          count(CASE WHEN r.rank_up IS NOT NULL AND r.expression_status <> 'significant_up'
+                     THEN 1 END) AS rank_up_on_wrong_status,
+          count(CASE WHEN r.rank_up IS NULL AND r.expression_status = 'significant_up'
+                     THEN 1 END) AS sig_up_missing_rank
+        RETURN rank_up_on_wrong_status, sig_up_missing_rank
+    """)
+    row = result[0]
+    assert row["rank_up_on_wrong_status"] == 0, (
+        f"{row['rank_up_on_wrong_status']} edges have rank_up set but status != significant_up"
+    )
+    assert row["sig_up_missing_rank"] == 0, (
+        f"{row['sig_up_missing_rank']} significant_up edges are missing rank_up"
+    )
+
+
+def test_rank_down_only_on_significant_down(run_query):
+    """rank_down must be non-null iff expression_status = 'significant_down'."""
+    result = run_query("""
+        MATCH ()-[r:Changes_expression_of]->()
+        WITH
+          count(CASE WHEN r.rank_down IS NOT NULL AND r.expression_status <> 'significant_down'
+                     THEN 1 END) AS rank_down_on_wrong_status,
+          count(CASE WHEN r.rank_down IS NULL AND r.expression_status = 'significant_down'
+                     THEN 1 END) AS sig_down_missing_rank
+        RETURN rank_down_on_wrong_status, sig_down_missing_rank
+    """)
+    row = result[0]
+    assert row["rank_down_on_wrong_status"] == 0, (
+        f"{row['rank_down_on_wrong_status']} edges have rank_down set but status != significant_down"
+    )
+    assert row["sig_down_missing_rank"] == 0, (
+        f"{row['sig_down_missing_rank']} significant_down edges are missing rank_down"
+    )
+
+
+# ---------------------------------------------------------------------------
+# Gene cluster routing signals
+# ---------------------------------------------------------------------------
+
+def test_cluster_membership_count_populated(run_query):
+    """All Gene nodes must have non-null cluster_membership_count."""
+    result = run_query("""
+        MATCH (g:Gene)
+        WHERE g.cluster_membership_count IS NULL
+        RETURN count(g) AS missing
+    """)
+    assert result[0]["missing"] == 0, (
+        f"{result[0]['missing']} genes missing cluster_membership_count"
+    )
+
+
+def test_cluster_types_is_list(run_query):
+    """All Gene nodes must have cluster_types as a list (possibly empty)."""
+    result = run_query("""
+        MATCH (g:Gene)
+        WHERE g.cluster_types IS NULL
+        RETURN count(g) AS missing
+    """)
+    assert result[0]["missing"] == 0, (
+        f"{result[0]['missing']} genes missing cluster_types"
+    )
+
+
+# ---------------------------------------------------------------------------
+# BriteCategory computed properties
+# ---------------------------------------------------------------------------
+
+def test_britecategory_computed_populated(run_query):
+    """All BriteCategory nodes must have non-null member_ko_count, gene_count, organism_count."""
+    result = run_query("""
+        MATCH (b:BriteCategory)
+        WHERE b.member_ko_count IS NULL
+           OR b.gene_count IS NULL
+           OR b.organism_count IS NULL
+        RETURN count(b) AS missing
+    """)
+    assert result[0]["missing"] == 0, (
+        f"{result[0]['missing']} BriteCategory nodes missing a computed property"
+    )
+
+
+# ---------------------------------------------------------------------------
+# Index presence — hardcoded list of what post-import.sh should create.
+# If a CREATE INDEX line is dropped during refactoring, this test fails.
+# ---------------------------------------------------------------------------
+
+EXPECTED_INDEXES = {
+    # scalar
+    "gene_locus_tag_idx",
+    "gene_name_idx",
+    "gene_organism_name_idx",
+    "ortholog_group_id_idx",
+    "ortholog_group_name_idx",
+    "ortholog_group_level_idx",
+    "ortholog_group_rank_idx",
+    "pfam_name_idx",
+    "pfam_clan_name_idx",
+    "brite_category_tree_idx",
+    "brite_category_level_idx",
+    "brite_category_name_idx",
+    "experiment_id_idx",
+    "experiment_organism_idx",
+    "experiment_treatment_type_idx",
+    "experiment_background_factors_idx",
+    "experiment_omics_type_idx",
+    "organism_type_idx",
+    "clustering_analysis_organism_idx",
+    "clustering_analysis_method_idx",
+    "clustering_analysis_type_idx",
+    # full-text
+    "geneFullText",
+    "biologicalProcessFullText",
+    "molecularFunctionFullText",
+    "cellularComponentFullText",
+    "ecNumberFullText",
+    "keggFullText",
+    "cogCategoryFullText",
+    "cyanorakRoleFullText",
+    "tigrRoleFullText",
+    "orthologGroupFullText",
+    "pfamFullText",
+    "pfamClanFullText",
+    "briteCategoryFullText",
+    "publicationFullText",
+    "experimentFullText",
+    "clusteringAnalysisFullText",
+    "geneClusterFullText",
+}
+
+
+def test_expected_indexes_present_and_online(run_query):
+    """All indexes listed in post-import.sh must exist and be ONLINE."""
+    result = run_query(
+        "SHOW INDEXES YIELD name, type, state WHERE type <> 'LOOKUP' "
+        "RETURN name, state"
+    )
+    actual = {row["name"]: row["state"] for row in result}
+    missing = EXPECTED_INDEXES - set(actual.keys())
+    not_online = {
+        name: state for name, state in actual.items()
+        if name in EXPECTED_INDEXES and state != "ONLINE"
+    }
+    assert not missing, f"Missing indexes: {sorted(missing)}"
+    assert not not_online, f"Indexes not ONLINE: {not_online}"

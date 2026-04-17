@@ -1,22 +1,26 @@
 #!/bin/bash
 set -euo pipefail
 
+TIMEFORMAT="  [timing] %Rs"
+
 echo "=== Post-process: Starting Neo4j ==="
 neo4j start
 sleep 15
 
-echo "=== Post-process: Create scalar indexes ==="
-cypher-shell <<'CYPHER'
+# ─────────────────────────────────────────────────────────────────────────────
+# Group 1: all indexes (scalar + full-text across every node type).
+# ─────────────────────────────────────────────────────────────────────────────
+echo "=== Post-process: Create all indexes ==="
+time cypher-shell <<'CYPHER'
+// Gene scalar + full-text
 CREATE INDEX gene_locus_tag_idx IF NOT EXISTS FOR (g:Gene) ON (g.locus_tag);
 CREATE INDEX gene_name_idx IF NOT EXISTS FOR (g:Gene) ON (g.gene_name);
 CREATE INDEX gene_organism_name_idx IF NOT EXISTS FOR (g:Gene) ON (g.organism_name);
-CYPHER
-
-echo "=== Post-process: Create full-text indexes ==="
-cypher-shell <<'CYPHER'
 CREATE FULLTEXT INDEX geneFullText IF NOT EXISTS FOR (n:Gene) ON EACH [
   n.gene_summary, n.all_identifiers, n.gene_name_synonyms,
   n.alternate_functional_descriptions];
+
+// Ontology / role full-text
 CREATE FULLTEXT INDEX biologicalProcessFullText IF NOT EXISTS
   FOR (n:BiologicalProcess) ON EACH [n.name];
 CREATE FULLTEXT INDEX molecularFunctionFullText IF NOT EXISTS
@@ -33,91 +37,78 @@ CREATE FULLTEXT INDEX cyanorakRoleFullText IF NOT EXISTS
   FOR (n:CyanorakRole) ON EACH [n.name];
 CREATE FULLTEXT INDEX tigrRoleFullText IF NOT EXISTS
   FOR (n:TigrRole) ON EACH [n.name];
-CYPHER
 
-echo "=== Post-process: Create OrthologGroup indexes ==="
-cypher-shell <<'CYPHER'
+// OrthologGroup
 CREATE INDEX ortholog_group_id_idx IF NOT EXISTS FOR (og:OrthologGroup) ON (og.id);
 CREATE INDEX ortholog_group_name_idx IF NOT EXISTS FOR (og:OrthologGroup) ON (og.name);
 CREATE INDEX ortholog_group_level_idx IF NOT EXISTS FOR (og:OrthologGroup) ON (og.taxonomic_level);
 CREATE INDEX ortholog_group_rank_idx IF NOT EXISTS FOR (og:OrthologGroup) ON (og.specificity_rank);
-
 CREATE FULLTEXT INDEX orthologGroupFullText IF NOT EXISTS
   FOR (og:OrthologGroup) ON EACH [og.consensus_product, og.consensus_gene_name, og.description, og.functional_description];
-CYPHER
 
-echo "=== Post-process: Create Pfam indexes ==="
-cypher-shell <<'CYPHER'
+// Pfam
 CREATE INDEX pfam_name_idx IF NOT EXISTS FOR (p:Pfam) ON (p.name);
 CREATE INDEX pfam_clan_name_idx IF NOT EXISTS FOR (c:PfamClan) ON (c.name);
-
 CREATE FULLTEXT INDEX pfamFullText IF NOT EXISTS
   FOR (p:Pfam) ON EACH [p.name, p.short_name];
 CREATE FULLTEXT INDEX pfamClanFullText IF NOT EXISTS
   FOR (c:PfamClan) ON EACH [c.name];
-CYPHER
 
-echo "=== Post-process: Create BriteCategory indexes ==="
-cypher-shell <<'CYPHER'
+// BriteCategory
 CREATE INDEX brite_category_tree_idx IF NOT EXISTS FOR (b:BriteCategory) ON (b.tree_code);
 CREATE INDEX brite_category_level_idx IF NOT EXISTS FOR (b:BriteCategory) ON (b.level);
 CREATE INDEX brite_category_name_idx IF NOT EXISTS FOR (b:BriteCategory) ON (b.name);
-
 CREATE FULLTEXT INDEX briteCategoryFullText IF NOT EXISTS
   FOR (b:BriteCategory) ON EACH [b.name];
-CYPHER
 
-echo "=== Post-process: Create Publication indexes ==="
-cypher-shell <<'CYPHER'
+// Publication
 CREATE FULLTEXT INDEX publicationFullText IF NOT EXISTS
   FOR (p:Publication) ON EACH [p.title, p.abstract, p.description];
-CYPHER
 
-echo "=== Post-process: Create Experiment indexes ==="
-cypher-shell <<'CYPHER'
+// Experiment
 CREATE INDEX experiment_id_idx IF NOT EXISTS FOR (e:Experiment) ON (e.id);
 CREATE INDEX experiment_organism_idx IF NOT EXISTS FOR (e:Experiment) ON (e.organism_name);
 CREATE INDEX experiment_treatment_type_idx IF NOT EXISTS FOR (e:Experiment) ON (e.treatment_type);
 CREATE INDEX experiment_background_factors_idx IF NOT EXISTS FOR (e:Experiment) ON (e.background_factors);
 CREATE INDEX experiment_omics_type_idx IF NOT EXISTS FOR (e:Experiment) ON (e.omics_type);
-
 CREATE FULLTEXT INDEX experimentFullText IF NOT EXISTS
   FOR (e:Experiment) ON EACH [e.name, e.treatment, e.control, e.experimental_context, e.light_condition];
 
-// ── OrganismTaxon indexes ──────────────────────────────────────────────
+// OrganismTaxon
 CREATE INDEX organism_type_idx IF NOT EXISTS FOR (o:OrganismTaxon) ON (o.organism_type);
 
-// ── ClusteringAnalysis indexes ──────────────────────────────────────────
+// ClusteringAnalysis
 CREATE INDEX clustering_analysis_organism_idx IF NOT EXISTS FOR (ca:ClusteringAnalysis) ON (ca.organism_name);
 CREATE INDEX clustering_analysis_method_idx IF NOT EXISTS FOR (ca:ClusteringAnalysis) ON (ca.cluster_method);
 CREATE INDEX clustering_analysis_type_idx IF NOT EXISTS FOR (ca:ClusteringAnalysis) ON (ca.cluster_type);
-
 CREATE FULLTEXT INDEX clusteringAnalysisFullText IF NOT EXISTS
   FOR (ca:ClusteringAnalysis) ON EACH [ca.name, ca.treatment, ca.experimental_context];
 
-// ── GeneCluster indexes ─────────────────────────────────────────────────
+// GeneCluster
 CREATE FULLTEXT INDEX geneClusterFullText IF NOT EXISTS
   FOR (gc:GeneCluster) ON EACH [gc.name, gc.functional_description, gc.temporal_pattern, gc.expression_dynamics];
 CYPHER
 
-echo "=== Post-process: Compute GeneCluster member_count ==="
-cypher-shell <<'CYPHER'
+# ─────────────────────────────────────────────────────────────────────────────
+# Group 2: small-table aggregations. Ordering matters:
+#   growth_phases (on Experiment) feeds Publication rollup;
+#   expression_status on edges feeds Experiment summary and rank_up/rank_down.
+# ─────────────────────────────────────────────────────────────────────────────
+echo "=== Post-process: Compute small-table aggregations ==="
+time cypher-shell <<'CYPHER'
+// GeneCluster member_count
 MATCH (gc:GeneCluster)
 OPTIONAL MATCH (gc)-[r:Gene_in_gene_cluster]->()
 WITH gc, count(r) AS actual_count
 SET gc.member_count = actual_count;
-CYPHER
 
-echo "=== Post-process: Compute Experiment growth_phases (must run before Publication rollup) ==="
-cypher-shell <<'CYPHER'
+// Experiment growth_phases (must run before Publication rollup)
 MATCH (e:Experiment)
 OPTIONAL MATCH (e)-[r:Changes_expression_of]->(:Gene)
 WITH e, [v IN collect(DISTINCT r.growth_phase) WHERE v IS NOT NULL] AS phases
 SET e.growth_phases = phases;
-CYPHER
 
-echo "=== Post-process: Compute Publication summary properties ==="
-cypher-shell <<'CYPHER'
+// Publication summary properties
 MATCH (p:Publication)
 OPTIONAL MATCH (p)-[:Has_experiment]->(e:Experiment)
 WITH p,
@@ -133,23 +124,17 @@ SET p.experiment_count = ec,
     p.background_factors = apoc.coll.sort(bfs),
     p.omics_types = apoc.coll.sort(ots),
     p.growth_phases = apoc.coll.sort(gps),
-    p.organisms = apoc.coll.sort(apoc.coll.toSet(orgs + coculture_orgs))
-CYPHER
+    p.organisms = apoc.coll.sort(apoc.coll.toSet(orgs + coculture_orgs));
 
-echo "=== Post-process: Compute expression_status on edges ==="
-cypher-shell <<'CYPHER'
+// expression_status on every Changes_expression_of edge
 MATCH ()-[r:Changes_expression_of]->()
 SET r.expression_status = CASE
   WHEN r.significant = 'significant' AND r.expression_direction = 'up'   THEN 'significant_up'
   WHEN r.significant = 'significant' AND r.expression_direction = 'down' THEN 'significant_down'
   ELSE 'not_significant'
-END
-CYPHER
+END;
 
-echo "=== Post-process: Compute Experiment summary properties ==="
-
-echo "--- experiment stats defaults ---"
-cypher-shell <<'CYPHER'
+// Experiment stats defaults (so experiments with 0 edges still get populated props)
 MATCH (e:Experiment)
 SET e.gene_count = 0,
     e.significant_up_count = 0,
@@ -161,11 +146,9 @@ SET e.gene_count = 0,
     e.time_point_totals = [],
     e.time_point_significant_up = [],
     e.time_point_significant_down = [],
-    e.time_point_growth_phases = []
-CYPHER
+    e.time_point_growth_phases = [];
 
-echo "--- experiment stats computation ---"
-cypher-shell <<'CYPHER'
+// Experiment stats computation (overrides defaults where edges exist)
 MATCH (e:Experiment)-[r:Changes_expression_of]->(g:Gene)
 WITH e,
      COALESCE(r.time_point, '') AS tp,
@@ -197,21 +180,15 @@ SET e.gene_count = gene_count,
     e.time_point_totals = tp_totals,
     e.time_point_significant_up = tp_sig_up,
     e.time_point_significant_down = tp_sig_down,
-    e.time_point_growth_phases = tp_gps
-CYPHER
+    e.time_point_growth_phases = tp_gps;
 
-echo "=== Post-process: Compute OrganismTaxon summary properties ==="
-
-echo "--- gene_count ---"
-cypher-shell <<'CYPHER'
+// OrganismTaxon gene_count
 MATCH (o:OrganismTaxon)
 OPTIONAL MATCH (g:Gene)-[:Gene_belongs_to_organism]->(o)
 WITH o, count(g) AS gc
-SET o.gene_count = gc
-CYPHER
+SET o.gene_count = gc;
 
-echo "--- publication_count, experiment_count, treatment_types, omics_types, background_factors ---"
-cypher-shell <<'CYPHER'
+// OrganismTaxon aggregate rollups from Publication
 MATCH (o:OrganismTaxon)
 OPTIONAL MATCH (p:Publication)
   WHERE ANY(org IN p.organisms WHERE org = o.preferred_name)
@@ -227,21 +204,15 @@ SET o.publication_count = pc,
     o.treatment_types = tts,
     o.omics_types = ots,
     o.background_factors = bfs,
-    o.growth_phases = gps
-CYPHER
+    o.growth_phases = gps;
 
-echo "=== Post-process: Compute ClusteringAnalysis summary properties ==="
-
-echo "--- ClusteringAnalysis growth_phases (from linked experiments) ---"
-cypher-shell <<'CYPHER'
+// ClusteringAnalysis growth_phases (from linked experiments)
 MATCH (ca:ClusteringAnalysis)
 OPTIONAL MATCH (e:Experiment)-[:ExperimentHasClusteringAnalysis]->(ca)
 WITH ca, apoc.coll.toSet(reduce(s = [], t IN collect(coalesce(e.growth_phases, [])) | s + t)) AS gps
-SET ca.growth_phases = apoc.coll.sort(gps)
-CYPHER
+SET ca.growth_phases = apoc.coll.sort(gps);
 
-echo "--- OrganismTaxon clustering_analysis_count, cluster_types, cluster_count ---"
-cypher-shell <<'CYPHER'
+// OrganismTaxon clustering rollup
 MATCH (o:OrganismTaxon)
 OPTIONAL MATCH (ca:ClusteringAnalysis)-[:ClusteringanalysisBelongsToOrganism]->(o)
 WITH o,
@@ -250,11 +221,9 @@ WITH o,
      sum(coalesce(ca.cluster_count, 0)) AS total_clusters
 SET o.clustering_analysis_count = ca_count,
     o.cluster_types = ctypes,
-    o.cluster_count = total_clusters
-CYPHER
+    o.cluster_count = total_clusters;
 
-echo "--- Publication clustering_analysis_count, cluster_types, cluster_count ---"
-cypher-shell <<'CYPHER'
+// Publication clustering rollup
 MATCH (p:Publication)
 OPTIONAL MATCH (p)-[:PublicationHasClusteringAnalysis]->(ca:ClusteringAnalysis)
 WITH p,
@@ -263,11 +232,9 @@ WITH p,
      sum(coalesce(ca.cluster_count, 0)) AS total_clusters
 SET p.clustering_analysis_count = ca_count,
     p.cluster_types = ctypes,
-    p.cluster_count = total_clusters
-CYPHER
+    p.cluster_count = total_clusters;
 
-echo "--- Experiment clustering_analysis_count, cluster_types, cluster_count ---"
-cypher-shell <<'CYPHER'
+// Experiment clustering rollup
 MATCH (e:Experiment)
 OPTIONAL MATCH (e)-[:ExperimentHasClusteringAnalysis]->(ca:ClusteringAnalysis)
 WITH e,
@@ -276,13 +243,17 @@ WITH e,
      sum(coalesce(ca.cluster_count, 0)) AS total_clusters
 SET e.clustering_analysis_count = ca_count,
     e.cluster_types = ctypes,
-    e.cluster_count = total_clusters
+    e.cluster_count = total_clusters;
 CYPHER
 
-echo "=== Post-process: Compute Gene routing signals ==="
-
-echo "--- annotation_types ---"
-cypher-shell <<'CYPHER'
+# ─────────────────────────────────────────────────────────────────────────────
+# Group 3: heavy Gene/edge/BriteCategory writes using `CALL { } IN TRANSACTIONS`.
+# Each statement gets its own implicit transaction (cypher-shell default for
+# stdin, and required for IN TRANSACTIONS).
+# ─────────────────────────────────────────────────────────────────────────────
+echo "=== Post-process: Compute Gene routing signals, ranks, BriteCategory ==="
+time cypher-shell <<'CYPHER'
+// annotation_types
 MATCH (g:Gene)
 CALL {
   WITH g
@@ -298,10 +269,8 @@ CALL {
     CASE WHEN EXISTS { (g)-[:Gene_has_cyanorak_role]->() } THEN ['cyanorak_role'] ELSE [] END +
     CASE WHEN EXISTS { (g)-[:Gene_has_tigr_role]->() } THEN ['tigr_role'] ELSE [] END
 } IN TRANSACTIONS OF 1000 ROWS;
-CYPHER
 
-echo "--- expression_edge_count + significant_up/down_count ---"
-cypher-shell <<'CYPHER'
+// expression_edge_count + significant_up/down_count
 MATCH (g:Gene)
 CALL {
   WITH g
@@ -313,10 +282,8 @@ CALL {
       g.significant_up_count = sig_up,
       g.significant_down_count = sig_down
 } IN TRANSACTIONS OF 500 ROWS;
-CYPHER
 
-echo "--- rank_by_effect ---"
-cypher-shell <<'CYPHER'
+// rank_by_effect
 MATCH (e:Experiment)
 WITH e
 CALL {
@@ -329,10 +296,8 @@ CALL {
   UNWIND range(0, size(edges)-1) AS i
   SET (edges[i]).rank_by_effect = i + 1
 } IN TRANSACTIONS OF 10 ROWS;
-CYPHER
 
-echo "--- rank_up (among significant_up per experiment x timepoint) ---"
-cypher-shell <<'CYPHER'
+// rank_up (among significant_up per experiment x timepoint)
 MATCH (e:Experiment)
 WITH e
 CALL {
@@ -346,10 +311,8 @@ CALL {
   UNWIND range(0, size(edges)-1) AS i
   SET (edges[i]).rank_up = i + 1
 } IN TRANSACTIONS OF 10 ROWS;
-CYPHER
 
-echo "--- rank_down (among significant_down per experiment x timepoint) ---"
-cypher-shell <<'CYPHER'
+// rank_down (among significant_down per experiment x timepoint)
 MATCH (e:Experiment)
 WITH e
 CALL {
@@ -363,10 +326,8 @@ CALL {
   UNWIND range(0, size(edges)-1) AS i
   SET (edges[i]).rank_down = i + 1
 } IN TRANSACTIONS OF 10 ROWS;
-CYPHER
 
-echo "--- closest_ortholog_group_size + closest_ortholog_genera ---"
-cypher-shell <<'CYPHER'
+// closest_ortholog_group_size + closest_ortholog_genera
 MATCH (g:Gene)
 CALL {
   WITH g
@@ -375,10 +336,8 @@ CALL {
   SET g.closest_ortholog_group_size = og.member_count,
       g.closest_ortholog_genera = og.genera
 } IN TRANSACTIONS OF 1000 ROWS;
-CYPHER
 
-echo "--- cluster_membership_count + cluster_types ---"
-cypher-shell <<'CYPHER'
+// cluster_membership_count + cluster_types
 MATCH (g:Gene)
 CALL {
   WITH g
@@ -390,10 +349,8 @@ CALL {
   SET g.cluster_membership_count = membership_count,
       g.cluster_types = CASE WHEN size(ctypes) = 0 THEN [] ELSE ctypes END
 } IN TRANSACTIONS OF 1000 ROWS;
-CYPHER
 
-echo "--- BriteCategory computed properties: member_ko_count, gene_count, organism_count ---"
-cypher-shell <<'CYPHER'
+// BriteCategory computed properties: member_ko_count, gene_count, organism_count
 MATCH (b:BriteCategory)
 CALL {
   WITH b
