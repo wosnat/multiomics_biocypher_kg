@@ -5,7 +5,22 @@ TIMEFORMAT="  [timing] %Rs"
 
 echo "=== Post-process: Starting Neo4j ==="
 neo4j start
-sleep 15
+
+# Wait until Neo4j accepts Bolt connections. A fixed sleep is unreliable on
+# slower machines — Neo4j may need 30-60s to open the Bolt port on a cold start.
+echo "=== Post-process: Waiting for Neo4j to accept connections ==="
+for i in $(seq 1 60); do
+  if cypher-shell -a bolt://localhost:7687 "RETURN 1;" >/dev/null 2>&1; then
+    echo "  Neo4j ready after ${i}s"
+    break
+  fi
+  if [ "$i" = "60" ]; then
+    echo "ERROR: Neo4j did not become ready within 60s" >&2
+    cat /logs/neo4j.log 2>/dev/null || true
+    exit 1
+  fi
+  sleep 1
+done
 
 # ─────────────────────────────────────────────────────────────────────────────
 # Group 1: all indexes (scalar + full-text across every node type).
