@@ -684,3 +684,81 @@ def test_get_edges_handles_malformed_csv(tmp_path, caplog):
     assert edges == []
     # Warning logged
     assert any("Failed to read" in rec.message for rec in caplog.records)
+
+
+def test_boolean_edges_emit_true_flag_only_for_Y_rows(tmp_path):
+    pc_path = _write_s4a_like_paperconfig(tmp_path)
+    adapter = ObservationsAdapter(config_file=pc_path)
+    adapter._organism_lookup = {"Prochlorococcus NATL2A": "insdc.gcf:GCF_000012465.1"}
+    edges = adapter.get_edges()
+
+    flag_edges = [e for e in edges if e[3] == "derived_metric_flags_gene"]
+    # Fixture row expectations:
+    #   periodic_in_axenic_LD: 2 Y rows (PMN2A_1328, PMN2A_1329), 1 blank row skipped,
+    #                          1 unresolved row also blank (skipped) -> 2 edges
+    #   periodic_in_axenic_extended_darkness: 1 Y row (PMN2A_1329), 2 blank -> 1 edge
+    # Total = 3
+    assert len(flag_edges) == 3
+
+    for eid, src, tgt, label, props in flag_edges:
+        assert src.startswith("derived_metric:mSystems.00040-18:s4a_axenic:")
+        assert tgt.startswith("ncbigene:")
+        assert props["value_flag"] == "true"
+        assert props["metric_type"] in {
+            "periodic_in_axenic_LD", "periodic_in_axenic_extended_darkness",
+        }
+
+
+def test_boolean_edges_skip_unresolved_genes(tmp_path):
+    """Rows with resolved_locus_tag NaN must not produce edges."""
+    pc_path = _write_s4a_like_paperconfig(tmp_path)
+    adapter = ObservationsAdapter(config_file=pc_path)
+    adapter._organism_lookup = {"Prochlorococcus NATL2A": "insdc.gcf:GCF_000012465.1"}
+    edges = adapter.get_edges()
+    flag_edges = [e for e in edges if e[3] == "derived_metric_flags_gene"]
+    # Row 3 of the fixture has empty resolved_locus_tag - must not appear
+    for eid, src, tgt, label, props in flag_edges:
+        assert tgt != "ncbigene:"
+        assert tgt != "ncbigene:nan"
+
+
+def test_boolean_edges_raise_on_unknown_token(tmp_path):
+    """Unexpected boolean tokens must hard-error."""
+    csv_path = tmp_path / "bad.csv"
+    csv_path.write_text("locus_tag,periodic\nPMM0001,maybe\n")
+    config = {
+        "publication": {
+            "papername": "Bad Tokens", "doi": "10.9999/bad",
+            "papermainpdf": str(tmp_path / "fake.pdf"),
+            "experiments": {"e": {
+                "organism": "Prochlorococcus MED4", "omics_type": "RNASEQ",
+                "treatment_type": [], "background_factors": [],
+                "treatment_condition": "", "light_condition": "",
+                "experimental_context": "",
+            }},
+            "supplementary_materials": {
+                "entry": {
+                    "type": "derived_metrics_table",
+                    "filename": str(csv_path),
+                    "organism": "Prochlorococcus MED4",
+                    "experiment": "e",
+                    "name_col": "locus_tag",
+                    "metrics": [{
+                        "metric_type": "periodic_in_axenic_LD",
+                        "value_kind": "boolean",
+                        "value_col": "periodic",
+                        "true_tokens": ["Y"],
+                        "false_tokens": [],
+                        "skip_tokens": ["NA"],
+                        "blank_policy": "skip",
+                    }],
+                },
+            },
+        },
+    }
+    pc_path = tmp_path / "paperconfig.yaml"
+    pc_path.write_text(yaml.dump(config))
+    adapter = ObservationsAdapter(config_file=pc_path)
+    adapter._organism_lookup = {"Prochlorococcus MED4": "insdc.gcf:GCF_000011465.1"}
+    with pytest.raises(ValueError, match="Unexpected boolean token"):
+        adapter.get_edges()

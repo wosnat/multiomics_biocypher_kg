@@ -356,9 +356,50 @@ class ObservationsAdapter:
         """Emit derived_metric_flags_gene edges.
 
         Precondition: value_col is present in df.columns (guarded in get_edges).
-        Task 9 implements this.
+        Hard-errors on unexpected tokens (spec invariant: no silent coercion).
+        Skips rows with unresolved locus_tag or skip_token cells.
+
+        test_mode scope (intentional divergence from cluster_adapter): the
+        100-edge cap is PER METRIC, not per entry. For a 2-metric entry in
+        --test mode this caps at 200 edges total (vs cluster_adapter's
+        shared-counter approach that caps at 100 per entry). Cleaner for
+        DM observability — each DM gets a representative sample.
         """
-        return []
+        true_tokens = metric.get("true_tokens") or []
+        false_tokens = metric.get("false_tokens") or []
+        skip_tokens = metric.get("skip_tokens") or list(DEFAULT_SKIP_TOKENS)
+        blank_policy = metric.get("blank_policy", "skip")
+
+        edges = []
+        count = 0
+        for _, row in df.iterrows():
+            if self.test_mode and count >= 100:
+                break
+            gene_locus = row.get(gene_col, "")
+            if pd.isna(gene_locus):
+                continue
+            gene_locus = str(gene_locus).strip()
+            if not gene_locus:
+                continue
+
+            flag = _parse_boolean_cell(
+                row.get(value_col),
+                true_tokens, false_tokens, skip_tokens, blank_policy,
+            )
+            if flag is None:
+                continue  # skip / blank-skip
+
+            edge_id = f"{dm_id}__{gene_locus}"
+            props = {
+                "metric_type": _clean_str(metric_type),
+                "value_flag": flag,
+            }
+            edges.append((
+                edge_id, dm_id, f"ncbigene:{gene_locus}",
+                "derived_metric_flags_gene", props,
+            ))
+            count += 1
+        return edges
 
     def _emit_categorical_edges(self, df, gene_col, value_col, metric, dm_id, metric_type):
         """Emit derived_metric_classifies_gene edges.
