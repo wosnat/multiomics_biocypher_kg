@@ -490,6 +490,21 @@ CALL {
       END
 } IN TRANSACTIONS OF 10 ROWS;
 
+// Numeric DM significance: on derived_metric_quantifies_gene edges,
+// only when parent DM has has_p_value='true' AND p_value_threshold IS NOT NULL
+// AND the edge's adjusted_p_value is non-null. Left null otherwise.
+MATCH (dm:DerivedMetric {has_p_value: 'true'})
+WHERE dm.p_value_threshold IS NOT NULL
+CALL {
+  WITH dm
+  MATCH (dm)-[r:Derived_metric_quantifies_gene]->()
+  WHERE r.adjusted_p_value IS NOT NULL
+  SET r.significant = CASE
+    WHEN r.adjusted_p_value < dm.p_value_threshold THEN 'true'
+    ELSE 'false'
+  END
+} IN TRANSACTIONS OF 1000 ROWS;
+
 // closest_ortholog_group_size + closest_ortholog_genera
 MATCH (g:Gene)
 CALL {
