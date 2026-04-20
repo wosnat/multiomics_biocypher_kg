@@ -505,6 +505,69 @@ CALL {
   END
 } IN TRANSACTIONS OF 1000 ROWS;
 
+// Gene DM routing defaults + compute.
+// Defaults run first (every gene gets 0 / []), then 4 OPTIONAL-MATCH passes
+// override defaults only on genes reached by DM edges.
+
+// Defaults
+MATCH (g:Gene)
+CALL {
+  WITH g
+  SET g.numeric_metric_count = 0,
+      g.classifier_flag_count = 0,
+      g.classifier_label_count = 0,
+      g.numeric_metric_types_observed = [],
+      g.classifier_flag_types_observed = [],
+      g.classifier_label_types_observed = [],
+      g.compartments_observed = []
+} IN TRANSACTIONS OF 1000 ROWS;
+
+// numeric_metric_count + numeric_metric_types_observed
+MATCH (g:Gene)
+CALL {
+  WITH g
+  OPTIONAL MATCH (dm:DerivedMetric)-[:Derived_metric_quantifies_gene]->(g)
+  WITH g,
+       count(DISTINCT dm) AS cnt,
+       [x IN collect(DISTINCT dm.metric_type) WHERE x IS NOT NULL] AS types
+  SET g.numeric_metric_count = cnt,
+      g.numeric_metric_types_observed = apoc.coll.sort(types)
+} IN TRANSACTIONS OF 1000 ROWS;
+
+// classifier_flag_count + classifier_flag_types_observed
+MATCH (g:Gene)
+CALL {
+  WITH g
+  OPTIONAL MATCH (dm:DerivedMetric)-[:Derived_metric_flags_gene]->(g)
+  WITH g,
+       count(DISTINCT dm) AS cnt,
+       [x IN collect(DISTINCT dm.metric_type) WHERE x IS NOT NULL] AS types
+  SET g.classifier_flag_count = cnt,
+      g.classifier_flag_types_observed = apoc.coll.sort(types)
+} IN TRANSACTIONS OF 1000 ROWS;
+
+// classifier_label_count + classifier_label_types_observed
+MATCH (g:Gene)
+CALL {
+  WITH g
+  OPTIONAL MATCH (dm:DerivedMetric)-[:Derived_metric_classifies_gene]->(g)
+  WITH g,
+       count(DISTINCT dm) AS cnt,
+       [x IN collect(DISTINCT dm.metric_type) WHERE x IS NOT NULL] AS types
+  SET g.classifier_label_count = cnt,
+      g.classifier_label_types_observed = apoc.coll.sort(types)
+} IN TRANSACTIONS OF 1000 ROWS;
+
+// compartments_observed: union across all 3 DM edge types via parent DerivedMetric
+MATCH (g:Gene)
+CALL {
+  WITH g
+  OPTIONAL MATCH (dm:DerivedMetric)
+    -[:Derived_metric_quantifies_gene|Derived_metric_flags_gene|Derived_metric_classifies_gene]->(g)
+  WITH g, [x IN collect(DISTINCT dm.compartment) WHERE x IS NOT NULL] AS comps
+  SET g.compartments_observed = apoc.coll.sort(comps)
+} IN TRANSACTIONS OF 1000 ROWS;
+
 // closest_ortholog_group_size + closest_ortholog_genera
 MATCH (g:Gene)
 CALL {
