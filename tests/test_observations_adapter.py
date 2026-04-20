@@ -142,3 +142,69 @@ def test_boolean_case_sensitive():
     # "y" (lowercase) is NOT in true_tokens=["Y", "yes"] — exact-string match, no case folding
     with pytest.raises(ValueError, match="Unexpected boolean token"):
         _bp("y")
+
+
+def test_denormalized_fields_from_experiment():
+    """_denormalized_fields produces the exact 9-field dict DerivedMetric.* needs."""
+    # Arrange: a minimal paperconfig + ObservationsAdapter instance
+    # Easiest: build the adapter from an in-memory config dict
+    from multiomics_kg.adapters.observations_adapter import ObservationsAdapter
+    exp = {
+        "name": "NATL2A extended darkness",
+        "organism": "Prochlorococcus NATL2A",
+        "omics_type": "RNASEQ",
+        "treatment_type": ["darkness"],
+        "background_factors": ["axenic", "diel"],
+        "treatment_condition": "Extended darkness",
+        "light_condition": "continuous darkness",
+        "experimental_context": "Axenic NATL2A in Pro99 at 24C",
+        "compartment": "whole_cell",
+    }
+    # Bypass __init__'s file I/O by constructing manually
+    adapter = ObservationsAdapter.__new__(ObservationsAdapter)
+    adapter.doi = "10.1128/mSystems.00040-18"
+    fields = adapter._denormalized_fields(exp)
+
+    assert fields == {
+        "organism_name": "Prochlorococcus NATL2A",
+        "publication_doi": "10.1128/mSystems.00040-18",
+        "compartment": "whole_cell",
+        "omics_type": "RNASEQ",
+        "treatment_type": ["darkness"],
+        "background_factors": ["axenic", "diel"],
+        "treatment": "Extended darkness",
+        "light_condition": "continuous darkness",
+        "experimental_context": "Axenic NATL2A in Pro99 at 24C",
+    }
+
+
+def test_denormalized_fields_compartment_defaults():
+    from multiomics_kg.adapters.observations_adapter import ObservationsAdapter
+    exp = {
+        "name": "x", "organism": "Prochlorococcus MED4",
+        "omics_type": "RNASEQ", "treatment_type": [],
+        "background_factors": [], "treatment_condition": "",
+        "light_condition": "", "experimental_context": "",
+        # no compartment key
+    }
+    adapter = ObservationsAdapter.__new__(ObservationsAdapter)
+    adapter.doi = "10.1234/x"
+    fields = adapter._denormalized_fields(exp)
+    assert fields["compartment"] == "whole_cell"
+
+
+def test_denormalized_fields_normalizes_scalar_list_fields():
+    """paperconfig may accidentally provide a string where list is expected."""
+    from multiomics_kg.adapters.observations_adapter import ObservationsAdapter
+    exp = {
+        "organism": "P. MED4", "omics_type": "RNASEQ",
+        "treatment_type": "nitrogen",  # scalar, should become ["nitrogen"]
+        "background_factors": "axenic",  # scalar → list
+        "treatment_condition": "", "light_condition": "",
+        "experimental_context": "", "compartment": "whole_cell",
+    }
+    adapter = ObservationsAdapter.__new__(ObservationsAdapter)
+    adapter.doi = "10.1234/x"
+    fields = adapter._denormalized_fields(exp)
+    assert fields["treatment_type"] == ["nitrogen"]
+    assert fields["background_factors"] == ["axenic"]

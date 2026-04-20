@@ -145,6 +145,31 @@ class ObservationsAdapter:
             doi = cached.get("publication", {}).get("doi", "")
         return doi or ""
 
+    def _denormalized_fields(self, experiment: dict) -> dict:
+        """Derive the 9 parent-Experiment fields every DerivedMetric copies.
+
+        Enforces spec invariant #9: DerivedMetric denormalized fields equal
+        parent Experiment's values. Never re-read from the paperconfig entry.
+        """
+        def _as_list(v):
+            if v is None:
+                return []
+            if isinstance(v, str):
+                return [_clean_str(v)] if v else []
+            return [_clean_str(x) for x in v]
+
+        return {
+            "organism_name": _clean_str(experiment.get("organism", "")),
+            "publication_doi": _clean_str(self.doi),
+            "compartment": _clean_str(experiment.get("compartment", "whole_cell")),
+            "omics_type": _clean_str(experiment.get("omics_type", "")),
+            "treatment_type": _as_list(experiment.get("treatment_type", [])),
+            "background_factors": _as_list(experiment.get("background_factors", [])),
+            "treatment": _clean_str(experiment.get("treatment_condition", "")),
+            "light_condition": _clean_str(experiment.get("light_condition", "")),
+            "experimental_context": _clean_str(experiment.get("experimental_context", "")),
+        }
+
     def get_nodes(self) -> list[tuple]:
         return []  # filled in Tasks 5-7
 
