@@ -562,3 +562,52 @@ class TestExperimentLookup:
         config = {"publication": {}}
         entry = {"type": "id_translation", "organism": "Prochlorococcus MIT9313"}
         assert get_organism_for_entry(config, entry) == "Prochlorococcus MIT9313"
+
+
+# ─── iter_derived_metrics_tables ────────────────────────────────────────
+
+
+def test_iter_derived_metrics_tables():
+    """iter_derived_metrics_tables yields (key, config) for derived_metrics_table entries only."""
+    from multiomics_kg.utils.paperconfig_utils import iter_derived_metrics_tables
+
+    config = {
+        "publication": {
+            "supplementary_materials": {
+                "supp_table_1": {"type": "csv", "filename": "data.csv"},
+                "cluster_table_1": {"type": "gene_clusters", "filename": "c.csv"},
+                "dm_s4a": {
+                    "type": "derived_metrics_table",
+                    "filename": "s4a.csv",
+                    "organism": "Prochlorococcus NATL2A",
+                    "experiment": "darkness_extended_darkness_natl2a_rnaseq_axenic",
+                    "name_col": "NCBI ID_2",
+                    "metrics": [
+                        {"metric_type": "periodic_in_axenic_LD",
+                         "value_kind": "boolean",
+                         "value_col": "Periodic in axenic, L:D cultures",
+                         "true_tokens": ["Y"]},
+                    ],
+                },
+                "id_trans": {"type": "id_translation", "filename": "ids.csv"},
+            }
+        }
+    }
+
+    results = list(iter_derived_metrics_tables(config))
+    assert len(results) == 1
+    key, table = results[0]
+    assert key == "dm_s4a"
+    assert table["type"] == "derived_metrics_table"
+
+
+def test_iter_derived_metrics_tables_empty():
+    from multiomics_kg.utils.paperconfig_utils import iter_derived_metrics_tables
+
+    assert list(iter_derived_metrics_tables({})) == []
+    assert list(iter_derived_metrics_tables({"publication": {"supplementary_materials": {}}})) == []
+    # Purely DE paperconfig → no derived_metrics_table entries
+    config = {"publication": {"supplementary_materials": {
+        "supp_1": {"type": "csv", "filename": "d.csv"},
+    }}}
+    assert list(iter_derived_metrics_tables(config)) == []

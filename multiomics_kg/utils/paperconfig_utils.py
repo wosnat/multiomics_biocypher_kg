@@ -94,6 +94,16 @@ def iter_cluster_tables(config: dict):
             yield key, table
 
 
+def iter_derived_metrics_tables(config: dict):
+    """Yield (table_key, table_config) for derived_metrics_table-type supplementary tables."""
+    supp = get_supplementary_materials(config)
+    for key, table in supp.items():
+        if not isinstance(table, dict):
+            continue
+        if table.get("type") == "derived_metrics_table":
+            yield key, table
+
+
 def iter_analyses(config: dict):
     """Yield (table_key, table_config, analysis) for all analyses across all csv tables."""
     for table_key, table in iter_csv_tables(config):
