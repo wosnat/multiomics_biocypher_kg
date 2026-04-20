@@ -1,0 +1,18 @@
+Resolution report: Biller 2018 / natl2a_periodicity_coculture_derived_metrics
+Source: table s4A sys003182233st4.csv
+name_col: NCBI ID_2
+id_columns: ['NCBI ID_2', 'NCBI ID_3', 'NCBI ID']
+
+Total rows with IDs: 1889
+Resolved: 1887 (99.9%)
+Unresolved: 2
+
+Resolution method breakdown:
+  empty: 309
+  locus_tag:NCBI ID_2: 5
+  tier1:NCBI ID_2: 1882
+  unresolved: 2
+
+Unresolved rows (2):
+  row 104: raw_id='PMN2A_RS00460'  reason=unresolved  [NCBI ID_2='PMN2A_RS00460', NCBI ID_3='PMN2A_1906', NCBI ID='NATL2_00961']
+  row 1787: raw_id='PMN2A_RS07995'  reason=unresolved  [NCBI ID_2='PMN2A_RS07995']
