@@ -345,6 +345,7 @@ class OMICSAdapter:
             exp_props = {
                     "name": self.clean_text(exp.get("name", "")),
                     "organism_name": self.clean_text(exp.get("organism", "")),
+                    "compartment": self.clean_text(exp.get("compartment", "whole_cell")),
                     "treatment_type": self._normalize_list_field(exp, "treatment_type"),
                     "treatment": self.clean_text(exp.get("treatment_condition", "")),
                     "control": self.clean_text(exp.get("control_condition", "")),
