@@ -241,6 +241,22 @@ OPTIONAL MATCH (e:Experiment)-[:ExperimentHasClusteringAnalysis]->(ca)
 WITH ca, apoc.coll.toSet(reduce(s = [], t IN collect(coalesce(e.growth_phases, [])) | s + t)) AS gps
 SET ca.growth_phases = apoc.coll.sort(gps);
 
+// DerivedMetric total_gene_count: count of outgoing measurement edges.
+// Each DM emits exactly ONE of the 3 edge types based on its value_kind,
+// so the union across types is unambiguous.
+MATCH (dm:DerivedMetric)
+OPTIONAL MATCH (dm)-[r:Derived_metric_quantifies_gene|Derived_metric_flags_gene|Derived_metric_classifies_gene]->(:Gene)
+WITH dm, count(r) AS total
+SET dm.total_gene_count = total;
+
+// DerivedMetric growth_phases: union from parent Experiment
+// (mirrors ClusteringAnalysis growth_phases; reads Experiment.growth_phases
+// set earlier in Group 2).
+MATCH (dm:DerivedMetric)
+OPTIONAL MATCH (e:Experiment)-[:ExperimentHasDerivedMetric]->(dm)
+WITH dm, apoc.coll.toSet(reduce(s = [], t IN collect(coalesce(e.growth_phases, [])) | s + t)) AS gps
+SET dm.growth_phases = apoc.coll.sort(gps);
+
 // OrganismTaxon clustering rollup
 MATCH (o:OrganismTaxon)
 OPTIONAL MATCH (ca:ClusteringAnalysis)-[:ClusteringanalysisBelongsToOrganism]->(o)
