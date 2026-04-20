@@ -72,4 +72,27 @@ BUCKET_THRESHOLD_MID: int = 25           # 25 <= percentile < 75 → "mid", else
 # (authors may introduce new names; the registry grows slowly and only
 # records the one thing future papers must agree on).
 
-KNOWN_METRIC_TYPES: dict[str, str] = {}   # filled in Task 3
+KNOWN_METRIC_TYPES: dict[str, str] = {
+    # ── Numeric (backlog papers: zinser 2009, Waldbauer 2012) ──
+    # Registered so a future paper using one of these names can't silently
+    # re-declare it as boolean/categorical. All other metadata (unit, rankable,
+    # has_p_value, p_value_threshold) is declared inline on those paperconfigs.
+    "fourier_score":            "numeric",
+    "peak_time_h":               "numeric",
+    "peak_fit_r_squared":        "numeric",
+    "protein_transcript_lag_h":  "numeric",
+    "damping_ratio":             "numeric",
+    "diel_amplitude":            "numeric",
+
+    # ── Boolean (Biller 2018 S4A + S4B) ──
+    "periodic_in_axenic_LD":                  "boolean",
+    "periodic_in_coculture_LD":                "boolean",
+    "periodic_in_axenic_extended_darkness":    "boolean",
+    "periodic_in_coculture_extended_darkness": "boolean",
+
+    # ── Categorical (Biller 2018 S5) ──
+    # The paperconfig entry that uses this metric_type declares its
+    # `allowed_categories` inline (Task 11). The registry only locks the
+    # value_kind — class vocabularies are per-paper.
+    "darkness_survival_class": "categorical",
+}
