@@ -875,3 +875,490 @@ def test_validate_relaxes_de_fields_for_derived_metrics_only_experiment(tmp_path
     errors, warnings = validate_paperconfig_content(config, str(cfg))
     assert not any("control_condition" in e for e in errors), errors
     assert not any("test_type" in e for e in errors), errors
+
+
+# ---------------------------------------------------------------------------
+# derived_metrics_table dispatch (Task 8) — option C: per-metric metadata
+# declared inline on paperconfig; KNOWN_METRIC_TYPES only pins value_kind.
+# ---------------------------------------------------------------------------
+
+def _dm_boolean_csv(tmp_path: Path) -> Path:
+    csv = tmp_path / "s4a.csv"
+    csv.write_text(
+        "NCBI ID_2,Periodic in axenic L D cultures\n"
+        "PMN2A_RS00015,Y\n"
+        "PMN2A_RS00020,\n"
+        "PMN2A_RS00025,NA\n"
+    )
+    return csv
+
+
+def _dm_wrapper_config(tmp_path: Path, dm_entry: dict) -> dict:
+    csv_file = _write_minimal_csv(tmp_path)  # unused but keeps structure
+    pdf = tmp_path / "p.pdf"; pdf.write_bytes(b"%PDF-1.4\n")
+    return {
+        "publication": {
+            "papername": "X", "papermainpdf": str(pdf),
+            "experiments": {"exp_dm_only": {
+                "name": "e", "organism": "Prochlorococcus NATL2A",
+                "omics_type": "RNASEQ",
+                "treatment_type": ["darkness"],
+                "treatment_condition": "ED",
+            }},
+            "supplementary_materials": {"dm1": dm_entry},
+        },
+    }
+
+
+def test_validate_boolean_dm_entry_accepts_shape(tmp_path):
+    """Minimal well-formed boolean DM entry — no rankable/has_p_value declared
+    (adapter sets them to 'false' at ingest since boolean is definitionally
+    non-rankable and has no p-value). field_description is required."""
+    from validate_paperconfig import validate_paperconfig_content
+
+    csv = _dm_boolean_csv(tmp_path)
+    dm_entry = {
+        "type": "derived_metrics_table",
+        "filename": str(csv),
+        "organism": "Prochlorococcus NATL2A",
+        "experiment": "exp_dm_only",
+        "name_col": "NCBI ID_2",
+        "id_columns": [{"column": "NCBI ID_2", "id_type": "locus_tag_ncbi"}],
+        "metrics": [{
+            "metric_type": "periodic_in_axenic_LD",
+            "value_kind": "boolean",
+            "value_col": "Periodic in axenic L D cultures",
+            "true_tokens": ["Y"],
+            "blank_policy": "skip",
+            "field_description": "RAIN periodicity FDR<0.05 in axenic L:D",
+        }],
+    }
+    config = _dm_wrapper_config(tmp_path, dm_entry)
+    cfg = _write_config(tmp_path, config)
+    errors, _ = validate_paperconfig_content(config, str(cfg))
+    assert errors == [], errors
+
+
+def test_validate_dm_requires_field_description(tmp_path):
+    """field_description is required on every metric (all value_kinds) —
+    free-text human-readable explanation surfaced by downstream MCP tools."""
+    from validate_paperconfig import validate_paperconfig_content
+
+    csv = _dm_boolean_csv(tmp_path)
+    dm_entry = {
+        "type": "derived_metrics_table", "filename": str(csv),
+        "organism": "Prochlorococcus NATL2A",
+        "experiment": "exp_dm_only",
+        "name_col": "NCBI ID_2",
+        "id_columns": [{"column": "NCBI ID_2", "id_type": "locus_tag_ncbi"}],
+        "metrics": [{
+            "metric_type": "periodic_in_axenic_LD",
+            "value_kind": "boolean",
+            "value_col": "Periodic in axenic L D cultures",
+            "true_tokens": ["Y"],
+            # ← no field_description
+        }],
+    }
+    config = _dm_wrapper_config(tmp_path, dm_entry)
+    cfg = _write_config(tmp_path, config)
+    errors, _ = validate_paperconfig_content(config, str(cfg))
+    assert any("field_description" in e for e in errors), errors
+
+
+def test_validate_dm_rejects_empty_field_description(tmp_path):
+    """field_description must be non-empty (whitespace-only is also rejected)."""
+    from validate_paperconfig import validate_paperconfig_content
+
+    csv = _dm_boolean_csv(tmp_path)
+    dm_entry = {
+        "type": "derived_metrics_table", "filename": str(csv),
+        "organism": "Prochlorococcus NATL2A",
+        "experiment": "exp_dm_only",
+        "name_col": "NCBI ID_2",
+        "id_columns": [{"column": "NCBI ID_2", "id_type": "locus_tag_ncbi"}],
+        "metrics": [{
+            "metric_type": "periodic_in_axenic_LD",
+            "value_kind": "boolean",
+            "value_col": "Periodic in axenic L D cultures",
+            "true_tokens": ["Y"],
+            "field_description": "   ",   # whitespace-only
+        }],
+    }
+    config = _dm_wrapper_config(tmp_path, dm_entry)
+    cfg = _write_config(tmp_path, config)
+    errors, _ = validate_paperconfig_content(config, str(cfg))
+    assert any("field_description" in e for e in errors), errors
+
+
+def test_validate_boolean_dm_rejects_unknown_token(tmp_path):
+    """CSV dry-run finds an unclassified token → hard error."""
+    from validate_paperconfig import validate_paperconfig_content
+
+    csv = tmp_path / "s4a.csv"
+    csv.write_text(
+        "NCBI ID_2,flag\n"
+        "PMN2A_RS00015,Y\n"
+        "PMN2A_RS00020,MAYBE\n"   # ← unknown token
+    )
+    dm_entry = {
+        "type": "derived_metrics_table", "filename": str(csv),
+        "organism": "Prochlorococcus NATL2A",
+        "experiment": "exp_dm_only",
+        "name_col": "NCBI ID_2",
+        "id_columns": [{"column": "NCBI ID_2", "id_type": "locus_tag_ncbi"}],
+        "metrics": [{
+            "metric_type": "periodic_in_axenic_LD",
+            "value_kind": "boolean", "value_col": "flag",
+            "true_tokens": ["Y"], "blank_policy": "skip",
+        }],
+    }
+    config = _dm_wrapper_config(tmp_path, dm_entry)
+    cfg = _write_config(tmp_path, config)
+    errors, _ = validate_paperconfig_content(config, str(cfg))
+    assert any("MAYBE" in e for e in errors), errors
+
+
+def test_validate_boolean_dm_rejects_missing_true_tokens(tmp_path):
+    """true_tokens is required (non-empty list) for value_kind=boolean."""
+    from validate_paperconfig import validate_paperconfig_content
+
+    csv = _dm_boolean_csv(tmp_path)
+    dm_entry = {
+        "type": "derived_metrics_table", "filename": str(csv),
+        "organism": "Prochlorococcus NATL2A",
+        "experiment": "exp_dm_only",
+        "name_col": "NCBI ID_2",
+        "id_columns": [{"column": "NCBI ID_2", "id_type": "locus_tag_ncbi"}],
+        "metrics": [{
+            "metric_type": "periodic_in_axenic_LD",
+            "value_kind": "boolean",
+            "value_col": "Periodic in axenic L D cultures",
+            # ← no true_tokens
+        }],
+    }
+    config = _dm_wrapper_config(tmp_path, dm_entry)
+    cfg = _write_config(tmp_path, config)
+    errors, _ = validate_paperconfig_content(config, str(cfg))
+    assert any("true_tokens" in e for e in errors), errors
+
+
+def test_validate_boolean_dm_forbids_rankable_and_has_p_value(tmp_path):
+    """rankable and has_p_value are forbidden on boolean entries — adapter sets
+    them to "false" at ingest since they're definitionally "false" for boolean.
+    Declaring them on the paperconfig (even as "false") is redundant and
+    rejected to prevent copy-paste noise."""
+    from validate_paperconfig import validate_paperconfig_content
+
+    csv = _dm_boolean_csv(tmp_path)
+    dm_entry = {
+        "type": "derived_metrics_table", "filename": str(csv),
+        "organism": "Prochlorococcus NATL2A",
+        "experiment": "exp_dm_only",
+        "name_col": "NCBI ID_2",
+        "id_columns": [{"column": "NCBI ID_2", "id_type": "locus_tag_ncbi"}],
+        "metrics": [{
+            "metric_type": "periodic_in_axenic_LD",
+            "value_kind": "boolean",
+            "value_col": "Periodic in axenic L D cultures",
+            "true_tokens": ["Y"],
+            "rankable": "false",       # ← forbidden even when "false"
+            "has_p_value": "false",    # ← forbidden even when "false"
+        }],
+    }
+    config = _dm_wrapper_config(tmp_path, dm_entry)
+    cfg = _write_config(tmp_path, config)
+    errors, _ = validate_paperconfig_content(config, str(cfg))
+    assert any("rankable" in e for e in errors), errors
+    assert any("has_p_value" in e for e in errors), errors
+
+
+def test_validate_categorical_dm_forbids_rankable_and_has_p_value(tmp_path):
+    """Same forbid rule as boolean — adapter sets at ingest."""
+    from validate_paperconfig import validate_paperconfig_content
+
+    csv = tmp_path / "s5.csv"
+    csv.write_text("NCBI ID_2,darkness_cluster\nPMN2A_RS00015,a\n")
+    dm_entry = {
+        "type": "derived_metrics_table", "filename": str(csv),
+        "organism": "Prochlorococcus NATL2A",
+        "experiment": "exp_dm_only",
+        "name_col": "NCBI ID_2",
+        "id_columns": [{"column": "NCBI ID_2", "id_type": "locus_tag_ncbi"}],
+        "metrics": [{
+            "metric_type": "darkness_survival_class",
+            "value_kind": "categorical",
+            "value_col": "darkness_cluster",
+            "allowed_categories": ["a"],
+            "rankable": "false",       # ← forbidden
+            "has_p_value": "false",    # ← forbidden
+        }],
+    }
+    config = _dm_wrapper_config(tmp_path, dm_entry)
+    cfg = _write_config(tmp_path, config)
+    errors, _ = validate_paperconfig_content(config, str(cfg))
+    assert any("rankable" in e for e in errors), errors
+    assert any("has_p_value" in e for e in errors), errors
+
+
+def test_validate_boolean_dm_rejects_forbidden_numeric_fields(tmp_path):
+    """unit / p_value_col / p_value_threshold are forbidden on boolean entries."""
+    from validate_paperconfig import validate_paperconfig_content
+
+    csv = _dm_boolean_csv(tmp_path)
+    dm_entry = {
+        "type": "derived_metrics_table", "filename": str(csv),
+        "organism": "Prochlorococcus NATL2A",
+        "experiment": "exp_dm_only",
+        "name_col": "NCBI ID_2",
+        "id_columns": [{"column": "NCBI ID_2", "id_type": "locus_tag_ncbi"}],
+        "metrics": [{
+            "metric_type": "periodic_in_axenic_LD",
+            "value_kind": "boolean",
+            "value_col": "Periodic in axenic L D cultures",
+            "true_tokens": ["Y"],
+            "unit": "h",                  # ← forbidden
+            "p_value_threshold": 0.05,    # ← forbidden
+        }],
+    }
+    config = _dm_wrapper_config(tmp_path, dm_entry)
+    cfg = _write_config(tmp_path, config)
+    errors, _ = validate_paperconfig_content(config, str(cfg))
+    assert any("unit" in e for e in errors) and any("p_value_threshold" in e for e in errors), errors
+
+
+def test_validate_categorical_dm_requires_allowed_categories(tmp_path):
+    """value_kind=categorical MUST declare allowed_categories inline (non-empty list)."""
+    from validate_paperconfig import validate_paperconfig_content
+
+    csv = tmp_path / "s5.csv"
+    csv.write_text("NCBI ID_2,darkness_cluster\nPMN2A_RS00015,darkness_axenic+darkness_coculture\n")
+    dm_entry = {
+        "type": "derived_metrics_table", "filename": str(csv),
+        "organism": "Prochlorococcus NATL2A",
+        "experiment": "exp_dm_only",
+        "name_col": "NCBI ID_2",
+        "id_columns": [{"column": "NCBI ID_2", "id_type": "locus_tag_ncbi"}],
+        "metrics": [{
+            "metric_type": "darkness_survival_class",
+            "value_kind": "categorical",
+            "value_col": "darkness_cluster",
+            # ← no allowed_categories
+        }],
+    }
+    config = _dm_wrapper_config(tmp_path, dm_entry)
+    cfg = _write_config(tmp_path, config)
+    errors, _ = validate_paperconfig_content(config, str(cfg))
+    assert any("allowed_categories" in e for e in errors), errors
+
+
+def test_validate_categorical_dm_warns_on_out_of_set_values(tmp_path):
+    """CSV dry-run warns if a value_col cell lies outside the paperconfig's
+    declared allowed_categories. (Hard error at ingest is the adapter's job
+    in Plan 2.)"""
+    from validate_paperconfig import validate_paperconfig_content
+
+    csv = tmp_path / "s5.csv"
+    csv.write_text(
+        "NCBI ID_2,darkness_cluster\n"
+        "PMN2A_RS00015,darkness_axenic+darkness_coculture\n"
+        "PMN2A_RS00020,totally_new_category\n"   # ← not in allowed_categories
+    )
+    dm_entry = {
+        "type": "derived_metrics_table", "filename": str(csv),
+        "organism": "Prochlorococcus NATL2A",
+        "experiment": "exp_dm_only",
+        "name_col": "NCBI ID_2",
+        "id_columns": [{"column": "NCBI ID_2", "id_type": "locus_tag_ncbi"}],
+        "metrics": [{
+            "metric_type": "darkness_survival_class",
+            "value_kind": "categorical",
+            "value_col": "darkness_cluster",
+            "allowed_categories": [
+                "darkness_axenic+darkness_coculture",
+                "darkness_coculture+unique_coculture",
+                "darkness_axenic+unique_axenic",
+            ],
+        }],
+    }
+    config = _dm_wrapper_config(tmp_path, dm_entry)
+    cfg = _write_config(tmp_path, config)
+    errors, warnings = validate_paperconfig_content(config, str(cfg))
+    assert any("totally_new_category" in w for w in warnings), warnings
+
+
+def test_validate_numeric_dm_requires_value_col_and_rankable(tmp_path):
+    """value_kind=numeric requires value_col + rankable + has_p_value."""
+    from validate_paperconfig import validate_paperconfig_content
+
+    csv = tmp_path / "zinser_s1.csv"
+    csv.write_text("locus_tag,Fourier,Fourier FDR\nPMM0001,0.82,0.01\n")
+    dm_entry = {
+        "type": "derived_metrics_table", "filename": str(csv),
+        "organism": "Prochlorococcus MED4",
+        "experiment": "exp_dm_only",
+        "name_col": "locus_tag",
+        "id_columns": [{"column": "locus_tag", "id_type": "locus_tag"}],
+        "metrics": [{
+            "metric_type": "fourier_score",
+            "value_kind": "numeric",
+            # ← value_col, rankable, has_p_value all missing
+        }],
+    }
+    config = _dm_wrapper_config(tmp_path, dm_entry)
+    config["publication"]["experiments"]["exp_dm_only"]["organism"] = "Prochlorococcus MED4"
+    cfg = _write_config(tmp_path, config)
+    errors, _ = validate_paperconfig_content(config, str(cfg))
+    joined = " | ".join(errors)
+    assert "value_col" in joined and "rankable" in joined and "has_p_value" in joined, errors
+
+
+def test_validate_numeric_dm_has_p_value_true_requires_threshold(tmp_path):
+    """When has_p_value='true', p_value_threshold is required and at least one
+    of p_value_col / adjusted_p_value_col must be present."""
+    from validate_paperconfig import validate_paperconfig_content
+
+    csv = tmp_path / "zinser.csv"
+    csv.write_text("locus_tag,Fourier\nPMM0001,0.82\n")
+    dm_entry = {
+        "type": "derived_metrics_table", "filename": str(csv),
+        "organism": "Prochlorococcus MED4",
+        "experiment": "exp_dm_only",
+        "name_col": "locus_tag",
+        "id_columns": [{"column": "locus_tag", "id_type": "locus_tag"}],
+        "metrics": [{
+            "metric_type": "fourier_score",
+            "value_kind": "numeric",
+            "value_col": "Fourier",
+            "rankable": "true",
+            "has_p_value": "true",
+            # ← p_value_threshold and p_value_col/adjusted_p_value_col missing
+        }],
+    }
+    config = _dm_wrapper_config(tmp_path, dm_entry)
+    config["publication"]["experiments"]["exp_dm_only"]["organism"] = "Prochlorococcus MED4"
+    cfg = _write_config(tmp_path, config)
+    errors, _ = validate_paperconfig_content(config, str(cfg))
+    assert any("p_value_threshold" in e for e in errors), errors
+    assert any("p_value_col" in e or "adjusted_p_value_col" in e for e in errors), errors
+
+
+def test_validate_numeric_dm_has_p_value_false_forbids_threshold(tmp_path):
+    """When has_p_value='false', p_value_threshold is forbidden."""
+    from validate_paperconfig import validate_paperconfig_content
+
+    csv = tmp_path / "zinser.csv"
+    csv.write_text("locus_tag,Peak\nPMM0001,6.0\n")
+    dm_entry = {
+        "type": "derived_metrics_table", "filename": str(csv),
+        "organism": "Prochlorococcus MED4",
+        "experiment": "exp_dm_only",
+        "name_col": "locus_tag",
+        "id_columns": [{"column": "locus_tag", "id_type": "locus_tag"}],
+        "metrics": [{
+            "metric_type": "peak_time_h",
+            "value_kind": "numeric",
+            "value_col": "Peak",
+            "unit": "h",
+            "rankable": "false",
+            "has_p_value": "false",
+            "p_value_threshold": 0.05,  # ← forbidden
+        }],
+    }
+    config = _dm_wrapper_config(tmp_path, dm_entry)
+    config["publication"]["experiments"]["exp_dm_only"]["organism"] = "Prochlorococcus MED4"
+    cfg = _write_config(tmp_path, config)
+    errors, _ = validate_paperconfig_content(config, str(cfg))
+    assert any("p_value_threshold" in e for e in errors), errors
+
+
+def test_validate_rejects_value_kind_mismatch_against_registry(tmp_path):
+    """KNOWN_METRIC_TYPES pins metric_type → value_kind. A paperconfig that
+    re-declares a known metric_type under a different value_kind is a hard
+    error (prevents silent edge-type changes across papers)."""
+    from validate_paperconfig import validate_paperconfig_content
+
+    csv = _dm_boolean_csv(tmp_path)
+    dm_entry = {
+        "type": "derived_metrics_table", "filename": str(csv),
+        "organism": "Prochlorococcus NATL2A",
+        "experiment": "exp_dm_only",
+        "name_col": "NCBI ID_2",
+        "id_columns": [{"column": "NCBI ID_2", "id_type": "locus_tag_ncbi"}],
+        "metrics": [{
+            "metric_type": "periodic_in_axenic_LD",   # registry: boolean
+            "value_kind": "numeric",                    # ← mismatch
+            "value_col": "Periodic in axenic L D cultures",
+            "rankable": "true",
+            "has_p_value": "false",
+        }],
+    }
+    config = _dm_wrapper_config(tmp_path, dm_entry)
+    cfg = _write_config(tmp_path, config)
+    errors, _ = validate_paperconfig_content(config, str(cfg))
+    assert any("periodic_in_axenic_LD" in e and "value_kind" in e for e in errors), errors
+
+
+def test_validate_novel_metric_type_warns_not_errors(tmp_path):
+    """A metric_type absent from KNOWN_METRIC_TYPES is accepted with a warning —
+    authors may introduce new names; the registry grows slowly."""
+    from validate_paperconfig import validate_paperconfig_content
+
+    csv = _dm_boolean_csv(tmp_path)
+    dm_entry = {
+        "type": "derived_metrics_table", "filename": str(csv),
+        "organism": "Prochlorococcus NATL2A",
+        "experiment": "exp_dm_only",
+        "name_col": "NCBI ID_2",
+        "id_columns": [{"column": "NCBI ID_2", "id_type": "locus_tag_ncbi"}],
+        "metrics": [{
+            "metric_type": "a_brand_new_per_paper_flag",   # not in registry
+            "value_kind": "boolean",
+            "value_col": "Periodic in axenic L D cultures",
+            "true_tokens": ["Y"],
+        }],
+    }
+    config = _dm_wrapper_config(tmp_path, dm_entry)
+    cfg = _write_config(tmp_path, config)
+    errors, warnings = validate_paperconfig_content(config, str(cfg))
+    assert not any("a_brand_new_per_paper_flag" in e for e in errors), errors
+    assert any("a_brand_new_per_paper_flag" in w and ("novel" in w.lower() or "not in" in w.lower())
+               for w in warnings), warnings
+
+
+def test_validate_rejects_unknown_value_kind(tmp_path):
+    """value_kind must be a member of VALUE_KINDS (numeric|boolean|categorical)."""
+    from validate_paperconfig import validate_paperconfig_content
+
+    csv = _dm_boolean_csv(tmp_path)
+    dm_entry = {
+        "type": "derived_metrics_table", "filename": str(csv),
+        "organism": "Prochlorococcus NATL2A",
+        "experiment": "exp_dm_only",
+        "name_col": "NCBI ID_2",
+        "id_columns": [{"column": "NCBI ID_2", "id_type": "locus_tag_ncbi"}],
+        "metrics": [{
+            "metric_type": "periodic_in_axenic_LD",
+            "value_kind": "ordinal",  # ← not a VALUE_KINDS member
+            "value_col": "Periodic in axenic L D cultures",
+        }],
+    }
+    config = _dm_wrapper_config(tmp_path, dm_entry)
+    cfg = _write_config(tmp_path, config)
+    errors, _ = validate_paperconfig_content(config, str(cfg))
+    assert any("value_kind" in e and "ordinal" in e for e in errors), errors
+
+
+def test_validate_rejects_missing_top_level_fields(tmp_path):
+    """Top-level required fields: filename, organism, experiment, name_col, metrics."""
+    from validate_paperconfig import validate_paperconfig_content
+
+    dm_entry = {
+        "type": "derived_metrics_table",
+        # everything else missing
+    }
+    config = _dm_wrapper_config(tmp_path, dm_entry)
+    cfg = _write_config(tmp_path, config)
+    errors, _ = validate_paperconfig_content(config, str(cfg))
+    joined = " | ".join(errors)
+    for req in ("filename", "organism", "experiment", "name_col", "metrics"):
+        assert req in joined, f"'{req}' should be flagged as missing; errors={errors}"

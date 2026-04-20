@@ -802,6 +802,311 @@ def _validate_gene_clusters_entry(key, table, config, paperconfig_dir,
         )
 
 
+def _validate_derived_metrics_entry(
+    key: str, table: dict, config_path: str,
+    all_canonical_organisms: set,
+    errors: list, warnings: list,
+) -> None:
+    """Validate a type: derived_metrics_table supplementary entry.
+
+    Design (option C): per-metric metadata (rankable, has_p_value,
+    p_value_threshold, unit, allowed_categories) lives inline on each metric
+    entry — it's paper-specific. KNOWN_METRIC_TYPES only pins metric_type →
+    value_kind to catch edge-type drift across papers.
+
+    Validation steps per metric:
+      1. required top-level fields present (filename, organism, experiment,
+         name_col, metrics)
+      2. organism is in canonical list
+      3. CSV file readable; name_col + value_col exist as columns
+      4. metric_type non-empty; value_kind ∈ VALUE_KINDS
+      5. if metric_type ∈ KNOWN_METRIC_TYPES: declared value_kind must match;
+         if not: warn (novel name)
+      6. field_description: required non-empty string (free text) — surfaced
+         by downstream MCP tools
+      7. per-value_kind required / forbidden field gating:
+           numeric     — require value_col, rankable, has_p_value;
+                         rankable/has_p_value ∈ {"true","false"};
+                         if has_p_value=="true": require p_value_threshold ∈ (0,1]
+                           and at least one of p_value_col/adjusted_p_value_col;
+                         if has_p_value=="false": those three forbidden;
+                         unit optional (free string or omitted);
+                         forbidden: true_tokens/false_tokens/skip_tokens/
+                                   blank_policy/allowed_categories
+           boolean     — require value_col, true_tokens (non-empty list);
+                         optional false_tokens / skip_tokens / blank_policy
+                         (∈ VALID_BLANK_POLICIES, default "skip");
+                         forbidden: unit, rankable, has_p_value, p_value_*,
+                                   allowed_categories
+                                   (rankable/has_p_value are definitionally
+                                   "false" for boolean — adapter sets them
+                                   at ingest, paperconfig must not declare);
+                         CSV dry-run: hard-error on any unclassified cell value
+           categorical — require value_col, allowed_categories (non-empty list);
+                         forbidden: unit, rankable, has_p_value,
+                                   true_tokens/false_tokens/skip_tokens/
+                                   blank_policy, p_value_*
+                                   (rankable/has_p_value are definitionally
+                                   "false" for categorical — adapter sets them
+                                   at ingest, paperconfig must not declare);
+                         CSV dry-run: warn on cells outside allowed_categories
+                         (adapter hard-errors at ingest in Plan 2)
+    """
+    # ── Required top-level fields ──
+    for req in ("filename", "organism", "experiment", "name_col", "metrics"):
+        if req not in table or table.get(req) in (None, "", []):
+            errors.append(
+                f"{config_path} | {key} | derived_metrics_table missing required "
+                f"field '{req}'"
+            )
+
+    # ── organism vocab ──
+    organism = table.get("organism", "")
+    if organism and organism not in all_canonical_organisms:
+        errors.append(
+            _canonical_organism_error(config_path, key, organism, all_canonical_organisms)
+        )
+
+    # ── experiment reference type-check (cross-reference happens elsewhere) ──
+    exp_ref = table.get("experiment", "")
+    if exp_ref and not isinstance(exp_ref, str):
+        errors.append(f"{config_path} | {key} | 'experiment' must be a string key")
+
+    # ── CSV load for dry-runs ──
+    filename = table.get("filename", "")
+    sep = table.get("sep", ",")
+    skip = int(table.get("skip_rows", 0) or 0)
+    df = None
+    cols: list[str] = []
+    if filename and os.path.exists(filename):
+        try:
+            df = pd.read_csv(filename, sep=sep, skiprows=skip if skip else None, dtype=str)
+            cols = list(df.columns)
+            print(f"    columns: {cols}")
+        except Exception as e:
+            errors.append(f"{config_path} | {key} | cannot read CSV: {e}")
+    elif filename:
+        errors.append(f"{config_path} | {key} | file not found: {filename}")
+
+    # ── name_col presence ──
+    name_col = table.get("name_col", "")
+    if name_col and cols and name_col not in cols:
+        errors.append(f"{config_path} | {key} | name_col '{name_col}' not in CSV columns")
+
+    # ── id_columns validation (reuse existing helper) ──
+    id_columns = table.get("id_columns", []) or []
+    if cols:
+        _validate_id_columns(id_columns, cols, key, errors, warnings)
+
+    # ── metrics ──
+    metrics = table.get("metrics") or []
+    if not isinstance(metrics, list) or not metrics:
+        errors.append(f"{config_path} | {key} | 'metrics' must be a non-empty list")
+        return
+
+    for i, m in enumerate(metrics):
+        ctx = f"{key}.metrics[{i}]"
+        if not isinstance(m, dict):
+            errors.append(f"{config_path} | {ctx} | must be a mapping")
+            continue
+
+        metric_type = m.get("metric_type", "")
+        value_kind = m.get("value_kind", "")
+        value_col = m.get("value_col", "")
+
+        # ── metric_type presence ──
+        if not metric_type:
+            errors.append(f"{config_path} | {ctx} | missing metric_type")
+            continue
+
+        # ── value_kind presence + vocabulary ──
+        if not value_kind:
+            errors.append(f"{config_path} | {ctx} | missing value_kind")
+            continue
+        if value_kind not in VALUE_KINDS:
+            errors.append(
+                f"{config_path} | {ctx} | value_kind '{value_kind}' not in "
+                f"{sorted(VALUE_KINDS)}"
+            )
+            continue
+
+        # ── registry cross-check (known metric_type must match value_kind) ──
+        if metric_type in KNOWN_METRIC_TYPES:
+            expected_kind = KNOWN_METRIC_TYPES[metric_type]
+            if value_kind != expected_kind:
+                errors.append(
+                    f"{config_path} | {ctx} | metric_type '{metric_type}' is "
+                    f"registered as value_kind='{expected_kind}' in KNOWN_METRIC_TYPES; "
+                    f"paperconfig declares value_kind='{value_kind}'. Use a different "
+                    f"metric_type name if this paper measures a different kind."
+                )
+                continue
+        else:
+            warnings.append(
+                f"{config_path} | {ctx} | metric_type '{metric_type}' is novel "
+                f"(not in KNOWN_METRIC_TYPES). Consider adding it to "
+                f"multiomics_kg/vocab/non_de_evidence.py if future papers will reuse it."
+            )
+
+        # ── value_col presence + CSV column match ──
+        if not value_col:
+            errors.append(f"{config_path} | {ctx} | missing value_col")
+        elif cols and value_col not in cols:
+            errors.append(
+                f"{config_path} | {ctx} | value_col '{value_col}' not in CSV columns"
+            )
+
+        # ── field_description: required non-empty string (free text) ──
+        # Human-readable explanation surfaced by downstream MCP tools;
+        # without it a DerivedMetric node is opaque.
+        fd = m.get("field_description")
+        if not isinstance(fd, str) or not fd.strip():
+            errors.append(
+                f"{config_path} | {ctx} | 'field_description' is required and must be "
+                f"a non-empty string (free text; no vocabulary constraint)"
+            )
+
+        # ── per-value_kind gating ──
+        if value_kind == "numeric":
+            # rankable + has_p_value required and must be "true"|"false"
+            for flag_field in ("rankable", "has_p_value"):
+                if flag_field not in m:
+                    errors.append(
+                        f"{config_path} | {ctx} | '{flag_field}' is required for "
+                        f"value_kind=numeric (\"true\" or \"false\")"
+                    )
+                elif m[flag_field] not in ("true", "false"):
+                    errors.append(
+                        f"{config_path} | {ctx} | '{flag_field}' must be \"true\" "
+                        f"or \"false\" (string enum), got {m[flag_field]!r}"
+                    )
+            # p-value field gating
+            has_p = m.get("has_p_value")
+            threshold = m.get("p_value_threshold")
+            pval_col = m.get("p_value_col")
+            adj_col = m.get("adjusted_p_value_col")
+            if has_p == "true":
+                if threshold is None:
+                    errors.append(
+                        f"{config_path} | {ctx} | p_value_threshold is required "
+                        f"when has_p_value='true'"
+                    )
+                elif not isinstance(threshold, (int, float)) or not (0 < threshold <= 1):
+                    errors.append(
+                        f"{config_path} | {ctx} | p_value_threshold must be a "
+                        f"number in (0, 1], got {threshold!r}"
+                    )
+                if not pval_col and not adj_col:
+                    errors.append(
+                        f"{config_path} | {ctx} | at least one of p_value_col / "
+                        f"adjusted_p_value_col is required when has_p_value='true'"
+                    )
+                for col_field in ("p_value_col", "adjusted_p_value_col"):
+                    declared = m.get(col_field)
+                    if declared and cols and declared not in cols:
+                        errors.append(
+                            f"{config_path} | {ctx} | {col_field} '{declared}' "
+                            f"not in CSV columns"
+                        )
+            elif has_p == "false":
+                for forbid in ("p_value_threshold", "p_value_col", "adjusted_p_value_col"):
+                    if forbid in m:
+                        errors.append(
+                            f"{config_path} | {ctx} | '{forbid}' is forbidden when "
+                            f"has_p_value='false'"
+                        )
+            # Forbidden-field gating
+            for forbid in ("true_tokens", "false_tokens", "skip_tokens",
+                           "blank_policy", "allowed_categories"):
+                if forbid in m:
+                    errors.append(
+                        f"{config_path} | {ctx} | field '{forbid}' is not allowed "
+                        f"for value_kind=numeric"
+                    )
+
+        elif value_kind == "boolean":
+            # true_tokens required
+            true_tokens = m.get("true_tokens")
+            if not isinstance(true_tokens, list) or not true_tokens:
+                errors.append(
+                    f"{config_path} | {ctx} | 'true_tokens' is required and must be "
+                    f"a non-empty list for value_kind=boolean"
+                )
+            # Forbidden-field gating. rankable/has_p_value are definitionally
+            # "false" for boolean — adapter sets them at ingest, paperconfig
+            # must not declare them (forbids redundant / copy-paste noise).
+            for forbid in ("unit", "rankable", "has_p_value",
+                           "p_value_col", "adjusted_p_value_col",
+                           "p_value_threshold", "allowed_categories"):
+                if forbid in m:
+                    errors.append(
+                        f"{config_path} | {ctx} | field '{forbid}' is not allowed "
+                        f"for value_kind=boolean"
+                    )
+            # blank_policy vocab
+            blank_policy = m.get("blank_policy", "skip")
+            if blank_policy not in VALID_BLANK_POLICIES:
+                errors.append(
+                    f"{config_path} | {ctx} | blank_policy '{blank_policy}' not in "
+                    f"{list(VALID_BLANK_POLICIES)}"
+                )
+            # CSV dry-run: every non-blank cell must be classified
+            if df is not None and value_col and value_col in df.columns:
+                true_set = set(m.get("true_tokens") or [])
+                false_set = set(m.get("false_tokens") or [])
+                skip_set = set(m.get("skip_tokens") or list(DEFAULT_SKIP_TOKENS))
+                classified = true_set | false_set | skip_set
+                distinct = set()
+                for v in df[value_col].fillna("").astype(str).str.strip().tolist():
+                    if v == "":
+                        continue
+                    distinct.add(v)
+                unknown = distinct - classified
+                if unknown:
+                    errors.append(
+                        f"{config_path} | {ctx} | unclassified token(s) in value_col "
+                        f"'{value_col}': {sorted(unknown)}. Add them to true_tokens, "
+                        f"false_tokens, or skip_tokens."
+                    )
+
+        elif value_kind == "categorical":
+            # allowed_categories required
+            allowed_cats = m.get("allowed_categories")
+            if not isinstance(allowed_cats, list) or not allowed_cats:
+                errors.append(
+                    f"{config_path} | {ctx} | 'allowed_categories' is required and "
+                    f"must be a non-empty list for value_kind=categorical"
+                )
+            # Forbidden-field gating. rankable/has_p_value are definitionally
+            # "false" for categorical — adapter sets them at ingest, paperconfig
+            # must not declare them (forbids redundant / copy-paste noise).
+            for forbid in ("unit", "rankable", "has_p_value",
+                           "true_tokens", "false_tokens", "skip_tokens",
+                           "blank_policy", "p_value_col", "adjusted_p_value_col",
+                           "p_value_threshold"):
+                if forbid in m:
+                    errors.append(
+                        f"{config_path} | {ctx} | field '{forbid}' is not allowed "
+                        f"for value_kind=categorical"
+                    )
+            # CSV dry-run: warn on cells outside allowed_categories
+            if (df is not None and value_col and value_col in df.columns
+                    and isinstance(allowed_cats, list) and allowed_cats):
+                allowed = set(allowed_cats)
+                distinct = set()
+                for v in df[value_col].fillna("").astype(str).str.strip().tolist():
+                    if v:
+                        distinct.add(v)
+                unknown = distinct - allowed
+                if unknown:
+                    warnings.append(
+                        f"{config_path} | {ctx} | value_col '{value_col}' contains "
+                        f"{len(unknown)} value(s) outside declared allowed_categories: "
+                        f"{sorted(unknown)}. Adapter will hard-error on these rows at "
+                        f"ingest (Plan 2). Either expand allowed_categories or fix the CSV."
+                    )
+
+
 def validate_paperconfig_content(
     config: dict, config_path: str,
 ) -> tuple[list[str], list[str]]:
@@ -920,6 +1225,17 @@ def validate_paperconfig_content(
     for table_key, table in supp.items():
         table_type = table.get("type", "csv")
         print(f"\n  [{table_key}] (type: {table_type})")
+
+        # ── derived_metrics_table (Plan 1 / non-DE-evidence slice) ──────────
+        # Dispatched BEFORE the generic filename short-circuits so the helper's
+        # detailed required-field validation runs for every DM entry, including
+        # entries with missing/bad filename.
+        if table_type == "derived_metrics_table":
+            _validate_derived_metrics_entry(
+                table_key, table, config_path,
+                all_canonical_organisms, errors, warnings,
+            )
+            continue
 
         fn = table.get("filename", "")
         if not fn:
