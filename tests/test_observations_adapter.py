@@ -858,3 +858,64 @@ def test_categorical_edges_skip_blank_rows(tmp_path):
     edges = adapter.get_edges()
     cls_edges = [e for e in edges if e[3] == "derived_metric_classifies_gene"]
     assert len(cls_edges) == 2  # PMM0002's blank row skipped
+
+
+def test_numeric_edges_emit_one_per_row_with_value(tmp_path):
+    pc_path = _write_numeric_dm_paperconfig(tmp_path)
+    adapter = ObservationsAdapter(config_file=pc_path)
+    adapter._organism_lookup = {"Prochlorococcus MED4": "insdc.gcf:GCF_000011465.1"}
+    edges = adapter.get_edges()
+    q_edges = [e for e in edges if e[3] == "derived_metric_quantifies_gene"]
+    assert len(q_edges) == 2
+
+    for eid, src, tgt, label, props in q_edges:
+        assert src.startswith("derived_metric:synthetic:fourier_metrics:")
+        assert tgt.startswith("ncbigene:PMM")
+        assert props["metric_type"] == "fourier_score"
+        assert "value" in props
+        assert isinstance(props["value"], float)
+        # p_value column declared → key present
+        assert "p_value" in props
+        assert isinstance(props["p_value"], float)
+        # adjusted_p_value not declared in this fixture → key absent
+        assert "adjusted_p_value" not in props
+
+
+def test_numeric_edges_skip_rows_with_nan_value(tmp_path):
+    csv_path = tmp_path / "nan_val.csv"
+    csv_path.write_text("locus_tag,v\nPMM0001,0.5\nPMM0002,\nPMM0003,0.8\n")
+    config = {
+        "publication": {
+            "papername": "NaN Val", "doi": "10.9999/nan",
+            "papermainpdf": str(tmp_path / "fake.pdf"),
+            "experiments": {"e": {
+                "organism": "Prochlorococcus MED4", "omics_type": "RNASEQ",
+                "treatment_type": [], "background_factors": [],
+                "treatment_condition": "", "light_condition": "",
+                "experimental_context": "",
+            }},
+            "supplementary_materials": {
+                "entry": {
+                    "type": "derived_metrics_table",
+                    "filename": str(csv_path),
+                    "organism": "Prochlorococcus MED4",
+                    "experiment": "e",
+                    "name_col": "locus_tag",
+                    "metrics": [{
+                        "metric_type": "fourier_score",
+                        "value_kind": "numeric",
+                        "value_col": "v",
+                        "rankable": "true",
+                        "has_p_value": "false",
+                    }],
+                },
+            },
+        },
+    }
+    pc_path = tmp_path / "paperconfig.yaml"
+    pc_path.write_text(yaml.dump(config))
+    adapter = ObservationsAdapter(config_file=pc_path)
+    adapter._organism_lookup = {"Prochlorococcus MED4": "insdc.gcf:GCF_000011465.1"}
+    edges = adapter.get_edges()
+    q_edges = [e for e in edges if e[3] == "derived_metric_quantifies_gene"]
+    assert len(q_edges) == 2  # PMM0002 row with blank `v` skipped

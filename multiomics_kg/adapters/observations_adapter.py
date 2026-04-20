@@ -447,9 +447,64 @@ class ObservationsAdapter:
         """Emit derived_metric_quantifies_gene edges.
 
         Precondition: value_col is present in df.columns (guarded in get_edges).
-        Task 11 implements this.
+        Skips rows where `value` (the `value_col` cell) is NaN or non-numeric.
+        Carries optional `p_value` / `adjusted_p_value` only when the paperconfig
+        declares the corresponding column AND the cell is non-null.
+
+        Unlike boolean/categorical, numeric does NOT hard-error on a bad cell —
+        non-numeric `value_col` cells are silently skipped because a paper may
+        legitimately flag a row as blank/missing.
+
+        test_mode scope: per-metric 100-edge cap (see _emit_boolean_edges).
         """
-        return []
+        p_value_col = metric.get("p_value_col")
+        adj_p_value_col = metric.get("adjusted_p_value_col")
+
+        edges = []
+        count = 0
+        for _, row in df.iterrows():
+            if self.test_mode and count >= 100:
+                break
+            gene_locus = row.get(gene_col, "")
+            if pd.isna(gene_locus):
+                continue
+            gene_locus = str(gene_locus).strip()
+            if not gene_locus:
+                continue
+            raw_val = row.get(value_col)
+            if pd.isna(raw_val):
+                continue
+            try:
+                value = float(raw_val)
+            except (TypeError, ValueError):
+                continue  # non-numeric cell → skip (not a hard error; paper may flag as blank)
+
+            props = {
+                "metric_type": _clean_str(metric_type),
+                "value": value,
+            }
+            if p_value_col and p_value_col in df.columns:
+                pv = row.get(p_value_col)
+                if not pd.isna(pv):
+                    try:
+                        props["p_value"] = float(pv)
+                    except (TypeError, ValueError):
+                        pass
+            if adj_p_value_col and adj_p_value_col in df.columns:
+                apv = row.get(adj_p_value_col)
+                if not pd.isna(apv):
+                    try:
+                        props["adjusted_p_value"] = float(apv)
+                    except (TypeError, ValueError):
+                        pass
+
+            edge_id = f"{dm_id}__{gene_locus}"
+            edges.append((
+                edge_id, dm_id, f"ncbigene:{gene_locus}",
+                "derived_metric_quantifies_gene", props,
+            ))
+            count += 1
+        return edges
 
     def download_data(self, **kwargs):
         pass
