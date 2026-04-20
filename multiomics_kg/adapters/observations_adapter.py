@@ -261,7 +261,99 @@ class ObservationsAdapter:
         return nodes
 
     def get_edges(self) -> list[tuple]:
-        return []  # filled in Tasks 8-11
+        """Emit binding + measurement edges for each DerivedMetric."""
+        edges = []
+        experiments = get_experiments(self.config)
+        pub_id = f"doi:{self.doi}" if self.doi else None
+
+        for entry_key, entry in self._dm_entries:
+            exp_key = entry.get("experiment")
+            if not exp_key or exp_key not in experiments:
+                continue
+            exp = experiments[exp_key]
+            organism = exp.get("organism", "")
+
+            csv_path, use_resolved = _resolve_csv_path(entry["filename"])
+            if not csv_path.exists():
+                logger.warning(f"derived_metrics_table CSV not found: {csv_path}")
+                continue
+            df = pd.read_csv(csv_path)
+
+            # Column used to reach the Gene node
+            if use_resolved and "resolved_locus_tag" in df.columns:
+                gene_col = "resolved_locus_tag"
+                logger.info(
+                    f"Using pre-resolved CSV: {csv_path.name} ({len(df)} rows)"
+                )
+            else:
+                gene_col = entry.get("name_col", "")
+
+            experiment_id = (
+                f"{self.doi}_{exp_key}" if self.doi else f"{self.paper_name}_{exp_key}"
+            )
+
+            for metric in entry.get("metrics", []):
+                metric_type = metric.get("metric_type", "")
+                value_kind = metric.get("value_kind", "")
+                if not metric_type or not value_kind:
+                    continue
+
+                dm_id = _make_derived_metric_id(
+                    self.doi, self.paper_name, entry_key, metric_type
+                )
+
+                # --- Binding edges ---
+                if pub_id:
+                    edges.append((
+                        f"pub_dm__{dm_id}",
+                        pub_id, dm_id, "publication_has_derived_metric", {},
+                    ))
+                edges.append((
+                    f"exp_dm__{dm_id}__{exp_key}",
+                    experiment_id, dm_id, "experiment_has_derived_metric", {},
+                ))
+                if organism and organism in self._organism_lookup:
+                    edges.append((
+                        f"dm_org__{dm_id}",
+                        dm_id, self._organism_lookup[organism],
+                        "derived_metric_belongs_to_organism", {},
+                    ))
+
+                # --- Measurement edges (Tasks 9–11) ---
+                value_col = metric.get("value_col", "")
+                if not value_col or value_col not in df.columns:
+                    logger.warning(
+                        f"value_col '{value_col}' not in {csv_path.name} "
+                        f"for '{entry_key}/{metric_type}' — skipping measurement edges"
+                    )
+                    continue
+
+                if value_kind == "boolean":
+                    edges.extend(self._emit_boolean_edges(
+                        df, gene_col, value_col, metric, dm_id, metric_type,
+                    ))
+                elif value_kind == "categorical":
+                    edges.extend(self._emit_categorical_edges(
+                        df, gene_col, value_col, metric, dm_id, metric_type,
+                    ))
+                elif value_kind == "numeric":
+                    edges.extend(self._emit_numeric_edges(
+                        df, gene_col, value_col, metric, dm_id, metric_type,
+                    ))
+
+        return edges
+
+    def _emit_boolean_edges(self, df, gene_col, value_col, metric, dm_id, metric_type):
+        """Task 9 implements this."""
+        return []
+
+    def _emit_categorical_edges(self, df, gene_col, value_col, metric, dm_id, metric_type):
+        """Task 10 implements this."""
+        return []
+
+    def _emit_numeric_edges(self, df, gene_col, value_col, metric, dm_id, metric_type):
+        """Task 11 implements this."""
+        return []
 
     def download_data(self, **kwargs):
         pass

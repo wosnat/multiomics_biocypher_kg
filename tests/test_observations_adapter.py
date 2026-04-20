@@ -600,3 +600,43 @@ def test_numeric_dm_node_props_from_paperconfig(tmp_path):
     assert props["p_value_threshold"] == 0.05
     assert props["unit"] == ""
     assert props["allowed_categories"] == []
+
+
+def test_get_edges_emits_three_binding_edges_per_dm(tmp_path):
+    pc_path = _write_s4a_like_paperconfig(tmp_path)
+    adapter = ObservationsAdapter(config_file=pc_path)
+    adapter._organism_lookup = {"Prochlorococcus NATL2A": "insdc.gcf:GCF_000012465.1"}
+    edges = adapter.get_edges()
+
+    pub_edges = [e for e in edges if e[3] == "publication_has_derived_metric"]
+    exp_edges = [e for e in edges if e[3] == "experiment_has_derived_metric"]
+    org_edges = [e for e in edges if e[3] == "derived_metric_belongs_to_organism"]
+
+    # 2 DMs (axenic_LD + axenic_extended_darkness) × 3 binding types
+    assert len(pub_edges) == 2
+    assert len(exp_edges) == 2
+    assert len(org_edges) == 2
+
+    # Check shape: pub_edges are Pub → DM
+    for eid, src, tgt, label, props in pub_edges:
+        assert src == "doi:10.1128/mSystems.00040-18"
+        assert tgt.startswith("derived_metric:mSystems.00040-18:s4a_axenic:")
+
+    for eid, src, tgt, label, props in exp_edges:
+        assert src == "10.1128/mSystems.00040-18_axenic_rnaseq"
+        assert tgt.startswith("derived_metric:mSystems.00040-18:s4a_axenic:")
+
+    for eid, src, tgt, label, props in org_edges:
+        assert src.startswith("derived_metric:mSystems.00040-18:s4a_axenic:")
+        assert tgt == "insdc.gcf:GCF_000012465.1"
+
+
+def test_get_edges_skips_org_binding_when_lookup_misses(tmp_path):
+    """If organism not in the lookup dict, no org edge (edge would dangle)."""
+    pc_path = _write_s4a_like_paperconfig(tmp_path)
+    adapter = ObservationsAdapter(config_file=pc_path)
+    # lookup intentionally empty
+    adapter._organism_lookup = {}
+    edges = adapter.get_edges()
+    org_edges = [e for e in edges if e[3] == "derived_metric_belongs_to_organism"]
+    assert len(org_edges) == 0
