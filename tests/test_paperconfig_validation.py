@@ -675,3 +675,63 @@ class TestDoiOverride:
         config["publication"]["doi"] = "https://doi.org/10.1186/2046-9063-8-7"
         cfg_file = _write_config(tmp_path, config)
         assert validate(str(cfg_file)) is False
+
+
+# ---------------------------------------------------------------------------
+# validate_paperconfig_content — pure function entry
+# ---------------------------------------------------------------------------
+
+def test_validate_paperconfig_content_is_importable():
+    """The refactored pure function must be exported from validate_paperconfig."""
+    from validate_paperconfig import validate_paperconfig_content
+
+    errors, warnings = validate_paperconfig_content({}, "/tmp/fake.yaml")
+    assert isinstance(errors, list)
+    assert isinstance(warnings, list)
+
+
+def test_validate_paperconfig_content_accepts_minimal_valid_config(tmp_path):
+    """A minimal well-formed config returns empty errors (warnings OK)."""
+    from validate_paperconfig import validate_paperconfig_content
+
+    csv_file = _write_minimal_csv(tmp_path)
+    pdf = tmp_path / "paper.pdf"
+    pdf.write_bytes(b"%PDF-1.4\n")  # placeholder; validator only checks existence
+    config = {
+        "publication": {
+            "papername": "Test 2026",
+            "papermainpdf": str(pdf),
+            "experiments": {
+                "exp1": {
+                    "name": "MED4 N-starvation",
+                    "organism": "Prochlorococcus MED4",
+                    "omics_type": "RNASEQ",
+                    "test_type": "DESeq2",
+                    "treatment_type": ["nitrogen"],
+                    "treatment_condition": "N-limited",
+                    "control_condition": "N-replete",
+                },
+            },
+            "supplementary_materials": {
+                "t1": {
+                    "type": "csv",
+                    "filename": str(csv_file),
+                    "statistical_analyses": [
+                        {
+                            "id": "an1",
+                            "experiment": "exp1",
+                            "name_col": "Gene",
+                            "logfc_col": "log2FC",
+                            "adjusted_p_value_col": "padj",
+                            "timepoint": "unknown",
+                            "timepoint_hours": None,
+                            "growth_phase": "exponential",
+                        },
+                    ],
+                },
+            },
+        },
+    }
+    cfg_path = _write_config(tmp_path, config)
+    errors, _warnings = validate_paperconfig_content(config, str(cfg_path))
+    assert errors == [], f"Expected no errors; got: {errors}"

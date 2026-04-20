@@ -780,15 +780,22 @@ def _validate_gene_clusters_entry(key, table, config, paperconfig_dir,
         )
 
 
-def validate(config_path: str) -> bool:
-    errors = []
-    warnings = []
+def validate_paperconfig_content(
+    config: dict, config_path: str,
+) -> tuple[list[str], list[str]]:
+    """Validate a parsed paperconfig dict; returns (errors, warnings).
 
-    # Derive project root from the config file path so we can load treatment_organisms.csv
-    # regardless of where the script is invoked from.
+    Pure function — no stdout prints about results, no SystemExit. Callers
+    render the diagnostics they want.
+
+    NOTE: the current implementation still prints progress lines via
+    print(); those are debug output, not results, and remain for parity
+    with the previous CLI behavior when invoked via validate().
+    """
+    errors: list[str] = []
+    warnings: list[str] = []
+
     abs_config = os.path.abspath(config_path)
-    # Walk up from the config file until we find a directory containing
-    # data/Prochlorococcus/treatment_organisms.csv (i.e., the project root).
     _project_root = os.path.dirname(abs_config)
     for _ in range(10):
         candidate = os.path.join(
@@ -801,16 +808,8 @@ def validate(config_path: str) -> bool:
         _project_root = None
 
     treatment_organisms = _load_treatment_organisms(_project_root or "")
-    # The full allowed set for the 'organism' field is the union of genomic + treatment organisms
     all_canonical_organisms = CANONICAL_GENOMIC_ORGANISMS | treatment_organisms
     genome_accessions = _load_genome_accessions(_project_root or "")
-
-    # --- Parse YAML ---
-    try:
-        config = load_paperconfig(Path(config_path))
-    except Exception as e:
-        print(f"FAIL: Cannot parse YAML: {e}")
-        return False
 
     # Detect strain-level resource config (no 'publication' block)
     is_resource_config = bool(config) and "publication" not in config
@@ -822,8 +821,8 @@ def validate(config_path: str) -> bool:
         experiments = {}
     else:
         if not config or "publication" not in config:
-            print("FAIL: Missing top-level 'publication' key")
-            return False
+            errors.append(f"{config_path} | Missing top-level 'publication' key")
+            return errors, warnings
 
         pub = get_publication(config)
 
@@ -891,9 +890,8 @@ def validate(config_path: str) -> bool:
         )
 
     if not supp:
-        errors.append("Missing 'supplementary_materials'")
-        _print_results(errors, warnings)
-        return len(errors) == 0
+        errors.append(f"{config_path} | Missing 'supplementary_materials'")
+        return errors, warnings
 
     all_ids = []
 
@@ -1177,6 +1175,18 @@ def validate(config_path: str) -> bool:
             experiments, supp, config_path, errors, warnings,
         )
 
+    return errors, warnings
+
+
+def validate(config_path: str) -> bool:
+    """CLI entry: parse YAML, validate, print results, return success bool."""
+    try:
+        config = load_paperconfig(Path(config_path))
+    except Exception as e:
+        print(f"FAIL: Cannot parse YAML: {e}")
+        return False
+
+    errors, warnings = validate_paperconfig_content(config, config_path)
     _print_results(errors, warnings)
     return len(errors) == 0
 
