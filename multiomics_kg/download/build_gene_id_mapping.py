@@ -412,6 +412,74 @@ def extract_rows_from_gene_clusters_table(
     return result
 
 
+def extract_rows_from_derived_metrics_table(
+    entry: dict,
+    paper_name: str,
+    table_key: str,
+) -> list[tuple[list[tuple[str, str]], str]]:
+    """Extract rows from a derived_metrics_table entry (id_columns only).
+
+    Structure mirrors extract_rows_from_csv_table, minus the statistical_analyses
+    indirection. name_col is at the table level; id_columns live at the table
+    level. The `metrics` list is irrelevant to gene-ID mapping.
+    """
+    id_columns: list[dict] = entry.get("id_columns") or []
+    name_col = entry.get("name_col", "")
+
+    if not id_columns:
+        return []
+
+    filename = entry.get("filename", "")
+    sep = entry.get("sep", ",")
+    skip_rows = entry.get("skip_rows", 0)
+
+    path = PROJECT_ROOT / filename
+    if not path.exists():
+        print(f"    [warn] derived_metrics file not found: {path}", file=sys.stderr)
+        return []
+
+    try:
+        df = pd.read_csv(path, sep=sep, skiprows=skip_rows, dtype=str,
+                         encoding="utf-8-sig")
+    except Exception as e:
+        print(f"    [warn] could not read {path}: {e}", file=sys.stderr)
+        return []
+
+    source_label = f"{paper_name}/{table_key}"
+    result: list[tuple[list[tuple[str, str]], str]] = []
+
+    # name_col value appears with its declared id_type (defaulting to locus_tag),
+    # matching the csv-entry convention.
+    name_col_id_type = next(
+        (c.get("id_type", "other") for c in id_columns if c.get("column") == name_col),
+        "locus_tag",
+    )
+    extra_cols = [
+        cs for cs in id_columns
+        if cs.get("column", "") in df.columns and cs.get("column", "") != name_col
+    ]
+
+    for _, row in df.iterrows():
+        row_pairs: list[tuple[str, str]] = []
+
+        if name_col and name_col in df.columns:
+            val = _safe_str(row.get(name_col, ""))
+            if val:
+                row_pairs.append((val, name_col_id_type))
+
+        for col_spec in extra_cols:
+            col = col_spec["column"]
+            id_type = col_spec.get("id_type", "other")
+            val = _safe_str(row.get(col, ""))
+            if val:
+                row_pairs.append((val, id_type))
+
+        if row_pairs:
+            result.append((row_pairs, source_label))
+
+    return result
+
+
 # ─── Seeding from annotations ─────────────────────────────────────────────────
 
 # Fields in gene_annotations_merged.json → id_type mapping
@@ -656,6 +724,11 @@ def process_strain(row: dict, paperconfigs: list, force: bool) -> None:
 
             elif entry_type == "gene_clusters":
                 rows = extract_rows_from_gene_clusters_table(entry_config, paper_name, table_key)
+                all_rows.extend(rows)
+                print(f"    collected {len(rows)} rows")
+
+            elif entry_type == "derived_metrics_table":
+                rows = extract_rows_from_derived_metrics_table(entry_config, paper_name, table_key)
                 all_rows.extend(rows)
                 print(f"    collected {len(rows)} rows")
 
