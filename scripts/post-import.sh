@@ -289,6 +289,37 @@ WITH e,
 SET e.clustering_analysis_count = ca_count,
     e.cluster_types = ctypes,
     e.cluster_count = total_clusters;
+
+// Experiment DM rollup defaults (empty-state; compute below overrides where children exist)
+MATCH (e:Experiment)
+SET e.reports_fold_change = 'false',
+    e.reports_derived_metric_types = [],
+    e.derived_metric_count = 0,
+    e.derived_metric_value_kinds = [],
+    e.derived_metric_gene_count = 0;
+
+// Experiment reports_fold_change: 'true' iff outgoing Changes_expression_of exists
+MATCH (e:Experiment)
+WHERE EXISTS { (e)-[:Changes_expression_of]->() }
+SET e.reports_fold_change = 'true';
+
+// Experiment DM compute (overrides defaults)
+MATCH (e:Experiment)
+OPTIONAL MATCH (e)-[:ExperimentHasDerivedMetric]->(dm:DerivedMetric)
+WITH e,
+     count(DISTINCT dm) AS dm_count,
+     [x IN collect(DISTINCT dm.metric_type) WHERE x IS NOT NULL] AS metric_types,
+     [x IN collect(DISTINCT dm.value_kind) WHERE x IS NOT NULL] AS value_kinds
+SET e.derived_metric_count = dm_count,
+    e.reports_derived_metric_types = apoc.coll.sort(metric_types),
+    e.derived_metric_value_kinds = apoc.coll.sort(value_kinds);
+
+// Experiment derived_metric_gene_count: distinct genes reachable via ANY child DM edge type
+MATCH (e:Experiment)
+OPTIONAL MATCH (e)-[:ExperimentHasDerivedMetric]->(:DerivedMetric)
+  -[:Derived_metric_quantifies_gene|Derived_metric_flags_gene|Derived_metric_classifies_gene]->(g:Gene)
+WITH e, count(DISTINCT g) AS dmg_count
+SET e.derived_metric_gene_count = dmg_count;
 CYPHER
 
 # ─────────────────────────────────────────────────────────────────────────────
