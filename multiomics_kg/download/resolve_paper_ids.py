@@ -242,6 +242,166 @@ def resolve_gene_clusters_table(
     }
 
 
+def resolve_derived_metrics_entry(
+    pub_name: str,
+    table_key: str,
+    table_config: dict,
+    force: bool = False,
+) -> dict | None:
+    """Resolve gene IDs in one derived_metrics_table supplementary entry.
+
+    Same shape as resolve_table but:
+      - name_col is at the entry level, not under statistical_analyses
+      - organism is at the entry level (or derived via get_organism_for_entry)
+    """
+    if table_config.get("type") != "derived_metrics_table":
+        return None
+
+    filename = table_config.get("filename")
+    if not filename:
+        return None
+
+    src = PROJECT_ROOT / filename
+    if not src.exists():
+        print(f"  [warn] derived_metrics CSV not found: {src}", file=sys.stderr)
+        return None
+
+    name_col = table_config.get("name_col")
+    if not name_col:
+        return {"skipped": True, "reason": "no name_col defined"}
+
+    if name_col == "locus_tag":
+        return {"skipped": True, "reason": "name_col is already locus_tag"}
+
+    organism = table_config.get("organism", "")
+    if not organism:
+        print(
+            f"  [warn] No organism for derived_metrics {pub_name}/{table_key} — skipping",
+            file=sys.stderr,
+        )
+        return None
+
+    resolved_path = get_resolved_path(src)
+    sep = table_config.get("sep", ",")
+    skip_rows = int(table_config.get("skip_rows", 0) or 0)
+
+    if not force and resolved_path.exists():
+        if resolved_path.stat().st_mtime >= src.stat().st_mtime:
+            return {
+                "skipped": True, "reason": "up to date",
+                "resolved_path": str(resolved_path.relative_to(PROJECT_ROOT)),
+            }
+
+    genome_dir = get_genome_dir(organism, str(PROJECT_ROOT))
+    if not genome_dir:
+        print(
+            f"  [warn] No genome dir for organism '{organism}' in {pub_name}/{table_key} — skipping",
+            file=sys.stderr,
+        )
+        return None
+
+    mapping_data = load_mapping_v2(genome_dir)
+    if mapping_data is None:
+        from multiomics_kg.utils.gene_id_utils import build_id_lookup
+        lookup, locus_tags, _supp_keys = build_id_lookup(genome_dir)
+        if lookup is None:
+            print(
+                f"  [warn] No gene annotation data for '{organism}' in {pub_name}/{table_key} — skipping",
+                file=sys.stderr,
+            )
+            return None
+        mapping_data = MappingData(
+            specific_lookup=lookup, multi_lookup={}, conflicts={},
+            locus_tags=locus_tags if locus_tags else set(), version=0,
+        )
+
+    id_columns: list[dict] = table_config.get("id_columns") or []
+
+    try:
+        df = pd.read_csv(src, sep=sep, skiprows=skip_rows if skip_rows else None)
+    except Exception as e:
+        print(f"  [error] Could not read {src}: {e}", file=sys.stderr)
+        return None
+
+    if name_col not in df.columns:
+        print(
+            f"  [warn] name_col '{name_col}' not in {src.name} — skipping {pub_name}/{table_key}",
+            file=sys.stderr,
+        )
+        return None
+
+    locus_tag_col: list[str | None] = []
+    method_col: list[str] = []
+    method_counts: Counter = Counter()
+    unresolved_rows: list[dict] = []
+    total = 0
+    n_resolved = 0
+
+    for row_idx, row in df.iterrows():
+        name_val = row.get(name_col)
+        if pd.isna(name_val) or str(name_val).strip() == "":
+            locus_tag_col.append(None)
+            method_col.append("empty")
+            method_counts["empty"] += 1
+            continue
+
+        total += 1
+        lt, method = resolve_row(row.to_dict(), name_col, id_columns, mapping_data)
+        locus_tag_col.append(lt)
+        method_col.append(method)
+        method_counts[method] += 1
+
+        if lt:
+            n_resolved += 1
+        else:
+            unresolved_rows.append({
+                "row": row_idx,
+                "raw_id": str(name_val).strip(),
+                "method": method,
+                "id_col_vals": {
+                    c.get("column", ""): str(row.get(c.get("column", ""), ""))
+                    for c in id_columns
+                    if c.get("column", "") in df.columns
+                },
+            })
+
+    RESOLVED_COL = "resolved_locus_tag"
+    df_out = df.copy()
+    if RESOLVED_COL in df_out.columns:
+        print(
+            f"  [error] Column '{RESOLVED_COL}' already exists in {src.name} — "
+            f"cannot write resolved output for {pub_name}/{table_key}",
+            file=sys.stderr,
+        )
+        return None
+    df_out[RESOLVED_COL] = locus_tag_col
+    df_out["resolution_method"] = method_col
+    try:
+        df_out.to_csv(resolved_path, index=False)
+    except Exception as e:
+        print(f"  [error] Could not write {resolved_path}: {e}", file=sys.stderr)
+        return None
+
+    _write_report(
+        pub_name, table_key, name_col, id_columns, src, resolved_path,
+        total, n_resolved, method_counts, unresolved_rows,
+    )
+
+    return {
+        "skipped": False,
+        "pub_name": pub_name,
+        "table_key": table_key,
+        "organism": organism,
+        "name_col": name_col,
+        "src": str(src.relative_to(PROJECT_ROOT)),
+        "resolved_path": str(resolved_path.relative_to(PROJECT_ROOT)),
+        "total": total,
+        "resolved": n_resolved,
+        "method_counts": dict(method_counts),
+        "unresolved_rows": unresolved_rows,
+    }
+
+
 def resolve_table(
     pub_name: str,
     table_key: str,
@@ -593,6 +753,10 @@ def main() -> None:
 
             if table_type == "gene_clusters":
                 result = resolve_gene_clusters_table(
+                    pub_name, table_key, table_config, force=args.force
+                )
+            elif table_type == "derived_metrics_table":
+                result = resolve_derived_metrics_entry(
                     pub_name, table_key, table_config, force=args.force
                 )
             else:
