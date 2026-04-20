@@ -230,9 +230,12 @@ class ObservationsAdapter:
                     props["rankable"] = "false"
                     props["has_p_value"] = "false"
                     props["unit"] = ""
-                    props["allowed_categories"] = [
-                        _clean_str(c) for c in metric.get("allowed_categories", [])
-                    ]
+                    ac = metric.get("allowed_categories", [])
+                    if isinstance(ac, str):
+                        ac = [ac] if ac else []
+                    elif ac is None:
+                        ac = []
+                    props["allowed_categories"] = [_clean_str(c) for c in ac]
                 elif value_kind == "numeric":
                     # Task 7 completes the numeric branch
                     props["rankable"] = _clean_str(metric.get("rankable", "false"))
@@ -240,8 +243,14 @@ class ObservationsAdapter:
                     props["unit"] = _clean_str(metric.get("unit", ""))
                     props["allowed_categories"] = []
                     pvt = metric.get("p_value_threshold")
-                    if pvt is not None:
-                        props["p_value_threshold"] = float(pvt)
+                    if pvt is not None and pvt != "":
+                        try:
+                            props["p_value_threshold"] = float(pvt)
+                        except (TypeError, ValueError):
+                            logger.warning(
+                                f"Invalid p_value_threshold {pvt!r} in '{entry_key}/{metric_type}' "
+                                f"— expected float, skipping property"
+                            )
                 else:
                     logger.warning(
                         f"Unknown value_kind '{value_kind}' in '{entry_key}/{metric_type}' — skipping"

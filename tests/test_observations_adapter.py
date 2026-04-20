@@ -323,3 +323,129 @@ def test_boolean_dm_node_has_expected_props(tmp_path):
     # experiment_id is the raw-doi + exp_key concatenation
     assert dm["experiment_id"] == "10.1128/mSystems.00040-18_axenic_rnaseq"
     assert dm["name"].startswith("periodic_in_axenic_LD")  # default name
+
+
+def test_categorical_allowed_categories_scalar_string_wraps_to_list(tmp_path):
+    """A paperconfig authoring mistake (scalar instead of list) must not
+    silently iterate per-character — it should wrap to a 1-element list."""
+    csv_path = tmp_path / "cat.csv"
+    csv_path.write_text("locus_tag,cluster\nPMM0001,high_to_low\n")
+    config = {
+        "publication": {
+            "papername": "Test", "doi": "10.9999/t",
+            "papermainpdf": str(tmp_path / "fake.pdf"),
+            "experiments": {"e": {
+                "organism": "Prochlorococcus MED4", "omics_type": "RNASEQ",
+                "treatment_type": [], "background_factors": [],
+                "treatment_condition": "", "light_condition": "",
+                "experimental_context": "",
+            }},
+            "supplementary_materials": {
+                "entry": {
+                    "type": "derived_metrics_table",
+                    "filename": str(csv_path),
+                    "organism": "Prochlorococcus MED4",
+                    "experiment": "e",
+                    "name_col": "locus_tag",
+                    "metrics": [{
+                        "metric_type": "custom_cluster",
+                        "value_kind": "categorical",
+                        "value_col": "cluster",
+                        "allowed_categories": "high_to_low",  # scalar, not list
+                    }],
+                },
+            },
+        },
+    }
+    pc_path = tmp_path / "paperconfig.yaml"
+    pc_path.write_text(yaml.dump(config))
+    adapter = ObservationsAdapter(config_file=str(pc_path))
+    nodes = adapter.get_nodes()
+    dm_props = next(p for _, lbl, p in nodes if lbl == "derived_metric")
+    # Scalar string wrapped to 1-element list — NOT per-character decomposition
+    assert dm_props["allowed_categories"] == ["high_to_low"]
+
+
+def test_numeric_p_value_threshold_empty_string_is_noop(tmp_path, caplog):
+    """YAML authors sometimes quote empty values; float('') would crash. Guard."""
+    csv_path = tmp_path / "num.csv"
+    csv_path.write_text("locus_tag,v\nPMM0001,0.5\n")
+    config = {
+        "publication": {
+            "papername": "Test", "doi": "10.9999/t",
+            "papermainpdf": str(tmp_path / "fake.pdf"),
+            "experiments": {"e": {
+                "organism": "Prochlorococcus MED4", "omics_type": "RNASEQ",
+                "treatment_type": [], "background_factors": [],
+                "treatment_condition": "", "light_condition": "",
+                "experimental_context": "",
+            }},
+            "supplementary_materials": {
+                "entry": {
+                    "type": "derived_metrics_table",
+                    "filename": str(csv_path),
+                    "organism": "Prochlorococcus MED4",
+                    "experiment": "e",
+                    "name_col": "locus_tag",
+                    "metrics": [{
+                        "metric_type": "some_metric",
+                        "value_kind": "numeric",
+                        "value_col": "v",
+                        "rankable": "true",
+                        "has_p_value": "true",
+                        "p_value_threshold": "",  # blank string — must not crash
+                    }],
+                },
+            },
+        },
+    }
+    pc_path = tmp_path / "paperconfig.yaml"
+    pc_path.write_text(yaml.dump(config))
+    adapter = ObservationsAdapter(config_file=str(pc_path))
+    nodes = adapter.get_nodes()  # must NOT raise
+    dm_props = next(p for _, lbl, p in nodes if lbl == "derived_metric")
+    assert "p_value_threshold" not in dm_props  # treated as absent
+
+
+def test_numeric_p_value_threshold_invalid_logs_warning(tmp_path, caplog):
+    """A non-numeric p_value_threshold must log a warning and not set the property."""
+    import logging
+    csv_path = tmp_path / "num.csv"
+    csv_path.write_text("locus_tag,v\nPMM0001,0.5\n")
+    config = {
+        "publication": {
+            "papername": "Test", "doi": "10.9999/t",
+            "papermainpdf": str(tmp_path / "fake.pdf"),
+            "experiments": {"e": {
+                "organism": "Prochlorococcus MED4", "omics_type": "RNASEQ",
+                "treatment_type": [], "background_factors": [],
+                "treatment_condition": "", "light_condition": "",
+                "experimental_context": "",
+            }},
+            "supplementary_materials": {
+                "entry": {
+                    "type": "derived_metrics_table",
+                    "filename": str(csv_path),
+                    "organism": "Prochlorococcus MED4",
+                    "experiment": "e",
+                    "name_col": "locus_tag",
+                    "metrics": [{
+                        "metric_type": "some_metric",
+                        "value_kind": "numeric",
+                        "value_col": "v",
+                        "rankable": "true",
+                        "has_p_value": "true",
+                        "p_value_threshold": "not_a_number",
+                    }],
+                },
+            },
+        },
+    }
+    pc_path = tmp_path / "paperconfig.yaml"
+    pc_path.write_text(yaml.dump(config))
+    adapter = ObservationsAdapter(config_file=str(pc_path))
+    with caplog.at_level(logging.WARNING, logger="multiomics_kg.adapters.observations_adapter"):
+        nodes = adapter.get_nodes()
+    dm_props = next(p for _, lbl, p in nodes if lbl == "derived_metric")
+    assert "p_value_threshold" not in dm_props
+    assert any("Invalid p_value_threshold" in rec.message for rec in caplog.records)
