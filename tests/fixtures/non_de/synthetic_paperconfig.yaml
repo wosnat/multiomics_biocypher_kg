@@ -1,0 +1,50 @@
+publication:
+  papername: "Synthetic Numeric DM Fixture"
+  doi: "10.9999/synthetic-numeric-dm"
+  # papermainpdf intentionally omitted — test-only fixture, no PDF extractor run
+  experiments:
+    synthetic_diel_rnaseq:
+      name: "Synthetic MED4 diel RNA-seq"
+      organism: "Prochlorococcus MED4"
+      omics_type: RNASEQ
+      treatment_type: [diel]
+      background_factors: [axenic]
+      treatment_condition: "Diel cycle"
+      control_condition: ""
+      experimental_context: "Synthetic MED4 in Pro99 at 24C"
+      light_condition: "14:10 LD"
+  supplementary_materials:
+    synthetic_fourier_metrics:
+      type: derived_metrics_table
+      filename: "tests/fixtures/non_de/synthetic_numeric_metrics.csv"
+      organism: "Prochlorococcus MED4"
+      experiment: synthetic_diel_rnaseq
+      name_col: locus_tag
+      id_columns:
+        - column: locus_tag
+          id_type: locus_tag
+      metrics:
+        - metric_type: fourier_score
+          value_kind: numeric
+          value_col: fourier
+          unit: ""
+          rankable: "true"
+          has_p_value: "true"
+          p_value_col: p_value
+          adjusted_p_value_col: adj_p_value
+          p_value_threshold: 0.05
+          field_description: "Fourier periodicity score (synthetic)"
+        - metric_type: peak_time_h
+          value_kind: numeric
+          value_col: peak_time
+          unit: "h"
+          rankable: "false"
+          has_p_value: "false"
+          field_description: "Peak time within 24h diel cycle (synthetic)"
+        - metric_type: peak_fit_r_squared
+          value_kind: numeric
+          value_col: peak_fit
+          unit: ""
+          rankable: "true"
+          has_p_value: "false"
+          field_description: "Peak-fit R^2 (synthetic)"

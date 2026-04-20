@@ -992,3 +992,40 @@ def test_multi_adapter_propagates_organism_lookup_to_children(tmp_path):
     assert len(org_edges) == 2  # one per DM
     for _, _, tgt, _, _ in org_edges:
         assert tgt == "insdc.gcf:GCF_000012465.1"
+
+
+def test_synthetic_numeric_fixture_emits_three_dms_and_300_edges():
+    """Regression guard for the numeric code path.
+
+    Fixture: tests/fixtures/non_de/synthetic_paperconfig.yaml references a
+    100-row CSV with 3 numeric metrics. Expected:
+      - 3 DerivedMetric nodes
+      - 3 binding edges x 3 DMs = 9 binding edges (pub/exp/org x 3)
+      - 100 x 3 = 300 derived_metric_quantifies_gene edges
+    """
+    list_file = "tests/fixtures/non_de/paperconfig_files.txt"
+    # Genome lookup for organism edge target
+    genome_csv = "data/Prochlorococcus/genomes/cyanobacteria_genomes.csv"
+    multi = MultiObservationsAdapter(
+        config_list_file=list_file,
+        genome_config_file=genome_csv,
+    )
+    assert len(multi.adapters) == 1
+
+    nodes = multi.get_nodes()
+    dm_nodes = [n for n in nodes if n[1] == "derived_metric"]
+    assert len(dm_nodes) == 3
+
+    edges = multi.get_edges()
+    by_type = {}
+    for e in edges:
+        by_type.setdefault(e[3], 0)
+        by_type[e[3]] += 1
+
+    assert by_type.get("publication_has_derived_metric", 0) == 3
+    assert by_type.get("experiment_has_derived_metric", 0) == 3
+    assert by_type.get("derived_metric_belongs_to_organism", 0) == 3
+    assert by_type.get("derived_metric_quantifies_gene", 0) == 300
+    # No boolean or categorical edges
+    assert "derived_metric_flags_gene" not in by_type
+    assert "derived_metric_classifies_gene" not in by_type
