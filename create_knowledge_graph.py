@@ -5,6 +5,7 @@ from pathlib import Path
 from biocypher import BioCypher
 from multiomics_kg.adapters.omics_adapter import MultiOMICSAdapter
 from multiomics_kg.adapters.cluster_adapter import MultiClusterAdapter
+from multiomics_kg.adapters.observations_adapter import MultiObservationsAdapter
 from multiomics_kg.adapters.uniprot_adapter import MultiUniprot
 from multiomics_kg.adapters.go_adapter import GO
 
@@ -104,6 +105,24 @@ def main():
         bc.write_nodes(cluster_nodes)
     if cluster_edges:
         bc.write_edges(cluster_edges)
+
+    # Derived-metric observations (non-DE evidence; Biller 2018 boolean + categorical,
+    # future zinser 2009 / Waldbauer 2012 numeric). One DerivedMetric node per
+    # (Experiment × metric_type) + 3 binding edges + 1 measurement edge per metric.
+    observations_adapter = MultiObservationsAdapter(
+        config_list_file=[
+            'data/Prochlorococcus/papers_and_supp/paperconfig_files.txt',
+            'data/Synechococcus/papers_and_supp/paperconfig_files.txt',
+        ],
+        genome_config_file='data/Prochlorococcus/genomes/cyanobacteria_genomes.csv',
+        test_mode=TEST_MODE,
+    )
+    obs_nodes = observations_adapter.get_nodes()
+    obs_edges = observations_adapter.get_edges()
+    if obs_nodes:
+        bc.write_nodes(obs_nodes)
+    if obs_edges:
+        bc.write_edges(obs_edges)
 
     # Gene → GO annotation edges + GO hierarchy subset (lightweight, always runs)
     go_anno_adapter = MultiGoAnnotationAdapter(
