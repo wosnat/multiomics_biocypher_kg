@@ -463,6 +463,33 @@ CALL {
   SET (edges[i]).rank_down = i + 1
 } IN TRANSACTIONS OF 10 ROWS;
 
+// Numeric DM rank/percentile/bucket: ranks derived_metric_quantifies_gene edges
+// grouped by DerivedMetric, only when parent DM has rankable='true'. Ties on
+// value broken by Gene.locus_tag ascending (reproducibility).
+// Percentile: rank 1 (highest value) -> 100.0; rank N (lowest) -> 0.0.
+// Buckets pinned per slice spec §Post-import (thresholds must not drift).
+MATCH (dm:DerivedMetric {rankable: 'true'})
+CALL {
+  WITH dm
+  MATCH (dm)-[r:Derived_metric_quantifies_gene]->(g:Gene)
+  WITH r, r.value AS val, g.locus_tag AS lt
+  ORDER BY val DESC, lt ASC
+  WITH collect(r) AS edges, count(r) AS n
+  UNWIND range(0, size(edges) - 1) AS i
+  WITH edges[i] AS r, i, n,
+       CASE WHEN n = 1 THEN 100.0
+            ELSE 100.0 * toFloat(n - i - 1) / toFloat(n - 1)
+       END AS pct
+  SET r.rank_by_metric = i + 1,
+      r.metric_percentile = pct,
+      r.metric_bucket = CASE
+        WHEN pct >= 90.0 THEN 'top_decile'
+        WHEN pct >= 75.0 THEN 'top_quartile'
+        WHEN pct >= 25.0 THEN 'mid'
+        ELSE 'low'
+      END
+} IN TRANSACTIONS OF 10 ROWS;
+
 // closest_ortholog_group_size + closest_ortholog_genera
 MATCH (g:Gene)
 CALL {
