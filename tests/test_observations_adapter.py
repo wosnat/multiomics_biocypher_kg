@@ -530,3 +530,73 @@ def test_categorical_dm_node_has_allowed_categories_from_paperconfig(tmp_path):
     ]
     assert props["unit"] == ""
     assert props["metric_type"] == "darkness_survival_class"
+
+
+def _write_numeric_dm_paperconfig(tmp_path):
+    csv_path = tmp_path / "numeric_small.csv"
+    csv_path.write_text(
+        "locus_tag,fourier,fourier_p\n"
+        "PMM0001,0.87,0.001\n"
+        "PMM0002,0.42,0.12\n"
+    )
+    # No _resolved.csv — name_col == locus_tag triggers the skip-resolve path in resolve_paper_ids
+    config = {
+        "publication": {
+            "papername": "Synthetic Numeric",
+            "doi": "10.9999/synthetic",
+            "papermainpdf": str(tmp_path / "fake.pdf"),
+            "experiments": {
+                "diel_rnaseq": {
+                    "name": "MED4 diel",
+                    "organism": "Prochlorococcus MED4",
+                    "omics_type": "RNASEQ",
+                    "treatment_type": ["diel"],
+                    "background_factors": [],
+                    "treatment_condition": "diel cycle",
+                    "light_condition": "14:10 LD",
+                    "experimental_context": "MED4 in Pro99",
+                },
+            },
+            "supplementary_materials": {
+                "fourier_metrics": {
+                    "type": "derived_metrics_table",
+                    "filename": str(csv_path),
+                    "organism": "Prochlorococcus MED4",
+                    "experiment": "diel_rnaseq",
+                    "name_col": "locus_tag",
+                    "metrics": [
+                        {
+                            "metric_type": "fourier_score",
+                            "value_kind": "numeric",
+                            "value_col": "fourier",
+                            "unit": "",
+                            "rankable": "true",
+                            "has_p_value": "true",
+                            "p_value_col": "fourier_p",
+                            "p_value_threshold": 0.05,
+                            "field_description": "Fourier periodicity score",
+                        },
+                    ],
+                },
+            },
+        },
+    }
+    pc_path = tmp_path / "paperconfig.yaml"
+    pc_path.write_text(yaml.dump(config))
+    return str(pc_path)
+
+
+def test_numeric_dm_node_props_from_paperconfig(tmp_path):
+    pc_path = _write_numeric_dm_paperconfig(tmp_path)
+    adapter = ObservationsAdapter(config_file=pc_path)
+    nodes = adapter.get_nodes()
+    dm_nodes = [(nid, lbl, props) for nid, lbl, props in nodes if lbl == "derived_metric"]
+    assert len(dm_nodes) == 1
+    _, _, props = dm_nodes[0]
+    assert props["metric_type"] == "fourier_score"
+    assert props["value_kind"] == "numeric"
+    assert props["rankable"] == "true"
+    assert props["has_p_value"] == "true"
+    assert props["p_value_threshold"] == 0.05
+    assert props["unit"] == ""
+    assert props["allowed_categories"] == []
