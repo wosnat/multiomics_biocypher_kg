@@ -186,7 +186,7 @@ publication:
     # gene_clusters entry preserved this dual attribution via a 2-element
     # `experiments:` list; derived_metrics_table has no such list — the split
     # restores the attribution.
-    natl2a_periodicity_axenic_derived_metrics:
+    s4a_natl2a_axenic:
       type: derived_metrics_table
       filename: data/Prochlorococcus/papers_and_supp/Biller 2018/table s4A sys003182233st4.csv
       organism: Prochlorococcus NATL2A
@@ -201,6 +201,7 @@ publication:
         id_type: locus_tag_cyanorak
       metrics:
       - metric_type: periodic_in_axenic_LD
+        name: "Periodic in NATL2A axenic L:D (Table S4A)"
         value_kind: boolean
         value_col: "Periodic in axenic, L:D cultures"
         true_tokens: ["Y"]
@@ -209,6 +210,7 @@ publication:
         blank_policy: skip
         field_description: "RAIN periodicity FDR<0.05 in NATL2A axenic L:D (Table S4A)"
       - metric_type: periodic_in_axenic_extended_darkness
+        name: "Periodic in NATL2A axenic extended darkness (Table S4A)"
         value_kind: boolean
         value_col: "Periodic in axenic, extended darkness cultures"
         true_tokens: ["Y"]
@@ -217,7 +219,7 @@ publication:
         blank_policy: skip
         field_description: "RAIN periodicity FDR<0.05 in NATL2A axenic extended darkness (Table S4A)"
 
-    natl2a_periodicity_coculture_derived_metrics:
+    s4a_natl2a_coculture:
       type: derived_metrics_table
       filename: data/Prochlorococcus/papers_and_supp/Biller 2018/table s4A sys003182233st4.csv
       organism: Prochlorococcus NATL2A
@@ -232,6 +234,7 @@ publication:
         id_type: locus_tag_cyanorak
       metrics:
       - metric_type: periodic_in_coculture_LD
+        name: "Periodic in NATL2A coculture L:D (Table S4A)"
         value_kind: boolean
         value_col: "Periodic in co-cultured, L:D cultures"
         true_tokens: ["Y"]
@@ -240,6 +243,7 @@ publication:
         blank_policy: skip
         field_description: "RAIN periodicity FDR<0.05 in NATL2A coculture L:D (Table S4A)"
       - metric_type: periodic_in_coculture_extended_darkness
+        name: "Periodic in NATL2A coculture extended darkness (Table S4A)"
         value_kind: boolean
         value_col: "Periodic in co-cultured, extended darkness cultures"
         true_tokens: ["Y"]
@@ -248,7 +252,7 @@ publication:
         blank_policy: skip
         field_description: "RAIN periodicity FDR<0.05 in NATL2A coculture extended darkness (Table S4A)"
 
-    mit1002_periodicity_derived_metrics:
+    s4b_mit1002:
       type: derived_metrics_table
       filename: data/Prochlorococcus/papers_and_supp/Biller 2018/table s4B sys003182233st4.csv
       organism: Alteromonas macleodii MIT1002
@@ -265,6 +269,7 @@ publication:
         id_type: alternative_locus_tag
       metrics:
       - metric_type: periodic_in_coculture_LD
+        name: "Periodic in MIT1002 coculture L:D (Table S4B)"
         value_kind: boolean
         value_col: "Periodic in co-cultured, L:D cultures"
         true_tokens: ["Y"]
@@ -273,6 +278,7 @@ publication:
         blank_policy: skip
         field_description: "RAIN periodicity FDR<0.05 in MIT1002 coculture L:D (Table S4B)"
       - metric_type: periodic_in_coculture_extended_darkness
+        name: "Periodic in MIT1002 coculture extended darkness (Table S4B)"
         value_kind: boolean
         value_col: "Periodic in co-cultured, extended darkness cultures"
         true_tokens: ["Y"]
@@ -290,7 +296,7 @@ publication:
     # itself encodes the cross-condition information, so the cross-experiment
     # attribution is not lost — it lives in the category names. All 4 id_columns
     # from the deleted entry are preserved, including `Gene Name` → gene_name.
-    natl2a_darkness_survival_derived_metrics:
+    s5_natl2a_survival:
       type: derived_metrics_table
       filename: data/Prochlorococcus/papers_and_supp/Biller 2018/table S5 sys003182233st5.csv
       organism: Prochlorococcus NATL2A
@@ -307,6 +313,7 @@ publication:
         id_type: gene_name
       metrics:
       - metric_type: darkness_survival_class
+        name: "NATL2A darkness survival class (Table S5)"
         value_kind: categorical
         value_col: darkness_cluster
         # allowed_categories are the 3 distinct composite strings actually
