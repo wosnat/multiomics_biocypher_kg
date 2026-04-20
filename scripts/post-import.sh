@@ -279,6 +279,66 @@ SET p.clustering_analysis_count = ca_count,
     p.cluster_types = ctypes,
     p.cluster_count = total_clusters;
 
+// Publication DM rollup defaults
+MATCH (p:Publication)
+SET p.derived_metric_count = 0,
+    p.derived_metric_gene_count = 0,
+    p.compartments = [],
+    p.derived_metric_types = [],
+    p.derived_metric_value_kinds = [];
+
+// Publication DM compute
+MATCH (p:Publication)
+OPTIONAL MATCH (p)-[:PublicationHasDerivedMetric]->(dm:DerivedMetric)
+WITH p,
+     count(DISTINCT dm) AS dm_count,
+     [x IN collect(DISTINCT dm.metric_type) WHERE x IS NOT NULL] AS metric_types,
+     [x IN collect(DISTINCT dm.value_kind) WHERE x IS NOT NULL] AS value_kinds
+SET p.derived_metric_count = dm_count,
+    p.derived_metric_types = apoc.coll.sort(metric_types),
+    p.derived_metric_value_kinds = apoc.coll.sort(value_kinds);
+
+// Publication compartments: from child Experiments
+MATCH (p:Publication)
+OPTIONAL MATCH (p)-[:Has_experiment]->(e:Experiment)
+WITH p, [x IN collect(DISTINCT e.compartment) WHERE x IS NOT NULL] AS comps
+SET p.compartments = apoc.coll.sort(comps);
+
+// Publication derived_metric_gene_count
+MATCH (p:Publication)
+OPTIONAL MATCH (p)-[:PublicationHasDerivedMetric]->(:DerivedMetric)
+  -[:Derived_metric_quantifies_gene|Derived_metric_flags_gene|Derived_metric_classifies_gene]->(g:Gene)
+WITH p, count(DISTINCT g) AS dmg_count
+SET p.derived_metric_gene_count = dmg_count;
+
+// OrganismTaxon DM rollup defaults
+MATCH (o:OrganismTaxon)
+SET o.derived_metric_count = 0,
+    o.derived_metric_gene_count = 0,
+    o.compartments = [],
+    o.derived_metric_types = [],
+    o.derived_metric_value_kinds = [];
+
+// OrganismTaxon DM compute
+MATCH (o:OrganismTaxon)
+OPTIONAL MATCH (dm:DerivedMetric)-[:DerivedMetricBelongsToOrganism]->(o)
+WITH o,
+     count(DISTINCT dm) AS dm_count,
+     [x IN collect(DISTINCT dm.metric_type) WHERE x IS NOT NULL] AS metric_types,
+     [x IN collect(DISTINCT dm.value_kind) WHERE x IS NOT NULL] AS value_kinds,
+     [x IN collect(DISTINCT dm.compartment) WHERE x IS NOT NULL] AS comps
+SET o.derived_metric_count = dm_count,
+    o.derived_metric_types = apoc.coll.sort(metric_types),
+    o.derived_metric_value_kinds = apoc.coll.sort(value_kinds),
+    o.compartments = apoc.coll.sort(comps);
+
+// OrganismTaxon derived_metric_gene_count
+MATCH (o:OrganismTaxon)
+OPTIONAL MATCH (dm:DerivedMetric)-[:DerivedMetricBelongsToOrganism]->(o)
+OPTIONAL MATCH (dm)-[:Derived_metric_quantifies_gene|Derived_metric_flags_gene|Derived_metric_classifies_gene]->(g:Gene)
+WITH o, count(DISTINCT g) AS dmg_count
+SET o.derived_metric_gene_count = dmg_count;
+
 // Experiment clustering rollup
 MATCH (e:Experiment)
 OPTIONAL MATCH (e)-[:ExperimentHasClusteringAnalysis]->(ca:ClusteringAnalysis)
