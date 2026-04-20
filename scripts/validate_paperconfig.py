@@ -43,6 +43,14 @@ from multiomics_kg.utils.paperconfig_utils import (
     get_paper_name,
     get_supplementary_materials,
 )
+from multiomics_kg.vocab.non_de_evidence import (
+    COMPARTMENTS,
+    EXTENDED_OMICS_TYPES,
+    VALUE_KINDS,
+    KNOWN_METRIC_TYPES,
+    DEFAULT_SKIP_TOKENS,
+    VALID_BLANK_POLICIES,
+)
 
 # Required fields on each statistical_analyses entry (new experiment-based format)
 REQUIRED_ANALYSIS_FIELDS = [
@@ -78,7 +86,9 @@ VALID_TABLE_SCOPES = {
 
 DOI_RE = re.compile(r"^10\.\d{4,9}/\S+$")
 
-VALID_TYPES = {"RNASEQ", "MICROARRAY", "PROTEOMICS", "EXOPROTEOMICS", "METABOLOMICS"}
+# Accepted omics_type values on experiment entries.
+# Extended set includes PAIRED_RNASEQ_PROTEOME (Waldbauer 2012 et al.).
+VALID_TYPES = set(EXTENDED_OMICS_TYPES)
 VALID_ID_TYPES = {
     "locus_tag", "locus_tag_ncbi", "locus_tag_cyanorak",
     "old_locus_tag", "alternative_locus_tag",
@@ -481,6 +491,18 @@ def _validate_experiments(experiments: dict, config_path: str,
             )
         elif treatment_organism:
             print(f"    treatment_organism '{treatment_organism}': OK")
+
+        # Canonical compartment (optional; default "whole_cell" at ingest time)
+        compartment = exp.get("compartment", "")
+        if compartment and compartment not in COMPARTMENTS:
+            errors.append(
+                _canonical_field_error(
+                    config_path, f"experiments.{exp_key}",
+                    "compartment", compartment, COMPARTMENTS,
+                )
+            )
+        elif compartment:
+            print(f"    compartment '{compartment}': OK")
 
         # Validate table_scope enum
         table_scope = exp.get("table_scope", "")

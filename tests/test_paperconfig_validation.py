@@ -735,3 +735,143 @@ def test_validate_paperconfig_content_accepts_minimal_valid_config(tmp_path):
     cfg_path = _write_config(tmp_path, config)
     errors, _warnings = validate_paperconfig_content(config, str(cfg_path))
     assert errors == [], f"Expected no errors; got: {errors}"
+
+
+# ---------------------------------------------------------------------------
+# compartment vocabulary check (Task 7)
+# ---------------------------------------------------------------------------
+
+def test_validate_rejects_unknown_compartment(tmp_path):
+    """Experiment.compartment must be in COMPARTMENTS."""
+    from validate_paperconfig import validate_paperconfig_content
+
+    csv_file = _write_minimal_csv(tmp_path)
+    pdf = tmp_path / "p.pdf"; pdf.write_bytes(b"%PDF-1.4\n")
+    config = {
+        "publication": {
+            "papername": "X",
+            "papermainpdf": str(pdf),
+            "experiments": {
+                "exp1": {
+                    "name": "e", "organism": "Prochlorococcus MED4",
+                    "omics_type": "RNASEQ", "test_type": "DESeq2",
+                    "treatment_type": ["nitrogen"],
+                    "treatment_condition": "A", "control_condition": "B",
+                    "compartment": "nucleus",   # ← not in vocabulary
+                },
+            },
+            "supplementary_materials": {
+                "t1": {"type": "csv", "filename": str(csv_file),
+                       "statistical_analyses": [{"id": "a", "experiment": "exp1",
+                                                 "name_col": "Gene", "logfc_col": "log2FC",
+                                                 "adjusted_p_value_col": "padj",
+                                                 "timepoint": "unknown", "timepoint_hours": None,
+                                                 "growth_phase": "exponential"}]},
+            },
+        },
+    }
+    cfg = _write_config(tmp_path, config)
+    errors, _ = validate_paperconfig_content(config, str(cfg))
+    assert any("compartment" in e and "nucleus" in e for e in errors), errors
+
+
+def test_validate_accepts_whole_cell_compartment(tmp_path):
+    """'whole_cell' is the default; explicit 'whole_cell' must be accepted."""
+    from validate_paperconfig import validate_paperconfig_content
+
+    csv_file = _write_minimal_csv(tmp_path)
+    pdf = tmp_path / "p.pdf"; pdf.write_bytes(b"%PDF-1.4\n")
+    config = {
+        "publication": {
+            "papername": "X", "papermainpdf": str(pdf),
+            "experiments": {"exp1": {
+                "name": "e", "organism": "Prochlorococcus MED4",
+                "omics_type": "RNASEQ", "test_type": "DESeq2",
+                "treatment_type": ["nitrogen"],
+                "treatment_condition": "A", "control_condition": "B",
+                "compartment": "whole_cell",
+            }},
+            "supplementary_materials": {"t1": {
+                "type": "csv", "filename": str(csv_file),
+                "statistical_analyses": [{"id": "a", "experiment": "exp1",
+                                          "name_col": "Gene", "logfc_col": "log2FC",
+                                          "adjusted_p_value_col": "padj",
+                                          "timepoint": "unknown", "timepoint_hours": None,
+                                          "growth_phase": "exponential"}],
+            }},
+        },
+    }
+    cfg = _write_config(tmp_path, config)
+    errors, _ = validate_paperconfig_content(config, str(cfg))
+    assert not any("compartment" in e for e in errors), errors
+
+
+def test_validate_accepts_paired_rnaseq_proteome_omics_type(tmp_path):
+    """PAIRED_RNASEQ_PROTEOME is a canonical omics_type after this slice lands."""
+    from validate_paperconfig import validate_paperconfig_content
+
+    csv_file = _write_minimal_csv(tmp_path)
+    pdf = tmp_path / "p.pdf"; pdf.write_bytes(b"%PDF-1.4\n")
+    config = {
+        "publication": {
+            "papername": "X", "papermainpdf": str(pdf),
+            "experiments": {"exp1": {
+                "name": "e", "organism": "Prochlorococcus MED4",
+                "omics_type": "PAIRED_RNASEQ_PROTEOME",
+                "test_type": "DESeq2", "treatment_type": ["diel"],
+                "treatment_condition": "A", "control_condition": "B",
+            }},
+            "supplementary_materials": {"t1": {
+                "type": "csv", "filename": str(csv_file),
+                "statistical_analyses": [{"id": "a", "experiment": "exp1",
+                                          "name_col": "Gene", "logfc_col": "log2FC",
+                                          "adjusted_p_value_col": "padj",
+                                          "timepoint": "unknown", "timepoint_hours": None,
+                                          "growth_phase": "exponential"}],
+            }},
+        },
+    }
+    cfg = _write_config(tmp_path, config)
+    errors, _ = validate_paperconfig_content(config, str(cfg))
+    assert not any("omics_type" in e for e in errors), errors
+
+
+def test_validate_relaxes_de_fields_for_derived_metrics_only_experiment(tmp_path):
+    """Experiments whose only supplementary entries are derived_metrics_table may
+    omit control_condition and test_type (warn, don't error)."""
+    from validate_paperconfig import validate_paperconfig_content
+
+    # A minimal CSV with a Y/blank boolean column, referenced by the DM entry.
+    csv_file = tmp_path / "dm.csv"
+    csv_file.write_text("locus_tag,flag_col\nPMN2A_RS00015,Y\nPMN2A_RS00020,\n")
+    pdf = tmp_path / "p.pdf"; pdf.write_bytes(b"%PDF-1.4\n")
+    config = {
+        "publication": {
+            "papername": "X", "papermainpdf": str(pdf),
+            "experiments": {"exp_dm_only": {
+                "name": "e", "organism": "Prochlorococcus NATL2A",
+                "omics_type": "RNASEQ",
+                "treatment_type": ["darkness"],
+                "treatment_condition": "A",
+                # ← control_condition + test_type deliberately omitted
+            }},
+            "supplementary_materials": {"dm1": {
+                "type": "derived_metrics_table",
+                "filename": str(csv_file),
+                "organism": "Prochlorococcus NATL2A",
+                "experiment": "exp_dm_only",
+                "name_col": "locus_tag",
+                "id_columns": [{"column": "locus_tag", "id_type": "locus_tag_ncbi"}],
+                "metrics": [{
+                    "metric_type": "periodic_in_axenic_LD",
+                    "value_kind": "boolean",
+                    "value_col": "flag_col",
+                    "true_tokens": ["Y"],
+                }],
+            }},
+        },
+    }
+    cfg = _write_config(tmp_path, config)
+    errors, warnings = validate_paperconfig_content(config, str(cfg))
+    assert not any("control_condition" in e for e in errors), errors
+    assert not any("test_type" in e for e in errors), errors
