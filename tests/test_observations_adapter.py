@@ -919,3 +919,76 @@ def test_numeric_edges_skip_rows_with_nan_value(tmp_path):
     edges = adapter.get_edges()
     q_edges = [e for e in edges if e[3] == "derived_metric_quantifies_gene"]
     assert len(q_edges) == 2  # PMM0002 row with blank `v` skipped
+
+
+def test_multi_adapter_skips_paperconfigs_without_derived_metrics(tmp_path):
+    """Paperconfigs with no derived_metrics_table entries must be skipped."""
+    # paperconfig_a: has a derived_metrics_table entry
+    (tmp_path / "a").mkdir()
+    pc_a = _write_s4a_like_paperconfig(tmp_path / "a")
+    # paperconfig_b: a csv-type entry, no derived_metrics_table
+    (tmp_path / "b").mkdir()
+    pc_b_path = tmp_path / "b" / "paperconfig.yaml"
+    pc_b_path.write_text(yaml.dump({
+        "publication": {
+            "papername": "Other 2020", "doi": "10.9999/other",
+            "papermainpdf": str(tmp_path / "b" / "fake.pdf"),
+            "experiments": {"e": {
+                "organism": "Prochlorococcus MED4", "omics_type": "RNASEQ",
+                "treatment_type": [], "background_factors": [],
+                "treatment_condition": "", "light_condition": "",
+                "experimental_context": "",
+            }},
+            "supplementary_materials": {
+                "non_dm": {"type": "csv", "filename": "x.csv"},
+            },
+        },
+    }))
+
+    list_path = tmp_path / "paperconfig_files.txt"
+    list_path.write_text(f"{pc_a}\n{pc_b_path}\n")
+
+    multi = MultiObservationsAdapter(config_list_file=str(list_path))
+    assert len(multi.adapters) == 1
+    assert multi.adapters[0].config_file == pc_a
+
+
+def test_multi_adapter_builds_organism_lookup(tmp_path):
+    """_organism_lookup keys match the genome CSV preferred_name column."""
+    genome_csv = tmp_path / "genomes.csv"
+    genome_csv.write_text(
+        "ncbi_accession,,taxid,strain,data_dir,clade,preferred_name,organism_type,,\n"
+        "GCF_000012465.1,,59920,NATL2A,dir/,LLII,Prochlorococcus NATL2A,genome_strain,,\n"
+    )
+    (tmp_path / "empty.txt").write_text("")
+    multi = MultiObservationsAdapter(
+        config_list_file=str(tmp_path / "empty.txt"),
+        genome_config_file=str(genome_csv),
+    )
+    # Even with no paperconfigs, the lookup should be built
+    assert multi._organism_lookup.get("Prochlorococcus NATL2A") == "insdc.gcf:GCF_000012465.1"
+
+
+def test_multi_adapter_propagates_organism_lookup_to_children(tmp_path):
+    (tmp_path / "a").mkdir()
+    pc_a = _write_s4a_like_paperconfig(tmp_path / "a")
+    genome_csv = tmp_path / "genomes.csv"
+    genome_csv.write_text(
+        "ncbi_accession,,taxid,strain,data_dir,clade,preferred_name,organism_type,,\n"
+        "GCF_000012465.1,,59920,NATL2A,dir/,LLII,Prochlorococcus NATL2A,genome_strain,,\n"
+    )
+    list_path = tmp_path / "paperconfig_files.txt"
+    list_path.write_text(f"{pc_a}\n")
+
+    multi = MultiObservationsAdapter(
+        config_list_file=str(list_path),
+        genome_config_file=str(genome_csv),
+    )
+    assert len(multi.adapters) == 1
+    assert multi.adapters[0]._organism_lookup["Prochlorococcus NATL2A"] == "insdc.gcf:GCF_000012465.1"
+
+    edges = multi.get_edges()
+    org_edges = [e for e in edges if e[3] == "derived_metric_belongs_to_organism"]
+    assert len(org_edges) == 2  # one per DM
+    for _, _, tgt, _, _ in org_edges:
+        assert tgt == "insdc.gcf:GCF_000012465.1"
