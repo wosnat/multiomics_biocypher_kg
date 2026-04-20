@@ -449,3 +449,84 @@ def test_numeric_p_value_threshold_invalid_logs_warning(tmp_path, caplog):
     dm_props = next(p for _, lbl, p in nodes if lbl == "derived_metric")
     assert "p_value_threshold" not in dm_props
     assert any("Invalid p_value_threshold" in rec.message for rec in caplog.records)
+
+
+def _write_s5_like_paperconfig(tmp_path):
+    """Minimal in-memory paperconfig mimicking Biller 2018 S5 categorical shape."""
+    csv_path = tmp_path / "s5_small.csv"
+    csv_path.write_text(
+        "NCBI ID_2,darkness_cluster\n"
+        "PMN2A_RS00030,darkness_axenic+darkness_coculture\n"
+        "PMN2A_RS00040,darkness_coculture+unique_coculture\n"
+        "PMN2A_RS00050,darkness_axenic+unique_axenic\n"
+    )
+    resolved_path = tmp_path / "s5_small_resolved.csv"
+    resolved_path.write_text(
+        "NCBI ID_2,darkness_cluster,resolved_locus_tag,resolution_method\n"
+        "PMN2A_RS00030,darkness_axenic+darkness_coculture,PMN2A_1330,tier1:NCBI ID_2\n"
+        "PMN2A_RS00040,darkness_coculture+unique_coculture,PMN2A_1331,tier1:NCBI ID_2\n"
+        "PMN2A_RS00050,darkness_axenic+unique_axenic,PMN2A_1332,tier1:NCBI ID_2\n"
+    )
+    config = {
+        "publication": {
+            "papername": "Biller 2018",
+            "doi": "10.1128/mSystems.00040-18",
+            "papermainpdf": str(tmp_path / "fake.pdf"),
+            "experiments": {
+                "axenic_rnaseq": {
+                    "name": "NATL2A axenic",
+                    "organism": "Prochlorococcus NATL2A",
+                    "omics_type": "RNASEQ",
+                    "treatment_type": ["darkness"],
+                    "background_factors": ["axenic", "diel"],
+                    "treatment_condition": "Extended darkness",
+                    "light_condition": "continuous darkness",
+                    "experimental_context": "Axenic NATL2A in Pro99",
+                },
+            },
+            "supplementary_materials": {
+                "s5_survival": {
+                    "type": "derived_metrics_table",
+                    "filename": str(csv_path),
+                    "organism": "Prochlorococcus NATL2A",
+                    "experiment": "axenic_rnaseq",
+                    "name_col": "NCBI ID_2",
+                    "metrics": [
+                        {
+                            "metric_type": "darkness_survival_class",
+                            "value_kind": "categorical",
+                            "value_col": "darkness_cluster",
+                            "allowed_categories": [
+                                "darkness_axenic+darkness_coculture",
+                                "darkness_coculture+unique_coculture",
+                                "darkness_axenic+unique_axenic",
+                            ],
+                            "field_description": "Transcript presence at 72-144h",
+                        },
+                    ],
+                },
+            },
+        },
+    }
+    pc_path = tmp_path / "paperconfig.yaml"
+    pc_path.write_text(yaml.dump(config))
+    return str(pc_path)
+
+
+def test_categorical_dm_node_has_allowed_categories_from_paperconfig(tmp_path):
+    pc_path = _write_s5_like_paperconfig(tmp_path)
+    adapter = ObservationsAdapter(config_file=pc_path)
+    nodes = adapter.get_nodes()
+    dm_nodes = [(nid, lbl, props) for nid, lbl, props in nodes if lbl == "derived_metric"]
+    assert len(dm_nodes) == 1
+    _, _, props = dm_nodes[0]
+    assert props["value_kind"] == "categorical"
+    assert props["rankable"] == "false"
+    assert props["has_p_value"] == "false"
+    assert props["allowed_categories"] == [
+        "darkness_axenic+darkness_coculture",
+        "darkness_coculture+unique_coculture",
+        "darkness_axenic+unique_axenic",
+    ]
+    assert props["unit"] == ""
+    assert props["metric_type"] == "darkness_survival_class"
