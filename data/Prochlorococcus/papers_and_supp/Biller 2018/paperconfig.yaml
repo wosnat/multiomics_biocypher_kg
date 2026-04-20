@@ -176,3 +176,145 @@ publication:
         logfc_col: 5hr extended darkness (dark/diel)
         pvalue_threshold: 0.1
         prefiltered: true
+    # S4A is split into two derived_metrics_table entries — one per parent
+    # Experiment — because the spec pins one DerivedMetric per (Experiment ×
+    # metric_type) and S4A reports periodicity signals from BOTH the axenic
+    # NATL2A experiment (cols "in axenic, L:D" + "in axenic, extended darkness")
+    # and the coculture NATL2A experiment (cols "in co-cultured, L:D" + "in
+    # co-cultured, extended darkness"). Both entries share the same source CSV
+    # file and id_columns but select disjoint value_col sets. The deleted
+    # gene_clusters entry preserved this dual attribution via a 2-element
+    # `experiments:` list; derived_metrics_table has no such list — the split
+    # restores the attribution.
+    natl2a_periodicity_axenic_derived_metrics:
+      type: derived_metrics_table
+      filename: data/Prochlorococcus/papers_and_supp/Biller 2018/table s4A sys003182233st4.csv
+      organism: Prochlorococcus NATL2A
+      experiment: darkness_extended_darkness_natl2a_rnaseq_axenic
+      name_col: NCBI ID_2
+      id_columns:
+      - column: NCBI ID_2
+        id_type: locus_tag_ncbi
+      - column: NCBI ID_3
+        id_type: old_locus_tag
+      - column: NCBI ID
+        id_type: locus_tag_cyanorak
+      metrics:
+      - metric_type: periodic_in_axenic_LD
+        value_kind: boolean
+        value_col: "Periodic in axenic, L:D cultures"
+        true_tokens: ["Y"]
+        false_tokens: []
+        skip_tokens: ["NA", "N/A"]
+        blank_policy: skip
+        field_description: "RAIN periodicity FDR<0.05 in NATL2A axenic L:D (Table S4A)"
+      - metric_type: periodic_in_axenic_extended_darkness
+        value_kind: boolean
+        value_col: "Periodic in axenic, extended darkness cultures"
+        true_tokens: ["Y"]
+        false_tokens: []
+        skip_tokens: ["NA", "N/A"]
+        blank_policy: skip
+        field_description: "RAIN periodicity FDR<0.05 in NATL2A axenic extended darkness (Table S4A)"
+
+    natl2a_periodicity_coculture_derived_metrics:
+      type: derived_metrics_table
+      filename: data/Prochlorococcus/papers_and_supp/Biller 2018/table s4A sys003182233st4.csv
+      organism: Prochlorococcus NATL2A
+      experiment: darkness_extended_darkness_natl2a_rnaseq_coculture
+      name_col: NCBI ID_2
+      id_columns:
+      - column: NCBI ID_2
+        id_type: locus_tag_ncbi
+      - column: NCBI ID_3
+        id_type: old_locus_tag
+      - column: NCBI ID
+        id_type: locus_tag_cyanorak
+      metrics:
+      - metric_type: periodic_in_coculture_LD
+        value_kind: boolean
+        value_col: "Periodic in co-cultured, L:D cultures"
+        true_tokens: ["Y"]
+        false_tokens: []
+        skip_tokens: ["NA", "N/A"]
+        blank_policy: skip
+        field_description: "RAIN periodicity FDR<0.05 in NATL2A coculture L:D (Table S4A)"
+      - metric_type: periodic_in_coculture_extended_darkness
+        value_kind: boolean
+        value_col: "Periodic in co-cultured, extended darkness cultures"
+        true_tokens: ["Y"]
+        false_tokens: []
+        skip_tokens: ["NA", "N/A"]
+        blank_policy: skip
+        field_description: "RAIN periodicity FDR<0.05 in NATL2A coculture extended darkness (Table S4A)"
+
+    mit1002_periodicity_derived_metrics:
+      type: derived_metrics_table
+      filename: data/Prochlorococcus/papers_and_supp/Biller 2018/table s4B sys003182233st4.csv
+      organism: Alteromonas macleodii MIT1002
+      experiment: darkness_extended_darkness_mit1002_rnaseq
+      name_col: Locus ID
+      id_columns:
+      # S4B's `Locus ID` column contains 4-digit MIT1002_0002 values. Canonical
+      # NCBI MIT1002 locus tags are 5-digit (MIT1002_00013); the 4-digit form
+      # matches the `genbank_id` column of MIT1002_systematicnames_conversiontable.csv,
+      # which the existing id_translation_mit1002_rast_names entry declares as
+      # `alternative_locus_tag`. Use the same id_type here so build_gene_id_mapping
+      # bridges 4-digit → canonical via the existing transitive closure.
+      - column: Locus ID
+        id_type: alternative_locus_tag
+      metrics:
+      - metric_type: periodic_in_coculture_LD
+        value_kind: boolean
+        value_col: "Periodic in co-cultured, L:D cultures"
+        true_tokens: ["Y"]
+        false_tokens: []
+        skip_tokens: ["NA", "N/A"]
+        blank_policy: skip
+        field_description: "RAIN periodicity FDR<0.05 in MIT1002 coculture L:D (Table S4B)"
+      - metric_type: periodic_in_coculture_extended_darkness
+        value_kind: boolean
+        value_col: "Periodic in co-cultured, extended darkness cultures"
+        true_tokens: ["Y"]
+        false_tokens: []
+        skip_tokens: ["NA", "N/A"]
+        blank_policy: skip
+        field_description: "RAIN periodicity FDR<0.05 in MIT1002 coculture extended darkness (Table S4B)"
+
+    # S5's darkness_cluster is a SINGLE composite column mixing axenic and
+    # coculture signals into one categorical label per gene; it cannot be split
+    # column-wise like S4A. The deleted gene_clusters entry linked S5 to both
+    # axenic and coculture NATL2A experiments via its `experiments:` list;
+    # derived_metrics_table has a single `experiment:` field, so we attribute
+    # to the axenic experiment as the canonical parent. The composite label
+    # itself encodes the cross-condition information, so the cross-experiment
+    # attribution is not lost — it lives in the category names. All 4 id_columns
+    # from the deleted entry are preserved, including `Gene Name` → gene_name.
+    natl2a_darkness_survival_derived_metrics:
+      type: derived_metrics_table
+      filename: data/Prochlorococcus/papers_and_supp/Biller 2018/table S5 sys003182233st5.csv
+      organism: Prochlorococcus NATL2A
+      experiment: darkness_extended_darkness_natl2a_rnaseq_axenic
+      name_col: NCBI ID_2
+      id_columns:
+      - column: NCBI ID_2
+        id_type: locus_tag_ncbi
+      - column: NCBI ID_3
+        id_type: old_locus_tag
+      - column: NCBI ID
+        id_type: locus_tag_cyanorak
+      - column: Gene Name
+        id_type: gene_name
+      metrics:
+      - metric_type: darkness_survival_class
+        value_kind: categorical
+        value_col: darkness_cluster
+        # allowed_categories are the 3 distinct composite strings actually
+        # present in the CSV's darkness_cluster column (verified: 100 / 90 /
+        # 79 rows). Under option C, this list lives on the paperconfig, not
+        # the central vocab — categorical class vocabularies are per-paper.
+        allowed_categories:
+        - darkness_axenic+darkness_coculture
+        - darkness_coculture+unique_coculture
+        - darkness_axenic+unique_axenic
+        field_description: "Transcript presence at 72-144h extended darkness, axenic vs coculture (Biller 2018 Table S5)"
