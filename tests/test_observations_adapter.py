@@ -1,5 +1,4 @@
 """Tests for ObservationsAdapter (Plan 2)."""
-import os
 from pathlib import Path
 
 import pandas as pd
@@ -640,3 +639,48 @@ def test_get_edges_skips_org_binding_when_lookup_misses(tmp_path):
     edges = adapter.get_edges()
     org_edges = [e for e in edges if e[3] == "derived_metric_belongs_to_organism"]
     assert len(org_edges) == 0
+
+
+def test_get_edges_handles_malformed_csv(tmp_path, caplog):
+    """A malformed CSV must warn + skip the entry, not kill the whole loop."""
+    import logging
+    csv_path = tmp_path / "malformed.csv"
+    # Write a file pandas can't parse as a normal CSV (header row followed by mismatched rows)
+    csv_path.write_bytes(b"\x00\x01\x02invalid\xff")
+    config = {
+        "publication": {
+            "papername": "Test", "doi": "10.9999/t",
+            "papermainpdf": str(tmp_path / "fake.pdf"),
+            "experiments": {"e": {
+                "organism": "Prochlorococcus MED4", "omics_type": "RNASEQ",
+                "treatment_type": [], "background_factors": [],
+                "treatment_condition": "", "light_condition": "",
+                "experimental_context": "",
+            }},
+            "supplementary_materials": {
+                "entry": {
+                    "type": "derived_metrics_table",
+                    "filename": str(csv_path),
+                    "organism": "Prochlorococcus MED4",
+                    "experiment": "e",
+                    "name_col": "locus_tag",
+                    "metrics": [{
+                        "metric_type": "some_metric",
+                        "value_kind": "boolean",
+                        "value_col": "v",
+                        "true_tokens": ["Y"],
+                    }],
+                },
+            },
+        },
+    }
+    pc_path = tmp_path / "paperconfig.yaml"
+    pc_path.write_text(yaml.dump(config))
+    adapter = ObservationsAdapter(config_file=str(pc_path))
+    adapter._organism_lookup = {"Prochlorococcus MED4": "insdc.gcf:GCF_000011465.1"}
+    with caplog.at_level(logging.WARNING, logger="multiomics_kg.adapters.observations_adapter"):
+        edges = adapter.get_edges()  # must NOT raise
+    # No edges produced (entry skipped) but no exception
+    assert edges == []
+    # Warning logged
+    assert any("Failed to read" in rec.message for rec in caplog.records)

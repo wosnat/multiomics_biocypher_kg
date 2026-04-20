@@ -277,7 +277,11 @@ class ObservationsAdapter:
             if not csv_path.exists():
                 logger.warning(f"derived_metrics_table CSV not found: {csv_path}")
                 continue
-            df = pd.read_csv(csv_path)
+            try:
+                df = pd.read_csv(csv_path)
+            except Exception as e:
+                logger.warning(f"Failed to read derived_metrics_table CSV {csv_path}: {e}")
+                continue
 
             # Column used to reach the Gene node
             if use_resolved and "resolved_locus_tag" in df.columns:
@@ -321,10 +325,15 @@ class ObservationsAdapter:
 
                 # --- Measurement edges (Tasks 9–11) ---
                 value_col = metric.get("value_col", "")
-                if not value_col or value_col not in df.columns:
+                if not value_col:
                     logger.warning(
-                        f"value_col '{value_col}' not in {csv_path.name} "
-                        f"for '{entry_key}/{metric_type}' — skipping measurement edges"
+                        f"'{entry_key}/{metric_type}' missing value_col — skipping measurement edges"
+                    )
+                    continue
+                if value_col not in df.columns:
+                    logger.warning(
+                        f"value_col '{value_col}' not in {csv_path.name} for "
+                        f"'{entry_key}/{metric_type}' — skipping measurement edges"
                     )
                     continue
 
@@ -344,15 +353,27 @@ class ObservationsAdapter:
         return edges
 
     def _emit_boolean_edges(self, df, gene_col, value_col, metric, dm_id, metric_type):
-        """Task 9 implements this."""
+        """Emit derived_metric_flags_gene edges.
+
+        Precondition: value_col is present in df.columns (guarded in get_edges).
+        Task 9 implements this.
+        """
         return []
 
     def _emit_categorical_edges(self, df, gene_col, value_col, metric, dm_id, metric_type):
-        """Task 10 implements this."""
+        """Emit derived_metric_classifies_gene edges.
+
+        Precondition: value_col is present in df.columns (guarded in get_edges).
+        Task 10 implements this.
+        """
         return []
 
     def _emit_numeric_edges(self, df, gene_col, value_col, metric, dm_id, metric_type):
-        """Task 11 implements this."""
+        """Emit derived_metric_quantifies_gene edges.
+
+        Precondition: value_col is present in df.columns (guarded in get_edges).
+        Task 11 implements this.
+        """
         return []
 
     def download_data(self, **kwargs):
