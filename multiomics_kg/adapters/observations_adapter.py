@@ -171,7 +171,85 @@ class ObservationsAdapter:
         }
 
     def get_nodes(self) -> list[tuple]:
-        return []  # filled in Tasks 5-7
+        """Emit DerivedMetric nodes — one per (entry × metric_type).
+
+        Matches cluster_adapter's behaviour: if the source CSV is missing,
+        skip the whole entry so we never emit dangling DM nodes with no
+        measurement edges.
+        """
+        nodes = []
+        experiments = get_experiments(self.config)
+        for entry_key, entry in self._dm_entries:
+            exp_key = entry.get("experiment")
+            if not exp_key or exp_key not in experiments:
+                logger.warning(
+                    f"derived_metrics_table '{entry_key}' references unknown "
+                    f"experiment '{exp_key}' — skipping"
+                )
+                continue
+            csv_path, _ = _resolve_csv_path(entry["filename"])
+            if not csv_path.exists():
+                logger.warning(
+                    f"derived_metrics_table CSV not found: {csv_path} — skipping"
+                )
+                continue
+            exp = experiments[exp_key]
+            denorm = self._denormalized_fields(exp)
+
+            for metric in entry.get("metrics", []):
+                metric_type = metric.get("metric_type", "")
+                value_kind = metric.get("value_kind", "")
+                if not metric_type or not value_kind:
+                    logger.warning(
+                        f"Metric in '{entry_key}' missing metric_type or value_kind — skipping"
+                    )
+                    continue
+
+                dm_id = _make_derived_metric_id(
+                    self.doi, self.paper_name, entry_key, metric_type
+                )
+                # experiment_id mirrors the omics_adapter's format: raw-doi + "_" + exp_key
+                experiment_id = f"{self.doi}_{exp_key}" if self.doi else f"{self.paper_name}_{exp_key}"
+
+                props = {
+                    "name": _clean_str(metric.get("name", metric_type)),
+                    "experiment_id": _clean_str(experiment_id),
+                    "metric_type": _clean_str(metric_type),
+                    "value_kind": _clean_str(value_kind),
+                    "field_description": _clean_str(metric.get("field_description", "")),
+                    **denorm,
+                }
+
+                if value_kind == "boolean":
+                    props["rankable"] = "false"
+                    props["has_p_value"] = "false"
+                    props["unit"] = ""
+                    props["allowed_categories"] = []
+                elif value_kind == "categorical":
+                    # Task 6 completes the categorical branch
+                    props["rankable"] = "false"
+                    props["has_p_value"] = "false"
+                    props["unit"] = ""
+                    props["allowed_categories"] = [
+                        _clean_str(c) for c in metric.get("allowed_categories", [])
+                    ]
+                elif value_kind == "numeric":
+                    # Task 7 completes the numeric branch
+                    props["rankable"] = _clean_str(metric.get("rankable", "false"))
+                    props["has_p_value"] = _clean_str(metric.get("has_p_value", "false"))
+                    props["unit"] = _clean_str(metric.get("unit", ""))
+                    props["allowed_categories"] = []
+                    pvt = metric.get("p_value_threshold")
+                    if pvt is not None:
+                        props["p_value_threshold"] = float(pvt)
+                else:
+                    logger.warning(
+                        f"Unknown value_kind '{value_kind}' in '{entry_key}/{metric_type}' — skipping"
+                    )
+                    continue
+
+                nodes.append((dm_id, "derived_metric", props))
+        return nodes
 
     def get_edges(self) -> list[tuple]:
         return []  # filled in Tasks 8-11

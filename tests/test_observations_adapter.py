@@ -208,3 +208,118 @@ def test_denormalized_fields_normalizes_scalar_list_fields():
     fields = adapter._denormalized_fields(exp)
     assert fields["treatment_type"] == ["nitrogen"]
     assert fields["background_factors"] == ["axenic"]
+
+
+def _write_s4a_like_paperconfig(tmp_path):
+    """Minimal in-memory paperconfig mimicking Biller 2018 S4A-axenic shape."""
+    csv_path = tmp_path / "s4a_small.csv"
+    # 3 rows: 2 Y + 1 blank for axenic_LD; 1 Y + 2 blank for extended_darkness
+    csv_path.write_text(
+        'NCBI ID_2,"Periodic in axenic, L:D cultures","Periodic in axenic, extended darkness cultures"\n'
+        "PMN2A_RS00015,Y,\n"
+        "PMN2A_RS00020,Y,Y\n"
+        "PMN2A_RS00025,,\n"
+    )
+    resolved_path = tmp_path / "s4a_small_resolved.csv"
+    resolved_path.write_text(
+        'NCBI ID_2,"Periodic in axenic, L:D cultures","Periodic in axenic, extended darkness cultures",resolved_locus_tag,resolution_method\n'
+        "PMN2A_RS00015,Y,,PMN2A_1328,tier1:NCBI ID_2\n"
+        "PMN2A_RS00020,Y,Y,PMN2A_1329,tier1:NCBI ID_2\n"
+        "PMN2A_RS00025,,,,unresolved\n"
+    )
+    config = {
+        "publication": {
+            "papername": "Biller 2018",
+            "doi": "10.1128/mSystems.00040-18",
+            "papermainpdf": str(tmp_path / "fake.pdf"),
+            "experiments": {
+                "axenic_rnaseq": {
+                    "name": "NATL2A axenic",
+                    "organism": "Prochlorococcus NATL2A",
+                    "omics_type": "RNASEQ",
+                    "treatment_type": ["darkness"],
+                    "background_factors": ["axenic", "diel"],
+                    "treatment_condition": "Extended darkness",
+                    "light_condition": "continuous darkness",
+                    "experimental_context": "Axenic NATL2A in Pro99",
+                },
+            },
+            "supplementary_materials": {
+                "s4a_axenic": {
+                    "type": "derived_metrics_table",
+                    "filename": str(csv_path),
+                    "organism": "Prochlorococcus NATL2A",
+                    "experiment": "axenic_rnaseq",
+                    "name_col": "NCBI ID_2",
+                    "metrics": [
+                        {
+                            "metric_type": "periodic_in_axenic_LD",
+                            "value_kind": "boolean",
+                            "value_col": "Periodic in axenic, L:D cultures",
+                            "true_tokens": ["Y"],
+                            "false_tokens": [],
+                            "skip_tokens": ["NA", "N/A"],
+                            "blank_policy": "skip",
+                            "field_description": "RAIN FDR<0.05 axenic L:D",
+                        },
+                        {
+                            "metric_type": "periodic_in_axenic_extended_darkness",
+                            "value_kind": "boolean",
+                            "value_col": "Periodic in axenic, extended darkness cultures",
+                            "true_tokens": ["Y"],
+                            "false_tokens": [],
+                            "skip_tokens": ["NA", "N/A"],
+                            "blank_policy": "skip",
+                            "field_description": "RAIN FDR<0.05 axenic extended darkness",
+                        },
+                    ],
+                },
+            },
+        },
+    }
+    pc_path = tmp_path / "paperconfig.yaml"
+    pc_path.write_text(yaml.dump(config))
+    return str(pc_path)
+
+
+def test_get_nodes_emits_one_dm_per_boolean_metric(tmp_path):
+    pc_path = _write_s4a_like_paperconfig(tmp_path)
+    adapter = ObservationsAdapter(config_file=pc_path)
+    nodes = adapter.get_nodes()
+
+    dm_nodes = [(nid, lbl, props) for nid, lbl, props in nodes if lbl == "derived_metric"]
+    assert len(dm_nodes) == 2
+
+    ids = {nid for nid, _, _ in dm_nodes}
+    assert "derived_metric:mSystems.00040-18:s4a_axenic:periodic_in_axenic_LD" in ids
+    assert "derived_metric:mSystems.00040-18:s4a_axenic:periodic_in_axenic_extended_darkness" in ids
+
+
+def test_boolean_dm_node_has_expected_props(tmp_path):
+    pc_path = _write_s4a_like_paperconfig(tmp_path)
+    adapter = ObservationsAdapter(config_file=pc_path)
+    nodes = adapter.get_nodes()
+    dm = next(
+        props for nid, lbl, props in nodes
+        if lbl == "derived_metric" and nid.endswith("periodic_in_axenic_LD")
+    )
+    assert dm["metric_type"] == "periodic_in_axenic_LD"
+    assert dm["value_kind"] == "boolean"
+    assert dm["rankable"] == "false"
+    assert dm["has_p_value"] == "false"
+    assert dm["allowed_categories"] == []
+    assert dm["unit"] == ""
+    assert dm["field_description"] == "RAIN FDR<0.05 axenic L:D"
+    # Denormalized from parent Experiment
+    assert dm["organism_name"] == "Prochlorococcus NATL2A"
+    assert dm["compartment"] == "whole_cell"  # default
+    assert dm["omics_type"] == "RNASEQ"
+    assert dm["treatment_type"] == ["darkness"]
+    assert dm["background_factors"] == ["axenic", "diel"]
+    assert dm["treatment"] == "Extended darkness"
+    assert dm["light_condition"] == "continuous darkness"
+    assert dm["experimental_context"] == "Axenic NATL2A in Pro99"
+    assert dm["publication_doi"] == "10.1128/mSystems.00040-18"
+    # experiment_id is the raw-doi + exp_key concatenation
+    assert dm["experiment_id"] == "10.1128/mSystems.00040-18_axenic_rnaseq"
+    assert dm["name"].startswith("periodic_in_axenic_LD")  # default name
