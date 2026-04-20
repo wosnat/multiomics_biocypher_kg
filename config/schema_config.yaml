@@ -27,6 +27,11 @@ publication:
     background_factors: str[]          # post-import: distinct background_factors from experiments
     omics_types: str[]                 # post-import: distinct omics_type from experiments
     growth_phases: str[]               # post-import: distinct growth_phases from experiments
+    derived_metric_count: int        # post-import (Plan 3)
+    derived_metric_gene_count: int   # post-import (Plan 3): distinct genes via child DMs
+    compartments: str[]              # post-import (Plan 3): distinct compartment from child Experiments
+    derived_metric_types: str[]      # post-import (Plan 3): distinct metric_type from child DMs
+    derived_metric_value_kinds: str[]  # post-import (Plan 3)
 
 
 # Experiment node: groups time-series analyses for a single scientific comparison
@@ -66,6 +71,11 @@ experiment:
     time_point_significant_down: int[]
     time_point_growth_phases: str[]  # post-import: per-timepoint growth_phase (parallel array; "" = unknown)
     growth_phases: str[]          # post-import: distinct growth_phase values from edges
+    reports_fold_change: str         # post-import (Plan 3): "true" | "false"
+    reports_derived_metric_types: str[]  # post-import (Plan 3): distinct metric_type from child DMs
+    derived_metric_count: int        # post-import (Plan 3): count of child DerivedMetric nodes
+    derived_metric_value_kinds: str[]  # post-import (Plan 3): distinct value_kind from child DMs
+    derived_metric_gene_count: int   # post-import (Plan 3): distinct genes reached via any child DM edge
 
 # GeneCluster node: groups co-expressed genes from a clustering analysis within a publication
 gene cluster:
@@ -365,6 +375,13 @@ gene:
     significant_down_count: int       # expression edges where expression_status = 'significant_down'
     closest_ortholog_group_size: int  # member_count from most specific OG (lowest specificity_rank)
     closest_ortholog_genera: str[]    # genera from most specific OG
+    numeric_metric_count: int                # post-import (Plan 3): distinct DMs reaching via quantifies_gene
+    classifier_flag_count: int               # post-import (Plan 3): distinct DMs reaching via flags_gene
+    classifier_label_count: int              # post-import (Plan 3): distinct DMs reaching via classifies_gene
+    numeric_metric_types_observed: str[]     # post-import (Plan 3): sorted distinct metric_type over quantifies
+    classifier_flag_types_observed: str[]    # post-import (Plan 3): sorted distinct metric_type over flags
+    classifier_label_types_observed: str[]   # post-import (Plan 3): sorted distinct metric_type over classifies
+    compartments_observed: str[]             # post-import (Plan 3): sorted distinct compartment over all 3 DM edge types
 
 # consider adding: Note, exceptions, inference
 
@@ -435,6 +452,11 @@ organism taxon:
     background_factors: str[] # pre-computed: distinct background_factors across matched publications
     omics_types: str[]       # pre-computed: distinct omics types across matched publications
     growth_phases: str[]     # pre-computed: distinct growth_phases across matched publications
+    derived_metric_count: int        # post-import (Plan 3)
+    derived_metric_gene_count: int   # post-import (Plan 3)
+    compartments: str[]              # post-import (Plan 3)
+    derived_metric_types: str[]      # post-import (Plan 3)
+    derived_metric_value_kinds: str[]  # post-import (Plan 3)
     organism_type: str   # genome_strain | treatment | reference_proteome_match
     reference_database: str   # e.g. "MarRef v6" (reference_proteome_match only)
     reference_proteome: str   # e.g. "UP000262181" (reference_proteome_match only)
