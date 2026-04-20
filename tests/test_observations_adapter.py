@@ -65,3 +65,61 @@ def test_resolve_csv_path_falls_back_to_original(tmp_path):
     path, used_resolved = _resolve_csv_path(str(src))
     assert path == src
     assert used_resolved is False
+
+
+def _bp(value, blank_policy="skip"):
+    return _parse_boolean_cell(
+        value,
+        true_tokens=["Y", "yes"],
+        false_tokens=["N", "no"],
+        skip_tokens=["NA", "n/a"],
+        blank_policy=blank_policy,
+    )
+
+
+def test_boolean_true_token():
+    assert _bp("Y") == "true"
+    assert _bp("yes") == "true"
+
+
+def test_boolean_false_token():
+    assert _bp("N") == "false"
+    assert _bp("no") == "false"
+
+
+def test_boolean_skip_token_returns_none():
+    assert _bp("NA") is None
+    assert _bp("n/a") is None
+
+
+def test_boolean_blank_with_skip_policy():
+    assert _bp("", blank_policy="skip") is None
+    assert _bp(None, blank_policy="skip") is None
+    assert _bp(float("nan"), blank_policy="skip") is None
+
+
+def test_boolean_blank_with_true_policy():
+    assert _bp("", blank_policy="true") == "true"
+    assert _bp(None, blank_policy="true") == "true"
+
+
+def test_boolean_blank_with_false_policy():
+    assert _bp("", blank_policy="false") == "false"
+    assert _bp(float("nan"), blank_policy="false") == "false"
+
+
+def test_boolean_unknown_token_raises():
+    with pytest.raises(ValueError, match="Unexpected boolean token"):
+        _bp("maybe")
+
+
+def test_boolean_invalid_blank_policy_raises():
+    with pytest.raises(ValueError, match="Invalid blank_policy"):
+        _parse_boolean_cell("", true_tokens=["Y"], false_tokens=[], skip_tokens=[], blank_policy="whatever")
+
+
+def test_boolean_whitespace_treated_as_blank():
+    # Empty-after-strip → blank → skip_policy default returns None
+    assert _bp("   ") is None
+    # With blank_policy="false", whitespace is blank → "false"
+    assert _bp("   ", blank_policy="false") == "false"
