@@ -119,7 +119,26 @@ def test_boolean_invalid_blank_policy_raises():
 
 
 def test_boolean_whitespace_treated_as_blank():
-    # Empty-after-strip → blank → skip_policy default returns None
+    # Exercises the strip()-then-empty branch (distinct from None/NaN/"" pre-strip)
     assert _bp("   ") is None
     # With blank_policy="false", whitespace is blank → "false"
     assert _bp("   ", blank_policy="false") == "false"
+
+
+def test_boolean_pd_na_is_blank():
+    # pd.NA (pandas nullable scalar, distinct from float NaN) routes to blank_policy
+    assert _bp(pd.NA, blank_policy="skip") is None
+
+
+def test_boolean_numeric_cells_raise():
+    # int cells from CSV reading must NOT be silently coerced — contract per docstring
+    with pytest.raises(ValueError, match="Unexpected boolean token"):
+        _bp(1)
+    with pytest.raises(ValueError, match="Unexpected boolean token"):
+        _bp(0)
+
+
+def test_boolean_case_sensitive():
+    # "y" (lowercase) is NOT in true_tokens=["Y", "yes"] — exact-string match, no case folding
+    with pytest.raises(ValueError, match="Unexpected boolean token"):
+        _bp("y")
