@@ -4,14 +4,14 @@ name_col: gene
 id_columns: ['gene']
 
 Total rows with IDs: 2081
-Resolved: 2035 (97.8%)
-Unresolved: 46
+Resolved: 2034 (97.7%)
+Unresolved: 47
 
 Resolution method breakdown:
-  multi:gene: 2035
-  unresolved: 46
+  multi:gene: 2034
+  unresolved: 47
 
-Unresolved rows (46):
+Unresolved rows (47):
   row 1: raw_id='Yfr1'  reason=unresolved  [gene='Yfr1']
   row 2: raw_id='Yfr10.like_1'  reason=unresolved  [gene='Yfr10.like_1']
   row 3: raw_id='Yfr10.like_2'  reason=unresolved  [gene='Yfr10.like_2']
@@ -30,6 +30,6 @@ Unresolved rows (46):
   row 18: raw_id='Yfr2_4'  reason=unresolved  [gene='Yfr2_4']
   row 20: raw_id='cds-PMN2A_RS05260'  reason=unresolved  [gene='cds-PMN2A_RS05260']
   row 1369: raw_id='cds-WP_011295110.1'  reason=unresolved  [gene='cds-WP_011295110.1']
+  row 1380: raw_id='cds-WP_011295140.1'  reason=unresolved  [gene='cds-WP_011295140.1']
   row 1831: raw_id='cds-WP_041710958.1'  reason=unresolved  [gene='cds-WP_041710958.1']
-  row 1910: raw_id='fig|1218.94.peg.1045'  reason=unresolved  [gene='fig|1218.94.peg.1045']
-  ... (26 more)
+  ... (27 more)

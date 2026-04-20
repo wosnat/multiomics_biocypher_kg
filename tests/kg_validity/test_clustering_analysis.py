@@ -23,13 +23,13 @@ pytestmark = pytest.mark.kg
 def test_clustering_analysis_nodes_exist(run_query):
     """ClusteringAnalysis nodes must exist in the graph."""
     result = run_query("MATCH (ca:ClusteringAnalysis) RETURN count(ca) AS cnt")
-    assert result[0]["cnt"] >= 15, "Expected at least 15 ClusteringAnalysis nodes (across 8 papers)"
+    assert result[0]["cnt"] >= 12, "Expected at least 12 ClusteringAnalysis nodes (across remaining papers after Biller 2018 retrofit removal)"
 
 
 def test_gene_cluster_nodes_exist(run_query):
     """GeneCluster nodes must exist in the graph."""
     result = run_query("MATCH (gc:GeneCluster) RETURN count(gc) AS cnt")
-    assert result[0]["cnt"] >= 100, "Expected at least 100 GeneCluster nodes (across 8 papers)"
+    assert result[0]["cnt"] >= 90, "Expected at least 90 GeneCluster nodes (across remaining papers after Biller 2018 retrofit removal)"
 
 
 # ---------------------------------------------------------------------------
@@ -100,7 +100,7 @@ def test_publication_has_clustering_analysis_edges(run_query):
         "MATCH (:Publication)-[r:PublicationHasClusteringAnalysis]->(:ClusteringAnalysis) "
         "RETURN count(r) AS cnt"
     )
-    assert result[0]["cnt"] >= 15, "Expected at least 15 Publication → ClusteringAnalysis edges"
+    assert result[0]["cnt"] >= 12, "Expected at least 12 Publication → ClusteringAnalysis edges"
 
 
 def test_clustering_analysis_has_gene_cluster_edges(run_query):
@@ -109,7 +109,7 @@ def test_clustering_analysis_has_gene_cluster_edges(run_query):
         "MATCH (:ClusteringAnalysis)-[r:ClusteringAnalysisHasGeneCluster]->(:GeneCluster) "
         "RETURN count(r) AS cnt"
     )
-    assert result[0]["cnt"] >= 100, "Expected at least 100 ClusteringAnalysis → GeneCluster edges"
+    assert result[0]["cnt"] >= 90, "Expected at least 90 ClusteringAnalysis → GeneCluster edges"
 
 
 def test_clustering_analysis_belongs_to_organism_edges(run_query):
@@ -118,7 +118,7 @@ def test_clustering_analysis_belongs_to_organism_edges(run_query):
         "MATCH (:ClusteringAnalysis)-[r:ClusteringanalysisBelongsToOrganism]->(:OrganismTaxon) "
         "RETURN count(r) AS cnt"
     )
-    assert result[0]["cnt"] >= 15, "Expected at least 15 ClusteringAnalysis → OrganismTaxon edges"
+    assert result[0]["cnt"] >= 12, "Expected at least 12 ClusteringAnalysis → OrganismTaxon edges"
 
 
 def test_experiment_has_clustering_analysis_edges(run_query):
