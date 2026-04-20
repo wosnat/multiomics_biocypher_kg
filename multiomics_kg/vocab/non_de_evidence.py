@@ -1,22 +1,75 @@
+# multiomics_kg/vocab/non_de_evidence.py
 """Controlled vocabularies for non-DE-evidence schema (DerivedMetric today;
 AbundanceAnalysis in a future slice).
 
-Design note: the registry is deliberately narrow. Only value_kind (which
-drives adapter edge-type dispatch) is enforced centrally. Per-metric
-metadata — rankable, has_p_value, p_value_threshold, unit,
-allowed_categories, field_description — is declared inline on paperconfig
-entries, so one paper's idiosyncratic metric doesn't force global vocab churn.
+Single source of truth imported by:
+- scripts/validate_paperconfig.py
+- multiomics_kg/adapters/observations_adapter.py   (Plan 2)
+- multiomics_kg/download/build_gene_id_mapping.py
+- multiomics_kg/download/resolve_paper_ids.py
+- tests/
+
+Design principle (option C): the vocab is deliberately narrow. The ONLY
+per-metric fact enforced centrally is value_kind (which drives adapter
+edge-type dispatch: numeric → quantifies_gene, boolean → flags_gene,
+categorical → classifies_gene). Every other per-metric datum — unit,
+rankable, has_p_value, p_value_threshold, allowed_categories,
+field_description — is declared inline on paperconfig entries. This keeps
+the central registry stable as new papers land and per-paper quirks don't
+leak into the vocabulary.
 """
 from __future__ import annotations
 
-COMPARTMENTS: frozenset[str] = frozenset()
-EXTENDED_OMICS_TYPES: frozenset[str] = frozenset()
-VALUE_KINDS: frozenset[str] = frozenset()
-KNOWN_METRIC_TYPES: dict[str, str] = {}
 
-DEFAULT_SKIP_TOKENS: tuple[str, ...] = ()
-VALID_BLANK_POLICIES: tuple[str, ...] = ()
+# ─── Compartment vocabulary (Experiment.compartment) ──────────────────────────
 
-BUCKET_THRESHOLD_TOP_DECILE: int = 0
-BUCKET_THRESHOLD_TOP_QUARTILE: int = 0
-BUCKET_THRESHOLD_MID: int = 0
+COMPARTMENTS: frozenset[str] = frozenset({
+    "whole_cell",       # intracellular (default)
+    "vesicle",          # extracellular vesicle fraction
+    "exoproteome",      # secreted proteins in medium
+    "spent_medium",     # culture supernatant
+    "lysate",           # cell lysate
+})
+
+
+# ─── Omics-type vocabulary (extends existing VALID_TYPES) ──────────────────────
+
+EXTENDED_OMICS_TYPES: frozenset[str] = frozenset({
+    "RNASEQ",
+    "MICROARRAY",
+    "PROTEOMICS",
+    "EXOPROTEOMICS",
+    "METABOLOMICS",
+    "PAIRED_RNASEQ_PROTEOME",  # Waldbauer 2012 et al.
+})
+
+
+# ─── value_kind enum — adapter edge-type discriminator ─────────────────────────
+
+VALUE_KINDS: frozenset[str] = frozenset({"numeric", "boolean", "categorical"})
+
+
+# ─── Token-parsing defaults for boolean derived_metrics_table entries ──────────
+
+# Literal CSV cell values that mean "not tested" (no edge emitted).
+DEFAULT_SKIP_TOKENS: tuple[str, ...] = ("NA", "N/A", "n/a", "#N/A")
+
+# Allowed values of the `blank_policy` paperconfig field.
+VALID_BLANK_POLICIES: tuple[str, ...] = ("skip", "true", "false")
+
+
+# ─── Percentile cutoffs pinned by parent spec ──────────────────────────────────
+
+BUCKET_THRESHOLD_TOP_DECILE: int = 90    # percentile >= 90 → "top_decile"
+BUCKET_THRESHOLD_TOP_QUARTILE: int = 75  # 75 <= percentile < 90 → "top_quartile"
+BUCKET_THRESHOLD_MID: int = 25           # 25 <= percentile < 75 → "mid", else "low"
+
+
+# ─── KNOWN_METRIC_TYPES registry (filled in Task 3) ────────────────────────────
+# Maps metric_type → value_kind. Nothing else. A paperconfig that declares
+# a metric_type in this registry must use the matching value_kind; a
+# metric_type absent from the registry is accepted with a validator warning
+# (authors may introduce new names; the registry grows slowly and only
+# records the one thing future papers must agree on).
+
+KNOWN_METRIC_TYPES: dict[str, str] = {}   # filled in Task 3
