@@ -762,3 +762,99 @@ def test_boolean_edges_raise_on_unknown_token(tmp_path):
     adapter._organism_lookup = {"Prochlorococcus MED4": "insdc.gcf:GCF_000011465.1"}
     with pytest.raises(ValueError, match="Unexpected boolean token"):
         adapter.get_edges()
+
+
+def test_categorical_edges_emit_one_per_in_set_row(tmp_path):
+    pc_path = _write_s5_like_paperconfig(tmp_path)
+    adapter = ObservationsAdapter(config_file=pc_path)
+    adapter._organism_lookup = {"Prochlorococcus NATL2A": "insdc.gcf:GCF_000012465.1"}
+    edges = adapter.get_edges()
+    cls_edges = [e for e in edges if e[3] == "derived_metric_classifies_gene"]
+    assert len(cls_edges) == 3
+
+    for eid, src, tgt, label, props in cls_edges:
+        assert src.startswith("derived_metric:mSystems.00040-18:s5_survival:")
+        assert tgt.startswith("ncbigene:")
+        assert props["metric_type"] == "darkness_survival_class"
+        assert props["value_text"] in {
+            "darkness_axenic+darkness_coculture",
+            "darkness_coculture+unique_coculture",
+            "darkness_axenic+unique_axenic",
+        }
+
+
+def test_categorical_edges_raise_on_out_of_set(tmp_path):
+    csv_path = tmp_path / "bad_cat.csv"
+    csv_path.write_text("locus_tag,cluster\nPMM0001,unknown_category\n")
+    config = {
+        "publication": {
+            "papername": "Bad Cat", "doi": "10.9999/badcat",
+            "papermainpdf": str(tmp_path / "fake.pdf"),
+            "experiments": {"e": {
+                "organism": "Prochlorococcus MED4", "omics_type": "RNASEQ",
+                "treatment_type": [], "background_factors": [],
+                "treatment_condition": "", "light_condition": "",
+                "experimental_context": "",
+            }},
+            "supplementary_materials": {
+                "entry": {
+                    "type": "derived_metrics_table",
+                    "filename": str(csv_path),
+                    "organism": "Prochlorococcus MED4",
+                    "experiment": "e",
+                    "name_col": "locus_tag",
+                    "metrics": [{
+                        "metric_type": "darkness_survival_class",
+                        "value_kind": "categorical",
+                        "value_col": "cluster",
+                        "allowed_categories": ["a", "b"],
+                    }],
+                },
+            },
+        },
+    }
+    pc_path = tmp_path / "paperconfig.yaml"
+    pc_path.write_text(yaml.dump(config))
+    adapter = ObservationsAdapter(config_file=pc_path)
+    adapter._organism_lookup = {"Prochlorococcus MED4": "insdc.gcf:GCF_000011465.1"}
+    with pytest.raises(ValueError, match="out of allowed_categories"):
+        adapter.get_edges()
+
+
+def test_categorical_edges_skip_blank_rows(tmp_path):
+    csv_path = tmp_path / "blank_cat.csv"
+    csv_path.write_text("locus_tag,cluster\nPMM0001,a\nPMM0002,\nPMM0003,b\n")
+    config = {
+        "publication": {
+            "papername": "Blank Cat", "doi": "10.9999/blankcat",
+            "papermainpdf": str(tmp_path / "fake.pdf"),
+            "experiments": {"e": {
+                "organism": "Prochlorococcus MED4", "omics_type": "RNASEQ",
+                "treatment_type": [], "background_factors": [],
+                "treatment_condition": "", "light_condition": "",
+                "experimental_context": "",
+            }},
+            "supplementary_materials": {
+                "entry": {
+                    "type": "derived_metrics_table",
+                    "filename": str(csv_path),
+                    "organism": "Prochlorococcus MED4",
+                    "experiment": "e",
+                    "name_col": "locus_tag",
+                    "metrics": [{
+                        "metric_type": "darkness_survival_class",
+                        "value_kind": "categorical",
+                        "value_col": "cluster",
+                        "allowed_categories": ["a", "b"],
+                    }],
+                },
+            },
+        },
+    }
+    pc_path = tmp_path / "paperconfig.yaml"
+    pc_path.write_text(yaml.dump(config))
+    adapter = ObservationsAdapter(config_file=pc_path)
+    adapter._organism_lookup = {"Prochlorococcus MED4": "insdc.gcf:GCF_000011465.1"}
+    edges = adapter.get_edges()
+    cls_edges = [e for e in edges if e[3] == "derived_metric_classifies_gene"]
+    assert len(cls_edges) == 2  # PMM0002's blank row skipped

@@ -405,9 +405,43 @@ class ObservationsAdapter:
         """Emit derived_metric_classifies_gene edges.
 
         Precondition: value_col is present in df.columns (guarded in get_edges).
-        Task 10 implements this.
+        Hard-errors on values not in allowed_categories (spec invariant #11).
+        Skips rows with unresolved locus_tag or blank cells.
+
+        test_mode scope: per-metric 100-edge cap (see _emit_boolean_edges).
         """
-        return []
+        allowed = set(metric.get("allowed_categories") or [])
+
+        edges = []
+        count = 0
+        for _, row in df.iterrows():
+            if self.test_mode and count >= 100:
+                break
+            gene_locus = row.get(gene_col, "")
+            if pd.isna(gene_locus):
+                continue
+            gene_locus = str(gene_locus).strip()
+            if not gene_locus:
+                continue
+            val = row.get(value_col)
+            if pd.isna(val):
+                continue
+            s = str(val).strip()
+            if s == "":
+                continue
+            if s not in allowed:
+                raise ValueError(
+                    f"Categorical value {s!r} out of allowed_categories "
+                    f"{sorted(allowed)} for metric {metric_type!r}"
+                )
+            edge_id = f"{dm_id}__{gene_locus}"
+            edges.append((
+                edge_id, dm_id, f"ncbigene:{gene_locus}",
+                "derived_metric_classifies_gene",
+                {"metric_type": _clean_str(metric_type), "value_text": _clean_str(s)},
+            ))
+            count += 1
+        return edges
 
     def _emit_numeric_edges(self, df, gene_col, value_col, metric, dm_id, metric_type):
         """Emit derived_metric_quantifies_gene edges.
