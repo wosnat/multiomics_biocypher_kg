@@ -51,6 +51,7 @@ experiment:
     temperature: str
     light_condition: str
     light_intensity: str
+    compartment: str                 # adapter-emitted; default "whole_cell"; vocab in multiomics_kg/vocab/non_de_evidence.py
     table_scope: str
     table_scope_detail: str
     gene_count: int
@@ -102,6 +103,37 @@ clustering analysis:
     experimental_context: str
     growth_phases: str[]   # post-import: distinct growth_phases from linked experiments
 
+# DerivedMetric node: one per (Experiment × metric_type). Carries column-level
+# metric semantics. Edge type emitted to Gene depends on value_kind.
+# Adapter emits in Plan 2; post-import computes total_gene_count + growth_phases in Plan 3.
+derived metric:
+  is_a: information content entity
+  represented_as: node
+  preferred_id: derived_metric_id
+  label_in_input: derived_metric
+  properties:
+    name: str
+    experiment_id: str
+    organism_name: str
+    publication_doi: str
+    compartment: str
+    omics_type: str
+    treatment_type: str[]
+    background_factors: str[]
+    treatment: str
+    light_condition: str
+    experimental_context: str
+    metric_type: str
+    value_kind: str                  # "numeric" | "boolean" | "categorical"
+    unit: str
+    rankable: str                    # "true" | "false" (string enum)
+    has_p_value: str                 # "true" | "false" (string enum)
+    p_value_threshold: float
+    allowed_categories: str[]
+    field_description: str
+    total_gene_count: int            # post-import (Plan 3)
+    growth_phases: str[]             # post-import (Plan 3)
+
 # Publication → Experiment
 publication has experiment:
   is_a: Association
@@ -151,6 +183,72 @@ experiment has clustering analysis:
   label_in_input: experiment_has_clustering_analysis
   source: experiment
   target: clustering analysis
+
+# Publication → DerivedMetric (mirrors Publication_has_clustering_analysis)
+publication has derived metric:
+  is_a: related to at instance level
+  represented_as: edge
+  label_in_input: publication_has_derived_metric
+  source: publication
+  target: derived metric
+
+# Experiment → DerivedMetric (mirrors Experiment_has_clustering_analysis)
+experiment has derived metric:
+  is_a: related to at instance level
+  represented_as: edge
+  label_in_input: experiment_has_derived_metric
+  source: experiment
+  target: derived metric
+
+# DerivedMetric → OrganismTaxon (mirrors Clusteringanalysis_belongs_to_organism)
+derived metric belongs to organism:
+  is_a: related to at instance level
+  represented_as: edge
+  label_in_input: derived_metric_belongs_to_organism
+  source: derived metric
+  target: organism taxon
+
+# DerivedMetric → Gene (numeric metric_type; value_kind="numeric")
+derived metric quantifies gene:
+  is_a: Association
+  represented_as: edge
+  label_as_edge: derived_metric_quantifies_gene
+  label_in_input: derived_metric_quantifies_gene
+  source: derived metric
+  target: gene
+  properties:
+    metric_type: str
+    value: float
+    p_value: float
+    adjusted_p_value: float
+    rank_by_metric: int              # post-import (Plan 3; rankable="true" only)
+    metric_percentile: float         # post-import (Plan 3; rankable="true" only)
+    metric_bucket: str               # post-import (Plan 3; rankable="true" only)
+    significant: str                 # post-import (Plan 3; has_p_value="true" only)
+
+# DerivedMetric → Gene (boolean metric_type; value_kind="boolean")
+derived metric flags gene:
+  is_a: Association
+  represented_as: edge
+  label_as_edge: derived_metric_flags_gene
+  label_in_input: derived_metric_flags_gene
+  source: derived metric
+  target: gene
+  properties:
+    metric_type: str
+    value_flag: str                  # "true" | "false" (string enum)
+
+# DerivedMetric → Gene (categorical metric_type; value_kind="categorical")
+derived metric classifies gene:
+  is_a: Association
+  represented_as: edge
+  label_as_edge: derived_metric_classifies_gene
+  label_in_input: derived_metric_classifies_gene
+  source: derived metric
+  target: gene
+  properties:
+    metric_type: str
+    value_text: str                  # must be in parent DerivedMetric.allowed_categories
 
 # GeneCluster → Gene membership edges
 gene in gene cluster:
