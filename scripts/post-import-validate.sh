@@ -226,4 +226,96 @@ RETURN e.id AS experiment_id,
 ORDER BY experiment_id, tp_order, rank, locus_tag;
 CYPHER
 
+section "DERIVEDMETRIC (full dump)"
+CYPHER <<'CYPHER'
+MATCH (dm:DerivedMetric)
+RETURN dm.id AS id,
+       dm.metric_type AS metric_type,
+       dm.value_kind AS value_kind,
+       dm.rankable AS rankable,
+       dm.has_p_value AS has_p_value,
+       dm.compartment AS compartment,
+       dm.total_gene_count AS total_gene_count,
+       apoc.coll.sort(coalesce(dm.growth_phases, [])) AS growth_phases
+ORDER BY dm.id;
+CYPHER
+
+section "EXPERIMENT DM rollup dump"
+CYPHER <<'CYPHER'
+MATCH (e:Experiment)
+WHERE e.derived_metric_count > 0
+RETURN e.id AS id,
+       e.reports_fold_change AS rfc,
+       apoc.coll.sort(coalesce(e.reports_derived_metric_types, [])) AS metric_types,
+       e.derived_metric_count AS dm_count,
+       apoc.coll.sort(coalesce(e.derived_metric_value_kinds, [])) AS value_kinds,
+       e.derived_metric_gene_count AS dm_gene_count
+ORDER BY e.id;
+CYPHER
+
+section "PUBLICATION DM rollup dump"
+CYPHER <<'CYPHER'
+MATCH (p:Publication)
+WHERE p.derived_metric_count > 0
+RETURN p.id AS id,
+       p.derived_metric_count AS dm_count,
+       p.derived_metric_gene_count AS dm_gene_count,
+       apoc.coll.sort(coalesce(p.compartments, [])) AS compartments,
+       apoc.coll.sort(coalesce(p.derived_metric_types, [])) AS dm_types,
+       apoc.coll.sort(coalesce(p.derived_metric_value_kinds, [])) AS dm_value_kinds
+ORDER BY p.id;
+CYPHER
+
+section "ORGANISMTAXON DM rollup dump"
+CYPHER <<'CYPHER'
+MATCH (o:OrganismTaxon)
+WHERE o.derived_metric_count > 0
+RETURN o.id AS id,
+       o.derived_metric_count AS dm_count,
+       o.derived_metric_gene_count AS dm_gene_count,
+       apoc.coll.sort(coalesce(o.compartments, [])) AS compartments,
+       apoc.coll.sort(coalesce(o.derived_metric_types, [])) AS dm_types,
+       apoc.coll.sort(coalesce(o.derived_metric_value_kinds, [])) AS dm_value_kinds
+ORDER BY o.id;
+CYPHER
+
+section "DM EDGE AGGREGATES"
+CYPHER <<'CYPHER'
+MATCH ()-[r:Derived_metric_flags_gene]->()
+RETURN 'flags' AS edge, count(r) AS total, count(r.value_flag) AS with_value,
+       count(DISTINCT r.value_flag) AS distinct_values
+UNION ALL
+MATCH ()-[r:Derived_metric_classifies_gene]->()
+RETURN 'classifies' AS edge, count(r) AS total, count(r.value_text) AS with_value,
+       count(DISTINCT r.value_text) AS distinct_values
+UNION ALL
+MATCH ()-[r:Derived_metric_quantifies_gene]->()
+RETURN 'quantifies' AS edge, count(r) AS total, count(r.value) AS with_value,
+       count(r.rank_by_metric) AS distinct_values
+ORDER BY edge;
+CYPHER
+
+section "NUMERIC DM RANK SUBSAMPLE: top-5 per DerivedMetric by rank_by_metric"
+CYPHER <<'CYPHER'
+MATCH (dm:DerivedMetric {rankable: 'true'})-[r:Derived_metric_quantifies_gene]->(g:Gene)
+WHERE r.rank_by_metric <= 5
+RETURN dm.id AS dm_id,
+       r.rank_by_metric AS rank,
+       g.locus_tag AS locus_tag,
+       r.value AS value,
+       r.metric_percentile AS pct,
+       r.metric_bucket AS bucket
+ORDER BY dm_id, rank, locus_tag;
+CYPHER
+
+section "GENE DM ROUTING AGGREGATES"
+CYPHER <<'CYPHER'
+MATCH (g:Gene)
+RETURN count(g) AS total_genes,
+       sum(g.numeric_metric_count) AS sum_numeric_count,
+       sum(g.classifier_flag_count) AS sum_flag_count,
+       sum(g.classifier_label_count) AS sum_label_count,
+       count(CASE WHEN size(g.compartments_observed) > 0 THEN 1 END) AS genes_with_compartment;
+CYPHER
+
 printf '\n\n======== END ========\n'

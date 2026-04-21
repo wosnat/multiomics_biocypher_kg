@@ -70,6 +70,20 @@ CREATE INDEX clustering_analysis_type_idx IF NOT EXISTS FOR (ca:ClusteringAnalys
 CREATE FULLTEXT INDEX clusteringAnalysisFullText IF NOT EXISTS
   FOR (ca:ClusteringAnalysis) ON EACH [ca.name, ca.treatment, ca.experimental_context];
 
+// DerivedMetric scalar + full-text indexes
+CREATE INDEX derived_metric_metric_type_idx IF NOT EXISTS FOR (dm:DerivedMetric) ON (dm.metric_type);
+CREATE INDEX derived_metric_value_kind_idx IF NOT EXISTS FOR (dm:DerivedMetric) ON (dm.value_kind);
+CREATE INDEX derived_metric_compartment_idx IF NOT EXISTS FOR (dm:DerivedMetric) ON (dm.compartment);
+CREATE INDEX derived_metric_omics_type_idx IF NOT EXISTS FOR (dm:DerivedMetric) ON (dm.omics_type);
+CREATE INDEX derived_metric_treatment_type_idx IF NOT EXISTS FOR (dm:DerivedMetric) ON (dm.treatment_type);
+CREATE INDEX derived_metric_organism_idx IF NOT EXISTS FOR (dm:DerivedMetric) ON (dm.organism_name);
+CREATE INDEX derived_metric_experiment_idx IF NOT EXISTS FOR (dm:DerivedMetric) ON (dm.experiment_id);
+CREATE FULLTEXT INDEX derivedMetricFullText IF NOT EXISTS
+  FOR (dm:DerivedMetric) ON EACH [dm.name, dm.field_description];
+
+// Experiment.compartment scalar index (adapter-emitted by Plan 2 Task 1)
+CREATE INDEX experiment_compartment_idx IF NOT EXISTS FOR (e:Experiment) ON (e.compartment);
+
 // ── GeneCluster indexes ─────────────────────────────────────────────────
 CREATE FULLTEXT INDEX geneClusterFullText IF NOT EXISTS
   FOR (gc:GeneCluster) ON EACH [gc.name, gc.functional_description, gc.temporal_pattern, gc.expression_dynamics];
@@ -217,6 +231,154 @@ SET o.publication_count = pc,
     o.background_factors = bfs,
     o.growth_phases = gps;
 
+// ── ClusteringAnalysis summary properties ─────────────────────────────
+
+// ClusteringAnalysis: growth_phases (union of linked Experiment.growth_phases)
+MATCH (ca:ClusteringAnalysis)
+OPTIONAL MATCH (e:Experiment)-[:ExperimentHasClusteringAnalysis]->(ca)
+WITH ca, apoc.coll.toSet(reduce(s = [], t IN collect(coalesce(e.growth_phases, [])) | s + t)) AS gps
+SET ca.growth_phases = apoc.coll.sort(gps);
+
+// DerivedMetric total_gene_count: count of outgoing measurement edges.
+// Each DM emits exactly ONE of the 3 edge types based on its value_kind,
+// so the union across types is unambiguous.
+MATCH (dm:DerivedMetric)
+OPTIONAL MATCH (dm)-[r:Derived_metric_quantifies_gene|Derived_metric_flags_gene|Derived_metric_classifies_gene]->(:Gene)
+WITH dm, count(r) AS total
+SET dm.total_gene_count = total;
+
+// DerivedMetric growth_phases: union from parent Experiment
+// (mirrors ClusteringAnalysis growth_phases; reads Experiment.growth_phases
+// set earlier in Group 2).
+MATCH (dm:DerivedMetric)
+OPTIONAL MATCH (e:Experiment)-[:ExperimentHasDerivedMetric]->(dm)
+WITH dm, apoc.coll.toSet(reduce(s = [], t IN collect(coalesce(e.growth_phases, [])) | s + t)) AS gps
+SET dm.growth_phases = apoc.coll.sort(gps);
+
+// OrganismTaxon: clustering_analysis_count, cluster_types, cluster_count
+MATCH (o:OrganismTaxon)
+OPTIONAL MATCH (ca:ClusteringAnalysis)-[:ClusteringanalysisBelongsToOrganism]->(o)
+WITH o,
+     count(ca) AS ca_count,
+     collect(DISTINCT ca.cluster_type) AS ctypes,
+     sum(coalesce(ca.cluster_count, 0)) AS total_clusters
+SET o.clustering_analysis_count = ca_count,
+    o.cluster_types = ctypes,
+    o.cluster_count = total_clusters;
+
+// Publication: clustering_analysis_count, cluster_types, cluster_count
+MATCH (p:Publication)
+OPTIONAL MATCH (p)-[:PublicationHasClusteringAnalysis]->(ca:ClusteringAnalysis)
+WITH p,
+     count(ca) AS ca_count,
+     collect(DISTINCT ca.cluster_type) AS ctypes,
+     sum(coalesce(ca.cluster_count, 0)) AS total_clusters
+SET p.clustering_analysis_count = ca_count,
+    p.cluster_types = ctypes,
+    p.cluster_count = total_clusters;
+
+// Publication DM rollup defaults
+MATCH (p:Publication)
+SET p.derived_metric_count = 0,
+    p.derived_metric_gene_count = 0,
+    p.compartments = [],
+    p.derived_metric_types = [],
+    p.derived_metric_value_kinds = [];
+
+// Publication DM compute
+MATCH (p:Publication)
+OPTIONAL MATCH (p)-[:PublicationHasDerivedMetric]->(dm:DerivedMetric)
+WITH p,
+     count(DISTINCT dm) AS dm_count,
+     [x IN collect(DISTINCT dm.metric_type) WHERE x IS NOT NULL] AS metric_types,
+     [x IN collect(DISTINCT dm.value_kind) WHERE x IS NOT NULL] AS value_kinds
+SET p.derived_metric_count = dm_count,
+    p.derived_metric_types = apoc.coll.sort(metric_types),
+    p.derived_metric_value_kinds = apoc.coll.sort(value_kinds);
+
+// Publication compartments: from child Experiments
+MATCH (p:Publication)
+OPTIONAL MATCH (p)-[:Has_experiment]->(e:Experiment)
+WITH p, [x IN collect(DISTINCT e.compartment) WHERE x IS NOT NULL] AS comps
+SET p.compartments = apoc.coll.sort(comps);
+
+// Publication derived_metric_gene_count
+MATCH (p:Publication)
+OPTIONAL MATCH (p)-[:PublicationHasDerivedMetric]->(:DerivedMetric)
+  -[:Derived_metric_quantifies_gene|Derived_metric_flags_gene|Derived_metric_classifies_gene]->(g:Gene)
+WITH p, count(DISTINCT g) AS dmg_count
+SET p.derived_metric_gene_count = dmg_count;
+
+// OrganismTaxon DM rollup defaults
+MATCH (o:OrganismTaxon)
+SET o.derived_metric_count = 0,
+    o.derived_metric_gene_count = 0,
+    o.compartments = [],
+    o.derived_metric_types = [],
+    o.derived_metric_value_kinds = [];
+
+// OrganismTaxon DM compute
+MATCH (o:OrganismTaxon)
+OPTIONAL MATCH (dm:DerivedMetric)-[:DerivedMetricBelongsToOrganism]->(o)
+WITH o,
+     count(DISTINCT dm) AS dm_count,
+     [x IN collect(DISTINCT dm.metric_type) WHERE x IS NOT NULL] AS metric_types,
+     [x IN collect(DISTINCT dm.value_kind) WHERE x IS NOT NULL] AS value_kinds,
+     [x IN collect(DISTINCT dm.compartment) WHERE x IS NOT NULL] AS comps
+SET o.derived_metric_count = dm_count,
+    o.derived_metric_types = apoc.coll.sort(metric_types),
+    o.derived_metric_value_kinds = apoc.coll.sort(value_kinds),
+    o.compartments = apoc.coll.sort(comps);
+
+// OrganismTaxon derived_metric_gene_count
+MATCH (o:OrganismTaxon)
+OPTIONAL MATCH (dm:DerivedMetric)-[:DerivedMetricBelongsToOrganism]->(o)
+OPTIONAL MATCH (dm)-[:Derived_metric_quantifies_gene|Derived_metric_flags_gene|Derived_metric_classifies_gene]->(g:Gene)
+WITH o, count(DISTINCT g) AS dmg_count
+SET o.derived_metric_gene_count = dmg_count;
+
+// Experiment: clustering_analysis_count, cluster_types, cluster_count
+MATCH (e:Experiment)
+OPTIONAL MATCH (e)-[:ExperimentHasClusteringAnalysis]->(ca:ClusteringAnalysis)
+WITH e,
+     count(ca) AS ca_count,
+     collect(DISTINCT ca.cluster_type) AS ctypes,
+     sum(coalesce(ca.cluster_count, 0)) AS total_clusters
+SET e.clustering_analysis_count = ca_count,
+    e.cluster_types = ctypes,
+    e.cluster_count = total_clusters;
+
+// Experiment DM rollup defaults (empty-state; compute below overrides where children exist)
+MATCH (e:Experiment)
+SET e.reports_fold_change = 'false',
+    e.reports_derived_metric_types = [],
+    e.derived_metric_count = 0,
+    e.derived_metric_value_kinds = [],
+    e.derived_metric_gene_count = 0;
+
+// Experiment reports_fold_change: 'true' iff outgoing Changes_expression_of exists
+MATCH (e:Experiment)
+WHERE EXISTS { (e)-[:Changes_expression_of]->() }
+SET e.reports_fold_change = 'true';
+
+// Experiment DM compute (overrides defaults)
+MATCH (e:Experiment)
+OPTIONAL MATCH (e)-[:ExperimentHasDerivedMetric]->(dm:DerivedMetric)
+WITH e,
+     count(DISTINCT dm) AS dm_count,
+     [x IN collect(DISTINCT dm.metric_type) WHERE x IS NOT NULL] AS metric_types,
+     [x IN collect(DISTINCT dm.value_kind) WHERE x IS NOT NULL] AS value_kinds
+SET e.derived_metric_count = dm_count,
+    e.reports_derived_metric_types = apoc.coll.sort(metric_types),
+    e.derived_metric_value_kinds = apoc.coll.sort(value_kinds);
+
+// Experiment derived_metric_gene_count: distinct genes reachable via ANY child DM edge type
+MATCH (e:Experiment)
+OPTIONAL MATCH (e)-[:ExperimentHasDerivedMetric]->(:DerivedMetric)
+  -[:Derived_metric_quantifies_gene|Derived_metric_flags_gene|Derived_metric_classifies_gene]->(g:Gene)
+WITH e, count(DISTINCT g) AS dmg_count
+SET e.derived_metric_gene_count = dmg_count;
+
 // -----------------------------------------------------------------------
 // Gene routing signals (pre-computed for fast gene_overview queries)
 // -----------------------------------------------------------------------
@@ -295,46 +457,110 @@ CALL {
   SET (edges[i]).rank_down = i + 1
 } IN TRANSACTIONS OF 10 ROWS;
 
-// ── ClusteringAnalysis summary properties ─────────────────────────────
+// Numeric DM rank/percentile/bucket: ranks derived_metric_quantifies_gene edges
+// grouped by DerivedMetric, only when parent DM has rankable='true'. Ties on
+// value broken by Gene.locus_tag ascending (reproducibility).
+// Percentile: rank 1 (highest value) -> 100.0; rank N (lowest) -> 0.0.
+// Buckets pinned per slice spec §Post-import (thresholds must not drift).
+MATCH (dm:DerivedMetric {rankable: 'true'})
+CALL {
+  WITH dm
+  MATCH (dm)-[r:Derived_metric_quantifies_gene]->(g:Gene)
+  WITH r, r.value AS val, g.locus_tag AS lt
+  ORDER BY val DESC, lt ASC
+  WITH collect(r) AS edges, count(r) AS n
+  UNWIND range(0, size(edges) - 1) AS i
+  WITH edges[i] AS r, i, n,
+       CASE WHEN n = 1 THEN 100.0
+            ELSE 100.0 * toFloat(n - i - 1) / toFloat(n - 1)
+       END AS pct
+  SET r.rank_by_metric = i + 1,
+      r.metric_percentile = pct,
+      r.metric_bucket = CASE
+        WHEN pct >= 90.0 THEN 'top_decile'
+        WHEN pct >= 75.0 THEN 'top_quartile'
+        WHEN pct >= 25.0 THEN 'mid'
+        ELSE 'low'
+      END
+} IN TRANSACTIONS OF 10 ROWS;
 
-// ClusteringAnalysis: growth_phases (union of linked Experiment.growth_phases)
-MATCH (ca:ClusteringAnalysis)
-OPTIONAL MATCH (e:Experiment)-[:ExperimentHasClusteringAnalysis]->(ca)
-WITH ca, apoc.coll.toSet(reduce(s = [], t IN collect(coalesce(e.growth_phases, [])) | s + t)) AS gps
-SET ca.growth_phases = apoc.coll.sort(gps);
+// Numeric DM significance: on derived_metric_quantifies_gene edges,
+// only when parent DM has has_p_value='true' AND p_value_threshold IS NOT NULL
+// AND the edge's adjusted_p_value is non-null. Left null otherwise.
+MATCH (dm:DerivedMetric {has_p_value: 'true'})
+WHERE dm.p_value_threshold IS NOT NULL
+CALL {
+  WITH dm
+  MATCH (dm)-[r:Derived_metric_quantifies_gene]->()
+  WHERE r.adjusted_p_value IS NOT NULL
+  SET r.significant = CASE
+    WHEN r.adjusted_p_value < dm.p_value_threshold THEN 'true'
+    ELSE 'false'
+  END
+} IN TRANSACTIONS OF 1000 ROWS;
 
-// OrganismTaxon: clustering_analysis_count, cluster_types, cluster_count
-MATCH (o:OrganismTaxon)
-OPTIONAL MATCH (ca:ClusteringAnalysis)-[:ClusteringanalysisBelongsToOrganism]->(o)
-WITH o,
-     count(ca) AS ca_count,
-     collect(DISTINCT ca.cluster_type) AS ctypes,
-     sum(coalesce(ca.cluster_count, 0)) AS total_clusters
-SET o.clustering_analysis_count = ca_count,
-    o.cluster_types = ctypes,
-    o.cluster_count = total_clusters;
+// Gene DM routing defaults + compute.
+// Defaults run first (every gene gets 0 / []), then 4 OPTIONAL-MATCH passes
+// override defaults only on genes reached by DM edges.
 
-// Publication: clustering_analysis_count, cluster_types, cluster_count
-MATCH (p:Publication)
-OPTIONAL MATCH (p)-[:PublicationHasClusteringAnalysis]->(ca:ClusteringAnalysis)
-WITH p,
-     count(ca) AS ca_count,
-     collect(DISTINCT ca.cluster_type) AS ctypes,
-     sum(coalesce(ca.cluster_count, 0)) AS total_clusters
-SET p.clustering_analysis_count = ca_count,
-    p.cluster_types = ctypes,
-    p.cluster_count = total_clusters;
+// Defaults
+MATCH (g:Gene)
+CALL {
+  WITH g
+  SET g.numeric_metric_count = 0,
+      g.classifier_flag_count = 0,
+      g.classifier_label_count = 0,
+      g.numeric_metric_types_observed = [],
+      g.classifier_flag_types_observed = [],
+      g.classifier_label_types_observed = [],
+      g.compartments_observed = []
+} IN TRANSACTIONS OF 1000 ROWS;
 
-// Experiment: clustering_analysis_count, cluster_types, cluster_count
-MATCH (e:Experiment)
-OPTIONAL MATCH (e)-[:ExperimentHasClusteringAnalysis]->(ca:ClusteringAnalysis)
-WITH e,
-     count(ca) AS ca_count,
-     collect(DISTINCT ca.cluster_type) AS ctypes,
-     sum(coalesce(ca.cluster_count, 0)) AS total_clusters
-SET e.clustering_analysis_count = ca_count,
-    e.cluster_types = ctypes,
-    e.cluster_count = total_clusters;
+// numeric_metric_count + numeric_metric_types_observed
+MATCH (g:Gene)
+CALL {
+  WITH g
+  OPTIONAL MATCH (dm:DerivedMetric)-[:Derived_metric_quantifies_gene]->(g)
+  WITH g,
+       count(DISTINCT dm) AS cnt,
+       [x IN collect(DISTINCT dm.metric_type) WHERE x IS NOT NULL] AS types
+  SET g.numeric_metric_count = cnt,
+      g.numeric_metric_types_observed = apoc.coll.sort(types)
+} IN TRANSACTIONS OF 1000 ROWS;
+
+// classifier_flag_count + classifier_flag_types_observed
+MATCH (g:Gene)
+CALL {
+  WITH g
+  OPTIONAL MATCH (dm:DerivedMetric)-[:Derived_metric_flags_gene]->(g)
+  WITH g,
+       count(DISTINCT dm) AS cnt,
+       [x IN collect(DISTINCT dm.metric_type) WHERE x IS NOT NULL] AS types
+  SET g.classifier_flag_count = cnt,
+      g.classifier_flag_types_observed = apoc.coll.sort(types)
+} IN TRANSACTIONS OF 1000 ROWS;
+
+// classifier_label_count + classifier_label_types_observed
+MATCH (g:Gene)
+CALL {
+  WITH g
+  OPTIONAL MATCH (dm:DerivedMetric)-[:Derived_metric_classifies_gene]->(g)
+  WITH g,
+       count(DISTINCT dm) AS cnt,
+       [x IN collect(DISTINCT dm.metric_type) WHERE x IS NOT NULL] AS types
+  SET g.classifier_label_count = cnt,
+      g.classifier_label_types_observed = apoc.coll.sort(types)
+} IN TRANSACTIONS OF 1000 ROWS;
+
+// compartments_observed: union across all 3 DM edge types via parent DerivedMetric
+MATCH (g:Gene)
+CALL {
+  WITH g
+  OPTIONAL MATCH (dm:DerivedMetric)
+    -[:Derived_metric_quantifies_gene|Derived_metric_flags_gene|Derived_metric_classifies_gene]->(g)
+  WITH g, [x IN collect(DISTINCT dm.compartment) WHERE x IS NOT NULL] AS comps
+  SET g.compartments_observed = apoc.coll.sort(comps)
+} IN TRANSACTIONS OF 1000 ROWS;
 
 // closest_ortholog_group_size + closest_ortholog_genera
 MATCH (g:Gene)
