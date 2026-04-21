@@ -126,7 +126,8 @@ def test_bucket_matches_pinned_thresholds(run_query):
     result = run_query("""
         MATCH ()-[r:Derived_metric_quantifies_gene]->()
         WHERE r.metric_bucket IS NOT NULL
-        WITH r, r.metric_percentile AS pct, r.metric_bucket AS bucket,
+        WITH r, r.metric_percentile AS pct, r.metric_bucket AS bucket
+        WITH r, pct, bucket,
              CASE
                WHEN pct >= 90.0 THEN 'top_decile'
                WHEN pct >= 75.0 THEN 'top_quartile'
