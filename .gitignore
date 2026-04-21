@@ -5,6 +5,13 @@ biocypher-*
 # Cluster extraction cache (versioned runs, pre-processing cache)
 .extraction_cache/
 
+# Claude Code runtime lock files (regenerated every session)
+.claude/scheduled_tasks.lock
+
+# Docker import artifacts (regenerated every rebuild)
+/output/import.report
+/output/import.status
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
