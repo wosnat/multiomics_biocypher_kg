@@ -43,6 +43,10 @@ For each snapshot:
 | `per_publication_by_direction` | Breakdown into `up` / `down` per publication |
 | `by_organism` | Counts grouped by the target gene's `organism_name` property |
 | `per_publication_genes` | Set of locus_tags with edges per publication (for gene-level diff) |
+| `total_Derived_metric_flags_gene` | Total boolean-DM flag edges (Experiment → DM → Gene) |
+| `total_Derived_metric_classifies_gene` | Total categorical-DM classify edges |
+| `total_Derived_metric_quantifies_gene` | Total numeric-DM quantify edges |
+| `dm_edges_per_publication` | Nested dict: `{edge_type: {doi: count}}` per publication |
 
 ## Key Cypher Queries
 
@@ -80,6 +84,10 @@ When the `resolve_paper_ids.py` stage (prepare_data step 4) creates `_resolved.c
 ### Backward compatibility
 
 When comparing against old snapshots that stored `condition_edges` and `coculture_edges` separately (from the pre-Experiment-node era), the tool sums them to compute the old total. The comparison works correctly across format versions.
+
+### DerivedMetric evidence (Plan 3)
+
+Snapshot also captures DerivedMetric edge counts alongside `Changes_expression_of`. Regression detection works the same way: a rebuild that loses DM edges flows into the regressions list + exit code 1. The DerivedMetric totals section is only printed in comparison reports when either snapshot carries DM edges — keeps pre-Plan-3 reports uncluttered.
 
 ## Snapshot Files
 

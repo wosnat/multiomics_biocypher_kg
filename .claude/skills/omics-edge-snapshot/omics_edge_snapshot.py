@@ -115,6 +115,28 @@ def capture_snapshot() -> dict:
         by_dir.setdefault(pub, {})[direction] = cnt
     snapshot["per_publication_by_direction"] = by_dir
 
+    # --- DM edge counts per publication + type ---
+    dm_edge_types = [
+        "Derived_metric_flags_gene",
+        "Derived_metric_classifies_gene",
+        "Derived_metric_quantifies_gene",
+    ]
+    snapshot["dm_edges_per_publication"] = {}
+    for edge_type in dm_edge_types:
+        rows = run_cypher(f"""
+            MATCH (pub:Publication)-[:PublicationHasDerivedMetric]->(dm:DerivedMetric)
+              -[r:{edge_type}]->(g:Gene)
+            RETURN pub.doi AS publication, count(r) AS edges
+            ORDER BY publication
+        """)
+        snapshot["dm_edges_per_publication"][edge_type] = {
+            _strip_quotes(r[0]): int(r[1]) for r in rows
+        }
+    # Total DM edge counts (derived, for quick-look reports)
+    for edge_type in dm_edge_types:
+        rows = run_cypher(f"MATCH ()-[r:{edge_type}]->() RETURN count(r) AS total")
+        snapshot[f"total_{edge_type}"] = int(rows[0][0]) if rows else 0
+
     # --- By target gene organism (strain) ---
     rows = run_cypher("""
         MATCH (e:Experiment)-[r:Changes_expression_of]->(g:Gene)
@@ -248,6 +270,28 @@ def compare_snapshots(old: dict, new: dict, old_name: str, new_name: str) -> int
         d = n - o
         d_str = f"+{d:,}" if d >= 0 else f"{d:,}"
         print(f"  {org:<35} {o:>7,} → {n:>7,}  ({d_str})")
+
+    # ---- DerivedMetric edge totals ----
+    dm_edge_types = [
+        "Derived_metric_flags_gene",
+        "Derived_metric_classifies_gene",
+        "Derived_metric_quantifies_gene",
+    ]
+    has_any_dm = any(
+        old.get(f"total_{et}", 0) > 0 or new.get(f"total_{et}", 0) > 0
+        for et in dm_edge_types
+    )
+    if has_any_dm:
+        print("\nDerivedMetric edge totals:")
+        for edge_type in dm_edge_types:
+            total_key = f"total_{edge_type}"
+            old_total = old.get(total_key, 0)
+            new_total = new.get(total_key, 0)
+            delta = new_total - old_total
+            d_str = f"+{delta:,}" if delta >= 0 else f"{delta:,}"
+            print(f"  {edge_type:<40} {old_total:>7,} -> {new_total:>7,}  ({d_str})")
+            if delta < 0:
+                regressions.append((f"<{edge_type} total>", old_total, new_total, -delta))
 
     # ---- Regressions (most important) ----
     print()
