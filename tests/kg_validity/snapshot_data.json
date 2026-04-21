@@ -660,9 +660,189 @@
       "source": "cyanorak.role:A.1",
       "target": "cyanorak.role:A",
       "type": "Cyanorak_role_is_a_cyanorak_role"
+    },
+    {
+      "properties": {},
+      "source": "doi:10.1128/mSystems.00040-18",
+      "target": "derived_metric:mSystems.00040-18:s4a_natl2a_axenic:periodic_in_axenic_LD",
+      "type": "PublicationHasDerivedMetric"
+    },
+    {
+      "properties": {},
+      "source": "doi:10.1128/mSystems.00040-18",
+      "target": "derived_metric:mSystems.00040-18:s4a_natl2a_axenic:periodic_in_axenic_extended_darkness",
+      "type": "PublicationHasDerivedMetric"
+    },
+    {
+      "properties": {},
+      "source": "doi:10.1128/mSystems.00040-18",
+      "target": "derived_metric:mSystems.00040-18:s4a_natl2a_coculture:periodic_in_coculture_LD",
+      "type": "PublicationHasDerivedMetric"
+    },
+    {
+      "properties": {},
+      "source": "doi:10.1128/mSystems.00040-18",
+      "target": "derived_metric:mSystems.00040-18:s4a_natl2a_coculture:periodic_in_coculture_extended_darkness",
+      "type": "PublicationHasDerivedMetric"
+    },
+    {
+      "properties": {},
+      "source": "doi:10.1128/mSystems.00040-18",
+      "target": "derived_metric:mSystems.00040-18:s4b_mit1002:periodic_in_coculture_LD",
+      "type": "PublicationHasDerivedMetric"
+    },
+    {
+      "properties": {},
+      "source": "10.1128/mSystems.00040-18_darkness_extended_darkness_mit1002_rnaseq",
+      "target": "derived_metric:mSystems.00040-18:s4b_mit1002:periodic_in_coculture_LD",
+      "type": "ExperimentHasDerivedMetric"
+    },
+    {
+      "properties": {},
+      "source": "10.1128/mSystems.00040-18_darkness_extended_darkness_mit1002_rnaseq",
+      "target": "derived_metric:mSystems.00040-18:s4b_mit1002:periodic_in_coculture_extended_darkness",
+      "type": "ExperimentHasDerivedMetric"
+    },
+    {
+      "properties": {},
+      "source": "10.1128/mSystems.00040-18_darkness_extended_darkness_natl2a_rnaseq_axenic",
+      "target": "derived_metric:mSystems.00040-18:s4a_natl2a_axenic:periodic_in_axenic_LD",
+      "type": "ExperimentHasDerivedMetric"
+    },
+    {
+      "properties": {},
+      "source": "10.1128/mSystems.00040-18_darkness_extended_darkness_natl2a_rnaseq_axenic",
+      "target": "derived_metric:mSystems.00040-18:s4a_natl2a_axenic:periodic_in_axenic_extended_darkness",
+      "type": "ExperimentHasDerivedMetric"
+    },
+    {
+      "properties": {},
+      "source": "10.1128/mSystems.00040-18_darkness_extended_darkness_natl2a_rnaseq_axenic",
+      "target": "derived_metric:mSystems.00040-18:s5_natl2a_survival:darkness_survival_class",
+      "type": "ExperimentHasDerivedMetric"
+    },
+    {
+      "properties": {},
+      "source": "derived_metric:mSystems.00040-18:s4a_natl2a_axenic:periodic_in_axenic_LD",
+      "target": "insdc.gcf:GCF_000012465.1",
+      "type": "DerivedMetricBelongsToOrganism"
+    },
+    {
+      "properties": {},
+      "source": "derived_metric:mSystems.00040-18:s4a_natl2a_axenic:periodic_in_axenic_extended_darkness",
+      "target": "insdc.gcf:GCF_000012465.1",
+      "type": "DerivedMetricBelongsToOrganism"
+    },
+    {
+      "properties": {},
+      "source": "derived_metric:mSystems.00040-18:s4a_natl2a_coculture:periodic_in_coculture_LD",
+      "target": "insdc.gcf:GCF_000012465.1",
+      "type": "DerivedMetricBelongsToOrganism"
+    },
+    {
+      "properties": {},
+      "source": "derived_metric:mSystems.00040-18:s4a_natl2a_coculture:periodic_in_coculture_extended_darkness",
+      "target": "insdc.gcf:GCF_000012465.1",
+      "type": "DerivedMetricBelongsToOrganism"
+    },
+    {
+      "properties": {},
+      "source": "derived_metric:mSystems.00040-18:s4b_mit1002:periodic_in_coculture_LD",
+      "target": "insdc.gcf:GCF_901457835.2",
+      "type": "DerivedMetricBelongsToOrganism"
+    },
+    {
+      "properties": {
+        "metric_type": "periodic_in_axenic_LD",
+        "value_flag": "true"
+      },
+      "source": "derived_metric:mSystems.00040-18:s4a_natl2a_axenic:periodic_in_axenic_LD",
+      "target": "ncbigene:PMN2A_0001",
+      "type": "Derived_metric_flags_gene"
+    },
+    {
+      "properties": {
+        "metric_type": "periodic_in_axenic_LD",
+        "value_flag": "true"
+      },
+      "source": "derived_metric:mSystems.00040-18:s4a_natl2a_axenic:periodic_in_axenic_LD",
+      "target": "ncbigene:PMN2A_0002",
+      "type": "Derived_metric_flags_gene"
+    },
+    {
+      "properties": {
+        "metric_type": "periodic_in_axenic_LD",
+        "value_flag": "true"
+      },
+      "source": "derived_metric:mSystems.00040-18:s4a_natl2a_axenic:periodic_in_axenic_LD",
+      "target": "ncbigene:PMN2A_0003",
+      "type": "Derived_metric_flags_gene"
+    },
+    {
+      "properties": {
+        "metric_type": "periodic_in_axenic_LD",
+        "value_flag": "true"
+      },
+      "source": "derived_metric:mSystems.00040-18:s4a_natl2a_axenic:periodic_in_axenic_LD",
+      "target": "ncbigene:PMN2A_0004",
+      "type": "Derived_metric_flags_gene"
+    },
+    {
+      "properties": {
+        "metric_type": "periodic_in_axenic_LD",
+        "value_flag": "true"
+      },
+      "source": "derived_metric:mSystems.00040-18:s4a_natl2a_axenic:periodic_in_axenic_LD",
+      "target": "ncbigene:PMN2A_0005",
+      "type": "Derived_metric_flags_gene"
+    },
+    {
+      "properties": {
+        "metric_type": "darkness_survival_class",
+        "value_text": "darkness_axenic+unique_axenic"
+      },
+      "source": "derived_metric:mSystems.00040-18:s5_natl2a_survival:darkness_survival_class",
+      "target": "ncbigene:PMN2A_0012",
+      "type": "Derived_metric_classifies_gene"
+    },
+    {
+      "properties": {
+        "metric_type": "darkness_survival_class",
+        "value_text": "darkness_axenic+darkness_coculture"
+      },
+      "source": "derived_metric:mSystems.00040-18:s5_natl2a_survival:darkness_survival_class",
+      "target": "ncbigene:PMN2A_0016",
+      "type": "Derived_metric_classifies_gene"
+    },
+    {
+      "properties": {
+        "metric_type": "darkness_survival_class",
+        "value_text": "darkness_axenic+darkness_coculture"
+      },
+      "source": "derived_metric:mSystems.00040-18:s5_natl2a_survival:darkness_survival_class",
+      "target": "ncbigene:PMN2A_0017",
+      "type": "Derived_metric_classifies_gene"
+    },
+    {
+      "properties": {
+        "metric_type": "darkness_survival_class",
+        "value_text": "darkness_axenic+darkness_coculture"
+      },
+      "source": "derived_metric:mSystems.00040-18:s5_natl2a_survival:darkness_survival_class",
+      "target": "ncbigene:PMN2A_0020",
+      "type": "Derived_metric_classifies_gene"
+    },
+    {
+      "properties": {
+        "metric_type": "darkness_survival_class",
+        "value_text": "darkness_axenic+darkness_coculture"
+      },
+      "source": "derived_metric:mSystems.00040-18:s5_natl2a_survival:darkness_survival_class",
+      "target": "ncbigene:PMN2A_0036",
+      "type": "Derived_metric_classifies_gene"
     }
   ],
-  "generated_at": "2026-04-17T07:07:00.442701+00:00",
+  "generated_at": "2026-04-21T06:40:03.880357+00:00",
   "nodes": [
     {
       "anchor": true,
@@ -1490,6 +1670,108 @@
       "label": "TigrRole",
       "properties": {
         "code": "105"
+      }
+    },
+    {
+      "anchor": true,
+      "id": "derived_metric:mSystems.00040-18:s4a_natl2a_axenic:periodic_in_axenic_LD",
+      "label": "DerivedMetric",
+      "properties": {
+        "compartment": "whole_cell",
+        "experiment_id": "10.1128/mSystems.00040-18_darkness_extended_darkness_natl2a_rnaseq_axenic",
+        "has_p_value": "false",
+        "metric_type": "periodic_in_axenic_LD",
+        "name": "Periodic in NATL2A axenic L:D (Table S4A)",
+        "omics_type": "RNASEQ",
+        "organism_name": "Prochlorococcus NATL2A",
+        "rankable": "false",
+        "total_gene_count": 1377,
+        "value_kind": "boolean"
+      }
+    },
+    {
+      "anchor": true,
+      "id": "derived_metric:mSystems.00040-18:s5_natl2a_survival:darkness_survival_class",
+      "label": "DerivedMetric",
+      "properties": {
+        "compartment": "whole_cell",
+        "experiment_id": "10.1128/mSystems.00040-18_darkness_extended_darkness_natl2a_rnaseq_axenic",
+        "has_p_value": "false",
+        "metric_type": "darkness_survival_class",
+        "name": "NATL2A darkness survival class (Table S5)",
+        "omics_type": "RNASEQ",
+        "organism_name": "Prochlorococcus NATL2A",
+        "rankable": "false",
+        "total_gene_count": 258,
+        "value_kind": "categorical"
+      }
+    },
+    {
+      "anchor": false,
+      "id": "derived_metric:mSystems.00040-18:s4a_natl2a_axenic:periodic_in_axenic_extended_darkness",
+      "label": "DerivedMetric",
+      "properties": {
+        "compartment": "whole_cell",
+        "experiment_id": "10.1128/mSystems.00040-18_darkness_extended_darkness_natl2a_rnaseq_axenic",
+        "has_p_value": "false",
+        "metric_type": "periodic_in_axenic_extended_darkness",
+        "name": "Periodic in NATL2A axenic extended darkness (Table S4A)",
+        "omics_type": "RNASEQ",
+        "organism_name": "Prochlorococcus NATL2A",
+        "rankable": "false",
+        "total_gene_count": 112,
+        "value_kind": "boolean"
+      }
+    },
+    {
+      "anchor": false,
+      "id": "derived_metric:mSystems.00040-18:s4a_natl2a_coculture:periodic_in_coculture_LD",
+      "label": "DerivedMetric",
+      "properties": {
+        "compartment": "whole_cell",
+        "experiment_id": "10.1128/mSystems.00040-18_darkness_extended_darkness_natl2a_rnaseq_coculture",
+        "has_p_value": "false",
+        "metric_type": "periodic_in_coculture_LD",
+        "name": "Periodic in NATL2A coculture L:D (Table S4A)",
+        "omics_type": "RNASEQ",
+        "organism_name": "Prochlorococcus NATL2A",
+        "rankable": "false",
+        "total_gene_count": 1651,
+        "value_kind": "boolean"
+      }
+    },
+    {
+      "anchor": false,
+      "id": "derived_metric:mSystems.00040-18:s4a_natl2a_coculture:periodic_in_coculture_extended_darkness",
+      "label": "DerivedMetric",
+      "properties": {
+        "compartment": "whole_cell",
+        "experiment_id": "10.1128/mSystems.00040-18_darkness_extended_darkness_natl2a_rnaseq_coculture",
+        "has_p_value": "false",
+        "metric_type": "periodic_in_coculture_extended_darkness",
+        "name": "Periodic in NATL2A coculture extended darkness (Table S4A)",
+        "omics_type": "RNASEQ",
+        "organism_name": "Prochlorococcus NATL2A",
+        "rankable": "false",
+        "total_gene_count": 503,
+        "value_kind": "boolean"
+      }
+    },
+    {
+      "anchor": false,
+      "id": "derived_metric:mSystems.00040-18:s4b_mit1002:periodic_in_coculture_LD",
+      "label": "DerivedMetric",
+      "properties": {
+        "compartment": "whole_cell",
+        "experiment_id": "10.1128/mSystems.00040-18_darkness_extended_darkness_mit1002_rnaseq",
+        "has_p_value": "false",
+        "metric_type": "periodic_in_coculture_LD",
+        "name": "Periodic in MIT1002 coculture L:D (Table S4B)",
+        "omics_type": "RNASEQ",
+        "organism_name": "Alteromonas macleodii MIT1002",
+        "rankable": "false",
+        "total_gene_count": 515,
+        "value_kind": "boolean"
       }
     }
   ]

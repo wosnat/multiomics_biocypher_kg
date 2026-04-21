@@ -61,6 +61,11 @@ ANCHOR_NODES = {
         "cyanorak.role:0",   # Non-coding gene (RNA) — root of ncRNA subtree
         "cyanorak.role:A",   # Amino acid biosynthesis — always present
     ],
+    "DerivedMetric": [
+        # Biller 2018 retrofitted boolean + categorical DMs — always present post-Plan-3
+        "derived_metric:mSystems.00040-18:s4a_natl2a_axenic:periodic_in_axenic_LD",
+        "derived_metric:mSystems.00040-18:s5_natl2a_survival:darkness_survival_class",
+    ],
 }
 
 # Key properties to capture per node type
@@ -83,6 +88,11 @@ NODE_PROPERTIES = {
     "CogFunctionalCategory": ["code", "name"],
     "CyanorakRole": ["code", "description"],
     "TigrRole": ["code", "description"],
+    "DerivedMetric": [
+        "name", "metric_type", "value_kind", "experiment_id",
+        "organism_name", "compartment", "omics_type", "total_gene_count",
+        "rankable", "has_p_value",
+    ],
 }
 
 # Key properties to capture per edge type
@@ -116,6 +126,17 @@ EDGE_PROPERTIES = {
     "Gene_has_cyanorak_role": [],
     "Gene_has_tigr_role": [],
     "Cyanorak_role_is_a_cyanorak_role": [],
+    # DerivedMetric binding edges (Plan 3)
+    "PublicationHasDerivedMetric": [],
+    "ExperimentHasDerivedMetric": [],
+    "DerivedMetricBelongsToOrganism": [],
+    # DerivedMetric measurement edges (Plan 3)
+    "Derived_metric_flags_gene": ["metric_type", "value_flag"],
+    "Derived_metric_classifies_gene": ["metric_type", "value_text"],
+    "Derived_metric_quantifies_gene": [
+        "metric_type", "value", "adjusted_p_value",
+        "rank_by_metric", "metric_percentile", "metric_bucket", "significant",
+    ],
 }
 
 SAMPLE_SIZE = 5
