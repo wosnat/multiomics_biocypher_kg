@@ -113,6 +113,7 @@ def main():
         config_list_file=[
             'data/Prochlorococcus/papers_and_supp/paperconfig_files.txt',
             'data/Synechococcus/papers_and_supp/paperconfig_files.txt',
+            'tests/fixtures/non_de/paperconfig_files.txt',  # TEMP Plan 3 Task 10 — unwire before Task 15
         ],
         genome_config_file='data/Prochlorococcus/genomes/cyanobacteria_genomes.csv',
         test_mode=TEST_MODE,
