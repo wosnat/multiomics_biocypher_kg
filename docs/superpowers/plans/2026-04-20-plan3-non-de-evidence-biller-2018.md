@@ -2670,3 +2670,71 @@ No placeholders. All Cypher in tasks is complete and runnable.
 - Once a paper with numeric DMs is integrated (Waldbauer 2012 / zinser 2009 / Biller 2022), regenerate `snapshot_data.json` so `Derived_metric_quantifies_gene` gets real sample edges in the snapshot (currently empty in production).
 - AbundanceAnalysis slice — parent spec §1, triggered by Biller 2022 vesicles or Oleza 2015/2017 exoproteome. Separate plan.
 - MCP tool surface (`gene_derived_metrics`, `derived_metric_ranked_genes`, `publication_derived_metrics`) — MCP team's follow-up, unblocked by this slice's comms doc.
+
+---
+
+## Completion status (2026-04-21)
+
+All 21 tasks executed via `superpowers:subagent-driven-development`. 19 commits on `dev` from base `d03b4b4` (plan) through HEAD `1357b5e`:
+
+| Task | Commit | Summary |
+|---|---|---|
+| 0 | — | Captured DE-only baseline `/tmp/before_plan3.txt` (ephemeral) |
+| 1 | `d8164d6` | Schema declarations (5+5+5+7 props on Publication/Experiment/OrganismTaxon/Gene) |
+| 2 | `cfe7934` | 8 scalar + 1 full-text index for DerivedMetric + experiment_compartment |
+| 3 | `d5dd7e0` | DM `total_gene_count` + `growth_phases` rollups |
+| 4 | `0e18fdb` | Experiment DM rollups (5 fields incl. `reports_fold_change`) |
+| 5 | `6d4f18e` | Publication + OrganismTaxon DM rollups (5 each) |
+| 6 | `a41553b` | Numeric DM `rank_by_metric` / `metric_percentile` / `metric_bucket` |
+| 7 | `2069cf5` | Numeric DM `significant` derivation |
+| 8 | `ee35ce1` | Gene DM routing counts (3 counts + 3 types_observed + compartments_observed) |
+| 9 | `63ef971` | Mirror `.cypher` byte-identical; 7 new sections in validate.sh |
+| 10 | `8a6a928`, `bfabbf1`, `798ec38` | Wire fixture + Docker rebuild #1 + fix fixture Pub/Exp binding via OMICS adapter skip_pdf_extraction flag |
+| 11 | `4a809ee` | `test_derived_metric.py` — 59 KG validity tests (binding, denormalization, rollups, empty-state, indexes) |
+| 12 | `6b32cfd` | `test_numeric_derived_metric.py` — 13 tests (rank contiguity, bucket thresholds, significance) |
+| 13 | `798ec38` | `EXPECTED_INDEXES` +9 entries; `pytest -m kg` green (594 passed initially, later 612 with rebuild variance) |
+| 14 | `5614d02` | `/omics-edge-snapshot` — captures DM edge counts + totals + per-pub |
+| 15 | `3b78264` | Unwire fixture; Docker rebuild #2 (production, fixture-free) |
+| 16 | `6c9e4dd` | `generate_snapshot.py` extended + `snapshot_data.json` regenerated (85 nodes, 130 edges) |
+| 17 | `b0331d7` | `docs/kg-changes/non-de-evidence-extension.md` (comms doc, 123 lines) |
+| 18 | `1357b5e` | paperconfig SKILL.md (`derived_metrics_table` + `compartment`); cypher-queries SKILL.md (6 query templates) |
+| 19 | `5290cf3` | CLAUDE.md key-facts (DerivedMetric + compartment + rollups + entry type) |
+
+**Test status (final, HEAD `1357b5e`, production graph post rebuild #2):**
+- `pytest -m "not slow and not kg"` — **1,588 passed** (0 regressions from Plan 2 baseline)
+- `pytest -m kg` — **612 passed, 13 skipped** (numeric DM tests auto-skip in fixture-free graph as designed)
+
+**Graph state (production, Docker rebuild #2):**
+- `Changes_expression_of`: **227,361** (DE parity intact from Plan 2 baseline)
+- `DerivedMetric` nodes: **7** (6 boolean + 1 categorical; Biller 2018 retrofit)
+- `Derived_metric_flags_gene`: **4,160**
+- `Derived_metric_classifies_gene`: **258**
+- `Derived_metric_quantifies_gene`: **0** (awaits first numeric-DM paper integration; Cypher validated via synthetic fixture during rebuild #1)
+- 3 binding edges (Pub/Exp/Organism → DM): **7 each**
+- `import.report`: empty (0 skipped rows)
+
+**DE parity check via `/omics-edge-snapshot --compare after_biller2018_retrofit_removal`:** all 31 publications unchanged `+0`; DM edges IMPROVED `0 → 4,160 / 0 → 258 / 0 → 0`; no regressions; exit 0.
+
+**Definition of done — all met:**
+- ✅ `pytest -m kg` green
+- ✅ `pytest -m "not slow and not kg"` green
+- ✅ `/omics-edge-snapshot` reports expected DerivedMetric counts; DE unchanged
+- ✅ All docs / skill files committed
+
+### Deviations from plan
+
+1. **Plan assumed fixture Pub/Exp would auto-exist** but only the observations_adapter consumed `tests/fixtures/non_de/paperconfig_files.txt` — OMICS adapter (which creates Publication + Experiment nodes) didn't. Fixed by (a) wiring fixture into OMICS adapter `config_list_file`, (b) adding `skip_pdf_extraction: true` opt-in flag to OMICS adapter for PDF-less fixtures. See `bfabbf1`.
+2. **Two Cypher WITH-scope bugs** in test code (`test_dm_emits_only_one_edge_type`, `test_bucket_matches_pinned_thresholds`) — same pattern: variable defined in WITH projection referenced in same-WITH CASE. Fixed by splitting into two WITH clauses or WHERE. See `bfabbf1`, `798ec38`.
+3. **Empty `control_condition` on fixture** tripped `test_experiments_have_control` (not a production concern). Fixed in `798ec38`.
+4. **Task 18 agent** blocked by `.claude/` write-permission restriction in its subagent context; completed directly by controller.
+5. **Docker rebuild fast path** — both rebuilds completed in ~15 min (plan anticipated 45-60 min); Docker layer caching was more effective than expected.
+
+### Follow-ups (noted but not in Plan 3 DoD)
+
+- Pre-existing untracked files in the `bfabbf1` commit (`.claude/scheduled_tasks.lock`, `docs/superpowers/plans/2026-04-19-plan1-non-de-evidence-biller-2018.md`) were inadvertently committed. Low-impact noise; can be cleaned up with a follow-up commit if desired.
+- Non-DE Gene ID observation: `MIT1002_01136` / `MIT1002_04036` swapped between snapshots (unrelated to Plan 3; ID-resolution drift in Coe 2024 data).
+- First real-paper numeric-DM paper integration (Waldbauer 2012 / zinser 2009 / Biller 2022) will populate `Derived_metric_quantifies_gene` in production and auto-populate snapshot samples for that edge type.
+
+### Next: AbundanceAnalysis slice
+
+Parent spec §1 defines `AbundanceAnalysis` node + 3 binding edges + `abundance_analysis_measures_gene`. Driven by Biller 2022 vesicles, Oleza 2015/2017 exoproteome, Waldbauer 2012 paired-modality — own spec + plan when ready.
