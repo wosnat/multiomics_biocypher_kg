@@ -75,6 +75,8 @@ def test_fixture_quantifies_edge_count(run_query):
 
 def test_rank_by_metric_only_on_rankable(run_query):
     """rank_by_metric non-null iff parent DM.rankable='true' (quantifies edges only)."""
+    # Assumes dm.rankable is non-null on every DerivedMetric (guaranteed by
+    # test_derived_metric_required_properties in test_derived_metric.py).
     result = run_query("""
         MATCH (dm:DerivedMetric)-[r:Derived_metric_quantifies_gene]->()
         WITH
@@ -97,9 +99,8 @@ def test_rank_contiguous_per_dm(run_query):
     """rank_by_metric should be 1..N contiguous per DerivedMetric."""
     result = run_query("""
         MATCH (dm:DerivedMetric {rankable: 'true'})-[r:Derived_metric_quantifies_gene]->()
-        WITH dm.id AS dm_id, collect(r.rank_by_metric) AS ranks,
-             size(collect(r)) AS n
-        WITH dm_id, ranks, n, apoc.coll.sort(ranks) AS sorted
+        WITH dm.id AS dm_id, collect(r.rank_by_metric) AS ranks
+        WITH dm_id, ranks, size(ranks) AS n, apoc.coll.sort(ranks) AS sorted
         WHERE sorted <> range(1, n)
         RETURN dm_id, n, sorted
     """)

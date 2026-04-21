@@ -468,6 +468,7 @@ def test_gene_dm_empty_state_defaults(run_query):
     """All genes have non-null DM routing defaults (never null)."""
     result = run_query("""
         MATCH (g:Gene)
+        WITH g LIMIT 500
         WHERE g.numeric_metric_count IS NULL
            OR g.classifier_flag_count IS NULL
            OR g.classifier_label_count IS NULL

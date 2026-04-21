@@ -49,6 +49,18 @@ CREATE FULLTEXT INDEX pfamFullText IF NOT EXISTS
 CREATE FULLTEXT INDEX pfamClanFullText IF NOT EXISTS
   FOR (c:PfamClan) ON EACH [c.name];
 
+// ── BriteCategory indexes ───────────────────────────────────────────────
+CREATE INDEX brite_category_tree_idx IF NOT EXISTS FOR (b:BriteCategory) ON (b.tree_code);
+CREATE INDEX brite_category_level_idx IF NOT EXISTS FOR (b:BriteCategory) ON (b.level);
+CREATE INDEX brite_category_name_idx IF NOT EXISTS FOR (b:BriteCategory) ON (b.name);
+
+CREATE FULLTEXT INDEX briteCategoryFullText IF NOT EXISTS
+  FOR (b:BriteCategory) ON EACH [b.name];
+
+// Publication fulltext index
+CREATE FULLTEXT INDEX publicationFullText IF NOT EXISTS
+  FOR (p:Publication) ON EACH [p.title, p.abstract, p.description];
+
 // Experiment indexes
 CREATE INDEX experiment_id_idx IF NOT EXISTS FOR (e:Experiment) ON (e.id);
 CREATE INDEX experiment_organism_idx IF NOT EXISTS FOR (e:Experiment) ON (e.organism_name);
@@ -87,18 +99,6 @@ CREATE INDEX experiment_compartment_idx IF NOT EXISTS FOR (e:Experiment) ON (e.c
 // ── GeneCluster indexes ─────────────────────────────────────────────────
 CREATE FULLTEXT INDEX geneClusterFullText IF NOT EXISTS
   FOR (gc:GeneCluster) ON EACH [gc.name, gc.functional_description, gc.temporal_pattern, gc.expression_dynamics];
-
-// ── BriteCategory indexes ───────────────────────────────────────────────
-CREATE INDEX brite_category_tree_idx IF NOT EXISTS FOR (b:BriteCategory) ON (b.tree_code);
-CREATE INDEX brite_category_level_idx IF NOT EXISTS FOR (b:BriteCategory) ON (b.level);
-CREATE INDEX brite_category_name_idx IF NOT EXISTS FOR (b:BriteCategory) ON (b.name);
-
-CREATE FULLTEXT INDEX briteCategoryFullText IF NOT EXISTS
-  FOR (b:BriteCategory) ON EACH [b.name];
-
-// Publication fulltext index
-CREATE FULLTEXT INDEX publicationFullText IF NOT EXISTS
-  FOR (p:Publication) ON EACH [p.title, p.abstract, p.description];
 
 // -----------------------------------------------------------------------
 // ── GeneCluster member_count verification ──────────────────────────────
@@ -589,10 +589,12 @@ CALL {
 MATCH (b:BriteCategory)
 CALL {
   WITH b
+  // member_ko_count: KO leaves directly or transitively under this category
   MATCH (b)<-[:Brite_category_is_a_brite_category*0..]-(leaf:BriteCategory)
   OPTIONAL MATCH (ko:KeggTerm)-[:Kegg_term_in_brite_category]->(leaf)
   WHERE ko.level_kind = 'ko'
   WITH b, count(DISTINCT ko) AS ko_count
+  // gene_count and organism_count via KO→gene edges
   OPTIONAL MATCH (b)<-[:Brite_category_is_a_brite_category*0..]-(leaf2:BriteCategory)
   OPTIONAL MATCH (ko2:KeggTerm)-[:Kegg_term_in_brite_category]->(leaf2)
   WHERE ko2.level_kind = 'ko'
