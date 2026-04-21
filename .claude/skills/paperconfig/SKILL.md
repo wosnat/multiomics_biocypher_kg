@@ -64,6 +64,8 @@ The `experiments` block defines experiment-level metadata that is shared across 
       test_type: DESeq2               # statistical method
       treatment_type: [coculture]     # canonical treatment category list (see below)
       background_factors: []          # experimental context factors list (see below, optional)
+      compartment: "whole_cell"       # optional; default "whole_cell". Values: whole_cell | vesicle | exoproteome | secretome
+                                      # Different compartments from the same paper MUST be split into separate Experiments.
       treatment_condition: "Coculture with Alteromonas HOT1A3"
       control_condition: "Axenic"
       experimental_context: "in Pro99 medium under continuous light"
@@ -224,7 +226,16 @@ comparison share one experiment. Key rules:
 
 ### 3. Supplementary Materials (Required)
 
-Each supplementary table is a keyed entry under `supplementary_materials`. Three entry types are supported:
+Each supplementary table is a keyed entry under `supplementary_materials`. Five entry types are supported:
+
+| Type | Purpose |
+|---|---|
+| `csv` | Differential expression results table with `statistical_analyses` |
+| `id_translation` | Pure ID mapping (no DE data); bridges non-standard IDs to locus tags |
+| `annotation_gff` | GFF3/GTF file; adds protein_id/Name bridges for a strain |
+| `gene_clusters` | Cluster assignment table; creates ClusteringAnalysis + GeneCluster nodes |
+| `derived_metrics_table` | Column-level scalar summaries (periodicity flags, classifiers, numeric scores); creates DerivedMetric nodes + one of 3 measurement edge types per metric |
+
 
 #### Type `csv` -- Expression data table (required for omics edges)
 
@@ -363,6 +374,127 @@ med4_kmeans_nstarvation:
 - Gene IDs go through the same step 4 resolution pipeline as DE tables
 - For papers with separate clusters per organism, use separate `type: gene_clusters` entries (one per organism/analysis)
 - `treatment_type` must be an array (same enum as experiments)
+
+### `type: derived_metrics_table`
+
+Column-level scalar summaries per gene (periodicity flags, classifiers, numeric scores). Processed by `observations_adapter.py`. Creates one DerivedMetric node per metric and emits one of 3 measurement edge types to Gene based on `value_kind`.
+
+**Entry key** must be short, meaningful, unique within the paper (used in graph node IDs as `derived_metric:{doi_short}:{entry_key}:{metric_type}`).
+
+**Required fields (entry level):**
+
+| Field | Type | Description |
+|---|---|---|
+| `filename` | str | Path to metrics CSV |
+| `organism` | str | Target organism (canonical name) |
+| `experiment` | str | Key into the `experiments:` block — parent Experiment for all metrics in this entry |
+| `name_col` | str | CSV column with gene identifiers (usually `locus_tag`) |
+| `id_columns` | list | Maps `name_col` to `id_type` (see ID Types below) |
+| `metrics` | list | One or more metric definitions |
+
+**Per-metric required fields:**
+
+| Field | Type | Description |
+|---|---|---|
+| `metric_type` | str | Short metric identifier (e.g. `periodic_in_axenic_LD`, `darkness_survival_class`, `fourier_score`) |
+| `value_kind` | str | `numeric` \| `boolean` \| `categorical` — determines which edge type is emitted |
+| `value_col` | str | CSV column holding the metric value |
+| `field_description` | str | Free-text description of what the metric measures |
+
+**Per-metric optional fields:**
+
+| Field | Type | Description |
+|---|---|---|
+| `name` | str | Human-readable metric label (defaults to `metric_type` if absent) |
+| `unit` | str | Unit of measurement (numeric only) |
+| `blank_policy` | str | **REQUIRED when `value_kind: boolean`.** `skip` \| `false` \| `true` — how to treat blank/NaN cells |
+| `allowed_categories` | str[] | **REQUIRED when `value_kind: categorical`.** Validator rejects rows with values outside this list |
+| `rankable` | str | `"true"` \| `"false"` (**string**, never bool) — numeric only; governs post-import `rank_by_metric` / `metric_percentile` / `metric_bucket` |
+| `has_p_value` | str | `"true"` \| `"false"` (**string**) — numeric only; enables `significant` derivation |
+| `p_value_col` | str | CSV column for raw p-values (numeric + `has_p_value="true"`) |
+| `adjusted_p_value_col` | str | CSV column for adjusted p-values (numeric + `has_p_value="true"`) |
+| `p_value_threshold` | float | Cutoff for `significant` derivation (numeric + `has_p_value="true"`) |
+
+**Emitted edges:**
+
+| `value_kind` | Edge type | Edge properties |
+|---|---|---|
+| `numeric` | `Derived_metric_quantifies_gene` | `value`, `p_value`, `adjusted_p_value`, plus post-import `rank_by_metric` / `metric_percentile` / `metric_bucket` (if rankable) / `significant` (if has_p_value) |
+| `boolean` | `Derived_metric_flags_gene` | `value_flag ∈ {"true","false"}` |
+| `categorical` | `Derived_metric_classifies_gene` | `value_text` (must match `allowed_categories`) |
+
+**Examples:**
+
+```yaml
+# BOOLEAN: periodicity flags per gene
+s4a_natl2a_axenic:
+  type: derived_metrics_table
+  filename: "data/.../Biller 2018/table_s4a.csv"
+  organism: "Prochlorococcus NATL2A"
+  experiment: darkness_extended_darkness_natl2a_rnaseq_axenic
+  name_col: locus_tag
+  id_columns:
+    - column: locus_tag
+      id_type: locus_tag
+  metrics:
+    - metric_type: periodic_in_axenic_LD
+      name: "Periodic in NATL2A axenic L:D (Table S4A)"
+      value_kind: boolean
+      value_col: periodic_in_LD
+      blank_policy: skip
+      field_description: "Boolean flag: periodic under 12:12 L:D in axenic NATL2A"
+
+# CATEGORICAL: survival classes
+s5_natl2a_survival:
+  type: derived_metrics_table
+  filename: "data/.../Biller 2018/table_s5.csv"
+  organism: "Prochlorococcus NATL2A"
+  experiment: darkness_extended_darkness_natl2a_rnaseq_axenic
+  name_col: locus_tag
+  id_columns:
+    - column: locus_tag
+      id_type: locus_tag
+  metrics:
+    - metric_type: darkness_survival_class
+      name: "NATL2A darkness survival class (Table S5)"
+      value_kind: categorical
+      value_col: survival_class
+      allowed_categories:
+        - "strongly_upregulated"
+        - "moderately_upregulated"
+        - "unchanged"
+        - "moderately_downregulated"
+        - "strongly_downregulated"
+      field_description: "Five-level survival-class assignment"
+
+# NUMERIC: rankable periodicity score with p-value
+fourier_metrics:
+  type: derived_metrics_table
+  filename: "data/.../fourier_scores.csv"
+  organism: "Prochlorococcus MED4"
+  experiment: diel_rnaseq_med4
+  name_col: locus_tag
+  id_columns:
+    - column: locus_tag
+      id_type: locus_tag
+  metrics:
+    - metric_type: fourier_score
+      value_kind: numeric
+      value_col: fourier
+      unit: ""
+      rankable: "true"
+      has_p_value: "true"
+      p_value_col: p_value
+      adjusted_p_value_col: adj_p_value
+      p_value_threshold: 0.05
+      field_description: "Fourier-transform periodicity score"
+```
+
+**Notes:**
+- Each DerivedMetric emits exactly ONE edge type — determined by `value_kind`. Mixing edge types under one DM would be a bug.
+- Gene IDs go through the same step 4 resolution pipeline as DE tables.
+- `allowed_categories` is mandatory for categorical metrics. Rows with values outside the list are skipped (and logged).
+- For papers with paired-modality metrics (e.g., transcript × protein lag coefficients), link all metrics to a single `PAIRED_RNASEQ_PROTEOME` Experiment rather than to individual source-modality experiments.
 
 #### ID Types (`id_type` values)
 

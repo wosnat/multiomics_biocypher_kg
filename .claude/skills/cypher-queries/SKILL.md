@@ -731,3 +731,79 @@ When the user invokes this skill (e.g., `/cypher-queries "genes affected by Alte
 - Treatment organisms (Phage, Marinobacter, etc.) use `organism_name` not `strain_name` (strain_name is null for them)
 - Use `treatment_type` on Experiment nodes for filtering by experiment category (e.g., `nutrient_stress`, `light_stress`, `coculture`)
 - Publication DOIs are stored as Publication node IDs (e.g., `10.1038/...`), not prefixed with `doi:`
+
+## DerivedMetric queries (non-DE evidence)
+
+Plan 3 (non-DE evidence slice) added DerivedMetric nodes that capture per-gene scalar summaries (periodicity flags, classification labels, numeric scores) from differential expression publications. Each DM emits ONE of three measurement edge types based on its `value_kind`:
+
+- `Derived_metric_flags_gene` (`value_kind: boolean`, property `value_flag ∈ {"true","false"}`)
+- `Derived_metric_classifies_gene` (`value_kind: categorical`, property `value_text` must match parent `allowed_categories`)
+- `Derived_metric_quantifies_gene` (`value_kind: numeric`, properties `value`, `p_value`, `adjusted_p_value`, plus post-import `rank_by_metric` / `metric_percentile` / `metric_bucket` / `significant`)
+
+Binding edges (BioCypher CamelCase): `PublicationHasDerivedMetric`, `ExperimentHasDerivedMetric`, `DerivedMetricBelongsToOrganism`.
+
+### Boolean flags: genes flagged for a property
+
+```cypher
+MATCH (dm:DerivedMetric {metric_type: $metric_type})
+  -[r:Derived_metric_flags_gene]->(g:Gene)
+WHERE r.value_flag = 'true'
+  AND g.organism_name = $organism
+RETURN g.locus_tag, g.product
+ORDER BY g.locus_tag;
+```
+Example: `$metric_type = "periodic_in_axenic_LD"`, `$organism = "Prochlorococcus NATL2A"` — lists genes flagged periodic under axenic L:D in NATL2A.
+
+### Categorical labels: genes bucketed by category
+
+```cypher
+MATCH (dm:DerivedMetric {metric_type: $metric_type})
+  -[r:Derived_metric_classifies_gene]->(g:Gene)
+RETURN r.value_text AS category, count(g) AS gene_count
+ORDER BY gene_count DESC;
+```
+Example: `$metric_type = "darkness_survival_class"` — gene count per survival class.
+
+### Numeric rankings: top-N genes by rank_by_metric
+
+```cypher
+MATCH (dm:DerivedMetric {metric_type: $metric_type, rankable: 'true'})
+  -[r:Derived_metric_quantifies_gene]->(g:Gene)
+WHERE r.rank_by_metric <= $top_n
+RETURN g.organism_name, g.locus_tag, r.rank_by_metric, r.value,
+       r.metric_bucket, r.significant
+ORDER BY r.rank_by_metric;
+```
+
+### Numeric filter by bucket + significance
+
+```cypher
+MATCH (dm:DerivedMetric {metric_type: $metric_type})
+  -[r:Derived_metric_quantifies_gene]->(g:Gene)
+WHERE r.metric_bucket IN ['top_decile', 'top_quartile']
+  AND r.significant = 'true'
+RETURN g.locus_tag, r.value, r.adjusted_p_value, r.metric_percentile
+ORDER BY r.value DESC;
+```
+
+### All DerivedMetric evidence for one gene (routing query)
+
+```cypher
+MATCH (g:Gene {locus_tag: $locus_tag})
+OPTIONAL MATCH (dm1:DerivedMetric)-[r1:Derived_metric_quantifies_gene]->(g)
+OPTIONAL MATCH (dm2:DerivedMetric)-[r2:Derived_metric_flags_gene]->(g)
+OPTIONAL MATCH (dm3:DerivedMetric)-[r3:Derived_metric_classifies_gene]->(g)
+RETURN
+  collect(DISTINCT {type: 'numeric', metric_type: dm1.metric_type, value: r1.value, bucket: r1.metric_bucket, significant: r1.significant}) AS numeric_metrics,
+  collect(DISTINCT {type: 'boolean', metric_type: dm2.metric_type, value_flag: r2.value_flag}) AS flags,
+  collect(DISTINCT {type: 'categorical', metric_type: dm3.metric_type, value_text: r3.value_text}) AS labels;
+```
+
+### Gene routing signals (no edge traversal — read precomputed properties)
+
+```cypher
+MATCH (g:Gene {locus_tag: $locus_tag})
+RETURN g.numeric_metric_count, g.classifier_flag_count, g.classifier_label_count,
+       g.numeric_metric_types_observed, g.classifier_flag_types_observed,
+       g.classifier_label_types_observed, g.compartments_observed;
+```
