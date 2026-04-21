@@ -280,14 +280,10 @@ def test_dm_emits_only_one_edge_type(run_query):
              count { (dm)-[:Derived_metric_quantifies_gene]->() } AS n_quant,
              count { (dm)-[:Derived_metric_flags_gene]->() } AS n_flag,
              count { (dm)-[:Derived_metric_classifies_gene]->() } AS n_class
-        WITH dm, dm.value_kind AS vk, n_quant, n_flag, n_class,
-             CASE
-               WHEN vk = 'numeric' THEN (n_flag > 0 OR n_class > 0)
-               WHEN vk = 'boolean' THEN (n_quant > 0 OR n_class > 0)
-               WHEN vk = 'categorical' THEN (n_quant > 0 OR n_flag > 0)
-               ELSE true
-             END AS wrong_type
-        WHERE wrong_type
+        WITH dm, dm.value_kind AS vk, n_quant, n_flag, n_class
+        WHERE (vk = 'numeric' AND (n_flag > 0 OR n_class > 0))
+           OR (vk = 'boolean' AND (n_quant > 0 OR n_class > 0))
+           OR (vk = 'categorical' AND (n_quant > 0 OR n_flag > 0))
         RETURN count(dm) AS bad, collect(dm.id)[..3] AS examples
     """)
     assert result[0]["bad"] == 0, (

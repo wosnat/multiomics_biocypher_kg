@@ -1,7 +1,7 @@
 publication:
   papername: "Synthetic Numeric DM Fixture"
   doi: "10.9999/synthetic-numeric-dm"
-  # papermainpdf intentionally omitted — test-only fixture, no PDF extractor run
+  skip_pdf_extraction: true   # test-only fixture: seed minimal metadata from paperconfig, no PDF
   experiments:
     synthetic_diel_rnaseq:
       name: "Synthetic MED4 diel RNA-seq"

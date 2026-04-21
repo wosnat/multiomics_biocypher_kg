@@ -880,6 +880,16 @@ EXPECTED_INDEXES = {
     "clustering_analysis_organism_idx",
     "clustering_analysis_method_idx",
     "clustering_analysis_type_idx",
+    # DerivedMetric scalar (Plan 3)
+    "derived_metric_metric_type_idx",
+    "derived_metric_value_kind_idx",
+    "derived_metric_compartment_idx",
+    "derived_metric_omics_type_idx",
+    "derived_metric_treatment_type_idx",
+    "derived_metric_organism_idx",
+    "derived_metric_experiment_idx",
+    # Experiment.compartment scalar (Plan 2 adapter-emitted; Plan 3 indexed)
+    "experiment_compartment_idx",
     # full-text
     "geneFullText",
     "biologicalProcessFullText",
@@ -898,6 +908,8 @@ EXPECTED_INDEXES = {
     "experimentFullText",
     "clusteringAnalysisFullText",
     "geneClusterFullText",
+    # DerivedMetric full-text (Plan 3)
+    "derivedMetricFullText",
 }
 
 

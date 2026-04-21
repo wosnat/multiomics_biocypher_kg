@@ -254,7 +254,24 @@ class OMICSAdapter:
             logger.info("No publication block in config. Skipping publication nodes.")
             return
 
-        # extract publication metadata from pdf
+        # extract publication metadata from pdf (or skip for PDF-less test fixtures)
+        if publication.get('skip_pdf_extraction'):
+            # Test fixture or paper without PDF — seed minimal publication
+            # metadata directly from paperconfig values.
+            self.extracted_data = {
+                "publication": {
+                    "title": publication.get("papername", ""),
+                    "doi": publication.get("doi", ""),
+                    "authors": [],
+                    "journal": "",
+                    "publication_year": None,
+                    "pmid": None,
+                    "description": "",
+                    "abstract": "",
+                    "study_type": "",
+                }
+            }
+            return
         pdf_path = publication.get('papermainpdf', None)
         if not pdf_path or not os.path.exists(pdf_path):
             raise FileNotFoundError(
