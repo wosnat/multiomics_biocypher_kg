@@ -16,6 +16,8 @@ Checks:
 
 import pytest
 
+from multiomics_kg.vocab.non_de_evidence import EXTENDED_OMICS_TYPES
+
 
 pytestmark = pytest.mark.kg
 
@@ -165,15 +167,21 @@ def test_expression_edges_have_publications(run_query):
 
 
 def test_experiments_have_control(run_query):
-    """Every Experiment node must have a control property (baseline description)."""
+    """Every DE Experiment must have a control property (baseline description).
+
+    Non-DE experiments (e.g., PAIRED_RNASEQ_PROTEOME — only derived metrics,
+    no treatment-vs-control contrast) are exempt: they have no Changes_expression_of
+    edges, so a control has no meaning.
+    """
     result = run_query("""
-        MATCH (exp:Experiment)
+        MATCH (exp:Experiment)-[:Changes_expression_of]->(:Gene)
+        WITH DISTINCT exp
         WHERE exp.control IS NULL OR exp.control = ''
         RETURN count(exp) AS missing
     """)
     missing = result[0]["missing"]
     assert missing == 0, (
-        f"{missing} Experiment nodes are missing the control property"
+        f"{missing} DE Experiment nodes are missing the control property"
     )
 
 
@@ -319,11 +327,8 @@ def test_experiment_omics_type_values_canonical(run_query):
         WITH DISTINCT e.omics_type AS ot
         RETURN collect(ot) AS all_types
     """)
-    known = {
-        "RNASEQ", "PROTEOMICS", "MICROARRAY", "METABOLOMICS", "EXOPROTEOMICS",
-    }
     actual = set(result[0]["all_types"])
-    unknown = actual - known
+    unknown = actual - set(EXTENDED_OMICS_TYPES)
     assert not unknown, f"Unknown omics_type values in KG: {unknown}"
 
 

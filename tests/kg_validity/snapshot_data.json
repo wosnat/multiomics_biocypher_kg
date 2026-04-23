@@ -723,32 +723,32 @@
     },
     {
       "properties": {},
-      "source": "derived_metric:mSystems.00040-18:s4a_natl2a_axenic:periodic_in_axenic_LD",
-      "target": "insdc.gcf:GCF_000012465.1",
+      "source": "derived_metric:journal.pone.0043432:table_s2_waldbauer_diel_metrics:damping_ratio",
+      "target": "insdc.gcf:GCF_000011465.1",
       "type": "DerivedMetricBelongsToOrganism"
     },
     {
       "properties": {},
-      "source": "derived_metric:mSystems.00040-18:s4a_natl2a_axenic:periodic_in_axenic_extended_darkness",
-      "target": "insdc.gcf:GCF_000012465.1",
+      "source": "derived_metric:journal.pone.0043432:table_s2_waldbauer_diel_metrics:diel_amplitude_protein_log2",
+      "target": "insdc.gcf:GCF_000011465.1",
       "type": "DerivedMetricBelongsToOrganism"
     },
     {
       "properties": {},
-      "source": "derived_metric:mSystems.00040-18:s4a_natl2a_coculture:periodic_in_coculture_LD",
-      "target": "insdc.gcf:GCF_000012465.1",
+      "source": "derived_metric:journal.pone.0043432:table_s2_waldbauer_diel_metrics:diel_amplitude_transcript_log2",
+      "target": "insdc.gcf:GCF_000011465.1",
       "type": "DerivedMetricBelongsToOrganism"
     },
     {
       "properties": {},
-      "source": "derived_metric:mSystems.00040-18:s4a_natl2a_coculture:periodic_in_coculture_extended_darkness",
-      "target": "insdc.gcf:GCF_000012465.1",
+      "source": "derived_metric:journal.pone.0043432:table_s2_waldbauer_diel_metrics:peak_time_protein_h",
+      "target": "insdc.gcf:GCF_000011465.1",
       "type": "DerivedMetricBelongsToOrganism"
     },
     {
       "properties": {},
-      "source": "derived_metric:mSystems.00040-18:s4b_mit1002:periodic_in_coculture_LD",
-      "target": "insdc.gcf:GCF_901457835.2",
+      "source": "derived_metric:journal.pone.0043432:table_s2_waldbauer_diel_metrics:peak_time_transcript_h",
+      "target": "insdc.gcf:GCF_000011465.1",
       "type": "DerivedMetricBelongsToOrganism"
     },
     {
@@ -840,9 +840,69 @@
       "source": "derived_metric:mSystems.00040-18:s5_natl2a_survival:darkness_survival_class",
       "target": "ncbigene:PMN2A_0036",
       "type": "Derived_metric_classifies_gene"
+    },
+    {
+      "properties": {
+        "metric_bucket": "top_decile",
+        "metric_percentile": 92.92604501607717,
+        "metric_type": "damping_ratio",
+        "rank_by_metric": 23,
+        "value": 13.8
+      },
+      "source": "derived_metric:journal.pone.0043432:table_s2_waldbauer_diel_metrics:damping_ratio",
+      "target": "ncbigene:PMM0001",
+      "type": "Derived_metric_quantifies_gene"
+    },
+    {
+      "properties": {
+        "metric_bucket": "mid",
+        "metric_percentile": 45.659163987138264,
+        "metric_type": "damping_ratio",
+        "rank_by_metric": 170,
+        "value": 4.4
+      },
+      "source": "derived_metric:journal.pone.0043432:table_s2_waldbauer_diel_metrics:damping_ratio",
+      "target": "ncbigene:PMM0003",
+      "type": "Derived_metric_quantifies_gene"
+    },
+    {
+      "properties": {
+        "metric_bucket": "mid",
+        "metric_percentile": 51.768488745980704,
+        "metric_type": "damping_ratio",
+        "rank_by_metric": 151,
+        "value": 5.1
+      },
+      "source": "derived_metric:journal.pone.0043432:table_s2_waldbauer_diel_metrics:damping_ratio",
+      "target": "ncbigene:PMM0010",
+      "type": "Derived_metric_quantifies_gene"
+    },
+    {
+      "properties": {
+        "metric_bucket": "mid",
+        "metric_percentile": 67.20257234726688,
+        "metric_type": "damping_ratio",
+        "rank_by_metric": 103,
+        "value": 6.6
+      },
+      "source": "derived_metric:journal.pone.0043432:table_s2_waldbauer_diel_metrics:damping_ratio",
+      "target": "ncbigene:PMM0013",
+      "type": "Derived_metric_quantifies_gene"
+    },
+    {
+      "properties": {
+        "metric_bucket": "top_quartile",
+        "metric_percentile": 79.7427652733119,
+        "metric_type": "damping_ratio",
+        "rank_by_metric": 64,
+        "value": 8.7
+      },
+      "source": "derived_metric:journal.pone.0043432:table_s2_waldbauer_diel_metrics:damping_ratio",
+      "target": "ncbigene:PMM0023",
+      "type": "Derived_metric_quantifies_gene"
     }
   ],
-  "generated_at": "2026-04-21T06:40:03.880357+00:00",
+  "generated_at": "2026-04-23T06:50:43.912723+00:00",
   "nodes": [
     {
       "anchor": true,
@@ -1708,70 +1768,87 @@
     },
     {
       "anchor": false,
-      "id": "derived_metric:mSystems.00040-18:s4a_natl2a_axenic:periodic_in_axenic_extended_darkness",
+      "id": "derived_metric:journal.pone.0043432:table_s2_waldbauer_diel_metrics:damping_ratio",
       "label": "DerivedMetric",
       "properties": {
         "compartment": "whole_cell",
-        "experiment_id": "10.1128/mSystems.00040-18_darkness_extended_darkness_natl2a_rnaseq_axenic",
+        "experiment_id": "10.1371/journal.pone.0043432_waldbauer_2012_med4_paired_diel",
         "has_p_value": "false",
-        "metric_type": "periodic_in_axenic_extended_darkness",
-        "name": "Periodic in NATL2A axenic extended darkness (Table S4A)",
-        "omics_type": "RNASEQ",
-        "organism_name": "Prochlorococcus NATL2A",
-        "rankable": "false",
-        "total_gene_count": 112,
-        "value_kind": "boolean"
+        "metric_type": "damping_ratio",
+        "name": "Transcript:protein amplitude ratio",
+        "omics_type": "PAIRED_RNASEQ_PROTEOME",
+        "organism_name": "Prochlorococcus MED4",
+        "rankable": "true",
+        "total_gene_count": 312,
+        "value_kind": "numeric"
       }
     },
     {
       "anchor": false,
-      "id": "derived_metric:mSystems.00040-18:s4a_natl2a_coculture:periodic_in_coculture_LD",
+      "id": "derived_metric:journal.pone.0043432:table_s2_waldbauer_diel_metrics:diel_amplitude_protein_log2",
       "label": "DerivedMetric",
       "properties": {
         "compartment": "whole_cell",
-        "experiment_id": "10.1128/mSystems.00040-18_darkness_extended_darkness_natl2a_rnaseq_coculture",
+        "experiment_id": "10.1371/journal.pone.0043432_waldbauer_2012_med4_paired_diel",
         "has_p_value": "false",
-        "metric_type": "periodic_in_coculture_LD",
-        "name": "Periodic in NATL2A coculture L:D (Table S4A)",
-        "omics_type": "RNASEQ",
-        "organism_name": "Prochlorococcus NATL2A",
-        "rankable": "false",
-        "total_gene_count": 1651,
-        "value_kind": "boolean"
+        "metric_type": "diel_amplitude_protein_log2",
+        "name": "Protein amplitude (log2)",
+        "omics_type": "PAIRED_RNASEQ_PROTEOME",
+        "organism_name": "Prochlorococcus MED4",
+        "rankable": "true",
+        "total_gene_count": 312,
+        "value_kind": "numeric"
       }
     },
     {
       "anchor": false,
-      "id": "derived_metric:mSystems.00040-18:s4a_natl2a_coculture:periodic_in_coculture_extended_darkness",
+      "id": "derived_metric:journal.pone.0043432:table_s2_waldbauer_diel_metrics:diel_amplitude_transcript_log2",
       "label": "DerivedMetric",
       "properties": {
         "compartment": "whole_cell",
-        "experiment_id": "10.1128/mSystems.00040-18_darkness_extended_darkness_natl2a_rnaseq_coculture",
+        "experiment_id": "10.1371/journal.pone.0043432_waldbauer_2012_med4_paired_diel",
         "has_p_value": "false",
-        "metric_type": "periodic_in_coculture_extended_darkness",
-        "name": "Periodic in NATL2A coculture extended darkness (Table S4A)",
-        "omics_type": "RNASEQ",
-        "organism_name": "Prochlorococcus NATL2A",
-        "rankable": "false",
-        "total_gene_count": 503,
-        "value_kind": "boolean"
+        "metric_type": "diel_amplitude_transcript_log2",
+        "name": "Transcript amplitude (log2)",
+        "omics_type": "PAIRED_RNASEQ_PROTEOME",
+        "organism_name": "Prochlorococcus MED4",
+        "rankable": "true",
+        "total_gene_count": 312,
+        "value_kind": "numeric"
       }
     },
     {
       "anchor": false,
-      "id": "derived_metric:mSystems.00040-18:s4b_mit1002:periodic_in_coculture_LD",
+      "id": "derived_metric:journal.pone.0043432:table_s2_waldbauer_diel_metrics:peak_time_protein_h",
       "label": "DerivedMetric",
       "properties": {
         "compartment": "whole_cell",
-        "experiment_id": "10.1128/mSystems.00040-18_darkness_extended_darkness_mit1002_rnaseq",
+        "experiment_id": "10.1371/journal.pone.0043432_waldbauer_2012_med4_paired_diel",
         "has_p_value": "false",
-        "metric_type": "periodic_in_coculture_LD",
-        "name": "Periodic in MIT1002 coculture L:D (Table S4B)",
-        "omics_type": "RNASEQ",
-        "organism_name": "Alteromonas macleodii MIT1002",
+        "metric_type": "peak_time_protein_h",
+        "name": "Time of peak protein abundance (h)",
+        "omics_type": "PAIRED_RNASEQ_PROTEOME",
+        "organism_name": "Prochlorococcus MED4",
         "rankable": "false",
-        "total_gene_count": 515,
-        "value_kind": "boolean"
+        "total_gene_count": 312,
+        "value_kind": "numeric"
+      }
+    },
+    {
+      "anchor": false,
+      "id": "derived_metric:journal.pone.0043432:table_s2_waldbauer_diel_metrics:peak_time_transcript_h",
+      "label": "DerivedMetric",
+      "properties": {
+        "compartment": "whole_cell",
+        "experiment_id": "10.1371/journal.pone.0043432_waldbauer_2012_med4_paired_diel",
+        "has_p_value": "false",
+        "metric_type": "peak_time_transcript_h",
+        "name": "Time of peak transcript abundance (h)",
+        "omics_type": "PAIRED_RNASEQ_PROTEOME",
+        "organism_name": "Prochlorococcus MED4",
+        "rankable": "false",
+        "total_gene_count": 312,
+        "value_kind": "numeric"
       }
     }
   ]

@@ -2,19 +2,16 @@
 KG validity tests for numeric DerivedMetric post-import computations:
 rank_by_metric, metric_percentile, metric_bucket, significant.
 
-These assertions require numeric DMs in the graph. The synthetic paperconfig
-fixture at tests/fixtures/non_de/ provides deterministic expected values:
-100 rows × 3 numeric metrics (fourier_score, peak_time_h, peak_fit_r_squared).
+Two test groups:
 
-Fixture metric config (tests/fixtures/non_de/synthetic_paperconfig.yaml):
-  fourier_score:      rankable=true,  has_p_value=true,  p_value_threshold=0.05
-  peak_time_h:        rankable=false, has_p_value=false
-  peak_fit_r_squared: rankable=true,  has_p_value=false
+1. Universal tests (post-import Cypher correctness) — run whenever any numeric
+   DerivedMetric exists in the graph (Waldbauer 2012 provides this in
+   production: 6 DMs, 1,872 quantifies edges).
 
-Expected distributions (100 rows each):
-  Rankable metrics: rank 1..100 contiguous; percentile 100.0 → 0.0
-  Significance (fourier_score only): all 100 edges have `significant` set
-    (values depend on per-row adjusted_p_value vs 0.05 threshold)
+2. Fixture-specific tests — require the synthetic fixture at
+   tests/fixtures/non_de/synthetic_paperconfig.yaml (100 rows × 3 numeric
+   metrics: fourier_score, peak_time_h, peak_fit_r_squared). Skip when the
+   fixture isn't wired into the build.
 """
 
 import pytest
@@ -25,22 +22,28 @@ pytestmark = pytest.mark.kg
 FIXTURE_DOI = "10.9999/synthetic-numeric-dm"
 
 
-def _fixture_loaded(run_query):
-    """Return True if the synthetic fixture publication is in the graph."""
+@pytest.fixture(scope="module")
+def skip_if_no_numeric_dm(run_query):
+    """Skip when the graph has no numeric DerivedMetric quantifies edges."""
+    result = run_query(
+        "MATCH ()-[r:Derived_metric_quantifies_gene]->() RETURN count(r) AS cnt"
+    )
+    if result[0]["cnt"] == 0:
+        pytest.skip("No numeric DerivedMetric edges in graph")
+
+
+@pytest.fixture(scope="module")
+def skip_if_no_fixture(run_query):
+    """Skip when the synthetic numeric-DM fixture isn't loaded."""
     result = run_query(
         "MATCH (p:Publication {doi: $doi}) RETURN count(p) AS cnt",
         doi=FIXTURE_DOI,
     )
-    return result[0]["cnt"] > 0
-
-
-@pytest.fixture(scope="module", autouse=True)
-def skip_if_no_fixture(run_query):
-    if not _fixture_loaded(run_query):
+    if result[0]["cnt"] == 0:
         pytest.skip(
             f"Synthetic numeric-DM fixture ({FIXTURE_DOI}) not in graph — "
-            f"wire tests/fixtures/non_de/paperconfig_files.txt into create_knowledge_graph.py "
-            f"and rebuild Docker"
+            f"wire tests/fixtures/non_de/paperconfig_files.txt into "
+            f"create_knowledge_graph.py and rebuild Docker"
         )
 
 
@@ -48,7 +51,7 @@ def skip_if_no_fixture(run_query):
 # Fixture presence sanity
 # ---------------------------------------------------------------------------
 
-def test_fixture_dm_nodes_present(run_query):
+def test_fixture_dm_nodes_present(run_query, skip_if_no_fixture):
     result = run_query("""
         MATCH (p:Publication {doi: $doi})-[:PublicationHasDerivedMetric]->(dm:DerivedMetric)
         RETURN dm.metric_type AS metric_type, dm.rankable AS rankable,
@@ -59,7 +62,7 @@ def test_fixture_dm_nodes_present(run_query):
     assert metric_types == {"fourier_score", "peak_time_h", "peak_fit_r_squared"}
 
 
-def test_fixture_quantifies_edge_count(run_query):
+def test_fixture_quantifies_edge_count(run_query, skip_if_no_fixture):
     """300 edges total: 100 rows × 3 numeric metrics."""
     result = run_query("""
         MATCH (p:Publication {doi: $doi})-[:PublicationHasDerivedMetric]->(dm:DerivedMetric)
@@ -73,7 +76,7 @@ def test_fixture_quantifies_edge_count(run_query):
 # Rank contiguity on rankable DMs
 # ---------------------------------------------------------------------------
 
-def test_rank_by_metric_only_on_rankable(run_query):
+def test_rank_by_metric_only_on_rankable(run_query, skip_if_no_numeric_dm):
     """rank_by_metric non-null iff parent DM.rankable='true' (quantifies edges only)."""
     # Assumes dm.rankable is non-null on every DerivedMetric (guaranteed by
     # test_derived_metric_required_properties in test_derived_metric.py).
@@ -95,7 +98,7 @@ def test_rank_by_metric_only_on_rankable(run_query):
     )
 
 
-def test_rank_contiguous_per_dm(run_query):
+def test_rank_contiguous_per_dm(run_query, skip_if_no_numeric_dm):
     """rank_by_metric should be 1..N contiguous per DerivedMetric."""
     result = run_query("""
         MATCH (dm:DerivedMetric {rankable: 'true'})-[r:Derived_metric_quantifies_gene]->()
@@ -111,7 +114,7 @@ def test_rank_contiguous_per_dm(run_query):
 # Percentile and bucket consistency
 # ---------------------------------------------------------------------------
 
-def test_percentile_in_range(run_query):
+def test_percentile_in_range(run_query, skip_if_no_numeric_dm):
     """metric_percentile ∈ [0, 100] on every quantifies edge where it's set."""
     result = run_query("""
         MATCH ()-[r:Derived_metric_quantifies_gene]->()
@@ -122,7 +125,7 @@ def test_percentile_in_range(run_query):
     assert result[0]["bad"] == 0
 
 
-def test_bucket_matches_pinned_thresholds(run_query):
+def test_bucket_matches_pinned_thresholds(run_query, skip_if_no_numeric_dm):
     """metric_bucket follows pinned thresholds: top_decile>=90, top_quartile>=75<90, mid>=25<75, low<25."""
     result = run_query("""
         MATCH ()-[r:Derived_metric_quantifies_gene]->()
@@ -143,7 +146,7 @@ def test_bucket_matches_pinned_thresholds(run_query):
     )
 
 
-def test_rank_1_is_top_decile(run_query):
+def test_rank_1_is_top_decile(run_query, skip_if_no_numeric_dm):
     """The top-ranked gene per rankable DM is always top_decile."""
     result = run_query("""
         MATCH ()-[r:Derived_metric_quantifies_gene {rank_by_metric: 1}]->()
@@ -153,25 +156,32 @@ def test_rank_1_is_top_decile(run_query):
     assert result[0]["bad"] == 0
 
 
-def test_highest_value_has_rank_1(run_query):
-    """For each rankable DM, the edge with highest value has rank_by_metric=1."""
+def test_highest_value_has_rank_1(run_query, skip_if_no_numeric_dm):
+    """For each rankable DM, some edge with the highest value has rank_by_metric=1.
+
+    Tied max values resolve to ordinal ranks (only one of the tied rows gets
+    rank=1, the others get 2..N with the same value), so we assert existence
+    rather than universality.
+    """
     result = run_query("""
         MATCH (dm:DerivedMetric {rankable: 'true'})-[r:Derived_metric_quantifies_gene]->()
         WITH dm, max(r.value) AS max_val
-        MATCH (dm)-[r2:Derived_metric_quantifies_gene]->()
-        WHERE r2.value = max_val
-        WITH dm, r2
-        WHERE r2.rank_by_metric <> 1
-        RETURN dm.id AS dm_id, r2.rank_by_metric AS rank, r2.value AS value
+        MATCH (dm)-[r1:Derived_metric_quantifies_gene]->()
+        WHERE r1.rank_by_metric = 1
+        WITH dm, max_val, r1.value AS rank_1_value
+        WHERE rank_1_value <> max_val
+        RETURN dm.id AS dm_id, rank_1_value, max_val
     """)
-    assert len(result) == 0, f"Max-value edge has rank != 1: {result}"
+    assert len(result) == 0, (
+        f"rank=1 edge value disagrees with max value per DM: {result}"
+    )
 
 
 # ---------------------------------------------------------------------------
 # Significance gating
 # ---------------------------------------------------------------------------
 
-def test_significant_only_on_has_p_value(run_query):
+def test_significant_only_on_has_p_value(run_query, skip_if_no_numeric_dm):
     """significant non-null only when parent DM.has_p_value='true' AND p_value_threshold IS NOT NULL
     AND edge.adjusted_p_value IS NOT NULL."""
     result = run_query("""
@@ -185,7 +195,7 @@ def test_significant_only_on_has_p_value(run_query):
     assert result[0]["bad"] == 0
 
 
-def test_significant_computed_correctly(run_query):
+def test_significant_computed_correctly(run_query, skip_if_no_numeric_dm):
     """significant='true' iff adjusted_p_value < threshold."""
     result = run_query("""
         MATCH (dm:DerivedMetric {has_p_value: 'true'})-[r:Derived_metric_quantifies_gene]->()
@@ -200,7 +210,7 @@ def test_significant_computed_correctly(run_query):
     assert result[0]["bad"] == 0, f"{result[0]['bad']}: {result[0]['examples']}"
 
 
-def test_significant_enum(run_query):
+def test_significant_enum(run_query, skip_if_no_numeric_dm):
     """When non-null, significant ∈ {'true','false'}."""
     result = run_query("""
         MATCH ()-[r:Derived_metric_quantifies_gene]->()
@@ -211,7 +221,7 @@ def test_significant_enum(run_query):
     assert result[0]["bad"] == 0
 
 
-def test_fourier_score_has_significance(run_query):
+def test_fourier_score_has_significance(run_query, skip_if_no_fixture):
     """Synthetic fixture fourier_score (has_p_value='true', threshold=0.05) has 100 edges with significant set."""
     result = run_query("""
         MATCH (dm:DerivedMetric {metric_type: 'fourier_score'})
@@ -224,7 +234,7 @@ def test_fourier_score_has_significance(run_query):
     )
 
 
-def test_peak_time_has_no_significance(run_query):
+def test_peak_time_has_no_significance(run_query, skip_if_no_fixture):
     """Synthetic fixture peak_time_h (has_p_value='false') should have no significant set."""
     result = run_query("""
         MATCH (dm:DerivedMetric {metric_type: 'peak_time_h'})
