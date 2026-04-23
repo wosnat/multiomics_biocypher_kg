@@ -1,46 +1,45 @@
 # Alonso-Saez 2023
 
-**Title:** Transcriptional Mechanisms of Thermal Acclimation in *Prochlorococcus*
-
-**Authors:** Laura Alonso-Saez, Antonio S. Palacio, Ana M. Cabello, Semidan Robaina-Estevez, Jose M. Gonzalez, Laurence Garczarek, Angel Lopez-Urrutia
-
-**Journal:** mBio, Volume 14, Issue 3, May/June 2023
-
+**Citation:** Alonso-Saez L, Palacio AS, Cabello AM, Robaina-Estevez S, Gonzalez JM, Garczarek L, Lopez-Urrutia A (2023). Transcriptional Mechanisms of Thermal Acclimation in *Prochlorococcus*. *mBio* 14(3).
 **DOI:** 10.1128/mbio.03425-22
+**Organism(s):** *Prochlorococcus marinus* MIT9301 (HLII clade representative)
+**Topic:** Quantitative transcriptome (RNA-Seq) analysis of MIT9301 acclimated long-term to 5 temperatures (17, 20, 22, 25, 30C) under a 12h:12h L/D cycle. RNA samples collected 3h after subjective sunrise (day) and sunset (night). Five soft clusters (A-E) identified by fuzzy c-means clustering of day/night expression patterns across the thermal gradient; clusters correspond to core daytime genes, photosystems, stress response, respiration/DNA replication, and night-biased expression.
 
-## Summary
+## Available data inventory
 
-Quantitative transcriptome (RNA-Seq) analysis of *Prochlorococcus marinus* MIT9301 under long-term thermal acclimation across its thermal niche (17-30C). Cultures were synchronized to a 12h:12h light/dark cycle and acclimated to five temperatures (17, 20, 22, 25, 30C). RNA samples were collected 3h after subjective sunrise (day) and sunset (night).
+| File | Type | Content | KG status | Recommended action |
+|------|------|---------|-----------|--------------------|
+| `alonso-sáez-et-al-2023-...pdf` | PDF | Main paper | reference | — |
+| `TABLE S5 softcluster membership.csv` | CSV | Soft cluster assignments for 1831 MIT9301 genes + 5 per-cluster probability columns (A-E) | already in | — |
+| `soft_clusters_mbio.03425-22-s0008.xlsx` | XLSX | Original Excel of Table S5 | skip | Duplicate of CSV already in |
+| `mbio.03425-22-s0005.xlsx` | XLSX | Table S3: mRNA transcripts per cell (raw abundance, not DE) | skip | Sample x gene expression / abundance matrix |
+| `mbio.03425-22-s0006.xlsx` | XLSX | Table S4: mRNA transcripts per biovolume (raw abundance, not DE) | skip | Sample x gene expression / abundance matrix |
+| `supp legends.txt` | TXT | Supplementary legends | reference | — |
+| `cluster_extractions/` | dir | Per-cluster description JSONs | reference | — |
+| `paperconfig.yaml` | YAML | Active paperconfig | reference | — |
 
-Five gene clusters (A-E) were identified by fuzzy c-means clustering based on day/night expression patterns across the thermal gradient:
-- **Cluster A** (273 genes): Core daytime genes -- carbon fixation, Calvin cycle, glycogen synthesis, ATP synthesis, some PSII components. Consistently expressed during daytime.
-- **Cluster B** (198 genes): Photosystems I & II, oxygen-evolving complex, regulatory proteins. Expression decreases from Topt toward Tmin during daytime, paralleling growth rate decline.
-- **Cluster C** (432 genes): Stress response, regulatory proteins. Strongly upregulated at Tmin during daytime.
-- **Cluster D** (340 genes): Stress response, glycogen degradation, protein synthesis. Upregulated at Tmin during both daytime and nighttime.
-- **Cluster E** (437 genes): Pentose P pathway, respiration, DNA replication, cell division. Upregulated at nighttime across all temperatures.
+## Current paperconfig summary
 
-## Organism
+- Experiments defined: 1 — `thermal_acclimation_mit9301_rnaseq`
+- Statistical analyses (DE edges): 0 — no pairwise DE fold-changes/p-values (absolute transcript counts across thermal gradient)
+- Supplementary materials entry types: `gene_clusters` (single entry `mit9301_softclusters_thermal_acclimation`, fuzzy c-means K=5)
+- Organisms covered: Prochlorococcus MIT9301
+- Table scope(s): n/a
+- Non-DE evidence: 1 ClusteringAnalysis — 5-cluster fuzzy c-means assignment (clusters A, B, C, D, E)
+- ID resolution: `RefSeq Locus Tag` (P9301_NNNNN) as `old_locus_tag` — matches 1760/1831 (96.1%); `Gene  symbol` (two spaces) as `gene_name`. 71 genes have only BV-BRC `fig|167546.4.peg.NNN` IDs and will not resolve without an added id_translation.
 
-- *Prochlorococcus marinus* MIT9301 (HLII clade representative)
+## Recommended actions
 
-## Data files
-
-| File | Description |
-|------|-------------|
-| `TABLE S5 softcluster membership.csv` | Soft cluster assignments and per-cluster probability scores for 1831 MIT9301 protein-coding genes |
-| `mbio.03425-22-s0005.xlsx` | Table S3: mRNA transcripts per cell |
-| `mbio.03425-22-s0006.xlsx` | Table S4: mRNA transcripts per biovolume |
-| `soft_clusters_mbio.03425-22-s0008.xlsx` | Original Excel for Table S5 |
-
-## Gene IDs
-
-- `RefSeq Locus Tag` column: P9301_NNNNN format (MIT9301 locus tags) -- 1760/1831 genes (96.1%)
-- `BV-BRC_ID` column: fig|167546.4.peg.NNN format (PATRIC/BV-BRC IDs) -- all 1831 genes
-- 71 genes have BV-BRC IDs only (no RefSeq locus tag); these will be unmatched without additional id_translation
+1. **No action** — Table S5's fuzzy c-means clustering with per-gene soft-membership probabilities is correctly represented as a `gene_clusters` entry per the decision rule (soft-clustering, one cluster per gene, per-cluster functional descriptions available from the paper text and `cluster_extractions/`).
+2. **Add (optional)** — The 5 per-cluster probability columns (`Probability score Cluster A..E`) could be added as 5 numeric DerivedMetric entries (`value_kind: numeric`, `rankable: true`) to preserve the full soft-membership data, but this is low-value since membership is already captured via the hard assignment + `score_col` on the cluster edge. Defer unless a downstream query needs per-cluster probabilities.
+3. **Skip** — Tables S3 and S4 (XLSX) are raw transcript abundance matrices per condition (absolute counts), not DE results; out of scope for gene-level DE evidence.
+4. **Add id_translation (optional)** — For the 71 genes with BV-BRC `fig|` IDs only, an `id_translation` entry (diamond protein match against MIT9301 protein FASTA) would recover them; low impact (<4% of genes).
+5. **Reference** — main PDF is reference-only.
 
 ## Notes
 
-- No differential expression data in this paper (no pairwise comparisons with fold changes/p-values). Data is absolute transcript counts across conditions, not DE results.
-- The soft clustering uses fuzzy c-means, so each gene has a probability score for each of the 5 clusters. The `score_col` is not set in the paperconfig because there is no single score column; instead there are 5 per-cluster probability columns. A preprocessing step could derive the max probability as a single score column.
-- The CSV has 2 extra header rows (title + blank line) before the actual column headers; `skip_rows: 2` handles this.
-- Tables S3 and S4 contain raw transcript abundance data (not DE), so they are not configured as `csv` statistical_analyses entries.
+- Gene ID format: `RefSeq Locus Tag` = `P9301_NNNNN` (NCBI old locus tag); `BV-BRC_ID` = `fig|167546.4.peg.NNN` (PATRIC/BV-BRC IDs); `Gene  symbol` (note: two spaces in column name) as gene_name fallback.
+- No single score column; the CSV has 5 per-cluster probability columns (A-E) so `score_col` is not set in the paperconfig. A preprocessing step could derive the max probability as a single score column if needed.
+- The CSV has 2 extra header rows (title + blank line) before actual column names; `skip_rows: 2` handles this.
+- `_resolved.csv` / `_resolved_report.txt` files auto-generated by `prepare_data.sh` step 4.
+- Strain coverage: MIT9301 is deployed in the KG.

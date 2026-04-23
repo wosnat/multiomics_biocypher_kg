@@ -1,52 +1,47 @@
 # Coe 2024
 
-**Paper:** Coe et al. (2024) — Dark-tolerant Prochlorococcus
-**Journal:** ISME Journal
-**DOI:** See paperconfig.yaml / pdf_extraction_cache.json
+**Citation:** Coe A, Biller SJ, Thomas E, Moreno-Cabezuelo JÁ, Blanco-Ameijeiras S, Berube PM, Laurenceau R, Boldt L, Peng M, Lin Y, Roggensack SE, Gandhi N, Arellano A, Rappé MS, Chisholm SW (2024). Dark tolerance in *Prochlorococcus* as an adaptive evolutionary trait selected by heterotroph co-culture. *ISME Journal* ycae131.
+**DOI:** 10.1093/ismejo/ycae131
+**Organism(s):** *Prochlorococcus* NATL2A (dark-tolerant evolved + parental); *Alteromonas macleodii* MIT1002 (co-culture partner)
+**Topic:** Investigates how NATL2A evolves dark tolerance through long-term co-culture with MIT1002. RNA-seq time course (7 timepoints: 0, 4, 8, 13, 16, 20, 24h) under 13:11 L:D cycle at 37 umol photons m-2 s-1, 24C, Pro99 medium. Compares dark-tolerant vs parental strains in co-culture; also reports 15-cluster diel expression patterns (RAIN) for each strain.
 
-## Summary
+## Available data inventory
 
-This study investigates how Prochlorococcus NATL2A evolves dark tolerance through long-term co-culture with Alteromonas macleodii MIT1002. The authors evolved NATL2A for extended dark survival and performed RNA-seq time-course experiments comparing the dark-tolerant evolved strain to the parental (wild-type) strain, both in co-culture with MIT1002 under a 13:11 light:dark diel cycle. Expression was sampled every ~4 hours over a full 24h diel cycle (0, 4, 8, 13, 16, 20, 24h).
+| File | Type | Content | KG status | Recommended action |
+|------|------|---------|-----------|--------------------|
+| `coe_isme_ycae131.pdf` | PDF | Main paper | reference | — |
+| `coe_isme_supp_final_rev_final_ycae131.pdf` | PDF | Supplementary PDF (referenced in `extraction.additional_pdfs`) | reference | — |
+| `Supplemental Table 2.csv` | CSV | NATL2A DE genes, dark-tolerant vs parental at 7 timepoints; asterisk-encoded significance (DESeq2 P<0.1) | already in | — |
+| `Supplemental Table 3.csv` | CSV | NATL2A diel expression clusters (2081 genes, 15 clusters x 2 clusterings: dark-tolerant and parental, plus `same_periodicity_pattern` flag) | already in | — |
+| `Supplemental Table 4.csv` | CSV | MIT1002 DE genes, dark-tolerant vs parental co-culture at 7 timepoints | already in | — |
+| `Supplemental Tables.xlsx` | XLSX | Combined Excel with all supplemental tables | skip | Duplicate of CSVs already in |
+| `supplementary table legend.txt` | TXT | Supplemental table legends | reference | — |
+| `cluster_extractions/` | dir | Per-cluster description JSONs for the 15-cluster RAIN analyses | reference | — |
+| `paperconfig.yaml` | YAML | Active paperconfig | reference | — |
+| `paperconfig_orig.yaml` | YAML | Earlier paperconfig version | reference | — |
 
-## Organisms
+## Current paperconfig summary
 
-- **Prochlorococcus NATL2A** — primary organism (both dark-tolerant evolved and parental strains)
-- **Alteromonas macleodii MIT1002** — co-culture partner
+- Experiments defined: 2 — `darkness_darktolerant_coculture_under_1311_natl2a_rnaseq`, `darkness_darktolerant_coculture_under_1311_mit1002_rnaseq`
+- Statistical analyses (DE edges): 14 — 7 timepoints x 2 strains (NATL2A in Table S2, MIT1002 in Table S4), asterisk-encoded P<0.1
+- Supplementary materials entry types: `csv` (S2, S4), `gene_clusters` (S3 split into `supp_table_3_darktolerant_clusters` + `supp_table_3_parental_clusters`, RAIN K=15)
+- Organisms covered: Prochlorococcus NATL2A, Alteromonas macleodii MIT1002
+- Table scope(s): `significant_any_timepoint` (both DE experiments)
+- Non-DE evidence: 2 ClusteringAnalyses — one per strain variant (dark-tolerant vs parental), same source CSV, different `cluster_col`
+- ID resolution: NATL2A via `NCBI ID_3` (PMN2A_RS* old locus tag) primary + `NCBI ID_2` (NCBI) + `NCBI ID` (Cyanorak) + `Gene Name`. MIT1002 via `NCBI ID` (old_locus_tag) + `Gene ID` + `Gene Name`. S3 cluster table uses mixed-format gene IDs (gene names, `cds-PMN2A_RS*`, `cds-WP_*`, `fig|`, `rna-`-prefixed) — only the `gene` column (mostly gene_name) is declared in id_columns.
 
-## Data in Knowledge Graph
+## Recommended actions
 
-### Differential Expression (Supplemental Tables 2 and 4)
-
-Two experiments comparing dark-tolerant vs parental strains across 7 diel timepoints:
-
-1. **NATL2A RNA-seq** (Supplemental Table 2): Dark-tolerant vs parental NATL2A gene expression at 0, 4, 8, 13, 16, 20, 24h. Uses DESeq2 with p-value threshold 0.1 (asterisk-in-logFC encoding). Gene IDs: NCBI old_locus_tag (PMN2A_RS*), locus_tag_ncbi, locus_tag_cyanorak, gene_name.
-
-2. **MIT1002 RNA-seq** (Supplemental Table 4): Dark-tolerant vs parental co-culture effect on Alteromonas MIT1002 gene expression at the same 7 timepoints. Gene IDs: NCBI old_locus_tag.
-
-### Gene Expression Clusters (Supplemental Table 3)
-
-Two clusterings of NATL2A diel expression patterns (2081 genes, 15 clusters each):
-
-1. **Dark-tolerant strain clusters** (`dark-tolerant_cluster` column): Diel periodicity clusters from the dark-tolerant evolved NATL2A strain, identified using RAIN periodicity detection.
-
-2. **Parental strain clusters** (`parental_cluster` column): Diel periodicity clusters from the parental (wild-type) NATL2A strain, same method.
-
-The CSV also contains a `same_periodicity_pattern` boolean column indicating whether each gene falls into the same cluster pattern in both strains.
-
-Gene IDs in the cluster table are mixed format: gene names (e.g., AtpT, Yfr1), cds-prefixed locus tags (cds-PMN2A_RS*), cds-prefixed protein IDs (cds-WP_*), fig| IDs, and rna-prefixed IDs.
-
-## Files
-
-| File | Description |
-|------|-------------|
-| `paperconfig.yaml` | Full configuration for KG integration |
-| `coe_isme_ycae131.pdf` | Main paper PDF |
-| `Supplemental Table 2.csv` | NATL2A DE results (dark-tolerant vs parental, 7 timepoints) |
-| `Supplemental Table 3.csv` | NATL2A diel expression cluster assignments (2081 genes, 2 clusterings) |
-| `Supplemental Table 4.csv` | MIT1002 DE results (dark-tolerant vs parental co-culture, 7 timepoints) |
+1. **No action** — DE tables (S2, S4) and cluster table (S3) are all integrated under correct node types. S3's 15-cluster RAIN periodicity assignment is a soft-clustering with per-cluster descriptions (`cluster_extractions/` JSONs), which matches the `gene_clusters` decision rule.
+2. **Change upload (consider)** — Both S3 gene_clusters entries reference `darkness_darktolerant_coculture_under_1311_natl2a_rnaseq` via `experiments:`; the parental-strain cluster entry logically belongs to the parental arm, which is currently represented as the control condition of the same experiment rather than its own Experiment node. Consider whether a parental-only Experiment node is warranted (split); low priority because the cluster analysis genuinely derives from the comparison pair.
+3. **Add (consider)** — The S3 mixed gene-ID formats (`cds-WP_*`, `cds-PMN2A_RS*`, `fig|`, `rna-`) may depress match rates; a preprocessing pass stripping prefixes + an `id_translation` bridge for `fig|` IDs would improve yield. Run `/check-gene-ids` to quantify.
+4. **Skip** — `Supplemental Tables.xlsx` duplicates the CSVs already ingested.
+5. **Reference** — both PDFs and legend TXT are reference-only.
 
 ## Notes
 
-- The cluster gene IDs use mixed formats requiring ID translation (cds- prefix stripping, fig| IDs, gene names)
-- The `same_periodicity_pattern` column is metadata about cluster correspondence, not used directly by the KG
-- Both clusterings reference the same experiment node since they derive from the same RNA-seq dataset comparing dark-tolerant vs parental strains
+- Gene ID formats: NATL2A DE table carries 4 parallel ID columns (cyanorak + NCBI + old locus tag + gene name); MIT1002 table carries old locus tag + gene_id + gene name. S3 cluster table's `gene` column is a mix of gene names and prefix-decorated IDs (requires cds-/rna-/fig\| prefix handling).
+- `_resolved.csv` / `_resolved_report.txt` files auto-generated by `prepare_data.sh` step 4.
+- `same_periodicity_pattern` boolean column in S3 (cross-strain cluster correspondence) is cluster-cluster metadata, not per-gene evidence; not ingested.
+- Strain coverage: NATL2A and MIT1002 are both deployed in the KG. No genome deployment blockers.
+- `extraction.additional_pdfs` directs the PDF extraction stage to also read the supplementary PDF for cluster characterization.

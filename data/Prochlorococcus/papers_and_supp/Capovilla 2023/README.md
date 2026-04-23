@@ -1,65 +1,46 @@
-# Capovilla 2023 — Chitin utilization by marine picocyanobacteria
+# Capovilla 2023
 
-**Paper**: Capovilla, Braakman, Fournier et al. (2023). "Chitin utilization by marine picocyanobacteria and the evolution of a planktonic lifestyle." *PNAS* 120(20): e2213271120.
+**Citation:** Capovilla G, Braakman R, Fournier GP, Hackl T, Schwartzman J, Lu X, Yelton A, Longnecker K, Soule MCK, Thomas E, Swarr G, Mongera A, Payne JL, Altenburg SJ, Cordero OX, Kujawinski EB, Chisholm SW (2023). Chitin utilization by marine picocyanobacteria and the evolution of a planktonic lifestyle. *PNAS* 120(20): e2213271120.
+**DOI:** 10.1073/pnas.2213271120
+**Organism(s):** *Prochlorococcus* MIT9313 (secondary degrader, partial pathway); *Prochlorococcus* MIT9303 (primary degrader, full pathway incl. chitinase)
+**Topic:** Characterizes chitin utilization by marine picocyanobacteria; proposes the "chitin raft hypothesis" for the evolutionary origin of the planktonic lifestyle. RNA-seq DE analysis (DESeq2, adj. P<0.1) comparing chitosan addition (56 ug/mL in Pro99 AMP1) vs control in MIT9313 and MIT9303, continuous light at 11 umol photons m-2 s-1, 24C. Samples on days 1 and 3 after inoculation.
 
-**DOI**: https://doi.org/10.1073/pnas.2213271120
+## Available data inventory
 
-## Summary
+| File | Type | Content | KG status | Recommended action |
+|------|------|---------|-----------|--------------------|
+| `capovilla-et-al-2023-...pdf` | PDF | Main paper | reference | — |
+| `DE genes RNA-Seq_MIT9313 pnas.2213271120.sd02.csv` | CSV | MIT9313 significantly DE genes (83: 49 up, 34 down); log2 FC only, no p-values in table | already in | — |
+| `DE genes RNA-Seq_MIT9303 pnas.2213271120.sd02.csv` | CSV | MIT9303 significantly DE genes (36: 18 up, 18 down) | already in | — |
+| `DE genes pnas.2213271120.sd02.xlsx` | XLSX | Original Excel (both strains as separate sheets) | skip | Duplicate of CSVs already in |
+| `pnas.2213271120.sd01.xlsx` | XLSX | Chitin utilization gene annotations across genomes | add | Per-gene presence/classification across multiple strains — candidate for `derived_metrics_table` with `value_kind: boolean` or `categorical` (need to inspect column structure) |
+| `metabolites pnas.2213271120.sd03.xlsx` | XLSX | Metabolomics data | skip | No gene-level evidence |
+| `read counts pnas.2213271120.sd04.csv` | CSV | MIT9313 normalized read counts (all genes, all samples) | skip | Sample x gene expression matrix |
+| `read counts pnas.2213271120.sd05.csv` | CSV | MIT9303 normalized read counts (all genes, all samples) | skip | Sample x gene expression matrix |
+| `paperconfig.yaml` | YAML | Active paperconfig | reference | — |
 
-The paper investigates chitin utilization by marine picocyanobacteria (Prochlorococcus and Synechococcus). It shows that certain lineages can attach to and use particulate chitin, proposes the "chitin raft hypothesis" for the evolutionary origin of the planktonic lifestyle, and characterizes gene expression responses to chitosan addition.
+## Current paperconfig summary
 
-## Data files
+- Experiments defined: 2 — `chitosan_addition_mit9313_rnaseq`, `chitosan_addition_mit9303_rnaseq`
+- Statistical analyses (DE edges): 2 — one per strain (`DE_chitosan_vs_control_MIT9313`, `DE_chitosan_vs_control_MIT9303`); both tables report only significant genes, no p-values in the CSV
+- Supplementary materials entry types: `csv` (x2)
+- Organisms covered: Prochlorococcus MIT9313, Prochlorococcus MIT9303
+- Table scope(s): `significant_only` (both tables)
+- Non-DE evidence: none currently
+- ID resolution: MIT9313 via `ncbi_gene_locus_tag` (`AKG35_RS*`) with `ncbi_gene_old_locus_tag` fallback (comma-separated list like `PMT0148,PMT_0148,RG24_RS00740`); MIT9303 via `P9303_RS*`. Some `nan` values in ID columns for Cyanorak genes missing from current NCBI annotation (~6-7 per strain).
 
-| File | Description |
-|---|---|
-| `DE genes RNA-Seq_MIT9313 pnas.2213271120.sd02.csv` | Significantly DE genes for MIT9313 (83 genes: 49 up, 34 down) |
-| `DE genes RNA-Seq_MIT9303 pnas.2213271120.sd02.csv` | Significantly DE genes for MIT9303 (36 genes: 18 up, 18 down) |
-| `DE genes pnas.2213271120.sd02.xlsx` | Original Excel with both sheets |
-| `read counts pnas.2213271120.sd04.csv` | Normalized read counts for MIT9313 (all genes, all samples) |
-| `read counts pnas.2213271120.sd05.csv` | Normalized read counts for MIT9303 (all genes, all samples) |
-| `pnas.2213271120.sd01.xlsx` | Chitin utilization gene annotations across genomes |
-| `metabolites pnas.2213271120.sd03.xlsx` | Metabolomics data (not used in KG) |
+## Recommended actions
 
-## Experimental design
+1. **Add** — Evaluate `pnas.2213271120.sd01.xlsx` (chitin utilization gene annotations across genomes). If it provides per-gene Y/N presence of chitin-pathway components per strain, integrate as a `derived_metrics_table` with `value_kind: boolean`. If it is a small curated pathway list only, skip.
+2. **Skip** — `sd04.csv` / `sd05.csv` are sample x gene normalized read-count matrices (out of scope for gene-level KG evidence); `sd03.xlsx` is metabolomics (no gene target).
+3. **No action** — DE tables for both strains are integrated. Expression edges will have null `adjusted_p_value` because the table lists only significant rows with no numeric p-values.
+4. **Add organism (done)** — MIT9303 is now deployed per `CLAUDE.md` strain list; the original README flagged this as a blocker and it has been resolved.
 
-- **Strains**: Prochlorococcus MIT9303 (primary degrader, full chitin pathway) and MIT9313 (secondary degrader, partial pathway — lacks chitinase)
-- **Treatment**: Chitosan addition (56 ug/mL) to Pro99 AMP1 medium
-- **Control**: Pro99 AMP1 medium without chitosan
-- **Conditions**: Continuous light at 11 umol photons m-2 s-1, 24C
-- **Statistical test**: DESeq2, adjusted p-value < 0.1
-- **Timepoints**: Samples collected on days 1 and 3 after inoculation; DE analysis compares chitosan vs control across these timepoints (not a time-course design in the output)
+## Notes
 
-## CSV structure notes
-
-Both DE CSVs have been reformatted to flat format with a strain name on row 1 (skipped via `skip_rows: 1` in the paperconfig) and merged up/down-regulated sections. Original xlsx had separate sections.
-
-**Columns**: `log2 fold change (+ means upregulated in chitosan)`, `gene` (Cyanorak-style ID), `ncbi_cds_locus_tag`, `ncbi_gene_locus_tag`, `ncbi_gene_old_locus_tag`, `geneFunction`, `NCBI alignment`, `NCBI query cover`, `NCBI percent identity`
-
-**No adjusted p-values in the CSV** — the paper states genes were considered significant at adjusted p < 0.1 (DESeq2 with Benjamini-Hochberg correction), but the actual p-values are not included in the supplementary table. Only significantly DE genes are listed (table_scope: significant_only).
-
-Some `ncbi_gene_locus_tag` values are `nan` (genes not found in current NCBI annotation). These will fail to map.
-
-## Gene ID mapping
-
-- **MIT9313**: `ncbi_gene_locus_tag` uses `AKG35_RS*` format (NCBI RS-style locus tags). The KG uses `PMT*` (Cyanorak) as primary locus_tag, but `AKG35_RS*` is stored as `locus_tag_ncbi` in gene_mapping.csv and should be resolvable via gene_id_mapping.json (tier 1 as locus_tag).
-- **MIT9303**: `ncbi_gene_locus_tag` uses `P9303_RS*` format. MIT9303 is NOT in the KG yet (not in cyanobacteria_genomes.csv), so these genes cannot be mapped until MIT9303 is added as a genome.
-- **`ncbi_gene_old_locus_tag`** for MIT9313 contains comma-separated old locus tags (e.g., `PMT0148,PMT_0148,RG24_RS00740`) which are alternative resolution paths.
-
-## Decisions and concerns
-
-1. **MIT9303 is NOT in the KG** — the organism is not listed in `cyanobacteria_genomes.csv`. The MIT9303 experiment is included in the paperconfig for completeness but will not produce edges until MIT9303 is deployed as a genome. This requires finding/adding the NCBI GCF accession, taxid, and running the genome data pipeline.
-
-2. **No adjusted p-values** — `adjusted_p_value_col` is omitted from the paperconfig. Expression edges will have null p-values. The `pvalue_threshold: 0.1` documents the paper's significance criterion but won't be used for filtering (all rows are already significant).
-
-3. **CSV reformatted** — Original xlsx had separate up/down-regulated sections with repeated headers. CSVs have been reformatted to flat format with strain name on row 1 (skipped via `skip_rows: 1`).
-
-4. **Treatment type = carbon** — Chitosan is a partially deacetylated form of chitin, used as a supplemental carbon and energy source. Categorized as `carbon` treatment_type. Could also arguably be `chemical` but carbon is more biologically meaningful since the paper frames it as a mixotrophic carbon source.
-
-5. **`nan` values in gene ID columns** — Several genes (7 in MIT9303, 6 in MIT9313) have `nan` for `ncbi_gene_locus_tag`, indicating Cyanorak genes not found in current NCBI annotation. These will be unresolvable.
-
-## TODO before integration
-
-- [x] Pre-process CSVs into flat single-header format (merged, skip_rows: 1)
-- [ ] Deploy MIT9303 genome to the KG (add to cyanobacteria_genomes.csv, run prepare_data.sh)
-- [ ] Verify MIT9313 `AKG35_RS*` gene IDs resolve correctly via `/check-gene-ids`
-- [ ] Add paperconfig path to `paperconfig_files.txt`
+- Gene ID format(s): MIT9313 `ncbi_gene_locus_tag` = `AKG35_RS*` (NCBI RS style); MIT9303 `ncbi_gene_locus_tag` = `P9303_RS*`. `ncbi_gene_old_locus_tag` on MIT9313 contains comma-separated alternatives (`PMT0148,PMT_0148,RG24_RS00740`); `expand_list()` in `gene_id_utils.py` splits on `,` and `;`.
+- CSVs were reformatted to flat single-header format from the original xlsx (which had separate up/down-regulated sections); strain name sits on row 1 and is skipped via `skip_rows: 1`.
+- `adjusted_p_value_col` is omitted — edges will carry null p-values. The `pvalue_threshold: 0.1` documents the paper's significance criterion but is not used for filtering (all rows are pre-filtered significant).
+- `chitosan` is classified as `treatment_type: [carbon]` (mixotrophic carbon source framing in the paper).
+- `_resolved.csv` / `_resolved_report.txt` files auto-generated by `prepare_data.sh` step 4.
+- Strain coverage: both MIT9313 and MIT9303 are listed in `CLAUDE.md` as deployed Prochlorococcus strains.

@@ -1,45 +1,46 @@
 # Wang 2014
 
-**Paper:** Wang D, Ning K, Li J, Hu J, Han D, Wang H, Zeng X, Jing X, Zhou Q, Su X, Chang X, Wang A, Wang W, Jia J, Wei L, Xin Y, Qiao Y, Huang R, Chen J, Han B, Yoon K, Hill RT, Zohar Y, Chen F, Hu Q, Xu J. (2014) "Nannochloropsis Genomes Reveal Evolution of Microalgal Oleaginous Traits." *BMC Genomics* 14:11.
+**Citation:** Wang J, Chen L, Huang S, Liu J, Zhang X, Qin S (2014). A transcriptomic study of the *Prochlorococcus* cells' differential response to various nutrients. *BMC Microbiology* 14:11.
+**DOI:** 10.1186/1471-2180-14-11
+**Organism(s):** *Prochlorococcus marinus* MED4 (axenic)
+**Topic:** RNA-seq-based profiling of MED4 grown in Pro99 and AMP media at exponential and log-phase (10 samples total), 21C, continuous light at 28 umol quanta m-2 s-1. All MED4 CDS genes were classified by RPKM quartiles into expression-level categories (VEG/HEG/MEG/LEG/NEG) and Core/Flexible designation; operon predictions are also reported.
 
-**Note:** Despite being filed under `papers_and_supp/`, the supplementary data extracted here pertains to *Prochlorococcus* MED4 gene expression levels and operon predictions from an earlier related analysis by the same group. The BMC article number (1471-2180-14-11) indicates *BMC Microbiology*.
+## Available data inventory
 
-## Organism
+| File | Type | Content | KG status | Recommended action |
+|------|------|---------|-----------|--------------------|
+| `1471-2180-14-11.pdf` | PDF | Main paper | reference | — |
+| `GeneClassification_clean.csv` | CSV | MED4 CDS genes classified by expression level (VEG/HEG/MEG/LEG/NEG/--) + Core/Flexible + COG. Cleaned version (title row removed, footnote suffixes stripped) | already in | — |
+| `GeneClassification 12866_2013_2178_MOESM3_ESM.csv` | CSV | Original CSV of gene classification (pre-clean) | skip | Superseded by `GeneClassification_clean.csv` |
+| `12866_2013_2178_MOESM3_ESM.xlsx` | XLSX | Original Excel of gene classification table | skip | Duplicate |
+| `operons 12866_2013_2178_MOESM1_ESM.csv` | CSV | MED4 operon predictions (operon ID, coordinates, member genes) | skip | Operon structure; no node type for operons in KG today |
+| `12866_2013_2178_MOESM1_ESM.xlsx` | XLSX | XLSX of operon predictions | skip | Duplicate |
+| `12866_2013_2178_MOESM2_ESM.xlsx` | XLSX | Supplementary Table 2 | skip | Pending inspection — if per-gene evidence, re-evaluate |
+| `12866_2013_2178_MOESM4_ESM.xlsx` | XLSX | Supplementary Table 4 | skip | Pending inspection — if per-gene evidence, re-evaluate |
+| `cluster_extractions/` | dir | Per-cluster description JSONs | reference | — |
+| `paperconfig.yaml` | YAML | Active paperconfig | reference | — |
 
-*Prochlorococcus marinus* MED4
+## Current paperconfig summary
 
-## Available Data Files
+- Experiments defined: 1 — `expression_profiling_med4_rnaseq`
+- Statistical analyses (DE edges): 0 — no pairwise DE; quartile classification only
+- Supplementary materials entry types: `gene_clusters` (single entry `med4_expression_level`, `cluster_type: condition_comparison`, `cluster_col: ExpressionLevel`)
+- Organisms covered: Prochlorococcus MED4
+- Table scope(s): n/a
+- Non-DE evidence: 1 ClusteringAnalysis with 7 cluster values — VEG (1081), MEG (445), HEG (291), LEG (82), NEG (66), `--` (89), empty (5)
+- ID resolution: `sysName` (PMM####) as `locus_tag`; `locus_tag` column (PMED4_xxxxx) as `alternative_locus_tag`; `name` as `gene_name`
 
-| File | Description |
-|------|-------------|
-| `GeneClassification 12866_2013_2178_MOESM3_ESM.csv` | Classification of all MED4 CDS genes by expression level (VEG/MEG/HEG), with Core/Flexible designation, COG annotations |
-| `operons 12866_2013_2178_MOESM1_ESM.csv` | Predicted operon structure for MED4 (operon ID, coordinates, member genes) |
-| `12866_2013_2178_MOESM1_ESM.xlsx` | Supplementary Table 1 (xlsx version of operon predictions) |
-| `12866_2013_2178_MOESM2_ESM.xlsx` | Supplementary Table 2 |
-| `12866_2013_2178_MOESM3_ESM.xlsx` | Supplementary Table 3 (xlsx version of gene classification) |
-| `12866_2013_2178_MOESM4_ESM.xlsx` | Supplementary Table 4 |
-| `1471-2180-14-11.pdf` | Paper PDF |
+## Recommended actions
 
-### Gene Classification CSV columns
+1. **Change upload** — `ExpressionLevel` is a fixed-vocabulary categorical column (5-6 labels), not a soft-clustering assignment with membership scores and per-cluster functional descriptions. Per the decision rule ("categorical label from a small fixed vocabulary -> `derived_metrics_table` with `value_kind: categorical`"), this entry should move from `gene_clusters` to `derived_metrics_table` with `allowed_categories: [VEG, HEG, MEG, LEG, NEG]`. The `Core/Flexible` column is a second boolean/categorical metric (2-value vocabulary) that would become a second DerivedMetric on the same table.
+2. **Skip** — operon predictions (MOESM1) do not correspond to any node type currently in the schema; defer until an Operon node type is added.
+3. **Add (evaluate)** — inspect MOESM2 and MOESM4 XLSX content; if either contains per-gene DE, periodicity flags, or numeric scores, add as `csv` or `derived_metrics_table`. Not inspected in this pass.
+4. **Reference** — main PDF is reference-only.
 
-`sysName`, `locus tag`, `start`, `stop`, `strand`, `Core/Flexible`, `ExpressionLevel`, `name`, `desc`, `COG`, `COGFun`, `COGDesc`
+## Notes
 
-- **ExpressionLevel** categories: VEG (very highly expressed genes), MEG (moderately expressed genes), HEG (highly expressed genes)
-- Gene IDs use PMM-style sysNames (e.g., PMM0001) and PMED4_ locus tags
-
-### Operons CSV columns
-
-`Operon_ID`, `start`, `end`, `strand`, `length`, `Num. of genes`, followed by variable-width gene member columns (sysName format)
-
-## KG Integration
-
-**Gene expression level classification** integrated as `gene_clusters` entry via `GeneClassification_clean.csv` (preprocessed: title row removed, footnote suffixes stripped from column names).
-
-- `gene_id_col: sysName` (PMM#### format)
-- `cluster_col: ExpressionLevel` — VEG (1081), MEG (445), HEG (291), LEG (82), NEG (66), -- (89), empty (5)
-- `cluster_type: expression_level`
-- `cluster_method`: Quartile-based classification from RNA-seq RPKM across 10 growth conditions (Pro99 and AMP media, 21C, continuous light 28 umol quanta m-2 s-1)
-
-**Operons** not integrated — operon structure predictions don't map to DE edges or gene clusters.
-
-**Note:** `GeneClassification_clean.csv` is derived from the original CSV with cleaned headers (title row removed, footnote suffixes stripped). Original file preserved.
+- Gene ID format: `sysName` = `PMM####` (native MED4 Cyanorak/NCBI locus tag, direct match); `locus_tag` column = `PMED4_xxxxx` (JGI IMG draft) bridged via `gene_id_mapping.json`.
+- `GeneClassification_clean.csv` differs from the raw CSV by having the title row removed and footnote suffixes stripped from column names; original CSV kept for provenance.
+- `_resolved.csv` / `_resolved_report.txt` files auto-generated by `prepare_data.sh` step 4.
+- Strain coverage: MED4 is deployed in the KG.
+- The citation given in the previous README referenced the wrong paper (Wang 2014 Nannochloropsis); corrected here to the BMC Microbiology 14:11 article (Prochlorococcus MED4 transcriptomics) matching the actual data files.

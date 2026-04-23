@@ -1,64 +1,53 @@
 # Zinser 2009
 
-**Citation:** Zinser ER, Lindell D, Johnson ZI, Futschik ME, Steglich C, et al. (2009)
-Choreography of the Transcriptome, Photophysiology, and Cell Cycle of a Minimal
-Photoautotroph, *Prochlorococcus*. PLoS ONE 4(4): e5135.
-doi:10.1371/journal.pone.0005135
+**Citation:** Zinser ER, Lindell D, Johnson ZI, Futschik ME, Steglich C, Coleman ML, Wright MA, Rector T, Steen R, McNulty N, Thompson LR, Chisholm SW (2009). Choreography of the Transcriptome, Photophysiology, and Cell Cycle of a Minimal Photoautotroph, *Prochlorococcus*. *PLoS ONE* 4(4): e5135.
+**DOI:** 10.1371/journal.pone.0005135
+**Organism(s):** *Prochlorococcus* MED4 (axenic)
+**Topic:** Landmark diel transcriptome study of MED4 on a simulated 14:10 L:D cycle sampled every 2h over 48h (50 timepoints). ~80% of annotated genes cycle; 18 Mfuzz soft clusters were identified (1-16 = periodic ordered by peak time, 17 = aperiodic/expressed, 18 = non-expressed). Custom Affymetrix MD4-9313 GeneChip (MED4 + MIT9313 probes), RMA-normalized.
 
-## Summary
+## Available data inventory
 
-Landmark diel transcriptome study of Prochlorococcus MED4 over a simulated
-14:10 light:dark cycle. 80% of annotated genes showed cyclic expression.
-Sixteen expression clusters were identified by soft clustering (Mfuzz),
-plus two special clusters: aperiodic/expressed (17) and non-expressed (18).
+| File | Type | Content | KG status | Recommended action |
+|------|------|---------|-----------|--------------------|
+| `zinser 2009.pdf` | PDF | Main paper | reference | — |
+| `Table_S1.csv` | CSV | 3610 rows (1697 ORFs + 1855 intergenic regions + 58 ncRNAs) x 107 cols — Fourier periodicity stats, peak time, 18-cluster Mfuzz soft-clustering assignment + membership score, 50 pairs of Normalized/StdDev timepoint columns | already in | — |
+| `Table_S1.xls` | XLS | Original Excel of Table S1 | skip | Duplicate |
+| `Table_S2.doc` | DOC | Supplementary Table S2 (Word format) | skip | DOC not machine-readable; no per-gene evidence confirmed |
+| `Table_S3.doc` | DOC | Supplementary Table S3 | skip | DOC format; summary content per legends |
+| `Table_S4.doc` | DOC | Supplementary Table S4 | skip | DOC format |
+| `Table_S5.doc` | DOC | Supplementary Table S5 | skip | DOC format |
+| `Table_S6.doc` | DOC | Supplementary Table S6 | skip | DOC format |
+| `Table_S7.doc` | DOC | Supplementary Table S7 | skip | DOC format |
+| `Table_S8.doc` | DOC | Supplementary Table S8 | skip | DOC format |
+| `Table_S9.doc` | DOC | Supplementary Table S9 | skip | DOC format |
+| `Table_S10.doc` | DOC | Supplementary Table S10 | skip | DOC format |
+| `Table_S11.doc` | DOC | Supplementary Table S11 | skip | DOC format |
+| `Figure_S1.eps` – `Figure_S4.eps` | EPS | Supplementary figures | reference | — |
+| `supp table legends.txt` | TXT | Legends for S1-S11 | reference | — |
+| `cluster_extractions/` | dir | Per-cluster description JSONs (`cluster_extraction_med4_diel_clusters.json`) | reference | — |
+| `paperconfig.yaml` | YAML | Active paperconfig | reference | — |
 
-## Organism
+## Current paperconfig summary
 
-- Prochlorococcus MED4 (axenic)
+- Experiments defined: 1 — `diel_cycling_med4_microarray`
+- Statistical analyses (DE edges): 0 — data are RMA-normalized expression values, not DE fold-changes/p-values
+- Supplementary materials entry types: `gene_clusters` (single entry `med4_diel_clusters`)
+- Organisms covered: Prochlorococcus MED4
+- Table scope(s): n/a (no DE table)
+- Non-DE evidence: 1 ClusteringAnalysis — 18-cluster Mfuzz (c=16, m=1.25) soft-clustering assignment with per-gene membership score
+- ID resolution: `Gene or region` (PMM#### / PMMIG / PMM_ ncRNA) as `old_locus_tag`; `New gene name` (PMED4_xxxxx JGI) as `locus_tag`. PMM#### is the native MED4 locus tag; direct match expected.
 
-## Experimental Conditions
+## Recommended actions
 
-- Medium: Sargasso Seawater-based Pro99, 10 mM HEPES pH 7.5
-- Temperature: 24 +/- 0.2 C
-- Light: 14h light / 10h dark with gradual dawn/dusk transitions
-- Max light intensity: ~232 umol quanta m-2 s-1 (10:00-14:00 experimental time)
-- Doubling time: ~1 day (1.0-1.1 days for replicate cultures)
-- Sampling: every 2 hours over 48 hours (50 timepoints), duplicate cultures sampled alternately
+1. **No action** — Table S1's 18-cluster Mfuzz soft clustering with per-gene membership scores (`Cluster membership score`) is correctly represented as a `gene_clusters` entry per the decision rule (soft-clustering with one cluster per gene + membership score + per-cluster descriptions from `cluster_extractions/`).
+2. **Skip** — Intergenic (`PMMIG`) and ncRNA (`PMM_`) probes will not match gene nodes (expected gap). Cluster `NA` rows are skipped by the adapter.
+3. **Skip** — Tables S2-S11 are .doc files; legends suggest they carry pathway/summary content rather than new per-gene evidence. If any future conversion reveals per-gene categorical or numeric data, re-evaluate.
+4. **Reference** — main PDF, figures, legends are reference-only.
 
-## Platform
+## Notes
 
-- Custom Affymetrix MD4-9313 GeneChip (includes MED4 and MIT9313 probes)
-- Normalization: Robust Multi-Array Average (RMA)
-
-## Data in Table_S1.csv
-
-3610 rows (1697 ORFs + 1855 intergenic regions + 58 non-coding RNAs).
-Columns:
-- Gene or region: PMM#### (ORFs), PMMIG... (intergenic), PMM_... (ncRNAs)
-- New gene name: PMED4_##### (updated nomenclature)
-- Function: annotation
-- Fourier: Fourier score for periodicity
-- FDR: false discovery rate for Fourier score
-- Peak: peak expression time (hours)
-- Peak R value: Pearson correlation with shifted cosine
-- Cluster: cluster assignment (1-16 periodic, 17 aperiodic, 18 non-expressed, NA)
-- Cluster membership score: soft clustering membership (0-1)
-- Cyanobase categories: functional category and sub-category
-- 50 pairs of Normalized/StdDev columns (timepoints 0-48h at 2h intervals)
-
-## Clusters
-
-18 clusters total:
-- Clusters 1-16: periodic expression patterns ordered by peak time
-  - Cluster 1 (57 genes): peak ~08:20, enriched in Photosystem I and II
-  - Cluster 13 (110 genes): peak ~03:24, enriched in ribosomal proteins
-  - Cluster 16 (125 genes): peak ~05:30, enriched in ATP synthase and CO2 metabolism
-- Cluster 17 (173 genes): aperiodic but expressed
-- Cluster 18 (180 genes): non-expressed
-
-## KG Integration
-
-- gene_clusters entry only (no DE edges -- data are raw expression values, not fold-changes)
-- Gene IDs are PMM#### format (standard MED4 locus tags) -- direct match expected
-- Intergenic (PMMIG) and ncRNA (PMM_) probes will not match gene nodes (expected)
-- Cluster "NA" rows have no cluster assignment and will be skipped by the adapter
+- Gene ID format: primary identifier is `PMM####` (MED4 Cyanorak/NCBI locus tag), directly matchable. Secondary `PMED4_xxxxx` (JGI IMG draft) is bridged via the MED4 `gene_id_mapping.json`. Non-coding/intergenic probes (~1913 rows) are expected to be unresolvable.
+- `_resolved.csv` / `_resolved_report.txt` files auto-generated by `prepare_data.sh` step 4.
+- The CSV has 3 header rows before actual column names; `skip_rows: 3` handles this.
+- This integration is a canonical example of `gene_clusters` usage (soft Mfuzz clustering with per-cluster descriptions); do NOT migrate to `derived_metrics_table`.
+- Strain coverage: MED4 is deployed in the KG.

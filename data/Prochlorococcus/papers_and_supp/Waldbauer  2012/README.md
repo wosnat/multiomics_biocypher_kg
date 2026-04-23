@@ -1,31 +1,44 @@
 # Waldbauer 2012
 
-**Paper:** Waldbauer JR, Rodrigue S, Coleman ML, Chisholm SW (2012) Transcriptome and Proteome Dynamics of a Light-Dark Synchronized Bacterial Cell Cycle. PLoS ONE 7(8): e43432. doi:10.1371/journal.pone.0043432
+**Citation:** Waldbauer JR, Rodrigue S, Coleman ML, Chisholm SW (2012). Transcriptome and Proteome Dynamics of a Light-Dark Synchronized Bacterial Cell Cycle. *PLoS ONE* 7(8): e43432.
+**DOI:** 10.1371/journal.pone.0043432
+**Organism(s):** *Prochlorococcus* MED4 (axenic)
+**Topic:** Paired transcriptomics (RNA-seq) and quantitative proteomics (LC-MS 14N/15N SILAC) time course over a light-dark synchronized cell cycle. Measured paired mRNA-protein abundances for 312 cycling genes every 2 hours over 26h under a 14:10 L:D cycle, showing that transcript oscillations are broadly damped at the protein level. Integrated as a single `PAIRED_RNASEQ_PROTEOME` experiment with 6 per-gene numeric derived metrics from Table S2 (phase, amplitude, lag, damping).
 
-**Organism:** Prochlorococcus MED4
+## Available data inventory
 
-**Topic:** Combined transcriptomics (RNA-seq) and quantitative proteomics (LC-MS ¹⁴N/¹⁵N SILAC) time course over a light-dark synchronized cell cycle. Measured paired mRNA-protein abundances for 312 genes every 2 hours, showing that transcript oscillations are broadly damped at the protein level.
+| File | Type | Content | KG status | Recommended action |
+|------|------|---------|-----------|--------------------|
+| `Waldbauer  2012 file.pdf` | PDF | Main paper | reference | — |
+| `Table_S2_modified.csv` | CSV | 312 rows x 9 cols — per-gene cycling metrics (peak_time, amplitudes, lag, damping ratio); built by `scripts/build_modified_csv/build_waldbauer2012_modified_csv.py` from `Table_S2.pdf` | already in | — |
+| `Table_S2.pdf` | PDF | Original per-gene cycling metrics (9 pages, source for `Table_S2_modified.csv`) | reference | — |
+| `Table_S1.pdf` | PDF | Global cycling-detection summary stats (not per-gene) | skip | No gene-level evidence |
+| `Table_S3.pdf` | PDF | CBB/PPP pathway subset of Table S2 | skip | Redundant with Table S2 |
+| `Table_S4.pdf` | PDF | Per-timepoint transcript coverage stats | skip | Sample-level / coverage stats |
+| `Table_S5.pdf` | PDF | Proteomics filtering summary | skip | No per-gene evidence |
+| `Text_S1.pdf` | PDF | Supplementary text | reference | — |
+| `Figure_S1.pdf` – `Figure_S10.pdf` | PDF | Supplementary figures | reference | — |
+| `paperconfig.yaml` | YAML | Active paperconfig | reference | — |
 
-## Integration
+## Current paperconfig summary
 
-Integrated as a single `PAIRED_RNASEQ_PROTEOME` experiment with 6 per-gene derived metrics from Table S2 (phase, amplitude, lag, damping for 312 cycling genes). No DE comparison — diel-cycle summary statistics only.
+- Experiments defined: 1 — `waldbauer_2012_med4_paired_diel` (omics_type `PAIRED_RNASEQ_PROTEOME`, compartment `whole_cell`)
+- Statistical analyses (DE edges): 0 — no pairwise DE; diel-cycle summary statistics only
+- Supplementary materials entry types: `derived_metrics_table` (single entry `table_s2_waldbauer_diel_metrics` with 6 numeric metrics)
+- Organisms covered: Prochlorococcus MED4
+- Table scope(s): n/a (not a DE table)
+- Non-DE evidence: 6 numeric DerivedMetric entries — `peak_time_transcript_h`, `peak_time_protein_h` (phase, not rankable), `protein_transcript_lag_h`, `diel_amplitude_transcript_log2`, `diel_amplitude_protein_log2`, `damping_ratio` (all rankable, no p-values)
+- ID resolution: `pmed4_id` column = `PMED4_xxxxx` (JGI IMG draft) bridged to canonical `PMM####` NCBI locus tags via `gene_id_mapping.json` (tier 1 `alternative_locus_tag`); `gene_name` column as fallback
 
-## Files
+## Recommended actions
 
-| File | Description |
-|------|-------------|
-| `Waldbauer  2012 file.pdf` | Main paper PDF |
-| `paperconfig.yaml` | KG integration config |
-| `Table_S2.pdf` | Original per-gene cycling metrics table (9 pages) |
-| `Table_S2_modified.csv` | Extracted CSV (312 rows × 9 cols) — built by `scripts/build_modified_csv/build_waldbauer2012_modified_csv.py` |
-| `Table_S1.pdf` | Global cycling-detection stats (not per-gene; not ingested) |
-| `Table_S3.pdf` | CBB/PPP pathway subset of Table S2 (redundant; not ingested) |
-| `Table_S4.pdf` | Per-timepoint transcript coverage stats (not per-gene; not ingested) |
-| `Table_S5.pdf` | Proteomics filtering summary (not per-gene; not ingested) |
-| `Figure_S1.pdf` – `Figure_S10.pdf` | Supplementary figures |
-| `Text_S1.pdf` | Supplementary text |
+1. **No action** — Table S2 is integrated as the canonical numeric DerivedMetric reference; 312 genes x 6 metrics = 1,872 measurement edges (`Derived_metric_quantifies_gene`) as cited in `CLAUDE.md`.
+2. **Skip** — Tables S1, S3, S4, S5 are all PDF-only summary tables with no per-gene evidence (or redundant subset of S2).
+3. **Reference** — main PDF, figures, and Text_S1 are reference-only.
 
 ## Notes
 
-- Waldbauer uses `PMED4_xxxxx` locus tags (JGI IMG draft annotation). The gene ID resolution pipeline maps these to canonical `PMM####` NCBI locus tags via `cache/data/Prochlorococcus/genomes/MED4/gene_id_mapping.json`.
-- The paper also reports a raw per-timepoint time course in separate deposits; only the Table S2 derived metrics are ingested (per the non-DE-evidence extension spec, invariant #4: paired-modality derived metrics attach to a single `PAIRED_RNASEQ_PROTEOME` experiment).
+- Gene IDs: `PMED4_xxxxx` (JGI IMG draft annotation). Step-4 resolver maps these to canonical `PMM####` via `cache/data/Prochlorococcus/genomes/MED4/gene_id_mapping.json`. The `_resolved.csv` / `_resolved_report.txt` pair is auto-generated by `prepare_data.sh` step 4.
+- Only Table S2's derived metrics are ingested; per-timepoint raw transcript/protein abundance tables (reported separately by the paper) are out of scope per the non-DE-evidence extension spec (invariant #4: paired-modality derived metrics attach to a single `PAIRED_RNASEQ_PROTEOME` experiment). See `docs/kg-changes/non-de-evidence-extension.md`.
+- Strain coverage: MED4 is deployed in the KG.
+- This is the canonical numeric DerivedMetric integration; `peak_time_*` phase metrics intentionally have `rankable: "false"` (circular clock-hour, not a magnitude).
