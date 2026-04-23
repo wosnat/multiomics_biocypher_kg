@@ -83,6 +83,13 @@ KNOWN_METRIC_TYPES: dict[str, str] = {
     "protein_transcript_lag_h":  "numeric",
     "damping_ratio":             "numeric",
     "diel_amplitude":            "numeric",
+    # Paired-modality variants (Waldbauer 2012 reports peak-time and amplitude
+    # separately for transcript and protein from one time course; the generics
+    # above stay for single-modality papers like zinser 2009).
+    "peak_time_transcript_h":       "numeric",
+    "peak_time_protein_h":          "numeric",
+    "diel_amplitude_transcript_log2": "numeric",
+    "diel_amplitude_protein_log2":    "numeric",
 
     # ── Boolean (Biller 2018 S4A + S4B) ──
     "periodic_in_axenic_LD":                  "boolean",

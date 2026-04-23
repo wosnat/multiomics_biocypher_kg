@@ -1,0 +1,86 @@
+publication:
+  papername: "Waldbauer 2012"
+  doi: "10.1371/journal.pone.0043432"
+  papermainpdf: "data/Prochlorococcus/papers_and_supp/Waldbauer  2012/Waldbauer  2012 file.pdf"
+
+  experiments:
+    waldbauer_2012_med4_paired_diel:
+      name: "MED4 diel paired transcript-protein analysis (Waldbauer 2012)"
+      organism: "Prochlorococcus MED4"
+      omics_type: PAIRED_RNASEQ_PROTEOME
+      compartment: whole_cell
+      treatment_condition: "Light-dark synchronized diel cycle (14:10)"
+      treatment_type: [diel]
+      background_factors: [axenic]
+      experimental_context: "Derived per-gene metrics (phase, amplitude, lag, damping) from paired mRNA (RNA-seq) and protein (LC-MS 14N/15N SILAC) time courses sampled every 2h over 26h for 312 significantly cycling genes"
+      medium: "Pro99 natural seawater medium"
+      temperature: "24C"
+      light_condition: "14:10 light:dark cycle"
+
+  supplementary_materials:
+    # Built from Table_S2.pdf by scripts/build_modified_csv/build_waldbauer2012_modified_csv.py
+    table_s2_waldbauer_diel_metrics:
+      type: derived_metrics_table
+      filename: "data/Prochlorococcus/papers_and_supp/Waldbauer  2012/Table_S2_modified.csv"
+      organism: "Prochlorococcus MED4"
+      experiment: waldbauer_2012_med4_paired_diel
+      name_col: pmed4_id
+      id_columns:
+        - column: pmed4_id
+          id_type: alternative_locus_tag   # PMED4_xxxxx (JGI IMG draft); step-4 resolver maps to canonical PMM#### via gene_id_mapping
+        - column: gene_name
+          id_type: gene_name
+      metrics:
+        - metric_type: peak_time_transcript_h
+          name: "Time of peak transcript abundance (h)"
+          value_kind: numeric
+          value_col: peak_time_transcript_h
+          unit: "hours"
+          rankable: "false"
+          has_p_value: "false"
+          field_description: "Clock-hour at which mRNA abundance peaks across the 14:10 diel cycle (0-24h). Phase metric (circular), not a magnitude — not rankable."
+
+        - metric_type: peak_time_protein_h
+          name: "Time of peak protein abundance (h)"
+          value_kind: numeric
+          value_col: peak_time_protein_h
+          unit: "hours"
+          rankable: "false"
+          has_p_value: "false"
+          field_description: "Clock-hour at which protein abundance peaks across the 14:10 diel cycle (0-24h). Phase metric (circular), not a magnitude — not rankable."
+
+        - metric_type: protein_transcript_lag_h
+          name: "Protein-transcript lag (h)"
+          value_kind: numeric
+          value_col: protein_transcript_lag_h
+          unit: "hours"
+          rankable: "true"
+          has_p_value: "false"
+          field_description: "Lag between transcript peak and protein peak (protein_peak - transcript_peak, mod 24h). Higher = greater post-transcriptional / translational delay."
+
+        - metric_type: diel_amplitude_transcript_log2
+          name: "Transcript amplitude (log2)"
+          value_kind: numeric
+          value_col: transcript_amplitude_log2
+          unit: "log2"
+          rankable: "true"
+          has_p_value: "false"
+          field_description: "log2 peak-to-trough amplitude of transcript abundance across the diel cycle. Higher = stronger mRNA oscillation."
+
+        - metric_type: diel_amplitude_protein_log2
+          name: "Protein amplitude (log2)"
+          value_kind: numeric
+          value_col: protein_amplitude_log2
+          unit: "log2"
+          rankable: "true"
+          has_p_value: "false"
+          field_description: "log2 peak-to-trough amplitude of protein abundance across the diel cycle. Higher = stronger protein oscillation."
+
+        - metric_type: damping_ratio
+          name: "Transcript:protein amplitude ratio"
+          value_kind: numeric
+          value_col: transcript_protein_amplitude_ratio
+          unit: ""
+          rankable: "true"
+          has_p_value: "false"
+          field_description: "Ratio of transcript log2-amplitude to protein log2-amplitude. Higher = stronger damping of transcript oscillations at the protein level (post-transcriptional buffering)."

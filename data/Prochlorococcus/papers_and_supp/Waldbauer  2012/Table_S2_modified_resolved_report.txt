@@ -1,0 +1,11 @@
+Resolution report: Waldbauer 2012 / table_s2_waldbauer_diel_metrics
+Source: Table_S2_modified.csv
+name_col: pmed4_id
+id_columns: ['pmed4_id', 'gene_name']
+
+Total rows with IDs: 312
+Resolved: 312 (100.0%)
+Unresolved: 0
+
+Resolution method breakdown:
+  tier1:pmed4_id: 312
