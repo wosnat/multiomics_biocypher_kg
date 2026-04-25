@@ -17,8 +17,8 @@
     },
     "gene_name": {
       "conflict": 0,
-      "multi": 83,
-      "unique": 1110
+      "multi": 89,
+      "unique": 1111
     },
     "gene_synonym": {
       "conflict": 0,
@@ -29,6 +29,11 @@
       "conflict": 0,
       "multi": 0,
       "unique": 3836
+    },
+    "locus_tag": {
+      "conflict": 0,
+      "multi": 0,
+      "unique": 86
     },
     "locus_tag_cyanorak": {
       "conflict": 0,
@@ -43,23 +48,30 @@
     "old_locus_tag": {
       "conflict": 0,
       "multi": 0,
-      "unique": 4
+      "unique": 6
     },
     "protein_id_refseq": {
       "conflict": 0,
       "multi": 7,
-      "unique": 3859
+      "unique": 3891
     },
     "uniprot_accession": {
       "conflict": 0,
-      "multi": 193,
-      "unique": 1783
+      "multi": 273,
+      "unique": 1753
+    },
+    "uniprot_entry_name": {
+      "conflict": 0,
+      "multi": 0,
+      "unique": 376
     }
   },
   "strain": "MIT9312",
   "unresolved_rows_per_source": {
     "Barreto 2022/id_translation_pro_9312": 45,
-    "Barreto 2022/supp_table_S1_MIT9312": 5,
+    "Barreto 2022/supp_table_S1_MIT9312": 4,
+    "Biller 2022/s3_mit9312_abundance": 20,
+    "Biller 2022/s4_mit9312_enrichment": 19,
     "Hennon 2017/id_translation_mit9312_annot": 2,
     "Hennon 2017/supp_table_2": 103,
     "Tetu 2019/supp_dataset_3_mit9312": 3,

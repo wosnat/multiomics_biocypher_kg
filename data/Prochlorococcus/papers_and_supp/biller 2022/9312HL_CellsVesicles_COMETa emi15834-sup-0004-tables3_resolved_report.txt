@@ -1,0 +1,29 @@
+Resolution report: Biller 2022 / s3_mit9312_abundance
+Source: 9312HL_CellsVesicles_COMETa emi15834-sup-0004-tables3.csv
+name_col: Gene Number
+id_columns: ['Gene Number', 'Protein ID', 'NCBI reference sequence']
+
+Total rows with IDs: 1141
+Resolved: 1132 (99.2%)
+Unresolved: 9
+
+Resolution method breakdown:
+  ambiguous: 1
+  empty: 7
+  locus_tag:Gene Number: 769
+  multi:Gene Number: 4
+  tier1:Gene Number: 359
+  unresolved: 8
+
+Unresolved rows (9):
+  row 19: raw_id='iRT-InternalStandard'  reason=unresolved  [Gene Number='iRT-InternalStandard', Protein ID='Biognosys']
+  row 29: raw_id='Hi3-InternalStandard'  reason=unresolved  [Gene Number='Hi3-InternalStandard', Protein ID='P63284']
+  row 133: raw_id='Randomized'  reason=unresolved  [Gene Number='Randomized', Protein ID='RAND1_Q31BY4_88']
+  row 270: raw_id='rplI2'  reason=unresolved  [Gene Number='rplI2', Protein ID='Q317W9']
+  row 275: raw_id='psbA1'  reason=ambiguous  [Gene Number='psbA1', Protein ID='Q31A92']
+  row 438: raw_id='panC/cmk'  reason=unresolved  [Gene Number='panC/cmk', Protein ID='Q318F2']
+  row 975: raw_id='Randomized'  reason=unresolved  [Gene Number='Randomized', Protein ID='RAND1_Q31DG1_642']
+  row 1058: raw_id='Randomized'  reason=unresolved  [Gene Number='Randomized', Protein ID='RAND1_Q317U1_802']
+  row 1079: raw_id='Randomized'  reason=unresolved  [Gene Number='Randomized', Protein ID='RAND1_Q31CE7_218']
+
+NOTE: 1 rows were ambiguous (multi_lookup had >1 match). Consider adding id_columns with more specific IDs, or check if the name_col should be Tier 2 (protein-level) instead of Tier 1.

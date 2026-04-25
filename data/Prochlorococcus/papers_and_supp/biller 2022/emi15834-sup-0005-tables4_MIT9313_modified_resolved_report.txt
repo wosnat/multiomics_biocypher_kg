@@ -1,0 +1,17 @@
+Resolution report: Biller 2022 / s4_mit9313_enrichment
+Source: emi15834-sup-0005-tables4_MIT9313_modified.csv
+name_col: Protein ID
+id_columns: ['Protein ID', 'UniProt Annotation']
+
+Total rows with IDs: 314
+Resolved: 312 (99.4%)
+Unresolved: 2
+
+Resolution method breakdown:
+  tier1:Protein ID: 225
+  tier1:UniProt Annotation: 87
+  unresolved: 2
+
+Unresolved rows (2):
+  row 79: raw_id='Q7V7H8'  reason=unresolved  [Protein ID='Q7V7H8', UniProt Annotation='Q7V7H8_PROMM Uncharacterized protein OS=Prochlorococcus marinus (strain MIT 9313) GN=PMT_0768 PE=4 SV=1']
+  row 190: raw_id='Q7V4Y8'  reason=unresolved  [Protein ID='Q7V4Y8', UniProt Annotation='Q7V4Y8_PROMM Uncharacterized protein OS=Prochlorococcus marinus (strain MIT 9313) GN=PMT_1796 PE=4 SV=1']

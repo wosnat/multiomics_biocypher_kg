@@ -1,0 +1,13 @@
+Resolution report: Biller 2022 / s4_mit9312_enrichment
+Source: emi15834-sup-0005-tables4_MIT9312_modified.csv
+name_col: Protein ID
+id_columns: ['Protein ID', 'UniProt Annotation']
+
+Total rows with IDs: 207
+Resolved: 207 (100.0%)
+Unresolved: 0
+
+Resolution method breakdown:
+  locus_tag:UniProt Annotation: 6
+  tier1:Protein ID: 141
+  tier1:UniProt Annotation: 60
