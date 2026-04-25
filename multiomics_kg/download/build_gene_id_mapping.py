@@ -31,7 +31,11 @@ import pandas as pd
 from multiomics_kg.download.gene_id_graph import GeneIdGraph
 from multiomics_kg.download.utils.cli import load_genome_rows
 from multiomics_kg.download.utils.paths import PROJECT_ROOT
-from multiomics_kg.utils.gene_id_utils import get_genome_dir, load_gene_annotations
+from multiomics_kg.utils.gene_id_utils import (
+    extract_uniprot_annotation_tokens,
+    get_genome_dir,
+    load_gene_annotations,
+)
 from multiomics_kg.utils.paperconfig_utils import (
     get_organism_for_entry,
     get_paper_name,
@@ -66,6 +70,20 @@ def collect_entries_for_genome_dir(
 
 
 # ─── Row extraction: source → list of (id_val, id_type) ──────────────────────
+
+
+def _emit_pairs(val: str, id_type: str) -> list[tuple[str, str]]:
+    """Convert a single (cell_value, declared_id_type) pair into a list of
+    (token, id_type) pairs for the gene_id mapping graph.
+
+    For most id_types this is a 1-element list. For id_types that wrap
+    multiple embedded tokens (currently only `uniprot_annotation_string`),
+    returns the list of extracted (token, canonical_id_type) pairs; an
+    empty list when nothing parseable is found, so the cell is skipped.
+    """
+    if id_type == "uniprot_annotation_string":
+        return extract_uniprot_annotation_tokens(val)
+    return [(val, id_type)]
 
 
 def _safe_str(val: Any) -> str:
@@ -113,7 +131,7 @@ def extract_rows_from_id_translation(
                 continue
             val = _safe_str(row.get(col, ""))
             if val:
-                row_pairs.append((val, id_type))
+                row_pairs.extend(_emit_pairs(val, id_type))
         if row_pairs:
             result.append((row_pairs, source_label))
 
@@ -334,7 +352,7 @@ def extract_rows_from_csv_table(
                 (c.get("id_type", "other") for c in id_columns if c.get("column") == nc),
                 "locus_tag",  # name_col without explicit id_type is assumed locus_tag
             )
-            row_pairs.append((val, nc_id_type))
+            row_pairs.extend(_emit_pairs(val, nc_id_type))
 
         # Include declared id_columns not already covered by name_cols
         for col_spec in valid_id_columns:
@@ -342,7 +360,7 @@ def extract_rows_from_csv_table(
             id_type = col_spec.get("id_type", "other")
             val = _safe_str(row.get(col, ""))
             if val:
-                row_pairs.append((val, id_type))
+                row_pairs.extend(_emit_pairs(val, id_type))
 
         if row_pairs:
             result.append((row_pairs, source_label))
@@ -396,7 +414,7 @@ def extract_rows_from_gene_clusters_table(
                     (c.get("id_type", "other") for c in id_columns if c.get("column") == gene_id_col),
                     "locus_tag",
                 )
-                row_pairs.append((val, gid_type))
+                row_pairs.extend(_emit_pairs(val, gid_type))
 
         # Include declared id_columns not already covered by gene_id_col
         for col_spec in valid_id_columns:
@@ -404,7 +422,7 @@ def extract_rows_from_gene_clusters_table(
             id_type = col_spec.get("id_type", "other")
             val = _safe_str(row.get(col, ""))
             if val:
-                row_pairs.append((val, id_type))
+                row_pairs.extend(_emit_pairs(val, id_type))
 
         if row_pairs:
             result.append((row_pairs, source_label))
@@ -465,14 +483,14 @@ def extract_rows_from_derived_metrics_table(
         if name_col and name_col in df.columns:
             val = _safe_str(row.get(name_col, ""))
             if val:
-                row_pairs.append((val, name_col_id_type))
+                row_pairs.extend(_emit_pairs(val, name_col_id_type))
 
         for col_spec in extra_cols:
             col = col_spec["column"]
             id_type = col_spec.get("id_type", "other")
             val = _safe_str(row.get(col, ""))
             if val:
-                row_pairs.append((val, id_type))
+                row_pairs.extend(_emit_pairs(val, id_type))
 
         if row_pairs:
             result.append((row_pairs, source_label))
