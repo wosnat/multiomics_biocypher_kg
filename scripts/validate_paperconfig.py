@@ -187,6 +187,8 @@ CANONICAL_CONDITION_TYPES = {
     # Growth / baseline
     "growth_phase",     # Growth state / multi-condition comparison
     "mutant",           # Mutant or evolved strain comparison
+    # Subcellular fractionation comparisons (vesicle/exoproteome/secretome vs whole cell)
+    "compartment",      # Subcellular fraction comparison; specific fraction lives in `compartment` field
     # Background-only (typically not used as treatment_type)
     "axenic",           # Pure culture, no other organisms
 }

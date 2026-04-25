@@ -102,4 +102,9 @@ KNOWN_METRIC_TYPES: dict[str, str] = {
     # `allowed_categories` inline (Task 11). The registry only locks the
     # value_kind — class vocabularies are per-paper.
     "darkness_survival_class": "categorical",
+
+    # ── Numeric, vesicle compartment proteomics (Biller 2022 S3 + S4) ──
+    "cell_abundance_biovolume_normalized":    "numeric",
+    "vesicle_abundance_biovolume_normalized": "numeric",
+    "log2_vesicle_cell_enrichment":           "numeric",
 }

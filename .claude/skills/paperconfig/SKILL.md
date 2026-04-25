@@ -138,6 +138,7 @@ The `experiments` block defines experiment-level metadata that is shared across 
 | `plastic` | Plastic leachate exposure | — |
 | `growth_phase` | Growth state / multi-condition comparison | — |
 | `mutant` | Mutant or evolved strain comparison | Mutant background |
+| `compartment` | Subcellular fraction comparison (vesicle / exoproteome / secretome vs whole cell) | — |
 | `axenic` | — (background only) | Pure culture, no other organisms |
 
 **Rules for assigning `background_factors`:**

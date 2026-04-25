@@ -1,0 +1,146 @@
+publication:
+  papername: Biller 2022
+  doi: "10.1111/1462-2920.15834"
+  papermainpdf: data/Prochlorococcus/papers_and_supp/biller 2022/Environmental Microbiology - 2021 - Biller - Prochlorococcus extracellular vesicles  molecular composition and adsorption.pdf
+  experiments:
+    vesicle_proteomics_mit9312:
+      name: MIT9312 vesicle vs whole-cell proteome (label-free LC-MS/MS)
+      organism: Prochlorococcus MIT9312
+      compartment: vesicle
+      treatment_condition: Vesicle fraction (extracellular)
+      control_condition: Whole cell (intracellular)
+      experimental_context: Mid-to-late exponential phase axenic culture; vesicles purified by tangential flow filtration + OptiPrep gradient; biovolume-normalized trypsin/Lys-C spectral counts
+      omics_type: PROTEOMICS
+      test_type: LC-MS/MS
+      treatment_type: [compartment]
+      background_factors: [axenic, light]
+      medium: AMP1 artificial seawater medium with 10 mM bicarbonate
+      temperature: 24C
+      light_condition: continuous light
+      light_intensity: 30-40 umol photons m-2 s-1
+      table_scope: all_detected_genes
+    vesicle_proteomics_mit9313:
+      name: MIT9313 vesicle vs whole-cell proteome (label-free LC-MS/MS)
+      organism: Prochlorococcus MIT9313
+      compartment: vesicle
+      treatment_condition: Vesicle fraction (extracellular)
+      control_condition: Whole cell (intracellular)
+      experimental_context: Mid-to-late exponential phase axenic culture; vesicles purified by tangential flow filtration + OptiPrep gradient; biovolume-normalized trypsin/Lys-C spectral counts
+      omics_type: PROTEOMICS
+      test_type: LC-MS/MS
+      treatment_type: [compartment]
+      background_factors: [axenic, light]
+      medium: AMP1 artificial seawater medium with 10 mM bicarbonate
+      temperature: 24C
+      light_condition: continuous light
+      light_intensity: 10-20 umol photons m-2 s-1
+      table_scope: all_detected_genes
+  supplementary_materials:
+    s3_mit9312_abundance:
+      type: derived_metrics_table
+      filename: data/Prochlorococcus/papers_and_supp/biller 2022/9312HL_CellsVesicles_COMETa emi15834-sup-0004-tables3.csv
+      organism: Prochlorococcus MIT9312
+      experiment: vesicle_proteomics_mit9312
+      name_col: Gene Number
+      id_columns:
+        - column: Gene Number
+          id_type: locus_tag
+        - column: Protein ID
+          id_type: uniprot_accession
+        - column: NCBI reference sequence
+          id_type: protein_id_refseq
+      product_columns:
+        - column: Protein Description
+        - column: eggNOG HMM Description
+      metrics:
+        - metric_type: vesicle_abundance_biovolume_normalized
+          name: "MIT9312 vesicle protein abundance (biovolume-normalized, Trypsin/Lys-C)"
+          value_kind: numeric
+          value_col: "MIT9312 HL Vesicles Trypsin/Lys-C (COMETa) Normalized specs adjusted.per.vesicle.biovolume (Abacus 9312 Vesicle)"
+          unit: "spectral counts / vesicle biovolume"
+          rankable: "true"
+          has_p_value: "false"
+          field_description: "Hi3-normalized adjusted spectral counts per vesicle biovolume (Trypsin/Lys-C, COMETa); Biller 2022 Table S3"
+        - metric_type: cell_abundance_biovolume_normalized
+          name: "MIT9312 whole-cell protein abundance (biovolume-normalized, Trypsin/Lys-C)"
+          value_kind: numeric
+          value_col: "MIT9312 HL Cells Trypsin/Lys-C (COMETa) Normalized specs adjusted.per.cell.biovolume (Abacus 9312cells trypsin)"
+          unit: "spectral counts / cell biovolume"
+          rankable: "true"
+          has_p_value: "false"
+          field_description: "Hi3-normalized adjusted spectral counts per cell biovolume (Trypsin/Lys-C, COMETa); Biller 2022 Table S3"
+    s3_mit9313_abundance:
+      type: derived_metrics_table
+      filename: data/Prochlorococcus/papers_and_supp/biller 2022/9313LL_CellsVesicles_COMETa emi15834-sup-0004-tables3.csv
+      organism: Prochlorococcus MIT9313
+      experiment: vesicle_proteomics_mit9313
+      name_col: Gene Number
+      id_columns:
+        - column: Gene Number
+          id_type: old_locus_tag
+        - column: Protein ID
+          id_type: uniprot_accession
+        - column: NCBI reference sequence
+          id_type: protein_id_refseq
+      product_columns:
+        - column: Protein Description
+        - column: eggNOG HMM Description
+      metrics:
+        - metric_type: vesicle_abundance_biovolume_normalized
+          name: "MIT9313 vesicle protein abundance (biovolume-normalized, Trypsin/Lys-C)"
+          value_kind: numeric
+          value_col: "MIT9313 LL Vesicles Trypsin/Lys-C (COMETa) Normalized specs adjusted.per.vesicle.biovolume (Abacus 9313 Vesicle)"
+          unit: "spectral counts / vesicle biovolume"
+          rankable: "true"
+          has_p_value: "false"
+          field_description: "Hi3-normalized adjusted spectral counts per vesicle biovolume (Trypsin/Lys-C, COMETa); Biller 2022 Table S3"
+        - metric_type: cell_abundance_biovolume_normalized
+          name: "MIT9313 whole-cell protein abundance (biovolume-normalized, Trypsin/Lys-C)"
+          value_kind: numeric
+          value_col: "MIT9313 LL Cells Trypsin/Lys-C (COMETa) Normalized specs adjusted.per.cell.biovolume (Abacus 9313cells trypsin)"
+          unit: "spectral counts / cell biovolume"
+          rankable: "true"
+          has_p_value: "false"
+          field_description: "Hi3-normalized adjusted spectral counts per cell biovolume (Trypsin/Lys-C, COMETa); Biller 2022 Table S3"
+    s4_mit9312_enrichment:
+      type: derived_metrics_table
+      filename: data/Prochlorococcus/papers_and_supp/biller 2022/emi15834-sup-0005-tables4_MIT9312_modified.csv
+      organism: Prochlorococcus MIT9312
+      experiment: vesicle_proteomics_mit9312
+      name_col: Protein ID
+      id_columns:
+        - column: Protein ID
+          id_type: uniprot_accession
+      product_columns:
+        - column: UniProt Annotation
+        - column: Prokka Annotation
+      metrics:
+        - metric_type: log2_vesicle_cell_enrichment
+          name: "MIT9312 log2 vesicle/cell enrichment (Biller 2022 Table S4)"
+          value_kind: numeric
+          value_col: "Log2(vesicle/cell counts)"
+          unit: "log2 ratio"
+          rankable: "true"
+          has_p_value: "false"
+          field_description: "log2(vesicle / cell) of biovolume-normalized spectral counts; restricted to proteins in top 25% of vesicle counts per strain (Trypsin/Lys-C, COMETa); Biller 2022 Table S4"
+    s4_mit9313_enrichment:
+      type: derived_metrics_table
+      filename: data/Prochlorococcus/papers_and_supp/biller 2022/emi15834-sup-0005-tables4_MIT9313_modified.csv
+      organism: Prochlorococcus MIT9313
+      experiment: vesicle_proteomics_mit9313
+      name_col: Protein ID
+      id_columns:
+        - column: Protein ID
+          id_type: uniprot_accession
+      product_columns:
+        - column: UniProt Annotation
+        - column: Prokka Annotation
+      metrics:
+        - metric_type: log2_vesicle_cell_enrichment
+          name: "MIT9313 log2 vesicle/cell enrichment (Biller 2022 Table S4)"
+          value_kind: numeric
+          value_col: "Log2(vesicle/cell counts)"
+          unit: "log2 ratio"
+          rankable: "true"
+          has_p_value: "false"
+          field_description: "log2(vesicle / cell) of biovolume-normalized spectral counts; restricted to proteins in top 25% of vesicle counts per strain (Trypsin/Lys-C, COMETa); Biller 2022 Table S4"
