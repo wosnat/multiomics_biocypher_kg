@@ -111,6 +111,8 @@ publication:
       id_columns:
         - column: Protein ID
           id_type: uniprot_accession
+        - column: UniProt Annotation
+          id_type: uniprot_annotation_string
       product_columns:
         - column: UniProt Annotation
         - column: Prokka Annotation
@@ -132,6 +134,8 @@ publication:
       id_columns:
         - column: Protein ID
           id_type: uniprot_accession
+        - column: UniProt Annotation
+          id_type: uniprot_annotation_string
       product_columns:
         - column: UniProt Annotation
         - column: Prokka Annotation
