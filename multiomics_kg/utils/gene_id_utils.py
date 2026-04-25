@@ -418,12 +418,30 @@ def resolve_row(
 
     diagnostic: dict[str, str] = {}  # col → failure reason
 
+    # Build per-column id_type index so passes can apply id_type-specific
+    # extraction (currently only `uniprot_annotation_string`).
+    id_type_by_col: dict[str, str] = {}
+    for c in id_columns:
+        col_name = c.get("column", "")
+        if col_name:
+            id_type_by_col[col_name] = c.get("id_type", "other")
+
+    def _candidate_values(col: str, raw) -> list[str]:
+        """Return candidate string values for a column, applying any
+        id_type-specific extraction. Default: expand_list on the raw cell."""
+        if isinstance(raw, float) and pd.isna(raw):
+            return []
+        if raw is None:
+            return []
+        s = str(raw)
+        if id_type_by_col.get(col) == "uniprot_annotation_string":
+            return [tok for tok, _ in extract_uniprot_annotation_tokens(s)]
+        return expand_list(s)
+
     # ── Pass 1: specific_lookup with list expansion (+ direct locus_tag check) ──
     for col in all_cols:
         raw = row.get(col)
-        if raw is None or (isinstance(raw, float) and pd.isna(raw)):
-            continue
-        for val in expand_list(str(raw)):
+        for val in _candidate_values(col, raw):
             if not val:
                 continue
             if val in sl:
@@ -436,9 +454,7 @@ def resolve_row(
     # ── Pass 1b: case-insensitive fallback on specific_lookup + locus_tags ────
     for col in all_cols:
         raw = row.get(col)
-        if raw is None or (isinstance(raw, float) and pd.isna(raw)):
-            continue
-        for val in expand_list(str(raw)):
+        for val in _candidate_values(col, raw):
             if not val:
                 continue
             ci_result = mapping_data.ci_specific(val)
@@ -451,9 +467,7 @@ def resolve_row(
     # ── Pass 2: heuristics → specific_lookup + locus_tags ──────────────────────
     for col in all_cols:
         raw = row.get(col)
-        if raw is None or (isinstance(raw, float) and pd.isna(raw)):
-            continue
-        for val in expand_list(str(raw)):
+        for val in _candidate_values(col, raw):
             for h_val in _heuristic_candidates(val):
                 if h_val in sl:
                     return sl[h_val], f"heuristic:{col}"
@@ -463,9 +477,7 @@ def resolve_row(
     # ── Pass 3: multi_lookup, singletons only ─────────────────────────────────
     for col in all_cols:
         raw = row.get(col)
-        if raw is None or (isinstance(raw, float) and pd.isna(raw)):
-            continue
-        for val in expand_list(str(raw)):
+        for val in _candidate_values(col, raw):
             if not val:
                 continue
             matches = ml.get(val)
@@ -478,9 +490,7 @@ def resolve_row(
     # ── Pass 3b: case-insensitive fallback on multi_lookup, singletons only ───
     for col in all_cols:
         raw = row.get(col)
-        if raw is None or (isinstance(raw, float) and pd.isna(raw)):
-            continue
-        for val in expand_list(str(raw)):
+        for val in _candidate_values(col, raw):
             if not val:
                 continue
             ci_matches = mapping_data.ci_multi(val)

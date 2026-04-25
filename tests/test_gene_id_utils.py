@@ -669,3 +669,76 @@ class TestUniprotAnnotationStringValidatorAccepts:
     def test_id_type_in_valid_set(self):
         from scripts.validate_paperconfig import VALID_ID_TYPES
         assert "uniprot_annotation_string" in VALID_ID_TYPES
+
+
+class TestResolveRowUniprotAnnotation:
+    """resolve_row must extract uniprot_annotation_string columns at lookup time."""
+
+    @pytest.fixture
+    def mapping_data(self):
+        from multiomics_kg.utils.gene_id_utils import MappingData
+        # PMT9312_0032 is a real locus tag; specific_lookup also has the
+        # uniprot_entry_name token Q31DF2_PROM9.
+        return MappingData(
+            locus_tags={"PMT9312_0032"},
+            specific_lookup={
+                "Q31DF2_PROM9": "PMT9312_0032",
+                "PMT9312_0032": "PMT9312_0032",
+            },
+            multi_lookup={"rpmG": ["PMT9312_0107"]},
+            conflicts={},
+        )
+
+    def test_resolves_via_entry_name(self, mapping_data):
+        from multiomics_kg.utils.gene_id_utils import resolve_row
+        row = {"Annot": ("Q31DF2_PROM9 protein OS=... "
+                        "GN=NOT_A_KNOWN_TAG PE=4 SV=1")}
+        id_columns = [{"column": "Annot", "id_type": "uniprot_annotation_string"}]
+        lt, method = resolve_row(row, "Annot", id_columns, mapping_data)
+        assert lt == "PMT9312_0032"
+        assert "Annot" in method  # method string mentions the column
+
+    def test_resolves_via_gn_locus_tag_when_entry_missing(self, mapping_data):
+        from multiomics_kg.utils.gene_id_utils import resolve_row
+        # No leading entry name → only GN= token; that token is itself a real
+        # locus_tag (Tier 1 specific_lookup hit).
+        row = {"Annot": "putative protein GN=PMT9312_0032 PE=3 SV=1"}
+        id_columns = [{"column": "Annot", "id_type": "uniprot_annotation_string"}]
+        lt, _ = resolve_row(row, "Annot", id_columns, mapping_data)
+        assert lt == "PMT9312_0032"
+
+    def test_unresolvable_when_no_tokens_match(self, mapping_data):
+        from multiomics_kg.utils.gene_id_utils import resolve_row
+        row = {"Annot": "ZZZZZ_NOTREAL protein OS=Foo GN=NOT_A_GENE PE=4 SV=1"}
+        id_columns = [{"column": "Annot", "id_type": "uniprot_annotation_string"}]
+        lt, method = resolve_row(row, "Annot", id_columns, mapping_data)
+        assert lt is None
+        assert method == "unresolved"
+
+    def test_skips_cell_with_no_extractable_tokens(self, mapping_data):
+        from multiomics_kg.utils.gene_id_utils import resolve_row
+        # When the cell has no entry/GN= tokens, that column contributes
+        # nothing — but other columns can still resolve.
+        row = {
+            "Annot": "hypothetical protein",
+            "Other": "PMT9312_0032",
+        }
+        id_columns = [
+            {"column": "Annot", "id_type": "uniprot_annotation_string"},
+            {"column": "Other", "id_type": "locus_tag"},
+        ]
+        lt, _ = resolve_row(row, "Annot", id_columns, mapping_data)
+        assert lt == "PMT9312_0032"
+
+    def test_does_not_match_long_annotation_as_literal(self, mapping_data):
+        """Regression guard: the raw long annotation string must NOT be looked up
+        verbatim — that would either miss (best case) or pollute the fallback
+        path (if the literal happens to coincide with a multi_lookup key)."""
+        from multiomics_kg.utils.gene_id_utils import resolve_row
+        long_annot = ("Q31DF2_PROM9 protein OS=Prochlorococcus marinus "
+                      "(strain MIT 9312) GN=PMT9312_0032 PE=4 SV=1")
+        row = {"Annot": long_annot}
+        id_columns = [{"column": "Annot", "id_type": "uniprot_annotation_string"}]
+        lt, method = resolve_row(row, "Annot", id_columns, mapping_data)
+        # Resolves via the extracted entry_name, not the literal long string
+        assert lt == "PMT9312_0032"
