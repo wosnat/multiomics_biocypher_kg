@@ -742,3 +742,25 @@ class TestResolveRowUniprotAnnotation:
         lt, method = resolve_row(row, "Annot", id_columns, mapping_data)
         # Resolves via the extracted entry_name, not the literal long string
         assert lt == "PMT9312_0032"
+
+    def test_excludes_noise_tokens_from_multi_lookup(self):
+        """Regression guard: noise tokens like `OS`, `PE`, `protein` from the
+        long annotation string must NOT feed Tier 2/3 multi_lookup fallback.
+        Without _candidate_values narrowing, expand_list's word-tokenizer
+        would surface `OS` and produce a spurious singleton resolution."""
+        from multiomics_kg.utils.gene_id_utils import MappingData, resolve_row
+        md = MappingData(
+            locus_tags={"PMT9312_0032"},
+            specific_lookup={},  # entry name not registered, so Tier 1 cannot help
+            multi_lookup={"OS": ["WRONG_LT"]},  # noise token would catch here under old logic
+            conflicts={},
+        )
+        row = {"Annot": ("Q31DF2_PROM9 protein OS=Prochlorococcus marinus "
+                        "(strain MIT 9312) GN=somekey PE=4 SV=1")}
+        id_columns = [{"column": "Annot", "id_type": "uniprot_annotation_string"}]
+        lt, _ = resolve_row(row, "Annot", id_columns, md)
+        # Must NOT resolve to WRONG_LT via the noise token. Acceptable outcomes:
+        #   - lt is None (no other token resolves)
+        #   - lt is something else if some legitimate token happens to match
+        # The critical assertion is the absence of WRONG_LT.
+        assert lt != "WRONG_LT"
