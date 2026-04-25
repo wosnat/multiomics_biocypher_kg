@@ -661,3 +661,11 @@ class TestExtractUniprotAnnotationTokens:
         # First entry-name match + first GN= match
         assert ("first", "gene_name") in result
         assert ("second", "gene_name") not in result
+
+
+class TestUniprotAnnotationStringValidatorAccepts:
+    """Validator must accept the new id_type; the free-text guard must NOT fire."""
+
+    def test_id_type_in_valid_set(self):
+        from scripts.validate_paperconfig import VALID_ID_TYPES
+        assert "uniprot_annotation_string" in VALID_ID_TYPES

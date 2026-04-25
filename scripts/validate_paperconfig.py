@@ -94,6 +94,7 @@ VALID_ID_TYPES = {
     "old_locus_tag", "alternative_locus_tag",
     "gene_name", "gene_synonym",
     "protein_id_refseq", "uniprot_accession", "uniprot_entry_name",
+    "uniprot_annotation_string",  # NEW — extracts entry_name + GN= via gene_id_utils
     "jgi_id", "probeset", "rast_id", "annotation_specific", "other",
 }
 
