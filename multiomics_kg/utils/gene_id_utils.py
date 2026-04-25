@@ -325,6 +325,40 @@ def expand_list(raw_val: str) -> list[str]:
     return candidates
 
 
+# ─── UniProt FASTA-header style annotation parsing ────────────────────────────
+
+# Matches the leading "<entry>_<ORG>" token that begins UniProt-style annotation
+# strings (e.g. "Q31DF2_PROM9", "RL33_PROM9", "Q7V5C8_PROMM").
+_UNIPROT_ANNOT_ENTRY_RE = re.compile(r"^([A-Z0-9]+_[A-Z0-9]+)\b")
+
+# Matches the GN=<token> capture (gene name OR locus tag, depending on entry).
+_UNIPROT_ANNOT_GN_RE = re.compile(r"\bGN=(\S+)")
+
+
+def extract_uniprot_annotation_tokens(value) -> list[tuple[str, str]]:
+    """Parse a UniProt FASTA-header style annotation string into (token, id_type) pairs.
+
+    The leading "<entry>_<ORG>" token is emitted as `uniprot_entry_name` (Tier 1).
+    The GN=<token> capture is emitted as `gene_name` (Tier 3); when GN= happens to
+    hold a real locus_tag, the existing Tier 1 specific_lookup catches it first.
+
+    Returns an empty list when neither pattern matches (e.g. plain product
+    descriptions, blank cells, non-string inputs); the cell is then a no-op for
+    ID purposes.
+    """
+    out: list[tuple[str, str]] = []
+    if not isinstance(value, str):
+        return out
+    s = value.strip()
+    if not s:
+        return out
+    if (m := _UNIPROT_ANNOT_ENTRY_RE.match(s)):
+        out.append((m.group(1), "uniprot_entry_name"))
+    if (m := _UNIPROT_ANNOT_GN_RE.search(s)):
+        out.append((m.group(1), "gene_name"))
+    return out
+
+
 def _heuristic_candidates(raw_val: str) -> list[str]:
     """Return heuristic normalized forms of a raw ID (in addition to the raw form).
 

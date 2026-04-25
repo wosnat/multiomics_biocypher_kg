@@ -605,3 +605,59 @@ class TestLoadImportReport:
         )
         result = load_import_report(import_report_path=str(report))
         assert result == {"PMM0001"}
+
+
+class TestExtractUniprotAnnotationTokens:
+    """Unit tests for extract_uniprot_annotation_tokens (Biller 2022 driver case)."""
+
+    def test_full_input_entry_and_gn_locus_tag(self):
+        from multiomics_kg.utils.gene_id_utils import extract_uniprot_annotation_tokens
+        s = ("Q31DF2_PROM9 Type II secretion system protein-like protein "
+             "OS=Prochlorococcus marinus (strain MIT 9312) GN=PMT9312_0032 PE=4 SV=1")
+        assert extract_uniprot_annotation_tokens(s) == [
+            ("Q31DF2_PROM9", "uniprot_entry_name"),
+            ("PMT9312_0032", "gene_name"),
+        ]
+
+    def test_full_input_entry_and_gn_gene_symbol(self):
+        from multiomics_kg.utils.gene_id_utils import extract_uniprot_annotation_tokens
+        s = ("RL33_PROM9 50S ribosomal protein L33 "
+             "OS=Prochlorococcus marinus (strain MIT 9312) GN=rpmG PE=3 SV=2")
+        assert extract_uniprot_annotation_tokens(s) == [
+            ("RL33_PROM9", "uniprot_entry_name"),
+            ("rpmG", "gene_name"),
+        ]
+
+    def test_entry_only_no_gn(self):
+        from multiomics_kg.utils.gene_id_utils import extract_uniprot_annotation_tokens
+        s = "Q7V5C8_PROMM Possible serine protease OS=Prochlorococcus marinus"
+        assert extract_uniprot_annotation_tokens(s) == [
+            ("Q7V5C8_PROMM", "uniprot_entry_name"),
+        ]
+
+    def test_gn_only_no_entry_prefix(self):
+        from multiomics_kg.utils.gene_id_utils import extract_uniprot_annotation_tokens
+        # No leading <entry>_<ORG> shape; only GN= token
+        s = "putative serine protease GN=PMT_1636 PE=4 SV=1"
+        assert extract_uniprot_annotation_tokens(s) == [
+            ("PMT_1636", "gene_name"),
+        ]
+
+    def test_neither_pattern_returns_empty(self):
+        from multiomics_kg.utils.gene_id_utils import extract_uniprot_annotation_tokens
+        assert extract_uniprot_annotation_tokens("hypothetical protein") == []
+
+    def test_empty_and_non_string_returns_empty(self):
+        from multiomics_kg.utils.gene_id_utils import extract_uniprot_annotation_tokens
+        assert extract_uniprot_annotation_tokens("") == []
+        assert extract_uniprot_annotation_tokens("   ") == []
+        assert extract_uniprot_annotation_tokens(None) == []  # type: ignore[arg-type]
+        assert extract_uniprot_annotation_tokens(123) == []   # type: ignore[arg-type]
+
+    def test_first_gn_wins_when_multiple(self):
+        from multiomics_kg.utils.gene_id_utils import extract_uniprot_annotation_tokens
+        s = "X_Y abcd GN=first PE=1 GN=second"
+        result = extract_uniprot_annotation_tokens(s)
+        # First entry-name match + first GN= match
+        assert ("first", "gene_name") in result
+        assert ("second", "gene_name") not in result
