@@ -9,3 +9,5 @@ Gene locus identifier (locus_tag), log2 fold change (logFC), log2 counts per mil
 Supplemental Table 4: Genes with significant differential expression in axenic Alteromonas sp. (EZ55) under elevated CO2
 Gene locus identifier (locus_tag), log2 fold change (logFC), log2 counts per million (log CPM), likelyhood ratio (LR) and p-value calculated from edgeR. Annotations are from EZ55 genome.
 
+Supplemental Table 5: Gene identifiers and location of Alteromonas genes considered in the gene set enrichment analysis
+Pathway ID (Path) and KEGG orthology (KO) for each gene (gene ID) and annotation (annot) in Alteromonas (strain EZ55) considered in the gene set enrichment analysis. Also included are chromosome location (chr, start, end) and strand information. Differential expression statistics are given as log2 fold change (logFC) relative to ambient CO2 and gene expression level in log2 counts per million (log CPM) along with likelyhood ratio (LR) and probability (PValue) of differential expression.
