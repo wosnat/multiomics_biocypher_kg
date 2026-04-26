@@ -1,7 +1,7 @@
 Resolution report: Kratzl 2024 / sheet13_proteomics_selongatus
 Source: data set s1 13_coculture vs Selongatus_all 42003_2024_6098_MOESM3_ESM.csv
 name_col: Protein ID
-id_columns: ['Protein ID', 'Gene Name']
+id_columns: ['Protein ID', 'Gene Name', 'Protein.names']
 
 Total rows with IDs: 567
 Resolved: 530 (93.5%)
@@ -9,29 +9,30 @@ Unresolved: 37
 
 Resolution method breakdown:
   multi:Gene Name: 1
-  multi:Protein ID: 26
+  multi:Protein ID: 12
   tier1:Gene Name: 503
+  tier1:Protein ID: 14
   unresolved: 37
 
 Unresolved rows (37):
-  row 4: raw_id='E0IXR1'  reason=unresolved  [Protein ID='E0IXR1', Gene Name='tr|E0IXR1|E0IXR1_ECOLW Sucrose']
-  row 51: raw_id='P72543'  reason=unresolved  [Protein ID='P72543', Gene Name='dc11']
-  row 64: raw_id='Q9KHM5'  reason=unresolved  [Protein ID='Q9KHM5', Gene Name='glnN']
-  row 86: raw_id='P42079'  reason=unresolved  [Protein ID='P42079', Gene Name='rpoC1']
-  row 87: raw_id='Q31N15'  reason=unresolved  [Protein ID='Q31N15', Gene Name='rpoC2']
-  row 121: raw_id='Q31L30'  reason=unresolved  [Protein ID='Q31L30', Gene Name='rpoA']
-  row 122: raw_id='Q59988'  reason=unresolved  [Protein ID='Q59988', Gene Name='prs']
-  row 141: raw_id='Q31KL4'  reason=unresolved  [Protein ID='Q31KL4', Gene Name='ddl']
-  row 163: raw_id='Q935Y3'  reason=unresolved  [Protein ID='Q935Y3', Gene Name='SEB0013']
-  row 168: raw_id='Q31PX6'  reason=unresolved  [Protein ID='Q31PX6', Gene Name='Synpcc7942_0863']
-  row 178: raw_id='Q93A73'  reason=unresolved  [Protein ID='Q93A73', Gene Name='glg']
-  row 235: raw_id='P38023'  reason=unresolved  [Protein ID='P38023', Gene Name='sigA1']
-  row 265: raw_id='Q31P07'  reason=unresolved  [Protein ID='Q31P07', Gene Name='ndhJ']
-  row 271: raw_id='P39661'  reason=unresolved  [Protein ID='P39661', Gene Name='nirA']
-  row 287: raw_id='Q31QN4'  reason=unresolved  [Protein ID='Q31QN4', Gene Name='glgC']
-  row 313: raw_id='Q31N55'  reason=unresolved  [Protein ID='Q31N55', Gene Name='murE']
-  row 323: raw_id='P11005'  reason=unresolved  [Protein ID='P11005', Gene Name='psbD1']
-  row 344: raw_id='P14788'  reason=unresolved  [Protein ID='P14788', Gene Name='cysA']
-  row 361: raw_id='Q31M28'  reason=unresolved  [Protein ID='Q31M28', Gene Name='tr|Q31M28|Q31M28_SYNE7']
-  row 371: raw_id='Q31MX3'  reason=unresolved  [Protein ID='Q31MX3', Gene Name='ppk']
+  row 4: raw_id='E0IXR1'  reason=unresolved  [Protein ID='E0IXR1', Gene Name='tr|E0IXR1|E0IXR1_ECOLW Sucrose', Protein.names='tr|E0IXR1|E0IXR1_ECOLW Sucrose permease OS=Escherichia coli (strain ATCC 9637 / CCM 2024 / DSM 1116 / NCIMB 8666 / NRRL B-766 / W) OX=566546 GN=cscB PE=4 SV=1']
+  row 51: raw_id='P72543'  reason=unresolved  [Protein ID='P72543', Gene Name='dc11', Protein.names=' Uncharacterized protein OS=Synechococcus elongatus (strain PCC 7942) OX=1140 GN=Synpcc7942_0360 PE=']
+  row 64: raw_id='Q9KHM5'  reason=unresolved  [Protein ID='Q9KHM5', Gene Name='glnN', Protein.names=' Glutamate-ammonia ligase, glutamine synthetase type III OS=Synechococcus elongatus (strain PCC 7942) OX=1140 GN=Sy']
+  row 86: raw_id='P42079'  reason=unresolved  [Protein ID='P42079', Gene Name='rpoC1', Protein.names=' DNA-directed RNA polymerase subunit gamma OS=Synechococcus elongatus (strain PCC 7942) OX=1140 GN=rpoC1 PE=3 SV=2']
+  row 87: raw_id='Q31N15'  reason=unresolved  [Protein ID='Q31N15', Gene Name='rpoC2', Protein.names=' DNA-directed RNA polymerase subunit beta OS=Synechococcus elongatus (strain PCC 7942) OX=1140 GN=rpoC2 PE=3 SV=1']
+  row 121: raw_id='Q31L30'  reason=unresolved  [Protein ID='Q31L30', Gene Name='rpoA', Protein.names=' DNA-directed RNA polymerase subunit alpha OS=Synechococcus elongatus (strain PCC 7942) OX=1140 GN=rpoA PE=3 SV=1']
+  row 122: raw_id='Q59988'  reason=unresolved  [Protein ID='Q59988', Gene Name='prs', Protein.names=' Ribose-phosphate pyrophosphokinase OS=Synechococcus elongatus (strain PCC 7942) OX=1140 GN=prs PE=3 SV=1']
+  row 141: raw_id='Q31KL4'  reason=unresolved  [Protein ID='Q31KL4', Gene Name='ddl', Protein.names=' D-alanine--D-alanine ligase OS=Synechococcus elongatus (strain PCC 7942) OX=1140 GN=ddl PE=3 SV=1']
+  row 163: raw_id='Q935Y3'  reason=unresolved  [Protein ID='Q935Y3', Gene Name='SEB0013', Protein.names=' Photosystem I assembly BtpA OS=Synechococcus elongatus (strain PCC 7942) OX=1140 GN=Synpcc7942_2513 PE=4 SV=1']
+  row 168: raw_id='Q31PX6'  reason=unresolved  [Protein ID='Q31PX6', Gene Name='Synpcc7942_0863', Protein.names=' DRTGG domain-containing protein OS=Synechococcus elongatus (strain PCC 7942) OX=1140 GN=Synpcc7942_0863 PE=4 SV=1']
+  row 178: raw_id='Q93A73'  reason=unresolved  [Protein ID='Q93A73', Gene Name='glg', Protein.names=' Alpha-1,4 glucan phosphorylase OS=Synechococcus elongatus (strain PCC 7942) OX=1140 GN=Synpcc7942_0244 PE=3 S']
+  row 235: raw_id='P38023'  reason=unresolved  [Protein ID='P38023', Gene Name='sigA1', Protein.names=' RNA polymerase sigma factor SigA1 OS=Synechococcus elongatus (strain PCC 7942) OX=1140 GN=sigA1 PE=3 SV=2']
+  row 265: raw_id='Q31P07'  reason=unresolved  [Protein ID='Q31P07', Gene Name='ndhJ', Protein.names=' NAD(P)H-quinone oxidoreductase subunit J OS=Synechococcus elongatus (strain PCC 7942) OX=1140 GN=ndhJ PE=3 SV=1']
+  row 271: raw_id='P39661'  reason=unresolved  [Protein ID='P39661', Gene Name='nirA', Protein.names=' Ferredoxin--nitrite reductase OS=Synechococcus elongatus (strain PCC 7942) OX=1140 GN=nirA PE=3 SV=1']
+  row 287: raw_id='Q31QN4'  reason=unresolved  [Protein ID='Q31QN4', Gene Name='glgC', Protein.names=' Glucose-1-phosphate adenylyltransferase OS=Synechococcus elongatus (strain PCC 7942) OX=1140 GN=glgC PE=3 SV=1']
+  row 313: raw_id='Q31N55'  reason=unresolved  [Protein ID='Q31N55', Gene Name='murE', Protein.names=' UDP-N-acetylmuramoyl-L-alanyl-D-glutamate--2,6-diaminopimelate ligase OS=Synechococcus elongatus (strain PCC 7942) OX=1140 GN=murE PE=3 SV=1']
+  row 323: raw_id='P11005'  reason=unresolved  [Protein ID='P11005', Gene Name='psbD1', Protein.names=' Photosystem II D2 protein OS=Synechococcus elongatus (strain PCC 7942) OX=1140 GN=psbD1 PE=3 SV=2']
+  row 344: raw_id='P14788'  reason=unresolved  [Protein ID='P14788', Gene Name='cysA', Protein.names=' Sulfate/thiosulfate import ATP-binding protein CysA OS=Synechococcus elongatus (strain PCC 7942) OX=1140 GN=cysA PE=2 SV=1']
+  row 361: raw_id='Q31M28'  reason=unresolved  [Protein ID='Q31M28', Gene Name='tr|Q31M28|Q31M28_SYNE7', Protein.names=' Periplasmic binding protein of ABC transporter for natural amino acids OS=Synechococcus elongatus (strain PCC 7942) OX=1140 GN=Synpcc7942_1861 PE=4 SV=1']
+  row 371: raw_id='Q31MX3'  reason=unresolved  [Protein ID='Q31MX3', Gene Name='ppk', Protein.names=' Polyphosphate kinase OS=Synechococcus elongatus (strain PCC 7942) OX=1140 GN=ppk PE=3 SV=1']
   ... (17 more)

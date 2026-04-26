@@ -1,7 +1,7 @@
 Resolution report: Biller 2022 / s3_mit9313_abundance
 Source: 9313LL_CellsVesicles_COMETa emi15834-sup-0004-tables3.csv
 name_col: Gene Number
-id_columns: ['Gene Number', 'Protein ID', 'NCBI reference sequence']
+id_columns: ['Gene Number', 'Protein ID', 'NCBI reference sequence', 'Biller et al. 2014 Science paper Table S3 MIT9313 vesicle detected proteins']
 
 Total rows with IDs: 1184
 Resolved: 1171 (98.9%)
@@ -26,6 +26,6 @@ Unresolved rows (13):
   row 1039: raw_id='PMT_0969'  reason=unresolved  [Gene Number='PMT_0969', Protein ID='Q7TUX8']
   row 1047: raw_id='trmFO'  reason=ambiguous  [Gene Number='trmFO', Protein ID='Q7TUW5']
   row 1126: raw_id='hli4'  reason=unresolved  [Gene Number='hli4', Protein ID='Q7V5G6']
-  row 1183: raw_id='PMT_1599'  reason=unresolved  [Gene Number='PMT_1599', Protein ID='Q7V5G1', NCBI reference sequence='WP_011130966.1']
+  row 1183: raw_id='PMT_1599'  reason=unresolved  [Gene Number='PMT_1599', Protein ID='Q7V5G1', NCBI reference sequence='WP_011130966.1', Biller et al. 2014 Science paper Table S3 MIT9313 vesicle detected proteins='gi|33863866|ref|NP_895426.1| Putative magnesium chelatase family protein']
 
 NOTE: 1 rows were ambiguous (multi_lookup had >1 match). Consider adding id_columns with more specific IDs, or check if the name_col should be Tier 2 (protein-level) instead of Tier 1.

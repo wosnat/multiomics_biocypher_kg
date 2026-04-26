@@ -169,11 +169,11 @@ publication:
           id_type: uniprot_accession
         - column: Gene Name
           id_type: gene_name
-        # Some Gene Name cells are raw UniProt deflines (tr|<acc>|<entry>);
-        # the regex extractor pulls accession + entry name out for resolution.
-        - column: Gene Name
-          id_type: uniprot_defline
         # Protein.names cells often concatenate multiple ;sp|<acc>|<entry> deflines.
+        # NOTE: do NOT also declare `Gene Name` as uniprot_defline — the resolver
+        # dispatches per-column by id_type, so a duplicate column declaration
+        # would override `gene_name` and prevent plain-gene-symbol resolution
+        # (cost: ~503 rows of resolution if you do this on s1_13).
         - column: Protein.names
           id_type: uniprot_defline
       product_columns:
