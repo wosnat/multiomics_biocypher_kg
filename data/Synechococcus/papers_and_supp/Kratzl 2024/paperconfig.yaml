@@ -169,6 +169,13 @@ publication:
           id_type: uniprot_accession
         - column: Gene Name
           id_type: gene_name
+        # Some Gene Name cells are raw UniProt deflines (tr|<acc>|<entry>);
+        # the regex extractor pulls accession + entry name out for resolution.
+        - column: Gene Name
+          id_type: uniprot_defline
+        # Protein.names cells often concatenate multiple ;sp|<acc>|<entry> deflines.
+        - column: Protein.names
+          id_type: uniprot_defline
       product_columns:
         - column: Protein.names
       statistical_analyses:

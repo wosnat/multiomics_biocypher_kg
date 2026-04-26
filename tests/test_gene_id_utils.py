@@ -727,6 +727,59 @@ class TestNcbiProteinDeflineValidatorAccepts:
         assert "ncbi_protein_defline" in VALID_ID_TYPES
 
 
+class TestExtractUniprotDeflineTokens:
+    """Unit tests for extract_uniprot_defline_tokens (Kratzl 2024 style:
+    UniProt FASTA deflines pasted into a CSV column)."""
+
+    def test_swissprot_defline(self):
+        from multiomics_kg.utils.gene_id_utils import extract_uniprot_defline_tokens
+        s = "sp|Q31L36|RF1_SYNE7"
+        assert extract_uniprot_defline_tokens(s) == [
+            ("Q31L36", "uniprot_accession"),
+            ("RF1_SYNE7", "uniprot_entry_name"),
+        ]
+
+    def test_trembl_defline_with_description(self):
+        from multiomics_kg.utils.gene_id_utils import extract_uniprot_defline_tokens
+        s = "tr|E0IXR1|E0IXR1_ECOLW Sucrose permease OS=Escherichia coli"
+        assert extract_uniprot_defline_tokens(s) == [
+            ("E0IXR1", "uniprot_accession"),
+            ("E0IXR1_ECOLW", "uniprot_entry_name"),
+        ]
+
+    def test_multiple_deflines_in_one_cell(self):
+        """Real Kratzl 2024 cell: free-text + ;sp|...|... + free-text + ;sp|...|..."""
+        from multiomics_kg.utils.gene_id_utils import extract_uniprot_defline_tokens
+        s = ("C-phycocyanin beta chain OS=Synechococcus elongatus GN=cpcB1 "
+             "PE=1 SV=2;sp|P00312|PHCB1_SYNP6 C-phycocyanin beta chain "
+             "OS=Synechococcus PE=1 SV=2;sp|P00308|PHCA1_SYNP6 alpha chain")
+        assert extract_uniprot_defline_tokens(s) == [
+            ("P00312", "uniprot_accession"),
+            ("PHCB1_SYNP6", "uniprot_entry_name"),
+            ("P00308", "uniprot_accession"),
+            ("PHCA1_SYNP6", "uniprot_entry_name"),
+        ]
+
+    def test_no_defline_returns_empty(self):
+        from multiomics_kg.utils.gene_id_utils import extract_uniprot_defline_tokens
+        assert extract_uniprot_defline_tokens("amt1") == []
+        assert extract_uniprot_defline_tokens("plain product description") == []
+        # Plain accession without sp|/tr| prefix is NOT extracted
+        assert extract_uniprot_defline_tokens("Q31L36") == []
+
+    def test_empty_and_non_string(self):
+        from multiomics_kg.utils.gene_id_utils import extract_uniprot_defline_tokens
+        assert extract_uniprot_defline_tokens("") == []
+        assert extract_uniprot_defline_tokens(None) == []  # type: ignore[arg-type]
+        assert extract_uniprot_defline_tokens(42) == []    # type: ignore[arg-type]
+
+
+class TestUniprotDeflineValidatorAccepts:
+    def test_id_type_in_valid_set(self):
+        from scripts.validate_paperconfig import VALID_ID_TYPES
+        assert "uniprot_defline" in VALID_ID_TYPES
+
+
 class TestResolveRowUniprotAnnotation:
     """resolve_row must extract uniprot_annotation_string columns at lookup time."""
 

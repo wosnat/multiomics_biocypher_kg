@@ -369,6 +369,37 @@ def extract_ncbi_defline_tokens(value) -> list[tuple[str, str]]:
     return out
 
 
+# Matches a UniProt FASTA-style defline:
+#   sp|Q31L36|RF1_SYNE7
+#   tr|E0IXR1|E0IXR1_ECOLW Sucrose permease ...
+#   sp|P00308|PHCA1_SYNP6 C-phycocyanin alpha chain ...
+# The accession is captured as `uniprot_accession` (Tier 2) and the entry
+# name as `uniprot_entry_name` (Tier 1). A single cell may contain
+# multiple deflines (concatenated by `;` etc.); all are extracted.
+_UNIPROT_DEFLINE_RE = re.compile(r"\b(?:sp|tr)\|([A-Z0-9]+)\|(\S+)")
+
+
+def extract_uniprot_defline_tokens(value) -> list[tuple[str, str]]:
+    """Parse a UniProt FASTA-style defline into (token, id_type) pairs.
+
+    Format: ``(sp|tr)|<accession>|<entry_name>[ <description>]``. Emits
+    the accession as a Tier 2 ``uniprot_accession`` token and the entry
+    name as a Tier 1 ``uniprot_entry_name`` token (the existing
+    `_ORGANISM`-stripping logic in the resolver applies).
+
+    Useful on columns that pasted-in UniProt FASTA headers, e.g. Kratzl
+    2024 ``Protein.names`` and ``Gene Name`` columns where a subset of
+    rows were left as raw deflines.
+    """
+    out: list[tuple[str, str]] = []
+    if not isinstance(value, str):
+        return out
+    for m in _UNIPROT_DEFLINE_RE.finditer(value):
+        out.append((m.group(1), "uniprot_accession"))
+        out.append((m.group(2), "uniprot_entry_name"))
+    return out
+
+
 def extract_uniprot_annotation_tokens(value) -> list[tuple[str, str]]:
     """Parse a UniProt FASTA-header style annotation string into (token, id_type) pairs.
 
@@ -472,6 +503,8 @@ def resolve_row(
             return [tok for tok, _ in extract_uniprot_annotation_tokens(s)]
         if id_type_by_col.get(col) == "ncbi_protein_defline":
             return [tok for tok, _ in extract_ncbi_defline_tokens(s)]
+        if id_type_by_col.get(col) == "uniprot_defline":
+            return [tok for tok, _ in extract_uniprot_defline_tokens(s)]
         return expand_list(s)
 
     # ── Pass 1: specific_lookup with list expansion (+ direct locus_tag check) ──

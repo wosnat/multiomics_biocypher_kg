@@ -34,6 +34,7 @@ from multiomics_kg.download.utils.paths import PROJECT_ROOT
 from multiomics_kg.utils.gene_id_utils import (
     extract_ncbi_defline_tokens,
     extract_uniprot_annotation_tokens,
+    extract_uniprot_defline_tokens,
     get_genome_dir,
     load_gene_annotations,
 )
@@ -91,6 +92,8 @@ def _emit_pairs(val: str, id_type: str) -> list[tuple[str, str]]:
         return extract_uniprot_annotation_tokens(val)
     if id_type == "ncbi_protein_defline":
         return extract_ncbi_defline_tokens(val)
+    if id_type == "uniprot_defline":
+        return extract_uniprot_defline_tokens(val)
     return [(val, id_type)]
 
 
