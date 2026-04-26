@@ -8,7 +8,7 @@ Covers:
 - Binding edge cardinality (1:many from parent to DM)
 - Denormalized fields match parent Experiment
 - Edge-target constraints (all measurement edges target :Gene)
-- Per-edge-type value constraints (value_flag enum, value_text in allowed_categories)
+- Per-edge-type value constraints (boolean value enum, categorical value in allowed_categories)
 - Rollup consistency (Experiment/Publication/OrganismTaxon/Gene) with direct query-time counts
 - Empty-state defaults on nodes without DM children
 - Index existence
@@ -203,34 +203,34 @@ def test_measurement_edges_target_gene(run_query, rel_type):
 # Per-edge-type value constraints
 # ---------------------------------------------------------------------------
 
-def test_flag_edges_value_flag_enum(run_query):
-    """Every derived_metric_flags_gene edge has value_flag in {'true','false'}."""
+def test_flag_edges_value_enum(run_query):
+    """Every derived_metric_flags_gene edge has value in {'true','false'}."""
     result = run_query("""
         MATCH ()-[r:Derived_metric_flags_gene]->()
-        WHERE r.value_flag IS NULL OR NOT r.value_flag IN ['true', 'false']
+        WHERE r.value IS NULL OR NOT r.value IN ['true', 'false']
         RETURN count(r) AS bad
     """)
     assert result[0]["bad"] == 0
 
 
-def test_classify_edges_value_text_non_null(run_query):
+def test_classify_edges_value_non_null(run_query):
     result = run_query("""
         MATCH ()-[r:Derived_metric_classifies_gene]->()
-        WHERE r.value_text IS NULL OR r.value_text = ''
+        WHERE r.value IS NULL OR r.value = ''
         RETURN count(r) AS bad
     """)
     assert result[0]["bad"] == 0
 
 
-def test_classify_edges_value_text_in_allowed_categories(run_query):
-    """value_text on every classifies edge must be in parent DM's allowed_categories."""
+def test_classify_edges_value_in_allowed_categories(run_query):
+    """value on every classifies edge must be in parent DM's allowed_categories."""
     result = run_query("""
         MATCH (dm:DerivedMetric)-[r:Derived_metric_classifies_gene]->()
-        WHERE NOT r.value_text IN dm.allowed_categories
-        RETURN count(r) AS bad, collect(r.value_text)[..5] AS bad_values
+        WHERE NOT r.value IN dm.allowed_categories
+        RETURN count(r) AS bad, collect(r.value)[..5] AS bad_values
     """)
     assert result[0]["bad"] == 0, (
-        f"{result[0]['bad']} classifies edges have value_text outside allowed_categories: {result[0]['bad_values']}"
+        f"{result[0]['bad']} classifies edges have value outside allowed_categories: {result[0]['bad_values']}"
     )
 
 

@@ -703,7 +703,7 @@ def test_boolean_edges_emit_true_flag_only_for_Y_rows(tmp_path):
     for eid, src, tgt, label, props in flag_edges:
         assert src.startswith("derived_metric:mSystems.00040-18:s4a_axenic:")
         assert tgt.startswith("ncbigene:")
-        assert props["value_flag"] == "true"
+        assert props["value"] == "true"
         assert props["metric_type"] in {
             "periodic_in_axenic_LD", "periodic_in_axenic_extended_darkness",
         }
@@ -776,7 +776,7 @@ def test_categorical_edges_emit_one_per_in_set_row(tmp_path):
         assert src.startswith("derived_metric:mSystems.00040-18:s5_survival:")
         assert tgt.startswith("ncbigene:")
         assert props["metric_type"] == "darkness_survival_class"
-        assert props["value_text"] in {
+        assert props["value"] in {
             "darkness_axenic+darkness_coculture",
             "darkness_coculture+unique_coculture",
             "darkness_axenic+unique_axenic",

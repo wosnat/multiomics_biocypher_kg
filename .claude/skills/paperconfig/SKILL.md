@@ -421,8 +421,8 @@ Column-level scalar summaries per gene (periodicity flags, classifiers, numeric 
 | `value_kind` | Edge type | Edge properties |
 |---|---|---|
 | `numeric` | `Derived_metric_quantifies_gene` | `value`, `p_value`, `adjusted_p_value`, plus post-import `rank_by_metric` / `metric_percentile` / `metric_bucket` (if rankable) / `significant` (if has_p_value) |
-| `boolean` | `Derived_metric_flags_gene` | `value_flag ∈ {"true","false"}` |
-| `categorical` | `Derived_metric_classifies_gene` | `value_text` (must match `allowed_categories`) |
+| `boolean` | `Derived_metric_flags_gene` | `value ∈ {"true","false"}` |
+| `categorical` | `Derived_metric_classifies_gene` | `value` (must match `allowed_categories`) |
 
 **Examples:**
 

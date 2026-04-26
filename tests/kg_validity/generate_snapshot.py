@@ -131,8 +131,8 @@ EDGE_PROPERTIES = {
     "ExperimentHasDerivedMetric": [],
     "DerivedMetricBelongsToOrganism": [],
     # DerivedMetric measurement edges (Plan 3)
-    "Derived_metric_flags_gene": ["metric_type", "value_flag"],
-    "Derived_metric_classifies_gene": ["metric_type", "value_text"],
+    "Derived_metric_flags_gene": ["metric_type", "value"],
+    "Derived_metric_classifies_gene": ["metric_type", "value"],
     "Derived_metric_quantifies_gene": [
         "metric_type", "value", "adjusted_p_value",
         "rank_by_metric", "metric_percentile", "metric_bucket", "significant",

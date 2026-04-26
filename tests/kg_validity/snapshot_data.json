@@ -754,7 +754,7 @@
     {
       "properties": {
         "metric_type": "enrichment_bacterial_chemotaxis",
-        "value_flag": "true"
+        "value": "true"
       },
       "source": "derived_metric:ismej.2017.189:supp_table_5_categories:enrichment_bacterial_chemotaxis",
       "target": "ncbigene:EZ55_00159",
@@ -763,7 +763,7 @@
     {
       "properties": {
         "metric_type": "enrichment_bacterial_chemotaxis",
-        "value_flag": "true"
+        "value": "true"
       },
       "source": "derived_metric:ismej.2017.189:supp_table_5_categories:enrichment_bacterial_chemotaxis",
       "target": "ncbigene:EZ55_00307",
@@ -772,7 +772,7 @@
     {
       "properties": {
         "metric_type": "enrichment_bacterial_chemotaxis",
-        "value_flag": "true"
+        "value": "true"
       },
       "source": "derived_metric:ismej.2017.189:supp_table_5_categories:enrichment_bacterial_chemotaxis",
       "target": "ncbigene:EZ55_00308",
@@ -781,7 +781,7 @@
     {
       "properties": {
         "metric_type": "enrichment_bacterial_chemotaxis",
-        "value_flag": "true"
+        "value": "true"
       },
       "source": "derived_metric:ismej.2017.189:supp_table_5_categories:enrichment_bacterial_chemotaxis",
       "target": "ncbigene:EZ55_00309",
@@ -790,7 +790,7 @@
     {
       "properties": {
         "metric_type": "enrichment_bacterial_chemotaxis",
-        "value_flag": "true"
+        "value": "true"
       },
       "source": "derived_metric:ismej.2017.189:supp_table_5_categories:enrichment_bacterial_chemotaxis",
       "target": "ncbigene:EZ55_00310",
@@ -799,7 +799,7 @@
     {
       "properties": {
         "metric_type": "darkness_survival_class",
-        "value_text": "darkness_axenic+unique_axenic"
+        "value": "darkness_axenic+unique_axenic"
       },
       "source": "derived_metric:mSystems.00040-18:s5_natl2a_survival:darkness_survival_class",
       "target": "ncbigene:PMN2A_0012",
@@ -808,7 +808,7 @@
     {
       "properties": {
         "metric_type": "darkness_survival_class",
-        "value_text": "darkness_axenic+darkness_coculture"
+        "value": "darkness_axenic+darkness_coculture"
       },
       "source": "derived_metric:mSystems.00040-18:s5_natl2a_survival:darkness_survival_class",
       "target": "ncbigene:PMN2A_0016",
@@ -817,7 +817,7 @@
     {
       "properties": {
         "metric_type": "darkness_survival_class",
-        "value_text": "darkness_axenic+darkness_coculture"
+        "value": "darkness_axenic+darkness_coculture"
       },
       "source": "derived_metric:mSystems.00040-18:s5_natl2a_survival:darkness_survival_class",
       "target": "ncbigene:PMN2A_0017",
@@ -826,7 +826,7 @@
     {
       "properties": {
         "metric_type": "darkness_survival_class",
-        "value_text": "darkness_axenic+darkness_coculture"
+        "value": "darkness_axenic+darkness_coculture"
       },
       "source": "derived_metric:mSystems.00040-18:s5_natl2a_survival:darkness_survival_class",
       "target": "ncbigene:PMN2A_0020",
@@ -835,7 +835,7 @@
     {
       "properties": {
         "metric_type": "darkness_survival_class",
-        "value_text": "darkness_axenic+darkness_coculture"
+        "value": "darkness_axenic+darkness_coculture"
       },
       "source": "derived_metric:mSystems.00040-18:s5_natl2a_survival:darkness_survival_class",
       "target": "ncbigene:PMN2A_0036",
@@ -902,7 +902,7 @@
       "type": "Derived_metric_quantifies_gene"
     }
   ],
-  "generated_at": "2026-04-26T10:31:45.066282+00:00",
+  "generated_at": "2026-04-26T11:59:59.321293+00:00",
   "nodes": [
     {
       "anchor": true,

@@ -283,12 +283,12 @@ CYPHER
 section "DM EDGE AGGREGATES"
 CYPHER <<'CYPHER'
 MATCH ()-[r:Derived_metric_flags_gene]->()
-RETURN 'flags' AS edge, count(r) AS total, count(r.value_flag) AS with_value,
-       count(DISTINCT r.value_flag) AS distinct_values
+RETURN 'flags' AS edge, count(r) AS total, count(r.value) AS with_value,
+       count(DISTINCT r.value) AS distinct_values
 UNION ALL
 MATCH ()-[r:Derived_metric_classifies_gene]->()
-RETURN 'classifies' AS edge, count(r) AS total, count(r.value_text) AS with_value,
-       count(DISTINCT r.value_text) AS distinct_values
+RETURN 'classifies' AS edge, count(r) AS total, count(r.value) AS with_value,
+       count(DISTINCT r.value) AS distinct_values
 UNION ALL
 MATCH ()-[r:Derived_metric_quantifies_gene]->()
 RETURN 'quantifies' AS edge, count(r) AS total, count(r.value) AS with_value,

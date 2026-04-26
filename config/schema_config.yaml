@@ -247,7 +247,7 @@ derived metric flags gene:
   target: gene
   properties:
     metric_type: str
-    value_flag: str                  # "true" | "false" (string enum)
+    value: str                       # "true" | "false" (string enum)
 
 # DerivedMetric → Gene (categorical metric_type; value_kind="categorical")
 derived metric classifies gene:
@@ -259,7 +259,7 @@ derived metric classifies gene:
   target: gene
   properties:
     metric_type: str
-    value_text: str                  # must be in parent DerivedMetric.allowed_categories
+    value: str                       # must be in parent DerivedMetric.allowed_categories
 
 # GeneCluster → Gene membership edges
 gene in gene cluster:

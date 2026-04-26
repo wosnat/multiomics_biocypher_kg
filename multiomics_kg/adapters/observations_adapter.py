@@ -406,7 +406,7 @@ class ObservationsAdapter:
             edge_id = f"{dm_id}__{gene_locus}"
             props = {
                 "metric_type": _clean_str(metric_type),
-                "value_flag": flag,
+                "value": flag,
             }
             edges.append((
                 edge_id, dm_id, f"ncbigene:{gene_locus}",
@@ -455,7 +455,7 @@ class ObservationsAdapter:
             edges.append((
                 edge_id, dm_id, f"ncbigene:{gene_locus}",
                 "derived_metric_classifies_gene",
-                {"metric_type": _clean_str(metric_type), "value_text": _clean_str(s)},
+                {"metric_type": _clean_str(metric_type), "value": _clean_str(s)},
             ))
             count += 1
         return edges
