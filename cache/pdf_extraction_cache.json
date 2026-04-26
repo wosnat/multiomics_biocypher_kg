@@ -461,6 +461,31 @@
       "title": "Community context and pCO 2 impact the transcriptome of the \u201chelper\u201d bacterium Alteromonas in co-culture with picocyanobacteria"
     }
   },
+  "data/Prochlorococcus/papers_and_supp/biller 2014/science.1243457.pdf": {
+    "publication": {
+      "abstract": "Many heterotrophic bacteria are known to release extracellular vesicles, facilitating interactions between cells and their environment from a distance. Vesicle production has not been described in photoautotrophs, however, and the prevalence and characteristics of vesicles in natural ecosystems is unknown. Here, we report that cultures of Prochlorococcus, a numerically dominant marine cyanobacterium, continuously release lipid vesicles containing proteins, DNA, and RNA. We also show that vesicles carrying DNA from diverse bacteria are abundant in coastal and open-ocean seawater samples. Prochlorococcus vesicles can support the growth of heterotrophic bacterial cultures, which implicates these structures in marine carbon flux. The ability of vesicles to deliver diverse compounds in discrete packages adds another layer of complexity to the flow of information, energy, and biomolecules in marine microbial communities.",
+      "authors": [
+        "Steven J. Biller",
+        "Florence Schubotz",
+        "Sara E. Roggensack",
+        "Anne W. Thompson",
+        "Roger E. Summons",
+        "Sallie W. Chisholm"
+      ],
+      "description": "Characterizes release of membrane vesicles by Prochlorococcus and Synechococcus; analyzes vesicle content (lipids, proteins, DNA, RNA) and abundance in seawater; uses TEM, nanoparticle tracking analysis, proteomics, DNA sequencing, and DNase treatment to confirm vesicle-associated DNA.",
+      "doi": "10.1126/science.1245871",
+      "journal": "Science",
+      "organism": [
+        "Prochlorococcus",
+        "Synechococcus"
+      ],
+      "pmid": null,
+      "publication_id": "10.1126/science.1245871",
+      "publication_year": 2014,
+      "study_type": "Imaging, Proteomics, Genomics, Lipidomics, Nanoparticle tracking analysis",
+      "title": "Bacterial Vesicles in Marine Ecosystems"
+    }
+  },
   "data/Prochlorococcus/papers_and_supp/biller 2016/41396_2016_article_bfismej201682.pdf": {
     "publication": {
       "abstract": "Prochlorococcus NATL2A transcriptome changes in the presence of a co-occurring heterotroph, Alteromonas macleodii MIT1002, were observed within 6 hours of co-culture initiation, with transcripts changing in temporal waves and many changes persisting to 48 hours. Early changes indicated reduced stress (depletion of DNA repair enzyme transcripts and high-light inducible stress proteins). Later, changes included components of the photosynthetic apparatus (notably PSI subunits and chlorophyll biosynthesis enzymes), ribosomal proteins, and biosynthetic enzymes, suggesting enhanced production of reduced carbon for export and metabolic exchange between the two strains.",
@@ -481,6 +506,37 @@
       "publication_year": "2016",
       "study_type": "RNA-seq / Transcriptomics",
       "title": "Torn apart and reunited: impact of a heterotroph on the transcriptome of Prochlorococcus"
+    }
+  },
+  "data/Prochlorococcus/papers_and_supp/biller 2022/Environmental Microbiology - 2021 - Biller - Prochlorococcus extracellular vesicles  molecular composition and adsorption.pdf": {
+    "publication": {
+      "abstract": "Extracellular vesicles are small (\u224820\u2013450 nm diameter) membrane-bound structures released by cells from all domains of life. While vesicles are abundant in the oceans, their functions, both for cells themselves and the emergent ecosystem, remain a mystery. To better characterize these particles \u2013 a prerequisite for determining function \u2013 we analysed the lipid, protein, and metabolite content of vesicles produced by the marine cyanobacterium Prochlorococcus. We show that Prochlorococcus exports a diverse array of cellular compounds into the surrounding seawater enclosed within discrete vesicles. Vesicles produced by two different strains contain some materials in common, but also display numerous strain-specific differences, reflecting functional complexity within vesicle populations. The vesicles contain active enzymes, indicating that they can mediate extracellular biogeochemical reactions in the ocean. We further demonstrate that vesicles from Prochlorococcus and other bacteria associate with diverse microbes including the most abundant marine bacterium, Pelagibacter. Together, our data point toward hypotheses concerning the functional roles of vesicles in marine ecosystems including, but not limited to, possibly mediating energy and nutrient transfers, catalysing extracellular biochemical reactions, and mitigating toxicity of reactive oxygen species.",
+      "authors": [
+        "Steven J. Biller",
+        "Rachel A. Lundeen",
+        "Laura R. Hmelo",
+        "Kevin W. Becker",
+        "Aldo A. Arellano",
+        "Keven Dooley",
+        "Katherine R. Heal",
+        "Laura T. Carlson",
+        "Benjamin A. S. Van Mooy",
+        "Anitra E. Ingalls",
+        "Sallie W. Chisholm"
+      ],
+      "description": "Characterization of lipidome, proteome, and metabolome of extracellular vesicles released by Prochlorococcus MIT9312 and MIT9313, assessment of enzyme activity within vesicles, and investigation of vesicle associations with other marine microbes (notably Pelagibacter) to explore potential roles in oceanic dissolved organic matter and biogeochemical processes.",
+      "doi": "10.1111/1462-2920.15834",
+      "journal": "Environmental Microbiology",
+      "organism": [
+        "Prochlorococcus MIT9312",
+        "Prochlorococcus MIT9313",
+        "Pelagibacter ubique"
+      ],
+      "pmid": null,
+      "publication_id": "10.1111/1462-2920.15834",
+      "publication_year": "2022",
+      "study_type": "Multi-omics (lipidomics, proteomics, metabolomics)",
+      "title": "Prochlorococcus extracellular vesicles: molecular composition and adsorption to diverse microbes"
     }
   },
   "data/Prochlorococcus/papers_and_supp/coe 2024/coe_isme_ycae131.pdf": {

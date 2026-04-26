@@ -81,11 +81,17 @@ def _parse_boolean_cell(
     false_tokens: list[str],
     skip_tokens: list[str],
     blank_policy: str,
+    context: str = "",
 ) -> str | None:
     """Map a single CSV cell value to "true" / "false" / None (=skip).
 
     Hard-errors on unexpected tokens — per parent spec, the adapter must not
     silently coerce ambiguous values.
+
+    Args:
+        context: optional locator (e.g. "<paperconfig.yaml> | <entry_key> /
+            <metric_type> | column='<value_col>'") prepended to the error
+            message so the user can find the offending paperconfig entry.
     """
     # NaN / None / empty string -> apply blank_policy
     if value is None or pd.isna(value):
@@ -99,10 +105,12 @@ def _parse_boolean_cell(
         return "false"
     if s in skip_tokens:
         return None
+    prefix = f"{context}\n  " if context else ""
     raise ValueError(
-        f"Unexpected boolean token {s!r}: not in true_tokens={true_tokens}, "
-        f"false_tokens={false_tokens}, or skip_tokens={skip_tokens}. "
-        f"Paperconfig author must classify explicitly."
+        f"{prefix}Unexpected boolean token {s!r}: not in true_tokens={true_tokens}, "
+        f"false_tokens={false_tokens}, or skip_tokens={skip_tokens}.\n"
+        f"  Fix: add {s!r} to one of true_tokens / false_tokens / skip_tokens "
+        f"on this metric in the paperconfig (or fix the upstream CSV)."
     )
 
 
@@ -340,10 +348,12 @@ class ObservationsAdapter:
                 if value_kind == "boolean":
                     edges.extend(self._emit_boolean_edges(
                         df, gene_col, value_col, metric, dm_id, metric_type,
+                        entry_key=entry_key,
                     ))
                 elif value_kind == "categorical":
                     edges.extend(self._emit_categorical_edges(
                         df, gene_col, value_col, metric, dm_id, metric_type,
+                        entry_key=entry_key,
                     ))
                 elif value_kind == "numeric":
                     edges.extend(self._emit_numeric_edges(
@@ -352,7 +362,7 @@ class ObservationsAdapter:
 
         return edges
 
-    def _emit_boolean_edges(self, df, gene_col, value_col, metric, dm_id, metric_type):
+    def _emit_boolean_edges(self, df, gene_col, value_col, metric, dm_id, metric_type, entry_key=""):
         """Emit derived_metric_flags_gene edges.
 
         Precondition: value_col is present in df.columns (guarded in get_edges).
@@ -385,6 +395,10 @@ class ObservationsAdapter:
             flag = _parse_boolean_cell(
                 row.get(value_col),
                 true_tokens, false_tokens, skip_tokens, blank_policy,
+                context=(
+                    f"[paperconfig: {self.config_file}]\n"
+                    f"  entry: {entry_key} / metric: {metric_type} / column: {value_col!r}"
+                ),
             )
             if flag is None:
                 continue  # skip / blank-skip
@@ -401,7 +415,7 @@ class ObservationsAdapter:
             count += 1
         return edges
 
-    def _emit_categorical_edges(self, df, gene_col, value_col, metric, dm_id, metric_type):
+    def _emit_categorical_edges(self, df, gene_col, value_col, metric, dm_id, metric_type, entry_key=""):
         """Emit derived_metric_classifies_gene edges.
 
         Precondition: value_col is present in df.columns (guarded in get_edges).
@@ -431,8 +445,11 @@ class ObservationsAdapter:
                 continue
             if s not in allowed:
                 raise ValueError(
-                    f"Categorical value {s!r} out of allowed_categories "
-                    f"{sorted(allowed)} for metric {metric_type!r}"
+                    f"[paperconfig: {self.config_file}]\n"
+                    f"  entry: {entry_key} / metric: {metric_type} / column: {value_col!r}\n"
+                    f"  Categorical value {s!r} out of allowed_categories {sorted(allowed)}.\n"
+                    f"  Fix: add {s!r} to allowed_categories on this metric in the paperconfig "
+                    f"(or fix the upstream CSV)."
                 )
             edge_id = f"{dm_id}__{gene_locus}"
             edges.append((
