@@ -10,7 +10,7 @@ publication:
       treatment_condition: Vesicle fraction (extracellular)
       control_condition: Whole cell (intracellular)
       experimental_context: Mid-to-late exponential phase axenic culture; vesicles purified by tangential flow filtration + OptiPrep gradient; biovolume-normalized trypsin/Lys-C spectral counts
-      omics_type: PROTEOMICS
+      omics_type: VESICLE_PROTEOMICS
       test_type: LC-MS/MS
       treatment_type: [compartment]
       background_factors: [axenic, light]
@@ -26,7 +26,7 @@ publication:
       treatment_condition: Vesicle fraction (extracellular)
       control_condition: Whole cell (intracellular)
       experimental_context: Mid-to-late exponential phase axenic culture; vesicles purified by tangential flow filtration + OptiPrep gradient; biovolume-normalized trypsin/Lys-C spectral counts
-      omics_type: PROTEOMICS
+      omics_type: VESICLE_PROTEOMICS
       test_type: LC-MS/MS
       treatment_type: [compartment]
       background_factors: [axenic, light]

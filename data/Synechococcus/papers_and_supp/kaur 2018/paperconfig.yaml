@@ -16,6 +16,7 @@ publication:
       control_condition: "Timepoint 1 (day 1) baseline"
       experimental_context: "100-day coculture of Synechococcus WH7803 and R. pomeroyi DSS-3 in filter-sterilized natural seawater (Gulf Stream), 22C, 10 umol photons m-2 s-1 continuous light, 140 rpm shaking, triplicate flasks, exoproteome collected by TCA precipitation of cell-free supernatant"
       omics_type: EXOPROTEOMICS
+      compartment: exoproteome
       test_type: "t-test_Perseus"
       treatment_type: ["coculture"]
       background_factors: ["light"]
@@ -37,6 +38,7 @@ publication:
       control_condition: "Timepoint 1 (day 1) baseline"
       experimental_context: "100-day coculture of Synechococcus WH7803 and R. pomeroyi DSS-3 in enriched ASW medium, 22C, 10 umol photons m-2 s-1 continuous light, 140 rpm shaking, triplicate flasks, exoproteome collected by TCA precipitation of cell-free supernatant"
       omics_type: EXOPROTEOMICS
+      compartment: exoproteome
       test_type: "t-test_Perseus"
       treatment_type: ["coculture"]
       background_factors: ["light"]
@@ -58,6 +60,7 @@ publication:
       control_condition: "Timepoint 1 (day 1) baseline"
       experimental_context: "100-day coculture of R. pomeroyi DSS-3 and Synechococcus WH7803 in filter-sterilized natural seawater (Gulf Stream), 22C, 10 umol photons m-2 s-1 continuous light, 140 rpm shaking, triplicate flasks, exoproteome collected by TCA precipitation of cell-free supernatant"
       omics_type: EXOPROTEOMICS
+      compartment: exoproteome
       test_type: "t-test_Perseus"
       treatment_type: ["coculture"]
       background_factors: ["light"]
@@ -79,6 +82,7 @@ publication:
       control_condition: "Timepoint 1 (day 1) baseline"
       experimental_context: "100-day coculture of R. pomeroyi DSS-3 and Synechococcus WH7803 in enriched ASW medium, 22C, 10 umol photons m-2 s-1 continuous light, 140 rpm shaking, triplicate flasks, exoproteome collected by TCA precipitation of cell-free supernatant"
       omics_type: EXOPROTEOMICS
+      compartment: exoproteome
       test_type: "t-test_Perseus"
       treatment_type: ["coculture"]
       background_factors: ["light"]
@@ -107,7 +111,7 @@ publication:
       organism: "Synechococcus WH7803"
       id_columns:
         - column: "NCBI reference"
-          id_type: protein_id
+          id_type: protein_id_refseq
         - column: "Other reference"
           id_type: old_locus_tag
       product_columns:
@@ -185,7 +189,7 @@ publication:
       organism: "Synechococcus WH7803"
       id_columns:
         - column: "NCBI reference"
-          id_type: protein_id
+          id_type: protein_id_refseq
         - column: "Other reference"
           id_type: old_locus_tag
       product_columns:
@@ -265,7 +269,7 @@ publication:
       organism: "Ruegeria pomeroyi DSS-3"
       id_columns:
         - column: "NCBI reference"
-          id_type: protein_id
+          id_type: protein_id_refseq
       product_columns:
         - column: "Annotated function and designation"
       statistical_analyses:
@@ -341,7 +345,7 @@ publication:
       organism: "Ruegeria pomeroyi DSS-3"
       id_columns:
         - column: "NCBI reference"
-          id_type: protein_id
+          id_type: protein_id_refseq
       product_columns:
         - column: "Annotated function and designation"
       statistical_analyses:

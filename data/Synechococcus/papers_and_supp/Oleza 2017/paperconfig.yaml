@@ -14,6 +14,7 @@ publication:
       control_condition: "Axenic Synechococcus WH7803 in ASW medium"
       experimental_context: "Nutrient-rich ASW medium, 22C, 10 umol photons m-2 s-1 continuous light, 140 rpm shaking, 35 days, shotgun proteomics (nanoLC-MS/MS, LTQ-Orbitrap XL), NSAF quantification, n=3"
       omics_type: EXOPROTEOMICS
+      compartment: exoproteome
       test_type: "t-test"
       treatment_type: ["coculture"]
       background_factors: ["light"]
@@ -38,6 +39,7 @@ publication:
       control_condition: "Axenic Synechococcus WH7803 in natural seawater"
       experimental_context: "Filter-sterilized natural seawater (Gulf Stream), 22C, 10 umol photons m-2 s-1 continuous light, 140 rpm shaking, 10 days, shotgun proteomics (nanoLC-MS/MS, Orbitrap Fusion), NAF quantification, n=3"
       omics_type: EXOPROTEOMICS
+      compartment: exoproteome
       test_type: "ANOVA"
       treatment_type: ["coculture"]
       background_factors: ["light"]
@@ -62,6 +64,7 @@ publication:
       control_condition: "R. pomeroyi DSS-3 mono-culture in natural seawater"
       experimental_context: "Filter-sterilized natural seawater, 22C, 10 umol photons m-2 s-1 continuous light, 140 rpm shaking, long-term stable coculture, shotgun proteomics (nanoLC-MS/MS, Orbitrap Fusion), NAF quantification, Perseus analysis, n=3"
       omics_type: EXOPROTEOMICS
+      compartment: exoproteome
       test_type: "t-test_Perseus"
       treatment_type: ["coculture"]
       background_factors: ["light"]
@@ -152,7 +155,7 @@ publication:
         - column: "Old NCBI reference"
           id_type: protein_id_refseq
         - column: "New NCBI reference"
-          id_type: protein_id
+          id_type: protein_id_refseq
         - column: "Annotation UniProt"
           id_type: uniprot_accession
       product_columns:

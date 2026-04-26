@@ -253,6 +253,7 @@ CANONICAL_TEST_TYPES = {
     "RPKM_fold_change",      # simple RPKM ratio (no formal test)
     "fold_change",            # fold change without formal test
     "LC-MS/MS",               # label-free proteomics quantification
+    "read_coverage",          # raw per-gene sequencing read counts (no formal test)
 }
 
 

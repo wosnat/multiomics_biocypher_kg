@@ -37,10 +37,13 @@ COMPARTMENTS: frozenset[str] = frozenset({
 EXTENDED_OMICS_TYPES: frozenset[str] = frozenset({
     "RNASEQ",
     "MICROARRAY",
-    "PROTEOMICS",
-    "EXOPROTEOMICS",
+    "PROTEOMICS",              # whole-cell default
+    "EXOPROTEOMICS",           # compartment baked in: exoproteome (Kaur 2018, Oleza 2017)
+    "VESICLE_PROTEOMICS",      # compartment baked in: vesicle (Biller 2014, Biller 2022)
     "METABOLOMICS",
     "PAIRED_RNASEQ_PROTEOME",  # Waldbauer 2012 et al.
+    "DNASEQ",                  # whole-cell DNA-seq default
+    "VESICLE_DNASEQ",          # compartment baked in: vesicle (Biller 2014 S4)
 })
 
 
@@ -107,4 +110,22 @@ KNOWN_METRIC_TYPES: dict[str, str] = {
     "cell_abundance_biovolume_normalized":    "numeric",
     "vesicle_abundance_biovolume_normalized": "numeric",
     "log2_vesicle_cell_enrichment":           "numeric",
+
+    # ── Vesicle compartment, presence + quality + localization (Biller 2014 S2 + S3) ──
+    "vesicle_proteome_member":              "boolean",
+    "mascot_identification_probability":    "numeric",
+    "predicted_subcellular_localization":   "categorical",
+
+    # ── Numeric, vesicle DNA-seq read coverage (Biller 2014 S4) ──
+    "vesicle_dna_avg_read_coverage":        "numeric",
+
+    # ── Boolean, KEGG/topic enrichment set membership (Hennon 2017 S5) ──
+    "enrichment_bacterial_chemotaxis":       "boolean",
+    "enrichment_biosynthesis_of_amino_acids": "boolean",
+    "enrichment_carbon_metabolism":           "boolean",
+    "enrichment_fatty_acid_metabolism":       "boolean",
+    "enrichment_flagellar_assembly":          "boolean",
+    "enrichment_redox_genes":                 "boolean",
+    "enrichment_ribosome":                    "boolean",
+    "enrichment_tonb_associated_genes":       "boolean",
 }

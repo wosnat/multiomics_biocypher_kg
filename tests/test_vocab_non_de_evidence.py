@@ -32,6 +32,7 @@ def test_compartments_has_expected_values():
 def test_extended_omics_types_extends_existing_set():
     assert {"RNASEQ", "MICROARRAY", "PROTEOMICS", "EXOPROTEOMICS", "METABOLOMICS"} <= EXTENDED_OMICS_TYPES
     assert "PAIRED_RNASEQ_PROTEOME" in EXTENDED_OMICS_TYPES
+    assert {"DNASEQ", "VESICLE_PROTEOMICS", "VESICLE_DNASEQ"} <= EXTENDED_OMICS_TYPES
 
 
 def test_value_kinds_enum():

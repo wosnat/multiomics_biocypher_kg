@@ -1,0 +1,34 @@
+Resolution report: Biller 2014 / s2_med4_vesicle_proteome
+Source: table_s2_med4_vesicle_proteome.csv
+name_col: refseq_protein_id
+id_columns: ['refseq_protein_id']
+
+Total rows with IDs: 40
+Resolved: 0 (0.0%)
+Unresolved: 40
+
+Resolution method breakdown:
+  unresolved: 40
+
+Unresolved rows (40):
+  row 0: raw_id='NP_892211.1'  reason=unresolved  [refseq_protein_id='NP_892211.1']
+  row 1: raw_id='NP_892218.1'  reason=unresolved  [refseq_protein_id='NP_892218.1']
+  row 2: raw_id='NP_892228.1'  reason=unresolved  [refseq_protein_id='NP_892228.1']
+  row 3: raw_id='NP_892247.1'  reason=unresolved  [refseq_protein_id='NP_892247.1']
+  row 4: raw_id='NP_892291.1'  reason=unresolved  [refseq_protein_id='NP_892291.1']
+  row 5: raw_id='NP_892306.1'  reason=unresolved  [refseq_protein_id='NP_892306.1']
+  row 6: raw_id='NP_892346.1'  reason=unresolved  [refseq_protein_id='NP_892346.1']
+  row 7: raw_id='NP_892373.1'  reason=unresolved  [refseq_protein_id='NP_892373.1']
+  row 8: raw_id='NP_892449.1'  reason=unresolved  [refseq_protein_id='NP_892449.1']
+  row 9: raw_id='NP_892668.1'  reason=unresolved  [refseq_protein_id='NP_892668.1']
+  row 10: raw_id='NP_892795.1'  reason=unresolved  [refseq_protein_id='NP_892795.1']
+  row 11: raw_id='NP_892828.1'  reason=unresolved  [refseq_protein_id='NP_892828.1']
+  row 12: raw_id='NP_892911.1'  reason=unresolved  [refseq_protein_id='NP_892911.1']
+  row 13: raw_id='NP_893003.1'  reason=unresolved  [refseq_protein_id='NP_893003.1']
+  row 14: raw_id='NP_893031.1'  reason=unresolved  [refseq_protein_id='NP_893031.1']
+  row 15: raw_id='NP_893087.1'  reason=unresolved  [refseq_protein_id='NP_893087.1']
+  row 16: raw_id='NP_893096.1'  reason=unresolved  [refseq_protein_id='NP_893096.1']
+  row 17: raw_id='NP_893149.1'  reason=unresolved  [refseq_protein_id='NP_893149.1']
+  row 18: raw_id='NP_893241.1'  reason=unresolved  [refseq_protein_id='NP_893241.1']
+  row 19: raw_id='NP_893256.1'  reason=unresolved  [refseq_protein_id='NP_893256.1']
+  ... (20 more)

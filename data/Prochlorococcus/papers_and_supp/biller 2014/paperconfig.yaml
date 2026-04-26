@@ -1,0 +1,161 @@
+publication:
+  papername: Biller 2014
+  doi: "10.1126/science.1243457"
+  papermainpdf: data/Prochlorococcus/papers_and_supp/biller 2014/science.1243457.pdf
+  experiments:
+    vesicle_proteomics_med4:
+      name: MED4 vesicle proteome (LC-MS/MS, presence + Mascot probability + PSORTb localization)
+      organism: Prochlorococcus MED4
+      compartment: vesicle
+      treatment_condition: Vesicle fraction (extracellular)
+      control_condition: Whole cell (intracellular)
+      experimental_context: 20 L axenic MED4 culture; vesicles isolated by tangential flow filtration + OptiPrep gradient; SDS-PAGE band, trypsin digest, LTQ LC-MS/MS, Mascot search; PSORTb subcellular-localization prediction. Table S2 lists the proteins identified at >=97% Mascot identification probability with at least one exclusive unique peptide.
+      omics_type: VESICLE_PROTEOMICS
+      test_type: LC-MS/MS
+      treatment_type: [compartment]
+      background_factors: [axenic, light]
+      medium: Pro99 natural seawater medium
+      temperature: 21C
+      light_condition: continuous light
+      light_intensity: 30-40 umol photons m-2 s-1
+      table_scope: significant_only
+      table_scope_detail: "Proteins meeting Mascot >=97% identification probability with >=1 exclusive unique peptide; no whole-cell comparison reported."
+    vesicle_proteomics_mit9313:
+      name: MIT9313 vesicle proteome (LC-MS/MS, presence + Mascot probability + PSORTb localization)
+      organism: Prochlorococcus MIT9313
+      compartment: vesicle
+      treatment_condition: Vesicle fraction (extracellular)
+      control_condition: Whole cell (intracellular)
+      experimental_context: 20 L axenic MIT9313 culture; vesicles isolated by tangential flow filtration + OptiPrep gradient; SDS-PAGE band, trypsin digest, LTQ LC-MS/MS, Mascot search; PSORTb subcellular-localization prediction. Table S3 lists the proteins identified at >=87% Mascot identification probability with at least one exclusive unique peptide.
+      omics_type: VESICLE_PROTEOMICS
+      test_type: LC-MS/MS
+      treatment_type: [compartment]
+      background_factors: [axenic, light]
+      medium: Pro99 natural seawater medium
+      temperature: 21C
+      light_condition: continuous light
+      light_intensity: 10-20 umol photons m-2 s-1
+      table_scope: significant_only
+      table_scope_detail: "Proteins meeting Mascot identification threshold with >=1 exclusive unique peptide; no whole-cell comparison reported."
+    vesicle_dnaseq_med4:
+      name: MED4 vesicle-encapsulated DNA-seq (top-50 ORFs by avg read coverage)
+      organism: Prochlorococcus MED4
+      compartment: vesicle
+      treatment_condition: Vesicle-encapsulated DNA fraction (DNase-protected)
+      control_condition: None (vesicle DNA content profiling, no comparison)
+      experimental_context: Gradient-purified vesicle pellet treated with TURBO DNase to remove non-vesicle DNA, then lysed; vesicle DNA amplified by REPLI-g (phi29 MDA), Illumina MiSeq sequenced, mapped to MED4 reference genome. 1079 of 1949 MED4 ORFs had >=1 read coverage; Table S4 reports the 50 ORFs with highest average read depth (gene-body coverage from combined replicates).
+      omics_type: VESICLE_DNASEQ
+      test_type: read_coverage
+      treatment_type: [compartment]
+      background_factors: [axenic, light]
+      medium: Pro99 natural seawater medium
+      temperature: 21C
+      light_condition: continuous light
+      light_intensity: 30-40 umol photons m-2 s-1
+      table_scope: top_n
+      table_scope_detail: "Top 50 ORFs by average read coverage; full set of 1079 covered ORFs not in supplementary."
+  supplementary_materials:
+    s2_med4_vesicle_proteome:
+      type: derived_metrics_table
+      filename: data/Prochlorococcus/papers_and_supp/biller 2014/table_s2_med4_vesicle_proteome.csv
+      organism: Prochlorococcus MED4
+      experiment: vesicle_proteomics_med4
+      name_col: refseq_protein_id
+      id_columns:
+        - column: refseq_protein_id
+          id_type: protein_id_refseq
+      product_columns:
+        - column: description
+      metrics:
+        - metric_type: vesicle_proteome_member
+          name: "MED4 protein detected in vesicle proteome (Biller 2014 Table S2)"
+          value_kind: boolean
+          value_col: vesicle_proteome_member
+          blank_policy: skip
+          true_tokens: ["true"]
+          false_tokens: []
+          skip_tokens: []
+          field_description: "Boolean flag: protein identified in MED4 vesicle proteome by LC-MS/MS (Mascot >=97% identification probability with >=1 exclusive unique peptide)."
+        - metric_type: mascot_identification_probability
+          name: "MED4 vesicle protein Mascot identification probability (Biller 2014 Table S2)"
+          value_kind: numeric
+          value_col: mascot_probability_pct
+          unit: "percent"
+          rankable: "false"
+          has_p_value: "false"
+          field_description: "Mascot peptide-identification probability (%) for the protein in the MED4 vesicle proteome; quality score, not abundance. Cutoff was 97%."
+        - metric_type: predicted_subcellular_localization
+          name: "MED4 vesicle protein PSORTb predicted localization (Biller 2014 Table S2)"
+          value_kind: categorical
+          value_col: predicted_localization
+          allowed_categories:
+            - "Cytoplasmic"
+            - "Cytoplasmic Membrane"
+            - "Periplasmic"
+            - "Outer Membrane"
+            - "Extracellular"
+            - "Unknown"
+          field_description: "PSORTb-predicted subcellular localization for proteins in the MED4 vesicle proteome."
+    s3_mit9313_vesicle_proteome:
+      type: derived_metrics_table
+      filename: data/Prochlorococcus/papers_and_supp/biller 2014/table_s3_mit9313_vesicle_proteome.csv
+      organism: Prochlorococcus MIT9313
+      experiment: vesicle_proteomics_mit9313
+      name_col: refseq_protein_id
+      id_columns:
+        - column: refseq_protein_id
+          id_type: protein_id_refseq
+      product_columns:
+        - column: description
+      metrics:
+        - metric_type: vesicle_proteome_member
+          name: "MIT9313 protein detected in vesicle proteome (Biller 2014 Table S3)"
+          value_kind: boolean
+          value_col: vesicle_proteome_member
+          blank_policy: skip
+          true_tokens: ["true"]
+          false_tokens: []
+          skip_tokens: []
+          field_description: "Boolean flag: protein identified in MIT9313 vesicle proteome by LC-MS/MS (Mascot identification with >=1 exclusive unique peptide)."
+        - metric_type: mascot_identification_probability
+          name: "MIT9313 vesicle protein Mascot identification probability (Biller 2014 Table S3)"
+          value_kind: numeric
+          value_col: mascot_probability_pct
+          unit: "percent"
+          rankable: "false"
+          has_p_value: "false"
+          field_description: "Mascot peptide-identification probability (%) for the protein in the MIT9313 vesicle proteome; quality score, not abundance."
+        - metric_type: predicted_subcellular_localization
+          name: "MIT9313 vesicle protein PSORTb predicted localization (Biller 2014 Table S3)"
+          value_kind: categorical
+          value_col: predicted_localization
+          allowed_categories:
+            - "Cytoplasmic"
+            - "Cytoplasmic Membrane"
+            - "Periplasmic"
+            - "Outer Membrane"
+            - "Extracellular"
+            - "Unknown"
+          field_description: "PSORTb-predicted subcellular localization for proteins in the MIT9313 vesicle proteome."
+    s4_med4_vesicle_dna_top50:
+      type: derived_metrics_table
+      filename: data/Prochlorococcus/papers_and_supp/biller 2014/table_s4_med4_vesicle_dna_top50.csv
+      organism: Prochlorococcus MED4
+      experiment: vesicle_dnaseq_med4
+      name_col: locus_tag
+      id_columns:
+        - column: locus_tag
+          id_type: locus_tag_ncbi
+        - column: genbank_protein_id
+          id_type: other
+      product_columns:
+        - column: description
+      metrics:
+        - metric_type: vesicle_dna_avg_read_coverage
+          name: "MED4 vesicle DNA average read coverage (Biller 2014 Table S4, top-50 ORFs)"
+          value_kind: numeric
+          value_col: avg_reads
+          unit: "reads"
+          rankable: "true"
+          has_p_value: "false"
+          field_description: "Average read coverage across the entire ORF, from Illumina MiSeq sequencing of vesicle-encapsulated, DNase-protected, MDA-amplified DNA from MED4 cultures. Combined dataset across two biological replicate libraries. Top 50 ORFs by coverage; 1079 of 1949 MED4 ORFs had >=1 read."
