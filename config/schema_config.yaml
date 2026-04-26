@@ -144,6 +144,19 @@ derived metric:
     field_description: str
     total_gene_count: int            # post-import (Plan 3)
     growth_phases: str[]             # post-import (Plan 3)
+    # Numeric DM distribution stats (post-import; null for boolean/categorical)
+    value_min: float
+    value_max: float
+    value_q1: float
+    value_median: float
+    value_q3: float
+    # Boolean DM flag counts (post-import; null for numeric/categorical)
+    flag_true_count: int
+    flag_false_count: int
+    # Categorical DM category distribution (post-import; null for numeric/boolean)
+    # Parallel arrays sorted by label for deterministic output.
+    category_labels: str[]
+    category_counts: int[]
 
 # Publication → Experiment
 publication has experiment:

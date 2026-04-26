@@ -902,7 +902,7 @@
       "type": "Derived_metric_quantifies_gene"
     }
   ],
-  "generated_at": "2026-04-26T11:59:59.321293+00:00",
+  "generated_at": "2026-04-26T17:13:58.568660+00:00",
   "nodes": [
     {
       "anchor": true,
@@ -1739,6 +1739,8 @@
       "properties": {
         "compartment": "whole_cell",
         "experiment_id": "10.1128/mSystems.00040-18_darkness_extended_darkness_natl2a_rnaseq_axenic",
+        "flag_false_count": 0,
+        "flag_true_count": 1377,
         "has_p_value": "false",
         "metric_type": "periodic_in_axenic_LD",
         "name": "Periodic in NATL2A axenic L:D (Table S4A)",
@@ -1754,6 +1756,16 @@
       "id": "derived_metric:mSystems.00040-18:s5_natl2a_survival:darkness_survival_class",
       "label": "DerivedMetric",
       "properties": {
+        "category_counts": [
+          95,
+          76,
+          87
+        ],
+        "category_labels": [
+          "darkness_axenic+darkness_coculture",
+          "darkness_axenic+unique_axenic",
+          "darkness_coculture+unique_coculture"
+        ],
         "compartment": "whole_cell",
         "experiment_id": "10.1128/mSystems.00040-18_darkness_extended_darkness_natl2a_rnaseq_axenic",
         "has_p_value": "false",
@@ -1764,6 +1776,28 @@
         "rankable": "false",
         "total_gene_count": 258,
         "value_kind": "categorical"
+      }
+    },
+    {
+      "anchor": true,
+      "id": "derived_metric:journal.pone.0043432:table_s2_waldbauer_diel_metrics:peak_time_protein_h",
+      "label": "DerivedMetric",
+      "properties": {
+        "compartment": "whole_cell",
+        "experiment_id": "10.1371/journal.pone.0043432_waldbauer_2012_med4_paired_diel",
+        "has_p_value": "false",
+        "metric_type": "peak_time_protein_h",
+        "name": "Time of peak protein abundance (h)",
+        "omics_type": "PAIRED_RNASEQ_PROTEOME",
+        "organism_name": "Prochlorococcus MED4",
+        "rankable": "false",
+        "total_gene_count": 312,
+        "value_kind": "numeric",
+        "value_max": 24.0,
+        "value_median": 12.350000000000001,
+        "value_min": 0.0,
+        "value_q1": 6.675000000000001,
+        "value_q3": 18.9
       }
     },
     {
@@ -1780,7 +1814,12 @@
         "organism_name": "Prochlorococcus MIT9312",
         "rankable": "true",
         "total_gene_count": 1014,
-        "value_kind": "numeric"
+        "value_kind": "numeric",
+        "value_max": 8.02e-07,
+        "value_median": 7.67e-09,
+        "value_min": 8.85e-10,
+        "value_q1": 3.25e-09,
+        "value_q3": 2.01e-08
       }
     },
     {
@@ -1797,7 +1836,12 @@
         "organism_name": "Prochlorococcus MIT9312",
         "rankable": "true",
         "total_gene_count": 221,
-        "value_kind": "numeric"
+        "value_kind": "numeric",
+        "value_max": 2.79e-07,
+        "value_median": 1.18e-09,
+        "value_min": 1.31e-10,
+        "value_q1": 3.92e-10,
+        "value_q3": 4.97e-09
       }
     },
     {
@@ -1814,7 +1858,12 @@
         "organism_name": "Prochlorococcus MIT9313",
         "rankable": "true",
         "total_gene_count": 1039,
-        "value_kind": "numeric"
+        "value_kind": "numeric",
+        "value_max": 2.98e-06,
+        "value_median": 1.87e-08,
+        "value_min": 2.24e-09,
+        "value_q1": 7.48e-09,
+        "value_q3": 5.125e-08
       }
     },
     {
@@ -1831,7 +1880,12 @@
         "organism_name": "Prochlorococcus MIT9313",
         "rankable": "true",
         "total_gene_count": 350,
-        "value_kind": "numeric"
+        "value_kind": "numeric",
+        "value_max": 4.31e-07,
+        "value_median": 1.1e-09,
+        "value_min": 2.2e-10,
+        "value_q1": 4.41e-10,
+        "value_q3": 3.475e-09
       }
     },
     {
@@ -1848,7 +1902,12 @@
         "organism_name": "Prochlorococcus MIT9312",
         "rankable": "true",
         "total_gene_count": 204,
-        "value_kind": "numeric"
+        "value_kind": "numeric",
+        "value_max": 2.050230564,
+        "value_median": -3.7982188199999998,
+        "value_min": -10.31939404,
+        "value_q1": -6.3470493515,
+        "value_q3": -1.7275050052500003
       }
     }
   ]

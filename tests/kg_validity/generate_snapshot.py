@@ -65,6 +65,8 @@ ANCHOR_NODES = {
         # Biller 2018 retrofitted boolean + categorical DMs — always present post-Plan-3
         "derived_metric:mSystems.00040-18:s4a_natl2a_axenic:periodic_in_axenic_LD",
         "derived_metric:mSystems.00040-18:s5_natl2a_survival:darkness_survival_class",
+        # Waldbauer 2012 numeric DM — stable distribution (peak phase 0–24h)
+        "derived_metric:journal.pone.0043432:table_s2_waldbauer_diel_metrics:peak_time_protein_h",
     ],
 }
 
@@ -92,6 +94,12 @@ NODE_PROPERTIES = {
         "name", "metric_type", "value_kind", "experiment_id",
         "organism_name", "compartment", "omics_type", "total_gene_count",
         "rankable", "has_p_value",
+        # numeric distribution stats (numeric DMs only)
+        "value_min", "value_max", "value_q1", "value_median", "value_q3",
+        # boolean flag counts (boolean DMs only)
+        "flag_true_count", "flag_false_count",
+        # categorical distribution (categorical DMs only)
+        "category_labels", "category_counts",
     ],
 }
 

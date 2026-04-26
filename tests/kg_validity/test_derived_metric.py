@@ -292,6 +292,212 @@ def test_dm_emits_only_one_edge_type(run_query):
 
 
 # ---------------------------------------------------------------------------
+# DerivedMetric distribution stats: numeric / boolean / categorical
+# (post-import rollups; see scripts/post-import.sh §"DerivedMetric numeric
+# distribution stats" / "boolean flag counts" / "categorical distribution")
+# ---------------------------------------------------------------------------
+
+def test_numeric_dm_distribution_stats_populated(run_query):
+    """Every numeric DM with quantifies edges has all 5 distribution props set."""
+    result = run_query("""
+        MATCH (dm:DerivedMetric {value_kind: 'numeric'})
+        WHERE EXISTS { (dm)-[:Derived_metric_quantifies_gene]->() }
+          AND (dm.value_min IS NULL
+               OR dm.value_max IS NULL
+               OR dm.value_q1 IS NULL
+               OR dm.value_median IS NULL
+               OR dm.value_q3 IS NULL)
+        RETURN count(dm) AS bad, collect(dm.id)[..3] AS examples
+    """)
+    assert result[0]["bad"] == 0, (
+        f"{result[0]['bad']} numeric DMs missing distribution props: {result[0]['examples']}"
+    )
+
+
+def test_numeric_dm_distribution_stats_match_aggregation(run_query):
+    """Precomputed value_min/q1/median/q3/max equal Cypher aggregation."""
+    result = run_query("""
+        MATCH (dm:DerivedMetric {value_kind: 'numeric'})
+        MATCH (dm)-[r:Derived_metric_quantifies_gene]->(:Gene)
+        WITH dm,
+             min(r.value)                  AS computed_min,
+             max(r.value)                  AS computed_max,
+             percentileCont(r.value, 0.25) AS computed_q1,
+             percentileCont(r.value, 0.5)  AS computed_median,
+             percentileCont(r.value, 0.75) AS computed_q3
+        WHERE dm.value_min    <> computed_min
+           OR dm.value_max    <> computed_max
+           OR dm.value_q1     <> computed_q1
+           OR dm.value_median <> computed_median
+           OR dm.value_q3     <> computed_q3
+        RETURN count(dm) AS mismatched, collect(dm.id)[..3] AS examples
+    """)
+    assert result[0]["mismatched"] == 0, (
+        f"{result[0]['mismatched']} numeric DMs disagree with live aggregation: "
+        f"{result[0]['examples']}"
+    )
+
+
+def test_numeric_dm_distribution_stats_ordered(run_query):
+    """min <= q1 <= median <= q3 <= max on every numeric DM."""
+    result = run_query("""
+        MATCH (dm:DerivedMetric {value_kind: 'numeric'})
+        WHERE dm.value_min IS NOT NULL
+          AND (dm.value_min > dm.value_q1
+               OR dm.value_q1 > dm.value_median
+               OR dm.value_median > dm.value_q3
+               OR dm.value_q3 > dm.value_max)
+        RETURN count(dm) AS bad, collect(dm.id)[..3] AS examples
+    """)
+    assert result[0]["bad"] == 0, (
+        f"{result[0]['bad']} numeric DMs have unordered quartiles: {result[0]['examples']}"
+    )
+
+
+def test_distribution_stats_only_on_numeric_dms(run_query):
+    """value_min/max/q1/median/q3 must be null on boolean/categorical DMs."""
+    result = run_query("""
+        MATCH (dm:DerivedMetric)
+        WHERE dm.value_kind <> 'numeric'
+          AND (dm.value_min IS NOT NULL
+               OR dm.value_max IS NOT NULL
+               OR dm.value_q1 IS NOT NULL
+               OR dm.value_median IS NOT NULL
+               OR dm.value_q3 IS NOT NULL)
+        RETURN count(dm) AS bad, collect(dm.id)[..3] AS examples
+    """)
+    assert result[0]["bad"] == 0, (
+        f"{result[0]['bad']} non-numeric DMs leaked distribution props: {result[0]['examples']}"
+    )
+
+
+def test_boolean_dm_flag_counts_populated(run_query):
+    """Every boolean DM has flag_true_count and flag_false_count set."""
+    result = run_query("""
+        MATCH (dm:DerivedMetric {value_kind: 'boolean'})
+        WHERE dm.flag_true_count IS NULL OR dm.flag_false_count IS NULL
+        RETURN count(dm) AS bad, collect(dm.id)[..3] AS examples
+    """)
+    assert result[0]["bad"] == 0, (
+        f"{result[0]['bad']} boolean DMs missing flag counts: {result[0]['examples']}"
+    )
+
+
+def test_boolean_dm_flag_counts_match_aggregation(run_query):
+    """flag_true_count + flag_false_count equals total flags edges; counts match values."""
+    result = run_query("""
+        MATCH (dm:DerivedMetric {value_kind: 'boolean'})
+        OPTIONAL MATCH (dm)-[r:Derived_metric_flags_gene]->(:Gene)
+        WITH dm,
+             count(CASE WHEN r.value = 'true'  THEN 1 END) AS computed_true,
+             count(CASE WHEN r.value = 'false' THEN 1 END) AS computed_false
+        WHERE dm.flag_true_count <> computed_true
+           OR dm.flag_false_count <> computed_false
+        RETURN count(dm) AS mismatched, collect(dm.id)[..3] AS examples
+    """)
+    assert result[0]["mismatched"] == 0, (
+        f"{result[0]['mismatched']} boolean DMs disagree with edge counts: {result[0]['examples']}"
+    )
+
+
+def test_boolean_flag_counts_only_on_boolean_dms(run_query):
+    """flag_true_count / flag_false_count must be null on numeric/categorical DMs."""
+    result = run_query("""
+        MATCH (dm:DerivedMetric)
+        WHERE dm.value_kind <> 'boolean'
+          AND (dm.flag_true_count IS NOT NULL OR dm.flag_false_count IS NOT NULL)
+        RETURN count(dm) AS bad, collect(dm.id)[..3] AS examples
+    """)
+    assert result[0]["bad"] == 0, (
+        f"{result[0]['bad']} non-boolean DMs leaked flag counts: {result[0]['examples']}"
+    )
+
+
+def test_categorical_dm_distribution_populated(run_query):
+    """Every categorical DM has parallel category_labels / category_counts arrays."""
+    result = run_query("""
+        MATCH (dm:DerivedMetric {value_kind: 'categorical'})
+        WHERE dm.category_labels IS NULL
+           OR dm.category_counts IS NULL
+           OR size(dm.category_labels) <> size(dm.category_counts)
+        RETURN count(dm) AS bad, collect(dm.id)[..3] AS examples
+    """)
+    assert result[0]["bad"] == 0, (
+        f"{result[0]['bad']} categorical DMs have malformed category arrays: {result[0]['examples']}"
+    )
+
+
+def test_categorical_dm_distribution_matches_aggregation(run_query):
+    """category_counts sum equals total classifies edges; labels are sorted distinct values."""
+    result = run_query("""
+        MATCH (dm:DerivedMetric {value_kind: 'categorical'})-[r:Derived_metric_classifies_gene]->(:Gene)
+        WITH dm, r.value AS cat, count(r) AS cnt
+        ORDER BY cat
+        WITH dm, collect(cat) AS computed_labels, collect(cnt) AS computed_counts
+        WHERE dm.category_labels <> computed_labels
+           OR dm.category_counts <> computed_counts
+        RETURN count(dm) AS mismatched, collect(dm.id)[..3] AS examples
+    """)
+    assert result[0]["mismatched"] == 0, (
+        f"{result[0]['mismatched']} categorical DMs disagree with edge counts: {result[0]['examples']}"
+    )
+
+
+def test_categorical_distribution_only_on_categorical_dms(run_query):
+    """category_labels / category_counts must be null on numeric/boolean DMs."""
+    result = run_query("""
+        MATCH (dm:DerivedMetric)
+        WHERE dm.value_kind <> 'categorical'
+          AND (dm.category_labels IS NOT NULL OR dm.category_counts IS NOT NULL)
+        RETURN count(dm) AS bad, collect(dm.id)[..3] AS examples
+    """)
+    assert result[0]["bad"] == 0, (
+        f"{result[0]['bad']} non-categorical DMs leaked category arrays: {result[0]['examples']}"
+    )
+
+
+def test_categorical_dm_labels_subset_of_allowed_categories(run_query):
+    """Every observed category_label must appear in the parent's allowed_categories."""
+    result = run_query("""
+        MATCH (dm:DerivedMetric {value_kind: 'categorical'})
+        WHERE dm.category_labels IS NOT NULL
+        UNWIND dm.category_labels AS lbl
+        WITH dm, lbl
+        WHERE NOT lbl IN coalesce(dm.allowed_categories, [])
+        RETURN count(*) AS bad, collect([dm.id, lbl])[..5] AS examples
+    """)
+    assert result[0]["bad"] == 0, (
+        f"{result[0]['bad']} category_labels outside allowed_categories: {result[0]['examples']}"
+    )
+
+
+def test_dm_distribution_counts_match_total_gene_count(run_query):
+    """Sum of distribution counts equals total_gene_count for boolean/categorical."""
+    result = run_query("""
+        MATCH (dm:DerivedMetric)
+        WHERE dm.value_kind = 'boolean'
+        WITH dm, dm.flag_true_count + dm.flag_false_count AS dist_total
+        WHERE dist_total <> dm.total_gene_count
+        RETURN count(dm) AS bad, collect(dm.id)[..3] AS examples
+    """)
+    assert result[0]["bad"] == 0, (
+        f"{result[0]['bad']} boolean DMs have flag counts != total_gene_count: {result[0]['examples']}"
+    )
+
+    result = run_query("""
+        MATCH (dm:DerivedMetric)
+        WHERE dm.value_kind = 'categorical'
+        WITH dm, reduce(s = 0, c IN coalesce(dm.category_counts, []) | s + c) AS dist_total
+        WHERE dist_total <> dm.total_gene_count
+        RETURN count(dm) AS bad, collect(dm.id)[..3] AS examples
+    """)
+    assert result[0]["bad"] == 0, (
+        f"{result[0]['bad']} categorical DMs have category counts sum != total_gene_count: "
+        f"{result[0]['examples']}"
+    )
+
+
+# ---------------------------------------------------------------------------
 # Experiment DM rollup consistency
 # ---------------------------------------------------------------------------
 

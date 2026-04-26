@@ -267,6 +267,46 @@ OPTIONAL MATCH (e:Experiment)-[:ExperimentHasDerivedMetric]->(dm)
 WITH dm, apoc.coll.toSet(reduce(s = [], t IN collect(coalesce(e.growth_phases, [])) | s + t)) AS gps
 SET dm.growth_phases = apoc.coll.sort(gps);
 
+// DerivedMetric numeric distribution stats (value_kind='numeric' only).
+// Aggregates over Derived_metric_quantifies_gene.value. Cypher percentileCont
+// is the reference interpolation method consumed by explorer queries.
+// Numeric DMs without quantifies edges (theoretical) leave the props null.
+MATCH (dm:DerivedMetric {value_kind: 'numeric'})-[r:Derived_metric_quantifies_gene]->(:Gene)
+WITH dm,
+     min(r.value)                  AS v_min,
+     max(r.value)                  AS v_max,
+     percentileCont(r.value, 0.25) AS v_q1,
+     percentileCont(r.value, 0.5)  AS v_median,
+     percentileCont(r.value, 0.75) AS v_q3
+SET dm.value_min    = v_min,
+    dm.value_max    = v_max,
+    dm.value_q1     = v_q1,
+    dm.value_median = v_median,
+    dm.value_q3     = v_q3;
+
+// DerivedMetric boolean flag counts (value_kind='boolean' only).
+// Counts true vs false values on Derived_metric_flags_gene edges.
+// Booleans without edges get 0/0 (defaults handled by COALESCE pattern).
+MATCH (dm:DerivedMetric {value_kind: 'boolean'})
+OPTIONAL MATCH (dm)-[r:Derived_metric_flags_gene]->(:Gene)
+WITH dm,
+     count(CASE WHEN r.value = 'true'  THEN 1 END) AS n_true,
+     count(CASE WHEN r.value = 'false' THEN 1 END) AS n_false
+SET dm.flag_true_count  = n_true,
+    dm.flag_false_count = n_false;
+
+// DerivedMetric categorical distribution (value_kind='categorical' only).
+// Parallel arrays sorted by label so output is deterministic.
+// Categoricals without edges leave label/count arrays empty.
+MATCH (dm:DerivedMetric {value_kind: 'categorical'})
+SET dm.category_labels = [], dm.category_counts = [];
+MATCH (dm:DerivedMetric {value_kind: 'categorical'})-[r:Derived_metric_classifies_gene]->(:Gene)
+WITH dm, r.value AS cat, count(r) AS cnt
+ORDER BY cat
+WITH dm, collect(cat) AS labels, collect(cnt) AS counts
+SET dm.category_labels = labels,
+    dm.category_counts = counts;
+
 // OrganismTaxon clustering rollup
 MATCH (o:OrganismTaxon)
 OPTIONAL MATCH (ca:ClusteringAnalysis)-[:ClusteringanalysisBelongsToOrganism]->(o)

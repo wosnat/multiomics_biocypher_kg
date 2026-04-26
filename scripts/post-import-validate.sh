@@ -237,7 +237,16 @@ RETURN dm.id AS id,
        dm.has_p_value AS has_p_value,
        dm.compartment AS compartment,
        dm.total_gene_count AS total_gene_count,
-       apoc.coll.sort(coalesce(dm.growth_phases, [])) AS growth_phases
+       apoc.coll.sort(coalesce(dm.growth_phases, [])) AS growth_phases,
+       dm.value_min AS value_min,
+       dm.value_q1 AS value_q1,
+       dm.value_median AS value_median,
+       dm.value_q3 AS value_q3,
+       dm.value_max AS value_max,
+       dm.flag_true_count AS flag_true_count,
+       dm.flag_false_count AS flag_false_count,
+       dm.category_labels AS category_labels,
+       dm.category_counts AS category_counts
 ORDER BY dm.id;
 CYPHER
 
