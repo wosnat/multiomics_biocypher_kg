@@ -1,0 +1,35 @@
+Resolution report: Hennon 2017 / supp_table_5_categories
+Source: ALT gene categories for enrichment 41396_2018_bfismej2017189_moesm31_esm_modified.csv
+name_col: geneID
+id_columns: ['geneID']
+
+Total rows with IDs: 452
+Resolved: 423 (93.6%)
+Unresolved: 29
+
+Resolution method breakdown:
+  tier1:geneID: 423
+  unresolved: 29
+
+Unresolved rows (29):
+  row 1: raw_id='AEZ55_0093'  reason=unresolved  [geneID='AEZ55_0093']
+  row 73: raw_id='AEZ55_0903'  reason=unresolved  [geneID='AEZ55_0903']
+  row 79: raw_id='AEZ55_0984'  reason=unresolved  [geneID='AEZ55_0984']
+  row 94: raw_id='AEZ55_1112'  reason=unresolved  [geneID='AEZ55_1112']
+  row 114: raw_id='AEZ55_1390'  reason=unresolved  [geneID='AEZ55_1390']
+  row 127: raw_id='AEZ55_1609'  reason=unresolved  [geneID='AEZ55_1609']
+  row 147: raw_id='AEZ55_1831'  reason=unresolved  [geneID='AEZ55_1831']
+  row 150: raw_id='AEZ55_1834'  reason=unresolved  [geneID='AEZ55_1834']
+  row 154: raw_id='AEZ55_1840'  reason=unresolved  [geneID='AEZ55_1840']
+  row 159: raw_id='AEZ55_1907'  reason=unresolved  [geneID='AEZ55_1907']
+  row 167: raw_id='AEZ55_1953'  reason=unresolved  [geneID='AEZ55_1953']
+  row 178: raw_id='AEZ55_2070'  reason=unresolved  [geneID='AEZ55_2070']
+  row 179: raw_id='AEZ55_2090'  reason=unresolved  [geneID='AEZ55_2090']
+  row 181: raw_id='AEZ55_2092'  reason=unresolved  [geneID='AEZ55_2092']
+  row 194: raw_id='AEZ55_2302'  reason=unresolved  [geneID='AEZ55_2302']
+  row 212: raw_id='AEZ55_2639'  reason=unresolved  [geneID='AEZ55_2639']
+  row 217: raw_id='AEZ55_2786'  reason=unresolved  [geneID='AEZ55_2786']
+  row 227: raw_id='AEZ55_2796'  reason=unresolved  [geneID='AEZ55_2796']
+  row 231: raw_id='AEZ55_2800'  reason=unresolved  [geneID='AEZ55_2800']
+  row 234: raw_id='AEZ55_2803'  reason=unresolved  [geneID='AEZ55_2803']
+  ... (9 more)

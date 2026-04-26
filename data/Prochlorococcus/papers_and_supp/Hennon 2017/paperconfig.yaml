@@ -134,3 +134,107 @@ publication:
         logfc_col: logFC
         adjusted_p_value_col: PValue
         prefiltered: true
+    # supp_table_5 (S5) — KEGG/topic enrichment-set table for the EZ55 coculture
+    # experiment. Built from S5 long-format CSV by
+    # scripts/build_modified_csv/build_hennon2017_modified_csv.py (one row per
+    # gene + 8 boolean Y/blank columns, one per enrichment category).
+    # NOTE — duplication: 67 of S5's 128 significant genes already have a
+    # Changes_expression_of edge from supp_table_3. Wiring all of S5 produces
+    # duplicate edges (different edge `id` from `id_translation` distinct
+    # analysis id) for those 67 genes. Accepted for now; revisit if it causes
+    # rank-by-effect inflation. The 385 non-significant rows + 30 sig rows
+    # missing from S3 are the new evidence.
+    supp_table_5_de:
+      type: csv
+      filename: data/Prochlorococcus/papers_and_supp/Hennon 2017/ALT gene categories for enrichment 41396_2018_bfismej2017189_moesm31_esm_modified.csv
+      organism: Alteromonas macleodii EZ55
+      id_columns:
+      - column: geneID
+        id_type: old_locus_tag
+      product_columns:
+      - column: annot
+      statistical_analyses:
+      - id: DE_elevated_co2_vs_ambient_EZ55_coculture_enrichment_set
+        experiment: carbon_stress_elevated_co2_800_ppm_ez55_rnaseq_coculture
+        timepoint: acclimated
+        timepoint_hours: null
+        growth_phase: acclimated_steady_state
+        name_col: geneID
+        logfc_col: logFC
+        adjusted_p_value_col: PValue
+        prefiltered: false
+        pvalue_threshold: 0.05
+    supp_table_5_categories:
+      type: derived_metrics_table
+      filename: data/Prochlorococcus/papers_and_supp/Hennon 2017/ALT gene categories for enrichment 41396_2018_bfismej2017189_moesm31_esm_modified.csv
+      organism: Alteromonas macleodii EZ55
+      experiment: carbon_stress_elevated_co2_800_ppm_ez55_rnaseq_coculture
+      name_col: geneID
+      id_columns:
+      - column: geneID
+        id_type: old_locus_tag
+      metrics:
+      - metric_type: enrichment_bacterial_chemotaxis
+        name: "EZ55 enrichment set: Bacterial chemotaxis (Table S5)"
+        value_kind: boolean
+        value_col: bacterial_chemotaxis
+        true_tokens: ["Y"]
+        false_tokens: []
+        blank_policy: skip
+        field_description: "Member of 'Bacterial chemotaxis' KEGG/topic enrichment set used in Hennon 2017 EZ55 coculture analysis"
+      - metric_type: enrichment_biosynthesis_of_amino_acids
+        name: "EZ55 enrichment set: Biosynthesis of amino acids (Table S5)"
+        value_kind: boolean
+        value_col: biosynthesis_of_amino_acids
+        true_tokens: ["Y"]
+        false_tokens: []
+        blank_policy: skip
+        field_description: "Member of 'Biosynthesis of amino acids' KEGG/topic enrichment set"
+      - metric_type: enrichment_carbon_metabolism
+        name: "EZ55 enrichment set: Carbon metabolism (Table S5)"
+        value_kind: boolean
+        value_col: carbon_metabolism
+        true_tokens: ["Y"]
+        false_tokens: []
+        blank_policy: skip
+        field_description: "Member of 'Carbon Metabolism' KEGG/topic enrichment set"
+      - metric_type: enrichment_fatty_acid_metabolism
+        name: "EZ55 enrichment set: Fatty acid metabolism (Table S5)"
+        value_kind: boolean
+        value_col: fatty_acid_metabolism
+        true_tokens: ["Y"]
+        false_tokens: []
+        blank_policy: skip
+        field_description: "Member of 'Fatty Acid Metabolism' KEGG/topic enrichment set"
+      - metric_type: enrichment_flagellar_assembly
+        name: "EZ55 enrichment set: Flagellar assembly (Table S5)"
+        value_kind: boolean
+        value_col: flagellar_assembly
+        true_tokens: ["Y"]
+        false_tokens: []
+        blank_policy: skip
+        field_description: "Member of 'Flagellar assembly' KEGG/topic enrichment set"
+      - metric_type: enrichment_redox_genes
+        name: "EZ55 enrichment set: Redox genes (Table S5)"
+        value_kind: boolean
+        value_col: redox_genes
+        true_tokens: ["Y"]
+        false_tokens: []
+        blank_policy: skip
+        field_description: "Member of 'Redox genes' enrichment set"
+      - metric_type: enrichment_ribosome
+        name: "EZ55 enrichment set: Ribosome (Table S5)"
+        value_kind: boolean
+        value_col: ribosome
+        true_tokens: ["Y"]
+        false_tokens: []
+        blank_policy: skip
+        field_description: "Member of 'Ribosome' KEGG/topic enrichment set"
+      - metric_type: enrichment_tonb_associated_genes
+        name: "EZ55 enrichment set: TonB-associated genes (Table S5)"
+        value_kind: boolean
+        value_col: tonb_associated_genes
+        true_tokens: ["Y"]
+        false_tokens: []
+        blank_policy: skip
+        field_description: "Member of 'TonB-associated genes' enrichment set"
