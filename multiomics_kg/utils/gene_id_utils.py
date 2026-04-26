@@ -334,6 +334,40 @@ _UNIPROT_ANNOT_ENTRY_RE = re.compile(r"^([A-Z0-9]+_[A-Z0-9]+)\b")
 # Matches the GN=<token> capture (gene name OR locus tag, depending on entry).
 _UNIPROT_ANNOT_GN_RE = re.compile(r"\bGN=(\S+)")
 
+# Matches an NCBI BLAST-style protein defline:
+#   gi|33860650|ref|NP_892211.1| serine protease
+#   gi|33863782|ref|NP_895342.1| Sulfatase
+#   gi|123|gb|CAE18549.1| possible serine protease
+#   gi|123|emb|CAA12345.1| ...
+# Captures the source-specific accession (NP_/WP_/YP_/CAE/CAA/etc.) — that
+# accession resolves via the existing protein_id_refseq pipeline (and,
+# for legacy NP_/INSDC, via IPG cross-reference enrichment).
+_NCBI_DEFLINE_RE = re.compile(
+    r"gi\|\d+\|(?:ref|gb|emb|dbj|sp|tpg|tpe|tpd|prf|pir|pdb)\|(\S+?)\|"
+)
+
+
+def extract_ncbi_defline_tokens(value) -> list[tuple[str, str]]:
+    """Parse an NCBI BLAST-style protein defline into (token, id_type) pairs.
+
+    Handles the classic ``gi|<gi>|<source>|<accession>|<description>`` form
+    that older papers (Biller 2014/2022, Hennon, etc.) embed in their
+    supplementary tables. Returns each captured accession as a Tier 2
+    ``protein_id_refseq`` token; the gi number is intentionally NOT
+    emitted (NCBI deprecated gi-based lookup; the accession alone is the
+    canonical join key, and IPG enrichment handles legacy NP_/INSDC
+    accessions).
+
+    A single cell may contain multiple deflines (e.g. semicolon-separated
+    BLAST hits); all captured accessions are returned.
+    """
+    out: list[tuple[str, str]] = []
+    if not isinstance(value, str):
+        return out
+    for m in _NCBI_DEFLINE_RE.finditer(value):
+        out.append((m.group(1), "protein_id_refseq"))
+    return out
+
 
 def extract_uniprot_annotation_tokens(value) -> list[tuple[str, str]]:
     """Parse a UniProt FASTA-header style annotation string into (token, id_type) pairs.
@@ -436,6 +470,8 @@ def resolve_row(
         s = str(raw)
         if id_type_by_col.get(col) == "uniprot_annotation_string":
             return [tok for tok, _ in extract_uniprot_annotation_tokens(s)]
+        if id_type_by_col.get(col) == "ncbi_protein_defline":
+            return [tok for tok, _ in extract_ncbi_defline_tokens(s)]
         return expand_list(s)
 
     # ── Pass 1: specific_lookup with list expansion (+ direct locus_tag check) ──

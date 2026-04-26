@@ -32,9 +32,15 @@ from multiomics_kg.download.gene_id_graph import GeneIdGraph
 from multiomics_kg.download.utils.cli import load_genome_rows
 from multiomics_kg.download.utils.paths import PROJECT_ROOT
 from multiomics_kg.utils.gene_id_utils import (
+    extract_ncbi_defline_tokens,
     extract_uniprot_annotation_tokens,
     get_genome_dir,
     load_gene_annotations,
+)
+from multiomics_kg.utils.ncbi_protein_xref import (
+    fetch_ipg_xrefs,
+    find_assembly_match,
+    looks_like_legacy_protein_acc,
 )
 from multiomics_kg.utils.paperconfig_utils import (
     get_organism_for_entry,
@@ -83,6 +89,8 @@ def _emit_pairs(val: str, id_type: str) -> list[tuple[str, str]]:
     """
     if id_type == "uniprot_annotation_string":
         return extract_uniprot_annotation_tokens(val)
+    if id_type == "ncbi_protein_defline":
+        return extract_ncbi_defline_tokens(val)
     return [(val, id_type)]
 
 
@@ -651,10 +659,86 @@ def generate_diamond_translations(
                 print(f"    {line}")
 
 
+# ─── Legacy protein accession enrichment via NCBI IPG ────────────────────────
+
+
+def collect_legacy_protein_accessions(
+    all_rows: list[tuple[list[tuple[str, str]], str]],
+    graph: GeneIdGraph,
+) -> list[str]:
+    """Return distinct legacy protein accessions from ``all_rows`` that aren't
+    already mapped in the graph.
+
+    A token qualifies if (a) it was declared with ``id_type =
+    protein_id_refseq``, (b) matches the legacy-accession regex (NP_/YP_/
+    XP_/WP_ or 3-letter INSDC), and (c) is not already a known anchor or
+    multi_lookup key. Includes WP_ — even though most are seeded from
+    annotations, a paper may reference a WP_ that isn't in our cached
+    annotations yet.
+    """
+    seen: set[str] = set()
+    for pairs, _src in all_rows:
+        for token, id_type in pairs:
+            if id_type != "protein_id_refseq":
+                continue
+            t = token.strip()
+            if not t or t in seen:
+                continue
+            if not looks_like_legacy_protein_acc(t):
+                continue
+            if t in graph.specific_lookup or t in graph.multi_lookup:
+                continue
+            seen.add(t)
+    return sorted(seen)
+
+
+def enrich_with_ipg_xrefs(
+    legacy_accs: list[str],
+    target_assembly: str,
+    *,
+    progress: bool = True,
+) -> list[tuple[list[tuple[str, str]], str]]:
+    """Batch-fetch IPG cross-references for ``legacy_accs`` and return new
+    rows that link each legacy accession to its strain-matching current
+    protein accession (typically WP_).
+
+    The current accession is emitted as a Tier 2 ``protein_id_refseq``
+    token paired with the legacy accession. Iterative convergence in the
+    caller will resolve through any existing WP_ → locus_tag anchor.
+
+    Args:
+        legacy_accs: distinct legacy accessions (NP_/YP_/XP_/etc.).
+        target_assembly: strain's RefSeq assembly accession
+            (e.g. ``GCF_000011465.1``); IPG entries from other assemblies
+            are ignored.
+        progress: pass through to ``fetch_ipg_xrefs``.
+
+    Returns:
+        New ``all_rows`` entries; one per resolved legacy accession.
+        Accessions that don't map to ``target_assembly`` produce no row.
+    """
+    if not legacy_accs or not target_assembly:
+        return []
+    xrefs = fetch_ipg_xrefs(legacy_accs, progress=progress)
+    new_rows: list[tuple[list[tuple[str, str]], str]] = []
+    for legacy in legacy_accs:
+        match = find_assembly_match(xrefs.get(legacy, []), target_assembly)
+        if match is None:
+            continue
+        current = match.protein_accession
+        if current == legacy:
+            continue
+        new_rows.append((
+            [(legacy, "protein_id_refseq"), (current, "protein_id_refseq")],
+            "ncbi_ipg_xref",
+        ))
+    return new_rows
+
+
 # ─── Per-strain orchestration ─────────────────────────────────────────────────
 
 
-def process_strain(row: dict, paperconfigs: list, force: bool) -> None:
+def process_strain(row: dict, paperconfigs: list, force: bool, *, use_ipg: bool = True) -> None:
     strain = row["strain_name"]
     organism = row.get("organism_name", strain)
     genome_dir = (PROJECT_ROOT / row["data_dir"]).resolve()
@@ -750,6 +834,23 @@ def process_strain(row: dict, paperconfigs: list, force: bool) -> None:
                 all_rows.extend(rows)
                 print(f"    collected {len(rows)} rows")
 
+    # Enrich with NCBI IPG cross-references for legacy protein accessions
+    # (NP_/YP_/XP_/INSDC) that papers reference but aren't in the current
+    # gene_annotations cache. One ipg fetch per cache miss; results cached
+    # per-accession in cache/data/ncbi_ipg/ across runs and across strains.
+    if use_ipg:
+        target_assembly = row.get("ncbi_accession", "")
+        legacy = collect_legacy_protein_accessions(all_rows, graph)
+        if legacy:
+            print(f"  [ipg] {len(legacy)} legacy protein accessions need lookup "
+                  f"(target assembly {target_assembly})")
+            ipg_rows = enrich_with_ipg_xrefs(legacy, target_assembly)
+            if ipg_rows:
+                all_rows.extend(ipg_rows)
+                print(f"  [ipg] added {len(ipg_rows)} cross-reference rows")
+            else:
+                print(f"  [ipg] no strain-matching cross-references found")
+
     if all_rows:
         print(f"  Processing {len(all_rows)} total rows (iterative convergence)...")
         passes = graph.process_all_rows(all_rows)
@@ -775,6 +876,11 @@ def main() -> None:
     parser.add_argument(
         "--force", action="store_true", help="Overwrite existing output files"
     )
+    parser.add_argument(
+        "--no-ipg", action="store_true",
+        help="Skip NCBI IPG enrichment for legacy protein accessions "
+             "(use when offline; cached lookups still apply on next run)"
+    )
     args = parser.parse_args()
 
     rows = load_genome_rows(args.strains)
@@ -782,7 +888,7 @@ def main() -> None:
     print(f"Loaded {len(paperconfigs)} paperconfigs")
 
     for row in rows:
-        process_strain(row, paperconfigs, args.force)
+        process_strain(row, paperconfigs, args.force, use_ipg=not args.no_ipg)
 
     print("\nDone.")
 

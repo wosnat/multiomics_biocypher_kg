@@ -4,31 +4,21 @@ name_col: refseq_protein_id
 id_columns: ['refseq_protein_id']
 
 Total rows with IDs: 27
-Resolved: 0 (0.0%)
-Unresolved: 27
+Resolved: 17 (63.0%)
+Unresolved: 10
 
 Resolution method breakdown:
-  unresolved: 27
+  multi:refseq_protein_id: 17
+  unresolved: 10
 
-Unresolved rows (27):
-  row 0: raw_id='NP_894023.1'  reason=unresolved  [refseq_protein_id='NP_894023.1']
+Unresolved rows (10):
   row 1: raw_id='NP_894096.1'  reason=unresolved  [refseq_protein_id='NP_894096.1']
-  row 2: raw_id='NP_894227.1'  reason=unresolved  [refseq_protein_id='NP_894227.1']
   row 3: raw_id='NP_894475.1'  reason=unresolved  [refseq_protein_id='NP_894475.1']
-  row 4: raw_id='NP_894608.1'  reason=unresolved  [refseq_protein_id='NP_894608.1']
-  row 5: raw_id='NP_894824.1'  reason=unresolved  [refseq_protein_id='NP_894824.1']
-  row 6: raw_id='NP_894924.1'  reason=unresolved  [refseq_protein_id='NP_894924.1']
-  row 7: raw_id='NP_894929.1'  reason=unresolved  [refseq_protein_id='NP_894929.1']
   row 8: raw_id='NP_895125.1'  reason=unresolved  [refseq_protein_id='NP_895125.1']
-  row 9: raw_id='NP_895220.1'  reason=unresolved  [refseq_protein_id='NP_895220.1']
-  row 10: raw_id='NP_895240.1'  reason=unresolved  [refseq_protein_id='NP_895240.1']
   row 11: raw_id='NP_895340.1'  reason=unresolved  [refseq_protein_id='NP_895340.1']
-  row 12: raw_id='NP_895342.1'  reason=unresolved  [refseq_protein_id='NP_895342.1']
   row 13: raw_id='NP_895344.1'  reason=unresolved  [refseq_protein_id='NP_895344.1']
-  row 14: raw_id='NP_895348.1'  reason=unresolved  [refseq_protein_id='NP_895348.1']
-  row 15: raw_id='NP_895350.1'  reason=unresolved  [refseq_protein_id='NP_895350.1']
   row 16: raw_id='NP_895426.1'  reason=unresolved  [refseq_protein_id='NP_895426.1']
-  row 17: raw_id='NP_895427.1'  reason=unresolved  [refseq_protein_id='NP_895427.1']
-  row 18: raw_id='NP_895446.1'  reason=unresolved  [refseq_protein_id='NP_895446.1']
-  row 19: raw_id='NP_895463.1'  reason=unresolved  [refseq_protein_id='NP_895463.1']
-  ... (7 more)
+  row 20: raw_id='NP_895668.1'  reason=unresolved  [refseq_protein_id='NP_895668.1']
+  row 21: raw_id='NP_895701.1'  reason=unresolved  [refseq_protein_id='NP_895701.1']
+  row 22: raw_id='NP_895804.1'  reason=unresolved  [refseq_protein_id='NP_895804.1']
+  row 23: raw_id='NP_895926.1'  reason=unresolved  [refseq_protein_id='NP_895926.1']

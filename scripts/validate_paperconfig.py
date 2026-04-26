@@ -95,6 +95,7 @@ VALID_ID_TYPES = {
     "gene_name", "gene_synonym",
     "protein_id_refseq", "uniprot_accession", "uniprot_entry_name",
     "uniprot_annotation_string",  # NEW — extracts entry_name + GN= via gene_id_utils
+    "ncbi_protein_defline",       # NEW — extracts NP_/WP_/CAE/etc. from gi|N|src|ACC|... deflines
     "jgi_id", "probeset", "rast_id", "annotation_specific", "other",
 }
 

@@ -671,6 +671,62 @@ class TestUniprotAnnotationStringValidatorAccepts:
         assert "uniprot_annotation_string" in VALID_ID_TYPES
 
 
+class TestExtractNcbiDeflineTokens:
+    """Unit tests for extract_ncbi_defline_tokens (Biller 2014/2022 + many older
+    papers' supplementary tables embed BLAST-style deflines)."""
+
+    def test_refseq_np_accession(self):
+        from multiomics_kg.utils.gene_id_utils import extract_ncbi_defline_tokens
+        s = "gi|33860650|ref|NP_892211.1| serine protease"
+        assert extract_ncbi_defline_tokens(s) == [("NP_892211.1", "protein_id_refseq")]
+
+    def test_refseq_wp_accession(self):
+        from multiomics_kg.utils.gene_id_utils import extract_ncbi_defline_tokens
+        s = "gi|494836200|ref|WP_011131639.1| DNA polymerase III subunit beta"
+        assert extract_ncbi_defline_tokens(s) == [("WP_011131639.1", "protein_id_refseq")]
+
+    def test_insdc_gb_accession(self):
+        from multiomics_kg.utils.gene_id_utils import extract_ncbi_defline_tokens
+        s = "gi|123|gb|CAE18549.1| possible serine protease"
+        assert extract_ncbi_defline_tokens(s) == [("CAE18549.1", "protein_id_refseq")]
+
+    def test_emb_and_dbj_sources(self):
+        from multiomics_kg.utils.gene_id_utils import extract_ncbi_defline_tokens
+        assert extract_ncbi_defline_tokens("gi|9|emb|CAA12345.1| desc") == [
+            ("CAA12345.1", "protein_id_refseq"),
+        ]
+        assert extract_ncbi_defline_tokens("gi|9|dbj|BAA12345.1| desc") == [
+            ("BAA12345.1", "protein_id_refseq"),
+        ]
+
+    def test_multiple_deflines_in_one_cell(self):
+        """Some cells have multiple BLAST hits separated by commas/semicolons."""
+        from multiomics_kg.utils.gene_id_utils import extract_ncbi_defline_tokens
+        s = ("gi|1|ref|NP_111.1| first hit; "
+             "gi|2|ref|NP_222.1| second hit")
+        assert extract_ncbi_defline_tokens(s) == [
+            ("NP_111.1", "protein_id_refseq"),
+            ("NP_222.1", "protein_id_refseq"),
+        ]
+
+    def test_no_defline_returns_empty(self):
+        from multiomics_kg.utils.gene_id_utils import extract_ncbi_defline_tokens
+        assert extract_ncbi_defline_tokens("plain product description") == []
+        assert extract_ncbi_defline_tokens("NP_892211.1 alone") == []  # no gi|...| prefix
+
+    def test_empty_and_non_string_returns_empty(self):
+        from multiomics_kg.utils.gene_id_utils import extract_ncbi_defline_tokens
+        assert extract_ncbi_defline_tokens("") == []
+        assert extract_ncbi_defline_tokens(None) == []  # type: ignore[arg-type]
+        assert extract_ncbi_defline_tokens(42) == []    # type: ignore[arg-type]
+
+
+class TestNcbiProteinDeflineValidatorAccepts:
+    def test_id_type_in_valid_set(self):
+        from scripts.validate_paperconfig import VALID_ID_TYPES
+        assert "ncbi_protein_defline" in VALID_ID_TYPES
+
+
 class TestResolveRowUniprotAnnotation:
     """resolve_row must extract uniprot_annotation_string columns at lookup time."""
 

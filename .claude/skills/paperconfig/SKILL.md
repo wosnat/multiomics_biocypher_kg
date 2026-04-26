@@ -512,6 +512,7 @@ fourier_metrics:
 | `uniprot_accession` | UniProt accession | `Q7V6L1` |
 | `uniprot_entry_name` | UniProt entry name (build script strips `_ORGANISM` suffix) | `DNAA_PROM0` |
 | `uniprot_annotation_string` | UniProt FASTA-header style annotation; build pipeline auto-extracts the `<entry>_<ORG>` token (Tier 1) and `GN=<token>` (Tier 3). Use on narrative columns named "UniProt Annotation", "Description", etc. that embed these markers. A column declared this way may also appear in `product_columns` for description harvest. | `Q31DF2_PROM9 ... GN=PMT9312_0032 PE=4 SV=1` |
+| `ncbi_protein_defline` | NCBI BLAST-style protein defline; build pipeline auto-extracts the source-specific accession (`NP_*`/`WP_*`/`YP_*`/`XP_*`/`CAE*`/`CAA*`/`BAA*`/etc.) as a Tier 2 `protein_id_refseq` token. Use on columns embedding `gi\|<gi>\|<src>\|<acc>\|<desc>` deflines. Legacy `NP_*`/INSDC accessions auto-resolve to current `WP_*` via the IPG enrichment step in `build_gene_id_mapping.py`. May also appear in `product_columns` for description harvest. | `gi\|33860650\|ref\|NP_892211.1\| serine protease` |
 | `jgi_id` | JGI IMG gene catalog ID (integer string) | `2626311743` |
 | `probeset` | Microarray probeset ID | `MED4_ARR_0008_x_at` |
 | `rast_id` | RAST annotation FIG ID | `fig\|59919.17.peg.1` |

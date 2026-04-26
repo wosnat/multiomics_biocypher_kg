@@ -1,41 +1,41 @@
 gi_id,refseq_protein_id,description,molecular_weight_da,mascot_probability_pct,predicted_localization,vesicle_proteome_member,resolved_locus_tag,resolution_method
-33860650,NP_892211.1,serine protease,41841.4,100.0,Periplasmic,True,,unresolved
-33860657,NP_892218.1,RND family outer membrane efflux protein,54271.5,100.0,Outer Membrane,True,,unresolved
-33860667,NP_892228.1,shikimate kinase,21235.2,98.1,Cytoplasmic,True,,unresolved
+33860650,NP_892211.1,serine protease,41841.4,100.0,Periplasmic,True,PMM0090,multi:refseq_protein_id
+33860657,NP_892218.1,RND family outer membrane efflux protein,54271.5,100.0,Outer Membrane,True,PMM0097,multi:refseq_protein_id
+33860667,NP_892228.1,shikimate kinase,21235.2,98.1,Cytoplasmic,True,PMM0107,multi:refseq_protein_id
 33860686,NP_892247.1,hypothetical protein,36882.9,100.0,Cytoplasmic,True,,unresolved
 33860730,NP_892291.1,NifS-like aminotransferase class-V,42189.3,99.6,Cytoplasmic,True,,unresolved
-33860745,NP_892306.1,hypothetical protein,27110.6,100.0,Unknown,True,,unresolved
-33860785,NP_892346.1,cell division protein FtsH2,66746.5,99.3,Cytoplasmic Membrane,True,,unresolved
-33860812,NP_892373.1,hypothetical protein,77661.8,100.0,Outer Membrane,True,,unresolved
-33860888,NP_892449.1,LysM domain-containing protein,29279.5,99.6,Cytoplasmic,True,,unresolved
-33861107,NP_892668.1,ribulose bisophosphate carboxylase,52574.5,100.0,Cytoplasmic,True,,unresolved
+33860745,NP_892306.1,hypothetical protein,27110.6,100.0,Unknown,True,PMM0185,multi:refseq_protein_id
+33860785,NP_892346.1,cell division protein FtsH2,66746.5,99.3,Cytoplasmic Membrane,True,PMM0226,multi:refseq_protein_id
+33860812,NP_892373.1,hypothetical protein,77661.8,100.0,Outer Membrane,True,PMM0254,multi:refseq_protein_id
+33860888,NP_892449.1,LysM domain-containing protein,29279.5,99.6,Cytoplasmic,True,PMM0330,multi:refseq_protein_id
+33861107,NP_892668.1,ribulose bisophosphate carboxylase,52574.5,100.0,Cytoplasmic,True,PMM0550,multi:refseq_protein_id
 33861234,NP_892795.1,carboxyl-terminal processing protease,47966.1,100.0,Cytoplasmic Membrane,True,,unresolved
-33861267,NP_892828.1,"ABC transporter, substrate binding protein, phosphate",33888.2,99.8,Periplasmic,True,,unresolved
-33861350,NP_892911.1,hypothetical protein PMM0793,44284.9,97.7,Cytoplasmic,True,,unresolved
+33861267,NP_892828.1,"ABC transporter, substrate binding protein, phosphate",33888.2,99.8,Periplasmic,True,PMM0710,multi:refseq_protein_id
+33861350,NP_892911.1,hypothetical protein PMM0793,44284.9,97.7,Cytoplasmic,True,PMM0793,multi:refseq_protein_id
 33861442,NP_893003.1,D-Ala-D-Ala carboxypeptidase 3,37303.9,99.8,Periplasmic,True,,unresolved
-33861470,NP_893031.1,ABC transporter,43597.7,99.4,Cytoplasmic Membrane,True,,unresolved
+33861470,NP_893031.1,ABC transporter,43597.7,99.4,Cytoplasmic Membrane,True,PMM0913,multi:refseq_protein_id
 33861526,NP_893087.1,"urea ABC transporter, substrate binding protein",47601.2,98.6,Cytoplasmic,True,,unresolved
-33861535,NP_893096.1,hypothetical protein PMM0979,11172.2,99.9,Unknown,True,,unresolved
-33861588,NP_893149.1,ABC transporter substrate-binding protein,52262.3,99.8,Unknown,True,,unresolved
-33861680,NP_893241.1,natural resistance-associated macroph,53063.1,100.0,Outer Membrane,True,,unresolved
-33861695,NP_893256.1,membrane fusion protein,39592.8,99.8,Cytoplasmic Membrane,True,,unresolved
-33861718,NP_893279.1,hypothetical protein,68499.4,100.0,Outer Membrane,True,,unresolved
-33861720,NP_893281.1,"iron ABC transporter, substrate binding protein",38211.6,99.4,Unknown,True,,unresolved
+33861535,NP_893096.1,hypothetical protein PMM0979,11172.2,99.9,Unknown,True,PMM0979,multi:refseq_protein_id
+33861588,NP_893149.1,ABC transporter substrate-binding protein,52262.3,99.8,Unknown,True,PMM1032,multi:refseq_protein_id
+33861680,NP_893241.1,natural resistance-associated macroph,53063.1,100.0,Outer Membrane,True,PMM1124,multi:refseq_protein_id
+33861695,NP_893256.1,membrane fusion protein,39592.8,99.8,Cytoplasmic Membrane,True,PMM1139,multi:refseq_protein_id
+33861718,NP_893279.1,hypothetical protein,68499.4,100.0,Outer Membrane,True,PMM1162,multi:refseq_protein_id
+33861720,NP_893281.1,"iron ABC transporter, substrate binding protein",38211.6,99.4,Unknown,True,PMM1164,multi:refseq_protein_id
 33861738,NP_893299.1,hypothetical protein,22217.8,100.0,Unknown,True,,unresolved
-33861749,NP_893310.1,tetrapyrrole methylase family protein,31921.3,99.0,Unknown,True,,unresolved
+33861749,NP_893310.1,tetrapyrrole methylase family protein,31921.3,99.0,Unknown,True,PMM1193,multi:refseq_protein_id
 33861780,NP_893341.1,polysaccharide export protein,39139.1,99.8,Unknown,True,,unresolved
-33861781,NP_893342.1,hypothetical protein,68295.0,99.9,Unknown,True,,unresolved
-33861795,NP_893356.1,ABC transporter,67454.6,99.3,Cytoplasmic Membrane,True,,unresolved
+33861781,NP_893342.1,hypothetical protein,68295.0,99.9,Unknown,True,PMM1225,multi:refseq_protein_id
+33861795,NP_893356.1,ABC transporter,67454.6,99.3,Cytoplasmic Membrane,True,PMM1239,multi:refseq_protein_id
 33861803,NP_893364.1,hypothetical protein,46457.5,100.0,Cytoplasmic,True,,unresolved
-33861837,NP_893398.1,GTP-binding protein Era,33887.9,97.6,Cytoplasmic Membrane,True,,unresolved
-33861894,NP_893455.1,chloroplast outer envelope membrane protein,78853.7,100.0,Outer Membrane,True,,unresolved
-33861904,NP_893465.1,sporulation protein SpoIID-like,45240.7,100.0,Unknown,True,,unresolved
-33861981,NP_893542.1,serine protease,49042.1,100.0,Periplasmic,True,,unresolved
-33861992,NP_893553.1,molecular chaperone GroEL,57442.2,100.0,Cytoplasmic,True,,unresolved
-33862007,NP_893568.1,ATP synthase F0F1 subunit alpha,54341.2,98.3,Cytoplasmic,True,,unresolved
-33862088,NP_893649.1,50S ribosomal protein L13,16112.9,99.8,Cytoplasmic,True,,unresolved
-33862110,NP_893671.1,30S ribosomal protein S19,10192.3,98.5,Cytoplasmic,True,,unresolved
-33862114,NP_893675.1,50S ribosomal protein L3,23168.5,98.8,Cytoplasmic,True,,unresolved
-33862218,NP_893779.1,50S ribosomal protein L20,13478.8,99.8,Cytoplasmic,True,,unresolved
-33862249,NP_893810.1,aminotransferase class-IV,32181.0,99.2,Cytoplasmic,True,,unresolved
-33862270,NP_893831.1,hypothetical protein,70284.0,99.9,Cytoplasmic Membrane,True,,unresolved
+33861837,NP_893398.1,GTP-binding protein Era,33887.9,97.6,Cytoplasmic Membrane,True,PMM1281,multi:refseq_protein_id
+33861894,NP_893455.1,chloroplast outer envelope membrane protein,78853.7,100.0,Outer Membrane,True,PMM1338,multi:refseq_protein_id
+33861904,NP_893465.1,sporulation protein SpoIID-like,45240.7,100.0,Unknown,True,PMM1348,multi:refseq_protein_id
+33861981,NP_893542.1,serine protease,49042.1,100.0,Periplasmic,True,PMM1425,multi:refseq_protein_id
+33861992,NP_893553.1,molecular chaperone GroEL,57442.2,100.0,Cytoplasmic,True,PMM1436,multi:refseq_protein_id
+33862007,NP_893568.1,ATP synthase F0F1 subunit alpha,54341.2,98.3,Cytoplasmic,True,PMM1451,multi:refseq_protein_id
+33862088,NP_893649.1,50S ribosomal protein L13,16112.9,99.8,Cytoplasmic,True,PMM1532,multi:refseq_protein_id
+33862110,NP_893671.1,30S ribosomal protein S19,10192.3,98.5,Cytoplasmic,True,PMM1554,multi:refseq_protein_id
+33862114,NP_893675.1,50S ribosomal protein L3,23168.5,98.8,Cytoplasmic,True,PMM1558,multi:refseq_protein_id
+33862218,NP_893779.1,50S ribosomal protein L20,13478.8,99.8,Cytoplasmic,True,PMM1662,multi:refseq_protein_id
+33862249,NP_893810.1,aminotransferase class-IV,32181.0,99.2,Cytoplasmic,True,PMM1693,multi:refseq_protein_id
+33862270,NP_893831.1,hypothetical protein,70284.0,99.9,Cytoplasmic Membrane,True,PMM1714,multi:refseq_protein_id
