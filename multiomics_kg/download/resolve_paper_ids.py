@@ -154,11 +154,7 @@ def resolve_gene_clusters_table(
 
     # Read source CSV
     try:
-        df = pd.read_csv(
-            src, sep=sep, skiprows=skip_rows if skip_rows else None,
-            dtype=str, keep_default_na=False,
-            na_values=["", "NA", "N/A", "n/a", "#N/A"],
-        )
+        df = pd.read_csv(src, sep=sep, skiprows=skip_rows if skip_rows else None)
     except Exception as e:
         print(f"  [error] Could not read {src}: {e}", file=sys.stderr)
         return None
@@ -322,11 +318,7 @@ def resolve_derived_metrics_entry(
     id_columns: list[dict] = table_config.get("id_columns") or []
 
     try:
-        df = pd.read_csv(
-            src, sep=sep, skiprows=skip_rows if skip_rows else None,
-            dtype=str, keep_default_na=False,
-            na_values=["", "NA", "N/A", "n/a", "#N/A"],
-        )
+        df = pd.read_csv(src, sep=sep, skiprows=skip_rows if skip_rows else None)
     except Exception as e:
         print(f"  [error] Could not read {src}: {e}", file=sys.stderr)
         return None
@@ -505,11 +497,7 @@ def resolve_table(
 
     # Read source CSV
     try:
-        df = pd.read_csv(
-            src, sep=sep, skiprows=skip_rows if skip_rows else None,
-            dtype=str, keep_default_na=False,
-            na_values=["", "NA", "N/A", "n/a", "#N/A"],
-        )
+        df = pd.read_csv(src, sep=sep, skiprows=skip_rows if skip_rows else None)
     except Exception as e:
         print(f"  [error] Could not read {src}: {e}", file=sys.stderr)
         return None

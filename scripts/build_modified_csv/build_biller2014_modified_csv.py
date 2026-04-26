@@ -62,7 +62,10 @@ def parse_table(page_text: str, title_marker: str) -> list[dict]:
             "molecular_weight_da": m.group("mw").replace(",", ""),
             "mascot_probability_pct": m.group("prob"),
             "predicted_localization": localization,
-            "vesicle_proteome_member": "true",
+            # Use "Y" (matches Biller 2018 convention) — pandas would silently
+            # coerce a uniform "true"/"false" column into Python bool, then
+            # write it back capitalised, which the strict adapter rejects.
+            "vesicle_proteome_member": "Y",
         })
     return rows
 

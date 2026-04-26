@@ -72,9 +72,9 @@ publication:
           value_kind: boolean
           value_col: vesicle_proteome_member
           blank_policy: skip
-          true_tokens: ["true"]
+          true_tokens: ["Y"]
           false_tokens: []
-          skip_tokens: []
+          skip_tokens: ["NA", "N/A"]
           field_description: "Boolean flag: protein identified in MED4 vesicle proteome by LC-MS/MS (Mascot >=97% identification probability with >=1 exclusive unique peptide)."
         - metric_type: mascot_identification_probability
           name: "MED4 vesicle protein Mascot identification probability (Biller 2014 Table S2)"
@@ -113,9 +113,9 @@ publication:
           value_kind: boolean
           value_col: vesicle_proteome_member
           blank_policy: skip
-          true_tokens: ["true"]
+          true_tokens: ["Y"]
           false_tokens: []
-          skip_tokens: []
+          skip_tokens: ["NA", "N/A"]
           field_description: "Boolean flag: protein identified in MIT9313 vesicle proteome by LC-MS/MS (Mascot identification with >=1 exclusive unique peptide)."
         - metric_type: mascot_identification_probability
           name: "MIT9313 vesicle protein Mascot identification probability (Biller 2014 Table S3)"
