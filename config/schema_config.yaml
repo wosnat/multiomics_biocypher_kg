@@ -59,7 +59,8 @@ experiment:
     compartment: str                 # adapter-emitted; default "whole_cell"; vocab in multiomics_kg/vocab/non_de_evidence.py
     table_scope: str
     table_scope_detail: str
-    gene_count: int
+    gene_count: int                  # post-import: cumulative count of Changes_expression_of edges (sums across timepoints for time-course experiments)
+    distinct_gene_count: int         # post-import: distinct gene count (union across timepoints); distinct_gene_count <= gene_count, equality only for non-time-course or single-TP experiments
     significant_up_count: int
     significant_down_count: int
     time_point_count: int

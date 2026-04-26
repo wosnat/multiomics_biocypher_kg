@@ -38,6 +38,7 @@ CYPHER <<'CYPHER'
 MATCH (e:Experiment)
 RETURN e.id AS id,
        e.gene_count AS gene_count,
+       e.distinct_gene_count AS distinct_gene_count,
        e.significant_up_count AS sig_up,
        e.significant_down_count AS sig_down,
        e.time_point_count AS tp_count,

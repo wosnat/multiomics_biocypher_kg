@@ -628,6 +628,61 @@ def test_experiment_gene_count_accurate(run_query):
     )
 
 
+def test_experiment_distinct_gene_count_not_null(run_query):
+    """All Experiment nodes should have distinct_gene_count set (not null)."""
+    result = run_query("""
+        MATCH (e:Experiment)
+        WHERE e.distinct_gene_count IS NULL
+        RETURN count(e) AS missing
+    """)
+    assert result[0]["missing"] == 0, (
+        f"{result[0]['missing']} experiments missing distinct_gene_count"
+    )
+
+
+def test_experiment_distinct_gene_count_accurate(run_query):
+    """distinct_gene_count should equal count(DISTINCT gene) over Changes_expression_of edges."""
+    result = run_query("""
+        MATCH (e:Experiment)
+        OPTIONAL MATCH (e)-[r:Changes_expression_of]->(g:Gene)
+        WITH e, e.distinct_gene_count AS declared, count(DISTINCT g) AS actual
+        WHERE declared <> actual
+        RETURN count(e) AS mismatched, collect(e.id)[..5] AS examples
+    """)
+    assert result[0]["mismatched"] == 0, (
+        f"distinct_gene_count mismatch for: {result[0]['examples']}"
+    )
+
+
+def test_experiment_distinct_gene_count_le_gene_count(run_query):
+    """Invariant: distinct_gene_count <= gene_count always (gene_count is cumulative across TPs)."""
+    result = run_query("""
+        MATCH (e:Experiment)
+        WHERE e.distinct_gene_count > e.gene_count
+        RETURN count(e) AS bad, collect(e.id)[..5] AS examples
+    """)
+    assert result[0]["bad"] == 0, (
+        f"{result[0]['bad']} experiments violate distinct_gene_count <= gene_count: {result[0]['examples']}"
+    )
+
+
+def test_experiment_distinct_gene_count_equals_gene_count_for_single_tp(run_query):
+    """For non-time-course or single-TP experiments, distinct_gene_count == gene_count.
+
+    With a single timepoint, every edge points to a distinct gene (the adapter
+    emits one row per gene per timepoint), so cumulative == distinct.
+    """
+    result = run_query("""
+        MATCH (e:Experiment)
+        WHERE e.time_point_count <= 1
+          AND e.distinct_gene_count <> e.gene_count
+        RETURN count(e) AS bad, collect(e.id)[..5] AS examples
+    """)
+    assert result[0]["bad"] == 0, (
+        f"{result[0]['bad']} single-TP experiments have distinct_gene_count != gene_count: {result[0]['examples']}"
+    )
+
+
 def test_experiment_significant_up_count_accurate(run_query):
     """significant_up_count should match live aggregation."""
     result = run_query("""

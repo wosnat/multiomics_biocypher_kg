@@ -152,8 +152,11 @@ END;
 // -----------------------------------------------------------------------
 
 // Pass 1: set defaults for all experiments (avoids NULL from OPTIONAL MATCH)
+// gene_count:           cumulative edge count (sum across timepoints for time-course)
+// distinct_gene_count:  distinct gene count (union across timepoints) — see Pass 3 below
 MATCH (e:Experiment)
 SET e.gene_count = 0,
+    e.distinct_gene_count = 0,
     e.significant_up_count = 0,
     e.significant_down_count = 0,
     e.time_point_count = 0,
@@ -201,6 +204,16 @@ SET e.gene_count = gene_count,
     e.time_point_significant_up = tp_sig_up,
     e.time_point_significant_down = tp_sig_down,
     e.time_point_growth_phases = tp_gps;
+
+// Pass 3: distinct gene count per experiment (union across timepoints).
+// gene_count above is cumulative (sums per-timepoint counts), so for a
+// time-course experiment that measures the same gene set at every TP,
+// gene_count = distinct_gene_count * time_point_count. Researchers reasoning
+// about detection power / pathway-background size need distinct_gene_count,
+// not gene_count.
+MATCH (e:Experiment)-[:Changes_expression_of]->(g:Gene)
+WITH e, count(DISTINCT g) AS dgc
+SET e.distinct_gene_count = dgc;
 
 // -----------------------------------------------------------------------
 // OrganismTaxon summary properties (pre-computed for list_organisms)

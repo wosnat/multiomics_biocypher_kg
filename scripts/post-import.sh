@@ -164,8 +164,11 @@ SET r.expression_status = CASE
 END;
 
 // Experiment stats defaults (so experiments with 0 edges still get populated props)
+// gene_count:           cumulative edge count (sum across timepoints for time-course)
+// distinct_gene_count:  distinct gene count (union across timepoints) — populated below
 MATCH (e:Experiment)
 SET e.gene_count = 0,
+    e.distinct_gene_count = 0,
     e.significant_up_count = 0,
     e.significant_down_count = 0,
     e.time_point_count = 0,
@@ -210,6 +213,13 @@ SET e.gene_count = gene_count,
     e.time_point_significant_up = tp_sig_up,
     e.time_point_significant_down = tp_sig_down,
     e.time_point_growth_phases = tp_gps;
+
+// Distinct gene count per experiment (union across timepoints).
+// gene_count above is cumulative; distinct_gene_count is the unique-gene
+// scalar for detection-power / pathway-background reasoning.
+MATCH (e:Experiment)-[:Changes_expression_of]->(g:Gene)
+WITH e, count(DISTINCT g) AS dgc
+SET e.distinct_gene_count = dgc;
 
 // OrganismTaxon gene_count
 MATCH (o:OrganismTaxon)
