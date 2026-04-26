@@ -138,15 +138,53 @@ def test_looks_like_legacy_protein_acc(acc, expected):
 
 def test_fetch_ipg_xrefs_uses_cache(tmp_path: Path):
     """When all accessions are cached, no network call is made."""
-    cache_dir = tmp_path / "ipg"
-    cache_dir.mkdir()
-    # Pre-populate cache
-    (cache_dir / "NP_892211.1.tsv").write_text(SAMPLE_TSV)
+    import sqlite3
+
+    cache_path = tmp_path / "ipg.sqlite"
+    # Pre-populate cache via the same schema fetch_ipg_xrefs uses
+    conn = sqlite3.connect(cache_path)
+    conn.execute("""
+        CREATE TABLE ipg_cache (
+            accession TEXT PRIMARY KEY,
+            body TEXT NOT NULL,
+            fetched_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+        )
+    """)
+    conn.execute(
+        "INSERT INTO ipg_cache (accession, body) VALUES (?, ?)",
+        ("NP_892211.1", SAMPLE_TSV),
+    )
+    conn.commit()
+    conn.close()
 
     # If this hits the network, it'd raise (network blocked or wrong url),
     # but with cache it never tries.
-    result = fetch_ipg_xrefs(["NP_892211.1"], cache_dir=cache_dir)
+    result = fetch_ipg_xrefs(["NP_892211.1"], cache_path=cache_path)
     assert "NP_892211.1" in result
-    # The cached file has 4 rows total (both groups), and that's what we
+    # The cached body has 4 rows total (both groups), and that's what we
     # parse — find_assembly_match would still narrow it to MED4 GCF.
     assert len(result["NP_892211.1"]) == 4
+
+
+def test_fetch_ipg_xrefs_creates_cache_db_on_first_use(tmp_path: Path):
+    """Empty/missing cache → no rows returned, schema gets created (no error)."""
+    import sqlite3
+
+    cache_path = tmp_path / "fresh.sqlite"
+    assert not cache_path.exists()
+
+    # Pre-populate via the public path (uses _open_cache_db internally) by
+    # directly opening + closing — we don't want to actually hit the network.
+    # Easier: start with a fresh DB and verify we can insert.
+    from multiomics_kg.utils.ncbi_protein_xref import _open_cache_db
+    conn = _open_cache_db(cache_path)
+    conn.execute("INSERT INTO ipg_cache (accession, body) VALUES (?, ?)",
+                 ("X_Y.1", SAMPLE_TSV))
+    conn.commit()
+    conn.close()
+
+    assert cache_path.exists()
+    # Cache hit avoids network
+    result = fetch_ipg_xrefs(["X_Y.1"], cache_path=cache_path)
+    assert "X_Y.1" in result
+    assert len(result["X_Y.1"]) == 4

@@ -35,6 +35,7 @@ import csv
 import io
 import os
 import re
+import sqlite3
 import time
 from dataclasses import dataclass
 from pathlib import Path
@@ -49,7 +50,7 @@ dotenv.load_dotenv()
 
 EFETCH_URL = "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi"
 BATCH_SIZE = 200
-DEFAULT_CACHE_DIR = Path("cache/data/ncbi_ipg")
+DEFAULT_CACHE_PATH = Path("cache/data/ncbi_ipg.sqlite")
 
 # NCBI rate limits: 3 req/sec without API key, 10 req/sec with.
 RATE_DELAY_NO_KEY = 0.34   # sec between calls
@@ -121,24 +122,37 @@ def _parse_ipg_tsv(text: str) -> list[IpgEntry]:
     return rows
 
 
-def _safe_acc_filename(acc: str) -> str:
-    """Sanitise an accession for use as a cache filename."""
-    return re.sub(r"[^A-Za-z0-9_.\-]", "_", acc)
+def _open_cache_db(path: Path) -> sqlite3.Connection:
+    """Open (and lazily create) the SQLite cache. One row per accession;
+    body holds the raw efetch?rettype=ipg TSV (header + zero or more rows)."""
+    path.parent.mkdir(parents=True, exist_ok=True)
+    conn = sqlite3.connect(path)
+    conn.execute("""
+        CREATE TABLE IF NOT EXISTS ipg_cache (
+            accession  TEXT PRIMARY KEY,
+            body       TEXT NOT NULL,
+            fetched_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+        )
+    """)
+    return conn
 
 
-def _read_cached(acc: str, cache_dir: Path) -> list[IpgEntry] | None:
-    """Return cached IPG entries for ``acc``, or None if no cache file exists.
-    An empty list (file with header only) means "we asked, no results"."""
-    fp = cache_dir / f"{_safe_acc_filename(acc)}.tsv"
-    if not fp.exists():
+def _read_cached(acc: str, db: sqlite3.Connection) -> list[IpgEntry] | None:
+    """Return cached IPG entries for ``acc``, or None on cache miss.
+    An empty list (cached header-only body) means "we asked, no results"."""
+    cur = db.execute("SELECT body FROM ipg_cache WHERE accession = ?", (acc,))
+    row = cur.fetchone()
+    if row is None:
         return None
-    return _parse_ipg_tsv(fp.read_text())
+    return _parse_ipg_tsv(row[0])
 
 
-def _write_cache(acc: str, body: str, cache_dir: Path) -> None:
-    cache_dir.mkdir(parents=True, exist_ok=True)
-    fp = cache_dir / f"{_safe_acc_filename(acc)}.tsv"
-    fp.write_text(body)
+def _write_cache(acc: str, body: str, db: sqlite3.Connection) -> None:
+    db.execute(
+        "INSERT OR REPLACE INTO ipg_cache (accession, body) VALUES (?, ?)",
+        (acc, body),
+    )
+    db.commit()
 
 
 def _split_returned_ipg_by_accession(
@@ -215,7 +229,7 @@ def _fetch_batch(
 def fetch_ipg_xrefs(
     accessions: Iterable[str],
     *,
-    cache_dir: Path = DEFAULT_CACHE_DIR,
+    cache_path: Path = DEFAULT_CACHE_PATH,
     api_key: str | None = None,
     timeout: float = 60.0,
     progress: bool = False,
@@ -228,7 +242,8 @@ def fetch_ipg_xrefs(
     Args:
         accessions: any iterable of protein accession strings; duplicates
             are de-duplicated before lookup.
-        cache_dir: per-accession TSV cache directory.
+        cache_path: SQLite cache file path; auto-created with the
+            ``ipg_cache`` schema on first use.
         api_key: optional NCBI API key (raises rate limit from 3 → 10 req/sec).
             Defaults to ``NCBI_API_KEY`` env var when unset.
         timeout: per-batch HTTP timeout in seconds.
@@ -245,32 +260,36 @@ def fetch_ipg_xrefs(
     unique = sorted({a.strip() for a in accessions if a and a.strip()})
     result: dict[str, list[IpgEntry]] = {}
 
-    misses: list[str] = []
-    for acc in unique:
-        cached = _read_cached(acc, cache_dir)
-        if cached is not None:
-            result[acc] = cached
-        else:
-            misses.append(acc)
+    db = _open_cache_db(cache_path)
+    try:
+        misses: list[str] = []
+        for acc in unique:
+            cached = _read_cached(acc, db)
+            if cached is not None:
+                result[acc] = cached
+            else:
+                misses.append(acc)
 
-    if progress and misses:
-        print(f"  [ipg] {len(unique)} accessions, {len(misses)} cache misses")
+        if progress and misses:
+            print(f"  [ipg] {len(unique)} accessions, {len(misses)} cache misses")
 
-    last_call = 0.0
-    for i in range(0, len(misses), BATCH_SIZE):
-        batch = misses[i : i + BATCH_SIZE]
-        wait = delay - (time.monotonic() - last_call)
-        if wait > 0:
-            time.sleep(wait)
-        if progress:
-            print(f"  [ipg] batch {i // BATCH_SIZE + 1}/"
-                  f"{(len(misses) + BATCH_SIZE - 1) // BATCH_SIZE} "
-                  f"({len(batch)} accessions)")
-        bodies = _fetch_batch(batch, api_key=api_key, timeout=timeout)
-        last_call = time.monotonic()
-        for acc, body in bodies.items():
-            _write_cache(acc, body, cache_dir)
-            result[acc] = _parse_ipg_tsv(body)
+        last_call = 0.0
+        for i in range(0, len(misses), BATCH_SIZE):
+            batch = misses[i : i + BATCH_SIZE]
+            wait = delay - (time.monotonic() - last_call)
+            if wait > 0:
+                time.sleep(wait)
+            if progress:
+                print(f"  [ipg] batch {i // BATCH_SIZE + 1}/"
+                      f"{(len(misses) + BATCH_SIZE - 1) // BATCH_SIZE} "
+                      f"({len(batch)} accessions)")
+            bodies = _fetch_batch(batch, api_key=api_key, timeout=timeout)
+            last_call = time.monotonic()
+            for acc, body in bodies.items():
+                _write_cache(acc, body, db)
+                result[acc] = _parse_ipg_tsv(body)
+    finally:
+        db.close()
 
     return result
 
