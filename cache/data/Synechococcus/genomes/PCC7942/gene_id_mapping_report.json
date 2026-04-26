@@ -18,32 +18,37 @@
     "gff_gene_id": {
       "conflict": 0,
       "multi": 0,
-      "unique": 8091
+      "unique": 8093
     },
     "locus_tag_ncbi": {
       "conflict": 49,
       "multi": 0,
-      "unique": 11406
+      "unique": 11410
     },
     "old_locus_tag": {
       "conflict": 16,
       "multi": 0,
-      "unique": 3612
+      "unique": 3614
     },
     "protein_id_refseq": {
       "conflict": 0,
-      "multi": 18,
-      "unique": 5724
+      "multi": 24,
+      "unique": 5723
     },
     "uniprot_accession": {
       "conflict": 0,
       "multi": 0,
-      "unique": 1838
+      "unique": 1840
+    },
+    "uniprot_entry_name": {
+      "conflict": 0,
+      "multi": 0,
+      "unique": 31
     }
   },
   "strain": "PCC7942",
   "unresolved_rows_per_source": {
-    "Kratzl 2024/annotation_gff_pcc7942_old": 114,
+    "Kratzl 2024/annotation_gff_pcc7942_old": 110,
     "Kratzl 2024/sheet13_proteomics_selongatus": 268,
     "Kratzl 2024/sheet6_rnaseq_selongatus": 52,
     "cds_from_genomic.fna": 16,

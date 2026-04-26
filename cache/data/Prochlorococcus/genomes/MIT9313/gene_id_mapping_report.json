@@ -3,7 +3,7 @@
     "alternative_locus_tag": {
       "conflict": 13,
       "multi": 0,
-      "unique": 2700
+      "unique": 2699
     },
     "cds_fna_id": {
       "conflict": 0,
@@ -23,7 +23,7 @@
     "gff_gene_id": {
       "conflict": 0,
       "multi": 0,
-      "unique": 5123
+      "unique": 5122
     },
     "locus_tag": {
       "conflict": 0,
@@ -38,7 +38,7 @@
     "locus_tag_ncbi": {
       "conflict": 53,
       "multi": 0,
-      "unique": 8637
+      "unique": 8635
     },
     "old_locus_tag": {
       "conflict": 6,
@@ -52,8 +52,8 @@
     },
     "protein_id_refseq": {
       "conflict": 0,
-      "multi": 68,
-      "unique": 5101
+      "multi": 21,
+      "unique": 5132
     },
     "uniprot_accession": {
       "conflict": 0,
@@ -70,7 +70,7 @@
   "unresolved_rows_per_source": {
     "Aharonovich 2016/supp_table_2": 1,
     "Aharonovich 2016/supp_table_3": 1,
-    "Biller 2014/s3_mit9313_vesicle_proteome": 10,
+    "Biller 2014/s3_mit9313_vesicle_proteome": 1,
     "Biller 2022/s3_mit9313_abundance": 13,
     "Biller 2022/s4_mit9313_enrichment": 12,
     "Capovilla 2023/de_genes_mit9313": 8,
@@ -81,9 +81,8 @@
     "Tolonen 2006/mit9313_kmeans_nstarvation": 1,
     "Tolonen 2006/supp_table_mit9313": 9,
     "cds_from_genomic.fna": 29,
-    "genomic_gca/MIT9313": 340,
-    "genomic_gcf/MIT9313": 59,
-    "ncbi_ipg_xref": 1
+    "genomic_gca/MIT9313": 342,
+    "genomic_gcf/MIT9313": 59
   },
   "warnings": [
     "[CONFLICT] Tier 1 id_type 'locus_tag_ncbi' has 53 data conflicts \u2014 check annotation quality.",

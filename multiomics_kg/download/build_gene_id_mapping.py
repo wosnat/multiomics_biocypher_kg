@@ -665,22 +665,39 @@ def generate_diamond_translations(
 # ─── Legacy protein accession enrichment via NCBI IPG ────────────────────────
 
 
+# Source-label prefixes for rows auto-extracted from local genome files.
+# Accessions originating from these sources are NOT enriched via NCBI IPG —
+# the local GFF/GBFF already gives us strain-specific WP_ ↔ locus_tag, so
+# IPG would be redundant. ~30K extra fetches/strain otherwise (every CAE/CAI/
+# INSDC accession in genomic_gca.gff). IPG is reserved for accessions that
+# papers actually cite (where the same protein may not exist in our cache
+# under that namespace).
+_AUTO_GENOME_SOURCE_PREFIXES = ("genomic_gca/", "genomic_gcf/")
+_AUTO_GENOME_SOURCE_EXACT = ("cds_from_genomic.fna",)
+
+
 def collect_legacy_protein_accessions(
     all_rows: list[tuple[list[tuple[str, str]], str]],
     graph: GeneIdGraph,
 ) -> list[str]:
-    """Return distinct legacy protein accessions from ``all_rows`` that aren't
-    already mapped in the graph.
+    """Return distinct legacy protein accessions from paperconfig rows that
+    aren't already mapped in the graph.
 
     A token qualifies if (a) it was declared with ``id_type =
     protein_id_refseq``, (b) matches the legacy-accession regex (NP_/YP_/
-    XP_/WP_ or 3-letter INSDC), and (c) is not already a known anchor or
-    multi_lookup key. Includes WP_ — even though most are seeded from
-    annotations, a paper may reference a WP_ that isn't in our cached
-    annotations yet.
+    XP_/WP_ or 3-letter INSDC), (c) is not already a known anchor or
+    multi_lookup key, and (d) it came from a paperconfig source — NOT
+    from the auto-included genome files (genomic_gca/genomic_gcf/cds_from_
+    genomic.fna). Genome-derived accessions are already linked to
+    locus_tags via the GFF coordinates; IPG would just look up what we
+    already know.
     """
     seen: set[str] = set()
-    for pairs, _src in all_rows:
+    for pairs, src in all_rows:
+        if src in _AUTO_GENOME_SOURCE_EXACT:
+            continue
+        if any(src.startswith(p) for p in _AUTO_GENOME_SOURCE_PREFIXES):
+            continue
         for token, id_type in pairs:
             if id_type != "protein_id_refseq":
                 continue
