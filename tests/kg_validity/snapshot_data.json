@@ -663,137 +663,137 @@
     },
     {
       "properties": {},
-      "source": "doi:10.1128/mSystems.00040-18",
-      "target": "derived_metric:mSystems.00040-18:s4a_natl2a_axenic:periodic_in_axenic_LD",
+      "source": "doi:10.1038/ismej.2017.189",
+      "target": "derived_metric:ismej.2017.189:supp_table_5_categories:enrichment_bacterial_chemotaxis",
       "type": "PublicationHasDerivedMetric"
     },
     {
       "properties": {},
-      "source": "doi:10.1128/mSystems.00040-18",
-      "target": "derived_metric:mSystems.00040-18:s4a_natl2a_axenic:periodic_in_axenic_extended_darkness",
+      "source": "doi:10.1038/ismej.2017.189",
+      "target": "derived_metric:ismej.2017.189:supp_table_5_categories:enrichment_biosynthesis_of_amino_acids",
       "type": "PublicationHasDerivedMetric"
     },
     {
       "properties": {},
-      "source": "doi:10.1128/mSystems.00040-18",
-      "target": "derived_metric:mSystems.00040-18:s4a_natl2a_coculture:periodic_in_coculture_LD",
+      "source": "doi:10.1038/ismej.2017.189",
+      "target": "derived_metric:ismej.2017.189:supp_table_5_categories:enrichment_carbon_metabolism",
       "type": "PublicationHasDerivedMetric"
     },
     {
       "properties": {},
-      "source": "doi:10.1128/mSystems.00040-18",
-      "target": "derived_metric:mSystems.00040-18:s4a_natl2a_coculture:periodic_in_coculture_extended_darkness",
+      "source": "doi:10.1038/ismej.2017.189",
+      "target": "derived_metric:ismej.2017.189:supp_table_5_categories:enrichment_fatty_acid_metabolism",
       "type": "PublicationHasDerivedMetric"
     },
     {
       "properties": {},
-      "source": "doi:10.1128/mSystems.00040-18",
-      "target": "derived_metric:mSystems.00040-18:s4b_mit1002:periodic_in_coculture_LD",
+      "source": "doi:10.1038/ismej.2017.189",
+      "target": "derived_metric:ismej.2017.189:supp_table_5_categories:enrichment_flagellar_assembly",
       "type": "PublicationHasDerivedMetric"
     },
     {
       "properties": {},
-      "source": "10.1128/mSystems.00040-18_darkness_extended_darkness_mit1002_rnaseq",
-      "target": "derived_metric:mSystems.00040-18:s4b_mit1002:periodic_in_coculture_LD",
+      "source": "10.1038/ismej.2017.189_carbon_stress_elevated_co2_800_ppm_ez55_rnaseq_coculture",
+      "target": "derived_metric:ismej.2017.189:supp_table_5_categories:enrichment_bacterial_chemotaxis",
       "type": "ExperimentHasDerivedMetric"
     },
     {
       "properties": {},
-      "source": "10.1128/mSystems.00040-18_darkness_extended_darkness_mit1002_rnaseq",
-      "target": "derived_metric:mSystems.00040-18:s4b_mit1002:periodic_in_coculture_extended_darkness",
+      "source": "10.1038/ismej.2017.189_carbon_stress_elevated_co2_800_ppm_ez55_rnaseq_coculture",
+      "target": "derived_metric:ismej.2017.189:supp_table_5_categories:enrichment_biosynthesis_of_amino_acids",
       "type": "ExperimentHasDerivedMetric"
     },
     {
       "properties": {},
-      "source": "10.1128/mSystems.00040-18_darkness_extended_darkness_natl2a_rnaseq_axenic",
-      "target": "derived_metric:mSystems.00040-18:s4a_natl2a_axenic:periodic_in_axenic_LD",
+      "source": "10.1038/ismej.2017.189_carbon_stress_elevated_co2_800_ppm_ez55_rnaseq_coculture",
+      "target": "derived_metric:ismej.2017.189:supp_table_5_categories:enrichment_carbon_metabolism",
       "type": "ExperimentHasDerivedMetric"
     },
     {
       "properties": {},
-      "source": "10.1128/mSystems.00040-18_darkness_extended_darkness_natl2a_rnaseq_axenic",
-      "target": "derived_metric:mSystems.00040-18:s4a_natl2a_axenic:periodic_in_axenic_extended_darkness",
+      "source": "10.1038/ismej.2017.189_carbon_stress_elevated_co2_800_ppm_ez55_rnaseq_coculture",
+      "target": "derived_metric:ismej.2017.189:supp_table_5_categories:enrichment_fatty_acid_metabolism",
       "type": "ExperimentHasDerivedMetric"
     },
     {
       "properties": {},
-      "source": "10.1128/mSystems.00040-18_darkness_extended_darkness_natl2a_rnaseq_axenic",
-      "target": "derived_metric:mSystems.00040-18:s5_natl2a_survival:darkness_survival_class",
+      "source": "10.1038/ismej.2017.189_carbon_stress_elevated_co2_800_ppm_ez55_rnaseq_coculture",
+      "target": "derived_metric:ismej.2017.189:supp_table_5_categories:enrichment_flagellar_assembly",
       "type": "ExperimentHasDerivedMetric"
     },
     {
       "properties": {},
-      "source": "derived_metric:journal.pone.0043432:table_s2_waldbauer_diel_metrics:damping_ratio",
-      "target": "insdc.gcf:GCF_000011465.1",
+      "source": "derived_metric:1462-2920.15834:s3_mit9312_abundance:cell_abundance_biovolume_normalized",
+      "target": "insdc.gcf:GCF_000012645.1",
       "type": "DerivedMetricBelongsToOrganism"
     },
     {
       "properties": {},
-      "source": "derived_metric:journal.pone.0043432:table_s2_waldbauer_diel_metrics:diel_amplitude_protein_log2",
-      "target": "insdc.gcf:GCF_000011465.1",
+      "source": "derived_metric:1462-2920.15834:s3_mit9312_abundance:vesicle_abundance_biovolume_normalized",
+      "target": "insdc.gcf:GCF_000012645.1",
       "type": "DerivedMetricBelongsToOrganism"
     },
     {
       "properties": {},
-      "source": "derived_metric:journal.pone.0043432:table_s2_waldbauer_diel_metrics:diel_amplitude_transcript_log2",
-      "target": "insdc.gcf:GCF_000011465.1",
+      "source": "derived_metric:1462-2920.15834:s3_mit9313_abundance:cell_abundance_biovolume_normalized",
+      "target": "insdc.gcf:GCF_000011485.1",
       "type": "DerivedMetricBelongsToOrganism"
     },
     {
       "properties": {},
-      "source": "derived_metric:journal.pone.0043432:table_s2_waldbauer_diel_metrics:peak_time_protein_h",
-      "target": "insdc.gcf:GCF_000011465.1",
+      "source": "derived_metric:1462-2920.15834:s3_mit9313_abundance:vesicle_abundance_biovolume_normalized",
+      "target": "insdc.gcf:GCF_000011485.1",
       "type": "DerivedMetricBelongsToOrganism"
     },
     {
       "properties": {},
-      "source": "derived_metric:journal.pone.0043432:table_s2_waldbauer_diel_metrics:peak_time_transcript_h",
-      "target": "insdc.gcf:GCF_000011465.1",
+      "source": "derived_metric:1462-2920.15834:s4_mit9312_enrichment:log2_vesicle_cell_enrichment",
+      "target": "insdc.gcf:GCF_000012645.1",
       "type": "DerivedMetricBelongsToOrganism"
     },
     {
       "properties": {
-        "metric_type": "periodic_in_axenic_LD",
+        "metric_type": "enrichment_bacterial_chemotaxis",
         "value_flag": "true"
       },
-      "source": "derived_metric:mSystems.00040-18:s4a_natl2a_axenic:periodic_in_axenic_LD",
-      "target": "ncbigene:PMN2A_0001",
+      "source": "derived_metric:ismej.2017.189:supp_table_5_categories:enrichment_bacterial_chemotaxis",
+      "target": "ncbigene:EZ55_00159",
       "type": "Derived_metric_flags_gene"
     },
     {
       "properties": {
-        "metric_type": "periodic_in_axenic_LD",
+        "metric_type": "enrichment_bacterial_chemotaxis",
         "value_flag": "true"
       },
-      "source": "derived_metric:mSystems.00040-18:s4a_natl2a_axenic:periodic_in_axenic_LD",
-      "target": "ncbigene:PMN2A_0002",
+      "source": "derived_metric:ismej.2017.189:supp_table_5_categories:enrichment_bacterial_chemotaxis",
+      "target": "ncbigene:EZ55_00307",
       "type": "Derived_metric_flags_gene"
     },
     {
       "properties": {
-        "metric_type": "periodic_in_axenic_LD",
+        "metric_type": "enrichment_bacterial_chemotaxis",
         "value_flag": "true"
       },
-      "source": "derived_metric:mSystems.00040-18:s4a_natl2a_axenic:periodic_in_axenic_LD",
-      "target": "ncbigene:PMN2A_0003",
+      "source": "derived_metric:ismej.2017.189:supp_table_5_categories:enrichment_bacterial_chemotaxis",
+      "target": "ncbigene:EZ55_00308",
       "type": "Derived_metric_flags_gene"
     },
     {
       "properties": {
-        "metric_type": "periodic_in_axenic_LD",
+        "metric_type": "enrichment_bacterial_chemotaxis",
         "value_flag": "true"
       },
-      "source": "derived_metric:mSystems.00040-18:s4a_natl2a_axenic:periodic_in_axenic_LD",
-      "target": "ncbigene:PMN2A_0004",
+      "source": "derived_metric:ismej.2017.189:supp_table_5_categories:enrichment_bacterial_chemotaxis",
+      "target": "ncbigene:EZ55_00309",
       "type": "Derived_metric_flags_gene"
     },
     {
       "properties": {
-        "metric_type": "periodic_in_axenic_LD",
+        "metric_type": "enrichment_bacterial_chemotaxis",
         "value_flag": "true"
       },
-      "source": "derived_metric:mSystems.00040-18:s4a_natl2a_axenic:periodic_in_axenic_LD",
-      "target": "ncbigene:PMN2A_0005",
+      "source": "derived_metric:ismej.2017.189:supp_table_5_categories:enrichment_bacterial_chemotaxis",
+      "target": "ncbigene:EZ55_00310",
       "type": "Derived_metric_flags_gene"
     },
     {
@@ -843,66 +843,66 @@
     },
     {
       "properties": {
-        "metric_bucket": "top_decile",
-        "metric_percentile": 92.92604501607717,
-        "metric_type": "damping_ratio",
-        "rank_by_metric": 23,
-        "value": 13.8
-      },
-      "source": "derived_metric:journal.pone.0043432:table_s2_waldbauer_diel_metrics:damping_ratio",
-      "target": "ncbigene:PMM0001",
-      "type": "Derived_metric_quantifies_gene"
-    },
-    {
-      "properties": {
         "metric_bucket": "mid",
-        "metric_percentile": 45.659163987138264,
-        "metric_type": "damping_ratio",
-        "rank_by_metric": 170,
-        "value": 4.4
+        "metric_percentile": 69.49654491609083,
+        "metric_type": "cell_abundance_biovolume_normalized",
+        "rank_by_metric": 310,
+        "value": 1.68e-08
       },
-      "source": "derived_metric:journal.pone.0043432:table_s2_waldbauer_diel_metrics:damping_ratio",
-      "target": "ncbigene:PMM0003",
-      "type": "Derived_metric_quantifies_gene"
-    },
-    {
-      "properties": {
-        "metric_bucket": "mid",
-        "metric_percentile": 51.768488745980704,
-        "metric_type": "damping_ratio",
-        "rank_by_metric": 151,
-        "value": 5.1
-      },
-      "source": "derived_metric:journal.pone.0043432:table_s2_waldbauer_diel_metrics:damping_ratio",
-      "target": "ncbigene:PMM0010",
-      "type": "Derived_metric_quantifies_gene"
-    },
-    {
-      "properties": {
-        "metric_bucket": "mid",
-        "metric_percentile": 67.20257234726688,
-        "metric_type": "damping_ratio",
-        "rank_by_metric": 103,
-        "value": 6.6
-      },
-      "source": "derived_metric:journal.pone.0043432:table_s2_waldbauer_diel_metrics:damping_ratio",
-      "target": "ncbigene:PMM0013",
+      "source": "derived_metric:1462-2920.15834:s3_mit9312_abundance:cell_abundance_biovolume_normalized",
+      "target": "ncbigene:PMT9312_0001",
       "type": "Derived_metric_quantifies_gene"
     },
     {
       "properties": {
         "metric_bucket": "top_quartile",
-        "metric_percentile": 79.7427652733119,
-        "metric_type": "damping_ratio",
-        "rank_by_metric": 64,
-        "value": 8.7
+        "metric_percentile": 82.4284304047384,
+        "metric_type": "cell_abundance_biovolume_normalized",
+        "rank_by_metric": 179,
+        "value": 2.89e-08
       },
-      "source": "derived_metric:journal.pone.0043432:table_s2_waldbauer_diel_metrics:damping_ratio",
-      "target": "ncbigene:PMM0023",
+      "source": "derived_metric:1462-2920.15834:s3_mit9312_abundance:cell_abundance_biovolume_normalized",
+      "target": "ncbigene:PMT9312_0003",
+      "type": "Derived_metric_quantifies_gene"
+    },
+    {
+      "properties": {
+        "metric_bucket": "mid",
+        "metric_percentile": 49.45705824284304,
+        "metric_type": "cell_abundance_biovolume_normalized",
+        "rank_by_metric": 513,
+        "value": 7.38e-09
+      },
+      "source": "derived_metric:1462-2920.15834:s3_mit9312_abundance:cell_abundance_biovolume_normalized",
+      "target": "ncbigene:PMT9312_0004",
+      "type": "Derived_metric_quantifies_gene"
+    },
+    {
+      "properties": {
+        "metric_bucket": "mid",
+        "metric_percentile": 62.48766041461007,
+        "metric_type": "cell_abundance_biovolume_normalized",
+        "rank_by_metric": 381,
+        "value": 1.18e-08
+      },
+      "source": "derived_metric:1462-2920.15834:s3_mit9312_abundance:cell_abundance_biovolume_normalized",
+      "target": "ncbigene:PMT9312_0008",
+      "type": "Derived_metric_quantifies_gene"
+    },
+    {
+      "properties": {
+        "metric_bucket": "top_quartile",
+        "metric_percentile": 75.22211253701876,
+        "metric_type": "cell_abundance_biovolume_normalized",
+        "rank_by_metric": 252,
+        "value": 2.01e-08
+      },
+      "source": "derived_metric:1462-2920.15834:s3_mit9312_abundance:cell_abundance_biovolume_normalized",
+      "target": "ncbigene:PMT9312_0010",
       "type": "Derived_metric_quantifies_gene"
     }
   ],
-  "generated_at": "2026-04-23T06:50:43.912723+00:00",
+  "generated_at": "2026-04-26T10:31:45.066282+00:00",
   "nodes": [
     {
       "anchor": true,
@@ -1768,86 +1768,86 @@
     },
     {
       "anchor": false,
-      "id": "derived_metric:journal.pone.0043432:table_s2_waldbauer_diel_metrics:damping_ratio",
+      "id": "derived_metric:1462-2920.15834:s3_mit9312_abundance:cell_abundance_biovolume_normalized",
       "label": "DerivedMetric",
       "properties": {
-        "compartment": "whole_cell",
-        "experiment_id": "10.1371/journal.pone.0043432_waldbauer_2012_med4_paired_diel",
+        "compartment": "vesicle",
+        "experiment_id": "10.1111/1462-2920.15834_vesicle_proteomics_mit9312",
         "has_p_value": "false",
-        "metric_type": "damping_ratio",
-        "name": "Transcript:protein amplitude ratio",
-        "omics_type": "PAIRED_RNASEQ_PROTEOME",
-        "organism_name": "Prochlorococcus MED4",
+        "metric_type": "cell_abundance_biovolume_normalized",
+        "name": "MIT9312 whole-cell protein abundance (biovolume-normalized, Trypsin/Lys-C)",
+        "omics_type": "VESICLE_PROTEOMICS",
+        "organism_name": "Prochlorococcus MIT9312",
         "rankable": "true",
-        "total_gene_count": 312,
+        "total_gene_count": 1014,
         "value_kind": "numeric"
       }
     },
     {
       "anchor": false,
-      "id": "derived_metric:journal.pone.0043432:table_s2_waldbauer_diel_metrics:diel_amplitude_protein_log2",
+      "id": "derived_metric:1462-2920.15834:s3_mit9312_abundance:vesicle_abundance_biovolume_normalized",
       "label": "DerivedMetric",
       "properties": {
-        "compartment": "whole_cell",
-        "experiment_id": "10.1371/journal.pone.0043432_waldbauer_2012_med4_paired_diel",
+        "compartment": "vesicle",
+        "experiment_id": "10.1111/1462-2920.15834_vesicle_proteomics_mit9312",
         "has_p_value": "false",
-        "metric_type": "diel_amplitude_protein_log2",
-        "name": "Protein amplitude (log2)",
-        "omics_type": "PAIRED_RNASEQ_PROTEOME",
-        "organism_name": "Prochlorococcus MED4",
+        "metric_type": "vesicle_abundance_biovolume_normalized",
+        "name": "MIT9312 vesicle protein abundance (biovolume-normalized, Trypsin/Lys-C)",
+        "omics_type": "VESICLE_PROTEOMICS",
+        "organism_name": "Prochlorococcus MIT9312",
         "rankable": "true",
-        "total_gene_count": 312,
+        "total_gene_count": 221,
         "value_kind": "numeric"
       }
     },
     {
       "anchor": false,
-      "id": "derived_metric:journal.pone.0043432:table_s2_waldbauer_diel_metrics:diel_amplitude_transcript_log2",
+      "id": "derived_metric:1462-2920.15834:s3_mit9313_abundance:cell_abundance_biovolume_normalized",
       "label": "DerivedMetric",
       "properties": {
-        "compartment": "whole_cell",
-        "experiment_id": "10.1371/journal.pone.0043432_waldbauer_2012_med4_paired_diel",
+        "compartment": "vesicle",
+        "experiment_id": "10.1111/1462-2920.15834_vesicle_proteomics_mit9313",
         "has_p_value": "false",
-        "metric_type": "diel_amplitude_transcript_log2",
-        "name": "Transcript amplitude (log2)",
-        "omics_type": "PAIRED_RNASEQ_PROTEOME",
-        "organism_name": "Prochlorococcus MED4",
+        "metric_type": "cell_abundance_biovolume_normalized",
+        "name": "MIT9313 whole-cell protein abundance (biovolume-normalized, Trypsin/Lys-C)",
+        "omics_type": "VESICLE_PROTEOMICS",
+        "organism_name": "Prochlorococcus MIT9313",
         "rankable": "true",
-        "total_gene_count": 312,
+        "total_gene_count": 1039,
         "value_kind": "numeric"
       }
     },
     {
       "anchor": false,
-      "id": "derived_metric:journal.pone.0043432:table_s2_waldbauer_diel_metrics:peak_time_protein_h",
+      "id": "derived_metric:1462-2920.15834:s3_mit9313_abundance:vesicle_abundance_biovolume_normalized",
       "label": "DerivedMetric",
       "properties": {
-        "compartment": "whole_cell",
-        "experiment_id": "10.1371/journal.pone.0043432_waldbauer_2012_med4_paired_diel",
+        "compartment": "vesicle",
+        "experiment_id": "10.1111/1462-2920.15834_vesicle_proteomics_mit9313",
         "has_p_value": "false",
-        "metric_type": "peak_time_protein_h",
-        "name": "Time of peak protein abundance (h)",
-        "omics_type": "PAIRED_RNASEQ_PROTEOME",
-        "organism_name": "Prochlorococcus MED4",
-        "rankable": "false",
-        "total_gene_count": 312,
+        "metric_type": "vesicle_abundance_biovolume_normalized",
+        "name": "MIT9313 vesicle protein abundance (biovolume-normalized, Trypsin/Lys-C)",
+        "omics_type": "VESICLE_PROTEOMICS",
+        "organism_name": "Prochlorococcus MIT9313",
+        "rankable": "true",
+        "total_gene_count": 350,
         "value_kind": "numeric"
       }
     },
     {
       "anchor": false,
-      "id": "derived_metric:journal.pone.0043432:table_s2_waldbauer_diel_metrics:peak_time_transcript_h",
+      "id": "derived_metric:1462-2920.15834:s4_mit9312_enrichment:log2_vesicle_cell_enrichment",
       "label": "DerivedMetric",
       "properties": {
-        "compartment": "whole_cell",
-        "experiment_id": "10.1371/journal.pone.0043432_waldbauer_2012_med4_paired_diel",
+        "compartment": "vesicle",
+        "experiment_id": "10.1111/1462-2920.15834_vesicle_proteomics_mit9312",
         "has_p_value": "false",
-        "metric_type": "peak_time_transcript_h",
-        "name": "Time of peak transcript abundance (h)",
-        "omics_type": "PAIRED_RNASEQ_PROTEOME",
-        "organism_name": "Prochlorococcus MED4",
-        "rankable": "false",
-        "total_gene_count": 312,
+        "metric_type": "log2_vesicle_cell_enrichment",
+        "name": "MIT9312 log2 vesicle/cell enrichment (Biller 2022 Table S4)",
+        "omics_type": "VESICLE_PROTEOMICS",
+        "organism_name": "Prochlorococcus MIT9312",
+        "rankable": "true",
+        "total_gene_count": 204,
         "value_kind": "numeric"
       }
     }

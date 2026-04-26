@@ -98,8 +98,8 @@ def resolve_gene_clusters_table(
     if not gene_id_col:
         return {"skipped": True, "reason": "no gene_id_col defined"}
 
-    if gene_id_col == "locus_tag":
-        return {"skipped": True, "reason": "gene_id_col is already locus_tag"}
+    # Always resolve (see derived-metrics resolver for rationale); resolve_row
+    # passes already-canonical locus tags through via the `locus_tag:<col>` path.
 
     organism = table_config.get("organism", "")
     if not organism:
@@ -270,8 +270,10 @@ def resolve_derived_metrics_entry(
     if not name_col:
         return {"skipped": True, "reason": "no name_col defined"}
 
-    if name_col == "locus_tag":
-        return {"skipped": True, "reason": "name_col is already locus_tag"}
+    # Always resolve, even when name_col == 'locus_tag': the column may hold
+    # non-canonical locus tags from a different assembly (e.g. RefSeq TX50_RS*
+    # for MED4 vs canonical PMM*). resolve_row recognizes already-canonical
+    # values via the `locus_tag:<col>` path, so no-op rows pass through cleanly.
 
     organism = table_config.get("organism", "")
     if not organism:
@@ -768,7 +770,7 @@ def main() -> None:
                 continue
             if result.get("skipped"):
                 reason = result.get("reason", "")
-                if reason not in ("name_col is already locus_tag", "gene_id_col is already locus_tag", "up to date"):
+                if reason not in ("up to date",):
                     print(f"  Skipped {pub_name}/{table_key}: {reason}")
                 continue
 

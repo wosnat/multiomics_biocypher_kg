@@ -1,0 +1,12 @@
+Resolution report: Biller 2014 / s4_med4_vesicle_dna_top50
+Source: table_s4_med4_vesicle_dna_top50.csv
+name_col: locus_tag
+id_columns: ['locus_tag', 'genbank_protein_id']
+
+Total rows with IDs: 46
+Resolved: 46 (100.0%)
+Unresolved: 0
+
+Resolution method breakdown:
+  empty: 4
+  tier1:locus_tag: 46

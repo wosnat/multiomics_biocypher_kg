@@ -296,7 +296,7 @@ def test_experiment_treatment_type_values_canonical(run_query):
     known = {
         "nitrogen", "phosphorus", "iron", "carbon", "salt", "light",
         "temperature", "plastic", "darkness", "diel", "viral", "coculture",
-        "growth_phase",
+        "growth_phase", "compartment",
     }
     actual = set(result[0]["all_types"])
     unknown = actual - known
