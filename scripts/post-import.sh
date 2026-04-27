@@ -77,8 +77,17 @@ CREATE FULLTEXT INDEX briteCategoryFullText IF NOT EXISTS
   FOR (b:BriteCategory) ON EACH [b.name];
 
 // Publication
-CREATE FULLTEXT INDEX publicationFullText IF NOT EXISTS
-  FOR (p:Publication) ON EACH [p.title, p.abstract, p.description];
+// publicationFullText: drop+recreate so DM-search-text + compartments are picked up
+// even on reruns against an existing graph (Neo4j won't add properties to an existing index).
+DROP INDEX publicationFullText IF EXISTS;
+CREATE FULLTEXT INDEX publicationFullText
+  FOR (p:Publication) ON EACH [p.title, p.abstract, p.description, p.compartments, p.derived_metric_search_text]
+  OPTIONS {
+    indexConfig: {
+      `fulltext.analyzer`: 'standard-no-stop-words',
+      `fulltext.eventually_consistent`: false
+    }
+  };
 
 // Experiment
 CREATE INDEX experiment_id_idx IF NOT EXISTS FOR (e:Experiment) ON (e.id);
@@ -86,8 +95,16 @@ CREATE INDEX experiment_organism_idx IF NOT EXISTS FOR (e:Experiment) ON (e.orga
 CREATE INDEX experiment_treatment_type_idx IF NOT EXISTS FOR (e:Experiment) ON (e.treatment_type);
 CREATE INDEX experiment_background_factors_idx IF NOT EXISTS FOR (e:Experiment) ON (e.background_factors);
 CREATE INDEX experiment_omics_type_idx IF NOT EXISTS FOR (e:Experiment) ON (e.omics_type);
-CREATE FULLTEXT INDEX experimentFullText IF NOT EXISTS
-  FOR (e:Experiment) ON EACH [e.name, e.treatment, e.control, e.experimental_context, e.light_condition];
+// experimentFullText: same drop+recreate as publicationFullText.
+DROP INDEX experimentFullText IF EXISTS;
+CREATE FULLTEXT INDEX experimentFullText
+  FOR (e:Experiment) ON EACH [e.name, e.treatment, e.control, e.experimental_context, e.light_condition, e.compartment, e.derived_metric_search_text]
+  OPTIONS {
+    indexConfig: {
+      `fulltext.analyzer`: 'standard-no-stop-words',
+      `fulltext.eventually_consistent`: false
+    }
+  };
 
 // OrganismTaxon
 CREATE INDEX organism_type_idx IF NOT EXISTS FOR (o:OrganismTaxon) ON (o.organism_type);
@@ -361,6 +378,21 @@ OPTIONAL MATCH (p)-[:PublicationHasDerivedMetric]->(:DerivedMetric)
 WITH p, count(DISTINCT g) AS dmg_count
 SET p.derived_metric_gene_count = dmg_count;
 
+// Publication derived_metric_search_text: aggregated DM tokens for fulltext discovery.
+// Tokens: dm.name + dm.metric_type (underscore -> space) + dm.field_description.
+// compartment is indexed separately via p.compartments (already computed above).
+// Stored as null when no DMs reachable so the fulltext index skips the node.
+MATCH (p:Publication)-[:PublicationHasDerivedMetric]->(dm:DerivedMetric)
+WITH p,
+     [x IN collect(DISTINCT dm.name) WHERE x IS NOT NULL]              AS names,
+     [x IN collect(DISTINCT dm.metric_type) WHERE x IS NOT NULL]       AS metric_types,
+     [x IN collect(DISTINCT dm.field_description) WHERE x IS NOT NULL] AS descs
+SET p.derived_metric_search_text = trim(
+      apoc.text.join(names, ' ') + ' '
+    + apoc.text.replace(apoc.text.join(metric_types, ' '), '_', ' ') + ' '
+    + apoc.text.join(descs, ' ')
+);
+
 // OrganismTaxon DM rollup defaults
 MATCH (o:OrganismTaxon)
 SET o.derived_metric_count = 0,
@@ -430,6 +462,20 @@ OPTIONAL MATCH (e)-[:ExperimentHasDerivedMetric]->(:DerivedMetric)
   -[:Derived_metric_quantifies_gene|Derived_metric_flags_gene|Derived_metric_classifies_gene]->(g:Gene)
 WITH e, count(DISTINCT g) AS dmg_count
 SET e.derived_metric_gene_count = dmg_count;
+
+// Experiment derived_metric_search_text: same aggregation shape as Publication.
+// compartment is indexed separately via e.compartment (adapter-emitted).
+// Stored as null when no DMs reachable.
+MATCH (e:Experiment)-[:ExperimentHasDerivedMetric]->(dm:DerivedMetric)
+WITH e,
+     [x IN collect(DISTINCT dm.name) WHERE x IS NOT NULL]              AS names,
+     [x IN collect(DISTINCT dm.metric_type) WHERE x IS NOT NULL]       AS metric_types,
+     [x IN collect(DISTINCT dm.field_description) WHERE x IS NOT NULL] AS descs
+SET e.derived_metric_search_text = trim(
+      apoc.text.join(names, ' ') + ' '
+    + apoc.text.replace(apoc.text.join(metric_types, ' '), '_', ' ') + ' '
+    + apoc.text.join(descs, ' ')
+);
 CYPHER
 
 # ─────────────────────────────────────────────────────────────────────────────
@@ -564,11 +610,11 @@ MATCH (g:Gene)
 CALL {
   WITH g
   SET g.numeric_metric_count = 0,
-      g.classifier_flag_count = 0,
-      g.classifier_label_count = 0,
+      g.boolean_metric_count = 0,
+      g.categorical_metric_count = 0,
       g.numeric_metric_types_observed = [],
-      g.classifier_flag_types_observed = [],
-      g.classifier_label_types_observed = [],
+      g.boolean_metric_types_observed = [],
+      g.categorical_metric_types_observed = [],
       g.compartments_observed = []
 } IN TRANSACTIONS OF 1000 ROWS;
 
@@ -584,7 +630,7 @@ CALL {
       g.numeric_metric_types_observed = apoc.coll.sort(types)
 } IN TRANSACTIONS OF 1000 ROWS;
 
-// classifier_flag_count + classifier_flag_types_observed
+// boolean_metric_count + boolean_metric_types_observed
 MATCH (g:Gene)
 CALL {
   WITH g
@@ -592,11 +638,11 @@ CALL {
   WITH g,
        count(DISTINCT dm) AS cnt,
        [x IN collect(DISTINCT dm.metric_type) WHERE x IS NOT NULL] AS types
-  SET g.classifier_flag_count = cnt,
-      g.classifier_flag_types_observed = apoc.coll.sort(types)
+  SET g.boolean_metric_count = cnt,
+      g.boolean_metric_types_observed = apoc.coll.sort(types)
 } IN TRANSACTIONS OF 1000 ROWS;
 
-// classifier_label_count + classifier_label_types_observed
+// categorical_metric_count + categorical_metric_types_observed
 MATCH (g:Gene)
 CALL {
   WITH g
@@ -604,8 +650,8 @@ CALL {
   WITH g,
        count(DISTINCT dm) AS cnt,
        [x IN collect(DISTINCT dm.metric_type) WHERE x IS NOT NULL] AS types
-  SET g.classifier_label_count = cnt,
-      g.classifier_label_types_observed = apoc.coll.sort(types)
+  SET g.categorical_metric_count = cnt,
+      g.categorical_metric_types_observed = apoc.coll.sort(types)
 } IN TRANSACTIONS OF 1000 ROWS;
 
 // compartments_observed: union across all 3 DM edge types via parent DerivedMetric

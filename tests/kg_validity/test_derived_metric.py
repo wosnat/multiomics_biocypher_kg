@@ -603,27 +603,27 @@ def test_organism_derived_metric_count_matches_edges(run_query):
 # Gene routing count consistency
 # ---------------------------------------------------------------------------
 
-def test_gene_classifier_flag_count_matches_edges(run_query):
+def test_gene_boolean_metric_count_matches_edges(run_query):
     """On a sample of genes with flag edges, rollup equals distinct-DM count."""
     result = run_query("""
         MATCH (g:Gene)
-        WHERE g.classifier_flag_count > 0
+        WHERE g.boolean_metric_count > 0
         WITH g LIMIT 20
         OPTIONAL MATCH (dm:DerivedMetric)-[:Derived_metric_flags_gene]->(g)
-        WITH g, g.classifier_flag_count AS declared, count(DISTINCT dm) AS actual
+        WITH g, g.boolean_metric_count AS declared, count(DISTINCT dm) AS actual
         WHERE declared <> actual
         RETURN count(g) AS mismatched, collect(g.locus_tag)[..5] AS examples
     """)
     assert result[0]["mismatched"] == 0
 
 
-def test_gene_classifier_label_count_matches_edges(run_query):
+def test_gene_categorical_metric_count_matches_edges(run_query):
     result = run_query("""
         MATCH (g:Gene)
-        WHERE g.classifier_label_count > 0
+        WHERE g.categorical_metric_count > 0
         WITH g LIMIT 20
         OPTIONAL MATCH (dm:DerivedMetric)-[:Derived_metric_classifies_gene]->(g)
-        WITH g, g.classifier_label_count AS declared, count(DISTINCT dm) AS actual
+        WITH g, g.categorical_metric_count AS declared, count(DISTINCT dm) AS actual
         WHERE declared <> actual
         RETURN count(g) AS mismatched, collect(g.locus_tag)[..5] AS examples
     """)
@@ -676,11 +676,11 @@ def test_gene_dm_empty_state_defaults(run_query):
         MATCH (g:Gene)
         WITH g LIMIT 500
         WHERE g.numeric_metric_count IS NULL
-           OR g.classifier_flag_count IS NULL
-           OR g.classifier_label_count IS NULL
+           OR g.boolean_metric_count IS NULL
+           OR g.categorical_metric_count IS NULL
            OR g.numeric_metric_types_observed IS NULL
-           OR g.classifier_flag_types_observed IS NULL
-           OR g.classifier_label_types_observed IS NULL
+           OR g.boolean_metric_types_observed IS NULL
+           OR g.categorical_metric_types_observed IS NULL
            OR g.compartments_observed IS NULL
         RETURN count(g) AS bad
     """)
@@ -709,3 +709,111 @@ def test_plan3_index_exists(run_query, idx_name):
     )
     assert len(result) == 1, f"Index {idx_name} not found"
     assert result[0]["state"] == "ONLINE", f"Index {idx_name} state = {result[0]['state']}"
+
+
+# ---------------------------------------------------------------------------
+# derived_metric_search_text + fulltext enrichment (slice-2 D5)
+# ---------------------------------------------------------------------------
+
+def test_experiment_search_text_populated_when_dms_present(run_query):
+    """Every Experiment with derived_metric_count > 0 has a non-empty search text."""
+    result = run_query("""
+        MATCH (e:Experiment)
+        WHERE e.derived_metric_count > 0
+        RETURN count(*) AS expected,
+               count(e.derived_metric_search_text) AS populated
+    """)
+    assert result[0]["expected"] == result[0]["populated"], (
+        f"Expected derived_metric_search_text on all {result[0]['expected']} DM-bearing "
+        f"experiments, got {result[0]['populated']}"
+    )
+    assert result[0]["expected"] > 0, "No DM-bearing experiments to validate"
+
+
+def test_experiment_search_text_null_when_no_dms(run_query):
+    """Experiments with no DMs must leave the property null (not empty string)."""
+    result = run_query("""
+        MATCH (e:Experiment)
+        WHERE e.derived_metric_count = 0 AND e.derived_metric_search_text IS NOT NULL
+        RETURN count(*) AS leaks
+    """)
+    assert result[0]["leaks"] == 0
+
+
+def test_publication_search_text_populated_when_dms_present(run_query):
+    result = run_query("""
+        MATCH (p:Publication)
+        WHERE p.derived_metric_count > 0
+        RETURN count(*) AS expected,
+               count(p.derived_metric_search_text) AS populated
+    """)
+    assert result[0]["expected"] == result[0]["populated"]
+    assert result[0]["expected"] > 0
+
+
+def test_publication_search_text_null_when_no_dms(run_query):
+    result = run_query("""
+        MATCH (p:Publication)
+        WHERE p.derived_metric_count = 0 AND p.derived_metric_search_text IS NOT NULL
+        RETURN count(*) AS leaks
+    """)
+    assert result[0]["leaks"] == 0
+
+
+def test_experiment_fulltext_returns_dm_token_hits(run_query):
+    """A DM token (metric_type underscore-split) reaches Experiment via fulltext."""
+    result = run_query("""
+        CALL db.index.fulltext.queryNodes('experimentFullText', 'diel amplitude')
+        YIELD node
+        RETURN count(*) AS hits
+    """)
+    assert result[0]["hits"] >= 1, (
+        "experimentFullText should match DM tokens via derived_metric_search_text"
+    )
+
+
+def test_publication_fulltext_returns_dm_token_hits(run_query):
+    result = run_query("""
+        CALL db.index.fulltext.queryNodes('publicationFullText', 'damping ratio')
+        YIELD node
+        RETURN count(*) AS hits
+    """)
+    assert result[0]["hits"] >= 1, (
+        "publicationFullText should match DM tokens via derived_metric_search_text"
+    )
+
+
+def test_gene_fulltext_unchanged(run_query):
+    """Regression guard: geneFullText must NOT include DM-derived properties (D5)."""
+    result = run_query("""
+        SHOW FULLTEXT INDEXES YIELD name, properties
+        WHERE name = 'geneFullText'
+        RETURN properties AS props
+    """)
+    assert result, "geneFullText index missing"
+    props = set(result[0]["props"])
+    assert props == {
+        "gene_summary",
+        "all_identifiers",
+        "gene_name_synonyms",
+        "alternate_functional_descriptions",
+    }, f"geneFullText property set drifted: {sorted(props)}"
+
+
+# ---------------------------------------------------------------------------
+# Gene rollup rename regression (slice-2 D8)
+# ---------------------------------------------------------------------------
+
+def test_legacy_classifier_property_names_absent(run_query):
+    """The four classifier_* property names from slice-1 must not exist anywhere."""
+    result = run_query("""
+        MATCH (g:Gene)
+        WHERE g.classifier_flag_count IS NOT NULL
+           OR g.classifier_label_count IS NOT NULL
+           OR g.classifier_flag_types_observed IS NOT NULL
+           OR g.classifier_label_types_observed IS NOT NULL
+        RETURN count(g) AS leftovers
+    """)
+    assert result[0]["leftovers"] == 0, (
+        f"Legacy classifier_* property names still present on {result[0]['leftovers']} genes"
+    )

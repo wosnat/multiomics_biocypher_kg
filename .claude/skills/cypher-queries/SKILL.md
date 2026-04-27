@@ -805,7 +805,7 @@ RETURN
 
 ```cypher
 MATCH (g:Gene {locus_tag: $locus_tag})
-RETURN g.numeric_metric_count, g.classifier_flag_count, g.classifier_label_count,
-       g.numeric_metric_types_observed, g.classifier_flag_types_observed,
-       g.classifier_label_types_observed, g.compartments_observed;
+RETURN g.numeric_metric_count, g.boolean_metric_count, g.categorical_metric_count,
+       g.numeric_metric_types_observed, g.boolean_metric_types_observed,
+       g.categorical_metric_types_observed, g.compartments_observed;
 ```

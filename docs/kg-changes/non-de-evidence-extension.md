@@ -63,8 +63,8 @@ Plan 3 post-import Cypher (`scripts/post-import.sh` + `scripts/post-import.cyphe
 Same 5 fields as Publication.
 
 ### Per Gene (routing signals for MCP dispatch)
-- `numeric_metric_count` / `classifier_flag_count` / `classifier_label_count` (int)
-- `numeric_metric_types_observed` / `classifier_flag_types_observed` / `classifier_label_types_observed` (str[])
+- `numeric_metric_count` / `boolean_metric_count` / `categorical_metric_count` (int)
+- `numeric_metric_types_observed` / `boolean_metric_types_observed` / `categorical_metric_types_observed` (str[])
 - `compartments_observed` (str[])
 
 ### Empty-state defaults
