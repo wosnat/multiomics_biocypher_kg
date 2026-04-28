@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """
-Download pipeline for genome annotation data.
+Download pipeline for genome annotation data (NCBI, Cyanorak, UniProt, eggNOG)
+plus metabolism reference data (MNX, TCDB, CAZy).
 
 Reads data/Prochlorococcus/genomes/cyanobacteria_genomes.csv and for each genome:
 
@@ -15,6 +16,10 @@ Reads data/Prochlorococcus/genomes/cyanobacteria_genomes.csv and for each genome
            → cache/data/<org>/genomes/<strain>/eggnog/
   Step 5: Build gene_mapping.csv from GFF/GBK files (requires steps 1+2)
            → cache/data/<org>/genomes/<strain>/gene_mapping.csv
+  Step 6: Download MNX, TCDB, and CAZy reference data
+           → cache/data/metabolism/
+  Step 7: Build metabolite resolver and hierarchy caches (requires step 6)
+           → cache/data/metabolism/
 
 All steps skip existing cache files by default.
 Use --force to re-download/re-run for specified strains.
@@ -22,6 +27,7 @@ Use --force to re-download/re-run for specified strains.
 Usage:
   uv run python multiomics_kg/download/download_genome_data.py
   uv run python multiomics_kg/download/download_genome_data.py --steps 1 2 3
+  uv run python multiomics_kg/download/download_genome_data.py --steps 6 7 --force
   uv run python multiomics_kg/download/download_genome_data.py --strains MED4 MIT9313
   uv run python multiomics_kg/download/download_genome_data.py --strains MED4 --force
 """
@@ -454,7 +460,7 @@ def step7_metabolite_resolver(force: bool) -> None:
 
 def main() -> None:
     parser = argparse.ArgumentParser(
-        description="Download genome annotation data (NCBI, Cyanorak, UniProt, eggNOG).",
+        description="Download genome annotation data (NCBI, Cyanorak, UniProt, eggNOG) plus metabolism reference data (MNX, TCDB, CAZy).",
         formatter_class=argparse.RawDescriptionHelpFormatter,
         epilog="""
 Steps:
