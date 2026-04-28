@@ -25,6 +25,11 @@
       "multi": 0,
       "unique": 12751
     },
+    "old_locus_tag": {
+      "conflict": 0,
+      "multi": 0,
+      "unique": 3916
+    },
     "protein_id_refseq": {
       "conflict": 0,
       "multi": 68,
@@ -38,8 +43,8 @@
   },
   "strain": "HOT1A3",
   "unresolved_rows_per_source": {
-    "Aharonovich 2016/supp_table_hot1a3_9313_vs_9313dil": 1966,
-    "Aharonovich 2016/supp_table_hot1a3_9313_vs_med4": 2381,
+    "Aharonovich 2016/supp_table_hot1a3_9313_vs_9313dil": 86,
+    "Aharonovich 2016/supp_table_hot1a3_9313_vs_med4": 85,
     "Weissberg 2025/hot1a3_proteome_axenic_day_18_vs_day_11": 3,
     "Weissberg 2025/hot1a3_proteome_axenic_day_31_vs_day_11": 3,
     "Weissberg 2025/hot1a3_proteome_coculture_day_18_vs_day_11": 3,
