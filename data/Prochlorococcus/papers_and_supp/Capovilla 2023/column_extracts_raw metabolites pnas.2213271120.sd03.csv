@@ -1,0 +1,30 @@
+﻿TSQ data from Pro7; used HILIC method,,,,,,,,,,,,,,,,,,,,,
+"Kujawinski Lab, 17 March 2020",,,,,,,,,,,,,,,,,,,,,
+Data are concentrations in the *extract*; extract volume for all samples is 245 μL,,,,,,,,,,,,,,,,,,,,,
+Extraction efficiencies are not provided because these are all filter samples and we cannot correct for extraction efficiency for these,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,
+polarity,compound,KEGG,notes,Pro7_9303_AMP_day4_r1,Pro7_9303_AMP_day4_r2,Pro7_9303_AMP_day4_r3,Pro7_9303_AMPwChi_day4_r1,Pro7_9303_AMPwChi_day4_r2,Pro7_9303_AMPwChi_day4_r3,Pro7_9313_AMP_day4_r1,Pro7_9313_AMP_day4_r2,Pro7_9313_AMP_day4_r3,Pro7_9313_AMP_day6_r1,Pro7_9313_AMP_day6_r2,Pro7_9313_AMPwChi_day4_r1,Pro7_9313_AMPwChi_day4_r2A,Pro7_9313_AMPwChi_day4_r2B,Pro7_9313_AMPwChi_day6_r1,Pro7_9313_AMPwChi_day6_r2,Pro7_AMP_blank,Pro7_AMPwChi_blank
+-,2keto3deoxy6phosphogluconate257,C04442,absent from Pro7,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+-,6-phosphogluconic acid,C00345,ok,0.0,0.0,0.0,0.0,236.7,0.0,0.0,0.0,979.1,116.8,265.2,0.0,0.0,337.0,0.0,0.0,0.0,0.0
+-,acetyl coenzyme A,C00024,ok,0.0,30.9,0.0,0.0,0.0,119.7,0.0,0.0,0.0,204.1,286.1,0.0,0.0,0.0,103.3,269.6,0.0,0.0
+-,alpha-ketoglutaric acid,C00026,ok,3.2,0.0,0.0,7.2,0.0,0.0,10.7,13.1,0.0,0.0,8.0,0.0,0.0,0.0,0.0,7.0,0.0,0.0
++,chitobiose pos,C01674,ok,85.8,21.8,38.0,26.2,28.2,60.0,116.4,174.8,190.5,140.8,104.8,131.1,39.7,255.8,146.0,122.2,0.0,0.0
+-,citric acid,C00158,"issues with curve, only comfortable with 'high' versus 'low'",0.0,1203.3,860.5,1142.4,238.3,1857.3,3183.1,275.9,4162.7,4566.6,4049.4,200.5,0.0,3671.9,4557.5,1283.5,0.0,0.0
+-,D-3_and_2-phosphoglyceric,C00197 / C00631,we cannot analytically separate these two,147.9,247.4,157.8,0.0,1022.5,210.8,0.0,521.2,519.4,342.7,463.7,0.0,0.0,534.7,262.5,0.0,342.5,0.0
+-,D-erythrose-4-phosphate,C00279,fails the quality checks,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+-,D-fructose 1_6-bisphosphate,C00354,"compound is not reliable, deleted from data",0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
++,D-glucosamine,C00329,ok,0.0,0.0,0.0,0.0,0.0,0.0,0.0,2.0,0.0,8.6,0.0,7.1,0.0,0.0,0.0,6.7,0.0,0.0
+-,D-glucosamine 6-phosphate,C00352,ok,103.8,49.0,0.0,0.0,48.6,17.8,0.0,0.0,43.4,201.2,84.3,0.0,0.0,0.0,193.6,0.0,0.0,0.0
+-,D-glyceraldehyde-3-phosphate,C00118,ion suppression: no matrix-matched curve,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+-,"DHAP (dihydroxyacetone phosphate, or glycerone phosphate)",C00111 ,ion suppression: no matrix-matched curve,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+-,D-Ribose 5-phosphate,C00117,ok,21.4,99.1,69.0,49.2,16.0,46.3,118.8,0.0,0.0,124.9,134.6,0.0,0.0,82.5,60.6,158.7,0.0,0.0
+-,D-ribulose-15-bisphosphate,C01182,ok,0.0,78.8,0.0,0.0,0.0,0.0,52.1,0.0,600.6,369.8,104.9,0.0,0.0,105.0,123.5,0.0,0.0,0.0
+-,fructose6P,C00085,"issues with curve, only comfortable with 'high' versus 'low'",0.0,1867.3,0.0,0.0,508.5,320.9,6373.5,0.0,4872.5,12476.9,11626.0,0.0,0.0,3429.7,5313.3,4657.9,0.0,0.0
+-,fumaric acid,C00122,ok,0.0,115.1,0.0,55.0,0.0,78.1,39.6,0.0,55.9,166.3,106.0,0.0,0.0,41.5,0.0,81.6,0.0,0.0
+-,glucose6P,C00092,ok,393.7,460.1,0.0,75.8,383.9,165.1,581.0,0.0,769.3,1455.5,895.5,0.0,0.0,430.9,1064.9,284.3,0.0,0.0
+-,malic acid,C00149,ok,17.5,0.0,6.3,0.0,6.5,0.0,0.0,0.0,0.0,93.2,45.8,10.7,0.0,0.0,0.0,0.0,0.0,0.0
++,n-acetyl glucosamine,C00140,ion suppression: no matrix-matched curve,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
++,n-acetyl glucosamine loss h2o,(same),ion suppression: no matrix-matched curve,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+-,NacetylDglucosamine6phosphate,C00357,ok,0.0,0.0,17.1,23.2,23.3,36.7,59.4,27.4,101.4,207.8,135.0,41.6,0.0,105.7,105.5,72.5,0.0,0.0
+-,phosphoenolpyruvate,C00074,ok,0.0,0.0,27.0,0.0,161.7,0.0,68.6,195.0,114.3,212.6,337.9,0.0,0.0,117.7,117.2,77.2,0.0,0.0
