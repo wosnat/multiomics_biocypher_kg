@@ -81,6 +81,153 @@ def build_compounds_table(conn: sqlite3.Connection, chem_prop_path: Path) -> int
     return n
 
 
+# ── aliases ───────────────────────────────────────────────────────────────────
+
+# Source-prefix normalization: collapse MNX's dual short/long forms.
+# Long bioregistry-style spelling wins. Keys: any prefix MNX uses; values:
+# canonical form. Prefixes not in the map are passed through unchanged.
+_SOURCE_NORM = {
+    "CHEBI":           "chebi",
+    "chebi":           "chebi",
+    "keggC":           "kegg.compound",
+    "kegg.compound":   "kegg.compound",
+    "keggD":           "kegg.drug",
+    "kegg.drug":       "kegg.drug",
+    "keggG":           "kegg.glycan",
+    "kegg.glycan":     "kegg.glycan",
+    "biggM":           "bigg.metabolite",
+    "bigg.metabolite": "bigg.metabolite",
+    "metacycM":        "metacyc.compound",
+    "metacyc.compound":"metacyc.compound",
+    "seedM":           "seed.compound",
+    "seed.compound":   "seed.compound",
+    "vmhM":            "vmh",
+    "vmh":             "vmh",
+    "lipidmapsM":      "lipidmaps",
+    "lipidmaps":       "lipidmaps",
+    "SLM":             "slm",
+    "slm":             "slm",
+    "reactomeM":       "reactome",
+    "reactome":        "reactome",
+    "envipathM":       "envipath",
+    "envipath":        "envipath",
+    "sabiorkM":        "sabiork",
+    "sabiork":         "sabiork",
+    # Reaction-side equivalents
+    "keggR":           "kegg.reaction",
+    "kegg.reaction":   "kegg.reaction",
+    "biggR":           "bigg.reaction",
+    "bigg.reaction":   "bigg.reaction",
+    "seedR":           "seed.reaction",
+    "seed.reaction":   "seed.reaction",
+    "vmhreaction":     "vmhreaction",
+    "vmhR":            "vmhreaction",
+    "metacycR":        "metacyc.reaction",
+    "metacyc.reaction":"metacyc.reaction",
+    "sabiork.reaction":"sabiork.reaction",
+    "rh":              "rhea",
+    "rhea":            "rhea",
+}
+
+
+def _split_source_value(combined: str) -> tuple[str, str] | None:
+    """Split MNX xref col-1 ('chebi:17234') into (canonical_source, value).
+
+    Returns None for self-references (bare MNXM/MNXR ids without a colon).
+    """
+    if ":" not in combined:
+        return None
+    src, _, value = combined.partition(":")
+    canonical = _SOURCE_NORM.get(src, src)
+    return canonical, value
+
+
+_ALIAS_DDL = """
+CREATE TABLE IF NOT EXISTS compound_aliases (
+    source  TEXT,
+    value   TEXT,
+    mnxm_id TEXT,
+    PRIMARY KEY (source, value, mnxm_id)
+);
+CREATE INDEX IF NOT EXISTS idx_compound_aliases_value
+    ON compound_aliases(value);
+CREATE INDEX IF NOT EXISTS idx_compound_aliases_source_value
+    ON compound_aliases(source, value);
+"""
+
+
+def build_compound_aliases_table(conn: sqlite3.Connection, chem_xref_path: Path) -> int:
+    """Populate compound_aliases from chem_xref.tsv with source normalization."""
+    cur = conn.cursor()
+    cur.executescript(_ALIAS_DDL)
+    n = 0
+    for fields in _iter_data_rows(chem_xref_path):
+        if len(fields) < 2:
+            continue
+        combined, mnxm_id = fields[0], fields[1]
+        parsed = _split_source_value(combined)
+        if parsed is None:
+            continue  # skip self-references
+        source, value = parsed
+        cur.execute(
+            "INSERT OR IGNORE INTO compound_aliases (source, value, mnxm_id) "
+            "VALUES (?, ?, ?)",
+            (source, value, mnxm_id),
+        )
+        n += 1
+    log.info(f"  compound_aliases: {n} rows scanned")
+    return n
+
+
+# ── names ─────────────────────────────────────────────────────────────────────
+
+_NAMES_DDL = """
+CREATE TABLE IF NOT EXISTS compound_names (
+    name_normalized TEXT,
+    mnxm_id         TEXT,
+    PRIMARY KEY (name_normalized, mnxm_id)
+);
+CREATE INDEX IF NOT EXISTS idx_compound_names
+    ON compound_names(name_normalized);
+"""
+
+
+_NAME_NORM_RE = re.compile(r"[^\w+\-/ ]")
+
+
+def _normalize_name(s: str) -> str:
+    """Lowercase, collapse whitespace, strip punctuation except + - /."""
+    s = _NAME_NORM_RE.sub(" ", s.lower())
+    return " ".join(s.split())
+
+
+def build_compound_names_table(conn: sqlite3.Connection, chem_xref_path: Path) -> int:
+    """Populate compound_names from the description column of chem_xref.tsv.
+
+    Description uses '||' as alternate-name separator. Each non-empty alt-name
+    contributes one (name_normalized, mnxm_id) row.
+    """
+    cur = conn.cursor()
+    cur.executescript(_NAMES_DDL)
+    n = 0
+    for fields in _iter_data_rows(chem_xref_path):
+        if len(fields) < 3:
+            continue
+        mnxm_id, description = fields[1], fields[2]
+        for raw in description.split("||"):
+            normalized = _normalize_name(raw)
+            if not normalized:
+                continue
+            cur.execute(
+                "INSERT OR IGNORE INTO compound_names (name_normalized, mnxm_id) "
+                "VALUES (?, ?)",
+                (normalized, mnxm_id),
+            )
+            n += 1
+    log.info(f"  compound_names: {n} rows scanned")
+    return n
+
+
 def main(force: bool = False) -> None:
     raise NotImplementedError("Phase 1.1B — see plan for follow-up tasks")
 

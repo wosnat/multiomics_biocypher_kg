@@ -52,3 +52,78 @@ def test_build_compounds_table(tmp_path):
     assert abs(glucose[5] - 180.063) < 1e-3
 
     conn.close()
+
+
+CHEM_XREF_FIXTURE = textwrap.dedent("""\
+    #source\tID\tdescription
+    MNXM41\tMNXM41\tD-glucose
+    chebi:17234\tMNXM41\tD-glucose||Dextrose
+    CHEBI:17234\tMNXM41\tD-glucose
+    kegg.compound:C00031\tMNXM41\tD-glucose
+    keggC:C00031\tMNXM41\tD-glucose
+    bigg.metabolite:glc__D\tMNXM41\tD-glucose
+    biggM:glc__D\tMNXM41\tD-glucose
+    mnx:PMF\tMNXM01\tPMF
+""")
+
+
+def test_build_compound_aliases_normalizes_dual_prefixes(tmp_path):
+    """Dual short/long source forms (CHEBI/chebi, keggC/kegg.compound) collapse
+    to a single canonical prefix; values dedup per (source, value, mnxm)."""
+    # First populate compounds (alias FK target)
+    chem_prop = tmp_path / "chem_prop.tsv"
+    chem_prop.write_text(CHEM_PROP_FIXTURE)
+    chem_xref = tmp_path / "chem_xref.tsv"
+    chem_xref.write_text(CHEM_XREF_FIXTURE)
+    db = tmp_path / "resolver.db"
+    conn = sqlite3.connect(db)
+    bmr.build_compounds_table(conn, chem_prop)
+
+    bmr.build_compound_aliases_table(conn, chem_xref)
+    conn.commit()
+
+    cur = conn.cursor()
+    cur.execute("SELECT source, value, mnxm_id FROM compound_aliases ORDER BY source, value")
+    rows = cur.fetchall()
+
+    # CHEBI:17234 should be normalized to source='chebi', value='17234', and
+    # both `chebi:17234` and `CHEBI:17234` rows should collapse to one
+    chebi_rows = [r for r in rows if r[0] == "chebi"]
+    assert len(chebi_rows) == 1
+    assert chebi_rows[0] == ("chebi", "17234", "MNXM41")
+
+    # kegg.compound:C00031 and keggC:C00031 collapse to one
+    kegg_rows = [r for r in rows if r[0] == "kegg.compound"]
+    assert kegg_rows == [("kegg.compound", "C00031", "MNXM41")]
+
+    # bigg.metabolite/biggM collapse
+    bigg_rows = [r for r in rows if r[0] == "bigg.metabolite"]
+    assert bigg_rows == [("bigg.metabolite", "glc__D", "MNXM41")]
+
+    # Self-references (bare MNXM41) skipped
+    assert not any(r[0] == "" for r in rows)
+
+    conn.close()
+
+
+def test_build_compound_names_normalizes(tmp_path):
+    """Names from `name` and description (||-split) get normalized + indexed."""
+    chem_prop = tmp_path / "chem_prop.tsv"
+    chem_prop.write_text(CHEM_PROP_FIXTURE)
+    chem_xref = tmp_path / "chem_xref.tsv"
+    chem_xref.write_text(CHEM_XREF_FIXTURE)
+    db = tmp_path / "resolver.db"
+    conn = sqlite3.connect(db)
+    bmr.build_compounds_table(conn, chem_prop)
+    bmr.build_compound_names_table(conn, chem_xref)
+    conn.commit()
+
+    cur = conn.cursor()
+    cur.execute("SELECT DISTINCT name_normalized, mnxm_id FROM compound_names "
+                "WHERE mnxm_id = 'MNXM41' ORDER BY name_normalized")
+    rows = cur.fetchall()
+    names = {r[0] for r in rows}
+    assert "d-glucose" in names
+    assert "dextrose" in names
+
+    conn.close()
