@@ -69,7 +69,12 @@
       "Skill(eggnog-run)",
       "Skill(eggnog-run:*)",
       "mcp__multiomics-kg__kg_schema",
-      "Bash(git push *)"
+      "Bash(git push *)",
+      "WebFetch(domain:github.com)",
+      "WebFetch(domain:raw.githubusercontent.com)",
+      "WebFetch(domain:api.github.com)",
+      "WebFetch(domain:www.metanetx.org)",
+      "Bash(awk '-F\\\\t' 'NR==5 || NR==100 {for\\(i=1;i<=NF;i++\\) printf \"  col%d=%s\\\\n\", i, $i; print \"---\"}' /fast_data/Osnat/multiomics/multiomics_biocypher_kg/cache/data/Ruegeria/genomes/DSS-3/eggnog/DSS-3.emapper.annotations)"
     ]
   }
 }
