@@ -436,6 +436,20 @@ def step5_gene_mapping(genomes: list[dict], force: bool) -> None:
         print(f"{'─'*60}")
 
 
+def step6_metabolism_reference(force: bool) -> None:
+    """Sub-step 6: download MNX/TCDB/CAZy reference data."""
+    from multiomics_kg.download.download_metabolism_reference import download_all
+    log.info("─── Step 6: Download MNX/TCDB/CAZy reference data ───")
+    download_all(force=force)
+
+
+def step7_metabolite_resolver(force: bool) -> None:
+    """Sub-step 7: build metabolite resolver + hierarchy caches."""
+    from multiomics_kg.download.build_metabolite_resolver import main as build_main
+    log.info("─── Step 7: Build metabolite resolver + hierarchy caches ───")
+    build_main(force=force)
+
+
 # ── main ─────────────────────────────────────────────────────────────────────
 
 def main() -> None:
@@ -449,18 +463,22 @@ Steps:
   3  UniProt (one download per unique taxid)
   4  eggNOG-mapper (requires EGGNOG_DATA_DIR in .env)
   5  gene_mapping.csv (requires steps 1+2)
+  6  Download MNX/TCDB/CAZy reference data
+  7  Build metabolite resolver + hierarchy caches (requires step 6)
 
 Examples:
   uv run python multiomics_kg/download/download_genome_data.py
   uv run python multiomics_kg/download/download_genome_data.py --steps 1 2 3
+  uv run python multiomics_kg/download/download_genome_data.py --steps 6 7 --force
   uv run python multiomics_kg/download/download_genome_data.py --strains MED4 MIT9313
   uv run python multiomics_kg/download/download_genome_data.py --strains MED4 --force
         """,
     )
     parser.add_argument(
-        "--steps", nargs="+", type=int, choices=[1, 2, 3, 4, 5],
-        default=[1, 2, 3, 4, 5],
-        help="Steps to run (default: all). 1=NCBI 2=Cyanorak 3=UniProt 4=eggNOG 5=gene_mapping",
+        "--steps", nargs="+", type=int, choices=[1, 2, 3, 4, 5, 6, 7],
+        default=[1, 2, 3, 4, 5, 6, 7],
+        help=("Steps to run (default: all). 1=NCBI 2=Cyanorak 3=UniProt "
+              "4=eggNOG 5=gene_mapping 6=metabolism_reference 7=metabolite_resolver"),
     )
     parser.add_argument(
         "--strains", nargs="+",
@@ -507,6 +525,10 @@ Examples:
         step4_eggnog(genomes, force=args.force, cpu=args.cpu)
     if 5 in steps:
         step5_gene_mapping(genomes, force=args.force)
+    if 6 in steps:
+        step6_metabolism_reference(force=args.force)
+    if 7 in steps:
+        step7_metabolite_resolver(force=args.force)
 
     log.info("All steps complete.")
 
