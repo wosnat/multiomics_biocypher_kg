@@ -154,3 +154,62 @@ publication:
         name_col: Locus tag2
         logfc_col: 0.004%_CO2_0%_O2 FC
         prefiltered: true
+    # Table S2 (moesm34): cross-shock concordance flags + rapid-recovery booleans.
+    # Source CSV is normalized by scripts/build_modified_csv/build_bagby2015_modified_csv.py
+    # (preamble dropped, multi-line headers collapsed to ASCII snake_case).
+    s2_concordance_low_co2:
+      type: derived_metrics_table
+      filename: data/Prochlorococcus/papers_and_supp/bagby 2015/41396_2015_bfismej201536_moesm34_esm_modified.csv
+      organism: Prochlorococcus MED4
+      experiment: carbon_low_co2_0004_co2_med4_microarray
+      name_col: locus_tag
+      id_columns:
+      - column: locus_tag
+        id_type: old_locus_tag
+      - column: alternative_locus_tag
+        id_type: alternative_locus_tag
+      metrics:
+      - metric_type: expression_change_high_light_shock
+        name: "MED4 expression change under high light shock (Bagby 2015 Table S2)"
+        value_kind: categorical
+        value_col: expression_change_high_light_shock
+        allowed_categories: [up, down, "-"]
+        field_description: "Direction of MED4 transcriptional response to high light shock at t=45 min, from prior literature (Steglich 2006, 2008). Concordance reference for the -CO2 shock gene set."
+      - metric_type: expression_change_low_co2_shock
+        name: "MED4 expression change under -CO2 shock (Bagby 2015 Table S2)"
+        value_kind: categorical
+        value_col: expression_change_low_co2_shock
+        allowed_categories: [up, down, "-"]
+        field_description: "Direction of initial change under -CO2 shock as indicated by cluster membership (cluster 1 = up; clusters 2,3,4 = down)."
+      - metric_type: rapid_recovery_low_co2_shock
+        name: "MED4 rapid recovery under -CO2 shock (Bagby 2015 Table S2)"
+        value_kind: boolean
+        value_col: rapid_recovery_low_co2_shock
+        true_tokens: ["yes"]
+        blank_policy: "false"
+        field_description: "Rapid recovery under -CO2 shock (cluster 3 membership). Empty = no rapid recovery."
+    s2_concordance_low_co2_no_o2:
+      type: derived_metrics_table
+      filename: data/Prochlorococcus/papers_and_supp/bagby 2015/41396_2015_bfismej201536_moesm34_esm_modified.csv
+      organism: Prochlorococcus MED4
+      experiment: carbon_low_co2_and_no_med4_microarray
+      name_col: locus_tag
+      id_columns:
+      - column: locus_tag
+        id_type: old_locus_tag
+      - column: alternative_locus_tag
+        id_type: alternative_locus_tag
+      metrics:
+      - metric_type: expression_change_low_co2_no_o2_shock
+        name: "MED4 expression change under -CO2/-O2 shock (Bagby 2015 Table S2)"
+        value_kind: categorical
+        value_col: expression_change_low_co2_no_o2_shock
+        allowed_categories: [up, down, "-"]
+        field_description: "Direction of initial change under -CO2/-O2 shock as indicated by cluster membership (cluster 1 = up; clusters 2,3,4 = down)."
+      - metric_type: rapid_recovery_low_co2_no_o2_shock
+        name: "MED4 rapid recovery under -CO2/-O2 shock (Bagby 2015 Table S2)"
+        value_kind: boolean
+        value_col: rapid_recovery_low_co2_no_o2_shock
+        true_tokens: ["yes"]
+        blank_policy: "false"
+        field_description: "Rapid recovery under -CO2/-O2 shock (cluster 3 membership). Empty = no rapid recovery."

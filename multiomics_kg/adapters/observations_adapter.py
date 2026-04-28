@@ -286,7 +286,15 @@ class ObservationsAdapter:
                 logger.warning(f"derived_metrics_table CSV not found: {csv_path}")
                 continue
             try:
-                df = pd.read_csv(csv_path)
+                if use_resolved:
+                    df = pd.read_csv(csv_path)
+                else:
+                    sep = entry.get("sep", ",")
+                    skip_rows = int(entry.get("skip_rows", 0) or 0)
+                    df = pd.read_csv(
+                        csv_path, sep=sep,
+                        skiprows=skip_rows if skip_rows else None,
+                    )
             except Exception as e:
                 logger.warning(f"Failed to read derived_metrics_table CSV {csv_path}: {e}")
                 continue
