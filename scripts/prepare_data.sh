@@ -124,11 +124,11 @@ for step in $STEPS; do
     case "$step" in
         0)
             if [[ $SKIP_CYANORAK -eq 1 ]]; then
-                DOWNLOAD_SUBSTEPS="1 3 5"
-                STEP0_LABEL="Download genome data (NCBI + UniProt + gene_mapping; Cyanorak SKIPPED)"
+                DOWNLOAD_SUBSTEPS="1 3 5 6 7"
+                STEP0_LABEL="Download genome data (NCBI + UniProt + gene_mapping + metabolism reference + resolver; Cyanorak SKIPPED)"
             else
-                DOWNLOAD_SUBSTEPS="1 2 3 5"
-                STEP0_LABEL="Download genome data (NCBI + Cyanorak + UniProt + gene_mapping)"
+                DOWNLOAD_SUBSTEPS="1 2 3 5 6 7"
+                STEP0_LABEL="Download genome data (NCBI + Cyanorak + UniProt + gene_mapping + metabolism reference + resolver)"
             fi
             run_step 0 \
                 "$STEP0_LABEL" \
