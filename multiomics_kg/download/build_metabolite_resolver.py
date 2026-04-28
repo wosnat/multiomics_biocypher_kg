@@ -451,6 +451,114 @@ def build_tcdb_hierarchy(
     return len(h)
 
 
+# ── CAZy hierarchy (bootstrapped from eggNOG observations) ────────────────────
+
+_CAZY_CLASSES = {
+    "GH":  "Glycoside Hydrolases",
+    "GT":  "GlycosylTransferases",
+    "PL":  "Polysaccharide Lyases",
+    "CE":  "Carbohydrate Esterases",
+    "AA":  "Auxiliary Activities",
+    "CBM": "Carbohydrate-Binding Modules",
+}
+
+# eggNOG column index (1-based) for the CAZy field; 0-based here.
+_EGGNOG_CAZY_COL = 18
+
+
+# A CAZy ID is `<class><digits>` optionally followed by `_<digits>` subfamily
+# Examples: GH13, GH13_1, CBM48, AA10
+_CAZY_FAMILY_RE = re.compile(r"^(GH|GT|PL|CE|AA|CBM)(\d+)(?:_(\d+))?$")
+
+
+def _parse_cazy_id(token: str) -> tuple[str, str | None] | None:
+    """Return (family_id, subfamily_id_or_None) or None if malformed.
+
+    'GH13'    → ('GH13', None)
+    'GH13_1'  → ('GH13', 'GH13_1')
+    'CBM48'   → ('CBM48', None)
+    'invalid' → None
+    """
+    m = _CAZY_FAMILY_RE.match(token.strip())
+    if not m:
+        return None
+    cls, fam_num, sub_num = m.groups()
+    family = f"{cls}{fam_num}"
+    subfamily = f"{family}_{sub_num}" if sub_num else None
+    return family, subfamily
+
+
+def _collect_cazy_ids(eggnog_paths: list[Path]) -> set[str]:
+    """Iterate over all eggNOG annotation files; collect distinct CAZy tokens."""
+    ids: set[str] = set()
+    for path in eggnog_paths:
+        if not path.exists():
+            continue
+        with open(path, encoding="utf-8") as f:
+            for line in f:
+                if line.startswith("#") or not line.strip():
+                    continue
+                cols = line.rstrip("\n").split("\t")
+                if len(cols) <= _EGGNOG_CAZY_COL:
+                    continue
+                cell = cols[_EGGNOG_CAZY_COL]
+                if cell in ("", "-"):
+                    continue
+                for token in cell.split(","):
+                    token = token.strip()
+                    if token:
+                        ids.add(token)
+    return ids
+
+
+def build_cazy_hierarchy(out_path: Path, eggnog_paths: list[Path]) -> int:
+    """Build cazy_hierarchy.json from CAZy IDs observed in eggNOG output.
+
+    Always emits the 6 top-level classes (level 0) so consumers have a stable
+    set of root nodes. Family + subfamily entries are derived per observation.
+    """
+    h: dict[str, dict] = {
+        cls: {
+            "name": display_name,
+            "level": 0,
+            "level_kind": "cazy_class",
+            "parent": None,
+            "class": cls,
+        }
+        for cls, display_name in _CAZY_CLASSES.items()
+    }
+
+    observed_ids = _collect_cazy_ids(eggnog_paths)
+    for token in sorted(observed_ids):
+        parsed = _parse_cazy_id(token)
+        if parsed is None:
+            log.warning(f"  cazy: skipping malformed token: {token!r}")
+            continue
+        family, subfamily = parsed
+        cls = _CAZY_FAMILY_RE.match(family).group(1)
+        if family not in h:
+            h[family] = {
+                "name": "",
+                "level": 1,
+                "level_kind": "cazy_family",
+                "parent": cls,
+                "class": cls,
+            }
+        if subfamily and subfamily not in h:
+            h[subfamily] = {
+                "name": "",
+                "level": 2,
+                "level_kind": "cazy_subfamily",
+                "parent": family,
+                "class": cls,
+            }
+
+    out_path.parent.mkdir(parents=True, exist_ok=True)
+    out_path.write_text(json.dumps(h, indent=2, sort_keys=True))
+    log.info(f"  cazy_hierarchy.json: {len(h)} entries ({len(observed_ids)} eggNOG observations)")
+    return len(h)
+
+
 def main(force: bool = False) -> None:
     raise NotImplementedError("Phase 1.1B — see plan for follow-up tasks")
 

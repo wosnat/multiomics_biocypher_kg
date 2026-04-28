@@ -270,3 +270,48 @@ def test_build_tcdb_hierarchy(tmp_path):
     # Multi-substrate
     glu = h["1.A.10.1.1"]
     assert set(glu["substrate_classes"]) == {"glutamate(2-)", "amino acid"}
+
+
+EGGNOG_FIXTURE = textwrap.dedent("""\
+    ##   eggnog-mapper
+    #query\tseed_ortholog\tevalue\tscore\teggNOG_OGs\tmax_annot_lvl\tCOG_category\tDescription\tPreferred_name\tGOs\tEC\tKEGG_ko\tKEGG_Pathway\tKEGG_Module\tKEGG_Reaction\tKEGG_rclass\tBRITE\tKEGG_TC\tCAZy\tBiGG_Reaction\tPFAMs
+    WP_001.1\to\t1e-50\t100\tCOG1\t-\tE\tdesc\t-\t-\t-\t-\t-\t-\t-\t-\t-\t-\tGT19\t-\t-
+    WP_002.1\to\t1e-50\t100\tCOG1\t-\tE\tdesc\t-\t-\t-\t-\t-\t-\t-\t-\t-\t-\tGH13_1,CBM48\t-\t-
+    WP_003.1\to\t1e-50\t100\tCOG1\t-\tE\tdesc\t-\t-\t-\t-\t-\t-\t-\t-\t-\t-\t-\t-\t-
+    WP_004.1\to\t1e-50\t100\tCOG1\t-\tE\tdesc\t-\t-\t-\t-\t-\t-\t-\t-\t-\t-\tGH32\t-\t-
+""")
+
+
+def test_build_cazy_hierarchy(tmp_path):
+    """CAZy hierarchy bootstrapped from raw eggNOG col 19, all 6 classes hardcoded."""
+    eggnog = tmp_path / "MED4.emapper.annotations"
+    eggnog.write_text(EGGNOG_FIXTURE)
+    out = tmp_path / "cazy_hierarchy.json"
+
+    bmr.build_cazy_hierarchy(out, [eggnog])
+
+    h = json.loads(out.read_text())
+
+    # All 6 classes present even if not all observed
+    for cls in ("GH", "GT", "PL", "CE", "AA", "CBM"):
+        assert h[cls]["level"] == 0
+        assert h[cls]["level_kind"] == "cazy_class"
+        assert h[cls]["parent"] is None
+        assert h[cls]["class"] == cls
+
+    # Observed families derived
+    assert h["GT19"]["level"] == 1
+    assert h["GT19"]["parent"] == "GT"
+    assert h["GT19"]["class"] == "GT"
+
+    assert h["GH13"]["level"] == 1
+    assert h["GH13"]["parent"] == "GH"
+
+    # Observed subfamily derived (and its parent family also present)
+    assert h["GH13_1"]["level"] == 2
+    assert h["GH13_1"]["level_kind"] == "cazy_subfamily"
+    assert h["GH13_1"]["parent"] == "GH13"
+    assert h["GH13_1"]["class"] == "GH"
+
+    assert h["CBM48"]["parent"] == "CBM"
+    assert h["GH32"]["parent"] == "GH"
