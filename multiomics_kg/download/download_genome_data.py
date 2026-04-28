@@ -17,9 +17,9 @@ Reads data/Prochlorococcus/genomes/cyanobacteria_genomes.csv and for each genome
   Step 5: Build gene_mapping.csv from GFF/GBK files (requires steps 1+2)
            → cache/data/<org>/genomes/<strain>/gene_mapping.csv
   Step 6: Download MNX, TCDB, and CAZy reference data
-           → cache/data/metabolism/
+           → cache/data/{mnx,tcdb,cazy}/
   Step 7: Build metabolite resolver and hierarchy caches (requires step 6)
-           → cache/data/metabolism/
+           → cache/data/mnx/metabolite_resolver.db, cache/data/{tcdb,cazy}/*_hierarchy.json
 
 All steps skip existing cache files by default.
 Use --force to re-download/re-run for specified strains.
