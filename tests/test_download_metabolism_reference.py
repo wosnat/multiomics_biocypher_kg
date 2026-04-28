@@ -41,16 +41,16 @@ def _patch_requests_get(monkeypatch, response_map: dict[str, _FakeResponse]):
     monkeypatch.setattr(dmr.requests, "get", fake_get)
 
 
-def test_sources_table_has_six_entries():
-    """Six expected sources: 4 MNX TSVs + 2 TCDB TSVs.
+def test_sources_table_has_seven_entries():
+    """Seven expected sources: 4 MNX TSVs + 3 TCDB TSVs.
 
     CAZy is intentionally not downloaded — its hierarchy is bootstrapped from
     observed eggNOG `CAZy` columns + mechanical ID parsing in Phase 1.1B.
     """
-    assert len(dmr.SOURCES) == 6
+    assert len(dmr.SOURCES) == 7
     assert {"mnx_chem_prop", "mnx_chem_xref",
             "mnx_reac_prop", "mnx_reac_xref",
-            "tcdb_families", "tcdb_substrates"} == set(dmr.SOURCES)
+            "tcdb_families", "tcdb_substrates", "tcdb_superfamilies"} == set(dmr.SOURCES)
 
 
 def test_download_writes_all_files(monkeypatch, tmp_path):

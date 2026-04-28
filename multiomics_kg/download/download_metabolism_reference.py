@@ -1,6 +1,6 @@
 """Step 0 sub-step 6 — Download MNX and TCDB reference data.
 
-Six downloads (4 MNX TSVs + 2 TCDB TSVs). MNX dominates total size (~1.5 GB
+Seven downloads (4 MNX TSVs + 3 TCDB TSVs). MNX dominates total size (~1.5 GB
 unzipped); TCDB tables are <1 MB each. Files are cached under
 cache/data/{mnx,tcdb}/ and skipped on re-run unless --force.
 
@@ -21,12 +21,13 @@ log = logging.getLogger(__name__)
 
 # (URL, cache-relative path)
 SOURCES: dict[str, tuple[str, str]] = {
-    "mnx_chem_prop":   ("https://www.metanetx.org/cgi-bin/mnxget/mnxref/chem_prop.tsv",      "mnx/chem_prop.tsv"),
-    "mnx_chem_xref":   ("https://www.metanetx.org/cgi-bin/mnxget/mnxref/chem_xref.tsv",      "mnx/chem_xref.tsv"),
-    "mnx_reac_prop":   ("https://www.metanetx.org/cgi-bin/mnxget/mnxref/reac_prop.tsv",      "mnx/reac_prop.tsv"),
-    "mnx_reac_xref":   ("https://www.metanetx.org/cgi-bin/mnxget/mnxref/reac_xref.tsv",      "mnx/reac_xref.tsv"),
-    "tcdb_families":   ("https://www.tcdb.org/cgi-bin/projectv/public/families.py",          "tcdb/families.tsv"),
-    "tcdb_substrates": ("https://www.tcdb.org/cgi-bin/substrates/getSubstrates.py",          "tcdb/substrates.tsv"),
+    "mnx_chem_prop":      ("https://www.metanetx.org/cgi-bin/mnxget/mnxref/chem_prop.tsv",       "mnx/chem_prop.tsv"),
+    "mnx_chem_xref":      ("https://www.metanetx.org/cgi-bin/mnxget/mnxref/chem_xref.tsv",       "mnx/chem_xref.tsv"),
+    "mnx_reac_prop":      ("https://www.metanetx.org/cgi-bin/mnxget/mnxref/reac_prop.tsv",       "mnx/reac_prop.tsv"),
+    "mnx_reac_xref":      ("https://www.metanetx.org/cgi-bin/mnxget/mnxref/reac_xref.tsv",       "mnx/reac_xref.tsv"),
+    "tcdb_families":      ("https://www.tcdb.org/cgi-bin/projectv/public/families.py",           "tcdb/families.tsv"),
+    "tcdb_substrates":    ("https://www.tcdb.org/cgi-bin/substrates/getSubstrates.py",           "tcdb/substrates.tsv"),
+    "tcdb_superfamilies": ("https://www.tcdb.org/cgi-bin/substrates/listSuperfamilies.py",       "tcdb/superfamilies.tsv"),
 }
 
 DEFAULT_CACHE_ROOT = Path("cache/data")
