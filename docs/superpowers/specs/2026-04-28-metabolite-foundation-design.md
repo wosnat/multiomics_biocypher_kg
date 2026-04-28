@@ -16,7 +16,7 @@ Set up the data and resolver infrastructure that downstream Phase 1 specs (React
 
 The success of this spec is verified entirely by inspecting the cache files and the per-strain metabolism report — not by querying Neo4j.
 
-> **Schemas confirmed against MNXref 4.5 (2025-08-13) + TCDB live + eggNOG-mapper v2.x output.** SQLite tables (`compounds`, `compound_aliases`, `compound_names`, `reactions`, `reaction_aliases`) match real MNX file columns; TCDB hierarchy is built from three TCDB TSVs; CAZy is bootstrapped from eggNOG without a bulk download. Sub-step 6 + the integration test pass against real downloads. Two open caveats: the dual short/long alias-source prefix forms in MNX (`chebi:`/`CHEBI:`, `kegg.compound:`/`keggC:`) need a normalization policy in Phase 1.1B; reaction direction is encoded inside `mnx_equation` syntax (not a separate column) and the parser needs to handle ` = ` / ` --> ` / ` <-- ` literals.
+> **Schemas confirmed against MNXref 4.5 (2025-08-13) + TCDB live + eggNOG-mapper v2.x output.** SQLite tables (`compounds`, `compound_aliases`, `compound_names`, `reactions`, `reaction_aliases`) match real MNX file columns; TCDB hierarchy is built from three TCDB TSVs; CAZy is bootstrapped from eggNOG without a bulk download. Sub-step 6 + the integration test pass against real downloads. One open caveat: the dual short/long alias-source prefix forms in MNX (`chebi:`/`CHEBI:`, `kegg.compound:`/`keggC:`) need a normalization policy in Phase 1.1B (proposed: a hardcoded canonicalization map preferring the long bioregistry-style form). Reaction direction is **not** stored in MNX `reac_prop.tsv` — all 83,796 reactions use the ` = ` separator, so the SQLite resolver treats everything as reversible and the `direction_source` field is dropped. Spec 1.2's permissive direction-handling rollup is the default.
 
 ## Pipeline changes
 
@@ -164,12 +164,7 @@ reactions (
 )
 ```
 
-**Reaction direction is encoded inside `mnx_equation`, not as a separate column.** The parser extracts:
-- ` = ` → reversible
-- ` --> ` (or ` -> `) → forward-only (substrate → product)
-- ` <-- ` (or ` <- `) → reverse-only
-
-This information feeds Spec 1.2's post-import block A (`Organism_has_metabolite` substrate/product permissive rollup).
+**Reaction direction is not tracked.** Empirical check on MNXref 4.5: all 83,796 entries in `reac_prop.tsv` use the ` = ` separator (reversible). MNX does not encode forward/reverse-only reactions in this dump. Phase 1.1B's parser splits the equation on ` = ` and treats every reaction as reversible — which matches Spec 1.2's permissive direction-handling rollup default.
 
 ```
 reaction_aliases (
