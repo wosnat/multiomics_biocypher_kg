@@ -323,8 +323,8 @@ CYPHER <<'CYPHER'
 MATCH (g:Gene)
 RETURN count(g) AS total_genes,
        sum(g.numeric_metric_count) AS sum_numeric_count,
-       sum(g.classifier_flag_count) AS sum_flag_count,
-       sum(g.classifier_label_count) AS sum_label_count,
+       sum(g.boolean_metric_count) AS sum_boolean_count,
+       sum(g.categorical_metric_count) AS sum_categorical_count,
        count(CASE WHEN size(g.compartments_observed) > 0 THEN 1 END) AS genes_with_compartment;
 CYPHER
 

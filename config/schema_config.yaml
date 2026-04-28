@@ -32,6 +32,7 @@ publication:
     compartments: str[]              # post-import (Plan 3): distinct compartment from child Experiments
     derived_metric_types: str[]      # post-import (Plan 3): distinct metric_type from child DMs
     derived_metric_value_kinds: str[]  # post-import (Plan 3)
+    derived_metric_search_text: str  # post-import: aggregated DM tokens (name + metric_type tokenized + field_description) for publicationFullText; null when no DMs reachable
 
 
 # Experiment node: groups time-series analyses for a single scientific comparison
@@ -77,6 +78,7 @@ experiment:
     derived_metric_count: int        # post-import (Plan 3): count of child DerivedMetric nodes
     derived_metric_value_kinds: str[]  # post-import (Plan 3): distinct value_kind from child DMs
     derived_metric_gene_count: int   # post-import (Plan 3): distinct genes reached via any child DM edge
+    derived_metric_search_text: str  # post-import: aggregated DM tokens (name + metric_type tokenized + field_description) for experimentFullText; null when no DMs reachable
 
 # GeneCluster node: groups co-expressed genes from a clustering analysis within a publication
 gene cluster:
@@ -390,11 +392,11 @@ gene:
     closest_ortholog_group_size: int  # member_count from most specific OG (lowest specificity_rank)
     closest_ortholog_genera: str[]    # genera from most specific OG
     numeric_metric_count: int                # post-import (Plan 3): distinct DMs reaching via quantifies_gene
-    classifier_flag_count: int               # post-import (Plan 3): distinct DMs reaching via flags_gene
-    classifier_label_count: int              # post-import (Plan 3): distinct DMs reaching via classifies_gene
+    boolean_metric_count: int                # post-import (Plan 3): distinct DMs reaching via flags_gene
+    categorical_metric_count: int            # post-import (Plan 3): distinct DMs reaching via classifies_gene
     numeric_metric_types_observed: str[]     # post-import (Plan 3): sorted distinct metric_type over quantifies
-    classifier_flag_types_observed: str[]    # post-import (Plan 3): sorted distinct metric_type over flags
-    classifier_label_types_observed: str[]   # post-import (Plan 3): sorted distinct metric_type over classifies
+    boolean_metric_types_observed: str[]     # post-import (Plan 3): sorted distinct metric_type over flags
+    categorical_metric_types_observed: str[] # post-import (Plan 3): sorted distinct metric_type over classifies
     compartments_observed: str[]             # post-import (Plan 3): sorted distinct compartment over all 3 DM edge types
 
 # consider adding: Note, exceptions, inference
