@@ -30,18 +30,21 @@ The paper has no pairwise DE — output is per-gene RPKM-quartile categorical la
 
 - Experiments defined: 1 — `expression_profiling_med4_rnaseq`
 - Statistical analyses (DE edges): 0 — no pairwise DE; quartile classification only
-- Supplementary materials entry types: `gene_clusters` (single entry `med4_expression_level`, `cluster_type: condition_comparison`, `cluster_col: ExpressionLevel`)
+- Supplementary materials entry types: `derived_metrics_table` (single entry `med4_expression_level`) with two categorical metrics:
+  - `expression_level_class` — `ExpressionLevel` column, `allowed_categories: [VEG, HEG, MEG, LEG, NEG, "--"]`. `field_description` documents the meaning of every value (RPKM-quartile rank + COG / DEG / Ka enrichment notes from Wang 2014 Figures 3-4).
+  - `pangenome_membership` — `Core/Flexible` column, `allowed_categories: [Core, Flexible]`. `field_description` documents Core vs Flexible membership and the paper's NEG/VEG core-vs-flexible composition statistics.
 - Organisms covered: Prochlorococcus MED4
 - Table scope(s): n/a
-- Non-DE evidence: 1 ClusteringAnalysis with 7 cluster values — VEG (1081), MEG (445), HEG (291), LEG (82), NEG (66), `--` (89), empty (5)
-- ID resolution: `sysName` (PMM####) as `locus_tag`; `locus_tag` column (PMED4_xxxxx) as `alternative_locus_tag`; `name` as `gene_name`
+- Non-DE evidence: 2 DerivedMetrics — ExpressionLevel (VEG 1081 / MEG 445 / HEG 291 / LEG 82 / NEG 66 / `--` 89; 5 NaN skipped) and Core/Flexible (Core 1251 / Flexible 714; 94 NaN skipped).
+- ID resolution: `sysName` (PMM####) as `locus_tag`; `locus_tag` column (PMED4_xxxxx) as `alternative_locus_tag`; `name` as `gene_name`. `desc` declared in `product_columns`.
 
 ## Recommended actions
 
-1. **Change upload** — `ExpressionLevel` is a fixed-vocabulary categorical column (5-6 labels), not a soft-clustering assignment with membership scores and per-cluster functional descriptions. Per the decision rule ("categorical label from a small fixed vocabulary -> `derived_metrics_table` with `value_kind: categorical`"), this entry should move from `gene_clusters` to `derived_metrics_table` with `allowed_categories: [VEG, HEG, MEG, LEG, NEG]`. The `Core/Flexible` column is a second boolean/categorical metric (2-value vocabulary) that would become a second DerivedMetric on the same table.
+1. **Done (2026-04-28)** — migrated `ExpressionLevel` and `Core/Flexible` from `gene_clusters` to `derived_metrics_table` with two categorical metrics. Per-value meanings drawn from `cluster_extractions/med4_expression_level.json` are inlined in each metric's `field_description`. `cluster_extractions/` files are no longer consumed by the adapter (the categorical labels are not soft-clustering memberships) but kept for provenance. `validate_paperconfig.py` passes.
 2. **Skip** — operon predictions (MOESM1) do not correspond to any node type currently in the schema; defer until an Operon node type is added.
 3. **Add (evaluate)** — inspect MOESM2 and MOESM4 XLSX content; if either contains per-gene DE, periodicity flags, or numeric scores, add as `csv` or `derived_metrics_table`. Not inspected in this pass.
 4. **Reference** — main PDF is reference-only.
+5. **Optional follow-up** — register `expression_level_class` and `pangenome_membership` in `multiomics_kg/vocab/non_de_evidence.py` if other papers begin emitting equivalent metrics (currently advisory warnings, not errors).
 
 ## Notes
 
