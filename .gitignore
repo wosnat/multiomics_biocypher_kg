@@ -145,3 +145,10 @@ dmypy.json
 
 # Git worktrees
 .worktrees/
+
+# Phase 1.1A metabolism reference data (downloaded by sub-step 6).
+# MNX is ~1.5 GB; refresh on demand via:
+#   uv run python -m multiomics_kg.download.download_genome_data --steps 6 --force
+cache/data/mnx/
+cache/data/tcdb/
+cache/data/cazy/

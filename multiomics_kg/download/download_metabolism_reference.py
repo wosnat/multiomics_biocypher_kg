@@ -1,10 +1,13 @@
-"""Step 0 sub-step 6 — Download MNX, TCDB, CAZy reference data.
+"""Step 0 sub-step 6 — Download MNX and TCDB reference data.
 
-Six small downloads (~50–100 MB total, dominated by MNX). Files are cached
-under cache/data/{mnx,tcdb,cazy}/ and skipped on re-run unless --force.
+Six downloads (4 MNX TSVs + 2 TCDB TSVs). MNX dominates total size (~1.5 GB
+unzipped); TCDB tables are <1 MB each. Files are cached under
+cache/data/{mnx,tcdb}/ and skipped on re-run unless --force.
 
-URLs are best-effort guesses for Phase 1.1A and may need adjustment after the
-first real run; see the audit task in plan 1.1A.
+CAZy family hierarchy is NOT downloaded here. It is bootstrapped in Phase 1.1B
+from observed eggNOG `CAZy` columns plus mechanical ID parsing — the format
+itself encodes the hierarchy (`GH13_1` → family `GH13` → class `GH`), and we
+only care about families our genes actually reference.
 """
 from __future__ import annotations
 
@@ -18,12 +21,12 @@ log = logging.getLogger(__name__)
 
 # (URL, cache-relative path)
 SOURCES: dict[str, tuple[str, str]] = {
-    "mnx_chem_prop":  ("https://www.metanetx.org/cgi-bin/mnxget/mnxref/chem_prop.tsv",  "mnx/chem_prop.tsv"),
-    "mnx_chem_xref":  ("https://www.metanetx.org/cgi-bin/mnxget/mnxref/chem_xref.tsv",  "mnx/chem_xref.tsv"),
-    "mnx_reac_prop":  ("https://www.metanetx.org/cgi-bin/mnxget/mnxref/reac_prop.tsv",  "mnx/reac_prop.tsv"),
-    "mnx_reac_xref":  ("https://www.metanetx.org/cgi-bin/mnxget/mnxref/reac_xref.tsv",  "mnx/reac_xref.tsv"),
-    "tcdb_families":  ("https://www.tcdb.org/cgi-bin/projectv/public/families.py",      "tcdb/families.tsv"),
-    "cazy_families":  ("http://www.cazy.org/IMG/cazy_data/family_classification.txt",   "cazy/families.tsv"),
+    "mnx_chem_prop":   ("https://www.metanetx.org/cgi-bin/mnxget/mnxref/chem_prop.tsv",      "mnx/chem_prop.tsv"),
+    "mnx_chem_xref":   ("https://www.metanetx.org/cgi-bin/mnxget/mnxref/chem_xref.tsv",      "mnx/chem_xref.tsv"),
+    "mnx_reac_prop":   ("https://www.metanetx.org/cgi-bin/mnxget/mnxref/reac_prop.tsv",      "mnx/reac_prop.tsv"),
+    "mnx_reac_xref":   ("https://www.metanetx.org/cgi-bin/mnxget/mnxref/reac_xref.tsv",      "mnx/reac_xref.tsv"),
+    "tcdb_families":   ("https://www.tcdb.org/cgi-bin/projectv/public/families.py",          "tcdb/families.tsv"),
+    "tcdb_substrates": ("https://www.tcdb.org/cgi-bin/substrates/getSubstrates.py",          "tcdb/substrates.tsv"),
 }
 
 DEFAULT_CACHE_ROOT = Path("cache/data")
