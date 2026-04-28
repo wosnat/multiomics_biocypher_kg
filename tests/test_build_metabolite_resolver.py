@@ -127,3 +127,80 @@ def test_build_compound_names_normalizes(tmp_path):
     assert "dextrose" in names
 
     conn.close()
+
+
+REAC_PROP_FIXTURE = textwrap.dedent("""\
+    #ID\tmnx_equation\treference\tclassifs\tis_balanced\tis_transport
+    MNXR101234\t1 MNXM3@MNXD1 + 1 MNXM41@MNXD1 = 1 MNXM7@MNXD1 + 1 MNXM58@MNXD1\tmnx:MNXR101234\t2.7.1.1\tB\t
+    MNXR02\t1 MNXM1@MNXD1 = 1 MNXM1@MNXD2\tmnx:MNXR02\t\tB\tT
+    EMPTY\t = \tmnx:EMPTY\t\tB\t
+""")
+
+
+REAC_XREF_FIXTURE = textwrap.dedent("""\
+    #source\tID\tdescription
+    MNXR101234\tMNXR101234\thexokinase
+    kegg.reaction:R00299\tMNXR101234\thexokinase
+    keggR:R00299\tMNXR101234\thexokinase
+    rhea:16332\tMNXR101234\thexokinase
+    rh:16332\tMNXR101234\thexokinase
+""")
+
+
+def test_build_reactions_table(tmp_path):
+    """Reactions table mirrors reac_prop.tsv 6 columns."""
+    reac_prop = tmp_path / "reac_prop.tsv"
+    reac_prop.write_text(REAC_PROP_FIXTURE)
+    db = tmp_path / "resolver.db"
+    conn = sqlite3.connect(db)
+
+    bmr.build_reactions_table(conn, reac_prop)
+    conn.commit()
+
+    cur = conn.cursor()
+    cur.execute(
+        "SELECT mnxr_id, mnx_equation, reference, classifs, is_balanced, is_transport "
+        "FROM reactions ORDER BY mnxr_id"
+    )
+    rows = cur.fetchall()
+    assert len(rows) == 3
+
+    # Look up MNXR101234
+    hk = [r for r in rows if r[0] == "MNXR101234"][0]
+    assert "MNXM41" in hk[1]
+    assert "MNXM7" in hk[1]
+    assert hk[3] == "2.7.1.1"
+    assert hk[4] == "B"
+    assert hk[5] in (None, "")
+
+    # MNXR02 is a transport reaction
+    transport = [r for r in rows if r[0] == "MNXR02"][0]
+    assert transport[5] == "T"
+
+    conn.close()
+
+
+def test_build_reaction_aliases_normalizes(tmp_path):
+    """Reaction xrefs canonicalize keggR→kegg.reaction and rh→rhea."""
+    reac_xref = tmp_path / "reac_xref.tsv"
+    reac_xref.write_text(REAC_XREF_FIXTURE)
+    db = tmp_path / "resolver.db"
+    conn = sqlite3.connect(db)
+
+    bmr.build_reaction_aliases_table(conn, reac_xref)
+    conn.commit()
+
+    cur = conn.cursor()
+    cur.execute("SELECT source, value, mnxr_id FROM reaction_aliases ORDER BY source, value")
+    rows = cur.fetchall()
+
+    kegg = [r for r in rows if r[0] == "kegg.reaction"]
+    assert kegg == [("kegg.reaction", "R00299", "MNXR101234")]
+
+    rhea = [r for r in rows if r[0] == "rhea"]
+    assert rhea == [("rhea", "16332", "MNXR101234")]
+
+    # Self-reference dropped
+    assert not any(r[0] == "" for r in rows)
+
+    conn.close()

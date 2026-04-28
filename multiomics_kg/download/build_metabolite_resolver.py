@@ -228,6 +228,77 @@ def build_compound_names_table(conn: sqlite3.Connection, chem_xref_path: Path) -
     return n
 
 
+# ── reactions ─────────────────────────────────────────────────────────────────
+
+_REACTIONS_DDL = """
+CREATE TABLE IF NOT EXISTS reactions (
+    mnxr_id      TEXT PRIMARY KEY,
+    mnx_equation TEXT,
+    reference    TEXT,
+    classifs     TEXT,
+    is_balanced  TEXT,
+    is_transport TEXT
+);
+"""
+
+
+def build_reactions_table(conn: sqlite3.Connection, reac_prop_path: Path) -> int:
+    """Populate the `reactions` table from reac_prop.tsv (6 columns)."""
+    cur = conn.cursor()
+    cur.executescript(_REACTIONS_DDL)
+    n = 0
+    for fields in _iter_data_rows(reac_prop_path):
+        fields = (fields + [""] * 6)[:6]
+        mnxr_id, mnx_equation, reference, classifs, is_balanced, is_transport = fields
+        cur.execute(
+            "INSERT OR REPLACE INTO reactions "
+            "(mnxr_id, mnx_equation, reference, classifs, is_balanced, is_transport) "
+            "VALUES (?, ?, ?, ?, ?, ?)",
+            (mnxr_id, mnx_equation, reference, classifs,
+             is_balanced or None, is_transport or None),
+        )
+        n += 1
+    log.info(f"  reactions: {n} rows")
+    return n
+
+
+_REAC_ALIAS_DDL = """
+CREATE TABLE IF NOT EXISTS reaction_aliases (
+    source  TEXT,
+    value   TEXT,
+    mnxr_id TEXT,
+    PRIMARY KEY (source, value, mnxr_id)
+);
+CREATE INDEX IF NOT EXISTS idx_reaction_aliases_value
+    ON reaction_aliases(value);
+CREATE INDEX IF NOT EXISTS idx_reaction_aliases_source_value
+    ON reaction_aliases(source, value);
+"""
+
+
+def build_reaction_aliases_table(conn: sqlite3.Connection, reac_xref_path: Path) -> int:
+    """Populate reaction_aliases from reac_xref.tsv with source normalization."""
+    cur = conn.cursor()
+    cur.executescript(_REAC_ALIAS_DDL)
+    n = 0
+    for fields in _iter_data_rows(reac_xref_path):
+        if len(fields) < 2:
+            continue
+        combined, mnxr_id = fields[0], fields[1]
+        parsed = _split_source_value(combined)
+        if parsed is None:
+            continue
+        source, value = parsed
+        cur.execute(
+            "INSERT OR IGNORE INTO reaction_aliases (source, value, mnxr_id) "
+            "VALUES (?, ?, ?)",
+            (source, value, mnxr_id),
+        )
+        n += 1
+    log.info(f"  reaction_aliases: {n} rows scanned")
+    return n
+
+
 def main(force: bool = False) -> None:
     raise NotImplementedError("Phase 1.1B — see plan for follow-up tasks")
 
