@@ -1,6 +1,7 @@
 """Unit tests for sub-step 7 resolver builder."""
 from __future__ import annotations
 
+import json
 import sqlite3
 import textwrap
 from pathlib import Path
@@ -204,3 +205,68 @@ def test_build_reaction_aliases_normalizes(tmp_path):
     assert not any(r[0] == "" for r in rows)
 
     conn.close()
+
+
+TCDB_FAMILIES_FIXTURE = textwrap.dedent("""\
+    1.A.1\tThe Voltage-gated Ion Channel (VIC) Superfamily
+    1.A.10\tThe Glutamate-gated Ion Channel (GIC) Family of Neurotransmitter Receptors
+""")
+
+
+TCDB_SUPERFAMILIES_FIXTURE = textwrap.dedent("""\
+    #TCID\tSubfamily\tFamily\tFam_abbreviation\tSuperfamily
+    1.A.1.1.1\t1.A.1.1\t1.A.1\tVIC\tVIC Superfamily
+    1.A.1.1.2\t1.A.1.1\t1.A.1\tVIC\tVIC Superfamily
+    1.A.10.1.1\t1.A.10.1\t1.A.10\tGIC\tGIC Superfamily
+""")
+
+
+TCDB_SUBSTRATES_FIXTURE = textwrap.dedent("""\
+    1.A.1.1.1\tCHEBI:29103;potassium(1+)
+    1.A.10.1.1\tCHEBI:29987;glutamate(2-)|CHEBI:33709;amino acid
+""")
+
+
+def test_build_tcdb_hierarchy(tmp_path):
+    """TCDB hierarchy JSON joins families + superfamilies + substrates."""
+    fams = tmp_path / "families.tsv"
+    fams.write_text(TCDB_FAMILIES_FIXTURE)
+    supers = tmp_path / "superfamilies.tsv"
+    supers.write_text(TCDB_SUPERFAMILIES_FIXTURE)
+    subs = tmp_path / "substrates.tsv"
+    subs.write_text(TCDB_SUBSTRATES_FIXTURE)
+    out = tmp_path / "tcdb_hierarchy.json"
+
+    bmr.build_tcdb_hierarchy(out, fams, supers, subs)
+
+    h = json.loads(out.read_text())
+
+    # Class (level 0) synthesized
+    assert h["1"]["level"] == 0
+    assert h["1"]["level_kind"] == "tc_class"
+    assert h["1"]["parent"] is None
+
+    # Subclass (level 1) synthesized
+    assert h["1.A"]["level"] == 1
+    assert h["1.A"]["parent"] == "1"
+
+    # Family (level 2) — name from families.tsv
+    assert h["1.A.1"]["level"] == 2
+    assert "Voltage-gated Ion Channel" in h["1.A.1"]["name"]
+    assert h["1.A.1"]["parent"] == "1.A"
+    assert h["1.A.1"]["abbreviation"] == "VIC"
+
+    # Subfamily (level 3) — derived from col 2 of superfamilies
+    assert h["1.A.1.1"]["level"] == 3
+    assert h["1.A.1.1"]["parent"] == "1.A.1"
+
+    # Specificity (level 4) — substrate joined
+    sp = h["1.A.1.1.1"]
+    assert sp["level"] == 4
+    assert sp["parent"] == "1.A.1.1"
+    assert sp["substrate_classes"] == ["potassium(1+)"]
+    assert sp["superfamily"] == "VIC Superfamily"
+
+    # Multi-substrate
+    glu = h["1.A.10.1.1"]
+    assert set(glu["substrate_classes"]) == {"glutamate(2-)", "amino acid"}

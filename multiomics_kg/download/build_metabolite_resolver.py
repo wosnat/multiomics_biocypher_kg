@@ -299,6 +299,158 @@ def build_reaction_aliases_table(conn: sqlite3.Connection, reac_xref_path: Path)
     return n
 
 
+# ── TCDB hierarchy ────────────────────────────────────────────────────────────
+
+_TC_CLASS_NAMES = {
+    "1": "Channels and Pores",
+    "2": "Electrochemical Potential-driven Transporters",
+    "3": "Primary Active Transporters",
+    "4": "Group Translocators",
+    "5": "Transmembrane Electron Carriers",
+    "8": "Auxiliary Transport Proteins",
+    "9": "Incompletely Characterized Transport Systems",
+}
+
+
+def _parse_tcdb_families(path: Path) -> dict[str, str]:
+    """Parse families.tsv → {tc_family_id: description}."""
+    out: dict[str, str] = {}
+    with open(path, encoding="utf-8") as f:
+        for line in f:
+            line = line.rstrip("\n")
+            if not line or line.startswith("#"):
+                continue
+            parts = line.split("\t", 1)
+            if len(parts) == 2:
+                out[parts[0]] = parts[1].strip()
+    return out
+
+
+def _parse_tcdb_superfamilies(path: Path) -> list[tuple[str, str, str, str, str]]:
+    """Parse superfamilies.tsv → [(tcid, subfamily, family, abbreviation, superfamily), ...]."""
+    rows: list[tuple[str, str, str, str, str]] = []
+    with open(path, encoding="utf-8") as f:
+        for line in f:
+            line = line.rstrip("\n")
+            if not line or line.startswith("#"):
+                continue
+            parts = line.split("\t")
+            if len(parts) >= 5:
+                rows.append((parts[0], parts[1], parts[2], parts[3], parts[4]))
+    return rows
+
+
+def _parse_tcdb_substrates(path: Path) -> dict[str, list[str]]:
+    """Parse substrates.tsv → {tcid_specificity: [substrate_name, ...]}.
+
+    Substrate column is pipe-separated 'CHEBI:N;name|CHEBI:N;name'. We keep
+    just the name (post-`;`) for substrate_classes; full CHEBI mapping is a
+    Phase 1.3 enhancement.
+    """
+    out: dict[str, list[str]] = {}
+    with open(path, encoding="utf-8") as f:
+        for line in f:
+            line = line.rstrip("\n")
+            if not line or line.startswith("#"):
+                continue
+            parts = line.split("\t", 1)
+            if len(parts) != 2:
+                continue
+            tcid, raw = parts
+            names = []
+            for entry in raw.split("|"):
+                if ";" in entry:
+                    _, _, name = entry.partition(";")
+                    if name.strip():
+                        names.append(name.strip())
+            if names:
+                out[tcid] = names
+    return out
+
+
+def build_tcdb_hierarchy(
+    out_path: Path,
+    families_path: Path,
+    superfamilies_path: Path,
+    substrates_path: Path,
+) -> int:
+    """Build tcdb_hierarchy.json by joining the 3 TCDB sources."""
+    fam_descs = _parse_tcdb_families(families_path)
+    super_rows = _parse_tcdb_superfamilies(superfamilies_path)
+    substrates = _parse_tcdb_substrates(substrates_path)
+
+    h: dict[str, dict] = {}
+
+    # Synthesize class + subclass entries from any TCID prefix we observe
+    seen_classes: set[str] = set()
+    seen_subclasses: set[str] = set()
+
+    for tcid, subfam, fam, abbr, superfam in super_rows:
+        parts = tcid.split(".")
+        # Need at least class.subclass.family.subfam.specificity = 5 parts
+        if len(parts) < 5:
+            continue
+        cls = parts[0]
+        subcls = ".".join(parts[:2])
+
+        # Class (level 0)
+        if cls not in seen_classes:
+            h[cls] = {
+                "name": _TC_CLASS_NAMES.get(cls, ""),
+                "level": 0,
+                "level_kind": "tc_class",
+                "parent": None,
+            }
+            seen_classes.add(cls)
+
+        # Subclass (level 1)
+        if subcls not in seen_subclasses:
+            h[subcls] = {
+                "name": "",
+                "level": 1,
+                "level_kind": "tc_subclass",
+                "parent": cls,
+            }
+            seen_subclasses.add(subcls)
+
+        # Family (level 2)
+        if fam not in h:
+            h[fam] = {
+                "name": fam_descs.get(fam, ""),
+                "level": 2,
+                "level_kind": "tc_family",
+                "parent": subcls,
+                "abbreviation": abbr,
+            }
+
+        # Subfamily (level 3)
+        if subfam not in h:
+            h[subfam] = {
+                "name": "",
+                "level": 3,
+                "level_kind": "tc_subfamily",
+                "parent": fam,
+            }
+
+        # Specificity (level 4)
+        node: dict = {
+            "name": "",
+            "level": 4,
+            "level_kind": "tc_specificity",
+            "parent": subfam,
+        }
+        if tcid in substrates:
+            node["substrate_classes"] = substrates[tcid]
+        if superfam:
+            node["superfamily"] = superfam
+        h[tcid] = node
+
+    out_path.parent.mkdir(parents=True, exist_ok=True)
+    out_path.write_text(json.dumps(h, indent=2, sort_keys=True))
+    log.info(f"  tcdb_hierarchy.json: {len(h)} entries")
+    return len(h)
+
+
 def main(force: bool = False) -> None:
     raise NotImplementedError("Phase 1.1B — see plan for follow-up tasks")
 
