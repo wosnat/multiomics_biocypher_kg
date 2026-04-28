@@ -5,6 +5,12 @@
 **Organism(s):** *Prochlorococcus* MED4 (axenic, mid-exponential)
 **Topic:** Microarray time-course (3, 6, 9, 12, 18, 24 h) of MED4 shocked with four gas mixtures (air control, −O2, −CO2, −CO2/−O2) vs pre-shock. Characterises transcriptional response to acute CO2 and O2 limitation and recovery, comparing to published high-light shock response.
 
+## Classification
+
+**Bucket B - new metrics / DE / resolution (want to add)**
+
+Four pairwise gas-vs-air DE contrasts are already integrated. The actionable gap is `41396_2015_bfismej201536_moesm34_esm.csv` (Table S2): per-gene categorical concordance flags across high-light, -CO2, and -CO2/-O2 shocks (up/down/-), plus two boolean "rapid recovery" flags. This maps naturally to a `derived_metrics_table` supplementary entry with three categorical metrics (allowed_categories: [up, down, -]) and two boolean metrics. ID column is `Locus tag1` (PMM old_locus_tag) with PMED4_* alternative_locus_tag. MED4 is deployed; no new strain work needed.
+
 ## Available data inventory
 
 | File | Type | Content | KG status | Recommended action |

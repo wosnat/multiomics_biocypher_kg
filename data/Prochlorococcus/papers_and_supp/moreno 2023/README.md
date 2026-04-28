@@ -5,6 +5,12 @@
 **Organism(s):** *Prochlorococcus* MED4, SS120 (and MIT9313 in paper, not in DE tables here); *Synechococcus* WH7803, WH8102, BL107; heterotroph fractions *Alteromonas* (MarRef v6) and *Marinobacter* (MarRef v6) as coculture partners.
 **Topic:** LC-MS/MS quantitative proteomics (MarRef v6 database match) of 5 non-axenic cyano cultures × 4 glucose × light conditions (light, light+100 nM glc, light+5 mM glc, dark, dark+100 nM glc, dark+5 mM glc; comparisons are glucose-vs-no-glucose within light or dark). Heterotroph fractions (Alteromonas, Marinobacter) were proteomically profiled in parallel from the same cultures. Reference-proteome-match organism pattern (no cultured strain genomes for the heterotroph side).
 
+## Classification
+
+**Bucket B — new metrics / DE / resolution (want to add)** (secondary: bucket A for the metabolomics side)
+
+The cyano S2 proteome DE is wired up across all 5 strains (MED4, SS120, WH7803, WH8102, BL107) and resolves natively. The active bucket-B work is the **DEH24 -> MADE_RS bridge** for the Alteromonas S3 tables: paperconfig flags the bridge as a TODO and Alteromonas DE edges currently fail to land until either (a) GCA_003513035.1 is deployed as a new strain so DEH24_* resolves natively, or (b) a `diamond_protein_match` `id_translation` entry maps DEH24 -> MADE_RS. Marinobacter S4 should be verified via `/check-gene-ids` against the deployed MarRef-v6 Marinobacter (HP15 / GCF_000166295.1). The paper's metabolomic flux side (Calvin vs OPP, fermentation evidence) is metabolite-level — bucket A territory, blocked on the KG having no Metabolite node type yet.
+
 ## Available data inventory
 
 | File | Type | Content | KG status | Recommended action |

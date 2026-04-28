@@ -2,6 +2,12 @@
 
 **Title:** 100 Days of marine *Synechococcus*-*Ruegeria pomeroyi* interaction: A detailed analysis of the exoproteome
 
+## Classification
+
+**Bucket D -- defer / nothing to do (already integrated)**
+
+100-day exoproteome time course of Synechococcus WH7803 + Ruegeria pomeroyi DSS-3 (both organisms now deployed in the KG, both as primary genome strains). Tables S4a/S4b (Syn) and S5a/S5b (Ruegeria) provide per-protein signed-ratio fold change vs day 1 plus q-values across 7 time points; all four are wired to time-course experiments in paperconfig.yaml and have `*_resolved.csv` siblings, so the per-time-point `Changes_expression_of` edges are produced on every build. The remaining supplementary tables (S1-S3) are sample/protein-id manifests with no DE; nothing actionable left.
+
 **Authors:** Amandeep Kaur, Juan R. Hernandez-Fernaud, Maria del Mar Aguilo-Ferretjans, Elizabeth M. Wellington, Joseph A. Christie-Oleza
 
 **Journal:** Environmental Microbiology (2018) 20(2), 785-799

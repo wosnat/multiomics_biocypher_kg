@@ -5,6 +5,12 @@
 **Organism(s):** *Prochlorococcus* MIT9301 (principal RNA-seq comparison); paper also characterises biofilm behaviour across multiple strains phenotypically.
 **Topic:** Shows that *Prochlorococcus* populations transition reversibly between planktonic and biofilm states. Selects serially for each state (>100 generations) and performs RNA-seq on axenic MIT9301 planktonic vs biofilm enrichment populations at mid-exponential phase; edgeR DE with FDR<0.05 and |logFC|>0.8.
 
+## Classification
+
+**Bucket D - defer / nothing to do**
+
+The single planktonic-vs-biofilm DE table is fully integrated as one `csv` statistical_analysis. The JGI catalog ID -> NCBI locus_tag bridge is wired through an `id_translation` entry (`9301_annotated_genome.csv`) and the NCBI `annotation_gff` entry. MIT9301 is deployed. Remaining items are duplicates (`9301_annotated_genome.xlsx`), supplementary text (DOCX), or the `media-2(2).xlsx` file which the existing inventory flags as "inspect" but no per-gene evidence beyond the integrated DE table is expected. The paper's broader cross-strain biofilm phenotype data is not per-gene so it is out of KG scope.
+
 ## Available data inventory
 
 | File | Type | Content | KG status | Recommended action |

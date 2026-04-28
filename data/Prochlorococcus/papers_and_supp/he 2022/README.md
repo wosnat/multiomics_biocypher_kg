@@ -5,6 +5,12 @@
 **Organism(s):** *Prochlorococcus* NATL1A, MED4
 **Topic:** RNA-seq of axenic cultures acclimated through five rounds of transfer in Pro99 medium with reduced salinity (28 psu) vs normal seawater salinity (34 psu); 21C, continuous light (10 uE/m2/s). Tables S1/S2 report only highly DE genes (p < 0.05 and |log2FC| > 1) per strain.
 
+## Classification
+
+**Bucket D - already integrated, nothing to add**
+
+Both strain-specific DE tables (S1 NATL1A, S2 MED4) are wired as `Changes_expression_of` edges with `prefiltered: true`. Both organisms are deployed. The supplementary `Data Sheet 1.docx` is a narrative file with no machine-readable per-gene table. No metabolomics, no clustering. The only conditional follow-up would be if the authors later release a full unfiltered gene x logFC matrix -- not currently available.
+
 ## Available data inventory
 
 | File | Type | Content | KG status | Recommended action |

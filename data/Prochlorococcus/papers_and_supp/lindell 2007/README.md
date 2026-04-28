@@ -5,6 +5,12 @@
 **Organism(s):** *Prochlorococcus* MED4 (host) infected with T7-like cyanophage P-SSP7
 **Topic:** Whole-genome transcriptome time course (0–8 h post-infection) of MED4 cells lytically infected by cyanophage P-SSP7, using Affymetrix microarrays. The supplementary table reports fold-change for upregulated host ORFs only, grouped into two transcription clusters (early transient vs. late sustained induction). Phage genes are also transcriptionally profiled but are not loaded into the KG.
 
+## Classification
+
+**Bucket D — defer / nothing to do**
+
+Fully integrated. The single machine-readable supplementary table (supp table 3) is wired up as 8 timepoint DE analyses on a single Experiment plus a `gene_clusters` entry covering the two transcription groups (with extracted descriptions in `cluster_extractions/`). The remaining content lives in PDF-only supplementary methods (`MOESM283_ESM.pdf`) — downregulated host genes (~1,716) and phage transcripts are not machine-readable from this directory and would require manual figure curation to extract. Nothing actionable left in the foreseeable future.
+
 ## Available data inventory
 
 | File | Type | Content | KG status | Recommended action |

@@ -20,6 +20,12 @@
 | `Figure_S1.pdf` – `Figure_S10.pdf` | PDF | Supplementary figures | reference | — |
 | `paperconfig.yaml` | YAML | Active paperconfig | reference | — |
 
+## Classification
+
+**Bucket D — defer / nothing to do (fully integrated)**
+
+Canonical numeric DerivedMetric reference: 312 cycling MED4 genes × 6 derived diel metrics (peak times, amplitudes, lag, damping ratio) attached to a single `PAIRED_RNASEQ_PROTEOME` Experiment node. Tables S1/S3/S4/S5 are summary stats or redundant subsets without per-gene rows. Per the non-DE-evidence extension spec, raw paired transcript/protein time series are deliberately out of scope. MED4 is deployed. Nothing left to integrate from this directory.
+
 ## Current paperconfig summary
 
 - Experiments defined: 1 — `waldbauer_2012_med4_paired_diel` (omics_type `PAIRED_RNASEQ_PROTEOME`, compartment `whole_cell`)

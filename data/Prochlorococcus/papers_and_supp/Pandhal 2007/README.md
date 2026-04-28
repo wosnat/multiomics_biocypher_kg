@@ -5,6 +5,12 @@
 **Organism(s):** *Prochlorococcus marinus* MED4
 **Topic:** Quantitative iTRAQ proteomics of MED4 grown under three light intensities (low 20, medium 60, high 100 μeinstein m⁻² s⁻¹). Two iTRAQ experiments (biological + technical replicates): iTRAQ1 = HL/LL/ML/HL; iTRAQ2 = LL/ML/HL/HL. ~184 proteins identified (~11% of predicted coding genes); 15 proteins reported as statistically significantly differentially expressed between light intensities (down-regulation of photosystem proteins, up-regulation of GroEL). Proteins annotated with COG categories.
 
+## Classification
+
+**Bucket B — new metrics / DE / resolution (want to add)**
+
+Per-gene proteomic DE across light intensities is exactly the bucket-B shape: pairwise iTRAQ ratios (HL vs LL, ML vs LL) with weighted error-factor probabilistic p-values, on ~15 significantly DE proteins out of ~184 quantified. Action: convert the two `pr060460csi*.xls` files to CSV, build a `paperconfig.yaml` with `omics_type: PROTEOMICS`, `treatment_type: ["light"]`, one Experiment per pairwise light comparison, and feed the smaller XLS (the 15-protein DE table) as `csv` with `statistical_analyses`. The larger XLS (full ~184-protein quantitation with emPAI / pI / MW) is bucket-C-shaped (single-condition descriptors); skip or hold for DerivedMetric. MED4 is already deployed and has full ID coverage so resolution should be straightforward. Strain status: no new deployment required.
+
 ## Available data inventory
 
 | File | Type | Content | KG status | Recommended action |

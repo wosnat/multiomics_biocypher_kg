@@ -5,6 +5,12 @@
 **Organism(s):** *Prochlorococcus marinus* SS120 (CCMP1375)
 **Topic:** Label-free LC-MS/MS proteomics of SS120 exposed to azaserine (10 uM, a ferredoxin-GOGAT inhibitor used as an acute N-limitation proxy) vs untreated control, cells harvested 24 h after addition; Progenesis QI quantitation with n=3 biological replicates per condition. The paper reports only significantly changing proteins (ANOVA p < 0.05).
 
+## Classification
+
+**Bucket D - already integrated, nothing to add**
+
+The combined merged S3 (`table s3 Combined_modified.csv`) is wired as a single `Changes_expression_of` analysis (`ss120_azaserine_vs_control`) with signed `log2_fold_change` derived from `Max fold change` and ANOVA p-values. SS120 is deployed as a reference-proteome-only strain. S1 (identification list), S2 (BLAST of uncharacterised ORFs), and S4 (carbohydrate subset of S3) carry no quantitative DE evidence beyond what's already in. No metabolomics, no clustering, no remaining gene-level data to add.
+
 ## Available data inventory
 
 | File | Type | Content | KG status | Recommended action |

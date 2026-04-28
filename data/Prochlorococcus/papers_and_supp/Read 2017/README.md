@@ -5,6 +5,12 @@
 **Organism(s):** *Prochlorococcus* MED4 (axenic)
 **Topic:** RNA-seq (Rockhopper-analyzed) of axenic MED4 cultures 3 h, 12 h, 24 h after resuspension in N-depleted vs N-replete Pro99. Focus is on transcription-start-site shifts under N-deprivation (shortened transcripts encoding lower-N proteins); supplementary DE tables cover the top 50% of expressed genes.
 
+## Classification
+
+**Bucket D — defer / nothing to do**
+
+The three DE timepoint tables (3 h, 12 h, 24 h) are fully integrated as `Changes_expression_of` edges on a single `nitrogen_stress_ndepleted_pro99_medium_med4_rnaseq` Experiment. All native `locus_tag` resolution; no bridging needed. The paper's headline biological finding (TSS shifts and internal-TSS detection under N-deprivation) lives only in PDF-only supplementary tables (`moesm48`, `moesm49`); these could in theory be PDF-curated into `derived_metrics_table` entries (numeric `primary_TSS_shift_bp`, boolean `has_internal_TSS_under_Ndep`), but require manual extraction with low downstream demand. Nothing else machine-readable remains.
+
 ## Available data inventory
 
 | File | Type | Content | KG status | Recommended action |

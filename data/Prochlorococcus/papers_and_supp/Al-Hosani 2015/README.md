@@ -5,6 +5,12 @@
 **Organism(s):** *Prochlorococcus* AS9601 (HLII clade, Arabian Sea isolate)
 **Topic:** RNA-seq of AS9601 acclimated to 5% NaCl versus normal seawater (3.8% NaCl) at mid-exponential phase. DESeq-based DE. Finds up-regulation of respiratory electron flow, CO2 fixation, compatible-solute biosynthesis, and high-light-inducible stress proteins; down-regulation of photosynthesis and iron/heme transporters.
 
+## Classification
+
+**Bucket D - defer / nothing to do**
+
+The single salt-acclimation DE table is fully integrated as one `csv` statistical_analysis using native AS9601 locus tags (`P9601_*`). AS9601 is deployed in the KG. The XLSX is a duplicate of the integrated CSV. The paper reports no periodicity, cluster, or classifier tables. Nothing left to add.
+
 ## Available data inventory
 
 | File | Type | Content | KG status | Recommended action |

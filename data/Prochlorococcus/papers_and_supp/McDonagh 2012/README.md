@@ -5,6 +5,12 @@
 **Organism(s):** *Prochlorococcus* SS120
 **Topic:** Shotgun redox proteomics (biotin-HPDP labeling of reversibly oxidized cysteines) in SS120 under 24-h nitrogen starvation vs. replete control. Identifies ~80 proteins with Cys modifications; Table 1 = 7 proteins uniquely detected in one condition only; Table 2 = 20 proteins with significant ANOVA fold-change between conditions. Supp Table S1 holds the full identification list across all three replicates of both conditions.
 
+## Classification
+
+**Bucket D — defer / nothing actionable**
+
+S1 supplement contains per-replicate Sequest scores (low-value DM). Tables 1 and 2 in the paper carry real fold-change values but are PDF-only — extraction effort exceeds expected KG value relative to other backlog items. The DerivedMetric loader (shipped 2026-04-21, see `docs/kg-changes/non-de-evidence-extension.md`) could in principle ingest extracted FC values, but until somebody manually extracts those PDF tables there is no machine-readable input.
+
 ## Available data inventory
 
 | File | Type | Content | KG status | Recommended action |

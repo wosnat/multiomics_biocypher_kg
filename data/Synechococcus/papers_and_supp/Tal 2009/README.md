@@ -1,10 +1,16 @@
-# Tai 2009 — Synechococcus-Vibrio Interactions
+# Tai 2009 -- Synechococcus-Vibrio Interactions
 
 ## Citation
 
 Tai V, Paulsen IT, Phillippy K, Johnson DA, Palenik B. (2009)
 Whole-genome microarray analyses of Synechococcus-Vibrio interactions.
 Environmental Microbiology. doi:10.1111/j.1462-2920.2009.01997.x
+
+## Classification
+
+**Bucket D -- defer / nothing to do (already integrated)**
+
+WH8102 vs Vibrio parahaemolyticus LM5312 microarray coculture study; WH8102 is deployed in the KG (as Parasynechococcus WH8102) and Vibrio parahaemolyticus is set up as a treatment organism (taxid 670). The two split-direction tables (S1 up, S2 down) feed a single significant_only microarray experiment via paperconfig.yaml; both have `*_resolved.csv` siblings using the SYNW#### locus tag column. SAM scores are stored in the table but no adjusted p-values are reported, which is captured by the `significant_only` table_scope. Nothing more to add: the paper provides no metabolomics or non-DE per-gene tables.
 
 ## Summary
 

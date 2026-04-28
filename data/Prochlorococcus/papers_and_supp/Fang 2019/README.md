@@ -5,6 +5,12 @@
 **Organism(s):** *Prochlorococcus* MIT9313
 **Topic:** RNA-seq time course of axenic MIT9313 in Pro99 medium amended with viral DOM (vDOM, released from phage-lysed MED4) vs Pro99-only control; samples at 0.5, 1, 2, 4, 8, 12, 24, 48, 72 h. Significance is carried in the source table as asterisks on fold-change cells (adjusted p < 0.1 and |log2FC| > 1).
 
+## Classification
+
+**Bucket D - already integrated, nothing to add**
+
+S2 is wired as 9 per-timepoint statistical analyses on the single `viral_viral_dom_vdom_addition_mit9313_rnaseq` Experiment, with asterisk-encoded significance parsed via `pvalue_asterisk_in_logfc: true`. MIT9313 is deployed. The only other supplementary file (S5) is a sample-level read-count matrix not in scope for KG integration. No metabolomics, no clustering, no other gene-level data on offer.
+
 ## Available data inventory
 
 | File | Type | Content | KG status | Recommended action |

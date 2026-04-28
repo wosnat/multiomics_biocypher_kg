@@ -15,6 +15,12 @@
 | `mSystems.00254-18-st002.docx` | DOCX | Supp Table S2: metabolite pool concentrations per condition (intracellular) | skip | Metabolomics — no gene targets |
 | `mSystems.00254-18-st003.docx` | DOCX | Supp Table S3: ¹³C-isotope labeling measurements per metabolite / timepoint | skip | Metabolomics / isotope tracing — no per-gene evidence |
 
+## Classification
+
+**Bucket A — metabolites (WIP, ready when KG supports metabolite nodes)**
+
+Paper is purely metabolomics + ¹³C tracing on a Prochlorococcus VOL29 isolate. Tables S1-S3 supply intracellular metabolite pools, ¹³C isotopologue labeling, and field cell-counts/sampling metadata; no transcriptomics, no proteomics, no per-gene evidence of any kind. Cannot integrate today because the KG schema has no Metabolite node type. Secondary blocker: VOL29 (eMED4/HL-I ecotype) is not deployed in the KG strain list. Mark as ready to add once a metabolite extension lands AND VOL29 is added (lower priority because data is metabolite-only). Currently nothing to do.
+
 ## Current paperconfig summary
 
 No paperconfig.yaml — paper is not integrated.

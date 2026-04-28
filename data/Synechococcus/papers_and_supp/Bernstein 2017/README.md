@@ -6,6 +6,12 @@
 
 **DOI:** 10.1128/mSystems.00181-16
 
+## Classification
+
+**Bucket D -- defer / nothing to do (already integrated for what is available)**
+
+Coculture study of Thermosynechococcus BP-1 (now deployed in the KG) and Meiothermus ruber A (also in the KG). The paper provides only clustered transcript abundance profiles (clusters A-D irradiance-responsive, E-H pO2-responsive) and a raw-abundance Data Set S1 -- no fold-change/p-value DE tables. The four `gene_clusters` entries (BP1 light/oxygen, M. ruber light/oxygen) are configured in paperconfig.yaml and the resolved CSVs are in place; this is what the KG can currently capture. Secondary note: if treatment-vs-control DE were ever recomputed from the deposited raw counts, this would graduate to bucket B, but the published supplements alone do not support per-gene log2FC edges.
+
 ## Organisms
 
 - **Primary:** Thermosynechococcus elongatus BP-1 (cyanobacterium)

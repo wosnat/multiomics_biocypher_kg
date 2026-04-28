@@ -5,6 +5,14 @@
 **Organism(s):** *Prochlorococcus* MIT9313 (secondary degrader, partial pathway); *Prochlorococcus* MIT9303 (primary degrader, full pathway incl. chitinase)
 **Topic:** Characterizes chitin utilization by marine picocyanobacteria; proposes the "chitin raft hypothesis" for the evolutionary origin of the planktonic lifestyle. RNA-seq DE analysis (DESeq2, adj. P<0.1) comparing chitosan addition (56 ug/mL in Pro99 AMP1) vs control in MIT9313 and MIT9303, continuous light at 11 umol photons m-2 s-1, 24C. Samples on days 1 and 3 after inoculation.
 
+## Classification
+
+**Bucket B - new metrics / DE / resolution (want to add)**
+
+DE tables for both strains (sd02) are already integrated as Changes_expression_of edges; that part is done. The actionable remaining gene-level work is `pnas.2213271120.sd01.xlsx` -- a per-gene chitin-utilization-pathway presence/classification table across multiple Prochlorococcus / Synechococcus strains. If columns are per-strain Y/N flags or a categorical pathway-component label, this fits the existing `derived_metrics_table` pattern (value_kind boolean or categorical). Inspecting/extracting that XLSX is the next paperconfig change.
+
+Secondary: bucket A applies to the metabolomics tables (`metabolites pnas.2213271120.sd03.xlsx`, `cellular_concentrations metabolites ...sd03.csv`, `column_extracts_raw metabolites ...sd03.csv`) -- those are LC-MS metabolite pools with no gene mapping, ready to add once a Metabolite node type lands in the KG.
+
 ## Available data inventory
 
 | File | Type | Content | KG status | Recommended action |
@@ -14,7 +22,10 @@
 | `DE genes RNA-Seq_MIT9303 pnas.2213271120.sd02.csv` | CSV | MIT9303 significantly DE genes (36: 18 up, 18 down) | already in | — |
 | `DE genes pnas.2213271120.sd02.xlsx` | XLSX | Original Excel (both strains as separate sheets) | skip | Duplicate of CSVs already in |
 | `pnas.2213271120.sd01.xlsx` | XLSX | Chitin utilization gene annotations across genomes | add | Per-gene presence/classification across multiple strains — candidate for `derived_metrics_table` with `value_kind: boolean` or `categorical` (need to inspect column structure) |
-| `metabolites pnas.2213271120.sd03.xlsx` | XLSX | Metabolomics data | skip | No gene-level evidence |
+| `metabolites pnas.2213271120.sd03.xlsx` | XLSX | Metabolomics data (intracellular + column-extract concentrations across strains, multiple time points/conditions) | defer (bucket A) | Awaiting Metabolite node type in KG schema |
+| `cellular_concentrations metabolites pnas.2213271120.sd03.csv` | CSV | Per-strain intracellular metabolite concentrations (fg/cell) -- derived from sd03 | defer (bucket A) | Same |
+| `column_extracts_raw metabolites pnas.2213271120.sd03.csv` | CSV | Raw column-extract metabolite concentrations (HILIC TSQ) | defer (bucket A) | Same |
+| `average_T4 pnas.2213271120.sd03.csv`, `average_T6 pnas.2213271120.sd03.csv` | CSV | Per-time-point metabolite averages from sd03 | defer (bucket A) | Same |
 | `read counts pnas.2213271120.sd04.csv` | CSV | MIT9313 normalized read counts (all genes, all samples) | skip | Sample x gene expression matrix |
 | `read counts pnas.2213271120.sd05.csv` | CSV | MIT9303 normalized read counts (all genes, all samples) | skip | Sample x gene expression matrix |
 | `paperconfig.yaml` | YAML | Active paperconfig | reference | — |

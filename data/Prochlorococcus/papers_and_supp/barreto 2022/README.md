@@ -5,6 +5,12 @@
 **Organism(s):** *Prochlorococcus* MIT9312, *Synechococcus* CC9311 and WH8102, *Alteromonas macleodii* EZ55 (3 phototrophs × EZ55 heterotroph × 400 vs 800 ppm pCO2, 14:10 L:D)
 **Topic:** Factorial RNA-seq (edgeR) examining how elevated pCO2 (800 vs 400 ppm) and choice of phototroph partner alter EZ55's transcriptome, and how pCO2 reshapes each cyanobacterium's response. Reveals pCO2-linked changes in EZ55 carbohydrate metabolism, stress response, chemotaxis, and transporters; links reduced oxidative-stress help to Prochlorococcus growth loss at high pCO2.
 
+## Classification
+
+**Bucket B - new metrics / DE / resolution (want to add)**
+
+10 of the 12 DE-style tables are already integrated (per-strain pCO2 effects + 6 EZ55 coculture-vs-axenic contrasts across 3 partners x 2 pCO2 levels). The remaining two are actionable per-gene DE contrasts: Table S3 (EZ55 partner-vs-partner contrasts: logFC + PValue) and Table S4 (EZ55 pCO2 x coculture interaction effect: logFC + PValue). Both need to be added as new `csv` statistical_analyses, with S3 split per partner-pair contrast and S4 attached to a new `interaction_pco2_coculture_ez55_rnaseq` Experiment node with explanatory `experimental_context`. All four organisms (MIT9312, CC9311, WH8102, EZ55) are deployed; no new strain work.
+
 ## Available data inventory
 
 | File | Type | Content | KG status | Recommended action |

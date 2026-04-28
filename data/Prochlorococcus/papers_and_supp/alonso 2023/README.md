@@ -5,6 +5,12 @@
 **Organism(s):** *Prochlorococcus marinus* MIT9301 (HLII clade representative)
 **Topic:** Quantitative transcriptome (RNA-Seq) analysis of MIT9301 acclimated long-term to 5 temperatures (17, 20, 22, 25, 30C) under a 12h:12h L/D cycle. RNA samples collected 3h after subjective sunrise (day) and sunset (night). Five soft clusters (A-E) identified by fuzzy c-means clustering of day/night expression patterns across the thermal gradient; clusters correspond to core daytime genes, photosystems, stress response, respiration/DNA replication, and night-biased expression.
 
+## Classification
+
+**Bucket B — new metrics / DE / resolution (want to add)**
+
+Cluster integration is already in place. The remaining gap is per-gene transcript abundance (S3 raw counts, S4 normalised counts) which fits the numeric `derived_metrics_table` pattern shipped 2026-04-21 (see `docs/kg-changes/non-de-evidence-extension.md`). No organism blocker — strain is deployed. Action: add one or more `derived_metrics_table` entries with `value_kind: numeric` referencing the BV-BRC IDs already mapped via the cluster wiring.
+
 ## Available data inventory
 
 | File | Type | Content | KG status | Recommended action |
@@ -32,7 +38,7 @@
 
 1. **No action** — Table S5's fuzzy c-means clustering with per-gene soft-membership probabilities is correctly represented as a `gene_clusters` entry per the decision rule (soft-clustering, one cluster per gene, per-cluster functional descriptions available from the paper text and `cluster_extractions/`).
 2. **Add (optional)** — The 5 per-cluster probability columns (`Probability score Cluster A..E`) could be added as 5 numeric DerivedMetric entries (`value_kind: numeric`, `rankable: true`) to preserve the full soft-membership data, but this is low-value since membership is already captured via the hard assignment + `score_col` on the cluster edge. Defer unless a downstream query needs per-cluster probabilities.
-3. **Skip** — Tables S3 and S4 (XLSX) are raw transcript abundance matrices per condition (absolute counts), not DE results; out of scope for gene-level DE evidence.
+3. **Add** — Tables S3 (transcripts/cell) and S4 (transcripts/biovolume) are single-condition per-gene quantitative snapshots. Wire as `derived_metrics_table` entries with `value_kind: numeric` per the pattern shipped 2026-04-21 (see `docs/kg-changes/non-de-evidence-extension.md`).
 4. **Add id_translation (optional)** — For the 71 genes with BV-BRC `fig|` IDs only, an `id_translation` entry (diamond protein match against MIT9301 protein FASTA) would recover them; low impact (<4% of genes).
 5. **Reference** — main PDF is reference-only.
 

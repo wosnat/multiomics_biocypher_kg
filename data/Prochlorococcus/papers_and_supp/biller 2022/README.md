@@ -3,7 +3,13 @@
 **Citation:** Biller SJ, Lundeen RA, Hmelo LR, Becker KW, Arellano AA, Dooley K, Heal KR, Carlson LT, Van Mooy BAS, Ingalls AE, Chisholm SW. *Prochlorococcus* extracellular vesicles: molecular composition and adsorption to diverse microbes. Environmental Microbiology, 2022, 24(1): 420–435.
 **DOI:** 10.1111/1462-2920.15834
 **Organism(s):** *Prochlorococcus* MIT9312 (HL-adapted) and MIT9313 (LL-adapted)
-**Topic:** Characterizes the lipid, protein, pigment, and metabolite content of extracellular vesicles (EVs) released by two *Prochlorococcus* ecotypes, and compares vesicle content to parent cells. Label-free shotgun proteomics identifies hundreds of proteins packaged in vesicles vs. cells (Tables S2–S4). Table S4 reports relative enrichment of proteins in vesicles vs. cells — candidate per-gene quantitative compartment metric. Tables S5–S7 cover vesicle metabolites; Tables S8–S9 are method parameters.
+**Topic:** Characterizes the lipid, protein, pigment, and metabolite content of extracellular vesicles (EVs) released by two *Prochlorococcus* ecotypes, and compares vesicle content to parent cells. Label-free shotgun proteomics identifies hundreds of proteins packaged in vesicles vs. cells (Tables S2-S4). Table S4 reports relative enrichment of proteins in vesicles vs. cells -- candidate per-gene quantitative compartment metric. Tables S5-S7 cover vesicle metabolites; Tables S8-S9 are method parameters.
+
+## Classification
+
+**Bucket A - metabolites (WIP, ready when KG supports metabolite nodes)**
+
+Update: paperconfig.yaml now exists with 4 `derived_metrics_table` entries integrating Tables S3 and S4 (per-strain biovolume-normalized vesicle/cell abundance and log2 vesicle/cell enrichment for MIT9312 and MIT9313). Both strains are deployed and the proteomics signal is fully captured. The only remaining unintegrated supplementary content is metabolomics: Table S1 (lipids/pigments/plastoquinones), S5 (untargeted metabolite diversity), S6 (biovolume-normalized peak areas), S7 (targeted metabolites). These cannot be integrated today because the KG schema has no Metabolite node type. Mark as ready to add once a metabolite extension lands; revisit S5/S7 then for candidate metabolite-to-gene linkages via biosynthesis pathway annotations. The lipid/pigment data in S1 may also be revisited in that future extension. Tables S8-S9 are methods metadata and out of scope.
 
 ## Available data inventory
 
@@ -24,15 +30,19 @@
 
 ## Current paperconfig summary
 
-No paperconfig.yaml — paper is not integrated.
+- Experiments defined: 2 -- `vesicle_proteomics_mit9312`, `vesicle_proteomics_mit9313` (compartment: vesicle, treatment_type: [compartment])
+- Statistical analyses (DE edges): 0 -- non-DE quantitative proteomics
+- Supplementary materials entry types: `derived_metrics_table` (x4) -- two for Table S3 abundance (per strain) + two for Table S4 log2 vesicle/cell enrichment (per strain)
+- Organisms covered: Prochlorococcus MIT9312, Prochlorococcus MIT9313
+- Non-DE evidence: 6 metrics total (per-strain biovolume-normalized vesicle and cell abundance + per-strain log2 vesicle/cell enrichment)
+- ID resolution: MIT9312 uses `Gene Number` = `locus_tag`; MIT9313 uses `Gene Number` = `old_locus_tag`. Tables S4 use `Protein ID` (UniProt accession) as primary join.
 
 ## Recommended actions
 
-1. **Add** — Create `paperconfig.yaml` with two Experiments (one per strain), each with `compartment: vesicle`, `omics_type: PROTEOMICS`, `treatment_type: ["growth_phase"]` (or a new vocabulary value for vesicle-enrichment), and one `csv` supplementary_materials entry per strain pointing to `emi15834-sup-0005-tables4.csv`. Verify the CSV's gene ID column — likely PMT9312_#### / PMT9313_#### locus tags (resolvable directly against MIT9312/MIT9313 NCBI annotations).
-2. **Add** — Add Table S3 as a `derived_metrics_table` with numeric `rankable: true` metrics: `biovolume_normalized_abundance_cell`, `biovolume_normalized_abundance_vesicle` per strain. Each yields `Derived_metric_quantifies_gene` edges.
-3. **Add** — Add Table S2 as a `derived_metrics_table` with boolean flags (`detected_in_vesicles`, `detected_in_cells`) per strain using `Derived_metric_flags_gene` edges. Alternatively, fold these into the Table S3 numeric set.
-4. **Skip** — Table S5–S9 and S1 (metabolomics / lipidomics / methods metadata). If a future metabolite-to-gene annotation is added, revisit Table S5/S7 for candidate `DerivedMetric`-style gene linkages via biosynthesis pathway annotations.
-5. **Check gene IDs** — run `/check-gene-ids` on Table S4 CSV against MIT9312 and MIT9313; if the column is protein_id not locus_tag, add an `id_columns` entry with `id_type: protein_id_refseq`.
+1. **No action** -- proteomics integration (Tables S3, S4) complete via 4 `derived_metrics_table` entries.
+2. **Defer** -- Table S2 raw spectral counts are sample-level and superseded by S3 biovolume-normalized abundances; no separate boolean detection metric currently warranted.
+3. **WIP (metabolite extension)** -- Tables S1 (lipids/pigments), S5 (untargeted metabolites), S6 (peak areas), S7 (targeted metabolites) are out of scope until KG supports Metabolite nodes; revisit then for metabolite-to-gene linkages.
+4. **Skip** -- Tables S8 and S9 are methods metadata.
 
 ## Notes
 

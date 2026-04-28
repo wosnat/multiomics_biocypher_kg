@@ -20,6 +20,12 @@
 | `cluster_extractions/` | dir | Per-cluster description JSONs | reference | — |
 | `paperconfig.yaml` | YAML | Active paperconfig | reference | — |
 
+## Classification
+
+**Bucket B — new metrics / DE / resolution (want to add)**
+
+The paper has no pairwise DE — output is per-gene RPKM-quartile categorical labels (VEG/HEG/MEG/LEG/NEG/--) plus a Core/Flexible flag. Currently encoded as a `gene_clusters` entry but the labels are a small fixed vocabulary (no membership scores, no per-cluster narratives) and should be migrated to `derived_metrics_table` with `value_kind: categorical` (allowed_categories listed) + a second boolean DerivedMetric for Core/Flexible. MOESM2 and MOESM4 XLSX files have not been inspected and may carry per-gene evidence. Operon predictions (MOESM1) defer until an Operon node type exists. MED4 is deployed; no new strain needed. Action is a paperconfig edit.
+
 ## Current paperconfig summary
 
 - Experiments defined: 1 — `expression_profiling_med4_rnaseq`

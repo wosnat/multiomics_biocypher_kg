@@ -31,6 +31,12 @@
 | `paperconfig.yaml` | YAML | Active paperconfig | already in | — |
 | `paperconfig_orig.yaml` | YAML | Pre-resolution copy of paperconfig | reference | — |
 
+## Classification
+
+**Bucket D — defer / nothing to do (fully integrated)**
+
+The user's own multi-omics dataset, co-developed with the KG. ~26 RNA-seq + proteomics DESeq2 contrasts across 10 Experiment nodes covering MED4 and HOT1A3 axenic, coculture, and starvation contrasts. Both organisms are fully deployed cultured strains; native NCBI locus tags resolve directly. No metabolomics in this directory. Optional future work: if the authors release per-gene derived metrics (RNA-protein correlation, periodicity flags), add as `derived_metrics_table`. Nothing actionable today.
+
 ## Current paperconfig summary
 
 - Experiments defined: 10 — per organism × condition × omics: {HOT1A3, MED4} × {axenic starvation, coculture starvation, coculture-vs-axenic at day 11} × {RNASEQ, PROTEOMICS}. Three of these are coculture contrasts carrying `treatment_organism` + `treatment_taxid`.

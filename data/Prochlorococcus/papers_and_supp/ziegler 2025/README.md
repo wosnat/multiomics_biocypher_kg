@@ -27,6 +27,12 @@
 
 Note: no `_resolved.csv` / `_resolved_report.txt` files appear — the paperconfig uses `id_type: other`, which the resolver handles via multi-column heuristics at build time rather than persisted resolved CSVs.
 
+## Classification
+
+**Bucket B — new metrics / DE / resolution (want to add)**
+
+27 DE analyses across MED4 + 4 heterotrophs are wired up, but heterotroph-side edges will dangle until the partner genomes are deployed. Marinobacter (MarRef v6) and Alteromonas (MarRef v6) are now reference-proteome-match organisms in the KG (added 2026-04-15/16), so two of the four heterotrophs are partly addressable; **Pseudohoeflea** and **Thalassospira** remain undeployed and Table 8 expression edges for them will not resolve. The community-vs-single contrasts also use a placeholder `treatment_taxid: 2742` for the multi-organism community (TODO in paperconfig). Action: deploy Pseudohoeflea and Thalassospira (use `/deploy-strain`), verify the heterotroph-side `id_type: other` resolution, and audit the swap of subject/partner on Table 8 analyses.
+
 ## Current paperconfig summary
 
 - Experiments defined: 0 declared at the `experiments:` block level — every `statistical_analyses` entry is a free-standing RNA-seq DE with inline `treatment_condition` / `control_condition` / `organism` / `treatment_organism` / `treatment_taxid`. The `omics_adapter` synthesizes Experiment nodes from these (~15 MED4 ones + ~12 heterotroph ones = ~27 Experiment nodes).

@@ -8,6 +8,12 @@
 
 **Authors:** Joseph A. Christie-Oleza, Despoina Sousoni, Matthew Lloyd, Jean Armengaud, David J. Scanlan
 
+## Classification
+
+**Bucket D -- defer / nothing to do (already integrated)**
+
+Synechococcus WH7803 + Ruegeria pomeroyi DSS-3 long-term coculture proteomics; both organisms are deployed in the KG. The three FC-bearing tables -- S2A (Syn early/ASW), S5A (Syn late/seawater), S7 (Ruegeria long-term/seawater) -- are wired to three experiments in paperconfig.yaml with `*_resolved.csv` siblings, using the documented signed-linear ratio convention plus p-value/q-value statistics. Tables S2B and S5B (R. pomeroyi abundance only) are intentionally skipped because they have no FC. Nothing further to add unless DerivedMetric ingestion is wired up, in which case the abundance-only side tables could move to bucket C.
+
 ## Summary
 
 Long-term coculture study of the marine cyanobacterium *Synechococcus* sp. WH7803 with the heterotrophic bacterium *Ruegeria pomeroyi* DSS-3. Demonstrates that nutrient recycling between phototroph and heterotroph enables stable mutualistic interactions in both nutrient-rich ASW medium and nutrient-poor natural seawater. Comparative proteomics reveals functional specialization: *Synechococcus* dedicates resources to photosynthesis and CO2 fixation while relying on the heterotroph for remineralization of leaked organic matter.

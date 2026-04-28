@@ -22,6 +22,12 @@
 | `paperconfig.yaml` | YAML | Current integration config | reference | — |
 | `paperconfig_orig.yaml` | YAML | Superseded draft | — | — (skip / historical) |
 
+## Classification
+
+**Bucket D — defer / nothing to do (fully integrated)**
+
+Four DE experiments (HDPE/PVC × MIT9312/NATL2A) are all wired up; both strains deployed; tri-column ID resolution is robust. Supplementary PDFs are pre-filtered summary tables, no untapped per-gene measurements remain. Action #3 in this README ("verify MOESM1/MOESM2 don't carry hidden per-gene physiology") is a low-priority optional sanity check, not a blocker — the paper's growth/PSII assays are sample-level by design. No remaining integration work.
+
 ## Current paperconfig summary
 
 - Experiments defined: 4 — HDPE-vs-control and PVC-vs-control for each of MIT9312 and NATL2A (all RNASEQ / DESeq2 / treatment_type=[plastic]).
