@@ -81,6 +81,51 @@ publication:
       light_intensity: 20 umol photons m-2 s-1
       table_scope: significant_any_timepoint
   supplementary_materials:
+    med4_iron_response_clusters:
+      type: gene_clusters
+      name: MED4 iron-response hierarchical clusters (Thompson 2011 Fig 3)
+      filename: data/Prochlorococcus/papers_and_supp/thompson 2011/supp table 1.csv
+      organism: Prochlorococcus MED4
+      gene_id_col: Gene
+      cluster_col: Cluster
+      id_columns:
+      - column: Gene
+        id_type: old_locus_tag
+      cluster_type: time_course
+      cluster_method: Hierarchical clustering (paper Figure 3)
+      omics_type: MICROARRAY
+      treatment_type: [iron]
+      background_factors: [axenic, light]
+      light_condition: continuous light
+      treatment: Iron starvation (-Fe) and rescue (+Fe added at 49h) time course; samples at 0/12/24/48h plus rescue R
+      experimental_context: Prochlorococcus MED4 in PRO99 (trace-metal clean) at 21C under continuous light at 27 umol photons m-2 s-1; clusters group genes by temporal expression profile across the full -Fe/+Fe time course
+      figure_hint: Figure 3 (MED4 hierarchical cluster expression profiles); Supplementary Table 1
+      experiments:
+      - iron_iron_starvation_med4_med4_microarray_light
+      - iron_iron_starvation_med4_med4_microarray_light_2
+      - growth_medium_ironreplete_control_med4_med4_microarray
+    mit9313_iron_response_clusters:
+      type: gene_clusters
+      name: MIT9313 iron-response hierarchical clusters (Thompson 2011 Fig 3)
+      filename: data/Prochlorococcus/papers_and_supp/thompson 2011/supp table 2.csv
+      organism: Prochlorococcus MIT9313
+      gene_id_col: Gene
+      cluster_col: Cluster
+      id_columns:
+      - column: Gene
+        id_type: old_locus_tag
+      cluster_type: time_course
+      cluster_method: Hierarchical clustering (paper Figure 3)
+      omics_type: MICROARRAY
+      treatment_type: [iron]
+      background_factors: [axenic, light]
+      light_condition: continuous light
+      treatment: Iron starvation (-Fe) and rescue (+Fe added at 54h) time course; samples at 0/16/28/53h plus rescue R
+      experimental_context: Prochlorococcus MIT9313 in PRO99 (trace-metal clean) at 25C under continuous light at 20 umol photons m-2 s-1; clusters group genes by temporal expression profile across the full -Fe/+Fe time course
+      figure_hint: Figure 3 (MIT9313 hierarchical cluster expression profiles); Supplementary Table 2
+      experiments:
+      - iron_iron_starvation_mit9313_mit9313_microarray
+      - growth_medium_ironreplete_control_mit9313_mit9313_microarray
     supp_table_1:
       type: csv
       filename: data/Prochlorococcus/papers_and_supp/thompson 2011/supp table 1.csv

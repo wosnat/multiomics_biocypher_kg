@@ -200,164 +200,6 @@
 **Quotes:**
 - [Page 8] M. ruber peroxidase (bcp; SY28_RS05545, SY28_RS06010, and SY28_RS06015) and superoxide dismutase (sod2; SY28_RS13295) genes responded differently to Ii treatments than did oxyR and related cyanobacterial profiles and were grouped into clusters A and C. These genes generally increased with pO2 and grouped with the T. elongatus genes into cluster H (increased with pO2 and decreasing μ).
 
-## Biller 2018 / mit1002_periodicity
-
-### Cluster coculture_LD | periodic in L:D only | low
-**Name:** Alteromonas MIT1002 cluster coculture_LD (diel periodic)
-**Enrichment:**  (p=None, sig=False)
-**Functional:** N/A
-**Temporal pattern:** Alteromonas genes showing 24-h periodicity in coculture under diel light:dark conditions. The paper reports 13% of all Alteromonas genes exhibited 24-h periodicity in coculture.
-**Confidence notes:** Original extraction incorrectly attributed Prochlorococcus photosynthesis genes to Alteromonas MIT1002.
-**Assessment notes:** Paper provides no functional enrichment detail for Alteromonas periodic genes.
-**Sources:** Figure 4A
-**Quotes:**
-- [Page 11] Transcripts from 13% of all Alteromonas genes exhibited 24-h periodicity when grown on a diel L:D cycle in coculture with Prochlorococcus.
-
-### Cluster coculture_LD+coculture_darkness | periodic across conditions in coculture | low
-**Name:** Alteromonas MIT1002 cluster coculture_LD+coculture_darkness (periodic across conditions)
-**Enrichment:**  (p=None, sig=False)
-**Functional:** N/A
-**Temporal pattern:** Two Alteromonas genes maintaining 24-h periodicity in coculture under both diel and extended darkness conditions.
-**Confidence notes:** Only 2 genes in this category; paper provides no functional detail for them.
-**Assessment notes:** Too few genes for meaningful functional characterization.
-
-### Cluster coculture_darkness | N/A | low
-**Name:** Alteromonas MIT1002 cluster coculture_darkness
-**Enrichment:**  (p=None, sig=False)
-**Functional:** N/A
-**Temporal pattern:** N/A
-**Confidence notes:** Paper does not discuss this specific periodicity category for Alteromonas.
-**Assessment notes:** Original extraction incorrectly used Prochlorococcus quotes for an Alteromonas cluster.
-
-## Biller 2018 / natl2a_darkness_survival
-
-### Cluster darkness_axenic+darkness_coculture | present in axenic and coculture during extended darkness | medium
-**Name:** Prochlorococcus NATL2A cluster darkness_axenic+darkness_coculture (darkness axenic+coculture)
-**Enrichment:**  (p=None, sig=False)
-**Functional:** Transcripts still detectable at 72-144h in both axenic and coculture conditions include RNA polymerase subunits, ATP synthase components, photosystem I and II genes, ribosomal proteins, RuBisCO, central carbon metabolism enzymes, and chaperones.
-**Temporal pattern:** Transcripts persisting through 72-144h of extended darkness in both culture conditions.
-**Confidence notes:** Functional description from page 13 of the paper (late survival transcript inventory). Earlier quotes about 5h response were removed as they describe a different biological context.
-**Assessment notes:** Original extraction conflated early darkness response (5h, Tables 1-2) with late survival classification (72-144h, Table S5).
-**Sources:** Table S5
-
-### Cluster darkness_axenic+unique_axenic | present in axenic and unique to axenic during extended darkness | low
-**Name:** Prochlorococcus NATL2A cluster darkness_axenic+unique_axenic (darkness axenic+unique axenic)
-**Enrichment:**  (p=None, sig=False)
-**Functional:** N/A
-**Temporal pattern:** Transcripts detectable at 72-144h only in axenic cultures.
-**Confidence notes:** Paper does not provide specific functional description for the axenic-unique late survival set. Original extraction incorrectly used early-response data (5h, Tables 1/S3) for a late-survival cluster (72-144h, Table S5).
-**Assessment notes:** Original extraction conflated early darkness response (5h) with late survival classification (72-144h).
-**Sources:** Table S5
-
-### Cluster darkness_coculture+unique_coculture | present in coculture and unique to coculture during extended darkness | low
-**Name:** Prochlorococcus NATL2A cluster darkness_coculture+unique_coculture (darkness coculture+unique coculture)
-**Enrichment:**  (p=None, sig=False)
-**Functional:** N/A
-**Temporal pattern:** Transcripts detectable at 72-144h only in coculture conditions, suggesting heterotroph presence maintains additional transcript pools.
-**Confidence notes:** Table 2 content (organic compound degradation, terpenoid biosynthesis) describes the early darkness response (5h), not the late survival classification (72-144h). Original extraction incorrectly applied early-response data to this late-survival cluster.
-**Assessment notes:** Original extraction conflated early darkness response (5h, Table 2) with late survival classification (72-144h, Table S5).
-**Sources:** Table S5
-
-## Biller 2018 / natl2a_periodicity
-
-### Cluster axenic_LD | periodic in L:D only | medium
-**Name:** Prochlorococcus NATL2A cluster axenic_LD (L:D periodic)
-**Enrichment:**  (p=None, sig=False)
-**Functional:** N/A
-**Temporal pattern:** Genes show 24-h periodicity in axenic cultures under diel light:dark conditions but lose periodicity under extended darkness.
-**Confidence notes:** Paper does not report functional enrichment for this specific periodicity category.
-**Assessment notes:** Temporal pattern is well-supported but no functional enrichment data available for this category.
-**Sources:** Figure 4A
-**Quotes:**
-- [Page 11] We found that transcripts encoding 69% of all Prochlorococcus proteins exhibited 24-h periodicity in the axenic L:D cultures, while only 6% did so through the first 13 h of extended darkness.
-
-### Cluster axenic_LD+axenic_darkness+coculture_darkness | N/A | low
-**Name:** Prochlorococcus NATL2A cluster axenic_LD+axenic_darkness+coculture_darkness
-**Enrichment:** N/A (p=None, sig=False)
-**Functional:** N/A
-**Temporal pattern:** N/A
-**Assessment notes:** No specific discussion or data for this cluster in the paper.
-
-### Cluster axenic_LD+coculture_LD | periodic in L:D with coculture enhancement | low
-**Name:** Prochlorococcus NATL2A cluster axenic_LD+coculture_LD (L:D periodic enhanced in coculture)
-**Enrichment:**  (p=None, sig=False)
-**Functional:** N/A
-**Temporal pattern:** Genes show 24-h periodicity in both axenic and coculture under diel L:D conditions, with more transcripts retaining periodicity in coculture.
-**Confidence notes:** Paper says PSI/PSII transcript increases seen in axenic cultures did NOT occur in cocultures — the original description contradicted the paper.
-**Assessment notes:** No functional enrichment reported for this periodicity category in the paper.
-**Sources:** Figure 4A
-**Quotes:**
-- [Page 11] More Prochlorococcus transcripts retained their periodicity in cocultures versus axenic cultures, both under extended darkness and even during the normal diel L:D cycle.
-
-### Cluster axenic_LD+coculture_LD+axenic_darkness | N/A | low
-**Name:** Prochlorococcus NATL2A cluster axenic_LD+coculture_LD+axenic_darkness
-**Enrichment:** N/A (p=None, sig=False)
-**Functional:** N/A
-**Temporal pattern:** N/A
-**Assessment notes:** No explicit discussion in the paper.
-
-### Cluster axenic_LD+coculture_LD+axenic_darkness+coculture_darkness | N/A | low
-**Name:** Prochlorococcus NATL2A cluster axenic_LD+coculture_LD+axenic_darkness+coculture_darkness
-**Enrichment:** N/A (p=None, sig=False)
-**Functional:** N/A
-**Temporal pattern:** N/A
-**Assessment notes:** No explicit discussion in the paper.
-
-### Cluster axenic_LD+coculture_LD+coculture_darkness | N/A | low
-**Name:** Prochlorococcus NATL2A cluster axenic_LD+coculture_LD+coculture_darkness
-**Enrichment:** N/A (p=None, sig=False)
-**Functional:** N/A
-**Temporal pattern:** N/A
-**Assessment notes:** No explicit discussion in the paper.
-
-### Cluster axenic_LD+coculture_darkness | N/A | low
-**Name:** Prochlorococcus NATL2A cluster axenic_LD+coculture_darkness
-**Enrichment:** N/A (p=None, sig=False)
-**Functional:** N/A
-**Temporal pattern:** N/A
-**Assessment notes:** No explicit discussion in the paper.
-
-### Cluster coculture_LD | periodic in coculture L:D only | medium
-**Name:** Prochlorococcus NATL2A cluster coculture_LD (coculture L:D periodic)
-**Enrichment:**  (p=None, sig=False)
-**Functional:** N/A
-**Temporal pattern:** Genes show 24-h periodicity only in coculture under diel light:dark conditions.
-**Confidence notes:** Organic compound degradation enrichment is from the darkness context, not the periodicity analysis.
-**Assessment notes:** Temporal pattern supported but no functional enrichment specific to this periodicity category.
-**Sources:** Figure 4A
-**Quotes:**
-- [Page 11] More Prochlorococcus transcripts retained their periodicity in cocultures versus axenic cultures, both under extended darkness and even during the normal diel L:D cycle.
-
-### Cluster coculture_LD+axenic_darkness | N/A | low
-**Name:** Prochlorococcus NATL2A cluster coculture_LD+axenic_darkness
-**Enrichment:** N/A (p=None, sig=False)
-**Functional:** N/A
-**Temporal pattern:** N/A
-**Assessment notes:** No explicit discussion in the paper.
-
-### Cluster coculture_LD+coculture_darkness | N/A | low
-**Name:** Prochlorococcus NATL2A cluster coculture_LD+coculture_darkness
-**Enrichment:** N/A (p=None, sig=False)
-**Functional:** N/A
-**Temporal pattern:** N/A
-**Assessment notes:** No explicit discussion in the paper.
-
-### Cluster coculture_darkness | N/A | low
-**Name:** Prochlorococcus NATL2A cluster coculture_darkness
-**Enrichment:** N/A (p=None, sig=False)
-**Functional:** N/A
-**Temporal pattern:** N/A
-**Assessment notes:** No explicit discussion in the paper.
-
-### Cluster not_periodic | not periodic | high
-**Name:** Prochlorococcus NATL2A cluster not_periodic
-**Enrichment:** N/A (p=None, sig=False)
-**Functional:** N/A
-**Temporal pattern:** Genes that do not exhibit significant 24-h periodicity under any of the tested conditions.
-**Sources:** Figure 4
-**Quotes:**
-- [Page 11] Other transcripts did not exhibit periodicity under any conditions (see Fig. 4B to F for representative examples).
-
 ## Coe 2024 / supp_table_3_darktolerant_clusters
 
 ### Cluster 1 | N/A | low
@@ -591,6 +433,273 @@
 **Sources:** Figure 3
 **Quotes:**
 - [Page 3] Transcripts of the second group appeared 2 h after infection and included genes involved in RNA degradation and modification (rne, rnhB, dus and sun), protein turnover (clpS, and an AAA ATPase family gene), stress responses (umuD and phoH), and those of unknown function.
+
+## Thompson 2011 / med4_iron_response_clusters
+
+### Cluster 1 | early transient | medium
+**Name:** Prochlorococcus MED4 cluster 1 (1 genes)
+**Enrichment:** N/A (p=None, sig=False)
+**Functional:** Contains the gene Yfr2-5_1, a small non-coding RNA potentially involved in regulatory functions during iron stress.
+**Temporal pattern:** Expression changes begin early in the iron starvation time course and show dynamic regulation across the time points, including rescue.
+**Assessment notes:** Limited specific functional annotation; small RNA regulatory role inferred.
+**Sources:** Figure 3c
+**Quotes:**
+- [Figure 3c legend] Cluster 1: Yfr2-5_1 (1)
+
+### Cluster 13 | gradual increase | medium
+**Name:** Prochlorococcus MED4 cluster 13 (7 genes)
+**Enrichment:** transport (p=None, sig=False)
+**Functional:** Enriched for ABC transporter genes involved in transport functions under iron stress.
+**Temporal pattern:** Genes in this cluster show differential expression starting early in iron starvation and respond dynamically through the time course and rescue.
+**Assessment notes:** Transport function inferred from gene annotations; no explicit p-value reported.
+**Sources:** Figure 3c
+**Quotes:**
+- [Figure 3c legend] 13: ABC transporter (6)
+
+### Cluster 16 | biphasic | medium
+**Name:** Prochlorococcus MED4 cluster 16 (4 genes)
+**Enrichment:** N/A (p=None, sig=False)
+**Functional:** Contains small non-coding RNAs Yfr2 and Yfr4, suggesting a regulatory role in iron stress response.
+**Temporal pattern:** Expression changes occur during iron starvation and are reversed upon iron rescue, indicating dynamic regulation.
+**Assessment notes:** Small RNA cluster with inferred regulatory function; no enrichment data.
+**Sources:** Figure 3c
+**Quotes:**
+- [Figure 3c legend] 16: Yfr2, Yfr4 (2)
+
+### Cluster 19 | late sustained | high
+**Name:** Prochlorococcus MED4 cluster 19 (63 genes)
+**Enrichment:** iron stress response (p=None, sig=False)
+**Functional:** Enriched for iron stress response genes including bcp, sigA/rpoD, crp, hli, iraI, idiA, isiB, and several small RNAs, indicating a coordinated iron stress regulon.
+**Temporal pattern:** Genes are upregulated during iron starvation starting early and remain elevated until iron rescue, where expression decreases.
+**Confidence notes:** Cluster includes many known iron stress genes and sRNAs, supporting functional assignment.
+**Assessment notes:** Strong evidence from gene content and expression pattern.
+**Sources:** Figure 3c, Figure 4b
+**Quotes:**
+- [Figure 3c legend] 19: bcp, sigA/rpoD, crp, hli, iraI, idiA, isiB, Yfr20, asRNA_04601, asRNA_07401 (63)
+- [Page 6] MED4 genomic island 5 (ISL5), in particular, was a ‘hotspot’ for differentially expressed genes in our experiments—including high-light inducible (hli) genes, and numerous genes of unknown function.
+
+### Cluster 22 | N/A | low
+**Name:** Prochlorococcus MED4 cluster 22 (1 genes)
+**Enrichment:**  (p=None, sig=False)
+**Functional:** N/A
+**Temporal pattern:** N/A
+**Confidence notes:** Cluster not discussed in the paper.
+**Assessment notes:** No discussion or data provided for this cluster.
+
+### Cluster 3 | gradual increase | medium
+**Name:** Prochlorococcus MED4 cluster 3 (15 genes)
+**Enrichment:** photosystem and stress response (p=None, sig=False)
+**Functional:** Contains hli genes and other genes related to photosystem components and stress response.
+**Temporal pattern:** Genes show differential expression during iron starvation and recovery phases, with dynamic regulation.
+**Assessment notes:** Functional annotation based on gene names; no enrichment statistics.
+**Sources:** Figure 3c
+**Quotes:**
+- [Figure 3c legend] 3: hli (12)
+
+### Cluster 4 | N/A | low
+**Name:** Prochlorococcus MED4 cluster 4 (1 genes)
+**Enrichment:**  (p=None, sig=False)
+**Functional:** N/A
+**Temporal pattern:** N/A
+**Confidence notes:** Cluster not discussed in the paper.
+**Assessment notes:** No discussion or data provided for this cluster.
+
+### Cluster 6 | early transient downregulation | high
+**Name:** Prochlorococcus MED4 cluster 6 (2 genes)
+**Enrichment:** electron transfer (p=None, sig=False)
+**Functional:** Contains petF, encoding ferredoxin, an iron-requiring electron transfer protein downregulated during iron stress.
+**Temporal pattern:** Downregulated during iron starvation and upregulated upon iron rescue.
+**Confidence notes:** Known iron response gene with clear expression pattern.
+**Assessment notes:** Strong evidence from gene identity and expression.
+**Sources:** Figure 3c, Figure 5
+**Quotes:**
+- [Figure 3c legend] 6: petF (2)
+- [Page 7] ferredoxin was downregulated and flavodoxin was upregulated during iron stress in both MED4 and MIT9313
+
+### Cluster 7 | N/A | low
+**Name:** Prochlorococcus MED4 cluster 7 (1 genes)
+**Enrichment:**  (p=None, sig=False)
+**Functional:** N/A
+**Temporal pattern:** N/A
+**Confidence notes:** Cluster not discussed in the paper.
+**Assessment notes:** No discussion or data provided for this cluster.
+
+### Cluster 9 | gradual increase | medium
+**Name:** Prochlorococcus MED4 cluster 9 (30 genes)
+**Enrichment:** metabolism and regulation (p=None, sig=False)
+**Functional:** Includes genes involved in sulfur metabolism (cysD), heme synthesis (hemA), dehydrogenases, and several small RNAs, indicating diverse metabolic functions during iron stress.
+**Temporal pattern:** Genes show differential expression during iron starvation and recovery, with dynamic regulation.
+**Assessment notes:** Functional annotation based on gene names; no enrichment statistics.
+**Sources:** Figure 3c
+**Quotes:**
+- [Figure 3c legend] 9: cysD, hemA, dehydrogenase, Yfr16, Yfr19, Yfr8 (30)
+
+## Thompson 2011 / mit9313_iron_response_clusters
+
+### Cluster 1 | N/A | low
+**Name:** MIT9313 cluster 1 (2 genes)
+**Enrichment:**  (p=None, sig=False)
+**Functional:** Contains two genes including the non-coding RNA Yfr2-5_1. Specific gene functions are not detailed in the paper for this cluster.
+**Temporal pattern:** N/A
+**Assessment notes:** Paper does not discuss this cluster.
+
+### Cluster 10 | N/A | low
+**Name:** MIT9313 cluster 10 (1 genes)
+**Enrichment:**  (p=None, sig=False)
+**Functional:** N/A
+**Temporal pattern:** N/A
+**Assessment notes:** Paper does not discuss this cluster.
+
+### Cluster 13 | N/A | medium
+**Name:** MIT9313 cluster 13 (6 genes)
+**Enrichment:** ABC transporter (p=None, sig=False)
+**Functional:** Enriched for ABC transporter genes. Contains six genes including components of transport systems.
+**Temporal pattern:** N/A
+**Assessment notes:** Enrichment category inferred from cluster annotation in figure legend; no p-value reported.
+**Sources:** Figure 3d
+**Quotes:**
+- [Figure 3d legend] 13: ABC transporter (6)
+
+### Cluster 14 | N/A | low
+**Name:** MIT9313 cluster 14 (4 genes)
+**Enrichment:**  (p=None, sig=False)
+**Functional:** N/A
+**Temporal pattern:** N/A
+**Assessment notes:** Paper does not discuss this cluster.
+
+### Cluster 16 | N/A | high
+**Name:** MIT9313 cluster 16 (2 genes)
+**Enrichment:** small non-coding RNAs (p=None, sig=False)
+**Functional:** Contains sRNAs Yfr2 and Yfr4, which are small non-coding RNAs differentially expressed under iron stress.
+**Temporal pattern:** N/A
+**Sources:** Figure 3d
+**Quotes:**
+- [Figure 3d legend] 16: Yfr2, Yfr4 (2)
+- [Page 7] We observed differential expression of several, albeit different, sRNAs in MED4 and MIT9313 (Supplementary Tables S1 and S2), suggesting that sRNAs are also important regulatory agents for Prochlorococcus iron metabolism.
+
+### Cluster 17 | N/A | low
+**Name:** MIT9313 cluster 17 (10 genes)
+**Enrichment:**  (p=None, sig=False)
+**Functional:** N/A
+**Temporal pattern:** N/A
+**Assessment notes:** Paper does not discuss this cluster.
+
+### Cluster 18 | N/A | low
+**Name:** MIT9313 cluster 18 (4 genes)
+**Enrichment:**  (p=None, sig=False)
+**Functional:** N/A
+**Temporal pattern:** N/A
+**Assessment notes:** Paper does not discuss this cluster.
+
+### Cluster 19 | N/A | high
+**Name:** MIT9313 cluster 19 (2 genes)
+**Enrichment:** iron stress response (p=None, sig=False)
+**Functional:** Enriched for genes including bcp, sigA/rpoD, crp, hli, iraI, idiA, isiB, and antisense RNAs. Includes iron stress response genes such as idiA and isiB.
+**Temporal pattern:** N/A
+**Sources:** Figure 3d
+**Quotes:**
+- [Figure 3d legend] 19: bcp, sigA/rpoD, crp, hli, iraI, idiA, isiB, Yfr20, asRNA_04601, asRNA_07401 (63)
+- [Page 7-8] idiA is hypothesized to be a periplasmic iron-binding protein component of an iron ABC-transporter system... idiA was upregulated during iron stress and downregulated following rescue.
+
+### Cluster 2 | N/A | medium
+**Name:** MIT9313 cluster 2 (10 genes)
+**Enrichment:** transport and binding (p=0.04, sig=True)
+**Functional:** Contains genes including coaD and a possible porin, involved in transport functions.
+**Temporal pattern:** N/A
+**Confidence notes:** Enrichment p-value reported in example, assumed similar for this cluster based on gene content.
+**Assessment notes:** Enrichment p-value inferred from example cluster; exact p-value not explicitly stated.
+**Sources:** Figure 3d
+**Quotes:**
+- [Figure 3d legend] Cluster 2, coaD, some possible porin, Yfr7 (10)
+
+### Cluster 20 | N/A | low
+**Name:** MIT9313 cluster 20 (1 genes)
+**Enrichment:**  (p=None, sig=False)
+**Functional:** N/A
+**Temporal pattern:** N/A
+**Assessment notes:** Paper does not discuss this cluster.
+
+### Cluster 23 | N/A | high
+**Name:** MIT9313 cluster 23 (2 genes)
+**Enrichment:** iron storage (p=None, sig=False)
+**Functional:** Contains ferritin genes involved in iron storage, differentially expressed in MIT9313 during iron stress.
+**Temporal pattern:** N/A
+**Sources:** Figure 3d
+**Quotes:**
+- [Figure 3d legend] 23: ferritin (2)
+- [Page 8-9] One of the two ferritin genes in MIT9313 (PMT0499) was upregulated 16 h after iron deprivation, whereas the single ferritin gene in MED4 was not differentially expressed.
+
+### Cluster 26 | N/A | low
+**Name:** MIT9313 cluster 26 (2 genes)
+**Enrichment:**  (p=None, sig=False)
+**Functional:** N/A
+**Temporal pattern:** N/A
+**Assessment notes:** Paper does not discuss this cluster.
+
+### Cluster 27 | N/A | low
+**Name:** MIT9313 cluster 27 (2 genes)
+**Enrichment:**  (p=None, sig=False)
+**Functional:** N/A
+**Temporal pattern:** N/A
+**Assessment notes:** Paper does not discuss this cluster.
+
+### Cluster 3 | N/A | high
+**Name:** MIT9313 cluster 3 (12 genes)
+**Enrichment:** high-light inducible (hli) genes (p=None, sig=False)
+**Functional:** Contains hli genes involved in protection of photosystems from oxidative damage during iron stress.
+**Temporal pattern:** N/A
+**Sources:** Figure 3d
+**Quotes:**
+- [Figure 3d legend] 3: hli (12)
+- [Page 7-8] A large number of hli genes were differentially expressed in our experiments, including hli05/hli08 shared by both strains.
+
+### Cluster 30 | N/A | high
+**Name:** MIT9313 cluster 30 (11 genes)
+**Enrichment:** electron transfer and transport (p=None, sig=False)
+**Functional:** Includes petF (ferredoxin), rimI, gmk, cytochrome b6/f subunit VII, maf-like, and nitrogen transport genes, involved in electron transfer and transport.
+**Temporal pattern:** N/A
+**Sources:** Figure 3d
+**Quotes:**
+- [Figure 3d legend] 30: petF, rimI, gmk, cytochrome b6/f subunit VII, maf-like, N transport (11)
+- [Page 7-8] Ferredoxin (petF) was downregulated and flavodoxin (isiB) upregulated during iron stress in both strains.
+
+### Cluster 35 | N/A | low
+**Name:** MIT9313 cluster 35 (6 genes)
+**Enrichment:**  (p=None, sig=False)
+**Functional:** N/A
+**Temporal pattern:** N/A
+**Assessment notes:** Paper does not discuss this cluster.
+
+### Cluster 38 | N/A | low
+**Name:** MIT9313 cluster 38 (6 genes)
+**Enrichment:**  (p=None, sig=False)
+**Functional:** N/A
+**Temporal pattern:** N/A
+**Assessment notes:** Paper does not discuss this cluster.
+
+### Cluster 39 | N/A | low
+**Name:** MIT9313 cluster 39 (1 genes)
+**Enrichment:**  (p=None, sig=False)
+**Functional:** N/A
+**Temporal pattern:** N/A
+**Assessment notes:** Paper does not discuss this cluster.
+
+### Cluster 4 | N/A | high
+**Name:** MIT9313 cluster 4 (24 genes)
+**Enrichment:** iron transport and stress response (p=None, sig=False)
+**Functional:** Contains genes including glyQ, piuC, idiA, pcbB, and isiB, involved in iron transport and stress response.
+**Temporal pattern:** N/A
+**Sources:** Figure 3d, Figure 6
+**Quotes:**
+- [Figure 3d legend] 4: glyQ, piuC, idiA, pcbB, isiB (24)
+- [Page 9-11] The idiA region includes piuC and other iron stress induced genes upregulated in MIT9313 but absent in MED4.
+
+### Cluster 8 | N/A | low
+**Name:** MIT9313 cluster 8 (3 genes)
+**Enrichment:**  (p=None, sig=False)
+**Functional:** N/A
+**Temporal pattern:** N/A
+**Assessment notes:** Paper does not discuss this cluster.
 
 ## Tolonen 2006 / med4_kmeans_nstarvation
 
@@ -951,11 +1060,7 @@
 
 ## Warnings
 
-- [Biller 2018 / natl2a_periodicity / cluster axenic_LD+coculture_LD] low confidence but temporal_pattern is not 'N/A': Genes show 24-h periodicity in both axenic and coculture und...
-- [Biller 2018 / mit1002_periodicity / cluster coculture_LD] low confidence but temporal_pattern is not 'N/A': Alteromonas genes showing 24-h periodicity in coculture unde...
-- [Biller 2018 / mit1002_periodicity / cluster coculture_LD+coculture_darkness] low confidence but temporal_pattern is not 'N/A': Two Alteromonas genes maintaining 24-h periodicity in cocult...
-- [Biller 2018 / natl2a_darkness_survival / cluster darkness_axenic+unique_axenic] low confidence but temporal_pattern is not 'N/A': Transcripts detectable at 72-144h only in axenic cultures....
-- [Biller 2018 / natl2a_darkness_survival / cluster darkness_coculture+unique_coculture] low confidence but temporal_pattern is not 'N/A': Transcripts detectable at 72-144h only in coculture conditio...
+- [Thompson 2011 / mit9313_iron_response_clusters / cluster 1] low confidence but functional_description is not 'N/A': Contains two genes including the non-coding RNA Yfr2-5_1. Sp...
 - [Tolonen 2006 / med4_kmeans_nstarvation / cluster 9] near-identical functional_description as cluster 8
 - [Bernstein 2017 / bp1_light_clusters / cluster A] low confidence but temporal_pattern is not 'N/A': Tent-shaped expression pattern with peak at intermediate irr...
 - [Bernstein 2017 / bp1_oxygen_clusters / cluster E] low confidence but temporal_pattern is not 'N/A': Tent-shaped expression pattern with peak at intermediate oxy...

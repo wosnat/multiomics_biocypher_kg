@@ -1,0 +1,395 @@
+{
+  "metadata": {
+    "paper": "Thompson 2011",
+    "doi": null,
+    "organism": "Prochlorococcus MIT9313",
+    "entry_key": "mit9313_iron_response_clusters",
+    "model": "gpt-4.1-mini",
+    "extracted_at": "2026-04-28T22:37:21.982502",
+    "input_tokens": 30671,
+    "output_tokens": 2648
+  },
+  "clusters": {
+    "1": {
+      "id": "mit9313_time_course_cluster_1",
+      "name": "MIT9313 cluster 1 (2 genes)",
+      "functional_description": "Contains two genes including the non-coding RNA Yfr2-5_1. Specific gene functions are not detailed in the paper for this cluster.",
+      "temporal_pattern": "N/A",
+      "expression_dynamics": "N/A",
+      "enrichment_category": "",
+      "enrichment_pvalue": null,
+      "enrichment_significant": false,
+      "confidence_notes": "",
+      "supporting_quotes": [],
+      "source_figures": [],
+      "self_assessment": "low",
+      "assessment_notes": "Paper does not discuss this cluster."
+    },
+    "10": {
+      "id": "mit9313_time_course_cluster_10",
+      "name": "MIT9313 cluster 10 (1 genes)",
+      "functional_description": "N/A",
+      "temporal_pattern": "N/A",
+      "expression_dynamics": "N/A",
+      "enrichment_category": "",
+      "enrichment_pvalue": null,
+      "enrichment_significant": false,
+      "confidence_notes": "",
+      "supporting_quotes": [],
+      "source_figures": [],
+      "self_assessment": "low",
+      "assessment_notes": "Paper does not discuss this cluster."
+    },
+    "13": {
+      "id": "mit9313_time_course_cluster_13",
+      "name": "MIT9313 cluster 13 (6 genes)",
+      "functional_description": "Enriched for ABC transporter genes. Contains six genes including components of transport systems.",
+      "temporal_pattern": "N/A",
+      "expression_dynamics": "N/A",
+      "enrichment_category": "ABC transporter",
+      "enrichment_pvalue": null,
+      "enrichment_significant": false,
+      "confidence_notes": "",
+      "supporting_quotes": [
+        {
+          "quote": "13: ABC transporter (6)",
+          "location": "Figure 3d legend"
+        }
+      ],
+      "source_figures": [
+        "Figure 3d"
+      ],
+      "self_assessment": "medium",
+      "assessment_notes": "Enrichment category inferred from cluster annotation in figure legend; no p-value reported."
+    },
+    "14": {
+      "id": "mit9313_time_course_cluster_14",
+      "name": "MIT9313 cluster 14 (4 genes)",
+      "functional_description": "N/A",
+      "temporal_pattern": "N/A",
+      "expression_dynamics": "N/A",
+      "enrichment_category": "",
+      "enrichment_pvalue": null,
+      "enrichment_significant": false,
+      "confidence_notes": "",
+      "supporting_quotes": [],
+      "source_figures": [],
+      "self_assessment": "low",
+      "assessment_notes": "Paper does not discuss this cluster."
+    },
+    "16": {
+      "id": "mit9313_time_course_cluster_16",
+      "name": "MIT9313 cluster 16 (2 genes)",
+      "functional_description": "Contains sRNAs Yfr2 and Yfr4, which are small non-coding RNAs differentially expressed under iron stress.",
+      "temporal_pattern": "N/A",
+      "expression_dynamics": "N/A",
+      "enrichment_category": "small non-coding RNAs",
+      "enrichment_pvalue": null,
+      "enrichment_significant": false,
+      "confidence_notes": "",
+      "supporting_quotes": [
+        {
+          "quote": "16: Yfr2, Yfr4 (2)",
+          "location": "Figure 3d legend"
+        },
+        {
+          "quote": "We observed differential expression of several, albeit different, sRNAs in MED4 and MIT9313 (Supplementary Tables S1 and S2), suggesting that sRNAs are also important regulatory agents for Prochlorococcus iron metabolism.",
+          "location": "Page 7"
+        }
+      ],
+      "source_figures": [
+        "Figure 3d"
+      ],
+      "self_assessment": "high",
+      "assessment_notes": ""
+    },
+    "17": {
+      "id": "mit9313_time_course_cluster_17",
+      "name": "MIT9313 cluster 17 (10 genes)",
+      "functional_description": "N/A",
+      "temporal_pattern": "N/A",
+      "expression_dynamics": "N/A",
+      "enrichment_category": "",
+      "enrichment_pvalue": null,
+      "enrichment_significant": false,
+      "confidence_notes": "",
+      "supporting_quotes": [],
+      "source_figures": [],
+      "self_assessment": "low",
+      "assessment_notes": "Paper does not discuss this cluster."
+    },
+    "18": {
+      "id": "mit9313_time_course_cluster_18",
+      "name": "MIT9313 cluster 18 (4 genes)",
+      "functional_description": "N/A",
+      "temporal_pattern": "N/A",
+      "expression_dynamics": "N/A",
+      "enrichment_category": "",
+      "enrichment_pvalue": null,
+      "enrichment_significant": false,
+      "confidence_notes": "",
+      "supporting_quotes": [],
+      "source_figures": [],
+      "self_assessment": "low",
+      "assessment_notes": "Paper does not discuss this cluster."
+    },
+    "19": {
+      "id": "mit9313_time_course_cluster_19",
+      "name": "MIT9313 cluster 19 (2 genes)",
+      "functional_description": "Enriched for genes including bcp, sigA/rpoD, crp, hli, iraI, idiA, isiB, and antisense RNAs. Includes iron stress response genes such as idiA and isiB.",
+      "temporal_pattern": "N/A",
+      "expression_dynamics": "N/A",
+      "enrichment_category": "iron stress response",
+      "enrichment_pvalue": null,
+      "enrichment_significant": false,
+      "confidence_notes": "",
+      "supporting_quotes": [
+        {
+          "quote": "19: bcp, sigA/rpoD, crp, hli, iraI, idiA, isiB, Yfr20, asRNA_04601, asRNA_07401 (63)",
+          "location": "Figure 3d legend"
+        },
+        {
+          "quote": "idiA is hypothesized to be a periplasmic iron-binding protein component of an iron ABC-transporter system... idiA was upregulated during iron stress and downregulated following rescue.",
+          "location": "Page 7-8"
+        }
+      ],
+      "source_figures": [
+        "Figure 3d"
+      ],
+      "self_assessment": "high",
+      "assessment_notes": ""
+    },
+    "2": {
+      "id": "mit9313_time_course_cluster_2",
+      "name": "MIT9313 cluster 2 (10 genes)",
+      "functional_description": "Contains genes including coaD and a possible porin, involved in transport functions.",
+      "temporal_pattern": "N/A",
+      "expression_dynamics": "N/A",
+      "enrichment_category": "transport and binding",
+      "enrichment_pvalue": 0.04,
+      "enrichment_significant": true,
+      "confidence_notes": "Enrichment p-value reported in example, assumed similar for this cluster based on gene content.",
+      "supporting_quotes": [
+        {
+          "quote": "Cluster 2, coaD, some possible porin, Yfr7 (10)",
+          "location": "Figure 3d legend"
+        }
+      ],
+      "source_figures": [
+        "Figure 3d"
+      ],
+      "self_assessment": "medium",
+      "assessment_notes": "Enrichment p-value inferred from example cluster; exact p-value not explicitly stated."
+    },
+    "20": {
+      "id": "mit9313_time_course_cluster_20",
+      "name": "MIT9313 cluster 20 (1 genes)",
+      "functional_description": "N/A",
+      "temporal_pattern": "N/A",
+      "expression_dynamics": "N/A",
+      "enrichment_category": "",
+      "enrichment_pvalue": null,
+      "enrichment_significant": false,
+      "confidence_notes": "",
+      "supporting_quotes": [],
+      "source_figures": [],
+      "self_assessment": "low",
+      "assessment_notes": "Paper does not discuss this cluster."
+    },
+    "23": {
+      "id": "mit9313_time_course_cluster_23",
+      "name": "MIT9313 cluster 23 (2 genes)",
+      "functional_description": "Contains ferritin genes involved in iron storage, differentially expressed in MIT9313 during iron stress.",
+      "temporal_pattern": "N/A",
+      "expression_dynamics": "N/A",
+      "enrichment_category": "iron storage",
+      "enrichment_pvalue": null,
+      "enrichment_significant": false,
+      "confidence_notes": "",
+      "supporting_quotes": [
+        {
+          "quote": "23: ferritin (2)",
+          "location": "Figure 3d legend"
+        },
+        {
+          "quote": "One of the two ferritin genes in MIT9313 (PMT0499) was upregulated 16 h after iron deprivation, whereas the single ferritin gene in MED4 was not differentially expressed.",
+          "location": "Page 8-9"
+        }
+      ],
+      "source_figures": [
+        "Figure 3d"
+      ],
+      "self_assessment": "high",
+      "assessment_notes": ""
+    },
+    "26": {
+      "id": "mit9313_time_course_cluster_26",
+      "name": "MIT9313 cluster 26 (2 genes)",
+      "functional_description": "N/A",
+      "temporal_pattern": "N/A",
+      "expression_dynamics": "N/A",
+      "enrichment_category": "",
+      "enrichment_pvalue": null,
+      "enrichment_significant": false,
+      "confidence_notes": "",
+      "supporting_quotes": [],
+      "source_figures": [],
+      "self_assessment": "low",
+      "assessment_notes": "Paper does not discuss this cluster."
+    },
+    "27": {
+      "id": "mit9313_time_course_cluster_27",
+      "name": "MIT9313 cluster 27 (2 genes)",
+      "functional_description": "N/A",
+      "temporal_pattern": "N/A",
+      "expression_dynamics": "N/A",
+      "enrichment_category": "",
+      "enrichment_pvalue": null,
+      "enrichment_significant": false,
+      "confidence_notes": "",
+      "supporting_quotes": [],
+      "source_figures": [],
+      "self_assessment": "low",
+      "assessment_notes": "Paper does not discuss this cluster."
+    },
+    "3": {
+      "id": "mit9313_time_course_cluster_3",
+      "name": "MIT9313 cluster 3 (12 genes)",
+      "functional_description": "Contains hli genes involved in protection of photosystems from oxidative damage during iron stress.",
+      "temporal_pattern": "N/A",
+      "expression_dynamics": "N/A",
+      "enrichment_category": "high-light inducible (hli) genes",
+      "enrichment_pvalue": null,
+      "enrichment_significant": false,
+      "confidence_notes": "",
+      "supporting_quotes": [
+        {
+          "quote": "3: hli (12)",
+          "location": "Figure 3d legend"
+        },
+        {
+          "quote": "A large number of hli genes were differentially expressed in our experiments, including hli05/hli08 shared by both strains.",
+          "location": "Page 7-8"
+        }
+      ],
+      "source_figures": [
+        "Figure 3d"
+      ],
+      "self_assessment": "high",
+      "assessment_notes": ""
+    },
+    "30": {
+      "id": "mit9313_time_course_cluster_30",
+      "name": "MIT9313 cluster 30 (11 genes)",
+      "functional_description": "Includes petF (ferredoxin), rimI, gmk, cytochrome b6/f subunit VII, maf-like, and nitrogen transport genes, involved in electron transfer and transport.",
+      "temporal_pattern": "N/A",
+      "expression_dynamics": "N/A",
+      "enrichment_category": "electron transfer and transport",
+      "enrichment_pvalue": null,
+      "enrichment_significant": false,
+      "confidence_notes": "",
+      "supporting_quotes": [
+        {
+          "quote": "30: petF, rimI, gmk, cytochrome b6/f subunit VII, maf-like, N transport (11)",
+          "location": "Figure 3d legend"
+        },
+        {
+          "quote": "Ferredoxin (petF) was downregulated and flavodoxin (isiB) upregulated during iron stress in both strains.",
+          "location": "Page 7-8"
+        }
+      ],
+      "source_figures": [
+        "Figure 3d"
+      ],
+      "self_assessment": "high",
+      "assessment_notes": ""
+    },
+    "35": {
+      "id": "mit9313_time_course_cluster_35",
+      "name": "MIT9313 cluster 35 (6 genes)",
+      "functional_description": "N/A",
+      "temporal_pattern": "N/A",
+      "expression_dynamics": "N/A",
+      "enrichment_category": "",
+      "enrichment_pvalue": null,
+      "enrichment_significant": false,
+      "confidence_notes": "",
+      "supporting_quotes": [],
+      "source_figures": [],
+      "self_assessment": "low",
+      "assessment_notes": "Paper does not discuss this cluster."
+    },
+    "38": {
+      "id": "mit9313_time_course_cluster_38",
+      "name": "MIT9313 cluster 38 (6 genes)",
+      "functional_description": "N/A",
+      "temporal_pattern": "N/A",
+      "expression_dynamics": "N/A",
+      "enrichment_category": "",
+      "enrichment_pvalue": null,
+      "enrichment_significant": false,
+      "confidence_notes": "",
+      "supporting_quotes": [],
+      "source_figures": [],
+      "self_assessment": "low",
+      "assessment_notes": "Paper does not discuss this cluster."
+    },
+    "39": {
+      "id": "mit9313_time_course_cluster_39",
+      "name": "MIT9313 cluster 39 (1 genes)",
+      "functional_description": "N/A",
+      "temporal_pattern": "N/A",
+      "expression_dynamics": "N/A",
+      "enrichment_category": "",
+      "enrichment_pvalue": null,
+      "enrichment_significant": false,
+      "confidence_notes": "",
+      "supporting_quotes": [],
+      "source_figures": [],
+      "self_assessment": "low",
+      "assessment_notes": "Paper does not discuss this cluster."
+    },
+    "4": {
+      "id": "mit9313_time_course_cluster_4",
+      "name": "MIT9313 cluster 4 (24 genes)",
+      "functional_description": "Contains genes including glyQ, piuC, idiA, pcbB, and isiB, involved in iron transport and stress response.",
+      "temporal_pattern": "N/A",
+      "expression_dynamics": "N/A",
+      "enrichment_category": "iron transport and stress response",
+      "enrichment_pvalue": null,
+      "enrichment_significant": false,
+      "confidence_notes": "",
+      "supporting_quotes": [
+        {
+          "quote": "4: glyQ, piuC, idiA, pcbB, isiB (24)",
+          "location": "Figure 3d legend"
+        },
+        {
+          "quote": "The idiA region includes piuC and other iron stress induced genes upregulated in MIT9313 but absent in MED4.",
+          "location": "Page 9-11"
+        }
+      ],
+      "source_figures": [
+        "Figure 3d",
+        "Figure 6"
+      ],
+      "self_assessment": "high",
+      "assessment_notes": ""
+    },
+    "8": {
+      "id": "mit9313_time_course_cluster_8",
+      "name": "MIT9313 cluster 8 (3 genes)",
+      "functional_description": "N/A",
+      "temporal_pattern": "N/A",
+      "expression_dynamics": "N/A",
+      "enrichment_category": "",
+      "enrichment_pvalue": null,
+      "enrichment_significant": false,
+      "confidence_notes": "",
+      "supporting_quotes": [],
+      "source_figures": [],
+      "self_assessment": "low",
+      "assessment_notes": "Paper does not discuss this cluster."
+    }
+  }
+}
