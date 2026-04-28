@@ -559,8 +559,106 @@ def build_cazy_hierarchy(out_path: Path, eggnog_paths: list[Path]) -> int:
     return len(h)
 
 
+# ── orchestration ─────────────────────────────────────────────────────────────
+
+CACHE_ROOT = Path("cache/data")
+
+
+def _resolve_paths(cache_root: Path) -> dict[str, Path]:
+    return {
+        "chem_prop":     cache_root / "mnx" / "chem_prop.tsv",
+        "chem_xref":     cache_root / "mnx" / "chem_xref.tsv",
+        "reac_prop":     cache_root / "mnx" / "reac_prop.tsv",
+        "reac_xref":     cache_root / "mnx" / "reac_xref.tsv",
+        "families":      cache_root / "tcdb" / "families.tsv",
+        "superfamilies": cache_root / "tcdb" / "superfamilies.tsv",
+        "substrates":    cache_root / "tcdb" / "substrates.tsv",
+        "resolver_db":   cache_root / "mnx" / "metabolite_resolver.db",
+        "tcdb_json":     cache_root / "tcdb" / "tcdb_hierarchy.json",
+        "cazy_json":     cache_root / "cazy" / "cazy_hierarchy.json",
+        "report":        cache_root / "mnx" / "metabolite_id_mapping_report.json",
+    }
+
+
+def _read_mnx_release(chem_prop_path: Path) -> str:
+    """Extract '#VERSION' and '#DATE' from chem_prop.tsv comment header."""
+    version = ""
+    date = ""
+    with open(chem_prop_path, encoding="utf-8") as f:
+        for line in f:
+            if not line.startswith("#"):
+                break
+            if "VERSION" in line:
+                version = line.split(":", 1)[1].strip().rstrip("\t")
+            elif "DATE" in line:
+                date = line.split(":", 1)[1].strip().rstrip("\t")
+            if version and date:
+                break
+    if version and date:
+        # Normalize MNX's `YYYY/MM/DD` to `YYYY-MM-DD` for stable downstream IDs
+        date = date.replace("/", "-")
+        return f"MNXref {version} ({date})"
+    return "MNXref unknown"
+
+
+def _find_eggnog_annotations(cache_root: Path) -> list[Path]:
+    """Discover all <strain>.emapper.annotations files under cache_root."""
+    return sorted(cache_root.glob("*/genomes/*/eggnog/*.emapper.annotations"))
+
+
+def _alias_count_by_source(conn: sqlite3.Connection) -> dict[str, int]:
+    cur = conn.cursor()
+    cur.execute("SELECT source, COUNT(*) FROM compound_aliases GROUP BY source ORDER BY 2 DESC")
+    return dict(cur.fetchall())
+
+
 def main(force: bool = False) -> None:
-    raise NotImplementedError("Phase 1.1B — see plan for follow-up tasks")
+    logging.basicConfig(level=logging.INFO, format="%(message)s")
+    paths = _resolve_paths(CACHE_ROOT)
+
+    if not force and paths["resolver_db"].exists() and paths["tcdb_json"].exists() and paths["cazy_json"].exists():
+        log.info("All caches present; skip (use --force to rebuild).")
+        return
+
+    log.info("Building metabolite resolver + hierarchy caches")
+
+    # SQLite resolver
+    paths["resolver_db"].parent.mkdir(parents=True, exist_ok=True)
+    if paths["resolver_db"].exists():
+        paths["resolver_db"].unlink()
+    conn = sqlite3.connect(paths["resolver_db"])
+    n_compounds = build_compounds_table(conn, paths["chem_prop"])
+    build_compound_aliases_table(conn, paths["chem_xref"])
+    build_compound_names_table(conn, paths["chem_xref"])
+    n_reactions = build_reactions_table(conn, paths["reac_prop"])
+    build_reaction_aliases_table(conn, paths["reac_xref"])
+    conn.commit()
+
+    alias_counts = _alias_count_by_source(conn)
+    conn.close()
+
+    # TCDB hierarchy
+    n_tcdb = build_tcdb_hierarchy(
+        paths["tcdb_json"], paths["families"], paths["superfamilies"], paths["substrates"]
+    )
+
+    # CAZy hierarchy (bootstrapped from eggNOG observations)
+    eggnog_paths = _find_eggnog_annotations(CACHE_ROOT)
+    n_cazy = build_cazy_hierarchy(paths["cazy_json"], eggnog_paths)
+
+    # Diagnostic report
+    report = {
+        "mnx_release":              _read_mnx_release(paths["chem_prop"]),
+        "compound_count":           n_compounds,
+        "reaction_count":           n_reactions,
+        "alias_counts_by_source":   alias_counts,
+        "tcdb_hierarchy_entry_count": n_tcdb,
+        "cazy_hierarchy_entry_count": n_cazy,
+        "eggnog_annotation_files_scanned": len(eggnog_paths),
+    }
+    paths["report"].write_text(json.dumps(report, indent=2))
+    log.info(f"  metabolite_id_mapping_report.json written ({len(report)} fields)")
+    log.info("Done.")
 
 
 if __name__ == "__main__":

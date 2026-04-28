@@ -315,3 +315,41 @@ def test_build_cazy_hierarchy(tmp_path):
 
     assert h["CBM48"]["parent"] == "CBM"
     assert h["GH32"]["parent"] == "GH"
+
+
+def test_build_main_end_to_end(tmp_path, monkeypatch):
+    """main() wires all builders + writes diagnostic report. Synthetic cache."""
+    cache = tmp_path / "cache" / "data"
+    (cache / "mnx").mkdir(parents=True)
+    (cache / "tcdb").mkdir(parents=True)
+
+    # Synthesize all the input files
+    (cache / "mnx" / "chem_prop.tsv").write_text(CHEM_PROP_FIXTURE)
+    (cache / "mnx" / "chem_xref.tsv").write_text(CHEM_XREF_FIXTURE)
+    (cache / "mnx" / "reac_prop.tsv").write_text(REAC_PROP_FIXTURE)
+    (cache / "mnx" / "reac_xref.tsv").write_text(REAC_XREF_FIXTURE)
+    (cache / "tcdb" / "families.tsv").write_text(TCDB_FAMILIES_FIXTURE)
+    (cache / "tcdb" / "superfamilies.tsv").write_text(TCDB_SUPERFAMILIES_FIXTURE)
+    (cache / "tcdb" / "substrates.tsv").write_text(TCDB_SUBSTRATES_FIXTURE)
+
+    # Synthesize a tiny eggNOG annotation for one strain
+    strain_dir = cache / "Prochlorococcus" / "genomes" / "MED4" / "eggnog"
+    strain_dir.mkdir(parents=True)
+    (strain_dir / "MED4.emapper.annotations").write_text(EGGNOG_FIXTURE)
+
+    monkeypatch.chdir(tmp_path)
+    bmr.main(force=True)
+
+    # All four outputs exist
+    assert (cache / "mnx" / "metabolite_resolver.db").exists()
+    assert (cache / "tcdb" / "tcdb_hierarchy.json").exists()
+    assert (cache / "cazy" / "cazy_hierarchy.json").exists()
+    assert (cache / "mnx" / "metabolite_id_mapping_report.json").exists()
+
+    # Diagnostic report has expected keys
+    report = json.loads((cache / "mnx" / "metabolite_id_mapping_report.json").read_text())
+    assert report["mnx_release"] == "MNXref 4.5 (2025-08-13)"
+    assert report["compound_count"] == 3
+    assert report["reaction_count"] == 3
+    assert report["tcdb_hierarchy_entry_count"] >= 7
+    assert report["cazy_hierarchy_entry_count"] >= 6  # at least the 6 classes

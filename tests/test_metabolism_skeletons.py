@@ -54,12 +54,3 @@ def test_cazy_utils_imports_and_raises():
         cazy_utils.cazy_ancestors("GH13_1")
     with pytest.raises(NotImplementedError):
         cazy_utils.is_valid_cazy("GH13_1")
-
-
-def test_build_metabolite_resolver_imports_and_raises():
-    from multiomics_kg.download import build_metabolite_resolver
-
-    assert hasattr(build_metabolite_resolver, "main")
-
-    with pytest.raises(NotImplementedError):
-        build_metabolite_resolver.main(force=False)
