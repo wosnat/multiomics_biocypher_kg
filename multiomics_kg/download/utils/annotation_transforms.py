@@ -246,6 +246,39 @@ def _tx_normalize_ec(value: str) -> str | list[str]:
     return successors  # multi-successor: list
 
 
+# ── Phase 1.1B metabolism transforms ──────────────────────────────────────────
+
+from multiomics_kg.utils.metabolite_utils import open_resolver, resolve_reaction
+from multiomics_kg.utils.tcdb_utils import is_valid_tcdb
+from multiomics_kg.utils.cazy_utils import is_valid_cazy
+
+_RESOLVER_CONN = None
+
+
+def _get_resolver_conn():
+    """Lazy open + cache module-level resolver connection."""
+    global _RESOLVER_CONN
+    if _RESOLVER_CONN is None:
+        _RESOLVER_CONN = open_resolver()
+    return _RESOLVER_CONN
+
+
+def _tx_resolve_kegg_reaction_to_mnxr(value: str) -> str | None:
+    """KEGG R-number → MNXR ID. Returns None if unresolved (drops the token)."""
+    mnxr, _method = resolve_reaction(value, _get_resolver_conn())
+    return mnxr
+
+
+def _tx_validate_tcdb(value: str) -> str | None:
+    """Drop TC IDs not present in the TCDB hierarchy."""
+    return value if is_valid_tcdb(value) else None
+
+
+def _tx_validate_cazy(value: str) -> str | None:
+    """Drop CAZy IDs not present in the CAZy hierarchy."""
+    return value if is_valid_cazy(value) else None
+
+
 # Map from YAML transform name → function
 _TRANSFORMS: dict[str, Any] = {
     "first_token_space": _tx_first_token_space,
@@ -262,4 +295,7 @@ _TRANSFORMS: dict[str, Any] = {
     "extract_signal_range": _tx_extract_signal_range,
     "split_cog_category": _tx_split_cog_category,
     "normalize_ec": _tx_normalize_ec,
+    "resolve_kegg_reaction_to_mnxr": _tx_resolve_kegg_reaction_to_mnxr,
+    "validate_tcdb":                  _tx_validate_tcdb,
+    "validate_cazy":                  _tx_validate_cazy,
 }
