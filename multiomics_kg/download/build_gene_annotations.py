@@ -772,6 +772,77 @@ class AnnotationBuilder:
 
 # ─── per-strain pipeline ──────────────────────────────────────────────────────
 
+def _write_metabolism_report(strain_name: str, data_dir: Path,
+                              raw_eggnog_path: Path,
+                              merged: dict) -> None:
+    """Generate step2_metabolism_report.json for one strain.
+
+    Counts raw values (from eggNOG TSV cols 15/18/19) vs resolved/validated
+    values (from the merged JSON's kegg_reactions / transporter_classification /
+    cazy_ids fields).
+    """
+    raw_kegg: list[str] = []
+    raw_tc: list[str] = []
+    raw_cazy: list[str] = []
+
+    if raw_eggnog_path.exists():
+        with open(raw_eggnog_path, encoding="utf-8") as f:
+            for line in f:
+                if line.startswith("#") or not line.strip():
+                    continue
+                cols = line.rstrip("\n").split("\t")
+                if len(cols) <= 18:
+                    continue
+                for col_idx, target in ((14, raw_kegg), (17, raw_tc), (18, raw_cazy)):
+                    cell = cols[col_idx] if col_idx < len(cols) else ""
+                    if cell in ("", "-"):
+                        continue
+                    for tok in cell.split(","):
+                        tok = tok.strip()
+                        if tok:
+                            target.append(tok)
+
+    resolved_mnxr: set[str] = set()
+    validated_tc: set[str] = set()
+    validated_cazy: set[str] = set()
+    for gene in merged.values():
+        resolved_mnxr.update(gene.get("kegg_reactions", []))
+        validated_tc.update(gene.get("transporter_classification", []))
+        validated_cazy.update(gene.get("cazy_ids", []))
+
+    invalid_tc = sorted(set(raw_tc) - validated_tc)[:10]
+    invalid_cazy = sorted(set(raw_cazy) - validated_cazy)[:10]
+
+    report = {
+        "strain": strain_name,
+        "gene_count": len(merged),
+        "kegg_reactions": {
+            "raw_total":             len(raw_kegg),
+            "raw_unique":            len(set(raw_kegg)),
+            "resolved_total":        sum(len(g.get("kegg_reactions", [])) for g in merged.values()),
+            "resolved_unique_mnxr":  len(resolved_mnxr),
+            "unresolved_unique":     len(set(raw_kegg)) - len(resolved_mnxr),
+        },
+        "transporter_classification": {
+            "raw_total":         len(raw_tc),
+            "raw_unique":        len(set(raw_tc)),
+            "validated_total":   sum(len(g.get("transporter_classification", [])) for g in merged.values()),
+            "validated_unique":  len(validated_tc),
+            "invalid_examples":  invalid_tc,
+        },
+        "cazy_ids": {
+            "raw_total":         len(raw_cazy),
+            "raw_unique":        len(set(raw_cazy)),
+            "validated_total":   sum(len(g.get("cazy_ids", [])) for g in merged.values()),
+            "validated_unique":  len(validated_cazy),
+            "invalid_examples":  invalid_cazy,
+        },
+    }
+
+    out_path = data_dir / "step2_metabolism_report.json"
+    out_path.write_text(json.dumps(report, indent=2))
+
+
 def process_strain(
     row: dict,
     config: dict,
@@ -901,6 +972,13 @@ def process_strain(
     with open(merged_path, "w") as f:
         json.dump(merged_out, f, indent=2, sort_keys=True)
     print(f"  → {merged_path}")
+
+    _write_metabolism_report(
+        strain_name=strain_name,
+        data_dir=Path(data_dir),
+        raw_eggnog_path=Path(data_dir) / "eggnog" / f"{strain_name}.emapper.annotations",
+        merged=merged_out,
+    )
 
     # Coverage report
     n = stats["total"] or 1
