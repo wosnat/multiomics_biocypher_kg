@@ -552,6 +552,8 @@ class AnnotationBuilder:
                 tokens = _coerce_to_tokens(raw, delimiter)
 
             for tok in tokens:
+                if tok is None:
+                    continue
                 tok = str(tok).strip()
                 if not tok or tok == "-":
                     continue
