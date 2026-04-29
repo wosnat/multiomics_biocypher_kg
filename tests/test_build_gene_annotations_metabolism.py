@@ -101,3 +101,25 @@ def test_yaml_transforms_produce_resolved_fields(tmp_path, monkeypatch):
     assert "None" not in gene["transporter_classification"]
     assert "None" not in gene["cazy_ids"]
     assert "None" not in gene["kegg_reactions"]
+
+
+def test_apply_transform_filters_none_from_list_path(monkeypatch):
+    """Regression: _apply_transform's list path must drop None-returning transforms.
+
+    Without this fix, a None-returning transform applied to a list value via
+    a passthrough/single resolver would leak `None` into the merged dict, then
+    later get serialized as the literal string 'None' downstream.
+    """
+    from multiomics_kg.download.build_gene_annotations import AnnotationBuilder
+
+    # Minimal stub builder; _apply_transform doesn't depend on instance state
+    builder = AnnotationBuilder.__new__(AnnotationBuilder)
+
+    # validate_cazy is registered in _TRANSFORMS and returns None for invalid IDs.
+    # The patch_metabolism_caches fixture (autouse) has already loaded a CAZy hierarchy
+    # with GH13_1 valid and XX99 invalid.
+    result = builder._apply_transform("validate_cazy", ["GH13_1", "XX99"])
+
+    assert result == ["GH13_1"]
+    assert None not in result
+    assert "None" not in result  # belt-and-suspenders against str() coercion

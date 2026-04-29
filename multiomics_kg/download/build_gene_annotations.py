@@ -427,7 +427,7 @@ class AnnotationBuilder:
             return value
         fn = _TRANSFORMS[transform]
         if isinstance(value, list):
-            return [fn(v) for v in value if _nonempty(v)]
+            return [r for r in (fn(v) for v in value if _nonempty(v)) if r is not None]
         return fn(value)
 
     # ── resolver: passthrough ──────────────────────────────────────────────────
