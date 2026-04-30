@@ -1,16 +1,20 @@
 """
-KEGG REST API utilities: download and cache the data needed to build the KEGG
-4-level hierarchy (KO → Pathway → Subcategory → Category).
+KEGG REST API utilities: low-level fetch helpers, parsers for each endpoint,
+and the lightweight raw-cache populator (``download_kegg_raw``) plus a
+loader (``load_kegg_data``) for the pruned ``kegg_data.json`` produced by
+step 6 of ``prepare_data.sh``.
 
 All network calls use the public KEGG REST API (no auth required):
   https://rest.kegg.jp/
 
-Two-level cache:
-  <cache_root>/kegg/raw/          — raw REST responses (one file per endpoint)
-  <cache_root>/kegg/kegg_data.json — parsed/aggregated dict (fast path)
+Two-level cache (owned by step 6, ``build_kegg_metabolism_xrefs``):
+  <cache_root>/kegg/raw/           — raw REST responses (one file per endpoint)
+  <cache_root>/kegg/kegg_data.json — pruned, nested-shape aggregate dict
 
 The raw cache avoids re-downloading from KEGG when only the parser changes.
-Pass ``force=True`` to re-download raw files and rebuild kegg_data.json.
+This module no longer authors ``kegg_data.json``; ``build_kegg_metabolism_xrefs``
+is the single producer, and consumers (e.g. ``MultiKeggAnnotationAdapter``)
+read it via ``load_kegg_data``.
 """
 
 from __future__ import annotations
@@ -358,81 +362,34 @@ def download_kegg_raw(cache_root: Path, force: bool = False) -> None:
     _fetch_json_cached(_BRITE_KO_URL, raw_dir=raw_dir, force=force)
 
 
-def download_kegg_data(cache_root: Path, force: bool = False) -> dict:
+def load_kegg_data(cache_root: Path) -> dict:
+    """Load the pruned ``kegg_data.json`` written by step 6 of ``prepare_data.sh``.
+
+    The file has the nested-object shape:
+
+    .. code-block:: json
+
+        {
+          "kos":           {"K02338": {"name": "...", "pathways": ["ko03030"]}},
+          "pathways":      {"ko03030": {"name": "...", "subcategory": "09124"}},
+          "subcategories": {"09124":   {"name": "...", "category": "09100"}},
+          "categories":    {"09100":   {"name": "..."}},
+          "reactions":     {"R00200":  {...}},
+          "compounds":     {"C00031":  {...}}
+        }
+
+    Step 6 (``build_kegg_metabolism_xrefs``) is the single owner of this file.
+    Build-time adapters (``MultiKeggAnnotationAdapter``, ``metabolism_adapter``)
+    only read it.
+
+    Raises:
+        FileNotFoundError: if the cache is missing — pointing the user at the
+            command that produces it.
     """
-    Download and cache KEGG hierarchy data needed for the 4-level KEGG graph,
-    plus metabolism endpoints (reactions, compounds, and their associations).
-
-    Returns a dict with keys:
-      - ``ko_names``: ``{K#####: description_str}``
-      - ``pathway_names``: ``{ko#####: name_str}``
-      - ``ko_to_pathways``: ``{K#####: [ko#####, ...]}``
-      - ``pathway_to_subcategory``: ``{ko#####: subcat_code_str}``
-      - ``subcategory_names``: ``{subcat_code: name_str}``
-      - ``subcategory_to_category``: ``{subcat_code: cat_code_str}``
-      - ``category_names``: ``{cat_code: name_str}``
-      - ``reaction_names``: ``{R#####: description_str}`` (Spec 1.2)
-      - ``compound_names``: ``{C#####: name_str}`` (Spec 1.2)
-      - ``reaction_to_compounds``: ``{R#####: [C#####, ...]}`` (Spec 1.2)
-      - ``reaction_to_pathways``: ``{R#####: [ko#####, ...]}`` (Spec 1.2)
-      - ``compound_to_pathways``: ``{C#####: [ko#####, ...]}`` (Spec 1.2)
-
-    Two-level cache:
-      - Fast path: if ``<cache_root>/kegg/kegg_data.json`` exists and
-        ``force=False``, load and return it immediately.
-      - Raw cache: each endpoint's response is stored under
-        ``<cache_root>/kegg/raw/``.  When ``kegg_data.json`` is missing but
-        raw files exist, the parser reads from disk without hitting the network.
-      - ``force=True`` re-downloads all raw files and rebuilds ``kegg_data.json``.
-    """
-    cache_dir = Path(cache_root) / "kegg"
-    cache_file = cache_dir / "kegg_data.json"
-    raw_dir = cache_dir / "raw"
-
-    if cache_file.exists() and not force:
-        logger.info(f"Loading KEGG data from cache: {cache_file}")
-        with open(cache_file, encoding="utf-8") as fh:
-            return json.load(fh)
-
-    logger.info("Building KEGG data (downloads from REST if raw cache is missing) ...")
-    cache_dir.mkdir(parents=True, exist_ok=True)
-
-    ko_names = _parse_ko_names(_fetch_text_cached(_KO_LIST_URL, raw_dir, force))
-    ko_to_pathways = _parse_ko_to_pathways(_fetch_text_cached(_KO_PATHWAY_LINK_URL, raw_dir, force))
-    brite_json = _fetch_json_cached(_BRITE_KO_URL, raw_dir, force)
-    pathway_to_subcat, subcat_names, subcat_to_cat, cat_names, brite_pw_names = (
-        _parse_brite_hierarchy(brite_json)
-    )
-    # Supplement BRITE pathway names with list/pathway/ko API names.
-    # Global/overview maps (ko01100–ko01320) are absent from BRITE but present
-    # in the pathway list API.
-    api_pw_names = _parse_pathway_ko_names(_fetch_text_cached(_PATHWAY_KO_LIST_URL, raw_dir, force))
-    pathway_names = {**api_pw_names, **brite_pw_names}  # BRITE wins on overlap
-
-    # ── Spec 1.2 metabolism endpoints ─────────────────────────────────
-    reaction_names = _parse_reaction_names(_fetch_text_cached(_REACTION_LIST_URL, raw_dir, force))
-    compound_names = _parse_compound_names(_fetch_text_cached(_COMPOUND_LIST_URL, raw_dir, force))
-    reaction_to_compounds = _parse_reaction_to_compounds(_fetch_text_cached(_LINK_COMPOUND_REACTION_URL, raw_dir, force))
-    reaction_to_pathways = _parse_reaction_to_pathways(_fetch_text_cached(_LINK_PATHWAY_REACTION_URL, raw_dir, force))
-    compound_to_pathways = _parse_compound_to_pathways(_fetch_text_cached(_LINK_PATHWAY_COMPOUND_URL, raw_dir, force))
-
-    data = {
-        "ko_names": ko_names,
-        "pathway_names": pathway_names,
-        "ko_to_pathways": ko_to_pathways,
-        "pathway_to_subcategory": pathway_to_subcat,
-        "subcategory_names": subcat_names,
-        "subcategory_to_category": subcat_to_cat,
-        "category_names": cat_names,
-        # Spec 1.2 — metabolism
-        "reaction_names": reaction_names,
-        "compound_names": compound_names,
-        "reaction_to_compounds": reaction_to_compounds,
-        "reaction_to_pathways": reaction_to_pathways,
-        "compound_to_pathways": compound_to_pathways,
-    }
-
-    with open(cache_file, "w", encoding="utf-8") as fh:
-        json.dump(data, fh, sort_keys=True)
-    logger.info(f"KEGG data cached to {cache_file}")
-    return data
+    p = Path(cache_root) / "kegg" / "kegg_data.json"
+    if not p.exists():
+        raise FileNotFoundError(
+            f"{p} missing — run `bash scripts/prepare_data.sh --steps 6` first."
+        )
+    with open(p, encoding="utf-8") as fh:
+        return json.load(fh)

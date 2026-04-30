@@ -8,14 +8,12 @@ All tests are offline — no real network calls, no live Neo4j required.
 import json
 import pytest
 from pathlib import Path
-from unittest.mock import patch, MagicMock
 
 from multiomics_kg.utils.kegg_utils import (
     _parse_ko_names,
     _parse_ko_to_pathways,
     _parse_pathway_ko_names,
     _parse_brite_hierarchy,
-    download_kegg_data,
 )
 from multiomics_kg.adapters.functional_annotation_adapter import (
     KeggAnnotationAdapter,
@@ -31,33 +29,25 @@ from multiomics_kg.adapters.functional_annotation_adapter import (
 # Shared minimal test data
 # ---------------------------------------------------------------------------
 
+# New nested-shape kegg_data.json fixture (Phase 1.2.1).
+# Top-level keys: kos / pathways / subcategories / categories
+# (reactions and compounds aren't consumed by the KEGG annotation adapter, so
+# they're omitted here; metabolism_adapter has its own fixtures).
 MINI_KEGG_DATA = {
-    "ko_names": {
-        "K02338": "DNA-directed DNA polymerase; dnaN",
-        "K01952": "phosphoribosylformylglycinamidine synthase; purL",
+    "kos": {
+        "K02338": {"name": "DNA-directed DNA polymerase; dnaN", "pathways": ["ko03030"]},
+        "K01952": {"name": "phosphoribosylformylglycinamidine synthase; purL", "pathways": ["ko00230"]},
     },
-    "pathway_names": {
-        "ko03030": "DNA replication",
-        "ko00230": "Purine metabolism",
+    "pathways": {
+        "ko03030": {"name": "DNA replication", "subcategory": "09124"},
+        "ko00230": {"name": "Purine metabolism", "subcategory": "09102"},
     },
-    "ko_to_pathways": {
-        "K02338": ["ko03030"],
-        "K01952": ["ko00230"],
+    "subcategories": {
+        "09124": {"name": "Replication and repair", "category": "09100"},
+        "09102": {"name": "Energy metabolism", "category": "09100"},
     },
-    "pathway_to_subcategory": {
-        "ko03030": "09124",
-        "ko00230": "09102",
-    },
-    "subcategory_names": {
-        "09124": "Replication and repair",
-        "09102": "Energy metabolism",
-    },
-    "subcategory_to_category": {
-        "09124": "09100",
-        "09102": "09100",
-    },
-    "category_names": {
-        "09100": "Metabolism",
+    "categories": {
+        "09100": {"name": "Metabolism"},
     },
 }
 
@@ -190,42 +180,6 @@ def test_parse_brite_hierarchy():
     # Pathway names extracted from C-level labels
     assert pw_names["ko00230"] == "Purine metabolism"
     assert pw_names["ko03030"] == "DNA replication"
-
-
-def test_download_kegg_data_uses_cache(kegg_cache):
-    """If cache exists, no network calls are made."""
-    with patch("multiomics_kg.utils.kegg_utils.requests.get") as mock_get:
-        result = download_kegg_data(kegg_cache)
-        mock_get.assert_not_called()
-    assert result["ko_names"]["K02338"] == "DNA-directed DNA polymerase; dnaN"
-
-
-def test_download_kegg_data_writes_cache(tmp_path):
-    """With no cache, data is fetched and written."""
-    mock_resp = MagicMock()
-    mock_resp.raise_for_status = MagicMock()
-    mock_resp.text = "ko:K02338\tDNA polymerase\n"
-    mock_resp.json.return_value = {"name": "ko00001", "children": []}
-
-    with patch("multiomics_kg.utils.kegg_utils.requests.get", return_value=mock_resp):
-        result = download_kegg_data(tmp_path, force=False)
-
-    cache_file = tmp_path / "kegg" / "kegg_data.json"
-    assert cache_file.exists()
-    assert "ko_names" in result
-
-
-def test_download_kegg_data_force_refetch(kegg_cache):
-    """force=True re-downloads even if cache exists."""
-    mock_resp = MagicMock()
-    mock_resp.raise_for_status = MagicMock()
-    mock_resp.text = "ko:K99999\tNew KO\n"
-    mock_resp.json.return_value = {"name": "ko00001", "children": []}
-
-    with patch("multiomics_kg.utils.kegg_utils.requests.get", return_value=mock_resp):
-        result = download_kegg_data(kegg_cache, force=True)
-
-    assert "K99999" in result["ko_names"]
 
 
 # ---------------------------------------------------------------------------

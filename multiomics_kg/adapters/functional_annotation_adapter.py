@@ -49,7 +49,7 @@ from pathlib import Path
 from bioregistry import normalize_curie
 
 from multiomics_kg.adapters.ec_adapter import EC
-from multiomics_kg.utils.kegg_utils import download_kegg_data
+from multiomics_kg.utils.kegg_utils import load_kegg_data
 from multiomics_kg.utils.cyanorak_role_utils import parse_cyanorak_role_tree, full_role_description
 from multiomics_kg.utils.go_utils import (
     NAMESPACE_TO_LABEL,
@@ -523,11 +523,18 @@ class MultiKeggAnnotationAdapter:
     - ``gene_has_kegg_ko`` edges from per-strain gene annotations.
     - ``kegg_term_is_a_kegg_term`` hierarchy edges (KO→Pathway→Subcategory→Category).
 
+    Reads the pruned, nested ``kegg_data.json`` written by step 6 of
+    ``prepare_data.sh`` (``build_kegg_metabolism_xrefs``). The cache must
+    already exist at build time; per-strain pruning is no longer applied
+    here — the cache itself is pre-pruned.
+
     Args:
         genome_config_file: path to ``cyanobacteria_genomes.csv``
         cache_root: project-level cache directory (e.g. ``Path("cache/data")``)
         test_mode: passed to per-strain adapters (stop after 100 gene→KO edges)
-        cache: if False, force re-download KEGG data even if cache exists
+        cache: deprecated no-op kept for API stability — the adapter no longer
+            triggers downloads; rebuild ``kegg_data.json`` via
+            ``bash scripts/prepare_data.sh --steps 6 --force``
     """
 
     def __init__(
@@ -538,7 +545,7 @@ class MultiKeggAnnotationAdapter:
         cache: bool = True,
     ) -> None:
         self.test_mode = test_mode
-        self.kegg_data = download_kegg_data(Path(cache_root), force=not cache)
+        self.kegg_data = load_kegg_data(Path(cache_root))
         self._strain_adapters: list[KeggAnnotationAdapter] = []
         self._build_strain_adapters(genome_config_file)
 
@@ -574,33 +581,36 @@ class MultiKeggAnnotationAdapter:
         Yield KeggTerm nodes with ``level`` property, deduplicated.
 
         Order: KO → Pathway → Subcategory → Category (specific → general).
-        Only nodes reachable from KOs referenced in the gene annotations are emitted.
+        Only nodes reachable from KOs referenced in the gene annotations are
+        emitted. The cache is already pruned to a gene-reachable subset by
+        step 6, so we just iterate it.
         """
         ko_ids = self.all_ko_ids()
         logger.info(f"MultiKeggAnnotationAdapter: {len(ko_ids)} unique KO IDs across all strains")
 
-        ko_names = self.kegg_data.get("ko_names", {})
-        ko_to_pathways = self.kegg_data.get("ko_to_pathways", {})
-        pathway_names = self.kegg_data.get("pathway_names", {})
-        pathway_to_subcat = self.kegg_data.get("pathway_to_subcategory", {})
-        subcat_names = self.kegg_data.get("subcategory_names", {})
-        subcat_to_cat = self.kegg_data.get("subcategory_to_category", {})
-        cat_names = self.kegg_data.get("category_names", {})
+        kos = self.kegg_data.get("kos", {})
+        pathways = self.kegg_data.get("pathways", {})
+        subcategories = self.kegg_data.get("subcategories", {})
+        categories = self.kegg_data.get("categories", {})
 
-        # Collect pathway, subcategory, category IDs reachable from our KOs
+        # Collect pathway, subcategory, category IDs reachable from our KOs.
+        # Defensive .get() everywhere — orphan/global pathways may have no
+        # subcategory (and therefore no category) parent.
         pw_ids: set[str] = set()
         for ko_id in ko_ids:
-            pw_ids.update(ko_to_pathways.get(ko_id, []))
+            ko_entry = kos.get(ko_id)
+            if ko_entry:
+                pw_ids.update(ko_entry.get("pathways", []))
 
         subcat_ids: set[str] = set()
         for pw_id in pw_ids:
-            sc = pathway_to_subcat.get(pw_id)
+            sc = pathways.get(pw_id, {}).get("subcategory")
             if sc:
                 subcat_ids.add(sc)
 
         cat_ids: set[str] = set()
         for sc in subcat_ids:
-            cat = subcat_to_cat.get(sc)
+            cat = subcategories.get(sc, {}).get("category")
             if cat:
                 cat_ids.add(cat)
 
@@ -608,7 +618,7 @@ class MultiKeggAnnotationAdapter:
         ko_count = 0
         retired_kos = []
         for ko_id in sorted(ko_ids):
-            raw_name = ko_names.get(ko_id, "")
+            raw_name = kos.get(ko_id, {}).get("name", "")
             if not raw_name:
                 # KO exists in eggNOG annotations but was retired from KEGG;
                 # use the bare ID as a fallback name.
@@ -627,7 +637,7 @@ class MultiKeggAnnotationAdapter:
         # Yield Pathway nodes
         pw_count = 0
         for pw_id in sorted(pw_ids):
-            name = _clean_str(pathway_names.get(pw_id, ""))
+            name = _clean_str(pathways.get(pw_id, {}).get("name", ""))
             yield (_pathway_node_id(pw_id), "kegg_term", {"name": name, "level_kind": "pathway", "level": 2})
             pw_count += 1
         logger.info(f"MultiKeggAnnotationAdapter.get_nodes: {pw_count} pathway nodes")
@@ -635,7 +645,7 @@ class MultiKeggAnnotationAdapter:
         # Yield Subcategory nodes
         sc_count = 0
         for sc in sorted(subcat_ids):
-            name = _clean_str(subcat_names.get(sc, ""))
+            name = _clean_str(subcategories.get(sc, {}).get("name", ""))
             yield (_subcat_node_id(sc), "kegg_term", {"name": name, "level_kind": "subcategory", "level": 1})
             sc_count += 1
         logger.info(f"MultiKeggAnnotationAdapter.get_nodes: {sc_count} subcategory nodes")
@@ -643,7 +653,7 @@ class MultiKeggAnnotationAdapter:
         # Yield Category nodes
         cat_count = 0
         for cat in sorted(cat_ids):
-            name = _clean_str(cat_names.get(cat, ""))
+            name = _clean_str(categories.get(cat, {}).get("name", ""))
             yield (_cat_node_id(cat), "kegg_term", {"name": name, "level_kind": "category", "level": 0})
             cat_count += 1
         logger.info(f"MultiKeggAnnotationAdapter.get_nodes: {cat_count} category nodes")
@@ -652,13 +662,13 @@ class MultiKeggAnnotationAdapter:
         """
         Yield all KEGG edges in order:
         1. gene→KO (gene_has_kegg_ko) from per-strain adapters
-        2. KO→Pathway (kegg_term_is_a_kegg_term) from KEGG REST API
+        2. KO→Pathway (kegg_term_is_a_kegg_term) from the pruned cache
         3. Pathway→Subcategory (kegg_term_is_a_kegg_term)
         4. Subcategory→Category (kegg_term_is_a_kegg_term)
         """
-        ko_to_pathways = self.kegg_data.get("ko_to_pathways", {})
-        pathway_to_subcat = self.kegg_data.get("pathway_to_subcategory", {})
-        subcat_to_cat = self.kegg_data.get("subcategory_to_category", {})
+        kos = self.kegg_data.get("kos", {})
+        pathways = self.kegg_data.get("pathways", {})
+        subcategories = self.kegg_data.get("subcategories", {})
 
         # 1. gene → KO edges
         gene_ko_count = 0
@@ -672,13 +682,18 @@ class MultiKeggAnnotationAdapter:
         ko_ids = self.all_ko_ids()
         pw_ids: set[str] = set()
         for ko_id in ko_ids:
-            pw_ids.update(ko_to_pathways.get(ko_id, []))
+            ko_entry = kos.get(ko_id)
+            if ko_entry:
+                pw_ids.update(ko_entry.get("pathways", []))
 
         # 2. KO → Pathway edges
         ko_pw_count = 0
         seen_ko_pw: set[tuple] = set()
         for ko_id in sorted(ko_ids):
-            for pw_id in ko_to_pathways.get(ko_id, []):
+            ko_entry = kos.get(ko_id)
+            if not ko_entry:
+                continue
+            for pw_id in ko_entry.get("pathways", []):
                 key = (ko_id, pw_id)
                 if key in seen_ko_pw:
                     continue
@@ -697,7 +712,7 @@ class MultiKeggAnnotationAdapter:
         pw_sc_count = 0
         seen_pw_sc: set[tuple] = set()
         for pw_id in sorted(pw_ids):
-            sc = pathway_to_subcat.get(pw_id)
+            sc = pathways.get(pw_id, {}).get("subcategory")
             if not sc:
                 continue
             key = (pw_id, sc)
@@ -717,10 +732,14 @@ class MultiKeggAnnotationAdapter:
         )
 
         # 4. Subcategory → Category edges
-        subcat_ids: set[str] = {pathway_to_subcat[pw] for pw in pw_ids if pw in pathway_to_subcat}
+        subcat_ids: set[str] = set()
+        for pw_id in pw_ids:
+            sc = pathways.get(pw_id, {}).get("subcategory")
+            if sc:
+                subcat_ids.add(sc)
         sc_cat_count = 0
         for sc in sorted(subcat_ids):
-            cat = subcat_to_cat.get(sc)
+            cat = subcategories.get(sc, {}).get("category")
             if not cat:
                 continue
             yield (

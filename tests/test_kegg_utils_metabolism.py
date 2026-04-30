@@ -1,7 +1,10 @@
 """Unit tests for the 5 new KEGG endpoints introduced in Spec 1.2."""
 from __future__ import annotations
 
+import json
 import textwrap
+
+import pytest
 
 from multiomics_kg.utils import kegg_utils
 
@@ -75,61 +78,6 @@ def test_parse_compound_to_pathways_strips_map_prefix():
     assert sorted(out["C00031"]) == ["ko00010", "ko00500"]
 
 
-def test_download_kegg_data_includes_metabolism_keys(tmp_path, monkeypatch):
-    """download_kegg_data should populate the 5 new metabolism keys."""
-
-    # Stub the network: return synthetic fixtures for every URL we know about.
-    def fake_fetch_text(url: str) -> str:
-        if url.endswith("/list/ko"):
-            return "ko:K02338\tDNA polymerase III\n"
-        if url.endswith("/link/pathway/ko"):
-            return "ko:K02338\tpath:ko03030\n"
-        if url.endswith("/list/pathway/ko"):
-            return "path:ko03030\tDNA replication\n"
-        if url.endswith("/list/reaction"):
-            return REACTION_LIST_FIXTURE
-        if url.endswith("/list/compound"):
-            return COMPOUND_LIST_FIXTURE
-        if url.endswith("/link/compound/reaction"):
-            return LINK_CR_FIXTURE
-        if url.endswith("/link/pathway/reaction"):
-            return LINK_PR_FIXTURE
-        if url.endswith("/link/pathway/compound"):
-            return LINK_PC_FIXTURE
-        raise AssertionError(f"unexpected URL {url}")
-
-    def fake_fetch_json(url: str) -> dict:
-        # Minimal BRITE skeleton — children empty, parsers handle that gracefully
-        return {"children": []}
-
-    monkeypatch.setattr(kegg_utils, "_fetch_text", fake_fetch_text)
-    monkeypatch.setattr(kegg_utils, "_fetch_json", fake_fetch_json)
-
-    data = kegg_utils.download_kegg_data(tmp_path, force=True)
-
-    # Pre-existing keys still present
-    for key in ("ko_names", "pathway_names", "ko_to_pathways"):
-        assert key in data
-
-    # New Spec 1.2 keys
-    assert data["reaction_names"] == {
-        "R00200": "pyruvate kinase reaction",
-        "R00010": "phosphofructokinase reaction",
-        "R12345": "",
-    }
-    assert data["compound_names"]["C00031"] == "D-glucose"
-    assert sorted(data["reaction_to_compounds"]["R00200"]) == ["C00008", "C00074"]
-    assert sorted(data["reaction_to_pathways"]["R00200"]) == ["ko00010", "ko00710"]
-    assert sorted(data["compound_to_pathways"]["C00031"]) == ["ko00010", "ko00500"]
-
-    # Cache file written and round-trips
-    cache_file = tmp_path / "kegg" / "kegg_data.json"
-    assert cache_file.exists()
-    import json
-    reloaded = json.loads(cache_file.read_text())
-    assert reloaded["reaction_names"] == data["reaction_names"]
-
-
 def test_download_kegg_raw_populates_raw_dir(tmp_path, monkeypatch):
     """download_kegg_raw should populate cache/data/kegg/raw/ with 8 .txt + 1 .json."""
     text_calls: list[str] = []
@@ -170,53 +118,32 @@ def test_download_kegg_raw_populates_raw_dir(tmp_path, monkeypatch):
     assert len(json_calls) == 1
 
 
-def test_download_kegg_data_uses_raw_cache_on_second_call(tmp_path, monkeypatch):
-    """Second call with force=False must not hit the network — raw cache is reused."""
-    fetch_count = {"text": 0, "json": 0}
+def test_load_kegg_data_returns_pruned_dict(tmp_path):
+    """load_kegg_data should round-trip a synthetic nested kegg_data.json."""
+    pruned = {
+        "kos": {"K02338": {"name": "dnaN", "pathways": ["ko03030"]}},
+        "pathways": {"ko03030": {"name": "DNA replication", "subcategory": "09124"}},
+        "subcategories": {"09124": {"name": "Replication and repair", "category": "09120"}},
+        "categories": {"09120": {"name": "Genetic Information Processing"}},
+        "reactions": {},
+        "compounds": {},
+    }
+    kegg_dir = tmp_path / "kegg"
+    kegg_dir.mkdir()
+    (kegg_dir / "kegg_data.json").write_text(json.dumps(pruned), encoding="utf-8")
 
-    def counting_fetch_text(url):
-        fetch_count["text"] += 1
-        if url.endswith("/list/ko"):
-            return "ko:K02338\tDNA polymerase III\n"
-        if url.endswith("/link/pathway/ko"):
-            return "ko:K02338\tpath:ko03030\n"
-        if url.endswith("/list/pathway/ko"):
-            return "path:ko03030\tDNA replication\n"
-        if url.endswith("/list/reaction"):
-            return REACTION_LIST_FIXTURE
-        if url.endswith("/list/compound"):
-            return COMPOUND_LIST_FIXTURE
-        if url.endswith("/link/compound/reaction"):
-            return LINK_CR_FIXTURE
-        if url.endswith("/link/pathway/reaction"):
-            return LINK_PR_FIXTURE
-        if url.endswith("/link/pathway/compound"):
-            return LINK_PC_FIXTURE
-        raise AssertionError(f"unexpected URL {url}")
+    result = kegg_utils.load_kegg_data(tmp_path)
 
-    def counting_fetch_json(url):
-        fetch_count["json"] += 1
-        return {"children": []}
+    assert result == pruned
+    assert result["kos"]["K02338"]["name"] == "dnaN"
+    assert result["pathways"]["ko03030"]["subcategory"] == "09124"
 
-    monkeypatch.setattr(kegg_utils, "_fetch_text", counting_fetch_text)
-    monkeypatch.setattr(kegg_utils, "_fetch_json", counting_fetch_json)
 
-    # First call: 8 text fetches + 1 JSON fetch
-    kegg_utils.download_kegg_data(tmp_path, force=True)
-    first_text = fetch_count["text"]
-    first_json = fetch_count["json"]
-    assert first_text == 8
-    assert first_json == 1
-
-    # Delete kegg_data.json so download_kegg_data has to re-parse
-    (tmp_path / "kegg" / "kegg_data.json").unlink()
-
-    # Second call: raw cache exists, no network, but parses from disk
-    kegg_utils.download_kegg_data(tmp_path, force=False)
-    assert fetch_count["text"] == first_text  # no new text fetches
-    assert fetch_count["json"] == first_json  # no new JSON fetches
-
-    # Third call with force=True: re-fetches everything
-    kegg_utils.download_kegg_data(tmp_path, force=True)
-    assert fetch_count["text"] == first_text + 8
-    assert fetch_count["json"] == first_json + 1
+def test_load_kegg_data_missing_file_raises(tmp_path):
+    """load_kegg_data should raise FileNotFoundError with a helpful message."""
+    with pytest.raises(FileNotFoundError) as exc_info:
+        kegg_utils.load_kegg_data(tmp_path)
+    msg = str(exc_info.value)
+    assert "kegg_data.json" in msg
+    assert "prepare_data.sh" in msg
+    assert "--steps 6" in msg

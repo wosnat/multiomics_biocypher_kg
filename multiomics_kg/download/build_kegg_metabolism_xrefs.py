@@ -246,7 +246,7 @@ def _parse_brite_supplements(raw_dir: Path) -> dict:
     Returns: pathway_to_subcategory, subcategory_names, subcategory_to_category,
     category_names, plus _brite_pathway_names (merged into pathway_names in
     _parse_raw_into_dict via {**api_pw_names, **brite_pw_names} — BRITE wins on
-    overlap, matching prior download_kegg_data() semantics).
+    overlap).
     """
     brite_json = json.loads((raw_dir / "br_ko00001.json").read_text())
     pw_to_sub, sub_names, sub_to_cat, cat_names, brite_pw_names = (
@@ -262,16 +262,15 @@ def _parse_brite_supplements(raw_dir: Path) -> dict:
 
 
 def _parse_raw_into_dict(cache_root: Path) -> dict:
-    """Parse raw KEGG cache files into the same dict shape that download_kegg_data
-    used to return (so build_pruned_kegg_data can stay agnostic of the on-disk layout).
-    """
+    """Parse raw KEGG cache files into a flat in-memory dict shape (so
+    build_pruned_kegg_data can stay agnostic of the on-disk layout)."""
     raw_dir = cache_root / "kegg" / "raw"
 
     api_pw_names = kegg_utils._parse_pathway_ko_names(
         (raw_dir / "list_pathway_ko.txt").read_text()
     )
     brite_supp = _parse_brite_supplements(raw_dir)
-    # BRITE pathway names win on overlap, matching download_kegg_data() behaviour.
+    # BRITE pathway names win on overlap.
     pathway_names = {**api_pw_names, **brite_supp.pop("_brite_pathway_names")}
 
     return {
