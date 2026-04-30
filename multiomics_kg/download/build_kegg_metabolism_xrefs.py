@@ -173,10 +173,10 @@ def main(force: bool = False) -> None:
         log.info(f"{OUTPUT_FILE} exists; use --force to rebuild.")
         return
 
-    if not KEGG_DATA_FILE.exists():
-        raise FileNotFoundError(
-            f"{KEGG_DATA_FILE} missing — run KEGG download first (kegg_anno_adapter)."
-        )
+    if not KEGG_DATA_FILE.exists() or force:
+        log.info("Downloading KEGG hierarchy + metabolism endpoints (this can take ~1-2 min) ...")
+        from multiomics_kg.utils.kegg_utils import download_kegg_data
+        download_kegg_data(KEGG_CACHE_DIR.parent, force=force)
     if not RESOLVER_DB.exists():
         raise FileNotFoundError(
             f"{RESOLVER_DB} missing — run prepare_data.sh step 0 sub-step 7 first."
