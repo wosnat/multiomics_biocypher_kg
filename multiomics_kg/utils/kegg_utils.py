@@ -142,17 +142,17 @@ def _parse_compound_names(text: str) -> dict[str, str]:
 def _parse_reaction_to_compounds(text: str) -> dict[str, list[str]]:
     """Parse `/link/compound/reaction` into {R#####: [C#####, ...]}.
 
-    Source line format: `cpd:C00074\trn:R00200`.
+    KEGG returns lines in the form: `rn:R00200\tcpd:C00074`.
     """
     result: dict[str, list[str]] = {}
     for line in text.splitlines():
         parts = line.split("\t", 1)
         if len(parts) != 2:
             continue
-        raw_cpd, raw_rxn = parts
-        cpd_id = raw_cpd.removeprefix("cpd:")
+        raw_rxn, raw_cpd = parts
         rxn_id = raw_rxn.removeprefix("rn:")
-        if not (cpd_id.startswith("C") and rxn_id.startswith("R")):
+        cpd_id = raw_cpd.removeprefix("cpd:")
+        if not (rxn_id.startswith("R") and cpd_id.startswith("C")):
             continue
         result.setdefault(rxn_id, []).append(cpd_id)
     logger.info(f"Parsed compound-reaction links for {len(result)} reactions")

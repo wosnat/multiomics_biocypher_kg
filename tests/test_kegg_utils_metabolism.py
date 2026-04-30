@@ -20,9 +20,9 @@ COMPOUND_LIST_FIXTURE = textwrap.dedent("""\
 """)
 
 LINK_CR_FIXTURE = textwrap.dedent("""\
-    cpd:C00074\trn:R00200
-    cpd:C00008\trn:R00200
-    cpd:C00031\trn:R00010
+    rn:R00200\tcpd:C00074
+    rn:R00200\tcpd:C00008
+    rn:R00010\tcpd:C00031
 """)
 
 LINK_PR_FIXTURE = textwrap.dedent("""\
