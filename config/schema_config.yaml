@@ -1103,7 +1103,7 @@ pfam in pfam clan:
   label_in_input: pfam_in_pfam_clan
 
 gene to reaction association:
-  is_a: association
+  is_a: ReactionToParticipantAssociation
   represented_as: edge
   label_as_edge: gene_catalyzes_reaction
   source: gene
