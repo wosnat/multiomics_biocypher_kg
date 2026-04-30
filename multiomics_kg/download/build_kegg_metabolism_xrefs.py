@@ -36,12 +36,18 @@ RESOLVER_DB = PROJECT_ROOT / "cache" / "data" / "mnx" / "metabolite_resolver.db"
 log = logging.getLogger(__name__)
 
 
-def _collect_gene_reachable_ids(kegg_data: dict) -> tuple[set[str], set[str]]:
+def _collect_gene_reachable_ids(kegg_data: dict) -> tuple[set[str], set[str], set[str]]:
     """Walk all strains' gene_annotations_merged.json and KEGG link data.
 
-    Returns (R_numbers, C_numbers): the gene-reachable subsets.
+    Returns (R_numbers, C_numbers, KO_pathways): gene-reachable subsets.
+
+    `KO_pathways` is the set of pathway IDs that the kegg_anno adapter will emit
+    as KeggTerm nodes — i.e. pathways referenced by at least one gene-annotated KO.
+    Used to prune reaction.kegg_pathway_ids so we don't create dangling edges
+    pointing to pathways with no KeggTerm node.
     """
     reachable_rxns: set[str] = set()
+    reachable_kos: set[str] = set()
     for row in load_genome_rows():
         genes = load_gene_annotations(row["data_dir"])
         if not genes:
@@ -50,6 +56,9 @@ def _collect_gene_reachable_ids(kegg_data: dict) -> tuple[set[str], set[str]]:
             for rxn in gene.get("kegg_reactions", []) or []:
                 if isinstance(rxn, str) and rxn.startswith("R"):
                     reachable_rxns.add(rxn)
+            for ko in gene.get("kegg_ko", []) or []:
+                if isinstance(ko, str) and ko.startswith("K"):
+                    reachable_kos.add(ko)
 
     rxn_to_cpds = kegg_data.get("reaction_to_compounds", {})
     reachable_cpds: set[str] = set()
@@ -57,12 +66,19 @@ def _collect_gene_reachable_ids(kegg_data: dict) -> tuple[set[str], set[str]]:
         for cpd in rxn_to_cpds.get(rxn, []):
             reachable_cpds.add(cpd)
 
+    ko_to_pw = kegg_data.get("ko_to_pathways", {})
+    reachable_pws: set[str] = set()
+    for ko in reachable_kos:
+        reachable_pws.update(ko_to_pw.get(ko, []))
+
     log.info(
-        "Pruned to %d reactions, %d compounds",
+        "Pruned to %d reactions, %d compounds, "
+        "%d KO-reachable pathways (for pathway-edge pruning)",
         len(reachable_rxns),
         len(reachable_cpds),
+        len(reachable_pws),
     )
-    return reachable_rxns, reachable_cpds
+    return reachable_rxns, reachable_cpds, reachable_pws
 
 
 def _resolve_mnx_for_kegg_reaction(kegg_id: str, conn: sqlite3.Connection) -> str | None:
@@ -95,12 +111,15 @@ def _query_aliases(table: str, mnx_col: str, mnx_id: str, source: str,
     return [r[0] for r in cur.fetchall()]
 
 
-def _enrich_reaction(rxn_id: str, kegg_data: dict, conn: sqlite3.Connection) -> dict:
+def _enrich_reaction(rxn_id: str, kegg_data: dict, conn: sqlite3.Connection,
+                     valid_pathways: set[str]) -> dict:
     """Build the per-reaction enriched dict written to xrefs JSON."""
+    raw_pws = kegg_data.get("reaction_to_pathways", {}).get(rxn_id, [])
+    pruned_pws = [p for p in raw_pws if p in valid_pathways]
     out: dict = {
         "name": kegg_data.get("reaction_names", {}).get(rxn_id, ""),
         "compound_ids": kegg_data.get("reaction_to_compounds", {}).get(rxn_id, []),
-        "kegg_pathway_ids": kegg_data.get("reaction_to_pathways", {}).get(rxn_id, []),
+        "kegg_pathway_ids": pruned_pws,
         "ec_numbers": [],
         "mnxr_id": None,
         "rhea_ids": [],
@@ -186,13 +205,16 @@ def main(force: bool = False) -> None:
     kegg_data = json.loads(KEGG_DATA_FILE.read_text())
 
     log.info("Pruning to gene-reachable subset ...")
-    rxn_ids, cpd_ids = _collect_gene_reachable_ids(kegg_data)
+    rxn_ids, cpd_ids, valid_pathways = _collect_gene_reachable_ids(kegg_data)
 
     log.info("Opening MNX resolver ...")
     conn = mu.open_resolver(RESOLVER_DB)
 
     log.info(f"Enriching {len(rxn_ids)} reactions ...")
-    reactions = {rxn_id: _enrich_reaction(rxn_id, kegg_data, conn) for rxn_id in sorted(rxn_ids)}
+    reactions = {
+        rxn_id: _enrich_reaction(rxn_id, kegg_data, conn, valid_pathways)
+        for rxn_id in sorted(rxn_ids)
+    }
 
     log.info(f"Enriching {len(cpd_ids)} compounds ...")
     compounds = {cpd_id: _enrich_compound(cpd_id, kegg_data, conn) for cpd_id in sorted(cpd_ids)}

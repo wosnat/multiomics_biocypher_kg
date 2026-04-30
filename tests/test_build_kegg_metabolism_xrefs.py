@@ -18,9 +18,9 @@ def test_collect_gene_reachable_kegg_ids(tmp_path, monkeypatch):
     s1 = tmp_path / "cache" / "data" / "Prochlorococcus" / "genomes" / "MED4"
     s2 = tmp_path / "cache" / "data" / "Prochlorococcus" / "genomes" / "MIT9301"
     _write_strain_annotations(s1, {
-        "PMM0001": {"kegg_reactions": ["R00200", "R00010"]},
+        "PMM0001": {"kegg_reactions": ["R00200", "R00010"], "kegg_ko": ["K00001"]},
         "PMM0002": {"kegg_reactions": ["R00010"]},
-        "PMM0003": {},  # no reactions
+        "PMM0003": {},  # no reactions, no KOs
     })
     _write_strain_annotations(s2, {
         "P9301_001": {"kegg_reactions": ["R12345"]},
@@ -32,7 +32,7 @@ def test_collect_gene_reachable_kegg_ids(tmp_path, monkeypatch):
         {"data_dir": str(s2)},
     ])
 
-    # Stub kegg_data.json with a tiny reaction_to_compounds map
+    # Stub kegg_data with reaction_to_compounds + ko_to_pathways maps
     kegg_data = {
         "reaction_names": {
             "R00200": "pyruvate kinase reaction",
@@ -55,9 +55,13 @@ def test_collect_gene_reachable_kegg_ids(tmp_path, monkeypatch):
         "reaction_to_pathways": {
             "R00200": ["ko00010"],
         },
+        "ko_to_pathways": {
+            "K00001": ["ko00010", "ko00710"],
+            "K99999": ["ko99999"],  # KO not in any gene → pathway pruned
+        },
     }
 
-    rxns, cpds = bx._collect_gene_reachable_ids(kegg_data)
+    rxns, cpds, pws = bx._collect_gene_reachable_ids(kegg_data)
 
     # Only gene-reachable R-numbers
     assert rxns == {"R00200", "R00010", "R12345"}
@@ -66,20 +70,24 @@ def test_collect_gene_reachable_kegg_ids(tmp_path, monkeypatch):
     # R_unused / C_should_not_appear are pruned
     assert "R_unused" not in rxns
     assert "C_should_not_appear" not in cpds
+    # KO-reachable pathways: K00001 maps to ko00010 + ko00710; K99999 not in any gene
+    assert pws == {"ko00010", "ko00710"}
+    assert "ko99999" not in pws
 
 
 def test_collect_handles_missing_kegg_reactions_field(tmp_path, monkeypatch):
     s = tmp_path / "strain"
     _write_strain_annotations(s, {
-        "g1": {},  # no kegg_reactions key
+        "g1": {},  # no kegg_reactions key, no kegg_ko key
         "g2": {"kegg_reactions": []},  # empty list
         "g3": {"kegg_reactions": ["R00001"]},
     })
     monkeypatch.setattr(bx, "load_genome_rows", lambda: [{"data_dir": str(s)}])
-    kegg_data = {"reaction_to_compounds": {"R00001": ["C00001"]}}
-    rxns, cpds = bx._collect_gene_reachable_ids(kegg_data)
+    kegg_data = {"reaction_to_compounds": {"R00001": ["C00001"]}, "ko_to_pathways": {}}
+    rxns, cpds, pws = bx._collect_gene_reachable_ids(kegg_data)
     assert rxns == {"R00001"}
     assert cpds == {"C00001"}
+    assert pws == set()
 
 
 import sqlite3
@@ -124,7 +132,8 @@ def test_enrich_reaction(tmp_path):
         "reaction_to_pathways": {"R00200": ["ko00010", "ko00710"]},
     }
 
-    rxn = bx._enrich_reaction("R00200", kegg_data, conn)
+    # Both pathways are valid — all survive
+    rxn = bx._enrich_reaction("R00200", kegg_data, conn, valid_pathways={"ko00010", "ko00710"})
     assert rxn["name"] == "pyruvate kinase reaction"
     assert rxn["compound_ids"] == ["C00074", "C00008"]
     assert rxn["kegg_pathway_ids"] == ["ko00010", "ko00710"]
@@ -133,6 +142,37 @@ def test_enrich_reaction(tmp_path):
     assert rxn["mass_balance"] == "balanced"
     assert rxn["reaction_class"] == "chemical"
     assert rxn["ec_numbers"] == ["2.7.1.40"]
+
+
+def test_enrich_reaction_prunes_dangling_pathways(tmp_path):
+    """Pathway IDs not in valid_pathways are pruned to avoid dangling edges."""
+    db = tmp_path / "resolver.db"
+    conn = sqlite3.connect(db)
+    conn.executescript("""
+        CREATE TABLE reactions (mnxr_id TEXT PRIMARY KEY, mnx_equation TEXT,
+            reference TEXT, classifs TEXT, is_balanced TEXT, is_transport TEXT);
+        CREATE TABLE reaction_aliases (source TEXT, value TEXT, mnxr_id TEXT,
+            PRIMARY KEY (source, value, mnxr_id));
+        CREATE INDEX idx_reaction_aliases_mnxr ON reaction_aliases(mnxr_id);
+        CREATE TABLE compounds (mnxm_id TEXT PRIMARY KEY, name TEXT, formula TEXT,
+            mass REAL, inchi TEXT, inchikey TEXT, smiles TEXT, charge INTEGER, reference TEXT);
+        CREATE TABLE compound_aliases (source TEXT, value TEXT, mnxm_id TEXT,
+            PRIMARY KEY (source, value, mnxm_id));
+        CREATE INDEX idx_compound_aliases_mnxm ON compound_aliases(mnxm_id);
+    """)
+    conn.commit()
+
+    kegg_data = {
+        "reaction_names": {"R00200": "pyruvate kinase reaction"},
+        "compound_names": {},
+        "reaction_to_compounds": {"R00200": []},
+        "reaction_to_pathways": {"R00200": ["ko00010", "ko00710"]},
+    }
+
+    # Only ko00010 is KO-reachable; ko00710 should be pruned
+    rxn = bx._enrich_reaction("R00200", kegg_data, conn, valid_pathways={"ko00010"})
+    assert rxn["kegg_pathway_ids"] == ["ko00010"]
+    assert "ko00710" not in rxn["kegg_pathway_ids"]
 
 
 def test_enrich_compound(tmp_path):
