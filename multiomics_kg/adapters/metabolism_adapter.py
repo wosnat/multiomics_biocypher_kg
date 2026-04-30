@@ -1,7 +1,7 @@
-"""Metabolism adapter — emits Reaction + Metabolite nodes and 3 edge types.
+"""Metabolism adapter — emits Reaction + Metabolite nodes and 4 edge types.
 
 Pure file reader: consumes
-- cache/data/kegg/kegg_metabolism_xrefs.json (built by step 6)
+- cache/data/kegg/kegg_data.json (built by build_kegg_metabolism_xrefs, step 6)
 - per-strain cache/data/<organism>/genomes/<strain>/gene_annotations_merged.json
 
 No SQLite / no KEGG REST at build time.
@@ -20,7 +20,7 @@ log = logging.getLogger(__name__)
 
 
 PROJECT_ROOT = Path(__file__).resolve().parent.parent.parent
-DEFAULT_XREFS = PROJECT_ROOT / "cache" / "data" / "kegg" / "kegg_metabolism_xrefs.json"
+DEFAULT_KEGG_DATA = PROJECT_ROOT / "cache" / "data" / "kegg" / "kegg_data.json"
 
 
 def _clean_str(value: str) -> str:
@@ -36,20 +36,20 @@ def _drop_nulls(props: dict) -> dict:
 
 
 class MetabolismAdapter:
-    """Single-pass adapter emitting Reaction + Metabolite nodes from the xrefs cache."""
+    """Single-pass adapter emitting Reaction + Metabolite nodes from the kegg_data cache."""
 
-    def __init__(self, xrefs_path: Path | str | None = None, test_mode: bool = False):
-        self.xrefs_path = Path(xrefs_path) if xrefs_path else DEFAULT_XREFS
+    def __init__(self, kegg_data_path: Path | str | None = None, test_mode: bool = False):
+        self.kegg_data_path = Path(kegg_data_path) if kegg_data_path else DEFAULT_KEGG_DATA
         self.test_mode = test_mode
         self._xrefs: dict | None = None
 
     def _load(self) -> dict:
         if self._xrefs is None:
-            if not self.xrefs_path.exists():
-                log.warning(f"{self.xrefs_path} missing; emitting no metabolism nodes")
+            if not self.kegg_data_path.exists():
+                log.warning(f"{self.kegg_data_path} missing; emitting no metabolism nodes")
                 self._xrefs = {"reactions": {}, "compounds": {}}
             else:
-                self._xrefs = json.loads(self.xrefs_path.read_text())
+                self._xrefs = json.loads(self.kegg_data_path.read_text())
         return self._xrefs
 
     def get_nodes(self) -> Iterator[tuple[str, str, dict]]:
@@ -63,7 +63,7 @@ class MetabolismAdapter:
                 "kegg_reaction_id": rxn_id,
                 "name": _clean_str(rxn.get("name", "")),
                 "ec_numbers": list(rxn.get("ec_numbers", [])),
-                "kegg_pathway_ids": list(rxn.get("kegg_pathway_ids", [])),
+                "kegg_pathway_ids": list(rxn.get("pathways", [])),
                 "mnxr_id": rxn.get("mnxr_id"),
                 "rhea_ids": list(rxn.get("rhea_ids", [])),
                 "mass_balance": rxn.get("mass_balance"),
@@ -94,7 +94,7 @@ class MetabolismAdapter:
     def _reaction_metabolite_edges(self) -> Iterator[tuple[str, str, str, str, dict]]:
         data = self._load()
         for rxn_id, rxn in data.get("reactions", {}).items():
-            for cpd_id in rxn.get("compound_ids", []):
+            for cpd_id in rxn.get("compounds", []):
                 edge_id = f"r2m:{rxn_id}:{cpd_id}"
                 yield (
                     edge_id,
@@ -107,7 +107,7 @@ class MetabolismAdapter:
     def _reaction_pathway_edges(self) -> Iterator[tuple[str, str, str, str, dict]]:
         data = self._load()
         for rxn_id, rxn in data.get("reactions", {}).items():
-            for pw_id in rxn.get("kegg_pathway_ids", []):
+            for pw_id in rxn.get("pathways", []):
                 edge_id = f"r2p:{rxn_id}:{pw_id}"
                 yield (
                     edge_id,
@@ -117,18 +117,32 @@ class MetabolismAdapter:
                     {},
                 )
 
+    def _metabolite_pathway_edges(self) -> Iterator[tuple[str, str, str, str, dict]]:
+        data = self._load()
+        for cpd_id, cpd in data.get("compounds", {}).items():
+            for pw_id in cpd.get("pathways", []):
+                edge_id = f"m2p:{cpd_id}:{pw_id}"
+                yield (
+                    edge_id,
+                    f"kegg.compound:{cpd_id}",
+                    f"kegg.pathway:{pw_id}",
+                    "metabolite_in_pathway",
+                    {},
+                )
+
     def get_edges(self) -> Iterator[tuple[str | None, str, str, str, dict]]:
         yield from self._reaction_metabolite_edges()
         yield from self._reaction_pathway_edges()
+        yield from self._metabolite_pathway_edges()
 
 
 class MultiMetabolismAdapter(MetabolismAdapter):
-    """Multi-strain wrapper. Nodes come from the global xrefs cache; edges
+    """Multi-strain wrapper. Nodes come from the global kegg_data cache; edges
     come from per-strain gene_annotations_merged.json (see Task 11)."""
 
-    def __init__(self, genome_config_file: str, xrefs_path: Path | str | None = None,
+    def __init__(self, genome_config_file: str, kegg_data_path: Path | str | None = None,
                  test_mode: bool = False):
-        super().__init__(xrefs_path=xrefs_path, test_mode=test_mode)
+        super().__init__(kegg_data_path=kegg_data_path, test_mode=test_mode)
         self.genome_config_file = genome_config_file
 
     def _gene_reaction_edges(self) -> Iterator[tuple[str, str, str, str, dict]]:
@@ -155,3 +169,4 @@ class MultiMetabolismAdapter(MetabolismAdapter):
         yield from self._gene_reaction_edges()
         yield from self._reaction_metabolite_edges()
         yield from self._reaction_pathway_edges()
+        yield from self._metabolite_pathway_edges()

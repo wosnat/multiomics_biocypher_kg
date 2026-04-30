@@ -68,8 +68,8 @@ def main():
     bc.write_nodes(og_adapter.get_nodes())
     bc.write_edges(og_adapter.get_edges())
 
-    # Metabolism adapter: emits Reaction + Metabolite nodes + 3 edge types.
-    # Reads cache/data/kegg/kegg_metabolism_xrefs.json (built by prepare_data step 6).
+    # Metabolism adapter: emits Reaction + Metabolite nodes + 4 edge types.
+    # Reads cache/data/kegg/kegg_data.json (built by build_kegg_metabolism_xrefs, step 6).
     # Pure file reader — no SQLite / no REST at build time.
     metabolism_adapter = MultiMetabolismAdapter(
         genome_config_file='data/Prochlorococcus/genomes/cyanobacteria_genomes.csv',
