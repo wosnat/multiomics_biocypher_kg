@@ -1128,6 +1128,14 @@ reaction to kegg pathway association:
   target: kegg term
   label_in_input: reaction_in_kegg_pathway
 
+metabolite to kegg pathway association:
+  is_a: association
+  represented_as: edge
+  label_as_edge: metabolite_in_pathway
+  source: metabolite
+  target: kegg term
+  label_in_input: metabolite_in_pathway
+
 organism to metabolite association:
   is_a: association
   represented_as: edge
