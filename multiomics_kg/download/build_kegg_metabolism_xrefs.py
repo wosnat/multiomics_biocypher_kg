@@ -18,6 +18,7 @@ Usage:
 from __future__ import annotations
 
 import argparse
+import contextlib
 import json
 import logging
 import sqlite3
@@ -243,7 +244,9 @@ def _parse_brite_supplements(raw_dir: Path) -> dict:
     """Parse br_ko00001.json into the BRITE-derived supplementary maps.
 
     Returns: pathway_to_subcategory, subcategory_names, subcategory_to_category,
-    category_names, plus brite_pathway_names (used to supplement list/pathway/ko).
+    category_names, plus _brite_pathway_names (merged into pathway_names in
+    _parse_raw_into_dict via {**api_pw_names, **brite_pw_names} — BRITE wins on
+    overlap, matching prior download_kegg_data() semantics).
     """
     brite_json = json.loads((raw_dir / "br_ko00001.json").read_text())
     pw_to_sub, sub_names, sub_to_cat, cat_names, brite_pw_names = (
@@ -320,12 +323,9 @@ def main(force: bool = False) -> None:
     raw = _parse_raw_into_dict(cache_root)
 
     log.info("Opening MNX resolver ...")
-    conn = mu.open_resolver(RESOLVER_DB)
-
-    log.info("Building pruned kegg_data.json ...")
-    build_pruned_kegg_data(raw, conn, KEGG_DATA_FILE)
-
-    conn.close()
+    with contextlib.closing(mu.open_resolver(RESOLVER_DB)) as conn:
+        log.info("Building pruned kegg_data.json ...")
+        build_pruned_kegg_data(raw, conn, KEGG_DATA_FILE)
     log.info("Done.")
 
 

@@ -153,6 +153,9 @@ def test_download_kegg_raw_populates_raw_dir(tmp_path, monkeypatch):
     assert len(txt_files) == 8
     assert len(json_files) == 1
     assert "br_ko00001.json" in json_files
+    # Anchor: the patched fakes were actually invoked (not a real network call)
+    assert text_calls, "expected _fetch_text to be invoked on first pass"
+    assert json_calls, "expected _fetch_json to be invoked on first pass"
 
     # Second call without force: no new fetches (raw cache is read from disk)
     text_calls.clear()
