@@ -532,9 +532,9 @@ class MultiKeggAnnotationAdapter:
         genome_config_file: path to ``cyanobacteria_genomes.csv``
         cache_root: project-level cache directory (e.g. ``Path("cache/data")``)
         test_mode: passed to per-strain adapters (stop after 100 gene→KO edges)
-        cache: deprecated no-op kept for API stability — the adapter no longer
-            triggers downloads; rebuild ``kegg_data.json`` via
-            ``bash scripts/prepare_data.sh --steps 6 --force``
+        cache: deprecated no-op kept for API stability. Pass-through from
+            create_knowledge_graph's --no-cache flag; emits a warning when
+            set to False so the user knows to rebuild via prepare_data.sh.
     """
 
     def __init__(
@@ -544,6 +544,12 @@ class MultiKeggAnnotationAdapter:
         test_mode: bool = False,
         cache: bool = True,
     ) -> None:
+        if not cache:
+            logger.warning(
+                "MultiKeggAnnotationAdapter: cache=False is now a no-op. "
+                "To refresh kegg_data.json, run "
+                "`bash scripts/prepare_data.sh --steps 6 --force`."
+            )
         self.test_mode = test_mode
         self.kegg_data = load_kegg_data(Path(cache_root))
         self._strain_adapters: list[KeggAnnotationAdapter] = []

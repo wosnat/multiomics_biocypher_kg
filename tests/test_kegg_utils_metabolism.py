@@ -147,3 +147,16 @@ def test_load_kegg_data_missing_file_raises(tmp_path):
     assert "kegg_data.json" in msg
     assert "prepare_data.sh" in msg
     assert "--steps 6" in msg
+
+
+def test_load_kegg_data_corrupted_file_raises(tmp_path):
+    """Corrupted (non-JSON) file produces a clear RuntimeError pointing at remediation."""
+    (tmp_path / "kegg").mkdir()
+    (tmp_path / "kegg" / "kegg_data.json").write_text("{not valid json")
+    with pytest.raises(RuntimeError) as exc_info:
+        kegg_utils.load_kegg_data(tmp_path)
+    msg = str(exc_info.value)
+    assert "corrupted" in msg
+    assert "prepare_data.sh" in msg
+    assert "--steps 6" in msg
+    assert "--force" in msg

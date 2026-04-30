@@ -391,5 +391,11 @@ def load_kegg_data(cache_root: Path) -> dict:
         raise FileNotFoundError(
             f"{p} missing — run `bash scripts/prepare_data.sh --steps 6` first."
         )
-    with open(p, encoding="utf-8") as fh:
-        return json.load(fh)
+    try:
+        with open(p, encoding="utf-8") as fh:
+            return json.load(fh)
+    except json.JSONDecodeError as e:
+        raise RuntimeError(
+            f"{p} is corrupted ({e}). Rebuild via "
+            f"`bash scripts/prepare_data.sh --steps 6 --force`."
+        ) from e
