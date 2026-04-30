@@ -24,6 +24,11 @@ _BRITE_KO_URL = f"{_KEGG_BASE}/get/br:ko00001/json"
 _KO_LIST_URL = f"{_KEGG_BASE}/list/ko"
 _KO_PATHWAY_LINK_URL = f"{_KEGG_BASE}/link/pathway/ko"
 _PATHWAY_KO_LIST_URL = f"{_KEGG_BASE}/list/pathway/ko"
+_REACTION_LIST_URL = f"{_KEGG_BASE}/list/reaction"
+_COMPOUND_LIST_URL = f"{_KEGG_BASE}/list/compound"
+_LINK_COMPOUND_REACTION_URL = f"{_KEGG_BASE}/link/compound/reaction"
+_LINK_PATHWAY_REACTION_URL = f"{_KEGG_BASE}/link/pathway/reaction"
+_LINK_PATHWAY_COMPOUND_URL = f"{_KEGG_BASE}/link/pathway/compound"
 
 _TIMEOUT = 120  # seconds per request
 
@@ -97,6 +102,111 @@ def _parse_ko_to_pathways(text: str) -> dict[str, list[str]]:
             continue
         result.setdefault(ko_id, []).append(pw_id)
     logger.info(f"Parsed KO→Pathway links for {len(result)} KOs")
+    return result
+
+
+def _parse_reaction_names(text: str) -> dict[str, str]:
+    """Parse `/list/reaction` response into {R#####: name_str}."""
+    result: dict[str, str] = {}
+    for line in text.splitlines():
+        parts = line.split("\t", 1)
+        if len(parts) != 2:
+            continue
+        raw_id, name = parts
+        rxn_id = raw_id.removeprefix("rn:")
+        if rxn_id.startswith("R") and rxn_id[1:].isdigit():
+            result[rxn_id] = name.strip()
+    logger.info(f"Parsed {len(result)} reaction names")
+    return result
+
+
+def _parse_compound_names(text: str) -> dict[str, str]:
+    """Parse `/list/compound` into {C#####: first_synonym}.
+
+    KEGG returns semicolon-separated synonyms; we keep the first as canonical.
+    """
+    result: dict[str, str] = {}
+    for line in text.splitlines():
+        parts = line.split("\t", 1)
+        if len(parts) != 2:
+            continue
+        raw_id, names = parts
+        cpd_id = raw_id.removeprefix("cpd:")
+        if cpd_id.startswith("C") and cpd_id[1:].isdigit():
+            first = names.split(";", 1)[0].strip()
+            result[cpd_id] = first
+    logger.info(f"Parsed {len(result)} compound names")
+    return result
+
+
+def _parse_reaction_to_compounds(text: str) -> dict[str, list[str]]:
+    """Parse `/link/compound/reaction` into {R#####: [C#####, ...]}.
+
+    Source line format: `cpd:C00074\trn:R00200`.
+    """
+    result: dict[str, list[str]] = {}
+    for line in text.splitlines():
+        parts = line.split("\t", 1)
+        if len(parts) != 2:
+            continue
+        raw_cpd, raw_rxn = parts
+        cpd_id = raw_cpd.removeprefix("cpd:")
+        rxn_id = raw_rxn.removeprefix("rn:")
+        if not (cpd_id.startswith("C") and rxn_id.startswith("R")):
+            continue
+        result.setdefault(rxn_id, []).append(cpd_id)
+    logger.info(f"Parsed compound-reaction links for {len(result)} reactions")
+    return result
+
+
+def _parse_reaction_to_pathways(text: str) -> dict[str, list[str]]:
+    """Parse `/link/pathway/reaction` into {R#####: [ko#####, ...]}.
+
+    KEGG returns rn-prefixed pathway IDs (e.g. `path:rn00010`); we rewrite them
+    to ko-prefixed form so they match existing KeggTerm pathway node IDs.
+    """
+    result: dict[str, list[str]] = {}
+    for line in text.splitlines():
+        parts = line.split("\t", 1)
+        if len(parts) != 2:
+            continue
+        raw_rxn, raw_pw = parts
+        rxn_id = raw_rxn.removeprefix("rn:")
+        pw_id = raw_pw.removeprefix("path:")
+        if not rxn_id.startswith("R"):
+            continue
+        # Normalize rn00010 → ko00010 (the form used by existing KeggTerm nodes)
+        if pw_id.startswith("rn"):
+            pw_id = "ko" + pw_id[2:]
+        if not pw_id.startswith("ko"):
+            continue
+        result.setdefault(rxn_id, []).append(pw_id)
+    logger.info(f"Parsed reaction-pathway links for {len(result)} reactions")
+    return result
+
+
+def _parse_compound_to_pathways(text: str) -> dict[str, list[str]]:
+    """Parse `/link/pathway/compound` into {C#####: [ko#####, ...]}.
+
+    KEGG returns map-prefixed pathway IDs; we rewrite to ko-prefixed for
+    consistency with the rest of the KG.
+    """
+    result: dict[str, list[str]] = {}
+    for line in text.splitlines():
+        parts = line.split("\t", 1)
+        if len(parts) != 2:
+            continue
+        raw_cpd, raw_pw = parts
+        cpd_id = raw_cpd.removeprefix("cpd:")
+        pw_id = raw_pw.removeprefix("path:")
+        if not cpd_id.startswith("C"):
+            continue
+        if pw_id.startswith("map"):
+            pw_id = "ko" + pw_id[3:]
+        if not pw_id.startswith("ko"):
+            continue
+        result.setdefault(cpd_id, []).append(pw_id)
+    logger.info(f"Parsed compound-pathway links for {len(result)} compounds")
     return result
 
 
