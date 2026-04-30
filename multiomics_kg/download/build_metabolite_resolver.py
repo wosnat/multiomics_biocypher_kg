@@ -153,6 +153,8 @@ CREATE INDEX IF NOT EXISTS idx_compound_aliases_value
     ON compound_aliases(value);
 CREATE INDEX IF NOT EXISTS idx_compound_aliases_source_value
     ON compound_aliases(source, value);
+CREATE INDEX IF NOT EXISTS idx_compound_aliases_mnxm
+    ON compound_aliases(mnxm_id);
 """
 
 
@@ -273,6 +275,8 @@ CREATE INDEX IF NOT EXISTS idx_reaction_aliases_value
     ON reaction_aliases(value);
 CREATE INDEX IF NOT EXISTS idx_reaction_aliases_source_value
     ON reaction_aliases(source, value);
+CREATE INDEX IF NOT EXISTS idx_reaction_aliases_mnxr
+    ON reaction_aliases(mnxr_id);
 """
 
 

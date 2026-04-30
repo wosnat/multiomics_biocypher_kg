@@ -317,6 +317,34 @@ def test_build_cazy_hierarchy(tmp_path):
     assert h["GH32"]["parent"] == "GH"
 
 
+def test_resolver_has_mnx_side_indexes(tmp_path):
+    """Spec 1.2: resolver DB must have indexes on mnxm_id / mnxr_id columns."""
+    chem_xref = tmp_path / "chem_xref.tsv"
+    chem_xref.write_text(
+        "#xref\tmnxm_id\tdescription\n"
+        "chebi:17234\tMNXM41\tD-glucose\n"
+    )
+    reac_xref = tmp_path / "reac_xref.tsv"
+    reac_xref.write_text(
+        "#xref\tmnxr_id\n"
+        "kegg.reaction:R00200\tMNXR101234\n"
+    )
+
+    db_path = tmp_path / "resolver.db"
+    conn = sqlite3.connect(db_path)
+    bmr.build_compound_aliases_table(conn, chem_xref)
+    bmr.build_reaction_aliases_table(conn, reac_xref)
+    conn.commit()
+
+    cur = conn.cursor()
+    cur.execute("SELECT name FROM sqlite_master WHERE type='index'")
+    indexes = {row[0] for row in cur.fetchall()}
+
+    assert "idx_compound_aliases_mnxm" in indexes
+    assert "idx_reaction_aliases_mnxr" in indexes
+    conn.close()
+
+
 def test_build_main_end_to_end(tmp_path, monkeypatch):
     """main() wires all builders + writes diagnostic report. Synthetic cache."""
     cache = tmp_path / "cache" / "data"
