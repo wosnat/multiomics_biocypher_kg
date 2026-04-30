@@ -20,7 +20,7 @@ explorer side needs to know.
 | KG-4 | Term-level informativeness flag | **Addressable** — design choice required | M | Recommend curated YAML + post-import Cypher; needs vocabulary curation |
 | KG-5 | Per-gene pipeline-scope tracking | **Addressable** — pure post-import derivation | S–M | Derive from existing properties; no new ingest work |
 | KG-6 | Cluster curation coverage | **Partially addressable** | M | (b) `clustering_intent` flag is cheap; (a) re-curate uncurated analyses is expensive |
-| KG-7a | AA sequence string | **Addressable** | S | Per-node limit is not binding in Neo4j 5.x; ~15MB total |
+| KG-7a | AA sequence string | **Implemented** ✓ | S | Sequence on `Gene` (not `Protein`) — UniProt coverage is too low; loaded from per-strain `protein.faa` via `protein_id` join |
 | KG-7b | InterPro | **Addressable but deferred** | L | Requires InterProScan run; defer pending demand evidence |
 | KG-7c | AlphaFold | **NOT addressable in current architecture** | — | Defer pending demand evidence; structure files don't belong in Neo4j |
 | MCP-7 | Surface Polypeptide fields | Out of KG scope | — | Explorer side |
@@ -301,28 +301,93 @@ genuinely have no functional content to extract.
 
 ## KG-7a — AA sequence string (LOW–MED)
 
-**Decision:** **Addressable.** Per-node string limit is not binding in Neo4j 5.x.
+**Decision:** **Addressable, cheap.** Per-node string limit is not binding in Neo4j 5.x.
+The data is already on disk per strain — no new download or external dependency.
 
-**Verified state:** No `aa_sequence` / `sequence` property on Polypeptide. UniProt
-sequences are already cached (downloaded during `prepare_data.sh` step 0).
+**Verified state:** No `aa_sequence` / `sequence` property on Polypeptide. **NCBI
+protein FASTAs are already cached per strain** at
+`cache/data/<organism>/genomes/<strain>/protein.faa`. Coverage on 2026-04-30:
 
-**Proposed fix:** Add `Polypeptide.sequence: str` property; populated by
-`uniprot_adapter.py` from the cached UniProt JSON.
+- 25 cultured-strain genomes (10 Prochlorococcus, 7 Synechococcus/Parasynechococcus
+  /Thermosynechococcus, 3 Alteromonas, 4 heterotrophs)
+- **2 reference-proteome match organisms** (`Marinobacter/genomes/HP15/protein.faa`
+  for MarRef v6, `Alteromonas/genomes/Alt_MarRef/protein.faa`) — same path
+  convention, no special-casing needed
+- (4 extra cached strains exist in `cache/data/Alteromonas/genomes/{AD45, ATCC27126,
+  BGP6, BS11}` that are not currently in the graph; harmless)
 
-Total size estimate: ~50 K proteins × ~300 AA average = ~15 MB graph-wide. Trivial.
+Every protein-carrying OrganismTaxon node in the graph has a `protein.faa` at the
+canonical path. Sample header from MED4:
 
-**No need for a separate `:Sequence` node.** The per-node size limit (4 GB string per
-property in Neo4j 5.x) is not the constraint. The actual constraint historically was
-the BioCypher CSV import process and `neo4j-admin import` line-length limits — those
-are not hit by 300-AA strings either.
+```
+>WP_002805124.1 MULTISPECIES: photosystem II reaction center protein I [Prochlorococcus]
+MLALKISVYTIVFFFVGIFLFGFLASDPTRTPNRKDLESPQD
+```
 
-**Open question for the explorer side:**
-1. UniProt sequence is the canonical source for genes that have a Protein. For genes
-   without a Protein (no UniProt match, or `Gene_encodes_protein` missing — currently
-   ~46 % of UniProt proteins are orphaned per CLAUDE.md), the gene won't have a sequence.
-   Acceptable?
+Headers are keyed by `WP_*` RefSeq protein accessions — the same ID used in
+`gene_mapping.csv` to link Gene → Protein. Direct join, no ID translation.
 
-**Effort:** S. ~20 lines in `uniprot_adapter.py` plus schema entry.
+**Implemented:** Sequence is added to **`Gene`** nodes (not `Protein`). Reason:
+UniProt coverage on this graph is too low (~46 % of UniProt proteins are
+orphaned; many genes have no Protein node), so a Protein-level property would
+miss large fractions of each genome. Gene is the universal anchor: every CDS
+with a `protein_id` in `gene_annotations_merged.json` gets a sequence when the
+matching `WP_*` accession is in its strain's `protein.faa`.
+
+The cyanorak/NCBI adapter ([`cyanorak_ncbi_adapter.py`](../multiomics_kg/adapters/cyanorak_ncbi_adapter.py))
+loads `cache/data/<organism>/genomes/<strain>/protein.faa` once per strain in
+`download_data()`, then injects `gene["sequence"]` from the dict during
+`_get_gene_nodes()`. Schema entry added under `gene:` in
+[`schema_config.yaml`](../config/schema_config.yaml).
+
+**Cost (measured 2026-04-30 across 31 cached FAAs, 94,291 proteins):**
+
+| metric | value |
+|---|---|
+| total sequence chars across cache | 29.2 MB |
+| FAA files on disk | 36 MB |
+| median protein length | 263 AA |
+| mean protein length | 309 AA |
+| P90 length | 571 AA |
+| max length (one outlier in WH8102) | 10,781 AA |
+
+Only ~55,863 of those proteins become Polypeptide nodes (4 cached strains aren't in
+the graph; some proteins filter out during ingest). KG-incorporated subset:
+
+| metric | estimate |
+|---|---|
+| sequence chars in graph | ~17.3 MB |
+| Neo4j string-property overhead (~18 bytes × 55,863 nodes) | ~1 MB |
+| **estimated store growth** | **~18–20 MB** |
+
+For context: the existing graph store is on the order of GB. Adding sequences is
+**<1 % growth**. The 10,781 AA outlier is well within Neo4j 5.x's 4 GB per-property
+string limit.
+
+**Why on Gene, not Protein:**
+- UniProt coverage gap: ~46 % of UniProt proteins are orphaned (no Protein node
+  edges). Putting `sequence` on Protein would silently miss those Genes' sequences.
+- Universal anchor: every CDS with a `protein_id` is a Gene; the FAA is keyed by
+  the same `protein_id` (`WP_*`); no traversal needed.
+- Reference-proteome organisms (Marinobacter MarRef v6, Alteromonas MarRef v6)
+  have their own `protein.faa` at the canonical path, so they're covered uniformly
+  with cultured strains — no special-casing.
+
+**Per-node size:** The 4 GB string limit per property in Neo4j 5.x is not
+binding; the largest sequence in our cache is 10,781 AA.
+
+**Tests** (in [`tests/test_cyanorak_ncbi_adapter.py`](../tests/test_cyanorak_ncbi_adapter.py)):
+- `TestLoadProteinSequences` (4 cases): FASTA parser handles multi-line records,
+  whitespace-tokenized headers, missing files, empty files.
+- `TestGeneSequence` (3 cases): gene nodes carry the right sequence; missing
+  WP_ → property omitted (not empty string); no `protein.faa` → no error, no
+  property.
+
+**To activate:** rebuild the KG. No prepare_data rerun needed — the adapter
+reads `protein.faa` directly at build time, and the file is already cached for
+every strain in the graph.
+
+**Effort:** S. ~50 lines net in [cyanorak_ncbi_adapter.py](../multiomics_kg/adapters/cyanorak_ncbi_adapter.py).
 
 ---
 
