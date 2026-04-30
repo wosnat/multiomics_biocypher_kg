@@ -44,14 +44,18 @@ Each metric is a 0–3 integer = "number of LTPE-evolved sublines (out of 3) in 
 
 ## Known limitation: ~39% gene ID resolution against EZ55
 
-The paper's "NCBI *Alteromonas* EZ55 protein database" (per Methods) does NOT correspond to a single deployable assembly. **Of 602 protein accessions in Table S1, only 234 (38.9%) resolve against our deployed EZ55 (`GCF_901457815.2`).** The 368 unresolved break down as:
+**Of 602 protein accessions in Table S1, only 234 (38.9%) resolve against our deployed EZ55 (`GCF_901457815.2`).** The paper's "NCBI *Alteromonas* EZ55 protein database" (per Methods) is in fact a multi-strain *A. macleodii* protein set, not an EZ55-specific reference.
 
-| Source | Count | Disposition |
+Investigation 2026-04-30 (cross-checked the 368 unresolved IDs against `cache/data/Alteromonas/uniprot/28108/uniprot_preprocess_data.json`, then UniProt's proteome metadata):
+
+| Bucket | Count | What it is |
 |---|---:|---|
-| `WP_*` accessions in `GCF_000808635.1` (ASM80863v1, an alternate EZ55 RefSeq assembly) but NOT in `GCF_901457815.2` | ~88 | Could be recovered via `id_translation` + `generate: method: diamond_protein_match` against ASM80863v1 protein FASTA |
-| `WP_*` accessions in NEITHER deployed nor ASM80863v1 (PGAP-retired or from yet another assembly) | ~180 | Likely unrecoverable without identifying the exact protein-DB version the authors used |
-| `OES*` accessions (41) — INSDC GenBank prefix from BioProject `PRJNA338983` (Cusick et al. 2016, US Naval Research Lab — *"Draft Genome Sequence of four Alteromonas macleodii strains isolated from copper coupons"*) | 41 | A separate GenBank-only submission with no RefSeq counterpart. None match `GCF_901457815.2` or `GCF_000808635.1`. Recovery would require sequence-level bridging against the `MIPX*` WGS contigs |
+| Sister-strain proteins (taxid 28108, not EZ55) | 245 | 214 in `UP000095392` (strain **KCP01**, GCA_001750365.1) + 26 in `UP000063991` (strain **D7**, GCA_001562235.1) + 5 in `UP000509458`. EZ55 has no UniProt proteome of its own; UniProt's species-level taxid lumps 20 different *A. macleodii* strain proteomes together |
+| `WP_*` not in any cached UniProt proteome | 113 | Likely from an assembly we don't cache (PGAP-retired or older) |
+| `OES*` GenBank-only accessions (BioProject `PRJNA338983`) | 39 | No RefSeq counterpart; no match in our cache |
 
-**Experiment tried 2026-04-29**: added `annotation_gff` entry pointing at `GCF_000808635.1`'s GFF, hoping `build_gene_id_mapping.py` would absorb its WP_ accessions into EZ55's mapping. Result: zero improvement. The two assemblies use disjoint locus-tag schemes (`RJ44_*` in ASM80863v1 vs `EZ55_*` / `ALTBGP6_*` in `GCF_901457815.2`), so the build's locus-tag-based anchoring couldn't bridge them — all ~5,000 GFF rows unanchorable. Anchoring would require **protein-sequence-level bridging** (`generate: method: diamond_protein_match`), the same machinery used for AltMedDE in the community-proteomics saga.
+These IDs are not recoverable as EZ55 locus tags via `build_gene_id_mapping.py` — they aren't EZ55 proteins. ~67% (245/368) belong to identifiable sister strains; the rest aren't in our cache at all.
 
-The 38.9% rate is the cost of integrating now vs. waiting for an EZ55 reference-proteome-match deployment (analogous to Marinobacter / Alt_MarRef per `docs/community_proteomics_marref_saga.md` and `docs/kg-changes/reference-proteome-match-organisms.md`). Decision was to ship at 38.9% since the integration is otherwise low-risk (proteomics-only, no DE, no time-course) and the paper is a bioRxiv preprint.
+**Earlier experiment 2026-04-29** (now superseded): tried adding an `annotation_gff` for `GCF_000808635.1` (AD037), which yielded zero improvement. The two assemblies use disjoint locus-tag schemes, so locus-tag-based anchoring can't bridge them. Protein-sequence bridging (`generate: method: diamond_protein_match`) would only help the small subset that IS actually EZ55 sequence — most unresolved IDs aren't.
+
+Right structural fix would be a `reference_proteome_match` organism for the multi-strain *A. macleodii* protein set Lu 2025 actually used (analogous to Marinobacter / Alt_MarRef per `docs/community_proteomics_marref_saga.md`). Decision was to ship at 38.9% since the integration is otherwise low-risk (proteomics-only, no DE, no time-course) and the paper is a bioRxiv preprint.
