@@ -133,6 +133,19 @@ CREATE INDEX experiment_compartment_idx IF NOT EXISTS FOR (e:Experiment) ON (e.c
 // GeneCluster
 CREATE FULLTEXT INDEX geneClusterFullText IF NOT EXISTS
   FOR (gc:GeneCluster) ON EACH [gc.name, gc.functional_description, gc.temporal_pattern, gc.expression_dynamics];
+
+// Reaction
+CREATE INDEX reaction_id_idx IF NOT EXISTS FOR (r:Reaction) ON (r.id);
+CREATE INDEX reaction_kegg_id_idx IF NOT EXISTS FOR (r:Reaction) ON (r.kegg_reaction_id);
+CREATE INDEX reaction_mnxr_idx IF NOT EXISTS FOR (r:Reaction) ON (r.mnxr_id);
+CREATE FULLTEXT INDEX reactionFullText IF NOT EXISTS FOR (r:Reaction) ON EACH [r.name];
+
+// Metabolite
+CREATE INDEX metabolite_id_idx IF NOT EXISTS FOR (m:Metabolite) ON (m.id);
+CREATE INDEX metabolite_kegg_id_idx IF NOT EXISTS FOR (m:Metabolite) ON (m.kegg_compound_id);
+CREATE INDEX metabolite_mnxm_idx IF NOT EXISTS FOR (m:Metabolite) ON (m.mnxm_id);
+CREATE INDEX metabolite_chebi_idx IF NOT EXISTS FOR (m:Metabolite) ON (m.chebi_id);
+CREATE FULLTEXT INDEX metaboliteFullText IF NOT EXISTS FOR (m:Metabolite) ON EACH [m.name];
 CYPHER
 
 # ─────────────────────────────────────────────────────────────────────────────
@@ -705,6 +718,47 @@ CALL {
   SET b.member_ko_count = ko_count,
       b.gene_count = g_count,
       b.organism_count = size([x IN orgs WHERE x IS NOT NULL])
+} IN TRANSACTIONS OF 100 ROWS;
+
+// ── Metabolism rollups ────────────────────────────────────────────────────
+
+// Reaction.gene_count, organism_count, organisms[]
+CALL {
+  MATCH (r:Reaction)<-[:Gene_catalyzes_reaction]-(g:Gene)
+  WITH r, count(DISTINCT g) AS gene_count, collect(DISTINCT g.organism_name) AS organisms
+  SET r.gene_count = gene_count,
+      r.organism_count = size(organisms),
+      r.organisms = organisms
+} IN TRANSACTIONS OF 1000 ROWS;
+
+// Metabolite.gene_count, organism_count
+CALL {
+  MATCH (m:Metabolite)<-[:Reaction_has_metabolite]-(r:Reaction)<-[:Gene_catalyzes_reaction]-(g:Gene)
+  WITH m, count(DISTINCT g) AS gene_count, count(DISTINCT g.organism_name) AS organism_count
+  SET m.gene_count = gene_count, m.organism_count = organism_count
+} IN TRANSACTIONS OF 1000 ROWS;
+
+// Materialize Organism_has_metabolite (2-hop save)
+CALL {
+  MATCH (o:OrganismTaxon)<-[:Gene_belongs_to_organism]-(g:Gene)
+        -[:Gene_catalyzes_reaction]->(:Reaction)
+        -[:Reaction_has_metabolite]->(m:Metabolite)
+  WITH DISTINCT o, m
+  MERGE (o)-[:Organism_has_metabolite]->(m)
+} IN TRANSACTIONS OF 1000 ROWS;
+
+// Organism rollup props
+CALL {
+  MATCH (o:OrganismTaxon)-[:Organism_has_metabolite]->(m:Metabolite)
+  WITH o, count(DISTINCT m) AS metabolite_count
+  SET o.metabolite_count = metabolite_count
+} IN TRANSACTIONS OF 100 ROWS;
+
+CALL {
+  MATCH (o:OrganismTaxon)<-[:Gene_belongs_to_organism]-(:Gene)
+        -[:Gene_catalyzes_reaction]->(r:Reaction)
+  WITH o, count(DISTINCT r) AS reaction_count
+  SET o.reaction_count = reaction_count
 } IN TRANSACTIONS OF 100 ROWS;
 CYPHER
 
