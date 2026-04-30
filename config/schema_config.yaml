@@ -631,6 +631,42 @@ pfam clan:
     level: int
     level_is_best_effort: str
 
+reaction:
+  is_a: named thing
+  represented_as: node
+  preferred_id: kegg.reaction
+  label_in_input: reaction
+  properties:
+    kegg_reaction_id: str        # raw KEGG R-number, e.g. "R00200"
+    name: str                    # KEGG reaction name
+    ec_numbers: str[]            # e.g. ["2.7.1.40"]
+    kegg_pathway_ids: str[]      # ko-prefixed pathway IDs, e.g. ["ko00010"]
+    mnxr_id: str                 # nullable; MNX cross-reference
+    rhea_ids: str[]
+    reaction_class: str          # "transport" | "chemical"
+    mass_balance: str            # "balanced" | "unbalanced"
+    organisms: str[]             # post-import: distinct organism names with a gene catalyzing
+    organism_count: int          # post-import
+    gene_count: int              # post-import: distinct genes catalyzing
+
+metabolite:
+  is_a: named thing
+  represented_as: node
+  preferred_id: kegg.compound
+  label_in_input: metabolite
+  properties:
+    kegg_compound_id: str        # raw KEGG C-number; nullable for ChEBI/MNX-only
+    name: str
+    formula: str
+    mass: float
+    inchikey: str
+    smiles: str
+    mnxm_id: str                 # nullable
+    chebi_id: str                # nullable
+    hmdb_id: str                 # nullable
+    organism_count: int          # post-import
+    gene_count: int              # post-import
+
 
 # ---
 # Associations
@@ -1065,6 +1101,38 @@ pfam in pfam clan:
   source: pfam
   target: pfam clan
   label_in_input: pfam_in_pfam_clan
+
+gene to reaction association:
+  is_a: association
+  represented_as: edge
+  label_as_edge: gene_catalyzes_reaction
+  source: gene
+  target: reaction
+  label_in_input: gene_catalyzes_reaction
+
+reaction to metabolite association:
+  is_a: association
+  represented_as: edge
+  label_as_edge: reaction_has_metabolite
+  source: reaction
+  target: metabolite
+  label_in_input: reaction_has_metabolite
+
+reaction to kegg pathway association:
+  is_a: association
+  represented_as: edge
+  label_as_edge: reaction_in_kegg_pathway
+  source: reaction
+  target: kegg term
+  label_in_input: reaction_in_kegg_pathway
+
+organism to metabolite association:
+  is_a: association
+  represented_as: edge
+  label_as_edge: organism_has_metabolite
+  source: organism taxon
+  target: metabolite
+  label_in_input: organism_has_metabolite
 
 # gene to gene regulatory association:
 #   is_a: pairwise gene to gene interaction
