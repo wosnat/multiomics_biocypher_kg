@@ -41,16 +41,24 @@ class MetabolismAdapter:
     def __init__(self, kegg_data_path: Path | str | None = None, test_mode: bool = False):
         self.kegg_data_path = Path(kegg_data_path) if kegg_data_path else DEFAULT_KEGG_DATA
         self.test_mode = test_mode
-        self._xrefs: dict | None = None
+        self._kegg_data: dict | None = None
 
     def _load(self) -> dict:
-        if self._xrefs is None:
+        """Load the pruned kegg_data.json. Strict mode: raises if missing or corrupt."""
+        if self._kegg_data is None:
             if not self.kegg_data_path.exists():
-                log.warning(f"{self.kegg_data_path} missing; emitting no metabolism nodes")
-                self._xrefs = {"reactions": {}, "compounds": {}}
-            else:
-                self._xrefs = json.loads(self.kegg_data_path.read_text())
-        return self._xrefs
+                raise FileNotFoundError(
+                    f"{self.kegg_data_path} missing — run "
+                    f"`bash scripts/prepare_data.sh --steps 6` first."
+                )
+            try:
+                self._kegg_data = json.loads(self.kegg_data_path.read_text())
+            except json.JSONDecodeError as e:
+                raise RuntimeError(
+                    f"{self.kegg_data_path} is corrupted ({e}). Rebuild via "
+                    f"`bash scripts/prepare_data.sh --steps 6 --force`."
+                ) from e
+        return self._kegg_data
 
     def get_nodes(self) -> Iterator[tuple[str, str, dict]]:
         data = self._load()

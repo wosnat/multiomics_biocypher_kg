@@ -194,6 +194,32 @@ def test_gene_reaction_edges_skip_unknown_reactions(tmp_path, kegg_data_file, mo
     assert not any(e[2] == "kegg.reaction:R_not_in_xrefs" for e in edges)
 
 
+def test_load_missing_file_raises(tmp_path):
+    """Strict mode: missing kegg_data.json raises FileNotFoundError with remediation."""
+    nonexistent = tmp_path / "missing" / "kegg_data.json"
+    adapter = ma.MetabolismAdapter(kegg_data_path=nonexistent)
+    with pytest.raises(FileNotFoundError) as exc_info:
+        list(adapter.get_nodes())
+    msg = str(exc_info.value)
+    assert "missing" in msg
+    assert "prepare_data.sh" in msg
+    assert "--steps 6" in msg
+
+
+def test_load_corrupted_file_raises(tmp_path):
+    """Strict mode: corrupted kegg_data.json raises RuntimeError with remediation."""
+    bad = tmp_path / "bad.json"
+    bad.write_text("{not valid json")
+    adapter = ma.MetabolismAdapter(kegg_data_path=bad)
+    with pytest.raises(RuntimeError) as exc_info:
+        list(adapter.get_nodes())
+    msg = str(exc_info.value)
+    assert "corrupted" in msg
+    assert "prepare_data.sh" in msg
+    assert "--steps 6" in msg
+    assert "--force" in msg
+
+
 def test_metabolite_pathway_edges(kegg_data_file):
     """Each compound emits one edge per pathway in compound.pathways."""
     adapter = ma.MetabolismAdapter(kegg_data_path=kegg_data_file)
