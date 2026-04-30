@@ -1,0 +1,18 @@
+Resolution report: Bagby and Chisholm 2015 / s2_concordance_low_co2_no_o2
+Source: 41396_2015_bfismej201536_moesm34_esm_modified.csv
+name_col: locus_tag
+id_columns: ['locus_tag', 'alternative_locus_tag']
+
+Total rows with IDs: 54
+Resolved: 51 (94.4%)
+Unresolved: 3
+
+Resolution method breakdown:
+  locus_tag:locus_tag: 48
+  tier1:locus_tag: 3
+  unresolved: 3
+
+Unresolved rows (3):
+  row 27: raw_id='PMED4_ncRNA_Yfr16*'  reason=unresolved  [locus_tag='PMED4_ncRNA_Yfr16*', alternative_locus_tag='PMED4_ncRNA_Yfr16']
+  row 52: raw_id='PMED4_asRNA_15721*'  reason=unresolved  [locus_tag='PMED4_asRNA_15721*', alternative_locus_tag='PMED4_asRNA_15721']
+  row 53: raw_id='PMED4_ncRNA_Yfr20*'  reason=unresolved  [locus_tag='PMED4_ncRNA_Yfr20*', alternative_locus_tag='PMED4_ncRNA_Yfr20']

@@ -1,0 +1,43 @@
+{
+  "per_id_type": {
+    "cds_fna_id": {
+      "conflict": 0,
+      "multi": 0,
+      "unique": 3741
+    },
+    "gene_name": {
+      "conflict": 0,
+      "multi": 66,
+      "unique": 952
+    },
+    "gene_synonym": {
+      "conflict": 0,
+      "multi": 0,
+      "unique": 6457
+    },
+    "gff_gene_id": {
+      "conflict": 0,
+      "multi": 0,
+      "unique": 7443
+    },
+    "locus_tag_ncbi": {
+      "conflict": 37,
+      "multi": 0,
+      "unique": 12080
+    },
+    "protein_id_refseq": {
+      "conflict": 0,
+      "multi": 17,
+      "unique": 7426
+    }
+  },
+  "strain": "BS11",
+  "unresolved_rows_per_source": {
+    "cds_from_genomic.fna": 32,
+    "genomic_gca/BS11": 226,
+    "genomic_gcf/BS11": 104
+  },
+  "warnings": [
+    "[CONFLICT] Tier 1 id_type 'locus_tag_ncbi' has 37 data conflicts \u2014 check annotation quality."
+  ]
+}

@@ -1,0 +1,49 @@
+{
+  "per_id_type": {
+    "cds_fna_id": {
+      "conflict": 0,
+      "multi": 0,
+      "unique": 4063
+    },
+    "gene_name": {
+      "conflict": 0,
+      "multi": 87,
+      "unique": 1049
+    },
+    "gene_synonym": {
+      "conflict": 0,
+      "multi": 8,
+      "unique": 9085
+    },
+    "gff_gene_id": {
+      "conflict": 0,
+      "multi": 0,
+      "unique": 8086
+    },
+    "locus_tag_ncbi": {
+      "conflict": 45,
+      "multi": 0,
+      "unique": 13064
+    },
+    "protein_id_refseq": {
+      "conflict": 0,
+      "multi": 14,
+      "unique": 8072
+    },
+    "uniprot_accession": {
+      "conflict": 0,
+      "multi": 2,
+      "unique": 1458
+    }
+  },
+  "strain": "BGP6",
+  "unresolved_rows_per_source": {
+    "Fadeev 2022/s1_bgp6": 1,
+    "cds_from_genomic.fna": 29,
+    "genomic_gca/BGP6": 294,
+    "genomic_gcf/BGP6": 103
+  },
+  "warnings": [
+    "[CONFLICT] Tier 1 id_type 'locus_tag_ncbi' has 45 data conflicts \u2014 check annotation quality."
+  ]
+}

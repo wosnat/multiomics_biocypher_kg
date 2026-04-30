@@ -1,0 +1,44 @@
+{
+  "per_id_type": {
+    "cds_fna_id": {
+      "conflict": 0,
+      "multi": 0,
+      "unique": 3929
+    },
+    "gene_name": {
+      "conflict": 0,
+      "multi": 84,
+      "unique": 958
+    },
+    "gene_synonym": {
+      "conflict": 0,
+      "multi": 4,
+      "unique": 6804
+    },
+    "gff_gene_id": {
+      "conflict": 0,
+      "multi": 0,
+      "unique": 7808
+    },
+    "locus_tag_ncbi": {
+      "conflict": 41,
+      "multi": 0,
+      "unique": 12630
+    },
+    "protein_id_refseq": {
+      "conflict": 0,
+      "multi": 15,
+      "unique": 7793
+    }
+  },
+  "strain": "AD45",
+  "unresolved_rows_per_source": {
+    "Fadeev 2022/s1_ad45": 1,
+    "cds_from_genomic.fna": 20,
+    "genomic_gca/AD45": 262,
+    "genomic_gcf/AD45": 106
+  },
+  "warnings": [
+    "[CONFLICT] Tier 1 id_type 'locus_tag_ncbi' has 41 data conflicts \u2014 check annotation quality."
+  ]
+}

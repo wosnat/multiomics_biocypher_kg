@@ -1,0 +1,218 @@
+{
+  "B6CPC1": {
+    "annotation_score": 2.0,
+    "cofactor_names": [
+      "Mg(2+)"
+    ],
+    "gene_names": [
+      "sucC"
+    ],
+    "gene_symbol": "sucC",
+    "go_biological_processes": [
+      "GO:0006104",
+      "GO:0006099"
+    ],
+    "go_cellular_components": [
+      "GO:0005829",
+      "GO:0042709"
+    ],
+    "go_molecular_functions": [
+      "GO:0046872",
+      "GO:0000166",
+      "GO:0004775"
+    ],
+    "is_reviewed": "not reviewed",
+    "keyword_ids": [
+      "KW-0436",
+      "KW-0460",
+      "KW-0479",
+      "KW-0547"
+    ],
+    "keywords": [
+      "Ligase",
+      "Magnesium",
+      "Metal-binding",
+      "Nucleotide-binding"
+    ],
+    "molecular_mass": 14492,
+    "organism_id": 529120,
+    "organism_name": "Alteromonas macleodii ATCC 27126",
+    "pfam_ids": [
+      "PF08442"
+    ],
+    "protein_family": "Succinate/malate CoA ligase beta subunit family",
+    "protein_synonyms": "Succinyl-CoA synthetase",
+    "sequence_length": 132
+  },
+  "B6CPE4": {
+    "annotation_score": 1.0,
+    "gene_names": [
+      "dnaK"
+    ],
+    "gene_symbol": "dnaK",
+    "go_molecular_functions": [
+      "GO:0005524",
+      "GO:0140662"
+    ],
+    "is_reviewed": "not reviewed",
+    "keyword_ids": [
+      "KW-0067",
+      "KW-0547"
+    ],
+    "keywords": [
+      "ATP-binding",
+      "Nucleotide-binding"
+    ],
+    "molecular_mass": 14696,
+    "organism_id": 529120,
+    "organism_name": "Alteromonas macleodii ATCC 27126",
+    "pfam_ids": [
+      "PF00012"
+    ],
+    "protein_synonyms": "Molecular chaperone dnaK",
+    "sequence_length": 135
+  },
+  "B6CPG7": {
+    "annotation_score": 1.0,
+    "cofactor_names": [
+      "pyridoxal 5'-phosphate"
+    ],
+    "gene_names": [
+      "glyA"
+    ],
+    "gene_symbol": "glyA",
+    "go_biological_processes": [
+      "GO:0019264",
+      "GO:0032259",
+      "GO:0046653"
+    ],
+    "go_cellular_components": [
+      "GO:0005829"
+    ],
+    "go_molecular_functions": [
+      "GO:0004372",
+      "GO:0008168",
+      "GO:0030170"
+    ],
+    "is_reviewed": "not reviewed",
+    "keyword_ids": [
+      "KW-0028",
+      "KW-0489",
+      "KW-0663",
+      "KW-0808"
+    ],
+    "keywords": [
+      "Amino-acid biosynthesis",
+      "Methyltransferase",
+      "Pyridoxal phosphate",
+      "Transferase"
+    ],
+    "molecular_mass": 19999,
+    "organism_id": 529120,
+    "organism_name": "Alteromonas macleodii ATCC 27126",
+    "pfam_ids": [
+      "PF00464"
+    ],
+    "protein_synonyms": "Serine hydroxymethyltransferase",
+    "sequence_length": 189
+  },
+  "B6CPJ6": {
+    "annotation_score": 2.0,
+    "catalytic_activities": [
+      "Reaction=tRNA(Met) + L-methionine + ATP = L-methionyl-tRNA(Met) + AMP + diphosphate; Xref=Rhea:RHEA:13481, Rhea:RHEA-COMP:9667, Rhea:RHEA-COMP:9698, ChEBI:CHEBI:30616, ChEBI:CHEBI:33019, ChEBI:CHEBI:57844, ChEBI:CHEBI:78442, ChEBI:CHEBI:78530, ChEBI:CHEBI:456215; EC=6.1.1.10; Evidence="
+    ],
+    "ec_numbers": [
+      "6.1.1.10"
+    ],
+    "function_description": "Is required not only for elongation of protein synthesis but also for the initiation of all mRNA translation through initiator tRNA(fMet) aminoacylation",
+    "gene_names": [
+      "metG"
+    ],
+    "gene_symbol": "metG",
+    "go_biological_processes": [
+      "GO:0006431"
+    ],
+    "go_cellular_components": [
+      "GO:0005829"
+    ],
+    "go_molecular_functions": [
+      "GO:0005524",
+      "GO:0004825"
+    ],
+    "is_reviewed": "not reviewed",
+    "keyword_ids": [
+      "KW-0030",
+      "KW-0067",
+      "KW-0963",
+      "KW-0436",
+      "KW-0547",
+      "KW-0648",
+      "KW-0862"
+    ],
+    "keywords": [
+      "Aminoacyl-tRNA synthetase",
+      "ATP-binding",
+      "Cytoplasm",
+      "Ligase",
+      "Nucleotide-binding",
+      "Protein biosynthesis",
+      "Zinc"
+    ],
+    "molecular_mass": 14502,
+    "organism_id": 529120,
+    "organism_name": "Alteromonas macleodii ATCC 27126",
+    "pfam_ids": [
+      "PF09334"
+    ],
+    "protein_family": "Class-I aminoacyl-tRNA synthetase family, MetG type 1 subfamily",
+    "protein_synonyms": "Methionine--tRNA ligase (EC 6.1.1.10) (Methionyl-tRNA synthetase)",
+    "sequence_length": 128
+  },
+  "B6CPL9": {
+    "annotation_score": 1.0,
+    "gene_names": [
+      "pmg"
+    ],
+    "gene_symbol": "pmg",
+    "go_biological_processes": [
+      "GO:0005975"
+    ],
+    "go_cellular_components": [
+      "GO:0005829"
+    ],
+    "go_molecular_functions": [
+      "GO:0000287",
+      "GO:0004614"
+    ],
+    "is_reviewed": "not reviewed",
+    "keyword_ids": [
+      "KW-0597"
+    ],
+    "keywords": [
+      "Phosphoprotein"
+    ],
+    "molecular_mass": 16377,
+    "organism_id": 529120,
+    "organism_name": "Alteromonas macleodii ATCC 27126",
+    "pfam_ids": [
+      "PF02878"
+    ],
+    "protein_family": "Phosphohexose mutase family",
+    "protein_synonyms": "Phosphoglucomutase",
+    "sequence_length": 150
+  },
+  "V6C0V6": {
+    "annotation_score": 1.0,
+    "gene_names": [
+      "tmRNA",
+      "Alter_macle_27126"
+    ],
+    "gene_symbol": "tmRNA Alter_macle_27126",
+    "is_reviewed": "not reviewed",
+    "molecular_mass": 1038,
+    "organism_id": 529120,
+    "organism_name": "Alteromonas macleodii ATCC 27126",
+    "protein_synonyms": "Proteolysis tag peptide encoded by tmRNA Alter_macle_27126",
+    "sequence_length": 10
+  }
+}
