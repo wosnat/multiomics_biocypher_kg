@@ -1,0 +1,35 @@
+{
+  "strain": "CC9311",
+  "gene_count": 3052,
+  "kegg_reactions": {
+    "raw_total": 1501,
+    "raw_unique": 1039,
+    "kept_total": 1501,
+    "kept_unique_r_numbers": 1039
+  },
+  "transporter_classification": {
+    "raw_total": 325,
+    "raw_unique": 137,
+    "validated_total": 255,
+    "validated_unique": 110,
+    "invalid_examples": [
+      "1.A.11",
+      "1.A.12.2.2",
+      "1.A.12.3.2",
+      "1.A.22.1",
+      "1.A.23.2",
+      "1.A.23.4",
+      "1.A.26.1",
+      "1.A.33.1",
+      "1.A.43.1",
+      "1.A.43.2"
+    ]
+  },
+  "cazy_ids": {
+    "raw_total": 36,
+    "raw_unique": 24,
+    "validated_total": 36,
+    "validated_unique": 24,
+    "invalid_examples": []
+  }
+}

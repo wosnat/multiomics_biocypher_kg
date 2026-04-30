@@ -1,0 +1,35 @@
+{
+  "strain": "BL107",
+  "gene_count": 2595,
+  "kegg_reactions": {
+    "raw_total": 1350,
+    "raw_unique": 989,
+    "kept_total": 1350,
+    "kept_unique_r_numbers": 989
+  },
+  "transporter_classification": {
+    "raw_total": 265,
+    "raw_unique": 118,
+    "validated_total": 217,
+    "validated_unique": 99,
+    "invalid_examples": [
+      "1.A.11",
+      "1.A.12.2.2",
+      "1.A.12.3.2",
+      "1.A.26.1",
+      "1.A.33.1",
+      "1.A.43.1",
+      "1.A.43.2",
+      "1.A.43.3",
+      "2.A.49",
+      "2.A.64"
+    ]
+  },
+  "cazy_ids": {
+    "raw_total": 38,
+    "raw_unique": 20,
+    "validated_total": 38,
+    "validated_unique": 20,
+    "invalid_examples": []
+  }
+}

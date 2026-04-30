@@ -1,0 +1,35 @@
+{
+  "strain": "MIT1002",
+  "gene_count": 4028,
+  "kegg_reactions": {
+    "raw_total": 2158,
+    "raw_unique": 1288,
+    "kept_total": 2158,
+    "kept_unique_r_numbers": 1288
+  },
+  "transporter_classification": {
+    "raw_total": 578,
+    "raw_unique": 240,
+    "validated_total": 414,
+    "validated_unique": 175,
+    "invalid_examples": [
+      "1.A.11",
+      "1.A.12.2.2",
+      "1.A.12.3.1",
+      "1.A.12.3.2",
+      "1.A.13.2.2",
+      "1.A.13.2.3",
+      "1.A.14.2.1",
+      "1.A.23.2",
+      "1.A.23.4",
+      "1.A.23.4.5"
+    ]
+  },
+  "cazy_ids": {
+    "raw_total": 54,
+    "raw_unique": 24,
+    "validated_total": 54,
+    "validated_unique": 24,
+    "invalid_examples": []
+  }
+}

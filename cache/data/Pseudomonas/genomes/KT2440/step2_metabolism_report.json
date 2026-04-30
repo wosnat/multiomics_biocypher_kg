@@ -1,0 +1,35 @@
+{
+  "strain": "KT2440",
+  "gene_count": 5487,
+  "kegg_reactions": {
+    "raw_total": 2916,
+    "raw_unique": 1449,
+    "kept_total": 2923,
+    "kept_unique_r_numbers": 1449
+  },
+  "transporter_classification": {
+    "raw_total": 1167,
+    "raw_unique": 347,
+    "validated_total": 948,
+    "validated_unique": 267,
+    "invalid_examples": [
+      "1.A.11",
+      "1.A.12.2.2",
+      "1.A.12.3.1",
+      "1.A.12.3.2",
+      "1.A.13.2.2",
+      "1.A.13.2.3",
+      "1.A.14.2.1",
+      "1.A.22.1",
+      "1.A.23.1.1",
+      "1.A.23.1.2"
+    ]
+  },
+  "cazy_ids": {
+    "raw_total": 50,
+    "raw_unique": 25,
+    "validated_total": 50,
+    "validated_unique": 25,
+    "invalid_examples": []
+  }
+}

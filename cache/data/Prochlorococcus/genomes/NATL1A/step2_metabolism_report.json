@@ -1,0 +1,35 @@
+{
+  "strain": "NATL1A",
+  "gene_count": 2226,
+  "kegg_reactions": {
+    "raw_total": 1201,
+    "raw_unique": 935,
+    "kept_total": 1201,
+    "kept_unique_r_numbers": 935
+  },
+  "transporter_classification": {
+    "raw_total": 230,
+    "raw_unique": 102,
+    "validated_total": 189,
+    "validated_unique": 83,
+    "invalid_examples": [
+      "1.A.11",
+      "1.A.12.2.2",
+      "1.A.12.3.2",
+      "1.A.23.4",
+      "1.A.26.1",
+      "1.A.33.1",
+      "1.A.43.1",
+      "1.A.43.2",
+      "1.A.43.3",
+      "2.A.49"
+    ]
+  },
+  "cazy_ids": {
+    "raw_total": 21,
+    "raw_unique": 13,
+    "validated_total": 21,
+    "validated_unique": 13,
+    "invalid_examples": []
+  }
+}

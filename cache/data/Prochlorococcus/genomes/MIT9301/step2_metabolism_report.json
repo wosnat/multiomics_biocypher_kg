@@ -1,0 +1,35 @@
+{
+  "strain": "MIT9301",
+  "gene_count": 1935,
+  "kegg_reactions": {
+    "raw_total": 1213,
+    "raw_unique": 945,
+    "kept_total": 1213,
+    "kept_unique_r_numbers": 945
+  },
+  "transporter_classification": {
+    "raw_total": 209,
+    "raw_unique": 94,
+    "validated_total": 159,
+    "validated_unique": 74,
+    "invalid_examples": [
+      "1.A.11",
+      "1.A.12.2.2",
+      "1.A.12.3.2",
+      "1.A.23.4",
+      "1.A.26.1",
+      "1.A.33.1",
+      "1.A.43.1",
+      "1.A.43.2",
+      "1.A.43.3",
+      "2.A.49"
+    ]
+  },
+  "cazy_ids": {
+    "raw_total": 20,
+    "raw_unique": 13,
+    "validated_total": 20,
+    "validated_unique": 13,
+    "invalid_examples": []
+  }
+}

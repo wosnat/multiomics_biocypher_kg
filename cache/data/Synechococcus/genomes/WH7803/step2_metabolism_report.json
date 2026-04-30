@@ -1,0 +1,35 @@
+{
+  "strain": "WH7803",
+  "gene_count": 2621,
+  "kegg_reactions": {
+    "raw_total": 1374,
+    "raw_unique": 1045,
+    "kept_total": 1374,
+    "kept_unique_r_numbers": 1045
+  },
+  "transporter_classification": {
+    "raw_total": 332,
+    "raw_unique": 144,
+    "validated_total": 274,
+    "validated_unique": 115,
+    "invalid_examples": [
+      "1.A.11",
+      "1.A.12.2.2",
+      "1.A.12.3.2",
+      "1.A.22.1",
+      "1.A.23.2",
+      "1.A.23.3",
+      "1.A.23.4",
+      "1.A.26.1",
+      "1.A.30.2.1",
+      "1.A.33.1"
+    ]
+  },
+  "cazy_ids": {
+    "raw_total": 34,
+    "raw_unique": 24,
+    "validated_total": 34,
+    "validated_unique": 24,
+    "invalid_examples": []
+  }
+}

@@ -1,0 +1,35 @@
+{
+  "strain": "DSS-3",
+  "gene_count": 4368,
+  "kegg_reactions": {
+    "raw_total": 3085,
+    "raw_unique": 1377,
+    "kept_total": 3091,
+    "kept_unique_r_numbers": 1377
+  },
+  "transporter_classification": {
+    "raw_total": 820,
+    "raw_unique": 211,
+    "validated_total": 691,
+    "validated_unique": 166,
+    "invalid_examples": [
+      "1.A.11",
+      "1.A.12.2.2",
+      "1.A.12.3.2",
+      "1.A.13.2.2",
+      "1.A.13.2.3",
+      "1.A.22.1",
+      "1.A.23.1.1",
+      "1.A.23.2",
+      "1.A.23.3",
+      "1.A.26.1"
+    ]
+  },
+  "cazy_ids": {
+    "raw_total": 23,
+    "raw_unique": 14,
+    "validated_total": 23,
+    "validated_unique": 14,
+    "invalid_examples": []
+  }
+}

@@ -1,0 +1,35 @@
+{
+  "strain": "HOT1A3",
+  "gene_count": 4031,
+  "kegg_reactions": {
+    "raw_total": 2038,
+    "raw_unique": 1266,
+    "kept_total": 2038,
+    "kept_unique_r_numbers": 1266
+  },
+  "transporter_classification": {
+    "raw_total": 574,
+    "raw_unique": 234,
+    "validated_total": 406,
+    "validated_unique": 171,
+    "invalid_examples": [
+      "1.A.11",
+      "1.A.12.2.2",
+      "1.A.12.3.1",
+      "1.A.12.3.2",
+      "1.A.13.2.2",
+      "1.A.13.2.3",
+      "1.A.14.2.1",
+      "1.A.23.2",
+      "1.A.23.4",
+      "1.A.23.4.5"
+    ]
+  },
+  "cazy_ids": {
+    "raw_total": 57,
+    "raw_unique": 25,
+    "validated_total": 57,
+    "validated_unique": 25,
+    "invalid_examples": []
+  }
+}

@@ -1,0 +1,35 @@
+{
+  "strain": "AS9601",
+  "gene_count": 1951,
+  "kegg_reactions": {
+    "raw_total": 1225,
+    "raw_unique": 924,
+    "kept_total": 1225,
+    "kept_unique_r_numbers": 924
+  },
+  "transporter_classification": {
+    "raw_total": 201,
+    "raw_unique": 91,
+    "validated_total": 162,
+    "validated_unique": 74,
+    "invalid_examples": [
+      "1.A.11",
+      "1.A.12.2.2",
+      "1.A.12.3.2",
+      "1.A.23.4",
+      "1.A.26.1",
+      "1.A.33.1",
+      "1.A.43.1",
+      "1.A.43.2",
+      "1.A.43.3",
+      "2.A.49"
+    ]
+  },
+  "cazy_ids": {
+    "raw_total": 23,
+    "raw_unique": 16,
+    "validated_total": 23,
+    "validated_unique": 16,
+    "invalid_examples": []
+  }
+}

@@ -1,0 +1,35 @@
+{
+  "strain": "MruberA",
+  "gene_count": 2884,
+  "kegg_reactions": {
+    "raw_total": 1672,
+    "raw_unique": 1138,
+    "kept_total": 1672,
+    "kept_unique_r_numbers": 1138
+  },
+  "transporter_classification": {
+    "raw_total": 515,
+    "raw_unique": 151,
+    "validated_total": 417,
+    "validated_unique": 116,
+    "invalid_examples": [
+      "1.A.11",
+      "1.A.13.2.2",
+      "1.A.13.2.3",
+      "1.A.22.1",
+      "1.A.23.3",
+      "1.A.26.1",
+      "1.A.33.1",
+      "1.A.35.1",
+      "1.A.35.3",
+      "1.A.43.1"
+    ]
+  },
+  "cazy_ids": {
+    "raw_total": 30,
+    "raw_unique": 18,
+    "validated_total": 30,
+    "validated_unique": 18,
+    "invalid_examples": []
+  }
+}

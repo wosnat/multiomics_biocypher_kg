@@ -1,0 +1,35 @@
+{
+  "strain": "EZ55",
+  "gene_count": 4136,
+  "kegg_reactions": {
+    "raw_total": 2236,
+    "raw_unique": 1348,
+    "kept_total": 2236,
+    "kept_unique_r_numbers": 1348
+  },
+  "transporter_classification": {
+    "raw_total": 579,
+    "raw_unique": 240,
+    "validated_total": 414,
+    "validated_unique": 175,
+    "invalid_examples": [
+      "1.A.11",
+      "1.A.12.2.2",
+      "1.A.12.3.1",
+      "1.A.12.3.2",
+      "1.A.13.2.2",
+      "1.A.13.2.3",
+      "1.A.14.2.1",
+      "1.A.23.2",
+      "1.A.23.4",
+      "1.A.23.4.5"
+    ]
+  },
+  "cazy_ids": {
+    "raw_total": 54,
+    "raw_unique": 26,
+    "validated_total": 54,
+    "validated_unique": 26,
+    "invalid_examples": []
+  }
+}

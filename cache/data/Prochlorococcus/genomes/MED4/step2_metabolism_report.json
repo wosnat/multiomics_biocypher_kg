@@ -1,0 +1,35 @@
+{
+  "strain": "MED4",
+  "gene_count": 1976,
+  "kegg_reactions": {
+    "raw_total": 1254,
+    "raw_unique": 943,
+    "kept_total": 1254,
+    "kept_unique_r_numbers": 943
+  },
+  "transporter_classification": {
+    "raw_total": 212,
+    "raw_unique": 99,
+    "validated_total": 171,
+    "validated_unique": 81,
+    "invalid_examples": [
+      "1.A.11",
+      "1.A.12.2.2",
+      "1.A.12.3.2",
+      "1.A.23.4",
+      "1.A.26.1",
+      "1.A.33.1",
+      "1.A.43.1",
+      "1.A.43.2",
+      "1.A.43.3",
+      "2.A.49"
+    ]
+  },
+  "cazy_ids": {
+    "raw_total": 26,
+    "raw_unique": 14,
+    "validated_total": 26,
+    "validated_unique": 14,
+    "invalid_examples": []
+  }
+}

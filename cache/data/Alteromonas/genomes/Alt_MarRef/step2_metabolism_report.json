@@ -1,0 +1,35 @@
+{
+  "strain": "Alt_MarRef",
+  "gene_count": 4305,
+  "kegg_reactions": {
+    "raw_total": 2497,
+    "raw_unique": 1263,
+    "kept_total": 2497,
+    "kept_unique_r_numbers": 1263
+  },
+  "transporter_classification": {
+    "raw_total": 601,
+    "raw_unique": 228,
+    "validated_total": 456,
+    "validated_unique": 174,
+    "invalid_examples": [
+      "1.A.11",
+      "1.A.12.2.2",
+      "1.A.12.3.1",
+      "1.A.12.3.2",
+      "1.A.13.2.2",
+      "1.A.13.2.3",
+      "1.A.14.2.1",
+      "1.A.23.2",
+      "1.A.23.4.5",
+      "1.A.26.1"
+    ]
+  },
+  "cazy_ids": {
+    "raw_total": 89,
+    "raw_unique": 34,
+    "validated_total": 89,
+    "validated_unique": 34,
+    "invalid_examples": []
+  }
+}

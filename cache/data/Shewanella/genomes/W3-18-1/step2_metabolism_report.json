@@ -1,0 +1,35 @@
+{
+  "strain": "W3-18-1",
+  "gene_count": 4058,
+  "kegg_reactions": {
+    "raw_total": 1980,
+    "raw_unique": 1260,
+    "kept_total": 1980,
+    "kept_unique_r_numbers": 1260
+  },
+  "transporter_classification": {
+    "raw_total": 663,
+    "raw_unique": 264,
+    "validated_total": 456,
+    "validated_unique": 191,
+    "invalid_examples": [
+      "1.A.11",
+      "1.A.12.2.2",
+      "1.A.12.3.1",
+      "1.A.12.3.2",
+      "1.A.13.2.2",
+      "1.A.13.2.3",
+      "1.A.14.2.1",
+      "1.A.22.1",
+      "1.A.23.1.1",
+      "1.A.23.1.2"
+    ]
+  },
+  "cazy_ids": {
+    "raw_total": 28,
+    "raw_unique": 17,
+    "validated_total": 28,
+    "validated_unique": 17,
+    "invalid_examples": []
+  }
+}

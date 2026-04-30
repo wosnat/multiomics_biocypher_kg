@@ -1,0 +1,35 @@
+{
+  "strain": "WH8102",
+  "gene_count": 2881,
+  "kegg_reactions": {
+    "raw_total": 1383,
+    "raw_unique": 1027,
+    "kept_total": 1383,
+    "kept_unique_r_numbers": 1027
+  },
+  "transporter_classification": {
+    "raw_total": 335,
+    "raw_unique": 135,
+    "validated_total": 275,
+    "validated_unique": 108,
+    "invalid_examples": [
+      "1.A.11",
+      "1.A.12.2.2",
+      "1.A.12.3.2",
+      "1.A.23.2",
+      "1.A.23.3",
+      "1.A.26.1",
+      "1.A.33.1",
+      "1.A.35.1",
+      "1.A.35.3",
+      "1.A.43.1"
+    ]
+  },
+  "cazy_ids": {
+    "raw_total": 39,
+    "raw_unique": 20,
+    "validated_total": 39,
+    "validated_unique": 20,
+    "invalid_examples": []
+  }
+}

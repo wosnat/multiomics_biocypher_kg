@@ -1,0 +1,35 @@
+{
+  "strain": "BP1",
+  "gene_count": 2449,
+  "kegg_reactions": {
+    "raw_total": 1212,
+    "raw_unique": 894,
+    "kept_total": 1212,
+    "kept_unique_r_numbers": 894
+  },
+  "transporter_classification": {
+    "raw_total": 381,
+    "raw_unique": 148,
+    "validated_total": 316,
+    "validated_unique": 120,
+    "invalid_examples": [
+      "1.A.11",
+      "1.A.12.2.2",
+      "1.A.12.3.2",
+      "1.A.13.2.2",
+      "1.A.13.2.3",
+      "1.A.22.1",
+      "1.A.23.3",
+      "1.A.30.2.1",
+      "1.A.33.1",
+      "1.A.35.1"
+    ]
+  },
+  "cazy_ids": {
+    "raw_total": 37,
+    "raw_unique": 23,
+    "validated_total": 37,
+    "validated_unique": 23,
+    "invalid_examples": []
+  }
+}
