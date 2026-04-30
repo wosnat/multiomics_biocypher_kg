@@ -128,3 +128,55 @@ def test_download_kegg_data_includes_metabolism_keys(tmp_path, monkeypatch):
     import json
     reloaded = json.loads(cache_file.read_text())
     assert reloaded["reaction_names"] == data["reaction_names"]
+
+
+def test_download_kegg_data_uses_raw_cache_on_second_call(tmp_path, monkeypatch):
+    """Second call with force=False must not hit the network — raw cache is reused."""
+    fetch_count = {"text": 0, "json": 0}
+
+    def counting_fetch_text(url):
+        fetch_count["text"] += 1
+        if url.endswith("/list/ko"):
+            return "ko:K02338\tDNA polymerase III\n"
+        if url.endswith("/link/pathway/ko"):
+            return "ko:K02338\tpath:ko03030\n"
+        if url.endswith("/list/pathway/ko"):
+            return "path:ko03030\tDNA replication\n"
+        if url.endswith("/list/reaction"):
+            return REACTION_LIST_FIXTURE
+        if url.endswith("/list/compound"):
+            return COMPOUND_LIST_FIXTURE
+        if url.endswith("/link/compound/reaction"):
+            return LINK_CR_FIXTURE
+        if url.endswith("/link/pathway/reaction"):
+            return LINK_PR_FIXTURE
+        if url.endswith("/link/pathway/compound"):
+            return LINK_PC_FIXTURE
+        raise AssertionError(f"unexpected URL {url}")
+
+    def counting_fetch_json(url):
+        fetch_count["json"] += 1
+        return {"children": []}
+
+    monkeypatch.setattr(kegg_utils, "_fetch_text", counting_fetch_text)
+    monkeypatch.setattr(kegg_utils, "_fetch_json", counting_fetch_json)
+
+    # First call: 8 text fetches + 1 JSON fetch
+    kegg_utils.download_kegg_data(tmp_path, force=True)
+    first_text = fetch_count["text"]
+    first_json = fetch_count["json"]
+    assert first_text == 8
+    assert first_json == 1
+
+    # Delete kegg_data.json so download_kegg_data has to re-parse
+    (tmp_path / "kegg" / "kegg_data.json").unlink()
+
+    # Second call: raw cache exists, no network, but parses from disk
+    kegg_utils.download_kegg_data(tmp_path, force=False)
+    assert fetch_count["text"] == first_text  # no new text fetches
+    assert fetch_count["json"] == first_json  # no new JSON fetches
+
+    # Third call with force=True: re-fetches everything
+    kegg_utils.download_kegg_data(tmp_path, force=True)
+    assert fetch_count["text"] == first_text + 8
+    assert fetch_count["json"] == first_json + 1

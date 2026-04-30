@@ -174,7 +174,7 @@ def main(force: bool = False) -> None:
         return
 
     if not KEGG_DATA_FILE.exists() or force:
-        log.info("Downloading KEGG hierarchy + metabolism endpoints (this can take ~1-2 min) ...")
+        log.info("Loading KEGG hierarchy + metabolism endpoints (downloads from REST if not cached) ...")
         from multiomics_kg.utils.kegg_utils import download_kegg_data
         download_kegg_data(KEGG_CACHE_DIR.parent, force=force)
     if not RESOLVER_DB.exists():
