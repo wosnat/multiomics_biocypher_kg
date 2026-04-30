@@ -19,6 +19,7 @@ from multiomics_kg.adapters.functional_annotation_adapter import (
     MultiPfamAnnotationAdapter,
 )
 from multiomics_kg.adapters.brite_adapter import MultiBriteAdapter
+from multiomics_kg.adapters.metabolism_adapter import MultiMetabolismAdapter
 
 
 def parse_args():
@@ -66,6 +67,16 @@ def main():
     )
     bc.write_nodes(og_adapter.get_nodes())
     bc.write_edges(og_adapter.get_edges())
+
+    # Metabolism adapter: emits Reaction + Metabolite nodes + 3 edge types.
+    # Reads cache/data/kegg/kegg_metabolism_xrefs.json (built by prepare_data step 6).
+    # Pure file reader — no SQLite / no REST at build time.
+    metabolism_adapter = MultiMetabolismAdapter(
+        genome_config_file='data/Prochlorococcus/genomes/cyanobacteria_genomes.csv',
+        test_mode=TEST_MODE,
+    )
+    bc.write_nodes(metabolism_adapter.get_nodes())
+    bc.write_edges(metabolism_adapter.get_edges())
 
     # MultiUniprot adapter reads pre-built protein_annotations.json files.
     # Requires: prepare_data.sh steps 0 + 2 run beforehand.
