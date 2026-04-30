@@ -275,6 +275,30 @@
       "title": "Transcriptomic response during phage infection of a marine cyanobacterium under phosphorus-limited conditions"
     }
   },
+  "data/Prochlorococcus/papers_and_supp/Lu 2025/2025.05.28.656624v1.full.pdf": {
+    "publication": {
+      "abstract": "The cyanobacterium Prochlorococcus has a conspicuously reduced genome causing it to require help from co-existing organisms for survival under a variety of stressful conditions. In this work we demonstrated that the heterotrophic bacterium Alteromonas macleodii EZ55 facilitated the survival of Prochlorococcus MIT9312 batch co-cultures as they entered stationary phase. We further showed that exudates from both Alteromonas and Prochlorococcus were responsible for this effect. Unidentified toxic exudates of Prochlorococcus lowered the carrying capacity of Pro99 medium for axenic Prochlorococcus cells, whereas heat-labile high-molecular weight exudates of Alteromonas both removed the effect of Prochlorococcus exudates and extended the lifespan of axenic Prochlorococcus cultures. Alteromonas exudates contained a wide variety of proteins and demonstrated enzymatic activities. Some of these proteins and activities may have been packaged within extracellular membrane vesicles, which we identified within Alteromonas exudates and found capable of physically associating with Prochlorococcus cells. Many of the functionalities observed in Alteromonas exudates (e.g., increasing phosphate availability, degrading hydrogen peroxide) were consistent with leaky Black Queen processes, which are defined as services provided by one organism that benefit the entire community and favor the evolution of interdependencies in microbial communities. Therefore, we discuss the potential ramifications of such processes being packaged into vesicles as opposed to freely diffusing through the extracellular milieu.",
+      "authors": [
+        "Zhiying Lu",
+        "Sydney Plummer",
+        "James Kizziah",
+        "Steven J. Biller",
+        "J. Jeffrey Morris"
+      ],
+      "description": "Co-culture experiments showing Alteromonas macleodii EZ55 enhances survival of Prochlorococcus MIT9312 in stationary phase; analysis of exudates from Alteromonas and Prochlorococcus; investigation of extracellular vesicles and enzymatic activities; discussion of leaky Black Queen processes in microbial communities.",
+      "doi": "10.1101/2025.05.28.656624",
+      "journal": "bioRxiv",
+      "organism": [
+        "Prochlorococcus MIT9312",
+        "Alteromonas macleodii EZ55"
+      ],
+      "pmid": null,
+      "publication_id": "10.1101/2025.05.28.656624",
+      "publication_year": "2025",
+      "study_type": "Proteomics; Microbial interactions; Vesicle analysis",
+      "title": "Enzymatically active exudates from Alteromonas facilitate Prochlorococcus survival in stationary phase"
+    }
+  },
   "data/Prochlorococcus/papers_and_supp/Read 2017/41396_2017_article_bfismej201788.pdf": {
     "publication": {
       "abstract": "The authors compare primary transcriptomes of Prochlorococcus MED4 under nitrogen-deprived and nitrogen-replete conditions to test whether transcriptional regulation reduces cellular nitrogen budgets during N limitation. They map transcription start sites and find increased downstream initiation and internal TSS usage under N deprivation, yielding shortened transcripts with about 21% less nitrogen per encoded protein. They also observe elevated glycine\u2013glycine motifs, consistent with translational pausing and slower growth. Overall, the study reveals structural changes in the transcriptome during N deprivation that may further minimize cellular nitrogen requirements.",
@@ -568,6 +592,31 @@
       "publication_year": "2024",
       "study_type": "Metatranscriptomics",
       "title": "Emergence of metabolic coupling to the heterotroph Alteromonas promotes dark survival in Prochlorococcus"
+    }
+  },
+  "data/Prochlorococcus/papers_and_supp/fadeev 2022/uqac025.pdf": {
+    "publication": {
+      "abstract": "Bacterial membrane vesicles (MVs) are abundant in the oceans, but their potential functional roles remain unclear. In this study we characterized MV production and protein content of six strains of Alteromonas macleodii, a cosmopolitan marine bacterium. Alteromonas macleodii strains varied in their MV production rates, with some releasing up to 30 MVs per cell per generation. Microscopy imaging revealed heterogeneous MV morphologies, including some MVs aggregated within larger membrane structures. Proteomic characterization revealed that A. macleodii MVs are rich in membrane proteins related to iron and phosphate uptake, as well as proteins with potential functions in biofilm formation. Furthermore, MVs harbored ectoenzymes, such as aminopeptidases and alkaline phosphatases, which comprised up to 20% of the total extracellular enzymatic activity. Our results suggest that A. macleodii MVs may support its growth through generation of extracellular \u2018hotspots\u2019 that facilitate access to essential substrates. This study provides an important basis to decipher the ecological relevance of MVs in heterotrophic marine bacteria.",
+      "authors": [
+        "Eduard Fadeev",
+        "C\u00e9cile Carpaneto Bastos",
+        "Jennifer H. Hennenfeind",
+        "Steven J. Biller",
+        "Daniel Sher",
+        "Matthias Wietz",
+        "Gerhard J. Herndl"
+      ],
+      "description": "Six Alteromonas macleodii strains were cultured to quantify membrane vesicle production, morphology, and protein content; MV production rates were measured across replicates; MV morphology was examined by microscopy; MV proteomics and extracellular enzymatic activity were characterized to infer potential ecological roles.",
+      "doi": "10.1093/femsml/uqac025",
+      "journal": "microLife",
+      "organism": [
+        "Alteromonas macleodii"
+      ],
+      "pmid": null,
+      "publication_id": "10.1093/femsml/uqac025",
+      "publication_year": "2023",
+      "study_type": "Proteomics, Microscopy, Extracellular vesicle analysis",
+      "title": "Characterization of membrane vesicles in Alteromonas macleodii indicates potential roles in their copiotrophic lifestyle"
     }
   },
   "data/Prochlorococcus/papers_and_supp/he 2022/fmicb-13-1038136.pdf": {
