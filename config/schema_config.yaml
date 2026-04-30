@@ -473,6 +473,8 @@ organism taxon:
     compartments: str[]              # post-import (Plan 3)
     derived_metric_types: str[]      # post-import (Plan 3)
     derived_metric_value_kinds: str[]  # post-import (Plan 3)
+    metabolite_count: int          # post-import: distinct metabolites linked via Organism_has_metabolite
+    reaction_count: int            # post-import: distinct reactions catalyzed by genes belonging to this organism
     organism_type: str   # genome_strain | treatment | reference_proteome_match
     reference_database: str   # e.g. "MarRef v6" (reference_proteome_match only)
     reference_proteome: str   # e.g. "UP000262181" (reference_proteome_match only)
