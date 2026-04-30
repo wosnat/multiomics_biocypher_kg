@@ -283,7 +283,8 @@ def _parse_brite_hierarchy(brite_json: dict) -> tuple[
 
 def download_kegg_data(cache_root: Path, force: bool = False) -> dict:
     """
-    Download and cache KEGG hierarchy data needed for the 4-level KEGG graph.
+    Download and cache KEGG hierarchy data needed for the 4-level KEGG graph,
+    plus metabolism endpoints (reactions, compounds, and their associations).
 
     Returns a dict with keys:
       - ``ko_names``: ``{K#####: description_str}``
@@ -293,6 +294,11 @@ def download_kegg_data(cache_root: Path, force: bool = False) -> dict:
       - ``subcategory_names``: ``{subcat_code: name_str}``
       - ``subcategory_to_category``: ``{subcat_code: cat_code_str}``
       - ``category_names``: ``{cat_code: name_str}``
+      - ``reaction_names``: ``{R#####: description_str}`` (Spec 1.2)
+      - ``compound_names``: ``{C#####: name_str}`` (Spec 1.2)
+      - ``reaction_to_compounds``: ``{R#####: [C#####, ...]}`` (Spec 1.2)
+      - ``reaction_to_pathways``: ``{R#####: [ko#####, ...]}`` (Spec 1.2)
+      - ``compound_to_pathways``: ``{C#####: [ko#####, ...]}`` (Spec 1.2)
 
     Cache is written to ``<cache_root>/kegg/kegg_data.json``.
     Set ``force=True`` to re-download even if the cache exists.
@@ -320,6 +326,13 @@ def download_kegg_data(cache_root: Path, force: bool = False) -> dict:
     api_pw_names = _parse_pathway_ko_names(_fetch_text(_PATHWAY_KO_LIST_URL))
     pathway_names = {**api_pw_names, **brite_pw_names}  # BRITE wins on overlap
 
+    # ── Spec 1.2 metabolism endpoints ─────────────────────────────────
+    reaction_names = _parse_reaction_names(_fetch_text(_REACTION_LIST_URL))
+    compound_names = _parse_compound_names(_fetch_text(_COMPOUND_LIST_URL))
+    reaction_to_compounds = _parse_reaction_to_compounds(_fetch_text(_LINK_COMPOUND_REACTION_URL))
+    reaction_to_pathways = _parse_reaction_to_pathways(_fetch_text(_LINK_PATHWAY_REACTION_URL))
+    compound_to_pathways = _parse_compound_to_pathways(_fetch_text(_LINK_PATHWAY_COMPOUND_URL))
+
     data = {
         "ko_names": ko_names,
         "pathway_names": pathway_names,
@@ -328,6 +341,12 @@ def download_kegg_data(cache_root: Path, force: bool = False) -> dict:
         "subcategory_names": subcat_names,
         "subcategory_to_category": subcat_to_cat,
         "category_names": cat_names,
+        # Spec 1.2 — metabolism
+        "reaction_names": reaction_names,
+        "compound_names": compound_names,
+        "reaction_to_compounds": reaction_to_compounds,
+        "reaction_to_pathways": reaction_to_pathways,
+        "compound_to_pathways": compound_to_pathways,
     }
 
     with open(cache_file, "w", encoding="utf-8") as fh:
