@@ -35,7 +35,7 @@ def patch_metabolism_caches(monkeypatch, tmp_path):
     yield
 
 
-def test_yaml_transforms_produce_resolved_fields(tmp_path, monkeypatch):
+def test_yaml_transforms_keep_raw_r_numbers(tmp_path, monkeypatch):
     """Run the YAML pipeline against a tiny eggNOG file and assert merged fields.
 
     Spec 1.2 pivot: kegg_reactions now keeps raw R-numbers (no MNX resolution).

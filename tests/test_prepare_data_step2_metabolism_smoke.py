@@ -65,9 +65,8 @@ def test_phase_1_1b_full_pipeline_med4():
 
     assert metabolism["strain"] == "MED4"
     assert metabolism["gene_count"] >= 1500  # MED4 has 1838 genes
-    # 526 KEGG_Reaction-annotated genes; resolution rate is the unknown.
-    # >= 400 unique resolved is the spec's lower bound.
-    assert metabolism["kegg_reactions"]["resolved_unique_mnxr"] >= 400
+    # 526 KEGG_Reaction-annotated genes; spec lower bound >= 400 unique kept R-numbers.
+    assert metabolism["kegg_reactions"]["kept_unique_r_numbers"] >= 400
     # 121 KEGG_TC-annotated genes; spec lower bound 50.
     assert metabolism["transporter_classification"]["validated_unique"] >= 50
     # CAZy coverage on MED4 is sparse (1.3%); spec lower bound 5.
