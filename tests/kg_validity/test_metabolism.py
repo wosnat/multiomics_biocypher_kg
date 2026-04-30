@@ -34,6 +34,7 @@ def test_all_reactions_have_kegg_primary_id(run_query):
 def test_metabolite_primary_ids_predominantly_kegg(run_query):
     """Most metabolites should have kegg.compound: prefix; a few may fall back to chebi/mnx."""
     total = run_query("MATCH (m:Metabolite) RETURN count(m) AS n")[0]["n"]
+    assert total > 0, "No Metabolite nodes found — graph not yet rebuilt with metabolism layer"
     kegg_count = run_query(
         "MATCH (m:Metabolite) WHERE m.id STARTS WITH 'kegg.compound:' RETURN count(m) AS n"
     )[0]["n"]
@@ -54,12 +55,13 @@ def test_kegg_reaction_id_property_matches_id_suffix(run_query):
 
 def test_every_reaction_has_at_least_one_metabolite(run_query):
     """Every Reaction should connect to >=1 Metabolite (some KEGG-only orphans tolerated)."""
+    total = run_query("MATCH (r:Reaction) RETURN count(r) AS n")[0]["n"]
+    assert total > 0, "No Reaction nodes found — graph not yet rebuilt with metabolism layer"
     n_bad = run_query("""
         MATCH (r:Reaction)
         WHERE NOT EXISTS { MATCH (r)-[:Reaction_has_metabolite]->() }
         RETURN count(r) AS n
     """)[0]["n"]
-    total = run_query("MATCH (r:Reaction) RETURN count(r) AS n")[0]["n"]
     assert n_bad / total < 0.05, f"{n_bad}/{total} reactions lack any metabolite edge"
 
 
