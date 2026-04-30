@@ -76,3 +76,47 @@ def resolve_reaction(value: str, conn: sqlite3.Connection) -> tuple[str | None, 
         return rows[0][0], "xref:ambiguous"
 
     return None, "unresolved"
+
+
+# ── Primary-ID resolution (KG-side canonical IDs) ────────────────────────────
+#
+# Per Spec 1.2: KEGG-native primary IDs win, with bioregistry-style fallbacks.
+# Compound: kegg.compound > chebi > mnx
+# Reaction: kegg.reaction > rhea > mnx
+
+_COMPOUND_PRIMARY_PRIORITY = ("kegg.compound", "chebi")
+_REACTION_PRIMARY_PRIORITY = ("kegg.reaction", "rhea")
+
+
+def mnxm_to_primary_id(mnxm_id: str, conn: sqlite3.Connection) -> str:
+    """Map an MNXM* ID to its canonical KG primary ID.
+
+    Priority: kegg.compound > chebi > fallback `mnx:<MNXM>`.
+    """
+    cur = conn.cursor()
+    for source in _COMPOUND_PRIMARY_PRIORITY:
+        cur.execute(
+            "SELECT value FROM compound_aliases WHERE mnxm_id = ? AND source = ? ORDER BY value LIMIT 1",
+            (mnxm_id, source),
+        )
+        row = cur.fetchone()
+        if row:
+            return f"{source}:{row[0]}"
+    return f"mnx:{mnxm_id}"
+
+
+def mnxr_to_primary_id(mnxr_id: str, conn: sqlite3.Connection) -> str:
+    """Map an MNXR* ID to its canonical KG primary ID.
+
+    Priority: kegg.reaction > rhea > fallback `mnx:<MNXR>`.
+    """
+    cur = conn.cursor()
+    for source in _REACTION_PRIMARY_PRIORITY:
+        cur.execute(
+            "SELECT value FROM reaction_aliases WHERE mnxr_id = ? AND source = ? ORDER BY value LIMIT 1",
+            (mnxr_id, source),
+        )
+        row = cur.fetchone()
+        if row:
+            return f"{source}:{row[0]}"
+    return f"mnx:{mnxr_id}"
