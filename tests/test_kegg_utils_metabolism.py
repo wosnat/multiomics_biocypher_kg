@@ -130,6 +130,43 @@ def test_download_kegg_data_includes_metabolism_keys(tmp_path, monkeypatch):
     assert reloaded["reaction_names"] == data["reaction_names"]
 
 
+def test_download_kegg_raw_populates_raw_dir(tmp_path, monkeypatch):
+    """download_kegg_raw should populate cache/data/kegg/raw/ with 8 .txt + 1 .json."""
+    text_calls: list[str] = []
+    json_calls: list[str] = []
+
+    def fake_text(url):
+        text_calls.append(url)
+        return "stub"
+
+    def fake_json(url):
+        json_calls.append(url)
+        return {"children": []}
+
+    monkeypatch.setattr(kegg_utils, "_fetch_text", fake_text)
+    monkeypatch.setattr(kegg_utils, "_fetch_json", fake_json)
+
+    kegg_utils.download_kegg_raw(tmp_path, force=False)
+    raw_dir = tmp_path / "kegg" / "raw"
+    txt_files = sorted(p.name for p in raw_dir.glob("*.txt"))
+    json_files = sorted(p.name for p in raw_dir.glob("*.json"))
+    assert len(txt_files) == 8
+    assert len(json_files) == 1
+    assert "br_ko00001.json" in json_files
+
+    # Second call without force: no new fetches (raw cache is read from disk)
+    text_calls.clear()
+    json_calls.clear()
+    kegg_utils.download_kegg_raw(tmp_path, force=False)
+    assert text_calls == []
+    assert json_calls == []
+
+    # Force: re-fetches everything
+    kegg_utils.download_kegg_raw(tmp_path, force=True)
+    assert len(text_calls) == 8
+    assert len(json_calls) == 1
+
+
 def test_download_kegg_data_uses_raw_cache_on_second_call(tmp_path, monkeypatch):
     """Second call with force=False must not hit the network — raw cache is reused."""
     fetch_count = {"text": 0, "json": 0}

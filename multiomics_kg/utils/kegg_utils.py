@@ -333,6 +333,31 @@ def _parse_brite_hierarchy(brite_json: dict) -> tuple[
     return pathway_to_subcat, subcat_names, subcat_to_cat, cat_names, pw_names
 
 
+def download_kegg_raw(cache_root: Path, force: bool = False) -> None:
+    """Ensure all 9 KEGG raw endpoints are cached locally.
+
+    Hits the network only for missing files (or when ``force=True``).
+    Output: ``<cache_root>/kegg/raw/<endpoint>.{txt,json}``.
+
+    This is the lightweight download-only entry point used by the unified
+    pruned-cache builder (step 6). Parsers and pruning logic live in
+    ``build_kegg_metabolism_xrefs``.
+    """
+    raw_dir = Path(cache_root) / "kegg" / "raw"
+    for url in (
+        _KO_LIST_URL,
+        _KO_PATHWAY_LINK_URL,
+        _PATHWAY_KO_LIST_URL,
+        _REACTION_LIST_URL,
+        _COMPOUND_LIST_URL,
+        _LINK_COMPOUND_REACTION_URL,
+        _LINK_PATHWAY_REACTION_URL,
+        _LINK_PATHWAY_COMPOUND_URL,
+    ):
+        _fetch_text_cached(url, raw_dir=raw_dir, force=force)
+    _fetch_json_cached(_BRITE_KO_URL, raw_dir=raw_dir, force=force)
+
+
 def download_kegg_data(cache_root: Path, force: bool = False) -> dict:
     """
     Download and cache KEGG hierarchy data needed for the 4-level KEGG graph,

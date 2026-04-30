@@ -1,14 +1,16 @@
-"""Step 6 — prune-then-enrich KEGG metabolism cache.
+"""Step 6 — unified pruned KEGG data cache.
 
 Walks every strain's gene_annotations_merged.json to identify gene-reachable
-KEGG R-numbers, expands to the C-numbers that participate in those reactions,
-and enriches each with KEGG metadata (name, EC, pathways) + MNX cross-refs
-(MNXR/MNXM, ChEBI, HMDB, InChIKey, formula, mass).
+KEGG entities, prunes the raw KEGG dataset to that subset, enriches reactions
+and compounds with MNX cross-refs, and writes a single
+cache/data/kegg/kegg_data.json (~500 KB).
 
-Output: cache/data/kegg/kegg_metabolism_xrefs.json (~1 MB).
+Both kegg_anno_adapter and metabolism_adapter read this file. No per-adapter
+pruning at iteration time.
 
-This file is read by metabolism_adapter.py at KG build time. The 2.6 GB MNX
-SQLite resolver is opened only here (prepare-data time), not at build time.
+Pathway-set rule (Option B): pathway IDs in the cache are exactly those reachable
+from gene-KOs or gene-reactions. compound→pathway lists are filtered to that set,
+so compound-only pathways (e.g. ko05140 Leishmaniasis) are excluded.
 
 Usage:
     uv run python -m multiomics_kg.download.build_kegg_metabolism_xrefs [--force]
@@ -22,6 +24,7 @@ import sqlite3
 from pathlib import Path
 
 from multiomics_kg.download.utils.cli import load_genome_rows
+from multiomics_kg.utils import kegg_utils
 from multiomics_kg.utils import metabolite_utils as mu
 from multiomics_kg.utils.gene_id_utils import load_gene_annotations
 
@@ -30,113 +33,97 @@ PROJECT_ROOT = SCRIPT_DIR.parent.parent
 
 KEGG_CACHE_DIR = PROJECT_ROOT / "cache" / "data" / "kegg"
 KEGG_DATA_FILE = KEGG_CACHE_DIR / "kegg_data.json"
-OUTPUT_FILE = KEGG_CACHE_DIR / "kegg_metabolism_xrefs.json"
 RESOLVER_DB = PROJECT_ROOT / "cache" / "data" / "mnx" / "metabolite_resolver.db"
 
 log = logging.getLogger(__name__)
 
 
-def _collect_gene_reachable_ids(kegg_data: dict) -> tuple[set[str], set[str], set[str]]:
-    """Walk all strains' gene_annotations_merged.json and KEGG link data.
+# ── Reachability ──────────────────────────────────────────────────────────────
 
-    Returns (R_numbers, C_numbers, KO_pathways): gene-reachable subsets.
+def _gene_reachable_sets(raw: dict) -> dict[str, set[str]]:
+    """Walk all strains to compute the gene-reachable {KOs, reactions, pathways, compounds}.
 
-    `KO_pathways` is the set of pathway IDs that the kegg_anno adapter will emit
-    as KeggTerm nodes — i.e. pathways referenced by at least one gene-annotated KO.
-    Used to prune reaction.kegg_pathway_ids so we don't create dangling edges
-    pointing to pathways with no KeggTerm node.
+    Returns a dict with keys 'kos', 'rxns', 'cpds', 'pws'.
+    Pathway set is KO ∪ Rxn-reachable (Option B).
     """
-    reachable_rxns: set[str] = set()
-    reachable_kos: set[str] = set()
+    kos: set[str] = set()
+    rxns: set[str] = set()
     for row in load_genome_rows():
         genes = load_gene_annotations(row["data_dir"])
         if not genes:
             continue
-        for gene in genes.values():
-            for rxn in gene.get("kegg_reactions", []) or []:
-                if isinstance(rxn, str) and rxn.startswith("R"):
-                    reachable_rxns.add(rxn)
-            for ko in gene.get("kegg_ko", []) or []:
+        for g in genes.values():
+            for ko in g.get("kegg_ko") or []:
                 if isinstance(ko, str) and ko.startswith("K"):
-                    reachable_kos.add(ko)
+                    kos.add(ko)
+            for rxn in g.get("kegg_reactions") or []:
+                if isinstance(rxn, str) and rxn.startswith("R"):
+                    rxns.add(rxn)
 
-    rxn_to_cpds = kegg_data.get("reaction_to_compounds", {})
-    reachable_cpds: set[str] = set()
-    for rxn in reachable_rxns:
-        for cpd in rxn_to_cpds.get(rxn, []):
-            reachable_cpds.add(cpd)
+    rxn_to_cpds = raw.get("reaction_to_compounds", {})
+    cpds: set[str] = set()
+    for r in rxns:
+        cpds.update(rxn_to_cpds.get(r, []))
 
-    ko_to_pw = kegg_data.get("ko_to_pathways", {})
-    reachable_pws: set[str] = set()
-    for ko in reachable_kos:
-        reachable_pws.update(ko_to_pw.get(ko, []))
+    ko_to_pw = raw.get("ko_to_pathways", {})
+    rxn_to_pw = raw.get("reaction_to_pathways", {})
+    pws: set[str] = set()
+    for k in kos:
+        pws.update(ko_to_pw.get(k, []))
+    for r in rxns:
+        pws.update(rxn_to_pw.get(r, []))
 
     log.info(
-        "Pruned to %d reactions, %d compounds, "
-        "%d KO-reachable pathways (for pathway-edge pruning)",
-        len(reachable_rxns),
-        len(reachable_cpds),
-        len(reachable_pws),
+        f"Gene-reachable: {len(kos)} KOs, {len(rxns)} reactions, "
+        f"{len(cpds)} compounds, {len(pws)} pathways (KO∪Rxn)"
     )
-    return reachable_rxns, reachable_cpds, reachable_pws
+    return {"kos": kos, "rxns": rxns, "cpds": cpds, "pws": pws}
 
 
-def _resolve_mnx_for_kegg_reaction(kegg_id: str, conn: sqlite3.Connection) -> str | None:
-    cur = conn.cursor()
-    cur.execute(
-        "SELECT mnxr_id FROM reaction_aliases WHERE source = 'kegg.reaction' AND value = ? LIMIT 1",
-        (kegg_id,),
-    )
-    row = cur.fetchone()
-    return row[0] if row else None
+# ── Hierarchy parents ─────────────────────────────────────────────────────────
+
+def _hierarchy_parents(raw: dict, pws: set[str]) -> tuple[set[str], set[str]]:
+    """Compute the subcategory + category sets that need to be emitted."""
+    pw_to_sub = raw.get("pathway_to_subcategory", {})
+    sub_to_cat = raw.get("subcategory_to_category", {})
+    subs = {pw_to_sub[p] for p in pws if p in pw_to_sub}
+    cats = {sub_to_cat[s] for s in subs if s in sub_to_cat}
+    return subs, cats
 
 
-def _resolve_mnx_for_kegg_compound(kegg_id: str, conn: sqlite3.Connection) -> str | None:
-    cur = conn.cursor()
-    cur.execute(
-        "SELECT mnxm_id FROM compound_aliases WHERE source = 'kegg.compound' AND value = ? LIMIT 1",
-        (kegg_id,),
-    )
-    row = cur.fetchone()
-    return row[0] if row else None
+# ── MNX enrichment ────────────────────────────────────────────────────────────
 
-
-def _query_aliases(table: str, mnx_col: str, mnx_id: str, source: str,
-                   conn: sqlite3.Connection) -> list[str]:
-    cur = conn.cursor()
-    cur.execute(
-        f"SELECT value FROM {table} WHERE {mnx_col} = ? AND source = ? ORDER BY value",
-        (mnx_id, source),
-    )
-    return [r[0] for r in cur.fetchall()]
-
-
-def _enrich_reaction(rxn_id: str, kegg_data: dict, conn: sqlite3.Connection,
-                     valid_pathways: set[str]) -> dict:
-    """Build the per-reaction enriched dict written to xrefs JSON."""
-    raw_pws = kegg_data.get("reaction_to_pathways", {}).get(rxn_id, [])
-    pruned_pws = [p for p in raw_pws if p in valid_pathways]
+def _enrich_reaction(rxn_id: str, raw: dict, conn: sqlite3.Connection,
+                     allowed_pathways: set[str]) -> dict:
     out: dict = {
-        "name": kegg_data.get("reaction_names", {}).get(rxn_id, ""),
-        "compound_ids": kegg_data.get("reaction_to_compounds", {}).get(rxn_id, []),
-        "kegg_pathway_ids": pruned_pws,
+        "name": raw.get("reaction_names", {}).get(rxn_id, ""),
+        "pathways": [p for p in raw.get("reaction_to_pathways", {}).get(rxn_id, []) if p in allowed_pathways],
+        "compounds": list(raw.get("reaction_to_compounds", {}).get(rxn_id, [])),
         "ec_numbers": [],
         "mnxr_id": None,
         "rhea_ids": [],
         "mass_balance": "unbalanced",
         "reaction_class": "chemical",
     }
-    mnxr_id = _resolve_mnx_for_kegg_reaction(rxn_id, conn)
-    if mnxr_id is None:
-        return out
-    out["mnxr_id"] = mnxr_id
-
-    out["rhea_ids"] = _query_aliases("reaction_aliases", "mnxr_id", mnxr_id, "rhea", conn)
-
     cur = conn.cursor()
     cur.execute(
-        "SELECT classifs, is_balanced, is_transport FROM reactions WHERE mnxr_id = ?",
-        (mnxr_id,),
+        "SELECT mnxr_id FROM reaction_aliases WHERE source='kegg.reaction' AND value=? LIMIT 1",
+        (rxn_id,),
+    )
+    row = cur.fetchone()
+    if row is None:
+        return out
+    out["mnxr_id"] = row[0]
+
+    cur.execute(
+        "SELECT value FROM reaction_aliases WHERE mnxr_id=? AND source='rhea' ORDER BY value",
+        (out["mnxr_id"],),
+    )
+    out["rhea_ids"] = [r[0] for r in cur.fetchall()]
+
+    cur.execute(
+        "SELECT classifs, is_balanced, is_transport FROM reactions WHERE mnxr_id=?",
+        (out["mnxr_id"],),
     )
     row = cur.fetchone()
     if row:
@@ -148,27 +135,32 @@ def _enrich_reaction(rxn_id: str, kegg_data: dict, conn: sqlite3.Connection,
     return out
 
 
-def _enrich_compound(cpd_id: str, kegg_data: dict, conn: sqlite3.Connection) -> dict:
-    """Build the per-compound enriched dict written to xrefs JSON."""
+def _enrich_compound(cpd_id: str, raw: dict, conn: sqlite3.Connection,
+                     allowed_pathways: set[str]) -> dict:
     out: dict = {
-        "name": kegg_data.get("compound_names", {}).get(cpd_id, ""),
-        "mnxm_id": None,
+        "name": raw.get("compound_names", {}).get(cpd_id, ""),
         "formula": None,
         "mass": None,
         "inchikey": None,
         "smiles": None,
+        "mnxm_id": None,
         "chebi_id": None,
         "hmdb_id": None,
+        "pathways": [p for p in raw.get("compound_to_pathways", {}).get(cpd_id, []) if p in allowed_pathways],
     }
-    mnxm_id = _resolve_mnx_for_kegg_compound(cpd_id, conn)
-    if mnxm_id is None:
-        return out
-    out["mnxm_id"] = mnxm_id
-
     cur = conn.cursor()
     cur.execute(
-        "SELECT formula, mass, inchikey, smiles FROM compounds WHERE mnxm_id = ?",
-        (mnxm_id,),
+        "SELECT mnxm_id FROM compound_aliases WHERE source='kegg.compound' AND value=? LIMIT 1",
+        (cpd_id,),
+    )
+    row = cur.fetchone()
+    if row is None:
+        return out
+    out["mnxm_id"] = row[0]
+
+    cur.execute(
+        "SELECT formula, mass, inchikey, smiles FROM compounds WHERE mnxm_id=?",
+        (out["mnxm_id"],),
     )
     row = cur.fetchone()
     if row:
@@ -177,59 +169,169 @@ def _enrich_compound(cpd_id: str, kegg_data: dict, conn: sqlite3.Connection) -> 
         out["inchikey"] = row[2] or None
         out["smiles"] = row[3] or None
 
-    chebi = _query_aliases("compound_aliases", "mnxm_id", mnxm_id, "chebi", conn)
-    if chebi:
-        out["chebi_id"] = chebi[0]
-    hmdb = _query_aliases("compound_aliases", "mnxm_id", mnxm_id, "hmdb", conn)
-    if hmdb:
-        out["hmdb_id"] = hmdb[0]
+    cur.execute(
+        "SELECT value FROM compound_aliases WHERE mnxm_id=? AND source='chebi' ORDER BY value LIMIT 1",
+        (out["mnxm_id"],),
+    )
+    row = cur.fetchone()
+    if row:
+        out["chebi_id"] = row[0]
+    cur.execute(
+        "SELECT value FROM compound_aliases WHERE mnxm_id=? AND source='hmdb' ORDER BY value LIMIT 1",
+        (out["mnxm_id"],),
+    )
+    row = cur.fetchone()
+    if row:
+        out["hmdb_id"] = row[0]
     return out
 
 
+# ── Build ─────────────────────────────────────────────────────────────────────
+
+def build_pruned_kegg_data(raw: dict, conn: sqlite3.Connection, out_path: Path) -> None:
+    """Build the pruned kegg_data.json from raw KEGG data + MNX resolver."""
+    sets = _gene_reachable_sets(raw)
+    kos, rxns, cpds, pws = sets["kos"], sets["rxns"], sets["cpds"], sets["pws"]
+    subs, cats = _hierarchy_parents(raw, pws)
+
+    ko_to_pw = raw.get("ko_to_pathways", {})
+    pw_to_sub = raw.get("pathway_to_subcategory", {})
+    sub_to_cat = raw.get("subcategory_to_category", {})
+
+    out = {
+        "kos": {
+            k: {
+                "name": raw.get("ko_names", {}).get(k, ""),
+                "pathways": [p for p in ko_to_pw.get(k, []) if p in pws],
+            } for k in sorted(kos)
+        },
+        "pathways": {
+            p: {
+                "name": raw.get("pathway_names", {}).get(p, ""),
+                **({"subcategory": pw_to_sub[p]} if p in pw_to_sub else {}),
+            } for p in sorted(pws)
+        },
+        "subcategories": {
+            s: {
+                "name": raw.get("subcategory_names", {}).get(s, ""),
+                **({"category": sub_to_cat[s]} if s in sub_to_cat else {}),
+            } for s in sorted(subs)
+        },
+        "categories": {
+            c: {"name": raw.get("category_names", {}).get(c, "")}
+            for c in sorted(cats)
+        },
+        "reactions": {
+            r: _enrich_reaction(r, raw, conn, pws) for r in sorted(rxns)
+        },
+        "compounds": {
+            c: _enrich_compound(c, raw, conn, pws) for c in sorted(cpds)
+        },
+    }
+
+    out_path.parent.mkdir(parents=True, exist_ok=True)
+    out_path.write_text(json.dumps(out, separators=(",", ":")))
+    log.info(
+        f"Wrote {out_path}: {len(out['kos'])} KOs, {len(out['pathways'])} pathways, "
+        f"{len(out['reactions'])} reactions, {len(out['compounds'])} compounds"
+    )
+
+
+# ── Raw → in-memory dict ──────────────────────────────────────────────────────
+
+def _parse_brite_supplements(raw_dir: Path) -> dict:
+    """Parse br_ko00001.json into the BRITE-derived supplementary maps.
+
+    Returns: pathway_to_subcategory, subcategory_names, subcategory_to_category,
+    category_names, plus brite_pathway_names (used to supplement list/pathway/ko).
+    """
+    brite_json = json.loads((raw_dir / "br_ko00001.json").read_text())
+    pw_to_sub, sub_names, sub_to_cat, cat_names, brite_pw_names = (
+        kegg_utils._parse_brite_hierarchy(brite_json)
+    )
+    return {
+        "pathway_to_subcategory": pw_to_sub,
+        "subcategory_names": sub_names,
+        "subcategory_to_category": sub_to_cat,
+        "category_names": cat_names,
+        "_brite_pathway_names": brite_pw_names,
+    }
+
+
+def _parse_raw_into_dict(cache_root: Path) -> dict:
+    """Parse raw KEGG cache files into the same dict shape that download_kegg_data
+    used to return (so build_pruned_kegg_data can stay agnostic of the on-disk layout).
+    """
+    raw_dir = cache_root / "kegg" / "raw"
+
+    api_pw_names = kegg_utils._parse_pathway_ko_names(
+        (raw_dir / "list_pathway_ko.txt").read_text()
+    )
+    brite_supp = _parse_brite_supplements(raw_dir)
+    # BRITE pathway names win on overlap, matching download_kegg_data() behaviour.
+    pathway_names = {**api_pw_names, **brite_supp.pop("_brite_pathway_names")}
+
+    return {
+        "ko_names": kegg_utils._parse_ko_names(
+            (raw_dir / "list_ko.txt").read_text()
+        ),
+        "pathway_names": pathway_names,
+        "ko_to_pathways": kegg_utils._parse_ko_to_pathways(
+            (raw_dir / "link_pathway_ko.txt").read_text()
+        ),
+        "reaction_names": kegg_utils._parse_reaction_names(
+            (raw_dir / "list_reaction.txt").read_text()
+        ),
+        "compound_names": kegg_utils._parse_compound_names(
+            (raw_dir / "list_compound.txt").read_text()
+        ),
+        "reaction_to_compounds": kegg_utils._parse_reaction_to_compounds(
+            (raw_dir / "link_compound_reaction.txt").read_text()
+        ),
+        "reaction_to_pathways": kegg_utils._parse_reaction_to_pathways(
+            (raw_dir / "link_pathway_reaction.txt").read_text()
+        ),
+        "compound_to_pathways": kegg_utils._parse_compound_to_pathways(
+            (raw_dir / "link_pathway_compound.txt").read_text()
+        ),
+        **brite_supp,
+    }
+
+
+# ── CLI ───────────────────────────────────────────────────────────────────────
+
 def main(force: bool = False) -> None:
     logging.basicConfig(level=logging.INFO, format="%(message)s")
-    if OUTPUT_FILE.exists() and not force:
-        log.info(f"{OUTPUT_FILE} exists; use --force to rebuild.")
+    cache_root = PROJECT_ROOT / "cache" / "data"
+
+    if KEGG_DATA_FILE.exists() and not force:
+        log.info(f"{KEGG_DATA_FILE} exists; use --force to rebuild.")
         return
 
-    if not KEGG_DATA_FILE.exists() or force:
-        log.info("Loading KEGG hierarchy + metabolism endpoints (downloads from REST if not cached) ...")
-        from multiomics_kg.utils.kegg_utils import download_kegg_data
-        download_kegg_data(KEGG_CACHE_DIR.parent, force=force)
     if not RESOLVER_DB.exists():
         raise FileNotFoundError(
             f"{RESOLVER_DB} missing — run prepare_data.sh step 0 sub-step 7 first."
         )
 
-    log.info("Loading KEGG data ...")
-    kegg_data = json.loads(KEGG_DATA_FILE.read_text())
+    log.info("Ensuring KEGG raw cache (downloads from KEGG REST if missing) ...")
+    kegg_utils.download_kegg_raw(cache_root, force=force)
 
-    log.info("Pruning to gene-reachable subset ...")
-    rxn_ids, cpd_ids, valid_pathways = _collect_gene_reachable_ids(kegg_data)
+    log.info("Parsing raw KEGG into in-memory dict ...")
+    raw = _parse_raw_into_dict(cache_root)
 
     log.info("Opening MNX resolver ...")
     conn = mu.open_resolver(RESOLVER_DB)
 
-    log.info(f"Enriching {len(rxn_ids)} reactions ...")
-    reactions = {
-        rxn_id: _enrich_reaction(rxn_id, kegg_data, conn, valid_pathways)
-        for rxn_id in sorted(rxn_ids)
-    }
-
-    log.info(f"Enriching {len(cpd_ids)} compounds ...")
-    compounds = {cpd_id: _enrich_compound(cpd_id, kegg_data, conn) for cpd_id in sorted(cpd_ids)}
+    log.info("Building pruned kegg_data.json ...")
+    build_pruned_kegg_data(raw, conn, KEGG_DATA_FILE)
 
     conn.close()
-
-    OUTPUT_FILE.parent.mkdir(parents=True, exist_ok=True)
-    OUTPUT_FILE.write_text(json.dumps({"reactions": reactions, "compounds": compounds}, indent=2))
-    log.info(f"Wrote {OUTPUT_FILE} ({OUTPUT_FILE.stat().st_size:,} bytes, "
-             f"{len(reactions)} reactions, {len(compounds)} compounds).")
+    log.info("Done.")
 
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--force", action="store_true",
-                        help="Rebuild the output cache even if it exists.")
+                        help="Rebuild even if kegg_data.json exists.")
     args = parser.parse_args()
     main(force=args.force)
