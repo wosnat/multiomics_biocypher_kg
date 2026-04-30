@@ -19,6 +19,7 @@ import sqlite3
 import sys
 from pathlib import Path
 
+from multiomics_kg.download.utils.annotation_transforms import is_eggnog_description_stub
 from multiomics_kg.download.utils.cli import load_genome_rows
 from multiomics_kg.utils.gene_id_utils import load_gene_annotations
 
@@ -83,7 +84,7 @@ def _query_descriptions(db_path: Path, og_names: set[str]) -> dict[str, str]:
                 batch,
             )
             for og, level, desc in cursor:
-                if desc:
+                if desc and not is_eggnog_description_stub(desc):
                     descriptions[f"{og}@{level}"] = desc
 
     return descriptions

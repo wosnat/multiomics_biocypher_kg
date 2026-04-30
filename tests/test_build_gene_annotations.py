@@ -47,6 +47,7 @@ from multiomics_kg.download.utils.annotation_transforms import (
     _tx_split_cog_category,
     _tx_strip_function_prefix,
     _tx_strip_prefix_ko,
+    is_eggnog_description_stub,
 )
 from multiomics_kg.download.build_gene_annotations import enrich_pfam_fields
 from multiomics_kg.utils.pfam_utils import PfamData, PfamEntry
@@ -357,6 +358,29 @@ class TestLoadGeneMapping:
             load_gene_mapping(str(tmp_path))
 
 
+# ─── is_eggnog_description_stub ─────────────────────────────────────────────
+
+
+class TestIsEggnogDescriptionStub:
+    def test_alternative_locus_id_is_stub(self):
+        assert is_eggnog_description_stub("Alternative locus ID")
+
+    def test_with_surrounding_whitespace(self):
+        assert is_eggnog_description_stub("  Alternative locus ID  ")
+
+    def test_real_description_is_not_stub(self):
+        assert not is_eggnog_description_stub("DNA polymerase III beta")
+
+    def test_empty_string_is_not_stub(self):
+        assert not is_eggnog_description_stub("")
+
+    def test_none_is_not_stub(self):
+        assert not is_eggnog_description_stub(None)
+
+    def test_non_string_is_not_stub(self):
+        assert not is_eggnog_description_stub(42)
+
+
 # ─── load_eggnog ─────────────────────────────────────────────────────────────
 
 EGGNOG_TSV = """\
@@ -403,6 +427,29 @@ class TestLoadEggnog:
     def test_returns_empty_dict_when_file_missing(self, tmp_path):
         result = load_eggnog(str(tmp_path), "MISSING_STRAIN")
         assert result == {}
+
+    def test_strips_alternative_locus_id_stub_from_description(self, tmp_path):
+        """eggNOG emits 'Alternative locus ID' as a stub Description for ~786 hits
+        per Pro strain. Filter at load time so it never leaks into Gene.product,
+        Gene.function_description, or alternate_functional_descriptions.
+        """
+        eggnog_dir = tmp_path / "eggnog"
+        eggnog_dir.mkdir()
+        tsv = (
+            "## comment\n"
+            "#query\tseed_ortholog\tDescription\tPreferred_name\n"
+            "WP_001\t592.WP001\tAlternative locus ID\tdnaN\n"
+            "WP_002\t592.WP002\tDNA polymerase III beta\trpsT\n"
+        )
+        (eggnog_dir / "MED4.emapper.annotations").write_text(tsv)
+
+        result = load_eggnog(str(tmp_path), "MED4")
+        assert result["WP_001"]["Description"] == "", \
+            "Stub 'Alternative locus ID' should be replaced with empty string"
+        # Real descriptions are unaffected
+        assert result["WP_002"]["Description"] == "DNA polymerase III beta"
+        # Other columns on the stub row are preserved
+        assert result["WP_001"]["Preferred_name"] == "dnaN"
 
 
 # ─── load_uniprot ─────────────────────────────────────────────────────────────

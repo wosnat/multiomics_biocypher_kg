@@ -47,6 +47,7 @@ from multiomics_kg.download.utils.annotation_transforms import (
     _tx_first_token_space,
     _tx_strip_function_prefix,
     _tx_strip_prefix_ko,
+    is_eggnog_description_stub,
 )
 from multiomics_kg.download.utils.cli import add_common_args, load_config, load_genome_rows
 from multiomics_kg.download.utils.ortholog_group_utils import (
@@ -321,7 +322,10 @@ def load_gene_mapping(data_dir: str) -> dict[str, dict]:
 def load_eggnog(data_dir: str, strain_name: str) -> dict[str, dict]:
     """Load .emapper.annotations → {query_wp_id: {col: value}}.
 
-    Skips '##' comment lines; strips leading '#' from column names.
+    Skips '##' comment lines; strips leading '#' from column names. Replaces
+    eggNOG-internal stub strings (e.g. "Alternative locus ID") in the
+    Description column with the empty string so downstream consumers treat them
+    as absent rather than as content.
     """
     path = os.path.join(data_dir, "eggnog", f"{strain_name}.emapper.annotations")
     if not os.path.exists(path):
@@ -335,6 +339,8 @@ def load_eggnog(data_dir: str, strain_name: str) -> dict[str, dict]:
             clean_row = {k.lstrip("#"): v for k, v in row.items()}
             query = clean_row.get("query", "").strip()
             if query and query != "-":
+                if is_eggnog_description_stub(clean_row.get("Description")):
+                    clean_row["Description"] = ""
                 result[query] = clean_row
     return result
 
