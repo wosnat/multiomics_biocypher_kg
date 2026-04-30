@@ -129,3 +129,83 @@ def test_metabolite_full_properties_preserved(xrefs_file):
     assert props["mnxm_id"] == "MNXM73"
     assert props["chebi_id"] == "44897"
     assert props["hmdb_id"] == "HMDB0000263"
+
+
+def test_reaction_metabolite_edges(xrefs_file):
+    adapter = ma.MetabolismAdapter(xrefs_path=xrefs_file)
+    edges = [e for e in adapter._reaction_metabolite_edges()]
+    pairs = {(e[1], e[2]) for e in edges}
+    assert ("kegg.reaction:R00200", "kegg.compound:C00074") in pairs
+    assert ("kegg.reaction:R00200", "kegg.compound:C00008") in pairs
+    assert ("kegg.reaction:R12345", "kegg.compound:C99999") in pairs
+    # All edges have label "reaction_has_metabolite"
+    assert {e[3] for e in edges} == {"reaction_has_metabolite"}
+
+
+def test_reaction_pathway_edges_target_kegg_term(xrefs_file):
+    """Pathway target uses the existing KeggTerm primary-ID convention `kegg.pathway:<ko*>`."""
+    adapter = ma.MetabolismAdapter(xrefs_path=xrefs_file)
+    edges = [e for e in adapter._reaction_pathway_edges()]
+    targets = {e[2] for e in edges if e[1] == "kegg.reaction:R00200"}
+    assert "kegg.pathway:ko00010" in targets
+    assert "kegg.pathway:ko00710" in targets
+
+
+def test_gene_reaction_edges(tmp_path, xrefs_file, monkeypatch):
+    # Synthetic strain with 2 genes, both catalyzing R00200
+    strain_dir = tmp_path / "strain"
+    strain_dir.mkdir()
+    (strain_dir / "gene_annotations_merged.json").write_text(json.dumps({
+        "PMM0001": {"kegg_reactions": ["R00200"]},
+        "PMM0002": {"kegg_reactions": ["R00200", "R12345"]},
+        "PMM0003": {"kegg_reactions": []},
+    }))
+    monkeypatch.setattr(ma, "load_genome_rows",
+                        lambda: [{"data_dir": str(strain_dir)}])
+
+    adapter = ma.MultiMetabolismAdapter(
+        genome_config_file="ignored", xrefs_path=xrefs_file,
+    )
+    edges = [e for e in adapter._gene_reaction_edges()]
+    sources = {(e[1], e[2]) for e in edges}
+    assert ("ncbigene:PMM0001", "kegg.reaction:R00200") in sources
+    assert ("ncbigene:PMM0002", "kegg.reaction:R00200") in sources
+    assert ("ncbigene:PMM0002", "kegg.reaction:R12345") in sources
+    # PMM0003 has no kegg_reactions → no edges
+    assert not any(e[1] == "ncbigene:PMM0003" for e in edges)
+
+
+def test_gene_reaction_edges_skip_unknown_reactions(tmp_path, xrefs_file, monkeypatch):
+    """A gene's R-number not present in the xrefs JSON must not produce a dangling edge."""
+    strain_dir = tmp_path / "strain"
+    strain_dir.mkdir()
+    (strain_dir / "gene_annotations_merged.json").write_text(json.dumps({
+        "PMM_dangling": {"kegg_reactions": ["R_not_in_xrefs"]},
+    }))
+    monkeypatch.setattr(ma, "load_genome_rows",
+                        lambda: [{"data_dir": str(strain_dir)}])
+    adapter = ma.MultiMetabolismAdapter(
+        genome_config_file="ignored", xrefs_path=xrefs_file,
+    )
+    edges = [e for e in adapter._gene_reaction_edges()]
+    assert not any(e[2] == "kegg.reaction:R_not_in_xrefs" for e in edges)
+
+
+def test_get_edges_yields_all_three_types(tmp_path, xrefs_file, monkeypatch):
+    strain_dir = tmp_path / "strain"
+    strain_dir.mkdir()
+    (strain_dir / "gene_annotations_merged.json").write_text(json.dumps({
+        "PMM0001": {"kegg_reactions": ["R00200"]},
+    }))
+    monkeypatch.setattr(ma, "load_genome_rows",
+                        lambda: [{"data_dir": str(strain_dir)}])
+
+    adapter = ma.MultiMetabolismAdapter(
+        genome_config_file="ignored", xrefs_path=xrefs_file,
+    )
+    labels = {e[3] for e in adapter.get_edges()}
+    assert labels == {
+        "gene_catalyzes_reaction",
+        "reaction_has_metabolite",
+        "reaction_in_kegg_pathway",
+    }

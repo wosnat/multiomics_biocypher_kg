@@ -13,6 +13,9 @@ import logging
 from pathlib import Path
 from typing import Iterator
 
+from multiomics_kg.download.utils.cli import load_genome_rows
+from multiomics_kg.utils.gene_id_utils import load_gene_annotations
+
 log = logging.getLogger(__name__)
 
 
@@ -88,9 +91,35 @@ class MetabolismAdapter:
             yield node_id, "metabolite", props
             n += 1
 
+    def _reaction_metabolite_edges(self) -> Iterator[tuple[str, str, str, str, dict]]:
+        data = self._load()
+        for rxn_id, rxn in data.get("reactions", {}).items():
+            for cpd_id in rxn.get("compound_ids", []):
+                edge_id = f"r2m:{rxn_id}:{cpd_id}"
+                yield (
+                    edge_id,
+                    f"kegg.reaction:{rxn_id}",
+                    f"kegg.compound:{cpd_id}",
+                    "reaction_has_metabolite",
+                    {},
+                )
+
+    def _reaction_pathway_edges(self) -> Iterator[tuple[str, str, str, str, dict]]:
+        data = self._load()
+        for rxn_id, rxn in data.get("reactions", {}).items():
+            for pw_id in rxn.get("kegg_pathway_ids", []):
+                edge_id = f"r2p:{rxn_id}:{pw_id}"
+                yield (
+                    edge_id,
+                    f"kegg.reaction:{rxn_id}",
+                    f"kegg.pathway:{pw_id}",
+                    "reaction_in_kegg_pathway",
+                    {},
+                )
+
     def get_edges(self) -> Iterator[tuple[str | None, str, str, str, dict]]:
-        """Edge generation is strain-scoped; implemented in MultiMetabolismAdapter."""
-        return iter([])
+        yield from self._reaction_metabolite_edges()
+        yield from self._reaction_pathway_edges()
 
 
 class MultiMetabolismAdapter(MetabolismAdapter):
@@ -101,3 +130,28 @@ class MultiMetabolismAdapter(MetabolismAdapter):
                  test_mode: bool = False):
         super().__init__(xrefs_path=xrefs_path, test_mode=test_mode)
         self.genome_config_file = genome_config_file
+
+    def _gene_reaction_edges(self) -> Iterator[tuple[str, str, str, str, dict]]:
+        data = self._load()
+        known_rxns = set(data.get("reactions", {}).keys())
+        for row in load_genome_rows():
+            genes = load_gene_annotations(row["data_dir"])
+            if not genes:
+                continue
+            for locus_tag, gene in genes.items():
+                for rxn_id in gene.get("kegg_reactions", []) or []:
+                    if rxn_id not in known_rxns:
+                        continue  # skip dangling: keeps KG free of orphan edges
+                    edge_id = f"g2r:{locus_tag}:{rxn_id}"
+                    yield (
+                        edge_id,
+                        f"ncbigene:{locus_tag}",
+                        f"kegg.reaction:{rxn_id}",
+                        "gene_catalyzes_reaction",
+                        {},
+                    )
+
+    def get_edges(self) -> Iterator[tuple[str | None, str, str, str, dict]]:
+        yield from self._gene_reaction_edges()
+        yield from self._reaction_metabolite_edges()
+        yield from self._reaction_pathway_edges()
