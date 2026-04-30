@@ -22,6 +22,7 @@ import sqlite3
 from pathlib import Path
 
 from multiomics_kg.download.utils.cli import load_genome_rows
+from multiomics_kg.utils import metabolite_utils as mu
 from multiomics_kg.utils.gene_id_utils import load_gene_annotations
 
 SCRIPT_DIR = Path(__file__).resolve().parent
@@ -64,37 +65,149 @@ def _collect_gene_reachable_ids(kegg_data: dict) -> tuple[set[str], set[str]]:
     return reachable_rxns, reachable_cpds
 
 
-def main() -> None:
-    parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--force", action="store_true", help="Overwrite existing output")
-    args = parser.parse_args()
+def _resolve_mnx_for_kegg_reaction(kegg_id: str, conn: sqlite3.Connection) -> str | None:
+    cur = conn.cursor()
+    cur.execute(
+        "SELECT mnxr_id FROM reaction_aliases WHERE source = 'kegg.reaction' AND value = ? LIMIT 1",
+        (kegg_id,),
+    )
+    row = cur.fetchone()
+    return row[0] if row else None
 
-    logging.basicConfig(level=logging.INFO, format="%(levelname)s %(message)s")
 
-    if OUTPUT_FILE.exists() and not args.force:
-        log.info("Output already exists: %s (use --force to rebuild)", OUTPUT_FILE)
+def _resolve_mnx_for_kegg_compound(kegg_id: str, conn: sqlite3.Connection) -> str | None:
+    cur = conn.cursor()
+    cur.execute(
+        "SELECT mnxm_id FROM compound_aliases WHERE source = 'kegg.compound' AND value = ? LIMIT 1",
+        (kegg_id,),
+    )
+    row = cur.fetchone()
+    return row[0] if row else None
+
+
+def _query_aliases(table: str, mnx_col: str, mnx_id: str, source: str,
+                   conn: sqlite3.Connection) -> list[str]:
+    cur = conn.cursor()
+    cur.execute(
+        f"SELECT value FROM {table} WHERE {mnx_col} = ? AND source = ? ORDER BY value",
+        (mnx_id, source),
+    )
+    return [r[0] for r in cur.fetchall()]
+
+
+def _enrich_reaction(rxn_id: str, kegg_data: dict, conn: sqlite3.Connection) -> dict:
+    """Build the per-reaction enriched dict written to xrefs JSON."""
+    out: dict = {
+        "name": kegg_data.get("reaction_names", {}).get(rxn_id, ""),
+        "compound_ids": kegg_data.get("reaction_to_compounds", {}).get(rxn_id, []),
+        "kegg_pathway_ids": kegg_data.get("reaction_to_pathways", {}).get(rxn_id, []),
+        "ec_numbers": [],
+        "mnxr_id": None,
+        "rhea_ids": [],
+        "mass_balance": "unbalanced",
+        "reaction_class": "chemical",
+    }
+    mnxr_id = _resolve_mnx_for_kegg_reaction(rxn_id, conn)
+    if mnxr_id is None:
+        return out
+    out["mnxr_id"] = mnxr_id
+
+    out["rhea_ids"] = _query_aliases("reaction_aliases", "mnxr_id", mnxr_id, "rhea", conn)
+
+    cur = conn.cursor()
+    cur.execute(
+        "SELECT classifs, is_balanced, is_transport FROM reactions WHERE mnxr_id = ?",
+        (mnxr_id,),
+    )
+    row = cur.fetchone()
+    if row:
+        classifs, is_balanced, is_transport = row
+        if classifs:
+            out["ec_numbers"] = [c.strip() for c in classifs.split(";") if c.strip()]
+        out["mass_balance"] = "balanced" if (is_balanced or "").upper() == "B" else "unbalanced"
+        out["reaction_class"] = "transport" if (is_transport or "").upper() == "T" else "chemical"
+    return out
+
+
+def _enrich_compound(cpd_id: str, kegg_data: dict, conn: sqlite3.Connection) -> dict:
+    """Build the per-compound enriched dict written to xrefs JSON."""
+    out: dict = {
+        "name": kegg_data.get("compound_names", {}).get(cpd_id, ""),
+        "mnxm_id": None,
+        "formula": None,
+        "mass": None,
+        "inchikey": None,
+        "smiles": None,
+        "chebi_id": None,
+        "hmdb_id": None,
+    }
+    mnxm_id = _resolve_mnx_for_kegg_compound(cpd_id, conn)
+    if mnxm_id is None:
+        return out
+    out["mnxm_id"] = mnxm_id
+
+    cur = conn.cursor()
+    cur.execute(
+        "SELECT formula, mass, inchikey, smiles FROM compounds WHERE mnxm_id = ?",
+        (mnxm_id,),
+    )
+    row = cur.fetchone()
+    if row:
+        out["formula"] = row[0] or None
+        out["mass"] = row[1] if row[1] is not None else None
+        out["inchikey"] = row[2] or None
+        out["smiles"] = row[3] or None
+
+    chebi = _query_aliases("compound_aliases", "mnxm_id", mnxm_id, "chebi", conn)
+    if chebi:
+        out["chebi_id"] = chebi[0]
+    hmdb = _query_aliases("compound_aliases", "mnxm_id", mnxm_id, "hmdb", conn)
+    if hmdb:
+        out["hmdb_id"] = hmdb[0]
+    return out
+
+
+def main(force: bool = False) -> None:
+    logging.basicConfig(level=logging.INFO, format="%(message)s")
+    if OUTPUT_FILE.exists() and not force:
+        log.info(f"{OUTPUT_FILE} exists; use --force to rebuild.")
         return
 
     if not KEGG_DATA_FILE.exists():
-        log.error("KEGG data not found: %s — run step 6 sub-step 1 first", KEGG_DATA_FILE)
-        raise SystemExit(1)
+        raise FileNotFoundError(
+            f"{KEGG_DATA_FILE} missing — run KEGG download first (kegg_anno_adapter)."
+        )
+    if not RESOLVER_DB.exists():
+        raise FileNotFoundError(
+            f"{RESOLVER_DB} missing — run prepare_data.sh step 0 sub-step 7 first."
+        )
 
-    with open(KEGG_DATA_FILE) as f:
-        kegg_data = json.load(f)
+    log.info("Loading KEGG data ...")
+    kegg_data = json.loads(KEGG_DATA_FILE.read_text())
 
-    reachable_rxns, reachable_cpds = _collect_gene_reachable_ids(kegg_data)
+    log.info("Pruning to gene-reachable subset ...")
+    rxn_ids, cpd_ids = _collect_gene_reachable_ids(kegg_data)
 
-    # Placeholder: enrichment (MNX xrefs) will be added in Task 7
-    xrefs = {
-        "reactions": {r: {} for r in sorted(reachable_rxns)},
-        "compounds": {c: {} for c in sorted(reachable_cpds)},
-    }
+    log.info("Opening MNX resolver ...")
+    conn = mu.open_resolver(RESOLVER_DB)
 
-    KEGG_CACHE_DIR.mkdir(parents=True, exist_ok=True)
-    with open(OUTPUT_FILE, "w") as f:
-        json.dump(xrefs, f, indent=2)
-    log.info("Wrote %s", OUTPUT_FILE)
+    log.info(f"Enriching {len(rxn_ids)} reactions ...")
+    reactions = {rxn_id: _enrich_reaction(rxn_id, kegg_data, conn) for rxn_id in sorted(rxn_ids)}
+
+    log.info(f"Enriching {len(cpd_ids)} compounds ...")
+    compounds = {cpd_id: _enrich_compound(cpd_id, kegg_data, conn) for cpd_id in sorted(cpd_ids)}
+
+    conn.close()
+
+    OUTPUT_FILE.parent.mkdir(parents=True, exist_ok=True)
+    OUTPUT_FILE.write_text(json.dumps({"reactions": reactions, "compounds": compounds}, indent=2))
+    log.info(f"Wrote {OUTPUT_FILE} ({OUTPUT_FILE.stat().st_size:,} bytes, "
+             f"{len(reactions)} reactions, {len(compounds)} compounds).")
 
 
 if __name__ == "__main__":
-    main()
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--force", action="store_true",
+                        help="Rebuild the output cache even if it exists.")
+    args = parser.parse_args()
+    main(force=args.force)
