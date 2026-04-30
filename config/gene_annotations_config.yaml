@@ -409,7 +409,6 @@ fields:
       - source: eggnog
         field: KEGG_Reaction
         delimiter: ","
-        transform: resolve_kegg_reaction_to_mnxr
 
   kegg_brite:
     type: union

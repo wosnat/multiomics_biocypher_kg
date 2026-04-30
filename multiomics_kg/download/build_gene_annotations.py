@@ -777,9 +777,12 @@ def _write_metabolism_report(strain_name: str, data_dir: Path,
                               merged: dict) -> None:
     """Generate step2_metabolism_report.json for one strain.
 
-    Counts raw values (from eggNOG TSV cols 15/18/19) vs resolved/validated
+    Counts raw values (from eggNOG TSV cols 15/18/19) vs kept/validated
     values (from the merged JSON's kegg_reactions / transporter_classification /
     cazy_ids fields).
+
+    Note (Spec 1.2): kegg_reactions now stores raw KEGG R-numbers directly
+    (no MNX resolution at build time).
     """
     raw_kegg: list[str] = []
     raw_tc: list[str] = []
@@ -802,11 +805,11 @@ def _write_metabolism_report(strain_name: str, data_dir: Path,
                         if tok:
                             target.append(tok)
 
-    resolved_mnxr: set[str] = set()
+    kept_r_numbers: set[str] = set()
     validated_tc: set[str] = set()
     validated_cazy: set[str] = set()
     for gene in merged.values():
-        resolved_mnxr.update(gene.get("kegg_reactions", []))
+        kept_r_numbers.update(gene.get("kegg_reactions", []))
         validated_tc.update(gene.get("transporter_classification", []))
         validated_cazy.update(gene.get("cazy_ids", []))
 
@@ -819,9 +822,8 @@ def _write_metabolism_report(strain_name: str, data_dir: Path,
         "kegg_reactions": {
             "raw_total":             len(raw_kegg),
             "raw_unique":            len(set(raw_kegg)),
-            "resolved_total":        sum(len(g.get("kegg_reactions", [])) for g in merged.values()),
-            "resolved_unique_mnxr":  len(resolved_mnxr),
-            "unresolved_unique":     len(set(raw_kegg)) - len(resolved_mnxr),
+            "kept_total":            sum(len(g.get("kegg_reactions", [])) for g in merged.values()),
+            "kept_unique_r_numbers": len(kept_r_numbers),
         },
         "transporter_classification": {
             "raw_total":         len(raw_tc),

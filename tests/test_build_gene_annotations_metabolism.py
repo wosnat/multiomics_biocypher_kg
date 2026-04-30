@@ -1,8 +1,7 @@
-"""End-to-end test: YAML transform pipeline produces resolved fields."""
+"""End-to-end test: YAML transform pipeline produces kept/validated fields."""
 from __future__ import annotations
 
 import json
-import sqlite3
 import textwrap
 from pathlib import Path
 
@@ -18,34 +17,7 @@ EGGNOG_LINES = textwrap.dedent("""\
 
 @pytest.fixture(autouse=True)
 def patch_metabolism_caches(monkeypatch, tmp_path):
-    """Tiny resolver/tcdb/cazy fixtures matching the eggNOG test data above."""
-    db = tmp_path / "resolver.db"
-    conn = sqlite3.connect(db)
-    conn.executescript("""
-        CREATE TABLE compounds (mnxm_id TEXT PRIMARY KEY, name TEXT, reference TEXT,
-                                formula TEXT, charge INTEGER, mass REAL,
-                                inchi TEXT, inchikey TEXT, smiles TEXT);
-        CREATE TABLE compound_aliases (source TEXT, value TEXT, mnxm_id TEXT,
-                                       PRIMARY KEY(source, value, mnxm_id));
-        CREATE TABLE compound_names (name_normalized TEXT, mnxm_id TEXT,
-                                     PRIMARY KEY(name_normalized, mnxm_id));
-        CREATE TABLE reactions (mnxr_id TEXT PRIMARY KEY, mnx_equation TEXT,
-                                reference TEXT, classifs TEXT,
-                                is_balanced TEXT, is_transport TEXT);
-        CREATE TABLE reaction_aliases (source TEXT, value TEXT, mnxr_id TEXT,
-                                       PRIMARY KEY(source, value, mnxr_id));
-    """)
-    conn.execute("INSERT INTO reactions VALUES ('MNXR101234', '', '', '', 'B', NULL)")
-    conn.execute("INSERT INTO reaction_aliases VALUES ('kegg.reaction', 'R00299', 'MNXR101234')")
-    conn.commit()
-    conn.close()
-
-    from multiomics_kg.utils import metabolite_utils as mu
-    monkeypatch.setattr(mu, "DEFAULT_DB_PATH", db)
-
-    from multiomics_kg.download.utils import annotation_transforms as at
-    monkeypatch.setattr(at, "_RESOLVER_CONN", None)
-
+    """Tiny tcdb/cazy fixtures matching the eggNOG test data above."""
     # TCDB: 3.A.1.1.1 valid, 99.X.99 invalid
     from multiomics_kg.utils import tcdb_utils as tu
     tcdb_path = tmp_path / "tcdb_hierarchy.json"
@@ -66,7 +38,8 @@ def patch_metabolism_caches(monkeypatch, tmp_path):
 def test_yaml_transforms_produce_resolved_fields(tmp_path, monkeypatch):
     """Run the YAML pipeline against a tiny eggNOG file and assert merged fields.
 
-    - kegg_reactions: R00299 → MNXR101234
+    Spec 1.2 pivot: kegg_reactions now keeps raw R-numbers (no MNX resolution).
+    - kegg_reactions: R00299 kept as-is (raw KEGG R-number)
     - transporter_classification: 3.A.1.1.1 valid, 99.X.99 dropped
     - cazy_ids: GH13_1 valid, XX99 dropped
     - No literal 'None' strings (regression test for the framework filter fix)
@@ -94,7 +67,9 @@ def test_yaml_transforms_produce_resolved_fields(tmp_path, monkeypatch):
     merged = json.loads((data_dir / "gene_annotations_merged.json").read_text())
     gene = merged["PMM0001"]
 
-    assert gene["kegg_reactions"] == ["MNXR101234"]
+    # Spec 1.2: raw R-numbers survive unchanged
+    assert gene["kegg_reactions"] == ["R00299"]
+    assert all(v.startswith("R") for v in gene["kegg_reactions"])
     assert gene["transporter_classification"] == ["3.A.1.1.1"]
     assert gene["cazy_ids"] == ["GH13_1"]
     # Regression: None must not leak as the literal string "None"
@@ -156,9 +131,8 @@ def test_per_strain_metabolism_report_written(tmp_path, monkeypatch):
 
     kr = report["kegg_reactions"]
     assert kr["raw_total"] == 1
-    assert kr["resolved_total"] == 1
-    assert kr["resolved_unique_mnxr"] == 1
-    assert kr["unresolved_unique"] == 0
+    assert kr["kept_total"] == 1
+    assert kr["kept_unique_r_numbers"] == 1
 
     tc = report["transporter_classification"]
     assert tc["raw_total"] == 2
