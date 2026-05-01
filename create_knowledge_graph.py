@@ -209,6 +209,15 @@ def main():
     bc.write_nodes(tcdb_adapter.get_nodes())
     bc.write_edges(tcdb_adapter.get_edges())
 
+    # CAZy carbohydrate-active-enzyme ontology (observed-only — no external download).
+    from multiomics_kg.adapters.cazy_adapter import MultiCazyAnnotationAdapter
+    cazy_adapter = MultiCazyAnnotationAdapter(
+        genome_config_file='data/Prochlorococcus/genomes/cyanobacteria_genomes.csv',
+        test_mode=TEST_MODE,
+    )
+    bc.write_nodes(cazy_adapter.get_nodes())
+    bc.write_edges(cazy_adapter.get_edges())
+
     # Full GO ontology (all 30K nodes + GO-GO hierarchy) — optional, slow.
     # NOTE: do not run with --go simultaneously; GO node IDs would conflict.
 

@@ -142,7 +142,6 @@ class GeneNodeField(Enum, metaclass=GeneEnumMeta):
     CATALYTIC_ACTIVITY = 'catalytic_activities'
     TRANSMEMBRANE_REGIONS = 'transmembrane_regions'
     SIGNAL_PEPTIDE = 'signal_peptide'
-    CAZY_IDS = 'cazy_ids'
     BIGG_REACTION = 'bigg_reaction'
     # Computed fields for MCP gene lookup
     ORGANISM_NAME = 'organism_name'

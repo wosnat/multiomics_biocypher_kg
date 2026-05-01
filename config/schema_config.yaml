@@ -375,7 +375,6 @@ gene:
     catalytic_activities: str[]
     transmembrane_regions: str[]
     signal_peptide: str
-    cazy_ids: str[]
     bigg_reaction: str[]
     # Computed fields for MCP gene lookup
     organism_name: str              # preferred organism name (e.g., "Prochlorococcus MED4")
