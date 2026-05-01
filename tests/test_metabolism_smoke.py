@@ -1,6 +1,8 @@
-"""Integration smoke test: run prepare_data step 6 + adapter against the real cache.
+"""Integration smoke test: validate prepare_data step 6 cache + adapter.
 
-Slow (~2 min). Skipped unless invoked with -m slow or "slow or kg".
+Validates the existing kegg_data.json (does not force rebuild). Skipped unless
+invoked with -m slow or "slow or kg". To regenerate the cache before running,
+do `uv run python -m multiomics_kg.download.build_kegg_metabolism_xrefs --force`.
 """
 from __future__ import annotations
 
@@ -23,7 +25,7 @@ def test_step6_smoke_run_against_real_cache():
         pytest.skip(f"{RESOLVER_DB} missing — run `bash scripts/refresh_mnx.sh` first")
 
     result = subprocess.run(
-        [sys.executable, "-m", "multiomics_kg.download.build_kegg_metabolism_xrefs", "--force"],
+        [sys.executable, "-m", "multiomics_kg.download.build_kegg_metabolism_xrefs"],
         capture_output=True, text=True, cwd=PROJECT_ROOT,
     )
     assert result.returncode == 0, f"step 6 failed:\nstdout: {result.stdout}\nstderr: {result.stderr}"
@@ -67,4 +69,9 @@ def test_metabolism_adapter_against_real_xrefs():
 
     edges = list(adapter.get_edges())
     labels = {e[3] for e in edges}
-    assert labels == {"gene_catalyzes_reaction", "reaction_has_metabolite", "reaction_in_kegg_pathway"}
+    assert labels == {
+        "gene_catalyzes_reaction",
+        "reaction_has_metabolite",
+        "reaction_in_kegg_pathway",
+        "metabolite_in_pathway",
+    }

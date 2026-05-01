@@ -1,9 +1,29 @@
 # Phase 1.2 — Reactions scaffold (Metabolite + Reaction nodes; driver query)
 
 **Date:** 2026-04-28
-**Status:** Spec ready for implementation plan
+**Status:** ⚠️ **SUPERSEDED** by [`2026-04-30-metabolite-reactions-scaffold-revised.md`](2026-04-30-metabolite-reactions-scaffold-revised.md)
 **Parent overview:** [2026-04-28-metabolite-scaffold-design.md](2026-04-28-metabolite-scaffold-design.md)
 **Depends on:** [Spec 1.1 — Foundation](2026-04-28-metabolite-foundation-design.md) (must ship first)
+
+> **REVISION NOTICE (2026-04-30):** After the conversations recorded in
+> `memory/spec_1_2_design_decisions.md`, the design pivoted on three load-bearing
+> points that contradict the body of this spec:
+>
+> 1. **Primary IDs are KEGG-native**, not MNX-native. KEGG R-numbers and
+>    C-numbers are the primary node IDs. MNX is reserved for (a) cross-reference
+>    enrichment and (b) Phase 2 paper integration. Mixed-prefix fallback
+>    (`kegg.{compound,reaction}` → `chebi:` → `mnx:`) only when a KEGG entry
+>    doesn't exist.
+> 2. **Reaction direction is not modelled.** No `Reaction_has_substrate` /
+>    `Reaction_has_product`. Single direction-agnostic edge
+>    `Reaction_has_metabolite`. Substrate/product split was determined to be
+>    positional (KEGG editorial convention), not physiological — unreliable.
+> 3. **No build-time resolution.** The 2.6 GB MNX SQLite resolver only opens
+>    during prepare-data. Build-time adapter reads pre-computed JSON only —
+>    same pattern as `build_og_descriptions.py` (step 5).
+>
+> See the revised spec for the corrected design. This document is preserved
+> for history; do not implement against it.
 
 ## Goal
 
