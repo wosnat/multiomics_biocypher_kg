@@ -79,13 +79,17 @@ def test_gene_metabolite_count_consistent_with_2hop(run_query):
 # ── KG-A3: Metabolite.elements ────────────────────────────────────────────
 
 def test_metabolite_elements_populated_for_metabolites_with_formula(run_query):
-    """Every metabolite that has a formula must have an elements list."""
+    """Every metabolite whose formula contains at least one element symbol
+    (any A-Z character) must have an elements list. Formulas like '*2'
+    (charge-only generic placeholders, e.g. KEGG C01322 'RX') parse to no
+    elements and are correctly dropped by the sparse-output convention."""
     rows = run_query("""
-        MATCH (m:Metabolite) WHERE m.formula IS NOT NULL
+        MATCH (m:Metabolite)
+        WHERE m.formula IS NOT NULL AND m.formula =~ '.*[A-Z].*'
         RETURN count(m) AS total, count(m.elements) AS with_prop
     """)
     assert rows[0]["with_prop"] == rows[0]["total"], (
-        f"Metabolites with formula but no elements: "
+        f"Metabolites with element-bearing formula but no elements: "
         f"{rows[0]['total'] - rows[0]['with_prop']}"
     )
 
