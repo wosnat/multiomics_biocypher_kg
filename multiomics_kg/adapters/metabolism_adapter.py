@@ -13,6 +13,8 @@ import logging
 from pathlib import Path
 from typing import Iterator
 
+import chemparse
+
 from multiomics_kg.download.utils.cli import load_genome_rows
 from multiomics_kg.utils.gene_id_utils import load_gene_annotations
 
@@ -33,6 +35,21 @@ def _clean_str(value: str) -> str:
 def _drop_nulls(props: dict) -> dict:
     """Sparse-output convention: drop keys whose value is None or empty list."""
     return {k: v for k, v in props.items() if v is not None and v != []}
+
+
+def _parse_elements(formula: str | None) -> list[str]:
+    """Sorted unique element symbols present in a Hill-notation formula.
+
+    Empty list when formula is null/empty. Returns empty list (rather than
+    raising) on any parse failure, so a malformed KEGG formula cannot break
+    the build.
+    """
+    if not formula:
+        return []
+    try:
+        return sorted(chemparse.parse_formula(formula).keys())
+    except Exception:
+        return []
 
 
 class MetabolismAdapter:
@@ -89,6 +106,7 @@ class MetabolismAdapter:
                 "kegg_compound_id": cpd_id,
                 "name": _clean_str(cpd.get("name", "")),
                 "formula": _clean_str(cpd.get("formula")),
+                "elements": _parse_elements(cpd.get("formula")),
                 "mass": cpd.get("mass"),
                 "inchikey": _clean_str(cpd.get("inchikey")),
                 "smiles": _clean_str(cpd.get("smiles")),

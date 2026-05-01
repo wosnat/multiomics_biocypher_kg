@@ -71,10 +71,15 @@ Out of scope (explicitly):
 ### 1. `pyproject.toml`
 
 Add `chemparse>=0.3.1` to project deps. Pure-Python (~10 KB), actively
-maintained on PyPI, validates against the real periodic table (so an `R`/`X`
-generic-group placeholder would not silently produce a fake element). Handles
-nested parentheses and square brackets (added 2024) — useful if KEGG's
-formula notation grows.
+maintained on PyPI. Handles nested parentheses and square brackets (added
+2024) — useful if KEGG's formula notation grows.
+
+Note: chemparse does **not** validate symbols against the real periodic
+table — `parse_formula('R')` returns `{'R': 1.0}` and `parse_formula('(C5H10O5)n')`
+captures lowercase `n` as an "element". Today this is non-issue because
+the deployed KEGG cache has zero formulas with `R`/`X`/polymer placeholders;
+if KEGG ever ships such formulas, a follow-up should wrap `_parse_elements`
+with a real-element-symbol allow-list.
 
 ### 2. `config/schema_config.yaml`
 
