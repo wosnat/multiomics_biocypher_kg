@@ -12,6 +12,11 @@ Pathway-set rule (Option B): pathway IDs in the cache are exactly those reachabl
 from gene-KOs or gene-reactions. compound→pathway lists are filtered to that set,
 so compound-only pathways (e.g. ko05140 Leishmaniasis) are excluded.
 
+Step 6 also downloads the 3 TCDB reference TSVs (tc_classes, tc_subclasses,
+families) and writes the assembled hierarchy to
+cache/data/tcdb/tcdb_hierarchy.json. The TCDB lift is unconditional and not
+gated on KEGG reachability.
+
 Usage:
     uv run python -m multiomics_kg.download.build_kegg_metabolism_xrefs [--force]
 """
