@@ -1,0 +1,220 @@
+# TCDB and CAZy Ontologies (TcdbFamily, CazyFamily nodes)
+
+**Status:** PROPOSED — design at [docs/superpowers/specs/2026-05-01-tcdb-cazy-ontologies-design.md](../superpowers/specs/2026-05-01-tcdb-cazy-ontologies-design.md). Numbers below are estimates; exact counts will be filled in once the work lands.
+
+**Proposed:** 2026-05-01
+
+## What's changing
+
+Two new ontologies join GO, EC, Pfam, BRITE, KEGG, COG, CyanorakRole, TigrRole as first-class hierarchical classifications in the graph:
+
+- **TcdbFamily** — Transporter Classification Database. ~13K curated transport-protein families across 5 levels of specificity. Each leaf carries a curated list of substrates the family is known to move.
+- **CazyFamily** — Carbohydrate-Active enZymes. 6 classes (GH, GT, PL, CE, AA, CBM) of glycoside hydrolases, glycosyltransferases, etc., with optional subfamilies.
+
+Both surface through the existing MCP ontology tools (`genes_by_ontology`, `gene_ontology_terms`, `ontology_landscape`, `search_ontology`) without any MCP code changes.
+
+The biggest change for explorers: **TCDB substrates become Metabolite nodes**. ~785 new transport-only Metabolites get added to the chemistry layer (current ~2,188 → ~2,973). Every Metabolite gains an `evidence_sources: str[]` property indicating whether it was reached via metabolism (existing reactions) or transport (new TCDB substrate annotations) or both.
+
+The flat Gene properties `transporter_classification` and `cazy_ids` are removed — query through the new graph edges instead. Same precedent as the Pfam normalization.
+
+## New node label: TcdbFamily
+
+Node IDs follow the bioregistry pattern: `tcdb:1.A.1.5.2`
+
+Properties:
+
+- `name` (str) — TCDB entry name, e.g. "The Voltage-gated Ion Channel (VIC) Superfamily". Falls back to `tcdb_id` when the source name is empty (typical for `tc_subclass`/`tc_subfamily`/`tc_specificity`).
+- `tcdb_id` (str) — bare hierarchical ID, e.g. `"1.A.1.5.2"`.
+- `level` (int) — hierarchy depth, 0 = broadest.
+- `level_kind` (str) — one of `tc_class` (0), `tc_subclass` (1), `tc_family` (2), `tc_subfamily` (3), `tc_specificity` (4).
+- `superfamily` (str, sparse) — leaf-only superfamily annotation, e.g. `"VIC Superfamily"`.
+- `gene_count` (int, post-import) — distinct genes reachable via subtree.
+- `organism_count` (int, post-import) — distinct organisms among those genes.
+- `member_count` (int, post-import) — direct child count in the hierarchy.
+
+## New node label: CazyFamily
+
+Node IDs: `cazy:GH13`, `cazy:GH13_5`, etc.
+
+Properties:
+
+- `name` (str) — human-readable for class (e.g. "Glycoside Hydrolases"). Falls back to `cazy_id` for family/subfamily levels.
+- `cazy_id` (str) — e.g. `"GH13"` or `"GH13_5"`.
+- `level` (int) — 0 = class, 1 = family, 2 = subfamily.
+- `level_kind` (str) — `cazy_class` | `cazy_family` | `cazy_subfamily`.
+- `gene_count` (int, post-import) — distinct genes reachable via subtree.
+- `organism_count` (int, post-import) — distinct organisms.
+
+## New edge types
+
+| Edge type | Source | Target | Estimated count | Notes |
+|---|---|---|---|---|
+| `Gene_has_tcdb_family` | Gene | TcdbFamily | ~1,500–2,500 | Attaches at exact level annotated by eggNOG (no walk-up at edge time) |
+| `Tcdb_family_is_a_tcdb_family` | TcdbFamily (child) | TcdbFamily (parent) | ~few hundred | Hierarchy parent edge |
+| `Tcdb_family_transports_metabolite` | TcdbFamily (leaf) | Metabolite | ~10,000 | Substrate linkage; only on `tc_specificity`-level nodes |
+| `Gene_has_cazy_family` | Gene | CazyFamily | ~400–600 | |
+| `Cazy_family_is_a_cazy_family` | CazyFamily (child) | CazyFamily (parent) | ~30–50 | |
+
+## TCDB pruning
+
+The full TCDB hierarchy has ~13,642 entries; 99% of those are not relevant to our 25 genome strains. The graph keeps only the **subhierarchy reachable from gene annotations**:
+
+- Seed set: every TCDB ID present in any strain's `transporter_classification` from eggNOG.
+- For each seed, walk **down** to all leaf descendants (so substrate linkage is complete) and **up** to `tc_class` (so the hierarchy reaches root).
+- Kept = union of seeds + descendants + ancestors.
+
+This is the same approach as BRITE pruning (one-way), made bidirectional because TCDB substrates live at the leaves but eggNOG often annotates at family/subfamily level.
+
+## CAZy is observed-only
+
+CAZy hierarchy is inferred at adapter init from observed eggNOG annotations across configured strains. Every CazyFamily node corresponds to a real gene annotation. No external download — the 6 class names (GH, GT, PL, CE, AA, CBM) are hardcoded in the adapter.
+
+## TCDB substrate → Metabolite bridge
+
+This is the most consequential semantic change. Every TCDB family with substrate annotations gets `Tcdb_family_transports_metabolite` edges to actual Metabolite nodes — not properties, not strings.
+
+How substrates are resolved:
+
+1. TCDB curates substrates as `CHEBI:NNNN;name` strings (e.g. `CHEBI:9314;sucrose`, `CHEBI:3308;calcium(2+)`).
+2. Each ChEBI ID is resolved through MetaNetX (MNX) to its canonical compound.
+3. The resulting compound is matched against existing Metabolite nodes (by `kegg.compound:C*` ID, then `chebi:NNNN`, then `mnx:MNXM*`).
+4. If the compound already exists in the KG (e.g. sucrose, ATP, glucose, calcium — covered by KEGG metabolism), reuse the existing Metabolite node.
+5. If the compound is new (e.g. tetracycline, gibberellin A3 — TCDB knows these are transport substrates but our 25 strains have no catalytic evidence for them), create a new "transport-only" Metabolite node.
+
+All 1,410 unique TCDB substrate strings resolve to MNX. ~399 already match existing Metabolites; ~785 are new transport-only Metabolites.
+
+## New Metabolite property: `evidence_sources: str[]`
+
+Every Metabolite (including pre-existing ones) now carries an `evidence_sources` array. Values:
+
+- `"metabolism"` — at least one Reaction in the KG involves this compound.
+- `"transport"` — at least one TcdbFamily is annotated as transporting this compound.
+
+A compound found by both paths gets `["metabolism", "transport"]`. A pre-existing pure-metabolism compound stays `["metabolism"]`. The 785 new transport-only Metabolites carry just `["transport"]`.
+
+This lets you distinguish "this organism has a known metabolic reaction with this compound" from "this organism's transporters are annotated as moving this compound" — both are evidence, but they answer different biological questions.
+
+## Removed Gene properties (breaking change)
+
+Gone:
+
+- `transporter_classification: str[]`
+- `cazy_ids: str[]`
+
+Migration: existing queries using these properties must rewrite to traverse the new graph edges. Examples:
+
+```cypher
+// Before:
+MATCH (g:Gene)
+WHERE 'GH13' IN g.cazy_ids
+RETURN g
+
+// After:
+MATCH (g:Gene)-[:Gene_has_cazy_family]->(cf:CazyFamily {cazy_id: 'GH13'})
+RETURN g
+
+// Before:
+MATCH (g:Gene)
+WHERE any(tc IN g.transporter_classification WHERE tc STARTS WITH '3.A.1')
+RETURN g
+
+// After (single-level):
+MATCH (g:Gene)-[:Gene_has_tcdb_family]->(tf:TcdbFamily {tcdb_id: '3.A.1'})
+RETURN g
+
+// After (any descendant of 3.A.1):
+MATCH (g:Gene)-[:Gene_has_tcdb_family]->(tf:TcdbFamily)
+MATCH (tf)-[:Tcdb_family_is_a_tcdb_family*0..]->(:TcdbFamily {tcdb_id: '3.A.1'})
+RETURN g
+```
+
+`gene_summary` and `geneFullText` continue to surface raw IDs for text-search needs.
+
+## What this enables
+
+### Substrate-driven gene queries
+
+```cypher
+// All genes in MED4 whose transporters move calcium
+MATCH (org:OrganismTaxon {strain_name: 'MED4'})
+MATCH (g:Gene)-[:Gene_belongs_to_organism]->(org)
+MATCH (g)-[:Gene_has_tcdb_family]->(:TcdbFamily)
+      -[:Tcdb_family_is_a_tcdb_family*0..]->(:TcdbFamily {level_kind: 'tc_specificity'})
+      -[:Tcdb_family_transports_metabolite]->(m:Metabolite)
+WHERE m.name CONTAINS 'calcium'
+RETURN DISTINCT g.locus_tag, g.product, m.name
+```
+
+### Hierarchy traversal
+
+```cypher
+// What does TCDB class "1: Channels and Pores" cover in MED4?
+MATCH (g:Gene)-[:Gene_belongs_to_organism]->(:OrganismTaxon {strain_name: 'MED4'})
+MATCH (g)-[:Gene_has_tcdb_family]->(tf:TcdbFamily)
+MATCH (tf)-[:Tcdb_family_is_a_tcdb_family*0..]->(:TcdbFamily {tcdb_id: '1'})
+RETURN tf.tcdb_id, tf.name, tf.level_kind, count(g) AS gene_count
+ORDER BY tf.level, tf.tcdb_id
+```
+
+### Transport vs metabolism distinction
+
+```cypher
+// Compounds the organism is annotated to TRANSPORT but has no metabolism for
+MATCH (m:Metabolite)
+WHERE 'transport' IN m.evidence_sources
+  AND NOT 'metabolism' IN m.evidence_sources
+RETURN m.name, m.formula, m.evidence_sources
+LIMIT 50
+```
+
+### Ontology landscape via MCP
+
+After the work lands, `ontology_landscape` will show TCDB and CAZy alongside GO, EC, Pfam, BRITE, KEGG, COG, CyanorakRole, TigrRole. `search_ontology` will return TCDB families and CAZy families when searching by chemical name or family code.
+
+### Genes by carbohydrate activity
+
+```cypher
+// All glycosyltransferase genes across organisms
+MATCH (g:Gene)-[:Gene_has_cazy_family]->(:CazyFamily)
+      -[:Cazy_family_is_a_cazy_family*0..]->(:CazyFamily {cazy_id: 'GT'})
+RETURN g.organism_name, g.locus_tag, g.product
+ORDER BY g.organism_name
+```
+
+## Pipeline changes (for awareness only)
+
+If you re-run prepare_data:
+
+- TCDB reference TSV download moves from `prepare_data.sh` step 0 sub-step 6 → step 6 (alongside KEGG metabolism caches). One less script to think about; everything chemistry-related lives in step 6.
+- `cache/data/cazy/cazy_hierarchy.json` is deleted — the CAZy hierarchy is now a hardcoded Python table; no file artifact.
+- `build_metabolite_resolver.py` is renamed to `build_mnx_resolver.py` (does only one thing now).
+- `cache/data/kegg/kegg_data.json` gains an `additional_compounds` section for non-KEGG compounds (transport-only chemistry).
+
+## What does NOT change
+
+- `Changes_expression_of` edge counts and properties — omics layer untouched.
+- Existing Reaction nodes, Gene_catalyzes_reaction edges, Reaction_has_metabolite edges — unchanged.
+- Direction of transport — explicitly NOT modeled (consistent with spec 1.2 "no reaction direction"). `Tcdb_family_transports_metabolite` is direction-agnostic, same as `Reaction_has_metabolite`.
+- TransportReaction nodes — explicitly NOT introduced. TCDB is treated as an ontology (like EC), not a reaction layer (rationale in the design spec).
+- Existing Metabolite IDs, names, formulas, etc. — unchanged. The new `evidence_sources` property is additive.
+
+## Estimated graph-size impact
+
+| Quantity | Before | After | Delta |
+|---|---|---|---|
+| Gene nodes | 81,458 | 81,458 | 0 |
+| Metabolite nodes | ~2,188 | ~2,973 | +785 |
+| TcdbFamily nodes | 0 | ~few hundred | new |
+| CazyFamily nodes | 0 | ~30–50 | new |
+| `Changes_expression_of` edges | ~227K | ~227K | 0 |
+| `Gene_has_tcdb_family` edges | 0 | ~1,500–2,500 | new |
+| `Gene_has_cazy_family` edges | 0 | ~400–600 | new |
+| `Tcdb_family_transports_metabolite` edges | 0 | ~10,000 | new |
+| `Organism_has_metabolite` edges | existing | grows by transport-path additions | +modest |
+
+## See also
+
+- [Design spec](../superpowers/specs/2026-05-01-tcdb-cazy-ontologies-design.md) — implementation details, commit-by-commit migration plan.
+- [BRITE Categories](brite-categories.md) — closest precedent for ontology-with-pruning.
+- [Ontology Level](ontology-level.md) — unified `level` property convention shared by all ontologies.
+- [Metabolism Chemistry Layer](metabolism-chemistry-layer.md) — the existing chemistry layer that TCDB substrates fold into.
