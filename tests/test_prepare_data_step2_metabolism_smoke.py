@@ -19,7 +19,6 @@ REQUIRED_FIXTURES = [
     "cache/data/mnx/metabolite_resolver.db",
     "cache/data/mnx/metabolite_id_mapping_report.json",
     "cache/data/tcdb/tcdb_hierarchy.json",
-    "cache/data/cazy/cazy_hierarchy.json",
     "cache/data/Prochlorococcus/genomes/MED4/eggnog/MED4.emapper.annotations",
     "cache/data/Prochlorococcus/genomes/MED4/gene_mapping.csv",
 ]

@@ -272,51 +272,6 @@ def test_build_tcdb_hierarchy(tmp_path):
     assert set(glu["substrate_classes"]) == {"glutamate(2-)", "amino acid"}
 
 
-EGGNOG_FIXTURE = textwrap.dedent("""\
-    ##   eggnog-mapper
-    #query\tseed_ortholog\tevalue\tscore\teggNOG_OGs\tmax_annot_lvl\tCOG_category\tDescription\tPreferred_name\tGOs\tEC\tKEGG_ko\tKEGG_Pathway\tKEGG_Module\tKEGG_Reaction\tKEGG_rclass\tBRITE\tKEGG_TC\tCAZy\tBiGG_Reaction\tPFAMs
-    WP_001.1\to\t1e-50\t100\tCOG1\t-\tE\tdesc\t-\t-\t-\t-\t-\t-\t-\t-\t-\t-\tGT19\t-\t-
-    WP_002.1\to\t1e-50\t100\tCOG1\t-\tE\tdesc\t-\t-\t-\t-\t-\t-\t-\t-\t-\t-\tGH13_1,CBM48\t-\t-
-    WP_003.1\to\t1e-50\t100\tCOG1\t-\tE\tdesc\t-\t-\t-\t-\t-\t-\t-\t-\t-\t-\t-\t-\t-
-    WP_004.1\to\t1e-50\t100\tCOG1\t-\tE\tdesc\t-\t-\t-\t-\t-\t-\t-\t-\t-\t-\tGH32\t-\t-
-""")
-
-
-def test_build_cazy_hierarchy(tmp_path):
-    """CAZy hierarchy bootstrapped from raw eggNOG col 19, all 6 classes hardcoded."""
-    eggnog = tmp_path / "MED4.emapper.annotations"
-    eggnog.write_text(EGGNOG_FIXTURE)
-    out = tmp_path / "cazy_hierarchy.json"
-
-    bmr.build_cazy_hierarchy(out, [eggnog])
-
-    h = json.loads(out.read_text())
-
-    # All 6 classes present even if not all observed
-    for cls in ("GH", "GT", "PL", "CE", "AA", "CBM"):
-        assert h[cls]["level"] == 0
-        assert h[cls]["level_kind"] == "cazy_class"
-        assert h[cls]["parent"] is None
-        assert h[cls]["class"] == cls
-
-    # Observed families derived
-    assert h["GT19"]["level"] == 1
-    assert h["GT19"]["parent"] == "GT"
-    assert h["GT19"]["class"] == "GT"
-
-    assert h["GH13"]["level"] == 1
-    assert h["GH13"]["parent"] == "GH"
-
-    # Observed subfamily derived (and its parent family also present)
-    assert h["GH13_1"]["level"] == 2
-    assert h["GH13_1"]["level_kind"] == "cazy_subfamily"
-    assert h["GH13_1"]["parent"] == "GH13"
-    assert h["GH13_1"]["class"] == "GH"
-
-    assert h["CBM48"]["parent"] == "CBM"
-    assert h["GH32"]["parent"] == "GH"
-
-
 def test_resolver_has_mnx_side_indexes(tmp_path):
     """Spec 1.2: resolver DB must have indexes on mnxm_id / mnxr_id columns."""
     chem_xref = tmp_path / "chem_xref.tsv"
@@ -360,18 +315,12 @@ def test_build_main_end_to_end(tmp_path, monkeypatch):
     (cache / "tcdb" / "superfamilies.tsv").write_text(TCDB_SUPERFAMILIES_FIXTURE)
     (cache / "tcdb" / "substrates.tsv").write_text(TCDB_SUBSTRATES_FIXTURE)
 
-    # Synthesize a tiny eggNOG annotation for one strain
-    strain_dir = cache / "Prochlorococcus" / "genomes" / "MED4" / "eggnog"
-    strain_dir.mkdir(parents=True)
-    (strain_dir / "MED4.emapper.annotations").write_text(EGGNOG_FIXTURE)
-
     monkeypatch.chdir(tmp_path)
     bmr.main(force=True)
 
-    # All four outputs exist
+    # All three outputs exist
     assert (cache / "mnx" / "metabolite_resolver.db").exists()
     assert (cache / "tcdb" / "tcdb_hierarchy.json").exists()
-    assert (cache / "cazy" / "cazy_hierarchy.json").exists()
     assert (cache / "mnx" / "metabolite_id_mapping_report.json").exists()
 
     # Diagnostic report has expected keys
@@ -380,4 +329,3 @@ def test_build_main_end_to_end(tmp_path, monkeypatch):
     assert report["compound_count"] == 3
     assert report["reaction_count"] == 3
     assert report["tcdb_hierarchy_entry_count"] >= 7
-    assert report["cazy_hierarchy_entry_count"] >= 6  # at least the 6 classes

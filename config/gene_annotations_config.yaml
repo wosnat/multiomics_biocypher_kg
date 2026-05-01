@@ -519,7 +519,6 @@ fields:
       - source: eggnog
         field: CAZy
         delimiter: ","
-        transform: validate_cazy
 
   # ── Protein properties denormalized from UniProt ──────────────────────────────
   # Keeps these queryable directly on Gene nodes without requiring a protein join.

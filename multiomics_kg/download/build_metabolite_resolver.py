@@ -1,11 +1,9 @@
 """Build metabolite resolver SQLite + hierarchy caches. Invoked by scripts/refresh_mnx.sh; not part of prepare_data.sh anymore.
 
-Reads the seven sub-step-6 cache files (4 MNX TSVs + 3 TCDB TSVs) plus raw
-eggNOG annotation files from configured strains, and produces:
+Reads the seven sub-step-6 cache files (4 MNX TSVs + 3 TCDB TSVs) and produces:
 
 - cache/data/mnx/metabolite_resolver.db    (SQLite)
 - cache/data/tcdb/tcdb_hierarchy.json
-- cache/data/cazy/cazy_hierarchy.json
 - cache/data/mnx/metabolite_id_mapping_report.json
 """
 from __future__ import annotations
@@ -455,114 +453,6 @@ def build_tcdb_hierarchy(
     return len(h)
 
 
-# ── CAZy hierarchy (bootstrapped from eggNOG observations) ────────────────────
-
-_CAZY_CLASSES = {
-    "GH":  "Glycoside Hydrolases",
-    "GT":  "GlycosylTransferases",
-    "PL":  "Polysaccharide Lyases",
-    "CE":  "Carbohydrate Esterases",
-    "AA":  "Auxiliary Activities",
-    "CBM": "Carbohydrate-Binding Modules",
-}
-
-# eggNOG column index (1-based) for the CAZy field; 0-based here.
-_EGGNOG_CAZY_COL = 18
-
-
-# A CAZy ID is `<class><digits>` optionally followed by `_<digits>` subfamily
-# Examples: GH13, GH13_1, CBM48, AA10
-_CAZY_FAMILY_RE = re.compile(r"^(GH|GT|PL|CE|AA|CBM)(\d+)(?:_(\d+))?$")
-
-
-def _parse_cazy_id(token: str) -> tuple[str, str | None] | None:
-    """Return (family_id, subfamily_id_or_None) or None if malformed.
-
-    'GH13'    → ('GH13', None)
-    'GH13_1'  → ('GH13', 'GH13_1')
-    'CBM48'   → ('CBM48', None)
-    'invalid' → None
-    """
-    m = _CAZY_FAMILY_RE.match(token.strip())
-    if not m:
-        return None
-    cls, fam_num, sub_num = m.groups()
-    family = f"{cls}{fam_num}"
-    subfamily = f"{family}_{sub_num}" if sub_num else None
-    return family, subfamily
-
-
-def _collect_cazy_ids(eggnog_paths: list[Path]) -> set[str]:
-    """Iterate over all eggNOG annotation files; collect distinct CAZy tokens."""
-    ids: set[str] = set()
-    for path in eggnog_paths:
-        if not path.exists():
-            continue
-        with open(path, encoding="utf-8") as f:
-            for line in f:
-                if line.startswith("#") or not line.strip():
-                    continue
-                cols = line.rstrip("\n").split("\t")
-                if len(cols) <= _EGGNOG_CAZY_COL:
-                    continue
-                cell = cols[_EGGNOG_CAZY_COL]
-                if cell in ("", "-"):
-                    continue
-                for token in cell.split(","):
-                    token = token.strip()
-                    if token:
-                        ids.add(token)
-    return ids
-
-
-def build_cazy_hierarchy(out_path: Path, eggnog_paths: list[Path]) -> int:
-    """Build cazy_hierarchy.json from CAZy IDs observed in eggNOG output.
-
-    Always emits the 6 top-level classes (level 0) so consumers have a stable
-    set of root nodes. Family + subfamily entries are derived per observation.
-    """
-    h: dict[str, dict] = {
-        cls: {
-            "name": display_name,
-            "level": 0,
-            "level_kind": "cazy_class",
-            "parent": None,
-            "class": cls,
-        }
-        for cls, display_name in _CAZY_CLASSES.items()
-    }
-
-    observed_ids = _collect_cazy_ids(eggnog_paths)
-    for token in sorted(observed_ids):
-        parsed = _parse_cazy_id(token)
-        if parsed is None:
-            log.warning(f"  cazy: skipping malformed token: {token!r}")
-            continue
-        family, subfamily = parsed
-        cls = _CAZY_FAMILY_RE.match(family).group(1)
-        if family not in h:
-            h[family] = {
-                "name": "",
-                "level": 1,
-                "level_kind": "cazy_family",
-                "parent": cls,
-                "class": cls,
-            }
-        if subfamily and subfamily not in h:
-            h[subfamily] = {
-                "name": "",
-                "level": 2,
-                "level_kind": "cazy_subfamily",
-                "parent": family,
-                "class": cls,
-            }
-
-    out_path.parent.mkdir(parents=True, exist_ok=True)
-    out_path.write_text(json.dumps(h, indent=2, sort_keys=True))
-    log.info(f"  cazy_hierarchy.json: {len(h)} entries ({len(observed_ids)} eggNOG observations)")
-    return len(h)
-
-
 # ── orchestration ─────────────────────────────────────────────────────────────
 
 CACHE_ROOT = Path("cache/data")
@@ -579,7 +469,6 @@ def _resolve_paths(cache_root: Path) -> dict[str, Path]:
         "substrates":    cache_root / "tcdb" / "substrates.tsv",
         "resolver_db":   cache_root / "mnx" / "metabolite_resolver.db",
         "tcdb_json":     cache_root / "tcdb" / "tcdb_hierarchy.json",
-        "cazy_json":     cache_root / "cazy" / "cazy_hierarchy.json",
         "report":        cache_root / "mnx" / "metabolite_id_mapping_report.json",
     }
 
@@ -605,11 +494,6 @@ def _read_mnx_release(chem_prop_path: Path) -> str:
     return "MNXref unknown"
 
 
-def _find_eggnog_annotations(cache_root: Path) -> list[Path]:
-    """Discover all <strain>.emapper.annotations files under cache_root."""
-    return sorted(cache_root.glob("*/genomes/*/eggnog/*.emapper.annotations"))
-
-
 def _alias_count_by_source(conn: sqlite3.Connection) -> dict[str, int]:
     cur = conn.cursor()
     cur.execute("SELECT source, COUNT(*) FROM compound_aliases GROUP BY source ORDER BY 2 DESC")
@@ -620,7 +504,7 @@ def main(force: bool = False) -> None:
     logging.basicConfig(level=logging.INFO, format="%(message)s")
     paths = _resolve_paths(CACHE_ROOT)
 
-    if not force and paths["resolver_db"].exists() and paths["tcdb_json"].exists() and paths["cazy_json"].exists():
+    if not force and paths["resolver_db"].exists() and paths["tcdb_json"].exists():
         log.info("All caches present; skip (use --force to rebuild).")
         return
 
@@ -646,10 +530,6 @@ def main(force: bool = False) -> None:
         paths["tcdb_json"], paths["families"], paths["superfamilies"], paths["substrates"]
     )
 
-    # CAZy hierarchy (bootstrapped from eggNOG observations)
-    eggnog_paths = _find_eggnog_annotations(CACHE_ROOT)
-    n_cazy = build_cazy_hierarchy(paths["cazy_json"], eggnog_paths)
-
     # Diagnostic report
     report = {
         "mnx_release":              _read_mnx_release(paths["chem_prop"]),
@@ -657,8 +537,6 @@ def main(force: bool = False) -> None:
         "reaction_count":           n_reactions,
         "alias_counts_by_source":   alias_counts,
         "tcdb_hierarchy_entry_count": n_tcdb,
-        "cazy_hierarchy_entry_count": n_cazy,
-        "eggnog_annotation_files_scanned": len(eggnog_paths),
     }
     paths["report"].write_text(json.dumps(report, indent=2))
     log.info(f"  metabolite_id_mapping_report.json written ({len(report)} fields)")

@@ -1,39 +1,69 @@
-"""CAZy hierarchy accessor API.
+"""Pure-Python CAZy classification helpers.
 
-Reads cache/data/cazy/cazy_hierarchy.json (built by multiomics_kg.download.build_metabolite_resolver
-from observed eggNOG `CAZy` columns).
+CAZy hierarchy is now derived in-process — no file I/O. The 6 classes are
+hardcoded; family + subfamily IDs are parsed from observed eggNOG annotations
+in `multiomics_kg/adapters/cazy_adapter.py`.
+
+Public API:
+    CAZY_CLASSES — dict of class code → display name (immutable map).
+    parse_cazy_id(token) — split a CAZy token into (family, subfamily | None).
+    is_valid_cazy(value) — True when value is a recognized class / family / subfamily.
+    cazy_ancestors(value) — root-to-parent ancestor chain ([class] or [class, family]).
 """
 from __future__ import annotations
 
-import json
-from pathlib import Path
+import re
 
-DEFAULT_PATH = Path("cache/data/cazy/cazy_hierarchy.json")
-_CACHE: dict[str, dict] | None = None
+CAZY_CLASSES: dict[str, str] = {
+    "GH":  "Glycoside Hydrolases",
+    "GT":  "GlycosylTransferases",
+    "PL":  "Polysaccharide Lyases",
+    "CE":  "Carbohydrate Esterases",
+    "AA":  "Auxiliary Activities",
+    "CBM": "Carbohydrate-Binding Modules",
+}
 
-
-def load_cazy() -> dict[str, dict]:
-    """Load the CAZy hierarchy JSON. Cached at module level."""
-    global _CACHE
-    if _CACHE is None:
-        with open(DEFAULT_PATH, encoding="utf-8") as f:
-            _CACHE = json.load(f)
-    return _CACHE
+_CAZY_FAMILY_RE = re.compile(r"^(GH|GT|PL|CE|AA|CBM)(\d+)(?:_(\d+))?$")
 
 
-def is_valid_cazy(cazy_id: str) -> bool:
-    if not cazy_id:
+def parse_cazy_id(token: str) -> tuple[str, str | None] | None:
+    """Return (family_id, subfamily_id_or_None) or None for malformed tokens.
+
+    Examples:
+        'GH13'    → ('GH13', None)
+        'GH13_5'  → ('GH13', 'GH13_5')
+        'CBM48'   → ('CBM48', None)
+        'invalid' → None
+    """
+    if not token:
+        return None
+    m = _CAZY_FAMILY_RE.match(token.strip())
+    if not m:
+        return None
+    cls, fam_num, sub_num = m.groups()
+    family = f"{cls}{fam_num}"
+    subfamily = f"{family}_{sub_num}" if sub_num else None
+    return family, subfamily
+
+
+def is_valid_cazy(value: str) -> bool:
+    """True for a recognized class code, family ID, or subfamily ID."""
+    if not value:
         return False
-    return cazy_id in load_cazy()
+    if value in CAZY_CLASSES:
+        return True
+    return parse_cazy_id(value) is not None
 
 
-def cazy_ancestors(cazy_id: str) -> list[str]:
-    h = load_cazy()
-    if cazy_id not in h:
+def cazy_ancestors(value: str) -> list[str]:
+    """Root-to-parent ancestor list. Empty for class-level or unknown values."""
+    if not value or value in CAZY_CLASSES:
         return []
-    chain: list[str] = []
-    parent = h[cazy_id].get("parent")
-    while parent is not None:
-        chain.append(parent)
-        parent = h.get(parent, {}).get("parent")
-    return list(reversed(chain))
+    parsed = parse_cazy_id(value)
+    if parsed is None:
+        return []
+    family, subfamily = parsed
+    cls = _CAZY_FAMILY_RE.match(family).group(1)
+    if subfamily and value == subfamily:
+        return [cls, family]
+    return [cls]

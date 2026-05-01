@@ -262,17 +262,11 @@ def _tx_normalize_ec(value: str) -> str | list[str]:
 # ── Phase 1.1B metabolism transforms ──────────────────────────────────────────
 
 from multiomics_kg.utils.tcdb_utils import is_valid_tcdb
-from multiomics_kg.utils.cazy_utils import is_valid_cazy
 
 
 def _tx_validate_tcdb(value: str) -> str | None:
     """Drop TC IDs not present in the TCDB hierarchy."""
     return value if is_valid_tcdb(value) else None
-
-
-def _tx_validate_cazy(value: str) -> str | None:
-    """Drop CAZy IDs not present in the CAZy hierarchy."""
-    return value if is_valid_cazy(value) else None
 
 
 # Map from YAML transform name → function
@@ -292,5 +286,4 @@ _TRANSFORMS: dict[str, Any] = {
     "split_cog_category": _tx_split_cog_category,
     "normalize_ec": _tx_normalize_ec,
     "validate_tcdb":                  _tx_validate_tcdb,
-    "validate_cazy":                  _tx_validate_cazy,
 }
