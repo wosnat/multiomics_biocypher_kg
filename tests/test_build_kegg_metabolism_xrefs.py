@@ -178,3 +178,66 @@ def test_compound_pathway_filter_drops_unevidenced(tmp_path, monkeypatch):
     assert "ko00500" not in data["pathways"]
     # And compound's pathway list filtered
     assert data["compounds"]["C00031"]["pathways"] == ["ko00010"]
+
+
+def test_bulk_enrich_reactions_returns_dict_keyed_by_kegg_id(tmp_path):
+    """_bulk_enrich_reactions(conn, kegg_ids, allowed_pathways, raw) returns
+    a dict mapping kegg_reaction_id → enrichment dict, with the same fields
+    as the per-entity _enrich_reaction.
+    """
+    conn = _make_resolver(tmp_path)
+    raw = {
+        "reaction_names": {"R00200": "ATP:pyruvate ..."},
+        "reaction_to_pathways": {"R00200": ["ko00010", "ko00710"]},
+        "reaction_to_compounds": {"R00200": ["C00031"]},
+    }
+    allowed = {"ko00010", "ko00710"}
+
+    result = bx._bulk_enrich_reactions(conn, ["R00200", "R99999"], allowed, raw)
+
+    # Every requested ID is in the result (R99999 has no MNX entry but still gets a stub)
+    assert set(result.keys()) == {"R00200", "R99999"}
+
+    r = result["R00200"]
+    assert r["name"].startswith("ATP:pyruvate")
+    assert r["mnxr_id"] == "MNXR101234"
+    assert r["ec_numbers"] == ["2.7.1.40"]
+    assert r["mass_balance"] == "balanced"
+    assert r["reaction_class"] == "chemical"
+    assert r["pathways"] == ["ko00010", "ko00710"]
+    assert r["compounds"] == ["C00031"]
+
+    r99 = result["R99999"]
+    assert r99["mnxr_id"] is None
+    assert r99["ec_numbers"] == []
+    assert r99["mass_balance"] == "unbalanced"  # default
+    assert r99["reaction_class"] == "chemical"  # default
+
+
+def test_bulk_enrich_compounds_returns_dict_keyed_by_kegg_id(tmp_path):
+    """_bulk_enrich_compounds returns a dict mapping kegg_compound_id → enrichment."""
+    conn = _make_resolver(tmp_path)
+    raw = {
+        "compound_names": {"C00031": "D-glucose", "C99999": "obscure"},
+        "compound_to_pathways": {
+            "C00031": ["ko00010", "ko00500"],
+            "C99999": [],
+        },
+    }
+    allowed = {"ko00010"}
+
+    result = bx._bulk_enrich_compounds(conn, ["C00031", "C99999"], allowed, raw)
+
+    assert set(result.keys()) == {"C00031", "C99999"}
+
+    glucose = result["C00031"]
+    assert glucose["name"] == "D-glucose"
+    assert glucose["mnxm_id"] == "MNXM41"
+    assert glucose["chebi_id"] == "17234"
+    assert glucose["formula"] == "C6H12O6"
+    assert glucose["pathways"] == ["ko00010"]  # ko00500 filtered out by allowed
+
+    obscure = result["C99999"]
+    assert obscure["mnxm_id"] is None
+    assert obscure["chebi_id"] is None
+    assert obscure["formula"] is None

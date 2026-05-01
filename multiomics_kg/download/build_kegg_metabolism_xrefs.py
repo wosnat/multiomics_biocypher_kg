@@ -92,98 +92,215 @@ def _hierarchy_parents(raw: dict, pws: set[str]) -> tuple[set[str], set[str]]:
     return subs, cats
 
 
-# ── MNX enrichment ────────────────────────────────────────────────────────────
+# ── MNX enrichment (batched) ──────────────────────────────────────────────────
 
-def _enrich_reaction(rxn_id: str, raw: dict, conn: sqlite3.Connection,
-                     allowed_pathways: set[str]) -> dict:
-    out: dict = {
-        "name": raw.get("reaction_names", {}).get(rxn_id, ""),
-        "pathways": [p for p in raw.get("reaction_to_pathways", {}).get(rxn_id, []) if p in allowed_pathways],
-        "compounds": list(raw.get("reaction_to_compounds", {}).get(rxn_id, [])),
-        "ec_numbers": [],
-        "mnxr_id": None,
-        "rhea_ids": [],
-        "mass_balance": "unbalanced",
-        "reaction_class": "chemical",
-    }
+# SQLite default: 999 host parameters per statement. Use 900 for safety.
+_BATCH_SIZE = 900
+
+
+def _batched(seq: list, n: int = _BATCH_SIZE):
+    """Yield successive n-sized chunks from seq."""
+    for i in range(0, len(seq), n):
+        yield seq[i:i + n]
+
+
+def _bulk_enrich_reactions(
+    conn: sqlite3.Connection,
+    kegg_ids: list[str],
+    allowed_pathways: set[str],
+    raw: dict,
+) -> dict[str, dict]:
+    """Batched enrichment for all KEGG reactions in one go.
+
+    Returns dict mapping kegg_reaction_id → enrichment dict (same shape as the
+    per-entity _enrich_reaction output). Reactions with no MNX entry get a stub
+    with mnxr_id=None and default fields, so every requested ID appears in the
+    output.
+
+    Replaces ~3 queries × N reactions with ~3 batched queries total (per chunk).
+    """
     cur = conn.cursor()
-    cur.execute(
-        "SELECT mnxr_id FROM reaction_aliases WHERE source='kegg.reaction' AND value=? LIMIT 1",
-        (rxn_id,),
-    )
-    row = cur.fetchone()
-    if row is None:
+
+    # Initialize stubs for every requested reaction
+    rxn_names = raw.get("reaction_names", {})
+    rxn_to_pw = raw.get("reaction_to_pathways", {})
+    rxn_to_cpds = raw.get("reaction_to_compounds", {})
+
+    out: dict[str, dict] = {}
+    for rxn_id in kegg_ids:
+        out[rxn_id] = {
+            "name": rxn_names.get(rxn_id, ""),
+            "pathways": [p for p in rxn_to_pw.get(rxn_id, []) if p in allowed_pathways],
+            "compounds": list(rxn_to_cpds.get(rxn_id, [])),
+            "ec_numbers": [],
+            "mnxr_id": None,
+            "rhea_ids": [],
+            "mass_balance": "unbalanced",
+            "reaction_class": "chemical",
+        }
+
+    # Phase 1: bulk-resolve kegg.reaction → mnxr_id
+    kegg_to_mnxr: dict[str, str] = {}
+    for chunk in _batched(kegg_ids):
+        placeholders = ",".join("?" * len(chunk))
+        cur.execute(
+            f"SELECT value, mnxr_id FROM reaction_aliases "
+            f"WHERE source='kegg.reaction' AND value IN ({placeholders})",
+            chunk,
+        )
+        for value, mnxr_id in cur.fetchall():
+            kegg_to_mnxr[value] = mnxr_id
+
+    # Apply phase-1 results
+    for rxn_id, mnxr_id in kegg_to_mnxr.items():
+        out[rxn_id]["mnxr_id"] = mnxr_id
+
+    if not kegg_to_mnxr:
         return out
-    out["mnxr_id"] = row[0]
 
-    cur.execute(
-        "SELECT value FROM reaction_aliases WHERE mnxr_id=? AND source='rhea' ORDER BY value",
-        (out["mnxr_id"],),
-    )
-    out["rhea_ids"] = [r[0] for r in cur.fetchall()]
+    # Phase 2: bulk-fetch MNX-side properties keyed by mnxr_id
+    mnxr_ids = list(set(kegg_to_mnxr.values()))
 
-    cur.execute(
-        "SELECT classifs, is_balanced, is_transport FROM reactions WHERE mnxr_id=?",
-        (out["mnxr_id"],),
-    )
-    row = cur.fetchone()
-    if row:
-        classifs, is_balanced, is_transport = row
-        if classifs:
-            out["ec_numbers"] = [c.strip() for c in classifs.split(";") if c.strip()]
-        out["mass_balance"] = "balanced" if (is_balanced or "").upper() == "B" else "unbalanced"
-        out["reaction_class"] = "transport" if (is_transport or "").upper() == "T" else "chemical"
+    # 2a. reactions table → ec_numbers, mass_balance, reaction_class
+    rxn_props: dict[str, dict] = {}
+    for chunk in _batched(mnxr_ids):
+        placeholders = ",".join("?" * len(chunk))
+        cur.execute(
+            f"SELECT mnxr_id, classifs, is_balanced, is_transport "
+            f"FROM reactions WHERE mnxr_id IN ({placeholders})",
+            chunk,
+        )
+        for mnxr_id, classifs, is_balanced, is_transport in cur.fetchall():
+            rxn_props[mnxr_id] = {
+                "ec_numbers": (
+                    [c.strip() for c in classifs.split(";") if c.strip()]
+                    if classifs else []
+                ),
+                "mass_balance": "balanced" if (is_balanced or "").upper() == "B" else "unbalanced",
+                "reaction_class": "transport" if (is_transport or "").upper() == "T" else "chemical",
+            }
+
+    # 2b. reaction_aliases → rhea_ids
+    rhea_by_mnxr: dict[str, list[str]] = {}
+    for chunk in _batched(mnxr_ids):
+        placeholders = ",".join("?" * len(chunk))
+        cur.execute(
+            f"SELECT mnxr_id, value FROM reaction_aliases "
+            f"WHERE source='rhea' AND mnxr_id IN ({placeholders}) ORDER BY value",
+            chunk,
+        )
+        for mnxr_id, value in cur.fetchall():
+            rhea_by_mnxr.setdefault(mnxr_id, []).append(value)
+
+    # Stitch phase-2 results into per-reaction output
+    for rxn_id, mnxr_id in kegg_to_mnxr.items():
+        props = rxn_props.get(mnxr_id, {})
+        out[rxn_id]["ec_numbers"] = props.get("ec_numbers", [])
+        out[rxn_id]["mass_balance"] = props.get("mass_balance", "unbalanced")
+        out[rxn_id]["reaction_class"] = props.get("reaction_class", "chemical")
+        out[rxn_id]["rhea_ids"] = rhea_by_mnxr.get(mnxr_id, [])
+
     return out
 
 
-def _enrich_compound(cpd_id: str, raw: dict, conn: sqlite3.Connection,
-                     allowed_pathways: set[str]) -> dict:
-    out: dict = {
-        "name": raw.get("compound_names", {}).get(cpd_id, ""),
-        "formula": None,
-        "mass": None,
-        "inchikey": None,
-        "smiles": None,
-        "mnxm_id": None,
-        "chebi_id": None,
-        "hmdb_id": None,
-        "pathways": [p for p in raw.get("compound_to_pathways", {}).get(cpd_id, []) if p in allowed_pathways],
-    }
+def _bulk_enrich_compounds(
+    conn: sqlite3.Connection,
+    kegg_ids: list[str],
+    allowed_pathways: set[str],
+    raw: dict,
+) -> dict[str, dict]:
+    """Batched enrichment for all KEGG compounds.
+
+    Same pattern as _bulk_enrich_reactions: phase 1 resolves kegg.compound →
+    mnxm_id, phase 2 bulk-fetches MNX-side properties (formula/mass/inchikey/
+    smiles + chebi/hmdb aliases), then assembles per-compound output.
+    """
     cur = conn.cursor()
-    cur.execute(
-        "SELECT mnxm_id FROM compound_aliases WHERE source='kegg.compound' AND value=? LIMIT 1",
-        (cpd_id,),
-    )
-    row = cur.fetchone()
-    if row is None:
+
+    cpd_names = raw.get("compound_names", {})
+    cpd_to_pw = raw.get("compound_to_pathways", {})
+
+    out: dict[str, dict] = {}
+    for cpd_id in kegg_ids:
+        out[cpd_id] = {
+            "name": cpd_names.get(cpd_id, ""),
+            "formula": None, "mass": None, "inchikey": None, "smiles": None,
+            "mnxm_id": None, "chebi_id": None, "hmdb_id": None,
+            "pathways": [p for p in cpd_to_pw.get(cpd_id, []) if p in allowed_pathways],
+        }
+
+    # Phase 1: bulk-resolve kegg.compound → mnxm_id
+    kegg_to_mnxm: dict[str, str] = {}
+    for chunk in _batched(kegg_ids):
+        placeholders = ",".join("?" * len(chunk))
+        cur.execute(
+            f"SELECT value, mnxm_id FROM compound_aliases "
+            f"WHERE source='kegg.compound' AND value IN ({placeholders})",
+            chunk,
+        )
+        for value, mnxm_id in cur.fetchall():
+            kegg_to_mnxm[value] = mnxm_id
+
+    for cpd_id, mnxm_id in kegg_to_mnxm.items():
+        out[cpd_id]["mnxm_id"] = mnxm_id
+
+    if not kegg_to_mnxm:
         return out
-    out["mnxm_id"] = row[0]
 
-    cur.execute(
-        "SELECT formula, mass, inchikey, smiles FROM compounds WHERE mnxm_id=?",
-        (out["mnxm_id"],),
-    )
-    row = cur.fetchone()
-    if row:
-        out["formula"] = row[0] or None
-        out["mass"] = row[1] if row[1] is not None else None
-        out["inchikey"] = row[2] or None
-        out["smiles"] = row[3] or None
+    mnxm_ids = list(set(kegg_to_mnxm.values()))
 
-    cur.execute(
-        "SELECT value FROM compound_aliases WHERE mnxm_id=? AND source='chebi' ORDER BY value LIMIT 1",
-        (out["mnxm_id"],),
-    )
-    row = cur.fetchone()
-    if row:
-        out["chebi_id"] = row[0]
-    cur.execute(
-        "SELECT value FROM compound_aliases WHERE mnxm_id=? AND source='hmdb' ORDER BY value LIMIT 1",
-        (out["mnxm_id"],),
-    )
-    row = cur.fetchone()
-    if row:
-        out["hmdb_id"] = row[0]
+    # 2a. compounds table → formula, mass, inchikey, smiles
+    cpd_props: dict[str, dict] = {}
+    for chunk in _batched(mnxm_ids):
+        placeholders = ",".join("?" * len(chunk))
+        cur.execute(
+            f"SELECT mnxm_id, formula, mass, inchikey, smiles "
+            f"FROM compounds WHERE mnxm_id IN ({placeholders})",
+            chunk,
+        )
+        for mnxm_id, formula, mass, inchikey, smiles in cur.fetchall():
+            cpd_props[mnxm_id] = {
+                "formula": formula or None,
+                "mass": mass,  # numeric, no `or None` coercion needed
+                "inchikey": inchikey or None,
+                "smiles": smiles or None,
+            }
+
+    # 2b. compound_aliases → chebi_id (one lowest-id per mnxm)
+    chebi_by_mnxm: dict[str, str] = {}
+    for chunk in _batched(mnxm_ids):
+        placeholders = ",".join("?" * len(chunk))
+        cur.execute(
+            f"SELECT mnxm_id, value FROM compound_aliases "
+            f"WHERE source='chebi' AND mnxm_id IN ({placeholders}) ORDER BY mnxm_id, value",
+            chunk,
+        )
+        for mnxm_id, value in cur.fetchall():
+            # Keep first (lowest-sorted) chebi id per mnxm
+            chebi_by_mnxm.setdefault(mnxm_id, value)
+
+    # 2c. compound_aliases → hmdb_id (same pattern)
+    hmdb_by_mnxm: dict[str, str] = {}
+    for chunk in _batched(mnxm_ids):
+        placeholders = ",".join("?" * len(chunk))
+        cur.execute(
+            f"SELECT mnxm_id, value FROM compound_aliases "
+            f"WHERE source='hmdb' AND mnxm_id IN ({placeholders}) ORDER BY mnxm_id, value",
+            chunk,
+        )
+        for mnxm_id, value in cur.fetchall():
+            hmdb_by_mnxm.setdefault(mnxm_id, value)
+
+    # Stitch phase-2 results into per-compound output
+    for cpd_id, mnxm_id in kegg_to_mnxm.items():
+        props = cpd_props.get(mnxm_id, {})
+        out[cpd_id]["formula"] = props.get("formula")
+        out[cpd_id]["mass"] = props.get("mass")
+        out[cpd_id]["inchikey"] = props.get("inchikey")
+        out[cpd_id]["smiles"] = props.get("smiles")
+        out[cpd_id]["chebi_id"] = chebi_by_mnxm.get(mnxm_id)
+        out[cpd_id]["hmdb_id"] = hmdb_by_mnxm.get(mnxm_id)
+
     return out
 
 
@@ -198,6 +315,9 @@ def build_pruned_kegg_data(raw: dict, conn: sqlite3.Connection, out_path: Path) 
     ko_to_pw = raw.get("ko_to_pathways", {})
     pw_to_sub = raw.get("pathway_to_subcategory", {})
     sub_to_cat = raw.get("subcategory_to_category", {})
+
+    rxn_enriched = _bulk_enrich_reactions(conn, sorted(rxns), pws, raw)
+    cpd_enriched = _bulk_enrich_compounds(conn, sorted(cpds), pws, raw)
 
     out = {
         "kos": {
@@ -222,12 +342,8 @@ def build_pruned_kegg_data(raw: dict, conn: sqlite3.Connection, out_path: Path) 
             c: {"name": raw.get("category_names", {}).get(c, "")}
             for c in sorted(cats)
         },
-        "reactions": {
-            r: _enrich_reaction(r, raw, conn, pws) for r in sorted(rxns)
-        },
-        "compounds": {
-            c: _enrich_compound(c, raw, conn, pws) for c in sorted(cpds)
-        },
+        "reactions": rxn_enriched,
+        "compounds": cpd_enriched,
     }
 
     out_path.parent.mkdir(parents=True, exist_ok=True)
