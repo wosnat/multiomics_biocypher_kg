@@ -58,9 +58,11 @@ tcdb family:
     level: int                 # 0=tc_class … 4=tc_specificity
     level_kind: str
     superfamily: str           # sparse, leaf-only
+    tc_class_id: str           # post-import: pointer to root tc_class node ID (e.g. "tcdb:3"); self on tc_class nodes
     gene_count: int            # post-import
     organism_count: int        # post-import
     member_count: int          # post-import: direct child count
+    metabolite_count: int      # post-import: distinct metabolites reachable in subtree
 
 cazy family:
   is_a: named thing
@@ -274,15 +276,37 @@ In `scripts/post-import.sh` and reference `scripts/post-import.cypher`:
 - `gene_count` (int): `COUNT(DISTINCT gene)` reachable via `Gene_has_*` edges. For non-leaf nodes, count includes genes attached anywhere in the subtree (descendant traversal).
 - `organism_count` (int): same but distinct organisms.
 - `member_count` (int, TCDB only): direct child count in the hierarchy.
+- `metabolite_count` (int, TCDB only — per explorer ask TCDB-S4): distinct `Metabolite` nodes reachable via `Tcdb_family_transports_metabolite` edges in the subtree (mirrors the `gene_count` subtree-traversal pattern). On leaves equals direct count; on `tc_class` shows total substrate breadth across all descendants.
+- `tc_class_id` (str | null, TCDB only — per explorer ask TCDB-S5): pre-computed pointer to the root `tc_class` ID for this node (e.g. `"tcdb:3"` for any node under class 3). Self-reference on `tc_class`-level nodes. Null only if a node somehow has no class ancestor (shouldn't happen). Avoids variable-length traversal in class-level filter queries. Cheap to populate since the pruning walk already touches every ancestor.
 
-### Gene routing signal
+### Gene routing signals
 
 Extend the existing `Gene.annotation_types` array post-import update to add `'tcdb'` / `'cazy'` when the gene has any `Gene_has_tcdb_family` / `Gene_has_cazy_family` edge.
+
+Per explorer asks TCDB-S1 / TCDB-S2, also populate quantity-bearing rollups (mirror existing `expression_edge_count` / `numeric_metric_count` etc.):
+
+- `Gene.tcdb_family_count` (int, default 0): `COUNT(*)` of `Gene_has_tcdb_family` edges per gene. Single-hop.
+- `Gene.cazy_family_count` (int, default 0): `COUNT(*)` of `Gene_has_cazy_family` edges per gene. Single-hop.
+
+### Coordination with chemistry-slice-1: `Gene.metabolite_count`
+
+The chemistry-slice-1 KG-side asks (companion doc `multiomics_explorer/docs/superpowers/specs/2026-05-01-kg-side-chemistry-slice1-asks.md`, ask KG-A2 + cross-spec coordination point TCDB-S3) introduce `Gene.metabolite_count: int` defined as **distinct metabolites reachable via *any* gene-reaching path** — UNION of catalysis and transport.
+
+Sequencing rule:
+
+- If chemistry-slice-1 lands first, this spec extends its post-import block to add the transport arm — same property, additional UNION clause for `Gene → TcdbFamily → ... → Tcdb_family_transports_metabolite → Metabolite`.
+- If this spec lands first, the post-import block ships with both arms baked in (catalysis + transport). The catalysis arm is identical to KG-A2's slice-1 form; the transport arm is the TCDB extension.
+
+Either way the property's semantics is **UNION-across-paths**. No second property like `Gene.transport_metabolite_count` is introduced.
 
 ### Metabolite extended properties
 
 - New: `transporter_count` (int) — distinct `TcdbFamily` nodes with `Tcdb_family_transports_metabolite` edges to this metabolite.
 - Existing `gene_count` / `organism_count`: extend the materialization to UNION the transport path (`Gene → TcdbFamily → Metabolite`) with the existing catalysis path (`Gene → Reaction → Metabolite`).
+
+### `evidence_sources` enum semantics
+
+This spec defines two values: `"metabolism"` (compound participates in a Reaction) and `"transport"` (compound annotated as a TCDB family substrate). The enum is **open-ended** — explorer ask MET-M4 reserves `"metabolomics"` for a future metabolomics-DM spec (compound measured in a metabolomics experiment). Adapter / post-import logic must use set-union semantics so future contributors can add their own value without disturbing existing tags.
 
 ### Organism_has_metabolite extension
 
@@ -389,8 +413,11 @@ Each commit is independently reviewable and leaves the build runnable.
 
 7. **Post-import additions.**
    - Indexes (scalar + full-text).
-   - `gene_count` / `organism_count` / `member_count` computation for `TcdbFamily` / `CazyFamily`.
+   - `gene_count` / `organism_count` / `member_count` / `metabolite_count` computation for `TcdbFamily`; `gene_count` / `organism_count` for `CazyFamily`.
+   - `TcdbFamily.tc_class_id` sparse pointer (per TCDB-S5).
    - Gene `annotation_types` extension to include `'tcdb'` / `'cazy'`.
+   - `Gene.tcdb_family_count` / `Gene.cazy_family_count` rollups (per TCDB-S1 / TCDB-S2).
+   - `Gene.metabolite_count` — extend (or initialize, if chemistry-slice-1 hasn't landed) with the UNION transport arm (per TCDB-S3 coordination).
    - Metabolite `transporter_count` + extended `gene_count` / `organism_count` (UNION transport path).
    - Extended `Organism_has_metabolite` materialization (UNION transport path).
    - Run `scripts/post-import-validate.sh` before/after to verify deterministic dump diff.
@@ -409,3 +436,9 @@ Each commit is independently reviewable and leaves the build runnable.
 - **CAZy enrichment to full reference + EC linkage**: out of scope for v1. Reconsider if a use case emerges.
 - **`TransportReaction` reified entities**: explicitly out of scope — see "Why TCDB is an ontology, not a reaction." Revisit if FBA / co-transport stoichiometry use cases emerge.
 - **Renaming `build_metabolite_resolver.py` → `build_mnx_resolver.py`**: included in this spec (commit 2). Trivial, clarifies the script's purpose now that it does only one thing.
+
+## Cross-spec coordination notes
+
+- **`gene_details` MCP tool may surface removed Gene properties** — the explorer team flagged that `gene_details` uses a `g{.*}` pattern that would expose `transporter_classification` / `cazy_ids` raw. After commits 5 / 6 land, those properties are gone — the tool's output will simply omit them. No tool code change is required for this spec, but the explorer team will verify on the explorer side. Tracked in `multiomics_explorer/docs/superpowers/specs/2026-05-01-kg-side-chemistry-slice1-asks.md` under "Coordination note: removed `Gene.transporter_classification` array property".
+- **Chemistry-slice-1 KG-side asks** (`KG-A1`, `KG-A2`, `KG-A3`, `KG-A4`) — adjacent chemistry-layer rollups owned by the explorer team's chemistry-slice-1 PR. Not in this spec's scope, except the `Gene.metabolite_count` UNION coordination above (TCDB-S3 / KG-A2). Both PRs commute; either can land first.
+- **`evidence_sources` value `"metabolomics"`** — reserved for future metabolomics-DM spec per MET-M4. Documented in the enum-semantics section above.

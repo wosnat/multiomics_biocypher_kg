@@ -28,9 +28,11 @@ Properties:
 - `level` (int) — hierarchy depth, 0 = broadest.
 - `level_kind` (str) — one of `tc_class` (0), `tc_subclass` (1), `tc_family` (2), `tc_subfamily` (3), `tc_specificity` (4).
 - `superfamily` (str, sparse) — leaf-only superfamily annotation, e.g. `"VIC Superfamily"`.
+- `tc_class_id` (str, post-import) — pointer to root `tc_class` node ID (e.g. `"tcdb:3"` for any node under class 3); self on `tc_class`-level nodes. Lets class-level filters skip variable-length traversals: `WHERE tf.tc_class_id = 'tcdb:3'`.
 - `gene_count` (int, post-import) — distinct genes reachable via subtree.
 - `organism_count` (int, post-import) — distinct organisms among those genes.
 - `member_count` (int, post-import) — direct child count in the hierarchy.
+- `metabolite_count` (int, post-import) — distinct Metabolite nodes reachable via `Tcdb_family_transports_metabolite` edges in the subtree. On a `tc_class` node, shows total substrate breadth across all descendants.
 
 ## New node label: CazyFamily
 
@@ -94,6 +96,19 @@ A compound found by both paths gets `["metabolism", "transport"]`. A pre-existin
 
 This lets you distinguish "this organism has a known metabolic reaction with this compound" from "this organism's transporters are annotated as moving this compound" — both are evidence, but they answer different biological questions.
 
+The enum is **open-ended**: a future metabolomics-DM spec is expected to add `"metabolomics"` for compounds measured in metabolomics experiments. Filter logic should use set membership (`'transport' IN m.evidence_sources`) rather than equality so it stays robust to additions.
+
+## New Gene routing-signal properties
+
+To match the existing rollup-based routing pattern (`expression_edge_count`, `numeric_metric_count`, etc.) the post-import script populates two new counts on every Gene:
+
+- `tcdb_family_count` (int, default 0) — number of `Gene_has_tcdb_family` edges (i.e. distinct TCDB family memberships across all levels for this gene).
+- `cazy_family_count` (int, default 0) — number of `Gene_has_cazy_family` edges.
+
+The pre-existing `annotation_types: str[]` array also gains `'tcdb'` / `'cazy'` values when the corresponding count is > 0.
+
+`Gene.metabolite_count` (the property introduced by the chemistry-slice-1 chemistry-layer asks) is defined as **distinct Metabolite nodes reachable via *any* gene-reaching path** — UNION of catalysis (`Gene → Reaction → Metabolite`) and transport (`Gene → TcdbFamily → Metabolite`). On TCDB landing the count grows to include transport substrates automatically; consumers read one property regardless of source path.
+
 ## Removed Gene properties (breaking change)
 
 Gone:
@@ -149,9 +164,9 @@ RETURN DISTINCT g.locus_tag, g.product, m.name
 
 ```cypher
 // What does TCDB class "1: Channels and Pores" cover in MED4?
+// (Using the post-import-computed tc_class_id pointer to skip the variable-length traversal)
 MATCH (g:Gene)-[:Gene_belongs_to_organism]->(:OrganismTaxon {strain_name: 'MED4'})
-MATCH (g)-[:Gene_has_tcdb_family]->(tf:TcdbFamily)
-MATCH (tf)-[:Tcdb_family_is_a_tcdb_family*0..]->(:TcdbFamily {tcdb_id: '1'})
+MATCH (g)-[:Gene_has_tcdb_family]->(tf:TcdbFamily {tc_class_id: 'tcdb:1'})
 RETURN tf.tcdb_id, tf.name, tf.level_kind, count(g) AS gene_count
 ORDER BY tf.level, tf.tcdb_id
 ```
@@ -214,7 +229,8 @@ If you re-run prepare_data:
 
 ## See also
 
-- [Design spec](../superpowers/specs/2026-05-01-tcdb-cazy-ontologies-design.md) — implementation details, commit-by-commit migration plan.
+- [Design spec](../superpowers/specs/2026-05-01-tcdb-cazy-ontologies-design.md) — implementation details, commit-by-commit migration plan, cross-spec coordination notes.
+- [Chemistry-slice-1 KG-side asks](../../../multiomics_explorer/docs/superpowers/specs/2026-05-01-kg-side-chemistry-slice1-asks.md) — adjacent chemistry-layer rollups (`Gene.reaction_count`, `Gene.metabolite_count`, `Metabolite.elements`, `KeggTerm.reaction_count` / `metabolite_count`) owned by the explorer team's chemistry-slice-1 PR. Coordinated via TCDB-S3 (`Gene.metabolite_count` UNION semantics).
 - [BRITE Categories](brite-categories.md) — closest precedent for ontology-with-pruning.
 - [Ontology Level](ontology-level.md) — unified `level` property convention shared by all ontologies.
 - [Metabolism Chemistry Layer](metabolism-chemistry-layer.md) — the existing chemistry layer that TCDB substrates fold into.
