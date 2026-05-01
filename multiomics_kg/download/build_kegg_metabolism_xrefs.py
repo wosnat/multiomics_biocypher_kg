@@ -347,7 +347,7 @@ def build_pruned_kegg_data(raw: dict, conn: sqlite3.Connection, out_path: Path) 
     }
 
     out_path.parent.mkdir(parents=True, exist_ok=True)
-    out_path.write_text(json.dumps(out, separators=(",", ":")))
+    out_path.write_text(json.dumps(out, indent=2, sort_keys=True))
     log.info(
         f"Wrote {out_path}: {len(out['kos'])} KOs, {len(out['pathways'])} pathways, "
         f"{len(out['reactions'])} reactions, {len(out['compounds'])} compounds"
