@@ -20,6 +20,7 @@ from multiomics_kg.adapters.functional_annotation_adapter import (
 )
 from multiomics_kg.adapters.brite_adapter import MultiBriteAdapter
 from multiomics_kg.adapters.metabolism_adapter import MultiMetabolismAdapter
+from multiomics_kg.adapters.tcdb_adapter import MultiTcdbAnnotationAdapter
 
 
 def parse_args():
@@ -195,6 +196,18 @@ def main():
     )
     bc.write_nodes(pfam_adapter.get_nodes())
     bc.write_edges(pfam_adapter.get_edges())
+
+    # TCDB transport classification ontology + substrate→Metabolite bridge.
+    # Reads cache/data/tcdb/{tcdb_hierarchy,tcdb_pruned}.json built by step 6.
+    tcdb_adapter = MultiTcdbAnnotationAdapter(
+        genome_config_file='data/Prochlorococcus/genomes/cyanobacteria_genomes.csv',
+        cache_root=Path("cache/data"),
+        test_mode=TEST_MODE,
+        cache=CACHE,
+    )
+    tcdb_adapter.download_data(cache=CACHE)
+    bc.write_nodes(tcdb_adapter.get_nodes())
+    bc.write_edges(tcdb_adapter.get_edges())
 
     # Full GO ontology (all 30K nodes + GO-GO hierarchy) — optional, slow.
     # NOTE: do not run with --go simultaneously; GO node IDs would conflict.

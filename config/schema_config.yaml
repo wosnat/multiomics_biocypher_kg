@@ -375,7 +375,6 @@ gene:
     catalytic_activities: str[]
     transmembrane_regions: str[]
     signal_peptide: str
-    transporter_classification: str[]
     cazy_ids: str[]
     bigg_reaction: str[]
     # Computed fields for MCP gene lookup
