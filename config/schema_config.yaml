@@ -1017,6 +1017,80 @@ kegg term in brite category:
   target: brite category
   label_in_input: kegg_term_in_brite_category
 
+# ── TCDB ─────────────────────────────────────────────────────────────────────
+
+tcdb family:
+  is_a: named thing
+  represented_as: node
+  preferred_id: tcdb
+  label_in_input: tcdb family
+  properties:
+    name: str               # TCDB entry name; falls back to tcdb_id when empty
+    tcdb_id: str            # bare hierarchical ID, e.g. "1.A.1.5.2"
+    level: int              # 0=tc_class … 4=tc_specificity
+    level_kind: str
+    superfamily: str        # sparse, leaf-only
+    tc_class_id: str        # post-import: pointer to root tc_class (e.g. "tcdb:3"); self on tc_class
+    gene_count: int         # post-import
+    organism_count: int     # post-import
+    member_count: int       # post-import: direct child count
+    metabolite_count: int   # post-import: distinct substrate metabolites in subtree
+
+cazy family:
+  is_a: named thing
+  represented_as: node
+  preferred_id: cazy
+  label_in_input: cazy family
+  properties:
+    name: str               # human-readable for class; falls back to cazy_id for family/subfamily
+    cazy_id: str            # e.g. "GH13" or "GH13_5"
+    level: int              # 0=cazy_class, 1=cazy_family, 2=cazy_subfamily
+    level_kind: str
+    gene_count: int         # post-import
+    organism_count: int     # post-import
+
+# ── TCDB / CAZy edges ────────────────────────────────────────────────────────
+
+gene to tcdb family association:
+  is_a: association
+  represented_as: edge
+  label_as_edge: Gene_has_tcdb_family
+  source: gene
+  target: tcdb family
+  label_in_input: gene_has_tcdb_family
+
+tcdb family hierarchical association:
+  is_a: association
+  represented_as: edge
+  label_as_edge: Tcdb_family_is_a_tcdb_family
+  source: tcdb family
+  target: tcdb family
+  label_in_input: tcdb_family_is_a_tcdb_family
+
+tcdb family transports metabolite:
+  is_a: association
+  represented_as: edge
+  label_as_edge: Tcdb_family_transports_metabolite
+  source: tcdb family
+  target: metabolite
+  label_in_input: tcdb_family_transports_metabolite
+
+gene to cazy family association:
+  is_a: association
+  represented_as: edge
+  label_as_edge: Gene_has_cazy_family
+  source: gene
+  target: cazy family
+  label_in_input: gene_has_cazy_family
+
+cazy family hierarchical association:
+  is_a: association
+  represented_as: edge
+  label_as_edge: Cazy_family_is_a_cazy_family
+  source: cazy family
+  target: cazy family
+  label_in_input: cazy_family_is_a_cazy_family
+
 
 protein to ec number association:
   is_a: ReactionToParticipantAssociation
