@@ -827,7 +827,7 @@ CALL {
   OPTIONAL MATCH (g)-[:Gene_catalyzes_reaction]->(:Reaction)-[:Reaction_has_metabolite]->(m1:Metabolite)
   WITH g, collect(DISTINCT m1) AS m_cat
   OPTIONAL MATCH (g)-[:Gene_has_tcdb_family]->(:TcdbFamily)
-                 -[:Tcdb_family_is_a_tcdb_family*0..]->(:TcdbFamily {level_kind: 'tc_specificity'})
+                 <-[:Tcdb_family_is_a_tcdb_family*0..]-(:TcdbFamily {level_kind: 'tc_specificity'})
                  -[:Tcdb_family_transports_metabolite]->(m2:Metabolite)
   WITH g, m_cat + collect(DISTINCT m2) AS all_m
   SET g.metabolite_count = size(apoc.coll.toSet(all_m))
@@ -880,7 +880,7 @@ CALL {
 CALL {
   MATCH (o:OrganismTaxon)<-[:Gene_belongs_to_organism]-(g:Gene)
         -[:Gene_has_tcdb_family]->(:TcdbFamily)
-        -[:Tcdb_family_is_a_tcdb_family*0..]->(:TcdbFamily {level_kind: 'tc_specificity'})
+        <-[:Tcdb_family_is_a_tcdb_family*0..]-(:TcdbFamily {level_kind: 'tc_specificity'})
         -[:Tcdb_family_transports_metabolite]->(m:Metabolite)
   WITH DISTINCT o, m
   MERGE (o)-[:Organism_has_metabolite]->(m)
