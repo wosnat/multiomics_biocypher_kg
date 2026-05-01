@@ -599,14 +599,10 @@ class MultiKeggAnnotationAdapter:
         subcategories = self.kegg_data.get("subcategories", {})
         categories = self.kegg_data.get("categories", {})
 
-        # Collect pathway, subcategory, category IDs reachable from our KOs.
-        # Defensive .get() everywhere — orphan/global pathways may have no
-        # subcategory (and therefore no category) parent.
-        pw_ids: set[str] = set()
-        for ko_id in ko_ids:
-            ko_entry = kos.get(ko_id)
-            if ko_entry:
-                pw_ids.update(ko_entry.get("pathways", []))
+        # The cache is pre-pruned to gene-reachable pathways (Option B: KOs ∪ Rxn-reachable)
+        # by step 6. Iterate the cache directly so reaction-only pathways get KeggTerm nodes,
+        # preventing dangling Reaction_in_kegg_pathway / Metabolite_in_pathway edges.
+        pw_ids: set[str] = set(pathways.keys())
 
         subcat_ids: set[str] = set()
         for pw_id in pw_ids:
@@ -686,11 +682,8 @@ class MultiKeggAnnotationAdapter:
 
         # Collect KOs and pathways actually emitted
         ko_ids = self.all_ko_ids()
-        pw_ids: set[str] = set()
-        for ko_id in ko_ids:
-            ko_entry = kos.get(ko_id)
-            if ko_entry:
-                pw_ids.update(ko_entry.get("pathways", []))
+        # Cache is pre-pruned (Option B); iterate it directly. See get_nodes for rationale.
+        pw_ids: set[str] = set(pathways.keys())
 
         # 2. KO → Pathway edges
         ko_pw_count = 0

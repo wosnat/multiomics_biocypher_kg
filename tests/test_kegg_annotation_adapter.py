@@ -41,6 +41,9 @@ MINI_KEGG_DATA = {
     "pathways": {
         "ko03030": {"name": "DNA replication", "subcategory": "09124"},
         "ko00230": {"name": "Purine metabolism", "subcategory": "09102"},
+        # Reaction-only pathway: in cache (step 6 Option B) but no KO links to it.
+        # Regression fixture for Phase 1.2.1 dangling-edge bug.
+        "ko00997": {"name": "Reaction-only pathway (no KO link)", "subcategory": "09124"},
     },
     "subcategories": {
         "09124": {"name": "Replication and repair", "category": "09100"},
@@ -365,3 +368,18 @@ def test_multi_kegg_pathway_nodes_have_nonempty_name(multi_kegg):
     assert len(pw_nodes) > 0, "No pathway nodes found"
     for node_id, _, props in pw_nodes:
         assert props["name"] != "", f"Pathway {node_id} has empty name"
+
+
+def test_multi_kegg_emits_pathway_node_even_without_ko_link(multi_kegg):
+    """Reaction-only pathways (in data['pathways'] but no KO links) must still
+    get KeggTerm nodes — otherwise reaction/metabolite→pathway edges become
+    dangling at neo4j-admin import.
+
+    Regression test for Phase 1.2.1 dangling-edge bug.
+    """
+    nodes = list(multi_kegg.get_nodes())
+    pathway_node_ids = {n[0] for n in nodes if n[2].get("level_kind") == "pathway"}
+    assert "kegg.pathway:ko00997" in pathway_node_ids, (
+        "Reaction-only pathway ko00997 should be emitted as a KeggTerm node "
+        "even though no KO links to it"
+    )
