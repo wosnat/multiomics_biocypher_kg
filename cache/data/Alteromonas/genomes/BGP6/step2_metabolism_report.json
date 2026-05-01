@@ -1,0 +1,35 @@
+{
+  "strain": "BGP6",
+  "gene_count": 4063,
+  "kegg_reactions": {
+    "raw_total": 2109,
+    "raw_unique": 1275,
+    "kept_total": 2109,
+    "kept_unique_r_numbers": 1275
+  },
+  "transporter_classification": {
+    "raw_total": 571,
+    "raw_unique": 237,
+    "validated_total": 408,
+    "validated_unique": 174,
+    "invalid_examples": [
+      "1.A.11",
+      "1.A.12.2.2",
+      "1.A.12.3.1",
+      "1.A.12.3.2",
+      "1.A.13.2.2",
+      "1.A.13.2.3",
+      "1.A.14.2.1",
+      "1.A.23.2",
+      "1.A.23.4",
+      "1.A.23.4.5"
+    ]
+  },
+  "cazy_ids": {
+    "raw_total": 60,
+    "raw_unique": 27,
+    "validated_total": 60,
+    "validated_unique": 27,
+    "invalid_examples": []
+  }
+}

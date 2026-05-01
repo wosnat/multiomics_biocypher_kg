@@ -5695,6 +5695,31 @@
       ],
       "smiles": "O=C1C[C@@H](C(=O)[O-])NC(=O)N1"
     },
+    "C00338": {
+      "chebi_id": null,
+      "formula": null,
+      "hmdb_id": null,
+      "inchikey": null,
+      "mass": null,
+      "mnxm_id": "MNXM738757",
+      "name": "Lipopolysaccharide",
+      "pathways": [
+        "ko01100",
+        "ko01503",
+        "ko02010",
+        "ko04066",
+        "ko04613",
+        "ko05130",
+        "ko05131",
+        "ko05132",
+        "ko05133",
+        "ko05134",
+        "ko05135",
+        "ko05152",
+        "ko05417"
+      ],
+      "smiles": null
+    },
     "C00339": {
       "chebi_id": null,
       "formula": "CH3O*",
@@ -7478,6 +7503,20 @@
         "ko01220"
       ],
       "smiles": "CC(C)(COP(=O)([O-])OP(=O)([O-])OC[C@H]1O[C@@H](N2C=NC3=C2N=CN=C3N)[C@H](O)[C@@H]1OP(=O)([O-])[O-])[C@@H](O)C(=O)NCCC(=O)NCCSC(=O)C1=CC=CC=C1"
+    },
+    "C00513": {
+      "chebi_id": "132202",
+      "formula": "C12H19N3O13P2",
+      "hmdb_id": "HMDB0059599",
+      "inchikey": "HHPOUCCVONEPRK-JBSYKWBFSA-L",
+      "mass": 475.24,
+      "mnxm_id": "MNXM740148",
+      "name": "CDP-glycerol",
+      "pathways": [
+        "ko00552",
+        "ko00564"
+      ],
+      "smiles": "NC1=NC(=O)N([C@@H]2O[C@H](COP(=O)([O-])OP(=O)([O-])OC[C@H](O)CO)[C@@H](O)[C@H]2O)C=C1"
     },
     "C00514": {
       "chebi_id": "12998",
@@ -11066,6 +11105,21 @@
         "ko01240"
       ],
       "smiles": "C=CC1=C2CC3=C(C)C(C=C)=C(CC4=C(C)C(CCC(=O)[O-])=C(CC5=C(CCC(=O)[O-])C(C)=C(CC(=C1C)N2)N5)N4)N3"
+    },
+    "C01080": {
+      "chebi_id": "15020",
+      "formula": "C29H38N5O18P",
+      "hmdb_id": null,
+      "inchikey": "IXPYGZIWHPPILV-NALJQGANSA-N",
+      "mass": 775.614,
+      "mnxm_id": "MNXM1370084",
+      "name": "Reduced coenzyme F420",
+      "pathways": [
+        "ko00680",
+        "ko01100",
+        "ko01120"
+      ],
+      "smiles": "C[C@H](OP(=O)(O)OC[C@@H](O)[C@@H](O)[C@@H](O)CN1C2=C(C=CC(O)=C2)CC2=C1NC(=O)NC2=O)C(=O)N[C@@H](CCC(=O)N[C@@H](CCC(=O)O)C(=O)O)C(=O)O"
     },
     "C01081": {
       "chebi_id": "15230",
@@ -18539,6 +18593,17 @@
         "ko01110"
       ],
       "smiles": "C=CC1=C(C)C2=CC3=[N+]4C(=CC5=C(CCC(=O)OC)C(C)=C6C=C7C(C=C)=C(C)C8=[N+]7[Mg-2]4(N2C1=C8)N65)C(CCC(=O)[O-])=C3C"
+    },
+    "C04539": {
+      "chebi_id": "21532",
+      "formula": null,
+      "hmdb_id": null,
+      "inchikey": null,
+      "mass": null,
+      "mnxm_id": "MNXM63497",
+      "name": "N-Acetyl-D-glucosaminyllipopolysaccharide",
+      "pathways": [],
+      "smiles": null
     },
     "C04546": {
       "chebi_id": "10979",
@@ -36094,6 +36159,14 @@
       "name": "hoxH; NAD-reducing hydrogenase large subunit [EC:1.12.1.2]",
       "pathways": []
     },
+    "K00441": {
+      "name": "frhB; coenzyme F420 hydrogenase subunit beta [EC:1.12.98.1]",
+      "pathways": [
+        "ko00680",
+        "ko01100",
+        "ko01120"
+      ]
+    },
     "K00446": {
       "name": "dmpB, xylE; catechol 2,3-dioxygenase [EC:1.13.11.2]",
       "pathways": [
@@ -37028,6 +37101,13 @@
     },
     "K00701": {
       "name": "cgt; cyclomaltodextrin glucanotransferase [EC:2.4.1.19]",
+      "pathways": [
+        "ko00500",
+        "ko01100"
+      ]
+    },
+    "K00702": {
+      "name": "E2.4.1.20; cellobiose phosphorylase [EC:2.4.1.20]",
       "pathways": [
         "ko00500",
         "ko01100"
@@ -38265,6 +38345,12 @@
         "ko01250"
       ]
     },
+    "K00980": {
+      "name": "tagD; glycerol-3-phosphate cytidylyltransferase [EC:2.7.7.39]",
+      "pathways": [
+        "ko00564"
+      ]
+    },
     "K00981": {
       "name": "E2.7.7.41, CDS1, CDS2, cdsA; phosphatidate cytidylyltransferase [EC:2.7.7.41]",
       "pathways": [
@@ -38928,6 +39014,13 @@
         "ko00511"
       ]
     },
+    "K01192": {
+      "name": "E3.2.1.25, MANBA, manB; beta-mannosidase [EC:3.2.1.25]",
+      "pathways": [
+        "ko00511",
+        "ko04142"
+      ]
+    },
     "K01193": {
       "name": "INV, sacA; beta-fructofuranosidase [EC:3.2.1.26]",
       "pathways": [
@@ -39236,6 +39329,10 @@
       "name": "PGPEP1, pcp; pyroglutamyl-peptidase [EC:3.4.19.3]",
       "pathways": []
     },
+    "K01305": {
+      "name": "iadA; beta-aspartyl-dipeptidase (metallo-type) [EC:3.4.19.-]",
+      "pathways": []
+    },
     "K01322": {
       "name": "PREP; prolyl oligopeptidase [EC:3.4.21.26]",
       "pathways": [
@@ -39286,6 +39383,10 @@
     },
     "K01415": {
       "name": "ECE; endothelin-converting enzyme [EC:3.4.24.71]",
+      "pathways": []
+    },
+    "K01417": {
+      "name": "MEP; extracellular elastinolytic metalloproteinase [EC:3.4.24.-]",
       "pathways": []
     },
     "K01419": {
@@ -39432,6 +39533,13 @@
       "pathways": [
         "ko00520",
         "ko01100"
+      ]
+    },
+    "K01444": {
+      "name": "AGA, aspG; N4-(beta-N-acetylglucosaminyl)-L-asparaginase [EC:3.5.1.26]",
+      "pathways": [
+        "ko00511",
+        "ko04142"
       ]
     },
     "K01447": {
@@ -40880,6 +40988,10 @@
         "ko01100",
         "ko01120"
       ]
+    },
+    "K01732": {
+      "name": "E4.2.2.10; pectin lyase [EC:4.2.2.10]",
+      "pathways": []
     },
     "K01733": {
       "name": "thrC; threonine synthase [EC:4.2.3.1]",
@@ -45991,6 +46103,13 @@
         "ko01250"
       ]
     },
+    "K03280": {
+      "name": "waaK, rfaK; UDP-N-acetylglucosamine:(glucosyl)LPS alpha-1,2-N-acetylglucosaminyltransferase [EC:2.4.1.56]",
+      "pathways": [
+        "ko00540",
+        "ko01100"
+      ]
+    },
     "K03281": {
       "name": "clcA, clcB, CLC-E, CLC-F; chloride channel protein, CIC family",
       "pathways": []
@@ -46526,6 +46645,10 @@
     },
     "K03484": {
       "name": "scrR; LacI family transcriptional regulator, sucrose operon repressor",
+      "pathways": []
+    },
+    "K03487": {
+      "name": "ascG; LacI family transcriptional regulator, asc operon repressor",
       "pathways": []
     },
     "K03495": {
@@ -50307,6 +50430,10 @@
       "name": "cstA; carbon starvation protein",
       "pathways": []
     },
+    "K06201": {
+      "name": "cutC; copper homeostasis protein",
+      "pathways": []
+    },
     "K06202": {
       "name": "cyaY; iron-sulfur cluster assembly protein CyaY",
       "pathways": []
@@ -50419,6 +50546,12 @@
     "K06351": {
       "name": "kipI; inhibitor of KinA",
       "pathways": []
+    },
+    "K06359": {
+      "name": "rapA, spo0L; response regulator aspartate phosphatase A (stage 0 sporulation protein L) [EC:3.1.-.-]",
+      "pathways": [
+        "ko02024"
+      ]
     },
     "K06374": {
       "name": "spmB; spore maturation protein B",
@@ -50746,6 +50879,10 @@
         "ko00790",
         "ko01100"
       ]
+    },
+    "K06921": {
+      "name": "K06921; uncharacterized protein",
+      "pathways": []
     },
     "K06923": {
       "name": "K06923; uncharacterized protein",
@@ -51671,6 +51808,15 @@
         "ko00630",
         "ko00650",
         "ko01100"
+      ]
+    },
+    "K07248": {
+      "name": "aldA; lactaldehyde dehydrogenase / glycolaldehyde dehydrogenase [EC:1.2.1.22 1.2.1.21]",
+      "pathways": [
+        "ko00620",
+        "ko00630",
+        "ko01100",
+        "ko01120"
       ]
     },
     "K07250": {
@@ -53909,6 +54055,10 @@
         "ko00330"
       ]
     },
+    "K09124": {
+      "name": "K09124; uncharacterized protein",
+      "pathways": []
+    },
     "K09125": {
       "name": "yhhQ; queuosine precursor transporter",
       "pathways": []
@@ -54786,6 +54936,10 @@
       "name": "K09967; uncharacterized protein",
       "pathways": []
     },
+    "K09968": {
+      "name": "K09968; uncharacterized protein",
+      "pathways": []
+    },
     "K09969": {
       "name": "aapJ, bztA; general L-amino acid transport system substrate-binding protein",
       "pathways": [
@@ -55462,6 +55616,10 @@
     },
     "K10855": {
       "name": "acxA; acetone carboxylase, beta subunit [EC:6.4.1.6]",
+      "pathways": []
+    },
+    "K10906": {
+      "name": "recE; exodeoxyribonuclease VIII [EC:3.1.11.-]",
       "pathways": []
     },
     "K10907": {
@@ -56424,6 +56582,13 @@
         "ko02026"
       ]
     },
+    "K11936": {
+      "name": "pgaC, icaA; poly-beta-1,6-N-acetyl-D-glucosamine synthase [EC:2.4.1.-]",
+      "pathways": [
+        "ko00543",
+        "ko02026"
+      ]
+    },
     "K11939": {
       "name": "rhtA; inner membrane transporter RhtA",
       "pathways": []
@@ -56981,12 +57146,24 @@
         "ko01100"
       ]
     },
+    "K12660": {
+      "name": "rhmA; 2-dehydro-3-deoxy-L-rhamnonate aldolase [EC:4.1.2.53]",
+      "pathways": [
+        "ko00051",
+        "ko01100",
+        "ko01120"
+      ]
+    },
     "K12684": {
       "name": "esp, sigA, sepA; serine protease autotransporter [EC:3.4.21.-]",
       "pathways": []
     },
     "K12686": {
       "name": "apeE, estA, lip-1; outer membrane lipase/esterase",
+      "pathways": []
+    },
+    "K12941": {
+      "name": "abgB; aminobenzoyl-glutamate utilization protein B",
       "pathways": []
     },
     "K12942": {
@@ -57101,6 +57278,10 @@
         "ko02025"
       ]
     },
+    "K12992": {
+      "name": "rfbN, wbaN; O-antigen biosynthesis alpha-1,3-rhamnosyltransferase [EC:2.4.1.377]",
+      "pathways": []
+    },
     "K12993": {
       "name": "wbdA, mtfA; O-antigen biosynthesis alpha-1,2-mannosyltransferase [EC:2.4.1.371 2.4.1.-]",
       "pathways": [
@@ -57113,6 +57294,10 @@
     },
     "K12995": {
       "name": "wbdC, mtfC; O-antigen biosynthesis alpha-1,3-mannosyltransferase [EC:2.4.1.348 2.4.1.-]",
+      "pathways": []
+    },
+    "K13002": {
+      "name": "wbyL; glycosyltransferase [EC:2.4.1.-]",
       "pathways": []
     },
     "K13004": {
@@ -57238,6 +57423,10 @@
     },
     "K13256": {
       "name": "psiE; protein PsiE",
+      "pathways": []
+    },
+    "K13277": {
+      "name": "epr; minor extracellular protease Epr [EC:3.4.21.-]",
       "pathways": []
     },
     "K13280": {
@@ -57626,6 +57815,16 @@
       "pathways": [
         "ko00543"
       ]
+    },
+    "K13684": {
+      "name": "wcaC; putative colanic acid biosynthesis glycosyltransferase WcaC [EC:2.4.-.-]",
+      "pathways": [
+        "ko00543"
+      ]
+    },
+    "K13688": {
+      "name": "chvB, cgs, ndvB; cyclic beta-1,2-glucan glucanotransferase [EC:2.4.1.397]",
+      "pathways": []
     },
     "K13689": {
       "name": "cgtA; beta-1,4-N-acetylgalactosaminyltransferase [EC:2.4.1.-]",
@@ -59265,6 +59464,10 @@
       "name": "zntB; zinc transporter",
       "pathways": []
     },
+    "K16076": {
+      "name": "nmpC, ompD; outer membrane porin protein LC",
+      "pathways": []
+    },
     "K16077": {
       "name": "scrY; sucrose porin",
       "pathways": []
@@ -60813,6 +61016,13 @@
       "name": "dacA; diadenylate cyclase [EC:2.7.7.85]",
       "pathways": []
     },
+    "K18675": {
+      "name": "chbP; N,N'-diacetylchitobiose phosphorylase [EC:2.4.1.280]",
+      "pathways": [
+        "ko00520",
+        "ko01100"
+      ]
+    },
     "K18676": {
       "name": "gspK; glucosamine kinase [EC:2.7.1.8]",
       "pathways": [
@@ -61225,6 +61435,10 @@
     },
     "K19145": {
       "name": "csx16; CRISPR-associated protein Csx16",
+      "pathways": []
+    },
+    "K19147": {
+      "name": "mcrC; 5-methylcytosine-specific restriction enzyme subunit McrC",
       "pathways": []
     },
     "K19155": {
@@ -62451,6 +62665,10 @@
         "ko01250"
       ]
     },
+    "K21349": {
+      "name": "ggs; glucosylglycerate synthase [EC:2.4.1.268]",
+      "pathways": []
+    },
     "K21365": {
       "name": "wbnH, wbiN; O86/O127-antigen biosynthesis alpha-1,3-N-acetylgalactosaminyltransferase [EC:2.4.1.306]",
       "pathways": [
@@ -62560,6 +62778,10 @@
     },
     "K21600": {
       "name": "csoR, ricR; CsoR family transcriptional regulator, copper-sensing transcriptional repressor",
+      "pathways": []
+    },
+    "K21606": {
+      "name": "endo_I; endo-chitodextinase [EC:3.2.1.202]",
       "pathways": []
     },
     "K21607": {
@@ -66253,6 +66475,36 @@
         "18158",
         "18159",
         "18160"
+      ]
+    },
+    "R00203": {
+      "compounds": [
+        "C00001",
+        "C00003",
+        "C00004",
+        "C00022",
+        "C00080",
+        "C00546"
+      ],
+      "ec_numbers": [
+        "1.2.1.19",
+        "1.2.1.22",
+        "1.2.1.23",
+        "1.2.1.3"
+      ],
+      "mass_balance": "balanced",
+      "mnxr_id": "MNXR106430",
+      "name": "pyruvaldehyde:NAD+ oxidoreductase; 2-oxopropanal:NAD+ oxidoreductase; Methylglyoxal + NAD+ + H2O <=> Pyruvate + NADH + H+",
+      "pathways": [
+        "ko00620",
+        "ko01100"
+      ],
+      "reaction_class": "chemical",
+      "rhea_ids": [
+        "52004",
+        "52005",
+        "52006",
+        "52007"
       ]
     },
     "R00206": {
@@ -73098,6 +73350,30 @@
       "reaction_class": "chemical",
       "rhea_ids": []
     },
+    "R00856": {
+      "compounds": [
+        "C00013",
+        "C00063",
+        "C00093",
+        "C00513"
+      ],
+      "ec_numbers": [
+        "2.7.7.39"
+      ],
+      "mass_balance": "balanced",
+      "mnxr_id": "MNXR153689",
+      "name": "CTP:sn-glycerol-3-phosphate cytidylyltransferase; CTP + sn-Glycerol 3-phosphate <=> Diphosphate + CDP-glycerol",
+      "pathways": [
+        "ko00564"
+      ],
+      "reaction_class": "chemical",
+      "rhea_ids": [
+        "13361",
+        "13362",
+        "13363",
+        "13364"
+      ]
+    },
     "R00858": {
       "compounds": [
         "C00001",
@@ -74099,6 +74375,31 @@
         "12121",
         "12122",
         "12123"
+      ]
+    },
+    "R00952": {
+      "compounds": [
+        "C00009",
+        "C00031",
+        "C00103",
+        "C00185"
+      ],
+      "ec_numbers": [
+        "2.4.1.20"
+      ],
+      "mass_balance": "balanced",
+      "mnxr_id": "MNXR151171",
+      "name": "cellobiose:phosphate alpha-D-glucosyltransferase; Cellobiose + Orthophosphate <=> D-Glucose 1-phosphate + D-Glucose",
+      "pathways": [
+        "ko00500",
+        "ko01100"
+      ],
+      "reaction_class": "chemical",
+      "rhea_ids": [
+        "19493",
+        "19494",
+        "19495",
+        "19496"
       ]
     },
     "R00955": {
@@ -78086,6 +78387,40 @@
       "reaction_class": "chemical",
       "rhea_ids": []
     },
+    "R01333": {
+      "compounds": [
+        "C00001",
+        "C00003",
+        "C00004",
+        "C00080",
+        "C00160",
+        "C00266"
+      ],
+      "ec_numbers": [
+        "1.2.1",
+        "1.2.1.19",
+        "1.2.1.21",
+        "1.2.1.3",
+        "1.2.1.4",
+        "1.2.1.5",
+        "1.2.1.69"
+      ],
+      "mass_balance": "balanced",
+      "mnxr_id": "MNXR100060",
+      "name": "glycolaldehyde:NAD+ oxidoreductase; Glycolaldehyde + NAD+ + H2O <=> Glycolate + NADH + H+",
+      "pathways": [
+        "ko00630",
+        "ko01100",
+        "ko01120"
+      ],
+      "reaction_class": "chemical",
+      "rhea_ids": [
+        "20001",
+        "20002",
+        "20003",
+        "20004"
+      ]
+    },
     "R01334": {
       "compounds": [
         "C00001",
@@ -79002,6 +79337,37 @@
         "30764",
         "30765",
         "30766"
+      ]
+    },
+    "R01446": {
+      "compounds": [
+        "C00001",
+        "C00003",
+        "C00004",
+        "C00080",
+        "C00186",
+        "C00424"
+      ],
+      "ec_numbers": [
+        "1.2.1.-",
+        "1.2.1.21",
+        "1.2.1.22",
+        "1.2.1.3"
+      ],
+      "mass_balance": "balanced",
+      "mnxr_id": "MNXR101018",
+      "name": "(S)-lactaldehyde:NAD+ oxidoreductase; (S)-Lactaldehyde + NAD+ + H2O <=> (S)-Lactate + NADH + H+",
+      "pathways": [
+        "ko00620",
+        "ko01100",
+        "ko01120"
+      ],
+      "reaction_class": "chemical",
+      "rhea_ids": [
+        "14277",
+        "14278",
+        "14279",
+        "14280"
       ]
     },
     "R01465": {
@@ -83247,6 +83613,23 @@
         "24299"
       ]
     },
+    "R01996": {
+      "compounds": [
+        "C00015",
+        "C00043",
+        "C00338",
+        "C04539"
+      ],
+      "ec_numbers": [
+        "2.4.1.56"
+      ],
+      "mass_balance": "unbalanced",
+      "mnxr_id": "MNXR147473",
+      "name": "UDP-N-acetyl-D-glucosamine:lipopolysaccharide N-acetylglucosaminyltransferase; UDP-N-acetyl-alpha-D-glucosamine + Lipopolysaccharide <=> UDP + N-Acetyl-D-glucosaminyllipopolysaccharide",
+      "pathways": [],
+      "reaction_class": "chemical",
+      "rhea_ids": []
+    },
     "R02000": {
       "compounds": [
         "C00003",
@@ -85197,6 +85580,32 @@
         "64789",
         "64790",
         "64791"
+      ]
+    },
+    "R02261": {
+      "compounds": [
+        "C00022",
+        "C00424",
+        "C03979"
+      ],
+      "ec_numbers": [
+        "4.1.2.-",
+        "4.1.2.53"
+      ],
+      "mass_balance": "balanced",
+      "mnxr_id": "MNXR107415",
+      "name": "2-dehydro-3-deoxy-L-rhamnonate (S)-lactaldehyde lyase (pyruvate-forming); 2-Dehydro-3-deoxy-L-rhamnonate <=> (S)-Lactaldehyde + Pyruvate",
+      "pathways": [
+        "ko00051",
+        "ko01100",
+        "ko01120"
+      ],
+      "reaction_class": "chemical",
+      "rhea_ids": [
+        "25784",
+        "25785",
+        "25786",
+        "25787"
       ]
     },
     "R02262": {
@@ -90123,6 +90532,26 @@
         "21666",
         "21667"
       ]
+    },
+    "R03025": {
+      "compounds": [
+        "C00282",
+        "C00876",
+        "C01080"
+      ],
+      "ec_numbers": [
+        "1.12.98.1"
+      ],
+      "mass_balance": "balanced",
+      "mnxr_id": "MNXR192122",
+      "name": "hydrogen:coenzyme F420 oxidoreductase; Coenzyme F420 + Hydrogen <=> Reduced coenzyme F420",
+      "pathways": [
+        "ko00680",
+        "ko01100",
+        "ko01120"
+      ],
+      "reaction_class": "chemical",
+      "rhea_ids": []
     },
     "R03026": {
       "compounds": [
@@ -115472,6 +115901,31 @@
       ],
       "reaction_class": "chemical",
       "rhea_ids": []
+    },
+    "R09942": {
+      "compounds": [
+        "C00009",
+        "C00140",
+        "C01674",
+        "C04501"
+      ],
+      "ec_numbers": [
+        "2.4.1.280"
+      ],
+      "mass_balance": "balanced",
+      "mnxr_id": "MNXR113339",
+      "name": "N,N'-diacetylchitobiose:phosphate N-acetyl-D-glucosaminyltransferase; Chitobiose + Orthophosphate <=> N-Acetyl-D-glucosamine + N-Acetyl-alpha-D-glucosamine 1-phosphate",
+      "pathways": [
+        "ko00520",
+        "ko01100"
+      ],
+      "reaction_class": "chemical",
+      "rhea_ids": [
+        "32527",
+        "32528",
+        "32529",
+        "32530"
+      ]
     },
     "R09947": {
       "compounds": [

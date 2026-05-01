@@ -1,0 +1,40 @@
+{
+  "strain": "BS11",
+  "gene_count": 3741,
+  "kegg_reactions": {
+    "raw_total": 2005,
+    "raw_unique": 1228,
+    "kept_total": 2005,
+    "kept_unique_r_numbers": 1228
+  },
+  "transporter_classification": {
+    "raw_total": 532,
+    "raw_unique": 231,
+    "validated_total": 376,
+    "validated_unique": 168,
+    "invalid_examples": [
+      "1.A.11",
+      "1.A.12.2.2",
+      "1.A.12.3.1",
+      "1.A.12.3.2",
+      "1.A.13.2.2",
+      "1.A.13.2.3",
+      "1.A.14.2.1",
+      "1.A.23.2",
+      "1.A.23.4",
+      "1.A.23.4.5"
+    ]
+  },
+  "cazy_ids": {
+    "raw_total": 64,
+    "raw_unique": 31,
+    "validated_total": 60,
+    "validated_unique": 27,
+    "invalid_examples": [
+      "CBM5",
+      "GH94",
+      "GT36",
+      "GT84"
+    ]
+  }
+}

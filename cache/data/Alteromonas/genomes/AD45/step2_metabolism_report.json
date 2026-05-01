@@ -1,0 +1,35 @@
+{
+  "strain": "AD45",
+  "gene_count": 3929,
+  "kegg_reactions": {
+    "raw_total": 1981,
+    "raw_unique": 1259,
+    "kept_total": 1981,
+    "kept_unique_r_numbers": 1259
+  },
+  "transporter_classification": {
+    "raw_total": 549,
+    "raw_unique": 230,
+    "validated_total": 402,
+    "validated_unique": 170,
+    "invalid_examples": [
+      "1.A.11",
+      "1.A.12.2.2",
+      "1.A.12.3.1",
+      "1.A.12.3.2",
+      "1.A.13.2.2",
+      "1.A.13.2.3",
+      "1.A.14.2.1",
+      "1.A.23.2",
+      "1.A.23.4",
+      "1.A.23.4.5"
+    ]
+  },
+  "cazy_ids": {
+    "raw_total": 57,
+    "raw_unique": 25,
+    "validated_total": 57,
+    "validated_unique": 25,
+    "invalid_examples": []
+  }
+}
