@@ -44,7 +44,7 @@ echo "════════════════════════�
 
     echo ""
     echo "── 2. Build metabolite resolver SQLite (~30 min, ~2.5 GB output) ──"
-    uv run python -m multiomics_kg.download.build_metabolite_resolver $FORCE
+    uv run python -m multiomics_kg.download.build_mnx_resolver $FORCE
 } 2>&1 | tee "$LOG_DIR/refresh_mnx.log"
 
 echo ""

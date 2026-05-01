@@ -1,4 +1,4 @@
-"""Unit tests for the metabolite resolver builder (invoked by scripts/refresh_mnx.sh)."""
+"""Unit tests for the MNX resolver builder (invoked by scripts/refresh_mnx.sh)."""
 from __future__ import annotations
 
 import json
@@ -6,7 +6,7 @@ import sqlite3
 import textwrap
 from pathlib import Path
 
-from multiomics_kg.download import build_metabolite_resolver as bmr
+from multiomics_kg.download import build_mnx_resolver as bmr
 
 
 CHEM_PROP_FIXTURE = textwrap.dedent("""\
@@ -207,71 +207,6 @@ def test_build_reaction_aliases_normalizes(tmp_path):
     conn.close()
 
 
-TCDB_FAMILIES_FIXTURE = textwrap.dedent("""\
-    1.A.1\tThe Voltage-gated Ion Channel (VIC) Superfamily
-    1.A.10\tThe Glutamate-gated Ion Channel (GIC) Family of Neurotransmitter Receptors
-""")
-
-
-TCDB_SUPERFAMILIES_FIXTURE = textwrap.dedent("""\
-    #TCID\tSubfamily\tFamily\tFam_abbreviation\tSuperfamily
-    1.A.1.1.1\t1.A.1.1\t1.A.1\tVIC\tVIC Superfamily
-    1.A.1.1.2\t1.A.1.1\t1.A.1\tVIC\tVIC Superfamily
-    1.A.10.1.1\t1.A.10.1\t1.A.10\tGIC\tGIC Superfamily
-""")
-
-
-TCDB_SUBSTRATES_FIXTURE = textwrap.dedent("""\
-    1.A.1.1.1\tCHEBI:29103;potassium(1+)
-    1.A.10.1.1\tCHEBI:29987;glutamate(2-)|CHEBI:33709;amino acid
-""")
-
-
-def test_build_tcdb_hierarchy(tmp_path):
-    """TCDB hierarchy JSON joins families + superfamilies + substrates."""
-    fams = tmp_path / "families.tsv"
-    fams.write_text(TCDB_FAMILIES_FIXTURE)
-    supers = tmp_path / "superfamilies.tsv"
-    supers.write_text(TCDB_SUPERFAMILIES_FIXTURE)
-    subs = tmp_path / "substrates.tsv"
-    subs.write_text(TCDB_SUBSTRATES_FIXTURE)
-    out = tmp_path / "tcdb_hierarchy.json"
-
-    bmr.build_tcdb_hierarchy(out, fams, supers, subs)
-
-    h = json.loads(out.read_text())
-
-    # Class (level 0) synthesized
-    assert h["1"]["level"] == 0
-    assert h["1"]["level_kind"] == "tc_class"
-    assert h["1"]["parent"] is None
-
-    # Subclass (level 1) synthesized
-    assert h["1.A"]["level"] == 1
-    assert h["1.A"]["parent"] == "1"
-
-    # Family (level 2) — name from families.tsv
-    assert h["1.A.1"]["level"] == 2
-    assert "Voltage-gated Ion Channel" in h["1.A.1"]["name"]
-    assert h["1.A.1"]["parent"] == "1.A"
-    assert h["1.A.1"]["abbreviation"] == "VIC"
-
-    # Subfamily (level 3) — derived from col 2 of superfamilies
-    assert h["1.A.1.1"]["level"] == 3
-    assert h["1.A.1.1"]["parent"] == "1.A.1"
-
-    # Specificity (level 4) — substrate joined
-    sp = h["1.A.1.1.1"]
-    assert sp["level"] == 4
-    assert sp["parent"] == "1.A.1.1"
-    assert sp["substrate_classes"] == ["potassium(1+)"]
-    assert sp["superfamily"] == "VIC Superfamily"
-
-    # Multi-substrate
-    glu = h["1.A.10.1.1"]
-    assert set(glu["substrate_classes"]) == {"glutamate(2-)", "amino acid"}
-
-
 def test_resolver_has_mnx_side_indexes(tmp_path):
     """Spec 1.2: resolver DB must have indexes on mnxm_id / mnxr_id columns."""
     chem_xref = tmp_path / "chem_xref.tsv"
@@ -304,23 +239,18 @@ def test_build_main_end_to_end(tmp_path, monkeypatch):
     """main() wires all builders + writes diagnostic report. Synthetic cache."""
     cache = tmp_path / "cache" / "data"
     (cache / "mnx").mkdir(parents=True)
-    (cache / "tcdb").mkdir(parents=True)
 
-    # Synthesize all the input files
+    # Synthesize the MNX input files
     (cache / "mnx" / "chem_prop.tsv").write_text(CHEM_PROP_FIXTURE)
     (cache / "mnx" / "chem_xref.tsv").write_text(CHEM_XREF_FIXTURE)
     (cache / "mnx" / "reac_prop.tsv").write_text(REAC_PROP_FIXTURE)
     (cache / "mnx" / "reac_xref.tsv").write_text(REAC_XREF_FIXTURE)
-    (cache / "tcdb" / "families.tsv").write_text(TCDB_FAMILIES_FIXTURE)
-    (cache / "tcdb" / "superfamilies.tsv").write_text(TCDB_SUPERFAMILIES_FIXTURE)
-    (cache / "tcdb" / "substrates.tsv").write_text(TCDB_SUBSTRATES_FIXTURE)
 
     monkeypatch.chdir(tmp_path)
     bmr.main(force=True)
 
-    # All three outputs exist
+    # MNX outputs exist
     assert (cache / "mnx" / "metabolite_resolver.db").exists()
-    assert (cache / "tcdb" / "tcdb_hierarchy.json").exists()
     assert (cache / "mnx" / "metabolite_id_mapping_report.json").exists()
 
     # Diagnostic report has expected keys
@@ -328,4 +258,3 @@ def test_build_main_end_to_end(tmp_path, monkeypatch):
     assert report["mnx_release"] == "MNXref 4.5 (2025-08-13)"
     assert report["compound_count"] == 3
     assert report["reaction_count"] == 3
-    assert report["tcdb_hierarchy_entry_count"] >= 7

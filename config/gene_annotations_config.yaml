@@ -423,7 +423,6 @@ fields:
       - source: eggnog
         field: KEGG_TC
         delimiter: ","
-        transform: validate_tcdb
 
   bigg_reaction:
     type: union

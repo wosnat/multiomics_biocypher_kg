@@ -1,10 +1,13 @@
-"""Build metabolite resolver SQLite + hierarchy caches. Invoked by scripts/refresh_mnx.sh; not part of prepare_data.sh anymore.
+"""Build the MNX metabolite resolver SQLite. Invoked by scripts/refresh_mnx.sh.
 
-Reads the seven sub-step-6 cache files (4 MNX TSVs + 3 TCDB TSVs) and produces:
+This module does only one thing: build the heavy MNX SQLite (~30 min). It reads
+the 4 MNX TSVs and produces:
 
 - cache/data/mnx/metabolite_resolver.db    (SQLite)
-- cache/data/tcdb/tcdb_hierarchy.json
 - cache/data/mnx/metabolite_id_mapping_report.json
+
+(TCDB hierarchy parsing has moved to build_kegg_metabolism_xrefs.py — step 6 of
+prepare_data.sh.)
 """
 from __future__ import annotations
 
@@ -301,158 +304,6 @@ def build_reaction_aliases_table(conn: sqlite3.Connection, reac_xref_path: Path)
     return n
 
 
-# ── TCDB hierarchy ────────────────────────────────────────────────────────────
-
-_TC_CLASS_NAMES = {
-    "1": "Channels and Pores",
-    "2": "Electrochemical Potential-driven Transporters",
-    "3": "Primary Active Transporters",
-    "4": "Group Translocators",
-    "5": "Transmembrane Electron Carriers",
-    "8": "Auxiliary Transport Proteins",
-    "9": "Incompletely Characterized Transport Systems",
-}
-
-
-def _parse_tcdb_families(path: Path) -> dict[str, str]:
-    """Parse families.tsv → {tc_family_id: description}."""
-    out: dict[str, str] = {}
-    with open(path, encoding="utf-8") as f:
-        for line in f:
-            line = line.rstrip("\n")
-            if not line or line.startswith("#"):
-                continue
-            parts = line.split("\t", 1)
-            if len(parts) == 2:
-                out[parts[0]] = parts[1].strip()
-    return out
-
-
-def _parse_tcdb_superfamilies(path: Path) -> list[tuple[str, str, str, str, str]]:
-    """Parse superfamilies.tsv → [(tcid, subfamily, family, abbreviation, superfamily), ...]."""
-    rows: list[tuple[str, str, str, str, str]] = []
-    with open(path, encoding="utf-8") as f:
-        for line in f:
-            line = line.rstrip("\n")
-            if not line or line.startswith("#"):
-                continue
-            parts = line.split("\t")
-            if len(parts) >= 5:
-                rows.append((parts[0], parts[1], parts[2], parts[3], parts[4]))
-    return rows
-
-
-def _parse_tcdb_substrates(path: Path) -> dict[str, list[str]]:
-    """Parse substrates.tsv → {tcid_specificity: [substrate_name, ...]}.
-
-    Substrate column is pipe-separated 'CHEBI:N;name|CHEBI:N;name'. We keep
-    just the name (post-`;`) for substrate_classes; full CHEBI mapping is a
-    Phase 1.3 enhancement.
-    """
-    out: dict[str, list[str]] = {}
-    with open(path, encoding="utf-8") as f:
-        for line in f:
-            line = line.rstrip("\n")
-            if not line or line.startswith("#"):
-                continue
-            parts = line.split("\t", 1)
-            if len(parts) != 2:
-                continue
-            tcid, raw = parts
-            names = []
-            for entry in raw.split("|"):
-                if ";" in entry:
-                    _, _, name = entry.partition(";")
-                    if name.strip():
-                        names.append(name.strip())
-            if names:
-                out[tcid] = names
-    return out
-
-
-def build_tcdb_hierarchy(
-    out_path: Path,
-    families_path: Path,
-    superfamilies_path: Path,
-    substrates_path: Path,
-) -> int:
-    """Build tcdb_hierarchy.json by joining the 3 TCDB sources."""
-    fam_descs = _parse_tcdb_families(families_path)
-    super_rows = _parse_tcdb_superfamilies(superfamilies_path)
-    substrates = _parse_tcdb_substrates(substrates_path)
-
-    h: dict[str, dict] = {}
-
-    # Synthesize class + subclass entries from any TCID prefix we observe
-    seen_classes: set[str] = set()
-    seen_subclasses: set[str] = set()
-
-    for tcid, subfam, fam, abbr, superfam in super_rows:
-        parts = tcid.split(".")
-        # Need at least class.subclass.family.subfam.specificity = 5 parts
-        if len(parts) < 5:
-            continue
-        cls = parts[0]
-        subcls = ".".join(parts[:2])
-
-        # Class (level 0)
-        if cls not in seen_classes:
-            h[cls] = {
-                "name": _TC_CLASS_NAMES.get(cls, ""),
-                "level": 0,
-                "level_kind": "tc_class",
-                "parent": None,
-            }
-            seen_classes.add(cls)
-
-        # Subclass (level 1)
-        if subcls not in seen_subclasses:
-            h[subcls] = {
-                "name": "",
-                "level": 1,
-                "level_kind": "tc_subclass",
-                "parent": cls,
-            }
-            seen_subclasses.add(subcls)
-
-        # Family (level 2)
-        if fam not in h:
-            h[fam] = {
-                "name": fam_descs.get(fam, ""),
-                "level": 2,
-                "level_kind": "tc_family",
-                "parent": subcls,
-                "abbreviation": abbr,
-            }
-
-        # Subfamily (level 3)
-        if subfam not in h:
-            h[subfam] = {
-                "name": "",
-                "level": 3,
-                "level_kind": "tc_subfamily",
-                "parent": fam,
-            }
-
-        # Specificity (level 4)
-        node: dict = {
-            "name": "",
-            "level": 4,
-            "level_kind": "tc_specificity",
-            "parent": subfam,
-        }
-        if tcid in substrates:
-            node["substrate_classes"] = substrates[tcid]
-        if superfam:
-            node["superfamily"] = superfam
-        h[tcid] = node
-
-    out_path.parent.mkdir(parents=True, exist_ok=True)
-    out_path.write_text(json.dumps(h, indent=2, sort_keys=True))
-    log.info(f"  tcdb_hierarchy.json: {len(h)} entries")
-    return len(h)
-
-
 # ── orchestration ─────────────────────────────────────────────────────────────
 
 CACHE_ROOT = Path("cache/data")
@@ -464,11 +315,7 @@ def _resolve_paths(cache_root: Path) -> dict[str, Path]:
         "chem_xref":     cache_root / "mnx" / "chem_xref.tsv",
         "reac_prop":     cache_root / "mnx" / "reac_prop.tsv",
         "reac_xref":     cache_root / "mnx" / "reac_xref.tsv",
-        "families":      cache_root / "tcdb" / "families.tsv",
-        "superfamilies": cache_root / "tcdb" / "superfamilies.tsv",
-        "substrates":    cache_root / "tcdb" / "substrates.tsv",
         "resolver_db":   cache_root / "mnx" / "metabolite_resolver.db",
-        "tcdb_json":     cache_root / "tcdb" / "tcdb_hierarchy.json",
         "report":        cache_root / "mnx" / "metabolite_id_mapping_report.json",
     }
 
@@ -504,11 +351,11 @@ def main(force: bool = False) -> None:
     logging.basicConfig(level=logging.INFO, format="%(message)s")
     paths = _resolve_paths(CACHE_ROOT)
 
-    if not force and paths["resolver_db"].exists() and paths["tcdb_json"].exists():
-        log.info("All caches present; skip (use --force to rebuild).")
+    if not force and paths["resolver_db"].exists():
+        log.info("Resolver DB present; skip (use --force to rebuild).")
         return
 
-    log.info("Building metabolite resolver + hierarchy caches")
+    log.info("Building MNX metabolite resolver SQLite")
 
     # SQLite resolver
     paths["resolver_db"].parent.mkdir(parents=True, exist_ok=True)
@@ -525,18 +372,12 @@ def main(force: bool = False) -> None:
     alias_counts = _alias_count_by_source(conn)
     conn.close()
 
-    # TCDB hierarchy
-    n_tcdb = build_tcdb_hierarchy(
-        paths["tcdb_json"], paths["families"], paths["superfamilies"], paths["substrates"]
-    )
-
     # Diagnostic report
     report = {
         "mnx_release":              _read_mnx_release(paths["chem_prop"]),
         "compound_count":           n_compounds,
         "reaction_count":           n_reactions,
         "alias_counts_by_source":   alias_counts,
-        "tcdb_hierarchy_entry_count": n_tcdb,
     }
     paths["report"].write_text(json.dumps(report, indent=2))
     log.info(f"  metabolite_id_mapping_report.json written ({len(report)} fields)")

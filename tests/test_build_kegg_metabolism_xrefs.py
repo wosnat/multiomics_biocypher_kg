@@ -214,6 +214,39 @@ def test_bulk_enrich_reactions_returns_dict_keyed_by_kegg_id(tmp_path):
     assert r99["reaction_class"] == "chemical"  # default
 
 
+def test_step6_builds_tcdb_hierarchy(tmp_path):
+    """Step 6 must produce cache/data/tcdb/tcdb_hierarchy.json (was previously
+    built by build_metabolite_resolver.py)."""
+    from multiomics_kg.download import build_kegg_metabolism_xrefs as mod
+
+    # Stage minimal TCDB TSVs the way download_metabolism_reference.download_all would:
+    cache_root = tmp_path / "cache" / "data"
+    tcdb_dir = cache_root / "tcdb"
+    tcdb_dir.mkdir(parents=True)
+    (tcdb_dir / "families.tsv").write_text("1.A.1\tThe Voltage-gated Ion Channel\n")
+    (tcdb_dir / "superfamilies.tsv").write_text(
+        "1.A.1.5.2\t1.A.1.5\t1.A.1\tVIC\tVIC Superfamily\n"
+    )
+    (tcdb_dir / "substrates.tsv").write_text(
+        "1.A.1.5.2\tCHEBI:9314;sucrose|CHEBI:3308;calcium(2+)\n"
+    )
+
+    out = tcdb_dir / "tcdb_hierarchy.json"
+    mod._build_tcdb_hierarchy(cache_root=cache_root)
+
+    assert out.exists()
+    import json
+    h = json.loads(out.read_text())
+    # 5 levels for 1.A.1.5.2 → expect class+subclass+family+subfamily+specificity
+    assert "1" in h
+    assert "1.A" in h
+    assert "1.A.1" in h
+    assert "1.A.1.5" in h
+    assert "1.A.1.5.2" in h
+    assert h["1.A.1.5.2"]["level_kind"] == "tc_specificity"
+    assert h["1.A.1.5.2"]["substrate_classes"] == ["sucrose", "calcium(2+)"]
+
+
 def test_bulk_enrich_compounds_returns_dict_keyed_by_kegg_id(tmp_path):
     """_bulk_enrich_compounds returns a dict mapping kegg_compound_id → enrichment."""
     conn = _make_resolver(tmp_path)
