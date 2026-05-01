@@ -106,6 +106,7 @@ class MetabolismAdapter:
                 "kegg_compound_id": cpd_id,
                 "name": _clean_str(cpd.get("name", "")),
                 "formula": _clean_str(cpd.get("formula")),
+                "elements": _parse_elements(cpd.get("formula")),
                 "mass": cpd.get("mass"),
                 "inchikey": _clean_str(cpd.get("inchikey")),
                 "smiles": _clean_str(cpd.get("smiles")),

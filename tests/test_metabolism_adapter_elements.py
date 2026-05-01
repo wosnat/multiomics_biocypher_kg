@@ -55,3 +55,33 @@ def test_parse_elements_returns_sorted_list():
     """Result is always sorted alphabetically by element symbol."""
     result = _parse_elements("ZnO")
     assert result == sorted(result)
+
+
+def test_metabolite_yielder_emits_elements_when_formula_present(tmp_path):
+    """Smoke test: a metabolite with formula gets an 'elements' key in props."""
+    import json
+    from multiomics_kg.adapters.metabolism_adapter import MetabolismAdapter
+
+    # Minimal kegg_data.json fixture
+    fake_data = {
+        "reactions": {},
+        "compounds": {
+            "C00001": {"name": "H2O", "formula": "H2O"},
+            "C99999": {"name": "Generic", "formula": None},
+        },
+    }
+    fake_path = tmp_path / "kegg_data.json"
+    fake_path.write_text(json.dumps(fake_data))
+
+    adapter = MetabolismAdapter(kegg_data_path=fake_path, test_mode=False)
+    nodes = list(adapter.get_nodes())
+
+    # Find the H2O node — it should have elements=["H", "O"]
+    h2o = next((p for nid, lbl, p in nodes if "C00001" in nid), None)
+    assert h2o is not None
+    assert h2o.get("elements") == ["H", "O"]
+
+    # Find the no-formula node — elements should be absent (sparse, dropped by _drop_nulls)
+    generic = next((p for nid, lbl, p in nodes if "C99999" in nid), None)
+    assert generic is not None
+    assert "elements" not in generic
