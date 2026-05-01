@@ -76,6 +76,21 @@ CREATE INDEX brite_category_name_idx IF NOT EXISTS FOR (b:BriteCategory) ON (b.n
 CREATE FULLTEXT INDEX briteCategoryFullText IF NOT EXISTS
   FOR (b:BriteCategory) ON EACH [b.name];
 
+// TCDB / CAZy scalar indexes
+CREATE INDEX tcdb_family_level_idx IF NOT EXISTS FOR (t:TcdbFamily) ON (t.level);
+CREATE INDEX tcdb_family_level_kind_idx IF NOT EXISTS FOR (t:TcdbFamily) ON (t.level_kind);
+CREATE INDEX tcdb_family_tcdb_id_idx IF NOT EXISTS FOR (t:TcdbFamily) ON (t.tcdb_id);
+CREATE INDEX tcdb_family_tc_class_id_idx IF NOT EXISTS FOR (t:TcdbFamily) ON (t.tc_class_id);
+CREATE INDEX cazy_family_level_idx IF NOT EXISTS FOR (c:CazyFamily) ON (c.level);
+CREATE INDEX cazy_family_level_kind_idx IF NOT EXISTS FOR (c:CazyFamily) ON (c.level_kind);
+CREATE INDEX cazy_family_cazy_id_idx IF NOT EXISTS FOR (c:CazyFamily) ON (c.cazy_id);
+
+// TCDB / CAZy full-text indexes
+CREATE FULLTEXT INDEX tcdbFamilyFullText IF NOT EXISTS
+    FOR (t:TcdbFamily) ON EACH [t.name, t.tcdb_id, t.superfamily];
+CREATE FULLTEXT INDEX cazyFamilyFullText IF NOT EXISTS
+    FOR (c:CazyFamily) ON EACH [c.name, c.cazy_id];
+
 // Publication
 // publicationFullText: drop+recreate so DM-search-text + compartments are picked up
 // even on reruns against an existing graph (Neo4j won't add properties to an existing index).
@@ -720,6 +735,104 @@ CALL {
       b.organism_count = size([x IN orgs WHERE x IS NOT NULL])
 } IN TRANSACTIONS OF 100 ROWS;
 
+// ── TcdbFamily computed properties ───────────────────────────────────────────
+
+// member_count: direct child count
+MATCH (t:TcdbFamily)
+CALL {
+  WITH t
+  OPTIONAL MATCH (child:TcdbFamily)-[:Tcdb_family_is_a_tcdb_family]->(t)
+  WITH t, count(child) AS mc
+  SET t.member_count = mc
+} IN TRANSACTIONS OF 1000 ROWS;
+
+// tc_class_id: pointer to the root tc_class node
+// Self-reference for class nodes:
+MATCH (t:TcdbFamily {level_kind: 'tc_class'})
+SET t.tc_class_id = t.id;
+
+// Non-class nodes: walk up to nearest tc_class ancestor
+MATCH (t:TcdbFamily) WHERE t.level_kind <> 'tc_class'
+CALL {
+  WITH t
+  MATCH (t)-[:Tcdb_family_is_a_tcdb_family*1..]->(cls:TcdbFamily {level_kind: 'tc_class'})
+  WITH t, cls LIMIT 1
+  SET t.tc_class_id = cls.id
+} IN TRANSACTIONS OF 1000 ROWS;
+
+// gene_count + organism_count: subtree traversal (descendants ∪ self via *0..)
+MATCH (t:TcdbFamily)
+CALL {
+  WITH t
+  OPTIONAL MATCH (t)<-[:Tcdb_family_is_a_tcdb_family*0..]-(desc:TcdbFamily)<-[:Gene_has_tcdb_family]-(g:Gene)
+  WITH t, count(DISTINCT g) AS gc, collect(DISTINCT g.organism_name) AS orgs
+  SET t.gene_count = gc,
+      t.organism_count = size([x IN orgs WHERE x IS NOT NULL])
+} IN TRANSACTIONS OF 1000 ROWS;
+
+// metabolite_count: distinct metabolites reachable via Tcdb_family_transports_metabolite in subtree
+MATCH (t:TcdbFamily)
+CALL {
+  WITH t
+  OPTIONAL MATCH (t)<-[:Tcdb_family_is_a_tcdb_family*0..]-(desc:TcdbFamily)-[:Tcdb_family_transports_metabolite]->(m:Metabolite)
+  WITH t, count(DISTINCT m) AS mc
+  SET t.metabolite_count = mc
+} IN TRANSACTIONS OF 1000 ROWS;
+
+// ── CazyFamily computed properties ───────────────────────────────────────────
+
+// gene_count + organism_count: subtree traversal (descendants ∪ self via *0..)
+MATCH (c:CazyFamily)
+CALL {
+  WITH c
+  OPTIONAL MATCH (c)<-[:Cazy_family_is_a_cazy_family*0..]-(desc:CazyFamily)<-[:Gene_has_cazy_family]-(g:Gene)
+  WITH c, count(DISTINCT g) AS gc, collect(DISTINCT g.organism_name) AS orgs
+  SET c.gene_count = gc,
+      c.organism_count = size([x IN orgs WHERE x IS NOT NULL])
+} IN TRANSACTIONS OF 1000 ROWS;
+
+// ── Gene routing extensions ──────────────────────────────────────────────────
+
+// Extend annotation_types — add 'tcdb' / 'cazy' if any edge of that type exists.
+// (The base annotation_types is computed earlier in this same group; we APPEND
+//  here rather than rebuild from scratch so the existing values persist.)
+MATCH (g:Gene)
+CALL {
+  WITH g
+  WITH g, coalesce(g.annotation_types, []) AS existing
+  SET g.annotation_types = existing +
+    CASE WHEN EXISTS { (g)-[:Gene_has_tcdb_family]->() } THEN ['tcdb'] ELSE [] END +
+    CASE WHEN EXISTS { (g)-[:Gene_has_cazy_family]->() } THEN ['cazy'] ELSE [] END
+} IN TRANSACTIONS OF 1000 ROWS;
+
+// tcdb_family_count + cazy_family_count single-hop rollups (per TCDB-S1 / TCDB-S2)
+MATCH (g:Gene)
+CALL {
+  WITH g
+  OPTIONAL MATCH (g)-[r1:Gene_has_tcdb_family]->()
+  WITH g, count(r1) AS tc
+  OPTIONAL MATCH (g)-[r2:Gene_has_cazy_family]->()
+  WITH g, tc, count(r2) AS cz
+  SET g.tcdb_family_count = tc,
+      g.cazy_family_count = cz
+} IN TRANSACTIONS OF 1000 ROWS;
+
+// Gene.metabolite_count = UNION across catalysis + transport paths (per TCDB-S3)
+// Catalysis arm: Gene -> Reaction -> Metabolite (existing chemistry).
+// Transport arm: Gene -> TcdbFamily -> ... -> tc_specificity leaf -> Metabolite.
+// Uses apoc.coll.toSet for distinct UNION across the two paths.
+MATCH (g:Gene)
+CALL {
+  WITH g
+  OPTIONAL MATCH (g)-[:Gene_catalyzes_reaction]->(:Reaction)-[:Reaction_has_metabolite]->(m1:Metabolite)
+  WITH g, collect(DISTINCT m1) AS m_cat
+  OPTIONAL MATCH (g)-[:Gene_has_tcdb_family]->(:TcdbFamily)
+                 -[:Tcdb_family_is_a_tcdb_family*0..]->(:TcdbFamily {level_kind: 'tc_specificity'})
+                 -[:Tcdb_family_transports_metabolite]->(m2:Metabolite)
+  WITH g, m_cat + collect(DISTINCT m2) AS all_m
+  SET g.metabolite_count = size(apoc.coll.toSet(all_m))
+} IN TRANSACTIONS OF 500 ROWS;
+
 // ── Metabolism rollups ────────────────────────────────────────────────────
 
 // Reaction.gene_count, organism_count, organisms[]
@@ -731,11 +844,27 @@ CALL {
       r.organisms = organisms
 } IN TRANSACTIONS OF 1000 ROWS;
 
-// Metabolite.gene_count, organism_count
+// Metabolite.gene_count, organism_count, transporter_count
+// (UNION-aware: catalysis + transport paths)
 CALL {
-  MATCH (m:Metabolite)<-[:Reaction_has_metabolite]-(r:Reaction)<-[:Gene_catalyzes_reaction]-(g:Gene)
-  WITH m, count(DISTINCT g) AS gene_count, count(DISTINCT g.organism_name) AS organism_count
-  SET m.gene_count = gene_count, m.organism_count = organism_count
+  MATCH (m:Metabolite)
+  OPTIONAL MATCH (m)<-[:Reaction_has_metabolite]-(:Reaction)<-[:Gene_catalyzes_reaction]-(g_cat:Gene)
+  WITH m, collect(DISTINCT g_cat) AS gs_cat
+  OPTIONAL MATCH (m)<-[:Tcdb_family_transports_metabolite]-(:TcdbFamily)
+                 <-[:Gene_has_tcdb_family]-(g_tr:Gene)
+  WITH m, gs_cat + collect(DISTINCT g_tr) AS all_g
+  WITH m,
+       size(apoc.coll.toSet(all_g)) AS gc,
+       size(apoc.coll.toSet([x IN all_g | x.organism_name])) AS oc
+  SET m.gene_count = gc, m.organism_count = oc
+} IN TRANSACTIONS OF 1000 ROWS;
+
+// Metabolite.transporter_count: distinct TcdbFamily ancestors with substrate edge
+CALL {
+  MATCH (m:Metabolite)
+  OPTIONAL MATCH (t:TcdbFamily)-[:Tcdb_family_transports_metabolite]->(m)
+  WITH m, count(DISTINCT t) AS tc
+  SET m.transporter_count = tc
 } IN TRANSACTIONS OF 1000 ROWS;
 
 // Materialize Organism_has_metabolite (2-hop save)
@@ -743,6 +872,16 @@ CALL {
   MATCH (o:OrganismTaxon)<-[:Gene_belongs_to_organism]-(g:Gene)
         -[:Gene_catalyzes_reaction]->(:Reaction)
         -[:Reaction_has_metabolite]->(m:Metabolite)
+  WITH DISTINCT o, m
+  MERGE (o)-[:Organism_has_metabolite]->(m)
+} IN TRANSACTIONS OF 1000 ROWS;
+
+// Materialize Organism_has_metabolite (transport arm)
+CALL {
+  MATCH (o:OrganismTaxon)<-[:Gene_belongs_to_organism]-(g:Gene)
+        -[:Gene_has_tcdb_family]->(:TcdbFamily)
+        -[:Tcdb_family_is_a_tcdb_family*0..]->(:TcdbFamily {level_kind: 'tc_specificity'})
+        -[:Tcdb_family_transports_metabolite]->(m:Metabolite)
   WITH DISTINCT o, m
   MERGE (o)-[:Organism_has_metabolite]->(m)
 } IN TRANSACTIONS OF 1000 ROWS;

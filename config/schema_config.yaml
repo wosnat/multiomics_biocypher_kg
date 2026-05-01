@@ -397,6 +397,10 @@ gene:
     boolean_metric_types_observed: str[]     # post-import (Plan 3): sorted distinct metric_type over flags
     categorical_metric_types_observed: str[] # post-import (Plan 3): sorted distinct metric_type over classifies
     compartments_observed: str[]             # post-import (Plan 3): sorted distinct compartment over all 3 DM edge types
+    # TCDB / CAZy / chemistry rollups (post-import)
+    tcdb_family_count: int                   # per TCDB-S1
+    cazy_family_count: int                   # per TCDB-S2
+    metabolite_count: int                    # UNION catalysis + transport (per TCDB-S3 / KG-A2)
 
 # consider adding: Note, exceptions, inference
 
@@ -666,6 +670,7 @@ metabolite:
     chebi_id: str                # nullable
     hmdb_id: str                 # nullable
     evidence_sources: str[]      # ['metabolism', 'transport']; metabolomics reserved
+    transporter_count: int                   # post-import: distinct TcdbFamily nodes with substrate edge to this metabolite
     organism_count: int          # post-import
     gene_count: int              # post-import
 
