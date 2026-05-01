@@ -47,6 +47,9 @@ For each snapshot:
 | `total_Derived_metric_classifies_gene` | Total categorical-DM classify edges |
 | `total_Derived_metric_quantifies_gene` | Total numeric-DM quantify edges |
 | `dm_edges_per_publication` | Nested dict: `{edge_type: {doi: count}}` per publication |
+| `metabolism.nodes` | `{Reaction: count, Metabolite: count}` |
+| `metabolism.edges` | `{Gene_catalyzes_reaction, Reaction_has_metabolite, Reaction_in_kegg_pathway, Organism_has_metabolite, Metabolite_in_pathway: count}` |
+| `metabolism.kegg_term_by_level_kind` | `{ko, pathway, subcategory, category: count}` |
 
 ## Key Cypher Queries
 
@@ -88,6 +91,10 @@ When comparing against old snapshots that stored `condition_edges` and `cocultur
 ### DerivedMetric evidence (Plan 3)
 
 Snapshot also captures DerivedMetric edge counts alongside `Changes_expression_of`. Regression detection works the same way: a rebuild that loses DM edges flows into the regressions list + exit code 1. The DerivedMetric totals section is only printed in comparison reports when either snapshot carries DM edges — keeps pre-Plan-3 reports uncluttered.
+
+### Metabolism layer (Phase 1.2 / 1.2.1)
+
+Snapshot also captures Reaction + Metabolite node counts, all 5 metabolism edge counts (`Gene_catalyzes_reaction`, `Reaction_has_metabolite`, `Reaction_in_kegg_pathway`, `Organism_has_metabolite`, `Metabolite_in_pathway`), and the `KeggTerm` count broken down by `level_kind` (catches reaction-only pathway nodes added in 1.2.1). Comparison flags any negative delta as a regression. Increases are reported plainly — they're expected for `Metabolite_in_pathway` (0 in pre-1.2.1 baselines) and a small uptick (~5) on KeggTerm pathway count due to 1.2.1's reverted `91047f9` filter. The metabolism block is only printed when either snapshot carries metabolism data.
 
 ## Snapshot Files
 

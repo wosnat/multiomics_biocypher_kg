@@ -169,7 +169,47 @@ def capture_snapshot() -> dict:
         pub_genes[pub] = sorted(genes)
     snapshot["per_publication_genes"] = pub_genes
 
+    # --- Metabolism layer (Phase 1.2 / 1.2.1) ---
+    snapshot["metabolism"] = _capture_metabolism()
+
     return snapshot
+
+
+# Metabolism layer: node + edge counts captured by capture_snapshot().
+# Reaction/Metabolite are nodes; the rest are edge labels.
+METABOLISM_NODE_COUNTS = ["Reaction", "Metabolite"]
+METABOLISM_EDGE_COUNTS = [
+    "Gene_catalyzes_reaction",
+    "Reaction_has_metabolite",
+    "Reaction_in_kegg_pathway",
+    "Organism_has_metabolite",
+    "Metabolite_in_pathway",
+]
+KEGG_TERM_LEVEL_KINDS = ["category", "subcategory", "pathway", "ko"]
+
+
+def _capture_metabolism() -> dict:
+    """Capture metabolism-layer node + edge counts.
+
+    Phase 1.2 introduced Reaction/Metabolite nodes + 3 metabolism edges.
+    Phase 1.2.1 added the Metabolite_in_pathway edge and changed step-6 pruning
+    so a few additional reaction-only pathway nodes appear.
+    """
+    out: dict = {"nodes": {}, "edges": {}, "kegg_term_by_level_kind": {}}
+    for label in METABOLISM_NODE_COUNTS:
+        rows = run_cypher(f"MATCH (n:{label}) RETURN count(n) AS n")
+        out["nodes"][label] = int(rows[0][0]) if rows else 0
+    for edge_label in METABOLISM_EDGE_COUNTS:
+        rows = run_cypher(f"MATCH ()-[r:{edge_label}]->() RETURN count(r) AS n")
+        out["edges"][edge_label] = int(rows[0][0]) if rows else 0
+    rows = run_cypher(
+        "MATCH (k:KeggTerm) RETURN k.level_kind AS level_kind, count(k) AS n "
+        "ORDER BY level_kind"
+    )
+    for r in rows:
+        level_kind = _strip_quotes(r[0]) if r[0].strip() not in ("", "null", "NULL") else "null"
+        out["kegg_term_by_level_kind"][level_kind] = int(r[1])
+    return out
 
 
 # ---------------------------------------------------------------------------
@@ -292,6 +332,48 @@ def compare_snapshots(old: dict, new: dict, old_name: str, new_name: str) -> int
             print(f"  {edge_type:<40} {old_total:>7,} -> {new_total:>7,}  ({d_str})")
             if delta < 0:
                 regressions.append((f"<{edge_type} total>", old_total, new_total, -delta))
+
+    # ---- Metabolism layer ----
+    old_meta = old.get("metabolism")
+    new_meta = new.get("metabolism")
+    if old_meta or new_meta:
+        print("\nMetabolism nodes / edges:")
+        if not old_meta:
+            print("  (no metabolism baseline in old snapshot)")
+        if not new_meta:
+            print("  (no metabolism data in new snapshot)")
+        if old_meta and new_meta:
+            for label in METABOLISM_NODE_COUNTS:
+                o = old_meta.get("nodes", {}).get(label, 0)
+                n = new_meta.get("nodes", {}).get(label, 0)
+                d = n - o
+                d_str = f"+{d:,}" if d >= 0 else f"{d:,}"
+                print(f"  {label + ' nodes':<35} {o:>7,} → {n:>7,}  ({d_str})")
+                if d < 0:
+                    regressions.append((f"<{label} nodes>", o, n, -d))
+            for edge_label in METABOLISM_EDGE_COUNTS:
+                o = old_meta.get("edges", {}).get(edge_label, 0)
+                n = new_meta.get("edges", {}).get(edge_label, 0)
+                d = n - o
+                d_str = f"+{d:,}" if d >= 0 else f"{d:,}"
+                print(f"  {edge_label:<35} {o:>7,} → {n:>7,}  ({d_str})")
+                # Negative delta is a regression UNLESS the edge is brand-new in 1.2.1
+                # (Metabolite_in_pathway). For new edge types, baseline=0, post>0 — fine.
+                if d < 0:
+                    regressions.append((f"<{edge_label}>", o, n, -d))
+            old_levels = old_meta.get("kegg_term_by_level_kind", {})
+            new_levels = new_meta.get("kegg_term_by_level_kind", {})
+            if old_levels or new_levels:
+                print("  KeggTerm by level_kind:")
+                for level_kind in KEGG_TERM_LEVEL_KINDS:
+                    o = old_levels.get(level_kind, 0)
+                    n = new_levels.get(level_kind, 0)
+                    d = n - o
+                    d_str = f"+{d:,}" if d >= 0 else f"{d:,}"
+                    print(f"    {level_kind:<33} {o:>7,} → {n:>7,}  ({d_str})")
+                    # Negative delta on KeggTerm count is a regression (data loss).
+                    if d < 0:
+                        regressions.append((f"<KeggTerm {level_kind}>", o, n, -d))
 
     # ---- Regressions (most important) ----
     print()
@@ -429,6 +511,15 @@ def main():
         by_org = snapshot.get("by_organism", {})
         for org, cnt in sorted(by_org.items()):
             print(f"  {org}: {cnt:,}")
+        meta = snapshot.get("metabolism", {})
+        if meta:
+            print("  Metabolism:")
+            for label, n in meta.get("nodes", {}).items():
+                print(f"    {label} nodes: {n:,}")
+            for edge_label, n in meta.get("edges", {}).items():
+                print(f"    {edge_label}: {n:,}")
+            for level_kind, n in meta.get("kegg_term_by_level_kind", {}).items():
+                print(f"    KeggTerm/{level_kind}: {n:,}")
         return
 
     if args.compare:
