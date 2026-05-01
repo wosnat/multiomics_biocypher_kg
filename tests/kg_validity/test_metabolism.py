@@ -109,3 +109,28 @@ def test_mass_balance_values_valid(run_query):
         "RETURN count(r) AS n"
     )[0]["n"]
     assert bad == 0
+
+
+def test_metabolite_in_pathway_edges_present(run_query):
+    """Spec 1.2.1: ~5K-15K Metabolite_in_pathway edges (Option B-pruned)."""
+    n = run_query(
+        "MATCH ()-[r:Metabolite_in_pathway]->() RETURN count(r) AS n"
+    )[0]["n"]
+    assert 5000 <= n <= 15000, f"{n} Metabolite_in_pathway edges (expected 5000-15000)"
+
+
+def test_metabolite_pathways_only_kg_evidenced(run_query):
+    """Option B: Metabolite_in_pathway targets must also be reachable from genes."""
+    # No metabolite-in-pathway edge should target a pathway with no Gene→KO edge to it
+    # (since Option B prunes compound-only pathways at step 6).
+    n_orphan = run_query("""
+        MATCH (m:Metabolite)-[:Metabolite_in_pathway]->(p:KeggTerm)
+        WHERE NOT EXISTS {
+            MATCH (g:Gene)-[:Gene_has_kegg_ko]->(:KeggTerm)-[:Kegg_term_is_a_kegg_term]->(p)
+        }
+        AND NOT EXISTS {
+            MATCH (g:Gene)-[:Gene_catalyzes_reaction]->(:Reaction)-[:Reaction_in_kegg_pathway]->(p)
+        }
+        RETURN count(DISTINCT p) AS n
+    """)[0]["n"]
+    assert n_orphan == 0, f"{n_orphan} pathways have only Metabolite-in-pathway edges (Option B violation)"
