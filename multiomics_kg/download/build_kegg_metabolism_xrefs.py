@@ -616,7 +616,11 @@ def _fold_substrates_into_kegg_data(
     1. Every entry in kegg_data['compounds'] gets 'metabolism' in its evidence_sources.
     2. For each transport-substrate primary ID:
        - If kegg.compound:* and already in kegg_data['compounds']: append 'transport'.
-       - Else: add to kegg_data['additional_compounds'] with evidence_sources=['transport'].
+       - If kegg.compound:* and NOT yet in kegg_data['compounds']: add to
+         kegg_data['compounds'] (keyed by bare KEGG id) with evidence_sources=['transport'].
+         Invariant: any kegg.compound:CXXXX lives in compounds, never in additional_compounds.
+       - Else (non-KEGG primary id): add to kegg_data['additional_compounds'] with
+         evidence_sources=['transport'].
     3. Pre-existing additional_compounds entries' evidence_sources lists are unioned.
     """
     # 1. Tag existing compounds
@@ -637,7 +641,15 @@ def _fold_substrates_into_kegg_data(
                     if "transport" not in sources:
                         sources.append("transport")
                     continue
-            # Else: add to additional_compounds
+                # Transport-only KEGG compound: promote to compounds (invariant:
+                # any kegg.compound:CXXXX lives in compounds, never in additional_compounds).
+                if primary_id in compound_props:
+                    kegg_data["compounds"][kegg_cpd_id] = {
+                        **compound_props[primary_id],
+                        "evidence_sources": ["transport"],
+                    }
+                continue
+            # Non-KEGG primary IDs: add to additional_compounds
             if primary_id in additional:
                 if "transport" not in additional[primary_id].setdefault("evidence_sources", []):
                     additional[primary_id]["evidence_sources"].append("transport")

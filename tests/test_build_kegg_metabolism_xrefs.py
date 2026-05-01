@@ -336,6 +336,34 @@ def test_overlap_compound_gets_both_evidence_sources():
     assert kegg_data["compounds"]["C00089"]["evidence_sources"] == ["metabolism", "transport"]
 
 
+def test_kegg_compound_substrate_not_in_compounds_lands_in_compounds_not_additional():
+    """When a TCDB substrate's MNX-resolved primary ID is kegg.compound:C* but
+    that KEGG compound isn't gene-reachable via catalysis, it should land in
+    kegg_data['compounds'] (not additional_compounds), tagged transport-only."""
+    from multiomics_kg.download.build_kegg_metabolism_xrefs import (
+        _fold_substrates_into_kegg_data,
+    )
+    kegg_data = {"compounds": {}, "reactions": {}}
+    leaf_to_primary = {"1.A.1.5.2": ["kegg.compound:C99999"]}
+    compound_props = {
+        "kegg.compound:C99999": {
+            "name": "transport-only kegg compound",
+            "formula": "X1",
+            "mass": 1.0, "inchikey": None,
+            "mnxm_id": "MNXM99999", "chebi_id": None,
+        }
+    }
+    _fold_substrates_into_kegg_data(kegg_data, leaf_to_primary, compound_props)
+
+    # Should NOT be in additional_compounds
+    assert "kegg.compound:C99999" not in kegg_data.get("additional_compounds", {})
+    # Should be in compounds, keyed by the bare KEGG id
+    assert "C99999" in kegg_data["compounds"]
+    entry = kegg_data["compounds"]["C99999"]
+    assert entry["evidence_sources"] == ["transport"]
+    assert entry["mnxm_id"] == "MNXM99999"
+
+
 def test_prune_tcdb_walks_up_and_down():
     """_prune_tcdb walks up to tc_class AND down to tc_specificity for each seed."""
     from multiomics_kg.download.build_kegg_metabolism_xrefs import _prune_tcdb
