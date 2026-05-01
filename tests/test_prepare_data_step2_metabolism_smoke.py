@@ -31,16 +31,15 @@ REQUIRED_FIXTURES = [
 
 @pytest.mark.slow
 def test_phase_1_1b_full_pipeline_med4():
-    """Run sub-step 7 + step 2 against real cache. Assert metabolism report sane."""
+    """Run scripts/refresh_mnx.sh + step 2 against real cache. Assert metabolism report sane."""
     project_root = Path(__file__).parent.parent
     for rel in REQUIRED_FIXTURES:
         if not (project_root / rel).exists():
             pytest.skip(f"Missing fixture: {rel}")
 
-    # 1. Build resolver + hierarchies (sub-step 7)
+    # 1. Build resolver + hierarchies (was sub-step 7; now scripts/refresh_mnx.sh)
     subprocess.run(
-        ["uv", "run", "python", "-m",
-         "multiomics_kg.download.download_genome_data", "--steps", "7", "--force"],
+        ["bash", "scripts/refresh_mnx.sh", "--force"],
         cwd=project_root, check=True,
     )
 
