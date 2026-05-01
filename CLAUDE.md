@@ -329,9 +329,7 @@ bash scripts/prepare_data.sh --strains MED4 MIT9313 --force
 bash scripts/prepare_data.sh --steps 1 2 --force   # rebuild annotation tables only
 
 # Refresh metabolism caches only (bypasses prepare_data.sh; avoids re-running NCBI/UniProt):
-uv run python multiomics_kg/download/download_genome_data.py --steps 6 7 --force
-# Or just rebuild the resolver from already-downloaded raw files:
-uv run python multiomics_kg/download/download_genome_data.py --steps 7 --force
+bash scripts/prepare_data.sh --steps 6 --force
 ```
 
 Logs written to `logs/prepare_data_step0.log` … `logs/prepare_data_step6.log`. Monitor with `tail -f logs/prepare_data_step0.log`.
@@ -342,8 +340,7 @@ Logs written to `logs/prepare_data_step0.log` … `logs/prepare_data_step6.log`.
 - 3: UniProt per unique taxid → `cache/data/<org_group>/uniprot/<taxid>/`
 - 4: eggNOG-mapper (skipped by default; requires `EGGNOG_DATA_DIR` in `.env`)
 - 5: Build `gene_mapping.csv`
-- 6: Download MNX/TCDB/CAZy reference data → `cache/data/{mnx,tcdb,cazy}/`
-- 7: Build metabolite resolver + hierarchy caches (requires sub-step 6). Phase 1.1A: skeleton only — full build lands in Phase 1.1B.
+- 6: Download TCDB reference data → `cache/data/tcdb/`. (MNX moved to standalone `scripts/refresh_mnx.sh` as of Phase 1.2.2 — only needs to run when MNX releases a new version.)
 
 **Step 1** (`multiomics_kg/download/build_protein_annotations.py`) — builds per-taxid protein annotation tables → `protein_annotations.json` per taxid. Requires step 0 (UniProt data must be cached first).
 
@@ -355,7 +352,7 @@ Logs written to `logs/prepare_data_step0.log` … `logs/prepare_data_step6.log`.
 
 **Step 5** (`multiomics_kg/download/build_og_descriptions.py`) — extracts eggNOG ortholog group descriptions from the local `eggnog.db` SQLite database and writes a lightweight JSON cache at `cache/data/eggnog/og_descriptions.json` (~1 MB). This avoids needing the 39 GB database at KG build time (e.g., in Docker). The `ortholog_group_adapter` reads from this cache first, falling back to `eggnog.db` if the cache is missing. Run as module: `uv run python -m multiomics_kg.download.build_og_descriptions [--force]`. Requires step 2.
 
-**Step 6** (`multiomics_kg/download/build_kegg_metabolism_xrefs.py`) — Phase 1.2.1 unified pruned KEGG cache. Walks every strain's `gene_annotations_merged.json` to identify gene-reachable {KOs, reactions, compounds, pathways}, prunes raw KEGG to that subset (Option B: pathway IDs = KOs ∪ Reactions reachable from genes), enriches reactions/compounds with MNX cross-refs, and writes a single `cache/data/kegg/kegg_data.json` (~2 MB). Both `kegg_annotation_adapter` and `metabolism_adapter` read this file — no per-adapter pruning at iteration time. The 2.6 GB MNX resolver opens here only. Run as module: `uv run python -m multiomics_kg.download.build_kegg_metabolism_xrefs [--force]`. Requires step 5.
+**Step 6** (`multiomics_kg/download/build_kegg_metabolism_xrefs.py`) — Phase 1.2.2 unified pruned KEGG cache. Walks every strain's `gene_annotations_merged.json` to identify gene-reachable {KOs, reactions, compounds, pathways}, prunes raw KEGG to that subset (Option B: pathway IDs = KOs ∪ Reactions reachable from genes), enriches reactions/compounds with MNX cross-refs, and writes a single `cache/data/kegg/kegg_data.json` (~3-4 MB, indented JSON for git-friendly diffs). Both `kegg_annotation_adapter` and `metabolism_adapter` read this file — no per-adapter pruning at iteration time. The 2.6 GB MNX resolver opens here only — it must be built first via `bash scripts/refresh_mnx.sh` (one-time setup; rerun only when MNX releases). Run as module: `uv run python -m multiomics_kg.download.build_kegg_metabolism_xrefs [--force]`. Requires step 5 + the MNX resolver.
 
 ## Data Locations
 
@@ -369,7 +366,7 @@ Logs written to `logs/prepare_data_step0.log` … `logs/prepare_data_step6.log`.
 - **UniProt cache (taxid-keyed):** `cache/data/<org_group>/uniprot/<taxid>/uniprot_preprocess_data.json`
 - **Pfam reference cache:** `cache/data/pfam/pfam_reference.json`
 - **eggNOG OG descriptions cache:** `cache/data/eggnog/og_descriptions.json` (built by step 5; ~1 MB)
-- **KEGG unified pruned cache:** `cache/data/kegg/kegg_data.json` (built by step 6; ~2 MB; single source for `kegg_annotation_adapter` + `metabolism_adapter`)
+- **KEGG unified pruned cache:** `cache/data/kegg/kegg_data.json` (built by step 6; ~3-4 MB indented; single source for `kegg_annotation_adapter` + `metabolism_adapter`)
 - **PDF extraction cache:** `pdf_extraction_cache.json`
 
 ## KG Validity Tests

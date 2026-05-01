@@ -32,8 +32,9 @@
 #           calls: multiomics_kg/download/build_kegg_metabolism_xrefs.py
 #           Walks every strain's gene_annotations_merged.json to identify gene-reachable
 #           {KOs, reactions, compounds, pathways}; prunes raw KEGG to that subset; enriches
-#           reactions/compounds with MNX xrefs; writes a single cache/data/kegg/kegg_data.json (~2 MB).
-#           Requires step 0 sub-steps 6+7 (MNX/TCDB/CAZy reference + resolver) and step 2
+#           reactions/compounds with MNX xrefs; writes a single cache/data/kegg/kegg_data.json (~3-4 MB, indented).
+#           Requires step 0 sub-step 6 (TCDB reference) + step 2 + scripts/refresh_mnx.sh
+#           (MNX resolver — heavy one-time build, rerun only when MNX releases)
 #
 # Logs: logs/prepare_data_step0.log … logs/prepare_data_step6.log
 #       Monitor with: tail -f logs/prepare_data_step0.log
