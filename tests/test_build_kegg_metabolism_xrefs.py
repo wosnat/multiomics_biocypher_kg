@@ -274,3 +274,117 @@ def test_bulk_enrich_compounds_returns_dict_keyed_by_kegg_id(tmp_path):
     assert obscure["mnxm_id"] is None
     assert obscure["chebi_id"] is None
     assert obscure["formula"] is None
+
+
+# ── Step 6 part 2: TCDB substrate resolution + evidence_sources tagging ──────
+
+
+def test_compounds_get_metabolism_evidence_source():
+    """build_pruned_kegg_data + fold_substrates tags every compound with
+    evidence_sources=['metabolism'] when no transport overlap."""
+    from multiomics_kg.download.build_kegg_metabolism_xrefs import (
+        _fold_substrates_into_kegg_data,
+    )
+    kegg_data = {
+        "compounds": {
+            "C00031": {"name": "D-Glucose", "formula": "C6H12O6"},
+            "C00002": {"name": "ATP", "formula": "C10H16N5O13P3"},
+        },
+        "reactions": {},
+    }
+    _fold_substrates_into_kegg_data(kegg_data, leaf_to_primary_ids={}, compound_props={})
+    for cpd in kegg_data["compounds"].values():
+        assert cpd["evidence_sources"] == ["metabolism"]
+
+
+def test_transport_only_compounds_land_in_additional_compounds():
+    """A TCDB substrate not reachable via metabolism shows up under
+    kegg_data['additional_compounds'] with evidence_sources=['transport']."""
+    from multiomics_kg.download.build_kegg_metabolism_xrefs import (
+        _fold_substrates_into_kegg_data,
+    )
+    kegg_data = {"compounds": {}, "reactions": {}}
+    leaf_to_primary = {"1.A.1.5.2": ["chebi:9999"]}
+    compound_props = {
+        "chebi:9999": {
+            "name": "tetracycline", "formula": "C22H24N2O8",
+            "mass": 444.43, "inchikey": None,
+            "mnxm_id": "MNXM00099", "chebi_id": "9999",
+        }
+    }
+    _fold_substrates_into_kegg_data(kegg_data, leaf_to_primary, compound_props)
+    assert "chebi:9999" in kegg_data["additional_compounds"]
+    entry = kegg_data["additional_compounds"]["chebi:9999"]
+    assert entry["evidence_sources"] == ["transport"]
+    assert entry["chebi_id"] == "9999"
+
+
+def test_overlap_compound_gets_both_evidence_sources():
+    """When a TCDB substrate already exists in kegg_data['compounds'] (e.g.
+    sucrose has both metabolic reactions and transport substrate annotations),
+    the existing entry gets BOTH 'metabolism' and 'transport'."""
+    from multiomics_kg.download.build_kegg_metabolism_xrefs import (
+        _fold_substrates_into_kegg_data,
+    )
+    kegg_data = {
+        "compounds": {"C00089": {"name": "Sucrose", "formula": "C12H22O11"}},
+        "reactions": {},
+    }
+    leaf_to_primary = {"1.A.1.5.2": ["kegg.compound:C00089"]}
+    _fold_substrates_into_kegg_data(kegg_data, leaf_to_primary, compound_props={})
+    assert "additional_compounds" not in kegg_data or "kegg.compound:C00089" not in kegg_data.get("additional_compounds", {})
+    assert kegg_data["compounds"]["C00089"]["evidence_sources"] == ["metabolism", "transport"]
+
+
+def test_prune_tcdb_walks_up_and_down():
+    """_prune_tcdb walks up to tc_class AND down to tc_specificity for each seed."""
+    from multiomics_kg.download.build_kegg_metabolism_xrefs import _prune_tcdb
+    hierarchy = {
+        "1": {"name": "Channels", "level": 0, "level_kind": "tc_class", "parent": None},
+        "1.A": {"name": "", "level": 1, "level_kind": "tc_subclass", "parent": "1"},
+        "1.A.1": {"name": "VIC", "level": 2, "level_kind": "tc_family", "parent": "1.A"},
+        "1.A.1.5": {"name": "", "level": 3, "level_kind": "tc_subfamily", "parent": "1.A.1"},
+        "1.A.1.5.2": {"name": "", "level": 4, "level_kind": "tc_specificity",
+                      "parent": "1.A.1.5", "substrate_classes": ["calcium(2+)"]},
+        "1.A.1.5.3": {"name": "", "level": 4, "level_kind": "tc_specificity",
+                      "parent": "1.A.1.5", "substrate_classes": ["sodium(1+)"]},
+        # An unrelated branch that should NOT be kept
+        "2": {"name": "ECP", "level": 0, "level_kind": "tc_class", "parent": None},
+        "2.A": {"name": "", "level": 1, "level_kind": "tc_subclass", "parent": "2"},
+    }
+    # Seed at family level — walk up to 1, walk down to BOTH leaves
+    kept, leaf_subs = _prune_tcdb(hierarchy, {"1.A.1"})
+    assert kept == {"1", "1.A", "1.A.1", "1.A.1.5", "1.A.1.5.2", "1.A.1.5.3"}
+    assert leaf_subs == {
+        "1.A.1.5.2": ["calcium(2+)"],
+        "1.A.1.5.3": ["sodium(1+)"],
+    }
+    # Branch 2 untouched
+    assert "2" not in kept
+
+
+def test_prune_tcdb_seed_at_leaf():
+    """Seeding at a leaf still walks up to root."""
+    from multiomics_kg.download.build_kegg_metabolism_xrefs import _prune_tcdb
+    hierarchy = {
+        "1": {"level": 0, "level_kind": "tc_class", "parent": None},
+        "1.A": {"level": 1, "level_kind": "tc_subclass", "parent": "1"},
+        "1.A.1": {"level": 2, "level_kind": "tc_family", "parent": "1.A"},
+        "1.A.1.5": {"level": 3, "level_kind": "tc_subfamily", "parent": "1.A.1"},
+        "1.A.1.5.2": {"level": 4, "level_kind": "tc_specificity",
+                      "parent": "1.A.1.5", "substrate_classes": ["x"]},
+    }
+    kept, leaf_subs = _prune_tcdb(hierarchy, {"1.A.1.5.2"})
+    assert kept == {"1", "1.A", "1.A.1", "1.A.1.5", "1.A.1.5.2"}
+    assert leaf_subs == {"1.A.1.5.2": ["x"]}
+
+
+def test_prune_tcdb_unknown_seed_silently_skipped():
+    """Seeds not present in the hierarchy are silently skipped."""
+    from multiomics_kg.download.build_kegg_metabolism_xrefs import _prune_tcdb
+    hierarchy = {
+        "1": {"level": 0, "level_kind": "tc_class", "parent": None},
+    }
+    kept, leaf_subs = _prune_tcdb(hierarchy, {"99.X.Y.Z.Q"})
+    assert kept == set()
+    assert leaf_subs == {}

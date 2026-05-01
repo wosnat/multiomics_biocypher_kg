@@ -233,6 +233,60 @@ def test_metabolite_pathway_edges(kegg_data_file):
     assert {e[3] for e in edges} == {"metabolite_in_pathway"}
 
 
+def test_adapter_emits_additional_compounds_with_transport_evidence(tmp_path):
+    """metabolism_adapter must read additional_compounds and tag evidence_sources=['transport']."""
+    fixture = {
+        "kos": {}, "pathways": {}, "subcategories": {}, "categories": {},
+        "reactions": {},
+        "compounds": {},
+        "additional_compounds": {
+            "chebi:9999": {
+                "name": "tetracycline",
+                "formula": "C22H24N2O8",
+                "mass": 444.43,
+                "inchikey": None,
+                "mnxm_id": "MNXM00099",
+                "chebi_id": "9999",
+                "evidence_sources": ["transport"],
+            }
+        },
+    }
+    p = tmp_path / "kegg_data.json"
+    p.write_text(json.dumps(fixture))
+
+    nodes = list(ma.MetabolismAdapter(kegg_data_path=p).get_nodes())
+    metabolite_nodes = [n for n in nodes if n[1] == "metabolite"]
+    assert len(metabolite_nodes) == 1
+    nid, _label, props = metabolite_nodes[0]
+    assert nid == "chebi:9999"
+    assert props["evidence_sources"] == ["transport"]
+    assert props["mnxm_id"] == "MNXM00099"
+
+
+def test_adapter_emits_evidence_sources_on_kegg_compounds(tmp_path):
+    """Existing kegg.compound entries should also carry evidence_sources."""
+    fixture = {
+        "kos": {}, "pathways": {}, "subcategories": {}, "categories": {},
+        "reactions": {},
+        "compounds": {
+            "C00031": {
+                "name": "D-Glucose",
+                "formula": "C6H12O6",
+                "mass": 180.16,
+                "evidence_sources": ["metabolism"],
+            }
+        },
+    }
+    p = tmp_path / "kegg_data.json"
+    p.write_text(json.dumps(fixture))
+
+    nodes = list(ma.MetabolismAdapter(kegg_data_path=p).get_nodes())
+    metabolite_nodes = [n for n in nodes if n[1] == "metabolite"]
+    assert len(metabolite_nodes) == 1
+    _nid, _label, props = metabolite_nodes[0]
+    assert props["evidence_sources"] == ["metabolism"]
+
+
 def test_get_edges_yields_all_four_types(tmp_path, kegg_data_file, monkeypatch):
     strain_dir = tmp_path / "strain"
     strain_dir.mkdir()

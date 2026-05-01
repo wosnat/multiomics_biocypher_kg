@@ -667,6 +667,7 @@ metabolite:
     mnxm_id: str                 # nullable
     chebi_id: str                # nullable
     hmdb_id: str                 # nullable
+    evidence_sources: str[]      # ['metabolism', 'transport']; metabolomics reserved
     organism_count: int          # post-import
     gene_count: int              # post-import
 

@@ -95,8 +95,29 @@ class MetabolismAdapter:
                 "mnxm_id": cpd.get("mnxm_id"),
                 "chebi_id": cpd.get("chebi_id"),
                 "hmdb_id": cpd.get("hmdb_id"),
+                "evidence_sources": list(cpd.get("evidence_sources", [])),
             })
             yield node_id, "metabolite", props
+            n += 1
+
+        n = 0
+        for primary_id, cpd in data.get("additional_compounds", {}).items():
+            if self.test_mode and n >= 100:
+                break
+            # primary_id is already in canonical form (e.g. 'chebi:9999', 'mnx:MNXM12345')
+            props = _drop_nulls({
+                "kegg_compound_id": None,  # absent for non-KEGG entries
+                "name": _clean_str(cpd.get("name", "")),
+                "formula": _clean_str(cpd.get("formula")),
+                "mass": cpd.get("mass"),
+                "inchikey": _clean_str(cpd.get("inchikey")),
+                "smiles": _clean_str(cpd.get("smiles")),
+                "mnxm_id": cpd.get("mnxm_id"),
+                "chebi_id": cpd.get("chebi_id"),
+                "hmdb_id": cpd.get("hmdb_id"),
+                "evidence_sources": list(cpd.get("evidence_sources", [])),
+            })
+            yield primary_id, "metabolite", props
             n += 1
 
     def _reaction_metabolite_edges(self) -> Iterator[tuple[str, str, str, str, dict]]:

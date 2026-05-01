@@ -210,13 +210,14 @@ def _build_tcdb_hierarchy(cache_root: Path) -> int:
 # ── Reachability ──────────────────────────────────────────────────────────────
 
 def _gene_reachable_sets(raw: dict) -> dict[str, set[str]]:
-    """Walk all strains to compute the gene-reachable {KOs, reactions, pathways, compounds}.
+    """Walk all strains to compute the gene-reachable {KOs, reactions, pathways, compounds, TCDB IDs}.
 
-    Returns a dict with keys 'kos', 'rxns', 'cpds', 'pws'.
+    Returns a dict with keys 'kos', 'rxns', 'cpds', 'pws', 'tcdb_ids'.
     Pathway set is KO ∪ Rxn-reachable (Option B).
     """
     kos: set[str] = set()
     rxns: set[str] = set()
+    tcdb_ids: set[str] = set()
     for row in load_genome_rows():
         genes = load_gene_annotations(row["data_dir"])
         if not genes:
@@ -228,6 +229,9 @@ def _gene_reachable_sets(raw: dict) -> dict[str, set[str]]:
             for rxn in g.get("kegg_reactions") or []:
                 if isinstance(rxn, str) and rxn.startswith("R"):
                     rxns.add(rxn)
+            for tc in g.get("transporter_classification") or []:
+                if isinstance(tc, str) and tc:
+                    tcdb_ids.add(tc)
 
     rxn_to_cpds = raw.get("reaction_to_compounds", {})
     cpds: set[str] = set()
@@ -244,9 +248,10 @@ def _gene_reachable_sets(raw: dict) -> dict[str, set[str]]:
 
     log.info(
         f"Gene-reachable: {len(kos)} KOs, {len(rxns)} reactions, "
-        f"{len(cpds)} compounds, {len(pws)} pathways (KO∪Rxn)"
+        f"{len(cpds)} compounds, {len(pws)} pathways (KO∪Rxn), "
+        f"{len(tcdb_ids)} TCDB IDs"
     )
-    return {"kos": kos, "rxns": rxns, "cpds": cpds, "pws": pws}
+    return {"kos": kos, "rxns": rxns, "cpds": cpds, "pws": pws, "tcdb_ids": tcdb_ids}
 
 
 # ── Hierarchy parents ─────────────────────────────────────────────────────────
@@ -472,6 +477,177 @@ def _bulk_enrich_compounds(
     return out
 
 
+# ── TCDB pruning + substrate resolution ──────────────────────────────────────
+
+
+def _prune_tcdb(
+    hierarchy: dict,
+    seed_ids: set[str],
+) -> tuple[set[str], dict[str, list[str]]]:
+    """Bidirectional prune of the TCDB hierarchy.
+
+    For each seed ID present in `hierarchy`, walk **up** to the tc_class root
+    and **down** to all tc_specificity leaves. Returns:
+
+      kept: set of all TCDB IDs that survive pruning.
+      leaf_subs: {leaf_tc_id: [substrate_str, ...]} for kept leaves that carry
+                 substrate_classes.
+
+    Seeds not present in the hierarchy are silently skipped.
+
+    Cycle prevention for the recursive descent uses a separate `down_visited`
+    set so the guard is correct even when a node was added to `kept` by a
+    walk-up pass before any of its descendants have been visited.
+    """
+    kept: set[str] = set()
+    leaf_subs: dict[str, list[str]] = {}
+    parent_of = {tc: data.get("parent") for tc, data in hierarchy.items()}
+    children_of: dict[str, list[str]] = {}
+    for tc, parent in parent_of.items():
+        if parent is not None:
+            children_of.setdefault(parent, []).append(tc)
+
+    def walk_up(tc: str) -> None:
+        cur: str | None = tc
+        while cur is not None and cur in hierarchy:
+            if cur in kept:
+                # Already walked up from here.
+                return
+            kept.add(cur)
+            cur = parent_of.get(cur)
+
+    down_visited: set[str] = set()
+
+    def walk_down(tc: str) -> None:
+        if tc in down_visited:
+            return
+        down_visited.add(tc)
+        if tc not in hierarchy:
+            return
+        kept.add(tc)
+        node = hierarchy[tc]
+        if node.get("level_kind") == "tc_specificity":
+            subs = node.get("substrate_classes")
+            if subs:
+                leaf_subs[tc] = list(subs)
+        for child in children_of.get(tc, []):
+            walk_down(child)
+
+    for seed in seed_ids:
+        if seed not in hierarchy:
+            continue
+        walk_up(seed)
+        walk_down(seed)
+    return kept, leaf_subs
+
+
+def _resolve_substrates(
+    leaf_subs: dict[str, list[str]],
+    conn: sqlite3.Connection,
+) -> tuple[dict[str, list[str]], dict[str, dict]]:
+    """Resolve `CHEBI:NNNN;name` substrate strings to Metabolite primary IDs.
+
+    Returns:
+      leaf_to_primary_ids: {leaf_tcid: [primary_id, ...]}, sorted+deduped.
+      compound_props: {primary_id: {name, formula, mass, inchikey, mnxm_id, chebi_id}}.
+    """
+    from multiomics_kg.utils.metabolite_utils import (
+        resolve_metabolite, mnxm_to_primary_id,
+    )
+
+    leaf_to_primary_ids: dict[str, list[str]] = {}
+    compound_props: dict[str, dict] = {}
+    cur = conn.cursor()
+
+    for leaf, subs in leaf_subs.items():
+        primary_ids: list[str] = []
+        for sub_str in subs:
+            # Format: 'CHEBI:NNNN;name' or just 'name'
+            if ":" not in sub_str:
+                continue
+            chebi_part, _, name_part = sub_str.partition(";")
+            mnxm, _method = resolve_metabolite(chebi_part, conn)
+            if mnxm is None:
+                log.debug(f"TCDB substrate unresolved: {sub_str!r} (leaf {leaf})")
+                continue
+            primary = mnxm_to_primary_id(mnxm, conn)
+            primary_ids.append(primary)
+
+            if primary in compound_props:
+                # Already collected props for this primary ID — skip the lookup.
+                continue
+
+            # Pull MNX-side properties for the additional_compounds entry
+            cur.execute(
+                "SELECT name, formula, mass, inchikey FROM compounds WHERE mnxm_id = ?",
+                (mnxm,),
+            )
+            row = cur.fetchone()
+            mnx_name, formula, mass, inchikey = row if row else (name_part, None, None, None)
+            cur.execute(
+                "SELECT value FROM compound_aliases "
+                "WHERE source='chebi' AND mnxm_id = ? ORDER BY value LIMIT 1",
+                (mnxm,),
+            )
+            chebi_row = cur.fetchone()
+            chebi_id = chebi_row[0] if chebi_row else None
+
+            compound_props[primary] = {
+                "name": (mnx_name or name_part).strip(),
+                "formula": formula or None,
+                "mass": mass,
+                "inchikey": inchikey or None,
+                "mnxm_id": mnxm,
+                "chebi_id": chebi_id,
+            }
+        leaf_to_primary_ids[leaf] = sorted(set(primary_ids))
+
+    return leaf_to_primary_ids, compound_props
+
+
+def _fold_substrates_into_kegg_data(
+    kegg_data: dict,
+    leaf_to_primary_ids: dict[str, list[str]],
+    compound_props: dict[str, dict],
+) -> None:
+    """Mutate kegg_data in place: tag compounds with evidence_sources, add transport-only
+    chemistry under additional_compounds.
+
+    1. Every entry in kegg_data['compounds'] gets 'metabolism' in its evidence_sources.
+    2. For each transport-substrate primary ID:
+       - If kegg.compound:* and already in kegg_data['compounds']: append 'transport'.
+       - Else: add to kegg_data['additional_compounds'] with evidence_sources=['transport'].
+    3. Pre-existing additional_compounds entries' evidence_sources lists are unioned.
+    """
+    # 1. Tag existing compounds
+    for cpd in kegg_data.setdefault("compounds", {}).values():
+        sources = cpd.setdefault("evidence_sources", [])
+        if "metabolism" not in sources:
+            sources.append("metabolism")
+
+    additional: dict[str, dict] = kegg_data.setdefault("additional_compounds", {})
+
+    # 2. Visit every transport substrate
+    for primary_ids in leaf_to_primary_ids.values():
+        for primary_id in primary_ids:
+            if primary_id.startswith("kegg.compound:"):
+                kegg_cpd_id = primary_id[len("kegg.compound:"):]
+                if kegg_cpd_id in kegg_data["compounds"]:
+                    sources = kegg_data["compounds"][kegg_cpd_id]["evidence_sources"]
+                    if "transport" not in sources:
+                        sources.append("transport")
+                    continue
+            # Else: add to additional_compounds
+            if primary_id in additional:
+                if "transport" not in additional[primary_id].setdefault("evidence_sources", []):
+                    additional[primary_id]["evidence_sources"].append("transport")
+            elif primary_id in compound_props:
+                additional[primary_id] = {
+                    **compound_props[primary_id],
+                    "evidence_sources": ["transport"],
+                }
+
+
 # ── Build ─────────────────────────────────────────────────────────────────────
 
 def build_pruned_kegg_data(raw: dict, conn: sqlite3.Connection, out_path: Path) -> None:
@@ -616,6 +792,33 @@ def main(force: bool = False) -> None:
     with contextlib.closing(mu.open_resolver(RESOLVER_DB)) as conn:
         log.info("Building pruned kegg_data.json ...")
         build_pruned_kegg_data(raw, conn, KEGG_DATA_FILE)
+
+        log.info("Pruning TCDB hierarchy + resolving transport substrates ...")
+        hierarchy = json.loads(
+            (cache_root / "tcdb" / "tcdb_hierarchy.json").read_text()
+        )
+        # Re-collect gene-reachable sets (cheap — just walks gene_annotations files)
+        # to get the TCDB seed set.
+        sets = _gene_reachable_sets(raw)
+        seed_tcdb_ids = sets["tcdb_ids"]
+
+        kept, leaf_subs = _prune_tcdb(hierarchy, seed_tcdb_ids)
+        leaf_to_primary, compound_props = _resolve_substrates(leaf_subs, conn)
+
+        kegg_data = json.loads(KEGG_DATA_FILE.read_text())
+        _fold_substrates_into_kegg_data(kegg_data, leaf_to_primary, compound_props)
+        KEGG_DATA_FILE.write_text(json.dumps(kegg_data, indent=2, sort_keys=True))
+
+        (cache_root / "tcdb" / "tcdb_pruned.json").write_text(json.dumps({
+            "kept_tcdb_ids": sorted(kept),
+            "leaf_substrates": {
+                leaf: ids for leaf, ids in sorted(leaf_to_primary.items())
+            },
+        }, indent=2, sort_keys=True))
+        log.info(
+            f"  TCDB: {len(kept)} kept IDs, "
+            f"{len(leaf_to_primary)} leaves with substrates"
+        )
     log.info("Done.")
 
 
