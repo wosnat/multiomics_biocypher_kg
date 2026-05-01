@@ -97,6 +97,15 @@ def test_download_all_invalid_source_raises(tmp_path):
         dmr.download_all(cache_root=tmp_path, sources=["bogus"])
 
 
+def test_download_all_empty_sources_downloads_nothing(tmp_path, monkeypatch):
+    """sources=[] is distinct from sources=None: empty list = download nothing."""
+    called: list[str] = []
+    monkeypatch.setattr(dmr, "download_one",
+                        lambda url, dest, force: (called.append(url), True)[1])
+    dmr.download_all(cache_root=tmp_path, force=False, sources=[])
+    assert called == []  # no downloads triggered
+
+
 # ---------------------------------------------------------------------------
 # Full download + caching behaviour (HTTP-mocked)
 # ---------------------------------------------------------------------------

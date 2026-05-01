@@ -43,7 +43,9 @@ SOURCES_BY_GROUP: dict[str, dict[str, tuple[str, str]]] = {
     "tcdb": TCDB_SOURCES,
 }
 
-# Backward-compat flat view of all sources (union of both groups)
+# Backward-compat flat view used only by this module's tests; remove once those
+# tests migrate to MNX_SOURCES / TCDB_SOURCES / SOURCES_BY_GROUP. No external
+# caller (e.g. download_genome_data.py) imports SOURCES directly.
 SOURCES: dict[str, tuple[str, str]] = {**MNX_SOURCES, **TCDB_SOURCES}
 
 DEFAULT_CACHE_ROOT = Path("cache/data")
@@ -77,7 +79,7 @@ def download_all(
         force: re-download even if cached
         sources: list of source-group keys (e.g. ['mnx', 'tcdb']); None = all groups
     """
-    selected_groups = sources or list(SOURCES_BY_GROUP.keys())
+    selected_groups = list(SOURCES_BY_GROUP.keys()) if sources is None else sources
     invalid = [s for s in selected_groups if s not in SOURCES_BY_GROUP]
     if invalid:
         raise ValueError(
