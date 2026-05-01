@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
 Download pipeline for genome annotation data (NCBI, Cyanorak, UniProt, eggNOG)
-plus metabolism reference data (MNX, TCDB, CAZy).
+plus TCDB reference data.
 
 Reads data/Prochlorococcus/genomes/cyanobacteria_genomes.csv and for each genome:
 
@@ -16,10 +16,11 @@ Reads data/Prochlorococcus/genomes/cyanobacteria_genomes.csv and for each genome
            → cache/data/<org>/genomes/<strain>/eggnog/
   Step 5: Build gene_mapping.csv from GFF/GBK files (requires steps 1+2)
            → cache/data/<org>/genomes/<strain>/gene_mapping.csv
-  Step 6: Download MNX, TCDB, and CAZy reference data
-           → cache/data/{mnx,tcdb,cazy}/
-  Step 7: Build metabolite resolver and hierarchy caches (requires step 6)
-           → cache/data/mnx/metabolite_resolver.db, cache/data/{tcdb,cazy}/*_hierarchy.json
+  Step 6: Download TCDB reference data
+           → cache/data/tcdb/
+
+Note: MNX download + resolver build are handled by scripts/refresh_mnx.sh.
+Run that script only when MNX releases a new version (~30 min, ~4 GB total).
 
 All steps skip existing cache files by default.
 Use --force to re-download/re-run for specified strains.
@@ -27,7 +28,7 @@ Use --force to re-download/re-run for specified strains.
 Usage:
   uv run python multiomics_kg/download/download_genome_data.py
   uv run python multiomics_kg/download/download_genome_data.py --steps 1 2 3
-  uv run python multiomics_kg/download/download_genome_data.py --steps 6 7 --force
+  uv run python multiomics_kg/download/download_genome_data.py --steps 6 --force
   uv run python multiomics_kg/download/download_genome_data.py --strains MED4 MIT9313
   uv run python multiomics_kg/download/download_genome_data.py --strains MED4 --force
 """
@@ -442,25 +443,18 @@ def step5_gene_mapping(genomes: list[dict], force: bool) -> None:
         print(f"{'─'*60}")
 
 
-def step6_metabolism_reference(force: bool) -> None:
-    """Sub-step 6: download MNX/TCDB/CAZy reference data."""
+def step6_tcdb_reference(force: bool) -> None:
+    """Sub-step 6: download TCDB reference data (MNX moved to scripts/refresh_mnx.sh)."""
     from multiomics_kg.download.download_metabolism_reference import download_all
-    log.info("─── Step 6: Download MNX/TCDB/CAZy reference data ───")
-    download_all(force=force)
-
-
-def step7_metabolite_resolver(force: bool) -> None:
-    """Sub-step 7: build metabolite resolver + hierarchy caches."""
-    from multiomics_kg.download.build_metabolite_resolver import main as build_main
-    log.info("─── Step 7: Build metabolite resolver + hierarchy caches ───")
-    build_main(force=force)
+    log.info("─── Step 6: Download TCDB reference data ───")
+    download_all(force=force, sources=["tcdb"])
 
 
 # ── main ─────────────────────────────────────────────────────────────────────
 
 def main() -> None:
     parser = argparse.ArgumentParser(
-        description="Download genome annotation data (NCBI, Cyanorak, UniProt, eggNOG) plus metabolism reference data (MNX, TCDB, CAZy).",
+        description="Download genome annotation data (NCBI, Cyanorak, UniProt, eggNOG) plus TCDB reference data.",
         formatter_class=argparse.RawDescriptionHelpFormatter,
         epilog="""
 Steps:
@@ -469,22 +463,24 @@ Steps:
   3  UniProt (one download per unique taxid)
   4  eggNOG-mapper (requires EGGNOG_DATA_DIR in .env)
   5  gene_mapping.csv (requires steps 1+2)
-  6  Download MNX/TCDB/CAZy reference data
-  7  Build metabolite resolver + hierarchy caches (requires step 6)
+  6  Download TCDB reference data
+
+Note: MNX download + resolver build are in scripts/refresh_mnx.sh (run separately,
+only needed when MNX releases a new version).
 
 Examples:
   uv run python multiomics_kg/download/download_genome_data.py
   uv run python multiomics_kg/download/download_genome_data.py --steps 1 2 3
-  uv run python multiomics_kg/download/download_genome_data.py --steps 6 7 --force
+  uv run python multiomics_kg/download/download_genome_data.py --steps 6 --force
   uv run python multiomics_kg/download/download_genome_data.py --strains MED4 MIT9313
   uv run python multiomics_kg/download/download_genome_data.py --strains MED4 --force
         """,
     )
     parser.add_argument(
-        "--steps", nargs="+", type=int, choices=[1, 2, 3, 4, 5, 6, 7],
-        default=[1, 2, 3, 4, 5, 6, 7],
+        "--steps", nargs="+", type=int, choices=[1, 2, 3, 4, 5, 6],
+        default=[1, 2, 3, 4, 5, 6],
         help=("Steps to run (default: all). 1=NCBI 2=Cyanorak 3=UniProt "
-              "4=eggNOG 5=gene_mapping 6=metabolism_reference 7=metabolite_resolver"),
+              "4=eggNOG 5=gene_mapping 6=tcdb_reference"),
     )
     parser.add_argument(
         "--strains", nargs="+",
@@ -532,9 +528,7 @@ Examples:
     if 5 in steps:
         step5_gene_mapping(genomes, force=args.force)
     if 6 in steps:
-        step6_metabolism_reference(force=args.force)
-    if 7 in steps:
-        step7_metabolite_resolver(force=args.force)
+        step6_tcdb_reference(force=args.force)
 
     log.info("All steps complete.")
 
