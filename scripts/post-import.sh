@@ -760,6 +760,49 @@ CALL {
   WITH o, count(DISTINCT r) AS reaction_count
   SET o.reaction_count = reaction_count
 } IN TRANSACTIONS OF 100 ROWS;
+
+// ── Chemistry slice-1 rollups (KG-A1, KG-A2, KG-A4) ───────────────────────
+
+// KG-A1: Gene.reaction_count -- single-hop count of catalysis edges.
+// count(r) returns 0 cleanly on no-match; no defaults pass needed.
+MATCH (g:Gene)
+CALL {
+  WITH g
+  OPTIONAL MATCH (g)-[r:Gene_catalyzes_reaction]->()
+  WITH g, count(r) AS rxn_count
+  SET g.reaction_count = rxn_count
+} IN TRANSACTIONS OF 1000 ROWS;
+
+// KG-A2: Gene.metabolite_count -- 2-hop DISTINCT count, slice-1 form
+// (catalysis only). The property is defined as UNION across all
+// gene-reaching paths; on TCDB-CAZy landing the union expands to include
+// the transport arm. See chemistry-slice-1 KG-A2 / TCDB-S3 coordination.
+MATCH (g:Gene)
+CALL {
+  WITH g
+  OPTIONAL MATCH (g)-[:Gene_catalyzes_reaction]->(:Reaction)
+                 -[:Reaction_has_metabolite]->(m:Metabolite)
+  WITH g, count(DISTINCT m) AS met_count
+  SET g.metabolite_count = met_count
+} IN TRANSACTIONS OF 1000 ROWS;
+
+// KG-A4: KeggTerm pathway-level rollups (sparse on pathways only).
+// level_kind = 'pathway' filter; KOs / categories left unset.
+MATCH (p:KeggTerm) WHERE p.level_kind = 'pathway'
+CALL {
+  WITH p
+  OPTIONAL MATCH (r:Reaction)-[:Reaction_in_kegg_pathway]->(p)
+  WITH p, count(r) AS rxn_count
+  SET p.reaction_count = rxn_count
+} IN TRANSACTIONS OF 100 ROWS;
+
+MATCH (p:KeggTerm) WHERE p.level_kind = 'pathway'
+CALL {
+  WITH p
+  OPTIONAL MATCH (m:Metabolite)-[:Metabolite_in_pathway]->(p)
+  WITH p, count(m) AS met_count
+  SET p.metabolite_count = met_count
+} IN TRANSACTIONS OF 100 ROWS;
 CYPHER
 
 echo "=== Post-process complete ==="
