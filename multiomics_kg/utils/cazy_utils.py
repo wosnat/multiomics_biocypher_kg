@@ -1,7 +1,7 @@
 """CAZy hierarchy accessor API.
 
-Reads cache/data/cazy/cazy_hierarchy.json (built by sub-step 7 from observed
-eggNOG `CAZy` columns).
+Reads cache/data/cazy/cazy_hierarchy.json (built by multiomics_kg.download.build_metabolite_resolver
+from observed eggNOG `CAZy` columns).
 """
 from __future__ import annotations
 

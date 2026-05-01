@@ -1,6 +1,6 @@
 """Resolver accessor API.
 
-Reads the SQLite resolver DB built by sub-step 7. Used by step 2 transforms,
+Reads the SQLite resolver DB built by scripts/refresh_mnx.sh. Used by step 2 transforms,
 the Spec 1.2 scaffold builder, and Phase 2 paper-measurement extraction.
 """
 from __future__ import annotations

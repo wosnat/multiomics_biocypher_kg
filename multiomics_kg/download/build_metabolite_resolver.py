@@ -1,4 +1,4 @@
-"""Step 0 sub-step 7 — Build resolver + hierarchy caches.
+"""Build metabolite resolver SQLite + hierarchy caches. Invoked by scripts/refresh_mnx.sh; not part of prepare_data.sh anymore.
 
 Reads the seven sub-step-6 cache files (4 MNX TSVs + 3 TCDB TSVs) plus raw
 eggNOG annotation files from configured strains, and produces:

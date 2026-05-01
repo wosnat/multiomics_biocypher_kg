@@ -1,4 +1,4 @@
-"""Unit tests for sub-step 7 resolver builder."""
+"""Unit tests for the metabolite resolver builder (invoked by scripts/refresh_mnx.sh)."""
 from __future__ import annotations
 
 import json

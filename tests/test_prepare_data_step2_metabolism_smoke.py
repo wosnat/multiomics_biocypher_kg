@@ -37,7 +37,7 @@ def test_phase_1_1b_full_pipeline_med4():
         if not (project_root / rel).exists():
             pytest.skip(f"Missing fixture: {rel}")
 
-    # 1. Build resolver + hierarchies (was sub-step 7; now scripts/refresh_mnx.sh)
+    # 1. Build resolver + hierarchies via scripts/refresh_mnx.sh
     subprocess.run(
         ["bash", "scripts/refresh_mnx.sh", "--force"],
         cwd=project_root, check=True,

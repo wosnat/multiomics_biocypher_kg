@@ -20,7 +20,7 @@ KEGG_DATA_OUT = PROJECT_ROOT / "cache" / "data" / "kegg" / "kegg_data.json"
 @pytest.mark.slow
 def test_step6_smoke_run_against_real_cache():
     if not RESOLVER_DB.exists():
-        pytest.skip(f"{RESOLVER_DB} missing — run prepare_data step 0 sub-step 7 first")
+        pytest.skip(f"{RESOLVER_DB} missing — run `bash scripts/refresh_mnx.sh` first")
 
     result = subprocess.run(
         [sys.executable, "-m", "multiomics_kg.download.build_kegg_metabolism_xrefs", "--force"],

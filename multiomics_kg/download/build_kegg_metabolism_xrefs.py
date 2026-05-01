@@ -428,7 +428,7 @@ def main(force: bool = False) -> None:
 
     if not RESOLVER_DB.exists():
         raise FileNotFoundError(
-            f"{RESOLVER_DB} missing — run prepare_data.sh step 0 sub-step 7 first."
+            f"{RESOLVER_DB} missing — run `bash scripts/refresh_mnx.sh` first."
         )
 
     log.info("Ensuring KEGG raw cache (downloads from KEGG REST if missing) ...")
