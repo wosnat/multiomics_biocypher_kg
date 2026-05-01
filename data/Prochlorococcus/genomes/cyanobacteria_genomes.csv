@@ -57,3 +57,14 @@ GCF_000153805.1,Syn_BL107,313625,BL107,cache/data/Synechococcus/genomes/BL107/,,
 GCF_000166295.1,,225937,HP15,cache/data/Marinobacter/genomes/HP15/,,Marinobacter (MarRef v6),reference_proteome_match,MarRef v6,GCF_000166295.1
 # Alteromonas mediterranea DE (Moreno 2023 S3)
 GCA_003513035.1,,232,Alt_MarRef,cache/data/Alteromonas/genomes/Alt_MarRef/,,Alteromonas (MarRef v6),reference_proteome_match,MarRef v6,UP000262181
+
+# Alteromonas macleodii strains for Fadeev 2022 vesicle proteomics (4 new strains)
+# Strain-level taxids used (different from species-level 28108): NCBI assigns each isolate its own taxid.
+# ATCC 27126 (type strain; North Pacific surface)
+GCF_000172635.2,,529120,ATCC27126,cache/data/Alteromonas/genomes/ATCC27126/,,Alteromonas macleodii ATCC27126,genome_strain,,
+# AD45 (Adriatic Sea surface)
+GCF_000300175.1,,1004787,AD45,cache/data/Alteromonas/genomes/AD45/,,Alteromonas macleodii AD45,genome_strain,,
+# BS11 (Black Sea surface)
+GCF_000299995.1,,1004785,BS11,cache/data/Alteromonas/genomes/BS11/,,Alteromonas macleodii BS11,genome_strain,,
+# BGP6 (Pacific surface; uses species-level taxid 28108)
+GCF_901446615.2,,28108,BGP6,cache/data/Alteromonas/genomes/BGP6/,,Alteromonas macleodii BGP6,genome_strain,,

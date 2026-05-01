@@ -20,6 +20,12 @@
 | `paperconfig.yaml` | YAML | Active paperconfig | already in | — |
 | `paperconfig_orig.yaml` | YAML | Pre-resolution copy of paperconfig | reference | — |
 
+## Classification
+
+**Bucket D — defer / nothing to do (fully integrated)**
+
+All 17 supplied DE tables (4 contrast families × multiple timepoints) are integrated as `csv` entries on native MED4 `PMM####` locus tags; phage P-HM2 attached via `Tests_coculture_with`. The optional add (raw count tables from GSE79359 to switch from `significant_only` to `all_detected_genes` table_scope) is a nice-to-have, not a blocker, and would require a new GEO download outside this directory. No data here is metabolite-related; no new strain. Nothing to do.
+
 ## Current paperconfig summary
 
 - Experiments defined: 4 — MED4 dark-vs-light (phage-infected), MED4 dark-vs-light (uninfected spent medium), MED4 phage-vs-spent in light, MED4 phage-vs-spent in dark

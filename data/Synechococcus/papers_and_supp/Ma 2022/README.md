@@ -8,6 +8,12 @@
 
 **Authors:** Jiajia Ma, Taohong Guo, Meijin Ren, Lei Chen, Xinyu Song, Weiwen Zhang
 
+## Classification
+
+**Bucket D -- defer / nothing to do (already integrated)**
+
+S. elongatus UTEX 2973 cscB+ vs axenic, separated from E. coli ABKm by dialysis bag. UTEX 2973 is now deployed in the KG; the paperconfig.yaml is registered and Tables S1 (up), S2 (down), S4 (selected proteomics) are all resolved. Two experiments are produced (RNA-seq + proteomics), with the documented signed-ratio sign convention preserved. The E. coli side has no DE table in this paper, so there is no further gene-level work to do. Secondary note: the metabolomics-related plots referenced in the paper are not provided as machine-readable tables; if extracellular metabolite quantifications are recovered later they would belong to bucket A.
+
 ## Organism
 
 - **Target organism:** *Synechococcus elongatus* UTEX 2973 (cscB+ sucrose-secreting variant)

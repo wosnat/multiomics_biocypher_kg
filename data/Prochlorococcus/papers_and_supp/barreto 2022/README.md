@@ -5,6 +5,19 @@
 **Organism(s):** *Prochlorococcus* MIT9312, *Synechococcus* CC9311 and WH8102, *Alteromonas macleodii* EZ55 (3 phototrophs × EZ55 heterotroph × 400 vs 800 ppm pCO2, 14:10 L:D)
 **Topic:** Factorial RNA-seq (edgeR) examining how elevated pCO2 (800 vs 400 ppm) and choice of phototroph partner alter EZ55's transcriptome, and how pCO2 reshapes each cyanobacterium's response. Reveals pCO2-linked changes in EZ55 carbohydrate metabolism, stress response, chemotaxis, and transporters; links reduced oxidative-stress help to Prochlorococcus growth loss at high pCO2.
 
+## Classification
+
+**Bucket B - new metrics / DE / resolution (S4 added; S3 skipped as redundant)**
+
+11 of the 12 DE-style tables are integrated (per-strain pCO2 effects + 6 EZ55 coculture-vs-axenic contrasts across 3 partners x 2 pCO2 levels + EZ55 pCO2 x coculture interaction term). The remaining table (S3) is the EZ55 average coculture-vs-axenic contrast across the three partners — it overlaps heavily with the six per-partner coculture contrasts (S9-S14) already integrated, so it was intentionally skipped. Per-gene DE evidence is fully captured. All four organisms (MIT9312, CC9311, WH8102, EZ55) are deployed; no new strain work.
+
+**S3/S4 identity (verified via row counts vs. R analysis script):** The R script in `Alteromonas_analysis/dge_analysis_Alteromonas_.txt` defines 9 contrasts on the design `~0+cyano+treatment+cyano:treatment`. Matching significant-gene counts against published table sizes:
+- S2 (132 rows) = contrast 1: pCO2 main effect on EZ55 (116 down + 16 up = 132)
+- **S3 (1144 rows) = contrast 2: average coculture-vs-axenic across 3 partners (580 down + 564 up = 1144)** — NOT partner-vs-partner contrasts
+- **S4 (460 rows) = contrast 6: pCO2 x coculture interaction term (132 down + 328 up = 460)**
+
+Each gene appears exactly once in S3 and S4 (no stacked contrasts; cannot be split per-partner).
+
 ## Available data inventory
 
 | File | Type | Content | KG status | Recommended action |
@@ -28,8 +41,8 @@
 | `transcriptome_supplemental_tables/Supplemental_tables/table_S12.csv` | CSV | EZ55 coculture DE vs MIT9312 at 800 ppm | already in | — |
 | `transcriptome_supplemental_tables/Supplemental_tables/table_S13.csv` | CSV | EZ55 coculture DE vs CC9311 at 800 ppm | already in | — |
 | `transcriptome_supplemental_tables/Supplemental_tables/table_S14.csv` | CSV | EZ55 coculture DE vs WH8102 at 800 ppm | already in | — |
-| `transcriptome_supplemental_tables/Supplemental_tables/table_S3.csv` | CSV | EZ55 DE between coculture conditions (partner-vs-partner contrasts): `species,symbol,product,logFC,PValue` | add | Add as `csv` DE entries — one statistical_analysis per partner-pair contrast (needs a treatment/control split if table encodes multiple contrasts) |
-| `transcriptome_supplemental_tables/Supplemental_tables/table_S4.csv` | CSV | EZ55 pCO2 DE affected by coculture (pCO2 × coculture interaction effect): `species,symbol,product,logFC,PValue` | add | Add as `csv` interaction-effect statistical_analysis; attach to EZ55 experiment with explanatory `experimental_context` |
+| `transcriptome_supplemental_tables/Supplemental_tables/table_S3.csv` | CSV | EZ55 average coculture-vs-axenic contrast across 3 partners (R contrast 2: `(cyanoPro+cyanoSyn_CC9311+cyanoSyn_W8102)/3 - cyanoNone`): `species,symbol,product,logFC,PValue` (1144 unique sig genes) | skip | Avg-coculture signal is largely recoverable from the 6 per-partner S9-S14 contrasts already integrated; adding it would inflate edge counts without adding orthogonal evidence |
+| `transcriptome_supplemental_tables/Supplemental_tables/table_S4.csv` | CSV | EZ55 pCO2 x coculture interaction term (R contrast 6 — `cyano:treatment` coefficient): `species,symbol,product,logFC,PValue` (460 unique sig genes) | already in | Integrated as `supp_table_S4` -> experiment `interaction_pco2_coculture_ez55_rnaseq` (treatment_type `[carbon]`, background_factors `[axenic, coculture]`) |
 | `transcriptome_supplemental_tables/Supplemental_tables/table_S5.csv` | CSV | Filtered subset of EZ55 stress-related genes from S9-S14: `partner,treatment,symbol,product,logFC,logFC_rel_axenic,Pvalue` | skip | Subset of S9-S14 already integrated; no new per-gene evidence |
 | `transcriptome_supplemental_tables/Supplemental_tables/table_S6.csv` | CSV | Filtered subset — transporter-related genes | skip | Subset of S9-S14 |
 | `transcriptome_supplemental_tables/Supplemental_tables/table_S7.csv` | CSV | Filtered subset — chemotaxis-related genes | skip | Subset of S9-S14 |
@@ -54,18 +67,18 @@
 
 ## Current paperconfig summary
 
-- Experiments defined: 10 — 4 cyanobacteria-vs-EZ55 pCO2 experiments (MIT9312/CC9311/WH8102/EZ55) + 6 EZ55 coculture-vs-axenic experiments spanning 3 partners × 2 pCO2 levels
-- Statistical analyses (DE edges): 10 entries across tables S1 × 3 strains, S2, S9, S10, S11, S12, S13, S14
-- Supplementary materials entry types: `id_translation` (×3: pro_9312, syn_9311, syn_8102), `annotation_gff` (EZ55 GTF), `csv` (×10)
+- Experiments defined: 11 — 4 cyanobacteria-vs-EZ55 pCO2 experiments (MIT9312/CC9311/WH8102/EZ55) + 6 EZ55 coculture-vs-axenic experiments spanning 3 partners × 2 pCO2 levels + 1 EZ55 pCO2 x coculture interaction-effect experiment
+- Statistical analyses (DE edges): 11 entries across tables S1 × 3 strains, S2, S4 (interaction), S9, S10, S11, S12, S13, S14
+- Supplementary materials entry types: `id_translation` (×3: pro_9312, syn_9311, syn_8102), `annotation_gff` (EZ55 GTF), `csv` (×11)
 - Organisms covered: Prochlorococcus MIT9312, Synechococcus CC9311, Synechococcus WH8102, Alteromonas EZ55
-- Table scope(s): `significant_only` on all 10 entries
-- Non-DE evidence: none today; tables S3 and S4 are candidate additional DE entries (partner-vs-partner and interaction effects)
+- Table scope(s): `significant_only` on all 11 entries
+- Non-DE evidence: none. Table S3 (avg coculture-vs-axenic across 3 partners) is intentionally skipped as redundant with the 6 per-partner S9-S14 contrasts.
 - ID resolution: MIT9312 uses `GID` = `old_locus_tag` (P9301_*/P9312_*-family); CC9311/WH8102 use `GID` = `locus_tag` directly; EZ55 via GTF bridge. Annotation tables also feed gene_name and uniprot_accession via v2 multi_lookup (Tier 2/3).
 
 ## Recommended actions
 
-1. **Add** — Integrate `table_S3.csv` as one or more `csv` DE entries (partner-pair contrasts in EZ55, e.g. CC9311-coculture vs MIT9312-coculture). Needs explicit `treatment_condition`/`control_condition` per contrast because the source rows tag only the overall test; may require the author's S3 legend to split by contrast axis.
-2. **Add** — Integrate `table_S4.csv` as a single `csv` entry representing the pCO2 × coculture interaction effect in EZ55, attached to a new dedicated experiment node (e.g. `interaction_pco2_coculture_ez55_rnaseq`) with clear `experimental_context` noting this is an interaction effect, not a main-effect contrast.
+1. **Done** — `table_S4.csv` integrated as the EZ55 pCO2 x coculture interaction-effect experiment (`interaction_pco2_coculture_ez55_rnaseq`, `treatment_type: [carbon]`, `background_factors: [axenic, coculture]`). Source: edgeR `cyano:treatment` GLM coefficient, averaged across all 3 partners.
+2. **Skip** — `table_S3.csv` (average coculture-vs-axenic across 3 partners) is redundant with the 6 per-partner S9-S14 coculture contrasts already integrated. The averaged signal is recoverable from the per-partner contrasts; adding it would create a 7th highly-overlapping EZ55 coculture experiment without orthogonal evidence.
 3. **Skip** — S5-S8 are filtered subsets of S9-S14 already integrated; xlsx versions of integrated CSVs are duplicates; `*_with_locus_tag.csv` are superseded by the pipeline's `_resolved.csv`; the four `*_analysis.zip` archives and their extractions are sample-level raw counts + analysis artefacts.
 4. **No action** — No periodicity/clustering/classifier tables to migrate; main PDF + supplementary PDF are reference-only.
 
@@ -74,4 +87,4 @@
 - Gene ID formats: MIT9312 uses GID (old_locus_tag, old P9301-style) via `pro_9312_anot.csv`; CC9311 and WH8102 use GID that maps directly to `locus_tag`; EZ55 genes use `EZ55_#####` locus tags bridged by the GTF.
 - Strains in/out of KG: MIT9312, CC9311, WH8102, EZ55 all deployed.
 - Anomalies: many `*_with_locus_tag.csv` files are legacy pre-mapped copies from before pipeline step 4; they should not be re-integrated. The `__MACOSX` folder is an extraction artefact.
-- Tables S3 and S4 are structured differently from S1/S2/S9-S14 (no per-strain split; `species` column marks the organism per row) — the adapter's single-organism assumption means each contrast must be split to one CSV per organism before wiring up.
+- Tables S3 and S4 carry a `species` column but every row is `EZ55` only; each gene appears exactly once (1144 unique in S3, 460 in S4). They are NOT stacked partner-pair contrasts; each represents a single GLM coefficient (S3 = avg coculture vs none; S4 = pCO2 x coculture interaction).

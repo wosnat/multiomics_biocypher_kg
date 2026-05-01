@@ -5,6 +5,12 @@
 **Organism(s):** *Prochlorococcus* MED4 and MIT9313; *Alteromonas macleodii* HOT1A3 (heterotroph)
 **Topic:** Early transcriptomic response (20 h) of two *Prochlorococcus* ecotypes to co-culture with *Alteromonas* HOT1A3 at contrasting inoculum densities. Rockhopper-based DE on 50 bp Illumina single-end reads. Shows strain-specific outer-membrane, efflux, stress and lanthipeptide (prochlorosin) responses, plus bacteriocin-like CCRG families.
 
+## Classification
+
+**Bucket D - defer / nothing to do**
+
+The five pairwise DE tables (MED4, MIT9313 high/low inoculum, HOT1A3 partner-vs-partner) are fully integrated as `csv` statistical_analyses. All three organisms (MED4, MIT9313, HOT1A3) are deployed in the KG. The two remaining XLSX files in the directory are duplicates / author working copies of CSVs already integrated. The paper reports no per-gene periodicity, clusters, or classifier tables. Nothing left to add.
+
 ## Available data inventory
 
 | File | Type | Content | KG status | Recommended action |

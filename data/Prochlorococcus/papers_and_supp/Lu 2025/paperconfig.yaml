@@ -1,0 +1,74 @@
+publication:
+  papername: "Lu 2025"
+  doi: "10.1101/2025.05.28.656624"
+  papermainpdf: "data/Prochlorococcus/papers_and_supp/Lu 2025/2025.05.28.656624v1.full.pdf"
+
+  experiments:
+    ez55_exudate_proteome:
+      name: "EZ55 exudate (>50 kDa cell-free supernatant) proteome"
+      organism: "Alteromonas macleodii EZ55"
+      omics_type: EXOPROTEOMICS
+      compartment: exoproteome
+      treatment_type: [compartment]
+      background_factors: [axenic]
+      treatment_condition: ">50 kDa cell-free supernatant fraction (EV-enriched exudate)"
+      experimental_context: "Axenic EZ55 grown in Pro99 + 0.1% glucose at 30C with 120 rpm shaking; cultures scaled progressively from 12 mL to 2 L; cell-free supernatant size-fractionated by tangential flow filtration (0.22 um -> 50 kDa) to retain the >50 kDa fraction; concentrated and analyzed by LC-MS/MS on a Sciex 5600 Triple-TOF, identified against an Alteromonas EZ55 NCBI protein database via Protein Pilot 4.5. Three EZ55-evolved sublines from the LTPE experiment (LTPE26 = ancestor lineage, LTPE397 = 400 ppm pCO2 evolved, LTPE403 = 800 ppm pCO2 evolved) are treated as biological replicates of EZ55 for the per-protein detection counts."
+      medium: "Pro99 with 0.1% glucose"
+      temperature: "30C"
+      table_scope: all_detected_genes
+
+    ez55_whole_cell_proteome:
+      name: "EZ55 whole-cell proteome (crude cell lysate)"
+      organism: "Alteromonas macleodii EZ55"
+      omics_type: PROTEOMICS
+      compartment: whole_cell
+      treatment_type: [compartment]
+      background_factors: [axenic]
+      treatment_condition: "Crude cell lysate (whole-cell proteome)"
+      experimental_context: "Axenic EZ55 grown in Pro99 + 0.1% glucose at 30C with 120 rpm shaking; whole cells from the same cultures used to produce the >50 kDa exudate fraction were lysed using a Bacterial Cell Lysis kit (GoldBio) and analyzed by LC-MS/MS on a Sciex 5600 Triple-TOF, identified against an Alteromonas EZ55 NCBI protein database via Protein Pilot 4.5. Three EZ55-evolved sublines from the LTPE experiment (LTPE26 = ancestor lineage, LTPE397 = 400 ppm pCO2 evolved, LTPE403 = 800 ppm pCO2 evolved) are treated as biological replicates of EZ55 for the per-protein detection counts."
+      medium: "Pro99 with 0.1% glucose"
+      temperature: "30C"
+      table_scope: all_detected_genes
+
+  supplementary_materials:
+    table_s1_exudate_detection:
+      type: derived_metrics_table
+      filename: "data/Prochlorococcus/papers_and_supp/Lu 2025/table s1.csv"
+      organism: "Alteromonas macleodii EZ55"
+      experiment: ez55_exudate_proteome
+      name_col: Accession
+      id_columns:
+        - column: Accession
+          id_type: protein_id_refseq
+      product_columns:
+        - column: Name
+      metrics:
+        - metric_type: exoproteome_detection_replicates
+          name: "Detection in EZ55 exudate proteome (replicates out of 3 sublines)"
+          value_kind: numeric
+          value_col: "number of replicates where found in Supernatant (out of 3 replicates) - proteins in the >50 kDa supernatant size fraction"
+          unit: "replicates"
+          rankable: "false"
+          has_p_value: "false"
+          field_description: "Number of EZ55-evolved sublines (out of 3: LTPE26 = ancestor, LTPE397 = 400 ppm pCO2 evolved, LTPE403 = 800 ppm pCO2 evolved) in which this protein was detected by LC-MS/MS in the >50 kDa cell-free supernatant fraction. Integer 0-3; 0 = absent in all 3 sublines, 3 = high-confidence detection across all sublines. Rolled up to the EZ55 parent organism."
+
+    table_s1_whole_cell_detection:
+      type: derived_metrics_table
+      filename: "data/Prochlorococcus/papers_and_supp/Lu 2025/table s1.csv"
+      organism: "Alteromonas macleodii EZ55"
+      experiment: ez55_whole_cell_proteome
+      name_col: Accession
+      id_columns:
+        - column: Accession
+          id_type: protein_id_refseq
+      product_columns:
+        - column: Name
+      metrics:
+        - metric_type: whole_cell_detection_replicates
+          name: "Detection in EZ55 whole-cell proteome (replicates out of 3 sublines)"
+          value_kind: numeric
+          value_col: "number of replicates where found in Lysate (out of 3 replicates) -  proteins present in crude cell lysates"
+          unit: "replicates"
+          rankable: "false"
+          has_p_value: "false"
+          field_description: "Number of EZ55-evolved sublines (out of 3: LTPE26 = ancestor, LTPE397 = 400 ppm pCO2 evolved, LTPE403 = 800 ppm pCO2 evolved) in which this protein was detected by LC-MS/MS in the crude cell lysate. Integer 0-3; 0 = absent in all 3 sublines, 3 = high-confidence detection across all sublines. Rolled up to the EZ55 parent organism."

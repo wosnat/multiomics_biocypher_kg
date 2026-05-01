@@ -5,6 +5,12 @@
 **Organism(s):** *Prochlorococcus* sp. MIT9313
 **Topic:** Semi-quantitative RT-qPCR measurement of four genes (`icd`, `ntcA`, `glnB`, `pipX`) under N/P/Fe starvation, GS/GOGAT/electron-transport inhibitors, and culture ageing in MIT9313. No per-gene transcriptomics or DE table — the study reports relative expression fold-changes (2^−ΔΔCt) for a hand-picked 4-gene panel across several conditions, presented only in the main-text figures of the PDF.
 
+## Classification
+
+**Bucket D — defer / nothing to do**
+
+PDF-only paper. No machine-readable supplementary tables exist; the entire dataset is four genes (`icd`, `ntcA`, `glnB`, `pipX`) charted across ~10 stress conditions in main-text figures. Integration would require manual figure curation of ~40 bar-chart values into a CSV. Low ROI — the same regulators are already represented in MIT9313 by transcriptomics from Tolonen 2006 / Voigt 2014, and MIT9313 is in the KG so the genes themselves are present. If a downstream consumer ever needs RT-qPCR comparisons specifically, this could graduate to bucket B as a small hand-curated DE CSV (~40 edges, one Experiment per stress); for now, defer.
+
 ## Available data inventory
 
 | File | Type | Content | KG status | Recommended action |

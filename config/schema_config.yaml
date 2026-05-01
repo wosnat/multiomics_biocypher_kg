@@ -363,6 +363,7 @@ gene:
     strand: str
     product: str
     protein_id: str
+    sequence: str                   # AA sequence string from per-strain NCBI protein.faa, joined via protein_id
     # Denormalized from linked Protein node during post-import (set via Cypher, not adapter):
     function_description: str      # UniProt functional description; present for all organisms
     # Gene naming (canonical)

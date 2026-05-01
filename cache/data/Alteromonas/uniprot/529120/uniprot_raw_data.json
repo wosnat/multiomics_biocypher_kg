@@ -1,0 +1,267 @@
+{
+    "annotation_score": {
+        "B6CPC1": "2.0",
+        "B6CPE4": "1.0",
+        "B6CPG7": "1.0",
+        "B6CPJ6": "2.0",
+        "B6CPL9": "1.0",
+        "V6C0V6": "1.0"
+    },
+    "cc_catalytic_activity": {
+        "B6CPC1": "",
+        "B6CPE4": "",
+        "B6CPG7": "",
+        "B6CPJ6": "CATALYTIC ACTIVITY: Reaction=tRNA(Met) + L-methionine + ATP = L-methionyl-tRNA(Met) + AMP + diphosphate; Xref=Rhea:RHEA:13481, Rhea:RHEA-COMP:9667, Rhea:RHEA-COMP:9698, ChEBI:CHEBI:30616, ChEBI:CHEBI:33019, ChEBI:CHEBI:57844, ChEBI:CHEBI:78442, ChEBI:CHEBI:78530, ChEBI:CHEBI:456215; EC=6.1.1.10; Evidence={ECO:0000256|ARBA:ARBA00047364}",
+        "B6CPL9": "",
+        "V6C0V6": ""
+    },
+    "cc_caution": {
+        "B6CPC1": "",
+        "B6CPE4": "",
+        "B6CPG7": "",
+        "B6CPJ6": "",
+        "B6CPL9": "",
+        "V6C0V6": ""
+    },
+    "cc_cofactor": {
+        "B6CPC1": "COFACTOR: Name=Mg(2+); Xref=ChEBI:CHEBI:18420; Evidence={ECO:0000256|ARBA:ARBA00001946}",
+        "B6CPE4": "",
+        "B6CPG7": "COFACTOR: Name=pyridoxal 5'-phosphate; Xref=ChEBI:CHEBI:597326; Evidence={ECO:0000256|ARBA:ARBA00001933}",
+        "B6CPJ6": "",
+        "B6CPL9": "",
+        "V6C0V6": ""
+    },
+    "cc_domain": {
+        "B6CPC1": "",
+        "B6CPE4": "",
+        "B6CPG7": "",
+        "B6CPJ6": "",
+        "B6CPL9": "",
+        "V6C0V6": ""
+    },
+    "cc_function": {
+        "B6CPC1": "",
+        "B6CPE4": "",
+        "B6CPG7": "",
+        "B6CPJ6": "FUNCTION: Is required not only for elongation of protein synthesis but also for the initiation of all mRNA translation through initiator tRNA(fMet) aminoacylation. {ECO:0000256|ARBA:ARBA00003314}.",
+        "B6CPL9": "",
+        "V6C0V6": ""
+    },
+    "cc_interaction": {
+        "B6CPC1": "",
+        "B6CPE4": "",
+        "B6CPG7": "",
+        "B6CPJ6": "",
+        "B6CPL9": "",
+        "V6C0V6": ""
+    },
+    "cc_pathway": {
+        "B6CPC1": "",
+        "B6CPE4": "",
+        "B6CPG7": "",
+        "B6CPJ6": "",
+        "B6CPL9": "",
+        "V6C0V6": ""
+    },
+    "ec": {
+        "B6CPC1": "",
+        "B6CPE4": "",
+        "B6CPG7": "",
+        "B6CPJ6": "6.1.1.10",
+        "B6CPL9": "",
+        "V6C0V6": ""
+    },
+    "ft_motif": {
+        "B6CPC1": "",
+        "B6CPE4": "",
+        "B6CPG7": "",
+        "B6CPJ6": "",
+        "B6CPL9": "",
+        "V6C0V6": ""
+    },
+    "ft_signal": {
+        "B6CPC1": "",
+        "B6CPE4": "",
+        "B6CPG7": "",
+        "B6CPJ6": "",
+        "B6CPL9": "",
+        "V6C0V6": ""
+    },
+    "ft_transmem": {
+        "B6CPC1": "",
+        "B6CPE4": "",
+        "B6CPG7": "",
+        "B6CPJ6": "",
+        "B6CPL9": "",
+        "V6C0V6": ""
+    },
+    "gene_names": {
+        "B6CPC1": "sucC",
+        "B6CPE4": "dnaK",
+        "B6CPG7": "glyA",
+        "B6CPJ6": "metG",
+        "B6CPL9": "pmg",
+        "V6C0V6": "tmRNA Alter_macle_27126"
+    },
+    "gene_oln": {
+        "B6CPC1": "",
+        "B6CPE4": "",
+        "B6CPG7": "",
+        "B6CPJ6": "",
+        "B6CPL9": "",
+        "V6C0V6": ""
+    },
+    "gene_primary": {
+        "B6CPC1": "sucC",
+        "B6CPE4": "dnaK",
+        "B6CPG7": "glyA",
+        "B6CPJ6": "metG",
+        "B6CPL9": "pmg",
+        "V6C0V6": "tmRNA Alter_macle_27126"
+    },
+    "go_c": {
+        "B6CPC1": "cytosol [GO:0005829]; succinate-CoA ligase complex [GO:0042709]",
+        "B6CPE4": "",
+        "B6CPG7": "cytosol [GO:0005829]",
+        "B6CPJ6": "cytosol [GO:0005829]",
+        "B6CPL9": "cytosol [GO:0005829]",
+        "V6C0V6": ""
+    },
+    "go_f": {
+        "B6CPC1": "metal ion binding [GO:0046872]; nucleotide binding [GO:0000166]; succinate-CoA ligase (ADP-forming) activity [GO:0004775]",
+        "B6CPE4": "ATP binding [GO:0005524]; ATP-dependent protein folding chaperone [GO:0140662]",
+        "B6CPG7": "glycine hydroxymethyltransferase activity [GO:0004372]; methyltransferase activity [GO:0008168]; pyridoxal phosphate binding [GO:0030170]",
+        "B6CPJ6": "ATP binding [GO:0005524]; methionine-tRNA ligase activity [GO:0004825]",
+        "B6CPL9": "magnesium ion binding [GO:0000287]; phosphoglucomutase activity [GO:0004614]",
+        "V6C0V6": ""
+    },
+    "go_p": {
+        "B6CPC1": "succinyl-CoA metabolic process [GO:0006104]; tricarboxylic acid cycle [GO:0006099]",
+        "B6CPE4": "",
+        "B6CPG7": "glycine biosynthetic process from serine [GO:0019264]; methylation [GO:0032259]; tetrahydrofolate metabolic process [GO:0046653]",
+        "B6CPJ6": "methionyl-tRNA aminoacylation [GO:0006431]",
+        "B6CPL9": "carbohydrate metabolic process [GO:0005975]",
+        "V6C0V6": ""
+    },
+    "keyword": {
+        "B6CPC1": "Ligase;Magnesium;Metal-binding;Nucleotide-binding",
+        "B6CPE4": "ATP-binding;Nucleotide-binding",
+        "B6CPG7": "Amino-acid biosynthesis;Methyltransferase;Pyridoxal phosphate;Transferase",
+        "B6CPJ6": "Aminoacyl-tRNA synthetase;ATP-binding;Cytoplasm;Ligase;Nucleotide-binding;Protein biosynthesis;Zinc",
+        "B6CPL9": "Phosphoprotein",
+        "V6C0V6": ""
+    },
+    "keywordid": {
+        "B6CPC1": "KW-0436; KW-0460; KW-0479; KW-0547",
+        "B6CPE4": "KW-0067; KW-0547",
+        "B6CPG7": "KW-0028; KW-0489; KW-0663; KW-0808",
+        "B6CPJ6": "KW-0030; KW-0067; KW-0963; KW-0436; KW-0547; KW-0648; KW-0862",
+        "B6CPL9": "KW-0597",
+        "V6C0V6": ""
+    },
+    "length": {
+        "B6CPC1": "132",
+        "B6CPE4": "135",
+        "B6CPG7": "189",
+        "B6CPJ6": "128",
+        "B6CPL9": "150",
+        "V6C0V6": "10"
+    },
+    "mass": {
+        "B6CPC1": "14492",
+        "B6CPE4": "14696",
+        "B6CPG7": "19999",
+        "B6CPJ6": "14502",
+        "B6CPL9": "16377",
+        "V6C0V6": "1038"
+    },
+    "organism_id": {
+        "B6CPC1": "529120",
+        "B6CPE4": "529120",
+        "B6CPG7": "529120",
+        "B6CPJ6": "529120",
+        "B6CPL9": "529120",
+        "V6C0V6": "529120"
+    },
+    "organism_name": {
+        "B6CPC1": "Alteromonas macleodii ATCC 27126",
+        "B6CPE4": "Alteromonas macleodii ATCC 27126",
+        "B6CPG7": "Alteromonas macleodii ATCC 27126",
+        "B6CPJ6": "Alteromonas macleodii ATCC 27126",
+        "B6CPL9": "Alteromonas macleodii ATCC 27126",
+        "V6C0V6": "Alteromonas macleodii ATCC 27126"
+    },
+    "protein_families": {
+        "B6CPC1": "Succinate/malate CoA ligase beta subunit family",
+        "B6CPE4": "",
+        "B6CPG7": "",
+        "B6CPJ6": "Class-I aminoacyl-tRNA synthetase family, MetG type 1 subfamily",
+        "B6CPL9": "Phosphohexose mutase family",
+        "V6C0V6": ""
+    },
+    "protein_name": {
+        "B6CPC1": "Succinyl-CoA synthetase",
+        "B6CPE4": "Molecular chaperone dnaK",
+        "B6CPG7": "Serine hydroxymethyltransferase",
+        "B6CPJ6": "Methionine--tRNA ligase (EC 6.1.1.10) (Methionyl-tRNA synthetase)",
+        "B6CPL9": "Phosphoglucomutase",
+        "V6C0V6": "Proteolysis tag peptide encoded by tmRNA Alter_macle_27126"
+    },
+    "reviewed": {
+        "B6CPC1": "unreviewed",
+        "B6CPE4": "unreviewed",
+        "B6CPG7": "unreviewed",
+        "B6CPJ6": "unreviewed",
+        "B6CPL9": "unreviewed",
+        "V6C0V6": "unreviewed"
+    },
+    "subcellular_location": {},
+    "xref_eggnog": {
+        "B6CPC1": "",
+        "B6CPE4": "",
+        "B6CPG7": "",
+        "B6CPJ6": "",
+        "B6CPL9": "",
+        "V6C0V6": ""
+    },
+    "xref_kegg": {
+        "B6CPC1": "",
+        "B6CPE4": "",
+        "B6CPG7": "",
+        "B6CPJ6": "",
+        "B6CPL9": "",
+        "V6C0V6": ""
+    },
+    "xref_pfam": {
+        "B6CPC1": "PF08442",
+        "B6CPE4": "PF00012",
+        "B6CPG7": "PF00464",
+        "B6CPJ6": "PF09334",
+        "B6CPL9": "PF02878",
+        "V6C0V6": ""
+    },
+    "xref_proteomes": {
+        "B6CPC1": "",
+        "B6CPE4": "",
+        "B6CPG7": "",
+        "B6CPJ6": "",
+        "B6CPL9": "",
+        "V6C0V6": ""
+    },
+    "xref_refseq": {
+        "B6CPC1": "",
+        "B6CPE4": "",
+        "B6CPG7": "",
+        "B6CPJ6": "",
+        "B6CPL9": "",
+        "V6C0V6": ""
+    },
+    "xref_string": {
+        "B6CPC1": "",
+        "B6CPE4": "",
+        "B6CPG7": "",
+        "B6CPJ6": "",
+        "B6CPL9": "",
+        "V6C0V6": ""
+    }
+}

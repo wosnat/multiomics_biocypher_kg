@@ -5,6 +5,12 @@
 **Organism(s):** *Prochlorococcus* NATL2A (dark-tolerant evolved + parental); *Alteromonas macleodii* MIT1002 (co-culture partner)
 **Topic:** Investigates how NATL2A evolves dark tolerance through long-term co-culture with MIT1002. RNA-seq time course (7 timepoints: 0, 4, 8, 13, 16, 20, 24h) under 13:11 L:D cycle at 37 umol photons m-2 s-1, 24C, Pro99 medium. Compares dark-tolerant vs parental strains in co-culture; also reports 15-cluster diel expression patterns (RAIN) for each strain.
 
+## Classification
+
+**Bucket D - already integrated, nothing to add**
+
+All three machine-readable supplementary tables are wired: S2 (NATL2A DE x 7 timepoints) and S4 (MIT1002 DE x 7 timepoints) as `Changes_expression_of` edges, S3 (15-cluster RAIN) as two `gene_clusters` ClusteringAnalyses (dark-tolerant + parental). Both organisms (NATL2A, MIT1002) are deployed. Optional refinements only -- a parental-only Experiment node split for the second cluster table, or `fig|`/`cds-`/`rna-` prefix stripping in S3 to lift gene-name match rate -- but no missing data path. The two PDFs and `Supplemental Tables.xlsx` are reference/duplicate.
+
 ## Available data inventory
 
 | File | Type | Content | KG status | Recommended action |

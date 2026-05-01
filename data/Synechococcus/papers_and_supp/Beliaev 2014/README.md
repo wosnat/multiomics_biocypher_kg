@@ -4,6 +4,12 @@
 
 **GEO accession:** GSE53360
 
+## Classification
+
+**Bucket D -- defer / nothing to do (already integrated)**
+
+Bilateral Synechococcus PCC 7002 + Shewanella W3-18-1 RNA-seq coculture study; both organisms are now deployed in the KG (PCC 7002, W3-18-1) and the paperconfig is registered in `data/Synechococcus/papers_and_supp/paperconfig_files.txt`. All six DE comparisons (S3-S8) have `*_resolved.csv` siblings, so per-gene fold-change edges are produced on every build. Nothing more to add: the NMR metabolomics in Table 2 and the pathway-enrichment Tables 3-6 are aggregated/non-quantitative and would not map to current KG nodes. Secondary note: if a Metabolite extension lands, the NMR data could move into bucket A, but it is small and post-hoc.
+
 ## Organisms
 
 - **Synechococcus sp. PCC 7002** (NCBI taxid 32049, GenBank NC_010475) -- euryhaline unicellular cyanobacterium

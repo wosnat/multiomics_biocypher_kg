@@ -16,6 +16,7 @@ from multiomics_kg.adapters.cyanorak_ncbi_adapter import (
     GeneNodeField,
     MultiCyanorakNcbi,
     _fetch_ncbi_taxonomy,
+    _load_protein_sequences,
 )
 
 
@@ -1068,3 +1069,103 @@ class TestMcpGeneLookupFields:
         assert GeneNodeField.ORGANISM_NAME.value == "organism_name"
         assert GeneNodeField.GENE_SUMMARY.value == "gene_summary"
         assert GeneNodeField.ALL_IDENTIFIERS.value == "all_identifiers"
+
+
+# ─── Test: _load_protein_sequences (FAA parser) ──────────────────────────────
+
+
+class TestLoadProteinSequences:
+    def test_parses_simple_records(self, tmp_path):
+        faa = tmp_path / "protein.faa"
+        faa.write_text(
+            ">WP_001 dnaN [Prochlorococcus]\n"
+            "MKLALLISVLLLAS\n"
+            "PSEQ\n"
+            ">WP_002 conserved hypothetical [Prochlorococcus]\n"
+            "MEEEKVVRR\n"
+        )
+        result = _load_protein_sequences(str(faa))
+        assert result == {
+            "WP_001": "MKLALLISVLLLASPSEQ",
+            "WP_002": "MEEEKVVRR",
+        }
+
+    def test_uses_first_whitespace_token_as_id(self, tmp_path):
+        """Headers like '>WP_002805124.1 MULTISPECIES: ...' must key on WP_xxx only."""
+        faa = tmp_path / "protein.faa"
+        faa.write_text(
+            ">WP_002805124.1 MULTISPECIES: photosystem II reaction center protein I [Prochlorococcus]\n"
+            "MLALKISVYTI\n"
+        )
+        result = _load_protein_sequences(str(faa))
+        assert "WP_002805124.1" in result
+        assert result["WP_002805124.1"] == "MLALKISVYTI"
+
+    def test_returns_empty_dict_when_file_missing(self, tmp_path):
+        result = _load_protein_sequences(str(tmp_path / "nonexistent.faa"))
+        assert result == {}
+
+    def test_returns_empty_dict_for_empty_file(self, tmp_path):
+        faa = tmp_path / "protein.faa"
+        faa.write_text("")
+        assert _load_protein_sequences(str(faa)) == {}
+
+
+# ─── Test: gene nodes carry sequence from protein.faa ───────────────────────
+
+
+def _write_test_faa(directory):
+    """Write a protein.faa whose WP_ ids match MERGED_JSON_DATA's protein_ids."""
+    faa_path = os.path.join(directory, "protein.faa")
+    with open(faa_path, "w") as f:
+        # Two of the three test genes have FASTA entries; PMM0003 / WP_011131641.1
+        # is intentionally omitted to exercise the missing-sequence path.
+        f.write(">WP_011131639.1 DNA polymerase III, beta [Prochlorococcus]\n")
+        f.write("MKLAALLLISTV\n")
+        f.write("EEPSEQ\n")
+        f.write(">WP_011131640.1 hypothetical [Prochlorococcus]\n")
+        f.write("MEEEKVVRR\n")
+
+
+class TestGeneSequence:
+    def test_gene_node_carries_sequence_from_faa(self, temp_data_dir, merged_json_path):
+        _write_test_faa(temp_data_dir)
+        a = CyanorakNcbi(
+            data_dir=temp_data_dir,
+            strain_name="MED4",
+            ncbi_accession="GCF_000011465.1",
+        )
+        a.download_data()
+        nodes = a.get_nodes()
+        gene_nodes = {props["locus_tag"]: props for _, label, props in nodes if label == "gene"}
+
+        assert gene_nodes["PMM0001"]["sequence"] == "MKLAALLLISTVEEPSEQ"
+        assert gene_nodes["PMM0002"]["sequence"] == "MEEEKVVRR"
+
+    def test_missing_sequence_omitted_silently(self, temp_data_dir, merged_json_path):
+        """Genes without a matching WP_ in the FAA should not get a sequence prop."""
+        _write_test_faa(temp_data_dir)  # only WP_011131639/640, not 641
+        a = CyanorakNcbi(
+            data_dir=temp_data_dir,
+            strain_name="MED4",
+            ncbi_accession="GCF_000011465.1",
+        )
+        a.download_data()
+        nodes = a.get_nodes()
+        gene_nodes = {props["locus_tag"]: props for _, label, props in nodes if label == "gene"}
+
+        # PMM0003 has protein_id=WP_011131641.1 but no FAA entry
+        assert "sequence" not in gene_nodes["PMM0003"]
+
+    def test_no_protein_faa_present(self, temp_data_dir, merged_json_path):
+        """When protein.faa is absent entirely, no gene gets a sequence (no error)."""
+        a = CyanorakNcbi(
+            data_dir=temp_data_dir,
+            strain_name="MED4",
+            ncbi_accession="GCF_000011465.1",
+        )
+        a.download_data()
+        nodes = a.get_nodes()
+        for _, label, props in nodes:
+            if label == "gene":
+                assert "sequence" not in props

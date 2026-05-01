@@ -11,6 +11,19 @@ from typing import Any
 logger = logging.getLogger(__name__)
 
 
+# Stub strings emitted by eggNOG itself in the `Description` column when no real
+# description exists. Verified upstream artifact in the eggNOG database (also
+# present on ~2,260 OG-level descriptions in eggnog.db). Treat as "no value".
+EGGNOG_DESCRIPTION_STUBS: frozenset[str] = frozenset({
+    "Alternative locus ID",
+})
+
+
+def is_eggnog_description_stub(value: object) -> bool:
+    """True iff value is a known eggNOG stub-description string."""
+    return isinstance(value, str) and value.strip() in EGGNOG_DESCRIPTION_STUBS
+
+
 def _tx_first_token_space(value: str) -> str:
     """Return first whitespace-separated token: 'dnaN rps3' → 'dnaN'."""
     if not isinstance(value, str) or not value.strip():

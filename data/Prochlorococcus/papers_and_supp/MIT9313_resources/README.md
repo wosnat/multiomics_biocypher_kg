@@ -5,6 +5,12 @@
 **Organism(s):** *Prochlorococcus* MIT9313
 **Topic:** Registers a GenBank-derived locus-tag bridge table (`locus_tag` / `PMTid` / `P9313name` / `uniprot_id`) so that `build_gene_id_mapping.py` (prepare_data step 3) can resolve MIT9313 gene IDs used across multiple publications. No publication block; `omics_adapter` ignores it. Listed in `paperconfig_files.txt` so the mapping builder picks it up.
 
+## Classification
+
+**Bucket D — defer / nothing to do**
+
+Not a publication. This is a strain-level ID-translation resource that contributes locus-tag / PMTid / P9313name / uniprot_id bridges to the v2 three-tier `gene_id_mapping.json` for MIT9313. Already integrated and stable; no further data to add. Triage non-applicable beyond confirming it stays referenced in `paperconfig_files.txt`.
+
 ## Available data inventory
 
 | File | Type | Content | KG status | Recommended action |

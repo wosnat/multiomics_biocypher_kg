@@ -4,6 +4,12 @@
 
 **Journal:** mBio (2021)
 
+## Classification
+
+**Bucket D -- defer / nothing to do**
+
+Only deliverables are the main PDF and a single `.doc` supplement (`mbio.01614-21-s0001.doc`). No CSV/XLSX of differential expression, no machine-readable per-gene tables, no proteomics or metabolomics worksheets. Nothing to feed to the omics adapter and no path to integration without re-extracting data from the paper figures or contacting the authors. Remains explicitly skipped: not registered in `paperconfig_files.txt` and no paperconfig.yaml exists. Revisit only if the authors release a structured supplementary dataset.
+
 ## Status: SKIPPED for KG integration
 
 No machine-readable differential expression data available. The only supplement is a .doc file with no quantitative gene expression tables.

@@ -1,6 +1,12 @@
-# Oleza 2015 — Synechococcus WH7803 + R. pomeroyi DSS-3 exoproteome
+# Oleza 2015 -- Synechococcus WH7803 + R. pomeroyi DSS-3 exoproteome
 
 **Citation:** Christie-Oleza JA, Armengaud J, Bertrand P, Laez B, Boez B, Mariadassou S, Pelletier E (2015) Functional assessments of microbial interactions in the ocean using exoproteomics. *Proteomics* 15:3315-3325.
+
+## Classification
+
+**Bucket B — new metrics / DE / resolution (want to add)**
+
+Per-protein NSAF-style abundance for WH7803 and Ruegeria pomeroyi DSS-3 across axenic vs coculture conditions. No fold-change table, but the NSAF values fit the numeric `derived_metrics_table` pattern shipped 2026-04-21 (see `docs/kg-changes/non-de-evidence-extension.md`). Both organisms are already deployed (WH7803, DSS-3). Action: paperconfig with `derived_metrics_table` entries per strain x compartment (Synechococcus exoproteins, R. pomeroyi proteins). Companion paper Oleza 2017 already provides FC-bearing tables and is integrated; this 2015 dataset adds single-condition abundance context.
 
 ## Organism
 
@@ -20,9 +26,9 @@
 
 ## KG Integration Status
 
-**Skipped** — no paperconfig created.
+**Ready to wire** — no paperconfig yet, but unblocked.
 
-**Reason:** The proteomics data reports protein abundance (NSAF, spectral counts) rather than fold-change values. There are no DE comparisons with fold-change or p-values suitable for `Changes_expression_of` edges. The KG requires log2 fold-change for expression edges.
+**Reason:** Although the data reports NSAF / spectral-count abundance rather than fold-change (so no `Changes_expression_of` edges), the `derived_metrics_table` loader shipped 2026-04-21 (see `docs/kg-changes/non-de-evidence-extension.md`) supports `value_kind: numeric` entries that fit this dataset directly. Action: add a paperconfig with one `derived_metrics_table` per (strain, compartment).
 
 ## Notes
 

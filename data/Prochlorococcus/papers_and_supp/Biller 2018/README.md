@@ -5,6 +5,12 @@
 **Organism(s):** *Prochlorococcus* NATL2A (axenic and coculture); *Alteromonas macleodii* MIT1002 (coculture partner)
 **Topic:** RNA-seq time course comparing cultures under extended darkness versus a 13:11 light:dark diel cycle control. Conditions include axenic NATL2A, NATL2A co-cultured with MIT1002, and MIT1002 in coculture. Cultures grown in Pro99 natural seawater medium at 24C, bubbled with air. Additional tables report 24h transcript periodicity (Y/N) and late-darkness transcript survival categories.
 
+## Classification
+
+**Bucket D - defer / nothing to do**
+
+All actionable evidence is integrated: 8 DE statistical_analyses (Tables S3 + S6B) + 4 DerivedMetric entries covering the 24h periodicity Y/N flags (S4A axenic + coculture, S4B MIT1002) and the categorical darkness-survival composite class (S5). Both organisms (NATL2A, MIT1002) are deployed; MIT1002 ID resolution uses RAST diamond protein-match + systematic-names bridge. Remaining XLSX files are duplicates of integrated CSVs or sample-level QC metadata. Nothing left to add.
+
 ## Available data inventory
 
 | File | Type | Content | KG status | Recommended action |

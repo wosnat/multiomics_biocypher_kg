@@ -27,6 +27,12 @@
 | `cluster_extractions/` | dir | Per-cluster description JSONs (`cluster_extraction_med4_diel_clusters.json`) | reference | — |
 | `paperconfig.yaml` | YAML | Active paperconfig | reference | — |
 
+## Classification
+
+**Bucket D — defer / nothing to do (fully integrated)**
+
+Canonical `gene_clusters` example: Table S1's 18-cluster Mfuzz soft clustering of MED4 diel transcriptome, with per-gene membership scores and per-cluster LLM-extracted descriptions. No pairwise DE (data are RMA-normalized expression values across 50 timepoints, not fold changes), no metabolomics, MED4 deployed. Tables S2-S11 are .doc-format summary tables; legends suggest pathway/category content rather than new per-gene evidence. Nothing remaining to integrate.
+
 ## Current paperconfig summary
 
 - Experiments defined: 1 — `diel_cycling_med4_microarray`

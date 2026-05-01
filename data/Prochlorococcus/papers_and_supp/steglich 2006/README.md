@@ -18,6 +18,12 @@
 | `paperconfig.yaml` | YAML | Current integration config | reference | — |
 | `paperconfig_orig.yaml` | YAML | Superseded draft | — | — (skip / historical) |
 
+## Classification
+
+**Bucket D — defer / nothing to do (fully integrated)**
+
+All six light-condition DE analyses are wired up as `csv` entries on a single Table S1 with `pvalue_asterisk_in_logfc: true`. There is no machine-readable hierarchical-cluster table to add (Figure 3 grouping is PDF-only); the only outstanding optional task is verifying the asterisk classifier behaves correctly. No new data to integrate, no metabolites involved, no new strain. Strain coverage: MED4 is in the KG.
+
 ## Current paperconfig summary
 
 - Experiments defined: 6 (one per light condition: high white, white-13, blue-13, red-13, green-13, DCMU+white-13), all MED4 MICROARRAY.

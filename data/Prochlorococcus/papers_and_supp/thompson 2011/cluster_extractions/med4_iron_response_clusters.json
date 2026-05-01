@@ -1,0 +1,223 @@
+{
+  "metadata": {
+    "paper": "Thompson 2011",
+    "doi": null,
+    "organism": "Prochlorococcus MED4",
+    "entry_key": "med4_iron_response_clusters",
+    "model": "gpt-4.1-mini",
+    "extracted_at": "2026-04-28T22:36:46.261351",
+    "input_tokens": 30373,
+    "output_tokens": 1644
+  },
+  "clusters": {
+    "1": {
+      "id": "med4_time_course_cluster_1",
+      "name": "Prochlorococcus MED4 cluster 1 (1 genes)",
+      "functional_description": "Contains the gene Yfr2-5_1, a small non-coding RNA potentially involved in regulatory functions during iron stress.",
+      "temporal_pattern": "Expression changes begin early in the iron starvation time course and show dynamic regulation across the time points, including rescue.",
+      "expression_dynamics": "early transient",
+      "enrichment_category": "N/A",
+      "enrichment_pvalue": null,
+      "enrichment_significant": false,
+      "confidence_notes": "",
+      "supporting_quotes": [
+        {
+          "quote": "Cluster 1: Yfr2-5_1 (1)",
+          "location": "Figure 3c legend"
+        }
+      ],
+      "source_figures": [
+        "Figure 3c"
+      ],
+      "self_assessment": "medium",
+      "assessment_notes": "Limited specific functional annotation; small RNA regulatory role inferred."
+    },
+    "13": {
+      "id": "med4_time_course_cluster_13",
+      "name": "Prochlorococcus MED4 cluster 13 (7 genes)",
+      "functional_description": "Enriched for ABC transporter genes involved in transport functions under iron stress.",
+      "temporal_pattern": "Genes in this cluster show differential expression starting early in iron starvation and respond dynamically through the time course and rescue.",
+      "expression_dynamics": "gradual increase",
+      "enrichment_category": "transport",
+      "enrichment_pvalue": null,
+      "enrichment_significant": false,
+      "confidence_notes": "",
+      "supporting_quotes": [
+        {
+          "quote": "13: ABC transporter (6)",
+          "location": "Figure 3c legend"
+        }
+      ],
+      "source_figures": [
+        "Figure 3c"
+      ],
+      "self_assessment": "medium",
+      "assessment_notes": "Transport function inferred from gene annotations; no explicit p-value reported."
+    },
+    "16": {
+      "id": "med4_time_course_cluster_16",
+      "name": "Prochlorococcus MED4 cluster 16 (4 genes)",
+      "functional_description": "Contains small non-coding RNAs Yfr2 and Yfr4, suggesting a regulatory role in iron stress response.",
+      "temporal_pattern": "Expression changes occur during iron starvation and are reversed upon iron rescue, indicating dynamic regulation.",
+      "expression_dynamics": "biphasic",
+      "enrichment_category": "N/A",
+      "enrichment_pvalue": null,
+      "enrichment_significant": false,
+      "confidence_notes": "",
+      "supporting_quotes": [
+        {
+          "quote": "16: Yfr2, Yfr4 (2)",
+          "location": "Figure 3c legend"
+        }
+      ],
+      "source_figures": [
+        "Figure 3c"
+      ],
+      "self_assessment": "medium",
+      "assessment_notes": "Small RNA cluster with inferred regulatory function; no enrichment data."
+    },
+    "19": {
+      "id": "med4_time_course_cluster_19",
+      "name": "Prochlorococcus MED4 cluster 19 (63 genes)",
+      "functional_description": "Enriched for iron stress response genes including bcp, sigA/rpoD, crp, hli, iraI, idiA, isiB, and several small RNAs, indicating a coordinated iron stress regulon.",
+      "temporal_pattern": "Genes are upregulated during iron starvation starting early and remain elevated until iron rescue, where expression decreases.",
+      "expression_dynamics": "late sustained",
+      "enrichment_category": "iron stress response",
+      "enrichment_pvalue": null,
+      "enrichment_significant": false,
+      "confidence_notes": "Cluster includes many known iron stress genes and sRNAs, supporting functional assignment.",
+      "supporting_quotes": [
+        {
+          "quote": "19: bcp, sigA/rpoD, crp, hli, iraI, idiA, isiB, Yfr20, asRNA_04601, asRNA_07401 (63)",
+          "location": "Figure 3c legend"
+        },
+        {
+          "quote": "MED4 genomic island 5 (ISL5), in particular, was a \u2018hotspot\u2019 for differentially expressed genes in our experiments\u2014including high-light inducible (hli) genes, and numerous genes of unknown function.",
+          "location": "Page 6"
+        }
+      ],
+      "source_figures": [
+        "Figure 3c",
+        "Figure 4b"
+      ],
+      "self_assessment": "high",
+      "assessment_notes": "Strong evidence from gene content and expression pattern."
+    },
+    "22": {
+      "id": "med4_time_course_cluster_22",
+      "name": "Prochlorococcus MED4 cluster 22 (1 genes)",
+      "functional_description": "N/A",
+      "temporal_pattern": "N/A",
+      "expression_dynamics": "N/A",
+      "enrichment_category": "",
+      "enrichment_pvalue": null,
+      "enrichment_significant": false,
+      "confidence_notes": "Cluster not discussed in the paper.",
+      "supporting_quotes": [],
+      "source_figures": [],
+      "self_assessment": "low",
+      "assessment_notes": "No discussion or data provided for this cluster."
+    },
+    "3": {
+      "id": "med4_time_course_cluster_3",
+      "name": "Prochlorococcus MED4 cluster 3 (15 genes)",
+      "functional_description": "Contains hli genes and other genes related to photosystem components and stress response.",
+      "temporal_pattern": "Genes show differential expression during iron starvation and recovery phases, with dynamic regulation.",
+      "expression_dynamics": "gradual increase",
+      "enrichment_category": "photosystem and stress response",
+      "enrichment_pvalue": null,
+      "enrichment_significant": false,
+      "confidence_notes": "",
+      "supporting_quotes": [
+        {
+          "quote": "3: hli (12)",
+          "location": "Figure 3c legend"
+        }
+      ],
+      "source_figures": [
+        "Figure 3c"
+      ],
+      "self_assessment": "medium",
+      "assessment_notes": "Functional annotation based on gene names; no enrichment statistics."
+    },
+    "4": {
+      "id": "med4_time_course_cluster_4",
+      "name": "Prochlorococcus MED4 cluster 4 (1 genes)",
+      "functional_description": "N/A",
+      "temporal_pattern": "N/A",
+      "expression_dynamics": "N/A",
+      "enrichment_category": "",
+      "enrichment_pvalue": null,
+      "enrichment_significant": false,
+      "confidence_notes": "Cluster not discussed in the paper.",
+      "supporting_quotes": [],
+      "source_figures": [],
+      "self_assessment": "low",
+      "assessment_notes": "No discussion or data provided for this cluster."
+    },
+    "6": {
+      "id": "med4_time_course_cluster_6",
+      "name": "Prochlorococcus MED4 cluster 6 (2 genes)",
+      "functional_description": "Contains petF, encoding ferredoxin, an iron-requiring electron transfer protein downregulated during iron stress.",
+      "temporal_pattern": "Downregulated during iron starvation and upregulated upon iron rescue.",
+      "expression_dynamics": "early transient downregulation",
+      "enrichment_category": "electron transfer",
+      "enrichment_pvalue": null,
+      "enrichment_significant": false,
+      "confidence_notes": "Known iron response gene with clear expression pattern.",
+      "supporting_quotes": [
+        {
+          "quote": "6: petF (2)",
+          "location": "Figure 3c legend"
+        },
+        {
+          "quote": "ferredoxin was downregulated and flavodoxin was upregulated during iron stress in both MED4 and MIT9313",
+          "location": "Page 7"
+        }
+      ],
+      "source_figures": [
+        "Figure 3c",
+        "Figure 5"
+      ],
+      "self_assessment": "high",
+      "assessment_notes": "Strong evidence from gene identity and expression."
+    },
+    "7": {
+      "id": "med4_time_course_cluster_7",
+      "name": "Prochlorococcus MED4 cluster 7 (1 genes)",
+      "functional_description": "N/A",
+      "temporal_pattern": "N/A",
+      "expression_dynamics": "N/A",
+      "enrichment_category": "",
+      "enrichment_pvalue": null,
+      "enrichment_significant": false,
+      "confidence_notes": "Cluster not discussed in the paper.",
+      "supporting_quotes": [],
+      "source_figures": [],
+      "self_assessment": "low",
+      "assessment_notes": "No discussion or data provided for this cluster."
+    },
+    "9": {
+      "id": "med4_time_course_cluster_9",
+      "name": "Prochlorococcus MED4 cluster 9 (30 genes)",
+      "functional_description": "Includes genes involved in sulfur metabolism (cysD), heme synthesis (hemA), dehydrogenases, and several small RNAs, indicating diverse metabolic functions during iron stress.",
+      "temporal_pattern": "Genes show differential expression during iron starvation and recovery, with dynamic regulation.",
+      "expression_dynamics": "gradual increase",
+      "enrichment_category": "metabolism and regulation",
+      "enrichment_pvalue": null,
+      "enrichment_significant": false,
+      "confidence_notes": "",
+      "supporting_quotes": [
+        {
+          "quote": "9: cysD, hemA, dehydrogenase, Yfr16, Yfr19, Yfr8 (30)",
+          "location": "Figure 3c legend"
+        }
+      ],
+      "source_figures": [
+        "Figure 3c"
+      ],
+      "self_assessment": "medium",
+      "assessment_notes": "Functional annotation based on gene names; no enrichment statistics."
+    }
+  }
+}

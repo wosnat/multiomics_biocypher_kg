@@ -5,6 +5,12 @@
 **Organism(s):** *Prochlorococcus* MED4 (HL) and MIT9313 (LL)
 **Topic:** Microarray time course (0, 4, 12, 24, 48 h) comparing P-starved vs P-replete cultures for the two ecotypes. Identifies the phoB regulon and ecotype-specific differences in the P-starvation response. Significance: q < 0.05 at t=48 h; full temporal profiles reported for all detected genes passing that filter.
 
+## Classification
+
+**Bucket D — defer / nothing to do**
+
+Fully integrated. Both DE tables (MED4 5-timepoint, MIT9313 4-timepoint) feed `Changes_expression_of` edges via the `csv` paperconfig entries. The remaining unintegrated content is the locus-context Table 3 (phoB-cluster organization across 11 strains) which lives only in `01301table3.pdf` as a positional gene map — not per-gene DE or numeric evidence. It could in principle become a small boolean `derived_metrics_table` (`in_phoB_cluster`), but the PDF would require manual transcription and the value to query consumers is low. The `.xls` originals are byte-duplicates of the loaded CSVs.
+
 ## Available data inventory
 
 | File | Type | Content | KG status | Recommended action |

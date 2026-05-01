@@ -20,14 +20,17 @@ publication:
 
   supplementary_materials:
 
-    # ── Gene expression level classification ─────────────────────────────
+    # ── Per-gene categorical scalars from steady-state RNA-seq classification ──
+    # Migrated from gene_clusters → derived_metrics_table: the source columns are
+    # fixed-vocabulary categorical labels assigned per gene (no membership scores,
+    # no soft-clustering), which the schema models as scalar gene-level attributes
+    # (DerivedMetric → Gene) rather than cluster memberships.
     med4_expression_level:
-      type: gene_clusters
-      name: "MED4 gene expression level classification"
+      type: derived_metrics_table
       filename: "data/Prochlorococcus/papers_and_supp/Wang 2014/GeneClassification_clean.csv"
       organism: "Prochlorococcus MED4"
-      gene_id_col: "sysName"
-      cluster_col: "ExpressionLevel"
+      experiment: expression_profiling_med4_rnaseq
+      name_col: "sysName"
       id_columns:
         - column: "sysName"
           id_type: locus_tag
@@ -35,13 +38,50 @@ publication:
           id_type: alternative_locus_tag
         - column: "name"
           id_type: gene_name
-      cluster_type: "condition_comparison"
-      cluster_method: "Quartile-based classification from RNA-seq RPKM across 10 growth conditions"
-      omics_type: RNASEQ
-      treatment_type: ["growth_phase"]
-      background_factors: ["axenic", "light"]
-      treatment: "Steady-state expression level classification across multiple growth conditions"
-      light_condition: "continuous light (28 umol quanta m-2 s-1)"
-      experimental_context: "Classification of all MED4 CDS genes by expression level from RNA-seq across 10 samples (Pro99 and AMP media, exponential and log-phase). RPKM quartiles used to assign: VEG = very highly expressed (top quartile), HEG = highly expressed, MEG = moderately expressed, LEG = lowly expressed, NEG = not expressed, -- = unclassified. 21C, continuous light at 28 umol quanta m-2 s-1."
-      experiments:
-        - expression_profiling_med4_rnaseq
+      product_columns:
+        - column: "desc"
+      metrics:
+        - metric_type: expression_level_class
+          name: "MED4 RPKM expression-level class (Wang 2014)"
+          value_kind: categorical
+          value_col: ExpressionLevel
+          allowed_categories:
+            - "VEG"
+            - "HEG"
+            - "MEG"
+            - "LEG"
+            - "NEG"
+            - "--"
+          field_description: >-
+            Per-gene expression-level class assigned from RPKM quartiles aggregated
+            across 10 RNA-seq samples (MED4 in Pro99 and AMP media, exponential and
+            log-phase; 21C, continuous light at 28 umol quanta m-2 s-1). Class
+            meanings reported in Wang 2014: VEG = very highly expressed (top RPKM
+            quartile across conditions); HEG = highly expressed, enriched for COG
+            "C" energy production and conversion, "J" translation and ribosomal
+            structure, and "O" protein modification, folding and turnover (Figure
+            4c) and showing significantly lower nonsynonymous substitution rate
+            (Ka) than MEG or LEG (P<0.001, Figure 3a); MEG = moderately expressed,
+            significantly enriched for essential genes with homologs in the
+            Database of Essential Genes (DEG-hit rate, P<0.001, Figure 4b); LEG =
+            lowly expressed, slightly enriched for COG "R" general function
+            (P=0.023); NEG = not expressed, under-represented in the core genome
+            (1.5% core vs 6.6% flexible, P<0.001, Figure 3c); -- = unclassified
+            (RPKM did not fit any quartile bin).
+        - metric_type: pangenome_membership
+          name: "MED4 core vs flexible genome assignment (Wang 2014)"
+          value_kind: categorical
+          value_col: "Core/Flexible"
+          allowed_categories:
+            - "Core"
+            - "Flexible"
+          field_description: >-
+            Pangenome membership for each MED4 CDS gene. Core = present across
+            sequenced Prochlorococcus genomes (Prochlorococcus core gene set);
+            Flexible = strain-specific or variably present across Prochlorococcus
+            genomes (flexible/accessory gene set). Wang 2014 reports that the core
+            genome contains significantly fewer NEG and VEG genes than the
+            flexible genome (NEG: 1.5% < 6.6%; VEG: 49.6% < 64.6%; both P<0.001,
+            Figure 3c), indicating that conserved core genes cluster around
+            moderate expression while flexible genes are enriched at the high and
+            low extremes.

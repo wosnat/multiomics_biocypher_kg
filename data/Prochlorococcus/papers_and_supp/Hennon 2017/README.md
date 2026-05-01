@@ -5,6 +5,12 @@
 **Organism(s):** *Prochlorococcus* MIT9312 (VOL4 re-isolate), *Alteromonas macleodii* EZ55
 **Topic:** RNA-seq of coculture MIT9312+EZ55 and axenic EZ55 after acclimation (~10 generations) in PEv medium (artificial seawater, 1/25 Pro99 nutrients) under ambient (400 ppm) vs elevated (800 ppm) CO2, 14:10 L:D, 21 C. Three DE tables: Pro in coculture (S2), EZ55 in coculture (S3), EZ55 axenic (S4). EZ55 gene IDs in the supp tables are an IMG/author internal namespace (aez55_*) that requires diamond-protein-match bridging to the deployed EZ55 locus tags.
 
+## Classification
+
+**Bucket D - already integrated, nothing to add**
+
+The full set is wired: S2 (MIT9312 coculture DE), S3 (EZ55 coculture DE), S4 (EZ55 axenic DE), and S5 in two complementary entries -- `supp_table_5_de` (DE extension, unfiltered) and `supp_table_5_categories` (8 boolean DerivedMetric nodes, one per KEGG/topic enrichment set). Both `id_translation` bridges (MIT9312 cds_fna_id, EZ55 aez55_* via diamond protein match) are in place. MIT9312 and EZ55 are deployed. The accepted S5/S3 duplication on the ~67 shared significant genes is documented and bounded. Nothing to add.
+
 ## Available data inventory
 
 | File | Type | Content | KG status | Recommended action |

@@ -91,6 +91,34 @@ def _fetch_ncbi_taxonomy(taxid: int, cache_dir: str) -> dict:
     return result
 
 
+def _load_protein_sequences(faa_path: str) -> dict[str, str]:
+    """Read NCBI protein FASTA → ``{accession: AA sequence}``.
+
+    Headers are the first whitespace-token of the FASTA defline, e.g.
+    ``WP_002805124.1`` from ``>WP_002805124.1 photosystem II ...``. Sequence is
+    the concatenation of subsequent lines until the next defline. Returns an
+    empty dict if the file does not exist.
+    """
+    sequences: dict[str, str] = {}
+    if not os.path.exists(faa_path):
+        return sequences
+    current_id: str | None = None
+    seq_chunks: list[str] = []
+    with open(faa_path) as f:
+        for line in f:
+            if line.startswith(">"):
+                if current_id and current_id not in sequences:
+                    sequences[current_id] = "".join(seq_chunks)
+                current_id = line[1:].split(None, 1)[0]
+                seq_chunks = []
+            elif current_id is not None:
+                seq_chunks.append(line.rstrip())
+    # Flush the last record
+    if current_id and current_id not in sequences:
+        sequences[current_id] = "".join(seq_chunks)
+    return sequences
+
+
 class GeneEnumMeta(EnumMeta):
     def __contains__(cls, item):
         return item in cls.__members__.keys()
@@ -197,6 +225,9 @@ class CyanorakNcbi:
         self.reference_database = reference_database
         self.reference_proteome = reference_proteome
         self.taxonomy = {}  # populated by download_data()
+        # {RefSeq WP_ accession → AA sequence} populated by download_data() from
+        # cache/data/<organism>/genomes/<strain>/protein.faa
+        self._protein_id_to_sequence: dict[str, str] = {}
 
         # no need becuase we are not creating protein to ec edges here
         # if model["organism"] in ("*", None):
@@ -249,6 +280,16 @@ class CyanorakNcbi:
                 cache_dir=self.data_dir,
             )
 
+        # Load AA sequences keyed by RefSeq WP_ accession from protein.faa
+        self._protein_id_to_sequence = _load_protein_sequences(
+            os.path.join(self.data_dir, "protein.faa")
+        )
+        if self._protein_id_to_sequence:
+            logger.info(
+                f"Loaded {len(self._protein_id_to_sequence)} protein sequences "
+                f"for {self.strain_name} from protein.faa"
+            )
+
     def _get_gene_nodes(self) -> list[tuple]:
         """Generate gene nodes from the data.
 
@@ -280,6 +321,15 @@ class CyanorakNcbi:
                     node_properties[field] = value
                 else:
                     node_properties[field] = value
+
+            # Attach AA sequence from protein.faa via RefSeq protein_id join.
+            # Skipped silently when sequence is absent (e.g. pseudogenes, or
+            # locus tags that lack a protein_id).
+            protein_id = row.get("protein_id")
+            if isinstance(protein_id, str) and protein_id:
+                seq = self._protein_id_to_sequence.get(protein_id.strip())
+                if seq:
+                    node_properties["sequence"] = seq
 
             node_id = self.add_prefix_to_id(
                 prefix="ncbigene",

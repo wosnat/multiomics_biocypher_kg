@@ -128,4 +128,13 @@ KNOWN_METRIC_TYPES: dict[str, str] = {
     "enrichment_redox_genes":                 "boolean",
     "enrichment_ribosome":                    "boolean",
     "enrichment_tonb_associated_genes":       "boolean",
+
+    # ── Numeric, replicate-count proteomics detection per compartment (Lu 2025 S1) ──
+    # 0-N integer = number of biological replicates in which the protein was
+    # detected by LC-MS/MS in the named compartment. Not rankable (mass ties on
+    # a small ordinal) and no p-value. Compartment is encoded by the parent
+    # Experiment (exoproteome / whole_cell), so distinct metric_types per
+    # compartment let queries filter by detection compartment directly.
+    "exoproteome_detection_replicates":  "numeric",
+    "whole_cell_detection_replicates":   "numeric",
 }

@@ -170,6 +170,21 @@ publication:
       treatment_taxid: 84588
       treatment_assembly_accession: GCF_000195975.1
       table_scope: significant_only
+    interaction_pco2_coculture_ez55_rnaseq:
+      name: EZ55 pCO2 x Coculture Interaction Effect (RNASEQ)
+      organism: Alteromonas macleodii EZ55
+      treatment_condition: pCO2 effect modified by coculture context
+      control_condition: pCO2 effect under axenic context
+      experimental_context: pCO2 x coculture interaction term (cyano:treatment coefficient) from edgeR GLM with design ~0+cyano+treatment+cyano:treatment; identifies EZ55 genes whose pCO2 response differs between axenic and coculture contexts, averaged across MIT9312, CC9311, WH8102 partners. In Pro99 medium under continuous light at 22C.
+      omics_type: RNASEQ
+      test_type: edgeR
+      treatment_type: [carbon]
+      background_factors: [axenic, coculture]
+      medium: Pro99 medium
+      temperature: 22C
+      light_condition: continuous light
+      light_intensity: 30 umol photons m-2 s-1
+      table_scope: significant_only
   supplementary_materials:
     id_translation_pro_9312:
       type: id_translation
@@ -397,6 +412,25 @@ publication:
       statistical_analyses:
       - id: DE_coculture_WH8102_vs_axenic_EZ55_800ppm
         experiment: coculture_synechococcus_wh8102_at_800_ez55_rnaseq
+        timepoint: mid-exponential
+        timepoint_hours: null
+        growth_phase: exponential
+        name_col: symbol
+        logfc_col: logFC
+        adjusted_p_value_col: PValue
+        pvalue_threshold: 0.05
+    supp_table_S4:
+      type: csv
+      filename: data/Prochlorococcus/papers_and_supp/barreto 2022/transcriptome_supplemental_tables/Supplemental_tables/table_S4.csv
+      organism: Alteromonas macleodii EZ55
+      id_columns:
+      - column: symbol
+        id_type: locus_tag
+      product_columns:
+      - column: product
+      statistical_analyses:
+      - id: DE_pco2_x_coculture_interaction_EZ55
+        experiment: interaction_pco2_coculture_ez55_rnaseq
         timepoint: mid-exponential
         timepoint_hours: null
         growth_phase: exponential

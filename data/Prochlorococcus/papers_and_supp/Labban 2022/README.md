@@ -5,6 +5,12 @@
 **Organism(s):** *Prochlorococcus* RSP50 (Red Sea isolate)
 **Topic:** Growth and RNA-seq transcriptomic responses of Red Sea *Prochlorococcus* strain RSP50 to four non-optimal temperatures (22°C, 24°C, 26°C, 30°C) vs. the optimal 28°C control. Four DESeq2 comparisons, one CSV holds all four analyses side-by-side (log2FoldChange + Padj columns per temperature).
 
+## Classification
+
+**Bucket B - new metrics / DE / resolution (want to add) - blocked**
+
+`supp table s1.csv` is a per-gene DE table (log2FoldChange + Padj for 4 temperature contrasts vs 28C control). RSP50 is already deployed in the KG. The paperconfig is drafted (4 statistical analyses) but commented out in `paperconfig_files.txt` because the CSV uses author-internal `BSR22_*` locus tags that do not appear in any current Tier-1 source for RSP50 -- gene resolution is ~0% without an annotation bridge. Authors were contacted 2026-03-03 for the matching GFF; once it arrives, drop in as `annotation_gff`, rerun prepare_data steps 3+4 with `--strains RSP50 --force`, verify >95% match with `/check-gene-ids`, and re-enable the paperconfig line. Also requires migrating the legacy `environmental_conditions:` shape to the current `experiments:` schema. No metabolomics, no clustering.
+
 ## Available data inventory
 
 | File | Type | Content | KG status | Recommended action |

@@ -23,6 +23,7 @@ from multiomics_kg.adapters.cluster_adapter import (
     MultiClusterAdapter,
     _make_cluster_id,
     _make_analysis_id,
+    _normalize_extraction_value,
     _resolve_csv_path,
 )
 
@@ -231,6 +232,74 @@ def test_get_nodes_reads_extraction_json(tmp_path):
     assert cluster_nodes["med4_up_transport"]["functional_description"] == "Transport genes"
     assert cluster_nodes["med4_up_transport"]["name"] == "MED4 cluster 1 (up, transport)"
     assert cluster_nodes["med4_down_photosynthesis"]["temporal_pattern"] == "Downregulated at 6h"
+
+
+# ─── Test: "N/A" extraction stubs are normalised to absent properties ───────
+
+
+@pytest.mark.parametrize("stub", ["N/A", "n/a", "NA", "n.a.", "", "  "])
+def test_normalize_extraction_value_drops_stubs(stub):
+    assert _normalize_extraction_value(stub) is None
+
+
+def test_normalize_extraction_value_keeps_real_text():
+    assert _normalize_extraction_value("Transport genes") == "Transport genes"
+
+
+def test_normalize_extraction_value_strips_whitespace():
+    assert _normalize_extraction_value("  Transport genes  ") == "Transport genes"
+
+
+def test_get_nodes_omits_na_extraction_fields(tmp_path):
+    """LLM extraction stubs ('N/A') should not appear as Neo4j string properties."""
+    csv_path = tmp_path / "clusters.csv"
+    csv_path.write_text("gene_id,cluster\nPMM0001,1\nPMM0002,2\n")
+
+    clusters = {
+        "1": {"id": "med4_real", "name": "Real cluster",
+              "functional_description": "Transport genes",
+              "temporal_pattern": "N/A",
+              "expression_dynamics": "early transient"},
+        "2": {"id": "med4_uncurated", "name": "Uncurated cluster",
+              "functional_description": "N/A",
+              "temporal_pattern": "N/A",
+              "expression_dynamics": "N/A"},
+    }
+    extraction = {"metadata": {"table_key": "test_analysis"}, "clusters": clusters}
+    ext_dir = tmp_path / "cluster_extractions"
+    ext_dir.mkdir()
+    (ext_dir / "test_analysis.json").write_text(json.dumps(extraction))
+
+    paperconfig = {
+        "publication": {"papername": "Test 2006"},
+        "supplementary_materials": {
+            "test_analysis": {
+                "type": "gene_clusters",
+                "name": "Test analysis",
+                "filename": str(csv_path),
+                "organism": "Prochlorococcus MED4",
+                "gene_id_col": "gene_id",
+                "cluster_col": "cluster",
+                "cluster_type": "response_pattern",
+            }
+        }
+    }
+    config_path = tmp_path / "paperconfig.yaml"
+    config_path.write_text(yaml.dump(paperconfig))
+
+    adapter = ClusterAdapter(str(config_path))
+    nodes = list(adapter.get_nodes())
+    cluster_nodes = {props.get("id"): props for _, label, props in nodes if label == "gene_cluster"}
+
+    real = cluster_nodes["med4_real"]
+    assert real["functional_description"] == "Transport genes"
+    assert "temporal_pattern" not in real, "'N/A' should be omitted, not stored as literal"
+    assert real["expression_dynamics"] == "early transient"
+
+    uncurated = cluster_nodes["med4_uncurated"]
+    assert "functional_description" not in uncurated
+    assert "temporal_pattern" not in uncurated
+    assert "expression_dynamics" not in uncurated
 
 
 # ─── Test: Failed extraction skipped ────────────────────────────────────────

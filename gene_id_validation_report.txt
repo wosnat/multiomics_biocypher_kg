@@ -3,10 +3,10 @@ Gene ID Validation Report
 ================================================================================
 
 ## MIT9313_resources
-   Config: /home/osnat/github/multiomics_biocypher_kg/data/Prochlorococcus/papers_and_supp/MIT9313_resources/paperconfig.yaml
+   Config: /home/osnat/github/second_multiomics/data/Prochlorococcus/papers_and_supp/MIT9313_resources/paperconfig.yaml
 
 ## Aharonovich 2016
-   Config: /home/osnat/github/multiomics_biocypher_kg/data/Prochlorococcus/papers_and_supp/Aharonovich 2016/paperconfig.yaml
+   Config: /home/osnat/github/second_multiomics/data/Prochlorococcus/papers_and_supp/Aharonovich 2016/paperconfig.yaml
 
   Table: de_genes_med4_t20h.csv (analysis: DE_coculture_vs_axenic_med4_20h)
     Organism: Prochlorococcus MED4 | name_col: Synonym
@@ -17,17 +17,17 @@ Gene ID Validation Report
 
   Table: HOT1A3 coculture with 9313 ver coculture with 9313 diluted.csv (analysis: DE_hot1a3_coculture_9313_vs_9313dil_t20h)
     Organism: Alteromonas macleodii HOT1A3 | name_col: Synonym
-    Status: PRE_UNRESOLVED
+    Status: MATCH
     Using pre-resolved CSV: HOT1A3 coculture with 9313 ver coculture with 9313 diluted_resolved.csv
-    Breakdown: Total rows: 1966 | Pre-unresolved: 1966 (no edges)
-    All 1966 rows unresolved by resolve_paper_ids.py (no edges will be created). Re-run prepare_data step 3+4 or check that gene_id_mapping.json exists for Alteromonas macleodii HOT1A3.
+    Breakdown: Total rows: 1966 | Matched: 1880 | Pre-unresolved: 86 (no edges)
+    1880/1880 resolved locus tags match gene nodes; 86 pre-unresolved rows (no edges)
 
   Table: HOT1A3 coculture with MED4 vs coculture with MIT9313.csv (analysis: DE_hot1a3_coculture_9313_vs_med4_t20h)
     Organism: Alteromonas macleodii HOT1A3 | name_col: Synonym
-    Status: PRE_UNRESOLVED
+    Status: MATCH
     Using pre-resolved CSV: HOT1A3 coculture with MED4 vs coculture with MIT9313_resolved.csv
-    Breakdown: Total rows: 6177 | Pre-unresolved: 6177 (no edges)
-    All 6177 rows unresolved by resolve_paper_ids.py (no edges will be created). Re-run prepare_data step 3+4 or check that gene_id_mapping.json exists for Alteromonas macleodii HOT1A3.
+    Breakdown: Total rows: 6177 | Matched: 2296 | Pre-unresolved: 3881 (no edges)
+    2296/2296 resolved locus tags match gene nodes; 3881 pre-unresolved rows (no edges)
 
   Table: de_genes_9313_t20h.csv (analysis: DE_coculture_vs_axenic_9313_t20h)
     Organism: Prochlorococcus MIT9313 | name_col: Synonym
@@ -44,7 +44,7 @@ Gene ID Validation Report
     2267/2267 resolved locus tags match gene nodes; 1 pre-unresolved rows (no edges)
 
 ## Al-Hosani 2015
-   Config: /home/osnat/github/multiomics_biocypher_kg/data/Prochlorococcus/papers_and_supp/Al-Hosani 2015/paperconfig.yaml
+   Config: /home/osnat/github/second_multiomics/data/Prochlorococcus/papers_and_supp/Al-Hosani 2015/paperconfig.yaml
 
   Table: de_genes_salt_acclimated_vs_sea_water.csv (analysis: DE_salt_acclimated_vs_seawater_AS9601)
     Organism: Prochlorococcus AS9601 | name_col: Gene id
@@ -54,7 +54,7 @@ Gene ID Validation Report
     1911/1911 resolved locus tags match gene nodes; 50 pre-unresolved rows (no edges)
 
 ## Anjur-Dietrich 2025
-   Config: /home/osnat/github/multiomics_biocypher_kg/data/Prochlorococcus/papers_and_supp/Anjur 2025/paperconfig.yaml
+   Config: /home/osnat/github/second_multiomics/data/Prochlorococcus/papers_and_supp/Anjur 2025/paperconfig.yaml
 
   Table: de_genes_freeliving_vs_biofilms.csv (analysis: DE_freeliving_vs_biofilm_MIT9301)
     Organism: Prochlorococcus MIT9301 | name_col: ID
@@ -64,7 +64,7 @@ Gene ID Validation Report
     234/234 resolved locus tags match gene nodes; 8 pre-unresolved rows (no edges)
 
 ## Bagby and Chisholm 2015
-   Config: /home/osnat/github/multiomics_biocypher_kg/data/Prochlorococcus/papers_and_supp/bagby 2015/paperconfig.yaml
+   Config: /home/osnat/github/second_multiomics/data/Prochlorococcus/papers_and_supp/bagby 2015/paperconfig.yaml
 
   Table: de_genes_gas_shock_vs_air.csv (analysis: gas_shock_air)
     Organism: Prochlorococcus MED4 | name_col: Locus tag2
@@ -95,7 +95,7 @@ Gene ID Validation Report
     438/438 resolved locus tags match gene nodes; 30 pre-unresolved rows (no edges)
 
 ## Barreto 2022
-   Config: /home/osnat/github/multiomics_biocypher_kg/data/Prochlorococcus/papers_and_supp/barreto 2022/paperconfig.yaml
+   Config: /home/osnat/github/second_multiomics/data/Prochlorococcus/papers_and_supp/barreto 2022/paperconfig.yaml
 
   Table: table_S1_MIT9312.csv (analysis: DE_pco2_elevated_vs_ambient_MIT9312)
     Organism: Prochlorococcus MIT9312 | name_col: symbol
@@ -167,8 +167,18 @@ Gene ID Validation Report
     Breakdown: Total rows: 59 | Matched: 58 | Pre-unresolved: 1 (no edges)
     58/58 resolved locus tags match gene nodes; 1 pre-unresolved rows (no edges)
 
+  Table: table_S4.csv (analysis: DE_pco2_x_coculture_interaction_EZ55)
+    Organism: Alteromonas macleodii EZ55 | name_col: symbol
+    Status: MATCH
+    Using pre-resolved CSV: table_S4_resolved.csv
+    Breakdown: Total rows: 460 | Matched: 437 | Pre-unresolved: 23 (no edges)
+    437/437 resolved locus tags match gene nodes; 23 pre-unresolved rows (no edges)
+
+## Biller 2014
+   Config: /home/osnat/github/second_multiomics/data/Prochlorococcus/papers_and_supp/biller 2014/paperconfig.yaml
+
 ## Biller 2016
-   Config: /home/osnat/github/multiomics_biocypher_kg/data/Prochlorococcus/papers_and_supp/biller 2016/paperconfig.yaml
+   Config: /home/osnat/github/second_multiomics/data/Prochlorococcus/papers_and_supp/biller 2016/paperconfig.yaml
 
   Table: PRO DE genes 41396_2016_bfismej201682_moesm98_esm.csv (analysis: DE_coculture_vs_axenic_NATL2A_minus12h)
     Organism: Prochlorococcus NATL2A | name_col: Original_NCBI_ID
@@ -234,7 +244,7 @@ Gene ID Validation Report
     740/740 resolved locus tags match gene nodes; 26 pre-unresolved rows (no edges)
 
 ## Biller 2018
-   Config: /home/osnat/github/multiomics_biocypher_kg/data/Prochlorococcus/papers_and_supp/Biller 2018/paperconfig.yaml
+   Config: /home/osnat/github/second_multiomics/data/Prochlorococcus/papers_and_supp/Biller 2018/paperconfig.yaml
 
   Table: table S3 DE genes natl2a axenic extended darkness sys003182233st3.csv (analysis: DE_extended_darkness_vs_diel_axenic_NATL2A_1h)
     Organism: Prochlorococcus NATL2A | name_col: NCBI ID_3
@@ -292,8 +302,11 @@ Gene ID Validation Report
     Breakdown: Total rows: 180 | Matched: 175 | Pre-unresolved: 5 (no edges)
     175/175 resolved locus tags match gene nodes; 5 pre-unresolved rows (no edges)
 
+## Biller 2022
+   Config: /home/osnat/github/second_multiomics/data/Prochlorococcus/papers_and_supp/biller 2022/paperconfig.yaml
+
 ## Coe 2024
-   Config: /home/osnat/github/multiomics_biocypher_kg/data/Prochlorococcus/papers_and_supp/coe 2024/paperconfig.yaml
+   Config: /home/osnat/github/second_multiomics/data/Prochlorococcus/papers_and_supp/coe 2024/paperconfig.yaml
 
   Table: Supplemental Table 2.csv (analysis: DE_dark_tolerant_vs_parental_NATL2A_0h)
     Organism: Prochlorococcus NATL2A | name_col: NCBI ID_3
@@ -394,7 +407,7 @@ Gene ID Validation Report
     3857/3857 resolved locus tags match gene nodes; 271 pre-unresolved rows (no edges)
 
 ## Fang 2019
-   Config: /home/osnat/github/multiomics_biocypher_kg/data/Prochlorococcus/papers_and_supp/Fang 2019/paperconfig.yaml
+   Config: /home/osnat/github/second_multiomics/data/Prochlorococcus/papers_and_supp/Fang 2019/paperconfig.yaml
 
   Table: de genes emi14513-sup-0002-tables2.csv (analysis: DE_vdom_vs_control_MIT9313_0.5h)
     Organism: Prochlorococcus MIT9313 | name_col: Gene ID
@@ -460,7 +473,7 @@ Gene ID Validation Report
     429/429 resolved locus tags match gene nodes; 236 pre-unresolved rows (no edges)
 
 ## He 2022
-   Config: /home/osnat/github/multiomics_biocypher_kg/data/Prochlorococcus/papers_and_supp/he 2022/paperconfig.yaml
+   Config: /home/osnat/github/second_multiomics/data/Prochlorococcus/papers_and_supp/he 2022/paperconfig.yaml
 
   Table: table s1 Highly differentially expressed genes in low salinity acclimated cells of NATL1A .csv (analysis: DE_low_salinity_vs_normal_NATL1A)
     Organism: Prochlorococcus NATL1A | name_col: Gene Name
@@ -477,7 +490,7 @@ Gene ID Validation Report
     29/29 resolved locus tags match gene nodes; 2 pre-unresolved rows (no edges)
 
 ## Hennon 2017
-   Config: /home/osnat/github/multiomics_biocypher_kg/data/Prochlorococcus/papers_and_supp/Hennon 2017/paperconfig.yaml
+   Config: /home/osnat/github/second_multiomics/data/Prochlorococcus/papers_and_supp/Hennon 2017/paperconfig.yaml
 
   Table: PRO DE genes 41396_2018_bfismej2017189_moesm28_esm.csv (analysis: DE_elevated_co2_vs_ambient_MIT9312_coculture)
     Organism: Prochlorococcus MIT9312 | name_col: locus_tag
@@ -500,8 +513,15 @@ Gene ID Validation Report
     Breakdown: Total rows: 125 | Matched: 98 | Pre-unresolved: 27 (no edges)
     98/98 resolved locus tags match gene nodes; 27 pre-unresolved rows (no edges)
 
+  Table: ALT gene categories for enrichment 41396_2018_bfismej2017189_moesm31_esm_modified.csv (analysis: DE_elevated_co2_vs_ambient_EZ55_coculture_enrichment_set)
+    Organism: Alteromonas macleodii EZ55 | name_col: geneID
+    Status: MATCH
+    Using pre-resolved CSV: ALT gene categories for enrichment 41396_2018_bfismej2017189_moesm31_esm_modified_resolved.csv
+    Breakdown: Total rows: 452 | Matched: 423 | Pre-unresolved: 29 (no edges)
+    423/423 resolved locus tags match gene nodes; 29 pre-unresolved rows (no edges)
+
 ## Lin 2015
-   Config: /home/osnat/github/multiomics_biocypher_kg/data/Prochlorococcus/papers_and_supp/Lin 2015/paperconfig.yaml
+   Config: /home/osnat/github/second_multiomics/data/Prochlorococcus/papers_and_supp/Lin 2015/paperconfig.yaml
 
   Table: table S4A.csv (analysis: DE_P_limited_vs_replete_NATL2A_uninfected_4h)
     Organism: Prochlorococcus NATL2A | name_col: ID
@@ -602,7 +622,7 @@ Gene ID Validation Report
     34/34 resolved locus tags match gene nodes
 
 ## Lindell 2007
-   Config: /home/osnat/github/multiomics_biocypher_kg/data/Prochlorococcus/papers_and_supp/lindell 2007/paperconfig.yaml
+   Config: /home/osnat/github/second_multiomics/data/Prochlorococcus/papers_and_supp/lindell 2007/paperconfig.yaml
 
   Table: supp table 3.csv (analysis: DE_phage_infection_MED4_1h)
     Organism: Prochlorococcus MED4 | name_col: ORF 
@@ -661,7 +681,7 @@ Gene ID Validation Report
     45/45 resolved locus tags match gene nodes
 
 ## Martiny 2006
-   Config: /home/osnat/github/multiomics_biocypher_kg/data/Prochlorococcus/papers_and_supp/martiny 2006/paperconfig.yaml
+   Config: /home/osnat/github/second_multiomics/data/Prochlorococcus/papers_and_supp/martiny 2006/paperconfig.yaml
 
   Table: 01301table_1.csv (analysis: DE_p_starvation_vs_replete_MED4_0h)
     Organism: Prochlorococcus MED4 | name_col: ORF
@@ -727,7 +747,7 @@ Gene ID Validation Report
     177/177 resolved locus tags match gene nodes; 5 pre-unresolved rows (no edges)
 
 ## Steglich 2006
-   Config: /home/osnat/github/multiomics_biocypher_kg/data/Prochlorococcus/papers_and_supp/steglich 2006/paperconfig.yaml
+   Config: /home/osnat/github/second_multiomics/data/Prochlorococcus/papers_and_supp/steglich 2006/paperconfig.yaml
 
   Table: supp table s1.csv (analysis: DE_high_white_light_vs_dark_MED4)
     Organism: Prochlorococcus MED4 | name_col: gene ID
@@ -772,7 +792,7 @@ Gene ID Validation Report
     198/198 resolved locus tags match gene nodes
 
 ## Tetu 2019
-   Config: /home/osnat/github/multiomics_biocypher_kg/data/Prochlorococcus/papers_and_supp/tetu 2019/paperconfig.yaml
+   Config: /home/osnat/github/second_multiomics/data/Prochlorococcus/papers_and_supp/tetu 2019/paperconfig.yaml
 
   Table: DE genes MIT9312 42003_2019_410_MOESM6_ESM.csv (analysis: DE_hdpe_leachate_vs_control_MIT9312)
     Organism: Prochlorococcus MIT9312 | name_col: MIT9312 original locus tag
@@ -803,7 +823,7 @@ Gene ID Validation Report
     171/171 resolved locus tags match gene nodes; 518 pre-unresolved rows (no edges)
 
 ## Thompson 2011
-   Config: /home/osnat/github/multiomics_biocypher_kg/data/Prochlorococcus/papers_and_supp/thompson 2011/paperconfig.yaml
+   Config: /home/osnat/github/second_multiomics/data/Prochlorococcus/papers_and_supp/thompson 2011/paperconfig.yaml
 
   Table: supp table 1.csv (analysis: DE_iron_starvation_vs_replete_MED4_12h)
     Organism: Prochlorococcus MED4 | name_col: Gene
@@ -862,7 +882,7 @@ Gene ID Validation Report
     98/98 resolved locus tags match gene nodes; 13 pre-unresolved rows (no edges)
 
 ## Tolonen 2006
-   Config: /home/osnat/github/multiomics_biocypher_kg/data/Prochlorococcus/papers_and_supp/tolonen 2006/paperconfig.yaml
+   Config: /home/osnat/github/second_multiomics/data/Prochlorococcus/papers_and_supp/tolonen 2006/paperconfig.yaml
 
   Table: medExpression.1.csv (analysis: DE_n_deprivation_vs_replete_MED4_0h)
     Organism: Prochlorococcus MED4 | name_col: GENE
@@ -977,7 +997,7 @@ Gene ID Validation Report
     2241/2241 resolved locus tags match gene nodes; 9 pre-unresolved rows (no edges)
 
 ## Read 2017
-   Config: /home/osnat/github/multiomics_biocypher_kg/data/Prochlorococcus/papers_and_supp/Read 2017/paperconfig.yaml
+   Config: /home/osnat/github/second_multiomics/data/Prochlorococcus/papers_and_supp/Read 2017/paperconfig.yaml
 
   Table: DE_genes_3h_post_starvation.csv (analysis: DE_N_depleted_vs_replete_MED4_3h)
     Organism: Prochlorococcus MED4 | name_col: locus_tag
@@ -1001,7 +1021,7 @@ Gene ID Validation Report
     853/853 resolved locus tags match gene nodes
 
 ## Thompson 2016
-   Config: /home/osnat/github/multiomics_biocypher_kg/data/Prochlorococcus/papers_and_supp/Thompson 2016/paperconfig.yaml
+   Config: /home/osnat/github/second_multiomics/data/Prochlorococcus/papers_and_supp/Thompson 2016/paperconfig.yaml
 
   Table: DE_genes_dark_vs_light_infected_phage_0.5h.csv (analysis: DE_dark_vs_light_infected_MED4_0.5h)
     Organism: Prochlorococcus MED4 | name_col: locus_tag
@@ -1123,7 +1143,7 @@ Gene ID Validation Report
     8/8 resolved locus tags match gene nodes
 
 ## Weissberg 2025
-   Config: /home/osnat/github/multiomics_biocypher_kg/data/Prochlorococcus/papers_and_supp/Weissberg_2025/paperconfig.yaml
+   Config: /home/osnat/github/second_multiomics/data/Prochlorococcus/papers_and_supp/Weissberg_2025/paperconfig.yaml
 
   Table: HOT1A3__rnaseq__axenic_HOT1A3__day_18__vs__day_11.csv (analysis: DE_hot1a3_rnaseq_axenic_day_18_vs_day_11)
     Organism: Alteromonas macleodii HOT1A3 | name_col: gene_id
@@ -1343,7 +1363,7 @@ Gene ID Validation Report
     1424/1424 resolved locus tags match gene nodes
 
 ## Capovilla 2023
-   Config: /home/osnat/github/multiomics_biocypher_kg/data/Prochlorococcus/papers_and_supp/Capovilla 2023/paperconfig.yaml
+   Config: /home/osnat/github/second_multiomics/data/Prochlorococcus/papers_and_supp/Capovilla 2023/paperconfig.yaml
 
   Table: DE genes RNA-Seq_MIT9313 pnas.2213271120.sd02.csv (analysis: DE_chitosan_vs_control_MIT9313)
     Organism: Prochlorococcus MIT9313 | name_col: ncbi_gene_locus_tag
@@ -1360,16 +1380,16 @@ Gene ID Validation Report
     25/25 resolved locus tags match gene nodes; 11 pre-unresolved rows (no edges)
 
 ## Zinser 2009
-   Config: /home/osnat/github/multiomics_biocypher_kg/data/Prochlorococcus/papers_and_supp/zinser 2009/paperconfig.yaml
+   Config: /home/osnat/github/second_multiomics/data/Prochlorococcus/papers_and_supp/zinser 2009/paperconfig.yaml
 
 ## Alonso-Saez 2023
-   Config: /home/osnat/github/multiomics_biocypher_kg/data/Prochlorococcus/papers_and_supp/alonso 2023/paperconfig.yaml
+   Config: /home/osnat/github/second_multiomics/data/Prochlorococcus/papers_and_supp/alonso 2023/paperconfig.yaml
 
 ## Wang 2014
-   Config: /home/osnat/github/multiomics_biocypher_kg/data/Prochlorococcus/papers_and_supp/Wang 2014/paperconfig.yaml
+   Config: /home/osnat/github/second_multiomics/data/Prochlorococcus/papers_and_supp/Wang 2014/paperconfig.yaml
 
 ## Dominguez-Martin 2017
-   Config: /home/osnat/github/multiomics_biocypher_kg/data/Prochlorococcus/papers_and_supp/Domínguez 2017/paperconfig.yaml
+   Config: /home/osnat/github/second_multiomics/data/Prochlorococcus/papers_and_supp/Domínguez 2017/paperconfig.yaml
 
   Table: table s3 Combined_modified.csv (analysis: ss120_azaserine_vs_control)
     Organism: Prochlorococcus marinus subsp. marinus CCMP1375 (SS120) | name_col: Accession
@@ -1379,7 +1399,7 @@ Gene ID Validation Report
     402/402 resolved locus tags match gene nodes; 6 pre-unresolved rows (no edges)
 
 ## Fuszard 2012
-   Config: /home/osnat/github/multiomics_biocypher_kg/data/Prochlorococcus/papers_and_supp/Fuszard 2012/paperconfig.yaml
+   Config: /home/osnat/github/second_multiomics/data/Prochlorococcus/papers_and_supp/Fuszard 2012/paperconfig.yaml
 
   Table: table s1 MIT9312 Quantitation data_modified.csv (analysis: mit9312_pi_deplete_vs_replete)
     Organism: Prochlorococcus MIT9312 | name_col: ORF
@@ -1403,7 +1423,7 @@ Gene ID Validation Report
     34/34 resolved locus tags match gene nodes
 
 ## Moreno 2023
-   Config: /home/osnat/github/multiomics_biocypher_kg/data/Prochlorococcus/papers_and_supp/moreno 2023/paperconfig.yaml
+   Config: /home/osnat/github/second_multiomics/data/Prochlorococcus/papers_and_supp/moreno 2023/paperconfig.yaml
 
   Table: table s3 Alteromonas in MED4 cultures spectrum.03275-22-s0003_modified.csv (analysis: alt_med4_light_low_glucose_vs_light)
     Organism: Alteromonas (MarRef v6) | name_col: locus_tag_deh24
@@ -1825,8 +1845,17 @@ Gene ID Validation Report
     Breakdown: Total rows: 87 | Matched: 85 | Pre-unresolved: 2 (no edges)
     85/85 resolved locus tags match gene nodes; 2 pre-unresolved rows (no edges)
 
+## Waldbauer 2012
+   Config: /home/osnat/github/second_multiomics/data/Prochlorococcus/papers_and_supp/Waldbauer  2012/paperconfig.yaml
+
+## Fadeev 2022
+   Config: /home/osnat/github/second_multiomics/data/Prochlorococcus/papers_and_supp/fadeev 2022/paperconfig.yaml
+
+## Lu 2025
+   Config: /home/osnat/github/second_multiomics/data/Prochlorococcus/papers_and_supp/Lu 2025/paperconfig.yaml
+
 ## Tai 2009
-   Config: /home/osnat/github/multiomics_biocypher_kg/data/Synechococcus/papers_and_supp/Tal 2009/paperconfig.yaml
+   Config: /home/osnat/github/second_multiomics/data/Synechococcus/papers_and_supp/Tal 2009/paperconfig.yaml
 
   Table: table s1.csv (analysis: vibrio_coculture_wh8102_up)
     Organism: Synechococcus WH8102 | name_col: Gene Name
@@ -1843,7 +1872,7 @@ Gene ID Validation Report
     294/294 resolved locus tags match gene nodes; 50 pre-unresolved rows (no edges)
 
 ## Beliaev 2014
-   Config: /home/osnat/github/multiomics_biocypher_kg/data/Synechococcus/papers_and_supp/Beliaev 2014/paperconfig.yaml
+   Config: /home/osnat/github/second_multiomics/data/Synechococcus/papers_and_supp/Beliaev 2014/paperconfig.yaml
 
   Table: table s3 41396_2014_bfismej201469_moesm40_esm.csv (analysis: syn7002_lactate_vs_axenic)
     Organism: Synechococcus PCC 7002 | name_col:  Locus tag
@@ -1888,7 +1917,7 @@ Gene ID Validation Report
     1267/1267 resolved locus tags match gene nodes; 11 pre-unresolved rows (no edges)
 
 ## Kratzl 2024
-   Config: /home/osnat/github/multiomics_biocypher_kg/data/Synechococcus/papers_and_supp/Kratzl 2024/paperconfig.yaml
+   Config: /home/osnat/github/second_multiomics/data/Synechococcus/papers_and_supp/Kratzl 2024/paperconfig.yaml
 
   Table: data set s1 1_coculture vs Pputida_all 42003_2024_6098_MOESM3_ESM.csv (analysis: DE_rnaseq_coculture_vs_pputida)
     Organism: Pseudomonas putida KT2440 | name_col: gene ID
@@ -1919,7 +1948,7 @@ Gene ID Validation Report
     530/530 resolved locus tags match gene nodes; 37 pre-unresolved rows (no edges)
 
 ## Ma 2022
-   Config: /home/osnat/github/multiomics_biocypher_kg/data/Synechococcus/papers_and_supp/Ma 2022/paperconfig.yaml
+   Config: /home/osnat/github/second_multiomics/data/Synechococcus/papers_and_supp/Ma 2022/paperconfig.yaml
 
   Table: Supplementary Table S1 Up-regulated transcripts.csv (analysis: DE_rnaseq_coculture_ecoli_up)
     Organism: Synechococcus elongatus UTEX 2973 | name_col: Gene ID
@@ -1943,7 +1972,7 @@ Gene ID Validation Report
     39/39 resolved locus tags match gene nodes
 
 ## Christie-Oleza 2017
-   Config: /home/osnat/github/multiomics_biocypher_kg/data/Synechococcus/papers_and_supp/Oleza 2017/paperconfig.yaml
+   Config: /home/osnat/github/second_multiomics/data/Synechococcus/papers_and_supp/Oleza 2017/paperconfig.yaml
 
   Table: table s2a 41564_2017_BFnmicrobiol2017100_MOESM3_ESM.csv (analysis: syn_wh7803_early_coculture_asw)
     Organism: Synechococcus WH7803 | name_col: Other reference
@@ -1967,7 +1996,7 @@ Gene ID Validation Report
     1724/1724 resolved locus tags match gene nodes; 2 pre-unresolved rows (no edges)
 
 ## Kaur 2018
-   Config: /home/osnat/github/multiomics_biocypher_kg/data/Synechococcus/papers_and_supp/kaur 2018/paperconfig.yaml
+   Config: /home/osnat/github/second_multiomics/data/Synechococcus/papers_and_supp/kaur 2018/paperconfig.yaml
 
   Table: table s4a Syn SW emi14012-sup-0004-suppinfo4.csv (analysis: syn_wh7803_sw_tp3_vs_tp1)
     Organism: Synechococcus WH7803 | name_col: NCBI reference
@@ -2071,413 +2100,414 @@ Gene ID Validation Report
     Organism: Ruegeria pomeroyi DSS-3 | name_col: NCBI reference
     Status: MATCH
     Using pre-resolved CSV: table s5a Pom SW emi14012-sup-0005-suppinfo5_resolved.csv
-    Breakdown: Total rows: 184 | Matched: 181 | Pre-unresolved: 3 (no edges)
-    181/181 resolved locus tags match gene nodes; 3 pre-unresolved rows (no edges)
+    Breakdown: Total rows: 184 | Matched: 184
+    184/184 resolved locus tags match gene nodes
 
   Table: table s5a Pom SW emi14012-sup-0005-suppinfo5.csv (analysis: rpom_dss3_sw_tp7_vs_tp1)
     Organism: Ruegeria pomeroyi DSS-3 | name_col: NCBI reference
     Status: MATCH
     Using pre-resolved CSV: table s5a Pom SW emi14012-sup-0005-suppinfo5_resolved.csv
-    Breakdown: Total rows: 184 | Matched: 181 | Pre-unresolved: 3 (no edges)
-    181/181 resolved locus tags match gene nodes; 3 pre-unresolved rows (no edges)
+    Breakdown: Total rows: 184 | Matched: 184
+    184/184 resolved locus tags match gene nodes
 
   Table: table s5a Pom SW emi14012-sup-0005-suppinfo5.csv (analysis: rpom_dss3_sw_tp14_vs_tp1)
     Organism: Ruegeria pomeroyi DSS-3 | name_col: NCBI reference
     Status: MATCH
     Using pre-resolved CSV: table s5a Pom SW emi14012-sup-0005-suppinfo5_resolved.csv
-    Breakdown: Total rows: 184 | Matched: 181 | Pre-unresolved: 3 (no edges)
-    181/181 resolved locus tags match gene nodes; 3 pre-unresolved rows (no edges)
+    Breakdown: Total rows: 184 | Matched: 184
+    184/184 resolved locus tags match gene nodes
 
   Table: table s5a Pom SW emi14012-sup-0005-suppinfo5.csv (analysis: rpom_dss3_sw_tp21_vs_tp1)
     Organism: Ruegeria pomeroyi DSS-3 | name_col: NCBI reference
     Status: MATCH
     Using pre-resolved CSV: table s5a Pom SW emi14012-sup-0005-suppinfo5_resolved.csv
-    Breakdown: Total rows: 184 | Matched: 181 | Pre-unresolved: 3 (no edges)
-    181/181 resolved locus tags match gene nodes; 3 pre-unresolved rows (no edges)
+    Breakdown: Total rows: 184 | Matched: 184
+    184/184 resolved locus tags match gene nodes
 
   Table: table s5a Pom SW emi14012-sup-0005-suppinfo5.csv (analysis: rpom_dss3_sw_tp32_vs_tp1)
     Organism: Ruegeria pomeroyi DSS-3 | name_col: NCBI reference
     Status: MATCH
     Using pre-resolved CSV: table s5a Pom SW emi14012-sup-0005-suppinfo5_resolved.csv
-    Breakdown: Total rows: 184 | Matched: 181 | Pre-unresolved: 3 (no edges)
-    181/181 resolved locus tags match gene nodes; 3 pre-unresolved rows (no edges)
+    Breakdown: Total rows: 184 | Matched: 184
+    184/184 resolved locus tags match gene nodes
 
   Table: table s5a Pom SW emi14012-sup-0005-suppinfo5.csv (analysis: rpom_dss3_sw_tp60_vs_tp1)
     Organism: Ruegeria pomeroyi DSS-3 | name_col: NCBI reference
     Status: MATCH
     Using pre-resolved CSV: table s5a Pom SW emi14012-sup-0005-suppinfo5_resolved.csv
-    Breakdown: Total rows: 184 | Matched: 181 | Pre-unresolved: 3 (no edges)
-    181/181 resolved locus tags match gene nodes; 3 pre-unresolved rows (no edges)
+    Breakdown: Total rows: 184 | Matched: 184
+    184/184 resolved locus tags match gene nodes
 
   Table: table s5a Pom SW emi14012-sup-0005-suppinfo5.csv (analysis: rpom_dss3_sw_tp100_vs_tp1)
     Organism: Ruegeria pomeroyi DSS-3 | name_col: NCBI reference
     Status: MATCH
     Using pre-resolved CSV: table s5a Pom SW emi14012-sup-0005-suppinfo5_resolved.csv
-    Breakdown: Total rows: 184 | Matched: 181 | Pre-unresolved: 3 (no edges)
-    181/181 resolved locus tags match gene nodes; 3 pre-unresolved rows (no edges)
+    Breakdown: Total rows: 184 | Matched: 184
+    184/184 resolved locus tags match gene nodes
 
   Table: table s5b Pom ASW emi14012-sup-0005-suppinfo5.csv (analysis: rpom_dss3_asw_tp3_vs_tp1)
     Organism: Ruegeria pomeroyi DSS-3 | name_col: NCBI reference
     Status: MATCH
     Using pre-resolved CSV: table s5b Pom ASW emi14012-sup-0005-suppinfo5_resolved.csv
-    Breakdown: Total rows: 222 | Matched: 219 | Pre-unresolved: 3 (no edges)
-    219/219 resolved locus tags match gene nodes; 3 pre-unresolved rows (no edges)
+    Breakdown: Total rows: 222 | Matched: 222
+    222/222 resolved locus tags match gene nodes
 
   Table: table s5b Pom ASW emi14012-sup-0005-suppinfo5.csv (analysis: rpom_dss3_asw_tp7_vs_tp1)
     Organism: Ruegeria pomeroyi DSS-3 | name_col: NCBI reference
     Status: MATCH
     Using pre-resolved CSV: table s5b Pom ASW emi14012-sup-0005-suppinfo5_resolved.csv
-    Breakdown: Total rows: 222 | Matched: 219 | Pre-unresolved: 3 (no edges)
-    219/219 resolved locus tags match gene nodes; 3 pre-unresolved rows (no edges)
+    Breakdown: Total rows: 222 | Matched: 222
+    222/222 resolved locus tags match gene nodes
 
   Table: table s5b Pom ASW emi14012-sup-0005-suppinfo5.csv (analysis: rpom_dss3_asw_tp14_vs_tp1)
     Organism: Ruegeria pomeroyi DSS-3 | name_col: NCBI reference
     Status: MATCH
     Using pre-resolved CSV: table s5b Pom ASW emi14012-sup-0005-suppinfo5_resolved.csv
-    Breakdown: Total rows: 222 | Matched: 219 | Pre-unresolved: 3 (no edges)
-    219/219 resolved locus tags match gene nodes; 3 pre-unresolved rows (no edges)
+    Breakdown: Total rows: 222 | Matched: 222
+    222/222 resolved locus tags match gene nodes
 
   Table: table s5b Pom ASW emi14012-sup-0005-suppinfo5.csv (analysis: rpom_dss3_asw_tp21_vs_tp1)
     Organism: Ruegeria pomeroyi DSS-3 | name_col: NCBI reference
     Status: MATCH
     Using pre-resolved CSV: table s5b Pom ASW emi14012-sup-0005-suppinfo5_resolved.csv
-    Breakdown: Total rows: 222 | Matched: 219 | Pre-unresolved: 3 (no edges)
-    219/219 resolved locus tags match gene nodes; 3 pre-unresolved rows (no edges)
+    Breakdown: Total rows: 222 | Matched: 222
+    222/222 resolved locus tags match gene nodes
 
   Table: table s5b Pom ASW emi14012-sup-0005-suppinfo5.csv (analysis: rpom_dss3_asw_tp32_vs_tp1)
     Organism: Ruegeria pomeroyi DSS-3 | name_col: NCBI reference
     Status: MATCH
     Using pre-resolved CSV: table s5b Pom ASW emi14012-sup-0005-suppinfo5_resolved.csv
-    Breakdown: Total rows: 222 | Matched: 219 | Pre-unresolved: 3 (no edges)
-    219/219 resolved locus tags match gene nodes; 3 pre-unresolved rows (no edges)
+    Breakdown: Total rows: 222 | Matched: 222
+    222/222 resolved locus tags match gene nodes
 
   Table: table s5b Pom ASW emi14012-sup-0005-suppinfo5.csv (analysis: rpom_dss3_asw_tp60_vs_tp1)
     Organism: Ruegeria pomeroyi DSS-3 | name_col: NCBI reference
     Status: MATCH
     Using pre-resolved CSV: table s5b Pom ASW emi14012-sup-0005-suppinfo5_resolved.csv
-    Breakdown: Total rows: 222 | Matched: 219 | Pre-unresolved: 3 (no edges)
-    219/219 resolved locus tags match gene nodes; 3 pre-unresolved rows (no edges)
+    Breakdown: Total rows: 222 | Matched: 222
+    222/222 resolved locus tags match gene nodes
 
   Table: table s5b Pom ASW emi14012-sup-0005-suppinfo5.csv (analysis: rpom_dss3_asw_tp100_vs_tp1)
     Organism: Ruegeria pomeroyi DSS-3 | name_col: NCBI reference
     Status: MATCH
     Using pre-resolved CSV: table s5b Pom ASW emi14012-sup-0005-suppinfo5_resolved.csv
-    Breakdown: Total rows: 222 | Matched: 219 | Pre-unresolved: 3 (no edges)
-    219/219 resolved locus tags match gene nodes; 3 pre-unresolved rows (no edges)
+    Breakdown: Total rows: 222 | Matched: 222
+    222/222 resolved locus tags match gene nodes
 
 ## Bernstein 2017
-   Config: /home/osnat/github/multiomics_biocypher_kg/data/Synechococcus/papers_and_supp/Bernstein 2017/paperconfig.yaml
+   Config: /home/osnat/github/second_multiomics/data/Synechococcus/papers_and_supp/Bernstein 2017/paperconfig.yaml
 
 
 ================================================================================
 Summary
 ================================================================================
 
-Publication             | Analysis                            | Status         | Match | 2nd | RNA | !Res | Miss |  IR | Fix Strategy
--------------------------------------------------------------------------------------------------------------------------------------
-Aharonovich 2016        | DE_coculture_vs_axenic_med4_20h     | MATCH          |  1714 |     |   0 |      |    0 |     |*—
-Aharonovich 2016        | DE_hot1a3_coculture_9313_vs_9313dil | PRE_UNRESOLVED |     0 |     |   0 | 1966 |    0 |     |*—
-Aharonovich 2016        | DE_hot1a3_coculture_9313_vs_med4_t2 | PRE_UNRESOLVED |     0 |     |   0 | 6177 |    0 |     |*—
-Aharonovich 2016        | DE_coculture_vs_axenic_9313_t20h    | MATCH          |  2268 |     |   0 |    1 |    0 |     |*—
-Aharonovich 2016        | DE_coculture_vs_axenic_9313_dilute_ | MATCH          |  2267 |     |   0 |    1 |    0 |     |*—
-Al-Hosani 2015          | DE_salt_acclimated_vs_seawater_AS96 | MATCH          |  1911 |     |   0 |   50 |    0 |     |*—
-Anjur-Dietrich 2025     | DE_freeliving_vs_biofilm_MIT9301    | MATCH          |   234 |     |   0 |    8 |    0 |     |*—
-Bagby and Chisholm 2015 | gas_shock_air                       | MATCH          |   438 |     |   0 |   30 |    0 |     |*—
-Bagby and Chisholm 2015 | gas_shock_no_o2                     | MATCH          |   438 |     |   0 |   30 |    0 |     |*—
-Bagby and Chisholm 2015 | gas_shock_low_co2                   | MATCH          |   438 |     |   0 |   30 |    0 |     |*—
-Bagby and Chisholm 2015 | gas_shock_low_co2_no_o2             | MATCH          |   438 |     |   0 |   30 |    0 |     |*—
-Barreto 2022            | DE_pco2_elevated_vs_ambient_MIT9312 | MATCH          |    37 |     |   0 |      |    0 |     |*—
-Barreto 2022            | DE_pco2_elevated_vs_ambient_CC9311  | MATCH          |    27 |     |   0 |    3 |    0 |     |*—
-Barreto 2022            | DE_pco2_elevated_vs_ambient_WH8102  | MATCH          |    12 |     |   0 |    1 |    0 |     |*—
-Barreto 2022            | DE_pco2_elevated_vs_ambient_EZ55    | MATCH          |   126 |     |   0 |    6 |    0 |     |*—
-Barreto 2022            | DE_coculture_MIT9312_vs_axenic_EZ55 | MATCH          |   419 |     |   0 |   21 |    0 |     |*—
-Barreto 2022            | DE_coculture_CC9311_vs_axenic_EZ55_ | MATCH          |   293 |     |   0 |   20 |    0 |     |*—
-Barreto 2022            | DE_coculture_WH8102_vs_axenic_EZ55_ | MATCH          |   136 |     |   0 |    5 |    0 |     |*—
-Barreto 2022            | DE_coculture_MIT9312_vs_axenic_EZ55 | MATCH          |   188 |     |   0 |    7 |    0 |     |*—
-Barreto 2022            | DE_coculture_CC9311_vs_axenic_EZ55_ | MATCH          |    83 |     |   0 |    2 |    0 |     |*—
-Barreto 2022            | DE_coculture_WH8102_vs_axenic_EZ55_ | MATCH          |    58 |     |   0 |    1 |    0 |     |*—
-Biller 2016             | DE_coculture_vs_axenic_NATL2A_minus | MATCH          |   353 |     |   0 |   22 |    0 |     |*—
-Biller 2016             | DE_coculture_vs_axenic_NATL2A_2h    | MATCH          |   353 |     |   0 |   22 |    0 |     |*—
-Biller 2016             | DE_coculture_vs_axenic_NATL2A_4h    | MATCH          |   353 |     |   0 |   22 |    0 |     |*—
-Biller 2016             | DE_coculture_vs_axenic_NATL2A_6h    | MATCH          |   353 |     |   0 |   22 |    0 |     |*—
-Biller 2016             | DE_coculture_vs_axenic_NATL2A_12h   | MATCH          |   353 |     |   0 |   22 |    0 |     |*—
-Biller 2016             | DE_coculture_vs_axenic_NATL2A_24h   | MATCH          |   353 |     |   0 |   22 |    0 |     |*—
-Biller 2016             | DE_coculture_vs_axenic_NATL2A_48h   | MATCH          |   353 |     |   0 |   22 |    0 |     |*—
-Biller 2016             | DE_alteromonas_MIT1002_coculture_24 | MATCH          |   740 |     |   0 |   26 |    0 |     |*—
-Biller 2016             | DE_alteromonas_MIT1002_coculture_48 | MATCH          |   740 |     |   0 |   26 |    0 |     |*—
-Biller 2018             | DE_extended_darkness_vs_diel_axenic | MATCH          |  1955 |     |   0 |   26 |    0 |     |*—
-Biller 2018             | DE_extended_darkness_vs_diel_axenic | MATCH          |  1955 |     |   0 |   26 |    0 |     |*—
-Biller 2018             | DE_extended_darkness_vs_diel_axenic | MATCH          |  1955 |     |   0 |   26 |    0 |     |*—
-Biller 2018             | DE_extended_darkness_vs_diel_cocult | MATCH          |  1955 |     |   0 |   26 |    0 |     |*—
-Biller 2018             | DE_extended_darkness_vs_diel_cocult | MATCH          |  1955 |     |   0 |   26 |    0 |     |*—
-Biller 2018             | DE_extended_darkness_vs_diel_cocult | MATCH          |  1955 |     |   0 |   26 |    0 |     |*—
-Biller 2018             | DE_extended_darkness_vs_diel_MIT100 | MATCH          |   175 |     |   0 |    5 |    0 |     |*—
-Biller 2018             | DE_extended_darkness_vs_diel_MIT100 | MATCH          |   175 |     |   0 |    5 |    0 |     |*—
-Coe 2024                | DE_dark_tolerant_vs_parental_NATL2A | MATCH          |  2029 |     |   0 |   60 |    0 |     |*—
-Coe 2024                | DE_dark_tolerant_vs_parental_NATL2A | MATCH          |  2029 |     |   0 |   60 |    0 |     |*—
-Coe 2024                | DE_dark_tolerant_vs_parental_NATL2A | MATCH          |  2029 |     |   0 |   60 |    0 |     |*—
-Coe 2024                | DE_dark_tolerant_vs_parental_NATL2A | MATCH          |  2029 |     |   0 |   60 |    0 |     |*—
-Coe 2024                | DE_dark_tolerant_vs_parental_NATL2A | MATCH          |  2029 |     |   0 |   60 |    0 |     |*—
-Coe 2024                | DE_dark_tolerant_vs_parental_NATL2A | MATCH          |  2029 |     |   0 |   60 |    0 |     |*—
-Coe 2024                | DE_dark_tolerant_vs_parental_NATL2A | MATCH          |  2029 |     |   0 |   60 |    0 |     |*—
-Coe 2024                | DE_dark_tolerant_vs_parental_ALT_MI | MATCH          |  3857 |     |   0 |  271 |    0 |     |*—
-Coe 2024                | DE_dark_tolerant_vs_parental_ALT_MI | MATCH          |  3857 |     |   0 |  271 |    0 |     |*—
-Coe 2024                | DE_dark_tolerant_vs_parental_ALT_MI | MATCH          |  3857 |     |   0 |  271 |    0 |     |*—
-Coe 2024                | DE_dark_tolerant_vs_parental_ALT_MI | MATCH          |  3857 |     |   0 |  271 |    0 |     |*—
-Coe 2024                | DE_dark_tolerant_vs_parental_ALT_MI | MATCH          |  3857 |     |   0 |  271 |    0 |     |*—
-Coe 2024                | DE_dark_tolerant_vs_parental_ALT_MI | MATCH          |  3857 |     |   0 |  271 |    0 |     |*—
-Coe 2024                | DE_dark_tolerant_vs_parental_ALT_MI | MATCH          |  3857 |     |   0 |  271 |    0 |     |*—
-Fang 2019               | DE_vdom_vs_control_MIT9313_0.5h     | MATCH          |   429 |     |   0 |  236 |    0 |     |*—
-Fang 2019               | DE_vdom_vs_control_MIT9313_1h       | MATCH          |   429 |     |   0 |  236 |    0 |     |*—
-Fang 2019               | DE_vdom_vs_control_MIT9313_2h       | MATCH          |   429 |     |   0 |  236 |    0 |     |*—
-Fang 2019               | DE_vdom_vs_control_MIT9313_4h       | MATCH          |   429 |     |   0 |  236 |    0 |     |*—
-Fang 2019               | DE_vdom_vs_control_MIT9313_8h       | MATCH          |   429 |     |   0 |  236 |    0 |     |*—
-Fang 2019               | DE_vdom_vs_control_MIT9313_12h      | MATCH          |   429 |     |   0 |  236 |    0 |     |*—
-Fang 2019               | DE_vdom_vs_control_MIT9313_24h      | MATCH          |   429 |     |   0 |  236 |    0 |     |*—
-Fang 2019               | DE_vdom_vs_control_MIT9313_48h      | MATCH          |   429 |     |   0 |  236 |    0 |     |*—
-Fang 2019               | DE_vdom_vs_control_MIT9313_72h      | MATCH          |   429 |     |   0 |  236 |    0 |     |*—
-He 2022                 | DE_low_salinity_vs_normal_NATL1A    | MATCH          |    81 |     |   0 |    1 |    0 |     |*—
-He 2022                 | DE_low_salinity_vs_normal_MED4      | MATCH          |    29 |     |   0 |    2 |    0 |     |*—
-Hennon 2017             | DE_elevated_co2_vs_ambient_MIT9312_ | MATCH          |   103 |     |   0 |      |    0 |     |*—
-Hennon 2017             | DE_elevated_co2_vs_ambient_EZ55_coc | MATCH          |   345 |     |   0 |   77 |    0 |     |*—
-Hennon 2017             | DE_elevated_co2_vs_ambient_EZ55_axe | MATCH          |    98 |     |   0 |   27 |    0 |     |*—
-Lin 2015                | DE_P_limited_vs_replete_NATL2A_unin | MATCH          |    34 |     |   0 |      |    0 |     |*—
-Lin 2015                | DE_P_limited_vs_replete_NATL2A_unin | MATCH          |    34 |     |   0 |      |    0 |     |*—
-Lin 2015                | DE_P_limited_vs_replete_NATL2A_unin | MATCH          |    34 |     |   0 |      |    0 |     |*—
-Lin 2015                | DE_P_limited_vs_replete_NATL2A_unin | MATCH          |    34 |     |   0 |      |    0 |     |*—
-Lin 2015                | DE_P_readded_vs_control_NATL2A_unin | MATCH          |    34 |     |   0 |      |    0 |     |*—
-Lin 2015                | DE_P_readded_vs_control_NATL2A_unin | MATCH          |    34 |     |   0 |      |    0 |     |*—
-Lin 2015                | DE_P_limited_vs_replete_NATL2A_infe | MATCH          |    34 |     |   0 |      |    0 |     |*—
-Lin 2015                | DE_P_limited_vs_replete_NATL2A_infe | MATCH          |    34 |     |   0 |      |    0 |     |*—
-Lin 2015                | DE_P_limited_vs_replete_NATL2A_infe | MATCH          |    34 |     |   0 |      |    0 |     |*—
-Lin 2015                | DE_P_limited_vs_replete_NATL2A_infe | MATCH          |    34 |     |   0 |      |    0 |     |*—
-Lin 2015                | DE_P_limited_vs_replete_NATL2A_infe | MATCH          |    34 |     |   0 |      |    0 |     |*—
-Lin 2015                | DE_P_limited_vs_replete_NATL2A_infe | MATCH          |    34 |     |   0 |      |    0 |     |*—
-Lin 2015                | DE_P_readded_vs_control_NATL2A_infe | MATCH          |    34 |     |   0 |      |    0 |     |*—
-Lin 2015                | DE_P_readded_vs_control_NATL2A_infe | MATCH          |    34 |     |   0 |      |    0 |     |*—
-Lindell 2007            | DE_phage_infection_MED4_1h          | MATCH          |    45 |     |   0 |      |    0 |     |*—
-Lindell 2007            | DE_phage_infection_MED4_2h          | MATCH          |    45 |     |   0 |      |    0 |     |*—
-Lindell 2007            | DE_phage_infection_MED4_3h          | MATCH          |    45 |     |   0 |      |    0 |     |*—
-Lindell 2007            | DE_phage_infection_MED4_4h          | MATCH          |    45 |     |   0 |      |    0 |     |*—
-Lindell 2007            | DE_phage_infection_MED4_5h          | MATCH          |    45 |     |   0 |      |    0 |     |*—
-Lindell 2007            | DE_phage_infection_MED4_6h          | MATCH          |    45 |     |   0 |      |    0 |     |*—
-Lindell 2007            | DE_phage_infection_MED4_7h          | MATCH          |    45 |     |   0 |      |    0 |     |*—
-Lindell 2007            | DE_phage_infection_MED4_8h          | MATCH          |    45 |     |   0 |      |    0 |     |*—
-Martiny 2006            | DE_p_starvation_vs_replete_MED4_0h  | MATCH          |    34 |     |   0 |      |    0 |     |*—
-Martiny 2006            | DE_p_starvation_vs_replete_MED4_4h  | MATCH          |    34 |     |   0 |      |    0 |     |*—
-Martiny 2006            | DE_p_starvation_vs_replete_MED4_12h | MATCH          |    34 |     |   0 |      |    0 |     |*—
-Martiny 2006            | DE_p_starvation_vs_replete_MED4_24h | MATCH          |    34 |     |   0 |      |    0 |     |*—
-Martiny 2006            | DE_p_starvation_vs_replete_MED4_48h | MATCH          |    34 |     |   0 |      |    0 |     |*—
-Martiny 2006            | DE_p_starvation_vs_replete_MIT9313_ | MATCH          |   177 |     |   0 |    5 |    0 |     |*—
-Martiny 2006            | DE_p_starvation_vs_replete_MIT9313_ | MATCH          |   177 |     |   0 |    5 |    0 |     |*—
-Martiny 2006            | DE_p_starvation_vs_replete_MIT9313_ | MATCH          |   177 |     |   0 |    5 |    0 |     |*—
-Martiny 2006            | DE_p_starvation_vs_replete_MIT9313_ | MATCH          |   177 |     |   0 |    5 |    0 |     |*—
-Steglich 2006           | DE_high_white_light_vs_dark_MED4    | MATCH          |   198 |     |   0 |      |    0 |     |*—
-Steglich 2006           | DE_white_light_vs_dark_MED4         | MATCH          |   198 |     |   0 |      |    0 |     |*—
-Steglich 2006           | DE_blue_light_vs_dark_MED4          | MATCH          |   198 |     |   0 |      |    0 |     |*—
-Steglich 2006           | DE_red_light_vs_dark_MED4           | MATCH          |   198 |     |   0 |      |    0 |     |*—
-Steglich 2006           | DE_green_light_vs_dark_MED4         | MATCH          |   198 |     |   0 |      |    0 |     |*—
-Steglich 2006           | DE_DCMU_vs_white_light_MED4         | MATCH          |   198 |     |   0 |      |    0 |     |*—
-Tetu 2019               | DE_hdpe_leachate_vs_control_MIT9312 | MATCH          |   681 |     |   0 |    9 |    0 |     |*—
-Tetu 2019               | DE_pvc_leachate_vs_control_MIT9312  | MATCH          |   681 |     |   0 |    9 |    0 |     |*—
-Tetu 2019               | DE_hdpe_leachate_vs_control_NATL2A  | MATCH          |   171 |     |   0 |  518 |    0 |     |*—
-Tetu 2019               | DE_pvc_leachate_vs_control_NATL2A   | MATCH          |   171 |     |   0 |  518 |    0 |     |*—
-Thompson 2011           | DE_iron_starvation_vs_replete_MED4_ | MATCH          |   112 |     |   0 |   13 |    0 |     |*—
-Thompson 2011           | DE_iron_starvation_vs_replete_MED4_ | MATCH          |   112 |     |   0 |   13 |    0 |     |*—
-Thompson 2011           | DE_iron_starvation_vs_replete_MED4_ | MATCH          |   112 |     |   0 |   13 |    0 |     |*—
-Thompson 2011           | DE_iron_rescue_MED4                 | MATCH          |   112 |     |   0 |   13 |    0 |     |*—
-Thompson 2011           | DE_iron_starvation_vs_replete_MIT93 | MATCH          |    98 |     |   0 |   13 |    0 |     |*—
-Thompson 2011           | DE_iron_starvation_vs_replete_MIT93 | MATCH          |    98 |     |   0 |   13 |    0 |     |*—
-Thompson 2011           | DE_iron_starvation_vs_replete_MIT93 | MATCH          |    98 |     |   0 |   13 |    0 |     |*—
-Thompson 2011           | DE_iron_rescue_MIT9313              | MATCH          |    98 |     |   0 |   13 |    0 |     |*—
-Tolonen 2006            | DE_n_deprivation_vs_replete_MED4_0h | MATCH          |  1697 |     |   0 |    1 |    0 |     |*—
-Tolonen 2006            | DE_n_deprivation_vs_replete_MED4_3h | MATCH          |  1697 |     |   0 |    1 |    0 |     |*—
-Tolonen 2006            | DE_n_deprivation_vs_replete_MED4_6h | MATCH          |  1697 |     |   0 |    1 |    0 |     |*—
-Tolonen 2006            | DE_n_deprivation_vs_replete_MED4_12 | MATCH          |  1697 |     |   0 |    1 |    0 |     |*—
-Tolonen 2006            | DE_n_deprivation_vs_replete_MED4_24 | MATCH          |  1697 |     |   0 |    1 |    0 |     |*—
-Tolonen 2006            | DE_n_deprivation_vs_replete_MED4_48 | MATCH          |  1697 |     |   0 |    1 |    0 |     |*—
-Tolonen 2006            | DE_cyanate_vs_ammonium_MED4         | MATCH          |  1697 |     |   0 |    1 |    0 |     |*—
-Tolonen 2006            | DE_urea_vs_ammonium_MED4            | MATCH          |  1697 |     |   0 |    1 |    0 |     |*—
-Tolonen 2006            | DE_n_deprivation_vs_replete_MIT9313 | MATCH          |  2241 |     |   0 |    9 |    0 |     |*—
-Tolonen 2006            | DE_n_deprivation_vs_replete_MIT9313 | MATCH          |  2241 |     |   0 |    9 |    0 |     |*—
-Tolonen 2006            | DE_n_deprivation_vs_replete_MIT9313 | MATCH          |  2241 |     |   0 |    9 |    0 |     |*—
-Tolonen 2006            | DE_n_deprivation_vs_replete_MIT9313 | MATCH          |  2241 |     |   0 |    9 |    0 |     |*—
-Tolonen 2006            | DE_n_deprivation_vs_replete_MIT9313 | MATCH          |  2241 |     |   0 |    9 |    0 |     |*—
-Tolonen 2006            | DE_n_deprivation_vs_replete_MIT9313 | MATCH          |  2241 |     |   0 |    9 |    0 |     |*—
-Tolonen 2006            | DE_nitrite_vs_ammonium_MIT9313      | MATCH          |  2241 |     |   0 |    9 |    0 |     |*—
-Tolonen 2006            | DE_urea_vs_ammonium_MIT9313         | MATCH          |  2241 |     |   0 |    9 |    0 |     |*—
-Read 2017               | DE_N_depleted_vs_replete_MED4_3h    | MATCH          |   841 |     |   0 |      |    0 |     |*—
-Read 2017               | DE_N_depleted_vs_replete_MED4_12h   | MATCH          |   840 |     |   0 |      |    0 |     |*—
-Read 2017               | DE_N_depleted_vs_replete_MED4_24h   | MATCH          |   853 |     |   0 |      |    0 |     |*—
-Thompson 2016           | DE_dark_vs_light_infected_MED4_0.5h | MATCH          |    10 |     |   0 |      |    0 |     |*—
-Thompson 2016           | DE_dark_vs_light_infected_MED4_1.5h | MATCH          |     1 |     |   0 |      |    0 |     |*—
-Thompson 2016           | DE_dark_vs_light_infected_MED4_2.5h | MATCH          |     3 |     |   0 |      |    0 |     |*—
-Thompson 2016           | DE_dark_vs_light_infected_MED4_4.5h | MATCH          |    10 |     |   0 |      |    0 |     |*—
-Thompson 2016           | DE_dark_vs_light_infected_MED4_8.5h | MATCH          |    30 |     |   0 |    1 |    0 |     |*—
-Thompson 2016           | DE_dark_vs_light_uninfected_MED4_1. | MATCH          |     1 |     |   0 |      |    0 |     |*—
-Thompson 2016           | DE_dark_vs_light_uninfected_MED4_2. | MATCH          |     3 |     |   0 |      |    0 |     |*—
-Thompson 2016           | DE_dark_vs_light_uninfected_MED4_4. | MATCH          |    14 |     |   0 |      |    0 |     |*—
-Thompson 2016           | DE_dark_vs_light_uninfected_MED4_8. | MATCH          |    31 |     |   0 |    1 |    0 |     |*—
-Thompson 2016           | DE_lysate_vs_spent_medium_light_MED | MATCH          |     8 |     |   0 |      |    0 |     |*—
-Thompson 2016           | DE_lysate_vs_spent_medium_light_MED | MATCH          |     6 |     |   0 |      |    0 |     |*—
-Thompson 2016           | DE_lysate_vs_spent_medium_light_MED | MATCH          |     3 |     |   0 |      |    0 |     |*—
-Thompson 2016           | DE_lysate_vs_spent_medium_light_MED | MATCH          |     3 |     |   0 |      |    0 |     |*—
-Thompson 2016           | DE_lysate_vs_spent_medium_light_MED | MATCH          |    16 |     |   0 |      |    0 |     |*—
-Thompson 2016           | DE_lysate_vs_spent_medium_dark_MED4 | MATCH          |     9 |     |   0 |      |    0 |     |*—
-Thompson 2016           | DE_lysate_vs_spent_medium_dark_MED4 | MATCH          |    19 |     |   0 |      |    0 |     |*—
-Thompson 2016           | DE_lysate_vs_spent_medium_dark_MED4 | MATCH          |     8 |     |   0 |      |    0 |     |*—
-Weissberg 2025          | DE_hot1a3_rnaseq_axenic_day_18_vs_d | MATCH          |  3950 |     |   0 |   65 |    0 |     |*—
-Weissberg 2025          | DE_hot1a3_rnaseq_axenic_day_31_vs_d | MATCH          |  3950 |     |   0 |   65 |    0 |     |*—
-Weissberg 2025          | DE_hot1a3_rnaseq_axenic_longterm_vs | MATCH          |  3950 |     |   0 |   65 |    0 |     |*—
-Weissberg 2025          | DE_hot1a3_rnaseq_coculture_day_18_v | MATCH          |  3950 |     |   0 |   65 |    0 |     |*—
-Weissberg 2025          | DE_hot1a3_rnaseq_coculture_day_31_v | MATCH          |  3950 |     |   0 |   65 |    0 |     |*—
-Weissberg 2025          | DE_hot1a3_rnaseq_coculture_day_60_v | MATCH          |  3950 |     |   0 |   65 |    0 |     |*—
-Weissberg 2025          | DE_hot1a3_rnaseq_coculture_day_89_v | MATCH          |  3950 |     |   0 |   65 |    0 |     |*—
-Weissberg 2025          | DE_hot1a3_rnaseq_coculture_longterm | MATCH          |  3950 |     |   0 |   65 |    0 |     |*—
-Weissberg 2025          | DE_hot1a3_rnaseq_coculture_vs_axeni | MATCH          |  3950 |     |   0 |   65 |    0 |     |*—
-Weissberg 2025          | DE_hot1a3_proteome_axenic_day_18_vs | MATCH          |  2226 |     |   0 |    3 |    0 |     |*—
-Weissberg 2025          | DE_hot1a3_proteome_axenic_day_31_vs | MATCH          |  2226 |     |   0 |    3 |    0 |     |*—
-Weissberg 2025          | DE_hot1a3_proteome_coculture_day_18 | MATCH          |  2226 |     |   0 |    3 |    0 |     |*—
-Weissberg 2025          | DE_hot1a3_proteome_coculture_day_31 | MATCH          |  2226 |     |   0 |    3 |    0 |     |*—
-Weissberg 2025          | DE_hot1a3_proteome_coculture_day_60 | MATCH          |  2226 |     |   0 |    3 |    0 |     |*—
-Weissberg 2025          | DE_hot1a3_proteome_coculture_day_89 | MATCH          |  2226 |     |   0 |    3 |    0 |     |*—
-Weissberg 2025          | DE_hot1a3_proteome_coculture_longte | MATCH          |  2226 |     |   0 |    3 |    0 |     |*—
-Weissberg 2025          | DE_med4_rnaseq_axenic_day_14_vs_exp | MATCH          |  1849 |     |   0 |    6 |    0 |     |*—
-Weissberg 2025          | DE_med4_rnaseq_coculture_day_18_vs_ | MATCH          |  1849 |     |   0 |    6 |    0 |     |*—
-Weissberg 2025          | DE_med4_rnaseq_coculture_day_31_vs_ | MATCH          |  1849 |     |   0 |    6 |    0 |     |*—
-Weissberg 2025          | DE_med4_rnaseq_coculture_day_60_vs_ | MATCH          |  1849 |     |   0 |    6 |    0 |     |*—
-Weissberg 2025          | DE_med4_rnaseq_coculture_day_89_vs_ | MATCH          |  1849 |     |   0 |    6 |    0 |     |*—
-Weissberg 2025          | DE_med4_rnaseq_coculture_longterm_v | MATCH          |  1849 |     |   0 |    6 |    0 |     |*—
-Weissberg 2025          | DE_med4_rnaseq_coculture_vs_axenic_ | MATCH          |  1849 |     |   0 |    6 |    0 |     |*—
-Weissberg 2025          | DE_med4_proteome_axenic_day_14_vs_e | MATCH          |  1424 |     |   0 |      |    0 |     |*—
-Weissberg 2025          | DE_med4_proteome_axenic_day_31_vs_e | MATCH          |  1424 |     |   0 |      |    0 |     |*—
-Weissberg 2025          | DE_med4_proteome_axenic_day_89_vs_e | MATCH          |  1424 |     |   0 |      |    0 |     |*—
-Weissberg 2025          | DE_med4_proteome_coculture_day_18_v | MATCH          |  1424 |     |   0 |      |    0 |     |*—
-Weissberg 2025          | DE_med4_proteome_coculture_day_31_v | MATCH          |  1424 |     |   0 |      |    0 |     |*—
-Weissberg 2025          | DE_med4_proteome_coculture_day_60_v | MATCH          |  1424 |     |   0 |      |    0 |     |*—
-Weissberg 2025          | DE_med4_proteome_coculture_day_89_v | MATCH          |  1424 |     |   0 |      |    0 |     |*—
-Weissberg 2025          | DE_med4_proteome_coculture_longterm | MATCH          |  1424 |     |   0 |      |    0 |     |*—
-Capovilla 2023          | DE_chitosan_vs_control_MIT9313      | MATCH          |    72 |     |   0 |    9 |    0 |     |*—
-Capovilla 2023          | DE_chitosan_vs_control_MIT9303      | MATCH          |    25 |     |   0 |   11 |    0 |     |*—
-Dominguez-Martin 2017   | ss120_azaserine_vs_control          | MATCH          |   402 |     |   0 |    6 |    0 |     |*—
-Fuszard 2012            | mit9312_pi_deplete_vs_replete       | MATCH          |    38 |     |   0 |      |    0 |     |*—
-Fuszard 2012            | natl2a_pi_deplete_vs_replete        | MATCH          |    63 |     |   0 |      |    0 |     |*—
-Fuszard 2012            | ss120_pi_deplete_vs_replete         | MATCH          |    34 |     |   0 |      |    0 |     |*—
-Moreno 2023             | alt_med4_light_low_glucose_vs_light | MATCH          |    16 |     |   0 |   31 |    0 |     |*—
-Moreno 2023             | alt_med4_light_high_glucose_vs_ligh | MATCH          |    16 |     |   0 |   31 |    0 |     |*—
-Moreno 2023             | alt_med4_dark_low_glucose_vs_dark   | MATCH          |    16 |     |   0 |   31 |    0 |     |*—
-Moreno 2023             | alt_med4_dark_high_glucose_vs_dark  | MATCH          |    16 |     |   0 |   31 |    0 |     |*—
-Moreno 2023             | alt_ss120_light_low_glucose_vs_ligh | MATCH          |    54 |     |   0 |   80 |    0 |     |*—
-Moreno 2023             | alt_ss120_light_high_glucose_vs_lig | MATCH          |    54 |     |   0 |   80 |    0 |     |*—
-Moreno 2023             | alt_ss120_dark_low_glucose_vs_dark  | MATCH          |    54 |     |   0 |   80 |    0 |     |*—
-Moreno 2023             | alt_ss120_dark_high_glucose_vs_dark | MATCH          |    54 |     |   0 |   80 |    0 |     |*—
-Moreno 2023             | alt_wh7803_light_low_glucose_vs_lig | MATCH          |     4 |     |   0 |   11 |    0 |     |*—
-Moreno 2023             | alt_wh7803_light_high_glucose_vs_li | MATCH          |     4 |     |   0 |   11 |    0 |     |*—
-Moreno 2023             | alt_wh7803_dark_low_glucose_vs_dark | MATCH          |     4 |     |   0 |   11 |    0 |     |*—
-Moreno 2023             | alt_wh7803_dark_high_glucose_vs_dar | MATCH          |     4 |     |   0 |   11 |    0 |     |*—
-Moreno 2023             | alt_wh8102_light_low_glucose_vs_lig | MATCH          |    78 |     |   0 |  110 |    0 |     |*—
-Moreno 2023             | alt_wh8102_light_high_glucose_vs_li | MATCH          |    78 |     |   0 |  110 |    0 |     |*—
-Moreno 2023             | alt_wh8102_dark_low_glucose_vs_dark | MATCH          |    78 |     |   0 |  110 |    0 |     |*—
-Moreno 2023             | alt_wh8102_dark_high_glucose_vs_dar | MATCH          |    78 |     |   0 |  110 |    0 |     |*—
-Moreno 2023             | alt_bl107_light_low_glucose_vs_ligh | MATCH          |    11 |     |   0 |   30 |    0 |     |*—
-Moreno 2023             | alt_bl107_light_high_glucose_vs_lig | MATCH          |    11 |     |   0 |   30 |    0 |     |*—
-Moreno 2023             | alt_bl107_dark_low_glucose_vs_dark  | MATCH          |    11 |     |   0 |   30 |    0 |     |*—
-Moreno 2023             | alt_bl107_dark_high_glucose_vs_dark | MATCH          |    11 |     |   0 |   30 |    0 |     |*—
-Moreno 2023             | med4_light_low_glucose_vs_light     | MATCH          |   327 |     |   0 |      |    0 |     |*—
-Moreno 2023             | med4_light_high_glucose_vs_light    | MATCH          |   327 |     |   0 |      |    0 |     |*—
-Moreno 2023             | med4_dark_low_glucose_vs_dark       | MATCH          |   327 |     |   0 |      |    0 |     |*—
-Moreno 2023             | med4_dark_high_glucose_vs_dark      | MATCH          |   327 |     |   0 |      |    0 |     |*—
-Moreno 2023             | ss120_light_low_glucose_vs_light    | MATCH          |   930 |     |   0 |      |    0 |     |*—
-Moreno 2023             | ss120_light_high_glucose_vs_light   | MATCH          |   930 |     |   0 |      |    0 |     |*—
-Moreno 2023             | ss120_dark_low_glucose_vs_dark      | MATCH          |   930 |     |   0 |      |    0 |     |*—
-Moreno 2023             | ss120_dark_high_glucose_vs_dark     | MATCH          |   930 |     |   0 |      |    0 |     |*—
-Moreno 2023             | wh7803_light_low_glucose_vs_light   | MATCH          |   359 |     |   0 |      |    0 |     |*—
-Moreno 2023             | wh7803_light_high_glucose_vs_light  | MATCH          |   359 |     |   0 |      |    0 |     |*—
-Moreno 2023             | wh7803_dark_low_glucose_vs_dark     | MATCH          |   359 |     |   0 |      |    0 |     |*—
-Moreno 2023             | wh7803_dark_high_glucose_vs_dark    | MATCH          |   359 |     |   0 |      |    0 |     |*—
-Moreno 2023             | wh8102_light_low_glucose_vs_light   | MATCH          |   895 |     |   0 |    3 |    0 |     |*—
-Moreno 2023             | wh8102_light_high_glucose_vs_light  | MATCH          |   895 |     |   0 |    3 |    0 |     |*—
-Moreno 2023             | wh8102_dark_low_glucose_vs_dark     | MATCH          |   895 |     |   0 |    3 |    0 |     |*—
-Moreno 2023             | wh8102_dark_high_glucose_vs_dark    | MATCH          |   895 |     |   0 |    3 |    0 |     |*—
-Moreno 2023             | bl107_light_low_glucose_vs_light    | MATCH          |   168 |     |   0 |    5 |    0 |     |*—
-Moreno 2023             | bl107_light_high_glucose_vs_light   | MATCH          |   168 |     |   0 |    5 |    0 |     |*—
-Moreno 2023             | bl107_dark_low_glucose_vs_dark      | MATCH          |   168 |     |   0 |    5 |    0 |     |*—
-Moreno 2023             | bl107_dark_high_glucose_vs_dark     | MATCH          |   168 |     |   0 |    5 |    0 |     |*—
-Moreno 2023             | marino_med4_light_low_glucose_vs_li | MATCH          |   348 |     |   0 |   11 |    0 |     |*—
-Moreno 2023             | marino_med4_light_high_glucose_vs_l | MATCH          |   348 |     |   0 |   11 |    0 |     |*—
-Moreno 2023             | marino_med4_dark_low_glucose_vs_dar | MATCH          |   348 |     |   0 |   11 |    0 |     |*—
-Moreno 2023             | marino_med4_dark_high_glucose_vs_da | MATCH          |   348 |     |   0 |   11 |    0 |     |*—
-Moreno 2023             | marino_ss120_light_low_glucose_vs_l | MATCH          |   200 |     |   0 |    5 |    0 |     |*—
-Moreno 2023             | marino_ss120_light_high_glucose_vs_ | MATCH          |   200 |     |   0 |    5 |    0 |     |*—
-Moreno 2023             | marino_ss120_dark_low_glucose_vs_da | MATCH          |   200 |     |   0 |    5 |    0 |     |*—
-Moreno 2023             | marino_ss120_dark_high_glucose_vs_d | MATCH          |   200 |     |   0 |    5 |    0 |     |*—
-Moreno 2023             | marino_wh7803_light_low_glucose_vs_ | MATCH          |   149 |     |   0 |    5 |    0 |     |*—
-Moreno 2023             | marino_wh7803_light_high_glucose_vs | MATCH          |   149 |     |   0 |    5 |    0 |     |*—
-Moreno 2023             | marino_wh7803_dark_low_glucose_vs_d | MATCH          |   149 |     |   0 |    5 |    0 |     |*—
-Moreno 2023             | marino_wh7803_dark_high_glucose_vs_ | MATCH          |   149 |     |   0 |    5 |    0 |     |*—
-Moreno 2023             | marino_wh8102_light_low_glucose_vs_ | MATCH          |   493 |     |   0 |   11 |    0 |     |*—
-Moreno 2023             | marino_wh8102_light_high_glucose_vs | MATCH          |   493 |     |   0 |   11 |    0 |     |*—
-Moreno 2023             | marino_wh8102_dark_low_glucose_vs_d | MATCH          |   493 |     |   0 |   11 |    0 |     |*—
-Moreno 2023             | marino_wh8102_dark_high_glucose_vs_ | MATCH          |   493 |     |   0 |   11 |    0 |     |*—
-Moreno 2023             | marino_bl107_light_low_glucose_vs_l | MATCH          |    85 |     |   0 |    2 |    0 |     |*—
-Moreno 2023             | marino_bl107_light_high_glucose_vs_ | MATCH          |    85 |     |   0 |    2 |    0 |     |*—
-Moreno 2023             | marino_bl107_dark_low_glucose_vs_da | MATCH          |    85 |     |   0 |    2 |    0 |     |*—
-Moreno 2023             | marino_bl107_dark_high_glucose_vs_d | MATCH          |    85 |     |   0 |    2 |    0 |     |*—
-Tai 2009                | vibrio_coculture_wh8102_up          | MATCH          |   280 |     |   0 |    5 |    0 |     |*—
-Tai 2009                | vibrio_coculture_wh8102_down        | MATCH          |   294 |     |   0 |   50 |    0 |     |*—
-Beliaev 2014            | syn7002_lactate_vs_axenic           | MATCH          |  1159 |     |   0 |   27 |    0 |     |*—
-Beliaev 2014            | shew_w3181_lactate_vs_axenic        | MATCH          |   456 |     |   0 |    2 |    0 |     |*—
-Beliaev 2014            | syn7002_hco3_vs_axenic              | MATCH          |   672 |     |   0 |   20 |    0 |     |*—
-Beliaev 2014            | shew_w3181_hco3_vs_axenic           | MATCH          |  1331 |     |   0 |   12 |    0 |     |*—
-Beliaev 2014            | syn7002_hco3_vs_lactate             | MATCH          |   674 |     |   0 |   28 |    0 |     |*—
-Beliaev 2014            | shew_w3181_hco3_vs_lactate          | MATCH          |  1267 |     |   0 |   11 |    0 |     |*—
-Kratzl 2024             | DE_rnaseq_coculture_vs_pputida      | MATCH          |  5103 |     |   0 |  115 |    0 |     |*—
-Kratzl 2024             | DE_rnaseq_coculture_vs_selongatus   | MATCH          |  2627 |     |   0 |   52 |    0 |     |*—
-Kratzl 2024             | DE_proteomics_coculture_vs_pputida  | MATCH          |   228 |     |   0 |    4 |    0 |     |*—
-Kratzl 2024             | DE_proteomics_coculture_vs_selongat | MATCH          |   530 |     |   0 |   37 |    0 |     |*—
-Ma 2022                 | DE_rnaseq_coculture_ecoli_up        | MATCH          |    75 |     |   0 |    3 |    0 |     |*—
-Ma 2022                 | DE_rnaseq_coculture_ecoli_down      | MATCH          |    54 |     |   0 |    2 |    0 |     |*—
-Ma 2022                 | DE_proteomics_coculture_ecoli       | MATCH          |    39 |     |   0 |      |    0 |     |*—
-Christie-Oleza 2017     | syn_wh7803_early_coculture_asw      | MATCH          |   564 |     |   0 |      |    0 |     |*—
-Christie-Oleza 2017     | syn_wh7803_late_coculture_sw        | MATCH          |  1050 |     |   0 |      |    0 |     |*—
-Christie-Oleza 2017     | rpom_dss3_longterm_coculture_sw     | MATCH          |  1724 |     |   0 |    2 |    0 |     |*—
-Kaur 2018               | syn_wh7803_sw_tp3_vs_tp1            | MATCH          |   187 |     |   0 |      |    0 |     |*—
-Kaur 2018               | syn_wh7803_sw_tp7_vs_tp1            | MATCH          |   187 |     |   0 |      |    0 |     |*—
-Kaur 2018               | syn_wh7803_sw_tp14_vs_tp1           | MATCH          |   187 |     |   0 |      |    0 |     |*—
-Kaur 2018               | syn_wh7803_sw_tp21_vs_tp1           | MATCH          |   187 |     |   0 |      |    0 |     |*—
-Kaur 2018               | syn_wh7803_sw_tp32_vs_tp1           | MATCH          |   187 |     |   0 |      |    0 |     |*—
-Kaur 2018               | syn_wh7803_sw_tp60_vs_tp1           | MATCH          |   187 |     |   0 |      |    0 |     |*—
-Kaur 2018               | syn_wh7803_sw_tp100_vs_tp1          | MATCH          |   187 |     |   0 |      |    0 |     |*—
-Kaur 2018               | syn_wh7803_asw_tp3_vs_tp1           | MATCH          |   221 |     |   0 |      |    0 |     |*—
-Kaur 2018               | syn_wh7803_asw_tp7_vs_tp1           | MATCH          |   221 |     |   0 |      |    0 |     |*—
-Kaur 2018               | syn_wh7803_asw_tp14_vs_tp1          | MATCH          |   221 |     |   0 |      |    0 |     |*—
-Kaur 2018               | syn_wh7803_asw_tp21_vs_tp1          | MATCH          |   221 |     |   0 |      |    0 |     |*—
-Kaur 2018               | syn_wh7803_asw_tp32_vs_tp1          | MATCH          |   221 |     |   0 |      |    0 |     |*—
-Kaur 2018               | syn_wh7803_asw_tp60_vs_tp1          | MATCH          |   221 |     |   0 |      |    0 |     |*—
-Kaur 2018               | syn_wh7803_asw_tp100_vs_tp1         | MATCH          |   221 |     |   0 |      |    0 |     |*—
-Kaur 2018               | rpom_dss3_sw_tp3_vs_tp1             | MATCH          |   181 |     |   0 |    3 |    0 |     |*—
-Kaur 2018               | rpom_dss3_sw_tp7_vs_tp1             | MATCH          |   181 |     |   0 |    3 |    0 |     |*—
-Kaur 2018               | rpom_dss3_sw_tp14_vs_tp1            | MATCH          |   181 |     |   0 |    3 |    0 |     |*—
-Kaur 2018               | rpom_dss3_sw_tp21_vs_tp1            | MATCH          |   181 |     |   0 |    3 |    0 |     |*—
-Kaur 2018               | rpom_dss3_sw_tp32_vs_tp1            | MATCH          |   181 |     |   0 |    3 |    0 |     |*—
-Kaur 2018               | rpom_dss3_sw_tp60_vs_tp1            | MATCH          |   181 |     |   0 |    3 |    0 |     |*—
-Kaur 2018               | rpom_dss3_sw_tp100_vs_tp1           | MATCH          |   181 |     |   0 |    3 |    0 |     |*—
-Kaur 2018               | rpom_dss3_asw_tp3_vs_tp1            | MATCH          |   219 |     |   0 |    3 |    0 |     |*—
-Kaur 2018               | rpom_dss3_asw_tp7_vs_tp1            | MATCH          |   219 |     |   0 |    3 |    0 |     |*—
-Kaur 2018               | rpom_dss3_asw_tp14_vs_tp1           | MATCH          |   219 |     |   0 |    3 |    0 |     |*—
-Kaur 2018               | rpom_dss3_asw_tp21_vs_tp1           | MATCH          |   219 |     |   0 |    3 |    0 |     |*—
-Kaur 2018               | rpom_dss3_asw_tp32_vs_tp1           | MATCH          |   219 |     |   0 |    3 |    0 |     |*—
-Kaur 2018               | rpom_dss3_asw_tp60_vs_tp1           | MATCH          |   219 |     |   0 |    3 |    0 |     |*—
-Kaur 2018               | rpom_dss3_asw_tp100_vs_tp1          | MATCH          |   219 |     |   0 |    3 |    0 |     |*—
+Publication             | Analysis                            | Status | Match | 2nd | RNA | !Res | Miss |  IR | Fix Strategy
+-----------------------------------------------------------------------------------------------------------------------------
+Aharonovich 2016        | DE_coculture_vs_axenic_med4_20h     | MATCH  |  1714 |     |   0 |      |    0 |     |*—
+Aharonovich 2016        | DE_hot1a3_coculture_9313_vs_9313dil | MATCH  |  1880 |     |   0 |   86 |    0 |     |*—
+Aharonovich 2016        | DE_hot1a3_coculture_9313_vs_med4_t2 | MATCH  |  2296 |     |   0 | 3881 |    0 |     |*—
+Aharonovich 2016        | DE_coculture_vs_axenic_9313_t20h    | MATCH  |  2268 |     |   0 |    1 |    0 |     |*—
+Aharonovich 2016        | DE_coculture_vs_axenic_9313_dilute_ | MATCH  |  2267 |     |   0 |    1 |    0 |     |*—
+Al-Hosani 2015          | DE_salt_acclimated_vs_seawater_AS96 | MATCH  |  1911 |     |   0 |   50 |    0 |     |*—
+Anjur-Dietrich 2025     | DE_freeliving_vs_biofilm_MIT9301    | MATCH  |   234 |     |   0 |    8 |    0 |     |*—
+Bagby and Chisholm 2015 | gas_shock_air                       | MATCH  |   438 |     |   0 |   30 |    0 |     |*—
+Bagby and Chisholm 2015 | gas_shock_no_o2                     | MATCH  |   438 |     |   0 |   30 |    0 |     |*—
+Bagby and Chisholm 2015 | gas_shock_low_co2                   | MATCH  |   438 |     |   0 |   30 |    0 |     |*—
+Bagby and Chisholm 2015 | gas_shock_low_co2_no_o2             | MATCH  |   438 |     |   0 |   30 |    0 |     |*—
+Barreto 2022            | DE_pco2_elevated_vs_ambient_MIT9312 | MATCH  |    37 |     |   0 |      |    0 |     |*—
+Barreto 2022            | DE_pco2_elevated_vs_ambient_CC9311  | MATCH  |    27 |     |   0 |    3 |    0 |     |*—
+Barreto 2022            | DE_pco2_elevated_vs_ambient_WH8102  | MATCH  |    12 |     |   0 |    1 |    0 |     |*—
+Barreto 2022            | DE_pco2_elevated_vs_ambient_EZ55    | MATCH  |   126 |     |   0 |    6 |    0 |     |*—
+Barreto 2022            | DE_coculture_MIT9312_vs_axenic_EZ55 | MATCH  |   419 |     |   0 |   21 |    0 |     |*—
+Barreto 2022            | DE_coculture_CC9311_vs_axenic_EZ55_ | MATCH  |   293 |     |   0 |   20 |    0 |     |*—
+Barreto 2022            | DE_coculture_WH8102_vs_axenic_EZ55_ | MATCH  |   136 |     |   0 |    5 |    0 |     |*—
+Barreto 2022            | DE_coculture_MIT9312_vs_axenic_EZ55 | MATCH  |   188 |     |   0 |    7 |    0 |     |*—
+Barreto 2022            | DE_coculture_CC9311_vs_axenic_EZ55_ | MATCH  |    83 |     |   0 |    2 |    0 |     |*—
+Barreto 2022            | DE_coculture_WH8102_vs_axenic_EZ55_ | MATCH  |    58 |     |   0 |    1 |    0 |     |*—
+Barreto 2022            | DE_pco2_x_coculture_interaction_EZ5 | MATCH  |   437 |     |   0 |   23 |    0 |     |*—
+Biller 2016             | DE_coculture_vs_axenic_NATL2A_minus | MATCH  |   353 |     |   0 |   22 |    0 |     |*—
+Biller 2016             | DE_coculture_vs_axenic_NATL2A_2h    | MATCH  |   353 |     |   0 |   22 |    0 |     |*—
+Biller 2016             | DE_coculture_vs_axenic_NATL2A_4h    | MATCH  |   353 |     |   0 |   22 |    0 |     |*—
+Biller 2016             | DE_coculture_vs_axenic_NATL2A_6h    | MATCH  |   353 |     |   0 |   22 |    0 |     |*—
+Biller 2016             | DE_coculture_vs_axenic_NATL2A_12h   | MATCH  |   353 |     |   0 |   22 |    0 |     |*—
+Biller 2016             | DE_coculture_vs_axenic_NATL2A_24h   | MATCH  |   353 |     |   0 |   22 |    0 |     |*—
+Biller 2016             | DE_coculture_vs_axenic_NATL2A_48h   | MATCH  |   353 |     |   0 |   22 |    0 |     |*—
+Biller 2016             | DE_alteromonas_MIT1002_coculture_24 | MATCH  |   740 |     |   0 |   26 |    0 |     |*—
+Biller 2016             | DE_alteromonas_MIT1002_coculture_48 | MATCH  |   740 |     |   0 |   26 |    0 |     |*—
+Biller 2018             | DE_extended_darkness_vs_diel_axenic | MATCH  |  1955 |     |   0 |   26 |    0 |     |*—
+Biller 2018             | DE_extended_darkness_vs_diel_axenic | MATCH  |  1955 |     |   0 |   26 |    0 |     |*—
+Biller 2018             | DE_extended_darkness_vs_diel_axenic | MATCH  |  1955 |     |   0 |   26 |    0 |     |*—
+Biller 2018             | DE_extended_darkness_vs_diel_cocult | MATCH  |  1955 |     |   0 |   26 |    0 |     |*—
+Biller 2018             | DE_extended_darkness_vs_diel_cocult | MATCH  |  1955 |     |   0 |   26 |    0 |     |*—
+Biller 2018             | DE_extended_darkness_vs_diel_cocult | MATCH  |  1955 |     |   0 |   26 |    0 |     |*—
+Biller 2018             | DE_extended_darkness_vs_diel_MIT100 | MATCH  |   175 |     |   0 |    5 |    0 |     |*—
+Biller 2018             | DE_extended_darkness_vs_diel_MIT100 | MATCH  |   175 |     |   0 |    5 |    0 |     |*—
+Coe 2024                | DE_dark_tolerant_vs_parental_NATL2A | MATCH  |  2029 |     |   0 |   60 |    0 |     |*—
+Coe 2024                | DE_dark_tolerant_vs_parental_NATL2A | MATCH  |  2029 |     |   0 |   60 |    0 |     |*—
+Coe 2024                | DE_dark_tolerant_vs_parental_NATL2A | MATCH  |  2029 |     |   0 |   60 |    0 |     |*—
+Coe 2024                | DE_dark_tolerant_vs_parental_NATL2A | MATCH  |  2029 |     |   0 |   60 |    0 |     |*—
+Coe 2024                | DE_dark_tolerant_vs_parental_NATL2A | MATCH  |  2029 |     |   0 |   60 |    0 |     |*—
+Coe 2024                | DE_dark_tolerant_vs_parental_NATL2A | MATCH  |  2029 |     |   0 |   60 |    0 |     |*—
+Coe 2024                | DE_dark_tolerant_vs_parental_NATL2A | MATCH  |  2029 |     |   0 |   60 |    0 |     |*—
+Coe 2024                | DE_dark_tolerant_vs_parental_ALT_MI | MATCH  |  3857 |     |   0 |  271 |    0 |     |*—
+Coe 2024                | DE_dark_tolerant_vs_parental_ALT_MI | MATCH  |  3857 |     |   0 |  271 |    0 |     |*—
+Coe 2024                | DE_dark_tolerant_vs_parental_ALT_MI | MATCH  |  3857 |     |   0 |  271 |    0 |     |*—
+Coe 2024                | DE_dark_tolerant_vs_parental_ALT_MI | MATCH  |  3857 |     |   0 |  271 |    0 |     |*—
+Coe 2024                | DE_dark_tolerant_vs_parental_ALT_MI | MATCH  |  3857 |     |   0 |  271 |    0 |     |*—
+Coe 2024                | DE_dark_tolerant_vs_parental_ALT_MI | MATCH  |  3857 |     |   0 |  271 |    0 |     |*—
+Coe 2024                | DE_dark_tolerant_vs_parental_ALT_MI | MATCH  |  3857 |     |   0 |  271 |    0 |     |*—
+Fang 2019               | DE_vdom_vs_control_MIT9313_0.5h     | MATCH  |   429 |     |   0 |  236 |    0 |     |*—
+Fang 2019               | DE_vdom_vs_control_MIT9313_1h       | MATCH  |   429 |     |   0 |  236 |    0 |     |*—
+Fang 2019               | DE_vdom_vs_control_MIT9313_2h       | MATCH  |   429 |     |   0 |  236 |    0 |     |*—
+Fang 2019               | DE_vdom_vs_control_MIT9313_4h       | MATCH  |   429 |     |   0 |  236 |    0 |     |*—
+Fang 2019               | DE_vdom_vs_control_MIT9313_8h       | MATCH  |   429 |     |   0 |  236 |    0 |     |*—
+Fang 2019               | DE_vdom_vs_control_MIT9313_12h      | MATCH  |   429 |     |   0 |  236 |    0 |     |*—
+Fang 2019               | DE_vdom_vs_control_MIT9313_24h      | MATCH  |   429 |     |   0 |  236 |    0 |     |*—
+Fang 2019               | DE_vdom_vs_control_MIT9313_48h      | MATCH  |   429 |     |   0 |  236 |    0 |     |*—
+Fang 2019               | DE_vdom_vs_control_MIT9313_72h      | MATCH  |   429 |     |   0 |  236 |    0 |     |*—
+He 2022                 | DE_low_salinity_vs_normal_NATL1A    | MATCH  |    81 |     |   0 |    1 |    0 |     |*—
+He 2022                 | DE_low_salinity_vs_normal_MED4      | MATCH  |    29 |     |   0 |    2 |    0 |     |*—
+Hennon 2017             | DE_elevated_co2_vs_ambient_MIT9312_ | MATCH  |   103 |     |   0 |      |    0 |     |*—
+Hennon 2017             | DE_elevated_co2_vs_ambient_EZ55_coc | MATCH  |   345 |     |   0 |   77 |    0 |     |*—
+Hennon 2017             | DE_elevated_co2_vs_ambient_EZ55_axe | MATCH  |    98 |     |   0 |   27 |    0 |     |*—
+Hennon 2017             | DE_elevated_co2_vs_ambient_EZ55_coc | MATCH  |   423 |     |   0 |   29 |    0 |     |*—
+Lin 2015                | DE_P_limited_vs_replete_NATL2A_unin | MATCH  |    34 |     |   0 |      |    0 |     |*—
+Lin 2015                | DE_P_limited_vs_replete_NATL2A_unin | MATCH  |    34 |     |   0 |      |    0 |     |*—
+Lin 2015                | DE_P_limited_vs_replete_NATL2A_unin | MATCH  |    34 |     |   0 |      |    0 |     |*—
+Lin 2015                | DE_P_limited_vs_replete_NATL2A_unin | MATCH  |    34 |     |   0 |      |    0 |     |*—
+Lin 2015                | DE_P_readded_vs_control_NATL2A_unin | MATCH  |    34 |     |   0 |      |    0 |     |*—
+Lin 2015                | DE_P_readded_vs_control_NATL2A_unin | MATCH  |    34 |     |   0 |      |    0 |     |*—
+Lin 2015                | DE_P_limited_vs_replete_NATL2A_infe | MATCH  |    34 |     |   0 |      |    0 |     |*—
+Lin 2015                | DE_P_limited_vs_replete_NATL2A_infe | MATCH  |    34 |     |   0 |      |    0 |     |*—
+Lin 2015                | DE_P_limited_vs_replete_NATL2A_infe | MATCH  |    34 |     |   0 |      |    0 |     |*—
+Lin 2015                | DE_P_limited_vs_replete_NATL2A_infe | MATCH  |    34 |     |   0 |      |    0 |     |*—
+Lin 2015                | DE_P_limited_vs_replete_NATL2A_infe | MATCH  |    34 |     |   0 |      |    0 |     |*—
+Lin 2015                | DE_P_limited_vs_replete_NATL2A_infe | MATCH  |    34 |     |   0 |      |    0 |     |*—
+Lin 2015                | DE_P_readded_vs_control_NATL2A_infe | MATCH  |    34 |     |   0 |      |    0 |     |*—
+Lin 2015                | DE_P_readded_vs_control_NATL2A_infe | MATCH  |    34 |     |   0 |      |    0 |     |*—
+Lindell 2007            | DE_phage_infection_MED4_1h          | MATCH  |    45 |     |   0 |      |    0 |     |*—
+Lindell 2007            | DE_phage_infection_MED4_2h          | MATCH  |    45 |     |   0 |      |    0 |     |*—
+Lindell 2007            | DE_phage_infection_MED4_3h          | MATCH  |    45 |     |   0 |      |    0 |     |*—
+Lindell 2007            | DE_phage_infection_MED4_4h          | MATCH  |    45 |     |   0 |      |    0 |     |*—
+Lindell 2007            | DE_phage_infection_MED4_5h          | MATCH  |    45 |     |   0 |      |    0 |     |*—
+Lindell 2007            | DE_phage_infection_MED4_6h          | MATCH  |    45 |     |   0 |      |    0 |     |*—
+Lindell 2007            | DE_phage_infection_MED4_7h          | MATCH  |    45 |     |   0 |      |    0 |     |*—
+Lindell 2007            | DE_phage_infection_MED4_8h          | MATCH  |    45 |     |   0 |      |    0 |     |*—
+Martiny 2006            | DE_p_starvation_vs_replete_MED4_0h  | MATCH  |    34 |     |   0 |      |    0 |     |*—
+Martiny 2006            | DE_p_starvation_vs_replete_MED4_4h  | MATCH  |    34 |     |   0 |      |    0 |     |*—
+Martiny 2006            | DE_p_starvation_vs_replete_MED4_12h | MATCH  |    34 |     |   0 |      |    0 |     |*—
+Martiny 2006            | DE_p_starvation_vs_replete_MED4_24h | MATCH  |    34 |     |   0 |      |    0 |     |*—
+Martiny 2006            | DE_p_starvation_vs_replete_MED4_48h | MATCH  |    34 |     |   0 |      |    0 |     |*—
+Martiny 2006            | DE_p_starvation_vs_replete_MIT9313_ | MATCH  |   177 |     |   0 |    5 |    0 |     |*—
+Martiny 2006            | DE_p_starvation_vs_replete_MIT9313_ | MATCH  |   177 |     |   0 |    5 |    0 |     |*—
+Martiny 2006            | DE_p_starvation_vs_replete_MIT9313_ | MATCH  |   177 |     |   0 |    5 |    0 |     |*—
+Martiny 2006            | DE_p_starvation_vs_replete_MIT9313_ | MATCH  |   177 |     |   0 |    5 |    0 |     |*—
+Steglich 2006           | DE_high_white_light_vs_dark_MED4    | MATCH  |   198 |     |   0 |      |    0 |     |*—
+Steglich 2006           | DE_white_light_vs_dark_MED4         | MATCH  |   198 |     |   0 |      |    0 |     |*—
+Steglich 2006           | DE_blue_light_vs_dark_MED4          | MATCH  |   198 |     |   0 |      |    0 |     |*—
+Steglich 2006           | DE_red_light_vs_dark_MED4           | MATCH  |   198 |     |   0 |      |    0 |     |*—
+Steglich 2006           | DE_green_light_vs_dark_MED4         | MATCH  |   198 |     |   0 |      |    0 |     |*—
+Steglich 2006           | DE_DCMU_vs_white_light_MED4         | MATCH  |   198 |     |   0 |      |    0 |     |*—
+Tetu 2019               | DE_hdpe_leachate_vs_control_MIT9312 | MATCH  |   681 |     |   0 |    9 |    0 |     |*—
+Tetu 2019               | DE_pvc_leachate_vs_control_MIT9312  | MATCH  |   681 |     |   0 |    9 |    0 |     |*—
+Tetu 2019               | DE_hdpe_leachate_vs_control_NATL2A  | MATCH  |   171 |     |   0 |  518 |    0 |     |*—
+Tetu 2019               | DE_pvc_leachate_vs_control_NATL2A   | MATCH  |   171 |     |   0 |  518 |    0 |     |*—
+Thompson 2011           | DE_iron_starvation_vs_replete_MED4_ | MATCH  |   112 |     |   0 |   13 |    0 |     |*—
+Thompson 2011           | DE_iron_starvation_vs_replete_MED4_ | MATCH  |   112 |     |   0 |   13 |    0 |     |*—
+Thompson 2011           | DE_iron_starvation_vs_replete_MED4_ | MATCH  |   112 |     |   0 |   13 |    0 |     |*—
+Thompson 2011           | DE_iron_rescue_MED4                 | MATCH  |   112 |     |   0 |   13 |    0 |     |*—
+Thompson 2011           | DE_iron_starvation_vs_replete_MIT93 | MATCH  |    98 |     |   0 |   13 |    0 |     |*—
+Thompson 2011           | DE_iron_starvation_vs_replete_MIT93 | MATCH  |    98 |     |   0 |   13 |    0 |     |*—
+Thompson 2011           | DE_iron_starvation_vs_replete_MIT93 | MATCH  |    98 |     |   0 |   13 |    0 |     |*—
+Thompson 2011           | DE_iron_rescue_MIT9313              | MATCH  |    98 |     |   0 |   13 |    0 |     |*—
+Tolonen 2006            | DE_n_deprivation_vs_replete_MED4_0h | MATCH  |  1697 |     |   0 |    1 |    0 |     |*—
+Tolonen 2006            | DE_n_deprivation_vs_replete_MED4_3h | MATCH  |  1697 |     |   0 |    1 |    0 |     |*—
+Tolonen 2006            | DE_n_deprivation_vs_replete_MED4_6h | MATCH  |  1697 |     |   0 |    1 |    0 |     |*—
+Tolonen 2006            | DE_n_deprivation_vs_replete_MED4_12 | MATCH  |  1697 |     |   0 |    1 |    0 |     |*—
+Tolonen 2006            | DE_n_deprivation_vs_replete_MED4_24 | MATCH  |  1697 |     |   0 |    1 |    0 |     |*—
+Tolonen 2006            | DE_n_deprivation_vs_replete_MED4_48 | MATCH  |  1697 |     |   0 |    1 |    0 |     |*—
+Tolonen 2006            | DE_cyanate_vs_ammonium_MED4         | MATCH  |  1697 |     |   0 |    1 |    0 |     |*—
+Tolonen 2006            | DE_urea_vs_ammonium_MED4            | MATCH  |  1697 |     |   0 |    1 |    0 |     |*—
+Tolonen 2006            | DE_n_deprivation_vs_replete_MIT9313 | MATCH  |  2241 |     |   0 |    9 |    0 |     |*—
+Tolonen 2006            | DE_n_deprivation_vs_replete_MIT9313 | MATCH  |  2241 |     |   0 |    9 |    0 |     |*—
+Tolonen 2006            | DE_n_deprivation_vs_replete_MIT9313 | MATCH  |  2241 |     |   0 |    9 |    0 |     |*—
+Tolonen 2006            | DE_n_deprivation_vs_replete_MIT9313 | MATCH  |  2241 |     |   0 |    9 |    0 |     |*—
+Tolonen 2006            | DE_n_deprivation_vs_replete_MIT9313 | MATCH  |  2241 |     |   0 |    9 |    0 |     |*—
+Tolonen 2006            | DE_n_deprivation_vs_replete_MIT9313 | MATCH  |  2241 |     |   0 |    9 |    0 |     |*—
+Tolonen 2006            | DE_nitrite_vs_ammonium_MIT9313      | MATCH  |  2241 |     |   0 |    9 |    0 |     |*—
+Tolonen 2006            | DE_urea_vs_ammonium_MIT9313         | MATCH  |  2241 |     |   0 |    9 |    0 |     |*—
+Read 2017               | DE_N_depleted_vs_replete_MED4_3h    | MATCH  |   841 |     |   0 |      |    0 |     |*—
+Read 2017               | DE_N_depleted_vs_replete_MED4_12h   | MATCH  |   840 |     |   0 |      |    0 |     |*—
+Read 2017               | DE_N_depleted_vs_replete_MED4_24h   | MATCH  |   853 |     |   0 |      |    0 |     |*—
+Thompson 2016           | DE_dark_vs_light_infected_MED4_0.5h | MATCH  |    10 |     |   0 |      |    0 |     |*—
+Thompson 2016           | DE_dark_vs_light_infected_MED4_1.5h | MATCH  |     1 |     |   0 |      |    0 |     |*—
+Thompson 2016           | DE_dark_vs_light_infected_MED4_2.5h | MATCH  |     3 |     |   0 |      |    0 |     |*—
+Thompson 2016           | DE_dark_vs_light_infected_MED4_4.5h | MATCH  |    10 |     |   0 |      |    0 |     |*—
+Thompson 2016           | DE_dark_vs_light_infected_MED4_8.5h | MATCH  |    30 |     |   0 |    1 |    0 |     |*—
+Thompson 2016           | DE_dark_vs_light_uninfected_MED4_1. | MATCH  |     1 |     |   0 |      |    0 |     |*—
+Thompson 2016           | DE_dark_vs_light_uninfected_MED4_2. | MATCH  |     3 |     |   0 |      |    0 |     |*—
+Thompson 2016           | DE_dark_vs_light_uninfected_MED4_4. | MATCH  |    14 |     |   0 |      |    0 |     |*—
+Thompson 2016           | DE_dark_vs_light_uninfected_MED4_8. | MATCH  |    31 |     |   0 |    1 |    0 |     |*—
+Thompson 2016           | DE_lysate_vs_spent_medium_light_MED | MATCH  |     8 |     |   0 |      |    0 |     |*—
+Thompson 2016           | DE_lysate_vs_spent_medium_light_MED | MATCH  |     6 |     |   0 |      |    0 |     |*—
+Thompson 2016           | DE_lysate_vs_spent_medium_light_MED | MATCH  |     3 |     |   0 |      |    0 |     |*—
+Thompson 2016           | DE_lysate_vs_spent_medium_light_MED | MATCH  |     3 |     |   0 |      |    0 |     |*—
+Thompson 2016           | DE_lysate_vs_spent_medium_light_MED | MATCH  |    16 |     |   0 |      |    0 |     |*—
+Thompson 2016           | DE_lysate_vs_spent_medium_dark_MED4 | MATCH  |     9 |     |   0 |      |    0 |     |*—
+Thompson 2016           | DE_lysate_vs_spent_medium_dark_MED4 | MATCH  |    19 |     |   0 |      |    0 |     |*—
+Thompson 2016           | DE_lysate_vs_spent_medium_dark_MED4 | MATCH  |     8 |     |   0 |      |    0 |     |*—
+Weissberg 2025          | DE_hot1a3_rnaseq_axenic_day_18_vs_d | MATCH  |  3950 |     |   0 |   65 |    0 |     |*—
+Weissberg 2025          | DE_hot1a3_rnaseq_axenic_day_31_vs_d | MATCH  |  3950 |     |   0 |   65 |    0 |     |*—
+Weissberg 2025          | DE_hot1a3_rnaseq_axenic_longterm_vs | MATCH  |  3950 |     |   0 |   65 |    0 |     |*—
+Weissberg 2025          | DE_hot1a3_rnaseq_coculture_day_18_v | MATCH  |  3950 |     |   0 |   65 |    0 |     |*—
+Weissberg 2025          | DE_hot1a3_rnaseq_coculture_day_31_v | MATCH  |  3950 |     |   0 |   65 |    0 |     |*—
+Weissberg 2025          | DE_hot1a3_rnaseq_coculture_day_60_v | MATCH  |  3950 |     |   0 |   65 |    0 |     |*—
+Weissberg 2025          | DE_hot1a3_rnaseq_coculture_day_89_v | MATCH  |  3950 |     |   0 |   65 |    0 |     |*—
+Weissberg 2025          | DE_hot1a3_rnaseq_coculture_longterm | MATCH  |  3950 |     |   0 |   65 |    0 |     |*—
+Weissberg 2025          | DE_hot1a3_rnaseq_coculture_vs_axeni | MATCH  |  3950 |     |   0 |   65 |    0 |     |*—
+Weissberg 2025          | DE_hot1a3_proteome_axenic_day_18_vs | MATCH  |  2226 |     |   0 |    3 |    0 |     |*—
+Weissberg 2025          | DE_hot1a3_proteome_axenic_day_31_vs | MATCH  |  2226 |     |   0 |    3 |    0 |     |*—
+Weissberg 2025          | DE_hot1a3_proteome_coculture_day_18 | MATCH  |  2226 |     |   0 |    3 |    0 |     |*—
+Weissberg 2025          | DE_hot1a3_proteome_coculture_day_31 | MATCH  |  2226 |     |   0 |    3 |    0 |     |*—
+Weissberg 2025          | DE_hot1a3_proteome_coculture_day_60 | MATCH  |  2226 |     |   0 |    3 |    0 |     |*—
+Weissberg 2025          | DE_hot1a3_proteome_coculture_day_89 | MATCH  |  2226 |     |   0 |    3 |    0 |     |*—
+Weissberg 2025          | DE_hot1a3_proteome_coculture_longte | MATCH  |  2226 |     |   0 |    3 |    0 |     |*—
+Weissberg 2025          | DE_med4_rnaseq_axenic_day_14_vs_exp | MATCH  |  1849 |     |   0 |    6 |    0 |     |*—
+Weissberg 2025          | DE_med4_rnaseq_coculture_day_18_vs_ | MATCH  |  1849 |     |   0 |    6 |    0 |     |*—
+Weissberg 2025          | DE_med4_rnaseq_coculture_day_31_vs_ | MATCH  |  1849 |     |   0 |    6 |    0 |     |*—
+Weissberg 2025          | DE_med4_rnaseq_coculture_day_60_vs_ | MATCH  |  1849 |     |   0 |    6 |    0 |     |*—
+Weissberg 2025          | DE_med4_rnaseq_coculture_day_89_vs_ | MATCH  |  1849 |     |   0 |    6 |    0 |     |*—
+Weissberg 2025          | DE_med4_rnaseq_coculture_longterm_v | MATCH  |  1849 |     |   0 |    6 |    0 |     |*—
+Weissberg 2025          | DE_med4_rnaseq_coculture_vs_axenic_ | MATCH  |  1849 |     |   0 |    6 |    0 |     |*—
+Weissberg 2025          | DE_med4_proteome_axenic_day_14_vs_e | MATCH  |  1424 |     |   0 |      |    0 |     |*—
+Weissberg 2025          | DE_med4_proteome_axenic_day_31_vs_e | MATCH  |  1424 |     |   0 |      |    0 |     |*—
+Weissberg 2025          | DE_med4_proteome_axenic_day_89_vs_e | MATCH  |  1424 |     |   0 |      |    0 |     |*—
+Weissberg 2025          | DE_med4_proteome_coculture_day_18_v | MATCH  |  1424 |     |   0 |      |    0 |     |*—
+Weissberg 2025          | DE_med4_proteome_coculture_day_31_v | MATCH  |  1424 |     |   0 |      |    0 |     |*—
+Weissberg 2025          | DE_med4_proteome_coculture_day_60_v | MATCH  |  1424 |     |   0 |      |    0 |     |*—
+Weissberg 2025          | DE_med4_proteome_coculture_day_89_v | MATCH  |  1424 |     |   0 |      |    0 |     |*—
+Weissberg 2025          | DE_med4_proteome_coculture_longterm | MATCH  |  1424 |     |   0 |      |    0 |     |*—
+Capovilla 2023          | DE_chitosan_vs_control_MIT9313      | MATCH  |    72 |     |   0 |    9 |    0 |     |*—
+Capovilla 2023          | DE_chitosan_vs_control_MIT9303      | MATCH  |    25 |     |   0 |   11 |    0 |     |*—
+Dominguez-Martin 2017   | ss120_azaserine_vs_control          | MATCH  |   402 |     |   0 |    6 |    0 |     |*—
+Fuszard 2012            | mit9312_pi_deplete_vs_replete       | MATCH  |    38 |     |   0 |      |    0 |     |*—
+Fuszard 2012            | natl2a_pi_deplete_vs_replete        | MATCH  |    63 |     |   0 |      |    0 |     |*—
+Fuszard 2012            | ss120_pi_deplete_vs_replete         | MATCH  |    34 |     |   0 |      |    0 |     |*—
+Moreno 2023             | alt_med4_light_low_glucose_vs_light | MATCH  |    16 |     |   0 |   31 |    0 |     |*—
+Moreno 2023             | alt_med4_light_high_glucose_vs_ligh | MATCH  |    16 |     |   0 |   31 |    0 |     |*—
+Moreno 2023             | alt_med4_dark_low_glucose_vs_dark   | MATCH  |    16 |     |   0 |   31 |    0 |     |*—
+Moreno 2023             | alt_med4_dark_high_glucose_vs_dark  | MATCH  |    16 |     |   0 |   31 |    0 |     |*—
+Moreno 2023             | alt_ss120_light_low_glucose_vs_ligh | MATCH  |    54 |     |   0 |   80 |    0 |     |*—
+Moreno 2023             | alt_ss120_light_high_glucose_vs_lig | MATCH  |    54 |     |   0 |   80 |    0 |     |*—
+Moreno 2023             | alt_ss120_dark_low_glucose_vs_dark  | MATCH  |    54 |     |   0 |   80 |    0 |     |*—
+Moreno 2023             | alt_ss120_dark_high_glucose_vs_dark | MATCH  |    54 |     |   0 |   80 |    0 |     |*—
+Moreno 2023             | alt_wh7803_light_low_glucose_vs_lig | MATCH  |     4 |     |   0 |   11 |    0 |     |*—
+Moreno 2023             | alt_wh7803_light_high_glucose_vs_li | MATCH  |     4 |     |   0 |   11 |    0 |     |*—
+Moreno 2023             | alt_wh7803_dark_low_glucose_vs_dark | MATCH  |     4 |     |   0 |   11 |    0 |     |*—
+Moreno 2023             | alt_wh7803_dark_high_glucose_vs_dar | MATCH  |     4 |     |   0 |   11 |    0 |     |*—
+Moreno 2023             | alt_wh8102_light_low_glucose_vs_lig | MATCH  |    78 |     |   0 |  110 |    0 |     |*—
+Moreno 2023             | alt_wh8102_light_high_glucose_vs_li | MATCH  |    78 |     |   0 |  110 |    0 |     |*—
+Moreno 2023             | alt_wh8102_dark_low_glucose_vs_dark | MATCH  |    78 |     |   0 |  110 |    0 |     |*—
+Moreno 2023             | alt_wh8102_dark_high_glucose_vs_dar | MATCH  |    78 |     |   0 |  110 |    0 |     |*—
+Moreno 2023             | alt_bl107_light_low_glucose_vs_ligh | MATCH  |    11 |     |   0 |   30 |    0 |     |*—
+Moreno 2023             | alt_bl107_light_high_glucose_vs_lig | MATCH  |    11 |     |   0 |   30 |    0 |     |*—
+Moreno 2023             | alt_bl107_dark_low_glucose_vs_dark  | MATCH  |    11 |     |   0 |   30 |    0 |     |*—
+Moreno 2023             | alt_bl107_dark_high_glucose_vs_dark | MATCH  |    11 |     |   0 |   30 |    0 |     |*—
+Moreno 2023             | med4_light_low_glucose_vs_light     | MATCH  |   327 |     |   0 |      |    0 |     |*—
+Moreno 2023             | med4_light_high_glucose_vs_light    | MATCH  |   327 |     |   0 |      |    0 |     |*—
+Moreno 2023             | med4_dark_low_glucose_vs_dark       | MATCH  |   327 |     |   0 |      |    0 |     |*—
+Moreno 2023             | med4_dark_high_glucose_vs_dark      | MATCH  |   327 |     |   0 |      |    0 |     |*—
+Moreno 2023             | ss120_light_low_glucose_vs_light    | MATCH  |   930 |     |   0 |      |    0 |     |*—
+Moreno 2023             | ss120_light_high_glucose_vs_light   | MATCH  |   930 |     |   0 |      |    0 |     |*—
+Moreno 2023             | ss120_dark_low_glucose_vs_dark      | MATCH  |   930 |     |   0 |      |    0 |     |*—
+Moreno 2023             | ss120_dark_high_glucose_vs_dark     | MATCH  |   930 |     |   0 |      |    0 |     |*—
+Moreno 2023             | wh7803_light_low_glucose_vs_light   | MATCH  |   359 |     |   0 |      |    0 |     |*—
+Moreno 2023             | wh7803_light_high_glucose_vs_light  | MATCH  |   359 |     |   0 |      |    0 |     |*—
+Moreno 2023             | wh7803_dark_low_glucose_vs_dark     | MATCH  |   359 |     |   0 |      |    0 |     |*—
+Moreno 2023             | wh7803_dark_high_glucose_vs_dark    | MATCH  |   359 |     |   0 |      |    0 |     |*—
+Moreno 2023             | wh8102_light_low_glucose_vs_light   | MATCH  |   895 |     |   0 |    3 |    0 |     |*—
+Moreno 2023             | wh8102_light_high_glucose_vs_light  | MATCH  |   895 |     |   0 |    3 |    0 |     |*—
+Moreno 2023             | wh8102_dark_low_glucose_vs_dark     | MATCH  |   895 |     |   0 |    3 |    0 |     |*—
+Moreno 2023             | wh8102_dark_high_glucose_vs_dark    | MATCH  |   895 |     |   0 |    3 |    0 |     |*—
+Moreno 2023             | bl107_light_low_glucose_vs_light    | MATCH  |   168 |     |   0 |    5 |    0 |     |*—
+Moreno 2023             | bl107_light_high_glucose_vs_light   | MATCH  |   168 |     |   0 |    5 |    0 |     |*—
+Moreno 2023             | bl107_dark_low_glucose_vs_dark      | MATCH  |   168 |     |   0 |    5 |    0 |     |*—
+Moreno 2023             | bl107_dark_high_glucose_vs_dark     | MATCH  |   168 |     |   0 |    5 |    0 |     |*—
+Moreno 2023             | marino_med4_light_low_glucose_vs_li | MATCH  |   348 |     |   0 |   11 |    0 |     |*—
+Moreno 2023             | marino_med4_light_high_glucose_vs_l | MATCH  |   348 |     |   0 |   11 |    0 |     |*—
+Moreno 2023             | marino_med4_dark_low_glucose_vs_dar | MATCH  |   348 |     |   0 |   11 |    0 |     |*—
+Moreno 2023             | marino_med4_dark_high_glucose_vs_da | MATCH  |   348 |     |   0 |   11 |    0 |     |*—
+Moreno 2023             | marino_ss120_light_low_glucose_vs_l | MATCH  |   200 |     |   0 |    5 |    0 |     |*—
+Moreno 2023             | marino_ss120_light_high_glucose_vs_ | MATCH  |   200 |     |   0 |    5 |    0 |     |*—
+Moreno 2023             | marino_ss120_dark_low_glucose_vs_da | MATCH  |   200 |     |   0 |    5 |    0 |     |*—
+Moreno 2023             | marino_ss120_dark_high_glucose_vs_d | MATCH  |   200 |     |   0 |    5 |    0 |     |*—
+Moreno 2023             | marino_wh7803_light_low_glucose_vs_ | MATCH  |   149 |     |   0 |    5 |    0 |     |*—
+Moreno 2023             | marino_wh7803_light_high_glucose_vs | MATCH  |   149 |     |   0 |    5 |    0 |     |*—
+Moreno 2023             | marino_wh7803_dark_low_glucose_vs_d | MATCH  |   149 |     |   0 |    5 |    0 |     |*—
+Moreno 2023             | marino_wh7803_dark_high_glucose_vs_ | MATCH  |   149 |     |   0 |    5 |    0 |     |*—
+Moreno 2023             | marino_wh8102_light_low_glucose_vs_ | MATCH  |   493 |     |   0 |   11 |    0 |     |*—
+Moreno 2023             | marino_wh8102_light_high_glucose_vs | MATCH  |   493 |     |   0 |   11 |    0 |     |*—
+Moreno 2023             | marino_wh8102_dark_low_glucose_vs_d | MATCH  |   493 |     |   0 |   11 |    0 |     |*—
+Moreno 2023             | marino_wh8102_dark_high_glucose_vs_ | MATCH  |   493 |     |   0 |   11 |    0 |     |*—
+Moreno 2023             | marino_bl107_light_low_glucose_vs_l | MATCH  |    85 |     |   0 |    2 |    0 |     |*—
+Moreno 2023             | marino_bl107_light_high_glucose_vs_ | MATCH  |    85 |     |   0 |    2 |    0 |     |*—
+Moreno 2023             | marino_bl107_dark_low_glucose_vs_da | MATCH  |    85 |     |   0 |    2 |    0 |     |*—
+Moreno 2023             | marino_bl107_dark_high_glucose_vs_d | MATCH  |    85 |     |   0 |    2 |    0 |     |*—
+Tai 2009                | vibrio_coculture_wh8102_up          | MATCH  |   280 |     |   0 |    5 |    0 |     |*—
+Tai 2009                | vibrio_coculture_wh8102_down        | MATCH  |   294 |     |   0 |   50 |    0 |     |*—
+Beliaev 2014            | syn7002_lactate_vs_axenic           | MATCH  |  1159 |     |   0 |   27 |    0 |     |*—
+Beliaev 2014            | shew_w3181_lactate_vs_axenic        | MATCH  |   456 |     |   0 |    2 |    0 |     |*—
+Beliaev 2014            | syn7002_hco3_vs_axenic              | MATCH  |   672 |     |   0 |   20 |    0 |     |*—
+Beliaev 2014            | shew_w3181_hco3_vs_axenic           | MATCH  |  1331 |     |   0 |   12 |    0 |     |*—
+Beliaev 2014            | syn7002_hco3_vs_lactate             | MATCH  |   674 |     |   0 |   28 |    0 |     |*—
+Beliaev 2014            | shew_w3181_hco3_vs_lactate          | MATCH  |  1267 |     |   0 |   11 |    0 |     |*—
+Kratzl 2024             | DE_rnaseq_coculture_vs_pputida      | MATCH  |  5103 |     |   0 |  115 |    0 |     |*—
+Kratzl 2024             | DE_rnaseq_coculture_vs_selongatus   | MATCH  |  2627 |     |   0 |   52 |    0 |     |*—
+Kratzl 2024             | DE_proteomics_coculture_vs_pputida  | MATCH  |   228 |     |   0 |    4 |    0 |     |*—
+Kratzl 2024             | DE_proteomics_coculture_vs_selongat | MATCH  |   530 |     |   0 |   37 |    0 |     |*—
+Ma 2022                 | DE_rnaseq_coculture_ecoli_up        | MATCH  |    75 |     |   0 |    3 |    0 |     |*—
+Ma 2022                 | DE_rnaseq_coculture_ecoli_down      | MATCH  |    54 |     |   0 |    2 |    0 |     |*—
+Ma 2022                 | DE_proteomics_coculture_ecoli       | MATCH  |    39 |     |   0 |      |    0 |     |*—
+Christie-Oleza 2017     | syn_wh7803_early_coculture_asw      | MATCH  |   564 |     |   0 |      |    0 |     |*—
+Christie-Oleza 2017     | syn_wh7803_late_coculture_sw        | MATCH  |  1050 |     |   0 |      |    0 |     |*—
+Christie-Oleza 2017     | rpom_dss3_longterm_coculture_sw     | MATCH  |  1724 |     |   0 |    2 |    0 |     |*—
+Kaur 2018               | syn_wh7803_sw_tp3_vs_tp1            | MATCH  |   187 |     |   0 |      |    0 |     |*—
+Kaur 2018               | syn_wh7803_sw_tp7_vs_tp1            | MATCH  |   187 |     |   0 |      |    0 |     |*—
+Kaur 2018               | syn_wh7803_sw_tp14_vs_tp1           | MATCH  |   187 |     |   0 |      |    0 |     |*—
+Kaur 2018               | syn_wh7803_sw_tp21_vs_tp1           | MATCH  |   187 |     |   0 |      |    0 |     |*—
+Kaur 2018               | syn_wh7803_sw_tp32_vs_tp1           | MATCH  |   187 |     |   0 |      |    0 |     |*—
+Kaur 2018               | syn_wh7803_sw_tp60_vs_tp1           | MATCH  |   187 |     |   0 |      |    0 |     |*—
+Kaur 2018               | syn_wh7803_sw_tp100_vs_tp1          | MATCH  |   187 |     |   0 |      |    0 |     |*—
+Kaur 2018               | syn_wh7803_asw_tp3_vs_tp1           | MATCH  |   221 |     |   0 |      |    0 |     |*—
+Kaur 2018               | syn_wh7803_asw_tp7_vs_tp1           | MATCH  |   221 |     |   0 |      |    0 |     |*—
+Kaur 2018               | syn_wh7803_asw_tp14_vs_tp1          | MATCH  |   221 |     |   0 |      |    0 |     |*—
+Kaur 2018               | syn_wh7803_asw_tp21_vs_tp1          | MATCH  |   221 |     |   0 |      |    0 |     |*—
+Kaur 2018               | syn_wh7803_asw_tp32_vs_tp1          | MATCH  |   221 |     |   0 |      |    0 |     |*—
+Kaur 2018               | syn_wh7803_asw_tp60_vs_tp1          | MATCH  |   221 |     |   0 |      |    0 |     |*—
+Kaur 2018               | syn_wh7803_asw_tp100_vs_tp1         | MATCH  |   221 |     |   0 |      |    0 |     |*—
+Kaur 2018               | rpom_dss3_sw_tp3_vs_tp1             | MATCH  |   184 |     |   0 |      |    0 |     |*—
+Kaur 2018               | rpom_dss3_sw_tp7_vs_tp1             | MATCH  |   184 |     |   0 |      |    0 |     |*—
+Kaur 2018               | rpom_dss3_sw_tp14_vs_tp1            | MATCH  |   184 |     |   0 |      |    0 |     |*—
+Kaur 2018               | rpom_dss3_sw_tp21_vs_tp1            | MATCH  |   184 |     |   0 |      |    0 |     |*—
+Kaur 2018               | rpom_dss3_sw_tp32_vs_tp1            | MATCH  |   184 |     |   0 |      |    0 |     |*—
+Kaur 2018               | rpom_dss3_sw_tp60_vs_tp1            | MATCH  |   184 |     |   0 |      |    0 |     |*—
+Kaur 2018               | rpom_dss3_sw_tp100_vs_tp1           | MATCH  |   184 |     |   0 |      |    0 |     |*—
+Kaur 2018               | rpom_dss3_asw_tp3_vs_tp1            | MATCH  |   222 |     |   0 |      |    0 |     |*—
+Kaur 2018               | rpom_dss3_asw_tp7_vs_tp1            | MATCH  |   222 |     |   0 |      |    0 |     |*—
+Kaur 2018               | rpom_dss3_asw_tp14_vs_tp1           | MATCH  |   222 |     |   0 |      |    0 |     |*—
+Kaur 2018               | rpom_dss3_asw_tp21_vs_tp1           | MATCH  |   222 |     |   0 |      |    0 |     |*—
+Kaur 2018               | rpom_dss3_asw_tp32_vs_tp1           | MATCH  |   222 |     |   0 |      |    0 |     |*—
+Kaur 2018               | rpom_dss3_asw_tp60_vs_tp1           | MATCH  |   222 |     |   0 |      |    0 |     |*—
+Kaur 2018               | rpom_dss3_asw_tp100_vs_tp1          | MATCH  |   222 |     |   0 |      |    0 |     |*—
   * = using pre-resolved CSV (_resolved.csv); !Res = rows unresolved by resolve_paper_ids.py
 
-Total analyses: 294
-  MATCH: 292
-  PRE_UNRESOLVED: 2
+Total analyses: 296
+  MATCH: 296
 
-Total gene IDs across all analyses: 229286
-  Matched: 229286
+Total gene IDs across all analyses: 234364
+  Matched: 234364
   RNA/tRNA/ncRNA (OK): 0
-  Pre-unresolved (no edges): 16871
+  Pre-unresolved (no edges): 12705
   Mismatched: 0
-  Analyses using pre-resolved CSV: 294
+  Analyses using pre-resolved CSV: 296

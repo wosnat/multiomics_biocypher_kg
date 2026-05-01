@@ -1,0 +1,15 @@
+Resolution report: Fadeev 2022 / s1_mit1002
+Source: Table_S1-most_abundant_MV_proteins_Supplementary_Data - MIT1002_modified.csv
+name_col: NCBI_PGAP_accession
+id_columns: ['NCBI_PGAP_accession']
+
+Total rows with IDs: 93
+Resolved: 92 (98.9%)
+Unresolved: 1
+
+Resolution method breakdown:
+  tier1:NCBI_PGAP_accession: 92
+  unresolved: 1
+
+Unresolved rows (1):
+  row 20: raw_id='WP_049586079.1'  reason=unresolved  [NCBI_PGAP_accession='WP_049586079.1']

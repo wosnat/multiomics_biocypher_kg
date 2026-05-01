@@ -94,6 +94,19 @@ publication:
       treatment_assembly_accession: GCF_001578515.1
       table_scope: all_detected_genes
   supplementary_materials:
+    id_translation_hot1a3_author:
+      type: id_translation
+      filename: data/Prochlorococcus/papers_and_supp/Aharonovich 2016/am_hot1a3_to_hot1a3_id_translation.csv
+      organism: Alteromonas macleodii HOT1A3
+      generate:
+        method: diamond_protein_match
+        source_fasta: data/Prochlorococcus/papers_and_supp/Aharonovich 2016/Am_HOTo1A3.faa
+        source_id_col: am_hot1a3_id
+      id_columns:
+      - column: locus_tag
+        id_type: locus_tag
+      - column: am_hot1a3_id
+        id_type: old_locus_tag
     supp_table_1:
       type: csv
       filename: data/Prochlorococcus/papers_and_supp/Aharonovich 2016/de_genes_med4_t20h.csv
@@ -115,9 +128,10 @@ publication:
     supp_table_hot1a3_9313_vs_9313dil:
       type: csv
       filename: data/Prochlorococcus/papers_and_supp/Aharonovich 2016/HOT1A3 coculture with 9313 ver coculture with 9313 diluted.csv
+      organism: Alteromonas macleodii HOT1A3
       id_columns:
       - column: Synonym
-        id_type: locus_tag
+        id_type: old_locus_tag
       product_columns:
       - column: Product
       statistical_analyses:
@@ -133,9 +147,10 @@ publication:
     supp_table_hot1a3_9313_vs_med4:
       type: csv
       filename: data/Prochlorococcus/papers_and_supp/Aharonovich 2016/HOT1A3 coculture with MED4 vs coculture with MIT9313.csv
+      organism: Alteromonas macleodii HOT1A3
       id_columns:
       - column: Synonym
-        id_type: locus_tag
+        id_type: old_locus_tag
       product_columns:
       - column: Product
       statistical_analyses:

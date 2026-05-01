@@ -39,6 +39,22 @@ def _clean_str(value) -> str:
     return value.replace("'", "^").replace("|", ",")
 
 
+# LLM extraction prompts instruct the model to write the literal string "N/A"
+# when no description is available (see multiomics_kg/extraction/cluster/extract.py).
+# Treat these as absent so consumers can use IS NULL / pd.isna() to filter.
+_EXTRACTION_STUB_VALUES: frozenset[str] = frozenset({"N/A", "n/a", "NA", "n.a."})
+
+
+def _normalize_extraction_value(value) -> str | None:
+    """Return cleaned string, or None for empty / extraction-stub values."""
+    if not isinstance(value, str):
+        return None
+    s = _clean_str(value).strip()
+    if not s or s in _EXTRACTION_STUB_VALUES:
+        return None
+    return s
+
+
 def _make_cluster_id(doi: str, paper_name: str, entry_key: str, cluster_key: str) -> str:
     """Build cluster node ID: cluster:{doi_short}:{entry_key}:{cluster_key}.
 
@@ -218,16 +234,13 @@ class ClusterAdapter:
                     "name": _clean_str(ext_data.get("name", f"Cluster {cluster_key}")),
                     "organism_name": _clean_str(organism),
                     "member_count": member_count,
-                    "functional_description": _clean_str(
-                        ext_data.get("functional_description", "")
-                    ),
-                    "temporal_pattern": _clean_str(
-                        ext_data.get("temporal_pattern", "")
-                    ),
-                    "expression_dynamics": _clean_str(
-                        ext_data.get("expression_dynamics", "")
-                    ),
                 }
+                # Description fields: omit when extraction returned a stub ("N/A")
+                # or empty so the property is NULL in Neo4j rather than literal text.
+                for field in ("functional_description", "temporal_pattern", "expression_dynamics"):
+                    v = _normalize_extraction_value(ext_data.get(field))
+                    if v is not None:
+                        props[field] = v
                 nodes.append((cluster_id, "gene_cluster", props))
 
         return nodes

@@ -8,6 +8,12 @@
 
 **Authors:** Franziska Kratzl, Marlene Urban, Jagroop Pandhal, Mengxun Shi, Chen Meng, Karin Kleigrewe, Andreas Kremling, Katharina Pflueger-Grau
 
+## Classification
+
+**Bucket D -- defer / nothing to do (already integrated)**
+
+Bilateral synthetic coculture of S. elongatus PCC 7942 cscB and P. putida KT2440 cscRABY; both organisms are now deployed in the KG (PCC 7942 as Synechococcus, KT2440 as Pseudomonas). All four DE supplementary sheets used here -- sheets 1 and 6 (RNA-seq, all detected genes) and sheets 11 and 13 (proteomics, all detected proteins) -- carry log2FC + adjusted p-values and are wired to four experiments in paperconfig.yaml with `*_resolved.csv` siblings already in place. The metabolomics dataset in MOESM4 (extracellular metabolites: sucrose, organic acids, amino acids) is the only blocking gap and would belong to bucket A once Metabolite nodes exist; secondary note rather than primary classification because the gene-level work is fully integrated.
+
 ## Organisms
 
 - **Synechococcus elongatus PCC 7942** (NCBI Taxid: 1140) -- cscB strain (sucrose-secreting)

@@ -5,6 +5,12 @@
 **Organism(s):** *Prochlorococcus* NATL2A; phage (cyanophage infection at 47 h)
 **Topic:** RNA-seq time-course of NATL2A under P-limited vs P-replete, with and without phage infection; time points span 4, 24, 46, 50 (P added), 59 h uninfected and 47, 48, 49, 51, 55, 55 (P added), 59, 59 (P added) infected. Tables S4A/S4B carry paired log2FC + padj columns per timepoint.
 
+## Classification
+
+**Bucket D — defer / nothing to do**
+
+The two RNA-seq DE tables (S4A uninfected, S4B infected) covering all reported timepoints are fully integrated as `Changes_expression_of` edges. The remaining unintegrated artefacts are out of scope or inactionable: `Table S2` is sample x gene raw read counts (per-sample abundance, no DE), `Table S1` is sample-level metadata, `Supplementary Figures.doc` and `Table S5.doc` are PDF-style narratives, and the SI zip is a duplicate bundle. `Table S3.xls` was earlier flagged as a possible per-gene annotation table to inspect; if it ever turns out to carry per-gene categorical evidence it would graduate to bucket B, but with no clear actionable per-gene content visible today it stays in D.
+
 ## Available data inventory
 
 | File | Type | Content | KG status | Recommended action |

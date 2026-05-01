@@ -5,6 +5,12 @@
 **Organism(s):** *Prochlorococcus* NATL2A (LLI clade) + *Alteromonas macleodii* MIT1002 (long-term co-cultured companion heterotroph, freshly reunited after separation).
 **Topic:** RNA-seq time course (−12, 2, 4, 6, 12, 24, 48 h) of axenic vs reunited co-cultured NATL2A; parallel MIT1002 transcriptome at 12, 24, 48 h in co-culture. DESeq2-based DE shows waves of transcript change, reduced stress/HLIP expression, increased photosystem/biosynthesis transcripts, and secretion-related changes suggesting metabolic exchange.
 
+## Classification
+
+**Bucket D - defer / nothing to do**
+
+All 9 DE statistical_analyses (7 NATL2A timepoints + 2 MIT1002 time contrasts) are integrated. Asterisk-encoded per-timepoint significance is parsed via `pvalue_asterisk_in_logfc: true`. Both organisms (NATL2A, MIT1002) are deployed. The remaining XLSX files are duplicates or sample-level QC metadata (moesm97). No periodicity/clustering/classifier tables exist in this paper. Nothing left to add.
+
 ## Available data inventory
 
 | File | Type | Content | KG status | Recommended action |

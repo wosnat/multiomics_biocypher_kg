@@ -1,0 +1,15 @@
+Resolution report: Fadeev 2022 / s1_atcc27126
+Source: Table_S1-most_abundant_MV_proteins_Supplementary_Data - ATCC27126_modified.csv
+name_col: NCBI_PGAP_accession
+id_columns: ['NCBI_PGAP_accession']
+
+Total rows with IDs: 89
+Resolved: 88 (98.9%)
+Unresolved: 1
+
+Resolution method breakdown:
+  tier1:NCBI_PGAP_accession: 88
+  unresolved: 1
+
+Unresolved rows (1):
+  row 0: raw_id='WP_148275229.1'  reason=unresolved  [NCBI_PGAP_accession='WP_148275229.1']

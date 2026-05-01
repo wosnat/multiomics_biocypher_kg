@@ -5,6 +5,12 @@
 **Organism(s):** *Prochlorococcus* MIT9312 (HL-II), NATL2A (LL-I), SS120 (LL-II/III — reference proteome deployment)
 **Topic:** iTRAQ 4-plex quantitative proteomics of three *Prochlorococcus* ecotypes grown in Pro99-based medium, Pi replete (50 uM) vs Pi deplete (10 uM), n=3 biological replicates. Significance: fold-change ratio > 1.6 (up) / < 0.6 (down); paper does not report per-protein p-values. Table S1 lists only significantly changing proteins per strain.
 
+## Classification
+
+**Bucket D - already integrated, nothing to add**
+
+All three strain-specific iTRAQ tables (MIT9312, NATL2A, SS120) are wired as `Changes_expression_of` edges with precomputed signed `log2_fold_change`. SS120 was added as a reference-proteome-match organism in 2026-04-15 specifically to support this paper plus Dominguez 2017. `adjusted_p_value` is null (paper reports only fold-change cutoffs); `logfc_threshold = 0.678` documents the paper's |log2(1.6)| rule. No remaining gene-level evidence; no metabolomics; no clustering.
+
 ## Available data inventory
 
 | File | Type | Content | KG status | Recommended action |

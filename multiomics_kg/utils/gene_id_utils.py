@@ -46,6 +46,15 @@ ORGANISM_TO_GENOME_DIR = {
     "alteromonas ez55": "cache/data/Alteromonas/genomes/EZ55",
     "alteromonas macleodii hot1a3": "cache/data/Alteromonas/genomes/HOT1A3",
     "alteromonas hot1a3": "cache/data/Alteromonas/genomes/HOT1A3",
+    # Fadeev 2022 vesicle proteomics strains (April 2026)
+    "alteromonas macleodii ad45": "cache/data/Alteromonas/genomes/AD45",
+    "alteromonas ad45": "cache/data/Alteromonas/genomes/AD45",
+    "alteromonas macleodii atcc27126": "cache/data/Alteromonas/genomes/ATCC27126",
+    "alteromonas atcc27126": "cache/data/Alteromonas/genomes/ATCC27126",
+    "alteromonas macleodii bs11": "cache/data/Alteromonas/genomes/BS11",
+    "alteromonas bs11": "cache/data/Alteromonas/genomes/BS11",
+    "alteromonas macleodii bgp6": "cache/data/Alteromonas/genomes/BGP6",
+    "alteromonas bgp6": "cache/data/Alteromonas/genomes/BGP6",
     # New organisms (Synechococcus integration, April 2026)
     "prochlorococcus mit9303": "cache/data/Prochlorococcus/genomes/MIT9303",
     "synechococcus wh7803": "cache/data/Synechococcus/genomes/WH7803",

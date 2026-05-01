@@ -1,0 +1,332 @@
+# Fadeev 2022 — Alteromonas macleodii membrane vesicle (MV) vs whole-cell proteomics.
+# Six strains compared in a single growth condition each (axenic, AMP1 + organic carbons, 20C, dark).
+# No DE comparison — Table S1 reports NSAF-style proportional-abundance % per fraction (vesicle, cell).
+# Wired as `derived_metrics_table` (numeric) per strain; pattern mirrors Biller 2022 vesicle entries.
+# CSVs are pre-processed by scripts/build_modified_csv/build_fadeev2022_modified_csv.py to:
+#   - strip percent signs (observations_adapter calls float() and would skip "13.3%")
+#   - add a derived `log2_mv_cell_enrichment` column (log2(MVs/Cells) where both > 0).
+publication:
+  papername: Fadeev 2022
+  doi: "10.1093/femsml/uqac025"
+  papermainpdf: data/Prochlorococcus/papers_and_supp/fadeev 2022/uqac025.pdf
+  experiments:
+    vesicle_proteomics_ad45:
+      name: AD45 vesicle vs whole-cell proteome (label-free LC-MS/MS)
+      organism: Alteromonas macleodii AD45
+      compartment: vesicle
+      treatment_condition: Vesicle fraction (extracellular)
+      control_condition: Whole cell (intracellular)
+      experimental_context: Axenic culture in AMP1 + organic carbons at 20C in the dark; MVs purified by 0.22 um filtration + tangential flow filtration (100 kDa cutoff) + ultracentrifugation; peptides identified by SEQUEST-HT in Proteome Discoverer v3.0 against the strain's NCBI_PGAP genome; reported as NSAF-style proportional-abundance percentages per fraction
+      omics_type: VESICLE_PROTEOMICS
+      test_type: LC-MS/MS
+      treatment_type: [compartment]
+      background_factors: [axenic, darkness]
+      medium: AMP1 artificial seawater amended with 0.05% w/v lactate, pyruvate, acetate, glycerol and a vitamin mix
+      temperature: 20C
+      light_condition: dark
+      light_intensity: "0 umol photons m-2 s-1"
+      table_scope: top_n
+      table_scope_detail: "Top-N most-abundant MV proteins per strain; complementary cell-fraction percentages provided where the protein was also detected in the whole-cell fraction"
+    vesicle_proteomics_atcc27126:
+      name: ATCC27126 vesicle vs whole-cell proteome (label-free LC-MS/MS)
+      organism: Alteromonas macleodii ATCC27126
+      compartment: vesicle
+      treatment_condition: Vesicle fraction (extracellular)
+      control_condition: Whole cell (intracellular)
+      experimental_context: Axenic culture in AMP1 + organic carbons at 20C in the dark; MVs purified by 0.22 um filtration + tangential flow filtration (100 kDa cutoff) + ultracentrifugation; peptides identified by SEQUEST-HT in Proteome Discoverer v3.0 against the strain's NCBI_PGAP genome; reported as NSAF-style proportional-abundance percentages per fraction
+      omics_type: VESICLE_PROTEOMICS
+      test_type: LC-MS/MS
+      treatment_type: [compartment]
+      background_factors: [axenic, darkness]
+      medium: AMP1 artificial seawater amended with 0.05% w/v lactate, pyruvate, acetate, glycerol and a vitamin mix
+      temperature: 20C
+      light_condition: dark
+      light_intensity: "0 umol photons m-2 s-1"
+      table_scope: top_n
+      table_scope_detail: "Top-N most-abundant MV proteins per strain; complementary cell-fraction percentages provided where the protein was also detected in the whole-cell fraction"
+    vesicle_proteomics_bgp6:
+      name: BGP6 vesicle vs whole-cell proteome (label-free LC-MS/MS)
+      organism: Alteromonas macleodii BGP6
+      compartment: vesicle
+      treatment_condition: Vesicle fraction (extracellular)
+      control_condition: Whole cell (intracellular)
+      experimental_context: Axenic culture in AMP1 + organic carbons at 20C in the dark; MVs purified by 0.22 um filtration + tangential flow filtration (100 kDa cutoff) + ultracentrifugation; peptides identified by SEQUEST-HT in Proteome Discoverer v3.0 against the strain's NCBI_PGAP genome; reported as NSAF-style proportional-abundance percentages per fraction
+      omics_type: VESICLE_PROTEOMICS
+      test_type: LC-MS/MS
+      treatment_type: [compartment]
+      background_factors: [axenic, darkness]
+      medium: AMP1 artificial seawater amended with 0.05% w/v lactate, pyruvate, acetate, glycerol and a vitamin mix
+      temperature: 20C
+      light_condition: dark
+      light_intensity: "0 umol photons m-2 s-1"
+      table_scope: top_n
+      table_scope_detail: "Top-N most-abundant MV proteins per strain; complementary cell-fraction percentages provided where the protein was also detected in the whole-cell fraction"
+    vesicle_proteomics_bs11:
+      name: BS11 vesicle vs whole-cell proteome (label-free LC-MS/MS)
+      organism: Alteromonas macleodii BS11
+      compartment: vesicle
+      treatment_condition: Vesicle fraction (extracellular)
+      control_condition: Whole cell (intracellular)
+      experimental_context: Axenic culture in AMP1 + organic carbons at 20C in the dark; MVs purified by 0.22 um filtration + tangential flow filtration (100 kDa cutoff) + ultracentrifugation; peptides identified by SEQUEST-HT in Proteome Discoverer v3.0 against the strain's NCBI_PGAP genome; reported as NSAF-style proportional-abundance percentages per fraction
+      omics_type: VESICLE_PROTEOMICS
+      test_type: LC-MS/MS
+      treatment_type: [compartment]
+      background_factors: [axenic, darkness]
+      medium: AMP1 artificial seawater amended with 0.05% w/v lactate, pyruvate, acetate, glycerol and a vitamin mix
+      temperature: 20C
+      light_condition: dark
+      light_intensity: "0 umol photons m-2 s-1"
+      table_scope: top_n
+      table_scope_detail: "Top-N most-abundant MV proteins per strain; complementary cell-fraction percentages provided where the protein was also detected in the whole-cell fraction"
+    vesicle_proteomics_hot1a3:
+      name: HOT1A3 vesicle vs whole-cell proteome (label-free LC-MS/MS)
+      organism: Alteromonas macleodii HOT1A3
+      compartment: vesicle
+      treatment_condition: Vesicle fraction (extracellular)
+      control_condition: Whole cell (intracellular)
+      experimental_context: Axenic culture in AMP1 + organic carbons at 20C in the dark; MVs purified by 0.22 um filtration + tangential flow filtration (100 kDa cutoff) + ultracentrifugation; peptides identified by SEQUEST-HT in Proteome Discoverer v3.0 against the strain's NCBI_PGAP genome; reported as NSAF-style proportional-abundance percentages per fraction
+      omics_type: VESICLE_PROTEOMICS
+      test_type: LC-MS/MS
+      treatment_type: [compartment]
+      background_factors: [axenic, darkness]
+      medium: AMP1 artificial seawater amended with 0.05% w/v lactate, pyruvate, acetate, glycerol and a vitamin mix
+      temperature: 20C
+      light_condition: dark
+      light_intensity: "0 umol photons m-2 s-1"
+      table_scope: top_n
+      table_scope_detail: "Top-N most-abundant MV proteins per strain; complementary cell-fraction percentages provided where the protein was also detected in the whole-cell fraction"
+    vesicle_proteomics_mit1002:
+      name: MIT1002 vesicle vs whole-cell proteome (label-free LC-MS/MS)
+      organism: Alteromonas macleodii MIT1002
+      compartment: vesicle
+      treatment_condition: Vesicle fraction (extracellular)
+      control_condition: Whole cell (intracellular)
+      experimental_context: Axenic culture in AMP1 + organic carbons at 20C in the dark; MVs purified by 0.22 um filtration + tangential flow filtration (100 kDa cutoff) + ultracentrifugation; peptides identified by SEQUEST-HT in Proteome Discoverer v3.0 against the strain's NCBI_PGAP genome; reported as NSAF-style proportional-abundance percentages per fraction
+      omics_type: VESICLE_PROTEOMICS
+      test_type: LC-MS/MS
+      treatment_type: [compartment]
+      background_factors: [axenic, darkness]
+      medium: AMP1 artificial seawater amended with 0.05% w/v lactate, pyruvate, acetate, glycerol and a vitamin mix
+      temperature: 20C
+      light_condition: dark
+      light_intensity: "0 umol photons m-2 s-1"
+      table_scope: top_n
+      table_scope_detail: "Top-N most-abundant MV proteins per strain; complementary cell-fraction percentages provided where the protein was also detected in the whole-cell fraction"
+  supplementary_materials:
+    # CSVs prepared by scripts/build_modified_csv/build_fadeev2022_modified_csv.py
+    s1_ad45:
+      type: derived_metrics_table
+      filename: data/Prochlorococcus/papers_and_supp/fadeev 2022/Table_S1-most_abundant_MV_proteins_Supplementary_Data - AD45_modified.csv
+      organism: Alteromonas macleodii AD45
+      experiment: vesicle_proteomics_ad45
+      name_col: NCBI_PGAP_accession
+      id_columns:
+        - column: NCBI_PGAP_accession
+          id_type: protein_id_refseq
+      product_columns:
+        - column: NCBI_PGAP_function
+      metrics:
+        - metric_type: prop_abund_mvs_percent
+          name: "AD45 protein proportional abundance in vesicle fraction (Fadeev 2022 Table S1)"
+          value_kind: numeric
+          value_col: prop_abund_mvs_percent
+          unit: "percent of summed PSM intensity in vesicle fraction"
+          rankable: "true"
+          has_p_value: "false"
+          field_description: "Per-protein NSAF-style proportional abundance (% of summed spectral counts) in the purified MV fraction; Fadeev 2022 Table S1"
+        - metric_type: prop_abund_cells_percent
+          name: "AD45 protein proportional abundance in whole-cell fraction (Fadeev 2022 Table S1)"
+          value_kind: numeric
+          value_col: prop_abund_cells_percent
+          unit: "percent of summed PSM intensity in whole-cell fraction"
+          rankable: "true"
+          has_p_value: "false"
+          field_description: "Per-protein NSAF-style proportional abundance (% of summed spectral counts) in the whole-cell fraction; Fadeev 2022 Table S1"
+        - metric_type: log2_mv_cell_enrichment
+          name: "AD45 log2(MV / cell) abundance enrichment (Fadeev 2022 Table S1, derived)"
+          value_kind: numeric
+          value_col: log2_mv_cell_enrichment
+          unit: "log2 ratio"
+          rankable: "true"
+          has_p_value: "false"
+          field_description: "log2 ratio of vesicle-fraction over cell-fraction proportional abundance; computed by build_fadeev2022_modified_csv.py for proteins detected in both fractions; Fadeev 2022 Table S1"
+    s1_atcc27126:
+      type: derived_metrics_table
+      filename: data/Prochlorococcus/papers_and_supp/fadeev 2022/Table_S1-most_abundant_MV_proteins_Supplementary_Data - ATCC27126_modified.csv
+      organism: Alteromonas macleodii ATCC27126
+      experiment: vesicle_proteomics_atcc27126
+      name_col: NCBI_PGAP_accession
+      id_columns:
+        - column: NCBI_PGAP_accession
+          id_type: protein_id_refseq
+      product_columns:
+        - column: NCBI_PGAP_function
+      metrics:
+        - metric_type: prop_abund_mvs_percent
+          name: "ATCC27126 protein proportional abundance in vesicle fraction (Fadeev 2022 Table S1)"
+          value_kind: numeric
+          value_col: prop_abund_mvs_percent
+          unit: "percent of summed PSM intensity in vesicle fraction"
+          rankable: "true"
+          has_p_value: "false"
+          field_description: "Per-protein NSAF-style proportional abundance (% of summed spectral counts) in the purified MV fraction; Fadeev 2022 Table S1"
+        - metric_type: prop_abund_cells_percent
+          name: "ATCC27126 protein proportional abundance in whole-cell fraction (Fadeev 2022 Table S1)"
+          value_kind: numeric
+          value_col: prop_abund_cells_percent
+          unit: "percent of summed PSM intensity in whole-cell fraction"
+          rankable: "true"
+          has_p_value: "false"
+          field_description: "Per-protein NSAF-style proportional abundance (% of summed spectral counts) in the whole-cell fraction; Fadeev 2022 Table S1"
+        - metric_type: log2_mv_cell_enrichment
+          name: "ATCC27126 log2(MV / cell) abundance enrichment (Fadeev 2022 Table S1, derived)"
+          value_kind: numeric
+          value_col: log2_mv_cell_enrichment
+          unit: "log2 ratio"
+          rankable: "true"
+          has_p_value: "false"
+          field_description: "log2 ratio of vesicle-fraction over cell-fraction proportional abundance; computed by build_fadeev2022_modified_csv.py for proteins detected in both fractions; Fadeev 2022 Table S1"
+    s1_bgp6:
+      type: derived_metrics_table
+      filename: data/Prochlorococcus/papers_and_supp/fadeev 2022/Table_S1-most_abundant_MV_proteins_Supplementary_Data - BGP6_modified.csv
+      organism: Alteromonas macleodii BGP6
+      experiment: vesicle_proteomics_bgp6
+      name_col: NCBI_PGAP_accession
+      id_columns:
+        - column: NCBI_PGAP_accession
+          id_type: protein_id_refseq
+      product_columns:
+        - column: NCBI_PGAP_function
+      metrics:
+        - metric_type: prop_abund_mvs_percent
+          name: "BGP6 protein proportional abundance in vesicle fraction (Fadeev 2022 Table S1)"
+          value_kind: numeric
+          value_col: prop_abund_mvs_percent
+          unit: "percent of summed PSM intensity in vesicle fraction"
+          rankable: "true"
+          has_p_value: "false"
+          field_description: "Per-protein NSAF-style proportional abundance (% of summed spectral counts) in the purified MV fraction; Fadeev 2022 Table S1"
+        - metric_type: prop_abund_cells_percent
+          name: "BGP6 protein proportional abundance in whole-cell fraction (Fadeev 2022 Table S1)"
+          value_kind: numeric
+          value_col: prop_abund_cells_percent
+          unit: "percent of summed PSM intensity in whole-cell fraction"
+          rankable: "true"
+          has_p_value: "false"
+          field_description: "Per-protein NSAF-style proportional abundance (% of summed spectral counts) in the whole-cell fraction; Fadeev 2022 Table S1"
+        - metric_type: log2_mv_cell_enrichment
+          name: "BGP6 log2(MV / cell) abundance enrichment (Fadeev 2022 Table S1, derived)"
+          value_kind: numeric
+          value_col: log2_mv_cell_enrichment
+          unit: "log2 ratio"
+          rankable: "true"
+          has_p_value: "false"
+          field_description: "log2 ratio of vesicle-fraction over cell-fraction proportional abundance; computed by build_fadeev2022_modified_csv.py for proteins detected in both fractions; Fadeev 2022 Table S1"
+    s1_bs11:
+      type: derived_metrics_table
+      filename: data/Prochlorococcus/papers_and_supp/fadeev 2022/Table_S1-most_abundant_MV_proteins_Supplementary_Data - BS11_modified.csv
+      organism: Alteromonas macleodii BS11
+      experiment: vesicle_proteomics_bs11
+      name_col: NCBI_PGAP_accession
+      id_columns:
+        - column: NCBI_PGAP_accession
+          id_type: protein_id_refseq
+      product_columns:
+        - column: NCBI_PGAP_function
+      metrics:
+        - metric_type: prop_abund_mvs_percent
+          name: "BS11 protein proportional abundance in vesicle fraction (Fadeev 2022 Table S1)"
+          value_kind: numeric
+          value_col: prop_abund_mvs_percent
+          unit: "percent of summed PSM intensity in vesicle fraction"
+          rankable: "true"
+          has_p_value: "false"
+          field_description: "Per-protein NSAF-style proportional abundance (% of summed spectral counts) in the purified MV fraction; Fadeev 2022 Table S1"
+        - metric_type: prop_abund_cells_percent
+          name: "BS11 protein proportional abundance in whole-cell fraction (Fadeev 2022 Table S1)"
+          value_kind: numeric
+          value_col: prop_abund_cells_percent
+          unit: "percent of summed PSM intensity in whole-cell fraction"
+          rankable: "true"
+          has_p_value: "false"
+          field_description: "Per-protein NSAF-style proportional abundance (% of summed spectral counts) in the whole-cell fraction; Fadeev 2022 Table S1"
+        - metric_type: log2_mv_cell_enrichment
+          name: "BS11 log2(MV / cell) abundance enrichment (Fadeev 2022 Table S1, derived)"
+          value_kind: numeric
+          value_col: log2_mv_cell_enrichment
+          unit: "log2 ratio"
+          rankable: "true"
+          has_p_value: "false"
+          field_description: "log2 ratio of vesicle-fraction over cell-fraction proportional abundance; computed by build_fadeev2022_modified_csv.py for proteins detected in both fractions; Fadeev 2022 Table S1"
+    s1_hot1a3:
+      type: derived_metrics_table
+      filename: data/Prochlorococcus/papers_and_supp/fadeev 2022/Table_S1-most_abundant_MV_proteins_Supplementary_Data - HOT1A3_modified.csv
+      organism: Alteromonas macleodii HOT1A3
+      experiment: vesicle_proteomics_hot1a3
+      name_col: NCBI_PGAP_accession
+      id_columns:
+        - column: NCBI_PGAP_accession
+          id_type: protein_id_refseq
+      product_columns:
+        - column: NCBI_PGAP_function
+      metrics:
+        - metric_type: prop_abund_mvs_percent
+          name: "HOT1A3 protein proportional abundance in vesicle fraction (Fadeev 2022 Table S1)"
+          value_kind: numeric
+          value_col: prop_abund_mvs_percent
+          unit: "percent of summed PSM intensity in vesicle fraction"
+          rankable: "true"
+          has_p_value: "false"
+          field_description: "Per-protein NSAF-style proportional abundance (% of summed spectral counts) in the purified MV fraction; Fadeev 2022 Table S1"
+        - metric_type: prop_abund_cells_percent
+          name: "HOT1A3 protein proportional abundance in whole-cell fraction (Fadeev 2022 Table S1)"
+          value_kind: numeric
+          value_col: prop_abund_cells_percent
+          unit: "percent of summed PSM intensity in whole-cell fraction"
+          rankable: "true"
+          has_p_value: "false"
+          field_description: "Per-protein NSAF-style proportional abundance (% of summed spectral counts) in the whole-cell fraction; Fadeev 2022 Table S1"
+        - metric_type: log2_mv_cell_enrichment
+          name: "HOT1A3 log2(MV / cell) abundance enrichment (Fadeev 2022 Table S1, derived)"
+          value_kind: numeric
+          value_col: log2_mv_cell_enrichment
+          unit: "log2 ratio"
+          rankable: "true"
+          has_p_value: "false"
+          field_description: "log2 ratio of vesicle-fraction over cell-fraction proportional abundance; computed by build_fadeev2022_modified_csv.py for proteins detected in both fractions; Fadeev 2022 Table S1"
+    s1_mit1002:
+      type: derived_metrics_table
+      filename: data/Prochlorococcus/papers_and_supp/fadeev 2022/Table_S1-most_abundant_MV_proteins_Supplementary_Data - MIT1002_modified.csv
+      organism: Alteromonas macleodii MIT1002
+      experiment: vesicle_proteomics_mit1002
+      name_col: NCBI_PGAP_accession
+      id_columns:
+        - column: NCBI_PGAP_accession
+          id_type: protein_id_refseq
+      product_columns:
+        - column: NCBI_PGAP_function
+      metrics:
+        - metric_type: prop_abund_mvs_percent
+          name: "MIT1002 protein proportional abundance in vesicle fraction (Fadeev 2022 Table S1)"
+          value_kind: numeric
+          value_col: prop_abund_mvs_percent
+          unit: "percent of summed PSM intensity in vesicle fraction"
+          rankable: "true"
+          has_p_value: "false"
+          field_description: "Per-protein NSAF-style proportional abundance (% of summed spectral counts) in the purified MV fraction; Fadeev 2022 Table S1"
+        - metric_type: prop_abund_cells_percent
+          name: "MIT1002 protein proportional abundance in whole-cell fraction (Fadeev 2022 Table S1)"
+          value_kind: numeric
+          value_col: prop_abund_cells_percent
+          unit: "percent of summed PSM intensity in whole-cell fraction"
+          rankable: "true"
+          has_p_value: "false"
+          field_description: "Per-protein NSAF-style proportional abundance (% of summed spectral counts) in the whole-cell fraction; Fadeev 2022 Table S1"
+        - metric_type: log2_mv_cell_enrichment
+          name: "MIT1002 log2(MV / cell) abundance enrichment (Fadeev 2022 Table S1, derived)"
+          value_kind: numeric
+          value_col: log2_mv_cell_enrichment
+          unit: "log2 ratio"
+          rankable: "true"
+          has_p_value: "false"
+          field_description: "log2 ratio of vesicle-fraction over cell-fraction proportional abundance; computed by build_fadeev2022_modified_csv.py for proteins detected in both fractions; Fadeev 2022 Table S1"

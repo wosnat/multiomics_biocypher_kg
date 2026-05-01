@@ -1,0 +1,35 @@
+Resolution report: Lu 2025 / table_s1_whole_cell_detection
+Source: table s1.csv
+name_col: Accession
+id_columns: ['Accession']
+
+Total rows with IDs: 602
+Resolved: 234 (38.9%)
+Unresolved: 368
+
+Resolution method breakdown:
+  multi:Accession: 234
+  unresolved: 368
+
+Unresolved rows (368):
+  row 1: raw_id='WP_039230617'  reason=unresolved  [Accession='WP_039230617']
+  row 3: raw_id='WP_039235682'  reason=unresolved  [Accession='WP_039235682']
+  row 5: raw_id='WP_039234646'  reason=unresolved  [Accession='WP_039234646']
+  row 6: raw_id='WP_014950394'  reason=unresolved  [Accession='WP_014950394']
+  row 7: raw_id='WP_069944319'  reason=unresolved  [Accession='WP_069944319']
+  row 9: raw_id='WP_039236315'  reason=unresolved  [Accession='WP_039236315']
+  row 10: raw_id='WP_014948943'  reason=unresolved  [Accession='WP_014948943']
+  row 12: raw_id='WP_069945161'  reason=unresolved  [Accession='WP_069945161']
+  row 13: raw_id='WP_069945193'  reason=unresolved  [Accession='WP_069945193']
+  row 15: raw_id='WP_014948940'  reason=unresolved  [Accession='WP_014948940']
+  row 16: raw_id='WP_069944210'  reason=unresolved  [Accession='WP_069944210']
+  row 19: raw_id='WP_039235323'  reason=unresolved  [Accession='WP_039235323']
+  row 21: raw_id='WP_014948050'  reason=unresolved  [Accession='WP_014948050']
+  row 22: raw_id='WP_039234209'  reason=unresolved  [Accession='WP_039234209']
+  row 23: raw_id='WP_069944212'  reason=unresolved  [Accession='WP_069944212']
+  row 25: raw_id='WP_039234862'  reason=unresolved  [Accession='WP_039234862']
+  row 26: raw_id='WP_039232918'  reason=unresolved  [Accession='WP_039232918']
+  row 27: raw_id='OES35092'  reason=unresolved  [Accession='OES35092']
+  row 29: raw_id='WP_039234855'  reason=unresolved  [Accession='WP_039234855']
+  row 30: raw_id='WP_039232184'  reason=unresolved  [Accession='WP_039232184']
+  ... (348 more)
