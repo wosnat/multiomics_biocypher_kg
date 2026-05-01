@@ -85,7 +85,9 @@ How substrates are resolved:
 
 All 1,410 unique TCDB substrate strings resolve to MNX. ~399 already match existing Metabolites; ~785 are new transport-only Metabolites.
 
-## New Metabolite property: `evidence_sources: str[]`
+## Metabolite — new and extended properties
+
+### New: `evidence_sources: str[]`
 
 Every Metabolite (including pre-existing ones) now carries an `evidence_sources` array. Values:
 
@@ -97,6 +99,22 @@ A compound found by both paths gets `["metabolism", "transport"]`. A pre-existin
 This lets you distinguish "this organism has a known metabolic reaction with this compound" from "this organism's transporters are annotated as moving this compound" — both are evidence, but they answer different biological questions.
 
 The enum is **open-ended**: a future metabolomics-DM spec is expected to add `"metabolomics"` for compounds measured in metabolomics experiments. Filter logic should use set membership (`'transport' IN m.evidence_sources`) rather than equality so it stays robust to additions.
+
+### New: `transporter_count: int`
+
+Distinct `TcdbFamily` nodes pointing at this Metabolite via `Tcdb_family_transports_metabolite`. Mirrors the existing `Metabolite`-side rollup style. Useful as a quick "how many transporter families curate this compound as a substrate" signal.
+
+### Extended semantics: `gene_count` / `organism_count`
+
+Both already exist on Metabolite, populated by post-import as a 2-hop count via `Gene → Reaction → Metabolite`. After this spec lands, the materialization adds a UNION arm via `Gene → TcdbFamily → ... → Tcdb_family_transports_metabolite → Metabolite`. Same property, broader semantics:
+
+> Distinct genes / organisms reachable via *any* chemistry path — catalysis OR transport.
+
+A Metabolite with `evidence_sources: ['transport']` (transport-only) will show non-zero `gene_count` and `organism_count` from the transport path alone. Pre-existing pure-metabolism Metabolites grow their counts only if any of their consumer organisms also has a transporter for them.
+
+### Extended materialization: `Organism_has_metabolite` edges
+
+Already exist as 2-hop saves via `Gene → Reaction → Metabolite`. Post-import adds a UNION arm via `Gene → TcdbFamily → Metabolite`. Single dedup by `(organism, metabolite)`. Optional `via: str[]` property on the edge enumerating which paths produced it (`{'metabolism', 'transport'}`).
 
 ## New Gene routing-signal properties
 
@@ -196,6 +214,28 @@ RETURN g.organism_name, g.locus_tag, g.product
 ORDER BY g.organism_name
 ```
 
+### Routing-signal-driven Gene shortlists
+
+```cypher
+// Genes with rich TCDB annotation (≥2 family memberships across the hierarchy)
+MATCH (g:Gene {organism_name: 'Prochlorococcus MED4'})
+WHERE g.tcdb_family_count >= 2
+RETURN g.locus_tag, g.product, g.tcdb_family_count
+ORDER BY g.tcdb_family_count DESC
+LIMIT 20
+```
+
+### Most chemically diverse TCDB families
+
+```cypher
+// Top transporter families by substrate breadth
+MATCH (tf:TcdbFamily {level_kind: 'tc_family'})
+WHERE tf.metabolite_count > 0
+RETURN tf.tcdb_id, tf.name, tf.metabolite_count, tf.gene_count
+ORDER BY tf.metabolite_count DESC
+LIMIT 20
+```
+
 ## Pipeline changes (for awareness only)
 
 If you re-run prepare_data:
@@ -226,6 +266,25 @@ If you re-run prepare_data:
 | `Gene_has_cazy_family` edges | 0 | ~400–600 | new |
 | `Tcdb_family_transports_metabolite` edges | 0 | ~10,000 | new |
 | `Organism_has_metabolite` edges | existing | grows by transport-path additions | +modest |
+
+## Property changes summary
+
+At-a-glance reference for what to update on the explorer side:
+
+| Node type | Property | Status | Notes |
+|---|---|---|---|
+| Gene | `transporter_classification: str[]` | **REMOVED** | Use `(g)-[:Gene_has_tcdb_family]->(tf)` instead |
+| Gene | `cazy_ids: str[]` | **REMOVED** | Use `(g)-[:Gene_has_cazy_family]->(cf)` instead |
+| Gene | `tcdb_family_count: int` | NEW | Routing signal (per TCDB-S1) |
+| Gene | `cazy_family_count: int` | NEW | Routing signal (per TCDB-S2) |
+| Gene | `metabolite_count: int` | EXTENDED | UNION across catalysis + transport paths (per TCDB-S3); the underlying property is introduced by chemistry-slice-1 KG-A2 |
+| Gene | `annotation_types: str[]` | EXTENDED | Now also contains `'tcdb'` / `'cazy'` |
+| Metabolite | `evidence_sources: str[]` | NEW | `metabolism` / `transport`; `metabolomics` reserved |
+| Metabolite | `transporter_count: int` | NEW | Distinct TCDB families pointing at this metabolite |
+| Metabolite | `gene_count: int` | EXTENDED | Now UNION'd with transport path |
+| Metabolite | `organism_count: int` | EXTENDED | Now UNION'd with transport path |
+| TcdbFamily | (entire node type) | NEW | See properties section above |
+| CazyFamily | (entire node type) | NEW | See properties section above |
 
 ## See also
 
