@@ -663,62 +663,62 @@
     },
     {
       "properties": {},
-      "source": "doi:10.1038/ismej.2017.189",
-      "target": "derived_metric:ismej.2017.189:supp_table_5_categories:enrichment_bacterial_chemotaxis",
+      "source": "doi:10.1038/ismej.2015.36",
+      "target": "derived_metric:ismej.2015.36:s2_concordance_low_co2:expression_change_high_light_shock",
       "type": "PublicationHasDerivedMetric"
     },
     {
       "properties": {},
-      "source": "doi:10.1038/ismej.2017.189",
-      "target": "derived_metric:ismej.2017.189:supp_table_5_categories:enrichment_biosynthesis_of_amino_acids",
+      "source": "doi:10.1038/ismej.2015.36",
+      "target": "derived_metric:ismej.2015.36:s2_concordance_low_co2:expression_change_low_co2_shock",
       "type": "PublicationHasDerivedMetric"
     },
     {
       "properties": {},
-      "source": "doi:10.1038/ismej.2017.189",
-      "target": "derived_metric:ismej.2017.189:supp_table_5_categories:enrichment_carbon_metabolism",
+      "source": "doi:10.1038/ismej.2015.36",
+      "target": "derived_metric:ismej.2015.36:s2_concordance_low_co2:rapid_recovery_low_co2_shock",
       "type": "PublicationHasDerivedMetric"
     },
     {
       "properties": {},
-      "source": "doi:10.1038/ismej.2017.189",
-      "target": "derived_metric:ismej.2017.189:supp_table_5_categories:enrichment_fatty_acid_metabolism",
+      "source": "doi:10.1038/ismej.2015.36",
+      "target": "derived_metric:ismej.2015.36:s2_concordance_low_co2_no_o2:expression_change_low_co2_no_o2_shock",
       "type": "PublicationHasDerivedMetric"
     },
     {
       "properties": {},
-      "source": "doi:10.1038/ismej.2017.189",
-      "target": "derived_metric:ismej.2017.189:supp_table_5_categories:enrichment_flagellar_assembly",
+      "source": "doi:10.1038/ismej.2015.36",
+      "target": "derived_metric:ismej.2015.36:s2_concordance_low_co2_no_o2:rapid_recovery_low_co2_no_o2_shock",
       "type": "PublicationHasDerivedMetric"
     },
     {
       "properties": {},
-      "source": "10.1038/ismej.2017.189_carbon_stress_elevated_co2_800_ppm_ez55_rnaseq_coculture",
-      "target": "derived_metric:ismej.2017.189:supp_table_5_categories:enrichment_bacterial_chemotaxis",
+      "source": "10.1038/ismej.2015.36_carbon_low_co2_0004_co2_med4_microarray",
+      "target": "derived_metric:ismej.2015.36:s2_concordance_low_co2:expression_change_high_light_shock",
       "type": "ExperimentHasDerivedMetric"
     },
     {
       "properties": {},
-      "source": "10.1038/ismej.2017.189_carbon_stress_elevated_co2_800_ppm_ez55_rnaseq_coculture",
-      "target": "derived_metric:ismej.2017.189:supp_table_5_categories:enrichment_biosynthesis_of_amino_acids",
+      "source": "10.1038/ismej.2015.36_carbon_low_co2_0004_co2_med4_microarray",
+      "target": "derived_metric:ismej.2015.36:s2_concordance_low_co2:expression_change_low_co2_shock",
       "type": "ExperimentHasDerivedMetric"
     },
     {
       "properties": {},
-      "source": "10.1038/ismej.2017.189_carbon_stress_elevated_co2_800_ppm_ez55_rnaseq_coculture",
-      "target": "derived_metric:ismej.2017.189:supp_table_5_categories:enrichment_carbon_metabolism",
+      "source": "10.1038/ismej.2015.36_carbon_low_co2_0004_co2_med4_microarray",
+      "target": "derived_metric:ismej.2015.36:s2_concordance_low_co2:rapid_recovery_low_co2_shock",
       "type": "ExperimentHasDerivedMetric"
     },
     {
       "properties": {},
-      "source": "10.1038/ismej.2017.189_carbon_stress_elevated_co2_800_ppm_ez55_rnaseq_coculture",
-      "target": "derived_metric:ismej.2017.189:supp_table_5_categories:enrichment_fatty_acid_metabolism",
+      "source": "10.1038/ismej.2015.36_carbon_low_co2_and_no_med4_microarray",
+      "target": "derived_metric:ismej.2015.36:s2_concordance_low_co2_no_o2:expression_change_low_co2_no_o2_shock",
       "type": "ExperimentHasDerivedMetric"
     },
     {
       "properties": {},
-      "source": "10.1038/ismej.2017.189_carbon_stress_elevated_co2_800_ppm_ez55_rnaseq_coculture",
-      "target": "derived_metric:ismej.2017.189:supp_table_5_categories:enrichment_flagellar_assembly",
+      "source": "10.1038/ismej.2015.36_carbon_low_co2_and_no_med4_microarray",
+      "target": "derived_metric:ismej.2015.36:s2_concordance_low_co2_no_o2:rapid_recovery_low_co2_no_o2_shock",
       "type": "ExperimentHasDerivedMetric"
     },
     {
@@ -753,92 +753,92 @@
     },
     {
       "properties": {
-        "metric_type": "enrichment_bacterial_chemotaxis",
-        "value": "true"
+        "metric_type": "rapid_recovery_low_co2_shock",
+        "value": "false"
       },
-      "source": "derived_metric:ismej.2017.189:supp_table_5_categories:enrichment_bacterial_chemotaxis",
-      "target": "ncbigene:EZ55_00159",
+      "source": "derived_metric:ismej.2015.36:s2_concordance_low_co2:rapid_recovery_low_co2_shock",
+      "target": "ncbigene:PMM0051",
       "type": "Derived_metric_flags_gene"
     },
     {
       "properties": {
-        "metric_type": "enrichment_bacterial_chemotaxis",
-        "value": "true"
+        "metric_type": "rapid_recovery_low_co2_shock",
+        "value": "false"
       },
-      "source": "derived_metric:ismej.2017.189:supp_table_5_categories:enrichment_bacterial_chemotaxis",
-      "target": "ncbigene:EZ55_00307",
+      "source": "derived_metric:ismej.2015.36:s2_concordance_low_co2:rapid_recovery_low_co2_shock",
+      "target": "ncbigene:PMM0075",
       "type": "Derived_metric_flags_gene"
     },
     {
       "properties": {
-        "metric_type": "enrichment_bacterial_chemotaxis",
-        "value": "true"
+        "metric_type": "rapid_recovery_low_co2_shock",
+        "value": "false"
       },
-      "source": "derived_metric:ismej.2017.189:supp_table_5_categories:enrichment_bacterial_chemotaxis",
-      "target": "ncbigene:EZ55_00308",
+      "source": "derived_metric:ismej.2015.36:s2_concordance_low_co2:rapid_recovery_low_co2_shock",
+      "target": "ncbigene:PMM0087",
       "type": "Derived_metric_flags_gene"
     },
     {
       "properties": {
-        "metric_type": "enrichment_bacterial_chemotaxis",
-        "value": "true"
+        "metric_type": "rapid_recovery_low_co2_shock",
+        "value": "false"
       },
-      "source": "derived_metric:ismej.2017.189:supp_table_5_categories:enrichment_bacterial_chemotaxis",
-      "target": "ncbigene:EZ55_00309",
+      "source": "derived_metric:ismej.2015.36:s2_concordance_low_co2:rapid_recovery_low_co2_shock",
+      "target": "ncbigene:PMM0115",
       "type": "Derived_metric_flags_gene"
     },
     {
       "properties": {
-        "metric_type": "enrichment_bacterial_chemotaxis",
+        "metric_type": "rapid_recovery_low_co2_shock",
         "value": "true"
       },
-      "source": "derived_metric:ismej.2017.189:supp_table_5_categories:enrichment_bacterial_chemotaxis",
-      "target": "ncbigene:EZ55_00310",
+      "source": "derived_metric:ismej.2015.36:s2_concordance_low_co2:rapid_recovery_low_co2_shock",
+      "target": "ncbigene:PMM0195",
       "type": "Derived_metric_flags_gene"
     },
     {
       "properties": {
-        "metric_type": "darkness_survival_class",
-        "value": "darkness_axenic+unique_axenic"
+        "metric_type": "expression_level_class",
+        "value": "VEG"
       },
-      "source": "derived_metric:mSystems.00040-18:s5_natl2a_survival:darkness_survival_class",
-      "target": "ncbigene:PMN2A_0012",
+      "source": "derived_metric:1471-2180-14-11:med4_expression_level:expression_level_class",
+      "target": "ncbigene:PMM0001",
       "type": "Derived_metric_classifies_gene"
     },
     {
       "properties": {
-        "metric_type": "darkness_survival_class",
-        "value": "darkness_axenic+darkness_coculture"
+        "metric_type": "expression_level_class",
+        "value": "VEG"
       },
-      "source": "derived_metric:mSystems.00040-18:s5_natl2a_survival:darkness_survival_class",
-      "target": "ncbigene:PMN2A_0016",
+      "source": "derived_metric:1471-2180-14-11:med4_expression_level:expression_level_class",
+      "target": "ncbigene:PMM0002",
       "type": "Derived_metric_classifies_gene"
     },
     {
       "properties": {
-        "metric_type": "darkness_survival_class",
-        "value": "darkness_axenic+darkness_coculture"
+        "metric_type": "expression_level_class",
+        "value": "MEG"
       },
-      "source": "derived_metric:mSystems.00040-18:s5_natl2a_survival:darkness_survival_class",
-      "target": "ncbigene:PMN2A_0017",
+      "source": "derived_metric:1471-2180-14-11:med4_expression_level:expression_level_class",
+      "target": "ncbigene:PMM0003",
       "type": "Derived_metric_classifies_gene"
     },
     {
       "properties": {
-        "metric_type": "darkness_survival_class",
-        "value": "darkness_axenic+darkness_coculture"
+        "metric_type": "expression_level_class",
+        "value": "MEG"
       },
-      "source": "derived_metric:mSystems.00040-18:s5_natl2a_survival:darkness_survival_class",
-      "target": "ncbigene:PMN2A_0020",
+      "source": "derived_metric:1471-2180-14-11:med4_expression_level:expression_level_class",
+      "target": "ncbigene:PMM0004",
       "type": "Derived_metric_classifies_gene"
     },
     {
       "properties": {
-        "metric_type": "darkness_survival_class",
-        "value": "darkness_axenic+darkness_coculture"
+        "metric_type": "expression_level_class",
+        "value": "MEG"
       },
-      "source": "derived_metric:mSystems.00040-18:s5_natl2a_survival:darkness_survival_class",
-      "target": "ncbigene:PMN2A_0036",
+      "source": "derived_metric:1471-2180-14-11:med4_expression_level:expression_level_class",
+      "target": "ncbigene:PMM0005",
       "type": "Derived_metric_classifies_gene"
     },
     {
@@ -902,7 +902,7 @@
       "type": "Derived_metric_quantifies_gene"
     }
   ],
-  "generated_at": "2026-04-26T17:13:58.568660+00:00",
+  "generated_at": "2026-05-01T12:17:45.597314+00:00",
   "nodes": [
     {
       "anchor": true,
