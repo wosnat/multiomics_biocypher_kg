@@ -41,17 +41,65 @@ def _patch_requests_get(monkeypatch, response_map: dict[str, _FakeResponse]):
     monkeypatch.setattr(dmr.requests, "get", fake_get)
 
 
-def test_sources_table_has_seven_entries():
-    """Seven expected sources: 4 MNX TSVs + 3 TCDB TSVs.
+# ---------------------------------------------------------------------------
+# Structure tests
+# ---------------------------------------------------------------------------
 
-    CAZy is intentionally not downloaded — its hierarchy is bootstrapped from
-    observed eggNOG `CAZy` columns + mechanical ID parsing in Phase 1.1B.
-    """
+def test_sources_by_group_keys():
+    assert set(dmr.SOURCES_BY_GROUP.keys()) == {"mnx", "tcdb"}
+    assert len(dmr.MNX_SOURCES) == 4
+    assert len(dmr.TCDB_SOURCES) == 3
+
+
+def test_sources_flat_view_has_seven_entries():
+    """Backward-compat SOURCES dict still exposes all 7 entries."""
     assert len(dmr.SOURCES) == 7
     assert {"mnx_chem_prop", "mnx_chem_xref",
             "mnx_reac_prop", "mnx_reac_xref",
             "tcdb_families", "tcdb_substrates", "tcdb_superfamilies"} == set(dmr.SOURCES)
 
+
+# ---------------------------------------------------------------------------
+# download_all filtering tests
+# ---------------------------------------------------------------------------
+
+def test_download_all_defaults_to_all_groups(tmp_path, monkeypatch):
+    """No --sources arg → downloads both groups."""
+    called: list[str] = []
+    monkeypatch.setattr(dmr, "download_one",
+                        lambda url, dest, force: (called.append(url), True)[1])
+    dmr.download_all(cache_root=tmp_path, force=False, sources=None)
+    assert len(called) == 7  # 4 MNX + 3 TCDB
+
+
+def test_download_all_filters_to_mnx(tmp_path, monkeypatch):
+    """--sources mnx → only MNX URLs."""
+    called: list[str] = []
+    monkeypatch.setattr(dmr, "download_one",
+                        lambda url, dest, force: (called.append(url), True)[1])
+    dmr.download_all(cache_root=tmp_path, force=False, sources=["mnx"])
+    assert len(called) == 4
+    assert all("metanetx.org" in u for u in called)
+
+
+def test_download_all_filters_to_tcdb(tmp_path, monkeypatch):
+    """--sources tcdb → only TCDB URLs."""
+    called: list[str] = []
+    monkeypatch.setattr(dmr, "download_one",
+                        lambda url, dest, force: (called.append(url), True)[1])
+    dmr.download_all(cache_root=tmp_path, force=False, sources=["tcdb"])
+    assert len(called) == 3
+    assert all("tcdb.org" in u for u in called)
+
+
+def test_download_all_invalid_source_raises(tmp_path):
+    with pytest.raises(ValueError, match="Unknown source group"):
+        dmr.download_all(cache_root=tmp_path, sources=["bogus"])
+
+
+# ---------------------------------------------------------------------------
+# Full download + caching behaviour (HTTP-mocked)
+# ---------------------------------------------------------------------------
 
 def test_download_writes_all_files(monkeypatch, tmp_path):
     """One download per source; each writes to the configured relative path."""
