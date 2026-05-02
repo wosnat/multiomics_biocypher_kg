@@ -4,7 +4,7 @@
 
 **Goal:** Resolve four explorer-side KG-side frictions (F1 term informativeness, F2 data-source surfacing, F3 cluster_type vocab, F4 sparsely-annotated gene properties) as a coordinated KG release.
 
-**Architecture:** Mostly post-import Cypher additions + small build-time changes. New `DataSource` node type (4 nodes auto-derived from `gene_annotations_config.yaml`). New term-level `is_uninformative` flag driven by hand-curated YAML. New Gene properties `annotation_state`, `informative_annotation_types`, `contributing_sources`, `contig`, `seed_ortholog`, `seed_ortholog_evalue`. Refined `Gene.annotation_quality` (numeric encoding of `annotation_state`, 6 source buckets). One vocabulary rename (`classification` → `expression_bin`).
+**Architecture:** Mostly post-import Cypher additions + small build-time changes. New `DataSource` node type (4 nodes auto-derived from `gene_annotations_config.yaml`). New term-level `is_uninformative` flag driven by hand-curated YAML. New Gene properties `annotation_state`, `informative_annotation_types`, `contributing_sources`, `contig`, `seed_ortholog`, `seed_ortholog_evalue`. Refined `Gene.annotation_quality` (numeric encoding of `annotation_state`, 8 source buckets). One vocabulary rename (`classification` → `expression_bin`).
 
 **Tech Stack:** Python 3, BioCypher, Neo4j 5 (Cypher), pytest, YAML config, pandas.
 
@@ -1409,7 +1409,7 @@ EOF
 - Modify: `scripts/post-import.cypher`
 - Modify: `scripts/post-import.sh`
 
-Both fields share `informative_source_count` over 6 source buckets (`go`, `kegg`, `pfam`, `ec`, `role`, `reaction`). Single Cypher block.
+Both fields share `informative_source_count` over 8 source buckets (`go`, `kegg`, `pfam`, `ec`, `role`, `reaction`, `transporter`, `cazy`). Single Cypher block.
 
 - [ ] **Step 1: Add the new Cypher block AFTER the term-flag block from Task 9**
 
@@ -1418,11 +1418,10 @@ Insert into `scripts/post-import.cypher`:
 ```cypher
 // =====================================================================
 // F1.2 + F1.3: annotation_quality (numeric 0-3) + annotation_state (enum)
-// from informative_source_count over 6 source buckets.
+// from informative_source_count over 8 source buckets.
 //
 // SOURCE_BUCKETS:start
-//   live: go, kegg, pfam, ec, role, reaction
-//   forthcoming (TCDB/CAZy ontology spec): transporter, cazy
+//   live (8): go, kegg, pfam, ec, role, reaction, transporter, cazy
 // SOURCE_BUCKETS:end
 //
 // Maintenance: when adding a new functional Gene-edge type, append a
@@ -1442,18 +1441,21 @@ CALL {
        EXISTS { (g)-[:Gene_catalyzes_ec_number]->() } AS has_ec,
        (g.gene_category IS NOT NULL AND g.gene_category <> 'Unknown') AS has_role,
        EXISTS { (g)-[:Gene_catalyzes_reaction]->() } AS has_reaction,
-       // FORTHCOMING: add has_transporter, has_cazy when TCDB/CAZy ontology adapters ship.
+       EXISTS { (g)-[:Gene_has_tcdb_family]->() } AS has_transporter,
+       EXISTS { (g)-[:Gene_has_cazy_family]->() } AS has_cazy,
        EXISTS { (g)-[:Gene_involved_in_biological_process|Gene_enables_molecular_function|Gene_located_in_cellular_component
                      |Gene_has_kegg_ko|Gene_has_pfam|Gene_catalyzes_ec_number
                      |Gene_in_cog_category|Gene_has_cyanorak_role|Gene_has_tigr_role
-                     |Gene_catalyzes_reaction]->() } AS has_any_edge
+                     |Gene_catalyzes_reaction|Gene_has_tcdb_family|Gene_has_cazy_family]->() } AS has_any_edge
   WITH g,
        (CASE WHEN has_go THEN 1 ELSE 0 END
         + CASE WHEN has_kegg THEN 1 ELSE 0 END
         + CASE WHEN has_pfam THEN 1 ELSE 0 END
         + CASE WHEN has_ec THEN 1 ELSE 0 END
         + CASE WHEN has_role THEN 1 ELSE 0 END
-        + CASE WHEN has_reaction THEN 1 ELSE 0 END) AS informative_count,
+        + CASE WHEN has_reaction THEN 1 ELSE 0 END
+        + CASE WHEN has_transporter THEN 1 ELSE 0 END
+        + CASE WHEN has_cazy THEN 1 ELSE 0 END) AS informative_count,
        has_any_edge
   SET g.annotation_state =
         CASE
@@ -1491,7 +1493,7 @@ In `config/schema_config.yaml` `gene:` `properties:`:
 Find the line in CLAUDE.md describing `annotation_quality` (search `0=hypothetical-no-func`) and replace with:
 
 ```
-annotation_quality (post-import, refined from build-time): numeric encoding of `annotation_state` (0=no_evidence, 1=catch_all_only, 2=informative_single, 3=informative_multi), driven by `informative_source_count` over 6 source buckets: `go`, `kegg`, `pfam`, `ec`, `role` (via gene_category), `reaction`. Forthcoming buckets when TCDB/CAZy ontology adapters ship: `transporter`, `cazy`. See `docs/superpowers/specs/2026-05-01-explorer-frictions-resolution-design.md` for maintenance procedure.
+annotation_quality (post-import, refined from build-time): numeric encoding of `annotation_state` (0=no_evidence, 1=catch_all_only, 2=informative_single, 3=informative_multi), driven by `informative_source_count` over 8 source buckets: `go`, `kegg`, `pfam`, `ec`, `role` (via gene_category), `reaction`, `transporter` (via Gene_has_tcdb_family), `cazy` (via Gene_has_cazy_family). See `docs/superpowers/specs/2026-05-01-explorer-frictions-resolution-design.md` for maintenance procedure.
 ```
 
 - [ ] **Step 5: Write KG validity test**
@@ -1560,12 +1562,12 @@ git commit -m "$(cat <<'EOF'
 feat(post-import): annotation_quality + annotation_state (F1.2 + F1.3)
 
 Combined Cypher block sets both fields from informative_source_count over
-6 source buckets: go, kegg, pfam, ec, role (via gene_category), reaction.
+8 source buckets: go, kegg, pfam, ec, role (via gene_category), reaction,
+transporter (via Gene_has_tcdb_family), cazy (via Gene_has_cazy_family).
 annotation_state is the categorical surface; annotation_quality is its 0-3
 numeric encoding (1:1 mapping).
 
-Forthcoming buckets (transporter, cazy) marked with comment slots in the
-Cypher for the TCDB/CAZy ontology spec to fill in.
+All 8 buckets are live as of the 2026-05-02 main-merge.
 
 Existing 'WHERE g.annotation_quality <= 1' queries silently shift meaning
 from 'hypothetical-named' to 'low-evidence' — the spirit of the original
@@ -1628,8 +1630,9 @@ CALL {
     CASE WHEN EXISTS { (g)-[:Gene_has_tigr_role]->(t)
                        WHERE t.is_uninformative IS NULL }
          THEN ['tigr_role'] ELSE [] END +
-    CASE WHEN EXISTS { (g)-[:Gene_catalyzes_reaction]->() } THEN ['reaction'] ELSE [] END
-    // FORTHCOMING: add 'transporter' and 'cazy' clauses when TCDB/CAZy ship.
+    CASE WHEN EXISTS { (g)-[:Gene_catalyzes_reaction]->() } THEN ['reaction'] ELSE [] END +
+    CASE WHEN EXISTS { (g)-[:Gene_has_tcdb_family]->() } THEN ['transporter'] ELSE [] END +
+    CASE WHEN EXISTS { (g)-[:Gene_has_cazy_family]->() } THEN ['cazy'] ELSE [] END
 } IN TRANSACTIONS OF 1000 ROWS;
 ```
 
@@ -1851,7 +1854,7 @@ EOF
 Find the `annotation_types` description and the `annotation_quality` description in CLAUDE.md. Update:
 
 - `annotation_quality` → 0–3 numeric encoding of `annotation_state` (replace the existing 0=hypothetical-no-func ... 3=real-product+structured description).
-- Add `annotation_state` description: enum `{no_evidence, catch_all_only, informative_single, informative_multi}`, driven by `informative_source_count` over 6 source buckets.
+- Add `annotation_state` description: enum `{no_evidence, catch_all_only, informative_single, informative_multi}`, driven by `informative_source_count` over 8 source buckets.
 - Add `informative_annotation_types` description: granular parallel of `annotation_types` with informativeness filter.
 - Add `contributing_sources` description: per-gene presence list of data sources that contributed >=1 field, values from `{ncbi, cyanorak, uniprot, eggnog}`.
 - Add `contig`, `seed_ortholog`, `seed_ortholog_evalue` to the Gene properties enumeration.
@@ -1859,7 +1862,7 @@ Find the `annotation_types` description and the `annotation_quality` description
 
 - [ ] **Step 2: Add a "Source bucket maintenance" callout under the annotation_quality / annotation_state entry**
 
-> **Source bucket maintenance.** The `annotation_quality` / `annotation_state` source-bucket list is **explicitly enumerated**, not auto-discovered. Live buckets: `go`, `kegg`, `pfam`, `ec`, `role`, `reaction`. Forthcoming when TCDB/CAZy ontology adapters ship: `transporter`, `cazy`. To add a new bucket, follow the procedure in [`docs/superpowers/specs/2026-05-01-explorer-frictions-resolution-design.md`](docs/superpowers/specs/2026-05-01-explorer-frictions-resolution-design.md) — touches the YAML, post-import Cypher, this CLAUDE.md, and the bucket-count test.
+> **Source bucket maintenance.** The `annotation_quality` / `annotation_state` source-bucket list is **explicitly enumerated**, not auto-discovered. The 8 live buckets: `go`, `kegg`, `pfam`, `ec`, `role`, `reaction`, `transporter`, `cazy`. To add a new bucket, follow the procedure in [`docs/superpowers/specs/2026-05-01-explorer-frictions-resolution-design.md`](docs/superpowers/specs/2026-05-01-explorer-frictions-resolution-design.md) — touches the YAML, post-import Cypher, this CLAUDE.md, and the bucket-count test.
 
 - [ ] **Step 3: Add `expression_bin` cluster_type rename to CLAUDE.md**
 
@@ -1884,7 +1887,7 @@ Create or update the agreed release-notes location with a section per friction:
 
 **Semantic shift on `annotation_quality`:**
 - *Before*: 0-3 mixing product-name regex with arbitrary 4-source structured-count.
-- *After*: pure informative-evidence richness over 6 source buckets, no product-name dependency.
+- *After*: pure informative-evidence richness over 8 source buckets, no product-name dependency.
 - Existing `WHERE g.annotation_quality <= 1` queries silently shift meaning (today: hypothetical-named genes; refined: low-evidence genes — spirit of the filter, now correctly).
 
 **Worked example.** Gene with `pfam_ids=[PF00712]` + `go_terms=[GO:0003674]` (MF root) + `gene_category='Unknown'`, no other functional edges:
@@ -1912,9 +1915,9 @@ Create or update the agreed release-notes location with a section per friction:
 
 **Honest framing.** These primarily benefit the broader sparsely-annotated population, not the strict floor (~14 TX50_RS-style genes). Strict floor cases gain `contig` + neighbor lookup; broader population gains the seed-ortholog "this resembles X (E=Y)" pointer.
 
-## Forthcoming
+## Bucket inventory
 
-The annotation_quality / annotation_state source-bucket list grows from 6 to 8 when the TCDB/CAZy ontology spec ships (adds `transporter`, `cazy` buckets).
+The annotation_quality / annotation_state source-bucket list has 8 live buckets as of 2026-05-02: `go`, `kegg`, `pfam`, `ec`, `role`, `reaction`, `transporter` (via `Gene_has_tcdb_family`), `cazy` (via `Gene_has_cazy_family`). TCDB and CAZy ontologies merged into main on 2026-05-02 from a separate spec ([`2026-05-01-tcdb-cazy-ontologies-design.md`](../specs/2026-05-01-tcdb-cazy-ontologies-design.md)).
 ```
 
 - [ ] **Step 5: Commit**
@@ -1927,7 +1930,7 @@ docs: update CLAUDE.md + release notes for F1-F4
 Documents the new fields, the annotation_quality semantic shift, the
 DataSource nodes, the cluster_type rename, and the contig + seed_ortholog
 Gene additions. Release notes include worked examples for each friction
-and a forthcoming-buckets pointer for TCDB/CAZy.
+plus the 8-bucket inventory (TCDB/CAZy already live).
 
 Co-Authored-By: Claude Opus 4.7 (1M context) <noreply@anthropic.com>
 EOF
