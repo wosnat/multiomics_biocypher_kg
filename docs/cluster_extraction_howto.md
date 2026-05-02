@@ -98,7 +98,7 @@ The extraction uses per-type prompt templates. Each `gene_clusters` entry must h
 | `time_course` | Treatment/stress time-series | Tolonen 2006, Lindell 2007 |
 | `diel` | 24h diel cycling | Zinser 2009, Coe 2024 |
 | `condition_comparison` | Across discrete conditions | Alonso-Saez 2023, Wang 2014, Bernstein 2017 |
-| `classification` | Categorizing genes by condition/periodicity | Biller 2018 |
+| `expression_bin` | Categorizing genes by **expression metric** (e.g., quartile / RPKM bins) | Biller 2018 |
 
 ## 4. Paperconfig Hints
 
@@ -207,7 +207,7 @@ Assembled by `build_prompt(table_config, cluster_summaries)` into a single devel
 ## 8. Adding New Papers
 
 1. Add `type: gene_clusters` entry to the paper's `paperconfig.yaml` (see CLAUDE.md for format)
-2. Set `cluster_type` to one of: `time_course`, `diel`, `condition_comparison`, `classification`
+2. Set `cluster_type` to one of: `time_course`, `diel`, `condition_comparison`, `expression_bin`
 3. Optionally add `figure_hint`, `extraction_notes`, and `extraction:` section
 4. Run extraction:
    ```bash

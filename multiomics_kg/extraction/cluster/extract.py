@@ -181,18 +181,18 @@ fold-changes among all clusters.", \
 minimum growth temperature", "location": "Page 8"}}], \
 "source_figures": ["Figure 5"]}}
 """,
-    "classification": """\
-## Type-Specific Guidance: Classification / Periodicity
+    "expression_bin": """\
+## Type-Specific Guidance: Expression Bin / Periodicity
 
 - expression_dynamics: Category label. Examples: "periodic in L:D only", "not periodic", \
 "periodic across all conditions", "constitutive".
 - temporal_pattern: Which conditions or categories genes fall into, any distinguishing \
 pattern. 1-2 sentences.
-- functional_description: ONLY pathway enrichment if the paper reports it. The classification \
+- functional_description: ONLY pathway enrichment if the paper reports it. The expression-bin \
 criterion (e.g., "genes that show 24-h periodicity") is NOT functional — it belongs in \
 temporal_pattern. If no pathway enrichment is reported, use "N/A".
 
-### Example — Periodicity classification cluster:
+### Example — Periodicity expression-bin cluster:
 {{"id": "med4_periodic_ld_only", "name": "MED4 cluster periodic_LD (L:D periodic)", \
 "functional_description": "Enriched for photosystem genes and light-harvesting complexes.", \
 "temporal_pattern": "Genes show 24h periodicity in L:D cycle but lose periodicity in \
@@ -212,7 +212,8 @@ _TYPE_ALIAS = {
     "response_pattern": "time_course",
     "diel_cycling": "diel",
     "diel_expression_pattern": "diel",
-    "periodicity_classification": "classification",
+    "periodicity_classification": "expression_bin",
+    "classification": "expression_bin",
     "expression_level": "condition_comparison",
     "expression_classification": "condition_comparison",
     "expression_pattern": "condition_comparison",
