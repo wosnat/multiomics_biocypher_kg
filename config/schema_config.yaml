@@ -338,10 +338,19 @@ gene in ortholog group:
   target: ortholog group
   label_in_input: gene_in_ortholog_group
 
-  
-
-
-
+data source:
+  represented_as: node
+  preferred_id: data_source
+  label_in_input: data_source
+  properties:
+    id: str                       # join key (e.g., 'eggnog')
+    name: str                     # human-readable name
+    description: str
+    version: str                  # optional v1 - '' when not derivable
+    scope: str                    # 'gene_level' | 'organism_restricted'
+    provenance: str               # 'download' | 'tool_run'
+    applies_to_organisms: str[]   # populated only for organism_restricted
+    info_types: str[]             # auto-generated from gene_annotations_config.yaml
 
 #####################################
 
