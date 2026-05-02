@@ -32,14 +32,26 @@ def test_all_reactions_have_kegg_primary_id(run_query):
 
 
 def test_metabolite_primary_ids_predominantly_kegg(run_query):
-    """Most metabolites should have kegg.compound: prefix; a few may fall back to chebi/mnx."""
-    total = run_query("MATCH (m:Metabolite) RETURN count(m) AS n")[0]["n"]
-    assert total > 0, "No Metabolite nodes found — graph not yet rebuilt with metabolism layer"
-    kegg_count = run_query(
-        "MATCH (m:Metabolite) WHERE m.id STARTS WITH 'kegg.compound:' RETURN count(m) AS n"
+    """Catalysis-evidenced metabolites should have kegg.compound: prefix.
+
+    Pure transport-evidence metabolites legitimately fall back to chebi:* / mnx:*
+    when the substrate doesn't resolve to a KEGG compound (TCDB substrates are
+    CHEBI-anchored and many never made it into KEGG's compound space). Those
+    are the 'additional_compounds' bucket from step 6 — they get evidence_sources
+    = ['transport'] and are expected to be non-kegg-prefixed. Scope the
+    invariant to metabolism-evidenced metabolites instead of all metabolites.
+    """
+    total = run_query(
+        "MATCH (m:Metabolite) WHERE 'metabolism' IN m.evidence_sources RETURN count(m) AS n"
     )[0]["n"]
+    assert total > 0, "No metabolism-evidenced Metabolites — graph not yet rebuilt with metabolism layer"
+    kegg_count = run_query("""
+        MATCH (m:Metabolite)
+        WHERE 'metabolism' IN m.evidence_sources AND m.id STARTS WITH 'kegg.compound:'
+        RETURN count(m) AS n
+    """)[0]["n"]
     assert kegg_count / total >= 0.95, (
-        f"Only {kegg_count}/{total} metabolites have kegg.compound prefix"
+        f"Only {kegg_count}/{total} metabolism-evidenced metabolites have kegg.compound prefix"
     )
 
 
@@ -120,9 +132,16 @@ def test_metabolite_in_pathway_edges_present(run_query):
 
 
 def test_metabolite_pathways_only_kg_evidenced(run_query):
-    """Option B: Metabolite_in_pathway targets must also be reachable from genes."""
-    # No metabolite-in-pathway edge should target a pathway with no Gene→KO edge to it
-    # (since Option B prunes compound-only pathways at step 6).
+    """Option B: Metabolite_in_pathway targets must be gene-reachable.
+
+    Three valid evidence paths after the TCDB-substrate refactor:
+      - Gene -> KeggTerm KO -> pathway (via Kegg_term_is_a_kegg_term hierarchy)
+      - Gene -> Reaction -> pathway
+      - Gene -> TcdbFamily -> tc_specificity leaf -> Metabolite -> pathway
+        (the substrate's compound_to_pathways set, intersected with the
+         extended pws set in step 6 — drops compound-only meta-classification
+         maps with no names like ko010**, ko07***).
+    """
     n_orphan = run_query("""
         MATCH (m:Metabolite)-[:Metabolite_in_pathway]->(p:KeggTerm)
         WHERE NOT EXISTS {
@@ -130,6 +149,12 @@ def test_metabolite_pathways_only_kg_evidenced(run_query):
         }
         AND NOT EXISTS {
             MATCH (g:Gene)-[:Gene_catalyzes_reaction]->(:Reaction)-[:Reaction_in_kegg_pathway]->(p)
+        }
+        AND NOT EXISTS {
+            MATCH (g:Gene)-[:Gene_has_tcdb_family]->(:TcdbFamily)
+                  <-[:Tcdb_family_is_a_tcdb_family*0..]-(:TcdbFamily {level_kind: 'tc_specificity'})
+                  -[:Tcdb_family_transports_metabolite]->(:Metabolite)
+                  -[:Metabolite_in_pathway]->(p)
         }
         RETURN count(DISTINCT p) AS n
     """)[0]["n"]

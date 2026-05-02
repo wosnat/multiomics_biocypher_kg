@@ -60,19 +60,27 @@ def test_gene_metabolite_count_total_positive(run_query):
 
 
 def test_gene_metabolite_count_consistent_with_2hop(run_query):
-    """Property matches the actual 2-hop DISTINCT metabolite count for sampled genes."""
+    """Property matches the actual UNION-2hop DISTINCT metabolite count for
+    sampled genes — across catalysis (Gene→Reaction→Metabolite) AND transport
+    (Gene→TcdbFamily→tc_specificity→Metabolite) paths, per TCDB-S3 / KG-A2."""
     rows = run_query("""
         MATCH (g:Gene) WHERE g.metabolite_count > 0
         WITH g LIMIT 10
         OPTIONAL MATCH (g)-[:Gene_catalyzes_reaction]->(:Reaction)
-                       -[:Reaction_has_metabolite]->(m:Metabolite)
-        WITH g, g.metabolite_count AS prop, count(DISTINCT m) AS actual
-        RETURN g.locus_tag AS lt, prop, actual
+                       -[:Reaction_has_metabolite]->(m_cat:Metabolite)
+        WITH g, collect(DISTINCT m_cat) AS cat
+        OPTIONAL MATCH (g)-[:Gene_has_tcdb_family]->(:TcdbFamily)
+                       <-[:Tcdb_family_is_a_tcdb_family*0..]-(:TcdbFamily {level_kind: 'tc_specificity'})
+                       -[:Tcdb_family_transports_metabolite]->(m_tr:Metabolite)
+        WITH g, cat, collect(DISTINCT m_tr) AS tr
+        RETURN g.locus_tag AS lt,
+               g.metabolite_count AS prop,
+               size(apoc.coll.toSet(cat + tr)) AS actual
     """)
     assert len(rows) > 0
     for r in rows:
         assert r["prop"] == r["actual"], (
-            f"{r['lt']}: metabolite_count={r['prop']} vs actual 2-hop DISTINCT={r['actual']}"
+            f"{r['lt']}: metabolite_count={r['prop']} vs actual UNION-2hop DISTINCT={r['actual']}"
         )
 
 
