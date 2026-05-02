@@ -381,6 +381,7 @@ gene:
     organism_name: str              # preferred organism name (e.g., "Prochlorococcus MED4")
     gene_summary: str                 # "gene_name :: product :: description"
     all_identifiers: str[]            # union of all alt IDs for single-array get_gene lookup
+    contributing_sources: str[]      # data sources contributing >=1 field; values from {ncbi, cyanorak, uniprot, eggnog}
     # Quality
     annotation_quality: int           # 0=hypothetical-no-func, 1=hypothetical-with-func, 2=real-product, 3=real-product+structured
     gene_category: str                # high-level functional classification (26 controlled values, from Cyanorak/TIGR/COG)

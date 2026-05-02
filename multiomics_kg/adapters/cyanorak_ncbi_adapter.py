@@ -151,6 +151,7 @@ class GeneNodeField(Enum, metaclass=GeneEnumMeta):
     ORGANISM_NAME = 'organism_name'
     GENE_SUMMARY = 'gene_summary'
     ALL_IDENTIFIERS = 'all_identifiers'
+    CONTRIBUTING_SOURCES = 'contributing_sources'  # data sources contributing >=1 field; values from {ncbi, cyanorak, uniprot, eggnog}
     # Quality
     ANNOTATION_QUALITY = 'annotation_quality'
     # Functional classification

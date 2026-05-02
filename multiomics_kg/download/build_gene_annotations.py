@@ -281,6 +281,9 @@ def enrich_pfam_fields(gene: dict, pfam_data: PfamData) -> list[str]:
     # contained raw unfiltered tokens. Now that pfam_ids is clean, recheck.
     gene["annotation_quality"] = _compute_annotation_quality(gene)
 
+    # Recompute contributing_sources after enrichment (in case sources changed)
+    gene["contributing_sources"] = _compute_contributing_sources(gene)
+
     # Add Pfam descriptions to alternate_functional_descriptions
     if result:
         alt_descs = gene.get("alternate_functional_descriptions", [])
@@ -296,6 +299,47 @@ def enrich_pfam_fields(gene: dict, pfam_data: PfamData) -> list[str]:
         gene["alternate_functional_descriptions"] = alt_descs
 
     return unresolved
+
+
+# ─── contributing_sources ────────────────────────────────────────────────────
+
+def _has_source_label(gene: dict, label: str) -> bool:
+    """Check whether a gene has any field provenance-tagged with `label`.
+
+    Walks `gene["*_source"]` track fields (e.g. product_source, gene_name_source)
+    plus `[label]` prefixes inside `alternate_functional_descriptions`.
+    """
+    # *_source track fields
+    for k, v in gene.items():
+        if k.endswith("_source") and v == label:
+            return True
+    # [label] prefix in alternate functional descriptions
+    afd = gene.get("alternate_functional_descriptions") or []
+    for entry in afd:
+        if isinstance(entry, str) and entry.startswith(f"[{label}]"):
+            return True
+    return False
+
+
+def _compute_contributing_sources(gene: dict) -> list[str]:
+    """Return sorted list of data sources that contributed at least one field.
+
+    Source presence rules:
+    - 'ncbi': always present (every Gene comes from an NCBI GFF row).
+    - 'cyanorak': locus_tag_cyanorak non-null OR any cyanorak-tagged field.
+    - 'uniprot': uniprot_accession non-null OR any uniprot-tagged field.
+    - 'eggnog': seed_ortholog or eggnog_ogs non-null OR any eggnog-tagged field.
+    """
+    sources = {"ncbi"}
+    if gene.get("locus_tag_cyanorak") or _has_source_label(gene, "cyanorak"):
+        sources.add("cyanorak")
+    if gene.get("uniprot_accession") or _has_source_label(gene, "uniprot"):
+        sources.add("uniprot")
+    if (gene.get("seed_ortholog")
+            or gene.get("eggnog_ogs")
+            or _has_source_label(gene, "eggnog")):
+        sources.add("eggnog")
+    return sorted(sources)
 
 
 # ─── paths ────────────────────────────────────────────────────────────────────
@@ -693,6 +737,9 @@ class AnnotationBuilder:
             f"Invalid gene_category {category!r} for {result.get('locus_tag')}"
         )
         result["gene_category"] = category
+
+        # Compute contributing_sources (F2 ship 2.4)
+        result["contributing_sources"] = _compute_contributing_sources(result)
 
         # Collect all source descriptions for LLM summaries
         alt_descriptions: list[str] = []
