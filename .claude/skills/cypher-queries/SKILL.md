@@ -119,7 +119,7 @@ Gene nodes carry many denormalized annotation fields beyond the key properties a
 | `Pfam_in_pfam_clan` | Pfam → PfamClan | — |
 | `Gene_has_tcdb_family` | Gene → TcdbFamily | — |
 | `Tcdb_family_is_a_tcdb_family` | TcdbFamily → TcdbFamily (child → parent) | — |
-| `Tcdb_family_transports_metabolite` | TcdbFamily (`tc_specificity` leaves only) → Metabolite | — |
+| `Tcdb_family_transports_metabolite` | TcdbFamily → Metabolite (rolled up to every ancestor; filter `WHERE source.level_kind = 'tc_specificity'` for leaf-only) | — |
 | `Gene_has_cazy_family` | Gene → CazyFamily (most specific observed level) | — |
 | `Cazy_family_is_a_cazy_family` | CazyFamily → CazyFamily (child → parent) | — |
 | `Biological_process_is_a_biological_process` | BiologicalProcess → BiologicalProcess | — |
@@ -572,9 +572,10 @@ RETURN node.short_name, node.name, score
 #### Substrate-driven gene queries
 
 ```cypher
-// Genes whose transporters are annotated to move calcium
+// Genes whose transporters are annotated to move calcium.
+// Substrate edges are rolled up to every ancestor TcdbFamily, so this is
+// a single-hop traversal at any level the gene is annotated at.
 MATCH (g:Gene)-[:Gene_has_tcdb_family]->(:TcdbFamily)
-      <-[:Tcdb_family_is_a_tcdb_family*0..]-(:TcdbFamily {level_kind: 'tc_specificity'})
       -[:Tcdb_family_transports_metabolite]->(m:Metabolite)
 WHERE m.name CONTAINS 'calcium'
 RETURN DISTINCT g.locus_tag, g.product, m.name

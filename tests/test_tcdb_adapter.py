@@ -95,14 +95,17 @@ def test_orchestrator_emits_hierarchy_edges(cache_root, strain_dir):
     assert len(parent_edges) == 4
 
 
-def test_orchestrator_emits_substrate_edges_only_on_leaves(cache_root, strain_dir):
+def test_orchestrator_rolls_up_substrate_edges_to_ancestors(cache_root, strain_dir):
+    """Substrate edges are emitted from every ancestor of a leaf with substrates,
+    not just the leaf. Recover leaf-only semantics by filtering on source level_kind."""
     a = _make_orchestrator(cache_root, strain_dir)
     edges = list(a.get_edges())
     sub_edges = {(e[1], e[2]) for e in edges if e[3] == "tcdb_family_transports_metabolite"}
-    assert sub_edges == {
-        ("tcdb:1.A.1.5.2", "kegg.compound:C00208"),
-        ("tcdb:1.A.1.5.2", "chebi:9999"),
-    }
+    expected = set()
+    for ancestor in ("tcdb:1", "tcdb:1.A", "tcdb:1.A.1", "tcdb:1.A.1.5", "tcdb:1.A.1.5.2"):
+        for met in ("kegg.compound:C00208", "chebi:9999"):
+            expected.add((ancestor, met))
+    assert sub_edges == expected
 
 
 def test_orchestrator_node_props(cache_root, strain_dir):
