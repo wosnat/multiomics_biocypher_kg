@@ -112,6 +112,7 @@ def _make_ncbi_gff_df(
     attribute, so gffpandas never creates that column).
     """
     common: dict = dict(
+        seq_id="NC_005072.1",
         Name=gene_name,
         gene=gene_name,
         locus_tag=locus_tag_ncbi,
@@ -326,6 +327,20 @@ class TestNcbiMergeCdsAndGeneEntries:
         result = ncbi_merge_cds_and_gene_entries(combined)
         assert len(result) == 2
         assert set(result["locus_tag_ncbi"]) == {"TX50_RS00020", "TX50_RS00025"}
+
+    def test_seqid_preserved_as_first_column(self):
+        df = _make_ncbi_gff_df()
+        result = ncbi_merge_cds_and_gene_entries(df)
+        assert "seqid" in result.columns
+        assert result.columns[0] == "seqid"
+        assert result["seqid"].iloc[0] == "NC_005072.1"
+
+    def test_seqid_absent_when_gff_lacks_seq_id(self):
+        # Some minimal/test GFF DataFrames may not have seq_id — graceful skip
+        df = _make_ncbi_gff_df()
+        df = df.drop(columns=["seq_id"])
+        result = ncbi_merge_cds_and_gene_entries(df)
+        assert "seqid" not in result.columns
 
 
 # ─── load_gff_from_ncbi_only ─────────────────────────────────────────────────
