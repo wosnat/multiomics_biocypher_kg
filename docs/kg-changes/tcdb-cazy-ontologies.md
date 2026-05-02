@@ -1,6 +1,6 @@
 # TCDB and CAZy Ontologies (TcdbFamily, CazyFamily nodes)
 
-**Status:** LANDED 2026-05-02 (counts to be backfilled after first integration rebuild) — design at [docs/superpowers/specs/2026-05-01-tcdb-cazy-ontologies-design.md](../superpowers/specs/2026-05-01-tcdb-cazy-ontologies-design.md). Numbers below remain estimates until the integration rebuild completes; this notice will be removed at that point.
+**Status:** LANDED 2026-05-02 — design at [docs/superpowers/specs/2026-05-01-tcdb-cazy-ontologies-design.md](../superpowers/specs/2026-05-01-tcdb-cazy-ontologies-design.md). Counts below are measured against the post-rebuild graph.
 
 **Proposed:** 2026-05-01
 
@@ -13,7 +13,9 @@ Two new ontologies join GO, EC, Pfam, BRITE, KEGG, COG, CyanorakRole, TigrRole a
 
 Both surface through the existing MCP ontology tools (`genes_by_ontology`, `gene_ontology_terms`, `ontology_landscape`, `search_ontology`) without any MCP code changes.
 
-The biggest change for explorers: **TCDB substrates become Metabolite nodes**. ~785 new transport-only Metabolites get added to the chemistry layer (current ~2,188 → ~2,973). Every Metabolite gains an `evidence_sources: str[]` property indicating whether it was reached via metabolism (existing reactions) or transport (new TCDB substrate annotations) or both.
+The biggest change for explorers: **TCDB substrates become Metabolite nodes**. **837 new transport-evidence Metabolites** join the chemistry layer (2,188 → 3,025). Every Metabolite gains an `evidence_sources: str[]` property indicating whether it was reached via metabolism (existing reactions) or transport (new TCDB substrate annotations) or both.
+
+A second consequence (post-merge refactor): **transport-reachable KEGG pathways** also enter the graph. When a TCDB substrate resolves to a `kegg.compound:*` Metabolite, that compound's KEGG pathway memberships pull the corresponding pathways into the gene-reachable pws set — even if no local gene catalyzes a reaction in those pathways. The pathway count grows from 377 (catalysis-only) to 442 (catalysis ∪ transport-reachable). 65 new pathways enter, mostly transporter-rich (e.g. ABC transporters ko02010, two-component systems ko02020). 15 nameless KEGG meta-classification maps (ko010** plant biosynthesis overviews and ko07*** drug-classification maps with no KOs/reactions) are filtered out — they have no biological meaning for marine bacteria.
 
 The flat Gene properties `transporter_classification` and `cazy_ids` are removed — query through the new graph edges instead. Same precedent as the Pfam normalization.
 
@@ -49,13 +51,13 @@ Properties:
 
 ## New edge types
 
-| Edge type | Source | Target | Estimated count | Notes |
+| Edge type | Source | Target | Count | Notes |
 |---|---|---|---|---|
-| `Gene_has_tcdb_family` | Gene | TcdbFamily | ~1,500–2,500 | Attaches at exact level annotated by eggNOG (no walk-up at edge time) |
-| `Tcdb_family_is_a_tcdb_family` | TcdbFamily (child) | TcdbFamily (parent) | ~few hundred | Hierarchy parent edge |
-| `Tcdb_family_transports_metabolite` | TcdbFamily (leaf) | Metabolite | ~10,000 | Substrate linkage; only on `tc_specificity`-level nodes |
-| `Gene_has_cazy_family` | Gene | CazyFamily | ~400–600 | |
-| `Cazy_family_is_a_cazy_family` | CazyFamily (child) | CazyFamily (parent) | ~30–50 | |
+| `Gene_has_tcdb_family` | Gene | TcdbFamily | **10,576** | Attaches at exact level annotated by eggNOG (no walk-up at edge time) |
+| `Tcdb_family_is_a_tcdb_family` | TcdbFamily (child) | TcdbFamily (parent) | **4,838** | Hierarchy parent edge (one per non-root TcdbFamily) |
+| `Tcdb_family_transports_metabolite` | TcdbFamily (leaf) | Metabolite | **5,762** | Substrate linkage; only on `tc_specificity`-level nodes (3,095 leaves carry substrates → 1,097 distinct primary IDs) |
+| `Gene_has_cazy_family` | Gene | CazyFamily | **1,181** | |
+| `Cazy_family_is_a_cazy_family` | CazyFamily (child) | CazyFamily (parent) | **58** | |
 
 ## TCDB pruning
 
@@ -80,10 +82,10 @@ How substrates are resolved:
 1. TCDB curates substrates as `CHEBI:NNNN;name` strings (e.g. `CHEBI:9314;sucrose`, `CHEBI:3308;calcium(2+)`).
 2. Each ChEBI ID is resolved through MetaNetX (MNX) to its canonical compound.
 3. The resulting compound is matched against existing Metabolite nodes (by `kegg.compound:C*` ID, then `chebi:NNNN`, then `mnx:MNXM*`).
-4. If the compound already exists in the KG (e.g. sucrose, ATP, glucose, calcium — covered by KEGG metabolism), reuse the existing Metabolite node.
-5. If the compound is new (e.g. tetracycline, gibberellin A3 — TCDB knows these are transport substrates but our 25 strains have no catalytic evidence for them), create a new "transport-only" Metabolite node.
+4. If the substrate's primary ID is `kegg.compound:*` (645 of 1,097 distinct primaries), the compound is added to the gene-reachable cpds set so it rides through the regular MNX-enrichment pipeline and picks up its KEGG pathway memberships natively. Reuses the existing Metabolite node if it was already catalysis-reachable; otherwise becomes a transport-only KEGG Metabolite.
+5. If the substrate's primary ID is non-KEGG (`chebi:*` or `mnx:MNXM*` — the remaining 452), it lands in `kegg_data.json`'s `additional_compounds` bucket as a new transport-only Metabolite (covers compounds like tetracycline that TCDB knows but KEGG doesn't curate).
 
-All 1,410 unique TCDB substrate strings resolve to MNX. ~399 already match existing Metabolites; ~785 are new transport-only Metabolites.
+End result: **3,025 Metabolites** = 1,928 metabolism-only + 260 metabolism+transport overlap + 385 transport-only KEGG + 452 transport-only non-KEGG (additional_compounds).
 
 ## Metabolite — new and extended properties
 
@@ -94,7 +96,14 @@ Every Metabolite (including pre-existing ones) now carries an `evidence_sources`
 - `"metabolism"` — at least one Reaction in the KG involves this compound.
 - `"transport"` — at least one TcdbFamily is annotated as transporting this compound.
 
-A compound found by both paths gets `["metabolism", "transport"]`. A pre-existing pure-metabolism compound stays `["metabolism"]`. The 785 new transport-only Metabolites carry just `["transport"]`.
+A compound found by both paths gets `["metabolism", "transport"]`. A pre-existing pure-metabolism compound stays `["metabolism"]`. The 837 new transport-evidence Metabolites carry just `["transport"]`.
+
+| Bucket | Count | `evidence_sources` |
+|---|---|---|
+| Metabolism-only (catalysis-reachable, not transport) | 1,928 | `['metabolism']` |
+| Both | 260 | `['metabolism', 'transport']` |
+| Transport-only KEGG (substrate `kegg.compound:*`, no local catalysis) | 385 | `['transport']` |
+| Transport-only non-KEGG (substrate `chebi:*` or `mnx:MNXM*`) | 452 | `['transport']` |
 
 This lets you distinguish "this organism has a known metabolic reaction with this compound" from "this organism's transporters are annotated as moving this compound" — both are evidence, but they answer different biological questions.
 
@@ -253,19 +262,26 @@ If you re-run prepare_data:
 - TransportReaction nodes — explicitly NOT introduced. TCDB is treated as an ontology (like EC), not a reaction layer (rationale in the design spec).
 - Existing Metabolite IDs, names, formulas, etc. — unchanged. The new `evidence_sources` property is additive.
 
-## Estimated graph-size impact
+## Graph-size impact (measured)
 
 | Quantity | Before | After | Delta |
 |---|---|---|---|
 | Gene nodes | 81,458 | 81,458 | 0 |
-| Metabolite nodes | ~2,188 | ~2,973 | +785 |
-| TcdbFamily nodes | 0 | ~few hundred | new |
-| CazyFamily nodes | 0 | ~30–50 | new |
-| `Changes_expression_of` edges | ~227K | ~227K | 0 |
-| `Gene_has_tcdb_family` edges | 0 | ~1,500–2,500 | new |
-| `Gene_has_cazy_family` edges | 0 | ~400–600 | new |
-| `Tcdb_family_transports_metabolite` edges | 0 | ~10,000 | new |
-| `Organism_has_metabolite` edges | existing | grows by transport-path additions | +modest |
+| Metabolite nodes | 2,188 | 3,025 | **+837** |
+| TcdbFamily nodes | 0 | 4,844 | **new** (pruned from 13,643 in raw TCDB) |
+| CazyFamily nodes | 0 | 64 | **new** |
+| KeggTerm pathway-level nodes | 377 | 442 | **+65** (transport-reachable extension; 15 nameless meta-classification maps filtered out) |
+| `Changes_expression_of` edges | 232,439 | 232,439 | 0 |
+| `Gene_has_tcdb_family` edges | 0 | 10,576 | **new** |
+| `Gene_has_cazy_family` edges | 0 | 1,181 | **new** |
+| `Tcdb_family_transports_metabolite` edges | 0 | 5,762 | **new** |
+| `Tcdb_family_is_a_tcdb_family` edges | 0 | 4,838 | **new** |
+| `Cazy_family_is_a_cazy_family` edges | 0 | 58 | **new** |
+| `Organism_has_metabolite` edges | 37,010 | 56,898 | **+19,888** (transport arm contributing) |
+| `Metabolite_in_pathway` edges | 8,095 | 9,444 | **+1,349** (transport-extended pathway memberships) |
+| `Reaction_has_metabolite` edges | 10,050 | 10,050 | 0 |
+| `Reaction_in_kegg_pathway` edges | 6,349 | 6,349 | 0 |
+| `Gene_catalyzes_reaction` edges | 52,742 | 52,742 | 0 |
 
 ## Property changes summary
 
