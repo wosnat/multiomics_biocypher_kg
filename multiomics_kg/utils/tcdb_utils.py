@@ -1,6 +1,6 @@
 """TCDB hierarchy accessor API.
 
-Reads cache/data/tcdb/tcdb_hierarchy.json (built by `multiomics_kg.download.build_metabolite_resolver`).
+Reads cache/data/tcdb/tcdb_hierarchy.json (built by `multiomics_kg.download.build_kegg_metabolism_xrefs` in prepare_data step 6).
 """
 from __future__ import annotations
 
