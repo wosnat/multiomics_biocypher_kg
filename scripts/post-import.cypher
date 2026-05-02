@@ -506,6 +506,36 @@ SET e.derived_metric_search_text = trim(
     + apoc.text.join(descs, ' ')
 );
 
+// =====================================================================
+// F1.1: Term-level is_uninformative flag (sentinel str 'true' / absent).
+// Driven by config/uninformative_terms.yaml. Vocabulary is small; keys
+// are hard-coded here matching the YAML section names.
+//
+// Guiding principle: only flag terms that convey no class signal at all.
+// Pfam DUF/UPF, COG R, all BRITE entries, all EC numbers stay UN-flagged.
+// =====================================================================
+
+// Direct ID flags
+MATCH (t:BiologicalProcess) WHERE t.id IN ['go:0008150'] SET t.is_uninformative = 'true';
+MATCH (t:MolecularFunction) WHERE t.id IN ['go:0003674'] SET t.is_uninformative = 'true';
+MATCH (t:CellularComponent) WHERE t.id IN ['go:0005575'] SET t.is_uninformative = 'true';
+MATCH (t:CogFunctionalCategory) WHERE t.id IN ['cog.category:S'] SET t.is_uninformative = 'true';
+
+MATCH (t:CyanorakRole)
+WHERE t.id IN ['cyanorak.role:R','cyanorak.role:R.1','cyanorak.role:R.2',
+               'cyanorak.role:R.4','cyanorak.role:R.5']
+SET t.is_uninformative = 'true';
+
+MATCH (t:TigrRole)
+WHERE t.id IN ['tigr.role:156','tigr.role:704','tigr.role:856',
+               'tigr.role:185','tigr.role:157']
+SET t.is_uninformative = 'true';
+
+// Pattern-based flag for KEGG (uncharacterized protein KOs, ~210 nodes)
+MATCH (t:KeggTerm)
+WHERE t.name =~ '^K\\d+;\\s+uncharacterized protein\\b.*'
+SET t.is_uninformative = 'true';
+
 // -----------------------------------------------------------------------
 // Gene routing signals (pre-computed for fast gene_overview queries)
 // -----------------------------------------------------------------------

@@ -1,0 +1,58 @@
+# Catch-all / no-content-bearing terms across ontology sources.
+#
+# Guiding principle: if the term tells the consumer the broad CLASS
+# (transporter, enzyme, peptidase, two-component system) — even if a sub-class
+# dimension is unknown — treat the term as INFORMATIVE. Only flag terms that
+# convey no class signal at all.
+#
+# Pfam DUF/UPF stay UN-flagged (recognized structural domain = informative).
+# COG R ('General function prediction only') stays UN-flagged (borderline).
+# All BRITE entries stay UN-flagged (every entry sits inside a class-bearing tree).
+
+biological_process:
+  ids:
+    - go:0008150          # biological_process root
+
+molecular_function:
+  ids:
+    - go:0003674          # molecular_function root
+
+cellular_component:
+  ids:
+    - go:0005575          # cellular_component root
+
+cog_category:
+  ids:
+    - cog.category:S      # Function unknown
+
+cyanorak_role:
+  ids:
+    - cyanorak.role:R     # Other (parent — used standalone = no class info)
+    - cyanorak.role:R.1   # Other > Conserved hypothetical domains
+    - cyanorak.role:R.2   # Other > Conserved hypothetical proteins
+    - cyanorak.role:R.4   # Other > Hypothetical proteins
+    - cyanorak.role:R.5   # Other > Other
+  # Q.9 (Transport > Unknown substrate) and R.3 (Other > Enzymes of unknown
+  # specificity) intentionally NOT flagged — class is known.
+
+tigr_role:
+  ids:
+    - tigr.role:156       # Hypothetical proteins / Conserved
+    - tigr.role:704       # Hypothetical proteins / Domain
+    - tigr.role:856       # Not Found
+    - tigr.role:185       # Unclassified / Role category not yet assigned
+    - tigr.role:157       # Unknown function / General
+  # 141 (Transport / Unknown substrate) and 703 (Unknown function / Enzymes
+  # of unknown specificity) intentionally NOT flagged — class is known.
+
+kegg_term:
+  # ~210 KOs match this pattern; ID list omitted (too many; pattern stable).
+  name_patterns:
+    - '^K\d+;\s+uncharacterized protein\b'
+
+# ec_number: section omitted — every EC is functionally specific.
+# brite_category: section omitted — every BRITE entry sits inside a
+#   class-bearing tree (Transporters, Peptidases, Two-component, etc.);
+#   no entries pass the 'no class signal' bar.
+# pfam: section omitted — DUF/UPF stay informative-shaped per anti-scope.
+# pfam_clan: section omitted — clans are structural superfamilies.
