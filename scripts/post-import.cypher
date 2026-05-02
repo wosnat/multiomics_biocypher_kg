@@ -826,8 +826,8 @@ CALL {
   OPTIONAL MATCH (g)-[:Gene_has_tcdb_family]->(:TcdbFamily)
                  <-[:Tcdb_family_is_a_tcdb_family*0..]-(:TcdbFamily {level_kind: 'tc_specificity'})
                  -[:Tcdb_family_transports_metabolite]->(m2:Metabolite)
-  WITH g, m_cat + collect(DISTINCT m2) AS all_m
-  SET g.metabolite_count = size(apoc.coll.toSet(all_m))
+  WITH g, m_cat, collect(DISTINCT m2) AS m_tr
+  SET g.metabolite_count = size(apoc.coll.toSet(m_cat + m_tr))
 } IN TRANSACTIONS OF 500 ROWS;
 
 // ── Metabolism rollups ────────────────────────────────────────────────────
@@ -849,9 +849,10 @@ CALL {
   WITH m, collect(DISTINCT g_cat) AS gs_cat
   OPTIONAL MATCH (m)<-[:Tcdb_family_transports_metabolite]-(:TcdbFamily)
                  <-[:Gene_has_tcdb_family]-(g_tr:Gene)
-  WITH m, gs_cat + collect(DISTINCT g_tr) AS all_g
+  WITH m, gs_cat, collect(DISTINCT g_tr) AS gs_tr
+  WITH m, apoc.coll.toSet(gs_cat + gs_tr) AS all_g
   WITH m,
-       size(apoc.coll.toSet(all_g)) AS gc,
+       size(all_g) AS gc,
        size(apoc.coll.toSet([x IN all_g | x.organism_name])) AS oc
   SET m.gene_count = gc, m.organism_count = oc
 } IN TRANSACTIONS OF 1000 ROWS;
