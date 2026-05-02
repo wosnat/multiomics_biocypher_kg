@@ -29,6 +29,18 @@ sources:
     path_pattern: "{data_dir}/gene_mapping.csv"
     index_col: locus_tag
     description: "NCBI + Cyanorak merged gene annotations (38 cols)"
+    logical_sources:
+      - id: ncbi
+        scope: gene_level
+        provenance: download
+      - id: cyanorak
+        scope: organism_restricted
+        provenance: download
+        applies_to_organisms:
+          - "Prochlorococcus*"
+          - "Synechococcus*"
+          - "Parasynechococcus*"
+          - "Thermosynechococcus*"
 
   eggnog:
     type: tsv_hash_header
@@ -37,6 +49,10 @@ sources:
     # Join key: gene_mapping.protein_id == eggnog.query (both RefSeq WP_ accessions)
     join_to: protein_id
     description: "EggNOG-mapper v2 functional annotations"
+    logical_sources:
+      - id: eggnog
+        scope: gene_level
+        provenance: tool_run
 
   uniprot:
     type: json_roworiented
@@ -50,6 +66,10 @@ sources:
     # Join key: gene_mapping.protein_id == uniprot.refseq_ids (WP_ accessions)
     join_to: protein_id
     description: "UniProt proteins (reviewed + unreviewed)"
+    logical_sources:
+      - id: uniprot
+        scope: gene_level
+        provenance: download
 
 
 # ─── Field merge rules ────────────────────────────────────────────────────────
