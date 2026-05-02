@@ -86,11 +86,14 @@ def _parse_tcdb_superfamilies(path: Path) -> list[tuple[str, str, str, str, str]
 
 
 def _parse_tcdb_substrates(path: Path) -> dict[str, list[str]]:
-    """Parse substrates.tsv → {tcid_specificity: [substrate_name, ...]}.
+    """Parse substrates.tsv → {tcid_specificity: ['CHEBI:N;name', ...]}.
 
-    Substrate column is pipe-separated 'CHEBI:N;name|CHEBI:N;name'. We keep
-    just the name (post-`;`) for substrate_classes; full CHEBI mapping is a
-    Phase 1.3 enhancement.
+    Substrate column is pipe-separated 'CHEBI:N;name|CHEBI:N;name'. The full
+    string is preserved (CHEBI: prefix included) so downstream MNX resolution
+    in _resolve_substrates can map substrates to canonical Metabolite primary
+    IDs. Earlier revisions stripped the prefix at parse time, leaving only
+    the human-readable name — which silently broke transport-substrate
+    resolution (every leaf returned 0 primary IDs).
     """
     out: dict[str, list[str]] = {}
     with open(path, encoding="utf-8") as f:
@@ -102,14 +105,9 @@ def _parse_tcdb_substrates(path: Path) -> dict[str, list[str]]:
             if len(parts) != 2:
                 continue
             tcid, raw = parts
-            names = []
-            for entry in raw.split("|"):
-                if ";" in entry:
-                    _, _, name = entry.partition(";")
-                    if name.strip():
-                        names.append(name.strip())
-            if names:
-                out[tcid] = names
+            substrates = [entry.strip() for entry in raw.split("|") if entry.strip()]
+            if substrates:
+                out[tcid] = substrates
     return out
 
 
@@ -828,9 +826,17 @@ def main(force: bool = False) -> None:
 
         kept, leaf_subs = _prune_tcdb(hierarchy, seed_tcdb_ids)
         leaf_to_primary, compound_props = _resolve_substrates(leaf_subs, conn)
+        total_substrate_ids = sum(len(ids) for ids in leaf_to_primary.values())
+        distinct_substrate_ids = len({pid for ids in leaf_to_primary.values() for pid in ids})
 
         kegg_data = json.loads(KEGG_DATA_FILE.read_text())
         _fold_substrates_into_kegg_data(kegg_data, leaf_to_primary, compound_props)
+        n_additional = len(kegg_data.get("additional_compounds", {}))
+        n_metabolism_compounds = len(kegg_data.get("compounds", {}))
+        n_overlap = sum(
+            1 for c in kegg_data.get("compounds", {}).values()
+            if "transport" in c.get("evidence_sources", [])
+        )
         KEGG_DATA_FILE.write_text(json.dumps(kegg_data, indent=2, sort_keys=True))
 
         (cache_root / "tcdb" / "tcdb_pruned.json").write_text(json.dumps({
@@ -841,7 +847,13 @@ def main(force: bool = False) -> None:
         }, indent=2, sort_keys=True))
         log.info(
             f"  TCDB: {len(kept)} kept IDs, "
-            f"{len(leaf_to_primary)} leaves with substrates"
+            f"{len(leaf_to_primary)} leaves with substrates "
+            f"({total_substrate_ids} total / {distinct_substrate_ids} distinct primary IDs)"
+        )
+        log.info(
+            f"  Folded into kegg_data.json: {n_additional} additional_compounds "
+            f"(transport-only), {n_overlap}/{n_metabolism_compounds} compounds "
+            f"now tagged metabolism+transport"
         )
     log.info("Done.")
 

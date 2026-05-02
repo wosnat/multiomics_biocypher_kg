@@ -244,7 +244,12 @@ def test_step6_builds_tcdb_hierarchy(tmp_path):
     assert "1.A.1.5" in h
     assert "1.A.1.5.2" in h
     assert h["1.A.1.5.2"]["level_kind"] == "tc_specificity"
-    assert h["1.A.1.5.2"]["substrate_classes"] == ["sucrose", "calcium(2+)"]
+    # substrate_classes preserves the full 'CHEBI:N;name' string so downstream
+    # MNX resolution can map to a canonical Metabolite primary ID.
+    assert h["1.A.1.5.2"]["substrate_classes"] == [
+        "CHEBI:9314;sucrose",
+        "CHEBI:3308;calcium(2+)",
+    ]
 
 
 def test_bulk_enrich_compounds_returns_dict_keyed_by_kegg_id(tmp_path):
