@@ -677,6 +677,10 @@ metabolite:
     transporter_count: int                   # post-import: distinct TcdbFamily nodes with substrate edge to this metabolite
     organism_count: int          # post-import
     gene_count: int              # post-import
+    pathway_ids: list[str]       # post-import (KG-A5): distinct sorted KeggTerm.id reachable via Metabolite_in_pathway
+    pathway_names: list[str]     # post-import (KG-A6): KeggTerm.name aligned index-for-index with pathway_ids
+    pathway_count: int           # post-import (KG-A7): size(pathway_ids)
+    organism_names: list[str]    # post-import (KG-A8): distinct sorted OrganismTaxon.preferred_name reachable via Organism_has_metabolite
 
 
 # ---

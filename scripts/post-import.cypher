@@ -933,3 +933,32 @@ CALL {
   WITH p, count(m) AS met_count
   SET p.metabolite_count = met_count
 } IN TRANSACTIONS OF 100 ROWS;
+
+// ── Chemistry slice-1 follow-up rollups (KG-A5, A6, A7, A8) ────────────────
+// Denormalize Metabolite_in_pathway and Organism_has_metabolite edges onto
+// Metabolite for list_metabolites flat filter + per-row use.
+
+// KG-A5/A6/A7: pathway_ids / pathway_names / pathway_count.
+// collect(DISTINCT p) keeps id/name index-aligned (single ordered node list);
+// ORDER BY p.id sorts pathways alphabetically before collect.
+MATCH (m:Metabolite)
+CALL {
+  WITH m
+  OPTIONAL MATCH (m)-[:Metabolite_in_pathway]->(p:KeggTerm)
+  WITH m, p ORDER BY p.id
+  WITH m, collect(DISTINCT p) AS ps
+  SET m.pathway_ids   = [x IN ps | x.id],
+      m.pathway_names = [x IN ps | x.name],
+      m.pathway_count = size(ps)
+} IN TRANSACTIONS OF 1000 ROWS;
+
+// KG-A8: organism_names — distinct sorted OrganismTaxon.preferred_name reachable
+// via Organism_has_metabolite (UNION of catalysis + transport, materialized above).
+// size(m.organism_names) == m.organism_count is invariant.
+MATCH (m:Metabolite)
+CALL {
+  WITH m
+  OPTIONAL MATCH (org:OrganismTaxon)-[:Organism_has_metabolite]->(m)
+  WITH m, apoc.coll.sort(collect(DISTINCT org.preferred_name)) AS onames
+  SET m.organism_names = onames
+} IN TRANSACTIONS OF 1000 ROWS;
