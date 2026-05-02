@@ -213,6 +213,32 @@ def test_gene_encodes_protein_no_duplicates(run_query):
     )
 
 
+def test_no_orphan_tcdb_families(run_query):
+    """Every TcdbFamily node must have at least one connecting edge.
+
+    Pruning keeps only nodes within a gene-reachable subhierarchy, so by
+    construction every kept node either has a Gene_has_tcdb_family edge,
+    a parent edge to another kept node, or both. An orphan would indicate
+    a pruning bug or stale index.
+    """
+    n_bad = run_query("""
+        MATCH (t:TcdbFamily)
+        WHERE NOT EXISTS { (t)--() }
+        RETURN count(t) AS n
+    """)[0]["n"]
+    assert n_bad == 0, f"{n_bad} orphan TcdbFamily nodes"
+
+
+def test_no_orphan_cazy_families(run_query):
+    """Every CazyFamily node must have at least one connecting edge."""
+    n_bad = run_query("""
+        MATCH (c:CazyFamily)
+        WHERE NOT EXISTS { (c)--() }
+        RETURN count(c) AS n
+    """)[0]["n"]
+    assert n_bad == 0, f"{n_bad} orphan CazyFamily nodes"
+
+
 def test_prochlorococcus_genes_in_ortholog_groups(run_query):
     """
     Prochlorococcus genes should mostly belong to at least one OrthologGroup.

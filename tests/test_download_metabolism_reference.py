@@ -51,12 +51,13 @@ def test_sources_by_group_keys():
     assert len(dmr.TCDB_SOURCES) == 3
 
 
-def test_sources_flat_view_has_seven_entries():
-    """Backward-compat SOURCES dict still exposes all 7 entries."""
-    assert len(dmr.SOURCES) == 7
-    assert {"mnx_chem_prop", "mnx_chem_xref",
-            "mnx_reac_prop", "mnx_reac_xref",
-            "tcdb_families", "tcdb_substrates", "tcdb_superfamilies"} == set(dmr.SOURCES)
+def test_group_dir_layout(tmp_path, monkeypatch):
+    """MNX honors MNX_DATA_DIR; TCDB lives under <cache_root>/tcdb/raw/."""
+    monkeypatch.setenv("MNX_DATA_DIR", str(tmp_path / "shared_mnx"))
+    assert dmr._group_dir("mnx", tmp_path) == tmp_path / "shared_mnx"
+    assert dmr._group_dir("tcdb", tmp_path) == tmp_path / "tcdb" / "raw"
+    with pytest.raises(ValueError, match="Unknown source group"):
+        dmr._group_dir("bogus", tmp_path)
 
 
 # ---------------------------------------------------------------------------
@@ -110,34 +111,53 @@ def test_download_all_empty_sources_downloads_nothing(tmp_path, monkeypatch):
 # Full download + caching behaviour (HTTP-mocked)
 # ---------------------------------------------------------------------------
 
+def _expected_path(group: str, filename: str, cache_root: Path, mnx_dir: Path) -> Path:
+    if group == "mnx":
+        return mnx_dir / filename
+    return cache_root / "tcdb" / "raw" / filename
+
+
 def test_download_writes_all_files(monkeypatch, tmp_path):
-    """One download per source; each writes to the configured relative path."""
+    """One download per source; each writes to its group-specific destination."""
+    mnx_dir = tmp_path / "shared_mnx"
+    monkeypatch.setenv("MNX_DATA_DIR", str(mnx_dir))
+
+    all_sources = [
+        (group, key, url, filename)
+        for group, sources in dmr.SOURCES_BY_GROUP.items()
+        for key, (url, filename) in sources.items()
+    ]
     fake_responses = {
         url: _FakeResponse(f"BODY-{key}".encode())
-        for key, (url, _rel) in dmr.SOURCES.items()
+        for _group, key, url, _filename in all_sources
     }
     _patch_requests_get(monkeypatch, fake_responses)
 
     dmr.download_all(cache_root=tmp_path, force=True)
 
-    for key, (_url, rel) in dmr.SOURCES.items():
-        out = tmp_path / rel
+    for group, key, _url, filename in all_sources:
+        out = _expected_path(group, filename, tmp_path, mnx_dir)
         assert out.exists(), f"missing output for {key}: {out}"
         assert out.read_bytes() == f"BODY-{key}".encode()
 
 
 def test_skip_when_cached_unless_force(monkeypatch, tmp_path):
     """Existing files are skipped when force=False; re-downloaded when force=True."""
+    mnx_dir = tmp_path / "shared_mnx"
+    monkeypatch.setenv("MNX_DATA_DIR", str(mnx_dir))
+
     # Pre-create the MNX chem_prop cache file with stale content
-    target = tmp_path / dmr.SOURCES["mnx_chem_prop"][1]
+    target = mnx_dir / dmr.MNX_SOURCES["mnx_chem_prop"][1]
     target.parent.mkdir(parents=True, exist_ok=True)
     target.write_bytes(b"STALE")
 
     # Mock all URLs to return fresh content
-    fake_responses = {
-        url: _FakeResponse(b"FRESH")
-        for url, _rel in dmr.SOURCES.values()
-    }
+    all_urls = [
+        url
+        for sources in dmr.SOURCES_BY_GROUP.values()
+        for url, _filename in sources.values()
+    ]
+    fake_responses = {url: _FakeResponse(b"FRESH") for url in all_urls}
     _patch_requests_get(monkeypatch, fake_responses)
 
     # Without --force: stale content preserved

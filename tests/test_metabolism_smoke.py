@@ -14,8 +14,10 @@ from pathlib import Path
 import pytest
 
 
+from multiomics_kg.utils.metabolite_utils import get_mnx_data_dir
+
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
-RESOLVER_DB = PROJECT_ROOT / "cache" / "data" / "mnx" / "metabolite_resolver.db"
+RESOLVER_DB = get_mnx_data_dir() / "metabolite_resolver.db"
 KEGG_DATA_OUT = PROJECT_ROOT / "cache" / "data" / "kegg" / "kegg_data.json"
 
 

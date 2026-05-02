@@ -18,9 +18,9 @@ def test_reaction_count_in_expected_range(run_query):
 
 
 def test_metabolite_count_in_expected_range(run_query):
-    """Spec acceptance: >= 1,000 metabolites."""
+    """Spec acceptance: 1,000 <= count <= 6,000 (post-TCDB transport-only growth)."""
     n = run_query("MATCH (m:Metabolite) RETURN count(m) AS n")[0]["n"]
-    assert 1000 <= n <= 5000, f"Metabolite count {n} outside expected 1000-5000"
+    assert 1000 <= n <= 6000, f"Metabolite count {n} outside expected 1000-6000"
 
 
 def test_all_reactions_have_kegg_primary_id(run_query):

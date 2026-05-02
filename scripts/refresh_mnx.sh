@@ -8,9 +8,11 @@
 # After this completes, run `bash scripts/prepare_data.sh --steps 6 --force`
 # to regenerate cache/data/kegg/kegg_data.json with the new MNX cross-refs.
 #
-# Outputs:
-#   cache/data/mnx/{chem_prop,chem_xref,reac_prop,reac_xref}.tsv  (~1.5 GB raw)
-#   cache/data/mnx/metabolite_resolver.db                         (~2.5 GB SQLite)
+# Outputs land at $MNX_DATA_DIR (set in .env, e.g. ~/tools/mnx) — defaults to
+# cache/data/mnx/ when unset. Sharing one MNX_DATA_DIR across checkouts avoids
+# the ~4 GB duplication and the ~30 min rebuild cost:
+#   $MNX_DATA_DIR/{chem_prop,chem_xref,reac_prop,reac_xref}.tsv  (~1.5 GB raw)
+#   $MNX_DATA_DIR/metabolite_resolver.db                         (~2.5 GB SQLite)
 #
 # Usage:
 #   bash scripts/refresh_mnx.sh           # download + build (skip if cached)
@@ -44,7 +46,7 @@ echo "════════════════════════�
 
     echo ""
     echo "── 2. Build metabolite resolver SQLite (~30 min, ~2.5 GB output) ──"
-    uv run python -m multiomics_kg.download.build_metabolite_resolver $FORCE
+    uv run python -m multiomics_kg.download.build_mnx_resolver $FORCE
 } 2>&1 | tee "$LOG_DIR/refresh_mnx.log"
 
 echo ""

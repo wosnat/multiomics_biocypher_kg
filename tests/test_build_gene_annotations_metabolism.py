@@ -5,8 +5,6 @@ import json
 import textwrap
 from pathlib import Path
 
-import pytest
-
 
 EGGNOG_LINES = textwrap.dedent("""\
     ##
@@ -15,33 +13,14 @@ EGGNOG_LINES = textwrap.dedent("""\
 """)
 
 
-@pytest.fixture(autouse=True)
-def patch_metabolism_caches(monkeypatch, tmp_path):
-    """Tiny tcdb/cazy fixtures matching the eggNOG test data above."""
-    # TCDB: 3.A.1.1.1 valid, 99.X.99 invalid
-    from multiomics_kg.utils import tcdb_utils as tu
-    tcdb_path = tmp_path / "tcdb_hierarchy.json"
-    tcdb_path.write_text(json.dumps({"3.A.1.1.1": {}}))
-    monkeypatch.setattr(tu, "DEFAULT_PATH", tcdb_path)
-    monkeypatch.setattr(tu, "_CACHE", None)
-
-    # CAZy: GH13_1 valid (and GH13 / GH for closure), XX99 invalid
-    from multiomics_kg.utils import cazy_utils as cu
-    cazy_path = tmp_path / "cazy_hierarchy.json"
-    cazy_path.write_text(json.dumps({"GH": {}, "GH13": {}, "GH13_1": {}}))
-    monkeypatch.setattr(cu, "DEFAULT_PATH", cazy_path)
-    monkeypatch.setattr(cu, "_CACHE", None)
-
-    yield
-
-
 def test_yaml_transforms_keep_raw_r_numbers(tmp_path, monkeypatch):
     """Run the YAML pipeline against a tiny eggNOG file and assert merged fields.
 
     Spec 1.2 pivot: kegg_reactions now keeps raw R-numbers (no MNX resolution).
     - kegg_reactions: R00299 kept as-is (raw KEGG R-number)
-    - transporter_classification: 3.A.1.1.1 valid, 99.X.99 dropped
-    - cazy_ids: GH13_1 valid, XX99 dropped
+    - transporter_classification: passthrough (validation moved to TCDB adapter;
+      raw tokens retained at this layer)
+    - cazy_ids: passthrough (validation moved to cazy_adapter; raw tokens retained)
     - No literal 'None' strings (regression test for the framework filter fix)
     """
     import yaml
@@ -70,8 +49,10 @@ def test_yaml_transforms_keep_raw_r_numbers(tmp_path, monkeypatch):
     # Spec 1.2: raw R-numbers survive unchanged
     assert gene["kegg_reactions"] == ["R00299"]
     assert all(v.startswith("R") for v in gene["kegg_reactions"])
-    assert gene["transporter_classification"] == ["3.A.1.1.1"]
-    assert gene["cazy_ids"] == ["GH13_1"]
+    # TCDB validation moved out of this layer; both tokens pass through.
+    assert sorted(gene["transporter_classification"]) == ["3.A.1.1.1", "99.X.99"]
+    # CAZy is now passthrough at the gene-annotation layer; both tokens retained.
+    assert sorted(gene["cazy_ids"]) == ["GH13_1", "XX99"]
     # Regression: None must not leak as the literal string "None"
     assert "None" not in gene["transporter_classification"]
     assert "None" not in gene["cazy_ids"]
@@ -86,16 +67,22 @@ def test_apply_transform_filters_none_from_list_path(monkeypatch):
     later get serialized as the literal string 'None' downstream.
     """
     from multiomics_kg.download.build_gene_annotations import AnnotationBuilder
+    from multiomics_kg.download.utils import annotation_transforms as at
+
+    # Register a synthetic None-returning transform for the duration of this test.
+    # (The previous validate_tcdb transform was removed when TCDB became a
+    # first-class ontology; we still need to exercise the framework's None-filter
+    # for list-valued transforms.)
+    def _drop_unknown(value: str):
+        return value if value == "3.A.1.1.1" else None
+
+    monkeypatch.setitem(at._TRANSFORMS, "_test_drop_unknown", _drop_unknown)
 
     # Minimal stub builder; _apply_transform doesn't depend on instance state
     builder = AnnotationBuilder.__new__(AnnotationBuilder)
+    result = builder._apply_transform("_test_drop_unknown", ["3.A.1.1.1", "99.X.99"])
 
-    # validate_cazy is registered in _TRANSFORMS and returns None for invalid IDs.
-    # The patch_metabolism_caches fixture (autouse) has already loaded a CAZy hierarchy
-    # with GH13_1 valid and XX99 invalid.
-    result = builder._apply_transform("validate_cazy", ["GH13_1", "XX99"])
-
-    assert result == ["GH13_1"]
+    assert result == ["3.A.1.1.1"]
     assert None not in result
     assert "None" not in result  # belt-and-suspenders against str() coercion
 
@@ -134,12 +121,15 @@ def test_per_strain_metabolism_report_written(tmp_path, monkeypatch):
     assert kr["kept_total"] == 1
     assert kr["kept_unique_r_numbers"] == 1
 
+    # TCDB validation moved out of this layer; both tokens pass through.
     tc = report["transporter_classification"]
     assert tc["raw_total"] == 2
-    assert tc["validated_total"] == 1
-    assert "99.X.99" in tc["invalid_examples"]
+    assert tc["validated_total"] == 2
+    assert tc["invalid_examples"] == []
 
+    # CAZy is now passthrough at the gene-annotation layer; the report's
+    # validated_total reflects merged["cazy_ids"], which retains all tokens.
     cz = report["cazy_ids"]
     assert cz["raw_total"] == 2
-    assert cz["validated_total"] == 1
-    assert "XX99" in cz["invalid_examples"]
+    assert cz["validated_total"] == 2
+    assert cz["invalid_examples"] == []

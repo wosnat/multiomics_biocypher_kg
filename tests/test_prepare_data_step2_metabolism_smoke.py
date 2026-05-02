@@ -15,25 +15,31 @@ from pathlib import Path
 import pytest
 
 
-REQUIRED_FIXTURES = [
-    "cache/data/mnx/metabolite_resolver.db",
-    "cache/data/mnx/metabolite_id_mapping_report.json",
+REQUIRED_PROJECT_FIXTURES = [
     "cache/data/tcdb/tcdb_hierarchy.json",
-    "cache/data/cazy/cazy_hierarchy.json",
     "cache/data/Prochlorococcus/genomes/MED4/eggnog/MED4.emapper.annotations",
     "cache/data/Prochlorococcus/genomes/MED4/gene_mapping.csv",
+]
+REQUIRED_MNX_FIXTURES = [
+    "metabolite_resolver.db",
+    "metabolite_id_mapping_report.json",
 ]
 
 
 @pytest.mark.slow
 def test_phase_1_1b_full_pipeline_med4():
     """Run step 2 for MED4 against pre-built MNX cache. Assert metabolism report sane."""
+    from multiomics_kg.utils.metabolite_utils import get_mnx_data_dir
     project_root = Path(__file__).parent.parent
-    for rel in REQUIRED_FIXTURES:
+    mnx_dir = get_mnx_data_dir()
+    for rel in REQUIRED_PROJECT_FIXTURES:
         if not (project_root / rel).exists():
             pytest.skip(f"Missing fixture: {rel} (run `bash scripts/refresh_mnx.sh` first)")
+    for fname in REQUIRED_MNX_FIXTURES:
+        if not (mnx_dir / fname).exists():
+            pytest.skip(f"Missing MNX fixture: {mnx_dir / fname} (run `bash scripts/refresh_mnx.sh` first)")
 
-    report = json.loads((project_root / "cache/data/mnx/metabolite_id_mapping_report.json").read_text())
+    report = json.loads((mnx_dir / "metabolite_id_mapping_report.json").read_text())
     assert report["compound_count"] >= 100_000
 
     # Run the gene annotation merge for MED4

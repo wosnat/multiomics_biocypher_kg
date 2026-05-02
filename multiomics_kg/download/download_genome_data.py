@@ -443,18 +443,11 @@ def step5_gene_mapping(genomes: list[dict], force: bool) -> None:
         print(f"{'─'*60}")
 
 
-def step6_tcdb_reference(force: bool) -> None:
-    """Sub-step 6: download TCDB reference data (MNX moved to scripts/refresh_mnx.sh)."""
-    from multiomics_kg.download.download_metabolism_reference import download_all
-    log.info("─── Step 6: Download TCDB reference data ───")
-    download_all(force=force, sources=["tcdb"])
-
-
 # ── main ─────────────────────────────────────────────────────────────────────
 
 def main() -> None:
     parser = argparse.ArgumentParser(
-        description="Download genome annotation data (NCBI, Cyanorak, UniProt, eggNOG) plus TCDB reference data.",
+        description="Download genome annotation data (NCBI, Cyanorak, UniProt, eggNOG).",
         formatter_class=argparse.RawDescriptionHelpFormatter,
         epilog="""
 Steps:
@@ -463,24 +456,19 @@ Steps:
   3  UniProt (one download per unique taxid)
   4  eggNOG-mapper (requires EGGNOG_DATA_DIR in .env)
   5  gene_mapping.csv (requires steps 1+2)
-  6  Download TCDB reference data
-
-Note: MNX download + resolver build are in scripts/refresh_mnx.sh (run separately,
-only needed when MNX releases a new version).
 
 Examples:
   uv run python multiomics_kg/download/download_genome_data.py
   uv run python multiomics_kg/download/download_genome_data.py --steps 1 2 3
-  uv run python multiomics_kg/download/download_genome_data.py --steps 6 --force
   uv run python multiomics_kg/download/download_genome_data.py --strains MED4 MIT9313
   uv run python multiomics_kg/download/download_genome_data.py --strains MED4 --force
         """,
     )
     parser.add_argument(
-        "--steps", nargs="+", type=int, choices=[1, 2, 3, 4, 5, 6],
-        default=[1, 2, 3, 4, 5, 6],
+        "--steps", nargs="+", type=int, choices=[1, 2, 3, 4, 5],
+        default=[1, 2, 3, 4, 5],
         help=("Steps to run (default: all). 1=NCBI 2=Cyanorak 3=UniProt "
-              "4=eggNOG 5=gene_mapping 6=tcdb_reference"),
+              "4=eggNOG 5=gene_mapping"),
     )
     parser.add_argument(
         "--strains", nargs="+",
@@ -527,8 +515,6 @@ Examples:
         step4_eggnog(genomes, force=args.force, cpu=args.cpu)
     if 5 in steps:
         step5_gene_mapping(genomes, force=args.force)
-    if 6 in steps:
-        step6_tcdb_reference(force=args.force)
 
     log.info("All steps complete.")
 

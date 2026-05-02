@@ -28,12 +28,13 @@
 #           cache at cache/data/eggnog/og_descriptions.json (avoids 39GB DB in Docker)
 #           Requires step 2 (gene_annotations_merged.json for OG ID list)
 #
-# Step 6 — Build pruned KEGG data cache (kegg_data.json) with metabolism enrichment
+# Step 6 — Build pruned KEGG data cache (kegg_data.json) + TCDB hierarchy with metabolism enrichment
 #           calls: multiomics_kg/download/build_kegg_metabolism_xrefs.py
 #           Walks every strain's gene_annotations_merged.json to identify gene-reachable
 #           {KOs, reactions, compounds, pathways}; prunes raw KEGG to that subset; enriches
 #           reactions/compounds with MNX xrefs; writes a single cache/data/kegg/kegg_data.json (~3-4 MB, indented).
-#           Requires step 0 sub-step 6 (TCDB reference) + step 2 + scripts/refresh_mnx.sh
+#           Also downloads the 3 TCDB reference TSVs and writes cache/data/tcdb/tcdb_hierarchy.json.
+#           Requires step 2 + scripts/refresh_mnx.sh
 #           (MNX resolver — heavy one-time build, rerun only when MNX releases)
 #
 # Logs: logs/prepare_data_step0.log … logs/prepare_data_step6.log
@@ -124,7 +125,7 @@ cd "$PROJECT_ROOT"
 export PYTHONPATH="$PROJECT_ROOT${PYTHONPATH:+:$PYTHONPATH}"
 
 echo "prepare_data.sh: steps=[${STEPS}]${STRAINS_ARG:+ strains=[${STRAINS[*]}]}${FORCE:+ (force)}${SKIP_CYANORAK:+ (skip-cyanorak)}"
-echo "(step 1 = protein annotations, step 2 = gene annotations, step 3 = gene ID mapping, step 4 = resolve paper CSVs, step 5 = OG descriptions, step 6 = pruned KEGG data cache)"
+echo "(step 1 = protein annotations, step 2 = gene annotations, step 3 = gene ID mapping, step 4 = resolve paper CSVs, step 5 = OG descriptions, step 6 = pruned KEGG + TCDB hierarchy caches)"
 echo "Project root: $PROJECT_ROOT"
 echo "Logs dir:     $LOG_DIR"
 
@@ -132,11 +133,11 @@ for step in $STEPS; do
     case "$step" in
         0)
             if [[ $SKIP_CYANORAK -eq 1 ]]; then
-                DOWNLOAD_SUBSTEPS="1 3 5 6"
-                STEP0_LABEL="Download genome data (NCBI + UniProt + gene_mapping + TCDB reference; Cyanorak SKIPPED)"
+                DOWNLOAD_SUBSTEPS="1 3 5"
+                STEP0_LABEL="Download genome data (NCBI + UniProt + gene_mapping; Cyanorak SKIPPED)"
             else
-                DOWNLOAD_SUBSTEPS="1 2 3 5 6"
-                STEP0_LABEL="Download genome data (NCBI + Cyanorak + UniProt + gene_mapping + TCDB reference)"
+                DOWNLOAD_SUBSTEPS="1 2 3 5"
+                STEP0_LABEL="Download genome data (NCBI + Cyanorak + UniProt + gene_mapping)"
             fi
             run_step 0 \
                 "$STEP0_LABEL" \
@@ -186,7 +187,7 @@ for step in $STEPS; do
             ;;
         6)
             run_step 6 \
-                "Build pruned KEGG data cache (kegg_data.json)" \
+                "Build pruned KEGG + TCDB hierarchy caches (kegg_data.json + tcdb_hierarchy.json)" \
                 "$LOG_DIR/prepare_data_step6.log" \
                 uv run python -m multiomics_kg.download.build_kegg_metabolism_xrefs \
                     $FORCE

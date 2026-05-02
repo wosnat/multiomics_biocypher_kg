@@ -80,7 +80,8 @@ def test_build_pruned_kegg_data(tmp_path, monkeypatch, synthetic_kegg_raw):
 
     conn = _make_resolver(tmp_path)
     out_path = tmp_path / "kegg_data.json"
-    bx.build_pruned_kegg_data(synthetic_kegg_raw, conn, out_path)
+    sets = bx._gene_reachable_sets(synthetic_kegg_raw)
+    bx.build_pruned_kegg_data(synthetic_kegg_raw, conn, out_path, sets=sets)
 
     data = json.loads(out_path.read_text())
 
@@ -137,7 +138,8 @@ def test_compound_only_pathways_dropped(tmp_path, monkeypatch, synthetic_kegg_ra
     monkeypatch.setattr(bx, "load_genome_rows", lambda: [{"data_dir": str(strain)}])
     conn = _make_resolver(tmp_path)
     out_path = tmp_path / "kegg_data.json"
-    bx.build_pruned_kegg_data(synthetic_kegg_raw, conn, out_path)
+    sets = bx._gene_reachable_sets(synthetic_kegg_raw)
+    bx.build_pruned_kegg_data(synthetic_kegg_raw, conn, out_path, sets=sets)
     data = json.loads(out_path.read_text())
     assert "C99999" not in data["compounds"]
     assert "ko99999" not in data["pathways"]
@@ -171,7 +173,8 @@ def test_compound_pathway_filter_drops_unevidenced(tmp_path, monkeypatch):
     monkeypatch.setattr(bx, "load_genome_rows", lambda: [{"data_dir": str(strain)}])
     conn = _make_resolver(tmp_path)
     out_path = tmp_path / "kegg_data.json"
-    bx.build_pruned_kegg_data(raw, conn, out_path)
+    sets = bx._gene_reachable_sets(raw)
+    bx.build_pruned_kegg_data(raw, conn, out_path, sets=sets)
     data = json.loads(out_path.read_text())
 
     # ko00500 must NOT be in pathways top-level (Option B: only KO ∪ Rxn-reachable)
@@ -214,6 +217,45 @@ def test_bulk_enrich_reactions_returns_dict_keyed_by_kegg_id(tmp_path):
     assert r99["reaction_class"] == "chemical"  # default
 
 
+def test_step6_builds_tcdb_hierarchy(tmp_path):
+    """Step 6 must produce cache/data/tcdb/tcdb_hierarchy.json (was previously
+    built by build_metabolite_resolver.py)."""
+    from multiomics_kg.download import build_kegg_metabolism_xrefs as mod
+
+    # Stage minimal TCDB TSVs the way download_metabolism_reference.download_all would:
+    cache_root = tmp_path / "cache" / "data"
+    tcdb_dir = cache_root / "tcdb"
+    raw_dir = tcdb_dir / "raw"
+    raw_dir.mkdir(parents=True)
+    (raw_dir / "families.tsv").write_text("1.A.1\tThe Voltage-gated Ion Channel\n")
+    (raw_dir / "superfamilies.tsv").write_text(
+        "1.A.1.5.2\t1.A.1.5\t1.A.1\tVIC\tVIC Superfamily\n"
+    )
+    (raw_dir / "substrates.tsv").write_text(
+        "1.A.1.5.2\tCHEBI:9314;sucrose|CHEBI:3308;calcium(2+)\n"
+    )
+
+    out = tcdb_dir / "tcdb_hierarchy.json"
+    mod._build_tcdb_hierarchy(cache_root=cache_root)
+
+    assert out.exists()
+    import json
+    h = json.loads(out.read_text())
+    # 5 levels for 1.A.1.5.2 → expect class+subclass+family+subfamily+specificity
+    assert "1" in h
+    assert "1.A" in h
+    assert "1.A.1" in h
+    assert "1.A.1.5" in h
+    assert "1.A.1.5.2" in h
+    assert h["1.A.1.5.2"]["level_kind"] == "tc_specificity"
+    # substrate_classes preserves the full 'CHEBI:N;name' string so downstream
+    # MNX resolution can map to a canonical Metabolite primary ID.
+    assert h["1.A.1.5.2"]["substrate_classes"] == [
+        "CHEBI:9314;sucrose",
+        "CHEBI:3308;calcium(2+)",
+    ]
+
+
 def test_bulk_enrich_compounds_returns_dict_keyed_by_kegg_id(tmp_path):
     """_bulk_enrich_compounds returns a dict mapping kegg_compound_id → enrichment."""
     conn = _make_resolver(tmp_path)
@@ -241,3 +283,243 @@ def test_bulk_enrich_compounds_returns_dict_keyed_by_kegg_id(tmp_path):
     assert obscure["mnxm_id"] is None
     assert obscure["chebi_id"] is None
     assert obscure["formula"] is None
+
+
+# ── Step 6 part 2: TCDB substrate resolution + evidence_sources tagging ──────
+
+
+def test_compounds_get_metabolism_evidence_source():
+    """A compound in catalysis_cpds with no transport overlap gets
+    evidence_sources=['metabolism']."""
+    from multiomics_kg.download.build_kegg_metabolism_xrefs import (
+        _fold_substrates_into_kegg_data,
+    )
+    kegg_data = {
+        "compounds": {
+            "C00031": {"name": "D-Glucose", "formula": "C6H12O6"},
+            "C00002": {"name": "ATP", "formula": "C10H16N5O13P3"},
+        },
+        "reactions": {},
+    }
+    _fold_substrates_into_kegg_data(
+        kegg_data,
+        catalysis_cpds={"C00031", "C00002"},
+        substrate_kegg_cpds=set(),
+        leaf_to_primary={},
+        compound_props={},
+    )
+    for cpd in kegg_data["compounds"].values():
+        assert cpd["evidence_sources"] == ["metabolism"]
+
+
+def test_transport_only_compounds_land_in_additional_compounds():
+    """A non-KEGG TCDB substrate primary becomes an additional_compounds entry
+    with evidence_sources=['transport']."""
+    from multiomics_kg.download.build_kegg_metabolism_xrefs import (
+        _fold_substrates_into_kegg_data,
+    )
+    kegg_data = {"compounds": {}, "reactions": {}}
+    leaf_to_primary = {"1.A.1.5.2": ["chebi:9999"]}
+    compound_props = {
+        "chebi:9999": {
+            "name": "tetracycline", "formula": "C22H24N2O8",
+            "mass": 444.43, "inchikey": None,
+            "mnxm_id": "MNXM00099", "chebi_id": "9999",
+        }
+    }
+    _fold_substrates_into_kegg_data(
+        kegg_data,
+        catalysis_cpds=set(),
+        substrate_kegg_cpds=set(),
+        leaf_to_primary=leaf_to_primary,
+        compound_props=compound_props,
+    )
+    assert "chebi:9999" in kegg_data["additional_compounds"]
+    entry = kegg_data["additional_compounds"]["chebi:9999"]
+    assert entry["evidence_sources"] == ["transport"]
+    assert entry["chebi_id"] == "9999"
+
+
+def test_overlap_compound_gets_both_evidence_sources():
+    """A compound in BOTH catalysis_cpds AND substrate_kegg_cpds gets
+    evidence_sources=['metabolism', 'transport']."""
+    from multiomics_kg.download.build_kegg_metabolism_xrefs import (
+        _fold_substrates_into_kegg_data,
+    )
+    kegg_data = {
+        "compounds": {"C00089": {"name": "Sucrose", "formula": "C12H22O11"}},
+        "reactions": {},
+    }
+    _fold_substrates_into_kegg_data(
+        kegg_data,
+        catalysis_cpds={"C00089"},
+        substrate_kegg_cpds={"C00089"},
+        leaf_to_primary={"1.A.1.5.2": ["kegg.compound:C00089"]},
+        compound_props={},
+    )
+    # KEGG-flavor substrate stays out of additional_compounds — it's already in compounds.
+    assert "kegg.compound:C00089" not in kegg_data["additional_compounds"]
+    assert "C00089" not in kegg_data["additional_compounds"]
+    assert kegg_data["compounds"]["C00089"]["evidence_sources"] == ["metabolism", "transport"]
+
+
+def test_transport_only_kegg_compound_in_compounds_with_pathways(tmp_path, monkeypatch):
+    """Refactor invariant: when a kegg.compound primary is in substrate_kegg_cpds
+    but NOT in catalysis_cpds, build_pruned_kegg_data (called with the extended
+    cpds set) puts the entry in compounds (not additional_compounds) AND populates
+    its pathways field with the gene-reachable pathways (extended pws set).
+
+    Setup: the substrate compound C00089 participates in 2 KEGG pathways. Only
+    one (ko00010) is in the extended pws; ko00500 is excluded. Verify the entry
+    lands in compounds with pathways=['ko00010'].
+    """
+    raw = {
+        "ko_names":               {"K01006": "pyruvate kinase"},
+        "pathway_names":          {"ko00010": "Glycolysis", "ko00500": "Starch and sucrose"},
+        "ko_to_pathways":         {"K01006": ["ko00010"]},
+        "pathway_to_subcategory": {"ko00010": "09101", "ko00500": "09101"},
+        "subcategory_names":      {"09101": "Carbohydrate metabolism"},
+        "subcategory_to_category": {"09101": "09100"},
+        "category_names":         {"09100": "Metabolism"},
+        "reaction_names":         {},
+        "compound_names":         {"C00089": "Sucrose"},
+        "reaction_to_compounds":  {},
+        "reaction_to_pathways":   {},
+        "compound_to_pathways":   {"C00089": ["ko00010", "ko00500"]},
+    }
+    # Catalysis side: 1 KO (ko00010), no reactions, no compounds.
+    catalysis_sets = {
+        "kos": {"K01006"},
+        "rxns": set(),
+        "cpds": set(),
+        "pws": {"ko00010"},
+        "tcdb_ids": set(),
+    }
+    # Caller-extended: C00089 is a transport-reachable kegg compound. Curate
+    # extended_pws = {"ko00010"} so ko00500 stays excluded; we want to confirm
+    # the compound's pathways field is filtered to that extended set.
+    extended_sets = {
+        **catalysis_sets,
+        "cpds": {"C00089"},
+        "pws": {"ko00010"},
+    }
+
+    conn = sqlite3.connect(":memory:")
+    conn.executescript("""
+        CREATE TABLE compound_aliases (source TEXT, value TEXT, mnxm_id TEXT,
+            PRIMARY KEY (source, value, mnxm_id));
+        CREATE TABLE compounds (mnxm_id TEXT PRIMARY KEY, formula TEXT, mass REAL,
+            inchikey TEXT, smiles TEXT);
+        CREATE TABLE reactions (mnxr_id TEXT PRIMARY KEY, classifs TEXT,
+            is_balanced TEXT, is_transport TEXT);
+        CREATE TABLE reaction_aliases (source TEXT, value TEXT, mnxr_id TEXT,
+            PRIMARY KEY (source, value, mnxr_id));
+    """)
+    out_path = tmp_path / "kegg_data.json"
+    bx.build_pruned_kegg_data(raw, conn, out_path, sets=extended_sets)
+
+    data = json.loads(out_path.read_text())
+    # Entry lands in compounds (not additional_compounds — the latter is created
+    # by _fold_substrates_into_kegg_data, not build_pruned_kegg_data).
+    assert "C00089" in data["compounds"]
+    # Pathways filtered to extended pws — ko00500 dropped.
+    assert data["compounds"]["C00089"]["pathways"] == ["ko00010"]
+    # ko00500 does not appear in top-level pathways either.
+    assert "ko00500" not in data["pathways"]
+
+
+def test_prune_tcdb_walks_up_and_down():
+    """_prune_tcdb walks up to tc_class AND down to tc_specificity for each seed."""
+    from multiomics_kg.download.build_kegg_metabolism_xrefs import _prune_tcdb
+    hierarchy = {
+        "1": {"name": "Channels", "level": 0, "level_kind": "tc_class", "parent": None},
+        "1.A": {"name": "", "level": 1, "level_kind": "tc_subclass", "parent": "1"},
+        "1.A.1": {"name": "VIC", "level": 2, "level_kind": "tc_family", "parent": "1.A"},
+        "1.A.1.5": {"name": "", "level": 3, "level_kind": "tc_subfamily", "parent": "1.A.1"},
+        "1.A.1.5.2": {"name": "", "level": 4, "level_kind": "tc_specificity",
+                      "parent": "1.A.1.5", "substrate_classes": ["calcium(2+)"]},
+        "1.A.1.5.3": {"name": "", "level": 4, "level_kind": "tc_specificity",
+                      "parent": "1.A.1.5", "substrate_classes": ["sodium(1+)"]},
+        # An unrelated branch that should NOT be kept
+        "2": {"name": "ECP", "level": 0, "level_kind": "tc_class", "parent": None},
+        "2.A": {"name": "", "level": 1, "level_kind": "tc_subclass", "parent": "2"},
+    }
+    # Seed at family level — walk up to 1, walk down to BOTH leaves
+    kept, leaf_subs = _prune_tcdb(hierarchy, {"1.A.1"})
+    assert kept == {"1", "1.A", "1.A.1", "1.A.1.5", "1.A.1.5.2", "1.A.1.5.3"}
+    assert leaf_subs == {
+        "1.A.1.5.2": ["calcium(2+)"],
+        "1.A.1.5.3": ["sodium(1+)"],
+    }
+    # Branch 2 untouched
+    assert "2" not in kept
+
+
+def test_prune_tcdb_seed_at_leaf():
+    """Seeding at a leaf still walks up to root."""
+    from multiomics_kg.download.build_kegg_metabolism_xrefs import _prune_tcdb
+    hierarchy = {
+        "1": {"level": 0, "level_kind": "tc_class", "parent": None},
+        "1.A": {"level": 1, "level_kind": "tc_subclass", "parent": "1"},
+        "1.A.1": {"level": 2, "level_kind": "tc_family", "parent": "1.A"},
+        "1.A.1.5": {"level": 3, "level_kind": "tc_subfamily", "parent": "1.A.1"},
+        "1.A.1.5.2": {"level": 4, "level_kind": "tc_specificity",
+                      "parent": "1.A.1.5", "substrate_classes": ["x"]},
+    }
+    kept, leaf_subs = _prune_tcdb(hierarchy, {"1.A.1.5.2"})
+    assert kept == {"1", "1.A", "1.A.1", "1.A.1.5", "1.A.1.5.2"}
+    assert leaf_subs == {"1.A.1.5.2": ["x"]}
+
+
+def test_prune_tcdb_unknown_seed_silently_skipped():
+    """Seeds not present in the hierarchy are silently skipped."""
+    from multiomics_kg.download.build_kegg_metabolism_xrefs import _prune_tcdb
+    hierarchy = {
+        "1": {"level": 0, "level_kind": "tc_class", "parent": None},
+    }
+    kept, leaf_subs = _prune_tcdb(hierarchy, {"99.X.Y.Z.Q"})
+    assert kept == set()
+    assert leaf_subs == {}
+
+
+def test_resolve_substrates_strips_chebi_prefix(tmp_path):
+    """Regression: substrate strings 'CHEBI:NNNN;name' must resolve through the
+    MNX SQLite, which stores chebi aliases as (source='chebi', value='<NNNN>') —
+    NOT 'CHEBI:NNNN'. Earlier resolver implementation passed the prefixed form
+    to a value-only query, returning 0 hits for every substrate."""
+    import sqlite3
+
+    from multiomics_kg.download.build_kegg_metabolism_xrefs import _resolve_substrates
+
+    db = tmp_path / "resolver.db"
+    conn = sqlite3.connect(db)
+    cur = conn.cursor()
+    cur.executescript("""
+        CREATE TABLE compound_aliases (
+            source TEXT, value TEXT, mnxm_id TEXT,
+            PRIMARY KEY (source, value, mnxm_id)
+        );
+        CREATE TABLE compounds (
+            mnxm_id TEXT PRIMARY KEY,
+            name TEXT, formula TEXT, mass REAL, inchikey TEXT
+        );
+    """)
+    # Bare value, source='chebi' — matches MNX's storage convention.
+    cur.execute("INSERT INTO compound_aliases VALUES ('chebi', '9314', 'MNXM50000')")
+    cur.execute("INSERT INTO compounds VALUES ('MNXM50000', 'sucrose', 'C12H22O11', 342.30, 'CZMRCDWAGMRECN-UGDNZRGBSA-N')")
+    conn.commit()
+
+    leaf_to_primary, compound_props = _resolve_substrates(
+        {"1.A.1.5.2": ["CHEBI:9314;sucrose"]},
+        conn,
+    )
+
+    assert leaf_to_primary["1.A.1.5.2"] == ["chebi:9314"], (
+        f"Expected ['chebi:9314'], got {leaf_to_primary['1.A.1.5.2']!r}. "
+        "If empty, _resolve_substrates failed to strip the CHEBI: prefix."
+    )
+    entry = compound_props["chebi:9314"]
+    assert entry["mnxm_id"] == "MNXM50000"
+    assert entry["chebi_id"] == "9314"
+    assert entry["name"] == "sucrose"
+    assert entry["formula"] == "C12H22O11"

@@ -10,31 +10,15 @@
   "transporter_classification": {
     "raw_total": 532,
     "raw_unique": 231,
-    "validated_total": 376,
-    "validated_unique": 168,
-    "invalid_examples": [
-      "1.A.11",
-      "1.A.12.2.2",
-      "1.A.12.3.1",
-      "1.A.12.3.2",
-      "1.A.13.2.2",
-      "1.A.13.2.3",
-      "1.A.14.2.1",
-      "1.A.23.2",
-      "1.A.23.4",
-      "1.A.23.4.5"
-    ]
+    "validated_total": 532,
+    "validated_unique": 231,
+    "invalid_examples": []
   },
   "cazy_ids": {
     "raw_total": 64,
     "raw_unique": 31,
-    "validated_total": 60,
-    "validated_unique": 27,
-    "invalid_examples": [
-      "CBM5",
-      "GH94",
-      "GT36",
-      "GT84"
-    ]
+    "validated_total": 64,
+    "validated_unique": 31,
+    "invalid_examples": []
   }
 }

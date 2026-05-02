@@ -2,8 +2,17 @@
 
 Default behaviour downloads both groups (4 MNX TSVs + 3 TCDB TSVs). Use
 ``--sources mnx`` or ``--sources tcdb`` to download a single group. MNX dominates
-total size (~1.5 GB unzipped); TCDB tables are <1 MB each. Files are cached
-under cache/data/{mnx,tcdb}/ and skipped on re-run unless --force.
+total size (~1.5 GB unzipped); TCDB tables are <1 MB each.
+
+Layout:
+- MNX → ``get_mnx_data_dir()`` (default ``cache/data/mnx/``, overridable via
+  ``MNX_DATA_DIR`` env var so a single ~4 GB cache can be shared between
+  checkouts).
+- TCDB → ``cache/data/tcdb/raw/`` (mirrors ``cache/data/kegg/raw/`` — keeps the
+  raw downloads separate from the committed step-6 outputs ``tcdb_hierarchy.json``
+  / ``tcdb_pruned.json`` that live one level up).
+
+Files are skipped on re-run unless --force.
 
 Used by:
 - prepare_data.sh step 0 sub-step 6 (TCDB only — MNX moved to scripts/refresh_mnx.sh)
@@ -22,20 +31,22 @@ from pathlib import Path
 
 import requests
 
+from multiomics_kg.utils.metabolite_utils import get_mnx_data_dir
+
 log = logging.getLogger(__name__)
 
-# (URL, cache-relative path)
+# (URL, filename) — group-relative; download_all combines with the per-group base dir.
 MNX_SOURCES: dict[str, tuple[str, str]] = {
-    "mnx_chem_prop":      ("https://www.metanetx.org/cgi-bin/mnxget/mnxref/chem_prop.tsv",       "mnx/chem_prop.tsv"),
-    "mnx_chem_xref":      ("https://www.metanetx.org/cgi-bin/mnxget/mnxref/chem_xref.tsv",       "mnx/chem_xref.tsv"),
-    "mnx_reac_prop":      ("https://www.metanetx.org/cgi-bin/mnxget/mnxref/reac_prop.tsv",       "mnx/reac_prop.tsv"),
-    "mnx_reac_xref":      ("https://www.metanetx.org/cgi-bin/mnxget/mnxref/reac_xref.tsv",       "mnx/reac_xref.tsv"),
+    "mnx_chem_prop":      ("https://www.metanetx.org/cgi-bin/mnxget/mnxref/chem_prop.tsv",       "chem_prop.tsv"),
+    "mnx_chem_xref":      ("https://www.metanetx.org/cgi-bin/mnxget/mnxref/chem_xref.tsv",       "chem_xref.tsv"),
+    "mnx_reac_prop":      ("https://www.metanetx.org/cgi-bin/mnxget/mnxref/reac_prop.tsv",       "reac_prop.tsv"),
+    "mnx_reac_xref":      ("https://www.metanetx.org/cgi-bin/mnxget/mnxref/reac_xref.tsv",       "reac_xref.tsv"),
 }
 
 TCDB_SOURCES: dict[str, tuple[str, str]] = {
-    "tcdb_families":      ("https://www.tcdb.org/cgi-bin/projectv/public/families.py",           "tcdb/families.tsv"),
-    "tcdb_substrates":    ("https://www.tcdb.org/cgi-bin/substrates/getSubstrates.py",           "tcdb/substrates.tsv"),
-    "tcdb_superfamilies": ("https://www.tcdb.org/cgi-bin/substrates/listSuperfamilies.py",       "tcdb/superfamilies.tsv"),
+    "tcdb_families":      ("https://www.tcdb.org/cgi-bin/projectv/public/families.py",           "families.tsv"),
+    "tcdb_substrates":    ("https://www.tcdb.org/cgi-bin/substrates/getSubstrates.py",           "substrates.tsv"),
+    "tcdb_superfamilies": ("https://www.tcdb.org/cgi-bin/substrates/listSuperfamilies.py",       "superfamilies.tsv"),
 }
 
 SOURCES_BY_GROUP: dict[str, dict[str, tuple[str, str]]] = {
@@ -43,10 +54,15 @@ SOURCES_BY_GROUP: dict[str, dict[str, tuple[str, str]]] = {
     "tcdb": TCDB_SOURCES,
 }
 
-# Backward-compat flat view used only by this module's tests; remove once those
-# tests migrate to MNX_SOURCES / TCDB_SOURCES / SOURCES_BY_GROUP. No external
-# caller (e.g. download_genome_data.py) imports SOURCES directly.
-SOURCES: dict[str, tuple[str, str]] = {**MNX_SOURCES, **TCDB_SOURCES}
+
+def _group_dir(group: str, cache_root: Path) -> Path:
+    """Resolve the destination directory for a download group."""
+    if group == "mnx":
+        return get_mnx_data_dir()
+    if group == "tcdb":
+        return cache_root / "tcdb" / "raw"
+    raise ValueError(f"Unknown source group: {group}")
+
 
 DEFAULT_CACHE_ROOT = Path("cache/data")
 
@@ -94,9 +110,10 @@ def download_all(
     n_downloaded = 0
     n_total = 0
     for group in selected_groups:
-        for key, (url, rel) in SOURCES_BY_GROUP[group].items():
+        group_dir = _group_dir(group, cache_root)
+        for key, (url, filename) in SOURCES_BY_GROUP[group].items():
             n_total += 1
-            if download_one(url, cache_root / rel, force=force):
+            if download_one(url, group_dir / filename, force=force):
                 n_downloaded += 1
     log.info(f"  done — {n_downloaded}/{n_total} downloaded, "
              f"{n_total - n_downloaded} cached.")

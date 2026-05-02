@@ -5,11 +5,35 @@ the Spec 1.2 scaffold builder, and Phase 2 paper-measurement extraction.
 """
 from __future__ import annotations
 
+import os
 import re
 import sqlite3
 from pathlib import Path
 
-DEFAULT_DB_PATH = Path("cache/data/mnx/metabolite_resolver.db")
+import dotenv
+
+_PROJECT_ROOT = Path(__file__).resolve().parents[2]
+# Idempotent — populates os.environ from <project>/.env on first import so that
+# MNX_DATA_DIR set in .env is honored without callers having to load_dotenv()
+# themselves.
+dotenv.load_dotenv(_PROJECT_ROOT / ".env")
+
+
+def get_mnx_data_dir() -> Path:
+    """Return the directory holding MNX TSVs + the SQLite resolver DB.
+
+    Defaults to ``<project>/cache/data/mnx/``. Override via the ``MNX_DATA_DIR``
+    env var (set in ``.env`` or the shell) to share a central MNX cache between
+    checkouts — the SQLite is ~4 GB and takes ~30 min to rebuild, so sharing
+    one copy across worktrees avoids the duplication and the rebuild cost.
+    """
+    env = os.environ.get("MNX_DATA_DIR")
+    if env:
+        return Path(env).expanduser()
+    return _PROJECT_ROOT / "cache" / "data" / "mnx"
+
+
+DEFAULT_DB_PATH = get_mnx_data_dir() / "metabolite_resolver.db"
 
 _NAME_NORM_RE = re.compile(r"[^\w+\-/ ]")
 

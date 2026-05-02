@@ -926,6 +926,14 @@ EXPECTED_INDEXES = {
     "brite_category_tree_idx",
     "brite_category_level_idx",
     "brite_category_name_idx",
+    # TCDB / CAZy scalar
+    "tcdb_family_level_idx",
+    "tcdb_family_level_kind_idx",
+    "tcdb_family_tcdb_id_idx",
+    "tcdb_family_tc_class_id_idx",
+    "cazy_family_level_idx",
+    "cazy_family_level_kind_idx",
+    "cazy_family_cazy_id_idx",
     "experiment_id_idx",
     "experiment_organism_idx",
     "experiment_treatment_type_idx",
@@ -959,6 +967,8 @@ EXPECTED_INDEXES = {
     "pfamFullText",
     "pfamClanFullText",
     "briteCategoryFullText",
+    "tcdbFamilyFullText",
+    "cazyFamilyFullText",
     "publicationFullText",
     "experimentFullText",
     "clusteringAnalysisFullText",
@@ -982,3 +992,128 @@ def test_expected_indexes_present_and_online(run_query):
     }
     assert not missing, f"Missing indexes: {sorted(missing)}"
     assert not not_online, f"Indexes not ONLINE: {not_online}"
+
+
+# ---------------------------------------------------------------------------
+# TCDB / CAZy / Metabolite UNION rollups (Commit 7)
+# ---------------------------------------------------------------------------
+
+
+@pytest.mark.kg
+def test_tcdb_family_has_gene_count_and_organism_count(run_query):
+    """Every TcdbFamily has gene_count + organism_count populated (default 0)."""
+    rows = run_query(
+        "MATCH (t:TcdbFamily) WHERE t.gene_count IS NULL OR t.organism_count IS NULL "
+        "RETURN count(t) AS n"
+    )
+    assert rows[0]["n"] == 0
+
+
+@pytest.mark.kg
+def test_tcdb_family_member_count_populated_on_classes(run_query):
+    rows = run_query(
+        "MATCH (t:TcdbFamily {level_kind: 'tc_class'}) RETURN t.member_count AS mc"
+    )
+    assert all(r["mc"] is not None and r["mc"] >= 0 for r in rows)
+
+
+@pytest.mark.kg
+def test_tcdb_family_metabolite_count_subtree_aggregates(run_query):
+    """At least one tc_class node has metabolite_count > 0 (some descendant has substrates)."""
+    rows = run_query(
+        "MATCH (cls:TcdbFamily {level_kind: 'tc_class'}) WHERE cls.metabolite_count > 0 "
+        "RETURN count(cls) AS n"
+    )
+    assert rows[0]["n"] > 0
+
+
+@pytest.mark.kg
+def test_tcdb_family_tc_class_id_self_on_class_nodes(run_query):
+    """Every tc_class node has tc_class_id == its own id."""
+    rows = run_query(
+        "MATCH (t:TcdbFamily {level_kind: 'tc_class'}) "
+        "WHERE t.tc_class_id <> t.id RETURN count(t) AS n"
+    )
+    assert rows[0]["n"] == 0
+
+
+@pytest.mark.kg
+def test_tcdb_family_tc_class_id_points_to_class_for_descendants(run_query):
+    """Non-class TcdbFamily nodes have tc_class_id pointing at a real tc_class."""
+    rows = run_query("""
+        MATCH (t:TcdbFamily) WHERE t.level_kind <> 'tc_class'
+        OPTIONAL MATCH (cls:TcdbFamily {id: t.tc_class_id, level_kind: 'tc_class'})
+        WITH count(t) AS total, count(cls) AS resolved
+        RETURN total, resolved
+    """)
+    assert rows[0]["total"] == rows[0]["resolved"]
+
+
+@pytest.mark.kg
+def test_cazy_family_has_gene_count_and_organism_count(run_query):
+    rows = run_query(
+        "MATCH (c:CazyFamily) WHERE c.gene_count IS NULL OR c.organism_count IS NULL "
+        "RETURN count(c) AS n"
+    )
+    assert rows[0]["n"] == 0
+
+
+@pytest.mark.kg
+def test_gene_tcdb_family_count_populated(run_query):
+    """Every Gene has tcdb_family_count and cazy_family_count populated (default 0)."""
+    rows = run_query(
+        "MATCH (g:Gene) WHERE g.tcdb_family_count IS NULL OR g.cazy_family_count IS NULL "
+        "RETURN count(g) AS n"
+    )
+    assert rows[0]["n"] == 0
+
+
+@pytest.mark.kg
+def test_gene_annotation_types_includes_tcdb_when_edges_present(run_query):
+    rows = run_query(
+        "MATCH (g:Gene)-[:Gene_has_tcdb_family]->() RETURN g.annotation_types AS at LIMIT 5"
+    )
+    assert all("tcdb" in r["at"] for r in rows)
+
+
+@pytest.mark.kg
+def test_gene_annotation_types_includes_cazy_when_edges_present(run_query):
+    rows = run_query(
+        "MATCH (g:Gene)-[:Gene_has_cazy_family]->() RETURN g.annotation_types AS at LIMIT 5"
+    )
+    assert all("cazy" in r["at"] for r in rows)
+
+
+@pytest.mark.kg
+def test_gene_metabolite_count_populated_for_genes_with_chemistry(run_query):
+    """Every Gene with a Gene_catalyzes_reaction or Gene_has_tcdb_family edge has
+    metabolite_count > 0."""
+    rows = run_query("""
+        MATCH (g:Gene)
+        WHERE EXISTS { (g)-[:Gene_catalyzes_reaction]->() }
+           OR EXISTS { (g)-[:Gene_has_tcdb_family]->() }
+        RETURN count(CASE WHEN g.metabolite_count IS NULL OR g.metabolite_count = 0 THEN 1 END) AS n
+    """)
+    assert rows[0]["n"] == 0
+
+
+@pytest.mark.kg
+def test_metabolite_transporter_count_populated(run_query):
+    rows = run_query(
+        "MATCH (m:Metabolite) WHERE m.transporter_count IS NULL RETURN count(m) AS n"
+    )
+    assert rows[0]["n"] == 0
+
+
+@pytest.mark.kg
+def test_organism_has_metabolite_includes_transport_path(run_query):
+    """At least some Organism_has_metabolite edges exist that come ONLY from transport
+    (organism has no Reaction touching that metabolite, but does have a TCDB
+    family with substrate edge to it)."""
+    rows = run_query("""
+        MATCH (o:OrganismTaxon)-[:Organism_has_metabolite]->(m:Metabolite)
+        WHERE 'transport' IN m.evidence_sources
+          AND NOT 'metabolism' IN m.evidence_sources
+        RETURN count(*) AS n
+    """)
+    assert rows[0]["n"] > 0
