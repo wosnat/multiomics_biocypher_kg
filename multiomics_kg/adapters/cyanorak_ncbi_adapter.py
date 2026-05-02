@@ -144,6 +144,9 @@ class GeneNodeField(Enum, metaclass=GeneEnumMeta):
     TRANSMEMBRANE_REGIONS = 'transmembrane_regions'
     SIGNAL_PEPTIDE = 'signal_peptide'
     BIGG_REACTION = 'bigg_reaction'
+    # eggNOG seed ortholog
+    SEED_ORTHOLOG = 'seed_ortholog'                     # eggNOG seed match (taxid.identifier)
+    SEED_ORTHOLOG_EVALUE = 'seed_ortholog_evalue'       # eggNOG seed match E-value
     # Computed fields for MCP gene lookup
     ORGANISM_NAME = 'organism_name'
     GENE_SUMMARY = 'gene_summary'
@@ -298,7 +301,7 @@ class CyanorakNcbi:
         logger.info("Started writing gene nodes")
 
         int_fields = {'start', 'end', 'annotation_quality'}
-        float_fields = set()
+        float_fields = {'seed_ortholog_evalue'}
         node_list = []
         for _, row in self.data_df.iterrows():
             node_properties = {}

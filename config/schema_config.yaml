@@ -403,6 +403,9 @@ gene:
     tcdb_family_count: int                   # per TCDB-S1
     cazy_family_count: int                   # per TCDB-S2
     metabolite_count: int                    # UNION catalysis + transport (per TCDB-S3 / KG-A2)
+    # eggNOG seed ortholog match
+    seed_ortholog: str                       # eggNOG seed-ortholog identifier (taxid.id format)
+    seed_ortholog_evalue: float              # eggNOG seed-ortholog E-value
 
 # consider adding: Note, exceptions, inference
 
