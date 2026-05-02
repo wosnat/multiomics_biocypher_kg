@@ -21,8 +21,8 @@ def test_every_gene_has_contig(run_query):
     assert missing == 0, f"{missing} Gene nodes have null/empty contig"
 
 
-def test_contig_consistent_within_organism(run_query):
-    """All genes from a single organism should map to at least one contig.
+def test_every_organism_has_at_least_one_contig(run_query):
+    """Every organism must have at least one distinct contig across its genes.
 
     Single-chromosome organisms have 1 contig; multi-replicon organisms have
     more, but every organism must have at least one.
@@ -37,12 +37,16 @@ def test_contig_consistent_within_organism(run_query):
 
 
 def test_med4_has_known_chromosome(run_query):
-    """Spot-check: MED4 genes should land on its known NCBI accession."""
+    """Spot-check: MED4 genes should land on its known NCBI accession.
+
+    Pinning the actual value (NC_005072.1) catches both null contigs (the
+    pre-rebuild failure mode) and accession-swap regressions.
+    """
     result = run_query("""
         MATCH (g:Gene)-[:Gene_belongs_to_organism]->(o:OrganismTaxon)
         WHERE o.preferred_name = 'Prochlorococcus MED4'
         RETURN DISTINCT g.contig AS contig
     """)
     contigs = {row["contig"] for row in result}
-    # MED4 single-replicon — expect one chromosome accession
-    assert len(contigs) == 1, f"MED4 expected 1 contig, got {len(contigs)}: {contigs}"
+    # MED4 single-replicon — expect exactly the known NCBI chromosome accession
+    assert contigs == {'NC_005072.1'}, f"MED4 expected {{'NC_005072.1'}}, got: {contigs}"
