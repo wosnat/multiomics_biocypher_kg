@@ -10,20 +10,9 @@
   "transporter_classification": {
     "raw_total": 1167,
     "raw_unique": 347,
-    "validated_total": 948,
-    "validated_unique": 267,
-    "invalid_examples": [
-      "1.A.11",
-      "1.A.12.2.2",
-      "1.A.12.3.1",
-      "1.A.12.3.2",
-      "1.A.13.2.2",
-      "1.A.13.2.3",
-      "1.A.14.2.1",
-      "1.A.22.1",
-      "1.A.23.1.1",
-      "1.A.23.1.2"
-    ]
+    "validated_total": 1167,
+    "validated_unique": 347,
+    "invalid_examples": []
   },
   "cazy_ids": {
     "raw_total": 50,
