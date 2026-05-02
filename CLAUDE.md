@@ -354,15 +354,17 @@ Logs written to `logs/prepare_data_step0.log` … `logs/prepare_data_step6.log`.
 **Step 5** (`multiomics_kg/download/build_og_descriptions.py`) — extracts eggNOG ortholog group descriptions from the local `eggnog.db` SQLite database and writes a lightweight JSON cache at `cache/data/eggnog/og_descriptions.json` (~1 MB). This avoids needing the 39 GB database at KG build time (e.g., in Docker). The `ortholog_group_adapter` reads from this cache first, falling back to `eggnog.db` if the cache is missing. Run as module: `uv run python -m multiomics_kg.download.build_og_descriptions [--force]`. Requires step 2.
 
 **Step 6** (`multiomics_kg/download/build_kegg_metabolism_xrefs.py`) — Phase 1.2.2 unified pruned KEGG cache + TCDB ontology assembly. Sub-steps:
-1. Downloads TCDB reference TSVs (`tcdb.tsv`, substrate tables, etc.) → `cache/data/tcdb/` (moved from step 0 sub-step 6).
-2. Builds the TCDB hierarchy → `cache/data/tcdb/tcdb_hierarchy.json` (parsing moved out of `build_mnx_resolver.py`).
+1. Downloads TCDB reference TSVs → `cache/data/tcdb/raw/` (gitignored, mirrors `cache/data/kegg/raw/`).
+2. Builds the TCDB hierarchy → `cache/data/tcdb/tcdb_hierarchy.json` (committed; parsing moved out of `build_mnx_resolver.py`).
 3. Walks every strain's `gene_annotations_merged.json` to identify gene-reachable {KOs, reactions, compounds, pathways} AND gene-annotated TCDB IDs (bidirectionally — above + below the annotated level).
-4. Prunes raw KEGG to that subset (Option B: pathway IDs = KOs ∪ Reactions reachable from genes), enriches reactions/compounds with MNX cross-refs.
-5. Resolves TCDB substrate strings via the MNX resolver and folds the resulting transport-only chemistry into `kegg_data.json` under `additional_compounds`.
-6. Tags every compound entry with `evidence_sources: ['metabolism' | 'transport']` (a compound may carry both).
-7. Writes `cache/data/tcdb/tcdb_pruned.json` (kept-node set + per-leaf metabolite primary IDs) and `cache/data/kegg/kegg_data.json` (~3-4 MB, indented JSON for git-friendly diffs).
+4. Prunes the TCDB hierarchy to the gene-reachable subhierarchy, then resolves TCDB substrate strings (`CHEBI:NNNN;name`) via the MNX resolver into Metabolite primary IDs.
+5. Splits resolved substrate primaries into kegg.compound:* (extends the gene-reachable cpds set) and non-KEGG (chebi:*, mnx:*) buckets.
+6. Computes transport-reachable pathways = ⋃ `compound→pathway` for every kegg.compound substrate; extends the gene-reachable pws set with these.
+7. Prunes raw KEGG to the EXTENDED sets (catalysis ∪ transport-reachable), enriching reactions/compounds with MNX cross-refs. compound→pathway lists are filtered to extended pws (Option B).
+8. Tags every compound entry with `evidence_sources` based on origin: `['metabolism']` if only catalysis-reachable, `['transport']` if only substrate-reachable, `['metabolism', 'transport']` if both. Non-KEGG primaries become `additional_compounds` entries with `['transport']`.
+9. Writes `cache/data/tcdb/tcdb_pruned.json` (kept-node set + per-leaf metabolite primary IDs) and `cache/data/kegg/kegg_data.json` (~3-4 MB, indented JSON for git-friendly diffs).
 
-Both `kegg_annotation_adapter` / `metabolism_adapter` (KEGG side) and `tcdb_adapter` (TCDB side) read these files — no per-adapter pruning at iteration time. The 2.6 GB MNX resolver opens here only — it must be built first via `bash scripts/refresh_mnx.sh` (one-time setup; rerun only when MNX releases). Run as module: `uv run python -m multiomics_kg.download.build_kegg_metabolism_xrefs [--force]`. Requires step 5 + the MNX resolver.
+Both `kegg_annotation_adapter` / `metabolism_adapter` (KEGG side) and `tcdb_adapter` (TCDB side) read these files — no per-adapter pruning at iteration time. The ~4 GB MNX resolver opens here only — it must be built first via `bash scripts/refresh_mnx.sh` (one-time setup; rerun only when MNX releases). The resolver location is configurable via the `MNX_DATA_DIR` env var (set in `.env`, e.g. `MNX_DATA_DIR=~/tools/mnx`) so a single ~4 GB cache can be shared between checkouts; defaults to `cache/data/mnx/` when unset. Run as module: `uv run python -m multiomics_kg.download.build_kegg_metabolism_xrefs [--force]`. Requires step 5 + the MNX resolver.
 
 ## Data Locations
 
@@ -377,6 +379,8 @@ Both `kegg_annotation_adapter` / `metabolism_adapter` (KEGG side) and `tcdb_adap
 - **Pfam reference cache:** `cache/data/pfam/pfam_reference.json`
 - **eggNOG OG descriptions cache:** `cache/data/eggnog/og_descriptions.json` (built by step 5; ~1 MB)
 - **KEGG unified pruned cache:** `cache/data/kegg/kegg_data.json` (built by step 6; ~3-4 MB indented; single source for `kegg_annotation_adapter` + `metabolism_adapter`)
+- **TCDB committed outputs:** `cache/data/tcdb/{tcdb_hierarchy,tcdb_pruned}.json` (built by step 6; raw TSVs live under `cache/data/tcdb/raw/` and are gitignored)
+- **MNX resolver:** location set by `MNX_DATA_DIR` env var (e.g. `~/tools/mnx`), default `cache/data/mnx/`. Holds 4 MNX TSVs + the ~4 GB SQLite resolver. Built by `bash scripts/refresh_mnx.sh`; shareable across checkouts via the env var.
 - **PDF extraction cache:** `pdf_extraction_cache.json`
 
 ## KG Validity Tests

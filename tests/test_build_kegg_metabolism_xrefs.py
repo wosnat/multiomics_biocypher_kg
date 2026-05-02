@@ -80,7 +80,8 @@ def test_build_pruned_kegg_data(tmp_path, monkeypatch, synthetic_kegg_raw):
 
     conn = _make_resolver(tmp_path)
     out_path = tmp_path / "kegg_data.json"
-    bx.build_pruned_kegg_data(synthetic_kegg_raw, conn, out_path)
+    sets = bx._gene_reachable_sets(synthetic_kegg_raw)
+    bx.build_pruned_kegg_data(synthetic_kegg_raw, conn, out_path, sets=sets)
 
     data = json.loads(out_path.read_text())
 
@@ -137,7 +138,8 @@ def test_compound_only_pathways_dropped(tmp_path, monkeypatch, synthetic_kegg_ra
     monkeypatch.setattr(bx, "load_genome_rows", lambda: [{"data_dir": str(strain)}])
     conn = _make_resolver(tmp_path)
     out_path = tmp_path / "kegg_data.json"
-    bx.build_pruned_kegg_data(synthetic_kegg_raw, conn, out_path)
+    sets = bx._gene_reachable_sets(synthetic_kegg_raw)
+    bx.build_pruned_kegg_data(synthetic_kegg_raw, conn, out_path, sets=sets)
     data = json.loads(out_path.read_text())
     assert "C99999" not in data["compounds"]
     assert "ko99999" not in data["pathways"]
@@ -171,7 +173,8 @@ def test_compound_pathway_filter_drops_unevidenced(tmp_path, monkeypatch):
     monkeypatch.setattr(bx, "load_genome_rows", lambda: [{"data_dir": str(strain)}])
     conn = _make_resolver(tmp_path)
     out_path = tmp_path / "kegg_data.json"
-    bx.build_pruned_kegg_data(raw, conn, out_path)
+    sets = bx._gene_reachable_sets(raw)
+    bx.build_pruned_kegg_data(raw, conn, out_path, sets=sets)
     data = json.loads(out_path.read_text())
 
     # ko00500 must NOT be in pathways top-level (Option B: only KO ∪ Rxn-reachable)
@@ -222,12 +225,13 @@ def test_step6_builds_tcdb_hierarchy(tmp_path):
     # Stage minimal TCDB TSVs the way download_metabolism_reference.download_all would:
     cache_root = tmp_path / "cache" / "data"
     tcdb_dir = cache_root / "tcdb"
-    tcdb_dir.mkdir(parents=True)
-    (tcdb_dir / "families.tsv").write_text("1.A.1\tThe Voltage-gated Ion Channel\n")
-    (tcdb_dir / "superfamilies.tsv").write_text(
+    raw_dir = tcdb_dir / "raw"
+    raw_dir.mkdir(parents=True)
+    (raw_dir / "families.tsv").write_text("1.A.1\tThe Voltage-gated Ion Channel\n")
+    (raw_dir / "superfamilies.tsv").write_text(
         "1.A.1.5.2\t1.A.1.5\t1.A.1\tVIC\tVIC Superfamily\n"
     )
-    (tcdb_dir / "substrates.tsv").write_text(
+    (raw_dir / "substrates.tsv").write_text(
         "1.A.1.5.2\tCHEBI:9314;sucrose|CHEBI:3308;calcium(2+)\n"
     )
 
@@ -285,8 +289,8 @@ def test_bulk_enrich_compounds_returns_dict_keyed_by_kegg_id(tmp_path):
 
 
 def test_compounds_get_metabolism_evidence_source():
-    """build_pruned_kegg_data + fold_substrates tags every compound with
-    evidence_sources=['metabolism'] when no transport overlap."""
+    """A compound in catalysis_cpds with no transport overlap gets
+    evidence_sources=['metabolism']."""
     from multiomics_kg.download.build_kegg_metabolism_xrefs import (
         _fold_substrates_into_kegg_data,
     )
@@ -297,14 +301,20 @@ def test_compounds_get_metabolism_evidence_source():
         },
         "reactions": {},
     }
-    _fold_substrates_into_kegg_data(kegg_data, leaf_to_primary_ids={}, compound_props={})
+    _fold_substrates_into_kegg_data(
+        kegg_data,
+        catalysis_cpds={"C00031", "C00002"},
+        substrate_kegg_cpds=set(),
+        leaf_to_primary={},
+        compound_props={},
+    )
     for cpd in kegg_data["compounds"].values():
         assert cpd["evidence_sources"] == ["metabolism"]
 
 
 def test_transport_only_compounds_land_in_additional_compounds():
-    """A TCDB substrate not reachable via metabolism shows up under
-    kegg_data['additional_compounds'] with evidence_sources=['transport']."""
+    """A non-KEGG TCDB substrate primary becomes an additional_compounds entry
+    with evidence_sources=['transport']."""
     from multiomics_kg.download.build_kegg_metabolism_xrefs import (
         _fold_substrates_into_kegg_data,
     )
@@ -317,7 +327,13 @@ def test_transport_only_compounds_land_in_additional_compounds():
             "mnxm_id": "MNXM00099", "chebi_id": "9999",
         }
     }
-    _fold_substrates_into_kegg_data(kegg_data, leaf_to_primary, compound_props)
+    _fold_substrates_into_kegg_data(
+        kegg_data,
+        catalysis_cpds=set(),
+        substrate_kegg_cpds=set(),
+        leaf_to_primary=leaf_to_primary,
+        compound_props=compound_props,
+    )
     assert "chebi:9999" in kegg_data["additional_compounds"]
     entry = kegg_data["additional_compounds"]["chebi:9999"]
     assert entry["evidence_sources"] == ["transport"]
@@ -325,9 +341,8 @@ def test_transport_only_compounds_land_in_additional_compounds():
 
 
 def test_overlap_compound_gets_both_evidence_sources():
-    """When a TCDB substrate already exists in kegg_data['compounds'] (e.g.
-    sucrose has both metabolic reactions and transport substrate annotations),
-    the existing entry gets BOTH 'metabolism' and 'transport'."""
+    """A compound in BOTH catalysis_cpds AND substrate_kegg_cpds gets
+    evidence_sources=['metabolism', 'transport']."""
     from multiomics_kg.download.build_kegg_metabolism_xrefs import (
         _fold_substrates_into_kegg_data,
     )
@@ -335,38 +350,82 @@ def test_overlap_compound_gets_both_evidence_sources():
         "compounds": {"C00089": {"name": "Sucrose", "formula": "C12H22O11"}},
         "reactions": {},
     }
-    leaf_to_primary = {"1.A.1.5.2": ["kegg.compound:C00089"]}
-    _fold_substrates_into_kegg_data(kegg_data, leaf_to_primary, compound_props={})
-    assert "additional_compounds" not in kegg_data or "kegg.compound:C00089" not in kegg_data.get("additional_compounds", {})
+    _fold_substrates_into_kegg_data(
+        kegg_data,
+        catalysis_cpds={"C00089"},
+        substrate_kegg_cpds={"C00089"},
+        leaf_to_primary={"1.A.1.5.2": ["kegg.compound:C00089"]},
+        compound_props={},
+    )
+    # KEGG-flavor substrate stays out of additional_compounds — it's already in compounds.
+    assert "kegg.compound:C00089" not in kegg_data["additional_compounds"]
+    assert "C00089" not in kegg_data["additional_compounds"]
     assert kegg_data["compounds"]["C00089"]["evidence_sources"] == ["metabolism", "transport"]
 
 
-def test_kegg_compound_substrate_not_in_compounds_lands_in_compounds_not_additional():
-    """When a TCDB substrate's MNX-resolved primary ID is kegg.compound:C* but
-    that KEGG compound isn't gene-reachable via catalysis, it should land in
-    kegg_data['compounds'] (not additional_compounds), tagged transport-only."""
-    from multiomics_kg.download.build_kegg_metabolism_xrefs import (
-        _fold_substrates_into_kegg_data,
-    )
-    kegg_data = {"compounds": {}, "reactions": {}}
-    leaf_to_primary = {"1.A.1.5.2": ["kegg.compound:C99999"]}
-    compound_props = {
-        "kegg.compound:C99999": {
-            "name": "transport-only kegg compound",
-            "formula": "X1",
-            "mass": 1.0, "inchikey": None,
-            "mnxm_id": "MNXM99999", "chebi_id": None,
-        }
-    }
-    _fold_substrates_into_kegg_data(kegg_data, leaf_to_primary, compound_props)
+def test_transport_only_kegg_compound_in_compounds_with_pathways(tmp_path, monkeypatch):
+    """Refactor invariant: when a kegg.compound primary is in substrate_kegg_cpds
+    but NOT in catalysis_cpds, build_pruned_kegg_data (called with the extended
+    cpds set) puts the entry in compounds (not additional_compounds) AND populates
+    its pathways field with the gene-reachable pathways (extended pws set).
 
-    # Should NOT be in additional_compounds
-    assert "kegg.compound:C99999" not in kegg_data.get("additional_compounds", {})
-    # Should be in compounds, keyed by the bare KEGG id
-    assert "C99999" in kegg_data["compounds"]
-    entry = kegg_data["compounds"]["C99999"]
-    assert entry["evidence_sources"] == ["transport"]
-    assert entry["mnxm_id"] == "MNXM99999"
+    Setup: the substrate compound C00089 participates in 2 KEGG pathways. Only
+    one (ko00010) is in the extended pws; ko00500 is excluded. Verify the entry
+    lands in compounds with pathways=['ko00010'].
+    """
+    raw = {
+        "ko_names":               {"K01006": "pyruvate kinase"},
+        "pathway_names":          {"ko00010": "Glycolysis", "ko00500": "Starch and sucrose"},
+        "ko_to_pathways":         {"K01006": ["ko00010"]},
+        "pathway_to_subcategory": {"ko00010": "09101", "ko00500": "09101"},
+        "subcategory_names":      {"09101": "Carbohydrate metabolism"},
+        "subcategory_to_category": {"09101": "09100"},
+        "category_names":         {"09100": "Metabolism"},
+        "reaction_names":         {},
+        "compound_names":         {"C00089": "Sucrose"},
+        "reaction_to_compounds":  {},
+        "reaction_to_pathways":   {},
+        "compound_to_pathways":   {"C00089": ["ko00010", "ko00500"]},
+    }
+    # Catalysis side: 1 KO (ko00010), no reactions, no compounds.
+    catalysis_sets = {
+        "kos": {"K01006"},
+        "rxns": set(),
+        "cpds": set(),
+        "pws": {"ko00010"},
+        "tcdb_ids": set(),
+    }
+    # Caller-extended: C00089 is a transport-reachable kegg compound. Curate
+    # extended_pws = {"ko00010"} so ko00500 stays excluded; we want to confirm
+    # the compound's pathways field is filtered to that extended set.
+    extended_sets = {
+        **catalysis_sets,
+        "cpds": {"C00089"},
+        "pws": {"ko00010"},
+    }
+
+    conn = sqlite3.connect(":memory:")
+    conn.executescript("""
+        CREATE TABLE compound_aliases (source TEXT, value TEXT, mnxm_id TEXT,
+            PRIMARY KEY (source, value, mnxm_id));
+        CREATE TABLE compounds (mnxm_id TEXT PRIMARY KEY, formula TEXT, mass REAL,
+            inchikey TEXT, smiles TEXT);
+        CREATE TABLE reactions (mnxr_id TEXT PRIMARY KEY, classifs TEXT,
+            is_balanced TEXT, is_transport TEXT);
+        CREATE TABLE reaction_aliases (source TEXT, value TEXT, mnxr_id TEXT,
+            PRIMARY KEY (source, value, mnxr_id));
+    """)
+    out_path = tmp_path / "kegg_data.json"
+    bx.build_pruned_kegg_data(raw, conn, out_path, sets=extended_sets)
+
+    data = json.loads(out_path.read_text())
+    # Entry lands in compounds (not additional_compounds — the latter is created
+    # by _fold_substrates_into_kegg_data, not build_pruned_kegg_data).
+    assert "C00089" in data["compounds"]
+    # Pathways filtered to extended pws — ko00500 dropped.
+    assert data["compounds"]["C00089"]["pathways"] == ["ko00010"]
+    # ko00500 does not appear in top-level pathways either.
+    assert "ko00500" not in data["pathways"]
 
 
 def test_prune_tcdb_walks_up_and_down():

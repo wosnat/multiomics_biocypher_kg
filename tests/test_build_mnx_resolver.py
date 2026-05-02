@@ -238,23 +238,25 @@ def test_resolver_has_mnx_side_indexes(tmp_path):
 def test_build_main_end_to_end(tmp_path, monkeypatch):
     """main() wires all builders + writes diagnostic report. Synthetic cache."""
     cache = tmp_path / "cache" / "data"
-    (cache / "mnx").mkdir(parents=True)
+    mnx_dir = cache / "mnx"
+    mnx_dir.mkdir(parents=True)
 
     # Synthesize the MNX input files
-    (cache / "mnx" / "chem_prop.tsv").write_text(CHEM_PROP_FIXTURE)
-    (cache / "mnx" / "chem_xref.tsv").write_text(CHEM_XREF_FIXTURE)
-    (cache / "mnx" / "reac_prop.tsv").write_text(REAC_PROP_FIXTURE)
-    (cache / "mnx" / "reac_xref.tsv").write_text(REAC_XREF_FIXTURE)
+    (mnx_dir / "chem_prop.tsv").write_text(CHEM_PROP_FIXTURE)
+    (mnx_dir / "chem_xref.tsv").write_text(CHEM_XREF_FIXTURE)
+    (mnx_dir / "reac_prop.tsv").write_text(REAC_PROP_FIXTURE)
+    (mnx_dir / "reac_xref.tsv").write_text(REAC_XREF_FIXTURE)
 
     monkeypatch.chdir(tmp_path)
+    monkeypatch.setenv("MNX_DATA_DIR", str(mnx_dir))
     bmr.main(force=True)
 
     # MNX outputs exist
-    assert (cache / "mnx" / "metabolite_resolver.db").exists()
-    assert (cache / "mnx" / "metabolite_id_mapping_report.json").exists()
+    assert (mnx_dir / "metabolite_resolver.db").exists()
+    assert (mnx_dir / "metabolite_id_mapping_report.json").exists()
 
     # Diagnostic report has expected keys
-    report = json.loads((cache / "mnx" / "metabolite_id_mapping_report.json").read_text())
+    report = json.loads((mnx_dir / "metabolite_id_mapping_report.json").read_text())
     assert report["mnx_release"] == "MNXref 4.5 (2025-08-13)"
     assert report["compound_count"] == 3
     assert report["reaction_count"] == 3

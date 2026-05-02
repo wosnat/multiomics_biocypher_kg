@@ -9,8 +9,15 @@ Both kegg_anno_adapter and metabolism_adapter read this file. No per-adapter
 pruning at iteration time.
 
 Pathway-set rule (Option B): pathway IDs in the cache are exactly those reachable
-from gene-KOs or gene-reactions. compound→pathway lists are filtered to that set,
+from gene-KOs, gene-reactions, OR gene-annotated TCDB substrates resolved to KEGG
+compounds (transport-reachable). compound→pathway lists are filtered to that set,
 so compound-only pathways (e.g. ko05140 Leishmaniasis) are excluded.
+
+Compound-set rule: catalysis_cpds (gene-Reaction → compound) are unioned with
+substrate_kegg_cpds (gene-TCDB → MNX-resolved kegg.compound:* primary). The
+resulting extended cpds set rides through `_bulk_enrich_compounds` so transport-
+only KEGG compounds get their pathways/MNX cross-refs natively. Non-KEGG
+substrate primaries (chebi:*, mnx:*) become additional_compounds entries.
 
 Step 6 also downloads the 3 TCDB reference TSVs (tc_classes, tc_subclasses,
 families) and writes the assembled hierarchy to
@@ -39,7 +46,7 @@ PROJECT_ROOT = SCRIPT_DIR.parent.parent
 
 KEGG_CACHE_DIR = PROJECT_ROOT / "cache" / "data" / "kegg"
 KEGG_DATA_FILE = KEGG_CACHE_DIR / "kegg_data.json"
-RESOLVER_DB = PROJECT_ROOT / "cache" / "data" / "mnx" / "metabolite_resolver.db"
+RESOLVER_DB = mu.get_mnx_data_dir() / "metabolite_resolver.db"
 
 log = logging.getLogger(__name__)
 
@@ -195,13 +202,19 @@ def build_tcdb_hierarchy(
 
 
 def _build_tcdb_hierarchy(cache_root: Path) -> int:
-    """Parse the 3 TCDB TSVs into cache_root/tcdb/tcdb_hierarchy.json. Returns entry count."""
+    """Parse the 3 TCDB TSVs into cache_root/tcdb/tcdb_hierarchy.json. Returns entry count.
+
+    Raw TSVs live under cache_root/tcdb/raw/ (mirrors cache_root/kegg/raw/) so
+    that the committed step-6 outputs (tcdb_hierarchy.json, tcdb_pruned.json)
+    sit alongside but separately from the gitignored raw downloads.
+    """
     tcdb_dir = cache_root / "tcdb"
+    raw_dir = tcdb_dir / "raw"
     return build_tcdb_hierarchy(
         out_path=tcdb_dir / "tcdb_hierarchy.json",
-        families_path=tcdb_dir / "families.tsv",
-        superfamilies_path=tcdb_dir / "superfamilies.tsv",
-        substrates_path=tcdb_dir / "substrates.tsv",
+        families_path=raw_dir / "families.tsv",
+        superfamilies_path=raw_dir / "superfamilies.tsv",
+        substrates_path=raw_dir / "substrates.tsv",
     )
 
 
@@ -617,64 +630,66 @@ def _resolve_substrates(
 
 def _fold_substrates_into_kegg_data(
     kegg_data: dict,
-    leaf_to_primary_ids: dict[str, list[str]],
+    *,
+    catalysis_cpds: set[str],
+    substrate_kegg_cpds: set[str],
+    leaf_to_primary: dict[str, list[str]],
     compound_props: dict[str, dict],
 ) -> None:
-    """Mutate kegg_data in place: tag compounds with evidence_sources, add transport-only
-    chemistry under additional_compounds.
+    """Tag every kegg compound entry with evidence_sources and append non-KEGG
+    transport substrates as additional_compounds entries.
 
-    1. Every entry in kegg_data['compounds'] gets 'metabolism' in its evidence_sources.
-    2. For each transport-substrate primary ID:
-       - If kegg.compound:* and already in kegg_data['compounds']: append 'transport'.
-       - If kegg.compound:* and NOT yet in kegg_data['compounds']: add to
-         kegg_data['compounds'] (keyed by bare KEGG id) with evidence_sources=['transport'].
-         Invariant: any kegg.compound:CXXXX lives in compounds, never in additional_compounds.
-       - Else (non-KEGG primary id): add to kegg_data['additional_compounds'] with
-         evidence_sources=['transport'].
-    3. Pre-existing additional_compounds entries' evidence_sources lists are unioned.
+    KEGG-flavor substrates (kegg.compound:C*) are already in kegg_data['compounds']
+    because the caller passed an extended cpds set (catalysis_cpds ∪
+    substrate_kegg_cpds) into build_pruned_kegg_data; their pathways and MNX
+    cross-refs were populated by _bulk_enrich_compounds. This step only:
+
+      1. Tags each compound entry with evidence_sources based on origin:
+         - in catalysis_cpds only: ['metabolism']
+         - in substrate_kegg_cpds only: ['transport']
+         - in both: ['metabolism', 'transport']
+      2. Adds non-KEGG substrate primaries (chebi:NNNN, mnx:MNXM*) to
+         kegg_data['additional_compounds'] with evidence_sources=['transport'].
     """
-    # 1. Tag existing compounds
-    for cpd in kegg_data.setdefault("compounds", {}).values():
-        sources = cpd.setdefault("evidence_sources", [])
-        if "metabolism" not in sources:
+    for cpd_id, entry in kegg_data.get("compounds", {}).items():
+        sources: list[str] = []
+        if cpd_id in catalysis_cpds:
             sources.append("metabolism")
+        if cpd_id in substrate_kegg_cpds:
+            sources.append("transport")
+        entry["evidence_sources"] = sources
 
-    additional: dict[str, dict] = kegg_data.setdefault("additional_compounds", {})
-
-    # 2. Visit every transport substrate
-    for primary_ids in leaf_to_primary_ids.values():
+    additional: dict[str, dict] = {}
+    for primary_ids in leaf_to_primary.values():
         for primary_id in primary_ids:
             if primary_id.startswith("kegg.compound:"):
-                kegg_cpd_id = primary_id[len("kegg.compound:"):]
-                if kegg_cpd_id in kegg_data["compounds"]:
-                    sources = kegg_data["compounds"][kegg_cpd_id]["evidence_sources"]
-                    if "transport" not in sources:
-                        sources.append("transport")
-                    continue
-                # Transport-only KEGG compound: promote to compounds (invariant:
-                # any kegg.compound:CXXXX lives in compounds, never in additional_compounds).
-                if primary_id in compound_props:
-                    kegg_data["compounds"][kegg_cpd_id] = {
-                        **compound_props[primary_id],
-                        "evidence_sources": ["transport"],
-                    }
                 continue
-            # Non-KEGG primary IDs: add to additional_compounds
-            if primary_id in additional:
-                if "transport" not in additional[primary_id].setdefault("evidence_sources", []):
-                    additional[primary_id]["evidence_sources"].append("transport")
-            elif primary_id in compound_props:
-                additional[primary_id] = {
-                    **compound_props[primary_id],
-                    "evidence_sources": ["transport"],
-                }
+            if primary_id in additional or primary_id not in compound_props:
+                continue
+            additional[primary_id] = {
+                **compound_props[primary_id],
+                "evidence_sources": ["transport"],
+            }
+    kegg_data["additional_compounds"] = additional
 
 
 # ── Build ─────────────────────────────────────────────────────────────────────
 
-def build_pruned_kegg_data(raw: dict, conn: sqlite3.Connection, out_path: Path) -> None:
-    """Build the pruned kegg_data.json from raw KEGG data + MNX resolver."""
-    sets = _gene_reachable_sets(raw)
+def build_pruned_kegg_data(
+    raw: dict,
+    conn: sqlite3.Connection,
+    out_path: Path,
+    *,
+    sets: dict[str, set[str]],
+) -> None:
+    """Build the pruned kegg_data.json from raw KEGG data + MNX resolver.
+
+    `sets` matches the dict shape returned by `_gene_reachable_sets`, optionally
+    extended by the caller with transport-reachable cpds + pws. Keys consumed:
+    'kos', 'rxns', 'cpds', 'pws'. The caller controls extension so transport
+    substrates (TCDB → MNX → kegg.compound:C*) can ride through the regular
+    `_bulk_enrich_compounds` pipeline and pick up their pathway/MNX cross-refs.
+    """
     kos, rxns, cpds, pws = sets["kos"], sets["rxns"], sets["cpds"], sets["pws"]
     subs, cats = _hierarchy_parents(raw, pws)
 
@@ -794,7 +809,8 @@ def main(force: bool = False) -> None:
 
     if not RESOLVER_DB.exists():
         raise FileNotFoundError(
-            f"{RESOLVER_DB} missing — run `bash scripts/refresh_mnx.sh` first."
+            f"{RESOLVER_DB} missing — run `bash scripts/refresh_mnx.sh` first, "
+            "or set MNX_DATA_DIR to a checkout that already has the resolver."
         )
 
     log.info("Ensuring KEGG raw cache (downloads from KEGG REST if missing) ...")
@@ -812,30 +828,78 @@ def main(force: bool = False) -> None:
 
     log.info("Opening MNX resolver ...")
     with contextlib.closing(mu.open_resolver(RESOLVER_DB)) as conn:
-        log.info("Building pruned kegg_data.json ...")
-        build_pruned_kegg_data(raw, conn, KEGG_DATA_FILE)
+        log.info("Computing gene-reachable sets (catalysis side) ...")
+        catalysis_sets = _gene_reachable_sets(raw)
+        catalysis_cpds = catalysis_sets["cpds"]
+        catalysis_pws = catalysis_sets["pws"]
 
         log.info("Pruning TCDB hierarchy + resolving transport substrates ...")
         hierarchy = json.loads(
             (cache_root / "tcdb" / "tcdb_hierarchy.json").read_text()
         )
-        # Re-collect gene-reachable sets (cheap — just walks gene_annotations files)
-        # to get the TCDB seed set.
-        sets = _gene_reachable_sets(raw)
-        seed_tcdb_ids = sets["tcdb_ids"]
-
-        kept, leaf_subs = _prune_tcdb(hierarchy, seed_tcdb_ids)
+        kept, leaf_subs = _prune_tcdb(hierarchy, catalysis_sets["tcdb_ids"])
         leaf_to_primary, compound_props = _resolve_substrates(leaf_subs, conn)
         total_substrate_ids = sum(len(ids) for ids in leaf_to_primary.values())
         distinct_substrate_ids = len({pid for ids in leaf_to_primary.values() for pid in ids})
 
+        # Split substrate primaries: kegg.compound:C* feed back into the regular
+        # _bulk_enrich_compounds pipeline (so they get pathways + MNX cross-refs);
+        # non-KEGG primaries (chebi:*, mnx:*) become additional_compounds entries.
+        substrate_kegg_cpds: set[str] = set()
+        substrate_non_kegg_count = 0
+        for primary_ids in leaf_to_primary.values():
+            for primary_id in primary_ids:
+                if primary_id.startswith("kegg.compound:"):
+                    substrate_kegg_cpds.add(primary_id[len("kegg.compound:"):])
+                else:
+                    substrate_non_kegg_count += 1
+
+        # Transport-reachable pathways: gene-annotated TCDB → MNX-resolved KEGG
+        # compound → KEGG-curated pathway list. Adds pathways like glycolysis
+        # when sucrose is a substrate even if no gene catalyzes it locally.
+        cpd_to_pw = raw.get("compound_to_pathways", {})
+        transport_pws: set[str] = {
+            p for cpd in substrate_kegg_cpds for p in cpd_to_pw.get(cpd, [])
+        }
+
+        extended_sets = dict(catalysis_sets)
+        extended_sets["cpds"] = catalysis_cpds | substrate_kegg_cpds
+        extended_sets["pws"] = catalysis_pws | transport_pws
+
+        log.info(
+            f"TCDB substrate primaries: {distinct_substrate_ids} distinct "
+            f"({len(substrate_kegg_cpds)} kegg.compound, "
+            f"{distinct_substrate_ids - len(substrate_kegg_cpds)} non-KEGG)"
+        )
+        log.info(
+            f"Extended sets: {len(extended_sets['cpds'])} compounds "
+            f"(+{len(substrate_kegg_cpds - catalysis_cpds)} transport-reachable), "
+            f"{len(extended_sets['pws'])} pathways "
+            f"(+{len(transport_pws - catalysis_pws)} transport-reachable)"
+        )
+
+        log.info("Building pruned kegg_data.json ...")
+        build_pruned_kegg_data(raw, conn, KEGG_DATA_FILE, sets=extended_sets)
+
+        log.info("Tagging evidence_sources + adding non-KEGG transport substrates ...")
         kegg_data = json.loads(KEGG_DATA_FILE.read_text())
-        _fold_substrates_into_kegg_data(kegg_data, leaf_to_primary, compound_props)
-        n_additional = len(kegg_data.get("additional_compounds", {}))
-        n_metabolism_compounds = len(kegg_data.get("compounds", {}))
+        _fold_substrates_into_kegg_data(
+            kegg_data,
+            catalysis_cpds=catalysis_cpds,
+            substrate_kegg_cpds=substrate_kegg_cpds,
+            leaf_to_primary=leaf_to_primary,
+            compound_props=compound_props,
+        )
+        n_compounds = len(kegg_data["compounds"])
+        n_additional = len(kegg_data["additional_compounds"])
         n_overlap = sum(
-            1 for c in kegg_data.get("compounds", {}).values()
-            if "transport" in c.get("evidence_sources", [])
+            1 for c in kegg_data["compounds"].values()
+            if "metabolism" in c["evidence_sources"]
+            and "transport" in c["evidence_sources"]
+        )
+        n_transport_only_kegg = sum(
+            1 for c in kegg_data["compounds"].values()
+            if c["evidence_sources"] == ["transport"]
         )
         KEGG_DATA_FILE.write_text(json.dumps(kegg_data, indent=2, sort_keys=True))
 
@@ -851,9 +915,10 @@ def main(force: bool = False) -> None:
             f"({total_substrate_ids} total / {distinct_substrate_ids} distinct primary IDs)"
         )
         log.info(
-            f"  Folded into kegg_data.json: {n_additional} additional_compounds "
-            f"(transport-only), {n_overlap}/{n_metabolism_compounds} compounds "
-            f"now tagged metabolism+transport"
+            f"  kegg_data.json: {n_compounds} compounds "
+            f"({n_overlap} metabolism+transport, "
+            f"{n_transport_only_kegg} transport-only kegg), "
+            f"{n_additional} additional_compounds (transport-only non-KEGG)"
         )
     log.info("Done.")
 

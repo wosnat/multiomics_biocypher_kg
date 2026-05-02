@@ -310,13 +310,23 @@ CACHE_ROOT = Path("cache/data")
 
 
 def _resolve_paths(cache_root: Path) -> dict[str, Path]:
+    """Resolve MNX file paths.
+
+    The MNX data directory honors the ``MNX_DATA_DIR`` env var (see
+    ``metabolite_utils.get_mnx_data_dir``). The ``cache_root`` arg is kept for
+    test backward-compat: if the caller passes a path other than the default
+    ``cache/data``, files land under ``<cache_root>/mnx/`` (legacy layout). With
+    the default cache_root, the env var takes effect.
+    """
+    from multiomics_kg.utils.metabolite_utils import get_mnx_data_dir
+    mnx_dir = get_mnx_data_dir() if cache_root == CACHE_ROOT else cache_root / "mnx"
     return {
-        "chem_prop":     cache_root / "mnx" / "chem_prop.tsv",
-        "chem_xref":     cache_root / "mnx" / "chem_xref.tsv",
-        "reac_prop":     cache_root / "mnx" / "reac_prop.tsv",
-        "reac_xref":     cache_root / "mnx" / "reac_xref.tsv",
-        "resolver_db":   cache_root / "mnx" / "metabolite_resolver.db",
-        "report":        cache_root / "mnx" / "metabolite_id_mapping_report.json",
+        "chem_prop":     mnx_dir / "chem_prop.tsv",
+        "chem_xref":     mnx_dir / "chem_xref.tsv",
+        "reac_prop":     mnx_dir / "reac_prop.tsv",
+        "reac_xref":     mnx_dir / "reac_xref.tsv",
+        "resolver_db":   mnx_dir / "metabolite_resolver.db",
+        "report":        mnx_dir / "metabolite_id_mapping_report.json",
     }
 
 

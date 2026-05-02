@@ -6,9 +6,14 @@ import pytest
 
 @pytest.mark.kg
 def test_tcdb_family_node_count_in_range(run_query):
-    """Pruned subhierarchy should have a few hundred TcdbFamily nodes (not all ~13K)."""
+    """Pruned subhierarchy walks above + below gene-annotated TCDB IDs.
+
+    Local step 6 run produced ~4,844 kept IDs from 535 gene-annotated seeds;
+    the upper bound is intentionally generous to absorb growth as more strains
+    or annotations land.
+    """
     n = run_query("MATCH (t:TcdbFamily) RETURN count(t) AS n")[0]["n"]
-    assert 100 <= n <= 2000, f"TcdbFamily count {n} outside expected 100-2000"
+    assert 100 <= n <= 10000, f"TcdbFamily count {n} outside expected 100-10000"
 
 
 @pytest.mark.kg
@@ -21,7 +26,7 @@ def test_cazy_family_node_count_in_range(run_query):
 @pytest.mark.kg
 def test_gene_has_tcdb_family_edge_count(run_query):
     n = run_query("MATCH ()-[r:Gene_has_tcdb_family]->() RETURN count(r) AS n")[0]["n"]
-    assert 500 <= n <= 5000, f"Gene_has_tcdb_family count {n} outside 500-5000"
+    assert 500 <= n <= 15000, f"Gene_has_tcdb_family count {n} outside 500-15000"
 
 
 @pytest.mark.kg
