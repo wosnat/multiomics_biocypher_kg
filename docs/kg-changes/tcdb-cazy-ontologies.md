@@ -1,6 +1,6 @@
 # TCDB and CAZy Ontologies (TcdbFamily, CazyFamily nodes)
 
-**Status:** PROPOSED — design at [docs/superpowers/specs/2026-05-01-tcdb-cazy-ontologies-design.md](../superpowers/specs/2026-05-01-tcdb-cazy-ontologies-design.md). Numbers below are estimates; exact counts will be filled in once the work lands.
+**Status:** LANDED 2026-05-02 (counts to be backfilled after first integration rebuild) — design at [docs/superpowers/specs/2026-05-01-tcdb-cazy-ontologies-design.md](../superpowers/specs/2026-05-01-tcdb-cazy-ontologies-design.md). Numbers below remain estimates until the integration rebuild completes; this notice will be removed at that point.
 
 **Proposed:** 2026-05-01
 
@@ -172,7 +172,7 @@ RETURN g
 MATCH (org:OrganismTaxon {strain_name: 'MED4'})
 MATCH (g:Gene)-[:Gene_belongs_to_organism]->(org)
 MATCH (g)-[:Gene_has_tcdb_family]->(:TcdbFamily)
-      -[:Tcdb_family_is_a_tcdb_family*0..]->(:TcdbFamily {level_kind: 'tc_specificity'})
+      <-[:Tcdb_family_is_a_tcdb_family*0..]-(:TcdbFamily {level_kind: 'tc_specificity'})
       -[:Tcdb_family_transports_metabolite]->(m:Metabolite)
 WHERE m.name CONTAINS 'calcium'
 RETURN DISTINCT g.locus_tag, g.product, m.name

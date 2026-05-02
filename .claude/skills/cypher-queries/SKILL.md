@@ -58,6 +58,8 @@ docker exec -i deploy cypher-shell -a bolt://localhost:7687
 | `TigrRole` | `id`, `code`, `name` |
 | `Pfam` | `id` (pfam:PF*), `name` (description), `short_name` (Pfam shortname) |
 | `PfamClan` | `id` (pfam.clan:CL*), `name` (clan name) |
+| `TcdbFamily` | `id` (tcdb:1.A.1, etc.), `name`, `tcdb_id`, `level` (0-4), `level_kind` (`tc_class`/`tc_subclass`/`tc_family`/`tc_subfamily`/`tc_specificity`), `superfamily` (sparse, leaf-only), `tc_class_id` (post-import), `gene_count`, `organism_count`, `member_count`, `metabolite_count` |
+| `CazyFamily` | `id` (cazy:GH13, etc.), `name`, `cazy_id`, `level` (0-2), `level_kind` (`cazy_class`/`cazy_family`/`cazy_subfamily`), `gene_count`, `organism_count` |
 
 ### Additional Gene Properties (denormalized annotations)
 
@@ -87,9 +89,7 @@ Gene nodes carry many denormalized annotation fields beyond the key properties a
 | `signal_peptide` | eggNOG | Signal peptide prediction |
 | `transmembrane_regions` | eggNOG | Transmembrane topology |
 | `protein_family` | Cyanorak | Protein family classification |
-| `transporter_classification` | Cyanorak | TC number |
 | `bigg_reaction[]` | eggNOG | BiGG reaction IDs |
-| `cazy_ids[]` | eggNOG | CAZy family IDs |
 
 ### Edge Labels
 
@@ -117,6 +117,11 @@ Gene nodes carry many denormalized annotation fields beyond the key properties a
 | `Gene_has_tigr_role` | Gene → TigrRole | — |
 | `Gene_has_pfam` | Gene → Pfam | — |
 | `Pfam_in_pfam_clan` | Pfam → PfamClan | — |
+| `Gene_has_tcdb_family` | Gene → TcdbFamily | — |
+| `Tcdb_family_is_a_tcdb_family` | TcdbFamily → TcdbFamily (child → parent) | — |
+| `Tcdb_family_transports_metabolite` | TcdbFamily (`tc_specificity` leaves only) → Metabolite | — |
+| `Gene_has_cazy_family` | Gene → CazyFamily (most specific observed level) | — |
+| `Cazy_family_is_a_cazy_family` | CazyFamily → CazyFamily (child → parent) | — |
 | `Biological_process_is_a_biological_process` | BiologicalProcess → BiologicalProcess | — |
 | `Biological_process_part_of_biological_process` | BiologicalProcess → BiologicalProcess | — |
 | `Biological_process_positively_regulates_biological_process` | BiologicalProcess → BiologicalProcess | — |
@@ -560,6 +565,41 @@ RETURN d.short_name, g.locus_tag, g.organism_name
 CALL db.index.fulltext.queryNodes('pfamFullText', 'polymerase')
 YIELD node, score
 RETURN node.short_name, node.name, score
+```
+
+### TCDB / CAZy Ontology Queries
+
+#### Substrate-driven gene queries
+
+```cypher
+// Genes whose transporters are annotated to move calcium
+MATCH (g:Gene)-[:Gene_has_tcdb_family]->(:TcdbFamily)
+      <-[:Tcdb_family_is_a_tcdb_family*0..]-(:TcdbFamily {level_kind: 'tc_specificity'})
+      -[:Tcdb_family_transports_metabolite]->(m:Metabolite)
+WHERE m.name CONTAINS 'calcium'
+RETURN DISTINCT g.locus_tag, g.product, m.name
+LIMIT 50;
+```
+
+#### TCDB class hierarchy filtering (using post-import tc_class_id)
+
+```cypher
+// What does TCDB class 1 ('Channels and Pores') cover in MED4?
+MATCH (g:Gene {organism_name: 'Prochlorococcus MED4'})
+      -[:Gene_has_tcdb_family]->(tf:TcdbFamily {tc_class_id: 'tcdb:1'})
+RETURN tf.tcdb_id, tf.name, tf.level_kind, count(g) AS gene_count
+ORDER BY tf.level, tf.tcdb_id;
+```
+
+#### Transport vs metabolism distinction
+
+```cypher
+// Compounds the organism is annotated to TRANSPORT but has no metabolism for
+MATCH (m:Metabolite)
+WHERE 'transport' IN m.evidence_sources
+  AND NOT 'metabolism' IN m.evidence_sources
+RETURN m.name, m.formula, m.evidence_sources
+LIMIT 50;
 ```
 
 ### Strain / Organism Queries
