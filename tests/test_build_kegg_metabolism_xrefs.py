@@ -416,3 +416,46 @@ def test_prune_tcdb_unknown_seed_silently_skipped():
     kept, leaf_subs = _prune_tcdb(hierarchy, {"99.X.Y.Z.Q"})
     assert kept == set()
     assert leaf_subs == {}
+
+
+def test_resolve_substrates_strips_chebi_prefix(tmp_path):
+    """Regression: substrate strings 'CHEBI:NNNN;name' must resolve through the
+    MNX SQLite, which stores chebi aliases as (source='chebi', value='<NNNN>') —
+    NOT 'CHEBI:NNNN'. Earlier resolver implementation passed the prefixed form
+    to a value-only query, returning 0 hits for every substrate."""
+    import sqlite3
+
+    from multiomics_kg.download.build_kegg_metabolism_xrefs import _resolve_substrates
+
+    db = tmp_path / "resolver.db"
+    conn = sqlite3.connect(db)
+    cur = conn.cursor()
+    cur.executescript("""
+        CREATE TABLE compound_aliases (
+            source TEXT, value TEXT, mnxm_id TEXT,
+            PRIMARY KEY (source, value, mnxm_id)
+        );
+        CREATE TABLE compounds (
+            mnxm_id TEXT PRIMARY KEY,
+            name TEXT, formula TEXT, mass REAL, inchikey TEXT
+        );
+    """)
+    # Bare value, source='chebi' — matches MNX's storage convention.
+    cur.execute("INSERT INTO compound_aliases VALUES ('chebi', '9314', 'MNXM50000')")
+    cur.execute("INSERT INTO compounds VALUES ('MNXM50000', 'sucrose', 'C12H22O11', 342.30, 'CZMRCDWAGMRECN-UGDNZRGBSA-N')")
+    conn.commit()
+
+    leaf_to_primary, compound_props = _resolve_substrates(
+        {"1.A.1.5.2": ["CHEBI:9314;sucrose"]},
+        conn,
+    )
+
+    assert leaf_to_primary["1.A.1.5.2"] == ["chebi:9314"], (
+        f"Expected ['chebi:9314'], got {leaf_to_primary['1.A.1.5.2']!r}. "
+        "If empty, _resolve_substrates failed to strip the CHEBI: prefix."
+    )
+    entry = compound_props["chebi:9314"]
+    assert entry["mnxm_id"] == "MNXM50000"
+    assert entry["chebi_id"] == "9314"
+    assert entry["name"] == "sucrose"
+    assert entry["formula"] == "C12H22O11"

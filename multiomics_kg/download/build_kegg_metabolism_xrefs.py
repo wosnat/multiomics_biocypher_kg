@@ -551,9 +551,7 @@ def _resolve_substrates(
       leaf_to_primary_ids: {leaf_tcid: [primary_id, ...]}, sorted+deduped.
       compound_props: {primary_id: {name, formula, mass, inchikey, mnxm_id, chebi_id}}.
     """
-    from multiomics_kg.utils.metabolite_utils import (
-        resolve_metabolite, mnxm_to_primary_id,
-    )
+    from multiomics_kg.utils.metabolite_utils import mnxm_to_primary_id
 
     leaf_to_primary_ids: dict[str, list[str]] = {}
     compound_props: dict[str, dict] = {}
@@ -566,7 +564,21 @@ def _resolve_substrates(
             if ":" not in sub_str:
                 continue
             chebi_part, _, name_part = sub_str.partition(";")
-            mnxm, _method = resolve_metabolite(chebi_part, conn)
+            # MNX stores CHEBI aliases as (source='chebi', value='<bare-number>'),
+            # not as 'CHEBI:<number>'. Strip the prefix before lookup; resolve via
+            # source-filtered query (more precise than resolve_metabolite's generic
+            # alias match — avoids accidental cross-source value collisions).
+            prefix, _, chebi_value = chebi_part.partition(":")
+            if prefix.strip().upper() != "CHEBI" or not chebi_value:
+                log.debug(f"TCDB substrate not in CHEBI form: {sub_str!r} (leaf {leaf})")
+                continue
+            cur.execute(
+                "SELECT mnxm_id FROM compound_aliases "
+                "WHERE source='chebi' AND value=? ORDER BY mnxm_id LIMIT 1",
+                (chebi_value.strip(),),
+            )
+            row = cur.fetchone()
+            mnxm = row[0] if row else None
             if mnxm is None:
                 log.debug(f"TCDB substrate unresolved: {sub_str!r} (leaf {leaf})")
                 continue
