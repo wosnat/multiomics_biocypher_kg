@@ -21,6 +21,7 @@ from multiomics_kg.adapters.functional_annotation_adapter import (
 from multiomics_kg.adapters.brite_adapter import MultiBriteAdapter
 from multiomics_kg.adapters.metabolism_adapter import MultiMetabolismAdapter
 from multiomics_kg.adapters.tcdb_adapter import MultiTcdbAnnotationAdapter
+from multiomics_kg.adapters.data_source_adapter import DataSourceAdapter
 
 
 def parse_args():
@@ -49,6 +50,12 @@ def main():
     # supply settings via parameters below
     bc = BioCypher()
 
+
+    # DataSource metadata nodes (4 nodes: ncbi, cyanorak, uniprot, eggnog).
+    # Soft-joined to Gene via Gene.contributing_sources; no materialized edges.
+    data_source_adapter = DataSourceAdapter(config_path="config/gene_annotations_config.yaml")
+    data_source_adapter.download_data()
+    bc.write_nodes(data_source_adapter.get_nodes())
 
     # CyanorakNcbi adapter MUST run before UniProt: it creates gene_mapping.csv
     # files in each data_dir, which UniProt uses for GENE_TO_PROTEIN edges.
