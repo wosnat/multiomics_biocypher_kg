@@ -330,7 +330,7 @@ Co-expression cluster membership tables. Processed by `cluster_adapter.py` (NOT 
 | `organism` | str | Target organism (canonical name) |
 | `gene_id_col` | str | CSV column with gene identifiers |
 | `cluster_col` | str | CSV column with cluster assignment |
-| `cluster_type` | str | `diel_cycle` \| `time_series_dynamics` \| `response_pattern` |
+| `cluster_type` | str | `diel` \| `time_course` \| `condition_comparison` \| `expression_bin` |
 
 **Optional fields (analysis level):**
 
@@ -360,7 +360,7 @@ med4_kmeans_nstarvation:
   organism: "Prochlorococcus MED4"
   gene_id_col: "gene_id"
   cluster_col: "cluster"
-  cluster_type: "response_pattern"
+  cluster_type: "condition_comparison"
   cluster_method: "K-means (K=9)"
   omics_type: MICROARRAY
   treatment_type: ["nitrogen"]
@@ -375,6 +375,15 @@ med4_kmeans_nstarvation:
 - Gene IDs go through the same step 4 resolution pipeline as DE tables
 - For papers with separate clusters per organism, use separate `type: gene_clusters` entries (one per organism/analysis)
 - `treatment_type` must be an array (same enum as experiments)
+
+**Cluster type conventions:**
+
+- **`time_course`** — clusters reflect temporal dynamics during an experiment (e.g., gene expression patterns across 0h, 6h, 24h timepoints).
+- **`diel`** — clusters reflect diel (circadian) light:dark cycling patterns.
+- **`condition_comparison`** — clusters separate genes by response pattern across discrete conditions (e.g., upregulated vs downregulated in treatment vs control).
+- **`expression_bin`** — clusters group genes by expression metric (e.g., quartile labels VEG/HEG/MEG/LEG/NEG). These analyses do **not** carry per-cluster `functional_description`; cluster `name` is the metric label.
+
+**Future ambiguity rule:** If a future cluster type has unclear intent, rename or split the `cluster_type` value rather than adding a parallel intent field.
 
 ### `type: derived_metrics_table`
 
