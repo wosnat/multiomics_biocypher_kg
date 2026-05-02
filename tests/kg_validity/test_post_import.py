@@ -396,7 +396,8 @@ def test_annotation_types_values_valid(run_query):
         UNWIND g.annotation_types AS t
         WITH DISTINCT t
         WHERE NOT t IN ['go_bp', 'go_mf', 'go_cc', 'pfam', 'cog_category',
-                        'kegg', 'brite', 'ec', 'cyanorak_role', 'tigr_role']
+                        'kegg', 'brite', 'ec', 'cyanorak_role', 'tigr_role',
+                        'tcdb', 'cazy']
         RETURN collect(t) AS bad
     """)
     assert result[0]["bad"] == [], (
@@ -1086,12 +1087,23 @@ def test_gene_annotation_types_includes_cazy_when_edges_present(run_query):
 
 @pytest.mark.kg
 def test_gene_metabolite_count_populated_for_genes_with_chemistry(run_query):
-    """Every Gene with a Gene_catalyzes_reaction or Gene_has_tcdb_family edge has
-    metabolite_count > 0."""
+    """Every Gene whose chemistry edges actually reach a Metabolite has
+    metabolite_count > 0.
+
+    Looser than "has any chemistry edge": some genes annotate to KEGG glycan-only
+    reactions (Reaction.compounds = []) or to TCDB sub-specifications without
+    substrate annotations (e.g. 2.A.7.11.2 has no substrates in TCDB), so their
+    metabolite_count is legitimately 0. We only assert population for the genes
+    whose UNION-2hop actually yields a metabolite.
+    """
     rows = run_query("""
         MATCH (g:Gene)
-        WHERE EXISTS { (g)-[:Gene_catalyzes_reaction]->() }
-           OR EXISTS { (g)-[:Gene_has_tcdb_family]->() }
+        WHERE EXISTS { (g)-[:Gene_catalyzes_reaction]->(:Reaction)-[:Reaction_has_metabolite]->(:Metabolite) }
+           OR EXISTS {
+                (g)-[:Gene_has_tcdb_family]->(:TcdbFamily)
+                  <-[:Tcdb_family_is_a_tcdb_family*0..]-(:TcdbFamily {level_kind: 'tc_specificity'})
+                  -[:Tcdb_family_transports_metabolite]->(:Metabolite)
+              }
         RETURN count(CASE WHEN g.metabolite_count IS NULL OR g.metabolite_count = 0 THEN 1 END) AS n
     """)
     assert rows[0]["n"] == 0

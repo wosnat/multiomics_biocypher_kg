@@ -689,8 +689,23 @@ def build_pruned_kegg_data(
     'kos', 'rxns', 'cpds', 'pws'. The caller controls extension so transport
     substrates (TCDB → MNX → kegg.compound:C*) can ride through the regular
     `_bulk_enrich_compounds` pipeline and pick up their pathway/MNX cross-refs.
+
+    Filters `pws` to pathways with non-empty names. KEGG has a class of "summary
+    of natural product biosynthesis" maps (ko010**) and drug-classification maps
+    (ko07***) that have NO direct KOs/reactions and so don't appear in
+    `/list/pathway/ko` (our names source). Transport-substrate compound→pathway
+    extension can drag these in; dropping them avoids nameless KeggTerm nodes.
     """
-    kos, rxns, cpds, pws = sets["kos"], sets["rxns"], sets["cpds"], sets["pws"]
+    pathway_names = raw.get("pathway_names", {})
+    kos, rxns, cpds = sets["kos"], sets["rxns"], sets["cpds"]
+    pws_in = sets["pws"]
+    pws = {p for p in pws_in if pathway_names.get(p)}
+    dropped_pws = pws_in - pws
+    if dropped_pws:
+        log.info(
+            f"Dropped {len(dropped_pws)} nameless pathways "
+            f"(KEGG meta-classification maps with no KOs/reactions, e.g. ko010**, ko07***)"
+        )
     subs, cats = _hierarchy_parents(raw, pws)
 
     ko_to_pw = raw.get("ko_to_pathways", {})
