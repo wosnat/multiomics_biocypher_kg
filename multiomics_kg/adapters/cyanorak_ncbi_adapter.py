@@ -130,6 +130,7 @@ class GeneNodeField(Enum, metaclass=GeneEnumMeta):
     START = 'start'
     END = 'end'
     STRAND = 'strand'
+    CONTIG = 'contig'                # chromosome / contig name from GFF seqid
     PRODUCT = 'product'
     PROTEIN_ID = 'protein_id'
     FUNCTION_DESCRIPTION = 'function_description'

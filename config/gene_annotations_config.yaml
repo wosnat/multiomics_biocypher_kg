@@ -92,6 +92,11 @@ fields:
 
   # ── Genomic location ────────────────────────────────────────────────────────
 
+  contig:
+    type: passthrough
+    source: gene_mapping
+    field: seqid               # GFF3 seqid = chromosome / contig accession
+
   start:
     type: integer
     source: gene_mapping

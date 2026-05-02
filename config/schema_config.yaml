@@ -361,6 +361,7 @@ gene:
     start: int
     end: int
     strand: str
+    contig: str                      # chromosome / contig name from GFF seqid
     product: str
     protein_id: str
     sequence: str                   # AA sequence string from per-strain NCBI protein.faa, joined via protein_id

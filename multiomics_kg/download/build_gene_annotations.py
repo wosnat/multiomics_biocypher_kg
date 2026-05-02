@@ -874,6 +874,17 @@ def process_strain(
     print(f"\n[{strain_name}] Loading sources...")
 
     gm_data = load_gene_mapping(data_dir)
+
+    # Defensive check: seqid column was added by Task 2 (db065e0c); older caches lack it.
+    # If missing, Gene.contig will be null until the cache is regenerated.
+    first_row = next(iter(gm_data.values()), {})
+    if gm_data and "seqid" not in first_row:
+        logger.warning(
+            f"gene_mapping.csv for {strain_name} lacks 'seqid' column — "
+            f"cache is stale; re-run `bash scripts/prepare_data.sh --steps 0 --force`. "
+            f"Gene.contig will be null for this strain until regenerated."
+        )
+
     eg_data = load_eggnog(data_dir, strain_name)
     up_data: dict[str, dict] = {}
     if ncbi_taxon_id:
