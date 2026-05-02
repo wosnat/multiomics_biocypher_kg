@@ -144,3 +144,27 @@ RETURN r.name, r.ec_numbers, collect(m.name) AS metabolites
 - **Per-paper metabolite measurements** — paper-derived metabolomics integration (peak intensities, fold changes, etc.) is Phase 2 and will add paper-evidenced edges onto the same Metabolite nodes.
 - **OrthologGroup-mediated reaction inheritance** — Phase 3 will let an OG inherit reactions from its members so genes without direct KEGG annotation can still surface in reaction queries.
 - **Transporter (TCDB) and CAZy family nodes** — Spec 1.3 will add `TransporterClass` + `CazyFamily` nodes; the cached TCDB tables and CAZy hierarchy are already downloaded but not yet ingested.
+
+## Slice-1 explorer-coordinated additions (2026-05-01)
+
+Four properties added to support the chemistry MCP slice-1 explorer surface
+(see [`docs/superpowers/specs/2026-05-01-chemistry-slice1-kg-asks-design.md`](../superpowers/specs/2026-05-01-chemistry-slice1-kg-asks-design.md)
+and the explorer-side companion
+`multiomics_explorer/docs/superpowers/specs/2026-05-01-kg-side-chemistry-slice1-asks.md`):
+
+- **`Gene.reaction_count: int`** (post-import) — count of `Gene_catalyzes_reaction` edges.
+  Routing signal for `gene_overview`.
+- **`Gene.metabolite_count: int`** (post-import) — distinct Metabolite nodes
+  reachable via *any* gene-reaching path. Slice-1 form is catalysis-only
+  (2-hop `Gene → Reaction → Metabolite`); on TCDB-CAZy landing the same
+  property expands to UNION across catalysis + transport. Coordinated with
+  TCDB-CAZy spec via TCDB-S3.
+- **`Metabolite.elements: list[str]`** (build-time) — sorted unique element
+  symbols, Hill-parsed from `formula` via the `chemparse` library. Sparse —
+  absent on metabolites without `formula` or with charge-only formulas
+  (e.g. KEGG C01322 'RX' with formula `*2`). Eliminates the
+  `formula CONTAINS 'N'` substring footgun (no false matches on `Na`/`Ne`/`Cl`).
+- **`KeggTerm.reaction_count: int` / `KeggTerm.metabolite_count: int`** (post-import,
+  sparse on `level_kind = 'pathway'`) — incoming `Reaction_in_kegg_pathway` /
+  `Metabolite_in_pathway` edge counts per pathway. Filed for a Tier-2
+  pathway-anchored explorer surface; not consumed by slice-1 directly.

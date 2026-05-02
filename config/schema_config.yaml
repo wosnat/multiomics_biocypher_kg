@@ -388,6 +388,7 @@ gene:
     expression_edge_count: int        # total Changes_expression_of edges
     significant_up_count: int         # expression edges where expression_status = 'significant_up'
     significant_down_count: int       # expression edges where expression_status = 'significant_down'
+    reaction_count: int               # post-import: count of Gene_catalyzes_reaction edges (KG-A1)
     closest_ortholog_group_size: int  # member_count from most specific OG (lowest specificity_rank)
     closest_ortholog_genera: str[]    # genera from most specific OG
     numeric_metric_count: int                # post-import (Plan 3): distinct DMs reaching via quantifies_gene
@@ -566,6 +567,8 @@ kegg term:
     level_kind: str
     level: int
     level_is_best_effort: str
+    reaction_count: int          # post-import (sparse, pathway-only): incoming Reaction_in_kegg_pathway edges (KG-A4)
+    metabolite_count: int        # post-import (sparse, pathway-only): incoming Metabolite_in_pathway edges (KG-A4)
 
 
 ec number:
@@ -663,6 +666,7 @@ metabolite:
     kegg_compound_id: str        # raw KEGG C-number; nullable for ChEBI/MNX-only
     name: str
     formula: str
+    elements: str[]              # build-time: sorted unique element symbols, Hill-parsed via chemparse; sparse (absent on metabolites without formula) (KG-A3)
     mass: float
     inchikey: str
     smiles: str

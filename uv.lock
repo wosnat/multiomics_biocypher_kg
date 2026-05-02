@@ -529,6 +529,15 @@ wheels = [
 ]
 
 [[package]]
+name = "chemparse"
+version = "0.3.2"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/1f/82/81118c32a309408fcbcd5fc561d8f0ba0ab6f977dc4c87fb6b62e25e1d64/chemparse-0.3.2.tar.gz", hash = "sha256:f46e24081f69c3bddd03447a1ab0370c286607c6b6c146b1647f6d57beb26c3d", size = 5550, upload-time = "2025-03-11T18:59:40.321Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/28/cc/f0a932c8a9cd00ebdadd177c4dd312dd11771ea1856b2b86f57995e6e249/chemparse-0.3.2-py3-none-any.whl", hash = "sha256:67169faa673f804a518fac32e3b2072ef8c0d8c9df557b2d4f385424a750d819", size = 5869, upload-time = "2025-03-11T18:59:39.241Z" },
+]
+
+[[package]]
 name = "click"
 version = "8.3.1"
 source = { registry = "https://pypi.org/simple" }
@@ -2143,6 +2152,7 @@ dependencies = [
     { name = "biocypher" },
     { name = "biopython" },
     { name = "bioregistry" },
+    { name = "chemparse" },
     { name = "dotenv" },
     { name = "eggnog-mapper" },
     { name = "gffpandas" },
@@ -2179,6 +2189,7 @@ requires-dist = [
     { name = "biocypher", specifier = ">=0.11.0" },
     { name = "biopython", specifier = ">=1.86" },
     { name = "bioregistry", specifier = ">=0.13.11" },
+    { name = "chemparse", specifier = ">=0.3.1" },
     { name = "dotenv", specifier = ">=0.9.9" },
     { name = "eggnog-mapper", specifier = ">=2.1.13" },
     { name = "gffpandas", specifier = ">=1.2.0" },
