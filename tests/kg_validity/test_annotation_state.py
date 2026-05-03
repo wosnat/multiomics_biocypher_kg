@@ -47,3 +47,28 @@ def test_known_well_annotated_gene(run_query):
     assert result, "PMM0001 not found"
     assert result[0]["state"] == "informative_multi"
     assert result[0]["qual"] == 3
+
+
+def test_informative_subset_of_annotation_types(run_query):
+    """For every gene, informative_annotation_types must be a subset of
+    annotation_types — informativeness can only filter OUT, not add.
+    Exception: 'reaction', 'transporter', 'cazy' are new informative-only
+    sources not present in legacy annotation_types."""
+    result = run_query(
+        "MATCH (g:Gene) "
+        "WITH g, [t IN g.informative_annotation_types "
+        "         WHERE NOT t IN g.annotation_types AND NOT t IN $exempt | t] AS extra "
+        "WHERE size(extra) > 0 "
+        "RETURN count(*) AS n, collect(DISTINCT extra)[..3] AS sample",
+        exempt=["reaction", "transporter", "cazy"],
+    )
+    assert result[0]["n"] == 0, f"Genes with extra informative-only types outside exempt list: {result[0]}"
+
+
+def test_no_evidence_gene_has_empty_informative_types(run_query):
+    result = run_query(
+        "MATCH (g:Gene {annotation_state: 'no_evidence'}) "
+        "WHERE size(g.informative_annotation_types) > 0 "
+        "RETURN count(*) AS n"
+    )
+    assert result[0]["n"] == 0

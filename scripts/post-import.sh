@@ -617,6 +617,47 @@ CALL {
     CASE WHEN EXISTS { (g)-[:Gene_has_tigr_role]->() } THEN ['tigr_role'] ELSE [] END
 } IN TRANSACTIONS OF 1000 ROWS;
 
+// =====================================================================
+// F1.4: Gene.informative_annotation_types — granular per-source list,
+// only includes a source if at least one connected term is informative.
+// Parallel of Gene.annotation_types (presence-by-source) with the
+// informativeness filter applied.
+// =====================================================================
+
+MATCH (g:Gene)
+CALL {
+  WITH g
+  SET g.informative_annotation_types =
+    CASE WHEN EXISTS { (g)-[:Gene_involved_in_biological_process]->(t)
+                       WHERE t.is_uninformative IS NULL }
+         THEN ['go_bp'] ELSE [] END +
+    CASE WHEN EXISTS { (g)-[:Gene_enables_molecular_function]->(t)
+                       WHERE t.is_uninformative IS NULL }
+         THEN ['go_mf'] ELSE [] END +
+    CASE WHEN EXISTS { (g)-[:Gene_located_in_cellular_component]->(t)
+                       WHERE t.is_uninformative IS NULL }
+         THEN ['go_cc'] ELSE [] END +
+    CASE WHEN EXISTS { (g)-[:Gene_has_pfam]->() } THEN ['pfam'] ELSE [] END +
+    CASE WHEN EXISTS { (g)-[:Gene_in_cog_category]->(t)
+                       WHERE t.is_uninformative IS NULL }
+         THEN ['cog_category'] ELSE [] END +
+    CASE WHEN EXISTS { (g)-[:Gene_has_kegg_ko]->(t)
+                       WHERE t.is_uninformative IS NULL }
+         THEN ['kegg'] ELSE [] END +
+    CASE WHEN EXISTS { (g)-[:Gene_has_kegg_ko]->()-[:Kegg_term_in_brite_category]->() }
+         THEN ['brite'] ELSE [] END +
+    CASE WHEN EXISTS { (g)-[:Gene_catalyzes_ec_number]->() } THEN ['ec'] ELSE [] END +
+    CASE WHEN EXISTS { (g)-[:Gene_has_cyanorak_role]->(t)
+                       WHERE t.is_uninformative IS NULL }
+         THEN ['cyanorak_role'] ELSE [] END +
+    CASE WHEN EXISTS { (g)-[:Gene_has_tigr_role]->(t)
+                       WHERE t.is_uninformative IS NULL }
+         THEN ['tigr_role'] ELSE [] END +
+    CASE WHEN EXISTS { (g)-[:Gene_catalyzes_reaction]->() } THEN ['reaction'] ELSE [] END +
+    CASE WHEN EXISTS { (g)-[:Gene_has_tcdb_family]->() } THEN ['transporter'] ELSE [] END +
+    CASE WHEN EXISTS { (g)-[:Gene_has_cazy_family]->() } THEN ['cazy'] ELSE [] END
+} IN TRANSACTIONS OF 1000 ROWS;
+
 // expression_edge_count + significant_up/down_count
 MATCH (g:Gene)
 CALL {
