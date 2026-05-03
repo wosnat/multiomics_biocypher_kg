@@ -6,10 +6,18 @@ pytestmark = pytest.mark.kg
 
 
 def test_four_data_source_nodes(run_query):
-    """Initial deployment has exactly 4 DataSource nodes."""
+    """Initial deployment has exactly 4 DataSource nodes.
+
+    BioCypher prepends the `data_source:` CURIE prefix per schema_config.
+    """
     result = run_query("MATCH (d:DataSource) RETURN d.id AS id ORDER BY d.id")
     ids = [row["id"] for row in result]
-    assert ids == ["cyanorak", "eggnog", "ncbi", "uniprot"]
+    assert ids == [
+        "data_source:cyanorak",
+        "data_source:eggnog",
+        "data_source:ncbi",
+        "data_source:uniprot",
+    ]
 
 
 def test_info_types_non_empty(run_query):
@@ -24,14 +32,14 @@ def test_info_types_non_empty(run_query):
 
 def test_eggnog_provenance_is_tool_run(run_query):
     result = run_query("""
-        MATCH (d:DataSource {id: 'eggnog'}) RETURN d.provenance AS p
+        MATCH (d:DataSource {id: 'data_source:eggnog'}) RETURN d.provenance AS p
     """)
     assert result and result[0]["p"] == "tool_run"
 
 
 def test_cyanorak_organism_restricted(run_query):
     result = run_query("""
-        MATCH (d:DataSource {id: 'cyanorak'})
+        MATCH (d:DataSource {id: 'data_source:cyanorak'})
         RETURN d.scope AS scope, size(d.applies_to_organisms) AS n
     """)
     assert result and result[0]["scope"] == "organism_restricted"
