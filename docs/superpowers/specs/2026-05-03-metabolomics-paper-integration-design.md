@@ -36,10 +36,14 @@ Resolution priority per row, for each `metabolite_assays_table` entry:
 
 ### 1.2 — Step 7 (new — `multiomics_kg/download/resolve_paper_metabolites.py`)
 
-Pure CSV rewriter. For each `metabolite_assays_table` source CSV, looks up each row's `(name_col, id_col?)` in `metabolite_id_mapping.json`, writes `<stem>_resolved.csv` with two added columns:
+Pure CSV rewriter. For each `metabolite_assays_table` source CSV, writes `<stem>_resolved.csv` with two added columns:
 
 - `metabolite_id` — e.g. `kegg.compound:C00031`, NaN when unresolved
 - `resolution_method` — see enum in §3.3
+
+Per-row lookup branches (in priority order):
+1. If the entry's `id_col` is set AND this row's `id_col` cell is non-empty → parse the cell per the entry's `id_type` and use the parsed primary ID directly. No `metabolite_id_mapping.json` lookup.
+2. Else → look up the row's `name_col` value in `metabolite_id_mapping.json` (which step 6 has already populated with name→primary-id resolutions, including paper-local alias overrides).
 
 Also writes `<stem>_resolution_report.json` (per-paper match-rate stats; unresolved + fuzzy + ambiguous-multi-hit names listed).
 
@@ -196,6 +200,8 @@ metabolite assay belongs to organism:
 
 ### 2.3 — Measurement edges
 
+Property comments mark which are adapter-set vs post-import. `detection_status` is the only adapter-set non-aggregate property (computed from `n_replicates`/`n_non_zero` at emission time per §1.4); rank/percentile/bucket are post-import.
+
 ```yaml
 # MetaboliteAssay → Metabolite (value_kind="numeric"; replicate-aggregated)
 assay quantifies metabolite:
@@ -239,39 +245,39 @@ assay flags metabolite:
 
 ### 2.4 — Property additions on existing entries
 
-**`metabolite` node** — three new computed properties (post-import):
+**`metabolite` node** — three new computed properties (all post-import):
 ```yaml
-    measured_assay_count: int
-    measured_organisms: str[]
-    measured_paper_count: int
+    measured_assay_count: int        # post-import
+    measured_organisms: str[]        # post-import
+    measured_paper_count: int        # post-import
 ```
 Existing `evidence_sources: str[]` gains `"metabolomics"` as a possible value (no schema change). `organism_count` and `organism_names` semantics extend to include the measurement path (post-import logic only, no schema change).
 
-**`organism has metabolite` edge** — four new properties:
+**`organism has metabolite` edge** — four new properties (all post-import):
 ```yaml
-    evidence_sources: str[]          # values: metabolism | transport | measured
-    measured_assay_count: int
-    measured_compartments: str[]
-    measured_paper_count: int
+    evidence_sources: str[]          # post-import; values: metabolism | transport | measured
+    measured_assay_count: int        # post-import
+    measured_compartments: str[]     # post-import
+    measured_paper_count: int        # post-import
 ```
 
-**`experiment` node** — three new properties:
+**`experiment` node** — three new properties (all post-import):
 ```yaml
-    metabolite_assay_count: int
-    metabolite_compartments: str[]
-    metabolite_count: int
+    metabolite_assay_count: int      # post-import
+    metabolite_compartments: str[]   # post-import
+    metabolite_count: int            # post-import
 ```
 
-**`publication` node** — same three:
+**`publication` node** — same three (all post-import):
 ```yaml
-    metabolite_assay_count: int
-    metabolite_compartments: str[]
-    metabolite_count: int
+    metabolite_assay_count: int      # post-import
+    metabolite_compartments: str[]   # post-import
+    metabolite_count: int            # post-import
 ```
 
-**`organism taxon` node** — one:
+**`organism taxon` node** — one (post-import):
 ```yaml
-    measured_metabolite_count: int
+    measured_metabolite_count: int   # post-import
 ```
 
 ### 2.5 — Compartment vocab additions
@@ -289,7 +295,7 @@ Notes on the chosen vocabulary:
 
 Mirrors `derived_metrics_table` shape: `experiment` + `organism` are entry-level (one per entry), shared by all assays within. Per-assay shape is the metabolite analog of DM's `metrics:` list — keyed by `metric_type` (same convention as DM, no separate `id` field). One entry covers one (CSV, Experiment) tuple; if the same CSV is split across multiple Experiments (e.g. Capovilla 9303 + 9313), use multiple entries pointing at the same `filename`.
 
-`compartment` is **not** on the assay — it's read from the parent Experiment (Experiment already has a `compartment` property; v1 vocab in §2.5). To split compartments within one paper, declare separate experiments in `paperconfig.experiments` (e.g. `kujawinski_metabolomics_9301_whole_cell` for cell-fraction samples + `kujawinski_metabolomics_9301_extracellular` for medium-fraction samples) and one `metabolite_assays_table` entry per experiment.
+`compartment` is **not in the per-assay paperconfig block** — it lives on the parent Experiment, and the adapter denormalizes it onto each `MetaboliteAssay` node (see §2.1 schema; §1.4 denormalization list). To split compartments within one paper, declare separate experiments in `paperconfig.experiments` (e.g. `kujawinski_metabolomics_9301_whole_cell` for cell-fraction samples + `kujawinski_metabolomics_9301_extracellular` for medium-fraction samples) and one `metabolite_assays_table` entry per experiment.
 
 ```yaml
 <entry_key>:
@@ -331,16 +337,17 @@ Mirrors `derived_metrics_table` shape: `experiment` + `organism` are entry-level
   id_columns: []                     # list[{column, id_type, tier}]; mirrors gene-side id_translation
 
   # Per-assay metadata; mirrors derived_metrics_table.metrics. metric_type is the key.
+  # value_kind is fixed per assay — numeric and boolean assays must be separate entries in this list.
   assays:
+    # Numeric assay: replicate_columns aggregated to one edge per metabolite per condition.
     - metric_type: cellular_concentration       # also the assay key within entry
       name: "MIT9303 cellular metabolite concentration (fg/cell)"
-      value_kind: numeric              # "numeric" | "boolean"
+      value_kind: numeric
       unit: "fg/cell"
-      rankable: "true"                 # string enum to match DerivedMetric convention
+      rankable: "true"                          # string enum to match DerivedMetric convention
       aggregation_method: mean_across_replicates    # optional override
       field_description: "cellular metabolite concentration in fg/cell, blank-corrected, replicate-aggregated"
       sample_columns:
-        # Numeric variant: aggregates a list of replicate columns into one edge per metabolite
         - condition_label: control
           time_point: "T=4"
           time_point_order: 1
@@ -349,10 +356,19 @@ Mirrors `derived_metrics_table` shape: `experiment` + `organism` are entry-level
             - "9303 Control T=4, replicate 1"
             - "9303 Control T=4, replicate 2"
             - "9303 Control T=4, replicate 3"
+        # ... additional condition entries follow the same shape
 
-        # Boolean variant: one column → one edge per metabolite, flag_true_value matches
-        - condition_label: ""
-          flag_column: "yes_no_column"
+    # Boolean assay (separate entry — value_kind is fixed per assay):
+    # uses flag_column instead of replicate_columns; one column → one edge per metabolite.
+    - metric_type: presence_flag
+      name: "MIT9303 metabolite detection (presence flag)"
+      value_kind: boolean
+      unit: ""
+      rankable: "false"
+      field_description: "Boolean detection flag from authors' presence/absence column."
+      sample_columns:
+        - condition_label: ""                   # nullable for whole-paper flags
+          flag_column: "intra_or_extra_column"
           flag_true_value: "yes"
 ```
 
@@ -469,21 +485,32 @@ CREATE FULLTEXT INDEX metaboliteAssayFullText  IF NOT EXISTS FOR (a:MetaboliteAs
 
 `detection_status` is set by the adapter at emission time (see §1.4), not post-import.
 
+`rank_by_metric` / `metric_percentile` / `metric_bucket` mirror the DerivedMetric rank pattern in `scripts/post-import.cypher` (lines 588–612). Per-assay scope via `CALL { WITH a } IN TRANSACTIONS`. Tiebreaker on `Metabolite.id` ASC for reproducibility. Bucket thresholds pinned at `>=90` / `>=75` / `>=25` / else.
+
 ```cypher
 // rank_by_metric / metric_percentile / metric_bucket — per assay, only when rankable=true
-MATCH (a:MetaboliteAssay {rankable:'true'})-[r:Assay_quantifies_metabolite]->()
-WITH a, r ORDER BY a.id, r.value DESC
-WITH a, collect(r) AS edges, count(r) AS total
-UNWIND range(0, size(edges)-1) AS i
-WITH edges[i] AS r, i+1 AS rk, total
-SET r.rank_by_metric = rk,
-    r.metric_percentile = 100.0 * (1.0 - (rk - 1.0) / total),
-    r.metric_bucket = CASE
-      WHEN 100.0 * (1.0 - (rk - 1.0) / total) >= 90 THEN 'top_decile'
-      WHEN 100.0 * (1.0 - (rk - 1.0) / total) >= 75 THEN 'top_quartile'
-      WHEN 100.0 * (1.0 - (rk - 1.0) / total) <  25 THEN 'low'
-      ELSE 'mid'
-    END;
+// Mirrors DerivedMetric pattern (post-import.cypher:588). Per-assay scope, deterministic tiebreaker.
+MATCH (a:MetaboliteAssay {rankable: 'true'})
+CALL {
+  WITH a
+  MATCH (a)-[r:Assay_quantifies_metabolite]->(m:Metabolite)
+  WITH r, r.value AS val, m.id AS mid
+  ORDER BY val DESC, mid ASC
+  WITH collect(r) AS edges, count(r) AS n
+  UNWIND range(0, size(edges) - 1) AS i
+  WITH edges[i] AS r, i, n,
+       CASE WHEN n = 1 THEN 100.0
+            ELSE 100.0 * toFloat(n - i - 1) / toFloat(n - 1)
+       END AS pct
+  SET r.rank_by_metric = i + 1,
+      r.metric_percentile = pct,
+      r.metric_bucket = CASE
+        WHEN pct >= 90.0 THEN 'top_decile'
+        WHEN pct >= 75.0 THEN 'top_quartile'
+        WHEN pct >= 25.0 THEN 'mid'
+        ELSE 'low'
+      END
+} IN TRANSACTIONS OF 10 ROWS;
 ```
 
 ### 4.3 — `MetaboliteAssay` node rollups
