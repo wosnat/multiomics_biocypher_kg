@@ -33,6 +33,9 @@ publication:
     derived_metric_types: str[]      # post-import (Plan 3): distinct metric_type from child DMs
     derived_metric_value_kinds: str[]  # post-import (Plan 3)
     derived_metric_search_text: str  # post-import: aggregated DM tokens (name + metric_type tokenized + field_description) for publicationFullText; null when no DMs reachable
+    metabolite_assay_count: int      # post-import (Phase 2 metabolomics)
+    metabolite_compartments: str[]   # post-import (Phase 2 metabolomics)
+    metabolite_count: int            # post-import (Phase 2 metabolomics)
 
 
 # Experiment node: groups time-series analyses for a single scientific comparison
@@ -79,6 +82,9 @@ experiment:
     derived_metric_value_kinds: str[]  # post-import (Plan 3): distinct value_kind from child DMs
     derived_metric_gene_count: int   # post-import (Plan 3): distinct genes reached via any child DM edge
     derived_metric_search_text: str  # post-import: aggregated DM tokens (name + metric_type tokenized + field_description) for experimentFullText; null when no DMs reachable
+    metabolite_assay_count: int      # post-import (Phase 2 metabolomics)
+    metabolite_compartments: str[]   # post-import (Phase 2 metabolomics)
+    metabolite_count: int            # post-import (Phase 2 metabolomics)
 
 # GeneCluster node: groups co-expressed genes from a clustering analysis within a publication
 gene cluster:
@@ -275,6 +281,108 @@ derived metric classifies gene:
   properties:
     metric_type: str
     value: str                       # must be in parent DerivedMetric.allowed_categories
+
+# MetaboliteAssay node: one per (Experiment × value_kind). Carries assay-level
+# metabolomics semantics. Edge type emitted to Metabolite depends on value_kind.
+# Adapter emits in metabolite_assay_adapter.py; post-import computes
+# total_metabolite_count + distribution stats + growth_phases.
+metabolite assay:
+  is_a: information content entity
+  represented_as: node
+  preferred_id: metabolite_assay_id
+  label_in_input: metabolite_assay
+  properties:
+    name: str
+    experiment_id: str
+    organism_name: str
+    publication_doi: str
+    compartment: str
+    omics_type: str
+    treatment_type: str[]
+    background_factors: str[]
+    treatment: str
+    light_condition: str
+    experimental_context: str
+    metric_type: str
+    value_kind: str                  # "numeric" | "boolean"
+    unit: str
+    rankable: str                    # "true" | "false"
+    aggregation_method: str          # "mean_across_replicates" | "pre_aggregated" | "single_measurement"
+    field_description: str
+    total_metabolite_count: int      # post-import
+    growth_phases: str[]             # post-import: from parent Experiment
+    # Numeric distribution stats (post-import; null for boolean assays)
+    value_min: float
+    value_max: float
+    value_q1: float
+    value_median: float
+    value_q3: float
+    # Boolean flag counts (post-import; null for numeric assays)
+    flag_true_count: int
+    flag_false_count: int
+
+# Publication → MetaboliteAssay (mirrors publication_has_derived_metric)
+publication has metabolite assay:
+  is_a: related to at instance level
+  represented_as: edge
+  label_in_input: publication_has_metabolite_assay
+  source: publication
+  target: metabolite assay
+
+# Experiment → MetaboliteAssay
+experiment has metabolite assay:
+  is_a: related to at instance level
+  represented_as: edge
+  label_in_input: experiment_has_metabolite_assay
+  source: experiment
+  target: metabolite assay
+
+# MetaboliteAssay → OrganismTaxon
+metabolite assay belongs to organism:
+  is_a: related to at instance level
+  represented_as: edge
+  label_in_input: metabolite_assay_belongs_to_organism
+  source: metabolite assay
+  target: organism taxon
+
+# MetaboliteAssay → Metabolite (value_kind="numeric"; replicate-aggregated)
+assay quantifies metabolite:
+  is_a: Association
+  represented_as: edge
+  label_as_edge: assay_quantifies_metabolite
+  label_in_input: assay_quantifies_metabolite
+  source: metabolite assay
+  target: metabolite
+  properties:
+    metric_type: str
+    condition_label: str
+    time_point: str
+    time_point_order: int
+    time_point_hours: float
+    value: float
+    value_sd: float
+    n_replicates: int
+    n_non_zero: int
+    replicate_values: float[]
+    detection_status: str            # adapter-set: detected | sporadic | not_detected
+    rank_by_metric: int              # post-import (rankable="true" only)
+    metric_percentile: float         # post-import (rankable="true" only)
+    metric_bucket: str               # post-import (rankable="true" only)
+
+# MetaboliteAssay → Metabolite (value_kind="boolean"; presence/absence)
+assay flags metabolite:
+  is_a: Association
+  represented_as: edge
+  label_as_edge: assay_flags_metabolite
+  label_in_input: assay_flags_metabolite
+  source: metabolite assay
+  target: metabolite
+  properties:
+    metric_type: str
+    condition_label: str
+    flag_value: str                  # "true" | "false"
+    n_replicates: int
+    n_positive: int
 
 # GeneCluster → Gene membership edges
 gene in gene cluster:
@@ -496,6 +604,7 @@ organism taxon:
     derived_metric_value_kinds: str[]  # post-import (Plan 3)
     metabolite_count: int          # post-import: distinct metabolites linked via Organism_has_metabolite
     reaction_count: int            # post-import: distinct reactions catalyzed by genes belonging to this organism
+    measured_metabolite_count: int # post-import (Phase 2 metabolomics)
     organism_type: str   # genome_strain | treatment | reference_proteome_match
     reference_database: str   # e.g. "MarRef v6" (reference_proteome_match only)
     reference_proteome: str   # e.g. "UP000262181" (reference_proteome_match only)
@@ -698,6 +807,9 @@ metabolite:
     pathway_names: list[str]     # post-import (KG-A6): KeggTerm.name aligned index-for-index with pathway_ids
     pathway_count: int           # post-import (KG-A7): size(pathway_ids)
     organism_names: list[str]    # post-import (KG-A8): distinct sorted OrganismTaxon.preferred_name reachable via Organism_has_metabolite
+    measured_assay_count: int    # post-import (Phase 2 metabolomics)
+    measured_organisms: str[]    # post-import (Phase 2 metabolomics)
+    measured_paper_count: int    # post-import (Phase 2 metabolomics)
 
 
 # ---
@@ -1247,6 +1359,11 @@ organism to metabolite association:
   source: organism taxon
   target: metabolite
   label_in_input: organism_has_metabolite
+  properties:
+    evidence_sources: str[]          # post-import; values: metabolism | transport | measured
+    measured_assay_count: int        # post-import
+    measured_compartments: str[]     # post-import
+    measured_paper_count: int        # post-import
 
 # gene to gene regulatory association:
 #   is_a: pairwise gene to gene interaction
