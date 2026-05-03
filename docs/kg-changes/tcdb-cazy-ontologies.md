@@ -2,6 +2,8 @@
 
 **Status:** LANDED 2026-05-02 — design at [docs/superpowers/specs/2026-05-01-tcdb-cazy-ontologies-design.md](../superpowers/specs/2026-05-01-tcdb-cazy-ontologies-design.md). Counts below are measured against the post-rebuild graph.
 
+**Updated 2026-05-03:** Substrate edges (`Tcdb_family_transports_metabolite`) are now **rolled up at adapter time from `tc_specificity` leaves to every ancestor in the pruned hierarchy**, flattening the descendants walk into edges so all explorer queries become single-hop at any TcdbFamily level. Recover leaf-only semantics via `WHERE source.level_kind = 'tc_specificity'`. Same date: chemistry-slice-1 follow-up (KG-A5..A8) added pathway/organism rollup arrays onto Metabolite — see "Metabolite — chemistry-slice-1 follow-up rollups" below.
+
 **Proposed:** 2026-05-01
 
 ## What's changing
@@ -34,7 +36,7 @@ Properties:
 - `gene_count` (int, post-import) — distinct genes reachable via subtree.
 - `organism_count` (int, post-import) — distinct organisms among those genes.
 - `member_count` (int, post-import) — direct child count in the hierarchy.
-- `metabolite_count` (int, post-import) — distinct Metabolite nodes reachable via `Tcdb_family_transports_metabolite` edges in the subtree. On a `tc_class` node, shows total substrate breadth across all descendants.
+- `metabolite_count` (int, post-import) — distinct Metabolite nodes reachable via `Tcdb_family_transports_metabolite` (single-hop after the 2026-05-03 rollup; substrate edges exist directly on every ancestor). On a `tc_class` node, shows total substrate breadth across all descendants.
 
 ## New node label: CazyFamily
 
@@ -55,7 +57,7 @@ Properties:
 |---|---|---|---|---|
 | `Gene_has_tcdb_family` | Gene | TcdbFamily | **10,576** | Attaches at exact level annotated by eggNOG (no walk-up at edge time) |
 | `Tcdb_family_is_a_tcdb_family` | TcdbFamily (child) | TcdbFamily (parent) | **4,838** | Hierarchy parent edge (one per non-root TcdbFamily) |
-| `Tcdb_family_transports_metabolite` | TcdbFamily (leaf) | Metabolite | **5,762** | Substrate linkage; only on `tc_specificity`-level nodes (3,095 leaves carry substrates → 1,097 distinct primary IDs) |
+| `Tcdb_family_transports_metabolite` | TcdbFamily | Metabolite | **13,641** | Substrate linkage rolled up from leaves to every ancestor (tc_class: 1,497, tc_subclass: 1,510, tc_family: 2,040, tc_subfamily: 2,832, tc_specificity: 5,762). Filter `WHERE source.level_kind = 'tc_specificity'` for leaf-only (1,097 distinct primary IDs across 3,095 leaves). |
 | `Gene_has_cazy_family` | Gene | CazyFamily | **1,181** | |
 | `Cazy_family_is_a_cazy_family` | CazyFamily (child) | CazyFamily (parent) | **58** | |
 
@@ -111,19 +113,49 @@ The enum is **open-ended**: a future metabolomics-DM spec is expected to add `"m
 
 ### New: `transporter_count: int`
 
-Distinct `TcdbFamily` nodes pointing at this Metabolite via `Tcdb_family_transports_metabolite`. Mirrors the existing `Metabolite`-side rollup style. Useful as a quick "how many transporter families curate this compound as a substrate" signal.
+Distinct **`tc_specificity` leaf** `TcdbFamily` nodes pointing at this Metabolite via `Tcdb_family_transports_metabolite`. Filtered to leaves so the count reflects "actual transporter systems" rather than ancestors-via-rollup (post-import filters `level_kind = 'tc_specificity'`). Useful as a quick "how many transporter families curate this compound as a substrate" signal.
 
 ### Extended semantics: `gene_count` / `organism_count`
 
-Both already exist on Metabolite, populated by post-import as a 2-hop count via `Gene → Reaction → Metabolite`. After this spec lands, the materialization adds a UNION arm via `Gene → TcdbFamily → ... → Tcdb_family_transports_metabolite → Metabolite`. Same property, broader semantics:
+Both already exist on Metabolite, populated by post-import as a 2-hop count via `Gene → Reaction → Metabolite`. After this spec lands, the materialization adds a UNION arm via `Gene → TcdbFamily → Metabolite` (single-hop after the 2026-05-03 rollup). Same property, broader semantics:
 
 > Distinct genes / organisms reachable via *any* chemistry path — catalysis OR transport.
 
 A Metabolite with `evidence_sources: ['transport']` (transport-only) will show non-zero `gene_count` and `organism_count` from the transport path alone. Pre-existing pure-metabolism Metabolites grow their counts only if any of their consumer organisms also has a transporter for them.
 
+**2026-05-03 fix.** Pre-rollup, the transport arm was implemented at post-import time as `(g)-[:Gene_has_tcdb_family]->(:TcdbFamily)<-[:Gene_has_tcdb_family]-(...)` matching only when the gene was annotated **at the `tc_specificity` leaf**. Genes annotated at higher levels (tc_family, tc_subfamily) were missed, so `gene_count` and `organism_count` undercounted relative to the materialized `Organism_has_metabolite` edge. After the rollup, both properties derive from single-hop traversal of the rolled-up substrate edges and are now consistent (verified: `size(m.organism_names) == m.organism_count` invariant holds for all 3,025 Metabolites; was failing for 952 pre-fix).
+
 ### Extended materialization: `Organism_has_metabolite` edges
 
-Already exist as 2-hop saves via `Gene → Reaction → Metabolite`. Post-import adds a UNION arm via `Gene → TcdbFamily → Metabolite`. Single dedup by `(organism, metabolite)`. Optional `via: str[]` property on the edge enumerating which paths produced it (`{'metabolism', 'transport'}`).
+Already exist as 2-hop saves via `Gene → Reaction → Metabolite`. Post-import adds a UNION arm via `Gene → TcdbFamily → Metabolite` (single-hop after the 2026-05-03 rollup; previously walked descendants via `*0..` to a `tc_specificity` leaf). Single dedup by `(organism, metabolite)`. Optional `via: str[]` property on the edge enumerating which paths produced it (`{'metabolism', 'transport'}`).
+
+## Metabolite — chemistry-slice-1 follow-up rollups (2026-05-03, KG-A5..A8)
+
+Four denormalized arrays / scalars added to every Metabolite to collapse `EXISTS`-subquery filter clauses and per-row edge traversals in `list_metabolites`:
+
+| Property | Type | Source |
+|---|---|---|
+| `pathway_ids` | `list[str]` | Distinct sorted `KeggTerm.id` reachable via `Metabolite_in_pathway`. Empty list when no memberships. |
+| `pathway_names` | `list[str]` | `KeggTerm.name`, **index-aligned** with `pathway_ids` (sorted by `KeggTerm.id`). |
+| `pathway_count` | `int` | `size(pathway_ids)`. |
+| `organism_names` | `list[str]` | Distinct sorted `OrganismTaxon.preferred_name` reachable via `Organism_has_metabolite` (UNION of catalysis + transport). Invariant: `size(organism_names) == organism_count`. |
+
+**Filter pattern (before):**
+
+```cypher
+WHERE EXISTS {
+  MATCH (m)-[:Metabolite_in_pathway]->(p:KeggTerm)
+  WHERE p.id IN $pathway_ids
+}
+```
+
+**Filter pattern (after):**
+
+```cypher
+WHERE ANY(p IN $pathway_ids WHERE p IN m.pathway_ids)
+```
+
+Same shape for `organism_names` against `Organism_has_metabolite`. Roughly 2-3× faster on filtered detail queries spanning thousands of metabolites.
 
 ## New Gene routing-signal properties
 
@@ -134,7 +166,7 @@ To match the existing rollup-based routing pattern (`expression_edge_count`, `nu
 
 The pre-existing `annotation_types: str[]` array also gains `'tcdb'` / `'cazy'` values when the corresponding count is > 0.
 
-`Gene.metabolite_count` (the property introduced by the chemistry-slice-1 chemistry-layer asks) is defined as **distinct Metabolite nodes reachable via *any* gene-reaching path** — UNION of catalysis (`Gene → Reaction → Metabolite`) and transport (`Gene → TcdbFamily → Metabolite`). On TCDB landing the count grows to include transport substrates automatically; consumers read one property regardless of source path.
+`Gene.metabolite_count` (the property introduced by the chemistry-slice-1 chemistry-layer asks) is defined as **distinct Metabolite nodes reachable via *any* gene-reaching path** — UNION of catalysis (`Gene → Reaction → Metabolite`) and transport (`Gene → TcdbFamily → Metabolite`). On TCDB landing the count grows to include transport substrates automatically; consumers read one property regardless of source path. **2026-05-03**: post-import computes the transport arm via single-hop edges (no descendants walk) thanks to the substrate-edge rollup.
 
 ## Removed Gene properties (breaking change)
 
@@ -177,12 +209,13 @@ RETURN g
 ### Substrate-driven gene queries
 
 ```cypher
-// All genes in MED4 whose transporters move calcium
+// All genes in MED4 whose transporters move calcium.
+// Single-hop after the 2026-05-03 substrate-edge rollup: substrate edges exist
+// on every TcdbFamily ancestor, so the gene's annotation level no longer
+// matters and no descendants walk is needed.
 MATCH (org:OrganismTaxon {strain_name: 'MED4'})
 MATCH (g:Gene)-[:Gene_belongs_to_organism]->(org)
-MATCH (g)-[:Gene_has_tcdb_family]->(:TcdbFamily)
-      <-[:Tcdb_family_is_a_tcdb_family*0..]-(:TcdbFamily {level_kind: 'tc_specificity'})
-      -[:Tcdb_family_transports_metabolite]->(m:Metabolite)
+MATCH (g)-[:Gene_has_tcdb_family]->(:TcdbFamily)-[:Tcdb_family_transports_metabolite]->(m:Metabolite)
 WHERE m.name CONTAINS 'calcium'
 RETURN DISTINCT g.locus_tag, g.product, m.name
 ```
@@ -274,7 +307,7 @@ If you re-run prepare_data:
 | `Changes_expression_of` edges | 232,439 | 232,439 | 0 |
 | `Gene_has_tcdb_family` edges | 0 | 10,576 | **new** |
 | `Gene_has_cazy_family` edges | 0 | 1,181 | **new** |
-| `Tcdb_family_transports_metabolite` edges | 0 | 5,762 | **new** |
+| `Tcdb_family_transports_metabolite` edges | 0 | 13,641 | **new** (rolled up from 5,762 leaf-only edges to all 5 levels via 2026-05-03 adapter change) |
 | `Tcdb_family_is_a_tcdb_family` edges | 0 | 4,838 | **new** |
 | `Cazy_family_is_a_cazy_family` edges | 0 | 58 | **new** |
 | `Organism_has_metabolite` edges | 37,010 | 56,898 | **+19,888** (transport arm contributing) |
@@ -296,9 +329,13 @@ At-a-glance reference for what to update on the explorer side:
 | Gene | `metabolite_count: int` | EXTENDED | UNION across catalysis + transport paths (per TCDB-S3); the underlying property is introduced by chemistry-slice-1 KG-A2 |
 | Gene | `annotation_types: str[]` | EXTENDED | Now also contains `'tcdb'` / `'cazy'` |
 | Metabolite | `evidence_sources: str[]` | NEW | `metabolism` / `transport`; `metabolomics` reserved |
-| Metabolite | `transporter_count: int` | NEW | Distinct TCDB families pointing at this metabolite |
-| Metabolite | `gene_count: int` | EXTENDED | Now UNION'd with transport path |
-| Metabolite | `organism_count: int` | EXTENDED | Now UNION'd with transport path |
+| Metabolite | `transporter_count: int` | NEW | Distinct **`tc_specificity` leaf** TCDB families pointing at this metabolite (filtered to leaves post 2026-05-03 rollup so the count keeps "actual transporter systems" meaning) |
+| Metabolite | `gene_count: int` | EXTENDED | Now UNION'd with transport path; **2026-05-03**: derives from rolled-up substrate edges, fixes pre-existing transport-arm undercount |
+| Metabolite | `organism_count: int` | EXTENDED | Now UNION'd with transport path; **2026-05-03**: derives from materialized `Organism_has_metabolite` edge so `size(organism_names) == organism_count` is invariant |
+| Metabolite | `pathway_ids: list[str]` | NEW (KG-A5, 2026-05-03) | Distinct sorted `KeggTerm.id` reachable via `Metabolite_in_pathway`; empty when none |
+| Metabolite | `pathway_names: list[str]` | NEW (KG-A6, 2026-05-03) | Index-aligned with `pathway_ids` |
+| Metabolite | `pathway_count: int` | NEW (KG-A7, 2026-05-03) | `size(pathway_ids)` |
+| Metabolite | `organism_names: list[str]` | NEW (KG-A8, 2026-05-03) | Distinct sorted `OrganismTaxon.preferred_name` reachable via `Organism_has_metabolite` |
 | TcdbFamily | (entire node type) | NEW | See properties section above |
 | CazyFamily | (entire node type) | NEW | See properties section above |
 
