@@ -56,7 +56,7 @@ Mirrors `observations_adapter.py` (the DerivedMetric adapter) module structure: 
 Mirroring details:
 
 - New `iter_metabolite_assays_tables` helper added to `paperconfig_utils.py`
-- `_make_metabolite_assay_id(doi, entry_key, assay_key)` → node ID `metabolite_assay:{doi_short}:{entry_key}:{assay_key}`
+- `_make_metabolite_assay_id(doi, paper_name, entry_key, metric_type)` → node ID `metabolite_assay:{doi_short}:{entry_key}:{metric_type}` (mirrors `_make_derived_metric_id` exactly)
 - Same denormalized parent-Experiment block on each `MetaboliteAssay` node: `experiment_id`, `organism_name`, `publication_doi`, `omics_type`, `treatment_type`, `background_factors`, `treatment`, `light_condition`, `experimental_context`, `compartment`
 - Same `_clean_str` sanitizer + `_resolve_csv_path` helper
 - Replicate aggregation helper `_aggregate_replicates(values: list[float], null_values: set[str]) → (mean, sd, n_replicates, n_non_zero, replicate_values, detection_status)` — `detection_status ∈ {detected, sporadic, not_detected}` is computed from n_non_zero vs n_replicates at emission time, not post-import (avoids a per-edge post-import write)
@@ -276,16 +276,27 @@ Existing `evidence_sources: str[]` gains `"metabolomics"` as a possible value (n
 
 ### 2.5 — Compartment vocab additions
 
-Existing values: `whole_cell` (default), `vesicle`, `exoproteome`, `secretome`. Phase 2 adds: `intracellular`, `extracellular`, `exometabolome`, `column_extract`. Validator's enum updated accordingly.
+**v1 vocab:** `whole_cell` (default), `vesicle`, `exoproteome`, `extracellular`. Phase 2 adds **`extracellular`** only. Phase 2 also drops the unused `secretome` term (no paperconfig has ever used it). Validator's enum updated accordingly.
+
+Notes on the chosen vocabulary:
+- **`whole_cell`** covers metabolomics intracellular samples. The "intracellular vs whole-cell" distinction would only matter if a paper sub-fractionated inside the cell (cytosol vs organelle); Capovilla, Kujawinski, and all v1 candidate metabolomics papers don't. `omics_type: METABOLOMICS` already disambiguates the measurement domain.
+- **`exoproteome`** (proteomics-specific cell-free supernatant prep) and **`extracellular`** (general "outside the cell") are kept distinct. Both refer to the same physical space, but `exoproteome` is the operational term used in proteomics literature (TCA-precipitated supernatant); folding them would lose that operational signal. Three deployed papers use `exoproteome` (Oleza 2017, Lu 2025, kaur 2018).
+- Sample-prep variation that doesn't correspond to a biological compartment (e.g. column-extract vs supernatant-spin prep) belongs on the edge via `extra_columns_to_edge: ["sample_prep"]`, not in the compartment vocab.
 
 ## 3 — paperconfig entry shape
 
 ### 3.1 — `metabolite_assays_table` entry type
 
+Mirrors `derived_metrics_table` shape: `experiment` + `organism` are entry-level (one per entry), shared by all assays within. Per-assay shape is the metabolite analog of DM's `metrics:` list — keyed by `metric_type` (same convention as DM, no separate `id` field). One entry covers one (CSV, Experiment) tuple; if the same CSV is split across multiple Experiments (e.g. Capovilla 9303 + 9313), use multiple entries pointing at the same `filename`.
+
+`compartment` is **not** on the assay — it's read from the parent Experiment (Experiment already has a `compartment` property; v1 vocab in §2.5). To split compartments within one paper, declare separate experiments in `paperconfig.experiments` (e.g. `kujawinski_metabolomics_9301_whole_cell` for cell-fraction samples + `kujawinski_metabolomics_9301_extracellular` for medium-fraction samples) and one `metabolite_assays_table` entry per experiment.
+
 ```yaml
 <entry_key>:
   type: metabolite_assays_table
   filename: "data/.../source.csv"
+  experiment: <experiment_key>       # required; references paperconfig.experiments
+  organism: "Prochlorococcus MIT9303"   # required; matches Experiment.organism
 
   # ID resolution columns
   name_col: "Compound Name"          # column holding metabolite name (always required)
@@ -307,7 +318,7 @@ Existing values: `whole_cell` (default), `vesicle`, `exoproteome`, `secretome`. 
   extra_columns_to_edge: []          # list of column names whose value gets copied to each emitted edge
 
   # Aggregation
-  aggregation_method: mean_across_replicates    # node-level default; per-assay override allowed
+  aggregation_method: mean_across_replicates    # entry-level default; per-assay override allowed
   drop_undetected: false             # default false: keep all-zero condition edges
 
   # Compound-class hint (optional; routes resolution differently for lipids, etc.)
@@ -319,18 +330,15 @@ Existing values: `whole_cell` (default), `vesicle`, `exoproteome`, `secretome`. 
   # Cross-paper ID matching (placeholder; v0 ignored, v1+ activated)
   id_columns: []                     # list[{column, id_type, tier}]; mirrors gene-side id_translation
 
-  # The actual assays
+  # Per-assay metadata; mirrors derived_metrics_table.metrics. metric_type is the key.
   assays:
-    - id: <assay_key>                       # unique within entry
-      experiment: <experiment_key>          # references paperconfig.experiments
-      organism: "Prochlorococcus MIT9303"
-      compartment: intracellular
-      metric_type: intracellular_concentration
-      value_kind: numeric                   # "numeric" | "boolean"
+    - metric_type: cellular_concentration       # also the assay key within entry
+      name: "MIT9303 cellular metabolite concentration (fg/cell)"
+      value_kind: numeric              # "numeric" | "boolean"
       unit: "fg/cell"
-      rankable: true
-      field_description: "intracellular concentration in fg/cell, blank-corrected"
+      rankable: "true"                 # string enum to match DerivedMetric convention
       aggregation_method: mean_across_replicates    # optional override
+      field_description: "cellular metabolite concentration in fg/cell, blank-corrected, replicate-aggregated"
       sample_columns:
         # Numeric variant: aggregates a list of replicate columns into one edge per metabolite
         - condition_label: control
@@ -344,9 +352,15 @@ Existing values: `whole_cell` (default), `vesicle`, `exoproteome`, `secretome`. 
 
         # Boolean variant: one column → one edge per metabolite, flag_true_value matches
         - condition_label: ""
-          flag_column: "intracellular"
+          flag_column: "yes_no_column"
           flag_true_value: "yes"
 ```
+
+Removed from per-assay vs. earlier draft (now redundant with entry/parent-Experiment):
+- `id` — `metric_type` is the unique key (matches DM)
+- `experiment` — entry-level
+- `organism` — entry-level
+- `compartment` — read from parent Experiment
 
 ### 3.2 — Per-paper `metabolite_aliases.yaml`
 
@@ -384,16 +398,16 @@ Future additions expected: `class_label_drop`, `manual_curation`, `isomer_collap
 
 `validate_metabolite_assays_table(entry)` enforces:
 
-- Required keys: `type`, `filename`, `name_col`, `assays`
-- `assays` non-empty list; each entry must have `id`, `experiment`, `organism`, `compartment`, `metric_type`, `value_kind`, `sample_columns`
+- Required entry-level keys: `type`, `filename`, `experiment`, `organism`, `name_col`, `assays`
+- `experiment` must reference a key in this paperconfig's `experiments:` block; that experiment's `compartment` must be in the v1 vocab (`whole_cell`, `extracellular`, `vesicle`, `exoproteome`)
+- `organism` must match a known OrganismTaxon `preferred_name` AND match the referenced experiment's `organism`
+- `assays` non-empty list; each entry must have `metric_type`, `value_kind`, `sample_columns`, `field_description`
+- Within an entry, `metric_type` values must be unique (it's the assay key)
 - `value_kind ∈ {"numeric", "boolean"}`
-- `compartment ∈ {whole_cell, intracellular, extracellular, exometabolome, column_extract, vesicle, exoproteome, secretome}`
-- `aggregation_method ∈ {mean_across_replicates, pre_aggregated, single_measurement}`
+- `aggregation_method ∈ {mean_across_replicates, pre_aggregated, single_measurement}` (entry-level default and per-assay override both validated)
 - `cell_format ∈ {numeric, embedded_mean_sd_n}`
 - For `value_kind: numeric` — every `sample_columns` entry must have `replicate_columns: list[str]` (length ≥ 1)
 - For `value_kind: boolean` — every `sample_columns` entry must have `flag_column: str` and `flag_true_value: str`
-- `experiment` must reference a key in this paperconfig's `experiments:` block
-- `organism` must match a known OrganismTaxon `preferred_name`
 - `aliases_file` (if set) must exist and be valid YAML mapping `str → str`
 - `formula_col` (if set) must reference a CSV column
 
@@ -712,28 +726,47 @@ Future strains added below as they surface.
 ```yaml
 publication:
   experiments:
-    kujawinski_metabolomics_9301:
+    kujawinski_metabolomics_9301_whole_cell:
       organism: "Prochlorococcus MIT9301"
+      compartment: whole_cell
       ...
-    kujawinski_metabolomics_9313:
+    kujawinski_metabolomics_9301_extracellular:
+      organism: "Prochlorococcus MIT9301"
+      compartment: extracellular
+      ...
+    kujawinski_metabolomics_9313_whole_cell:
       organism: "Prochlorococcus MIT9313"
+      compartment: whole_cell
+      ...
+    kujawinski_metabolomics_9313_extracellular:
+      organism: "Prochlorococcus MIT9313"
+      compartment: extracellular
       ...
     # BACKLOG: requires MIT0801 deployment — see plans/strain_deployment_backlog.md
-    # kujawinski_metabolomics_0801:
+    # kujawinski_metabolomics_0801_whole_cell:
     #   organism: "Prochlorococcus MIT0801"
+    #   compartment: whole_cell
+    #   ...
+    # kujawinski_metabolomics_0801_extracellular:
+    #   organism: "Prochlorococcus MIT0801"
+    #   compartment: extracellular
     #   ...
 
   supplementary_materials:
-    metabolites_kegg_export:
+    metabolites_9301_whole_cell:
       type: metabolite_assays_table
+      experiment: kujawinski_metabolomics_9301_whole_cell
+      organism: "Prochlorococcus MIT9301"
       ...
       assays:
-        - id: kegg_export_9301_intracellular
+        - metric_type: cellular_concentration
           ...
-        # BACKLOG: requires MIT0801 deployment
-        # - id: kegg_export_0801_intracellular
-        #   experiment: kujawinski_metabolomics_0801
-        #   ...
+    # BACKLOG: requires MIT0801 deployment
+    # metabolites_0801_whole_cell:
+    #   type: metabolite_assays_table
+    #   experiment: kujawinski_metabolomics_0801_whole_cell
+    #   organism: "Prochlorococcus MIT0801"
+    #   ...
 ```
 
 Why YAML comments rather than a `disabled: true` field:
@@ -762,5 +795,5 @@ Why YAML comments rather than a `disabled: true` field:
 1. **Lipid-class resolution rate** — biller 2022 Table S1 lipids are LOBSTAHS notation. If most stay `unresolved`, evaluate adding a LipidMaps-aware resolver path or a `LipidClass` node type.
 2. **Per-replicate query patterns** — if downstream queries frequently want per-replicate data and the `replicate_values` array isn't ergonomic, consider an opt-in per-replicate edge type.
 3. **Three-tier metabolite_id_mapping** — activate `specific_lookup` and `multi_lookup` when papers introduce ID columns.
-4. **Compartment vocab churn** — Phase 2 adds `intracellular`, `extracellular`, `exometabolome`, `column_extract`. Future papers may need more (e.g. `surface_DOM`, `dissolved_inorganic_pool`).
+4. **Compartment vocab churn** — Phase 2 adds only `extracellular` and drops the unused `secretome`. Future papers may need additions (e.g. `surface_DOM`, `dissolved_inorganic_pool`, or sub-cellular fractions like `cytosol`/`organelle` if a metabolomics paper sub-fractionates inside the cell).
 5. **Step 6 performance budget** — paperconfig walking + per-row resolver hits should stay well under existing step 6 budget. If degradation observed, batch resolver hits or precompute a once-per-build alias index.
