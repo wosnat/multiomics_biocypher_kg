@@ -206,32 +206,6 @@ logger = logging.getLogger(__name__)
 
 # ─── Pfam post-merge enrichment ──────────────────────────────────────────────
 
-def _compute_annotation_quality(gene: dict) -> int:
-    """Compute annotation_quality (0-3) based on product content + structured annotations.
-
-    0 = hypothetical, no function description
-    1 = hypothetical, has function description
-    2 = real product, <2 structured annotations
-    3 = real product, >=2 structured annotations (go_terms, kegg_ko, ec_numbers, pfam_ids)
-    """
-    product = gene.get("product", "")
-    func_desc = gene.get("function_description", "")
-    is_hypothetical = not product or bool(re.match(
-        r'^(hypothetical|conserved hypothetical|uncharacterized)\b', product, re.IGNORECASE
-    ))
-
-    if not is_hypothetical:
-        structured_count = sum(
-            1 for f in ("go_terms", "kegg_ko", "ec_numbers", "pfam_ids")
-            if gene.get(f)
-        )
-        return 3 if structured_count >= 2 else 2
-    elif func_desc and func_desc != "-":
-        return 1
-    else:
-        return 0
-
-
 def enrich_pfam_fields(gene: dict, pfam_data: PfamData) -> list[str]:
     """Resolve raw pfam_ids tokens to clean PF* accessions and update related fields.
 
@@ -245,8 +219,6 @@ def enrich_pfam_fields(gene: dict, pfam_data: PfamData) -> list[str]:
 
     Side effects on gene dict:
     - pfam_ids: overwritten with clean PF* list (or deleted if empty)
-    - annotation_quality: recomputed (was computed during merge on raw tokens;
-      corrected here so only real PF* IDs count toward structured annotation score)
     - alternate_functional_descriptions: appends "[pfam] shortname: description"
       entries from Pfam reference data for each resolved PF* ID
 
@@ -276,10 +248,6 @@ def enrich_pfam_fields(gene: dict, pfam_data: PfamData) -> list[str]:
         gene["pfam_ids"] = result
     elif "pfam_ids" in gene:
         del gene["pfam_ids"]
-
-    # Recompute annotation_quality: it was computed during merge when pfam_ids
-    # contained raw unfiltered tokens. Now that pfam_ids is clean, recheck.
-    gene["annotation_quality"] = _compute_annotation_quality(gene)
 
     # Recompute contributing_sources after enrichment (in case sources changed)
     gene["contributing_sources"] = _compute_contributing_sources(gene)
@@ -728,9 +696,6 @@ class AnnotationBuilder:
         # Add source-tracking fields collected during 'single' resolution
         result.update(source_tracking)
 
-        # Compute annotation_quality (0–3) based on product content + structured annotations
-        result["annotation_quality"] = _compute_annotation_quality(result)
-
         # Compute gene_category — high-level functional classification
         category = _compute_gene_category(result)
         assert category in VALID_CATEGORIES, (
@@ -973,8 +938,6 @@ def process_strain(
             stats["has_cog"] += 1
         if merged.get("kegg_ko"):
             stats["has_kegg_ko"] += 1
-        q = merged.get("annotation_quality", 0)
-        stats[f"quality_{q}"] += 1
         cat = merged.get("gene_category", "Unknown")
         stats.setdefault(f"cat_{cat}", 0)
         stats[f"cat_{cat}"] += 1
