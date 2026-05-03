@@ -393,7 +393,8 @@ gene:
     all_identifiers: str[]            # union of all alt IDs for single-array get_gene lookup
     contributing_sources: str[]      # data sources contributing >=1 field; values from {ncbi, cyanorak, uniprot, eggnog}
     # Quality
-    annotation_quality: int           # 0=hypothetical-no-func, 1=hypothetical-with-func, 2=real-product, 3=real-product+structured
+    annotation_quality: int           # 0=no_evidence, 1=catch_all_only, 2=informative_single, 3=informative_multi (numeric encoding of annotation_state)
+    annotation_state: str          # post-import enum: no_evidence | catch_all_only | informative_single | informative_multi
     gene_category: str                # high-level functional classification (26 controlled values, from Cyanorak/TIGR/COG)
     # Routing signals (pre-computed by post-import Cypher, not by adapter)
     annotation_types: str[]           # ontology edge types with >0 edges, e.g. ["go_bp", "go_mf", "pfam"]

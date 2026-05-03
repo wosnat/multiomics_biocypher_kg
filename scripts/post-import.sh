@@ -543,6 +543,63 @@ CYPHER
 # ─────────────────────────────────────────────────────────────────────────────
 echo "=== Post-process: Compute Gene routing signals, ranks, BriteCategory ==="
 time cypher-shell <<'CYPHER'
+// =====================================================================
+// F1.2 + F1.3: annotation_quality (numeric 0-3) + annotation_state (enum)
+// from informative_source_count over 8 source buckets.
+//
+// SOURCE_BUCKETS:start
+//   live (8): go, kegg, pfam, ec, role, reaction, transporter, cazy
+// SOURCE_BUCKETS:end
+//
+// Maintenance: when adding a new functional Gene-edge type, append a
+// has_<bucket> EXISTS line, include in informative_count sum, and add
+// the edge type(s) to has_any_edge. See the design spec section
+// 'Source bucket maintenance'.
+// =====================================================================
+
+MATCH (g:Gene)
+CALL {
+  WITH g
+  WITH g,
+       EXISTS { (g)-[:Gene_involved_in_biological_process|Gene_enables_molecular_function|Gene_located_in_cellular_component]->(t)
+                WHERE t.is_uninformative IS NULL } AS has_go,
+       EXISTS { (g)-[:Gene_has_kegg_ko]->(t) WHERE t.is_uninformative IS NULL } AS has_kegg,
+       EXISTS { (g)-[:Gene_has_pfam]->() } AS has_pfam,
+       EXISTS { (g)-[:Gene_catalyzes_ec_number]->() } AS has_ec,
+       (g.gene_category IS NOT NULL AND g.gene_category <> 'Unknown') AS has_role,
+       EXISTS { (g)-[:Gene_catalyzes_reaction]->() } AS has_reaction,
+       EXISTS { (g)-[:Gene_has_tcdb_family]->() } AS has_transporter,
+       EXISTS { (g)-[:Gene_has_cazy_family]->() } AS has_cazy,
+       EXISTS { (g)-[:Gene_involved_in_biological_process|Gene_enables_molecular_function|Gene_located_in_cellular_component
+                     |Gene_has_kegg_ko|Gene_has_pfam|Gene_catalyzes_ec_number
+                     |Gene_in_cog_category|Gene_has_cyanorak_role|Gene_has_tigr_role
+                     |Gene_catalyzes_reaction|Gene_has_tcdb_family|Gene_has_cazy_family]->() } AS has_any_edge
+  WITH g,
+       (CASE WHEN has_go THEN 1 ELSE 0 END
+        + CASE WHEN has_kegg THEN 1 ELSE 0 END
+        + CASE WHEN has_pfam THEN 1 ELSE 0 END
+        + CASE WHEN has_ec THEN 1 ELSE 0 END
+        + CASE WHEN has_role THEN 1 ELSE 0 END
+        + CASE WHEN has_reaction THEN 1 ELSE 0 END
+        + CASE WHEN has_transporter THEN 1 ELSE 0 END
+        + CASE WHEN has_cazy THEN 1 ELSE 0 END) AS informative_count,
+       has_any_edge
+  SET g.annotation_state =
+        CASE
+          WHEN informative_count >= 2 THEN 'informative_multi'
+          WHEN informative_count = 1 THEN 'informative_single'
+          WHEN has_any_edge THEN 'catch_all_only'
+          ELSE 'no_evidence'
+        END,
+      g.annotation_quality =
+        CASE
+          WHEN informative_count >= 2 THEN 3
+          WHEN informative_count = 1 THEN 2
+          WHEN has_any_edge THEN 1
+          ELSE 0
+        END
+} IN TRANSACTIONS OF 500 ROWS;
+
 // annotation_types
 MATCH (g:Gene)
 CALL {
