@@ -795,5 +795,4 @@ Why YAML comments rather than a `disabled: true` field:
 1. **Lipid-class resolution rate** — biller 2022 Table S1 lipids are LOBSTAHS notation. If most stay `unresolved`, evaluate adding a LipidMaps-aware resolver path or a `LipidClass` node type.
 2. **Per-replicate query patterns** — if downstream queries frequently want per-replicate data and the `replicate_values` array isn't ergonomic, consider an opt-in per-replicate edge type.
 3. **Three-tier metabolite_id_mapping** — activate `specific_lookup` and `multi_lookup` when papers introduce ID columns.
-4. **Compartment vocab churn** — Phase 2 adds only `extracellular` and drops the unused `secretome`. Future papers may need additions (e.g. `surface_DOM`, `dissolved_inorganic_pool`, or sub-cellular fractions like `cytosol`/`organelle` if a metabolomics paper sub-fractionates inside the cell).
-5. **Step 6 performance budget** — paperconfig walking + per-row resolver hits should stay well under existing step 6 budget. If degradation observed, batch resolver hits or precompute a once-per-build alias index.
+4. **Step 6 performance budget** — paperconfig walking + per-row resolver hits should stay well under existing step 6 budget. If degradation observed, batch resolver hits or precompute a once-per-build alias index.
