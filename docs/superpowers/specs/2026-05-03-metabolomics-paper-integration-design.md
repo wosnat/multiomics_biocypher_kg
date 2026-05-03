@@ -63,11 +63,29 @@ Mirroring details:
 - Cell-format parser for `embedded_mean_sd_n` (handles `"0.00054 (8.8e-05), n=2"`, `"nd"`, `"NA"`); default `numeric` parser is a plain float coercion
 - Same registry-walk filter in `MultiMetaboliteAssayAdapter`
 
-Emits:
-- `MetaboliteAssay` nodes (one per metabolite_assays_table entry × assay key)
-- `Assay_quantifies_metabolite` edges (numeric, replicate-aggregated)
-- `Assay_flags_metabolite` edges (boolean presence)
-- `PublicationHasMetaboliteAssay`, `ExperimentHasMetaboliteAssay`, `MetaboliteAssayBelongsToOrganism` binding edges (BioCypher PascalCase form, mirrors `PublicationHasDerivedMetric`)
+**Adapter input labels yielded** (snake_case strings matching the schema's `label_in_input:` fields; mirrors `observations_adapter.py` line 329 pattern):
+
+| What the adapter yields | Tuple shape |
+|---|---|
+| Node label `"metabolite_assay"` | `(node_id, "metabolite_assay", props)` |
+| Edge label `"assay_quantifies_metabolite"` | `(edge_id, src_id, dst_id, "assay_quantifies_metabolite", props)` |
+| Edge label `"assay_flags_metabolite"` | `(edge_id, src_id, dst_id, "assay_flags_metabolite", props)` |
+| Edge label `"publication_has_metabolite_assay"` | binding edge |
+| Edge label `"experiment_has_metabolite_assay"` | binding edge |
+| Edge label `"metabolite_assay_belongs_to_organism"` | binding edge |
+
+**BioCypher converts these to Neo4j labels at import time** (the form used in Cypher queries throughout §4):
+
+| Adapter input label | Neo4j label |
+|---|---|
+| `metabolite_assay` (node) | `MetaboliteAssay` |
+| `assay_quantifies_metabolite` (edge, has `label_as_edge`) | `Assay_quantifies_metabolite` |
+| `assay_flags_metabolite` (edge, has `label_as_edge`) | `Assay_flags_metabolite` |
+| `publication_has_metabolite_assay` (no `label_as_edge`; auto-derived from schema entry name) | `PublicationHasMetaboliteAssay` |
+| `experiment_has_metabolite_assay` (no `label_as_edge`) | `ExperimentHasMetaboliteAssay` |
+| `metabolite_assay_belongs_to_organism` (no `label_as_edge`) | `MetaboliteAssayBelongsToOrganism` |
+
+The PascalCase-concatenated form on binding edges mirrors existing `PublicationHasDerivedMetric` / `ExperimentHasDerivedMetric` / `DerivedMetricBelongsToOrganism`. The capitalized-snake_case form on measurement edges mirrors existing `Derived_metric_quantifies_gene` / `Derived_metric_flags_gene`.
 
 **Does not** emit `Publication`, `Experiment`, or `OrganismTaxon`. Those stay owned by `omics_adapter` (with a small fix so its experiments-block iteration is unconditional, covering metabolomics-only papers like Kujawinski 2023). `create_knowledge_graph.py` instantiates `MultiMetaboliteAssayAdapter` after `MultiObservationsAdapter`.
 
