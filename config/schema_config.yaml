@@ -338,10 +338,20 @@ gene in ortholog group:
   target: ortholog group
   label_in_input: gene_in_ortholog_group
 
-  
-
-
-
+data source:
+  is_a: information content entity
+  represented_as: node
+  preferred_id: data_source
+  label_in_input: data_source
+  properties:
+    id: str                       # join key (e.g., 'eggnog')
+    name: str                     # human-readable name
+    description: str
+    version: str                  # optional v1 - '' when not derivable
+    scope: str                    # 'gene_level' | 'organism_restricted'
+    provenance: str               # 'download' | 'tool_run'
+    applies_to_organisms: str[]   # populated only for organism_restricted
+    info_types: str[]             # auto-generated from gene_annotations_config.yaml
 
 #####################################
 
@@ -361,6 +371,7 @@ gene:
     start: int
     end: int
     strand: str
+    contig: str                      # chromosome / contig name from GFF seqid
     product: str
     protein_id: str
     sequence: str                   # AA sequence string from per-strain NCBI protein.faa, joined via protein_id
@@ -380,11 +391,14 @@ gene:
     organism_name: str              # preferred organism name (e.g., "Prochlorococcus MED4")
     gene_summary: str                 # "gene_name :: product :: description"
     all_identifiers: str[]            # union of all alt IDs for single-array get_gene lookup
+    contributing_sources: str[]      # data sources contributing >=1 field; values from {ncbi, cyanorak, uniprot, eggnog}
     # Quality
-    annotation_quality: int           # 0=hypothetical-no-func, 1=hypothetical-with-func, 2=real-product, 3=real-product+structured
+    annotation_quality: int           # 0=no_evidence, 1=catch_all_only, 2=informative_single, 3=informative_multi (numeric encoding of annotation_state)
+    annotation_state: str          # post-import enum: no_evidence | catch_all_only | informative_single | informative_multi
     gene_category: str                # high-level functional classification (26 controlled values, from Cyanorak/TIGR/COG)
     # Routing signals (pre-computed by post-import Cypher, not by adapter)
     annotation_types: str[]           # ontology edge types with >0 edges, e.g. ["go_bp", "go_mf", "pfam"]
+    informative_annotation_types: str[]   # parallel of annotation_types with informativeness filter
     expression_edge_count: int        # total Changes_expression_of edges
     significant_up_count: int         # expression edges where expression_status = 'significant_up'
     significant_down_count: int       # expression edges where expression_status = 'significant_down'
@@ -402,6 +416,9 @@ gene:
     tcdb_family_count: int                   # per TCDB-S1
     cazy_family_count: int                   # per TCDB-S2
     metabolite_count: int                    # UNION catalysis + transport (per TCDB-S3 / KG-A2)
+    # eggNOG seed ortholog match
+    seed_ortholog: str                       # eggNOG seed-ortholog identifier (taxid.id format)
+    seed_ortholog_evalue: float              # eggNOG seed-ortholog E-value
 
 # consider adding: Note, exceptions, inference
 

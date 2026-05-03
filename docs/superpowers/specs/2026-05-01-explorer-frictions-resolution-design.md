@@ -140,10 +140,10 @@ The shared input is **`informative_source_count`** — the number of distinct so
 | `ec` | `EXISTS { (g)-[:Gene_catalyzes_ec_number]->() }` (no flag check; EC never flagged) | live |
 | `role` | `g.gene_category <> 'Unknown'` (coalesces cog_category / cyanorak_role / tigr_role; `gene_category` is already informativeness-aware by construction — see "Drift risk" below) | live |
 | `reaction` | `EXISTS { (g)-[:Gene_catalyzes_reaction]->() }` (no flag check; every Reaction is KEGG-native and specific) | live (metabolism scaffold, ~21K genes have edges) |
-| `transporter` | `EXISTS { (g)-[:Gene_has_tcdb_classification]->() }` (no flag check; placeholder edge name) | **forthcoming** — pending [`2026-05-01-tcdb-cazy-ontologies-design.md`](2026-05-01-tcdb-cazy-ontologies-design.md). Add to this list when the TCDB ontology adapter ships. |
-| `cazy` | `EXISTS { (g)-[:Gene_has_cazy]->() }` (no flag check; placeholder edge name) | **forthcoming** — same TCDB/CAZy spec. Add when CAZy ontology adapter ships. |
+| `transporter` | `EXISTS { (g)-[:Gene_has_tcdb_family]->() }` (no flag check; every TCDB family is functionally specific) | **live** as of 2026-05-02 (TCDB ontology landed in main; node label `TcdbFamily`) |
+| `cazy` | `EXISTS { (g)-[:Gene_has_cazy_family]->() }` (no flag check; every CAZy family is functionally specific) | **live** as of 2026-05-02 (CAZy ontology landed in main; node label `CazyFamily`) |
 
-GO BP/MF/CC coalesce into one bucket. The three role sources (cog_category, cyanorak_role, tigr_role) coalesce via `gene_category`. The 6 live buckets above are the canonical structured-evidence axes today; TCDB/CAZy will bring it to 8.
+GO BP/MF/CC coalesce into one bucket. The three role sources (cog_category, cyanorak_role, tigr_role) coalesce via `gene_category`. **All 8 buckets are now live** as of the 2026-05-02 main-merge — `transporter` and `cazy` were anticipated as forthcoming when this spec was first written (2026-05-01), and shipped the next day under the [`2026-05-01-tcdb-cazy-ontologies-design.md`](2026-05-01-tcdb-cazy-ontologies-design.md) spec.
 
 Mapping:
 
@@ -154,7 +154,7 @@ Mapping:
 | 1 | — | 2 | `informative_single` |
 | ≥ 2 | — | 3 | `informative_multi` |
 
-Cypher (post-import, both fields set in one block; pseudocode for `live` buckets, with comment-marked slots for TCDB/CAZy when they land):
+Cypher (post-import, both fields set in one block):
 
 ```cypher
 MATCH (g:Gene)
@@ -166,18 +166,21 @@ CALL {
        EXISTS { (g)-[:Gene_catalyzes_ec_number]->() } AS has_ec,
        (g.gene_category IS NOT NULL AND g.gene_category <> 'Unknown') AS has_role,
        EXISTS { (g)-[:Gene_catalyzes_reaction]->() } AS has_reaction,
-       // FORTHCOMING: add has_transporter and has_cazy when TCDB/CAZy ontology adapters ship.
+       EXISTS { (g)-[:Gene_has_tcdb_family]->() } AS has_transporter,
+       EXISTS { (g)-[:Gene_has_cazy_family]->() } AS has_cazy,
        EXISTS { (g)-[:Gene_involved_in_biological_process|Gene_enables_molecular_function|Gene_located_in_cellular_component
                      |Gene_has_kegg_ko|Gene_has_pfam|Gene_catalyzes_ec_number
                      |Gene_in_cog_category|Gene_has_cyanorak_role|Gene_has_tigr_role
-                     |Gene_catalyzes_reaction]->() } AS has_any_edge
+                     |Gene_catalyzes_reaction|Gene_has_tcdb_family|Gene_has_cazy_family]->() } AS has_any_edge
   WITH g,
        (CASE WHEN has_go THEN 1 ELSE 0 END
         + CASE WHEN has_kegg THEN 1 ELSE 0 END
         + CASE WHEN has_pfam THEN 1 ELSE 0 END
         + CASE WHEN has_ec THEN 1 ELSE 0 END
         + CASE WHEN has_role THEN 1 ELSE 0 END
-        + CASE WHEN has_reaction THEN 1 ELSE 0 END) AS informative_count,
+        + CASE WHEN has_reaction THEN 1 ELSE 0 END
+        + CASE WHEN has_transporter THEN 1 ELSE 0 END
+        + CASE WHEN has_cazy THEN 1 ELSE 0 END) AS informative_count,
        has_any_edge
   SET g.annotation_state =
         CASE
@@ -226,9 +229,9 @@ This explicitly carves out the `catch_all_only` bucket that F1's trigger analysi
 
 ### Ship 1.4 — `Gene.informative_annotation_types: list[str]` (parallel field)
 
-Added next to existing `Gene.annotation_types`. Domain (11 sources, with TCDB/CAZy bringing it to 13 when those land):
+Added next to existing `Gene.annotation_types`. Domain (13 sources, all live as of 2026-05-02):
 
-`go_bp`, `go_mf`, `go_cc`, `pfam`, `cog_category`, `kegg`, `brite`, `ec`, `cyanorak_role`, `tigr_role`, **`reaction`** (NEW), and forthcoming `transporter`, `cazy`.
+`go_bp`, `go_mf`, `go_cc`, `pfam`, `cog_category`, `kegg`, `brite`, `ec`, `cyanorak_role`, `tigr_role`, `reaction`, `transporter`, `cazy`.
 
 Inclusion rule: a source appears in `informative_annotation_types` if at least one connected term in that source has `is_uninformative IS NULL` (or for sources that have no flagging — `pfam`, `ec`, `reaction`, `transporter`, `cazy` — at least one connected node exists).
 
@@ -261,7 +264,7 @@ Adjacent to the existing `annotation_types` block in [`scripts/post-import.cyphe
 
 ### Source bucket maintenance
 
-The source-bucket list is **explicitly enumerated**, not auto-discovered from the schema. New functional Gene-edge types (TCDB, CAZy, future ontologies) are NOT picked up automatically — adding a bucket requires:
+The source-bucket list is **explicitly enumerated**, not auto-discovered from the schema. New functional Gene-edge types are NOT picked up automatically — adding a bucket requires:
 
 1. Append a row to the bucket table in this spec (and any successor spec).
 2. Add a `has_<bucket>` line to the post-import Cypher in [`scripts/post-import.cypher`](../../../scripts/post-import.cypher) and `scripts/post-import.sh`.
@@ -272,7 +275,7 @@ The source-bucket list is **explicitly enumerated**, not auto-discovered from th
 
 The Cypher block carries a fenced comment marker (`// SOURCE_BUCKETS:start` … `// SOURCE_BUCKETS:end`) so the maintenance points are greppable.
 
-**Inclusion criterion for a new bucket.** A new Gene-edge type belongs in the score iff it carries **per-gene functional evidence** about what the gene's protein *does*. Examples that qualify: catalysis (Gene_catalyzes_reaction), enzyme classification (Gene_catalyzes_ec_number), domain membership (Gene_has_pfam), transporter classification (forthcoming TCDB), CAZy classification (forthcoming). Examples that do NOT qualify: orthology grouping (Gene_in_ortholog_group — about evolutionary clustering, not function), study-specific clustering (Gene_in_gene_cluster), expression evidence (Changes_expression_of), genomic context (start/end/strand/contig).
+**Inclusion criterion for a new bucket.** A new Gene-edge type belongs in the score iff it carries **per-gene functional evidence** about what the gene's protein *does*. Examples that qualify: catalysis (`Gene_catalyzes_reaction`), enzyme classification (`Gene_catalyzes_ec_number`), domain membership (`Gene_has_pfam`), transporter classification (`Gene_has_tcdb_family`), CAZy classification (`Gene_has_cazy_family`). Examples that do NOT qualify: orthology grouping (`Gene_in_ortholog_group` — about evolutionary clustering, not function), study-specific clustering (`Gene_in_gene_cluster`), expression evidence (`Changes_expression_of`), genomic context (`start`/`end`/`strand`/`contig`).
 
 If a new bucket's terms include catch-all entries (like KEGG's "uncharacterized protein" KOs), add an `is_uninformative` rule to `config/uninformative_terms.yaml` and a `WHERE t.is_uninformative IS NULL` clause to the Cypher; otherwise (every term is functionally specific) the bucket criterion is just `EXISTS { (g)-[:edge_type]->() }` like Pfam / EC / Reaction.
 
@@ -281,7 +284,7 @@ If a new bucket's terms include catch-all entries (like KEGG's "uncharacterized 
 - `gene_overview` MCP tool about-content updated to describe both `annotation_quality` (refined) and `annotation_state` (new) + cross-reference between `annotation_types` and `informative_annotation_types`.
 - `kg_schema` field descriptions updated for all four properties.
 - **CLAUDE.md** updates:
-  - "Key graph facts" — replace today's `annotation_quality` description with: numeric encoding of `annotation_state` (0=`no_evidence`, 1=`catch_all_only`, 2=`informative_single`, 3=`informative_multi`); list the live source-bucket set (`go`, `kegg`, `pfam`, `ec`, `role`, `reaction`); call out forthcoming `transporter` and `cazy` buckets pending TCDB/CAZy ontologies design; pointer to this spec.
+  - "Key graph facts" — replace today's `annotation_quality` description with: numeric encoding of `annotation_state` (0=`no_evidence`, 1=`catch_all_only`, 2=`informative_single`, 3=`informative_multi`); list the 8 live source buckets (`go`, `kegg`, `pfam`, `ec`, `role`, `reaction`, `transporter`, `cazy`); pointer to this spec.
   - "Gene properties" — list `annotation_state`, `informative_annotation_types`, `contributing_sources`, `contig`, `seed_ortholog`, `seed_ortholog_evalue` alongside the existing entries.
   - Cross-reference the "Source bucket maintenance" section above so future contributors editing the score know what to update.
 - Release notes call out the `annotation_quality` semantic shift with a worked before/after example.
@@ -578,7 +581,7 @@ Acceptance gates:
 - New tests added (per above).
 - `omics-edge-snapshot` skill shows no expression-edge regressions.
 - KG release notes include:
-  - F1 worked example showing `annotation_quality` + `annotation_state` before/after. Realistic case: gene with `pfam_ids=[PF00712]` + `go_terms=[GO:0003674]` (MF root) + `gene_category='Unknown'`, and no other functional-source edges (no kegg_ko, ec_number, cyanorak_role, tigr_role, reaction, etc.). *Before*: `structured_count = 2` (`go_terms` + `pfam_ids` both non-null) and product is real → score `3`. *After*: GO MF root is flagged uninformative (`is_uninformative = 'true'`), so `has_go = false`; only `has_pfam` is true among the 6 live buckets → `informative_source_count = 1` → `annotation_quality = 2`, `annotation_state = 'informative_single'`. Population most affected: genes whose ontology hits are dominated by GO roots / COG S / TIGR catch-alls.
+  - F1 worked example showing `annotation_quality` + `annotation_state` before/after. Realistic case: gene with `pfam_ids=[PF00712]` + `go_terms=[GO:0003674]` (MF root) + `gene_category='Unknown'`, and no other functional-source edges (no kegg_ko, ec_number, cyanorak_role, tigr_role, reaction, etc.). *Before*: `structured_count = 2` (`go_terms` + `pfam_ids` both non-null) and product is real → score `3`. *After*: GO MF root is flagged uninformative (`is_uninformative = 'true'`), so `has_go = false`; only `has_pfam` is true among the 8 live buckets → `informative_source_count = 1` → `annotation_quality = 2`, `annotation_state = 'informative_single'`. Population most affected: genes whose ontology hits are dominated by GO roots / COG S / TIGR catch-alls.
   - F2 worked example showing `contributing_sources` for TX50_RS09500 vs MED4 dnaA.
   - F3 vocab rename callout.
   - F4 honest-framing note (broader-population leverage, not strict floor).

@@ -3,7 +3,7 @@
     "cds_fna_id": {
       "conflict": 0,
       "multi": 0,
-      "unique": 2714
+      "unique": 2717
     },
     "gene_name": {
       "conflict": 0,
@@ -13,32 +13,32 @@
     "gene_synonym": {
       "conflict": 0,
       "multi": 7,
-      "unique": 4743
+      "unique": 4744
     },
     "gff_gene_id": {
       "conflict": 0,
       "multi": 0,
-      "unique": 8093
+      "unique": 8096
     },
     "locus_tag_ncbi": {
-      "conflict": 49,
+      "conflict": 50,
       "multi": 0,
-      "unique": 11410
+      "unique": 11433
     },
     "old_locus_tag": {
       "conflict": 16,
       "multi": 0,
-      "unique": 3614
+      "unique": 3603
     },
     "protein_id_refseq": {
       "conflict": 0,
-      "multi": 24,
-      "unique": 5723
+      "multi": 30,
+      "unique": 5727
     },
     "uniprot_accession": {
       "conflict": 0,
       "multi": 0,
-      "unique": 1840
+      "unique": 1837
     },
     "uniprot_entry_name": {
       "conflict": 0,
@@ -48,15 +48,15 @@
   },
   "strain": "PCC7942",
   "unresolved_rows_per_source": {
-    "Kratzl 2024/annotation_gff_pcc7942_old": 110,
-    "Kratzl 2024/sheet13_proteomics_selongatus": 268,
-    "Kratzl 2024/sheet6_rnaseq_selongatus": 52,
-    "cds_from_genomic.fna": 16,
-    "genomic_gca/PCC7942": 83,
+    "Kratzl 2024/annotation_gff_pcc7942_old": 114,
+    "Kratzl 2024/sheet13_proteomics_selongatus": 269,
+    "Kratzl 2024/sheet6_rnaseq_selongatus": 53,
+    "cds_from_genomic.fna": 15,
+    "genomic_gca/PCC7942": 79,
     "genomic_gcf/PCC7942": 56
   },
   "warnings": [
-    "[CONFLICT] Tier 1 id_type 'locus_tag_ncbi' has 49 data conflicts \u2014 check annotation quality.",
+    "[CONFLICT] Tier 1 id_type 'locus_tag_ncbi' has 50 data conflicts \u2014 check annotation quality.",
     "[CONFLICT] Tier 1 id_type 'old_locus_tag' has 16 data conflicts \u2014 check annotation quality."
   ]
 }

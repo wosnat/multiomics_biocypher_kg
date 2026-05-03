@@ -56,7 +56,7 @@ def test_clustering_analysis_required_properties(run_query, prop):
 def test_clustering_analysis_cluster_type_values(run_query):
     """cluster_type must be from the valid enum."""
     valid_types = {
-        "time_course", "diel", "condition_comparison", "classification",
+        "time_course", "diel", "condition_comparison", "expression_bin",
     }
     result = run_query(
         "MATCH (ca:ClusteringAnalysis) RETURN DISTINCT ca.cluster_type AS ct"

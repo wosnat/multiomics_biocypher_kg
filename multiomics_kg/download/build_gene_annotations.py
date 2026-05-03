@@ -206,32 +206,6 @@ logger = logging.getLogger(__name__)
 
 # ─── Pfam post-merge enrichment ──────────────────────────────────────────────
 
-def _compute_annotation_quality(gene: dict) -> int:
-    """Compute annotation_quality (0-3) based on product content + structured annotations.
-
-    0 = hypothetical, no function description
-    1 = hypothetical, has function description
-    2 = real product, <2 structured annotations
-    3 = real product, >=2 structured annotations (go_terms, kegg_ko, ec_numbers, pfam_ids)
-    """
-    product = gene.get("product", "")
-    func_desc = gene.get("function_description", "")
-    is_hypothetical = not product or bool(re.match(
-        r'^(hypothetical|conserved hypothetical|uncharacterized)\b', product, re.IGNORECASE
-    ))
-
-    if not is_hypothetical:
-        structured_count = sum(
-            1 for f in ("go_terms", "kegg_ko", "ec_numbers", "pfam_ids")
-            if gene.get(f)
-        )
-        return 3 if structured_count >= 2 else 2
-    elif func_desc and func_desc != "-":
-        return 1
-    else:
-        return 0
-
-
 def enrich_pfam_fields(gene: dict, pfam_data: PfamData) -> list[str]:
     """Resolve raw pfam_ids tokens to clean PF* accessions and update related fields.
 
@@ -245,8 +219,6 @@ def enrich_pfam_fields(gene: dict, pfam_data: PfamData) -> list[str]:
 
     Side effects on gene dict:
     - pfam_ids: overwritten with clean PF* list (or deleted if empty)
-    - annotation_quality: recomputed (was computed during merge on raw tokens;
-      corrected here so only real PF* IDs count toward structured annotation score)
     - alternate_functional_descriptions: appends "[pfam] shortname: description"
       entries from Pfam reference data for each resolved PF* ID
 
@@ -277,9 +249,8 @@ def enrich_pfam_fields(gene: dict, pfam_data: PfamData) -> list[str]:
     elif "pfam_ids" in gene:
         del gene["pfam_ids"]
 
-    # Recompute annotation_quality: it was computed during merge when pfam_ids
-    # contained raw unfiltered tokens. Now that pfam_ids is clean, recheck.
-    gene["annotation_quality"] = _compute_annotation_quality(gene)
+    # Recompute contributing_sources after enrichment (in case sources changed)
+    gene["contributing_sources"] = _compute_contributing_sources(gene)
 
     # Add Pfam descriptions to alternate_functional_descriptions
     if result:
@@ -296,6 +267,47 @@ def enrich_pfam_fields(gene: dict, pfam_data: PfamData) -> list[str]:
         gene["alternate_functional_descriptions"] = alt_descs
 
     return unresolved
+
+
+# ─── contributing_sources ────────────────────────────────────────────────────
+
+def _has_source_label(gene: dict, label: str) -> bool:
+    """Check whether a gene has any field provenance-tagged with `label`.
+
+    Walks `gene["*_source"]` track fields (e.g. product_source, gene_name_source)
+    plus `[label]` prefixes inside `alternate_functional_descriptions`.
+    """
+    # *_source track fields
+    for k, v in gene.items():
+        if k.endswith("_source") and v == label:
+            return True
+    # [label] prefix in alternate functional descriptions
+    afd = gene.get("alternate_functional_descriptions") or []
+    for entry in afd:
+        if isinstance(entry, str) and entry.startswith(f"[{label}]"):
+            return True
+    return False
+
+
+def _compute_contributing_sources(gene: dict) -> list[str]:
+    """Return sorted list of data sources that contributed at least one field.
+
+    Source presence rules:
+    - 'ncbi': always present (every Gene comes from an NCBI GFF row).
+    - 'cyanorak': locus_tag_cyanorak non-null OR any cyanorak-tagged field.
+    - 'uniprot': uniprot_accession non-null OR any uniprot-tagged field.
+    - 'eggnog': seed_ortholog or eggnog_ogs non-null OR any eggnog-tagged field.
+    """
+    sources = {"ncbi"}
+    if gene.get("locus_tag_cyanorak") or _has_source_label(gene, "cyanorak"):
+        sources.add("cyanorak")
+    if gene.get("uniprot_accession") or _has_source_label(gene, "uniprot"):
+        sources.add("uniprot")
+    if (gene.get("seed_ortholog")
+            or gene.get("eggnog_ogs")
+            or _has_source_label(gene, "eggnog")):
+        sources.add("eggnog")
+    return sorted(sources)
 
 
 # ─── paths ────────────────────────────────────────────────────────────────────
@@ -684,15 +696,15 @@ class AnnotationBuilder:
         # Add source-tracking fields collected during 'single' resolution
         result.update(source_tracking)
 
-        # Compute annotation_quality (0–3) based on product content + structured annotations
-        result["annotation_quality"] = _compute_annotation_quality(result)
-
         # Compute gene_category — high-level functional classification
         category = _compute_gene_category(result)
         assert category in VALID_CATEGORIES, (
             f"Invalid gene_category {category!r} for {result.get('locus_tag')}"
         )
         result["gene_category"] = category
+
+        # Compute contributing_sources (F2 ship 2.4)
+        result["contributing_sources"] = _compute_contributing_sources(result)
 
         # Collect all source descriptions for LLM summaries
         alt_descriptions: list[str] = []
@@ -874,6 +886,17 @@ def process_strain(
     print(f"\n[{strain_name}] Loading sources...")
 
     gm_data = load_gene_mapping(data_dir)
+
+    # Defensive check: seqid column was added by Task 2 (db065e0c); older caches lack it.
+    # If missing, Gene.contig will be null until the cache is regenerated.
+    first_row = next(iter(gm_data.values()), {})
+    if gm_data and "seqid" not in first_row:
+        logger.warning(
+            f"gene_mapping.csv for {strain_name} lacks 'seqid' column — "
+            f"cache is stale; re-run `bash scripts/prepare_data.sh --steps 0 --force`. "
+            f"Gene.contig will be null for this strain until regenerated."
+        )
+
     eg_data = load_eggnog(data_dir, strain_name)
     up_data: dict[str, dict] = {}
     if ncbi_taxon_id:
@@ -889,8 +912,7 @@ def process_strain(
     merged_out: dict[str, dict] = {}
 
     stats = dict(total=0, eggnog_hit=0, uniprot_hit=0,
-                 has_product=0, has_go=0, has_cog=0, has_kegg_ko=0,
-                 quality_0=0, quality_1=0, quality_2=0, quality_3=0)
+                 has_product=0, has_go=0, has_cog=0, has_kegg_ko=0)
 
     for locus_tag, gm_row in gm_data.items():
         protein_id = (gm_row.get("protein_id") or "").strip()
@@ -915,8 +937,6 @@ def process_strain(
             stats["has_cog"] += 1
         if merged.get("kegg_ko"):
             stats["has_kegg_ko"] += 1
-        q = merged.get("annotation_quality", 0)
-        stats[f"quality_{q}"] += 1
         cat = merged.get("gene_category", "Unknown")
         stats.setdefault(f"cat_{cat}", 0)
         stats[f"cat_{cat}"] += 1
@@ -999,9 +1019,6 @@ def process_strain(
     print(f"  Has GO terms:   {stats['has_go']} ({pct('has_go')})")
     print(f"  Has COG:        {stats['has_cog']} ({pct('has_cog')})")
     print(f"  Has KEGG KO:    {stats['has_kegg_ko']} ({pct('has_kegg_ko')})")
-    print(f"  Quality 0/1/2/3: "
-          f"{stats['quality_0']}/{stats['quality_1']}/"
-          f"{stats['quality_2']}/{stats['quality_3']}")
     # gene_category distribution (sorted by count descending)
     cat_stats = {k[4:]: v for k, v in stats.items() if k.startswith("cat_")}
     if cat_stats:

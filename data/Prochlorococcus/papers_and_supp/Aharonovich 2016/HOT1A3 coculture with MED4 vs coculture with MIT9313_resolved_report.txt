@@ -4,15 +4,15 @@ name_col: Synonym
 id_columns: ['Synonym']
 
 Total rows with IDs: 2381
-Resolved: 2296 (96.4%)
-Unresolved: 85
+Resolved: 2295 (96.4%)
+Unresolved: 86
 
 Resolution method breakdown:
   empty: 3796
-  tier1:Synonym: 2296
-  unresolved: 85
+  tier1:Synonym: 2295
+  unresolved: 86
 
-Unresolved rows (85):
+Unresolved rows (86):
   row 5: raw_id='AMHOT1A3_single_00820'  reason=unresolved  [Synonym='AMHOT1A3_single_00820']
   row 30: raw_id='AMHOT1A3_single_00522'  reason=unresolved  [Synonym='AMHOT1A3_single_00522']
   row 122: raw_id='AMHOT1A3_single_02200'  reason=unresolved  [Synonym='AMHOT1A3_single_02200']
@@ -33,4 +33,4 @@ Unresolved rows (85):
   row 251: raw_id='AMHOT1A3_single_04055'  reason=unresolved  [Synonym='AMHOT1A3_single_04055']
   row 257: raw_id='AMHOT1A3_single_04053'  reason=unresolved  [Synonym='AMHOT1A3_single_04053']
   row 274: raw_id='AMHOT1A3_single_00854'  reason=unresolved  [Synonym='AMHOT1A3_single_00854']
-  ... (65 more)
+  ... (66 more)

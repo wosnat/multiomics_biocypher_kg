@@ -865,75 +865,14 @@ class TestAnnotationBuilderBuildMerged:
         assert "gene_synonyms" not in merged
 
     # ── annotation_quality ────────────────────────────────────────────────────
-    # Scoring: 0=hypothetical-no-func, 1=hypothetical-with-func,
-    #          2=real-product, 3=real-product + ≥2 structured annotations
+    # annotation_quality is no longer computed at build time; it is derived
+    # from informative_source_count in post-import Cypher (F1.2).
 
-    def test_quality_3_real_product_with_structured(self):
-        # GM has real product + go_terms + ec_numbers + pfam_ids → quality 3
+    def test_annotation_quality_absent_from_merged(self):
+        # annotation_quality must NOT be present in the merged output —
+        # it is computed entirely in post-import Cypher.
         merged = self.builder.build_merged(GM, EG, UP)
-        assert merged["annotation_quality"] == 3
-
-    def test_quality_2_real_product_no_structured(self):
-        # Real product but no structured annotations (no GO, KEGG, EC, Pfam sources)
-        gm = dict(GM, product_cyanorak="some product", product="",
-                  go_process="", go_function="", go_component="",
-                  ec_numbers="", kegg="", protein_domains="", eggNOG="")
-        merged = self.builder.build_merged(gm, {}, {})
-        assert merged["annotation_quality"] == 2
-
-    def test_quality_2_real_product_one_structured(self):
-        # Real product + only 1 structured field (ec_numbers) → quality 2 not 3
-        gm = dict(GM, product_cyanorak="some product", product="",
-                  go_process="", go_function="", go_component="",
-                  kegg="", protein_domains="", eggNOG="")
-        # ec_numbers="2.7.7.7" still in GM → 1 structured field
-        merged = self.builder.build_merged(gm, {}, {})
-        assert merged["annotation_quality"] == 2
-
-    def test_quality_1_hypothetical_with_func(self):
-        # Hypothetical product but has function_description from UniProt
-        gm = dict(GM, product_cyanorak="", product="hypothetical protein",
-                  go_process="", go_function="", go_component="",
-                  ec_numbers="", kegg="", protein_domains="", eggNOG="")
-        merged = self.builder.build_merged(gm, {}, UP)
-        assert merged["annotation_quality"] == 1
-
-    def test_quality_0_hypothetical_no_func(self):
-        # Hypothetical product, no function_description
-        gm = dict(GM, product_cyanorak="", product="hypothetical protein",
-                  go_process="", go_function="", go_component="",
-                  ec_numbers="", kegg="", protein_domains="", eggNOG="")
-        merged = self.builder.build_merged(gm, {}, {})
-        assert merged["annotation_quality"] == 0
-
-    def test_quality_0_when_nothing(self):
-        gm = {k: "" for k in GM}
-        merged = self.builder.build_merged(gm, {}, {})
-        assert merged["annotation_quality"] == 0
-
-    def test_quality_0_uncharacterized_counts_as_hypothetical(self):
-        gm = dict(GM, product_cyanorak="", product="Uncharacterized protein",
-                  go_process="", go_function="", go_component="",
-                  ec_numbers="", kegg="", protein_domains="", eggNOG="")
-        merged = self.builder.build_merged(gm, {}, {})
-        assert merged["annotation_quality"] == 0
-
-    def test_quality_0_conserved_hypothetical(self):
-        gm = dict(GM, product_cyanorak="", product="conserved hypothetical protein",
-                  go_process="", go_function="", go_component="",
-                  ec_numbers="", kegg="", protein_domains="", eggNOG="")
-        merged = self.builder.build_merged(gm, {}, {})
-        assert merged["annotation_quality"] == 0
-
-    def test_quality_0_hypothetical_with_structured_but_no_func(self):
-        # Hypothetical product with GO + EC (structured annotations) but no
-        # function_description → still quality 0, not 3.
-        # Structured annotations only boost quality for non-hypothetical products.
-        gm = dict(GM, product_cyanorak="", product="hypothetical protein")
-        # GM has go_process + ec_numbers → structured fields resolve, but
-        # product is hypothetical and no func_desc → quality 0
-        merged = self.builder.build_merged(gm, {}, {})
-        assert merged["annotation_quality"] == 0
+        assert "annotation_quality" not in merged
 
     # ── organism_name ──────────────────────────────────────────────────────
 
@@ -1363,13 +1302,13 @@ class TestProcessStrain:
         assert "old" not in merged
         assert "PMM0001" in merged
 
-    def test_annotation_quality_in_merged(self, row, data_dir):
+    def test_annotation_quality_absent_from_merged(self, row, data_dir):
+        # annotation_quality is no longer computed at build time —
+        # it is derived from informative_source_count in post-import Cypher (F1.2).
         process_strain(row, MINIMAL_CONFIG, force=False)
         merged = json.loads((data_dir / "gene_annotations_merged.json").read_text())
-        # PMM0001 has real product, no structured annotations → quality 2
-        assert merged["PMM0001"]["annotation_quality"] == 2
-        # PMM0002 has real product, no structured annotations → quality 2
-        assert merged["PMM0002"]["annotation_quality"] == 2
+        assert "annotation_quality" not in merged["PMM0001"]
+        assert "annotation_quality" not in merged["PMM0002"]
 
     def test_eggnog_rows_joined_via_protein_id(self, row, data_dir):
         eggnog_dir = data_dir / "eggnog"

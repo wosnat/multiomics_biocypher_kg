@@ -132,6 +132,9 @@ CREATE INDEX experiment_compartment_idx IF NOT EXISTS FOR (e:Experiment) ON (e.c
 CREATE FULLTEXT INDEX geneClusterFullText IF NOT EXISTS
   FOR (gc:GeneCluster) ON EACH [gc.name, gc.functional_description, gc.temporal_pattern, gc.expression_dynamics];
 
+// KeggTerm
+CREATE INDEX kegg_term_id_idx IF NOT EXISTS FOR (k:KeggTerm) ON (k.id);
+
 // Reaction
 CREATE INDEX reaction_id_idx IF NOT EXISTS FOR (r:Reaction) ON (r.id);
 CREATE INDEX reaction_kegg_id_idx IF NOT EXISTS FOR (r:Reaction) ON (r.kegg_reaction_id);
@@ -143,6 +146,7 @@ CREATE INDEX metabolite_id_idx IF NOT EXISTS FOR (m:Metabolite) ON (m.id);
 CREATE INDEX metabolite_kegg_id_idx IF NOT EXISTS FOR (m:Metabolite) ON (m.kegg_compound_id);
 CREATE INDEX metabolite_mnxm_idx IF NOT EXISTS FOR (m:Metabolite) ON (m.mnxm_id);
 CREATE INDEX metabolite_chebi_idx IF NOT EXISTS FOR (m:Metabolite) ON (m.chebi_id);
+CREATE INDEX metabolite_hmdb_idx IF NOT EXISTS FOR (m:Metabolite) ON (m.hmdb_id);
 CREATE FULLTEXT INDEX metaboliteFullText IF NOT EXISTS FOR (m:Metabolite) ON EACH [m.name];
 
 // -----------------------------------------------------------------------
@@ -506,6 +510,93 @@ SET e.derived_metric_search_text = trim(
     + apoc.text.join(descs, ' ')
 );
 
+// =====================================================================
+// F1.1: Term-level is_uninformative flag (sentinel str 'true' / absent).
+// Driven by config/uninformative_terms.yaml. Vocabulary is small; keys
+// are hard-coded here matching the YAML section names.
+//
+// Guiding principle: only flag terms that convey no class signal at all.
+// Pfam DUF/UPF, COG R, all BRITE entries, all EC numbers stay UN-flagged.
+// =====================================================================
+
+// Direct ID flags
+MATCH (t:BiologicalProcess) WHERE t.id IN ['go:0008150'] SET t.is_uninformative = 'true';
+MATCH (t:MolecularFunction) WHERE t.id IN ['go:0003674'] SET t.is_uninformative = 'true';
+MATCH (t:CellularComponent) WHERE t.id IN ['go:0005575'] SET t.is_uninformative = 'true';
+MATCH (t:CogFunctionalCategory) WHERE t.id IN ['cog.category:S'] SET t.is_uninformative = 'true';
+
+MATCH (t:CyanorakRole)
+WHERE t.id IN ['cyanorak.role:R','cyanorak.role:R.1','cyanorak.role:R.2',
+               'cyanorak.role:R.4','cyanorak.role:R.5']
+SET t.is_uninformative = 'true';
+
+MATCH (t:TigrRole)
+WHERE t.id IN ['tigr.role:156','tigr.role:704','tigr.role:856',
+               'tigr.role:185','tigr.role:157']
+SET t.is_uninformative = 'true';
+
+// Pattern-based flag for KEGG (uncharacterized protein KOs, ~210 nodes)
+MATCH (t:KeggTerm)
+WHERE t.name =~ '^K\\d+;\\s+uncharacterized protein\\b.*'
+SET t.is_uninformative = 'true';
+
+// =====================================================================
+// F1.2 + F1.3: annotation_quality (numeric 0-3) + annotation_state (enum)
+// from informative_source_count over 8 source buckets.
+//
+// SOURCE_BUCKETS:start
+//   live (8): go, kegg, pfam, ec, role, reaction, transporter, cazy
+// SOURCE_BUCKETS:end
+//
+// Maintenance: when adding a new functional Gene-edge type, append a
+// has_<bucket> EXISTS line, include in informative_count sum, and add
+// the edge type(s) to has_any_edge. See the design spec section
+// 'Source bucket maintenance'.
+// =====================================================================
+
+MATCH (g:Gene)
+CALL {
+  WITH g
+  WITH g,
+       EXISTS { (g)-[:Gene_involved_in_biological_process|Gene_enables_molecular_function|Gene_located_in_cellular_component]->(t)
+                WHERE t.is_uninformative IS NULL } AS has_go,
+       EXISTS { (g)-[:Gene_has_kegg_ko]->(t) WHERE t.is_uninformative IS NULL } AS has_kegg,
+       EXISTS { (g)-[:Gene_has_pfam]->() } AS has_pfam,
+       EXISTS { (g)-[:Gene_catalyzes_ec_number]->() } AS has_ec,
+       (g.gene_category IS NOT NULL AND g.gene_category <> 'Unknown') AS has_role,
+       EXISTS { (g)-[:Gene_catalyzes_reaction]->() } AS has_reaction,
+       EXISTS { (g)-[:Gene_has_tcdb_family]->() } AS has_transporter,
+       EXISTS { (g)-[:Gene_has_cazy_family]->() } AS has_cazy,
+       EXISTS { (g)-[:Gene_involved_in_biological_process|Gene_enables_molecular_function|Gene_located_in_cellular_component
+                     |Gene_has_kegg_ko|Gene_has_pfam|Gene_catalyzes_ec_number
+                     |Gene_in_cog_category|Gene_has_cyanorak_role|Gene_has_tigr_role
+                     |Gene_catalyzes_reaction|Gene_has_tcdb_family|Gene_has_cazy_family]->() } AS has_any_edge
+  WITH g,
+       (CASE WHEN has_go THEN 1 ELSE 0 END
+        + CASE WHEN has_kegg THEN 1 ELSE 0 END
+        + CASE WHEN has_pfam THEN 1 ELSE 0 END
+        + CASE WHEN has_ec THEN 1 ELSE 0 END
+        + CASE WHEN has_role THEN 1 ELSE 0 END
+        + CASE WHEN has_reaction THEN 1 ELSE 0 END
+        + CASE WHEN has_transporter THEN 1 ELSE 0 END
+        + CASE WHEN has_cazy THEN 1 ELSE 0 END) AS informative_count,
+       has_any_edge
+  SET g.annotation_state =
+        CASE
+          WHEN informative_count >= 2 THEN 'informative_multi'
+          WHEN informative_count = 1 THEN 'informative_single'
+          WHEN has_any_edge THEN 'catch_all_only'
+          ELSE 'no_evidence'
+        END,
+      g.annotation_quality =
+        CASE
+          WHEN informative_count >= 2 THEN 3
+          WHEN informative_count = 1 THEN 2
+          WHEN has_any_edge THEN 1
+          ELSE 0
+        END
+} IN TRANSACTIONS OF 500 ROWS;
+
 // -----------------------------------------------------------------------
 // Gene routing signals (pre-computed for fast gene_overview queries)
 // -----------------------------------------------------------------------
@@ -525,6 +616,47 @@ CALL {
     CASE WHEN EXISTS { (g)-[:Gene_catalyzes_ec_number]->() } THEN ['ec'] ELSE [] END +
     CASE WHEN EXISTS { (g)-[:Gene_has_cyanorak_role]->() } THEN ['cyanorak_role'] ELSE [] END +
     CASE WHEN EXISTS { (g)-[:Gene_has_tigr_role]->() } THEN ['tigr_role'] ELSE [] END
+} IN TRANSACTIONS OF 1000 ROWS;
+
+// =====================================================================
+// F1.4: Gene.informative_annotation_types — granular per-source list,
+// only includes a source if at least one connected term is informative.
+// Parallel of Gene.annotation_types (presence-by-source) with the
+// informativeness filter applied.
+// =====================================================================
+
+MATCH (g:Gene)
+CALL {
+  WITH g
+  SET g.informative_annotation_types =
+    CASE WHEN EXISTS { (g)-[:Gene_involved_in_biological_process]->(t)
+                       WHERE t.is_uninformative IS NULL }
+         THEN ['go_bp'] ELSE [] END +
+    CASE WHEN EXISTS { (g)-[:Gene_enables_molecular_function]->(t)
+                       WHERE t.is_uninformative IS NULL }
+         THEN ['go_mf'] ELSE [] END +
+    CASE WHEN EXISTS { (g)-[:Gene_located_in_cellular_component]->(t)
+                       WHERE t.is_uninformative IS NULL }
+         THEN ['go_cc'] ELSE [] END +
+    CASE WHEN EXISTS { (g)-[:Gene_has_pfam]->() } THEN ['pfam'] ELSE [] END +
+    CASE WHEN EXISTS { (g)-[:Gene_in_cog_category]->(t)
+                       WHERE t.is_uninformative IS NULL }
+         THEN ['cog_category'] ELSE [] END +
+    CASE WHEN EXISTS { (g)-[:Gene_has_kegg_ko]->(t)
+                       WHERE t.is_uninformative IS NULL }
+         THEN ['kegg'] ELSE [] END +
+    CASE WHEN EXISTS { (g)-[:Gene_has_kegg_ko]->()-[:Kegg_term_in_brite_category]->() }
+         THEN ['brite'] ELSE [] END +
+    CASE WHEN EXISTS { (g)-[:Gene_catalyzes_ec_number]->() } THEN ['ec'] ELSE [] END +
+    CASE WHEN EXISTS { (g)-[:Gene_has_cyanorak_role]->(t)
+                       WHERE t.is_uninformative IS NULL }
+         THEN ['cyanorak_role'] ELSE [] END +
+    CASE WHEN EXISTS { (g)-[:Gene_has_tigr_role]->(t)
+                       WHERE t.is_uninformative IS NULL }
+         THEN ['tigr_role'] ELSE [] END +
+    CASE WHEN EXISTS { (g)-[:Gene_catalyzes_reaction]->() } THEN ['reaction'] ELSE [] END +
+    CASE WHEN EXISTS { (g)-[:Gene_has_tcdb_family]->() } THEN ['transporter'] ELSE [] END +
+    CASE WHEN EXISTS { (g)-[:Gene_has_cazy_family]->() } THEN ['cazy'] ELSE [] END
 } IN TRANSACTIONS OF 1000 ROWS;
 
 // expression_edge_count + significant_up/down_count

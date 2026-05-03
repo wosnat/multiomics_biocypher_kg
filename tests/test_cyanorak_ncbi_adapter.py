@@ -172,7 +172,12 @@ class TestGeneNodeFieldEnum:
         assert "Ontology_term" not in field_values
 
     def test_dropped_phase_fields_removed(self):
-        """Verify dropped properties are no longer in the enum."""
+        """Verify dropped properties are no longer in the enum.
+
+        Note: seed_ortholog and seed_ortholog_evalue were originally in this
+        list but were re-added in F4 ship 4.2 to surface eggNOG seed-ortholog
+        pointers as Gene properties. max_annot_lvl remains dropped.
+        """
         field_values = {f.value for f in GeneNodeField}
         dropped = [
             "locus_tag_ncbi", "locus_tag_cyanorak", "start_cyanorak", "end_cyanorak",
@@ -181,7 +186,7 @@ class TestGeneNodeFieldEnum:
             "ec_numbers", "go_terms", "go_term_descriptions", "kegg_ko",
             "kegg_ko_descriptions", "kegg_pathway", "kegg_module", "kegg_reaction",
             "kegg_brite", "cog_category", "eggnog_ogs", "eggnog_og_descriptions",
-            "seed_ortholog", "max_annot_lvl", "seed_ortholog_evalue",
+            "max_annot_lvl",
             "gene_name_source", "product_source", "function_description_source",
             # Redundant ID fields removed — content is in all_identifiers / gene_name_synonyms
             "gene_synonyms", "alternative_locus_tags", "old_locus_tags",
@@ -501,7 +506,11 @@ class TestGetGeneNodes:
             assert "pfam_ids" not in props
 
     def test_dropped_properties_not_in_gene_nodes(self, adapter):
-        """Verify that all 30 dropped gene properties are absent from node dicts."""
+        """Verify that dropped gene properties are absent from node dicts.
+
+        Note: seed_ortholog and seed_ortholog_evalue were originally in this
+        list but were re-added in F4 ship 4.2. max_annot_lvl remains dropped.
+        """
         dropped_properties = [
             "locus_tag_ncbi", "locus_tag_cyanorak", "start_cyanorak", "end_cyanorak",
             "strand_cyanorak", "product_cyanorak", "cyanorak_Role",
@@ -509,7 +518,7 @@ class TestGetGeneNodes:
             "ec_numbers", "go_terms", "go_term_descriptions", "kegg_ko",
             "kegg_ko_descriptions", "kegg_pathway", "kegg_module", "kegg_reaction",
             "kegg_brite", "cog_category", "eggnog_ogs", "eggnog_og_descriptions",
-            "seed_ortholog", "max_annot_lvl", "seed_ortholog_evalue",
+            "max_annot_lvl",
             "gene_name_source", "product_source", "function_description_source",
         ]
         nodes = adapter.get_nodes()

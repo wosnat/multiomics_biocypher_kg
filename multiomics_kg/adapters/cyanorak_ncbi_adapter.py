@@ -130,6 +130,7 @@ class GeneNodeField(Enum, metaclass=GeneEnumMeta):
     START = 'start'
     END = 'end'
     STRAND = 'strand'
+    CONTIG = 'contig'                # chromosome / contig name from GFF seqid
     PRODUCT = 'product'
     PROTEIN_ID = 'protein_id'
     FUNCTION_DESCRIPTION = 'function_description'
@@ -143,10 +144,14 @@ class GeneNodeField(Enum, metaclass=GeneEnumMeta):
     TRANSMEMBRANE_REGIONS = 'transmembrane_regions'
     SIGNAL_PEPTIDE = 'signal_peptide'
     BIGG_REACTION = 'bigg_reaction'
+    # eggNOG seed ortholog
+    SEED_ORTHOLOG = 'seed_ortholog'                     # eggNOG seed match (taxid.identifier)
+    SEED_ORTHOLOG_EVALUE = 'seed_ortholog_evalue'       # eggNOG seed match E-value
     # Computed fields for MCP gene lookup
     ORGANISM_NAME = 'organism_name'
     GENE_SUMMARY = 'gene_summary'
     ALL_IDENTIFIERS = 'all_identifiers'
+    CONTRIBUTING_SOURCES = 'contributing_sources'  # data sources contributing >=1 field; values from {ncbi, cyanorak, uniprot, eggnog}
     # Quality
     ANNOTATION_QUALITY = 'annotation_quality'
     # Functional classification
@@ -297,7 +302,7 @@ class CyanorakNcbi:
         logger.info("Started writing gene nodes")
 
         int_fields = {'start', 'end', 'annotation_quality'}
-        float_fields = set()
+        float_fields = {'seed_ortholog_evalue'}
         node_list = []
         for _, row in self.data_df.iterrows():
             node_properties = {}

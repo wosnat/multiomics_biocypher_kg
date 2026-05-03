@@ -205,7 +205,7 @@ VALID_CLUSTER_TYPES = {
     "time_course",
     "diel",
     "condition_comparison",
-    "classification",
+    "expression_bin",
 }
 
 # Required fields on gene_clusters supplementary entries.

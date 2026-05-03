@@ -29,6 +29,18 @@ sources:
     path_pattern: "{data_dir}/gene_mapping.csv"
     index_col: locus_tag
     description: "NCBI + Cyanorak merged gene annotations (38 cols)"
+    logical_sources:
+      - id: ncbi
+        scope: gene_level
+        provenance: download
+      - id: cyanorak
+        scope: organism_restricted
+        provenance: download
+        applies_to_organisms:
+          - "Prochlorococcus*"
+          - "Synechococcus*"
+          - "Parasynechococcus*"
+          - "Thermosynechococcus*"
 
   eggnog:
     type: tsv_hash_header
@@ -37,6 +49,10 @@ sources:
     # Join key: gene_mapping.protein_id == eggnog.query (both RefSeq WP_ accessions)
     join_to: protein_id
     description: "EggNOG-mapper v2 functional annotations"
+    logical_sources:
+      - id: eggnog
+        scope: gene_level
+        provenance: tool_run
 
   uniprot:
     type: json_roworiented
@@ -50,6 +66,10 @@ sources:
     # Join key: gene_mapping.protein_id == uniprot.refseq_ids (WP_ accessions)
     join_to: protein_id
     description: "UniProt proteins (reviewed + unreviewed)"
+    logical_sources:
+      - id: uniprot
+        scope: gene_level
+        provenance: download
 
 
 # ─── Field merge rules ────────────────────────────────────────────────────────
@@ -91,6 +111,11 @@ fields:
     delimiter: ","
 
   # ── Genomic location ────────────────────────────────────────────────────────
+
+  contig:
+    type: passthrough
+    source: gene_mapping
+    field: seqid               # GFF3 seqid = chromosome / contig accession
 
   start:
     type: integer
@@ -548,8 +573,3 @@ fields:
   ortholog_groups:
     type: computed
     description: "List of ortholog group memberships, extracted from eggnog_ogs and cluster_number"
-
-  # ── Provenance / quality ───────────────────────────────────────────────────
-  # NOTE: annotation_quality (0=none, 1=eggnog-only, 2=NCBI/Cyanorak, 3=UniProt reviewed)
-  # is COMPUTED in build_gene_annotations.py, not derived from a source field.
-  # It is written directly into gene_annotations_merged.json by the script.

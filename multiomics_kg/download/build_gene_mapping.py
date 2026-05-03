@@ -42,6 +42,7 @@ _FINAL_MERGE_RENAME = {
 def _get_ncbi_cols_rename_map() -> dict[str, str]:
     """Build the column rename map for NCBI GFF merged gene+CDS DataFrame."""
     ncbi_cols_to_keep = [
+        'seq_id_cds',
         'Name_gene',
         'gene_gene',
         'locus_tag_cds',
@@ -62,6 +63,7 @@ def _get_ncbi_cols_rename_map() -> dict[str, str]:
         'gene_synonym_gene',
     ]
     col_rename_map = {c: c.replace('_gene', '').replace('_cds', '') for c in ncbi_cols_to_keep}
+    col_rename_map['seq_id_cds'] = 'seqid'
     col_rename_map['locus_tag_cds'] = 'locus_tag_ncbi'
     col_rename_map['old_locus_tag_gene'] = 'locus_tag'
     return col_rename_map

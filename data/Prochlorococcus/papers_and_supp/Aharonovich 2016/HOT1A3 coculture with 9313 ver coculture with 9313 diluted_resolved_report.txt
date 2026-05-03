@@ -4,14 +4,14 @@ name_col: Synonym
 id_columns: ['Synonym']
 
 Total rows with IDs: 1966
-Resolved: 1880 (95.6%)
-Unresolved: 86
+Resolved: 1879 (95.6%)
+Unresolved: 87
 
 Resolution method breakdown:
-  tier1:Synonym: 1880
-  unresolved: 86
+  tier1:Synonym: 1879
+  unresolved: 87
 
-Unresolved rows (86):
+Unresolved rows (87):
   row 9: raw_id='AMHOT1A3_single_00092'  reason=unresolved  [Synonym='AMHOT1A3_single_00092']
   row 26: raw_id='AMHOT1A3_single_00202'  reason=unresolved  [Synonym='AMHOT1A3_single_00202']
   row 33: raw_id='AMHOT1A3_single_00265'  reason=unresolved  [Synonym='AMHOT1A3_single_00265']
@@ -19,7 +19,6 @@ Unresolved rows (86):
   row 74: raw_id='AMHOT1A3_single_00509'  reason=unresolved  [Synonym='AMHOT1A3_single_00509']
   row 76: raw_id='AMHOT1A3_single_00517'  reason=unresolved  [Synonym='AMHOT1A3_single_00517']
   row 77: raw_id='AMHOT1A3_single_00518'  reason=unresolved  [Synonym='AMHOT1A3_single_00518']
-  row 89: raw_id='AMHOT1A3_single_00594'  reason=unresolved  [Synonym='AMHOT1A3_single_00594']
   row 123: raw_id='AMHOT1A3_single_00820'  reason=unresolved  [Synonym='AMHOT1A3_single_00820']
   row 128: raw_id='AMHOT1A3_single_00854'  reason=unresolved  [Synonym='AMHOT1A3_single_00854']
   row 259: raw_id='AMHOT1A3_single_01450'  reason=unresolved  [Synonym='AMHOT1A3_single_01450']
@@ -30,6 +29,7 @@ Unresolved rows (86):
   row 364: raw_id='AMHOT1A3_single_02431'  reason=unresolved  [Synonym='AMHOT1A3_single_02431']
   row 381: raw_id='AMHOT1A3_single_02664'  reason=unresolved  [Synonym='AMHOT1A3_single_02664']
   row 388: raw_id='AMHOT1A3_single_02977'  reason=unresolved  [Synonym='AMHOT1A3_single_02977']
+  row 415: raw_id='AMHOT1A3_single_04075'  reason=unresolved  [Synonym='AMHOT1A3_single_04075']
   row 420: raw_id='AMHOT1A3_single_04111'  reason=unresolved  [Synonym='AMHOT1A3_single_04111']
   row 448: raw_id='AMHOT1A3_single_00044'  reason=unresolved  [Synonym='AMHOT1A3_single_00044']
-  ... (66 more)
+  ... (67 more)
