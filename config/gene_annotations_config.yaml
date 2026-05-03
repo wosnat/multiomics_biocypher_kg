@@ -573,8 +573,3 @@ fields:
   ortholog_groups:
     type: computed
     description: "List of ortholog group memberships, extracted from eggnog_ogs and cluster_number"
-
-  # ── Provenance / quality ───────────────────────────────────────────────────
-  # NOTE: annotation_quality (0=none, 1=eggnog-only, 2=NCBI/Cyanorak, 3=UniProt reviewed)
-  # is COMPUTED in build_gene_annotations.py, not derived from a source field.
-  # It is written directly into gene_annotations_merged.json by the script.

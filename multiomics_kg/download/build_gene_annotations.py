@@ -912,8 +912,7 @@ def process_strain(
     merged_out: dict[str, dict] = {}
 
     stats = dict(total=0, eggnog_hit=0, uniprot_hit=0,
-                 has_product=0, has_go=0, has_cog=0, has_kegg_ko=0,
-                 quality_0=0, quality_1=0, quality_2=0, quality_3=0)
+                 has_product=0, has_go=0, has_cog=0, has_kegg_ko=0)
 
     for locus_tag, gm_row in gm_data.items():
         protein_id = (gm_row.get("protein_id") or "").strip()
@@ -1020,9 +1019,6 @@ def process_strain(
     print(f"  Has GO terms:   {stats['has_go']} ({pct('has_go')})")
     print(f"  Has COG:        {stats['has_cog']} ({pct('has_cog')})")
     print(f"  Has KEGG KO:    {stats['has_kegg_ko']} ({pct('has_kegg_ko')})")
-    print(f"  Quality 0/1/2/3: "
-          f"{stats['quality_0']}/{stats['quality_1']}/"
-          f"{stats['quality_2']}/{stats['quality_3']}")
     # gene_category distribution (sorted by count descending)
     cat_stats = {k[4:]: v for k, v in stats.items() if k.startswith("cat_")}
     if cat_stats:
