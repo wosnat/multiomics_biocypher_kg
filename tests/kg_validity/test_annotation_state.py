@@ -18,7 +18,7 @@ def test_every_gene_has_valid_state(run_query):
         "MATCH (g:Gene) "
         "WHERE g.annotation_state IS NULL OR NOT g.annotation_state IN $valid "
         "RETURN count(*) AS n, collect(DISTINCT g.annotation_state)[..5] AS sample",
-        {"valid": list(VALID_STATES)},
+        valid=list(VALID_STATES),
     )
     assert result[0]["n"] == 0, f"Genes with invalid state: {result[0]}"
 
