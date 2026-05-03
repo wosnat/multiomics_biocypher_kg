@@ -59,7 +59,7 @@ Mirroring details:
 - `_make_metabolite_assay_id(doi, entry_key, assay_key)` → node ID `metabolite_assay:{doi_short}:{entry_key}:{assay_key}`
 - Same denormalized parent-Experiment block on each `MetaboliteAssay` node: `experiment_id`, `organism_name`, `publication_doi`, `omics_type`, `treatment_type`, `background_factors`, `treatment`, `light_condition`, `experimental_context`, `compartment`
 - Same `_clean_str` sanitizer + `_resolve_csv_path` helper
-- Replicate aggregation helper `_aggregate_replicates(values: list[float], null_values: set[str]) → (mean, sd, n_replicates, n_non_zero, replicate_values)`
+- Replicate aggregation helper `_aggregate_replicates(values: list[float], null_values: set[str]) → (mean, sd, n_replicates, n_non_zero, replicate_values, detection_status)` — `detection_status ∈ {detected, sporadic, not_detected}` is computed from n_non_zero vs n_replicates at emission time, not post-import (avoids a per-edge post-import write)
 - Cell-format parser for `embedded_mean_sd_n` (handles `"0.00054 (8.8e-05), n=2"`, `"nd"`, `"NA"`); default `numeric` parser is a plain float coercion
 - Same registry-walk filter in `MultiMetaboliteAssayAdapter`
 
@@ -95,7 +95,6 @@ The PascalCase-concatenated form on binding edges mirrors existing `PublicationH
 
 | Target | Property/edge | Behavior |
 |---|---|---|
-| `Assay_quantifies_metabolite` | `detection_status` (str) | derived: `detected` (n_non_zero == n_replicates) \| `sporadic` (0 < n_non_zero < n_replicates) \| `not_detected` (n_non_zero == 0) |
 | `Assay_quantifies_metabolite` | `rank_by_metric`, `metric_percentile`, `metric_bucket` | parallel to DM numeric edges; only when parent assay `rankable="true"` |
 | `MetaboliteAssay` | `total_metabolite_count` | distinct count of `Assay_*_metabolite` outgoing edges |
 | `MetaboliteAssay` | `value_min`, `value_max`, `value_q1`, `value_median`, `value_q3` | numeric distribution stats (null for boolean assays) |
@@ -217,7 +216,7 @@ assay quantifies metabolite:
     n_replicates: int
     n_non_zero: int
     replicate_values: float[]        # raw per-replicate values, ordered
-    detection_status: str            # post-import
+    detection_status: str            # adapter-set: detected | sporadic | not_detected (from n_non_zero vs n_replicates)
     rank_by_metric: int              # post-import (rankable="true" only)
     metric_percentile: float         # post-import (rankable="true" only)
     metric_bucket: str               # post-import (rankable="true" only)
@@ -454,18 +453,9 @@ CREATE FULLTEXT INDEX metaboliteAssayFullText  IF NOT EXISTS FOR (a:MetaboliteAs
 
 ### 4.2 — Edge-level computed properties
 
-```cypher
-// detection_status (every numeric edge)
-MATCH ()-[r:Assay_quantifies_metabolite]->()
-CALL { WITH r
-  SET r.detection_status =
-    CASE
-      WHEN r.n_non_zero = 0                  THEN 'not_detected'
-      WHEN r.n_non_zero = r.n_replicates     THEN 'detected'
-      ELSE 'sporadic'
-    END
-} IN TRANSACTIONS OF 50000 ROWS;
+`detection_status` is set by the adapter at emission time (see §1.4), not post-import.
 
+```cypher
 // rank_by_metric / metric_percentile / metric_bucket — per assay, only when rankable=true
 MATCH (a:MetaboliteAssay {rankable:'true'})-[r:Assay_quantifies_metabolite]->()
 WITH a, r ORDER BY a.id, r.value DESC
@@ -644,7 +634,7 @@ SET m.measured_assay_count = 0,
 
 **Unit tests** (`tests/`, `pytest -m "not slow and not kg"`):
 - `test_paperconfig_utils.py` — `iter_metabolite_assays_tables` filtering + schema validation
-- `test_metabolite_assay_adapter.py` — single-paper adapter emits expected nodes/edges; replicate aggregation correctness; `embedded_mean_sd_n` parser; boolean flag parser; `null_values` vs `missing_values` distinction
+- `test_metabolite_assay_adapter.py` — single-paper adapter emits expected nodes/edges; replicate aggregation correctness; `_aggregate_replicates` returns the right `detection_status` for boundary cases (all-zero / all-detected / sporadic); `embedded_mean_sd_n` parser; boolean flag parser; `null_values` vs `missing_values` distinction
 - `test_resolve_paper_metabolites.py` — step 7 CSV rewriter; `resolution_method` enum coverage
 - `test_build_kegg_metabolism_xrefs.py` — paper metabolite harvesting; alias merging; `evidence_sources` union; pathway extension
 - `test_validate_paperconfig.py` — new `metabolite_assays_table` validation rules
