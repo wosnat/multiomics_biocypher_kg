@@ -37,21 +37,29 @@ def test_gene_has_cazy_family_edge_count(run_query):
 
 @pytest.mark.kg
 def test_tcdb_family_transports_metabolite_edge_count(run_query):
+    """Substrate edges are rolled up from tc_specificity leaves to every ancestor
+    so the upper bound covers ~5x the leaf-only count."""
     n = run_query(
         "MATCH ()-[r:Tcdb_family_transports_metabolite]->() RETURN count(r) AS n"
     )[0]["n"]
-    assert 1000 <= n <= 30000, f"Tcdb_family_transports_metabolite count {n} outside 1000-30000"
+    assert 1000 <= n <= 100000, f"Tcdb_family_transports_metabolite count {n} outside 1000-100000"
 
 
 @pytest.mark.kg
-def test_tcdb_family_transports_metabolite_only_on_leaves(run_query):
-    """Substrate edges must originate from tc_specificity nodes only."""
-    n_bad = run_query("""
+def test_tcdb_family_substrate_edges_present_at_every_level(run_query):
+    """Substrate edges must exist at every TcdbFamily level (rolled up from
+    tc_specificity leaves to ancestors). Levels with no descendant having a
+    substrate may legitimately be empty, so this just asserts >0 levels overall."""
+    rows = run_query("""
         MATCH (t:TcdbFamily)-[:Tcdb_family_transports_metabolite]->()
-        WHERE t.level_kind <> 'tc_specificity'
-        RETURN count(*) AS n
-    """)[0]["n"]
-    assert n_bad == 0, f"{n_bad} substrate edges originate from non-leaf TcdbFamily nodes"
+        RETURN DISTINCT t.level_kind AS lk
+    """)
+    levels = {r["lk"] for r in rows}
+    assert "tc_specificity" in levels, "No leaf-level substrate edges (rollup base case missing)"
+    # Expect at least one ancestor level present (tc_class, tc_subclass, tc_family,
+    # or tc_subfamily) since the pruned hierarchy has multiple levels.
+    ancestor_levels = levels - {"tc_specificity"}
+    assert ancestor_levels, "No ancestor-level substrate edges — rollup not applied?"
 
 
 @pytest.mark.kg

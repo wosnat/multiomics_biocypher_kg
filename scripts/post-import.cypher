@@ -797,11 +797,13 @@ CALL {
       t.organism_count = size([x IN orgs WHERE x IS NOT NULL])
 } IN TRANSACTIONS OF 1000 ROWS;
 
-// metabolite_count: distinct metabolites reachable via Tcdb_family_transports_metabolite in subtree
+// metabolite_count: distinct metabolites reachable via Tcdb_family_transports_metabolite.
+// Single-hop: substrate edges are rolled up to every ancestor in the adapter
+// (each TcdbFamily has direct edges to all metabolites in its subtree).
 MATCH (t:TcdbFamily)
 CALL {
   WITH t
-  OPTIONAL MATCH (t)<-[:Tcdb_family_is_a_tcdb_family*0..]-(desc:TcdbFamily)-[:Tcdb_family_transports_metabolite]->(m:Metabolite)
+  OPTIONAL MATCH (t)-[:Tcdb_family_transports_metabolite]->(m:Metabolite)
   WITH t, count(DISTINCT m) AS mc
   SET t.metabolite_count = mc
 } IN TRANSACTIONS OF 1000 ROWS;
@@ -846,16 +848,14 @@ CALL {
 
 // Gene.metabolite_count = UNION across catalysis + transport paths (per TCDB-S3)
 // Catalysis arm: Gene -> Reaction -> Metabolite (existing chemistry).
-// Transport arm: Gene -> TcdbFamily -> ... -> tc_specificity leaf -> Metabolite.
-// Uses apoc.coll.toSet for distinct UNION across the two paths.
+// Transport arm: Gene -> TcdbFamily -> Metabolite (single-hop; substrate edges
+// are rolled up to every ancestor in the adapter, so no descendants walk).
 MATCH (g:Gene)
 CALL {
   WITH g
   OPTIONAL MATCH (g)-[:Gene_catalyzes_reaction]->(:Reaction)-[:Reaction_has_metabolite]->(m1:Metabolite)
   WITH g, collect(DISTINCT m1) AS m_cat
-  OPTIONAL MATCH (g)-[:Gene_has_tcdb_family]->(:TcdbFamily)
-                 <-[:Tcdb_family_is_a_tcdb_family*0..]-(:TcdbFamily {level_kind: 'tc_specificity'})
-                 -[:Tcdb_family_transports_metabolite]->(m2:Metabolite)
+  OPTIONAL MATCH (g)-[:Gene_has_tcdb_family]->(:TcdbFamily)-[:Tcdb_family_transports_metabolite]->(m2:Metabolite)
   WITH g, m_cat, collect(DISTINCT m2) AS m_tr
   SET g.metabolite_count = size(apoc.coll.toSet(m_cat + m_tr))
 } IN TRANSACTIONS OF 500 ROWS;
@@ -871,26 +871,28 @@ CALL {
       r.organisms = organisms
 } IN TRANSACTIONS OF 1000 ROWS;
 
-// Metabolite.gene_count, organism_count, transporter_count
-// (UNION-aware: catalysis + transport paths)
+// Metabolite.gene_count: UNION across catalysis + transport paths (single-hop).
+// Substrate edges are rolled up to every ancestor in the adapter, so the
+// transport arm is a 1-hop traversal at any TcdbFamily level the gene is
+// annotated at. organism_count is computed below from the materialized
+// Organism_has_metabolite edge so size(organism_names) == organism_count
+// is invariant by construction (KG-A8).
 CALL {
   MATCH (m:Metabolite)
   OPTIONAL MATCH (m)<-[:Reaction_has_metabolite]-(:Reaction)<-[:Gene_catalyzes_reaction]-(g_cat:Gene)
   WITH m, collect(DISTINCT g_cat) AS gs_cat
-  OPTIONAL MATCH (m)<-[:Tcdb_family_transports_metabolite]-(:TcdbFamily)
-                 <-[:Gene_has_tcdb_family]-(g_tr:Gene)
+  OPTIONAL MATCH (m)<-[:Tcdb_family_transports_metabolite]-(:TcdbFamily)<-[:Gene_has_tcdb_family]-(g_tr:Gene)
   WITH m, gs_cat, collect(DISTINCT g_tr) AS gs_tr
   WITH m, apoc.coll.toSet(gs_cat + gs_tr) AS all_g
-  WITH m,
-       size(all_g) AS gc,
-       size(apoc.coll.toSet([x IN all_g | x.organism_name])) AS oc
-  SET m.gene_count = gc, m.organism_count = oc
+  SET m.gene_count = size(all_g)
 } IN TRANSACTIONS OF 1000 ROWS;
 
-// Metabolite.transporter_count: distinct TcdbFamily ancestors with substrate edge
+// Metabolite.transporter_count: distinct tc_specificity LEAVES with substrate edge.
+// Filter to leaves so the count reflects "actual transporter systems" rather
+// than ancestors-via-rollup. Source-level filter recovers pre-rollup semantics.
 CALL {
   MATCH (m:Metabolite)
-  OPTIONAL MATCH (t:TcdbFamily)-[:Tcdb_family_transports_metabolite]->(m)
+  OPTIONAL MATCH (t:TcdbFamily {level_kind: 'tc_specificity'})-[:Tcdb_family_transports_metabolite]->(m)
   WITH m, count(DISTINCT t) AS tc
   SET m.transporter_count = tc
 } IN TRANSACTIONS OF 1000 ROWS;
@@ -904,11 +906,10 @@ CALL {
   MERGE (o)-[:Organism_has_metabolite]->(m)
 } IN TRANSACTIONS OF 1000 ROWS;
 
-// Materialize Organism_has_metabolite (transport arm)
+// Materialize Organism_has_metabolite (transport arm) — single-hop after rollup.
 CALL {
   MATCH (o:OrganismTaxon)<-[:Gene_belongs_to_organism]-(g:Gene)
         -[:Gene_has_tcdb_family]->(:TcdbFamily)
-        <-[:Tcdb_family_is_a_tcdb_family*0..]-(:TcdbFamily {level_kind: 'tc_specificity'})
         -[:Tcdb_family_transports_metabolite]->(m:Metabolite)
   WITH DISTINCT o, m
   MERGE (o)-[:Organism_has_metabolite]->(m)
@@ -963,3 +964,36 @@ CALL {
   WITH p, count(m) AS met_count
   SET p.metabolite_count = met_count
 } IN TRANSACTIONS OF 100 ROWS;
+
+// ── Chemistry slice-1 follow-up rollups (KG-A5, A6, A7, A8) ────────────────
+// Denormalize Metabolite_in_pathway and Organism_has_metabolite edges onto
+// Metabolite for list_metabolites flat filter + per-row use.
+
+// KG-A5/A6/A7: pathway_ids / pathway_names / pathway_count.
+// collect(DISTINCT p) keeps id/name index-aligned (single ordered node list);
+// ORDER BY p.id sorts pathways alphabetically before collect.
+MATCH (m:Metabolite)
+CALL {
+  WITH m
+  OPTIONAL MATCH (m)-[:Metabolite_in_pathway]->(p:KeggTerm)
+  WITH m, p ORDER BY p.id
+  WITH m, collect(DISTINCT p) AS ps
+  SET m.pathway_ids   = [x IN ps | x.id],
+      m.pathway_names = [x IN ps | x.name],
+      m.pathway_count = size(ps)
+} IN TRANSACTIONS OF 1000 ROWS;
+
+// KG-A8: organism_names — distinct sorted OrganismTaxon.preferred_name reachable
+// via Organism_has_metabolite (UNION of catalysis + transport, materialized above).
+// organism_count is recomputed from the same edge so size(organism_names) ==
+// organism_count is invariant by construction. The earlier transport-arm rollup
+// missed genes annotated above the tc_specificity leaf; deriving from the
+// materialized edge picks up the descendants walk done in the materialization.
+MATCH (m:Metabolite)
+CALL {
+  WITH m
+  OPTIONAL MATCH (org:OrganismTaxon)-[:Organism_has_metabolite]->(m)
+  WITH m, collect(DISTINCT org) AS orgs
+  SET m.organism_names = apoc.coll.sort([o IN orgs | o.preferred_name]),
+      m.organism_count = size(orgs)
+} IN TRANSACTIONS OF 1000 ROWS;

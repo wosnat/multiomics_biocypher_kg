@@ -131,6 +131,58 @@ def test_metabolite_in_pathway_edges_present(run_query):
     assert 5000 <= n <= 15000, f"{n} Metabolite_in_pathway edges (expected 5000-15000)"
 
 
+def test_metabolite_pathway_rollups_populated(run_query):
+    """KG-A5/A6/A7: pathway_ids/names/count populated on every Metabolite.
+
+    Defaults (empty list / 0) on metabolites with no pathway memberships.
+    Lists are aligned index-for-index — size must equal pathway_count.
+    """
+    n_unset = run_query("""
+        MATCH (m:Metabolite)
+        WHERE m.pathway_ids IS NULL OR m.pathway_names IS NULL OR m.pathway_count IS NULL
+        RETURN count(m) AS n
+    """)[0]["n"]
+    assert n_unset == 0, f"{n_unset} Metabolite nodes missing pathway rollup props"
+
+    n_misaligned = run_query("""
+        MATCH (m:Metabolite)
+        WHERE size(m.pathway_ids) <> size(m.pathway_names)
+           OR size(m.pathway_ids) <> m.pathway_count
+        RETURN count(m) AS n
+    """)[0]["n"]
+    assert n_misaligned == 0, (
+        f"{n_misaligned} Metabolite nodes have misaligned pathway rollup arrays"
+    )
+
+
+def test_metabolite_pathway_rollups_match_edges(run_query):
+    """KG-A5: spot check pathway_ids matches actual Metabolite_in_pathway edges."""
+    bad = run_query("""
+        MATCH (m:Metabolite)
+        OPTIONAL MATCH (m)-[:Metabolite_in_pathway]->(p:KeggTerm)
+        WITH m, count(DISTINCT p) AS edge_count
+        WHERE edge_count <> m.pathway_count
+        RETURN count(m) AS n
+    """)[0]["n"]
+    assert bad == 0, f"{bad} Metabolite nodes have pathway_count != edge count"
+
+
+def test_metabolite_organism_names_populated(run_query):
+    """KG-A8: organism_names populated on every Metabolite, aligned with organism_count."""
+    n_unset = run_query(
+        "MATCH (m:Metabolite) WHERE m.organism_names IS NULL RETURN count(m) AS n"
+    )[0]["n"]
+    assert n_unset == 0, f"{n_unset} Metabolite nodes missing organism_names"
+
+    n_misaligned = run_query(
+        "MATCH (m:Metabolite) WHERE size(m.organism_names) <> m.organism_count "
+        "RETURN count(m) AS n"
+    )[0]["n"]
+    assert n_misaligned == 0, (
+        f"{n_misaligned} Metabolite nodes have size(organism_names) != organism_count"
+    )
+
+
 def test_metabolite_pathways_only_kg_evidenced(run_query):
     """Option B: Metabolite_in_pathway targets must be gene-reachable.
 
