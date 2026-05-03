@@ -1,23 +1,23 @@
 {
   "strain": "PCC7942",
-  "gene_count": 2714,
+  "gene_count": 2717,
   "kegg_reactions": {
     "raw_total": 1512,
     "raw_unique": 1058,
-    "kept_total": 1512,
-    "kept_unique_r_numbers": 1058
+    "kept_total": 1485,
+    "kept_unique_r_numbers": 1033
   },
   "transporter_classification": {
     "raw_total": 403,
     "raw_unique": 148,
-    "validated_total": 403,
+    "validated_total": 399,
     "validated_unique": 148,
     "invalid_examples": []
   },
   "cazy_ids": {
     "raw_total": 31,
     "raw_unique": 20,
-    "validated_total": 31,
+    "validated_total": 30,
     "validated_unique": 20,
     "invalid_examples": []
   }

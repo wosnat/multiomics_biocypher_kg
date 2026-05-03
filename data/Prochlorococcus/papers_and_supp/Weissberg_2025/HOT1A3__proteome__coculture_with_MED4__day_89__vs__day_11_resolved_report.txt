@@ -4,15 +4,16 @@ name_col: gene_id
 id_columns: ['gene_id']
 
 Total rows with IDs: 2229
-Resolved: 2226 (99.9%)
-Unresolved: 3
+Resolved: 2225 (99.8%)
+Unresolved: 4
 
 Resolution method breakdown:
   locus_tag:gene_id: 11
-  tier1:gene_id: 2215
-  unresolved: 3
+  tier1:gene_id: 2214
+  unresolved: 4
 
-Unresolved rows (3):
+Unresolved rows (4):
   row 193: raw_id='ACZ81_RS01405'  reason=unresolved  [gene_id='ACZ81_RS01405']
   row 500: raw_id='ACZ81_RS21500'  reason=unresolved  [gene_id='ACZ81_RS21500']
   row 1192: raw_id='ACZ81_RS10620'  reason=unresolved  [gene_id='ACZ81_RS10620']
+  row 1368: raw_id='ACZ81_RS20360'  reason=unresolved  [gene_id='ACZ81_RS20360']

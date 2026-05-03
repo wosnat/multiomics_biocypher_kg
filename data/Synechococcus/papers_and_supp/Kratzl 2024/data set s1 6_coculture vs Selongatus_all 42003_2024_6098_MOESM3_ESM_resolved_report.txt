@@ -4,14 +4,15 @@ name_col: gene ID
 id_columns: ['gene ID', 'Locus Tag', 'Protein ID']
 
 Total rows with IDs: 2679
-Resolved: 2627 (98.1%)
-Unresolved: 52
+Resolved: 2626 (98.0%)
+Unresolved: 53
 
 Resolution method breakdown:
-  tier1:gene ID: 2627
-  unresolved: 52
+  tier1:gene ID: 2626
+  unresolved: 53
 
-Unresolved rows (52):
+Unresolved rows (53):
+  row 2079: raw_id='gene-H6G84_RS00625'  reason=unresolved  [gene ID='gene-H6G84_RS00625', Locus Tag='apt Synpcc7942_2454', Protein ID='WP_011378471.1']
   row 2111: raw_id='gene-H6G84_RS00050'  reason=unresolved  [gene ID='gene-H6G84_RS00050', Locus Tag='Synpcc7942_2566', Protein ID='WP_011378520.1']
   row 2544: raw_id='gene-H6G84_RS13860'  reason=unresolved  [gene ID='gene-H6G84_RS13860', Protein ID='WP_234909966.1']
   row 2570: raw_id='gene-H6G84_RS06765'  reason=unresolved  [gene ID='gene-H6G84_RS06765', Protein ID='WP_234910025.1']
@@ -31,5 +32,4 @@ Unresolved rows (52):
   row 2643: raw_id='gene-H6G84_RS02390'  reason=unresolved  [gene ID='gene-H6G84_RS02390']
   row 2644: raw_id='gene-H6G84_RS03215'  reason=unresolved  [gene ID='gene-H6G84_RS03215']
   row 2645: raw_id='gene-H6G84_RS06715'  reason=unresolved  [gene ID='gene-H6G84_RS06715']
-  row 2646: raw_id='gene-H6G84_RS05600'  reason=unresolved  [gene ID='gene-H6G84_RS05600']
-  ... (32 more)
+  ... (33 more)

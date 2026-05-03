@@ -4,16 +4,16 @@ name_col: Protein ID
 id_columns: ['Protein ID', 'Gene Name', 'Protein.names']
 
 Total rows with IDs: 567
-Resolved: 530 (93.5%)
-Unresolved: 37
+Resolved: 529 (93.3%)
+Unresolved: 38
 
 Resolution method breakdown:
   multi:Gene Name: 1
-  multi:Protein ID: 26
+  multi:Protein ID: 25
   tier1:Gene Name: 503
-  unresolved: 37
+  unresolved: 38
 
-Unresolved rows (37):
+Unresolved rows (38):
   row 4: raw_id='E0IXR1'  reason=unresolved  [Protein ID='E0IXR1', Gene Name='tr|E0IXR1|E0IXR1_ECOLW Sucrose', Protein.names='tr|E0IXR1|E0IXR1_ECOLW Sucrose permease OS=Escherichia coli (strain ATCC 9637 / CCM 2024 / DSM 1116 / NCIMB 8666 / NRRL B-766 / W) OX=566546 GN=cscB PE=4 SV=1']
   row 51: raw_id='P72543'  reason=unresolved  [Protein ID='P72543', Gene Name='dc11', Protein.names=' Uncharacterized protein OS=Synechococcus elongatus (strain PCC 7942) OX=1140 GN=Synpcc7942_0360 PE=']
   row 64: raw_id='Q9KHM5'  reason=unresolved  [Protein ID='Q9KHM5', Gene Name='glnN', Protein.names=' Glutamate-ammonia ligase, glutamine synthetase type III OS=Synechococcus elongatus (strain PCC 7942) OX=1140 GN=Sy']
@@ -34,4 +34,4 @@ Unresolved rows (37):
   row 344: raw_id='P14788'  reason=unresolved  [Protein ID='P14788', Gene Name='cysA', Protein.names=' Sulfate/thiosulfate import ATP-binding protein CysA OS=Synechococcus elongatus (strain PCC 7942) OX=1140 GN=cysA PE=2 SV=1']
   row 361: raw_id='Q31M28'  reason=unresolved  [Protein ID='Q31M28', Gene Name='tr|Q31M28|Q31M28_SYNE7', Protein.names=' Periplasmic binding protein of ABC transporter for natural amino acids OS=Synechococcus elongatus (strain PCC 7942) OX=1140 GN=Synpcc7942_1861 PE=4 SV=1']
   row 371: raw_id='Q31MX3'  reason=unresolved  [Protein ID='Q31MX3', Gene Name='ppk', Protein.names=' Polyphosphate kinase OS=Synechococcus elongatus (strain PCC 7942) OX=1140 GN=ppk PE=3 SV=1']
-  ... (17 more)
+  ... (18 more)
