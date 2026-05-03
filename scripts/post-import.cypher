@@ -132,6 +132,9 @@ CREATE INDEX experiment_compartment_idx IF NOT EXISTS FOR (e:Experiment) ON (e.c
 CREATE FULLTEXT INDEX geneClusterFullText IF NOT EXISTS
   FOR (gc:GeneCluster) ON EACH [gc.name, gc.functional_description, gc.temporal_pattern, gc.expression_dynamics];
 
+// KeggTerm
+CREATE INDEX kegg_term_id_idx IF NOT EXISTS FOR (k:KeggTerm) ON (k.id);
+
 // Reaction
 CREATE INDEX reaction_id_idx IF NOT EXISTS FOR (r:Reaction) ON (r.id);
 CREATE INDEX reaction_kegg_id_idx IF NOT EXISTS FOR (r:Reaction) ON (r.kegg_reaction_id);
@@ -143,6 +146,7 @@ CREATE INDEX metabolite_id_idx IF NOT EXISTS FOR (m:Metabolite) ON (m.id);
 CREATE INDEX metabolite_kegg_id_idx IF NOT EXISTS FOR (m:Metabolite) ON (m.kegg_compound_id);
 CREATE INDEX metabolite_mnxm_idx IF NOT EXISTS FOR (m:Metabolite) ON (m.mnxm_id);
 CREATE INDEX metabolite_chebi_idx IF NOT EXISTS FOR (m:Metabolite) ON (m.chebi_id);
+CREATE INDEX metabolite_hmdb_idx IF NOT EXISTS FOR (m:Metabolite) ON (m.hmdb_id);
 CREATE FULLTEXT INDEX metaboliteFullText IF NOT EXISTS FOR (m:Metabolite) ON EACH [m.name];
 
 // -----------------------------------------------------------------------
