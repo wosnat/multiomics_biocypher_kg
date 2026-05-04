@@ -104,6 +104,16 @@ def iter_derived_metrics_tables(config: dict):
             yield key, table
 
 
+def iter_metabolite_assays_tables(config: dict):
+    """Yield (table_key, table_config) for metabolite_assays_table-type supplementary tables."""
+    supp = get_supplementary_materials(config)
+    for key, table in supp.items():
+        if not isinstance(table, dict):
+            continue
+        if table.get("type") == "metabolite_assays_table":
+            yield key, table
+
+
 def iter_analyses(config: dict):
     """Yield (table_key, table_config, analysis) for all analyses across all csv tables."""
     for table_key, table in iter_csv_tables(config):

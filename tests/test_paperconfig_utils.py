@@ -611,3 +611,29 @@ def test_iter_derived_metrics_tables_empty():
         "supp_1": {"type": "csv", "filename": "d.csv"},
     }}}
     assert list(iter_derived_metrics_tables(config)) == []
+
+
+def test_iter_metabolite_assays_tables_filters_by_type():
+    from multiomics_kg.utils.paperconfig_utils import iter_metabolite_assays_tables
+    cfg = {
+        "publication": {
+            "supplementary_materials": {
+                "tab_a": {"type": "csv", "filename": "a.csv"},
+                "tab_b": {"type": "metabolite_assays_table", "filename": "b.csv", "experiment": "e1"},
+                "tab_c": {"type": "derived_metrics_table", "filename": "c.csv"},
+                "tab_d": {"type": "metabolite_assays_table", "filename": "d.csv", "experiment": "e2"},
+            }
+        }
+    }
+    keys = [k for k, _ in iter_metabolite_assays_tables(cfg)]
+    assert keys == ["tab_b", "tab_d"]
+
+
+def test_iter_metabolite_assays_tables_empty():
+    from multiomics_kg.utils.paperconfig_utils import iter_metabolite_assays_tables
+    assert list(iter_metabolite_assays_tables({})) == []
+    assert list(iter_metabolite_assays_tables({"publication": {"supplementary_materials": {}}})) == []
+    cfg = {"publication": {"supplementary_materials": {
+        "supp_1": {"type": "csv", "filename": "d.csv"},
+    }}}
+    assert list(iter_metabolite_assays_tables(cfg)) == []
