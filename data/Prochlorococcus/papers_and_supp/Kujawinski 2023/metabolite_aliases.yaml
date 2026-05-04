@@ -1,0 +1,34 @@
+# Manual ID overrides for compound names that don't resolve cleanly via MNX.
+# Format: "name as it appears in CSV": "primary_id"
+# Reasoning per entry below; verify against KEGG before relying on these.
+
+# γ-aminobutyric acid (GABA) — non-ASCII γ throws name lookup
+"γ-aminobutyric acid": "kegg.compound:C00334"
+
+# Vitamin B1 thiamine pyrimidine moiety; aka "AmMP" in literature
+"4-amino-5-aminomethyl-2-methylpyrimidine": "kegg.compound:C20267"
+
+# Vitamin B1 thiamine pyrimidine alcohol (HMP)
+"4-Amino-2-methyl-5-pyrimidinemethanol": "kegg.compound:C01279"
+
+# DMSP — sulfur osmolyte; common cyanobacterial-marine metabolite
+"dimethylsulfoniopropionate": "kegg.compound:C04022"
+
+# Authors merged threonine + homoserine into one row; pick threonine (canonical)
+"threonine / homoserine": "kegg.compound:C00188"
+
+# Authors merged alanine + sarcosine; pick alanine (canonical proteinogenic AA)
+"alanine (isom. sarcosine)": "kegg.compound:C00041"
+
+# Glutathione, oxidized form (GSSG)
+"glutathione oxidized": "kegg.compound:C00127"
+
+# Authors used "citrate" rather than "citric acid"; both = KEGG C00158
+"citrate": "kegg.compound:C00158"
+
+# 2,3-dihydroxypropane-1-sulfonate (DHPS) — sulfonate; common in marine osmolyte studies
+"2,3-dihydroxypropane-1-sulfonate": "kegg.compound:C19675"
+
+# N-acetylmuramic acid (peptidoglycan building block) — author wrote it
+# without the N-acetyl hyphen joining the prefix, so MNX name lookup misses
+"n-acetyl muramic acid": "kegg.compound:C02713"

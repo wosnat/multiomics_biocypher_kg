@@ -1,0 +1,288 @@
+publication:
+  papername: "Kujawinski 2023"
+  doi: "10.1128/msystems.01261-22"
+  papermainpdf: "data/Prochlorococcus/papers_and_supp/Kujawinski 2023/kujawinski-et-al-2023-metabolite-diversity-among-representatives-of-divergent-prochlorococcus-ecotypes.pdf"
+
+  experiments:
+    kujawinski_metabolomics_9301_whole_cell:
+      name: "MIT9301 metabolite diversity (intracellular pool)"
+      organism: "Prochlorococcus MIT9301"
+      treatment_condition: "replete + P-limited"
+      control_condition: "replete (Pro99)"
+      experimental_context: >-
+        MIT9301 cells in Pro99; replete and P-limited conditions; 10 + 50 umol photons m-2 s-1;
+        axenic. Filter samples = intracellular pool, per-cell concentrations (mol/cell).
+      omics_type: METABOLOMICS
+      treatment_type: ["phosphorus"]
+      background_factors: ["axenic"]
+      compartment: whole_cell
+      medium: "Pro99"
+      light_condition: "continuous light"
+
+    kujawinski_metabolomics_9301_extracellular:
+      name: "MIT9301 metabolite diversity (extracellular pool)"
+      organism: "Prochlorococcus MIT9301"
+      treatment_condition: "replete + P-limited"
+      control_condition: "replete (Pro99)"
+      experimental_context: >-
+        MIT9301 cells in Pro99; replete and P-limited conditions; 10 + 50 umol photons m-2 s-1;
+        axenic. Supernatant samples = extracellular pool, per-cell-equivalent concentrations.
+      omics_type: METABOLOMICS
+      treatment_type: ["phosphorus"]
+      background_factors: ["axenic"]
+      compartment: extracellular
+      medium: "Pro99"
+      light_condition: "continuous light"
+
+    kujawinski_metabolomics_0801_whole_cell:
+      name: "MIT0801 metabolite diversity (intracellular pool)"
+      organism: "Prochlorococcus MIT0801"
+      treatment_condition: "replete (Pro99)"
+      control_condition: "n/a"
+      experimental_context: >-
+        MIT0801 cells in Pro99; replete; 10 umol photons m-2 s-1; axenic.
+        Filter samples = intracellular pool, per-cell concentrations (mol/cell).
+      omics_type: METABOLOMICS
+      treatment_type: []
+      background_factors: ["axenic"]
+      compartment: whole_cell
+      medium: "Pro99"
+      light_condition: "continuous light"
+
+    kujawinski_metabolomics_0801_extracellular:
+      name: "MIT0801 metabolite diversity (extracellular pool)"
+      organism: "Prochlorococcus MIT0801"
+      treatment_condition: "replete (Pro99)"
+      control_condition: "n/a"
+      experimental_context: >-
+        MIT0801 cells in Pro99; replete; 10 umol photons m-2 s-1; axenic.
+        Supernatant samples = extracellular pool, per-cell-equivalent concentrations.
+      omics_type: METABOLOMICS
+      treatment_type: []
+      background_factors: ["axenic"]
+      compartment: extracellular
+      medium: "Pro99"
+      light_condition: "continuous light"
+
+    kujawinski_metabolomics_9313_whole_cell:
+      name: "MIT9313 metabolite diversity (intracellular pool)"
+      organism: "Prochlorococcus MIT9313"
+      treatment_condition: "replete (Pro99)"
+      control_condition: "n/a"
+      experimental_context: >-
+        MIT9313 cells in Pro99; replete; 5 + 10 umol photons m-2 s-1; axenic.
+        Filter samples = intracellular pool, per-cell concentrations (mol/cell).
+      omics_type: METABOLOMICS
+      treatment_type: []
+      background_factors: ["axenic"]
+      compartment: whole_cell
+      medium: "Pro99"
+      light_condition: "continuous light"
+
+    kujawinski_metabolomics_9313_extracellular:
+      name: "MIT9313 metabolite diversity (extracellular pool)"
+      organism: "Prochlorococcus MIT9313"
+      treatment_condition: "replete (Pro99)"
+      control_condition: "n/a"
+      experimental_context: >-
+        MIT9313 cells in Pro99; replete; 5 + 10 umol photons m-2 s-1; axenic.
+        Supernatant samples = extracellular pool, per-cell-equivalent concentrations.
+      omics_type: METABOLOMICS
+      treatment_type: []
+      background_factors: ["axenic"]
+      compartment: extracellular
+      medium: "Pro99"
+      light_condition: "continuous light"
+
+  supplementary_materials:
+    metabolites_kegg_export_9301_intracellular:
+      type: metabolite_assays_table
+      filename: "data/Prochlorococcus/papers_and_supp/Kujawinski 2023/ChisholmPro_cellSpecific_KEGGexport.2017.07.31_v1.csv"
+      experiment: kujawinski_metabolomics_9301_whole_cell
+      organism: "Prochlorococcus MIT9301"
+      name_col: "mtabNames"
+      id_col: "KEGG"
+      id_type: kegg.compound
+      null_values: ["0", ""]
+      missing_values: []
+      cell_format: numeric
+      aggregation_method: pre_aggregated
+      assays:
+        - metric_type: cellular_concentration
+          name: "MIT9301 intracellular metabolite concentration (mol/cell)"
+          value_kind: numeric
+          unit: "mol/cell"
+          rankable: "true"
+          field_description: >-
+            Per-cell intracellular concentration; KEGG-tagged; pre-aggregated by authors.
+            Kujawinski 2023 cellSpecific KEGG export.
+          sample_columns:
+            - condition_label: replete_light_10
+              replicate_columns: ["replete_filter_s9301ax_10"]
+            - condition_label: replete_light_50
+              replicate_columns: ["replete_filter_s9301ax_50"]
+            - condition_label: P_limited_light_50
+              replicate_columns: ["Plimited_filter_s9301ax_50"]
+
+    metabolites_kegg_export_9301_extracellular:
+      type: metabolite_assays_table
+      filename: "data/Prochlorococcus/papers_and_supp/Kujawinski 2023/ChisholmPro_cellSpecific_KEGGexport.2017.07.31_v1.csv"
+      experiment: kujawinski_metabolomics_9301_extracellular
+      organism: "Prochlorococcus MIT9301"
+      name_col: "mtabNames"
+      id_col: "KEGG"
+      id_type: kegg.compound
+      null_values: ["0", ""]
+      missing_values: []
+      cell_format: numeric
+      aggregation_method: pre_aggregated
+      assays:
+        - metric_type: extracellular_concentration
+          name: "MIT9301 extracellular metabolite concentration (mol/cell)"
+          value_kind: numeric
+          unit: "mol/cell"
+          rankable: "true"
+          field_description: >-
+            Per-cell-equivalent extracellular concentration. Kujawinski 2023 cellSpecific KEGG export.
+          sample_columns:
+            - condition_label: replete_light_10
+              replicate_columns: ["replete_extracellular_s9301ax_10"]
+            - condition_label: replete_light_50
+              replicate_columns: ["replete_extracellular_s9301ax_50"]
+            - condition_label: P_limited_light_50
+              replicate_columns: ["Plimited_extracellular_s9301ax_50"]
+
+    metabolites_kegg_export_0801_intracellular:
+      type: metabolite_assays_table
+      filename: "data/Prochlorococcus/papers_and_supp/Kujawinski 2023/ChisholmPro_cellSpecific_KEGGexport.2017.07.31_v1.csv"
+      experiment: kujawinski_metabolomics_0801_whole_cell
+      organism: "Prochlorococcus MIT0801"
+      name_col: "mtabNames"
+      id_col: "KEGG"
+      id_type: kegg.compound
+      null_values: ["0", ""]
+      missing_values: []
+      cell_format: numeric
+      aggregation_method: pre_aggregated
+      assays:
+        - metric_type: cellular_concentration
+          name: "MIT0801 intracellular metabolite concentration (mol/cell)"
+          value_kind: numeric
+          unit: "mol/cell"
+          rankable: "true"
+          field_description: >-
+            Per-cell intracellular concentration. Kujawinski 2023 cellSpecific KEGG export.
+          sample_columns:
+            - condition_label: replete_light_10
+              replicate_columns: ["replete_filter_s0801ax_10"]
+
+    metabolites_kegg_export_0801_extracellular:
+      type: metabolite_assays_table
+      filename: "data/Prochlorococcus/papers_and_supp/Kujawinski 2023/ChisholmPro_cellSpecific_KEGGexport.2017.07.31_v1.csv"
+      experiment: kujawinski_metabolomics_0801_extracellular
+      organism: "Prochlorococcus MIT0801"
+      name_col: "mtabNames"
+      id_col: "KEGG"
+      id_type: kegg.compound
+      null_values: ["0", ""]
+      missing_values: []
+      cell_format: numeric
+      aggregation_method: pre_aggregated
+      assays:
+        - metric_type: extracellular_concentration
+          name: "MIT0801 extracellular metabolite concentration (mol/cell)"
+          value_kind: numeric
+          unit: "mol/cell"
+          rankable: "true"
+          field_description: >-
+            Per-cell-equivalent extracellular concentration. Kujawinski 2023 cellSpecific KEGG export.
+          sample_columns:
+            - condition_label: replete_light_10
+              replicate_columns: ["replete_extracellular_s0801ax_10"]
+
+    metabolites_kegg_export_9313_intracellular:
+      type: metabolite_assays_table
+      filename: "data/Prochlorococcus/papers_and_supp/Kujawinski 2023/ChisholmPro_cellSpecific_KEGGexport.2017.07.31_v1.csv"
+      experiment: kujawinski_metabolomics_9313_whole_cell
+      organism: "Prochlorococcus MIT9313"
+      name_col: "mtabNames"
+      id_col: "KEGG"
+      id_type: kegg.compound
+      null_values: ["0", ""]
+      missing_values: []
+      cell_format: numeric
+      aggregation_method: pre_aggregated
+      assays:
+        - metric_type: cellular_concentration
+          name: "MIT9313 intracellular metabolite concentration (mol/cell)"
+          value_kind: numeric
+          unit: "mol/cell"
+          rankable: "true"
+          field_description: >-
+            Per-cell intracellular concentration. Kujawinski 2023 cellSpecific KEGG export.
+          sample_columns:
+            - condition_label: replete_light_5
+              replicate_columns: ["replete_filter_s9313ax_5"]
+            - condition_label: replete_light_10
+              replicate_columns: ["replete_filter_s9313ax_10"]
+
+    metabolites_kegg_export_9313_extracellular:
+      type: metabolite_assays_table
+      filename: "data/Prochlorococcus/papers_and_supp/Kujawinski 2023/ChisholmPro_cellSpecific_KEGGexport.2017.07.31_v1.csv"
+      experiment: kujawinski_metabolomics_9313_extracellular
+      organism: "Prochlorococcus MIT9313"
+      name_col: "mtabNames"
+      id_col: "KEGG"
+      id_type: kegg.compound
+      null_values: ["0", ""]
+      missing_values: []
+      cell_format: numeric
+      aggregation_method: pre_aggregated
+      assays:
+        - metric_type: extracellular_concentration
+          name: "MIT9313 extracellular metabolite concentration (mol/cell)"
+          value_kind: numeric
+          unit: "mol/cell"
+          rankable: "true"
+          field_description: >-
+            Per-cell-equivalent extracellular concentration. Kujawinski 2023 cellSpecific KEGG export.
+          sample_columns:
+            - condition_label: replete_light_5
+              replicate_columns: ["replete_extracellular_s9313ax_5"]
+            - condition_label: replete_light_10
+              replicate_columns: ["replete_extracellular_s9313ax_10"]
+
+    presence_flags_table_s2:
+      type: metabolite_assays_table
+      filename: "data/Prochlorococcus/papers_and_supp/Kujawinski 2023/table s2.csv"
+      experiment: kujawinski_metabolomics_9301_whole_cell
+      organism: "Prochlorococcus MIT9301"
+      name_col: "metabolite"
+      cell_format: numeric
+      aliases_file: "metabolite_aliases.yaml"
+      assays:
+        - metric_type: presence_flag_intracellular
+          name: "Detected in intracellular pool (Kujawinski 2023 Table S2)"
+          value_kind: boolean
+          unit: ""
+          rankable: "false"
+          field_description: >-
+            Boolean flag: metabolite detected in intracellular pool of any sampled
+            Prochlorococcus strain (Kujawinski 2023 Table S2). Paper-level flag,
+            anchored to the MIT9301 intracellular Experiment for binding only.
+          sample_columns:
+            - condition_label: ""
+              flag_column: "intracellular"
+              flag_true_value: "yes"
+        - metric_type: presence_flag_extracellular
+          name: "Detected in extracellular pool (Kujawinski 2023 Table S2)"
+          value_kind: boolean
+          unit: ""
+          rankable: "false"
+          field_description: >-
+            Boolean flag: metabolite detected in extracellular pool of any sampled
+            Prochlorococcus strain (Kujawinski 2023 Table S2). Paper-level flag.
+          sample_columns:
+            - condition_label: ""
+              flag_column: "extracellular"
+              flag_true_value: "yes"

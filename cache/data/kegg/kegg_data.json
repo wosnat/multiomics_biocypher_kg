@@ -660,6 +660,17 @@
       "mnxm_id": "MNXM1108465",
       "name": "a cholesterol ester"
     },
+    "chebi:142094": {
+      "chebi_id": "142094",
+      "evidence_sources": [
+        "metabolomics"
+      ],
+      "formula": null,
+      "inchikey": null,
+      "mass": null,
+      "mnxm_id": null,
+      "name": "S-adenosyl-L-methionine"
+    },
     "chebi:14311": {
       "chebi_id": "14311",
       "evidence_sources": [
@@ -835,6 +846,17 @@
       "mass": null,
       "mnxm_id": "MNXM733327",
       "name": "a protein"
+    },
+    "chebi:173245": {
+      "chebi_id": "173245",
+      "evidence_sources": [
+        "metabolomics"
+      ],
+      "formula": null,
+      "inchikey": null,
+      "mass": null,
+      "mnxm_id": null,
+      "name": "tyrosine"
     },
     "chebi:176584": {
       "chebi_id": "176584",
@@ -4971,6 +4993,17 @@
       "mass": 254.235,
       "mnxm_id": "MNXM413500",
       "name": "1-O-(D-glucosyl)glycerol"
+    },
+    "mnx:MNXM1565343": {
+      "chebi_id": null,
+      "evidence_sources": [
+        "metabolomics"
+      ],
+      "formula": "C3H8ClNO2S",
+      "inchikey": "IFQSXNOEEPCSLW-UHFFFAOYSA-N",
+      "mass": 157.622,
+      "mnxm_id": "MNXM1565343",
+      "name": "Cysteine hydrochloride"
     }
   },
   "categories": {
@@ -4994,6 +5027,18 @@
     }
   },
   "compounds": {
+    "0": {
+      "chebi_id": null,
+      "evidence_sources": [],
+      "formula": null,
+      "hmdb_id": null,
+      "inchikey": null,
+      "mass": null,
+      "mnxm_id": null,
+      "name": "",
+      "pathways": [],
+      "smiles": null
+    },
     "C00001": {
       "chebi_id": "10743",
       "evidence_sources": [
@@ -36759,6 +36804,18 @@
       "pathways": [],
       "smiles": "OCC1(O)OC[C@@H](O)[C@@H](O)[C@H]1O"
     },
+    "C06470": {
+      "chebi_id": "7027",
+      "evidence_sources": [],
+      "formula": "C9H17NO7",
+      "hmdb_id": null,
+      "inchikey": "MSFSPUZXLOGKHJ-PGYHGBPZSA-N",
+      "mass": 251.235,
+      "mnxm_id": "MNXM734576",
+      "name": "Muramic acid",
+      "pathways": [],
+      "smiles": "C[C@@H](O[C@H]1[C@H](O)[C@@H](CO)OC(O)[C@@H]1N)C(=O)O"
+    },
     "C06473": {
       "chebi_id": "1066",
       "evidence_sources": [
@@ -39594,6 +39651,21 @@
       "pathways": [],
       "smiles": "CC(=O)NC[C@H]1CN(C2=CC=C(N3CCOCC3)C(F)=C2)C(=O)O1"
     },
+    "C08230": {
+      "chebi_id": null,
+      "evidence_sources": [],
+      "formula": "C62H90CoN13O15P",
+      "hmdb_id": null,
+      "inchikey": "YOZNUFWCRFCGIH-UVKKECPRSA-L",
+      "mass": 1347.385,
+      "mnxm_id": "MNXM1104282",
+      "name": "Hydroxocobalamin",
+      "pathways": [
+        "ko04977",
+        "ko04980"
+      ],
+      "smiles": "CC1=CC2=C(C=C1C)N([C@H]1O[C@H](CO)[C@@H](OP(=O)(O)O[C@H](C)CNC(=O)CC[C@@]3(C)/C4=C(\\C)C5=N/C(=C\\C6=N/C(=C(/C)C7=N[C@@](C)(C([C@@H]3CC(N)=O)N4[Co+]O)[C@@](C)(CC(N)=O)[C@@H]7CCC(N)=O)[C@@](C)(CC(N)=O)[C@@H]6CCC(N)=O)C(C)(C)[C@@H]5CCC(N)=O)[C@H]1O)C=N2"
+    },
     "C08252": {
       "chebi_id": "10371",
       "evidence_sources": [
@@ -40242,6 +40314,21 @@
       "name": "Plastoquinone-9",
       "pathways": [],
       "smiles": "CC(C)=CCC/C(C)=C/CC/C(C)=C/CC/C(C)=C/CC/C(C)=C/CC/C(C)=C/CC/C(C)=C/CC/C(C)=C/CC/C(C)=C/CC1=CC(=O)C(C)=C(C)C1=O"
+    },
+    "C10833": {
+      "chebi_id": "132111",
+      "evidence_sources": [],
+      "formula": "C9H9O5",
+      "hmdb_id": "HMDB0002085",
+      "inchikey": "JMSVCTWVEWCHDZ-UHFFFAOYSA-M",
+      "mass": 197.166,
+      "mnxm_id": "MNXM12975",
+      "name": "Syringic acid",
+      "pathways": [
+        "ko00627",
+        "ko01120"
+      ],
+      "smiles": "COC1=CC(C(=O)[O-])=CC(OC)=C1O"
     },
     "C10896": {
       "chebi_id": "3015",
@@ -48539,6 +48626,21 @@
       ],
       "smiles": "[*]SC(=O)CC(=O)OC"
     },
+    "C19675": {
+      "chebi_id": "60996",
+      "evidence_sources": [],
+      "formula": "C3H7O5S",
+      "hmdb_id": null,
+      "inchikey": "YPFUJZAAZJXMIP-GSVOUGTGSA-M",
+      "mass": 155.151,
+      "mnxm_id": "MNXM3743",
+      "name": "(R)-2,3-Dihydroxypropane-1-sulfonate",
+      "pathways": [
+        "ko00566",
+        "ko01100"
+      ],
+      "smiles": "O=S(=O)([O-])C[C@H](O)CO"
+    },
     "C19683": {
       "chebi_id": "49180",
       "evidence_sources": [
@@ -52381,6 +52483,18 @@
       "name": "[Fe-S] cluster scaffold protein",
       "pathways": [],
       "smiles": null
+    },
+    "C22312": {
+      "chebi_id": "44111",
+      "evidence_sources": [],
+      "formula": "C3H5O2S",
+      "hmdb_id": "HMDB0041604",
+      "inchikey": "DKIDEFUBRARXTE-UHFFFAOYSA-M",
+      "mass": 105.138,
+      "mnxm_id": "MNXM10054",
+      "name": "3-Sulfanylpropanoate",
+      "pathways": [],
+      "smiles": "O=C([O-])CCS"
     },
     "C22423": {
       "chebi_id": "23379",
