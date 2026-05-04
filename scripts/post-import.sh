@@ -1002,13 +1002,19 @@ CALL {
   SET m.transporter_count = tc
 } IN TRANSACTIONS OF 1000 ROWS;
 
-// Materialize Organism_has_metabolite (2-hop save)
+// Materialize Organism_has_metabolite (catalysis arm) — also tags evidence_sources
+// inline at MERGE time (cheap; avoids a per-edge re-traversal pass after).
 CALL {
   MATCH (o:OrganismTaxon)<-[:Gene_belongs_to_organism]-(g:Gene)
         -[:Gene_catalyzes_reaction]->(:Reaction)
         -[:Reaction_has_metabolite]->(m:Metabolite)
   WITH DISTINCT o, m
-  MERGE (o)-[:Organism_has_metabolite]->(m)
+  MERGE (o)-[r:Organism_has_metabolite]->(m)
+  ON CREATE SET r.evidence_sources = ['metabolism']
+  ON MATCH  SET r.evidence_sources =
+    CASE WHEN 'metabolism' IN coalesce(r.evidence_sources, [])
+         THEN r.evidence_sources
+         ELSE coalesce(r.evidence_sources, []) + 'metabolism' END
 } IN TRANSACTIONS OF 1000 ROWS;
 
 // Materialize Organism_has_metabolite (transport arm) — single-hop after rollup.
@@ -1017,7 +1023,12 @@ CALL {
         -[:Gene_has_tcdb_family]->(:TcdbFamily)
         -[:Tcdb_family_transports_metabolite]->(m:Metabolite)
   WITH DISTINCT o, m
-  MERGE (o)-[:Organism_has_metabolite]->(m)
+  MERGE (o)-[r:Organism_has_metabolite]->(m)
+  ON CREATE SET r.evidence_sources = ['transport']
+  ON MATCH  SET r.evidence_sources =
+    CASE WHEN 'transport' IN coalesce(r.evidence_sources, [])
+         THEN r.evidence_sources
+         ELSE coalesce(r.evidence_sources, []) + 'transport' END
 } IN TRANSACTIONS OF 1000 ROWS;
 
 // Organism rollup props
@@ -1206,12 +1217,20 @@ SET m.measured_assay_count = 0,
 
 // ── Organism_has_metabolite measurement-arm materialization (Phase 2) ─────────
 // Adds (organism, metabolite) edges where only the measurement path exists
-// (no gene-side catalysis or transport). Idempotent — MERGE preserves existing.
+// (no gene-side catalysis or transport) AND tags 'measured' on edges that
+// already exist via catalysis/transport. evidence_sources is set inline at
+// MERGE time (mirrors the catalysis + transport blocks above) to avoid a
+// per-edge re-traversal pass that scales O(edges × organism-genes).
 CALL {
   MATCH (a:MetaboliteAssay)-[:MetaboliteAssayBelongsToOrganism]->(o:OrganismTaxon)
   MATCH (a)-[:Assay_quantifies_metabolite|Assay_flags_metabolite]->(m:Metabolite)
   WITH DISTINCT o, m
-  MERGE (o)-[:Organism_has_metabolite]->(m)
+  MERGE (o)-[r:Organism_has_metabolite]->(m)
+  ON CREATE SET r.evidence_sources = ['measured']
+  ON MATCH  SET r.evidence_sources =
+    CASE WHEN 'measured' IN coalesce(r.evidence_sources, [])
+         THEN r.evidence_sources
+         ELSE coalesce(r.evidence_sources, []) + 'measured' END
 } IN TRANSACTIONS OF 1000 ROWS;
 
 // Recompute Metabolite.organism_count + organism_names AFTER measurement-arm
@@ -1223,31 +1242,6 @@ CALL {
   WITH m, collect(DISTINCT org) AS orgs
   SET m.organism_names = apoc.coll.sort([o IN orgs | o.preferred_name]),
       m.organism_count = size(orgs)
-} IN TRANSACTIONS OF 1000 ROWS;
-
-// Tag evidence_sources on every Organism_has_metabolite edge by re-traversing
-// each path. Idempotent + additive.
-MATCH (o:OrganismTaxon)-[r:Organism_has_metabolite]->(m:Metabolite)
-CALL {
-  WITH o, r, m
-  OPTIONAL MATCH path_cat = (o)<-[:Gene_belongs_to_organism]-(:Gene)
-    -[:Gene_catalyzes_reaction]->(:Reaction)
-    -[:Reaction_has_metabolite]->(m)
-  OPTIONAL MATCH path_tr = (o)<-[:Gene_belongs_to_organism]-(:Gene)
-    -[:Gene_has_tcdb_family]->(:TcdbFamily)
-    -[:Tcdb_family_transports_metabolite]->(m)
-  OPTIONAL MATCH path_meas = (o)<-[:MetaboliteAssayBelongsToOrganism]-(:MetaboliteAssay)
-    -[:Assay_quantifies_metabolite|Assay_flags_metabolite]->(m)
-  WITH r,
-       count(path_cat) > 0 AS has_cat,
-       count(path_tr) > 0 AS has_tr,
-       count(path_meas) > 0 AS has_meas
-  WITH r,
-       [s IN ['metabolism', 'transport', 'measured']
-        WHERE (s = 'metabolism' AND has_cat)
-           OR (s = 'transport' AND has_tr)
-           OR (s = 'measured' AND has_meas)] AS sources
-  SET r.evidence_sources = sources
 } IN TRANSACTIONS OF 1000 ROWS;
 
 // Augmentation properties on every Organism_has_metabolite edge (0 / [] for non-measured)
