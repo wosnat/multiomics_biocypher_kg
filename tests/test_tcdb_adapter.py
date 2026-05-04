@@ -130,10 +130,8 @@ def test_orchestrator_node_props(cache_root, strain_dir):
 
 
 def test_orchestrator_drops_gene_edges_for_unpruned_ids(cache_root, strain_dir):
-    """Gene→TCDB edges must only target TCDB IDs in kept_tcdb_ids.
-
-    Per-strain adapter yields an edge to '3.A.1' (PMM_0002) but the orchestrator's
-    pruned set has only the 1.* family. The orchestrator must drop the 3.A.1 edge.
+    """Gene→TCDB edges to TCIDs absent from BOTH kept_tcdb_ids and seed_aliases
+    are dropped (e.g. retired TCDB IDs with no curated ancestor).
     """
     a = _make_orchestrator(cache_root, strain_dir)
     edges = list(a.get_edges())
@@ -141,3 +139,42 @@ def test_orchestrator_drops_gene_edges_for_unpruned_ids(cache_root, strain_dir):
     targets = {t for _, t in gene_edges}
     assert "tcdb:3.A.1" not in targets
     assert ("ncbigene:PMM_0001", "tcdb:1.A.1.5.2") in gene_edges
+
+
+def test_orchestrator_remaps_gene_edges_via_seed_aliases(tmp_path):
+    """When seed_aliases is present, gene edges to retired TCIDs are re-anchored
+    onto the nearest curated ancestor instead of being dropped."""
+    # Strain has a gene annotated with retired ID 1.A.1.99.X
+    strain_dir = tmp_path / "MED4"
+    strain_dir.mkdir()
+    (strain_dir / "gene_annotations_merged.json").write_text(json.dumps({
+        "PMM_0001": {"locus_tag": "PMM_0001",
+                     "transporter_classification": ["1.A.1.99.X"]},
+    }))
+
+    cache_root = tmp_path / "cache"
+    tcdb_dir = cache_root / "tcdb"
+    tcdb_dir.mkdir(parents=True)
+    (tcdb_dir / "tcdb_hierarchy.json").write_text(json.dumps({
+        "1": {"name": "Channels", "level": 0, "level_kind": "tc_class", "parent": None},
+        "1.A": {"name": "", "level": 1, "level_kind": "tc_subclass", "parent": "1"},
+        "1.A.1": {"name": "VIC", "level": 2, "level_kind": "tc_family", "parent": "1.A"},
+    }))
+    (tcdb_dir / "tcdb_pruned.json").write_text(json.dumps({
+        "kept_tcdb_ids": ["1", "1.A", "1.A.1"],
+        "leaf_substrates": {},
+        "seed_aliases": {"1.A.1.99.X": "1.A.1"},
+    }))
+
+    config_csv = cache_root / "genomes.csv"
+    config_csv.write_text(f"strain_name,data_dir\nMED4,{strain_dir}\n")
+    a = MultiTcdbAnnotationAdapter(
+        genome_config_file=str(config_csv), cache_root=cache_root,
+        test_mode=False, cache=True,
+    )
+    a.download_data(cache=True)
+
+    edges = list(a.get_edges())
+    gene_edges = [(e[1], e[2]) for e in edges if e[3] == "gene_has_tcdb_family"]
+    # Edge re-anchored to the family-level ancestor, not dropped.
+    assert ("ncbigene:PMM_0001", "tcdb:1.A.1") in gene_edges

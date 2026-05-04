@@ -8,12 +8,13 @@ import pytest
 def test_tcdb_family_node_count_in_range(run_query):
     """Pruned subhierarchy walks above + below gene-annotated TCDB IDs.
 
-    Local step 6 run produced ~4,844 kept IDs from 535 gene-annotated seeds;
-    the upper bound is intentionally generous to absorb growth as more strains
+    Local step 6 run produces ~12,881 kept IDs from 535 gene-annotated seeds
+    after the hierarchy was widened to seed from acc2tcid.tsv (May 2026).
+    The upper bound is intentionally generous to absorb growth as more strains
     or annotations land.
     """
     n = run_query("MATCH (t:TcdbFamily) RETURN count(t) AS n")[0]["n"]
-    assert 100 <= n <= 10000, f"TcdbFamily count {n} outside expected 100-10000"
+    assert 100 <= n <= 25000, f"TcdbFamily count {n} outside expected 100-25000"
 
 
 @pytest.mark.kg

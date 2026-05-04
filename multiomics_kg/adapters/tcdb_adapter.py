@@ -117,6 +117,7 @@ class MultiTcdbAnnotationAdapter:
         self._hierarchy: dict[str, dict] = {}
         self._kept_ids: set[str] = set()
         self._leaf_substrates: dict[str, list[str]] = {}
+        self._seed_aliases: dict[str, str] = {}
 
     def _build_strain_adapters(self, genome_config_file: str) -> None:
         with open(genome_config_file, newline="", encoding="utf-8") as fh:
@@ -147,6 +148,10 @@ class MultiTcdbAnnotationAdapter:
         pruned = json.loads(pruned_path.read_text())
         self._kept_ids = set(pruned["kept_tcdb_ids"])
         self._leaf_substrates = pruned["leaf_substrates"]
+        # Remaps gene-annotated TCIDs not in the curated hierarchy to the
+        # nearest curated ancestor (e.g. retired `3.A.1.35` → family `3.A.1`).
+        # Older pruned files may not carry this field.
+        self._seed_aliases = pruned.get("seed_aliases", {}) or {}
 
     def _compute_subtree_substrates(self) -> dict[str, set[str]]:
         """For each kept TCDB id, return the union of leaf substrate primary IDs
@@ -222,19 +227,39 @@ class MultiTcdbAnnotationAdapter:
                 )
                 parent_count += 1
 
-        # 2. Gene→TcdbFamily edges (delegate to per-strain adapters; filter to kept IDs)
+        # 2. Gene→TcdbFamily edges. Remap edges whose target isn't in the
+        # curated hierarchy through `seed_aliases` (built by step 6) so retired
+        # eggNOG TCIDs anchor onto the nearest curated ancestor instead of
+        # being silently dropped.
         gene_count = 0
+        remapped = 0
         dropped = 0
         kept_node_ids = {_tcdb_node_id(tc) for tc in self._kept_ids}
+        alias_node_ids = {
+            _tcdb_node_id(orig): _tcdb_node_id(anchor)
+            for orig, anchor in self._seed_aliases.items()
+        }
         for adapter in self._strain_adapters:
             for edge in adapter.get_edges():
-                if edge[2] not in kept_node_ids:
-                    dropped += 1
+                target = edge[2]
+                if target in kept_node_ids:
+                    yield edge
+                    gene_count += 1
                     continue
-                yield edge
-                gene_count += 1
+                anchor_target = alias_node_ids.get(target)
+                if anchor_target and anchor_target in kept_node_ids:
+                    edge_id, source, _, label, props = edge
+                    yield (edge_id, source, anchor_target, label, props)
+                    gene_count += 1
+                    remapped += 1
+                else:
+                    dropped += 1
+        if remapped:
+            logger.info(
+                f"MultiTcdbAnnotationAdapter: re-anchored {remapped} gene→TCDB edges via seed_aliases"
+            )
         if dropped:
-            logger.debug(
+            logger.warning(
                 f"MultiTcdbAnnotationAdapter: dropped {dropped} gene→TCDB edges to unpruned IDs"
             )
 
