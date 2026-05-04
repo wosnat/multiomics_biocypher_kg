@@ -62,6 +62,8 @@
 #   ./scripts/prepare_data.sh --steps 1 --force         # rebuild protein_annotations.json only
 #   ./scripts/prepare_data.sh --steps 2 --strains MED4 --force
 #   ./scripts/prepare_data.sh --steps 3 --strains MIT9301 --force  # rebuild gene_id_mapping only
+#   ./scripts/prepare_data.sh --steps 6 7 --force                  # rebuild KEGG/TCDB caches from cached raw inputs (fast iteration)
+#   ./scripts/prepare_data.sh --steps 6 --refetch-raw              # also re-pull raw KEGG REST + TCDB TSVs (slow; only on upstream releases)
 
 set -euo pipefail
 
@@ -74,6 +76,7 @@ mkdir -p "$LOG_DIR"
 # ── parse args ────────────────────────────────────────────────────────────────
 
 FORCE=""
+REFETCH_RAW=""
 STEPS="0 1 2 3 4 5 6 7"
 STRAINS=()
 SKIP_CYANORAK=0
@@ -81,6 +84,7 @@ SKIP_CYANORAK=0
 while [[ $# -gt 0 ]]; do
     case "$1" in
         --force)          FORCE="--force"; shift ;;
+        --refetch-raw)    REFETCH_RAW="--refetch-raw"; shift ;;
         --skip-cyanorak)  SKIP_CYANORAK=1; shift ;;
         --steps)
             STEPS=""
@@ -136,7 +140,7 @@ run_step() {
 cd "$PROJECT_ROOT"
 export PYTHONPATH="$PROJECT_ROOT${PYTHONPATH:+:$PYTHONPATH}"
 
-echo "prepare_data.sh: steps=[${STEPS}]${STRAINS_ARG:+ strains=[${STRAINS[*]}]}${FORCE:+ (force)}${SKIP_CYANORAK:+ (skip-cyanorak)}"
+echo "prepare_data.sh: steps=[${STEPS}]${STRAINS_ARG:+ strains=[${STRAINS[*]}]}${FORCE:+ (force)}${REFETCH_RAW:+ (refetch-raw)}${SKIP_CYANORAK:+ (skip-cyanorak)}"
 echo "(step 1 = protein annotations, step 2 = gene annotations, step 3 = gene ID mapping, step 4 = resolve paper CSVs, step 5 = OG descriptions, step 6 = pruned KEGG + TCDB hierarchy caches, step 7 = resolve paper metabolite names)"
 echo "Project root: $PROJECT_ROOT"
 echo "Logs dir:     $LOG_DIR"
@@ -202,7 +206,8 @@ for step in $STEPS; do
                 "Build pruned KEGG + TCDB hierarchy caches (kegg_data.json + tcdb_hierarchy.json)" \
                 "$LOG_DIR/prepare_data_step6.log" \
                 uv run python -m multiomics_kg.download.build_kegg_metabolism_xrefs \
-                    $FORCE
+                    $FORCE \
+                    $REFETCH_RAW
             ;;
         7)
             run_step 7 \

@@ -25,7 +25,13 @@ cache/data/tcdb/tcdb_hierarchy.json. The TCDB lift is unconditional and not
 gated on KEGG reachability.
 
 Usage:
-    uv run python -m multiomics_kg.download.build_kegg_metabolism_xrefs [--force]
+    uv run python -m multiomics_kg.download.build_kegg_metabolism_xrefs [--force] [--refetch-raw]
+
+  --force         Rebuild kegg_data.json from already-cached raw inputs.
+                  Does NOT re-download raw KEGG REST or TCDB TSVs — fast iteration
+                  loop for paperconfig / metabolite_aliases.yaml edits.
+  --refetch-raw   Re-download raw KEGG REST + TCDB TSVs, then rebuild. Implies
+                  --force. Use only when KEGG / TCDB upstream releases.
 """
 from __future__ import annotations
 
@@ -1038,9 +1044,12 @@ def _parse_raw_into_dict(cache_root: Path) -> dict:
 
 # ── CLI ───────────────────────────────────────────────────────────────────────
 
-def main(force: bool = False) -> None:
+def main(force: bool = False, refetch_raw: bool = False) -> None:
     logging.basicConfig(level=logging.INFO, format="%(message)s")
     cache_root = PROJECT_ROOT / "cache" / "data"
+
+    # `refetch_raw` implies rebuild (raw inputs changed → outputs are stale).
+    force = force or refetch_raw
 
     if KEGG_DATA_FILE.exists() and not force:
         log.info(f"{KEGG_DATA_FILE} exists; use --force to rebuild.")
@@ -1053,11 +1062,11 @@ def main(force: bool = False) -> None:
         )
 
     log.info("Ensuring KEGG raw cache (downloads from KEGG REST if missing) ...")
-    kegg_utils.download_kegg_raw(cache_root, force=force)
+    kegg_utils.download_kegg_raw(cache_root, force=refetch_raw)
 
     log.info("Ensuring TCDB reference TSVs are downloaded ...")
     from multiomics_kg.download.download_metabolism_reference import download_all
-    download_all(cache_root=cache_root, force=force, sources=["tcdb"])
+    download_all(cache_root=cache_root, force=refetch_raw, sources=["tcdb"])
 
     log.info("Building tcdb_hierarchy.json ...")
     _build_tcdb_hierarchy(cache_root)
@@ -1203,6 +1212,10 @@ def main(force: bool = False) -> None:
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--force", action="store_true",
-                        help="Rebuild even if kegg_data.json exists.")
+                        help="Rebuild kegg_data.json from cached raw inputs "
+                             "(does NOT re-download raw KEGG/TCDB).")
+    parser.add_argument("--refetch-raw", action="store_true",
+                        help="Also re-download raw KEGG REST files + TCDB TSVs. "
+                             "Implies --force. Use when KEGG/TCDB releases.")
     args = parser.parse_args()
-    main(force=args.force)
+    main(force=args.force, refetch_raw=args.refetch_raw)
