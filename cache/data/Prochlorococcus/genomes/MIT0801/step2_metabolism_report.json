@@ -2,23 +2,23 @@
   "strain": "MIT0801",
   "gene_count": 2358,
   "kegg_reactions": {
-    "raw_total": 0,
-    "raw_unique": 0,
-    "kept_total": 0,
-    "kept_unique_r_numbers": 0
+    "raw_total": 1202,
+    "raw_unique": 934,
+    "kept_total": 1202,
+    "kept_unique_r_numbers": 934
   },
   "transporter_classification": {
-    "raw_total": 0,
-    "raw_unique": 0,
-    "validated_total": 0,
-    "validated_unique": 0,
+    "raw_total": 251,
+    "raw_unique": 104,
+    "validated_total": 251,
+    "validated_unique": 104,
     "invalid_examples": []
   },
   "cazy_ids": {
-    "raw_total": 0,
-    "raw_unique": 0,
-    "validated_total": 0,
-    "validated_unique": 0,
+    "raw_total": 23,
+    "raw_unique": 13,
+    "validated_total": 23,
+    "validated_unique": 13,
     "invalid_examples": []
   }
 }
