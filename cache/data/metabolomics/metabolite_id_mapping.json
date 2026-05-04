@@ -1,0 +1,162 @@
+{
+  "compounds": {
+    "kegg.compound:C00024": {
+      "aliases": [
+        "acetyl coenzyme A"
+      ],
+      "first_method": "ambiguous_multi_id"
+    },
+    "kegg.compound:C00026": {
+      "aliases": [
+        "alpha-ketoglutaric acid"
+      ],
+      "first_method": "name_match"
+    },
+    "kegg.compound:C00074": {
+      "aliases": [
+        "phosphoenolpyruvate"
+      ],
+      "first_method": "name_match"
+    },
+    "kegg.compound:C00085": {
+      "aliases": [
+        "fructose6P"
+      ],
+      "first_method": "alias_override"
+    },
+    "kegg.compound:C00092": {
+      "aliases": [
+        "glucose6P"
+      ],
+      "first_method": "alias_override"
+    },
+    "kegg.compound:C00117": {
+      "aliases": [
+        "D-Ribose 5-phosphate"
+      ],
+      "first_method": "ambiguous_multi_id"
+    },
+    "kegg.compound:C00122": {
+      "aliases": [
+        "fumaric acid"
+      ],
+      "first_method": "name_match"
+    },
+    "kegg.compound:C00149": {
+      "aliases": [
+        "malic acid"
+      ],
+      "first_method": "name_match"
+    },
+    "kegg.compound:C00158": {
+      "aliases": [
+        "citric acid"
+      ],
+      "first_method": "name_match"
+    },
+    "kegg.compound:C00197": {
+      "aliases": [
+        "D-3_and_2-phosphoglyceric"
+      ],
+      "first_method": "alias_override"
+    },
+    "kegg.compound:C00329": {
+      "aliases": [
+        "D-glucosamine"
+      ],
+      "first_method": "ambiguous_multi_id"
+    },
+    "kegg.compound:C00345": {
+      "aliases": [
+        "6-phosphogluconic acid"
+      ],
+      "first_method": "name_match"
+    },
+    "kegg.compound:C00352": {
+      "aliases": [
+        "D-glucosamine 6-phosphate"
+      ],
+      "first_method": "ambiguous_multi_id"
+    },
+    "kegg.compound:C00357": {
+      "aliases": [
+        "NacetylDglucosamine6phosphate"
+      ],
+      "first_method": "alias_override"
+    },
+    "kegg.compound:C01182": {
+      "aliases": [
+        "D-ribulose-15-bisphosphate"
+      ],
+      "first_method": "alias_override"
+    },
+    "kegg.compound:C01674": {
+      "aliases": [
+        "chitobiose pos"
+      ],
+      "first_method": "alias_override"
+    }
+  },
+  "conflicts": {},
+  "multi_lookup": {},
+  "name_lookup": {
+    "6-phosphogluconic acid": [
+      "kegg.compound:C00345"
+    ],
+    "D-3_and_2-phosphoglyceric": [
+      "kegg.compound:C00197"
+    ],
+    "D-Ribose 5-phosphate": [
+      "kegg.compound:C00117"
+    ],
+    "D-glucosamine": [
+      "kegg.compound:C00329"
+    ],
+    "D-glucosamine 6-phosphate": [
+      "kegg.compound:C00352"
+    ],
+    "D-ribulose-15-bisphosphate": [
+      "kegg.compound:C01182"
+    ],
+    "NacetylDglucosamine6phosphate": [
+      "kegg.compound:C00357"
+    ],
+    "acetyl coenzyme A": [
+      "kegg.compound:C00024"
+    ],
+    "alpha-ketoglutaric acid": [
+      "kegg.compound:C00026"
+    ],
+    "chitobiose pos": [
+      "kegg.compound:C01674"
+    ],
+    "citric acid": [
+      "kegg.compound:C00158"
+    ],
+    "fructose6P": [
+      "kegg.compound:C00085"
+    ],
+    "fumaric acid": [
+      "kegg.compound:C00122"
+    ],
+    "glucose6P": [
+      "kegg.compound:C00092"
+    ],
+    "malic acid": [
+      "kegg.compound:C00149"
+    ],
+    "phosphoenolpyruvate": [
+      "kegg.compound:C00074"
+    ]
+  },
+  "per_paper_stats": {
+    "/home/osnat/github/second_multiomics/data/Prochlorococcus/papers_and_supp/Capovilla 2023/paperconfig.yaml": {
+      "resolved": 32,
+      "total": 32,
+      "unresolved": 0
+    }
+  },
+  "schema_version": 1,
+  "specific_lookup": {},
+  "unresolved": []
+}

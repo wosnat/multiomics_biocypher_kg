@@ -45,6 +45,42 @@ publication:
       light_intensity: 11 umol photons m-2 s-1
       table_scope: significant_only
 
+    chitosan_addition_mit9303_metabolomics:
+      name: MIT9303 chitosan addition — intracellular metabolomics
+      organism: Prochlorococcus MIT9303
+      treatment_condition: Chitosan addition (56 ug/mL in Pro99 AMP1 medium)
+      control_condition: Pro99 AMP1 medium without chitosan
+      experimental_context: >-
+        MIT9303 cells in Pro99 AMP1 + 56 ug/mL chitosan vs control; sampled T=4 days
+        post-inoculation. Metabolites extracted from cell pellet, blank-corrected,
+        replicate-aggregated. Capovilla 2023 sd03.
+      omics_type: METABOLOMICS
+      treatment_type: [carbon]
+      background_factors: [axenic, light]
+      compartment: whole_cell
+      medium: Pro99 AMP1
+      temperature: 24C
+      light_condition: continuous light
+      light_intensity: 11 umol photons m-2 s-1
+
+    chitosan_addition_mit9313_metabolomics:
+      name: MIT9313 chitosan addition — intracellular metabolomics
+      organism: Prochlorococcus MIT9313
+      treatment_condition: Chitosan addition (56 ug/mL in Pro99 AMP1 medium)
+      control_condition: Pro99 AMP1 medium without chitosan
+      experimental_context: >-
+        MIT9313 cells in Pro99 AMP1 + 56 ug/mL chitosan vs control; sampled T=4 and T=6
+        days post-inoculation. Metabolites extracted from cell pellet, blank-corrected,
+        replicate-aggregated. Capovilla 2023 sd03.
+      omics_type: METABOLOMICS
+      treatment_type: [carbon]
+      background_factors: [axenic, light]
+      compartment: whole_cell
+      medium: Pro99 AMP1
+      temperature: 24C
+      light_condition: continuous light
+      light_intensity: 11 umol photons m-2 s-1
+
   supplementary_materials:
     de_genes_mit9313:
       type: csv
@@ -99,3 +135,93 @@ publication:
           logfc_col: "log2 fold change (+ means upregulated in chitosan)"
           pvalue_threshold: 0.1
           table_scope: significant_only
+
+    metabolites_intracellular_mit9303:
+      type: metabolite_assays_table
+      filename: data/Prochlorococcus/papers_and_supp/Capovilla 2023/cellular_concentrations metabolites pnas.2213271120.sd03.csv
+      experiment: chitosan_addition_mit9303_metabolomics
+      organism: Prochlorococcus MIT9303
+      name_col: compound
+      skip_rows: 12
+      null_values: ["nd", "ND", "NA"]
+      missing_values: [""]
+      cell_format: numeric
+      aggregation_method: mean_across_replicates
+      drop_undetected: false
+      aliases_file: metabolite_aliases.yaml
+      assays:
+        - metric_type: cellular_concentration
+          name: "MIT9303 cellular metabolite concentration (fg/cell)"
+          value_kind: numeric
+          unit: "fg/cell"
+          rankable: "true"
+          field_description: >-
+            Intracellular metabolite concentration in fg/cell, blank-corrected,
+            replicate-aggregated; Capovilla 2023 Table sd03.
+          sample_columns:
+            - condition_label: control
+              time_point: "T=4"
+              time_point_order: 1
+              replicate_columns:
+                - "9303 Control T=4, replicate 1"
+                - "9303 Control T=4, replicate 2"
+                - "9303 Control T=4, replicate 3"
+            - condition_label: chitosan
+              time_point: "T=4"
+              time_point_order: 1
+              replicate_columns:
+                - "9303 +Chitosan T=4, replicate 1"
+                - "9303 +Chitosan T=4, replicate 2"
+                - "9303 +Chitosan T=4, replicate 3"
+
+    metabolites_intracellular_mit9313:
+      type: metabolite_assays_table
+      filename: data/Prochlorococcus/papers_and_supp/Capovilla 2023/cellular_concentrations metabolites pnas.2213271120.sd03.csv
+      experiment: chitosan_addition_mit9313_metabolomics
+      organism: Prochlorococcus MIT9313
+      name_col: compound
+      skip_rows: 12
+      null_values: ["nd", "ND", "NA"]
+      missing_values: [""]
+      cell_format: numeric
+      aggregation_method: mean_across_replicates
+      drop_undetected: false
+      aliases_file: metabolite_aliases.yaml
+      assays:
+        - metric_type: cellular_concentration
+          name: "MIT9313 cellular metabolite concentration (fg/cell)"
+          value_kind: numeric
+          unit: "fg/cell"
+          rankable: "true"
+          field_description: >-
+            Intracellular metabolite concentration in fg/cell; T=4 (3 reps) +
+            T=6 (2 reps); Capovilla 2023 Table sd03. The paper has duplicate
+            "replicate 2" labels in the source CSV; pandas auto-renames the
+            second to ".1" — those are the columns with .1 suffix below.
+          sample_columns:
+            - condition_label: control
+              time_point: "T=4"
+              time_point_order: 1
+              replicate_columns:
+                - "9313 Control T=4, replicate 1"
+                - "9313 Control T=4, replicate 2"
+                - "9313 Control T=4, replicate 3"
+            - condition_label: chitosan
+              time_point: "T=4"
+              time_point_order: 1
+              replicate_columns:
+                - "9313 +Chitosan T=4, replicate 2"
+                - "9313 +Chitosan T=4, replicate 2.1"
+                - "9313 +Chitosan T=4, replicate 3"
+            - condition_label: control
+              time_point: "T=6"
+              time_point_order: 2
+              replicate_columns:
+                - "9313 Control T=6, replicate 2"
+                - "9313 Control T=6, replicate 2.1"
+            - condition_label: chitosan
+              time_point: "T=6"
+              time_point_order: 2
+              replicate_columns:
+                - "9313 +Chitosan T=6, replicate 2"
+                - "9313 +Chitosan T=6, replicate 2.1"

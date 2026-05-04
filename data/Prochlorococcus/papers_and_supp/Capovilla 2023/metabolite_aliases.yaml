@@ -1,0 +1,23 @@
+# Manual ID overrides for compound names that don't resolve via MNX.
+# Format: "name as it appears in CSV": "primary_id"
+# Reasoning per entry below; verify against KEGG before relying on these.
+
+# "chitobiose pos" — chitobiose with positive-ion-mode LC-MS suffix
+"chitobiose pos": "kegg.compound:C01674"   # N,N'-diacetylchitobiose
+
+# Authors merged 3-phosphoglyceric + 2-phosphoglyceric acid into one row;
+# pick 3PG (glycolysis-canonical, more abundant)
+"D-3_and_2-phosphoglyceric": "kegg.compound:C00197"   # 3-phospho-D-glyceric acid
+
+# Ribulose 1,5-bisphosphate — Calvin-cycle substrate for RuBisCO
+"D-ribulose-15-bisphosphate": "kegg.compound:C01182"
+
+# Fructose-6-phosphate (glycolysis intermediate)
+"fructose6P": "kegg.compound:C00085"
+
+# Glucose-6-phosphate (glycolysis intermediate)
+"glucose6P": "kegg.compound:C00092"
+
+# N-acetyl-D-glucosamine-6-phosphate (chitin metabolism intermediate;
+# directly relevant to Capovilla 2023 chitin paper)
+"NacetylDglucosamine6phosphate": "kegg.compound:C00357"
