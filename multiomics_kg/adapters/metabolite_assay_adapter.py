@@ -318,7 +318,10 @@ class MetaboliteAssayAdapter:
                     "value_sd": float(sd),
                     "n_replicates": int(n_rep),
                     "n_non_zero": int(n_nz),
-                    "replicate_values": vals,
+                    # BioCypher's _write_array_string joins items without coercion;
+                    # array properties must be pre-stringified. neo4j-admin parses
+                    # them back to floats per the schema's `float[]` type.
+                    "replicate_values": [str(v) for v in vals],
                     "detection_status": det,
                 }
                 yield edge_id, assay_node_id, primary, "assay_quantifies_metabolite", props

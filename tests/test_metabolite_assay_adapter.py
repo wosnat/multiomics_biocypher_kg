@@ -182,7 +182,10 @@ def test_adapter_emits_numeric_quantifies_edges(tmp_path):
     assert props["value"] == 2.0
     assert props["n_replicates"] == 2
     assert props["n_non_zero"] == 2
-    assert props["replicate_values"] == [1.0, 3.0]
+    # Pre-stringified for BioCypher's _write_array_string (which joins without
+    # type coercion); neo4j-admin parses them back to floats per the schema's
+    # `float[]` declaration.
+    assert props["replicate_values"] == ["1.0", "3.0"]
     assert props["detection_status"] == "detected"
     assert props["condition_label"] == "control"
 
