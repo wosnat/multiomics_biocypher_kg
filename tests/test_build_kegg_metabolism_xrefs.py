@@ -79,11 +79,8 @@ def test_build_pruned_kegg_data(tmp_path, monkeypatch, synthetic_kegg_raw):
     monkeypatch.setattr(bx, "load_genome_rows", lambda: [{"data_dir": str(strain)}])
 
     conn = _make_resolver(tmp_path)
-    out_path = tmp_path / "kegg_data.json"
     sets = bx._gene_reachable_sets(synthetic_kegg_raw)
-    bx.build_pruned_kegg_data(synthetic_kegg_raw, conn, out_path, sets=sets)
-
-    data = json.loads(out_path.read_text())
+    data = bx.build_pruned_kegg_data(synthetic_kegg_raw, conn, sets=sets)
 
     # KOs: only gene-annotated KOs survive
     assert set(data["kos"].keys()) == {"K02338", "K01006"}
@@ -137,10 +134,8 @@ def test_compound_only_pathways_dropped(tmp_path, monkeypatch, synthetic_kegg_ra
     })
     monkeypatch.setattr(bx, "load_genome_rows", lambda: [{"data_dir": str(strain)}])
     conn = _make_resolver(tmp_path)
-    out_path = tmp_path / "kegg_data.json"
     sets = bx._gene_reachable_sets(synthetic_kegg_raw)
-    bx.build_pruned_kegg_data(synthetic_kegg_raw, conn, out_path, sets=sets)
-    data = json.loads(out_path.read_text())
+    data = bx.build_pruned_kegg_data(synthetic_kegg_raw, conn, sets=sets)
     assert "C99999" not in data["compounds"]
     assert "ko99999" not in data["pathways"]
 
@@ -172,10 +167,8 @@ def test_compound_pathway_filter_drops_unevidenced(tmp_path, monkeypatch):
     })
     monkeypatch.setattr(bx, "load_genome_rows", lambda: [{"data_dir": str(strain)}])
     conn = _make_resolver(tmp_path)
-    out_path = tmp_path / "kegg_data.json"
     sets = bx._gene_reachable_sets(raw)
-    bx.build_pruned_kegg_data(raw, conn, out_path, sets=sets)
-    data = json.loads(out_path.read_text())
+    data = bx.build_pruned_kegg_data(raw, conn, sets=sets)
 
     # ko00500 must NOT be in pathways top-level (Option B: only KO ∪ Rxn-reachable)
     assert "ko00500" not in data["pathways"]
@@ -415,10 +408,7 @@ def test_transport_only_kegg_compound_in_compounds_with_pathways(tmp_path, monke
         CREATE TABLE reaction_aliases (source TEXT, value TEXT, mnxr_id TEXT,
             PRIMARY KEY (source, value, mnxr_id));
     """)
-    out_path = tmp_path / "kegg_data.json"
-    bx.build_pruned_kegg_data(raw, conn, out_path, sets=extended_sets)
-
-    data = json.loads(out_path.read_text())
+    data = bx.build_pruned_kegg_data(raw, conn, sets=extended_sets)
     # Entry lands in compounds (not additional_compounds — the latter is created
     # by _fold_substrates_into_kegg_data, not build_pruned_kegg_data).
     assert "C00089" in data["compounds"]

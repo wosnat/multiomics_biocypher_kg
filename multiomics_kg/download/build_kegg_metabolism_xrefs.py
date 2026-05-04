@@ -3,7 +3,7 @@
 Walks every strain's gene_annotations_merged.json to identify gene-reachable
 KEGG entities, prunes the raw KEGG dataset to that subset, enriches reactions
 and compounds with MNX cross-refs, and writes a single
-cache/data/kegg/kegg_data.json (~500 KB).
+cache/data/kegg/kegg_data.json (~3-4 MB indented for git-friendly diffs).
 
 Both kegg_anno_adapter and metabolism_adapter read this file. No per-adapter
 pruning at iteration time.
@@ -42,10 +42,19 @@ import logging
 import sqlite3
 from pathlib import Path
 
+import pandas as pd
+import yaml
+
 from multiomics_kg.download.utils.cli import load_genome_rows
 from multiomics_kg.utils import kegg_utils
 from multiomics_kg.utils import metabolite_utils as mu
 from multiomics_kg.utils.gene_id_utils import load_gene_annotations
+from multiomics_kg.utils.metabolite_utils import mnxm_to_primary_id, resolve_metabolite
+from multiomics_kg.download.download_metabolism_reference import download_all
+from multiomics_kg.utils.paperconfig_utils import (
+    iter_metabolite_assays_tables,
+    load_all_paperconfigs,
+)
 
 SCRIPT_DIR = Path(__file__).resolve().parent
 PROJECT_ROOT = SCRIPT_DIR.parent.parent
@@ -550,11 +559,19 @@ def _prune_tcdb(
         for child in children_of.get(tc, []):
             walk_down(child)
 
+    skipped_seeds: list[str] = []
     for seed in seed_ids:
         if seed not in hierarchy:
+            skipped_seeds.append(seed)
             continue
         walk_up(seed)
         walk_down(seed)
+    if skipped_seeds:
+        sample = ", ".join(sorted(skipped_seeds)[:5])
+        log.info(
+            f"  TCDB: {len(skipped_seeds)} gene-annotated seed(s) not in curated "
+            f"hierarchy (e.g. {sample})"
+        )
     return kept, leaf_subs
 
 
@@ -704,11 +721,6 @@ def _harvest_paper_metabolites(
       paper_non_kegg_compounds: {primary_id: {name, formula, mass, inchikey, mnxm_id, chebi_id}}
       per_paper:           {paperconfig_path: {resolved, unresolved, total}}
     """
-    import yaml as _yaml
-    import pandas as _pd
-    from multiomics_kg.utils.metabolite_utils import resolve_metabolite, mnxm_to_primary_id
-    from multiomics_kg.utils.paperconfig_utils import iter_metabolite_assays_tables
-
     alias_to_primary: dict[str, str] = {}
     resolution_methods: dict[str, str] = {}
     unresolved: set[str] = set()
@@ -769,15 +781,15 @@ def _harvest_paper_metabolites(
                 aliases_path = pc_path.parent / aliases_file
                 if aliases_path.exists():
                     try:
-                        loaded = _yaml.safe_load(aliases_path.read_text()) or {}
+                        loaded = yaml.safe_load(aliases_path.read_text()) or {}
                         if isinstance(loaded, dict):
                             aliases = {str(k): str(v) for k, v in loaded.items()}
-                    except _yaml.YAMLError as e:
+                    except yaml.YAMLError as e:
                         log.warning(f"[paper-metabolites] cannot parse {aliases_path}: {e}")
 
             try:
                 skip_rows = int(entry.get("skip_rows", 0) or 0)
-                df = _pd.read_csv(csv_full, dtype=str, keep_default_na=False, skiprows=skip_rows or None)
+                df = pd.read_csv(csv_full, dtype=str, keep_default_na=False, skiprows=skip_rows or None)
             except Exception as e:
                 log.warning(f"[paper-metabolites] cannot read {csv_full}: {e}")
                 continue
@@ -859,16 +871,12 @@ def _fold_paper_metabolites_into_kegg_data(
     compounds = kegg_data.setdefault("compounds", {})
     additional = kegg_data.setdefault("additional_compounds", {})
 
-    for raw_id in paper_kegg_cpds:
-        # paper_kegg_cpds elements are bare C-numbers (the prefix-stripped form
-        # added by _harvest_paper_metabolites at L679). compounds is keyed by
-        # bare C-numbers too — look up directly. Earlier code re-added the
-        # `kegg.compound:` prefix before lookup, which always missed.
-        cpd_id = raw_id[len("kegg.compound:"):] if raw_id.startswith("kegg.compound:") else raw_id
-        entry = compounds.get(cpd_id)
-        if entry is None:
-            # Should not happen if main() extended the cpds set, but guard anyway
-            continue
+    # paper_kegg_cpds elements are bare C-numbers (prefix-stripped by
+    # _harvest_paper_metabolites). compounds is keyed by bare C-numbers too.
+    # Every paper_kegg_cpd is in the extended cpds set passed to
+    # build_pruned_kegg_data, so the entry must exist.
+    for cpd_id in paper_kegg_cpds:
+        entry = compounds[cpd_id]
         sources = list(entry.get("evidence_sources") or [])
         if "metabolomics" not in sources:
             sources.append("metabolomics")
@@ -941,10 +949,10 @@ def _fold_substrates_into_kegg_data(
          kegg_data['additional_compounds'] with evidence_sources=['transport'].
     """
     for cpd_id, entry in kegg_data.get("compounds", {}).items():
-        sources: list[str] = []
-        if cpd_id in catalysis_cpds:
+        sources = list(entry.get("evidence_sources") or [])
+        if cpd_id in catalysis_cpds and "metabolism" not in sources:
             sources.append("metabolism")
-        if cpd_id in substrate_kegg_cpds:
+        if cpd_id in substrate_kegg_cpds and "transport" not in sources:
             sources.append("transport")
         entry["evidence_sources"] = sources
 
@@ -967,11 +975,14 @@ def _fold_substrates_into_kegg_data(
 def build_pruned_kegg_data(
     raw: dict,
     conn: sqlite3.Connection,
-    out_path: Path,
     *,
     sets: dict[str, set[str]],
-) -> None:
-    """Build the pruned kegg_data.json from raw KEGG data + MNX resolver.
+) -> dict:
+    """Build the pruned kegg_data dict from raw KEGG data + MNX resolver.
+
+    Returns the assembled dict; the caller is responsible for writing it to
+    disk (after any final folds — evidence-source tagging, paper-metabolite
+    union — happen in-place on the returned dict).
 
     `sets` matches the dict shape returned by `_gene_reachable_sets`, optionally
     extended by the caller with transport-reachable cpds + pws. Keys consumed:
@@ -1031,12 +1042,11 @@ def build_pruned_kegg_data(
         "compounds": cpd_enriched,
     }
 
-    out_path.parent.mkdir(parents=True, exist_ok=True)
-    out_path.write_text(json.dumps(out, indent=2, sort_keys=True))
     log.info(
-        f"Wrote {out_path}: {len(out['kos'])} KOs, {len(out['pathways'])} pathways, "
+        f"Built kegg_data dict: {len(out['kos'])} KOs, {len(out['pathways'])} pathways, "
         f"{len(out['reactions'])} reactions, {len(out['compounds'])} compounds"
     )
+    return out
 
 
 # ── Raw → in-memory dict ──────────────────────────────────────────────────────
@@ -1124,7 +1134,6 @@ def main(force: bool = False, refetch_raw: bool = False) -> None:
     kegg_utils.download_kegg_raw(cache_root, force=refetch_raw)
 
     log.info("Ensuring TCDB reference TSVs are downloaded ...")
-    from multiomics_kg.download.download_metabolism_reference import download_all
     download_all(cache_root=cache_root, force=refetch_raw, sources=["tcdb"])
 
     log.info("Building tcdb_hierarchy.json ...")
@@ -1171,7 +1180,6 @@ def main(force: bool = False, refetch_raw: bool = False) -> None:
 
         # ── Phase 2 metabolomics: harvest paper-measured metabolites ─────────
         log.info("Harvesting paper-measured metabolites from paperconfigs ...")
-        from multiomics_kg.utils.paperconfig_utils import load_all_paperconfigs
         paperconfigs = load_all_paperconfigs()
         paper_harvest = _harvest_paper_metabolites(paperconfigs, conn)
         paper_kegg_cpds: set[str] = paper_harvest["paper_kegg_cpds"]
@@ -1210,11 +1218,10 @@ def main(force: bool = False, refetch_raw: bool = False) -> None:
             f"+{len(paper_pws - catalysis_pws - transport_pws)} paper-measurement-reachable)"
         )
 
-        log.info("Building pruned kegg_data.json ...")
-        build_pruned_kegg_data(raw, conn, KEGG_DATA_FILE, sets=extended_sets)
+        log.info("Building pruned kegg_data ...")
+        kegg_data = build_pruned_kegg_data(raw, conn, sets=extended_sets)
 
         log.info("Tagging evidence_sources + adding non-KEGG transport substrates ...")
-        kegg_data = json.loads(KEGG_DATA_FILE.read_text())
         _fold_substrates_into_kegg_data(
             kegg_data,
             catalysis_cpds=catalysis_cpds,
@@ -1246,6 +1253,7 @@ def main(force: bool = False, refetch_raw: bool = False) -> None:
             1 for c in kegg_data["compounds"].values()
             if c["evidence_sources"] == ["transport"]
         )
+        KEGG_DATA_FILE.parent.mkdir(parents=True, exist_ok=True)
         KEGG_DATA_FILE.write_text(json.dumps(kegg_data, indent=2, sort_keys=True))
 
         (cache_root / "tcdb" / "tcdb_pruned.json").write_text(json.dumps({
