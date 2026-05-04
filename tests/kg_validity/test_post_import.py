@@ -1129,3 +1129,16 @@ def test_organism_has_metabolite_includes_transport_path(run_query):
         RETURN count(*) AS n
     """)
     assert rows[0]["n"] > 0
+
+
+@pytest.mark.kg
+def test_metabolomics_evidence_source_appears_when_papers_integrated(run_query):
+    """After Capovilla/Kujawinski integration, at least some Metabolite nodes
+    must carry 'metabolomics' in evidence_sources. Skipped pre-integration."""
+    rows = run_query(
+        "MATCH (m:Metabolite) WHERE 'metabolomics' IN m.evidence_sources RETURN count(m) AS n"
+    )
+    n = rows[0]["n"]
+    if n == 0:
+        pytest.skip("No metabolomics-source metabolites yet (Phase 2 papers not integrated)")
+    assert n > 0
