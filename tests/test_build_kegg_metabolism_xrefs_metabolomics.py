@@ -131,16 +131,19 @@ def test_harvest_paper_metabolites_unresolved(tmp_path):
 
 
 def test_fold_paper_metabolites_unions_evidence_sources():
+    # kegg_data["compounds"] is keyed by BARE C-numbers in production (the
+    # `kegg.compound:` prefix is added at adapter time when emitting Metabolite
+    # nodes). The fold function must look up using bare keys. The earlier
+    # version of this test used prefixed keys and silently passed despite the
+    # production bug — see commit 1049a9f for the fix.
     from multiomics_kg.download.build_kegg_metabolism_xrefs import _fold_paper_metabolites_into_kegg_data
     kegg_data = {
         "compounds": {
-            "kegg.compound:C00031": {
-                "id": "kegg.compound:C00031",
+            "C00031": {
                 "name": "Glucose",
                 "evidence_sources": ["metabolism"],
             },
-            "kegg.compound:C00022": {
-                "id": "kegg.compound:C00022",
+            "C00022": {
                 "name": "Pyruvate",
                 "evidence_sources": [],
             },
@@ -157,8 +160,8 @@ def test_fold_paper_metabolites_unions_evidence_sources():
         paper_kegg_cpds=paper_kegg_cpds,
         paper_non_kegg_compounds=paper_non_kegg,
     )
-    assert sorted(kegg_data["compounds"]["kegg.compound:C00031"]["evidence_sources"]) == ["metabolism", "metabolomics"]
-    assert kegg_data["compounds"]["kegg.compound:C00022"]["evidence_sources"] == ["metabolomics"]
+    assert sorted(kegg_data["compounds"]["C00031"]["evidence_sources"]) == ["metabolism", "metabolomics"]
+    assert kegg_data["compounds"]["C00022"]["evidence_sources"] == ["metabolomics"]
     assert kegg_data["additional_compounds"]["chebi:16865"]["evidence_sources"] == ["metabolomics"]
     assert kegg_data["additional_compounds"]["chebi:16865"]["name"] == "GABA"
 
