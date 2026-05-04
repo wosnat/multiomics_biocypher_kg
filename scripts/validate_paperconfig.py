@@ -128,6 +128,7 @@ CANONICAL_GENOMIC_ORGANISMS = {
     "Prochlorococcus MIT9301",
     "Prochlorococcus MIT9312",
     "Prochlorococcus MIT9313",
+    "Prochlorococcus MIT0801",
     "Prochlorococcus NATL1A",
     "Prochlorococcus NATL2A",
     "Prochlorococcus MIT9303",

@@ -26,7 +26,8 @@ from __future__ import annotations
 COMPARTMENTS: frozenset[str] = frozenset({
     "whole_cell",       # intracellular (default)
     "vesicle",          # extracellular vesicle fraction
-    "exoproteome",      # secreted proteins in medium
+    "exoproteome",      # secreted proteins in medium (proteomics convention)
+    "extracellular",    # general "outside the cell" pool — used by metabolomics
     "spent_medium",     # culture supernatant
     "lysate",           # cell lysate
 })
