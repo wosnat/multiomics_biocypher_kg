@@ -36,8 +36,20 @@
 #           Also downloads the 3 TCDB reference TSVs and writes cache/data/tcdb/tcdb_hierarchy.json.
 #           Requires step 2 + scripts/refresh_mnx.sh
 #           (MNX resolver — heavy one-time build, rerun only when MNX releases)
+#           Step 6 also walks all paperconfig metabolite_assays_table entries
+#           (Phase 2 metabolomics): harvests paper-measured metabolites, unions
+#           "metabolomics" into evidence_sources, writes
+#           cache/data/metabolomics/metabolite_id_mapping.json (consumed by step 7).
 #
-# Logs: logs/prepare_data_step0.log … logs/prepare_data_step6.log
+# Step 7 — Resolve paper metabolite names → primary IDs
+#           calls: multiomics_kg/download/resolve_paper_metabolites.py
+#           For each metabolite_assays_table entry, opens the source CSV and
+#           writes <stem>_resolved.csv with metabolite_id + resolution_method
+#           columns; mirrors step 4 for genes. Reads only metabolite_id_mapping.json
+#           (no MNX resolver hit — step 6 owns that).
+#           Requires step 6.
+#
+# Logs: logs/prepare_data_step0.log … logs/prepare_data_step7.log
 #       Monitor with: tail -f logs/prepare_data_step0.log
 #
 # Usage:
@@ -62,7 +74,7 @@ mkdir -p "$LOG_DIR"
 # ── parse args ────────────────────────────────────────────────────────────────
 
 FORCE=""
-STEPS="0 1 2 3 4 5 6"
+STEPS="0 1 2 3 4 5 6 7"
 STRAINS=()
 SKIP_CYANORAK=0
 
@@ -125,7 +137,7 @@ cd "$PROJECT_ROOT"
 export PYTHONPATH="$PROJECT_ROOT${PYTHONPATH:+:$PYTHONPATH}"
 
 echo "prepare_data.sh: steps=[${STEPS}]${STRAINS_ARG:+ strains=[${STRAINS[*]}]}${FORCE:+ (force)}${SKIP_CYANORAK:+ (skip-cyanorak)}"
-echo "(step 1 = protein annotations, step 2 = gene annotations, step 3 = gene ID mapping, step 4 = resolve paper CSVs, step 5 = OG descriptions, step 6 = pruned KEGG + TCDB hierarchy caches)"
+echo "(step 1 = protein annotations, step 2 = gene annotations, step 3 = gene ID mapping, step 4 = resolve paper CSVs, step 5 = OG descriptions, step 6 = pruned KEGG + TCDB hierarchy caches, step 7 = resolve paper metabolite names)"
 echo "Project root: $PROJECT_ROOT"
 echo "Logs dir:     $LOG_DIR"
 
@@ -192,8 +204,15 @@ for step in $STEPS; do
                 uv run python -m multiomics_kg.download.build_kegg_metabolism_xrefs \
                     $FORCE
             ;;
+        7)
+            run_step 7 \
+                "Resolve paper metabolite names → primary IDs (_resolved.csv)" \
+                "$LOG_DIR/prepare_data_step7.log" \
+                uv run python -m multiomics_kg.download.resolve_paper_metabolites \
+                    $FORCE
+            ;;
         *)
-            echo "Unknown step: $step (valid: 0 1 2 3 4 5 6)" >&2
+            echo "Unknown step: $step (valid: 0 1 2 3 4 5 6 7)" >&2
             exit 1
             ;;
     esac
