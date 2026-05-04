@@ -628,6 +628,230 @@ def _resolve_substrates(
     return leaf_to_primary_ids, compound_props
 
 
+def _harvest_paper_metabolites(
+    paperconfigs: list[tuple[Path, dict]],
+    conn: sqlite3.Connection,
+) -> dict:
+    """Walk all metabolite_assays_table entries; resolve every metabolite name.
+
+    Resolution priority per row:
+      1. id_col (when set + non-empty in the row): parse per id_type → primary ID
+      2. aliases_file (paper-local YAML map): name → primary ID override
+      3. MNX resolver against name_col
+      4. else → unresolved
+
+    Returns a dict:
+      alias_to_primary:    {name_or_alias: primary_id}
+      resolution_methods:  {name_or_alias: method_str}
+      unresolved:          sorted list[str]
+      paper_kegg_cpds:     set[str]   — KEGG-prefix-stripped C-numbers (mirrors substrate_kegg_cpds)
+      paper_non_kegg_compounds: {primary_id: {name, formula, mass, inchikey, mnxm_id, chebi_id}}
+      per_paper:           {paperconfig_path: {resolved, unresolved, total}}
+    """
+    import yaml as _yaml
+    import pandas as _pd
+    from multiomics_kg.utils.metabolite_utils import resolve_metabolite, mnxm_to_primary_id
+    from multiomics_kg.utils.paperconfig_utils import iter_metabolite_assays_tables
+
+    alias_to_primary: dict[str, str] = {}
+    resolution_methods: dict[str, str] = {}
+    unresolved: set[str] = set()
+    paper_kegg_cpds: set[str] = set()
+    paper_non_kegg_compounds: dict[str, dict] = {}
+    per_paper: dict[str, dict[str, int]] = {}
+
+    cur = conn.cursor()
+
+    def _record(name: str, primary: str | None, method: str) -> bool:
+        if primary is None:
+            unresolved.add(name)
+            resolution_methods.setdefault(name, "unresolved")
+            return False
+        alias_to_primary[name] = primary
+        resolution_methods[name] = method
+        if primary.startswith("kegg.compound:"):
+            paper_kegg_cpds.add(primary[len("kegg.compound:"):])
+        elif primary not in paper_non_kegg_compounds:
+            # Pull MNX-side props for the additional_compounds entry
+            mnxm = primary[len("mnx:"):] if primary.startswith("mnx:") else None
+            if mnxm:
+                cur.execute(
+                    "SELECT name, formula, mass, inchikey FROM compounds WHERE mnxm_id = ?",
+                    (mnxm,),
+                )
+                row = cur.fetchone()
+                mnx_name, formula, mass, inchikey = row if row else (None, None, None, None)
+            else:
+                mnx_name, formula, mass, inchikey = None, None, None, None
+            paper_non_kegg_compounds[primary] = {
+                "name": (mnx_name or name).strip(),
+                "formula": formula or None,
+                "mass": mass,
+                "inchikey": inchikey or None,
+                "mnxm_id": mnxm,
+                "chebi_id": primary[len("chebi:"):] if primary.startswith("chebi:") else None,
+            }
+        return True
+
+    for pc_path, cfg in paperconfigs:
+        for entry_key, entry in iter_metabolite_assays_tables(cfg):
+            csv_path = entry.get("filename")
+            if not csv_path:
+                continue
+            csv_full = (PROJECT_ROOT / csv_path) if not Path(csv_path).is_absolute() else Path(csv_path)
+            if not csv_full.exists():
+                log.warning(f"[paper-metabolites] CSV missing: {csv_full}")
+                continue
+
+            name_col = entry.get("name_col") or "compound"
+            id_col = entry.get("id_col") or ""
+            id_type = entry.get("id_type") or ""
+            aliases_file = entry.get("aliases_file") or ""
+
+            aliases: dict[str, str] = {}
+            if aliases_file:
+                aliases_path = pc_path.parent / aliases_file
+                if aliases_path.exists():
+                    try:
+                        loaded = _yaml.safe_load(aliases_path.read_text()) or {}
+                        if isinstance(loaded, dict):
+                            aliases = {str(k): str(v) for k, v in loaded.items()}
+                    except _yaml.YAMLError as e:
+                        log.warning(f"[paper-metabolites] cannot parse {aliases_path}: {e}")
+
+            try:
+                skip_rows = int(entry.get("skip_rows", 0) or 0)
+                df = _pd.read_csv(csv_full, dtype=str, keep_default_na=False, skiprows=skip_rows or None)
+            except Exception as e:
+                log.warning(f"[paper-metabolites] cannot read {csv_full}: {e}")
+                continue
+
+            stats = per_paper.setdefault(str(pc_path), {"resolved": 0, "unresolved": 0, "total": 0})
+
+            for _, row in df.iterrows():
+                name = (row.get(name_col) or "").strip()
+                if not name:
+                    continue
+                stats["total"] += 1
+                if name in alias_to_primary:
+                    stats["resolved"] += 1
+                    continue
+
+                # 1. id_col direct
+                primary, method = None, None
+                if id_col and id_type:
+                    raw = (row.get(id_col) or "").strip()
+                    if raw:
+                        primary = raw if ":" in raw else f"{id_type}:{raw}"
+                        method = (
+                            "kegg_direct" if id_type == "kegg.compound"
+                            else "chebi_direct" if id_type == "chebi"
+                            else "mnx_direct" if id_type == "mnx"
+                            else "id_direct"
+                        )
+
+                # 2. aliases_file override
+                if primary is None and name in aliases:
+                    primary, method = aliases[name], "alias_override"
+
+                # 3. MNX resolver
+                if primary is None:
+                    mnxm, mnx_method = resolve_metabolite(name, conn)
+                    if mnxm is not None:
+                        primary = mnxm_to_primary_id(mnxm, conn)
+                        method = (
+                            "name_match" if mnx_method in ("xref:exact", "name:normalized")
+                            else "ambiguous_multi_id" if mnx_method in ("xref:ambiguous", "ambiguous")
+                            else "name_match"
+                        )
+
+                if _record(name, primary, method or "unresolved"):
+                    stats["resolved"] += 1
+                else:
+                    stats["unresolved"] += 1
+
+    return {
+        "alias_to_primary": alias_to_primary,
+        "resolution_methods": resolution_methods,
+        "unresolved": sorted(unresolved),
+        "paper_kegg_cpds": paper_kegg_cpds,
+        "paper_non_kegg_compounds": paper_non_kegg_compounds,
+        "per_paper": per_paper,
+    }
+
+
+def _fold_paper_metabolites_into_kegg_data(
+    kegg_data: dict,
+    *,
+    paper_kegg_cpds: set[str],
+    paper_non_kegg_compounds: dict[str, dict],
+) -> None:
+    """Add 'metabolomics' to evidence_sources for paper-measured compounds.
+
+    KEGG-flavor paper compounds are already in kegg_data['compounds'] (because
+    main() extended the cpds set before build_pruned_kegg_data ran). We just
+    union 'metabolomics' into their evidence_sources.
+
+    Non-KEGG paper compounds enter kegg_data['additional_compounds'] (or update
+    an existing entry to add 'metabolomics' to its evidence_sources).
+    """
+    compounds = kegg_data.setdefault("compounds", {})
+    additional = kegg_data.setdefault("additional_compounds", {})
+
+    for raw_id in paper_kegg_cpds:
+        cpd_id = raw_id if raw_id.startswith("kegg.compound:") else f"kegg.compound:{raw_id}"
+        entry = compounds.get(cpd_id)
+        if entry is None:
+            # Should not happen if main() extended the cpds set, but guard anyway
+            continue
+        sources = list(entry.get("evidence_sources") or [])
+        if "metabolomics" not in sources:
+            sources.append("metabolomics")
+        entry["evidence_sources"] = sources
+
+    for primary_id, props in paper_non_kegg_compounds.items():
+        if primary_id in additional:
+            sources = list(additional[primary_id].get("evidence_sources") or [])
+            if "metabolomics" not in sources:
+                sources.append("metabolomics")
+            additional[primary_id]["evidence_sources"] = sources
+        else:
+            additional[primary_id] = {
+                **props,
+                "evidence_sources": ["metabolomics"],
+            }
+
+
+def _write_metabolite_id_mapping(harvest: dict, out_path: Path) -> None:
+    """Write metabolite_id_mapping.json. v1: only name_lookup populated.
+
+    Schema reserves three tiers (specific_lookup, multi_lookup, name_lookup)
+    + conflicts + compounds; future ID-column harvesting will fill the
+    other tiers. v1 fills name_lookup only.
+    """
+    name_lookup: dict[str, list[str]] = {}
+    compounds: dict[str, dict] = {}
+    methods = harvest.get("resolution_methods") or {}
+    for name, primary in (harvest.get("alias_to_primary") or {}).items():
+        name_lookup.setdefault(name, []).append(primary)
+        compounds.setdefault(primary, {"aliases": [], "first_method": methods.get(name, "")})
+        if name not in compounds[primary]["aliases"]:
+            compounds[primary]["aliases"].append(name)
+
+    data = {
+        "specific_lookup": {},
+        "multi_lookup": {},
+        "name_lookup": name_lookup,
+        "conflicts": {},
+        "compounds": compounds,
+        "schema_version": 1,
+        "per_paper_stats": harvest.get("per_paper") or {},
+        "unresolved": harvest.get("unresolved") or [],
+    }
+    out_path.parent.mkdir(parents=True, exist_ok=True)
+    out_path.write_text(json.dumps(data, indent=2, sort_keys=True))
+
+
 def _fold_substrates_into_kegg_data(
     kegg_data: dict,
     *,
@@ -877,9 +1101,32 @@ def main(force: bool = False) -> None:
             p for cpd in substrate_kegg_cpds for p in cpd_to_pw.get(cpd, [])
         }
 
+        # ── Phase 2 metabolomics: harvest paper-measured metabolites ─────────
+        log.info("Harvesting paper-measured metabolites from paperconfigs ...")
+        from multiomics_kg.utils.paperconfig_utils import load_all_paperconfigs
+        paperconfigs = load_all_paperconfigs()
+        paper_harvest = _harvest_paper_metabolites(paperconfigs, conn)
+        paper_kegg_cpds: set[str] = paper_harvest["paper_kegg_cpds"]
+        paper_non_kegg_compounds: dict[str, dict] = paper_harvest["paper_non_kegg_compounds"]
+
+        # Paper-measurement-reachable pathways (KEGG-primary measured compounds only)
+        paper_pws: set[str] = {
+            p for cpd in paper_kegg_cpds for p in cpd_to_pw.get(cpd, [])
+        }
+
+        n_paper_total = sum(s["total"] for s in paper_harvest["per_paper"].values())
+        n_paper_resolved = sum(s["resolved"] for s in paper_harvest["per_paper"].values())
+        n_paper_unresolved = sum(s["unresolved"] for s in paper_harvest["per_paper"].values())
+        log.info(
+            f"  Paper-metabolite harvest: {n_paper_resolved}/{n_paper_total} resolved "
+            f"({n_paper_unresolved} unresolved); "
+            f"{len(paper_kegg_cpds)} kegg.compound, "
+            f"{len(paper_non_kegg_compounds)} non-KEGG primaries"
+        )
+
         extended_sets = dict(catalysis_sets)
-        extended_sets["cpds"] = catalysis_cpds | substrate_kegg_cpds
-        extended_sets["pws"] = catalysis_pws | transport_pws
+        extended_sets["cpds"] = catalysis_cpds | substrate_kegg_cpds | paper_kegg_cpds
+        extended_sets["pws"] = catalysis_pws | transport_pws | paper_pws
 
         log.info(
             f"TCDB substrate primaries: {distinct_substrate_ids} distinct "
@@ -888,9 +1135,11 @@ def main(force: bool = False) -> None:
         )
         log.info(
             f"Extended sets: {len(extended_sets['cpds'])} compounds "
-            f"(+{len(substrate_kegg_cpds - catalysis_cpds)} transport-reachable), "
+            f"(+{len(substrate_kegg_cpds - catalysis_cpds)} transport-reachable, "
+            f"+{len(paper_kegg_cpds - catalysis_cpds - substrate_kegg_cpds)} paper-measurement-reachable), "
             f"{len(extended_sets['pws'])} pathways "
-            f"(+{len(transport_pws - catalysis_pws)} transport-reachable)"
+            f"(+{len(transport_pws - catalysis_pws)} transport-reachable, "
+            f"+{len(paper_pws - catalysis_pws - transport_pws)} paper-measurement-reachable)"
         )
 
         log.info("Building pruned kegg_data.json ...")
@@ -905,6 +1154,19 @@ def main(force: bool = False) -> None:
             leaf_to_primary=leaf_to_primary,
             compound_props=compound_props,
         )
+
+        # Phase 2: union "metabolomics" into evidence_sources for paper compounds
+        log.info("Folding paper-measured metabolites into kegg_data ...")
+        _fold_paper_metabolites_into_kegg_data(
+            kegg_data,
+            paper_kegg_cpds=paper_kegg_cpds,
+            paper_non_kegg_compounds=paper_non_kegg_compounds,
+        )
+
+        # Write metabolite_id_mapping.json (consumed by step 7)
+        mapping_out = PROJECT_ROOT / "cache" / "data" / "metabolomics" / "metabolite_id_mapping.json"
+        _write_metabolite_id_mapping(paper_harvest, mapping_out)
+        log.info(f"  metabolite_id_mapping.json written: {mapping_out}")
         n_compounds = len(kegg_data["compounds"])
         n_additional = len(kegg_data["additional_compounds"])
         n_overlap = sum(
