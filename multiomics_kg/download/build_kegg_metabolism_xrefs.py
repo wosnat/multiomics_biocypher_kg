@@ -566,70 +566,120 @@ def _resolve_substrates(
 
     Returns:
       leaf_to_primary_ids: {leaf_tcid: [primary_id, ...]}, sorted+deduped.
-      compound_props: {primary_id: {name, formula, mass, inchikey, mnxm_id, chebi_id}}.
-    """
-    from multiomics_kg.utils.metabolite_utils import mnxm_to_primary_id
+      compound_props: {primary_id: {name, formula, mass, inchikey, mnxm_id, chebi_id}}
+                      for non-KEGG primaries only (KEGG primaries flow through
+                      `_bulk_enrich_compounds`, so they don't need props here).
 
-    leaf_to_primary_ids: dict[str, list[str]] = {}
-    compound_props: dict[str, dict] = {}
+    Batched against the MNX SQLite — one IN-clause query per phase instead of
+    a per-substrate loop with 3-4 roundtrips each. Roughly 17K queries → ~6.
+    """
     cur = conn.cursor()
 
+    # Pass 1: parse all substrate strings → (leaf, chebi_value, name_part).
+    # Format: 'CHEBI:NNNN;name' or just 'name'. MNX stores CHEBI aliases as
+    # (source='chebi', value='<bare-number>'), so strip the prefix here.
+    parsed: list[tuple[str, str, str]] = []
     for leaf, subs in leaf_subs.items():
-        primary_ids: list[str] = []
         for sub_str in subs:
-            # Format: 'CHEBI:NNNN;name' or just 'name'
             if ":" not in sub_str:
                 continue
             chebi_part, _, name_part = sub_str.partition(";")
-            # MNX stores CHEBI aliases as (source='chebi', value='<bare-number>'),
-            # not as 'CHEBI:<number>'. Strip the prefix before lookup; resolve via
-            # source-filtered query (more precise than resolve_metabolite's generic
-            # alias match — avoids accidental cross-source value collisions).
             prefix, _, chebi_value = chebi_part.partition(":")
             if prefix.strip().upper() != "CHEBI" or not chebi_value:
                 log.debug(f"TCDB substrate not in CHEBI form: {sub_str!r} (leaf {leaf})")
                 continue
-            cur.execute(
-                "SELECT mnxm_id FROM compound_aliases "
-                "WHERE source='chebi' AND value=? ORDER BY mnxm_id LIMIT 1",
-                (chebi_value.strip(),),
-            )
-            row = cur.fetchone()
-            mnxm = row[0] if row else None
-            if mnxm is None:
-                log.debug(f"TCDB substrate unresolved: {sub_str!r} (leaf {leaf})")
-                continue
-            primary = mnxm_to_primary_id(mnxm, conn)
-            primary_ids.append(primary)
+            parsed.append((leaf, chebi_value.strip(), name_part))
 
-            if primary in compound_props:
-                # Already collected props for this primary ID — skip the lookup.
-                continue
+    # Always emit an entry per leaf, even if all substrates fail to parse/resolve
+    leaf_to_primary_ids: dict[str, list[str]] = {leaf: [] for leaf in leaf_subs}
+    compound_props: dict[str, dict] = {}
+    if not parsed:
+        return leaf_to_primary_ids, compound_props
 
-            # Pull MNX-side properties for the additional_compounds entry
-            cur.execute(
-                "SELECT name, formula, mass, inchikey FROM compounds WHERE mnxm_id = ?",
-                (mnxm,),
-            )
-            row = cur.fetchone()
-            mnx_name, formula, mass, inchikey = row if row else (name_part, None, None, None)
-            cur.execute(
-                "SELECT value FROM compound_aliases "
-                "WHERE source='chebi' AND mnxm_id = ? ORDER BY value LIMIT 1",
-                (mnxm,),
-            )
-            chebi_row = cur.fetchone()
-            chebi_id = chebi_row[0] if chebi_row else None
+    # Pass 2: chebi_value → mnxm_id (batched). First-by-mnxm_id wins on collision.
+    distinct_chebi = sorted({chebi for _, chebi, _ in parsed})
+    chebi_to_mnxm: dict[str, str] = {}
+    for chunk in _batched(distinct_chebi):
+        placeholders = ",".join("?" * len(chunk))
+        cur.execute(
+            f"SELECT value, mnxm_id FROM compound_aliases "
+            f"WHERE source='chebi' AND value IN ({placeholders}) "
+            f"ORDER BY mnxm_id",
+            chunk,
+        )
+        for value, mnxm_id in cur.fetchall():
+            chebi_to_mnxm.setdefault(value, mnxm_id)
 
-            compound_props[primary] = {
-                "name": (mnx_name or name_part).strip(),
-                "formula": formula or None,
-                "mass": mass,
-                "inchikey": inchikey or None,
-                "mnxm_id": mnxm,
-                "chebi_id": chebi_id,
-            }
-        leaf_to_primary_ids[leaf] = sorted(set(primary_ids))
+    # Pass 3: distinct mnxm_ids → kegg.compound + chebi aliases (priority order
+    # for primary-ID resolution; mirrors mnxm_to_primary_id).
+    mnxm_ids = sorted(set(chebi_to_mnxm.values()))
+    mnxm_to_kegg: dict[str, str] = {}
+    mnxm_to_chebi: dict[str, str] = {}
+    for chunk in _batched(mnxm_ids):
+        placeholders = ",".join("?" * len(chunk))
+        cur.execute(
+            f"SELECT mnxm_id, value FROM compound_aliases "
+            f"WHERE source='kegg.compound' AND mnxm_id IN ({placeholders}) "
+            f"ORDER BY mnxm_id, value",
+            chunk,
+        )
+        for mnxm_id, value in cur.fetchall():
+            mnxm_to_kegg.setdefault(mnxm_id, value)
+        cur.execute(
+            f"SELECT mnxm_id, value FROM compound_aliases "
+            f"WHERE source='chebi' AND mnxm_id IN ({placeholders}) "
+            f"ORDER BY mnxm_id, value",
+            chunk,
+        )
+        for mnxm_id, value in cur.fetchall():
+            mnxm_to_chebi.setdefault(mnxm_id, value)
+
+    def _primary_for(mnxm: str) -> str:
+        if mnxm in mnxm_to_kegg:
+            return f"kegg.compound:{mnxm_to_kegg[mnxm]}"
+        if mnxm in mnxm_to_chebi:
+            return f"chebi:{mnxm_to_chebi[mnxm]}"
+        return f"mnx:{mnxm}"
+
+    # Pass 4: bulk-fetch compounds props ONLY for mnxm_ids whose primary is non-KEGG
+    # (KEGG primaries get their props from _bulk_enrich_compounds via the extended
+    # cpds set, so we can skip them here).
+    nonkegg_mnxms = [m for m in mnxm_ids if m not in mnxm_to_kegg]
+    mnxm_to_props: dict[str, tuple] = {}
+    for chunk in _batched(nonkegg_mnxms):
+        placeholders = ",".join("?" * len(chunk))
+        cur.execute(
+            f"SELECT mnxm_id, name, formula, mass, inchikey "
+            f"FROM compounds WHERE mnxm_id IN ({placeholders})",
+            chunk,
+        )
+        for mnxm_id, name, formula, mass, inchikey in cur.fetchall():
+            mnxm_to_props[mnxm_id] = (name, formula, mass, inchikey)
+
+    # Pass 5: assemble outputs in original iteration order so first-occurrence
+    # name_part wins for non-KEGG primaries (matches pre-batch semantics).
+    for leaf, chebi_value, name_part in parsed:
+        mnxm = chebi_to_mnxm.get(chebi_value)
+        if mnxm is None:
+            log.debug(f"TCDB substrate unresolved: chebi:{chebi_value} (leaf {leaf})")
+            continue
+        primary = _primary_for(mnxm)
+        leaf_to_primary_ids[leaf].append(primary)
+
+        if primary.startswith("kegg.compound:") or primary in compound_props:
+            continue
+        mnx_name, formula, mass, inchikey = mnxm_to_props.get(mnxm, (None, None, None, None))
+        compound_props[primary] = {
+            "name": (mnx_name or name_part).strip(),
+            "formula": formula or None,
+            "mass": mass,
+            "inchikey": inchikey or None,
+            "mnxm_id": mnxm,
+            "chebi_id": mnxm_to_chebi.get(mnxm),
+        }
+
+    for leaf in leaf_to_primary_ids:
+        leaf_to_primary_ids[leaf] = sorted(set(leaf_to_primary_ids[leaf]))
 
     return leaf_to_primary_ids, compound_props
 

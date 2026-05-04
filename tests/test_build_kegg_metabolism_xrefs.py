@@ -523,3 +523,125 @@ def test_resolve_substrates_strips_chebi_prefix(tmp_path):
     assert entry["chebi_id"] == "9314"
     assert entry["name"] == "sucrose"
     assert entry["formula"] == "C12H22O11"
+
+
+def _resolve_subs_db(tmp_path):
+    """Shared resolver fixture for batched _resolve_substrates tests."""
+    import sqlite3
+    db = tmp_path / "resolver.db"
+    conn = sqlite3.connect(db)
+    conn.executescript("""
+        CREATE TABLE compound_aliases (
+            source TEXT, value TEXT, mnxm_id TEXT,
+            PRIMARY KEY (source, value, mnxm_id)
+        );
+        CREATE TABLE compounds (
+            mnxm_id TEXT PRIMARY KEY,
+            name TEXT, formula TEXT, mass REAL, inchikey TEXT
+        );
+    """)
+    return conn
+
+
+def test_resolve_substrates_dedupes_compound_props_across_leaves(tmp_path):
+    """Two leaves citing the same CHEBI substrate yield one compound_props entry,
+    and first-occurrence's name_part wins for the fallback name."""
+    conn = _resolve_subs_db(tmp_path)
+    cur = conn.cursor()
+    cur.execute("INSERT INTO compound_aliases VALUES ('chebi', '9314', 'MNXM50000')")
+    # No `compounds` row → mnx name is None, so fallback = name_part from input
+    conn.commit()
+
+    leaf_to_primary, compound_props = bx._resolve_substrates(
+        {
+            "1.A.1.5.2": ["CHEBI:9314;sucrose"],
+            "2.A.1.1.1": ["CHEBI:9314;table sugar"],
+        },
+        conn,
+    )
+
+    assert leaf_to_primary["1.A.1.5.2"] == ["chebi:9314"]
+    assert leaf_to_primary["2.A.1.1.1"] == ["chebi:9314"]
+    assert list(compound_props.keys()) == ["chebi:9314"]
+    # First leaf in iteration order wins for the name fallback.
+    assert compound_props["chebi:9314"]["name"] == "sucrose"
+
+
+def test_resolve_substrates_kegg_primary_skips_compound_props(tmp_path):
+    """When CHEBI resolves to an mnxm with a kegg.compound alias, the primary is
+    `kegg.compound:Cnnnnn` and compound_props has NO entry — KEGG primaries flow
+    through `_bulk_enrich_compounds` via the extended cpds set."""
+    conn = _resolve_subs_db(tmp_path)
+    cur = conn.cursor()
+    cur.executescript("""
+        INSERT INTO compound_aliases VALUES ('chebi', '17234', 'MNXM41');
+        INSERT INTO compound_aliases VALUES ('kegg.compound', 'C00031', 'MNXM41');
+        INSERT INTO compounds VALUES ('MNXM41', 'D-glucose', 'C6H12O6', 180.06, 'WQZ-');
+    """)
+    conn.commit()
+
+    leaf_to_primary, compound_props = bx._resolve_substrates(
+        {"3.A.1.1.1": ["CHEBI:17234;glucose"]},
+        conn,
+    )
+
+    assert leaf_to_primary["3.A.1.1.1"] == ["kegg.compound:C00031"]
+    assert "kegg.compound:C00031" not in compound_props
+    assert compound_props == {}
+
+
+def test_resolve_substrates_unresolved_substrate_keeps_leaf_with_empty_list(tmp_path):
+    """Unresolvable substrates are silently dropped, but every leaf passed in
+    must still appear in the output (with possibly empty list) — downstream code
+    iterates leaf_to_primary.values() expecting all leaves."""
+    conn = _resolve_subs_db(tmp_path)
+    # No aliases inserted — every substrate is unresolved.
+
+    leaf_to_primary, compound_props = bx._resolve_substrates(
+        {
+            "1.X.X.X.X": ["CHEBI:99999;mystery"],
+            "2.Y.Y.Y.Y": ["malformed_no_colon"],
+        },
+        conn,
+    )
+
+    assert leaf_to_primary == {"1.X.X.X.X": [], "2.Y.Y.Y.Y": []}
+    assert compound_props == {}
+
+
+def test_resolve_substrates_mixed_kegg_and_chebi_primaries(tmp_path):
+    """Mixed kegg-priority + chebi-only primaries resolve correctly in one batch.
+
+    (The `mnx:*` fallback in _primary_for is by-construction unreachable from
+    _resolve_substrates: every inbound CHEBI match guarantees the mnxm has at
+    least one chebi alias, so mnxm_to_chebi is always populated for nonkegg
+    mnxm_ids. Defensive code, no test needed.)
+    """
+    conn = _resolve_subs_db(tmp_path)
+    cur = conn.cursor()
+    cur.executescript("""
+        -- glucose: kegg + chebi present → kegg.compound:* primary
+        INSERT INTO compound_aliases VALUES ('chebi', '17234', 'MNXM41');
+        INSERT INTO compound_aliases VALUES ('kegg.compound', 'C00031', 'MNXM41');
+        INSERT INTO compounds VALUES ('MNXM41', 'D-glucose', 'C6H12O6', 180.06, '');
+
+        -- sucrose: chebi only → chebi:* primary
+        INSERT INTO compound_aliases VALUES ('chebi', '9314', 'MNXM50000');
+        INSERT INTO compounds VALUES ('MNXM50000', 'sucrose', 'C12H22O11', 342.30, '');
+    """)
+    conn.commit()
+
+    leaf_to_primary, compound_props = bx._resolve_substrates(
+        {
+            "1.A": ["CHEBI:17234;glucose"],
+            "1.B": ["CHEBI:9314;sucrose"],
+        },
+        conn,
+    )
+
+    assert leaf_to_primary["1.A"] == ["kegg.compound:C00031"]
+    assert leaf_to_primary["1.B"] == ["chebi:9314"]
+    # Only non-KEGG primaries have compound_props
+    assert set(compound_props.keys()) == {"chebi:9314"}
+    assert compound_props["chebi:9314"]["mnxm_id"] == "MNXM50000"
+    assert compound_props["chebi:9314"]["chebi_id"] == "9314"
