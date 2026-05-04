@@ -850,3 +850,106 @@ RETURN g.numeric_metric_count, g.boolean_metric_count, g.categorical_metric_coun
        g.numeric_metric_types_observed, g.boolean_metric_types_observed,
        g.categorical_metric_types_observed, g.compartments_observed;
 ```
+
+## Metabolomics queries (Phase 2 — MetaboliteAssay nodes)
+
+### List all metabolite assays per paper
+
+```cypher
+MATCH (p:Publication)-[:PublicationHasMetaboliteAssay]->(a:MetaboliteAssay)
+RETURN p.papername                    AS paper,
+       a.metric_type,
+       a.value_kind,
+       a.compartment,
+       a.organism_name,
+       a.total_metabolite_count       AS n_metabolites
+ORDER BY paper, a.compartment, a.metric_type;
+```
+
+### Metabolites measured in organism X with detection frequency
+
+```cypher
+MATCH (o:OrganismTaxon {preferred_name: $organism})
+      <-[:MetaboliteAssayBelongsToOrganism]-(a:MetaboliteAssay)
+      -[r:Assay_quantifies_metabolite]->(m:Metabolite)
+WHERE r.n_replicates > 0
+RETURN m.name, m.id,
+       avg(toFloat(r.n_non_zero) / toFloat(r.n_replicates)) AS detection_freq,
+       avg(r.value)                                         AS mean_value,
+       count(DISTINCT a)                                    AS n_assays
+ORDER BY detection_freq DESC, mean_value DESC
+LIMIT 30;
+```
+
+### Compounds measured AND predicted by metabolism (gene-reachable)
+
+Cross-reference: which paper-detected metabolites also have a catalysis or transport path back to a gene? These are the strongest hits — measurement + biosynthetic/transport context.
+
+```cypher
+MATCH (m:Metabolite)
+WHERE 'metabolomics' IN m.evidence_sources
+  AND ('metabolism'  IN m.evidence_sources OR 'transport' IN m.evidence_sources)
+RETURN m.name,
+       m.id,
+       m.evidence_sources,
+       m.gene_count,
+       m.transporter_count,
+       m.measured_assay_count,
+       m.measured_paper_count
+ORDER BY m.measured_assay_count DESC, m.gene_count DESC
+LIMIT 50;
+```
+
+### Top-bucket metabolites per assay (numeric, rankable=true only)
+
+Mirrors the DerivedMetric `metric_bucket` pattern. Edges only carry bucket/percentile when the parent assay declared `rankable: "true"`.
+
+```cypher
+MATCH (a:MetaboliteAssay {rankable: 'true'})-[r:Assay_quantifies_metabolite]->(m:Metabolite)
+WHERE r.metric_bucket IN ['top_decile', 'top_quartile']
+RETURN a.organism_name,
+       a.compartment,
+       a.metric_type,
+       m.name,
+       m.id,
+       r.value,
+       r.metric_percentile,
+       r.metric_bucket,
+       r.detection_status
+ORDER BY a.organism_name, r.metric_percentile DESC;
+```
+
+### Boolean presence flags — compounds detected in only one compartment
+
+```cypher
+MATCH (a:MetaboliteAssay {value_kind: 'boolean'})-[r:Assay_flags_metabolite]->(m:Metabolite)
+WHERE r.flag_value = 'true'
+WITH m, collect(DISTINCT a.metric_type) AS detected_in
+WHERE size(detected_in) = 1
+RETURN m.name, m.id, detected_in[0] AS only_compartment
+ORDER BY only_compartment, m.name;
+```
+
+### Organism_has_metabolite — split by evidence source
+
+```cypher
+MATCH (o:OrganismTaxon {preferred_name: $organism})-[r:Organism_has_metabolite]->(m:Metabolite)
+RETURN
+  size([s IN r.evidence_sources WHERE s = 'metabolism'])  AS via_catalysis,
+  size([s IN r.evidence_sources WHERE s = 'transport'])   AS via_transport,
+  size([s IN r.evidence_sources WHERE s = 'measured'])    AS via_measurement,
+  count(*)                                                AS total_metabolites;
+```
+
+### Metabolomics rollups on Publication
+
+```cypher
+MATCH (p:Publication)
+WHERE p.metabolite_assay_count > 0
+RETURN p.papername,
+       p.metabolite_assay_count,
+       p.metabolite_count,
+       p.metabolite_compartments,
+       p.organisms
+ORDER BY p.metabolite_count DESC;
+```

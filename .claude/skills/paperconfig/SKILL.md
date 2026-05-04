@@ -227,7 +227,7 @@ comparison share one experiment. Key rules:
 
 ### 3. Supplementary Materials (Required)
 
-Each supplementary table is a keyed entry under `supplementary_materials`. Five entry types are supported:
+Each supplementary table is a keyed entry under `supplementary_materials`. Six entry types are supported:
 
 | Type | Purpose |
 |---|---|
@@ -236,6 +236,7 @@ Each supplementary table is a keyed entry under `supplementary_materials`. Five 
 | `annotation_gff` | GFF3/GTF file; adds protein_id/Name bridges for a strain |
 | `gene_clusters` | Cluster assignment table; creates ClusteringAnalysis + GeneCluster nodes |
 | `derived_metrics_table` | Column-level scalar summaries (periodicity flags, classifiers, numeric scores); creates DerivedMetric nodes + one of 3 measurement edge types per metric |
+| `metabolite_assays_table` | Per-metabolite measurements (concentrations + presence flags); creates MetaboliteAssay nodes + 2 measurement edge types per assay (quantifies/flags); mirrors `derived_metrics_table` |
 
 
 #### Type `csv` -- Expression data table (required for omics edges)
@@ -505,6 +506,139 @@ fourier_metrics:
 - Gene IDs go through the same step 4 resolution pipeline as DE tables.
 - `allowed_categories` is mandatory for categorical metrics. Rows with values outside the list are skipped (and logged).
 - For papers with paired-modality metrics (e.g., transcript × protein lag coefficients), link all metrics to a single `PAIRED_RNASEQ_PROTEOME` Experiment rather than to individual source-modality experiments.
+
+### `type: metabolite_assays_table`
+
+Per-metabolite measurements (concentrations + presence flags) from a metabolomics paper. Mirrors `derived_metrics_table` shape: one entry covers one (CSV, Experiment) tuple; `experiment` and `organism` are entry-level; per-assay metadata lives in an `assays:` list keyed by `metric_type`. Each assay emits one of two edge types based on `value_kind`:
+
+| `value_kind` | Edge type | Carries |
+|---|---|---|
+| `numeric` | `Assay_quantifies_metabolite` | `value`, `value_sd`, `n_replicates`, `n_non_zero`, `replicate_values`, `detection_status` |
+| `boolean` | `Assay_flags_metabolite` | `flag_value`, `n_replicates`, `n_positive` |
+
+**When to use:** the paper measures metabolite pool concentrations, fluxes, or presence/absence flags — i.e. `omics_type: METABOLOMICS`. Use one entry per (CSV, Experiment) tuple; if the same source CSV is split across multiple Experiments (e.g. one paper with separate intracellular vs extracellular pools), declare separate experiments and one entry per experiment.
+
+**Compartment vocab** (lives on the parent Experiment; the adapter denormalizes onto each MetaboliteAssay): `whole_cell` (default; intracellular), `extracellular` (general "outside the cell" metabolite pool), `vesicle`, `exoproteome` (proteomics term — TCA-precipitated supernatant), `spent_medium`, `lysate`. The adapter does NOT accept compartment in the per-assay block — set it on the Experiment.
+
+**ID resolution priority** (per row, decided in step 6):
+1. `id_col` cell parsed per `id_type` (when set + non-empty in the row) → `kegg_direct` / `chebi_direct` / `mnx_direct`
+2. `aliases_file` override on the row's `name_col` value → `alias_override`
+3. MNX resolver against `name_col` → `name_match`
+4. else → `unresolved` (logged in `<stem>_resolution_report.json`)
+
+The MNX resolver opens once per build, in step 6 only — step 7 just looks up `metabolite_id_mapping.json` to write `<stem>_resolved.csv`. Performance loop: edit aliases → `bash scripts/prepare_data.sh --steps 6 7 --force` (no network, ~1 min). Use `--refetch-raw` only when KEGG/TCDB upstream releases.
+
+**`metabolite_aliases.yaml`** (paper-local, optional). Lives next to `paperconfig.yaml`. Free-text key → primary ID:
+
+```yaml
+# data/Prochlorococcus/papers_and_supp/Kujawinski 2023/metabolite_aliases.yaml
+"γ-aminobutyric acid": "kegg.compound:C00334"
+"DMSP": "kegg.compound:C04022"
+"4-amino-5-aminomethyl-2-methylpyrimidine": "kegg.compound:C20267"
+```
+
+Aliases win over MNX hits. Comments capture *why* the override exists (typos, abbreviations, paper-coined shorthand).
+
+**Capovilla 2023 example** (numeric, intracellular concentrations from a multi-strain table; one entry per strain, both pointing at the same CSV):
+
+```yaml
+publication:
+  experiments:
+    chitosan_addition_mit9303_metabolomics:
+      organism: "Prochlorococcus MIT9303"
+      omics_type: METABOLOMICS
+      treatment_type: ["carbon"]
+      compartment: whole_cell
+
+  supplementary_materials:
+    metabolites_intracellular_mit9303:
+      type: metabolite_assays_table
+      filename: "data/.../cellular_concentrations metabolites pnas.2213271120.sd03.csv"
+      experiment: chitosan_addition_mit9303_metabolomics
+      organism: "Prochlorococcus MIT9303"
+      name_col: "compound"
+      skip_rows: 12                      # paper-prefatory rows before the header row
+      null_values: ["nd", "ND", "NA"]    # → contribute n_non_zero=0
+      missing_values: [""]               # → exclude from aggregation
+      cell_format: numeric
+      aggregation_method: mean_across_replicates
+      aliases_file: metabolite_aliases.yaml
+      assays:
+        - metric_type: cellular_concentration
+          value_kind: numeric
+          unit: "fg/cell"
+          rankable: "true"
+          field_description: >-
+            Intracellular metabolite concentration in fg/cell, blank-corrected,
+            replicate-aggregated; Capovilla 2023 Table sd03.
+          sample_columns:
+            - condition_label: control
+              time_point: "T=4"
+              time_point_order: 1
+              replicate_columns:
+                - "9303 Control T=4, replicate 1"
+                - "9303 Control T=4, replicate 2"
+                - "9303 Control T=4, replicate 3"
+            - condition_label: chitosan
+              time_point: "T=4"
+              time_point_order: 1
+              replicate_columns:
+                - "9303 +Chitosan T=4, replicate 1"
+                - "9303 +Chitosan T=4, replicate 2"
+                - "9303 +Chitosan T=4, replicate 3"
+```
+
+**Kujawinski 2023 example** (boolean presence flags; columns = compartments, "yes" = detected):
+
+```yaml
+    presence_flags_table_s2:
+      type: metabolite_assays_table
+      filename: "data/.../table s2.csv"
+      experiment: kujawinski_metabolomics_9301_whole_cell
+      organism: "Prochlorococcus MIT9301"
+      name_col: "metabolite"
+      cell_format: numeric
+      aliases_file: "metabolite_aliases.yaml"
+      assays:
+        - metric_type: presence_flag_intracellular
+          value_kind: boolean
+          rankable: "false"
+          field_description: "Boolean detection flag, intracellular pool."
+          sample_columns:
+            - condition_label: ""           # nullable for whole-paper flags
+              flag_column: "intracellular"
+              flag_true_value: "yes"
+        - metric_type: presence_flag_extracellular
+          value_kind: boolean
+          rankable: "false"
+          field_description: "Boolean detection flag, extracellular pool."
+          sample_columns:
+            - condition_label: ""
+              flag_column: "extracellular"
+              flag_true_value: "yes"
+```
+
+**Field reference (entry-level):**
+- `experiment`, `organism` — required; experiment must be in this paperconfig's experiments block
+- `name_col` — required; column holding metabolite name
+- `id_col`, `id_type` — optional; pre-mapped IDs (e.g. `KEGG` column → `id_type: kegg.compound`)
+- `formula_col` — optional; molecular formula column for disambiguating multiple MNX hits
+- `skip_rows`, `header_rows` — header parsing
+- `null_values`, `missing_values` — cell semantics: "not detected" vs "not measured"
+- `cell_format` — `numeric` (default) | `embedded_mean_sd_n` (for cells like `"0.00054 (8.8e-05), n=2"`)
+- `extra_columns_to_edge` — list of column names whose value is copied to each emitted edge (e.g. `["Analytical Fraction"]` for HILIC vs RP-LC fractions)
+- `aggregation_method` — `mean_across_replicates` (default) | `pre_aggregated` (one column already aggregated by authors) | `single_measurement`
+- `drop_undetected` — default `false`; keep all-zero condition edges
+- `aliases_file` — relative to paper directory
+- `assays` — list of per-metric blocks (see below)
+
+**Field reference (per-assay, in `assays:` list):**
+- `metric_type` — required; unique within entry; the assay key (mirrors DM convention — no separate `id` field)
+- `value_kind` — required; `numeric` | `boolean` (one assay = one edge type)
+- `name`, `unit`, `field_description` — descriptive
+- `rankable` — `"true"` | `"false"`; gates post-import `rank_by_metric` / `metric_percentile` / `metric_bucket` on numeric edges
+- `aggregation_method` — optional override of entry-level default
+- `sample_columns` — list of condition blocks. For `numeric`: `replicate_columns: list[str]`. For `boolean`: `flag_column: str` + `flag_true_value: str`. Both accept `condition_label`, `time_point`, `time_point_order`, `time_point_hours`.
 
 #### ID Types (`id_type` values)
 
