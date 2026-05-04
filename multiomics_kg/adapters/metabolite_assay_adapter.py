@@ -23,6 +23,8 @@ import statistics
 from pathlib import Path
 from typing import Iterator
 
+import json
+
 import pandas as pd
 import yaml
 
@@ -38,6 +40,29 @@ logger = logging.getLogger(__name__)
 
 DEFAULT_NULL_VALUES = {"nd", "ND", "n.d.", "NA", "N/A"}
 DEFAULT_MISSING_VALUES = {""}
+
+# PDF-extracted publication metadata cache. omics_adapter populates DOIs here
+# when a paperconfig doesn't declare `publication.doi`; we read the same cache
+# so the metabolite_assay adapter resolves DOIs identically (otherwise our
+# experiment_id formula won't match what omics_adapter built — see Capovilla
+# 2023, which has no `doi:` field but a PDF-extracted DOI).
+_PDF_EXTRACTION_CACHE = Path(__file__).parent.parent.parent / "cache" / "pdf_extraction_cache.json"
+
+
+def _resolve_doi(config: dict) -> str:
+    pub = config.get("publication") or {}
+    doi = pub.get("doi") or ""
+    if doi:
+        return doi
+    pdf_path = pub.get("papermainpdf") or ""
+    if pdf_path and _PDF_EXTRACTION_CACHE.exists():
+        try:
+            with open(_PDF_EXTRACTION_CACHE) as f:
+                cache = json.load(f)
+        except Exception:
+            return ""
+        return (cache.get(pdf_path) or {}).get("publication", {}).get("doi", "") or ""
+    return ""
 
 _EMBEDDED_PATTERN = re.compile(
     r"^\s*([0-9.+\-eE]+)\s*\(\s*([0-9.+\-eEnNaA/]+)\s*\)\s*,\s*n\s*=\s*(\d+)\s*$"
@@ -156,7 +181,7 @@ class MetaboliteAssayAdapter:
         self.test_mode = test_mode
         self.config = load_paperconfig(Path(config_file))
         self.paper_name = get_paper_name(self.config, fallback_path=Path(config_file))
-        self.doi = (self.config.get("publication") or {}).get("doi", "") or ""
+        self.doi = _resolve_doi(self.config)
         self._entries = list(iter_metabolite_assays_tables(self.config))
         # Populated by MultiMetaboliteAssayAdapter from cyanobacteria_genomes.csv.
         # Maps OrganismTaxon preferred_name → `insdc.gcf:<GCF_accession>` node ID.

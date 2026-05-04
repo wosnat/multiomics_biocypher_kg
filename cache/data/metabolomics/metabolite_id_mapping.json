@@ -1,8 +1,20 @@
 {
   "compounds": {
+    "chebi:133737": {
+      "aliases": [
+        "acetyltaurine"
+      ],
+      "first_method": "name_match"
+    },
     "chebi:142094": {
       "aliases": [
         "S-adenosyl-L-methionine"
+      ],
+      "first_method": "ambiguous_multi_id"
+    },
+    "chebi:143141": {
+      "aliases": [
+        "chitotriose"
       ],
       "first_method": "ambiguous_multi_id"
     },
@@ -11,14 +23,6 @@
         "tyrosine"
       ],
       "first_method": "ambiguous_multi_id"
-    },
-    "kegg.compound:0": {
-      "aliases": [
-        "acetyltaurine",
-        "chitotriose",
-        "s-(1-2-dicarboxyethyl)glutathione pos"
-      ],
-      "first_method": "kegg_direct"
     },
     "kegg.compound:C00004": {
       "aliases": [
@@ -770,7 +774,7 @@
       "kegg.compound:C00024"
     ],
     "acetyltaurine": [
-      "kegg.compound:0"
+      "chebi:133737"
     ],
     "adenine": [
       "kegg.compound:C00147"
@@ -821,7 +825,7 @@
       "kegg.compound:C01674"
     ],
     "chitotriose": [
-      "kegg.compound:0"
+      "chebi:143141"
     ],
     "choline": [
       "kegg.compound:C00114"
@@ -1009,9 +1013,6 @@
     "riboflavin": [
       "kegg.compound:C00255"
     ],
-    "s-(1-2-dicarboxyethyl)glutathione pos": [
-      "kegg.compound:0"
-    ],
     "s-(5'-adenosyl)-L-homocysteine pos": [
       "kegg.compound:C00021"
     ],
@@ -1104,18 +1105,20 @@
     ]
   },
   "per_paper_stats": {
-    "/home/osnat/github/multiomics_biocypher_kg/data/Prochlorococcus/papers_and_supp/Capovilla 2023/paperconfig.yaml": {
+    "/home/osnat/github/second_multiomics/data/Prochlorococcus/papers_and_supp/Capovilla 2023/paperconfig.yaml": {
       "resolved": 32,
       "total": 32,
       "unresolved": 0
     },
-    "/home/osnat/github/multiomics_biocypher_kg/data/Prochlorococcus/papers_and_supp/Kujawinski 2023/paperconfig.yaml": {
-      "resolved": 651,
+    "/home/osnat/github/second_multiomics/data/Prochlorococcus/papers_and_supp/Kujawinski 2023/paperconfig.yaml": {
+      "resolved": 645,
       "total": 651,
-      "unresolved": 0
+      "unresolved": 6
     }
   },
   "schema_version": 1,
   "specific_lookup": {},
-  "unresolved": []
+  "unresolved": [
+    "s-(1-2-dicarboxyethyl)glutathione pos"
+  ]
 }

@@ -374,6 +374,17 @@
       "mnxm_id": "MNXM512063",
       "name": "firefly D-sulfoluciferin"
     },
+    "chebi:133737": {
+      "chebi_id": "133737",
+      "evidence_sources": [
+        "metabolomics"
+      ],
+      "formula": null,
+      "inchikey": null,
+      "mass": null,
+      "mnxm_id": null,
+      "name": "acetyltaurine"
+    },
     "chebi:134179": {
       "chebi_id": "134179",
       "evidence_sources": [
@@ -692,6 +703,17 @@
       "mass": 180.156,
       "mnxm_id": "MNXM7381",
       "name": "glucose"
+    },
+    "chebi:143141": {
+      "chebi_id": "143141",
+      "evidence_sources": [
+        "metabolomics"
+      ],
+      "formula": null,
+      "inchikey": null,
+      "mass": null,
+      "mnxm_id": null,
+      "name": "chitotriose"
     },
     "chebi:14386": {
       "chebi_id": "14386",
@@ -5027,18 +5049,6 @@
     }
   },
   "compounds": {
-    "0": {
-      "chebi_id": null,
-      "evidence_sources": [],
-      "formula": null,
-      "hmdb_id": null,
-      "inchikey": null,
-      "mass": null,
-      "mnxm_id": null,
-      "name": "",
-      "pathways": [],
-      "smiles": null
-    },
     "C00001": {
       "chebi_id": "10743",
       "evidence_sources": [
