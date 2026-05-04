@@ -158,6 +158,9 @@ class MetaboliteAssayAdapter:
         self.paper_name = get_paper_name(self.config, fallback_path=Path(config_file))
         self.doi = (self.config.get("publication") or {}).get("doi", "") or ""
         self._entries = list(iter_metabolite_assays_tables(self.config))
+        # Populated by MultiMetaboliteAssayAdapter from cyanobacteria_genomes.csv.
+        # Maps OrganismTaxon preferred_name → `insdc.gcf:<GCF_accession>` node ID.
+        self._organism_lookup: dict[str, str] = {}
 
     def _denormalized_fields(self, experiment: dict) -> dict:
         """Denormalized parent-Experiment block on every MetaboliteAssay node.
@@ -356,7 +359,10 @@ class MetaboliteAssayAdapter:
         experiment_id = (
             f"{self.doi}_{exp_key}" if self.doi else f"{self.paper_name}_{exp_key}"
         )
-        pub_id = self.doi or f"papername:{self.paper_name}"
+        # Publication node IDs are namespaced `doi:<doi>` (BioCypher applies the
+        # `preferred_id: doi` prefix); plain DOI as edge target gets dropped by
+        # neo4j-admin import. Mirrors observations_adapter.py:275.
+        pub_id = f"doi:{self.doi}" if self.doi else f"papername:{self.paper_name}"
 
         yield (
             f"pub__{assay_node_id}", pub_id, assay_node_id,
@@ -366,10 +372,15 @@ class MetaboliteAssayAdapter:
             f"exp__{assay_node_id}", experiment_id, assay_node_id,
             "experiment_has_metabolite_assay", {},
         )
-        yield (
-            f"org__{assay_node_id}", assay_node_id, organism,
-            "metabolite_assay_belongs_to_organism", {},
-        )
+        # OrganismTaxon node IDs are `insdc.gcf:<accession>`, not the
+        # preferred_name. Resolve via the registry lookup populated by the
+        # Multi-adapter; mirrors observations_adapter.py:566–577.
+        org_id = self._organism_lookup.get(organism)
+        if org_id:
+            yield (
+                f"org__{assay_node_id}", assay_node_id, org_id,
+                "metabolite_assay_belongs_to_organism", {},
+            )
 
 
 class MultiMetaboliteAssayAdapter:
@@ -377,10 +388,16 @@ class MultiMetaboliteAssayAdapter:
     MetaboliteAssayAdapter per paperconfig that has at least one
     metabolite_assays_table entry."""
 
-    def __init__(self, paperconfig_paths=None, test_mode: bool = False):
+    def __init__(
+        self,
+        paperconfig_paths=None,
+        test_mode: bool = False,
+        genome_config_file: str = "data/Prochlorococcus/genomes/cyanobacteria_genomes.csv",
+    ):
         if paperconfig_paths is None:
             paperconfigs = load_all_paperconfigs()
             paperconfig_paths = [p for p, _ in paperconfigs]
+        self._organism_lookup = self._build_organism_lookup(genome_config_file)
         self.adapters: list[MetaboliteAssayAdapter] = []
         for p in paperconfig_paths:
             try:
@@ -393,9 +410,30 @@ class MultiMetaboliteAssayAdapter:
                 isinstance(v, dict) and v.get("type") == "metabolite_assays_table"
                 for v in sm.values()
             ):
-                self.adapters.append(
-                    MetaboliteAssayAdapter(config_file=str(p), test_mode=test_mode)
-                )
+                adapter = MetaboliteAssayAdapter(config_file=str(p), test_mode=test_mode)
+                adapter._organism_lookup = self._organism_lookup
+                self.adapters.append(adapter)
+
+    @staticmethod
+    def _build_organism_lookup(genome_config_file: str) -> dict[str, str]:
+        """Build {preferred_name → insdc.gcf:<accession>} from cyanobacteria_genomes.csv.
+
+        Mirrors ObservationsAdapter._build_organism_lookup. neo4j-admin import
+        drops binding edges whose target node ID isn't a real OrganismTaxon ID,
+        so the adapter must translate paperconfig `organism` names to the
+        actual GCF-prefixed node IDs.
+        """
+        lookup: dict[str, str] = {}
+        try:
+            df = pd.read_csv(genome_config_file)
+            for _, row in df.iterrows():
+                name = row.get("preferred_name", "")
+                accession = row.get("ncbi_accession", "")
+                if name and accession:
+                    lookup[str(name)] = f"insdc.gcf:{accession}"
+        except Exception:
+            pass
+        return lookup
 
     def get_nodes(self):
         for a in self.adapters:

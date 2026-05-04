@@ -207,6 +207,10 @@ def test_adapter_emits_three_binding_edges(tmp_path):
     from multiomics_kg.adapters.metabolite_assay_adapter import MetaboliteAssayAdapter
     pc = _make_minimal_paperconfig(tmp_path)
     adapter = MetaboliteAssayAdapter(config_file=str(pc))
+    # MultiMetaboliteAssayAdapter normally injects this from cyanobacteria_genomes.csv;
+    # tests instantiating the single-paper adapter directly must do it explicitly
+    # or the organism binding edge is silently dropped (target node ID unknown).
+    adapter._organism_lookup = {"Prochlorococcus MIT9303": "insdc.gcf:GCF_000015965.1"}
     labels = [e[3] for e in adapter.get_edges()]
     assert labels.count("publication_has_metabolite_assay") == 1
     assert labels.count("experiment_has_metabolite_assay") == 1
@@ -217,6 +221,7 @@ def test_adapter_no_resolved_csv_still_emits_binding_edges(tmp_path):
     from multiomics_kg.adapters.metabolite_assay_adapter import MetaboliteAssayAdapter
     pc = _make_minimal_paperconfig(tmp_path, with_resolved=False)
     adapter = MetaboliteAssayAdapter(config_file=str(pc))
+    adapter._organism_lookup = {"Prochlorococcus MIT9303": "insdc.gcf:GCF_000015965.1"}
     edges = list(adapter.get_edges())
     measurement = [e for e in edges if e[3].startswith("assay_")]
     binding = [e for e in edges if not e[3].startswith("assay_")]
