@@ -227,6 +227,7 @@ def test_step6_builds_tcdb_hierarchy(tmp_path):
     (raw_dir / "substrates.tsv").write_text(
         "1.A.1.5.2\tCHEBI:9314;sucrose|CHEBI:3308;calcium(2+)\n"
     )
+    (raw_dir / "acc2tcid.tsv").write_text("P12345\t1.A.1.5.2\n")
 
     out = tcdb_dir / "tcdb_hierarchy.json"
     mod._build_tcdb_hierarchy(cache_root=cache_root)
@@ -247,6 +248,61 @@ def test_step6_builds_tcdb_hierarchy(tmp_path):
         "CHEBI:9314;sucrose",
         "CHEBI:3308;calcium(2+)",
     ]
+
+
+def test_build_tcdb_hierarchy_seeds_3part_families_without_5part_children(tmp_path):
+    """Family-level entries in families.tsv must land in the hierarchy even
+    when superfamilies.tsv has no 5-part child for them. Regression for the
+    1.A.11 (Ammonium Transporter Channel) class of dropped seeds."""
+    from multiomics_kg.download import build_kegg_metabolism_xrefs as mod
+
+    cache_root = tmp_path / "cache" / "data"
+    raw_dir = cache_root / "tcdb" / "raw"
+    raw_dir.mkdir(parents=True)
+    # 1.A.11 has a description but no curated 5-part children
+    (raw_dir / "families.tsv").write_text(
+        "1.A.1\tThe Voltage-gated Ion Channel\n"
+        "1.A.11\tThe Ammonium Transporter Channel (Amt) Family\n"
+    )
+    (raw_dir / "superfamilies.tsv").write_text(
+        "1.A.1.5.2\t1.A.1.5\t1.A.1\tVIC\tVIC Superfamily\n"
+    )
+    (raw_dir / "substrates.tsv").write_text("")
+    (raw_dir / "acc2tcid.tsv").write_text("")
+
+    mod._build_tcdb_hierarchy(cache_root=cache_root)
+    h = json.loads((cache_root / "tcdb" / "tcdb_hierarchy.json").read_text())
+
+    assert "1.A.11" in h
+    assert h["1.A.11"]["level_kind"] == "tc_family"
+    assert h["1.A.11"]["name"] == "The Ammonium Transporter Channel (Amt) Family"
+    assert h["1.A.11"]["parent"] == "1.A"
+
+
+def test_build_tcdb_hierarchy_seeds_5part_from_acc2tcid(tmp_path):
+    """5-part TCIDs present only in acc2tcid.tsv (not in superfamilies.tsv)
+    must land in the hierarchy with synthesized ancestors. Regression for
+    1.A.12.2.2 / 1.A.30.2.1 / 2.A.23.1.1 class of dropped seeds."""
+    from multiomics_kg.download import build_kegg_metabolism_xrefs as mod
+
+    cache_root = tmp_path / "cache" / "data"
+    raw_dir = cache_root / "tcdb" / "raw"
+    raw_dir.mkdir(parents=True)
+    (raw_dir / "families.tsv").write_text("1.A.12\tThe Intracellular Chloride Channel\n")
+    (raw_dir / "superfamilies.tsv").write_text("")
+    # The TCID has a substrate even though no superfamilies row exists
+    (raw_dir / "substrates.tsv").write_text("1.A.12.2.2\tCHEBI:3731;chloride\n")
+    (raw_dir / "acc2tcid.tsv").write_text("Q9X9X9\t1.A.12.2.2\n")
+
+    mod._build_tcdb_hierarchy(cache_root=cache_root)
+    h = json.loads((cache_root / "tcdb" / "tcdb_hierarchy.json").read_text())
+
+    # Full 5-level chain synthesized
+    assert {"1", "1.A", "1.A.12", "1.A.12.2", "1.A.12.2.2"} <= set(h.keys())
+    assert h["1.A.12.2.2"]["level_kind"] == "tc_specificity"
+    assert h["1.A.12.2.2"]["substrate_classes"] == ["CHEBI:3731;chloride"]
+    assert h["1.A.12.2"]["level_kind"] == "tc_subfamily"
+    assert h["1.A.12"]["name"] == "The Intracellular Chloride Channel"
 
 
 def test_bulk_enrich_compounds_returns_dict_keyed_by_kegg_id(tmp_path):
@@ -435,12 +491,13 @@ def test_prune_tcdb_walks_up_and_down():
         "2.A": {"name": "", "level": 1, "level_kind": "tc_subclass", "parent": "2"},
     }
     # Seed at family level — walk up to 1, walk down to BOTH leaves
-    kept, leaf_subs = _prune_tcdb(hierarchy, {"1.A.1"})
+    kept, leaf_subs, seed_aliases = _prune_tcdb(hierarchy, {"1.A.1"})
     assert kept == {"1", "1.A", "1.A.1", "1.A.1.5", "1.A.1.5.2", "1.A.1.5.3"}
     assert leaf_subs == {
         "1.A.1.5.2": ["calcium(2+)"],
         "1.A.1.5.3": ["sodium(1+)"],
     }
+    assert seed_aliases == {}
     # Branch 2 untouched
     assert "2" not in kept
 
@@ -456,20 +513,39 @@ def test_prune_tcdb_seed_at_leaf():
         "1.A.1.5.2": {"level": 4, "level_kind": "tc_specificity",
                       "parent": "1.A.1.5", "substrate_classes": ["x"]},
     }
-    kept, leaf_subs = _prune_tcdb(hierarchy, {"1.A.1.5.2"})
+    kept, leaf_subs, seed_aliases = _prune_tcdb(hierarchy, {"1.A.1.5.2"})
     assert kept == {"1", "1.A", "1.A.1", "1.A.1.5", "1.A.1.5.2"}
     assert leaf_subs == {"1.A.1.5.2": ["x"]}
+    assert seed_aliases == {}
 
 
-def test_prune_tcdb_unknown_seed_silently_skipped():
-    """Seeds not present in the hierarchy are silently skipped."""
+def test_prune_tcdb_unknown_seed_walks_up_to_ancestor():
+    """Seeds not in the hierarchy are remapped to the nearest curated ancestor
+    (so retired eggNOG TCIDs collapse to family-level, not lost)."""
+    from multiomics_kg.download.build_kegg_metabolism_xrefs import _prune_tcdb
+    hierarchy = {
+        "3": {"level": 0, "level_kind": "tc_class", "parent": None},
+        "3.A": {"level": 1, "level_kind": "tc_subclass", "parent": "3"},
+        "3.A.1": {"level": 2, "level_kind": "tc_family", "parent": "3.A"},
+    }
+    # 3.A.1.35 doesn't exist — should anchor onto 3.A.1.
+    kept, leaf_subs, seed_aliases = _prune_tcdb(hierarchy, {"3.A.1.35"})
+    assert seed_aliases == {"3.A.1.35": "3.A.1"}
+    assert kept == {"3", "3.A", "3.A.1"}
+    assert leaf_subs == {}
+
+
+def test_prune_tcdb_unknown_seed_with_no_ancestor_marked_dropped():
+    """When no truncation hits an ancestor, the seed is recorded with empty
+    alias so the caller can warn and drop it."""
     from multiomics_kg.download.build_kegg_metabolism_xrefs import _prune_tcdb
     hierarchy = {
         "1": {"level": 0, "level_kind": "tc_class", "parent": None},
     }
-    kept, leaf_subs = _prune_tcdb(hierarchy, {"99.X.Y.Z.Q"})
+    kept, leaf_subs, seed_aliases = _prune_tcdb(hierarchy, {"99.X.Y.Z.Q"})
     assert kept == set()
     assert leaf_subs == {}
+    assert seed_aliases == {"99.X.Y.Z.Q": ""}
 
 
 def test_resolve_substrates_strips_chebi_prefix(tmp_path):

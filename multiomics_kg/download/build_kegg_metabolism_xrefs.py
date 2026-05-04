@@ -133,62 +133,97 @@ def _parse_tcdb_substrates(path: Path) -> dict[str, list[str]]:
     return out
 
 
+def _parse_tcdb_acc2tcid(path: Path) -> set[str]:
+    """Parse acc2tcid.tsv → set of distinct 5-part TCIDs (column 1).
+
+    acc2tcid.py is the most complete TCDB classification table (~19.5K distinct
+    5-part TCIDs vs ~11.5K in superfamilies.tsv); using it as a hierarchy seed
+    closes the gap for gene-annotated TCIDs that aren't curated into a
+    superfamily.
+    """
+    out: set[str] = set()
+    with open(path, encoding="utf-8") as f:
+        for line in f:
+            line = line.rstrip("\n")
+            if not line or line.startswith("#"):
+                continue
+            parts = line.split("\t")
+            if len(parts) >= 2 and parts[1]:
+                out.add(parts[1])
+    return out
+
+
 def build_tcdb_hierarchy(
     out_path: Path,
     families_path: Path,
     superfamilies_path: Path,
     substrates_path: Path,
+    acc2tcid_path: Path,
 ) -> int:
-    """Build tcdb_hierarchy.json by joining the 3 TCDB sources."""
+    """Build tcdb_hierarchy.json by joining the 4 TCDB sources.
+
+    Seeds the hierarchy from the union of:
+      - 3-part family IDs in families.tsv (unconditional — every documented
+        family lands in the hierarchy regardless of whether it has a curated
+        5-part child).
+      - 5-part specificity IDs in {superfamilies.tsv col0, substrates.tsv,
+        acc2tcid.tsv}. acc2tcid is the broadest catalog and previously dropped
+        ~3K TCIDs that genes are annotated against.
+
+    Class/subclass/family/subfamily ancestors are synthesized for every 5-part
+    seed. When a TCID is also present in superfamilies.tsv, the family
+    abbreviation and superfamily-name are pulled from there; otherwise those
+    fields are blank.
+    """
     fam_descs = _parse_tcdb_families(families_path)
     super_rows = _parse_tcdb_superfamilies(superfamilies_path)
     substrates = _parse_tcdb_substrates(substrates_path)
+    acc_tcids = _parse_tcdb_acc2tcid(acc2tcid_path)
+
+    # Index superfamily metadata for lookup when synthesizing from other sources
+    super_by_tcid: dict[str, tuple[str, str]] = {}      # 5-part → (abbr, superfam)
+    fam_meta_by_id: dict[str, tuple[str, str]] = {}     # 3-part → (abbr, superfam)
+    for row in super_rows:
+        tcid, fam, abbr, superfam = row[0], row[2], row[3], row[4]
+        super_by_tcid[tcid] = (abbr, superfam)
+        fam_meta_by_id.setdefault(fam, (abbr, superfam))
 
     h: dict[str, dict] = {}
 
-    # Synthesize class + subclass entries from any TCID prefix we observe
-    seen_classes: set[str] = set()
-    seen_subclasses: set[str] = set()
-
-    for tcid, subfam, fam, abbr, superfam in super_rows:
-        parts = tcid.split(".")
-        # Need at least class.subclass.family.subfam.specificity = 5 parts
-        if len(parts) < 5:
-            continue
-        cls = parts[0]
-        subcls = ".".join(parts[:2])
-
-        # Class (level 0)
-        if cls not in seen_classes:
+    def ensure_class(cls: str) -> None:
+        if cls not in h:
             h[cls] = {
                 "name": _TC_CLASS_NAMES.get(cls, ""),
                 "level": 0,
                 "level_kind": "tc_class",
                 "parent": None,
             }
-            seen_classes.add(cls)
 
-        # Subclass (level 1)
-        if subcls not in seen_subclasses:
+    def ensure_subclass(subcls: str, cls: str) -> None:
+        if subcls not in h:
             h[subcls] = {
                 "name": "",
                 "level": 1,
                 "level_kind": "tc_subclass",
                 "parent": cls,
             }
-            seen_subclasses.add(subcls)
 
-        # Family (level 2)
+    def ensure_family(fam: str, subcls: str) -> None:
         if fam not in h:
-            h[fam] = {
+            abbr, superfam = fam_meta_by_id.get(fam, ("", ""))
+            entry: dict = {
                 "name": fam_descs.get(fam, ""),
                 "level": 2,
                 "level_kind": "tc_family",
                 "parent": subcls,
-                "abbreviation": abbr,
             }
+            if abbr:
+                entry["abbreviation"] = abbr
+            if superfam:
+                entry["superfamily"] = superfam
+            h[fam] = entry
 
-        # Subfamily (level 3)
+    def ensure_subfamily(subfam: str, fam: str) -> None:
         if subfam not in h:
             h[subfam] = {
                 "name": "",
@@ -197,7 +232,9 @@ def build_tcdb_hierarchy(
                 "parent": fam,
             }
 
-        # Specificity (level 4)
+    def ensure_specificity(tcid: str, subfam: str) -> None:
+        if tcid in h:
+            return
         node: dict = {
             "name": "",
             "level": 4,
@@ -206,9 +243,41 @@ def build_tcdb_hierarchy(
         }
         if tcid in substrates:
             node["substrate_classes"] = substrates[tcid]
+        superfam = super_by_tcid.get(tcid, ("", ""))[1]
         if superfam:
             node["superfamily"] = superfam
         h[tcid] = node
+
+    # Seed every documented family (3-part) — unconditional, so family-level
+    # gene annotations like 1.A.11 always land in the hierarchy even without
+    # curated 5-part children.
+    for fam in fam_descs:
+        parts = fam.split(".")
+        if len(parts) != 3:
+            continue
+        ensure_class(parts[0])
+        ensure_subclass(".".join(parts[:2]), parts[0])
+        ensure_family(fam, ".".join(parts[:2]))
+
+    # Seed every 5-part TCID we know about, synthesizing missing ancestors.
+    five_part_seeds = (
+        {row[0] for row in super_rows}
+        | set(substrates.keys())
+        | acc_tcids
+    )
+    for tcid in five_part_seeds:
+        parts = tcid.split(".")
+        if len(parts) != 5:
+            continue
+        cls = parts[0]
+        subcls = ".".join(parts[:2])
+        fam = ".".join(parts[:3])
+        subfam = ".".join(parts[:4])
+        ensure_class(cls)
+        ensure_subclass(subcls, cls)
+        ensure_family(fam, subcls)
+        ensure_subfamily(subfam, fam)
+        ensure_specificity(tcid, subfam)
 
     out_path.parent.mkdir(parents=True, exist_ok=True)
     out_path.write_text(json.dumps(h, indent=2, sort_keys=True))
@@ -217,7 +286,7 @@ def build_tcdb_hierarchy(
 
 
 def _build_tcdb_hierarchy(cache_root: Path) -> int:
-    """Parse the 3 TCDB TSVs into cache_root/tcdb/tcdb_hierarchy.json. Returns entry count.
+    """Parse the 4 TCDB TSVs into cache_root/tcdb/tcdb_hierarchy.json. Returns entry count.
 
     Raw TSVs live under cache_root/tcdb/raw/ (mirrors cache_root/kegg/raw/) so
     that the committed step-6 outputs (tcdb_hierarchy.json, tcdb_pruned.json)
@@ -230,6 +299,7 @@ def _build_tcdb_hierarchy(cache_root: Path) -> int:
         families_path=raw_dir / "families.tsv",
         superfamilies_path=raw_dir / "superfamilies.tsv",
         substrates_path=raw_dir / "substrates.tsv",
+        acc2tcid_path=raw_dir / "acc2tcid.tsv",
     )
 
 
@@ -509,21 +579,23 @@ def _bulk_enrich_compounds(
 def _prune_tcdb(
     hierarchy: dict,
     seed_ids: set[str],
-) -> tuple[set[str], dict[str, list[str]]]:
+) -> tuple[set[str], dict[str, list[str]], dict[str, str]]:
     """Bidirectional prune of the TCDB hierarchy.
 
-    For each seed ID present in `hierarchy`, walk **up** to the tc_class root
-    and **down** to all tc_specificity leaves. Returns:
+    For each seed ID, walk **up** to the tc_class root and **down** to all
+    tc_specificity leaves. Returns:
 
       kept: set of all TCDB IDs that survive pruning.
       leaf_subs: {leaf_tc_id: [substrate_str, ...]} for kept leaves that carry
                  substrate_classes.
+      seed_aliases: {seed_id: anchor_id} mapping for seeds NOT in the curated
+                    hierarchy. Resolved by truncating dot-segments until an
+                    ancestor is found (e.g. ``3.A.1.35`` → ``3.A.1``). Callers
+                    should remap the gene→TCDB attachment from `seed_id` to
+                    `anchor_id` so no annotation is dropped.
 
-    Seeds not present in the hierarchy are silently skipped.
-
-    Cycle prevention for the recursive descent uses a separate `down_visited`
-    set so the guard is correct even when a node was added to `kept` by a
-    walk-up pass before any of its descendants have been visited.
+    Seeds with no resolvable ancestor are dropped and logged as a warning at
+    the call site.
     """
     kept: set[str] = set()
     leaf_subs: dict[str, list[str]] = {}
@@ -537,7 +609,6 @@ def _prune_tcdb(
         cur: str | None = tc
         while cur is not None and cur in hierarchy:
             if cur in kept:
-                # Already walked up from here.
                 return
             kept.add(cur)
             cur = parent_of.get(cur)
@@ -559,20 +630,30 @@ def _prune_tcdb(
         for child in children_of.get(tc, []):
             walk_down(child)
 
-    skipped_seeds: list[str] = []
+    def find_ancestor(tc: str) -> str | None:
+        """Truncate dot-segments until an ancestor is found in the hierarchy."""
+        parts = tc.split(".")
+        for n in range(len(parts) - 1, 0, -1):
+            candidate = ".".join(parts[:n])
+            if candidate in hierarchy:
+                return candidate
+        return None
+
+    seed_aliases: dict[str, str] = {}
     for seed in seed_ids:
-        if seed not in hierarchy:
-            skipped_seeds.append(seed)
+        if seed in hierarchy:
+            walk_up(seed)
+            walk_down(seed)
             continue
-        walk_up(seed)
-        walk_down(seed)
-    if skipped_seeds:
-        sample = ", ".join(sorted(skipped_seeds)[:5])
-        log.info(
-            f"  TCDB: {len(skipped_seeds)} gene-annotated seed(s) not in curated "
-            f"hierarchy (e.g. {sample})"
-        )
-    return kept, leaf_subs
+        anchor = find_ancestor(seed)
+        if anchor is None:
+            # No ancestor anywhere — caller logs a warning.
+            seed_aliases[seed] = ""
+            continue
+        seed_aliases[seed] = anchor
+        walk_up(anchor)
+        walk_down(anchor)
+    return kept, leaf_subs, seed_aliases
 
 
 def _resolve_substrates(
@@ -1153,7 +1234,22 @@ def main(force: bool = False, refetch_raw: bool = False) -> None:
         hierarchy = json.loads(
             (cache_root / "tcdb" / "tcdb_hierarchy.json").read_text()
         )
-        kept, leaf_subs = _prune_tcdb(hierarchy, catalysis_sets["tcdb_ids"])
+        kept, leaf_subs, seed_aliases = _prune_tcdb(hierarchy, catalysis_sets["tcdb_ids"])
+        upgraded = {s: a for s, a in seed_aliases.items() if a}
+        dropped = sorted(s for s, a in seed_aliases.items() if not a)
+        if upgraded:
+            sample = ", ".join(f"{s}→{a}" for s, a in sorted(upgraded.items())[:5])
+            log.info(
+                f"  TCDB: {len(upgraded)} gene-annotated seed(s) re-anchored to "
+                f"nearest curated ancestor (e.g. {sample})"
+            )
+        if dropped:
+            sample = ", ".join(dropped[:5])
+            log.warning(
+                f"  TCDB: {len(dropped)} gene-annotated seed(s) had no ancestor "
+                f"in the curated hierarchy and were dropped (e.g. {sample}). "
+                f"Likely retired TCDB IDs in eggNOG annotations."
+            )
         leaf_to_primary, compound_props = _resolve_substrates(leaf_subs, conn)
         total_substrate_ids = sum(len(ids) for ids in leaf_to_primary.values())
         distinct_substrate_ids = len({pid for ids in leaf_to_primary.values() for pid in ids})
@@ -1261,6 +1357,10 @@ def main(force: bool = False, refetch_raw: bool = False) -> None:
             "leaf_substrates": {
                 leaf: ids for leaf, ids in sorted(leaf_to_primary.items())
             },
+            # Maps gene-annotated TCIDs not in the hierarchy to the nearest
+            # curated ancestor (e.g. retired ID `3.A.1.35` → family `3.A.1`).
+            # Adapters remap edges through this so no annotation is dropped.
+            "seed_aliases": dict(sorted(upgraded.items())),
         }, indent=2, sort_keys=True))
         log.info(
             f"  TCDB: {len(kept)} kept IDs, "

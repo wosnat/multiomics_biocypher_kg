@@ -47,6 +47,7 @@ TCDB_SOURCES: dict[str, tuple[str, str]] = {
     "tcdb_families":      ("https://www.tcdb.org/cgi-bin/projectv/public/families.py",           "families.tsv"),
     "tcdb_substrates":    ("https://www.tcdb.org/cgi-bin/substrates/getSubstrates.py",           "substrates.tsv"),
     "tcdb_superfamilies": ("https://www.tcdb.org/cgi-bin/substrates/listSuperfamilies.py",       "superfamilies.tsv"),
+    "tcdb_acc2tcid":      ("https://www.tcdb.org/cgi-bin/projectv/public/acc2tcid.py",           "acc2tcid.tsv"),
 }
 
 SOURCES_BY_GROUP: dict[str, dict[str, tuple[str, str]]] = {

@@ -48,7 +48,7 @@ def _patch_requests_get(monkeypatch, response_map: dict[str, _FakeResponse]):
 def test_sources_by_group_keys():
     assert set(dmr.SOURCES_BY_GROUP.keys()) == {"mnx", "tcdb"}
     assert len(dmr.MNX_SOURCES) == 4
-    assert len(dmr.TCDB_SOURCES) == 3
+    assert len(dmr.TCDB_SOURCES) == 4
 
 
 def test_group_dir_layout(tmp_path, monkeypatch):
@@ -70,7 +70,7 @@ def test_download_all_defaults_to_all_groups(tmp_path, monkeypatch):
     monkeypatch.setattr(dmr, "download_one",
                         lambda url, dest, force: (called.append(url), True)[1])
     dmr.download_all(cache_root=tmp_path, force=False, sources=None)
-    assert len(called) == 7  # 4 MNX + 3 TCDB
+    assert len(called) == 8  # 4 MNX + 4 TCDB
 
 
 def test_download_all_filters_to_mnx(tmp_path, monkeypatch):
@@ -89,7 +89,7 @@ def test_download_all_filters_to_tcdb(tmp_path, monkeypatch):
     monkeypatch.setattr(dmr, "download_one",
                         lambda url, dest, force: (called.append(url), True)[1])
     dmr.download_all(cache_root=tmp_path, force=False, sources=["tcdb"])
-    assert len(called) == 3
+    assert len(called) == 4
     assert all("tcdb.org" in u for u in called)
 
 
