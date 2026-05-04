@@ -900,9 +900,829 @@
       "source": "derived_metric:1462-2920.15834:s3_mit9312_abundance:cell_abundance_biovolume_normalized",
       "target": "ncbigene:PMT9312_0010",
       "type": "Derived_metric_quantifies_gene"
+    },
+    {
+      "properties": {},
+      "source": "ncbigene:A9601_00001",
+      "target": "kegg.reaction:R00375",
+      "type": "Gene_catalyzes_reaction"
+    },
+    {
+      "properties": {},
+      "source": "ncbigene:A9601_00001",
+      "target": "kegg.reaction:R00376",
+      "type": "Gene_catalyzes_reaction"
+    },
+    {
+      "properties": {},
+      "source": "ncbigene:A9601_00001",
+      "target": "kegg.reaction:R00377",
+      "type": "Gene_catalyzes_reaction"
+    },
+    {
+      "properties": {},
+      "source": "ncbigene:A9601_00001",
+      "target": "kegg.reaction:R00378",
+      "type": "Gene_catalyzes_reaction"
+    },
+    {
+      "properties": {},
+      "source": "ncbigene:A9601_00021",
+      "target": "kegg.reaction:R04463",
+      "type": "Gene_catalyzes_reaction"
+    },
+    {
+      "properties": {},
+      "source": "kegg.reaction:R00005",
+      "target": "kegg.compound:C00001",
+      "type": "Reaction_has_metabolite"
+    },
+    {
+      "properties": {},
+      "source": "kegg.reaction:R00005",
+      "target": "kegg.compound:C00011",
+      "type": "Reaction_has_metabolite"
+    },
+    {
+      "properties": {},
+      "source": "kegg.reaction:R00005",
+      "target": "kegg.compound:C00014",
+      "type": "Reaction_has_metabolite"
+    },
+    {
+      "properties": {},
+      "source": "kegg.reaction:R00005",
+      "target": "kegg.compound:C01010",
+      "type": "Reaction_has_metabolite"
+    },
+    {
+      "properties": {},
+      "source": "kegg.reaction:R00006",
+      "target": "kegg.compound:C00011",
+      "type": "Reaction_has_metabolite"
+    },
+    {
+      "properties": {},
+      "source": "kegg.reaction:R00005",
+      "target": "kegg.pathway:ko00220",
+      "type": "Reaction_in_kegg_pathway"
+    },
+    {
+      "properties": {},
+      "source": "kegg.reaction:R00005",
+      "target": "kegg.pathway:ko00791",
+      "type": "Reaction_in_kegg_pathway"
+    },
+    {
+      "properties": {},
+      "source": "kegg.reaction:R00005",
+      "target": "kegg.pathway:ko01100",
+      "type": "Reaction_in_kegg_pathway"
+    },
+    {
+      "properties": {},
+      "source": "kegg.reaction:R00005",
+      "target": "kegg.pathway:ko01110",
+      "type": "Reaction_in_kegg_pathway"
+    },
+    {
+      "properties": {},
+      "source": "kegg.reaction:R00005",
+      "target": "kegg.pathway:ko01120",
+      "type": "Reaction_in_kegg_pathway"
+    },
+    {
+      "properties": {},
+      "source": "kegg.compound:C00001",
+      "target": "kegg.pathway:ko00190",
+      "type": "Metabolite_in_pathway"
+    },
+    {
+      "properties": {},
+      "source": "kegg.compound:C00001",
+      "target": "kegg.pathway:ko00195",
+      "type": "Metabolite_in_pathway"
+    },
+    {
+      "properties": {},
+      "source": "kegg.compound:C00001",
+      "target": "kegg.pathway:ko00710",
+      "type": "Metabolite_in_pathway"
+    },
+    {
+      "properties": {},
+      "source": "kegg.compound:C00001",
+      "target": "kegg.pathway:ko01100",
+      "type": "Metabolite_in_pathway"
+    },
+    {
+      "properties": {},
+      "source": "kegg.compound:C00001",
+      "target": "kegg.pathway:ko04918",
+      "type": "Metabolite_in_pathway"
+    },
+    {
+      "properties": {},
+      "source": "insdc.gcf:GCA_003513035.1",
+      "target": "chebi:10004",
+      "type": "Organism_has_metabolite"
+    },
+    {
+      "properties": {},
+      "source": "insdc.gcf:GCA_003513035.1",
+      "target": "chebi:10022",
+      "type": "Organism_has_metabolite"
+    },
+    {
+      "properties": {},
+      "source": "insdc.gcf:GCA_003513035.1",
+      "target": "chebi:10074",
+      "type": "Organism_has_metabolite"
+    },
+    {
+      "properties": {},
+      "source": "insdc.gcf:GCA_003513035.1",
+      "target": "chebi:10077",
+      "type": "Organism_has_metabolite"
+    },
+    {
+      "properties": {},
+      "source": "insdc.gcf:GCA_003513035.1",
+      "target": "chebi:10081",
+      "type": "Organism_has_metabolite"
+    },
+    {
+      "properties": {
+        "metric_bucket": "top_quartile",
+        "n_replicates": 1,
+        "value": 0.0
+      },
+      "source": "metabolite_assay:msystems.01261-22:metabolites_kegg_export_0801_extracellular:extracellular_concentration",
+      "target": "chebi:133737",
+      "type": "Assay_quantifies_metabolite"
+    },
+    {
+      "properties": {
+        "metric_bucket": "top_quartile",
+        "n_replicates": 1,
+        "value": 0.0
+      },
+      "source": "metabolite_assay:msystems.01261-22:metabolites_kegg_export_0801_extracellular:extracellular_concentration",
+      "target": "chebi:143141",
+      "type": "Assay_quantifies_metabolite"
+    },
+    {
+      "properties": {
+        "metric_bucket": "top_quartile",
+        "n_replicates": 1,
+        "value": 0.0
+      },
+      "source": "metabolite_assay:msystems.01261-22:metabolites_kegg_export_0801_extracellular:extracellular_concentration",
+      "target": "kegg.compound:C00004",
+      "type": "Assay_quantifies_metabolite"
+    },
+    {
+      "properties": {
+        "metric_bucket": "top_quartile",
+        "n_replicates": 1,
+        "value": 0.0
+      },
+      "source": "metabolite_assay:msystems.01261-22:metabolites_kegg_export_0801_extracellular:extracellular_concentration",
+      "target": "kegg.compound:C00019",
+      "type": "Assay_quantifies_metabolite"
+    },
+    {
+      "properties": {
+        "metric_bucket": "top_quartile",
+        "n_replicates": 1,
+        "value": 0.0
+      },
+      "source": "metabolite_assay:msystems.01261-22:metabolites_kegg_export_0801_extracellular:extracellular_concentration",
+      "target": "kegg.compound:C00020",
+      "type": "Assay_quantifies_metabolite"
+    },
+    {
+      "properties": {
+        "flag_value": "false",
+        "n_positive": 0,
+        "n_replicates": 1
+      },
+      "source": "metabolite_assay:msystems.01261-22:presence_flags_table_s2:presence_flag_extracellular",
+      "target": "chebi:133737",
+      "type": "Assay_flags_metabolite"
+    },
+    {
+      "properties": {
+        "flag_value": "false",
+        "n_positive": 0,
+        "n_replicates": 1
+      },
+      "source": "metabolite_assay:msystems.01261-22:presence_flags_table_s2:presence_flag_extracellular",
+      "target": "chebi:142094",
+      "type": "Assay_flags_metabolite"
+    },
+    {
+      "properties": {
+        "flag_value": "false",
+        "n_positive": 0,
+        "n_replicates": 1
+      },
+      "source": "metabolite_assay:msystems.01261-22:presence_flags_table_s2:presence_flag_extracellular",
+      "target": "chebi:143141",
+      "type": "Assay_flags_metabolite"
+    },
+    {
+      "properties": {
+        "flag_value": "true",
+        "n_positive": 1,
+        "n_replicates": 1
+      },
+      "source": "metabolite_assay:msystems.01261-22:presence_flags_table_s2:presence_flag_extracellular",
+      "target": "chebi:173245",
+      "type": "Assay_flags_metabolite"
+    },
+    {
+      "properties": {
+        "flag_value": "false",
+        "n_positive": 0,
+        "n_replicates": 1
+      },
+      "source": "metabolite_assay:msystems.01261-22:presence_flags_table_s2:presence_flag_extracellular",
+      "target": "kegg.compound:C00004",
+      "type": "Assay_flags_metabolite"
+    },
+    {
+      "properties": {},
+      "source": "doi:10.1073/pnas.2213271120",
+      "target": "metabolite_assay:pnas.2213271120:metabolites_intracellular_mit9303:cellular_concentration",
+      "type": "PublicationHasMetaboliteAssay"
+    },
+    {
+      "properties": {},
+      "source": "doi:10.1073/pnas.2213271120",
+      "target": "metabolite_assay:pnas.2213271120:metabolites_intracellular_mit9313:cellular_concentration",
+      "type": "PublicationHasMetaboliteAssay"
+    },
+    {
+      "properties": {},
+      "source": "doi:10.1128/msystems.01261-22",
+      "target": "metabolite_assay:msystems.01261-22:metabolites_kegg_export_0801_extracellular:extracellular_concentration",
+      "type": "PublicationHasMetaboliteAssay"
+    },
+    {
+      "properties": {},
+      "source": "doi:10.1128/msystems.01261-22",
+      "target": "metabolite_assay:msystems.01261-22:metabolites_kegg_export_0801_intracellular:cellular_concentration",
+      "type": "PublicationHasMetaboliteAssay"
+    },
+    {
+      "properties": {},
+      "source": "doi:10.1128/msystems.01261-22",
+      "target": "metabolite_assay:msystems.01261-22:metabolites_kegg_export_9301_extracellular:extracellular_concentration",
+      "type": "PublicationHasMetaboliteAssay"
+    },
+    {
+      "properties": {},
+      "source": "10.1073/pnas.2213271120_chitosan_addition_mit9303_metabolomics",
+      "target": "metabolite_assay:pnas.2213271120:metabolites_intracellular_mit9303:cellular_concentration",
+      "type": "ExperimentHasMetaboliteAssay"
+    },
+    {
+      "properties": {},
+      "source": "10.1073/pnas.2213271120_chitosan_addition_mit9313_metabolomics",
+      "target": "metabolite_assay:pnas.2213271120:metabolites_intracellular_mit9313:cellular_concentration",
+      "type": "ExperimentHasMetaboliteAssay"
+    },
+    {
+      "properties": {},
+      "source": "10.1128/msystems.01261-22_kujawinski_metabolomics_0801_extracellular",
+      "target": "metabolite_assay:msystems.01261-22:metabolites_kegg_export_0801_extracellular:extracellular_concentration",
+      "type": "ExperimentHasMetaboliteAssay"
+    },
+    {
+      "properties": {},
+      "source": "10.1128/msystems.01261-22_kujawinski_metabolomics_0801_whole_cell",
+      "target": "metabolite_assay:msystems.01261-22:metabolites_kegg_export_0801_intracellular:cellular_concentration",
+      "type": "ExperimentHasMetaboliteAssay"
+    },
+    {
+      "properties": {},
+      "source": "10.1128/msystems.01261-22_kujawinski_metabolomics_9301_extracellular",
+      "target": "metabolite_assay:msystems.01261-22:metabolites_kegg_export_9301_extracellular:extracellular_concentration",
+      "type": "ExperimentHasMetaboliteAssay"
+    },
+    {
+      "properties": {},
+      "source": "metabolite_assay:msystems.01261-22:metabolites_kegg_export_0801_extracellular:extracellular_concentration",
+      "target": "insdc.gcf:GCF_000757865.1",
+      "type": "MetaboliteAssayBelongsToOrganism"
+    },
+    {
+      "properties": {},
+      "source": "metabolite_assay:msystems.01261-22:metabolites_kegg_export_0801_intracellular:cellular_concentration",
+      "target": "insdc.gcf:GCF_000757865.1",
+      "type": "MetaboliteAssayBelongsToOrganism"
+    },
+    {
+      "properties": {},
+      "source": "metabolite_assay:msystems.01261-22:metabolites_kegg_export_9301_extracellular:extracellular_concentration",
+      "target": "insdc.gcf:GCF_000015965.1",
+      "type": "MetaboliteAssayBelongsToOrganism"
+    },
+    {
+      "properties": {},
+      "source": "metabolite_assay:msystems.01261-22:metabolites_kegg_export_9301_intracellular:cellular_concentration",
+      "target": "insdc.gcf:GCF_000015965.1",
+      "type": "MetaboliteAssayBelongsToOrganism"
+    },
+    {
+      "properties": {},
+      "source": "metabolite_assay:msystems.01261-22:metabolites_kegg_export_9313_extracellular:extracellular_concentration",
+      "target": "insdc.gcf:GCF_000011485.1",
+      "type": "MetaboliteAssayBelongsToOrganism"
+    },
+    {
+      "properties": {},
+      "source": "ncbigene:A9601_00001",
+      "target": "pfam:PF00712",
+      "type": "Gene_has_pfam"
+    },
+    {
+      "properties": {},
+      "source": "ncbigene:A9601_00001",
+      "target": "pfam:PF02767",
+      "type": "Gene_has_pfam"
+    },
+    {
+      "properties": {},
+      "source": "ncbigene:A9601_00001",
+      "target": "pfam:PF02768",
+      "type": "Gene_has_pfam"
+    },
+    {
+      "properties": {},
+      "source": "ncbigene:A9601_00011",
+      "target": "pfam:PF05239",
+      "type": "Gene_has_pfam"
+    },
+    {
+      "properties": {},
+      "source": "ncbigene:A9601_00021",
+      "target": "pfam:PF00586",
+      "type": "Gene_has_pfam"
+    },
+    {
+      "properties": {},
+      "source": "pfam:PF00004",
+      "target": "pfam.clan:CL0023",
+      "type": "Pfam_in_pfam_clan"
+    },
+    {
+      "properties": {},
+      "source": "pfam:PF00005",
+      "target": "pfam.clan:CL0023",
+      "type": "Pfam_in_pfam_clan"
+    },
+    {
+      "properties": {},
+      "source": "pfam:PF00006",
+      "target": "pfam.clan:CL0023",
+      "type": "Pfam_in_pfam_clan"
+    },
+    {
+      "properties": {},
+      "source": "pfam:PF00009",
+      "target": "pfam.clan:CL0023",
+      "type": "Pfam_in_pfam_clan"
+    },
+    {
+      "properties": {},
+      "source": "pfam:PF00011",
+      "target": "pfam.clan:CL0190",
+      "type": "Pfam_in_pfam_clan"
+    },
+    {
+      "properties": {},
+      "source": "ncbigene:A9601_00091",
+      "target": "tcdb:3.A.5.1",
+      "type": "Gene_has_tcdb_family"
+    },
+    {
+      "properties": {},
+      "source": "ncbigene:A9601_00091",
+      "target": "tcdb:3.A.5.2",
+      "type": "Gene_has_tcdb_family"
+    },
+    {
+      "properties": {},
+      "source": "ncbigene:A9601_00091",
+      "target": "tcdb:3.A.5.7",
+      "type": "Gene_has_tcdb_family"
+    },
+    {
+      "properties": {},
+      "source": "ncbigene:A9601_00771",
+      "target": "tcdb:3.A.1.106",
+      "type": "Gene_has_tcdb_family"
+    },
+    {
+      "properties": {},
+      "source": "ncbigene:A9601_00771",
+      "target": "tcdb:3.A.1.110",
+      "type": "Gene_has_tcdb_family"
+    },
+    {
+      "properties": {},
+      "source": "tcdb:1.A",
+      "target": "tcdb:1",
+      "type": "Tcdb_family_is_a_tcdb_family"
+    },
+    {
+      "properties": {},
+      "source": "tcdb:1.A.1",
+      "target": "tcdb:1.A",
+      "type": "Tcdb_family_is_a_tcdb_family"
+    },
+    {
+      "properties": {},
+      "source": "tcdb:1.A.1.1",
+      "target": "tcdb:1.A.1",
+      "type": "Tcdb_family_is_a_tcdb_family"
+    },
+    {
+      "properties": {},
+      "source": "tcdb:1.A.1.1.1",
+      "target": "tcdb:1.A.1.1",
+      "type": "Tcdb_family_is_a_tcdb_family"
+    },
+    {
+      "properties": {},
+      "source": "tcdb:1.A.1.13",
+      "target": "tcdb:1.A.1",
+      "type": "Tcdb_family_is_a_tcdb_family"
+    },
+    {
+      "properties": {},
+      "source": "tcdb:1",
+      "target": "chebi:11097",
+      "type": "Tcdb_family_transports_metabolite"
+    },
+    {
+      "properties": {},
+      "source": "tcdb:1",
+      "target": "chebi:11169",
+      "type": "Tcdb_family_transports_metabolite"
+    },
+    {
+      "properties": {},
+      "source": "tcdb:1",
+      "target": "chebi:11685",
+      "type": "Tcdb_family_transports_metabolite"
+    },
+    {
+      "properties": {},
+      "source": "tcdb:1",
+      "target": "chebi:12975",
+      "type": "Tcdb_family_transports_metabolite"
+    },
+    {
+      "properties": {},
+      "source": "tcdb:1",
+      "target": "chebi:13633",
+      "type": "Tcdb_family_transports_metabolite"
+    },
+    {
+      "properties": {},
+      "source": "ncbigene:A9601_00711",
+      "target": "cazy:GT19",
+      "type": "Gene_has_cazy_family"
+    },
+    {
+      "properties": {},
+      "source": "ncbigene:A9601_02151",
+      "target": "cazy:GT28",
+      "type": "Gene_has_cazy_family"
+    },
+    {
+      "properties": {},
+      "source": "ncbigene:A9601_03511",
+      "target": "cazy:GH32",
+      "type": "Gene_has_cazy_family"
+    },
+    {
+      "properties": {},
+      "source": "ncbigene:A9601_04821",
+      "target": "cazy:GT51",
+      "type": "Gene_has_cazy_family"
+    },
+    {
+      "properties": {},
+      "source": "ncbigene:A9601_06401",
+      "target": "cazy:CBM48",
+      "type": "Gene_has_cazy_family"
+    },
+    {
+      "properties": {},
+      "source": "cazy:AA10",
+      "target": "cazy:AA",
+      "type": "Cazy_family_is_a_cazy_family"
+    },
+    {
+      "properties": {},
+      "source": "cazy:CBM20",
+      "target": "cazy:CBM",
+      "type": "Cazy_family_is_a_cazy_family"
+    },
+    {
+      "properties": {},
+      "source": "cazy:CBM48",
+      "target": "cazy:CBM",
+      "type": "Cazy_family_is_a_cazy_family"
+    },
+    {
+      "properties": {},
+      "source": "cazy:CBM5",
+      "target": "cazy:CBM",
+      "type": "Cazy_family_is_a_cazy_family"
+    },
+    {
+      "properties": {},
+      "source": "cazy:CBM73",
+      "target": "cazy:CBM",
+      "type": "Cazy_family_is_a_cazy_family"
+    },
+    {
+      "properties": {},
+      "source": "kegg.brite:ko01000.A1.B1",
+      "target": "kegg.brite:ko01000.A1",
+      "type": "Brite_category_is_a_brite_category"
+    },
+    {
+      "properties": {},
+      "source": "kegg.brite:ko01000.A1.B1.C1",
+      "target": "kegg.brite:ko01000.A1.B1",
+      "type": "Brite_category_is_a_brite_category"
+    },
+    {
+      "properties": {},
+      "source": "kegg.brite:ko01000.A1.B1.C1.D1",
+      "target": "kegg.brite:ko01000.A1.B1.C1",
+      "type": "Brite_category_is_a_brite_category"
+    },
+    {
+      "properties": {},
+      "source": "kegg.brite:ko01000.A1.B1.C1.D117",
+      "target": "kegg.brite:ko01000.A1.B1.C1",
+      "type": "Brite_category_is_a_brite_category"
+    },
+    {
+      "properties": {},
+      "source": "kegg.brite:ko01000.A1.B1.C1.D121",
+      "target": "kegg.brite:ko01000.A1.B1.C1",
+      "type": "Brite_category_is_a_brite_category"
+    },
+    {
+      "properties": {},
+      "source": "kegg.orthology:K00001",
+      "target": "kegg.brite:ko01000.A1.B1.C1.D1",
+      "type": "Kegg_term_in_brite_category"
+    },
+    {
+      "properties": {},
+      "source": "kegg.orthology:K00002",
+      "target": "kegg.brite:ko01000.A1.B1.C1.D2",
+      "type": "Kegg_term_in_brite_category"
+    },
+    {
+      "properties": {},
+      "source": "kegg.orthology:K00003",
+      "target": "kegg.brite:ko01000.A1.B1.C1.D3",
+      "type": "Kegg_term_in_brite_category"
+    },
+    {
+      "properties": {},
+      "source": "kegg.orthology:K00004",
+      "target": "kegg.brite:ko01000.A1.B1.C1.D278",
+      "type": "Kegg_term_in_brite_category"
+    },
+    {
+      "properties": {},
+      "source": "kegg.orthology:K00004",
+      "target": "kegg.brite:ko01000.A1.B1.C1.D4",
+      "type": "Kegg_term_in_brite_category"
+    },
+    {
+      "properties": {},
+      "source": "cyanorak:CK_00000001",
+      "target": "cyanorak.role:D.1.9",
+      "type": "Og_has_cyanorak_role"
+    },
+    {
+      "properties": {},
+      "source": "cyanorak:CK_00000001",
+      "target": "cyanorak.role:P.2",
+      "type": "Og_has_cyanorak_role"
+    },
+    {
+      "properties": {},
+      "source": "cyanorak:CK_00000002",
+      "target": "cyanorak.role:O.1.2",
+      "type": "Og_has_cyanorak_role"
+    },
+    {
+      "properties": {},
+      "source": "cyanorak:CK_00000003",
+      "target": "cyanorak.role:E.4",
+      "type": "Og_has_cyanorak_role"
+    },
+    {
+      "properties": {},
+      "source": "cyanorak:CK_00000004",
+      "target": "cyanorak.role:J.5.1",
+      "type": "Og_has_cyanorak_role"
+    },
+    {
+      "properties": {},
+      "source": "cyanorak:CK_00000001",
+      "target": "cog.category:K",
+      "type": "Og_in_cog_category"
+    },
+    {
+      "properties": {},
+      "source": "cyanorak:CK_00000002",
+      "target": "cog.category:K",
+      "type": "Og_in_cog_category"
+    },
+    {
+      "properties": {},
+      "source": "cyanorak:CK_00000003",
+      "target": "cog.category:P",
+      "type": "Og_in_cog_category"
+    },
+    {
+      "properties": {},
+      "source": "cyanorak:CK_00000004",
+      "target": "cog.category:C",
+      "type": "Og_in_cog_category"
+    },
+    {
+      "properties": {},
+      "source": "cyanorak:CK_00000005",
+      "target": "cog.category:V",
+      "type": "Og_in_cog_category"
+    },
+    {
+      "properties": {},
+      "source": "doi:10.1038/ismej.2011.49",
+      "target": "clustering_analysis:ismej.2011.49:med4_iron_response_clusters",
+      "type": "PublicationHasClusteringAnalysis"
+    },
+    {
+      "properties": {},
+      "source": "doi:10.1038/ismej.2011.49",
+      "target": "clustering_analysis:ismej.2011.49:mit9313_iron_response_clusters",
+      "type": "PublicationHasClusteringAnalysis"
+    },
+    {
+      "properties": {},
+      "source": "doi:10.1038/msb4100087",
+      "target": "clustering_analysis:msb4100087:med4_kmeans_nstarvation",
+      "type": "PublicationHasClusteringAnalysis"
+    },
+    {
+      "properties": {},
+      "source": "doi:10.1038/msb4100087",
+      "target": "clustering_analysis:msb4100087:mit9313_kmeans_nstarvation",
+      "type": "PublicationHasClusteringAnalysis"
+    },
+    {
+      "properties": {},
+      "source": "doi:10.1038/nature06130",
+      "target": "clustering_analysis:nature06130:med4_phage_transcription_groups",
+      "type": "PublicationHasClusteringAnalysis"
+    },
+    {
+      "properties": {},
+      "source": "clustering_analysis:ismej.2011.49:med4_iron_response_clusters",
+      "target": "cluster:ismej.2011.49:med4_iron_response_clusters:1",
+      "type": "ClusteringAnalysisHasGeneCluster"
+    },
+    {
+      "properties": {},
+      "source": "clustering_analysis:ismej.2011.49:med4_iron_response_clusters",
+      "target": "cluster:ismej.2011.49:med4_iron_response_clusters:13",
+      "type": "ClusteringAnalysisHasGeneCluster"
+    },
+    {
+      "properties": {},
+      "source": "clustering_analysis:ismej.2011.49:med4_iron_response_clusters",
+      "target": "cluster:ismej.2011.49:med4_iron_response_clusters:16",
+      "type": "ClusteringAnalysisHasGeneCluster"
+    },
+    {
+      "properties": {},
+      "source": "clustering_analysis:ismej.2011.49:med4_iron_response_clusters",
+      "target": "cluster:ismej.2011.49:med4_iron_response_clusters:19",
+      "type": "ClusteringAnalysisHasGeneCluster"
+    },
+    {
+      "properties": {},
+      "source": "clustering_analysis:ismej.2011.49:med4_iron_response_clusters",
+      "target": "cluster:ismej.2011.49:med4_iron_response_clusters:22",
+      "type": "ClusteringAnalysisHasGeneCluster"
+    },
+    {
+      "properties": {},
+      "source": "clustering_analysis:ismej.2011.49:med4_iron_response_clusters",
+      "target": "insdc.gcf:GCF_000011465.1",
+      "type": "ClusteringanalysisBelongsToOrganism"
+    },
+    {
+      "properties": {},
+      "source": "clustering_analysis:ismej.2011.49:mit9313_iron_response_clusters",
+      "target": "insdc.gcf:GCF_000011485.1",
+      "type": "ClusteringanalysisBelongsToOrganism"
+    },
+    {
+      "properties": {},
+      "source": "clustering_analysis:journal.pone.0005135:med4_diel_clusters",
+      "target": "insdc.gcf:GCF_000011465.1",
+      "type": "ClusteringanalysisBelongsToOrganism"
+    },
+    {
+      "properties": {},
+      "source": "clustering_analysis:mSystems.00181-16:bp1_light_clusters",
+      "target": "insdc.gcf:GCF_000011345.1",
+      "type": "ClusteringanalysisBelongsToOrganism"
+    },
+    {
+      "properties": {},
+      "source": "clustering_analysis:mSystems.00181-16:bp1_oxygen_clusters",
+      "target": "insdc.gcf:GCF_000011345.1",
+      "type": "ClusteringanalysisBelongsToOrganism"
+    },
+    {
+      "properties": {},
+      "source": "10.1038/ismej.2011.49_growth_medium_ironreplete_control_med4_med4_microarray",
+      "target": "clustering_analysis:ismej.2011.49:med4_iron_response_clusters",
+      "type": "ExperimentHasClusteringAnalysis"
+    },
+    {
+      "properties": {},
+      "source": "10.1038/ismej.2011.49_growth_medium_ironreplete_control_mit9313_mit9313_microarray",
+      "target": "clustering_analysis:ismej.2011.49:mit9313_iron_response_clusters",
+      "type": "ExperimentHasClusteringAnalysis"
+    },
+    {
+      "properties": {},
+      "source": "10.1038/ismej.2011.49_iron_iron_starvation_med4_med4_microarray_light",
+      "target": "clustering_analysis:ismej.2011.49:med4_iron_response_clusters",
+      "type": "ExperimentHasClusteringAnalysis"
+    },
+    {
+      "properties": {},
+      "source": "10.1038/ismej.2011.49_iron_iron_starvation_med4_med4_microarray_light_2",
+      "target": "clustering_analysis:ismej.2011.49:med4_iron_response_clusters",
+      "type": "ExperimentHasClusteringAnalysis"
+    },
+    {
+      "properties": {},
+      "source": "10.1038/ismej.2011.49_iron_iron_starvation_mit9313_mit9313_microarray",
+      "target": "clustering_analysis:ismej.2011.49:mit9313_iron_response_clusters",
+      "type": "ExperimentHasClusteringAnalysis"
+    },
+    {
+      "properties": {},
+      "source": "cluster:ismej.2011.49:med4_iron_response_clusters:1",
+      "target": "ncbigene:PMM2001",
+      "type": "Gene_in_gene_cluster"
+    },
+    {
+      "properties": {},
+      "source": "cluster:ismej.2011.49:med4_iron_response_clusters:13",
+      "target": "ncbigene:PMM0731",
+      "type": "Gene_in_gene_cluster"
+    },
+    {
+      "properties": {},
+      "source": "cluster:ismej.2011.49:med4_iron_response_clusters:13",
+      "target": "ncbigene:PMM1365",
+      "type": "Gene_in_gene_cluster"
+    },
+    {
+      "properties": {},
+      "source": "cluster:ismej.2011.49:med4_iron_response_clusters:13",
+      "target": "ncbigene:PMM1391",
+      "type": "Gene_in_gene_cluster"
+    },
+    {
+      "properties": {},
+      "source": "cluster:ismej.2011.49:med4_iron_response_clusters:13",
+      "target": "ncbigene:PMM1808",
+      "type": "Gene_in_gene_cluster"
     }
   ],
-  "generated_at": "2026-05-01T12:17:45.597314+00:00",
+  "generated_at": "2026-05-04T17:15:27.916704+00:00",
   "nodes": [
     {
       "anchor": true,
@@ -1908,6 +2728,678 @@
         "value_min": -10.31939404,
         "value_q1": -6.3470493515,
         "value_q3": -1.7275050052500003
+      }
+    },
+    {
+      "anchor": true,
+      "id": "kegg.reaction:R11945",
+      "label": "Reaction",
+      "properties": {
+        "kegg_reaction_id": "R11945",
+        "mass_balance": "unbalanced",
+        "name": "NADH:ubiquinone oxidoreductase; Ubiquinone + NADH + H+ + 4 H+ <=> Ubiquinol + NAD+ + 4 H+",
+        "reaction_class": "chemical"
+      }
+    },
+    {
+      "anchor": false,
+      "id": "kegg.reaction:R00005",
+      "label": "Reaction",
+      "properties": {
+        "kegg_reaction_id": "R00005",
+        "mass_balance": "balanced",
+        "name": "urea-1-carboxylate amidohydrolase; Urea-1-carboxylate + H2O <=> 2 CO2 + 2 Ammonia",
+        "reaction_class": "chemical"
+      }
+    },
+    {
+      "anchor": false,
+      "id": "kegg.reaction:R00006",
+      "label": "Reaction",
+      "properties": {
+        "kegg_reaction_id": "R00006",
+        "mass_balance": "balanced",
+        "name": "pyruvate:pyruvate acetaldehydetransferase (decarboxylating); 2-acetolactate pyruvate-lyase (carboxylating); 2-Acetolactate + CO2 <=> 2 Pyruvate",
+        "reaction_class": "chemical"
+      }
+    },
+    {
+      "anchor": false,
+      "id": "kegg.reaction:R00008",
+      "label": "Reaction",
+      "properties": {
+        "kegg_reaction_id": "R00008",
+        "mass_balance": "balanced",
+        "name": "4-hydroxy-4-methyl-2-oxoglutarate pyruvate-lyase (pyruvate-forming); Parapyruvate <=> 2 Pyruvate",
+        "reaction_class": "chemical"
+      }
+    },
+    {
+      "anchor": false,
+      "id": "kegg.reaction:R00009",
+      "label": "Reaction",
+      "properties": {
+        "kegg_reaction_id": "R00009",
+        "mass_balance": "balanced",
+        "name": "hydrogen-peroxide:hydrogen-peroxide oxidoreductase; 2 Hydrogen peroxide <=> Oxygen + 2 H2O",
+        "reaction_class": "chemical"
+      }
+    },
+    {
+      "anchor": false,
+      "id": "kegg.reaction:R00010",
+      "label": "Reaction",
+      "properties": {
+        "kegg_reaction_id": "R00010",
+        "mass_balance": "balanced",
+        "name": "alpha,alpha-trehalose glucohydrolase; alpha,alpha-Trehalose + H2O <=> 2 D-Glucose",
+        "reaction_class": "chemical"
+      }
+    },
+    {
+      "anchor": true,
+      "id": "kegg.compound:C00002",
+      "label": "Metabolite",
+      "properties": {
+        "formula": "C10H12N5O13P3",
+        "kegg_compound_id": "C00002",
+        "mass": 503.15,
+        "name": "ATP"
+      }
+    },
+    {
+      "anchor": true,
+      "id": "kegg.compound:C00031",
+      "label": "Metabolite",
+      "properties": {
+        "formula": "C6H12O6",
+        "kegg_compound_id": "C00031",
+        "mass": 180.156,
+        "name": "D-Glucose"
+      }
+    },
+    {
+      "anchor": false,
+      "id": "chebi:10004",
+      "label": "Metabolite",
+      "properties": {
+        "name": "vitamin (role)"
+      }
+    },
+    {
+      "anchor": false,
+      "id": "chebi:10022",
+      "label": "Metabolite",
+      "properties": {
+        "formula": "C15H20O6",
+        "mass": 296.319,
+        "name": "deoxynivalenol"
+      }
+    },
+    {
+      "anchor": false,
+      "id": "chebi:10074",
+      "label": "Metabolite",
+      "properties": {
+        "name": "xenobiotic"
+      }
+    },
+    {
+      "anchor": false,
+      "id": "chebi:10077",
+      "label": "Metabolite",
+      "properties": {
+        "formula": "C10H15O8*5",
+        "name": "Xylan"
+      }
+    },
+    {
+      "anchor": false,
+      "id": "chebi:10081",
+      "label": "Metabolite",
+      "properties": {
+        "name": "xyloglucan"
+      }
+    },
+    {
+      "anchor": true,
+      "id": "metabolite_assay:msystems.01261-22:metabolites_kegg_export_9301_intracellular:cellular_concentration",
+      "label": "MetaboliteAssay",
+      "properties": {
+        "aggregation_method": "pre_aggregated",
+        "compartment": "whole_cell",
+        "experiment_id": "10.1128/msystems.01261-22_kujawinski_metabolomics_9301_whole_cell",
+        "metric_type": "cellular_concentration",
+        "name": "MIT9301 intracellular metabolite concentration (mol/cell)",
+        "omics_type": "METABOLOMICS",
+        "organism_name": "Prochlorococcus MIT9301",
+        "rankable": "true",
+        "value_kind": "numeric"
+      }
+    },
+    {
+      "anchor": false,
+      "id": "metabolite_assay:msystems.01261-22:metabolites_kegg_export_0801_extracellular:extracellular_concentration",
+      "label": "MetaboliteAssay",
+      "properties": {
+        "aggregation_method": "pre_aggregated",
+        "compartment": "extracellular",
+        "experiment_id": "10.1128/msystems.01261-22_kujawinski_metabolomics_0801_extracellular",
+        "metric_type": "extracellular_concentration",
+        "name": "MIT0801 extracellular metabolite concentration (mol/cell)",
+        "omics_type": "METABOLOMICS",
+        "organism_name": "Prochlorococcus MIT0801",
+        "rankable": "true",
+        "value_kind": "numeric"
+      }
+    },
+    {
+      "anchor": false,
+      "id": "metabolite_assay:msystems.01261-22:metabolites_kegg_export_0801_intracellular:cellular_concentration",
+      "label": "MetaboliteAssay",
+      "properties": {
+        "aggregation_method": "pre_aggregated",
+        "compartment": "whole_cell",
+        "experiment_id": "10.1128/msystems.01261-22_kujawinski_metabolomics_0801_whole_cell",
+        "metric_type": "cellular_concentration",
+        "name": "MIT0801 intracellular metabolite concentration (mol/cell)",
+        "omics_type": "METABOLOMICS",
+        "organism_name": "Prochlorococcus MIT0801",
+        "rankable": "true",
+        "value_kind": "numeric"
+      }
+    },
+    {
+      "anchor": false,
+      "id": "metabolite_assay:msystems.01261-22:metabolites_kegg_export_9301_extracellular:extracellular_concentration",
+      "label": "MetaboliteAssay",
+      "properties": {
+        "aggregation_method": "pre_aggregated",
+        "compartment": "extracellular",
+        "experiment_id": "10.1128/msystems.01261-22_kujawinski_metabolomics_9301_extracellular",
+        "metric_type": "extracellular_concentration",
+        "name": "MIT9301 extracellular metabolite concentration (mol/cell)",
+        "omics_type": "METABOLOMICS",
+        "organism_name": "Prochlorococcus MIT9301",
+        "rankable": "true",
+        "value_kind": "numeric"
+      }
+    },
+    {
+      "anchor": false,
+      "id": "metabolite_assay:msystems.01261-22:metabolites_kegg_export_9313_extracellular:extracellular_concentration",
+      "label": "MetaboliteAssay",
+      "properties": {
+        "aggregation_method": "pre_aggregated",
+        "compartment": "extracellular",
+        "experiment_id": "10.1128/msystems.01261-22_kujawinski_metabolomics_9313_extracellular",
+        "metric_type": "extracellular_concentration",
+        "name": "MIT9313 extracellular metabolite concentration (mol/cell)",
+        "omics_type": "METABOLOMICS",
+        "organism_name": "Prochlorococcus MIT9313",
+        "rankable": "true",
+        "value_kind": "numeric"
+      }
+    },
+    {
+      "anchor": true,
+      "id": "pfam:PF00005",
+      "label": "Pfam",
+      "properties": {
+        "name": "ABC transporter",
+        "short_name": "ABC_tran"
+      }
+    },
+    {
+      "anchor": false,
+      "id": "pfam:PF00004",
+      "label": "Pfam",
+      "properties": {
+        "name": "ATPase family associated with various cellular activities (AAA)",
+        "short_name": "AAA"
+      }
+    },
+    {
+      "anchor": false,
+      "id": "pfam:PF00006",
+      "label": "Pfam",
+      "properties": {
+        "name": "ATP synthase alpha/beta family, nucleotide-binding domain",
+        "short_name": "ATP-synt_ab"
+      }
+    },
+    {
+      "anchor": false,
+      "id": "pfam:PF00009",
+      "label": "Pfam",
+      "properties": {
+        "name": "Elongation factor Tu GTP binding domain",
+        "short_name": "GTP_EFTU"
+      }
+    },
+    {
+      "anchor": false,
+      "id": "pfam:PF00011",
+      "label": "Pfam",
+      "properties": {
+        "name": "Hsp20/alpha crystallin family",
+        "short_name": "HSP20"
+      }
+    },
+    {
+      "anchor": true,
+      "id": "pfam.clan:CL0023",
+      "label": "PfamClan",
+      "properties": {
+        "name": "P-loop_NTPase"
+      }
+    },
+    {
+      "anchor": false,
+      "id": "pfam.clan:CL0003",
+      "label": "PfamClan",
+      "properties": {
+        "name": "SAM"
+      }
+    },
+    {
+      "anchor": false,
+      "id": "pfam.clan:CL0004",
+      "label": "PfamClan",
+      "properties": {
+        "name": "Concanavalin"
+      }
+    },
+    {
+      "anchor": false,
+      "id": "pfam.clan:CL0007",
+      "label": "PfamClan",
+      "properties": {
+        "name": "KH"
+      }
+    },
+    {
+      "anchor": false,
+      "id": "pfam.clan:CL0010",
+      "label": "PfamClan",
+      "properties": {
+        "name": "SH3"
+      }
+    },
+    {
+      "anchor": false,
+      "id": "pfam.clan:CL0013",
+      "label": "PfamClan",
+      "properties": {
+        "name": "Beta-lactamase"
+      }
+    },
+    {
+      "anchor": true,
+      "id": "tcdb:1",
+      "label": "TcdbFamily",
+      "properties": {
+        "level": 0,
+        "level_kind": "tc_class",
+        "name": "Channels and Pores",
+        "tcdb_id": "1"
+      }
+    },
+    {
+      "anchor": true,
+      "id": "tcdb:3.A.1.4.4",
+      "label": "TcdbFamily",
+      "properties": {
+        "level": 4,
+        "level_kind": "tc_specificity",
+        "name": "3.A.1.4.4",
+        "tcdb_id": "3.A.1.4.4"
+      }
+    },
+    {
+      "anchor": false,
+      "id": "tcdb:1.A",
+      "label": "TcdbFamily",
+      "properties": {
+        "level": 1,
+        "level_kind": "tc_subclass",
+        "name": "1.A",
+        "tcdb_id": "1.A"
+      }
+    },
+    {
+      "anchor": false,
+      "id": "tcdb:1.A.1",
+      "label": "TcdbFamily",
+      "properties": {
+        "level": 2,
+        "level_kind": "tc_family",
+        "name": "The Voltage-gated Ion Channel (VIC) Superfamily",
+        "tcdb_id": "1.A.1"
+      }
+    },
+    {
+      "anchor": false,
+      "id": "tcdb:1.A.1.1",
+      "label": "TcdbFamily",
+      "properties": {
+        "level": 3,
+        "level_kind": "tc_subfamily",
+        "name": "1.A.1.1",
+        "tcdb_id": "1.A.1.1"
+      }
+    },
+    {
+      "anchor": false,
+      "id": "tcdb:1.A.1.1.1",
+      "label": "TcdbFamily",
+      "properties": {
+        "level": 4,
+        "level_kind": "tc_specificity",
+        "name": "1.A.1.1.1",
+        "tcdb_id": "1.A.1.1.1"
+      }
+    },
+    {
+      "anchor": true,
+      "id": "cazy:GH",
+      "label": "CazyFamily",
+      "properties": {
+        "cazy_id": "GH",
+        "level": 0,
+        "level_kind": "cazy_class",
+        "name": "Glycoside Hydrolases"
+      }
+    },
+    {
+      "anchor": true,
+      "id": "cazy:GT2",
+      "label": "CazyFamily",
+      "properties": {
+        "cazy_id": "GT2",
+        "level": 1,
+        "level_kind": "cazy_family",
+        "name": "GT2"
+      }
+    },
+    {
+      "anchor": false,
+      "id": "cazy:AA",
+      "label": "CazyFamily",
+      "properties": {
+        "cazy_id": "AA",
+        "level": 0,
+        "level_kind": "cazy_class",
+        "name": "Auxiliary Activities"
+      }
+    },
+    {
+      "anchor": false,
+      "id": "cazy:AA10",
+      "label": "CazyFamily",
+      "properties": {
+        "cazy_id": "AA10",
+        "level": 1,
+        "level_kind": "cazy_family",
+        "name": "AA10"
+      }
+    },
+    {
+      "anchor": false,
+      "id": "cazy:CBM",
+      "label": "CazyFamily",
+      "properties": {
+        "cazy_id": "CBM",
+        "level": 0,
+        "level_kind": "cazy_class",
+        "name": "Carbohydrate-Binding Modules"
+      }
+    },
+    {
+      "anchor": false,
+      "id": "cazy:CBM20",
+      "label": "CazyFamily",
+      "properties": {
+        "cazy_id": "CBM20",
+        "level": 1,
+        "level_kind": "cazy_family",
+        "name": "CBM20"
+      }
+    },
+    {
+      "anchor": false,
+      "id": "cazy:CBM48",
+      "label": "CazyFamily",
+      "properties": {
+        "cazy_id": "CBM48",
+        "level": 1,
+        "level_kind": "cazy_family",
+        "name": "CBM48"
+      }
+    },
+    {
+      "anchor": true,
+      "id": "kegg.brite:ko01000.A1",
+      "label": "BriteCategory",
+      "properties": {
+        "level": 0,
+        "level_kind": "brite_class",
+        "name": "1. Oxidoreductases",
+        "tree": "enzymes",
+        "tree_code": "ko01000"
+      }
+    },
+    {
+      "anchor": false,
+      "id": "kegg.brite:ko01000.A1.B1",
+      "label": "BriteCategory",
+      "properties": {
+        "level": 1,
+        "level_kind": "brite_subclass",
+        "name": "1.1  Acting on the CH-OH group of donors",
+        "tree": "enzymes",
+        "tree_code": "ko01000"
+      }
+    },
+    {
+      "anchor": false,
+      "id": "kegg.brite:ko01000.A1.B1.C1",
+      "label": "BriteCategory",
+      "properties": {
+        "level": 2,
+        "level_kind": "brite_family",
+        "name": "1.1.1  With NAD+ or NADP+ as acceptor",
+        "tree": "enzymes",
+        "tree_code": "ko01000"
+      }
+    },
+    {
+      "anchor": false,
+      "id": "kegg.brite:ko01000.A1.B1.C1.D1",
+      "label": "BriteCategory",
+      "properties": {
+        "level": 3,
+        "level_kind": "brite_subfamily",
+        "name": "1.1.1.1  alcohol dehydrogenase",
+        "tree": "enzymes",
+        "tree_code": "ko01000"
+      }
+    },
+    {
+      "anchor": false,
+      "id": "kegg.brite:ko01000.A1.B1.C1.D117",
+      "label": "BriteCategory",
+      "properties": {
+        "level": 3,
+        "level_kind": "brite_subfamily",
+        "name": "1.1.1.127  2-dehydro-3-deoxy-D-gluconate 5-dehydrogenase",
+        "tree": "enzymes",
+        "tree_code": "ko01000"
+      }
+    },
+    {
+      "anchor": true,
+      "id": "clustering_analysis:mSystems.00181-16:bp1_light_clusters",
+      "label": "ClusteringAnalysis",
+      "properties": {
+        "cluster_count": 4,
+        "cluster_method": "hierarchical clustering",
+        "cluster_type": "condition_comparison",
+        "name": "BP-1 transcript clusters by light condition (coculture with M. ruber)",
+        "omics_type": "RNASEQ",
+        "organism_name": "Thermosynechococcus vestitus BP-1"
+      }
+    },
+    {
+      "anchor": false,
+      "id": "clustering_analysis:ismej.2011.49:med4_iron_response_clusters",
+      "label": "ClusteringAnalysis",
+      "properties": {
+        "cluster_count": 10,
+        "cluster_method": "Hierarchical clustering (paper Figure 3)",
+        "cluster_type": "time_course",
+        "name": "MED4 iron-response hierarchical clusters (Thompson 2011 Fig 3)",
+        "omics_type": "MICROARRAY",
+        "organism_name": "Prochlorococcus MED4"
+      }
+    },
+    {
+      "anchor": false,
+      "id": "clustering_analysis:ismej.2011.49:mit9313_iron_response_clusters",
+      "label": "ClusteringAnalysis",
+      "properties": {
+        "cluster_count": 20,
+        "cluster_method": "Hierarchical clustering (paper Figure 3)",
+        "cluster_type": "time_course",
+        "name": "MIT9313 iron-response hierarchical clusters (Thompson 2011 Fig 3)",
+        "omics_type": "MICROARRAY",
+        "organism_name": "Prochlorococcus MIT9313"
+      }
+    },
+    {
+      "anchor": false,
+      "id": "clustering_analysis:journal.pone.0005135:med4_diel_clusters",
+      "label": "ClusteringAnalysis",
+      "properties": {
+        "cluster_count": 18,
+        "cluster_method": "Soft clustering (Mfuzz, c=16, m=1.25)",
+        "cluster_type": "diel",
+        "name": "MED4 diel cycling expression clusters",
+        "omics_type": "MICROARRAY",
+        "organism_name": "Prochlorococcus MED4"
+      }
+    },
+    {
+      "anchor": false,
+      "id": "clustering_analysis:mSystems.00181-16:bp1_oxygen_clusters",
+      "label": "ClusteringAnalysis",
+      "properties": {
+        "cluster_count": 4,
+        "cluster_method": "hierarchical clustering",
+        "cluster_type": "condition_comparison",
+        "name": "BP-1 transcript clusters by oxygen condition (coculture with M. ruber)",
+        "omics_type": "RNASEQ",
+        "organism_name": "Thermosynechococcus vestitus BP-1"
+      }
+    },
+    {
+      "anchor": true,
+      "id": "cluster:mSystems.00181-16:bp1_light_clusters:C",
+      "label": "GeneCluster",
+      "properties": {
+        "member_count": 929,
+        "name": "Thermosynechococcus elongatus cluster C (irradiance-responsive)",
+        "organism_name": "Thermosynechococcus vestitus BP-1"
+      }
+    },
+    {
+      "anchor": false,
+      "id": "cluster:ismej.2011.49:med4_iron_response_clusters:1",
+      "label": "GeneCluster",
+      "properties": {
+        "member_count": 1,
+        "name": "Prochlorococcus MED4 cluster 1 (1 genes)",
+        "organism_name": "Prochlorococcus MED4"
+      }
+    },
+    {
+      "anchor": false,
+      "id": "cluster:ismej.2011.49:med4_iron_response_clusters:13",
+      "label": "GeneCluster",
+      "properties": {
+        "member_count": 7,
+        "name": "Prochlorococcus MED4 cluster 13 (7 genes)",
+        "organism_name": "Prochlorococcus MED4"
+      }
+    },
+    {
+      "anchor": false,
+      "id": "cluster:ismej.2011.49:med4_iron_response_clusters:16",
+      "label": "GeneCluster",
+      "properties": {
+        "member_count": 2,
+        "name": "Prochlorococcus MED4 cluster 16 (4 genes)",
+        "organism_name": "Prochlorococcus MED4"
+      }
+    },
+    {
+      "anchor": false,
+      "id": "cluster:ismej.2011.49:med4_iron_response_clusters:19",
+      "label": "GeneCluster",
+      "properties": {
+        "member_count": 59,
+        "name": "Prochlorococcus MED4 cluster 19 (63 genes)",
+        "organism_name": "Prochlorococcus MED4"
+      }
+    },
+    {
+      "anchor": false,
+      "id": "cluster:ismej.2011.49:med4_iron_response_clusters:22",
+      "label": "GeneCluster",
+      "properties": {
+        "member_count": 1,
+        "name": "Prochlorococcus MED4 cluster 22 (1 genes)",
+        "organism_name": "Prochlorococcus MED4"
+      }
+    },
+    {
+      "anchor": true,
+      "id": "data_source:ncbi",
+      "label": "DataSource",
+      "properties": {
+        "description": "NCBI RefSeq genome annotation (GFF + GenBank).",
+        "provenance": "download",
+        "scope": "gene_level"
+      }
+    },
+    {
+      "anchor": true,
+      "id": "data_source:cyanorak",
+      "label": "DataSource",
+      "properties": {
+        "description": "Cyanorak: curated cyanobacteria gene clusters and roles.",
+        "provenance": "download",
+        "scope": "organism_restricted"
+      }
+    },
+    {
+      "anchor": true,
+      "id": "data_source:eggnog",
+      "label": "DataSource",
+      "properties": {
+        "description": "EggNOG-mapper functional annotations (per-protein query against the eggNOG reference).",
+        "provenance": "tool_run",
+        "scope": "gene_level"
+      }
+    },
+    {
+      "anchor": true,
+      "id": "data_source:uniprot",
+      "label": "DataSource",
+      "properties": {
+        "description": "UniProt proteins (reviewed + unreviewed) cross-referenced via RefSeq protein_id.",
+        "provenance": "download",
+        "scope": "gene_level"
       }
     }
   ]

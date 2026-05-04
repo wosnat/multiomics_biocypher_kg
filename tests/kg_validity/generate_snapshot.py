@@ -68,6 +68,54 @@ ANCHOR_NODES = {
         # Waldbauer 2012 numeric DM — stable distribution (peak phase 0–24h)
         "derived_metric:journal.pone.0043432:table_s2_waldbauer_diel_metrics:peak_time_protein_h",
     ],
+    # Metabolism scaffold (KEGG-primary)
+    "Reaction": [
+        "kegg.reaction:R11945",   # NADH:ubiquinone oxidoreductase — universal, top gene_count
+    ],
+    "Metabolite": [
+        "kegg.compound:C00002",   # ATP — universal, multi-pathway
+        "kegg.compound:C00031",   # D-Glucose
+    ],
+    # Phase 2 metabolomics
+    "MetaboliteAssay": [
+        # Kujawinski 2023 MIT9301 intracellular — stable across rebuilds
+        "metabolite_assay:msystems.01261-22:metabolites_kegg_export_9301_intracellular:cellular_concentration",
+    ],
+    # Pfam normalization
+    "Pfam": [
+        "pfam:PF00005",   # ABC_tran — ubiquitous transporter domain
+    ],
+    "PfamClan": [
+        "pfam.clan:CL0023",   # P-loop_NTPase — large, stable
+    ],
+    # TCDB transport ontology
+    "TcdbFamily": [
+        "tcdb:1",            # Channels and Pores — class root
+        "tcdb:3.A.1.4.4",    # Polar amino acid ABC transporter — leaf with many genes
+    ],
+    # CAZy carbohydrate-active enzymes
+    "CazyFamily": [
+        "cazy:GH",   # Glycoside Hydrolases class root
+        "cazy:GT2",  # GT2 family — top gene count
+    ],
+    # KEGG BRITE functional hierarchies
+    "BriteCategory": [
+        "kegg.brite:ko01000.A1",  # Enzymes / Oxidoreductases — A-level root
+    ],
+    # Clustering layer
+    "ClusteringAnalysis": [
+        "clustering_analysis:mSystems.00181-16:bp1_light_clusters",
+    ],
+    "GeneCluster": [
+        "cluster:mSystems.00181-16:bp1_light_clusters:C",  # 929 members
+    ],
+    # Provenance nodes (4 total, all stable)
+    "DataSource": [
+        "data_source:ncbi",
+        "data_source:cyanorak",
+        "data_source:eggnog",
+        "data_source:uniprot",
+    ],
 }
 
 # Key properties to capture per node type
@@ -101,6 +149,34 @@ NODE_PROPERTIES = {
         # categorical distribution (categorical DMs only)
         "category_labels", "category_counts",
     ],
+    # Metabolism scaffold (KEGG-primary IDs)
+    "Reaction": [
+        "name", "kegg_reaction_id", "reaction_class", "mass_balance",
+    ],
+    "Metabolite": [
+        "name", "kegg_compound_id", "formula", "mass",
+    ],
+    # Phase 2 metabolomics
+    "MetaboliteAssay": [
+        "name", "metric_type", "value_kind", "experiment_id",
+        "organism_name", "compartment", "omics_type",
+        "rankable", "aggregation_method",
+    ],
+    # Pfam
+    "Pfam": ["name", "short_name"],
+    "PfamClan": ["name"],
+    # TCDB / CAZy / BRITE — share the same level/level_kind unified-ontology shape
+    "TcdbFamily": ["name", "tcdb_id", "level", "level_kind"],
+    "CazyFamily": ["name", "cazy_id", "level", "level_kind"],
+    "BriteCategory": ["name", "tree", "tree_code", "level", "level_kind"],
+    # Clustering layer
+    "ClusteringAnalysis": [
+        "name", "organism_name", "cluster_method", "cluster_type",
+        "cluster_count", "omics_type",
+    ],
+    "GeneCluster": ["name", "organism_name", "member_count"],
+    # Provenance — 4 stable nodes
+    "DataSource": ["scope", "provenance", "description"],
 }
 
 # Key properties to capture per edge type
@@ -145,6 +221,45 @@ EDGE_PROPERTIES = {
         "metric_type", "value", "adjusted_p_value",
         "rank_by_metric", "metric_percentile", "metric_bucket", "significant",
     ],
+    # Metabolism scaffold edges
+    "Gene_catalyzes_reaction": [],
+    "Reaction_has_metabolite": [],
+    "Reaction_in_kegg_pathway": [],
+    "Metabolite_in_pathway": [],
+    "Organism_has_metabolite": [],
+    # Phase 2 metabolomics — measurement + binding edges
+    "Assay_quantifies_metabolite": [
+        "value", "n_replicates", "metric_bucket",
+    ],
+    "Assay_flags_metabolite": [
+        "flag_value", "n_replicates", "n_positive",
+    ],
+    "PublicationHasMetaboliteAssay": [],
+    "ExperimentHasMetaboliteAssay": [],
+    "MetaboliteAssayBelongsToOrganism": [],
+    # Pfam edges
+    "Gene_has_pfam": [],
+    "Pfam_in_pfam_clan": [],
+    # TCDB edges (gene-attach is at the most specific eggNOG-annotated level;
+    # transports rolled up from tc_specificity leaves)
+    "Gene_has_tcdb_family": [],
+    "Tcdb_family_is_a_tcdb_family": [],
+    "Tcdb_family_transports_metabolite": [],
+    # CAZy edges
+    "Gene_has_cazy_family": [],
+    "Cazy_family_is_a_cazy_family": [],
+    # KEGG BRITE edges
+    "Brite_category_is_a_brite_category": [],
+    "Kegg_term_in_brite_category": [],
+    # OrthologGroup rollup edges (majority-vote from member genes)
+    "Og_has_cyanorak_role": [],
+    "Og_in_cog_category": [],
+    # Clustering layer edges
+    "PublicationHasClusteringAnalysis": [],
+    "ClusteringAnalysisHasGeneCluster": [],
+    "ClusteringanalysisBelongsToOrganism": [],
+    "ExperimentHasClusteringAnalysis": [],
+    "Gene_in_gene_cluster": [],
 }
 
 SAMPLE_SIZE = 5
