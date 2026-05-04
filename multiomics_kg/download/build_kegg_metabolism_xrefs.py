@@ -810,7 +810,11 @@ def _fold_paper_metabolites_into_kegg_data(
     additional = kegg_data.setdefault("additional_compounds", {})
 
     for raw_id in paper_kegg_cpds:
-        cpd_id = raw_id if raw_id.startswith("kegg.compound:") else f"kegg.compound:{raw_id}"
+        # paper_kegg_cpds elements are bare C-numbers (the prefix-stripped form
+        # added by _harvest_paper_metabolites at L679). compounds is keyed by
+        # bare C-numbers too — look up directly. Earlier code re-added the
+        # `kegg.compound:` prefix before lookup, which always missed.
+        cpd_id = raw_id[len("kegg.compound:"):] if raw_id.startswith("kegg.compound:") else raw_id
         entry = compounds.get(cpd_id)
         if entry is None:
             # Should not happen if main() extended the cpds set, but guard anyway
