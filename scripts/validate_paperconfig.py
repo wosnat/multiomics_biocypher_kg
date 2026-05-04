@@ -1117,6 +1117,165 @@ def _validate_derived_metrics_entry(
                     )
 
 
+# Phase 2 metabolomics — vocab enforced by validator
+METABOLITE_COMPARTMENT_VOCAB = {"whole_cell", "vesicle", "exoproteome", "extracellular"}
+METABOLITE_AGG_METHOD_VOCAB = {"mean_across_replicates", "pre_aggregated", "single_measurement"}
+METABOLITE_CELL_FORMAT_VOCAB = {"numeric", "embedded_mean_sd_n"}
+METABOLITE_VALUE_KIND_VOCAB = {"numeric", "boolean"}
+
+
+def _validate_metabolite_assays_entry(
+    key: str, table: dict, config_path: str,
+    experiments: dict,
+    all_canonical_organisms: set,
+    errors: list, warnings: list,
+) -> None:
+    """Validate a type: metabolite_assays_table supplementary entry (Phase 2).
+
+    Required entry-level: filename, experiment, organism, name_col, assays.
+    Per-assay required: metric_type, value_kind, sample_columns, field_description.
+    metric_type uniqueness within entry.
+    Numeric assays require sample_columns[*].replicate_columns: list[str] (≥1).
+    Boolean assays require sample_columns[*].flag_column + flag_true_value.
+    Compartment must come from the parent Experiment (we do not duplicate it on
+    the assay); enforce that the parent experiment's compartment is in the
+    Phase-2 vocab.
+    """
+    prefix = f"{config_path} | {key} | metabolite_assays_table"
+
+    # Required top-level fields
+    for req in ("filename", "experiment", "organism", "name_col", "assays"):
+        if req not in table or table.get(req) in (None, "", []):
+            errors.append(f"{prefix} missing required field '{req}'")
+
+    # If we already failed required fields, bail to avoid noisy downstream errors
+    if any(prefix in e and "missing required field" in e for e in errors):
+        return
+
+    # experiment reference + compartment enforcement
+    exp_key = table.get("experiment", "")
+    if exp_key and exp_key not in experiments:
+        errors.append(f"{prefix} experiment '{exp_key}' not found in paperconfig.experiments")
+    else:
+        exp = experiments.get(exp_key, {}) or {}
+        comp = exp.get("compartment", "whole_cell")
+        if comp not in METABOLITE_COMPARTMENT_VOCAB:
+            errors.append(
+                f"{prefix} experiment '{exp_key}' has compartment '{comp}' "
+                f"not in v1 vocab {sorted(METABOLITE_COMPARTMENT_VOCAB)}"
+            )
+        # Organism cross-check between entry-level and experiment
+        if exp.get("organism") and table.get("organism") and exp["organism"] != table["organism"]:
+            errors.append(
+                f"{prefix} organism '{table['organism']}' does not match "
+                f"experiment '{exp_key}' organism '{exp['organism']}'"
+            )
+
+    # organism vocab
+    organism = table.get("organism", "")
+    if organism and organism not in all_canonical_organisms:
+        errors.append(_canonical_organism_error(config_path, key, organism, all_canonical_organisms))
+
+    # entry-level enums (optional)
+    if "aggregation_method" in table and table["aggregation_method"] not in METABOLITE_AGG_METHOD_VOCAB:
+        errors.append(
+            f"{prefix} aggregation_method '{table['aggregation_method']}' "
+            f"not in {sorted(METABOLITE_AGG_METHOD_VOCAB)}"
+        )
+    if "cell_format" in table and table["cell_format"] not in METABOLITE_CELL_FORMAT_VOCAB:
+        errors.append(
+            f"{prefix} cell_format '{table['cell_format']}' not in {sorted(METABOLITE_CELL_FORMAT_VOCAB)}"
+        )
+
+    # CSV existence dry-check
+    filename = table.get("filename", "")
+    if filename and not os.path.exists(filename):
+        errors.append(f"{prefix} file not found: {filename}")
+
+    # aliases_file existence
+    aliases_file = table.get("aliases_file")
+    if aliases_file:
+        # paper-local relative path
+        paperconfig_dir = os.path.dirname(os.path.abspath(config_path))
+        full = os.path.join(paperconfig_dir, aliases_file)
+        if not os.path.exists(full):
+            warnings.append(f"{prefix} aliases_file not found: {full}")
+
+    # assays
+    assays = table.get("assays") or []
+    if not isinstance(assays, list) or not assays:
+        errors.append(f"{prefix} 'assays' must be a non-empty list")
+        return
+
+    seen_metric_types: set = set()
+    for i, assay in enumerate(assays):
+        a_prefix = f"{prefix}.assays[{i}]"
+        for req in ("metric_type", "value_kind", "sample_columns", "field_description"):
+            if req not in assay or assay.get(req) in (None, "", []):
+                errors.append(f"{a_prefix} missing required field '{req}'")
+        if any(a_prefix in e and "missing required field" in e for e in errors):
+            continue
+
+        mt = assay["metric_type"]
+        if mt in seen_metric_types:
+            errors.append(f"{a_prefix} duplicate metric_type '{mt}' within entry")
+        seen_metric_types.add(mt)
+
+        vk = assay["value_kind"]
+        if vk not in METABOLITE_VALUE_KIND_VOCAB:
+            errors.append(f"{a_prefix} value_kind '{vk}' not in {sorted(METABOLITE_VALUE_KIND_VOCAB)}")
+
+        if "aggregation_method" in assay and assay["aggregation_method"] not in METABOLITE_AGG_METHOD_VOCAB:
+            errors.append(
+                f"{a_prefix} aggregation_method '{assay['aggregation_method']}' "
+                f"not in {sorted(METABOLITE_AGG_METHOD_VOCAB)}"
+            )
+
+        sample_cols = assay.get("sample_columns") or []
+        if not isinstance(sample_cols, list) or not sample_cols:
+            errors.append(f"{a_prefix} 'sample_columns' must be a non-empty list")
+            continue
+
+        for j, sc in enumerate(sample_cols):
+            sc_prefix = f"{a_prefix}.sample_columns[{j}]"
+            if vk == "numeric":
+                rc = sc.get("replicate_columns")
+                if not isinstance(rc, list) or not rc:
+                    errors.append(
+                        f"{sc_prefix} numeric assay requires replicate_columns: list[str] (non-empty)"
+                    )
+            elif vk == "boolean":
+                if not sc.get("flag_column"):
+                    errors.append(f"{sc_prefix} boolean assay requires 'flag_column'")
+                if "flag_true_value" not in sc:
+                    errors.append(f"{sc_prefix} boolean assay requires 'flag_true_value'")
+
+
+def _report_backlog(paths) -> int:
+    """Scan paperconfig YAML files for '# BACKLOG:' lines and print per-file."""
+    import re as _re
+    pattern = _re.compile(r"#\s*BACKLOG:?\s*(.*)")
+    total = 0
+    for path in paths:
+        try:
+            with open(path) as f:
+                lines = f.readlines()
+        except OSError:
+            continue
+        hits = []
+        for lineno, line in enumerate(lines, start=1):
+            m = pattern.search(line)
+            if m:
+                hits.append((lineno, m.group(1).strip() or "(no message)"))
+        if hits:
+            print(f"\n{path}: {len(hits)} backlog markers")
+            for lineno, msg in hits:
+                print(f"  line {lineno}: {msg}")
+            total += len(hits)
+    print(f"\nTotal: {total} backlog markers across {len(paths)} file(s).")
+    return 0
+
+
 def validate_paperconfig_content(
     config: dict, config_path: str,
 ) -> tuple[list[str], list[str]]:
@@ -1244,6 +1403,19 @@ def validate_paperconfig_content(
             _validate_derived_metrics_entry(
                 table_key, table, config_path,
                 all_canonical_organisms, errors, warnings,
+            )
+            continue
+
+        # ── metabolite_assays_table (Phase 2 metabolomics) ──────────────────
+        if table_type == "metabolite_assays_table":
+            experiments = (
+                (config.get("publication") or {}).get("experiments")
+                or config.get("experiments")
+                or {}
+            )
+            _validate_metabolite_assays_entry(
+                table_key, table, config_path,
+                experiments, all_canonical_organisms, errors, warnings,
             )
             continue
 
@@ -1555,6 +1727,14 @@ def _print_results(errors, warnings):
 
 
 if __name__ == "__main__":
+    if len(sys.argv) >= 2 and sys.argv[1] == "--report-backlog":
+        # Scan one or more paperconfigs (or --all) for "# BACKLOG:" markers
+        if len(sys.argv) == 2:
+            paths = [str(p) for p, _ in load_all_paperconfigs()]
+        else:
+            paths = sys.argv[2:]
+        sys.exit(_report_backlog(paths))
+
     if len(sys.argv) == 2 and sys.argv[1] == "--all":
         # Validate all paperconfigs from paperconfig_files.txt
         all_configs = load_all_paperconfigs()
@@ -1579,6 +1759,7 @@ if __name__ == "__main__":
     if len(sys.argv) != 2:
         print(f"Usage: {sys.argv[0]} <path_to_paperconfig.yaml>")
         print(f"       {sys.argv[0]} --all")
+        print(f"       {sys.argv[0]} --report-backlog [<paperconfig.yaml> ...]")
         sys.exit(2)
 
     config_path = sys.argv[1]
