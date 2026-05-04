@@ -15,7 +15,7 @@ C00334,GABA,0,0,0,0,0,0,0,0,0,0,0,0,0,kegg.compound:C00334,kegg_direct
 C01279,HMP,0,0,0,0,0,0,0,0,0,0,0,0,0,kegg.compound:C01279,kegg_direct
 C00004,NAD pos,20.9,0,1.41E-07,0,0,0,0,0,7.73E-08,1.42E-07,2.90E-07,0,0,kegg.compound:C00004,kegg_direct
 C00134,Putrescine,0,0,0,5.14E-09,0,0,0,1.38E-09,0,0,0,0,0,kegg.compound:C00134,kegg_direct
-0,acetyltaurine,0,0,0,0,0,0,0,0,0,0,0,0,0,kegg.compound:0,kegg_direct
+0,acetyltaurine,0,0,0,0,0,0,0,0,0,0,0,0,0,chebi:133737,name_match
 C00147,adenine pos,0,2.05E-08,6.62E-09,0,0,0,0,0,0,0,0,0,0,kegg.compound:C00147,kegg_direct
 C00212,adenosine,6.5,0,4.12E-09,0,0,0,0,0,0,0,0,0,0,kegg.compound:C00212,kegg_direct
 C00020,adenosine 5'-monophosphate pos,0.2,0,1.90E-08,0,0,0,0,0,5.74E-08,5.36E-08,9.62E-08,9.70E-08,8.35E-08,kegg.compound:C00020,kegg_direct
@@ -26,7 +26,7 @@ C00719,betaine,0,0,0,0,0,0,0,0,3.00E-09,0,0,1.98E-05,3.16E-05,kegg.compound:C007
 C00120,biotin neg,52.8,0,0,0,0,0,0,0,0,0,0,0,0,kegg.compound:C00120,kegg_direct
 C07481,caffeine,23.5,0,0,0,0,0,0,0,0,0,0,0,0,kegg.compound:C07481,kegg_direct
 C01674,chitobiose pos,0.3,0,0,0,0,0,0,0,0,0,0,3.28E-08,6.72E-08,kegg.compound:C01674,kegg_direct
-0,chitotriose,5.6,0,0,0,0,0,0,0,0,0,0,0,0,kegg.compound:0,kegg_direct
+0,chitotriose,5.6,0,0,0,0,0,0,0,0,0,0,0,0,chebi:143141,name_match
 C00114,choline,0,0,0,0,0,0,0,0,0,0,0,0,0,kegg.compound:C00114,kegg_direct
 C03557,ciliatine,0,0,0,0,0,0,0,0,0,0,0,0,0,kegg.compound:C03557,kegg_direct
 C00158,citric acid,0.9,0,0,0,0,0,0,0,0,0,0,0,0,kegg.compound:C00158,kegg_direct
@@ -70,7 +70,7 @@ C05786,phycocyanobilin,0,0,0,0,0,0,0,0,0,0,0,0,0,kegg.compound:C05786,kegg_direc
 C00148,proline,0,0,0,0,0,0,0,0,3.60E-09,3.96E-09,1.11E-08,4.20E-09,2.95E-09,kegg.compound:C00148,kegg_direct
 C00314,pyridoxine,6.8,0,0,0,0,0,0,0,0,0,0,0,0,kegg.compound:C00314,kegg_direct
 C00255,riboflavin,87.6,0,0,0,0,0,0,0,0,0,0,0,0,kegg.compound:C00255,kegg_direct
-0,s-(1-2-dicarboxyethyl)glutathione pos,NaN,7.73E-10,0,0,0,0,0,0,0,0,0,0,0,kegg.compound:0,kegg_direct
+0,s-(1-2-dicarboxyethyl)glutathione pos,NaN,7.73E-10,0,0,0,0,0,0,0,0,0,0,0,,unresolved
 C00021,s-(5'-adenosyl)-L-homocysteine pos,43.3,0,8.40E-10,0,0,0,0,0,2.38E-09,3.05E-09,5.14E-09,7.19E-09,1.01E-08,kegg.compound:C00021,kegg_direct
 C00019,s-adenosyl-L-methionine,0,0,3.71E-08,0,0,0,0,0,1.07E-08,4.82E-08,1.51E-08,1.15E-08,1.35E-08,kegg.compound:C00019,kegg_direct
 C00213,sarcosine,0,0,0,0,0,0,0,0,0,0,0,0,0,kegg.compound:C00213,kegg_direct
