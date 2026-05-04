@@ -43,7 +43,10 @@ publication:
         MIT0801 cells in Pro99; replete; 10 umol photons m-2 s-1; axenic.
         Filter samples = intracellular pool, per-cell concentrations (mol/cell).
       omics_type: METABOLOMICS
-      treatment_type: []
+      # Baseline characterization across ecotypes — no within-experiment
+      # treatment manipulation; growth_phase is the canonical vocab token
+      # for "multi-condition comparison without a primary treatment axis".
+      treatment_type: ["growth_phase"]
       background_factors: ["axenic"]
       compartment: whole_cell
       medium: "Pro99"
@@ -58,7 +61,7 @@ publication:
         MIT0801 cells in Pro99; replete; 10 umol photons m-2 s-1; axenic.
         Supernatant samples = extracellular pool, per-cell-equivalent concentrations.
       omics_type: METABOLOMICS
-      treatment_type: []
+      treatment_type: ["growth_phase"]
       background_factors: ["axenic"]
       compartment: extracellular
       medium: "Pro99"
@@ -73,7 +76,7 @@ publication:
         MIT9313 cells in Pro99; replete; 5 + 10 umol photons m-2 s-1; axenic.
         Filter samples = intracellular pool, per-cell concentrations (mol/cell).
       omics_type: METABOLOMICS
-      treatment_type: []
+      treatment_type: ["growth_phase"]
       background_factors: ["axenic"]
       compartment: whole_cell
       medium: "Pro99"
@@ -88,7 +91,7 @@ publication:
         MIT9313 cells in Pro99; replete; 5 + 10 umol photons m-2 s-1; axenic.
         Supernatant samples = extracellular pool, per-cell-equivalent concentrations.
       omics_type: METABOLOMICS
-      treatment_type: []
+      treatment_type: ["growth_phase"]
       background_factors: ["axenic"]
       compartment: extracellular
       medium: "Pro99"
