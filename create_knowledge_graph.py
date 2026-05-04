@@ -6,6 +6,7 @@ from biocypher import BioCypher
 from multiomics_kg.adapters.omics_adapter import MultiOMICSAdapter
 from multiomics_kg.adapters.cluster_adapter import MultiClusterAdapter
 from multiomics_kg.adapters.observations_adapter import MultiObservationsAdapter
+from multiomics_kg.adapters.metabolite_assay_adapter import MultiMetaboliteAssayAdapter
 from multiomics_kg.adapters.uniprot_adapter import MultiUniprot
 from multiomics_kg.adapters.go_adapter import GO
 
@@ -142,6 +143,18 @@ def main():
         bc.write_nodes(obs_nodes)
     if obs_edges:
         bc.write_edges(obs_edges)
+
+    # Phase 2 metabolomics: MetaboliteAssay nodes + assay_quantifies/flags_metabolite
+    # edges + 3 binding edges (Publication / Experiment / Organism). Mirrors
+    # MultiObservationsAdapter — registry-driven, dormant when no paperconfig has
+    # metabolite_assays_table entries.
+    metabolite_assay_adapter = MultiMetaboliteAssayAdapter(test_mode=TEST_MODE)
+    ma_nodes = list(metabolite_assay_adapter.get_nodes())
+    ma_edges = list(metabolite_assay_adapter.get_edges())
+    if ma_nodes:
+        bc.write_nodes(ma_nodes)
+    if ma_edges:
+        bc.write_edges(ma_edges)
 
     # Gene → GO annotation edges + GO hierarchy subset (lightweight, always runs)
     go_anno_adapter = MultiGoAnnotationAdapter(
