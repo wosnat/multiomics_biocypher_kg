@@ -328,4 +328,79 @@ RETURN count(g) AS total_genes,
        count(CASE WHEN size(g.compartments_observed) > 0 THEN 1 END) AS genes_with_compartment;
 CYPHER
 
+# ----------------------------------------------------------------------------
+# Phase 2 metabolomics (MetaboliteAssay + Assay edges + measured_* rollups)
+# ----------------------------------------------------------------------------
+section "METABOLITEASSAY NODE AGGREGATES"
+CYPHER <<'CYPHER'
+MATCH (a:MetaboliteAssay)
+RETURN count(a) AS n_assays,
+       count(DISTINCT a.organism_name) AS n_organisms,
+       count(DISTINCT a.compartment) AS n_compartments,
+       count(DISTINCT a.metric_type) AS n_metric_types,
+       count(DISTINCT a.value_kind) AS n_value_kinds,
+       sum(coalesce(a.total_metabolite_count, 0)) AS sum_total_metabolite_count,
+       sum(CASE WHEN a.value_kind = 'numeric' THEN 1 ELSE 0 END) AS n_numeric,
+       sum(CASE WHEN a.value_kind = 'boolean' THEN 1 ELSE 0 END) AS n_boolean
+ORDER BY n_assays;
+CYPHER
+
+section "ASSAY EDGE AGGREGATES"
+CYPHER <<'CYPHER'
+MATCH ()-[r:Assay_quantifies_metabolite]->()
+RETURN 'quantifies' AS edge, count(r) AS total, count(r.value) AS with_value,
+       count(DISTINCT r.detection_status) AS distinct_detection_statuses,
+       count(r.rank_by_metric) AS with_rank
+UNION ALL
+MATCH ()-[r:Assay_flags_metabolite]->()
+RETURN 'flags' AS edge, count(r) AS total, count(r.flag_value) AS with_value,
+       count(DISTINCT r.flag_value) AS distinct_detection_statuses,
+       0 AS with_rank
+ORDER BY edge;
+CYPHER
+
+section "ORGANISM_HAS_METABOLITE EVIDENCE_SOURCES"
+CYPHER <<'CYPHER'
+MATCH (o:OrganismTaxon)-[r:Organism_has_metabolite]->(m:Metabolite)
+WITH r.evidence_sources AS sources
+RETURN coalesce(apoc.text.join(sources, ','), '<null>') AS sources_combo,
+       count(*) AS n
+ORDER BY sources_combo;
+CYPHER
+
+section "METABOLITE MEASURED_* ROLLUPS"
+CYPHER <<'CYPHER'
+MATCH (m:Metabolite)
+RETURN count(m) AS total_metabolites,
+       sum(coalesce(m.measured_assay_count, 0)) AS sum_measured_assay_count,
+       sum(coalesce(m.measured_paper_count, 0)) AS sum_measured_paper_count,
+       count(CASE WHEN size(coalesce(m.measured_organisms, [])) > 0 THEN 1 END) AS metabolites_with_org,
+       count(CASE WHEN 'metabolomics' IN coalesce(m.evidence_sources, []) THEN 1 END) AS metabolites_with_metabolomics_evidence;
+CYPHER
+
+section "EXPERIMENT/PUBLICATION/ORGANISM METABOLITE ROLLUPS"
+CYPHER <<'CYPHER'
+MATCH (e:Experiment)
+WITH 'Experiment' AS node_type,
+     count(e) AS total,
+     sum(coalesce(e.metabolite_assay_count, 0)) AS sum_assay_count,
+     sum(coalesce(e.metabolite_count, 0)) AS sum_count
+RETURN node_type, total, sum_assay_count, sum_count
+UNION ALL
+MATCH (p:Publication)
+WITH 'Publication' AS node_type,
+     count(p) AS total,
+     sum(coalesce(p.metabolite_assay_count, 0)) AS sum_assay_count,
+     sum(coalesce(p.metabolite_count, 0)) AS sum_count
+RETURN node_type, total, sum_assay_count, sum_count
+UNION ALL
+MATCH (o:OrganismTaxon)
+WITH 'OrganismTaxon' AS node_type,
+     count(o) AS total,
+     0 AS sum_assay_count,
+     sum(coalesce(o.measured_metabolite_count, 0)) AS sum_count
+RETURN node_type, total, sum_assay_count, sum_count
+ORDER BY node_type;
+CYPHER
+
 printf '\n\n======== END ========\n'

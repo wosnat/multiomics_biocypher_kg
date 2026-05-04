@@ -1099,3 +1099,205 @@ CALL {
   SET m.organism_names = apoc.coll.sort([o IN orgs | o.preferred_name]),
       m.organism_count = size(orgs)
 } IN TRANSACTIONS OF 1000 ROWS;
+
+// ── Phase 2 metabolomics: MetaboliteAssay indexes + rollups ───────────────────
+
+CREATE INDEX metabolite_assay_organism_idx     IF NOT EXISTS FOR (a:MetaboliteAssay) ON (a.organism_name);
+CREATE INDEX metabolite_assay_compartment_idx  IF NOT EXISTS FOR (a:MetaboliteAssay) ON (a.compartment);
+CREATE INDEX metabolite_assay_metric_type_idx  IF NOT EXISTS FOR (a:MetaboliteAssay) ON (a.metric_type);
+CREATE INDEX metabolite_assay_value_kind_idx   IF NOT EXISTS FOR (a:MetaboliteAssay) ON (a.value_kind);
+CREATE INDEX metabolite_assay_experiment_idx   IF NOT EXISTS FOR (a:MetaboliteAssay) ON (a.experiment_id);
+CREATE FULLTEXT INDEX metaboliteAssayFullText  IF NOT EXISTS
+  FOR (a:MetaboliteAssay) ON EACH [a.name, a.field_description, a.treatment, a.experimental_context];
+
+// MetaboliteAssay numeric ranks: per-assay, only when rankable='true'.
+// Mirrors DerivedMetric pattern (per-assay scope, deterministic Metabolite.id tiebreaker,
+// pinned bucket thresholds 90/75/25).
+MATCH (a:MetaboliteAssay {rankable: 'true'})
+CALL {
+  WITH a
+  MATCH (a)-[r:Assay_quantifies_metabolite]->(m:Metabolite)
+  WITH r, r.value AS val, m.id AS mid
+  ORDER BY val DESC, mid ASC
+  WITH collect(r) AS edges, count(r) AS n
+  UNWIND range(0, size(edges) - 1) AS i
+  WITH edges[i] AS r, i, n,
+       CASE WHEN n = 1 THEN 100.0
+            ELSE 100.0 * toFloat(n - i - 1) / toFloat(n - 1)
+       END AS pct
+  SET r.rank_by_metric = i + 1,
+      r.metric_percentile = pct,
+      r.metric_bucket = CASE
+        WHEN pct >= 90.0 THEN 'top_decile'
+        WHEN pct >= 75.0 THEN 'top_quartile'
+        WHEN pct >= 25.0 THEN 'mid'
+        ELSE 'low'
+      END
+} IN TRANSACTIONS OF 10 ROWS;
+
+// MetaboliteAssay total_metabolite_count
+MATCH (a:MetaboliteAssay)
+CALL {
+  WITH a
+  OPTIONAL MATCH (a)-[r:Assay_quantifies_metabolite|Assay_flags_metabolite]->(m:Metabolite)
+  WITH a, count(DISTINCT m) AS cnt
+  SET a.total_metabolite_count = cnt
+} IN TRANSACTIONS OF 100 ROWS;
+
+// Numeric distribution stats (null for boolean assays)
+MATCH (a:MetaboliteAssay {value_kind: 'numeric'})
+CALL {
+  WITH a
+  MATCH (a)-[r:Assay_quantifies_metabolite]->()
+  WITH a,
+       min(r.value) AS vmin, max(r.value) AS vmax,
+       percentileDisc(r.value, 0.25) AS q1,
+       percentileDisc(r.value, 0.5)  AS med,
+       percentileDisc(r.value, 0.75) AS q3
+  SET a.value_min = vmin, a.value_max = vmax,
+      a.value_q1 = q1, a.value_median = med, a.value_q3 = q3
+} IN TRANSACTIONS OF 100 ROWS;
+
+// Boolean flag counts (null for numeric assays)
+MATCH (a:MetaboliteAssay {value_kind: 'boolean'})
+CALL {
+  WITH a
+  MATCH (a)-[r:Assay_flags_metabolite]->()
+  WITH a,
+       sum(CASE WHEN r.flag_value='true'  THEN 1 ELSE 0 END) AS t,
+       sum(CASE WHEN r.flag_value='false' THEN 1 ELSE 0 END) AS f
+  SET a.flag_true_count = t, a.flag_false_count = f
+} IN TRANSACTIONS OF 100 ROWS;
+
+// growth_phases from parent Experiment (mirrors DerivedMetric.growth_phases)
+MATCH (a:MetaboliteAssay)
+CALL {
+  WITH a
+  OPTIONAL MATCH (a)<-[:ExperimentHasMetaboliteAssay]-(e:Experiment)
+  WITH a, coalesce(e.growth_phases, []) AS phases
+  SET a.growth_phases = phases
+} IN TRANSACTIONS OF 100 ROWS;
+
+// ── Metabolite measured_* properties (Phase 2) ────────────────────────────────
+
+MATCH (m:Metabolite)
+CALL {
+  WITH m
+  OPTIONAL MATCH (m)<-[:Assay_quantifies_metabolite|Assay_flags_metabolite]-(a:MetaboliteAssay)
+  OPTIONAL MATCH (a)-[:MetaboliteAssayBelongsToOrganism]->(o:OrganismTaxon)
+  OPTIONAL MATCH (a)<-[:PublicationHasMetaboliteAssay]-(p:Publication)
+  WITH m,
+       count(DISTINCT a) AS acnt,
+       collect(DISTINCT o.preferred_name) AS orgs,
+       count(DISTINCT p) AS pcnt
+  SET m.measured_assay_count = acnt,
+      m.measured_organisms = apoc.coll.sort([x IN orgs WHERE x IS NOT NULL]),
+      m.measured_paper_count = pcnt
+} IN TRANSACTIONS OF 1000 ROWS;
+
+// Defaults for Metabolite nodes with no assays
+MATCH (m:Metabolite) WHERE m.measured_assay_count IS NULL
+SET m.measured_assay_count = 0,
+    m.measured_organisms = [],
+    m.measured_paper_count = 0;
+
+// ── Organism_has_metabolite measurement-arm materialization (Phase 2) ─────────
+// Adds (organism, metabolite) edges where only the measurement path exists
+// (no gene-side catalysis or transport). Idempotent — MERGE preserves existing.
+CALL {
+  MATCH (a:MetaboliteAssay)-[:MetaboliteAssayBelongsToOrganism]->(o:OrganismTaxon)
+  MATCH (a)-[:Assay_quantifies_metabolite|Assay_flags_metabolite]->(m:Metabolite)
+  WITH DISTINCT o, m
+  MERGE (o)-[:Organism_has_metabolite]->(m)
+} IN TRANSACTIONS OF 1000 ROWS;
+
+// Recompute Metabolite.organism_count + organism_names AFTER measurement-arm
+// materialization (so measured-only pairs contribute to the rollup).
+MATCH (m:Metabolite)
+CALL {
+  WITH m
+  OPTIONAL MATCH (org:OrganismTaxon)-[:Organism_has_metabolite]->(m)
+  WITH m, collect(DISTINCT org) AS orgs
+  SET m.organism_names = apoc.coll.sort([o IN orgs | o.preferred_name]),
+      m.organism_count = size(orgs)
+} IN TRANSACTIONS OF 1000 ROWS;
+
+// Tag evidence_sources on every Organism_has_metabolite edge by re-traversing
+// each path. Idempotent + additive.
+MATCH (o:OrganismTaxon)-[r:Organism_has_metabolite]->(m:Metabolite)
+CALL {
+  WITH o, r, m
+  OPTIONAL MATCH path_cat = (o)<-[:Gene_belongs_to_organism]-(:Gene)
+    -[:Gene_catalyzes_reaction]->(:Reaction)
+    -[:Reaction_has_metabolite]->(m)
+  OPTIONAL MATCH path_tr = (o)<-[:Gene_belongs_to_organism]-(:Gene)
+    -[:Gene_has_tcdb_family]->(:TcdbFamily)
+    -[:Tcdb_family_transports_metabolite]->(m)
+  OPTIONAL MATCH path_meas = (o)<-[:MetaboliteAssayBelongsToOrganism]-(:MetaboliteAssay)
+    -[:Assay_quantifies_metabolite|Assay_flags_metabolite]->(m)
+  WITH r,
+       count(path_cat) > 0 AS has_cat,
+       count(path_tr) > 0 AS has_tr,
+       count(path_meas) > 0 AS has_meas
+  WITH r,
+       [s IN ['metabolism', 'transport', 'measured']
+        WHERE (s = 'metabolism' AND has_cat)
+           OR (s = 'transport' AND has_tr)
+           OR (s = 'measured' AND has_meas)] AS sources
+  SET r.evidence_sources = sources
+} IN TRANSACTIONS OF 1000 ROWS;
+
+// Augmentation properties on every Organism_has_metabolite edge (0 / [] for non-measured)
+MATCH (o:OrganismTaxon)-[r:Organism_has_metabolite]->(m:Metabolite)
+CALL {
+  WITH o, r, m
+  OPTIONAL MATCH (o)<-[:MetaboliteAssayBelongsToOrganism]-(a:MetaboliteAssay)
+    -[:Assay_quantifies_metabolite|Assay_flags_metabolite]->(m)
+  OPTIONAL MATCH (a)<-[:PublicationHasMetaboliteAssay]-(p:Publication)
+  WITH r,
+       count(DISTINCT a) AS acnt,
+       collect(DISTINCT a.compartment) AS comps,
+       count(DISTINCT p) AS pcnt
+  SET r.measured_assay_count = acnt,
+      r.measured_compartments = [c IN comps WHERE c IS NOT NULL],
+      r.measured_paper_count = pcnt
+} IN TRANSACTIONS OF 1000 ROWS;
+
+// ── Experiment / Publication / OrganismTaxon rollups (Phase 2) ────────────────
+
+MATCH (e:Experiment)
+CALL {
+  WITH e
+  OPTIONAL MATCH (e)-[:ExperimentHasMetaboliteAssay]->(a:MetaboliteAssay)
+  OPTIONAL MATCH (a)-[:Assay_quantifies_metabolite|Assay_flags_metabolite]->(m:Metabolite)
+  WITH e,
+       count(DISTINCT a) AS acnt,
+       collect(DISTINCT a.compartment) AS comps,
+       count(DISTINCT m) AS mcnt
+  SET e.metabolite_assay_count = acnt,
+      e.metabolite_compartments = [c IN comps WHERE c IS NOT NULL],
+      e.metabolite_count = mcnt
+} IN TRANSACTIONS OF 100 ROWS;
+
+MATCH (p:Publication)
+CALL {
+  WITH p
+  OPTIONAL MATCH (p)-[:PublicationHasMetaboliteAssay]->(a:MetaboliteAssay)
+  OPTIONAL MATCH (a)-[:Assay_quantifies_metabolite|Assay_flags_metabolite]->(m:Metabolite)
+  WITH p,
+       count(DISTINCT a) AS acnt,
+       collect(DISTINCT a.compartment) AS comps,
+       count(DISTINCT m) AS mcnt
+  SET p.metabolite_assay_count = acnt,
+      p.metabolite_compartments = [c IN comps WHERE c IS NOT NULL],
+      p.metabolite_count = mcnt
+} IN TRANSACTIONS OF 100 ROWS;
+
+MATCH (o:OrganismTaxon)
+CALL {
+  WITH o
+  OPTIONAL MATCH (o)<-[:MetaboliteAssayBelongsToOrganism]-(a:MetaboliteAssay)
+  OPTIONAL MATCH (a)-[:Assay_quantifies_metabolite|Assay_flags_metabolite]->(m:Metabolite)
+  WITH o, count(DISTINCT m) AS mcnt
+  SET o.measured_metabolite_count = mcnt
+} IN TRANSACTIONS OF 100 ROWS;
