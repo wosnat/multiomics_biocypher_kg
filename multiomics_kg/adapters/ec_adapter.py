@@ -3,7 +3,7 @@ from pathlib import Path
 from contextlib import ExitStack
 import json
 
-from bioregistry import normalize_curie
+from multiomics_kg.utils.curie_utils import normalize_curie
 from tqdm import tqdm
 from time import time
 

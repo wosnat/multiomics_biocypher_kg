@@ -1,7 +1,7 @@
 from __future__ import annotations
 from pypath.share import curl
 
-from bioregistry import normalize_curie
+from multiomics_kg.utils.curie_utils import normalize_curie
 from biocypher._logger import logger
 
 import collections
@@ -482,25 +482,11 @@ class CyanorakNcbi:
     def set_edge_types(self, edge_types):
         self.edge_types = edge_types or list(GeneEdgeType)
 
-    def clean_text(
-        self, text: str = None,
-    ) -> str:
-        """
-        remove biocypher special characters from text fields
-        """
-        special_chars_map = {
-            "|": ",", # pipe used to separate multiple values in biocypher
-            "'": "^", # single quote used to quote strings in biocypher
-        }
-        if isinstance(text, str):
-            for char, replacement in special_chars_map.items():
-                text = text.replace(char, replacement)
-            return text
-        elif isinstance(text, list):
-            return [self.clean_text(t) for t in text]
-        else:
-            return text
-        
+    def clean_text(self, text=None):
+        """Strip BioCypher-special characters; delegates to ``utils.curie_utils.clean_text``."""
+        from multiomics_kg.utils.curie_utils import clean_text as _clean_text
+        return _clean_text(text)
+
 
 class MultiCyanorakNcbi:
     """Wrapper that reads a CSV file listing cyanobacteria genome configs

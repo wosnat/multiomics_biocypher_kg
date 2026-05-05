@@ -24,7 +24,7 @@ from collections.abc import Generator
 from pathlib import Path
 from typing import Optional
 
-from bioregistry import normalize_curie
+from multiomics_kg.utils.curie_utils import normalize_curie
 from biocypher._logger import logger
 
 logger.debug(f"Loading module {__name__}.")

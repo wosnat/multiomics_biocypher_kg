@@ -46,7 +46,7 @@ import json
 import logging
 from pathlib import Path
 
-from bioregistry import normalize_curie
+from multiomics_kg.utils.curie_utils import normalize_curie
 
 from multiomics_kg.adapters.ec_adapter import EC
 from multiomics_kg.utils.kegg_utils import load_kegg_data

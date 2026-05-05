@@ -18,7 +18,7 @@ import logging
 from pathlib import Path
 from typing import Iterator
 
-from bioregistry import normalize_curie
+from multiomics_kg.utils.curie_utils import normalize_curie
 
 from multiomics_kg.utils.cazy_utils import CAZY_CLASSES, parse_cazy_id
 

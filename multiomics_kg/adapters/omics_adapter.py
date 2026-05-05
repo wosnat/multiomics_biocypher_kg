@@ -8,7 +8,7 @@ import math
 import pandas as pd
 import os
 from pathlib import Path
-from bioregistry import normalize_curie
+from multiomics_kg.utils.curie_utils import normalize_curie
 
 from multiomics_kg.download.resolve_paper_ids import get_resolved_path
 from multiomics_kg.utils.paperconfig_utils import (
@@ -913,25 +913,11 @@ class OMICSAdapter:
             val = [val] if val else []
         return [self.clean_text(v) for v in val]
 
-    def clean_text(
-        self, text: str = None,
-    ) -> str:
-        """
-        remove biocypher special characters from text fields
-        """
-        special_chars_map = {
-            "|": ",", # pipe used to separate multiple values in biocypher
-            "'": "^", # single quote used to quote strings in biocypher
-        }
-        if isinstance(text, str):
-            for char, replacement in special_chars_map.items():
-                text = text.replace(char, replacement)
-            return text
-        elif isinstance(text, list):
-            return [self.clean_text(t) for t in text]
-        else:
-            return text
-        
+    def clean_text(self, text=None):
+        """Strip BioCypher-special characters; delegates to ``utils.curie_utils.clean_text``."""
+        from multiomics_kg.utils.curie_utils import clean_text as _clean_text
+        return _clean_text(text)
+
     def _get_default_properties(self) -> dict:
         """
         Get default properties for nodes/edges

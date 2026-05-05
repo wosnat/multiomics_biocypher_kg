@@ -7,7 +7,7 @@ from . import kegg_local
 
 from contextlib import ExitStack
 
-from bioregistry import normalize_curie
+from multiomics_kg.utils.curie_utils import normalize_curie
 from tqdm import tqdm
 from time import time
 from biocypher._logger import logger

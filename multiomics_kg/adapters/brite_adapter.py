@@ -26,7 +26,7 @@ import re
 from dataclasses import dataclass, field
 from pathlib import Path
 
-from bioregistry import normalize_curie
+from multiomics_kg.utils.curie_utils import normalize_curie
 
 from multiomics_kg.utils.brite_utils import BRITE_TREES, compute_level_kind, load_brite_trees
 

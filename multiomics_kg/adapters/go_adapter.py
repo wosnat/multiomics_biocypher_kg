@@ -1,7 +1,7 @@
 from contextlib import ExitStack
 from pathlib import Path
 
-from bioregistry import normalize_curie
+from multiomics_kg.utils.curie_utils import normalize_curie
 
 import collections
 import os
