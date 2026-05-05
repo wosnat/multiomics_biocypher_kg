@@ -875,7 +875,11 @@ def _harvest_paper_metabolites(
                 log.warning(f"[paper-metabolites] cannot read {csv_full}: {e}")
                 continue
 
-            stats = per_paper.setdefault(str(pc_path), {"resolved": 0, "unresolved": 0, "total": 0})
+            try:
+                pc_key = str(pc_path.resolve().relative_to(PROJECT_ROOT.resolve()))
+            except ValueError:
+                pc_key = str(pc_path)
+            stats = per_paper.setdefault(pc_key, {"resolved": 0, "unresolved": 0, "total": 0})
 
             for _, row in df.iterrows():
                 name = (row.get(name_col) or "").strip()

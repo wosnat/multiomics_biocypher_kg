@@ -35,6 +35,18 @@ log = logging.getLogger(__name__)
 MAPPING_FILE = PROJECT_ROOT / "cache" / "data" / "metabolomics" / "metabolite_id_mapping.json"
 
 
+def _rel_to_root(path: Path) -> str:
+    """Return path relative to PROJECT_ROOT when possible, else absolute.
+
+    Stored in JSON reports so they don't churn when the repo is checked out
+    at a different absolute location.
+    """
+    try:
+        return str(path.resolve().relative_to(PROJECT_ROOT.resolve()))
+    except ValueError:
+        return str(path)
+
+
 def _resolve_row(
     row: pd.Series,
     name_col: str,
@@ -120,8 +132,8 @@ def resolve_paper_metabolites_for_entry(
         method_counts[m] = method_counts.get(m, 0) + 1
 
     report = {
-        "source_csv": str(src),
-        "resolved_csv": str(out),
+        "source_csv": _rel_to_root(src),
+        "resolved_csv": _rel_to_root(out),
         "total_rows": int(len(df)),
         "resolved": int(n_resolved),
         "unresolved": int(n_unresolved),
