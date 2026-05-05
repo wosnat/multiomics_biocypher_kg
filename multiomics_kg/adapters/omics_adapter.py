@@ -729,8 +729,12 @@ class OMICSAdapter:
             pub_id_raw = self.get_publication_id()
             analysis_id = analysis.get('id', '')
 
-            # Create edges for each row
-            for idx, row in df.iterrows():
+            # Create edges for each row.
+            # Iterate over plain dicts (df.to_dict('records')) instead of
+            # df.iterrows(): the latter materializes a pd.Series per row, which
+            # dominated the omics adapter's wall time. row.get() / row[col]
+            # work identically on dicts, so the body is unchanged.
+            for idx, row in enumerate(df.to_dict('records')):
                 if self.test_mode and idx >= self.early_stopping:
                     break
 
