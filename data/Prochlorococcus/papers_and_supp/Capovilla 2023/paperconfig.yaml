@@ -160,15 +160,17 @@ publication:
             replicate-aggregated; Capovilla 2023 Table sd03.
           sample_columns:
             - condition_label: control
-              time_point: "T=4"
+              time_point: "4 days"
               time_point_order: 1
+              time_point_hours: 96
               replicate_columns:
                 - "9303 Control T=4, replicate 1"
                 - "9303 Control T=4, replicate 2"
                 - "9303 Control T=4, replicate 3"
             - condition_label: chitosan
-              time_point: "T=4"
+              time_point: "4 days"
               time_point_order: 1
+              time_point_hours: 96
               replicate_columns:
                 - "9303 +Chitosan T=4, replicate 1"
                 - "9303 +Chitosan T=4, replicate 2"
@@ -200,28 +202,32 @@ publication:
             second to ".1" — those are the columns with .1 suffix below.
           sample_columns:
             - condition_label: control
-              time_point: "T=4"
+              time_point: "4 days"
               time_point_order: 1
+              time_point_hours: 96
               replicate_columns:
                 - "9313 Control T=4, replicate 1"
                 - "9313 Control T=4, replicate 2"
                 - "9313 Control T=4, replicate 3"
             - condition_label: chitosan
-              time_point: "T=4"
+              time_point: "4 days"
               time_point_order: 1
+              time_point_hours: 96
               replicate_columns:
                 - "9313 +Chitosan T=4, replicate 2"
                 - "9313 +Chitosan T=4, replicate 2.1"
                 - "9313 +Chitosan T=4, replicate 3"
             - condition_label: control
-              time_point: "T=6"
+              time_point: "6 days"
               time_point_order: 2
+              time_point_hours: 144
               replicate_columns:
                 - "9313 Control T=6, replicate 2"
                 - "9313 Control T=6, replicate 2.1"
             - condition_label: chitosan
-              time_point: "T=6"
+              time_point: "6 days"
               time_point_order: 2
+              time_point_hours: 144
               replicate_columns:
                 - "9313 +Chitosan T=6, replicate 2"
                 - "9313 +Chitosan T=6, replicate 2.1"

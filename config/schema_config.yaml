@@ -308,6 +308,9 @@ metabolite assay:
     unit: str
     rankable: str                    # "true" | "false"
     aggregation_method: str          # "mean_across_replicates" | "pre_aggregated" | "single_measurement"
+    # Canonical per-paper provenance / normalisation note for this assay (e.g.
+    # "Intracellular metabolite concentration in fg/cell, blank-corrected,
+    # replicate-aggregated; Capovilla 2023 Table sd03"). Indexed by metaboliteAssayFullText.
     field_description: str
     total_metabolite_count: int      # post-import
     growth_phases: str[]             # post-import: from parent Experiment

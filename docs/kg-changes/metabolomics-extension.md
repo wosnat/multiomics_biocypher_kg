@@ -18,7 +18,8 @@
 | Type | Property | Source | Semantics |
 |---|---|---|---|
 | `Metabolite` | `evidence_sources` | adapter (extended) | gains `"metabolomics"` value when paper-measured |
-| `Metabolite` | `measured_assay_count`, `measured_organisms` (str[]), `measured_paper_count` | post-import | distinct counts across incoming Assay edges |
+| `Metabolite` | `measured_assay_count`, `measured_organisms` (str[]), `measured_compartments` (str[]), `measured_paper_count` | post-import | distinct counts / sorted distinct values across incoming Assay edges; `[]` on non-measured (KG-MET-016, 2026-05-05) |
+| `TcdbFamily` | `is_promiscuous` (bool) | post-import | true when `metabolite_count >= 50 OR member_count >= 100`; flags ~30 of 12,883 families in the long tail; consumed by explorer family_inferred-dominance warnings (KG-MET-006, 2026-05-05) |
 | `Metabolite` | `organism_count`, `organism_names` | post-import | UNION extended to include the measurement path |
 | `Organism_has_metabolite` | `evidence_sources` (str[]) | post-import | values: `metabolism` \| `transport` \| `measured` |
 | `Organism_has_metabolite` | `measured_assay_count`, `measured_compartments`, `measured_paper_count` | post-import | 0/[] on non-measured edges |
@@ -31,6 +32,11 @@
 ### Indexes added (post-import)
 
 Scalar: `metabolite_assay_organism_idx`, `metabolite_assay_compartment_idx`, `metabolite_assay_metric_type_idx`, `metabolite_assay_value_kind_idx`, `metabolite_assay_experiment_idx`. Full-text: `metaboliteAssayFullText` on `name`, `field_description`, `treatment`, `experimental_context`.
+
+### Conventions
+
+- **`MetaboliteAssay.field_description` is the canonical normalisation-provenance field** for the metabolomics layer. Carries paper-specific text covering units, blank-correction, replicate-aggregation policy, and source-table provenance (e.g. *"Intracellular metabolite concentration in fg/cell, blank-corrected, replicate-aggregated; Capovilla 2023 Table sd03"*). Companion fields `value_kind`, `unit`, `metric_type`, `aggregation_method` round out the provenance picture. Indexed by `metaboliteAssayFullText`.
+- **`Metabolite` nodes are compartment-agnostic.** Compartment lives on `MetaboliteAssay.compartment` and on `Assay_*_metabolite` edges' parent assay; the same `kegg.compound:` ID is reused across compartments. 92 metabolites are measured in two compartments (e.g. whole_cell + extracellular) against a single `Metabolite` node. Per-pair compartment rollup lives on `Organism_has_metabolite.measured_compartments`.
 
 ### paperconfig + pipeline
 

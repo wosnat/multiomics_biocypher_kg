@@ -875,6 +875,16 @@ CALL {
       t.metabolite_count = metc
 } IN TRANSACTIONS OF 1000 ROWS;
 
+// is_promiscuous: families with broad substrate or member coverage. Threshold
+// (metabolite_count >= 50 OR member_count >= 100) flags ~30 of 12,883 families
+// — clearly in the long tail (p95(metabolite_count) on tc_family ≈ 14).
+// Consumed by explorer family_inferred-dominance warnings to distinguish
+// curation-effort gaps from biologically-promiscuous transporters (KG-MET-006).
+MATCH (t:TcdbFamily)
+SET t.is_promiscuous =
+  (coalesce(t.metabolite_count, 0) >= 50) OR
+  (coalesce(t.member_count, 0) >= 100);
+
 // ── CazyFamily computed properties ───────────────────────────────────────────
 
 // gene_count + organism_count: subtree traversal (descendants ∪ self via *0..)
@@ -1151,9 +1161,11 @@ CALL {
   WITH m,
        count(DISTINCT a) AS acnt,
        collect(DISTINCT o.preferred_name) AS orgs,
+       collect(DISTINCT a.compartment) AS comps,
        count(DISTINCT p) AS pcnt
   SET m.measured_assay_count = acnt,
       m.measured_organisms = apoc.coll.sort([x IN orgs WHERE x IS NOT NULL]),
+      m.measured_compartments = apoc.coll.sort([c IN comps WHERE c IS NOT NULL]),
       m.measured_paper_count = pcnt
 } IN TRANSACTIONS OF 1000 ROWS;
 
@@ -1161,6 +1173,7 @@ CALL {
 MATCH (m:Metabolite) WHERE m.measured_assay_count IS NULL
 SET m.measured_assay_count = 0,
     m.measured_organisms = [],
+    m.measured_compartments = [],
     m.measured_paper_count = 0;
 
 // ── Organism_has_metabolite measurement-arm materialization (Phase 2) ─────────
