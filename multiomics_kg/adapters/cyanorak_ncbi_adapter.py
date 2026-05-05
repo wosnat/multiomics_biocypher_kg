@@ -262,14 +262,14 @@ class CyanorakNcbi:
         """
         if not self.data_dir:
             raise ValueError("data_dir is required")
-        merged_json_path = os.path.join(self.data_dir, "gene_annotations_merged.json")
-        if not os.path.exists(merged_json_path):
+        from multiomics_kg.utils.annotations_cache import load_merged_annotations
+        merged_data = load_merged_annotations(self.data_dir)
+        if not merged_data:
+            merged_json_path = os.path.join(self.data_dir, "gene_annotations_merged.json")
             raise FileNotFoundError(
                 f"gene_annotations_merged.json not found at {merged_json_path}. "
                 f"Run 'bash scripts/prepare_data.sh' first."
             )
-        with open(merged_json_path) as f:
-            merged_data = json.load(f)
         self.data_df = pd.DataFrame.from_dict(merged_data, orient='index').reset_index(drop=True)
         logger.info(
             f"Loaded {len(self.data_df)} genes for {self.strain_name} "

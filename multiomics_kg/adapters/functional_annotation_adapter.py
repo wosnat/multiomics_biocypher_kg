@@ -106,13 +106,8 @@ class GoAnnotationAdapter:
         self._load()
 
     def _load(self) -> None:
-        json_path = self.genome_dir / "gene_annotations_merged.json"
-        if not json_path.exists():
-            logger.warning(f"gene_annotations_merged.json not found at {json_path}, skipping")
-            return
-        with open(json_path, encoding="utf-8") as fh:
-            self._genes = json.load(fh)
-        logger.debug(f"Loaded {len(self._genes)} genes from {json_path}")
+        from multiomics_kg.utils.annotations_cache import load_merged_annotations
+        self._genes = load_merged_annotations(self.genome_dir)
 
     def get_all_go_ids(self) -> set[str]:
         """Return all GO term IDs directly referenced by any gene in this strain."""
@@ -335,13 +330,8 @@ class EcAnnotationAdapter:
         self._load()
 
     def _load(self) -> None:
-        json_path = self.genome_dir / "gene_annotations_merged.json"
-        if not json_path.exists():
-            logger.warning(f"gene_annotations_merged.json not found at {json_path}, skipping")
-            return
-        with open(json_path, encoding="utf-8") as fh:
-            self._genes = json.load(fh)
-        logger.debug(f"Loaded {len(self._genes)} genes from {json_path}")
+        from multiomics_kg.utils.annotations_cache import load_merged_annotations
+        self._genes = load_merged_annotations(self.genome_dir)
 
     def get_edges(self):
         """
@@ -468,13 +458,8 @@ class KeggAnnotationAdapter:
         self._load()
 
     def _load(self) -> None:
-        json_path = self.genome_dir / "gene_annotations_merged.json"
-        if not json_path.exists():
-            logger.warning(f"gene_annotations_merged.json not found at {json_path}, skipping")
-            return
-        with open(json_path, encoding="utf-8") as fh:
-            self._genes = json.load(fh)
-        logger.debug(f"Loaded {len(self._genes)} genes from {json_path}")
+        from multiomics_kg.utils.annotations_cache import load_merged_annotations
+        self._genes = load_merged_annotations(self.genome_dir)
 
     def get_all_ko_ids(self) -> set[str]:
         """Return all KO IDs (K#####) directly referenced by any gene in this strain."""
@@ -837,13 +822,8 @@ class CogRoleAnnotationAdapter:
         self._load()
 
     def _load(self) -> None:
-        json_path = self.genome_dir / "gene_annotations_merged.json"
-        if not json_path.exists():
-            logger.warning(f"gene_annotations_merged.json not found at {json_path}, skipping")
-            return
-        with open(json_path, encoding="utf-8") as fh:
-            self._genes = json.load(fh)
-        logger.debug(f"Loaded {len(self._genes)} genes from {json_path}")
+        from multiomics_kg.utils.annotations_cache import load_merged_annotations
+        self._genes = load_merged_annotations(self.genome_dir)
 
     def get_all_cyanorak_codes(self) -> set[tuple[str, str]]:
         """Return all (code, description) pairs from cyanorak_Role across all genes."""
@@ -1115,13 +1095,8 @@ class PfamAnnotationAdapter:
         self._load()
 
     def _load(self) -> None:
-        json_path = self.genome_dir / "gene_annotations_merged.json"
-        if not json_path.exists():
-            logger.warning(f"gene_annotations_merged.json not found at {json_path}, skipping")
-            return
-        with open(json_path, encoding="utf-8") as fh:
-            self._genes = json.load(fh)
-        logger.debug(f"Loaded {len(self._genes)} genes from {json_path}")
+        from multiomics_kg.utils.annotations_cache import load_merged_annotations
+        self._genes = load_merged_annotations(self.genome_dir)
 
     def get_all_pfam_ids(self) -> set[str]:
         """Return all PF* IDs directly referenced by any gene in this strain."""

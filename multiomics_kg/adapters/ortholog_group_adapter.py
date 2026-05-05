@@ -181,13 +181,9 @@ class OrthologGroupAdapter:
         self._genes: dict = {}
         self._load()
 
-    def _load(self):
-        path = self.genome_dir / "gene_annotations_merged.json"
-        if path.exists():
-            with open(path) as fh:
-                self._genes = json.load(fh)
-        else:
-            logger.warning(f"gene_annotations_merged.json not found at {path}")
+    def _load(self) -> None:
+        from multiomics_kg.utils.annotations_cache import load_merged_annotations
+        self._genes = load_merged_annotations(self.genome_dir)
 
     def get_og_memberships(self) -> list[tuple[str, dict]]:
         """Return (locus_tag, og_dict) pairs for all genes.

@@ -63,12 +63,8 @@ class TcdbAnnotationAdapter:
         self._load()
 
     def _load(self) -> None:
-        json_path = self.genome_dir / "gene_annotations_merged.json"
-        if not json_path.exists():
-            logger.warning(f"gene_annotations_merged.json not found at {json_path}, skipping")
-            return
-        with open(json_path, encoding="utf-8") as fh:
-            self._genes = json.load(fh)
+        from multiomics_kg.utils.annotations_cache import load_merged_annotations
+        self._genes = load_merged_annotations(self.genome_dir)
 
     def get_all_tcdb_ids(self) -> set[str]:
         ids: set[str] = set()
