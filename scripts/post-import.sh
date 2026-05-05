@@ -602,9 +602,9 @@ CALL {
           WHEN has_any_edge THEN 1
           ELSE 0
         END
-} IN TRANSACTIONS OF 500 ROWS;
+} IN TRANSACTIONS OF 1000 ROWS;
 
-// annotation_types
+// annotation_types (includes tcdb/cazy — folded in from a former extension pass)
 MATCH (g:Gene)
 CALL {
   WITH g
@@ -618,7 +618,9 @@ CALL {
     CASE WHEN EXISTS { (g)-[:Gene_has_kegg_ko]->()-[:Kegg_term_in_brite_category]->() } THEN ['brite'] ELSE [] END +
     CASE WHEN EXISTS { (g)-[:Gene_catalyzes_ec_number]->() } THEN ['ec'] ELSE [] END +
     CASE WHEN EXISTS { (g)-[:Gene_has_cyanorak_role]->() } THEN ['cyanorak_role'] ELSE [] END +
-    CASE WHEN EXISTS { (g)-[:Gene_has_tigr_role]->() } THEN ['tigr_role'] ELSE [] END
+    CASE WHEN EXISTS { (g)-[:Gene_has_tigr_role]->() } THEN ['tigr_role'] ELSE [] END +
+    CASE WHEN EXISTS { (g)-[:Gene_has_tcdb_family]->() } THEN ['tcdb'] ELSE [] END +
+    CASE WHEN EXISTS { (g)-[:Gene_has_cazy_family]->() } THEN ['cazy'] ELSE [] END
 } IN TRANSACTIONS OF 1000 ROWS;
 
 // =====================================================================
@@ -673,7 +675,7 @@ CALL {
   SET g.expression_edge_count = total,
       g.significant_up_count = sig_up,
       g.significant_down_count = sig_down
-} IN TRANSACTIONS OF 500 ROWS;
+} IN TRANSACTIONS OF 1000 ROWS;
 
 // rank_by_effect
 MATCH (e:Experiment)
@@ -687,7 +689,7 @@ CALL {
   WITH tp, collect(r) AS edges
   UNWIND range(0, size(edges)-1) AS i
   SET (edges[i]).rank_by_effect = i + 1
-} IN TRANSACTIONS OF 10 ROWS;
+} IN TRANSACTIONS OF 30 ROWS;
 
 // rank_up (among significant_up per experiment x timepoint)
 MATCH (e:Experiment)
@@ -702,7 +704,7 @@ CALL {
   WITH tp, collect(r) AS edges
   UNWIND range(0, size(edges)-1) AS i
   SET (edges[i]).rank_up = i + 1
-} IN TRANSACTIONS OF 10 ROWS;
+} IN TRANSACTIONS OF 30 ROWS;
 
 // rank_down (among significant_down per experiment x timepoint)
 MATCH (e:Experiment)
@@ -717,7 +719,7 @@ CALL {
   WITH tp, collect(r) AS edges
   UNWIND range(0, size(edges)-1) AS i
   SET (edges[i]).rank_down = i + 1
-} IN TRANSACTIONS OF 10 ROWS;
+} IN TRANSACTIONS OF 30 ROWS;
 
 // Numeric DM rank/percentile/bucket: ranks derived_metric_quantifies_gene edges
 // grouped by DerivedMetric, only when parent DM has rankable='true'. Ties on
@@ -744,7 +746,7 @@ CALL {
         WHEN pct >= 25.0 THEN 'mid'
         ELSE 'low'
       END
-} IN TRANSACTIONS OF 10 ROWS;
+} IN TRANSACTIONS OF 30 ROWS;
 
 // Numeric DM significance: on derived_metric_quantifies_gene edges,
 // only when parent DM has has_p_value='true' AND p_value_threshold IS NOT NULL
@@ -761,67 +763,37 @@ CALL {
   END
 } IN TRANSACTIONS OF 1000 ROWS;
 
-// Gene DM routing defaults + compute.
-// Defaults run first (every gene gets 0 / []), then 4 OPTIONAL-MATCH passes
-// override defaults only on genes reached by DM edges.
-
-// Defaults
+// Gene DM routing rollups (combined single Gene scan).
+// Each OPTIONAL MATCH is followed by a WITH aggregation that collapses rows
+// back to one row per gene before the next OPTIONAL MATCH, so row count never
+// multiplies. count(DISTINCT) and collect(DISTINCT) handle the no-edge case
+// (count=0, types=[]); no separate defaults pass needed.
 MATCH (g:Gene)
 CALL {
   WITH g
-  SET g.numeric_metric_count = 0,
-      g.boolean_metric_count = 0,
-      g.categorical_metric_count = 0,
-      g.numeric_metric_types_observed = [],
-      g.boolean_metric_types_observed = [],
-      g.categorical_metric_types_observed = [],
-      g.compartments_observed = []
-} IN TRANSACTIONS OF 1000 ROWS;
-
-// numeric_metric_count + numeric_metric_types_observed
-MATCH (g:Gene)
-CALL {
-  WITH g
-  OPTIONAL MATCH (dm:DerivedMetric)-[:Derived_metric_quantifies_gene]->(g)
+  OPTIONAL MATCH (dm_n:DerivedMetric)-[:Derived_metric_quantifies_gene]->(g)
   WITH g,
-       count(DISTINCT dm) AS cnt,
-       [x IN collect(DISTINCT dm.metric_type) WHERE x IS NOT NULL] AS types
-  SET g.numeric_metric_count = cnt,
-      g.numeric_metric_types_observed = apoc.coll.sort(types)
-} IN TRANSACTIONS OF 1000 ROWS;
-
-// boolean_metric_count + boolean_metric_types_observed
-MATCH (g:Gene)
-CALL {
-  WITH g
-  OPTIONAL MATCH (dm:DerivedMetric)-[:Derived_metric_flags_gene]->(g)
-  WITH g,
-       count(DISTINCT dm) AS cnt,
-       [x IN collect(DISTINCT dm.metric_type) WHERE x IS NOT NULL] AS types
-  SET g.boolean_metric_count = cnt,
-      g.boolean_metric_types_observed = apoc.coll.sort(types)
-} IN TRANSACTIONS OF 1000 ROWS;
-
-// categorical_metric_count + categorical_metric_types_observed
-MATCH (g:Gene)
-CALL {
-  WITH g
-  OPTIONAL MATCH (dm:DerivedMetric)-[:Derived_metric_classifies_gene]->(g)
-  WITH g,
-       count(DISTINCT dm) AS cnt,
-       [x IN collect(DISTINCT dm.metric_type) WHERE x IS NOT NULL] AS types
-  SET g.categorical_metric_count = cnt,
-      g.categorical_metric_types_observed = apoc.coll.sort(types)
-} IN TRANSACTIONS OF 1000 ROWS;
-
-// compartments_observed: union across all 3 DM edge types via parent DerivedMetric
-MATCH (g:Gene)
-CALL {
-  WITH g
-  OPTIONAL MATCH (dm:DerivedMetric)
+       count(DISTINCT dm_n) AS n_cnt,
+       [x IN collect(DISTINCT dm_n.metric_type) WHERE x IS NOT NULL] AS n_types
+  OPTIONAL MATCH (dm_b:DerivedMetric)-[:Derived_metric_flags_gene]->(g)
+  WITH g, n_cnt, n_types,
+       count(DISTINCT dm_b) AS b_cnt,
+       [x IN collect(DISTINCT dm_b.metric_type) WHERE x IS NOT NULL] AS b_types
+  OPTIONAL MATCH (dm_c:DerivedMetric)-[:Derived_metric_classifies_gene]->(g)
+  WITH g, n_cnt, n_types, b_cnt, b_types,
+       count(DISTINCT dm_c) AS c_cnt,
+       [x IN collect(DISTINCT dm_c.metric_type) WHERE x IS NOT NULL] AS c_types
+  OPTIONAL MATCH (dm_a:DerivedMetric)
     -[:Derived_metric_quantifies_gene|Derived_metric_flags_gene|Derived_metric_classifies_gene]->(g)
-  WITH g, [x IN collect(DISTINCT dm.compartment) WHERE x IS NOT NULL] AS comps
-  SET g.compartments_observed = apoc.coll.sort(comps)
+  WITH g, n_cnt, n_types, b_cnt, b_types, c_cnt, c_types,
+       [x IN collect(DISTINCT dm_a.compartment) WHERE x IS NOT NULL] AS comps
+  SET g.numeric_metric_count = n_cnt,
+      g.numeric_metric_types_observed = apoc.coll.sort(n_types),
+      g.boolean_metric_count = b_cnt,
+      g.boolean_metric_types_observed = apoc.coll.sort(b_types),
+      g.categorical_metric_count = c_cnt,
+      g.categorical_metric_types_observed = apoc.coll.sort(c_types),
+      g.compartments_observed = apoc.coll.sort(comps)
 } IN TRANSACTIONS OF 1000 ROWS;
 
 // closest_ortholog_group_size + closest_ortholog_genera
@@ -847,70 +819,60 @@ CALL {
       g.cluster_types = CASE WHEN size(ctypes) = 0 THEN [] ELSE ctypes END
 } IN TRANSACTIONS OF 1000 ROWS;
 
-// BriteCategory computed properties: member_ko_count, gene_count, organism_count
+// BriteCategory computed properties: member_ko_count, gene_count, organism_count.
+// Single-walk variant — the subtree is traversed once and all 3 aggregates
+// (KO leaves, distinct genes, distinct organism_names) are derived from the
+// joint OPTIONAL MATCH product. count(DISTINCT) handles the row multiplication
+// from gene-side fan-out per KO.
 MATCH (b:BriteCategory)
 CALL {
   WITH b
-  // member_ko_count: KO leaves directly or transitively under this category
-  MATCH (b)<-[:Brite_category_is_a_brite_category*0..]-(leaf:BriteCategory)
-  OPTIONAL MATCH (ko:KeggTerm)-[:Kegg_term_in_brite_category]->(leaf)
-  WHERE ko.level_kind = 'ko'
-  WITH b, count(DISTINCT ko) AS ko_count
-  // gene_count and organism_count via KO→gene edges
-  OPTIONAL MATCH (b)<-[:Brite_category_is_a_brite_category*0..]-(leaf2:BriteCategory)
-  OPTIONAL MATCH (ko2:KeggTerm)-[:Kegg_term_in_brite_category]->(leaf2)
-  WHERE ko2.level_kind = 'ko'
-  OPTIONAL MATCH (g:Gene)-[:Gene_has_kegg_ko]->(ko2)
-  WITH b, ko_count, count(DISTINCT g) AS g_count, collect(DISTINCT g.organism_name) AS orgs
+  OPTIONAL MATCH (b)<-[:Brite_category_is_a_brite_category*0..]-(:BriteCategory)
+                   <-[:Kegg_term_in_brite_category]-(ko:KeggTerm {level_kind: 'ko'})
+  OPTIONAL MATCH (ko)<-[:Gene_has_kegg_ko]-(g:Gene)
+  WITH b,
+       count(DISTINCT ko) AS ko_count,
+       count(DISTINCT g) AS g_count,
+       collect(DISTINCT g.organism_name) AS orgs
   SET b.member_ko_count = ko_count,
       b.gene_count = g_count,
       b.organism_count = size([x IN orgs WHERE x IS NOT NULL])
 } IN TRANSACTIONS OF 100 ROWS;
 
 // ── TcdbFamily computed properties ───────────────────────────────────────────
+// Combined single scan: tc_class_id, member_count, gene_count, organism_count,
+// metabolite_count.
 
-// member_count: direct child count
+// tc_class_id: walk up at most to nearest tc_class ancestor. *0..* lets a
+// tc_class node match itself; non-class nodes walk up (label filter rejects
+// the 0-hop self-match for non-class). Done in its own pass because LIMIT 1
+// inside a chained-aggregation block doesn't compose cleanly with later
+// OPTIONAL MATCHes.
+MATCH (t:TcdbFamily)
+CALL {
+  WITH t
+  MATCH (t)-[:Tcdb_family_is_a_tcdb_family*0..]->(cls:TcdbFamily {level_kind: 'tc_class'})
+  WITH t, cls LIMIT 1
+  SET t.tc_class_id = cls.id
+} IN TRANSACTIONS OF 1000 ROWS;
+
+// member_count + gene_count + organism_count + metabolite_count.
+// Substrate edges are rolled up to every ancestor in the adapter (each TcdbFamily
+// has direct edges to all metabolites in its subtree), so metabolite_count is
+// a single-hop count.
 MATCH (t:TcdbFamily)
 CALL {
   WITH t
   OPTIONAL MATCH (child:TcdbFamily)-[:Tcdb_family_is_a_tcdb_family]->(t)
   WITH t, count(child) AS mc
-  SET t.member_count = mc
-} IN TRANSACTIONS OF 1000 ROWS;
-
-// tc_class_id: pointer to the root tc_class node
-// Self-reference for class nodes:
-MATCH (t:TcdbFamily {level_kind: 'tc_class'})
-SET t.tc_class_id = t.id;
-
-// Non-class nodes: walk up to nearest tc_class ancestor
-MATCH (t:TcdbFamily) WHERE t.level_kind <> 'tc_class'
-CALL {
-  WITH t
-  MATCH (t)-[:Tcdb_family_is_a_tcdb_family*1..]->(cls:TcdbFamily {level_kind: 'tc_class'})
-  WITH t, cls LIMIT 1
-  SET t.tc_class_id = cls.id
-} IN TRANSACTIONS OF 1000 ROWS;
-
-// gene_count + organism_count: subtree traversal (descendants ∪ self via *0..)
-MATCH (t:TcdbFamily)
-CALL {
-  WITH t
-  OPTIONAL MATCH (t)<-[:Tcdb_family_is_a_tcdb_family*0..]-(desc:TcdbFamily)<-[:Gene_has_tcdb_family]-(g:Gene)
-  WITH t, count(DISTINCT g) AS gc, collect(DISTINCT g.organism_name) AS orgs
-  SET t.gene_count = gc,
-      t.organism_count = size([x IN orgs WHERE x IS NOT NULL])
-} IN TRANSACTIONS OF 1000 ROWS;
-
-// metabolite_count: distinct metabolites reachable via Tcdb_family_transports_metabolite.
-// Single-hop: substrate edges are rolled up to every ancestor in the adapter
-// (each TcdbFamily has direct edges to all metabolites in its subtree).
-MATCH (t:TcdbFamily)
-CALL {
-  WITH t
+  OPTIONAL MATCH (t)<-[:Tcdb_family_is_a_tcdb_family*0..]-(:TcdbFamily)<-[:Gene_has_tcdb_family]-(g:Gene)
+  WITH t, mc, count(DISTINCT g) AS gc, collect(DISTINCT g.organism_name) AS orgs
   OPTIONAL MATCH (t)-[:Tcdb_family_transports_metabolite]->(m:Metabolite)
-  WITH t, count(DISTINCT m) AS mc
-  SET t.metabolite_count = mc
+  WITH t, mc, gc, orgs, count(DISTINCT m) AS metc
+  SET t.member_count = mc,
+      t.gene_count = gc,
+      t.organism_count = size([x IN orgs WHERE x IS NOT NULL]),
+      t.metabolite_count = metc
 } IN TRANSACTIONS OF 1000 ROWS;
 
 // ── CazyFamily computed properties ───────────────────────────────────────────
@@ -926,44 +888,36 @@ CALL {
 } IN TRANSACTIONS OF 1000 ROWS;
 
 // ── Gene routing extensions ──────────────────────────────────────────────────
+// (Note: 'tcdb' / 'cazy' membership in annotation_types is folded into the base
+// annotation_types statement above — no separate extension pass.)
 
-// Extend annotation_types — add 'tcdb' / 'cazy' if any edge of that type exists.
-// (The base annotation_types is computed earlier in this same group; we APPEND
-//  here rather than rebuild from scratch so the existing values persist.)
+// Gene metabolism + ontology counts (combined single Gene scan):
+//   - tcdb_family_count  (TCDB-S1)
+//   - cazy_family_count  (TCDB-S2)
+//   - reaction_count     (KG-A1)
+//   - metabolite_count   (TCDB-S3 / KG-A2: UNION of catalysis + transport paths)
+//
+// Each OPTIONAL MATCH is followed by a WITH aggregation so rows don't multiply.
+// count(DISTINCT ...) is required for the count rollups because the chained
+// metabolite OPTIONAL MATCHes would otherwise duplicate the parent edge per metabolite.
 MATCH (g:Gene)
 CALL {
   WITH g
-  WITH g, coalesce(g.annotation_types, []) AS existing
-  SET g.annotation_types = existing +
-    CASE WHEN EXISTS { (g)-[:Gene_has_tcdb_family]->() } THEN ['tcdb'] ELSE [] END +
-    CASE WHEN EXISTS { (g)-[:Gene_has_cazy_family]->() } THEN ['cazy'] ELSE [] END
-} IN TRANSACTIONS OF 1000 ROWS;
-
-// tcdb_family_count + cazy_family_count single-hop rollups (per TCDB-S1 / TCDB-S2)
-MATCH (g:Gene)
-CALL {
-  WITH g
-  OPTIONAL MATCH (g)-[r1:Gene_has_tcdb_family]->()
-  WITH g, count(r1) AS tc
+  OPTIONAL MATCH (g)-[r1:Gene_has_tcdb_family]->(tcd:TcdbFamily)
+  OPTIONAL MATCH (tcd)-[:Tcdb_family_transports_metabolite]->(m_tr:Metabolite)
+  WITH g, count(DISTINCT r1) AS tc_count, collect(DISTINCT m_tr) AS m_transport
   OPTIONAL MATCH (g)-[r2:Gene_has_cazy_family]->()
-  WITH g, tc, count(r2) AS cz
-  SET g.tcdb_family_count = tc,
-      g.cazy_family_count = cz
+  WITH g, tc_count, m_transport, count(r2) AS cz_count
+  OPTIONAL MATCH (g)-[r3:Gene_catalyzes_reaction]->(rx:Reaction)
+  OPTIONAL MATCH (rx)-[:Reaction_has_metabolite]->(m_cat:Metabolite)
+  WITH g, tc_count, m_transport, cz_count,
+       count(DISTINCT r3) AS rxn_count,
+       collect(DISTINCT m_cat) AS m_catalysis
+  SET g.tcdb_family_count = tc_count,
+      g.cazy_family_count = cz_count,
+      g.reaction_count = rxn_count,
+      g.metabolite_count = size(apoc.coll.toSet(m_catalysis + m_transport))
 } IN TRANSACTIONS OF 1000 ROWS;
-
-// Gene.metabolite_count = UNION across catalysis + transport paths (per TCDB-S3)
-// Catalysis arm: Gene -> Reaction -> Metabolite (existing chemistry).
-// Transport arm: Gene -> TcdbFamily -> Metabolite (single-hop; substrate edges
-// are rolled up to every ancestor in the adapter, so no descendants walk).
-MATCH (g:Gene)
-CALL {
-  WITH g
-  OPTIONAL MATCH (g)-[:Gene_catalyzes_reaction]->(:Reaction)-[:Reaction_has_metabolite]->(m1:Metabolite)
-  WITH g, collect(DISTINCT m1) AS m_cat
-  OPTIONAL MATCH (g)-[:Gene_has_tcdb_family]->(:TcdbFamily)-[:Tcdb_family_transports_metabolite]->(m2:Metabolite)
-  WITH g, m_cat, collect(DISTINCT m2) AS m_tr
-  SET g.metabolite_count = size(apoc.coll.toSet(m_cat + m_tr))
-} IN TRANSACTIONS OF 500 ROWS;
 
 // ── Metabolism rollups ────────────────────────────────────────────────────
 
@@ -1004,13 +958,18 @@ CALL {
 
 // Materialize Organism_has_metabolite (catalysis arm) — also tags evidence_sources
 // inline at MERGE time (cheap; avoids a per-edge re-traversal pass after).
+// measured_* defaults set at ON CREATE; the measurement-arm MERGE further down
+// overrides them with real values when an assay also reaches this (o, m) pair.
 CALL {
   MATCH (o:OrganismTaxon)<-[:Gene_belongs_to_organism]-(g:Gene)
         -[:Gene_catalyzes_reaction]->(:Reaction)
         -[:Reaction_has_metabolite]->(m:Metabolite)
   WITH DISTINCT o, m
   MERGE (o)-[r:Organism_has_metabolite]->(m)
-  ON CREATE SET r.evidence_sources = ['metabolism']
+  ON CREATE SET r.evidence_sources = ['metabolism'],
+                r.measured_assay_count = 0,
+                r.measured_compartments = [],
+                r.measured_paper_count = 0
   ON MATCH  SET r.evidence_sources =
     CASE WHEN 'metabolism' IN coalesce(r.evidence_sources, [])
          THEN r.evidence_sources
@@ -1024,44 +983,33 @@ CALL {
         -[:Tcdb_family_transports_metabolite]->(m:Metabolite)
   WITH DISTINCT o, m
   MERGE (o)-[r:Organism_has_metabolite]->(m)
-  ON CREATE SET r.evidence_sources = ['transport']
+  ON CREATE SET r.evidence_sources = ['transport'],
+                r.measured_assay_count = 0,
+                r.measured_compartments = [],
+                r.measured_paper_count = 0
   ON MATCH  SET r.evidence_sources =
     CASE WHEN 'transport' IN coalesce(r.evidence_sources, [])
          THEN r.evidence_sources
          ELSE coalesce(r.evidence_sources, []) + 'transport' END
 } IN TRANSACTIONS OF 1000 ROWS;
 
-// Organism rollup props
+// Organism rollup props (~30 organisms — single batch fits comfortably)
 CALL {
   MATCH (o:OrganismTaxon)-[:Organism_has_metabolite]->(m:Metabolite)
   WITH o, count(DISTINCT m) AS metabolite_count
   SET o.metabolite_count = metabolite_count
-} IN TRANSACTIONS OF 100 ROWS;
+} IN TRANSACTIONS OF 1000 ROWS;
 
 CALL {
   MATCH (o:OrganismTaxon)<-[:Gene_belongs_to_organism]-(:Gene)
         -[:Gene_catalyzes_reaction]->(r:Reaction)
   WITH o, count(DISTINCT r) AS reaction_count
   SET o.reaction_count = reaction_count
-} IN TRANSACTIONS OF 100 ROWS;
-
-// ── Chemistry slice-1 rollups (KG-A1, KG-A2, KG-A4) ───────────────────────
-
-// KG-A1: Gene.reaction_count -- single-hop count of catalysis edges.
-// count(r) returns 0 cleanly on no-match; no defaults pass needed.
-MATCH (g:Gene)
-CALL {
-  WITH g
-  OPTIONAL MATCH (g)-[r:Gene_catalyzes_reaction]->()
-  WITH g, count(r) AS rxn_count
-  SET g.reaction_count = rxn_count
 } IN TRANSACTIONS OF 1000 ROWS;
 
-// KG-A2: Gene.metabolite_count -- defined as UNION across catalysis + transport
-// paths. The catalysis arm + transport arm are both implemented earlier in
-// this script (see "Gene.metabolite_count = UNION across catalysis + transport"
-// block above, post-TCDB-CAZy landing). Chemistry-slice-1's placeholder
-// catalysis-only block has been dropped — our UNION subsumes it.
+// ── Chemistry slice-1 rollups (KG-A4) ───────────────────────
+// (Note: KG-A1 Gene.reaction_count and KG-A2 Gene.metabolite_count are folded
+// into the combined Gene metabolism + ontology rollup statement above.)
 
 // KG-A4: KeggTerm pathway-level rollups (sparse on pathways only).
 // level_kind = 'pathway' filter; KOs / categories left unset.
@@ -1071,7 +1019,7 @@ CALL {
   OPTIONAL MATCH (r:Reaction)-[:Reaction_in_kegg_pathway]->(p)
   WITH p, count(r) AS rxn_count
   SET p.reaction_count = rxn_count
-} IN TRANSACTIONS OF 100 ROWS;
+} IN TRANSACTIONS OF 1000 ROWS;
 
 MATCH (p:KeggTerm) WHERE p.level_kind = 'pathway'
 CALL {
@@ -1079,7 +1027,7 @@ CALL {
   OPTIONAL MATCH (m:Metabolite)-[:Metabolite_in_pathway]->(p)
   WITH p, count(m) AS met_count
   SET p.metabolite_count = met_count
-} IN TRANSACTIONS OF 100 ROWS;
+} IN TRANSACTIONS OF 1000 ROWS;
 
 // ── Chemistry slice-1 follow-up rollups (KG-A5, A6, A7, A8) ────────────────
 // Denormalize Metabolite_in_pathway and Organism_has_metabolite edges onto
@@ -1147,7 +1095,7 @@ CALL {
         WHEN pct >= 25.0 THEN 'mid'
         ELSE 'low'
       END
-} IN TRANSACTIONS OF 10 ROWS;
+} IN TRANSACTIONS OF 30 ROWS;
 
 // MetaboliteAssay total_metabolite_count
 MATCH (a:MetaboliteAssay)
@@ -1156,7 +1104,7 @@ CALL {
   OPTIONAL MATCH (a)-[r:Assay_quantifies_metabolite|Assay_flags_metabolite]->(m:Metabolite)
   WITH a, count(DISTINCT m) AS cnt
   SET a.total_metabolite_count = cnt
-} IN TRANSACTIONS OF 100 ROWS;
+} IN TRANSACTIONS OF 1000 ROWS;
 
 // Numeric distribution stats (null for boolean assays)
 MATCH (a:MetaboliteAssay {value_kind: 'numeric'})
@@ -1170,7 +1118,7 @@ CALL {
        percentileDisc(r.value, 0.75) AS q3
   SET a.value_min = vmin, a.value_max = vmax,
       a.value_q1 = q1, a.value_median = med, a.value_q3 = q3
-} IN TRANSACTIONS OF 100 ROWS;
+} IN TRANSACTIONS OF 1000 ROWS;
 
 // Boolean flag counts (null for numeric assays)
 MATCH (a:MetaboliteAssay {value_kind: 'boolean'})
@@ -1181,7 +1129,7 @@ CALL {
        sum(CASE WHEN r.flag_value='true'  THEN 1 ELSE 0 END) AS t,
        sum(CASE WHEN r.flag_value='false' THEN 1 ELSE 0 END) AS f
   SET a.flag_true_count = t, a.flag_false_count = f
-} IN TRANSACTIONS OF 100 ROWS;
+} IN TRANSACTIONS OF 1000 ROWS;
 
 // growth_phases from parent Experiment (mirrors DerivedMetric.growth_phases)
 MATCH (a:MetaboliteAssay)
@@ -1190,7 +1138,7 @@ CALL {
   OPTIONAL MATCH (a)<-[:ExperimentHasMetaboliteAssay]-(e:Experiment)
   WITH a, coalesce(e.growth_phases, []) AS phases
   SET a.growth_phases = phases
-} IN TRANSACTIONS OF 100 ROWS;
+} IN TRANSACTIONS OF 1000 ROWS;
 
 // ── Metabolite measured_* properties (Phase 2) ────────────────────────────────
 
@@ -1221,16 +1169,26 @@ SET m.measured_assay_count = 0,
 // already exist via catalysis/transport. evidence_sources is set inline at
 // MERGE time (mirrors the catalysis + transport blocks above) to avoid a
 // per-edge re-traversal pass that scales O(edges × organism-genes).
+// measured_assay_count / measured_compartments / measured_paper_count are
+// also computed inline here (folded in from a former full-edge augmentation
+// pass that scanned every Organism_has_metabolite edge).
 CALL {
   MATCH (a:MetaboliteAssay)-[:MetaboliteAssayBelongsToOrganism]->(o:OrganismTaxon)
   MATCH (a)-[:Assay_quantifies_metabolite|Assay_flags_metabolite]->(m:Metabolite)
-  WITH DISTINCT o, m
+  OPTIONAL MATCH (a)<-[:PublicationHasMetaboliteAssay]-(p:Publication)
+  WITH o, m,
+       count(DISTINCT a) AS acnt,
+       collect(DISTINCT a.compartment) AS comps,
+       count(DISTINCT p) AS pcnt
   MERGE (o)-[r:Organism_has_metabolite]->(m)
   ON CREATE SET r.evidence_sources = ['measured']
   ON MATCH  SET r.evidence_sources =
     CASE WHEN 'measured' IN coalesce(r.evidence_sources, [])
          THEN r.evidence_sources
          ELSE coalesce(r.evidence_sources, []) + 'measured' END
+  SET r.measured_assay_count = acnt,
+      r.measured_compartments = [c IN comps WHERE c IS NOT NULL],
+      r.measured_paper_count = pcnt
 } IN TRANSACTIONS OF 1000 ROWS;
 
 // Recompute Metabolite.organism_count + organism_names AFTER measurement-arm
@@ -1244,21 +1202,9 @@ CALL {
       m.organism_count = size(orgs)
 } IN TRANSACTIONS OF 1000 ROWS;
 
-// Augmentation properties on every Organism_has_metabolite edge (0 / [] for non-measured)
-MATCH (o:OrganismTaxon)-[r:Organism_has_metabolite]->(m:Metabolite)
-CALL {
-  WITH o, r, m
-  OPTIONAL MATCH (o)<-[:MetaboliteAssayBelongsToOrganism]-(a:MetaboliteAssay)
-    -[:Assay_quantifies_metabolite|Assay_flags_metabolite]->(m)
-  OPTIONAL MATCH (a)<-[:PublicationHasMetaboliteAssay]-(p:Publication)
-  WITH r,
-       count(DISTINCT a) AS acnt,
-       collect(DISTINCT a.compartment) AS comps,
-       count(DISTINCT p) AS pcnt
-  SET r.measured_assay_count = acnt,
-      r.measured_compartments = [c IN comps WHERE c IS NOT NULL],
-      r.measured_paper_count = pcnt
-} IN TRANSACTIONS OF 1000 ROWS;
+// (Note: Organism_has_metabolite measured_* properties are written inline by
+// the catalysis-arm + transport-arm + measurement-arm MERGE blocks above —
+// no separate full-edge augmentation pass.)
 
 // ── Experiment / Publication / OrganismTaxon rollups (Phase 2) ────────────────
 
@@ -1274,7 +1220,7 @@ CALL {
   SET e.metabolite_assay_count = acnt,
       e.metabolite_compartments = [c IN comps WHERE c IS NOT NULL],
       e.metabolite_count = mcnt
-} IN TRANSACTIONS OF 100 ROWS;
+} IN TRANSACTIONS OF 1000 ROWS;
 
 MATCH (p:Publication)
 CALL {
@@ -1288,7 +1234,7 @@ CALL {
   SET p.metabolite_assay_count = acnt,
       p.metabolite_compartments = [c IN comps WHERE c IS NOT NULL],
       p.metabolite_count = mcnt
-} IN TRANSACTIONS OF 100 ROWS;
+} IN TRANSACTIONS OF 1000 ROWS;
 
 MATCH (o:OrganismTaxon)
 CALL {
@@ -1297,7 +1243,7 @@ CALL {
   OPTIONAL MATCH (a)-[:Assay_quantifies_metabolite|Assay_flags_metabolite]->(m:Metabolite)
   WITH o, count(DISTINCT m) AS mcnt
   SET o.measured_metabolite_count = mcnt
-} IN TRANSACTIONS OF 100 ROWS;
+} IN TRANSACTIONS OF 1000 ROWS;
 CYPHER
 
 echo "=== Post-process complete ==="
