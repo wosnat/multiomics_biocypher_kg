@@ -92,6 +92,10 @@ ANCHOR_NODES = {
     "TcdbFamily": [
         "tcdb:1",            # Channels and Pores — class root
         "tcdb:3.A.1.4.4",    # Polar amino acid ABC transporter — leaf with many genes
+        # Tripwires for the acc2tcid hierarchy-seeding fix (May 2026):
+        # these were silently dropped before the build seeded from acc2tcid.tsv.
+        "tcdb:1.A.11",       # Ammonium Transporter Channel (Amt) Family — 3-part family from families.tsv
+        "tcdb:1.A.12.2.2",   # chloride channel — 5-part specificity exclusive to acc2tcid
     ],
     # CAZy carbohydrate-active enzymes
     "CazyFamily": [

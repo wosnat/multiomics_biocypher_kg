@@ -1722,7 +1722,7 @@
       "type": "Gene_in_gene_cluster"
     }
   ],
-  "generated_at": "2026-05-04T17:15:27.916704+00:00",
+  "generated_at": "2026-05-05T05:13:33.423826+00:00",
   "nodes": [
     {
       "anchor": true,
@@ -3054,6 +3054,28 @@
         "level_kind": "tc_specificity",
         "name": "3.A.1.4.4",
         "tcdb_id": "3.A.1.4.4"
+      }
+    },
+    {
+      "anchor": true,
+      "id": "tcdb:1.A.11",
+      "label": "TcdbFamily",
+      "properties": {
+        "level": 2,
+        "level_kind": "tc_family",
+        "name": "The Ammonium Transporter Channel (Amt) Family",
+        "tcdb_id": "1.A.11"
+      }
+    },
+    {
+      "anchor": true,
+      "id": "tcdb:1.A.12.2.2",
+      "label": "TcdbFamily",
+      "properties": {
+        "level": 4,
+        "level_kind": "tc_specificity",
+        "name": "1.A.12.2.2",
+        "tcdb_id": "1.A.12.2.2"
       }
     },
     {
