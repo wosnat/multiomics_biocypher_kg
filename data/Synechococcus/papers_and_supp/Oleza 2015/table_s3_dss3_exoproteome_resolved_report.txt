@@ -1,0 +1,21 @@
+Resolution report: Oleza 2015 / table_s3_dss3_with_wh8102
+Source: table_s3_dss3_exoproteome.csv
+name_col: ncbi_reference
+id_columns: ['ncbi_reference']
+
+Total rows with IDs: 72
+Resolved: 65 (90.3%)
+Unresolved: 7
+
+Resolution method breakdown:
+  multi:ncbi_reference: 65
+  unresolved: 7
+
+Unresolved rows (7):
+  row 4: raw_id='YP_165625.1'  reason=unresolved  [ncbi_reference='YP_165625.1']
+  row 6: raw_id='YP_167397.1'  reason=unresolved  [ncbi_reference='YP_167397.1']
+  row 8: raw_id='YP_167620.1'  reason=unresolved  [ncbi_reference='YP_167620.1']
+  row 10: raw_id='YP_165462.1'  reason=unresolved  [ncbi_reference='YP_165462.1']
+  row 39: raw_id='YP_167482.1'  reason=unresolved  [ncbi_reference='YP_167482.1']
+  row 42: raw_id='YP_167489.1'  reason=unresolved  [ncbi_reference='YP_167489.1']
+  row 48: raw_id='YP_165609.1'  reason=unresolved  [ncbi_reference='YP_165609.1']

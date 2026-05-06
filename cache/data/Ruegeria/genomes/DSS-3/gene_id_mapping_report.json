@@ -28,7 +28,7 @@
     "protein_id_refseq": {
       "conflict": 0,
       "multi": 3873,
-      "unique": 9056
+      "unique": 9060
     },
     "uniprot_accession": {
       "conflict": 0,
@@ -40,10 +40,12 @@
   "unresolved_rows_per_source": {
     "Kaur 2018/supp_table_s5a": 41,
     "Kaur 2018/supp_table_s5b": 51,
+    "Oleza 2015/table_s3_dss3_with_wh7803": 7,
+    "Oleza 2015/table_s3_dss3_with_wh8102": 7,
     "cds_from_genomic.fna": 48,
     "genomic_gca/DSS-3": 176,
     "genomic_gcf/DSS-3": 72,
-    "ncbi_ipg_xref": 6
+    "ncbi_ipg_xref": 10
   },
   "warnings": [
     "[CONFLICT] Tier 1 id_type 'locus_tag_ncbi' has 53 data conflicts \u2014 check annotation quality."

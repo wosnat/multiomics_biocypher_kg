@@ -1,0 +1,106 @@
+publication:
+  papername: "Oleza 2015"
+  doi: "10.1002/pmic.201400562"
+  papermainpdf: "data/Synechococcus/papers_and_supp/Oleza 2015/Synechococcus coculture exoproteome Proteomics 2015.pdf"
+
+  experiments:
+    dss3_exoproteome_with_wh7803:
+      name: "Ruegeria pomeroyi DSS-3 exoproteome in co-culture with Synechococcus WH7803"
+      organism: "Ruegeria pomeroyi DSS-3"
+      omics_type: EXOPROTEOMICS
+      compartment: exoproteome
+      treatment_type: [coculture]
+      background_factors: [light]
+      treatment_condition: "Co-culture with Synechococcus sp. WH7803"
+      experimental_context: "R. pomeroyi DSS-3 (pre-grown in marine broth at 28C, washed in ASW) co-inoculated with Synechococcus sp. WH7803 in ASW medium at 22C, 140 rpm, 10 umol photons m-2 s-1 continuous light; cell-free supernatant collected and analysed by shotgun proteomics (LC-MS/MS) in biological triplicate; per-protein abundance reported as % NSAF averaged across the three replicates (Christie-Oleza et al. Proteomics 2015 Table S3)."
+      treatment_organism: "Synechococcus WH7803"
+      treatment_taxid: 32051
+      treatment_assembly_accession: GCF_000063505.1
+      medium: "ASW"
+      temperature: "22C"
+      light_condition: "continuous light"
+      light_intensity: "10 umol photons m-2 s-1"
+      table_scope: filtered_subset
+      table_scope_detail: "Polypeptides detected with two or more unique peptides in the cell-free supernatant"
+
+    dss3_exoproteome_with_wh8102:
+      name: "Ruegeria pomeroyi DSS-3 exoproteome in co-culture with Synechococcus WH8102"
+      organism: "Ruegeria pomeroyi DSS-3"
+      omics_type: EXOPROTEOMICS
+      compartment: exoproteome
+      treatment_type: [coculture]
+      background_factors: [light]
+      treatment_condition: "Co-culture with Synechococcus sp. WH8102"
+      experimental_context: "R. pomeroyi DSS-3 (pre-grown in marine broth at 28C, washed in ASW) co-inoculated with Synechococcus sp. WH8102 in ASW medium at 22C, 140 rpm, 10 umol photons m-2 s-1 continuous light; cell-free supernatant collected and analysed by shotgun proteomics (LC-MS/MS) in biological triplicate; per-protein abundance reported as % NSAF averaged across the three replicates (Christie-Oleza et al. Proteomics 2015 Table S3)."
+      treatment_organism: "Synechococcus WH8102"
+      treatment_taxid: 84588
+      treatment_assembly_accession: GCF_000195975.1
+      medium: "ASW"
+      temperature: "22C"
+      light_condition: "continuous light"
+      light_intensity: "10 umol photons m-2 s-1"
+      table_scope: filtered_subset
+      table_scope_detail: "Polypeptides detected with two or more unique peptides in the cell-free supernatant"
+
+  supplementary_materials:
+    table_s3_dss3_with_wh7803:
+      type: derived_metrics_table
+      filename: "data/Synechococcus/papers_and_supp/Oleza 2015/table_s3_dss3_exoproteome.csv"
+      organism: "Ruegeria pomeroyi DSS-3"
+      experiment: dss3_exoproteome_with_wh7803
+      name_col: ncbi_reference
+      id_columns:
+        - column: ncbi_reference
+          id_type: protein_id_refseq
+      product_columns:
+        - column: annotated_function
+        - column: additional_function
+      metrics:
+        - metric_type: exoproteome_avg_pct_nsaf
+          name: "Avg % NSAF in DSS-3 exoproteome (with WH7803)"
+          value_kind: numeric
+          value_col: wh7803_avg_nsaf
+          unit: "% NSAF"
+          rankable: "true"
+          has_p_value: "false"
+          field_description: "Average % NSAF (Normalized Spectral Abundance Factor) of this protein in the cell-free supernatant of R. pomeroyi DSS-3 when co-cultured with Synechococcus sp. WH7803, averaged across three biological replicates (% NSAF A/B/C in the source xlsx). Higher values indicate more abundant exoproteome representation."
+        - metric_type: exoproteome_detection_status
+          name: "Detection status in DSS-3 exoproteome (with WH7803)"
+          value_kind: categorical
+          value_col: wh7803_detection_status
+          allowed_categories:
+            - detected
+            - sporadic
+            - not_detected
+          field_description: "Detection confidence in the cell-free supernatant of R. pomeroyi DSS-3 when co-cultured with Synechococcus sp. WH7803, derived from the three replicate % NSAF values (A/B/C in the source xlsx). 'detected' = non-zero in all 3 replicates, 'sporadic' = non-zero in 1 or 2 replicates, 'not_detected' = zero or absent in all 3 replicates."
+
+    table_s3_dss3_with_wh8102:
+      type: derived_metrics_table
+      filename: "data/Synechococcus/papers_and_supp/Oleza 2015/table_s3_dss3_exoproteome.csv"
+      organism: "Ruegeria pomeroyi DSS-3"
+      experiment: dss3_exoproteome_with_wh8102
+      name_col: ncbi_reference
+      id_columns:
+        - column: ncbi_reference
+          id_type: protein_id_refseq
+      product_columns:
+        - column: annotated_function
+        - column: additional_function
+      metrics:
+        - metric_type: exoproteome_avg_pct_nsaf
+          name: "Avg % NSAF in DSS-3 exoproteome (with WH8102)"
+          value_kind: numeric
+          value_col: wh8102_avg_nsaf
+          unit: "% NSAF"
+          rankable: "true"
+          has_p_value: "false"
+          field_description: "Average % NSAF (Normalized Spectral Abundance Factor) of this protein in the cell-free supernatant of R. pomeroyi DSS-3 when co-cultured with Synechococcus sp. WH8102, averaged across three biological replicates (% NSAF A/B/C in the source xlsx). Higher values indicate more abundant exoproteome representation."
+        - metric_type: exoproteome_detection_status
+          name: "Detection status in DSS-3 exoproteome (with WH8102)"
+          value_kind: categorical
+          value_col: wh8102_detection_status
+          allowed_categories:
+            - detected
+            - sporadic
+            - not_detected
+          field_description: "Detection confidence in the cell-free supernatant of R. pomeroyi DSS-3 when co-cultured with Synechococcus sp. WH8102, derived from the three replicate % NSAF values (A/B/C in the source xlsx). 'detected' = non-zero in all 3 replicates, 'sporadic' = non-zero in 1 or 2 replicates, 'not_detected' = zero or absent in all 3 replicates."
