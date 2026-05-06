@@ -148,6 +148,36 @@ def _aggregate_replicates(
     return mean, sd, n_replicates, n_non_zero, parsed, det
 
 
+def _compute_embedded(
+    cell, total_replicates: int,
+) -> tuple[float, float, int, int, list[float], str]:
+    """Aggregate one embedded 'mean (sd), n=N' cell into the edge-property tuple.
+
+    n_replicates is taken from the paperconfig's `total_replicates` (e.g. 3 for
+    Biller 2022 S7 "out of 3 biological replicates"). n_non_zero comes from the
+    parsed `n=N` (replicates above LOD). When `total_replicates` is missing/0
+    (legacy configs), falls back to parsed n — detection_status will then be
+    "detected" for every parsed cell (lossy).
+
+    Empty / unparseable cells return n_replicates=0 so the caller's existing
+    `if n_rep == 0: continue` skip path drops the row without emitting an edge.
+    """
+    parsed = parse_embedded_mean_sd_n(cell)
+    if parsed is None:
+        return 0.0, 0.0, 0, 0, [], "not_detected"
+    mean, sd, n_nz = parsed
+    n_rep = int(total_replicates) if total_replicates and total_replicates > 0 else n_nz
+    if n_rep == 0:
+        det = "not_detected"
+    elif n_nz == 0:
+        det = "not_detected"
+    elif n_nz >= n_rep:
+        det = "detected"
+    else:
+        det = "sporadic"
+    return mean, sd, n_rep, n_nz, [], det
+
+
 def parse_embedded_mean_sd_n(cell) -> tuple[float, float, int] | None:
     """Parse cells like '0.00054 (8.8e-05), n=2' or 'nd'.
 
@@ -318,6 +348,10 @@ class MetaboliteAssayAdapter:
     ):
         sample_cols_block = assay.get("sample_columns", [])
         drop_undetected = bool(entry.get("drop_undetected", False))
+        cell_format = entry.get("cell_format", "numeric")
+        # total_replicates is required when cell_format=embedded_mean_sd_n; the
+        # validator enforces this. Falls back to parsed n when missing (lossy).
+        total_replicates = int(assay.get("total_replicates") or 0)
         for row_idx, row in df.iterrows():
             primary = str(row.get("metabolite_id", "") or "").strip()
             if not primary:
@@ -326,10 +360,15 @@ class MetaboliteAssayAdapter:
                 rcols = sc.get("replicate_columns") or []
                 if not rcols:
                     continue
-                raw_values = [row.get(c, "") for c in rcols]
-                mean, sd, n_rep, n_nz, vals, det = _aggregate_replicates(
-                    raw_values, null_values=null_values, missing_values=missing_values,
-                )
+                if cell_format == "embedded_mean_sd_n":
+                    mean, sd, n_rep, n_nz, vals, det = _compute_embedded(
+                        row.get(rcols[0], ""), total_replicates,
+                    )
+                else:
+                    raw_values = [row.get(c, "") for c in rcols]
+                    mean, sd, n_rep, n_nz, vals, det = _aggregate_replicates(
+                        raw_values, null_values=null_values, missing_values=missing_values,
+                    )
                 if n_rep == 0:
                     continue  # all-missing → no edge regardless of policy
                 if drop_undetected and det == "not_detected":

@@ -1,0 +1,14 @@
+# Per-paper metabolite alias overrides for Biller 2022 Table S7.
+# Free-text compound name → primary metabolite ID. Aliases win over MNX hits
+# in step 6/7. Names below failed name_match because the paper uses
+# whitespace/parens variants that don't match the canonical KEGG synonyms.
+"Adenosyl Homocysteine": "kegg.compound:C00021"          # S-adenosyl-L-homocysteine (SAH)
+"Adenosyl Methionine": "kegg.compound:C00019"            # S-adenosyl-L-methionine (SAM)
+"Betaine (glycine betaine)": "kegg.compound:C00719"      # parens break name_match
+"Fructose 6 phosphate": "kegg.compound:C00085"           # D-fructose 6-phosphate
+"Glucose 1 phosphate": "kegg.compound:C00103"            # α-D-glucose 1-phosphate
+"Glucose 6 phosphate": "kegg.compound:C00092"            # D-glucose 6-phosphate
+"Glycerol 3 phosphate": "kegg.compound:C00093"           # sn-glycerol 3-phosphate
+"N(e)-Acetyl-Lysine": "kegg.compound:C02727"             # Nε-acetyl-L-lysine
+"trans Hydroxyl proline": "kegg.compound:C01157"         # trans-4-hydroxy-L-proline
+"trans Retinal": "kegg.compound:C00376"                  # all-trans retinal

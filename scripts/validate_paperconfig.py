@@ -1232,6 +1232,17 @@ def _validate_metabolite_assays_entry(
                 f"not in {sorted(METABOLITE_AGG_METHOD_VOCAB)}"
             )
 
+        # cell_format=embedded_mean_sd_n needs an explicit total_replicates so the
+        # adapter can populate n_replicates / detection_status (parsed n only carries
+        # the "above LOD" count, not the design's total replication).
+        if vk == "numeric" and table.get("cell_format") == "embedded_mean_sd_n":
+            tr = assay.get("total_replicates")
+            if not isinstance(tr, int) or tr <= 0:
+                errors.append(
+                    f"{a_prefix} cell_format='embedded_mean_sd_n' requires "
+                    f"'total_replicates' (positive int); got {tr!r}"
+                )
+
         sample_cols = assay.get("sample_columns") or []
         if not isinstance(sample_cols, list) or not sample_cols:
             errors.append(f"{a_prefix} 'sample_columns' must be a non-empty list")

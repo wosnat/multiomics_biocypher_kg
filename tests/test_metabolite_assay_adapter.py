@@ -231,6 +231,122 @@ def test_adapter_no_resolved_csv_still_emits_binding_edges(tmp_path):
     assert len(binding) == 3
 
 
+# ─── Adapter integration: cell_format=embedded_mean_sd_n ─────────────────────
+
+
+def _make_embedded_paperconfig(tmp_path, total_replicates=3, drop_undetected=False):
+    """Paperconfig using cell_format: embedded_mean_sd_n.
+
+    Three rows exercise the three detection states:
+    - Glucose "0.18 (0.049), n=3" → fully detected
+    - Aconitic Acid "0.00054 (8.8e-05), n=2" → sporadic
+    - Ribose 5 phosphate "nd" → not_detected
+    """
+    src = tmp_path / "metab.csv"
+    pd.DataFrame({
+        "compound": ["Glucose", "Aconitic Acid", "Ribose 5 phosphate"],
+        "cells": ["0.18 (0.049), n=3", "0.00054 (8.8e-05), n=2", "nd"],
+    }).to_csv(src, index=False)
+    pd.DataFrame({
+        "compound": ["Glucose", "Aconitic Acid", "Ribose 5 phosphate"],
+        "cells": ["0.18 (0.049), n=3", "0.00054 (8.8e-05), n=2", "nd"],
+        "metabolite_id": [
+            "kegg.compound:C00031",
+            "kegg.compound:C00417",
+            "kegg.compound:C00117",
+        ],
+        "resolution_method": ["name_match"] * 3,
+    }).to_csv(src.with_name("metab_resolved.csv"), index=False)
+
+    cfg = {
+        "publication": {
+            "papername": "Test 2026 Embedded",
+            "doi": "10.1/embedded",
+            "experiments": {
+                "exp1": {
+                    "name": "embedded test exp",
+                    "organism": "Prochlorococcus MIT9312",
+                    "compartment": "whole_cell",
+                    "omics_type": "METABOLOMICS",
+                    "treatment_type": ["compartment"],
+                    "background_factors": ["axenic", "light"],
+                    "treatment_condition": "Whole-cell metabolome",
+                    "experimental_context": "ctx",
+                    "light_condition": "continuous",
+                },
+            },
+            "supplementary_materials": {
+                "tab_a": {
+                    "type": "metabolite_assays_table",
+                    "filename": str(src),
+                    "experiment": "exp1",
+                    "organism": "Prochlorococcus MIT9312",
+                    "name_col": "compound",
+                    "cell_format": "embedded_mean_sd_n",
+                    "aggregation_method": "pre_aggregated",
+                    "drop_undetected": drop_undetected,
+                    "assays": [{
+                        "metric_type": "rel_peak_area",
+                        "name": "test embedded",
+                        "value_kind": "numeric",
+                        "unit": "rel area",
+                        "rankable": "true",
+                        "field_description": "test desc",
+                        "total_replicates": total_replicates,
+                        "sample_columns": [
+                            {
+                                "condition_label": "cells",
+                                "replicate_columns": ["cells"],
+                            }
+                        ],
+                    }],
+                }
+            },
+        }
+    }
+    pc = tmp_path / "paperconfig.yaml"
+    pc.write_text(yaml.safe_dump(cfg))
+    return pc
+
+
+def test_adapter_embedded_format_three_detection_states(tmp_path):
+    """cell_format=embedded_mean_sd_n parses '<mean> (<sd>), n=N' cells.
+
+    n_replicates is taken from paperconfig total_replicates (3 here);
+    n_non_zero is the parsed n (number of replicates above LOD).
+    Detection status: parsed_n == 0 → not_detected; == total → detected; else sporadic.
+    replicate_values stay empty since the embedded format gives only summary stats.
+    """
+    from multiomics_kg.adapters.metabolite_assay_adapter import MetaboliteAssayAdapter
+    pc = _make_embedded_paperconfig(tmp_path)
+    adapter = MetaboliteAssayAdapter(config_file=str(pc))
+    edges = [e for e in adapter.get_edges() if e[3] == "assay_quantifies_metabolite"]
+    assert len(edges) == 3
+    by_dst = {e[2]: e[4] for e in edges}
+
+    glu = by_dst["kegg.compound:C00031"]
+    assert glu["value"] == 0.18
+    assert glu["value_sd"] == 0.049
+    assert glu["n_replicates"] == 3
+    assert glu["n_non_zero"] == 3
+    assert glu["detection_status"] == "detected"
+    assert glu["replicate_values"] == []
+
+    aco = by_dst["kegg.compound:C00417"]
+    assert aco["value"] == 0.00054
+    assert aco["value_sd"] == 8.8e-05
+    assert aco["n_replicates"] == 3
+    assert aco["n_non_zero"] == 2
+    assert aco["detection_status"] == "sporadic"
+
+    rib = by_dst["kegg.compound:C00117"]
+    assert rib["value"] == 0.0
+    assert rib["value_sd"] == 0.0
+    assert rib["n_replicates"] == 3
+    assert rib["n_non_zero"] == 0
+    assert rib["detection_status"] == "not_detected"
+
+
 def test_multi_adapter_filters_to_metabolomics_papers(tmp_path):
     """MultiMetaboliteAssayAdapter only instantiates per-paper adapters when
     the paperconfig has at least one metabolite_assays_table entry."""

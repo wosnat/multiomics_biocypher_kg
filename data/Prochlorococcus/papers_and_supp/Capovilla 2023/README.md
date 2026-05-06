@@ -11,7 +11,7 @@
 
 DE tables for both strains (sd02) are already integrated as Changes_expression_of edges; that part is done. The actionable remaining gene-level work is `pnas.2213271120.sd01.xlsx` -- a per-gene chitin-utilization-pathway presence/classification table across multiple Prochlorococcus / Synechococcus strains. If columns are per-strain Y/N flags or a categorical pathway-component label, this fits the existing `derived_metrics_table` pattern (value_kind boolean or categorical). Inspecting/extracting that XLSX is the next paperconfig change.
 
-Secondary: bucket A applies to the metabolomics tables (`metabolites pnas.2213271120.sd03.xlsx`, `cellular_concentrations metabolites ...sd03.csv`, `column_extracts_raw metabolites ...sd03.csv`) -- those are LC-MS metabolite pools with no gene mapping, ready to add once a Metabolite node type lands in the KG.
+Secondary: Phase 2 metabolomics is partially integrated. Intracellular concentrations from `cellular_concentrations metabolites ...sd03.csv` are wired via 2 `metabolite_assays_table` entries (`metabolites_intracellular_mit9303`, `metabolites_intracellular_mit9313`, `compartment: whole_cell`; `metabolite_aliases.yaml` + `*_resolved.csv` present). Column-extract / extracellular table (`column_extracts_raw metabolites ...sd03.csv`) is not yet wired — optional follow-up if the extracellular pool is wanted (`compartment: extracellular`).
 
 ## Available data inventory
 
@@ -22,10 +22,10 @@ Secondary: bucket A applies to the metabolomics tables (`metabolites pnas.221327
 | `DE genes RNA-Seq_MIT9303 pnas.2213271120.sd02.csv` | CSV | MIT9303 significantly DE genes (36: 18 up, 18 down) | already in | — |
 | `DE genes pnas.2213271120.sd02.xlsx` | XLSX | Original Excel (both strains as separate sheets) | skip | Duplicate of CSVs already in |
 | `pnas.2213271120.sd01.xlsx` | XLSX | Chitin utilization gene annotations across genomes | add | Per-gene presence/classification across multiple strains — candidate for `derived_metrics_table` with `value_kind: boolean` or `categorical` (need to inspect column structure) |
-| `metabolites pnas.2213271120.sd03.xlsx` | XLSX | Metabolomics data (intracellular + column-extract concentrations across strains, multiple time points/conditions) | defer (bucket A) | Awaiting Metabolite node type in KG schema |
-| `cellular_concentrations metabolites pnas.2213271120.sd03.csv` | CSV | Per-strain intracellular metabolite concentrations (fg/cell) -- derived from sd03 | defer (bucket A) | Same |
-| `column_extracts_raw metabolites pnas.2213271120.sd03.csv` | CSV | Raw column-extract metabolite concentrations (HILIC TSQ) | defer (bucket A) | Same |
-| `average_T4 pnas.2213271120.sd03.csv`, `average_T6 pnas.2213271120.sd03.csv` | CSV | Per-time-point metabolite averages from sd03 | defer (bucket A) | Same |
+| `metabolites pnas.2213271120.sd03.xlsx` | XLSX | Metabolomics data (intracellular + column-extract concentrations across strains, multiple time points/conditions) | skip (xlsx) | Use the per-fraction CSV derivations below as inputs |
+| `cellular_concentrations metabolites pnas.2213271120.sd03.csv` | CSV | Per-strain intracellular metabolite concentrations (fg/cell) -- derived from sd03 | already in | 2 `metabolite_assays_table` entries (`metabolites_intracellular_mit9303`, `metabolites_intracellular_mit9313`); `compartment: whole_cell`; `*_resolved.csv` + `metabolite_aliases.yaml` present |
+| `column_extracts_raw metabolites pnas.2213271120.sd03.csv` | CSV | Raw column-extract metabolite concentrations (HILIC TSQ) | not yet | Optional follow-up: extracellular/spent-medium quant; would add `metabolite_assays_table` entries with `compartment: extracellular` |
+| `average_T4 pnas.2213271120.sd03.csv`, `average_T6 pnas.2213271120.sd03.csv` | CSV | Per-time-point metabolite averages from sd03 | skip (derived) | Replicate-aggregated views of the cellular_concentrations CSV; the adapter does its own replicate aggregation, so these are redundant |
 | `read counts pnas.2213271120.sd04.csv` | CSV | MIT9313 normalized read counts (all genes, all samples) | skip | Sample x gene expression matrix |
 | `read counts pnas.2213271120.sd05.csv` | CSV | MIT9303 normalized read counts (all genes, all samples) | skip | Sample x gene expression matrix |
 | `paperconfig.yaml` | YAML | Active paperconfig | reference | — |

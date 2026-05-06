@@ -20,9 +20,52 @@
     },
     "chebi:173245": {
       "aliases": [
+        "Tyrosine",
         "tyrosine"
       ],
       "first_method": "ambiguous_multi_id"
+    },
+    "chebi:176838": {
+      "aliases": [
+        "Vitamin B2"
+      ],
+      "first_method": "ambiguous_multi_id"
+    },
+    "chebi:176840": {
+      "aliases": [
+        "Vitamin B5"
+      ],
+      "first_method": "ambiguous_multi_id"
+    },
+    "chebi:21260": {
+      "aliases": [
+        "Cysteic Acid"
+      ],
+      "first_method": "ambiguous_multi_id"
+    },
+    "chebi:23042": {
+      "aliases": [
+        "Carotene"
+      ],
+      "first_method": "name_match"
+    },
+    "chebi:24346": {
+      "aliases": [
+        "Phosphoglyceric Acid"
+      ],
+      "first_method": "name_match"
+    },
+    "chebi:91033": {
+      "aliases": [
+        "Glucosylglycerol"
+      ],
+      "first_method": "ambiguous_multi_id"
+    },
+    "kegg.compound:C00003": {
+      "aliases": [
+        "NAD"
+      ],
+      "first_method": "name_match"
     },
     "kegg.compound:C00004": {
       "aliases": [
@@ -31,25 +74,52 @@
       ],
       "first_method": "kegg_direct"
     },
+    "kegg.compound:C00006": {
+      "aliases": [
+        "NADP"
+      ],
+      "first_method": "name_match"
+    },
+    "kegg.compound:C00008": {
+      "aliases": [
+        "ADP"
+      ],
+      "first_method": "name_match"
+    },
+    "kegg.compound:C00016": {
+      "aliases": [
+        "FAD"
+      ],
+      "first_method": "name_match"
+    },
+    "kegg.compound:C00018": {
+      "aliases": [
+        "Pyridoxal Phosphate"
+      ],
+      "first_method": "name_match"
+    },
     "kegg.compound:C00019": {
       "aliases": [
+        "Adenosyl Methionine",
         "s-adenosyl-L-methionine"
       ],
-      "first_method": "kegg_direct"
+      "first_method": "alias_override"
     },
     "kegg.compound:C00020": {
       "aliases": [
+        "AMP",
         "adenosine 5'-monophosphate pos",
         "adenosine 5'-monophosphate"
       ],
-      "first_method": "kegg_direct"
+      "first_method": "name_match"
     },
     "kegg.compound:C00021": {
       "aliases": [
+        "Adenosyl Homocysteine",
         "s-(5'-adenosyl)-L-homocysteine pos",
         "S-(5'-adenosyl)-L-homocysteine"
       ],
-      "first_method": "kegg_direct"
+      "first_method": "alias_override"
     },
     "kegg.compound:C00024": {
       "aliases": [
@@ -65,9 +135,16 @@
     },
     "kegg.compound:C00026": {
       "aliases": [
+        "Ketoglutaric Acid",
         "alpha-ketoglutaric acid"
       ],
       "first_method": "name_match"
+    },
+    "kegg.compound:C00029": {
+      "aliases": [
+        "UDP-glucose"
+      ],
+      "first_method": "ambiguous_multi_id"
     },
     "kegg.compound:C00041": {
       "aliases": [
@@ -81,6 +158,12 @@
       ],
       "first_method": "kegg_direct"
     },
+    "kegg.compound:C00047": {
+      "aliases": [
+        "Lysine"
+      ],
+      "first_method": "ambiguous_multi_id"
+    },
     "kegg.compound:C00049": {
       "aliases": [
         "aspartic acid pos"
@@ -92,6 +175,12 @@
         "l-glutathione"
       ],
       "first_method": "kegg_direct"
+    },
+    "kegg.compound:C00061": {
+      "aliases": [
+        "Riboflavin Monophosphate"
+      ],
+      "first_method": "name_match"
     },
     "kegg.compound:C00062": {
       "aliases": [
@@ -149,12 +238,20 @@
     },
     "kegg.compound:C00085": {
       "aliases": [
+        "Fructose 6 phosphate",
         "fructose6P"
       ],
       "first_method": "alias_override"
     },
+    "kegg.compound:C00089": {
+      "aliases": [
+        "Sucrose"
+      ],
+      "first_method": "name_match"
+    },
     "kegg.compound:C00092": {
       "aliases": [
+        "Glucose 6 phosphate",
         "glucose6P",
         "glucose 6-phosphate"
       ],
@@ -162,16 +259,23 @@
     },
     "kegg.compound:C00093": {
       "aliases": [
+        "Glycerol 3 phosphate",
         "sn-glycerol 3-phosphate pos",
         "sn-glycerol 3-phosphate"
       ],
-      "first_method": "kegg_direct"
+      "first_method": "alias_override"
     },
     "kegg.compound:C00097": {
       "aliases": [
         "l-cysteine"
       ],
       "first_method": "kegg_direct"
+    },
+    "kegg.compound:C00103": {
+      "aliases": [
+        "Glucose 1 phosphate"
+      ],
+      "first_method": "alias_override"
     },
     "kegg.compound:C00105": {
       "aliases": [
@@ -214,6 +318,7 @@
     },
     "kegg.compound:C00122": {
       "aliases": [
+        "Fumaric Acid",
         "fumaric acid"
       ],
       "first_method": "name_match"
@@ -227,6 +332,8 @@
     },
     "kegg.compound:C00127": {
       "aliases": [
+        "Glutathione",
+        "Glutathione Disulfide",
         "glutathione",
         "glutathione oxidized"
       ],
@@ -239,12 +346,24 @@
       ],
       "first_method": "kegg_direct"
     },
+    "kegg.compound:C00133": {
+      "aliases": [
+        "Alanine"
+      ],
+      "first_method": "ambiguous_multi_id"
+    },
     "kegg.compound:C00134": {
       "aliases": [
         "Putrescine",
         "putrescine"
       ],
       "first_method": "kegg_direct"
+    },
+    "kegg.compound:C00135": {
+      "aliases": [
+        "Histidine"
+      ],
+      "first_method": "name_match"
     },
     "kegg.compound:C00140": {
       "aliases": [
@@ -258,18 +377,26 @@
       ],
       "first_method": "kegg_direct"
     },
+    "kegg.compound:C00144": {
+      "aliases": [
+        "GMP"
+      ],
+      "first_method": "name_match"
+    },
     "kegg.compound:C00147": {
       "aliases": [
+        "Adenine",
         "adenine pos",
         "adenine"
       ],
-      "first_method": "kegg_direct"
+      "first_method": "name_match"
     },
     "kegg.compound:C00148": {
       "aliases": [
+        "Proline",
         "proline"
       ],
-      "first_method": "kegg_direct"
+      "first_method": "ambiguous_multi_id"
     },
     "kegg.compound:C00149": {
       "aliases": [
@@ -285,6 +412,7 @@
     },
     "kegg.compound:C00158": {
       "aliases": [
+        "Citric Acid",
         "citric acid",
         "citrate"
       ],
@@ -292,10 +420,11 @@
     },
     "kegg.compound:C00170": {
       "aliases": [
+        "Methylthioadenosine",
         "5'-Deoxy-5'(methylthio)adenosine",
         "5'-methylthioadenosine"
       ],
-      "first_method": "kegg_direct"
+      "first_method": "name_match"
     },
     "kegg.compound:C00183": {
       "aliases": [
@@ -305,10 +434,11 @@
     },
     "kegg.compound:C00188": {
       "aliases": [
+        "Threonine",
         "threonine (isom. homoserine)",
         "threonine / homoserine"
       ],
-      "first_method": "kegg_direct"
+      "first_method": "name_match"
     },
     "kegg.compound:C00196": {
       "aliases": [
@@ -325,9 +455,10 @@
     },
     "kegg.compound:C00212": {
       "aliases": [
+        "Adenosine",
         "adenosine"
       ],
-      "first_method": "kegg_direct"
+      "first_method": "ambiguous_multi_id"
     },
     "kegg.compound:C00213": {
       "aliases": [
@@ -341,6 +472,12 @@
       ],
       "first_method": "kegg_direct"
     },
+    "kegg.compound:C00217": {
+      "aliases": [
+        "Glutamic acid"
+      ],
+      "first_method": "ambiguous_multi_id"
+    },
     "kegg.compound:C00233": {
       "aliases": [
         "4-methyl-2-oxopentanoic acid"
@@ -349,9 +486,10 @@
     },
     "kegg.compound:C00242": {
       "aliases": [
+        "Guanine",
         "guanine"
       ],
-      "first_method": "kegg_direct"
+      "first_method": "name_match"
     },
     "kegg.compound:C00245": {
       "aliases": [
@@ -365,6 +503,12 @@
       ],
       "first_method": "kegg_direct"
     },
+    "kegg.compound:C00263": {
+      "aliases": [
+        "Homoserine"
+      ],
+      "first_method": "ambiguous_multi_id"
+    },
     "kegg.compound:C00294": {
       "aliases": [
         "inosine"
@@ -373,9 +517,16 @@
     },
     "kegg.compound:C00295": {
       "aliases": [
+        "Orotic Acid",
         "orotic acid"
       ],
-      "first_method": "kegg_direct"
+      "first_method": "name_match"
+    },
+    "kegg.compound:C00299": {
+      "aliases": [
+        "Uridine"
+      ],
+      "first_method": "name_match"
     },
     "kegg.compound:C00314": {
       "aliases": [
@@ -433,6 +584,12 @@
       ],
       "first_method": "alias_override"
     },
+    "kegg.compound:C00376": {
+      "aliases": [
+        "trans Retinal"
+      ],
+      "first_method": "alias_override"
+    },
     "kegg.compound:C00378": {
       "aliases": [
         "thiamine"
@@ -441,23 +598,26 @@
     },
     "kegg.compound:C00380": {
       "aliases": [
+        "Cytosine",
         "cytosine"
       ],
-      "first_method": "kegg_direct"
+      "first_method": "name_match"
     },
     "kegg.compound:C00385": {
       "aliases": [
+        "Xanthine",
         "xanthine pos",
         "xanthine"
       ],
-      "first_method": "kegg_direct"
+      "first_method": "name_match"
     },
     "kegg.compound:C00387": {
       "aliases": [
+        "Guanosine",
         "guanosine pos",
         "guanosine"
       ],
-      "first_method": "kegg_direct"
+      "first_method": "name_match"
     },
     "kegg.compound:C00398": {
       "aliases": [
@@ -471,12 +631,30 @@
       ],
       "first_method": "kegg_direct"
     },
+    "kegg.compound:C00417": {
+      "aliases": [
+        "Aconitic Acid"
+      ],
+      "first_method": "ambiguous_multi_id"
+    },
+    "kegg.compound:C00475": {
+      "aliases": [
+        "Cytidine"
+      ],
+      "first_method": "ambiguous_multi_id"
+    },
     "kegg.compound:C00504": {
       "aliases": [
         "folic acid neg",
         "folic acid"
       ],
       "first_method": "kegg_direct"
+    },
+    "kegg.compound:C00525": {
+      "aliases": [
+        "Tryptophan"
+      ],
+      "first_method": "ambiguous_multi_id"
     },
     "kegg.compound:C00568": {
       "aliases": [
@@ -498,10 +676,17 @@
     },
     "kegg.compound:C00719": {
       "aliases": [
+        "Betaine (glycine betaine)",
         "betaine",
         "glycine betaine"
       ],
-      "first_method": "kegg_direct"
+      "first_method": "alias_override"
+    },
+    "kegg.compound:C00819": {
+      "aliases": [
+        "Glutamine"
+      ],
+      "first_method": "ambiguous_multi_id"
     },
     "kegg.compound:C00864": {
       "aliases": [
@@ -512,15 +697,23 @@
     },
     "kegg.compound:C00954": {
       "aliases": [
+        "Cystine",
         "indole 3-acetic acid"
       ],
-      "first_method": "kegg_direct"
+      "first_method": "ambiguous_multi_id"
     },
     "kegg.compound:C01081": {
       "aliases": [
+        "Thiamine monophosphate",
         "thiamine monophosphate"
       ],
-      "first_method": "kegg_direct"
+      "first_method": "name_match"
+    },
+    "kegg.compound:C01157": {
+      "aliases": [
+        "trans Hydroxyl proline"
+      ],
+      "first_method": "alias_override"
     },
     "kegg.compound:C01182": {
       "aliases": [
@@ -537,16 +730,23 @@
     },
     "kegg.compound:C01674": {
       "aliases": [
+        "Chitobiose",
         "chitobiose pos",
         "chitobiose"
       ],
-      "first_method": "alias_override"
+      "first_method": "ambiguous_multi_id"
     },
     "kegg.compound:C01705": {
       "aliases": [
         "glyphosate"
       ],
       "first_method": "kegg_direct"
+    },
+    "kegg.compound:C01733": {
+      "aliases": [
+        "Methionine"
+      ],
+      "first_method": "ambiguous_multi_id"
     },
     "kegg.compound:C01762": {
       "aliases": [
@@ -555,12 +755,43 @@
       ],
       "first_method": "kegg_direct"
     },
+    "kegg.compound:C01817": {
+      "aliases": [
+        "Homocystine"
+      ],
+      "first_method": "name_match"
+    },
+    "kegg.compound:C01879": {
+      "aliases": [
+        "L-Pyroglutamic acid"
+      ],
+      "first_method": "name_match"
+    },
     "kegg.compound:C01909": {
       "aliases": [
+        "Desthiobiotin",
         "desthiobiotin pos",
         "desthiobiotin"
       ],
-      "first_method": "kegg_direct"
+      "first_method": "name_match"
+    },
+    "kegg.compound:C02057": {
+      "aliases": [
+        "Phenylalanine"
+      ],
+      "first_method": "ambiguous_multi_id"
+    },
+    "kegg.compound:C02059": {
+      "aliases": [
+        "Vitamin K1"
+      ],
+      "first_method": "ambiguous_multi_id"
+    },
+    "kegg.compound:C02200": {
+      "aliases": [
+        "UDP-glucosamine"
+      ],
+      "first_method": "ambiguous_multi_id"
     },
     "kegg.compound:C02713": {
       "aliases": [
@@ -568,6 +799,24 @@
         "n-acetyl muramic acid"
       ],
       "first_method": "kegg_direct"
+    },
+    "kegg.compound:C02727": {
+      "aliases": [
+        "N(e)-Acetyl-Lysine"
+      ],
+      "first_method": "alias_override"
+    },
+    "kegg.compound:C02989": {
+      "aliases": [
+        "Methionine Sulfoxide"
+      ],
+      "first_method": "ambiguous_multi_id"
+    },
+    "kegg.compound:C03150": {
+      "aliases": [
+        "Vitamin B3"
+      ],
+      "first_method": "ambiguous_multi_id"
     },
     "kegg.compound:C03557": {
       "aliases": [
@@ -644,9 +893,22 @@
       ],
       "first_method": "kegg_direct"
     },
+    "kegg.compound:C14179": {
+      "aliases": [
+        "Sulfoacetic Acid"
+      ],
+      "first_method": "name_match"
+    },
     "kegg.compound:C16433": {
       "aliases": [
+        "Aspartic acid",
         "aspartic acid"
+      ],
+      "first_method": "ambiguous_multi_id"
+    },
+    "kegg.compound:C16438": {
+      "aliases": [
+        "Asparagine"
       ],
       "first_method": "ambiguous_multi_id"
     },
@@ -670,11 +932,29 @@
       ],
       "first_method": "name_match"
     },
+    "mnx:MNXM1565340": {
+      "aliases": [
+        "Arginine"
+      ],
+      "first_method": "ambiguous_multi_id"
+    },
     "mnx:MNXM1565343": {
       "aliases": [
         "cysteine"
       ],
       "first_method": "ambiguous_multi_id"
+    },
+    "mnx:MNXM499385": {
+      "aliases": [
+        "Serine"
+      ],
+      "first_method": "ambiguous_multi_id"
+    },
+    "mnx:MNXM507439": {
+      "aliases": [
+        "Ribose 5 phosphate"
+      ],
+      "first_method": "name_match"
     }
   },
   "conflicts": {},
@@ -728,8 +1008,65 @@
     "6-phosphogluconic acid": [
       "kegg.compound:C00345"
     ],
+    "ADP": [
+      "kegg.compound:C00008"
+    ],
+    "AMP": [
+      "kegg.compound:C00020"
+    ],
+    "Aconitic Acid": [
+      "kegg.compound:C00417"
+    ],
+    "Adenine": [
+      "kegg.compound:C00147"
+    ],
+    "Adenosine": [
+      "kegg.compound:C00212"
+    ],
+    "Adenosyl Homocysteine": [
+      "kegg.compound:C00021"
+    ],
+    "Adenosyl Methionine": [
+      "kegg.compound:C00019"
+    ],
+    "Alanine": [
+      "kegg.compound:C00133"
+    ],
     "AmMP": [
       "kegg.compound:C20267"
+    ],
+    "Arginine": [
+      "mnx:MNXM1565340"
+    ],
+    "Asparagine": [
+      "kegg.compound:C16438"
+    ],
+    "Aspartic acid": [
+      "kegg.compound:C16433"
+    ],
+    "Betaine (glycine betaine)": [
+      "kegg.compound:C00719"
+    ],
+    "Carotene": [
+      "chebi:23042"
+    ],
+    "Chitobiose": [
+      "kegg.compound:C01674"
+    ],
+    "Citric Acid": [
+      "kegg.compound:C00158"
+    ],
+    "Cysteic Acid": [
+      "chebi:21260"
+    ],
+    "Cystine": [
+      "kegg.compound:C00954"
+    ],
+    "Cytidine": [
+      "kegg.compound:C00475"
+    ],
+    "Cytosine": [
+      "kegg.compound:C00380"
     ],
     "D-3_and_2-phosphoglyceric": [
       "kegg.compound:C00197"
@@ -749,26 +1086,173 @@
     "DMSP": [
       "kegg.compound:C04022"
     ],
+    "Desthiobiotin": [
+      "kegg.compound:C01909"
+    ],
+    "FAD": [
+      "kegg.compound:C00016"
+    ],
+    "Fructose 6 phosphate": [
+      "kegg.compound:C00085"
+    ],
+    "Fumaric Acid": [
+      "kegg.compound:C00122"
+    ],
     "GABA": [
       "kegg.compound:C00334"
+    ],
+    "GMP": [
+      "kegg.compound:C00144"
+    ],
+    "Glucose 1 phosphate": [
+      "kegg.compound:C00103"
+    ],
+    "Glucose 6 phosphate": [
+      "kegg.compound:C00092"
+    ],
+    "Glucosylglycerol": [
+      "chebi:91033"
+    ],
+    "Glutamic acid": [
+      "kegg.compound:C00217"
+    ],
+    "Glutamine": [
+      "kegg.compound:C00819"
+    ],
+    "Glutathione": [
+      "kegg.compound:C00127"
+    ],
+    "Glutathione Disulfide": [
+      "kegg.compound:C00127"
+    ],
+    "Glycerol 3 phosphate": [
+      "kegg.compound:C00093"
+    ],
+    "Guanine": [
+      "kegg.compound:C00242"
+    ],
+    "Guanosine": [
+      "kegg.compound:C00387"
     ],
     "HMP": [
       "kegg.compound:C01279"
     ],
+    "Histidine": [
+      "kegg.compound:C00135"
+    ],
+    "Homocystine": [
+      "kegg.compound:C01817"
+    ],
+    "Homoserine": [
+      "kegg.compound:C00263"
+    ],
+    "Ketoglutaric Acid": [
+      "kegg.compound:C00026"
+    ],
+    "L-Pyroglutamic acid": [
+      "kegg.compound:C01879"
+    ],
+    "Lysine": [
+      "kegg.compound:C00047"
+    ],
+    "Methionine": [
+      "kegg.compound:C01733"
+    ],
+    "Methionine Sulfoxide": [
+      "kegg.compound:C02989"
+    ],
+    "Methylthioadenosine": [
+      "kegg.compound:C00170"
+    ],
+    "N(e)-Acetyl-Lysine": [
+      "kegg.compound:C02727"
+    ],
+    "NAD": [
+      "kegg.compound:C00003"
+    ],
     "NAD pos": [
       "kegg.compound:C00004"
+    ],
+    "NADP": [
+      "kegg.compound:C00006"
     ],
     "NacetylDglucosamine6phosphate": [
       "kegg.compound:C00357"
     ],
+    "Orotic Acid": [
+      "kegg.compound:C00295"
+    ],
+    "Phenylalanine": [
+      "kegg.compound:C02057"
+    ],
+    "Phosphoglyceric Acid": [
+      "chebi:24346"
+    ],
+    "Proline": [
+      "kegg.compound:C00148"
+    ],
     "Putrescine": [
       "kegg.compound:C00134"
+    ],
+    "Pyridoxal Phosphate": [
+      "kegg.compound:C00018"
+    ],
+    "Riboflavin Monophosphate": [
+      "kegg.compound:C00061"
+    ],
+    "Ribose 5 phosphate": [
+      "mnx:MNXM507439"
     ],
     "S-(5'-adenosyl)-L-homocysteine": [
       "kegg.compound:C00021"
     ],
     "S-adenosyl-L-methionine": [
       "chebi:142094"
+    ],
+    "Serine": [
+      "mnx:MNXM499385"
+    ],
+    "Sucrose": [
+      "kegg.compound:C00089"
+    ],
+    "Sulfoacetic Acid": [
+      "kegg.compound:C14179"
+    ],
+    "Thiamine monophosphate": [
+      "kegg.compound:C01081"
+    ],
+    "Threonine": [
+      "kegg.compound:C00188"
+    ],
+    "Tryptophan": [
+      "kegg.compound:C00525"
+    ],
+    "Tyrosine": [
+      "chebi:173245"
+    ],
+    "UDP-glucosamine": [
+      "kegg.compound:C02200"
+    ],
+    "UDP-glucose": [
+      "kegg.compound:C00029"
+    ],
+    "Uridine": [
+      "kegg.compound:C00299"
+    ],
+    "Vitamin B2": [
+      "chebi:176838"
+    ],
+    "Vitamin B3": [
+      "kegg.compound:C03150"
+    ],
+    "Vitamin B5": [
+      "chebi:176840"
+    ],
+    "Vitamin K1": [
+      "kegg.compound:C02059"
+    ],
+    "Xanthine": [
+      "kegg.compound:C00385"
     ],
     "acetyl coenzyme A": [
       "kegg.compound:C00024"
@@ -1064,6 +1548,12 @@
     "thymidine": [
       "kegg.compound:C00214"
     ],
+    "trans Hydroxyl proline": [
+      "kegg.compound:C01157"
+    ],
+    "trans Retinal": [
+      "kegg.compound:C00376"
+    ],
     "tryptamine": [
       "kegg.compound:C00398"
     ],
@@ -1114,6 +1604,11 @@
       "resolved": 645,
       "total": 651,
       "unresolved": 6
+    },
+    "data/Prochlorococcus/papers_and_supp/biller 2022/paperconfig.yaml": {
+      "resolved": 280,
+      "total": 280,
+      "unresolved": 0
     }
   },
   "schema_version": 1,

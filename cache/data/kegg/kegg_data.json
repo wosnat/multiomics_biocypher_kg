@@ -1109,7 +1109,7 @@
       "inchikey": null,
       "mass": null,
       "mnxm_id": null,
-      "name": "tyrosine"
+      "name": "Tyrosine"
     },
     "chebi:176584": {
       "chebi_id": "176584",
@@ -1143,6 +1143,28 @@
       "mass": 112.412,
       "mnxm_id": "MNXM733186",
       "name": "Cd(2+)"
+    },
+    "chebi:176838": {
+      "chebi_id": "176838",
+      "evidence_sources": [
+        "metabolomics"
+      ],
+      "formula": null,
+      "inchikey": null,
+      "mass": null,
+      "mnxm_id": null,
+      "name": "Vitamin B2"
+    },
+    "chebi:176840": {
+      "chebi_id": "176840",
+      "evidence_sources": [
+        "metabolomics"
+      ],
+      "formula": null,
+      "inchikey": null,
+      "mass": null,
+      "mnxm_id": null,
+      "name": "Vitamin B5"
     },
     "chebi:177275": {
       "chebi_id": "177275",
@@ -1275,6 +1297,17 @@
       "mass": null,
       "mnxm_id": "MNXM1104625",
       "name": "iron(III) hydroxamate"
+    },
+    "chebi:21260": {
+      "chebi_id": "21260",
+      "evidence_sources": [
+        "metabolomics"
+      ],
+      "formula": null,
+      "inchikey": null,
+      "mass": null,
+      "mnxm_id": null,
+      "name": "Cysteic Acid"
     },
     "chebi:21376": {
       "chebi_id": "21376",
@@ -1594,6 +1627,17 @@
       "mass": null,
       "mnxm_id": "MNXM731148",
       "name": "cardiolipin"
+    },
+    "chebi:23042": {
+      "chebi_id": "23042",
+      "evidence_sources": [
+        "metabolomics"
+      ],
+      "formula": null,
+      "inchikey": null,
+      "mass": null,
+      "mnxm_id": null,
+      "name": "Carotene"
     },
     "chebi:23058": {
       "chebi_id": "23058",
@@ -2023,6 +2067,17 @@
       "mass": null,
       "mnxm_id": "MNXM55253",
       "name": "glutathione derivative"
+    },
+    "chebi:24346": {
+      "chebi_id": "24346",
+      "evidence_sources": [
+        "metabolomics"
+      ],
+      "formula": null,
+      "inchikey": null,
+      "mass": null,
+      "mnxm_id": null,
+      "name": "Phosphoglyceric Acid"
     },
     "chebi:24347": {
       "chebi_id": "24347",
@@ -6119,7 +6174,8 @@
     "chebi:91033": {
       "chebi_id": "91033",
       "evidence_sources": [
-        "transport"
+        "transport",
+        "metabolomics"
       ],
       "formula": "C9H18O8",
       "inchikey": "NHJUPBDCSOGIKX-QMWFWAMKSA-N",
@@ -6160,6 +6216,17 @@
       "mnxm_id": "MNXM1137727",
       "name": "valsartan"
     },
+    "mnx:MNXM1565340": {
+      "chebi_id": null,
+      "evidence_sources": [
+        "metabolomics"
+      ],
+      "formula": "C6H15ClN4O2",
+      "inchikey": "KWTQSFXGGICVPE-WCCKRBBISA-N",
+      "mass": 210.665,
+      "mnxm_id": "MNXM1565340",
+      "name": "Arginine hydrochloride"
+    },
     "mnx:MNXM1565343": {
       "chebi_id": null,
       "evidence_sources": [
@@ -6170,6 +6237,28 @@
       "mass": 157.622,
       "mnxm_id": "MNXM1565343",
       "name": "Cysteine hydrochloride"
+    },
+    "mnx:MNXM499385": {
+      "chebi_id": null,
+      "evidence_sources": [
+        "metabolomics"
+      ],
+      "formula": null,
+      "inchikey": null,
+      "mass": null,
+      "mnxm_id": "MNXM499385",
+      "name": "Chlorplastic Serine"
+    },
+    "mnx:MNXM507439": {
+      "chebi_id": null,
+      "evidence_sources": [
+        "metabolomics"
+      ],
+      "formula": null,
+      "inchikey": null,
+      "mass": null,
+      "mnxm_id": "MNXM507439",
+      "name": "Cytosolic Ribose 5 Phosphate"
     }
   },
   "categories": {
@@ -6279,7 +6368,8 @@
       "chebi_id": "13393",
       "evidence_sources": [
         "metabolism",
-        "transport"
+        "transport",
+        "metabolomics"
       ],
       "formula": "C21H26N7O14P2",
       "hmdb_id": "HMDB0000902",
@@ -6354,7 +6444,8 @@
       "chebi_id": "13397",
       "evidence_sources": [
         "metabolism",
-        "transport"
+        "transport",
+        "metabolomics"
       ],
       "formula": "C21H25N7O17P3",
       "hmdb_id": "HMDB0000217",
@@ -6410,7 +6501,8 @@
       "chebi_id": "13222",
       "evidence_sources": [
         "metabolism",
-        "transport"
+        "transport",
+        "metabolomics"
       ],
       "formula": "C10H12N5O10P2",
       "hmdb_id": "HMDB0001341",
@@ -6635,7 +6727,8 @@
       "chebi_id": "13315",
       "evidence_sources": [
         "metabolism",
-        "transport"
+        "transport",
+        "metabolomics"
       ],
       "formula": "C27H33N9O15P2",
       "hmdb_id": "HMDB0001248",
@@ -6672,7 +6765,8 @@
     "C00018": {
       "chebi_id": "14977",
       "evidence_sources": [
-        "metabolism"
+        "metabolism",
+        "metabolomics"
       ],
       "formula": "C8H8NO6P",
       "hmdb_id": "HMDB0001491",
@@ -7131,7 +7225,8 @@
       "chebi_id": "13498",
       "evidence_sources": [
         "metabolism",
-        "transport"
+        "transport",
+        "metabolomics"
       ],
       "formula": "C15H22N2O17P2",
       "hmdb_id": "HMDB0000286",
@@ -7641,7 +7736,8 @@
       "chebi_id": "13135",
       "evidence_sources": [
         "metabolism",
-        "transport"
+        "transport",
+        "metabolomics"
       ],
       "formula": "C6H15N2O2",
       "hmdb_id": "HMDB0000182",
@@ -7927,7 +8023,8 @@
       "chebi_id": "13317",
       "evidence_sources": [
         "metabolism",
-        "transport"
+        "transport",
+        "metabolomics"
       ],
       "formula": "C17H21N4O9P",
       "hmdb_id": "HMDB0001520",
@@ -8875,7 +8972,8 @@
       "chebi_id": "15128",
       "evidence_sources": [
         "metabolism",
-        "transport"
+        "transport",
+        "metabolomics"
       ],
       "formula": "C12H22O11",
       "hmdb_id": "HMDB0000258",
@@ -9231,7 +9329,8 @@
     "C00103": {
       "chebi_id": "10246",
       "evidence_sources": [
-        "metabolism"
+        "metabolism",
+        "metabolomics"
       ],
       "formula": "C6H11O9P",
       "hmdb_id": "HMDB0001306",
@@ -9895,7 +9994,8 @@
       "chebi_id": "10840",
       "evidence_sources": [
         "metabolism",
-        "transport"
+        "transport",
+        "metabolomics"
       ],
       "formula": "C3H7NO2",
       "hmdb_id": "HMDB0001310",
@@ -9945,7 +10045,8 @@
       "chebi_id": "13117",
       "evidence_sources": [
         "metabolism",
-        "transport"
+        "transport",
+        "metabolomics"
       ],
       "formula": "C6H9N3O2",
       "hmdb_id": "HMDB0000177",
@@ -10128,7 +10229,8 @@
       "chebi_id": "13341",
       "evidence_sources": [
         "metabolism",
-        "transport"
+        "transport",
+        "metabolomics"
       ],
       "formula": "C10H12N5O8P",
       "hmdb_id": "HMDB0001397",
@@ -11555,7 +11657,8 @@
       "chebi_id": "12979",
       "evidence_sources": [
         "metabolism",
-        "transport"
+        "transport",
+        "metabolomics"
       ],
       "formula": "C5H8NO4",
       "hmdb_id": "HMDB0003339",
@@ -12509,7 +12612,8 @@
       "chebi_id": "13123",
       "evidence_sources": [
         "metabolism",
-        "transport"
+        "transport",
+        "metabolomics"
       ],
       "formula": "C4H9NO3",
       "hmdb_id": "HMDB0000719",
@@ -12925,7 +13029,8 @@
       "chebi_id": "15296",
       "evidence_sources": [
         "metabolism",
-        "transport"
+        "transport",
+        "metabolomics"
       ],
       "formula": "C9H12N2O6",
       "hmdb_id": "HMDB0000296",
@@ -14058,7 +14163,8 @@
       "chebi_id": "12776",
       "evidence_sources": [
         "metabolism",
-        "transport"
+        "transport",
+        "metabolomics"
       ],
       "formula": "C20H28O",
       "hmdb_id": "HMDB0001358",
@@ -14659,7 +14765,8 @@
       "chebi_id": "10482",
       "evidence_sources": [
         "metabolism",
-        "transport"
+        "transport",
+        "metabolomics"
       ],
       "formula": "C6H3O6",
       "hmdb_id": "HMDB0000072",
@@ -15410,7 +15517,8 @@
       "chebi_id": "14063",
       "evidence_sources": [
         "metabolism",
-        "transport"
+        "transport",
+        "metabolomics"
       ],
       "formula": "C9H13N3O5",
       "hmdb_id": "HMDB0000089",
@@ -16044,6 +16152,20 @@
         "ko01240"
       ],
       "smiles": "CC(C)(CO)[C@@H](O)C(=O)[O-]"
+    },
+    "C00525": {
+      "chebi_id": "13028",
+      "evidence_sources": [
+        "metabolomics"
+      ],
+      "formula": "C11H12N2O2",
+      "hmdb_id": "HMDB0013609",
+      "inchikey": "QIVBCDIJIAJPQS-SECBINFHSA-N",
+      "mass": 204.229,
+      "mnxm_id": "MNXM1373",
+      "name": "D-Tryptophan",
+      "pathways": [],
+      "smiles": "[NH3+][C@H](CC1=CNC2=C1C=CC=C2)C(=O)[O-]"
     },
     "C00526": {
       "chebi_id": "11398",
@@ -19001,7 +19123,8 @@
     "C00819": {
       "chebi_id": "12980",
       "evidence_sources": [
-        "metabolism"
+        "metabolism",
+        "metabolomics"
       ],
       "formula": "C5H10N2O3",
       "hmdb_id": "HMDB0003423",
@@ -21412,7 +21535,8 @@
       "chebi_id": "10714",
       "evidence_sources": [
         "metabolism",
-        "transport"
+        "transport",
+        "metabolomics"
       ],
       "formula": "C5H9NO3",
       "hmdb_id": "HMDB0000725",
@@ -24079,7 +24203,8 @@
     "C01733": {
       "chebi_id": "14590",
       "evidence_sources": [
-        "transport"
+        "transport",
+        "metabolomics"
       ],
       "formula": "C5H11NO2S",
       "hmdb_id": "HMDB0033951",
@@ -24275,6 +24400,22 @@
       ],
       "smiles": "OC[C@H]1OC(O)C[C@@H]1O"
     },
+    "C01817": {
+      "chebi_id": "140613",
+      "evidence_sources": [
+        "metabolomics"
+      ],
+      "formula": "C8H16N2O4S2",
+      "hmdb_id": "HMDB0000575",
+      "inchikey": "ZTVZLYBCZNMWCF-WDSKDSINSA-N",
+      "mass": 268.36,
+      "mnxm_id": "MNXM734834",
+      "name": "L-Homocystine",
+      "pathways": [
+        "ko00270"
+      ],
+      "smiles": "[NH3+][C@@H](CCSSCC[C@H]([NH3+])C(=O)[O-])C(=O)[O-]"
+    },
     "C01825": {
       "chebi_id": "37619",
       "evidence_sources": [
@@ -24408,7 +24549,8 @@
       "chebi_id": "12153",
       "evidence_sources": [
         "metabolism",
-        "transport"
+        "transport",
+        "metabolomics"
       ],
       "formula": "C5H6NO3",
       "hmdb_id": "HMDB0000267",
@@ -25000,7 +25142,8 @@
     "C02057": {
       "chebi_id": "25984",
       "evidence_sources": [
-        "transport"
+        "transport",
+        "metabolomics"
       ],
       "formula": "C9H11NO2",
       "hmdb_id": "HMDB0250791",
@@ -25014,7 +25157,8 @@
     "C02059": {
       "chebi_id": "11611",
       "evidence_sources": [
-        "metabolism"
+        "metabolism",
+        "metabolomics"
       ],
       "formula": "C31H46O2",
       "hmdb_id": "HMDB0003555",
@@ -25398,6 +25542,20 @@
         "ko01240"
       ],
       "smiles": "C=CC1=C(C)C2=N/C1=C\\C1=C(C)C(CCC(=O)[O-])=C(/C=C3\\N=C(/C=C4\\N/C(=C\\2)C(C=C)=C4C)C(C)=C3CCC(=O)[O-])N1"
+    },
+    "C02200": {
+      "chebi_id": "13497",
+      "evidence_sources": [
+        "metabolomics"
+      ],
+      "formula": "C15H24N3O16P2",
+      "hmdb_id": null,
+      "inchikey": "CYKLRRKFBPBYEI-NQQHDEILSA-M",
+      "mass": 564.31,
+      "mnxm_id": "MNXM1104814",
+      "name": "UDP-glucosamine",
+      "pathways": [],
+      "smiles": "[NH3+][C@H]1[C@@H](OP(=O)([O-])OP(=O)([O-])OC[C@H]2O[C@@H](N3C=CC(=O)NC3=O)[C@H](O)[C@@H]2O)O[C@H](CO)[C@@H](O)[C@@H]1O"
     },
     "C02211": {
       "chebi_id": "10668",
@@ -26924,6 +27082,23 @@
       ],
       "smiles": "CC(=O)NCCCC[NH3+]"
     },
+    "C02727": {
+      "chebi_id": "12665",
+      "evidence_sources": [
+        "metabolomics"
+      ],
+      "formula": "C8H16N2O3",
+      "hmdb_id": "HMDB0000206",
+      "inchikey": "DTERQYGMUDWYAZ-ZETCQYMHSA-N",
+      "mass": 188.227,
+      "mnxm_id": "MNXM1574",
+      "name": "N6-Acetyl-L-lysine",
+      "pathways": [
+        "ko00310",
+        "ko01100"
+      ],
+      "smiles": "CC(=O)NCCCC[C@H]([NH3+])C(=O)[O-]"
+    },
     "C02730": {
       "chebi_id": "1278",
       "evidence_sources": [
@@ -27607,7 +27782,8 @@
       "chebi_id": "13142",
       "evidence_sources": [
         "metabolism",
-        "transport"
+        "transport",
+        "metabolomics"
       ],
       "formula": "C5H11NO3S",
       "hmdb_id": "HMDB0002005",
@@ -28014,7 +28190,8 @@
       "chebi_id": "12527",
       "evidence_sources": [
         "metabolism",
-        "transport"
+        "transport",
+        "metabolomics"
       ],
       "formula": "C11H15N2O5",
       "hmdb_id": "HMDB0000855",
@@ -45571,7 +45748,8 @@
     "C14179": {
       "chebi_id": "34987",
       "evidence_sources": [
-        "transport"
+        "transport",
+        "metabolomics"
       ],
       "formula": "C2H2O5S",
       "hmdb_id": "HMDB0258590",
@@ -48510,7 +48688,8 @@
     "C16438": {
       "chebi_id": "22653",
       "evidence_sources": [
-        "transport"
+        "transport",
+        "metabolomics"
       ],
       "formula": "C4H8N2O3",
       "hmdb_id": "HMDB0251512",

@@ -35,6 +35,66 @@ publication:
       light_condition: continuous light
       light_intensity: 10-20 umol photons m-2 s-1
       table_scope: all_detected_genes
+    cells_metabolomics_mit9312:
+      name: MIT9312 whole-cell targeted metabolome (Table S7)
+      organism: Prochlorococcus MIT9312
+      compartment: whole_cell
+      treatment_condition: Whole-cell metabolome
+      control_condition: Purified extracellular vesicle metabolome (separate experiment)
+      experimental_context: Mid-to-late exponential phase axenic culture; biovolume-normalized relative peak areas across HILIC and reverse-phase fractions; same cultures as the proteomics Experiments
+      omics_type: METABOLOMICS
+      test_type: LC-MS/MS
+      treatment_type: [compartment]
+      background_factors: [axenic, light]
+      medium: AMP1 artificial seawater medium with 10 mM bicarbonate
+      temperature: 24C
+      light_condition: continuous light
+      light_intensity: 30-40 umol photons m-2 s-1
+    cells_metabolomics_mit9313:
+      name: MIT9313 whole-cell targeted metabolome (Table S7)
+      organism: Prochlorococcus MIT9313
+      compartment: whole_cell
+      treatment_condition: Whole-cell metabolome
+      control_condition: Purified extracellular vesicle metabolome (separate experiment)
+      experimental_context: Mid-to-late exponential phase axenic culture; biovolume-normalized relative peak areas across HILIC and reverse-phase fractions; same cultures as the proteomics Experiments
+      omics_type: METABOLOMICS
+      test_type: LC-MS/MS
+      treatment_type: [compartment]
+      background_factors: [axenic, light]
+      medium: AMP1 artificial seawater medium with 10 mM bicarbonate
+      temperature: 24C
+      light_condition: continuous light
+      light_intensity: 10-20 umol photons m-2 s-1
+    vesicle_metabolomics_mit9312:
+      name: MIT9312 extracellular vesicle targeted metabolome (Table S7)
+      organism: Prochlorococcus MIT9312
+      compartment: vesicle
+      treatment_condition: Purified extracellular vesicle metabolome
+      control_condition: Whole-cell metabolome (separate experiment)
+      experimental_context: Vesicles purified by tangential flow filtration + OptiPrep gradient from mid-to-late exponential phase axenic cultures; biovolume-normalized relative peak areas
+      omics_type: METABOLOMICS
+      test_type: LC-MS/MS
+      treatment_type: [compartment]
+      background_factors: [axenic, light]
+      medium: AMP1 artificial seawater medium with 10 mM bicarbonate
+      temperature: 24C
+      light_condition: continuous light
+      light_intensity: 30-40 umol photons m-2 s-1
+    vesicle_metabolomics_mit9313:
+      name: MIT9313 extracellular vesicle targeted metabolome (Table S7)
+      organism: Prochlorococcus MIT9313
+      compartment: vesicle
+      treatment_condition: Purified extracellular vesicle metabolome
+      control_condition: Whole-cell metabolome (separate experiment)
+      experimental_context: Vesicles purified by tangential flow filtration + OptiPrep gradient from mid-to-late exponential phase axenic cultures; biovolume-normalized relative peak areas
+      omics_type: METABOLOMICS
+      test_type: LC-MS/MS
+      treatment_type: [compartment]
+      background_factors: [axenic, light]
+      medium: AMP1 artificial seawater medium with 10 mM bicarbonate
+      temperature: 24C
+      light_condition: continuous light
+      light_intensity: 10-20 umol photons m-2 s-1
   supplementary_materials:
     s3_mit9312_abundance:
       type: derived_metrics_table
@@ -152,3 +212,110 @@ publication:
           rankable: "true"
           has_p_value: "false"
           field_description: "log2(vesicle / cell) of biovolume-normalized spectral counts; restricted to proteins in top 25% of vesicle counts per strain (Trypsin/Lys-C, COMETa); Biller 2022 Table S4"
+    s7_metabolites_cells_mit9312:
+      type: metabolite_assays_table
+      filename: data/Prochlorococcus/papers_and_supp/biller 2022/emi15834-sup-0008-tables7.csv
+      experiment: cells_metabolomics_mit9312
+      organism: Prochlorococcus MIT9312
+      name_col: "Compound Name"
+      skip_rows: 2
+      cell_format: embedded_mean_sd_n
+      aggregation_method: pre_aggregated
+      drop_undetected: false
+      aliases_file: metabolite_aliases.yaml
+      assays:
+        - metric_type: relative_peak_area_biovolume_normalized
+          name: "MIT9312 whole-cell targeted metabolite relative peak area (biovolume-normalized)"
+          value_kind: numeric
+          unit: "relative peak area / biovolume"
+          rankable: "true"
+          total_replicates: 3
+          field_description: >-
+            Average relative biovolume-normalized peak area for targeted metabolites
+            in MIT9312 whole-cell samples (Biller 2022 Table S7). Cells encode
+            mean (sd), n=N out of 3 biological replicates. Analytical fraction
+            (RPOrgPos / RPAqPos / HILICPos / HILICNeg) lives on the Compound row;
+            see Methods + Table S8 for fraction-specific LC-MS conditions.
+          sample_columns:
+            - condition_label: cells
+              replicate_columns:
+                - "MIT9312 cells"
+    s7_metabolites_cells_mit9313:
+      type: metabolite_assays_table
+      filename: data/Prochlorococcus/papers_and_supp/biller 2022/emi15834-sup-0008-tables7.csv
+      experiment: cells_metabolomics_mit9313
+      organism: Prochlorococcus MIT9313
+      name_col: "Compound Name"
+      skip_rows: 2
+      cell_format: embedded_mean_sd_n
+      aggregation_method: pre_aggregated
+      drop_undetected: false
+      aliases_file: metabolite_aliases.yaml
+      assays:
+        - metric_type: relative_peak_area_biovolume_normalized
+          name: "MIT9313 whole-cell targeted metabolite relative peak area (biovolume-normalized)"
+          value_kind: numeric
+          unit: "relative peak area / biovolume"
+          rankable: "true"
+          total_replicates: 3
+          field_description: >-
+            Average relative biovolume-normalized peak area for targeted metabolites
+            in MIT9313 whole-cell samples (Biller 2022 Table S7). Cells encode
+            mean (sd), n=N out of 3 biological replicates.
+          sample_columns:
+            - condition_label: cells
+              replicate_columns:
+                - "MIT9313 cells"
+    s7_metabolites_vesicles_mit9312:
+      type: metabolite_assays_table
+      filename: data/Prochlorococcus/papers_and_supp/biller 2022/emi15834-sup-0008-tables7.csv
+      experiment: vesicle_metabolomics_mit9312
+      organism: Prochlorococcus MIT9312
+      name_col: "Compound Name"
+      skip_rows: 2
+      cell_format: embedded_mean_sd_n
+      aggregation_method: pre_aggregated
+      drop_undetected: false
+      aliases_file: metabolite_aliases.yaml
+      assays:
+        - metric_type: relative_peak_area_biovolume_normalized
+          name: "MIT9312 vesicle targeted metabolite relative peak area (biovolume-normalized)"
+          value_kind: numeric
+          unit: "relative peak area / biovolume"
+          rankable: "true"
+          total_replicates: 3
+          field_description: >-
+            Average relative biovolume-normalized peak area for targeted metabolites
+            in MIT9312 purified extracellular vesicles (Biller 2022 Table S7).
+            Most rows are nd (compound below LOD in vesicles); the few detected
+            compounds are pigments and lipid-soluble cofactors (Carotene,
+            trans Retinal, Vitamin K1).
+          sample_columns:
+            - condition_label: vesicles
+              replicate_columns:
+                - "MIT9312 vesicles"
+    s7_metabolites_vesicles_mit9313:
+      type: metabolite_assays_table
+      filename: data/Prochlorococcus/papers_and_supp/biller 2022/emi15834-sup-0008-tables7.csv
+      experiment: vesicle_metabolomics_mit9313
+      organism: Prochlorococcus MIT9313
+      name_col: "Compound Name"
+      skip_rows: 2
+      cell_format: embedded_mean_sd_n
+      aggregation_method: pre_aggregated
+      drop_undetected: false
+      aliases_file: metabolite_aliases.yaml
+      assays:
+        - metric_type: relative_peak_area_biovolume_normalized
+          name: "MIT9313 vesicle targeted metabolite relative peak area (biovolume-normalized)"
+          value_kind: numeric
+          unit: "relative peak area / biovolume"
+          rankable: "true"
+          total_replicates: 3
+          field_description: >-
+            Average relative biovolume-normalized peak area for targeted metabolites
+            in MIT9313 purified extracellular vesicles (Biller 2022 Table S7).
+          sample_columns:
+            - condition_label: vesicles
+              replicate_columns:
+                - "MIT9313 vesicles"

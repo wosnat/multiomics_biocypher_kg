@@ -143,3 +143,41 @@ def test_validate_metabolite_assays_table_numeric_requires_replicate_columns():
         _experiments_with_org(), {"Prochlorococcus MIT9303"}, errors, warnings,
     )
     assert any("replicate_columns" in e for e in errors)
+
+
+def test_validate_metabolite_assays_embedded_format_requires_total_replicates(tmp_path):
+    """When cell_format=embedded_mean_sd_n, numeric assays must declare
+    total_replicates so the adapter can compute n_replicates / detection_status."""
+    entry = _good_entry()
+    csv = tmp_path / "example.csv"
+    csv.write_text("compound,c1\n")
+    entry["filename"] = str(csv)
+    entry["cell_format"] = "embedded_mean_sd_n"
+    entry["assays"][0]["sample_columns"] = [{"condition_label": "x", "replicate_columns": ["c1"]}]
+    # total_replicates intentionally omitted — should error
+    errors = []
+    warnings = []
+    _validate_metabolite_assays_entry(
+        "e", entry, "/tmp/cfg.yaml",
+        _experiments_with_org(), {"Prochlorococcus MIT9303"}, errors, warnings,
+    )
+    assert any("total_replicates" in e for e in errors), (
+        f"validator should require total_replicates for embedded_mean_sd_n; got: {errors}"
+    )
+
+
+def test_validate_metabolite_assays_embedded_format_with_total_replicates_ok(tmp_path):
+    entry = _good_entry()
+    csv = tmp_path / "example.csv"
+    csv.write_text("compound,c1\n")
+    entry["filename"] = str(csv)
+    entry["cell_format"] = "embedded_mean_sd_n"
+    entry["assays"][0]["sample_columns"] = [{"condition_label": "x", "replicate_columns": ["c1"]}]
+    entry["assays"][0]["total_replicates"] = 3
+    errors = []
+    warnings = []
+    _validate_metabolite_assays_entry(
+        "e", entry, "/tmp/cfg.yaml",
+        _experiments_with_org(), {"Prochlorococcus MIT9303"}, errors, warnings,
+    )
+    assert errors == [], f"valid embedded entry should pass; got: {errors}"

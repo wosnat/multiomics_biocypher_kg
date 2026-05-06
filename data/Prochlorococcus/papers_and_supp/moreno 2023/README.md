@@ -7,9 +7,9 @@
 
 ## Classification
 
-**Bucket A — DE integration complete** (secondary: bucket B for the metabolomics side that is not yet modeled).
+**Bucket A — DE integration complete** (secondary: bucket B for the metabolomics side, now actionable since Phase 2 metabolomics support landed).
 
-All three sides of the proteome DE — cyano S2, Alteromonas S3, Marinobacter S4 — are wired up and resolve natively. Cyano S2 (5 strains × 4 comparisons) resolves against the deployed cyano genomes via the parsed `KEGG` / `extracted_gn` columns (97.1%–100%). Alteromonas S3 resolves natively against the deployed `Alteromonas (MarRef v6)` reference proteome (GCA_003513035.1, locus prefix DEH24_*) at 100% across all 5 cocultures (the originally planned DEH24 → MADE_RS bridge was superseded when GCA_003513035.1 was deployed directly as a reference-proteome-match organism). Marinobacter S4 resolves against `Marinobacter (MarRef v6)` (HP15 / GCF_000166295.1) at 97.2%–97.8%. The paper's metabolomic flux side (Calvin vs OPP, fermentation evidence) is metabolite-level — bucket B territory, blocked on the KG having no Metabolite node type yet.
+All three sides of the proteome DE — cyano S2, Alteromonas S3, Marinobacter S4 — are wired up and resolve natively. Cyano S2 (5 strains × 4 comparisons) resolves against the deployed cyano genomes via the parsed `KEGG` / `extracted_gn` columns (97.1%–100%). Alteromonas S3 resolves natively against the deployed `Alteromonas (MarRef v6)` reference proteome (GCA_003513035.1, locus prefix DEH24_*) at 100% across all 5 cocultures (the originally planned DEH24 → MADE_RS bridge was superseded when GCA_003513035.1 was deployed directly as a reference-proteome-match organism). Marinobacter S4 resolves against `Marinobacter (MarRef v6)` (HP15 / GCF_000166295.1) at 97.2%–97.8%. The paper's metabolomic flux side (Calvin vs OPP, fermentation evidence) is metabolite-level — Metabolite/MetaboliteAssay support has now landed, but the published data is qualitative flux inference (not per-metabolite quantitation per condition) so the natural fit is sparse: a small number of `metabolite_assays_table` boolean flags per Experiment (`Assay_flags_metabolite`) for the metabolites the authors call out. Inspect supplementary material before deciding scope.
 
 ## Available data inventory
 
@@ -49,7 +49,7 @@ All three sides of the proteome DE — cyano S2, Alteromonas S3, Marinobacter S4
 
 1. **No action** — all 60 DE analyses are wired up and resolving (97%–100% across all 15 source tables). The DEH24 → MADE_RS bridge originally planned for the Alteromonas side was superseded by deploying GCA_003513035.1 directly as `Alteromonas (MarRef v6)`.
 2. **Skip** — all `.xlsx` originals and non-`_modified` CSVs; they are superseded by the per-strain `_modified.csv` files referenced in paperconfig.
-3. **Consider add** — the paper reports a metabolomic flux inference (glucose → OPP vs Calvin) that is qualitative and experiment-level, not per-gene; skip for now.
+3. **Consider add (Phase 2 metabolomics, now unblocked)** — the paper reports a metabolomic flux inference (glucose → OPP vs Calvin) that is qualitative and experiment-level. Phase 2 `metabolite_assays_table` could carry the called-out metabolites as boolean flags per Experiment (`Assay_flags_metabolite`); inspect supplementary content before scoping.
 
 ## Notes
 
