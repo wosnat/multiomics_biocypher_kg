@@ -85,6 +85,17 @@ def _build_long(comparison: str) -> pd.DataFrame:
             l2 = _log2(ratio)
             if math.isnan(l2):
                 continue
+            # ProteinPilot's weighted-error-factor "P Val" is not a true
+            # probability and can exceed 1.0 in rare cases (numerical artifact
+            # of the estimator). Clamp at 1.0 so the value remains a valid
+            # "probability of no effect" -- semantically equivalent to
+            # "definitely not significant". Also enforces the KG validity
+            # invariant adjusted_p_value in [0, 1].
+            raw_p = r.get(p_col)
+            if pd.isna(raw_p):
+                p_value = float("nan")
+            else:
+                p_value = min(max(float(raw_p), 0.0), 1.0)
             rows.append(
                 {
                     "Accession": str(accession).strip(),
@@ -92,11 +103,7 @@ def _build_long(comparison: str) -> pd.DataFrame:
                     "COG group": r.get("COG group", ""),
                     "Cellular location": r.get("Cellular location", ""),
                     "log2_ratio": l2,
-                    "p_value": (
-                        float(r.get(p_col))
-                        if pd.notna(r.get(p_col))
-                        else float("nan")
-                    ),
+                    "p_value": p_value,
                     "source": f"{sheet} :: {ratio_col}",
                 }
             )
