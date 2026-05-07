@@ -1,0 +1,113 @@
+publication:
+  papername: "Pandhal 2007"
+  doi: "10.1021/pr060460c"
+  # Pandhal, Wright & Biggs, 2007, J. Proteome Res. 6(3):996–1005 — DOI 10.1021/pr060460c
+  # Quantitative iTRAQ proteomics of Prochlorococcus marinus MED4 grown under
+  # three light intensities: low (LL = 20 uE), medium (ML = 60 uE), high
+  # (HL = 100 uE). Two iTRAQ 4-plex experiments (iTRAQ1 + iTRAQ2) cover the
+  # same 3-light biological setup with technical-replicate HL channels.
+  # 184 proteins quantified; paper reports 15 as significantly DE (logFC
+  # cutoffs |log2| >= log2(1.25) ≈ 0.322 plus a weighted-error-factor
+  # probabilistic p-value < 0.05).
+  papermainpdf: "data/Prochlorococcus/papers_and_supp/Pandhal 2007/a-quantitative-proteomic-analysis-of-light-adaptation-in-a-globally-significant-marine-cyanobacterium-prochlorococcus.pdf"
+
+  experiments:
+    # ── HL vs LL light response (proteomics) ──
+    # NOTE on test_type: the paper uses ProteinPilot's weighted error-factor
+    # probabilistic p-value (ProQuant + ProGroup Viewer v1.0.6, >95% confidence)
+    # — NOT a Student's t-test. Recorded as canonical "iTRAQ_t-test" because no
+    # finer-grained iTRAQ test_type exists in the canonical vocabulary yet.
+    light_HL_vs_LL_med4_proteomics:
+      name: "MED4 proteomics: high light (100 uE) vs low light (20 uE) (iTRAQ)"
+      organism: "Prochlorococcus MED4"
+      treatment_condition: "High light (100 umol photons m-2 s-1)"
+      control_condition: "Low light (20 umol photons m-2 s-1)"
+      experimental_context: "Prochlorococcus MED4 (RCC isolate, NW Mediterranean 1989) acclimated to each light intensity through three serial sub-culturings in late-exponential phase (~30 d) in 250 mL Pro99 (Channel seawater base, Hull UK coastline) at 24C, 12:12 L:D, 220 rpm shaking; 50 mL aliquots harvested at mid-exponential phase, protein extraction with urea/CHAPS/DTT/Pharmalyte/PVPP via mechanical cracking + liquid N2; iTRAQ 4-plex labeling (Applied Biosystems protocol), SCX -> nanoLC ESI-qQTOF MS/MS (QStar XL, Applied Biosystems/MDS-Sciex); ProQuant v1.1 + ProGroup Viewer v1.0.6 (>95% protein confidence); two biological-replicate iTRAQ experiments (iTRAQ1, iTRAQ2)."
+      omics_type: PROTEOMICS
+      test_type: "iTRAQ_t-test"
+      treatment_type: ["light"]
+      background_factors: ["axenic", "diel"]
+      medium: "Pro99 (Channel seawater base)"
+      temperature: "24C"
+      light_condition: "12:12 L:D"
+      light_intensity: "100 umol photons m-2 s-1 (treatment) vs 20 umol photons m-2 s-1 (control)"
+      table_scope: all_detected_genes
+      table_scope_detail: "All proteins quantified in either iTRAQ1 or iTRAQ2 are reported (~184 unique proteins; ~11% of MED4 coding genes); only ~15 reach the paper's combined logFC + p-value + error-factor + relative-variance significance criteria."
+
+    # ── ML vs LL light response (proteomics) ──
+    # See `light_HL_vs_LL_med4_proteomics` above for the test_type caveat.
+    light_ML_vs_LL_med4_proteomics:
+      name: "MED4 proteomics: medium light (60 uE) vs low light (20 uE) (iTRAQ)"
+      organism: "Prochlorococcus MED4"
+      treatment_condition: "Medium light (60 umol photons m-2 s-1)"
+      control_condition: "Low light (20 umol photons m-2 s-1)"
+      experimental_context: "Prochlorococcus MED4 (RCC isolate, NW Mediterranean 1989) acclimated to each light intensity through three serial sub-culturings in late-exponential phase (~30 d) in 250 mL Pro99 (Channel seawater base, Hull UK coastline) at 24C, 12:12 L:D, 220 rpm shaking; 50 mL aliquots harvested at mid-exponential phase, protein extraction with urea/CHAPS/DTT/Pharmalyte/PVPP via mechanical cracking + liquid N2; iTRAQ 4-plex labeling (Applied Biosystems protocol), SCX -> nanoLC ESI-qQTOF MS/MS (QStar XL, Applied Biosystems/MDS-Sciex); ProQuant v1.1 + ProGroup Viewer v1.0.6 (>95% protein confidence); two biological-replicate iTRAQ experiments (iTRAQ1, iTRAQ2)."
+      omics_type: PROTEOMICS
+      test_type: "iTRAQ_t-test"
+      treatment_type: ["light"]
+      background_factors: ["axenic", "diel"]
+      medium: "Pro99 (Channel seawater base)"
+      temperature: "24C"
+      light_condition: "12:12 L:D"
+      light_intensity: "60 umol photons m-2 s-1 (treatment) vs 20 umol photons m-2 s-1 (control)"
+      table_scope: all_detected_genes
+      table_scope_detail: "All proteins quantified in either iTRAQ1 or iTRAQ2 are reported (~184 unique proteins; ~11% of MED4 coding genes)."
+
+  supplementary_materials:
+    # ── HL vs LL aggregated iTRAQ table ──
+    # `_modified.csv` produced by scripts/build_modified_csv/build_pandhal2007_modified_csv.py
+    # from pr060460csi20061210_124449.xls (sheets `iTRAQ1 protein list` + `iTRAQ2 protein list`).
+    #
+    # KG aggregation choice (this is OUR processing of the paper's data, not the paper's design):
+    # The paper reports per-iTRAQ-run protein ratios (iTRAQ1 has 4 HL/LL ratios per protein
+    # = 2 channel-pairs x 2 runs; iTRAQ2 likewise). For one Changes_expression_of edge per
+    # (Experiment, Gene) we collapse contributing ratios per protein into:
+    #   - log2_fold_change = mean( log2(ratio) ) across contributing iTRAQ ratios
+    #   - adjusted_p_value = max( P Val ) across contributing iTRAQ ratios (most conservative)
+    # Per-run values remain in the original .xls workbook for users who want them.
+    #
+    # Significance thresholds set per paper: |log2FC| >= log2(1.25) ≈ 0.322 AND adjusted_p_value < 0.05.
+    supp_table_hl_vs_ll:
+      type: csv
+      filename: "data/Prochlorococcus/papers_and_supp/Pandhal 2007/pandhal2007_HL_vs_LL_modified.csv"
+      organism: "Prochlorococcus MED4"
+      id_columns:
+        - column: "Accession"
+          id_type: locus_tag
+      product_columns:
+        - column: "Protein Name"
+      statistical_analyses:
+        - id: "med4_proteomics_HL_vs_LL"
+          experiment: light_HL_vs_LL_med4_proteomics
+          name_col: "Accession"
+          logfc_col: "log2_fold_change"
+          adjusted_p_value_col: "adjusted_p_value"
+          pvalue_threshold: 0.05
+          logfc_threshold: 0.322
+          timepoint: "acclimated mid-exponential"
+          timepoint_hours: null
+          growth_phase: acclimated_steady_state
+
+    # ── ML vs LL aggregated iTRAQ table ──
+    # Same builder as above; lower-coverage comparison (ML appears once per iTRAQ run).
+    # See KG-aggregation note on `supp_table_hl_vs_ll`.
+    supp_table_ml_vs_ll:
+      type: csv
+      filename: "data/Prochlorococcus/papers_and_supp/Pandhal 2007/pandhal2007_ML_vs_LL_modified.csv"
+      organism: "Prochlorococcus MED4"
+      id_columns:
+        - column: "Accession"
+          id_type: locus_tag
+      product_columns:
+        - column: "Protein Name"
+      statistical_analyses:
+        - id: "med4_proteomics_ML_vs_LL"
+          experiment: light_ML_vs_LL_med4_proteomics
+          name_col: "Accession"
+          logfc_col: "log2_fold_change"
+          adjusted_p_value_col: "adjusted_p_value"
+          pvalue_threshold: 0.05
+          logfc_threshold: 0.322
+          timepoint: "acclimated mid-exponential"
+          timepoint_hours: null
+          growth_phase: acclimated_steady_state

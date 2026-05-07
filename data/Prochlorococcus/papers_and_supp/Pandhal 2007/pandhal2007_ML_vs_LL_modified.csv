@@ -1,0 +1,179 @@
+Accession,Protein Name,log2_fold_change,adjusted_p_value,n_measurements,COG group,Cellular location,sources
+PMM0003,purL phosphoribosylformylglycinamidine synthetase II 2044:4383 forward,-0.1754357879101729,0.2386,1,F,outer membrane,iTRAQ1 protein list :: Ratio 116:115
+PMM0004,purF Glutamine amidotransferase 4430:5890 forward,0.6064422281316076,,1,F,unknown,iTRAQ1 protein list :: Ratio 116:115
+PMM0013,CDS RNA-binding region RNP-1 (RNA recognition 16018:16683 forward,-0.3351278638105578,0.9068,2,R,unknown,iTRAQ1 protein list :: Ratio 116:115 ; iTRAQ2 protein list :: Ratio 115:114
+PMM0023,gap2 Glyceraldehyde 3-phosphate 24150:25172 forward,-0.33961449746382727,0.4227,2,G,cytoplasmic,iTRAQ1 protein list :: Ratio 116:115 ; iTRAQ2 protein list :: Ratio 115:114
+PMM0044,alaS Alanyl-tRNA synthetase 44305:46965 forward,0.0017301961388826133,0.9894,1,J,cytoplasmic,iTRAQ1 protein list :: Ratio 116:115
+PMM0046,CDS Nucleoside diphosphate kinase 49017:49475 forward,-0.4637481210627106,0.0912,1,F,cytoplasmic,iTRAQ1 protein list :: Ratio 116:115
+PMM0048,gatB Glutamyl-tRNA (Gln) amidotransferase subunit B 50672:52144 forward,0.18953994438850338,0.2049,1,J,cytoplasmic,iTRAQ1 protein list :: Ratio 116:115
+PMM0051,CDS conserved hypothetical protein 54244:54915 reverse,0.17491769523958806,,1,D,unknown,iTRAQ1 protein list :: Ratio 116:115
+PMM0075,CDS conserved hypothetical protein 79845:80951 forward,-0.2658648628688433,0.6674,1,S,unknown,iTRAQ2 protein list :: Ratio 115:114
+PMM0090,CDS possible serine protease 95155:96303 reverse,0.1555492730618173,0.5674,2,O,periplasmic,iTRAQ1 protein list :: Ratio 116:115 ; iTRAQ2 protein list :: Ratio 115:114
+PMM0109,CDS possible POLO box duplicated region. 111615:112325 forward,0.07093882134343751,0.7773,1,NO COG,unknown,iTRAQ1 protein list :: Ratio 116:115
+PMM0128,rpaA two-component response regulator 125358:126113 forward,0.12525433903146602,0.3382,1,T&K,unknown,iTRAQ1 protein list :: Ratio 116:115
+PMM0134,rpaB two-component response regulator 132148:132894 forward,-0.7742315035704033,0.0375,1,T&K,cytoplasmic,iTRAQ1 protein list :: Ratio 116:115
+PMM0142,CDS RNA-binding region RNP-1 (RNA recognition 139098:139517 forward,0.39966330388801763,0.2389,1,R,unknown,iTRAQ1 protein list :: Ratio 116:115
+PMM0144,"pds,crtD phytoene desaturase 140446:141867 reverse",-0.02782202965362751,0.8627,1,S,unknown,iTRAQ1 protein list :: Ratio 116:115
+PMM0152,CDS Putative sugar-phosphate nucleotidyl 149447:150625 forward,0.2879450386445189,0.3013,1,M&J,cytoplasmic,iTRAQ2 protein list :: Ratio 115:114
+PMM0195,"pgk, cbbK Phosphoglycerate kinase 188883:190091 forward",-0.025470687516118178,0.8727,1,G,cytoplasmic,iTRAQ1 protein list :: Ratio 116:115
+PMM0208,eno Enolase 201456:202748 forward,-0.4254624786979365,,1,G,cytoplasmic,iTRAQ2 protein list :: Ratio 115:114
+PMM0211,trxB FAD-dependent pyridine nucleotide-disulphide 204992:205948 forward,-0.6290390940917866,0.9578,2,O,cytoplasmic,iTRAQ1 protein list :: Ratio 116:115 ; iTRAQ2 protein list :: Ratio 115:114
+PMM0214,CDS putative sulfate transporter 207261:208916 reverse,0.9218171398466215,0.0017,1,P,cytoplasmic membrane,iTRAQ2 protein list :: Ratio 115:114
+PMM0226,ftsH2 cell division protein FtsH2 219760:221616 reverse,0.0604624879861069,0.8988,1,O,cytoplasmic membrane,iTRAQ2 protein list :: Ratio 115:114
+PMM0228,psbO Photosystem II manganese-stabilizing protein 222913:223707 reverse,0.04313073789025072,0.7261,2,NO COG,unknown,iTRAQ1 protein list :: Ratio 116:115 ; iTRAQ2 protein list :: Ratio 115:114
+PMM0238,ileS Isoleucyl-tRNA synthetase 230206:233103 forward,-0.004334590263891128,0.9911,1,J,cytoplasmic,iTRAQ1 protein list :: Ratio 116:115
+PMM0258,glyA Serine hydroxymethyltransferase (SHMT) 247995:249266 reverse,0.2959580677208221,0.1777,1,E,cytoplasmic,iTRAQ1 protein list :: Ratio 116:115
+PMM0263,amt1 Ammonium transporter family 252632:254092 forward,1.1071521986349104,0.0008,1,P,cytoplasmic membrane,iTRAQ1 protein list :: Ratio 116:115
+PMM0282,fabI enoyl-[acyl-carrier-protein] reductase 271785:272567 reverse,-0.14528617723046924,0.3818,1,I,unknown,iTRAQ1 protein list :: Ratio 116:115
+PMM0291,CDS conserved hypothetical protein 281164:282486 forward,0.11583229865256488,0.7245,1,S,cytoplasmic membrane,iTRAQ2 protein list :: Ratio 115:114
+PMM0311,metK S-adenosylmethionine synthetase 297783:299024 reverse,-0.45521789521333694,0.0172,1,H,cytoplasmic,iTRAQ2 protein list :: Ratio 115:114
+PMM0312,"rps1a, rpsA1 30S ribosomal protein S1, homolog A 299159:300250 reverse",-0.5631985264294997,0.0491,1,J,unknown,iTRAQ2 protein list :: Ratio 115:114
+PMM0315,psbB Photosystem II PsbB protein (CP47) 301064:302587 reverse,0.377512488485005,0.2236,1,NO COG,cytoplasmic membrane,iTRAQ2 protein list :: Ratio 115:114
+PMM0321,minD putative septum site-determining protein MinD 305556:306371 reverse,-0.05829269131903291,0.607,1,D,unknown,iTRAQ2 protein list :: Ratio 115:114
+PMM0325,petB Cytochrome b6 309806:310462 forward,-0.02973532098547122,0.3586,1,C,cytoplasmic membrane,iTRAQ2 protein list :: Ratio 115:114
+PMM0329,psaE Photosystem I PsaE protein (subunit IV) 319058:319267 reverse,0.17519807086801267,0.7827,2,NO COG,unknown,iTRAQ1 protein list :: Ratio 116:115 ; iTRAQ2 protein list :: Ratio 115:114
+PMM0338,CDS conserved hypothetical 327021:327320 forward,-0.15987922653846784,,1,NO COG,cytoplasmic,iTRAQ2 protein list :: Ratio 115:114
+PMM0378,CDS conserved hypothetical protein 358218:358490 reverse,-0.523877580119848,0.0807,1,NO COG,unknown,iTRAQ2 protein list :: Ratio 115:114
+PMM0395,CDS conserved hypothetical protein 374367:374942 forward,0.2993618976515587,0.6135,1,S,unknown,iTRAQ1 protein list :: Ratio 116:115
+PMM0403,CDS conserved hypothetical protein 381740:382186 forward,0.3374256642826881,0.4618,1,NO COG,unknown,iTRAQ1 protein list :: Ratio 116:115
+PMM0405,pdhC Dihydrolipoamide acetyltransferase component 383670:385037 forward,0.041429133330861234,0.1883,2,C,cytoplasmic,iTRAQ1 protein list :: Ratio 116:115 ; iTRAQ2 protein list :: Ratio 115:114
+PMM0406,queA Queuosine biosynthesis protein 385044:386168 forward,0.4556494273164153,,1,J,unknown,iTRAQ1 protein list :: Ratio 116:115
+PMM0407,cysK1 O-acetylserine (thiol)-lyase A 386171:387157 reverse,0.1323794250528661,0.6679,1,E,unknown,iTRAQ2 protein list :: Ratio 115:114
+PMM0436,topA Prokaryotic DNA topoisomerase 414484:417096 forward,0.0615688492680028,0.5328,1,L,unknown,iTRAQ1 protein list :: Ratio 116:115
+PMM0452,"groEL2,cpn60-2 GroEL2 protein (Chaperonin cpn60 2) 430556:432301 reverse",-0.050680351544482735,0.7874,2,O,cytoplasmic,iTRAQ1 protein list :: Ratio 116:115 ; iTRAQ2 protein list :: Ratio 115:114
+PMM0454,ispD putative 2-C-methyl-D-erythritol 4-phosphate 433458:434129 forward,0.6569081834733373,0.008,1,I,unknown,iTRAQ1 protein list :: Ratio 116:115
+PMM0461,petA Cytochrome f 439817:440770 reverse,1.10091038764691,0.2682,1,NO COG,unknown,iTRAQ2 protein list :: Ratio 115:114
+PMM0462,petC Rieske iron-sulfur protein 440775:441311 reverse,0.12061736121794181,0.652,1,C,unknown,iTRAQ1 protein list :: Ratio 116:115
+PMM0475,rpl19 Ribosomal protein L19 450648:451130 reverse,0.09261339271428384,0.532,1,J,cytoplasmic,iTRAQ1 protein list :: Ratio 116:115
+PMM0482,phb Band 7 protein 455827:456633 forward,0.1544535926798724,0.4939,1,O,unknown,iTRAQ2 protein list :: Ratio 115:114
+PMM0483,"hemL, gsa glutamate-1-semialdehyde 2,1-aminomutase 456638:457939 reverse",-0.10237232572044945,0.0331,1,H,unknown,iTRAQ2 protein list :: Ratio 115:114
+PMM0506,"purA,adeK Adenylosuccinate synthetase 478206:479516 reverse",0.06129233847829409,0.6395,1,F,cytoplasmic,iTRAQ1 protein list :: Ratio 116:115
+PMM0515,cobC possible alpha-ribazole-5'-P phosphatase 485563:486891 reverse,-0.09148409224882013,0.8934,2,G,unknown,iTRAQ1 protein list :: Ratio 116:115 ; iTRAQ2 protein list :: Ratio 115:114
+PMM0529,CDS conserved hypothetical protein 500539:501444 reverse,-0.08558855571898867,0.6848,1,NO COG,unknown,iTRAQ1 protein list :: Ratio 116:115
+PMM0541,CDS conserved hypothetical protein 511060:511407 forward,0.30824436439371317,,1,NO COG,cytoplasmic,iTRAQ2 protein list :: Ratio 115:114
+PMM0543,"chlL,frxC Protochlorophyllide reductase iron-sulfur 512474:513361 reverse",0.5891882114908569,0.1441,1,P,cytoplasmic,iTRAQ1 protein list :: Ratio 116:115
+PMM0549,csoS1 carboxysome shell protein CsoS1 518725:519021 forward,-0.14257629126769292,0.0502,1,Q & C,cytoplasmic,iTRAQ2 protein list :: Ratio 115:114
+PMM0550,"rbcL, cbbL Ribulose bisphosphate carboxylase, large chain 519087:520502 forward",-0.2026666822415644,0.6774,2,G,cytoplasmic,iTRAQ1 protein list :: Ratio 116:115 ; iTRAQ2 protein list :: Ratio 115:114
+PMM0552,csoS2 carboxysome shell protein CsoS2 521024:523321 forward,0.21663228723135508,0.4991,2,NO COG,unknown,iTRAQ1 protein list :: Ratio 116:115 ; iTRAQ2 protein list :: Ratio 115:114
+PMM0581,petE plastocyanin 546477:546827 reverse,0.41845983758099115,0.2124,1,C,unknown,iTRAQ2 protein list :: Ratio 115:114
+PMM0590,proA Gamma-glutamyl phosphate reductase 558202:559512 forward,-0.03350016181203724,0.4119,2,E,cytoplasmic,iTRAQ1 protein list :: Ratio 116:115 ; iTRAQ2 protein list :: Ratio 115:114
+PMM0593,CDS Peptidase family M3 560476:562563 reverse,-0.04305123478525136,0.6751,1,E,cytoplasmic,iTRAQ1 protein list :: Ratio 116:115
+PMM0608,menB Napthoate synthase 577662:578519 forward,-0.22650997250444205,0.1109,1,H,unknown,iTRAQ1 protein list :: Ratio 116:115
+PMM0615,CDS Possible nitrilase 585897:586724 forward,0.029417546835091735,0.8867,1,R,unknown,iTRAQ1 protein list :: Ratio 116:115
+PMM0619,acs acetyl-coenzyme A synthetase 589700:591682 forward,-0.01100635965701859,0.9504,1,I,cytoplasmic membrane,iTRAQ1 protein list :: Ratio 116:115
+PMM0627,pcb light-harvesting complex protein 596691:597749 forward,0.4500443127539092,0.0327,2,NO COG,cytoplasmic membrane,iTRAQ1 protein list :: Ratio 116:115 ; iTRAQ2 protein list :: Ratio 115:114
+PMM0642,cysD putative O-Acetyl homoserine sulfhydrylase 610958:612286 forward,-0.44909933535247676,0.0018,1,E,cytoplasmic,iTRAQ1 protein list :: Ratio 116:115
+PMM0659,CDS NAD-dependent DNA ligase N-terminus 626013:626762 forward,-0.1405974915156712,0.4354,2,L,unknown,iTRAQ1 protein list :: Ratio 116:115 ; iTRAQ2 protein list :: Ratio 115:114
+PMM0661,nrdJ ribonucleotide reductase (Class II) 628726:631134 reverse,0.28557977040279486,0.0833,1,NO COG,unknown,iTRAQ1 protein list :: Ratio 116:115
+PMM0708,CDS putative secreted protein 671693:673975 reverse,-0.039979876006979095,0.0967,2,NO COG,outer membrane,iTRAQ1 protein list :: Ratio 116:115 ; iTRAQ2 protein list :: Ratio 115:114
+PMM0710,"CDS ABC transporter, substrate binding protein, 675854:676825 forward",-0.15698795768760915,0.8202,2,P,periplasmic,iTRAQ1 protein list :: Ratio 116:115 ; iTRAQ2 protein list :: Ratio 115:114
+PMM0719,CDS hypothetical 683454:683759 forward,-0.18737856042290796,0.5663,1,NO COG,cytoplasmic,iTRAQ1 protein list :: Ratio 116:115
+PMM0735,CDS hypothetical 698520:698723 forward,-0.17951465701362104,0.185,1,NO COG,unknown,iTRAQ1 protein list :: Ratio 116:115
+PMM0741,CDS conserved hypothetical protein 702603:703256 reverse,1.6205394927770855,,1,NO COG,unknown,iTRAQ1 protein list :: Ratio 116:115
+PMM0743,ftsH1 FtsH ATP-dependent protease homolog 703879:705792 reverse,0.42792792761523446,,1,O,cytoplasmic membrane,iTRAQ2 protein list :: Ratio 115:114
+PMM0753,"rps2, rpsB 30S ribosomal protein S2 713478:714182 forward",0.6299394094395401,0.1373,1,J,cytoplasmic,iTRAQ1 protein list :: Ratio 116:115
+PMM0760,chlP Aromatic-ring hydroxylase (flavoprotein 723227:724558 reverse,0.3805078193394459,0.3568,1,C,cytoplasmic,iTRAQ1 protein list :: Ratio 116:115
+PMM0767,"glpX, cbbF, fbp Fructose-1,6-bisphosphatase/sedoheptulose-1,7-bis 730434:731435 forward",-0.4589836681695192,0.5138,2,G,cytoplasmic,iTRAQ1 protein list :: Ratio 116:115 ; iTRAQ2 protein list :: Ratio 115:114
+PMM0781,"cbbA,cfxA,fbaA,fda Fructose-bisphosphate/sedoheptulose-1,7-bisphosph 742975:744048 reverse",0.15845916661869106,0.6418,2,G,cytoplasmic,iTRAQ1 protein list :: Ratio 116:115 ; iTRAQ2 protein list :: Ratio 115:114
+PMM0785,"prk, cbbP phosphoribulokinase 746750:747649 reverse",-0.22078231068535228,0.1977,1,C,cytoplasmic,iTRAQ1 protein list :: Ratio 116:115
+PMM0790,CDS conserved hypothetical protein 751468:752004 reverse,0.688314660640385,0.2161,1,NO COG,unknown,iTRAQ1 protein list :: Ratio 116:115
+PMM0797,CDS possible mRNA binding protein 757849:758769 forward,0.08719124956262302,0.5745,1,M&G,unknown,iTRAQ1 protein list :: Ratio 116:115
+PMM0804,CDS ferritin 763008:763562 forward,0.19911125715792988,0.1063,2,P,unknown,iTRAQ1 protein list :: Ratio 116:115 ; iTRAQ2 protein list :: Ratio 115:114
+PMM0856,tpx thioredoxin peroxidase 812943:813527 reverse,-0.06468325766835795,0.4897,2,O,unknown,iTRAQ1 protein list :: Ratio 116:115 ; iTRAQ2 protein list :: Ratio 115:114
+PMM0889,leuS Leucyl-tRNA synthetase 849238:851814 forward,0.06543444594863314,0.5316,1,J,cytoplasmic,iTRAQ1 protein list :: Ratio 116:115
+PMM0893,ribA/ribB possible GTP cyclohydrolase II / 855364:857097 forward,0.17976580835814965,0.2332,1,H,cytoplasmic,iTRAQ1 protein list :: Ratio 116:115
+PMM0894,CDS Cyclophilin-type peptidyl-prolyl cis-trans 857094:857531 reverse,-0.13416034784133754,0.4151,1,O,cytoplasmic,iTRAQ1 protein list :: Ratio 116:115
+PMM0901,htpG heat shock protein HtpG 863832:865736 forward,0.007510389479991053,0.0035,2,O,cytoplasmic,iTRAQ1 protein list :: Ratio 116:115 ; iTRAQ2 protein list :: Ratio 115:114
+PMM0920,"glnA Glutamine synthetase, glutamate--ammonia ligase 881367:882788 forward",-0.08727349995147364,,1,E,cytoplasmic,iTRAQ2 protein list :: Ratio 115:114
+PMM0941,CDS possible cAMP phosphodiesterases class-II 899990:900349 forward,-0.04243204172260545,0.5676,2,NO COG,unknown,iTRAQ1 protein list :: Ratio 116:115 ; iTRAQ2 protein list :: Ratio 115:114
+PMM0952,trpD/G putative Anthranilate synthase component II 910472:911503 reverse,0.32826202860941295,0.1141,1,E,unknown,iTRAQ1 protein list :: Ratio 116:115
+PMM0961,CDS Glycoside hydrolase family 13 918353:920110 reverse,-0.17788172527065546,,1,G,cytoplasmic,iTRAQ1 protein list :: Ratio 116:115
+PMM0962,CDS possible Vng0271c 920161:921387 forward,-0.3093594213843066,0.0461,1,NO COG,cytoplasmic,iTRAQ1 protein list :: Ratio 116:115
+PMM0970,"urtA putative urea ABC transporter, substrate binding 926568:927887 forward",-0.14337278830160996,0.7413,1,E,periplasmic,iTRAQ1 protein list :: Ratio 116:115
+PMM1007,CDS 957628:958299 reverse,0.45027429255382123,0.4562,1,NO COG,cytoplasmic,iTRAQ1 protein list :: Ratio 116:115
+PMM1033,CDS Cobalamin synthesis protein/P47K 977075:978433 forward,-0.29318215266023856,0.0509,1,R,cytoplasmic,iTRAQ1 protein list :: Ratio 116:115
+PMM1061,trxA Thioredoxin 1000324:1000647 reverse,-0.10826975341988136,0.7834,1,O,cytoplasmic,iTRAQ1 protein list :: Ratio 116:115
+PMM1069,folD putuative bifunctional Methylenetetrahydrofolate 1011546:1012442 forward,-0.09187882959386191,0.5182,1,H,unknown,iTRAQ1 protein list :: Ratio 116:115
+PMM1075,petH ferredoxin-NADP oxidoreductase (FNR) 1018224:1019336 reverse,0.029700234215419886,0.9072,1,P,cytoplasmic,iTRAQ2 protein list :: Ratio 115:114
+PMM1088,clpC ClpC 1032024:1034552 reverse,-0.09234017214671059,0.4149,1,O,cytoplasmic,iTRAQ1 protein list :: Ratio 116:115
+PMM1090,lysA Diaminopimelate decarboxylase 1035266:1036639 forward,0.010206942869257081,0.948,1,E,unknown,iTRAQ1 protein list :: Ratio 116:115
+PMM1091,CDS conserved hypothetical protein 1036668:1037558 forward,0.4890290638504373,0.4603,1,S,cytoplasmic membrane,iTRAQ2 protein list :: Ratio 115:114
+PMM1113,CDS two-component response regulator 1059346:1060083 forward,-0.08896041435571288,0.5249,1,T&K,cytoplasmic,iTRAQ1 protein list :: Ratio 116:115
+PMM1145,pntB putative nicotinamide nucleotide 1097431:1098867 reverse,1.9505057408351842,,1,C,cytoplasmic membrane,iTRAQ1 protein list :: Ratio 116:115
+PMM1147,pntA-1 putative nicotinamide nucleotide 1099193:1100323 reverse,0.012727048213874563,0.8587,2,C,cytoplasmic membrane,iTRAQ1 protein list :: Ratio 116:115 ; iTRAQ2 protein list :: Ratio 115:114
+PMM1154,ilvH Acetolactate synthase small subunit 1105694:1106218 forward,0.35219353774503176,0.3302,1,E,cytoplasmic,iTRAQ1 protein list :: Ratio 116:115
+PMM1157,psbD Photosystem II PsbD protein (D2) 1107613:1108689 forward,0.1867868911091297,0.734,2,NO COG,cytoplasmic membrane,iTRAQ1 protein list :: Ratio 116:115 ; iTRAQ2 protein list :: Ratio 115:114
+PMM1158,psbC Photosystem II PsbC protein (CP43) 1108673:1110055 forward,0.4739121782549056,0.0605,2,NO COG,cytoplasmic membrane,iTRAQ1 protein list :: Ratio 116:115 ; iTRAQ2 protein list :: Ratio 115:114
+PMM1164,"futA,sfuA, idiA putative iron ABC transporter, substrate binding 1116122:1117144 reverse",0.3078947755125013,0.0269,1,P,periplasmic,iTRAQ1 protein list :: Ratio 116:115
+PMM1166,CDS conserved hypothetical protein 1118243:1118632 reverse,-0.48358135836613175,,1,NO COG,unknown,iTRAQ1 protein list :: Ratio 116:115
+PMM1171,isiB Flavodoxin 1121029:1121553 reverse,-0.17951465701362104,,1,C,unknown,iTRAQ2 protein list :: Ratio 115:114
+PMM1180,sppA signal peptide peptidase SppA (protease IV) 1128287:1129096 forward,0.26687980059596816,0.1631,2,O&R,unknown,iTRAQ1 protein list :: Ratio 116:115 ; iTRAQ2 protein list :: Ratio 115:114
+PMM1186,CDS Putative inner membrane protein; similar to 60 1131179:1132318 forward,0.6845494691838425,0.0384,1,R,cytoplasmic membrane,iTRAQ1 protein list :: Ratio 116:115
+PMM1191,pnp polyribonucleotide nucleotidyltransferase 1136852:1139017 forward,-0.05408876854903743,0.9537,2,J,cytoplasmic,iTRAQ1 protein list :: Ratio 116:115 ; iTRAQ2 protein list :: Ratio 115:114
+PMM1204,"ddhA, rfbF glucose-1-phosphate cytidylyltransferase 1152143:1152910 reverse",-0.038895320270947116,0.7488,1,M&J,unknown,iTRAQ1 protein list :: Ratio 116:115
+PMM1235,CDS possible N-terminal fragment of transketolase 1187097:1187927 forward,0.14860877020522015,0.4365,1,G,unknown,iTRAQ1 protein list :: Ratio 116:115
+PMM1240,CDS methyltransferase 1192421:1193092 forward,-0.06295698554898113,0.6714,1,H,unknown,iTRAQ1 protein list :: Ratio 116:115
+PMM1264,ftsH3 cell division protein FtsH3 1217915:1219777 reverse,0.5527705244390648,0.0537,1,O,cytoplasmic membrane,iTRAQ2 protein list :: Ratio 115:114
+PMM1284,"phoH,psiH PhoH-like phosphate starvation-inducible 1233875:1234831 reverse",-0.14114370380866342,0.3599,1,T,cytoplasmic,iTRAQ1 protein list :: Ratio 116:115
+PMM1294,CDS putative nickel-containing superoxide dismutase 1246173:1246643 forward,0.3103401206121505,0.3734,1,NO COG,cytoplasmic,iTRAQ1 protein list :: Ratio 116:115
+PMM1301,argD Aminotransferase class-III 1253002:1254255 forward,-0.04349722222995577,0.8788,1,E,cytoplasmic membrane,iTRAQ1 protein list :: Ratio 116:115
+PMM1303,CDS conserved hypothetical protein 1255497:1256852 reverse,0.3806186381773764,0.1411,1,C,cytoplasmic,iTRAQ1 protein list :: Ratio 116:115
+PMM1309,ftsZ Cell division protein FtsZ:Tubulin/FtsZ family 1262202:1263317 forward,0.5871056977113589,0.0276,2,D,cytoplasmic,iTRAQ1 protein list :: Ratio 116:115 ; iTRAQ2 protein list :: Ratio 115:114
+PMM1332,CDS Cytosol aminopeptidase 1282104:1283579 forward,0.2654368960490983,0.7301,1,E,unknown,iTRAQ2 protein list :: Ratio 115:114
+PMM1350,CDS Pentapeptide repeats 1300763:1301341 forward,-0.34598096470655243,0.1046,2,S,unknown,iTRAQ1 protein list :: Ratio 116:115 ; iTRAQ2 protein list :: Ratio 115:114
+PMM1354,serA putative D-3-phosphoglycerate dehydrogenase 1303160:1304746 reverse,-0.026792845886544348,0.882,1,E,cytoplasmic,iTRAQ1 protein list :: Ratio 116:115
+PMM1401,CDS conserved hypothetical 1347131:1347412 forward,-0.53897203400299,0.5888,2,NO COG,cytoplasmic,iTRAQ1 protein list :: Ratio 116:115 ; iTRAQ2 protein list :: Ratio 115:114
+PMM1405,CDS hypothetical 1350757:1350987 reverse,0.7738058450755987,0.6785,2,NO COG,unknown,iTRAQ1 protein list :: Ratio 116:115 ; iTRAQ2 protein list :: Ratio 115:114
+PMM1412,CDS conserved hypothetical protein 1354682:1355110 forward,0.21337839072506246,0.3519,1,S,unknown,iTRAQ1 protein list :: Ratio 116:115
+PMM1416,CDS conserved hypothetical 1357735:1359819 forward,-0.037413961643116916,0.7441,1,NO COG,unknown,iTRAQ1 protein list :: Ratio 116:115
+PMM1436,groEL GroEL protein (Chaperonin cpn60) 1373640:1375274 reverse,0.19621152033876255,0.8349,2,O,cytoplasmic,iTRAQ1 protein list :: Ratio 116:115 ; iTRAQ2 protein list :: Ratio 115:114
+PMM1437,groES GroES protein (Chaperonin cpn10) 1375326:1375637 reverse,-0.09881450630726035,0.6445,1,O,cytoplasmic,iTRAQ1 protein list :: Ratio 116:115
+PMM1438,"atpB ATP synthase beta subunit, central region:ATP 1375858:1377318 forward",0.0016373304743444936,0.6572,2,C,cytoplasmic,iTRAQ1 protein list :: Ratio 116:115 ; iTRAQ2 protein list :: Ratio 115:114
+PMM1451,"atpA ATP synthase alpha subunit, central region:ATP 1387064:1388581 reverse",-0.40626713760823385,0.0788,2,C,unknown,iTRAQ1 protein list :: Ratio 116:115 ; iTRAQ2 protein list :: Ratio 115:114
+PMM1465,purB Fumarate lyase:Adenylosuccinate lyase 1397682:1398977 forward,-0.2475939287846196,0.3366,1,F,cytoplasmic,iTRAQ1 protein list :: Ratio 116:115
+PMM1483,rpoC2 RNA polymerase beta prime subunit 1413943:1418043 reverse,-0.16634932013996317,0.7602,2,K,cytoplasmic,iTRAQ1 protein list :: Ratio 116:115 ; iTRAQ2 protein list :: Ratio 115:114
+PMM1484,rpoC1 RNA polymerase gamma subunit 1418077:1419981 reverse,0.4475263011689103,,1,K,cytoplasmic,iTRAQ1 protein list :: Ratio 116:115
+PMM1485,rpoB RNA polymerase beta subunit 1420020:1423313 reverse,0.029982866215714315,0.7588,1,K,cytoplasmic,iTRAQ1 protein list :: Ratio 116:115
+PMM1492,nusA N utilization substance protein A 1428605:1430008 forward,-0.046474000426040364,0.7549,1,K,cytoplasmic,iTRAQ1 protein list :: Ratio 116:115
+PMM1494,infB Translation initiation factor IF-2 1430338:1433847 forward,0.19484351199951963,0.02,1,J,cytoplasmic,iTRAQ1 protein list :: Ratio 116:115
+PMM1504,pheA Chorismate mutase - Prephenate dehydratase 1443506:1444351 forward,0.1740228420554138,0.1232,1,E,cytoplasmic,iTRAQ1 protein list :: Ratio 116:115
+PMM1508,tufA Elongation factor Tu 1446430:1447629 reverse,0.039360655684900506,0.9676,2,J,cytoplasmic,iTRAQ1 protein list :: Ratio 116:115 ; iTRAQ2 protein list :: Ratio 115:114
+PMM1509,fusA Elongation factor G 1447673:1449748 reverse,-0.16907996910185727,0.6126,2,J,cytoplasmic,iTRAQ1 protein list :: Ratio 116:115 ; iTRAQ2 protein list :: Ratio 115:114
+PMM1512,"glsF, gltS Ferredoxin-dependent glutamate synthase, 1450922:1455487 forward",0.09166598752181289,0.2605,1,E,cytoplasmic,iTRAQ1 protein list :: Ratio 116:115
+PMM1519,psaL Photosystem I PsaL protein (subunit XI) 1459606:1460205 reverse,-0.18002032119607614,0.766,2,NO COG,cytoplasmic membrane,iTRAQ1 protein list :: Ratio 116:115 ; iTRAQ2 protein list :: Ratio 115:114
+PMM1523,psaB Photosystem I PsaB protein 1461905:1464133 reverse,-0.2346349924501947,0.2234,1,NO COG,cytoplasmic membrane,iTRAQ2 protein list :: Ratio 115:114
+PMM1524,psaA Photosystem I PsaA protein 1464162:1466465 reverse,-0.28965089391302984,0.0057,1,NO COG,cytoplasmic membrane,iTRAQ2 protein list :: Ratio 115:114
+PMM1535,"rpoA Bacterial RNA polymerase, alpha chain 1475063:1476001 reverse",0.12974460550781922,0.6288,1,K,cytoplasmic,iTRAQ2 protein list :: Ratio 115:114
+PMM1536,"rps11, rpsK 30S ribosomal protein S11 1476048:1476440 reverse",0.16169423543613154,0.5541,1,J,unknown,iTRAQ1 protein list :: Ratio 116:115
+PMM1537,"rps13, rpsM 30S ribosomal protein S13 1476489:1476854 reverse",0.18621850141550383,0.5676,2,J,unknown,iTRAQ1 protein list :: Ratio 116:115 ; iTRAQ2 protein list :: Ratio 115:114
+PMM1542,"rpsE,rps5 30S ribosomal protein S5 1479422:1480042 reverse",-0.10045124780027315,0.5353,2,J,unknown,iTRAQ1 protein list :: Ratio 116:115 ; iTRAQ2 protein list :: Ratio 115:114
+PMM1544,"rpl6, rplF 50S ribosomal protein L6 1480441:1480980 reverse",0.1013811423550245,0.2981,1,J,unknown,iTRAQ1 protein list :: Ratio 116:115
+PMM1548,"rpl14, rplN 50S Ribosomal protein L14 1482374:1482739 reverse",0.05144171138261017,0.7564,1,J,cytoplasmic,iTRAQ1 protein list :: Ratio 116:115
+PMM1555,"rpl2, rplB 50S ribosomal protein L2 1485158:1486021 reverse",0.06612364246529363,0.6575,1,J,unknown,iTRAQ1 protein list :: Ratio 116:115
+PMM1557,"rpl4, rplD 50S ribosomal protein L4 1486333:1486965 reverse",0.06419306192749237,0.8002,1,J,cytoplasmic,iTRAQ1 protein list :: Ratio 116:115
+PMM1562,recA RecA bacterial DNA recombination protein 1490458:1491570 forward,0.323312417757903,0.0934,1,L,unknown,iTRAQ1 protein list :: Ratio 116:115
+PMM1570,CDS ATP:corrinoid adenosyltransferase 1498446:1499606 reverse,6.625272714289206e-05,1.1079,2,H,cytoplasmic,iTRAQ1 protein list :: Ratio 116:115 ; iTRAQ2 protein list :: Ratio 115:114
+PMM1575,ppc Phosphoenolpyruvate carboxylase 1502738:1505707 reverse,-1.096653165017793,0.7048,1,C,outer membrane ,iTRAQ2 protein list :: Ratio 115:114
+PMM1577,trpE Anthranilate synthase component I and chorismate 1506880:1508400 reverse,0.0852886748169873,0.7527,1,E&H,unknown,iTRAQ1 protein list :: Ratio 116:115
+PMM1578,psaD Photosystem I protein PsaD 1508460:1508882 reverse,0.45890690685086627,0.0987,1,NO COG,unknown,iTRAQ1 protein list :: Ratio 116:115
+PMM1581,CDS MRP protein homolog 1511636:1512703 reverse,-0.036969850498809846,0.7339,1,D,unknown,iTRAQ1 protein list :: Ratio 116:115
+PMM1588,CDS possible Conserved carboxylase domain 1517428:1518042 reverse,0.3756233439289034,0.1181,1,NO COG,cytoplasmic,iTRAQ1 protein list :: Ratio 116:115
+PMM1596,icd Isocitrate dehydrogenase 1524255:1525679 forward,0.10165204341057608,0.5014,2,C,cytoplasmic,iTRAQ1 protein list :: Ratio 116:115 ; iTRAQ2 protein list :: Ratio 115:114
+PMM1610,"tktA, cbbT Transketolase 1539744:1541750 forward",-0.07567203831089962,0.404,1,G,unknown,iTRAQ1 protein list :: Ratio 116:115
+PMM1619,CDS two-component response regulator 1548994:1549740 reverse,-0.18508049069448126,0.3434,1,T&K,cytoplasmic,iTRAQ1 protein list :: Ratio 116:115
+PMM1622,mreB Rod shape determining protein 1551207:1552259 reverse,-0.04455110250470909,0.4567,2,D,cytoplasmic,iTRAQ1 protein list :: Ratio 116:115 ; iTRAQ2 protein list :: Ratio 115:114
+PMM1634,"gyrB DNA gyrase, subunit B 1560853:1562820 reverse",0.060864763688298525,0.9689,2,L,cytoplasmic,iTRAQ1 protein list :: Ratio 116:115 ; iTRAQ2 protein list :: Ratio 115:114
+PMM1637,CDS possible transcriptional regulator 1564595:1565566 forward,0.11756206925697886,0.5783,1,K,cytoplasmic,iTRAQ1 protein list :: Ratio 116:115
+PMM1639,secA Preprotein translocase SecA subunit 1566315:1569146 reverse,0.00657496247777143,0.559,2,R,cytoplasmic,iTRAQ1 protein list :: Ratio 116:115 ; iTRAQ2 protein list :: Ratio 115:114
+PMM1643,"ribH Putative 6,7-dimethyl-8-ribityllumazine synthase 1570887:1571363 reverse",-0.08024042414495867,0.8829,1,H,unknown,iTRAQ1 protein list :: Ratio 116:115
+PMM1645,"mutS,fdv putative DNA mismatch repair protein 1571753:1574500 forward",0.0692897127155347,0.7647,1,L,unknown,iTRAQ2 protein list :: Ratio 115:114
+PMM1650,CDS conserved hypothetical protein 1580095:1580904 reverse,0.1742012476830584,0.0878,2,NO COG,unknown,iTRAQ1 protein list :: Ratio 116:115 ; iTRAQ2 protein list :: Ratio 115:114
+PMM1655,CDS FKBP-type peptidyl-prolyl cis-trans isomerase 1586108:1587529 forward,0.02856915219677092,0.8926,1,O,unknown,iTRAQ1 protein list :: Ratio 116:115
+PMM1665,sqdB sulfolipid (UDP-sulfoquinovose) biosynthesis 1596609:1597802 forward,-0.0676450917468032,0.1354,2,M&G,cytoplasmic,iTRAQ1 protein list :: Ratio 116:115 ; iTRAQ2 protein list :: Ratio 115:114
+PMM1666,sqdX SqdX 1597831:1598964 forward,-0.12752580294878768,0.2714,1,M,unknown,iTRAQ1 protein list :: Ratio 116:115
+PMM1673,"rpl9, rplI 50S ribosomal protein L9 1605752:1606207 forward",0.03563545806449652,0.8578,2,J,cytoplasmic,iTRAQ1 protein list :: Ratio 116:115 ; iTRAQ2 protein list :: Ratio 115:114
+PMM1682,valS Valyl-tRNA synthetase 1614148:1616904 reverse,0.18345475417494217,0.0722,1,J,cytoplasmic,iTRAQ1 protein list :: Ratio 116:115
+PMM1689,pyrG Glutamine amidotransferase class-I:CTP synthase 1623197:1624807 forward,0.011576035401746213,0.8629,2,F,cytoplasmic,iTRAQ1 protein list :: Ratio 116:115 ; iTRAQ2 protein list :: Ratio 115:114
+PMM1700,acnB Aconitate hydratase B 1635543:1638116 forward,-0.19429481516148867,0.1525,1,C,unknown,iTRAQ1 protein list :: Ratio 116:115
+PMM1704,"dnaK2 Molecular chaperone DnaK2, heat shock protein 1641476:1643380 reverse",0.24972020189312588,0.2062,2,O,cytoplasmic,iTRAQ1 protein list :: Ratio 116:115 ; iTRAQ2 protein list :: Ratio 115:114
+PMM1706,"rps6, rpsF 30S ribosomal protein S6 1644465:1644929 forward",0.42932136994144154,0.2756,1,J,unknown,iTRAQ1 protein list :: Ratio 116:115
