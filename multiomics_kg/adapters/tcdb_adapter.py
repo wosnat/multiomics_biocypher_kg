@@ -5,13 +5,12 @@ Yields:
 - Tcdb_family_is_a_tcdb_family parent edges within the pruned hierarchy.
 - Gene_has_tcdb_family edges from per-strain gene_annotations_merged.json
   (filtered to pruned IDs to avoid dangling edges).
-- Tcdb_family_transports_metabolite edges rolled up from tc_specificity leaves
-  to every ancestor TcdbFamily node in the pruned hierarchy. The leaves carry
-  the original substrate annotations (from tcdb_pruned.json["leaf_substrates"]);
-  ancestors get the union of substrates from their descendant leaves. This
-  flattens the descendants walk into edges so post-import gene/organism rollups
-  and explorer queries become single-hop traversals at any TcdbFamily level.
-  Filter to source.level_kind = 'tc_specificity' to recover leaf-only edges.
+- Tcdb_family_transports_metabolite edges from tcdb_pruned.json["subtree_substrates"].
+  Each kept TC ID maps to the union of substrate primary IDs from every
+  tc_specificity descendant in the FULL TCDB hierarchy (rollup computed
+  pre-pruning in step 6). The adapter emits one edge per (tc_id, primary_id)
+  pair without traversing the hierarchy. Filter to source.level_kind =
+  'tc_specificity' to recover leaf-only edges.
 
 Two-class shape mirrors functional_annotation_adapter.MultiPfamAnnotationAdapter.
 """
@@ -112,7 +111,7 @@ class MultiTcdbAnnotationAdapter:
         self._build_strain_adapters(genome_config_file)
         self._hierarchy: dict[str, dict] = {}
         self._kept_ids: set[str] = set()
-        self._leaf_substrates: dict[str, list[str]] = {}
+        self._subtree_substrates: dict[str, list[str]] = {}
         self._seed_aliases: dict[str, str] = {}
 
     def _build_strain_adapters(self, genome_config_file: str) -> None:
@@ -143,36 +142,15 @@ class MultiTcdbAnnotationAdapter:
         self._hierarchy = json.loads(hierarchy_path.read_text())
         pruned = json.loads(pruned_path.read_text())
         self._kept_ids = set(pruned["kept_tcdb_ids"])
-        self._leaf_substrates = pruned["leaf_substrates"]
+        # Pre-rolled-up substrate primary IDs per kept TC ID. Step 6 computes
+        # the rollup over the FULL hierarchy (pre-pruning) so ancestor nodes
+        # capture every TCDB descendant's substrates, not just gene-annotated
+        # ones. Empty rollups are omitted from the file.
+        self._subtree_substrates = pruned.get("subtree_substrates", {}) or {}
         # Remaps gene-annotated TCIDs not in the curated hierarchy to the
         # nearest curated ancestor (e.g. retired `3.A.1.35` → family `3.A.1`).
         # Older pruned files may not carry this field.
         self._seed_aliases = pruned.get("seed_aliases", {}) or {}
-
-    def _compute_subtree_substrates(self) -> dict[str, set[str]]:
-        """For each kept TCDB id, return the union of leaf substrate primary IDs
-        reachable in its subtree (descendants-or-self). Bottom-up DFS with memo.
-        Leaves return their own _leaf_substrates entry.
-        """
-        children: dict[str, list[str]] = {tc: [] for tc in self._kept_ids}
-        for tc in self._kept_ids:
-            parent = self._hierarchy.get(tc, {}).get("parent")
-            if parent and parent in self._kept_ids:
-                children[parent].append(tc)
-        cache: dict[str, set[str]] = {}
-
-        def dfs(node: str) -> set[str]:
-            if node in cache:
-                return cache[node]
-            result: set[str] = set(self._leaf_substrates.get(node, []))
-            for child in children[node]:
-                result |= dfs(child)
-            cache[node] = result
-            return result
-
-        for tc in self._kept_ids:
-            dfs(tc)
-        return cache
 
     def get_nodes(self) -> Iterator[tuple[str, str, dict]]:
         if not self._kept_ids:
@@ -259,14 +237,13 @@ class MultiTcdbAnnotationAdapter:
                 f"MultiTcdbAnnotationAdapter: dropped {dropped} gene→TCDB edges to unpruned IDs"
             )
 
-        # 3. Substrate edges (rolled up from leaves to every ancestor in the
-        # pruned hierarchy). Ancestors get the union of their descendants' leaf
-        # substrates so gene/organism rollups become single-hop at any level.
-        # Recover leaf-only semantics by filtering to source.level_kind = 'tc_specificity'.
-        subtree = self._compute_subtree_substrates()
+        # 3. Substrate edges. Pre-rolled-up at step-6 time over the FULL
+        # hierarchy, so ancestors carry substrates from every TCDB descendant
+        # (not just gene-annotated ones). Recover leaf-only semantics by
+        # filtering to source.level_kind = 'tc_specificity'.
         sub_count = 0
-        for tcdb_id, primary_ids in sorted(subtree.items()):
-            for primary in sorted(primary_ids):
+        for tcdb_id, primary_ids in sorted(self._subtree_substrates.items()):
+            for primary in primary_ids:
                 yield (
                     f"{tcdb_id}-transports-{primary}",
                     _tcdb_node_id(tcdb_id),
@@ -278,5 +255,5 @@ class MultiTcdbAnnotationAdapter:
 
         logger.info(
             f"MultiTcdbAnnotationAdapter.get_edges: {parent_count} parent, "
-            f"{gene_count} gene, {sub_count} substrate edges (rolled up)"
+            f"{gene_count} gene, {sub_count} substrate edges"
         )

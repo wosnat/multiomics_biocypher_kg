@@ -44,8 +44,15 @@ def cache_root(tmp_path):
     }))
     (tcdb_dir / "tcdb_pruned.json").write_text(json.dumps({
         "kept_tcdb_ids": ["1", "1.A", "1.A.1", "1.A.1.5", "1.A.1.5.2"],
-        "leaf_substrates": {
-            "1.A.1.5.2": ["kegg.compound:C00208", "chebi:9999"],
+        # Pre-rolled-up substrates: every ancestor of the leaf carries the
+        # leaf's primaries. Step 6 emits this map directly; adapter just
+        # iterates and yields edges.
+        "subtree_substrates": {
+            "1": ["chebi:9999", "kegg.compound:C00208"],
+            "1.A": ["chebi:9999", "kegg.compound:C00208"],
+            "1.A.1": ["chebi:9999", "kegg.compound:C00208"],
+            "1.A.1.5": ["chebi:9999", "kegg.compound:C00208"],
+            "1.A.1.5.2": ["chebi:9999", "kegg.compound:C00208"],
         },
     }))
     return tmp_path
@@ -162,7 +169,7 @@ def test_orchestrator_remaps_gene_edges_via_seed_aliases(tmp_path):
     }))
     (tcdb_dir / "tcdb_pruned.json").write_text(json.dumps({
         "kept_tcdb_ids": ["1", "1.A", "1.A.1"],
-        "leaf_substrates": {},
+        "subtree_substrates": {},
         "seed_aliases": {"1.A.1.99.X": "1.A.1"},
     }))
 

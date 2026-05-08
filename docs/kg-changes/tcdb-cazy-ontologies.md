@@ -2,7 +2,9 @@
 
 **Status:** LANDED 2026-05-02 — design at [docs/superpowers/specs/2026-05-01-tcdb-cazy-ontologies-design.md](../superpowers/specs/2026-05-01-tcdb-cazy-ontologies-design.md). Counts below are measured against the post-rebuild graph.
 
-**Updated 2026-05-03:** Substrate edges (`Tcdb_family_transports_metabolite`) are now **rolled up at adapter time from `tc_specificity` leaves to every ancestor in the pruned hierarchy**, flattening the descendants walk into edges so all explorer queries become single-hop at any TcdbFamily level. Recover leaf-only semantics via `WHERE source.level_kind = 'tc_specificity'`. Same date: chemistry-slice-1 follow-up (KG-A5..A8) added pathway/organism rollup arrays onto Metabolite — see "Metabolite — chemistry-slice-1 follow-up rollups" below.
+**Updated 2026-05-03:** Substrate edges (`Tcdb_family_transports_metabolite`) are rolled up from `tc_specificity` leaves to every ancestor, flattening the descendants walk into edges so all explorer queries become single-hop at any TcdbFamily level. Recover leaf-only semantics via `WHERE source.level_kind = 'tc_specificity'`. Same date: chemistry-slice-1 follow-up (KG-A5..A8) added pathway/organism rollup arrays onto Metabolite — see "Metabolite — chemistry-slice-1 follow-up rollups" below.
+
+**Updated 2026-05-08:** Substrate rollup moved from adapter time to **step-6 time, computed pre-prune over the FULL TCDB hierarchy**. Previously the rollup walked only the pruned hierarchy, so kept ancestors reached only by `walk_up` from a deeper gene seed undercounted: substrates from non-gene-annotated sibling specificities under the same ancestor were missed (~950 substrate edges across ~50 ancestor families). Step 6 now (1) computes the subtree rollup over the full hierarchy as raw `CHEBI:NNNN;name` strings, (2) prunes structurally, (3) resolves only the surviving distinct substrate strings via MNX. Result lives in `tcdb_pruned.json` as `subtree_substrates: {tc_id: [primary_id, ...]}`; the adapter emits one edge per pair without traversing the hierarchy. Total edges: 21,530 → **22,476**. Affected ancestor `metabolite_count`/`is_promiscuous` accordingly.
 
 **Proposed:** 2026-05-01
 

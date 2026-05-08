@@ -143,6 +143,17 @@
       "mnxm_id": "MNXM728652",
       "name": "poly[(1->4)-beta-D-mannuronic acid]"
     },
+    "chebi:11105": {
+      "chebi_id": "11105",
+      "evidence_sources": [
+        "transport"
+      ],
+      "formula": null,
+      "inchikey": null,
+      "mass": null,
+      "mnxm_id": "MNXM732281",
+      "name": "glucomannan"
+    },
     "chebi:11148": {
       "chebi_id": "11148",
       "evidence_sources": [
@@ -176,6 +187,28 @@
       "mnxm_id": "MNXM728509",
       "name": "1-acyl-sn-glycerol 3-phosphate"
     },
+    "chebi:11281": {
+      "chebi_id": "11281",
+      "evidence_sources": [
+        "transport"
+      ],
+      "formula": "C11H18O16P2*2",
+      "inchikey": null,
+      "mass": null,
+      "mnxm_id": "MNXM1364133",
+      "name": "1-phosphatidyl-1D-myo-inositol 3-phosphate"
+    },
+    "chebi:11282": {
+      "chebi_id": "11282",
+      "evidence_sources": [
+        "transport"
+      ],
+      "formula": "C11H19O19P3*2",
+      "inchikey": null,
+      "mass": null,
+      "mnxm_id": "MNXM1364194",
+      "name": "1-phosphatidyl-1D-myo-inositol 4,5-bisphosphate"
+    },
     "chebi:1148": {
       "chebi_id": "1148",
       "evidence_sources": [
@@ -198,6 +231,17 @@
       "mnxm_id": "MNXM727882",
       "name": "resveratrol"
     },
+    "chebi:11749": {
+      "chebi_id": "11749",
+      "evidence_sources": [
+        "transport"
+      ],
+      "formula": "C11H18NO11P*2",
+      "inchikey": null,
+      "mass": null,
+      "mnxm_id": "MNXM730779",
+      "name": "3-O-L-alanyl-1-O-phosphatidylglycerol"
+    },
     "chebi:11978": {
       "chebi_id": "11978",
       "evidence_sources": [
@@ -219,6 +263,17 @@
       "mass": 459.463,
       "mnxm_id": "MNXM1363962",
       "name": "5-methyltetrahydrofolic acid"
+    },
+    "chebi:1230": {
+      "chebi_id": "1230",
+      "evidence_sources": [
+        "transport"
+      ],
+      "formula": "C12H22O11",
+      "inchikey": "HIWPGCMGAMJNRG-RTPHMHGBSA-N",
+      "mass": 342.297,
+      "mnxm_id": "MNXM1108486",
+      "name": "sophorose"
     },
     "chebi:12487": {
       "chebi_id": "12487",
@@ -264,6 +319,17 @@
       "mnxm_id": "MNXM735266",
       "name": "D-galactose"
     },
+    "chebi:12947": {
+      "chebi_id": "12947",
+      "evidence_sources": [
+        "transport"
+      ],
+      "formula": "C25H46NO8*",
+      "inchikey": null,
+      "mass": null,
+      "mnxm_id": "MNXM1364157",
+      "name": "a beta-D-galactosyl-(1<->1')-N-acylsphing-4-enine"
+    },
     "chebi:12961": {
       "chebi_id": "12961",
       "evidence_sources": [
@@ -296,6 +362,17 @@
       "mass": null,
       "mnxm_id": "MNXM1102441",
       "name": "D-glucuronate"
+    },
+    "chebi:12999": {
+      "chebi_id": "12999",
+      "evidence_sources": [
+        "transport"
+      ],
+      "formula": null,
+      "inchikey": null,
+      "mass": null,
+      "mnxm_id": "MNXM731378",
+      "name": "D-mannose"
     },
     "chebi:13004": {
       "chebi_id": "13004",
@@ -384,6 +461,17 @@
       "mass": null,
       "mnxm_id": "MNXM735415",
       "name": "nucleotide"
+    },
+    "chebi:132153": {
+      "chebi_id": "132153",
+      "evidence_sources": [
+        "transport"
+      ],
+      "formula": "C14H22NO12",
+      "inchikey": "LJORHONFMDUUHP-VOGNPWKQSA-M",
+      "mass": 396.325,
+      "mnxm_id": "MNXM738287",
+      "name": "hyaluronan"
     },
     "chebi:132950": {
       "chebi_id": "132950",
@@ -483,6 +571,17 @@
       "mass": null,
       "mnxm_id": "MNXM497033",
       "name": "cationic peptidyl group"
+    },
+    "chebi:13444": {
+      "chebi_id": "13444",
+      "evidence_sources": [
+        "transport"
+      ],
+      "formula": null,
+      "inchikey": null,
+      "mass": null,
+      "mnxm_id": "MNXM1107595",
+      "name": "RX"
     },
     "chebi:135075": {
       "chebi_id": "135075",
@@ -748,6 +847,17 @@
       "mnxm_id": "MNXM735851",
       "name": "aromatic amino acid"
     },
+    "chebi:13824": {
+      "chebi_id": "13824",
+      "evidence_sources": [
+        "transport"
+      ],
+      "formula": null,
+      "inchikey": null,
+      "mass": null,
+      "mnxm_id": "MNXM731292",
+      "name": "aryl beta-D-glucoside"
+    },
     "chebi:139252": {
       "chebi_id": "139252",
       "evidence_sources": [
@@ -769,6 +879,17 @@
       "mass": 180.159,
       "mnxm_id": "MNXM1370995",
       "name": "cis-caffeic acid"
+    },
+    "chebi:13962": {
+      "chebi_id": "13962",
+      "evidence_sources": [
+        "transport"
+      ],
+      "formula": "C8H15NO6",
+      "inchikey": "OVRNDRQMDRJTHS-FMDGEEDCSA-N",
+      "mass": 221.209,
+      "mnxm_id": "MNXM727697",
+      "name": "chitin"
     },
     "chebi:13967": {
       "chebi_id": "13967",
@@ -824,6 +945,17 @@
       "mass": null,
       "mnxm_id": null,
       "name": "S-adenosyl-L-methionine"
+    },
+    "chebi:14240": {
+      "chebi_id": "14240",
+      "evidence_sources": [
+        "transport"
+      ],
+      "formula": null,
+      "inchikey": null,
+      "mass": null,
+      "mnxm_id": "MNXM731974",
+      "name": "ferricytochrome c"
     },
     "chebi:14311": {
       "chebi_id": "14311",
@@ -913,6 +1045,17 @@
       "mnxm_id": "MNXM738292",
       "name": "hyaluronic acid"
     },
+    "chebi:14426": {
+      "chebi_id": "14426",
+      "evidence_sources": [
+        "transport"
+      ],
+      "formula": "C20H40N3O13",
+      "inchikey": "GRRNUXAQVGOGFE-NZSRVPFOSA-Q",
+      "mass": 530.548,
+      "mnxm_id": "MNXM732868",
+      "name": "hygromycin B"
+    },
     "chebi:144635": {
       "chebi_id": "144635",
       "evidence_sources": [
@@ -945,6 +1088,17 @@
       "mass": null,
       "mnxm_id": "MNXM731379",
       "name": "mannose"
+    },
+    "chebi:14582": {
+      "chebi_id": "14582",
+      "evidence_sources": [
+        "transport"
+      ],
+      "formula": "C16H16O2",
+      "inchikey": "ABSPRNADVQNDOU-UHFFFAOYSA-N",
+      "mass": 240.302,
+      "mnxm_id": "MNXM166",
+      "name": "a menaquinone"
     },
     "chebi:146017": {
       "chebi_id": "146017",
@@ -1012,6 +1166,17 @@
       "mnxm_id": "MNXM1371412",
       "name": "phosphatidyl-L-serine"
     },
+    "chebi:14806": {
+      "chebi_id": "14806",
+      "evidence_sources": [
+        "transport"
+      ],
+      "formula": null,
+      "inchikey": null,
+      "mass": null,
+      "mnxm_id": "MNXM96975",
+      "name": "phosphoinositide"
+    },
     "chebi:14816": {
       "chebi_id": "14816",
       "evidence_sources": [
@@ -1044,6 +1209,17 @@
       "mass": null,
       "mnxm_id": "MNXM736686",
       "name": "glucitol"
+    },
+    "chebi:15101": {
+      "chebi_id": "15101",
+      "evidence_sources": [
+        "transport"
+      ],
+      "formula": "C24H48N2O6P*",
+      "inchikey": null,
+      "mass": null,
+      "mnxm_id": "MNXM1364429",
+      "name": "a sphingomyelin"
     },
     "chebi:15131": {
       "chebi_id": "15131",
@@ -1110,6 +1286,17 @@
       "mass": null,
       "mnxm_id": null,
       "name": "Tyrosine"
+    },
+    "chebi:176566": {
+      "chebi_id": "176566",
+      "evidence_sources": [
+        "transport"
+      ],
+      "formula": "Ca",
+      "inchikey": "OYPRJOBELJOOCE-UHFFFAOYSA-N",
+      "mass": 40.078,
+      "mnxm_id": "MNXM45217",
+      "name": "Ca"
     },
     "chebi:176584": {
       "chebi_id": "176584",
@@ -1606,6 +1793,17 @@
       "mnxm_id": "MNXM44662",
       "name": "branched-chain amino acid"
     },
+    "chebi:22921": {
+      "chebi_id": "22921",
+      "evidence_sources": [
+        "transport"
+      ],
+      "formula": null,
+      "inchikey": null,
+      "mass": null,
+      "mnxm_id": "MNXM44674",
+      "name": "brassinosteroid"
+    },
     "chebi:23035": {
       "chebi_id": "23035",
       "evidence_sources": [
@@ -1737,6 +1935,17 @@
       "mass": null,
       "mnxm_id": "MNXM48014",
       "name": "cyclic nucleotide"
+    },
+    "chebi:23449": {
+      "chebi_id": "23449",
+      "evidence_sources": [
+        "transport"
+      ],
+      "formula": null,
+      "inchikey": null,
+      "mass": null,
+      "mnxm_id": "MNXM48019",
+      "name": "cyclic peptide"
     },
     "chebi:23456": {
       "chebi_id": "23456",
@@ -2013,6 +2222,17 @@
       "mnxm_id": "MNXM55103",
       "name": "glucan"
     },
+    "chebi:24268": {
+      "chebi_id": "24268",
+      "evidence_sources": [
+        "transport"
+      ],
+      "formula": null,
+      "inchikey": null,
+      "mass": null,
+      "mnxm_id": "MNXM55155",
+      "name": "glucooligosaccharide"
+    },
     "chebi:24278": {
       "chebi_id": "24278",
       "evidence_sources": [
@@ -2090,6 +2310,17 @@
       "mnxm_id": "MNXM55297",
       "name": "glycerates"
     },
+    "chebi:24362": {
+      "chebi_id": "24362",
+      "evidence_sources": [
+        "transport"
+      ],
+      "formula": "C5H5O8P*3",
+      "inchikey": null,
+      "mass": null,
+      "mnxm_id": "MNXM55319",
+      "name": "a phosphoglyceride"
+    },
     "chebi:24364": {
       "chebi_id": "24364",
       "evidence_sources": [
@@ -2112,6 +2343,28 @@
       "mnxm_id": "MNXM738133",
       "name": "glycogen"
     },
+    "chebi:24400": {
+      "chebi_id": "24400",
+      "evidence_sources": [
+        "transport"
+      ],
+      "formula": "C29H44O12",
+      "inchikey": "LPMXVESGRSUGHW-NZMIQZKWSA-N",
+      "mass": 584.659,
+      "mnxm_id": "MNXM55409",
+      "name": "Glycosides"
+    },
+    "chebi:24402": {
+      "chebi_id": "24402",
+      "evidence_sources": [
+        "transport"
+      ],
+      "formula": null,
+      "inchikey": null,
+      "mass": null,
+      "mnxm_id": "MNXM738137",
+      "name": "glycosphingolipid"
+    },
     "chebi:24403": {
       "chebi_id": "24403",
       "evidence_sources": [
@@ -2122,6 +2375,17 @@
       "mass": null,
       "mnxm_id": "MNXM55420",
       "name": "a glycosyl group"
+    },
+    "chebi:24410": {
+      "chebi_id": "24410",
+      "evidence_sources": [
+        "transport"
+      ],
+      "formula": null,
+      "inchikey": null,
+      "mass": null,
+      "mnxm_id": "MNXM55439",
+      "name": "glycosylphosphatidylinositol"
     },
     "chebi:24527": {
       "chebi_id": "24527",
@@ -2376,6 +2640,17 @@
       "mnxm_id": "MNXM61087",
       "name": "manganese cation"
     },
+    "chebi:25159": {
+      "chebi_id": "25159",
+      "evidence_sources": [
+        "transport"
+      ],
+      "formula": null,
+      "inchikey": null,
+      "mass": null,
+      "mnxm_id": "MNXM732282",
+      "name": "mannan"
+    },
     "chebi:25169": {
       "chebi_id": "25169",
       "evidence_sources": [
@@ -2386,6 +2661,17 @@
       "mass": null,
       "mnxm_id": "MNXM61130",
       "name": "mannoside"
+    },
+    "chebi:25174": {
+      "chebi_id": "25174",
+      "evidence_sources": [
+        "transport"
+      ],
+      "formula": null,
+      "inchikey": null,
+      "mass": null,
+      "mnxm_id": "MNXM61120",
+      "name": "mannooligosaccharide"
     },
     "chebi:25212": {
       "chebi_id": "25212",
@@ -2629,6 +2915,17 @@
       "mnxm_id": "MNXM88531",
       "name": "unsaturated fatty acid anion"
     },
+    "chebi:25899": {
+      "chebi_id": "25899",
+      "evidence_sources": [
+        "transport"
+      ],
+      "formula": null,
+      "inchikey": null,
+      "mass": null,
+      "mnxm_id": "MNXM73240",
+      "name": "pentitol"
+    },
     "chebi:25901": {
       "chebi_id": "25901",
       "evidence_sources": [
@@ -2639,6 +2936,17 @@
       "mass": null,
       "mnxm_id": "MNXM73256",
       "name": "pentose"
+    },
+    "chebi:25940": {
+      "chebi_id": "25940",
+      "evidence_sources": [
+        "transport"
+      ],
+      "formula": "O2*2",
+      "inchikey": null,
+      "mass": null,
+      "mnxm_id": "MNXM732619",
+      "name": "a peroxide"
     },
     "chebi:26004": {
       "chebi_id": "26004",
@@ -2661,6 +2969,17 @@
       "mass": 136.114,
       "mnxm_id": "MNXM726418",
       "name": "allopurinol"
+    },
+    "chebi:26035": {
+      "chebi_id": "26035",
+      "evidence_sources": [
+        "transport"
+      ],
+      "formula": null,
+      "inchikey": null,
+      "mass": null,
+      "mnxm_id": "MNXM95573",
+      "name": "phosphatidylinositol 4-phosphate"
     },
     "chebi:26040": {
       "chebi_id": "26040",
@@ -2970,6 +3289,17 @@
       "mnxm_id": "MNXM82492",
       "name": "sorbose"
     },
+    "chebi:26739": {
+      "chebi_id": "26739",
+      "evidence_sources": [
+        "transport"
+      ],
+      "formula": null,
+      "inchikey": null,
+      "mass": null,
+      "mnxm_id": "MNXM82564",
+      "name": "sphingolipid"
+    },
     "chebi:26750": {
       "chebi_id": "26750",
       "evidence_sources": [
@@ -3013,6 +3343,17 @@
       "mass": null,
       "mnxm_id": "MNXM740800",
       "name": "tetrapeptide"
+    },
+    "chebi:26959": {
+      "chebi_id": "26959",
+      "evidence_sources": [
+        "transport"
+      ],
+      "formula": null,
+      "inchikey": null,
+      "mass": null,
+      "mnxm_id": "MNXM87008",
+      "name": "thiocarboxylic ester"
     },
     "chebi:26995": {
       "chebi_id": "26995",
@@ -3157,6 +3498,17 @@
       "mnxm_id": "MNXM89371",
       "name": "zinc ion"
     },
+    "chebi:28085": {
+      "chebi_id": "28085",
+      "evidence_sources": [
+        "transport"
+      ],
+      "formula": "C12H22O11",
+      "inchikey": "GUBGYTABKSRVRQ-PZPXDAEZSA-N",
+      "mass": 342.297,
+      "mnxm_id": "MNXM737198",
+      "name": "beta-mannobiose"
+    },
     "chebi:29197": {
       "chebi_id": "29197",
       "evidence_sources": [
@@ -3212,6 +3564,17 @@
       "mnxm_id": "MNXM730058",
       "name": "silicate(4-)"
     },
+    "chebi:29412": {
+      "chebi_id": "29412",
+      "evidence_sources": [
+        "transport"
+      ],
+      "formula": "H3O",
+      "inchikey": "XLYOFNOQVPJJNP-UHFFFAOYSA-O",
+      "mass": 19.023,
+      "mnxm_id": "MNXM03",
+      "name": "H3O(+)"
+    },
     "chebi:29441": {
       "chebi_id": "29441",
       "evidence_sources": [
@@ -3255,6 +3618,28 @@
       "mass": 393.575,
       "mnxm_id": "MNXM1364544",
       "name": "undecylprodigiosin"
+    },
+    "chebi:29787": {
+      "chebi_id": "29787",
+      "evidence_sources": [
+        "transport"
+      ],
+      "formula": "Pt",
+      "inchikey": "HRGDZIGMBDGFTC-UHFFFAOYSA-N",
+      "mass": 195.078,
+      "mnxm_id": "MNXM77067",
+      "name": "platinum(2+)"
+    },
+    "chebi:30029": {
+      "chebi_id": "30029",
+      "evidence_sources": [
+        "transport"
+      ],
+      "formula": "Au",
+      "inchikey": "ZBKIUFWVEIBQRT-UHFFFAOYSA-N",
+      "mass": 196.967,
+      "mnxm_id": "MNXM156438",
+      "name": "gold(1+)"
     },
     "chebi:30051": {
       "chebi_id": "30051",
@@ -3487,6 +3872,17 @@
       "mnxm_id": "MNXM167739",
       "name": "fludarabine phosphate"
     },
+    "chebi:31624": {
+      "chebi_id": "31624",
+      "evidence_sources": [
+        "transport"
+      ],
+      "formula": "C20H12O5",
+      "inchikey": "GNBHRKFJIUUOQI-UHFFFAOYSA-N",
+      "mass": 332.311,
+      "mnxm_id": "MNXM53583",
+      "name": "fluorescein (lactone form)"
+    },
     "chebi:31696": {
       "chebi_id": "31696",
       "evidence_sources": [
@@ -3575,6 +3971,17 @@
       "mnxm_id": "MNXM154954",
       "name": "Cs(+)"
     },
+    "chebi:33284": {
+      "chebi_id": "33284",
+      "evidence_sources": [
+        "transport"
+      ],
+      "formula": null,
+      "inchikey": null,
+      "mass": null,
+      "mnxm_id": "MNXM1095059",
+      "name": "nutrient"
+    },
     "chebi:33307": {
       "chebi_id": "33307",
       "evidence_sources": [
@@ -3618,6 +4025,39 @@
       "mass": null,
       "mnxm_id": "MNXM42550",
       "name": "arene"
+    },
+    "chebi:33696": {
+      "chebi_id": "33696",
+      "evidence_sources": [
+        "transport"
+      ],
+      "formula": null,
+      "inchikey": null,
+      "mass": null,
+      "mnxm_id": "MNXM65015",
+      "name": "nucleic acid"
+    },
+    "chebi:33697": {
+      "chebi_id": "33697",
+      "evidence_sources": [
+        "transport"
+      ],
+      "formula": null,
+      "inchikey": null,
+      "mass": null,
+      "mnxm_id": "MNXM1248",
+      "name": "RNA"
+    },
+    "chebi:33699": {
+      "chebi_id": "33699",
+      "evidence_sources": [
+        "transport"
+      ],
+      "formula": null,
+      "inchikey": null,
+      "mass": null,
+      "mnxm_id": "MNXM61508",
+      "name": "mRNA"
     },
     "chebi:3371": {
       "chebi_id": "3371",
@@ -3684,6 +4124,17 @@
       "mass": null,
       "mnxm_id": "MNXM79635",
       "name": "psicose derivative"
+    },
+    "chebi:33958": {
+      "chebi_id": "33958",
+      "evidence_sources": [
+        "transport"
+      ],
+      "formula": null,
+      "inchikey": null,
+      "mass": null,
+      "mnxm_id": "MNXM55847",
+      "name": "halide salt"
     },
     "chebi:34651": {
       "chebi_id": "34651",
@@ -3916,6 +4367,17 @@
       "mnxm_id": "MNXM1095139",
       "name": "antifungal agent"
     },
+    "chebi:35741": {
+      "chebi_id": "35741",
+      "evidence_sources": [
+        "transport"
+      ],
+      "formula": "H4*",
+      "inchikey": null,
+      "mass": null,
+      "mnxm_id": "MNXM55310",
+      "name": "a glycerolipid"
+    },
     "chebi:35817": {
       "chebi_id": "35817",
       "evidence_sources": [
@@ -4025,6 +4487,17 @@
       "mass": 274.492,
       "mnxm_id": "MNXM55670",
       "name": "grayanotoxane"
+    },
+    "chebi:36914": {
+      "chebi_id": "36914",
+      "evidence_sources": [
+        "transport"
+      ],
+      "formula": null,
+      "inchikey": null,
+      "mass": null,
+      "mnxm_id": "MNXM57418",
+      "name": "inorganic ion"
     },
     "chebi:36915": {
       "chebi_id": "36915",
@@ -4158,6 +4631,17 @@
       "mnxm_id": "MNXM1368486",
       "name": "rosuvastatin"
     },
+    "chebi:39099": {
+      "chebi_id": "39099",
+      "evidence_sources": [
+        "transport"
+      ],
+      "formula": "Ca",
+      "inchikey": "JDMNMMCDWTVNSP-UHFFFAOYSA-N",
+      "mass": 40.078,
+      "mnxm_id": "MNXM45245",
+      "name": "calcium(1+)"
+    },
     "chebi:39124": {
       "chebi_id": "39124",
       "evidence_sources": [
@@ -4245,6 +4729,17 @@
       "mass": 284.552,
       "mnxm_id": "MNXM153385",
       "name": "cetyltrimethylammonium ion"
+    },
+    "chebi:404903": {
+      "chebi_id": "404903",
+      "evidence_sources": [
+        "transport"
+      ],
+      "formula": "C22H24N3O7S",
+      "inchikey": "JUZNIMUFDBIJCM-ANEDZVCMSA-M",
+      "mass": 474.515,
+      "mnxm_id": "MNXM155774",
+      "name": "ertapenem(1-)"
     },
     "chebi:40944": {
       "chebi_id": "40944",
@@ -4356,6 +4851,17 @@
       "mnxm_id": "MNXM157681",
       "name": "malachite green cation"
     },
+    "chebi:45422": {
+      "chebi_id": "45422",
+      "evidence_sources": [
+        "transport"
+      ],
+      "formula": "C3H7NO",
+      "inchikey": "QLNJFJADRCOGBJ-UHFFFAOYSA-N",
+      "mass": 73.095,
+      "mnxm_id": "MNXM12762",
+      "name": "propanamide"
+    },
     "chebi:45453": {
       "chebi_id": "45453",
       "evidence_sources": [
@@ -4388,6 +4894,17 @@
       "mass": null,
       "mnxm_id": "MNXM731287",
       "name": "L-methionine (R)-S-oxide residue"
+    },
+    "chebi:45825": {
+      "chebi_id": "45825",
+      "evidence_sources": [
+        "transport"
+      ],
+      "formula": "C16H36N",
+      "inchikey": "DZLFLBLQUQXARW-UHFFFAOYSA-N",
+      "mass": 242.471,
+      "mnxm_id": "MNXM83764",
+      "name": "tetrabutylammonium"
     },
     "chebi:46241": {
       "chebi_id": "46241",
@@ -4488,6 +5005,17 @@
       "mnxm_id": "MNXM47004",
       "name": "ketoconazole"
     },
+    "chebi:47571": {
+      "chebi_id": "47571",
+      "evidence_sources": [
+        "transport"
+      ],
+      "formula": "C11H19NO8",
+      "inchikey": "MNLRQHMNZILYPY-MDMHTWEWSA-N",
+      "mass": 293.272,
+      "mnxm_id": "MNXM19572",
+      "name": "N-acetyl-alpha-D-muramic acid"
+    },
     "chebi:47878": {
       "chebi_id": "47878",
       "evidence_sources": [
@@ -4498,6 +5026,17 @@
       "mass": null,
       "mnxm_id": "MNXM56483",
       "name": "hexose phosphate"
+    },
+    "chebi:47966": {
+      "chebi_id": "47966",
+      "evidence_sources": [
+        "transport"
+      ],
+      "formula": "C11H19NO8",
+      "inchikey": "SOARVSUSWULNDI-TVVSKHENSA-N",
+      "mass": 293.272,
+      "mnxm_id": "MNXM40593",
+      "name": "aldehydo-N-acetylmuramic acid"
     },
     "chebi:48080": {
       "chebi_id": "48080",
@@ -4642,6 +5181,17 @@
       "mnxm_id": "MNXM730517",
       "name": "ferrioxamine B"
     },
+    "chebi:50505": {
+      "chebi_id": "50505",
+      "evidence_sources": [
+        "transport"
+      ],
+      "formula": null,
+      "inchikey": null,
+      "mass": null,
+      "mnxm_id": "MNXM1095388",
+      "name": "sweetening agent"
+    },
     "chebi:50607": {
       "chebi_id": "50607",
       "evidence_sources": [
@@ -4686,6 +5236,17 @@
       "mnxm_id": "MNXM57944",
       "name": "isoflavonoid"
     },
+    "chebi:50846": {
+      "chebi_id": "50846",
+      "evidence_sources": [
+        "transport"
+      ],
+      "formula": null,
+      "inchikey": null,
+      "mass": null,
+      "mnxm_id": "MNXM1095428",
+      "name": "immunomodulator"
+    },
     "chebi:50919": {
       "chebi_id": "50919",
       "evidence_sources": [
@@ -4719,6 +5280,17 @@
       "mnxm_id": "MNXM1095459",
       "name": "fluorescent dye"
     },
+    "chebi:51240": {
+      "chebi_id": "51240",
+      "evidence_sources": [
+        "transport"
+      ],
+      "formula": "C27H34I2N4",
+      "inchikey": "XJMOSONTPMZWPB-UHFFFAOYSA-M",
+      "mass": 668.405,
+      "mnxm_id": "MNXM160535",
+      "name": "propidium iodide"
+    },
     "chebi:51340": {
       "chebi_id": "51340",
       "evidence_sources": [
@@ -4729,6 +5301,17 @@
       "mass": 297.503,
       "mnxm_id": "MNXM3342",
       "name": "2,6,10,14-tetramethylpentadecanoate"
+    },
+    "chebi:51903": {
+      "chebi_id": "51903",
+      "evidence_sources": [
+        "transport"
+      ],
+      "formula": "C30H26N2O13",
+      "inchikey": "DEGAKNSWVGKMLS-UHFFFAOYSA-N",
+      "mass": 622.539,
+      "mnxm_id": "MNXM45203",
+      "name": "calcein"
     },
     "chebi:52053": {
       "chebi_id": "52053",
@@ -4806,6 +5389,17 @@
       "mass": null,
       "mnxm_id": "MNXM740159",
       "name": "poly(vinylpyrrolidone)"
+    },
+    "chebi:53369": {
+      "chebi_id": "53369",
+      "evidence_sources": [
+        "transport"
+      ],
+      "formula": null,
+      "inchikey": null,
+      "mass": null,
+      "mnxm_id": "MNXM77647",
+      "name": "polyelectrolyte macromolecule"
     },
     "chebi:53387": {
       "chebi_id": "53387",
@@ -5137,6 +5731,17 @@
       "mnxm_id": "MNXM11146",
       "name": "colanic acid"
     },
+    "chebi:60971": {
+      "chebi_id": "60971",
+      "evidence_sources": [
+        "transport"
+      ],
+      "formula": null,
+      "inchikey": null,
+      "mass": null,
+      "mnxm_id": "MNXM1076",
+      "name": "aminophospholipid"
+    },
     "chebi:60979": {
       "chebi_id": "60979",
       "evidence_sources": [
@@ -5445,6 +6050,17 @@
       "mnxm_id": "MNXM60858",
       "name": "M-factor"
     },
+    "chebi:64243": {
+      "chebi_id": "64243",
+      "evidence_sources": [
+        "transport"
+      ],
+      "formula": "C5H8NNaO4",
+      "inchikey": "LPUQAYUQRXPFSQ-DFWYDOINSA-M",
+      "mass": 169.112,
+      "mnxm_id": "MNXM158123",
+      "name": "monosodium L-glutamate"
+    },
     "chebi:64299": {
       "chebi_id": "64299",
       "evidence_sources": [
@@ -5533,6 +6149,39 @@
       "mnxm_id": "MNXM107438",
       "name": "organic acid"
     },
+    "chebi:64926": {
+      "chebi_id": "64926",
+      "evidence_sources": [
+        "transport"
+      ],
+      "formula": null,
+      "inchikey": null,
+      "mass": null,
+      "mnxm_id": "MNXM1095671",
+      "name": "serine protease inhibitor"
+    },
+    "chebi:67208": {
+      "chebi_id": "67208",
+      "evidence_sources": [
+        "transport"
+      ],
+      "formula": null,
+      "inchikey": null,
+      "mass": null,
+      "mnxm_id": "MNXM11444",
+      "name": "double-stranded RNA"
+    },
+    "chebi:68428": {
+      "chebi_id": "68428",
+      "evidence_sources": [
+        "transport"
+      ],
+      "formula": "C12H24O11",
+      "inchikey": "VQHSOMBJVWLPSR-WUJBLJFYSA-N",
+      "mass": 344.313,
+      "mnxm_id": "MNXM1371211",
+      "name": "maltitol"
+    },
     "chebi:68452": {
       "chebi_id": "68452",
       "evidence_sources": [
@@ -5599,6 +6248,17 @@
       "mnxm_id": "MNXM1095782",
       "name": "virulence factor"
     },
+    "chebi:72695": {
+      "chebi_id": "72695",
+      "evidence_sources": [
+        "transport"
+      ],
+      "formula": "H4*",
+      "inchikey": null,
+      "mass": null,
+      "mnxm_id": "MNXM159039",
+      "name": "an organic molecule"
+    },
     "chebi:72813": {
       "chebi_id": "72813",
       "evidence_sources": [
@@ -5654,6 +6314,28 @@
       "mnxm_id": "MNXM1108157",
       "name": "3-O-methyl-D-glucose"
     },
+    "chebi:74035": {
+      "chebi_id": "74035",
+      "evidence_sources": [
+        "transport"
+      ],
+      "formula": null,
+      "inchikey": null,
+      "mass": null,
+      "mnxm_id": "MNXM161080",
+      "name": "small nuclear RNA"
+    },
+    "chebi:74253": {
+      "chebi_id": "74253",
+      "evidence_sources": [
+        "transport"
+      ],
+      "formula": null,
+      "inchikey": null,
+      "mass": null,
+      "mnxm_id": "MNXM158171",
+      "name": "mycolate ester"
+    },
     "chebi:74266": {
       "chebi_id": "74266",
       "evidence_sources": [
@@ -5686,6 +6368,17 @@
       "mass": null,
       "mnxm_id": "MNXM64387",
       "name": "neomycin"
+    },
+    "chebi:75283": {
+      "chebi_id": "75283",
+      "evidence_sources": [
+        "transport"
+      ],
+      "formula": "C21H46NO4P",
+      "inchikey": "PQLXHQMOHUQAKB-UHFFFAOYSA-N",
+      "mass": 407.576,
+      "mnxm_id": "MNXM1368732",
+      "name": "miltefosine"
     },
     "chebi:75323": {
       "chebi_id": "75323",
@@ -5720,6 +6413,17 @@
       "mnxm_id": "MNXM152348",
       "name": "arsenopyrite"
     },
+    "chebi:75979": {
+      "chebi_id": "75979",
+      "evidence_sources": [
+        "transport"
+      ],
+      "formula": null,
+      "inchikey": null,
+      "mass": null,
+      "mnxm_id": "MNXM155569",
+      "name": "double-stranded DNA polynucleotide"
+    },
     "chebi:75980": {
       "chebi_id": "75980",
       "evidence_sources": [
@@ -5752,6 +6456,17 @@
       "mass": 440.507,
       "mnxm_id": "MNXM105679",
       "name": "ibrutinib"
+    },
+    "chebi:77845": {
+      "chebi_id": "77845",
+      "evidence_sources": [
+        "transport"
+      ],
+      "formula": "C27H47NO",
+      "inchikey": "WLHQSAYHIOPMMJ-UOQFGJKXSA-N",
+      "mass": 401.679,
+      "mnxm_id": "MNXM151538",
+      "name": "7-aminocholesterol"
     },
     "chebi:78154": {
       "chebi_id": "78154",
@@ -5797,6 +6512,17 @@
       "mnxm_id": "MNXM1104683",
       "name": "panose"
     },
+    "chebi:79284": {
+      "chebi_id": "79284",
+      "evidence_sources": [
+        "transport"
+      ],
+      "formula": "C12H22O11",
+      "inchikey": "NMXLJRHBJVMYPD-IPFGBZKGSA-N",
+      "mass": 342.297,
+      "mnxm_id": "MNXM728458",
+      "name": "trehalulose"
+    },
     "chebi:79296": {
       "chebi_id": "79296",
       "evidence_sources": [
@@ -5808,6 +6534,17 @@
       "mnxm_id": "MNXM156781",
       "name": "indigoidine"
     },
+    "chebi:79389": {
+      "chebi_id": "79389",
+      "evidence_sources": [
+        "transport"
+      ],
+      "formula": null,
+      "inchikey": null,
+      "mass": null,
+      "mnxm_id": "MNXM158129",
+      "name": "monovalent inorganic anion"
+    },
     "chebi:8005": {
       "chebi_id": "8005",
       "evidence_sources": [
@@ -5818,6 +6555,17 @@
       "mass": null,
       "mnxm_id": "MNXM732318",
       "name": "peptidoglycan"
+    },
+    "chebi:82655": {
+      "chebi_id": "82655",
+      "evidence_sources": [
+        "transport"
+      ],
+      "formula": null,
+      "inchikey": null,
+      "mass": null,
+      "mnxm_id": "MNXM1096195",
+      "name": "animal growth promotant"
     },
     "chebi:82687": {
       "chebi_id": "82687",
@@ -6104,6 +6852,28 @@
       "mass": null,
       "mnxm_id": "MNXM156111",
       "name": "fluoroquinolone antibiotic"
+    },
+    "chebi:87279": {
+      "chebi_id": "87279",
+      "evidence_sources": [
+        "transport"
+      ],
+      "formula": "C28H42O",
+      "inchikey": "JNANCCREFMIVHM-BDBRCDPUSA-N",
+      "mass": 394.643,
+      "mnxm_id": "MNXM150727",
+      "name": "24S-methylcholesta-5,7,14,22-tetraen-3beta-ol"
+    },
+    "chebi:87494": {
+      "chebi_id": "87494",
+      "evidence_sources": [
+        "transport"
+      ],
+      "formula": "C13H26O2",
+      "inchikey": "UQDUPQYQJKYHQI-UHFFFAOYSA-N",
+      "mass": 214.349,
+      "mnxm_id": "MNXM99028",
+      "name": "methyl laurate"
     },
     "chebi:87631": {
       "chebi_id": "87631",
@@ -6420,7 +7190,8 @@
     "C00005": {
       "chebi_id": "13399",
       "evidence_sources": [
-        "metabolism"
+        "metabolism",
+        "transport"
       ],
       "formula": "C21H26N7O17P3",
       "hmdb_id": "HMDB0000221",
@@ -10508,7 +11279,8 @@
     "C00157": {
       "chebi_id": "14802",
       "evidence_sources": [
-        "metabolism"
+        "metabolism",
+        "transport"
       ],
       "formula": "C10H19NO8P*2",
       "hmdb_id": null,
@@ -11283,7 +12055,8 @@
     "C00192": {
       "chebi_id": "10793",
       "evidence_sources": [
-        "metabolism"
+        "metabolism",
+        "transport"
       ],
       "formula": "H3NO",
       "hmdb_id": "HMDB0003338",
@@ -11422,7 +12195,8 @@
     "C00199": {
       "chebi_id": "13018",
       "evidence_sources": [
-        "metabolism"
+        "metabolism",
+        "transport"
       ],
       "formula": "C5H9O8P",
       "hmdb_id": "HMDB0000618",
@@ -12183,6 +12957,20 @@
       "name": "rRNA",
       "pathways": [],
       "smiles": "[*][C@@H]1O[C@H](COP(=O)(O)O[C@H]2[C@@H](O)[C@H]([*])O[C@@H]2COP(=O)(O)O[C@H]2[C@@H](O)[C@H]([*])O[C@@H]2CO)[C@@H](O)[C@H]1O"
+    },
+    "C00241": {
+      "chebi_id": "22473",
+      "evidence_sources": [
+        "transport"
+      ],
+      "formula": "CH2NO*",
+      "hmdb_id": null,
+      "inchikey": null,
+      "mass": null,
+      "mnxm_id": "MNXM94421",
+      "name": "Amide",
+      "pathways": [],
+      "smiles": "[*]C(N)=O"
     },
     "C00242": {
       "chebi_id": "14371",
@@ -14466,7 +15254,8 @@
     "C00399": {
       "chebi_id": "15279",
       "evidence_sources": [
-        "metabolism"
+        "metabolism",
+        "transport"
       ],
       "formula": "C14H18O4",
       "hmdb_id": null,
@@ -15256,7 +16045,8 @@
     "C00455": {
       "chebi_id": "10433",
       "evidence_sources": [
-        "metabolism"
+        "metabolism",
+        "transport"
       ],
       "formula": "C11H14N2O8P",
       "hmdb_id": "HMDB0000229",
@@ -15460,7 +16250,8 @@
     "C00472": {
       "chebi_id": "12837",
       "evidence_sources": [
-        "metabolism"
+        "metabolism",
+        "transport"
       ],
       "formula": "C6H4O2",
       "hmdb_id": "HMDB0003364",
@@ -16437,7 +17228,8 @@
     "C00543": {
       "chebi_id": "14170",
       "evidence_sources": [
-        "metabolism"
+        "metabolism",
+        "transport"
       ],
       "formula": "C2H8N",
       "hmdb_id": "HMDB0000087",
@@ -16929,7 +17721,8 @@
     "C00583": {
       "chebi_id": "14899",
       "evidence_sources": [
-        "metabolism"
+        "metabolism",
+        "transport"
       ],
       "formula": "C3H8O2",
       "hmdb_id": null,
@@ -17016,7 +17809,8 @@
     "C00588": {
       "chebi_id": "12720",
       "evidence_sources": [
-        "metabolism"
+        "metabolism",
+        "transport"
       ],
       "formula": "C5H13NO4P",
       "hmdb_id": "HMDB0000284",
@@ -17678,7 +18472,8 @@
     "C00668": {
       "chebi_id": "10245",
       "evidence_sources": [
-        "metabolism"
+        "metabolism",
+        "transport"
       ],
       "formula": "C6H11O9P",
       "hmdb_id": null,
@@ -19215,7 +20010,8 @@
     "C00829": {
       "chebi_id": "14638",
       "evidence_sources": [
-        "metabolism"
+        "metabolism",
+        "transport"
       ],
       "formula": "C10H8",
       "hmdb_id": "HMDB0029751",
@@ -19527,7 +20323,8 @@
     "C00876": {
       "chebi_id": "14008",
       "evidence_sources": [
-        "metabolism"
+        "metabolism",
+        "transport"
       ],
       "formula": "C29H36N5O18P",
       "hmdb_id": null,
@@ -22523,6 +23320,22 @@
       ],
       "smiles": "NC1=NC(O)=C(N)C(N[C@@H]2O[C@H](COP(=O)([O-])[O-])[C@@H](O)[C@H]2O)=N1"
     },
+    "C01319": {
+      "chebi_id": "13369",
+      "evidence_sources": [
+        "transport"
+      ],
+      "formula": "Hg",
+      "hmdb_id": null,
+      "inchikey": "QSHDDOUJBYECFT-UHFFFAOYSA-N",
+      "mass": 200.59,
+      "mnxm_id": "MNXM4041",
+      "name": "Hg",
+      "pathways": [
+        "ko05010"
+      ],
+      "smiles": "[Hg]"
+    },
     "C01322": {
       "chebi_id": null,
       "evidence_sources": [
@@ -23921,7 +24734,8 @@
     "C01659": {
       "chebi_id": "22215",
       "evidence_sources": [
-        "metabolism"
+        "metabolism",
+        "transport"
       ],
       "formula": "C3H5NO",
       "hmdb_id": "HMDB0004296",
@@ -24114,6 +24928,24 @@
         "ko01110"
       ],
       "smiles": "CC(C)[C@@H](C)/C=C/[C@@H](C)[C@H]1CC[C@H]2C3=CC=C4C[C@@H](O)CC[C@]4(C)[C@H]3CC[C@]12C"
+    },
+    "C01697": {
+      "chebi_id": "14286",
+      "evidence_sources": [
+        "transport"
+      ],
+      "formula": "C6H14O6",
+      "hmdb_id": "HMDB0000107",
+      "inchikey": "FBPFZTCFMRRESA-GUCUJZIJSA-N",
+      "mass": 182.172,
+      "mnxm_id": "MNXM1233",
+      "name": "Galactitol",
+      "pathways": [
+        "ko00052",
+        "ko01100",
+        "ko02060"
+      ],
+      "smiles": "OC[C@@H](O)[C@H](O)[C@H](O)[C@@H](O)CO"
     },
     "C01705": {
       "chebi_id": "133673",
@@ -25139,6 +25971,20 @@
       ],
       "smiles": "[*]NC(=O)CCCC[C@@H]1CCSS1"
     },
+    "C02052": {
+      "chebi_id": "143180",
+      "evidence_sources": [
+        "transport"
+      ],
+      "formula": "C24H42O21",
+      "hmdb_id": "HMDB0001296",
+      "inchikey": "LUEWUZLMQUOBSB-ZLBHSGTGSA-N",
+      "mass": 666.579,
+      "mnxm_id": "MNXM1104617",
+      "name": "Maltotetraose",
+      "pathways": [],
+      "smiles": "OC[C@H]1O[C@H](O[C@H]2[C@H](O)[C@@H](O)[C@@H](O[C@H]3[C@H](O)[C@@H](O)[C@@H](O[C@H]4[C@H](O)[C@@H](O)[C@@H](O)O[C@@H]4CO)O[C@@H]3CO)O[C@@H]2CO)[C@H](O)[C@@H](O)[C@@H]1O"
+    },
     "C02057": {
       "chebi_id": "25984",
       "evidence_sources": [
@@ -25178,7 +26024,8 @@
     "C02061": {
       "chebi_id": "14845",
       "evidence_sources": [
-        "metabolism"
+        "metabolism",
+        "transport"
       ],
       "formula": "C13H16O2",
       "hmdb_id": null,
@@ -25527,7 +26374,8 @@
     "C02191": {
       "chebi_id": "14959",
       "evidence_sources": [
-        "metabolism"
+        "metabolism",
+        "transport"
       ],
       "formula": "C34H32N4O4",
       "hmdb_id": "HMDB0000241",
@@ -30196,6 +31044,25 @@
       ],
       "smiles": "O=C([O-])[C@@H]1CCC=N1"
     },
+    "C03917": {
+      "chebi_id": "11341",
+      "evidence_sources": [
+        "transport"
+      ],
+      "formula": "C19H30O2",
+      "hmdb_id": "HMDB0002961",
+      "inchikey": "NVKAWKQGWWIWPM-ABEVXSGRSA-N",
+      "mass": 290.447,
+      "mnxm_id": "MNXM730284",
+      "name": "Dihydrotestosterone",
+      "pathways": [
+        "ko00140",
+        "ko01100",
+        "ko05200",
+        "ko05215"
+      ],
+      "smiles": "C[C@]12CCC(=O)C[C@@H]1CC[C@@H]1[C@@H]2CC[C@]2(C)[C@@H](O)CC[C@@H]12"
+    },
     "C03920": {
       "chebi_id": "11478",
       "evidence_sources": [
@@ -32806,6 +33673,25 @@
         "ko01100"
       ],
       "smiles": "CCCCCCCCCCC[C@@H](O)CC(=O)N[C@H]1[C@@H](OP(=O)([O-])[O-])O[C@H](CO)[C@@H](O)[C@@H]1OC(=O)C[C@H](O)CCCCCCCCCCC"
+    },
+    "C04832": {
+      "chebi_id": "12619",
+      "evidence_sources": [
+        "transport"
+      ],
+      "formula": "C13H22NO10PS3",
+      "hmdb_id": null,
+      "inchikey": "OBGQLHXSMIBYLN-PWSUYJOCSA-J",
+      "mass": 479.491,
+      "mnxm_id": "MNXM1145",
+      "name": "Coenzyme M 7-mercaptoheptanoylthreonine-phosphate heterodisulfide",
+      "pathways": [
+        "ko00680",
+        "ko01100",
+        "ko01120",
+        "ko01200"
+      ],
+      "smiles": "C[C@@H](OP(=O)([O-])[O-])[C@H](NC(=O)CCCCCCSSCCS(=O)(=O)[O-])C(=O)[O-]"
     },
     "C04844": {
       "chebi_id": "63690",
@@ -38325,6 +39211,20 @@
       ],
       "smiles": "CC(=O)/C=C\\C=C(\\O)C(=O)O"
     },
+    "C06218": {
+      "chebi_id": "49536",
+      "evidence_sources": [
+        "transport"
+      ],
+      "formula": "C30H52O26",
+      "hmdb_id": null,
+      "inchikey": "FTNIPWXXIGNQQF-FFFJRYSISA-N",
+      "mass": 828.72,
+      "mnxm_id": "MNXM736140",
+      "name": "Cellopentaose",
+      "pathways": [],
+      "smiles": "OC[C@H]1O[C@@H](O[C@H]2[C@H](O)[C@@H](O)[C@H](O[C@H]3[C@H](O)[C@@H](O)[C@H](O[C@H]4[C@H](O)[C@@H](O)[C@H](O[C@H]5[C@H](O)[C@@H](O)[C@H](O)O[C@@H]5CO)O[C@@H]4CO)O[C@@H]3CO)O[C@@H]2CO)[C@H](O)[C@@H](O)[C@@H]1O"
+    },
     "C06219": {
       "chebi_id": "3528",
       "evidence_sources": [
@@ -38471,6 +39371,20 @@
         "ko01250"
       ],
       "smiles": "CC(=O)N[C@H]1[C@H]([C@H](O)[C@H](O)COP(=O)([O-])[O-])O[C@](O)(C(=O)[O-])C[C@@H]1O"
+    },
+    "C06244": {
+      "chebi_id": "22159",
+      "evidence_sources": [
+        "transport"
+      ],
+      "formula": "C2H5NO",
+      "hmdb_id": "HMDB0031645",
+      "inchikey": "DLFVBJFMPXGRIB-UHFFFAOYSA-N",
+      "mass": 59.068,
+      "mnxm_id": "MNXM4428",
+      "name": "Acetamide",
+      "pathways": [],
+      "smiles": "CC(N)=O"
     },
     "C06249": {
       "chebi_id": null,
@@ -40358,6 +41272,20 @@
       "pathways": [],
       "smiles": "C[C@H]1[C@H](NC(=O)/C(=N\\OC(C)(C)C(=O)O)C2=CSC([NH3+])=N2)C(=O)N1S(=O)(=O)[O-]"
     },
+    "C06850": {
+      "chebi_id": "3084",
+      "evidence_sources": [
+        "transport"
+      ],
+      "formula": "C7H17N2O2",
+      "hmdb_id": "HMDB0015154",
+      "inchikey": "NZUPCNDJBJXXRF-UHFFFAOYSA-O",
+      "mass": 161.225,
+      "mnxm_id": "MNXM44208",
+      "name": "Bethanechol",
+      "pathways": [],
+      "smiles": "CC(C[N+](C)(C)C)OC(N)=O"
+    },
     "C06854": {
       "chebi_id": "165316",
       "evidence_sources": [
@@ -42050,6 +42978,20 @@
       ],
       "smiles": "CC1=CC2=C(C=C1C)N([C@H]1O[C@H](CO)[C@@H](OP(=O)(O)O[C@H](C)CNC(=O)CC[C@@]3(C)/C4=C(\\C)C5=N/C(=C\\C6=N/C(=C(/C)C7=N[C@@](C)(C([C@@H]3CC(N)=O)N4[Co+]O)[C@@](C)(CC(N)=O)[C@@H]7CCC(N)=O)[C@@](C)(CC(N)=O)[C@@H]6CCC(N)=O)C(C)(C)[C@@H]5CCC(N)=O)[C@H]1O)C=N2"
     },
+    "C08240": {
+      "chebi_id": "24214",
+      "evidence_sources": [
+        "transport"
+      ],
+      "formula": "C12H22O11",
+      "hmdb_id": null,
+      "inchikey": "DLRVVLDZNNYCBX-LIZSDCNHSA-N",
+      "mass": 342.297,
+      "mnxm_id": "MNXM1107960",
+      "name": "Gentiobiose",
+      "pathways": [],
+      "smiles": "OC[C@H]1O[C@@H](OC[C@H]2O[C@@H](O)[C@H](O)[C@@H](O)[C@@H]2O)[C@H](O)[C@@H](O)[C@@H]1O"
+    },
     "C08252": {
       "chebi_id": "10371",
       "evidence_sources": [
@@ -42276,6 +43218,24 @@
         "ko01110"
       ],
       "smiles": "CC(C)=CCC/C(C)=C/C=C/C(C)=C/C=C/C(C)=C/C=C/C=C(C)/C=C/C=C(C)/C=C/[C@H]1C(C)=CCCC1(C)C"
+    },
+    "C08589": {
+      "chebi_id": "3919",
+      "evidence_sources": [
+        "transport"
+      ],
+      "formula": "C44H64O24",
+      "hmdb_id": null,
+      "inchikey": "SEBIKDIMAPSUBY-RTJKDTQDSA-N",
+      "mass": 976.972,
+      "mnxm_id": "MNXM1364604",
+      "name": "Crocin",
+      "pathways": [
+        "ko00999",
+        "ko01100",
+        "ko01110"
+      ],
+      "smiles": "CC(/C=C/C=C(\\C)C(=O)O[C@@H]1O[C@H](CO[C@@H]2O[C@H](CO)[C@@H](O)[C@H](O)[C@H]2O)[C@@H](O)[C@H](O)[C@H]1O)=C\\C=C\\C=C(C)\\C=C\\C=C(/C)C(=O)O[C@@H]1O[C@H](CO[C@@H]2O[C@H](CO)[C@@H](O)[C@H](O)[C@H]2O)[C@@H](O)[C@H](O)[C@H]1O"
     },
     "C08590": {
       "chebi_id": "65244",
@@ -42745,6 +43705,23 @@
       "pathways": [],
       "smiles": "O=C(O)C1=CCCNC1"
     },
+    "C10164": {
+      "chebi_id": "26128",
+      "evidence_sources": [
+        "transport"
+      ],
+      "formula": "C6H4NO2",
+      "hmdb_id": "HMDB0002243",
+      "inchikey": "SIOXPEMLGUPBBT-UHFFFAOYSA-M",
+      "mass": 122.103,
+      "mnxm_id": "MNXM12691",
+      "name": "Picolinic acid",
+      "pathways": [
+        "ko00380",
+        "ko01100"
+      ],
+      "smiles": "O=C([O-])C1=CC=CC=N1"
+    },
     "C10172": {
       "chebi_id": "21451",
       "evidence_sources": [
@@ -42849,6 +43826,20 @@
         "ko01220"
       ],
       "smiles": "CC1=CC=C([N+](=O)[O-])C=C1[N+](=O)[O-]"
+    },
+    "C11016": {
+      "chebi_id": "4640",
+      "evidence_sources": [
+        "transport"
+      ],
+      "formula": "C12H11N",
+      "hmdb_id": "HMDB0032562",
+      "inchikey": "DMBHHRLKUKUOEG-UHFFFAOYSA-N",
+      "mass": 169.227,
+      "mnxm_id": "MNXM17317",
+      "name": "Diphenylamine",
+      "pathways": [],
+      "smiles": "C1=CC=C(NC2=CC=CC=C2)C=C1"
     },
     "C11038": {
       "chebi_id": "145464",
@@ -43170,6 +44161,20 @@
       "name": "Mitoxantrone",
       "pathways": [],
       "smiles": "O=C1C2=C(NCCNCCO)C=CC(NCCNCCO)=C2C(=O)C2=C1C(O)=CC=C2O"
+    },
+    "C11199": {
+      "chebi_id": "3503",
+      "evidence_sources": [
+        "transport"
+      ],
+      "formula": "C22H22N6O5S2",
+      "hmdb_id": "HMDB0041852",
+      "inchikey": "DKOQGJHPHLTOJR-WHRDSVKCSA-N",
+      "mass": 514.589,
+      "mnxm_id": "MNXM45994",
+      "name": "Cefpirome",
+      "pathways": [],
+      "smiles": "CO/N=C(\\C(=O)N[C@@H]1C(=O)N2C(C(=O)[O-])=C(C[N+]3=CC=CC4=C3CCC4)CS[C@H]12)C1=CSC(N)=N1"
     },
     "C11227": {
       "chebi_id": "4886",
@@ -43848,6 +44853,20 @@
       ],
       "smiles": "O=S([O-])[O-]"
     },
+    "C11489": {
+      "chebi_id": "105684",
+      "evidence_sources": [
+        "transport"
+      ],
+      "formula": "C2H5NO",
+      "hmdb_id": "HMDB0001122",
+      "inchikey": "ATHHXGZTWNVVOU-UHFFFAOYSA-N",
+      "mass": 59.068,
+      "mnxm_id": "MNXM63867",
+      "name": "NMF",
+      "pathways": [],
+      "smiles": "CNC=O"
+    },
     "C11499": {
       "chebi_id": "11050",
       "evidence_sources": [
@@ -44433,6 +45452,20 @@
         "ko02025"
       ],
       "smiles": "CCCCCCCC1=C(O)C(=O)C2=C(C=CC=C2)N1"
+    },
+    "C11904": {
+      "chebi_id": "14157",
+      "evidence_sources": [
+        "transport"
+      ],
+      "formula": "C37H52N2O",
+      "hmdb_id": null,
+      "inchikey": "LNCNNIYZOUNGMU-QAAQOENVSA-N",
+      "mass": 540.836,
+      "mnxm_id": "MNXM2014",
+      "name": "Dihydromethanophenazine",
+      "pathways": [],
+      "smiles": "CC(C)=CCC/C(C)=C/CC/C(C)=C/CC/C(C)=C/CCC(C)CCOC1=CC2=C(C=C1)NC1=CC=CC=C1N2"
     },
     "C11907": {
       "chebi_id": "10510",
@@ -45794,6 +46827,24 @@
       "name": "Dibutyl phthalate",
       "pathways": [],
       "smiles": "CCCCOC(=O)C1=C(C(=O)OCCCC)C=CC=C1"
+    },
+    "C14279": {
+      "chebi_id": "34768",
+      "evidence_sources": [
+        "transport"
+      ],
+      "formula": "C5H4O2",
+      "hmdb_id": "HMDB0032914",
+      "inchikey": "HYBBIBNJHNGZAN-UHFFFAOYSA-N",
+      "mass": 96.085,
+      "mnxm_id": "MNXM54039",
+      "name": "Furfural",
+      "pathways": [
+        "ko00365",
+        "ko01100",
+        "ko01120"
+      ],
+      "smiles": "O=CC1=CC=CO1"
     },
     "C14310": {
       "chebi_id": "34922",
@@ -48465,6 +49516,40 @@
         "ko01120"
       ],
       "smiles": "CNC(=O)N(C)[C@@H]1NC(=O)N(C)C1=O"
+    },
+    "C16363": {
+      "chebi_id": "44383",
+      "evidence_sources": [
+        "transport"
+      ],
+      "formula": "C2H6N2O",
+      "hmdb_id": "HMDB0254670",
+      "inchikey": "XGEGHDBEHXKFPX-UHFFFAOYSA-N",
+      "mass": 74.083,
+      "mnxm_id": "MNXM12405",
+      "name": "N-Methylurea",
+      "pathways": [
+        "ko00232",
+        "ko01120"
+      ],
+      "smiles": "CNC(N)=O"
+    },
+    "C16364": {
+      "chebi_id": "80472",
+      "evidence_sources": [
+        "transport"
+      ],
+      "formula": "C3H8N2O",
+      "hmdb_id": "HMDB0029198",
+      "inchikey": "MGJKQDOBUOMPEZ-UHFFFAOYSA-N",
+      "mass": 88.11,
+      "mnxm_id": "MNXM12327",
+      "name": "N,N'-Dimethylurea",
+      "pathways": [
+        "ko00232",
+        "ko01120"
+      ],
+      "smiles": "CNC(=O)NC"
     },
     "C16374": {
       "chebi_id": "65139",
@@ -51323,6 +52408,20 @@
       ],
       "smiles": "[Mn+2]"
     },
+    "C19636": {
+      "chebi_id": "32528",
+      "evidence_sources": [
+        "transport"
+      ],
+      "formula": "C12H22O11",
+      "hmdb_id": "HMDB0011740",
+      "inchikey": "RULSWEULPANCDV-PIXUTMIVSA-N",
+      "mass": 342.297,
+      "mnxm_id": "MNXM1105981",
+      "name": "Turanose",
+      "pathways": [],
+      "smiles": "O=C(CO)[C@@H](O[C@H]1O[C@H](CO)[C@@H](O)[C@H](O)[C@H]1O)[C@H](O)[C@H](O)CO"
+    },
     "C19671": {
       "chebi_id": null,
       "evidence_sources": [
@@ -51691,7 +52790,8 @@
     "C19843": {
       "chebi_id": "137991",
       "evidence_sources": [
-        "metabolism"
+        "metabolism",
+        "transport"
       ],
       "formula": "C10H19N5O5",
       "hmdb_id": null,

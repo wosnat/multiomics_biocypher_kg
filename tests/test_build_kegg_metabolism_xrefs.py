@@ -354,7 +354,7 @@ def test_compounds_get_metabolism_evidence_source():
         kegg_data,
         catalysis_cpds={"C00031", "C00002"},
         substrate_kegg_cpds=set(),
-        leaf_to_primary={},
+        substrate_primaries=set(),
         compound_props={},
     )
     for cpd in kegg_data["compounds"].values():
@@ -368,7 +368,7 @@ def test_transport_only_compounds_land_in_additional_compounds():
         _fold_substrates_into_kegg_data,
     )
     kegg_data = {"compounds": {}, "reactions": {}}
-    leaf_to_primary = {"1.A.1.5.2": ["chebi:9999"]}
+    substrate_primaries = {"chebi:9999"}
     compound_props = {
         "chebi:9999": {
             "name": "tetracycline", "formula": "C22H24N2O8",
@@ -380,7 +380,7 @@ def test_transport_only_compounds_land_in_additional_compounds():
         kegg_data,
         catalysis_cpds=set(),
         substrate_kegg_cpds=set(),
-        leaf_to_primary=leaf_to_primary,
+        substrate_primaries=substrate_primaries,
         compound_props=compound_props,
     )
     assert "chebi:9999" in kegg_data["additional_compounds"]
@@ -403,7 +403,7 @@ def test_overlap_compound_gets_both_evidence_sources():
         kegg_data,
         catalysis_cpds={"C00089"},
         substrate_kegg_cpds={"C00089"},
-        leaf_to_primary={"1.A.1.5.2": ["kegg.compound:C00089"]},
+        substrate_primaries={"kegg.compound:C00089"},
         compound_props={},
     )
     # KEGG-flavor substrate stays out of additional_compounds — it's already in compounds.
@@ -491,19 +491,22 @@ def test_prune_tcdb_walks_up_and_down():
         "2.A": {"name": "", "level": 1, "level_kind": "tc_subclass", "parent": "2"},
     }
     # Seed at family level — walk up to 1, walk down to BOTH leaves
-    kept, leaf_subs, seed_aliases = _prune_tcdb(hierarchy, {"1.A.1"})
+    kept, seed_aliases = _prune_tcdb(hierarchy, {"1.A.1"})
     assert kept == {"1", "1.A", "1.A.1", "1.A.1.5", "1.A.1.5.2", "1.A.1.5.3"}
-    assert leaf_subs == {
-        "1.A.1.5.2": ["calcium(2+)"],
-        "1.A.1.5.3": ["sodium(1+)"],
-    }
     assert seed_aliases == {}
     # Branch 2 untouched
     assert "2" not in kept
 
 
 def test_prune_tcdb_seed_at_leaf():
-    """Seeding at a leaf still walks up to root."""
+    """Seeding at a leaf still walks up to root.
+
+    Regression: previously, sibling specificities under the same subfamily were
+    NOT in `kept`. Substrate rollup is now decoupled (computed pre-prune in
+    `_compute_subtree_substrate_strings`), so this test only asserts the
+    structural result — siblings still aren't kept (correct: no gene reaches
+    them, so no TcdbFamily node is needed for them).
+    """
     from multiomics_kg.download.build_kegg_metabolism_xrefs import _prune_tcdb
     hierarchy = {
         "1": {"level": 0, "level_kind": "tc_class", "parent": None},
@@ -513,9 +516,8 @@ def test_prune_tcdb_seed_at_leaf():
         "1.A.1.5.2": {"level": 4, "level_kind": "tc_specificity",
                       "parent": "1.A.1.5", "substrate_classes": ["x"]},
     }
-    kept, leaf_subs, seed_aliases = _prune_tcdb(hierarchy, {"1.A.1.5.2"})
+    kept, seed_aliases = _prune_tcdb(hierarchy, {"1.A.1.5.2"})
     assert kept == {"1", "1.A", "1.A.1", "1.A.1.5", "1.A.1.5.2"}
-    assert leaf_subs == {"1.A.1.5.2": ["x"]}
     assert seed_aliases == {}
 
 
@@ -529,10 +531,9 @@ def test_prune_tcdb_unknown_seed_walks_up_to_ancestor():
         "3.A.1": {"level": 2, "level_kind": "tc_family", "parent": "3.A"},
     }
     # 3.A.1.35 doesn't exist — should anchor onto 3.A.1.
-    kept, leaf_subs, seed_aliases = _prune_tcdb(hierarchy, {"3.A.1.35"})
+    kept, seed_aliases = _prune_tcdb(hierarchy, {"3.A.1.35"})
     assert seed_aliases == {"3.A.1.35": "3.A.1"}
     assert kept == {"3", "3.A", "3.A.1"}
-    assert leaf_subs == {}
 
 
 def test_prune_tcdb_unknown_seed_with_no_ancestor_marked_dropped():
@@ -542,20 +543,59 @@ def test_prune_tcdb_unknown_seed_with_no_ancestor_marked_dropped():
     hierarchy = {
         "1": {"level": 0, "level_kind": "tc_class", "parent": None},
     }
-    kept, leaf_subs, seed_aliases = _prune_tcdb(hierarchy, {"99.X.Y.Z.Q"})
+    kept, seed_aliases = _prune_tcdb(hierarchy, {"99.X.Y.Z.Q"})
     assert kept == set()
-    assert leaf_subs == {}
     assert seed_aliases == {"99.X.Y.Z.Q": ""}
 
 
-def test_resolve_substrates_strips_chebi_prefix(tmp_path):
+def test_compute_subtree_substrate_strings_rolls_up_through_full_hierarchy():
+    """Bug fix: ancestor nodes capture substrates from EVERY tc_specificity
+    descendant in the FULL hierarchy, not just gene-annotated ones. Done
+    pre-pruning so pruning is a pure structural filter.
+    """
+    from multiomics_kg.download.build_kegg_metabolism_xrefs import (
+        _compute_subtree_substrate_strings,
+    )
+    hierarchy = {
+        "1": {"level": 0, "level_kind": "tc_class", "parent": None},
+        "1.A": {"level": 1, "level_kind": "tc_subclass", "parent": "1"},
+        "1.A.1": {"level": 2, "level_kind": "tc_family", "parent": "1.A"},
+        "1.A.1.5": {"level": 3, "level_kind": "tc_subfamily", "parent": "1.A.1"},
+        "1.A.1.5.2": {"level": 4, "level_kind": "tc_specificity",
+                      "parent": "1.A.1.5",
+                      "substrate_classes": ["CHEBI:1;a", "CHEBI:2;b"]},
+        "1.A.1.5.3": {"level": 4, "level_kind": "tc_specificity",
+                      "parent": "1.A.1.5",
+                      "substrate_classes": ["CHEBI:3;c"]},
+        # A second subfamily under the same family — its substrate must roll up
+        # to 1.A.1 even though no seed touches its leaves.
+        "1.A.1.6": {"level": 3, "level_kind": "tc_subfamily", "parent": "1.A.1"},
+        "1.A.1.6.1": {"level": 4, "level_kind": "tc_specificity",
+                      "parent": "1.A.1.6",
+                      "substrate_classes": ["CHEBI:4;d"]},
+    }
+    rollup = _compute_subtree_substrate_strings(hierarchy)
+    # Family node sees substrates from ALL descendant specificities
+    assert rollup["1.A.1"] == {"CHEBI:1;a", "CHEBI:2;b", "CHEBI:3;c", "CHEBI:4;d"}
+    # Subfamily 1.A.1.5 sees only its own children
+    assert rollup["1.A.1.5"] == {"CHEBI:1;a", "CHEBI:2;b", "CHEBI:3;c"}
+    # Sibling subfamily 1.A.1.6 sees only its own child
+    assert rollup["1.A.1.6"] == {"CHEBI:4;d"}
+    # Specificity node = its own substrate_classes
+    assert rollup["1.A.1.5.2"] == {"CHEBI:1;a", "CHEBI:2;b"}
+    # Class node sees union of everything below
+    assert rollup["1"] == {"CHEBI:1;a", "CHEBI:2;b", "CHEBI:3;c", "CHEBI:4;d"}
+
+
+def test_resolve_substrate_strings_strips_chebi_prefix(tmp_path):
     """Regression: substrate strings 'CHEBI:NNNN;name' must resolve through the
     MNX SQLite, which stores chebi aliases as (source='chebi', value='<NNNN>') —
-    NOT 'CHEBI:NNNN'. Earlier resolver implementation passed the prefixed form
-    to a value-only query, returning 0 hits for every substrate."""
+    NOT 'CHEBI:NNNN'."""
     import sqlite3
 
-    from multiomics_kg.download.build_kegg_metabolism_xrefs import _resolve_substrates
+    from multiomics_kg.download.build_kegg_metabolism_xrefs import (
+        _resolve_substrate_strings,
+    )
 
     db = tmp_path / "resolver.db"
     conn = sqlite3.connect(db)
@@ -570,20 +610,15 @@ def test_resolve_substrates_strips_chebi_prefix(tmp_path):
             name TEXT, formula TEXT, mass REAL, inchikey TEXT
         );
     """)
-    # Bare value, source='chebi' — matches MNX's storage convention.
     cur.execute("INSERT INTO compound_aliases VALUES ('chebi', '9314', 'MNXM50000')")
     cur.execute("INSERT INTO compounds VALUES ('MNXM50000', 'sucrose', 'C12H22O11', 342.30, 'CZMRCDWAGMRECN-UGDNZRGBSA-N')")
     conn.commit()
 
-    leaf_to_primary, compound_props = _resolve_substrates(
-        {"1.A.1.5.2": ["CHEBI:9314;sucrose"]},
-        conn,
+    string_to_primary, compound_props = _resolve_substrate_strings(
+        {"CHEBI:9314;sucrose"}, conn,
     )
 
-    assert leaf_to_primary["1.A.1.5.2"] == ["chebi:9314"], (
-        f"Expected ['chebi:9314'], got {leaf_to_primary['1.A.1.5.2']!r}. "
-        "If empty, _resolve_substrates failed to strip the CHEBI: prefix."
-    )
+    assert string_to_primary == {"CHEBI:9314;sucrose": "chebi:9314"}
     entry = compound_props["chebi:9314"]
     assert entry["mnxm_id"] == "MNXM50000"
     assert entry["chebi_id"] == "9314"
@@ -592,7 +627,7 @@ def test_resolve_substrates_strips_chebi_prefix(tmp_path):
 
 
 def _resolve_subs_db(tmp_path):
-    """Shared resolver fixture for batched _resolve_substrates tests."""
+    """Shared resolver fixture for _resolve_substrate_strings tests."""
     import sqlite3
     db = tmp_path / "resolver.db"
     conn = sqlite3.connect(db)
@@ -609,31 +644,30 @@ def _resolve_subs_db(tmp_path):
     return conn
 
 
-def test_resolve_substrates_dedupes_compound_props_across_leaves(tmp_path):
-    """Two leaves citing the same CHEBI substrate yield one compound_props entry,
-    and first-occurrence's name_part wins for the fallback name."""
+def test_resolve_substrate_strings_dedupes_compound_props(tmp_path):
+    """Two strings citing the same CHEBI value yield one compound_props entry;
+    sorted iteration → first-by-string-sort name_part wins."""
     conn = _resolve_subs_db(tmp_path)
     cur = conn.cursor()
     cur.execute("INSERT INTO compound_aliases VALUES ('chebi', '9314', 'MNXM50000')")
     # No `compounds` row → mnx name is None, so fallback = name_part from input
     conn.commit()
 
-    leaf_to_primary, compound_props = bx._resolve_substrates(
-        {
-            "1.A.1.5.2": ["CHEBI:9314;sucrose"],
-            "2.A.1.1.1": ["CHEBI:9314;table sugar"],
-        },
+    string_to_primary, compound_props = bx._resolve_substrate_strings(
+        {"CHEBI:9314;sucrose", "CHEBI:9314;table sugar"},
         conn,
     )
 
-    assert leaf_to_primary["1.A.1.5.2"] == ["chebi:9314"]
-    assert leaf_to_primary["2.A.1.1.1"] == ["chebi:9314"]
+    assert string_to_primary == {
+        "CHEBI:9314;sucrose": "chebi:9314",
+        "CHEBI:9314;table sugar": "chebi:9314",
+    }
     assert list(compound_props.keys()) == ["chebi:9314"]
-    # First leaf in iteration order wins for the name fallback.
+    # Sorted iteration: 'CHEBI:9314;sucrose' < 'CHEBI:9314;table sugar' → 'sucrose' wins
     assert compound_props["chebi:9314"]["name"] == "sucrose"
 
 
-def test_resolve_substrates_kegg_primary_skips_compound_props(tmp_path):
+def test_resolve_substrate_strings_kegg_primary_skips_compound_props(tmp_path):
     """When CHEBI resolves to an mnxm with a kegg.compound alias, the primary is
     `kegg.compound:Cnnnnn` and compound_props has NO entry — KEGG primaries flow
     through `_bulk_enrich_compounds` via the extended cpds set."""
@@ -646,43 +680,32 @@ def test_resolve_substrates_kegg_primary_skips_compound_props(tmp_path):
     """)
     conn.commit()
 
-    leaf_to_primary, compound_props = bx._resolve_substrates(
-        {"3.A.1.1.1": ["CHEBI:17234;glucose"]},
+    string_to_primary, compound_props = bx._resolve_substrate_strings(
+        {"CHEBI:17234;glucose"},
         conn,
     )
 
-    assert leaf_to_primary["3.A.1.1.1"] == ["kegg.compound:C00031"]
-    assert "kegg.compound:C00031" not in compound_props
+    assert string_to_primary == {"CHEBI:17234;glucose": "kegg.compound:C00031"}
     assert compound_props == {}
 
 
-def test_resolve_substrates_unresolved_substrate_keeps_leaf_with_empty_list(tmp_path):
-    """Unresolvable substrates are silently dropped, but every leaf passed in
-    must still appear in the output (with possibly empty list) — downstream code
-    iterates leaf_to_primary.values() expecting all leaves."""
+def test_resolve_substrate_strings_unresolved_dropped_from_output(tmp_path):
+    """Unresolvable substrates are silently dropped from string_to_primary
+    (caller maps known strings; unknown stays unmapped)."""
     conn = _resolve_subs_db(tmp_path)
     # No aliases inserted — every substrate is unresolved.
 
-    leaf_to_primary, compound_props = bx._resolve_substrates(
-        {
-            "1.X.X.X.X": ["CHEBI:99999;mystery"],
-            "2.Y.Y.Y.Y": ["malformed_no_colon"],
-        },
+    string_to_primary, compound_props = bx._resolve_substrate_strings(
+        {"CHEBI:99999;mystery", "malformed_no_colon"},
         conn,
     )
 
-    assert leaf_to_primary == {"1.X.X.X.X": [], "2.Y.Y.Y.Y": []}
+    assert string_to_primary == {}
     assert compound_props == {}
 
 
-def test_resolve_substrates_mixed_kegg_and_chebi_primaries(tmp_path):
-    """Mixed kegg-priority + chebi-only primaries resolve correctly in one batch.
-
-    (The `mnx:*` fallback in _primary_for is by-construction unreachable from
-    _resolve_substrates: every inbound CHEBI match guarantees the mnxm has at
-    least one chebi alias, so mnxm_to_chebi is always populated for nonkegg
-    mnxm_ids. Defensive code, no test needed.)
-    """
+def test_resolve_substrate_strings_mixed_kegg_and_chebi_primaries(tmp_path):
+    """Mixed kegg-priority + chebi-only primaries resolve correctly in one batch."""
     conn = _resolve_subs_db(tmp_path)
     cur = conn.cursor()
     cur.executescript("""
@@ -697,16 +720,15 @@ def test_resolve_substrates_mixed_kegg_and_chebi_primaries(tmp_path):
     """)
     conn.commit()
 
-    leaf_to_primary, compound_props = bx._resolve_substrates(
-        {
-            "1.A": ["CHEBI:17234;glucose"],
-            "1.B": ["CHEBI:9314;sucrose"],
-        },
+    string_to_primary, compound_props = bx._resolve_substrate_strings(
+        {"CHEBI:17234;glucose", "CHEBI:9314;sucrose"},
         conn,
     )
 
-    assert leaf_to_primary["1.A"] == ["kegg.compound:C00031"]
-    assert leaf_to_primary["1.B"] == ["chebi:9314"]
+    assert string_to_primary == {
+        "CHEBI:17234;glucose": "kegg.compound:C00031",
+        "CHEBI:9314;sucrose": "chebi:9314",
+    }
     # Only non-KEGG primaries have compound_props
     assert set(compound_props.keys()) == {"chebi:9314"}
     assert compound_props["chebi:9314"]["mnxm_id"] == "MNXM50000"

@@ -24,6 +24,24 @@ families) and writes the assembled hierarchy to
 cache/data/tcdb/tcdb_hierarchy.json. The TCDB lift is unconditional and not
 gated on KEGG reachability.
 
+TCDB substrate rollup runs in three phases:
+
+  rollup → prune → resolve
+
+  1. `_compute_subtree_substrate_strings` walks the FULL hierarchy bottom-up
+     and unions raw `CHEBI:NNNN;name` strings from every tc_specificity
+     descendant per TC ID. No MNX dependency.
+  2. `_prune_tcdb` filters the hierarchy to the gene-reachable subhierarchy
+     (above + below each gene-annotated seed).
+  3. The rollup is filtered to kept TC IDs, the surviving distinct substrate
+     strings are resolved through MNX once via `_resolve_substrate_strings`,
+     and per-kept primary lists are mapped back. The adapter emits one
+     Tcdb_family_transports_metabolite edge per (kept_tc_id, primary_id) pair.
+
+Doing the rollup pre-prune ensures every kept ancestor carries substrates from
+ALL its TCDB descendants, not just the gene-annotated subset (an earlier
+post-prune rollup undercounted ancestor substrates by ~950 edges).
+
 Usage:
     uv run python -m multiomics_kg.download.build_kegg_metabolism_xrefs [--force] [--refetch-raw]
 
@@ -579,15 +597,13 @@ def _bulk_enrich_compounds(
 def _prune_tcdb(
     hierarchy: dict,
     seed_ids: set[str],
-) -> tuple[set[str], dict[str, list[str]], dict[str, str]]:
+) -> tuple[set[str], dict[str, str]]:
     """Bidirectional prune of the TCDB hierarchy.
 
     For each seed ID, walk **up** to the tc_class root and **down** to all
     tc_specificity leaves. Returns:
 
       kept: set of all TCDB IDs that survive pruning.
-      leaf_subs: {leaf_tc_id: [substrate_str, ...]} for kept leaves that carry
-                 substrate_classes.
       seed_aliases: {seed_id: anchor_id} mapping for seeds NOT in the curated
                     hierarchy. Resolved by truncating dot-segments until an
                     ancestor is found (e.g. ``3.A.1.35`` → ``3.A.1``). Callers
@@ -596,9 +612,13 @@ def _prune_tcdb(
 
     Seeds with no resolvable ancestor are dropped and logged as a warning at
     the call site.
+
+    Substrate rollup is intentionally NOT done here. The full subtree-substrate
+    map is computed pre-pruning (`_compute_subtree_substrate_strings`); the caller
+    filters that map to `kept` and resolves the surviving substrate strings via
+    MNX. This separates structural pruning from semantic enrichment.
     """
     kept: set[str] = set()
-    leaf_subs: dict[str, list[str]] = {}
     parent_of = {tc: data.get("parent") for tc, data in hierarchy.items()}
     children_of: dict[str, list[str]] = {}
     for tc, parent in parent_of.items():
@@ -622,11 +642,6 @@ def _prune_tcdb(
         if tc not in hierarchy:
             return
         kept.add(tc)
-        node = hierarchy[tc]
-        if node.get("level_kind") == "tc_specificity":
-            subs = node.get("substrate_classes")
-            if subs:
-                leaf_subs[tc] = list(subs)
         for child in children_of.get(tc, []):
             walk_down(child)
 
@@ -653,48 +668,80 @@ def _prune_tcdb(
         seed_aliases[seed] = anchor
         walk_up(anchor)
         walk_down(anchor)
-    return kept, leaf_subs, seed_aliases
+    return kept, seed_aliases
 
 
-def _resolve_substrates(
-    leaf_subs: dict[str, list[str]],
+def _compute_subtree_substrate_strings(hierarchy: dict) -> dict[str, set[str]]:
+    """Bottom-up DFS over the FULL hierarchy: for each TC ID, return the union
+    of `substrate_classes` strings (raw 'CHEBI:NNNN;name') from every
+    tc_specificity descendant (including self if the node is itself a leaf).
+
+    Pure structural rollup — no MNX dependency. Caller filters the result to
+    kept TC IDs after pruning, then resolves the (smaller) string union via
+    `_resolve_substrate_strings`. Doing the rollup pre-prune ensures ancestor
+    nodes capture substrates from ALL their TCDB descendants, not just the
+    gene-annotated subset.
+    """
+    parent_of = {tc: e.get("parent") for tc, e in hierarchy.items()}
+    children_of: dict[str, list[str]] = {}
+    for tc, parent in parent_of.items():
+        if parent is not None:
+            children_of.setdefault(parent, []).append(tc)
+
+    cache: dict[str, set[str]] = {}
+
+    def dfs(node: str) -> set[str]:
+        if node in cache:
+            return cache[node]
+        entry = hierarchy.get(node, {})
+        result: set[str] = set()
+        if entry.get("level_kind") == "tc_specificity":
+            subs = entry.get("substrate_classes")
+            if subs:
+                result.update(subs)
+        for child in children_of.get(node, []):
+            result |= dfs(child)
+        cache[node] = result
+        return result
+
+    return {tc: dfs(tc) for tc in hierarchy}
+
+
+def _resolve_substrate_strings(
+    substrate_strings: set[str],
     conn: sqlite3.Connection,
-) -> tuple[dict[str, list[str]], dict[str, dict]]:
-    """Resolve `CHEBI:NNNN;name` substrate strings to Metabolite primary IDs.
+) -> tuple[dict[str, str], dict[str, dict]]:
+    """Resolve raw 'CHEBI:NNNN;name' substrate strings to Metabolite primary IDs.
 
     Returns:
-      leaf_to_primary_ids: {leaf_tcid: [primary_id, ...]}, sorted+deduped.
+      string_to_primary: {substrate_str: primary_id} — only resolvable strings.
       compound_props: {primary_id: {name, formula, mass, inchikey, mnxm_id, chebi_id}}
                       for non-KEGG primaries only (KEGG primaries flow through
                       `_bulk_enrich_compounds`, so they don't need props here).
 
-    Batched against the MNX SQLite — one IN-clause query per phase instead of
-    a per-substrate loop with 3-4 roundtrips each. Roughly 17K queries → ~6.
+    Operates on a flat set of substrate strings (post-pruning union). MNX
+    queries are batched. Iteration over `parsed` is sorted so the first-seen
+    `name_part` wins for non-KEGG primaries (deterministic).
     """
     cur = conn.cursor()
 
-    # Pass 1: parse all substrate strings → (leaf, chebi_value, name_part).
-    # Format: 'CHEBI:NNNN;name' or just 'name'. MNX stores CHEBI aliases as
-    # (source='chebi', value='<bare-number>'), so strip the prefix here.
+    # Pass 1: parse strings → (string, chebi_value, name_part). Sort for
+    # deterministic name-fallback resolution.
     parsed: list[tuple[str, str, str]] = []
-    for leaf, subs in leaf_subs.items():
-        for sub_str in subs:
-            if ":" not in sub_str:
-                continue
-            chebi_part, _, name_part = sub_str.partition(";")
-            prefix, _, chebi_value = chebi_part.partition(":")
-            if prefix.strip().upper() != "CHEBI" or not chebi_value:
-                log.debug(f"TCDB substrate not in CHEBI form: {sub_str!r} (leaf {leaf})")
-                continue
-            parsed.append((leaf, chebi_value.strip(), name_part))
+    for sub_str in sorted(substrate_strings):
+        if ":" not in sub_str:
+            continue
+        chebi_part, _, name_part = sub_str.partition(";")
+        prefix, _, chebi_value = chebi_part.partition(":")
+        if prefix.strip().upper() != "CHEBI" or not chebi_value:
+            log.debug(f"TCDB substrate not in CHEBI form: {sub_str!r}")
+            continue
+        parsed.append((sub_str, chebi_value.strip(), name_part))
 
-    # Always emit an entry per leaf, even if all substrates fail to parse/resolve
-    leaf_to_primary_ids: dict[str, list[str]] = {leaf: [] for leaf in leaf_subs}
-    compound_props: dict[str, dict] = {}
     if not parsed:
-        return leaf_to_primary_ids, compound_props
+        return {}, {}
 
-    # Pass 2: chebi_value → mnxm_id (batched). First-by-mnxm_id wins on collision.
+    # Pass 2: chebi_value → mnxm_id
     distinct_chebi = sorted({chebi for _, chebi, _ in parsed})
     chebi_to_mnxm: dict[str, str] = {}
     for chunk in _batched(distinct_chebi):
@@ -708,8 +755,7 @@ def _resolve_substrates(
         for value, mnxm_id in cur.fetchall():
             chebi_to_mnxm.setdefault(value, mnxm_id)
 
-    # Pass 3: distinct mnxm_ids → kegg.compound + chebi aliases (priority order
-    # for primary-ID resolution; mirrors mnxm_to_primary_id).
+    # Pass 3: distinct mnxm_ids → kegg.compound + chebi aliases
     mnxm_ids = sorted(set(chebi_to_mnxm.values()))
     mnxm_to_kegg: dict[str, str] = {}
     mnxm_to_chebi: dict[str, str] = {}
@@ -739,9 +785,7 @@ def _resolve_substrates(
             return f"chebi:{mnxm_to_chebi[mnxm]}"
         return f"mnx:{mnxm}"
 
-    # Pass 4: bulk-fetch compounds props ONLY for mnxm_ids whose primary is non-KEGG
-    # (KEGG primaries get their props from _bulk_enrich_compounds via the extended
-    # cpds set, so we can skip them here).
+    # Pass 4: bulk-fetch compounds props only for non-KEGG mnxm_ids
     nonkegg_mnxms = [m for m in mnxm_ids if m not in mnxm_to_kegg]
     mnxm_to_props: dict[str, tuple] = {}
     for chunk in _batched(nonkegg_mnxms):
@@ -754,15 +798,16 @@ def _resolve_substrates(
         for mnxm_id, name, formula, mass, inchikey in cur.fetchall():
             mnxm_to_props[mnxm_id] = (name, formula, mass, inchikey)
 
-    # Pass 5: assemble outputs in original iteration order so first-occurrence
-    # name_part wins for non-KEGG primaries (matches pre-batch semantics).
-    for leaf, chebi_value, name_part in parsed:
+    # Pass 5: assemble outputs (sorted iteration → first-seen name_part wins)
+    string_to_primary: dict[str, str] = {}
+    compound_props: dict[str, dict] = {}
+    for sub_str, chebi_value, name_part in parsed:
         mnxm = chebi_to_mnxm.get(chebi_value)
         if mnxm is None:
-            log.debug(f"TCDB substrate unresolved: chebi:{chebi_value} (leaf {leaf})")
+            log.debug(f"TCDB substrate unresolved: chebi:{chebi_value} ({sub_str!r})")
             continue
         primary = _primary_for(mnxm)
-        leaf_to_primary_ids[leaf].append(primary)
+        string_to_primary[sub_str] = primary
 
         if primary.startswith("kegg.compound:") or primary in compound_props:
             continue
@@ -776,10 +821,7 @@ def _resolve_substrates(
             "chebi_id": mnxm_to_chebi.get(mnxm),
         }
 
-    for leaf in leaf_to_primary_ids:
-        leaf_to_primary_ids[leaf] = sorted(set(leaf_to_primary_ids[leaf]))
-
-    return leaf_to_primary_ids, compound_props
+    return string_to_primary, compound_props
 
 
 def _harvest_paper_metabolites(
@@ -1015,7 +1057,7 @@ def _fold_substrates_into_kegg_data(
     *,
     catalysis_cpds: set[str],
     substrate_kegg_cpds: set[str],
-    leaf_to_primary: dict[str, list[str]],
+    substrate_primaries: set[str],
     compound_props: dict[str, dict],
 ) -> None:
     """Tag every kegg compound entry with evidence_sources and append non-KEGG
@@ -1032,6 +1074,9 @@ def _fold_substrates_into_kegg_data(
          - in both: ['metabolism', 'transport']
       2. Adds non-KEGG substrate primaries (chebi:NNNN, mnx:MNXM*) to
          kegg_data['additional_compounds'] with evidence_sources=['transport'].
+
+    `substrate_primaries` is the flat union of every primary ID appearing in
+    any kept TC ID's subtree rollup.
     """
     for cpd_id, entry in kegg_data.get("compounds", {}).items():
         sources = list(entry.get("evidence_sources") or [])
@@ -1042,16 +1087,15 @@ def _fold_substrates_into_kegg_data(
         entry["evidence_sources"] = sources
 
     additional: dict[str, dict] = {}
-    for primary_ids in leaf_to_primary.values():
-        for primary_id in primary_ids:
-            if primary_id.startswith("kegg.compound:"):
-                continue
-            if primary_id in additional or primary_id not in compound_props:
-                continue
-            additional[primary_id] = {
-                **compound_props[primary_id],
-                "evidence_sources": ["transport"],
-            }
+    for primary_id in substrate_primaries:
+        if primary_id.startswith("kegg.compound:"):
+            continue
+        if primary_id in additional or primary_id not in compound_props:
+            continue
+        additional[primary_id] = {
+            **compound_props[primary_id],
+            "evidence_sources": ["transport"],
+        }
     kegg_data["additional_compounds"] = additional
 
 
@@ -1234,11 +1278,14 @@ def main(force: bool = False, refetch_raw: bool = False) -> None:
         catalysis_cpds = catalysis_sets["cpds"]
         catalysis_pws = catalysis_sets["pws"]
 
-        log.info("Pruning TCDB hierarchy + resolving transport substrates ...")
+        log.info("Loading TCDB hierarchy + computing full subtree-substrate rollup (no MNX) ...")
         hierarchy = json.loads(
             (cache_root / "tcdb" / "tcdb_hierarchy.json").read_text()
         )
-        kept, leaf_subs, seed_aliases = _prune_tcdb(hierarchy, catalysis_sets["tcdb_ids"])
+        full_subtree_strings = _compute_subtree_substrate_strings(hierarchy)
+
+        log.info("Pruning TCDB hierarchy ...")
+        kept, seed_aliases = _prune_tcdb(hierarchy, catalysis_sets["tcdb_ids"])
         upgraded = {s: a for s, a in seed_aliases.items() if a}
         dropped = sorted(s for s, a in seed_aliases.items() if not a)
         if upgraded:
@@ -1254,21 +1301,39 @@ def main(force: bool = False, refetch_raw: bool = False) -> None:
                 f"in the curated hierarchy and were dropped (e.g. {sample}). "
                 f"Likely retired TCDB IDs in eggNOG annotations."
             )
-        leaf_to_primary, compound_props = _resolve_substrates(leaf_subs, conn)
-        total_substrate_ids = sum(len(ids) for ids in leaf_to_primary.values())
-        distinct_substrate_ids = len({pid for ids in leaf_to_primary.values() for pid in ids})
+
+        # Filter rollup to kept TC IDs; collect distinct substrate strings to resolve
+        subtree_strings: dict[str, set[str]] = {tc: full_subtree_strings.get(tc, set()) for tc in kept}
+        all_substrate_strings: set[str] = set()
+        for s in subtree_strings.values():
+            all_substrate_strings |= s
+
+        log.info(
+            f"Resolving {len(all_substrate_strings)} distinct TCDB substrate strings via MNX ..."
+        )
+        string_to_primary, compound_props = _resolve_substrate_strings(
+            all_substrate_strings, conn
+        )
+
+        # Map substrate strings → primary IDs per kept TC ID. Empty entries dropped.
+        subtree_substrates: dict[str, list[str]] = {}
+        for tc, strings in subtree_strings.items():
+            primaries = {string_to_primary[s] for s in strings if s in string_to_primary}
+            if primaries:
+                subtree_substrates[tc] = sorted(primaries)
+        total_substrate_ids = sum(len(ids) for ids in subtree_substrates.values())
+        distinct_substrate_primaries: set[str] = {
+            pid for ids in subtree_substrates.values() for pid in ids
+        }
+        distinct_substrate_ids = len(distinct_substrate_primaries)
 
         # Split substrate primaries: kegg.compound:C* feed back into the regular
         # _bulk_enrich_compounds pipeline (so they get pathways + MNX cross-refs);
         # non-KEGG primaries (chebi:*, mnx:*) become additional_compounds entries.
         substrate_kegg_cpds: set[str] = set()
-        substrate_non_kegg_count = 0
-        for primary_ids in leaf_to_primary.values():
-            for primary_id in primary_ids:
-                if primary_id.startswith("kegg.compound:"):
-                    substrate_kegg_cpds.add(primary_id[len("kegg.compound:"):])
-                else:
-                    substrate_non_kegg_count += 1
+        for primary_id in distinct_substrate_primaries:
+            if primary_id.startswith("kegg.compound:"):
+                substrate_kegg_cpds.add(primary_id[len("kegg.compound:"):])
 
         # Transport-reachable pathways: gene-annotated TCDB → MNX-resolved KEGG
         # compound → KEGG-curated pathway list. Adds pathways like glycolysis
@@ -1326,7 +1391,7 @@ def main(force: bool = False, refetch_raw: bool = False) -> None:
             kegg_data,
             catalysis_cpds=catalysis_cpds,
             substrate_kegg_cpds=substrate_kegg_cpds,
-            leaf_to_primary=leaf_to_primary,
+            substrate_primaries=distinct_substrate_primaries,
             compound_props=compound_props,
         )
 
@@ -1358,9 +1423,12 @@ def main(force: bool = False, refetch_raw: bool = False) -> None:
 
         (cache_root / "tcdb" / "tcdb_pruned.json").write_text(json.dumps({
             "kept_tcdb_ids": sorted(kept),
-            "leaf_substrates": {
-                leaf: ids for leaf, ids in sorted(leaf_to_primary.items())
-            },
+            # Pre-rolled-up substrate primaries per kept TC ID. Computed from
+            # the FULL hierarchy before pruning, so ancestor nodes capture
+            # substrates from every TCDB descendant — not just gene-annotated
+            # ones. Adapter emits these directly as Tcdb_family_transports_metabolite
+            # edges (no rollup logic needed). Empty entries omitted to save space.
+            "subtree_substrates": dict(sorted(subtree_substrates.items())),
             # Maps gene-annotated TCIDs not in the hierarchy to the nearest
             # curated ancestor (e.g. retired ID `3.A.1.35` → family `3.A.1`).
             # Adapters remap edges through this so no annotation is dropped.
@@ -1368,7 +1436,7 @@ def main(force: bool = False, refetch_raw: bool = False) -> None:
         }, indent=2, sort_keys=True))
         log.info(
             f"  TCDB: {len(kept)} kept IDs, "
-            f"{len(leaf_to_primary)} leaves with substrates "
+            f"{len(subtree_substrates)} kept IDs with substrate rollups "
             f"({total_substrate_ids} total / {distinct_substrate_ids} distinct primary IDs)"
         )
         log.info(
