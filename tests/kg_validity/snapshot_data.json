@@ -183,33 +183,45 @@
     },
     {
       "properties": {},
+      "source": "doi:10.1002/pmic.201400562",
+      "target": "10.1002/pmic.201400562_dss3_exoproteome_with_wh7803",
+      "type": "Has_experiment"
+    },
+    {
+      "properties": {},
+      "source": "doi:10.1002/pmic.201400562",
+      "target": "10.1002/pmic.201400562_dss3_exoproteome_with_wh8102",
+      "type": "Has_experiment"
+    },
+    {
+      "properties": {},
       "source": "doi:10.1016/j.micres.2015.04.006",
       "target": "10.1016/j.micres.2015.04.006_salt_saltacclimated_5_salt_as9601_rnaseq",
       "type": "Has_experiment"
     },
     {
       "properties": {},
-      "source": "doi:10.1038/ismej.2011.49",
-      "target": "10.1038/ismej.2011.49_growth_medium_ironreplete_control_med4_med4_microarray",
+      "source": "doi:10.1021/pr060460c",
+      "target": "10.1021/pr060460c_light_HL_vs_LL_med4_proteomics",
       "type": "Has_experiment"
     },
     {
       "properties": {},
-      "source": "doi:10.1038/ismej.2011.49",
-      "target": "10.1038/ismej.2011.49_growth_medium_ironreplete_control_mit9313_mit9313_microarray",
+      "source": "doi:10.1021/pr060460c",
+      "target": "10.1021/pr060460c_light_ML_vs_LL_med4_proteomics",
       "type": "Has_experiment"
     },
     {
       "properties": {},
-      "source": "doi:10.1038/ismej.2011.49",
-      "target": "10.1038/ismej.2011.49_iron_iron_starvation_med4_med4_microarray_light",
-      "type": "Has_experiment"
+      "source": "10.1002/pmic.201400562_dss3_exoproteome_with_wh7803",
+      "target": "insdc.gcf:GCF_000063505.1",
+      "type": "Tests_coculture_with"
     },
     {
       "properties": {},
-      "source": "doi:10.1038/ismej.2011.49",
-      "target": "10.1038/ismej.2011.49_iron_iron_starvation_med4_med4_microarray_light_2",
-      "type": "Has_experiment"
+      "source": "10.1002/pmic.201400562_dss3_exoproteome_with_wh8102",
+      "target": "insdc.gcf:GCF_000195975.1",
+      "type": "Tests_coculture_with"
     },
     {
       "properties": {},
@@ -226,18 +238,6 @@
     {
       "properties": {},
       "source": "10.1038/ismej.2014.69_coculture_hco3_vs_lactate_shew_w3181_rnaseq",
-      "target": "insdc.gcf:GCF_000019485.1",
-      "type": "Tests_coculture_with"
-    },
-    {
-      "properties": {},
-      "source": "10.1038/ismej.2014.69_coculture_hco3_vs_lactate_syn7002_rnaseq",
-      "target": "insdc.gcf:GCF_000015185.1",
-      "type": "Tests_coculture_with"
-    },
-    {
-      "properties": {},
-      "source": "10.1038/ismej.2014.69_coculture_lactate_vs_axenic_shew_w3181_rnaseq",
       "target": "insdc.gcf:GCF_000019485.1",
       "type": "Tests_coculture_with"
     },
@@ -363,6 +363,96 @@
     },
     {
       "properties": {},
+      "source": "go:0000027",
+      "target": "go:0042255",
+      "type": "Biological_process_part_of_biological_process"
+    },
+    {
+      "properties": {},
+      "source": "go:0000027",
+      "target": "go:0042273",
+      "type": "Biological_process_part_of_biological_process"
+    },
+    {
+      "properties": {},
+      "source": "go:0000028",
+      "target": "go:0042255",
+      "type": "Biological_process_part_of_biological_process"
+    },
+    {
+      "properties": {},
+      "source": "go:0000028",
+      "target": "go:0042274",
+      "type": "Biological_process_part_of_biological_process"
+    },
+    {
+      "properties": {},
+      "source": "go:0000070",
+      "target": "go:0140014",
+      "type": "Biological_process_part_of_biological_process"
+    },
+    {
+      "properties": {},
+      "source": "go:0001818",
+      "target": "go:0001816",
+      "type": "Biological_process_negatively_regulates_biological_process"
+    },
+    {
+      "properties": {},
+      "source": "go:0001933",
+      "target": "go:0006468",
+      "type": "Biological_process_negatively_regulates_biological_process"
+    },
+    {
+      "properties": {},
+      "source": "go:0003354",
+      "target": "go:0003341",
+      "type": "Biological_process_negatively_regulates_biological_process"
+    },
+    {
+      "properties": {},
+      "source": "go:0008156",
+      "target": "go:0006260",
+      "type": "Biological_process_negatively_regulates_biological_process"
+    },
+    {
+      "properties": {},
+      "source": "go:0008285",
+      "target": "go:0008283",
+      "type": "Biological_process_negatively_regulates_biological_process"
+    },
+    {
+      "properties": {},
+      "source": "go:0001934",
+      "target": "go:0006468",
+      "type": "Biological_process_positively_regulates_biological_process"
+    },
+    {
+      "properties": {},
+      "source": "go:0009891",
+      "target": "go:0009058",
+      "type": "Biological_process_positively_regulates_biological_process"
+    },
+    {
+      "properties": {},
+      "source": "go:0009893",
+      "target": "go:0008152",
+      "type": "Biological_process_positively_regulates_biological_process"
+    },
+    {
+      "properties": {},
+      "source": "go:0009896",
+      "target": "go:0009056",
+      "type": "Biological_process_positively_regulates_biological_process"
+    },
+    {
+      "properties": {},
+      "source": "go:0009911",
+      "target": "go:0009908",
+      "type": "Biological_process_positively_regulates_biological_process"
+    },
+    {
+      "properties": {},
       "source": "go:0000015",
       "target": "go:1902494",
       "type": "Cellular_component_is_a_cellular_component"
@@ -393,6 +483,36 @@
     },
     {
       "properties": {},
+      "source": "go:0000015",
+      "target": "go:0005829",
+      "type": "Cellular_component_part_of_cellular_component"
+    },
+    {
+      "properties": {},
+      "source": "go:0000118",
+      "target": "go:0005654",
+      "type": "Cellular_component_part_of_cellular_component"
+    },
+    {
+      "properties": {},
+      "source": "go:0000139",
+      "target": "go:0005794",
+      "type": "Cellular_component_part_of_cellular_component"
+    },
+    {
+      "properties": {},
+      "source": "go:0000178",
+      "target": "go:0005622",
+      "type": "Cellular_component_part_of_cellular_component"
+    },
+    {
+      "properties": {},
+      "source": "go:0000228",
+      "target": "go:0031981",
+      "type": "Cellular_component_part_of_cellular_component"
+    },
+    {
+      "properties": {},
       "source": "go:0000006",
       "target": "go:0005385",
       "type": "Molecular_function_is_a_molecular_function"
@@ -420,6 +540,18 @@
       "source": "go:0000014",
       "target": "go:0016788",
       "type": "Molecular_function_is_a_molecular_function"
+    },
+    {
+      "properties": {},
+      "source": "go:0003921",
+      "target": "go:0003922",
+      "type": "Molecular_function_part_of_molecular_function"
+    },
+    {
+      "properties": {},
+      "source": "go:0016887",
+      "target": "go:0140657",
+      "type": "Molecular_function_part_of_molecular_function"
     },
     {
       "properties": {},
@@ -663,62 +795,62 @@
     },
     {
       "properties": {},
+      "source": "doi:10.1002/pmic.201400562",
+      "target": "derived_metric:pmic.201400562:table_s3_dss3_with_wh7803:exoproteome_avg_pct_nsaf",
+      "type": "PublicationHasDerivedMetric"
+    },
+    {
+      "properties": {},
+      "source": "doi:10.1002/pmic.201400562",
+      "target": "derived_metric:pmic.201400562:table_s3_dss3_with_wh7803:exoproteome_detection_status",
+      "type": "PublicationHasDerivedMetric"
+    },
+    {
+      "properties": {},
+      "source": "doi:10.1002/pmic.201400562",
+      "target": "derived_metric:pmic.201400562:table_s3_dss3_with_wh8102:exoproteome_avg_pct_nsaf",
+      "type": "PublicationHasDerivedMetric"
+    },
+    {
+      "properties": {},
+      "source": "doi:10.1002/pmic.201400562",
+      "target": "derived_metric:pmic.201400562:table_s3_dss3_with_wh8102:exoproteome_detection_status",
+      "type": "PublicationHasDerivedMetric"
+    },
+    {
+      "properties": {},
       "source": "doi:10.1038/ismej.2015.36",
       "target": "derived_metric:ismej.2015.36:s2_concordance_low_co2:expression_change_high_light_shock",
       "type": "PublicationHasDerivedMetric"
     },
     {
       "properties": {},
-      "source": "doi:10.1038/ismej.2015.36",
-      "target": "derived_metric:ismej.2015.36:s2_concordance_low_co2:expression_change_low_co2_shock",
-      "type": "PublicationHasDerivedMetric"
+      "source": "10.1002/pmic.201400562_dss3_exoproteome_with_wh7803",
+      "target": "derived_metric:pmic.201400562:table_s3_dss3_with_wh7803:exoproteome_avg_pct_nsaf",
+      "type": "ExperimentHasDerivedMetric"
     },
     {
       "properties": {},
-      "source": "doi:10.1038/ismej.2015.36",
-      "target": "derived_metric:ismej.2015.36:s2_concordance_low_co2:rapid_recovery_low_co2_shock",
-      "type": "PublicationHasDerivedMetric"
+      "source": "10.1002/pmic.201400562_dss3_exoproteome_with_wh7803",
+      "target": "derived_metric:pmic.201400562:table_s3_dss3_with_wh7803:exoproteome_detection_status",
+      "type": "ExperimentHasDerivedMetric"
     },
     {
       "properties": {},
-      "source": "doi:10.1038/ismej.2015.36",
-      "target": "derived_metric:ismej.2015.36:s2_concordance_low_co2_no_o2:expression_change_low_co2_no_o2_shock",
-      "type": "PublicationHasDerivedMetric"
+      "source": "10.1002/pmic.201400562_dss3_exoproteome_with_wh8102",
+      "target": "derived_metric:pmic.201400562:table_s3_dss3_with_wh8102:exoproteome_avg_pct_nsaf",
+      "type": "ExperimentHasDerivedMetric"
     },
     {
       "properties": {},
-      "source": "doi:10.1038/ismej.2015.36",
-      "target": "derived_metric:ismej.2015.36:s2_concordance_low_co2_no_o2:rapid_recovery_low_co2_no_o2_shock",
-      "type": "PublicationHasDerivedMetric"
+      "source": "10.1002/pmic.201400562_dss3_exoproteome_with_wh8102",
+      "target": "derived_metric:pmic.201400562:table_s3_dss3_with_wh8102:exoproteome_detection_status",
+      "type": "ExperimentHasDerivedMetric"
     },
     {
       "properties": {},
       "source": "10.1038/ismej.2015.36_carbon_low_co2_0004_co2_med4_microarray",
       "target": "derived_metric:ismej.2015.36:s2_concordance_low_co2:expression_change_high_light_shock",
-      "type": "ExperimentHasDerivedMetric"
-    },
-    {
-      "properties": {},
-      "source": "10.1038/ismej.2015.36_carbon_low_co2_0004_co2_med4_microarray",
-      "target": "derived_metric:ismej.2015.36:s2_concordance_low_co2:expression_change_low_co2_shock",
-      "type": "ExperimentHasDerivedMetric"
-    },
-    {
-      "properties": {},
-      "source": "10.1038/ismej.2015.36_carbon_low_co2_0004_co2_med4_microarray",
-      "target": "derived_metric:ismej.2015.36:s2_concordance_low_co2:rapid_recovery_low_co2_shock",
-      "type": "ExperimentHasDerivedMetric"
-    },
-    {
-      "properties": {},
-      "source": "10.1038/ismej.2015.36_carbon_low_co2_and_no_med4_microarray",
-      "target": "derived_metric:ismej.2015.36:s2_concordance_low_co2_no_o2:expression_change_low_co2_no_o2_shock",
-      "type": "ExperimentHasDerivedMetric"
-    },
-    {
-      "properties": {},
-      "source": "10.1038/ismej.2015.36_carbon_low_co2_and_no_med4_microarray",
-      "target": "derived_metric:ismej.2015.36:s2_concordance_low_co2_no_o2:rapid_recovery_low_co2_no_o2_shock",
       "type": "ExperimentHasDerivedMetric"
     },
     {
@@ -1053,52 +1185,52 @@
     },
     {
       "properties": {
-        "metric_bucket": "top_quartile",
-        "n_replicates": 1,
-        "value": 0.0
+        "metric_bucket": "mid",
+        "n_replicates": 3,
+        "value": 0.0062
       },
-      "source": "metabolite_assay:msystems.01261-22:metabolites_kegg_export_0801_extracellular:extracellular_concentration",
-      "target": "chebi:133737",
+      "source": "metabolite_assay:1462-2920.15834:s7_metabolites_cells_mit9312:relative_peak_area_biovolume_normalized",
+      "target": "chebi:173245",
       "type": "Assay_quantifies_metabolite"
     },
     {
       "properties": {
-        "metric_bucket": "top_quartile",
-        "n_replicates": 1,
-        "value": 0.0
+        "metric_bucket": "low",
+        "n_replicates": 3,
+        "value": 2.4e-06
       },
-      "source": "metabolite_assay:msystems.01261-22:metabolites_kegg_export_0801_extracellular:extracellular_concentration",
-      "target": "chebi:143141",
+      "source": "metabolite_assay:1462-2920.15834:s7_metabolites_cells_mit9312:relative_peak_area_biovolume_normalized",
+      "target": "chebi:176838",
       "type": "Assay_quantifies_metabolite"
     },
     {
       "properties": {
-        "metric_bucket": "top_quartile",
-        "n_replicates": 1,
-        "value": 0.0
+        "metric_bucket": "low",
+        "n_replicates": 3,
+        "value": 5.6e-05
       },
-      "source": "metabolite_assay:msystems.01261-22:metabolites_kegg_export_0801_extracellular:extracellular_concentration",
-      "target": "kegg.compound:C00004",
+      "source": "metabolite_assay:1462-2920.15834:s7_metabolites_cells_mit9312:relative_peak_area_biovolume_normalized",
+      "target": "chebi:176840",
       "type": "Assay_quantifies_metabolite"
     },
     {
       "properties": {
-        "metric_bucket": "top_quartile",
-        "n_replicates": 1,
-        "value": 0.0
+        "metric_bucket": "mid",
+        "n_replicates": 3,
+        "value": 0.00032
       },
-      "source": "metabolite_assay:msystems.01261-22:metabolites_kegg_export_0801_extracellular:extracellular_concentration",
-      "target": "kegg.compound:C00019",
+      "source": "metabolite_assay:1462-2920.15834:s7_metabolites_cells_mit9312:relative_peak_area_biovolume_normalized",
+      "target": "chebi:21260",
       "type": "Assay_quantifies_metabolite"
     },
     {
       "properties": {
-        "metric_bucket": "top_quartile",
-        "n_replicates": 1,
-        "value": 0.0
+        "metric_bucket": "mid",
+        "n_replicates": 3,
+        "value": 0.0024
       },
-      "source": "metabolite_assay:msystems.01261-22:metabolites_kegg_export_0801_extracellular:extracellular_concentration",
-      "target": "kegg.compound:C00020",
+      "source": "metabolite_assay:1462-2920.15834:s7_metabolites_cells_mit9312:relative_peak_area_biovolume_normalized",
+      "target": "chebi:23042",
       "type": "Assay_quantifies_metabolite"
     },
     {
@@ -1165,20 +1297,20 @@
     },
     {
       "properties": {},
-      "source": "doi:10.1128/msystems.01261-22",
-      "target": "metabolite_assay:msystems.01261-22:metabolites_kegg_export_0801_extracellular:extracellular_concentration",
+      "source": "doi:10.1111/1462-2920.15834",
+      "target": "metabolite_assay:1462-2920.15834:s7_metabolites_cells_mit9312:relative_peak_area_biovolume_normalized",
       "type": "PublicationHasMetaboliteAssay"
     },
     {
       "properties": {},
-      "source": "doi:10.1128/msystems.01261-22",
-      "target": "metabolite_assay:msystems.01261-22:metabolites_kegg_export_0801_intracellular:cellular_concentration",
+      "source": "doi:10.1111/1462-2920.15834",
+      "target": "metabolite_assay:1462-2920.15834:s7_metabolites_cells_mit9313:relative_peak_area_biovolume_normalized",
       "type": "PublicationHasMetaboliteAssay"
     },
     {
       "properties": {},
-      "source": "doi:10.1128/msystems.01261-22",
-      "target": "metabolite_assay:msystems.01261-22:metabolites_kegg_export_9301_extracellular:extracellular_concentration",
+      "source": "doi:10.1111/1462-2920.15834",
+      "target": "metabolite_assay:1462-2920.15834:s7_metabolites_vesicles_mit9312:relative_peak_area_biovolume_normalized",
       "type": "PublicationHasMetaboliteAssay"
     },
     {
@@ -1195,50 +1327,50 @@
     },
     {
       "properties": {},
-      "source": "10.1128/msystems.01261-22_kujawinski_metabolomics_0801_extracellular",
-      "target": "metabolite_assay:msystems.01261-22:metabolites_kegg_export_0801_extracellular:extracellular_concentration",
+      "source": "10.1111/1462-2920.15834_cells_metabolomics_mit9312",
+      "target": "metabolite_assay:1462-2920.15834:s7_metabolites_cells_mit9312:relative_peak_area_biovolume_normalized",
       "type": "ExperimentHasMetaboliteAssay"
     },
     {
       "properties": {},
-      "source": "10.1128/msystems.01261-22_kujawinski_metabolomics_0801_whole_cell",
-      "target": "metabolite_assay:msystems.01261-22:metabolites_kegg_export_0801_intracellular:cellular_concentration",
+      "source": "10.1111/1462-2920.15834_cells_metabolomics_mit9313",
+      "target": "metabolite_assay:1462-2920.15834:s7_metabolites_cells_mit9313:relative_peak_area_biovolume_normalized",
       "type": "ExperimentHasMetaboliteAssay"
     },
     {
       "properties": {},
-      "source": "10.1128/msystems.01261-22_kujawinski_metabolomics_9301_extracellular",
-      "target": "metabolite_assay:msystems.01261-22:metabolites_kegg_export_9301_extracellular:extracellular_concentration",
+      "source": "10.1111/1462-2920.15834_vesicle_metabolomics_mit9312",
+      "target": "metabolite_assay:1462-2920.15834:s7_metabolites_vesicles_mit9312:relative_peak_area_biovolume_normalized",
       "type": "ExperimentHasMetaboliteAssay"
+    },
+    {
+      "properties": {},
+      "source": "metabolite_assay:1462-2920.15834:s7_metabolites_cells_mit9312:relative_peak_area_biovolume_normalized",
+      "target": "insdc.gcf:GCF_000012645.1",
+      "type": "MetaboliteAssayBelongsToOrganism"
+    },
+    {
+      "properties": {},
+      "source": "metabolite_assay:1462-2920.15834:s7_metabolites_cells_mit9313:relative_peak_area_biovolume_normalized",
+      "target": "insdc.gcf:GCF_000011485.1",
+      "type": "MetaboliteAssayBelongsToOrganism"
+    },
+    {
+      "properties": {},
+      "source": "metabolite_assay:1462-2920.15834:s7_metabolites_vesicles_mit9312:relative_peak_area_biovolume_normalized",
+      "target": "insdc.gcf:GCF_000012645.1",
+      "type": "MetaboliteAssayBelongsToOrganism"
+    },
+    {
+      "properties": {},
+      "source": "metabolite_assay:1462-2920.15834:s7_metabolites_vesicles_mit9313:relative_peak_area_biovolume_normalized",
+      "target": "insdc.gcf:GCF_000011485.1",
+      "type": "MetaboliteAssayBelongsToOrganism"
     },
     {
       "properties": {},
       "source": "metabolite_assay:msystems.01261-22:metabolites_kegg_export_0801_extracellular:extracellular_concentration",
       "target": "insdc.gcf:GCF_000757865.1",
-      "type": "MetaboliteAssayBelongsToOrganism"
-    },
-    {
-      "properties": {},
-      "source": "metabolite_assay:msystems.01261-22:metabolites_kegg_export_0801_intracellular:cellular_concentration",
-      "target": "insdc.gcf:GCF_000757865.1",
-      "type": "MetaboliteAssayBelongsToOrganism"
-    },
-    {
-      "properties": {},
-      "source": "metabolite_assay:msystems.01261-22:metabolites_kegg_export_9301_extracellular:extracellular_concentration",
-      "target": "insdc.gcf:GCF_000015965.1",
-      "type": "MetaboliteAssayBelongsToOrganism"
-    },
-    {
-      "properties": {},
-      "source": "metabolite_assay:msystems.01261-22:metabolites_kegg_export_9301_intracellular:cellular_concentration",
-      "target": "insdc.gcf:GCF_000015965.1",
-      "type": "MetaboliteAssayBelongsToOrganism"
-    },
-    {
-      "properties": {},
-      "source": "metabolite_assay:msystems.01261-22:metabolites_kegg_export_9313_extracellular:extracellular_concentration",
-      "target": "insdc.gcf:GCF_000011485.1",
       "type": "MetaboliteAssayBelongsToOrganism"
     },
     {
@@ -1364,31 +1496,31 @@
     {
       "properties": {},
       "source": "tcdb:1",
+      "target": "chebi:10074",
+      "type": "Tcdb_family_transports_metabolite"
+    },
+    {
+      "properties": {},
+      "source": "tcdb:1",
+      "target": "chebi:10208",
+      "type": "Tcdb_family_transports_metabolite"
+    },
+    {
+      "properties": {},
+      "source": "tcdb:1",
+      "target": "chebi:10426",
+      "type": "Tcdb_family_transports_metabolite"
+    },
+    {
+      "properties": {},
+      "source": "tcdb:1",
       "target": "chebi:11097",
       "type": "Tcdb_family_transports_metabolite"
     },
     {
       "properties": {},
       "source": "tcdb:1",
-      "target": "chebi:11169",
-      "type": "Tcdb_family_transports_metabolite"
-    },
-    {
-      "properties": {},
-      "source": "tcdb:1",
-      "target": "chebi:11685",
-      "type": "Tcdb_family_transports_metabolite"
-    },
-    {
-      "properties": {},
-      "source": "tcdb:1",
-      "target": "chebi:12975",
-      "type": "Tcdb_family_transports_metabolite"
-    },
-    {
-      "properties": {},
-      "source": "tcdb:1",
-      "target": "chebi:13633",
+      "target": "chebi:11148",
       "type": "Tcdb_family_transports_metabolite"
     },
     {
@@ -1722,7 +1854,7 @@
       "type": "Gene_in_gene_cluster"
     }
   ],
-  "generated_at": "2026-05-05T05:13:33.423826+00:00",
+  "generated_at": "2026-05-08T12:03:08.358769+00:00",
   "nodes": [
     {
       "anchor": true,
@@ -1960,6 +2092,27 @@
     },
     {
       "anchor": false,
+      "id": "doi:10.1002/pmic.201400562",
+      "label": "Publication",
+      "properties": {
+        "doi": "10.1002/pmic.201400562",
+        "experiment_count": 2,
+        "omics_types": [
+          "EXOPROTEOMICS"
+        ],
+        "organisms": [
+          "Ruegeria pomeroyi DSS-3",
+          "Synechococcus WH7803",
+          "Synechococcus WH8102"
+        ],
+        "title": "You produce while I clean up, a strategy revealed by exoproteomics during Synechococcus\u2013Roseobacter interactions",
+        "treatment_types": [
+          "coculture"
+        ]
+      }
+    },
+    {
+      "anchor": false,
       "id": "doi:10.1016/j.micres.2015.04.006",
       "label": "Publication",
       "properties": {
@@ -1974,6 +2127,25 @@
         "title": "Global transcriptome analysis of salt acclimated Prochlorococcus AS9601",
         "treatment_types": [
           "salt"
+        ]
+      }
+    },
+    {
+      "anchor": false,
+      "id": "doi:10.1021/pr060460c",
+      "label": "Publication",
+      "properties": {
+        "doi": "10.1021/pr060460c",
+        "experiment_count": 2,
+        "omics_types": [
+          "PROTEOMICS"
+        ],
+        "organisms": [
+          "Prochlorococcus MED4"
+        ],
+        "title": "A Quantitative Proteomic Analysis of Light Adaptation in a Globally Significant Marine Cyanobacterium Prochlorococcus marinus MED4",
+        "treatment_types": [
+          "light"
         ]
       }
     },
@@ -2020,20 +2192,33 @@
     },
     {
       "anchor": false,
-      "id": "doi:10.1038/ismej.2015.36",
-      "label": "Publication",
+      "id": "10.1002/pmic.201400562_dss3_exoproteome_with_wh7803",
+      "label": "Experiment",
       "properties": {
-        "doi": "10.1038/ismej.2015.36",
-        "experiment_count": 4,
-        "omics_types": [
-          "MICROARRAY"
-        ],
-        "organisms": [
-          "Prochlorococcus MED4"
-        ],
-        "title": "Response of Prochlorococcus to varying CO2:O2 ratios",
-        "treatment_types": [
-          "carbon"
+        "control": "",
+        "is_time_course": "false",
+        "name": "Ruegeria pomeroyi DSS-3 exoproteome in co-culture with Synechococcus WH7803",
+        "omics_type": "EXOPROTEOMICS",
+        "organism_name": "Ruegeria pomeroyi DSS-3",
+        "treatment": "Co-culture with Synechococcus sp. WH7803",
+        "treatment_type": [
+          "coculture"
+        ]
+      }
+    },
+    {
+      "anchor": false,
+      "id": "10.1002/pmic.201400562_dss3_exoproteome_with_wh8102",
+      "label": "Experiment",
+      "properties": {
+        "control": "",
+        "is_time_course": "false",
+        "name": "Ruegeria pomeroyi DSS-3 exoproteome in co-culture with Synechococcus WH8102",
+        "omics_type": "EXOPROTEOMICS",
+        "organism_name": "Ruegeria pomeroyi DSS-3",
+        "treatment": "Co-culture with Synechococcus sp. WH8102",
+        "treatment_type": [
+          "coculture"
         ]
       }
     },
@@ -2055,65 +2240,33 @@
     },
     {
       "anchor": false,
-      "id": "10.1038/ismej.2011.49_growth_medium_ironreplete_control_med4_med4_microarray",
+      "id": "10.1021/pr060460c_light_HL_vs_LL_med4_proteomics",
       "label": "Experiment",
       "properties": {
-        "control": "Iron starvation (MED4)",
+        "control": "Low light (20 umol photons m-2 s-1)",
         "is_time_course": "false",
-        "name": "MED4 Iron-replete control (MED4) vs Iron starvation (MED4) (MICROARRAY)",
-        "omics_type": "MICROARRAY",
+        "name": "MED4 proteomics: high light (100 uE) vs low light (20 uE) (iTRAQ)",
+        "omics_type": "PROTEOMICS",
         "organism_name": "Prochlorococcus MED4",
-        "treatment": "Iron-replete control (MED4)",
+        "treatment": "High light (100 umol photons m-2 s-1)",
         "treatment_type": [
-          "iron"
+          "light"
         ]
       }
     },
     {
       "anchor": false,
-      "id": "10.1038/ismej.2011.49_growth_medium_ironreplete_control_mit9313_mit9313_microarray",
+      "id": "10.1021/pr060460c_light_ML_vs_LL_med4_proteomics",
       "label": "Experiment",
       "properties": {
-        "control": "Iron starvation (MIT9313)",
+        "control": "Low light (20 umol photons m-2 s-1)",
         "is_time_course": "false",
-        "name": "MIT9313 Iron-replete control (MIT9313) vs Iron starvation (MIT9313) (MICROARRAY)",
-        "omics_type": "MICROARRAY",
-        "organism_name": "Prochlorococcus MIT9313",
-        "treatment": "Iron-replete control (MIT9313)",
-        "treatment_type": [
-          "iron"
-        ]
-      }
-    },
-    {
-      "anchor": false,
-      "id": "10.1038/ismej.2011.49_iron_iron_starvation_med4_med4_microarray_light",
-      "label": "Experiment",
-      "properties": {
-        "control": "Iron-replete control (MED4)",
-        "is_time_course": "true",
-        "name": "MED4 Iron starvation (MED4) vs Iron-replete control (MED4) (MICROARRAY)",
-        "omics_type": "MICROARRAY",
+        "name": "MED4 proteomics: medium light (60 uE) vs low light (20 uE) (iTRAQ)",
+        "omics_type": "PROTEOMICS",
         "organism_name": "Prochlorococcus MED4",
-        "treatment": "Iron starvation (MED4)",
+        "treatment": "Medium light (60 umol photons m-2 s-1)",
         "treatment_type": [
-          "iron"
-        ]
-      }
-    },
-    {
-      "anchor": false,
-      "id": "10.1038/ismej.2011.49_iron_iron_starvation_med4_med4_microarray_light_2",
-      "label": "Experiment",
-      "properties": {
-        "control": "Iron-replete control (MED4)",
-        "is_time_course": "false",
-        "name": "MED4 Iron starvation (MED4) vs Iron-replete control (MED4) (MICROARRAY)",
-        "omics_type": "MICROARRAY",
-        "organism_name": "Prochlorococcus MED4",
-        "treatment": "Iron starvation (MED4)",
-        "treatment_type": [
-          "iron"
+          "light"
         ]
       }
     },
@@ -2879,6 +3032,70 @@
     },
     {
       "anchor": false,
+      "id": "metabolite_assay:1462-2920.15834:s7_metabolites_cells_mit9312:relative_peak_area_biovolume_normalized",
+      "label": "MetaboliteAssay",
+      "properties": {
+        "aggregation_method": "pre_aggregated",
+        "compartment": "whole_cell",
+        "experiment_id": "10.1111/1462-2920.15834_cells_metabolomics_mit9312",
+        "metric_type": "relative_peak_area_biovolume_normalized",
+        "name": "MIT9312 whole-cell targeted metabolite relative peak area (biovolume-normalized)",
+        "omics_type": "METABOLOMICS",
+        "organism_name": "Prochlorococcus MIT9312",
+        "rankable": "true",
+        "value_kind": "numeric"
+      }
+    },
+    {
+      "anchor": false,
+      "id": "metabolite_assay:1462-2920.15834:s7_metabolites_cells_mit9313:relative_peak_area_biovolume_normalized",
+      "label": "MetaboliteAssay",
+      "properties": {
+        "aggregation_method": "pre_aggregated",
+        "compartment": "whole_cell",
+        "experiment_id": "10.1111/1462-2920.15834_cells_metabolomics_mit9313",
+        "metric_type": "relative_peak_area_biovolume_normalized",
+        "name": "MIT9313 whole-cell targeted metabolite relative peak area (biovolume-normalized)",
+        "omics_type": "METABOLOMICS",
+        "organism_name": "Prochlorococcus MIT9313",
+        "rankable": "true",
+        "value_kind": "numeric"
+      }
+    },
+    {
+      "anchor": false,
+      "id": "metabolite_assay:1462-2920.15834:s7_metabolites_vesicles_mit9312:relative_peak_area_biovolume_normalized",
+      "label": "MetaboliteAssay",
+      "properties": {
+        "aggregation_method": "pre_aggregated",
+        "compartment": "vesicle",
+        "experiment_id": "10.1111/1462-2920.15834_vesicle_metabolomics_mit9312",
+        "metric_type": "relative_peak_area_biovolume_normalized",
+        "name": "MIT9312 vesicle targeted metabolite relative peak area (biovolume-normalized)",
+        "omics_type": "METABOLOMICS",
+        "organism_name": "Prochlorococcus MIT9312",
+        "rankable": "true",
+        "value_kind": "numeric"
+      }
+    },
+    {
+      "anchor": false,
+      "id": "metabolite_assay:1462-2920.15834:s7_metabolites_vesicles_mit9313:relative_peak_area_biovolume_normalized",
+      "label": "MetaboliteAssay",
+      "properties": {
+        "aggregation_method": "pre_aggregated",
+        "compartment": "vesicle",
+        "experiment_id": "10.1111/1462-2920.15834_vesicle_metabolomics_mit9313",
+        "metric_type": "relative_peak_area_biovolume_normalized",
+        "name": "MIT9313 vesicle targeted metabolite relative peak area (biovolume-normalized)",
+        "omics_type": "METABOLOMICS",
+        "organism_name": "Prochlorococcus MIT9313",
+        "rankable": "true",
+        "value_kind": "numeric"
+      }
+    },
+    {
+      "anchor": false,
       "id": "metabolite_assay:msystems.01261-22:metabolites_kegg_export_0801_extracellular:extracellular_concentration",
       "label": "MetaboliteAssay",
       "properties": {
@@ -2889,54 +3106,6 @@
         "name": "MIT0801 extracellular metabolite concentration (mol/cell)",
         "omics_type": "METABOLOMICS",
         "organism_name": "Prochlorococcus MIT0801",
-        "rankable": "true",
-        "value_kind": "numeric"
-      }
-    },
-    {
-      "anchor": false,
-      "id": "metabolite_assay:msystems.01261-22:metabolites_kegg_export_0801_intracellular:cellular_concentration",
-      "label": "MetaboliteAssay",
-      "properties": {
-        "aggregation_method": "pre_aggregated",
-        "compartment": "whole_cell",
-        "experiment_id": "10.1128/msystems.01261-22_kujawinski_metabolomics_0801_whole_cell",
-        "metric_type": "cellular_concentration",
-        "name": "MIT0801 intracellular metabolite concentration (mol/cell)",
-        "omics_type": "METABOLOMICS",
-        "organism_name": "Prochlorococcus MIT0801",
-        "rankable": "true",
-        "value_kind": "numeric"
-      }
-    },
-    {
-      "anchor": false,
-      "id": "metabolite_assay:msystems.01261-22:metabolites_kegg_export_9301_extracellular:extracellular_concentration",
-      "label": "MetaboliteAssay",
-      "properties": {
-        "aggregation_method": "pre_aggregated",
-        "compartment": "extracellular",
-        "experiment_id": "10.1128/msystems.01261-22_kujawinski_metabolomics_9301_extracellular",
-        "metric_type": "extracellular_concentration",
-        "name": "MIT9301 extracellular metabolite concentration (mol/cell)",
-        "omics_type": "METABOLOMICS",
-        "organism_name": "Prochlorococcus MIT9301",
-        "rankable": "true",
-        "value_kind": "numeric"
-      }
-    },
-    {
-      "anchor": false,
-      "id": "metabolite_assay:msystems.01261-22:metabolites_kegg_export_9313_extracellular:extracellular_concentration",
-      "label": "MetaboliteAssay",
-      "properties": {
-        "aggregation_method": "pre_aggregated",
-        "compartment": "extracellular",
-        "experiment_id": "10.1128/msystems.01261-22_kujawinski_metabolomics_9313_extracellular",
-        "metric_type": "extracellular_concentration",
-        "name": "MIT9313 extracellular metabolite concentration (mol/cell)",
-        "omics_type": "METABOLOMICS",
-        "organism_name": "Prochlorococcus MIT9313",
         "rankable": "true",
         "value_kind": "numeric"
       }

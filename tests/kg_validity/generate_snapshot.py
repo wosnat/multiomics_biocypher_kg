@@ -201,8 +201,13 @@ EDGE_PROPERTIES = {
     "Gene_enables_molecular_function": [],
     # GO-GO hierarchy edges (label_as_edge in schema; BioCypher capitalizes first letter)
     "Biological_process_is_a_biological_process": [],
+    "Biological_process_part_of_biological_process": [],
+    "Biological_process_negatively_regulates_biological_process": [],
+    "Biological_process_positively_regulates_biological_process": [],
     "Cellular_component_is_a_cellular_component": [],
+    "Cellular_component_part_of_cellular_component": [],
     "Molecular_function_is_a_molecular_function": [],
+    "Molecular_function_part_of_molecular_function": [],
     # EC number edges (functional_annotation_adapter)
     "Ec_number_is_a_ec_number": [],
     "Gene_catalyzes_ec_number": [],
