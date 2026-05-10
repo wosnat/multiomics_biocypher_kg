@@ -111,30 +111,57 @@ from multiomics_kg.utils.tcdb_diamond import compute_egn_agreement
 
 
 def test_egn_agreement_confirms_identical():
-    assert compute_egn_agreement("1.A.11", "1.A.11") == "confirms"
-    assert compute_egn_agreement("1.A.11.1.5", "1.A.11.1.5") == "confirms"
+    assert compute_egn_agreement("1.A.11", ["1.A.11"]) == "confirms"
+    assert compute_egn_agreement("1.A.11.1.5", ["1.A.11.1.5"]) == "confirms"
 
 
 def test_egn_agreement_confirms_diamond_descendant():
     # eggNOG family-level, diamond a strict descendant — still confirms (consistent)
-    assert compute_egn_agreement("1.A.11.1.5", "1.A.11") == "refines"
-    assert compute_egn_agreement("1.A.11.1", "1.A.11") == "refines"
+    assert compute_egn_agreement("1.A.11.1.5", ["1.A.11"]) == "refines"
+    assert compute_egn_agreement("1.A.11.1", ["1.A.11"]) == "refines"
 
 
 def test_egn_agreement_extends_when_eggnog_missing():
     assert compute_egn_agreement("1.A.11.1.5", None) == "extends"
+    assert compute_egn_agreement("1.A.11.1.5", []) == "extends"
     assert compute_egn_agreement("1.A.11.1.5", "") == "extends"
 
 
 def test_egn_agreement_conflicts_different_family():
-    assert compute_egn_agreement("1.A.11.1.5", "2.A.7") == "conflicts"
-    assert compute_egn_agreement("1.A.11", "1.B.5") == "conflicts"
+    assert compute_egn_agreement("1.A.11.1.5", ["2.A.7"]) == "conflicts"
+    assert compute_egn_agreement("1.A.11", ["1.B.5"]) == "conflicts"
 
 
 def test_egn_agreement_eggnog_descendant_of_diamond_is_conflict():
     # Diamond at 3-part, eggNOG at 5-part below it. Same family — not a conflict;
     # this case is rare (eggNOG rarely emits 5-part) but treat as confirms.
-    assert compute_egn_agreement("1.A.11", "1.A.11.1.5") == "confirms"
+    assert compute_egn_agreement("1.A.11", ["1.A.11.1.5"]) == "confirms"
+
+
+def test_egn_agreement_accepts_legacy_string_form():
+    # Backward compat: callers passing a single str (not list) still work
+    assert compute_egn_agreement("1.A.11", "1.A.11") == "confirms"
+    assert compute_egn_agreement("1.A.11", "2.A.7") == "conflicts"
+
+
+def test_egn_agreement_multi_value_picks_best_match():
+    # MreB/MreBCD case: eggNOG carries both 1.A.33.1 (legacy Hsp70-channel call)
+    # and 9.B.157.1 (correct MreBCD-family call) for rod-shape-determining proteins.
+    # Diamond's 9.B.157.1 must be tagged `confirms`, not `conflicts`.
+    assert compute_egn_agreement("9.B.157.1", ["1.A.33.1", "9.B.157.1"]) == "confirms"
+    # Order shouldn't matter
+    assert compute_egn_agreement("9.B.157.1", ["9.B.157.1", "1.A.33.1"]) == "confirms"
+
+
+def test_egn_agreement_multi_value_refines_when_one_is_ancestor():
+    # eggNOG has both an unrelated TC and a family-level ancestor of diamond's call —
+    # `refines` wins over `conflicts` because it's the stronger match.
+    assert compute_egn_agreement("1.A.11.1.5", ["2.A.7", "1.A.11"]) == "refines"
+
+
+def test_egn_agreement_multi_value_all_conflict():
+    # Every eggNOG value disagrees at family level — still conflicts
+    assert compute_egn_agreement("1.A.11.1.5", ["2.A.7", "3.A.1"]) == "conflicts"
 
 
 from multiomics_kg.utils.tcdb_diamond import is_class_9
@@ -230,8 +257,8 @@ def test_load_eggnog_kegg_tc_extracts_per_protein_value(tmp_path):
 
     result = load_eggnog_kegg_tc(path)
     assert result == {
-        "WP_011131852.1": "1.A.11",
-        "WP_011131900.1": "1.A.11",
+        "WP_011131852.1": ["1.A.11"],
+        "WP_011131900.1": ["1.A.11"],
         # WP_NOTC.1 has KEGG_TC = "-" -> not in dict
     }
 
@@ -251,8 +278,8 @@ def test_load_eggnog_kegg_tc_skips_empty_or_dash_values(tmp_path):
     path = tmp_path / "x.emapper.annotations"
     path.write_text(content)
     result = load_eggnog_kegg_tc(path)
-    # Multi-value KEGG_TC: keep first one (rare; we don't try to merge)
-    assert result == {"WP_C.1": "1.A.11"}
+    # Multi-value KEGG_TC: keep ALL values; compute_egn_agreement picks the best match
+    assert result == {"WP_C.1": ["1.A.11", "3.A.1.27"]}
 
 
 from multiomics_kg.utils.tcdb_diamond import build_strain_calls
@@ -297,7 +324,7 @@ def test_build_strain_calls_full_pipeline(tmp_path):
     assert calls["WP_AAA.1"]["consensus_agreement"] == "5_part"
     assert calls["WP_AAA.1"]["consensus_n"] == 3
     assert calls["WP_AAA.1"]["egn_agreement"] == "refines"
-    assert calls["WP_AAA.1"]["egn_tcid"] == "1.A.11"
+    assert calls["WP_AAA.1"]["egn_tcids"] == ["1.A.11"]
     assert calls["WP_AAA.1"]["incompletely_characterized"] is False
 
     # WP_BBB.1: scattered hits -> rejected (not in calls)
@@ -314,7 +341,7 @@ def test_build_strain_calls_full_pipeline(tmp_path):
     assert calls["WP_DDD.1"]["tier"] == 3
     assert calls["WP_DDD.1"]["level_kind"] == "tc_family"
     assert calls["WP_DDD.1"]["egn_agreement"] == "conflicts"
-    assert calls["WP_DDD.1"]["egn_tcid"] == "9.A.1"
+    assert calls["WP_DDD.1"]["egn_tcids"] == ["9.A.1"]
 
     # WP_EEE.1: class 9 -> tagged; identity is high (80%) so still tier 1 — no demotion
     # despite class 9 (spec §6.4-C: "No demotion — let merge / downstream consumers decide")
@@ -381,3 +408,36 @@ def test_build_strain_calls_mixed_tier_hits_use_best_not_worst(tmp_path):
     assert calls["WP_GGG.1"]["qcov"] == 75.0
     # confidence: 0.75 * 0.75 * 0.85 (4_part) = 0.4781
     assert abs(calls["WP_GGG.1"]["confidence_score"] - 0.4781) < 1e-3
+
+
+def test_build_strain_calls_multi_value_eggnog_kegg_tc(tmp_path):
+    """Regression: eggNOG's KEGG_TC may carry multiple comma-separated values.
+    Diamond's call matching ANY of them must produce confirms/refines, not
+    conflicts. This was the MreB false-positive (~14% of phase-1 conflicts):
+    eggNOG's `1.A.33.1,9.B.157.1` for MreBCD-family proteins was being
+    misclassified as conflicts because only the first value was inspected.
+    """
+    tsv_content = (
+        # Strong consensus on 9.B.157.1 (MreBCD)
+        "WP_MREB.1\tlcl|Q1-9.B.157.1\t89.9\t100.0\t95.0\t340\t1e-180\t650\n"
+        "WP_MREB.1\tlcl|Q2-9.B.157.1\t85.0\t99.0\t94.0\t338\t1e-170\t620\n"
+    )
+    tsv = tmp_path / "mreb.tcdb.tsv"
+    tsv.write_text(tsv_content)
+
+    import textwrap
+    egn = tmp_path / "mreb.emapper.annotations"
+    egn.write_text(textwrap.dedent("""\
+        ## emapper-2.1.13
+        #query\tseed_ortholog\tevalue\tscore\teggNOG_OGs\tmax_annot_lvl\tCOG_category\tDescription\tPreferred_name\tGOs\tEC\tKEGG_ko\tKEGG_Pathway\tKEGG_Module\tKEGG_Reaction\tKEGG_rclass\tBRITE\tKEGG_TC\tCAZy\tBiGG_Reaction\tPFAMs
+        WP_MREB.1\tx\tx\tx\tx\tx\tD\tx\tmreB\t-\t-\tx\t-\t-\t-\t-\t-\t1.A.33.1,9.B.157.1\t-\t-\tMreB_Mbl
+        """))
+
+    calls, summary = build_strain_calls(tsv, egn)
+
+    assert calls["WP_MREB.1"]["tcid"] == "9.B.157.1"
+    assert calls["WP_MREB.1"]["egn_agreement"] == "confirms"
+    assert calls["WP_MREB.1"]["egn_tcids"] == ["1.A.33.1", "9.B.157.1"]
+    # Summary should reflect 1 confirm, 0 conflicts (the bug-era output had 1 conflict)
+    assert summary["agreement_distribution"]["confirms"] == 1
+    assert summary["agreement_distribution"]["conflicts"] == 0

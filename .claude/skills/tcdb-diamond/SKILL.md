@@ -88,7 +88,7 @@ Keyed by NCBI protein_id (WP_ accession):
     "consensus_n": 5,
     "consensus_agreement": "5_part",
     "egn_agreement": "refines",
-    "egn_tcid": "1.A.11",
+    "egn_tcids": ["1.A.11"],
     "incompletely_characterized": false
   }
 }
@@ -98,7 +98,8 @@ Field semantics:
 - `tier` (1/2/3) and `level_kind` (tc_specificity/tc_subfamily/tc_family) come from `effective_tier = max(best_hit_tier, depth_tier)` — the more conservative of the strongest hit's identity-tier and the consensus depth's tier. `tcid` is truncated to the parts justified by `effective_tier`.
 - `confidence_score` ∈ [0,1] = `(identity / 100) × (qcov / 100) × agreement_weight`, where agreement_weight is 1.0 / 0.85 / 0.7 for 5/4/3-part consensus. Continuous complement to the discrete `tier` for downstream thresholding.
 - `identity`, `qcov`, `scov`, `evalue`, `length` come from the **best (highest-identity)** hit, not the worst.
-- `egn_agreement` values: `confirms` (same TC) | `refines` (diamond deeper than eggNOG, same lineage) | `extends` (eggNOG had no TC) | `conflicts` (different family).
+- `egn_tcids` is a list because eggNOG's `KEGG_TC` field is multi-valued (comma-separated in source TSV) — e.g. MreB-family proteins carry `["1.A.33.1", "9.B.157.1"]`. Diamond matching ANY value yields `confirms` / `refines`; only ALL-disagree counts as `conflicts`.
+- `egn_agreement` values: `confirms` (any eggNOG TC matches diamond's family) | `refines` (any eggNOG TC is a strict ancestor of diamond's call) | `extends` (eggNOG had no TC) | `conflicts` (every eggNOG TC disagrees at family level).
 
 ## Phase 2 (Future)
 

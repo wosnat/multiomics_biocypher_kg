@@ -74,39 +74,65 @@ def consensus_collapse(hits: list[dict]) -> dict | None:
     return None
 
 
-def compute_egn_agreement(diamond_tcid: str, egn_tcid: str | None) -> str:
-    """Tag the relationship between the diamond call and eggNOG's KEGG_TC.
+_AGREEMENT_RANK = {"confirms": 0, "refines": 1, "conflicts": 2}
 
-    Returns one of: "confirms" | "refines" | "extends" | "conflicts".
-    `egn_only` (eggNOG TC present, diamond absent) is not produced here —
-    those proteins simply don't appear in the calls JSON in Phase 1.
 
-    Rules:
-      - confirms: identical TCIDs OR one is a strict prefix of the other
-        AT family level or below (first 3 parts match)
-      - refines: eggNOG TCID is a strict prefix of diamond TCID — same lineage,
-        diamond went deeper. Reported separately from confirms because this
-        is the headline specificity win.
-      - extends: eggNOG had no TC; diamond produced one
-      - conflicts: family-level (first 3 parts) disagrees
+def _pair_agreement(diamond_tcid: str, egn_tcid: str) -> str:
+    """Per-pair agreement between one diamond TCID and one eggNOG TCID.
+
+    Returns "confirms" | "refines" | "conflicts". Caller handles the
+    `extends` (no eggNOG values) case.
     """
-    if not egn_tcid:
-        return "extends"
     if diamond_tcid == egn_tcid:
         return "confirms"
 
     diamond_parts = diamond_tcid.split(".")
     egn_parts = egn_tcid.split(".")
 
-    # Family-level disagreement -> conflict
     if diamond_parts[:3] != egn_parts[:3]:
         return "conflicts"
 
-    # Same family. Diamond strictly deeper than eggNOG -> refines.
-    # eggNOG strictly deeper than diamond -> confirms (rare).
     if len(diamond_parts) > len(egn_parts) and diamond_parts[: len(egn_parts)] == egn_parts:
         return "refines"
     return "confirms"
+
+
+def compute_egn_agreement(diamond_tcid: str, egn_tcids: list[str] | str | None) -> str:
+    """Tag the relationship between the diamond call and eggNOG's KEGG_TC values.
+
+    eggNOG's KEGG_TC field is multi-valued (comma-separated in the source TSV)
+    — e.g. `1.A.33.1,9.B.157.1` for MreB-like proteins. The previous behavior
+    of inspecting only the first value misclassified diamond calls matching any
+    later value as `conflicts`. This function now considers ALL eggNOG values
+    and returns the strongest match.
+
+    Returns one of: "confirms" | "refines" | "extends" | "conflicts".
+    `egn_only` (eggNOG TC present, diamond absent) is not produced here —
+    those proteins simply don't appear in the calls JSON in Phase 1.
+
+    Rules (applied per-pair, then aggregated by best match):
+      - confirms: identical TCIDs OR one is a strict prefix of the other
+        AT family level or below (first 3 parts match)
+      - refines: eggNOG TCID is a strict prefix of diamond TCID — same lineage,
+        diamond went deeper. Reported separately from confirms because this
+        is the headline specificity win.
+      - extends: eggNOG had no TC values; diamond produced one
+      - conflicts: ALL eggNOG values disagree at family level (first 3 parts)
+
+    `egn_tcids` accepts a list, a single string (legacy), or None.
+    """
+    if egn_tcids is None or egn_tcids == "":
+        return "extends"
+    if isinstance(egn_tcids, str):
+        egn_tcids = [egn_tcids]
+    if not egn_tcids:
+        return "extends"
+
+    # Best (lowest-ranked) match wins: confirms > refines > conflicts
+    return min(
+        (_pair_agreement(diamond_tcid, e) for e in egn_tcids),
+        key=lambda a: _AGREEMENT_RANK[a],
+    )
 
 
 def is_class_9(tcid: str) -> bool:
@@ -167,19 +193,22 @@ def parse_tcdb_subject_id(subject_id: str) -> tuple[str, str] | None:
     return accession, tcid
 
 
-def load_eggnog_kegg_tc(annotations_path: Path) -> dict[str, str]:
-    """Read an eggNOG-mapper .emapper.annotations file -> {protein_id: kegg_tc}.
+def load_eggnog_kegg_tc(annotations_path: Path) -> dict[str, list[str]]:
+    """Read an eggNOG-mapper .emapper.annotations file -> {protein_id: [kegg_tc, ...]}.
+
+    eggNOG's KEGG_TC field is multi-valued (comma-separated). For example, the
+    rod shape-determining protein MreB carries `1.A.33.1,9.B.157.1` — both the
+    legacy Hsp70-cation-channel call and the correct MreBCD-family call. All
+    values are preserved so `compute_egn_agreement` can inspect each in turn.
 
     Returns an empty dict when the file is absent. Skips rows whose KEGG_TC
-    column is "-", empty, or missing. When KEGG_TC carries multiple values
-    (rare; comma-separated), only the first is returned (we do not attempt
-    to merge here — the merge happens in compute_egn_agreement at call time).
+    column is "-", empty, or missing.
     """
     annotations_path = Path(annotations_path)
     if not annotations_path.exists():
         return {}
 
-    result: dict[str, str] = {}
+    result: dict[str, list[str]] = {}
     KEGG_TC_COL = 17  # 0-indexed, post-emapper-v2.1 column order
 
     with open(annotations_path) as f:
@@ -195,10 +224,9 @@ def load_eggnog_kegg_tc(annotations_path: Path) -> dict[str, str]:
             kegg_tc_raw = cols[KEGG_TC_COL].strip()
             if not kegg_tc_raw or kegg_tc_raw == "-":
                 continue
-            # Multi-value: take first
-            kegg_tc = kegg_tc_raw.split(",")[0].strip()
-            if kegg_tc:
-                result[protein_id] = kegg_tc
+            tcs = [v.strip() for v in kegg_tc_raw.split(",") if v.strip()]
+            if tcs:
+                result[protein_id] = tcs
     return result
 
 
@@ -297,8 +325,8 @@ def build_strain_calls(
         # Best (highest-identity) hit drives the metadata fields
         best = max(hits, key=lambda h: h["identity"])
 
-        egn_tcid = egn_lookup.get(query_id)
-        agreement = compute_egn_agreement(called_tcid, egn_tcid)
+        egn_tcids = egn_lookup.get(query_id, [])
+        agreement = compute_egn_agreement(called_tcid, egn_tcids)
 
         calls[query_id] = {
             "tcid": called_tcid,
@@ -316,7 +344,7 @@ def build_strain_calls(
             "consensus_n": consensus["n"],
             "consensus_agreement": consensus["agreement"],
             "egn_agreement": agreement,
-            "egn_tcid": egn_tcid,
+            "egn_tcids": egn_tcids,
             "incompletely_characterized": is_class_9(called_tcid),
         }
 

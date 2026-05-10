@@ -1,6 +1,6 @@
 # TCDB-Diamond Augmentation — Design
 
-**Date:** 2026-05-10 (amended 2026-05-10 to match implementation: §3/§5/§6.1 — Python-native FASTA download + `diamond makedb`, no `extractTCDB.pl`; §6.4-A — `effective_tier = max(best_hit_tier, depth_tier)`; §6.5 — `confidence_score` field added)
+**Date:** 2026-05-10 (amended 2026-05-10 to match implementation: §3/§5/§6.1 — Python-native FASTA download + `diamond makedb`, no `extractTCDB.pl`; §6.4-A — `effective_tier = max(best_hit_tier, depth_tier)`; §6.4-B — multi-valued eggNOG `KEGG_TC` aggregation; §6.5 — `confidence_score` field added; `egn_tcid: str` → `egn_tcids: list[str]`)
 **Status:** Draft, pending real-data refinement
 **Related:** `cache/data/tcdb/{tcdb_hierarchy,tcdb_pruned}.json` (built by prepare_data step 6); `multiomics_kg/adapters/tcdb_adapter.py`; `multiomics_kg/download/build_gene_annotations.py`; `.claude/skills/eggnog-run/`; `.claude/skills/refresh-mnx/`.
 
@@ -166,15 +166,17 @@ confidence_score = (best_identity / 100) × (best_qcov / 100) × agreement_weigh
 
 with `agreement_weight = 1.0 / 0.85 / 0.7` for `5_part` / `4_part` / `3_part` consensus. Lets downstream consumers do their own thresholding without losing the underlying gradient. Range [0, 1], rounded to 4 decimals.
 
-**B — eggNOG agreement tag.** Look up the gene's existing eggNOG `KEGG_TC` value in `<strain>.emapper.annotations` and tag the diamond call:
+**B — eggNOG agreement tag.** Look up the gene's existing eggNOG `KEGG_TC` value(s) in `<strain>.emapper.annotations` and tag the diamond call. The `KEGG_TC` field is **multi-valued** (comma-separated in the source TSV) — e.g. MreB-family proteins carry `1.A.33.1,9.B.157.1` (the legacy Hsp70-cation-channel call plus the correct MreBCD-family call). All values are inspected; the strongest match wins.
 
 | Tag | Condition |
 |---|---|
-| `confirms` | diamond call is identical to eggNOG's TC, OR a strict descendant in the TC hierarchy |
-| `refines` | diamond call is a strict descendant of eggNOG's (e.g. eggNOG `1.A.11`, diamond `1.A.11.1.5`) — the headline specificity win |
-| `extends` | eggNOG had no TC; diamond produced one |
-| `conflicts` | diamond's family ≠ eggNOG's family (different first 3 parts) |
+| `confirms` | diamond call is identical to ANY eggNOG TC, OR a strict descendant of any eggNOG TC's family |
+| `refines` | diamond call is a strict descendant of ANY eggNOG TC (e.g. eggNOG `1.A.11`, diamond `1.A.11.1.5`) — the headline specificity win |
+| `extends` | eggNOG had no TC values; diamond produced one |
+| `conflicts` | EVERY eggNOG TC disagrees with diamond at family level (different first 3 parts) |
 | (`egn_only`) | not emitted in Phase 1 — only the diamond-side calls are recorded here; eggNOG-only genes are visible by their absence from the JSON |
+
+Aggregation across multi-valued eggNOG TCs uses precedence `confirms > refines > conflicts` — any single confirming or refining match overrides per-pair conflicts.
 
 **C — Class-9 tag.** TCDB class `9.*` = "Incompletely Characterized Transport Systems". Recorded as `incompletely_characterized: true` in the JSON. **No demotion** — let merge / downstream consumers decide.
 
@@ -203,7 +205,7 @@ Keyed by **NCBI protein_id (WP_ accession)** — same join key eggNOG uses, so a
     "consensus_n": 5,
     "consensus_agreement": "5_part",
     "egn_agreement": "refines",
-    "egn_tcid": "1.A.11",
+    "egn_tcids": ["1.A.11"],
     "incompletely_characterized": false
   }
 }
@@ -212,6 +214,7 @@ Keyed by **NCBI protein_id (WP_ accession)** — same join key eggNOG uses, so a
 - `tier` and `level_kind` reflect `effective_tier = max(best_hit_tier, depth_tier)` (§6.4-A); `tcid` is truncated to the parts justified by `effective_tier`.
 - `confidence_score` ∈ [0, 1] = `(identity / 100) × (qcov / 100) × agreement_weight` (§6.4-A).
 - `identity`, `qcov`, `scov`, `evalue`, `length` are from the **best (highest-identity)** hit in the consensus group.
+- `egn_tcids` is a list of all eggNOG `KEGG_TC` values for this protein (`[]` when eggNOG had no TC). Multi-valued because eggNOG's column is comma-separated; see §6.4-B for aggregation semantics.
 - `level_kind` mirrors the existing TCDB hierarchy vocabulary (`tc_class | tc_subclass | tc_family | tc_subfamily | tc_specificity`).
 
 ### 6.6 — Skill output summary (stdout)
