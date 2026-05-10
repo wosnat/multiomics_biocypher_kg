@@ -82,3 +82,52 @@ def build_tcdb_db(data_dir: Path, force: bool) -> Path:
         sys.exit(1)
 
     return dmnd
+
+
+def run_diamond(faa: Path, dmnd: Path, out_tsv: Path, threads: int, log_path: Path) -> bool:
+    """Run diamond blastp for one strain. Returns True on success.
+
+    Floor-only filtering at the diamond step: --evalue 0.001 only.
+    Identity / coverage tiering happens in build_strain_calls (Python).
+
+    Diamond's stdout + stderr are captured to `log_path` (overwritten on
+    each run). The terminal only sees one progress line per strain.
+    """
+    out_tsv.parent.mkdir(parents=True, exist_ok=True)
+    log_path.parent.mkdir(parents=True, exist_ok=True)
+    cmd = [
+        "diamond", "blastp",
+        "-q", str(faa),
+        "-d", str(dmnd),
+        "-o", str(out_tsv),
+        "--outfmt", "6", "qseqid", "sseqid", "pident",
+        "qcovhsp", "scovhsp", "length", "evalue", "bitscore",
+        "--evalue", "0.001",
+        "--max-target-seqs", "5",
+        "--more-sensitive",
+        "--threads", str(threads),
+    ]
+    print(f"\n>>> diamond blastp {faa.name} → {out_tsv} (log: {log_path.relative_to(REPO_ROOT)})")
+    with open(log_path, "w") as logf:
+        logf.write(f"$ {' '.join(cmd)}\n\n")
+        logf.flush()
+        result = subprocess.run(cmd, stdout=logf, stderr=subprocess.STDOUT)
+    return result.returncode == 0
+
+
+def truncate_faa(faa: Path, n_proteins: int, dest: Path) -> Path:
+    """Copy the first N sequences of a FASTA to `dest`. Returns dest.
+
+    Used by the --limit flag for fast end-to-end smoke tests against a small
+    subset of one strain's proteome (~10-30s instead of ~5min).
+    """
+    dest.parent.mkdir(parents=True, exist_ok=True)
+    with open(faa) as src, open(dest, "w") as out:
+        seen = 0
+        for line in src:
+            if line.startswith(">"):
+                seen += 1
+                if seen > n_proteins:
+                    break
+            out.write(line)
+    return dest
