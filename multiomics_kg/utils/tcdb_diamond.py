@@ -110,3 +110,27 @@ def is_class_9(tcid: str) -> bool:
     if not tcid:
         return False
     return tcid.split(".", 1)[0] == "9"
+
+
+def parse_diamond_row(line: str) -> dict | None:
+    """Parse one diamond blastp output line (--outfmt 6, 8 columns) to a dict.
+
+    Returns None when the row is malformed (wrong column count, non-numeric
+    field). Caller is responsible for further filtering / classification.
+    """
+    parts = line.rstrip("\n").split("\t")
+    if len(parts) < 8:
+        return None
+    try:
+        return {
+            "query_id": parts[0],
+            "subject_id": parts[1],
+            "identity": float(parts[2]),
+            "qcov": float(parts[3]),
+            "scov": float(parts[4]),
+            "length": int(parts[5]),
+            "evalue": float(parts[6]),
+            "bitscore": float(parts[7]),
+        }
+    except ValueError:
+        return None

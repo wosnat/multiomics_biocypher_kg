@@ -154,3 +154,29 @@ def test_is_class_9_excludes_other_classes():
 
 def test_is_class_9_handles_empty():
     assert is_class_9("") is False
+
+
+from multiomics_kg.utils.tcdb_diamond import parse_diamond_row
+
+
+def test_parse_diamond_row_extracts_typed_fields():
+    line = "WP_011131900.1\tlcl|Q9I3F6-1.A.11.1.5\t87.4\t92.1\t89.7\t412\t1.2e-180\t650.5"
+    row = parse_diamond_row(line)
+    assert row["query_id"] == "WP_011131900.1"
+    assert row["subject_id"] == "lcl|Q9I3F6-1.A.11.1.5"
+    assert row["identity"] == 87.4
+    assert row["qcov"] == 92.1
+    assert row["scov"] == 89.7
+    assert row["length"] == 412
+    assert row["evalue"] == 1.2e-180
+    assert row["bitscore"] == 650.5
+
+
+def test_parse_diamond_row_returns_none_for_short_line():
+    assert parse_diamond_row("only\ttwo\tcolumns") is None
+    assert parse_diamond_row("") is None
+
+
+def test_parse_diamond_row_returns_none_for_invalid_numeric():
+    line = "WP_111.1\tlcl|X-1.A\tNOT_A_NUMBER\t90\t90\t100\t1e-10\t300"
+    assert parse_diamond_row(line) is None
