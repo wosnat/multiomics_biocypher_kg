@@ -105,3 +105,33 @@ def test_consensus_single_hit_keeps_5_part():
 
 def test_consensus_empty_input_returns_none():
     assert consensus_collapse([]) is None
+
+
+from multiomics_kg.utils.tcdb_diamond import compute_egn_agreement
+
+
+def test_egn_agreement_confirms_identical():
+    assert compute_egn_agreement("1.A.11", "1.A.11") == "confirms"
+    assert compute_egn_agreement("1.A.11.1.5", "1.A.11.1.5") == "confirms"
+
+
+def test_egn_agreement_confirms_diamond_descendant():
+    # eggNOG family-level, diamond a strict descendant — still confirms (consistent)
+    assert compute_egn_agreement("1.A.11.1.5", "1.A.11") == "refines"
+    assert compute_egn_agreement("1.A.11.1", "1.A.11") == "refines"
+
+
+def test_egn_agreement_extends_when_eggnog_missing():
+    assert compute_egn_agreement("1.A.11.1.5", None) == "extends"
+    assert compute_egn_agreement("1.A.11.1.5", "") == "extends"
+
+
+def test_egn_agreement_conflicts_different_family():
+    assert compute_egn_agreement("1.A.11.1.5", "2.A.7") == "conflicts"
+    assert compute_egn_agreement("1.A.11", "1.B.5") == "conflicts"
+
+
+def test_egn_agreement_eggnog_descendant_of_diamond_is_conflict():
+    # Diamond at 3-part, eggNOG at 5-part below it. Same family — not a conflict;
+    # this case is rare (eggNOG rarely emits 5-part) but treat as confirms.
+    assert compute_egn_agreement("1.A.11", "1.A.11.1.5") == "confirms"

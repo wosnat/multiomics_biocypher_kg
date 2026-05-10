@@ -68,3 +68,38 @@ def consensus_collapse(hits: list[dict]) -> dict | None:
                 "n": len(hits),
             }
     return None
+
+
+def compute_egn_agreement(diamond_tcid: str, egn_tcid: str | None) -> str:
+    """Tag the relationship between the diamond call and eggNOG's KEGG_TC.
+
+    Returns one of: "confirms" | "refines" | "extends" | "conflicts".
+    `egn_only` (eggNOG TC present, diamond absent) is not produced here —
+    those proteins simply don't appear in the calls JSON in Phase 1.
+
+    Rules:
+      - confirms: identical TCIDs OR one is a strict prefix of the other
+        AT family level or below (first 3 parts match)
+      - refines: eggNOG TCID is a strict prefix of diamond TCID — same lineage,
+        diamond went deeper. Reported separately from confirms because this
+        is the headline specificity win.
+      - extends: eggNOG had no TC; diamond produced one
+      - conflicts: family-level (first 3 parts) disagrees
+    """
+    if not egn_tcid:
+        return "extends"
+    if diamond_tcid == egn_tcid:
+        return "confirms"
+
+    diamond_parts = diamond_tcid.split(".")
+    egn_parts = egn_tcid.split(".")
+
+    # Family-level disagreement -> conflict
+    if diamond_parts[:3] != egn_parts[:3]:
+        return "conflicts"
+
+    # Same family. Diamond strictly deeper than eggNOG -> refines.
+    # eggNOG strictly deeper than diamond -> confirms (rare).
+    if len(diamond_parts) > len(egn_parts) and diamond_parts[: len(egn_parts)] == egn_parts:
+        return "refines"
+    return "confirms"
