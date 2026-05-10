@@ -208,6 +208,25 @@ _TIER_TO_LEVEL_KIND = {
     3: "tc_family",
 }
 _AGREEMENT_TO_PARTS = {"5_part": 5, "4_part": 4, "3_part": 3}
+# Down-weight scores when consensus is shallower — agreement at full depth
+# is the strongest evidence; agreement only at family level is weakest.
+_AGREEMENT_WEIGHT = {"5_part": 1.0, "4_part": 0.85, "3_part": 0.7}
+
+
+def confidence_score(identity: float, qcov: float, agreement: str) -> float:
+    """Continuous 0-1 confidence summary for a TCDB call.
+
+    ``score = (identity / 100) * (qcov / 100) * agreement_weight``
+
+    A complement to the discrete `tier` field: tier buckets calls into
+    {1, 2, 3} for policy decisions; the score lets downstream consumers do
+    their own thresholding without losing the underlying gradient.
+
+    Inputs are taken from the BEST hit's identity + qcov (since the call's
+    sequence-evidence is anchored to that hit), multiplied by the agreement
+    weight (1.0 / 0.85 / 0.7 for 5/4/3-part consensus).
+    """
+    return (identity / 100.0) * (qcov / 100.0) * _AGREEMENT_WEIGHT[agreement]
 
 
 def build_strain_calls(
@@ -260,16 +279,17 @@ def build_strain_calls(
             rejected += 1
             continue
 
-        # Consensus depth tells us how many TCID parts agree across hits.
-        # The effective tier is the MORE CONSERVATIVE of:
-        #   - depth-implied tier (5-part=1, 4-part=2, 3-part=3)
-        #   - worst (most conservative) per-hit tier
-        # This ensures a single tier-2 hit is never promoted to tier-1 level
-        # even when it happens to hit a unique 5-part TCID.
+        # Effective tier combines two signals via max(...) — the more
+        # conservative wins:
+        #   - depth_tier (5-part=1, 4-part=2, 3-part=3): consensus depth
+        #     determines how confident the prefix is
+        #   - best_tier: identity-based tier of the strongest hit
+        # Using best_tier (not worst_tier) honors the strongest evidence;
+        # consensus_collapse has already gated weak hits at the floor.
         n_parts = _AGREEMENT_TO_PARTS[consensus["agreement"]]
-        worst_tier = max(h["tier"] for h in hits)
+        best_tier = min(h["tier"] for h in hits)
         depth_tier = {5: 1, 4: 2, 3: 3}[n_parts]
-        effective_tier = max(worst_tier, depth_tier)
+        effective_tier = max(best_tier, depth_tier)
         # Truncate TCID to the parts justified by effective_tier (not consensus depth)
         effective_n_parts = {1: 5, 2: 4, 3: 3}[effective_tier]
         called_tcid = truncate_tcid(consensus["tcid"], effective_n_parts)
@@ -284,6 +304,10 @@ def build_strain_calls(
             "tcid": called_tcid,
             "level_kind": _TIER_TO_LEVEL_KIND[effective_tier],
             "tier": effective_tier,
+            "confidence_score": round(
+                confidence_score(best["identity"], best["qcov"], consensus["agreement"]),
+                4,
+            ),
             "identity": best["identity"],
             "qcov": best["qcov"],
             "scov": best["scov"],

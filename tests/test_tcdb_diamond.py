@@ -327,6 +327,16 @@ def test_build_strain_calls_full_pipeline(tmp_path):
     # WP_FFF.1: floor failure -> not in calls
     assert "WP_FFF.1" not in calls
 
+    # confidence_score: (best identity / 100) * (best qcov / 100) * agreement_weight
+    #   WP_AAA.1: 0.874 * 0.921 * 1.0 (5_part) ≈ 0.8050
+    #   WP_CCC.1: 0.50  * 0.65  * 1.0 (5_part) = 0.3250
+    #   WP_DDD.1: 0.30  * 0.45  * 1.0 (5_part) = 0.1350
+    #   WP_EEE.1: 0.80  * 0.85  * 1.0 (5_part) = 0.6800
+    assert abs(calls["WP_AAA.1"]["confidence_score"] - 0.8050) < 1e-3
+    assert abs(calls["WP_CCC.1"]["confidence_score"] - 0.3250) < 1e-3
+    assert abs(calls["WP_DDD.1"]["confidence_score"] - 0.1350) < 1e-3
+    assert abs(calls["WP_EEE.1"]["confidence_score"] - 0.6800) < 1e-3
+
     # Summary
     assert summary["raw_hit_lines"] == 9
     assert summary["proteins_with_call"] == 4
@@ -337,3 +347,37 @@ def test_build_strain_calls_full_pipeline(tmp_path):
     assert summary["agreement_distribution"]["extends"] == 2
     assert summary["agreement_distribution"]["conflicts"] == 1
     assert summary["agreement_distribution"]["confirms"] == 0
+
+
+def test_build_strain_calls_mixed_tier_hits_use_best_not_worst(tmp_path):
+    """When top-N hits agree at consensus depth but vary in identity, the
+    BEST hit's tier drives effective_tier (not the worst). Coupled with the
+    consensus-depth floor via max(...), this gives the more informative call
+    when strong evidence exists for the family but the top-N includes a weak
+    homolog at the floor.
+    """
+    # 3 hits all agree at 4-part 1.A.11.1 (disagree at 5-part):
+    #   - hit 1: identity 75%, qcov 75% -> tier 1 (>=70/>=70)
+    #   - hit 2: identity 50%, qcov 65% -> tier 2
+    #   - hit 3: identity 30%, qcov 45% -> tier 3 (floor only)
+    # Old rule (worst_tier): max(3, 2) -> tier 3 -> 3-part 1.A.11
+    # New rule (best_tier):  max(1, 2) -> tier 2 -> 4-part 1.A.11.1
+    tsv_content = (
+        "WP_GGG.1\tlcl|Q10-1.A.11.1.5\t75.0\t75.0\t60.0\t300\t1e-100\t450\n"
+        "WP_GGG.1\tlcl|Q11-1.A.11.1.7\t50.0\t65.0\t60.0\t300\t1e-50\t300\n"
+        "WP_GGG.1\tlcl|Q12-1.A.11.1.9\t30.0\t45.0\t30.0\t150\t1e-10\t120\n"
+    )
+    tsv = tmp_path / "test.tcdb.tsv"
+    tsv.write_text(tsv_content)
+    egn = tmp_path / "missing.emapper.annotations"  # no eggNOG file
+
+    calls, _ = build_strain_calls(tsv, egn)
+
+    assert calls["WP_GGG.1"]["tier"] == 2
+    assert calls["WP_GGG.1"]["tcid"] == "1.A.11.1"
+    assert calls["WP_GGG.1"]["level_kind"] == "tc_subfamily"
+    # Best hit (75%/75%) drives metadata + score
+    assert calls["WP_GGG.1"]["identity"] == 75.0
+    assert calls["WP_GGG.1"]["qcov"] == 75.0
+    # confidence: 0.75 * 0.75 * 0.85 (4_part) = 0.4781
+    assert abs(calls["WP_GGG.1"]["confidence_score"] - 0.4781) < 1e-3
