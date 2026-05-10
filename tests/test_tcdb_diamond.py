@@ -135,3 +135,22 @@ def test_egn_agreement_eggnog_descendant_of_diamond_is_conflict():
     # Diamond at 3-part, eggNOG at 5-part below it. Same family — not a conflict;
     # this case is rare (eggNOG rarely emits 5-part) but treat as confirms.
     assert compute_egn_agreement("1.A.11", "1.A.11.1.5") == "confirms"
+
+
+from multiomics_kg.utils.tcdb_diamond import is_class_9
+
+
+def test_is_class_9_matches_top_class():
+    assert is_class_9("9.B.82.1.5") is True
+    assert is_class_9("9.A.1") is True
+    assert is_class_9("9") is True
+
+
+def test_is_class_9_excludes_other_classes():
+    assert is_class_9("1.A.11.1.5") is False
+    assert is_class_9("8.A.1") is False  # auxiliary, not incompletely characterized
+    assert is_class_9("19.A.1") is False  # not real but tests prefix matching
+
+
+def test_is_class_9_handles_empty():
+    assert is_class_9("") is False

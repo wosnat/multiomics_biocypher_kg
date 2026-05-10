@@ -103,3 +103,10 @@ def compute_egn_agreement(diamond_tcid: str, egn_tcid: str | None) -> str:
     if len(diamond_parts) > len(egn_parts) and diamond_parts[: len(egn_parts)] == egn_parts:
         return "refines"
     return "confirms"
+
+
+def is_class_9(tcid: str) -> bool:
+    """True iff TCID is in TCDB class 9 (Incompletely Characterized Transport Systems)."""
+    if not tcid:
+        return False
+    return tcid.split(".", 1)[0] == "9"
