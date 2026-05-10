@@ -316,10 +316,13 @@ def test_build_strain_calls_full_pipeline(tmp_path):
     assert calls["WP_DDD.1"]["egn_agreement"] == "conflicts"
     assert calls["WP_DDD.1"]["egn_tcid"] == "9.A.1"
 
-    # WP_EEE.1: class 9 -> tagged
+    # WP_EEE.1: class 9 -> tagged; identity is high (80%) so still tier 1 — no demotion
+    # despite class 9 (spec §6.4-C: "No demotion — let merge / downstream consumers decide")
     assert calls["WP_EEE.1"]["tcid"] == "9.B.82.1.5"
     assert calls["WP_EEE.1"]["incompletely_characterized"] is True
     assert calls["WP_EEE.1"]["egn_agreement"] == "extends"
+    assert calls["WP_EEE.1"]["tier"] == 1
+    assert calls["WP_EEE.1"]["level_kind"] == "tc_specificity"
 
     # WP_FFF.1: floor failure -> not in calls
     assert "WP_FFF.1" not in calls
@@ -328,7 +331,8 @@ def test_build_strain_calls_full_pipeline(tmp_path):
     assert summary["raw_hit_lines"] == 9
     assert summary["proteins_with_call"] == 4
     assert summary["proteins_rejected_by_consensus"] == 1
-    assert summary["tier_distribution"] == {"1": 1, "2": 1, "3": 2}
+    # WP_EEE.1 is tier 1 (high identity 80%, no class-9 demotion per spec §6.4-C)
+    assert summary["tier_distribution"] == {"1": 2, "2": 1, "3": 1}
     assert summary["agreement_distribution"]["refines"] == 1
     assert summary["agreement_distribution"]["extends"] == 2
     assert summary["agreement_distribution"]["conflicts"] == 1

@@ -280,12 +280,6 @@ def build_strain_calls(
         egn_tcid = egn_lookup.get(query_id)
         agreement = compute_egn_agreement(called_tcid, egn_tcid)
 
-        # Class 9 (Incompletely Characterized) hits are capped at tier 3 —
-        # identity may be high but the TCDB assignment itself is uncertain.
-        # The TCID depth is kept (no truncation); only the confidence tier is lowered.
-        if is_class_9(called_tcid):
-            effective_tier = 3
-
         calls[query_id] = {
             "tcid": called_tcid,
             "level_kind": _TIER_TO_LEVEL_KIND[effective_tier],
