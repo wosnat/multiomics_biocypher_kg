@@ -1,0 +1,16 @@
+{
+  "raw_hit_lines": 1234,
+  "proteins_with_hits": 345,
+  "proteins_with_call": 289,
+  "proteins_rejected_by_consensus": 56,
+  "tier_distribution": {
+    "2": 87,
+    "3": 202
+  },
+  "agreement_distribution": {
+    "confirms": 91,
+    "refines": 4,
+    "extends": 187,
+    "conflicts": 7
+  }
+}
