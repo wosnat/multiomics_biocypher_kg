@@ -65,3 +65,43 @@ def test_classify_handles_boundary_values_inclusively():
     assert classify_hit(_hit(70.0, 70.0, 0.0)) == 1
     assert classify_hit(_hit(40.0, 60.0, 0.0)) == 2
     assert classify_hit(_hit(0.0, 40.0, 0.0)) == 3
+
+
+from multiomics_kg.utils.tcdb_diamond import consensus_collapse
+
+
+def test_consensus_all_agree_at_5_part():
+    hits = [{"tcid": "1.A.11.1.5"}, {"tcid": "1.A.11.1.5"}, {"tcid": "1.A.11.1.5"}]
+    result = consensus_collapse(hits)
+    assert result == {"tcid": "1.A.11.1.5", "agreement": "5_part", "n": 3}
+
+
+def test_consensus_demote_to_4_part():
+    # 4-part agreement, disagreement at position 5
+    hits = [{"tcid": "1.A.11.1.5"}, {"tcid": "1.A.11.1.7"}]
+    result = consensus_collapse(hits)
+    assert result == {"tcid": "1.A.11.1", "agreement": "4_part", "n": 2}
+
+
+def test_consensus_demote_to_3_part():
+    # 3-part agreement only
+    hits = [{"tcid": "1.A.11.1.5"}, {"tcid": "1.A.11.2.3"}]
+    result = consensus_collapse(hits)
+    assert result == {"tcid": "1.A.11", "agreement": "3_part", "n": 2}
+
+
+def test_consensus_reject_below_3_part_agreement():
+    # Different families
+    hits = [{"tcid": "1.A.11.1.5"}, {"tcid": "2.A.7.4.3"}]
+    result = consensus_collapse(hits)
+    assert result is None
+
+
+def test_consensus_single_hit_keeps_5_part():
+    hits = [{"tcid": "1.A.11.1.5"}]
+    result = consensus_collapse(hits)
+    assert result == {"tcid": "1.A.11.1.5", "agreement": "5_part", "n": 1}
+
+
+def test_consensus_empty_input_returns_none():
+    assert consensus_collapse([]) is None

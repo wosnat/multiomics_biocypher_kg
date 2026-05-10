@@ -42,3 +42,29 @@ def truncate_tcid(tcid: str, n_parts: int) -> str:
         return ""
     parts = tcid.split(".")
     return ".".join(parts[:n_parts])
+
+
+def consensus_collapse(hits: list[dict]) -> dict | None:
+    """Collapse a list of hits (one query, top-N TCDB hits) into a per-protein call.
+
+    Returns None when fewer than 3 leading parts agree across all hits.
+    The returned dict has keys: tcid (str), agreement ("5_part" | "4_part" | "3_part"),
+    n (number of hits considered).
+
+    All hits are assumed to carry 5-part TCIDs (TCDB curates only at the
+    tc_specificity leaves), so dot-prefix comparison is well-defined.
+    """
+    if not hits:
+        return None
+    parts_lists = [h["tcid"].split(".") for h in hits]
+
+    for depth in (5, 4, 3):
+        prefixes = {tuple(p[:depth]) for p in parts_lists}
+        if len(prefixes) == 1:
+            shared = parts_lists[0][:depth]
+            return {
+                "tcid": ".".join(shared),
+                "agreement": f"{depth}_part",
+                "n": len(hits),
+            }
+    return None
