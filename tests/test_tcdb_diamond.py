@@ -253,3 +253,83 @@ def test_load_eggnog_kegg_tc_skips_empty_or_dash_values(tmp_path):
     result = load_eggnog_kegg_tc(path)
     # Multi-value KEGG_TC: keep first one (rare; we don't try to merge)
     assert result == {"WP_C.1": "1.A.11"}
+
+
+from multiomics_kg.utils.tcdb_diamond import build_strain_calls
+
+
+def test_build_strain_calls_full_pipeline(tmp_path):
+    tsv_content = (
+        # 5 strong identical hits -> tier 1 5-part call
+        "WP_AAA.1\tlcl|Q1-1.A.11.1.5\t87.4\t92.1\t89.7\t412\t1e-180\t650\n"
+        "WP_AAA.1\tlcl|Q2-1.A.11.1.5\t86.0\t91.0\t88.0\t410\t1e-179\t640\n"
+        "WP_AAA.1\tlcl|Q3-1.A.11.1.5\t85.0\t90.0\t87.0\t408\t1e-178\t630\n"
+        # Hits scattered across families -> reject (consensus < 3-part)
+        "WP_BBB.1\tlcl|Q4-1.A.11.1.5\t75.0\t75.0\t60.0\t300\t1e-100\t450\n"
+        "WP_BBB.1\tlcl|Q5-2.A.7.4.3\t72.0\t73.0\t60.0\t300\t1e-95\t440\n"
+        # Single hit, mid identity -> tier 2 with 4-part TCID
+        "WP_CCC.1\tlcl|Q6-1.A.11.1.5\t50.0\t65.0\t40.0\t250\t1e-50\t300\n"
+        # Single hit, low identity passing tier 3 floor -> tier 3 with 3-part
+        "WP_DDD.1\tlcl|Q7-1.A.11.1.5\t30.0\t45.0\t30.0\t150\t1e-10\t120\n"
+        # Class 9 hit -> tagged
+        "WP_EEE.1\tlcl|Q8-9.B.82.1.5\t80.0\t85.0\t75.0\t300\t1e-150\t500\n"
+        # Hit failing the floor -> dropped
+        "WP_FFF.1\tlcl|Q9-1.A.11.1.5\t30.0\t30.0\t30.0\t150\t1e-10\t100\n"
+    )
+    tsv = tmp_path / "test.tcdb.tsv"
+    tsv.write_text(tsv_content)
+
+    egn_content = textwrap.dedent("""\
+        ## emapper-2.1.13
+        #query\tseed_ortholog\tevalue\tscore\teggNOG_OGs\tmax_annot_lvl\tCOG_category\tDescription\tPreferred_name\tGOs\tEC\tKEGG_ko\tKEGG_Pathway\tKEGG_Module\tKEGG_Reaction\tKEGG_rclass\tBRITE\tKEGG_TC\tCAZy\tBiGG_Reaction\tPFAMs
+        WP_AAA.1\tx\tx\tx\tx\tx\tS\tx\tx\t-\t-\tx\t-\t-\t-\t-\t-\t1.A.11\t-\t-\t-
+        WP_DDD.1\tx\tx\tx\tx\tx\tS\tx\tx\t-\t-\tx\t-\t-\t-\t-\t-\t9.A.1\t-\t-\t-
+        """)
+    egn = tmp_path / "test.emapper.annotations"
+    egn.write_text(egn_content)
+
+    calls, summary = build_strain_calls(tsv, egn)
+
+    # WP_AAA.1: 3 strong consensus hits at 5-part -> tier 1 specificity, refines eggNOG
+    assert calls["WP_AAA.1"]["tcid"] == "1.A.11.1.5"
+    assert calls["WP_AAA.1"]["tier"] == 1
+    assert calls["WP_AAA.1"]["level_kind"] == "tc_specificity"
+    assert calls["WP_AAA.1"]["consensus_agreement"] == "5_part"
+    assert calls["WP_AAA.1"]["consensus_n"] == 3
+    assert calls["WP_AAA.1"]["egn_agreement"] == "refines"
+    assert calls["WP_AAA.1"]["egn_tcid"] == "1.A.11"
+    assert calls["WP_AAA.1"]["incompletely_characterized"] is False
+
+    # WP_BBB.1: scattered hits -> rejected (not in calls)
+    assert "WP_BBB.1" not in calls
+
+    # WP_CCC.1: single tier-2 hit -> 4-part subfamily
+    assert calls["WP_CCC.1"]["tcid"] == "1.A.11.1"
+    assert calls["WP_CCC.1"]["tier"] == 2
+    assert calls["WP_CCC.1"]["level_kind"] == "tc_subfamily"
+    assert calls["WP_CCC.1"]["egn_agreement"] == "extends"
+
+    # WP_DDD.1: tier 3 -> 3-part family; eggNOG conflict (different family)
+    assert calls["WP_DDD.1"]["tcid"] == "1.A.11"
+    assert calls["WP_DDD.1"]["tier"] == 3
+    assert calls["WP_DDD.1"]["level_kind"] == "tc_family"
+    assert calls["WP_DDD.1"]["egn_agreement"] == "conflicts"
+    assert calls["WP_DDD.1"]["egn_tcid"] == "9.A.1"
+
+    # WP_EEE.1: class 9 -> tagged
+    assert calls["WP_EEE.1"]["tcid"] == "9.B.82.1.5"
+    assert calls["WP_EEE.1"]["incompletely_characterized"] is True
+    assert calls["WP_EEE.1"]["egn_agreement"] == "extends"
+
+    # WP_FFF.1: floor failure -> not in calls
+    assert "WP_FFF.1" not in calls
+
+    # Summary
+    assert summary["raw_hit_lines"] == 9
+    assert summary["proteins_with_call"] == 4
+    assert summary["proteins_rejected_by_consensus"] == 1
+    assert summary["tier_distribution"] == {"1": 1, "2": 1, "3": 2}
+    assert summary["agreement_distribution"]["refines"] == 1
+    assert summary["agreement_distribution"]["extends"] == 2
+    assert summary["agreement_distribution"]["conflicts"] == 1
+    assert summary["agreement_distribution"]["confirms"] == 0

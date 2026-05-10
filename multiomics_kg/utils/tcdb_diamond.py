@@ -7,6 +7,7 @@ Pure Python — no filesystem or subprocess. The orchestrator in
 from __future__ import annotations
 
 import re
+from collections import defaultdict
 from pathlib import Path
 
 
@@ -199,3 +200,123 @@ def load_eggnog_kegg_tc(annotations_path: Path) -> dict[str, str]:
             if kegg_tc:
                 result[protein_id] = kegg_tc
     return result
+
+
+_TIER_TO_LEVEL_KIND = {
+    1: "tc_specificity",
+    2: "tc_subfamily",
+    3: "tc_family",
+}
+_AGREEMENT_TO_PARTS = {"5_part": 5, "4_part": 4, "3_part": 3}
+
+
+def build_strain_calls(
+    tsv_path: Path,
+    eggnog_annotations_path: Path,
+) -> tuple[dict, dict]:
+    """Run the full per-strain pipeline: parse TSV, classify, consensus, tag.
+
+    Returns (calls, summary):
+      calls: dict keyed by protein_id with the full §6.5 record shape
+      summary: dict with raw counts (matches §6.6 stdout columns)
+    """
+    egn_lookup = load_eggnog_kegg_tc(Path(eggnog_annotations_path))
+
+    # Group accepted (tier-classified) hits per query
+    by_query: dict[str, list[dict]] = defaultdict(list)
+    raw_lines = 0
+    with open(tsv_path) as f:
+        for line in f:
+            line = line.strip()
+            if not line:
+                continue
+            raw_lines += 1
+            row = parse_diamond_row(line)
+            if row is None:
+                continue
+            tier = classify_hit(row)
+            if tier is None:
+                continue
+            parsed = parse_tcdb_subject_id(row["subject_id"])
+            if parsed is None:
+                continue
+            _, hit_tcid = parsed
+            by_query[row["query_id"]].append({
+                "tcid": hit_tcid,
+                "tier": tier,
+                "identity": row["identity"],
+                "qcov": row["qcov"],
+                "scov": row["scov"],
+                "evalue": row["evalue"],
+                "length": row["length"],
+            })
+
+    calls: dict[str, dict] = {}
+    rejected = 0
+    for query_id, hits in by_query.items():
+        # Consensus collapse
+        consensus = consensus_collapse(hits)
+        if consensus is None:
+            rejected += 1
+            continue
+
+        # Consensus depth tells us how many TCID parts agree across hits.
+        # The effective tier is the MORE CONSERVATIVE of:
+        #   - depth-implied tier (5-part=1, 4-part=2, 3-part=3)
+        #   - worst (most conservative) per-hit tier
+        # This ensures a single tier-2 hit is never promoted to tier-1 level
+        # even when it happens to hit a unique 5-part TCID.
+        n_parts = _AGREEMENT_TO_PARTS[consensus["agreement"]]
+        worst_tier = max(h["tier"] for h in hits)
+        depth_tier = {5: 1, 4: 2, 3: 3}[n_parts]
+        effective_tier = max(worst_tier, depth_tier)
+        # Truncate TCID to the parts justified by effective_tier (not consensus depth)
+        effective_n_parts = {1: 5, 2: 4, 3: 3}[effective_tier]
+        called_tcid = truncate_tcid(consensus["tcid"], effective_n_parts)
+
+        # Best (highest-identity) hit drives the metadata fields
+        best = max(hits, key=lambda h: h["identity"])
+
+        egn_tcid = egn_lookup.get(query_id)
+        agreement = compute_egn_agreement(called_tcid, egn_tcid)
+
+        # Class 9 (Incompletely Characterized) hits are capped at tier 3 —
+        # identity may be high but the TCDB assignment itself is uncertain.
+        # The TCID depth is kept (no truncation); only the confidence tier is lowered.
+        if is_class_9(called_tcid):
+            effective_tier = 3
+
+        calls[query_id] = {
+            "tcid": called_tcid,
+            "level_kind": _TIER_TO_LEVEL_KIND[effective_tier],
+            "tier": effective_tier,
+            "identity": best["identity"],
+            "qcov": best["qcov"],
+            "scov": best["scov"],
+            "evalue": best["evalue"],
+            "length": best["length"],
+            "consensus_n": consensus["n"],
+            "consensus_agreement": consensus["agreement"],
+            "egn_agreement": agreement,
+            "egn_tcid": egn_tcid,
+            "incompletely_characterized": is_class_9(called_tcid),
+        }
+
+    # Build summary
+    tier_dist: dict[str, int] = defaultdict(int)
+    agreement_dist: dict[str, int] = defaultdict(
+        int, {"confirms": 0, "refines": 0, "extends": 0, "conflicts": 0}
+    )
+    for c in calls.values():
+        tier_dist[str(c["tier"])] += 1
+        agreement_dist[c["egn_agreement"]] += 1
+
+    summary = {
+        "raw_hit_lines": raw_lines,
+        "proteins_with_hits": len(by_query),
+        "proteins_with_call": len(calls),
+        "proteins_rejected_by_consensus": rejected,
+        "tier_distribution": dict(tier_dist),
+        "agreement_distribution": dict(agreement_dist),
+    }
+    return calls, summary
