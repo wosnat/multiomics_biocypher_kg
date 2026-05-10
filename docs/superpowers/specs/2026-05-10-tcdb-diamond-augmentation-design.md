@@ -1,6 +1,6 @@
 # TCDB-Diamond Augmentation — Design
 
-**Date:** 2026-05-10
+**Date:** 2026-05-10 (amended 2026-05-10 to match implementation: §3/§5/§6.1 — Python-native FASTA download + `diamond makedb`, no `extractTCDB.pl`; §6.4-A — `effective_tier = max(best_hit_tier, depth_tier)`; §6.5 — `confidence_score` field added)
 **Status:** Draft, pending real-data refinement
 **Related:** `cache/data/tcdb/{tcdb_hierarchy,tcdb_pruned}.json` (built by prepare_data step 6); `multiomics_kg/adapters/tcdb_adapter.py`; `multiomics_kg/download/build_gene_annotations.py`; `.claude/skills/eggnog-run/`; `.claude/skills/refresh-mnx/`.
 
@@ -32,7 +32,7 @@ Single component:
 
 This mirrors `/eggnog-run`: opt-in heavy compute that produces inspectable per-strain artifacts. No coupling to `build_gene_annotations.py` or the KG in this phase — the artifacts sit in the strain cache for inspection and downstream Phase 2 work.
 
-**Reuse:** the skill calls Saier Lab's `extractTCDB.pl` from a one-time `git clone` of [TCDBtools](https://github.com/SaierLaboratory/TCDBtools); we do not vendor or reimplement TCDB downloading. The post-step logic (tier policy, consensus collapse, eggNOG agreement) is custom hierarchy-aware code distinct from `gblast3.py`'s TMS-based pipeline.
+**FASTA + DB build:** the skill downloads the curated TCDB FASTA from `https://tcdb.org/public/tcdb` and builds the diamond DB itself in pure Python (download → header rewrite → `diamond makedb`). Saier Lab's [TCDBtools](https://github.com/SaierLaboratory/TCDBtools) `extractTCDB.pl` performs the same steps, but contains a bash-only redirect (`>&/dev/null`) that fails on Ubuntu's default dash-based `/bin/sh`; replicating in Python sidesteps the portability issue and removes the perl dependency. The post-step logic (tier policy, consensus collapse, eggNOG agreement) is custom hierarchy-aware code distinct from `gblast3.py`'s TMS-based pipeline.
 
 **Why Phase 2 is a separate spec:** the merge rule between diamond and eggNOG (union vs. resolve-conflicts vs. confidence-aware), the YAML config-driven extension shape, and the KG adapter implications all hinge on what real-data agreement patterns look like. Designing them up-front from intuition would lock in choices we'd likely revise after first inspection. Phase 1 produces the inspection artifact; Phase 2 designs the integration.
 
@@ -42,16 +42,15 @@ This mirrors `/eggnog-run`: opt-in heavy compute that produces inspectable per-s
 
 ```
 ~/tools/TCDB/                          # default; override via TCDB_DATA_DIR env var
-├── TCDBtools/                         # git clone (Saier lab's repo) — one-time setup
-│   └── bin/extractTCDB.pl             # Perl downloader the skill invokes
 └── DB/                                # downloaded data (skill-managed)
-    ├── tcdb.faa                       # produced by extractTCDB.pl -i tcdb -f fasta
-    ├── tcdb.dmnd                      # produced by extractTCDB.pl -i tcdb -f diamond
+    ├── tcdb.raw.faa                   # raw download from https://tcdb.org/public/tcdb (TCDB-canonical headers)
+    ├── tcdb.faa                       # rewritten headers (>lcl|<accession>-<tcid>); diamond makedb input
+    ├── tcdb.dmnd                      # produced by `diamond makedb --in tcdb.faa -d tcdb`
     ├── tcdb_acc2tcid.tsv              # parsed from FASTA headers; sanity vs cache/data/tcdb/raw/acc2tcid.tsv
     └── refresh.log                    # mtime + record count of last refresh
 ```
 
-The `DB/` subdir keeps the Saier-lab git clone separate from the volatile downloaded data — `~/tools/TCDB/DB` can be safely deleted to force a clean re-download without touching the clone.
+`~/tools/TCDB/DB` can be safely deleted to force a clean re-download (or use `--refresh-tcdb`).
 
 The `TCDB_DATA_DIR` env var follows the same pattern as `MNX_DATA_DIR` / `EGGNOG_DATA_DIR`:
 - Read via `dotenv.load_dotenv(REPO_ROOT / ".env")` then `os.environ.get("TCDB_DATA_DIR")`.
@@ -71,16 +70,14 @@ Estimated size: ~0.5 MB per cyano strain, ~1 MB per heterotroph; ~10–15 MB tot
 
 ## 5 — One-time setup
 
-```bash
-git clone https://github.com/SaierLaboratory/TCDBtools.git ~/tools/TCDB/TCDBtools
-```
+No manual setup required. The skill creates `~/tools/TCDB/DB/` and downloads the TCDB FASTA on first run.
 
 Optional `.env` entry:
 ```
 TCDB_DATA_DIR=~/tools/TCDB
 ```
 
-Required system tools: `perl`, `wget`, `diamond` (already required for `scripts/map_img_to_ncbi_proteins.py`).
+Required system tool: `diamond` (already required for `scripts/map_img_to_ncbi_proteins.py`).
 
 ## 6 — Skill: `/tcdb-diamond`
 
@@ -99,14 +96,13 @@ uv run python .claude/skills/tcdb-diamond/run_tcdb_diamond.py --threads 8   # de
 
 ### 6.1 — TCDB DB build (skill, run lazily)
 
-Triggered when `~/tools/TCDB/DB/tcdb.dmnd` is missing OR `--refresh-tcdb` is given. The skill creates `~/tools/TCDB/DB/` if needed:
+Triggered when `~/tools/TCDB/DB/tcdb.dmnd` is missing OR `--refresh-tcdb` is given. The skill creates `~/tools/TCDB/DB/` if needed, then performs three steps in pure Python:
 
-```bash
-perl ~/tools/TCDB/TCDBtools/bin/extractTCDB.pl -i tcdb -o ~/tools/TCDB/DB -f fasta     # → DB/tcdb.faa
-perl ~/tools/TCDB/TCDBtools/bin/extractTCDB.pl -i tcdb -o ~/tools/TCDB/DB -f diamond   # → DB/tcdb.dmnd
-```
+1. **Download** the curated TCDB FASTA via `urllib.request.urlretrieve("https://tcdb.org/public/tcdb", DB/tcdb.raw.faa)`.
+2. **Rewrite headers** from TCDB-canonical `>gnl|TC-DB|<acc>|<tcid> <description>` to parser-friendly `>lcl|<acc>-<tcid>` (matches `parse_tcdb_subject_id` in `multiomics_kg/utils/tcdb_diamond.py`). Writes `DB/tcdb.faa`. Sequences with malformed headers are silently skipped.
+3. **Build the diamond DB** via `diamond makedb --in DB/tcdb.faa -d DB/tcdb` → `DB/tcdb.dmnd`.
 
-After build, the skill parses `DB/tcdb.faa` headers (`>lcl|<accession>-<tcid>`) into `DB/tcdb_acc2tcid.tsv` (two columns: accession, 5-part TCID). Sanity-check: count of **distinct 5-part TCIDs** in the new file should be ≥ the count of distinct values in column 2 of `cache/data/tcdb/raw/acc2tcid.tsv` from prepare_data step 6 (TCDB grows; never shrinks meaningfully). Mismatch → warn, do not fail.
+After build, the skill parses `DB/tcdb.faa` headers into `DB/tcdb_acc2tcid.tsv` (two columns: accession, 5-part TCID). Sanity-check: count of **distinct 5-part TCIDs** in the new file should be ≥ the count of distinct values in column 2 of `cache/data/tcdb/raw/acc2tcid.tsv` from prepare_data step 6 (TCDB grows; never shrinks meaningfully). Mismatch → warn, do not fail.
 
 ### 6.2 — Per-strain diamond invocation
 
@@ -144,16 +140,31 @@ Hits failing tier 3 are dropped. Tier 3 is identical to gblast3's acceptance rul
 
 After parsing the raw TSV but before writing `<strain>.tcdb.calls.json`:
 
-**A — Top-N consensus collapse.** With up to 5 hits per query, collapse to a single per-protein call:
+**A — Top-N consensus collapse + best-tier promotion.** With up to 5 hits per query, collapse to a single per-protein call:
 
-| Top-N hits | Consensus result |
-|---|---|
-| All agree at 5 parts | tier-1 call (5-part) |
-| Agree at 4 parts but disagree at 5 | demote to tier-2 (4-part) |
-| Agree at 3 parts but disagree at 4 | demote to tier-3 (3-part) |
-| Disagree even at 3 parts | reject the protein (paralog confusion / noise) |
+| Top-N hits | Consensus depth | depth_tier |
+|---|---|---|
+| All agree at 5 parts | `5_part` | 1 |
+| Agree at 4 parts but disagree at 5 | `4_part` | 2 |
+| Agree at 3 parts but disagree at 4 | `3_part` | 3 |
+| Disagree even at 3 parts | — | reject (paralog confusion / noise) |
 
-Output records `consensus_n` (number of hits considered) and `consensus_agreement` (deepest level at which **all** top-N hits share the same prefix: `5_part` | `4_part` | `3_part` | `none`). Note: TCDB curates UniProt accessions only at the 5-part `tc_specificity` leaves, so every hit in the diamond TSV carries a 5-part TCID; consensus is therefore always meaningful (no need to handle short-TCID hits).
+Two signals drive the final tier and TCID truncation depth:
+
+- `depth_tier` (above): how confident the **shared prefix** is.
+- `best_tier`: the per-hit identity-tier of the **strongest** hit in the group (per §6.3 thresholds).
+
+`effective_tier = max(best_tier, depth_tier)` — the more conservative of the two. Using best (not worst) honors the strongest evidence: when 3 hits agree at 4-part but vary in identity (e.g. one tier-1 hit + two tier-3 hits), the strong hit's tier-1 promotes to tier-2 via the consensus floor rather than being dragged down to tier-3 by the weakest hit. The TCID is then truncated to the parts justified by `effective_tier` (5/4/3 for tier 1/2/3) — not the consensus depth alone. Metadata fields (`identity`, `qcov`, `scov`, `evalue`, `length`) are sourced from the best (highest-identity) hit.
+
+Output records `consensus_n` (number of hits considered) and `consensus_agreement` (deepest level at which **all** top-N hits share the same prefix: `5_part` | `4_part` | `3_part`). Note: TCDB curates UniProt accessions only at the 5-part `tc_specificity` leaves, so every hit in the diamond TSV carries a 5-part TCID; consensus is therefore always meaningful (no need to handle short-TCID hits).
+
+**Confidence score.** A continuous complement to the discrete `tier`:
+
+```
+confidence_score = (best_identity / 100) × (best_qcov / 100) × agreement_weight
+```
+
+with `agreement_weight = 1.0 / 0.85 / 0.7` for `5_part` / `4_part` / `3_part` consensus. Lets downstream consumers do their own thresholding without losing the underlying gradient. Range [0, 1], rounded to 4 decimals.
 
 **B — eggNOG agreement tag.** Look up the gene's existing eggNOG `KEGG_TC` value in `<strain>.emapper.annotations` and tag the diamond call:
 
@@ -183,6 +194,7 @@ Keyed by **NCBI protein_id (WP_ accession)** — same join key eggNOG uses, so a
     "tcid": "1.A.11.1.5",
     "level_kind": "tc_specificity",
     "tier": 1,
+    "confidence_score": 0.805,
     "identity": 87.4,
     "qcov": 92.1,
     "scov": 89.7,
@@ -197,7 +209,10 @@ Keyed by **NCBI protein_id (WP_ accession)** — same join key eggNOG uses, so a
 }
 ```
 
-`level_kind` mirrors the existing TCDB hierarchy vocabulary (`tc_class | tc_subclass | tc_family | tc_subfamily | tc_specificity`).
+- `tier` and `level_kind` reflect `effective_tier = max(best_hit_tier, depth_tier)` (§6.4-A); `tcid` is truncated to the parts justified by `effective_tier`.
+- `confidence_score` ∈ [0, 1] = `(identity / 100) × (qcov / 100) × agreement_weight` (§6.4-A).
+- `identity`, `qcov`, `scov`, `evalue`, `length` are from the **best (highest-identity)** hit in the consensus group.
+- `level_kind` mirrors the existing TCDB hierarchy vocabulary (`tc_class | tc_subclass | tc_family | tc_subfamily | tc_specificity`).
 
 ### 6.6 — Skill output summary (stdout)
 
