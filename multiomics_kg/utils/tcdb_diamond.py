@@ -7,6 +7,7 @@ Pure Python — no filesystem or subprocess. The orchestrator in
 from __future__ import annotations
 
 import re
+from pathlib import Path
 
 
 def classify_hit(hit: dict) -> int | None:
@@ -163,3 +164,38 @@ def parse_tcdb_subject_id(subject_id: str) -> tuple[str, str] | None:
     if not accession:
         return None
     return accession, tcid
+
+
+def load_eggnog_kegg_tc(annotations_path: Path) -> dict[str, str]:
+    """Read an eggNOG-mapper .emapper.annotations file -> {protein_id: kegg_tc}.
+
+    Returns an empty dict when the file is absent. Skips rows whose KEGG_TC
+    column is "-", empty, or missing. When KEGG_TC carries multiple values
+    (rare; comma-separated), only the first is returned (we do not attempt
+    to merge here — the merge happens in compute_egn_agreement at call time).
+    """
+    annotations_path = Path(annotations_path)
+    if not annotations_path.exists():
+        return {}
+
+    result: dict[str, str] = {}
+    KEGG_TC_COL = 17  # 0-indexed, post-emapper-v2.1 column order
+
+    with open(annotations_path) as f:
+        for line in f:
+            if line.startswith("##"):
+                continue
+            if line.startswith("#"):
+                continue  # the #query header line
+            cols = line.rstrip("\n").split("\t")
+            if len(cols) <= KEGG_TC_COL:
+                continue
+            protein_id = cols[0]
+            kegg_tc_raw = cols[KEGG_TC_COL].strip()
+            if not kegg_tc_raw or kegg_tc_raw == "-":
+                continue
+            # Multi-value: take first
+            kegg_tc = kegg_tc_raw.split(",")[0].strip()
+            if kegg_tc:
+                result[protein_id] = kegg_tc
+    return result

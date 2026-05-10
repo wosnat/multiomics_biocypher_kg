@@ -209,3 +209,47 @@ def test_parse_tcdb_subject_id_returns_none_when_no_tcid():
 def test_parse_tcdb_subject_id_validates_tcid_shape():
     # TCID must be at least 3 dotted parts to be plausible
     assert parse_tcdb_subject_id("lcl|Q9I3F6-1.A") is None
+
+
+import textwrap
+from multiomics_kg.utils.tcdb_diamond import load_eggnog_kegg_tc
+
+
+def test_load_eggnog_kegg_tc_extracts_per_protein_value(tmp_path):
+    # Real eggNOG-mapper v2.1 column order, 21 columns
+    content = textwrap.dedent("""\
+        ## emapper-2.1.13
+        #query\tseed_ortholog\tevalue\tscore\teggNOG_OGs\tmax_annot_lvl\tCOG_category\tDescription\tPreferred_name\tGOs\tEC\tKEGG_ko\tKEGG_Pathway\tKEGG_Module\tKEGG_Reaction\tKEGG_rclass\tBRITE\tKEGG_TC\tCAZy\tBiGG_Reaction\tPFAMs
+        WP_011131852.1\t59919.PMM0213\t2.76e-223\t617.0\tCOG3329@1|root\t1117\tS\tdesc\tsbtA\t-\t-\tko:K07086\t-\t-\t-\t-\tko00000\t1.A.11\t-\t-\tSbt_1
+        WP_011131900.1\t59919.PMM0263\t0.0\t934.0\tCOG0004@1|root\t1117\tP\tAmm\tamtB\t-\t-\tko:K03320\t-\t-\t-\t-\tko00000,ko02000\t1.A.11\t-\t-\tAmmonium_transp
+        WP_NOTC.1\t59919.PMM0001\t0.0\t100.0\tCOGZZZ\t1117\tS\tdesc\tx\t-\t-\t-\t-\t-\t-\t-\t-\t-\t-\t-\t-
+        ## end of file
+        """)
+    path = tmp_path / "MED4.emapper.annotations"
+    path.write_text(content)
+
+    result = load_eggnog_kegg_tc(path)
+    assert result == {
+        "WP_011131852.1": "1.A.11",
+        "WP_011131900.1": "1.A.11",
+        # WP_NOTC.1 has KEGG_TC = "-" -> not in dict
+    }
+
+
+def test_load_eggnog_kegg_tc_handles_missing_file(tmp_path):
+    assert load_eggnog_kegg_tc(tmp_path / "no_such_file") == {}
+
+
+def test_load_eggnog_kegg_tc_skips_empty_or_dash_values(tmp_path):
+    content = textwrap.dedent("""\
+        ## emapper-2.1.13
+        #query\tseed_ortholog\tevalue\tscore\teggNOG_OGs\tmax_annot_lvl\tCOG_category\tDescription\tPreferred_name\tGOs\tEC\tKEGG_ko\tKEGG_Pathway\tKEGG_Module\tKEGG_Reaction\tKEGG_rclass\tBRITE\tKEGG_TC\tCAZy\tBiGG_Reaction\tPFAMs
+        WP_A.1\tx\tx\tx\tx\tx\tS\tx\tx\t-\t-\tx\t-\t-\t-\t-\t-\t-\t-\t-\t-
+        WP_B.1\tx\tx\tx\tx\tx\tS\tx\tx\t-\t-\tx\t-\t-\t-\t-\t-\t\t-\t-\t-
+        WP_C.1\tx\tx\tx\tx\tx\tS\tx\tx\t-\t-\tx\t-\t-\t-\t-\t-\t1.A.11,3.A.1.27\t-\t-\t-
+        """)
+    path = tmp_path / "x.emapper.annotations"
+    path.write_text(content)
+    result = load_eggnog_kegg_tc(path)
+    # Multi-value KEGG_TC: keep first one (rare; we don't try to merge)
+    assert result == {"WP_C.1": "1.A.11"}
