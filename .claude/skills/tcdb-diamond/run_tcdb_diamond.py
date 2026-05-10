@@ -8,9 +8,11 @@ import argparse
 import csv
 import json
 import os
+import re
 import shutil
 import subprocess
 import sys
+import urllib.request
 from pathlib import Path
 
 # Ensure project root is on sys.path so `multiomics_kg` is importable when
@@ -40,14 +42,53 @@ def resolve_tcdb_data_dir() -> Path:
     return DEFAULT_TCDB_DATA_DIR
 
 
+_TCDB_DOWNLOAD_URL = "https://tcdb.org/public/tcdb"
+_TCDB_HEADER_RE = re.compile(r"^>gnl\|TC-DB\|([^|\s]+)\|(\S+)")
+
+
+def _rewrite_tcdb_headers(raw_path: Path, dest_path: Path) -> int:
+    """Rewrite raw TCDB FASTA headers to ``>lcl|<acc>-<tcid>`` form.
+
+    Input headers (TCDB-canonical): ``>gnl|TC-DB|<accession>|<tcid> <description>``
+    Output headers (parser-friendly): ``>lcl|<accession>-<tcid>``
+
+    Returns the number of sequences written. Skips records with malformed
+    headers (no parseable acc/tcid pair) — they would only cause spurious
+    diamond hits anyway.
+    """
+    written = 0
+    with open(raw_path) as src, open(dest_path, "w") as out:
+        write_seq = False
+        for line in src:
+            if line.startswith(">"):
+                m = _TCDB_HEADER_RE.match(line)
+                if m:
+                    acc, tcid = m.group(1), m.group(2)
+                    out.write(f">lcl|{acc}-{tcid}\n")
+                    written += 1
+                    write_seq = True
+                else:
+                    write_seq = False
+            elif write_seq:
+                out.write(line)
+    return written
+
+
 def build_tcdb_db(data_dir: Path, force: bool) -> Path:
     """Ensure ~/tools/TCDB/DB/tcdb.dmnd exists. Returns the path.
 
-    Calls Saier Lab's extractTCDB.pl to download the FASTA and build the
-    diamond DB. Skipped when the DB already exists and `force` is False.
-    Requires:
-      - extractTCDB.pl present at <data_dir>/TCDBtools/bin/
-      - perl, wget, diamond on PATH
+    Downloads the curated TCDB FASTA from https://tcdb.org/public/tcdb,
+    rewrites its headers from ``>gnl|TC-DB|<acc>|<tcid>`` to ``>lcl|<acc>-<tcid>``
+    (the format consumed by parse_tcdb_subject_id), then runs ``diamond makedb``
+    to build the diamond-format database. Skipped when the DB already exists
+    and ``force`` is False.
+
+    Note: Saier Lab's TCDBtools/bin/extractTCDB.pl performs the same operation
+    but contains a bash-only redirect (``>&/dev/null``) that fails on dash-based
+    /bin/sh systems (Ubuntu default). We replicate its behavior in pure Python
+    to sidestep the shell-portability issue.
+
+    Requires: ``diamond`` on PATH.
     """
     db_dir = data_dir / "DB"
     db_dir.mkdir(parents=True, exist_ok=True)
@@ -56,31 +97,36 @@ def build_tcdb_db(data_dir: Path, force: bool) -> Path:
     if dmnd.exists() and not force:
         return dmnd
 
-    extract = data_dir / "TCDBtools" / "bin" / "extractTCDB.pl"
-    if not extract.exists():
-        print(
-            f"ERROR: {extract} not found. Run:\n"
-            f"  git clone https://github.com/SaierLaboratory/TCDBtools.git "
-            f"{data_dir}/TCDBtools",
-            file=sys.stderr,
-        )
+    if not shutil.which("diamond"):
+        print("ERROR: diamond not on PATH", file=sys.stderr)
         sys.exit(1)
 
-    for tool in ("perl", "wget", "diamond"):
-        if not shutil.which(tool):
-            print(f"ERROR: {tool} not on PATH (required by extractTCDB.pl)", file=sys.stderr)
-            sys.exit(1)
+    raw_faa = db_dir / "tcdb.raw.faa"
+    clean_faa = db_dir / "tcdb.faa"
 
-    print(f"Building TCDB diamond DB in {db_dir} (this takes ~30s)...")
-    for fmt in ("fasta", "diamond"):
-        cmd = ["perl", str(extract), "-i", "tcdb", "-o", str(db_dir), "-f", fmt]
-        result = subprocess.run(cmd, cwd=str(REPO_ROOT))
-        if result.returncode != 0:
-            print(f"ERROR: extractTCDB.pl -f {fmt} returned {result.returncode}", file=sys.stderr)
-            sys.exit(1)
+    print(f"Downloading TCDB FASTA → {raw_faa} ...")
+    try:
+        urllib.request.urlretrieve(_TCDB_DOWNLOAD_URL, raw_faa)
+    except Exception as exc:
+        print(f"ERROR: TCDB download failed: {exc}", file=sys.stderr)
+        sys.exit(1)
+
+    print(f"Rewriting headers → {clean_faa} ...")
+    n_seqs = _rewrite_tcdb_headers(raw_faa, clean_faa)
+    print(f"  wrote {n_seqs} sequences")
+    if n_seqs == 0:
+        print("ERROR: TCDB FASTA had no parseable sequences", file=sys.stderr)
+        sys.exit(1)
+
+    print(f"Building diamond DB → {dmnd} ...")
+    cmd = ["diamond", "makedb", "--in", str(clean_faa), "-d", str(db_dir / "tcdb")]
+    result = subprocess.run(cmd, cwd=str(REPO_ROOT))
+    if result.returncode != 0:
+        print(f"ERROR: diamond makedb returned {result.returncode}", file=sys.stderr)
+        sys.exit(1)
 
     if not dmnd.exists():
-        print(f"ERROR: extractTCDB.pl completed but {dmnd} was not created", file=sys.stderr)
+        print(f"ERROR: diamond makedb completed but {dmnd} was not created", file=sys.stderr)
         sys.exit(1)
 
     return dmnd
