@@ -180,3 +180,32 @@ def test_parse_diamond_row_returns_none_for_short_line():
 def test_parse_diamond_row_returns_none_for_invalid_numeric():
     line = "WP_111.1\tlcl|X-1.A\tNOT_A_NUMBER\t90\t90\t100\t1e-10\t300"
     assert parse_diamond_row(line) is None
+
+
+from multiomics_kg.utils.tcdb_diamond import parse_tcdb_subject_id
+
+
+def test_parse_tcdb_subject_id_lcl_prefix():
+    assert parse_tcdb_subject_id("lcl|Q9I3F6-1.A.11.1.5") == ("Q9I3F6", "1.A.11.1.5")
+
+
+def test_parse_tcdb_subject_id_no_lcl_prefix():
+    # If header was written without lcl|, accept it
+    assert parse_tcdb_subject_id("Q9I3F6-1.A.11.1.5") == ("Q9I3F6", "1.A.11.1.5")
+
+
+def test_parse_tcdb_subject_id_handles_dashes_in_accession():
+    # UniProt accessions can contain dashes for isoforms — split on the LAST dash
+    # before a dotted TCID
+    result = parse_tcdb_subject_id("lcl|P12345-2-1.A.11.1.5")
+    assert result == ("P12345-2", "1.A.11.1.5")
+
+
+def test_parse_tcdb_subject_id_returns_none_when_no_tcid():
+    assert parse_tcdb_subject_id("lcl|Q9I3F6") is None
+    assert parse_tcdb_subject_id("") is None
+
+
+def test_parse_tcdb_subject_id_validates_tcid_shape():
+    # TCID must be at least 3 dotted parts to be plausible
+    assert parse_tcdb_subject_id("lcl|Q9I3F6-1.A") is None

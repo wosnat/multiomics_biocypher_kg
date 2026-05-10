@@ -6,6 +6,8 @@ Pure Python — no filesystem or subprocess. The orchestrator in
 """
 from __future__ import annotations
 
+import re
+
 
 def classify_hit(hit: dict) -> int | None:
     """Assign a confidence tier (1/2/3) to a parsed diamond hit row.
@@ -134,3 +136,30 @@ def parse_diamond_row(line: str) -> dict | None:
         }
     except ValueError:
         return None
+
+
+_TCID_TAIL_RE = re.compile(r"-(\d+(?:\.[A-Za-z0-9]+){2,4})$")
+
+
+def parse_tcdb_subject_id(subject_id: str) -> tuple[str, str] | None:
+    """Extract (accession, tcid) from a TCDB FASTA-derived subject ID.
+
+    Header format: ``[lcl|]<accession>-<TCID>`` where TCID is dot-separated
+    with 3-5 parts (e.g. ``lcl|Q9I3F6-1.A.11.1.5``).
+
+    Returns None when the subject ID does not contain a parseable TCID tail.
+    Splits on the LAST dash followed by a dotted TCID — handles UniProt
+    isoform accessions (e.g. ``P12345-2``) correctly.
+    """
+    if not subject_id:
+        return None
+    if subject_id.startswith("lcl|"):
+        subject_id = subject_id[4:]
+    match = _TCID_TAIL_RE.search(subject_id)
+    if not match:
+        return None
+    tcid = match.group(1)
+    accession = subject_id[: match.start()]
+    if not accession:
+        return None
+    return accession, tcid
