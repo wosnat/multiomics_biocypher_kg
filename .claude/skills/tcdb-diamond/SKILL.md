@@ -1,7 +1,7 @@
 ---
 name: tcdb-diamond
 description: Run diamond blastp vs. the curated TCDB FASTA per strain to generate per-protein TCDB classifications, with tiered confidence (5-part / 4-part / 3-part) plus consensus + eggNOG-agreement tags. Phase 1 — produces inspectable `<strain>.tcdb.calls.json` artifacts; KG integration deferred to Phase 2.
-argument-hint: "[--strain <name> | --force | --refresh-tcdb | --threads <n>]"
+argument-hint: "[--strains <name> ... | --force | --refresh-tcdb | --threads <n>]"
 user-invocable: true
 allowed-tools: Read, Bash(uv *), Bash(diamond *)
 ---
@@ -19,7 +19,7 @@ that can reach `tc_specificity` (5-part) when identity warrants it.
 uv run python .claude/skills/tcdb-diamond/run_tcdb_diamond.py
 
 # Run a single strain
-uv run python .claude/skills/tcdb-diamond/run_tcdb_diamond.py --strain MED4
+uv run python .claude/skills/tcdb-diamond/run_tcdb_diamond.py --strains MED4 MIT9313
 
 # Force re-run even if calls.json exists
 uv run python .claude/skills/tcdb-diamond/run_tcdb_diamond.py --force
@@ -31,7 +31,7 @@ uv run python .claude/skills/tcdb-diamond/run_tcdb_diamond.py --refresh-tcdb
 uv run python .claude/skills/tcdb-diamond/run_tcdb_diamond.py --threads 8
 
 # Smoke test: first 100 proteins of one strain (~10-30s)
-uv run python .claude/skills/tcdb-diamond/run_tcdb_diamond.py --strain MIT1002 --limit 100
+uv run python .claude/skills/tcdb-diamond/run_tcdb_diamond.py --strains MIT1002 --limit 100
 ```
 
 ## One-Time Setup

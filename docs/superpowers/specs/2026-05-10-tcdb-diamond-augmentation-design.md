@@ -88,7 +88,7 @@ Required system tool: `diamond` (already required for `scripts/map_img_to_ncbi_p
 **CLI (mirrors `/eggnog-run`):**
 ```bash
 uv run python .claude/skills/tcdb-diamond/run_tcdb_diamond.py             # all strains, skip done
-uv run python .claude/skills/tcdb-diamond/run_tcdb_diamond.py --strain MED4
+uv run python .claude/skills/tcdb-diamond/run_tcdb_diamond.py --strains MED4 MIT9313
 uv run python .claude/skills/tcdb-diamond/run_tcdb_diamond.py --force     # re-run even if calls.json present
 uv run python .claude/skills/tcdb-diamond/run_tcdb_diamond.py --refresh-tcdb  # re-download TCDB FASTA + diamond DB
 uv run python .claude/skills/tcdb-diamond/run_tcdb_diamond.py --threads 8   # default: os.cpu_count() or 4

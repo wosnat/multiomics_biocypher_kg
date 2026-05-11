@@ -5,7 +5,6 @@ docs/superpowers/specs/2026-05-10-tcdb-diamond-augmentation-design.md.
 from __future__ import annotations
 
 import argparse
-import csv
 import json
 import os
 import re
@@ -24,10 +23,10 @@ if str(_REPO_ROOT_EARLY) not in sys.path:
 
 import dotenv
 
+from multiomics_kg.download.utils.cli import load_genome_rows
 from multiomics_kg.utils.tcdb_diamond import build_strain_calls
 
 REPO_ROOT = Path(__file__).resolve().parents[3]
-GENOMES_CSV = REPO_ROOT / "data/Prochlorococcus/genomes/cyanobacteria_genomes.csv"
 LOGS_DIR = REPO_ROOT / "logs"
 DEFAULT_TCDB_DATA_DIR = Path.home() / "tools" / "TCDB"
 
@@ -224,24 +223,6 @@ def truncate_faa(faa: Path, n_proteins: int, dest: Path) -> Path:
     return dest
 
 
-def load_genomes(strain_filter: str | None) -> list[dict]:
-    """Parse cyanobacteria_genomes.csv, return rows for genome strains only.
-
-    Skips reference_proteome_match and treatment organisms — only
-    organism_type='genome_strain' rows have a `protein.faa`.
-    """
-    genomes: list[dict] = []
-    with open(GENOMES_CSV) as f:
-        reader = csv.DictReader(row for row in f if not row.strip().startswith("#"))
-        for row in reader:
-            if strain_filter and row["strain_name"] != strain_filter:
-                continue
-            if (row.get("organism_type") or "").strip() != "genome_strain":
-                continue
-            genomes.append(row)
-    return genomes
-
-
 def process_strain(
     strain: str,
     data_dir_genome: Path,
@@ -311,7 +292,8 @@ def main():
     parser = argparse.ArgumentParser(
         description="Run diamond vs. TCDB FASTA per strain (Phase 1)."
     )
-    parser.add_argument("--strain", help="Run only this strain (e.g. MED4)")
+    parser.add_argument("--strains", nargs="+", metavar="STRAIN",
+                        help="Run only these strains (default: all)")
     parser.add_argument("--force", action="store_true",
                         help="Re-run even if calls.json exists")
     parser.add_argument("--refresh-tcdb", action="store_true",
@@ -331,11 +313,9 @@ def main():
     pfam_map = build_pfam_to_tc_map(data_dir, force=args.refresh_tcdb)
     print(f"Pfam→TC map: {pfam_map}{' (missing)' if not pfam_map.exists() else ''}")
 
-    genomes = load_genomes(args.strain)
-    if not genomes:
-        print(f"No genome_strain genomes found"
-              f"{f' for strain {args.strain}' if args.strain else ''}.")
-        sys.exit(1)
+    # load_genome_rows exits with an error if --strains names a strain not in
+    # the registry; no need to handle that here.
+    genomes = load_genome_rows(args.strains)
 
     results: list[tuple[str, str, dict | None]] = []
     for g in genomes:
