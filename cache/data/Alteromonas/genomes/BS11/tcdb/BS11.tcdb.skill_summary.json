@@ -1,17 +1,32 @@
 {
-  "raw_hit_lines": 4007,
-  "proteins_with_hits": 1058,
-  "proteins_with_call": 883,
-  "proteins_rejected_by_consensus": 175,
+  "raw_hit_lines": 8735,
+  "proteins_with_hits": 1059,
+  "proteins_with_call": 1059,
+  "total_candidates": 1429,
+  "candidates_per_protein_distribution": {
+    "1": 822,
+    "4": 21,
+    "2": 158,
+    "3": 42,
+    "5": 15,
+    "6": 1
+  },
   "tier_distribution": {
-    "3": 706,
-    "2": 174,
-    "1": 3
+    "3": 1246,
+    "2": 175,
+    "1": 8
   },
   "agreement_distribution": {
-    "confirms": 292,
-    "refines": 18,
-    "extends": 562,
-    "conflicts": 11
+    "confirms": 353,
+    "refines": 11,
+    "extends": 955,
+    "conflicts": 110
+  },
+  "pfam_agreement_distribution": {
+    "confirms_diamond": 430,
+    "confirms_eggnog": 36,
+    "confirms_both": 350,
+    "contradicts_both": 272,
+    "neutral": 341
   }
 }
