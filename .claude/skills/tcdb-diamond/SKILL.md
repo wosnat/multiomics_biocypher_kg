@@ -100,6 +100,7 @@ Keyed by NCBI protein_id (WP_ accession). Each protein has shared fields plus a 
         "consensus_agreement": "4_part",
         "egn_agreement": "conflicts",
         "pfam_agreement": "confirms_eggnog",
+        "filter_action": "drop_egn_conflicts",
         "incompletely_characterized": false
       },
       {
@@ -109,7 +110,8 @@ Keyed by NCBI protein_id (WP_ accession). Each protein has shared fields plus a 
         "confidence_score": 0.55,
         "...": "...",
         "egn_agreement": "confirms",
-        "pfam_agreement": "confirms_both"
+        "pfam_agreement": "confirms_both",
+        "filter_action": "keep"
       }
     ]
   }
@@ -123,6 +125,20 @@ Field semantics:
   - `confidence_score` ∈ [0,1] = `(identity / 100) × (qcov / 100) × agreement_weight`, where agreement_weight is 1.0 / 0.85 / 0.7 for 5/4/3-part consensus. The list is sorted by this descending — `calls[0]` is the strongest call.
   - `identity`, `qcov`, `scov`, `evalue`, `length` come from the **best (highest-identity)** hit in THIS family group.
   - `egn_agreement` / `pfam_agreement` are computed PER candidate — different candidates of the same protein can have different verdicts (the headline use case for the multi-call design: one candidate `confirms` eggNOG while another `conflicts`).
+  - `filter_action`: per-candidate verdict from the post-emission filter (see "Filtering" below). One of `keep` | `drop_pfam_contradicts` | `drop_egn_conflicts` | `drop_low_confidence`. Consumers should treat `keep`-tagged candidates as the recommended call set; dropped candidates remain in the JSON for audit.
+
+## Filtering
+
+After emission, each candidate is annotated with `filter_action` via `annotate_candidate_filters`. Single-candidate proteins always get `keep`. For multi-candidate proteins, the first rule that matches sets the action:
+
+| Rule | Condition | Rationale |
+|---|---|---|
+| `drop_pfam_contradicts` | candidate `pfam_agreement = contradicts_both` AND some sibling has `pfam_agreement in {confirms_diamond, confirms_both}` | Pfam disqualifies this candidate when a Pfam-supported alternative exists |
+| `drop_egn_conflicts` | candidate `egn_agreement = conflicts` AND some sibling has `egn_agreement in {confirms, refines}` | eggNOG disqualifies this candidate when an eggNOG-supported alternative exists |
+| `drop_low_confidence` | candidate `confidence_score < 0.25 × max_sibling_confidence` | Diamond evidence is much weaker than the best alternative — likely a spurious low-identity hit |
+| `keep` | none of the above | |
+
+The full candidate list is preserved; nothing is deleted. Filter counts appear in `skill_summary.json`'s `filter_action_distribution` and the stdout table.
 - `egn_tcids` is a list because eggNOG's `KEGG_TC` field is multi-valued (comma-separated in source TSV) — e.g. MreB-family proteins carry `["1.A.33.1", "9.B.157.1"]`. Diamond matching ANY value yields `confirms` / `refines`; only ALL-disagree counts as `conflicts`.
 - `egn_agreement` values: `confirms` (any eggNOG TC matches diamond's family) | `refines` (any eggNOG TC is a strict ancestor of diamond's call) | `extends` (eggNOG had no TC) | `conflicts` (every eggNOG TC disagrees at family level).
 - `pfam_ids`: the gene's Pfam annotations (from `gene_annotations_merged.json`). Independent of diamond/eggNOG.

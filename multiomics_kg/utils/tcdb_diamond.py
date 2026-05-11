@@ -359,6 +359,62 @@ def compute_pfam_agreement(
     return "contradicts_both"
 
 
+_PFAM_CONFIRM = {"confirms_diamond", "confirms_both"}
+_EGN_CONFIRM = {"confirms", "refines"}
+DEFAULT_MIN_RELATIVE_CONFIDENCE = 0.25
+
+
+def annotate_candidate_filters(
+    calls: dict[str, dict],
+    min_relative_confidence: float = DEFAULT_MIN_RELATIVE_CONFIDENCE,
+) -> dict[str, int]:
+    """Set per-candidate `filter_action` based on Pfam/eggNOG agreement and
+    relative confidence. Mutates `calls` in place; returns drop-stat counts.
+
+    Per multi-candidate protein, walk each candidate and apply (in priority
+    order): drop_pfam_contradicts, drop_egn_conflicts, drop_low_confidence.
+    The first matching rule sets the action; the rest are not evaluated.
+    Single-candidate proteins always get `filter_action = "keep"` —
+    never drop the only call.
+
+    Rules:
+      - drop_pfam_contradicts: this candidate has pfam_agreement
+        'contradicts_both' AND some sibling has pfam_agreement in
+        {confirms_diamond, confirms_both}. Pfam disqualifies this call.
+      - drop_egn_conflicts: this candidate has egn_agreement 'conflicts'
+        AND some sibling has egn_agreement in {confirms, refines}. eggNOG
+        disqualifies this call.
+      - drop_low_confidence: this candidate's confidence_score is below
+        min_relative_confidence × the protein's best candidate's score.
+        Diamond evidence is much weaker than the alternative.
+      - keep: none of the above.
+
+    Returns a Counter-style dict keyed by filter_action.
+    """
+    drop_stats: dict[str, int] = defaultdict(int)
+    for rec in calls.values():
+        cands = rec["calls"]
+        if len(cands) == 1:
+            cands[0]["filter_action"] = "keep"
+            drop_stats["keep"] += 1
+            continue
+        any_pfam_confirm = any(c["pfam_agreement"] in _PFAM_CONFIRM for c in cands)
+        any_egn_confirm = any(c["egn_agreement"] in _EGN_CONFIRM for c in cands)
+        max_conf = max(c["confidence_score"] for c in cands)
+        for c in cands:
+            if c["pfam_agreement"] == "contradicts_both" and any_pfam_confirm:
+                action = "drop_pfam_contradicts"
+            elif c["egn_agreement"] == "conflicts" and any_egn_confirm:
+                action = "drop_egn_conflicts"
+            elif c["confidence_score"] < min_relative_confidence * max_conf:
+                action = "drop_low_confidence"
+            else:
+                action = "keep"
+            c["filter_action"] = action
+            drop_stats[action] += 1
+    return dict(drop_stats)
+
+
 _TIER_TO_LEVEL_KIND = {
     1: "tc_specificity",
     2: "tc_subfamily",
@@ -514,6 +570,11 @@ def build_strain_calls(
         }
         total_candidates += len(candidates)
 
+    # Apply the per-candidate filter to annotate each candidate with
+    # `filter_action`. Does NOT remove candidates from `calls`; consumers
+    # use the field to decide what to keep. See annotate_candidate_filters.
+    filter_action_dist = annotate_candidate_filters(calls)
+
     # Build summary. tier_distribution + agreement distributions now count
     # CANDIDATES (not proteins): a 2-family protein contributes 2 entries.
     # Use proteins_with_call vs total_candidates to gauge how many proteins
@@ -544,5 +605,6 @@ def build_strain_calls(
         "tier_distribution": dict(tier_dist),
         "agreement_distribution": dict(agreement_dist),
         "pfam_agreement_distribution": dict(pfam_agreement_dist),
+        "filter_action_distribution": dict(filter_action_dist),
     }
     return calls, summary

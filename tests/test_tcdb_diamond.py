@@ -614,6 +614,120 @@ def test_build_strain_calls_multi_value_eggnog_kegg_tc(tmp_path):
     assert summary["agreement_distribution"]["conflicts"] == 0
 
 
+from multiomics_kg.utils.tcdb_diamond import annotate_candidate_filters
+
+
+def _mk_cand(tcid, score, egn="extends", pfam="neutral"):
+    """Test factory — builds a minimal candidate dict for filter tests."""
+    return {
+        "tcid": tcid, "confidence_score": score,
+        "egn_agreement": egn, "pfam_agreement": pfam,
+    }
+
+
+def test_filter_single_candidate_always_kept():
+    # A protein with only one candidate should never be filtered, even if
+    # its Pfam contradicts and confidence is low.
+    calls = {"WP_X.1": {"calls": [_mk_cand("9.X.1", 0.05, pfam="contradicts_both")]}}
+    stats = annotate_candidate_filters(calls)
+    assert calls["WP_X.1"]["calls"][0]["filter_action"] == "keep"
+    assert stats == {"keep": 1}
+
+
+def test_filter_drops_pfam_contradicting_candidate():
+    # When one candidate has Pfam support and another has Pfam contradicting,
+    # drop the contradicting one.
+    calls = {"WP_Y.1": {"calls": [
+        _mk_cand("2.A.6.1", 0.80, pfam="confirms_diamond"),
+        _mk_cand("9.B.99",  0.50, pfam="contradicts_both"),
+    ]}}
+    annotate_candidate_filters(calls)
+    actions = [c["filter_action"] for c in calls["WP_Y.1"]["calls"]]
+    assert actions == ["keep", "drop_pfam_contradicts"]
+
+
+def test_filter_drops_egn_conflicting_candidate():
+    # When one candidate confirms eggNOG and another conflicts, drop the conflict.
+    calls = {"WP_Z.1": {"calls": [
+        _mk_cand("2.A.6.1", 0.80, egn="conflicts"),
+        _mk_cand("8.A.1.2", 0.55, egn="confirms"),
+    ]}}
+    annotate_candidate_filters(calls)
+    actions = [c["filter_action"] for c in calls["WP_Z.1"]["calls"]]
+    assert actions == ["drop_egn_conflicts", "keep"]
+
+
+def test_filter_drops_low_relative_confidence():
+    # Without Pfam/eggNOG signals, the low-confidence candidate is dropped
+    # if its score is < 0.25 × the best sibling's score.
+    calls = {"WP_W.1": {"calls": [
+        _mk_cand("2.A.6.1", 0.80),
+        _mk_cand("3.A.1",   0.10),  # 0.10 < 0.25*0.80 = 0.20
+    ]}}
+    annotate_candidate_filters(calls)
+    actions = [c["filter_action"] for c in calls["WP_W.1"]["calls"]]
+    assert actions == ["keep", "drop_low_confidence"]
+
+
+def test_filter_does_not_drop_low_confidence_when_alone():
+    # Single candidate with score 0.05 still kept (no sibling to dominate it).
+    calls = {"WP_V.1": {"calls": [_mk_cand("9.X.1", 0.05)]}}
+    annotate_candidate_filters(calls)
+    assert calls["WP_V.1"]["calls"][0]["filter_action"] == "keep"
+
+
+def test_filter_priority_pfam_over_egn_over_confidence():
+    # A candidate that fails multiple rules gets tagged by the highest-priority one.
+    calls = {"WP_M.1": {"calls": [
+        _mk_cand("1.A.1", 0.80, egn="confirms", pfam="confirms_diamond"),
+        # Candidate below fails all 3 rules; Pfam priority wins
+        _mk_cand("9.B.1", 0.05, egn="conflicts", pfam="contradicts_both"),
+    ]}}
+    annotate_candidate_filters(calls)
+    assert calls["WP_M.1"]["calls"][1]["filter_action"] == "drop_pfam_contradicts"
+
+
+def test_filter_keeps_all_when_no_confirming_sibling():
+    # All candidates are 'contradicts_both' — no Pfam-supported sibling to compare,
+    # so the pfam rule doesn't fire. Same for egn 'conflicts' when no eggNOG confirm.
+    calls = {"WP_N.1": {"calls": [
+        _mk_cand("9.A.1", 0.50, egn="conflicts", pfam="contradicts_both"),
+        _mk_cand("9.B.1", 0.45, egn="conflicts", pfam="contradicts_both"),
+    ]}}
+    annotate_candidate_filters(calls)
+    # Neither pfam_contradicts nor egn_conflicts rule fires; low_confidence
+    # requires score < 0.25 × max (0.50). 0.45 > 0.125 so it stays.
+    actions = [c["filter_action"] for c in calls["WP_N.1"]["calls"]]
+    assert actions == ["keep", "keep"]
+
+
+def test_filter_action_distribution_in_summary(tmp_path):
+    """end-to-end: build_strain_calls populates filter_action and includes
+    filter_action_distribution in the summary."""
+    # 2-candidate protein where the second should be Pfam-contradicted
+    tsv = tmp_path / "x.tcdb.tsv"
+    tsv.write_text(
+        # Strong hits in family 2.A.6 (Pfam-supported)
+        "WP_F.1\tlcl|Q1-2.A.6.1.4\t100.0\t100.0\t100.0\t400\t1e-200\t800\n"
+        # Weak hit in family 9.B.99 (Pfam contradicts)
+        "WP_F.1\tlcl|Q2-9.B.99.1.1\t30.0\t40.0\t40.0\t150\t1e-10\t100\n"
+    )
+    egn = tmp_path / "missing.emapper.annotations"
+    gene_ann = tmp_path / "ga.json"
+    gene_ann.write_text(json.dumps({
+        "LT01": {"protein_id": "WP_F.1", "pfam_ids": ["PFA"]},
+    }))
+    pfam_map = tmp_path / "pmap.tsv"
+    pfam_map.write_text("PFA\t2.A.6.1.1\tRND-superfamily\n")
+    calls, summary = build_strain_calls(tsv, egn, gene_ann, pfam_map)
+    actions = [c["filter_action"] for c in calls["WP_F.1"]["calls"]]
+    # First (2.A.6) is confirms_diamond, kept. Second (9.B.99) is
+    # contradicts_both with a confirming sibling -> dropped.
+    assert "keep" in actions
+    assert "drop_pfam_contradicts" in actions
+    assert summary["filter_action_distribution"]["drop_pfam_contradicts"] == 1
+
+
 def test_build_strain_calls_emits_multi_family_candidates(tmp_path):
     """The headline multi-call recovery: a protein with diamond hits in two
     distinct 3-part families (e.g. RND + MFP partner-protein confusion) gets

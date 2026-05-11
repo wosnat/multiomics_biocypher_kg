@@ -1,6 +1,6 @@
 # TCDB-Diamond Augmentation — Design
 
-**Date:** 2026-05-10 (amended 2026-05-11: §3/§5/§6.1 — Python-native FASTA download + `diamond makedb`, no `extractTCDB.pl`; §6.2 — `--max-target-seqs 25` (was 5); §6.4-A — `effective_tier = max(best_hit_tier, depth_tier)`, plus **multi-candidate emission** — group hits by 3-part TC family, emit one candidate per family instead of forcing a single global consensus; §6.4-B — multi-valued eggNOG `KEGG_TC` aggregation; §6.4-D NEW — Pfam-corroboration tag using TCDB's curated Pfam→TC mapping; §6.5 — schema now wraps candidates in a `calls: list`, with `egn_tcids`, `pfam_ids`, `pfam_tc_families` at protein level and per-candidate `egn_agreement`/`pfam_agreement`)
+**Date:** 2026-05-10 (amended 2026-05-11: §3/§5/§6.1 — Python-native FASTA download + `diamond makedb`, no `extractTCDB.pl`; §6.2 — `--max-target-seqs 25` (was 5); §6.4-A — `effective_tier = max(best_hit_tier, depth_tier)`, plus **multi-candidate emission** — group hits by 3-part TC family, emit one candidate per family instead of forcing a single global consensus; §6.4-B — multi-valued eggNOG `KEGG_TC` aggregation; §6.4-D NEW — Pfam-corroboration tag using TCDB's curated Pfam→TC mapping; §6.4-E NEW — per-candidate filter (Pfam-contradicts / egn-conflicts / low-confidence dominance); §6.5 — schema now wraps candidates in a `calls: list`, with `egn_tcids`, `pfam_ids`, `pfam_tc_families` at protein level and per-candidate `egn_agreement`/`pfam_agreement`/`filter_action`)
 **Status:** Draft, pending real-data refinement
 **Related:** `cache/data/tcdb/{tcdb_hierarchy,tcdb_pruned}.json` (built by prepare_data step 6); `multiomics_kg/adapters/tcdb_adapter.py`; `multiomics_kg/download/build_gene_annotations.py`; `.claude/skills/eggnog-run/`; `.claude/skills/refresh-mnx/`.
 
@@ -203,6 +203,21 @@ Recorded fields per protein:
 - `pfam_agreement`: one of the 5 tags above
 
 Note: TCDB's Pfam→TC map is a *curated* resource and has known coverage gaps — e.g. PF04193 (the SWEET-family Pfam) is absent from the map even though TCDB curates the SWEET family at 2.A.123. Genes whose Pfams aren't in the map get `pfam_agreement = 'neutral'` regardless of how informative the Pfam might be in principle. We accept these gaps rather than augment the map.
+
+**E — Per-candidate filter (post-emission).** After candidates are emitted, `annotate_candidate_filters` walks each multi-candidate protein and tags every candidate with `filter_action` using three priority-ordered rules:
+
+| Rule | Condition |
+|---|---|
+| `drop_pfam_contradicts` | candidate has `pfam_agreement = contradicts_both` AND some sibling has `pfam_agreement in {confirms_diamond, confirms_both}` |
+| `drop_egn_conflicts` | candidate has `egn_agreement = conflicts` AND some sibling has `egn_agreement in {confirms, refines}` |
+| `drop_low_confidence` | candidate's `confidence_score < 0.25 × max_sibling_confidence` |
+| `keep` | none of the above |
+
+The filter is purely annotative: the full candidate list stays in `calls[]`; nothing is deleted. Consumers (Phase 2 merge rules, MCP queries) take the `keep`-tagged set as the recommended call list; dropped candidates remain inspectable for audit. Single-candidate proteins always get `keep` — never drop the only call.
+
+Filter count emerges in `skill_summary.json`'s `filter_action_distribution`. On the 30-strain phase-1 corpus the typical drop rate is ~15–20% of candidates (most are `drop_pfam_contradicts` and `drop_egn_conflicts`; `drop_low_confidence` is rare since multi-domain candidates within a protein tend to have comparable scores).
+
+The `min_relative_confidence` threshold (default 0.25) is a parameter on `annotate_candidate_filters` — tunable if it proves too aggressive or too lax. Threshold values are explicitly subject to revision after real-data inspection.
 
 **Explicitly NOT included:**
 - HMMTOP / TMS topology check (gblast3 uses HMMTOP; we have UniProt `transmembrane_regions` already, but coverage is too partial — 5–16% of genes by strain — to be useful as a gate or even a confidence signal; deferred until UniProt coverage is improved or a future skill runs DeepTMHMM).

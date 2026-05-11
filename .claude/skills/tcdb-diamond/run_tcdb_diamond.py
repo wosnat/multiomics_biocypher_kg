@@ -350,12 +350,16 @@ def main():
     # Status table. Prot = proteins with >=1 call; Cand = total candidates
     # (proteins with hits in multiple families contribute >1 candidate).
     # T1/T2/T3 and agreement columns count CANDIDATES, not proteins.
-    print(f"\n{'='*132}")
-    cols = ("Strain", "Status", "Prot", "Cand", "T1", "T2", "T3",
+    # Kept = candidates passing the filter; drp_* = candidates dropped by
+    # each filter rule.
+    print(f"\n{'='*160}")
+    cols = ("Strain", "Status", "Prot", "Cand", "Kept",
+            "T1", "T2", "T3",
             "confirms", "refines", "extends", "conflicts",
-            "pfam_d", "pfam_e", "pfam_b")
-    print("{:<12} {:<14} {:>5} {:>5} {:>4} {:>4} {:>4} {:>9} {:>8} {:>8} {:>10} {:>7} {:>7} {:>7}".format(*cols))
-    print("-" * 132)
+            "pfam_d", "pfam_e", "pfam_b",
+            "drp_pf", "drp_eg", "drp_lc")
+    print("{:<12} {:<14} {:>5} {:>5} {:>5} {:>4} {:>4} {:>4} {:>9} {:>8} {:>8} {:>10} {:>7} {:>7} {:>7} {:>7} {:>7} {:>7}".format(*cols))
+    print("-" * 160)
     for strain, status, summary in results:
         if summary is None:
             print(f"{strain:<12} {status:<14}")
@@ -363,18 +367,23 @@ def main():
         td = summary["tier_distribution"]
         ad = summary["agreement_distribution"]
         pad = summary.get("pfam_agreement_distribution", {})
+        fad = summary.get("filter_action_distribution", {})
         print(
-            "{:<12} {:<14} {:>5} {:>5} {:>4} {:>4} {:>4} {:>9} {:>8} {:>8} {:>10} {:>7} {:>7} {:>7}".format(
+            "{:<12} {:<14} {:>5} {:>5} {:>5} {:>4} {:>4} {:>4} {:>9} {:>8} {:>8} {:>10} {:>7} {:>7} {:>7} {:>7} {:>7} {:>7}".format(
                 strain, status, summary["proteins_with_call"],
                 summary.get("total_candidates", 0),
+                fad.get("keep", 0),
                 td.get("1", 0), td.get("2", 0), td.get("3", 0),
                 ad.get("confirms", 0), ad.get("refines", 0),
                 ad.get("extends", 0), ad.get("conflicts", 0),
                 pad.get("confirms_diamond", 0), pad.get("confirms_eggnog", 0),
                 pad.get("confirms_both", 0),
+                fad.get("drop_pfam_contradicts", 0),
+                fad.get("drop_egn_conflicts", 0),
+                fad.get("drop_low_confidence", 0),
             )
         )
-    print("=" * 132)
+    print("=" * 160)
 
     failed = [s for s, st, _ in results if st.startswith("FAILED")]
     if failed:
