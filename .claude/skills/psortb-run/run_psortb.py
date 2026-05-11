@@ -227,28 +227,50 @@ def run_psortb_container(
 ) -> bool:
     """Run the brinkmanlab PSORTb container on one strain's FASTA.
 
-    Mounts `data_dir_genome` at /tmp/psortb in the container, runs psort on
-    the named FASTA file, captures stdout (terse TSV) to `out_tsv` and stderr
-    to `log_path`. Returns True on exit-0.
+    The brinkmanlab `psort` wrapper hardcodes the output directory to
+    `/tmp/results/` inside the container and writes a timestamped file
+    `<YYYYMMDDHHMMSS>_psortb_gramneg.txt` there (not stdout). We mount the
+    strain's data_dir at `/tmp/results` so the wrapper writes directly into
+    the host directory we own, then locate + rename the timestamped file.
+
+    Mounts `data_dir_genome` at /tmp/results. Container stdout/stderr go to
+    `log_path` (informational). Returns True iff the timestamped output file
+    was successfully created and renamed.
     """
     out_tsv.parent.mkdir(parents=True, exist_ok=True)
     log_path.parent.mkdir(parents=True, exist_ok=True)
+    container_dir = data_dir_genome.resolve()
     cmd = [
         "docker", "run", "--rm",
-        "-v", f"{data_dir_genome.resolve()}:/tmp/psortb",
+        "-v", f"{container_dir}:/tmp/results",
         PSORTB_IMAGE,
         PSORTB_BINARY,
         "--negative",
         "--output", "terse",
-        f"/tmp/psortb/{fasta_basename}",
+        "-i", f"/tmp/results/{fasta_basename}",
     ]
     print(f"\n>>> psortb {fasta_basename} → {out_tsv.relative_to(REPO_ROOT)} "
           f"(log: {log_path.relative_to(REPO_ROOT)})")
-    with open(out_tsv, "w") as outf, open(log_path, "w") as logf:
+    with open(log_path, "w") as logf:
         logf.write(f"$ {' '.join(cmd)}\n\n")
         logf.flush()
-        result = subprocess.run(cmd, stdout=outf, stderr=logf)
-    return result.returncode == 0
+        result = subprocess.run(cmd, stdout=logf, stderr=logf)
+    if result.returncode != 0:
+        return False
+
+    # The wrapper writes <timestamp>_psortb_gramneg.txt directly into the
+    # mounted volume (= our host data_dir). Pick the most recent one.
+    candidates = sorted(
+        container_dir.glob("*_psortb_gramneg.txt"),
+        key=lambda p: p.stat().st_mtime,
+        reverse=True,
+    )
+    if not candidates:
+        with open(log_path, "a") as logf:
+            logf.write("\nERROR: no *_psortb_gramneg.txt produced by container.\n")
+        return False
+    candidates[0].replace(out_tsv)
+    return True
 
 
 def process_strain(
