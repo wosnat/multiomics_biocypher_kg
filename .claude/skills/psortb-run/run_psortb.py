@@ -10,6 +10,7 @@ from __future__ import annotations
 import argparse
 import datetime
 import json
+import os
 import shutil
 import subprocess
 import sys
@@ -240,8 +241,11 @@ def run_psortb_container(
     out_tsv.parent.mkdir(parents=True, exist_ok=True)
     log_path.parent.mkdir(parents=True, exist_ok=True)
     container_dir = data_dir_genome.resolve()
+    # Run as the host uid/gid so the produced terse TSV is host-owned (not
+    # root). PSORTb only writes to the mounted /tmp/results, which we own.
     cmd = [
         "docker", "run", "--rm",
+        "--user", f"{os.getuid()}:{os.getgid()}",
         "-v", f"{container_dir}:/tmp/results",
         PSORTB_IMAGE,
         PSORTB_BINARY,
