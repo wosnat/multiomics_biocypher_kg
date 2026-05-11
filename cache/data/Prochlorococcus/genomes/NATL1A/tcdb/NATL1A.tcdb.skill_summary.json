@@ -28,5 +28,11 @@
     "confirms_both": 126,
     "contradicts_both": 115,
     "neutral": 113
+  },
+  "filter_action_distribution": {
+    "keep": 430,
+    "drop_egn_conflicts": 39,
+    "drop_pfam_contradicts": 65,
+    "drop_low_confidence": 1
   }
 }
