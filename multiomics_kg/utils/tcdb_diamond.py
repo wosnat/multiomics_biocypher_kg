@@ -10,6 +10,7 @@ import json
 import re
 from collections import defaultdict
 from pathlib import Path
+from typing import Iterator
 
 
 def classify_hit(hit: dict) -> int | None:
@@ -619,3 +620,116 @@ def build_strain_calls(
         "filter_action_distribution": dict(filter_action_dist),
     }
     return calls, summary
+
+
+# ============================================================================
+# Phase 2 — calls.json consumption helpers
+# ============================================================================
+#
+# These utilities walk the per-strain `<strain>.tcdb.calls.json` artifact
+# produced by `build_strain_calls`. Phase 2's merge code uses them to:
+#   - load a strain's calls
+#   - iterate only the candidates Phase 1 endorses (filter_action == "keep")
+#   - pick the top-confidence kept candidate per protein
+#   - extract per-protein TC family lists for annotation merge
+
+
+# Public vocabulary — exported for Phase 2 consumers
+KEEP_ACTION = "keep"
+FILTER_ACTIONS = (
+    "keep",
+    "drop_pfam_contradicts",
+    "drop_egn_conflicts",
+    "drop_singleton_low_score",
+    "drop_low_confidence",
+)
+
+
+def load_calls_json(path: Path) -> dict[str, dict]:
+    """Load a single strain's `<strain>.tcdb.calls.json` into a dict.
+
+    Raises FileNotFoundError if the file is missing — callers should
+    handle this explicitly (a strain without a calls.json is a real
+    "no TCDB annotation available for this strain" case, not silent).
+    Returns the raw on-disk shape: `{protein_id: {egn_tcids, pfam_ids,
+    pfam_tc_families, calls: [...]}}`.
+    """
+    path = Path(path)
+    return json.loads(path.read_text())
+
+
+def iter_kept_candidates(calls: dict[str, dict]) -> Iterator[tuple[str, dict]]:
+    """Yield (protein_id, candidate_dict) for every candidate the filter
+    endorsed (filter_action == "keep").
+
+    Skips dropped candidates entirely. A protein contributes 0 to N
+    candidates depending on how many of its `calls[]` were kept. Order
+    within a protein matches `calls[]` ordering (descending by
+    `confidence_score`).
+    """
+    for pid, rec in calls.items():
+        for cand in rec.get("calls", []):
+            if cand.get("filter_action") == KEEP_ACTION:
+                yield pid, cand
+
+
+def best_kept_call(rec: dict) -> dict | None:
+    """Return the highest-confidence kept candidate for one protein's record,
+    or None if every candidate was filtered out.
+
+    `rec` is a single value from a calls.json dict (`calls[protein_id]`).
+    Since `build_strain_calls` already sorts `calls[]` by confidence_score
+    descending, this is just the first kept entry — no re-sort needed.
+    """
+    for cand in rec.get("calls", []):
+        if cand.get("filter_action") == KEEP_ACTION:
+            return cand
+    return None
+
+
+def kept_tc_families(rec: dict) -> list[str]:
+    """Sorted-unique list of 3-part TC families across kept candidates for
+    one protein. Empty when every candidate was filtered out.
+
+    Truncates each candidate's `tcid` to its 3-part family. Useful when
+    Phase 2 wants to merge a Gene-to-TC_family edge per kept family
+    (the depth at which eggNOG operates and TCDB curates Pfam mappings).
+    """
+    fams: set[str] = set()
+    for cand in rec.get("calls", []):
+        if cand.get("filter_action") != KEEP_ACTION:
+            continue
+        fams.add(".".join(cand["tcid"].split(".")[:3]))
+    return sorted(fams)
+
+
+def kept_call_tcids(rec: dict) -> list[str]:
+    """List of kept candidates' full `tcid` values in original order (by
+    confidence_score descending). Preserves 3-part / 4-part / 5-part depth.
+
+    Use when Phase 2 wants the most-specific TCID per kept call (vs
+    `kept_tc_families` which collapses to 3-part). Order is meaningful —
+    `[0]` is the highest-confidence kept call.
+    """
+    return [
+        c["tcid"] for c in rec.get("calls", [])
+        if c.get("filter_action") == KEEP_ACTION
+    ]
+
+
+def summarize_filter_actions(calls: dict[str, dict]) -> dict[str, int]:
+    """Recompute the filter_action distribution from a calls dict.
+
+    Useful when Phase 2 (or an ad-hoc analysis) has re-filtered the calls
+    in memory and needs an updated count. For the original on-disk
+    distribution, prefer the `filter_action_distribution` field in
+    `<strain>.tcdb.skill_summary.json` — this function gives equivalent
+    output but recounts from the calls dict.
+    """
+    counts: dict[str, int] = {a: 0 for a in FILTER_ACTIONS}
+    for rec in calls.values():
+        for cand in rec.get("calls", []):
+            action = cand.get("filter_action", "")
+            if action in counts:
+                counts[action] += 1
+    return counts

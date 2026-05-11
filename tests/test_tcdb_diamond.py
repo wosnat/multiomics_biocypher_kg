@@ -796,3 +796,138 @@ def test_build_strain_calls_emits_multi_family_candidates(tmp_path):
     assert summary["total_candidates"] == 2
     assert summary["proteins_with_call"] == 1
     assert summary["candidates_per_protein_distribution"] == {"2": 1}
+
+
+# ============================================================================
+# Phase 2 — calls.json consumption helpers
+# ============================================================================
+
+from multiomics_kg.utils.tcdb_diamond import (
+    KEEP_ACTION,
+    FILTER_ACTIONS,
+    load_calls_json,
+    iter_kept_candidates,
+    best_kept_call,
+    kept_tc_families,
+    kept_call_tcids,
+    summarize_filter_actions,
+)
+
+
+def _mk_rec(*candidates):
+    """Test factory — build a per-protein record from positional candidates.
+    Each candidate is a dict (use _mk_kept_cand / _mk_drop_cand helpers).
+    """
+    return {
+        "egn_tcids": [], "pfam_ids": [], "pfam_tc_families": [],
+        "calls": list(candidates),
+    }
+
+
+def _kept(tcid, score):
+    return {"tcid": tcid, "confidence_score": score, "filter_action": "keep"}
+
+
+def _dropped(tcid, score, reason="drop_low_confidence"):
+    return {"tcid": tcid, "confidence_score": score, "filter_action": reason}
+
+
+def test_load_calls_json_reads_on_disk_shape(tmp_path):
+    p = tmp_path / "x.tcdb.calls.json"
+    payload = {"WP_X.1": _mk_rec(_kept("1.A.11.1.5", 0.8))}
+    p.write_text(json.dumps(payload))
+    loaded = load_calls_json(p)
+    assert loaded == payload
+
+
+def test_load_calls_json_missing_file_raises():
+    import pytest
+    with pytest.raises(FileNotFoundError):
+        load_calls_json("/nonexistent/path/calls.json")
+
+
+def test_iter_kept_candidates_yields_only_keeps():
+    calls = {
+        "WP_A.1": _mk_rec(_kept("1.A.1", 0.8), _dropped("2.A.7", 0.1)),
+        "WP_B.1": _mk_rec(_dropped("9.X.1", 0.05, "drop_singleton_low_score")),
+        "WP_C.1": _mk_rec(_kept("3.A.5", 0.6)),
+    }
+    seen = list(iter_kept_candidates(calls))
+    assert [(pid, c["tcid"]) for pid, c in seen] == [("WP_A.1", "1.A.1"), ("WP_C.1", "3.A.5")]
+
+
+def test_iter_kept_candidates_preserves_per_protein_order():
+    # calls[] is already sorted by confidence_score desc; iter should follow
+    rec = _mk_rec(
+        _kept("2.A.6.1", 0.9),
+        _kept("8.A.1", 0.5),
+        _kept("9.B.99", 0.3),
+    )
+    seen = [c["tcid"] for _pid, c in iter_kept_candidates({"WP_X.1": rec})]
+    assert seen == ["2.A.6.1", "8.A.1", "9.B.99"]
+
+
+def test_best_kept_call_returns_top_keep():
+    rec = _mk_rec(
+        _dropped("1.A.1", 0.95),  # higher score but dropped — should NOT win
+        _kept("2.A.6.1", 0.8),
+        _kept("8.A.1", 0.5),
+    )
+    assert best_kept_call(rec)["tcid"] == "2.A.6.1"
+
+
+def test_best_kept_call_none_when_all_dropped():
+    rec = _mk_rec(_dropped("9.X.1", 0.05, "drop_singleton_low_score"))
+    assert best_kept_call(rec) is None
+
+
+def test_best_kept_call_empty_calls_list():
+    assert best_kept_call({"calls": []}) is None
+    assert best_kept_call({}) is None  # missing calls key
+
+
+def test_kept_tc_families_collapses_to_3_part_and_dedupes():
+    rec = _mk_rec(
+        _kept("1.A.11.1.5", 0.8),     # -> 1.A.11
+        _kept("1.A.11.2.1", 0.5),     # -> 1.A.11 (dedup)
+        _kept("2.A.6.1", 0.4),        # -> 2.A.6
+        _dropped("9.B.99.1", 0.05, "drop_singleton_low_score"),  # excluded
+    )
+    assert kept_tc_families(rec) == ["1.A.11", "2.A.6"]
+
+
+def test_kept_tc_families_empty_when_none_kept():
+    rec = _mk_rec(_dropped("1.A.1", 0.05))
+    assert kept_tc_families(rec) == []
+
+
+def test_kept_call_tcids_preserves_depth_and_order():
+    rec = _mk_rec(
+        _kept("1.A.11.1.5", 0.8),    # 5-part
+        _kept("2.A.6.1", 0.5),       # 4-part
+        _kept("8.A.1", 0.3),         # 3-part
+        _dropped("9.B", 0.1),
+    )
+    assert kept_call_tcids(rec) == ["1.A.11.1.5", "2.A.6.1", "8.A.1"]
+
+
+def test_summarize_filter_actions_recounts():
+    calls = {
+        "WP_A.1": _mk_rec(_kept("1.A", 0.5), _dropped("2.A", 0.1, "drop_low_confidence")),
+        "WP_B.1": _mk_rec(_dropped("9.X", 0.05, "drop_singleton_low_score")),
+    }
+    counts = summarize_filter_actions(calls)
+    assert counts["keep"] == 1
+    assert counts["drop_low_confidence"] == 1
+    assert counts["drop_singleton_low_score"] == 1
+    assert counts["drop_pfam_contradicts"] == 0  # zero-init
+    # All keys present
+    assert set(counts) == set(FILTER_ACTIONS)
+
+
+def test_phase2_vocabulary_constants_exposed():
+    # Phase 2 callers can import these instead of hardcoding strings
+    assert KEEP_ACTION == "keep"
+    assert "keep" in FILTER_ACTIONS
+    assert "drop_singleton_low_score" in FILTER_ACTIONS
+    assert len(FILTER_ACTIONS) == 5
