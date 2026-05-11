@@ -1,5 +1,7 @@
 # tests/test_tcdb_diamond.py
 """Unit tests for multiomics_kg.utils.tcdb_diamond."""
+import json
+
 from multiomics_kg.utils import tcdb_diamond  # noqa: F401
 from multiomics_kg.utils.tcdb_diamond import truncate_tcid
 
@@ -317,63 +319,79 @@ def test_build_strain_calls_full_pipeline(tmp_path):
 
     calls, summary = build_strain_calls(tsv, egn)
 
-    # WP_AAA.1: 3 strong consensus hits at 5-part -> tier 1 specificity, refines eggNOG
-    assert calls["WP_AAA.1"]["tcid"] == "1.A.11.1.5"
-    assert calls["WP_AAA.1"]["tier"] == 1
-    assert calls["WP_AAA.1"]["level_kind"] == "tc_specificity"
-    assert calls["WP_AAA.1"]["consensus_agreement"] == "5_part"
-    assert calls["WP_AAA.1"]["consensus_n"] == 3
-    assert calls["WP_AAA.1"]["egn_agreement"] == "refines"
-    assert calls["WP_AAA.1"]["egn_tcids"] == ["1.A.11"]
-    assert calls["WP_AAA.1"]["incompletely_characterized"] is False
+    def call0(pid):
+        """Return the first (highest-confidence) candidate for a protein."""
+        return calls[pid]["calls"][0]
 
-    # WP_BBB.1: scattered hits -> rejected (not in calls)
-    assert "WP_BBB.1" not in calls
+    # WP_AAA.1: 3 strong consensus hits at 5-part -> tier 1 specificity, refines eggNOG
+    c = call0("WP_AAA.1")
+    assert c["tcid"] == "1.A.11.1.5"
+    assert c["tier"] == 1
+    assert c["level_kind"] == "tc_specificity"
+    assert c["consensus_agreement"] == "5_part"
+    assert c["consensus_n"] == 3
+    assert c["egn_agreement"] == "refines"
+    assert calls["WP_AAA.1"]["egn_tcids"] == ["1.A.11"]
+    assert c["incompletely_characterized"] is False
+    # Single-family protein -> one candidate
+    assert len(calls["WP_AAA.1"]["calls"]) == 1
+
+    # WP_BBB.1: scattered across 2 families -> NOW recovers BOTH as candidates
+    # (was rejected by global consensus_collapse in the old single-call design)
+    assert "WP_BBB.1" in calls
+    bbb_calls = calls["WP_BBB.1"]["calls"]
+    assert len(bbb_calls) == 2
+    bbb_tcids = {c["tcid"] for c in bbb_calls}
+    assert bbb_tcids == {"1.A.11.1.5", "2.A.7.4.3"}
+    # First candidate is the higher-confidence one (75/75 -> 0.5625 > 72/73 -> 0.5256)
+    assert bbb_calls[0]["confidence_score"] > bbb_calls[1]["confidence_score"]
 
     # WP_CCC.1: single tier-2 hit -> 4-part subfamily
-    assert calls["WP_CCC.1"]["tcid"] == "1.A.11.1"
-    assert calls["WP_CCC.1"]["tier"] == 2
-    assert calls["WP_CCC.1"]["level_kind"] == "tc_subfamily"
-    assert calls["WP_CCC.1"]["egn_agreement"] == "extends"
+    c = call0("WP_CCC.1")
+    assert c["tcid"] == "1.A.11.1"
+    assert c["tier"] == 2
+    assert c["level_kind"] == "tc_subfamily"
+    assert c["egn_agreement"] == "extends"
 
     # WP_DDD.1: tier 3 -> 3-part family; eggNOG conflict (different family)
-    assert calls["WP_DDD.1"]["tcid"] == "1.A.11"
-    assert calls["WP_DDD.1"]["tier"] == 3
-    assert calls["WP_DDD.1"]["level_kind"] == "tc_family"
-    assert calls["WP_DDD.1"]["egn_agreement"] == "conflicts"
+    c = call0("WP_DDD.1")
+    assert c["tcid"] == "1.A.11"
+    assert c["tier"] == 3
+    assert c["level_kind"] == "tc_family"
+    assert c["egn_agreement"] == "conflicts"
     assert calls["WP_DDD.1"]["egn_tcids"] == ["9.A.1"]
 
     # WP_EEE.1: class 9 -> tagged; identity is high (80%) so still tier 1 — no demotion
     # despite class 9 (spec §6.4-C: "No demotion — let merge / downstream consumers decide")
-    assert calls["WP_EEE.1"]["tcid"] == "9.B.82.1.5"
-    assert calls["WP_EEE.1"]["incompletely_characterized"] is True
-    assert calls["WP_EEE.1"]["egn_agreement"] == "extends"
-    assert calls["WP_EEE.1"]["tier"] == 1
-    assert calls["WP_EEE.1"]["level_kind"] == "tc_specificity"
+    c = call0("WP_EEE.1")
+    assert c["tcid"] == "9.B.82.1.5"
+    assert c["incompletely_characterized"] is True
+    assert c["egn_agreement"] == "extends"
+    assert c["tier"] == 1
+    assert c["level_kind"] == "tc_specificity"
 
     # WP_FFF.1: floor failure -> not in calls
     assert "WP_FFF.1" not in calls
 
-    # confidence_score: (best identity / 100) * (best qcov / 100) * agreement_weight
-    #   WP_AAA.1: 0.874 * 0.921 * 1.0 (5_part) ≈ 0.8050
-    #   WP_CCC.1: 0.50  * 0.65  * 1.0 (5_part) = 0.3250
-    #   WP_DDD.1: 0.30  * 0.45  * 1.0 (5_part) = 0.1350
-    #   WP_EEE.1: 0.80  * 0.85  * 1.0 (5_part) = 0.6800
-    assert abs(calls["WP_AAA.1"]["confidence_score"] - 0.8050) < 1e-3
-    assert abs(calls["WP_CCC.1"]["confidence_score"] - 0.3250) < 1e-3
-    assert abs(calls["WP_DDD.1"]["confidence_score"] - 0.1350) < 1e-3
-    assert abs(calls["WP_EEE.1"]["confidence_score"] - 0.6800) < 1e-3
+    # confidence_score on the WINNING candidate per protein
+    assert abs(call0("WP_AAA.1")["confidence_score"] - 0.8050) < 1e-3
+    assert abs(call0("WP_CCC.1")["confidence_score"] - 0.3250) < 1e-3
+    assert abs(call0("WP_DDD.1")["confidence_score"] - 0.1350) < 1e-3
+    assert abs(call0("WP_EEE.1")["confidence_score"] - 0.6800) < 1e-3
 
-    # Summary
+    # Summary — counts CANDIDATES, not proteins
     assert summary["raw_hit_lines"] == 9
-    assert summary["proteins_with_call"] == 4
-    assert summary["proteins_rejected_by_consensus"] == 1
-    # WP_EEE.1 is tier 1 (high identity 80%, no class-9 demotion per spec §6.4-C)
-    assert summary["tier_distribution"] == {"1": 2, "2": 1, "3": 1}
+    assert summary["proteins_with_call"] == 5      # was 4 (WP_BBB.1 recovered)
+    assert summary["total_candidates"] == 6        # 4 single-family + 2 from WP_BBB.1
+    assert "proteins_rejected_by_consensus" not in summary  # field removed
+    # WP_BBB.1 contributes 2 tier-1 candidates (75/75 + 72/73 both clear T1 floor)
+    assert summary["tier_distribution"] == {"1": 4, "2": 1, "3": 1}
     assert summary["agreement_distribution"]["refines"] == 1
-    assert summary["agreement_distribution"]["extends"] == 2
+    assert summary["agreement_distribution"]["extends"] == 4   # CCC, EEE, + both BBB candidates (no eggNOG)
     assert summary["agreement_distribution"]["conflicts"] == 1
     assert summary["agreement_distribution"]["confirms"] == 0
+    # 1-candidate proteins: AAA, CCC, DDD, EEE = 4; 2-candidate: BBB = 1
+    assert summary["candidates_per_protein_distribution"] == {"1": 4, "2": 1}
 
 
 def test_build_strain_calls_mixed_tier_hits_use_best_not_worst(tmp_path):
@@ -399,15 +417,167 @@ def test_build_strain_calls_mixed_tier_hits_use_best_not_worst(tmp_path):
     egn = tmp_path / "missing.emapper.annotations"  # no eggNOG file
 
     calls, _ = build_strain_calls(tsv, egn)
-
-    assert calls["WP_GGG.1"]["tier"] == 2
-    assert calls["WP_GGG.1"]["tcid"] == "1.A.11.1"
-    assert calls["WP_GGG.1"]["level_kind"] == "tc_subfamily"
+    c = calls["WP_GGG.1"]["calls"][0]
+    assert c["tier"] == 2
+    assert c["tcid"] == "1.A.11.1"
+    assert c["level_kind"] == "tc_subfamily"
     # Best hit (75%/75%) drives metadata + score
-    assert calls["WP_GGG.1"]["identity"] == 75.0
-    assert calls["WP_GGG.1"]["qcov"] == 75.0
+    assert c["identity"] == 75.0
+    assert c["qcov"] == 75.0
     # confidence: 0.75 * 0.75 * 0.85 (4_part) = 0.4781
-    assert abs(calls["WP_GGG.1"]["confidence_score"] - 0.4781) < 1e-3
+    assert abs(c["confidence_score"] - 0.4781) < 1e-3
+
+
+from multiomics_kg.utils.tcdb_diamond import (
+    load_pfam_to_tc_map,
+    load_gene_pfams,
+    compute_pfam_agreement,
+    gene_pfam_implied_families,
+)
+
+
+def test_load_pfam_to_tc_map_parses_3col_tsv(tmp_path):
+    p = tmp_path / "pfam_map.tsv"
+    p.write_text(
+        "PF07885\t1.A.1.1.1\tThe Voltage-gated Ion Channel (VIC) Superfamily\n"
+        "PF07885\t1.A.1.29.1\tThe Voltage-gated Ion Channel (VIC) Superfamily\n"
+        "PF00520\t1.A.1.2.2\tThe Voltage-gated Ion Channel (VIC) Superfamily\n"
+        "PF02462\t1.B.6.2.7\tThe OmpA-OmpF Porin (OOP) Family\n"
+    )
+    m = load_pfam_to_tc_map(p)
+    # Both PF07885 5-part hits collapse to the same 3-part family
+    assert m["PF07885"] == {"1.A.1"}
+    assert m["PF00520"] == {"1.A.1"}
+    assert m["PF02462"] == {"1.B.6"}
+
+
+def test_load_pfam_to_tc_map_skips_garbage_rows(tmp_path):
+    p = tmp_path / "pfam_map.tsv"
+    p.write_text(
+        "PF07885\t1.A.1.1.1\tValid row\n"
+        "header line\tnot tabbed correctly\n"
+        "TesT\t3.A.1.1.1\tnon-PF row that the source page sometimes has\n"
+        "PF12345\t1.A\ttoo-short TC id\n"
+    )
+    m = load_pfam_to_tc_map(p)
+    assert m == {"PF07885": {"1.A.1"}}
+
+
+def test_load_pfam_to_tc_map_missing_file_returns_empty(tmp_path):
+    assert load_pfam_to_tc_map(tmp_path / "nope.tsv") == {}
+
+
+def test_load_gene_pfams_extracts_protein_id_to_pfams(tmp_path):
+    p = tmp_path / "gene_annotations_merged.json"
+    p.write_text(json.dumps({
+        "MIT1002_00220": {"protein_id": "WP_014947909.1", "pfam_ids": ["PF06723"]},
+        "MIT1002_00500": {"protein_id_refseq": "WP_222.1", "pfam_ids": ["PF00001", "PF00002"]},
+        "MIT1002_NOPID": {"locus_tag": "x"},  # no protein_id -> skipped
+        "MIT1002_NOPFAM": {"protein_id": "WP_333.1", "pfam_ids": []},
+    }))
+    result = load_gene_pfams(p)
+    assert result == {
+        "WP_014947909.1": ["PF06723"],
+        "WP_222.1": ["PF00001", "PF00002"],
+    }
+
+
+def test_gene_pfam_implied_families_unions_and_sorts():
+    pfam_map = {"PF1": {"2.A.6"}, "PF2": {"8.A.1", "1.B.17"}, "PF3": {"2.A.6"}}
+    assert gene_pfam_implied_families(["PF1", "PF2", "PF3"], pfam_map) == ["1.B.17", "2.A.6", "8.A.1"]
+
+
+def test_gene_pfam_implied_families_empty_when_no_pfams_or_no_map_hits():
+    assert gene_pfam_implied_families([], {"PF1": {"2.A.6"}}) == []
+    assert gene_pfam_implied_families(["PF999"], {"PF1": {"2.A.6"}}) == []
+
+
+def test_compute_pfam_agreement_neutral_when_implied_empty():
+    assert compute_pfam_agreement("1.A.11", ["2.A.7"], []) == "neutral"
+
+
+def test_compute_pfam_agreement_confirms_diamond():
+    # Pfam-implied family matches diamond's, but no eggNOG family
+    assert compute_pfam_agreement("9.B.157.1", ["1.A.33.1"], ["9.B.157"]) == "confirms_diamond"
+
+
+def test_compute_pfam_agreement_confirms_eggnog():
+    # Pfam supports an eggNOG family, not diamond's
+    assert compute_pfam_agreement("2.A.6.1", ["8.A.1.2.1"], ["8.A.1"]) == "confirms_eggnog"
+
+
+def test_compute_pfam_agreement_confirms_both():
+    # Pfam covers BOTH diamond's family AND an eggNOG family
+    assert compute_pfam_agreement("2.A.6.1", ["8.A.1.2.1"], ["2.A.6", "8.A.1"]) == "confirms_both"
+
+
+def test_compute_pfam_agreement_contradicts_both():
+    # Pfam implies a TC family, but neither diamond nor eggNOG hit it
+    assert compute_pfam_agreement("1.A.11", ["2.A.7"], ["5.A.1"]) == "contradicts_both"
+
+
+def test_build_strain_calls_pfam_aware_pipeline(tmp_path):
+    """End-to-end Pfam path: a single MreB protein with PF06723 (MreB_Mbl)
+    should get pfam_agreement = 'confirms_diamond' when diamond's 9.B.157 call
+    matches the Pfam mapping. Validates the new schema fields and the new
+    pfam_agreement_distribution summary key.
+    """
+    tsv = tmp_path / "mreb.tsv"
+    tsv.write_text(
+        "WP_MREB.1\tlcl|Q1-9.B.157.1\t89.9\t100.0\t95.0\t340\t1e-180\t650\n"
+        "WP_MREB.1\tlcl|Q2-9.B.157.1\t85.0\t99.0\t94.0\t338\t1e-170\t620\n"
+    )
+    egn = tmp_path / "mreb.emapper.annotations"
+    import textwrap
+    egn.write_text(textwrap.dedent("""\
+        ## emapper-2.1.13
+        #query\tseed_ortholog\tevalue\tscore\teggNOG_OGs\tmax_annot_lvl\tCOG_category\tDescription\tPreferred_name\tGOs\tEC\tKEGG_ko\tKEGG_Pathway\tKEGG_Module\tKEGG_Reaction\tKEGG_rclass\tBRITE\tKEGG_TC\tCAZy\tBiGG_Reaction\tPFAMs
+        WP_MREB.1\tx\tx\tx\tx\tx\tD\tx\tmreB\t-\t-\tx\t-\t-\t-\t-\t-\t1.A.33.1,9.B.157.1\t-\t-\tMreB_Mbl
+        """))
+    gene_ann = tmp_path / "gene_annotations_merged.json"
+    gene_ann.write_text(json.dumps({
+        "MIT1002_00220": {"protein_id": "WP_MREB.1", "pfam_ids": ["PF06723"]},
+    }))
+    pfam_map = tmp_path / "tcdb_pfam_map.tsv"
+    pfam_map.write_text(
+        "PF06723\t9.B.157.1.1\tThe Cell Shape-determining MreBCD (MreBCD) Family\n"
+    )
+
+    calls, summary = build_strain_calls(tsv, egn, gene_ann, pfam_map)
+    rec = calls["WP_MREB.1"]
+    # Protein-level fields
+    assert rec["pfam_ids"] == ["PF06723"]
+    assert rec["pfam_tc_families"] == ["9.B.157"]
+    # Single 3-part family -> 1 candidate
+    assert len(rec["calls"]) == 1
+    c = rec["calls"][0]
+    # eggNOG already carries 9.B.157.1 (the multi-valued case), so Pfam's
+    # 9.B.157 corroborates BOTH diamond AND one of the eggNOG values.
+    assert c["pfam_agreement"] == "confirms_both"
+    # eggNOG agreement on the headline call
+    assert c["egn_agreement"] == "confirms"
+    pad = summary["pfam_agreement_distribution"]
+    assert pad["confirms_both"] == 1
+    assert pad["confirms_diamond"] == 0
+    assert pad["confirms_eggnog"] == 0
+    assert pad["contradicts_both"] == 0
+    assert pad["neutral"] == 0
+
+
+def test_build_strain_calls_pfam_paths_optional(tmp_path):
+    """When pfam_map / gene_annotations paths are not supplied, calls still
+    get pfam_* fields with neutral defaults so the schema is stable."""
+    tsv = tmp_path / "x.tsv"
+    tsv.write_text(
+        "WP_X.1\tlcl|Q-1.A.11.1.5\t87.4\t92.1\t89.7\t412\t1e-180\t650\n"
+    )
+    egn = tmp_path / "missing.emapper.annotations"  # no eggnog file
+    calls, summary = build_strain_calls(tsv, egn)  # no gene_ann / pfam_map
+    rec = calls["WP_X.1"]
+    assert rec["pfam_ids"] == []
+    assert rec["pfam_tc_families"] == []
+    assert rec["calls"][0]["pfam_agreement"] == "neutral"
+    assert summary["pfam_agreement_distribution"]["neutral"] == 1
 
 
 def test_build_strain_calls_multi_value_eggnog_kegg_tc(tmp_path):
@@ -434,10 +604,51 @@ def test_build_strain_calls_multi_value_eggnog_kegg_tc(tmp_path):
         """))
 
     calls, summary = build_strain_calls(tsv, egn)
-
-    assert calls["WP_MREB.1"]["tcid"] == "9.B.157.1"
-    assert calls["WP_MREB.1"]["egn_agreement"] == "confirms"
-    assert calls["WP_MREB.1"]["egn_tcids"] == ["1.A.33.1", "9.B.157.1"]
+    rec = calls["WP_MREB.1"]
+    c = rec["calls"][0]
+    assert c["tcid"] == "9.B.157.1"
+    assert c["egn_agreement"] == "confirms"
+    assert rec["egn_tcids"] == ["1.A.33.1", "9.B.157.1"]
     # Summary should reflect 1 confirm, 0 conflicts (the bug-era output had 1 conflict)
     assert summary["agreement_distribution"]["confirms"] == 1
     assert summary["agreement_distribution"]["conflicts"] == 0
+
+
+def test_build_strain_calls_emits_multi_family_candidates(tmp_path):
+    """The headline multi-call recovery: a protein with diamond hits in two
+    distinct 3-part families (e.g. RND + MFP partner-protein confusion) gets
+    BOTH as candidates instead of being rejected by global consensus. Each
+    candidate carries its own egn/pfam agreement.
+    """
+    tsv_content = (
+        # 2 strong hits in family 2.A.6 (RND)
+        "WP_RND.1\tlcl|Q1-2.A.6.1.4\t100.0\t100.0\t100.0\t400\t1e-200\t800\n"
+        "WP_RND.1\tlcl|Q2-2.A.6.1.5\t98.0\t99.0\t99.0\t398\t1e-198\t790\n"
+        # 1 weaker hit in family 8.A.1 (MFP)
+        "WP_RND.1\tlcl|Q3-8.A.1.2.1\t60.0\t80.0\t80.0\t300\t1e-100\t450\n"
+    )
+    tsv = tmp_path / "x.tcdb.tsv"
+    tsv.write_text(tsv_content)
+    import textwrap
+    egn = tmp_path / "x.emapper.annotations"
+    egn.write_text(textwrap.dedent("""\
+        ## emapper-2.1.13
+        #query\tseed_ortholog\tevalue\tscore\teggNOG_OGs\tmax_annot_lvl\tCOG_category\tDescription\tPreferred_name\tGOs\tEC\tKEGG_ko\tKEGG_Pathway\tKEGG_Module\tKEGG_Reaction\tKEGG_rclass\tBRITE\tKEGG_TC\tCAZy\tBiGG_Reaction\tPFAMs
+        WP_RND.1\tx\tx\tx\tx\tx\tM\tx\tx\t-\t-\tx\t-\t-\t-\t-\t-\t8.A.1.2.1\t-\t-\tHlyD_D23
+        """))
+
+    calls, summary = build_strain_calls(tsv, egn)
+    rec = calls["WP_RND.1"]
+    assert len(rec["calls"]) == 2
+    # First candidate is the higher-confidence one (RND, 100/100)
+    assert rec["calls"][0]["tcid"].startswith("2.A.6")
+    assert rec["calls"][0]["confidence_score"] > rec["calls"][1]["confidence_score"]
+    # Per-candidate egn agreement: RND vs eggNOG's MFP -> conflicts;
+    # MFP vs eggNOG's MFP -> confirms
+    by_tcid = {c["tcid"][:5]: c for c in rec["calls"]}
+    assert by_tcid["2.A.6"]["egn_agreement"] == "conflicts"
+    assert by_tcid["8.A.1"]["egn_agreement"] == "confirms"
+    # Summary reflects per-candidate counts
+    assert summary["total_candidates"] == 2
+    assert summary["proteins_with_call"] == 1
+    assert summary["candidates_per_protein_distribution"] == {"2": 1}

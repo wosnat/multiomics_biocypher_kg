@@ -1,7 +1,7 @@
 ---
 name: tcdb-diamond
 description: Run diamond blastp vs. the curated TCDB FASTA per strain to generate per-protein TCDB classifications, with tiered confidence (5-part / 4-part / 3-part) plus consensus + eggNOG-agreement tags. Phase 1 — produces inspectable `<strain>.tcdb.calls.json` artifacts; KG integration deferred to Phase 2.
-argument-hint: [--strain <name> | --force | --refresh-tcdb | --threads <n>]
+argument-hint: "[--strain <name> | --force | --refresh-tcdb | --threads <n>]"
 user-invocable: true
 allowed-tools: Read, Bash(uv *), Bash(diamond *)
 ---
@@ -36,7 +36,12 @@ uv run python .claude/skills/tcdb-diamond/run_tcdb_diamond.py --strain MIT1002 -
 
 ## One-Time Setup
 
-No manual setup required. The skill downloads the TCDB FASTA from `https://tcdb.org/public/tcdb`, rewrites its headers to a parser-friendly form, and builds the diamond DB itself in pure Python on first run.
+No manual setup required. The skill downloads two TCDB-curated resources on first run:
+
+1. **TCDB FASTA** from `https://tcdb.org/public/tcdb` → rewritten + built into a diamond DB at `~/tools/TCDB/DB/tcdb.dmnd`.
+2. **TCDB Pfam→TC map** from `https://www.tcdb.org/cgi-bin/projectv/public/pfam.py` → cleaned 3-column TSV at `~/tools/TCDB/DB/tcdb_pfam_map.tsv` (~600 KB, ~8.3K Pfam→TC pairs across ~1.3K Pfams). Used as a tiebreaker signal when diamond and eggNOG disagree.
+
+Both are re-downloaded on `--refresh-tcdb`.
 
 Optional `.env` entry to relocate the TCDB data dir (default: `~/tools/TCDB`):
 
@@ -51,13 +56,14 @@ System tool required: `diamond` (already required by other parts of the project)
 ## What It Does
 
 1. Reads `data/Prochlorococcus/genomes/cyanobacteria_genomes.csv`, filters to `organism_type='genome_strain'`.
-2. Ensures `~/tools/TCDB/DB/tcdb.dmnd` exists, building it from `https://tcdb.org/public/tcdb` (download + header rewrite + `diamond makedb`) if missing or `--refresh-tcdb`.
+2. Ensures `~/tools/TCDB/DB/tcdb.dmnd` and `~/tools/TCDB/DB/tcdb_pfam_map.tsv` exist, downloading them from TCDB if missing or `--refresh-tcdb`.
 3. For each strain, runs `diamond blastp` of `<data_dir>/protein.faa` against the TCDB diamond DB, writing raw 8-column TSV to `<data_dir>/tcdb/<strain>.tcdb.tsv`.
 4. Applies the per-hit tier policy + per-protein consensus collapse + best-tier promotion (Spec §6.3, §6.4-A).
 5. Joins each protein's eggNOG `KEGG_TC` (from `<data_dir>/eggnog/<strain>.emapper.annotations`) and computes the agreement tag (Spec §6.4-B).
-6. Tags class-9 calls (Spec §6.4-C).
-7. Writes `<data_dir>/tcdb/<strain>.tcdb.calls.json` (per-protein records, including `confidence_score`) and `<strain>.tcdb.skill_summary.json` (per-strain stats).
-8. Prints a status table to stdout. Diamond's full per-strain stdout+stderr are captured to `logs/tcdb_diamond_<strain>.log` (auto-gitignored via `*.log`).
+6. Joins each protein's Pfam annotations (from `<data_dir>/gene_annotations_merged.json`) against the TCDB Pfam→TC map and computes a per-protein `pfam_agreement` tag — an independent third signal alongside diamond and eggNOG (Spec §6.4-D).
+7. Tags class-9 calls (Spec §6.4-C).
+8. Writes `<data_dir>/tcdb/<strain>.tcdb.calls.json` (per-protein records, including `confidence_score` and the `pfam_*` fields) and `<strain>.tcdb.skill_summary.json` (per-strain stats — now includes `pfam_agreement_distribution`).
+9. Prints a status table to stdout. Diamond's full per-strain stdout+stderr are captured to `logs/tcdb_diamond_<strain>.log` (auto-gitignored via `*.log`).
 
 ## Tier Policy
 
@@ -71,35 +77,57 @@ All tiers also require: e-value ≤ 0.001, HSP length ≥ 50 aa.
 
 ## Output Schema (`<strain>.tcdb.calls.json`)
 
-Keyed by NCBI protein_id (WP_ accession):
+Keyed by NCBI protein_id (WP_ accession). Each protein has shared fields plus a `calls` list — one candidate per 3-part TC family the protein hits, sorted by `confidence_score` descending. Multi-domain proteins (RND + MFP + OMF efflux components, etc.) produce multiple candidates instead of being rejected.
 
 ```json
 {
-  "WP_011131900.1": {
-    "tcid": "1.A.11.1.5",
-    "level_kind": "tc_specificity",
-    "tier": 1,
-    "confidence_score": 0.805,
-    "identity": 87.4,
-    "qcov": 92.1,
-    "scov": 89.7,
-    "evalue": 1.2e-180,
-    "length": 412,
-    "consensus_n": 5,
-    "consensus_agreement": "5_part",
-    "egn_agreement": "refines",
-    "egn_tcids": ["1.A.11"],
-    "incompletely_characterized": false
+  "WP_010951455.1": {
+    "egn_tcids": ["8.A.1.2.1"],
+    "pfam_ids":  ["PF_HlyD"],
+    "pfam_tc_families": ["8.A.1"],
+    "calls": [
+      {
+        "tcid": "2.A.6.1",
+        "level_kind": "tc_subfamily",
+        "tier": 1,
+        "confidence_score": 0.85,
+        "identity": 100.0,
+        "qcov": 100.0,
+        "scov": 100.0,
+        "evalue": 1.2e-200,
+        "length": 400,
+        "consensus_n": 2,
+        "consensus_agreement": "4_part",
+        "egn_agreement": "conflicts",
+        "pfam_agreement": "confirms_eggnog",
+        "incompletely_characterized": false
+      },
+      {
+        "tcid": "8.A.1.2",
+        "level_kind": "tc_subfamily",
+        "tier": 2,
+        "confidence_score": 0.55,
+        "...": "...",
+        "egn_agreement": "confirms",
+        "pfam_agreement": "confirms_both"
+      }
+    ]
   }
 }
 ```
 
 Field semantics:
-- `tier` (1/2/3) and `level_kind` (tc_specificity/tc_subfamily/tc_family) come from `effective_tier = max(best_hit_tier, depth_tier)` — the more conservative of the strongest hit's identity-tier and the consensus depth's tier. `tcid` is truncated to the parts justified by `effective_tier`.
-- `confidence_score` ∈ [0,1] = `(identity / 100) × (qcov / 100) × agreement_weight`, where agreement_weight is 1.0 / 0.85 / 0.7 for 5/4/3-part consensus. Continuous complement to the discrete `tier` for downstream thresholding.
-- `identity`, `qcov`, `scov`, `evalue`, `length` come from the **best (highest-identity)** hit, not the worst.
+- **Protein-level** (shared across all candidates): `egn_tcids`, `pfam_ids`, `pfam_tc_families` — facts about the gene, not about a specific call.
+- **Per-candidate**:
+  - `tier` (1/2/3) and `level_kind` come from `effective_tier = max(best_hit_tier, depth_tier)` within this family's hits — the more conservative of the strongest hit's identity-tier and the consensus depth's tier. `tcid` is truncated to the parts justified by `effective_tier`.
+  - `confidence_score` ∈ [0,1] = `(identity / 100) × (qcov / 100) × agreement_weight`, where agreement_weight is 1.0 / 0.85 / 0.7 for 5/4/3-part consensus. The list is sorted by this descending — `calls[0]` is the strongest call.
+  - `identity`, `qcov`, `scov`, `evalue`, `length` come from the **best (highest-identity)** hit in THIS family group.
+  - `egn_agreement` / `pfam_agreement` are computed PER candidate — different candidates of the same protein can have different verdicts (the headline use case for the multi-call design: one candidate `confirms` eggNOG while another `conflicts`).
 - `egn_tcids` is a list because eggNOG's `KEGG_TC` field is multi-valued (comma-separated in source TSV) — e.g. MreB-family proteins carry `["1.A.33.1", "9.B.157.1"]`. Diamond matching ANY value yields `confirms` / `refines`; only ALL-disagree counts as `conflicts`.
 - `egn_agreement` values: `confirms` (any eggNOG TC matches diamond's family) | `refines` (any eggNOG TC is a strict ancestor of diamond's call) | `extends` (eggNOG had no TC) | `conflicts` (every eggNOG TC disagrees at family level).
+- `pfam_ids`: the gene's Pfam annotations (from `gene_annotations_merged.json`). Independent of diamond/eggNOG.
+- `pfam_tc_families`: 3-part TC families implied by the gene's Pfams via TCDB's curated Pfam→TC mapping (`~/tools/TCDB/DB/tcdb_pfam_map.tsv`). Empty when the gene has no Pfams or none of them are in TCDB's map.
+- `pfam_agreement` values: `confirms_diamond` (Pfam-implied family matches diamond, not eggNOG) | `confirms_eggnog` (matches an eggNOG TC, not diamond) | `confirms_both` (matches both — multi-domain or shared Pfam) | `contradicts_both` (Pfam implies a TC family but neither side called it) | `neutral` (no Pfam signal — gene has no Pfams or its Pfams aren't in TCDB's map). The Pfam signal is independent from `egn_agreement`; combine both for stronger merge-rule decisions.
 
 ## Phase 2 (Future)
 

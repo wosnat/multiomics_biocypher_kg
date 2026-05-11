@@ -6,6 +6,7 @@ Pure Python — no filesystem or subprocess. The orchestrator in
 """
 from __future__ import annotations
 
+import json
 import re
 from collections import defaultdict
 from pathlib import Path
@@ -230,6 +231,134 @@ def load_eggnog_kegg_tc(annotations_path: Path) -> dict[str, list[str]]:
     return result
 
 
+def load_pfam_to_tc_map(path: Path) -> dict[str, set[str]]:
+    """Load TCDB's curated Pfam → TC mapping into {pfam_id: {tc_family, ...}}.
+
+    Source: https://www.tcdb.org/cgi-bin/projectv/public/pfam.py — a TCDB-
+    maintained 3-column TSV (PF#####\\tTC_ID\\tfamily_name) listing which Pfam
+    domains are associated with which TCDB transporter families. The cached
+    file is built by `run_tcdb_diamond.py` alongside `tcdb.dmnd` and lives at
+    `~/tools/TCDB/DB/tcdb_pfam_map.tsv` (or `$TCDB_DATA_DIR/DB/...`).
+
+    TC IDs are truncated to 3-part families (`tc_family` level) for
+    matching; this is the granularity at which TCDB curates Pfam ↔ TC
+    associations and the granularity at which `compute_egn_agreement`
+    decides confirms-vs-conflicts.
+
+    Returns an empty dict when the file is absent.
+    """
+    path = Path(path)
+    if not path.exists():
+        return {}
+    result: dict[str, set[str]] = defaultdict(set)
+    with open(path) as f:
+        for line in f:
+            parts = line.rstrip("\n").split("\t")
+            if len(parts) < 2:
+                continue
+            pfam_id, tc_id = parts[0], parts[1]
+            if not pfam_id.startswith("PF") or tc_id.count(".") < 2:
+                continue
+            family = ".".join(tc_id.split(".")[:3])
+            result[pfam_id].add(family)
+    return dict(result)
+
+
+def load_gene_pfams(annotations_path: Path) -> dict[str, list[str]]:
+    """Read `gene_annotations_merged.json` -> {protein_id: [pfam_id, ...]}.
+
+    The merged annotation file is keyed by locus_tag; this transposes it to
+    a protein_id keyed lookup so `build_strain_calls` (whose calls.json is
+    keyed by protein_id) can join Pfam annotations to diamond calls in a
+    single dict access.
+
+    Returns an empty dict when the file is absent. Skips genes without a
+    `protein_id` (or `protein_id_refseq` fallback) — those can't appear in
+    the diamond TSV's query column anyway.
+    """
+    annotations_path = Path(annotations_path)
+    if not annotations_path.exists():
+        return {}
+    raw = json.loads(annotations_path.read_text())
+    result: dict[str, list[str]] = {}
+    for _lt, gene in raw.items():
+        pid = gene.get("protein_id") or gene.get("protein_id_refseq")
+        if not pid:
+            continue
+        pfams = gene.get("pfam_ids") or []
+        if pfams:
+            result[pid] = list(pfams)
+    return result
+
+
+def gene_pfam_implied_families(
+    gene_pfams: list[str],
+    pfam_to_tc_map: dict[str, set[str]],
+) -> list[str]:
+    """Union the 3-part TC families implied by all of a gene's Pfams.
+
+    Returns a sorted list of unique 3-part TC families. Empty when the gene
+    has no Pfams or none of them are in TCDB's curated Pfam→TC map.
+
+    The TCDB Pfam→TC map (~1.3K Pfams, ~8.3K (Pfam, TC) pairs) only covers
+    Pfams TCDB has explicitly curated against TC families; many transport-
+    related Pfams (e.g. PF04193 for SWEET-family sugar transporters) are
+    absent. Genes with only un-curated Pfams produce an empty result here
+    and downstream `pfam_agreement` becomes `"neutral"`.
+    """
+    if not gene_pfams:
+        return []
+    implied: set[str] = set()
+    for p in gene_pfams:
+        implied |= pfam_to_tc_map.get(p, set())
+    return sorted(implied)
+
+
+def compute_pfam_agreement(
+    diamond_tcid: str,
+    egn_tcids: list[str],
+    pfam_implied_families: list[str],
+) -> str:
+    """Tag the relationship between one diamond/eggNOG candidate pair and the
+    gene's precomputed Pfam-implied TC families.
+
+    Returns one of: "confirms_diamond" | "confirms_eggnog" | "confirms_both" |
+    "contradicts_both" | "neutral". Independent from `egn_agreement`: a
+    `conflicts` egn_agreement combined with `confirms_diamond` pfam_agreement
+    is a strong "diamond wins" signal; `conflicts` + `confirms_eggnog` is a
+    strong "eggNOG wins" signal. Phase 2's merge rule combines both.
+
+    Tag semantics:
+      - confirms_both: Pfam-implied family includes BOTH diamond's call's
+        family AND at least one eggNOG family. Multi-domain protein, OR a
+        Pfam that TCDB curates against multiple TC families.
+      - confirms_diamond: matches diamond's family but no eggNOG family.
+      - confirms_eggnog: matches an eggNOG family but not diamond's.
+      - contradicts_both: Pfam implies one or more families, but none match
+        diamond or any eggNOG. Both sequence-based calls may be wrong.
+      - neutral: Pfam implies no families (empty list — gene has no Pfams,
+        or its Pfams aren't in TCDB's curated map).
+
+    `pfam_implied_families` is computed once per protein via
+    `gene_pfam_implied_families`; this function is called per candidate so
+    each call's diamond TCID gets its own verdict against the same Pfam set.
+    """
+    if not pfam_implied_families:
+        return "neutral"
+    implied = set(pfam_implied_families)
+    diamond_family = ".".join(diamond_tcid.split(".")[:3])
+    egn_families = {".".join(e.split(".")[:3]) for e in egn_tcids}
+    d_match = diamond_family in implied
+    e_match = bool(implied & egn_families)
+    if d_match and e_match:
+        return "confirms_both"
+    if d_match:
+        return "confirms_diamond"
+    if e_match:
+        return "confirms_eggnog"
+    return "contradicts_both"
+
+
 _TIER_TO_LEVEL_KIND = {
     1: "tc_specificity",
     2: "tc_subfamily",
@@ -260,14 +389,34 @@ def confidence_score(identity: float, qcov: float, agreement: str) -> float:
 def build_strain_calls(
     tsv_path: Path,
     eggnog_annotations_path: Path,
+    gene_annotations_path: Path | None = None,
+    pfam_to_tc_map_path: Path | None = None,
 ) -> tuple[dict, dict]:
     """Run the full per-strain pipeline: parse TSV, classify, consensus, tag.
 
     Returns (calls, summary):
       calls: dict keyed by protein_id with the full §6.5 record shape
       summary: dict with raw counts (matches §6.6 stdout columns)
+
+    `gene_annotations_path` (per-strain `gene_annotations_merged.json`) and
+    `pfam_to_tc_map_path` (TCDB-published Pfam→TC map at
+    `~/tools/TCDB/DB/tcdb_pfam_map.tsv`) are optional. When both are provided,
+    each call gains `pfam_ids`, `pfam_tc_families`, and `pfam_agreement` fields
+    (and the summary gains `pfam_agreement_distribution`); when either is
+    missing, those fields are still emitted with neutral values so the schema
+    stays stable.
     """
     egn_lookup = load_eggnog_kegg_tc(Path(eggnog_annotations_path))
+    gene_pfams_lookup = (
+        load_gene_pfams(Path(gene_annotations_path))
+        if gene_annotations_path is not None
+        else {}
+    )
+    pfam_to_tc_map = (
+        load_pfam_to_tc_map(Path(pfam_to_tc_map_path))
+        if pfam_to_tc_map_path is not None
+        else {}
+    )
 
     # Group accepted (tier-classified) hits per query
     by_query: dict[str, list[dict]] = defaultdict(list)
@@ -299,70 +448,101 @@ def build_strain_calls(
             })
 
     calls: dict[str, dict] = {}
-    rejected = 0
+    total_candidates = 0
     for query_id, hits in by_query.items():
-        # Consensus collapse
-        consensus = consensus_collapse(hits)
-        if consensus is None:
-            rejected += 1
-            continue
-
-        # Effective tier combines two signals via max(...) — the more
-        # conservative wins:
-        #   - depth_tier (5-part=1, 4-part=2, 3-part=3): consensus depth
-        #     determines how confident the prefix is
-        #   - best_tier: identity-based tier of the strongest hit
-        # Using best_tier (not worst_tier) honors the strongest evidence;
-        # consensus_collapse has already gated weak hits at the floor.
-        n_parts = _AGREEMENT_TO_PARTS[consensus["agreement"]]
-        best_tier = min(h["tier"] for h in hits)
-        depth_tier = {5: 1, 4: 2, 3: 3}[n_parts]
-        effective_tier = max(best_tier, depth_tier)
-        # Truncate TCID to the parts justified by effective_tier (not consensus depth)
-        effective_n_parts = {1: 5, 2: 4, 3: 3}[effective_tier]
-        called_tcid = truncate_tcid(consensus["tcid"], effective_n_parts)
-
-        # Best (highest-identity) hit drives the metadata fields
-        best = max(hits, key=lambda h: h["identity"])
+        # Group hits by 3-part TC family. Each family produces one candidate;
+        # multi-domain proteins (RND pump + MFP adaptor + OMF, etc.) emit
+        # multiple candidates instead of being rejected by global consensus.
+        by_family: dict[str, list[dict]] = defaultdict(list)
+        for h in hits:
+            family = ".".join(h["tcid"].split(".")[:3])
+            by_family[family].append(h)
 
         egn_tcids = egn_lookup.get(query_id, [])
-        agreement = compute_egn_agreement(called_tcid, egn_tcids)
+        gene_pfams = gene_pfams_lookup.get(query_id, [])
+        pfam_tc_families = gene_pfam_implied_families(gene_pfams, pfam_to_tc_map)
 
+        candidates: list[dict] = []
+        for _family, family_hits in by_family.items():
+            # All hits in this group share at least 3 parts; consensus depth
+            # within the group is whichever deeper prefix (4 or 5 parts) they
+            # also share — and never returns None here since the 3-part floor
+            # is already guaranteed.
+            consensus = consensus_collapse(family_hits)
+            if consensus is None:
+                continue
+
+            n_parts = _AGREEMENT_TO_PARTS[consensus["agreement"]]
+            best_tier = min(h["tier"] for h in family_hits)
+            depth_tier = {5: 1, 4: 2, 3: 3}[n_parts]
+            effective_tier = max(best_tier, depth_tier)
+            effective_n_parts = {1: 5, 2: 4, 3: 3}[effective_tier]
+            called_tcid = truncate_tcid(consensus["tcid"], effective_n_parts)
+
+            # Best (highest-identity) hit in THIS family drives the candidate's metadata
+            best = max(family_hits, key=lambda h: h["identity"])
+
+            candidates.append({
+                "tcid": called_tcid,
+                "level_kind": _TIER_TO_LEVEL_KIND[effective_tier],
+                "tier": effective_tier,
+                "confidence_score": round(
+                    confidence_score(best["identity"], best["qcov"], consensus["agreement"]),
+                    4,
+                ),
+                "identity": best["identity"],
+                "qcov": best["qcov"],
+                "scov": best["scov"],
+                "evalue": best["evalue"],
+                "length": best["length"],
+                "consensus_n": consensus["n"],
+                "consensus_agreement": consensus["agreement"],
+                "egn_agreement": compute_egn_agreement(called_tcid, egn_tcids),
+                "pfam_agreement": compute_pfam_agreement(called_tcid, egn_tcids, pfam_tc_families),
+                "incompletely_characterized": is_class_9(called_tcid),
+            })
+
+        if not candidates:
+            continue
+
+        candidates.sort(key=lambda c: -c["confidence_score"])
         calls[query_id] = {
-            "tcid": called_tcid,
-            "level_kind": _TIER_TO_LEVEL_KIND[effective_tier],
-            "tier": effective_tier,
-            "confidence_score": round(
-                confidence_score(best["identity"], best["qcov"], consensus["agreement"]),
-                4,
-            ),
-            "identity": best["identity"],
-            "qcov": best["qcov"],
-            "scov": best["scov"],
-            "evalue": best["evalue"],
-            "length": best["length"],
-            "consensus_n": consensus["n"],
-            "consensus_agreement": consensus["agreement"],
-            "egn_agreement": agreement,
             "egn_tcids": egn_tcids,
-            "incompletely_characterized": is_class_9(called_tcid),
+            "pfam_ids": gene_pfams,
+            "pfam_tc_families": pfam_tc_families,
+            "calls": candidates,
         }
+        total_candidates += len(candidates)
 
-    # Build summary
+    # Build summary. tier_distribution + agreement distributions now count
+    # CANDIDATES (not proteins): a 2-family protein contributes 2 entries.
+    # Use proteins_with_call vs total_candidates to gauge how many proteins
+    # are multi-family.
     tier_dist: dict[str, int] = defaultdict(int)
     agreement_dist: dict[str, int] = defaultdict(
         int, {"confirms": 0, "refines": 0, "extends": 0, "conflicts": 0}
     )
-    for c in calls.values():
-        tier_dist[str(c["tier"])] += 1
-        agreement_dist[c["egn_agreement"]] += 1
+    pfam_agreement_dist: dict[str, int] = defaultdict(
+        int,
+        {"confirms_diamond": 0, "confirms_eggnog": 0, "confirms_both": 0,
+         "contradicts_both": 0, "neutral": 0},
+    )
+    candidates_per_protein: dict[str, int] = defaultdict(int)
+    for rec in calls.values():
+        candidates_per_protein[str(len(rec["calls"]))] += 1
+        for cand in rec["calls"]:
+            tier_dist[str(cand["tier"])] += 1
+            agreement_dist[cand["egn_agreement"]] += 1
+            pfam_agreement_dist[cand["pfam_agreement"]] += 1
 
     summary = {
         "raw_hit_lines": raw_lines,
         "proteins_with_hits": len(by_query),
         "proteins_with_call": len(calls),
-        "proteins_rejected_by_consensus": rejected,
+        "total_candidates": total_candidates,
+        "candidates_per_protein_distribution": dict(candidates_per_protein),
         "tier_distribution": dict(tier_dist),
         "agreement_distribution": dict(agreement_dist),
+        "pfam_agreement_distribution": dict(pfam_agreement_dist),
     }
     return calls, summary

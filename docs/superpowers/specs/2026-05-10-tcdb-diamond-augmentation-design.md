@@ -1,6 +1,6 @@
 # TCDB-Diamond Augmentation — Design
 
-**Date:** 2026-05-10 (amended 2026-05-10 to match implementation: §3/§5/§6.1 — Python-native FASTA download + `diamond makedb`, no `extractTCDB.pl`; §6.4-A — `effective_tier = max(best_hit_tier, depth_tier)`; §6.4-B — multi-valued eggNOG `KEGG_TC` aggregation; §6.5 — `confidence_score` field added; `egn_tcid: str` → `egn_tcids: list[str]`)
+**Date:** 2026-05-10 (amended 2026-05-11: §3/§5/§6.1 — Python-native FASTA download + `diamond makedb`, no `extractTCDB.pl`; §6.2 — `--max-target-seqs 25` (was 5); §6.4-A — `effective_tier = max(best_hit_tier, depth_tier)`, plus **multi-candidate emission** — group hits by 3-part TC family, emit one candidate per family instead of forcing a single global consensus; §6.4-B — multi-valued eggNOG `KEGG_TC` aggregation; §6.4-D NEW — Pfam-corroboration tag using TCDB's curated Pfam→TC mapping; §6.5 — schema now wraps candidates in a `calls: list`, with `egn_tcids`, `pfam_ids`, `pfam_tc_families` at protein level and per-candidate `egn_agreement`/`pfam_agreement`)
 **Status:** Draft, pending real-data refinement
 **Related:** `cache/data/tcdb/{tcdb_hierarchy,tcdb_pruned}.json` (built by prepare_data step 6); `multiomics_kg/adapters/tcdb_adapter.py`; `multiomics_kg/download/build_gene_annotations.py`; `.claude/skills/eggnog-run/`; `.claude/skills/refresh-mnx/`.
 
@@ -140,16 +140,21 @@ Hits failing tier 3 are dropped. Tier 3 is identical to gblast3's acceptance rul
 
 After parsing the raw TSV but before writing `<strain>.tcdb.calls.json`:
 
-**A — Top-N consensus collapse + best-tier promotion.** With up to 5 hits per query, collapse to a single per-protein call:
+**A — Multi-candidate emission + best-tier promotion.** Diamond's `--max-target-seqs 25` produces up to 25 hits per query. We do **not** force a single per-protein call. Instead:
 
-| Top-N hits | Consensus depth | depth_tier |
+1. **Group hits by 3-part TC family.** All hits with the same `1.A.11.*` or `2.A.6.*` prefix go to the same group.
+2. **One candidate per family.** Run consensus_collapse + best-tier promotion **within each group**. A protein with hits in N distinct 3-part families produces N candidates. Single-family proteins are unaffected (one candidate, same as old behavior).
+3. **No global rejection.** The old "disagree at 3 parts → reject the protein" branch is gone — the rejected proteins (~16% of hits) are exactly the multi-family case we now want to recover.
+
+Within a single-family group, the consensus rules are unchanged:
+
+| Hits in the group | Consensus depth | depth_tier |
 |---|---|---|
 | All agree at 5 parts | `5_part` | 1 |
 | Agree at 4 parts but disagree at 5 | `4_part` | 2 |
 | Agree at 3 parts but disagree at 4 | `3_part` | 3 |
-| Disagree even at 3 parts | — | reject (paralog confusion / noise) |
 
-Two signals drive the final tier and TCID truncation depth:
+Two signals drive the final tier and TCID truncation depth (per candidate):
 
 - `depth_tier` (above): how confident the **shared prefix** is.
 - `best_tier`: the per-hit identity-tier of the **strongest** hit in the group (per §6.3 thresholds).
@@ -180,6 +185,25 @@ Aggregation across multi-valued eggNOG TCs uses precedence `confirms > refines >
 
 **C — Class-9 tag.** TCDB class `9.*` = "Incompletely Characterized Transport Systems". Recorded as `incompletely_characterized: true` in the JSON. **No demotion** — let merge / downstream consumers decide.
 
+**D — Pfam-corroboration tag.** Cross-check the gene's Pfam domain annotation against TCDB's curated Pfam→TC mapping (`https://www.tcdb.org/cgi-bin/projectv/public/pfam.py`, ~1.3K Pfams covering ~8.3K (Pfam, TC) pairs, cached as `~/tools/TCDB/DB/tcdb_pfam_map.tsv`). The mapping returns one or more 3-part TC families implied by each Pfam; we union across all of the gene's Pfams to get the set of TC families the Pfam evidence supports.
+
+| Tag | Condition |
+|---|---|
+| `confirms_diamond` | Pfam-implied family includes diamond's call's family but no eggNOG family — Pfam supports diamond |
+| `confirms_eggnog` | Pfam-implied family includes an eggNOG family but not diamond's — Pfam supports eggNOG |
+| `confirms_both` | Pfam-implied family includes diamond's family AND at least one eggNOG family — multi-domain protein OR a Pfam that TCDB curates to multiple TC families |
+| `contradicts_both` | Pfam-implied family is non-empty but matches neither diamond nor any eggNOG TC — both sequence-based calls may be wrong |
+| `neutral` | gene has no Pfam annotations OR none of its Pfams appear in TCDB's curated map — no Pfam signal available |
+
+This is independent from `egn_agreement`: a `conflicts` egn_agreement combined with a `confirms_diamond` pfam_agreement is a strong "diamond wins" signal; a `conflicts` + `confirms_eggnog` is a strong "eggNOG wins" signal. Phase 2's merge rule will combine both signals.
+
+Recorded fields per protein:
+- `pfam_ids`: list of the gene's Pfam IDs (passthrough from `gene_annotations_merged.json`)
+- `pfam_tc_families`: sorted list of unique 3-part TC families implied by those Pfams via the TCDB map; empty when no signal
+- `pfam_agreement`: one of the 5 tags above
+
+Note: TCDB's Pfam→TC map is a *curated* resource and has known coverage gaps — e.g. PF04193 (the SWEET-family Pfam) is absent from the map even though TCDB curates the SWEET family at 2.A.123. Genes whose Pfams aren't in the map get `pfam_agreement = 'neutral'` regardless of how informative the Pfam might be in principle. We accept these gaps rather than augment the map.
+
 **Explicitly NOT included:**
 - HMMTOP / TMS topology check (gblast3 uses HMMTOP; we have UniProt `transmembrane_regions` already, but coverage is too partial — 5–16% of genes by strain — to be useful as a gate or even a confidence signal; deferred until UniProt coverage is improved or a future skill runs DeepTMHMM).
 - CDD domain check (heavyweight; marginal value over hierarchy + consensus).
@@ -192,29 +216,42 @@ Keyed by **NCBI protein_id (WP_ accession)** — same join key eggNOG uses, so a
 
 ```json
 {
-  "WP_011131900.1": {
-    "tcid": "1.A.11.1.5",
-    "level_kind": "tc_specificity",
-    "tier": 1,
-    "confidence_score": 0.805,
-    "identity": 87.4,
-    "qcov": 92.1,
-    "scov": 89.7,
-    "evalue": 1.2e-180,
-    "length": 412,
-    "consensus_n": 5,
-    "consensus_agreement": "5_part",
-    "egn_agreement": "refines",
-    "egn_tcids": ["1.A.11"],
-    "incompletely_characterized": false
+  "WP_010951455.1": {
+    "egn_tcids": ["8.A.1.2.1"],
+    "pfam_ids":  ["PF_HlyD"],
+    "pfam_tc_families": ["8.A.1"],
+    "calls": [
+      {
+        "tcid": "2.A.6.1", "level_kind": "tc_subfamily", "tier": 1,
+        "confidence_score": 0.85,
+        "identity": 100.0, "qcov": 100.0, "scov": 100.0,
+        "evalue": 1.2e-200, "length": 400,
+        "consensus_n": 2, "consensus_agreement": "4_part",
+        "egn_agreement": "conflicts",
+        "pfam_agreement": "confirms_eggnog",
+        "incompletely_characterized": false
+      },
+      {
+        "tcid": "8.A.1.2", "level_kind": "tc_subfamily", "tier": 2,
+        "confidence_score": 0.55, "...": "...",
+        "egn_agreement": "confirms",
+        "pfam_agreement": "confirms_both"
+      }
+    ]
   }
 }
 ```
 
-- `tier` and `level_kind` reflect `effective_tier = max(best_hit_tier, depth_tier)` (§6.4-A); `tcid` is truncated to the parts justified by `effective_tier`.
+**Per-protein** (shared across candidates):
+- `egn_tcids` is the list of all eggNOG `KEGG_TC` values for this protein (`[]` when eggNOG had no TC). Multi-valued because eggNOG's column is comma-separated; see §6.4-B for aggregation semantics.
+- `pfam_ids` / `pfam_tc_families`: see §6.4-D. Empty when the gene has no Pfam annotation OR none of its Pfams are in TCDB's curated Pfam→TC map.
+- `calls`: list of candidates sorted by `confidence_score` descending. One candidate per distinct 3-part TC family the protein hits. Single-family proteins have `len(calls) == 1`; multi-domain proteins (RND + MFP partners, etc.) emit multiple candidates instead of being rejected by global consensus.
+
+**Per-candidate**:
+- `tier` and `level_kind` reflect `effective_tier = max(best_hit_tier, depth_tier)` within this family's hits only (§6.4-A); `tcid` is truncated to the parts justified by `effective_tier`.
 - `confidence_score` ∈ [0, 1] = `(identity / 100) × (qcov / 100) × agreement_weight` (§6.4-A).
-- `identity`, `qcov`, `scov`, `evalue`, `length` are from the **best (highest-identity)** hit in the consensus group.
-- `egn_tcids` is a list of all eggNOG `KEGG_TC` values for this protein (`[]` when eggNOG had no TC). Multi-valued because eggNOG's column is comma-separated; see §6.4-B for aggregation semantics.
+- `identity`, `qcov`, `scov`, `evalue`, `length` are from the **best (highest-identity)** hit in this family's hit group.
+- `egn_agreement` / `pfam_agreement` are computed PER candidate against the protein-level `egn_tcids` / `pfam_tc_families`. Different candidates of the same protein can have different verdicts — the headline use case for the multi-call design (one candidate `confirms` eggNOG, another `conflicts`).
 - `level_kind` mirrors the existing TCDB hierarchy vocabulary (`tc_class | tc_subclass | tc_family | tc_subfamily | tc_specificity`).
 
 ### 6.6 — Skill output summary (stdout)
