@@ -16,14 +16,13 @@ Phase 1 produces inspectable per-strain artifacts. KG integration is **explicitl
 
 ### In scope
 - New skill `/psortb-run` (parallels `/eggnog-run`, `/tcdb-diamond`).
-- Runs PSORTb v3.0.3 via the official Docker image `brinkmanlab/psortb_commandline:1.0.2` against `protein.faa` for every `organism_type='genome_strain'` row in `cyanobacteria_genomes.csv` (currently 25 strains).
+- Runs PSORTb v3.0.3 via the official Docker image `brinkmanlab/psortb_commandline:1.0.2` against `protein.faa` for every row in `cyanobacteria_genomes.csv` that has a `protein.faa` (currently 32 rows — all 30 `genome_strain` rows plus the 2 `reference_proteome_match` rows, both of which carry NCBI RefSeq FASTAs). Rows are loaded via the shared `multiomics_kg.download.utils.cli.load_genome_rows` helper; rows without `protein.faa` are skipped with a `MISSING_INPUT` row in the status table.
 - Emits per-strain `<strain>.psortb.calls.json` + `<strain>.psortb.skill_summary.json` under `cache/data/<organism>/genomes/<strain>/psortb/`.
 - All organisms hardcoded as Gram-negative (`--negative`). The KG has zero Gram-positive strains.
 
 ### Out of scope (deferred)
 - Schema changes, post-import Cypher, KG validity tests.
 - Adding a `subcellular_localization` field to Gene nodes.
-- Reference-proteome-match organisms (Marinobacter / Alteromonas (MarRef v6)) — they have no `data_dir`.
 - Gram-positive / Archaea support.
 - Re-running on protein-FASTA changes (caller invokes `--force`).
 
@@ -107,6 +106,6 @@ Phase 2 will get its own design doc once Phase 1 artifacts have been spot-checke
 ## 7. Acceptance criteria for Phase 1
 
 - `uv run python .claude/skills/psortb-run/run_psortb.py --strain MED4 --limit 100` produces a syntactically valid `MED4.psortb.calls.json` covering 100 proteins in ≤ 5 minutes.
-- Full run on all 25 genome strains completes in a single invocation; each strain ends with a row in the status table; failures do not abort the batch.
+- Full run on all 32 rows completes in a single invocation; each strain ends with a row in the status table; failures do not abort the batch.
 - No changes to `schema_config.yaml`, adapters, or post-import scripts.
 - `cache/data/**/psortb/` is already covered by the existing `cache/` gitignore — no new ignore rules needed.

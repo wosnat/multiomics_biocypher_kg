@@ -8,7 +8,6 @@ inspectable per-strain JSON artifacts; KG integration is deferred to Phase 2.
 from __future__ import annotations
 
 import argparse
-import csv
 import datetime
 import json
 import shutil
@@ -24,8 +23,9 @@ if str(_REPO_ROOT_EARLY) not in sys.path:
 
 import dotenv
 
+from multiomics_kg.download.utils.cli import load_genome_rows
+
 REPO_ROOT = Path(__file__).resolve().parents[3]
-GENOMES_CSV = REPO_ROOT / "data/Prochlorococcus/genomes/cyanobacteria_genomes.csv"
 LOGS_DIR = REPO_ROOT / "logs"
 
 PSORTB_IMAGE = "brinkmanlab/psortb_commandline:1.0.2"
@@ -120,22 +120,6 @@ def truncate_faa(faa: Path, n_proteins: int, dest: Path) -> Path:
                     break
             out.write(line)
     return dest
-
-
-def load_genomes(strain_filter: str | None) -> list[dict]:
-    """Parse cyanobacteria_genomes.csv, return rows for genome_strain only."""
-    genomes: list[dict] = []
-    with open(GENOMES_CSV) as f:
-        reader = csv.DictReader(row for row in f if not row.strip().startswith("#"))
-        for row in reader:
-            if strain_filter and row["strain_name"] != strain_filter:
-                continue
-            if (row.get("organism_type") or "").strip() != "genome_strain":
-                continue
-            if not (row.get("data_dir") or "").strip():
-                continue
-            genomes.append(row)
-    return genomes
 
 
 def parse_terse_line(line: str) -> tuple[str, str, float, str | None, float | None, bool] | None:
@@ -412,10 +396,12 @@ def main() -> int:
 
     image_digest = get_image_digest()
 
-    genomes = load_genomes(args.strain)
+    # Run on any row with a strain_name + data_dir, regardless of organism_type.
+    # protein.faa presence is checked per-strain inside process_strain().
+    genomes = load_genome_rows([args.strain] if args.strain else None)
     if not genomes:
         print(
-            f"No genome_strain rows found"
+            f"No genome rows found"
             f"{f' for strain {args.strain}' if args.strain else ''}.",
             file=sys.stderr,
         )
