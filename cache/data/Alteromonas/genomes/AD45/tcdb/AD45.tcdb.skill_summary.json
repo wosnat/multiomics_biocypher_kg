@@ -31,8 +31,9 @@
   },
   "filter_action_distribution": {
     "drop_egn_conflicts": 103,
-    "keep": 1248,
+    "keep": 992,
+    "drop_singleton_low_score": 258,
     "drop_pfam_contradicts": 136,
-    "drop_low_confidence": 6
+    "drop_low_confidence": 4
   }
 }

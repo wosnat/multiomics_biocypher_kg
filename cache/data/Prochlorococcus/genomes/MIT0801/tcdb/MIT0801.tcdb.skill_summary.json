@@ -30,7 +30,8 @@
     "neutral": 119
   },
   "filter_action_distribution": {
-    "keep": 443,
+    "keep": 376,
+    "drop_singleton_low_score": 67,
     "drop_egn_conflicts": 53,
     "drop_pfam_contradicts": 64,
     "drop_low_confidence": 1
