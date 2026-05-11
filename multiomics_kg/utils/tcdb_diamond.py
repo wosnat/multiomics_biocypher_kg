@@ -362,51 +362,62 @@ def compute_pfam_agreement(
 _PFAM_CONFIRM = {"confirms_diamond", "confirms_both"}
 _EGN_CONFIRM = {"confirms", "refines"}
 DEFAULT_MIN_RELATIVE_CONFIDENCE = 0.25
+DEFAULT_MIN_SINGLETON_SCORE = 0.20
 
 
 def annotate_candidate_filters(
     calls: dict[str, dict],
     min_relative_confidence: float = DEFAULT_MIN_RELATIVE_CONFIDENCE,
+    min_singleton_score: float = DEFAULT_MIN_SINGLETON_SCORE,
 ) -> dict[str, int]:
-    """Set per-candidate `filter_action` based on Pfam/eggNOG agreement and
-    relative confidence. Mutates `calls` in place; returns drop-stat counts.
+    """Set per-candidate `filter_action` based on Pfam/eggNOG agreement,
+    sibling-relative confidence, and an absolute single-hit floor.
+    Mutates `calls` in place; returns drop-stat counts.
 
-    Per multi-candidate protein, walk each candidate and apply (in priority
-    order): drop_pfam_contradicts, drop_egn_conflicts, drop_low_confidence.
-    The first matching rule sets the action; the rest are not evaluated.
-    Single-candidate proteins always get `filter_action = "keep"` —
-    never drop the only call.
+    Walks each candidate and applies the first matching rule:
 
-    Rules:
-      - drop_pfam_contradicts: this candidate has pfam_agreement
-        'contradicts_both' AND some sibling has pfam_agreement in
-        {confirms_diamond, confirms_both}. Pfam disqualifies this call.
-      - drop_egn_conflicts: this candidate has egn_agreement 'conflicts'
-        AND some sibling has egn_agreement in {confirms, refines}. eggNOG
-        disqualifies this call.
-      - drop_low_confidence: this candidate's confidence_score is below
-        min_relative_confidence × the protein's best candidate's score.
-        Diamond evidence is much weaker than the alternative.
-      - keep: none of the above.
+      1. drop_pfam_contradicts (multi-candidate only) — this candidate has
+         pfam_agreement 'contradicts_both' AND some sibling has
+         pfam_agreement in {confirms_diamond, confirms_both}. Pfam
+         disqualifies this call.
+      2. drop_egn_conflicts (multi-candidate only) — this candidate has
+         egn_agreement 'conflicts' AND some sibling has egn_agreement in
+         {confirms, refines}. eggNOG disqualifies this call.
+      3. drop_singleton_low_score — this candidate is backed by a single
+         hit (consensus_n == 1) AND confidence_score < min_singleton_score.
+         Applies REGARDLESS of sibling count, including single-candidate
+         proteins: a lone weak single hit is the weakest evidence we have
+         and shouldn't introduce a new TC family annotation downstream.
+      4. drop_low_confidence (multi-candidate only) — this candidate's
+         confidence_score is below min_relative_confidence × the
+         protein's best candidate's score. Diamond evidence much weaker
+         than the alternative.
+      5. keep — none of the above.
+
+    The pfam/egn/relative-confidence rules require siblings (multi-candidate)
+    by design — they're alternative-aware. The singleton rule is absolute and
+    fires on single-candidate proteins too: weak single-hit evidence is
+    classified as filtered so Phase 2 doesn't add new TC family annotations
+    on this basis. Nothing is deleted from `calls[]`; the rule is purely
+    annotative.
 
     Returns a Counter-style dict keyed by filter_action.
     """
     drop_stats: dict[str, int] = defaultdict(int)
     for rec in calls.values():
         cands = rec["calls"]
-        if len(cands) == 1:
-            cands[0]["filter_action"] = "keep"
-            drop_stats["keep"] += 1
-            continue
         any_pfam_confirm = any(c["pfam_agreement"] in _PFAM_CONFIRM for c in cands)
         any_egn_confirm = any(c["egn_agreement"] in _EGN_CONFIRM for c in cands)
         max_conf = max(c["confidence_score"] for c in cands)
+        multi = len(cands) > 1
         for c in cands:
-            if c["pfam_agreement"] == "contradicts_both" and any_pfam_confirm:
+            if multi and c["pfam_agreement"] == "contradicts_both" and any_pfam_confirm:
                 action = "drop_pfam_contradicts"
-            elif c["egn_agreement"] == "conflicts" and any_egn_confirm:
+            elif multi and c["egn_agreement"] == "conflicts" and any_egn_confirm:
                 action = "drop_egn_conflicts"
-            elif c["confidence_score"] < min_relative_confidence * max_conf:
+            elif c["consensus_n"] == 1 and c["confidence_score"] < min_singleton_score:
+                action = "drop_singleton_low_score"
+            elif multi and c["confidence_score"] < min_relative_confidence * max_conf:
                 action = "drop_low_confidence"
             else:
                 action = "keep"

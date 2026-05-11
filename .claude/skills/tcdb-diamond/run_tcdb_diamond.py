@@ -357,9 +357,9 @@ def main():
             "T1", "T2", "T3",
             "confirms", "refines", "extends", "conflicts",
             "pfam_d", "pfam_e", "pfam_b",
-            "drp_pf", "drp_eg", "drp_lc")
-    print("{:<12} {:<14} {:>5} {:>5} {:>5} {:>4} {:>4} {:>4} {:>9} {:>8} {:>8} {:>10} {:>7} {:>7} {:>7} {:>7} {:>7} {:>7}".format(*cols))
-    print("-" * 160)
+            "drp_pf", "drp_eg", "drp_sng", "drp_lc")
+    print("{:<12} {:<14} {:>5} {:>5} {:>5} {:>4} {:>4} {:>4} {:>9} {:>8} {:>8} {:>10} {:>7} {:>7} {:>7} {:>7} {:>7} {:>7} {:>7}".format(*cols))
+    print("-" * 168)
     for strain, status, summary in results:
         if summary is None:
             print(f"{strain:<12} {status:<14}")
@@ -369,7 +369,7 @@ def main():
         pad = summary.get("pfam_agreement_distribution", {})
         fad = summary.get("filter_action_distribution", {})
         print(
-            "{:<12} {:<14} {:>5} {:>5} {:>5} {:>4} {:>4} {:>4} {:>9} {:>8} {:>8} {:>10} {:>7} {:>7} {:>7} {:>7} {:>7} {:>7}".format(
+            "{:<12} {:<14} {:>5} {:>5} {:>5} {:>4} {:>4} {:>4} {:>9} {:>8} {:>8} {:>10} {:>7} {:>7} {:>7} {:>7} {:>7} {:>7} {:>7}".format(
                 strain, status, summary["proteins_with_call"],
                 summary.get("total_candidates", 0),
                 fad.get("keep", 0),
@@ -380,10 +380,11 @@ def main():
                 pad.get("confirms_both", 0),
                 fad.get("drop_pfam_contradicts", 0),
                 fad.get("drop_egn_conflicts", 0),
+                fad.get("drop_singleton_low_score", 0),
                 fad.get("drop_low_confidence", 0),
             )
         )
-    print("=" * 160)
+    print("=" * 168)
 
     failed = [s for s, st, _ in results if st.startswith("FAILED")]
     if failed:

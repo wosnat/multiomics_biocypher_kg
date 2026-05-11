@@ -617,21 +617,51 @@ def test_build_strain_calls_multi_value_eggnog_kegg_tc(tmp_path):
 from multiomics_kg.utils.tcdb_diamond import annotate_candidate_filters
 
 
-def _mk_cand(tcid, score, egn="extends", pfam="neutral"):
-    """Test factory — builds a minimal candidate dict for filter tests."""
+def _mk_cand(tcid, score, egn="extends", pfam="neutral", consensus_n=3):
+    """Test factory — builds a minimal candidate dict for filter tests.
+    Default consensus_n=3 keeps tests focused on the rules under test (not
+    on the singleton-low-score rule); set consensus_n=1 to exercise that path.
+    """
     return {
         "tcid": tcid, "confidence_score": score,
         "egn_agreement": egn, "pfam_agreement": pfam,
+        "consensus_n": consensus_n,
     }
 
 
-def test_filter_single_candidate_always_kept():
-    # A protein with only one candidate should never be filtered, even if
-    # its Pfam contradicts and confidence is low.
+def test_filter_single_candidate_kept_when_pfam_contradicts():
+    # Pfam-contradicts and egn-conflicts rules require multi-candidate context;
+    # a single-candidate protein can't be dropped by those even if its tags say so.
+    # The candidate has consensus_n=3 so the singleton rule doesn't fire either.
     calls = {"WP_X.1": {"calls": [_mk_cand("9.X.1", 0.05, pfam="contradicts_both")]}}
     stats = annotate_candidate_filters(calls)
     assert calls["WP_X.1"]["calls"][0]["filter_action"] == "keep"
     assert stats == {"keep": 1}
+
+
+def test_filter_singleton_low_score_drops_even_single_candidate():
+    # consensus_n=1 AND score < 0.20 -> drop_singleton_low_score, regardless
+    # of whether there are siblings. Targets the weakest-evidence case.
+    calls = {"WP_S.1": {"calls": [_mk_cand("1.A.1", 0.15, consensus_n=1)]}}
+    stats = annotate_candidate_filters(calls)
+    assert calls["WP_S.1"]["calls"][0]["filter_action"] == "drop_singleton_low_score"
+    assert stats == {"drop_singleton_low_score": 1}
+
+
+def test_filter_singleton_above_threshold_kept():
+    # consensus_n=1 BUT score >= threshold -> keep
+    calls = {"WP_S.1": {"calls": [_mk_cand("1.A.1", 0.25, consensus_n=1)]}}
+    annotate_candidate_filters(calls)
+    assert calls["WP_S.1"]["calls"][0]["filter_action"] == "keep"
+
+
+def test_filter_multi_hit_below_threshold_kept():
+    # consensus_n>1 with low score: singleton rule doesn't fire (it requires
+    # consensus_n==1). Without siblings to compare, relative-confidence rule
+    # can't fire either. -> keep.
+    calls = {"WP_M.1": {"calls": [_mk_cand("1.A.1", 0.15, consensus_n=3)]}}
+    annotate_candidate_filters(calls)
+    assert calls["WP_M.1"]["calls"][0]["filter_action"] == "keep"
 
 
 def test_filter_drops_pfam_contradicting_candidate():

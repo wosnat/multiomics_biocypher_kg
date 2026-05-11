@@ -129,16 +129,17 @@ Field semantics:
 
 ## Filtering
 
-After emission, each candidate is annotated with `filter_action` via `annotate_candidate_filters`. Single-candidate proteins always get `keep`. For multi-candidate proteins, the first rule that matches sets the action:
+After emission, each candidate is annotated with `filter_action` via `annotate_candidate_filters`. Rules apply in priority order — the first match sets the action:
 
-| Rule | Condition | Rationale |
-|---|---|---|
-| `drop_pfam_contradicts` | candidate `pfam_agreement = contradicts_both` AND some sibling has `pfam_agreement in {confirms_diamond, confirms_both}` | Pfam disqualifies this candidate when a Pfam-supported alternative exists |
-| `drop_egn_conflicts` | candidate `egn_agreement = conflicts` AND some sibling has `egn_agreement in {confirms, refines}` | eggNOG disqualifies this candidate when an eggNOG-supported alternative exists |
-| `drop_low_confidence` | candidate `confidence_score < 0.25 × max_sibling_confidence` | Diamond evidence is much weaker than the best alternative — likely a spurious low-identity hit |
-| `keep` | none of the above | |
+| Rule | Scope | Condition | Rationale |
+|---|---|---|---|
+| `drop_pfam_contradicts` | multi-candidate only | candidate `pfam_agreement = contradicts_both` AND some sibling has `pfam_agreement in {confirms_diamond, confirms_both}` | Pfam disqualifies this candidate when a Pfam-supported alternative exists |
+| `drop_egn_conflicts` | multi-candidate only | candidate `egn_agreement = conflicts` AND some sibling has `egn_agreement in {confirms, refines}` | eggNOG disqualifies this candidate when an eggNOG-supported alternative exists |
+| `drop_singleton_low_score` | **any** (single OR multi) | candidate `consensus_n == 1` AND `confidence_score < 0.20` | A single weak hit backed by 1-of-25 diamond results is the weakest evidence — don't add a new TC family annotation downstream from this alone |
+| `drop_low_confidence` | multi-candidate only | candidate `confidence_score < 0.25 × max_sibling_confidence` | Diamond evidence is much weaker than the best alternative |
+| `keep` | — | none of the above | |
 
-The full candidate list is preserved; nothing is deleted. Filter counts appear in `skill_summary.json`'s `filter_action_distribution` and the stdout table.
+The full candidate list is preserved; nothing is deleted. The `singleton_low_score` rule is the only absolute (non-sibling-relative) one — it fires on single-candidate proteins too, marking weak lone hits as filtered. Filter counts appear in `skill_summary.json`'s `filter_action_distribution` and the stdout table.
 - `egn_tcids` is a list because eggNOG's `KEGG_TC` field is multi-valued (comma-separated in source TSV) — e.g. MreB-family proteins carry `["1.A.33.1", "9.B.157.1"]`. Diamond matching ANY value yields `confirms` / `refines`; only ALL-disagree counts as `conflicts`.
 - `egn_agreement` values: `confirms` (any eggNOG TC matches diamond's family) | `refines` (any eggNOG TC is a strict ancestor of diamond's call) | `extends` (eggNOG had no TC) | `conflicts` (every eggNOG TC disagrees at family level).
 - `pfam_ids`: the gene's Pfam annotations (from `gene_annotations_merged.json`). Independent of diamond/eggNOG.
