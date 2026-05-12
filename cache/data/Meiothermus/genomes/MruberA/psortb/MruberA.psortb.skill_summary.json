@@ -1,0 +1,23 @@
+{
+  "protein_count": 2883,
+  "localization_counts": {
+    "Cytoplasmic": 1340,
+    "CytoplasmicMembrane": 679,
+    "Extracellular": 26,
+    "OuterMembrane": 18,
+    "Periplasmic": 52,
+    "Unknown": 768
+  },
+  "unknown_rate": 0.2663891779396462,
+  "multi_localized_rate": 0.0,
+  "strain": "MruberA",
+  "wallclock_seconds": 901.8,
+  "image_digest": "brinkmanlab/psortb_commandline@sha256:5fd2243b7ed4470e2d5ad521c6f32fcd254d1579600bb1537cbe6322a2181040",
+  "psortb_args": [
+    "--negative",
+    "--output",
+    "terse"
+  ],
+  "started_at": "2026-05-11T12:33:00+00:00",
+  "finished_at": "2026-05-11T12:48:01+00:00"
+}

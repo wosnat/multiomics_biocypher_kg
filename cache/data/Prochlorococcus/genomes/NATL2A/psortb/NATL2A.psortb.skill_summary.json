@@ -1,0 +1,23 @@
+{
+  "protein_count": 2040,
+  "localization_counts": {
+    "Cytoplasmic": 869,
+    "CytoplasmicMembrane": 406,
+    "Extracellular": 11,
+    "OuterMembrane": 15,
+    "Periplasmic": 16,
+    "Unknown": 723
+  },
+  "unknown_rate": 0.35441176470588237,
+  "multi_localized_rate": 0.0,
+  "strain": "NATL2A",
+  "wallclock_seconds": 571.25,
+  "image_digest": "brinkmanlab/psortb_commandline@sha256:5fd2243b7ed4470e2d5ad521c6f32fcd254d1579600bb1537cbe6322a2181040",
+  "psortb_args": [
+    "--negative",
+    "--output",
+    "terse"
+  ],
+  "started_at": "2026-05-11T08:07:57+00:00",
+  "finished_at": "2026-05-11T08:17:28+00:00"
+}
