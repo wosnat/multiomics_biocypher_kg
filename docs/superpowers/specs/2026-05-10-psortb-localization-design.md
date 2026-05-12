@@ -49,7 +49,7 @@ Phase 1 produces inspectable per-strain artifacts. KG integration is **explicitl
   Field semantics:
   - `localization` ∈ {`Cytoplasmic`, `CytoplasmicMembrane`, `Periplasmic`, `OuterMembrane`, `Extracellular`, `Unknown`}.
   - `score` ∈ [0, 10]; PSORTb assigns `Unknown` when no class scores ≥ 7.5 (`is_unknown=true`).
-  - When PSORTb returns a multi-localization (e.g. `Cytoplasmic/CytoplasmicMembrane` with two ≥ 7.5 scores), the highest-scoring class becomes `localization` + `score`, the second goes into `secondary_*`, and `is_multi_localized=true`.
+  - Multi-localization: the parser handles slash-separated values (e.g. `Cytoplasmic/CytoplasmicMembrane` with scores `9.83/9.71`) by ordering primary/secondary by descending score and setting `is_multi_localized=true`. **However, `--output terse` empirically emits a single `Final_Localization` per protein even when two classes both score ≥ 7.5**, so `is_multi_localized` is effectively always `false` in Phase 1. To expose true multi-loc, switch to `--output long` and parse the per-class score block (Phase 2 if needed).
 - `<strain>.psortb.skill_summary.json` — counts per localization class, Unknown rate, multi-localization rate, runtime, image digest.
 - Diamond-style status table to stdout; raw container stdout/stderr captured to `logs/psortb_<strain>.log` (already covered by `*.log` gitignore).
 
@@ -64,14 +64,31 @@ uv run python .claude/skills/psortb-run/run_psortb.py --strain MIT1002 --limit 1
 ```
 
 ### Algorithm per strain
-1. Resolve `data_dir` from `cyanobacteria_genomes.csv`.
+1. Resolve `data_dir` from `cyanobacteria_genomes.csv` via the shared
+   `multiomics_kg.download.utils.cli.load_genome_rows` helper.
 2. Skip if `<data_dir>/psortb/<strain>.psortb.calls.json` exists and `--force` not given.
-3. (Optional `--limit N`) — write a temp truncated FASTA of the first N records.
-4. `docker run --rm -v <data_dir>:/data brinkmanlab/psortb_commandline:1.0.2 \
-   /usr/local/psortb/bin/psort --negative --output terse /data/protein.faa \
-   > <data_dir>/psortb/<strain>.psortb.terse.tsv 2> logs/psortb_<strain>.log`.
-5. Parse the 3-column terse TSV (`SeqID`, `Localization`, `Score`); split multi-localization on `/`.
-6. Write `calls.json` + `skill_summary.json`.
+3. If `<data_dir>/protein.faa` is missing, mark `MISSING_INPUT` and continue.
+4. (Optional `--limit N`) — write a temp truncated FASTA of the first N records alongside the original.
+5. Run the container:
+   ```
+   docker run --rm --user $(id -u):$(id -g) \
+     -v <data_dir>:/tmp/results \
+     brinkmanlab/psortb_commandline:1.0.2 \
+     /usr/local/psortb/bin/psort --negative --output terse -i /tmp/results/protein.faa
+   ```
+   Mount/invocation rationale (discovered during smoke-test):
+   - The brinkmanlab `psort` Perl wrapper hardcodes its output directory to
+     `/tmp/results/` inside the container and writes
+     `<YYYYMMDDHHMMSS>_psortb_gramneg.txt` there — not to stdout. Mounting the
+     strain's `data_dir` at `/tmp/results` lands the file in our host directory.
+   - `-i` is mandatory; the wrapper does not accept a positional file argument.
+   - `--user` makes produced files host-owned (no sudo needed to clean up).
+   - Container stdout/stderr captured to `logs/psortb_<strain>.log`.
+6. Rename the timestamped output file to `<data_dir>/psortb/<strain>.psortb.terse.tsv`.
+7. Parse the 3-column terse TSV (`SeqID`, `Localization`, `Score`); the parser
+   splits slash-separated multi-localization values, though `--output terse`
+   in practice emits a single `Final_Localization` per protein (see §3 multi-loc note).
+8. Write `calls.json` + `skill_summary.json`.
 
 ### Image management
 - Docker stores the image in its daemon storage (`/var/lib/docker/overlay2/...`), shared across all projects on the host. No per-skill cache directory.
@@ -109,3 +126,13 @@ Phase 2 will get its own design doc once Phase 1 artifacts have been spot-checke
 - Full run on all 32 rows completes in a single invocation; each strain ends with a row in the status table; failures do not abort the batch.
 - No changes to `schema_config.yaml`, adapters, or post-import scripts.
 - `cache/data/**/psortb/` is already covered by the existing `cache/` gitignore — no new ignore rules needed.
+
+## 8. As-built notes (Phase 1 ship, 2026-05-11)
+
+Three discoveries during the first end-to-end run that aren't obvious from PSORTb docs and shaped the final §4 algorithm:
+
+1. **Wrapper hardcodes `/tmp/results/`** — the brinkmanlab `psort` Perl wrapper writes its output to `/tmp/results/<timestamp>_psortb_gramneg.txt` regardless of stdout redirection, container CWD, or `-w`. The original spec said "mount at `/tmp/psortb`, capture stdout" — both turned out to be no-ops. Fix: mount the strain's `data_dir` at `/tmp/results` and rename the timestamped file after the container exits.
+2. **`-i` flag is mandatory** — the wrapper does not consume a positional FASTA argument; it requires `-i <path>` or `--seq <path>`. Without it, the wrapper prints "No such file" and the usage banner.
+3. **`--output terse` collapses multi-localizations** — the terse format always emits one `Final_Localization` per protein, even when two classes both score ≥ 7.5. The slash-handling parser is still in place (so it'll correctly decompose if we ever switch to `--output long`), but `is_multi_localized` was 0 across all 32 strains in the Phase 1 batch.
+
+Phase 1 batch (32 strains, 96,418 proteins, 8 h sequential): 41.9% Cytoplasmic, 22.0% CytoplasmicMembrane, 1.7% Periplasmic, 1.8% OuterMembrane, 1.0% Extracellular, 31.6% Unknown. OuterMembrane density tracks lifestyle: Prochlorococcus ~0.7% vs heterotrophs (Pseudomonas, Alteromonas) ~3.3%. Spot-check against canonical KT2440 proteins (OprD-family porins, TolC, GroEL, RNA polymerase subunits) all in expected localizations with scores ≥ 9.27.
