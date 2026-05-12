@@ -167,3 +167,7 @@ cache/data/kegg/raw
 # Full-run outputs (<strain>.tcdb.{tsv,calls.json,skill_summary.json}) are
 # intentionally committed alongside eggnog/ outputs.
 cache/data/*/genomes/*/tcdb/*.limited_*
+
+
+# worktrees 
+.claude/worktrees
