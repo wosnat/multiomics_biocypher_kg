@@ -48,17 +48,30 @@ No `.env` configuration is required.
 
 ## What It Does
 
-1. Reads `data/Prochlorococcus/genomes/cyanobacteria_genomes.csv`, filters to
-   `organism_type='genome_strain'` (the 25 strains in the KG). Reference
-   proteome match rows (Marinobacter, Alteromonas MarRef v6) have no
-   `data_dir` and are skipped.
+1. Loads genome rows via `multiomics_kg.download.utils.cli.load_genome_rows`
+   (every row in `cyanobacteria_genomes.csv` with both `strain_name` and
+   `data_dir`). Currently 32 rows: 30 `genome_strain` + 2
+   `reference_proteome_match` (HP15, Alt_MarRef). Rows lacking `protein.faa`
+   are skipped at run time with a `MISSING_INPUT` status.
 2. For each strain, runs PSORTb against `<data_dir>/protein.faa` via Docker:
-   `docker run --rm -v <data_dir>:/tmp/psortb brinkmanlab/psortb_commandline:1.0.2 /usr/local/psortb/bin/psort --negative --output terse /tmp/psortb/protein.faa`.
-3. Captures raw terse-format stdout to `<data_dir>/psortb/<strain>.psortb.terse.tsv`
-   and container stderr to `logs/psortb_<strain>.log` (auto-gitignored via `*.log`).
-4. Parses the 3-column terse TSV (`SeqID`, `Localization`, `Score`),
-   splits multi-localization values (`Cytoplasmic/CytoplasmicMembrane`,
-   `9.83/9.71`) into primary + secondary fields.
+   ```
+   docker run --rm --user $(id -u):$(id -g) \
+     -v <data_dir>:/tmp/results \
+     brinkmanlab/psortb_commandline:1.0.2 \
+     /usr/local/psortb/bin/psort --negative --output terse -i /tmp/results/protein.faa
+   ```
+   Notes on the invocation:
+   - The brinkmanlab `psort` Perl wrapper hardcodes its output directory to
+     `/tmp/results/` inside the container and writes a timestamped file
+     `<YYYYMMDDHHMMSS>_psortb_gramneg.txt` there — not to stdout. The skill
+     mounts the strain's data_dir at `/tmp/results` so the file lands on the
+     host, then renames it to `<strain>.psortb.terse.tsv`.
+   - `-i` is mandatory; the wrapper does not accept a positional file argument.
+   - `--user` makes produced files host-owned (no `sudo` needed for cleanup).
+3. Renames the timestamped file to `<data_dir>/psortb/<strain>.psortb.terse.tsv`
+   and writes container stdout/stderr to `logs/psortb_<strain>.log`
+   (auto-gitignored via `*.log`).
+4. Parses the 3-column terse TSV (`SeqID`, `Localization`, `Score`).
 5. Writes `<data_dir>/psortb/<strain>.psortb.calls.json` (per-protein records,
    keyed by WP_ accession) and `<strain>.psortb.skill_summary.json`
    (per-strain stats including image digest, wallclock time, localization
@@ -87,11 +100,31 @@ Field semantics:
   `OuterMembrane`, `Extracellular`, `Unknown`}.
 - `score` ∈ [0, 10]; PSORTb assigns `Unknown` when no class scores ≥ 7.5
   (`is_unknown=true`).
-- When PSORTb returns a multi-localization (e.g.
-  `Cytoplasmic/CytoplasmicMembrane` with two ≥ 7.5 scores), the
-  highest-scoring class becomes `localization` + `score`, the second goes
-  into `secondary_localization` + `secondary_score`, and
-  `is_multi_localized=true`.
+- Multi-localization handling: the parser splits slash-separated values into
+  primary + secondary fields. **However, with `--output terse` PSORTb emits a
+  single `Final_Localization` per protein even when two classifiers both
+  score ≥ 7.5**, so `is_multi_localized` is effectively always `false` in
+  Phase 1. To expose true multi-localization, re-run with `--output long`
+  and parse the per-class score block (deferred to Phase 2 if needed).
+
+## Observed batch results (32-strain run, 2026-05-11)
+
+96,418 proteins classified across all 32 rows. Cross-strain distribution:
+
+| Localization | Count | % |
+|---|---:|---:|
+| Cytoplasmic | 40,415 | 41.9% |
+| CytoplasmicMembrane | 21,231 | 22.0% |
+| Periplasmic | 1,647 | 1.7% |
+| OuterMembrane | 1,742 | 1.8% |
+| Extracellular | 928 | 1.0% |
+| Unknown | 30,455 | 31.6% |
+
+Per-strain wallclock: **8.7 min** (SS120, 1858 proteins) → **30 min**
+(KT2440, 5452 proteins). Total batch: ~8 h sequential. PSORTb startup
+overhead dominates small-strain time; throughput scales sublinearly with
+proteome size. OuterMembrane density tracks lifestyle — Prochlorococcus
+~0.7% vs heterotrophs ~3% (richer OMP repertoire for nutrient scavenging).
 
 ## Phase 2 (Future)
 
@@ -104,8 +137,9 @@ See [docs/superpowers/specs/2026-05-10-psortb-localization-design.md §6](../../
 1. Verify `docker` is on PATH (`docker --version`).
 2. If first run on this host, prepare the image: `uv run python .claude/skills/psortb-run/run_psortb.py --prepare-image`.
 3. Run the skill: `uv run python .claude/skills/psortb-run/run_psortb.py`.
-   Each strain takes ~5-30 min depending on proteome size; the batch runs
-   sequentially.
+   Each strain takes ~9-30 min depending on proteome size; the batch runs
+   sequentially (~8 h for all 32 strains). Use `nohup ... &` for unattended
+   batch runs since stdout is line-buffered until each strain finishes.
 4. Review the status table — note any FAILED or MISSING_INPUT strains.
 5. Inspect `<data_dir>/psortb/<strain>.psortb.calls.json` for spot checks.
 6. For batch failures, check `logs/psortb_<strain>.log`.
