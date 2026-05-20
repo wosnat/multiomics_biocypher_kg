@@ -27,6 +27,25 @@ Brand-new strain additions in 2026-04 followed this workflow — see
 SS120 / BL107 / HP15 / Alt_MarRef worked example, and `plans/mit1002_deploy.md`
 + `plans/ez55_deploy.md` for the cross-assembly cases.
 
+## Multi-strain batches
+
+The workflow handles N strains in one pass — the placeholder `<NEW_STRAIN>`
+below stands for either a single name or a space-separated list. Diffs from
+the single-strain flow:
+
+| Step | Multi-strain diff |
+|---|---|
+| 0 | Identify each accession individually — only step that's per-strain by nature. |
+| 1 | Append N rows to `cyanobacteria_genomes.csv`; add N alias bundles to `ORGANISM_TO_GENOME_DIR`; add N entries to `CANONICAL_GENOMIC_ORGANISMS`. One pytest run validates all of them. |
+| 2 | `bash scripts/prepare_data.sh --strains S1 S2 … SN --steps 0 1 2 3 4 5 6 7` — accepts a space-separated list. |
+| 3 | **Drop the `--strain` flag entirely** in each runner. eggnog/psortb/signalp/tcdb-diamond all default to iterating `cyanobacteria_genomes.csv` and skipping strains that already have output — so the new strains run, the old ones no-op. The Wave 2 `wait $EGGNOG_PID` gate still works since each runner only exits after its full CSV walk finishes. See the multi-strain block inline in Step 3. |
+| 4–9 | One snapshot, one Docker rebuild, one `/check-gene-ids` and one snapshot-compare cover the whole batch. |
+| 10 | `bash scripts/prepare_data.sh --strains S1 S2 … SN --steps 1 2 3 4 5 6 7 --force`. |
+| 11 | Final sweep is unchanged. |
+
+Recent worked example: 4 strains (SS120 + BL107 + HP15 + Alt_MarRef) added
+together in 2026-04 — see the csv-ready-papers spec linked above.
+
 ## Quick map
 
 | Stage | File / command | Brand-new only? |
@@ -35,16 +54,14 @@ SS120 / BL107 / HP15 / Alt_MarRef worked example, and `plans/mit1002_deploy.md`
 | Register site 1 | `data/Prochlorococcus/genomes/cyanobacteria_genomes.csv` | yes |
 | Register site 2 | `multiomics_kg/utils/gene_id_utils.py` (`ORGANISM_TO_GENOME_DIR`) | yes |
 | Register site 3 | `scripts/validate_paperconfig.py` (`CANONICAL_GENOMIC_ORGANISMS`) | yes |
-| Initial download | `bash scripts/prepare_data.sh --strains <S> --steps 0 1 2 3 4` | yes |
-| Per-strain tools (parallel) | `eggnog-run`, `psortb-run`, `tcdb-diamond`, `signalp-run`, … | yes (rerun on paperconfig change only if id_translation changes) |
+| Initial download + ID resolution | `bash scripts/prepare_data.sh --strains <S> --steps 0 1 2 3 4 5 6 7` | yes |
+| Per-strain tools (background) | `eggnog-run`, `psortb-run`, `tcdb-diamond`, `signalp-run`, … | yes (rerun on paperconfig change only if id_translation changes) |
 | Snapshot KG | `omics-edge-snapshot --save before_<S>` | both |
-| Rebuild `gene_id_mapping.json` | `python -m multiomics_kg.download.build_gene_id_mapping --strains <S> --force` | both |
-| Re-resolve paper CSVs | `python -m multiomics_kg.download.resolve_paper_ids --force` | both |
-| Verify match rates | `/check-gene-ids` | both |
 | Docker rebuild | `docker compose up -d --build` | both |
+| Verify match rates | `/check-gene-ids` (uses Docker import report) | both |
 | Compare snapshot | `omics-edge-snapshot --compare before_<S>` | both |
 | KG validity + tests | `pytest -m kg`, regenerate `snapshot_data.json` | both |
-| Loop back | re-run `prepare_data.sh --steps 1 2 3 4` once tool outputs land | brand-new |
+| Loop back | re-run `prepare_data.sh --strains <S> --steps 1 2 3 4 5 6 7 --force` once tool outputs land | brand-new |
 
 ## Step 0 — Identify the assembly (brand-new only)
 
@@ -122,118 +139,14 @@ Run the registration tests:
 uv run pytest tests/test_gene_id_utils.py tests/test_paperconfig_validation.py -v
 ```
 
-## Step 2 — Download + per-strain annotation tables (brand-new only)
+## Step 2 — Download + per-strain annotation tables + gene-ID resolution (brand-new only)
 
-```bash
-bash scripts/prepare_data.sh --strains <NEW_STRAIN> --steps 0 1 2 3 4
-```
+### Pre-flight: configure paperconfig if the paper uses non-standard IDs
 
-| Step | Output |
-|---|---|
-| 0.1 | NCBI GFF + protein.faa + GBFF → `cache/data/<Organism>/genomes/<Strain>/` |
-| 0.2 | Cyanorak GFF + GBK (only if `cyanorak_organism` set; server may throttle — `--skip-cyanorak` resumes) |
-| 0.3 | UniProt by taxid → `cache/data/<org_group>/uniprot/<taxid>/` |
-| 0.5 | `gene_mapping.csv` (locus_tag ↔ protein_id ↔ gene names) |
-| 1 | `protein_annotations.json` per taxid |
-| 2 | `gene_annotations_merged.json` per strain |
-| 3 | `gene_id_mapping.json` v2 (3-tier) |
-| 4 | `<paper>/<csv>_resolved.csv` for any paper already using the strain |
-
-Logs land in `logs/prepare_data_step{N}.log`. Cyanorak is the flakiest server in
-the chain — if step 0.2 hangs, `--skip-cyanorak` and retry later.
-
-## Step 3 — Per-strain tools (background, parallel) (brand-new only)
-
-Every integrated tool with a Phase-1 SKILL must be run for the new strain so
-its output is available before Phase-2 integrations re-merge into
-`gene_annotations_merged.json`. Run these as background jobs — they don't
-depend on each other.
-
-```bash
-# eggNOG — functional annotation (read by prepare_data step 2 when present)
-nohup uv run python .claude/skills/eggnog-run/run_eggnog.py --strain <NEW_STRAIN> > logs/eggnog_<NEW_STRAIN>.log 2>&1 &
-
-# PSORTb — Gram-negative subcellular localization
-nohup uv run python .claude/skills/psortb-run/run_psortb.py --strain <NEW_STRAIN> > logs/psortb_<NEW_STRAIN>.log 2>&1 &
-
-# TCDB-diamond — transporter classification
-nohup uv run python .claude/skills/tcdb-diamond/run_tcdb_diamond.py --strains <NEW_STRAIN> > logs/tcdb_<NEW_STRAIN>.log 2>&1 &
-
-# SignalP — signal peptide prediction
-nohup uv run python .claude/skills/signalp-run/run_signalp.py --strain <NEW_STRAIN> > logs/signalp_<NEW_STRAIN>.log 2>&1 &
-
-# Add new tools here as they're created via /add-a-tool
-```
-
-> **Note on `--strain` vs `--strains`:** today's runners diverge — psortb /
-> eggnog / signalp accept `--strain` (singular); tcdb-diamond accepts
-> `--strains` (plural, `nargs='+'`). `/add-a-tool`'s canonical CLI standardizes
-> on `--strains` plural going forward. The three singular runners will be
-> migrated opportunistically to also accept `--strains`; until then, this
-> block reflects each runner's current actual flag. New `/add-a-tool`
-> additions should use `--strains` from day one.
-
-Per-strain wallclock ranges from ~10 min (eggNOG with cached DB) to ~30 min
-(PSORTb on a 5K-protein heterotroph). For the full list of tools that should
-run on every new strain, see [`/add-a-tool`](../add-a-tool/SKILL.md) — adding a
-tool to the list there is what makes future strains pick it up.
-
-eggNOG output is consumed by `prepare_data.sh --steps 1 2` (step 2 picks up
-`<strain>.emapper.annotations` and merges it into
-`gene_annotations_merged.json`). PSORTb / tcdb-diamond / signalp are Phase-1
-only — their `<data_dir>/<tool>/<strain>.calls.json` artifacts sit in the
-strain cache until each tool's Phase-2 integration spec lands.
-
-## Step 4 — Snapshot the KG
-
-```bash
-STRAIN=<your-strain-name>   # REQUIRED — replace with the strain you're deploying (e.g., MIT9312, SS120, BL107).
-                            # The rest of the steps reference ${STRAIN}; set it once here.
-uv run python .claude/skills/omics-edge-snapshot/omics_edge_snapshot.py --save before_${STRAIN}
-```
-
-Neo4j must be running. The snapshot is what step 11 compares against to detect
-silent edge loss.
-
-## Step 5 — Rebuild `gene_id_mapping.json`
-
-```bash
-uv run python -m multiomics_kg.download.build_gene_id_mapping --strains $STRAIN --force
-```
-
-Review the diagnostic report:
-
-```
-cache/data/<Organism>/genomes/<Strain>/gene_id_mapping_report.json
-```
-
-What this build auto-includes beyond `gene_annotations_merged.json` (no
-paperconfig needed):
-
-| Source | File | What it adds |
-|---|---|---|
-| GCF `cds_from_genomic.fna` | `cache/.../genomes/<Strain>/genomic_gca.gff` | `cds_fna_id` Tier 1 — full `lcl|<chr>_cds_<protein>_<n>` IDs; also `locus_tag_ncbi`, `old_locus_tag`, `protein_id_refseq`, `gene_name` from FNA headers |
-| GCA GFF | `cache/.../genomes/<Strain>/genomic_gca.gff` | Old locus_tag format (e.g. `PMT9312_1938`), old protein IDs (e.g. `ABS83190.1`), Cyanorak locus tag cross-refs, `Alternative locus ID` from Note field (ProPortal-era IDs like `P9313_NNNNN`, `PMED4_NNNNN`) |
-
-Both files are downloaded by `scripts/prepare_data.sh` step 0 NCBI sub-steps —
-no manual action needed.
-
-## Step 6 — Re-resolve paper CSVs
-
-```bash
-uv run python -m multiomics_kg.download.resolve_paper_ids --force
-```
-
-This walks every `csv` supplementary table in every paperconfig, loads the
-source CSV, resolves each `name_col` value via the v2 mapper, and writes
-`<stem>_resolved.csv` alongside the original with two extra columns
-(`locus_tag`, `resolution_method`). The omics adapter consumes the resolved
-CSV, not the raw one.
-
-### Adding non-standard ID sources (paperconfig)
-
-When a paper uses IDs not in the NCBI/Cyanorak annotations, add entries to the
-paper's `paperconfig.yaml` **before** running step 5.
+prepare_data step 3 harvests `id_translation` and `annotation_gff` entries from
+every paperconfig — so set them up **before** running prepare_data. When the
+paper's IDs aren't standard NCBI/Cyanorak locus_tags, add to the paper's
+`paperconfig.yaml`:
 
 **Annotation CSV (`id_translation`):**
 
@@ -265,25 +178,11 @@ annotation_gff_mit9312:
 The GFF `locus_tag` attribute → `locus_tag_ncbi` (Tier 1), `old_locus_tag` →
 `old_locus_tag` (Tier 1), `protein_id` → `protein_id_refseq` (Tier 2).
 
-For paper IDs that come from a different assembly entirely
-(draft genome, IMG/RAST/custom annotation), use **cross-assembly protein
-sequence bridging** — see [references/cross_assembly_bridging.md](references/cross_assembly_bridging.md).
+For paper IDs that come from a different assembly entirely (draft genome,
+IMG/RAST/custom annotation), use **cross-assembly protein sequence bridging** —
+see [references/cross_assembly_bridging.md](references/cross_assembly_bridging.md).
 
-## Step 7 — Verify gene-ID resolution
-
-```bash
-uv run python .claude/skills/check-gene-ids/check_gene_ids.py
-```
-
-Expect ≥ 80% match rate per paper. Lower → use the diagnostic playbook at
-[references/id_resolution_diagnostics.md](references/id_resolution_diagnostics.md)
-(Phase 1/2/3 anchor logic, footnote artifacts, MIT9313 multi-annotation trap,
-Alteromonas dual-assembly traps, etc.).
-
-For known per-strain ID quirks see
-[references/known_id_formats.md](references/known_id_formats.md).
-
-### Removing `_with_locus_tag.csv` workarounds
+#### Check for legacy `_with_locus_tag.csv` workarounds
 
 Earlier strains were fixed using the `/fix-gene-ids` skill, which created
 `_with_locus_tag.csv` copies with an added `locus_tag` column and changed the
@@ -302,9 +201,148 @@ then change `filename`, `name_col`, and remove the synthetic `id_columns`
 entries. Keep valid additions like `prefiltered`, `pvalue_threshold`,
 `product_columns`.
 
-## Step 8 — Validate paperconfigs + add unit tests for any new fix pattern
+### Run prepare_data
 
-If step 7 surfaced a paperconfig fix, validate + add a regression test:
+```bash
+bash scripts/prepare_data.sh --strains <NEW_STRAIN> --steps 0 1 2 3 4 5 6 7
+```
+
+| Step | Output |
+|---|---|
+| 0.1 | NCBI GFF + protein.faa + GBFF → `cache/data/<Organism>/genomes/<Strain>/` |
+| 0.2 | Cyanorak GFF + GBK (only if `cyanorak_organism` set; server may throttle — `--skip-cyanorak` resumes) |
+| 0.3 | UniProt by taxid → `cache/data/<org_group>/uniprot/<taxid>/` |
+| 0.5 | `gene_mapping.csv` (locus_tag ↔ protein_id ↔ gene names) |
+| 1 | `protein_annotations.json` per taxid |
+| 2 | `gene_annotations_merged.json` per strain |
+| 3 | `gene_id_mapping.json` v2 (3-tier) |
+| 4 | `<paper>/<csv>_resolved.csv` for any paper already using the strain (gene-ID resolution) |
+| 5 | `cache/data/eggnog/og_descriptions.json` (OG description cache) |
+| 6 | `cache/data/kegg/kegg_data.json` + `cache/data/tcdb/tcdb_pruned.json` + `cache/data/metabolomics/metabolite_id_mapping.json` (KEGG/TCDB pruning + metabolite alias index) |
+| 7 | `<paper>/<csv>_resolved.csv` for `metabolite_assays_table` entries (metabolite-ID resolution) |
+
+Logs land in `logs/prepare_data_step{N}.log`. Cyanorak is the flakiest server in
+the chain — if step 0.2 hangs, `--skip-cyanorak` and retry later.
+
+## Step 3 — Per-strain tools (background, parallel) (brand-new only)
+
+Every integrated tool with a Phase-1 SKILL must be run for the new strain so
+its output is available before Phase-2 integrations re-merge into
+`gene_annotations_merged.json`. Kick these off as background jobs and proceed
+to Step 4 immediately — they don't depend on each other, and the rest of the
+workflow (snapshot, Docker rebuild, verification) runs in parallel with them.
+Step 10's loop-back is the rendezvous point where you wait for them to finish.
+
+```bash
+mkdir -p logs/{eggnog,psortb,tcdb,signalp}
+
+# Wave 1 — independent tools, run in parallel:
+
+# eggNOG — functional annotation (read by prepare_data step 2 when present;
+#          tcdb-diamond also reads its output → must finish before Wave 2)
+nohup uv run python .claude/skills/eggnog-run/run_eggnog.py --strain <NEW_STRAIN> > logs/eggnog/<NEW_STRAIN>.log 2>&1 &
+EGGNOG_PID=$!
+
+# PSORTb — Gram-negative subcellular localization
+nohup uv run python .claude/skills/psortb-run/run_psortb.py --strain <NEW_STRAIN> > logs/psortb/<NEW_STRAIN>.log 2>&1 &
+
+# SignalP — signal peptide prediction
+nohup uv run python .claude/skills/signalp-run/run_signalp.py --strain <NEW_STRAIN> > logs/signalp/<NEW_STRAIN>.log 2>&1 &
+
+# Wave 2 — depends on eggNOG (reads <strain>.emapper.annotations for egn_agreement
+#          + gene_annotations_merged.json for pfam_agreement). Subshell waits for
+#          eggNOG to finish, then launches tcdb — the outer shell doesn't block,
+#          so you can proceed to Step 4 immediately.
+( wait $EGGNOG_PID && \
+    nohup uv run python .claude/skills/tcdb-diamond/run_tcdb_diamond.py --strains <NEW_STRAIN> > logs/tcdb/<NEW_STRAIN>.log 2>&1 ) &
+
+# Add new tools here as they're created via /add-a-tool — note the wave they belong in
+```
+
+If you launch tcdb-diamond before eggnog has finished, the runner still
+completes but every call's `egn_agreement = "extends"` (it can't see the
+eggNOG TC assignments) — silently degraded output that's hard to spot
+after-the-fact. The subshell + `wait $EGGNOG_PID` gate is what prevents this
+without stalling the foreground workflow.
+
+### Multi-strain variant
+
+For a batch (e.g. all 8 missing Prochlorococcus strains), **omit the
+`--strain` flag entirely**. Each runner then iterates `cyanobacteria_genomes.csv`
+and skips strains that already have output — new strains run, old strains
+no-op. The Wave 2 gate still works because eggnog only exits once its full
+CSV walk finishes:
+
+```bash
+mkdir -p logs/{eggnog,psortb,tcdb,signalp}
+
+# Wave 1 — same three tools, no --strain flag → iterate the whole CSV
+nohup uv run python .claude/skills/eggnog-run/run_eggnog.py > logs/eggnog/batch.log 2>&1 &
+EGGNOG_PID=$!
+nohup uv run python .claude/skills/psortb-run/run_psortb.py > logs/psortb/batch.log 2>&1 &
+nohup uv run python .claude/skills/signalp-run/run_signalp.py > logs/signalp/batch.log 2>&1 &
+
+# Wave 2 — tcdb-diamond, after eggnog has annotated every strain in the CSV
+( wait $EGGNOG_PID && \
+    nohup uv run python .claude/skills/tcdb-diamond/run_tcdb_diamond.py > logs/tcdb/batch.log 2>&1 ) &
+```
+
+Pass `--force` to a specific runner only if you want to re-process strains
+that already have output for that tool.
+
+> **Note on deferred conventions** — two divergences between this snippet
+> and `/add-a-tool`'s canonical patterns, both pending opportunistic
+> migration on the existing runners:
+>
+> - **`--strain` vs `--strains`** — psortb / eggnog / signalp accept
+>   `--strain` (singular); tcdb-diamond accepts `--strains` (plural,
+>   `nargs='+'`). `/add-a-tool`'s canonical is `--strains` plural.
+> - **Log location** — the canonical convention is `logs/<tool>/<strain>.log`
+>   (subfolder per tool); existing runners write the redirect target
+>   shown above. The `mkdir -p` ahead of the runs creates the subfolders
+>   so the redirect lands cleanly; once the runners themselves migrate
+>   they'll create the subfolder internally.
+>
+> New `/add-a-tool` additions should follow the canonical patterns from
+> day one.
+
+Per-strain wallclock ranges from ~10 min (eggNOG with cached DB) to ~30 min
+(PSORTb on a 5K-protein heterotroph). **The `nohup` block above (and its
+multi-strain variant) is the canonical list** of per-strain tools — when
+[`/add-a-tool`](../add-a-tool/SKILL.md) ships a new runner, its Step 6
+appends a line to both blocks so future strains pick it up automatically.
+
+eggNOG output is consumed by `prepare_data.sh --steps 1 2` (step 2 picks up
+`<strain>.emapper.annotations` and merges it into
+`gene_annotations_merged.json`). PSORTb / tcdb-diamond / signalp are Phase-1
+only — their `<data_dir>/<tool>/<strain>.calls.json` artifacts sit in the
+strain cache until each tool's Phase-2 integration spec lands.
+
+## Step 4 — Snapshot the KG
+
+```bash
+STRAIN=<your-strain-name>   # REQUIRED — single-strain: the strain you're deploying (e.g., MIT9312, SS120, BL107).
+                            # Multi-strain batch: use a batch tag (e.g., missing_pro_strains, batch_2026_05_20).
+                            # The rest of the steps reference ${STRAIN}; set it once here.
+uv run python .claude/skills/omics-edge-snapshot/omics_edge_snapshot.py --save before_${STRAIN}
+```
+
+Neo4j must be running. The snapshot is what step 9 compares against to detect
+silent edge loss.
+
+## Step 5 — Spot-check resolved CSVs (pre-Docker)
+
+Open the `<csv>_resolved.csv` files prepare_data step 4 just wrote and skim the
+`resolution_method` column. Authoritative match-rate verification happens
+post-Docker in step 8 — that pass cross-references the import report (which
+only exists after `neo4j-admin import` runs).
+
+For known per-strain ID quirks see
+[references/known_id_formats.md](references/known_id_formats.md).
+
+## Step 6 — Validate paperconfigs + add unit tests for any new fix pattern
+
+If step 5 surfaced a paperconfig fix, validate + add a regression test:
 
 ```bash
 uv run pytest tests/test_paperconfig_validation.py -v   # all paperconfigs must pass
@@ -317,18 +355,32 @@ uv run pytest tests/test_gene_id_graph.py -q
 The unit test should describe **why** the fix was needed — future strains
 hitting the same pattern will read these tests as documentation.
 
-## Step 9 — Rebuild the Docker KG
+## Step 7 — Rebuild the Docker KG
 
 ```bash
 docker compose down deploy app  # release the Neo4j lock
 docker compose up -d --build
 ```
 
-Rebuild takes ~30 min. Proceed to step 10 in parallel.
+Rebuild takes ~30 min. Proceed to step 8 in parallel.
 
-## Step 10 — Update KG-validity + snapshot tests
+## Step 8 — Verify gene-ID resolution + update KG-validity / snapshot tests
 
-After Docker is up:
+After Docker is up, run the canonical gene-ID check (now has the import
+report available):
+
+```bash
+uv run python .claude/skills/check-gene-ids/check_gene_ids.py
+```
+
+Expect ≥ 80% match rate per paper. Lower → use the diagnostic playbook at
+[references/id_resolution_diagnostics.md](references/id_resolution_diagnostics.md)
+(Phase 1/2/3 anchor logic, footnote artifacts, MIT9313 multi-annotation trap,
+Alteromonas dual-assembly traps, etc.). If you fix a paperconfig here, re-run
+`prepare_data.sh --strains <NEW_STRAIN> --steps 3 4 5 6 7 --force`, then
+rebuild Docker.
+
+Then run the KG validity suite:
 
 ```bash
 pytest -m kg -v
@@ -349,7 +401,7 @@ git add tests/kg_validity/snapshot_data.json
 The committed snapshot is what catches silent data loss on future rebuilds.
 A strain without snapshot coverage is invisible to regression.
 
-## Step 11 — Compare snapshot
+## Step 9 — Compare snapshot
 
 ```bash
 uv run python .claude/skills/omics-edge-snapshot/omics_edge_snapshot.py --compare before_${STRAIN}
@@ -359,25 +411,25 @@ Detects per-paper regressions (lost edges) vs improvements (gained edges from
 better ID resolution). Lost edges that aren't explained by intentional
 paperconfig changes = investigate before merging.
 
-## Step 12 — Loop back through prepare_data once tool outputs are in (brand-new only)
+## Step 10 — Loop back through prepare_data once tool outputs are in (brand-new only)
 
 Some tools (eggNOG today; SignalP / InterProScan as Phase-2 integrations land)
-are consumed by `prepare_data.sh --steps 1 2` when their output exists. Once
-every background tool from step 3 has finished, re-run steps 1–4:
+are consumed by `prepare_data.sh --steps 1 2` when their output exists. Wait
+for every background tool from step 3 to finish, then re-run steps 1–7:
 
 ```bash
-bash scripts/prepare_data.sh --strains <NEW_STRAIN> --steps 1 2 3 4 --force
+bash scripts/prepare_data.sh --strains <NEW_STRAIN> --steps 1 2 3 4 5 6 7 --force
 ```
 
-Then redo step 6 (re-resolve), step 7 (check), step 9 (Docker rebuild), step 11
-(snapshot compare) so the KG picks up the enriched annotations.
+Then redo step 7 (Docker rebuild), step 8 (post-Docker check + KG validity),
+step 9 (snapshot compare) so the KG picks up the enriched annotations.
 
 Tools that are still Phase-1-only (PSORTb, tcdb-diamond as of 2026-05) don't
 strictly need this loop — their outputs sit in the strain cache until their
 Phase-2 integration spec lands. The loop becomes mandatory once a tool's Phase
 2 wires into `build_gene_annotations.py` or an adapter.
 
-## Step 13 — Final sanity sweep
+## Step 11 — Final sanity sweep
 
 ```bash
 pytest -m "not slow and not kg" -v    # full unit suite
@@ -417,6 +469,6 @@ Then update the memory / docs trail:
 
 ## Workflow summary
 
-Brand-new strain: 0 → 1 → 2 → 3 (kick off) → 4 → 5 → 6 → 7 → 8 → 9 → 10 → 11 → 12 (when tools done) → 13.
+Brand-new strain: 0 → 1 → 2 → 3 (kick off in background) → 4 → 5 → 6 → 7 → 8 → 9 → 10 (when tools done) → 11.
 
-Re-deploy of existing strain: 4 → 5 → 6 → 7 → 8 → 9 → 10 → 11 → 13.
+Re-deploy of existing strain: edit paperconfig → `bash scripts/prepare_data.sh --strains <S> --steps 3 4 5 6 7 --force` → 4 → 5 → 6 → 7 → 8 → 9 → 11.

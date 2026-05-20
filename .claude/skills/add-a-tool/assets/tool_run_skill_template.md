@@ -136,4 +136,4 @@ and are NOT yet wired into `gene_annotations_merged.json` or any KG adapter.>
 Numbered checklist of what a user does when invoking the skill: verify
 prerequisite (`docker --version`, `diamond --version`), run install if
 needed, run the batch, inspect the status table, verify spot checks,
-dig into FAILED rows in `logs/<tool>_<strain>.log`. ~5 lines.>
+dig into FAILED rows in `logs/<tool>/<strain>.log`. ~5 lines.>

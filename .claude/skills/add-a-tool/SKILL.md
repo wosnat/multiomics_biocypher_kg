@@ -275,7 +275,7 @@ Write the runner at `.claude/skills/<tool>-run/run_<tool>.py`. It should:
 
 1. Parse CLI flags (see "Canonical CLI surface" below) — match what your Step 1 Quick Start documented.
 2. Iterate strains via `multiomics_kg.download.utils.cli.load_genome_rows`.
-3. For each strain, invoke the external tool against the input from Step 0 Q2 (`<data_dir>/protein.faa`, `<data_dir>/genome.fna`, etc.); capture full stdout+stderr to `logs/<tool>_<strain>.log`.
+3. For each strain, invoke the external tool against the input from Step 0 Q2 (`<data_dir>/protein.faa`, `<data_dir>/genome.fna`, etc.); capture full stdout+stderr to `logs/<tool>/<strain>.log`.
 4. Parse the tool's raw output, keyed by **the natural identifier for one record of what the tool predicts** (see "Choosing the calls.json key" below). For all four existing tools that's WP_ protein_id (NCBI accession) because they all consume `protein.faa`; tools consuming `genomic.gff` or `genome.fna` will pick a different key.
 5. Write `<data_dir>/<tool>/<strain>.<tool>.calls.json` and `<strain>.<tool>.skill_summary.json` — with **per-strain QC fields baked into skill_summary** (see below).
 6. Emit a status table to stdout — one row per strain.
@@ -467,7 +467,7 @@ the Output Schema needed a small correction based on real output, fix it.
 invoking the skill: verify prerequisite (`docker --version`,
 `diamond --version`), run install if needed, run the batch, inspect the
 status table, **verify spot checks**, dig into FAILED rows in
-`logs/<tool>_<strain>.log`. ~5 lines.
+`logs/<tool>/<strain>.log`. ~5 lines.
 
 ## Step 5 — Full batch via the skill, then finalize SKILL.md
 
@@ -476,14 +476,14 @@ status table, **verify spot checks**, dig into FAILED rows in
 Run the documented full-batch invocation from the SKILL.md's Quick Start:
 
 ```bash
-nohup uv run python .claude/skills/<tool>-run/run_<tool>.py > logs/<tool>_batch.log 2>&1 &
+nohup uv run python .claude/skills/<tool>-run/run_<tool>.py > logs/<tool>/batch.log 2>&1 &
 ```
 
-Monitor with `tail -f logs/<tool>_batch.log`. Most tools take hours wallclock.
+Monitor with `tail -f logs/<tool>/batch.log`. Most tools take hours wallclock.
 
 After completion:
 
-1. Inspect the status table for `FAILED` rows; chase down via `logs/<tool>_<strain>.log`.
+1. Inspect the status table for `FAILED` rows; chase down via `logs/<tool>/<strain>.log`.
 2. Verify the cross-strain spot checks from the SKILL.md's QC section all pass. Failures here mean either the spot check was wrong or the tool drifted on certain strains — investigate before committing.
 3. Commit the per-strain `<strain>.<tool>.calls.json` + `<strain>.<tool>.skill_summary.json` artifacts (committed by convention — see "Outputs are committed").
 
@@ -565,7 +565,7 @@ runner:
 
 ```bash
 # <Tool description>
-nohup uv run python .claude/skills/<tool>-run/run_<tool>.py --strains <NEW_STRAIN> > logs/<tool>_<NEW_STRAIN>.log 2>&1 &
+nohup uv run python .claude/skills/<tool>-run/run_<tool>.py --strains <NEW_STRAIN> > logs/<tool>/<NEW_STRAIN>.log 2>&1 &
 ```
 
 This is what makes future brand-new strains pick up the tool automatically.
@@ -574,7 +574,7 @@ new strains.
 
 If the tool's Phase 2 will later be consumed by `prepare_data.sh --steps 1 2`
 (eggNOG pattern — output read by `build_gene_annotations.py`), also flag that
-in the SKILL.md so `add-a-strain` step 12 ("loop back through prepare_data")
+in the SKILL.md so `add-a-strain` step 10 ("loop back through prepare_data")
 applies. Phase-1-only tools (psortb, tcdb, signalp as of 2026-05) don't need
 the loop-back.
 
@@ -599,7 +599,9 @@ cache/data/<org>/genomes/<strain>/<tool>/                  # per-strain outputs 
   <strain>.<tool>.raw.{tsv,gff,json}                       # raw tool output preserved
   <strain>.<tool>.calls.json                               # post-processed; key shape depends on Step 0 Q1 (WP_ for per-protein tools)
   <strain>.<tool>.skill_summary.json                       # per-strain stats
-logs/<tool>_<strain>.log                                   # full stdout+stderr (auto-gitignored via *.log)
+logs/<tool>/                                               # per-tool log subfolder (gitignored via *.log)
+  <strain>.log                                             # one log per strain; full external stdout+stderr
+  batch.log                                                # combined full-batch log (nohup target)
 ```
 
 ### Outputs are committed
@@ -680,7 +682,7 @@ follow-up — currently out of scope.
 Status table to stdout — columns like `strain | n_proteins | n_calls |
 wallclock_s | status`. Status values: `OK` / `SKIPPED` (calls.json exists, no
 `--force`) / `MISSING_INPUT` / `FAILED`. Full external stdout+stderr goes to
-`logs/<tool>_<strain>.log`.
+`logs/<tool>/<strain>.log`.
 
 ### Output schema conventions
 
