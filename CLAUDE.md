@@ -311,7 +311,8 @@ The `.claude/skills/` directory provides project-specific skills:
 - `/check-gene-ids` — validate gene ID match rates between CSV data and graph nodes
 - `/fix-gene-ids` — map gene IDs to locus tags when mismatches are found
 - `/cypher-queries` — run Cypher queries against Neo4j with ready-made templates
-- `/deploy-strain` — end-to-end checklist for deploying v2 gene ID mapping for a new strain (snapshot → rebuild mapping → resolve papers → verify → rebuild KG → compare)
+- `/add-a-strain` — end-to-end onboarding for a brand-new strain AND re-deploy of an existing strain's v2 gene-ID mapping after a paperconfig fix (register in three hardcoded sites → prepare_data → per-strain tools → snapshot → rebuild mapping → resolve papers → verify → docker rebuild → tests → loop back when tool outputs land). Diagnostic playbook in `.claude/skills/add-a-strain/references/`.
+- `/add-a-tool` — scaffold a new per-strain bioinformatics tool integration (Phase 1) following the psortb-run / tcdb-diamond / eggnog-run template
 
 ## Genome Data Download Pipeline
 
