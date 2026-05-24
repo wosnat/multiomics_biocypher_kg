@@ -1,0 +1,24 @@
+{
+  "strain": "MIT9215",
+  "gene_count": 2030,
+  "kegg_reactions": {
+    "raw_total": 1248,
+    "raw_unique": 950,
+    "kept_total": 1248,
+    "kept_unique_r_numbers": 950
+  },
+  "transporter_classification": {
+    "raw_total": 210,
+    "raw_unique": 93,
+    "validated_total": 210,
+    "validated_unique": 93,
+    "invalid_examples": []
+  },
+  "cazy_ids": {
+    "raw_total": 28,
+    "raw_unique": 16,
+    "validated_total": 28,
+    "validated_unique": 16,
+    "invalid_examples": []
+  }
+}

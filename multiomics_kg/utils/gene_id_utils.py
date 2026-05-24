@@ -82,6 +82,19 @@ ORGANISM_TO_GENOME_DIR = {
     "marinobacter hp15": "cache/data/Marinobacter/genomes/HP15",
     "alteromonas (marref v6)": "cache/data/Alteromonas/genomes/Alt_MarRef",
     "alteromonas mediterranea de": "cache/data/Alteromonas/genomes/Alt_MarRef",
+    # Soussan 2025 N/P starvation strain panel (May 2026)
+    "prochlorococcus mit9515": "cache/data/Prochlorococcus/genomes/MIT9515",
+    "prochlorococcus marinus mit9515": "cache/data/Prochlorococcus/genomes/MIT9515",
+    "prochlorococcus mit9202": "cache/data/Prochlorococcus/genomes/MIT9202",
+    "prochlorococcus marinus mit9202": "cache/data/Prochlorococcus/genomes/MIT9202",
+    "prochlorococcus mit9215": "cache/data/Prochlorococcus/genomes/MIT9215",
+    "prochlorococcus marinus mit9215": "cache/data/Prochlorococcus/genomes/MIT9215",
+    "prochlorococcus mit0604": "cache/data/Prochlorococcus/genomes/MIT0604",
+    "prochlorococcus sp. mit0604": "cache/data/Prochlorococcus/genomes/MIT0604",
+    "prochlorococcus sb": "cache/data/Prochlorococcus/genomes/SB",
+    "prochlorococcus marinus sb": "cache/data/Prochlorococcus/genomes/SB",
+    "prochlorococcus pac1": "cache/data/Prochlorococcus/genomes/PAC1",
+    "prochlorococcus marinus pac1": "cache/data/Prochlorococcus/genomes/PAC1",
 }
 
 # ─── Patterns & keywords ──────────────────────────────────────────────────────

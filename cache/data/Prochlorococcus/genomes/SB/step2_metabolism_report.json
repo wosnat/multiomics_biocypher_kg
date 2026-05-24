@@ -1,0 +1,24 @@
+{
+  "strain": "SB",
+  "gene_count": 1977,
+  "kegg_reactions": {
+    "raw_total": 1203,
+    "raw_unique": 931,
+    "kept_total": 1203,
+    "kept_unique_r_numbers": 931
+  },
+  "transporter_classification": {
+    "raw_total": 201,
+    "raw_unique": 95,
+    "validated_total": 201,
+    "validated_unique": 95,
+    "invalid_examples": []
+  },
+  "cazy_ids": {
+    "raw_total": 23,
+    "raw_unique": 16,
+    "validated_total": 23,
+    "validated_unique": 16,
+    "invalid_examples": []
+  }
+}

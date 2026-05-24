@@ -27,7 +27,7 @@ def test_cazy_family_node_count_in_range(run_query):
 @pytest.mark.kg
 def test_gene_has_tcdb_family_edge_count(run_query):
     n = run_query("MATCH ()-[r:Gene_has_tcdb_family]->() RETURN count(r) AS n")[0]["n"]
-    assert 500 <= n <= 15000, f"Gene_has_tcdb_family count {n} outside 500-15000"
+    assert 500 <= n <= 20000, f"Gene_has_tcdb_family count {n} outside 500-20000"
 
 
 @pytest.mark.kg

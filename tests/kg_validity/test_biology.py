@@ -17,7 +17,7 @@ pytestmark = pytest.mark.kg
 
 
 # Strains confirmed in graph (OrganismTaxon nodes with strain_name):
-# 9 Prochlorococcus + 6 Synechococcus/Parasynechococcus/Thermosynechococcus + 3 Alteromonas + 4 heterotrophs
+# 15 Prochlorococcus + 6 Synechococcus/Parasynechococcus/Thermosynechococcus + 3 Alteromonas + 4 heterotrophs
 EXPECTED_STRAINS = [
     # Prochlorococcus
     "MED4",
@@ -29,6 +29,13 @@ EXPECTED_STRAINS = [
     "NATL1A",
     "AS9601",
     "RSP50",
+    # Soussan 2025 N/P starvation strain panel (May 2026)
+    "MIT9515",
+    "MIT9202",
+    "MIT9215",
+    "MIT0604",
+    "SB",
+    "PAC1",
     # Synechococcus / Parasynechococcus
     "WH8102",
     "CC9311",
@@ -53,11 +60,17 @@ EXPECTED_STRAINS = [
 EXPECTED_CLADES = {
     "MED4":    "HLI",
     "RSP50":   "HLI",
+    "MIT9515": "HLI",
     "AS9601":  "HLII",
     "MIT9312": "HLII",
     "MIT9301": "HLII",
+    "MIT9202": "HLII",
+    "MIT9215": "HLII",
+    "MIT0604": "HLII",
+    "SB":      "HLII",
     "NATL2A":  "LLII",
     "NATL1A":  "LLII",
+    "PAC1":    "LLI",
     "MIT9313": "LLIV",
     "MIT9303": "LLIV",
 }
