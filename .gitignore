@@ -12,6 +12,12 @@ biocypher-*
 /output/import.report
 /output/import.status
 
+# Release dumps — never committed. Used only as a fallback in the local-box
+# release flow (build-once + volume-copy); see plans/alpha_release.md §6.3.
+# metadata.json fragments stay tracked — small and useful audit trail.
+/output/releases/*.dump
+/output/releases/*.dump.sha256
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
