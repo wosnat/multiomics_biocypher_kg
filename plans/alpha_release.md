@@ -375,9 +375,9 @@ Future alternative: build on dev only, then `docker run --rm -v kg-dev_biocypher
 |---|---|---:|---|---|---|---|
 | **1** | **Local Docker box + Tailscale** (this plan) | **$0** (or ~$432 if >3 Tailscale users) | LAN + tailnet (any laptop on the tailnet, anywhere) | Operator (~box uptime) | Low — one override compose file + Tailscale install | Minutes (`docker compose up -d`) |
 | 2 | Aura Free | $0 | Public Internet, anywhere | None | Trivial | Slow (manual dump upload) |
-| 3 | Aura Pro 2 GB / 4 GB storage | $1,577 always-on | Public Internet, anywhere | None | Low (Aura Console + Cypher) | Slow (manual dump upload, ~30 min/release) |
-| **4** | **Aura Pro 4 GB / 8 GB storage** | **$3,154 always-on** *(or ~$1,000 with pause/resume)* | Public Internet, anywhere | None | Low | Slow |
-| 5 | Aura Pro 8 GB / 16 GB storage | $6,307 always-on | Public Internet, anywhere | None | Low | Slow |
+| 3 | Aura Pro 2 GB / 4 GB storage | $1,577 always-on *(or ~$690 working-hours-only with pause)* | Public Internet, anywhere | None | Low (Aura Console + Cypher) | Slow (manual dump upload, ~30 min/release) |
+| **4** | **Aura Pro 4 GB / 8 GB storage** | **$3,154 always-on** *(or ~$1,380 working-hours-only with pause)* | Public Internet, anywhere | None | Low | Slow |
+| 5 | Aura Pro 8 GB / 16 GB storage | $6,307 always-on *(or ~$2,760 with pause)* | Public Internet, anywhere | None | Low | Slow |
 | 6 | Public Linux box + Let's Encrypt + Neo4j auth | $0 (existing box) or ~$60/yr (cheap VPS) | Public Internet, anywhere | Operator + security | High — DNS, certs, firewall, monitoring | Minutes |
 | 7 | Cloudflare Tunnel + Neo4j auth | $0 (Cloudflare free) | Public Internet, anywhere | Operator | Medium — tunnel install + Cloudflare Access SSO config | Minutes |
 
@@ -400,15 +400,15 @@ Free managed Neo4j. **Not viable for our KG:** Aura Free caps at 200,000 nodes /
 
 Smallest Aura Pro tier that fits our data. Storage column (4 GB) fits our 3.1 GB volume. RAM (2 GB) is tight — Neo4j heap + page cache + OS overhead = ~3-4 GB ideal, so this tier means slower queries for anything that touches many indexes (e.g., pathway enrichment, cross-strain ortholog joins).
 
-- **Cost:** **$1,577/year** always-on. ~$470/year if paused outside working hours.
+- **Cost:** **$1,577/year always-on.** With aggressive pause/resume (run only during ~50 hrs/week of research hours, paused otherwise): ~$690/year. Pause math: Aura Pro paused instances bill at 20% of the running rate, capped at 30 days paused before auto-resume.
 - **Verdict:** workable but the user experience will be uneven. Not what you want for an alpha that's supposed to demonstrate the system.
 
 **Option 4 — Aura Pro 4 GB RAM / 8 GB storage** ($0.36/hr × 730 hr = $262.80/month, $3,154/year)
 
 The honest baseline tier for this KG. Comfortable cache, queries snappy, room for the graph to ~2× before needing a bigger tier.
 
-- **Cost:** **$3,154/year always-on.** With aggressive pause/resume (run only ~50 hrs/week of "research hours", paused the rest): ~$1,000/year.
-- **Verdict:** the right Aura tier if we go that route. The pause/resume math assumes Aura's paused-state pricing is storage-only (~$10-15/month) — **needs verification** before committing.
+- **Cost:** **$3,154/year always-on.** With pause/resume (50 hrs/week running ≈ 217 hrs/month + paused otherwise): ~$1,380/year. Even more aggressive (resume on-demand only, ~20 hrs/week): ~$935/year. Aura Pro paused instances bill at 20% of the running rate (verified on neo4j.com/pricing 2026-05-24); max 30 days paused before auto-resume.
+- **Verdict:** the right Aura tier if we go that route.
 
 **Option 5 — Aura Pro 8 GB RAM / 16 GB storage** ($525.60/month, $6,307/year)
 
@@ -441,7 +441,7 @@ Run a Cloudflare Tunnel daemon on the box; testers reach the KG via a `*.your-do
 3. We cross ~15 concurrent users (Tailscale's free-tier user cap *and* the box's RAM start to feel it).
 4. We're ready for a public-launch posture where "click to install MCP, here's the URI, no VPN required" is the experience we want to advertise.
 
-**Budget framing:** the difference between Option 1 ($0–$432/year) and Option 4 ($1,000–$3,154/year) is **$1-3K/year**. That's the price of:
+**Budget framing:** the difference between Option 1 ($0–$432/year) and Option 4 ($935–$3,154/year) is **$1-3K/year**. That's the price of:
 - Zero box-uptime worry,
 - Reach from anywhere without provisioning Tailscale invites,
 - Public-launch credibility,
