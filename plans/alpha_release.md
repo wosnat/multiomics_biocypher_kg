@@ -360,3 +360,97 @@ Future alternative: build on dev only, then `docker run --rm -v kg-dev_biocypher
 4. **Box reliability.** Single point of failure. Document a graceful "alpha box is down" message and where testers should look (operator's Signal? GitHub issue?). Not a blocker for first cut.
 5. **Aura migration trigger.** Define ahead of time: when do we move from local-box to Aura? Candidates: (a) testers beyond the tailnet, (b) box uptime issues, (c) more than ~15 concurrent users. Record the decision once we hit one of these.
 6. **MCP version pinning.** `Schema_info.mcp_min_version` is the contract. Need a real version bump cadence on `multiomics_explorer` + a way for the guide to point testers at the right tag. Same open question as before; not local-box-specific.
+
+---
+
+## Appendix A: Hosting-option comparison (PI brief)
+
+**Goal:** give 5 alpha testers reliable, authenticated access to the KG so they can drive it from their own LLM agents (Claude Code / Claude Desktop) via the `multiomics_explorer` MCP server and the `multiomics_research` skills plugin.
+
+**KG sizing (measured 2026-05-24):** 249,519 nodes, 2,188,444 relationships, 3.1 GB on-disk Neo4j volume (910 MB active database files + 770 MB transaction logs + indexes/metadata).
+
+### A.1 Options at a glance
+
+| # | Option | Year-1 cost | Reach | Reliability burden | Setup complexity | Iteration speed |
+|---|---|---:|---|---|---|---|
+| **1** | **Local Docker box + Tailscale** (this plan) | **$0** (or ~$432 if >3 Tailscale users) | LAN + tailnet (any laptop on the tailnet, anywhere) | Operator (~box uptime) | Low — one override compose file + Tailscale install | Minutes (`docker compose up -d`) |
+| 2 | Aura Free | $0 | Public Internet, anywhere | None | Trivial | Slow (manual dump upload) |
+| 3 | Aura Pro 2 GB / 4 GB storage | $1,577 always-on | Public Internet, anywhere | None | Low (Aura Console + Cypher) | Slow (manual dump upload, ~30 min/release) |
+| **4** | **Aura Pro 4 GB / 8 GB storage** | **$3,154 always-on** *(or ~$1,000 with pause/resume)* | Public Internet, anywhere | None | Low | Slow |
+| 5 | Aura Pro 8 GB / 16 GB storage | $6,307 always-on | Public Internet, anywhere | None | Low | Slow |
+| 6 | Public Linux box + Let's Encrypt + Neo4j auth | $0 (existing box) or ~$60/yr (cheap VPS) | Public Internet, anywhere | Operator + security | High — DNS, certs, firewall, monitoring | Minutes |
+| 7 | Cloudflare Tunnel + Neo4j auth | $0 (Cloudflare free) | Public Internet, anywhere | Operator | Medium — tunnel install + Cloudflare Access SSO config | Minutes |
+
+### A.2 Detail per option
+
+**Option 1 — Local Docker box + Tailscale (this plan's recommendation)**
+
+A second Neo4j container (the "alpha stack") runs on the same Linux dev box, on different ports (17474/17687), with auth enabled. Testers join a private Tailscale network and reach the box at `bolt://kg-box.<tailnet>.ts.net:17687`. Encryption + identity handled by Tailscale; per-tester Neo4j accounts (`reader` role) handled by Cypher.
+
+- **Cost:** $0 if ≤3 Tailscale users (free tier covers 100 devices, 3 users); ~$36/month ($432/year) if we cross 3 users into the "Starter" tier.
+- **Reach:** any device on the tailnet, regardless of physical location. Works from home, the lab, conferences.
+- **Caveats:** the box has to be on. Box reboots / network outages = alpha is down. Single point of failure. Each tester installs Tailscale (free, 1-click on Win11 and Linux).
+- **Iteration:** redeploy = `docker compose up -d` on a tagged commit. Minutes, not tens of minutes.
+
+**Option 2 — Aura Free**
+
+Free managed Neo4j. **Not viable for our KG:** Aura Free caps at 200,000 nodes / 400,000 relationships, and we have 249K / 2.2M — we exceed both limits (1.25× nodes, 5.5× relationships). Aura Free also auto-deletes after 30 days of inactivity. Listed for completeness.
+
+**Option 3 — Aura Pro 2 GB RAM / 4 GB storage** ($0.18/hr × 730 hr/month = $131.40/month, $1,577/year always-on)
+
+Smallest Aura Pro tier that fits our data. Storage column (4 GB) fits our 3.1 GB volume. RAM (2 GB) is tight — Neo4j heap + page cache + OS overhead = ~3-4 GB ideal, so this tier means slower queries for anything that touches many indexes (e.g., pathway enrichment, cross-strain ortholog joins).
+
+- **Cost:** **$1,577/year** always-on. ~$470/year if paused outside working hours.
+- **Verdict:** workable but the user experience will be uneven. Not what you want for an alpha that's supposed to demonstrate the system.
+
+**Option 4 — Aura Pro 4 GB RAM / 8 GB storage** ($0.36/hr × 730 hr = $262.80/month, $3,154/year)
+
+The honest baseline tier for this KG. Comfortable cache, queries snappy, room for the graph to ~2× before needing a bigger tier.
+
+- **Cost:** **$3,154/year always-on.** With aggressive pause/resume (run only ~50 hrs/week of "research hours", paused the rest): ~$1,000/year.
+- **Verdict:** the right Aura tier if we go that route. The pause/resume math assumes Aura's paused-state pricing is storage-only (~$10-15/month) — **needs verification** before committing.
+
+**Option 5 — Aura Pro 8 GB RAM / 16 GB storage** ($525.60/month, $6,307/year)
+
+Overkill for 5 alpha testers. Move here only if measured query latency on the 4 GB tier is unacceptable for our usage pattern.
+
+**Option 6 — Public Linux box with TLS + auth**
+
+Open port 7687 on a public IP, get a Let's Encrypt cert, enable Neo4j auth.
+
+- **Cost:** $0 if we use the existing dev box; ~$60/year for a cheap VPS if we want isolation.
+- **Caveats:** non-trivial security responsibility (a publicly-exposed database is a malware-bot target; Neo4j has had RCE CVEs); DNS + cert renewal pipeline; need monitoring; reputational risk if it's ever compromised.
+- **Verdict:** not recommended. The "look professional" reach Aura provides isn't actually worth the security surface area for a 5-person alpha.
+
+**Option 7 — Cloudflare Tunnel + Neo4j auth**
+
+Run a Cloudflare Tunnel daemon on the box; testers reach the KG via a `*.your-domain.com` hostname behind Cloudflare's edge. Optionally add Cloudflare Access SSO so only authorized Google accounts can hit it.
+
+- **Cost:** $0 (Cloudflare's free tier covers this).
+- **Caveats:** Cloudflare needs your DNS. Tester clients have to connect via TCP-over-cloudflared (Cloudflare doesn't proxy raw Bolt natively, you tunnel it through their client → adds a step for each tester). Less "it just works" than Tailscale.
+- **Verdict:** viable fallback if Tailscale's user cap becomes a problem. Same security profile as Tailscale (encrypted, identity-bound), more setup friction per tester.
+
+### A.3 Recommendation
+
+**Start with Option 1 (local box + Tailscale).** It's $0, gives 5 LAN-local testers the reach they need, takes ~½ day of operator setup, and the release cadence is minutes-not-hours. Specifically right for the alpha because we *want* to iterate the schema with testers in the loop.
+
+**Plan to migrate to Option 4 (Aura Pro 4 GB) when any of the following happens:**
+
+1. Testers grow beyond the tailnet (e.g., we invite a collaborator outside our trust circle who shouldn't be on our private VPN).
+2. Box uptime becomes a complaint — we miss more than ~1 working-hour week of availability to box issues over a month.
+3. We cross ~15 concurrent users (Tailscale's free-tier user cap *and* the box's RAM start to feel it).
+4. We're ready for a public-launch posture where "click to install MCP, here's the URI, no VPN required" is the experience we want to advertise.
+
+**Budget framing:** the difference between Option 1 ($0–$432/year) and Option 4 ($1,000–$3,154/year) is **$1-3K/year**. That's the price of:
+- Zero box-uptime worry,
+- Reach from anywhere without provisioning Tailscale invites,
+- Public-launch credibility,
+- No "the box rebooted, sorry" emails to testers.
+
+Not worth it for 5 LAN-local testers in the alpha phase. Likely worth it the moment we go to beta.
+
+### A.4 What we'd need from the PI to lock the decision
+
+- **Approval to proceed with Option 1** for the alpha (no PI ask other than confirming the trade-off).
+- **Heads-up on the eventual Option 4 line item** so it can show up in next year's budget if we hit a migration trigger before then.
+- **Decision on out-of-tailnet collaborators:** if any are expected during the alpha, we either pay the Tailscale Starter tier ($36/mo) and add them to the tailnet, or skip ahead to Option 4 from day one.
