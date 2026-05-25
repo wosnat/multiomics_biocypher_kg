@@ -71,6 +71,12 @@ GCF_000299995.1,,1004785,BS11,cache/data/Alteromonas/genomes/BS11/,,Alteromonas 
 # BGP6 (Pacific surface; uses species-level taxid 28108)
 GCF_901446615.2,,28108,BGP6,cache/data/Alteromonas/genomes/BGP6/,,Alteromonas macleodii BGP6,genome_strain,,
 
+# Alteromonas mediterranea "deep ecotype" genome strains (genomes only, no DE paper yet; reclassified from A. macleodii)
+# AltDE (strain DE; deep-ecotype reference, Urania Basin 3500 m, Ivars-Martinez 2008) — distinct assembly from the Alt_MarRef MarRef proxy above
+GCF_000020585.3,,1774373,AltDE,cache/data/Alteromonas/genomes/AltDE/,,Alteromonas mediterranea AltDE,genome_strain,,
+# AltDE1 (strain DE1; Gonzaga 2012 polyclonality panel, same batch as BS11/AD45)
+GCF_000310085.1,,1004786,AltDE1,cache/data/Alteromonas/genomes/AltDE1/,,Alteromonas mediterranea AltDE1,genome_strain,,
+
 # Soussan 2025 strain panel (N/P starvation culture decline; 15 strains total, 9 already in KG, MIT1314+MIT1327 deferred — no public assembly)
 GCF_000015665.1,Pro_MIT9515,167542,MIT9515,cache/data/Prochlorococcus/genomes/MIT9515/,HLI,Prochlorococcus MIT9515,genome_strain,,
 GCF_000158595.1,Pro_MIT9202,93058,MIT9202,cache/data/Prochlorococcus/genomes/MIT9202/,HLII,Prochlorococcus MIT9202,genome_strain,,

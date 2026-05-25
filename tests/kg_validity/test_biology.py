@@ -49,6 +49,9 @@ EXPECTED_STRAINS = [
     "MIT1002",
     "EZ55",
     "HOT1A3",
+    # Alteromonas mediterranea deep-ecotype genome strains (May 2026, genomes only)
+    "AltDE",
+    "AltDE1",
     # Heterotrophic coculture partners
     "W3-18-1",
     "KT2440",
