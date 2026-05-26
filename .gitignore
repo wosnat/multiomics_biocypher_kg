@@ -181,3 +181,6 @@ cache/data/*/genomes/*/tcdb/*.limited_*
 # Run logs and tool-step artifacts (prepare_data step logs, per-tool subdirs,
 # .done sentinels, post-import baselines). Transient — regenerated on each run.
 logs/
+
+# omics-edge-snapshot skill: snapshot fixtures are generated on demand.
+.claude/skills/omics-edge-snapshot/snapshots/
