@@ -7,10 +7,13 @@
 # Modeled on the `eggnog` source + the `cazy_ids` field rule.
 
 # ── (A) sources: ──────────────────────────────────────────────────────────────
+# NB: of this block, ONLY `logical_sources` is read by code (DataSourceAdapter). `type`,
+# `path_pattern`, `join_to` are DOCUMENTARY ONLY — nothing dispatches on them; the loader + join are
+# hand-wired in process_strain (see references/gene-annotation-merge-recipe.md §B). Write them anyway.
   <tool>:
-    type: <loader_type>                  # match a load_<tool>() you add (e.g. json_roworiented / tsv_hash_header / csv)
-    path_pattern: "{data_dir}/<tool>/{strain_name}.<tool>.calls.json"
-    join_to: protein_id                  # calls.json keyed by RefSeq WP_ accession (psortb, signalp, eggnog all do)
+    type: <loader_type>                  # documentary — describes the load_<tool>() you hand-wire
+    path_pattern: "{data_dir}/<tool>/{strain_name}.<tool>.calls.json"   # documentary
+    join_to: protein_id                  # documentary — the real join is tool_data.get(protein_id) in process_strain
     #   NB signalp-run currently writes raw signalp/output.json keyed by the full FASTA header —
     #   either normalize it in signalp-run, or parse + WP_-split in load_signalp() (transform _tx_first_token_space).
     description: "<Tool> per-protein predictions (Phase-1 calls.json)"

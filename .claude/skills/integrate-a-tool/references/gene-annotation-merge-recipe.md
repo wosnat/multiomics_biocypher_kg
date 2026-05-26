@@ -13,18 +13,29 @@ derives everything from the `logical_sources` block, and **fails loudly** if it'
 > Generalizing the builder is an explicit non-goal. Follow the
 > hand-wired pattern; don't refactor it.
 
+> ⚠️ **Add the new source arg as an OPTIONAL default — `tool: dict | None = None`
+> (coerce to `{}` in the body) — NOT a required positional like `eg`/`up`.**
+> `tests/test_build_gene_annotations.py` calls `build_wide(...)`, `build_merged(...)` and
+> `_resolve_union(...)` **positionally ~120 times** (117 `build_*` + 3 `_resolve_union`); a required
+> 4th positional detonates the whole suite with zero error message pointing at the cause. `eg`/`up`
+> are required positionals only because they predate that test suite — do **not** copy that detail.
+> (Internal resolvers the tests never call directly can take a required positional — see point 3.)
+
 Line anchors verified 2026-05-26 — they drift; re-`grep` the symbol.
 
 ## A. `config/gene_annotations_config.yaml`
 
 Two paste targets. See `assets/gene_annotations_source_snippet.yaml` for the full stub.
 
-1. **Under `sources:`** ([~L24](../../../../config/gene_annotations_config.yaml#L24)) — add a `<tool>:` block:
-   - `type:` — must match a `load_<tool>()` you add below.
-   - `path_pattern: "{data_dir}/<tool>/{strain_name}.<tool>.calls.json"`
-   - `join_to: protein_id` — calls.json keyed by RefSeq WP_ accession (psortb, signalp, eggnog all do).
+1. **Under `sources:`** ([~L24](../../../../config/gene_annotations_config.yaml#L24)) — add a `<tool>:` block.
+   **Only `logical_sources` is read by code** (by `DataSourceAdapter`). `type` / `path_pattern` /
+   `join_to` are **documentary only** — no code dispatches on them (`grep join_to` → YAML only; the
+   loader + join are hand-wired in `process_strain`, section B). Write them for the reader, but don't
+   expect them to wire anything:
+   - `type:` / `path_pattern:` / `join_to:` — documentary; describe the loader + join you hand-wire below.
    - `description:`
-   - `logical_sources:` — list with `id` / `scope` / `provenance`. **Valid values in
+   - `logical_sources:` — list with `id` / `scope` / `provenance` — **the part that actually does
+     something** (emits a `DataSource` node + a `contributing_sources` value). **Valid values in
      the live config:** `scope: gene_level | organism_restricted`; `provenance:
      tool_run | download`. Use `scope: gene_level`, `provenance: tool_run` for a tool.
      (`organism_restricted` additionally takes `applies_to_organisms: [...]`.)
@@ -55,11 +66,22 @@ Six edit points. Model every one on **eggNOG** — `grep -n eggnog` traces the w
    ```
    Add `tool` to the signature **and** `elif source == "<tool>": raw = tool.get(field)`.
 
-3. **Thread the new `tool` dict through the resolvers.** Every `_resolve_*` method
-   (`_resolve_passthrough` ~L455, `_resolve_passthrough_list` ~L466, `_resolve_union`,
-   `_resolve_single`, …) calls `self._get_raw(fconf, gm, eg, up)`. `grep -n "_get_raw(" `
-   and `grep -n "def _resolve"` to find them all; add the `tool` positional everywhere
-   so it reaches `_get_raw`.
+3. **Thread the new `tool` dict through ALL SIX resolvers + a second dispatch site.**
+   `grep -n "def _resolve"` — there are **six**, not three: `_resolve_passthrough`,
+   `_resolve_passthrough_list`, `_resolve_single`, `_resolve_union`, `_resolve_integer`,
+   `_resolve_float`. Each calls `self._get_raw(fconf, gm, eg, up)`; thread `tool` through to
+   `_get_raw`. Two snags:
+   - `_resolve_single`'s signature is `(fconf, gm, eg, up, source_tracking, locus_tag="")` — the new
+     arg slots **before** the non-defaulted `source_tracking`, so it's a required positional there
+     (fine — tests don't call `_resolve_single` directly).
+   - `_resolve_union` **is** called positionally by the test suite — give the new arg a default there
+     (and on `build_wide`/`build_merged`), per the ⚠️ callout above.
+   - **Second dispatch site, outside the resolvers:**
+     [`extract_first_match_in_sources`](../../../../multiomics_kg/download/utils/annotation_helpers.py#L39)
+     in `annotation_helpers.py` (called from `build_merged` for `type: extract_first_match` fields) has
+     its own `if source == "gene_mapping"/"eggnog"/"uniprot"` block (~L58–62). Add a `tool` param +
+     branch there **iff** any of your fields use `extract_first_match` — otherwise that source silently
+     won't resolve, with no error.
 
 4. **`build_wide`** ([~L613](../../../../multiomics_kg/download/build_gene_annotations.py#L613)) —
    signature `(self, gm, eg, up)`; the body source-prefixes each dict
@@ -71,9 +93,12 @@ Six edit points. Model every one on **eggNOG** — `grep -n eggnog` traces the w
    the resolvers (point 3) which call `_get_raw`.
 
 6. **`process_strain`** ([~L866](../../../../multiomics_kg/download/build_gene_annotations.py#L866)) —
-   loads each source (`eg_data = load_eggnog(data_dir, strain_name)` ~L900) and passes
-   them into `build_wide`/`build_merged`. Add `tool_data = load_<tool>(data_dir, strain_name)`
-   and thread it into both calls.
+   **two edits, and the second is the actual join.**
+   - (a) Load the source: `tool_data = load_<tool>(data_dir, strain_name)` (model `eg_data = load_eggnog(...)` ~L900).
+   - (b) **The row-level join is what makes `join_to` real:** inside the per-gene `for locus_tag, gm_row …`
+     loop, fetch this gene's record by the join key — `tool_row = tool_data.get(protein_id, {})` — and pass
+     `tool_row` into the `build_wide`/`build_merged` calls (mirror how the `eg`/`up` rows are fetched +
+     passed). Without this `.get(<join_key>)` lookup the field never lands, even with everything else wired.
 
 7. **`_compute_contributing_sources`** ([~L292](../../../../multiomics_kg/download/build_gene_annotations.py#L292)) —
    add a presence branch (model the eggnog block at ~L307–309: a field-presence OR
@@ -88,6 +113,16 @@ reference it via `transform: <name>` in the field rule, and unit-test it in
 ([~L27](../../../../multiomics_kg/download/utils/annotation_transforms.py#L27)) — WP_
 accession from a FASTA-header key (signalp needs this).
 
+## Two consequences of adding a source — fix these or tests break
+
+- **The `DataSource` node gets a junk name unless you edit a file the rest of this recipe never
+  touches.** [`data_source_adapter.py`](../../../../multiomics_kg/adapters/data_source_adapter.py)
+  has hardcoded `_name_for`/`_description_for` dicts (~L110/L120); an unlisted source falls back to
+  `source_id.title()` (→ "Psortb") with an empty description. Add your tool to **both** dicts.
+- **`tests/test_data_source_adapter.py` asserts an exact node count** (`test_emits_four_nodes`).
+  A new `logical_source` emits one more node → that test fails. Update the count and add a
+  provenance assertion for your source.
+
 ## Verify (before forking to a track)
 
 ```bash
@@ -97,4 +132,6 @@ Then confirm:
 - the new field landed in `cache/data/<org>/genomes/MED4/gene_annotations_merged.json`
   (`jq '.[] | select(.<field>) | .<field>' …`);
 - `contributing_sources` lists `<tool>` on a gene that has the annotation;
-- a `DataSource` node will emit — `DataSourceAdapter` reads the `logical_sources` you added.
+- a `DataSource` node emits with a *real* name (not "Psortb") — confirms the `_name_for` edit;
+- `pytest tests/test_build_gene_annotations.py tests/test_data_source_adapter.py -q` is green
+  (catches the positional-arg + node-count breakage before you move on).

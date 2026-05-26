@@ -3,6 +3,12 @@
 The operational routing reference for Step 0 — two orthogonal decisions, both
 made by inspecting the committed calls.json with `jq`.
 
+> **First, check for an existing Phase-1 design doc** (the tool's `/<tool>-run` SKILL.md links it,
+> e.g. `docs/superpowers/specs/<date>-<tool>-…-design.md`). Its deferred "Phase 2" section often
+> sketches an integration and may pick a **different track** than this tree — psortb's, for instance,
+> proposes Gene-property (3B) while the tree below routes it to ontology (3A). Follow **this** tree,
+> and note in your Step-0 spec that it supersedes the Phase-1 doc's Phase-2 sketch.
+
 ## Decision 1 — categorical-vs-property (which track)
 
 ```
@@ -74,12 +80,18 @@ Copy these when implementing either.
   `is_multi_localized` is always false → strictly 1:1.
 - **Vocabulary (5 nodes, skip `Unknown`):** `Cytoplasmic`, `CytoplasmicMembrane`,
   `Periplasmic`, `OuterMembrane`, `Extracellular`.
-- **Node:** label `SubcellularLocalization`, id `psortb:<Class>` (e.g.
-  `psortb:OuterMembrane`); props `name`, `psortb_id`, `level = 0` (flat — omit
-  `level_kind`).
-- **Edge:** `Gene_has_subcellular_localization` (Gene → node),
-  **`properties: { score: float }`** — the first scored ontology edge; model the
-  schema `properties:` block on `Changes_expression_of`.
+- **Node:** label `SubcellularLocalization`, id `psortb_<Class>` (e.g. `psortb_OuterMembrane` —
+  **underscore, not colon**: `psortb` is not a registered bioregistry prefix, so
+  `normalize_curie('psortb:X')` returns `None` and the canonical `normalize_curie(...) or 'psortb_X'`
+  idiom falls back to the underscore form; `cazy`/`ncbigene` keep colons because they *are*
+  registered); props `name`, `psortb_id`, `level = 0` (flat — omit `level_kind`).
+- **Edge:** `Gene_has_subcellular_localization` (Gene → node), **`properties: { score: float }`** —
+  the first scored ontology edge; model the schema `properties:` block on `Changes_expression_of`
+  (copy only its property *shape* — its `label_as_edge` is lowercase `changes_expression_of`; a new
+  ontology edge follows cazy's PascalCase `Gene_has_<x>`). Worked tuple the adapter yields:
+  `("PMM0063-has_psortb-OuterMembrane", "ncbigene:PMM0063", "psortb_OuterMembrane",
+  "gene_has_subcellular_localization", {"score": 9.97})` — note the **colon** source id (`ncbigene`
+  registered) beside the **underscore** target id (`psortb` not registered).
 - **Merge (Step 2):** `join_to: protein_id` (WP_, exactly like eggNOG). Two scalar
   fields via `passthrough`: `psortb_localization: str`, `psortb_score: float`;
   skip rows where `is_unknown`.
@@ -91,8 +103,10 @@ Copy these when implementing either.
   indexes on `level` + `psortb_id`, full-text on `name`; **optional** per-class
   `rank_by_score`. Do **NOT** fold into `annotation_types`/`annotation_quality`
   (structural); optionally denormalize a `subcellular_localization` routing string.
-- **kg-validity (Step 5):** 5 nodes; no `Unknown` node; edge `score ∈ [2.0, 10.0]`;
-  no orphan gene→node edges; rollup sanity.
+- **kg-validity (Step 5):** 5 nodes; no `Unknown` node; **kept-edge `score` ≥ 7.5** (PSORTb's
+  confidence floor for a non-`Unknown` call — assert this, not the looser [0,10] the Phase-1 doc
+  nominally states; the raw record range is 2.0–10.0, but the 2.0–6.5 band is `Unknown` rows that
+  get no edge); no orphan gene→node edges; rollup sanity.
 - **Release notes:** `docs/kg-changes/psortb-extension.md`.
 
 ### SignalP → `SignalPeptideType`  ⚠️ calls.json prerequisite

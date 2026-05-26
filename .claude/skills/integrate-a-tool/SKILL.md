@@ -95,8 +95,10 @@ Copy-paste starting points, grounded in `cazy_adapter` + the live schema / confi
 
 Create a TodoWrite item per step. Each step links the matching `references/` file for full detail.
 
-- **Step 0 — Capture intent + write spec/plan.** Four bullets: (1) what the tool
-  predicts + value space; (2) calls.json shape + join key (WP_ vs locus_tag) + nulls/sentinels;
+- **Step 0 — Capture intent + write spec/plan.** First **check for an existing Phase-1 design doc**
+  (the `/<tool>-run` SKILL.md links it); its deferred "Phase 2" sketch may pick a *different* track than
+  this skill's decision tree — follow the tree and note the supersession. Then four bullets: (1) what the
+  tool predicts + value space; (2) calls.json shape + join key (WP_ vs locus_tag) + nulls/sentinels;
   (3) the categorical-vs-property verdict + functional-vs-structural verdict (routing:
   [`references/decision-tree.md`](references/decision-tree.md)); (4) target node/edge labels + id
   prefix + hierarchy levels OR target Gene property name+type. Expand into
@@ -104,20 +106,31 @@ Create a TodoWrite item per step. Each step links the matching `references/` fil
 
 - **Step 1 — Inspect the Phase-1 runner & calls.json.** Read the `/<tool>-run` SKILL.md; `jq` the
   committed calls.json to enumerate distinct values, the join key, nulls/sentinels, and per-call
-  scores. **Reuse existing parse utils** — check `multiomics_kg/utils/<tool>.py` first; the generic
-  `multiomics_kg/utils/tool_calls_io.py` may not exist yet (copy `add-a-tool`'s template if needed).
-  Keep new parsing pure (unit-testable, no filesystem).
+  scores. (`allowed-tools` matches *bare* commands, so run **one `jq` per Bash call** — compound
+  `a; b` lines and `for` loops over strains won't match the allow-list.) **Reuse existing parse utils**
+  — check `multiomics_kg/utils/<tool>.py` first; the generic `multiomics_kg/utils/tool_calls_io.py` may
+  not exist yet (copy `add-a-tool`'s template if needed). Keep new parsing pure (unit-testable, no filesystem).
 
 - **Step 2 — Wire into the gene-annotation merge** (both tracks). Full line-anchored edit points in
   [`references/gene-annotation-merge-recipe.md`](references/gene-annotation-merge-recipe.md). In short:
-  - `config/gene_annotations_config.yaml`: add a `sources:` + `fields:` + `logical_sources:` entry.
+  - `config/gene_annotations_config.yaml`: add a `sources:` + `fields:` + `logical_sources:` entry
+    (only `logical_sources` is read by code; `type`/`path_pattern`/`join_to` are documentary).
   - `build_gene_annotations.py` (the hand-wired part): add `load_<tool>()`, then thread a new source
-    dict through `_get_raw` → each `_resolve_*` → `build_wide`/`build_merged` → the `process_strain`
-    row-fetch, and add a `_compute_contributing_sources` presence check.
+    dict through `_get_raw` → **all six** `_resolve_*` → `build_wide`/`build_merged` → the
+    `process_strain` row-level `.get(<join_key>)` join, and add a `_compute_contributing_sources` check.
+    Also patch `extract_first_match_in_sources` in `annotation_helpers.py` *iff* a field uses
+    `extract_first_match`.
+  - ⚠️ **Two test-breakage landmines** (recipe carries the fix): (1) make the new source arg
+    *optional-defaulted* (`tool: dict | None = None`) — `test_build_gene_annotations.py` calls
+    `build_*`/`_resolve_union` positionally ~120×, so a required positional detonates the suite;
+    (2) update `test_data_source_adapter.py`'s exact node-count **and** add the tool to
+    `data_source_adapter.py`'s `_name_for`/`_description_for` (else the DataSource node is named
+    "Psortb" with an empty description).
   - If a raw value needs reshaping, add a `_tx_<name>` to `annotation_transforms.py` (register in
     `_TRANSFORMS`, unit-test it).
   - **Verify:** `bash scripts/prepare_data.sh --steps 2 --strains MED4 --force`, then `jq` the field
-    landed, `contributing_sources` lists the tool, and a `DataSource` node will emit.
+    landed + `contributing_sources` lists the tool; and `pytest tests/test_build_gene_annotations.py
+    tests/test_data_source_adapter.py -q` is green.
 
 - **Step 3 — Fork to the matching track.** (3A invariants + copy targets:
   [`references/ontology-patterns.md`](references/ontology-patterns.md).)
@@ -176,9 +189,11 @@ calls.json-normalization prerequisite. Copy those when implementing either.
 - [ ] Categorical-vs-property AND functional-vs-structural verdicts recorded; merged-field shape chosen
 - [ ] `gene_annotations_config.yaml`: `sources:` + `fields:` + `logical_sources:` added
 - [ ] New `_tx_<name>` added + registered in `_TRANSFORMS` + unit-tested (if reshaping was needed)
-- [ ] `build_gene_annotations.py`: `load_<tool>()` + `_get_raw`/`build_wide`/`build_merged` + row-fetch + `contributing_sources`
-- [ ] MED4 rebuild verifies the field in `gene_annotations_merged.json` + `contributing_sources` + DataSource node
-- [ ] **3A:** schema node carries `level` (0=root); `level_kind` set when hierarchical; edge has a `properties:` block iff a score rides
+- [ ] `build_gene_annotations.py`: `load_<tool>()` + `_get_raw` + all six `_resolve_*` + `build_wide`/`build_merged` + the `process_strain` row-level `.get(<join_key>)` join + `contributing_sources` (+ `extract_first_match_in_sources` iff used)
+- [ ] New source arg is **optional-defaulted** on `build_wide`/`build_merged`/`_resolve_union` (tests call them positionally); `pytest tests/test_build_gene_annotations.py` green
+- [ ] `test_data_source_adapter.py` node-count updated **and** tool added to `data_source_adapter.py` `_name_for`/`_description_for`; `pytest tests/test_data_source_adapter.py` green
+- [ ] MED4 rebuild verifies the field in `gene_annotations_merged.json` + `contributing_sources` + DataSource node (with a real name, not `"Psortb"`)
+- [ ] **3A:** schema node carries `level` (0=root); `level_kind` set when hierarchical; edge has a `properties:` block iff a score rides; node id is colon only for a **registered** bioregistry prefix, else underscore (`psortb_OuterMembrane`) — worked examples + test assertions match the real form
 - [ ] **3A:** `<tool>_adapter.py` (per-strain + Multi*) emits multi-call fan-out (one edge per call, 1:1 for psortb/signalp), `_clean_str`, wired into `create_knowledge_graph.py`
 - [ ] **3B:** Gene property declared in schema **and** added to `GeneNodeField` enum (+ `int_fields`/`float_fields` for numerics); confirmed on a built node
 - [ ] `tests/test_<tool>.py` (pure parsing/vocab) passes

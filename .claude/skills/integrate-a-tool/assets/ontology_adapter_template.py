@@ -43,7 +43,10 @@ def _gene_node_id(locus_tag: str) -> str:
 
 
 def _node_id(raw_id: str) -> str:
-    # e.g. "psortb:OuterMembrane". Pick a new CURIE prefix and register it if bioregistry-backed.
+    # normalize_curie returns the colon CURIE only for a REGISTERED bioregistry prefix; otherwise it
+    # returns None and the `or` fallback yields the UNDERSCORE form. An unregistered tool prefix gives
+    # "psortb_OuterMembrane" (underscore), NOT "psortb:OuterMembrane". Register a bioregistry prefix to
+    # earn the colon; otherwise write your unit-test assertions against the underscore id.
     return normalize_curie(f"<prefix>:{raw_id}") or f"<prefix>_{raw_id}"
 
 
@@ -74,10 +77,15 @@ class <Tool>Adapter:
         """Distinct raw calls observed in this strain (for the orchestrator's node set)."""
         ids: set[str] = set()
         for gene in self._genes.values():
-            for rec in gene.get("<tool>_calls") or []:          # list-of-dicts merged field
+            # ── MULTI-CALL (default): list-of-dicts merged field ──
+            for rec in gene.get("<tool>_calls") or []:
                 call = rec.get("call") if isinstance(rec, dict) else rec
                 if call and call in VOCAB:
                     ids.add(call)
+            # ── 1:1 SCALAR variant (psortb/signalp): replace the loop above with ──
+            # call = gene.get("<tool>_call")          # scalar str field, e.g. psortb_localization
+            # if call and call in VOCAB:
+            #     ids.add(call)
         return ids
 
     def get_edges(self):

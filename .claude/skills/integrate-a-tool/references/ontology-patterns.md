@@ -12,8 +12,13 @@ hedged with `~` and you should re-`grep` the symbol, not trust the number blindl
 ## Shared invariants — a new ontology MUST satisfy all of these
 
 - **Node id** is a CURIE with a per-ontology prefix (`cazy:`, `pfam:`, `pfam.clan:`,
-  `tcdb:`, `kegg.brite:`, `go:`, …). Use `normalize_curie()` from
-  `multiomics_kg/utils/curie_utils.py`.
+  `tcdb:`, `kegg.brite:`, `go:`, …). Build it with `normalize_curie('<prefix>:<id>') or
+  '<prefix>_<id>'` from `multiomics_kg/utils/curie_utils.py`. **Watch the prefix:**
+  `normalize_curie` returns `None` for a prefix not registered in bioregistry, so the `... or` branch
+  falls back to the **underscore** form. `cazy`/`pfam`/`tcdb`/`go`/`ncbigene` are registered → colon
+  ids; a new tool prefix like `psortb`/`signalp` is **not** → ids are `psortb_OuterMembrane`
+  (underscore). Make your worked examples + unit-test assertions match the underscore form (or register
+  a bioregistry prefix to earn the colon).
 - **`level: int`** on every node, **0 = root**, increasing with specificity. Set by
   the **adapter** — a `_classify`-style helper ([cazy_adapter.py:51](../../../../multiomics_kg/adapters/cazy_adapter.py#L51)),
   a pre-built cache entry (tcdb), or emit-time depth (brite/cyanorak) — **except GO**,

@@ -12,6 +12,9 @@
   is_a: named thing
   represented_as: node
   preferred_id: <prefix>            # CURIE prefix, e.g. psortb / signalp
+  # NB: the adapter builds the runtime node id as `normalize_curie('<prefix>:<id>') or '<prefix>_<id>'`.
+  # If <prefix> is NOT a registered bioregistry prefix (psortb/signalp are not), normalize_curie
+  # returns None and ids are the UNDERSCORE form (psortb_OuterMembrane), not colon. Match tests to that.
   label_in_input: <node label>
   properties:
     name: str                       # human-readable display; _clean_str-sanitized in the adapter
@@ -31,9 +34,12 @@ gene to <node label> association:
   target: <node label>
   label_in_input: gene_has_<x>
   # ── SCORED edge ONLY: add a properties block (delete entirely for a BARE edge). ──
+  # The ONLY precedent for a scored Gene-incident edge is Changes_expression_of — copy only its
+  # `properties:` SHAPE, NOT its label: it uses lowercase `label_as_edge: changes_expression_of`,
+  # whereas a new ontology edge follows cazy's PascalCase `Gene_has_<x>` (as above).
   # Floats stay numeric (no _clean_str); sanitize only string sub-fields (a tier label).
   properties:
-    score: float                    # psortb localization score (2–10); signalp → `probability: float`
+    score: float                    # psortb score (kept edges ≥7.5; raw 2–10); signalp → `probability: float`
     # cleavage_site: int            # signalp — nullable
     # cleavage_probability: float   # signalp — nullable
 
