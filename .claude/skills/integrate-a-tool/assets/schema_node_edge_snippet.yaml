@@ -1,0 +1,48 @@
+# ── <Tool> ontology — schema_config.yaml snippet (TEMPLATE) ───────────────────
+# Paste into config/schema_config.yaml. Replace every <…>. Modeled on the
+# `cazy family` node + `gene to cazy family association` + hierarchy edge, and on
+# the `experiment to gene expression association` properties block (the ONLY
+# precedent for a scored Gene-incident edge — no ontology edge carries properties today).
+#
+# BioCypher label convention: `label_in_input` is the lowercase phrase the adapter
+# yields as the node/edge label; `label_as_edge` is the PascalCase Neo4j relationship type.
+
+# ── Node ──────────────────────────────────────────────────────────────────────
+<node label>:                       # e.g. "subcellular localization"  (lowercase; adapter yields this)
+  is_a: named thing
+  represented_as: node
+  preferred_id: <prefix>            # CURIE prefix, e.g. psortb / signalp
+  label_in_input: <node label>
+  properties:
+    name: str                       # human-readable display; _clean_str-sanitized in the adapter
+    <tool>_id: str                  # bare identifier, e.g. "OuterMembrane"
+    level: int                      # 0 = root/broadest. MANDATORY (the MCP routes every ontology by level)
+    level_kind: str                 # OPTIONAL — set only on a hierarchical ontology; omit for flat
+    gene_count: int                 # post-import
+    organism_count: int             # post-import
+    # member_count: int             # post-import — HIERARCHICAL only
+
+# ── Gene → ontology edge ──────────────────────────────────────────────────────
+gene to <node label> association:
+  is_a: association
+  represented_as: edge
+  label_as_edge: Gene_has_<x>       # e.g. Gene_has_subcellular_localization
+  source: gene
+  target: <node label>
+  label_in_input: gene_has_<x>
+  # ── SCORED edge ONLY: add a properties block (delete entirely for a BARE edge). ──
+  # Floats stay numeric (no _clean_str); sanitize only string sub-fields (a tier label).
+  properties:
+    score: float                    # psortb localization score (2–10); signalp → `probability: float`
+    # cleavage_site: int            # signalp — nullable
+    # cleavage_probability: float   # signalp — nullable
+
+# ── Hierarchy edge — HIERARCHICAL ontologies ONLY (delete for flat) ────────────
+# Child → parent, property-less. Mirrors Cazy_family_is_a_cazy_family.
+<node label> hierarchical association:
+  is_a: association
+  represented_as: edge
+  label_as_edge: <X>_is_a_<x>       # e.g. Tcdb_family_is_a_tcdb_family
+  source: <node label>
+  target: <node label>
+  label_in_input: <x>_is_a_<x>
