@@ -13,12 +13,23 @@ def adapter():
     return DataSourceAdapter(config_path="config/gene_annotations_config.yaml")
 
 
-def test_emits_four_nodes(adapter):
-    """Initial deployment has exactly 4 data sources."""
+def test_emits_five_nodes(adapter):
+    """Five data sources: ncbi, cyanorak, uniprot, eggnog, psortb."""
     adapter.download_data()
     nodes = list(adapter.get_nodes())
     ids = {props["id"] for _, _, props in nodes}
-    assert ids == {"ncbi", "cyanorak", "uniprot", "eggnog"}
+    assert ids == {"ncbi", "cyanorak", "uniprot", "eggnog", "psortb"}
+
+
+def test_psortb_is_tool_run_gene_level(adapter):
+    adapter.download_data()
+    nodes = {props["id"]: props for _, _, props in adapter.get_nodes()}
+    psortb = nodes["psortb"]
+    assert psortb["provenance"] == "tool_run"
+    assert psortb["scope"] == "gene_level"
+    assert psortb["name"] == "PSORTb"
+    # info_types auto-derived from the two psortb field rules
+    assert {"psortb_localization", "psortb_score"} <= set(psortb["info_types"])
 
 
 def test_ncbi_node_properties(adapter):

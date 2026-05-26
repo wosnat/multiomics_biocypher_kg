@@ -1235,6 +1235,33 @@ cazy family hierarchical association:
   label_in_input: cazy_family_is_a_cazy_family
 
 
+# ── PSORTb subcellular localization (flat ontology + scored edge) ─────────────
+
+subcellular localization:
+  is_a: named thing
+  represented_as: node
+  preferred_id: psortb
+  label_in_input: subcellular localization
+  properties:
+    name: str               # human-readable display (e.g. "Outer membrane")
+    psortb_id: str          # raw PSORTb class, e.g. "OuterMembrane"
+    level: int              # flat ontology: always 0 (no level_kind)
+    gene_count: int         # post-import
+    organism_count: int     # post-import
+
+gene to subcellular localization association:
+  is_a: association
+  represented_as: edge
+  label_as_edge: Gene_has_subcellular_localization
+  source: gene
+  target: subcellular localization
+  label_in_input: gene_has_subcellular_localization
+  # First scored ontology edge — score rides as an edge property (modeled on
+  # the Changes_expression_of properties block). Numeric, not _clean_str'd.
+  properties:
+    score: float            # PSORTb localization confidence score (kept edges: ~7.5-10.0)
+
+
 protein to ec number association:
   is_a: ReactionToParticipantAssociation
   represented_as: edge

@@ -113,6 +113,7 @@ class DataSourceAdapter:
             "cyanorak": "Cyanorak",
             "uniprot": "UniProt",
             "eggnog": "EggNOG-mapper",
+            "psortb": "PSORTb",
         }.get(source_id, source_id.title())
 
     @staticmethod
@@ -122,6 +123,7 @@ class DataSourceAdapter:
             "cyanorak": "Cyanorak: curated cyanobacteria gene clusters and roles.",
             "uniprot": "UniProt proteins (reviewed + unreviewed) cross-referenced via RefSeq protein_id.",
             "eggnog": "EggNOG-mapper functional annotations (per-protein query against the eggNOG reference).",
+            "psortb": "PSORTb v3.0.3 per-protein subcellular-localization predictions (Gram-negative model).",
         }.get(source_id, "")
 
     def get_nodes(self) -> Iterator[tuple[str, str, dict[str, Any]]]:

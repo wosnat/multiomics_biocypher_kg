@@ -1854,7 +1854,7 @@
       "type": "Gene_in_gene_cluster"
     }
   ],
-  "generated_at": "2026-05-22T07:53:43.301630+00:00",
+  "generated_at": "2026-05-26T16:56:10.397218+00:00",
   "nodes": [
     {
       "anchor": true,
@@ -3590,6 +3590,16 @@
       "properties": {
         "description": "UniProt proteins (reviewed + unreviewed) cross-referenced via RefSeq protein_id.",
         "provenance": "download",
+        "scope": "gene_level"
+      }
+    },
+    {
+      "anchor": false,
+      "id": "data_source:psortb",
+      "label": "DataSource",
+      "properties": {
+        "description": "PSORTb v3.0.3 per-protein subcellular-localization predictions (Gram-negative model).",
+        "provenance": "tool_run",
         "scope": "gene_level"
       }
     }

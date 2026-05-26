@@ -307,6 +307,10 @@ def _compute_contributing_sources(gene: dict) -> list[str]:
             or gene.get("eggnog_ogs")
             or _has_source_label(gene, "eggnog")):
         sources.add("eggnog")
+    if (gene.get("psortb_localization")
+            or gene.get("psortb_score") is not None
+            or _has_source_label(gene, "psortb")):
+        sources.add("psortb")
     return sorted(sources)
 
 
@@ -355,6 +359,23 @@ def load_eggnog(data_dir: str, strain_name: str) -> dict[str, dict]:
                     clean_row["Description"] = ""
                 result[query] = clean_row
     return result
+
+
+def load_psortb(data_dir: str, strain_name: str) -> dict[str, dict]:
+    """Load PSORTb Phase-1 calls.json → {protein_id_wp: {field: value}}.
+
+    The artifact is a dict keyed by RefSeq WP_ accession (== gene_mapping.protein_id),
+    each value carrying {localization, score, secondary_localization, secondary_score,
+    is_multi_localized, is_unknown}. Returned verbatim so the field resolvers can pull
+    `localization` / `score` by name. Missing file → {} (strain not yet PSORTb-run).
+    """
+    path = os.path.join(data_dir, "psortb", f"{strain_name}.psortb.calls.json")
+    if not os.path.exists(path):
+        return {}
+    with open(path, encoding="utf-8") as f:
+        data = json.load(f)
+    # Keys are already WP_ accessions; values are flat dicts. Pass through as-is.
+    return {str(k).strip(): v for k, v in data.items() if isinstance(v, dict)}
 
 
 def load_uniprot(
@@ -414,8 +435,10 @@ class AnnotationBuilder:
         gm: dict,
         eg: dict,
         up: dict,
+        ps: dict | None = None,
     ) -> Any:
         """Fetch raw value from source row according to src_cfg spec."""
+        ps = ps or {}
         source = src_cfg.get("source", "")
         field = src_cfg.get("field", "")
 
@@ -425,6 +448,8 @@ class AnnotationBuilder:
             raw = eg.get(field)
         elif source == "uniprot":
             raw = up.get(field)
+        elif source == "psortb":
+            raw = ps.get(field)
         else:
             return None
 
@@ -451,9 +476,9 @@ class AnnotationBuilder:
     # ── resolver: passthrough ──────────────────────────────────────────────────
 
     def _resolve_passthrough(
-        self, fconf: dict, gm: dict, eg: dict, up: dict
+        self, fconf: dict, gm: dict, eg: dict, up: dict, ps: dict | None = None
     ) -> Any:
-        raw = self._get_raw(fconf, gm, eg, up)
+        raw = self._get_raw(fconf, gm, eg, up, ps)
         if not _nonempty(raw):
             return None
         transform = fconf.get("transform")
@@ -464,9 +489,9 @@ class AnnotationBuilder:
     # ── resolver: passthrough_list ─────────────────────────────────────────────
 
     def _resolve_passthrough_list(
-        self, fconf: dict, gm: dict, eg: dict, up: dict
+        self, fconf: dict, gm: dict, eg: dict, up: dict, ps: dict | None = None
     ) -> list[str] | None:
-        raw = self._get_raw(fconf, gm, eg, up)
+        raw = self._get_raw(fconf, gm, eg, up, ps)
         if not _nonempty(raw):
             return None
         delimiter = fconf.get("delimiter", ",")
@@ -481,6 +506,7 @@ class AnnotationBuilder:
         gm: dict,
         eg: dict,
         up: dict,
+        ps: dict,
         source_tracking: dict,
         locus_tag: str = "",
     ) -> Any:
@@ -496,7 +522,7 @@ class AnnotationBuilder:
         track_key = fconf.get("track_source")
         reject_ids = fconf.get("reject_identifiers", False)
         for cand in fconf.get("candidates", []):
-            raw = self._get_raw(cand, gm, eg, up)
+            raw = self._get_raw(cand, gm, eg, up, ps)
             if not _nonempty(raw):
                 continue
             transform = cand.get("transform")
@@ -532,7 +558,7 @@ class AnnotationBuilder:
     # ── resolver: union ────────────────────────────────────────────────────────
 
     def _resolve_union(
-        self, fconf: dict, gm: dict, eg: dict, up: dict
+        self, fconf: dict, gm: dict, eg: dict, up: dict, ps: dict | None = None
     ) -> list[str] | None:
         """Merge tokens from all sources, deduplicate, apply global filter."""
         global_filter = fconf.get("filter")
@@ -540,7 +566,7 @@ class AnnotationBuilder:
         seen: dict[str, None] = {}  # ordered set
 
         for src_cfg in fconf.get("sources", []):
-            raw = self._get_raw(src_cfg, gm, eg, up)
+            raw = self._get_raw(src_cfg, gm, eg, up, ps)
             if not _nonempty(raw):
                 continue
 
@@ -587,9 +613,9 @@ class AnnotationBuilder:
     # ── resolver: integer / float ──────────────────────────────────────────────
 
     def _resolve_integer(
-        self, fconf: dict, gm: dict, eg: dict, up: dict
+        self, fconf: dict, gm: dict, eg: dict, up: dict, ps: dict | None = None
     ) -> int | None:
-        raw = self._get_raw(fconf, gm, eg, up)
+        raw = self._get_raw(fconf, gm, eg, up, ps)
         if raw is None:
             return None
         try:
@@ -598,9 +624,9 @@ class AnnotationBuilder:
             return None
 
     def _resolve_float(
-        self, fconf: dict, gm: dict, eg: dict, up: dict
+        self, fconf: dict, gm: dict, eg: dict, up: dict, ps: dict | None = None
     ) -> float | None:
-        raw = self._get_raw(fconf, gm, eg, up)
+        raw = self._get_raw(fconf, gm, eg, up, ps)
         if raw is None:
             return None
         try:
@@ -615,8 +641,10 @@ class AnnotationBuilder:
         gm: dict,
         eg: dict,
         up: dict,
+        ps: dict | None = None,
     ) -> dict:
         """All source fields, source-prefixed — full audit trail."""
+        ps = ps or {}
         wide: dict[str, Any] = {}
         for k, v in gm.items():
             if _nonempty(v):
@@ -627,6 +655,9 @@ class AnnotationBuilder:
         for k, v in up.items():
             if _nonempty(v):
                 wide[f"uniprot_{k}"] = v
+        for k, v in ps.items():
+            if _nonempty(v):
+                wide[f"psortb_{k}"] = v
         return wide
 
     # ── build merged ──────────────────────────────────────────────────────────
@@ -636,9 +667,11 @@ class AnnotationBuilder:
         gm: dict,
         eg: dict,
         up: dict,
+        ps: dict | None = None,
         organism_name: str | None = None,
     ) -> dict:
         """Apply merge rules → canonical field set."""
+        ps = ps or {}
         result: dict[str, Any] = {}
         source_tracking: dict[str, str] = {}
         locus_tag = gm.get("locus_tag", "")
@@ -647,17 +680,17 @@ class AnnotationBuilder:
             ftype = fconf.get("type", "passthrough")
 
             if ftype == "single":
-                val = self._resolve_single(fconf, gm, eg, up, source_tracking, locus_tag)
+                val = self._resolve_single(fconf, gm, eg, up, ps, source_tracking, locus_tag)
             elif ftype == "union":
-                val = self._resolve_union(fconf, gm, eg, up)
+                val = self._resolve_union(fconf, gm, eg, up, ps)
             elif ftype == "passthrough":
-                val = self._resolve_passthrough(fconf, gm, eg, up)
+                val = self._resolve_passthrough(fconf, gm, eg, up, ps)
             elif ftype == "passthrough_list":
-                val = self._resolve_passthrough_list(fconf, gm, eg, up)
+                val = self._resolve_passthrough_list(fconf, gm, eg, up, ps)
             elif ftype == "integer":
-                val = self._resolve_integer(fconf, gm, eg, up)
+                val = self._resolve_integer(fconf, gm, eg, up, ps)
             elif ftype == "float":
-                val = self._resolve_float(fconf, gm, eg, up)
+                val = self._resolve_float(fconf, gm, eg, up, ps)
             elif ftype == "extract_first_match":
                 val = extract_first_match_in_sources(
                     fconf.get("sources", []), gm, eg, up,
@@ -901,10 +934,12 @@ def process_strain(
     up_data: dict[str, dict] = {}
     if ncbi_taxon_id:
         up_data = load_uniprot(data_dir, ncbi_taxon_id, organism_group)
+    ps_data = load_psortb(data_dir, strain_name)
 
     print(f"  gene_mapping : {len(gm_data):>5} genes")
     print(f"  eggnog       : {len(eg_data):>5} entries")
     print(f"  uniprot      : {len(up_data):>5} entries (keyed by RefSeq)")
+    print(f"  psortb       : {len(ps_data):>5} entries (keyed by RefSeq)")
 
     builder = AnnotationBuilder(config)
 
@@ -918,6 +953,7 @@ def process_strain(
         protein_id = (gm_row.get("protein_id") or "").strip()
         eg_row = eg_data.get(protein_id, {})
         up_row = up_data.get(protein_id, {})
+        ps_row = ps_data.get(protein_id, {})
 
         stats["total"] += 1
         if eg_row:
@@ -925,8 +961,8 @@ def process_strain(
         if up_row:
             stats["uniprot_hit"] += 1
 
-        wide_out[locus_tag] = builder.build_wide(gm_row, eg_row, up_row)
-        merged = builder.build_merged(gm_row, eg_row, up_row, organism_name=preferred_name)
+        wide_out[locus_tag] = builder.build_wide(gm_row, eg_row, up_row, ps_row)
+        merged = builder.build_merged(gm_row, eg_row, up_row, ps_row, organism_name=preferred_name)
         merged_out[locus_tag] = merged
 
         if merged.get("product"):
