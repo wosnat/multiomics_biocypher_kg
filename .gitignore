@@ -175,5 +175,9 @@ cache/data/kegg/raw
 cache/data/*/genomes/*/tcdb/*.limited_*
 
 
-# worktrees 
+# worktrees
 .claude/worktrees
+
+# Run logs and tool-step artifacts (prepare_data step logs, per-tool subdirs,
+# .done sentinels, post-import baselines). Transient — regenerated on each run.
+logs/
