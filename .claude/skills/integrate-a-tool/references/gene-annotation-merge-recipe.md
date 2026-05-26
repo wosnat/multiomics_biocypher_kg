@@ -119,9 +119,11 @@ accession from a FASTA-header key (signalp needs this).
   touches.** [`data_source_adapter.py`](../../../../multiomics_kg/adapters/data_source_adapter.py)
   has hardcoded `_name_for`/`_description_for` dicts (~L110/L120); an unlisted source falls back to
   `source_id.title()` (→ "Psortb") with an empty description. Add your tool to **both** dicts.
-- **`tests/test_data_source_adapter.py` asserts an exact node count** (`test_emits_four_nodes`).
-  A new `logical_source` emits one more node → that test fails. Update the count and add a
-  provenance assertion for your source.
+- **TWO tests assert the exact DataSource node count** — the adapter unit test
+  `tests/test_data_source_adapter.py` (`test_emits_four_nodes`) AND the kg-validity test
+  `tests/kg_validity/test_data_source.py` (`test_four_data_source_nodes`, checked against the live
+  graph in Step 5). A new `logical_source` emits one more node → **both** fail. Update both counts and
+  add a provenance assertion for your source in each.
 
 ## Verify (before forking to a track)
 

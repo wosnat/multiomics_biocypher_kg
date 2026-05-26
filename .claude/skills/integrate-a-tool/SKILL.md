@@ -123,7 +123,8 @@ Create a TodoWrite item per step. Each step links the matching `references/` fil
   - ⚠️ **Two test-breakage landmines** (recipe carries the fix): (1) make the new source arg
     *optional-defaulted* (`tool: dict | None = None`) — `test_build_gene_annotations.py` calls
     `build_*`/`_resolve_union` positionally ~120×, so a required positional detonates the suite;
-    (2) update `test_data_source_adapter.py`'s exact node-count **and** add the tool to
+    (2) update the exact DataSource node-count in **both** `test_data_source_adapter.py` (unit) and
+    `tests/kg_validity/test_data_source.py` (live, Step 5) **and** add the tool to
     `data_source_adapter.py`'s `_name_for`/`_description_for` (else the DataSource node is named
     "Psortb" with an empty description).
   - If a raw value needs reshaping, add a `_tx_<name>` to `annotation_transforms.py` (register in
@@ -191,7 +192,7 @@ calls.json-normalization prerequisite. Copy those when implementing either.
 - [ ] New `_tx_<name>` added + registered in `_TRANSFORMS` + unit-tested (if reshaping was needed)
 - [ ] `build_gene_annotations.py`: `load_<tool>()` + `_get_raw` + all six `_resolve_*` + `build_wide`/`build_merged` + the `process_strain` row-level `.get(<join_key>)` join + `contributing_sources` (+ `extract_first_match_in_sources` iff used)
 - [ ] New source arg is **optional-defaulted** on `build_wide`/`build_merged`/`_resolve_union` (tests call them positionally); `pytest tests/test_build_gene_annotations.py` green
-- [ ] `test_data_source_adapter.py` node-count updated **and** tool added to `data_source_adapter.py` `_name_for`/`_description_for`; `pytest tests/test_data_source_adapter.py` green
+- [ ] DataSource node-count updated in **both** `test_data_source_adapter.py` (unit) **and** `tests/kg_validity/test_data_source.py` (live) **and** tool added to `data_source_adapter.py` `_name_for`/`_description_for`
 - [ ] MED4 rebuild verifies the field in `gene_annotations_merged.json` + `contributing_sources` + DataSource node (with a real name, not `"Psortb"`)
 - [ ] **3A:** schema node carries `level` (0=root); `level_kind` set when hierarchical; edge has a `properties:` block iff a score rides; node id is colon only for a **registered** bioregistry prefix, else underscore (`psortb_OuterMembrane`) — worked examples + test assertions match the real form
 - [ ] **3A:** `<tool>_adapter.py` (per-strain + Multi*) emits multi-call fan-out (one edge per call, 1:1 for psortb/signalp), `_clean_str`, wired into `create_knowledge_graph.py`
