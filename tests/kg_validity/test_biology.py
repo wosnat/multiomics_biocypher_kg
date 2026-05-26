@@ -59,7 +59,9 @@ EXPECTED_STRAINS = [
     "MruberA",
 ]
 
-# Clade assignments for key Prochlorococcus strains (HLI = High Light clade I)
+# Clade assignments per strain. Prochlorococcus uses the HL/LL ecotype scheme
+# (HLI = High Light clade I); marine Synechococcus uses Roman-numeral clades
+# within sub-cluster 5.1 (per the Cyanorak organism table).
 EXPECTED_CLADES = {
     "MED4":    "HLI",
     "RSP50":   "HLI",
@@ -71,11 +73,16 @@ EXPECTED_CLADES = {
     "MIT9215": "HLII",
     "MIT0604": "HLII",
     "SB":      "HLII",
-    "NATL2A":  "LLII",
-    "NATL1A":  "LLII",
+    "NATL2A":  "LLI",
+    "NATL1A":  "LLI",
     "PAC1":    "LLI",
     "MIT9313": "LLIV",
     "MIT9303": "LLIV",
+    # Marine Synechococcus (sub-cluster 5.1)
+    "CC9311":  "I",
+    "WH8102":  "III",
+    "WH7803":  "V",
+    "BL107":   "IV",
 }
 
 
@@ -105,7 +112,7 @@ def test_all_expected_strains_present(run_query):
 
 @pytest.mark.parametrize("strain,expected_clade", EXPECTED_CLADES.items())
 def test_strain_clade_label(run_query, strain, expected_clade):
-    """Each Prochlorococcus strain must carry the correct ecotype clade label."""
+    """Each strain must carry the correct ecotype/clade label."""
     result = run_query(
         "MATCH (o:OrganismTaxon) WHERE o.strain_name = $strain "
         "RETURN o.strain_name AS name, o.clade AS clade",

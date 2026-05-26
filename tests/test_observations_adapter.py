@@ -958,7 +958,7 @@ def test_multi_adapter_builds_organism_lookup(tmp_path):
     genome_csv = tmp_path / "genomes.csv"
     genome_csv.write_text(
         "ncbi_accession,,taxid,strain,data_dir,clade,preferred_name,organism_type,,\n"
-        "GCF_000012465.1,,59920,NATL2A,dir/,LLII,Prochlorococcus NATL2A,genome_strain,,\n"
+        "GCF_000012465.1,,59920,NATL2A,dir/,LLI,Prochlorococcus NATL2A,genome_strain,,\n"
     )
     (tmp_path / "empty.txt").write_text("")
     multi = MultiObservationsAdapter(
@@ -975,7 +975,7 @@ def test_multi_adapter_propagates_organism_lookup_to_children(tmp_path):
     genome_csv = tmp_path / "genomes.csv"
     genome_csv.write_text(
         "ncbi_accession,,taxid,strain,data_dir,clade,preferred_name,organism_type,,\n"
-        "GCF_000012465.1,,59920,NATL2A,dir/,LLII,Prochlorococcus NATL2A,genome_strain,,\n"
+        "GCF_000012465.1,,59920,NATL2A,dir/,LLI,Prochlorococcus NATL2A,genome_strain,,\n"
     )
     list_path = tmp_path / "paperconfig_files.txt"
     list_path.write_text(f"{pc_a}\n")
