@@ -457,7 +457,9 @@ class AnnotationBuilder:
         if isinstance(raw, str):
             raw = unquote(raw.strip())
 
-        if not _nonempty(raw):
+        # allow_dash: keep a lone '-' (e.g. minus strand) instead of treating
+        # it as the eggNOG "no value" sentinel.
+        if not _nonempty(raw, keep_dash=bool(src_cfg.get("allow_dash", False))):
             return None
 
         return raw
@@ -478,13 +480,14 @@ class AnnotationBuilder:
     def _resolve_passthrough(
         self, fconf: dict, gm: dict, eg: dict, up: dict, ps: dict | None = None
     ) -> Any:
+        keep_dash = bool(fconf.get("allow_dash", False))
         raw = self._get_raw(fconf, gm, eg, up, ps)
-        if not _nonempty(raw):
+        if not _nonempty(raw, keep_dash=keep_dash):
             return None
         transform = fconf.get("transform")
         if transform:
             raw = self._apply_transform(transform, raw)
-        return raw if _nonempty(raw) else None
+        return raw if _nonempty(raw, keep_dash=keep_dash) else None
 
     # ── resolver: passthrough_list ─────────────────────────────────────────────
 
@@ -700,7 +703,7 @@ class AnnotationBuilder:
             else:
                 continue
 
-            if _nonempty(val):
+            if _nonempty(val, keep_dash=bool(fconf.get("allow_dash", False))):
                 result[canonical_field] = val
 
         # Split comma-joined tokens in synonym lists (e.g. UniProt "pds,crtD"

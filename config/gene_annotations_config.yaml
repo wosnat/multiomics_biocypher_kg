@@ -143,6 +143,7 @@ fields:
     type: passthrough
     source: gene_mapping
     field: strand
+    allow_dash: true   # '-' is the minus strand, not the eggNOG "no value" sentinel
 
   start_cyanorak:
     type: integer
@@ -158,6 +159,7 @@ fields:
     type: passthrough
     source: gene_mapping
     field: strand_cyanorak
+    allow_dash: true   # '-' is the minus strand, not the eggNOG "no value" sentinel
 
   # ── Gene naming (Cyanorak > UniProt > NCBI > EggNOG) ────────────────────────
 
