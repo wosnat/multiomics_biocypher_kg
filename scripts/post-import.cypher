@@ -7,6 +7,9 @@
 CREATE INDEX gene_locus_tag_idx IF NOT EXISTS FOR (g:Gene) ON (g.locus_tag);
 CREATE INDEX gene_name_idx IF NOT EXISTS FOR (g:Gene) ON (g.gene_name);
 CREATE INDEX gene_organism_name_idx IF NOT EXISTS FOR (g:Gene) ON (g.organism_name);
+// Composite RANGE index backing the gene_neighbors genomic-window query:
+// equality prefix (organism_name, contig) + ordered range suffix start.
+CREATE INDEX gene_org_contig_start_idx IF NOT EXISTS FOR (g:Gene) ON (g.organism_name, g.contig, g.start);
 
 // Full-text index for find_gene free-text search
 CREATE FULLTEXT INDEX geneFullText IF NOT EXISTS FOR (n:Gene) ON EACH [
