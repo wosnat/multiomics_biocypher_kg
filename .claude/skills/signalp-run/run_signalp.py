@@ -5,10 +5,17 @@ Usage:
     uv run python .claude/skills/signalp-run/run_signalp.py
     uv run python .claude/skills/signalp-run/run_signalp.py --strain HOT1A3
     uv run python .claude/skills/signalp-run/run_signalp.py --force
+
+    # Normalize already-run raw output into the standard Phase-1 calls.json
+    # (no Docker; reads each strain's signalp/prediction_results.txt):
+    uv run python .claude/skills/signalp-run/run_signalp.py --normalize
+    uv run python .claude/skills/signalp-run/run_signalp.py --normalize --strain MED4
 """
 
 import argparse
+import collections
 import csv
+import json
 import subprocess
 import sys
 from pathlib import Path
@@ -17,6 +24,14 @@ REPO_ROOT = Path(__file__).resolve().parents[3]
 GENOMES_CSV = REPO_ROOT / "data/Prochlorococcus/genomes/cyanobacteria_genomes.csv"
 
 DOCKER_IMAGE = "signalp6"
+
+# Make the project package importable when invoked as a script under `uv run`.
+sys.path.insert(0, str(REPO_ROOT))
+from multiomics_kg.utils.signalp import (  # noqa: E402
+    OTHER_SENTINEL,
+    is_kept,
+    parse_prediction_results,
+)
 
 
 def load_genomes(strain_filter: str | None) -> list[dict]:
@@ -91,13 +106,80 @@ def count_predictions(results_file: Path) -> dict[str, int]:
     return counts
 
 
+def normalize_strain(strain: str, genome_dir: Path, force: bool) -> tuple[str, str]:
+    """Normalize a strain's raw prediction_results.txt → standard calls.json.
+
+    No Docker — reads the already-present raw SignalP output and writes
+    ``<strain>.signalp.calls.json`` (WP_-keyed) + ``<strain>.signalp.skill_summary.json``.
+    This brings ``signalp-run`` (which predates the add-a-tool calls.json
+    convention) into line so Phase-2 KG integration can consume it like every
+    other per-strain tool. Returns (status, message).
+    """
+    signalp_dir = genome_dir / "signalp"
+    results_file = signalp_dir / "prediction_results.txt"
+    calls_path = signalp_dir / f"{strain}.signalp.calls.json"
+    summary_path = signalp_dir / f"{strain}.signalp.skill_summary.json"
+
+    if not results_file.exists():
+        return "MISSING_INPUT", "prediction_results.txt not found (run SignalP first)"
+    if calls_path.exists() and not force:
+        return "SKIP_EXISTS", f"{calls_path.name} already present"
+
+    recs = parse_prediction_results(results_file.read_text())
+    calls_path.write_text(json.dumps(recs, indent=2, sort_keys=True) + "\n")
+
+    dist = dict(sorted(collections.Counter(r["signalp_type"] for r in recs.values()).items()))
+    total = len(recs)
+    kept = sum(1 for r in recs.values() if is_kept(r["signalp_type"]))
+    summary = {
+        "strain": strain,
+        "tool_version": "SignalP-6.0",
+        "input_proteins": total,
+        "calls_made": total,                 # every record carries a call (OTHER incl.)
+        "signal_peptide_count": kept,         # kept (non-OTHER) types
+        "parse_failures": 0,
+        "distribution": dist,
+        "sentinel_rate": round(dist.get(OTHER_SENTINEL, 0) / total, 4) if total else 0.0,
+    }
+    summary_path.write_text(json.dumps(summary, indent=2, sort_keys=True) + "\n")
+    return "OK", f"{total} proteins, {kept} signal peptides"
+
+
 def main():
     parser = argparse.ArgumentParser(
         description="Run SignalP 6.0 (Docker) on all genome strains.",
     )
     parser.add_argument("--strain", help="Run only this strain (e.g. HOT1A3)")
     parser.add_argument("--force", action="store_true", help="Re-run even if output exists")
+    parser.add_argument(
+        "--normalize", action="store_true",
+        help="Normalize existing raw output into <strain>.signalp.calls.json (no Docker).",
+    )
     args = parser.parse_args()
+
+    # ── Normalize mode: read raw output → calls.json (no Docker) ──────────────
+    if args.normalize:
+        genomes = load_genomes(args.strain)
+        if not genomes:
+            print(f"No genomes found{f' for strain {args.strain}' if args.strain else ''}.")
+            sys.exit(1)
+        results: list[tuple[str, str, str]] = []
+        for g in genomes:
+            strain = g["strain_name"]
+            genome_dir = REPO_ROOT / g["data_dir"].rstrip("/")
+            status, msg = normalize_strain(strain, genome_dir, args.force)
+            results.append((strain, status, msg))
+        print(f"\n{'='*70}")
+        print(f"{'Strain':<12} {'Status':<15} {'Info'}")
+        print(f"{'-'*12} {'-'*15} {'-'*40}")
+        for strain, status, msg in results:
+            print(f"{strain:<12} {status:<15} {msg}")
+        print(f"{'='*70}")
+        missing = [s for s, st, _ in results if st == "MISSING_INPUT"]
+        if missing:
+            print(f"\nMISSING_INPUT strains (run SignalP first): {', '.join(missing)}",
+                  file=sys.stderr)
+        return
 
     # Check Docker image exists
     if not check_docker_image():

@@ -5,8 +5,8 @@ import pytest
 pytestmark = pytest.mark.kg
 
 
-def test_five_data_source_nodes(run_query):
-    """Deployment has exactly 5 DataSource nodes (incl. psortb, added Phase-2).
+def test_six_data_source_nodes(run_query):
+    """Deployment has exactly 6 DataSource nodes (incl. psortb + signalp, Phase-2).
 
     BioCypher prepends the `data_source:` CURIE prefix per schema_config.
     """
@@ -17,6 +17,7 @@ def test_five_data_source_nodes(run_query):
         "data_source:eggnog",
         "data_source:ncbi",
         "data_source:psortb",
+        "data_source:signalp",
         "data_source:uniprot",
     ]
 
@@ -41,6 +42,13 @@ def test_eggnog_provenance_is_tool_run(run_query):
 def test_psortb_provenance_is_tool_run(run_query):
     result = run_query("""
         MATCH (d:DataSource {id: 'data_source:psortb'}) RETURN d.provenance AS p
+    """)
+    assert result and result[0]["p"] == "tool_run"
+
+
+def test_signalp_provenance_is_tool_run(run_query):
+    result = run_query("""
+        MATCH (d:DataSource {id: 'data_source:signalp'}) RETURN d.provenance AS p
     """)
     assert result and result[0]["p"] == "tool_run"
 

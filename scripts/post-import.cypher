@@ -81,6 +81,12 @@ CREATE INDEX subcellular_localization_id_idx IF NOT EXISTS FOR (n:SubcellularLoc
 CREATE FULLTEXT INDEX subcellularLocalizationFullText IF NOT EXISTS
     FOR (n:SubcellularLocalization) ON EACH [n.name, n.psortb_id];
 
+// SignalP SignalPeptideType (flat ontology + scored edge)
+CREATE INDEX signal_peptide_type_level_idx IF NOT EXISTS FOR (n:SignalPeptideType) ON (n.level);
+CREATE INDEX signal_peptide_type_id_idx IF NOT EXISTS FOR (n:SignalPeptideType) ON (n.signalp_id);
+CREATE FULLTEXT INDEX signalPeptideTypeFullText IF NOT EXISTS
+    FOR (n:SignalPeptideType) ON EACH [n.name, n.signalp_id];
+
 // Publication fulltext index
 // publicationFullText: drop+recreate so DM-search-text + compartments are picked up
 // even on reruns against an existing graph (Neo4j won't add properties to an existing index).
@@ -937,6 +943,41 @@ CALL {
   WITH collect(r) AS edges
   UNWIND range(0, size(edges) - 1) AS i
   SET (edges[i]).rank_by_score = i + 1
+} IN TRANSACTIONS OF 1000 ROWS;
+
+// ── SignalPeptideType computed properties (SignalP; flat ontology) ────────────
+// gene_count + organism_count: direct gene->node traversal (no *0.. — flat).
+MATCH (n:SignalPeptideType)
+CALL {
+  WITH n
+  OPTIONAL MATCH (n)<-[:Gene_has_signal_peptide_type]-(g:Gene)
+  WITH n, count(DISTINCT g) AS gc, collect(DISTINCT g.organism_name) AS orgs
+  SET n.gene_count = gc,
+      n.organism_count = size([x IN orgs WHERE x IS NOT NULL])
+} IN TRANSACTIONS OF 1000 ROWS;
+
+// Gene.signal_peptide_type: denormalized 1:1 routing string (the gene's single
+// SignalP call, absent when no confident signal peptide). STRUCTURAL — so
+// deliberately NOT folded into annotation_types / annotation_quality.
+MATCH (g:Gene)
+CALL {
+  WITH g
+  OPTIONAL MATCH (g)-[:Gene_has_signal_peptide_type]->(spt:SignalPeptideType)
+  WITH g, spt.signalp_id AS sid
+  SET g.signal_peptide_type = sid
+} IN TRANSACTIONS OF 1000 ROWS;
+
+// rank_by_probability on Gene_has_signal_peptide_type: within each type, rank
+// genes by descending SignalP probability (1 = strongest). Mirrors rank_by_score.
+MATCH (n:SignalPeptideType)
+CALL {
+  WITH n
+  MATCH (g:Gene)-[r:Gene_has_signal_peptide_type]->(n)
+  WITH r, r.probability AS p, g.locus_tag AS lt
+  ORDER BY p DESC, lt ASC
+  WITH collect(r) AS edges
+  UNWIND range(0, size(edges) - 1) AS i
+  SET (edges[i]).rank_by_probability = i + 1
 } IN TRANSACTIONS OF 1000 ROWS;
 
 // ── Gene routing extensions ──────────────────────────────────────────────────

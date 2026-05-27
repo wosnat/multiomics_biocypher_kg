@@ -1262,6 +1262,36 @@ gene to subcellular localization association:
     score: float            # PSORTb localization confidence score (kept edges: ~7.5-10.0)
 
 
+# ── SignalP signal-peptide type (flat ontology + scored edge) ─────────────────
+
+signal peptide type:
+  is_a: named thing
+  represented_as: node
+  preferred_id: signalp
+  label_in_input: signal peptide type
+  properties:
+    name: str               # human-readable display (e.g. "Signal peptide (Sec/SPI)")
+    signalp_id: str         # raw SignalP code, e.g. "SP" / "LIPO" / "TAT" / "TATLIPO" / "PILIN"
+    level: int              # flat ontology: always 0 (no level_kind)
+    gene_count: int         # post-import
+    organism_count: int     # post-import
+
+gene to signal peptide type association:
+  is_a: association
+  represented_as: edge
+  label_as_edge: Gene_has_signal_peptide_type
+  source: gene
+  target: signal peptide type
+  label_in_input: gene_has_signal_peptide_type
+  # Second scored ontology edge (after PSORTb) — probability + cleavage ride as
+  # edge properties (modeled on the Changes_expression_of properties block).
+  # Numeric, not _clean_str'd. cleavage_* are omitted (absent) when no CS reported.
+  properties:
+    probability: float            # winning-class likelihood (∈[0,1])
+    cleavage_site: int            # residue before the cut (omitted when null)
+    cleavage_probability: float   # cleavage-site probability (omitted when null)
+
+
 protein to ec number association:
   is_a: ReactionToParticipantAssociation
   represented_as: edge
