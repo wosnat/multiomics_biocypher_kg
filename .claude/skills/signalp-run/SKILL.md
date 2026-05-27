@@ -35,7 +35,42 @@ uv run python .claude/skills/signalp-run/run_signalp.py --strain HOT1A3
 
 # Force re-run even if output exists
 uv run python .claude/skills/signalp-run/run_signalp.py --force
+
+# Normalize already-run raw output into the standard Phase-1 calls.json
+# (no Docker — reads each strain's signalp/prediction_results.txt):
+uv run python .claude/skills/signalp-run/run_signalp.py --normalize
+uv run python .claude/skills/signalp-run/run_signalp.py --normalize --strain MED4 --force
 ```
+
+## Normalized calls.json (Phase-1 artifact convention)
+
+`signalp-run` predates the [`add-a-tool`](../add-a-tool/SKILL.md) `<strain>.<tool>.calls.json`
+convention — the raw run writes `prediction_results.txt` / `output.json`, not a normalized
+calls.json. `--normalize` closes that gap (no Docker; parses the already-present raw output via
+the pure parser in [`multiomics_kg/utils/signalp.py`](../../../multiomics_kg/utils/signalp.py)):
+
+```
+cache/<organism>/genomes/<strain>/signalp/
+  <strain>.signalp.calls.json          # dict keyed by RefSeq WP_ accession
+  <strain>.signalp.skill_summary.json  # per-strain QC stats
+```
+
+**`<strain>.signalp.calls.json`** — `{ "WP_…": { ... } }`, one entry per protein (including
+`OTHER`, kept verbatim — the KG adapter skips it at edge-build time):
+
+| Field | Type | Meaning |
+|---|---|---|
+| `signalp_type` | str | winning code: `SP` / `LIPO` / `TAT` / `TATLIPO` / `PILIN` / `OTHER` |
+| `probability` | float ∈[0,1] | the **winning class's** likelihood (not the OTHER column) |
+| `cleavage_site` | int \| null | residue before the cut (`null` for `OTHER` / no CS reported) |
+| `cleavage_probability` | float \| null | cleavage-site probability (`null` when no CS) |
+
+**`<strain>.signalp.skill_summary.json`** — `strain`, `tool_version`, `input_proteins`,
+`calls_made`, `signal_peptide_count` (kept, non-`OTHER`), `parse_failures`, `distribution`
+(type histogram), `sentinel_rate` (`OTHER` fraction).
+
+This calls.json is what the Phase-2 KG integration consumes
+([`docs/kg-changes/signalp-extension.md`](../../../docs/kg-changes/signalp-extension.md)).
 
 ## What It Does
 

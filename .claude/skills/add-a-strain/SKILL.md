@@ -246,8 +246,10 @@ EGGNOG_PID=$!
 # PSORTb — Gram-negative subcellular localization
 nohup uv run python .claude/skills/psortb-run/run_psortb.py --strain <NEW_STRAIN> > logs/psortb/<NEW_STRAIN>.log 2>&1 &
 
-# SignalP — signal peptide prediction
-nohup uv run python .claude/skills/signalp-run/run_signalp.py --strain <NEW_STRAIN> > logs/signalp/<NEW_STRAIN>.log 2>&1 &
+# SignalP — signal peptide prediction, THEN normalize raw output → calls.json
+# (the merge in step 1/2 reads <strain>.signalp.calls.json; signalp-run predates
+#  the calls.json convention, so --normalize is required for Phase-2 to pick it up)
+nohup bash -c 'uv run python .claude/skills/signalp-run/run_signalp.py --strain <NEW_STRAIN> && uv run python .claude/skills/signalp-run/run_signalp.py --normalize --strain <NEW_STRAIN>' > logs/signalp/<NEW_STRAIN>.log 2>&1 &
 
 # Wave 2 — depends on eggNOG (reads <strain>.emapper.annotations for egn_agreement
 #          + gene_annotations_merged.json for pfam_agreement). Subshell waits for
@@ -280,7 +282,8 @@ mkdir -p logs/{eggnog,psortb,tcdb,signalp}
 nohup uv run python .claude/skills/eggnog-run/run_eggnog.py > logs/eggnog/batch.log 2>&1 &
 EGGNOG_PID=$!
 nohup uv run python .claude/skills/psortb-run/run_psortb.py > logs/psortb/batch.log 2>&1 &
-nohup uv run python .claude/skills/signalp-run/run_signalp.py > logs/signalp/batch.log 2>&1 &
+# SignalP run, THEN normalize raw output → calls.json (required for Phase-2 merge)
+nohup bash -c 'uv run python .claude/skills/signalp-run/run_signalp.py && uv run python .claude/skills/signalp-run/run_signalp.py --normalize' > logs/signalp/batch.log 2>&1 &
 
 # Wave 2 — tcdb-diamond, after eggnog has annotated every strain in the CSV
 ( wait $EGGNOG_PID && \
@@ -313,10 +316,14 @@ multi-strain variant) is the canonical list** of per-strain tools — when
 appends a line to both blocks so future strains pick it up automatically.
 
 eggNOG output is consumed by `prepare_data.sh --steps 1 2` (step 2 picks up
-`<strain>.emapper.annotations` and merges it into
-`gene_annotations_merged.json`). PSORTb / tcdb-diamond / signalp are Phase-1
-only — their `<data_dir>/<tool>/<strain>.calls.json` artifacts sit in the
-strain cache until each tool's Phase-2 integration spec lands.
+`<strain>.emapper.annotations` and merges it into `gene_annotations_merged.json`).
+**PSORTb + SignalP are Phase-2 integrated** — their `<strain>.<tool>.calls.json`
+is also read by step 2 (`psortb_localization`/`psortb_score`,
+`signalp_type`/`signalp_probability`/`signalp_cleavage_*` fields →
+`SubcellularLocalization` / `SignalPeptideType` ontology nodes; see
+`docs/kg-changes/{psortb,signalp}-extension.md`). SignalP needs its `--normalize`
+follow-up (chained above) to produce the calls.json first. tcdb-diamond is still
+Phase-1 only — its artifacts sit in the strain cache until its Phase-2 spec lands.
 
 ## Step 4 — Snapshot the KG
 

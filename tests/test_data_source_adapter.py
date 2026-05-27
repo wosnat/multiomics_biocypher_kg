@@ -13,12 +13,12 @@ def adapter():
     return DataSourceAdapter(config_path="config/gene_annotations_config.yaml")
 
 
-def test_emits_five_nodes(adapter):
-    """Five data sources: ncbi, cyanorak, uniprot, eggnog, psortb."""
+def test_emits_six_nodes(adapter):
+    """Six data sources: ncbi, cyanorak, uniprot, eggnog, psortb, signalp."""
     adapter.download_data()
     nodes = list(adapter.get_nodes())
     ids = {props["id"] for _, _, props in nodes}
-    assert ids == {"ncbi", "cyanorak", "uniprot", "eggnog", "psortb"}
+    assert ids == {"ncbi", "cyanorak", "uniprot", "eggnog", "psortb", "signalp"}
 
 
 def test_psortb_is_tool_run_gene_level(adapter):
@@ -30,6 +30,17 @@ def test_psortb_is_tool_run_gene_level(adapter):
     assert psortb["name"] == "PSORTb"
     # info_types auto-derived from the two psortb field rules
     assert {"psortb_localization", "psortb_score"} <= set(psortb["info_types"])
+
+
+def test_signalp_is_tool_run_gene_level(adapter):
+    adapter.download_data()
+    nodes = {props["id"]: props for _, _, props in adapter.get_nodes()}
+    signalp = nodes["signalp"]
+    assert signalp["provenance"] == "tool_run"
+    assert signalp["scope"] == "gene_level"
+    assert signalp["name"] == "SignalP"
+    # info_types auto-derived from the four signalp field rules
+    assert {"signalp_type", "signalp_probability"} <= set(signalp["info_types"])
 
 
 def test_ncbi_node_properties(adapter):
