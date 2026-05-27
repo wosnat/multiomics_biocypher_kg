@@ -1854,7 +1854,7 @@
       "type": "Gene_in_gene_cluster"
     }
   ],
-  "generated_at": "2026-05-26T16:56:10.397218+00:00",
+  "generated_at": "2026-05-27T19:09:15.755601+00:00",
   "nodes": [
     {
       "anchor": true,
@@ -1926,7 +1926,8 @@
       "label": "Gene",
       "properties": {
         "locus_tag": "A9601_00041",
-        "product": "DNA gyrase/topoisomerase IV, subunit A family protein"
+        "product": "DNA gyrase/topoisomerase IV, subunit A family protein",
+        "strand": "-"
       }
     },
     {
@@ -3599,6 +3600,16 @@
       "label": "DataSource",
       "properties": {
         "description": "PSORTb v3.0.3 per-protein subcellular-localization predictions (Gram-negative model).",
+        "provenance": "tool_run",
+        "scope": "gene_level"
+      }
+    },
+    {
+      "anchor": false,
+      "id": "data_source:signalp",
+      "label": "DataSource",
+      "properties": {
+        "description": "SignalP 6.0 per-protein signal-peptide-type predictions (SP/LIPO/TAT/TATLIPO/PILIN).",
         "provenance": "tool_run",
         "scope": "gene_level"
       }
