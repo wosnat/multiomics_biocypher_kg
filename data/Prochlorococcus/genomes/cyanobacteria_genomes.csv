@@ -4,12 +4,12 @@ GCF_000015645.1,Pro_AS9601,146891,AS9601,cache/data/Prochlorococcus/genomes/AS96
 GCF_000015965.1,Pro_MIT9301,167546,MIT9301,cache/data/Prochlorococcus/genomes/MIT9301/,HLII,Prochlorococcus MIT9301,genome_strain,,
 GCF_000012645.1,Pro_MIT9312,74546,MIT9312,cache/data/Prochlorococcus/genomes/MIT9312/,HLII,Prochlorococcus MIT9312,genome_strain,,
 GCF_000011485.1,Pro_MIT9313,74547,MIT9313,cache/data/Prochlorococcus/genomes/MIT9313/,LLIV,Prochlorococcus MIT9313,genome_strain,,
-GCF_000015685.1,Pro_NATL1A,167555,NATL1A,cache/data/Prochlorococcus/genomes/NATL1A/,LLII,Prochlorococcus NATL1A,genome_strain,,
-GCF_000012465.1,Pro_NATL2A,59920,NATL2A,cache/data/Prochlorococcus/genomes/NATL2A/,LLII,Prochlorococcus NATL2A,genome_strain,,
+GCF_000015685.1,Pro_NATL1A,167555,NATL1A,cache/data/Prochlorococcus/genomes/NATL1A/,LLI,Prochlorococcus NATL1A,genome_strain,,
+GCF_000012465.1,Pro_NATL2A,59920,NATL2A,cache/data/Prochlorococcus/genomes/NATL2A/,LLI,Prochlorococcus NATL2A,genome_strain,,
 # no cyanorak entry for RSP50, but used in Biller 2015, Biller 2016, Biller 2018, Coe 2024
 GCF_001989415.1,,1924285,RSP50,cache/data/Prochlorococcus/genomes/RSP50/,HLI,Prochlorococcus RSP50,genome_strain,,
-GCF_000014585.1,Syn_CC9311,64471,CC9311,cache/data/Synechococcus/genomes/CC9311/,,Synechococcus CC9311,genome_strain,,
-GCF_000195975.1,Syn_WH8102,84588,WH8102,cache/data/Synechococcus/genomes/WH8102/,,Synechococcus WH8102,genome_strain,,
+GCF_000014585.1,Syn_CC9311,64471,CC9311,cache/data/Synechococcus/genomes/CC9311/,I,Synechococcus CC9311,genome_strain,,
+GCF_000195975.1,Syn_WH8102,84588,WH8102,cache/data/Synechococcus/genomes/WH8102/,III,Synechococcus WH8102,genome_strain,,
 # Alteromonas strains (NCBI-only, no Cyanorak entry)
 # MIT1002: GenBank JXRW01000000, used in Biller 2016, Biller 2018, Coe 2024
 # GCF_001077695.1,,28108,MIT1002,cache/data/Alteromonas/genomes/MIT1002/
@@ -27,7 +27,7 @@ GCF_001578515.1,,28108,HOT1A3,cache/data/Alteromonas/genomes/HOT1A3/,,Alteromona
 GCF_000015705.1,Pro_MIT9303,59922,MIT9303,cache/data/Prochlorococcus/genomes/MIT9303/,LLIV,Prochlorococcus MIT9303,genome_strain,,
 
 # Synechococcus WH7803 (marine, Clade V; Oleza 2017, kaur 2018)
-GCF_000063505.1,Syn_WH7803,32051,WH7803,cache/data/Synechococcus/genomes/WH7803/,,Synechococcus WH7803,genome_strain,,
+GCF_000063505.1,Syn_WH7803,32051,WH7803,cache/data/Synechococcus/genomes/WH7803/,V,Synechococcus WH7803,genome_strain,,
 
 # Freshwater/thermophilic cyanobacteria (no Cyanorak entries)
 # Picosynechococcus PCC 7002 (Beliaev 2014)
@@ -54,7 +54,7 @@ GCF_000007925.1,Pro_SS120,167539,SS120,cache/data/Prochlorococcus/genomes/SS120/
 # Prochlorococcus sp. MIT 0801 (LLI; Kujawinski 2023 metabolomics)
 GCF_000757865.1,Pro_MIT0801,1501269,MIT0801,cache/data/Prochlorococcus/genomes/MIT0801/,LLI,Prochlorococcus MIT0801,genome_strain,,
 # Synechococcus sp. BL107 (sub 5.1 clade IV; Moreno 2023)
-GCF_000153805.1,Syn_BL107,313625,BL107,cache/data/Synechococcus/genomes/BL107/,,Synechococcus sp. BL107,genome_strain,,
+GCF_000153805.1,Syn_BL107,313625,BL107,cache/data/Synechococcus/genomes/BL107/,IV,Synechococcus sp. BL107,genome_strain,,
 # Marinobacter adhaerens HP15 (Moreno 2023 S4)
 GCF_000166295.1,,225937,HP15,cache/data/Marinobacter/genomes/HP15/,,Marinobacter (MarRef v6),reference_proteome_match,MarRef v6,GCF_000166295.1
 # Alteromonas mediterranea DE (Moreno 2023 S3)
@@ -70,6 +70,12 @@ GCF_000300175.1,,1004787,AD45,cache/data/Alteromonas/genomes/AD45/,,Alteromonas 
 GCF_000299995.1,,1004785,BS11,cache/data/Alteromonas/genomes/BS11/,,Alteromonas macleodii BS11,genome_strain,,
 # BGP6 (Pacific surface; uses species-level taxid 28108)
 GCF_901446615.2,,28108,BGP6,cache/data/Alteromonas/genomes/BGP6/,,Alteromonas macleodii BGP6,genome_strain,,
+
+# Alteromonas mediterranea "deep ecotype" genome strains (genomes only, no DE paper yet; reclassified from A. macleodii)
+# AltDE (strain DE; deep-ecotype reference, Urania Basin 3500 m, Ivars-Martinez 2008) — distinct assembly from the Alt_MarRef MarRef proxy above
+GCF_000020585.3,,1774373,AltDE,cache/data/Alteromonas/genomes/AltDE/,,Alteromonas mediterranea AltDE,genome_strain,,
+# AltDE1 (strain DE1; Gonzaga 2012 polyclonality panel, same batch as BS11/AD45)
+GCF_000310085.1,,1004786,AltDE1,cache/data/Alteromonas/genomes/AltDE1/,,Alteromonas mediterranea AltDE1,genome_strain,,
 
 # Soussan 2025 strain panel (N/P starvation culture decline; 15 strains total, 9 already in KG, MIT1314+MIT1327 deferred — no public assembly)
 GCF_000015665.1,Pro_MIT9515,167542,MIT9515,cache/data/Prochlorococcus/genomes/MIT9515/,HLI,Prochlorococcus MIT9515,genome_strain,,

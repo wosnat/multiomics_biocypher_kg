@@ -149,6 +149,8 @@ CANONICAL_GENOMIC_ORGANISMS = {
     "Alteromonas macleodii AD45",
     "Alteromonas macleodii BS11",
     "Alteromonas macleodii BGP6",
+    "Alteromonas mediterranea AltDE",
+    "Alteromonas mediterranea AltDE1",
     "Alteromonas (MarRef v6)",
     "Marinobacter (MarRef v6)",
     "Shewanella sp. W3-18-1",

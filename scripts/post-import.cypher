@@ -7,6 +7,9 @@
 CREATE INDEX gene_locus_tag_idx IF NOT EXISTS FOR (g:Gene) ON (g.locus_tag);
 CREATE INDEX gene_name_idx IF NOT EXISTS FOR (g:Gene) ON (g.gene_name);
 CREATE INDEX gene_organism_name_idx IF NOT EXISTS FOR (g:Gene) ON (g.organism_name);
+// Composite RANGE index backing the gene_neighbors genomic-window query:
+// equality prefix (organism_name, contig) + ordered range suffix start.
+CREATE INDEX gene_org_contig_start_idx IF NOT EXISTS FOR (g:Gene) ON (g.organism_name, g.contig, g.start);
 
 // Full-text index for find_gene free-text search
 CREATE FULLTEXT INDEX geneFullText IF NOT EXISTS FOR (n:Gene) ON EACH [
@@ -71,6 +74,18 @@ CREATE FULLTEXT INDEX tcdbFamilyFullText IF NOT EXISTS
     FOR (t:TcdbFamily) ON EACH [t.name, t.tcdb_id, t.superfamily];
 CREATE FULLTEXT INDEX cazyFamilyFullText IF NOT EXISTS
     FOR (c:CazyFamily) ON EACH [c.name, c.cazy_id];
+
+// PSORTb SubcellularLocalization (flat ontology + scored edge)
+CREATE INDEX subcellular_localization_level_idx IF NOT EXISTS FOR (n:SubcellularLocalization) ON (n.level);
+CREATE INDEX subcellular_localization_id_idx IF NOT EXISTS FOR (n:SubcellularLocalization) ON (n.psortb_id);
+CREATE FULLTEXT INDEX subcellularLocalizationFullText IF NOT EXISTS
+    FOR (n:SubcellularLocalization) ON EACH [n.name, n.psortb_id];
+
+// SignalP SignalPeptideType (flat ontology + scored edge)
+CREATE INDEX signal_peptide_type_level_idx IF NOT EXISTS FOR (n:SignalPeptideType) ON (n.level);
+CREATE INDEX signal_peptide_type_id_idx IF NOT EXISTS FOR (n:SignalPeptideType) ON (n.signalp_id);
+CREATE FULLTEXT INDEX signalPeptideTypeFullText IF NOT EXISTS
+    FOR (n:SignalPeptideType) ON EACH [n.name, n.signalp_id];
 
 // Publication fulltext index
 // publicationFullText: drop+recreate so DM-search-text + compartments are picked up
@@ -893,6 +908,76 @@ CALL {
   WITH c, count(DISTINCT g) AS gc, collect(DISTINCT g.organism_name) AS orgs
   SET c.gene_count = gc,
       c.organism_count = size([x IN orgs WHERE x IS NOT NULL])
+} IN TRANSACTIONS OF 1000 ROWS;
+
+// ── SubcellularLocalization computed properties (PSORTb; flat ontology) ───────
+// gene_count + organism_count: direct gene->node traversal (no *0.. — flat).
+MATCH (n:SubcellularLocalization)
+CALL {
+  WITH n
+  OPTIONAL MATCH (n)<-[:Gene_has_subcellular_localization]-(g:Gene)
+  WITH n, count(DISTINCT g) AS gc, collect(DISTINCT g.organism_name) AS orgs
+  SET n.gene_count = gc,
+      n.organism_count = size([x IN orgs WHERE x IS NOT NULL])
+} IN TRANSACTIONS OF 1000 ROWS;
+
+// Gene.subcellular_localization: denormalized 1:1 routing string (the gene's
+// single PSORTb call, absent when no confident localization). STRUCTURAL — so
+// deliberately NOT folded into annotation_types / annotation_quality.
+MATCH (g:Gene)
+CALL {
+  WITH g
+  OPTIONAL MATCH (g)-[:Gene_has_subcellular_localization]->(loc:SubcellularLocalization)
+  WITH g, loc.psortb_id AS lid
+  SET g.subcellular_localization = lid
+} IN TRANSACTIONS OF 1000 ROWS;
+
+// rank_by_score on Gene_has_subcellular_localization: within each localization,
+// rank genes by descending PSORTb score (1 = strongest). Mirrors rank_by_effect.
+MATCH (n:SubcellularLocalization)
+CALL {
+  WITH n
+  MATCH (g:Gene)-[r:Gene_has_subcellular_localization]->(n)
+  WITH r, r.score AS s, g.locus_tag AS lt
+  ORDER BY s DESC, lt ASC
+  WITH collect(r) AS edges
+  UNWIND range(0, size(edges) - 1) AS i
+  SET (edges[i]).rank_by_score = i + 1
+} IN TRANSACTIONS OF 1000 ROWS;
+
+// ── SignalPeptideType computed properties (SignalP; flat ontology) ────────────
+// gene_count + organism_count: direct gene->node traversal (no *0.. — flat).
+MATCH (n:SignalPeptideType)
+CALL {
+  WITH n
+  OPTIONAL MATCH (n)<-[:Gene_has_signal_peptide_type]-(g:Gene)
+  WITH n, count(DISTINCT g) AS gc, collect(DISTINCT g.organism_name) AS orgs
+  SET n.gene_count = gc,
+      n.organism_count = size([x IN orgs WHERE x IS NOT NULL])
+} IN TRANSACTIONS OF 1000 ROWS;
+
+// Gene.signal_peptide_type: denormalized 1:1 routing string (the gene's single
+// SignalP call, absent when no confident signal peptide). STRUCTURAL — so
+// deliberately NOT folded into annotation_types / annotation_quality.
+MATCH (g:Gene)
+CALL {
+  WITH g
+  OPTIONAL MATCH (g)-[:Gene_has_signal_peptide_type]->(spt:SignalPeptideType)
+  WITH g, spt.signalp_id AS sid
+  SET g.signal_peptide_type = sid
+} IN TRANSACTIONS OF 1000 ROWS;
+
+// rank_by_probability on Gene_has_signal_peptide_type: within each type, rank
+// genes by descending SignalP probability (1 = strongest). Mirrors rank_by_score.
+MATCH (n:SignalPeptideType)
+CALL {
+  WITH n
+  MATCH (g:Gene)-[r:Gene_has_signal_peptide_type]->(n)
+  WITH r, r.probability AS p, g.locus_tag AS lt
+  ORDER BY p DESC, lt ASC
+  WITH collect(r) AS edges
+  UNWIND range(0, size(edges) - 1) AS i
+  SET (edges[i]).rank_by_probability = i + 1
 } IN TRANSACTIONS OF 1000 ROWS;
 
 // ── Gene routing extensions ──────────────────────────────────────────────────

@@ -790,5 +790,8 @@ When a tool moves from Phase 1 to Phase 2, it grows one of these surfaces:
 - **Merged into `gene_annotations_merged.json`** — e.g., eggNOG. The merge happens in `multiomics_kg/download/build_gene_annotations.py`, configured via `config/gene_annotations_config.yaml`'s `logical_sources` block. Add a new logical source for the tool's output, with field-merge rules.
 - **New KG adapter** — e.g., PSORTb's future `localization_adapter.py` that creates `SubcellularLocation` nodes + `Protein_located_in` edges. Write the adapter; add to `create_knowledge_graph.py`; update `config/schema_config.yaml`; update `CLAUDE.md` "Actual Neo4j labels" + "Key graph facts"; add KG-validity tests.
 
-Phase 2 is **out of scope** for this skill — write a new design spec under
-`docs/superpowers/specs/` when ready.
+Phase 2 is **out of scope** for this skill — **use [`integrate-a-tool`](../integrate-a-tool/SKILL.md)**
+(`/integrate-a-tool <tool>`), which takes the committed `<strain>.<tool>.calls.json` produced here into
+the live KG (merge → ontology nodes/edges or Gene property → post-import → validation → release-notes
+doc). Design:
+[`2026-05-24-integrate-a-tool-skill-design.md`](../../../docs/superpowers/specs/2026-05-24-integrate-a-tool-skill-design.md).

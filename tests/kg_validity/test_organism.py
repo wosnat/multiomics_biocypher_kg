@@ -47,21 +47,21 @@ def test_no_non_bacterial_organisms(run_query):
 
 
 def test_organism_count(run_query):
-    """43 OrganismTaxon nodes: 36 genome strains + 2 reference proteome match + 5 treatment organisms.
+    """45 OrganismTaxon nodes: 38 genome strains + 2 reference proteome match + 5 treatment organisms.
 
-    Genome strains (36): 17 Pro (MED4, AS9601, MIT9301, MIT9312, MIT9313,
+    Genome strains (38): 17 Pro (MED4, AS9601, MIT9301, MIT9312, MIT9313,
     MIT9303, NATL1A, NATL2A, RSP50, SS120, MIT0801, MIT9515, MIT9202, MIT9215,
     MIT0604, SB, PAC1), 7 Syn (CC9311, WH7803, WH8102, BL107, PCC7002, PCC7942,
-    UTEX2973), 1 Thermosynechococcus (BP1), 7 Alteromonas (MIT1002, EZ55,
-    HOT1A3, AD45, ATCC27126, BGP6, BS11), 4 heterotrophs (W3-18-1, KT2440,
-    DSS-3, MruberA).
+    UTEX2973), 1 Thermosynechococcus (BP1), 9 Alteromonas (MIT1002, EZ55,
+    HOT1A3, AD45, ATCC27126, BGP6, BS11, AltDE, AltDE1), 4 heterotrophs
+    (W3-18-1, KT2440, DSS-3, MruberA).
     Reference proteome match (2): Marinobacter (MarRef v6), Alteromonas (MarRef v6).
     Treatment organisms (5): Phage, Alteromonas (genus), Vibrio
     parahaemolyticus, Meiothermus ruber, E. coli.
     """
     result = run_query("MATCH (o:OrganismTaxon) RETURN count(o) AS cnt")
-    assert result[0]["cnt"] == 43, (
-        f"Expected 43 OrganismTaxon nodes, got {result[0]['cnt']}"
+    assert result[0]["cnt"] == 45, (
+        f"Expected 45 OrganismTaxon nodes, got {result[0]['cnt']}"
     )
 
 
@@ -73,8 +73,9 @@ def test_alteromonas_strains_have_species(run_query):
     """Alteromonas genome_strain nodes must have a species property.
 
     Seven strains (MIT1002, EZ55, HOT1A3, AD45, ATCC27126, BGP6, BS11) are
-    A. macleodii. Reference proteome match organisms (Alteromonas MarRef v6)
-    are excluded as their species may not be derivable from the preferred_name.
+    A. macleodii; two deep-ecotype strains (AltDE, AltDE1) are A. mediterranea.
+    Reference proteome match organisms (Alteromonas MarRef v6) are excluded as
+    their species may not be derivable from the preferred_name.
     """
     result = run_query("""
         MATCH (o:OrganismTaxon)
@@ -83,8 +84,8 @@ def test_alteromonas_strains_have_species(run_query):
           AND o.organism_type = 'genome_strain'
         RETURN o.preferred_name AS name, o.species AS species
     """)
-    assert len(result) == 7, f"Expected 7 Alteromonas genome strains, got {len(result)}"
-    VALID_SPECIES = {"Alteromonas macleodii"}
+    assert len(result) == 9, f"Expected 9 Alteromonas genome strains, got {len(result)}"
+    VALID_SPECIES = {"Alteromonas macleodii", "Alteromonas mediterranea"}
     for r in result:
         assert r["species"] in VALID_SPECIES, (
             f"{r['name']} has species={r['species']!r}, expected one of {VALID_SPECIES}"
@@ -118,7 +119,7 @@ def test_organism_type_values(run_query):
     assert set(counts.keys()) == {"genome_strain", "treatment", "reference_proteome_match"}, (
         f"Unexpected organism_type values: {counts}"
     )
-    assert counts["genome_strain"] == 36
+    assert counts["genome_strain"] == 38
     assert counts["treatment"] == 5
     assert counts["reference_proteome_match"] == 2
 

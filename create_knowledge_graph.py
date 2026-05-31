@@ -238,6 +238,26 @@ def main():
     bc.write_nodes(cazy_adapter.get_nodes())
     bc.write_edges(cazy_adapter.get_edges())
 
+    # PSORTb subcellular-localization ontology (flat, scored, 1:1; observed-only).
+    # Reads psortb_localization/psortb_score from gene_annotations_merged.json.
+    from multiomics_kg.adapters.psortb_adapter import MultiSubcellularLocalizationAdapter
+    psortb_adapter = MultiSubcellularLocalizationAdapter(
+        genome_config_file='data/Prochlorococcus/genomes/cyanobacteria_genomes.csv',
+        test_mode=TEST_MODE,
+    )
+    bc.write_nodes(psortb_adapter.get_nodes())
+    bc.write_edges(psortb_adapter.get_edges())
+
+    # SignalP signal-peptide-type ontology (flat, scored, 1:1; observed-only).
+    # Reads signalp_type/signalp_probability/signalp_cleavage_* from gene_annotations_merged.json.
+    from multiomics_kg.adapters.signalp_adapter import MultiSignalPeptideAdapter
+    signalp_adapter = MultiSignalPeptideAdapter(
+        genome_config_file='data/Prochlorococcus/genomes/cyanobacteria_genomes.csv',
+        test_mode=TEST_MODE,
+    )
+    bc.write_nodes(signalp_adapter.get_nodes())
+    bc.write_edges(signalp_adapter.get_edges())
+
     # Full GO ontology (all 30K nodes + GO-GO hierarchy) — optional, slow.
     # NOTE: do not run with --go simultaneously; GO node IDs would conflict.
 

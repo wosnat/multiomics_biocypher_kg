@@ -1,0 +1,59 @@
+# ── <Tool> — gene_annotations_config.yaml snippet (TEMPLATE) ──────────────────
+# Two paste targets in config/gene_annotations_config.yaml:
+#   (A) under `sources:`   — where the calls.json lives + how it joins + provenance.
+#   (B) under `fields:`    — the merged field(s) the <tool>_adapter / cyanorak_ncbi_adapter read.
+# Then add load_<tool>() + extend _get_raw/build_wide/build_merged in build_gene_annotations.py
+# (the hand-wired part — gene_annotations_config alone does NOT register a new source loader).
+# Modeled on the `eggnog` source + the `cazy_ids` field rule.
+
+# ── (A) sources: ──────────────────────────────────────────────────────────────
+# NB: of this block, ONLY `logical_sources` is read by code (DataSourceAdapter). `type`,
+# `path_pattern`, `join_to` are DOCUMENTARY ONLY — nothing dispatches on them; the loader + join are
+# hand-wired in process_strain (see references/gene-annotation-merge-recipe.md §B). Write them anyway.
+  <tool>:
+    type: <loader_type>                  # documentary — describes the load_<tool>() you hand-wire
+    path_pattern: "{data_dir}/<tool>/{strain_name}.<tool>.calls.json"   # documentary
+    join_to: protein_id                  # documentary — the real join is tool_data.get(protein_id) in process_strain
+    #   NB signalp-run currently writes raw signalp/output.json keyed by the full FASTA header —
+    #   either normalize it in signalp-run, or parse + WP_-split in load_signalp() (transform _tx_first_token_space).
+    description: "<Tool> per-protein predictions (Phase-1 calls.json)"
+    logical_sources:
+      - id: <tool>                       # becomes a DataSource node + a contributing_sources value
+        scope: gene_level                # or organism_restricted (+ applies_to_organisms: [...])
+        provenance: tool_run             # reference_db | download | tool_run
+
+# ── (B) fields: ───────────────────────────────────────────────────────────────
+  # Shape depends on cardinality (see references/gene-annotation-merge-recipe.md):
+  #
+  # MULTI-CALL + SCORED → one structured list-of-dicts field via `passthrough` of an
+  # already-structured value the loader assembles ([{"call":..,"score":..}, ...]):
+  <tool>_calls:
+    type: passthrough
+    source: <tool>
+    field: calls                         # whatever load_<tool>() emits as the per-gene list
+
+  # 1:1 (psortb / signalp) → parallel SCALAR fields instead (simpler; no list):
+  # <tool>_call:
+  #   type: passthrough
+  #   source: <tool>
+  #   field: call
+  # <tool>_score:
+  #   type: passthrough
+  #   source: <tool>
+  #   field: score
+  #
+  # BARE multi-call (cazy-style str[]) → `union` with a delimiter:
+  # <tool>_ids:
+  #   type: union
+  #   sources:
+  #     - source: <tool>
+  #       field: <RAW_COLUMN>
+  #       delimiter: ","
+
+# ── Transform stub (only if a raw value needs reshaping) ──────────────────────
+# Add to multiomics_kg/download/utils/annotation_transforms.py, register in _TRANSFORMS,
+# reference via `transform: <name>` in a field rule above, and unit-test in tests/test_annotation_transforms.py.
+#   def _tx_<name>(value: str) -> <str | list>:
+#       ...
+#   _TRANSFORMS = { ..., "<name>": _tx_<name> }
+# Existing reusable transform: _tx_first_token_space (WP_ accession from a FASTA-header key).

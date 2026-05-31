@@ -1,0 +1,24 @@
+{
+  "strain": "AltDE1",
+  "gene_count": 4238,
+  "kegg_reactions": {
+    "raw_total": 1990,
+    "raw_unique": 1249,
+    "kept_total": 2007,
+    "kept_unique_r_numbers": 1249
+  },
+  "transporter_classification": {
+    "raw_total": 610,
+    "raw_unique": 239,
+    "validated_total": 612,
+    "validated_unique": 239,
+    "invalid_examples": []
+  },
+  "cazy_ids": {
+    "raw_total": 61,
+    "raw_unique": 29,
+    "validated_total": 61,
+    "validated_unique": 29,
+    "invalid_examples": []
+  }
+}

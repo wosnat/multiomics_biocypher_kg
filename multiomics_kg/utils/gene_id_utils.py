@@ -55,6 +55,17 @@ ORGANISM_TO_GENOME_DIR = {
     "alteromonas bs11": "cache/data/Alteromonas/genomes/BS11",
     "alteromonas macleodii bgp6": "cache/data/Alteromonas/genomes/BGP6",
     "alteromonas bgp6": "cache/data/Alteromonas/genomes/BGP6",
+    # Alteromonas mediterranea "deep ecotype" genome strains (May 2026, genomes only).
+    # AltDE is the real A. mediterranea DE genome (GCF_000020585.3); the Alt_MarRef
+    # MarRef proxy below keeps only its "(marref v6)" alias.
+    "alteromonas mediterranea altde": "cache/data/Alteromonas/genomes/AltDE",
+    "alteromonas mediterranea de": "cache/data/Alteromonas/genomes/AltDE",
+    "alteromonas macleodii altde": "cache/data/Alteromonas/genomes/AltDE",
+    "alteromonas altde": "cache/data/Alteromonas/genomes/AltDE",
+    "alteromonas mediterranea altde1": "cache/data/Alteromonas/genomes/AltDE1",
+    "alteromonas mediterranea de1": "cache/data/Alteromonas/genomes/AltDE1",
+    "alteromonas macleodii altde1": "cache/data/Alteromonas/genomes/AltDE1",
+    "alteromonas altde1": "cache/data/Alteromonas/genomes/AltDE1",
     # New organisms (Synechococcus integration, April 2026)
     "prochlorococcus mit9303": "cache/data/Prochlorococcus/genomes/MIT9303",
     "synechococcus wh7803": "cache/data/Synechococcus/genomes/WH7803",
@@ -81,7 +92,6 @@ ORGANISM_TO_GENOME_DIR = {
     "marinobacter adhaerens hp15": "cache/data/Marinobacter/genomes/HP15",
     "marinobacter hp15": "cache/data/Marinobacter/genomes/HP15",
     "alteromonas (marref v6)": "cache/data/Alteromonas/genomes/Alt_MarRef",
-    "alteromonas mediterranea de": "cache/data/Alteromonas/genomes/Alt_MarRef",
     # Soussan 2025 N/P starvation strain panel (May 2026)
     "prochlorococcus mit9515": "cache/data/Prochlorococcus/genomes/MIT9515",
     "prochlorococcus marinus mit9515": "cache/data/Prochlorococcus/genomes/MIT9515",
