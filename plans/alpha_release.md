@@ -1,15 +1,34 @@
-# Plan: Alpha release on local Docker — lab-only access
+# Plan: Alpha release of the KG — agnostic core now; hosting (local box OR Aura) pending budget
 
-**Status:** Draft (rewritten 2026-05-24 — **lab-only scope**; supersedes the Tailscale-targeted draft of 2026-05-24 and the Aura-targeted draft of 2026-05-14)
+**Status:** Draft — hosting decision **reopened 2026-05-25** (local box vs Aura, decided on budget grounds by leadership). Near-term work proceeds on the **deployment-agnostic core** (see "Near-term work" below); none of it depends on the choice. Local-box design retained as **Track A** (§2.2–2.6); Aura as **Track B** (§7.3). Supersedes the lab-only-final framing of 2026-05-24.
 **Goal:** Cut tagged, versioned alpha releases of the KG served from a *second* Neo4j stack on the same Linux dev/release box (`132.75.249.47`), so the lab's alpha testers — **physically in the lab, on the lab subnet** — can drive the graph from their own LLM agents via the explorer MCP + research-skills plugin.
 
 ## Scope decision log
 
-The access mechanism narrowed across three decisions; recording them so we don't relitigate:
+The access mechanism narrowed across several decisions; recording them so we don't relitigate:
 
-- **Not Aura (2026-05-24).** Aura Pro is the smallest tier that fits our graph (250K nodes / 2.2M rels > Aura Free's 200K/400K cap) and runs ~$1.5K+/yr. Local box is $0 and iterates in minutes (`docker compose up -d` on a tagged commit) vs. tens of minutes for dump→upload→restore. Deferred to §7.
+- **Hosting reopened (2026-05-25).** The "Not Aura" call below is **superseded**: leadership will pick **local box vs Aura on budget grounds**. Until that lands, work proceeds on the **deployment-agnostic core** (see "Near-term work" below) — none of it depends on the choice. Both analyses stand: local-box design in §2.2–2.6, Aura in §7.3.
+- **Not Aura (2026-05-24).** **[Superseded 2026-05-25 — see entry above.]** Aura Pro is the smallest tier that fits our graph (250K nodes / 2.2M rels > Aura Free's 200K/400K cap) and runs ~$1.5K+/yr. Local box is $0 and iterates in minutes (`docker compose up -d` on a tagged commit) vs. tens of minutes for dump→upload→restore. Deferred to §7.
 - **Not Tailscale (2026-05-24).** The original local-box plan reached testers over Tailscale. Dropped because: (a) all current testers are **lab-local**; (b) the off-site case is already covered by the **university VPN**, which puts a home machine back on the campus network — Tailscale would be a redundant second overlay; (c) Tailscale's free Personal plan is **non-commercial-use + user-capped**, and the clean paid tier (Standard, $8/user/mo ≈ $576/yr for 6 users) is real money for redundant reach. Deferred to §7.
-- **Lab-only (this draft).** Simplest, $0, smallest exposure. The box has a campus-routable IP; bind the alpha Neo4j to it, turn on Neo4j auth, and **firewall the alpha ports to the lab subnet**. Trivially expandable later (add the VPN-pool CIDR to the allowlist — one rule) without rearchitecting.
+- **Lab-only (this draft).** Simplest, $0, smallest exposure. The box has a campus-routable IP; bind the alpha Neo4j to it, turn on Neo4j auth, and **firewall the alpha ports to the lab subnet**. Trivially expandable later (add the VPN-pool CIDR to the allowlist — one rule) without rearchitecting. **[Now the Track-A choice, conditional on picking local.]**
+
+## Near-term work: deployment-agnostic core (do now, before the hosting decision)
+
+The dividing line: **agnostic** = build the graph → stamp its identity → version/release it → tell testers how to drive the MCP. **Forked** = where the DB runs, how testers reach it, and how read-only is enforced. The following is identical under local **and** Aura and proceeds now; the fork is isolated to a single pluggable deploy step.
+
+| # | Item | Status | Section |
+|---|---|---|---|
+| 1 | `Schema_info` release metadata (version/git_sha/counts, post-import) — **the foundation** | to do | §2.1 |
+| 2 | `CHANGELOG.md` + tag scheme `kg-X.Y.Z-alpha.N` + GitHub Release flow | to do | §2.3 |
+| 3 | `/release-kg` skill — agnostic spine (preflight, changelog, commit/tag/push, clean-clone-of-tag, publish); the deploy step is the **one seam** that forks per host | to do | §2.3 |
+| 4 | KG-validity tests `test_schema_info_release_properties`, `test_schema_info_counts_match` (run vs dev `localhost`) | to do | §3 |
+| 5 | MCP compatibility contract (`mcp_min_version` + explorer check + version-pin cadence on `multiomics_explorer`) | to do | §2.1, §6.4(5) |
+| 6 | `docs/kg_mcp_guide.md` body — refactor so all connection specifics sit in **one** swappable section | guide exists (lab-local); refactor | §2.7 |
+
+**Deployment-specific — deferred until the hosting decision lands:**
+- **Track A (local):** `docker-compose.alpha.yml`, `.env.alpha`, `alpha_up/down.sh`, `DOCKER-USER` firewall allowlist, shared `explorer` login + MCP-enforced read-only, blue/green volume flip, `docs/kg_alpha_it_approval.md` (§2.2–2.6, §6).
+- **Track B (Aura):** provision the Aura instance, dump→upload→restore release path, real `reader` role for read-only, `neo4j+s://` URI + per-user accounts (§7.3).
+- **Either way:** the connection section of `docs/kg_mcp_guide.md` (item 6 leaves a hole for it).
 
 ## Workstreams
 
@@ -68,13 +87,15 @@ For the alpha: each lab tester installs the explorer MCP and the research-skills
 
 ### 2.1 Extend `Schema_info` with release metadata
 
-The dev stack runs the post-import block with `KG_RELEASE_VERSION` unset (defaults to `0.0.0-dev+<short_sha>`); the alpha stack runs it with `KG_RELEASE_VERSION=0.1.0-alpha.1` set in `.env.alpha`. Same Cypher, two different stamps.
+The dev stack runs the post-import block with `KG_RELEASE_VERSION` unset (defaults to `0.0.0-dev`, `git_sha=unknown`); the release path sets `KG_RELEASE_VERSION=0.1.0-alpha.1` + the git vars. Same Cypher, two different stamps.
+
+**Decision (a) (2026-05-25):** dev stamps **plain `0.0.0-dev`** — no `+<short_sha>` suffix — so bare `docker compose up -d` stays zero-friction (computing the SHA would need a wrapper or git inside the neo4j image, which it lacks). The dev stamp's only job is "not a release." Defaults are supplied by the **wrapper** (bash `${VAR:-default}` in `post-import.sh`; `:param` lines in `post-import.cypher`), so an unset *or empty* env var still yields the default — `coalesce()` alone would not, since it does not catch empty strings.
 
 Properties added (all post-import; no build-time changes):
 
 | Property | Type | Source |
 |---|---|---|
-| `version` | str | env `KG_RELEASE_VERSION`; defaults to `0.0.0-dev+<short_sha>` |
+| `version` | str | env `KG_RELEASE_VERSION`; defaults to `0.0.0-dev` |
 | `built_at` | str (ISO 8601 UTC) | `toString(datetime())` in Cypher |
 | `git_sha` | str | env `KG_GIT_SHA` (40-char) |
 | `git_sha_short` | str | env `KG_GIT_SHA_SHORT` (7-char) |
@@ -113,13 +134,15 @@ SET s.paper_count           = COUNT { (:Publication) },
 **Run mode:** the existing post-import groups use quoted heredocs (`cypher-shell <<'CYPHER'`), which do not interpolate. Add this as a **separate, final `cypher-shell` invocation** that passes the env vars as params, reading them from the post-process container environment:
 
 ```bash
+# Defaults are pushed through bash (${VAR:-default}) — the `:-` form fires on
+# unset OR empty, so coalesce() in the Cypher is only a secondary guard.
 cypher-shell \
-  -P "version => '${KG_RELEASE_VERSION:-}'" \
-  -P "git_sha => '${KG_GIT_SHA:-}'" \
-  -P "git_sha_short => '${KG_GIT_SHA_SHORT:-}'" \
-  -P "git_branch => '${KG_GIT_BRANCH:-}'" \
-  -P "git_dirty => '${KG_GIT_DIRTY:-}'" \
-  -P "mcp_min_version => '${KG_MCP_MIN_VERSION:-0.1.0}'" \
+  -P "version          => '${KG_RELEASE_VERSION:-0.0.0-dev}'" \
+  -P "git_sha          => '${KG_GIT_SHA:-unknown}'" \
+  -P "git_sha_short    => '${KG_GIT_SHA_SHORT:-unknown}'" \
+  -P "git_branch       => '${KG_GIT_BRANCH:-unknown}'" \
+  -P "git_dirty        => '${KG_GIT_DIRTY:-unknown}'" \
+  -P "mcp_min_version  => '${KG_MCP_MIN_VERSION:-0.1.0}'" \
   -P "release_notes_url => '${KG_RELEASE_NOTES_URL:-}'" \
   <<'CYPHER'
 ... block above ...
@@ -176,7 +199,7 @@ One script (`.claude/skills/release-kg/SKILL.md` + a Python helper) that does **
 - Git: on the release branch, in sync with origin, working tree clean (abort unless `--allow-dirty`). Capture SHA / short SHA / branch / dirty.
 
 **Phase 2 — GitHub bookkeeping:**
-- `CHANGELOG.md`: open a stub for the version in `$EDITOR`; operator fills the human bits (stats auto-filled in Phase 4 from the alpha graph — C5).
+- `CHANGELOG.md` (**Keep a Changelog — accumulate-then-cut**): the file is a living repo artifact. Notable changes are logged under a top `## [Unreleased]` section *as they land* (during each change's Document phase), **not** reconstructed from git log at release time. Phase 2 **cuts** that section: rename `## [Unreleased]` → `## [${version}] - <date>` and open a fresh empty `## [Unreleased]` above it. The operator polishes the human bits; the stats line (gene/edge/experiment counts) is auto-filled in Phase 4 from the **built graph** (C5). The GitHub Release notes (Phase 5) are **extracted from this one version's section** — the changelog is the source of truth, the Release is a rendering of it. (`release-please`-style auto-generation stays out of scope — see §2.3 close.)
 - Commit `chore(release): kg-${version}`; annotated tag `kg-${version}`.
 - Push commit + tag: `git push origin <branch> --follow-tags`. (Tag pushed now so the Phase-3 clean clone pulls exactly what is released.)
 

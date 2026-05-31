@@ -1255,3 +1255,36 @@ CALL {
   WITH o, count(DISTINCT m) AS mcnt
   SET o.measured_metabolite_count = mcnt
 } IN TRANSACTIONS OF 1000 ROWS;
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Schema_info release metadata.
+// In Docker this is run by post-import.sh as a SEPARATE cypher-shell invocation
+// with -P params from the environment (KG_RELEASE_VERSION etc. — see "Group 4").
+// For standalone `cypher-shell -f` runs, the :param lines below supply dev
+// defaults; override with -P / :param to stamp a real release. The MATCH/SET
+// logic below is byte-identical to the block in post-import.sh.
+// Counts are computed (not hardcoded) so they track data drift.
+// ─────────────────────────────────────────────────────────────────────────────
+:param version          => '0.0.0-dev'
+:param git_sha          => 'unknown'
+:param git_sha_short    => 'unknown'
+:param git_branch       => 'unknown'
+:param git_dirty        => 'unknown'
+:param mcp_min_version  => '0.1.0'
+:param release_notes_url => ''
+
+MATCH (s:Schema_info {id: 'schema_info'})
+SET s.version           = coalesce($version, '0.0.0-dev'),
+    s.built_at          = toString(datetime()),
+    s.git_sha           = coalesce($git_sha, 'unknown'),
+    s.git_sha_short     = coalesce($git_sha_short, 'unknown'),
+    s.git_branch        = coalesce($git_branch, 'unknown'),
+    s.git_dirty         = coalesce($git_dirty, 'unknown'),
+    s.mcp_min_version   = coalesce($mcp_min_version, '0.1.0'),
+    s.release_notes_url = coalesce($release_notes_url, '')
+WITH s
+SET s.paper_count           = COUNT { (:Publication) },
+    s.experiment_count      = COUNT { (:Experiment) },
+    s.gene_count            = COUNT { (:Gene) },
+    s.organism_count        = COUNT { (:OrganismTaxon) },
+    s.expression_edge_count = COUNT { ()-[:Changes_expression_of]->() };

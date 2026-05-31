@@ -1259,5 +1259,43 @@ CALL {
 } IN TRANSACTIONS OF 1000 ROWS;
 CYPHER
 
+# ─────────────────────────────────────────────────────────────────────────────
+# Group 4: Schema_info release metadata. Separate cypher-shell invocation because
+# its params (version + git identity) are interpolated from the environment — the
+# quoted heredocs above deliberately do NOT interpolate. Runs on EVERY build:
+# dev leaves KG_* unset → '0.0.0-dev' / 'unknown'; /release-kg sets them.
+# Defaults are pushed via bash ${VAR:-default} (the `:-` form fires on unset OR
+# empty), so an empty env var still yields the default — coalesce() in the Cypher
+# is only a secondary guard (it does not catch empty strings).
+# Counts are computed (not hardcoded) so they track data drift.
+# Keep the MATCH/SET logic byte-identical to the matching block in post-import.cypher.
+# ─────────────────────────────────────────────────────────────────────────────
+echo "=== Post-process: Stamp Schema_info release metadata ==="
+time cypher-shell \
+  -P "version          => '${KG_RELEASE_VERSION:-0.0.0-dev}'" \
+  -P "git_sha          => '${KG_GIT_SHA:-unknown}'" \
+  -P "git_sha_short    => '${KG_GIT_SHA_SHORT:-unknown}'" \
+  -P "git_branch       => '${KG_GIT_BRANCH:-unknown}'" \
+  -P "git_dirty        => '${KG_GIT_DIRTY:-unknown}'" \
+  -P "mcp_min_version  => '${KG_MCP_MIN_VERSION:-0.1.0}'" \
+  -P "release_notes_url => '${KG_RELEASE_NOTES_URL:-}'" \
+  <<'CYPHER'
+MATCH (s:Schema_info {id: 'schema_info'})
+SET s.version           = coalesce($version, '0.0.0-dev'),
+    s.built_at          = toString(datetime()),
+    s.git_sha           = coalesce($git_sha, 'unknown'),
+    s.git_sha_short     = coalesce($git_sha_short, 'unknown'),
+    s.git_branch        = coalesce($git_branch, 'unknown'),
+    s.git_dirty         = coalesce($git_dirty, 'unknown'),
+    s.mcp_min_version   = coalesce($mcp_min_version, '0.1.0'),
+    s.release_notes_url = coalesce($release_notes_url, '')
+WITH s
+SET s.paper_count           = COUNT { (:Publication) },
+    s.experiment_count      = COUNT { (:Experiment) },
+    s.gene_count            = COUNT { (:Gene) },
+    s.organism_count        = COUNT { (:OrganismTaxon) },
+    s.expression_edge_count = COUNT { ()-[:Changes_expression_of]->() };
+CYPHER
+
 echo "=== Post-process complete ==="
 neo4j stop
