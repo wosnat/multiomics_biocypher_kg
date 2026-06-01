@@ -356,7 +356,7 @@ def phase_build_and_verify(ctx: Context) -> None:
         f"{ctx.schema_info['genes']} genes · "
         f"{ctx.schema_info['organisms']} organisms · "
         f"{ctx.schema_info['expr_edges']} expression edges")
-    log(f"  explorer smoke test: SKIPPED (depends on MCP compatibility contract — item #5)")
+    log(f"  explorer smoke test: out-of-scope here (explorer-repo work; verify manually if needed)")
 
 
 def _parse_plain_row(stdout: str) -> dict:

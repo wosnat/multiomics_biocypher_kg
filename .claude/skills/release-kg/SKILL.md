@@ -62,7 +62,7 @@ uv run python .claude/skills/release-kg/release_kg.py 0.1.0-alpha.1 --resume
 
 - **Track A deploy (`--target local`)** — blue/green volume flip, firewall allowlist, shared `explorer` login. Gated on hosting decision; see `plans/alpha_release.md` §2.2–2.6.
 - **Track B deploy (`--target aura`)** — `neo4j-admin database upload`, real `reader` role, per-user accounts. Gated on hosting decision; see §7.3.
-- **Explorer smoke test in Phase 6** — gated on the MCP compatibility contract (item #5 in the agnostic-core checklist).
+- **Explorer smoke test in Phase 6** — **out of scope** for this skill (the MCP compatibility contract is explorer-repo work, handled separately). The KG side — `Schema_info.mcp_min_version` — is already stamped by post-import Group 4. Operators wanting a smoke test today should run it manually against the staging Bolt URI.
 - **`--skip-rebuild`** — Schema_info-only path against an already-live alpha stack. Will land alongside `--target local`.
 - **Auto-fill changelog stats** — the operator writes the prose; `metadata.json` carries the authoritative numbers.
 

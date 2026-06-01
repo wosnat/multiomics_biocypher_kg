@@ -113,7 +113,7 @@ KG_DEPLOY_BOLT_BIND=127.0.0.1:27687
 
 After bringing up `deploy`, the script polls `cypher-shell -a bolt://localhost:27687 RETURN 1;` for up to 120s, then queries `Schema_info`. Asserts `s.version == <tag>`. Captures `gene_count` / `experiment_count` / `paper_count` / `organism_count` / `expression_edge_count` / `built_at` into context for Phase 7.
 
-**Explorer smoke test:** deferred — depends on the MCP compatibility contract (item #5 in the agnostic-core checklist). Phase 5 logs `SKIPPED` until that lands.
+**Explorer smoke test:** **out of scope** for this skill (the MCP compatibility contract is explorer-repo work, handled separately — decided 2026-06-01). The KG side of the contract is `Schema_info.mcp_min_version`, already stamped by post-import Group 4. Phase 5 logs an "out-of-scope" note; operators wanting a smoke test today should point the explorer at the staging Bolt URI manually.
 
 ## Phase 6: Deploy
 
