@@ -22,8 +22,8 @@ The dividing line: **agnostic** = build the graph → stamp its identity → ver
 | 2 | `CHANGELOG.md` + tag scheme `kg-X.Y.Z-alpha.N` + GitHub Release flow | to do | §2.3 |
 | 3 | `/release-kg` skill — agnostic spine (preflight, changelog, commit/tag/push, clean-clone-of-tag, publish); the deploy step is the **one seam** that forks per host | to do | §2.3 |
 | 4 | KG-validity tests `test_schema_info_release_properties`, `test_schema_info_counts_match` (run vs dev `localhost`) | to do | §3 |
-| 5 | MCP compatibility contract (`mcp_min_version` + explorer check + version-pin cadence on `multiomics_explorer`) | to do | §2.1, §6.4(5) |
-| 6 | `docs/kg_mcp_guide.md` body — refactor so all connection specifics sit in **one** swappable section | guide exists (lab-local); refactor | §2.7 |
+| 5 | ~~MCP compatibility contract (explorer check + version-pin cadence)~~ | **out of scope (2026-06-01)** — explorer-repo work, handled separately. The KG side of the contract (`Schema_info.mcp_min_version`) is in place from item 1. | §2.1, §6.4(5) |
+| 6 | `docs/kg_mcp_guide.md` body — refactor so all connection specifics sit in **one** swappable section | ✅ **done** — new §2 "Connection details" carries host-A-vs-B tables (URI, reach-the-host check, credentials, read-only model); rest of the guide is host-agnostic. | §2.7 |
 
 **Deployment-specific — deferred until the hosting decision lands:**
 - **Track A (local):** `docker-compose.alpha.yml`, `.env.alpha`, `alpha_up/down.sh`, `DOCKER-USER` firewall allowlist, shared `explorer` login + MCP-enforced read-only, blue/green volume flip, `docs/kg_alpha_it_approval.md` (§2.2–2.6, §6).

@@ -1,8 +1,12 @@
 # Multiomics KG — Alpha-tester MCP guide
 
-> **Audience:** alpha testers of the *Prochlorococcus* / *Alteromonas* multi-omics knowledge graph who want to drive the KG from their own LLM agent (Claude Code, Claude Desktop, or any MCP-compatible client) via the **explorer MCP server**.
+> **Audience:** alpha testers of the *Prochlorococcus* / *Alteromonas* multi-omics
+> knowledge graph who want to drive the KG from their own LLM agent (Claude Code,
+> Claude Desktop, or any MCP-compatible client) via the **explorer MCP server**.
 >
-> **Status:** alpha. The KG content, the explorer MCP tool set, and the connection method may change between releases. Use the compatibility check below before every session.
+> **Status:** alpha. The KG content, the explorer MCP tool set, and the connection
+> method may change between releases. Use the compatibility check (§5) before every
+> session.
 
 ---
 
@@ -20,7 +24,60 @@ The graph is read-only for you. The MCP rejects every write attempt.
 
 ---
 
-## 2. Install the MCP
+## 2. Connection details for this release
+
+> **This is the only section that changes per host.** Everything else in this guide
+> stays the same whether the KG is served from a local lab box (Track A) or from
+> Neo4j Aura (Track B). The per-release values (URI, credentials, contact) come from
+> the **GitHub Release notes** for the version you were invited to — start there:
+> <https://github.com/wosnat/multiomics_biocypher_kg/releases>.
+
+### 2.1 Bolt URI
+
+| Host | URI shape | Example | TLS |
+|---|---|---|---|
+| **Local lab box** (Track A) | `bolt://<lab-ip>:<port>` | `bolt://132.75.249.47:17687` | no (trusted lab subnet) |
+| **Aura** (Track B) | `neo4j+s://<instance-id>.databases.neo4j.io` | `neo4j+s://abc12345.databases.neo4j.io` | yes (built-in) |
+
+Use the URI exactly as printed in the release notes; the scheme prefix (`bolt://` vs `neo4j+s://`) carries the TLS contract.
+
+### 2.2 Reach the host (before installing anything)
+
+Run the appropriate one-liner from the machine you'll be querying *from*:
+
+- **Linux / macOS:** `nc -zv <host> <port>` → expect `Connection to <host> <port> port [tcp/*] succeeded!`
+- **Windows 11 / 10:** `Test-NetConnection -ComputerName <host> -Port <port>` — run in **PowerShell**, not Command Prompt — expect `TcpTestSucceeded : True`.
+
+If the test fails:
+
+| Host | Likely cause |
+|---|---|
+| Local lab box | You're not on the lab subnet. Go to the lab, or connect to the university VPN (which places you back on the campus network). Off-subnet hosts are dropped at the host firewall. |
+| Aura | Some campus / corporate firewalls block outbound 7687. Try from a different network, or ask your IT to whitelist `neo4j+s://*.databases.neo4j.io`. |
+
+### 2.3 Credentials
+
+| Host | Model | Where to get them |
+|---|---|---|
+| **Local lab box** | One shared `explorer` read login (not the `neo4j` admin — that's operator-only). | Distributed out-of-band by the operator (lab Slack DM, not committed to any public location). |
+| **Aura** | Per-user account on the Aura instance. | Username + password from the operator; can be rotated per-tester. |
+
+The `NEO4J_DATABASE` value is `neo4j` for both hosts unless the release notes say otherwise.
+
+### 2.4 Read-only — what enforces it
+
+The explorer MCP rejects every write attempt — `run_cypher` blocks any `CREATE / MERGE / SET / DELETE / DROP / CALL <write-procedure>`, and the ~36 typed tools never issue writes.
+
+| Host | Second-layer enforcement |
+|---|---|
+| **Local lab box** (Neo4j Community) | **None at the DB layer** — Community has no roles, so the shared `explorer` credential is full-access if used outside the MCP. Stay in the MCP. |
+| **Aura** | Your account has the Neo4j `reader` role, so writes are also rejected server-side. |
+
+In both cases the graph is rebuilt from public sources on every release, so even a successful unauthorized write would have no lasting effect.
+
+---
+
+## 3. Install the MCP
 
 The explorer MCP is published in the public repo `wosnat/multiomics_explorer`. Until we host it remotely, run it locally with `uv`:
 
@@ -29,13 +86,13 @@ The explorer MCP is published in the public repo `wosnat/multiomics_explorer`. U
 uvx --from git+https://github.com/wosnat/multiomics_explorer multiomics-kg-mcp --help
 ```
 
-If the `--help` runs cleanly, you're set.
+If `--help` runs cleanly, you're set.
 
 ---
 
-## 3. Configure your MCP client
+## 4. Configure your MCP client
 
-The MCP reads connection settings from environment variables. Drop this into your client's MCP config (Claude Code: `.mcp.json` in the project root; Claude Desktop: `claude_desktop_config.json`). Replace the four placeholders with the values you were sent out-of-band.
+The MCP reads connection settings from environment variables. Drop this into your client's MCP config (Claude Code: `.mcp.json` in the project root; Claude Desktop: `claude_desktop_config.json`). Fill the four placeholders from **§2** of this guide + the release notes.
 
 ```json
 {
@@ -48,9 +105,9 @@ The MCP reads connection settings from environment variables. Drop this into you
         "multiomics-kg-mcp"
       ],
       "env": {
-        "NEO4J_URI":      "neo4j+s://<your-aura-instance-id>.databases.neo4j.io",
-        "NEO4J_USERNAME": "<your-username>",
-        "NEO4J_PASSWORD": "<your-password>",
+        "NEO4J_URI":      "<from §2.1 — bolt://... or neo4j+s://...>",
+        "NEO4J_USERNAME": "<from §2.3>",
+        "NEO4J_PASSWORD": "<from §2.3>",
         "NEO4J_DATABASE": "neo4j"
       }
     }
@@ -62,7 +119,7 @@ Restart your MCP client. The `multiomics-kg` server appears with ~37 tools prefi
 
 ---
 
-## 4. First query — compatibility check
+## 5. First query — compatibility check
 
 Before doing anything else, ask your agent to run:
 
@@ -87,13 +144,13 @@ RETURN s.version            AS kg_version,
 ```
 
 Confirm:
-- `kg_version` matches the alpha you were invited to.
-- The installed explorer-MCP version is ≥ `mcp_min_version`. If it's older, `uvx` will pick up the latest from `main` on next launch.
+- `kg_version` matches the alpha you were invited to (NOT `0.0.0-dev` — that's a dev build, not a release).
+- The installed explorer-MCP version is ≥ `mcp_min_version`. If it's older, `uvx` will pick up the latest from `main` on next launch; pin to a tag for reproducibility (§9).
 - The counts roughly match the release notes — wildly different numbers mean something didn't restore correctly.
 
 ---
 
-## 5. Find your way around
+## 6. Find your way around
 
 The MCP ships its own documentation as resources. Ask your agent to fetch them; they're more reliable than this doc because they ship with the MCP version you installed.
 
@@ -113,7 +170,7 @@ A good opening prompt for your agent:
 
 ---
 
-## 6. Starter queries
+## 7. Starter queries
 
 Examples to verify your connection is healthy and to feel out the graph shape.
 
@@ -134,7 +191,7 @@ Examples to verify your connection is healthy and to feel out the graph shape.
 
 ---
 
-## 7. Conventions and gotchas
+## 8. Conventions and gotchas
 
 The full conventions live at `docs://guide/conventions`. Highlights:
 
@@ -146,21 +203,21 @@ The full conventions live at `docs://guide/conventions`. Highlights:
 
 ---
 
-## 8. Limits and support
+## 9. Limits and support
 
-- **Read-only.** Any `CREATE`, `MERGE`, `SET`, `DELETE`, `DROP`, `CALL` of a write procedure is rejected by the MCP (`run_cypher` is read-validated; the typed tools never write). Your account also has only the Neo4j `reader` role.
-- **Query timeout.** Aura applies its own server-side limit; the MCP applies a 60-second default. Heavy unbounded queries get cancelled — narrow with a label, organism, or `LIMIT`.
+- **Read-only.** Enforced by the MCP for both hosts; additionally enforced server-side on Aura via the `reader` role (§2.4).
+- **Query timeout.** The MCP applies a 60-second default. On Aura, the server applies its own limit too. Heavy unbounded queries get cancelled — narrow with a label, organism, or `LIMIT`.
 - **Result cap.** `run_cypher` defaults to 25 rows; pass `limit=N` to bump it.
-- **Bug reports / questions.** File an issue at `https://github.com/wosnat/multiomics_biocypher_kg/issues` and include the output of the compatibility check (section 4) so we know which release you hit.
+- **Bug reports / questions.** File an issue at <https://github.com/wosnat/multiomics_biocypher_kg/issues> and include the output of the compatibility check (§5) so we know which release you hit.
 
 ---
 
-## 9. Updating
+## 10. Updating
 
-Releases are tracked on GitHub: <https://github.com/wosnat/multiomics_biocypher_kg/releases>. Each `kg-X.Y.Z-alpha.N` tag has a release page with the changelog entry, build metadata (`metadata.json`), a `.sha256` checksum, and — most importantly — the **Aura Bolt URI** for that release. **Watch the repo → Custom → Releases** to get email notifications.
+Releases are tracked on GitHub: <https://github.com/wosnat/multiomics_biocypher_kg/releases>. Each `kg-X.Y.Z[-(alpha|beta|rc).N]` tag has a release page with the changelog entry, build metadata (`metadata.json`), and the **per-release connection values** described in §2. **Watch the repo → Custom → Releases** to get email notifications.
 
-You don't download anything: the data lives on Aura. When a new release ships, the release page tells you which Aura URI to point `NEO4J_URI` at (often the same one, restored in place; sometimes a new instance). Update your `.mcp.json` if the URI changes.
+You don't download anything — the data lives on the host (§2). When a new release ships, the release page says whether the URI / credentials have changed; update your `.mcp.json` accordingly.
 
 When you re-run `uvx --from git+...` it pulls the latest explorer-MCP commit; pin to a tag with `@kg-0.1.0-alpha.1` if you need reproducibility.
 
-Re-run the compatibility check (section 4) after every release notification — schema may have moved.
+Re-run the compatibility check (§5) after every release notification — schema may have moved.
