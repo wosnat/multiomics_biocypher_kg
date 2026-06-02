@@ -155,7 +155,14 @@ def phase_preflight(ctx: Context) -> None:
     # intentional handoff state, not real drift. Allow exactly that single-file
     # diff; anything else means the operator polished beyond CHANGELOG (or there
     # is unrelated drift) and we should still surface it.
-    modified_files = {line[3:].strip() for line in status.splitlines() if line.strip()}
+    # NB: parse with split(maxsplit=1) because git_out's .strip() drops the
+    # porcelain status's leading whitespace column for unstaged changes, so
+    # the file path is no longer at a fixed offset.
+    modified_files: set[str] = set()
+    for raw_line in status.splitlines():
+        parts = raw_line.strip().split(maxsplit=1)
+        if len(parts) == 2:
+            modified_files.add(parts[1])
     only_changelog_cut = ctx.resume and modified_files == {"CHANGELOG.md"}
     if dirty and not ctx.allow_dirty and not only_changelog_cut:
         die(f"working tree dirty (re-run with --allow-dirty to override):\n{status}")
