@@ -8,6 +8,10 @@ biocypher-*
 # Claude Code runtime lock files (regenerated every session)
 .claude/scheduled_tasks.lock
 
+# Claude Code per-machine settings (permissions allowlist, etc.)
+.claude/settings.json
+.claude/settings.local.json
+
 # Docker import artifacts (regenerated every rebuild)
 /output/import.report
 /output/import.status
