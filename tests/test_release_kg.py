@@ -169,6 +169,7 @@ def test_build_metadata_shape(rkg):
     ctx = rkg.Context(
         version="0.1.0-alpha.1", target="staging", mcp_min="0.1.0",
         allow_dirty=False, draft=False, dry_run=True, resume=False,
+        skip_kg_tests=False,
         git_sha="a" * 40, git_sha_short="aaaaaaa", git_branch="main", git_dirty=False,
         schema_info={
             "version": "0.1.0-alpha.1",
@@ -217,13 +218,14 @@ def test_parse_args_defaults(rkg):
     assert ctx.draft is False
     assert ctx.dry_run is False
     assert ctx.resume is False
+    assert ctx.skip_kg_tests is False
 
 
 def test_parse_args_all_flags(rkg):
     ctx = rkg.parse_args([
         "0.1.0-alpha.1", "--target", "local",
         "--mcp-min", "0.2.0",
-        "--allow-dirty", "--draft", "--dry-run", "--resume",
+        "--allow-dirty", "--draft", "--dry-run", "--resume", "--skip-kg-tests",
     ])
     assert ctx.target == "local"
     assert ctx.mcp_min == "0.2.0"
@@ -231,6 +233,7 @@ def test_parse_args_all_flags(rkg):
     assert ctx.draft
     assert ctx.dry_run
     assert ctx.resume
+    assert ctx.skip_kg_tests
 
 
 def test_parse_args_rejects_bad_target(rkg):

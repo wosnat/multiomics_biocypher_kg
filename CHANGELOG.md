@@ -15,6 +15,13 @@ the GitHub Release is a rendering of one section. See `plans/alpha_release.md` Â
 ## [Unreleased]
 
 ### Added
+- `/release-kg` Phase 5 now gates the release on the KG validity suite
+  passing against the staging stack (`uv run pytest tests/kg_validity/
+  --neo4j-url bolt://localhost:27687 -q`, ~73 s, 1012 assertions).
+  Catches structural / semantic regressions before Phase 7 publishes a
+  GitHub Release. `--skip-kg-tests` flag bypasses for emergencies. On
+  failure, the staging stack is left running so the operator can
+  inspect.
 
 ### Changed
 

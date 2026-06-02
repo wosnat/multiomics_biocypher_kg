@@ -29,6 +29,7 @@ Do **not** use for routine `docker compose up -d` rebuilds — those stamp dev `
 | `--draft` | off | Publish GitHub Release as draft. |
 | `--dry-run` | off | Every phase logs `[dry-run] would <action>`; mutates nothing (no commits, tags, push, docker, gh). Use to exercise the pipeline. |
 | `--resume` | off | Skip the post-CHANGELOG-cut pause (use on the second invocation after polishing). |
+| `--skip-kg-tests` | off | Emergency override: skip the `pytest tests/kg_validity/ --neo4j-url <staging>` step that gates the release in Phase 5. Default is to block the release if any KG-validity test fails. |
 
 ## Flow
 
@@ -38,8 +39,7 @@ The script runs six phases in order; each phase is idempotent. The default invoc
 2. **CHANGELOG cut** — rename `## [Unreleased]` → `## [<version>] - YYYY-MM-DD`, open fresh empty `## [Unreleased]` above. Idempotent: if `## [<version>]` already exists, no-op.
 3. **Commit + tag + push** — `chore(release): kg-<version>` commit, annotated tag `kg-<version>`, `git push --follow-tags`. Each step idempotent.
 4. **Clean clone of the tag** — `git clone --branch kg-<version> --depth 1 origin /tmp/kg-release-<version>`, copy `.env` in, set release-stamp env vars (`KG_RELEASE_VERSION`, `KG_GIT_*`, `KG_MCP_MIN_VERSION`).
-5. **Build into staging stack** — `docker compose -p kg-release-staging up --build -d build import post-process deploy` on **temp ports `:27474` / `:27687`** (does **not** touch the dev `:7474` / `:7687`). Post-import Group 4 stamps `Schema_info` from the env vars set above.
-6. **Verify** — query staging `Schema_info`; assert `version == tag`; capture counts. (Explorer smoke test deferred until MCP compatibility contract lands.)
+5. **Build into staging stack** — `docker compose -p kg-release-staging up --build -d build import post-process deploy` on **temp ports `:27474` / `:27687`** (does **not** touch the dev `:7474` / `:7687`). Post-import Group 4 stamps `Schema_info` from the env vars set above. **Then verifies in two layers:** (L0) query staging `Schema_info`, assert `version == tag`, capture counts; (L2) run `uv run pytest tests/kg_validity/ --neo4j-url <staging Bolt> -q` to gate the release on structural and semantic validity (~73 s, 1012 assertions). Use `--skip-kg-tests` to bypass in emergencies. On any failure, the staging stack is left running for inspection. (Explorer smoke test = L4, out of scope here.)
 7. **Deploy** — `--target staging`: leave staging up, print the Bolt URI. `local`/`aura`: raise `NotImplementedError` with a pointer to the plan.
 8. **Publish** — compose `metadata.json` (version + sha + counts + timestamps), extract the `[<version>]` CHANGELOG section to a notes fragment, `gh release create kg-<version> --notes-file <fragment> --prerelease`, `gh release upload` the manifest.
 

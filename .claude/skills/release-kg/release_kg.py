@@ -79,6 +79,7 @@ class Context:
     draft: bool
     dry_run: bool
     resume: bool
+    skip_kg_tests: bool
     # Filled by preflight
     git_sha: str = ""
     git_sha_short: str = ""
@@ -342,6 +343,11 @@ def phase_build_and_verify(ctx: Context) -> None:
             f"KG_DEPLOY_BOLT_BIND={STAGING_BOLT_BIND}")
         dry_msg(f"query Schema_info via `docker exec {STAGING_DEPLOY_CONTAINER} "
                 f"cypher-shell -a {STAGING_INNER_BOLT_URL}`; assert version == {ctx.version}")
+        if ctx.skip_kg_tests:
+            dry_msg("KG validity suite: SKIPPED (--skip-kg-tests)")
+        else:
+            dry_msg(f"run `uv run pytest tests/kg_validity/ --neo4j-url {STAGING_BOLT_URL} -q` "
+                    f"(blocks release if any test fails; use --skip-kg-tests to override)")
         ctx.schema_info = {"version": ctx.version, "git_sha": ctx.git_sha,
                            "papers": -1, "experiments": -1, "genes": -1,
                            "organisms": -1, "expr_edges": -1,
@@ -393,6 +399,31 @@ def phase_build_and_verify(ctx: Context) -> None:
         f"{ctx.schema_info['organisms']} organisms · "
         f"{ctx.schema_info['expr_edges']} expression edges")
     log(f"  explorer smoke test: out-of-scope here (explorer-repo work; verify manually if needed)")
+
+    _run_kg_validity_suite(ctx)
+
+
+def _run_kg_validity_suite(ctx: Context) -> None:
+    """L2: gate the release on the KG validity test suite passing against staging.
+
+    Runs from the repo root (cwd=None) so pytest finds conftest + fixtures. The
+    `--neo4j-url` flag is the supported way to point the suite at a non-default
+    Bolt URI. On failure, leaves the staging stack up so the operator can
+    inspect; on success, returns silently.
+    """
+    if ctx.skip_kg_tests:
+        log("  KG validity suite: SKIPPED (--skip-kg-tests)")
+        return
+
+    log(f"  running KG validity suite against staging ({STAGING_BOLT_URL}) …")
+    pytest_cmd = ["uv", "run", "pytest", "tests/kg_validity/",
+                  "--neo4j-url", STAGING_BOLT_URL, "-q"]
+    result = subprocess.run(pytest_cmd, capture_output=False)
+    if result.returncode != 0:
+        die(f"KG validity suite failed against staging.\n"
+            f"  Staging stack left running at {STAGING_BOLT_URL} for inspection.\n"
+            f"  Tear down with:  docker compose -p {STAGING_PROJECT} down -v")
+    log("  KG validity suite: passed ✓")
 
 
 def _parse_plain_row(stdout: str) -> dict:
@@ -544,6 +575,10 @@ def parse_args(argv: Optional[list[str]] = None) -> Context:
     ap.add_argument("--dry-run", action="store_true")
     ap.add_argument("--resume", action="store_true",
                     help="Skip the post-CHANGELOG-cut pause (use on the 2nd invocation)")
+    ap.add_argument("--skip-kg-tests", action="store_true",
+                    help="Skip the KG validity suite step in Phase 5 (emergency override; "
+                         "default is to gate the release on `pytest tests/kg_validity/` "
+                         "passing against the staging stack)")
     args = ap.parse_args(argv)
     return Context(
         version=args.version,
@@ -553,6 +588,7 @@ def parse_args(argv: Optional[list[str]] = None) -> Context:
         draft=args.draft,
         dry_run=args.dry_run,
         resume=args.resume,
+        skip_kg_tests=args.skip_kg_tests,
     )
 
 
