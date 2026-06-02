@@ -151,7 +151,13 @@ def phase_preflight(ctx: Context) -> None:
 
     status = git_out("status", "--porcelain")
     dirty = bool(status)
-    if dirty and not ctx.allow_dirty:
+    # `--resume` enters with CHANGELOG.md modified by Phase 2's cut — that's the
+    # intentional handoff state, not real drift. Allow exactly that single-file
+    # diff; anything else means the operator polished beyond CHANGELOG (or there
+    # is unrelated drift) and we should still surface it.
+    modified_files = {line[3:].strip() for line in status.splitlines() if line.strip()}
+    only_changelog_cut = ctx.resume and modified_files == {"CHANGELOG.md"}
+    if dirty and not ctx.allow_dirty and not only_changelog_cut:
         die(f"working tree dirty (re-run with --allow-dirty to override):\n{status}")
 
     # In sync with origin (best-effort — don't fail if offline)
@@ -166,8 +172,10 @@ def phase_preflight(ctx: Context) -> None:
     ctx.git_sha = sha
     ctx.git_sha_short = sha_short
     ctx.git_branch = branch
-    ctx.git_dirty = dirty
-    log(f"  branch: {branch} @ {sha_short} (dirty={dirty}, behind=0)")
+    # On --resume, the CHANGELOG-only diff is the cut's intentional product,
+    # not real drift, so it does not flip the release's git_dirty stamp.
+    ctx.git_dirty = dirty and not only_changelog_cut
+    log(f"  branch: {branch} @ {sha_short} (dirty={ctx.git_dirty}, behind=0)")
 
 
 # ─── CHANGELOG cut helper ───────────────────────────────────────────────────
