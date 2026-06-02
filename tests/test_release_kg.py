@@ -188,6 +188,24 @@ def test_build_metadata_shape(rkg):
     assert "T" in meta["stamped_at"]
     # target carried through
     assert meta["target"] == "staging"
+    # per_publication_edges is always present (empty dict when no per-pub data)
+    assert meta["per_publication_edges"] == {}
+
+
+def test_build_metadata_includes_per_publication_edges(rkg):
+    ctx = rkg.Context(
+        version="0.1.0-alpha.1", target="staging", mcp_min="0.1.0",
+        allow_dirty=False, draft=False, dry_run=True, resume=False,
+        skip_kg_tests=False,
+        git_sha="a" * 40, git_sha_short="aaaaaaa", git_branch="main", git_dirty=False,
+        schema_info={"version": "0.1.0-alpha.1", "built_at": "2026-05-25T11:52:44.149Z"},
+        per_publication_edges={"10.b/zzz": 100, "10.a/aaa": 50},
+    )
+    meta = rkg.build_metadata(ctx)
+    # Sorted on the way out so diffs against future releases are stable
+    assert list(meta["per_publication_edges"].keys()) == ["10.a/aaa", "10.b/zzz"]
+    assert meta["per_publication_edges"]["10.a/aaa"] == 50
+    assert meta["per_publication_edges"]["10.b/zzz"] == 100
 
 
 # ─── _parse_plain_row ────────────────────────────────────────────────────────
@@ -234,6 +252,132 @@ def test_parse_args_all_flags(rkg):
     assert ctx.dry_run
     assert ctx.resume
     assert ctx.skip_kg_tests
+
+
+# ─── _parse_per_publication_edges ────────────────────────────────────────────
+def test_parse_per_publication_edges_basic(rkg):
+    sample = (
+        "doi, edges\n"
+        '"10.1234/foo", 4200\n'
+        '"10.5678/bar", 4000'
+    )
+    out = rkg._parse_per_publication_edges(sample)
+    assert out == {"10.1234/foo": 4200, "10.5678/bar": 4000}
+
+
+def test_parse_per_publication_edges_empty_graph(rkg):
+    # Header-only output (no rows) — empty graph, not an error
+    assert rkg._parse_per_publication_edges("doi, edges\n") == {}
+    # Truly empty stdout — also not an error
+    assert rkg._parse_per_publication_edges("") == {}
+
+
+def test_parse_per_publication_edges_rsplits_on_last_comma(rkg):
+    # DOI with embedded comma (rare but legal). rsplit on the last comma
+    # keeps the DOI intact.
+    sample = 'doi, edges\n"10.1234/foo,bar", 1234'
+    out = rkg._parse_per_publication_edges(sample)
+    assert out == {"10.1234/foo,bar": 1234}
+
+
+def test_parse_per_publication_edges_skips_malformed(rkg):
+    sample = (
+        "doi, edges\n"
+        '"10.1234/good", 100\n'
+        "malformed_row_no_comma\n"
+        '"10.5678/also_good", 200'
+    )
+    out = rkg._parse_per_publication_edges(sample)
+    assert out == {"10.1234/good": 100, "10.5678/also_good": 200}
+
+
+# ─── render_diff_block ───────────────────────────────────────────────────────
+def _make_metadata(tag, papers=43, experiments=197, genes=99871, organisms=37,
+                   expression_edges=232758, per_pub=None):
+    return {
+        "tag": tag,
+        "counts": {
+            "papers": papers, "experiments": experiments, "genes": genes,
+            "organisms": organisms, "expression_edges": expression_edges,
+        },
+        "per_publication_edges": per_pub or {},
+    }
+
+
+def test_render_diff_block_no_changes_returns_empty(rkg):
+    prior = _make_metadata("kg-0.1.0-alpha.1")
+    cur = _make_metadata("kg-0.1.0-alpha.2")
+    assert rkg.render_diff_block(prior, cur) == ""
+
+
+def test_render_diff_block_headline_change_only(rkg):
+    prior = _make_metadata("kg-0.1.0-alpha.1", papers=43, expression_edges=232758)
+    cur = _make_metadata("kg-0.1.0-alpha.2", papers=45, expression_edges=240958)
+    block = rkg.render_diff_block(prior, cur)
+    assert "What changed since kg-0.1.0-alpha.1" in block
+    assert "Headline counts" in block
+    assert "+2" in block  # papers delta
+    assert "+8,200" in block  # expression_edges delta with thousands separator
+    # No per-publication changes → that subsection is omitted
+    assert "Per-publication" not in block
+
+
+def test_render_diff_block_negative_delta_uses_minus(rkg):
+    prior = _make_metadata("kg-0.1.0-alpha.1", genes=100000)
+    cur = _make_metadata("kg-0.1.0-alpha.2", genes=95000)
+    block = rkg.render_diff_block(prior, cur)
+    assert "-5,000" in block  # plain minus (Python int formatting), not en-dash
+
+
+def test_render_diff_block_new_publication(rkg):
+    prior = _make_metadata("kg-0.1.0-alpha.1",
+                            per_pub={"10.a/old": 1000})
+    cur = _make_metadata("kg-0.1.0-alpha.2",
+                          per_pub={"10.a/old": 1000, "10.b/new": 500})
+    block = rkg.render_diff_block(prior, cur)
+    assert "New publications:" in block
+    assert "10.b/new" in block
+    assert "500" in block
+    assert "Changed:" not in block
+    assert "Removed" not in block
+
+
+def test_render_diff_block_removed_publication(rkg):
+    prior = _make_metadata("kg-0.1.0-alpha.1",
+                            per_pub={"10.a/kept": 100, "10.b/gone": 999})
+    cur = _make_metadata("kg-0.1.0-alpha.2",
+                          per_pub={"10.a/kept": 100})
+    block = rkg.render_diff_block(prior, cur)
+    assert "Removed publications:" in block
+    assert "10.b/gone" in block
+    assert "999" in block
+
+
+def test_render_diff_block_changed_publication(rkg):
+    prior = _make_metadata("kg-0.1.0-alpha.1",
+                            per_pub={"10.a/kept": 100, "10.b/grew": 800})
+    cur = _make_metadata("kg-0.1.0-alpha.2",
+                          per_pub={"10.a/kept": 100, "10.b/grew": 1000})
+    block = rkg.render_diff_block(prior, cur)
+    assert "Changed:" in block
+    assert "10.b/grew" in block
+    assert "800" in block and "1,000" in block
+    assert "+200" in block
+
+
+def test_render_diff_block_full_diff(rkg):
+    prior = _make_metadata("kg-0.1.0-alpha.1", papers=43,
+                            per_pub={"10.a/old": 100, "10.b/changed": 200})
+    cur = _make_metadata("kg-0.1.0-alpha.2", papers=44,
+                          per_pub={"10.a/old": 100, "10.b/changed": 250,
+                                   "10.c/added": 75})
+    block = rkg.render_diff_block(prior, cur)
+    assert "Headline counts" in block
+    assert "Per-publication" in block
+    assert "New publications:" in block
+    assert "Changed:" in block
+    # No removed → that subsection is omitted
+    assert "Removed publications:" not in block
 
 
 def test_parse_args_rejects_bad_target(rkg):

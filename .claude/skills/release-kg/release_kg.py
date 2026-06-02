@@ -89,6 +89,9 @@ class Context:
     clone_dir: Optional[Path] = None
     # Filled by verify
     schema_info: dict = field(default_factory=dict)
+    per_publication_edges: dict = field(default_factory=dict)
+    # Filled by Phase 7 if a prior kg-* release with metadata.json exists
+    prior_release: Optional[dict] = None
 
 
 # ─── Subprocess helpers ─────────────────────────────────────────────────────
@@ -390,6 +393,19 @@ def phase_build_and_verify(ctx: Context) -> None:
 
     if ctx.schema_info.get("version") != ctx.version:
         die(f"Schema_info.version = {ctx.schema_info.get('version')!r} but expected {ctx.version!r}")
+
+    # Per-Publication expression-edge counts → metadata.json. Used by Phase 7
+    # to render a "What changed since kg-X.Y.Z" diff against the prior release.
+    # Catches the net-zero-but-paper-A-lost-and-paper-B-gained regression class
+    # that Schema_info totals would hide.
+    per_pub_cypher = (
+        "MATCH (p:Publication)-[:Has_experiment]->"
+        "(:Experiment)-[r:Changes_expression_of]->(:Gene) "
+        "RETURN p.doi AS doi, count(r) AS edges ORDER BY p.doi"
+    )
+    per_pub_result = run(cypher_shell_in_container + ["--format", "plain", per_pub_cypher],
+                        capture=True, show=False)
+    ctx.per_publication_edges = _parse_per_publication_edges(per_pub_result.stdout)
     log(f"  version: {ctx.schema_info['version']} ✓ (matches tag)")
     log(f"  git_sha: {ctx.schema_info['git_sha']}")
     log(f"  built_at: {ctx.schema_info['built_at']}")
@@ -445,6 +461,28 @@ def _parse_plain_row(stdout: str) -> dict:
     return out
 
 
+def _parse_per_publication_edges(stdout: str) -> dict[str, int]:
+    """Parse cypher-shell --format plain for a `doi, count(*)` query.
+
+    Returns {doi: edges}. Splits on the LAST comma so DOIs containing commas
+    (rare but legal) survive. Skips malformed rows silently — an empty graph
+    legitimately yields an empty mapping.
+    """
+    out: dict[str, int] = {}
+    lines = [l for l in stdout.strip().splitlines() if l.strip()]
+    if len(lines) < 2:
+        return out
+    for raw_line in lines[1:]:  # skip header
+        parts = raw_line.rsplit(",", 1)
+        if len(parts) != 2:
+            continue
+        doi = parts[0].strip().strip('"')
+        edges_str = parts[1].strip()
+        if edges_str.lstrip("-").isdigit():
+            out[doi] = int(edges_str)
+    return out
+
+
 # ─── Phase 6: Deploy ────────────────────────────────────────────────────────
 def deploy_staging(ctx: Context) -> None:
     log(f"  --target staging: leaving the staging stack up on {STAGING_BOLT_URL}")
@@ -496,8 +534,148 @@ def build_metadata(ctx: Context) -> dict:
             "organisms": ctx.schema_info.get("organisms"),
             "expression_edges": ctx.schema_info.get("expr_edges"),
         },
+        # Per-Publication expression-edge counts (DOI → count). Used by the
+        # next release's Phase 7 to detect per-paper regressions Schema_info
+        # totals would hide.
+        "per_publication_edges": dict(sorted(ctx.per_publication_edges.items())),
         "stamped_at": datetime.now(timezone.utc).isoformat(),
     }
+
+
+def fetch_prior_release_metadata(current_version: str) -> Optional[dict]:
+    """Find the most recent published `kg-*` release on origin (skipping drafts
+    and the current cut), download its metadata.json, return parsed dict.
+
+    Returns None if: no prior release exists, gh CLI fails, the prior release
+    has no metadata.json asset (older releases predate this feature), or the
+    JSON is malformed. All failure modes are non-fatal — the diff block just
+    gets skipped, the release still publishes.
+    """
+    current_tag = f"{TAG_PREFIX}{current_version}"
+    listing = subprocess.run(
+        ["gh", "release", "list", "--limit", "100",
+         "--json", "tagName,createdAt,isDraft"],
+        capture_output=True, text=True,
+    )
+    if listing.returncode != 0:
+        log(f"  prior-release lookup: gh release list failed "
+            f"({listing.stderr.strip() or 'unknown error'}); skipping diff")
+        return None
+    try:
+        releases = json.loads(listing.stdout)
+    except json.JSONDecodeError:
+        log(f"  prior-release lookup: gh release list returned non-JSON; skipping diff")
+        return None
+
+    kg_releases = [
+        r for r in releases
+        if r.get("tagName", "").startswith(TAG_PREFIX)
+        and not r.get("isDraft", False)
+        and r.get("tagName") != current_tag
+    ]
+    if not kg_releases:
+        log(f"  prior-release lookup: no published kg-* release found; first release diff skipped")
+        return None
+
+    kg_releases.sort(key=lambda r: r.get("createdAt", ""), reverse=True)
+    prior_tag = kg_releases[0]["tagName"]
+
+    tmp_path = Path("/tmp") / f"prior-metadata-{prior_tag}.json"
+    download = subprocess.run(
+        ["gh", "release", "download", prior_tag,
+         "--pattern", "metadata.json", "--output", str(tmp_path),
+         "--clobber"],
+        capture_output=True, text=True,
+    )
+    if download.returncode != 0:
+        log(f"  prior-release lookup: {prior_tag} has no metadata.json asset "
+            f"(older format?); skipping diff")
+        return None
+    try:
+        prior = json.loads(tmp_path.read_text())
+        log(f"  prior release: {prior_tag} (counts: "
+            f"{prior.get('counts', {}).get('genes', '?')} genes · "
+            f"{prior.get('counts', {}).get('expression_edges', '?')} edges)")
+        return prior
+    except (json.JSONDecodeError, OSError) as exc:
+        log(f"  prior-release lookup: could not parse {tmp_path} ({exc}); skipping diff")
+        return None
+
+
+def render_diff_block(prior: dict, current: dict) -> str:
+    """Render a markdown 'What changed since kg-X.Y.Z' section comparing the
+    prior release's metadata.json to the current build's metadata. Returns the
+    empty string if nothing changed (suppresses the section entirely).
+    """
+    prior_tag = prior.get("tag", "kg-?")
+    prior_counts = prior.get("counts", {}) or {}
+    cur_counts = current.get("counts", {}) or {}
+
+    metrics = [
+        ("papers", "papers"),
+        ("experiments", "experiments"),
+        ("genes", "genes"),
+        ("organisms", "organisms"),
+        ("expression_edges", "expression_edges"),
+    ]
+    headline_rows: list[tuple[str, int, int, int]] = []
+    any_headline_change = False
+    for label, key in metrics:
+        prev = prior_counts.get(key, 0) or 0
+        cur = cur_counts.get(key, 0) or 0
+        delta = cur - prev
+        if delta != 0:
+            any_headline_change = True
+        headline_rows.append((label, prev, cur, delta))
+
+    prior_pub = prior.get("per_publication_edges", {}) or {}
+    cur_pub = current.get("per_publication_edges", {}) or {}
+    added_pubs = sorted(set(cur_pub) - set(prior_pub))
+    removed_pubs = sorted(set(prior_pub) - set(cur_pub))
+    changed_pubs = sorted(
+        doi for doi in (set(prior_pub) & set(cur_pub))
+        if prior_pub[doi] != cur_pub[doi]
+    )
+
+    if not (any_headline_change or added_pubs or removed_pubs or changed_pubs):
+        return ""
+
+    lines: list[str] = [f"## What changed since {prior_tag}", ""]
+    if any_headline_change:
+        lines.extend([
+            "### Headline counts (Schema_info)",
+            "",
+            f"| metric | {prior_tag} | this release | delta |",
+            "|---|---:|---:|---:|",
+        ])
+        for label, prev, cur, delta in headline_rows:
+            delta_str = "—" if delta == 0 else (f"+{delta:,}" if delta > 0 else f"{delta:,}")
+            lines.append(f"| {label} | {prev:,} | {cur:,} | {delta_str} |")
+        lines.append("")
+
+    if added_pubs or removed_pubs or changed_pubs:
+        lines.extend(["### Per-publication expression edges", ""])
+        if added_pubs:
+            lines.append("**New publications:**")
+            for doi in added_pubs:
+                lines.append(f"- `{doi}` — {cur_pub[doi]:,} edges")
+            lines.append("")
+        if changed_pubs:
+            lines.append("**Changed:**")
+            for doi in changed_pubs:
+                prev = prior_pub[doi]
+                cur = cur_pub[doi]
+                delta = cur - prev
+                sign = "+" if delta > 0 else ""
+                lines.append(f"- `{doi}` — {prev:,} → {cur:,} ({sign}{delta:,})")
+            lines.append("")
+        if removed_pubs:
+            lines.append("**Removed publications:**")
+            for doi in removed_pubs:
+                lines.append(f"- `{doi}` — was {prior_pub[doi]:,} edges")
+            lines.append("")
+
+    return "\n".join(lines).rstrip() + "\n\n"
 
 
 def extract_changelog_fragment(path: Path, version: str) -> str:
@@ -526,10 +704,15 @@ def phase_publish(ctx: Context) -> None:
 
     if ctx.dry_run:
         dry_msg(f"write {metadata_path}")
-        log(f"  [would write metadata.json]")
-        for line in json.dumps(metadata, indent=2).splitlines():
+        log(f"  [would write metadata.json (truncated)]")
+        # Skip per_publication_edges in dry-run preview — would be huge
+        preview = {k: v for k, v in metadata.items() if k != "per_publication_edges"}
+        preview["per_publication_edges"] = f"<dict with {len(metadata.get('per_publication_edges', {}))} dois — omitted in dry-run preview>"
+        for line in json.dumps(preview, indent=2).splitlines():
             log(f"    {line}")
-        dry_msg(f"extract CHANGELOG [{ctx.version}] section → {fragment_path}")
+        dry_msg(f"fetch prior release's metadata.json via gh (skipped — dry-run)")
+        dry_msg(f"extract CHANGELOG [{ctx.version}] section → {fragment_path}; "
+                f"prepend diff block if prior release found")
         gh_cmd = ["gh", "release", "create", f"{TAG_PREFIX}{ctx.version}",
                   "--notes-file", str(fragment_path), "--prerelease"]
         if ctx.draft:
@@ -539,8 +722,22 @@ def phase_publish(ctx: Context) -> None:
         dry_msg("upload metadata.json to the release")
     else:
         metadata_path.write_text(json.dumps(metadata, indent=2))
-        log(f"  metadata.json: {metadata_path}")
+        log(f"  metadata.json: {metadata_path} "
+            f"({len(metadata.get('per_publication_edges', {}))} dois)")
         fragment = extract_changelog_fragment(base / "CHANGELOG.md", ctx.version)
+
+        # Prepend "What changed since kg-X.Y.Z" if a prior published release
+        # with a metadata.json asset exists. Soft-fails (just skips the block)
+        # for first-ever releases or older-format prior releases.
+        ctx.prior_release = fetch_prior_release_metadata(ctx.version)
+        if ctx.prior_release is not None:
+            diff_block = render_diff_block(ctx.prior_release, metadata)
+            if diff_block:
+                fragment = diff_block + fragment
+                log(f"  diff block prepended to release notes ({diff_block.count(chr(10))} lines)")
+            else:
+                log(f"  no changes detected vs prior release; diff block omitted")
+
         fragment_path.write_text(fragment)
         log(f"  release-notes fragment: {fragment_path}")
         gh_cmd = ["gh", "release", "create", f"{TAG_PREFIX}{ctx.version}",

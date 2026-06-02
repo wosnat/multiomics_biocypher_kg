@@ -136,17 +136,28 @@ The pluggable seam — the entire skill spine drains into one of three backend f
     "papers": …, "experiments": …, "genes": …,
     "organisms": …, "expression_edges": …
   },
+  "per_publication_edges": {
+    "10.NNNN/foo": 4200,
+    "10.NNNN/bar": 4000,
+    …
+  },
   "stamped_at": "<utc iso now>"
 }
 ```
 
-This is the authoritative numbers carrier — the CHANGELOG holds prose, `metadata.json` holds counts.
+This is the authoritative numbers carrier — the CHANGELOG holds prose, `metadata.json` holds counts. `per_publication_edges` is sorted by DOI on the way out so the JSON diffs cleanly across releases.
 
 - **Release-notes fragment** — `.release-notes-<version>.md` extracted from the CHANGELOG's `[<version>]` section.
 
+- **Prior-release diff (L3)** — before the fragment is written, the script calls `gh release list` + `gh release download` to fetch the most recent published `kg-*` release's `metadata.json`. If found, it computes a diff against the current build's metadata and renders a "What changed since kg-X.Y.Z" markdown block:
+  - **Headline counts** (Schema_info totals): a table with `prior | current | delta`, suppressing the section when no totals changed.
+  - **Per-publication expression edges**: three subsections — New publications, Changed (with `prior → current (±delta)`), Removed — each only rendered when non-empty.
+  - The block is **prepended** to the release-notes fragment so the GitHub Release page leads with what's new since last time, followed by the operator's prose from the CHANGELOG.
+  - **Soft-fail by design** — first-ever release, prior release with no `metadata.json` asset (older format), unauthenticated gh, network failure: log the reason and skip the block. The release still publishes.
+
 - **GitHub Release** — `gh release create kg-<version> --notes-file <fragment> --prerelease` (`--draft` adds `--draft`). The `--prerelease` flag is unconditional because any `X.Y.Z-(alpha|beta|rc).N` tag is a pre-release and bare `X.Y.Z` is rare here.
 
-- **Asset upload** — `gh release upload kg-<version> metadata.json`.
+- **Asset upload** — `gh release upload kg-<version> metadata.json`. This is what the next release's L3 diff will pick up.
 
 - **Operator checklist** — printed at the end: where to find the release, the staging URI, tear-down commands, clone cleanup.
 

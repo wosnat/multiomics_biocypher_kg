@@ -22,6 +22,17 @@ the GitHub Release is a rendering of one section. See `plans/alpha_release.md` Â
   GitHub Release. `--skip-kg-tests` flag bypasses for emergencies. On
   failure, the staging stack is left running so the operator can
   inspect.
+- `/release-kg` Phase 7 now embeds a "What changed since kg-X.Y.Z"
+  diff block in the GitHub Release notes. Compares the prior published
+  release's `metadata.json` to the current build's metadata: headline
+  Schema_info count deltas (papers / experiments / genes / organisms /
+  expression edges) + per-publication expression-edge changes (new /
+  changed / removed). The per-publication detail catches the
+  net-zero-but-paper-A-lost-paper-B-gained regression class that
+  Schema_info totals would hide. `metadata.json` now also carries the
+  full `per_publication_edges: {doi: count}` map for the *next*
+  release's diff. Soft-fails on first-ever release / older prior
+  releases without `metadata.json` â€” release still publishes.
 
 ### Changed
 
