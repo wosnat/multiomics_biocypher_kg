@@ -18,10 +18,10 @@ The dividing line: **agnostic** = build the graph → stamp its identity → ver
 
 | # | Item | Status | Section |
 |---|---|---|---|
-| 1 | `Schema_info` release metadata (version/git_sha/counts, post-import) — **the foundation** | to do | §2.1 |
-| 2 | `CHANGELOG.md` + tag scheme `kg-X.Y.Z-alpha.N` + GitHub Release flow | to do | §2.3 |
-| 3 | `/release-kg` skill — agnostic spine (preflight, changelog, commit/tag/push, clean-clone-of-tag, publish); the deploy step is the **one seam** that forks per host | to do | §2.3 |
-| 4 | KG-validity tests `test_schema_info_release_properties`, `test_schema_info_counts_match` (run vs dev `localhost`) | to do | §3 |
+| 1 | `Schema_info` release metadata (version/git_sha/counts, post-import) — **the foundation** | ✅ **done** — Group 4 in `scripts/post-import.{cypher,sh}` stamps version, git identity, mcp_min_version, and computed counts on every build (`3e35b9e6`). | §2.1 |
+| 2 | `CHANGELOG.md` + tag scheme `kg-X.Y.Z-alpha.N` + GitHub Release flow | ✅ **done** — Keep-a-Changelog `CHANGELOG.md` seeded with `[Unreleased]`; tag scheme + GitHub Release flow implemented in `/release-kg` (`3e35b9e6`, `bc8d0700`). | §2.3 |
+| 3 | `/release-kg` skill — agnostic spine (preflight, changelog, commit/tag/push, clean-clone-of-tag, publish); the deploy step is the **one seam** that forks per host | ✅ **done** — 7-phase orchestrator at `.claude/skills/release-kg/`; `--target staging` wired, `local`/`aura` raise `NotImplementedError` pointing at their plan section; `--dry-run` exercises every phase; compose port bindings parameterized (`bc8d0700`, `52cc71fd`, `973a3a29`). | §2.3 |
+| 4 | KG-validity tests `test_schema_info_release_properties`, `test_schema_info_counts_match` (run vs dev `localhost`) | ✅ **done** — `tests/kg_validity/test_schema_info.py` has 7 parametrized test functions (28 cases) covering identity presence/non-empty, version format, ISO-8601 `built_at`, boolean-string `git_dirty`, count types, and live-graph count consistency (`3e35b9e6`). | §3 |
 | 5 | ~~MCP compatibility contract (explorer check + version-pin cadence)~~ | **out of scope (2026-06-01)** — explorer-repo work, handled separately. The KG side of the contract (`Schema_info.mcp_min_version`) is in place from item 1. | §2.1, §6.4(5) |
 | 6 | `docs/kg_mcp_guide.md` body — refactor so all connection specifics sit in **one** swappable section | ✅ **done** — new §2 "Connection details" carries host-A-vs-B tables (URI, reach-the-host check, credentials, read-only model); rest of the guide is host-agnostic. | §2.7 |
 
