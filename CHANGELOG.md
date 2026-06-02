@@ -19,6 +19,14 @@ the GitHub Release is a rendering of one section. See `plans/alpha_release.md` Â
 ### Changed
 
 ### Fixed
+
+## [0.1.0-alpha.2] - 2026-06-02
+
+### Added
+
+### Changed
+
+### Fixed
 - `docker-compose.staging.yml` now forwards `KG_RELEASE_VERSION` and
   `KG_GIT_*` env vars from the compose process into the `post-process`
   container, so post-import.sh Group 4 stamps `Schema_info.version` with
