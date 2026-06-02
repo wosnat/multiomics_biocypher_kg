@@ -19,6 +19,14 @@ the GitHub Release is a rendering of one section. See `plans/alpha_release.md` Â
 ### Changed
 
 ### Fixed
+- `docker-compose.staging.yml` now forwards `KG_RELEASE_VERSION` and
+  `KG_GIT_*` env vars from the compose process into the `post-process`
+  container, so post-import.sh Group 4 stamps `Schema_info.version` with
+  the tagged version instead of silently falling back to `0.0.0-dev`.
+  The 0.1.0-alpha.1 cut built and deployed successfully but stamped the
+  wrong version because of this gap, which is why the tag exists but no
+  GitHub Release was published for it; this release is the first cut
+  with a correctly-stamped staging verify.
 
 ## [0.1.0-alpha.1] - 2026-06-02
 

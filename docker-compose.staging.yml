@@ -25,6 +25,18 @@ services:
 
   post-process:
     container_name: staging-post-process
+    # Forward release-stamp env vars from the compose-process environment
+    # (which /release-kg populates from the git context) into the container,
+    # so post-import.sh Group 4 stamps Schema_info with the release identity
+    # instead of falling back to '0.0.0-dev'. Empty defaults are intentional:
+    # post-import.sh uses ${VAR:-default} which fires on unset OR empty.
+    environment:
+      KG_RELEASE_VERSION: ${KG_RELEASE_VERSION:-}
+      KG_GIT_SHA:         ${KG_GIT_SHA:-}
+      KG_GIT_SHA_SHORT:   ${KG_GIT_SHA_SHORT:-}
+      KG_GIT_BRANCH:      ${KG_GIT_BRANCH:-}
+      KG_GIT_DIRTY:       ${KG_GIT_DIRTY:-}
+      KG_MCP_MIN_VERSION: ${KG_MCP_MIN_VERSION:-}
 
   deploy:
     container_name: staging-deploy
