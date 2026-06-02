@@ -34,7 +34,7 @@ Do **not** use for routine `docker compose up -d` rebuilds — those stamp dev `
 
 The script runs six phases in order; each phase is idempotent. The default invocation **pauses once** — after Phase 2 cuts the CHANGELOG — so the operator can polish prose. Re-run with `--resume` to continue from commit onward.
 
-1. **Preflight** — version regex, tooling (`docker`/`gh`/`git`/`cypher-shell`), `gh auth`, repo `.env` present, git on a branch, working tree clean (unless `--allow-dirty`), in sync with origin. Captures SHA / short / branch / dirty.
+1. **Preflight** — version regex, tooling (`docker`/`git`/`gh`), `gh auth`, repo `.env` present, git on a branch, working tree clean (unless `--allow-dirty`), in sync with origin. Captures SHA / short / branch / dirty. (Phase 6 uses `docker exec staging-deploy cypher-shell …` — the image ships it — so host `cypher-shell` is **not** required.)
 2. **CHANGELOG cut** — rename `## [Unreleased]` → `## [<version>] - YYYY-MM-DD`, open fresh empty `## [Unreleased]` above. Idempotent: if `## [<version>]` already exists, no-op.
 3. **Commit + tag + push** — `chore(release): kg-<version>` commit, annotated tag `kg-<version>`, `git push --follow-tags`. Each step idempotent.
 4. **Clean clone of the tag** — `git clone --branch kg-<version> --depth 1 origin /tmp/kg-release-<version>`, copy `.env` in, set release-stamp env vars (`KG_RELEASE_VERSION`, `KG_GIT_*`, `KG_MCP_MIN_VERSION`).
@@ -68,8 +68,8 @@ uv run python .claude/skills/release-kg/release_kg.py 0.1.0-alpha.1 --resume
 
 ## Gotchas
 
-- **`--dry-run` only needs `git`** — preflight skips the `docker` / `gh` / `cypher-shell` availability checks and the `gh auth status` check when `--dry-run` is set, since those tools are never invoked in a dry run. Real runs require all four.
-- **First real `--target staging` run** needs `docker-compose.yml` to parameterize the deploy port bindings (currently hardcoded to 7474/7687). That edit is small (`${KG_DEPLOY_HTTP_BIND:-127.0.0.1:7474}:7474` etc.) but lands as a separate follow-up so this skill commit stays self-contained. `--dry-run` runs fine without it.
+- **`--dry-run` only needs `git`** — preflight skips the `docker` / `gh` availability checks and the `gh auth status` check when `--dry-run` is set, since those tools are never invoked in a dry run. Real runs require all three (`docker`, `git`, `gh`); `cypher-shell` comes from the staging container via `docker exec`.
+- **Staging container names** — the override `docker-compose.staging.yml` renames `build` → `staging-build`, … `deploy` → `staging-deploy`. Without it, the literal `container_name:` directives in the base file would collide with a running dev stack.
 - **`--resume` is your friend after the CHANGELOG pause** — re-running without it just re-prints "polished? rerun with --resume" because the script detects the cut is already done.
 - **Idempotency cuts both ways** — re-running with the same version when the release already exists on GitHub will skip the commit/tag steps but `gh release create` will fail with "release already exists." That's intentional; bump the version or delete the release first.
 - **Branch behind origin** triggers a fatal preflight error. Pull (merge or rebase, your call) before retrying.

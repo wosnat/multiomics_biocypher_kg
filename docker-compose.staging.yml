@@ -1,0 +1,30 @@
+# Staging stack override (used by /release-kg --target staging).
+#
+# Renames the container_name on each service with a `staging-` prefix so the
+# release build can run alongside the dev stack on the same host. The base
+# docker-compose.yml keeps the unprefixed names (`build`, `import`,
+# `post-process`, `deploy`) because the dev workflow + docs lean on
+# `docker exec deploy …` (plan §2.2 review note B2). This override is the
+# isolation layer for the parallel release stack.
+#
+# Invoked by release_kg.py Phase 5 as:
+#   docker compose -p kg-release-staging \
+#     -f docker-compose.yml -f docker-compose.staging.yml \
+#     up --build -d build import post-process deploy
+#
+# Compose project namespacing already isolates the volumes
+# (kg-release-staging_biocypher_neo4j_volume vs the dev project's volume),
+# so only the container_name needs overriding.
+
+services:
+  build:
+    container_name: staging-build
+
+  import:
+    container_name: staging-import
+
+  post-process:
+    container_name: staging-post-process
+
+  deploy:
+    container_name: staging-deploy

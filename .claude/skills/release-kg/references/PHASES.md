@@ -23,7 +23,7 @@ Fail-fast read-only checks, no mutation.
 | Check | Failure mode | Override |
 |---|---|---|
 | Version matches `^\d+\.\d+\.\d+(-(alpha\|beta\|rc)\.\d+)?$` | exit 1 | — |
-| Tools on PATH: `docker`, `git`, `gh`, `cypher-shell` | exit 1 | — |
+| Tools on PATH: `docker`, `git`, `gh` (cypher-shell is invoked via `docker exec staging-deploy …`, no host install needed) | exit 1 | — |
 | `gh auth status` succeeds | exit 1 | run `gh auth login` |
 | Repo `.env` exists | exit 1 | create the file (build.sh hardcodes `cp /src/.env .`) |
 | `git status --porcelain` is empty | exit 1 | `--allow-dirty` |
@@ -101,17 +101,9 @@ KG_DEPLOY_HTTP_BIND=127.0.0.1:27474
 KG_DEPLOY_BOLT_BIND=127.0.0.1:27687
 ```
 
-> **Prerequisite for a real run (not dry-run):** `docker-compose.yml` must parameterize the deploy port bindings. Currently they are hardcoded to `7474:7474` / `7687:7687`, which would collide with dev. The required edit:
->
-> ```yaml
-> ports:
->   - "${KG_DEPLOY_HTTP_BIND:-127.0.0.1:7474}:7474"
->   - "${KG_DEPLOY_BOLT_BIND:-127.0.0.1:7687}:7687"
-> ```
->
-> Per plan §2.2. This edit will land as a small follow-up commit; `--dry-run` works without it.
+**Isolation from the dev stack:** Phase 5 passes `-f docker-compose.yml -f docker-compose.staging.yml`. The override renames the four `container_name`s with a `staging-` prefix (`staging-build`, `staging-import`, `staging-post-process`, `staging-deploy`) so the staging containers don't collide with a running dev stack — which holds the unprefixed literal names from the base file. Compose project namespacing already isolates the named volumes.
 
-After bringing up `deploy`, the script polls `cypher-shell -a bolt://localhost:27687 RETURN 1;` for up to 120s, then queries `Schema_info`. Asserts `s.version == <tag>`. Captures `gene_count` / `experiment_count` / `paper_count` / `organism_count` / `expression_edge_count` / `built_at` into context for Phase 7.
+After bringing up `deploy`, the script polls `docker exec staging-deploy cypher-shell -a bolt://localhost:7687 RETURN 1;` for up to 120s, then queries `Schema_info`. Talking to Bolt over the container's loopback (port 7687, not the host-published 27687) removes the host `cypher-shell` dependency. Asserts `s.version == <tag>`. Captures `gene_count` / `experiment_count` / `paper_count` / `organism_count` / `expression_edge_count` / `built_at` into context for Phase 7.
 
 **Explorer smoke test:** **out of scope** for this skill (the MCP compatibility contract is explorer-repo work, handled separately — decided 2026-06-01). The KG side of the contract is `Schema_info.mcp_min_version`, already stamped by post-import Group 4. Phase 5 logs an "out-of-scope" note; operators wanting a smoke test today should point the explorer at the staging Bolt URI manually.
 

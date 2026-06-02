@@ -38,6 +38,13 @@ STAGING_PROJECT = "kg-release-staging"
 STAGING_HTTP_BIND = "127.0.0.1:27474"
 STAGING_BOLT_BIND = "127.0.0.1:27687"
 STAGING_BOLT_URL = "bolt://localhost:27687"
+STAGING_DEPLOY_CONTAINER = "staging-deploy"  # set by docker-compose.staging.yml
+STAGING_COMPOSE_OVERRIDE = "docker-compose.staging.yml"
+# Phase 6 queries the staging deploy *from inside the container* (`docker exec
+# staging-deploy cypher-shell …`), so we connect to Bolt over the container's
+# own loopback on port 7687 — not the host-published 27687. This removes the
+# host-`cypher-shell` dependency.
+STAGING_INNER_BOLT_URL = "bolt://localhost:7687"
 
 CLONE_PARENT = Path("/tmp")
 COMMIT_PREFIX = "chore(release): kg-"
@@ -117,12 +124,15 @@ def phase_preflight(ctx: Context) -> None:
     if not shutil.which("git"):
         die("required tool not on PATH: git")
     if ctx.dry_run:
-        log(f"  tooling: git ✓  (dry-run: skipping docker/gh/cypher-shell availability + gh auth checks)")
+        log(f"  tooling: git ✓  (dry-run: skipping docker/gh availability + gh auth checks)")
     else:
-        for tool in ["docker", "gh", "cypher-shell"]:
+        # cypher-shell is NOT a host requirement — Phase 6 invokes it via
+        # `docker exec staging-deploy cypher-shell …`, which the neo4j image
+        # ships at /var/lib/neo4j/bin/cypher-shell.
+        for tool in ["docker", "gh"]:
             if not shutil.which(tool):
                 die(f"required tool not on PATH: {tool} (only `git` is required for --dry-run)")
-        log(f"  tooling: docker / git / gh / cypher-shell ✓")
+        log(f"  tooling: docker / git / gh ✓")
 
         auth = subprocess.run(["gh", "auth", "status"], capture_output=True, text=True)
         if auth.returncode != 0:
@@ -305,6 +315,7 @@ def phase_build_and_verify(ctx: Context) -> None:
         "docker", "compose",
         "-p", STAGING_PROJECT,
         "-f", "docker-compose.yml",
+        "-f", STAGING_COMPOSE_OVERRIDE,  # renames containers staging-* so dev's `deploy` etc. don't collide
         "up", "--build", "-d",
         "build", "import", "post-process", "deploy",
     ]
@@ -314,7 +325,8 @@ def phase_build_and_verify(ctx: Context) -> None:
         log(f"  [would set] KG_RELEASE_VERSION={ctx.version} "
             f"KG_GIT_SHA_SHORT={ctx.git_sha_short} "
             f"KG_DEPLOY_BOLT_BIND={STAGING_BOLT_BIND}")
-        dry_msg(f"query Schema_info on {STAGING_BOLT_URL}; assert version == {ctx.version}")
+        dry_msg(f"query Schema_info via `docker exec {STAGING_DEPLOY_CONTAINER} "
+                f"cypher-shell -a {STAGING_INNER_BOLT_URL}`; assert version == {ctx.version}")
         ctx.schema_info = {"version": ctx.version, "git_sha": ctx.git_sha,
                            "papers": -1, "experiments": -1, "genes": -1,
                            "organisms": -1, "expr_edges": -1,
@@ -322,17 +334,26 @@ def phase_build_and_verify(ctx: Context) -> None:
         return
 
     run(compose_up, cwd=ctx.clone_dir, env=release_env)
-    log(f"  staging stack up; waiting for {STAGING_BOLT_URL} to accept Bolt …")
+    log(f"  staging stack up; waiting for {STAGING_DEPLOY_CONTAINER} to accept Bolt "
+        f"(via docker exec) …")
 
+    # `docker exec` requires the container to be running; depends_on chains
+    # guarantee it exists by the time compose-up returns, but Bolt warmup
+    # takes a few seconds. Poll up to 120s.
+    cypher_shell_in_container = [
+        "docker", "exec", STAGING_DEPLOY_CONTAINER,
+        "cypher-shell", "-a", STAGING_INNER_BOLT_URL,
+    ]
     for i in range(120):
-        ready = subprocess.run(["cypher-shell", "-a", STAGING_BOLT_URL, "RETURN 1;"],
+        ready = subprocess.run(cypher_shell_in_container + ["RETURN 1;"],
                                capture_output=True, text=True)
         if ready.returncode == 0:
             log(f"  Bolt ready after {i}s")
             break
         time.sleep(1)
     else:
-        die(f"staging deploy not reachable on {STAGING_BOLT_URL} after 120s")
+        die(f"staging deploy not reachable via `docker exec {STAGING_DEPLOY_CONTAINER} "
+            f"cypher-shell -a {STAGING_INNER_BOLT_URL}` after 120s")
 
     cypher = (
         "MATCH (s:Schema_info {id:'schema_info'}) "
@@ -342,7 +363,7 @@ def phase_build_and_verify(ctx: Context) -> None:
         "s.expression_edge_count AS expr_edges, "
         "s.mcp_min_version AS mcp_min, s.built_at AS built_at"
     )
-    result = run(["cypher-shell", "-a", STAGING_BOLT_URL, "--format", "plain", cypher],
+    result = run(cypher_shell_in_container + ["--format", "plain", cypher],
                  capture=True, show=False)
     ctx.schema_info = _parse_plain_row(result.stdout)
 
