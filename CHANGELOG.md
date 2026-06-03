@@ -35,6 +35,13 @@ the GitHub Release is a rendering of one section. See `plans/alpha_release.md` Â
   releases without `metadata.json` â€” release still publishes.
 
 ### Changed
+- `/release-kg`'s default `--mcp-min` value now reads from
+  `[tool.release-kg].mcp_min_version` in `pyproject.toml` (hard
+  fallback `0.1.0` if the file/section is missing). Previously the
+  default was a Python constant inside the skill script. Repo-wide
+  bumps of the cross-repo explorer-MCP contract now live in
+  declarative config; per-release override via `--mcp-min` is
+  unchanged.
 
 ### Fixed
 

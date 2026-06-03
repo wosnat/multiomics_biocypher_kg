@@ -96,7 +96,7 @@ KG_GIT_SHA=<full sha>
 KG_GIT_SHA_SHORT=<short sha>
 KG_GIT_BRANCH=<branch>
 KG_GIT_DIRTY=true|false
-KG_MCP_MIN_VERSION=<--mcp-min, default 0.1.0>
+KG_MCP_MIN_VERSION=<--mcp-min, default [tool.release-kg].mcp_min_version in pyproject.toml; hard fallback 0.1.0>
 KG_DEPLOY_HTTP_BIND=127.0.0.1:27474
 KG_DEPLOY_BOLT_BIND=127.0.0.1:27687
 ```

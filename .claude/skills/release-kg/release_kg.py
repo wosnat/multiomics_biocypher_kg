@@ -31,8 +31,35 @@ from typing import Optional
 
 # ─── Constants ──────────────────────────────────────────────────────────────
 VERSION_RE = re.compile(r"^\d+\.\d+\.\d+(-(alpha|beta|rc)\.\d+)?$")
-DEFAULT_MCP_MIN = "0.1.0"
 DEFAULT_TARGET = "staging"
+
+# Hard fallback if pyproject.toml is missing or unreadable — keeps the script
+# functional in unusual environments. Real default lives in [tool.release-kg].
+_HARDCODED_MCP_MIN_FALLBACK = "0.1.0"
+
+
+def _load_default_mcp_min(pyproject_path: Optional[Path] = None) -> str:
+    """Read [tool.release-kg].mcp_min_version from pyproject.toml at the repo
+    root. The repo's release config — not the script — owns the default.
+    Falls back to a hardcoded value if the file/section/key is missing or
+    unreadable, so the script remains usable in clean checkouts that predate
+    the config block."""
+    if pyproject_path is None:
+        # __file__ = .../.claude/skills/release-kg/release_kg.py → parents[3] = repo root
+        pyproject_path = Path(__file__).resolve().parents[3] / "pyproject.toml"
+    if not pyproject_path.exists():
+        return _HARDCODED_MCP_MIN_FALLBACK
+    try:
+        import tomllib  # py311+
+        data = tomllib.loads(pyproject_path.read_text())
+    except (ImportError, OSError, ValueError):
+        return _HARDCODED_MCP_MIN_FALLBACK
+    return (data.get("tool", {})
+                .get("release-kg", {})
+                .get("mcp_min_version", _HARDCODED_MCP_MIN_FALLBACK))
+
+
+DEFAULT_MCP_MIN = _load_default_mcp_min()
 
 STAGING_PROJECT = "kg-release-staging"
 STAGING_HTTP_BIND = "127.0.0.1:27474"

@@ -226,6 +226,37 @@ def test_parse_plain_row(rkg):
     assert row["built_at"] == "2026-05-25T11:52:44.149Z"
 
 
+# ─── _load_default_mcp_min ───────────────────────────────────────────────────
+def test_load_default_mcp_min_reads_from_pyproject(rkg, tmp_path):
+    pyproject = tmp_path / "pyproject.toml"
+    pyproject.write_text('[tool.release-kg]\nmcp_min_version = "0.7.3"\n')
+    assert rkg._load_default_mcp_min(pyproject) == "0.7.3"
+
+
+def test_load_default_mcp_min_repo_pyproject_value_matches_default(rkg):
+    # Sanity: the value the script imports at module-load time must match what
+    # the real pyproject.toml carries. Catches drift where someone edits the
+    # config but the import-time DEFAULT_MCP_MIN was captured under old data.
+    repo_pyproject = REPO_ROOT / "pyproject.toml"
+    assert rkg._load_default_mcp_min(repo_pyproject) == rkg.DEFAULT_MCP_MIN
+
+
+def test_load_default_mcp_min_falls_back_when_section_missing(rkg, tmp_path):
+    pyproject = tmp_path / "pyproject.toml"
+    pyproject.write_text('[tool.other]\nfoo = "bar"\n')
+    assert rkg._load_default_mcp_min(pyproject) == "0.1.0"
+
+
+def test_load_default_mcp_min_falls_back_when_file_missing(rkg, tmp_path):
+    assert rkg._load_default_mcp_min(tmp_path / "does-not-exist.toml") == "0.1.0"
+
+
+def test_load_default_mcp_min_falls_back_on_malformed_toml(rkg, tmp_path):
+    pyproject = tmp_path / "pyproject.toml"
+    pyproject.write_text("this is not [valid TOML at all\n=== oh no")
+    assert rkg._load_default_mcp_min(pyproject) == "0.1.0"
+
+
 # ─── parse_args ──────────────────────────────────────────────────────────────
 def test_parse_args_defaults(rkg):
     ctx = rkg.parse_args(["0.1.0-alpha.1"])

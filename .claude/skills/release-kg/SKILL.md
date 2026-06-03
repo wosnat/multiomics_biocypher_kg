@@ -24,7 +24,7 @@ Do **not** use for routine `docker compose up -d` rebuilds — those stamp dev `
 |---|---|---|
 | `<version>` | — | `X.Y.Z[-(alpha\|beta\|rc).N]`. Becomes git tag `kg-<version>`. |
 | `--target` | `staging` | Where to deploy after a verified build. `staging` = leave the staging stack up on `:27687`, no host touched. `local` / `aura` = stubbed. |
-| `--mcp-min` | `0.1.0` | Stamped onto `Schema_info.mcp_min_version`; declares min compatible explorer MCP. |
+| `--mcp-min` | `[tool.release-kg].mcp_min_version` in `pyproject.toml` (hard fallback `0.1.0` if missing) | Stamped onto `Schema_info.mcp_min_version`; declares min compatible explorer MCP. Per-release override; for repo-wide bumps edit pyproject. |
 | `--allow-dirty` | off | Skip the working-tree-clean and behind-origin checks. |
 | `--draft` | off | Publish GitHub Release as draft. |
 | `--dry-run` | off | Every phase logs `[dry-run] would <action>`; mutates nothing (no commits, tags, push, docker, gh). Use to exercise the pipeline. |
