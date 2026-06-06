@@ -15,6 +15,14 @@ the GitHub Release is a rendering of one section. See `plans/alpha_release.md` Â
 ## [Unreleased]
 
 ### Added
+
+### Changed
+
+### Fixed
+
+## [0.1.0-alpha.3] - 2026-06-06
+
+### Added
 - `/release-kg` Phase 5 now gates the release on the KG validity suite
   passing against the staging stack (`uv run pytest tests/kg_validity/
   --neo4j-url bolt://localhost:27687 -q`, ~73 s, 1012 assertions).
