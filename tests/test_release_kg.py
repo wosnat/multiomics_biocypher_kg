@@ -262,7 +262,10 @@ def test_parse_args_defaults(rkg):
     ctx = rkg.parse_args(["0.1.0-alpha.1"])
     assert ctx.version == "0.1.0-alpha.1"
     assert ctx.target == "staging"
-    assert ctx.mcp_min == "0.1.0"
+    # mcp_min default comes from pyproject [tool.release-kg].mcp_min_version
+    # via DEFAULT_MCP_MIN; assert it tracks rather than hardcoding the value
+    # so future config bumps don't break this test.
+    assert ctx.mcp_min == rkg.DEFAULT_MCP_MIN
     assert ctx.allow_dirty is False
     assert ctx.draft is False
     assert ctx.dry_run is False

@@ -42,6 +42,11 @@ the GitHub Release is a rendering of one section. See `plans/alpha_release.md` Â
   bumps of the cross-repo explorer-MCP contract now live in
   declarative config; per-release override via `--mcp-min` is
   unchanged.
+- Bumped `[tool.release-kg].mcp_min_version` from `0.1.0` to
+  `0.1.0a1` (PEP 440 alpha). Matches the current
+  `multiomics_explorer` version, so the explorer's
+  `kg_release_info()` compat check passes against builds off this
+  branch (string equality on `mcp_min_version`).
 
 ### Fixed
 

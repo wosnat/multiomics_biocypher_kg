@@ -94,4 +94,4 @@ markers = [
 # multiomics-explorer MCP version compatible with this KG build. Bump when
 # the explorer's contract requires it; per-release override via --mcp-min.
 [tool.release-kg]
-mcp_min_version = "0.1.0"
+mcp_min_version = "0.1.0a1"
