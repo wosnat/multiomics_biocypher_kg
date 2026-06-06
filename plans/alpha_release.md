@@ -1,20 +1,21 @@
-# Plan: Alpha release of the KG — agnostic core now; hosting (local box OR Aura) pending budget
+# Plan: Alpha release of the KG — Track A (lab box at 132.75.249.47)
 
-**Status:** Draft — hosting decision **reopened 2026-05-25** (local box vs Aura, decided on budget grounds by leadership). Near-term work proceeds on the **deployment-agnostic core** (see "Near-term work" below); none of it depends on the choice. Local-box design retained as **Track A** (§2.2–2.6); Aura as **Track B** (§7.3). Supersedes the lab-only-final framing of 2026-05-24.
+**Status:** Active — Track A (local lab box) **chosen 2026-06-06** by leadership. The agnostic-core scaffolding (items #1–#6 in "Near-term work" below) is shipped; the alpha deploy stack (§2.2–2.6) is the next implementation chunk. Aura (was Track B) is archived in §7.3 as a future revisit path if box capacity / reliability becomes a hard constraint.
 **Goal:** Cut tagged, versioned alpha releases of the KG served from a *second* Neo4j stack on the same Linux dev/release box (`132.75.249.47`), so the lab's alpha testers — **physically in the lab, on the lab subnet** — can drive the graph from their own LLM agents via the explorer MCP + research-skills plugin.
 
 ## Scope decision log
 
 The access mechanism narrowed across several decisions; recording them so we don't relitigate:
 
-- **Hosting reopened (2026-05-25).** The "Not Aura" call below is **superseded**: leadership will pick **local box vs Aura on budget grounds**. Until that lands, work proceeds on the **deployment-agnostic core** (see "Near-term work" below) — none of it depends on the choice. Both analyses stand: local-box design in §2.2–2.6, Aura in §7.3.
-- **Not Aura (2026-05-24).** **[Superseded 2026-05-25 — see entry above.]** Aura Pro is the smallest tier that fits our graph (250K nodes / 2.2M rels > Aura Free's 200K/400K cap) and runs ~$1.5K+/yr. Local box is $0 and iterates in minutes (`docker compose up -d` on a tagged commit) vs. tens of minutes for dump→upload→restore. Deferred to §7.
-- **Not Tailscale (2026-05-24).** The original local-box plan reached testers over Tailscale. Dropped because: (a) all current testers are **lab-local**; (b) the off-site case is already covered by the **university VPN**, which puts a home machine back on the campus network — Tailscale would be a redundant second overlay; (c) Tailscale's free Personal plan is **non-commercial-use + user-capped**, and the clean paid tier (Standard, $8/user/mo ≈ $576/yr for 6 users) is real money for redundant reach. Deferred to §7.
-- **Lab-only (this draft).** Simplest, $0, smallest exposure. The box has a campus-routable IP; bind the alpha Neo4j to it, turn on Neo4j auth, and **firewall the alpha ports to the lab subnet**. Trivially expandable later (add the VPN-pool CIDR to the allowlist — one rule) without rearchitecting. **[Now the Track-A choice, conditional on picking local.]**
+- **Track A chosen (2026-06-06).** Leadership decision: alpha runs on the lab box (`132.75.249.47`), no Aura provisioning. Reinstates the 2026-05-24 "Not Aura" call below. Active implementation work is §2.2–2.6. The Aura analysis stays archived in §7.3 as a future revisit path if box capacity, reliability, or external-collaborator access becomes a hard constraint.
+- **Hosting reopened (2026-05-25).** *[Resolved 2026-06-06 — see entry above.]* Leadership briefly reopened the local-vs-Aura question on budget grounds. The agnostic core (#1–#6) shipped in the meantime so neither outcome would have been blocked. Decision came back to Track A.
+- **Not Aura (2026-05-24).** Aura Pro is the smallest tier that fits our graph (250K nodes / 2.2M rels > Aura Free's 200K/400K cap) and runs ~$1.5K+/yr. Local box is $0 and iterates in minutes (`docker compose up -d` on a tagged commit) vs. tens of minutes for dump→upload→restore. Reinstated by the 2026-06-06 decision. Archived analysis in §7.3.
+- **Not Tailscale (2026-05-24).** The original local-box plan reached testers over Tailscale. Dropped because: (a) all current testers are **lab-local**; (b) the off-site case is already covered by the **university VPN**, which puts a home machine back on the campus network — Tailscale would be a redundant second overlay; (c) Tailscale's free Personal plan is **non-commercial-use + user-capped**, and the clean paid tier (Standard, $8/user/mo ≈ $576/yr for 6 users) is real money for redundant reach. Archived in §7.1.
+- **Lab-only access model (2026-05-24).** Simplest, $0, smallest exposure. The box has a campus-routable IP; bind the alpha Neo4j to it, turn on Neo4j auth, and **firewall the alpha ports to the lab subnet**. Trivially expandable later (add the VPN-pool CIDR to the allowlist — one rule) without rearchitecting. This is the live access model under Track A.
 
-## Near-term work: deployment-agnostic core (do now, before the hosting decision)
+## Near-term work
 
-The dividing line: **agnostic** = build the graph → stamp its identity → version/release it → tell testers how to drive the MCP. **Forked** = where the DB runs, how testers reach it, and how read-only is enforced. The following is identical under local **and** Aura and proceeds now; the fork is isolated to a single pluggable deploy step.
+The release machinery splits into two layers: the **agnostic core** (build → stamp identity → version → release; items #1–#6 below, all shipped) and the **Track A deploy stack** (where the alpha KG runs, how testers reach it, how read-only is enforced; §2.2–2.6 — the active implementation chunk). The agnostic-core / fork split was originally designed so the Track B (Aura) backend could plug into the same skill with minimal duplication; that's still the design, but only the local backend is being built.
 
 | # | Item | Status | Section |
 |---|---|---|---|
@@ -25,10 +26,18 @@ The dividing line: **agnostic** = build the graph → stamp its identity → ver
 | 5 | ~~MCP compatibility contract (explorer check + version-pin cadence)~~ | **out of scope (2026-06-01)** — explorer-repo work, handled separately. The KG side of the contract (`Schema_info.mcp_min_version`) is in place from item 1. | §2.1, §6.4(5) |
 | 6 | `docs/kg_mcp_guide.md` body — refactor so all connection specifics sit in **one** swappable section | ✅ **done** — new §2 "Connection details" carries host-A-vs-B tables (URI, reach-the-host check, credentials, read-only model); rest of the guide is host-agnostic. | §2.7 |
 
-**Deployment-specific — deferred until the hosting decision lands:**
-- **Track A (local):** `docker-compose.alpha.yml`, `.env.alpha`, `alpha_up/down.sh`, `DOCKER-USER` firewall allowlist, shared `explorer` login + MCP-enforced read-only, blue/green volume flip, `docs/kg_alpha_it_approval.md` (§2.2–2.6, §6).
-- **Track B (Aura):** provision the Aura instance, dump→upload→restore release path, real `reader` role for read-only, `neo4j+s://` URI + per-user accounts (§7.3).
-- **Either way:** the connection section of `docs/kg_mcp_guide.md` (item 6 leaves a hole for it).
+**Track A deploy stack — active implementation work** (committable from anywhere; the firewall + live cut steps marked *(lab box only)* need root on `132.75.249.47`):
+
+| # | Item | Section |
+|---|---|---|
+| 7 | `docker-compose.alpha.yml` — second compose project (`kg-alpha`) coexisting with dev; container names `alpha-build` / `alpha-import` / … so the alpha stack doesn't collide with the dev stack's literal `deploy` etc. | §2.2, §2.4 |
+| 8 | `.env.alpha.example` — committed template; real `.env.alpha` is gitignored and carries `ALPHA_BIND_IP`, `NEO4J_AUTH` (bootstrap admin), `ALPHA_EXPLORER_PASSWORD` (shared read login) | §2.4 |
+| 9 | `scripts/alpha_up.sh` / `scripts/alpha_down.sh` — operator wrappers around the `-p kg-alpha -f … -f …` invocations | §2.2 |
+| 10 | `--target local` in `/release-kg` — implement the stub: blue/green volume color flip (build into inactive color, smoke-check, swap, retire previous), provision shared `explorer` login (`CREATE USER explorer …`), confirm `DOCKER-USER` allowlist is present | §2.3 Phase 3/4 |
+| 11 | `docs/kg_mcp_guide.md` §2 — fill in lab-box-specific connection content (lab Bolt URI, shared `explorer` creds model, `bolt://` no-`+s`, lab-subnet reachability check); currently a placeholder A-vs-B table | §2.7 |
+| 12 | `docs/kg_alpha_it_approval.md` — IT-ask template covering lab-subnet CIDR confirmation, DHCP reservation / static IP for `132.75.249.47`, port `17474`/`17687` exception ack | §6.4 |
+| 13 | `DOCKER-USER` host firewall allowlist on the lab box — `sudo iptables -I DOCKER-USER -p tcp --dport 17687 ! -s <lab-subnet> -j DROP` (+ `17474`); persist via `iptables-persistent`. **(lab box only — root SSH or in-person)** | §2.6 |
+| 14 | First real `/release-kg <ver> --target local` against `132.75.249.47`; verify connectivity from a Win11 laptop on the lab subnet, drop-from-outside, MCP read-only enforcement. **(lab box only)** | §1.3 criteria 3, 4, 5 |
 
 ## Workstreams
 
@@ -396,7 +405,7 @@ The alpha rebuilds from a clean clone of the tag (~30–60 min warm) into the **
 2. **Auth init across the auth-disabled→enabled volume handoff.** Import + post-process run with auth disabled; `alpha-deploy` then starts with auth **on** + `NEO4J_AUTH`. This should set the initial `neo4j` password on first auth-enabled start — confirm on the first alpha cut (criterion #5 covers it).
 3. **`DOCKER-USER` allowlist actually filters.** Verify from an off-subnet host that `17687` is dropped (Docker-bypasses-ufw gotcha, §2.6).
 4. **Win11 uv install ergonomics.** Document `winget install astral-sh.uv` + the PowerShell installer; confirm on a clean Win11 box before inviting testers. Note: connectivity check runs in **PowerShell**, not cmd.
-5. **MCP version pinning.** `Schema_info.mcp_min_version` is the contract; needs a real version-bump cadence on `multiomics_explorer` and a guide pointer to the right tag.
+5. ~~**MCP version pinning.**~~ *(Resolved 2026-06-01: cross-repo work, out of scope for this plan. KG side is `Schema_info.mcp_min_version`, sourced from `[tool.release-kg].mcp_min_version` in `pyproject.toml`; bumped to `0.1.0a1` on 2026-06-06 to match the current `multiomics_explorer` version. Explorer-side `kg_release_info()` does the compat check.)*
 6. **Box reliability.** Single point of failure (box uptime, lab power, the dev stack hogging RAM mid-release). Document a "alpha box is down" channel for testers. Not a blocker for the first cut.
 
 ## 7. Deferred: remote & multi-user access (workstream D)
@@ -418,13 +427,15 @@ Two things the alpha deliberately skips, which arrive together later:
 
 So per-user identity rides with remote-MCP-hosting + Enterprise/Aura, not with the lab-only alpha.
 
-### 7.3 Aura migration (hosting comparison / PI brief)
+### 7.3 Aura migration — archived (not the chosen path)
+
+> **Status: rejected (2026-06-06).** Leadership chose Track A (local lab box). This section is kept as analysis-archive for a future revisit if any of the migration triggers below fire.
 
 **KG sizing (measured 2026-05-24):** 249,519 nodes, 2,188,444 relationships, 3.1 GB on-disk Neo4j volume.
 
 | # | Option | Year-1 cost | Reach | Reliability burden | Iteration |
 |---|---|---:|---|---|---|
-| **1** | **Local box, lab-only** (this plan) | **$0** | Lab subnet (+ univ-VPN via allowlist) | Operator (box uptime) | Minutes |
+| **1** | **Local box, lab-only** (the chosen path) | **$0** | Lab subnet (+ univ-VPN via allowlist) | Operator (box uptime) | Minutes |
 | 2 | Aura Free | $0 | Public, anywhere | None | Slow (manual dump) |
 | 3 | Aura Pro 2 GB / 4 GB | ~$1,577 always-on (~$690 w/ pause) | Public, anywhere | None | Slow |
 | **4** | **Aura Pro 4 GB / 8 GB** | **~$3,154 always-on (~$1,380 w/ pause)** | Public, anywhere | None | Slow |
@@ -433,14 +444,14 @@ So per-user identity rides with remote-MCP-hosting + Enterprise/Aura, not with t
 - **Option 2 (Aura Free) is not viable:** caps at 200K nodes / 400K rels; we're at 249K / 2.2M.
 - **Option 4 is the honest Aura tier** for this KG (comfortable cache; room to ~2×).
 
-**Migrate from local-box (Option 1) to Aura (Option 4) when any of:**
+**Revisit Aura (Option 4) when any of:**
 1. Testers need access beyond the campus network / university VPN (external collaborators).
-2. Box uptime becomes a recurring complaint.
+2. Lab-box uptime becomes a recurring complaint.
 3. Per-user accounts / audit become a requirement (and Enterprise-on-box isn't pursued).
 4. We want a public-launch posture ("here's the URI, no VPN required").
 5. University IT forbids serving the DB on the campus network / over the VPN.
 
-**Budget framing:** Option 1 is $0; Option 4 is ~$1–3K/yr. Not worth it for a lab-local alpha; likely worth it at beta. **PI ask:** approve Option 1 for the alpha; heads-up on the eventual Option 4 line item if a migration trigger hits.
+**Budget framing at archive time:** Option 1 is $0; Option 4 is ~$1–3K/yr.
 
 ### 7.4 Remote-host the explorer MCP
 

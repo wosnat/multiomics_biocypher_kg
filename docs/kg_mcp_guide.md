@@ -26,54 +26,36 @@ The graph is read-only for you. The MCP rejects every write attempt.
 
 ## 2. Connection details for this release
 
-> **This is the only section that changes per host.** Everything else in this guide
-> stays the same whether the KG is served from a local lab box (Track A) or from
-> Neo4j Aura (Track B). The per-release values (URI, credentials, contact) come from
-> the **GitHub Release notes** for the version you were invited to — start there:
+> **The KG is served from the lab box at `132.75.249.47`.** You need to be on the
+> lab subnet (in the lab, or on the university VPN that places you back on the
+> campus network). The per-release values — exact URI, port, credentials — come
+> from the **GitHub Release notes** for the version you were invited to:
 > <https://github.com/wosnat/multiomics_biocypher_kg/releases>.
 
 ### 2.1 Bolt URI
 
-| Host | URI shape | Example | TLS |
-|---|---|---|---|
-| **Local lab box** (Track A) | `bolt://<lab-ip>:<port>` | `bolt://132.75.249.47:17687` | no (trusted lab subnet) |
-| **Aura** (Track B) | `neo4j+s://<instance-id>.databases.neo4j.io` | `neo4j+s://abc12345.databases.neo4j.io` | yes (built-in) |
-
-Use the URI exactly as printed in the release notes; the scheme prefix (`bolt://` vs `neo4j+s://`) carries the TLS contract.
+The URI is **`bolt://132.75.249.47:17687`** (Bolt) with a sibling HTTP browser at `http://132.75.249.47:17474`. Plain `bolt://`, not `bolt+s://` / `neo4j+s://` — the lab subnet is trusted, no TLS. The release notes will print the exact URI; copy it verbatim into your MCP config (§4).
 
 ### 2.2 Reach the host (before installing anything)
 
 Run the appropriate one-liner from the machine you'll be querying *from*:
 
-- **Linux / macOS:** `nc -zv <host> <port>` → expect `Connection to <host> <port> port [tcp/*] succeeded!`
-- **Windows 11 / 10:** `Test-NetConnection -ComputerName <host> -Port <port>` — run in **PowerShell**, not Command Prompt — expect `TcpTestSucceeded : True`.
+- **Linux / macOS:** `nc -zv 132.75.249.47 17687` → expect `Connection to 132.75.249.47 17687 port [tcp/*] succeeded!`
+- **Windows 11 / 10:** `Test-NetConnection -ComputerName 132.75.249.47 -Port 17687` — run in **PowerShell**, not Command Prompt — expect `TcpTestSucceeded : True`.
 
-If the test fails:
-
-| Host | Likely cause |
-|---|---|
-| Local lab box | You're not on the lab subnet. Go to the lab, or connect to the university VPN (which places you back on the campus network). Off-subnet hosts are dropped at the host firewall. |
-| Aura | Some campus / corporate firewalls block outbound 7687. Try from a different network, or ask your IT to whitelist `neo4j+s://*.databases.neo4j.io`. |
+If the test fails: you're not on the lab subnet. Go to the lab, or connect to the university VPN (which places you back on the campus network). Off-subnet hosts are dropped at the box's host firewall (`DOCKER-USER` allowlist restricted to the lab subnet) before they ever reach Neo4j.
 
 ### 2.3 Credentials
 
-| Host | Model | Where to get them |
-|---|---|---|
-| **Local lab box** | One shared `explorer` read login (not the `neo4j` admin — that's operator-only). | Distributed out-of-band by the operator (lab Slack DM, not committed to any public location). |
-| **Aura** | Per-user account on the Aura instance. | Username + password from the operator; can be rotated per-tester. |
+One shared `explorer` read login for all lab testers — distributed out-of-band by the operator (lab Slack DM, not committed to any public location). It is **not** the `neo4j` bootstrap admin (operator-only). Username `explorer`, password from the operator. The `NEO4J_DATABASE` value is `neo4j` unless the release notes say otherwise.
 
-The `NEO4J_DATABASE` value is `neo4j` for both hosts unless the release notes say otherwise.
+Per-user accounts aren't worth it on Neo4j Community (no roles → every login is full-access anyway) and would mean re-provisioning N accounts on every release (the volume is wiped per release as part of blue/green). They become real when (a) we host the MCP remotely with per-user OAuth, or (b) we move to Neo4j Enterprise/Aura — both deferred (see `plans/alpha_release.md` §7).
 
 ### 2.4 Read-only — what enforces it
 
-The explorer MCP rejects every write attempt — `run_cypher` blocks any `CREATE / MERGE / SET / DELETE / DROP / CALL <write-procedure>`, and the ~36 typed tools never issue writes.
+The explorer MCP rejects every write attempt — `run_cypher` blocks any `CREATE / MERGE / SET / DELETE / DROP / CALL <write-procedure>`, and the ~36 typed tools never issue writes. **Stay inside the MCP.**
 
-| Host | Second-layer enforcement |
-|---|---|
-| **Local lab box** (Neo4j Community) | **None at the DB layer** — Community has no roles, so the shared `explorer` credential is full-access if used outside the MCP. Stay in the MCP. |
-| **Aura** | Your account has the Neo4j `reader` role, so writes are also rejected server-side. |
-
-In both cases the graph is rebuilt from public sources on every release, so even a successful unauthorized write would have no lasting effect.
+**At the DB layer there is no second line of defense.** Neo4j Community has no roles, so the shared `explorer` credential is full-access if used outside the MCP (e.g. raw Bolt driver, `cypher-shell`). That trade-off is acceptable for a physically-present, trusted lab alpha. The graph is also rebuilt from public sources on every release, so even a successful unauthorized write would have no lasting effect.
 
 ---
 
@@ -205,8 +187,8 @@ The full conventions live at `docs://guide/conventions`. Highlights:
 
 ## 9. Limits and support
 
-- **Read-only.** Enforced by the MCP for both hosts; additionally enforced server-side on Aura via the `reader` role (§2.4).
-- **Query timeout.** The MCP applies a 60-second default. On Aura, the server applies its own limit too. Heavy unbounded queries get cancelled — narrow with a label, organism, or `LIMIT`.
+- **Read-only.** Enforced by the MCP (§2.4). No DB-side enforcement on Neo4j Community — stay in the MCP.
+- **Query timeout.** The MCP applies a 60-second default. Heavy unbounded queries get cancelled — narrow with a label, organism, or `LIMIT`.
 - **Result cap.** `run_cypher` defaults to 25 rows; pass `limit=N` to bump it.
 - **Bug reports / questions.** File an issue at <https://github.com/wosnat/multiomics_biocypher_kg/issues> and include the output of the compatibility check (§5) so we know which release you hit.
 
