@@ -12,6 +12,12 @@ biocypher-*
 .claude/settings.json
 .claude/settings.local.json
 
+# Alpha stack: per-deployment secrets + state. Real .env.alpha is gitignored;
+# only the .env.alpha.example template is committed. .alpha_active_color is
+# the blue/green color marker, written by /release-kg --target local.
+.env.alpha
+.alpha_active_color
+
 # Docker import artifacts (regenerated every rebuild)
 /output/import.report
 /output/import.status

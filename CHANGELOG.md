@@ -15,6 +15,21 @@ the GitHub Release is a rendering of one section. See `plans/alpha_release.md` �
 ## [Unreleased]
 
 ### Added
+- Track A infrastructure scaffolding (no behavior yet — these wire
+  into `/release-kg --target local` in a follow-up):
+  - `docker-compose.alpha.yml` — alpha-stack compose override
+    matching the plan §2.4 sketch. Renames containers `alpha-build` /
+    `alpha-import` / `alpha-post-process` / `alpha-deploy`, forwards
+    `KG_*` env vars to post-process, drops the Biochatter UI, and
+    hands the data volume off to a `${ALPHA_DATA_VOLUME}`-selected
+    external name (default `kg-alpha-blue`) for the blue/green flip.
+  - `.env.alpha.example` — committed template for the operator-only
+    secrets (`ALPHA_BIND_IP`, `NEO4J_AUTH`, `ALPHA_EXPLORER_PASSWORD`).
+  - `scripts/alpha_up.sh` / `scripts/alpha_down.sh` — operator
+    wrappers around the `-p kg-alpha -f … -f …` invocation. Read the
+    active color from `.alpha_active_color` (written by the release
+    flow) and refuse to run if `.env.alpha` or the marker is missing.
+  - `.gitignore` adds `.env.alpha` and `.alpha_active_color`.
 
 ### Changed
 - Decision (2026-06-06): the alpha runs on **Track A** — the lab box
