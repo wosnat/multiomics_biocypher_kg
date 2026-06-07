@@ -17,6 +17,13 @@ the GitHub Release is a rendering of one section. See `plans/alpha_release.md` �
 ### Added
 
 ### Changed
+- Decision (2026-06-06): the alpha runs on **Track A** — the lab box
+  at `132.75.249.47` (leadership choice). Aura (was Track B) archived;
+  `/release-kg` drops the `--target aura` backend. Plan
+  (`plans/alpha_release.md`) and tester guide
+  (`docs/kg_mcp_guide.md` §2) reframed accordingly. Remaining
+  agnostic-vs-local design split stays intact; `--target local`
+  implementation is the active work, currently still a stub.
 
 ### Fixed
 

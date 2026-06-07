@@ -13,7 +13,7 @@ Every phase is re-runnable. The script captures no state between invocations —
 | 3 Commit/tag/push | yes | Skips commit if HEAD subject matches; skips tag if exists; `git push` is naturally idempotent |
 | 4 Clean clone | yes | Removes existing `/tmp/kg-release-<version>` before re-cloning |
 | 5 Build + verify | rebuild-heavy | `docker compose up` re-attaches if the stack is already up; the build layer cache makes re-builds fast. Verify is read-only. |
-| 6 Deploy | depends on backend | `staging`: no-op deploy. `local`/`aura`: each will document its own idempotency when implemented. |
+| 6 Deploy | depends on backend | `staging`: no-op deploy. `local` (Track A lab box): will document its own idempotency when implemented (blue/green volume flip is the core invariant). |
 | 7 Publish | yes | `gh release create` fails fast if release exists (intentional — bump version or delete). |
 
 ## Phase 1: Preflight
@@ -111,11 +111,12 @@ KG_DEPLOY_BOLT_BIND=127.0.0.1:27687
 
 ## Phase 6: Deploy
 
-The pluggable seam — the entire skill spine drains into one of three backend functions selected by `--target`:
+The pluggable seam — the entire skill spine drains into one of two backend functions selected by `--target`:
 
 - **`staging`** (implemented): no-op. Leaves the staging stack up on `:27687` so the operator can poke around. Tear down with `docker compose -p kg-release-staging down`.
-- **`local`** (stub): raises `NotImplementedError`. Will implement when the hosting decision lands Track A — blue/green volume flip + provision shared `explorer` login + firewall confirmation. See plan §2.2–2.6.
-- **`aura`** (stub): raises `NotImplementedError`. Will implement for Track B — `neo4j-admin database dump` the staging volume, `neo4j-admin database upload --to-uri neo4j+s://…`, verify `Schema_info` round-trip, ensure `reader` role + user. See plan §7.3.
+- **`local`** (stub, in progress): raises `NotImplementedError`. Will implement the Track A lab-box deploy — blue/green volume color flip (build into the inactive color, swap, retire the previous), provision shared `explorer` login (`CREATE USER explorer …`), confirm `DOCKER-USER` firewall allowlist is present. See plan §2.2–2.6 (active implementation work, items #7–#14 in the Near-term work table).
+
+Aura (was `aura` target) was archived 2026-06-06; see plan §7.3.
 
 ## Phase 7: Publish
 

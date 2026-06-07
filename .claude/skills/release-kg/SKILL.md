@@ -1,14 +1,14 @@
 ---
 name: release-kg
-description: Cut, build, verify, and publish a versioned knowledge-graph release. Use when the user says "release the KG", "cut an alpha", "tag X.Y.Z", "/release-kg <version>", or wants to produce a tagged GitHub Release with a verified staged build. Runs preflight → CHANGELOG cut (pauses for polish) → commit/tag/push → clean clone of the tag → docker build into a staging stack → verify `Schema_info.version` matches the tag → deploy (`staging` default; `local`/`aura` stubbed until the hosting decision lands) → publish GitHub Release with metadata.json. Idempotent re-runs. `--dry-run` exercises every phase without mutating anything.
-argument-hint: <version> [--target staging|local|aura] [--allow-dirty] [--draft] [--dry-run] [--resume]
+description: Cut, build, verify, and publish a versioned knowledge-graph release. Use when the user says "release the KG", "cut an alpha", "tag X.Y.Z", "/release-kg <version>", or wants to produce a tagged GitHub Release with a verified staged build. Runs preflight → CHANGELOG cut (pauses for polish) → commit/tag/push → clean clone of the tag → docker build into a staging stack → verify `Schema_info.version` matches the tag → deploy (`staging` default; `local` is the Track A target on the lab box, currently stubbed pending implementation) → publish GitHub Release with metadata.json. Idempotent re-runs. `--dry-run` exercises every phase without mutating anything.
+argument-hint: <version> [--target staging|local] [--allow-dirty] [--draft] [--dry-run] [--resume] [--skip-kg-tests]
 user-invocable: true
 allowed-tools: Read, Edit, Write, Bash(uv run *), Bash(python *), Bash(python3 *), Bash(git *), Bash(docker *), Bash(docker compose *), Bash(gh *), Bash(cypher-shell *), Bash(rm -rf /tmp/kg-release-*)
 ---
 
 # Release KG Skill
 
-Agnostic-core release orchestrator: same workflow whether the eventual host is the local box (Track A) or Aura (Track B). The deploy step is a pluggable seam — only `staging` is wired today; `local` and `aura` raise a clear `NotImplementedError` pointing at the plan section where their design lives.
+Release orchestrator for the Track A alpha (lab box at `132.75.249.47`). The build/verify/publish core is host-agnostic by design; the deploy step is the pluggable seam. `--target staging` (default) is fully wired; `--target local` (the lab box deploy) is the next implementation chunk and currently raises `NotImplementedError`. Aura (was Track B) was archived 2026-06-06; see `plans/alpha_release.md` §7.3.
 
 See `plans/alpha_release.md` §2.3 for the full design and `references/PHASES.md` here for phase-by-phase mechanics.
 
@@ -23,7 +23,7 @@ Do **not** use for routine `docker compose up -d` rebuilds — those stamp dev `
 | Arg | Default | Meaning |
 |---|---|---|
 | `<version>` | — | `X.Y.Z[-(alpha\|beta\|rc).N]`. Becomes git tag `kg-<version>`. |
-| `--target` | `staging` | Where to deploy after a verified build. `staging` = leave the staging stack up on `:27687`, no host touched. `local` / `aura` = stubbed. |
+| `--target` | `staging` | Where to deploy after a verified build. `staging` = leave the staging stack up on `:27687`, no host touched. `local` = Track A lab-box deploy on `132.75.249.47:17687` (currently stubbed; implementation in progress). |
 | `--mcp-min` | `[tool.release-kg].mcp_min_version` in `pyproject.toml` (hard fallback `0.1.0` if missing) | Stamped onto `Schema_info.mcp_min_version`; declares min compatible explorer MCP. Per-release override; for repo-wide bumps edit pyproject. |
 | `--allow-dirty` | off | Skip the working-tree-clean and behind-origin checks. |
 | `--draft` | off | Publish GitHub Release as draft. |
@@ -40,7 +40,7 @@ The script runs six phases in order; each phase is idempotent. The default invoc
 3. **Commit + tag + push** — `chore(release): kg-<version>` commit, annotated tag `kg-<version>`, `git push --follow-tags`. Each step idempotent.
 4. **Clean clone of the tag** — `git clone --branch kg-<version> --depth 1 origin /tmp/kg-release-<version>`, copy `.env` in, set release-stamp env vars (`KG_RELEASE_VERSION`, `KG_GIT_*`, `KG_MCP_MIN_VERSION`).
 5. **Build into staging stack** — `docker compose -p kg-release-staging up --build -d build import post-process deploy` on **temp ports `:27474` / `:27687`** (does **not** touch the dev `:7474` / `:7687`). Post-import Group 4 stamps `Schema_info` from the env vars set above. **Then verifies in two layers:** (L0) query staging `Schema_info`, assert `version == tag`, capture counts; (L2) run `uv run pytest tests/kg_validity/ --neo4j-url <staging Bolt> -q` to gate the release on structural and semantic validity (~73 s, 1012 assertions). Use `--skip-kg-tests` to bypass in emergencies. On any failure, the staging stack is left running for inspection. (Explorer smoke test = L4, out of scope here.)
-7. **Deploy** — `--target staging`: leave staging up, print the Bolt URI. `local`/`aura`: raise `NotImplementedError` with a pointer to the plan.
+7. **Deploy** — `--target staging`: leave staging up, print the Bolt URI. `local`: raises `NotImplementedError` for now; will implement the blue/green volume flip + provision shared `explorer` login + firewall-presence check on the lab box.
 8. **Publish** — compose `metadata.json` (version + sha + counts + timestamps + `per_publication_edges` map), extract the `[<version>]` CHANGELOG section to a notes fragment, **find the most recent published `kg-*` release on origin and download its `metadata.json`**, render a "What changed since kg-X.Y.Z" diff block (headline-count deltas from Schema_info + per-publication added/changed/removed), prepend the diff block to the notes fragment if non-empty, `gh release create kg-<version> --notes-file <fragment> --prerelease`, `gh release upload` the manifest. First-ever releases or older prior releases without `metadata.json` skip the diff (non-fatal).
 
 ## Examples
@@ -60,8 +60,8 @@ uv run python .claude/skills/release-kg/release_kg.py 0.1.0-alpha.1 --resume
 
 ## What this skill does NOT do (yet)
 
-- **Track A deploy (`--target local`)** — blue/green volume flip, firewall allowlist, shared `explorer` login. Gated on hosting decision; see `plans/alpha_release.md` §2.2–2.6.
-- **Track B deploy (`--target aura`)** — `neo4j-admin database upload`, real `reader` role, per-user accounts. Gated on hosting decision; see §7.3.
+- **Track A deploy (`--target local`)** — blue/green volume flip on the lab box, provision shared `explorer` login (`CREATE USER explorer …`), confirm `DOCKER-USER` firewall allowlist is present. Active implementation work; see `plans/alpha_release.md` §2.2–2.6 (items #7–#14 in the Near-term work table).
+- **Aura (`--target aura`)** — archived 2026-06-06 (leadership chose Track A). See `plans/alpha_release.md` §7.3 for the analysis; not callable from this skill.
 - **Explorer smoke test in Phase 6** — **out of scope** for this skill (the MCP compatibility contract is explorer-repo work, handled separately). The KG side — `Schema_info.mcp_min_version` — is already stamped by post-import Group 4. Operators wanting a smoke test today should run it manually against the staging Bolt URI.
 - **`--skip-rebuild`** — Schema_info-only path against an already-live alpha stack. Will land alongside `--target local`.
 - **Auto-fill changelog stats** — the operator writes the prose; `metadata.json` carries the authoritative numbers.

@@ -518,22 +518,16 @@ def deploy_staging(ctx: Context) -> None:
 
 def deploy_local_stub(ctx: Context) -> None:
     raise NotImplementedError(
-        "--target local is not yet implemented. Track A (local-box alpha) is gated on "
-        "the hosting decision (local box vs Aura). See plans/alpha_release.md §2.2-2.6."
-    )
-
-
-def deploy_aura_stub(ctx: Context) -> None:
-    raise NotImplementedError(
-        "--target aura is not yet implemented. Track B (Aura) is gated on the hosting "
-        "decision (local box vs Aura). See plans/alpha_release.md §7.3."
+        "--target local is not yet implemented. Track A (lab box at 132.75.249.47) "
+        "is the chosen alpha-hosting path (decision 2026-06-06); implementation "
+        "is the active work in plans/alpha_release.md §2.2-2.6 (items #7-#14 in "
+        "the Near-term work table)."
     )
 
 
 DEPLOY_BACKENDS = {
     "staging": deploy_staging,
     "local": deploy_local_stub,
-    "aura": deploy_aura_stub,
 }
 
 
