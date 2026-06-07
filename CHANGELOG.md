@@ -30,6 +30,33 @@ the GitHub Release is a rendering of one section. See `plans/alpha_release.md` �
     active color from `.alpha_active_color` (written by the release
     flow) and refuse to run if `.env.alpha` or the marker is missing.
   - `.gitignore` adds `.env.alpha` and `.alpha_active_color`.
+- `/release-kg --target local` now implements the Track A lab-box
+  deploy (was a stub). Replaces `deploy_local_stub` with the real
+  blue/green flip orchestration in `release_kg.py`:
+  - Reads `.env.alpha` for `ALPHA_BIND_IP`, `NEO4J_AUTH`,
+    `ALPHA_EXPLORER_PASSWORD`; refuses to run on unfilled
+    `REPLACE_WITH_…` / `<...>` placeholders.
+  - Determines active/inactive colors from `.alpha_active_color`
+    (first cut bootstraps into `blue`).
+  - Builds the alpha-inactive color via a transient
+    `kg-alpha-build` compose project on temp localhost ports;
+    verifies Schema_info via `docker exec`. Pytest L2 is skipped
+    here because Phase 5 already ran it against the same tagged
+    KG on the staging stack (same tag + env = same KG).
+  - Flips: stops the live alpha-deploy (if any), brings it up on
+    the new color bound to `ALPHA_BIND_IP`. Best-effort rollback
+    to the previous color on flip failure.
+  - Provisions the shared `explorer` read login idempotently via
+    `CREATE USER explorer IF NOT EXISTS … + ALTER … CHANGE NOT
+    REQUIRED`.
+  - Warns (does not block) if the `DOCKER-USER` chain has no rule
+    for `:17474`/`:17687` — the firewall allowlist needs sudo on
+    the lab box.
+  - Updates `.alpha_active_color`, prints an operator summary
+    (Bolt URI, browser URI, distribute-credentials reminder).
+  - 18 new unit tests cover the deterministic pieces — color
+    rotation, marker round-trip, env-alpha parsing, validation
+    (missing keys, unfilled placeholders, malformed NEO4J_AUTH).
 
 ### Changed
 - Decision (2026-06-06): the alpha runs on **Track A** — the lab box

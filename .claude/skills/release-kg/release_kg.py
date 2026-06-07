@@ -73,6 +73,20 @@ STAGING_COMPOSE_OVERRIDE = "docker-compose.staging.yml"
 # host-`cypher-shell` dependency.
 STAGING_INNER_BOLT_URL = "bolt://localhost:7687"
 
+# Track A alpha-stack constants (--target local).
+ALPHA_PROJECT = "kg-alpha"                      # long-lived alpha-deploy
+ALPHA_BUILD_PROJECT = "kg-alpha-build"          # transient build+verify project
+ALPHA_COMPOSE_OVERRIDE = "docker-compose.alpha.yml"
+ALPHA_DEPLOY_CONTAINER = "alpha-deploy"          # set by the alpha override
+ALPHA_TEMP_HTTP_BIND = "127.0.0.1:37474"        # alpha-build verify port
+ALPHA_TEMP_BOLT_BIND = "127.0.0.1:37687"
+ALPHA_TEMP_BOLT_URL = "bolt://localhost:37687"
+ALPHA_INNER_BOLT_URL = "bolt://localhost:7687"  # talking to alpha-deploy from inside the container
+ALPHA_PUBLISHED_HTTP_PORT = 17474                # what testers connect to
+ALPHA_PUBLISHED_BOLT_PORT = 17687
+ALPHA_ACTIVE_COLOR_MARKER = ".alpha_active_color"
+ALPHA_COLORS = ["blue", "green"]
+
 CLONE_PARENT = Path("/tmp")
 COMMIT_PREFIX = "chore(release): kg-"
 TAG_PREFIX = "kg-"
@@ -516,18 +530,364 @@ def deploy_staging(ctx: Context) -> None:
     log(f"  to tear down later: docker compose -p {STAGING_PROJECT} down")
 
 
-def deploy_local_stub(ctx: Context) -> None:
-    raise NotImplementedError(
-        "--target local is not yet implemented. Track A (lab box at 132.75.249.47) "
-        "is the chosen alpha-hosting path (decision 2026-06-06); implementation "
-        "is the active work in plans/alpha_release.md §2.2-2.6 (items #7-#14 in "
-        "the Near-term work table)."
+# ─── Track A: --target local deploy backend ────────────────────────────────
+def _repo_root() -> Path:
+    """Repo root, i.e. the dir holding pyproject.toml + docker-compose.yml.
+    Resolved from this script's path so it works regardless of CWD."""
+    # __file__ = .../.claude/skills/release-kg/release_kg.py → parents[3] = repo root
+    return Path(__file__).resolve().parents[3]
+
+
+def _read_active_color(repo_root: Optional[Path] = None) -> Optional[str]:
+    """Read .alpha_active_color from repo root. Returns None on first cut."""
+    if repo_root is None:
+        repo_root = _repo_root()
+    marker = repo_root / ALPHA_ACTIVE_COLOR_MARKER
+    if not marker.exists():
+        return None
+    color = marker.read_text().strip()
+    if color not in ALPHA_COLORS:
+        die(f"{marker} contains unexpected value {color!r}; expected one of {ALPHA_COLORS}")
+    return color
+
+
+def _write_active_color(color: str, repo_root: Optional[Path] = None) -> None:
+    """Persist the new active color so subsequent `alpha_up.sh` / next release
+    knows which volume to mount."""
+    if color not in ALPHA_COLORS:
+        die(f"refusing to write unknown color {color!r}")
+    if repo_root is None:
+        repo_root = _repo_root()
+    marker = repo_root / ALPHA_ACTIVE_COLOR_MARKER
+    marker.write_text(color + "\n")
+
+
+def _inactive_color(active: Optional[str]) -> str:
+    """The OTHER of {blue, green}. First cut (no marker) bootstraps INTO blue."""
+    if active is None:
+        return "blue"
+    return "green" if active == "blue" else "blue"
+
+
+def _parse_env_alpha(env_alpha_path: Path) -> dict:
+    """Parse `KEY=VALUE` lines (with `#` comments). Compatible with how
+    `docker compose --env-file` reads — no shell expansion, no quote stripping."""
+    result: dict = {}
+    for line in env_alpha_path.read_text().splitlines():
+        stripped = line.strip()
+        if not stripped or stripped.startswith("#"):
+            continue
+        if "=" not in stripped:
+            continue
+        key, _, value = stripped.partition("=")
+        result[key.strip()] = value.strip()
+    return result
+
+
+def _validate_env_alpha(env: dict) -> None:
+    """Fail fast on missing keys or unreplaced placeholders."""
+    required = ["ALPHA_BIND_IP", "NEO4J_AUTH", "ALPHA_EXPLORER_PASSWORD"]
+    for key in required:
+        val = env.get(key, "")
+        if not val:
+            die(f".env.alpha is missing {key} (or it is empty)")
+        if "REPLACE_WITH_" in val or "<" in val:
+            die(f".env.alpha has an unfilled placeholder for {key} ({val!r}); "
+                f"edit the file before --target local")
+    auth = env["NEO4J_AUTH"]
+    if "/" not in auth or not auth.split("/", 1)[1]:
+        die(f"NEO4J_AUTH in .env.alpha must be `user/password` (got {auth!r})")
+
+
+def deploy_local(ctx: Context) -> None:
+    """Track A deploy: build + verify alpha-inactive, blue/green flip.
+
+    Detailed flow (each step idempotent and rollback-aware):
+      1. Preflight — read + validate .env.alpha, determine active/inactive colors.
+      2. Build + verify on INACTIVE color via transient `kg-alpha-build` project
+         on a temp localhost port. The live alpha-deploy on ACTIVE color keeps
+         serving throughout.
+      3. Verify Schema_info on the temp port (pytest L2 already ran in Phase 5
+         against the staging stack — same tag + env = same KG; skip the costly
+         re-run here).
+      4. Tear down the build project's deploy (containers go, volume kept).
+      5. Stop the live alpha-deploy if any (mounted on ACTIVE color, volume kept
+         as rollback target).
+      6. Bring up the live alpha-deploy on the now-new-ACTIVE color, bound to
+         the lab IP, auth on.
+      7. Provision the shared `explorer` read login.
+      8. Confirm the DOCKER-USER firewall allowlist (warn-only; cannot be set
+         from the script — needs sudo on the lab box).
+      9. Update the active-color marker. Print operator summary.
+
+    On any pre-flip failure, the live deploy keeps serving. Post-flip failure
+    is best-effort rollback to the previous color.
+    """
+    if ctx.dry_run:
+        dry_msg("deploy alpha via blue/green flip:")
+        log(f"  [dry-run] would read .env.alpha + .alpha_active_color, determine "
+            f"inactive color")
+        log(f"  [dry-run] would `docker compose -p {ALPHA_BUILD_PROJECT}` build "
+            f"into alpha-inactive volume on {ALPHA_TEMP_BOLT_URL}")
+        log(f"  [dry-run] would verify Schema_info on alpha-build via docker exec")
+        log(f"  [dry-run] would stop live alpha-deploy (if present), start on new "
+            f"color via `docker compose -p {ALPHA_PROJECT}`")
+        log(f"  [dry-run] would CREATE USER explorer …, check DOCKER-USER allowlist")
+        log(f"  [dry-run] would write {ALPHA_ACTIVE_COLOR_MARKER}")
+        return
+
+    repo_root = _repo_root()
+    env_alpha_path = repo_root / ".env.alpha"
+    if not env_alpha_path.exists():
+        die(f".env.alpha missing at {env_alpha_path} — copy .env.alpha.example "
+            f"and fill the placeholders before --target local")
+    env_alpha = _parse_env_alpha(env_alpha_path)
+    _validate_env_alpha(env_alpha)
+
+    active_color = _read_active_color(repo_root)
+    inactive_color = _inactive_color(active_color)
+    if active_color is None:
+        log(f"  first cut: bootstrapping into alpha color = {inactive_color}")
+    else:
+        log(f"  active color = {active_color}; flipping to {inactive_color}")
+
+    # Copy .env.alpha into the clone so the alpha override resolves at compose-up
+    # time. (The clone is from the tag, which doesn't carry the gitignored file.)
+    shutil.copy(env_alpha_path, ctx.clone_dir / ".env.alpha")
+
+    _alpha_build_and_verify(ctx, inactive_color, env_alpha)
+    _alpha_teardown_build_project(ctx)
+    _alpha_flip_live_deploy(ctx, active_color, inactive_color, env_alpha)
+    _alpha_provision_explorer_user(env_alpha)
+    _alpha_check_firewall_allowlist()
+
+    _write_active_color(inactive_color, repo_root)
+    log(f"  {ALPHA_ACTIVE_COLOR_MARKER} written: active color is now {inactive_color}")
+    _alpha_print_operator_summary(ctx, env_alpha)
+
+
+def _alpha_build_and_verify(ctx: Context, inactive_color: str, env_alpha: dict) -> None:
+    """Run the build → import → post-process → deploy chain in the
+    `kg-alpha-build` project, then verify Schema_info on the temp Bolt port."""
+    log(f"  building into kg-alpha-{inactive_color} via {ALPHA_BUILD_PROJECT} …")
+    release_env = os.environ.copy()
+    release_env.update({
+        "KG_RELEASE_VERSION": ctx.version,
+        "KG_GIT_SHA": ctx.git_sha,
+        "KG_GIT_SHA_SHORT": ctx.git_sha_short,
+        "KG_GIT_BRANCH": ctx.git_branch,
+        "KG_GIT_DIRTY": "true" if ctx.git_dirty else "false",
+        "KG_MCP_MIN_VERSION": ctx.mcp_min,
+        "KG_DEPLOY_HTTP_BIND": ALPHA_TEMP_HTTP_BIND,
+        "KG_DEPLOY_BOLT_BIND": ALPHA_TEMP_BOLT_BIND,
+        "ALPHA_DATA_VOLUME": f"kg-alpha-{inactive_color}",
+        # The override requires NEO4J_AUTH for the deploy service. The build
+        # project's deploy is just for verify; we reuse the operator's admin pw.
+        "NEO4J_AUTH": env_alpha["NEO4J_AUTH"],
+        "ALPHA_BIND_IP": env_alpha["ALPHA_BIND_IP"],
+    })
+    compose_up = [
+        "docker", "compose",
+        "-p", ALPHA_BUILD_PROJECT,
+        "-f", "docker-compose.yml",
+        "-f", ALPHA_COMPOSE_OVERRIDE,
+        "--env-file", ".env.alpha",
+        "up", "--build", "-d",
+        "build", "import", "post-process", "deploy",
+    ]
+    run(compose_up, cwd=ctx.clone_dir, env=release_env)
+
+    log(f"  alpha-build stack up; waiting for {ALPHA_DEPLOY_CONTAINER} (auth=on) "
+        f"to accept Bolt via docker exec …")
+    neo4j_user, _, neo4j_pass = env_alpha["NEO4J_AUTH"].partition("/")
+    cypher_shell_in_container = [
+        "docker", "exec", ALPHA_DEPLOY_CONTAINER,
+        "cypher-shell",
+        "-a", ALPHA_INNER_BOLT_URL,
+        "-u", neo4j_user,
+        "-p", neo4j_pass,
+    ]
+    for i in range(120):
+        ready = subprocess.run(cypher_shell_in_container + ["RETURN 1;"],
+                               capture_output=True, text=True)
+        if ready.returncode == 0:
+            log(f"  Bolt ready after {i}s")
+            break
+        time.sleep(1)
+    else:
+        die(f"alpha-build deploy not reachable via docker exec after 120s; "
+            f"leaving stack up for inspection")
+
+    cypher = (
+        "MATCH (s:Schema_info {id:'schema_info'}) "
+        "RETURN s.version AS version, s.git_sha AS git_sha, "
+        "s.paper_count AS papers, s.experiment_count AS experiments, "
+        "s.gene_count AS genes, s.organism_count AS organisms, "
+        "s.expression_edge_count AS expr_edges, "
+        "s.mcp_min_version AS mcp_min, s.built_at AS built_at"
     )
+    result = run(cypher_shell_in_container + ["--format", "plain", cypher],
+                 capture=True, show=False)
+    schema = _parse_plain_row(result.stdout)
+    if schema.get("version") != ctx.version:
+        die(f"alpha-build Schema_info.version = {schema.get('version')!r} but "
+            f"expected {ctx.version!r}; leaving alpha-build stack up at "
+            f"{ALPHA_TEMP_BOLT_URL} for inspection")
+    log(f"  alpha-build version: {schema['version']} ✓ (matches tag)")
+    log(f"  alpha-build counts: {schema['papers']} papers · {schema['experiments']} "
+        f"experiments · {schema['genes']} genes · {schema['organisms']} organisms · "
+        f"{schema['expr_edges']} expression edges")
+    log(f"  L2 KG-validity suite: skipped on alpha-build (already passed in "
+        f"Phase 5 against the staging stack; same tag + env yields the same KG)")
+
+
+def _alpha_teardown_build_project(ctx: Context) -> None:
+    """Stop the build project's containers but keep its volumes — the data we
+    just built lives in the kg-alpha-<inactive> volume that the live alpha-deploy
+    will mount next."""
+    log(f"  tearing down {ALPHA_BUILD_PROJECT} project (volumes preserved) …")
+    run(["docker", "compose", "-p", ALPHA_BUILD_PROJECT,
+         "-f", "docker-compose.yml", "-f", ALPHA_COMPOSE_OVERRIDE,
+         "--env-file", ".env.alpha",
+         "down"],
+        cwd=ctx.clone_dir, check=False)
+
+
+def _alpha_flip_live_deploy(ctx: Context, active_color: Optional[str],
+                            new_color: str, env_alpha: dict) -> None:
+    """Stop the live alpha-deploy if running (mounted on `active_color`), then
+    bring it up on `new_color` bound to the lab IP. On failure, attempt
+    rollback to `active_color`."""
+    release_env = os.environ.copy()
+    release_env.update({
+        "ALPHA_DATA_VOLUME": f"kg-alpha-{new_color}",
+        "KG_DEPLOY_HTTP_BIND": f"{env_alpha['ALPHA_BIND_IP']}:{ALPHA_PUBLISHED_HTTP_PORT}",
+        "KG_DEPLOY_BOLT_BIND": f"{env_alpha['ALPHA_BIND_IP']}:{ALPHA_PUBLISHED_BOLT_PORT}",
+        "NEO4J_AUTH": env_alpha["NEO4J_AUTH"],
+        "ALPHA_BIND_IP": env_alpha["ALPHA_BIND_IP"],
+    })
+
+    # 1. Stop existing live deploy (if any)
+    existing = subprocess.run(
+        ["docker", "ps", "-a", "--filter", f"name=^{ALPHA_DEPLOY_CONTAINER}$",
+         "--format", "{{.Names}}"],
+        capture_output=True, text=True,
+    )
+    if existing.returncode == 0 and ALPHA_DEPLOY_CONTAINER in existing.stdout:
+        log(f"  stopping live {ALPHA_DEPLOY_CONTAINER} (was on color={active_color}) …")
+        # Use the OLD color env so compose can match the existing container
+        old_env = dict(release_env)
+        if active_color is not None:
+            old_env["ALPHA_DATA_VOLUME"] = f"kg-alpha-{active_color}"
+        run(["docker", "compose", "-p", ALPHA_PROJECT,
+             "-f", "docker-compose.yml", "-f", ALPHA_COMPOSE_OVERRIDE,
+             "--env-file", ".env.alpha",
+             "down"],
+            cwd=ctx.clone_dir, env=old_env, check=False)
+
+    # 2. Bring up on new color (lab IP, auth on)
+    log(f"  bringing {ALPHA_DEPLOY_CONTAINER} up on color={new_color}, "
+        f"bound to {env_alpha['ALPHA_BIND_IP']}:{ALPHA_PUBLISHED_BOLT_PORT} …")
+    try:
+        run(["docker", "compose", "-p", ALPHA_PROJECT,
+             "-f", "docker-compose.yml", "-f", ALPHA_COMPOSE_OVERRIDE,
+             "--env-file", ".env.alpha",
+             "up", "-d", "deploy"],
+            cwd=ctx.clone_dir, env=release_env)
+    except subprocess.CalledProcessError as exc:
+        # Rollback attempt: bring back on the old color
+        if active_color is not None:
+            log(f"  FLIP FAILED: attempting rollback to color={active_color} …")
+            rollback_env = dict(release_env)
+            rollback_env["ALPHA_DATA_VOLUME"] = f"kg-alpha-{active_color}"
+            subprocess.run(["docker", "compose", "-p", ALPHA_PROJECT,
+                            "-f", "docker-compose.yml", "-f", ALPHA_COMPOSE_OVERRIDE,
+                            "--env-file", ".env.alpha",
+                            "up", "-d", "deploy"],
+                           cwd=ctx.clone_dir, env=rollback_env)
+            die(f"flip to color={new_color} failed; rolled back to color={active_color}: {exc}")
+        die(f"flip to color={new_color} failed (no prior color to roll back to): {exc}")
+
+    # Wait for Bolt readiness on the live IP (via docker exec, same as build verify)
+    log(f"  waiting for live {ALPHA_DEPLOY_CONTAINER} to accept Bolt …")
+    neo4j_user, _, neo4j_pass = env_alpha["NEO4J_AUTH"].partition("/")
+    for i in range(120):
+        ready = subprocess.run(
+            ["docker", "exec", ALPHA_DEPLOY_CONTAINER,
+             "cypher-shell", "-a", ALPHA_INNER_BOLT_URL,
+             "-u", neo4j_user, "-p", neo4j_pass, "RETURN 1;"],
+            capture_output=True, text=True,
+        )
+        if ready.returncode == 0:
+            log(f"  live {ALPHA_DEPLOY_CONTAINER} ready after {i}s")
+            return
+        time.sleep(1)
+    die(f"live {ALPHA_DEPLOY_CONTAINER} not accepting Bolt 120s after flip")
+
+
+def _alpha_provision_explorer_user(env_alpha: dict) -> None:
+    """Idempotent CREATE USER explorer + reset its password to the value in
+    .env.alpha. Runs inside alpha-deploy via docker exec."""
+    log(f"  provisioning shared `explorer` read login …")
+    neo4j_user, _, neo4j_pass = env_alpha["NEO4J_AUTH"].partition("/")
+    explorer_pass = env_alpha["ALPHA_EXPLORER_PASSWORD"]
+    # Single-quote the password literal in the Cypher; the password itself
+    # cannot contain single quotes (Neo4j string escaping rules apply).
+    if "'" in explorer_pass:
+        die("ALPHA_EXPLORER_PASSWORD cannot contain single quotes")
+    cypher = (
+        f"CREATE USER explorer IF NOT EXISTS "
+        f"SET PASSWORD '{explorer_pass}' CHANGE NOT REQUIRED; "
+        f"ALTER USER explorer SET PASSWORD '{explorer_pass}' CHANGE NOT REQUIRED;"
+    )
+    run(["docker", "exec", ALPHA_DEPLOY_CONTAINER,
+         "cypher-shell", "-a", ALPHA_INNER_BOLT_URL,
+         "-u", neo4j_user, "-p", neo4j_pass, cypher],
+        show=False)
+    log(f"  explorer login provisioned ✓")
+
+
+def _alpha_check_firewall_allowlist() -> None:
+    """Warn (don't fail) if the DOCKER-USER chain has no rule mentioning the
+    alpha published ports. Setting the rule needs sudo on the box — beyond what
+    this script can do."""
+    listing = subprocess.run(
+        ["iptables", "-L", "DOCKER-USER", "-n"],
+        capture_output=True, text=True,
+    )
+    if listing.returncode != 0:
+        log(f"  WARN: could not inspect DOCKER-USER chain "
+            f"({listing.stderr.strip() or 'unknown'}); confirm the firewall "
+            f"allowlist manually (plan §2.6)")
+        return
+    has_bolt = f"dpt:{ALPHA_PUBLISHED_BOLT_PORT}" in listing.stdout
+    has_http = f"dpt:{ALPHA_PUBLISHED_HTTP_PORT}" in listing.stdout
+    if has_bolt and has_http:
+        log(f"  DOCKER-USER allowlist: rules for {ALPHA_PUBLISHED_BOLT_PORT} + "
+            f"{ALPHA_PUBLISHED_HTTP_PORT} present ✓")
+        return
+    log(f"  WARN: DOCKER-USER chain has no rule referencing port "
+        f"{ALPHA_PUBLISHED_BOLT_PORT}/{ALPHA_PUBLISHED_HTTP_PORT}. The alpha "
+        f"is currently REACHABLE FROM ANYWHERE on the campus subnet — set the "
+        f"allowlist before inviting testers (plan §2.6).")
+
+
+def _alpha_print_operator_summary(ctx: Context, env_alpha: dict) -> None:
+    bind_ip = env_alpha["ALPHA_BIND_IP"]
+    log("")
+    log("  alpha deploy summary:")
+    log(f"    - tag:           {TAG_PREFIX}{ctx.version}")
+    log(f"    - Bolt URI:      bolt://{bind_ip}:{ALPHA_PUBLISHED_BOLT_PORT}")
+    log(f"    - HTTP browser:  http://{bind_ip}:{ALPHA_PUBLISHED_HTTP_PORT}")
+    log(f"    - shared login:  user=explorer, password from .env.alpha "
+        f"(distribute out-of-band)")
+    log(f"    - inspect logs:  ./scripts/alpha_up.sh logs -f deploy")
+    log(f"    - tear down:     ./scripts/alpha_down.sh")
 
 
 DEPLOY_BACKENDS = {
     "staging": deploy_staging,
-    "local": deploy_local_stub,
+    "local": deploy_local,
 }
 
 

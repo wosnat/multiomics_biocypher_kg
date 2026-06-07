@@ -226,6 +226,143 @@ def test_parse_plain_row(rkg):
     assert row["built_at"] == "2026-05-25T11:52:44.149Z"
 
 
+# ─── Track A: color rotation + env.alpha parsing ─────────────────────────────
+def test_inactive_color_bootstraps_into_blue(rkg):
+    # First cut has no marker → inactive = blue (the bootstrap target).
+    assert rkg._inactive_color(None) == "blue"
+
+
+def test_inactive_color_rotates(rkg):
+    assert rkg._inactive_color("blue") == "green"
+    assert rkg._inactive_color("green") == "blue"
+
+
+def test_read_active_color_missing_returns_none(rkg, tmp_path):
+    assert rkg._read_active_color(tmp_path) is None
+
+
+def test_read_active_color_blue(rkg, tmp_path):
+    (tmp_path / rkg.ALPHA_ACTIVE_COLOR_MARKER).write_text("blue\n")
+    assert rkg._read_active_color(tmp_path) == "blue"
+
+
+def test_read_active_color_green(rkg, tmp_path):
+    (tmp_path / rkg.ALPHA_ACTIVE_COLOR_MARKER).write_text("green")  # no trailing newline
+    assert rkg._read_active_color(tmp_path) == "green"
+
+
+def test_read_active_color_unexpected_dies(rkg, tmp_path):
+    (tmp_path / rkg.ALPHA_ACTIVE_COLOR_MARKER).write_text("purple")
+    with pytest.raises(SystemExit):
+        rkg._read_active_color(tmp_path)
+
+
+def test_write_active_color_round_trip(rkg, tmp_path):
+    rkg._write_active_color("green", tmp_path)
+    assert rkg._read_active_color(tmp_path) == "green"
+    rkg._write_active_color("blue", tmp_path)
+    assert rkg._read_active_color(tmp_path) == "blue"
+
+
+def test_write_active_color_rejects_unknown(rkg, tmp_path):
+    with pytest.raises(SystemExit):
+        rkg._write_active_color("purple", tmp_path)
+
+
+def test_parse_env_alpha_basic(rkg, tmp_path):
+    env_file = tmp_path / ".env.alpha"
+    env_file.write_text("""
+# A header comment
+ALPHA_BIND_IP=132.75.249.47
+NEO4J_AUTH=neo4j/admin-secret
+ALPHA_EXPLORER_PASSWORD=shared-secret
+
+# blank lines OK
+SOME_OTHER=value
+""")
+    parsed = rkg._parse_env_alpha(env_file)
+    assert parsed["ALPHA_BIND_IP"] == "132.75.249.47"
+    assert parsed["NEO4J_AUTH"] == "neo4j/admin-secret"
+    assert parsed["ALPHA_EXPLORER_PASSWORD"] == "shared-secret"
+    assert parsed["SOME_OTHER"] == "value"
+
+
+def test_parse_env_alpha_handles_inline_padding(rkg, tmp_path):
+    # `  KEY  =  value  ` should still produce KEY=value cleanly.
+    env_file = tmp_path / ".env.alpha"
+    env_file.write_text("  ALPHA_BIND_IP  =  10.0.0.1  \n")
+    assert rkg._parse_env_alpha(env_file) == {"ALPHA_BIND_IP": "10.0.0.1"}
+
+
+def test_parse_env_alpha_skips_malformed(rkg, tmp_path):
+    env_file = tmp_path / ".env.alpha"
+    env_file.write_text("VALID=ok\nINVALID_NO_EQUALS\nALSO_VALID=fine\n")
+    parsed = rkg._parse_env_alpha(env_file)
+    assert parsed == {"VALID": "ok", "ALSO_VALID": "fine"}
+
+
+def test_validate_env_alpha_happy(rkg):
+    rkg._validate_env_alpha({
+        "ALPHA_BIND_IP": "132.75.249.47",
+        "NEO4J_AUTH": "neo4j/real-password",
+        "ALPHA_EXPLORER_PASSWORD": "shared-real-password",
+    })
+
+
+def test_validate_env_alpha_missing_key_dies(rkg):
+    with pytest.raises(SystemExit):
+        rkg._validate_env_alpha({
+            "ALPHA_BIND_IP": "132.75.249.47",
+            "NEO4J_AUTH": "neo4j/real-password",
+            # ALPHA_EXPLORER_PASSWORD missing
+        })
+
+
+def test_validate_env_alpha_empty_value_dies(rkg):
+    with pytest.raises(SystemExit):
+        rkg._validate_env_alpha({
+            "ALPHA_BIND_IP": "",
+            "NEO4J_AUTH": "neo4j/real-password",
+            "ALPHA_EXPLORER_PASSWORD": "shared-real-password",
+        })
+
+
+def test_validate_env_alpha_unfilled_placeholder_dies(rkg):
+    with pytest.raises(SystemExit):
+        rkg._validate_env_alpha({
+            "ALPHA_BIND_IP": "132.75.249.47",
+            "NEO4J_AUTH": "neo4j/REPLACE_WITH_STRONG_ADMIN_PASSWORD",
+            "ALPHA_EXPLORER_PASSWORD": "shared-real-password",
+        })
+
+
+def test_validate_env_alpha_angle_bracket_placeholder_dies(rkg):
+    with pytest.raises(SystemExit):
+        rkg._validate_env_alpha({
+            "ALPHA_BIND_IP": "132.75.249.47",
+            "NEO4J_AUTH": "neo4j/<strong-pw>",
+            "ALPHA_EXPLORER_PASSWORD": "shared-real-password",
+        })
+
+
+def test_validate_env_alpha_auth_must_have_password(rkg):
+    with pytest.raises(SystemExit):
+        rkg._validate_env_alpha({
+            "ALPHA_BIND_IP": "132.75.249.47",
+            "NEO4J_AUTH": "neo4j/",  # missing password
+            "ALPHA_EXPLORER_PASSWORD": "shared-real-password",
+        })
+
+
+def test_validate_env_alpha_auth_must_have_slash(rkg):
+    with pytest.raises(SystemExit):
+        rkg._validate_env_alpha({
+            "ALPHA_BIND_IP": "132.75.249.47",
+            "NEO4J_AUTH": "no-slash-here",
+            "ALPHA_EXPLORER_PASSWORD": "shared-real-password",
+        })
+
+
 # ─── _load_default_mcp_min ───────────────────────────────────────────────────
 def test_load_default_mcp_min_reads_from_pyproject(rkg, tmp_path):
     pyproject = tmp_path / "pyproject.toml"
