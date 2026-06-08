@@ -1356,6 +1356,23 @@ CYPHER
 # Keep the MATCH/SET logic byte-identical to the matching block in post-import.cypher.
 # ─────────────────────────────────────────────────────────────────────────────
 echo "=== Post-process: Stamp Schema_info release metadata ==="
+
+# Resolve mcp_min_version fallback chain: env override > pyproject default >
+# hardcoded '0.1.0'. /release-kg sets KG_MCP_MIN_VERSION from pyproject before
+# invoking docker compose, so this branch only fires on dev `docker compose up`.
+if [ -z "${KG_MCP_MIN_VERSION:-}" ] && [ -r /scripts/pyproject.toml ]; then
+  KG_MCP_MIN_VERSION=$(awk '
+    /^\[tool\.release-kg\]/ { in_block=1; next }
+    /^\[/ && in_block      { in_block=0 }
+    in_block && /^[[:space:]]*mcp_min_version[[:space:]]*=/ {
+      sub(/^[^=]*=[[:space:]]*/, "")
+      gsub(/["'\'']/, "")
+      gsub(/[[:space:]]+$/, "")
+      print; exit
+    }
+  ' /scripts/pyproject.toml)
+fi
+
 time cypher-shell \
   -P "version          => '${KG_RELEASE_VERSION:-0.0.0-dev}'" \
   -P "git_sha          => '${KG_GIT_SHA:-unknown}'" \
