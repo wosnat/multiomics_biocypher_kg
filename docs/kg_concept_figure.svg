@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 620" font-family="Helvetica, Arial, sans-serif">
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#555"/>
+    </marker>
+  </defs>
+
+  <rect width="900" height="620" fill="#ffffff"/>
+
+  <!-- Title -->
+  <text x="450" y="40" text-anchor="middle" font-size="20" font-weight="700" fill="#1a1a1a">
+    Multi-Omics Knowledge Graph
+  </text>
+  <text x="450" y="62" text-anchor="middle" font-size="13" fill="#666">
+    marine cyanobacteria and their heterotrophic partners
+  </text>
+
+  <!-- ============ Publication ============ -->
+  <g>
+    <rect x="350" y="100" width="200" height="64" rx="10" fill="#e7eff8" stroke="#2b5b8a" stroke-width="2"/>
+    <text x="450" y="130" text-anchor="middle" font-size="16" font-weight="700" fill="#1a1a1a">Publication</text>
+    <text x="450" y="150" text-anchor="middle" font-size="11" fill="#555">DOI &#183; title &#183; authors</text>
+  </g>
+
+  <!-- arrow Publication -> Experiment -->
+  <line x1="450" y1="166" x2="450" y2="206" stroke="#555" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <!-- ============ Experiment / Assay ============ -->
+  <g>
+    <rect x="330" y="208" width="240" height="64" rx="10" fill="#e7eff8" stroke="#2b5b8a" stroke-width="2"/>
+    <text x="450" y="238" text-anchor="middle" font-size="16" font-weight="700" fill="#1a1a1a">Experiment / Assay</text>
+    <text x="450" y="258" text-anchor="middle" font-size="11" fill="#555">RNA-seq &#183; proteomics &#183; metabolomics</text>
+  </g>
+
+  <!-- arrow Experiment -> Gene -->
+  <line x1="450" y1="274" x2="450" y2="318" stroke="#555" stroke-width="2" marker-end="url(#arrow)"/>
+  <text x="460" y="298" font-size="11" fill="#555" font-style="italic">measures</text>
+
+  <!-- ============ Gene (center, emphasized) ============ -->
+  <g>
+    <rect x="360" y="320" width="180" height="90" rx="12" fill="#3d7549" stroke="#2a5232" stroke-width="2.5"/>
+    <text x="450" y="358" text-anchor="middle" font-size="22" font-weight="700" fill="#ffffff">Gene</text>
+    <text x="450" y="382" text-anchor="middle" font-size="11" fill="#dbe9d9">the central entity</text>
+  </g>
+
+  <!-- ============ Organism (left of Gene) ============ -->
+  <g>
+    <rect x="80" y="340" width="180" height="64" rx="10" fill="#faecd4" stroke="#c08038" stroke-width="2"/>
+    <text x="170" y="370" text-anchor="middle" font-size="16" font-weight="700" fill="#1a1a1a">Organism</text>
+    <text x="170" y="390" text-anchor="middle" font-size="11" fill="#555">strain / taxonomy</text>
+  </g>
+
+  <!-- arrow Organism -> Gene (belongs_to, drawn reversed: Gene side has the head) -->
+  <line x1="260" y1="372" x2="360" y2="372" stroke="#555" stroke-width="2" marker-end="url(#arrow)"/>
+  <text x="310" y="362" text-anchor="middle" font-size="11" fill="#555" font-style="italic">contains</text>
+
+  <!-- ============ Ortholog (right of Gene) ============ -->
+  <g>
+    <rect x="640" y="340" width="180" height="64" rx="10" fill="#faecd4" stroke="#c08038" stroke-width="2"/>
+    <text x="730" y="370" text-anchor="middle" font-size="16" font-weight="700" fill="#1a1a1a">Ortholog group</text>
+    <text x="730" y="390" text-anchor="middle" font-size="11" fill="#555">cross-strain conservation</text>
+  </g>
+
+  <!-- arrow Gene -> Ortholog group (member_of) -->
+  <line x1="540" y1="372" x2="640" y2="372" stroke="#555" stroke-width="2" marker-end="url(#arrow)"/>
+  <text x="590" y="362" text-anchor="middle" font-size="11" fill="#555" font-style="italic">member of</text>
+
+  <!-- ============ Ontology (bottom-left) ============ -->
+  <g>
+    <rect x="220" y="490" width="180" height="64" rx="10" fill="#ece2f0" stroke="#6f4595" stroke-width="2"/>
+    <text x="310" y="520" text-anchor="middle" font-size="16" font-weight="700" fill="#1a1a1a">Ontology</text>
+    <text x="310" y="540" text-anchor="middle" font-size="11" fill="#555">GO &#183; Pfam &#183; KEGG &#183; TCDB &#8230;</text>
+  </g>
+
+  <!-- arrow Gene -> Ontology (annotated_by) -->
+  <line x1="410" y1="410" x2="340" y2="490" stroke="#555" stroke-width="2" marker-end="url(#arrow)"/>
+  <text x="335" y="455" text-anchor="middle" font-size="11" fill="#555" font-style="italic">annotated</text>
+
+  <!-- ============ Metabolite (bottom-right) ============ -->
+  <g>
+    <rect x="500" y="490" width="180" height="64" rx="10" fill="#d6e9e7" stroke="#1f6e6e" stroke-width="2"/>
+    <text x="590" y="520" text-anchor="middle" font-size="16" font-weight="700" fill="#1a1a1a">Metabolite</text>
+    <text x="590" y="540" text-anchor="middle" font-size="11" fill="#555">via reaction or transport</text>
+  </g>
+
+  <!-- arrow Gene -> Metabolite -->
+  <line x1="490" y1="410" x2="560" y2="490" stroke="#555" stroke-width="2" marker-end="url(#arrow)"/>
+  <text x="560" y="455" text-anchor="middle" font-size="11" fill="#555" font-style="italic">acts on</text>
+</svg>

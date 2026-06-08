@@ -1,0 +1,335 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1240 880" font-family="Helvetica, Arial, sans-serif">
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#444"/>
+    </marker>
+    <marker id="arrow-blue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#2b5b8a"/>
+    </marker>
+    <marker id="arrow-green" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#3d7549"/>
+    </marker>
+    <marker id="arrow-teal" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#1f6e6e"/>
+    </marker>
+    <marker id="arrow-amber" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#9a6420"/>
+    </marker>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1240" height="880" fill="#ffffff"/>
+
+  <!-- ===== Title block ===== -->
+  <text x="620" y="36" text-anchor="middle" font-size="22" font-weight="700" fill="#1a1a1a">
+    Multi-Omics Knowledge Graph for Marine Microbial Communities
+  </text>
+  <text x="620" y="60" text-anchor="middle" font-size="13" fill="#555">
+    38 strains (Prochlorococcus &#183; Synechococcus &#183; Alteromonas + 4 heterotrophs) &#183; 43 publications &#183; 197 experiments &#183; 283K nodes &#183; 2.7M typed edges
+  </text>
+
+  <!-- ===== EVIDENCE group (top-left) ===== -->
+  <g>
+    <rect x="40" y="90" width="520" height="200" rx="12" fill="#e7eff8" stroke="#2b5b8a" stroke-width="1.5"/>
+    <text x="60" y="115" font-size="13" font-weight="700" fill="#2b5b8a" letter-spacing="0.5">EVIDENCE &amp; STUDY METADATA</text>
+
+    <!-- Publication -->
+    <rect x="60" y="130" width="150" height="64" rx="6" fill="#ffffff" stroke="#2b5b8a" stroke-width="1.2"/>
+    <text x="135" y="152" text-anchor="middle" font-size="13" font-weight="700" fill="#1a1a1a">Publication</text>
+    <text x="135" y="172" text-anchor="middle" font-size="18" font-weight="700" fill="#2b5b8a">43</text>
+    <text x="135" y="186" text-anchor="middle" font-size="9.5" fill="#666">DOI &#183; title &#183; organisms</text>
+
+    <!-- Experiment -->
+    <rect x="230" y="130" width="170" height="64" rx="6" fill="#ffffff" stroke="#2b5b8a" stroke-width="1.2"/>
+    <text x="315" y="152" text-anchor="middle" font-size="13" font-weight="700" fill="#1a1a1a">Experiment</text>
+    <text x="315" y="172" text-anchor="middle" font-size="18" font-weight="700" fill="#2b5b8a">197</text>
+    <text x="315" y="186" text-anchor="middle" font-size="9.5" fill="#666">RNA-seq &#183; proteomics &#183; metabolomics</text>
+
+    <!-- Treatment organism (coculture target) -->
+    <rect x="420" y="130" width="120" height="64" rx="6" fill="#ffffff" stroke="#2b5b8a" stroke-width="1.2"/>
+    <text x="480" y="152" text-anchor="middle" font-size="12" font-weight="700" fill="#1a1a1a">Coculture</text>
+    <text x="480" y="166" text-anchor="middle" font-size="12" font-weight="700" fill="#1a1a1a">partner</text>
+    <text x="480" y="186" text-anchor="middle" font-size="9.5" fill="#666">phage &#183; heterotroph</text>
+
+    <!-- has_experiment -->
+    <line x1="210" y1="162" x2="230" y2="162" stroke="#2b5b8a" stroke-width="1.5" marker-end="url(#arrow-blue)"/>
+    <text x="220" y="156" text-anchor="middle" font-size="8.5" fill="#2b5b8a" font-style="italic">has</text>
+
+    <!-- coculture link -->
+    <line x1="400" y1="162" x2="420" y2="162" stroke="#2b5b8a" stroke-width="1.5" marker-end="url(#arrow-blue)"/>
+    <text x="410" y="156" text-anchor="middle" font-size="8.5" fill="#2b5b8a" font-style="italic">tests</text>
+
+    <!-- Secondary evidence row -->
+    <rect x="60" y="210" width="105" height="60" rx="6" fill="#ffffff" stroke="#2b5b8a" stroke-width="1.2"/>
+    <text x="112" y="228" text-anchor="middle" font-size="11" font-weight="700" fill="#1a1a1a">Gene</text>
+    <text x="112" y="241" text-anchor="middle" font-size="11" font-weight="700" fill="#1a1a1a">Cluster</text>
+    <text x="112" y="261" text-anchor="middle" font-size="14" font-weight="700" fill="#2b5b8a">117</text>
+
+    <rect x="180" y="210" width="115" height="60" rx="6" fill="#ffffff" stroke="#2b5b8a" stroke-width="1.2"/>
+    <text x="237" y="228" text-anchor="middle" font-size="11" font-weight="700" fill="#1a1a1a">Derived</text>
+    <text x="237" y="241" text-anchor="middle" font-size="11" font-weight="700" fill="#1a1a1a">Metric</text>
+    <text x="237" y="261" text-anchor="middle" font-size="14" font-weight="700" fill="#2b5b8a">65</text>
+
+    <rect x="310" y="210" width="115" height="60" rx="6" fill="#ffffff" stroke="#2b5b8a" stroke-width="1.2"/>
+    <text x="367" y="228" text-anchor="middle" font-size="11" font-weight="700" fill="#1a1a1a">Metabolite</text>
+    <text x="367" y="241" text-anchor="middle" font-size="11" font-weight="700" fill="#1a1a1a">Assay</text>
+    <text x="367" y="261" text-anchor="middle" font-size="14" font-weight="700" fill="#2b5b8a">14</text>
+
+    <rect x="440" y="210" width="105" height="60" rx="6" fill="#ffffff" stroke="#2b5b8a" stroke-width="1.2"/>
+    <text x="492" y="228" text-anchor="middle" font-size="11" font-weight="700" fill="#1a1a1a">Clustering</text>
+    <text x="492" y="241" text-anchor="middle" font-size="11" font-weight="700" fill="#1a1a1a">Analysis</text>
+    <text x="492" y="261" text-anchor="middle" font-size="14" font-weight="700" fill="#2b5b8a">15</text>
+
+    <text x="300" y="284" text-anchor="middle" font-size="9.5" fill="#2b5b8a" font-style="italic">
+      Quantitative measurements attached to Experiments
+    </text>
+  </g>
+
+  <!-- ===== CORE ENTITIES group (top-right) ===== -->
+  <g>
+    <rect x="580" y="90" width="620" height="200" rx="12" fill="#e6f0e8" stroke="#3d7549" stroke-width="1.5"/>
+    <text x="600" y="115" font-size="13" font-weight="700" fill="#3d7549" letter-spacing="0.5">CORE BIOLOGICAL ENTITIES</text>
+
+    <!-- Gene (the hub) - large -->
+    <rect x="780" y="135" width="200" height="100" rx="8" fill="#3d7549" stroke="#2a5232" stroke-width="2"/>
+    <text x="880" y="165" text-anchor="middle" font-size="16" font-weight="700" fill="#ffffff">Gene</text>
+    <text x="880" y="192" text-anchor="middle" font-size="26" font-weight="700" fill="#ffffff">120,416</text>
+    <text x="880" y="216" text-anchor="middle" font-size="10" fill="#dbe9d9">locus tag &#183; product &#183; coordinates</text>
+    <text x="880" y="228" text-anchor="middle" font-size="10" fill="#dbe9d9">annotation_quality &#183; routing signals</text>
+
+    <!-- Protein -->
+    <rect x="1010" y="135" width="170" height="64" rx="6" fill="#ffffff" stroke="#3d7549" stroke-width="1.2"/>
+    <text x="1095" y="157" text-anchor="middle" font-size="13" font-weight="700" fill="#1a1a1a">Protein</text>
+    <text x="1095" y="177" text-anchor="middle" font-size="18" font-weight="700" fill="#3d7549">67,024</text>
+    <text x="1095" y="191" text-anchor="middle" font-size="9.5" fill="#666">UniProt accessions</text>
+
+    <!-- OrganismTaxon -->
+    <rect x="1010" y="208" width="170" height="64" rx="6" fill="#ffffff" stroke="#3d7549" stroke-width="1.2"/>
+    <text x="1095" y="230" text-anchor="middle" font-size="13" font-weight="700" fill="#1a1a1a">OrganismTaxon</text>
+    <text x="1095" y="250" text-anchor="middle" font-size="18" font-weight="700" fill="#3d7549">45</text>
+    <text x="1095" y="264" text-anchor="middle" font-size="9.5" fill="#666">38 strains + 5 treatment + 2 ref</text>
+
+    <!-- OrthologGroup -->
+    <rect x="600" y="135" width="170" height="100" rx="6" fill="#fff" stroke="#c08038" stroke-width="1.4"/>
+    <text x="685" y="159" text-anchor="middle" font-size="13" font-weight="700" fill="#1a1a1a">OrthologGroup</text>
+    <text x="685" y="182" text-anchor="middle" font-size="22" font-weight="700" fill="#c08038">48,230</text>
+    <text x="685" y="202" text-anchor="middle" font-size="9.5" fill="#666">Cyanorak (curated)</text>
+    <text x="685" y="216" text-anchor="middle" font-size="9.5" fill="#666">+ eggNOG (4 levels)</text>
+
+    <!-- edges within Core -->
+    <line x1="980" y1="170" x2="1010" y2="170" stroke="#3d7549" stroke-width="1.5" marker-end="url(#arrow-green)"/>
+    <text x="995" y="164" text-anchor="middle" font-size="8.5" fill="#3d7549" font-style="italic">encodes</text>
+
+    <path d="M 980 200 Q 1000 200 1010 230" stroke="#3d7549" stroke-width="1.5" fill="none" marker-end="url(#arrow-green)"/>
+    <text x="1010" y="220" text-anchor="middle" font-size="8.5" fill="#3d7549" font-style="italic">belongs_to</text>
+
+    <line x1="780" y1="185" x2="770" y2="185" stroke="#c08038" stroke-width="1.5" marker-end="url(#arrow-amber)"/>
+    <text x="775" y="178" text-anchor="middle" font-size="8.5" fill="#c08038" font-style="italic">in_OG</text>
+
+    <!-- comparative genomics caption -->
+    <text x="685" y="262" text-anchor="middle" font-size="9.5" fill="#9a6420" font-style="italic">
+      <tspan font-weight="700">341,648</tspan> Gene_in_ortholog_group edges
+    </text>
+    <text x="685" y="276" text-anchor="middle" font-size="9.5" fill="#9a6420" font-style="italic">
+      cross-strain expression propagation
+    </text>
+  </g>
+
+  <!-- ===== Changes_expression_of MAJOR EDGE (Evidence -> Gene) ===== -->
+  <g>
+    <path d="M 400 200 C 400 290, 700 290, 800 235" stroke="#2b5b8a" stroke-width="3" fill="none" marker-end="url(#arrow-blue)" stroke-dasharray="0"/>
+    <rect x="475" y="270" width="240" height="34" rx="6" fill="#ffffff" stroke="#2b5b8a" stroke-width="1.2"/>
+    <text x="595" y="284" text-anchor="middle" font-size="11" font-weight="700" fill="#2b5b8a">Changes_expression_of</text>
+    <text x="595" y="297" text-anchor="middle" font-size="10" fill="#2b5b8a">232,758 edges &#183; log2FC + adjusted p-value</text>
+  </g>
+
+  <!-- ===== Divider line ===== -->
+  <line x1="40" y1="330" x2="1200" y2="330" stroke="#cccccc" stroke-width="1" stroke-dasharray="4,4"/>
+  <text x="620" y="346" text-anchor="middle" font-size="11" font-weight="700" fill="#666" letter-spacing="2">GENE-ATTACHED ANNOTATIONS</text>
+
+  <!-- ===== FUNCTION ONTOLOGIES (bottom-left) ===== -->
+  <g>
+    <rect x="40" y="360" width="430" height="290" rx="12" fill="#ece2f0" stroke="#6f4595" stroke-width="1.5"/>
+    <text x="60" y="385" font-size="13" font-weight="700" fill="#6f4595" letter-spacing="0.5">FUNCTIONAL ANNOTATION</text>
+
+    <!-- GO -->
+    <rect x="60" y="400" width="190" height="76" rx="6" fill="#fff" stroke="#6f4595" stroke-width="1.2"/>
+    <text x="155" y="421" text-anchor="middle" font-size="12" font-weight="700" fill="#1a1a1a">Gene Ontology (GO)</text>
+    <text x="155" y="441" text-anchor="middle" font-size="10" fill="#444">BP 3,374 &#183; MF 2,871 &#183; CC 443</text>
+    <text x="155" y="459" text-anchor="middle" font-size="9" fill="#666">with full DAG ancestry to root</text>
+    <text x="155" y="472" text-anchor="middle" font-size="9" fill="#666">unified <tspan font-style="italic">level</tspan> property</text>
+
+    <!-- Pfam -->
+    <rect x="260" y="400" width="190" height="76" rx="6" fill="#fff" stroke="#6f4595" stroke-width="1.2"/>
+    <text x="355" y="421" text-anchor="middle" font-size="12" font-weight="700" fill="#1a1a1a">Pfam domains</text>
+    <text x="355" y="441" text-anchor="middle" font-size="10" fill="#444">5,816 families &#183; 515 clans</text>
+    <text x="355" y="459" text-anchor="middle" font-size="9" fill="#666">158,214 Gene_has_pfam edges</text>
+    <text x="355" y="472" text-anchor="middle" font-size="9" fill="#666">+ family&#8594;clan hierarchy</text>
+
+    <!-- EC -->
+    <rect x="60" y="488" width="190" height="66" rx="6" fill="#fff" stroke="#6f4595" stroke-width="1.2"/>
+    <text x="155" y="509" text-anchor="middle" font-size="12" font-weight="700" fill="#1a1a1a">EC numbers</text>
+    <text x="155" y="529" text-anchor="middle" font-size="10" fill="#444">7,337 enzyme classes</text>
+    <text x="155" y="545" text-anchor="middle" font-size="9" fill="#666">4-level hierarchy</text>
+
+    <!-- KEGG KO -->
+    <rect x="260" y="488" width="190" height="66" rx="6" fill="#fff" stroke="#6f4595" stroke-width="1.2"/>
+    <text x="355" y="509" text-anchor="middle" font-size="12" font-weight="700" fill="#1a1a1a">KEGG KO + pathways</text>
+    <text x="355" y="529" text-anchor="middle" font-size="10" fill="#444">5,125 KO/pathway terms</text>
+    <text x="355" y="545" text-anchor="middle" font-size="9" fill="#666">+ KEGG categories</text>
+
+    <!-- BRITE -->
+    <rect x="60" y="566" width="190" height="68" rx="6" fill="#fff" stroke="#6f4595" stroke-width="1.2"/>
+    <text x="155" y="588" text-anchor="middle" font-size="12" font-weight="700" fill="#1a1a1a">BRITE categories</text>
+    <text x="155" y="608" text-anchor="middle" font-size="10" fill="#444">2,675 across 12 trees</text>
+    <text x="155" y="624" text-anchor="middle" font-size="9" fill="#666">transporters, peptidases, TFs &#8230;</text>
+
+    <!-- Roles -->
+    <rect x="260" y="566" width="190" height="68" rx="6" fill="#fff" stroke="#6f4595" stroke-width="1.2"/>
+    <text x="355" y="586" text-anchor="middle" font-size="12" font-weight="700" fill="#1a1a1a">Functional roles</text>
+    <text x="355" y="604" text-anchor="middle" font-size="10" fill="#444">Cyanorak &#183; TIGR &#183; COG</text>
+    <text x="355" y="620" text-anchor="middle" font-size="9" fill="#666">curated cyanobacteria-aware</text>
+    <text x="355" y="632" text-anchor="middle" font-size="9" fill="#666">role-and-category hierarchies</text>
+  </g>
+
+  <!-- ===== STRUCTURE & TRANSPORT (bottom-center) ===== -->
+  <g>
+    <rect x="490" y="360" width="320" height="290" rx="12" fill="#f7e0d8" stroke="#a8462e" stroke-width="1.5"/>
+    <text x="510" y="385" font-size="13" font-weight="700" fill="#a8462e" letter-spacing="0.5">STRUCTURE &amp; TRANSPORT</text>
+
+    <!-- TCDB -->
+    <rect x="510" y="400" width="280" height="80" rx="6" fill="#fff" stroke="#a8462e" stroke-width="1.2"/>
+    <text x="650" y="421" text-anchor="middle" font-size="12" font-weight="700" fill="#1a1a1a">TCDB transporters</text>
+    <text x="650" y="442" text-anchor="middle" font-size="18" font-weight="700" fill="#a8462e">12,904 families</text>
+    <text x="650" y="460" text-anchor="middle" font-size="9.5" fill="#666">5-level hierarchy, pruned to KG subset</text>
+    <text x="650" y="473" text-anchor="middle" font-size="9.5" fill="#666">16,322 Gene_has_tcdb_family edges</text>
+
+    <!-- CAZy -->
+    <rect x="510" y="490" width="135" height="64" rx="6" fill="#fff" stroke="#a8462e" stroke-width="1.2"/>
+    <text x="577" y="512" text-anchor="middle" font-size="12" font-weight="700" fill="#1a1a1a">CAZy</text>
+    <text x="577" y="532" text-anchor="middle" font-size="16" font-weight="700" fill="#a8462e">67</text>
+    <text x="577" y="548" text-anchor="middle" font-size="9.5" fill="#666">CAZyme families</text>
+
+    <!-- PSORTb / SignalP grouped -->
+    <rect x="655" y="490" width="135" height="64" rx="6" fill="#fff" stroke="#a8462e" stroke-width="1.2"/>
+    <text x="722" y="510" text-anchor="middle" font-size="11" font-weight="700" fill="#1a1a1a">PSORTb &#183; SignalP</text>
+    <text x="722" y="528" text-anchor="middle" font-size="10" fill="#444">5 + 5 classes</text>
+    <text x="722" y="544" text-anchor="middle" font-size="9.5" fill="#666">localization &#183; signal peptide</text>
+
+    <!-- scored edges note -->
+    <rect x="510" y="565" width="280" height="68" rx="6" fill="#fff7f4" stroke="#a8462e" stroke-width="1" stroke-dasharray="4,3"/>
+    <text x="650" y="586" text-anchor="middle" font-size="11" font-weight="700" fill="#a8462e">Scored ontology edges</text>
+    <text x="650" y="603" text-anchor="middle" font-size="9.5" fill="#444">PSORTb: <tspan font-style="italic">score</tspan> &#183; SignalP: <tspan font-style="italic">probability</tspan></text>
+    <text x="650" y="618" text-anchor="middle" font-size="9.5" fill="#444">post-import <tspan font-style="italic">rank_by_score</tspan> per gene</text>
+    <text x="650" y="630" text-anchor="middle" font-size="9" fill="#666">structural &#8800; functional &#8594; separate routing</text>
+  </g>
+
+  <!-- ===== METABOLISM (bottom-right) ===== -->
+  <g>
+    <rect x="830" y="360" width="370" height="290" rx="12" fill="#d6e9e7" stroke="#1f6e6e" stroke-width="1.5"/>
+    <text x="850" y="385" font-size="13" font-weight="700" fill="#1f6e6e" letter-spacing="0.5">METABOLISM</text>
+
+    <!-- Reaction -->
+    <rect x="850" y="400" width="155" height="74" rx="6" fill="#fff" stroke="#1f6e6e" stroke-width="1.2"/>
+    <text x="927" y="420" text-anchor="middle" font-size="13" font-weight="700" fill="#1a1a1a">Reaction</text>
+    <text x="927" y="442" text-anchor="middle" font-size="20" font-weight="700" fill="#1f6e6e">2,373</text>
+    <text x="927" y="458" text-anchor="middle" font-size="9.5" fill="#666">KEGG-primary (R*)</text>
+    <text x="927" y="470" text-anchor="middle" font-size="9.5" fill="#666">+ MNX xrefs</text>
+
+    <!-- Metabolite -->
+    <rect x="1025" y="400" width="155" height="74" rx="6" fill="#fff" stroke="#1f6e6e" stroke-width="1.2"/>
+    <text x="1102" y="420" text-anchor="middle" font-size="13" font-weight="700" fill="#1a1a1a">Metabolite</text>
+    <text x="1102" y="442" text-anchor="middle" font-size="20" font-weight="700" fill="#1f6e6e">3,353</text>
+    <text x="1102" y="458" text-anchor="middle" font-size="9.5" fill="#666">KEGG.compound &#183; CHEBI</text>
+    <text x="1102" y="470" text-anchor="middle" font-size="9.5" fill="#666">formula &#183; SMILES &#183; mass</text>
+
+    <!-- Reaction -> Metabolite edge -->
+    <line x1="1005" y1="437" x2="1025" y2="437" stroke="#1f6e6e" stroke-width="1.5" marker-end="url(#arrow-teal)"/>
+    <text x="1015" y="430" text-anchor="middle" font-size="8.5" fill="#1f6e6e" font-style="italic">has</text>
+
+    <!-- KEGG pathway -->
+    <rect x="850" y="488" width="330" height="60" rx="6" fill="#fff" stroke="#1f6e6e" stroke-width="1.2"/>
+    <text x="1015" y="508" text-anchor="middle" font-size="12" font-weight="700" fill="#1a1a1a">KEGG pathway (Reaction&#8594;Pathway, Metabolite&#8594;Pathway)</text>
+    <text x="1015" y="528" text-anchor="middle" font-size="9.5" fill="#666">reaction_count &#183; metabolite_count per pathway (post-import)</text>
+    <text x="1015" y="540" text-anchor="middle" font-size="9.5" fill="#666">pruned to KG-reachable subset</text>
+
+    <!-- Tcdb -> Metabolite (transports) -->
+    <path d="M 650 480 C 650 560, 950 580, 1100 480" stroke="#a8462e" stroke-width="1.5" fill="none" marker-end="url(#arrow)" stroke-dasharray="5,3"/>
+    <rect x="830" y="562" width="190" height="32" rx="6" fill="#fff7f4" stroke="#a8462e" stroke-width="1"/>
+    <text x="925" y="576" text-anchor="middle" font-size="10" font-weight="700" fill="#a8462e">TCDB&#8594;Metabolite (transports)</text>
+    <text x="925" y="588" text-anchor="middle" font-size="9" fill="#666">subtree-rolled-up at build time</text>
+
+    <!-- Organism_has_metabolite materialization note -->
+    <rect x="850" y="606" width="330" height="34" rx="6" fill="#fff" stroke="#1f6e6e" stroke-width="1" stroke-dasharray="4,3"/>
+    <text x="1015" y="620" text-anchor="middle" font-size="10" font-weight="700" fill="#1f6e6e">Organism_has_metabolite (materialized)</text>
+    <text x="1015" y="633" text-anchor="middle" font-size="9" fill="#444">UNION over catalysis &#8746; transport &#8746; measurement</text>
+  </g>
+
+  <!-- ===== Connector arrows: Gene -> annotation groups ===== -->
+  <!-- Gene to Function -->
+  <path d="M 800 235 C 600 270, 350 320, 250 360" stroke="#6f4595" stroke-width="2" fill="none" marker-end="url(#arrow)"/>
+  <text x="475" y="312" text-anchor="middle" font-size="9.5" fill="#6f4595" font-style="italic">
+    has_pfam &#183; has_kegg_ko &#183; catalyzes_ec &#183; involved_in_BP &#8230;
+  </text>
+
+  <!-- Gene to Structure -->
+  <line x1="880" y1="235" x2="650" y2="360" stroke="#a8462e" stroke-width="2" marker-end="url(#arrow)"/>
+  <text x="765" y="312" text-anchor="middle" font-size="9.5" fill="#a8462e" font-style="italic">has_tcdb_family &#183; has_cazy &#183; has_signal_peptide</text>
+
+  <!-- Gene to Metabolism -->
+  <path d="M 960 235 C 1000 290, 1020 330, 1015 360" stroke="#1f6e6e" stroke-width="2" fill="none" marker-end="url(#arrow-teal)"/>
+  <text x="1090" y="310" text-anchor="middle" font-size="9.5" fill="#1f6e6e" font-style="italic">
+    catalyzes_reaction
+  </text>
+  <text x="1090" y="322" text-anchor="middle" font-size="9.5" fill="#1f6e6e" font-style="italic">
+    65,151 edges
+  </text>
+
+  <!-- ===== Footer / legend ===== -->
+  <g transform="translate(40, 680)">
+    <rect x="0" y="0" width="1160" height="170" rx="10" fill="#fafafa" stroke="#d0d0d0" stroke-width="1"/>
+    <text x="20" y="22" font-size="12" font-weight="700" fill="#333" letter-spacing="0.5">DESIGN PRINCIPLES</text>
+
+    <g transform="translate(20, 38)">
+      <circle cx="6" cy="6" r="4" fill="#2b5b8a"/>
+      <text x="20" y="10" font-size="11" font-weight="700" fill="#1a1a1a">Evidence layer</text>
+      <text x="20" y="26" font-size="10" fill="#444">Every measurement is anchored to a publication, experiment,</text>
+      <text x="20" y="40" font-size="10" fill="#444">and rich metadata (omics type, treatment, organism, time-course).</text>
+    </g>
+
+    <g transform="translate(310, 38)">
+      <circle cx="6" cy="6" r="4" fill="#3d7549"/>
+      <text x="20" y="10" font-size="11" font-weight="700" fill="#1a1a1a">Gene-centric hub</text>
+      <text x="20" y="26" font-size="10" fill="#444">Genes carry ~28 properties + post-import routing signals;</text>
+      <text x="20" y="40" font-size="10" fill="#444">annotations are graph edges, not flat fields &#8594; cleanly composable.</text>
+    </g>
+
+    <g transform="translate(600, 38)">
+      <circle cx="6" cy="6" r="4" fill="#c08038"/>
+      <text x="20" y="10" font-size="11" font-weight="700" fill="#1a1a1a">Comparative bridge</text>
+      <text x="20" y="26" font-size="10" fill="#444">OrthologGroup spans curated (Cyanorak) + computed</text>
+      <text x="20" y="40" font-size="10" fill="#444">(eggNOG) clusters, enabling cross-strain &amp; cross-genus joins.</text>
+    </g>
+
+    <g transform="translate(890, 38)">
+      <circle cx="6" cy="6" r="4" fill="#1f6e6e"/>
+      <text x="20" y="10" font-size="11" font-weight="700" fill="#1a1a1a">Metabolism arm</text>
+      <text x="20" y="26" font-size="10" fill="#444">Catalysis + transport unified through Metabolite;</text>
+      <text x="20" y="40" font-size="10" fill="#444">Organism_has_metabolite combines 3 evidence sources.</text>
+    </g>
+
+    <line x1="20" y1="92" x2="1140" y2="92" stroke="#e0e0e0" stroke-width="1"/>
+
+    <text x="20" y="110" font-size="11" font-weight="700" fill="#333" letter-spacing="0.5">QUERYABLE BY THE LLM AGENT (multiomics-explorer MCP)</text>
+    <text x="20" y="128" font-size="10" fill="#444">
+      40 tools across gene &#183; sequence &#183; expression &#183; ortholog &#183; ontology &#183; cluster &#183; chemistry &#183; metabolomics &#183; enrichment.
+    </text>
+    <text x="20" y="144" font-size="10" fill="#444">
+      Pre-computed indexes &amp; full-text search on the core node types; post-import Cypher derives ranks, percentiles, and routing signals for fast LLM-driven analysis.
+    </text>
+    <text x="20" y="160" font-size="9.5" fill="#888" font-style="italic">
+      Counts measured against the live KG (Schema_info: built 2026-06-03).
+    </text>
+  </g>
+</svg>
