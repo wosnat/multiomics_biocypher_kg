@@ -311,8 +311,11 @@ def phase_commit_tag_push(ctx: Context) -> None:
     tag_name = f"{TAG_PREFIX}{ctx.version}"
 
     head_subject = git_out("log", "-1", "--pretty=%s")
+    existing_history = git_out("log", "--pretty=%s", "-F", "--grep", commit_subject) or ""
     if head_subject == commit_subject:
         log(f"  HEAD already at {commit_subject!r} — skipping commit")
+    elif commit_subject in existing_history.splitlines():
+        log(f"  {commit_subject!r} already in branch history — skipping commit")
     else:
         run_or_dry(ctx, f"stage CHANGELOG.md", ["git", "add", "CHANGELOG.md"])
         run_or_dry(ctx, f"commit {commit_subject!r}",
