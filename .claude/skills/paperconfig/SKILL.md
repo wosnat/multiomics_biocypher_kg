@@ -1171,6 +1171,10 @@ When the user invokes this skill with a paper directory name (e.g., `/paperconfi
 8. **Register any new organisms** in the central CSVs (see "Registering New Organisms" below)
 9. Run the validation script (see below) to check all paths, columns, references, and ID uniqueness
 10. Register the config in `paperconfig_files.txt`
+11. **Extract publication "discusses" edges** (literature-index step — run for every new paper that has a PDF). This adds `Publication_discusses_gene` / `Publication_discusses_kegg_pathway` edges from the paper's *narrative* (genes/pathways the text discusses, beyond the DE tables):
+    - **Extract** (manual, LLM — not part of `prepare_data`): `uv run python -m multiomics_kg.extraction.topics.extract --paper "Author Year"` (or the `/extract-discussed-topics` skill) → `publication_topics/topics.json` (full PDF → LLM, 15-pp chunks, refs skipped)
+    - **Resolve** = `prepare_data.sh` **step 8** (deterministic): `bash scripts/prepare_data.sh --steps 8 --force` (resolves all extracted papers), or for just this paper `uv run python -m multiomics_kg.download.resolve_paper_topics --papers "Author Year" --force` → `topics_resolved.json` + `resolution_report.txt`. Requires steps 3 (gene_id_mapping) + 6 (kegg_data.json).
+    - The `publication_topics_adapter` then picks the resolved file up automatically at KG build time. See `plans/publication_discusses_edges.md`.
 
 ### Registering New Organisms
 

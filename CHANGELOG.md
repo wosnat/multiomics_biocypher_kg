@@ -33,7 +33,8 @@ the GitHub Release is a rendering of one section. See `plans/alpha_release.md` �
     `publication_topics/topics.json`. Strain-aware (attributes each gene to one of the
     paper's strains); captures verbatim locus tags; self-reports an
     `uncaptured_identifiers` triage signal.
-  - **Resolve** — `multiomics_kg/download/resolve_paper_topics.py`: genes resolved
+  - **Resolve** — `prepare_data.sh` **step 8**
+    (`multiomics_kg/download/resolve_paper_topics.py`): genes resolved
     per-strain via `gene_id_mapping` (identifiers-first; gene families fan out to one
     edge per member; `all`/`unspecified` mentions resolve in each paper strain);
     pathways via a global `kegg_data.json` lookup (dangling-proof — only resolves to

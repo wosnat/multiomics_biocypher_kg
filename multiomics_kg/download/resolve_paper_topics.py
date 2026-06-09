@@ -1,8 +1,9 @@
 #!/usr/bin/env python3
 """Resolve discussed-topic mentions to canonical Gene / KEGG-pathway nodes.
 
-Stage 2 of the discuss-edges pipeline (extract -> resolve -> adapter). For each
-paper with a ``publication_topics.json`` (Stage 1), resolves:
+Stage 2 of the discuss-edges pipeline (extract -> resolve -> adapter), wired as
+``prepare_data.sh`` step 8. For each paper with a ``publication_topics/topics.json``
+(Stage 1, written by the manual /extract-discussed-topics LLM step), resolves:
 
   - GENE mentions to strain-specific locus tags via the per-strain
     ``gene_id_mapping`` (identifiers first via Tier-1 ``specific_lookup``,
@@ -15,8 +16,8 @@ paper with a ``publication_topics.json`` (Stage 1), resolves:
     ``KeggTerm`` pathway nodes, so anything that resolves is guaranteed to be a
     real node (no dangling edges by construction).
 
-Writes ``publication_topics_resolved.json`` alongside the raw file. The Stage 3
-adapter reads only the resolved ids and emits edges for resolved entries.
+Writes ``publication_topics/topics_resolved.json`` + ``resolution_report.txt`` in the
+paper's subfolder. The Stage 3 adapter reads only the resolved ids and emits edges.
 
 Usage:
   uv run python -m multiomics_kg.download.resolve_paper_topics [--force] [--papers NAME ...]

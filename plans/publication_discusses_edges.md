@@ -84,8 +84,10 @@ attribution, full-tag identifier capture (CCRG-1/2 → MIT9313 `PMT*`/`P9313_*`)
 prominence, and the triage signal (`many` on this table-heavy paper) all confirmed.
 
 ### Stage 2 — Resolution (deterministic, prepare-data)
-New prepare-data step that reuses gene-resolution utils but does **not** overload
-step 4's CSV flow (different input/output artifacts). Input: raw topics json + paper
+Wired as **`prepare_data.sh` step 8** (`uv run python -m
+multiomics_kg.download.resolve_paper_topics`) — reuses gene-resolution utils but does
+**not** overload step 4's CSV flow (different input/output artifacts). Runs by default
+in a full `prepare_data` run; resolves any paper that has a `topics.json`, skips the rest. Input: raw topics json + paper
 organism. Output: `publication_topics/topics_resolved.json` + a `resolution_report.txt`
 (per-paper stats, method breakdown, truncated-id count, and an `unresolved_reasons` tally:
 `descriptive_only` | `truncated_id_only` | `lookup_miss`). Best-effort: gaps are reported,

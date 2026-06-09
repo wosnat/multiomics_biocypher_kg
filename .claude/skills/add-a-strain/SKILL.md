@@ -204,7 +204,7 @@ entries. Keep valid additions like `prefiltered`, `pvalue_threshold`,
 ### Run prepare_data
 
 ```bash
-bash scripts/prepare_data.sh --strains <NEW_STRAIN> --steps 0 1 2 3 4 5 6 7
+bash scripts/prepare_data.sh --strains <NEW_STRAIN> --steps 0 1 2 3 4 5 6 7 8
 ```
 
 | Step | Output |
@@ -220,6 +220,14 @@ bash scripts/prepare_data.sh --strains <NEW_STRAIN> --steps 0 1 2 3 4 5 6 7
 | 5 | `cache/data/eggnog/og_descriptions.json` (OG description cache) |
 | 6 | `cache/data/kegg/kegg_data.json` + `cache/data/tcdb/tcdb_pruned.json` + `cache/data/metabolomics/metabolite_id_mapping.json` (KEGG/TCDB pruning + metabolite alias index) |
 | 7 | `<paper>/<csv>_resolved.csv` for `metabolite_assays_table` entries (metabolite-ID resolution) |
+| 8 | `<paper>/publication_topics/topics_resolved.json` — discuss-edge resolution for any paper that has a `topics.json` |
+
+> **Discuss-edges (per motivating paper):** step 8 only *resolves* — the LLM
+> *extraction* is manual and must run first if you want this paper's
+> `Publication_discusses_gene/_kegg_pathway` edges:
+> `uv run python -m multiomics_kg.extraction.topics.extract --paper "<Author Year>"`
+> (or `/extract-discussed-topics`). Then step 8 (above) resolves it. See
+> `plans/publication_discusses_edges.md`.
 
 Logs land in `logs/prepare_data_step{N}.log`. Cyanorak is the flakiest server in
 the chain — if step 0.2 hangs, `--skip-cyanorak` and retry later.

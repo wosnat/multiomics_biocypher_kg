@@ -48,8 +48,16 @@
 #           columns; mirrors step 4 for genes. Reads only metabolite_id_mapping.json
 #           (no MNX resolver hit — step 6 owns that).
 #           Requires step 6.
+# Step 8 — Resolve paper "discusses" topic mentions → Gene / KEGG-pathway ids
+#           calls: multiomics_kg/download/resolve_paper_topics.py
+#           For each paper with a publication_topics/topics.json (written by the
+#           /extract-discussed-topics skill — the LLM extraction step is NOT in
+#           prepare_data), resolves gene + pathway mentions and writes
+#           topics_resolved.json + resolution_report.txt. Deterministic; mirrors
+#           steps 4/7. Papers without a topics.json are skipped.
+#           Requires step 3 (gene_id_mapping.json) + step 6 (kegg_data.json).
 #
-# Logs: logs/prepare_data_step0.log … logs/prepare_data_step7.log
+# Logs: logs/prepare_data_step0.log … logs/prepare_data_step8.log
 #       Monitor with: tail -f logs/prepare_data_step0.log
 #
 # Usage:
@@ -77,7 +85,7 @@ mkdir -p "$LOG_DIR"
 
 FORCE=""
 REFETCH_RAW=""
-STEPS="0 1 2 3 4 5 6 7"
+STEPS="0 1 2 3 4 5 6 7 8"
 STRAINS=()
 SKIP_CYANORAK=0
 
@@ -141,7 +149,7 @@ cd "$PROJECT_ROOT"
 export PYTHONPATH="$PROJECT_ROOT${PYTHONPATH:+:$PYTHONPATH}"
 
 echo "prepare_data.sh: steps=[${STEPS}]${STRAINS_ARG:+ strains=[${STRAINS[*]}]}${FORCE:+ (force)}${REFETCH_RAW:+ (refetch-raw)}${SKIP_CYANORAK:+ (skip-cyanorak)}"
-echo "(step 1 = protein annotations, step 2 = gene annotations, step 3 = gene ID mapping, step 4 = resolve paper CSVs, step 5 = OG descriptions, step 6 = pruned KEGG + TCDB hierarchy caches, step 7 = resolve paper metabolite names)"
+echo "(step 1 = protein annotations, step 2 = gene annotations, step 3 = gene ID mapping, step 4 = resolve paper CSVs, step 5 = OG descriptions, step 6 = pruned KEGG + TCDB hierarchy caches, step 7 = resolve paper metabolite names, step 8 = resolve paper discuss-topics)"
 echo "Project root: $PROJECT_ROOT"
 echo "Logs dir:     $LOG_DIR"
 
@@ -216,8 +224,15 @@ for step in $STEPS; do
                 uv run python -m multiomics_kg.download.resolve_paper_metabolites \
                     $FORCE
             ;;
+        8)
+            run_step 8 \
+                "Resolve paper discuss-topic mentions → Gene/KEGG ids (topics_resolved.json)" \
+                "$LOG_DIR/prepare_data_step8.log" \
+                uv run python -m multiomics_kg.download.resolve_paper_topics \
+                    $FORCE
+            ;;
         *)
-            echo "Unknown step: $step (valid: 0 1 2 3 4 5 6 7)" >&2
+            echo "Unknown step: $step (valid: 0 1 2 3 4 5 6 7 8)" >&2
             exit 1
             ;;
     esac
