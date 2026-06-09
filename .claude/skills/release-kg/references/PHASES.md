@@ -1,0 +1,192 @@
+# `release-kg` — Phase-by-phase reference
+
+Detailed mechanics. See the parent `SKILL.md` for arg/usage summary and `plans/alpha_release.md` §2.3 for the design rationale.
+
+## Idempotency contract
+
+Every phase is re-runnable. The script captures no state between invocations — the state lives in the repo (CHANGELOG, git log, tags) and on disk (`/tmp/kg-release-<version>`, staging docker volume). Re-running with the same `<version>` either no-ops phases that are already done or reproduces them.
+
+| Phase | Idempotent? | How |
+|---|---|---|
+| 1 Preflight | yes | Read-only |
+| 2 CHANGELOG cut | yes | Skips if `## [<version>]` section already exists |
+| 3 Commit/tag/push | yes | Skips commit if HEAD subject matches; skips tag if exists; `git push` is naturally idempotent |
+| 4 Clean clone | yes | Removes existing `/tmp/kg-release-<version>` before re-cloning |
+| 5 Build + verify | rebuild-heavy | `docker compose up` re-attaches if the stack is already up; the build layer cache makes re-builds fast. Verify is read-only. |
+| 6 Deploy | depends on backend | `staging`: no-op deploy. `local` (Track A lab box): will document its own idempotency when implemented (blue/green volume flip is the core invariant). |
+| 7 Publish | yes | `gh release create` fails fast if release exists (intentional — bump version or delete). |
+
+## Phase 1: Preflight
+
+Fail-fast read-only checks, no mutation.
+
+| Check | Failure mode | Override |
+|---|---|---|
+| Version matches `^\d+\.\d+\.\d+(-(alpha\|beta\|rc)\.\d+)?$` | exit 1 | — |
+| Tools on PATH: `docker`, `git`, `gh` (cypher-shell is invoked via `docker exec staging-deploy …`, no host install needed) | exit 1 | — |
+| `gh auth status` succeeds | exit 1 | run `gh auth login` |
+| Repo `.env` exists | exit 1 | create the file (build.sh hardcodes `cp /src/.env .`) |
+| `git status --porcelain` is empty | exit 1 | `--allow-dirty` |
+| `HEAD..origin/<branch>` count is 0 | exit 1 | `--allow-dirty` |
+
+On success, captures `git_sha`, `git_sha_short`, `git_branch`, `git_dirty` into the run context — these flow into the `Schema_info` stamp via env vars in Phase 5.
+
+## Phase 2: CHANGELOG cut
+
+Uses the Keep-a-Changelog "accumulate-then-cut" model.
+
+- Reads `CHANGELOG.md` from repo root.
+- Locates `## [Unreleased]` (fatal if missing).
+- Captures the section body (everything until the next `## [` or EOF).
+- Rewrites the file as:
+
+```markdown
+## [Unreleased]
+
+### Added
+
+### Changed
+
+### Fixed
+
+## [<version>] - <YYYY-MM-DD>
+
+<the old Unreleased body, verbatim>
+```
+
+- Idempotent: if `## [<version>]` already exists anywhere in the file, no-op.
+- If `[Unreleased]` had no `-` bullets, the new version section gets `_No entries — placeholder._` so the section is still well-formed.
+
+After this phase, the default invocation **pauses** (return 0) with the message:
+
+```
+=== PAUSE: CHANGELOG cut done ===
+Review and polish CHANGELOG.md as needed, then re-run with --resume to continue.
+```
+
+`--resume` skips the pause. `--dry-run` skips the pause (and doesn't actually write).
+
+## Phase 3: Commit + tag + push
+
+- Subject: `chore(release): kg-<version>`. Skipped if HEAD already has it.
+- Annotated tag: `kg-<version>` with message `KG release <version>`. Skipped if tag exists locally.
+- Push: `git push origin <branch> --follow-tags`. Naturally idempotent.
+
+The tag is pushed *now* (not after the build) so Phase 4 can clone it.
+
+## Phase 4: Clean clone of the tag
+
+- `git clone --branch kg-<version> --depth 1 <origin-url> /tmp/kg-release-<version>`.
+- Removes any pre-existing `/tmp/kg-release-<version>` first.
+- Copies the repo's gitignored `.env` into the clone (build.sh inside Docker does `cp /src/.env .` and will abort under `set -e` otherwise).
+
+The build reads the **tag**, never the live working tree — so dev work can continue during a release and the release is reproducible from `git clone --branch kg-<version>`.
+
+**Determinism caveat:** the build still consumes committed `cache/` and the warm `build_cache` volume. Reproducibility is "clean clone of the tag + warm cache," not fully hermetic.
+
+## Phase 5: Build into staging + verify
+
+Brings up a parallel docker stack named `kg-release-staging` on temp ports `127.0.0.1:27474` (HTTP) / `127.0.0.1:27687` (Bolt). The dev stack on `:7474` / `:7687` is untouched.
+
+Env vars set for `post-process` (consumed by post-import.sh Group 4 to stamp `Schema_info`):
+
+```
+KG_RELEASE_VERSION=<version>
+KG_GIT_SHA=<full sha>
+KG_GIT_SHA_SHORT=<short sha>
+KG_GIT_BRANCH=<branch>
+KG_GIT_DIRTY=true|false
+KG_MCP_MIN_VERSION=<--mcp-min, default [tool.release-kg].mcp_min_version in pyproject.toml; hard fallback 0.1.0>
+KG_DEPLOY_HTTP_BIND=127.0.0.1:27474
+KG_DEPLOY_BOLT_BIND=127.0.0.1:27687
+```
+
+**Isolation from the dev stack:** Phase 5 passes `-f docker-compose.yml -f docker-compose.staging.yml`. The override renames the four `container_name`s with a `staging-` prefix (`staging-build`, `staging-import`, `staging-post-process`, `staging-deploy`) so the staging containers don't collide with a running dev stack — which holds the unprefixed literal names from the base file. Compose project namespacing already isolates the named volumes.
+
+**Verification is layered:**
+
+- **L0 — liveness + Schema_info match.** After bringing up `deploy`, the script polls `docker exec staging-deploy cypher-shell -a bolt://localhost:7687 RETURN 1;` for up to 120s, then queries `Schema_info`. Talking to Bolt over the container's loopback (port 7687, not the host-published 27687) removes the host `cypher-shell` dependency. Asserts `s.version == <tag>`. Captures `gene_count` / `experiment_count` / `paper_count` / `organism_count` / `expression_edge_count` / `built_at` into context for Phase 7.
+- **L2 — KG validity test suite.** Runs `uv run pytest tests/kg_validity/ --neo4j-url bolt://localhost:27687 -q` from the repo root. The suite (~73 s, 1012 assertions) covers structural validity, post-import derivations, per-publication snapshot fixtures, domain invariants (ecotype labels, organism roster, katG absence in *Prochlorococcus*), expression-edge property types, BRITE / metabolism / TCDB / CAZy / PSORTb / SignalP / clustering / derived-metric rollups, and `Schema_info` release-stamp shape. Connects via the **host-published** Bolt port (`:27687`), not the container-loopback path — pytest uses the host's `neo4j` Python driver, not `docker exec`. On any failure, the staging stack is left running for inspection and the script aborts with a teardown hint. `--skip-kg-tests` bypasses (emergency override).
+- **L4 — explorer smoke test.** **Out of scope** for this skill (the MCP compatibility contract is explorer-repo work, decided 2026-06-01). The KG side of the contract is `Schema_info.mcp_min_version`, already stamped by post-import Group 4. Operators wanting a smoke test today should point the explorer at the staging Bolt URI manually.
+
+## Phase 6: Deploy
+
+The pluggable seam — the entire skill spine drains into one of two backend functions selected by `--target`:
+
+- **`staging`** (implemented): no-op. Leaves the staging stack up on `:27687` so the operator can poke around. Tear down with `docker compose -p kg-release-staging down`.
+- **`local`** (stub, in progress): raises `NotImplementedError`. Will implement the Track A lab-box deploy — blue/green volume color flip (build into the inactive color, swap, retire the previous), provision shared `explorer` login (`CREATE USER explorer …`), confirm `DOCKER-USER` firewall allowlist is present. See plan §2.2–2.6 (active implementation work, items #7–#14 in the Near-term work table).
+
+Aura (was `aura` target) was archived 2026-06-06; see plan §7.3.
+
+## Phase 7: Publish
+
+- **`metadata.json`** — written to the clone dir. Shape:
+
+```json
+{
+  "version": "0.1.0-alpha.1",
+  "tag": "kg-0.1.0-alpha.1",
+  "git_sha": "…",
+  "git_sha_short": "…",
+  "git_branch": "main",
+  "git_dirty": false,
+  "mcp_min_version": "0.1.0",
+  "target": "staging",
+  "built_at": "<from Schema_info.built_at>",
+  "counts": {
+    "papers": …, "experiments": …, "genes": …,
+    "organisms": …, "expression_edges": …
+  },
+  "per_publication_edges": {
+    "10.NNNN/foo": 4200,
+    "10.NNNN/bar": 4000,
+    …
+  },
+  "stamped_at": "<utc iso now>"
+}
+```
+
+This is the authoritative numbers carrier — the CHANGELOG holds prose, `metadata.json` holds counts. `per_publication_edges` is sorted by DOI on the way out so the JSON diffs cleanly across releases.
+
+- **Release-notes fragment** — `.release-notes-<version>.md` extracted from the CHANGELOG's `[<version>]` section.
+
+- **Prior-release diff (L3)** — before the fragment is written, the script calls `gh release list` + `gh release download` to fetch the most recent published `kg-*` release's `metadata.json`. If found, it computes a diff against the current build's metadata and renders a "What changed since kg-X.Y.Z" markdown block:
+  - **Headline counts** (Schema_info totals): a table with `prior | current | delta`, suppressing the section when no totals changed.
+  - **Per-publication expression edges**: three subsections — New publications, Changed (with `prior → current (±delta)`), Removed — each only rendered when non-empty.
+  - The block is **prepended** to the release-notes fragment so the GitHub Release page leads with what's new since last time, followed by the operator's prose from the CHANGELOG.
+  - **Soft-fail by design** — first-ever release, prior release with no `metadata.json` asset (older format), unauthenticated gh, network failure: log the reason and skip the block. The release still publishes.
+
+- **GitHub Release** — `gh release create kg-<version> --notes-file <fragment> --prerelease` (`--draft` adds `--draft`). The `--prerelease` flag is unconditional because any `X.Y.Z-(alpha|beta|rc).N` tag is a pre-release and bare `X.Y.Z` is rare here.
+
+- **Asset upload** — `gh release upload kg-<version> metadata.json`. This is what the next release's L3 diff will pick up.
+
+- **Operator checklist** — printed at the end: where to find the release, the staging URI, tear-down commands, clone cleanup.
+
+## Tester announcement template
+
+After a successful release:
+
+> **KG release `kg-<version>` is live.**
+>
+> - Release notes + manifest: `gh release view kg-<version>` (or the GitHub URL).
+> - Connect: Bolt URI / `.mcp.json` snippet — see `docs/kg_mcp_guide.md` (and the connection section once the hosting decision lands).
+> - `Schema_info.mcp_min_version = <mcp-min>` — make sure your explorer MCP is at least that version.
+> - File issues at `<repo>/issues` with the version tag in the title.
+
+## Common operator flows
+
+```bash
+# Sanity-check the pipeline against the current commit
+uv run python .claude/skills/release-kg/release_kg.py 0.1.0-alpha.1 --dry-run
+
+# Cut, polish, finish — the typical real release
+uv run python .claude/skills/release-kg/release_kg.py 0.1.0-alpha.1
+# … review CHANGELOG.md, edit if needed …
+uv run python .claude/skills/release-kg/release_kg.py 0.1.0-alpha.1 --resume
+
+# Release a draft (don't publish publicly yet)
+uv run python .claude/skills/release-kg/release_kg.py 0.1.0-alpha.1 --draft
+
+# Release with a dirty working tree (rare, e.g. emergency)
+uv run python .claude/skills/release-kg/release_kg.py 0.1.0-alpha.1 --allow-dirty
+```

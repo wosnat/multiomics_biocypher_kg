@@ -149,11 +149,20 @@ CANONICAL_GENOMIC_ORGANISMS = {
     "Alteromonas macleodii AD45",
     "Alteromonas macleodii BS11",
     "Alteromonas macleodii BGP6",
+    "Alteromonas mediterranea AltDE",
+    "Alteromonas mediterranea AltDE1",
     "Alteromonas (MarRef v6)",
     "Marinobacter (MarRef v6)",
     "Shewanella sp. W3-18-1",
     "Pseudomonas putida KT2440",
     "Ruegeria pomeroyi DSS-3",
+    # Soussan 2025 N/P starvation strain panel (May 2026)
+    "Prochlorococcus MIT9515",
+    "Prochlorococcus MIT9202",
+    "Prochlorococcus MIT9215",
+    "Prochlorococcus MIT0604",
+    "Prochlorococcus SB",
+    "Prochlorococcus PAC1",
 }
 
 # Canonical treatment organism names loaded from treatment_organisms.csv

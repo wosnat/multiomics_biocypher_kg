@@ -1,0 +1,24 @@
+{
+  "strain": "PAC1",
+  "gene_count": 2370,
+  "kegg_reactions": {
+    "raw_total": 1221,
+    "raw_unique": 959,
+    "kept_total": 1221,
+    "kept_unique_r_numbers": 959
+  },
+  "transporter_classification": {
+    "raw_total": 234,
+    "raw_unique": 102,
+    "validated_total": 234,
+    "validated_unique": 102,
+    "invalid_examples": []
+  },
+  "cazy_ids": {
+    "raw_total": 21,
+    "raw_unique": 13,
+    "validated_total": 21,
+    "validated_unique": 13,
+    "invalid_examples": []
+  }
+}

@@ -733,7 +733,7 @@ Each commit includes its own validation step; gate fails → previous commit rev
 # Strain deployment backlog
 
 Strains referenced by paperconfigs whose data remains uningested pending KG deployment.
-Track via `/deploy-strain` workflow when picked up.
+Track via `/add-a-strain` workflow when picked up.
 
 ## MIT0801 (Prochlorococcus, LLI ecotype)
 - **Source NCBI taxid:** 1110371 (or similar — verify via NCBI Assembly)
@@ -743,7 +743,7 @@ Track via `/deploy-strain` workflow when picked up.
 - **Blockers:** strain not in `cyanobacteria_genomes.csv`; no genome assembly downloaded.
 - **paperconfig state:** Kujawinski 2023 paperconfig.yaml has MIT0801 entries pre-written, commented out.
   Re-enable on strain deployment via uncomment + adapter rebuild.
-- **Estimated work:** ~1 day per `/deploy-strain` skill flow.
+- **Estimated work:** ~1 day per `/add-a-strain` skill flow.
 ```
 
 Future strains added below as they surface.

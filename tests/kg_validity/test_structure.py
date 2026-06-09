@@ -275,6 +275,40 @@ def test_gene_locus_tag_present(run_query):
     assert missing == 0, f"{missing} Gene node(s) are missing the locus_tag property"
 
 
+def test_gene_strand_values_valid(run_query):
+    """Gene.strand must only ever be '+', '-', or null (genuinely missing)."""
+    result = run_query("""
+        MATCH (g:Gene) WHERE g.strand IS NOT NULL
+        RETURN DISTINCT g.strand AS strand
+    """)
+    values = {r["strand"] for r in result}
+    assert values <= {"+", "-"}, f"Unexpected Gene.strand values: {values - {'+', '-'}}"
+
+
+def test_minus_strand_genes_present(run_query):
+    """Minus-strand genes must exist in roughly balanced numbers with plus-strand.
+
+    Regression guard: '-' is the eggNOG "no value" sentinel, and a generic
+    _nonempty() filter in build_gene_annotations once discarded it for the
+    strand field — turning every minus-strand gene's strand into null (~50% of
+    all genes, with zero '-' left in the graph). Genomes are ~50/50 between
+    strands, so the minus fraction of strand-bearing genes must be substantial.
+    """
+    result = run_query("""
+        MATCH (g:Gene) WHERE g.strand IS NOT NULL
+        RETURN g.strand AS strand, count(*) AS cnt
+    """)
+    counts = {r["strand"]: r["cnt"] for r in result}
+    plus = counts.get("+", 0)
+    minus = counts.get("-", 0)
+    assert minus > 0, "No minus-strand genes found (strand '-' lost in pipeline)"
+    minus_fraction = minus / (plus + minus)
+    assert 0.4 <= minus_fraction <= 0.6, (
+        f"Minus-strand fraction {minus_fraction:.2f} outside [0.4, 0.6] "
+        f"(plus={plus}, minus={minus}) — strand assignment likely broken"
+    )
+
+
 def test_protein_name_present(run_query):
     """Every Protein must have a protein_synonyms (full name string from UniProt).
 

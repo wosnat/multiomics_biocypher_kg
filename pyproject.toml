@@ -87,3 +87,11 @@ markers = [
     "slow: marks tests as slow (deselect with '-m \"not slow\"')",
     "kg: marks tests that require a running Neo4j instance (bolt://localhost:7687)",
 ]
+
+# Release tooling config consumed by .claude/skills/release-kg/release_kg.py.
+# `mcp_min_version` is the cross-repo contract: every release stamps this
+# value onto Schema_info.mcp_min_version, telling clients the minimum
+# multiomics-explorer MCP version compatible with this KG build. Bump when
+# the explorer's contract requires it; per-release override via --mcp-min.
+[tool.release-kg]
+mcp_min_version = "0.1.0a1"

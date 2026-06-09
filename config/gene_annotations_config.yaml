@@ -54,6 +54,30 @@ sources:
         scope: gene_level
         provenance: tool_run
 
+  psortb:
+    type: json_roworiented
+    # Phase-1 artifact: dict keyed by RefSeq WP_ accession (== protein_id).
+    path_pattern: "{data_dir}/psortb/{strain_name}.psortb.calls.json"
+    # Join key: gene_mapping.protein_id == psortb calls.json key (WP_ accessions)
+    join_to: protein_id
+    description: "PSORTb v3.0.3 per-protein subcellular-localization predictions (Phase-1 calls.json)"
+    logical_sources:
+      - id: psortb
+        scope: gene_level
+        provenance: tool_run
+
+  signalp:
+    type: json_roworiented
+    # Phase-1 artifact: dict keyed by RefSeq WP_ accession (== protein_id).
+    path_pattern: "{data_dir}/signalp/{strain_name}.signalp.calls.json"
+    # Join key: gene_mapping.protein_id == signalp calls.json key (WP_ accessions)
+    join_to: protein_id
+    description: "SignalP 6.0 per-protein signal-peptide-type predictions (Phase-1 calls.json)"
+    logical_sources:
+      - id: signalp
+        scope: gene_level
+        provenance: tool_run
+
   uniprot:
     type: json_roworiented
     # Row-oriented dict: data[uniprot_id] = {field: value} (produced by build_protein_annotations.py)
@@ -131,6 +155,7 @@ fields:
     type: passthrough
     source: gene_mapping
     field: strand
+    allow_dash: true   # '-' is the minus strand, not the eggNOG "no value" sentinel
 
   start_cyanorak:
     type: integer
@@ -146,6 +171,7 @@ fields:
     type: passthrough
     source: gene_mapping
     field: strand_cyanorak
+    allow_dash: true   # '-' is the minus strand, not the eggNOG "no value" sentinel
 
   # ── Gene naming (Cyanorak > UniProt > NCBI > EggNOG) ────────────────────────
 
@@ -543,6 +569,46 @@ fields:
       - source: eggnog
         field: CAZy
         delimiter: ","
+
+  # ── PSORTb subcellular localization (1:1 scalar fields; ontology track) ───────
+  # psortb calls.json is keyed by protein_id (WP_); 1:1 cardinality (one call/gene).
+  # Two parallel scalar fields read by psortb_adapter.SubcellularLocalizationAdapter.
+  # "Unknown" calls are kept here verbatim; the adapter skips them at edge-build time.
+
+  psortb_localization:
+    type: passthrough
+    source: psortb
+    field: localization
+
+  psortb_score:
+    type: float
+    source: psortb
+    field: score
+
+  # ── SignalP signal-peptide type (1:1 scalar fields; ontology track) ───────────
+  # signalp calls.json is keyed by protein_id (WP_); 1:1 cardinality (one call/gene).
+  # Four parallel scalar fields read by signalp_adapter.SignalPeptideAdapter.
+  # "OTHER" calls are kept here verbatim; the adapter skips them at edge-build time.
+
+  signalp_type:
+    type: passthrough
+    source: signalp
+    field: signalp_type
+
+  signalp_probability:
+    type: float
+    source: signalp
+    field: probability
+
+  signalp_cleavage_site:
+    type: integer
+    source: signalp
+    field: cleavage_site
+
+  signalp_cleavage_probability:
+    type: float
+    source: signalp
+    field: cleavage_probability
 
   # ── Protein properties denormalized from UniProt ──────────────────────────────
   # Keeps these queryable directly on Gene nodes without requiring a protein join.

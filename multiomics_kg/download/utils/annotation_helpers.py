@@ -6,15 +6,22 @@ import re
 from typing import Any
 
 
-def _nonempty(value: Any) -> bool:
-    """Return True if value is non-None, non-empty, and not the eggnog sentinel '-'."""
+def _nonempty(value: Any, keep_dash: bool = False) -> bool:
+    """Return True if value is non-None, non-empty, and not the eggnog sentinel '-'.
+
+    ``keep_dash=True`` treats a lone ``'-'`` as a real value rather than the
+    eggNOG "no value" sentinel. Use it for fields where ``'-'`` is meaningful
+    (e.g. the minus strand) so the value is not silently discarded.
+    """
     if value is None:
         return False
     if isinstance(value, str):
         s = value.strip()
-        return bool(s) and s != "-"
+        if not s:
+            return False
+        return keep_dash or s != "-"
     if isinstance(value, (list, tuple)):
-        return any(_nonempty(v) for v in value)
+        return any(_nonempty(v, keep_dash) for v in value)
     return True
 
 

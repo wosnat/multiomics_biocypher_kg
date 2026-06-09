@@ -73,6 +73,18 @@ class TestNonempty:
     def test_dash_with_spaces_is_empty(self):
         assert _nonempty("  -  ") is False
 
+    def test_dash_kept_when_keep_dash_true(self):
+        # keep_dash opt-out: '-' is a legitimate value (e.g. minus strand),
+        # not the eggNOG "no value" sentinel.
+        assert _nonempty("-", keep_dash=True) is True
+        assert _nonempty("  -  ", keep_dash=True) is True
+
+    def test_keep_dash_still_rejects_truly_empty(self):
+        # keep_dash only spares '-'; genuinely empty values stay empty.
+        assert _nonempty("", keep_dash=True) is False
+        assert _nonempty("   ", keep_dash=True) is False
+        assert _nonempty(None, keep_dash=True) is False
+
     def test_non_empty_string(self):
         assert _nonempty("hello") is True
 
@@ -1238,6 +1250,46 @@ class TestGeneCategory:
         gm = dict(GM, cyanorak_Role="F.1")
         merged = self.builder.build_merged(gm, EG, UP)
         assert merged["gene_category"] in VALID_CATEGORIES
+
+
+# ─── strand '-' preservation (regression) ────────────────────────────────────
+
+
+class TestStrandPreserved:
+    """Regression: minus-strand genes must keep strand='-'.
+
+    '-' is the eggNOG "no value" sentinel, but for the strand field it is a
+    legitimate value (minus strand). The strand / strand_cyanorak passthrough
+    fields set allow_dash: true so _nonempty() does not discard '-'. Without the
+    flag every minus-strand gene merged to strand=None — ~50% of all genes,
+    since there were zero '-' values left in the whole graph.
+    """
+
+    def setup_method(self):
+        from multiomics_kg.download.utils.cli import load_config
+        config = load_config("config/gene_annotations_config.yaml")
+        self.builder = AnnotationBuilder(config)
+
+    def test_minus_strand_preserved(self):
+        gm = dict(GM, strand="-")
+        merged = self.builder.build_merged(gm, EG, UP)
+        assert merged["strand"] == "-"
+
+    def test_plus_strand_preserved(self):
+        gm = dict(GM, strand="+")
+        merged = self.builder.build_merged(gm, EG, UP)
+        assert merged["strand"] == "+"
+
+    def test_missing_strand_omitted(self):
+        # A genuinely empty strand is still dropped — keep_dash only spares '-'.
+        gm = dict(GM, strand="")
+        merged = self.builder.build_merged(gm, EG, UP)
+        assert "strand" not in merged
+
+    def test_strand_cyanorak_minus_preserved(self):
+        gm = dict(GM, strand_cyanorak="-")
+        merged = self.builder.build_merged(gm, EG, UP)
+        assert merged["strand_cyanorak"] == "-"
 
 
 # ─── process_strain ───────────────────────────────────────────────────────────

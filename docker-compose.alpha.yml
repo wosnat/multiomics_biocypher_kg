@@ -1,0 +1,98 @@
+# Alpha stack override (Track A — lab box at ${ALPHA_BIND_IP}).
+#
+# Used by /release-kg --target local. Renames the container_name on each
+# service with an `alpha-` prefix so the alpha stack runs alongside the dev
+# and staging stacks without collisions. Forwards KG_* env vars to
+# post-process (so Schema_info gets the release stamp; lesson from the
+# 2026-06-02 staging trial). Hands the data volume off to a color-selected
+# external name so /release-kg can flip blue ↔ green per release.
+#
+# Invocation patterns (the release skill orchestrates both):
+#
+#  1. Transient BUILD project — builds into the INACTIVE color volume on
+#     a temporary localhost port; the live alpha-deploy keeps serving:
+#
+#       docker compose -p kg-alpha-build \
+#         -f docker-compose.yml -f docker-compose.alpha.yml \
+#         --env-file .env.alpha up -d build import post-process deploy
+#
+#     with env:
+#       ALPHA_DATA_VOLUME=kg-alpha-green        # the INACTIVE color
+#       KG_DEPLOY_HTTP_BIND=127.0.0.1:37474     # temp verify port (localhost only)
+#       KG_DEPLOY_BOLT_BIND=127.0.0.1:37687
+#       KG_RELEASE_VERSION=... + KG_GIT_* + KG_MCP_MIN_VERSION
+#
+#  2. Live ALPHA project — long-running alpha-deploy on the ACTIVE color,
+#     bound to the lab IP, auth on:
+#
+#       docker compose -p kg-alpha \
+#         -f docker-compose.yml -f docker-compose.alpha.yml \
+#         --env-file .env.alpha up -d deploy
+#
+#     with env:
+#       ALPHA_DATA_VOLUME=kg-alpha-green        # now the ACTIVE color
+#       KG_DEPLOY_HTTP_BIND=${ALPHA_BIND_IP}:17474
+#       KG_DEPLOY_BOLT_BIND=${ALPHA_BIND_IP}:17687
+#       NEO4J_AUTH=neo4j/<shared-admin>         # from .env.alpha
+#
+# The alpha-deploy's port bindings reuse the base file's
+# ${KG_DEPLOY_HTTP_BIND:-127.0.0.1:7474}:7474 parameterization, so the lab IP
+# selection is just a question of which env var value the operator passes.
+# That keeps both stacks' port handling in the base file and avoids a list-
+# merge surprise in compose. The lab box still needs a DOCKER-USER firewall
+# allowlist to keep `:17474`/`:17687` reachable only from the lab subnet
+# (plan §2.6) — Docker bypasses ufw by default.
+
+services:
+
+  build:
+    container_name: alpha-build
+
+  import:
+    container_name: alpha-import
+    # Isolate import.status / import.report from dev's ./output (the
+    # test_import_report KG-validity test reads ./output/import.report from
+    # the repo root by default; alpha's report writes to ./output-alpha).
+    volumes:
+      - ./output-alpha:/output
+
+  post-process:
+    container_name: alpha-post-process
+    environment:
+      # post-import.sh runs as a one-shot before alpha-deploy turns auth on.
+      NEO4J_dbms_security_auth__enabled: "false"
+      # Forward release-stamp env vars from the compose process into the
+      # container so post-import Group 4 stamps Schema_info with the
+      # tagged version (instead of falling back to '0.0.0-dev'). Same fix
+      # as the staging override (lessons learned 2026-06-02).
+      KG_RELEASE_VERSION: ${KG_RELEASE_VERSION:-}
+      KG_GIT_SHA:         ${KG_GIT_SHA:-}
+      KG_GIT_SHA_SHORT:   ${KG_GIT_SHA_SHORT:-}
+      KG_GIT_BRANCH:      ${KG_GIT_BRANCH:-}
+      KG_GIT_DIRTY:       ${KG_GIT_DIRTY:-}
+      KG_MCP_MIN_VERSION: ${KG_MCP_MIN_VERSION:-}
+
+  deploy:
+    container_name: alpha-deploy
+    environment:
+      # Bootstrap admin (neo4j) — never distributed to testers.
+      # Provisioner inside /release-kg uses this to CREATE USER explorer ...
+      # after first auth-enabled startup.
+      NEO4J_AUTH: ${NEO4J_AUTH:?must be set in .env.alpha (e.g. neo4j/<admin-pw>)}
+      NEO4J_dbms_security_auth__enabled: "true"
+      # Smaller heap than dev — alpha is read-only, low-concurrency (§6.1).
+      NEO4J_server_memory_heap_initial__size: "512M"
+      NEO4J_server_memory_heap_max__size: "1G"
+
+  # Drop the Biochatter UI; alpha testers use their own MCP clients.
+  app:
+    profiles: ["never"]
+
+# Color-selected literal volume name for the blue/green release flip. Compose
+# creates the volume on first reference; the same external name is reused
+# across releases so each color persists through the next swap (the previous
+# color survives as the rollback target until the *next* release overwrites
+# it). Default `kg-alpha-blue` is the bootstrap color for the first cut.
+volumes:
+  biocypher_neo4j_volume:
+    name: ${ALPHA_DATA_VOLUME:-kg-alpha-blue}

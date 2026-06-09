@@ -1142,3 +1142,74 @@ def test_metabolomics_evidence_source_appears_when_papers_integrated(run_query):
     if n == 0:
         pytest.skip("No metabolomics-source metabolites yet (Phase 2 papers not integrated)")
     assert n > 0
+
+
+# ---------------------------------------------------------------------------
+# gene_neighbors composite index (docs/kg-specs/kg-spec-gene-neighbors.md)
+#
+# A composite RANGE index Gene(organism_name, contig, start) backs the
+# gene_neighbors genomic-window query: equality prefix (organism_name, contig)
+# + ordered range suffix start. Without it the planner scans an organism's full
+# gene set and Top-sorts in memory; with it the seek folds in the contig
+# equality and the start range, touching only the bounded window.
+# ---------------------------------------------------------------------------
+
+GENE_NEIGHBORS_INDEX = "gene_org_contig_start_idx"
+
+
+@pytest.mark.kg
+def test_gene_neighbors_composite_index_online(run_query):
+    """The composite RANGE index backing gene_neighbors exists, is ONLINE, and
+    covers (organism_name, contig, start) in that order."""
+    rows = run_query(
+        "SHOW INDEXES YIELD name, type, state, properties "
+        f"WHERE name = '{GENE_NEIGHBORS_INDEX}' RETURN type, state, properties"
+    )
+    assert len(rows) == 1, f"{GENE_NEIGHBORS_INDEX} not found"
+    assert rows[0]["state"] == "ONLINE", f"{GENE_NEIGHBORS_INDEX} state = {rows[0]['state']}"
+    assert rows[0]["type"] == "RANGE", f"{GENE_NEIGHBORS_INDEX} type = {rows[0]['type']}"
+    assert rows[0]["properties"] == ["organism_name", "contig", "start"], (
+        f"{GENE_NEIGHBORS_INDEX} properties = {rows[0]['properties']}"
+    )
+
+
+def _plan_details(plan):
+    """Concatenate every operator's `Details` string from a Neo4j plan tree.
+
+    The query plan is a nested dict ({operatorType, args, children, ...}); the
+    index a seek uses is described by its property signature in args['Details']
+    (e.g. "RANGE INDEX x:Gene(organism_name, contig, start) WHERE ...") rather
+    than by index name, so we match on the signature.
+    """
+    parts = [str((plan.get("args") or {}).get("Details", ""))]
+    for child in plan.get("children", []) or []:
+        parts.append(_plan_details(child))
+    return " ".join(parts)
+
+
+@pytest.mark.kg
+def test_gene_neighbors_query_uses_composite_index(neo4j_driver, run_query):
+    """The bounded-window neighbor subquery must plan against the composite index
+    (contig equality + start range folded into the seek), not a full-organism
+    scan + Filter. Discriminator: the "before" plan referenced only
+    Gene(organism_name)."""
+    anchor = run_query(
+        "MATCH (g:Gene) WHERE g.contig IS NOT NULL AND g.start IS NOT NULL "
+        "RETURN g.locus_tag AS lt LIMIT 1"
+    )
+    assert anchor, "no positioned Gene found to anchor the plan check"
+    lt = anchor[0]["lt"]
+    cypher = (
+        "EXPLAIN "
+        "MATCH (a:Gene {locus_tag: $lt}) "
+        "MATCH (d:Gene) WHERE d.organism_name = a.organism_name "
+        "AND d.contig = a.contig AND d.start > a.start "
+        "WITH d ORDER BY d.start ASC LIMIT 5 RETURN collect(d) AS ds"
+    )
+    with neo4j_driver.session() as session:
+        plan = session.run(cypher, lt=lt).consume().plan
+    details = _plan_details(plan)
+    assert "organism_name, contig, start" in details, (
+        "neighbor query plan does not seek the composite index "
+        f"Gene(organism_name, contig, start); plan details:\n{details}"
+    )

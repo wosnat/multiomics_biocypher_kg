@@ -1,0 +1,58 @@
+{
+  "per_id_type": {
+    "cds_fna_id": {
+      "conflict": 0,
+      "multi": 0,
+      "unique": 1930
+    },
+    "gene_name": {
+      "conflict": 0,
+      "multi": 145,
+      "unique": 1021
+    },
+    "gene_synonym": {
+      "conflict": 0,
+      "multi": 68,
+      "unique": 3458
+    },
+    "gff_gene_id": {
+      "conflict": 0,
+      "multi": 0,
+      "unique": 3909
+    },
+    "locus_tag_cyanorak": {
+      "conflict": 0,
+      "multi": 0,
+      "unique": 1990
+    },
+    "locus_tag_ncbi": {
+      "conflict": 62,
+      "multi": 0,
+      "unique": 6660
+    },
+    "old_locus_tag": {
+      "conflict": 0,
+      "multi": 0,
+      "unique": 6
+    },
+    "protein_id_refseq": {
+      "conflict": 0,
+      "multi": 2,
+      "unique": 3907
+    },
+    "uniprot_accession": {
+      "conflict": 0,
+      "multi": 2,
+      "unique": 1442
+    }
+  },
+  "strain": "MIT9215",
+  "unresolved_rows_per_source": {
+    "cds_from_genomic.fna": 8,
+    "genomic_gca/MIT9215": 54,
+    "genomic_gcf/MIT9215": 52
+  },
+  "warnings": [
+    "[CONFLICT] Tier 1 id_type 'locus_tag_ncbi' has 62 data conflicts \u2014 check annotation quality."
+  ]
+}

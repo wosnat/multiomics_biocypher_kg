@@ -1,0 +1,146 @@
+# Changelog
+
+All notable changes to the multi-omics knowledge graph are documented here.
+
+The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
+Versions use the KG release scheme `X.Y.Z[-(alpha|beta|rc).N]` and are tagged
+`kg-X.Y.Z…`.
+
+**Process (accumulate-then-cut):** log notable changes under **[Unreleased]** as
+they land. At release time, `/release-kg` *cuts* `[Unreleased]` into a dated
+version section, stamps the same version onto `Schema_info.version`, and renders
+the GitHub Release notes from that section. The changelog is the source of truth;
+the GitHub Release is a rendering of one section. See `plans/alpha_release.md` §2.3.
+
+## [Unreleased]
+
+### Added
+
+### Changed
+
+### Fixed
+
+## [0.1.0-alpha.4] - 2026-06-08
+
+### Added
+- Track A infrastructure scaffolding (no behavior yet — these wire
+  into `/release-kg --target local` in a follow-up):
+  - `docker-compose.alpha.yml` — alpha-stack compose override
+    matching the plan §2.4 sketch. Renames containers `alpha-build` /
+    `alpha-import` / `alpha-post-process` / `alpha-deploy`, forwards
+    `KG_*` env vars to post-process, drops the Biochatter UI, and
+    hands the data volume off to a `${ALPHA_DATA_VOLUME}`-selected
+    external name (default `kg-alpha-blue`) for the blue/green flip.
+  - `.env.alpha.example` — committed template for the operator-only
+    secrets (`ALPHA_BIND_IP`, `NEO4J_AUTH`, `ALPHA_EXPLORER_PASSWORD`).
+  - `scripts/alpha_up.sh` / `scripts/alpha_down.sh` — operator
+    wrappers around the `-p kg-alpha -f … -f …` invocation. Read the
+    active color from `.alpha_active_color` (written by the release
+    flow) and refuse to run if `.env.alpha` or the marker is missing.
+  - `.gitignore` adds `.env.alpha` and `.alpha_active_color`.
+- `/release-kg --target local` now implements the Track A lab-box
+  deploy (was a stub). Replaces `deploy_local_stub` with the real
+  blue/green flip orchestration in `release_kg.py`:
+  - Reads `.env.alpha` for `ALPHA_BIND_IP`, `NEO4J_AUTH`,
+    `ALPHA_EXPLORER_PASSWORD`; refuses to run on unfilled
+    `REPLACE_WITH_…` / `<...>` placeholders.
+  - Determines active/inactive colors from `.alpha_active_color`
+    (first cut bootstraps into `blue`).
+  - Builds the alpha-inactive color via a transient
+    `kg-alpha-build` compose project on temp localhost ports;
+    verifies Schema_info via `docker exec`. Pytest L2 is skipped
+    here because Phase 5 already ran it against the same tagged
+    KG on the staging stack (same tag + env = same KG).
+  - Flips: stops the live alpha-deploy (if any), brings it up on
+    the new color bound to `ALPHA_BIND_IP`. Best-effort rollback
+    to the previous color on flip failure.
+  - Provisions the shared `explorer` read login idempotently via
+    `CREATE USER explorer IF NOT EXISTS … + ALTER … CHANGE NOT
+    REQUIRED`.
+  - Warns (does not block) if the `DOCKER-USER` chain has no rule
+    for `:17474`/`:17687` — the firewall allowlist needs sudo on
+    the lab box.
+  - Updates `.alpha_active_color`, prints an operator summary
+    (Bolt URI, browser URI, distribute-credentials reminder).
+  - 18 new unit tests cover the deterministic pieces — color
+    rotation, marker round-trip, env-alpha parsing, validation
+    (missing keys, unfilled placeholders, malformed NEO4J_AUTH).
+
+### Changed
+- Decision (2026-06-06): the alpha runs on **Track A** — the lab box
+  at `132.75.249.47` (leadership choice). Aura (was Track B) archived;
+  `/release-kg` drops the `--target aura` backend. Plan
+  (`plans/alpha_release.md`) and tester guide
+  (`docs/kg_mcp_guide.md` §2) reframed accordingly. Remaining
+  agnostic-vs-local design split stays intact; `--target local`
+  implementation is the active work, currently still a stub.
+
+### Fixed
+
+## [0.1.0-alpha.3] - 2026-06-06
+
+### Added
+- `/release-kg` Phase 5 now gates the release on the KG validity suite
+  passing against the staging stack (`uv run pytest tests/kg_validity/
+  --neo4j-url bolt://localhost:27687 -q`, ~73 s, 1012 assertions).
+  Catches structural / semantic regressions before Phase 7 publishes a
+  GitHub Release. `--skip-kg-tests` flag bypasses for emergencies. On
+  failure, the staging stack is left running so the operator can
+  inspect.
+- `/release-kg` Phase 7 now embeds a "What changed since kg-X.Y.Z"
+  diff block in the GitHub Release notes. Compares the prior published
+  release's `metadata.json` to the current build's metadata: headline
+  Schema_info count deltas (papers / experiments / genes / organisms /
+  expression edges) + per-publication expression-edge changes (new /
+  changed / removed). The per-publication detail catches the
+  net-zero-but-paper-A-lost-paper-B-gained regression class that
+  Schema_info totals would hide. `metadata.json` now also carries the
+  full `per_publication_edges: {doi: count}` map for the *next*
+  release's diff. Soft-fails on first-ever release / older prior
+  releases without `metadata.json` — release still publishes.
+
+### Changed
+- `/release-kg`'s default `--mcp-min` value now reads from
+  `[tool.release-kg].mcp_min_version` in `pyproject.toml` (hard
+  fallback `0.1.0` if the file/section is missing). Previously the
+  default was a Python constant inside the skill script. Repo-wide
+  bumps of the cross-repo explorer-MCP contract now live in
+  declarative config; per-release override via `--mcp-min` is
+  unchanged.
+- Bumped `[tool.release-kg].mcp_min_version` from `0.1.0` to
+  `0.1.0a1` (PEP 440 alpha). Matches the current
+  `multiomics_explorer` version, so the explorer's
+  `kg_release_info()` compat check passes against builds off this
+  branch (string equality on `mcp_min_version`).
+
+### Fixed
+
+## [0.1.0-alpha.2] - 2026-06-02
+
+### Added
+
+### Changed
+
+### Fixed
+- `docker-compose.staging.yml` now forwards `KG_RELEASE_VERSION` and
+  `KG_GIT_*` env vars from the compose process into the `post-process`
+  container, so post-import.sh Group 4 stamps `Schema_info.version` with
+  the tagged version instead of silently falling back to `0.0.0-dev`.
+  The 0.1.0-alpha.1 cut built and deployed successfully but stamped the
+  wrong version because of this gap, which is why the tag exists but no
+  GitHub Release was published for it; this release is the first cut
+  with a correctly-stamped staging verify.
+
+## [0.1.0-alpha.1] - 2026-06-02
+
+### Added
+- `Schema_info` release metadata, stamped at post-import (every build): `version`,
+  `built_at`, `git_sha`, `git_sha_short`, `git_branch`, `git_dirty`,
+  `mcp_min_version`, `release_notes_url`, plus computed counts (`paper_count`,
+  `experiment_count`, `gene_count`, `organism_count`, `expression_edge_count`).
+  Dev builds stamp `0.0.0-dev`; releases stamp the tagged version. Added in both
+  `scripts/post-import.sh` (Group 4) and `scripts/post-import.cypher`.
+
+### Changed
+
+### Fixed

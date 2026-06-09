@@ -31,7 +31,7 @@ Note: no `_resolved.csv` / `_resolved_report.txt` files appear — the paperconf
 
 **Bucket B — new metrics / DE / resolution (want to add)**
 
-27 DE analyses across MED4 + 4 heterotrophs are wired up, but heterotroph-side edges will dangle until the partner genomes are deployed. Marinobacter (MarRef v6) and Alteromonas (MarRef v6) are now reference-proteome-match organisms in the KG (added 2026-04-15/16), so two of the four heterotrophs are partly addressable; **Pseudohoeflea** and **Thalassospira** remain undeployed and Table 8 expression edges for them will not resolve. The community-vs-single contrasts also use a placeholder `treatment_taxid: 2742` for the multi-organism community (TODO in paperconfig). Action: deploy Pseudohoeflea and Thalassospira (use `/deploy-strain`), verify the heterotroph-side `id_type: other` resolution, and audit the swap of subject/partner on Table 8 analyses.
+27 DE analyses across MED4 + 4 heterotrophs are wired up, but heterotroph-side edges will dangle until the partner genomes are deployed. Marinobacter (MarRef v6) and Alteromonas (MarRef v6) are now reference-proteome-match organisms in the KG (added 2026-04-15/16), so two of the four heterotrophs are partly addressable; **Pseudohoeflea** and **Thalassospira** remain undeployed and Table 8 expression edges for them will not resolve. The community-vs-single contrasts also use a placeholder `treatment_taxid: 2742` for the multi-organism community (TODO in paperconfig). Action: deploy Pseudohoeflea and Thalassospira (use `/add-a-strain`), verify the heterotroph-side `id_type: other` resolution, and audit the swap of subject/partner on Table 8 analyses.
 
 ## Current paperconfig summary
 
@@ -50,7 +50,7 @@ Note: no `_resolved.csv` / `_resolved_report.txt` files appear — the paperconf
 3. **Skip** — `media-6.csv` appears to be a redundant export of the MED4 DE table already consumed via `media-7.csv`; integrating would double-count edges.
 4. **Skip** — `media-2.xlsx`, `media-3.xlsx`, `media-4.xlsx`, `media-8.xlsx`, `media-11.xlsx` are strain metadata, flow-cytometry counts, metagenomic abundance, SNV analyses, or sample-level measurements — none supply per-gene evidence the KG supports.
 5. **Skip** — `media-1.pdf` is reference (supplementary figures).
-6. **Add organism** — the heterotroph strains (*Marinobacter*, *Pseudohoeflea*, *Thalassospira*) used here are **not** currently deployed in the KG as cultured genome strains. Table 8 expression edges will dangle unless these genomes are added to `cyanobacteria_genomes.csv` and the `_genome`-style locus tags are bridged. Current KG only has *Alteromonas* genomes (MIT1002/EZ55/HOT1A3). Track via `/deploy-strain` workflow.
+6. **Add organism** — the heterotroph strains (*Marinobacter*, *Pseudohoeflea*, *Thalassospira*) used here are **not** currently deployed in the KG as cultured genome strains. Table 8 expression edges will dangle unless these genomes are added to `cyanobacteria_genomes.csv` and the `_genome`-style locus tags are bridged. Current KG only has *Alteromonas* genomes (MIT1002/EZ55/HOT1A3). Track via `/add-a-strain` workflow.
 7. **Change upload (candidate)** — the `treatment_taxid: 59919` (MED4) appears on heterotroph-side Table 8 analyses, with `treatment_organism: "Prochlorococcus MED4"`. Verify that swap of subject/partner is intentional on these analyses; otherwise the `Tests_coculture_with` edges will point at the wrong entity.
 
 ## Notes

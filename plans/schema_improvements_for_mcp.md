@@ -229,7 +229,7 @@ Note: `environmental_control_condition_id` is **not** used for Publication edges
 | Skill | What changes | Impact |
 |---|---|---|
 | `validate_paperconfig.py` | Add canonical vocabulary checks: organism names, condition_type enum, test_type set, required fields | `test_paperconfig_validation.py` inherits these checks automatically |
-| `omics-edge-snapshot/SKILL.md` | Count `Condition_changes_expression_of` + `Coculture_changes_expression_of` instead of `Affects_expression_of`; report separately | `/deploy-strain` inherits the fix |
+| `omics-edge-snapshot/SKILL.md` | Count `Condition_changes_expression_of` + `Coculture_changes_expression_of` instead of `Affects_expression_of`; report separately | `/add-a-strain` inherits the fix |
 | `cypher-queries/SKILL.md` | Replace `Affects_expression_of` templates with new edge type templates; add condition vs coculture query examples | — |
 | `paperconfig/SKILL.md` | Document which fields map to which edge labels; clarify `treatment_organism` → coculture edge, `environmental_treatment_condition_id` → condition edge | — |
 

@@ -8,9 +8,25 @@ biocypher-*
 # Claude Code runtime lock files (regenerated every session)
 .claude/scheduled_tasks.lock
 
+# Claude Code per-machine settings (permissions allowlist, etc.)
+.claude/settings.json
+.claude/settings.local.json
+
+# Alpha stack: per-deployment secrets + state. Real .env.alpha is gitignored;
+# only the .env.alpha.example template is committed. .alpha_active_color is
+# the blue/green color marker, written by /release-kg --target local.
+.env.alpha
+.alpha_active_color
+
 # Docker import artifacts (regenerated every rebuild)
 /output/import.report
 /output/import.status
+
+# Release dumps — never committed. Used only as a fallback in the local-box
+# release flow (build-once + volume-copy); see plans/alpha_release.md §6.3.
+# metadata.json fragments stay tracked — small and useful audit trail.
+/output/releases/*.dump
+/output/releases/*.dump.sha256
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
@@ -168,6 +184,18 @@ cache/data/kegg/raw
 # intentionally committed alongside eggnog/ outputs.
 cache/data/*/genomes/*/tcdb/*.limited_*
 
+# SignalP skill: smoke-test artifacts only. Full-run <strain>.signalp.calls.json
+# + skill_summary.json are intentionally committed (raw signalp/output.json etc.
+# stay too). Per-protein plot.txt files are suppressed at run time (--format none).
+cache/data/*/genomes/*/signalp/*.limited_*
 
-# worktrees 
+
+# worktrees
 .claude/worktrees
+
+# Run logs and tool-step artifacts (prepare_data step logs, per-tool subdirs,
+# .done sentinels, post-import baselines). Transient — regenerated on each run.
+logs/
+
+# omics-edge-snapshot skill: snapshot fixtures are generated on demand.
+.claude/skills/omics-edge-snapshot/snapshots/
