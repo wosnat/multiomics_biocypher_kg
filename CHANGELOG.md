@@ -15,6 +15,14 @@ the GitHub Release is a rendering of one section. See `plans/alpha_release.md` ย
 ## [Unreleased]
 
 ### Added
+
+### Changed
+
+### Fixed
+
+## [0.1.0-alpha.5] - 2026-06-09
+
+### Added
 - **Publication "discusses" edges** โ€” a narrative literature index linking each
   publication to the genes and KEGG pathways it discusses in prose (regulators,
   model genes, pathways named in text), distinct from the supplementary DE-table
@@ -111,7 +119,8 @@ the GitHub Release is a rendering of one section. See `plans/alpha_release.md` ย
   (`plans/alpha_release.md`) and tester guide
   (`docs/kg_mcp_guide.md` ยง2) reframed accordingly. Remaining
   agnostic-vs-local design split stays intact; `--target local`
-  implementation is the active work, currently still a stub.
+  is now implemented (see Added above) and this release is the
+  first cut deployed to the lab box via it.
 
 ### Fixed
 
