@@ -789,10 +789,15 @@ def _alpha_flip_live_deploy(ctx: Context, active_color: Optional[str],
     log(f"  bringing {ALPHA_DEPLOY_CONTAINER} up on color={new_color}, "
         f"bound to {env_alpha['ALPHA_BIND_IP']}:{ALPHA_PUBLISHED_BOLT_PORT} …")
     try:
+        # --no-deps: mount the already-built, already-stamped kg-alpha-<new_color>
+        # volume (built + verified by the kg-alpha-build project). WITHOUT this,
+        # `deploy`'s depends_on chain re-runs build→import→post-process in this
+        # project, and since this env intentionally omits KG_RELEASE_VERSION, the
+        # re-import would re-stamp Schema_info to the 0.0.0-dev fallback.
         run(["docker", "compose", "-p", ALPHA_PROJECT,
              "-f", "docker-compose.yml", "-f", ALPHA_COMPOSE_OVERRIDE,
              "--env-file", ".env.alpha",
-             "up", "-d", "deploy"],
+             "up", "-d", "--no-deps", "deploy"],
             cwd=ctx.clone_dir, env=release_env)
     except subprocess.CalledProcessError as exc:
         # Rollback attempt: bring back on the old color
@@ -803,7 +808,7 @@ def _alpha_flip_live_deploy(ctx: Context, active_color: Optional[str],
             subprocess.run(["docker", "compose", "-p", ALPHA_PROJECT,
                             "-f", "docker-compose.yml", "-f", ALPHA_COMPOSE_OVERRIDE,
                             "--env-file", ".env.alpha",
-                            "up", "-d", "deploy"],
+                            "up", "-d", "--no-deps", "deploy"],
                            cwd=ctx.clone_dir, env=rollback_env)
             die(f"flip to color={new_color} failed; rolled back to color={active_color}: {exc}")
         die(f"flip to color={new_color} failed (no prior color to roll back to): {exc}")
@@ -835,10 +840,14 @@ def _alpha_provision_explorer_user(env_alpha: dict) -> None:
     # cannot contain single quotes (Neo4j string escaping rules apply).
     if "'" in explorer_pass:
         die("ALPHA_EXPLORER_PASSWORD cannot contain single quotes")
+    # CREATE OR REPLACE is the single idempotent form: it always lands the user
+    # with this exact password regardless of prior state. The previous
+    # CREATE IF NOT EXISTS + ALTER pair failed on a fresh DB because ALTER to the
+    # just-created (identical) password raises "Old and new password cannot be
+    # the same."
     cypher = (
-        f"CREATE USER explorer IF NOT EXISTS "
-        f"SET PASSWORD '{explorer_pass}' CHANGE NOT REQUIRED; "
-        f"ALTER USER explorer SET PASSWORD '{explorer_pass}' CHANGE NOT REQUIRED;"
+        f"CREATE OR REPLACE USER explorer "
+        f"SET PASSWORD '{explorer_pass}' CHANGE NOT REQUIRED;"
     )
     run(["docker", "exec", ALPHA_DEPLOY_CONTAINER,
          "cypher-shell", "-a", ALPHA_INNER_BOLT_URL,

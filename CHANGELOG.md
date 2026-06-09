@@ -19,6 +19,28 @@ the GitHub Release is a rendering of one section. See `plans/alpha_release.md` �
 ### Changed
 
 ### Fixed
+- `/release-kg --target local`: two first-cut deploy bugs surfaced while cutting
+  kg-0.1.0-alpha.5 to the lab box.
+  - **Live flip re-stamped `Schema_info` to `0.0.0-dev`.** `_alpha_flip_live_deploy`
+    brought the live `alpha-deploy` up with `docker compose -p kg-alpha up -d deploy`;
+    `deploy`'s `depends_on` chain re-ran build→import→post-process in the live
+    project, and because that env intentionally omits `KG_RELEASE_VERSION`, the
+    re-import re-stamped the release graph with the dev fallback version. Fixed by
+    adding `--no-deps` so the live deploy just *mounts* the already-built/verified
+    `kg-alpha-<color>` volume. (Also added to the rollback path.)
+  - **Explorer provisioning aborted the deploy on a fresh volume.**
+    `_alpha_provision_explorer_user` ran `CREATE USER explorer IF NOT EXISTS …` then
+    `ALTER USER explorer SET PASSWORD …` to the same value; on a fresh blue/green
+    volume the `ALTER`-to-identical-password is rejected by Neo4j ("Old and new
+    password cannot be the same"), crashing the deploy after the graph was already
+    live. Replaced with a single idempotent `CREATE OR REPLACE USER explorer …`.
+- `/release-kg` SKILL.md: un-stubbed the `--target local` documentation (it was
+  still described as raising `NotImplementedError`); documented the two flip/provision
+  gotchas above.
+- `scripts/alpha_firewall.sh`: new operator helper to apply the `DOCKER-USER`
+  allowlist restricting the alpha ports (`17474`/`17687`) to a confirmed lab subnet
+  (plan §2.6). Parameterized on the CIDR, idempotent (`-C` check before `-I`), and
+  refuses to run against the campus-wide `/16`.
 
 ## [0.1.0-alpha.5] - 2026-06-09
 
