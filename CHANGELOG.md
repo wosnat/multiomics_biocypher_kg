@@ -15,6 +15,43 @@ the GitHub Release is a rendering of one section. See `plans/alpha_release.md` �
 ## [Unreleased]
 
 ### Added
+- **Publication "discusses" edges** — a narrative literature index linking each
+  publication to the genes and KEGG pathways it discusses in prose (regulators,
+  model genes, pathways named in text), distinct from the supplementary DE-table
+  expression data. Recall-biased *router* ("which papers discuss gene/pathway X?"),
+  best-effort, not exhaustive. New relationship types:
+  - `Publication_discusses_gene` (Publication → Gene)
+  - `Publication_discusses_kegg_pathway` (Publication → KeggTerm, pathway-level)
+
+  Both carry `prominence` (`central` | `peripheral`) and the extraction `evidence`
+  quote. ~1,099 gene + ~140 pathway edges across 40 publications.
+
+  Three-stage pipeline (`plans/publication_discusses_edges.md`):
+  - **Extract** — `multiomics_kg/extraction/topics/` + `/extract-discussed-topics`
+    skill: full-PDF LLM extraction with 15-page chunking and reference-page skipping
+    (fits per-request token caps; large PDFs no longer fail). Writes
+    `publication_topics/topics.json`. Strain-aware (attributes each gene to one of the
+    paper's strains); captures verbatim locus tags; self-reports an
+    `uncaptured_identifiers` triage signal.
+  - **Resolve** — `multiomics_kg/download/resolve_paper_topics.py`: genes resolved
+    per-strain via `gene_id_mapping` (identifiers-first; gene families fan out to one
+    edge per member; `all`/`unspecified` mentions resolve in each paper strain);
+    pathways via a global `kegg_data.json` lookup (dangling-proof — only resolves to
+    KeggTerm nodes that exist). Writes `topics_resolved.json` + a `resolution_report.txt`
+    (per-paper stats, method breakdown, truncated-id count, `unresolved_reasons` tally).
+  - **Adapter** — `multiomics_kg/adapters/publication_topics_adapter.py`: pure edge
+    adapter; source = the paper's Publication node id (DOI from paperconfig or
+    PDF-extraction cache); targets `ncbigene:{locus_tag}` / `kegg.pathway:ko*`. Wired
+    into `create_knowledge_graph.py` after the omics adapter.
+- Post-import rollups: `Publication.discussed_gene_count` / `discussed_pathway_count`,
+  `Gene.discussed_in_publication_count` (in both `post-import.cypher` and `.sh`).
+- Two `config/schema_config.yaml` edge types for the above.
+- Tests: 44 unit tests (resolution, chunking/merge, adapter) + 8 KG-validity tests
+  (`tests/kg_validity/test_discuss_edges.py`: endpoint correctness/no-dangling,
+  prominence enum, evidence presence, post-import rollups).
+- Shared `multiomics_kg/extraction/pdf_utils.py` helpers: `upload_pdf` (lifted from
+  cluster extraction), `count_pages`, `find_references_page`, `page_chunks`,
+  `write_page_range_pdf`.
 
 ### Changed
 
