@@ -1,0 +1,50 @@
+{
+  "metadata": {
+    "paper": "Zinser 2009",
+    "doi": null,
+    "strains": [
+      "Prochlorococcus MED4"
+    ],
+    "model": "gpt-4.1",
+    "n_chunks": 2,
+    "chunk_pages": 15,
+    "self_assessment": "high",
+    "uncaptured_identifiers": "many",
+    "uncaptured_identifiers_note": "Numerous gene identifiers (PMM####, PMMIG..., PMM_...) are listed in supplementary tables referenced here, but not discussed in the narrative text.",
+    "extracted_at": "2026-06-04T15:56:12.005298",
+    "input_tokens": 2926,
+    "output_tokens": 189,
+    "resolution": {
+      "gene_records": 1,
+      "genes_resolved": 1,
+      "gene_methods": {
+        "tier1:v": 1
+      },
+      "pathway_records": 0,
+      "pathways_resolved": 0,
+      "pathway_methods": {},
+      "paper_strains": [
+        "Prochlorococcus MED4"
+      ],
+      "captured_identifiers": 0,
+      "truncated_identifiers": 0,
+      "truncated_examples": [],
+      "unresolved_reasons": {}
+    }
+  },
+  "genes": [
+    {
+      "surface_form": "rnpB",
+      "gene_name": "rnpB",
+      "identifiers": [],
+      "prominence": "peripheral",
+      "evidence": "expression of the aperiodic gene rnpB (Figure S3 caption, p1)",
+      "mention_strain": "Prochlorococcus MED4",
+      "strain": "Prochlorococcus MED4",
+      "locus_tag": "PMM0236",
+      "resolved_from": "rnpB",
+      "resolution_method": "tier1:v"
+    }
+  ],
+  "pathways": []
+}

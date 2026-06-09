@@ -184,6 +184,30 @@ experiment tests coculture:
   source: experiment
   target: organism taxon
 
+# Publication → Gene (narrative "discusses" literature-index edge)
+publication discusses gene:
+  is_a: Association
+  represented_as: edge
+  label_as_edge: publication_discusses_gene
+  label_in_input: publication_discusses_gene
+  source: publication
+  target: gene
+  properties:
+    prominence: str    # central | peripheral
+    evidence: str      # extraction supporting quote
+
+# Publication → KeggTerm (narrative "discusses" literature-index edge)
+publication discusses kegg pathway:
+  is_a: Association
+  represented_as: edge
+  label_as_edge: publication_discusses_kegg_pathway
+  label_in_input: publication_discusses_kegg_pathway
+  source: publication
+  target: kegg term
+  properties:
+    prominence: str
+    evidence: str
+
 # Publication → ClusteringAnalysis
 publication has clustering analysis:
   is_a: related to at instance level

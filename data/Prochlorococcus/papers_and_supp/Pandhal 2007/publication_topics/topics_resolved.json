@@ -1,0 +1,384 @@
+{
+  "metadata": {
+    "paper": "Pandhal 2007",
+    "doi": "10.1021/pr060460c",
+    "strains": [
+      "Prochlorococcus MED4"
+    ],
+    "model": "gpt-4.1",
+    "self_assessment": "high",
+    "assessment_notes": "All genes and pathways are explicitly named in the narrative. Some gene symbols are inferred from standard usage but are directly referenced in the text.",
+    "uncaptured_identifiers": "many",
+    "uncaptured_identifiers_note": "Supplementary tables and figures likely list additional locus tags and protein IDs not included here; Table 4 and narrative mention only a subset.",
+    "extracted_at": "2026-06-04T10:10:35.593282",
+    "input_tokens": 22586,
+    "output_tokens": 2544,
+    "resolution": {
+      "gene_records": 24,
+      "genes_resolved": 24,
+      "gene_methods": {
+        "tier1:v": 15,
+        "locus_tag:v": 9
+      },
+      "pathway_records": 4,
+      "pathways_resolved": 2,
+      "pathway_methods": {
+        "id": 2,
+        "unresolved": 2
+      },
+      "paper_strains": [
+        "Prochlorococcus MED4"
+      ],
+      "captured_identifiers": 9,
+      "truncated_identifiers": 0,
+      "truncated_examples": [],
+      "unresolved_reasons": {}
+    }
+  },
+  "genes": [
+    {
+      "surface_form": "GroEL",
+      "gene_name": "groEL",
+      "identifiers": [],
+      "prominence": "central",
+      "evidence": "the up-regulation of the stress-related chaperone GroEL in high light compared to low light (Abstract, p1)",
+      "mention_strain": "Prochlorococcus MED4",
+      "strain": "Prochlorococcus MED4",
+      "locus_tag": "PMM1436",
+      "resolved_from": "groEL",
+      "resolution_method": "tier1:v"
+    },
+    {
+      "surface_form": "Pcb",
+      "gene_name": "pcb",
+      "identifiers": [],
+      "prominence": "central",
+      "evidence": "the sole light harvesting complex protein (Pcb)... up-regulated in LL (Results, p6)",
+      "mention_strain": "Prochlorococcus MED4",
+      "strain": "Prochlorococcus MED4",
+      "locus_tag": "PMM0627",
+      "resolved_from": "pcb",
+      "resolution_method": "tier1:v"
+    },
+    {
+      "surface_form": "PsbB",
+      "gene_name": "psbB",
+      "identifiers": [],
+      "prominence": "central",
+      "evidence": "PsbB, psbC, and psbD encode CP47, CP43, and D2, respectively, and transcript levels for all were found to be down-regulated (Results, p6)",
+      "mention_strain": "Prochlorococcus MED4",
+      "strain": "Prochlorococcus MED4",
+      "locus_tag": "PMM0315",
+      "resolved_from": "psbB",
+      "resolution_method": "tier1:v"
+    },
+    {
+      "surface_form": "PsbC",
+      "gene_name": "psbC",
+      "identifiers": [],
+      "prominence": "central",
+      "evidence": "PsbB, psbC, and psbD encode CP47, CP43, and D2, respectively, and transcript levels for all were found to be down-regulated (Results, p6)",
+      "mention_strain": "Prochlorococcus MED4",
+      "strain": "Prochlorococcus MED4",
+      "locus_tag": "PMM1158",
+      "resolved_from": "psbC",
+      "resolution_method": "tier1:v"
+    },
+    {
+      "surface_form": "PsbD",
+      "gene_name": "psbD",
+      "identifiers": [],
+      "prominence": "central",
+      "evidence": "PsbB, psbC, and psbD encode CP47, CP43, and D2, respectively, and transcript levels for all were found to be down-regulated (Results, p6)",
+      "mention_strain": "Prochlorococcus MED4",
+      "strain": "Prochlorococcus MED4",
+      "locus_tag": "PMM1157",
+      "resolved_from": "psbD",
+      "resolution_method": "tier1:v"
+    },
+    {
+      "surface_form": "PsbO",
+      "gene_name": "psbO",
+      "identifiers": [],
+      "prominence": "central",
+      "evidence": "Proteins 1-4: Photosystem II (PsbO, PsbB, PsbD, and PsbC) (Figure 3, p6)",
+      "mention_strain": "Prochlorococcus MED4",
+      "strain": "Prochlorococcus MED4",
+      "locus_tag": "PMM0228",
+      "resolved_from": "psbO",
+      "resolution_method": "tier1:v"
+    },
+    {
+      "surface_form": "PsaA",
+      "gene_name": "psaA",
+      "identifiers": [],
+      "prominence": "central",
+      "evidence": "Both major reaction center subunits in PSI, PsaA and PsaB, were down-regulated in increasing light (Results, p6)",
+      "mention_strain": "Prochlorococcus MED4",
+      "strain": "Prochlorococcus MED4",
+      "locus_tag": "PMM1524",
+      "resolved_from": "psaA",
+      "resolution_method": "tier1:v"
+    },
+    {
+      "surface_form": "PsaB",
+      "gene_name": "psaB",
+      "identifiers": [],
+      "prominence": "central",
+      "evidence": "Both major reaction center subunits in PSI, PsaA and PsaB, were down-regulated in increasing light (Results, p6)",
+      "mention_strain": "Prochlorococcus MED4",
+      "strain": "Prochlorococcus MED4",
+      "locus_tag": "PMM1523",
+      "resolved_from": "psaB",
+      "resolution_method": "tier1:v"
+    },
+    {
+      "surface_form": "PsaE",
+      "gene_name": "psaE",
+      "identifiers": [],
+      "prominence": "central",
+      "evidence": "Proteins 6-8: Photosystem I (PsaA, PsaE, and PsaB) (Figure 3, p6)",
+      "mention_strain": "Prochlorococcus MED4",
+      "strain": "Prochlorococcus MED4",
+      "locus_tag": "PMM0329",
+      "resolved_from": "psaE",
+      "resolution_method": "tier1:v"
+    },
+    {
+      "surface_form": "PsaL",
+      "gene_name": "psaL",
+      "identifiers": [],
+      "prominence": "peripheral",
+      "evidence": "down-regulation of the peptide AFINNLPFYR belonging to PSI protein PsaL (Results, p6)",
+      "mention_strain": "Prochlorococcus MED4",
+      "strain": "Prochlorococcus MED4",
+      "locus_tag": "PMM1519",
+      "resolved_from": "psaL",
+      "resolution_method": "tier1:v"
+    },
+    {
+      "surface_form": "D1 protein",
+      "gene_name": "psbA",
+      "identifiers": [],
+      "prominence": "peripheral",
+      "evidence": "the photosystem II (PSII) reaction center core protein D1 (coupled with core protein D2), encoded by the psbA gene (Results, p6)",
+      "mention_strain": "Prochlorococcus MED4",
+      "strain": "Prochlorococcus MED4",
+      "locus_tag": "PMM0223",
+      "resolved_from": "psbA",
+      "resolution_method": "tier1:v"
+    },
+    {
+      "surface_form": "GroEL2",
+      "gene_name": "groEL2",
+      "identifiers": [],
+      "prominence": "central",
+      "evidence": "GroEL2 had the smallest recorded marginal up-regulation (1.36), also in iTRAQ2 (Results, p7)",
+      "mention_strain": "Prochlorococcus MED4",
+      "strain": "Prochlorococcus MED4",
+      "locus_tag": "PMM0452",
+      "resolved_from": "groEL2",
+      "resolution_method": "tier1:v"
+    },
+    {
+      "surface_form": "DnaK2",
+      "gene_name": "dnaK2",
+      "identifiers": [
+        "PMM1704"
+      ],
+      "prominence": "central",
+      "evidence": "Chaperone DnaK2 is a highly conserved protein among cyanobacteria... does not seem to be differentially expressed (Results, p7; Table 4, p8)",
+      "mention_strain": "Prochlorococcus MED4",
+      "strain": "Prochlorococcus MED4",
+      "locus_tag": "PMM1704",
+      "resolved_from": "PMM1704",
+      "resolution_method": "locus_tag:v"
+    },
+    {
+      "surface_form": "HtpG",
+      "gene_name": "htpG",
+      "identifiers": [],
+      "prominence": "central",
+      "evidence": "The heat shock protein HtpG was up-regulated up to 1.82-fold in HL (Results, p7)",
+      "mention_strain": "Prochlorococcus MED4",
+      "strain": "Prochlorococcus MED4",
+      "locus_tag": "PMM0901",
+      "resolved_from": "htpG",
+      "resolution_method": "tier1:v"
+    },
+    {
+      "surface_form": "ClpC",
+      "gene_name": "clpC",
+      "identifiers": [
+        "PMM1088"
+      ],
+      "prominence": "central",
+      "evidence": "ClpC belongs to a family which contains ATP-binding proteins... transcript levels have been shown to increase more than 10-fold in P. marinus MED4 upon exposure to HL (Results, p7; Table 4, p8)",
+      "mention_strain": "Prochlorococcus MED4",
+      "strain": "Prochlorococcus MED4",
+      "locus_tag": "PMM1088",
+      "resolved_from": "PMM1088",
+      "resolution_method": "locus_tag:v"
+    },
+    {
+      "surface_form": "GroES",
+      "gene_name": "groES",
+      "identifiers": [],
+      "prominence": "central",
+      "evidence": "GroES was up-regulated 1.99-fold in iTRAQ2 (Results, p7)",
+      "mention_strain": "Prochlorococcus MED4",
+      "strain": "Prochlorococcus MED4",
+      "locus_tag": "PMM1437",
+      "resolved_from": "groES",
+      "resolution_method": "tier1:v"
+    },
+    {
+      "surface_form": "FtsZ",
+      "gene_name": "ftsZ",
+      "identifiers": [
+        "PMM1309"
+      ],
+      "prominence": "central",
+      "evidence": "increase in the FtsZ cell division protein... up-regulated in HL in iTRAQ1 and iTRAQ2 (Results, p8; Table 4, p8)",
+      "mention_strain": "Prochlorococcus MED4",
+      "strain": "Prochlorococcus MED4",
+      "locus_tag": "PMM1309",
+      "resolved_from": "PMM1309",
+      "resolution_method": "locus_tag:v"
+    },
+    {
+      "surface_form": "MinD",
+      "gene_name": "minD",
+      "identifiers": [
+        "PMM0321"
+      ],
+      "prominence": "peripheral",
+      "evidence": "up-regulation of the putative septum site-determining protein MinD (PMM0321) in HL (Results, p8; Table 4, p8)",
+      "mention_strain": "Prochlorococcus MED4",
+      "strain": "Prochlorococcus MED4",
+      "locus_tag": "PMM0321",
+      "resolved_from": "PMM0321",
+      "resolution_method": "locus_tag:v"
+    },
+    {
+      "surface_form": "CsoS1",
+      "gene_name": "csoS1",
+      "identifiers": [
+        "PMM0549"
+      ],
+      "prominence": "peripheral",
+      "evidence": "CsoS1 was identified in iTRAQ2 only... gave an up-regulation of 3.02 (Results, p8; Table 4, p8)",
+      "mention_strain": "Prochlorococcus MED4",
+      "strain": "Prochlorococcus MED4",
+      "locus_tag": "PMM0549",
+      "resolved_from": "PMM0549",
+      "resolution_method": "locus_tag:v"
+    },
+    {
+      "surface_form": "CsoS2",
+      "gene_name": "csoS2",
+      "identifiers": [],
+      "prominence": "peripheral",
+      "evidence": "CsoS2 was identified in both iTRAQ experiments... expression remains uncertain (Results, p8)",
+      "mention_strain": "Prochlorococcus MED4",
+      "strain": "Prochlorococcus MED4",
+      "locus_tag": "PMM0552",
+      "resolved_from": "csoS2",
+      "resolution_method": "tier1:v"
+    },
+    {
+      "surface_form": "Rubisco",
+      "gene_name": "",
+      "identifiers": [
+        "PMM0550"
+      ],
+      "prominence": "peripheral",
+      "evidence": "Rubisco was not significantly different in the varying irradiances (Results, p8; Table 4, p8)",
+      "mention_strain": "Prochlorococcus MED4",
+      "strain": "Prochlorococcus MED4",
+      "locus_tag": "PMM0550",
+      "resolved_from": "PMM0550",
+      "resolution_method": "locus_tag:v"
+    },
+    {
+      "surface_form": "ABC transporter protein",
+      "gene_name": "pstS",
+      "identifiers": [
+        "PMM0710"
+      ],
+      "prominence": "peripheral",
+      "evidence": "ABC transporter protein (PMM0710) is part of the ABC-type phosphate transport system... down-regulated in HL (Results, p8; Table 4, p8)",
+      "mention_strain": "Prochlorococcus MED4",
+      "strain": "Prochlorococcus MED4",
+      "locus_tag": "PMM0710",
+      "resolved_from": "PMM0710",
+      "resolution_method": "locus_tag:v"
+    },
+    {
+      "surface_form": "PhoH-like phosphate starvation-inducible protein",
+      "gene_name": "",
+      "identifiers": [
+        "PMM1284"
+      ],
+      "prominence": "peripheral",
+      "evidence": "The noninduction of PhoH-like phosphate starvation-inducible protein (PMM1284) in iTRAQ1 implied that phosphate starvation was not a factor (Results, p8)",
+      "mention_strain": "Prochlorococcus MED4",
+      "strain": "Prochlorococcus MED4",
+      "locus_tag": "PMM1284",
+      "resolved_from": "PMM1284",
+      "resolution_method": "locus_tag:v"
+    },
+    {
+      "surface_form": "Phytoene desaturase",
+      "gene_name": "",
+      "identifiers": [
+        "PMM0144"
+      ],
+      "prominence": "peripheral",
+      "evidence": "The enzyme phytoene desaturase in Prochlorococcus converts phytoene to \u03b2-carotene... identified in iTRAQ1 and was slightly up-regulated in HL (Results, p8; Table 4, p8)",
+      "mention_strain": "Prochlorococcus MED4",
+      "strain": "Prochlorococcus MED4",
+      "locus_tag": "PMM0144",
+      "resolved_from": "PMM0144",
+      "resolution_method": "locus_tag:v"
+    }
+  ],
+  "pathways": [
+    {
+      "surface_form": "photosynthesis",
+      "kegg_pathway_id_raw": "ko00195",
+      "prominence": "central",
+      "evidence": "down-regulation of photosystem-related proteins (Abstract, p1; Results, p6)",
+      "pathway_id": "ko00195",
+      "pathway_name": "photosynthesis",
+      "resolution_method": "id"
+    },
+    {
+      "surface_form": "carbon fixation",
+      "kegg_pathway_id_raw": "ko00710",
+      "prominence": "peripheral",
+      "evidence": "The enzyme ribulose 1,5 bisphosphate carboxylase/oxygenase (Rubisco), which converts inorganic carbon to an organic form (Results, p8)",
+      "pathway_id": "ko00710",
+      "pathway_name": "carbon fixation by calvin cycle",
+      "resolution_method": "id"
+    },
+    {
+      "surface_form": "ABC-type phosphate transport system",
+      "kegg_pathway_id_raw": "",
+      "prominence": "peripheral",
+      "evidence": "ABC transporter protein (PMM0710) is part of the ABC-type phosphate transport system (Results, p8)",
+      "pathway_id": null,
+      "pathway_name": null,
+      "resolution_method": "unresolved"
+    },
+    {
+      "surface_form": "zeaxanthin biosynthetic pathway",
+      "kegg_pathway_id_raw": "",
+      "prominence": "peripheral",
+      "evidence": "phytoene desaturase... in the zeaxanthin biosynthetic pathway (Results, p8)",
+      "pathway_id": null,
+      "pathway_name": null,
+      "resolution_method": "unresolved"
+    }
+  ]
+}

@@ -1,0 +1,35 @@
+Topics resolution report: Kratzl 2024
+Strains: ['Pseudomonas putida KT2440', 'Synechococcus elongatus PCC 7942']
+
+Genes:    59/74 resolved (79.7%)
+  methods: multi:v=4, multi_ci:v=2, tier1:v=46, tier1_ci:v=7, unresolved=15
+Pathways: 16/19 resolved (84.2%)
+  methods: id=16, unresolved=3
+
+Captured identifiers: 42  (truncated/bare-number: 0)
+Unresolved gene reasons: {'lookup_miss': 8, 'descriptive_only': 7}
+    descriptive_only = function/enzyme phrase, no symbol or id (paper style)
+    truncated_id_only = bare locus number, recoverable via strain prefix
+    lookup_miss       = had a name/full id but no mapping match
+
+Unresolved gene mentions (15):
+  - cscB  [lookup_miss]  strain=Synechococcus elongatus PCC 7942
+  - cscRABY  [descriptive_only]  strain=Pseudomonas putida KT2440
+  - SucA/B/D  [descriptive_only]  strain=Pseudomonas putida KT2440
+  - hilA  [lookup_miss]  strain=Synechococcus elongatus PCC 7942
+  - IdiA  [lookup_miss]  strain=Synechococcus elongatus PCC 7942
+  - IrpA  [lookup_miss]  strain=Synechococcus elongatus PCC 7942
+  - urtABC  [lookup_miss]  strain=Pseudomonas putida KT2440
+  - ureABCD cluster  [descriptive_only]  strain=Pseudomonas putida KT2440
+  - NtrB  [lookup_miss]  strain=Pseudomonas putida KT2440
+  - futB  [lookup_miss]  strain=Synechococcus elongatus PCC 7942
+  - Synpccc7942_1635  [lookup_miss]  strain=Synechococcus elongatus PCC 7942  ids=['Synpccc7942_1635']
+  - benABCD  [descriptive_only]  strain=Pseudomonas putida KT2440
+  - catABC  [descriptive_only]  strain=Pseudomonas putida KT2440
+  - cop and czc-operons  [descriptive_only]  strain=Pseudomonas putida KT2440
+  - CopR/CopS two-component system  [descriptive_only]  strain=Pseudomonas putida KT2440
+
+Unresolved pathway mentions (3):
+  - glycolipid metabolism  (raw id=—)
+  - Entner-Doudoroff-Embden-Meyerhof-Parnas (EDEMP) cycle  (raw id=—)
+  - electron transport chain (ETC)  (raw id=—)

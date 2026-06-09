@@ -1,0 +1,161 @@
+{
+  "metadata": {
+    "paper": "Kujawinski 2023",
+    "doi": "10.1128/msystems.01261-22",
+    "strains": [
+      "Prochlorococcus MIT9301",
+      "Prochlorococcus MIT0801",
+      "Prochlorococcus MIT9313"
+    ],
+    "model": "gpt-4.1",
+    "self_assessment": "high",
+    "assessment_notes": "All genes and pathways discussed in the narrative were extracted; some gene names are generic or enzyme-based, as locus tags were not provided.",
+    "uncaptured_identifiers": "some",
+    "uncaptured_identifiers_note": "Figure 1 and supplementary tables list metabolites and may include gene presence/absence, but locus tags or gene IDs are not printed in the main text.",
+    "extracted_at": "2026-06-04T10:22:47.205887",
+    "input_tokens": 30105,
+    "output_tokens": 1686
+  },
+  "genes": [
+    {
+      "surface_form": "SAM synthetase (metK)",
+      "gene_name": "metK",
+      "identifiers": [],
+      "strain": "all",
+      "prominence": "peripheral",
+      "evidence": "The three strains share several enzymes (SAM synthetase [metK]; SAM:tRNA isomerase [queA], and SAM decarboxylase [speD]) (Results, p6)"
+    },
+    {
+      "surface_form": "SAM:tRNA isomerase (queA)",
+      "gene_name": "queA",
+      "identifiers": [],
+      "strain": "all",
+      "prominence": "peripheral",
+      "evidence": "The three strains share several enzymes (SAM synthetase [metK]; SAM:tRNA isomerase [queA], and SAM decarboxylase [speD]) (Results, p6)"
+    },
+    {
+      "surface_form": "SAM decarboxylase (speD)",
+      "gene_name": "speD",
+      "identifiers": [],
+      "strain": "all",
+      "prominence": "peripheral",
+      "evidence": "The three strains share several enzymes (SAM synthetase [metK]; SAM:tRNA isomerase [queA], and SAM decarboxylase [speD]) (Results, p6)"
+    },
+    {
+      "surface_form": "SAM-dependent cytosine methyltransferase (EC.2.1.1.199)",
+      "gene_name": "",
+      "identifiers": [
+        "EC.2.1.1.199"
+      ],
+      "strain": "Prochlorococcus MIT9301",
+      "prominence": "central",
+      "evidence": "only MIT9301 encodes the gene for a SAM-dependent cytosine methyltransferase (EC.2.1.1.199) (Results, p6)"
+    },
+    {
+      "surface_form": "high light inducible (hli) proteins",
+      "gene_name": "hli",
+      "identifiers": [],
+      "strain": "Prochlorococcus MIT0801",
+      "prominence": "peripheral",
+      "evidence": "LLI ecotype ... has a greatly enhanced repertoire of 'high light inducible' (hli) proteins, a diverse class of genes involved in general stress responses (19) (Results, p8)"
+    },
+    {
+      "surface_form": "arginase",
+      "gene_name": "",
+      "identifiers": [],
+      "strain": "all",
+      "prominence": "peripheral",
+      "evidence": "Prochlorococcus cannot perform the canonical urea cycle due to the absence of the gene for arginase production (Results, p8)"
+    },
+    {
+      "surface_form": "glutamine synthase (GS)",
+      "gene_name": "",
+      "identifiers": [],
+      "strain": "all",
+      "prominence": "central",
+      "evidence": "All Prochlorococcus strains encode the high\u00adaffinity endergonic GS-GOGAT pathway (Results, p9)"
+    },
+    {
+      "surface_form": "glutamine oxoglutarate aminotransferase (GOGAT)",
+      "gene_name": "",
+      "identifiers": [],
+      "strain": "all",
+      "prominence": "central",
+      "evidence": "All Prochlorococcus strains encode the high\u00adaffinity endergonic GS-GOGAT pathway (Results, p9)"
+    },
+    {
+      "surface_form": "glutamic acid dehydrogenase (GDH)",
+      "gene_name": "",
+      "identifiers": [],
+      "strain": "Prochlorococcus MIT9313",
+      "prominence": "central",
+      "evidence": "only MIT9313 retains the low\u00adaffinity but more energetically efficient GDH pathway (19, 51) (Results, p9)"
+    },
+    {
+      "surface_form": "thymidine kinase",
+      "gene_name": "",
+      "identifiers": [],
+      "strain": "all",
+      "prominence": "peripheral",
+      "evidence": "these connections require thymidine kinase, an enzyme that is absent in all Prochlorococcus genomes (Results, p12)"
+    },
+    {
+      "surface_form": "methionine salvage pathway",
+      "gene_name": "",
+      "identifiers": [],
+      "strain": "Prochlorococcus MIT9313",
+      "prominence": "peripheral",
+      "evidence": "MTA is recycled via the methionine salvage pathway, which is complete only in MIT9313 (Results, p13)"
+    }
+  ],
+  "pathways": [
+    {
+      "surface_form": "SAM metabolism",
+      "kegg_pathway_id": "ko00270",
+      "prominence": "central",
+      "evidence": "we searched the three strain genomes (in Kyoto Encyclopedia of Genes and Genomes [KEGG]) for genes involved in SAM metabolism (Results, p6)"
+    },
+    {
+      "surface_form": "shikimate pathway",
+      "kegg_pathway_id": "ko00400",
+      "prominence": "central",
+      "evidence": "all three strains using the conserved shikimate pathway for aromatic amino acid synthesis (Fig. 3; Fig. S2) (Results, p6)"
+    },
+    {
+      "surface_form": "urea cycle",
+      "kegg_pathway_id": "ko00330",
+      "prominence": "central",
+      "evidence": "Citrulline and arginine are two molecules associated with the urea cycle, a common nitrogen recycling strategy (46) (Results, p8)"
+    },
+    {
+      "surface_form": "GS-GOGAT pathway",
+      "kegg_pathway_id": "",
+      "prominence": "central",
+      "evidence": "All Prochlorococcus strains encode the high\u00adaffinity endergonic GS-GOGAT pathway (Results, p9)"
+    },
+    {
+      "surface_form": "GDH pathway",
+      "kegg_pathway_id": "",
+      "prominence": "central",
+      "evidence": "only MIT9313 retains the low\u00adaffinity but more energetically efficient GDH pathway (19, 51) (Results, p9)"
+    },
+    {
+      "surface_form": "branched-chain amino acid (BCAA) synthesis pathway",
+      "kegg_pathway_id": "ko00290",
+      "prominence": "central",
+      "evidence": "BCAA synthesis pathways culminate in the transfer of an amine group from glutamic acid to a BCAA precursor, catalyzed by a shared transaminase (Results, p11)"
+    },
+    {
+      "surface_form": "polyamine metabolism",
+      "kegg_pathway_id": "ko00330",
+      "prominence": "peripheral",
+      "evidence": "5\u2032-Methylthioadenosine (MTA), a by-product of polyamine metabolism and the precursor to methionine salvage, was released by MIT9313 (Results, p12)"
+    },
+    {
+      "surface_form": "methionine salvage pathway",
+      "kegg_pathway_id": "ko00270",
+      "prominence": "peripheral",
+      "evidence": "MTA is recycled via the methionine salvage pathway, which is complete only in MIT9313 (Results, p13)"
+    }
+  ]
+}

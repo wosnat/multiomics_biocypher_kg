@@ -1,0 +1,346 @@
+{
+  "metadata": {
+    "paper": "Wang 2014",
+    "doi": null,
+    "strains": [
+      "Prochlorococcus MED4"
+    ],
+    "model": "gpt-4.1",
+    "self_assessment": "high",
+    "assessment_notes": "All genes and pathways are explicitly named in the narrative. Most gene mentions are peripheral, with only pathways being central to the findings.",
+    "uncaptured_identifiers": "many",
+    "uncaptured_identifiers_note": "Numerous additional gene identifiers are present in supplementary files and tables, but only those discussed in the main text are included here.",
+    "extracted_at": "2026-06-04T10:08:04.849685",
+    "input_tokens": 20989,
+    "output_tokens": 2043,
+    "resolution": {
+      "gene_records": 19,
+      "genes_resolved": 11,
+      "gene_methods": {
+        "unresolved": 8,
+        "locus_tag:v": 9,
+        "tier1:v": 2
+      },
+      "pathway_records": 5,
+      "pathways_resolved": 2,
+      "pathway_methods": {
+        "id": 2,
+        "unresolved": 3
+      },
+      "paper_strains": [
+        "Prochlorococcus MED4"
+      ],
+      "captured_identifiers": 14,
+      "truncated_identifiers": 0,
+      "truncated_examples": [],
+      "unresolved_reasons": {
+        "lookup_miss": 8
+      }
+    }
+  },
+  "genes": [
+    {
+      "surface_form": "kaiBC circadian clock",
+      "gene_name": "kaiBC",
+      "identifiers": [],
+      "prominence": "peripheral",
+      "evidence": "kaiBC circadian clock ... were also included in the operon map (Additional file 1) (p2)",
+      "mention_strain": "Prochlorococcus MED4",
+      "strain": "Prochlorococcus MED4",
+      "locus_tag": null,
+      "resolved_from": "",
+      "resolution_method": "unresolved"
+    },
+    {
+      "surface_form": "phoRB two-component system",
+      "gene_name": "phoRB",
+      "identifiers": [],
+      "prominence": "peripheral",
+      "evidence": "two-component system phoRB ... were also included in the operon map (Additional file 1) (p2)",
+      "mention_strain": "Prochlorococcus MED4",
+      "strain": "Prochlorococcus MED4",
+      "locus_tag": null,
+      "resolved_from": "",
+      "resolution_method": "unresolved"
+    },
+    {
+      "surface_form": "psaAB photosystem I core apparatus",
+      "gene_name": "psaAB",
+      "identifiers": [],
+      "prominence": "peripheral",
+      "evidence": "photosystem I core apparatus psaAB ... were also included in the operon map (Additional file 1) (p2)",
+      "mention_strain": "Prochlorococcus MED4",
+      "strain": "Prochlorococcus MED4",
+      "locus_tag": null,
+      "resolved_from": "",
+      "resolution_method": "unresolved"
+    },
+    {
+      "surface_form": "cso cluster (carboxysome shell proteins)",
+      "gene_name": "cso",
+      "identifiers": [],
+      "prominence": "peripheral",
+      "evidence": "carboxysome shell proteins cso cluster ... were also included in the operon map (Additional file 1) (p2)",
+      "mention_strain": "Prochlorococcus MED4",
+      "strain": "Prochlorococcus MED4",
+      "locus_tag": null,
+      "resolved_from": "",
+      "resolution_method": "unresolved"
+    },
+    {
+      "surface_form": "TibYfr5",
+      "gene_name": "",
+      "identifiers": [
+        "TibYfr5"
+      ],
+      "prominence": "peripheral",
+      "evidence": "TibYfr5 was the highest expressed ncRNA among five predicted ncRNAs (p3)",
+      "mention_strain": "Prochlorococcus MED4",
+      "strain": "Prochlorococcus MED4",
+      "locus_tag": null,
+      "resolved_from": "",
+      "resolution_method": "unresolved"
+    },
+    {
+      "surface_form": "TibYfr1",
+      "gene_name": "",
+      "identifiers": [
+        "TibYfr1"
+      ],
+      "prominence": "peripheral",
+      "evidence": "TibYfr1 consistently showed the highest abundance under the light\u2013dark conditions (p3)",
+      "mention_strain": "Prochlorococcus MED4",
+      "strain": "Prochlorococcus MED4",
+      "locus_tag": null,
+      "resolved_from": "",
+      "resolution_method": "unresolved"
+    },
+    {
+      "surface_form": "hli genes",
+      "gene_name": "hli",
+      "identifiers": [],
+      "prominence": "peripheral",
+      "evidence": "hli genes exhibited high expression levels (Figure 5a, p5)",
+      "mention_strain": "Prochlorococcus MED4",
+      "strain": "Prochlorococcus MED4",
+      "locus_tag": null,
+      "resolved_from": "",
+      "resolution_method": "unresolved"
+    },
+    {
+      "surface_form": "PMM1384 (hli12)",
+      "gene_name": "hli12",
+      "identifiers": [
+        "PMM1384"
+      ],
+      "prominence": "peripheral",
+      "evidence": "PMM1384 and 1385 (hli12 and hli11), are highly expressed when cells are exposed to high light conditions (p5)",
+      "mention_strain": "Prochlorococcus MED4",
+      "strain": "Prochlorococcus MED4",
+      "locus_tag": "PMM1384",
+      "resolved_from": "PMM1384",
+      "resolution_method": "locus_tag:v"
+    },
+    {
+      "surface_form": "PMM1385 (hli11)",
+      "gene_name": "hli11",
+      "identifiers": [
+        "PMM1385"
+      ],
+      "prominence": "peripheral",
+      "evidence": "PMM1384 and 1385 (hli12 and hli11), are highly expressed when cells are exposed to high light conditions (p5)",
+      "mention_strain": "Prochlorococcus MED4",
+      "strain": "Prochlorococcus MED4",
+      "locus_tag": "PMM1385",
+      "resolved_from": "PMM1385",
+      "resolution_method": "locus_tag:v"
+    },
+    {
+      "surface_form": "PMM1390 (hli10)",
+      "gene_name": "hli10",
+      "identifiers": [
+        "PMM1390"
+      ],
+      "prominence": "peripheral",
+      "evidence": "PMM1390 (hli10) was slightly transcribed (p5)",
+      "mention_strain": "Prochlorococcus MED4",
+      "strain": "Prochlorococcus MED4",
+      "locus_tag": "PMM1390",
+      "resolved_from": "PMM1390",
+      "resolution_method": "locus_tag:v"
+    },
+    {
+      "surface_form": "PMM1119",
+      "gene_name": "",
+      "identifiers": [
+        "PMM1119"
+      ],
+      "prominence": "peripheral",
+      "evidence": "PMM1119 and PMM112 (two P-limitation-inducible porins) [47] ... were highly expressed (p5)",
+      "mention_strain": "Prochlorococcus MED4",
+      "strain": "Prochlorococcus MED4",
+      "locus_tag": "PMM1119",
+      "resolved_from": "PMM1119",
+      "resolution_method": "locus_tag:v"
+    },
+    {
+      "surface_form": "PMM112",
+      "gene_name": "",
+      "identifiers": [
+        "PMM112"
+      ],
+      "prominence": "peripheral",
+      "evidence": "PMM1119 and PMM112 (two P-limitation-inducible porins) [47] ... were highly expressed (p5)",
+      "mention_strain": "Prochlorococcus MED4",
+      "strain": "Prochlorococcus MED4",
+      "locus_tag": null,
+      "resolved_from": "",
+      "resolution_method": "unresolved"
+    },
+    {
+      "surface_form": "amt1 (PMM0263)",
+      "gene_name": "amt1",
+      "identifiers": [
+        "PMM0263"
+      ],
+      "prominence": "peripheral",
+      "evidence": "one ammonium transporter (amt1, PMM0263) were highly expressed (p5, Sheet 3 of Additional file 3)",
+      "mention_strain": "Prochlorococcus MED4",
+      "strain": "Prochlorococcus MED4",
+      "locus_tag": "PMM0263",
+      "resolved_from": "PMM0263",
+      "resolution_method": "locus_tag:v"
+    },
+    {
+      "surface_form": "psbA (PMM0223)",
+      "gene_name": "psbA",
+      "identifiers": [
+        "PMM0223"
+      ],
+      "prominence": "peripheral",
+      "evidence": "psbA (PsbA protein D1, PMM0223) ... strongly transcribed turnover very slowly (p7)",
+      "mention_strain": "Prochlorococcus MED4",
+      "strain": "Prochlorococcus MED4",
+      "locus_tag": "PMM0223",
+      "resolved_from": "PMM0223",
+      "resolution_method": "locus_tag:v"
+    },
+    {
+      "surface_form": "som-1 (PMM1119)",
+      "gene_name": "som-1",
+      "identifiers": [
+        "PMM1119"
+      ],
+      "prominence": "peripheral",
+      "evidence": "som-1/2 (porins, PMM1119 and PMM1121) ... strongly transcribed turnover very slowly (p7)",
+      "mention_strain": "Prochlorococcus MED4",
+      "strain": "Prochlorococcus MED4",
+      "locus_tag": "PMM1119",
+      "resolved_from": "PMM1119",
+      "resolution_method": "locus_tag:v"
+    },
+    {
+      "surface_form": "som-2 (PMM1121)",
+      "gene_name": "som-2",
+      "identifiers": [
+        "PMM1121"
+      ],
+      "prominence": "peripheral",
+      "evidence": "som-1/2 (porins, PMM1119 and PMM1121) ... strongly transcribed turnover very slowly (p7)",
+      "mention_strain": "Prochlorococcus MED4",
+      "strain": "Prochlorococcus MED4",
+      "locus_tag": "PMM1121",
+      "resolved_from": "PMM1121",
+      "resolution_method": "locus_tag:v"
+    },
+    {
+      "surface_form": "pcb (PMM0627)",
+      "gene_name": "pcb",
+      "identifiers": [
+        "PMM0627"
+      ],
+      "prominence": "peripheral",
+      "evidence": "pcb (light harvesting complex protein, PMM0627) ... strongly transcribed turnover very slowly (p7)",
+      "mention_strain": "Prochlorococcus MED4",
+      "strain": "Prochlorococcus MED4",
+      "locus_tag": "PMM0627",
+      "resolved_from": "PMM0627",
+      "resolution_method": "locus_tag:v"
+    },
+    {
+      "surface_form": "HyPMM53",
+      "gene_name": "",
+      "identifiers": [
+        "HyPMM53"
+      ],
+      "prominence": "peripheral",
+      "evidence": "two hypothetical genes (HyPMM53 and HyPMM165), that were strongly transcribed turnover very slowly (p7)",
+      "mention_strain": "Prochlorococcus MED4",
+      "strain": "Prochlorococcus MED4",
+      "locus_tag": "PMM1846",
+      "resolved_from": "HyPMM53",
+      "resolution_method": "tier1:v"
+    },
+    {
+      "surface_form": "HyPMM165",
+      "gene_name": "",
+      "identifiers": [
+        "HyPMM165"
+      ],
+      "prominence": "peripheral",
+      "evidence": "two hypothetical genes (HyPMM53 and HyPMM165), that were strongly transcribed turnover very slowly (p7)",
+      "mention_strain": "Prochlorococcus MED4",
+      "strain": "Prochlorococcus MED4",
+      "locus_tag": "PMM2057",
+      "resolved_from": "HyPMM165",
+      "resolution_method": "tier1:v"
+    }
+  ],
+  "pathways": [
+    {
+      "surface_form": "photosynthesis",
+      "kegg_pathway_id_raw": "ko00195",
+      "prominence": "central",
+      "evidence": "Photosynthesis and carbon metabolism pathway genes were expressed at the highest level (Figure 5a, p5)",
+      "pathway_id": "ko00195",
+      "pathway_name": "photosynthesis",
+      "resolution_method": "id"
+    },
+    {
+      "surface_form": "carbon metabolism",
+      "kegg_pathway_id_raw": "ko01200",
+      "prominence": "central",
+      "evidence": "Photosynthesis and carbon metabolism pathway genes were expressed at the highest level (Figure 5a, p5)",
+      "pathway_id": "ko01200",
+      "pathway_name": "carbon metabolism",
+      "resolution_method": "id"
+    },
+    {
+      "surface_form": "phosphate acquisition",
+      "kegg_pathway_id_raw": "",
+      "prominence": "peripheral",
+      "evidence": "phosphate acquisition ... no significant enrichment in the four expression subclasses (Figure 5b, p5)",
+      "pathway_id": null,
+      "pathway_name": null,
+      "resolution_method": "unresolved"
+    },
+    {
+      "surface_form": "nitrogen acquisition",
+      "kegg_pathway_id_raw": "",
+      "prominence": "peripheral",
+      "evidence": "nitrogen acquisition ... no significant enrichment in the four expression subclasses (Figure 5b, p5)",
+      "pathway_id": null,
+      "pathway_name": null,
+      "resolution_method": "unresolved"
+    },
+    {
+      "surface_form": "phage infection",
+      "kegg_pathway_id_raw": "",
+      "prominence": "peripheral",
+      "evidence": "phage-related genes displayed the lowest expression levels in this study (p5)",
+      "pathway_id": null,
+      "pathway_name": null,
+      "resolution_method": "unresolved"
+    }
+  ]
+}

@@ -1,0 +1,1214 @@
+{
+  "metadata": {
+    "paper": "Kratzl 2024",
+    "doi": null,
+    "strains": [
+      "Pseudomonas putida KT2440",
+      "Synechococcus elongatus PCC 7942"
+    ],
+    "model": "gpt-4.1",
+    "n_chunks": 2,
+    "chunk_pages": 8,
+    "self_assessment": "high",
+    "uncaptured_identifiers": "many",
+    "uncaptured_identifiers_note": "Numerous DEGs/DAPs are shown in figures and likely in supplementary tables, but only those explicitly named in text or labeled in main figures were included.; Figures and supplementary tables may list additional locus tags or abbreviated ids not captured here.",
+    "extracted_at": "2026-06-04T16:03:40.794032",
+    "input_tokens": 30028,
+    "output_tokens": 9124,
+    "resolution": {
+      "gene_records": 74,
+      "genes_resolved": 59,
+      "gene_methods": {
+        "unresolved": 15,
+        "tier1:v": 46,
+        "multi:v": 4,
+        "tier1_ci:v": 7,
+        "multi_ci:v": 2
+      },
+      "pathway_records": 19,
+      "pathways_resolved": 16,
+      "pathway_methods": {
+        "id": 16,
+        "unresolved": 3
+      },
+      "paper_strains": [
+        "Pseudomonas putida KT2440",
+        "Synechococcus elongatus PCC 7942"
+      ],
+      "captured_identifiers": 42,
+      "truncated_identifiers": 0,
+      "truncated_examples": [],
+      "unresolved_reasons": {
+        "lookup_miss": 8,
+        "descriptive_only": 7
+      }
+    }
+  },
+  "genes": [
+    {
+      "surface_form": "cscB",
+      "gene_name": "cscB",
+      "identifiers": [],
+      "prominence": "central",
+      "evidence": "the sucrose secreting strain S. elongatus cscB by genomic integration of the cscB gene encoding a H+/sucrose symporter (Introduction, p2)",
+      "mention_strain": "Synechococcus elongatus PCC 7942",
+      "strain": "Synechococcus elongatus PCC 7942",
+      "locus_tag": null,
+      "resolved_from": "",
+      "resolution_method": "unresolved"
+    },
+    {
+      "surface_form": "cscRABY",
+      "gene_name": "",
+      "identifiers": [],
+      "prominence": "central",
+      "evidence": "P. putida cscRABY has been engineered to transport and metabolise sucrose by the integration of the cscRABY operon into the chromosome (Introduction, p2)",
+      "mention_strain": "Pseudomonas putida KT2440",
+      "strain": "Pseudomonas putida KT2440",
+      "locus_tag": null,
+      "resolved_from": "",
+      "resolution_method": "unresolved"
+    },
+    {
+      "surface_form": "asnB",
+      "gene_name": "asnB",
+      "identifiers": [
+        "PP_2453"
+      ],
+      "prominence": "peripheral",
+      "evidence": "the asparagine synthetase AsnB, responsible for the conversion of aspartic acid into asparagine, showed the biggest differences... The corresponding transcript asnB, however, was down-regulated (Fig. 6b, PP_2453 log2-FC -3.1) (Results, p8)",
+      "mention_strain": "Pseudomonas putida KT2440",
+      "strain": "Pseudomonas putida KT2440",
+      "locus_tag": "M8001_12870",
+      "resolved_from": "PP_2453",
+      "resolution_method": "tier1:v"
+    },
+    {
+      "surface_form": "Idh",
+      "gene_name": "idh",
+      "identifiers": [
+        "PP_4012"
+      ],
+      "prominence": "peripheral",
+      "evidence": "In the transcriptome, the contrary is observed with a slight up-regulation of Idh (PP_4012 log2-FC 1.9) (Results, p8)",
+      "mention_strain": "Pseudomonas putida KT2440",
+      "strain": "Pseudomonas putida KT2440",
+      "locus_tag": "M8001_21015",
+      "resolved_from": "PP_4012",
+      "resolution_method": "tier1:v"
+    },
+    {
+      "surface_form": "AceA",
+      "gene_name": "aceA",
+      "identifiers": [
+        "PP_4116"
+      ],
+      "prominence": "peripheral",
+      "evidence": "combined with the down-regulation of the transcript encoding AceA (PP_4116 log2-FC -2.64) (Results, p8)",
+      "mention_strain": "Pseudomonas putida KT2440",
+      "strain": "Pseudomonas putida KT2440",
+      "locus_tag": "M8001_21550",
+      "resolved_from": "PP_4116",
+      "resolution_method": "tier1:v"
+    },
+    {
+      "surface_form": "SucA/B/D",
+      "gene_name": "",
+      "identifiers": [],
+      "prominence": "peripheral",
+      "evidence": "lower protein abundances of Idh and SucA/B/D went together with a higher abundance of the proteins AceA and GlcB (Results, p8)",
+      "mention_strain": "Pseudomonas putida KT2440",
+      "strain": "Pseudomonas putida KT2440",
+      "locus_tag": null,
+      "resolved_from": "",
+      "resolution_method": "unresolved"
+    },
+    {
+      "surface_form": "GlcB",
+      "gene_name": "glcB",
+      "identifiers": [],
+      "prominence": "peripheral",
+      "evidence": "lower protein abundances of Idh and SucA/B/D went together with a higher abundance of the proteins AceA and GlcB (Results, p8)",
+      "mention_strain": "Pseudomonas putida KT2440",
+      "strain": "Pseudomonas putida KT2440",
+      "locus_tag": "M8001_01890",
+      "resolved_from": "glcB",
+      "resolution_method": "multi:v"
+    },
+    {
+      "surface_form": "Synpcc7942_0215",
+      "gene_name": "",
+      "identifiers": [
+        "Synpcc7942_0215"
+      ],
+      "prominence": "peripheral",
+      "evidence": "Synpcc7942_0215 highlighted as DEG in volcano plot (Fig. 4d, Results, p6)",
+      "mention_strain": "Synechococcus elongatus PCC 7942",
+      "strain": "Synechococcus elongatus PCC 7942",
+      "locus_tag": "H6G84_06730",
+      "resolved_from": "Synpcc7942_0215",
+      "resolution_method": "tier1:v"
+    },
+    {
+      "surface_form": "Synpcc7942_0781",
+      "gene_name": "",
+      "identifiers": [
+        "Synpcc7942_0781"
+      ],
+      "prominence": "peripheral",
+      "evidence": "Synpcc7942_0781 highlighted as DEG in volcano plot (Fig. 4d, Results, p6)",
+      "mention_strain": "Synechococcus elongatus PCC 7942",
+      "strain": "Synechococcus elongatus PCC 7942",
+      "locus_tag": "H6G84_12445",
+      "resolved_from": "Synpcc7942_0781",
+      "resolution_method": "tier1:v"
+    },
+    {
+      "surface_form": "Synpcc7942_1598",
+      "gene_name": "",
+      "identifiers": [
+        "Synpcc7942_1598"
+      ],
+      "prominence": "peripheral",
+      "evidence": "Synpcc7942_1598 highlighted as DEG in volcano plot (Fig. 4d, Results, p6)",
+      "mention_strain": "Synechococcus elongatus PCC 7942",
+      "strain": "Synechococcus elongatus PCC 7942",
+      "locus_tag": "H6G84_11670",
+      "resolved_from": "Synpcc7942_1598",
+      "resolution_method": "tier1:v"
+    },
+    {
+      "surface_form": "hilA",
+      "gene_name": "hilA",
+      "identifiers": [],
+      "prominence": "peripheral",
+      "evidence": "hilA highlighted as DEG in volcano plot (Fig. 4d, Results, p6)",
+      "mention_strain": "Synechococcus elongatus PCC 7942",
+      "strain": "Synechococcus elongatus PCC 7942",
+      "locus_tag": null,
+      "resolved_from": "",
+      "resolution_method": "unresolved"
+    },
+    {
+      "surface_form": "IsiA",
+      "gene_name": "IsiA",
+      "identifiers": [],
+      "prominence": "peripheral",
+      "evidence": "Both proteins were more abundant in the co-culture, IsiA with a log2-FC of 5.7... IsiA is annotated as an iron stress induced chlorophyll-binding protein (p9)",
+      "mention_strain": "Synechococcus elongatus PCC 7942",
+      "strain": "Synechococcus elongatus PCC 7942",
+      "locus_tag": "H6G84_11350",
+      "resolved_from": "IsiA",
+      "resolution_method": "tier1_ci:v"
+    },
+    {
+      "surface_form": "IsiB",
+      "gene_name": "IsiB",
+      "identifiers": [],
+      "prominence": "peripheral",
+      "evidence": "IsiB with a log2-FC of 4.5... IsiB as a flavodoxin. (p9)",
+      "mention_strain": "Synechococcus elongatus PCC 7942",
+      "strain": "Synechococcus elongatus PCC 7942",
+      "locus_tag": "H6G84_11345",
+      "resolved_from": "IsiB",
+      "resolution_method": "tier1_ci:v"
+    },
+    {
+      "surface_form": "IdiA",
+      "gene_name": "IdiA",
+      "identifiers": [],
+      "prominence": "peripheral",
+      "evidence": "two other proteins linked to iron limitation, IdiA and IrpA were notably more abundant in the co-culture (p9)",
+      "mention_strain": "Synechococcus elongatus PCC 7942",
+      "strain": "Synechococcus elongatus PCC 7942",
+      "locus_tag": null,
+      "resolved_from": "",
+      "resolution_method": "unresolved"
+    },
+    {
+      "surface_form": "IrpA",
+      "gene_name": "IrpA",
+      "identifiers": [],
+      "prominence": "peripheral",
+      "evidence": "two other proteins linked to iron limitation, IdiA and IrpA were notably more abundant in the co-culture (p9)",
+      "mention_strain": "Synechococcus elongatus PCC 7942",
+      "strain": "Synechococcus elongatus PCC 7942",
+      "locus_tag": null,
+      "resolved_from": "",
+      "resolution_method": "unresolved"
+    },
+    {
+      "surface_form": "PP_4604",
+      "gene_name": "",
+      "identifiers": [
+        "PP_4604"
+      ],
+      "prominence": "central",
+      "evidence": "The most highly up-regulated transcript was PP_4604, found in the group of amino acid transport. (p10)",
+      "mention_strain": "Pseudomonas putida KT2440",
+      "strain": "Pseudomonas putida KT2440",
+      "locus_tag": "M8001_24150",
+      "resolved_from": "PP_4604",
+      "resolution_method": "tier1:v"
+    },
+    {
+      "surface_form": "PP_4605",
+      "gene_name": "",
+      "identifiers": [
+        "PP_4605"
+      ],
+      "prominence": "peripheral",
+      "evidence": "a gene encoding an AraC-type regulator (PP_4605, log2-FC 5.3), was found to be highly up-regulated as well. (p10)",
+      "mention_strain": "Pseudomonas putida KT2440",
+      "strain": "Pseudomonas putida KT2440",
+      "locus_tag": "M8001_24155",
+      "resolved_from": "PP_4605",
+      "resolution_method": "tier1:v"
+    },
+    {
+      "surface_form": "gltJ",
+      "gene_name": "gltJ",
+      "identifiers": [],
+      "prominence": "peripheral",
+      "evidence": "Down-regulation was observed for some genes encoding ABC-transporters for glutamate/aspartate uptake (gltJ log2-FC -2.6, gltP log2-FC \u22122.4, and gltK log2-FC \u22122.7) (p10)",
+      "mention_strain": "Pseudomonas putida KT2440",
+      "strain": "Pseudomonas putida KT2440",
+      "locus_tag": "M8001_05595",
+      "resolved_from": "gltJ",
+      "resolution_method": "multi:v"
+    },
+    {
+      "surface_form": "gltP",
+      "gene_name": "gltP",
+      "identifiers": [],
+      "prominence": "peripheral",
+      "evidence": "Down-regulation was observed for some genes encoding ABC-transporters for glutamate/aspartate uptake (gltJ log2-FC -2.6, gltP log2-FC \u22122.4, and gltK log2-FC \u22122.7) (p10)",
+      "mention_strain": "Pseudomonas putida KT2440",
+      "strain": "Pseudomonas putida KT2440",
+      "locus_tag": "M8001_00700",
+      "resolved_from": "gltP",
+      "resolution_method": "tier1:v"
+    },
+    {
+      "surface_form": "gltK",
+      "gene_name": "gltK",
+      "identifiers": [],
+      "prominence": "peripheral",
+      "evidence": "Down-regulation was observed for some genes encoding ABC-transporters for glutamate/aspartate uptake (gltJ log2-FC -2.6, gltP log2-FC \u22122.4, and gltK log2-FC \u22122.7) (p10)",
+      "mention_strain": "Pseudomonas putida KT2440",
+      "strain": "Pseudomonas putida KT2440",
+      "locus_tag": "M8001_05590",
+      "resolved_from": "gltK",
+      "resolution_method": "multi:v"
+    },
+    {
+      "surface_form": "potA",
+      "gene_name": "potA",
+      "identifiers": [],
+      "prominence": "peripheral",
+      "evidence": "genes encoding proteins connected to the transport of other amino acids derivatives, such as putrescine or spermidine (potA ATB-binding... up-regulated. (p10)",
+      "mention_strain": "Pseudomonas putida KT2440",
+      "strain": "Pseudomonas putida KT2440",
+      "locus_tag": "M8001_27165",
+      "resolved_from": "potA",
+      "resolution_method": "tier1:v"
+    },
+    {
+      "surface_form": "PP_0412",
+      "gene_name": "",
+      "identifiers": [
+        "PP_0412"
+      ],
+      "prominence": "peripheral",
+      "evidence": "PP_0412 substrate binding with a log2-FC of 1.5 and 1.0) were up-regulated. (p10)",
+      "mention_strain": "Pseudomonas putida KT2440",
+      "strain": "Pseudomonas putida KT2440",
+      "locus_tag": "M8001_02180",
+      "resolved_from": "PP_0412",
+      "resolution_method": "tier1:v"
+    },
+    {
+      "surface_form": "SpuD",
+      "gene_name": "SpuD",
+      "identifiers": [],
+      "prominence": "peripheral",
+      "evidence": "the proteins SpuD and YhdW, annotated as polyamide transporter, were found to be more abundant (p10)",
+      "mention_strain": "Pseudomonas putida KT2440",
+      "strain": "Pseudomonas putida KT2440",
+      "locus_tag": "M8001_27175",
+      "resolved_from": "SpuD",
+      "resolution_method": "multi_ci:v"
+    },
+    {
+      "surface_form": "YhdW",
+      "gene_name": "YhdW",
+      "identifiers": [],
+      "prominence": "peripheral",
+      "evidence": "the proteins SpuD and YhdW, annotated as polyamide transporter, were found to be more abundant (p10)",
+      "mention_strain": "Pseudomonas putida KT2440",
+      "strain": "Pseudomonas putida KT2440",
+      "locus_tag": "M8001_06750",
+      "resolved_from": "YhdW",
+      "resolution_method": "multi_ci:v"
+    },
+    {
+      "surface_form": "amtB",
+      "gene_name": "amtB",
+      "identifiers": [],
+      "prominence": "peripheral",
+      "evidence": "amtB encoding an ammonium transporter... fit well to the downregulation of the ureABCD cluster (p10)",
+      "mention_strain": "Pseudomonas putida KT2440",
+      "strain": "Pseudomonas putida KT2440",
+      "locus_tag": "M8001_27455",
+      "resolved_from": "amtB",
+      "resolution_method": "multi:v"
+    },
+    {
+      "surface_form": "urtABC",
+      "gene_name": "urtABC",
+      "identifiers": [],
+      "prominence": "peripheral",
+      "evidence": "urtABC, coding for a urea transporter, fit well to the downregulation of the ureABCD cluster (p10)",
+      "mention_strain": "Pseudomonas putida KT2440",
+      "strain": "Pseudomonas putida KT2440",
+      "locus_tag": null,
+      "resolved_from": "",
+      "resolution_method": "unresolved"
+    },
+    {
+      "surface_form": "ureABCD cluster",
+      "gene_name": "",
+      "identifiers": [],
+      "prominence": "peripheral",
+      "evidence": "downregulation of the ureABCD cluster encoding a urease for urea degradation (p10)",
+      "mention_strain": "Pseudomonas putida KT2440",
+      "strain": "Pseudomonas putida KT2440",
+      "locus_tag": null,
+      "resolved_from": "",
+      "resolution_method": "unresolved"
+    },
+    {
+      "surface_form": "NtrB",
+      "gene_name": "NtrB",
+      "identifiers": [],
+      "prominence": "peripheral",
+      "evidence": "the global regulators NtrB and NtrC, which are responsible for nitrogen regulation, are less abundant (p10)",
+      "mention_strain": "Pseudomonas putida KT2440",
+      "strain": "Pseudomonas putida KT2440",
+      "locus_tag": null,
+      "resolved_from": "",
+      "resolution_method": "unresolved"
+    },
+    {
+      "surface_form": "NtrC",
+      "gene_name": "NtrC",
+      "identifiers": [],
+      "prominence": "peripheral",
+      "evidence": "the global regulators NtrB and NtrC, which are responsible for nitrogen regulation, are less abundant (p10)",
+      "mention_strain": "Pseudomonas putida KT2440",
+      "strain": "Pseudomonas putida KT2440",
+      "locus_tag": "M8001_26505",
+      "resolved_from": "NtrC",
+      "resolution_method": "tier1_ci:v"
+    },
+    {
+      "surface_form": "Synpcc7942_0197",
+      "gene_name": "",
+      "identifiers": [
+        "Synpcc7942_0197"
+      ],
+      "prominence": "peripheral",
+      "evidence": "Synpcc7942_0197, which was the most highly up-regulated gene, encoding a putative folate/biopterin family MFS transporter (log2-FC 2.8) (p10)",
+      "mention_strain": "Synechococcus elongatus PCC 7942",
+      "strain": "Synechococcus elongatus PCC 7942",
+      "locus_tag": "H6G84_06820",
+      "resolved_from": "Synpcc7942_0197",
+      "resolution_method": "tier1:v"
+    },
+    {
+      "surface_form": "futA2",
+      "gene_name": "futA2",
+      "identifiers": [],
+      "prominence": "peripheral",
+      "evidence": "the futABC operon encoding siderophores responsible for iron uptake (futA2 log2-FC \u22121.6, futB, log2-FC \u22123.1, and futC log2-FC \u22121.74) was down-regulated (p10)",
+      "mention_strain": "Synechococcus elongatus PCC 7942",
+      "strain": "Synechococcus elongatus PCC 7942",
+      "locus_tag": "H6G84_10680",
+      "resolved_from": "futA2",
+      "resolution_method": "tier1:v"
+    },
+    {
+      "surface_form": "futB",
+      "gene_name": "futB",
+      "identifiers": [],
+      "prominence": "peripheral",
+      "evidence": "the futABC operon encoding siderophores responsible for iron uptake (futA2 log2-FC \u22121.6, futB, log2-FC \u22123.1, and futC log2-FC \u22121.74) was down-regulated (p10)",
+      "mention_strain": "Synechococcus elongatus PCC 7942",
+      "strain": "Synechococcus elongatus PCC 7942",
+      "locus_tag": null,
+      "resolved_from": "",
+      "resolution_method": "unresolved"
+    },
+    {
+      "surface_form": "futC",
+      "gene_name": "futC",
+      "identifiers": [],
+      "prominence": "peripheral",
+      "evidence": "the futABC operon encoding siderophores responsible for iron uptake (futA2 log2-FC \u22121.6, futB, log2-FC \u22123.1, and futC log2-FC \u22121.74) was down-regulated (p10)",
+      "mention_strain": "Synechococcus elongatus PCC 7942",
+      "strain": "Synechococcus elongatus PCC 7942",
+      "locus_tag": "H6G84_10665",
+      "resolved_from": "futC",
+      "resolution_method": "tier1:v"
+    },
+    {
+      "surface_form": "Synpcc7942_1681",
+      "gene_name": "",
+      "identifiers": [
+        "Synpcc7942_1681"
+      ],
+      "prominence": "peripheral",
+      "evidence": "Synpcc7942_1681, annotated to encode a sulphate/sulfonate transporter. (p10)",
+      "mention_strain": "Synechococcus elongatus PCC 7942",
+      "strain": "Synechococcus elongatus PCC 7942",
+      "locus_tag": "H6G84_04590",
+      "resolved_from": "Synpcc7942_1681",
+      "resolution_method": "tier1:v"
+    },
+    {
+      "surface_form": "Synpcc7942_1682",
+      "gene_name": "",
+      "identifiers": [
+        "Synpcc7942_1682"
+      ],
+      "prominence": "peripheral",
+      "evidence": "Synpcc7942_1682, and Synpcc7942_1722, also encoding putative sulphate/sulfonate transporters, were likewise down-regulated. (p10)",
+      "mention_strain": "Synechococcus elongatus PCC 7942",
+      "strain": "Synechococcus elongatus PCC 7942",
+      "locus_tag": "H6G84_04585",
+      "resolved_from": "Synpcc7942_1682",
+      "resolution_method": "tier1:v"
+    },
+    {
+      "surface_form": "Synpcc7942_1722",
+      "gene_name": "",
+      "identifiers": [
+        "Synpcc7942_1722"
+      ],
+      "prominence": "peripheral",
+      "evidence": "Synpcc7942_1682, and Synpcc7942_1722, also encoding putative sulphate/sulfonate transporters, were likewise down-regulated. (p10)",
+      "mention_strain": "Synechococcus elongatus PCC 7942",
+      "strain": "Synechococcus elongatus PCC 7942",
+      "locus_tag": "H6G84_04380",
+      "resolved_from": "Synpcc7942_1722",
+      "resolution_method": "tier1:v"
+    },
+    {
+      "surface_form": "Synpcc7942_0935",
+      "gene_name": "",
+      "identifiers": [
+        "Synpcc7942_0935"
+      ],
+      "prominence": "peripheral",
+      "evidence": "Other genes encoding putative sulphite exporters were slightly up-regulated (Synpcc7942_0935, Synpcc7942_0238). (p10)",
+      "mention_strain": "Synechococcus elongatus PCC 7942",
+      "strain": "Synechococcus elongatus PCC 7942",
+      "locus_tag": "H6G84_10350",
+      "resolved_from": "Synpcc7942_0935",
+      "resolution_method": "tier1:v"
+    },
+    {
+      "surface_form": "Synpcc7942_0238",
+      "gene_name": "",
+      "identifiers": [
+        "Synpcc7942_0238"
+      ],
+      "prominence": "peripheral",
+      "evidence": "Other genes encoding putative sulphite exporters were slightly up-regulated (Synpcc7942_0935, Synpcc7942_0238). (p10)",
+      "mention_strain": "Synechococcus elongatus PCC 7942",
+      "strain": "Synechococcus elongatus PCC 7942",
+      "locus_tag": "H6G84_06610",
+      "resolved_from": "Synpcc7942_0238",
+      "resolution_method": "tier1:v"
+    },
+    {
+      "surface_form": "Synpcc7942_1409",
+      "gene_name": "",
+      "identifiers": [
+        "Synpcc7942_1409"
+      ],
+      "prominence": "peripheral",
+      "evidence": "Two of them, annotated as substrate-binding protein of an iron transport system (Synpcc7942_1409)... showed a higher abundance (p10)",
+      "mention_strain": "Synechococcus elongatus PCC 7942",
+      "strain": "Synechococcus elongatus PCC 7942",
+      "locus_tag": "H6G84_10680",
+      "resolved_from": "Synpcc7942_1409",
+      "resolution_method": "tier1:v"
+    },
+    {
+      "surface_form": "Synpcc7942_1607",
+      "gene_name": "",
+      "identifiers": [
+        "Synpcc7942_1607"
+      ],
+      "prominence": "peripheral",
+      "evidence": "and as a hypothetical porin (major outer membrane protein, Synpcc7942_1607) showed a higher abundance (p10)",
+      "mention_strain": "Synechococcus elongatus PCC 7942",
+      "strain": "Synechococcus elongatus PCC 7942",
+      "locus_tag": "H6G84_11715",
+      "resolved_from": "Synpcc7942_1607",
+      "resolution_method": "tier1:v"
+    },
+    {
+      "surface_form": "Synpccc7942_1635",
+      "gene_name": "",
+      "identifiers": [
+        "Synpccc7942_1635"
+      ],
+      "prominence": "peripheral",
+      "evidence": "whereas another porin (Synpccc7942_1635) was less abundant in the co-culture grown S. elongatus cscB cells (p10)",
+      "mention_strain": "Synechococcus elongatus PCC 7942",
+      "strain": "Synechococcus elongatus PCC 7942",
+      "locus_tag": null,
+      "resolved_from": "",
+      "resolution_method": "unresolved"
+    },
+    {
+      "surface_form": "benABCD",
+      "gene_name": "",
+      "identifiers": [],
+      "prominence": "central",
+      "evidence": "the ben- and cat-operons encoding enzymes responsible for the degradation of benzoate were up-regulated (p11)",
+      "mention_strain": "Pseudomonas putida KT2440",
+      "strain": "Pseudomonas putida KT2440",
+      "locus_tag": null,
+      "resolved_from": "",
+      "resolution_method": "unresolved"
+    },
+    {
+      "surface_form": "catABC",
+      "gene_name": "",
+      "identifiers": [],
+      "prominence": "central",
+      "evidence": "the ben- and cat-operons encoding enzymes responsible for the degradation of benzoate were up-regulated (p11)",
+      "mention_strain": "Pseudomonas putida KT2440",
+      "strain": "Pseudomonas putida KT2440",
+      "locus_tag": null,
+      "resolved_from": "",
+      "resolution_method": "unresolved"
+    },
+    {
+      "surface_form": "BenR",
+      "gene_name": "BenR",
+      "identifiers": [],
+      "prominence": "peripheral",
+      "evidence": "The gene encoding the AraC-type regulator BenR, however, was slightly down-regulated (log2-FC \u22121.2). (p11)",
+      "mention_strain": "Pseudomonas putida KT2440",
+      "strain": "Pseudomonas putida KT2440",
+      "locus_tag": "M8001_16585",
+      "resolved_from": "BenR",
+      "resolution_method": "tier1_ci:v"
+    },
+    {
+      "surface_form": "PP_0738 to PP_0742",
+      "gene_name": "",
+      "identifiers": [
+        "PP_0738",
+        "PP_0739",
+        "PP_0740",
+        "PP_0741",
+        "PP_0742"
+      ],
+      "prominence": "peripheral",
+      "evidence": "The transcription of a gene cluster (PP_0738 to PP_0742) that might be connected to light-induced stress was found to be up-regulated (p11)",
+      "mention_strain": "Pseudomonas putida KT2440",
+      "strain": "Pseudomonas putida KT2440",
+      "locus_tag": "M8001_03960",
+      "resolved_from": "PP_0738",
+      "resolution_method": "tier1:v"
+    },
+    {
+      "surface_form": "PP_0738 to PP_0742",
+      "gene_name": "",
+      "identifiers": [
+        "PP_0738",
+        "PP_0739",
+        "PP_0740",
+        "PP_0741",
+        "PP_0742"
+      ],
+      "prominence": "peripheral",
+      "evidence": "The transcription of a gene cluster (PP_0738 to PP_0742) that might be connected to light-induced stress was found to be up-regulated (p11)",
+      "mention_strain": "Pseudomonas putida KT2440",
+      "strain": "Pseudomonas putida KT2440",
+      "locus_tag": "M8001_03965",
+      "resolved_from": "PP_0739",
+      "resolution_method": "tier1:v"
+    },
+    {
+      "surface_form": "PP_0738 to PP_0742",
+      "gene_name": "",
+      "identifiers": [
+        "PP_0738",
+        "PP_0739",
+        "PP_0740",
+        "PP_0741",
+        "PP_0742"
+      ],
+      "prominence": "peripheral",
+      "evidence": "The transcription of a gene cluster (PP_0738 to PP_0742) that might be connected to light-induced stress was found to be up-regulated (p11)",
+      "mention_strain": "Pseudomonas putida KT2440",
+      "strain": "Pseudomonas putida KT2440",
+      "locus_tag": "M8001_03970",
+      "resolved_from": "PP_0740",
+      "resolution_method": "tier1:v"
+    },
+    {
+      "surface_form": "PP_0738 to PP_0742",
+      "gene_name": "",
+      "identifiers": [
+        "PP_0738",
+        "PP_0739",
+        "PP_0740",
+        "PP_0741",
+        "PP_0742"
+      ],
+      "prominence": "peripheral",
+      "evidence": "The transcription of a gene cluster (PP_0738 to PP_0742) that might be connected to light-induced stress was found to be up-regulated (p11)",
+      "mention_strain": "Pseudomonas putida KT2440",
+      "strain": "Pseudomonas putida KT2440",
+      "locus_tag": "M8001_03975",
+      "resolved_from": "PP_0741",
+      "resolution_method": "tier1:v"
+    },
+    {
+      "surface_form": "PP_0738 to PP_0742",
+      "gene_name": "",
+      "identifiers": [
+        "PP_0738",
+        "PP_0739",
+        "PP_0740",
+        "PP_0741",
+        "PP_0742"
+      ],
+      "prominence": "peripheral",
+      "evidence": "The transcription of a gene cluster (PP_0738 to PP_0742) that might be connected to light-induced stress was found to be up-regulated (p11)",
+      "mention_strain": "Pseudomonas putida KT2440",
+      "strain": "Pseudomonas putida KT2440",
+      "locus_tag": "M8001_03980",
+      "resolved_from": "PP_0742",
+      "resolution_method": "tier1:v"
+    },
+    {
+      "surface_form": "PP_0739",
+      "gene_name": "",
+      "identifiers": [
+        "PP_0739"
+      ],
+      "prominence": "peripheral",
+      "evidence": "One of its genes (PP_0739) encodes a putative deoxyribodipyrimidine photolyase (p11)",
+      "mention_strain": "Pseudomonas putida KT2440",
+      "strain": "Pseudomonas putida KT2440",
+      "locus_tag": "M8001_03965",
+      "resolved_from": "PP_0739",
+      "resolution_method": "tier1:v"
+    },
+    {
+      "surface_form": "PP_0740",
+      "gene_name": "",
+      "identifiers": [
+        "PP_0740"
+      ],
+      "prominence": "peripheral",
+      "evidence": "PP_0740 encodes a putative MerR family transcriptional regulator of light-inducible genes, known as PplR1 (p11)",
+      "mention_strain": "Pseudomonas putida KT2440",
+      "strain": "Pseudomonas putida KT2440",
+      "locus_tag": "M8001_03970",
+      "resolved_from": "PP_0740",
+      "resolution_method": "tier1:v"
+    },
+    {
+      "surface_form": "PP_2817",
+      "gene_name": "",
+      "identifiers": [
+        "PP_2817"
+      ],
+      "prominence": "peripheral",
+      "evidence": "The highest up-regulation of transcription was detected for the genes PP_2817 and PP_2731 encoding putative multidrug efflux pumps (p11)",
+      "mention_strain": "Pseudomonas putida KT2440",
+      "strain": "Pseudomonas putida KT2440",
+      "locus_tag": "M8001_14725",
+      "resolved_from": "PP_2817",
+      "resolution_method": "tier1:v"
+    },
+    {
+      "surface_form": "PP_2731",
+      "gene_name": "",
+      "identifiers": [
+        "PP_2731"
+      ],
+      "prominence": "peripheral",
+      "evidence": "The highest up-regulation of transcription was detected for the genes PP_2817 and PP_2731 encoding putative multidrug efflux pumps (p11)",
+      "mention_strain": "Pseudomonas putida KT2440",
+      "strain": "Pseudomonas putida KT2440",
+      "locus_tag": "M8001_14295",
+      "resolved_from": "PP_2731",
+      "resolution_method": "tier1:v"
+    },
+    {
+      "surface_form": "PP_2887",
+      "gene_name": "",
+      "identifiers": [
+        "PP_2887"
+      ],
+      "prominence": "peripheral",
+      "evidence": "one gene encoding a catalase (PP_2887 log2-FC 1.2) was found to be slightly up-regulated (p11)",
+      "mention_strain": "Pseudomonas putida KT2440",
+      "strain": "Pseudomonas putida KT2440",
+      "locus_tag": "M8001_15070",
+      "resolved_from": "PP_2887",
+      "resolution_method": "tier1:v"
+    },
+    {
+      "surface_form": "KatG",
+      "gene_name": "KatG",
+      "identifiers": [],
+      "prominence": "peripheral",
+      "evidence": "on the protein level, the catalase KatG was more abundant (p11)",
+      "mention_strain": "Pseudomonas putida KT2440",
+      "strain": "Pseudomonas putida KT2440",
+      "locus_tag": "M8001_19165",
+      "resolved_from": "KatG",
+      "resolution_method": "tier1_ci:v"
+    },
+    {
+      "surface_form": "SoxR",
+      "gene_name": "SoxR",
+      "identifiers": [
+        "PP_2060"
+      ],
+      "prominence": "peripheral",
+      "evidence": "SoxR (PP_2060 log2-FC 1.1), was found to be marginally up-regulated (p11)",
+      "mention_strain": "Pseudomonas putida KT2440",
+      "strain": "Pseudomonas putida KT2440",
+      "locus_tag": "M8001_10770",
+      "resolved_from": "PP_2060",
+      "resolution_method": "tier1:v"
+    },
+    {
+      "surface_form": "cop and czc-operons",
+      "gene_name": "",
+      "identifiers": [],
+      "prominence": "peripheral",
+      "evidence": "The transcription of genes belonging to the cop and czc-operons was mainly up-regulated (p11)",
+      "mention_strain": "Pseudomonas putida KT2440",
+      "strain": "Pseudomonas putida KT2440",
+      "locus_tag": null,
+      "resolved_from": "",
+      "resolution_method": "unresolved"
+    },
+    {
+      "surface_form": "CopR/CopS two-component system",
+      "gene_name": "",
+      "identifiers": [],
+      "prominence": "peripheral",
+      "evidence": "a vital process controlled by the CopR/CopS two-component system (Supplementary Fig. S15) (p11)",
+      "mention_strain": "Pseudomonas putida KT2440",
+      "strain": "Pseudomonas putida KT2440",
+      "locus_tag": null,
+      "resolved_from": "",
+      "resolution_method": "unresolved"
+    },
+    {
+      "surface_form": "Synpcc7942_0437",
+      "gene_name": "",
+      "identifiers": [
+        "Synpcc7942_0437"
+      ],
+      "prominence": "peripheral",
+      "evidence": "the transcription of genes encoding putative glutathione peroxidases (Synpcc7942_0437 and H6G84_RS08920) ... up-regulated (p11)",
+      "mention_strain": "Synechococcus elongatus PCC 7942",
+      "strain": "Synechococcus elongatus PCC 7942",
+      "locus_tag": "H6G84_05575",
+      "resolved_from": "Synpcc7942_0437",
+      "resolution_method": "tier1:v"
+    },
+    {
+      "surface_form": "H6G84_RS08920",
+      "gene_name": "",
+      "identifiers": [
+        "H6G84_RS08920"
+      ],
+      "prominence": "peripheral",
+      "evidence": "the transcription of genes encoding putative glutathione peroxidases (Synpcc7942_0437 and H6G84_RS08920) ... up-regulated (p11)",
+      "mention_strain": "Synechococcus elongatus PCC 7942",
+      "strain": "Synechococcus elongatus PCC 7942",
+      "locus_tag": "H6G84_08920",
+      "resolved_from": "H6G84_RS08920",
+      "resolution_method": "tier1:v"
+    },
+    {
+      "surface_form": "tpxA",
+      "gene_name": "tpxA",
+      "identifiers": [],
+      "prominence": "peripheral",
+      "evidence": "or a thioredoxin peroxidase tpxA (log2-FC 1.3) were up-regulated in cyanobacterial cells grown in the co-culture (p11)",
+      "mention_strain": "Synechococcus elongatus PCC 7942",
+      "strain": "Synechococcus elongatus PCC 7942",
+      "locus_tag": "H6G84_01370",
+      "resolved_from": "tpxA",
+      "resolution_method": "tier1:v"
+    },
+    {
+      "surface_form": "KatG",
+      "gene_name": "KatG",
+      "identifiers": [],
+      "prominence": "peripheral",
+      "evidence": "the transcript of the catalase KatG was considerably down-regulated with a log2-FC -5.36 in the co-culture growing cyanobacterium (p11)",
+      "mention_strain": "Synechococcus elongatus PCC 7942",
+      "strain": "Synechococcus elongatus PCC 7942",
+      "locus_tag": "H6G84_04715",
+      "resolved_from": "KatG",
+      "resolution_method": "tier1_ci:v"
+    },
+    {
+      "surface_form": "SodB",
+      "gene_name": "SodB",
+      "identifiers": [],
+      "prominence": "peripheral",
+      "evidence": "the superoxide dismutase SodB was up-regulated with a log2-FC 1.5 in S. elongatus cscB grown in co-culture (p11)",
+      "mention_strain": "Synechococcus elongatus PCC 7942",
+      "strain": "Synechococcus elongatus PCC 7942",
+      "locus_tag": "H6G84_12345",
+      "resolved_from": "SodB",
+      "resolution_method": "tier1_ci:v"
+    },
+    {
+      "surface_form": "Synpcc7942_1224",
+      "gene_name": "",
+      "identifiers": [
+        "Synpcc7942_1224"
+      ],
+      "prominence": "peripheral",
+      "evidence": "DEGs encoding different types of efflux transporters, such as HlyD-family efflux transporters (Synpcc7942_1224) ... up-regulated (p11)",
+      "mention_strain": "Synechococcus elongatus PCC 7942",
+      "strain": "Synechococcus elongatus PCC 7942",
+      "locus_tag": "H6G84_08870",
+      "resolved_from": "Synpcc7942_1224",
+      "resolution_method": "tier1:v"
+    },
+    {
+      "surface_form": "Synpcc7942_1869",
+      "gene_name": "",
+      "identifiers": [
+        "Synpcc7942_1869"
+      ],
+      "prominence": "peripheral",
+      "evidence": "or RND efflux transporters (Synpcc7942_1869, Synpcc7942_1870) were mostly up-regulated in the co-culture (p11)",
+      "mention_strain": "Synechococcus elongatus PCC 7942",
+      "strain": "Synechococcus elongatus PCC 7942",
+      "locus_tag": "H6G84_03635",
+      "resolved_from": "Synpcc7942_1869",
+      "resolution_method": "tier1:v"
+    },
+    {
+      "surface_form": "Synpcc7942_1870",
+      "gene_name": "",
+      "identifiers": [
+        "Synpcc7942_1870"
+      ],
+      "prominence": "peripheral",
+      "evidence": "or RND efflux transporters (Synpcc7942_1869, Synpcc7942_1870) were mostly up-regulated in the co-culture (p11)",
+      "mention_strain": "Synechococcus elongatus PCC 7942",
+      "strain": "Synechococcus elongatus PCC 7942",
+      "locus_tag": "H6G84_03630",
+      "resolved_from": "Synpcc7942_1870",
+      "resolution_method": "tier1:v"
+    },
+    {
+      "surface_form": "Synpcc7942_1997",
+      "gene_name": "",
+      "identifiers": [
+        "Synpcc7942_1997"
+      ],
+      "prominence": "peripheral",
+      "evidence": "two transcripts encoding these proteins were also found to be up-regulated (Synpcc7942_1997 and Synpcc7942_1120) (p11)",
+      "mention_strain": "Synechococcus elongatus PCC 7942",
+      "strain": "Synechococcus elongatus PCC 7942",
+      "locus_tag": "H6G84_02990",
+      "resolved_from": "Synpcc7942_1997",
+      "resolution_method": "tier1:v"
+    },
+    {
+      "surface_form": "Synpcc7942_1120",
+      "gene_name": "",
+      "identifiers": [
+        "Synpcc7942_1120"
+      ],
+      "prominence": "peripheral",
+      "evidence": "two transcripts encoding these proteins were also found to be up-regulated (Synpcc7942_1997 and Synpcc7942_1120) (p11)",
+      "mention_strain": "Synechococcus elongatus PCC 7942",
+      "strain": "Synechococcus elongatus PCC 7942",
+      "locus_tag": "H6G84_09425",
+      "resolved_from": "Synpcc7942_1120",
+      "resolution_method": "tier1:v"
+    },
+    {
+      "surface_form": "Synpcc7942_1820",
+      "gene_name": "",
+      "identifiers": [
+        "Synpcc7942_1820"
+      ],
+      "prominence": "peripheral",
+      "evidence": "Three FtsH proteases, responsible for protein homeostasis of the thylakoid membrane in photooxidative stress situations, were up-regulated on the transcriptional level (Synpcc7942_1820, Synpcc7942_0998, and Synpcc7942_0942) (p11)",
+      "mention_strain": "Synechococcus elongatus PCC 7942",
+      "strain": "Synechococcus elongatus PCC 7942",
+      "locus_tag": "H6G84_03890",
+      "resolved_from": "Synpcc7942_1820",
+      "resolution_method": "tier1:v"
+    },
+    {
+      "surface_form": "Synpcc7942_0998",
+      "gene_name": "",
+      "identifiers": [
+        "Synpcc7942_0998"
+      ],
+      "prominence": "peripheral",
+      "evidence": "Three FtsH proteases, responsible for protein homeostasis of the thylakoid membrane in photooxidative stress situations, were up-regulated on the transcriptional level (Synpcc7942_1820, Synpcc7942_0998, and Synpcc7942_0942) (p11)",
+      "mention_strain": "Synechococcus elongatus PCC 7942",
+      "strain": "Synechococcus elongatus PCC 7942",
+      "locus_tag": "H6G84_10030",
+      "resolved_from": "Synpcc7942_0998",
+      "resolution_method": "tier1:v"
+    },
+    {
+      "surface_form": "Synpcc7942_0942",
+      "gene_name": "",
+      "identifiers": [
+        "Synpcc7942_0942"
+      ],
+      "prominence": "peripheral",
+      "evidence": "Three FtsH proteases, responsible for protein homeostasis of the thylakoid membrane in photooxidative stress situations, were up-regulated on the transcriptional level (Synpcc7942_1820, Synpcc7942_0998, and Synpcc7942_0942) (p11)",
+      "mention_strain": "Synechococcus elongatus PCC 7942",
+      "strain": "Synechococcus elongatus PCC 7942",
+      "locus_tag": "H6G84_10315",
+      "resolved_from": "Synpcc7942_0942",
+      "resolution_method": "tier1:v"
+    },
+    {
+      "surface_form": "FtsH",
+      "gene_name": "FtsH",
+      "identifiers": [
+        "Synpcc7942_0297"
+      ],
+      "prominence": "peripheral",
+      "evidence": "but on the protein level the proteins FtsH, FtsH.1, and FtsH.3 (Synpcc7942_0297, Synpcc7942_0942, and Synpcc7942_0998) were less abundant in the co-culture (p11)",
+      "mention_strain": "Synechococcus elongatus PCC 7942",
+      "strain": "Synechococcus elongatus PCC 7942",
+      "locus_tag": "H6G84_06305",
+      "resolved_from": "Synpcc7942_0297",
+      "resolution_method": "tier1:v"
+    },
+    {
+      "surface_form": "FtsH.1",
+      "gene_name": "FtsH.1",
+      "identifiers": [
+        "Synpcc7942_0942"
+      ],
+      "prominence": "peripheral",
+      "evidence": "but on the protein level the proteins FtsH, FtsH.1, and FtsH.3 (Synpcc7942_0297, Synpcc7942_0942, and Synpcc7942_0998) were less abundant in the co-culture (p11)",
+      "mention_strain": "Synechococcus elongatus PCC 7942",
+      "strain": "Synechococcus elongatus PCC 7942",
+      "locus_tag": "H6G84_10315",
+      "resolved_from": "Synpcc7942_0942",
+      "resolution_method": "tier1:v"
+    },
+    {
+      "surface_form": "FtsH.3",
+      "gene_name": "FtsH.3",
+      "identifiers": [
+        "Synpcc7942_0998"
+      ],
+      "prominence": "peripheral",
+      "evidence": "but on the protein level the proteins FtsH, FtsH.1, and FtsH.3 (Synpcc7942_0297, Synpcc7942_0942, and Synpcc7942_0998) were less abundant in the co-culture (p11)",
+      "mention_strain": "Synechococcus elongatus PCC 7942",
+      "strain": "Synechococcus elongatus PCC 7942",
+      "locus_tag": "H6G84_10030",
+      "resolved_from": "Synpcc7942_0998",
+      "resolution_method": "tier1:v"
+    }
+  ],
+  "pathways": [
+    {
+      "surface_form": "arginine biosynthesis",
+      "kegg_pathway_id_raw": "ko00220",
+      "prominence": "peripheral",
+      "evidence": "pathways involved in arginine biosynthesis... were impacted by the presence of the co-culture partner (Results, p6)",
+      "pathway_id": "ko00220",
+      "pathway_name": "arginine biosynthesis",
+      "resolution_method": "id"
+    },
+    {
+      "surface_form": "carbon metabolism",
+      "kegg_pathway_id_raw": "ko01200",
+      "prominence": "peripheral",
+      "evidence": "pathways involved in arginine biosynthesis, carbon metabolism, glyoxylate and dicarboxylate metabolism... were impacted (Results, p6)",
+      "pathway_id": "ko01200",
+      "pathway_name": "carbon metabolism",
+      "resolution_method": "id"
+    },
+    {
+      "surface_form": "glyoxylate and dicarboxylate metabolism",
+      "kegg_pathway_id_raw": "ko00630",
+      "prominence": "peripheral",
+      "evidence": "glyoxylate and dicarboxylate metabolism... were impacted by the presence of the co-culture partner (Results, p6)",
+      "pathway_id": "ko00630",
+      "pathway_name": "glyoxylate and dicarboxylate metabolism",
+      "resolution_method": "id"
+    },
+    {
+      "surface_form": "two-component systems",
+      "kegg_pathway_id_raw": "ko02020",
+      "prominence": "peripheral",
+      "evidence": "two-component systems, were impacted by the presence of the co-culture partner (Results, p6)",
+      "pathway_id": "ko02020",
+      "pathway_name": "two-component system",
+      "resolution_method": "id"
+    },
+    {
+      "surface_form": "arginine/proline metabolism",
+      "kegg_pathway_id_raw": "ko00330",
+      "prominence": "peripheral",
+      "evidence": "For S. elongatus cscB, pathways involved in arginine/proline metabolism... were identified... to be the most affected ones (Results, p6)",
+      "pathway_id": "ko00330",
+      "pathway_name": "arginine and proline metabolism",
+      "resolution_method": "id"
+    },
+    {
+      "surface_form": "photosynthesis",
+      "kegg_pathway_id_raw": "ko00195",
+      "prominence": "central",
+      "evidence": "For S. elongatus cscB, pathways involved in... photosynthesis... were identified... to be the most affected ones (Results, p6)",
+      "pathway_id": "ko00195",
+      "pathway_name": "photosynthesis",
+      "resolution_method": "id"
+    },
+    {
+      "surface_form": "pyruvate metabolism",
+      "kegg_pathway_id_raw": "ko00620",
+      "prominence": "peripheral",
+      "evidence": "For S. elongatus cscB, pathways involved in... pyruvate... were identified... to be the most affected ones (Results, p6)",
+      "pathway_id": "ko00620",
+      "pathway_name": "pyruvate metabolism",
+      "resolution_method": "id"
+    },
+    {
+      "surface_form": "glycolipid metabolism",
+      "kegg_pathway_id_raw": "",
+      "prominence": "peripheral",
+      "evidence": "For S. elongatus cscB, pathways involved in... glycolipid... were identified... to be the most affected ones (Results, p6)",
+      "pathway_id": null,
+      "pathway_name": null,
+      "resolution_method": "unresolved"
+    },
+    {
+      "surface_form": "biosynthesis of secondary metabolites",
+      "kegg_pathway_id_raw": "ko01110",
+      "prominence": "peripheral",
+      "evidence": "For S. elongatus cscB, pathways involved in... biosynthesis of secondary metabolites were identified... to be the most affected ones (Results, p6)",
+      "pathway_id": "ko01110",
+      "pathway_name": "biosynthesis of secondary metabolites",
+      "resolution_method": "id"
+    },
+    {
+      "surface_form": "TCA cycle",
+      "kegg_pathway_id_raw": "ko00020",
+      "prominence": "central",
+      "evidence": "processes that are connected to the amino acid (AA) synthesis or degradation, the TCA cycle, or to the fatty acid (FA) metabolism were affected (Results, p7)",
+      "pathway_id": "ko00020",
+      "pathway_name": "citrate cycle (tca cycle)",
+      "resolution_method": "id"
+    },
+    {
+      "surface_form": "Entner-Doudoroff-Embden-Meyerhof-Parnas (EDEMP) cycle",
+      "kegg_pathway_id_raw": "",
+      "prominence": "peripheral",
+      "evidence": "some genes encoding proteins involved in the Entner-Doudoroff-Embden-Meyerhof-Parnas (EDEMP) cycle were differentially regulated (Results, p7)",
+      "pathway_id": null,
+      "pathway_name": null,
+      "resolution_method": "unresolved"
+    },
+    {
+      "surface_form": "fatty acid metabolism",
+      "kegg_pathway_id_raw": "ko00071",
+      "prominence": "peripheral",
+      "evidence": "processes that are connected to... the fatty acid (FA) metabolism were affected (Results, p7)",
+      "pathway_id": "ko00071",
+      "pathway_name": "fatty acid degradation",
+      "resolution_method": "id"
+    },
+    {
+      "surface_form": "Calvin cycle",
+      "kegg_pathway_id_raw": "ko00710",
+      "prominence": "central",
+      "evidence": "heterologously implemented sucrose production serves as a sink for the carbon captured in the Calvin cycle (Results, p5)",
+      "pathway_id": "ko00710",
+      "pathway_name": "carbon fixation by calvin cycle",
+      "resolution_method": "id"
+    },
+    {
+      "surface_form": "porphyrin metabolism",
+      "kegg_pathway_id_raw": "ko00860",
+      "prominence": "peripheral",
+      "evidence": "They can be grouped into proteins being involved in the porphyrin metabolism, the Calvin cycle, or photosynthesis (Results, p8)",
+      "pathway_id": "ko00860",
+      "pathway_name": "porphyrin metabolism",
+      "resolution_method": "id"
+    },
+    {
+      "surface_form": "glutathione metabolism",
+      "kegg_pathway_id_raw": "ko00480",
+      "prominence": "peripheral",
+      "evidence": "Glutathione metabolism identified in metabolome pathway analysis (Fig. 6c, Results, p7)",
+      "pathway_id": "ko00480",
+      "pathway_name": "glutathione metabolism",
+      "resolution_method": "id"
+    },
+    {
+      "surface_form": "phenylalanine, tyrosine and tryptophan biosynthesis",
+      "kegg_pathway_id_raw": "ko00400",
+      "prominence": "peripheral",
+      "evidence": "Phenylalanine, tyrosine and tryptophan biosynthesis identified in metabolome pathway analysis (Fig. 7c, Results, p8)",
+      "pathway_id": "ko00400",
+      "pathway_name": "phenylalanine, tyrosine and tryptophan biosynthesis",
+      "resolution_method": "id"
+    },
+    {
+      "surface_form": "biosynthesis of amino acids",
+      "kegg_pathway_id_raw": "ko01230",
+      "prominence": "peripheral",
+      "evidence": "Other metabolites identified in the metabolome of co-culture grown cells include compounds assigned to the biosynthesis of amino acids (p9)",
+      "pathway_id": "ko01230",
+      "pathway_name": "biosynthesis of amino acids",
+      "resolution_method": "id"
+    },
+    {
+      "surface_form": "purine and pyrimidine metabolism",
+      "kegg_pathway_id_raw": "ko00230",
+      "prominence": "peripheral",
+      "evidence": "Other metabolites identified in the metabolome of co-culture grown cells include compounds assigned to ... purine and pyrimidine metabolism (p9)",
+      "pathway_id": "ko00230",
+      "pathway_name": "purine metabolism",
+      "resolution_method": "id"
+    },
+    {
+      "surface_form": "electron transport chain (ETC)",
+      "kegg_pathway_id_raw": "",
+      "prominence": "peripheral",
+      "evidence": "photosynthetic organisms regulate their electron transport chain (ETC) to prevent the production of ROS (p9)",
+      "pathway_id": null,
+      "pathway_name": null,
+      "resolution_method": "unresolved"
+    }
+  ]
+}

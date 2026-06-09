@@ -4,6 +4,7 @@ from pathlib import Path
 
 from biocypher import BioCypher
 from multiomics_kg.adapters.omics_adapter import MultiOMICSAdapter
+from multiomics_kg.adapters.publication_topics_adapter import MultiPublicationTopicsAdapter
 from multiomics_kg.adapters.cluster_adapter import MultiClusterAdapter
 from multiomics_kg.adapters.observations_adapter import MultiObservationsAdapter
 from multiomics_kg.adapters.metabolite_assay_adapter import MultiMetaboliteAssayAdapter
@@ -109,6 +110,21 @@ def main():
     omics_adapter.download_data(cache=CACHE)
     bc.write_nodes(omics_adapter.get_nodes())
     bc.write_edges(omics_adapter.get_edges())
+
+    # Publication "discusses" edges (narrative literature index: Publication → Gene /
+    # KeggTerm). Runs after omics so Publication node ids already exist; reads the
+    # resolved topics files produced by resolve_paper_topics (prepare_data).
+    topics_adapter = MultiPublicationTopicsAdapter(
+        config_list_file=[
+            'data/Prochlorococcus/papers_and_supp/paperconfig_files.txt',
+            'data/Synechococcus/papers_and_supp/paperconfig_files.txt',
+        ],
+        test_mode=TEST_MODE,
+    )
+    topics_adapter.download_data(cache=CACHE)
+    topics_edges = topics_adapter.get_edges()
+    if topics_edges:
+        bc.write_edges(topics_edges)
 
     # Gene cluster data (co-expression clusters from publications)
     cluster_adapter = MultiClusterAdapter(

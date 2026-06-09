@@ -1,0 +1,18 @@
+Topics resolution report: Bagby and Chisholm 2015
+Strains: ['Prochlorococcus MED4']
+
+Genes:    67/70 resolved (95.7%)
+  methods: locus_tag:v=25, multi:v=4, tier1:v=38, unresolved=3
+Pathways: 4/4 resolved (100.0%)
+  methods: id=4
+
+Captured identifiers: 70  (truncated/bare-number: 0)
+Unresolved gene reasons: {'descriptive_only': 2, 'lookup_miss': 1}
+    descriptive_only = function/enzyme phrase, no symbol or id (paper style)
+    truncated_id_only = bare locus number, recoverable via strain prefix
+    lookup_miss       = had a name/full id but no mapping match
+
+Unresolved gene mentions (3):
+  - photosystem genes  [descriptive_only]  strain=Prochlorococcus MED4
+  - cytochrome b6f  [descriptive_only]  strain=Prochlorococcus MED4
+  - ndh  [lookup_miss]  strain=Prochlorococcus MED4

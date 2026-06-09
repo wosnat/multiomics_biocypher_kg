@@ -1,0 +1,861 @@
+{
+  "metadata": {
+    "paper": "Biller 2016",
+    "doi": null,
+    "strains": [
+      "Prochlorococcus NATL2A",
+      "Alteromonas macleodii MIT1002"
+    ],
+    "model": "gpt-4.1",
+    "self_assessment": "high",
+    "assessment_notes": "All genes and pathways were explicitly named in the main text or Table 2. Some gene symbols (e.g., hli, clpB) were not given locus tags.",
+    "uncaptured_identifiers": "some",
+    "uncaptured_identifiers_note": "Supplementary Table S2 likely lists additional locus tags and gene IDs not included here; Table 2 includes some locus tags not mapped to gene symbols.",
+    "extracted_at": "2026-06-04T10:19:58.546486",
+    "input_tokens": 21124,
+    "output_tokens": 4273,
+    "resolution": {
+      "gene_records": 51,
+      "genes_resolved": 39,
+      "gene_methods": {
+        "unresolved": 12,
+        "tier1:v": 13,
+        "multi:v": 17,
+        "locus_tag:v": 9
+      },
+      "pathway_records": 11,
+      "pathways_resolved": 1,
+      "pathway_methods": {
+        "unresolved": 10,
+        "id": 1
+      },
+      "paper_strains": [
+        "Prochlorococcus NATL2A",
+        "Alteromonas macleodii MIT1002"
+      ],
+      "captured_identifiers": 31,
+      "truncated_identifiers": 0,
+      "truncated_examples": [],
+      "unresolved_reasons": {
+        "lookup_miss": 2,
+        "descriptive_only": 10
+      }
+    }
+  },
+  "genes": [
+    {
+      "surface_form": "hli family of stress\u2013response proteins",
+      "gene_name": "hli",
+      "identifiers": [],
+      "prominence": "central",
+      "evidence": "depletion of transcripts encoding DNA repair enzymes and many members of the \u2018high light inducible\u2019 family of stress\u2013response proteins (Abstract, p1)",
+      "mention_strain": "Prochlorococcus NATL2A",
+      "strain": "Prochlorococcus NATL2A",
+      "locus_tag": null,
+      "resolved_from": "",
+      "resolution_method": "unresolved"
+    },
+    {
+      "surface_form": "DnaJ chaperone",
+      "gene_name": "dnaJ",
+      "identifiers": [
+        "dnaJ"
+      ],
+      "prominence": "peripheral",
+      "evidence": "multiple DNA repair enzymes, including the DnaJ chaperone... were transcriptionally depleted in co-culture (p5, Table 2)",
+      "mention_strain": "Prochlorococcus NATL2A",
+      "strain": "Prochlorococcus NATL2A",
+      "locus_tag": "PMN2A_1344",
+      "resolved_from": "dnaJ",
+      "resolution_method": "tier1:v"
+    },
+    {
+      "surface_form": "deoxyribodipyrimidine photolyase",
+      "gene_name": "phr",
+      "identifiers": [
+        "phr"
+      ],
+      "prominence": "peripheral",
+      "evidence": "a putative deoxyribodipyrimidine photolyase... were transcriptionally depleted in co-culture (p5, Table 2)",
+      "mention_strain": "Prochlorococcus NATL2A",
+      "strain": "Prochlorococcus NATL2A",
+      "locus_tag": "PMN2A_0728",
+      "resolved_from": "phr",
+      "resolution_method": "multi:v"
+    },
+    {
+      "surface_form": "RecG helicase",
+      "gene_name": "recG",
+      "identifiers": [
+        "recG"
+      ],
+      "prominence": "peripheral",
+      "evidence": "the RecG helicase... were transcriptionally depleted in co-culture (p5, Table 2)",
+      "mention_strain": "Prochlorococcus NATL2A",
+      "strain": "Prochlorococcus NATL2A",
+      "locus_tag": "PMN2A_0160",
+      "resolved_from": "recG",
+      "resolution_method": "tier1:v"
+    },
+    {
+      "surface_form": "UmuD",
+      "gene_name": "umuD",
+      "identifiers": [
+        "umuD"
+      ],
+      "prominence": "peripheral",
+      "evidence": "the error-prone DNA repair protein UmuD were transcriptionally depleted in co-culture (p5, Table 2)",
+      "mention_strain": "Prochlorococcus NATL2A",
+      "strain": "Prochlorococcus NATL2A",
+      "locus_tag": "PMN2A_0275",
+      "resolved_from": "umuD",
+      "resolution_method": "multi:v"
+    },
+    {
+      "surface_form": "ClpB chaperone",
+      "gene_name": "clpB",
+      "identifiers": [],
+      "prominence": "peripheral",
+      "evidence": "other stress-associated transcripts encoding the ClpB chaperone... also decreased in relative abundance (p5)",
+      "mention_strain": "Prochlorococcus NATL2A",
+      "strain": "Prochlorococcus NATL2A",
+      "locus_tag": "PMN2A_0016",
+      "resolved_from": "clpB",
+      "resolution_method": "tier1:v"
+    },
+    {
+      "surface_form": "alkyl hydroperoxide reductase",
+      "gene_name": "",
+      "identifiers": [],
+      "prominence": "peripheral",
+      "evidence": "an alkyl hydroperoxide reductase... also decreased in relative abundance (p5)",
+      "mention_strain": "Prochlorococcus NATL2A",
+      "strain": "Prochlorococcus NATL2A",
+      "locus_tag": null,
+      "resolved_from": "",
+      "resolution_method": "unresolved"
+    },
+    {
+      "surface_form": "PSI subunits",
+      "gene_name": "",
+      "identifiers": [
+        "psaD",
+        "psaF",
+        "psaI",
+        "psaJ",
+        "psaL"
+      ],
+      "prominence": "central",
+      "evidence": "notable changes were seen in transcripts encoding components of the photosynthetic apparatus (particularly, an increase in PSI subunits...) (Abstract, p1; Table 2)",
+      "mention_strain": "Prochlorococcus NATL2A",
+      "strain": "Prochlorococcus NATL2A",
+      "locus_tag": "PMN2A_1150",
+      "resolved_from": "psaD",
+      "resolution_method": "tier1:v"
+    },
+    {
+      "surface_form": "PSI subunits",
+      "gene_name": "",
+      "identifiers": [
+        "psaD",
+        "psaF",
+        "psaI",
+        "psaJ",
+        "psaL"
+      ],
+      "prominence": "central",
+      "evidence": "notable changes were seen in transcripts encoding components of the photosynthetic apparatus (particularly, an increase in PSI subunits...) (Abstract, p1; Table 2)",
+      "mention_strain": "Prochlorococcus NATL2A",
+      "strain": "Prochlorococcus NATL2A",
+      "locus_tag": "PMN2A_1801",
+      "resolved_from": "psaF",
+      "resolution_method": "multi:v"
+    },
+    {
+      "surface_form": "PSI subunits",
+      "gene_name": "",
+      "identifiers": [
+        "psaD",
+        "psaF",
+        "psaI",
+        "psaJ",
+        "psaL"
+      ],
+      "prominence": "central",
+      "evidence": "notable changes were seen in transcripts encoding components of the photosynthetic apparatus (particularly, an increase in PSI subunits...) (Abstract, p1; Table 2)",
+      "mention_strain": "Prochlorococcus NATL2A",
+      "strain": "Prochlorococcus NATL2A",
+      "locus_tag": "PMN2A_1085",
+      "resolved_from": "psaI",
+      "resolution_method": "multi:v"
+    },
+    {
+      "surface_form": "PSI subunits",
+      "gene_name": "",
+      "identifiers": [
+        "psaD",
+        "psaF",
+        "psaI",
+        "psaJ",
+        "psaL"
+      ],
+      "prominence": "central",
+      "evidence": "notable changes were seen in transcripts encoding components of the photosynthetic apparatus (particularly, an increase in PSI subunits...) (Abstract, p1; Table 2)",
+      "mention_strain": "Prochlorococcus NATL2A",
+      "strain": "Prochlorococcus NATL2A",
+      "locus_tag": "PMN2A_1800",
+      "resolved_from": "psaJ",
+      "resolution_method": "tier1:v"
+    },
+    {
+      "surface_form": "PSI subunits",
+      "gene_name": "",
+      "identifiers": [
+        "psaD",
+        "psaF",
+        "psaI",
+        "psaJ",
+        "psaL"
+      ],
+      "prominence": "central",
+      "evidence": "notable changes were seen in transcripts encoding components of the photosynthetic apparatus (particularly, an increase in PSI subunits...) (Abstract, p1; Table 2)",
+      "mention_strain": "Prochlorococcus NATL2A",
+      "strain": "Prochlorococcus NATL2A",
+      "locus_tag": "PMN2A_1084",
+      "resolved_from": "psaL",
+      "resolution_method": "multi:v"
+    },
+    {
+      "surface_form": "chlorophyll synthesis enzymes",
+      "gene_name": "",
+      "identifiers": [
+        "chlL",
+        "chlN"
+      ],
+      "prominence": "central",
+      "evidence": "notable changes were seen in transcripts encoding... chlorophyll synthesis enzymes (Abstract, p1; Table 2)",
+      "mention_strain": "Prochlorococcus NATL2A",
+      "strain": "Prochlorococcus NATL2A",
+      "locus_tag": "PMN2A_1872",
+      "resolved_from": "chlL",
+      "resolution_method": "multi:v"
+    },
+    {
+      "surface_form": "chlorophyll synthesis enzymes",
+      "gene_name": "",
+      "identifiers": [
+        "chlL",
+        "chlN"
+      ],
+      "prominence": "central",
+      "evidence": "notable changes were seen in transcripts encoding... chlorophyll synthesis enzymes (Abstract, p1; Table 2)",
+      "mention_strain": "Prochlorococcus NATL2A",
+      "strain": "Prochlorococcus NATL2A",
+      "locus_tag": "PMN2A_1873",
+      "resolved_from": "chlN",
+      "resolution_method": "multi:v"
+    },
+    {
+      "surface_form": "PSII D1 and D2 proteins",
+      "gene_name": "psbA, psbD",
+      "identifiers": [],
+      "prominence": "peripheral",
+      "evidence": "no significant change in... the expression of transcripts encoding the PSII D1 and D2 proteins (p6)",
+      "mention_strain": "Prochlorococcus NATL2A",
+      "strain": "Prochlorococcus NATL2A",
+      "locus_tag": "PMN2A_1592",
+      "resolved_from": "psbA, psbD",
+      "resolution_method": "tier1:v"
+    },
+    {
+      "surface_form": "RuBisCO operon regulator",
+      "gene_name": "rbcR",
+      "identifiers": [
+        "rbcR",
+        "PMN2A_1513"
+      ],
+      "prominence": "peripheral",
+      "evidence": "the transcriptional regulator for the RuBisCO operon (rbcR, PMN2A_1513) simultaneously decreased in abundance (p6)",
+      "mention_strain": "Prochlorococcus NATL2A",
+      "strain": "Prochlorococcus NATL2A",
+      "locus_tag": "PMN2A_1513",
+      "resolved_from": "rbcR",
+      "resolution_method": "multi:v"
+    },
+    {
+      "surface_form": "RuBisCO subunits",
+      "gene_name": "",
+      "identifiers": [],
+      "prominence": "peripheral",
+      "evidence": "no significant changes in transcript abundance for the RuBisCO subunits (p6)",
+      "mention_strain": "Prochlorococcus NATL2A",
+      "strain": "Prochlorococcus NATL2A",
+      "locus_tag": null,
+      "resolved_from": "",
+      "resolution_method": "unresolved"
+    },
+    {
+      "surface_form": "NAD(P)H-quinone oxidoreductase",
+      "gene_name": "",
+      "identifiers": [],
+      "prominence": "peripheral",
+      "evidence": "significant enrichment for transcripts encoding proteins involved in photosynthetic electron transfer, such as for subunits of NAD(P)H-quinone oxidoreductase (p6)",
+      "mention_strain": "Prochlorococcus NATL2A",
+      "strain": "Prochlorococcus NATL2A",
+      "locus_tag": null,
+      "resolved_from": "",
+      "resolution_method": "unresolved"
+    },
+    {
+      "surface_form": "NADH-ubiquinone/plastoquinone",
+      "gene_name": "",
+      "identifiers": [],
+      "prominence": "peripheral",
+      "evidence": "significant enrichment for transcripts encoding proteins involved in... NADH-ubiquinone/plastoquinone (p6)",
+      "mention_strain": "Prochlorococcus NATL2A",
+      "strain": "Prochlorococcus NATL2A",
+      "locus_tag": null,
+      "resolved_from": "",
+      "resolution_method": "unresolved"
+    },
+    {
+      "surface_form": "plastiquinol terminal oxidase (PTOX)",
+      "gene_name": "",
+      "identifiers": [],
+      "prominence": "peripheral",
+      "evidence": "Transcripts encoding the plastiquinol terminal oxidase (PTOX) were also less abundant following 24 and 48 h of co-culture (p6)",
+      "mention_strain": "Prochlorococcus NATL2A",
+      "strain": "Prochlorococcus NATL2A",
+      "locus_tag": "PMN2A_0429",
+      "resolved_from": "plastiquinol terminal oxidase (PTOX)",
+      "resolution_method": "multi:v"
+    },
+    {
+      "surface_form": "ribosomal proteins",
+      "gene_name": "",
+      "identifiers": [],
+      "prominence": "peripheral",
+      "evidence": "increases in transcripts for multiple ribosomal proteins (p7)",
+      "mention_strain": "Prochlorococcus NATL2A",
+      "strain": "Prochlorococcus NATL2A",
+      "locus_tag": null,
+      "resolved_from": "",
+      "resolution_method": "unresolved"
+    },
+    {
+      "surface_form": "chorismate pathway genes",
+      "gene_name": "",
+      "identifiers": [],
+      "prominence": "peripheral",
+      "evidence": "enzymes involved in amino acid biosynthesis pathways (specifically genes in the chorismate pathway...) (p7)",
+      "mention_strain": "Prochlorococcus NATL2A",
+      "strain": "Prochlorococcus NATL2A",
+      "locus_tag": null,
+      "resolved_from": "",
+      "resolution_method": "unresolved"
+    },
+    {
+      "surface_form": "tricarboxylic acid cycle enzymes",
+      "gene_name": "",
+      "identifiers": [],
+      "prominence": "peripheral",
+      "evidence": "transcripts encoding multiple tricarboxylic acid cycle enzymes... were also enriched (p7)",
+      "mention_strain": "Prochlorococcus NATL2A",
+      "strain": "Prochlorococcus NATL2A",
+      "locus_tag": null,
+      "resolved_from": "",
+      "resolution_method": "unresolved"
+    },
+    {
+      "surface_form": "glycogen debranching enzyme",
+      "gene_name": "",
+      "identifiers": [],
+      "prominence": "peripheral",
+      "evidence": "glycolysis enzymes (including both a glycogen debranching enzyme and glucose-6-phosphate isomerase) (p7)",
+      "mention_strain": "Prochlorococcus NATL2A",
+      "strain": "Prochlorococcus NATL2A",
+      "locus_tag": null,
+      "resolved_from": "",
+      "resolution_method": "unresolved"
+    },
+    {
+      "surface_form": "glucose-6-phosphate isomerase",
+      "gene_name": "pgi",
+      "identifiers": [
+        "pgi"
+      ],
+      "prominence": "peripheral",
+      "evidence": "glycolysis enzymes (including both a glycogen debranching enzyme and glucose-6-phosphate isomerase) (p7, Table 2)",
+      "mention_strain": "Prochlorococcus NATL2A",
+      "strain": "Prochlorococcus NATL2A",
+      "locus_tag": "PMN2A_0320",
+      "resolved_from": "pgi",
+      "resolution_method": "multi:v"
+    },
+    {
+      "surface_form": "NAD biosynthesis enzymes",
+      "gene_name": "",
+      "identifiers": [
+        "nadC",
+        "nadD"
+      ],
+      "prominence": "peripheral",
+      "evidence": "NAD biosynthesis enzymes were also enriched in the presence of the heterotroph (p7, Table 2)",
+      "mention_strain": "Prochlorococcus NATL2A",
+      "strain": "Prochlorococcus NATL2A",
+      "locus_tag": "PMN2A_1555",
+      "resolved_from": "nadC",
+      "resolution_method": "tier1:v"
+    },
+    {
+      "surface_form": "NAD biosynthesis enzymes",
+      "gene_name": "",
+      "identifiers": [
+        "nadC",
+        "nadD"
+      ],
+      "prominence": "peripheral",
+      "evidence": "NAD biosynthesis enzymes were also enriched in the presence of the heterotroph (p7, Table 2)",
+      "mention_strain": "Prochlorococcus NATL2A",
+      "strain": "Prochlorococcus NATL2A",
+      "locus_tag": "PMN2A_0976",
+      "resolved_from": "nadD",
+      "resolution_method": "multi:v"
+    },
+    {
+      "surface_form": "DnaE, DNA polymerase III subunit",
+      "gene_name": "dnaE",
+      "identifiers": [],
+      "prominence": "peripheral",
+      "evidence": "DnaE, a subunit of DNA polymerase III, exhibited increased transcript abundance (p7)",
+      "mention_strain": "Prochlorococcus NATL2A",
+      "strain": "Prochlorococcus NATL2A",
+      "locus_tag": "PMN2A_0265",
+      "resolved_from": "dnaE",
+      "resolution_method": "multi:v"
+    },
+    {
+      "surface_form": "DnaB replicative helicase",
+      "gene_name": "dnaB",
+      "identifiers": [
+        "dnaB"
+      ],
+      "prominence": "peripheral",
+      "evidence": "the DnaB replicative helicase was transcriptionally depleted (p7, Table 2)",
+      "mention_strain": "Prochlorococcus NATL2A",
+      "strain": "Prochlorococcus NATL2A",
+      "locus_tag": "PMN2A_1273",
+      "resolved_from": "dnaB",
+      "resolution_method": "tier1:v"
+    },
+    {
+      "surface_form": "ABC-type transporters",
+      "gene_name": "",
+      "identifiers": [
+        "PMN2A_1780",
+        "PMN2A_1891",
+        "PMN2A_1455"
+      ],
+      "prominence": "peripheral",
+      "evidence": "components for at two ABC-type transporters (PMN2A_1780 and PMN2A_1891) increased... PMN2A_1455 decreased (p7)",
+      "mention_strain": "Prochlorococcus NATL2A",
+      "strain": "Prochlorococcus NATL2A",
+      "locus_tag": "PMN2A_1780",
+      "resolved_from": "PMN2A_1780",
+      "resolution_method": "locus_tag:v"
+    },
+    {
+      "surface_form": "ABC-type transporters",
+      "gene_name": "",
+      "identifiers": [
+        "PMN2A_1780",
+        "PMN2A_1891",
+        "PMN2A_1455"
+      ],
+      "prominence": "peripheral",
+      "evidence": "components for at two ABC-type transporters (PMN2A_1780 and PMN2A_1891) increased... PMN2A_1455 decreased (p7)",
+      "mention_strain": "Prochlorococcus NATL2A",
+      "strain": "Prochlorococcus NATL2A",
+      "locus_tag": "PMN2A_1891",
+      "resolved_from": "PMN2A_1891",
+      "resolution_method": "locus_tag:v"
+    },
+    {
+      "surface_form": "ABC-type transporters",
+      "gene_name": "",
+      "identifiers": [
+        "PMN2A_1780",
+        "PMN2A_1891",
+        "PMN2A_1455"
+      ],
+      "prominence": "peripheral",
+      "evidence": "components for at two ABC-type transporters (PMN2A_1780 and PMN2A_1891) increased... PMN2A_1455 decreased (p7)",
+      "mention_strain": "Prochlorococcus NATL2A",
+      "strain": "Prochlorococcus NATL2A",
+      "locus_tag": "PMN2A_1455",
+      "resolved_from": "PMN2A_1455",
+      "resolution_method": "locus_tag:v"
+    },
+    {
+      "surface_form": "putative Mn2+/Fe2+ transporter",
+      "gene_name": "",
+      "identifiers": [
+        "PMN2A_0237"
+      ],
+      "prominence": "peripheral",
+      "evidence": "A putative Mn2+/Fe2+ transporter, PMN2A_0237, was also significantly transcriptionally enriched (p7)",
+      "mention_strain": "Prochlorococcus NATL2A",
+      "strain": "Prochlorococcus NATL2A",
+      "locus_tag": "PMN2A_0237",
+      "resolved_from": "PMN2A_0237",
+      "resolution_method": "locus_tag:v"
+    },
+    {
+      "surface_form": "SecA, SecE",
+      "gene_name": "secA, secE",
+      "identifiers": [
+        "secA",
+        "secE"
+      ],
+      "prominence": "peripheral",
+      "evidence": "transcripts encoding the secreted preprotein translocase component SecA, the SecE component... increased (p7, Table 2)",
+      "mention_strain": "Prochlorococcus NATL2A",
+      "strain": "Prochlorococcus NATL2A",
+      "locus_tag": "PMN2A_1220",
+      "resolved_from": "secA",
+      "resolution_method": "tier1:v"
+    },
+    {
+      "surface_form": "SecA, SecE",
+      "gene_name": "secA, secE",
+      "identifiers": [
+        "secA",
+        "secE"
+      ],
+      "prominence": "peripheral",
+      "evidence": "transcripts encoding the secreted preprotein translocase component SecA, the SecE component... increased (p7, Table 2)",
+      "mention_strain": "Prochlorococcus NATL2A",
+      "strain": "Prochlorococcus NATL2A",
+      "locus_tag": "PMN2A_1573",
+      "resolved_from": "secE",
+      "resolution_method": "tier1:v"
+    },
+    {
+      "surface_form": "outer membrane transporter",
+      "gene_name": "",
+      "identifiers": [
+        "PMN2A_1465"
+      ],
+      "prominence": "peripheral",
+      "evidence": "a putative outer membrane transporter (PMN2A_1465) increased (p7)",
+      "mention_strain": "Prochlorococcus NATL2A",
+      "strain": "Prochlorococcus NATL2A",
+      "locus_tag": "PMN2A_1465",
+      "resolved_from": "PMN2A_1465",
+      "resolution_method": "locus_tag:v"
+    },
+    {
+      "surface_form": "outer membrane import channel",
+      "gene_name": "",
+      "identifiers": [
+        "PMN2A_0909"
+      ],
+      "prominence": "peripheral",
+      "evidence": "Transcripts for a putative outer membrane import channel (PMN2A_0909) also significantly increased (p7)",
+      "mention_strain": "Prochlorococcus NATL2A",
+      "strain": "Prochlorococcus NATL2A",
+      "locus_tag": "PMN2A_0909",
+      "resolved_from": "PMN2A_0909",
+      "resolution_method": "locus_tag:v"
+    },
+    {
+      "surface_form": "Vitamin B12 biosynthesis proteins",
+      "gene_name": "",
+      "identifiers": [
+        "PMN2A_0380",
+        "PMN2A_1611",
+        "PMN2A_1855"
+      ],
+      "prominence": "peripheral",
+      "evidence": "increased abundance of transcripts encoding multiple B12 synthesis proteins (p7, Table 2)",
+      "mention_strain": "Prochlorococcus NATL2A",
+      "strain": "Prochlorococcus NATL2A",
+      "locus_tag": "PMN2A_0380",
+      "resolved_from": "PMN2A_0380",
+      "resolution_method": "locus_tag:v"
+    },
+    {
+      "surface_form": "Vitamin B12 biosynthesis proteins",
+      "gene_name": "",
+      "identifiers": [
+        "PMN2A_0380",
+        "PMN2A_1611",
+        "PMN2A_1855"
+      ],
+      "prominence": "peripheral",
+      "evidence": "increased abundance of transcripts encoding multiple B12 synthesis proteins (p7, Table 2)",
+      "mention_strain": "Prochlorococcus NATL2A",
+      "strain": "Prochlorococcus NATL2A",
+      "locus_tag": "PMN2A_1611",
+      "resolved_from": "PMN2A_1611",
+      "resolution_method": "locus_tag:v"
+    },
+    {
+      "surface_form": "Vitamin B12 biosynthesis proteins",
+      "gene_name": "",
+      "identifiers": [
+        "PMN2A_0380",
+        "PMN2A_1611",
+        "PMN2A_1855"
+      ],
+      "prominence": "peripheral",
+      "evidence": "increased abundance of transcripts encoding multiple B12 synthesis proteins (p7, Table 2)",
+      "mention_strain": "Prochlorococcus NATL2A",
+      "strain": "Prochlorococcus NATL2A",
+      "locus_tag": "PMN2A_1855",
+      "resolved_from": "PMN2A_1855",
+      "resolution_method": "locus_tag:v"
+    },
+    {
+      "surface_form": "MetE, MetH methionine synthetase",
+      "gene_name": "metE, metH",
+      "identifiers": [],
+      "prominence": "peripheral",
+      "evidence": "encodes the B12-independent MetE methionine synthetase... also encodes the B12-dependent MetH methionine synthetase (p7)",
+      "mention_strain": "Alteromonas macleodii MIT1002",
+      "strain": "Alteromonas macleodii MIT1002",
+      "locus_tag": "MIT1002_01114",
+      "resolved_from": "metE, metH",
+      "resolution_method": "tier1:v"
+    },
+    {
+      "surface_form": "PhoB transcription factor",
+      "gene_name": "phoB",
+      "identifiers": [],
+      "prominence": "peripheral",
+      "evidence": "Transcripts for the PhoB transcription factor... were significantly less abundant in Prochlorococcus cells (p7)",
+      "mention_strain": "Prochlorococcus NATL2A",
+      "strain": "Prochlorococcus NATL2A",
+      "locus_tag": "PMN2A_0436",
+      "resolved_from": "phoB",
+      "resolution_method": "multi:v"
+    },
+    {
+      "surface_form": "PhoH",
+      "gene_name": "phoH",
+      "identifiers": [],
+      "prominence": "peripheral",
+      "evidence": "the phosphate starvation-inducible protein PhoH was also significantly less abundant (p7)",
+      "mention_strain": "Prochlorococcus NATL2A",
+      "strain": "Prochlorococcus NATL2A",
+      "locus_tag": "PMN2A_0851",
+      "resolved_from": "phoH",
+      "resolution_method": "multi:v"
+    },
+    {
+      "surface_form": "urease subunits",
+      "gene_name": "ureA, ureB",
+      "identifiers": [
+        "ureA",
+        "ureB"
+      ],
+      "prominence": "peripheral",
+      "evidence": "two urease subunits (ureA, ureB) were also transcriptionally depleted after 48 h in co-culture (p8, Table 2)",
+      "mention_strain": "Prochlorococcus NATL2A",
+      "strain": "Prochlorococcus NATL2A",
+      "locus_tag": "PMN2A_1053",
+      "resolved_from": "ureA",
+      "resolution_method": "multi:v"
+    },
+    {
+      "surface_form": "urease subunits",
+      "gene_name": "ureA, ureB",
+      "identifiers": [
+        "ureA",
+        "ureB"
+      ],
+      "prominence": "peripheral",
+      "evidence": "two urease subunits (ureA, ureB) were also transcriptionally depleted after 48 h in co-culture (p8, Table 2)",
+      "mention_strain": "Prochlorococcus NATL2A",
+      "strain": "Prochlorococcus NATL2A",
+      "locus_tag": "PMN2A_1054",
+      "resolved_from": "ureB",
+      "resolution_method": "multi:v"
+    },
+    {
+      "surface_form": "NrdR transcription factor",
+      "gene_name": "nrdR",
+      "identifiers": [
+        "nrdR"
+      ],
+      "prominence": "peripheral",
+      "evidence": "NrdR transcription factor... was both transcriptionally enriched in the co-cultures (p8, Table 2)",
+      "mention_strain": "Prochlorococcus NATL2A",
+      "strain": "Prochlorococcus NATL2A",
+      "locus_tag": "PMN2A_1690",
+      "resolved_from": "nrdR",
+      "resolution_method": "tier1:v"
+    },
+    {
+      "surface_form": "AbrB-family regulator",
+      "gene_name": "",
+      "identifiers": [],
+      "prominence": "peripheral",
+      "evidence": "a putative AbrB-family regulator were both transcriptionally enriched in the co-cultures (p8)",
+      "mention_strain": "Prochlorococcus NATL2A",
+      "strain": "Prochlorococcus NATL2A",
+      "locus_tag": null,
+      "resolved_from": "",
+      "resolution_method": "unresolved"
+    },
+    {
+      "surface_form": "GntR-like transcription factor",
+      "gene_name": "",
+      "identifiers": [],
+      "prominence": "peripheral",
+      "evidence": "a putative GntR-like transcription factor was found to be depleted after 24 h (p8)",
+      "mention_strain": "Prochlorococcus NATL2A",
+      "strain": "Prochlorococcus NATL2A",
+      "locus_tag": null,
+      "resolved_from": "",
+      "resolution_method": "unresolved"
+    },
+    {
+      "surface_form": "Rho",
+      "gene_name": "rho",
+      "identifiers": [],
+      "prominence": "peripheral",
+      "evidence": "the abundance of Rho transcripts... decreased after 24 h of co-culture (p8)",
+      "mention_strain": "Prochlorococcus NATL2A",
+      "strain": "Prochlorococcus NATL2A",
+      "locus_tag": null,
+      "resolved_from": "",
+      "resolution_method": "unresolved"
+    },
+    {
+      "surface_form": "LdpA",
+      "gene_name": "ldpA",
+      "identifiers": [],
+      "prominence": "peripheral",
+      "evidence": "transcripts encoding LdpA, an input sensor to the circadian clock... were significantly less abundant following 24 h of co-culture (p8)",
+      "mention_strain": "Prochlorococcus NATL2A",
+      "strain": "Prochlorococcus NATL2A",
+      "locus_tag": "PMN2A_1131",
+      "resolved_from": "ldpA",
+      "resolution_method": "multi:v"
+    },
+    {
+      "surface_form": "KaiB",
+      "gene_name": "kaiB",
+      "identifiers": [],
+      "prominence": "peripheral",
+      "evidence": "transcripts for KaiB, one of the central circadian clock proteins, were less abundant after 48 h (p8)",
+      "mention_strain": "Prochlorococcus NATL2A",
+      "strain": "Prochlorococcus NATL2A",
+      "locus_tag": "PMN2A_0914",
+      "resolved_from": "kaiB",
+      "resolution_method": "tier1:v"
+    }
+  ],
+  "pathways": [
+    {
+      "surface_form": "Vitamin B12 biosynthesis",
+      "kegg_pathway_id_raw": "",
+      "prominence": "peripheral",
+      "evidence": "Vitamin B12 biosynthesis... increased abundance during co-culture (Table 2, p5)",
+      "pathway_id": null,
+      "pathway_name": null,
+      "resolution_method": "unresolved"
+    },
+    {
+      "surface_form": "Transcription regulation",
+      "kegg_pathway_id_raw": "",
+      "prominence": "peripheral",
+      "evidence": "Transcription regulation... increased abundance during co-culture (Table 2, p5)",
+      "pathway_id": null,
+      "pathway_name": null,
+      "resolution_method": "unresolved"
+    },
+    {
+      "surface_form": "Generation of precursor metabolites and energy",
+      "kegg_pathway_id_raw": "",
+      "prominence": "peripheral",
+      "evidence": "Generation of precursor metabolites and energy... increased abundance during co-culture (Table 2, p5)",
+      "pathway_id": null,
+      "pathway_name": null,
+      "resolution_method": "unresolved"
+    },
+    {
+      "surface_form": "Cofactor biosynthesis (including chlorophyll)",
+      "kegg_pathway_id_raw": "",
+      "prominence": "peripheral",
+      "evidence": "Cofactor biosynthesis (including chlorophyll)... increased abundance during co-culture (Table 2, p5)",
+      "pathway_id": null,
+      "pathway_name": null,
+      "resolution_method": "unresolved"
+    },
+    {
+      "surface_form": "Photosynthesis",
+      "kegg_pathway_id_raw": "ko00195",
+      "prominence": "central",
+      "evidence": "Photosynthesis... increased abundance during co-culture (Table 2, p5)",
+      "pathway_id": "ko00195",
+      "pathway_name": "photosynthesis",
+      "resolution_method": "id"
+    },
+    {
+      "surface_form": "NAD Metabolism/biosynthesis",
+      "kegg_pathway_id_raw": "",
+      "prominence": "peripheral",
+      "evidence": "NAD Metabolism/biosynthesis... increased abundance during co-culture (Table 2, p5)",
+      "pathway_id": null,
+      "pathway_name": null,
+      "resolution_method": "unresolved"
+    },
+    {
+      "surface_form": "Intracellular transport",
+      "kegg_pathway_id_raw": "",
+      "prominence": "peripheral",
+      "evidence": "Intracellular transport... increased abundance during co-culture (Table 2, p5)",
+      "pathway_id": null,
+      "pathway_name": null,
+      "resolution_method": "unresolved"
+    },
+    {
+      "surface_form": "Amines and polyamines degradation; urea degradation",
+      "kegg_pathway_id_raw": "",
+      "prominence": "peripheral",
+      "evidence": "Amines and polyamines degradation; urea degradation... decreased abundance during co-culture (Table 2, p5)",
+      "pathway_id": null,
+      "pathway_name": null,
+      "resolution_method": "unresolved"
+    },
+    {
+      "surface_form": "Nucleic acid metabolism",
+      "kegg_pathway_id_raw": "",
+      "prominence": "peripheral",
+      "evidence": "Nucleic acid metabolism... decreased abundance during co-culture (Table 2, p5)",
+      "pathway_id": null,
+      "pathway_name": null,
+      "resolution_method": "unresolved"
+    },
+    {
+      "surface_form": "Nucleosides and nucleotides degradation",
+      "kegg_pathway_id_raw": "",
+      "prominence": "peripheral",
+      "evidence": "Nucleosides and nucleotides degradation... decreased abundance during co-culture (Table 2, p5)",
+      "pathway_id": null,
+      "pathway_name": null,
+      "resolution_method": "unresolved"
+    },
+    {
+      "surface_form": "Purine ribonucleotides biosynthesis",
+      "kegg_pathway_id_raw": "",
+      "prominence": "peripheral",
+      "evidence": "Purine ribonucleotides biosynthesis... decreased abundance during co-culture (Table 2, p5)",
+      "pathway_id": null,
+      "pathway_name": null,
+      "resolution_method": "unresolved"
+    }
+  ]
+}

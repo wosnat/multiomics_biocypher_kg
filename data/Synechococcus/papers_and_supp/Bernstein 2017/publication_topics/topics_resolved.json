@@ -1,0 +1,930 @@
+{
+  "metadata": {
+    "paper": "Bernstein 2017",
+    "doi": null,
+    "strains": [
+      "Thermosynechococcus vestitus BP-1",
+      "Meiothermus ruber"
+    ],
+    "model": "gpt-4.1",
+    "self_assessment": "high",
+    "assessment_notes": "Gene and pathway mentions were explicit and locus tags were provided. Some gene clusters (e.g., for M. ruber) were not extracted as focus is on T. elongatus.",
+    "uncaptured_identifiers": "some",
+    "uncaptured_identifiers_note": "Supplementary tables (S1, S2) and figures may list additional gene IDs, especially for M. ruber, not captured here.",
+    "extracted_at": "2026-06-04T10:13:58.491027",
+    "input_tokens": 23360,
+    "output_tokens": 4271,
+    "resolution": {
+      "gene_records": 50,
+      "genes_resolved": 50,
+      "gene_methods": {
+        "tier1:v": 17,
+        "multi:v": 21,
+        "locus_tag:v": 12
+      },
+      "pathway_records": 8,
+      "pathways_resolved": 6,
+      "pathway_methods": {
+        "id": 6,
+        "unresolved": 2
+      },
+      "paper_strains": [
+        "Thermosynechococcus vestitus BP-1",
+        "Meiothermus ruber"
+      ],
+      "captured_identifiers": 91,
+      "truncated_identifiers": 0,
+      "truncated_examples": [],
+      "unresolved_reasons": {}
+    }
+  },
+  "genes": [
+    {
+      "surface_form": "psbV, psbX, psbV2",
+      "gene_name": "",
+      "identifiers": [
+        "psbV",
+        "psbX",
+        "psbV2",
+        "tll1285",
+        "tsr2013",
+        "tll1284"
+      ],
+      "prominence": "central",
+      "evidence": "Genes whose transcripts were shown to be responsive by increasing with irradiance included those associated with photosystem II (PS II) (psbV, psbX, and psbV2; tll1285, tsr2013, and tll1284) (Results, p4)",
+      "mention_strain": "Thermosynechococcus vestitus BP-1",
+      "strain": "Thermosynechococcus vestitus BP-1",
+      "locus_tag": "tll1285",
+      "resolved_from": "psbV",
+      "resolution_method": "tier1:v"
+    },
+    {
+      "surface_form": "psbV, psbX, psbV2",
+      "gene_name": "",
+      "identifiers": [
+        "psbV",
+        "psbX",
+        "psbV2",
+        "tll1285",
+        "tsr2013",
+        "tll1284"
+      ],
+      "prominence": "central",
+      "evidence": "Genes whose transcripts were shown to be responsive by increasing with irradiance included those associated with photosystem II (PS II) (psbV, psbX, and psbV2; tll1285, tsr2013, and tll1284) (Results, p4)",
+      "mention_strain": "Thermosynechococcus vestitus BP-1",
+      "strain": "Thermosynechococcus vestitus BP-1",
+      "locus_tag": "tsr2013",
+      "resolved_from": "psbX",
+      "resolution_method": "multi:v"
+    },
+    {
+      "surface_form": "psbV, psbX, psbV2",
+      "gene_name": "",
+      "identifiers": [
+        "psbV",
+        "psbX",
+        "psbV2",
+        "tll1285",
+        "tsr2013",
+        "tll1284"
+      ],
+      "prominence": "central",
+      "evidence": "Genes whose transcripts were shown to be responsive by increasing with irradiance included those associated with photosystem II (PS II) (psbV, psbX, and psbV2; tll1285, tsr2013, and tll1284) (Results, p4)",
+      "mention_strain": "Thermosynechococcus vestitus BP-1",
+      "strain": "Thermosynechococcus vestitus BP-1",
+      "locus_tag": "tll1284",
+      "resolved_from": "psbV2",
+      "resolution_method": "tier1:v"
+    },
+    {
+      "surface_form": "ccmK1 and ccmL",
+      "gene_name": "",
+      "identifiers": [
+        "ccmK1",
+        "ccmL",
+        "tll0946",
+        "tll0945"
+      ],
+      "prominence": "central",
+      "evidence": "and \u03b2-carboxysome (ccmK1 and ccmL; tll0946 and tll0945) functions (Results, p4)",
+      "mention_strain": "Thermosynechococcus vestitus BP-1",
+      "strain": "Thermosynechococcus vestitus BP-1",
+      "locus_tag": "tll0946",
+      "resolved_from": "ccmK1",
+      "resolution_method": "multi:v"
+    },
+    {
+      "surface_form": "ccmK1 and ccmL",
+      "gene_name": "",
+      "identifiers": [
+        "ccmK1",
+        "ccmL",
+        "tll0946",
+        "tll0945"
+      ],
+      "prominence": "central",
+      "evidence": "and \u03b2-carboxysome (ccmK1 and ccmL; tll0946 and tll0945) functions (Results, p4)",
+      "mention_strain": "Thermosynechococcus vestitus BP-1",
+      "strain": "Thermosynechococcus vestitus BP-1",
+      "locus_tag": "tll0945",
+      "resolved_from": "ccmL",
+      "resolution_method": "multi:v"
+    },
+    {
+      "surface_form": "pdhB and pdhA",
+      "gene_name": "",
+      "identifiers": [
+        "pdhB",
+        "pdhA",
+        "tll0204",
+        "tlr1169"
+      ],
+      "prominence": "peripheral",
+      "evidence": "T. elongatus genes encoding significantly enriched functions related to pyruvate metabolism (pdhB and pdhA; tll0204 and tlr1169) (Results, p4)",
+      "mention_strain": "Thermosynechococcus vestitus BP-1",
+      "strain": "Thermosynechococcus vestitus BP-1",
+      "locus_tag": "tll0204",
+      "resolved_from": "pdhB",
+      "resolution_method": "multi:v"
+    },
+    {
+      "surface_form": "pdhB and pdhA",
+      "gene_name": "",
+      "identifiers": [
+        "pdhB",
+        "pdhA",
+        "tll0204",
+        "tlr1169"
+      ],
+      "prominence": "peripheral",
+      "evidence": "T. elongatus genes encoding significantly enriched functions related to pyruvate metabolism (pdhB and pdhA; tll0204 and tlr1169) (Results, p4)",
+      "mention_strain": "Thermosynechococcus vestitus BP-1",
+      "strain": "Thermosynechococcus vestitus BP-1",
+      "locus_tag": "tlr1169",
+      "resolved_from": "pdhA",
+      "resolution_method": "tier1:v"
+    },
+    {
+      "surface_form": "cysE and metE",
+      "gene_name": "",
+      "identifiers": [
+        "cysE",
+        "metE",
+        "tlr0851",
+        "tlr1190"
+      ],
+      "prominence": "peripheral",
+      "evidence": "and metabolism of the amino acids cysteine and methionine (cysE and metE; tlr0851 and tlr1190) (Results, p4)",
+      "mention_strain": "Thermosynechococcus vestitus BP-1",
+      "strain": "Thermosynechococcus vestitus BP-1",
+      "locus_tag": "tlr0851",
+      "resolved_from": "cysE",
+      "resolution_method": "tier1:v"
+    },
+    {
+      "surface_form": "cysE and metE",
+      "gene_name": "",
+      "identifiers": [
+        "cysE",
+        "metE",
+        "tlr0851",
+        "tlr1190"
+      ],
+      "prominence": "peripheral",
+      "evidence": "and metabolism of the amino acids cysteine and methionine (cysE and metE; tlr0851 and tlr1190) (Results, p4)",
+      "mention_strain": "Thermosynechococcus vestitus BP-1",
+      "strain": "Thermosynechococcus vestitus BP-1",
+      "locus_tag": "tlr1090",
+      "resolved_from": "metE",
+      "resolution_method": "tier1:v"
+    },
+    {
+      "surface_form": "coaX and panC-cmk",
+      "gene_name": "",
+      "identifiers": [
+        "coaX",
+        "panC-cmk",
+        "tll1149",
+        "tll2450"
+      ],
+      "prominence": "peripheral",
+      "evidence": "coaX and panC-cmk; tll1149 and tll2450 were light responsive (Results, p4)",
+      "mention_strain": "Thermosynechococcus vestitus BP-1",
+      "strain": "Thermosynechococcus vestitus BP-1",
+      "locus_tag": "tll1149",
+      "resolved_from": "coaX",
+      "resolution_method": "multi:v"
+    },
+    {
+      "surface_form": "coaX and panC-cmk",
+      "gene_name": "",
+      "identifiers": [
+        "coaX",
+        "panC-cmk",
+        "tll1149",
+        "tll2450"
+      ],
+      "prominence": "peripheral",
+      "evidence": "coaX and panC-cmk; tll1149 and tll2450 were light responsive (Results, p4)",
+      "mention_strain": "Thermosynechococcus vestitus BP-1",
+      "strain": "Thermosynechococcus vestitus BP-1",
+      "locus_tag": "tll2450",
+      "resolved_from": "panC-cmk",
+      "resolution_method": "multi:v"
+    },
+    {
+      "surface_form": "hliC and hliA",
+      "gene_name": "",
+      "identifiers": [
+        "hliC",
+        "hliA",
+        "tsr0446",
+        "tsl2208"
+      ],
+      "prominence": "central",
+      "evidence": "photosystem-stabilizing genes hliC and hliA (tsr0446 and tsl2208) (Results, p4)",
+      "mention_strain": "Thermosynechococcus vestitus BP-1",
+      "strain": "Thermosynechococcus vestitus BP-1",
+      "locus_tag": "tsr0446",
+      "resolved_from": "hliC",
+      "resolution_method": "multi:v"
+    },
+    {
+      "surface_form": "hliC and hliA",
+      "gene_name": "",
+      "identifiers": [
+        "hliC",
+        "hliA",
+        "tsr0446",
+        "tsl2208"
+      ],
+      "prominence": "central",
+      "evidence": "photosystem-stabilizing genes hliC and hliA (tsr0446 and tsl2208) (Results, p4)",
+      "mention_strain": "Thermosynechococcus vestitus BP-1",
+      "strain": "Thermosynechococcus vestitus BP-1",
+      "locus_tag": "tsl2208",
+      "resolved_from": "hliA",
+      "resolution_method": "multi:v"
+    },
+    {
+      "surface_form": "sufD and iscU",
+      "gene_name": "",
+      "identifiers": [
+        "sufD",
+        "iscU",
+        "tlr1905",
+        "tll1093"
+      ],
+      "prominence": "peripheral",
+      "evidence": "iron sulfur genes sufD and iscU (tlr1905 and tll1093) (Results, p4)",
+      "mention_strain": "Thermosynechococcus vestitus BP-1",
+      "strain": "Thermosynechococcus vestitus BP-1",
+      "locus_tag": "tlr1905",
+      "resolved_from": "sufD",
+      "resolution_method": "tier1:v"
+    },
+    {
+      "surface_form": "sufD and iscU",
+      "gene_name": "",
+      "identifiers": [
+        "sufD",
+        "iscU",
+        "tlr1905",
+        "tll1093"
+      ],
+      "prominence": "peripheral",
+      "evidence": "iron sulfur genes sufD and iscU (tlr1905 and tll1093) (Results, p4)",
+      "mention_strain": "Thermosynechococcus vestitus BP-1",
+      "strain": "Thermosynechococcus vestitus BP-1",
+      "locus_tag": "tll1093",
+      "resolved_from": "iscU",
+      "resolution_method": "multi:v"
+    },
+    {
+      "surface_form": "grxD and tll1454",
+      "gene_name": "",
+      "identifiers": [
+        "grxD",
+        "tll1454"
+      ],
+      "prominence": "peripheral",
+      "evidence": "peroxide detoxification genes grxD (tll0874) and tll1454 (Results, p4)",
+      "mention_strain": "Thermosynechococcus vestitus BP-1",
+      "strain": "Thermosynechococcus vestitus BP-1",
+      "locus_tag": "tll0874",
+      "resolved_from": "grxD",
+      "resolution_method": "tier1:v"
+    },
+    {
+      "surface_form": "grxD and tll1454",
+      "gene_name": "",
+      "identifiers": [
+        "grxD",
+        "tll1454"
+      ],
+      "prominence": "peripheral",
+      "evidence": "peroxide detoxification genes grxD (tll0874) and tll1454 (Results, p4)",
+      "mention_strain": "Thermosynechococcus vestitus BP-1",
+      "strain": "Thermosynechococcus vestitus BP-1",
+      "locus_tag": "tll1454",
+      "resolved_from": "tll1454",
+      "resolution_method": "locus_tag:v"
+    },
+    {
+      "surface_form": "argJ",
+      "gene_name": "argJ",
+      "identifiers": [
+        "argJ",
+        "tll1911"
+      ],
+      "prominence": "peripheral",
+      "evidence": "ornithine biosynthesis gene argJ (tll1911) were enriched only under axenic conditions (Results, p4)",
+      "mention_strain": "Thermosynechococcus vestitus BP-1",
+      "strain": "Thermosynechococcus vestitus BP-1",
+      "locus_tag": "tll1911",
+      "resolved_from": "argJ",
+      "resolution_method": "tier1:v"
+    },
+    {
+      "surface_form": "tll1944",
+      "gene_name": "",
+      "identifiers": [
+        "tll1944"
+      ],
+      "prominence": "peripheral",
+      "evidence": "type II restriction modification system gene tll1944 ... enriched only under axenic conditions (Results, p4)",
+      "mention_strain": "Thermosynechococcus vestitus BP-1",
+      "strain": "Thermosynechococcus vestitus BP-1",
+      "locus_tag": "tll1944",
+      "resolved_from": "tll1944",
+      "resolution_method": "locus_tag:v"
+    },
+    {
+      "surface_form": "ahpD",
+      "gene_name": "ahpD",
+      "identifiers": [
+        "ahpD",
+        "tll0893"
+      ],
+      "prominence": "central",
+      "evidence": "putative alkylhydroperoxidase ahpD family gene (tll0893) (Fig. 5, Results, p6)",
+      "mention_strain": "Thermosynechococcus vestitus BP-1",
+      "strain": "Thermosynechococcus vestitus BP-1",
+      "locus_tag": "tll0893",
+      "resolved_from": "tll0893",
+      "resolution_method": "locus_tag:v"
+    },
+    {
+      "surface_form": "BCP-A family peroxiredoxin",
+      "gene_name": "",
+      "identifiers": [
+        "tlr1198"
+      ],
+      "prominence": "central",
+      "evidence": "a BCP-A family peroxiredoxin (tlr1198) (Fig. 5, Results, p6)",
+      "mention_strain": "Thermosynechococcus vestitus BP-1",
+      "strain": "Thermosynechococcus vestitus BP-1",
+      "locus_tag": "tlr1198",
+      "resolved_from": "tlr1198",
+      "resolution_method": "locus_tag:v"
+    },
+    {
+      "surface_form": "sodB",
+      "gene_name": "sodB",
+      "identifiers": [
+        "sodB",
+        "tll1519"
+      ],
+      "prominence": "central",
+      "evidence": "an Mn-superoxide dismutase (sodB; tll1519) (Fig. 5, Results, p6)",
+      "mention_strain": "Thermosynechococcus vestitus BP-1",
+      "strain": "Thermosynechococcus vestitus BP-1",
+      "locus_tag": "tll1519",
+      "resolved_from": "tll1519",
+      "resolution_method": "locus_tag:v"
+    },
+    {
+      "surface_form": "2-Cys family peroxiredoxin",
+      "gene_name": "",
+      "identifiers": [
+        "tlr1289"
+      ],
+      "prominence": "central",
+      "evidence": "a 2-Cys family peroxiredoxin (tlr1289) (Fig. 5, Results, p6)",
+      "mention_strain": "Thermosynechococcus vestitus BP-1",
+      "strain": "Thermosynechococcus vestitus BP-1",
+      "locus_tag": "tlr1289",
+      "resolved_from": "tlr1289",
+      "resolution_method": "locus_tag:v"
+    },
+    {
+      "surface_form": "acs",
+      "gene_name": "acs",
+      "identifiers": [
+        "acs",
+        "tll0887"
+      ],
+      "prominence": "peripheral",
+      "evidence": "acetyl coenzyme A (CoA) synthetase (acs; tll0887) (Results, p7)",
+      "mention_strain": "Thermosynechococcus vestitus BP-1",
+      "strain": "Thermosynechococcus vestitus BP-1",
+      "locus_tag": "tll0887",
+      "resolved_from": "acs",
+      "resolution_method": "tier1:v"
+    },
+    {
+      "surface_form": "ackA",
+      "gene_name": "ackA",
+      "identifiers": [
+        "ackA",
+        "tlr2340"
+      ],
+      "prominence": "peripheral",
+      "evidence": "acetate kinase (ackA; tlr2340) (Results, p7)",
+      "mention_strain": "Thermosynechococcus vestitus BP-1",
+      "strain": "Thermosynechococcus vestitus BP-1",
+      "locus_tag": "tlr2340",
+      "resolved_from": "ackA",
+      "resolution_method": "multi:v"
+    },
+    {
+      "surface_form": "ldhA",
+      "gene_name": "ldhA",
+      "identifiers": [
+        "ldhA",
+        "tlr0711"
+      ],
+      "prominence": "peripheral",
+      "evidence": "lactate dehydrogenase (ldhA; tlr0711) (Results, p7)",
+      "mention_strain": "Thermosynechococcus vestitus BP-1",
+      "strain": "Thermosynechococcus vestitus BP-1",
+      "locus_tag": "tlr0711",
+      "resolved_from": "ldhA",
+      "resolution_method": "multi:v"
+    },
+    {
+      "surface_form": "gltA",
+      "gene_name": "gltA",
+      "identifiers": [
+        "gltA",
+        "tlr2393"
+      ],
+      "prominence": "peripheral",
+      "evidence": "citrate synthase (gltA; tlr2393) (Results, p7)",
+      "mention_strain": "Thermosynechococcus vestitus BP-1",
+      "strain": "Thermosynechococcus vestitus BP-1",
+      "locus_tag": "tlr2393",
+      "resolved_from": "gltA",
+      "resolution_method": "multi:v"
+    },
+    {
+      "surface_form": "exoD",
+      "gene_name": "exoD",
+      "identifiers": [
+        "exoD",
+        "tll2077"
+      ],
+      "prominence": "peripheral",
+      "evidence": "putative exopolysaccharide synthesis gene (exoD; tll2077) (Results, p7)",
+      "mention_strain": "Thermosynechococcus vestitus BP-1",
+      "strain": "Thermosynechococcus vestitus BP-1",
+      "locus_tag": "tll2077",
+      "resolved_from": "exoD",
+      "resolution_method": "multi:v"
+    },
+    {
+      "surface_form": "spsA",
+      "gene_name": "spsA",
+      "identifiers": [
+        "spsA",
+        "tlr1047"
+      ],
+      "prominence": "peripheral",
+      "evidence": "sucrose synthase (spsA; tlr1047) (Results, p7)",
+      "mention_strain": "Thermosynechococcus vestitus BP-1",
+      "strain": "Thermosynechococcus vestitus BP-1",
+      "locus_tag": "tlr1047",
+      "resolved_from": "spsA",
+      "resolution_method": "multi:v"
+    },
+    {
+      "surface_form": "sps",
+      "gene_name": "sps",
+      "identifiers": [
+        "sps",
+        "tlr0582"
+      ],
+      "prominence": "peripheral",
+      "evidence": "sucrose degradation enzyme (sps; tlr0582) (Results, p7)",
+      "mention_strain": "Thermosynechococcus vestitus BP-1",
+      "strain": "Thermosynechococcus vestitus BP-1",
+      "locus_tag": "tlr0582",
+      "resolved_from": "sps",
+      "resolution_method": "multi:v"
+    },
+    {
+      "surface_form": "nrtABD",
+      "gene_name": "nrtABD",
+      "identifiers": [
+        "nrtABD",
+        "tlr1350",
+        "tlr1351",
+        "tlr1354"
+      ],
+      "prominence": "central",
+      "evidence": "T. elongatus nitrate uptake system from nrtABD (tlr1350, tlr1351, and tlr1354) (Results, p8)",
+      "mention_strain": "Thermosynechococcus vestitus BP-1",
+      "strain": "Thermosynechococcus vestitus BP-1",
+      "locus_tag": "tlr1350",
+      "resolved_from": "tlr1350",
+      "resolution_method": "locus_tag:v"
+    },
+    {
+      "surface_form": "nrtABD",
+      "gene_name": "nrtABD",
+      "identifiers": [
+        "nrtABD",
+        "tlr1350",
+        "tlr1351",
+        "tlr1354"
+      ],
+      "prominence": "central",
+      "evidence": "T. elongatus nitrate uptake system from nrtABD (tlr1350, tlr1351, and tlr1354) (Results, p8)",
+      "mention_strain": "Thermosynechococcus vestitus BP-1",
+      "strain": "Thermosynechococcus vestitus BP-1",
+      "locus_tag": "tlr1351",
+      "resolved_from": "tlr1351",
+      "resolution_method": "locus_tag:v"
+    },
+    {
+      "surface_form": "nrtABD",
+      "gene_name": "nrtABD",
+      "identifiers": [
+        "nrtABD",
+        "tlr1350",
+        "tlr1351",
+        "tlr1354"
+      ],
+      "prominence": "central",
+      "evidence": "T. elongatus nitrate uptake system from nrtABD (tlr1350, tlr1351, and tlr1354) (Results, p8)",
+      "mention_strain": "Thermosynechococcus vestitus BP-1",
+      "strain": "Thermosynechococcus vestitus BP-1",
+      "locus_tag": "tlr1354",
+      "resolved_from": "tlr1354",
+      "resolution_method": "locus_tag:v"
+    },
+    {
+      "surface_form": "glnA",
+      "gene_name": "glnA",
+      "identifiers": [
+        "glnA",
+        "tll1588"
+      ],
+      "prominence": "central",
+      "evidence": "glutamine synthetase gene glnA (tll1588) (Results, p8)",
+      "mention_strain": "Thermosynechococcus vestitus BP-1",
+      "strain": "Thermosynechococcus vestitus BP-1",
+      "locus_tag": "tll1588",
+      "resolved_from": "glnA",
+      "resolution_method": "tier1:v"
+    },
+    {
+      "surface_form": "glnB",
+      "gene_name": "glnB",
+      "identifiers": [
+        "glnB",
+        "tll0591"
+      ],
+      "prominence": "peripheral",
+      "evidence": "nitrogen regulatory protein gene (glnB; tll0591) (Results, p8)",
+      "mention_strain": "Thermosynechococcus vestitus BP-1",
+      "strain": "Thermosynechococcus vestitus BP-1",
+      "locus_tag": "tll0591",
+      "resolved_from": "glnB",
+      "resolution_method": "multi:v"
+    },
+    {
+      "surface_form": "nirA",
+      "gene_name": "nirA",
+      "identifiers": [
+        "nirA",
+        "tlr1349"
+      ],
+      "prominence": "peripheral",
+      "evidence": "assimilatory ferredoxin-nitrate reductase gene (nirA; tlr1349) (Results, p8)",
+      "mention_strain": "Thermosynechococcus vestitus BP-1",
+      "strain": "Thermosynechococcus vestitus BP-1",
+      "locus_tag": "tlr1349",
+      "resolved_from": "nirA",
+      "resolution_method": "multi:v"
+    },
+    {
+      "surface_form": "gltS",
+      "gene_name": "gltS",
+      "identifiers": [
+        "gltS",
+        "tlr1046"
+      ],
+      "prominence": "peripheral",
+      "evidence": "glutamate symporter gene (gltS; tlr1046) (Results, p8)",
+      "mention_strain": "Thermosynechococcus vestitus BP-1",
+      "strain": "Thermosynechococcus vestitus BP-1",
+      "locus_tag": "tlr1046",
+      "resolved_from": "gltS",
+      "resolution_method": "multi:v"
+    },
+    {
+      "surface_form": "metH",
+      "gene_name": "metH",
+      "identifiers": [
+        "metH",
+        "tll1027"
+      ],
+      "prominence": "peripheral",
+      "evidence": "vitamin B12-dependent homocysteine methyltransferase (metH) ... grouped across Ii and pO2 treatments into opposing clusters D (tll1027) (Results, p8)",
+      "mention_strain": "Thermosynechococcus vestitus BP-1",
+      "strain": "Thermosynechococcus vestitus BP-1",
+      "locus_tag": "tll1027",
+      "resolved_from": "metH",
+      "resolution_method": "tier1:v"
+    },
+    {
+      "surface_form": "metE",
+      "gene_name": "metE",
+      "identifiers": [
+        "metE",
+        "tlr1090"
+      ],
+      "prominence": "peripheral",
+      "evidence": "vitamin B12-independent homocysteine methyltransferase (metE) ... clusters D and E for tlr1090 (Results, p8)",
+      "mention_strain": "Thermosynechococcus vestitus BP-1",
+      "strain": "Thermosynechococcus vestitus BP-1",
+      "locus_tag": "tlr1090",
+      "resolved_from": "metE",
+      "resolution_method": "tier1:v"
+    },
+    {
+      "surface_form": "ahcY, metK, mtaP, and mtnA",
+      "gene_name": "",
+      "identifiers": [
+        "ahcY",
+        "tll2390",
+        "metK",
+        "tll0978",
+        "mtaP",
+        "tlr1281",
+        "mtnA",
+        "tll1061"
+      ],
+      "prominence": "peripheral",
+      "evidence": "T. elongatus transcripts encoding the degradation and salvage of methionine (ahcY, metK, mtaP, and mtnA; tll2390, tll0978, tlr1281, and tll1061) (Results, p8)",
+      "mention_strain": "Thermosynechococcus vestitus BP-1",
+      "strain": "Thermosynechococcus vestitus BP-1",
+      "locus_tag": "tll2390",
+      "resolved_from": "ahcY",
+      "resolution_method": "tier1:v"
+    },
+    {
+      "surface_form": "ahcY, metK, mtaP, and mtnA",
+      "gene_name": "",
+      "identifiers": [
+        "ahcY",
+        "tll2390",
+        "metK",
+        "tll0978",
+        "mtaP",
+        "tlr1281",
+        "mtnA",
+        "tll1061"
+      ],
+      "prominence": "peripheral",
+      "evidence": "T. elongatus transcripts encoding the degradation and salvage of methionine (ahcY, metK, mtaP, and mtnA; tll2390, tll0978, tlr1281, and tll1061) (Results, p8)",
+      "mention_strain": "Thermosynechococcus vestitus BP-1",
+      "strain": "Thermosynechococcus vestitus BP-1",
+      "locus_tag": "tll0978",
+      "resolved_from": "metK",
+      "resolution_method": "tier1:v"
+    },
+    {
+      "surface_form": "ahcY, metK, mtaP, and mtnA",
+      "gene_name": "",
+      "identifiers": [
+        "ahcY",
+        "tll2390",
+        "metK",
+        "tll0978",
+        "mtaP",
+        "tlr1281",
+        "mtnA",
+        "tll1061"
+      ],
+      "prominence": "peripheral",
+      "evidence": "T. elongatus transcripts encoding the degradation and salvage of methionine (ahcY, metK, mtaP, and mtnA; tll2390, tll0978, tlr1281, and tll1061) (Results, p8)",
+      "mention_strain": "Thermosynechococcus vestitus BP-1",
+      "strain": "Thermosynechococcus vestitus BP-1",
+      "locus_tag": "tlr1281",
+      "resolved_from": "mtaP",
+      "resolution_method": "multi:v"
+    },
+    {
+      "surface_form": "ahcY, metK, mtaP, and mtnA",
+      "gene_name": "",
+      "identifiers": [
+        "ahcY",
+        "tll2390",
+        "metK",
+        "tll0978",
+        "mtaP",
+        "tlr1281",
+        "mtnA",
+        "tll1061"
+      ],
+      "prominence": "peripheral",
+      "evidence": "T. elongatus transcripts encoding the degradation and salvage of methionine (ahcY, metK, mtaP, and mtnA; tll2390, tll0978, tlr1281, and tll1061) (Results, p8)",
+      "mention_strain": "Thermosynechococcus vestitus BP-1",
+      "strain": "Thermosynechococcus vestitus BP-1",
+      "locus_tag": "tll1061",
+      "resolved_from": "mtnA",
+      "resolution_method": "tier1:v"
+    },
+    {
+      "surface_form": "cysK",
+      "gene_name": "cysK",
+      "identifiers": [
+        "cysK",
+        "tlr0504"
+      ],
+      "prominence": "peripheral",
+      "evidence": "cysteine synthases (cysK; tlr0504 ...), which cogrouped into clusters D and A (Results, p9)",
+      "mention_strain": "Thermosynechococcus vestitus BP-1",
+      "strain": "Thermosynechococcus vestitus BP-1",
+      "locus_tag": "tlr0504",
+      "resolved_from": "cysK",
+      "resolution_method": "tier1:v"
+    },
+    {
+      "surface_form": "cysE",
+      "gene_name": "cysE",
+      "identifiers": [
+        "cysE",
+        "tlr0851"
+      ],
+      "prominence": "peripheral",
+      "evidence": "serine O-acetyltransferases (cysE; tlr0851 ...) (Results, p9)",
+      "mention_strain": "Thermosynechococcus vestitus BP-1",
+      "strain": "Thermosynechococcus vestitus BP-1",
+      "locus_tag": "tlr0851",
+      "resolved_from": "cysE",
+      "resolution_method": "tier1:v"
+    },
+    {
+      "surface_form": "flv4",
+      "gene_name": "flv4",
+      "identifiers": [
+        "flv4",
+        "tlr1088"
+      ],
+      "prominence": "peripheral",
+      "evidence": "NAD(P)H-oxygen oxidoreductase (flv4; tlr1088) (Results, p9)",
+      "mention_strain": "Thermosynechococcus vestitus BP-1",
+      "strain": "Thermosynechococcus vestitus BP-1",
+      "locus_tag": "tlr1088",
+      "resolved_from": "flv4",
+      "resolution_method": "multi:v"
+    },
+    {
+      "surface_form": "2-Cys family peroxiredoxins",
+      "gene_name": "",
+      "identifiers": [
+        "tll1454",
+        "tlr1289"
+      ],
+      "prominence": "central",
+      "evidence": "2-Cys family peroxiredoxins (tll1454 and tlr1289) (Results, p9)",
+      "mention_strain": "Thermosynechococcus vestitus BP-1",
+      "strain": "Thermosynechococcus vestitus BP-1",
+      "locus_tag": "tll1454",
+      "resolved_from": "tll1454",
+      "resolution_method": "locus_tag:v"
+    },
+    {
+      "surface_form": "2-Cys family peroxiredoxins",
+      "gene_name": "",
+      "identifiers": [
+        "tll1454",
+        "tlr1289"
+      ],
+      "prominence": "central",
+      "evidence": "2-Cys family peroxiredoxins (tll1454 and tlr1289) (Results, p9)",
+      "mention_strain": "Thermosynechococcus vestitus BP-1",
+      "strain": "Thermosynechococcus vestitus BP-1",
+      "locus_tag": "tlr1289",
+      "resolved_from": "tlr1289",
+      "resolution_method": "locus_tag:v"
+    },
+    {
+      "surface_form": "prxQ-B2",
+      "gene_name": "prxQ-B2",
+      "identifiers": [
+        "prxQ-B2",
+        "tlr1194"
+      ],
+      "prominence": "peripheral",
+      "evidence": "periplasmic peroxiredoxin (prxQ-B2; tlr1194) (Results, p9)",
+      "mention_strain": "Thermosynechococcus vestitus BP-1",
+      "strain": "Thermosynechococcus vestitus BP-1",
+      "locus_tag": "tlr1194",
+      "resolved_from": "prxQ-B2",
+      "resolution_method": "multi:v"
+    },
+    {
+      "surface_form": "sodB",
+      "gene_name": "sodB",
+      "identifiers": [
+        "sodB",
+        "tll1519"
+      ],
+      "prominence": "central",
+      "evidence": "Mn-superoxide dismutase (sodB; tll1519) (Results, p9)",
+      "mention_strain": "Thermosynechococcus vestitus BP-1",
+      "strain": "Thermosynechococcus vestitus BP-1",
+      "locus_tag": "tll1519",
+      "resolved_from": "tll1519",
+      "resolution_method": "locus_tag:v"
+    }
+  ],
+  "pathways": [
+    {
+      "surface_form": "photosynthesis",
+      "kegg_pathway_id_raw": "ko00195",
+      "prominence": "central",
+      "evidence": "altering expression of core genes involved with photosynthesis, carbon uptake/fixation, vitamin synthesis, and scavenging of reactive oxygen species (ROS) (Abstract, p1)",
+      "pathway_id": "ko00195",
+      "pathway_name": "photosynthesis",
+      "resolution_method": "id"
+    },
+    {
+      "surface_form": "carbon fixation",
+      "kegg_pathway_id_raw": "ko00710",
+      "prominence": "central",
+      "evidence": "altering expression of core genes involved with photosynthesis, carbon uptake/fixation, vitamin synthesis, and scavenging of reactive oxygen species (ROS) (Abstract, p1)",
+      "pathway_id": "ko00710",
+      "pathway_name": "carbon fixation by calvin cycle",
+      "resolution_method": "id"
+    },
+    {
+      "surface_form": "cysteine and methionine metabolism",
+      "kegg_pathway_id_raw": "ko00270",
+      "prominence": "peripheral",
+      "evidence": "metabolism of the amino acids cysteine and methionine ... were light responsive (Results, p4)",
+      "pathway_id": "ko00270",
+      "pathway_name": "cysteine and methionine metabolism",
+      "resolution_method": "id"
+    },
+    {
+      "surface_form": "nitrate/nitrite uptake system",
+      "kegg_pathway_id_raw": "",
+      "prominence": "central",
+      "evidence": "T. elongatus nitrate uptake system from nrtABD ... increased with Ii, decreased with pO2 (Results, p8)",
+      "pathway_id": null,
+      "pathway_name": null,
+      "resolution_method": "unresolved"
+    },
+    {
+      "surface_form": "methionine metabolism",
+      "kegg_pathway_id_raw": "ko00270",
+      "prominence": "peripheral",
+      "evidence": "methionine and glutamate biosynthesis genes clustered into groups that increased with \u03bc (clusters D and G) (Discussion, p10)",
+      "pathway_id": "ko00270",
+      "pathway_name": "cysteine and methionine metabolism",
+      "resolution_method": "id"
+    },
+    {
+      "surface_form": "Fe-S cluster biogenesis",
+      "kegg_pathway_id_raw": "",
+      "prominence": "peripheral",
+      "evidence": "carbon concentration, carboxysome synthesis, PS II, oxidative phosphorylation, methionine metabolism, and Fe-S cluster biogenesis (Discussion, p11)",
+      "pathway_id": null,
+      "pathway_name": null,
+      "resolution_method": "unresolved"
+    },
+    {
+      "surface_form": "oxidative phosphorylation",
+      "kegg_pathway_id_raw": "ko00190",
+      "prominence": "peripheral",
+      "evidence": "carbon concentration, carboxysome synthesis, PS II, oxidative phosphorylation, methionine metabolism, and Fe-S cluster biogenesis (Discussion, p11)",
+      "pathway_id": "ko00190",
+      "pathway_name": "oxidative phosphorylation",
+      "resolution_method": "id"
+    },
+    {
+      "surface_form": "vitamin B12 biosynthesis",
+      "kegg_pathway_id_raw": "ko00860",
+      "prominence": "peripheral",
+      "evidence": "presence of a complete vitamin B12 biosynthesis pathway in the genome (Results, p8)",
+      "pathway_id": "ko00860",
+      "pathway_name": "porphyrin metabolism",
+      "resolution_method": "id"
+    }
+  ]
+}

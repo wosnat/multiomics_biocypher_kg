@@ -1,0 +1,184 @@
+{
+  "metadata": {
+    "paper": "Fadeev 2022",
+    "doi": "10.1093/femsml/uqac025",
+    "strains": [
+      "Alteromonas macleodii AD45",
+      "Alteromonas macleodii ATCC27126",
+      "Alteromonas macleodii BGP6",
+      "Alteromonas macleodii BS11",
+      "Alteromonas macleodii HOT1A3",
+      "Alteromonas macleodii MIT1002"
+    ],
+    "model": "gpt-4.1",
+    "self_assessment": "high",
+    "assessment_notes": "All genes and pathways are explicitly named in the narrative; no locus tags or KEGG IDs are given in the main text.",
+    "uncaptured_identifiers": "many",
+    "uncaptured_identifiers_note": "Table S1 (supplementary) likely lists many specific protein IDs and locus tags not captured here.",
+    "extracted_at": "2026-06-04T10:09:45.281265",
+    "input_tokens": 21371,
+    "output_tokens": 1791
+  },
+  "genes": [
+    {
+      "surface_form": "TonB-dependent siderophore receptors",
+      "gene_name": "",
+      "identifiers": [],
+      "strain": "all",
+      "prominence": "central",
+      "evidence": "The abundance of outer-membrane TonB-dependent siderophore receptors constituted 7\u201333% of all MV proteins, making them the most prominent MV-associated protein group (Table S1). (p7, Results and discussion)"
+    },
+    {
+      "surface_form": "OmpA",
+      "gene_name": "ompA",
+      "identifiers": [],
+      "strain": "all",
+      "prominence": "peripheral",
+      "evidence": "more than two-fold higher proportional abundance of outer-membrane proteins (OmpA and OmpW)... (p5, Results and discussion)"
+    },
+    {
+      "surface_form": "OmpW",
+      "gene_name": "ompW",
+      "identifiers": [],
+      "strain": "all",
+      "prominence": "peripheral",
+      "evidence": "more than two-fold higher proportional abundance of outer-membrane proteins (OmpA and OmpW)... (p5, Results and discussion)"
+    },
+    {
+      "surface_form": "TolC",
+      "gene_name": "tolC",
+      "identifiers": [],
+      "strain": "all",
+      "prominence": "peripheral",
+      "evidence": "inner-membrane type 1 secretion system transporters (TolC)... (p5, Results and discussion)"
+    },
+    {
+      "surface_form": "MotA/TolQ/ExbB proton channels",
+      "gene_name": "",
+      "identifiers": [],
+      "strain": "all",
+      "prominence": "peripheral",
+      "evidence": "as well as MotA/TolQ/ExbB proton channels; Table S1 (p5, Results and discussion)"
+    },
+    {
+      "surface_form": "F0F1-type ATP synthase (alpha and beta subunits)",
+      "gene_name": "",
+      "identifiers": [],
+      "strain": "all",
+      "prominence": "peripheral",
+      "evidence": "efflux channels (both alpha and beta subunits of F0F1-type ATP synthase... (p5, Results and discussion)"
+    },
+    {
+      "surface_form": "glutamine synthetase",
+      "gene_name": "",
+      "identifiers": [],
+      "strain": "all",
+      "prominence": "peripheral",
+      "evidence": "cytoplasmic proteins linked to cellular metabolic pathways, such as glutamine synthetase... (p7, Results and discussion)"
+    },
+    {
+      "surface_form": "superoxide dismutase",
+      "gene_name": "",
+      "identifiers": [],
+      "strain": "all",
+      "prominence": "peripheral",
+      "evidence": "cytoplasmic proteins linked to cellular metabolic pathways, such as ... superoxide dismutase... (p7, Results and discussion)"
+    },
+    {
+      "surface_form": "ketol-acid reductoisomerase",
+      "gene_name": "",
+      "identifiers": [],
+      "strain": "all",
+      "prominence": "peripheral",
+      "evidence": "cytoplasmic proteins linked to cellular metabolic pathways, such as ... ketol-acid reductoisomerase... (p7, Results and discussion)"
+    },
+    {
+      "surface_form": "riboflavin synthase",
+      "gene_name": "",
+      "identifiers": [],
+      "strain": "all",
+      "prominence": "peripheral",
+      "evidence": "cytoplasmic proteins linked to cellular metabolic pathways, such as ... riboflavin synthase (Fig. 5). (p7, Results and discussion)"
+    },
+    {
+      "surface_form": "chaperonin GroEL",
+      "gene_name": "groEL",
+      "identifiers": [],
+      "strain": "all",
+      "prominence": "peripheral",
+      "evidence": "including chaperones (e.g. chaperonin GroEL)... (p7, Results and discussion)"
+    },
+    {
+      "surface_form": "thioredoxins (cnoX)",
+      "gene_name": "cnoX",
+      "identifiers": [],
+      "strain": "all",
+      "prominence": "peripheral",
+      "evidence": "including chaperones (e.g. chaperonin GroEL), thioredoxins (cnoX)... (p7, Results and discussion)"
+    },
+    {
+      "surface_form": "peptidylprolyl isomerase (surA)",
+      "gene_name": "surA",
+      "identifiers": [],
+      "strain": "all",
+      "prominence": "peripheral",
+      "evidence": "peptidylprolyl isomerase (surA)... (p7, Results and discussion)"
+    },
+    {
+      "surface_form": "elongation factors (tufA and FusA)",
+      "gene_name": "tufA",
+      "identifiers": [],
+      "strain": "all",
+      "prominence": "peripheral",
+      "evidence": "elongation factors (tufA and FusA; Table S1). (p7, Results and discussion)"
+    },
+    {
+      "surface_form": "elongation factors (tufA and FusA)",
+      "gene_name": "FusA",
+      "identifiers": [],
+      "strain": "all",
+      "prominence": "peripheral",
+      "evidence": "elongation factors (tufA and FusA; Table S1). (p7, Results and discussion)"
+    },
+    {
+      "surface_form": "leucyl aminopeptidases (EC 3.4.11.1)",
+      "gene_name": "",
+      "identifiers": [],
+      "strain": "all",
+      "prominence": "central",
+      "evidence": "Among these were leucyl aminopeptidases (EC 3.4.11.1)... (p8, Results and discussion)"
+    },
+    {
+      "surface_form": "inorganic pyrophosphatases (EC 3.6.1.1)",
+      "gene_name": "",
+      "identifiers": [],
+      "strain": "all",
+      "prominence": "central",
+      "evidence": "inorganic pyrophosphatases (EC 3.6.1.1)... (p8, Results and discussion)"
+    },
+    {
+      "surface_form": "putative alkaline phosphatases (EC 3.1.3.1)",
+      "gene_name": "",
+      "identifiers": [],
+      "strain": "all",
+      "prominence": "central",
+      "evidence": "putative alkaline phosphatases (EC 3.1.3.1)... (p8, Results and discussion)"
+    },
+    {
+      "surface_form": "beta-glucosidase (EC 3.2.1.21)",
+      "gene_name": "",
+      "identifiers": [],
+      "strain": "all",
+      "prominence": "peripheral",
+      "evidence": "Other hydrolytic enzymes such as beta-glucosidase (EC 3.2.1.21) were also observed among MV-associated proteins... (p8, Results and discussion)"
+    }
+  ],
+  "pathways": [
+    {
+      "surface_form": "cellular metabolic pathways",
+      "kegg_pathway_id": "",
+      "prominence": "peripheral",
+      "evidence": "cytoplasmic proteins linked to cellular metabolic pathways, such as glutamine synthetase, superoxide dismutase, ketol-acid reductoisomerase, and riboflavin synthase (Fig. 5). (p7, Results and discussion)"
+    }
+  ]
+}

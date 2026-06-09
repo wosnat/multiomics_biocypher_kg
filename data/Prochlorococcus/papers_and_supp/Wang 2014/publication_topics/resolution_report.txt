@@ -1,0 +1,28 @@
+Topics resolution report: Wang 2014
+Strains: ['Prochlorococcus MED4']
+
+Genes:    11/19 resolved (57.9%)
+  methods: locus_tag:v=9, tier1:v=2, unresolved=8
+Pathways: 2/5 resolved (40.0%)
+  methods: id=2, unresolved=3
+
+Captured identifiers: 14  (truncated/bare-number: 0)
+Unresolved gene reasons: {'lookup_miss': 8}
+    descriptive_only = function/enzyme phrase, no symbol or id (paper style)
+    truncated_id_only = bare locus number, recoverable via strain prefix
+    lookup_miss       = had a name/full id but no mapping match
+
+Unresolved gene mentions (8):
+  - kaiBC  [lookup_miss]  strain=Prochlorococcus MED4
+  - phoRB  [lookup_miss]  strain=Prochlorococcus MED4
+  - psaAB  [lookup_miss]  strain=Prochlorococcus MED4
+  - cso  [lookup_miss]  strain=Prochlorococcus MED4
+  - TibYfr5  [lookup_miss]  strain=Prochlorococcus MED4  ids=['TibYfr5']
+  - TibYfr1  [lookup_miss]  strain=Prochlorococcus MED4  ids=['TibYfr1']
+  - hli  [lookup_miss]  strain=Prochlorococcus MED4
+  - PMM112  [lookup_miss]  strain=Prochlorococcus MED4  ids=['PMM112']
+
+Unresolved pathway mentions (3):
+  - phosphate acquisition  (raw id=—)
+  - nitrogen acquisition  (raw id=—)
+  - phage infection  (raw id=—)

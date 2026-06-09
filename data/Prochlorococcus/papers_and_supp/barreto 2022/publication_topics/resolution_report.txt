@@ -1,0 +1,51 @@
+Topics resolution report: Barreto 2022
+Strains: ['Prochlorococcus MIT9312', 'Synechococcus CC9311', 'Synechococcus WH8102', 'Alteromonas macleodii EZ55']
+
+Genes:    6/37 resolved (16.2%)
+  methods: multi:v=3, tier1:v=3, unresolved=31
+Pathways: 7/10 resolved (70.0%)
+  methods: id=7, unresolved=3
+
+Captured identifiers: 0  (truncated/bare-number: 0)
+Unresolved gene reasons: {'descriptive_only': 29, 'lookup_miss': 2}
+    descriptive_only = function/enzyme phrase, no symbol or id (paper style)
+    truncated_id_only = bare locus number, recoverable via strain prefix
+    lookup_miss       = had a name/full id but no mapping match
+
+Unresolved gene mentions (31):
+  - catalase  [descriptive_only]  strain=Alteromonas macleodii EZ55
+  - catalase-peroxidase  [descriptive_only]  strain=Alteromonas macleodii EZ55
+  - alkyl hydroperoxide reductase  [descriptive_only]  strain=Alteromonas macleodii EZ55
+  - NH4+ transporter  [descriptive_only]  strain=Alteromonas macleodii EZ55
+  - fucose permease  [descriptive_only]  strain=Alteromonas macleodii EZ55
+  - acetate transporter  [descriptive_only]  strain=Alteromonas macleodii EZ55
+  - B-vitamin transport genes  [descriptive_only]  strain=Alteromonas macleodii EZ55
+  - glycine cleavage system (GCS)  [descriptive_only]  strain=Alteromonas macleodii EZ55
+  - malate synthase  [descriptive_only]  strain=Alteromonas macleodii EZ55
+  - isocitrate lyase  [descriptive_only]  strain=Alteromonas macleodii EZ55
+  - valine catabolism genes  [descriptive_only]  strain=Alteromonas macleodii EZ55
+  - acetate catabolism genes  [descriptive_only]  strain=Alteromonas macleodii EZ55
+  - glycine betaine synthesis genes  [descriptive_only]  strain=Alteromonas macleodii EZ55
+  - pyruvate dehydrogenase  [descriptive_only]  strain=Alteromonas macleodii EZ55
+  - beta-oxidation of fatty acids genes  [descriptive_only]  strain=Alteromonas macleodii EZ55
+  - glycine betaine metabolism genes  [descriptive_only]  strain=Alteromonas macleodii EZ55
+  - carboxysome shell genes  [descriptive_only]  strain=Prochlorococcus MIT9312
+  - RUBISCO genes  [descriptive_only]  strain=Prochlorococcus MIT9312
+  - high-light inducible (HLI) genes  [descriptive_only]  strain=Prochlorococcus MIT9312
+  - spectrin repeat co-culture response gene  [descriptive_only]  strain=Prochlorococcus MIT9312
+  - RUBISCO and carboxysome genes  [descriptive_only]  strain=Synechococcus WH8102
+  - N-acquisition genes  [descriptive_only]  strain=Synechococcus WH8102
+  - DNA mismatch repair system  [descriptive_only]  strain=Prochlorococcus MIT9312
+  - photosynthesis antenna protein synthesis genes  [descriptive_only]  strain=Synechococcus CC9311
+  - aminoacyl-tRNA biosynthesis genes  [descriptive_only]  strain=Synechococcus CC9311
+  - glcD  [lookup_miss]  strain=Alteromonas macleodii EZ55
+  - GlcDF fusion protein  [descriptive_only]  strain=Alteromonas macleodii EZ55
+  - lctD  [lookup_miss]  strain=Alteromonas macleodii EZ55
+  - glycolate/lactate oxidase (GOX/LOX)  [descriptive_only]  strain=Alteromonas macleodii EZ55
+  - nitrogen regulatory protein P-II  [descriptive_only]  strain=Alteromonas macleodii EZ55
+  - glutamine synthetase  [descriptive_only]  strain=Alteromonas macleodii EZ55
+
+Unresolved pathway mentions (3):
+  - amino acid catabolism  (raw id=—)
+  - methylcitrate cycle  (raw id=—)
+  - glycine betaine synthesis from choline  (raw id=—)

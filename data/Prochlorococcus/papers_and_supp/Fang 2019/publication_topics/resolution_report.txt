@@ -1,0 +1,20 @@
+Topics resolution report: Fang 2019
+Strains: ['Prochlorococcus MIT9313', 'Phage']
+
+Genes:    13/15 resolved (86.7%)
+  methods: locus_tag:v=3, tier1:v=10, unresolved=2
+Pathways: 3/4 resolved (75.0%)
+  methods: id=3, unresolved=1
+
+Captured identifiers: 15  (truncated/bare-number: 0)
+Unresolved gene reasons: {'lookup_miss': 2}
+    descriptive_only = function/enzyme phrase, no symbol or id (paper style)
+    truncated_id_only = bare locus number, recoverable via strain prefix
+    lookup_miss       = had a name/full id but no mapping match
+
+Unresolved gene mentions (2):
+  - tRNA-Gly1  [lookup_miss]  strain=Prochlorococcus MIT9313  ids=['tRNA-Gly1']
+  - ssrS  [lookup_miss]  strain=Prochlorococcus MIT9313  ids=['PMT_ncRNA_Yfr7']
+
+Unresolved pathway mentions (1):
+  - Respiration  (raw id=—)

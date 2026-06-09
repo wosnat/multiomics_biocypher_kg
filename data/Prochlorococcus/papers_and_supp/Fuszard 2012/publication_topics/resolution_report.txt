@@ -1,0 +1,20 @@
+Topics resolution report: Fuszard 2012
+Strains: ['Prochlorococcus MIT9312', 'Prochlorococcus NATL2A', 'Prochlorococcus marinus subsp. marinus CCMP1375 (SS120)']
+
+Genes:    29/30 resolved (96.7%)
+  methods: multi:v=13, tier1:v=16, unresolved=1
+Pathways: 3/5 resolved (60.0%)
+  methods: id=3, unresolved=2
+
+Captured identifiers: 0  (truncated/bare-number: 0)
+Unresolved gene reasons: {'lookup_miss': 1}
+    descriptive_only = function/enzyme phrase, no symbol or id (paper style)
+    truncated_id_only = bare locus number, recoverable via strain prefix
+    lookup_miss       = had a name/full id but no mapping match
+
+Unresolved gene mentions (1):
+  - phoBR  [lookup_miss]  strain=all
+
+Unresolved pathway mentions (2):
+  - aerobic vitamin B12 biosynthesis pathway  (raw id=—)
+  - chlorophyll biosynthetic pathway  (raw id=—)

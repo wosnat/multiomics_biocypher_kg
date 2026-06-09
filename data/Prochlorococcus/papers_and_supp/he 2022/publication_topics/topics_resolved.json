@@ -1,0 +1,660 @@
+{
+  "metadata": {
+    "paper": "He 2022",
+    "doi": null,
+    "strains": [
+      "Prochlorococcus NATL1A",
+      "Prochlorococcus MED4"
+    ],
+    "model": "gpt-4.1",
+    "self_assessment": "high",
+    "assessment_notes": "Gene and pathway mentions are explicit and supported by direct quotes; strain attribution is clear from locus tags and context.",
+    "uncaptured_identifiers": "some",
+    "uncaptured_identifiers_note": "Supplementary Tables S1, S2 and full gene lists in Tables 2\u20134 contain additional locus tags not included here.",
+    "extracted_at": "2026-06-04T10:03:04.919470",
+    "input_tokens": 19405,
+    "output_tokens": 3171,
+    "resolution": {
+      "gene_records": 36,
+      "genes_resolved": 36,
+      "gene_methods": {
+        "tier1:v": 28,
+        "multi:v": 5,
+        "locus_tag:v": 3
+      },
+      "pathway_records": 6,
+      "pathways_resolved": 1,
+      "pathway_methods": {
+        "id": 1,
+        "unresolved": 5
+      },
+      "paper_strains": [
+        "Prochlorococcus NATL1A",
+        "Prochlorococcus MED4"
+      ],
+      "captured_identifiers": 59,
+      "truncated_identifiers": 0,
+      "truncated_examples": [],
+      "unresolved_reasons": {}
+    }
+  },
+  "genes": [
+    {
+      "surface_form": "idiA",
+      "gene_name": "idiA",
+      "identifiers": [
+        "idiA",
+        "afuA",
+        "futA",
+        "gene-NATL1_16181",
+        "gene-PMM1164"
+      ],
+      "prominence": "central",
+      "evidence": "both strains up-regulated an iron ABC transporter gene, idiA, suggesting low salinity acclimated cells could be iron limited (Abstract, p1); a periplasmic ABC-type Fe3+ transporter (afuA/idiA/futA) was up-regulated in low salinity acclimated cells of both NATL1A and MED4 (p8)",
+      "mention_strain": "all",
+      "strain": "Prochlorococcus NATL1A",
+      "locus_tag": "NATL1_16181",
+      "resolved_from": "afuA",
+      "resolution_method": "tier1:v"
+    },
+    {
+      "surface_form": "idiA",
+      "gene_name": "idiA",
+      "identifiers": [
+        "idiA",
+        "afuA",
+        "futA",
+        "gene-NATL1_16181",
+        "gene-PMM1164"
+      ],
+      "prominence": "central",
+      "evidence": "both strains up-regulated an iron ABC transporter gene, idiA, suggesting low salinity acclimated cells could be iron limited (Abstract, p1); a periplasmic ABC-type Fe3+ transporter (afuA/idiA/futA) was up-regulated in low salinity acclimated cells of both NATL1A and MED4 (p8)",
+      "mention_strain": "all",
+      "strain": "Prochlorococcus MED4",
+      "locus_tag": "PMM1164",
+      "resolved_from": "idiA",
+      "resolution_method": "tier1:v"
+    },
+    {
+      "surface_form": "atpA",
+      "gene_name": "atpA",
+      "identifiers": [
+        "atpA",
+        "gene-NATL1_18491"
+      ],
+      "prominence": "central",
+      "evidence": "ATP-producing genes were down-regulated (atpA, atpC, atpD, atpH and other ATP synthase genes) (p6, Results)",
+      "mention_strain": "Prochlorococcus NATL1A",
+      "strain": "Prochlorococcus NATL1A",
+      "locus_tag": "NATL1_18491",
+      "resolved_from": "atpA",
+      "resolution_method": "tier1:v"
+    },
+    {
+      "surface_form": "atpC",
+      "gene_name": "atpC",
+      "identifiers": [
+        "atpC",
+        "gene-NATL1_18391"
+      ],
+      "prominence": "central",
+      "evidence": "ATP-producing genes were down-regulated (atpA, atpC, atpD, atpH and other ATP synthase genes) (p6, Results)",
+      "mention_strain": "Prochlorococcus NATL1A",
+      "strain": "Prochlorococcus NATL1A",
+      "locus_tag": "NATL1_18391",
+      "resolved_from": "atpC",
+      "resolution_method": "tier1:v"
+    },
+    {
+      "surface_form": "atpD",
+      "gene_name": "atpD",
+      "identifiers": [
+        "atpD",
+        "gene-NATL1_18381",
+        "gene-PMM1452"
+      ],
+      "prominence": "central",
+      "evidence": "ATP-producing genes were down-regulated (atpA, atpC, atpD, atpH and other ATP synthase genes) (p6, Results); gene-PMM1452 atpH,atpD ATP synthase, delta (OSCP) subunit (Table 3, p9)",
+      "mention_strain": "all",
+      "strain": "Prochlorococcus NATL1A",
+      "locus_tag": "NATL1_18381",
+      "resolved_from": "atpD",
+      "resolution_method": "tier1:v"
+    },
+    {
+      "surface_form": "atpD",
+      "gene_name": "atpD",
+      "identifiers": [
+        "atpD",
+        "gene-NATL1_18381",
+        "gene-PMM1452"
+      ],
+      "prominence": "central",
+      "evidence": "ATP-producing genes were down-regulated (atpA, atpC, atpD, atpH and other ATP synthase genes) (p6, Results); gene-PMM1452 atpH,atpD ATP synthase, delta (OSCP) subunit (Table 3, p9)",
+      "mention_strain": "all",
+      "strain": "Prochlorococcus MED4",
+      "locus_tag": "PMM1452",
+      "resolved_from": "atpD",
+      "resolution_method": "tier1:v"
+    },
+    {
+      "surface_form": "atpH",
+      "gene_name": "atpH",
+      "identifiers": [
+        "atpH",
+        "gene-NATL1_18501",
+        "gene-PMM1452"
+      ],
+      "prominence": "central",
+      "evidence": "ATP-producing genes were down-regulated (atpA, atpC, atpD, atpH and other ATP synthase genes) (p6, Results); gene-PMM1452 atpH,atpD ATP synthase, delta (OSCP) subunit (Table 3, p9)",
+      "mention_strain": "all",
+      "strain": "Prochlorococcus NATL1A",
+      "locus_tag": "NATL1_18501",
+      "resolved_from": "atpH",
+      "resolution_method": "tier1:v"
+    },
+    {
+      "surface_form": "atpH",
+      "gene_name": "atpH",
+      "identifiers": [
+        "atpH",
+        "gene-NATL1_18501",
+        "gene-PMM1452"
+      ],
+      "prominence": "central",
+      "evidence": "ATP-producing genes were down-regulated (atpA, atpC, atpD, atpH and other ATP synthase genes) (p6, Results); gene-PMM1452 atpH,atpD ATP synthase, delta (OSCP) subunit (Table 3, p9)",
+      "mention_strain": "all",
+      "strain": "Prochlorococcus MED4",
+      "locus_tag": "PMM1452",
+      "resolved_from": "atpH",
+      "resolution_method": "tier1:v"
+    },
+    {
+      "surface_form": "psaC",
+      "gene_name": "psaC",
+      "identifiers": [
+        "psaC",
+        "gene-NATL1_20591"
+      ],
+      "prominence": "central",
+      "evidence": "many genes involved in photosynthesis (psaC, psb27, rbcS) ... were up-regulated (p6, Results)",
+      "mention_strain": "Prochlorococcus NATL1A",
+      "strain": "Prochlorococcus NATL1A",
+      "locus_tag": "NATL1_20591",
+      "resolved_from": "psaC",
+      "resolution_method": "tier1:v"
+    },
+    {
+      "surface_form": "psb27",
+      "gene_name": "psb27",
+      "identifiers": [
+        "psb27",
+        "gene-NATL1_05651"
+      ],
+      "prominence": "central",
+      "evidence": "many genes involved in photosynthesis (psaC, psb27, rbcS) ... were up-regulated (p6, Results)",
+      "mention_strain": "Prochlorococcus NATL1A",
+      "strain": "Prochlorococcus NATL1A",
+      "locus_tag": "NATL1_05651",
+      "resolved_from": "psb27",
+      "resolution_method": "tier1:v"
+    },
+    {
+      "surface_form": "rbcS",
+      "gene_name": "rbcS",
+      "identifiers": [
+        "rbcS",
+        "gene-NATL1_06051"
+      ],
+      "prominence": "central",
+      "evidence": "many genes involved in photosynthesis (psaC, psb27, rbcS) ... were up-regulated (p6, Results)",
+      "mention_strain": "Prochlorococcus NATL1A",
+      "strain": "Prochlorococcus NATL1A",
+      "locus_tag": "NATL1_06051",
+      "resolved_from": "rbcS",
+      "resolution_method": "tier1:v"
+    },
+    {
+      "surface_form": "cyoA",
+      "gene_name": "cyoA",
+      "identifiers": [
+        "cyoA",
+        "gene-NATL1_05001"
+      ],
+      "prominence": "peripheral",
+      "evidence": "cytochrome oxidation (cyoA, cyoB, ctaE) were up-regulated (p6, Results)",
+      "mention_strain": "Prochlorococcus NATL1A",
+      "strain": "Prochlorococcus NATL1A",
+      "locus_tag": "NATL1_05001",
+      "resolved_from": "cyoA",
+      "resolution_method": "tier1:v"
+    },
+    {
+      "surface_form": "cyoB",
+      "gene_name": "cyoB",
+      "identifiers": [
+        "cyoB",
+        "gene-NATL1_04991"
+      ],
+      "prominence": "peripheral",
+      "evidence": "cytochrome oxidation (cyoA, cyoB, ctaE) were up-regulated (p6, Results)",
+      "mention_strain": "Prochlorococcus NATL1A",
+      "strain": "Prochlorococcus NATL1A",
+      "locus_tag": "NATL1_04991",
+      "resolved_from": "cyoB",
+      "resolution_method": "tier1:v"
+    },
+    {
+      "surface_form": "ctaE",
+      "gene_name": "ctaE",
+      "identifiers": [
+        "ctaE",
+        "gene-NATL1_04981"
+      ],
+      "prominence": "peripheral",
+      "evidence": "cytochrome oxidation (cyoA, cyoB, ctaE) were up-regulated (p6, Results)",
+      "mention_strain": "Prochlorococcus NATL1A",
+      "strain": "Prochlorococcus NATL1A",
+      "locus_tag": "NATL1_04981",
+      "resolved_from": "ctaE",
+      "resolution_method": "tier1:v"
+    },
+    {
+      "surface_form": "ndhA",
+      "gene_name": "ndhA",
+      "identifiers": [
+        "ndhA",
+        "gene-NATL1_02331"
+      ],
+      "prominence": "peripheral",
+      "evidence": "NADH dehydrogenase (ndhA, ndhH) were up-regulated (p6, Results)",
+      "mention_strain": "Prochlorococcus NATL1A",
+      "strain": "Prochlorococcus NATL1A",
+      "locus_tag": "NATL1_02331",
+      "resolved_from": "ndhA",
+      "resolution_method": "tier1:v"
+    },
+    {
+      "surface_form": "ndhH",
+      "gene_name": "ndhH",
+      "identifiers": [
+        "ndhH",
+        "gene-NATL1_02471"
+      ],
+      "prominence": "peripheral",
+      "evidence": "NADH dehydrogenase (ndhA, ndhH) were up-regulated (p6, Results)",
+      "mention_strain": "Prochlorococcus NATL1A",
+      "strain": "Prochlorococcus NATL1A",
+      "locus_tag": "NATL1_02471",
+      "resolved_from": "ndhH",
+      "resolution_method": "tier1:v"
+    },
+    {
+      "surface_form": "psbA",
+      "gene_name": "psbA",
+      "identifiers": [
+        "psbA",
+        "gene-PMM0223"
+      ],
+      "prominence": "central",
+      "evidence": "genes for photosynthesis were down-regulated, such as photosystems II (psbA, psbB, psbD, psbN) (p6, Results)",
+      "mention_strain": "Prochlorococcus MED4",
+      "strain": "Prochlorococcus MED4",
+      "locus_tag": "PMM0223",
+      "resolved_from": "psbA",
+      "resolution_method": "tier1:v"
+    },
+    {
+      "surface_form": "psbB",
+      "gene_name": "psbB",
+      "identifiers": [
+        "psbB",
+        "gene-PMM0315"
+      ],
+      "prominence": "central",
+      "evidence": "genes for photosynthesis were down-regulated, such as photosystems II (psbA, psbB, psbD, psbN) (p6, Results)",
+      "mention_strain": "Prochlorococcus MED4",
+      "strain": "Prochlorococcus MED4",
+      "locus_tag": "PMM0315",
+      "resolved_from": "psbB",
+      "resolution_method": "tier1:v"
+    },
+    {
+      "surface_form": "psbD",
+      "gene_name": "psbD",
+      "identifiers": [
+        "psbD",
+        "gene-PMM1157"
+      ],
+      "prominence": "central",
+      "evidence": "genes for photosynthesis were down-regulated, such as photosystems II (psbA, psbB, psbD, psbN) (p6, Results)",
+      "mention_strain": "Prochlorococcus MED4",
+      "strain": "Prochlorococcus MED4",
+      "locus_tag": "PMM1157",
+      "resolved_from": "psbD",
+      "resolution_method": "tier1:v"
+    },
+    {
+      "surface_form": "psbN",
+      "gene_name": "psbN",
+      "identifiers": [
+        "psbN",
+        "gene-PMM0252"
+      ],
+      "prominence": "central",
+      "evidence": "genes for photosynthesis were down-regulated, such as photosystems II (psbA, psbB, psbD, psbN) (p6, Results)",
+      "mention_strain": "Prochlorococcus MED4",
+      "strain": "Prochlorococcus MED4",
+      "locus_tag": "PMM0252",
+      "resolved_from": "psbN",
+      "resolution_method": "tier1:v"
+    },
+    {
+      "surface_form": "petA",
+      "gene_name": "petA",
+      "identifiers": [
+        "petA",
+        "gene-PMM0461"
+      ],
+      "prominence": "peripheral",
+      "evidence": "cytochrome F (petA), and electron transport chain intermediate (ndhD) (p6, Results)",
+      "mention_strain": "Prochlorococcus MED4",
+      "strain": "Prochlorococcus MED4",
+      "locus_tag": "PMM0461",
+      "resolved_from": "petA",
+      "resolution_method": "tier1:v"
+    },
+    {
+      "surface_form": "ndhD",
+      "gene_name": "ndhD",
+      "identifiers": [
+        "ndhD",
+        "gene-PMM0594"
+      ],
+      "prominence": "peripheral",
+      "evidence": "cytochrome F (petA), and electron transport chain intermediate (ndhD) (p6, Results)",
+      "mention_strain": "Prochlorococcus MED4",
+      "strain": "Prochlorococcus MED4",
+      "locus_tag": "PMM0150",
+      "resolved_from": "ndhD",
+      "resolution_method": "tier1:v"
+    },
+    {
+      "surface_form": "ndhD",
+      "gene_name": "ndhD",
+      "identifiers": [
+        "ndhD",
+        "gene-PMM0594"
+      ],
+      "prominence": "peripheral",
+      "evidence": "cytochrome F (petA), and electron transport chain intermediate (ndhD) (p6, Results)",
+      "mention_strain": "Prochlorococcus MED4",
+      "strain": "Prochlorococcus MED4",
+      "locus_tag": "PMM0594",
+      "resolved_from": "gene-PMM0594",
+      "resolution_method": "tier1:v"
+    },
+    {
+      "surface_form": "gpgP",
+      "gene_name": "gpgP",
+      "identifiers": [
+        "gpgP",
+        "NATL1_05721",
+        "PMM0515"
+      ],
+      "prominence": "central",
+      "evidence": "significant decrease in transcript abundance of the GGA synthesis genes (gpgP, encoding glucosyl-phosphoglycerate phosphatase) in the low salinity acclimated cells (p6, Results; Table 4, p10)",
+      "mention_strain": "all",
+      "strain": "Prochlorococcus NATL1A",
+      "locus_tag": "NATL1_09151",
+      "resolved_from": "gpgP",
+      "resolution_method": "multi:v"
+    },
+    {
+      "surface_form": "gpgP",
+      "gene_name": "gpgP",
+      "identifiers": [
+        "gpgP",
+        "NATL1_05721",
+        "PMM0515"
+      ],
+      "prominence": "central",
+      "evidence": "significant decrease in transcript abundance of the GGA synthesis genes (gpgP, encoding glucosyl-phosphoglycerate phosphatase) in the low salinity acclimated cells (p6, Results; Table 4, p10)",
+      "mention_strain": "all",
+      "strain": "Prochlorococcus NATL1A",
+      "locus_tag": "NATL1_05721",
+      "resolved_from": "NATL1_05721",
+      "resolution_method": "locus_tag:v"
+    },
+    {
+      "surface_form": "gpgP",
+      "gene_name": "gpgP",
+      "identifiers": [
+        "gpgP",
+        "NATL1_05721",
+        "PMM0515"
+      ],
+      "prominence": "central",
+      "evidence": "significant decrease in transcript abundance of the GGA synthesis genes (gpgP, encoding glucosyl-phosphoglycerate phosphatase) in the low salinity acclimated cells (p6, Results; Table 4, p10)",
+      "mention_strain": "all",
+      "strain": "Prochlorococcus MED4",
+      "locus_tag": "PMM0960",
+      "resolved_from": "gpgP",
+      "resolution_method": "multi:v"
+    },
+    {
+      "surface_form": "gpgP",
+      "gene_name": "gpgP",
+      "identifiers": [
+        "gpgP",
+        "NATL1_05721",
+        "PMM0515"
+      ],
+      "prominence": "central",
+      "evidence": "significant decrease in transcript abundance of the GGA synthesis genes (gpgP, encoding glucosyl-phosphoglycerate phosphatase) in the low salinity acclimated cells (p6, Results; Table 4, p10)",
+      "mention_strain": "all",
+      "strain": "Prochlorococcus MED4",
+      "locus_tag": "PMM0515",
+      "resolved_from": "PMM0515",
+      "resolution_method": "locus_tag:v"
+    },
+    {
+      "surface_form": "gpgS",
+      "gene_name": "gpgS",
+      "identifiers": [
+        "gpgS",
+        "NATL1_09131",
+        "PMM0962"
+      ],
+      "prominence": "central",
+      "evidence": "significant decrease in transcript abundance of the GGA synthesis genes (gpgS, encoding glucosyl-phosphoglycerate synthase) in the low salinity acclimated cells (p6, Results; Table 4, p10)",
+      "mention_strain": "all",
+      "strain": "Prochlorococcus NATL1A",
+      "locus_tag": "NATL1_09131",
+      "resolved_from": "gpgS",
+      "resolution_method": "multi:v"
+    },
+    {
+      "surface_form": "gpgS",
+      "gene_name": "gpgS",
+      "identifiers": [
+        "gpgS",
+        "NATL1_09131",
+        "PMM0962"
+      ],
+      "prominence": "central",
+      "evidence": "significant decrease in transcript abundance of the GGA synthesis genes (gpgS, encoding glucosyl-phosphoglycerate synthase) in the low salinity acclimated cells (p6, Results; Table 4, p10)",
+      "mention_strain": "all",
+      "strain": "Prochlorococcus MED4",
+      "locus_tag": "PMM0962",
+      "resolved_from": "gpgS",
+      "resolution_method": "multi:v"
+    },
+    {
+      "surface_form": "spsA",
+      "gene_name": "spsA",
+      "identifiers": [
+        "spsA",
+        "NATL1_21951",
+        "PMM1711"
+      ],
+      "prominence": "peripheral",
+      "evidence": "did not observe significant change on the sucrose synthesis gene spsA (encoding sucrose phosphate synthase) (p6, Results; Table 4, p10)",
+      "mention_strain": "all",
+      "strain": "Prochlorococcus NATL1A",
+      "locus_tag": "NATL1_21951",
+      "resolved_from": "spsA",
+      "resolution_method": "multi:v"
+    },
+    {
+      "surface_form": "spsA",
+      "gene_name": "spsA",
+      "identifiers": [
+        "spsA",
+        "NATL1_21951",
+        "PMM1711"
+      ],
+      "prominence": "peripheral",
+      "evidence": "did not observe significant change on the sucrose synthesis gene spsA (encoding sucrose phosphate synthase) (p6, Results; Table 4, p10)",
+      "mention_strain": "all",
+      "strain": "Prochlorococcus MED4",
+      "locus_tag": "PMM1711",
+      "resolved_from": "PMM1711",
+      "resolution_method": "locus_tag:v"
+    },
+    {
+      "surface_form": "nhaP",
+      "gene_name": "nhaP",
+      "identifiers": [
+        "nhaP",
+        "gene-NATL1_05281"
+      ],
+      "prominence": "peripheral",
+      "evidence": "the transcript level of Na+/H+ antiporter (nhaP) was increased under low salinity stress in NATL1A cells (p6, Results)",
+      "mention_strain": "Prochlorococcus NATL1A",
+      "strain": "Prochlorococcus NATL1A",
+      "locus_tag": "NATL1_05281",
+      "resolved_from": "nhaP",
+      "resolution_method": "tier1:v"
+    },
+    {
+      "surface_form": "dnaK",
+      "gene_name": "dnaK",
+      "identifiers": [
+        "dnaK",
+        "gene-NATL1_09851",
+        "gene-PMM1704"
+      ],
+      "prominence": "central",
+      "evidence": "Up-regulated expression of dnaK was observed in both MED4 and NATL1A, which suggests that this gene could play a role in low salinity acclimation (p8, Results)",
+      "mention_strain": "all",
+      "strain": "Prochlorococcus NATL1A",
+      "locus_tag": "NATL1_09851",
+      "resolved_from": "dnaK",
+      "resolution_method": "tier1:v"
+    },
+    {
+      "surface_form": "dnaK",
+      "gene_name": "dnaK",
+      "identifiers": [
+        "dnaK",
+        "gene-NATL1_09851",
+        "gene-PMM1704"
+      ],
+      "prominence": "central",
+      "evidence": "Up-regulated expression of dnaK was observed in both MED4 and NATL1A, which suggests that this gene could play a role in low salinity acclimation (p8, Results)",
+      "mention_strain": "all",
+      "strain": "Prochlorococcus MED4",
+      "locus_tag": "PMM0897",
+      "resolved_from": "dnaK",
+      "resolution_method": "tier1:v"
+    },
+    {
+      "surface_form": "dnaK",
+      "gene_name": "dnaK",
+      "identifiers": [
+        "dnaK",
+        "gene-NATL1_09851",
+        "gene-PMM1704"
+      ],
+      "prominence": "central",
+      "evidence": "Up-regulated expression of dnaK was observed in both MED4 and NATL1A, which suggests that this gene could play a role in low salinity acclimation (p8, Results)",
+      "mention_strain": "all",
+      "strain": "Prochlorococcus MED4",
+      "locus_tag": "PMM1704",
+      "resolved_from": "gene-PMM1704",
+      "resolution_method": "tier1:v"
+    },
+    {
+      "surface_form": "isiB",
+      "gene_name": "isiB",
+      "identifiers": [
+        "isiB",
+        "gene-PMM1171"
+      ],
+      "prominence": "peripheral",
+      "evidence": "the gene isiB (flavodoxin), which was induced in low iron stress, was not observed to be up-regulated in this study (p8, Results; Table 3, p9)",
+      "mention_strain": "Prochlorococcus MED4",
+      "strain": "Prochlorococcus MED4",
+      "locus_tag": "PMM1171",
+      "resolved_from": "isiB",
+      "resolution_method": "tier1:v"
+    }
+  ],
+  "pathways": [
+    {
+      "surface_form": "photosynthesis",
+      "kegg_pathway_id_raw": "ko00195",
+      "prominence": "central",
+      "evidence": "up-regulated photosynthesis-related genes (Abstract, p1); enhanced photosynthesis (Conclusion, p10)",
+      "pathway_id": "ko00195",
+      "pathway_name": "photosynthesis",
+      "resolution_method": "id"
+    },
+    {
+      "surface_form": "translation, ribosomal structure and biogenesis",
+      "kegg_pathway_id_raw": "",
+      "prominence": "central",
+      "evidence": "down-regulated the transcript of genes involved in translation, ribosomal structure and biogenesis (Abstract, p1; Table 1, p5)",
+      "pathway_id": null,
+      "pathway_name": null,
+      "resolution_method": "unresolved"
+    },
+    {
+      "surface_form": "ATP-production",
+      "kegg_pathway_id_raw": "",
+      "prominence": "central",
+      "evidence": "down-regulated the transcript of genes involved in ... ATP-production (Abstract, p1; Table 1, p5)",
+      "pathway_id": null,
+      "pathway_name": null,
+      "resolution_method": "unresolved"
+    },
+    {
+      "surface_form": "energy production and conversion",
+      "kegg_pathway_id_raw": "",
+      "prominence": "central",
+      "evidence": "regulation of genes involved in energy production and conversion were also in distinct patterns (p6, Results; Table 1, p5)",
+      "pathway_id": null,
+      "pathway_name": null,
+      "resolution_method": "unresolved"
+    },
+    {
+      "surface_form": "compatible solute biosynthesis",
+      "kegg_pathway_id_raw": "",
+      "prominence": "central",
+      "evidence": "significant decrease in transcript abundance of the GGA synthesis genes (gpgP, gpgS) (p6, Results; Table 4, p10)",
+      "pathway_id": null,
+      "pathway_name": null,
+      "resolution_method": "unresolved"
+    },
+    {
+      "surface_form": "iron transport",
+      "kegg_pathway_id_raw": "",
+      "prominence": "central",
+      "evidence": "both strains up-regulated an iron ABC transporter gene, idiA (Abstract, p1; p8, Results)",
+      "pathway_id": null,
+      "pathway_name": null,
+      "resolution_method": "unresolved"
+    }
+  ]
+}

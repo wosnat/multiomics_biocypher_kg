@@ -1,0 +1,148 @@
+{
+  "metadata": {
+    "paper": "Capovilla 2023",
+    "doi": null,
+    "strains": [
+      "Prochlorococcus MIT9313",
+      "Prochlorococcus MIT9303"
+    ],
+    "model": "gpt-4.1",
+    "self_assessment": "high",
+    "assessment_notes": "All genes and pathways included are explicitly named and discussed in the main text and figures. No locus tags or protein IDs are given in the main text.",
+    "uncaptured_identifiers": "some",
+    "uncaptured_identifiers_note": "Figure 1 and Dataset S1 list gene clusters and possibly locus tags for many strains, but these are not cited in the narrative text.",
+    "extracted_at": "2026-06-04T10:21:34.122035",
+    "input_tokens": 28179,
+    "output_tokens": 1724
+  },
+  "genes": [
+    {
+      "surface_form": "ChiA/ChiA-like chitinases",
+      "gene_name": "chiA",
+      "identifiers": [],
+      "strain": "all",
+      "prominence": "central",
+      "evidence": "ChiA/ChiA-like chitinases that perform the first hydrolysis step in the pathway... These genes occur at about half the frequency of downstream genes in the pathway (p2, Results and Discussion)"
+    },
+    {
+      "surface_form": "NagK",
+      "gene_name": "nagK",
+      "identifiers": [],
+      "strain": "all",
+      "prominence": "central",
+      "evidence": "ChiA and NagK, without which chitin utilization cannot proceed, are nearly absent in LLVII Prochlorococcus genomes in our sample (p2, Results and Discussion)"
+    },
+    {
+      "surface_form": "UgpBAE (putative chitobiose transporter)",
+      "gene_name": "",
+      "identifiers": [],
+      "strain": "all",
+      "prominence": "central",
+      "evidence": "Subunits of the putative chitobiose transporter UgpBAE also occur at high frequency within low-light-adapted VII (LLVII) Prochlorococcus (p2, Results and Discussion)"
+    },
+    {
+      "surface_form": "NagB",
+      "gene_name": "nagB",
+      "identifiers": [],
+      "strain": "all",
+      "prominence": "central",
+      "evidence": "expression of two genes involved in peptidoglycan recycling (NagB, MepM), one of which is also involved in chitin utilization (NagB), significantly increased (p4, Results and Discussion)"
+    },
+    {
+      "surface_form": "NagA",
+      "gene_name": "nagA",
+      "identifiers": [],
+      "strain": "all",
+      "prominence": "central",
+      "evidence": "Picocyanobacterial sequences encoding NagZ, NagA, and NagB\u2014each of which are involved in both chitin utilization and peptidoglycan recycling (Fig. 1)\u2014are nested within a broader diversity of cyanobacterial proteins in phylogenetic analyses (p5, Results and Discussion)"
+    },
+    {
+      "surface_form": "NagZ",
+      "gene_name": "nagZ",
+      "identifiers": [],
+      "strain": "all",
+      "prominence": "central",
+      "evidence": "Picocyanobacterial sequences encoding NagZ, NagA, and NagB\u2014each of which are involved in both chitin utilization and peptidoglycan recycling (Fig. 1)\u2014are nested within a broader diversity of cyanobacterial proteins in phylogenetic analyses (p5, Results and Discussion)"
+    },
+    {
+      "surface_form": "MepM",
+      "gene_name": "mepM",
+      "identifiers": [],
+      "strain": "Prochlorococcus MIT9313",
+      "prominence": "peripheral",
+      "evidence": "expression of two genes involved in peptidoglycan recycling (NagB, MepM), one of which is also involved in chitin utilization (NagB), significantly increased (p4, Results and Discussion)"
+    },
+    {
+      "surface_form": "CP12",
+      "gene_name": "cp12",
+      "identifiers": [],
+      "strain": "Prochlorococcus MIT9303",
+      "prominence": "peripheral",
+      "evidence": "Transcripts for CP12, which inhibits carbon fixation (26), were enriched in the presence of chitosan in MIT9303, a primary degrader of chitin (Figs. 1 and 3B, p4, Results and Discussion)"
+    },
+    {
+      "surface_form": "rnpB",
+      "gene_name": "rnpB",
+      "identifiers": [],
+      "strain": "Prochlorococcus MIT9303",
+      "prominence": "peripheral",
+      "evidence": "Expression (measured by qPCR) of all the chitin-related genes in MIT9303 (primary degrader) in relation to the housekeeping gene, rnpB (Fig. 5A, p5)"
+    },
+    {
+      "surface_form": "CbbX RuBisCO",
+      "gene_name": "cbbX",
+      "identifiers": [],
+      "strain": "Prochlorococcus MIT9313",
+      "prominence": "peripheral",
+      "evidence": "Transcripts of several genes involved in photosynthesis and carbon fixation were enriched in the presence of chitosan in MIT9313, a secondary degrader of chitin (p4, Results and Discussion; Fig. 5B)"
+    },
+    {
+      "surface_form": "CsoS1 RuBisCO",
+      "gene_name": "csoS1",
+      "identifiers": [],
+      "strain": "Prochlorococcus MIT9313",
+      "prominence": "peripheral",
+      "evidence": "Transcripts of several genes involved in photosynthesis and carbon fixation were enriched in the presence of chitosan in MIT9313, a secondary degrader of chitin (p4, Results and Discussion; Fig. 5B)"
+    },
+    {
+      "surface_form": "PsbH",
+      "gene_name": "psbH",
+      "identifiers": [],
+      "strain": "Prochlorococcus MIT9313",
+      "prominence": "peripheral",
+      "evidence": "Transcripts of several genes involved in photosynthesis and carbon fixation were enriched in the presence of chitosan in MIT9313, a secondary degrader of chitin (p4, Results and Discussion; Fig. 5B)"
+    }
+  ],
+  "pathways": [
+    {
+      "surface_form": "chitin degradation pathway",
+      "kegg_pathway_id": "",
+      "prominence": "central",
+      "evidence": "we found the widespread occurrence of genes for breaking down chitin, an abundant source of organic carbon that exists primarily as particles. We show that cells that encode a chitin degradation pathway display chitin degradation activity (Abstract, p1)"
+    },
+    {
+      "surface_form": "peptidoglycan recycling",
+      "kegg_pathway_id": "",
+      "prominence": "central",
+      "evidence": "This comparison is complicated by the significant overlap in gene content between pathways for chitin utilization and peptidoglycan recycling (Fig. 1, p1-2)"
+    },
+    {
+      "surface_form": "photosynthesis",
+      "kegg_pathway_id": "ko00195",
+      "prominence": "peripheral",
+      "evidence": "Transcripts of several genes involved in photosynthesis and carbon fixation were enriched in the presence of chitosan in MIT9313 (p4, Results and Discussion; Fig. 5B)"
+    },
+    {
+      "surface_form": "carbon fixation",
+      "kegg_pathway_id": "ko00710",
+      "prominence": "peripheral",
+      "evidence": "Transcripts of several genes involved in photosynthesis and carbon fixation were enriched in the presence of chitosan in MIT9313 (p4, Results and Discussion; Fig. 5B)"
+    },
+    {
+      "surface_form": "core carbohydrate metabolism",
+      "kegg_pathway_id": "",
+      "prominence": "peripheral",
+      "evidence": "the concentration of some intermediates of core carbohydrate metabolism changed in the presence of chitosan (SI Appendix, Fig. S7, p4)"
+    }
+  ]
+}

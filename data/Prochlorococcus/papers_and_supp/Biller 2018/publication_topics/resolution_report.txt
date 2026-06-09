@@ -1,0 +1,22 @@
+Topics resolution report: Biller 2018
+Strains: ['Prochlorococcus NATL2A', 'Alteromonas macleodii MIT1002']
+
+Genes:    15/17 resolved (88.2%)
+  methods: locus_tag:v=4, multi:v=5, tier1:v=6, unresolved=2
+Pathways: 6/9 resolved (66.7%)
+  methods: id=6, unresolved=3
+
+Captured identifiers: 6  (truncated/bare-number: 0)
+Unresolved gene reasons: {'lookup_miss': 2}
+    descriptive_only = function/enzyme phrase, no symbol or id (paper style)
+    truncated_id_only = bare locus number, recoverable via strain prefix
+    lookup_miss       = had a name/full id but no mapping match
+
+Unresolved gene mentions (2):
+  - kaiA  [lookup_miss]  strain=all
+  - Pro1404 transporter  [lookup_miss]  strain=Prochlorococcus NATL2A  ids=['Pro1404']
+
+Unresolved pathway mentions (3):
+  - fermentation  (raw id=—)
+  - stringent response  (raw id=—)
+  - glycogen metabolism  (raw id=—)

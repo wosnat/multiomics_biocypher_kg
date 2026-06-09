@@ -1,0 +1,16 @@
+Topics resolution report: Anjur-Dietrich 2025
+Strains: ['Prochlorococcus MIT9301']
+
+Genes:    6/7 resolved (85.7%)
+  methods: tier1:v=6, unresolved=1
+Pathways: 2/2 resolved (100.0%)
+  methods: id=2
+
+Captured identifiers: 0  (truncated/bare-number: 0)
+Unresolved gene reasons: {'lookup_miss': 1}
+    descriptive_only = function/enzyme phrase, no symbol or id (paper style)
+    truncated_id_only = bare locus number, recoverable via strain prefix
+    lookup_miss       = had a name/full id but no mapping match
+
+Unresolved gene mentions (1):
+  - ebfG  [lookup_miss]  strain=Prochlorococcus MIT9301

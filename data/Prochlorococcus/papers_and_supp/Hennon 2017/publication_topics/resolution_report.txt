@@ -1,0 +1,24 @@
+Topics resolution report: Hennon 2017
+Strains: ['Prochlorococcus MIT9312', 'Alteromonas macleodii EZ55']
+
+Genes:    8/17 resolved (47.1%)
+  methods: multi:v=5, multi_ci:v=3, unresolved=9
+Pathways: 6/6 resolved (100.0%)
+  methods: id=6
+
+Captured identifiers: 11  (truncated/bare-number: 1, e.g. ['0548'])
+Unresolved gene reasons: {'descriptive_only': 6, 'lookup_miss': 3}
+    descriptive_only = function/enzyme phrase, no symbol or id (paper style)
+    truncated_id_only = bare locus number, recoverable via strain prefix
+    lookup_miss       = had a name/full id but no mapping match
+
+Unresolved gene mentions (9):
+  - catalase  [descriptive_only]  strain=Alteromonas macleodii EZ55
+  - hli  [lookup_miss]  strain=Prochlorococcus MIT9312
+  - bicarbonate transporter genes  [descriptive_only]  strain=Prochlorococcus MIT9312
+  - CCRG1  [lookup_miss]  strain=Prochlorococcus MIT9312
+  - Ohr family peroxiredoxin  [descriptive_only]  strain=Alteromonas macleodii EZ55
+  - superoxide dismutase genes (Cu/Zn SOD and Ni SOD)  [lookup_miss]  strain=Alteromonas macleodii EZ55  ids=['Cu/Zn SOD', 'Ni SOD']
+  - tryptophan biosynthesis operon  [descriptive_only]  strain=Alteromonas macleodii EZ55
+  - histidine biosynthesis operon  [descriptive_only]  strain=Alteromonas macleodii EZ55
+  - glutamate biosynthesis operon  [descriptive_only]  strain=Alteromonas macleodii EZ55

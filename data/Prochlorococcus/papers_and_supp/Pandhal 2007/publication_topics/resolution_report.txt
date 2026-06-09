@@ -1,0 +1,17 @@
+Topics resolution report: Pandhal 2007
+Strains: ['Prochlorococcus MED4']
+
+Genes:    24/24 resolved (100.0%)
+  methods: locus_tag:v=9, tier1:v=15
+Pathways: 2/4 resolved (50.0%)
+  methods: id=2, unresolved=2
+
+Captured identifiers: 9  (truncated/bare-number: 0)
+Unresolved gene reasons: {}
+    descriptive_only = function/enzyme phrase, no symbol or id (paper style)
+    truncated_id_only = bare locus number, recoverable via strain prefix
+    lookup_miss       = had a name/full id but no mapping match
+
+Unresolved pathway mentions (2):
+  - ABC-type phosphate transport system  (raw id=—)
+  - zeaxanthin biosynthetic pathway  (raw id=—)

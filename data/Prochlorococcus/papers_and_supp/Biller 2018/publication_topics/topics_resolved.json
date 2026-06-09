@@ -1,0 +1,347 @@
+{
+  "metadata": {
+    "paper": "Biller 2018",
+    "doi": null,
+    "strains": [
+      "Prochlorococcus NATL2A",
+      "Alteromonas macleodii MIT1002"
+    ],
+    "model": "gpt-4.1",
+    "self_assessment": "high",
+    "assessment_notes": "Gene and pathway mentions were explicit and mostly attributed to Prochlorococcus NATL2A. Some gene symbols are grouped as families or pathways, but all are directly discussed.",
+    "uncaptured_identifiers": "many",
+    "uncaptured_identifiers_note": "Table S3 and S4 contain extensive lists of differentially expressed genes with locus tags and abbreviated IDs not all included here.",
+    "extracted_at": "2026-06-04T15:27:27.561854",
+    "input_tokens": 27697,
+    "output_tokens": 2534,
+    "resolution": {
+      "gene_records": 17,
+      "genes_resolved": 15,
+      "gene_methods": {
+        "tier1:v": 6,
+        "unresolved": 2,
+        "multi:v": 5,
+        "locus_tag:v": 4
+      },
+      "pathway_records": 9,
+      "pathways_resolved": 6,
+      "pathway_methods": {
+        "id": 6,
+        "unresolved": 3
+      },
+      "paper_strains": [
+        "Prochlorococcus NATL2A",
+        "Alteromonas macleodii MIT1002"
+      ],
+      "captured_identifiers": 6,
+      "truncated_identifiers": 0,
+      "truncated_examples": [],
+      "unresolved_reasons": {
+        "lookup_miss": 2
+      }
+    }
+  },
+  "genes": [
+    {
+      "surface_form": "kaiB, kaiC",
+      "gene_name": "kaiB, kaiC",
+      "identifiers": [],
+      "prominence": "central",
+      "evidence": "Prochlorococcus, in contrast, carries genes that encode only a partial circadian oscillator comprised of KaiB and KaiC; it lacks the KaiA regulator (33, 34). (p2)",
+      "mention_strain": "Prochlorococcus NATL2A",
+      "strain": "Prochlorococcus NATL2A",
+      "locus_tag": "PMN2A_0914",
+      "resolved_from": "kaiB, kaiC",
+      "resolution_method": "tier1:v"
+    },
+    {
+      "surface_form": "KaiA",
+      "gene_name": "kaiA",
+      "identifiers": [],
+      "prominence": "peripheral",
+      "evidence": "In Synechococcus elongatus, the KaiA and KaiB subunits regulate daily oscillations in the phosphorylation state of KaiC (p2)",
+      "mention_strain": "all",
+      "strain": "all",
+      "locus_tag": null,
+      "resolved_from": "",
+      "resolution_method": "unresolved"
+    },
+    {
+      "surface_form": "glgP",
+      "gene_name": "glgP",
+      "identifiers": [],
+      "prominence": "central",
+      "evidence": "as reflected in the depletion of transcripts for genes involved in glycogen degradation, such as glgP (p7)",
+      "mention_strain": "Prochlorococcus NATL2A",
+      "strain": "Prochlorococcus NATL2A",
+      "locus_tag": "PMN2A_1176",
+      "resolved_from": "glgP",
+      "resolution_method": "multi:v"
+    },
+    {
+      "surface_form": "pykF",
+      "gene_name": "pykF",
+      "identifiers": [],
+      "prominence": "central",
+      "evidence": "enrichment of both pyruvate kinase (pykF), which generates pyruvate and ATP from phosphoenolpyruvate, as well as the proposed pyruvate efflux transporter (PMN2A_0294) during the dark (Table 2 and Table S3) (p7)",
+      "mention_strain": "Prochlorococcus NATL2A",
+      "strain": "Prochlorococcus NATL2A",
+      "locus_tag": "PMN2A_0295",
+      "resolved_from": "pykF",
+      "resolution_method": "multi:v"
+    },
+    {
+      "surface_form": "PMN2A_0294",
+      "gene_name": "",
+      "identifiers": [
+        "PMN2A_0294"
+      ],
+      "prominence": "central",
+      "evidence": "the proposed pyruvate efflux transporter (PMN2A_0294) during the dark (Table 2 and Table S3) (p7)",
+      "mention_strain": "Prochlorococcus NATL2A",
+      "strain": "Prochlorococcus NATL2A",
+      "locus_tag": "PMN2A_0294",
+      "resolved_from": "PMN2A_0294",
+      "resolution_method": "locus_tag:v"
+    },
+    {
+      "surface_form": "groES, clpB, dnaJ",
+      "gene_name": "groES, clpB, dnaJ",
+      "identifiers": [],
+      "prominence": "peripheral",
+      "evidence": "enriched in transcripts for a variety of common stress-responsive genes such as groES, clpB, and dnaJ within the first hour of extended darkness (Table S3) (p8)",
+      "mention_strain": "Prochlorococcus NATL2A",
+      "strain": "Prochlorococcus NATL2A",
+      "locus_tag": "PMN2A_0969",
+      "resolved_from": "groES, clpB, dnaJ",
+      "resolution_method": "tier1:v"
+    },
+    {
+      "surface_form": "CCRG-1 (NATL2_11351)",
+      "gene_name": "CCRG-1",
+      "identifiers": [
+        "NATL2_11351"
+      ],
+      "prominence": "peripheral",
+      "evidence": "transcripts encoding CCRG-1 (NATL2_11351), a gene previously identified as being induced under coculture conditions (15), were enriched during extended darkness (p8)",
+      "mention_strain": "Prochlorococcus NATL2A",
+      "strain": "Prochlorococcus NATL2A",
+      "locus_tag": "PMN2A_0467",
+      "resolved_from": "NATL2_11351",
+      "resolution_method": "tier1:v"
+    },
+    {
+      "surface_form": "recA, ruvB, mutS, radA",
+      "gene_name": "recA, ruvB, mutS, radA",
+      "identifiers": [],
+      "prominence": "peripheral",
+      "evidence": "transcripts for a number of genes involved in DNA repair, such as recA, ruvB, mutS, and radA, were enriched only in the axenic cells (Table S3) (p8)",
+      "mention_strain": "Prochlorococcus NATL2A",
+      "strain": "Prochlorococcus NATL2A",
+      "locus_tag": "PMN2A_1133",
+      "resolved_from": "recA, ruvB, mutS, radA",
+      "resolution_method": "tier1:v"
+    },
+    {
+      "surface_form": "psbA, psbB, psaA, psaB",
+      "gene_name": "psbA, psbB, psaA, psaB",
+      "identifiers": [],
+      "prominence": "central",
+      "evidence": "many of the increases in transcript abundance for photosystem subunits (e.g., psbA, psbB, psaA, and psaB) seen in the axenic cultures did not occur in the cocultures (Table 2 and Table S3) (p9)",
+      "mention_strain": "Prochlorococcus NATL2A",
+      "strain": "Prochlorococcus NATL2A",
+      "locus_tag": "PMN2A_1592",
+      "resolved_from": "psbA, psbB, psaA, psaB",
+      "resolution_method": "tier1:v"
+    },
+    {
+      "surface_form": "Eda (2-keto-3-deoxygluconate-6-phosphate aldolase)",
+      "gene_name": "eda",
+      "identifiers": [],
+      "prominence": "central",
+      "evidence": "transcripts for the key enzyme in the ED pathway, Eda (2-keto-3-deoxygluconate-6-phosphate aldolase), were enriched in coculture and consistently depleted in axenic cultures (Table S3) (p9)",
+      "mention_strain": "Prochlorococcus NATL2A",
+      "strain": "Prochlorococcus NATL2A",
+      "locus_tag": "PMN2A_1594",
+      "resolved_from": "eda",
+      "resolution_method": "multi:v"
+    },
+    {
+      "surface_form": "gdh, gk, edd",
+      "gene_name": "gdh, gk, edd",
+      "identifiers": [],
+      "prominence": "peripheral",
+      "evidence": "we also found dark enrichment of gdh, no change in gk, and depletion of edd; Table S3 (p9)",
+      "mention_strain": "Prochlorococcus NATL2A",
+      "strain": "Prochlorococcus NATL2A",
+      "locus_tag": "PMN2A_1785",
+      "resolved_from": "gdh, gk, edd",
+      "resolution_method": "multi:v"
+    },
+    {
+      "surface_form": "hpf",
+      "gene_name": "hpf",
+      "identifiers": [],
+      "prominence": "peripheral",
+      "evidence": "cocultures did not exhibit any enrichment for hpf, which encodes a stringent-response-regulated ribosome hibernation-promoting factor (p10)",
+      "mention_strain": "Prochlorococcus NATL2A",
+      "strain": "Prochlorococcus NATL2A",
+      "locus_tag": "PMN2A_1735",
+      "resolved_from": "hpf",
+      "resolution_method": "tier1:v"
+    },
+    {
+      "surface_form": "Pro1404 transporter",
+      "gene_name": "",
+      "identifiers": [
+        "Pro1404"
+      ],
+      "prominence": "peripheral",
+      "evidence": "the Pro1404 transporter, which can take up glucose (54), were similarly depleted in the presence of Alteromonas (Table S3) (p10)",
+      "mention_strain": "Prochlorococcus NATL2A",
+      "strain": "Prochlorococcus NATL2A",
+      "locus_tag": null,
+      "resolved_from": "",
+      "resolution_method": "unresolved"
+    },
+    {
+      "surface_form": "PMN2A_1303, PMN2A_1891",
+      "gene_name": "",
+      "identifiers": [
+        "PMN2A_1303",
+        "PMN2A_1891"
+      ],
+      "prominence": "peripheral",
+      "evidence": "transcripts for two putative efflux transporters proposed to excrete citrate (PMN2A_1303) and glycolate (PMN2A_1891) in Prochlorococcus (52) were significantly depleted in axenic cultures (Table S3) (p10)",
+      "mention_strain": "Prochlorococcus NATL2A",
+      "strain": "Prochlorococcus NATL2A",
+      "locus_tag": "PMN2A_1303",
+      "resolved_from": "PMN2A_1303",
+      "resolution_method": "locus_tag:v"
+    },
+    {
+      "surface_form": "PMN2A_1303, PMN2A_1891",
+      "gene_name": "",
+      "identifiers": [
+        "PMN2A_1303",
+        "PMN2A_1891"
+      ],
+      "prominence": "peripheral",
+      "evidence": "transcripts for two putative efflux transporters proposed to excrete citrate (PMN2A_1303) and glycolate (PMN2A_1891) in Prochlorococcus (52) were significantly depleted in axenic cultures (Table S3) (p10)",
+      "mention_strain": "Prochlorococcus NATL2A",
+      "strain": "Prochlorococcus NATL2A",
+      "locus_tag": "PMN2A_1891",
+      "resolved_from": "PMN2A_1891",
+      "resolution_method": "locus_tag:v"
+    },
+    {
+      "surface_form": "mqo, PMN2A_1755",
+      "gene_name": "mqo",
+      "identifiers": [
+        "PMN2A_1755"
+      ],
+      "prominence": "peripheral",
+      "evidence": "transcripts for mqo and the proposed uptake transporter (PMN2A_1755) were significantly depleted in axenic cultures during extended darkness (Table S3) (p12)",
+      "mention_strain": "Prochlorococcus NATL2A",
+      "strain": "Prochlorococcus NATL2A",
+      "locus_tag": "PMN2A_1755",
+      "resolved_from": "PMN2A_1755",
+      "resolution_method": "locus_tag:v"
+    },
+    {
+      "surface_form": "kefB, nhaP",
+      "gene_name": "kefB, nhaP",
+      "identifiers": [],
+      "prominence": "peripheral",
+      "evidence": "enriched for transcripts encoding two putative Na+/H+ antiporters (kefB and nhaP; Table S3) (p13)",
+      "mention_strain": "Prochlorococcus NATL2A",
+      "strain": "Prochlorococcus NATL2A",
+      "locus_tag": "PMN2A_1175",
+      "resolved_from": "kefB, nhaP",
+      "resolution_method": "multi:v"
+    }
+  ],
+  "pathways": [
+    {
+      "surface_form": "oxidative pentose phosphate pathway",
+      "kegg_pathway_id_raw": "map00030",
+      "prominence": "central",
+      "evidence": "depletion of transcripts for genes involved in glycogen degradation, such as glgP, as well as the oxidative pentose phosphate pathway and the late steps of glycolysis (Table 1 and Table S3) (p7)",
+      "pathway_id": "ko00030",
+      "pathway_name": "pentose phosphate pathway",
+      "resolution_method": "id"
+    },
+    {
+      "surface_form": "glycolysis",
+      "kegg_pathway_id_raw": "map00010",
+      "prominence": "central",
+      "evidence": "depletion of transcripts for genes involved in ... the late steps of glycolysis (Table 1 and Table S3) (p7)",
+      "pathway_id": "ko00010",
+      "pathway_name": "glycolysis / gluconeogenesis",
+      "resolution_method": "id"
+    },
+    {
+      "surface_form": "fermentation",
+      "kegg_pathway_id_raw": "",
+      "prominence": "central",
+      "evidence": "enrichment of multiple fermentation-associated transcripts in the axenic cultures (Table 2) (p7)",
+      "pathway_id": null,
+      "pathway_name": null,
+      "resolution_method": "unresolved"
+    },
+    {
+      "surface_form": "light reactions of photosynthesis (including photosystem I [PSI] and PSII components)",
+      "kegg_pathway_id_raw": "map00195",
+      "prominence": "central",
+      "evidence": "transcriptomes were enriched for genes involved in the light reactions of photosynthesis (including photosystem I [PSI] and PSII components) (p7)",
+      "pathway_id": "ko00195",
+      "pathway_name": "photosynthesis",
+      "resolution_method": "id"
+    },
+    {
+      "surface_form": "stringent response",
+      "kegg_pathway_id_raw": "",
+      "prominence": "central",
+      "evidence": "activation of the stringent response, a conserved bacterial pathway that downregulates cellular growth in response to a variety of stress conditions (p8)",
+      "pathway_id": null,
+      "pathway_name": null,
+      "resolution_method": "unresolved"
+    },
+    {
+      "surface_form": "Entner-Doudoroff (ED) pathway",
+      "kegg_pathway_id_raw": "map00053",
+      "prominence": "central",
+      "evidence": "organic molecules could have been metabolized via the Entner-Doudoroff (ED) pathway, which has been proposed to be the primary means by which Prochlorococcus oxidizes glucose under mixotrophic conditions (59) (p9)",
+      "pathway_id": "ko00053",
+      "pathway_name": "ascorbate and aldarate metabolism",
+      "resolution_method": "id"
+    },
+    {
+      "surface_form": "Calvin cycle",
+      "kegg_pathway_id_raw": "map00710",
+      "prominence": "peripheral",
+      "evidence": "transcripts associated with a variety of metabolic pathways, including the Calvin cycle, glycolysis, fatty acid biosynthesis, glycogen metabolism, and photosynthesis (Table S4A) (p11)",
+      "pathway_id": "ko00710",
+      "pathway_name": "carbon fixation by calvin cycle",
+      "resolution_method": "id"
+    },
+    {
+      "surface_form": "fatty acid biosynthesis",
+      "kegg_pathway_id_raw": "map00061",
+      "prominence": "peripheral",
+      "evidence": "transcripts associated with a variety of metabolic pathways, including the Calvin cycle, glycolysis, fatty acid biosynthesis, glycogen metabolism, and photosynthesis (Table S4A) (p11)",
+      "pathway_id": "ko00061",
+      "pathway_name": "fatty acid biosynthesis",
+      "resolution_method": "id"
+    },
+    {
+      "surface_form": "glycogen metabolism",
+      "kegg_pathway_id_raw": "",
+      "prominence": "peripheral",
+      "evidence": "transcripts associated with a variety of metabolic pathways, including the Calvin cycle, glycolysis, fatty acid biosynthesis, glycogen metabolism, and photosynthesis (Table S4A) (p11)",
+      "pathway_id": null,
+      "pathway_name": null,
+      "resolution_method": "unresolved"
+    }
+  ]
+}

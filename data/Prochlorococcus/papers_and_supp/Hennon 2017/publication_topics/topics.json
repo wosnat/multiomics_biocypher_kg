@@ -1,0 +1,152 @@
+{
+  "metadata": {
+    "paper": "Hennon 2017",
+    "doi": null,
+    "strains": [
+      "Prochlorococcus MIT9312",
+      "Alteromonas macleodii EZ55"
+    ],
+    "model": "gpt-4.1",
+    "n_chunks": 1,
+    "chunk_pages": 15,
+    "self_assessment": "high",
+    "uncaptured_identifiers": "some",
+    "uncaptured_identifiers_note": "Supplementary Tables 2-4 may list additional locus tags or gene IDs not included here; main text and figures do not provide all locus tags.",
+    "extracted_at": "2026-06-04T15:54:20.210586",
+    "input_tokens": 18121,
+    "output_tokens": 1622
+  },
+  "genes": [
+    {
+      "surface_form": "catalase",
+      "gene_name": "",
+      "identifiers": [],
+      "strain": "Alteromonas macleodii EZ55",
+      "prominence": "central",
+      "evidence": "Transcriptome analysis of Alteromonas in co-culture with Prochlorococcus revealed decreased expression of the catalase gene, known to be critical in relieving oxidative stress in Prochlorococcus by removing hydrogen peroxide. (Abstract, p1)"
+    },
+    {
+      "surface_form": "high light inducible (hli) genes",
+      "gene_name": "hli",
+      "identifiers": [],
+      "strain": "Prochlorococcus MIT9312",
+      "prominence": "central",
+      "evidence": "significant expression changes of high light inducible (hli) genes resulted from shifts in O2:CO2 ratio (Bagby and Chisholm, 2015) (Introduction, p2)"
+    },
+    {
+      "surface_form": "carbon fixation operon",
+      "gene_name": "",
+      "identifiers": [
+        "csoS1D",
+        "csoS1",
+        "RbcL",
+        "RbcS",
+        "csoS2",
+        "csoSCA",
+        "csoS4A",
+        "csoS4B",
+        "0548"
+      ],
+      "strain": "Prochlorococcus MIT9312",
+      "prominence": "central",
+      "evidence": "Whole-transcriptome analysis of Prochlorococcus revealed decreased expression of the carbon fixation operon, including carboxysome subunits (Abstract, p1; Results, p6; Figure 2b)"
+    },
+    {
+      "surface_form": "bicarbonate transporter genes",
+      "gene_name": "",
+      "identifiers": [],
+      "strain": "Prochlorococcus MIT9312",
+      "prominence": "peripheral",
+      "evidence": "There was no significant change in expression of the bicarbonate transporter genes (Supplementary Table 2) (Results, p6)"
+    },
+    {
+      "surface_form": "co-culture responsive gene 1 (CCRG1)",
+      "gene_name": "CCRG1",
+      "identifiers": [],
+      "strain": "Prochlorococcus MIT9312",
+      "prominence": "central",
+      "evidence": "A Prochlorococcus gene of unknown function, termed co-culture responsive gene 1 (CCRG1)...had the highest fold increase under elevated CO2 (Results, p7)"
+    },
+    {
+      "surface_form": "Ohr family peroxiredoxin",
+      "gene_name": "",
+      "identifiers": [],
+      "strain": "Alteromonas macleodii EZ55",
+      "prominence": "peripheral",
+      "evidence": "there was a significant decrease in the expression of the Ohr family peroxiredoxin (Supplementary Tables 3 and 4), which is thought to degrade organic peroxides (Results, p10)"
+    },
+    {
+      "surface_form": "superoxide dismutase genes (Cu/Zn SOD and Ni SOD)",
+      "gene_name": "",
+      "identifiers": [
+        "Cu/Zn SOD",
+        "Ni SOD"
+      ],
+      "strain": "Alteromonas macleodii EZ55",
+      "prominence": "peripheral",
+      "evidence": "two superoxide dismutase genes (Cu/Zn SOD and Ni SOD) responsible for the conversion of superoxide to hydrogen peroxide...had significantly increased expression in Alteromonas in co-culture with Prochlorococcus (Results, p10)"
+    },
+    {
+      "surface_form": "tryptophan biosynthesis operon",
+      "gene_name": "",
+      "identifiers": [],
+      "strain": "Alteromonas macleodii EZ55",
+      "prominence": "peripheral",
+      "evidence": "only certain amino-acid metabolic pathways in Alteromonas had lower expression, including putative tryptophan, histidine and glutamate biosynthesis operons (Results, p9; Figure 4a)"
+    },
+    {
+      "surface_form": "histidine biosynthesis operon",
+      "gene_name": "",
+      "identifiers": [],
+      "strain": "Alteromonas macleodii EZ55",
+      "prominence": "peripheral",
+      "evidence": "only certain amino-acid metabolic pathways in Alteromonas had lower expression, including putative tryptophan, histidine and glutamate biosynthesis operons (Results, p9; Figure 4a)"
+    },
+    {
+      "surface_form": "glutamate biosynthesis operon",
+      "gene_name": "",
+      "identifiers": [],
+      "strain": "Alteromonas macleodii EZ55",
+      "prominence": "peripheral",
+      "evidence": "only certain amino-acid metabolic pathways in Alteromonas had lower expression, including putative tryptophan, histidine and glutamate biosynthesis operons (Results, p9; Figure 4a)"
+    }
+  ],
+  "pathways": [
+    {
+      "surface_form": "carbon fixation",
+      "kegg_pathway_id": "ko00710",
+      "prominence": "central",
+      "evidence": "decreased expression of the carbon fixation operon, including carboxysome subunits (Abstract, p1; Results, p6)"
+    },
+    {
+      "surface_form": "amino acid metabolism",
+      "kegg_pathway_id": "ko00250",
+      "prominence": "peripheral",
+      "evidence": "Gene sets with lower expression under elevated CO2 included carbon, fatty acid and amino-acid metabolism (Results, p9; Figure 4b)"
+    },
+    {
+      "surface_form": "fatty acid metabolism",
+      "kegg_pathway_id": "ko00071",
+      "prominence": "peripheral",
+      "evidence": "Gene sets with lower expression under elevated CO2 included carbon, fatty acid and amino-acid metabolism (Results, p9; Figure 4b)"
+    },
+    {
+      "surface_form": "ribosome",
+      "kegg_pathway_id": "ko03010",
+      "prominence": "peripheral",
+      "evidence": "Ribosomal genes...were overrepresented in genes with significantly increased transcript abundance under elevated CO2 (Results, p9; Figure 4b)"
+    },
+    {
+      "surface_form": "chemotaxis",
+      "kegg_pathway_id": "ko02030",
+      "prominence": "peripheral",
+      "evidence": "chemotaxis-related genes...were overrepresented in genes with significantly increased transcript abundance under elevated CO2 (Results, p9; Figure 4b)"
+    },
+    {
+      "surface_form": "flagellar assembly",
+      "kegg_pathway_id": "ko02040",
+      "prominence": "peripheral",
+      "evidence": "flagellar genes...were overrepresented in genes with significantly increased transcript abundance under elevated CO2 (Results, p9; Figure 4b)"
+    }
+  ]
+}

@@ -1,0 +1,221 @@
+{
+  "metadata": {
+    "paper": "Fuszard 2012",
+    "doi": "10.1186/2046-9063-8-7",
+    "strains": [
+      "Prochlorococcus MIT9312",
+      "Prochlorococcus NATL2A",
+      "Prochlorococcus marinus subsp. marinus CCMP1375 (SS120)"
+    ],
+    "model": "gpt-4.1",
+    "self_assessment": "high",
+    "assessment_notes": "All genes and pathways were explicitly named in the narrative. No locus tags or protein IDs were given in the main text.",
+    "uncaptured_identifiers": "some",
+    "uncaptured_identifiers_note": "Additional file 1: Table S1 likely contains protein IDs and peptides not captured here.",
+    "extracted_at": "2026-06-04T10:08:39.109998",
+    "input_tokens": 11078,
+    "output_tokens": 2188
+  },
+  "genes": [
+    {
+      "surface_form": "PhoE",
+      "gene_name": "phoE",
+      "identifiers": [],
+      "strain": "Prochlorococcus MIT9312",
+      "prominence": "central",
+      "evidence": "the Pi stress related porin PhoE is > 15-fold more abundant (Figure 3) (Results, p3)"
+    },
+    {
+      "surface_form": "PhoA",
+      "gene_name": "phoA",
+      "identifiers": [],
+      "strain": "Prochlorococcus MIT9312",
+      "prominence": "central",
+      "evidence": "the putative alkaline phosphatase PhoA appears to be > 9-fold greater (Results, p3)"
+    },
+    {
+      "surface_form": "PstS",
+      "gene_name": "pstS",
+      "identifiers": [],
+      "strain": "Prochlorococcus MIT9312",
+      "prominence": "central",
+      "evidence": "the periplasmic Pi binding protein PstS > 3 times more than the replete cultures (Results, p3)"
+    },
+    {
+      "surface_form": "PstS",
+      "gene_name": "pstS",
+      "identifiers": [],
+      "strain": "Prochlorococcus NATL2A",
+      "prominence": "central",
+      "evidence": "Within NATL2A, PstS abundance is significantly greater within Pi-deplete conditions (Results, p3)"
+    },
+    {
+      "surface_form": "PstS",
+      "gene_name": "pstS",
+      "identifiers": [],
+      "strain": "Prochlorococcus marinus subsp. marinus CCMP1375 (SS120)",
+      "prominence": "peripheral",
+      "evidence": "SS120 is deficient in most Pi acquisition genes [14,15], however it does have two copies of PstS, neither of which were present in our assay (Results, p4)"
+    },
+    {
+      "surface_form": "phoBR",
+      "gene_name": "phoBR",
+      "identifiers": [],
+      "strain": "all",
+      "prominence": "central",
+      "evidence": "the two component response regulation system phoBR, behaved quite differently to Pi starvation [14] (Background, p2)"
+    },
+    {
+      "surface_form": "RbcL",
+      "gene_name": "rbcL",
+      "identifiers": [],
+      "strain": "Prochlorococcus MIT9312",
+      "prominence": "central",
+      "evidence": "a depression of the Rubisco protein RbcL abundance in this strain (Abstract, Results, p1, p4)"
+    },
+    {
+      "surface_form": "RbcS",
+      "gene_name": "rbcS",
+      "identifiers": [],
+      "strain": "Prochlorococcus MIT9312",
+      "prominence": "peripheral",
+      "evidence": "both Rubisco subunits (RbcL and RbcS) are noticeably lower in abundance (Results, p4)"
+    },
+    {
+      "surface_form": "ChlP",
+      "gene_name": "chlP",
+      "identifiers": [],
+      "strain": "Prochlorococcus MIT9312",
+      "prominence": "peripheral",
+      "evidence": "an essential chlorophyll biosynthetic protein (ChlP) appears to be less abundant within Pi-deplete MIT9312 cells (Results, p4)"
+    },
+    {
+      "surface_form": "FumC",
+      "gene_name": "fumC",
+      "identifiers": [],
+      "strain": "Prochlorococcus NATL2A",
+      "prominence": "peripheral",
+      "evidence": "Fumerase (FumC) ... appears to be more abundant within NATL2A cells when Pi-deplete (Results, p5)"
+    },
+    {
+      "surface_form": "AcpP",
+      "gene_name": "acpP",
+      "identifiers": [],
+      "strain": "Prochlorococcus NATL2A",
+      "prominence": "peripheral",
+      "evidence": "the acyl carrier protein (AcpP) ... is more abundant in Pi-deplete NATL2A cells (Results, p5)"
+    },
+    {
+      "surface_form": "CobJ",
+      "gene_name": "cobJ",
+      "identifiers": [],
+      "strain": "Prochlorococcus NATL2A",
+      "prominence": "peripheral",
+      "evidence": "lower abundance of CobJ, a Precorrin-3B C17-methyltransferase region-containing protein ... part of the aerobic vitamin B12 biosynthesis pathway (Results, p5)"
+    },
+    {
+      "surface_form": "CitT",
+      "gene_name": "citT",
+      "identifiers": [],
+      "strain": "Prochlorococcus marinus subsp. marinus CCMP1375 (SS120)",
+      "prominence": "peripheral",
+      "evidence": "the abundance of CitT within Pi-stressed SS120 cells (Results, p5)"
+    },
+    {
+      "surface_form": "LuxR",
+      "gene_name": "luxR",
+      "identifiers": [],
+      "strain": "Prochlorococcus NATL2A",
+      "prominence": "peripheral",
+      "evidence": "the presence of LuxR, the response regulatory family protein involved in quorum sensing within bacteria, in NATL2A cells (Results, p6)"
+    },
+    {
+      "surface_form": "AtpA",
+      "gene_name": "atpA",
+      "identifiers": [],
+      "strain": "all",
+      "prominence": "peripheral",
+      "evidence": "They are the ATP synthase subunits AtpA and AtpD ... found in all three strains (Results, p3)"
+    },
+    {
+      "surface_form": "AtpD",
+      "gene_name": "atpD",
+      "identifiers": [],
+      "strain": "all",
+      "prominence": "peripheral",
+      "evidence": "They are the ATP synthase subunits AtpA and AtpD ... found in all three strains (Results, p3)"
+    },
+    {
+      "surface_form": "PsbO",
+      "gene_name": "psbO",
+      "identifiers": [],
+      "strain": "all",
+      "prominence": "peripheral",
+      "evidence": "the PSII protein PsbO ... found in all three strains (Results, p3)"
+    },
+    {
+      "surface_form": "GlnK",
+      "gene_name": "glnK",
+      "identifiers": [],
+      "strain": "all",
+      "prominence": "peripheral",
+      "evidence": "the nitrogen regulatory protein GlnK ... found in all three strains (Results, p3)"
+    },
+    {
+      "surface_form": "CsoS1",
+      "gene_name": "csoS1",
+      "identifiers": [],
+      "strain": "all",
+      "prominence": "peripheral",
+      "evidence": "the carboxysome shell protein CsoS1 ... found in all three strains (Results, p3)"
+    },
+    {
+      "surface_form": "PetH",
+      "gene_name": "petH",
+      "identifiers": [],
+      "strain": "Prochlorococcus MIT9312",
+      "prominence": "peripheral",
+      "evidence": "a high pI protein, PetH, is present in both MIT 9312 and SS120 samples (Results, p3)"
+    },
+    {
+      "surface_form": "PetH",
+      "gene_name": "petH",
+      "identifiers": [],
+      "strain": "Prochlorococcus marinus subsp. marinus CCMP1375 (SS120)",
+      "prominence": "peripheral",
+      "evidence": "a high pI protein, PetH, is present in both MIT 9312 and SS120 samples (Results, p3)"
+    }
+  ],
+  "pathways": [
+    {
+      "surface_form": "tricarboxylic acid (TCA) cycle",
+      "kegg_pathway_id": "ko00020",
+      "prominence": "peripheral",
+      "evidence": "Fumerase (FumC) is an enzyme associated with both the tricarboxylic acid (TCA) cycle and arginine/proline biosynthesis (Results, p5)"
+    },
+    {
+      "surface_form": "aerobic vitamin B12 biosynthesis pathway",
+      "kegg_pathway_id": "",
+      "prominence": "peripheral",
+      "evidence": "CobJ, ... part of the aerobic vitamin B12 biosynthesis pathway within Pi-stressed cells (Results, p5)"
+    },
+    {
+      "surface_form": "chlorophyll biosynthetic pathway",
+      "kegg_pathway_id": "",
+      "prominence": "peripheral",
+      "evidence": "B12 synthesis is a sub pathway offshoot from the main chlorophyll biosynthetic pathway (Results, p5)"
+    },
+    {
+      "surface_form": "arginine and proline metabolism",
+      "kegg_pathway_id": "ko00330",
+      "prominence": "peripheral",
+      "evidence": "its function within the cell is within arginine and proline metabolism (Results, p5)"
+    },
+    {
+      "surface_form": "fatty acid biosynthesis",
+      "kegg_pathway_id": "ko00061",
+      "prominence": "peripheral",
+      "evidence": "the acyl carrier protein (AcpP) is an essential component of fatty acid biosynthesis (Results, p5)"
+    }
+  ]
+}

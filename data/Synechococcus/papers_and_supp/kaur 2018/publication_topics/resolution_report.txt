@@ -1,0 +1,19 @@
+Topics resolution report: Kaur 2018
+Strains: ['Synechococcus WH7803', 'Ruegeria pomeroyi DSS-3']
+
+Genes:    21/22 resolved (95.5%)
+  methods: heuristic:v=8, locus_tag:v=13, unresolved=1
+Pathways: 2/3 resolved (66.7%)
+  methods: id=2, unresolved=1
+
+Captured identifiers: 22  (truncated/bare-number: 0)
+Unresolved gene reasons: {'descriptive_only': 1}
+    descriptive_only = function/enzyme phrase, no symbol or id (paper style)
+    truncated_id_only = bare locus number, recoverable via strain prefix
+    lookup_miss       = had a name/full id but no mapping match
+
+Unresolved gene mentions (1):
+  - superoxide dismutase (SOD)  [descriptive_only]  strain=Synechococcus WH7803
+
+Unresolved pathway mentions (1):
+  - Reactive oxygen species (ROS) scavenging  (raw id=—)

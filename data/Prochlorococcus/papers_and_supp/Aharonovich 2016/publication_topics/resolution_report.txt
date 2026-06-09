@@ -1,0 +1,25 @@
+Topics resolution report: Aharonovich 2016
+Strains: ['Prochlorococcus MED4', 'Alteromonas macleodii HOT1A3', 'Prochlorococcus MIT9313']
+
+Genes:    29/35 resolved (82.9%)
+  methods: locus_tag:v=9, tier1:v=20, unresolved=6
+Pathways: 8/10 resolved (80.0%)
+  methods: id=8, unresolved=2
+
+Captured identifiers: 32  (truncated/bare-number: 17, e.g. ['0239', '0243', '0245', '0246*', '0706*', '0827', '0829', '0836', '0839', '0926'])
+Unresolved gene reasons: {'descriptive_only': 2, 'lookup_miss': 1, 'truncated_id_only': 3}
+    descriptive_only = function/enzyme phrase, no symbol or id (paper style)
+    truncated_id_only = bare locus number, recoverable via strain prefix
+    lookup_miss       = had a name/full id but no mapping match
+
+Unresolved gene mentions (6):
+  - Ferredoxin  [descriptive_only]  strain=Prochlorococcus MIT9313
+  - hsp90  [lookup_miss]  strain=Prochlorococcus MIT9313
+  - HLIP  [descriptive_only]  strain=all
+  - PhoB-like  [truncated_id_only]  strain=Prochlorococcus MIT9313  ids=['0994']
+  - prochlorosins (ProcA1.7, 1.4, 3.1, 3.2, 3.4, 2.10, 2.4)  [truncated_id_only]  strain=Prochlorococcus MIT9313  ids=['0239', '0243', '0827', '0829', '0839', '2120', '2130']
+  - prochlorosins (ProcA1.2, 3.1, 3.2, 3.4, 4.3, 2.8)  [truncated_id_only]  strain=Prochlorococcus MIT9313  ids=['0245', '0827', '0829', '0836', '0926', '2122']
+
+Unresolved pathway mentions (2):
+  - phospholipid biosynthesis  (raw id=—)
+  - DNA replication and cell cycle  (raw id=ko04110)

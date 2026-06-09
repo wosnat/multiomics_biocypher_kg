@@ -1,0 +1,380 @@
+{
+  "metadata": {
+    "paper": "Barreto 2022",
+    "doi": null,
+    "strains": [
+      "Prochlorococcus MIT9312",
+      "Synechococcus CC9311",
+      "Synechococcus WH8102",
+      "Alteromonas macleodii EZ55"
+    ],
+    "model": "gpt-4.1",
+    "self_assessment": "high",
+    "assessment_notes": "Most gene and pathway mentions are explicit and strain attribution is clear. Some gene names are generic (e.g., catalase) as no locus tags are given in the main text.",
+    "uncaptured_identifiers": "many",
+    "uncaptured_identifiers_note": "Supplementary tables and figures (e.g., Table S5, S6, S8) likely list many explicit locus tags and gene IDs not included here, as only narrative text was used.",
+    "extracted_at": "2026-06-04T10:00:42.228201",
+    "input_tokens": 24612,
+    "output_tokens": 4342
+  },
+  "genes": [
+    {
+      "surface_form": "catalase",
+      "gene_name": "",
+      "identifiers": [],
+      "strain": "Alteromonas macleodii EZ55",
+      "prominence": "central",
+      "evidence": "EZ55 downregulated the H2O2-removing enzyme catalase at 800 ppm pCO2, effectively withholding help from Prochlorococcus (Introduction, p1)"
+    },
+    {
+      "surface_form": "catalase-peroxidase",
+      "gene_name": "",
+      "identifiers": [],
+      "strain": "Alteromonas macleodii EZ55",
+      "prominence": "central",
+      "evidence": "antioxidant enzymes catalase, catalase-peroxidase, and alkyl hydroperoxide reductase (Results, p4)"
+    },
+    {
+      "surface_form": "alkyl hydroperoxide reductase",
+      "gene_name": "",
+      "identifiers": [],
+      "strain": "Alteromonas macleodii EZ55",
+      "prominence": "central",
+      "evidence": "antioxidant enzymes catalase, catalase-peroxidase, and alkyl hydroperoxide reductase (Results, p4)"
+    },
+    {
+      "surface_form": "rpoS",
+      "gene_name": "rpoS",
+      "identifiers": [],
+      "strain": "Alteromonas macleodii EZ55",
+      "prominence": "central",
+      "evidence": "the RNA polymerase stationary-phase sigma factor (rpoS) (Results, p4)"
+    },
+    {
+      "surface_form": "NH4+ transporter",
+      "gene_name": "",
+      "identifiers": [],
+      "strain": "Alteromonas macleodii EZ55",
+      "prominence": "central",
+      "evidence": "the EZ55 NH4+ transporter was upregulated in co-culture with MIT9312 and WH8102 (Results, p4)"
+    },
+    {
+      "surface_form": "fucose permease",
+      "gene_name": "",
+      "identifiers": [],
+      "strain": "Alteromonas macleodii EZ55",
+      "prominence": "peripheral",
+      "evidence": "transcripts encoding two fucose permeases were upregulated in co-culture with MIT9312 (Results, p4)"
+    },
+    {
+      "surface_form": "acetate transporter",
+      "gene_name": "",
+      "identifiers": [],
+      "strain": "Alteromonas macleodii EZ55",
+      "prominence": "peripheral",
+      "evidence": "an acetate transporter was more highly transcribed with WH8102 (Results, p4)"
+    },
+    {
+      "surface_form": "B-vitamin transport genes",
+      "gene_name": "",
+      "identifiers": [],
+      "strain": "Alteromonas macleodii EZ55",
+      "prominence": "peripheral",
+      "evidence": "B-vitamin transport genes were upregulated in co-culture with MIT9312 under 400 ppm and with WH8102 under 800 ppm (Results, p4)"
+    },
+    {
+      "surface_form": "glycine cleavage system (GCS)",
+      "gene_name": "",
+      "identifiers": [],
+      "strain": "Alteromonas macleodii EZ55",
+      "prominence": "central",
+      "evidence": "EZ55 co-cultured with both Synechococcus strains increased transcription of genes involved in the glycine cleavage system (GCS) (Results, p5)"
+    },
+    {
+      "surface_form": "malate synthase",
+      "gene_name": "",
+      "identifiers": [],
+      "strain": "Alteromonas macleodii EZ55",
+      "prominence": "peripheral",
+      "evidence": "The bacterial glyoxylate shunt enzymes, malate synthase and isocitrate lyase, ... were upregulated in co-culture with WH8102 (Results, p5)"
+    },
+    {
+      "surface_form": "isocitrate lyase",
+      "gene_name": "",
+      "identifiers": [],
+      "strain": "Alteromonas macleodii EZ55",
+      "prominence": "peripheral",
+      "evidence": "The bacterial glyoxylate shunt enzymes, malate synthase and isocitrate lyase, ... were upregulated in co-culture with WH8102 (Results, p5)"
+    },
+    {
+      "surface_form": "valine catabolism genes",
+      "gene_name": "",
+      "identifiers": [],
+      "strain": "Alteromonas macleodii EZ55",
+      "prominence": "peripheral",
+      "evidence": "EZ55 co-cultured with Synechococcus strains but not with MIT9312 increased transcription of valine and acetate catabolism genes (Results, p5)"
+    },
+    {
+      "surface_form": "acetate catabolism genes",
+      "gene_name": "",
+      "identifiers": [],
+      "strain": "Alteromonas macleodii EZ55",
+      "prominence": "peripheral",
+      "evidence": "EZ55 co-cultured with Synechococcus strains but not with MIT9312 increased transcription of valine and acetate catabolism genes (Results, p5)"
+    },
+    {
+      "surface_form": "glycine betaine synthesis genes",
+      "gene_name": "",
+      "identifiers": [],
+      "strain": "Alteromonas macleodii EZ55",
+      "prominence": "peripheral",
+      "evidence": "decreased transcription of glycine betaine synthesis genes (Results, p5)"
+    },
+    {
+      "surface_form": "pyruvate dehydrogenase",
+      "gene_name": "",
+      "identifiers": [],
+      "strain": "Alteromonas macleodii EZ55",
+      "prominence": "peripheral",
+      "evidence": "EZ55 paired with MIT9312 increased transcription of genes encoding pyruvate dehydrogenase (Results, p5)"
+    },
+    {
+      "surface_form": "beta-oxidation of fatty acids genes",
+      "gene_name": "",
+      "identifiers": [],
+      "strain": "Alteromonas macleodii EZ55",
+      "prominence": "peripheral",
+      "evidence": "Beta-oxidation of fatty acids was generally upregulated at 400 ppm but downregulated at 800 ppm (Results, p5)"
+    },
+    {
+      "surface_form": "glycine betaine metabolism genes",
+      "gene_name": "",
+      "identifiers": [],
+      "strain": "Alteromonas macleodii EZ55",
+      "prominence": "peripheral",
+      "evidence": "Glycine betaine metabolism was downregulated for EZ55 co-cultures with CC9311 at 400 ppm but upregulated at 800 ppm (Results, p5)"
+    },
+    {
+      "surface_form": "carboxysome shell genes",
+      "gene_name": "",
+      "identifiers": [],
+      "strain": "Prochlorococcus MIT9312",
+      "prominence": "central",
+      "evidence": "MIT9312 decreased transcription of carboxysome shell genes, RUBISCO genes, and several high-light inducible (HLI) genes (Results, p3)"
+    },
+    {
+      "surface_form": "RUBISCO genes",
+      "gene_name": "",
+      "identifiers": [],
+      "strain": "Prochlorococcus MIT9312",
+      "prominence": "central",
+      "evidence": "MIT9312 decreased transcription of carboxysome shell genes, RUBISCO genes, and several high-light inducible (HLI) genes (Results, p3)"
+    },
+    {
+      "surface_form": "high-light inducible (HLI) genes",
+      "gene_name": "",
+      "identifiers": [],
+      "strain": "Prochlorococcus MIT9312",
+      "prominence": "central",
+      "evidence": "MIT9312 decreased transcription of carboxysome shell genes, RUBISCO genes, and several high-light inducible (HLI) genes (Results, p3)"
+    },
+    {
+      "surface_form": "spectrin repeat co-culture response gene",
+      "gene_name": "",
+      "identifiers": [],
+      "strain": "Prochlorococcus MIT9312",
+      "prominence": "peripheral",
+      "evidence": "increased transcription of the spectrin repeat 'co-culture response gene' (Results, p3)"
+    },
+    {
+      "surface_form": "RUBISCO and carboxysome genes",
+      "gene_name": "",
+      "identifiers": [],
+      "strain": "Synechococcus WH8102",
+      "prominence": "central",
+      "evidence": "WH8102 increased transcription of RUBISCO and carboxysome genes (Results, p3)"
+    },
+    {
+      "surface_form": "N-acquisition genes",
+      "gene_name": "",
+      "identifiers": [],
+      "strain": "Synechococcus WH8102",
+      "prominence": "peripheral",
+      "evidence": "WH8102 increased transcription of RUBISCO and carboxysome genes (Fig. S3B) as well as several N-acquisition genes (Results, p3)"
+    },
+    {
+      "surface_form": "DNA mismatch repair system",
+      "gene_name": "",
+      "identifiers": [],
+      "strain": "Prochlorococcus MIT9312",
+      "prominence": "peripheral",
+      "evidence": "MIT9312 also increased transcription of its DNA mismatch repair system under elevated pCO2 (Results, p3)"
+    },
+    {
+      "surface_form": "photosynthesis antenna protein synthesis genes",
+      "gene_name": "",
+      "identifiers": [],
+      "strain": "Synechococcus CC9311",
+      "prominence": "peripheral",
+      "evidence": "CC9311 upregulated photosynthesis antenna protein synthesis and aminoacyl-tRNA biosynthesis under elevated pCO2 (Results, p3)"
+    },
+    {
+      "surface_form": "aminoacyl-tRNA biosynthesis genes",
+      "gene_name": "",
+      "identifiers": [],
+      "strain": "Synechococcus CC9311",
+      "prominence": "peripheral",
+      "evidence": "CC9311 upregulated photosynthesis antenna protein synthesis and aminoacyl-tRNA biosynthesis under elevated pCO2 (Results, p3)"
+    },
+    {
+      "surface_form": "glcD",
+      "gene_name": "glcD",
+      "identifiers": [],
+      "strain": "Alteromonas macleodii EZ55",
+      "prominence": "central",
+      "evidence": "We discovered candidates for glcD, one of the subunits of glycolate dehydrogenase, in all four genomes, but only the two Synechococcus strains had matches for the other two subunits glcE and glcF (Results, p5)"
+    },
+    {
+      "surface_form": "glcE",
+      "gene_name": "glcE",
+      "identifiers": [],
+      "strain": "Synechococcus CC9311",
+      "prominence": "peripheral",
+      "evidence": "only the two Synechococcus strains had matches for the other two subunits glcE and glcF (Results, p5)"
+    },
+    {
+      "surface_form": "glcF",
+      "gene_name": "glcF",
+      "identifiers": [],
+      "strain": "Synechococcus CC9311",
+      "prominence": "peripheral",
+      "evidence": "only the two Synechococcus strains had matches for the other two subunits glcE and glcF (Results, p5)"
+    },
+    {
+      "surface_form": "glcD2",
+      "gene_name": "glcD2",
+      "identifiers": [],
+      "strain": "Prochlorococcus MIT9312",
+      "prominence": "peripheral",
+      "evidence": "The MIT9312 glcD fell into a clade containing the alternative glcD discovered in Synechocystis PCC6803 [35], and versions of this glcD2 were also found in both Synechococcus genomes studied here (Results, p5)"
+    },
+    {
+      "surface_form": "GlcDF fusion protein",
+      "gene_name": "",
+      "identifiers": [],
+      "strain": "Alteromonas macleodii EZ55",
+      "prominence": "central",
+      "evidence": "this novel large protein may be capable of catalyzing the reaction performed by the three glc subunits by itself (Results, p5)"
+    },
+    {
+      "surface_form": "lactate oxidase lctD",
+      "gene_name": "lctD",
+      "identifiers": [],
+      "strain": "Alteromonas macleodii EZ55",
+      "prominence": "peripheral",
+      "evidence": "The EZ55 genome also contained two genes similar to the E. coli lactate oxidase lctD (Results, p5)"
+    },
+    {
+      "surface_form": "glycolate/lactate oxidase (GOX/LOX)",
+      "gene_name": "",
+      "identifiers": [],
+      "strain": "Alteromonas macleodii EZ55",
+      "prominence": "peripheral",
+      "evidence": "Bacterial lactate oxidases (LOX) have been shown to also operate on glycolate and are thought to be the ancestors of the H2O2-producing glycolate oxidase (GOX) enzyme found in plants (Results, p5)"
+    },
+    {
+      "surface_form": "nitrogen regulatory protein P-II",
+      "gene_name": "",
+      "identifiers": [],
+      "strain": "Alteromonas macleodii EZ55",
+      "prominence": "peripheral",
+      "evidence": "EZ55 phosphate, ammonium, and iron transporters, nitrogen regulatory protein P-II, and glutamine synthetase ... were all more highly transcribed for all co-cultures compared to axenic cultures at 400 ppm pCO2 (Results, p7)"
+    },
+    {
+      "surface_form": "glutamine synthetase",
+      "gene_name": "",
+      "identifiers": [],
+      "strain": "Alteromonas macleodii EZ55",
+      "prominence": "peripheral",
+      "evidence": "EZ55 phosphate, ammonium, and iron transporters, nitrogen regulatory protein P-II, and glutamine synthetase ... were all more highly transcribed for all co-cultures compared to axenic cultures at 400 ppm pCO2 (Results, p7)"
+    },
+    {
+      "surface_form": "rpoE",
+      "gene_name": "rpoE",
+      "identifiers": [],
+      "strain": "Alteromonas macleodii EZ55",
+      "prominence": "peripheral",
+      "evidence": "Both rpoE and rpoH, responsible for controlling envelope and heat stress regulons, respectively, were downregulated at 400 ppm in co-culture relative to axenic and 800 ppm conditions (Results, p8)"
+    },
+    {
+      "surface_form": "rpoH",
+      "gene_name": "rpoH",
+      "identifiers": [],
+      "strain": "Alteromonas macleodii EZ55",
+      "prominence": "peripheral",
+      "evidence": "Both rpoE and rpoH, responsible for controlling envelope and heat stress regulons, respectively, were downregulated at 400 ppm in co-culture relative to axenic and 800 ppm conditions (Results, p8)"
+    }
+  ],
+  "pathways": [
+    {
+      "surface_form": "carbon fixation in photosynthetic organisms",
+      "kegg_pathway_id": "ko00710",
+      "prominence": "central",
+      "evidence": "GSEA confirmed the downregulation of carbon fixation pathways in MIT9312 (Fig. 1A) and the upregulation ... in WH8102 (Results, p3)"
+    },
+    {
+      "surface_form": "photosynthesis - antenna proteins",
+      "kegg_pathway_id": "ko00196",
+      "prominence": "peripheral",
+      "evidence": "CC9311 upregulated photosynthesis antenna protein synthesis and aminoacyl-tRNA biosynthesis under elevated pCO2 (Results, p3)"
+    },
+    {
+      "surface_form": "aminoacyl-tRNA biosynthesis",
+      "kegg_pathway_id": "ko00970",
+      "prominence": "peripheral",
+      "evidence": "CC9311 upregulated photosynthesis antenna protein synthesis and aminoacyl-tRNA biosynthesis under elevated pCO2 (Results, p3)"
+    },
+    {
+      "surface_form": "glyoxylate/dicarboxylate metabolism",
+      "kegg_pathway_id": "ko00630",
+      "prominence": "central",
+      "evidence": "Many central carbon metabolism genes were also differentially regulated, with enzymes involved in glyoxylate/dicarboxylate ... highly overrepresented (Results, p4)"
+    },
+    {
+      "surface_form": "propanoate metabolism",
+      "kegg_pathway_id": "ko00640",
+      "prominence": "peripheral",
+      "evidence": "Many central carbon metabolism genes were also differentially regulated, with enzymes involved in glyoxylate/dicarboxylate, propanoate, pyruvate, and amino acid catabolism highly overrepresented (Results, p4)"
+    },
+    {
+      "surface_form": "pyruvate metabolism",
+      "kegg_pathway_id": "ko00620",
+      "prominence": "peripheral",
+      "evidence": "Many central carbon metabolism genes were also differentially regulated, with enzymes involved in glyoxylate/dicarboxylate, propanoate, pyruvate, and amino acid catabolism highly overrepresented (Results, p4)"
+    },
+    {
+      "surface_form": "amino acid catabolism",
+      "kegg_pathway_id": "",
+      "prominence": "peripheral",
+      "evidence": "Many central carbon metabolism genes were also differentially regulated, with enzymes involved in glyoxylate/dicarboxylate, propanoate, pyruvate, and amino acid catabolism highly overrepresented (Results, p4)"
+    },
+    {
+      "surface_form": "starch and sucrose catabolism",
+      "kegg_pathway_id": "ko00500",
+      "prominence": "peripheral",
+      "evidence": "the starch and sucrose catabolism category revealed that two \u03b1-amylase glycoside hydrolase enzymes, sucrose phosphorylase and amylosucrase, were transcribed more at 800 ppm (Results, p3)"
+    },
+    {
+      "surface_form": "methylcitrate cycle",
+      "kegg_pathway_id": "",
+      "prominence": "peripheral",
+      "evidence": "genes encoding enzymes in the methylcitrate cycle and glycine betaine synthesis from choline, which were downregulated (Results, p4)"
+    },
+    {
+      "surface_form": "glycine betaine synthesis from choline",
+      "kegg_pathway_id": "",
+      "prominence": "peripheral",
+      "evidence": "genes encoding enzymes in the methylcitrate cycle and glycine betaine synthesis from choline, which were downregulated (Results, p4)"
+    }
+  ]
+}

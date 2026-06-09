@@ -1,0 +1,447 @@
+{
+  "metadata": {
+    "paper": "Moreno 2023",
+    "doi": null,
+    "strains": [
+      "Prochlorococcus MED4",
+      "Prochlorococcus marinus subsp. marinus CCMP1375 (SS120)",
+      "Synechococcus WH7803",
+      "Synechococcus WH8102",
+      "Synechococcus sp. BL107",
+      "Marinobacter (MarRef v6)",
+      "Alteromonas (MarRef v6)"
+    ],
+    "model": "gpt-4.1",
+    "n_chunks": 2,
+    "chunk_pages": 15,
+    "self_assessment": "high",
+    "uncaptured_identifiers": "some",
+    "uncaptured_identifiers_note": "Table 1 and figures may contain additional locus tags or protein IDs not listed in the narrative.; Supplementary files may contain locus tags or additional gene IDs not mentioned in the main text.",
+    "extracted_at": "2026-06-04T15:57:39.135321",
+    "input_tokens": 32405,
+    "output_tokens": 5626
+  },
+  "genes": [
+    {
+      "surface_form": "glcH",
+      "gene_name": "glcH",
+      "identifiers": [],
+      "strain": "all",
+      "prominence": "central",
+      "evidence": "glucose addition induced changes in the expression of some genes related to glucose utilization, including glcH (9) (Introduction, p2)"
+    },
+    {
+      "surface_form": "glucokinase",
+      "gene_name": "glk",
+      "identifiers": [],
+      "strain": "Prochlorococcus marinus subsp. marinus CCMP1375 (SS120)",
+      "prominence": "central",
+      "evidence": "we observed a strong increase for glucokinase in SS120, with a 5.35-fold increase under darkness (Results, p8)"
+    },
+    {
+      "surface_form": "glucokinase",
+      "gene_name": "glk",
+      "identifiers": [],
+      "strain": "Synechococcus WH8102",
+      "prominence": "peripheral",
+      "evidence": "glucokinase showed no significant changes after glucose addition (Results, p8)"
+    },
+    {
+      "surface_form": "glucose-6-phosphate isomerase",
+      "gene_name": "pgi",
+      "identifiers": [],
+      "strain": "Synechococcus WH8102",
+      "prominence": "central",
+      "evidence": "G6P isomerase also showed an increase after glucose addition in WH8102 (1.67-fold in the light and 1.40-fold in the dark after 5 mM glucose addition) (Results, p8)"
+    },
+    {
+      "surface_form": "fructose-1,6-bisphosphate aldolase",
+      "gene_name": "fba",
+      "identifiers": [],
+      "strain": "Synechococcus WH8102",
+      "prominence": "central",
+      "evidence": "we also observed a 2-fold increase in fructose-1,6-bisphosphate aldolase ... in Synechococcus WH8102 (Results, p8)"
+    },
+    {
+      "surface_form": "fructose-1,6-bisphosphatase",
+      "gene_name": "fbp",
+      "identifiers": [],
+      "strain": "Synechococcus WH8102",
+      "prominence": "central",
+      "evidence": "we also observed a 2-fold increase in ... fructose-1,6-bisphosphatase in Synechococcus WH8102 (Results, p8)"
+    },
+    {
+      "surface_form": "glucose-6-phosphate dehydrogenase",
+      "gene_name": "zwf",
+      "identifiers": [],
+      "strain": "Synechococcus WH8102",
+      "prominence": "central",
+      "evidence": "G6PDH showed the maximum fold change (4.92 times) when glucose in millimolar concentrations was added to cultures growing under darkness (Results, p7)"
+    },
+    {
+      "surface_form": "OpcA protein",
+      "gene_name": "",
+      "identifiers": [],
+      "strain": "Synechococcus WH8102",
+      "prominence": "central",
+      "evidence": "OpcA increased 2.47-fold when glucose was added in millimolar concentrations to cultures growing under standard light conditions (Results, p7)"
+    },
+    {
+      "surface_form": "2-keto-3-deoxyphosphogluconate aldolase",
+      "gene_name": "eda",
+      "identifiers": [
+        "Q7VDW4"
+      ],
+      "strain": "Prochlorococcus marinus subsp. marinus CCMP1375 (SS120)",
+      "prominence": "central",
+      "evidence": "we could only detect 2-keto-3-deoxyphosphogluconate aldolase ... in Prochlorococcus strain SS120 (Q7VDW4), and surprisingly, it decreased 0.025-fold upon glucose addition (Results, p7)"
+    },
+    {
+      "surface_form": "ribose-5-phosphate isomerase",
+      "gene_name": "rpi",
+      "identifiers": [],
+      "strain": "Synechococcus WH8102",
+      "prominence": "central",
+      "evidence": "ribose-5-phosphate isomerase (increases of 1.50-fold in WH7803 and 1.67-fold in WH8102) (Results, p7)"
+    },
+    {
+      "surface_form": "ribose-5-phosphate epimerase",
+      "gene_name": "rpe",
+      "identifiers": [],
+      "strain": "Synechococcus WH8102",
+      "prominence": "central",
+      "evidence": "ribose-5-phosphate epimerase (increases of 1.32-fold in WH7803 and 1.59-fold in WH8102) (Results, p7)"
+    },
+    {
+      "surface_form": "transaldolase",
+      "gene_name": "tal",
+      "identifiers": [],
+      "strain": "Synechococcus WH8102",
+      "prominence": "central",
+      "evidence": "transaldolase (about 2-fold increase in all three strains) (Results, p7)"
+    },
+    {
+      "surface_form": "transketolase",
+      "gene_name": "cbbT/tkt",
+      "identifiers": [],
+      "strain": "Synechococcus WH8102",
+      "prominence": "central",
+      "evidence": "transketolase (1.91-fold in WH8102 and 2.53-fold in BL107) (Results, p7)"
+    },
+    {
+      "surface_form": "glyceraldehyde-3-phosphate dehydrogenase gap2",
+      "gene_name": "gap2",
+      "identifiers": [],
+      "strain": "Prochlorococcus marinus subsp. marinus CCMP1375 (SS120)",
+      "prominence": "central",
+      "evidence": "glyceraldehyde-3-phosphate dehydrogenase gap2 decreased in abundance (0.47-fold in light and 0.67-fold in darkness) (Results, p9)"
+    },
+    {
+      "surface_form": "glyceraldehyde-3-phosphate dehydrogenase gap3",
+      "gene_name": "gap3",
+      "identifiers": [],
+      "strain": "Prochlorococcus marinus subsp. marinus CCMP1375 (SS120)",
+      "prominence": "central",
+      "evidence": "glyceraldehyde-3-phosphate dehydrogenase gap3 showed a strong increase upon glucose addition (10.16-fold in light and 7.16-fold in darkness) (Results, p9)"
+    },
+    {
+      "surface_form": "phosphoglycerate mutase",
+      "gene_name": "gpm",
+      "identifiers": [],
+      "strain": "Prochlorococcus marinus subsp. marinus CCMP1375 (SS120)",
+      "prominence": "central",
+      "evidence": "phosphoglycerate mutase ... increased in both Prochlorococcus and Synechococcus strains (Results, p9)"
+    },
+    {
+      "surface_form": "enolase",
+      "gene_name": "eno",
+      "identifiers": [],
+      "strain": "Prochlorococcus marinus subsp. marinus CCMP1375 (SS120)",
+      "prominence": "central",
+      "evidence": "enolase ... increased in both Prochlorococcus and Synechococcus strains (Results, p9)"
+    },
+    {
+      "surface_form": "pyruvate dehydrogenase a subunit",
+      "gene_name": "pdhA",
+      "identifiers": [],
+      "strain": "Synechococcus WH8102",
+      "prominence": "central",
+      "evidence": "the a and b subunits of pyruvate dehydrogenase increased in both Prochlorococcus and Synechococcus strains (Results, p9)"
+    },
+    {
+      "surface_form": "pyruvate dehydrogenase b subunit",
+      "gene_name": "pdhB",
+      "identifiers": [],
+      "strain": "Synechococcus WH8102",
+      "prominence": "central",
+      "evidence": "the a and b subunits of pyruvate dehydrogenase increased in both Prochlorococcus and Synechococcus strains (Results, p9)"
+    },
+    {
+      "surface_form": "alpha-1,4-glucan phosphorylase",
+      "gene_name": "glgP",
+      "identifiers": [],
+      "strain": "Synechococcus WH8102",
+      "prominence": "central",
+      "evidence": "the enzyme alpha-1,4-glucan phosphorylase increased in abundance in the presence of 5 mM glucose in both Prochlorococcus SS120 (2.37-fold) and Synechococcus WH8102 (4.82-fold) (Results, p8)"
+    },
+    {
+      "surface_form": "glycogen synthase",
+      "gene_name": "glgA",
+      "identifiers": [],
+      "strain": "Prochlorococcus marinus subsp. marinus CCMP1375 (SS120)",
+      "prominence": "central",
+      "evidence": "glycogen synthase and the branching enzyme increased in abundance about 2-fold (Results, p8)"
+    },
+    {
+      "surface_form": "glycogen branching enzyme",
+      "gene_name": "glgB",
+      "identifiers": [],
+      "strain": "Prochlorococcus marinus subsp. marinus CCMP1375 (SS120)",
+      "prominence": "central",
+      "evidence": "glycogen synthase and the branching enzyme increased in abundance about 2-fold (Results, p8)"
+    },
+    {
+      "surface_form": "phosphoribulokinase",
+      "gene_name": "prk",
+      "identifiers": [],
+      "strain": "Prochlorococcus marinus subsp. marinus CCMP1375 (SS120)",
+      "prominence": "central",
+      "evidence": "increase in the abundance of phosphoribulokinase and the small and large subunits from RubisCO (Results, p9)"
+    },
+    {
+      "surface_form": "RubisCO large subunit",
+      "gene_name": "",
+      "identifiers": [],
+      "strain": "Prochlorococcus marinus subsp. marinus CCMP1375 (SS120)",
+      "prominence": "central",
+      "evidence": "increase in the abundance of phosphoribulokinase and the small and large subunits from RubisCO (Results, p9)"
+    },
+    {
+      "surface_form": "RubisCO small subunit",
+      "gene_name": "",
+      "identifiers": [],
+      "strain": "Prochlorococcus marinus subsp. marinus CCMP1375 (SS120)",
+      "prominence": "central",
+      "evidence": "increase in the abundance of phosphoribulokinase and the small and large subunits from RubisCO (Results, p9)"
+    },
+    {
+      "surface_form": "RubisCO operon transcriptional regulator",
+      "gene_name": "",
+      "identifiers": [],
+      "strain": "Prochlorococcus marinus subsp. marinus CCMP1375 (SS120)",
+      "prominence": "central",
+      "evidence": "RubisCO operon transcriptional regulator increased in abundance 6 times when glucose was present under light conditions for strain SS120 (Results, p9)"
+    },
+    {
+      "surface_form": "citrate synthase",
+      "gene_name": "gltA",
+      "identifiers": [
+        "Q7VE29",
+        "Q7U401"
+      ],
+      "strain": "Prochlorococcus marinus subsp. marinus CCMP1375 (SS120)",
+      "prominence": "central",
+      "evidence": "citrate synthase in both strain SS120 (Q7VE29; 2.61-fold) and strain WH8102 (Q7U401; 1.49-fold) grown under light conditions (Results, p9)"
+    },
+    {
+      "surface_form": "malate:quinone oxidoreductase",
+      "gene_name": "",
+      "identifiers": [
+        "Q7VDF8",
+        "Q7U5L7"
+      ],
+      "strain": "Prochlorococcus marinus subsp. marinus CCMP1375 (SS120)",
+      "prominence": "central",
+      "evidence": "malate:quinone oxidoreductase ... strong increase in both SS120 (Q7VDF8; 49.1-fold under light and 29.3-fold under darkness conditions) and WH8102 (Q7U5L7; 19.68-fold under light conditions) (Results, p9)"
+    },
+    {
+      "surface_form": "phosphoenolpyruvate carboxylase",
+      "gene_name": "ppc",
+      "identifiers": [
+        "Q7U4M0"
+      ],
+      "strain": "Synechococcus WH8102",
+      "prominence": "central",
+      "evidence": "phosphoenolpyruvate carboxylase showed an increase that was particularly strong in strain WH8102 ... (Q7U4M0; 27.55-fold increase when grown under dark conditions) (Results, p10)"
+    },
+    {
+      "surface_form": "sugar fermentation stimulation protein",
+      "gene_name": "",
+      "identifiers": [
+        "Q7VDS4",
+        "Q7U9K2"
+      ],
+      "strain": "Prochlorococcus marinus subsp. marinus CCMP1375 (SS120)",
+      "prominence": "central",
+      "evidence": "abundances of the sugar fermentation stimulation proteins were elevated under darkness in both Prochlorococcus SS120 (Q7VDS4; 1.72-fold) and Synechococcus WH8102 (Q7U9K2; 2-fold) (Results, p10)"
+    },
+    {
+      "surface_form": "L-lactate dehydrogenase",
+      "gene_name": "",
+      "identifiers": [],
+      "strain": "unspecified",
+      "prominence": "central",
+      "evidence": "L-lactate dehydrogenase was about 9 times more abundant when glucose 5 mM was added under light conditions (Results, p10)"
+    },
+    {
+      "surface_form": "KaiB",
+      "gene_name": "kaiB",
+      "identifiers": [],
+      "strain": "Synechococcus WH8102",
+      "prominence": "central",
+      "evidence": "We found increases in the circadian proteins KaiB and KaiC (roughly 3-fold for both) in Synechococcus sp. strain WH8102 (Results, p10)"
+    },
+    {
+      "surface_form": "KaiC",
+      "gene_name": "kaiC",
+      "identifiers": [],
+      "strain": "Synechococcus WH8102",
+      "prominence": "central",
+      "evidence": "We found increases in the circadian proteins KaiB and KaiC (roughly 3-fold for both) in Synechococcus sp. strain WH8102 (Results, p10)"
+    },
+    {
+      "surface_form": "signal recognition particle protein",
+      "gene_name": "",
+      "identifiers": [
+        "Q7VAU4"
+      ],
+      "strain": "Prochlorococcus marinus subsp. marinus CCMP1375 (SS120)",
+      "prominence": "peripheral",
+      "evidence": "signal recognition particle protein Q7VAU4 ... showed an increased concentration with the high glucose concentration (Results, p10)"
+    },
+    {
+      "surface_form": "phosphate-binding protein PstS",
+      "gene_name": "pstS",
+      "identifiers": [],
+      "strain": "Prochlorococcus marinus subsp. marinus CCMP1375 (SS120)",
+      "prominence": "peripheral",
+      "evidence": "phosphate-binding protein PstS ... showed a strong increase in abundance (almost 15-fold in the SS120) under darkness (Results, p11)"
+    },
+    {
+      "surface_form": "phosphate import ATP-binding protein PstB",
+      "gene_name": "pstB",
+      "identifiers": [],
+      "strain": "Prochlorococcus marinus subsp. marinus CCMP1375 (SS120)",
+      "prominence": "peripheral",
+      "evidence": "PstB, a phosphate import ATP-binding protein, also increased in abundance (9-fold in SS120) (Results, p11)"
+    },
+    {
+      "surface_form": "phosphate starvation-inducible protein PhoH",
+      "gene_name": "phoH",
+      "identifiers": [],
+      "strain": "Prochlorococcus marinus subsp. marinus CCMP1375 (SS120)",
+      "prominence": "peripheral",
+      "evidence": "phosphate starvation-inducible protein PhoH, suggesting that the transport of phosphate is stimulated in the presence of glucose (Results, p11)"
+    },
+    {
+      "surface_form": "glucose transporter (GlcH)",
+      "gene_name": "glcH",
+      "identifiers": [],
+      "strain": "Prochlorococcus MED4",
+      "prominence": "central",
+      "evidence": "Glucose uptake was discovered in Prochlorococcus (9), where the glucose transporter (GlcH) was identified. (Introduction, p16)"
+    },
+    {
+      "surface_form": "lactate dehydrogenase",
+      "gene_name": "",
+      "identifiers": [],
+      "strain": "Prochlorococcus marinus subsp. marinus CCMP1375 (SS120)",
+      "prominence": "central",
+      "evidence": "the upregulation observed for lactate dehydrogenase in Prochlorococcus SS120. (Results, p17)"
+    },
+    {
+      "surface_form": "psbA",
+      "gene_name": "psbA",
+      "identifiers": [],
+      "strain": "Prochlorococcus MED4",
+      "prominence": "peripheral",
+      "evidence": "addition of glucose to Prochlorococcus sp. strains SS120 and MED4 subjected to continuous darkness provoked a decrease in psbA transcript levels (the gene encoding the D1 protein of photosystem II) (27). (Results, p18)"
+    },
+    {
+      "surface_form": "KaiB and KaiC",
+      "gene_name": "",
+      "identifiers": [],
+      "strain": "all",
+      "prominence": "peripheral",
+      "evidence": "The observed changes in the circadian proteins KaiB and KaiC were especially interesting, since these proteins constitute the core of the circadian clock in cyanobacteria (45). (Results, p19)"
+    },
+    {
+      "surface_form": "kai genes",
+      "gene_name": "kai",
+      "identifiers": [],
+      "strain": "all",
+      "prominence": "peripheral",
+      "evidence": "glucose addition increases the expression of kai genes and it might induce a delay in the circadian rhythms. (Results, p19)"
+    },
+    {
+      "surface_form": "PstS",
+      "gene_name": "pstS",
+      "identifiers": [],
+      "strain": "all",
+      "prominence": "peripheral",
+      "evidence": "we were very surprised to see the strong increase in the concentration of PstS in all strains but BL107. (Results, p19)"
+    }
+  ],
+  "pathways": [
+    {
+      "surface_form": "oxidative pentose phosphate pathway",
+      "kegg_pathway_id": "map00030",
+      "prominence": "central",
+      "evidence": "glucose is metabolized by these cyanobacteria, using primarily the oxidative pentoses and Calvin pathways (Abstract, p1)"
+    },
+    {
+      "surface_form": "Calvin cycle",
+      "kegg_pathway_id": "map00710",
+      "prominence": "central",
+      "evidence": "glucose is metabolized by these cyanobacteria, using primarily the oxidative pentoses and Calvin pathways (Abstract, p1)"
+    },
+    {
+      "surface_form": "Entner-Doudoroff pathway",
+      "kegg_pathway_id": "map00053",
+      "prominence": "central",
+      "evidence": "no proof was found for the involvement of the Entner-Doudoroff pathway in this process (Abstract, p1)"
+    },
+    {
+      "surface_form": "glycolysis",
+      "kegg_pathway_id": "map00010",
+      "prominence": "central",
+      "evidence": "Prochlorococcus and marine Synechococcus strains possess genes encoding the enzymes required to assimilate glucose by using the pentoses phosphate pathway, but not by the glycolysis pathway (Results, p6)"
+    },
+    {
+      "surface_form": "Krebs cycle",
+      "kegg_pathway_id": "map00020",
+      "prominence": "central",
+      "evidence": "Some enzymes from the Krebs cycle also showed significant increases (Results, p9)"
+    },
+    {
+      "surface_form": "glycogen metabolism",
+      "kegg_pathway_id": "",
+      "prominence": "central",
+      "evidence": "With respect to glycogen metabolism, we observed that the enzyme alpha-1,4-glucan phosphorylase increased in abundance (Results, p8)"
+    },
+    {
+      "surface_form": "fermentation",
+      "kegg_pathway_id": "map00620",
+      "prominence": "central",
+      "evidence": "We found evidence for fermentation in Prochlorococcus sp. strain SS120 and Synechococcus sp. strain WH8102 after 5 mM glucose addition (Abstract, p1)"
+    },
+    {
+      "surface_form": "photosynthesis",
+      "kegg_pathway_id": "map00195",
+      "prominence": "peripheral",
+      "evidence": "Photosynthesis was one of the pathways affected by the availability of glucose in all analyzed strains (Results, p10)"
+    },
+    {
+      "surface_form": "circadian rhythm",
+      "kegg_pathway_id": "map04710",
+      "prominence": "central",
+      "evidence": "KaiB and KaiC proteins were also affected in Synechococcus sp. WH8102, pointing to a direct link between glucose assimilation and circadian rhythms (Abstract, p1)"
+    },
+    {
+      "surface_form": "lactic acid fermentation",
+      "kegg_pathway_id": "",
+      "prominence": "peripheral",
+      "evidence": "the presence of lactate dehydrogenase in Prochlorococcus sp. strain SS120 allows regeneration of NADH, and thus the continuous transformation of glucose into pyruvate. (Results, p17)"
+    }
+  ]
+}

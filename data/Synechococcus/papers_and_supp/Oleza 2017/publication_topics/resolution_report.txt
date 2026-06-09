@@ -1,0 +1,28 @@
+Topics resolution report: Christie-Oleza 2017
+Strains: ['Synechococcus WH7803', 'Ruegeria pomeroyi DSS-3']
+
+Genes:    11/17 resolved (64.7%)
+  methods: multi:v=10, tier1:v=1, unresolved=6
+Pathways: 4/9 resolved (44.4%)
+  methods: id=4, unresolved=5
+
+Captured identifiers: 9  (truncated/bare-number: 0)
+Unresolved gene reasons: {'lookup_miss': 2, 'descriptive_only': 4}
+    descriptive_only = function/enzyme phrase, no symbol or id (paper style)
+    truncated_id_only = bare locus number, recoverable via strain prefix
+    lookup_miss       = had a name/full id but no mapping match
+
+Unresolved gene mentions (6):
+  - gltB  [lookup_miss]  strain=Synechococcus WH7803
+  - gdhA  [lookup_miss]  strain=Synechococcus WH7803
+  - Alkaline phosphatases (PhoD, PhoX)  [descriptive_only]  strain=Ruegeria pomeroyi DSS-3
+  - Phosphate ABC transporter  [descriptive_only]  strain=Ruegeria pomeroyi DSS-3
+  - Phosphonate transport and metabolism  [descriptive_only]  strain=Ruegeria pomeroyi DSS-3
+  - Periplasmic binding protein component of an ABC transport system for phosphate  [descriptive_only]  strain=Synechococcus WH7803
+
+Unresolved pathway mentions (5):
+  - Biosynthetic pathways of tetrapyrrole ring systems  (raw id=—)
+  - Amino acid transport  (raw id=—)
+  - Iron transport  (raw id=—)
+  - Vitamin/cofactor biosynthesis  (raw id=—)
+  - Phosphonate transport and metabolism  (raw id=—)

@@ -1,0 +1,772 @@
+{
+  "metadata": {
+    "paper": "Tai 2009",
+    "doi": null,
+    "strains": [
+      "Synechococcus WH8102",
+      "Vibrio parahaemolyticus"
+    ],
+    "model": "gpt-4.1",
+    "self_assessment": "high",
+    "assessment_notes": "All genes and pathways are directly named in the main text or tables. Strain attribution is clear from locus tags.",
+    "uncaptured_identifiers": "many",
+    "uncaptured_identifiers_note": "Supplementary Tables S1 and S2 list many additional gene locus tags not discussed in the main text.",
+    "extracted_at": "2026-06-04T10:23:27.810595",
+    "input_tokens": 18344,
+    "output_tokens": 4653,
+    "resolution": {
+      "gene_records": 47,
+      "genes_resolved": 47,
+      "gene_methods": {
+        "locus_tag:v": 45,
+        "tier1:v": 2
+      },
+      "pathway_records": 8,
+      "pathways_resolved": 2,
+      "pathway_methods": {
+        "unresolved": 6,
+        "id": 2
+      },
+      "paper_strains": [
+        "Synechococcus WH8102",
+        "Vibrio parahaemolyticus"
+      ],
+      "captured_identifiers": 46,
+      "truncated_identifiers": 0,
+      "truncated_examples": [],
+      "unresolved_reasons": {}
+    }
+  },
+  "genes": [
+    {
+      "surface_form": "SYNW1018",
+      "gene_name": "",
+      "identifiers": [
+        "SYNW1018"
+      ],
+      "prominence": "central",
+      "evidence": "The phosphate binding protein of an ABC phosphate transporter homologous to PstS (SYNW1018) ... among the most significantly upregulated genes (Table 2). (p3-4, Results)",
+      "mention_strain": "Synechococcus WH8102",
+      "strain": "Synechococcus WH8102",
+      "locus_tag": "SYNW1018",
+      "resolved_from": "SYNW1018",
+      "resolution_method": "locus_tag:v"
+    },
+    {
+      "surface_form": "SYNW1019",
+      "gene_name": "",
+      "identifiers": [
+        "SYNW1019"
+      ],
+      "prominence": "central",
+      "evidence": "a phosphate transcriptional regulator (SYNW1019) were among the most significantly upregulated genes (Table 2). (p4, Results)",
+      "mention_strain": "Synechococcus WH8102",
+      "strain": "Synechococcus WH8102",
+      "locus_tag": "SYNW1019",
+      "resolved_from": "SYNW1019",
+      "resolution_method": "locus_tag:v"
+    },
+    {
+      "surface_form": "SYNW2390",
+      "gene_name": "",
+      "identifiers": [
+        "SYNW2390"
+      ],
+      "prominence": "central",
+      "evidence": "SYNW2390 Putative alkaline phosphatase/5\u2032nucleotidase (Table 2, p4)",
+      "mention_strain": "Synechococcus WH8102",
+      "strain": "Synechococcus WH8102",
+      "locus_tag": "SYNW2390",
+      "resolved_from": "SYNW2390",
+      "resolution_method": "locus_tag:v"
+    },
+    {
+      "surface_form": "SYNW0196",
+      "gene_name": "",
+      "identifiers": [
+        "SYNW0196"
+      ],
+      "prominence": "central",
+      "evidence": "SYNW0196 Putative alkaline phosphatase (Table 2, p4)",
+      "mention_strain": "Synechococcus WH8102",
+      "strain": "Synechococcus WH8102",
+      "locus_tag": "SYNW0196",
+      "resolved_from": "SYNW0196",
+      "resolution_method": "locus_tag:v"
+    },
+    {
+      "surface_form": "SYNW2391",
+      "gene_name": "",
+      "identifiers": [
+        "SYNW2391"
+      ],
+      "prominence": "peripheral",
+      "evidence": "SYNW2391 Putative alkaline phosphatase (Table 2, p4)",
+      "mention_strain": "Synechococcus WH8102",
+      "strain": "Synechococcus WH8102",
+      "locus_tag": "SYNW2391",
+      "resolved_from": "SYNW2391",
+      "resolution_method": "locus_tag:v"
+    },
+    {
+      "surface_form": "SYNW0762",
+      "gene_name": "",
+      "identifiers": [
+        "SYNW0762"
+      ],
+      "prominence": "peripheral",
+      "evidence": "SYNW0762 Conserved hypothetical, possible phytase (Table 2, p4)",
+      "mention_strain": "Synechococcus WH8102",
+      "strain": "Synechococcus WH8102",
+      "locus_tag": "SYNW0762",
+      "resolved_from": "SYNW0762",
+      "resolution_method": "locus_tag:v"
+    },
+    {
+      "surface_form": "SYNW1271",
+      "gene_name": "",
+      "identifiers": [
+        "SYNW1271"
+      ],
+      "prominence": "peripheral",
+      "evidence": "SYNW1271 Putative phosphate ABC transporter (Table 2, p4)",
+      "mention_strain": "Synechococcus WH8102",
+      "strain": "Synechococcus WH8102",
+      "locus_tag": "SYNW1271",
+      "resolved_from": "SYNW1271",
+      "resolution_method": "locus_tag:v"
+    },
+    {
+      "surface_form": "SYNW1286",
+      "gene_name": "",
+      "identifiers": [
+        "SYNW1286"
+      ],
+      "prominence": "peripheral",
+      "evidence": "SYNW1286 ABC transporter substrate binding protein component, possibly phosphate (Table 2, p4)",
+      "mention_strain": "Synechococcus WH8102",
+      "strain": "Synechococcus WH8102",
+      "locus_tag": "SYNW1286",
+      "resolved_from": "SYNW1286",
+      "resolution_method": "locus_tag:v"
+    },
+    {
+      "surface_form": "SYNW1815",
+      "gene_name": "",
+      "identifiers": [
+        "SYNW1815"
+      ],
+      "prominence": "peripheral",
+      "evidence": "SYNW1815 ABC transporter substrate binding protein phosphate (Table 2, p4)",
+      "mention_strain": "Synechococcus WH8102",
+      "strain": "Synechococcus WH8102",
+      "locus_tag": "SYNW1815",
+      "resolved_from": "SYNW1815",
+      "resolution_method": "locus_tag:v"
+    },
+    {
+      "surface_form": "SYNW1270",
+      "gene_name": "",
+      "identifiers": [
+        "SYNW1270"
+      ],
+      "prominence": "peripheral",
+      "evidence": "SYNW1270 Putative phosphate ABC transporter (Table 2, p4)",
+      "mention_strain": "Synechococcus WH8102",
+      "strain": "Synechococcus WH8102",
+      "locus_tag": "SYNW1270",
+      "resolved_from": "SYNW1270",
+      "resolution_method": "locus_tag:v"
+    },
+    {
+      "surface_form": "SYNW1946",
+      "gene_name": "",
+      "identifiers": [
+        "SYNW1946"
+      ],
+      "prominence": "peripheral",
+      "evidence": "SYNW1946 PhoH family protein (Table 2, p4)",
+      "mention_strain": "Synechococcus WH8102",
+      "strain": "Synechococcus WH8102",
+      "locus_tag": "SYNW1946",
+      "resolved_from": "SYNW1946",
+      "resolution_method": "locus_tag:v"
+    },
+    {
+      "surface_form": "SYNW2480",
+      "gene_name": "",
+      "identifiers": [
+        "SYNW2480"
+      ],
+      "prominence": "central",
+      "evidence": "SYNW2480 ABC transporter ATP binding component possibly zinc transport (Table 3, p4)",
+      "mention_strain": "Synechococcus WH8102",
+      "strain": "Synechococcus WH8102",
+      "locus_tag": "SYNW2480",
+      "resolved_from": "SYNW2480",
+      "resolution_method": "locus_tag:v"
+    },
+    {
+      "surface_form": "SYNW2409",
+      "gene_name": "",
+      "identifiers": [
+        "SYNW2409"
+      ],
+      "prominence": "peripheral",
+      "evidence": "SYNW2409 Putative haemolysin-type calcium-binding protein; similar to HlyA (Table 3, p4)",
+      "mention_strain": "Synechococcus WH8102",
+      "strain": "Synechococcus WH8102",
+      "locus_tag": "SYNW2409",
+      "resolved_from": "SYNW2409",
+      "resolution_method": "locus_tag:v"
+    },
+    {
+      "surface_form": "SYNW2304",
+      "gene_name": "",
+      "identifiers": [
+        "SYNW2304"
+      ],
+      "prominence": "peripheral",
+      "evidence": "SYNW2304 Possible secreted protease (Table 3, p4)",
+      "mention_strain": "Synechococcus WH8102",
+      "strain": "Synechococcus WH8102",
+      "locus_tag": "SYNW2304",
+      "resolved_from": "SYNW2304",
+      "resolution_method": "locus_tag:v"
+    },
+    {
+      "surface_form": "SYNW1139",
+      "gene_name": "",
+      "identifiers": [
+        "SYNW1139"
+      ],
+      "prominence": "peripheral",
+      "evidence": "SYNW1139 Hypothetical (Table 3, p4)",
+      "mention_strain": "Synechococcus WH8102",
+      "strain": "Synechococcus WH8102",
+      "locus_tag": "SYNW1139",
+      "resolved_from": "SYNW1139",
+      "resolution_method": "locus_tag:v"
+    },
+    {
+      "surface_form": "SYNW0512",
+      "gene_name": "",
+      "identifiers": [
+        "SYNW0512"
+      ],
+      "prominence": "peripheral",
+      "evidence": "SYNW0512 ATP synthase beta subunit (Table 3, p4)",
+      "mention_strain": "Synechococcus WH8102",
+      "strain": "Synechococcus WH8102",
+      "locus_tag": "SYNW0512",
+      "resolved_from": "SYNW0512",
+      "resolution_method": "locus_tag:v"
+    },
+    {
+      "surface_form": "SYNW2176",
+      "gene_name": "",
+      "identifiers": [
+        "SYNW2176"
+      ],
+      "prominence": "peripheral",
+      "evidence": "Of the downregulated proteases, one was probably secretory (SYNW2176) (p6, Results)",
+      "mention_strain": "Synechococcus WH8102",
+      "strain": "Synechococcus WH8102",
+      "locus_tag": "SYNW2176",
+      "resolved_from": "SYNW2176",
+      "resolution_method": "locus_tag:v"
+    },
+    {
+      "surface_form": "SYNW1476",
+      "gene_name": "",
+      "identifiers": [
+        "SYNW1476"
+      ],
+      "prominence": "peripheral",
+      "evidence": "three others were membrane-bound (SYNW1476, SYNW1884 and SYNW1909) (p6, Results)",
+      "mention_strain": "Synechococcus WH8102",
+      "strain": "Synechococcus WH8102",
+      "locus_tag": "SYNW1476",
+      "resolved_from": "SYNW1476",
+      "resolution_method": "locus_tag:v"
+    },
+    {
+      "surface_form": "SYNW1884",
+      "gene_name": "",
+      "identifiers": [
+        "SYNW1884"
+      ],
+      "prominence": "peripheral",
+      "evidence": "three others were membrane-bound (SYNW1476, SYNW1884 and SYNW1909) (p6, Results)",
+      "mention_strain": "Synechococcus WH8102",
+      "strain": "Synechococcus WH8102",
+      "locus_tag": "SYNW1884",
+      "resolved_from": "SYNW1884",
+      "resolution_method": "locus_tag:v"
+    },
+    {
+      "surface_form": "SYNW1909",
+      "gene_name": "",
+      "identifiers": [
+        "SYNW1909"
+      ],
+      "prominence": "peripheral",
+      "evidence": "three others were membrane-bound (SYNW1476, SYNW1884 and SYNW1909) (p6, Results)",
+      "mention_strain": "Synechococcus WH8102",
+      "strain": "Synechococcus WH8102",
+      "locus_tag": "SYNW1909",
+      "resolved_from": "SYNW1909",
+      "resolution_method": "locus_tag:v"
+    },
+    {
+      "surface_form": "SYNW2401",
+      "gene_name": "",
+      "identifiers": [
+        "SYNW2401"
+      ],
+      "prominence": "central",
+      "evidence": "The expression of these genes may be regulated by a ferric uptake regulation (Fur) family gene (SYNW2401). This gene decreased in expression (Table 4, p6-7)",
+      "mention_strain": "Synechococcus WH8102",
+      "strain": "Synechococcus WH8102",
+      "locus_tag": "SYNW2401",
+      "resolved_from": "SYNW2401",
+      "resolution_method": "locus_tag:v"
+    },
+    {
+      "surface_form": "SYNW2463",
+      "gene_name": "",
+      "identifiers": [
+        "SYNW2463"
+      ],
+      "prominence": "peripheral",
+      "evidence": "shared decreased expression of a nitrate transporter (SYNW2463) (p8, Results)",
+      "mention_strain": "Synechococcus WH8102",
+      "strain": "Synechococcus WH8102",
+      "locus_tag": "SYNW2463",
+      "resolved_from": "SYNW2463",
+      "resolution_method": "locus_tag:v"
+    },
+    {
+      "surface_form": "SYNW2447",
+      "gene_name": "",
+      "identifiers": [
+        "SYNW2447"
+      ],
+      "prominence": "peripheral",
+      "evidence": "and urease genes (SYNW2447 and SYNW2449) (p8, Results)",
+      "mention_strain": "Synechococcus WH8102",
+      "strain": "Synechococcus WH8102",
+      "locus_tag": "SYNW2447",
+      "resolved_from": "SYNW2447",
+      "resolution_method": "locus_tag:v"
+    },
+    {
+      "surface_form": "SYNW2449",
+      "gene_name": "",
+      "identifiers": [
+        "SYNW2449"
+      ],
+      "prominence": "peripheral",
+      "evidence": "and urease genes (SYNW2447 and SYNW2449) (p8, Results)",
+      "mention_strain": "Synechococcus WH8102",
+      "strain": "Synechococcus WH8102",
+      "locus_tag": "SYNW2449",
+      "resolved_from": "SYNW2449",
+      "resolution_method": "locus_tag:v"
+    },
+    {
+      "surface_form": "NtcA",
+      "gene_name": "ntcA",
+      "identifiers": [],
+      "prominence": "peripheral",
+      "evidence": "the global nitrogen regulatory protein, NtcA, did not change in expression level in WH8102 when grown with V. parahaemolyticus (p8, Results)",
+      "mention_strain": "Synechococcus WH8102",
+      "strain": "Synechococcus WH8102",
+      "locus_tag": "SYNW0275",
+      "resolved_from": "ntcA",
+      "resolution_method": "tier1:v"
+    },
+    {
+      "surface_form": "SYNW0303",
+      "gene_name": "",
+      "identifiers": [
+        "SYNW0303"
+      ],
+      "prominence": "peripheral",
+      "evidence": "SYNW0303 Photosystem II manganese-stabilizing polypeptide (Table 4, p7)",
+      "mention_strain": "Synechococcus WH8102",
+      "strain": "Synechococcus WH8102",
+      "locus_tag": "SYNW0303",
+      "resolved_from": "SYNW0303",
+      "resolution_method": "locus_tag:v"
+    },
+    {
+      "surface_form": "SYNW0927",
+      "gene_name": "",
+      "identifiers": [
+        "SYNW0927"
+      ],
+      "prominence": "peripheral",
+      "evidence": "SYNW0927 Putative photosystem II oxygen-evolving complex PsbP (Table 4, p7)",
+      "mention_strain": "Synechococcus WH8102",
+      "strain": "Synechococcus WH8102",
+      "locus_tag": "SYNW0927",
+      "resolved_from": "SYNW0927",
+      "resolution_method": "locus_tag:v"
+    },
+    {
+      "surface_form": "SYNW2151",
+      "gene_name": "",
+      "identifiers": [
+        "SYNW2151"
+      ],
+      "prominence": "peripheral",
+      "evidence": "SYNW2151 Photosystem II D1 protein form II (Table 4, p7)",
+      "mention_strain": "Synechococcus WH8102",
+      "strain": "Synechococcus WH8102",
+      "locus_tag": "SYNW2151",
+      "resolved_from": "SYNW2151",
+      "resolution_method": "locus_tag:v"
+    },
+    {
+      "surface_form": "SYNW1982",
+      "gene_name": "",
+      "identifiers": [
+        "SYNW1982"
+      ],
+      "prominence": "peripheral",
+      "evidence": "SYNW1982 Photosystem II chlorophyll-binding protein CP47 (Table 4, p7)",
+      "mention_strain": "Synechococcus WH8102",
+      "strain": "Synechococcus WH8102",
+      "locus_tag": "SYNW1982",
+      "resolved_from": "SYNW1982",
+      "resolution_method": "locus_tag:v"
+    },
+    {
+      "surface_form": "SYNW1065",
+      "gene_name": "",
+      "identifiers": [
+        "SYNW1065"
+      ],
+      "prominence": "peripheral",
+      "evidence": "SYNW1065 Putative photosystem II reaction centre Psb28 protein (Table 4, p7)",
+      "mention_strain": "Synechococcus WH8102",
+      "strain": "Synechococcus WH8102",
+      "locus_tag": "SYNW1065",
+      "resolved_from": "SYNW1065",
+      "resolution_method": "locus_tag:v"
+    },
+    {
+      "surface_form": "SYNW1919",
+      "gene_name": "",
+      "identifiers": [
+        "SYNW1919"
+      ],
+      "prominence": "peripheral",
+      "evidence": "SYNW1919 Photosystem II D1 protein form II (Table 4, p7)",
+      "mention_strain": "Synechococcus WH8102",
+      "strain": "Synechococcus WH8102",
+      "locus_tag": "SYNW1919",
+      "resolved_from": "SYNW1919",
+      "resolution_method": "locus_tag:v"
+    },
+    {
+      "surface_form": "SYNW0676",
+      "gene_name": "",
+      "identifiers": [
+        "SYNW0676"
+      ],
+      "prominence": "peripheral",
+      "evidence": "SYNW0676 Photosystem II chlorophyll-binding protein CP43 (Table 4, p7)",
+      "mention_strain": "Synechococcus WH8102",
+      "strain": "Synechococcus WH8102",
+      "locus_tag": "SYNW0676",
+      "resolved_from": "SYNW0676",
+      "resolution_method": "locus_tag:v"
+    },
+    {
+      "surface_form": "SYNW2403",
+      "gene_name": "",
+      "identifiers": [
+        "SYNW2403"
+      ],
+      "prominence": "peripheral",
+      "evidence": "SYNW2403 Putative high light inducible protein (Table 4, p7)",
+      "mention_strain": "Synechococcus WH8102",
+      "strain": "Synechococcus WH8102",
+      "locus_tag": "TX72_RS12145",
+      "resolved_from": "SYNW2403",
+      "resolution_method": "tier1:v"
+    },
+    {
+      "surface_form": "SYNW1097",
+      "gene_name": "",
+      "identifiers": [
+        "SYNW1097"
+      ],
+      "prominence": "peripheral",
+      "evidence": "SYNW1097 Geranylgeranyl hydrogenase (Table 4, p7)",
+      "mention_strain": "Synechococcus WH8102",
+      "strain": "Synechococcus WH8102",
+      "locus_tag": "SYNW1097",
+      "resolved_from": "SYNW1097",
+      "resolution_method": "locus_tag:v"
+    },
+    {
+      "surface_form": "SYNW1967",
+      "gene_name": "",
+      "identifiers": [
+        "SYNW1967"
+      ],
+      "prominence": "peripheral",
+      "evidence": "SYNW1967 Apocytochrome b6 (Table 4, p7)",
+      "mention_strain": "Synechococcus WH8102",
+      "strain": "Synechococcus WH8102",
+      "locus_tag": "SYNW1967",
+      "resolved_from": "SYNW1967",
+      "resolution_method": "locus_tag:v"
+    },
+    {
+      "surface_form": "SYNW1841",
+      "gene_name": "",
+      "identifiers": [
+        "SYNW1841"
+      ],
+      "prominence": "peripheral",
+      "evidence": "SYNW1841 Cytochrome b6/f complex subunit (Rieske iron-sulfur protein) (Table 4, p7)",
+      "mention_strain": "Synechococcus WH8102",
+      "strain": "Synechococcus WH8102",
+      "locus_tag": "SYNW1841",
+      "resolved_from": "SYNW1841",
+      "resolution_method": "locus_tag:v"
+    },
+    {
+      "surface_form": "SYNW1842",
+      "gene_name": "",
+      "identifiers": [
+        "SYNW1842"
+      ],
+      "prominence": "peripheral",
+      "evidence": "SYNW1842 Apocytochrome f (Table 4, p7)",
+      "mention_strain": "Synechococcus WH8102",
+      "strain": "Synechococcus WH8102",
+      "locus_tag": "SYNW1842",
+      "resolved_from": "SYNW1842",
+      "resolution_method": "locus_tag:v"
+    },
+    {
+      "surface_form": "SYNW1966",
+      "gene_name": "",
+      "identifiers": [
+        "SYNW1966"
+      ],
+      "prominence": "peripheral",
+      "evidence": "SYNW1966 Cytochrome b6-f complex subunit 4 (17 kDa polypeptide) (Table 4, p7)",
+      "mention_strain": "Synechococcus WH8102",
+      "strain": "Synechococcus WH8102",
+      "locus_tag": "SYNW1966",
+      "resolved_from": "SYNW1966",
+      "resolution_method": "locus_tag:v"
+    },
+    {
+      "surface_form": "SYNW1277",
+      "gene_name": "",
+      "identifiers": [
+        "SYNW1277"
+      ],
+      "prominence": "peripheral",
+      "evidence": "SYNW1277 Ferredoxin (Table 4, p7)",
+      "mention_strain": "Synechococcus WH8102",
+      "strain": "Synechococcus WH8102",
+      "locus_tag": "SYNW1277",
+      "resolved_from": "SYNW1277",
+      "resolution_method": "locus_tag:v"
+    },
+    {
+      "surface_form": "SYNW0751",
+      "gene_name": "",
+      "identifiers": [
+        "SYNW0751"
+      ],
+      "prominence": "peripheral",
+      "evidence": "SYNW0751 Ferredoxin\u2013NADP reductase (FNR) (Table 4, p7)",
+      "mention_strain": "Synechococcus WH8102",
+      "strain": "Synechococcus WH8102",
+      "locus_tag": "SYNW0751",
+      "resolved_from": "SYNW0751",
+      "resolution_method": "locus_tag:v"
+    },
+    {
+      "surface_form": "SYNW0318",
+      "gene_name": "",
+      "identifiers": [
+        "SYNW0318"
+      ],
+      "prominence": "peripheral",
+      "evidence": "SYNW0318 Ferredoxin thioredoxin reductase catalytic beta chain (Table 4, p7)",
+      "mention_strain": "Synechococcus WH8102",
+      "strain": "Synechococcus WH8102",
+      "locus_tag": "SYNW0318",
+      "resolved_from": "SYNW0318",
+      "resolution_method": "locus_tag:v"
+    },
+    {
+      "surface_form": "SYNW0624",
+      "gene_name": "",
+      "identifiers": [
+        "SYNW0624"
+      ],
+      "prominence": "peripheral",
+      "evidence": "SYNW0624 Possible 3Fe-4S ferredoxin (Table 4, p7)",
+      "mention_strain": "Synechococcus WH8102",
+      "strain": "Synechococcus WH8102",
+      "locus_tag": "SYNW0624",
+      "resolved_from": "SYNW0624",
+      "resolution_method": "locus_tag:v"
+    },
+    {
+      "surface_form": "SYNW0687",
+      "gene_name": "",
+      "identifiers": [
+        "SYNW0687"
+      ],
+      "prominence": "peripheral",
+      "evidence": "SYNW0687 Putative thioredoxin reductase (Table 4, p7)",
+      "mention_strain": "Synechococcus WH8102",
+      "strain": "Synechococcus WH8102",
+      "locus_tag": "SYNW0687",
+      "resolved_from": "SYNW0687",
+      "resolution_method": "locus_tag:v"
+    },
+    {
+      "surface_form": "SYNW0280",
+      "gene_name": "",
+      "identifiers": [
+        "SYNW0280"
+      ],
+      "prominence": "peripheral",
+      "evidence": "SYNW0280 Thioredoxin-like protein TxlA (Table 4, p7)",
+      "mention_strain": "Synechococcus WH8102",
+      "strain": "Synechococcus WH8102",
+      "locus_tag": "SYNW0280",
+      "resolved_from": "SYNW0280",
+      "resolution_method": "locus_tag:v"
+    },
+    {
+      "surface_form": "SYNW0099",
+      "gene_name": "",
+      "identifiers": [
+        "SYNW0099"
+      ],
+      "prominence": "peripheral",
+      "evidence": "SYNW0099 Glutathione peroxidase (Table 4, p7)",
+      "mention_strain": "Synechococcus WH8102",
+      "strain": "Synechococcus WH8102",
+      "locus_tag": "SYNW0099",
+      "resolved_from": "SYNW0099",
+      "resolution_method": "locus_tag:v"
+    },
+    {
+      "surface_form": "SYNW1280",
+      "gene_name": "",
+      "identifiers": [
+        "SYNW1280"
+      ],
+      "prominence": "peripheral",
+      "evidence": "SYNW1280 Alkyl hydroperoxide reductase/Thiol specific antioxidant/Mal allergens family protein (Table 4, p7)",
+      "mention_strain": "Synechococcus WH8102",
+      "strain": "Synechococcus WH8102",
+      "locus_tag": "SYNW1280",
+      "resolved_from": "SYNW1280",
+      "resolution_method": "locus_tag:v"
+    },
+    {
+      "surface_form": "SYNW1626",
+      "gene_name": "",
+      "identifiers": [
+        "SYNW1626"
+      ],
+      "prominence": "peripheral",
+      "evidence": "SYNW1626 putative nickel-containing superoxide dismutase precursor (Table 4, p7)",
+      "mention_strain": "Synechococcus WH8102",
+      "strain": "Synechococcus WH8102",
+      "locus_tag": "SYNW1626",
+      "resolved_from": "SYNW1626",
+      "resolution_method": "locus_tag:v"
+    }
+  ],
+  "pathways": [
+    {
+      "surface_form": "phosphate acquisition",
+      "kegg_pathway_id_raw": "",
+      "prominence": "central",
+      "evidence": "Many genes involved in phosphate acquisition and the phosphate stress response were significantly upregulated (p3-4, Results)",
+      "pathway_id": null,
+      "pathway_name": null,
+      "resolution_method": "unresolved"
+    },
+    {
+      "surface_form": "cell wall biosynthesis",
+      "kegg_pathway_id_raw": "",
+      "prominence": "central",
+      "evidence": "A major response of WH8102 to the presence of V. parahaemolyticus was the increased expression of cell wall biosynthesis genes (p6, Results)",
+      "pathway_id": null,
+      "pathway_name": null,
+      "resolution_method": "unresolved"
+    },
+    {
+      "surface_form": "glycosyltransferases",
+      "kegg_pathway_id_raw": "",
+      "prominence": "central",
+      "evidence": "nine glycosyltransferases were also upregulated (Table 1 and Table S1) (p6, Results)",
+      "pathway_id": null,
+      "pathway_name": null,
+      "resolution_method": "unresolved"
+    },
+    {
+      "surface_form": "photosynthesis",
+      "kegg_pathway_id_raw": "ko00195",
+      "prominence": "central",
+      "evidence": "genes responsible for the synthesis of chlorophyll and phycobilins increased in expression while genes primary related to photosystem II were downregulated (p3, Results)",
+      "pathway_id": "ko00195",
+      "pathway_name": "photosynthesis",
+      "resolution_method": "id"
+    },
+    {
+      "surface_form": "nitrogen metabolism",
+      "kegg_pathway_id_raw": "ko00910",
+      "prominence": "peripheral",
+      "evidence": "Nitrogen use may also have been affected in co-cultures as the gene expression changes share similarities with ammonia-grown Synechococcus (Summary, p1)",
+      "pathway_id": "ko00910",
+      "pathway_name": "nitrogen metabolism",
+      "resolution_method": "id"
+    },
+    {
+      "surface_form": "oxidative stress response",
+      "kegg_pathway_id_raw": "",
+      "prominence": "peripheral",
+      "evidence": "genes involved in photosystem II and oxidative stress responses, and genes requiring metal cofactors were often downregulated (p6, Results)",
+      "pathway_id": null,
+      "pathway_name": null,
+      "resolution_method": "unresolved"
+    },
+    {
+      "surface_form": "iron transport and homeostasis",
+      "kegg_pathway_id_raw": "",
+      "prominence": "peripheral",
+      "evidence": "The expression of these genes may be regulated by a ferric uptake regulation (Fur) family gene (SYNW2401) (p6, Results)",
+      "pathway_id": null,
+      "pathway_name": null,
+      "resolution_method": "unresolved"
+    },
+    {
+      "surface_form": "zinc transport",
+      "kegg_pathway_id_raw": "",
+      "prominence": "peripheral",
+      "evidence": "zinc-transporters showed increased expression (Table 3 and Table S1) (p7, Results)",
+      "pathway_id": null,
+      "pathway_name": null,
+      "resolution_method": "unresolved"
+    }
+  ]
+}

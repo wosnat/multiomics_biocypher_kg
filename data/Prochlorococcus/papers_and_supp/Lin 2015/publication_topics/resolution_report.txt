@@ -1,0 +1,24 @@
+Topics resolution report: Lin 2015
+Strains: ['Prochlorococcus NATL2A']
+
+Genes:    20/26 resolved (76.9%)
+  methods: multi:v=7, tier1:v=13, unresolved=6
+Pathways: 4/5 resolved (80.0%)
+  methods: id=4, unresolved=1
+
+Captured identifiers: 26  (truncated/bare-number: 0)
+Unresolved gene reasons: {'lookup_miss': 6}
+    descriptive_only = function/enzyme phrase, no symbol or id (paper style)
+    truncated_id_only = bare locus number, recoverable via strain prefix
+    lookup_miss       = had a name/full id but no mapping match
+
+Unresolved gene mentions (6):
+  - g247  [lookup_miss]  strain=Prochlorococcus NATL2A  ids=['g247']
+  - gap1  [lookup_miss]  strain=Prochlorococcus NATL2A  ids=['gap1']
+  - atpF  [lookup_miss]  strain=Prochlorococcus NATL2A  ids=['atpF']
+  - atpG  [lookup_miss]  strain=Prochlorococcus NATL2A  ids=['atpG']
+  - atpI  [lookup_miss]  strain=Prochlorococcus NATL2A  ids=['atpI']
+  - talC  [lookup_miss]  strain=Prochlorococcus NATL2A  ids=['talC']
+
+Unresolved pathway mentions (1):
+  - phosphate acquisition  (raw id=—)

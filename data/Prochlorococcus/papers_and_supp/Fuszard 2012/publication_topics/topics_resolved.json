@@ -1,0 +1,454 @@
+{
+  "metadata": {
+    "paper": "Fuszard 2012",
+    "doi": "10.1186/2046-9063-8-7",
+    "strains": [
+      "Prochlorococcus MIT9312",
+      "Prochlorococcus NATL2A",
+      "Prochlorococcus marinus subsp. marinus CCMP1375 (SS120)"
+    ],
+    "model": "gpt-4.1",
+    "self_assessment": "high",
+    "assessment_notes": "All genes and pathways were explicitly named in the narrative. No locus tags or protein IDs were given in the main text.",
+    "uncaptured_identifiers": "some",
+    "uncaptured_identifiers_note": "Additional file 1: Table S1 likely contains protein IDs and peptides not captured here.",
+    "extracted_at": "2026-06-04T10:08:39.109998",
+    "input_tokens": 11078,
+    "output_tokens": 2188,
+    "resolution": {
+      "gene_records": 30,
+      "genes_resolved": 29,
+      "gene_methods": {
+        "multi:v": 13,
+        "tier1:v": 16,
+        "unresolved": 1
+      },
+      "pathway_records": 5,
+      "pathways_resolved": 3,
+      "pathway_methods": {
+        "id": 3,
+        "unresolved": 2
+      },
+      "paper_strains": [
+        "Prochlorococcus MIT9312",
+        "Prochlorococcus NATL2A",
+        "Prochlorococcus marinus subsp. marinus CCMP1375 (SS120)"
+      ],
+      "captured_identifiers": 0,
+      "truncated_identifiers": 0,
+      "truncated_examples": [],
+      "unresolved_reasons": {
+        "lookup_miss": 1
+      }
+    }
+  },
+  "genes": [
+    {
+      "surface_form": "PhoE",
+      "gene_name": "phoE",
+      "identifiers": [],
+      "prominence": "central",
+      "evidence": "the Pi stress related porin PhoE is > 15-fold more abundant (Figure 3) (Results, p3)",
+      "mention_strain": "Prochlorococcus MIT9312",
+      "strain": "Prochlorococcus MIT9312",
+      "locus_tag": "PMT9312_0721",
+      "resolved_from": "phoE",
+      "resolution_method": "multi:v"
+    },
+    {
+      "surface_form": "PhoA",
+      "gene_name": "phoA",
+      "identifiers": [],
+      "prominence": "central",
+      "evidence": "the putative alkaline phosphatase PhoA appears to be > 9-fold greater (Results, p3)",
+      "mention_strain": "Prochlorococcus MIT9312",
+      "strain": "Prochlorococcus MIT9312",
+      "locus_tag": "PMT9312_0720",
+      "resolved_from": "phoA",
+      "resolution_method": "multi:v"
+    },
+    {
+      "surface_form": "PstS",
+      "gene_name": "pstS",
+      "identifiers": [],
+      "prominence": "central",
+      "evidence": "the periplasmic Pi binding protein PstS > 3 times more than the replete cultures (Results, p3)",
+      "mention_strain": "Prochlorococcus MIT9312",
+      "strain": "Prochlorococcus MIT9312",
+      "locus_tag": "PMT9312_0722",
+      "resolved_from": "pstS",
+      "resolution_method": "tier1:v"
+    },
+    {
+      "surface_form": "PstS",
+      "gene_name": "pstS",
+      "identifiers": [],
+      "prominence": "central",
+      "evidence": "Within NATL2A, PstS abundance is significantly greater within Pi-deplete conditions (Results, p3)",
+      "mention_strain": "Prochlorococcus NATL2A",
+      "strain": "Prochlorococcus NATL2A",
+      "locus_tag": "PMN2A_0441",
+      "resolved_from": "pstS",
+      "resolution_method": "tier1:v"
+    },
+    {
+      "surface_form": "PstS",
+      "gene_name": "pstS",
+      "identifiers": [],
+      "prominence": "peripheral",
+      "evidence": "SS120 is deficient in most Pi acquisition genes [14,15], however it does have two copies of PstS, neither of which were present in our assay (Results, p4)",
+      "mention_strain": "Prochlorococcus marinus subsp. marinus CCMP1375 (SS120)",
+      "strain": "Prochlorococcus marinus subsp. marinus CCMP1375 (SS120)",
+      "locus_tag": "Pro1533",
+      "resolved_from": "pstS",
+      "resolution_method": "tier1:v"
+    },
+    {
+      "surface_form": "phoBR",
+      "gene_name": "phoBR",
+      "identifiers": [],
+      "prominence": "central",
+      "evidence": "the two component response regulation system phoBR, behaved quite differently to Pi starvation [14] (Background, p2)",
+      "mention_strain": "all",
+      "strain": "all",
+      "locus_tag": null,
+      "resolved_from": "",
+      "resolution_method": "unresolved"
+    },
+    {
+      "surface_form": "RbcL",
+      "gene_name": "rbcL",
+      "identifiers": [],
+      "prominence": "central",
+      "evidence": "a depression of the Rubisco protein RbcL abundance in this strain (Abstract, Results, p1, p4)",
+      "mention_strain": "Prochlorococcus MIT9312",
+      "strain": "Prochlorococcus MIT9312",
+      "locus_tag": "PMT9312_0550",
+      "resolved_from": "rbcL",
+      "resolution_method": "multi:v"
+    },
+    {
+      "surface_form": "RbcS",
+      "gene_name": "rbcS",
+      "identifiers": [],
+      "prominence": "peripheral",
+      "evidence": "both Rubisco subunits (RbcL and RbcS) are noticeably lower in abundance (Results, p4)",
+      "mention_strain": "Prochlorococcus MIT9312",
+      "strain": "Prochlorococcus MIT9312",
+      "locus_tag": "PMT9312_0551",
+      "resolved_from": "rbcS",
+      "resolution_method": "multi:v"
+    },
+    {
+      "surface_form": "ChlP",
+      "gene_name": "chlP",
+      "identifiers": [],
+      "prominence": "peripheral",
+      "evidence": "an essential chlorophyll biosynthetic protein (ChlP) appears to be less abundant within Pi-deplete MIT9312 cells (Results, p4)",
+      "mention_strain": "Prochlorococcus MIT9312",
+      "strain": "Prochlorococcus MIT9312",
+      "locus_tag": "PMT9312_0768",
+      "resolved_from": "chlP",
+      "resolution_method": "tier1:v"
+    },
+    {
+      "surface_form": "FumC",
+      "gene_name": "fumC",
+      "identifiers": [],
+      "prominence": "peripheral",
+      "evidence": "Fumerase (FumC) ... appears to be more abundant within NATL2A cells when Pi-deplete (Results, p5)",
+      "mention_strain": "Prochlorococcus NATL2A",
+      "strain": "Prochlorococcus NATL2A",
+      "locus_tag": "PMN2A_0997",
+      "resolved_from": "fumC",
+      "resolution_method": "multi:v"
+    },
+    {
+      "surface_form": "AcpP",
+      "gene_name": "acpP",
+      "identifiers": [],
+      "prominence": "peripheral",
+      "evidence": "the acyl carrier protein (AcpP) ... is more abundant in Pi-deplete NATL2A cells (Results, p5)",
+      "mention_strain": "Prochlorococcus NATL2A",
+      "strain": "Prochlorococcus NATL2A",
+      "locus_tag": "PMN2A_1185",
+      "resolved_from": "acpP",
+      "resolution_method": "tier1:v"
+    },
+    {
+      "surface_form": "CobJ",
+      "gene_name": "cobJ",
+      "identifiers": [],
+      "prominence": "peripheral",
+      "evidence": "lower abundance of CobJ, a Precorrin-3B C17-methyltransferase region-containing protein ... part of the aerobic vitamin B12 biosynthesis pathway (Results, p5)",
+      "mention_strain": "Prochlorococcus NATL2A",
+      "strain": "Prochlorococcus NATL2A",
+      "locus_tag": "PMN2A_1081",
+      "resolved_from": "cobJ",
+      "resolution_method": "tier1:v"
+    },
+    {
+      "surface_form": "CitT",
+      "gene_name": "citT",
+      "identifiers": [],
+      "prominence": "peripheral",
+      "evidence": "the abundance of CitT within Pi-stressed SS120 cells (Results, p5)",
+      "mention_strain": "Prochlorococcus marinus subsp. marinus CCMP1375 (SS120)",
+      "strain": "Prochlorococcus marinus subsp. marinus CCMP1375 (SS120)",
+      "locus_tag": "Pro0097",
+      "resolved_from": "citT",
+      "resolution_method": "tier1:v"
+    },
+    {
+      "surface_form": "LuxR",
+      "gene_name": "luxR",
+      "identifiers": [],
+      "prominence": "peripheral",
+      "evidence": "the presence of LuxR, the response regulatory family protein involved in quorum sensing within bacteria, in NATL2A cells (Results, p6)",
+      "mention_strain": "Prochlorococcus NATL2A",
+      "strain": "Prochlorococcus NATL2A",
+      "locus_tag": "PMN2A_1537",
+      "resolved_from": "luxR",
+      "resolution_method": "multi:v"
+    },
+    {
+      "surface_form": "AtpA",
+      "gene_name": "atpA",
+      "identifiers": [],
+      "prominence": "peripheral",
+      "evidence": "They are the ATP synthase subunits AtpA and AtpD ... found in all three strains (Results, p3)",
+      "mention_strain": "all",
+      "strain": "Prochlorococcus MIT9312",
+      "locus_tag": "PMT9312_1544",
+      "resolved_from": "atpA",
+      "resolution_method": "tier1:v"
+    },
+    {
+      "surface_form": "AtpA",
+      "gene_name": "atpA",
+      "identifiers": [],
+      "prominence": "peripheral",
+      "evidence": "They are the ATP synthase subunits AtpA and AtpD ... found in all three strains (Results, p3)",
+      "mention_strain": "all",
+      "strain": "Prochlorococcus NATL2A",
+      "locus_tag": "PMN2A_0981",
+      "resolved_from": "atpA",
+      "resolution_method": "tier1:v"
+    },
+    {
+      "surface_form": "AtpA",
+      "gene_name": "atpA",
+      "identifiers": [],
+      "prominence": "peripheral",
+      "evidence": "They are the ATP synthase subunits AtpA and AtpD ... found in all three strains (Results, p3)",
+      "mention_strain": "all",
+      "strain": "Prochlorococcus marinus subsp. marinus CCMP1375 (SS120)",
+      "locus_tag": "Pro1604",
+      "resolved_from": "atpA",
+      "resolution_method": "tier1:v"
+    },
+    {
+      "surface_form": "AtpD",
+      "gene_name": "atpD",
+      "identifiers": [],
+      "prominence": "peripheral",
+      "evidence": "They are the ATP synthase subunits AtpA and AtpD ... found in all three strains (Results, p3)",
+      "mention_strain": "all",
+      "strain": "Prochlorococcus MIT9312",
+      "locus_tag": "PMT9312_1531",
+      "resolved_from": "atpD",
+      "resolution_method": "tier1:v"
+    },
+    {
+      "surface_form": "AtpD",
+      "gene_name": "atpD",
+      "identifiers": [],
+      "prominence": "peripheral",
+      "evidence": "They are the ATP synthase subunits AtpA and AtpD ... found in all three strains (Results, p3)",
+      "mention_strain": "all",
+      "strain": "Prochlorococcus NATL2A",
+      "locus_tag": "PMN2A_0970",
+      "resolved_from": "atpD",
+      "resolution_method": "tier1:v"
+    },
+    {
+      "surface_form": "AtpD",
+      "gene_name": "atpD",
+      "identifiers": [],
+      "prominence": "peripheral",
+      "evidence": "They are the ATP synthase subunits AtpA and AtpD ... found in all three strains (Results, p3)",
+      "mention_strain": "all",
+      "strain": "Prochlorococcus marinus subsp. marinus CCMP1375 (SS120)",
+      "locus_tag": "Pro1591",
+      "resolved_from": "atpD",
+      "resolution_method": "tier1:v"
+    },
+    {
+      "surface_form": "PsbO",
+      "gene_name": "psbO",
+      "identifiers": [],
+      "prominence": "peripheral",
+      "evidence": "the PSII protein PsbO ... found in all three strains (Results, p3)",
+      "mention_strain": "all",
+      "strain": "Prochlorococcus MIT9312",
+      "locus_tag": "PMT9312_0230",
+      "resolved_from": "psbO",
+      "resolution_method": "multi:v"
+    },
+    {
+      "surface_form": "PsbO",
+      "gene_name": "psbO",
+      "identifiers": [],
+      "prominence": "peripheral",
+      "evidence": "the PSII protein PsbO ... found in all three strains (Results, p3)",
+      "mention_strain": "all",
+      "strain": "Prochlorococcus NATL2A",
+      "locus_tag": "PMN2A_1597",
+      "resolved_from": "psbO",
+      "resolution_method": "multi:v"
+    },
+    {
+      "surface_form": "PsbO",
+      "gene_name": "psbO",
+      "identifiers": [],
+      "prominence": "peripheral",
+      "evidence": "the PSII protein PsbO ... found in all three strains (Results, p3)",
+      "mention_strain": "all",
+      "strain": "Prochlorococcus marinus subsp. marinus CCMP1375 (SS120)",
+      "locus_tag": "Pro0257",
+      "resolved_from": "psbO",
+      "resolution_method": "tier1:v"
+    },
+    {
+      "surface_form": "GlnK",
+      "gene_name": "glnK",
+      "identifiers": [],
+      "prominence": "peripheral",
+      "evidence": "the nitrogen regulatory protein GlnK ... found in all three strains (Results, p3)",
+      "mention_strain": "all",
+      "strain": "Prochlorococcus MIT9312",
+      "locus_tag": "PMT9312_1556",
+      "resolved_from": "glnK",
+      "resolution_method": "multi:v"
+    },
+    {
+      "surface_form": "GlnK",
+      "gene_name": "glnK",
+      "identifiers": [],
+      "prominence": "peripheral",
+      "evidence": "the nitrogen regulatory protein GlnK ... found in all three strains (Results, p3)",
+      "mention_strain": "all",
+      "strain": "Prochlorococcus NATL2A",
+      "locus_tag": "PMN2A_0993",
+      "resolved_from": "glnK",
+      "resolution_method": "multi:v"
+    },
+    {
+      "surface_form": "GlnK",
+      "gene_name": "glnK",
+      "identifiers": [],
+      "prominence": "peripheral",
+      "evidence": "the nitrogen regulatory protein GlnK ... found in all three strains (Results, p3)",
+      "mention_strain": "all",
+      "strain": "Prochlorococcus marinus subsp. marinus CCMP1375 (SS120)",
+      "locus_tag": "Pro1616",
+      "resolved_from": "glnK",
+      "resolution_method": "tier1:v"
+    },
+    {
+      "surface_form": "CsoS1",
+      "gene_name": "csoS1",
+      "identifiers": [],
+      "prominence": "peripheral",
+      "evidence": "the carboxysome shell protein CsoS1 ... found in all three strains (Results, p3)",
+      "mention_strain": "all",
+      "strain": "Prochlorococcus MIT9312",
+      "locus_tag": "PMT9312_0549",
+      "resolved_from": "csoS1",
+      "resolution_method": "multi:v"
+    },
+    {
+      "surface_form": "CsoS1",
+      "gene_name": "csoS1",
+      "identifiers": [],
+      "prominence": "peripheral",
+      "evidence": "the carboxysome shell protein CsoS1 ... found in all three strains (Results, p3)",
+      "mention_strain": "all",
+      "strain": "Prochlorococcus marinus subsp. marinus CCMP1375 (SS120)",
+      "locus_tag": "Pro0550",
+      "resolved_from": "csoS1",
+      "resolution_method": "multi:v"
+    },
+    {
+      "surface_form": "PetH",
+      "gene_name": "petH",
+      "identifiers": [],
+      "prominence": "peripheral",
+      "evidence": "a high pI protein, PetH, is present in both MIT 9312 and SS120 samples (Results, p3)",
+      "mention_strain": "Prochlorococcus MIT9312",
+      "strain": "Prochlorococcus MIT9312",
+      "locus_tag": "PMT9312_1086",
+      "resolved_from": "petH",
+      "resolution_method": "multi:v"
+    },
+    {
+      "surface_form": "PetH",
+      "gene_name": "petH",
+      "identifiers": [],
+      "prominence": "peripheral",
+      "evidence": "a high pI protein, PetH, is present in both MIT 9312 and SS120 samples (Results, p3)",
+      "mention_strain": "Prochlorococcus marinus subsp. marinus CCMP1375 (SS120)",
+      "strain": "Prochlorococcus marinus subsp. marinus CCMP1375 (SS120)",
+      "locus_tag": "Pro1123",
+      "resolved_from": "petH",
+      "resolution_method": "tier1:v"
+    }
+  ],
+  "pathways": [
+    {
+      "surface_form": "tricarboxylic acid (TCA) cycle",
+      "kegg_pathway_id_raw": "ko00020",
+      "prominence": "peripheral",
+      "evidence": "Fumerase (FumC) is an enzyme associated with both the tricarboxylic acid (TCA) cycle and arginine/proline biosynthesis (Results, p5)",
+      "pathway_id": "ko00020",
+      "pathway_name": "citrate cycle (tca cycle)",
+      "resolution_method": "id"
+    },
+    {
+      "surface_form": "aerobic vitamin B12 biosynthesis pathway",
+      "kegg_pathway_id_raw": "",
+      "prominence": "peripheral",
+      "evidence": "CobJ, ... part of the aerobic vitamin B12 biosynthesis pathway within Pi-stressed cells (Results, p5)",
+      "pathway_id": null,
+      "pathway_name": null,
+      "resolution_method": "unresolved"
+    },
+    {
+      "surface_form": "chlorophyll biosynthetic pathway",
+      "kegg_pathway_id_raw": "",
+      "prominence": "peripheral",
+      "evidence": "B12 synthesis is a sub pathway offshoot from the main chlorophyll biosynthetic pathway (Results, p5)",
+      "pathway_id": null,
+      "pathway_name": null,
+      "resolution_method": "unresolved"
+    },
+    {
+      "surface_form": "arginine and proline metabolism",
+      "kegg_pathway_id_raw": "ko00330",
+      "prominence": "peripheral",
+      "evidence": "its function within the cell is within arginine and proline metabolism (Results, p5)",
+      "pathway_id": "ko00330",
+      "pathway_name": "arginine and proline metabolism",
+      "resolution_method": "id"
+    },
+    {
+      "surface_form": "fatty acid biosynthesis",
+      "kegg_pathway_id_raw": "ko00061",
+      "prominence": "peripheral",
+      "evidence": "the acyl carrier protein (AcpP) is an essential component of fatty acid biosynthesis (Results, p5)",
+      "pathway_id": "ko00061",
+      "pathway_name": "fatty acid biosynthesis",
+      "resolution_method": "id"
+    }
+  ]
+}

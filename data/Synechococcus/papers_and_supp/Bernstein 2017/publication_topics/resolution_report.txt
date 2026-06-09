@@ -1,0 +1,17 @@
+Topics resolution report: Bernstein 2017
+Strains: ['Thermosynechococcus vestitus BP-1', 'Meiothermus ruber']
+
+Genes:    50/50 resolved (100.0%)
+  methods: locus_tag:v=12, multi:v=21, tier1:v=17
+Pathways: 6/8 resolved (75.0%)
+  methods: id=6, unresolved=2
+
+Captured identifiers: 91  (truncated/bare-number: 0)
+Unresolved gene reasons: {}
+    descriptive_only = function/enzyme phrase, no symbol or id (paper style)
+    truncated_id_only = bare locus number, recoverable via strain prefix
+    lookup_miss       = had a name/full id but no mapping match
+
+Unresolved pathway mentions (2):
+  - nitrate/nitrite uptake system  (raw id=—)
+  - Fe-S cluster biogenesis  (raw id=—)

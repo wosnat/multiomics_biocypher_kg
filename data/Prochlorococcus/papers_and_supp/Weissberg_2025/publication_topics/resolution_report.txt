@@ -1,0 +1,17 @@
+Topics resolution report: Weissberg 2025
+Strains: ['Alteromonas macleodii HOT1A3', 'Prochlorococcus MED4']
+
+Genes:    16/16 resolved (100.0%)
+  methods: tier1:v=16
+Pathways: 9/11 resolved (81.8%)
+  methods: id=9, unresolved=2
+
+Captured identifiers: 15  (truncated/bare-number: 0)
+Unresolved gene reasons: {}
+    descriptive_only = function/enzyme phrase, no symbol or id (paper style)
+    truncated_id_only = bare locus number, recoverable via strain prefix
+    lookup_miss       = had a name/full id but no mapping match
+
+Unresolved pathway mentions (2):
+  - Translation  (raw id=—)
+  - Transporters  (raw id=ko02000)

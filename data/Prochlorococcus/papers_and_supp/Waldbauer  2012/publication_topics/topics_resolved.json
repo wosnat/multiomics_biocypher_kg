@@ -1,0 +1,335 @@
+{
+  "metadata": {
+    "paper": "Waldbauer 2012",
+    "doi": "10.1371/journal.pone.0043432",
+    "strains": [
+      "Prochlorococcus MED4"
+    ],
+    "model": "gpt-4.1",
+    "self_assessment": "high",
+    "assessment_notes": "All genes and pathways are explicitly named in the narrative and/or figure legends. No locus tags or protein IDs are given in the main text.",
+    "uncaptured_identifiers": "many",
+    "uncaptured_identifiers_note": "Table S2 and S3 (supplement) likely contain locus tags and additional gene IDs not present in the main text or figures.",
+    "extracted_at": "2026-06-04T10:09:16.838867",
+    "input_tokens": 25099,
+    "output_tokens": 2170,
+    "resolution": {
+      "gene_records": 23,
+      "genes_resolved": 23,
+      "gene_methods": {
+        "tier1:v": 19,
+        "multi:v": 4
+      },
+      "pathway_records": 2,
+      "pathways_resolved": 2,
+      "pathway_methods": {
+        "id": 2
+      },
+      "paper_strains": [
+        "Prochlorococcus MED4"
+      ],
+      "captured_identifiers": 0,
+      "truncated_identifiers": 0,
+      "truncated_examples": [],
+      "unresolved_reasons": {}
+    }
+  },
+  "genes": [
+    {
+      "surface_form": "ribonucleotide reductase (nrdJ)",
+      "gene_name": "nrdJ",
+      "identifiers": [],
+      "prominence": "central",
+      "evidence": "ribonucleotide reductase (nrdJ, Fig. 2A), shows strong oscillations of both transcript and protein: the 18.1-fold change in abundance at the mRNA level resulted in a 8.5-fold change in protein abundance (p3-4, Results)",
+      "mention_strain": "Prochlorococcus MED4",
+      "strain": "Prochlorococcus MED4",
+      "locus_tag": "PMM0661",
+      "resolved_from": "nrdJ",
+      "resolution_method": "tier1:v"
+    },
+    {
+      "surface_form": "large subunit of Rubisco (rbcL)",
+      "gene_name": "rbcL",
+      "identifiers": [],
+      "prominence": "central",
+      "evidence": "the magnitude of protein abundance oscillation of rbcL, the large subunit of the key carbon-fixation enzyme Rubisco, is more dramatically damped compared to its transcript (Fig. 2B) (p3-4, Results)",
+      "mention_strain": "Prochlorococcus MED4",
+      "strain": "Prochlorococcus MED4",
+      "locus_tag": "PMM0550",
+      "resolved_from": "rbcL",
+      "resolution_method": "tier1:v"
+    },
+    {
+      "surface_form": "chlP",
+      "gene_name": "chlP",
+      "identifiers": [],
+      "prominence": "central",
+      "evidence": "the chlorophyll biosynthesis gene chlP for which mRNA and protein oscillations are entirely antiphase (12 hours offset) from one another (Fig. 2C) (p3-4, Results)",
+      "mention_strain": "Prochlorococcus MED4",
+      "strain": "Prochlorococcus MED4",
+      "locus_tag": "PMM0760",
+      "resolved_from": "chlP",
+      "resolution_method": "tier1:v"
+    },
+    {
+      "surface_form": "FtsZ",
+      "gene_name": "ftsZ",
+      "identifiers": [],
+      "prominence": "peripheral",
+      "evidence": "FtsZ and MreB, both involved in cell division, vary only by 1.3-fold (p4, Results)",
+      "mention_strain": "Prochlorococcus MED4",
+      "strain": "Prochlorococcus MED4",
+      "locus_tag": "PMM1309",
+      "resolved_from": "ftsZ",
+      "resolution_method": "tier1:v"
+    },
+    {
+      "surface_form": "MreB",
+      "gene_name": "mreB",
+      "identifiers": [],
+      "prominence": "peripheral",
+      "evidence": "FtsZ and MreB, both involved in cell division, vary only by 1.3-fold (p4, Results)",
+      "mention_strain": "Prochlorococcus MED4",
+      "strain": "Prochlorococcus MED4",
+      "locus_tag": "PMM1622",
+      "resolved_from": "mreB",
+      "resolution_method": "tier1:v"
+    },
+    {
+      "surface_form": "OpcA",
+      "gene_name": "opcA",
+      "identifiers": [],
+      "prominence": "peripheral",
+      "evidence": "We detected OpcA, an allosteric effector of the glucose 6-phosphate dehydrogenase Zwf, at the protein level only at night (p7, Results)",
+      "mention_strain": "Prochlorococcus MED4",
+      "strain": "Prochlorococcus MED4",
+      "locus_tag": "PMM1073",
+      "resolved_from": "opcA",
+      "resolution_method": "multi:v"
+    },
+    {
+      "surface_form": "glucose 6-phosphate dehydrogenase Zwf",
+      "gene_name": "zwf",
+      "identifiers": [],
+      "prominence": "peripheral",
+      "evidence": "OpcA, an allosteric effector of the glucose 6-phosphate dehydrogenase Zwf (p7, Results)",
+      "mention_strain": "Prochlorococcus MED4",
+      "strain": "Prochlorococcus MED4",
+      "locus_tag": "PMM1074",
+      "resolved_from": "zwf",
+      "resolution_method": "tier1:v"
+    },
+    {
+      "surface_form": "PrkB",
+      "gene_name": "prkB",
+      "identifiers": [],
+      "prominence": "peripheral",
+      "evidence": "the role of the PrkB/Gap2-binding inhibitor CP12 in modulating operation of this superpathway (p7, Results)",
+      "mention_strain": "Prochlorococcus MED4",
+      "strain": "Prochlorococcus MED4",
+      "locus_tag": "PMM0785",
+      "resolved_from": "prkB",
+      "resolution_method": "multi:v"
+    },
+    {
+      "surface_form": "Gap2",
+      "gene_name": "gap2",
+      "identifiers": [],
+      "prominence": "peripheral",
+      "evidence": "the role of the PrkB/Gap2-binding inhibitor CP12 in modulating operation of this superpathway (p7, Results)",
+      "mention_strain": "Prochlorococcus MED4",
+      "strain": "Prochlorococcus MED4",
+      "locus_tag": "PMM0023",
+      "resolved_from": "gap2",
+      "resolution_method": "tier1:v"
+    },
+    {
+      "surface_form": "CP12",
+      "gene_name": "cp12",
+      "identifiers": [],
+      "prominence": "peripheral",
+      "evidence": "the role of the PrkB/Gap2-binding inhibitor CP12 in modulating operation of this superpathway; while the CP12 transcript is maximally expressed at night, we did not detect the small (74 residue) protein product (p7, Results)",
+      "mention_strain": "Prochlorococcus MED4",
+      "strain": "Prochlorococcus MED4",
+      "locus_tag": "PMM0220",
+      "resolved_from": "cp12",
+      "resolution_method": "multi:v"
+    },
+    {
+      "surface_form": "cbbA",
+      "gene_name": "cbbA",
+      "identifiers": [],
+      "prominence": "peripheral",
+      "evidence": "note that cbbA, glpX and tktA catalyze multiple reactions (Fig. 5 legend, p8)",
+      "mention_strain": "Prochlorococcus MED4",
+      "strain": "Prochlorococcus MED4",
+      "locus_tag": "PMM0781",
+      "resolved_from": "cbbA",
+      "resolution_method": "tier1:v"
+    },
+    {
+      "surface_form": "glpX",
+      "gene_name": "glpX",
+      "identifiers": [],
+      "prominence": "peripheral",
+      "evidence": "note that cbbA, glpX and tktA catalyze multiple reactions (Fig. 5 legend, p8)",
+      "mention_strain": "Prochlorococcus MED4",
+      "strain": "Prochlorococcus MED4",
+      "locus_tag": "PMM0767",
+      "resolved_from": "glpX",
+      "resolution_method": "tier1:v"
+    },
+    {
+      "surface_form": "tktA",
+      "gene_name": "tktA",
+      "identifiers": [],
+      "prominence": "peripheral",
+      "evidence": "note that cbbA, glpX and tktA catalyze multiple reactions (Fig. 5 legend, p8)",
+      "mention_strain": "Prochlorococcus MED4",
+      "strain": "Prochlorococcus MED4",
+      "locus_tag": "PMM1610",
+      "resolved_from": "tktA",
+      "resolution_method": "tier1:v"
+    },
+    {
+      "surface_form": "gap2",
+      "gene_name": "gap2",
+      "identifiers": [],
+      "prominence": "peripheral",
+      "evidence": "gap2 (Fig. 5, Calvin cycle gene, p8)",
+      "mention_strain": "Prochlorococcus MED4",
+      "strain": "Prochlorococcus MED4",
+      "locus_tag": "PMM0023",
+      "resolved_from": "gap2",
+      "resolution_method": "tier1:v"
+    },
+    {
+      "surface_form": "pgk",
+      "gene_name": "pgk",
+      "identifiers": [],
+      "prominence": "peripheral",
+      "evidence": "pgk (Fig. 5, Calvin cycle gene, p8)",
+      "mention_strain": "Prochlorococcus MED4",
+      "strain": "Prochlorococcus MED4",
+      "locus_tag": "PMM0195",
+      "resolved_from": "pgk",
+      "resolution_method": "tier1:v"
+    },
+    {
+      "surface_form": "rbcS",
+      "gene_name": "rbcS",
+      "identifiers": [],
+      "prominence": "peripheral",
+      "evidence": "rbcS (Fig. 5, Calvin cycle gene, p8)",
+      "mention_strain": "Prochlorococcus MED4",
+      "strain": "Prochlorococcus MED4",
+      "locus_tag": "PMM0551",
+      "resolved_from": "rbcS",
+      "resolution_method": "tier1:v"
+    },
+    {
+      "surface_form": "prkB",
+      "gene_name": "prkB",
+      "identifiers": [],
+      "prominence": "peripheral",
+      "evidence": "prkB (Fig. 5, Calvin cycle gene, p8)",
+      "mention_strain": "Prochlorococcus MED4",
+      "strain": "Prochlorococcus MED4",
+      "locus_tag": "PMM0785",
+      "resolved_from": "prkB",
+      "resolution_method": "multi:v"
+    },
+    {
+      "surface_form": "tpi",
+      "gene_name": "tpi",
+      "identifiers": [],
+      "prominence": "peripheral",
+      "evidence": "tpi (Fig. 5, Calvin cycle gene, p8)",
+      "mention_strain": "Prochlorococcus MED4",
+      "strain": "Prochlorococcus MED4",
+      "locus_tag": "PMM0829",
+      "resolved_from": "tpi",
+      "resolution_method": "tier1:v"
+    },
+    {
+      "surface_form": "tal",
+      "gene_name": "tal",
+      "identifiers": [],
+      "prominence": "peripheral",
+      "evidence": "tal (Fig. 5, pentose phosphate pathway gene, p8)",
+      "mention_strain": "Prochlorococcus MED4",
+      "strain": "Prochlorococcus MED4",
+      "locus_tag": "PMM0519",
+      "resolved_from": "tal",
+      "resolution_method": "tier1:v"
+    },
+    {
+      "surface_form": "pgi",
+      "gene_name": "pgi",
+      "identifiers": [],
+      "prominence": "peripheral",
+      "evidence": "pgi (Fig. 5, pentose phosphate pathway gene, p8)",
+      "mention_strain": "Prochlorococcus MED4",
+      "strain": "Prochlorococcus MED4",
+      "locus_tag": "PMM0890",
+      "resolved_from": "pgi",
+      "resolution_method": "tier1:v"
+    },
+    {
+      "surface_form": "zwf",
+      "gene_name": "zwf",
+      "identifiers": [],
+      "prominence": "peripheral",
+      "evidence": "zwf (Fig. 5, pentose phosphate pathway gene, p8)",
+      "mention_strain": "Prochlorococcus MED4",
+      "strain": "Prochlorococcus MED4",
+      "locus_tag": "PMM1074",
+      "resolved_from": "zwf",
+      "resolution_method": "tier1:v"
+    },
+    {
+      "surface_form": "gnd",
+      "gene_name": "gnd",
+      "identifiers": [],
+      "prominence": "peripheral",
+      "evidence": "gnd (Fig. 5, pentose phosphate pathway gene, p8)",
+      "mention_strain": "Prochlorococcus MED4",
+      "strain": "Prochlorococcus MED4",
+      "locus_tag": "PMM0770",
+      "resolved_from": "gnd",
+      "resolution_method": "tier1:v"
+    },
+    {
+      "surface_form": "rpe",
+      "gene_name": "rpe",
+      "identifiers": [],
+      "prominence": "peripheral",
+      "evidence": "rpe (Fig. 5, shared gene, p8)",
+      "mention_strain": "Prochlorococcus MED4",
+      "strain": "Prochlorococcus MED4",
+      "locus_tag": "PMM0766",
+      "resolved_from": "rpe",
+      "resolution_method": "tier1:v"
+    }
+  ],
+  "pathways": [
+    {
+      "surface_form": "Calvin cycle",
+      "kegg_pathway_id_raw": "map00710",
+      "prominence": "central",
+      "evidence": "Two components of the metabolic network responsible for carbon fixation, the Calvin cycle and the pentose phosphate pathway, can be viewed as a superpathway (p7, Results)",
+      "pathway_id": "ko00710",
+      "pathway_name": "carbon fixation by calvin cycle",
+      "resolution_method": "id"
+    },
+    {
+      "surface_form": "pentose phosphate pathway",
+      "kegg_pathway_id_raw": "map00030",
+      "prominence": "central",
+      "evidence": "Two components of the metabolic network responsible for carbon fixation, the Calvin cycle and the pentose phosphate pathway, can be viewed as a superpathway (p7, Results)",
+      "pathway_id": "ko00030",
+      "pathway_name": "pentose phosphate pathway",
+      "resolution_method": "id"
+    }
+  ]
+}

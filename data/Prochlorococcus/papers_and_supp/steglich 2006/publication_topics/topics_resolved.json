@@ -1,0 +1,863 @@
+{
+  "metadata": {
+    "paper": "Steglich 2006",
+    "doi": null,
+    "strains": [
+      "Prochlorococcus MED4"
+    ],
+    "model": "gpt-4.1",
+    "n_chunks": 1,
+    "chunk_pages": 15,
+    "self_assessment": "high",
+    "uncaptured_identifiers": "some",
+    "uncaptured_identifiers_note": "Supplementary Table S1 and Table 2 may list additional locus tags or abbreviated ids not included here.",
+    "extracted_at": "2026-06-04T15:54:55.716407",
+    "input_tokens": 20111,
+    "output_tokens": 3681,
+    "resolution": {
+      "gene_records": 51,
+      "genes_resolved": 51,
+      "gene_methods": {
+        "locus_tag:v": 15,
+        "tier1:v": 36
+      },
+      "pathway_records": 3,
+      "pathways_resolved": 3,
+      "pathway_methods": {
+        "id": 3
+      },
+      "paper_strains": [
+        "Prochlorococcus MED4"
+      ],
+      "captured_identifiers": 37,
+      "truncated_identifiers": 0,
+      "truncated_examples": [],
+      "unresolved_reasons": {}
+    }
+  },
+  "genes": [
+    {
+      "surface_form": "PMM1629",
+      "gene_name": "",
+      "identifiers": [
+        "PMM1629"
+      ],
+      "prominence": "peripheral",
+      "evidence": "We found two group II sigma factors (PMM1629 and PMM1697) that were antagonistically regulated under our light shift conditions. (p6)",
+      "mention_strain": "Prochlorococcus MED4",
+      "strain": "Prochlorococcus MED4",
+      "locus_tag": "PMM1629",
+      "resolved_from": "PMM1629",
+      "resolution_method": "locus_tag:v"
+    },
+    {
+      "surface_form": "PMM1697",
+      "gene_name": "",
+      "identifiers": [
+        "PMM1697"
+      ],
+      "prominence": "peripheral",
+      "evidence": "We found two group II sigma factors (PMM1629 and PMM1697) that were antagonistically regulated under our light shift conditions. (p6)",
+      "mention_strain": "Prochlorococcus MED4",
+      "strain": "Prochlorococcus MED4",
+      "locus_tag": "PMM1697",
+      "resolved_from": "PMM1697",
+      "resolution_method": "locus_tag:v"
+    },
+    {
+      "surface_form": "psaA",
+      "gene_name": "psaA",
+      "identifiers": [],
+      "prominence": "central",
+      "evidence": "The inner core subunits of PSI, psaA, psaB, and psaC, were downregulated 2.5-fold upon transfer from darkness to high light (p6, Table 2)",
+      "mention_strain": "Prochlorococcus MED4",
+      "strain": "Prochlorococcus MED4",
+      "locus_tag": "PMM1524",
+      "resolved_from": "psaA",
+      "resolution_method": "tier1:v"
+    },
+    {
+      "surface_form": "psaB",
+      "gene_name": "psaB",
+      "identifiers": [],
+      "prominence": "central",
+      "evidence": "The inner core subunits of PSI, psaA, psaB, and psaC, were downregulated 2.5-fold upon transfer from darkness to high light (p6, Table 2)",
+      "mention_strain": "Prochlorococcus MED4",
+      "strain": "Prochlorococcus MED4",
+      "locus_tag": "PMM1523",
+      "resolved_from": "psaB",
+      "resolution_method": "tier1:v"
+    },
+    {
+      "surface_form": "psaC",
+      "gene_name": "psaC",
+      "identifiers": [],
+      "prominence": "central",
+      "evidence": "The inner core subunits of PSI, psaA, psaB, and psaC, were downregulated 2.5-fold upon transfer from darkness to high light (p6, Table 2)",
+      "mention_strain": "Prochlorococcus MED4",
+      "strain": "Prochlorococcus MED4",
+      "locus_tag": "PMM1607",
+      "resolved_from": "psaC",
+      "resolution_method": "tier1:v"
+    },
+    {
+      "surface_form": "psaD",
+      "gene_name": "psaD",
+      "identifiers": [],
+      "prominence": "central",
+      "evidence": "psaD, a PSI core subunit also declined 4.3-fold, similar to the external subunits. (p6, Table 2)",
+      "mention_strain": "Prochlorococcus MED4",
+      "strain": "Prochlorococcus MED4",
+      "locus_tag": "PMM1578",
+      "resolved_from": "psaD",
+      "resolution_method": "tier1:v"
+    },
+    {
+      "surface_form": "psaF",
+      "gene_name": "psaF",
+      "identifiers": [],
+      "prominence": "central",
+      "evidence": "many external subunits of PSI (psaF, psaI, psaJ, psaK, psaL, and psaM) declined in gene expression four- to fivefold (Table 2)",
+      "mention_strain": "Prochlorococcus MED4",
+      "strain": "Prochlorococcus MED4",
+      "locus_tag": "PMM0469",
+      "resolved_from": "psaF",
+      "resolution_method": "tier1:v"
+    },
+    {
+      "surface_form": "psaI",
+      "gene_name": "psaI",
+      "identifiers": [],
+      "prominence": "central",
+      "evidence": "many external subunits of PSI (psaF, psaI, psaJ, psaK, psaL, and psaM) declined in gene expression four- to fivefold (Table 2)",
+      "mention_strain": "Prochlorococcus MED4",
+      "strain": "Prochlorococcus MED4",
+      "locus_tag": "PMM1520",
+      "resolved_from": "psaI",
+      "resolution_method": "tier1:v"
+    },
+    {
+      "surface_form": "psaJ",
+      "gene_name": "psaJ",
+      "identifiers": [],
+      "prominence": "central",
+      "evidence": "many external subunits of PSI (psaF, psaI, psaJ, psaK, psaL, and psaM) declined in gene expression four- to fivefold (Table 2)",
+      "mention_strain": "Prochlorococcus MED4",
+      "strain": "Prochlorococcus MED4",
+      "locus_tag": "PMM0468",
+      "resolved_from": "psaJ",
+      "resolution_method": "tier1:v"
+    },
+    {
+      "surface_form": "psaK",
+      "gene_name": "psaK",
+      "identifiers": [],
+      "prominence": "central",
+      "evidence": "many external subunits of PSI (psaF, psaI, psaJ, psaK, psaL, and psaM) declined in gene expression four- to fivefold (Table 2)",
+      "mention_strain": "Prochlorococcus MED4",
+      "strain": "Prochlorococcus MED4",
+      "locus_tag": "PMM0906",
+      "resolved_from": "psaK",
+      "resolution_method": "tier1:v"
+    },
+    {
+      "surface_form": "psaL",
+      "gene_name": "psaL",
+      "identifiers": [],
+      "prominence": "central",
+      "evidence": "many external subunits of PSI (psaF, psaI, psaJ, psaK, psaL, and psaM) declined in gene expression four- to fivefold (Table 2)",
+      "mention_strain": "Prochlorococcus MED4",
+      "strain": "Prochlorococcus MED4",
+      "locus_tag": "PMM1519",
+      "resolved_from": "psaL",
+      "resolution_method": "tier1:v"
+    },
+    {
+      "surface_form": "psaM",
+      "gene_name": "psaM",
+      "identifiers": [],
+      "prominence": "central",
+      "evidence": "many external subunits of PSI (psaF, psaI, psaJ, psaK, psaL, and psaM) declined in gene expression four- to fivefold (Table 2)",
+      "mention_strain": "Prochlorococcus MED4",
+      "strain": "Prochlorococcus MED4",
+      "locus_tag": "PMM0540",
+      "resolved_from": "psaM",
+      "resolution_method": "tier1:v"
+    },
+    {
+      "surface_form": "psbA",
+      "gene_name": "psbA",
+      "identifiers": [],
+      "prominence": "central",
+      "evidence": "PSII gene expression of psbA, psbN (new designation psbTc), and psb28 was induced upon high-light exposure (Table 2)",
+      "mention_strain": "Prochlorococcus MED4",
+      "strain": "Prochlorococcus MED4",
+      "locus_tag": "PMM0223",
+      "resolved_from": "psbA",
+      "resolution_method": "tier1:v"
+    },
+    {
+      "surface_form": "psbN (psbTc)",
+      "gene_name": "psbN",
+      "identifiers": [],
+      "prominence": "central",
+      "evidence": "PSII gene expression of psbA, psbN (new designation psbTc), and psb28 was induced upon high-light exposure (Table 2)",
+      "mention_strain": "Prochlorococcus MED4",
+      "strain": "Prochlorococcus MED4",
+      "locus_tag": "PMM0252",
+      "resolved_from": "psbN",
+      "resolution_method": "tier1:v"
+    },
+    {
+      "surface_form": "psb28",
+      "gene_name": "psb28",
+      "identifiers": [],
+      "prominence": "central",
+      "evidence": "PSII gene expression of psbA, psbN (new designation psbTc), and psb28 was induced upon high-light exposure (Table 2)",
+      "mention_strain": "Prochlorococcus MED4",
+      "strain": "Prochlorococcus MED4",
+      "locus_tag": "PMM0926",
+      "resolved_from": "psb28",
+      "resolution_method": "tier1:v"
+    },
+    {
+      "surface_form": "hli6, hli7, hli8, hli9, hli16, hli17, hli18, hli19",
+      "gene_name": "",
+      "identifiers": [
+        "hli6",
+        "hli7",
+        "hli8",
+        "hli9",
+        "hli16",
+        "hli17",
+        "hli18",
+        "hli19"
+      ],
+      "prominence": "central",
+      "evidence": "Among these, hli6, hli7, hli8, and hli9 form an operon, which has been duplicated (hli16, hli17, hli18, and hli19) in this strain. Both copies of the operon were significantly upregulated under all light conditions except green light (p7)",
+      "mention_strain": "Prochlorococcus MED4",
+      "strain": "Prochlorococcus MED4",
+      "locus_tag": "PMM1399",
+      "resolved_from": "hli6",
+      "resolution_method": "tier1:v"
+    },
+    {
+      "surface_form": "hli6, hli7, hli8, hli9, hli16, hli17, hli18, hli19",
+      "gene_name": "",
+      "identifiers": [
+        "hli6",
+        "hli7",
+        "hli8",
+        "hli9",
+        "hli16",
+        "hli17",
+        "hli18",
+        "hli19"
+      ],
+      "prominence": "central",
+      "evidence": "Among these, hli6, hli7, hli8, and hli9 form an operon, which has been duplicated (hli16, hli17, hli18, and hli19) in this strain. Both copies of the operon were significantly upregulated under all light conditions except green light (p7)",
+      "mention_strain": "Prochlorococcus MED4",
+      "strain": "Prochlorococcus MED4",
+      "locus_tag": "PMM1398",
+      "resolved_from": "hli7",
+      "resolution_method": "tier1:v"
+    },
+    {
+      "surface_form": "hli6, hli7, hli8, hli9, hli16, hli17, hli18, hli19",
+      "gene_name": "",
+      "identifiers": [
+        "hli6",
+        "hli7",
+        "hli8",
+        "hli9",
+        "hli16",
+        "hli17",
+        "hli18",
+        "hli19"
+      ],
+      "prominence": "central",
+      "evidence": "Among these, hli6, hli7, hli8, and hli9 form an operon, which has been duplicated (hli16, hli17, hli18, and hli19) in this strain. Both copies of the operon were significantly upregulated under all light conditions except green light (p7)",
+      "mention_strain": "Prochlorococcus MED4",
+      "strain": "Prochlorococcus MED4",
+      "locus_tag": "PMM1397",
+      "resolved_from": "hli8",
+      "resolution_method": "tier1:v"
+    },
+    {
+      "surface_form": "hli6, hli7, hli8, hli9, hli16, hli17, hli18, hli19",
+      "gene_name": "",
+      "identifiers": [
+        "hli6",
+        "hli7",
+        "hli8",
+        "hli9",
+        "hli16",
+        "hli17",
+        "hli18",
+        "hli19"
+      ],
+      "prominence": "central",
+      "evidence": "Among these, hli6, hli7, hli8, and hli9 form an operon, which has been duplicated (hli16, hli17, hli18, and hli19) in this strain. Both copies of the operon were significantly upregulated under all light conditions except green light (p7)",
+      "mention_strain": "Prochlorococcus MED4",
+      "strain": "Prochlorococcus MED4",
+      "locus_tag": "PMM1396",
+      "resolved_from": "hli9",
+      "resolution_method": "tier1:v"
+    },
+    {
+      "surface_form": "hli6, hli7, hli8, hli9, hli16, hli17, hli18, hli19",
+      "gene_name": "",
+      "identifiers": [
+        "hli6",
+        "hli7",
+        "hli8",
+        "hli9",
+        "hli16",
+        "hli17",
+        "hli18",
+        "hli19"
+      ],
+      "prominence": "central",
+      "evidence": "Among these, hli6, hli7, hli8, and hli9 form an operon, which has been duplicated (hli16, hli17, hli18, and hli19) in this strain. Both copies of the operon were significantly upregulated under all light conditions except green light (p7)",
+      "mention_strain": "Prochlorococcus MED4",
+      "strain": "Prochlorococcus MED4",
+      "locus_tag": "PMM0818",
+      "resolved_from": "hli16",
+      "resolution_method": "tier1:v"
+    },
+    {
+      "surface_form": "hli6, hli7, hli8, hli9, hli16, hli17, hli18, hli19",
+      "gene_name": "",
+      "identifiers": [
+        "hli6",
+        "hli7",
+        "hli8",
+        "hli9",
+        "hli16",
+        "hli17",
+        "hli18",
+        "hli19"
+      ],
+      "prominence": "central",
+      "evidence": "Among these, hli6, hli7, hli8, and hli9 form an operon, which has been duplicated (hli16, hli17, hli18, and hli19) in this strain. Both copies of the operon were significantly upregulated under all light conditions except green light (p7)",
+      "mention_strain": "Prochlorococcus MED4",
+      "strain": "Prochlorococcus MED4",
+      "locus_tag": "PMM0817",
+      "resolved_from": "hli17",
+      "resolution_method": "tier1:v"
+    },
+    {
+      "surface_form": "hli6, hli7, hli8, hli9, hli16, hli17, hli18, hli19",
+      "gene_name": "",
+      "identifiers": [
+        "hli6",
+        "hli7",
+        "hli8",
+        "hli9",
+        "hli16",
+        "hli17",
+        "hli18",
+        "hli19"
+      ],
+      "prominence": "central",
+      "evidence": "Among these, hli6, hli7, hli8, and hli9 form an operon, which has been duplicated (hli16, hli17, hli18, and hli19) in this strain. Both copies of the operon were significantly upregulated under all light conditions except green light (p7)",
+      "mention_strain": "Prochlorococcus MED4",
+      "strain": "Prochlorococcus MED4",
+      "locus_tag": "PMM0816",
+      "resolved_from": "hli18",
+      "resolution_method": "tier1:v"
+    },
+    {
+      "surface_form": "hli6, hli7, hli8, hli9, hli16, hli17, hli18, hli19",
+      "gene_name": "",
+      "identifiers": [
+        "hli6",
+        "hli7",
+        "hli8",
+        "hli9",
+        "hli16",
+        "hli17",
+        "hli18",
+        "hli19"
+      ],
+      "prominence": "central",
+      "evidence": "Among these, hli6, hli7, hli8, and hli9 form an operon, which has been duplicated (hli16, hli17, hli18, and hli19) in this strain. Both copies of the operon were significantly upregulated under all light conditions except green light (p7)",
+      "mention_strain": "Prochlorococcus MED4",
+      "strain": "Prochlorococcus MED4",
+      "locus_tag": "PMM0815",
+      "resolved_from": "hli19",
+      "resolution_method": "tier1:v"
+    },
+    {
+      "surface_form": "hli4, hli5, hli14, hli21",
+      "gene_name": "",
+      "identifiers": [
+        "hli4",
+        "hli5",
+        "hli14",
+        "hli21"
+      ],
+      "prominence": "central",
+      "evidence": "The same expression pattern was apparent for hli4, hli5, hli14, and hli21 (p7)",
+      "mention_strain": "Prochlorococcus MED4",
+      "strain": "Prochlorococcus MED4",
+      "locus_tag": "PMM1118",
+      "resolved_from": "hli4",
+      "resolution_method": "tier1:v"
+    },
+    {
+      "surface_form": "hli4, hli5, hli14, hli21",
+      "gene_name": "",
+      "identifiers": [
+        "hli4",
+        "hli5",
+        "hli14",
+        "hli21"
+      ],
+      "prominence": "central",
+      "evidence": "The same expression pattern was apparent for hli4, hli5, hli14, and hli21 (p7)",
+      "mention_strain": "Prochlorococcus MED4",
+      "strain": "Prochlorococcus MED4",
+      "locus_tag": "PMM1404",
+      "resolved_from": "hli5",
+      "resolution_method": "tier1:v"
+    },
+    {
+      "surface_form": "hli4, hli5, hli14, hli21",
+      "gene_name": "",
+      "identifiers": [
+        "hli4",
+        "hli5",
+        "hli14",
+        "hli21"
+      ],
+      "prominence": "central",
+      "evidence": "The same expression pattern was apparent for hli4, hli5, hli14, and hli21 (p7)",
+      "mention_strain": "Prochlorococcus MED4",
+      "strain": "Prochlorococcus MED4",
+      "locus_tag": "PMM1135",
+      "resolved_from": "hli14",
+      "resolution_method": "tier1:v"
+    },
+    {
+      "surface_form": "hli4, hli5, hli14, hli21",
+      "gene_name": "",
+      "identifiers": [
+        "hli4",
+        "hli5",
+        "hli14",
+        "hli21"
+      ],
+      "prominence": "central",
+      "evidence": "The same expression pattern was apparent for hli4, hli5, hli14, and hli21 (p7)",
+      "mention_strain": "Prochlorococcus MED4",
+      "strain": "Prochlorococcus MED4",
+      "locus_tag": "PMM0690",
+      "resolved_from": "hli21",
+      "resolution_method": "tier1:v"
+    },
+    {
+      "surface_form": "hli11, hli12, hli22, hli3, hli15",
+      "gene_name": "",
+      "identifiers": [
+        "hli11",
+        "hli12",
+        "hli22",
+        "hli3",
+        "hli15"
+      ],
+      "prominence": "peripheral",
+      "evidence": "only modest to minor changes were detectable for hli11, hli12, hli22, hli3, and hli15 (p7)",
+      "mention_strain": "Prochlorococcus MED4",
+      "strain": "Prochlorococcus MED4",
+      "locus_tag": "PMM1385",
+      "resolved_from": "hli11",
+      "resolution_method": "tier1:v"
+    },
+    {
+      "surface_form": "hli11, hli12, hli22, hli3, hli15",
+      "gene_name": "",
+      "identifiers": [
+        "hli11",
+        "hli12",
+        "hli22",
+        "hli3",
+        "hli15"
+      ],
+      "prominence": "peripheral",
+      "evidence": "only modest to minor changes were detectable for hli11, hli12, hli22, hli3, and hli15 (p7)",
+      "mention_strain": "Prochlorococcus MED4",
+      "strain": "Prochlorococcus MED4",
+      "locus_tag": "PMM1384",
+      "resolved_from": "hli12",
+      "resolution_method": "tier1:v"
+    },
+    {
+      "surface_form": "hli11, hli12, hli22, hli3, hli15",
+      "gene_name": "",
+      "identifiers": [
+        "hli11",
+        "hli12",
+        "hli22",
+        "hli3",
+        "hli15"
+      ],
+      "prominence": "peripheral",
+      "evidence": "only modest to minor changes were detectable for hli11, hli12, hli22, hli3, and hli15 (p7)",
+      "mention_strain": "Prochlorococcus MED4",
+      "strain": "Prochlorococcus MED4",
+      "locus_tag": "PMM0689",
+      "resolved_from": "hli22",
+      "resolution_method": "tier1:v"
+    },
+    {
+      "surface_form": "hli11, hli12, hli22, hli3, hli15",
+      "gene_name": "",
+      "identifiers": [
+        "hli11",
+        "hli12",
+        "hli22",
+        "hli3",
+        "hli15"
+      ],
+      "prominence": "peripheral",
+      "evidence": "only modest to minor changes were detectable for hli11, hli12, hli22, hli3, and hli15 (p7)",
+      "mention_strain": "Prochlorococcus MED4",
+      "strain": "Prochlorococcus MED4",
+      "locus_tag": "PMM1482",
+      "resolved_from": "hli3",
+      "resolution_method": "tier1:v"
+    },
+    {
+      "surface_form": "hli11, hli12, hli22, hli3, hli15",
+      "gene_name": "",
+      "identifiers": [
+        "hli11",
+        "hli12",
+        "hli22",
+        "hli3",
+        "hli15"
+      ],
+      "prominence": "peripheral",
+      "evidence": "only modest to minor changes were detectable for hli11, hli12, hli22, hli3, and hli15 (p7)",
+      "mention_strain": "Prochlorococcus MED4",
+      "strain": "Prochlorococcus MED4",
+      "locus_tag": "PMM1128",
+      "resolved_from": "hli15",
+      "resolution_method": "tier1:v"
+    },
+    {
+      "surface_form": "hli1, hli2, hli10, hli13, hli20",
+      "gene_name": "",
+      "identifiers": [
+        "hli1",
+        "hli2",
+        "hli10",
+        "hli13",
+        "hli20"
+      ],
+      "prominence": "peripheral",
+      "evidence": "Genes for five additional HLIPS, hli1, hli2, hli10, hli13, and hli20, were constitutively expressed under all experimental conditions (p7)",
+      "mention_strain": "Prochlorococcus MED4",
+      "strain": "Prochlorococcus MED4",
+      "locus_tag": "PMM0093",
+      "resolved_from": "hli1",
+      "resolution_method": "tier1:v"
+    },
+    {
+      "surface_form": "hli1, hli2, hli10, hli13, hli20",
+      "gene_name": "",
+      "identifiers": [
+        "hli1",
+        "hli2",
+        "hli10",
+        "hli13",
+        "hli20"
+      ],
+      "prominence": "peripheral",
+      "evidence": "Genes for five additional HLIPS, hli1, hli2, hli10, hli13, and hli20, were constitutively expressed under all experimental conditions (p7)",
+      "mention_strain": "Prochlorococcus MED4",
+      "strain": "Prochlorococcus MED4",
+      "locus_tag": "PMM0064",
+      "resolved_from": "hli2",
+      "resolution_method": "tier1:v"
+    },
+    {
+      "surface_form": "hli1, hli2, hli10, hli13, hli20",
+      "gene_name": "",
+      "identifiers": [
+        "hli1",
+        "hli2",
+        "hli10",
+        "hli13",
+        "hli20"
+      ],
+      "prominence": "peripheral",
+      "evidence": "Genes for five additional HLIPS, hli1, hli2, hli10, hli13, and hli20, were constitutively expressed under all experimental conditions (p7)",
+      "mention_strain": "Prochlorococcus MED4",
+      "strain": "Prochlorococcus MED4",
+      "locus_tag": "PMM1390",
+      "resolved_from": "hli10",
+      "resolution_method": "tier1:v"
+    },
+    {
+      "surface_form": "hli1, hli2, hli10, hli13, hli20",
+      "gene_name": "",
+      "identifiers": [
+        "hli1",
+        "hli2",
+        "hli10",
+        "hli13",
+        "hli20"
+      ],
+      "prominence": "peripheral",
+      "evidence": "Genes for five additional HLIPS, hli1, hli2, hli10, hli13, and hli20, were constitutively expressed under all experimental conditions (p7)",
+      "mention_strain": "Prochlorococcus MED4",
+      "strain": "Prochlorococcus MED4",
+      "locus_tag": "PMM1317",
+      "resolved_from": "hli13",
+      "resolution_method": "tier1:v"
+    },
+    {
+      "surface_form": "hli1, hli2, hli10, hli13, hli20",
+      "gene_name": "",
+      "identifiers": [
+        "hli1",
+        "hli2",
+        "hli10",
+        "hli13",
+        "hli20"
+      ],
+      "prominence": "peripheral",
+      "evidence": "Genes for five additional HLIPS, hli1, hli2, hli10, hli13, and hli20, were constitutively expressed under all experimental conditions (p7)",
+      "mention_strain": "Prochlorococcus MED4",
+      "strain": "Prochlorococcus MED4",
+      "locus_tag": "PMM0471",
+      "resolved_from": "hli20",
+      "resolution_method": "tier1:v"
+    },
+    {
+      "surface_form": "PMM1359",
+      "gene_name": "",
+      "identifiers": [
+        "PMM1359"
+      ],
+      "prominence": "central",
+      "evidence": "The most highly upregulated gene (61.2-fold upregulated upon darkness-to-high-light transition) was PMM1359 (p7)",
+      "mention_strain": "Prochlorococcus MED4",
+      "strain": "Prochlorococcus MED4",
+      "locus_tag": "PMM1359",
+      "resolved_from": "PMM1359",
+      "resolution_method": "locus_tag:v"
+    },
+    {
+      "surface_form": "PMM1148",
+      "gene_name": "",
+      "identifiers": [
+        "PMM1148"
+      ],
+      "prominence": "peripheral",
+      "evidence": "The most highly downregulated gene (11.3-fold reduced in high light) was PMM1148 (p7)",
+      "mention_strain": "Prochlorococcus MED4",
+      "strain": "Prochlorococcus MED4",
+      "locus_tag": "PMM1148",
+      "resolved_from": "PMM1148",
+      "resolution_method": "locus_tag:v"
+    },
+    {
+      "surface_form": "PMM0336",
+      "gene_name": "",
+      "identifiers": [
+        "PMM0336"
+      ],
+      "prominence": "central",
+      "evidence": "The expression of only four genes, PMM0336, PMM0356, PMM1359, and PMM1462, was influenced by DCMU (p7)",
+      "mention_strain": "Prochlorococcus MED4",
+      "strain": "Prochlorococcus MED4",
+      "locus_tag": "PMM0336",
+      "resolved_from": "PMM0336",
+      "resolution_method": "locus_tag:v"
+    },
+    {
+      "surface_form": "PMM0356",
+      "gene_name": "",
+      "identifiers": [
+        "PMM0356"
+      ],
+      "prominence": "central",
+      "evidence": "The expression of only four genes, PMM0336, PMM0356, PMM1359, and PMM1462, was influenced by DCMU (p7)",
+      "mention_strain": "Prochlorococcus MED4",
+      "strain": "Prochlorococcus MED4",
+      "locus_tag": "PMM0356",
+      "resolved_from": "PMM0356",
+      "resolution_method": "locus_tag:v"
+    },
+    {
+      "surface_form": "PMM1462",
+      "gene_name": "",
+      "identifiers": [
+        "PMM1462"
+      ],
+      "prominence": "peripheral",
+      "evidence": "The expression of only four genes, PMM0336, PMM0356, PMM1359, and PMM1462, was influenced by DCMU (p7)",
+      "mention_strain": "Prochlorococcus MED4",
+      "strain": "Prochlorococcus MED4",
+      "locus_tag": "PMM1462",
+      "resolved_from": "PMM1462",
+      "resolution_method": "locus_tag:v"
+    },
+    {
+      "surface_form": "PMM0285",
+      "gene_name": "",
+      "identifiers": [
+        "PMM0285"
+      ],
+      "prominence": "peripheral",
+      "evidence": "at least one of the genes annotated as photolyase (45) or photolyase related (10) in MED4 (PMM0285, PMM0425, and PMM1360) might indeed serve as a blue-light-sensing cryptochrome (p7)",
+      "mention_strain": "Prochlorococcus MED4",
+      "strain": "Prochlorococcus MED4",
+      "locus_tag": "PMM0285",
+      "resolved_from": "PMM0285",
+      "resolution_method": "locus_tag:v"
+    },
+    {
+      "surface_form": "PMM0425",
+      "gene_name": "",
+      "identifiers": [
+        "PMM0425"
+      ],
+      "prominence": "peripheral",
+      "evidence": "at least one of the genes annotated as photolyase (45) or photolyase related (10) in MED4 (PMM0285, PMM0425, and PMM1360) might indeed serve as a blue-light-sensing cryptochrome (p7)",
+      "mention_strain": "Prochlorococcus MED4",
+      "strain": "Prochlorococcus MED4",
+      "locus_tag": "PMM0425",
+      "resolved_from": "PMM0425",
+      "resolution_method": "locus_tag:v"
+    },
+    {
+      "surface_form": "PMM1360",
+      "gene_name": "",
+      "identifiers": [
+        "PMM1360"
+      ],
+      "prominence": "peripheral",
+      "evidence": "at least one of the genes annotated as photolyase (45) or photolyase related (10) in MED4 (PMM0285, PMM0425, and PMM1360) might indeed serve as a blue-light-sensing cryptochrome (p7)",
+      "mention_strain": "Prochlorococcus MED4",
+      "strain": "Prochlorococcus MED4",
+      "locus_tag": "PMM1360",
+      "resolved_from": "PMM1360",
+      "resolution_method": "locus_tag:v"
+    },
+    {
+      "surface_form": "PMM1670",
+      "gene_name": "",
+      "identifiers": [
+        "PMM1670"
+      ],
+      "prominence": "central",
+      "evidence": "Genes PMM1670, PMM1671, and PMM1672, for example, were induced in red light and high light but became repressed in blue light (p8)",
+      "mention_strain": "Prochlorococcus MED4",
+      "strain": "Prochlorococcus MED4",
+      "locus_tag": "PMM1670",
+      "resolved_from": "PMM1670",
+      "resolution_method": "locus_tag:v"
+    },
+    {
+      "surface_form": "PMM1671",
+      "gene_name": "",
+      "identifiers": [
+        "PMM1671"
+      ],
+      "prominence": "central",
+      "evidence": "Genes PMM1670, PMM1671, and PMM1672, for example, were induced in red light and high light but became repressed in blue light (p8)",
+      "mention_strain": "Prochlorococcus MED4",
+      "strain": "Prochlorococcus MED4",
+      "locus_tag": "PMM1671",
+      "resolved_from": "PMM1671",
+      "resolution_method": "locus_tag:v"
+    },
+    {
+      "surface_form": "PMM1672 (des9)",
+      "gene_name": "des9",
+      "identifiers": [
+        "PMM1672"
+      ],
+      "prominence": "central",
+      "evidence": "PMM1672 is an ortholog of a gene well studied in other cyanobacteria (27) that encodes a fatty acid desaturase (des9 and desC) (p8)",
+      "mention_strain": "Prochlorococcus MED4",
+      "strain": "Prochlorococcus MED4",
+      "locus_tag": "PMM1672",
+      "resolved_from": "PMM1672",
+      "resolution_method": "locus_tag:v"
+    },
+    {
+      "surface_form": "pgk",
+      "gene_name": "pgk",
+      "identifiers": [],
+      "prominence": "peripheral",
+      "evidence": "the expression levels of hli8 and pgk, which responded in blue and red light (probably regulated by redox signaling), were measured simultaneously (p10)",
+      "mention_strain": "Prochlorococcus MED4",
+      "strain": "Prochlorococcus MED4",
+      "locus_tag": "PMM0195",
+      "resolved_from": "pgk",
+      "resolution_method": "tier1:v"
+    },
+    {
+      "surface_form": "cpeB (PMM0305)",
+      "gene_name": "cpeB",
+      "identifiers": [
+        "PMM0305"
+      ],
+      "prominence": "peripheral",
+      "evidence": "a specific form of phycoerythrin (cpeB, PMM0305) (48) and retinal, which is formed by a carotenoid oxygenase (PMM0280, Diox1) (46) (p10)",
+      "mention_strain": "Prochlorococcus MED4",
+      "strain": "Prochlorococcus MED4",
+      "locus_tag": "PMM0305",
+      "resolved_from": "PMM0305",
+      "resolution_method": "locus_tag:v"
+    },
+    {
+      "surface_form": "PMM0280 (Diox1)",
+      "gene_name": "",
+      "identifiers": [
+        "PMM0280"
+      ],
+      "prominence": "peripheral",
+      "evidence": "retinal, which is formed by a carotenoid oxygenase (PMM0280, Diox1) (46) (p10)",
+      "mention_strain": "Prochlorococcus MED4",
+      "strain": "Prochlorococcus MED4",
+      "locus_tag": "PMM0280",
+      "resolved_from": "PMM0280",
+      "resolution_method": "locus_tag:v"
+    }
+  ],
+  "pathways": [
+    {
+      "surface_form": "photosynthesis",
+      "kegg_pathway_id_raw": "ko00195",
+      "prominence": "central",
+      "evidence": "Light is one of the crucial factors for the modulation of photosynthesis gene expression (18, 19, 42), and indeed, our data may indicate a reorganization of the photosystem I (PSI) and PSII complexes upon shifting to high-light conditions. (p6)",
+      "pathway_id": "ko00195",
+      "pathway_name": "photosynthesis",
+      "resolution_method": "id"
+    },
+    {
+      "surface_form": "fatty acid desaturation",
+      "kegg_pathway_id_raw": "ko00062",
+      "prominence": "peripheral",
+      "evidence": "PMM1672 is an ortholog of a gene well studied in other cyanobacteria (27) that encodes a fatty acid desaturase (des9 and desC) (p8)",
+      "pathway_id": "ko00062",
+      "pathway_name": "fatty acid elongation",
+      "resolution_method": "id"
+    },
+    {
+      "surface_form": "chlorophyll metabolism",
+      "kegg_pathway_id_raw": "ko00860",
+      "prominence": "peripheral",
+      "evidence": "The absorption of blue-light and/or red-light photons by chlorophylls may ultimately induce alterations in the redox state of the photosynthetic electron transport chain (p7)",
+      "pathway_id": "ko00860",
+      "pathway_name": "porphyrin metabolism",
+      "resolution_method": "id"
+    }
+  ]
+}

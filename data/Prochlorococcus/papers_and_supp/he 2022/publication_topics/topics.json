@@ -1,0 +1,342 @@
+{
+  "metadata": {
+    "paper": "He 2022",
+    "doi": null,
+    "strains": [
+      "Prochlorococcus NATL1A",
+      "Prochlorococcus MED4"
+    ],
+    "model": "gpt-4.1",
+    "self_assessment": "high",
+    "assessment_notes": "Gene and pathway mentions are explicit and supported by direct quotes; strain attribution is clear from locus tags and context.",
+    "uncaptured_identifiers": "some",
+    "uncaptured_identifiers_note": "Supplementary Tables S1, S2 and full gene lists in Tables 2\u20134 contain additional locus tags not included here.",
+    "extracted_at": "2026-06-04T10:03:04.919470",
+    "input_tokens": 19405,
+    "output_tokens": 3171
+  },
+  "genes": [
+    {
+      "surface_form": "idiA",
+      "gene_name": "idiA",
+      "identifiers": [
+        "idiA",
+        "afuA",
+        "futA",
+        "gene-NATL1_16181",
+        "gene-PMM1164"
+      ],
+      "strain": "all",
+      "prominence": "central",
+      "evidence": "both strains up-regulated an iron ABC transporter gene, idiA, suggesting low salinity acclimated cells could be iron limited (Abstract, p1); a periplasmic ABC-type Fe3+ transporter (afuA/idiA/futA) was up-regulated in low salinity acclimated cells of both NATL1A and MED4 (p8)"
+    },
+    {
+      "surface_form": "atpA",
+      "gene_name": "atpA",
+      "identifiers": [
+        "atpA",
+        "gene-NATL1_18491"
+      ],
+      "strain": "Prochlorococcus NATL1A",
+      "prominence": "central",
+      "evidence": "ATP-producing genes were down-regulated (atpA, atpC, atpD, atpH and other ATP synthase genes) (p6, Results)"
+    },
+    {
+      "surface_form": "atpC",
+      "gene_name": "atpC",
+      "identifiers": [
+        "atpC",
+        "gene-NATL1_18391"
+      ],
+      "strain": "Prochlorococcus NATL1A",
+      "prominence": "central",
+      "evidence": "ATP-producing genes were down-regulated (atpA, atpC, atpD, atpH and other ATP synthase genes) (p6, Results)"
+    },
+    {
+      "surface_form": "atpD",
+      "gene_name": "atpD",
+      "identifiers": [
+        "atpD",
+        "gene-NATL1_18381",
+        "gene-PMM1452"
+      ],
+      "strain": "all",
+      "prominence": "central",
+      "evidence": "ATP-producing genes were down-regulated (atpA, atpC, atpD, atpH and other ATP synthase genes) (p6, Results); gene-PMM1452 atpH,atpD ATP synthase, delta (OSCP) subunit (Table 3, p9)"
+    },
+    {
+      "surface_form": "atpH",
+      "gene_name": "atpH",
+      "identifiers": [
+        "atpH",
+        "gene-NATL1_18501",
+        "gene-PMM1452"
+      ],
+      "strain": "all",
+      "prominence": "central",
+      "evidence": "ATP-producing genes were down-regulated (atpA, atpC, atpD, atpH and other ATP synthase genes) (p6, Results); gene-PMM1452 atpH,atpD ATP synthase, delta (OSCP) subunit (Table 3, p9)"
+    },
+    {
+      "surface_form": "psaC",
+      "gene_name": "psaC",
+      "identifiers": [
+        "psaC",
+        "gene-NATL1_20591"
+      ],
+      "strain": "Prochlorococcus NATL1A",
+      "prominence": "central",
+      "evidence": "many genes involved in photosynthesis (psaC, psb27, rbcS) ... were up-regulated (p6, Results)"
+    },
+    {
+      "surface_form": "psb27",
+      "gene_name": "psb27",
+      "identifiers": [
+        "psb27",
+        "gene-NATL1_05651"
+      ],
+      "strain": "Prochlorococcus NATL1A",
+      "prominence": "central",
+      "evidence": "many genes involved in photosynthesis (psaC, psb27, rbcS) ... were up-regulated (p6, Results)"
+    },
+    {
+      "surface_form": "rbcS",
+      "gene_name": "rbcS",
+      "identifiers": [
+        "rbcS",
+        "gene-NATL1_06051"
+      ],
+      "strain": "Prochlorococcus NATL1A",
+      "prominence": "central",
+      "evidence": "many genes involved in photosynthesis (psaC, psb27, rbcS) ... were up-regulated (p6, Results)"
+    },
+    {
+      "surface_form": "cyoA",
+      "gene_name": "cyoA",
+      "identifiers": [
+        "cyoA",
+        "gene-NATL1_05001"
+      ],
+      "strain": "Prochlorococcus NATL1A",
+      "prominence": "peripheral",
+      "evidence": "cytochrome oxidation (cyoA, cyoB, ctaE) were up-regulated (p6, Results)"
+    },
+    {
+      "surface_form": "cyoB",
+      "gene_name": "cyoB",
+      "identifiers": [
+        "cyoB",
+        "gene-NATL1_04991"
+      ],
+      "strain": "Prochlorococcus NATL1A",
+      "prominence": "peripheral",
+      "evidence": "cytochrome oxidation (cyoA, cyoB, ctaE) were up-regulated (p6, Results)"
+    },
+    {
+      "surface_form": "ctaE",
+      "gene_name": "ctaE",
+      "identifiers": [
+        "ctaE",
+        "gene-NATL1_04981"
+      ],
+      "strain": "Prochlorococcus NATL1A",
+      "prominence": "peripheral",
+      "evidence": "cytochrome oxidation (cyoA, cyoB, ctaE) were up-regulated (p6, Results)"
+    },
+    {
+      "surface_form": "ndhA",
+      "gene_name": "ndhA",
+      "identifiers": [
+        "ndhA",
+        "gene-NATL1_02331"
+      ],
+      "strain": "Prochlorococcus NATL1A",
+      "prominence": "peripheral",
+      "evidence": "NADH dehydrogenase (ndhA, ndhH) were up-regulated (p6, Results)"
+    },
+    {
+      "surface_form": "ndhH",
+      "gene_name": "ndhH",
+      "identifiers": [
+        "ndhH",
+        "gene-NATL1_02471"
+      ],
+      "strain": "Prochlorococcus NATL1A",
+      "prominence": "peripheral",
+      "evidence": "NADH dehydrogenase (ndhA, ndhH) were up-regulated (p6, Results)"
+    },
+    {
+      "surface_form": "psbA",
+      "gene_name": "psbA",
+      "identifiers": [
+        "psbA",
+        "gene-PMM0223"
+      ],
+      "strain": "Prochlorococcus MED4",
+      "prominence": "central",
+      "evidence": "genes for photosynthesis were down-regulated, such as photosystems II (psbA, psbB, psbD, psbN) (p6, Results)"
+    },
+    {
+      "surface_form": "psbB",
+      "gene_name": "psbB",
+      "identifiers": [
+        "psbB",
+        "gene-PMM0315"
+      ],
+      "strain": "Prochlorococcus MED4",
+      "prominence": "central",
+      "evidence": "genes for photosynthesis were down-regulated, such as photosystems II (psbA, psbB, psbD, psbN) (p6, Results)"
+    },
+    {
+      "surface_form": "psbD",
+      "gene_name": "psbD",
+      "identifiers": [
+        "psbD",
+        "gene-PMM1157"
+      ],
+      "strain": "Prochlorococcus MED4",
+      "prominence": "central",
+      "evidence": "genes for photosynthesis were down-regulated, such as photosystems II (psbA, psbB, psbD, psbN) (p6, Results)"
+    },
+    {
+      "surface_form": "psbN",
+      "gene_name": "psbN",
+      "identifiers": [
+        "psbN",
+        "gene-PMM0252"
+      ],
+      "strain": "Prochlorococcus MED4",
+      "prominence": "central",
+      "evidence": "genes for photosynthesis were down-regulated, such as photosystems II (psbA, psbB, psbD, psbN) (p6, Results)"
+    },
+    {
+      "surface_form": "petA",
+      "gene_name": "petA",
+      "identifiers": [
+        "petA",
+        "gene-PMM0461"
+      ],
+      "strain": "Prochlorococcus MED4",
+      "prominence": "peripheral",
+      "evidence": "cytochrome F (petA), and electron transport chain intermediate (ndhD) (p6, Results)"
+    },
+    {
+      "surface_form": "ndhD",
+      "gene_name": "ndhD",
+      "identifiers": [
+        "ndhD",
+        "gene-PMM0594"
+      ],
+      "strain": "Prochlorococcus MED4",
+      "prominence": "peripheral",
+      "evidence": "cytochrome F (petA), and electron transport chain intermediate (ndhD) (p6, Results)"
+    },
+    {
+      "surface_form": "gpgP",
+      "gene_name": "gpgP",
+      "identifiers": [
+        "gpgP",
+        "NATL1_05721",
+        "PMM0515"
+      ],
+      "strain": "all",
+      "prominence": "central",
+      "evidence": "significant decrease in transcript abundance of the GGA synthesis genes (gpgP, encoding glucosyl-phosphoglycerate phosphatase) in the low salinity acclimated cells (p6, Results; Table 4, p10)"
+    },
+    {
+      "surface_form": "gpgS",
+      "gene_name": "gpgS",
+      "identifiers": [
+        "gpgS",
+        "NATL1_09131",
+        "PMM0962"
+      ],
+      "strain": "all",
+      "prominence": "central",
+      "evidence": "significant decrease in transcript abundance of the GGA synthesis genes (gpgS, encoding glucosyl-phosphoglycerate synthase) in the low salinity acclimated cells (p6, Results; Table 4, p10)"
+    },
+    {
+      "surface_form": "spsA",
+      "gene_name": "spsA",
+      "identifiers": [
+        "spsA",
+        "NATL1_21951",
+        "PMM1711"
+      ],
+      "strain": "all",
+      "prominence": "peripheral",
+      "evidence": "did not observe significant change on the sucrose synthesis gene spsA (encoding sucrose phosphate synthase) (p6, Results; Table 4, p10)"
+    },
+    {
+      "surface_form": "nhaP",
+      "gene_name": "nhaP",
+      "identifiers": [
+        "nhaP",
+        "gene-NATL1_05281"
+      ],
+      "strain": "Prochlorococcus NATL1A",
+      "prominence": "peripheral",
+      "evidence": "the transcript level of Na+/H+ antiporter (nhaP) was increased under low salinity stress in NATL1A cells (p6, Results)"
+    },
+    {
+      "surface_form": "dnaK",
+      "gene_name": "dnaK",
+      "identifiers": [
+        "dnaK",
+        "gene-NATL1_09851",
+        "gene-PMM1704"
+      ],
+      "strain": "all",
+      "prominence": "central",
+      "evidence": "Up-regulated expression of dnaK was observed in both MED4 and NATL1A, which suggests that this gene could play a role in low salinity acclimation (p8, Results)"
+    },
+    {
+      "surface_form": "isiB",
+      "gene_name": "isiB",
+      "identifiers": [
+        "isiB",
+        "gene-PMM1171"
+      ],
+      "strain": "Prochlorococcus MED4",
+      "prominence": "peripheral",
+      "evidence": "the gene isiB (flavodoxin), which was induced in low iron stress, was not observed to be up-regulated in this study (p8, Results; Table 3, p9)"
+    }
+  ],
+  "pathways": [
+    {
+      "surface_form": "photosynthesis",
+      "kegg_pathway_id": "ko00195",
+      "prominence": "central",
+      "evidence": "up-regulated photosynthesis-related genes (Abstract, p1); enhanced photosynthesis (Conclusion, p10)"
+    },
+    {
+      "surface_form": "translation, ribosomal structure and biogenesis",
+      "kegg_pathway_id": "",
+      "prominence": "central",
+      "evidence": "down-regulated the transcript of genes involved in translation, ribosomal structure and biogenesis (Abstract, p1; Table 1, p5)"
+    },
+    {
+      "surface_form": "ATP-production",
+      "kegg_pathway_id": "",
+      "prominence": "central",
+      "evidence": "down-regulated the transcript of genes involved in ... ATP-production (Abstract, p1; Table 1, p5)"
+    },
+    {
+      "surface_form": "energy production and conversion",
+      "kegg_pathway_id": "",
+      "prominence": "central",
+      "evidence": "regulation of genes involved in energy production and conversion were also in distinct patterns (p6, Results; Table 1, p5)"
+    },
+    {
+      "surface_form": "compatible solute biosynthesis",
+      "kegg_pathway_id": "",
+      "prominence": "central",
+      "evidence": "significant decrease in transcript abundance of the GGA synthesis genes (gpgP, gpgS) (p6, Results; Table 4, p10)"
+    },
+    {
+      "surface_form": "iron transport",
+      "kegg_pathway_id": "",
+      "prominence": "central",
+      "evidence": "both strains up-regulated an iron ABC transporter gene, idiA (Abstract, p1; p8, Results)"
+    }
+  ]
+}

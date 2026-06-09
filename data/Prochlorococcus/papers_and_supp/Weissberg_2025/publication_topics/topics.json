@@ -1,0 +1,246 @@
+{
+  "metadata": {
+    "paper": "Weissberg 2025",
+    "doi": null,
+    "strains": [
+      "Alteromonas macleodii HOT1A3",
+      "Prochlorococcus MED4"
+    ],
+    "model": "gpt-4.1",
+    "self_assessment": "high",
+    "assessment_notes": "All gene and pathway mentions are directly from the main text and tables. Strain attribution is clear from locus tags and context.",
+    "uncaptured_identifiers": "some",
+    "uncaptured_identifiers_note": "Tables 1-4 list additional hypothetical proteins and some abbreviated gene names not included here; only those with explicit discussion or annotation are extracted.",
+    "extracted_at": "2026-06-04T10:07:18.315105",
+    "input_tokens": 21368,
+    "output_tokens": 2443
+  },
+  "genes": [
+    {
+      "surface_form": "ntcA",
+      "gene_name": "ntcA",
+      "identifiers": [],
+      "strain": "Prochlorococcus MED4",
+      "prominence": "central",
+      "evidence": "Prochlorococcus response to nitrogen starvation ... includes upregulation of enzymes involved in nitrogen metabolism and nitrogen transporters, including ntcA, the nitrogen regulator in Prochlorococcus (Introduction, p2)"
+    },
+    {
+      "surface_form": "TX50_RS01985",
+      "gene_name": "cynS",
+      "identifiers": [
+        "TX50_RS01985"
+      ],
+      "strain": "Prochlorococcus MED4",
+      "prominence": "central",
+      "evidence": "TX50_RS01985 cynS cyanase Nitrogen metabolism ... upregulated in long-term survival (Table 1, p8)"
+    },
+    {
+      "surface_form": "TX50_RS01975",
+      "gene_name": "ntrB",
+      "identifiers": [
+        "TX50_RS01975"
+      ],
+      "strain": "Prochlorococcus MED4",
+      "prominence": "central",
+      "evidence": "TX50_RS01975 ntrB nitrate ABC transporter permease Nitrogen metabolism; ABC transporters ... upregulated (Table 1, p8)"
+    },
+    {
+      "surface_form": "TX50_RS01970",
+      "gene_name": "",
+      "identifiers": [
+        "TX50_RS01970"
+      ],
+      "strain": "Prochlorococcus MED4",
+      "prominence": "central",
+      "evidence": "TX50_RS01970 ABC transporter substrate-binding protein Nitrogen metabolism; ABC transporters ... upregulated (Table 1, p8)"
+    },
+    {
+      "surface_form": "TX50_RS05300",
+      "gene_name": "pepE",
+      "identifiers": [
+        "TX50_RS05300"
+      ],
+      "strain": "Prochlorococcus MED4",
+      "prominence": "peripheral",
+      "evidence": "TX50_RS05300 (pepE) peptidase E Peptidases and inhibitors ... downregulated (Table 2, p8)"
+    },
+    {
+      "surface_form": "TX50_RS06610",
+      "gene_name": "",
+      "identifiers": [
+        "TX50_RS06610"
+      ],
+      "strain": "Prochlorococcus MED4",
+      "prominence": "peripheral",
+      "evidence": "TX50_RS06610 (wecA, tagO, rfe) undecaprenyl/decaprenyl-phosphate alpha-N-acetylglucosaminyl 1-phosphate transferase Glycan biosynthesis and metabolism ... downregulated (Table 2, p8)"
+    },
+    {
+      "surface_form": "ACZ81_RS16600",
+      "gene_name": "rutC",
+      "identifiers": [
+        "ACZ81_RS16600"
+      ],
+      "strain": "Alteromonas macleodii HOT1A3",
+      "prominence": "central",
+      "evidence": "ACZ81_RS16600 rutC pyrimidine utilization protein C Pyrimidine metabolism ... upregulated (Table 3, p12)"
+    },
+    {
+      "surface_form": "ACZ81_RS16590",
+      "gene_name": "rutE",
+      "identifiers": [
+        "ACZ81_RS16590"
+      ],
+      "strain": "Alteromonas macleodii HOT1A3",
+      "prominence": "central",
+      "evidence": "ACZ81_RS16590 (rutE) malonic semialdehyde reductase Pyrimidine metabolism ... upregulated (Table 3, p12)"
+    },
+    {
+      "surface_form": "ACZ81_RS12900",
+      "gene_name": "lctP",
+      "identifiers": [
+        "ACZ81_RS12900"
+      ],
+      "strain": "Alteromonas macleodii HOT1A3",
+      "prominence": "central",
+      "evidence": "ACZ81_RS12900 (lctP) L-lactate permease Transporters ... upregulated (Table 3, p12)"
+    },
+    {
+      "surface_form": "ACZ81_RS05680",
+      "gene_name": "slyA",
+      "identifiers": [
+        "ACZ81_RS05680"
+      ],
+      "strain": "Alteromonas macleodii HOT1A3",
+      "prominence": "peripheral",
+      "evidence": "ACZ81_RS05680 (slyA) MarR family transcriptional regulator ... upregulated (Table 3, p12)"
+    },
+    {
+      "surface_form": "ACZ81_RS18535",
+      "gene_name": "",
+      "identifiers": [
+        "ACZ81_RS18535"
+      ],
+      "strain": "Alteromonas macleodii HOT1A3",
+      "prominence": "central",
+      "evidence": "ACZ81_RS18535 TonB-dependent receptor Transporters ... upregulated (Table 3, p13)"
+    },
+    {
+      "surface_form": "ACZ81_RS09835",
+      "gene_name": "",
+      "identifiers": [
+        "ACZ81_RS09835"
+      ],
+      "strain": "Alteromonas macleodii HOT1A3",
+      "prominence": "central",
+      "evidence": "ACZ81_RS09835 TonB-dependent receptor Transporters ... upregulated (Table 3, p13)"
+    },
+    {
+      "surface_form": "ACZ81_RS10115",
+      "gene_name": "sdaA, sdaB, tdcG",
+      "identifiers": [
+        "ACZ81_RS10115"
+      ],
+      "strain": "Alteromonas macleodii HOT1A3",
+      "prominence": "central",
+      "evidence": "ACZ81_RS10115 (sdaA, sdaB, tdcG) L-serine ammonia-lyase Glycine, serine and threonine metabolism; Cysteine and methionine metabolism ... upregulated (Table 3, p13)"
+    },
+    {
+      "surface_form": "ACZ81_RS02475",
+      "gene_name": "glyA",
+      "identifiers": [
+        "ACZ81_RS02475"
+      ],
+      "strain": "Alteromonas macleodii HOT1A3",
+      "prominence": "central",
+      "evidence": "ACZ81_RS02475 (glyA) serine hydroxymethyltransferase Glycine, serine and threonine metabolism ... upregulated (Table 3, p13)"
+    },
+    {
+      "surface_form": "ACZ81_RS05055",
+      "gene_name": "fliC, hag",
+      "identifiers": [
+        "ACZ81_RS05055"
+      ],
+      "strain": "Alteromonas macleodii HOT1A3",
+      "prominence": "peripheral",
+      "evidence": "ACZ81_RS05055 (fliC, hag) flagellin Flagellar assembly ... downregulated (Table 4, p13)"
+    },
+    {
+      "surface_form": "ACZ81_RS04970",
+      "gene_name": "flgN",
+      "identifiers": [
+        "ACZ81_RS04970"
+      ],
+      "strain": "Alteromonas macleodii HOT1A3",
+      "prominence": "peripheral",
+      "evidence": "ACZ81_RS04970 (flgN) flagellar protein FlgN Flagellar assembly ... downregulated (Table 4, p13)"
+    }
+  ],
+  "pathways": [
+    {
+      "surface_form": "Nitrogen metabolism",
+      "kegg_pathway_id": "ko00910",
+      "prominence": "central",
+      "evidence": "increased expression of genes and abundance of proteins involved in nitrogen metabolism (fig 4, p9)"
+    },
+    {
+      "surface_form": "Ribosome",
+      "kegg_pathway_id": "ko03010",
+      "prominence": "central",
+      "evidence": "overall down-regulation of the pathways for Ribosome, Translation and genetic information processing (fig 4, p9)"
+    },
+    {
+      "surface_form": "Translation",
+      "kegg_pathway_id": "",
+      "prominence": "central",
+      "evidence": "overall down-regulation of the pathways for Ribosome, Translation and genetic information processing (fig 4, p9)"
+    },
+    {
+      "surface_form": "Photosynthesis",
+      "kegg_pathway_id": "ko00195",
+      "prominence": "central",
+      "evidence": "strong signal of photosynthesis genes ... downregulation (Results, p5; fig 3, p7; fig 4, p9)"
+    },
+    {
+      "surface_form": "ABC transporters",
+      "kegg_pathway_id": "ko02010",
+      "prominence": "central",
+      "evidence": "ntrB nitrate ABC transporter permease Nitrogen metabolism; ABC transporters ... upregulated (Table 1, p8)"
+    },
+    {
+      "surface_form": "Glycan biosynthesis and metabolism",
+      "kegg_pathway_id": "ko00510",
+      "prominence": "peripheral",
+      "evidence": "TX50_RS06610 ... Glycan biosynthesis and metabolism ... downregulated (Table 2, p8)"
+    },
+    {
+      "surface_form": "Pyrimidine metabolism",
+      "kegg_pathway_id": "ko00240",
+      "prominence": "central",
+      "evidence": "rutC pyrimidine utilization protein C Pyrimidine metabolism ... upregulated (Table 3, p12)"
+    },
+    {
+      "surface_form": "Glycine, serine and threonine metabolism",
+      "kegg_pathway_id": "ko00260",
+      "prominence": "central",
+      "evidence": "L-serine ammonia-lyase Glycine, serine and threonine metabolism ... upregulated (Table 3, p13)"
+    },
+    {
+      "surface_form": "Cysteine and methionine metabolism",
+      "kegg_pathway_id": "ko00270",
+      "prominence": "peripheral",
+      "evidence": "L-serine ammonia-lyase ... Cysteine and methionine metabolism ... upregulated (Table 3, p13)"
+    },
+    {
+      "surface_form": "Transporters",
+      "kegg_pathway_id": "ko02000",
+      "prominence": "central",
+      "evidence": "TonB-dependent receptor Transporters ... upregulated (Table 3, p13)"
+    },
+    {
+      "surface_form": "Flagellar assembly",
+      "kegg_pathway_id": "ko02040",
+      "prominence": "peripheral",
+      "evidence": "flagellin Flagellar assembly ... downregulated (Table 4, p13)"
+    }
+  ]
+}

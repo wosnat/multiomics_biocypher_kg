@@ -1,0 +1,311 @@
+{
+  "metadata": {
+    "paper": "Lin 2015",
+    "doi": null,
+    "strains": [
+      "Prochlorococcus NATL2A"
+    ],
+    "model": "gpt-4.1",
+    "self_assessment": "high",
+    "assessment_notes": "All genes and pathways are explicitly named in the main text and figures. Strain attribution is clear.",
+    "uncaptured_identifiers": "some",
+    "uncaptured_identifiers_note": "Table S4 and S3 likely list additional locus tags and gene ids not included here; some abbreviated ids in figures.",
+    "extracted_at": "2026-06-04T10:03:53.780587",
+    "input_tokens": 21413,
+    "output_tokens": 3129
+  },
+  "genes": [
+    {
+      "surface_form": "pstS",
+      "gene_name": "pstS",
+      "identifiers": [
+        "pstS"
+      ],
+      "strain": "Prochlorococcus NATL2A",
+      "prominence": "central",
+      "evidence": "Transcripts of the P-acquisition genes in the uninfected cells were enriched after P limitation, including the high-affinity phosphate-binding protein gene pstS. (Summary, p1)"
+    },
+    {
+      "surface_form": "g247",
+      "gene_name": "",
+      "identifiers": [
+        "g247"
+      ],
+      "strain": "Prochlorococcus NATL2A",
+      "prominence": "central",
+      "evidence": "pstS and its adjacent gene g247 of unknown function were the only phage genes that were enriched under P-limited conditions. (Summary, p1)"
+    },
+    {
+      "surface_form": "phoB",
+      "gene_name": "phoB",
+      "identifiers": [
+        "phoB"
+      ],
+      "strain": "Prochlorococcus NATL2A",
+      "prominence": "central",
+      "evidence": "many genes with enriched transcripts (phoB, phoR, pstB, pstS, phoA, phoE, ptrA, pstC and pstA) are related to P acquisition (pho regulon genes) (p3)"
+    },
+    {
+      "surface_form": "phoR",
+      "gene_name": "phoR",
+      "identifiers": [
+        "phoR"
+      ],
+      "strain": "Prochlorococcus NATL2A",
+      "prominence": "central",
+      "evidence": "many genes with enriched transcripts (phoB, phoR, pstB, pstS, phoA, phoE, ptrA, pstC and pstA) are related to P acquisition (pho regulon genes) (p3)"
+    },
+    {
+      "surface_form": "pstB",
+      "gene_name": "pstB",
+      "identifiers": [
+        "pstB"
+      ],
+      "strain": "Prochlorococcus NATL2A",
+      "prominence": "central",
+      "evidence": "many genes with enriched transcripts (phoB, phoR, pstB, pstS, phoA, phoE, ptrA, pstC and pstA) are related to P acquisition (pho regulon genes) (p3)"
+    },
+    {
+      "surface_form": "phoA",
+      "gene_name": "phoA",
+      "identifiers": [
+        "phoA"
+      ],
+      "strain": "Prochlorococcus NATL2A",
+      "prominence": "central",
+      "evidence": "many genes with enriched transcripts (phoB, phoR, pstB, pstS, phoA, phoE, ptrA, pstC and pstA) are related to P acquisition (pho regulon genes) (p3)"
+    },
+    {
+      "surface_form": "phoE",
+      "gene_name": "phoE",
+      "identifiers": [
+        "phoE"
+      ],
+      "strain": "Prochlorococcus NATL2A",
+      "prominence": "peripheral",
+      "evidence": "many genes with enriched transcripts (phoB, phoR, pstB, pstS, phoA, phoE, ptrA, pstC and pstA) are related to P acquisition (pho regulon genes) (p3)"
+    },
+    {
+      "surface_form": "ptrA",
+      "gene_name": "ptrA",
+      "identifiers": [
+        "ptrA"
+      ],
+      "strain": "Prochlorococcus NATL2A",
+      "prominence": "peripheral",
+      "evidence": "many genes with enriched transcripts (phoB, phoR, pstB, pstS, phoA, phoE, ptrA, pstC and pstA) are related to P acquisition (pho regulon genes) (p3)"
+    },
+    {
+      "surface_form": "pstC",
+      "gene_name": "pstC",
+      "identifiers": [
+        "pstC"
+      ],
+      "strain": "Prochlorococcus NATL2A",
+      "prominence": "central",
+      "evidence": "many genes with enriched transcripts (phoB, phoR, pstB, pstS, phoA, phoE, ptrA, pstC and pstA) are related to P acquisition (pho regulon genes) (p3)"
+    },
+    {
+      "surface_form": "pstA",
+      "gene_name": "pstA",
+      "identifiers": [
+        "pstA"
+      ],
+      "strain": "Prochlorococcus NATL2A",
+      "prominence": "central",
+      "evidence": "many genes with enriched transcripts (phoB, phoR, pstB, pstS, phoA, phoE, ptrA, pstC and pstA) are related to P acquisition (pho regulon genes) (p3)"
+    },
+    {
+      "surface_form": "gap1",
+      "gene_name": "gap1",
+      "identifiers": [
+        "gap1"
+      ],
+      "strain": "Prochlorococcus NATL2A",
+      "prominence": "peripheral",
+      "evidence": "Glyceraldehyde-3-phosphate dehydrogenase (gap1)...transcripts were enriched in the P-starved cultures (p3)"
+    },
+    {
+      "surface_form": "mfs",
+      "gene_name": "mfs",
+      "identifiers": [
+        "mfs"
+      ],
+      "strain": "Prochlorococcus NATL2A",
+      "prominence": "peripheral",
+      "evidence": "mfs (a major facilitator superfamily transporter)...transcripts were enriched in the P-starved cultures (p3)"
+    },
+    {
+      "surface_form": "atpA",
+      "gene_name": "atpA",
+      "identifiers": [
+        "atpA"
+      ],
+      "strain": "Prochlorococcus NATL2A",
+      "prominence": "central",
+      "evidence": "Most genes with depleted transcripts...belong to the ATP synthase operon (atpA, atpB, atpE, atpF, atpG, atpH and atpI) (p3)"
+    },
+    {
+      "surface_form": "atpB",
+      "gene_name": "atpB",
+      "identifiers": [
+        "atpB"
+      ],
+      "strain": "Prochlorococcus NATL2A",
+      "prominence": "central",
+      "evidence": "Most genes with depleted transcripts...belong to the ATP synthase operon (atpA, atpB, atpE, atpF, atpG, atpH and atpI) (p3)"
+    },
+    {
+      "surface_form": "atpE",
+      "gene_name": "atpE",
+      "identifiers": [
+        "atpE"
+      ],
+      "strain": "Prochlorococcus NATL2A",
+      "prominence": "central",
+      "evidence": "Most genes with depleted transcripts...belong to the ATP synthase operon (atpA, atpB, atpE, atpF, atpG, atpH and atpI) (p3)"
+    },
+    {
+      "surface_form": "atpF",
+      "gene_name": "atpF",
+      "identifiers": [
+        "atpF"
+      ],
+      "strain": "Prochlorococcus NATL2A",
+      "prominence": "central",
+      "evidence": "Most genes with depleted transcripts...belong to the ATP synthase operon (atpA, atpB, atpE, atpF, atpG, atpH and atpI) (p3)"
+    },
+    {
+      "surface_form": "atpG",
+      "gene_name": "atpG",
+      "identifiers": [
+        "atpG"
+      ],
+      "strain": "Prochlorococcus NATL2A",
+      "prominence": "central",
+      "evidence": "Most genes with depleted transcripts...belong to the ATP synthase operon (atpA, atpB, atpE, atpF, atpG, atpH and atpI) (p3)"
+    },
+    {
+      "surface_form": "atpH",
+      "gene_name": "atpH",
+      "identifiers": [
+        "atpH"
+      ],
+      "strain": "Prochlorococcus NATL2A",
+      "prominence": "central",
+      "evidence": "Most genes with depleted transcripts...belong to the ATP synthase operon (atpA, atpB, atpE, atpF, atpG, atpH and atpI) (p3)"
+    },
+    {
+      "surface_form": "atpI",
+      "gene_name": "atpI",
+      "identifiers": [
+        "atpI"
+      ],
+      "strain": "Prochlorococcus NATL2A",
+      "prominence": "central",
+      "evidence": "Most genes with depleted transcripts...belong to the ATP synthase operon (atpA, atpB, atpE, atpF, atpG, atpH and atpI) (p3)"
+    },
+    {
+      "surface_form": "leuB",
+      "gene_name": "leuB",
+      "identifiers": [
+        "leuB"
+      ],
+      "strain": "Prochlorococcus NATL2A",
+      "prominence": "peripheral",
+      "evidence": "The transcripts of the leucine biosynthesis gene leuB...were also depleted in the P-starved cultures (p3-4)"
+    },
+    {
+      "surface_form": "rplJ",
+      "gene_name": "rplJ",
+      "identifiers": [
+        "rplJ"
+      ],
+      "strain": "Prochlorococcus NATL2A",
+      "prominence": "peripheral",
+      "evidence": "the ribosomal protein genes rplJ, rplL and rpsR were also depleted in the P-starved cultures (p4)"
+    },
+    {
+      "surface_form": "rplL",
+      "gene_name": "rplL",
+      "identifiers": [
+        "rplL"
+      ],
+      "strain": "Prochlorococcus NATL2A",
+      "prominence": "peripheral",
+      "evidence": "the ribosomal protein genes rplJ, rplL and rpsR were also depleted in the P-starved cultures (p4)"
+    },
+    {
+      "surface_form": "rpsR",
+      "gene_name": "rpsR",
+      "identifiers": [
+        "rpsR"
+      ],
+      "strain": "Prochlorococcus NATL2A",
+      "prominence": "peripheral",
+      "evidence": "the ribosomal protein genes rplJ, rplL and rpsR were also depleted in the P-starved cultures (p4)"
+    },
+    {
+      "surface_form": "cp12",
+      "gene_name": "cp12",
+      "identifiers": [
+        "cp12"
+      ],
+      "strain": "Prochlorococcus NATL2A",
+      "prominence": "peripheral",
+      "evidence": "the presence of the Calvin cycle inhibitor gene cp12 suggested... (Introduction, p1)"
+    },
+    {
+      "surface_form": "psbA",
+      "gene_name": "psbA",
+      "identifiers": [
+        "psbA"
+      ],
+      "strain": "Prochlorococcus NATL2A",
+      "prominence": "peripheral",
+      "evidence": "host-like metabolic genes psbA (photosystem II subunit)...were expressed as middle cluster genes (p2)"
+    },
+    {
+      "surface_form": "talC",
+      "gene_name": "talC",
+      "identifiers": [
+        "talC"
+      ],
+      "strain": "Prochlorococcus NATL2A",
+      "prominence": "peripheral",
+      "evidence": "host-like metabolic genes psbA (photosystem II subunit), talC (transaldolase), cp12 (Calvin cycle inhibitor) and pstS were expressed as middle cluster genes (p2)"
+    }
+  ],
+  "pathways": [
+    {
+      "surface_form": "pentose phosphate pathway",
+      "kegg_pathway_id": "ko00030",
+      "prominence": "peripheral",
+      "evidence": "pentose phosphate pathway and phosphate acquisition (Mann et al., 2005; Sullivan et al., 2005; 2010; Weigele et al., 2007; Clokie et al., 2010) (Introduction, p1)"
+    },
+    {
+      "surface_form": "phosphate acquisition",
+      "kegg_pathway_id": "",
+      "prominence": "central",
+      "evidence": "pentose phosphate pathway and phosphate acquisition (Mann et al., 2005; Sullivan et al., 2005; 2010; Weigele et al., 2007; Clokie et al., 2010) (Introduction, p1)"
+    },
+    {
+      "surface_form": "Calvin cycle",
+      "kegg_pathway_id": "ko00710",
+      "prominence": "peripheral",
+      "evidence": "The complete absence of Calvin cycle genes in cyanomyovirus genomes and the presence of the Calvin cycle inhibitor gene cp12... (Introduction, p1)"
+    },
+    {
+      "surface_form": "photosynthesis",
+      "kegg_pathway_id": "ko00195",
+      "prominence": "peripheral",
+      "evidence": "These genes are involved in photosynthesis (Mann et al., 2003; Lindell et al., 2004; Millard et al., 2004; Sharon et al., 2009) (Introduction, p1)"
+    },
+    {
+      "surface_form": "ATP synthase",
+      "kegg_pathway_id": "ko00190",
+      "prominence": "central",
+      "evidence": "transcripts of adenosine triphosphate (ATP) synthase and ribosomal protein genes were depleted in the uninfected cells after P limitation but were enriched during phage infection (Summary, p1)"
+    }
+  ]
+}

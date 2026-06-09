@@ -1,0 +1,799 @@
+{
+  "metadata": {
+    "paper": "Al-Hosani 2015",
+    "doi": null,
+    "strains": [
+      "Prochlorococcus AS9601"
+    ],
+    "model": "gpt-4.1",
+    "self_assessment": "high",
+    "assessment_notes": "All genes and pathways discussed in the main text and Table 2 were included. Some gene IDs (e.g., A9601_...) are included as printed.",
+    "uncaptured_identifiers": "some",
+    "uncaptured_identifiers_note": "Supplementary tables may contain additional locus tags or abbreviated IDs not discussed in the main text.",
+    "extracted_at": "2026-06-04T09:59:17.570523",
+    "input_tokens": 15619,
+    "output_tokens": 5858,
+    "resolution": {
+      "gene_records": 50,
+      "genes_resolved": 49,
+      "gene_methods": {
+        "tier1:v": 42,
+        "unresolved": 1,
+        "locus_tag:v": 7
+      },
+      "pathway_records": 6,
+      "pathways_resolved": 1,
+      "pathway_methods": {
+        "unresolved": 5,
+        "id": 1
+      },
+      "paper_strains": [
+        "Prochlorococcus AS9601"
+      ],
+      "captured_identifiers": 50,
+      "truncated_identifiers": 0,
+      "truncated_examples": [],
+      "unresolved_reasons": {
+        "lookup_miss": 1
+      }
+    }
+  },
+  "genes": [
+    {
+      "surface_form": "psbA",
+      "gene_name": "psbA",
+      "identifiers": [
+        "psbA"
+      ],
+      "prominence": "central",
+      "evidence": "The AS9601 strain harbors one copy of the D1 coding gene, and an increase in transcript levels for D1 in salt acclimated Prochlorococcus AS9601 could be caused by a relatively high turnover of the D1 protein (Results, p3)",
+      "mention_strain": "Prochlorococcus AS9601",
+      "strain": "Prochlorococcus AS9601",
+      "locus_tag": "A9601_02441",
+      "resolved_from": "psbA",
+      "resolution_method": "tier1:v"
+    },
+    {
+      "surface_form": "psbB",
+      "gene_name": "psbB",
+      "identifiers": [
+        "psbB"
+      ],
+      "prominence": "central",
+      "evidence": "This includes components of Photosystem II (e.g. psbB, psbT, psbJ), and Photosystem I (e.g. psaB, psaK, psaL)... (Results, p3)",
+      "mention_strain": "Prochlorococcus AS9601",
+      "strain": "Prochlorococcus AS9601",
+      "locus_tag": "A9601_03391",
+      "resolved_from": "psbB",
+      "resolution_method": "tier1:v"
+    },
+    {
+      "surface_form": "psbC",
+      "gene_name": "psbC",
+      "identifiers": [
+        "psbC"
+      ],
+      "prominence": "central",
+      "evidence": "With the exception of three PSII genes \u2013 those encoding D1, D2 and CP43 proteins of the reaction center (psbA and psbD, PsbC) increased by log2fold 0.25, 1, and 0.25 respectively (Table 2). (Results, p3)",
+      "mention_strain": "Prochlorococcus AS9601",
+      "strain": "Prochlorococcus AS9601",
+      "locus_tag": "A9601_13351",
+      "resolved_from": "psbC",
+      "resolution_method": "tier1:v"
+    },
+    {
+      "surface_form": "psbD",
+      "gene_name": "psbD",
+      "identifiers": [
+        "psbD"
+      ],
+      "prominence": "central",
+      "evidence": "With the exception of three PSII genes \u2013 those encoding D1, D2 and CP43 proteins of the reaction center (psbA and psbD, PsbC) increased by log2fold 0.25, 1, and 0.25 respectively (Table 2). (Results, p3)",
+      "mention_strain": "Prochlorococcus AS9601",
+      "strain": "Prochlorococcus AS9601",
+      "locus_tag": "A9601_13341",
+      "resolved_from": "psbD",
+      "resolution_method": "tier1:v"
+    },
+    {
+      "surface_form": "psbT",
+      "gene_name": "psbT",
+      "identifiers": [
+        "psbT"
+      ],
+      "prominence": "peripheral",
+      "evidence": "This includes components of Photosystem II (e.g. psbB, psbT, psbJ)... (Results, p3)",
+      "mention_strain": "Prochlorococcus AS9601",
+      "strain": "Prochlorococcus AS9601",
+      "locus_tag": "A9601_03381",
+      "resolved_from": "psbT",
+      "resolution_method": "tier1:v"
+    },
+    {
+      "surface_form": "psbJ",
+      "gene_name": "psbJ",
+      "identifiers": [
+        "psbJ"
+      ],
+      "prominence": "peripheral",
+      "evidence": "This includes components of Photosystem II (e.g. psbB, psbT, psbJ)... (Results, p3)",
+      "mention_strain": "Prochlorococcus AS9601",
+      "strain": "Prochlorococcus AS9601",
+      "locus_tag": "A9601_03231",
+      "resolved_from": "psbJ",
+      "resolution_method": "tier1:v"
+    },
+    {
+      "surface_form": "psaB",
+      "gene_name": "psaB",
+      "identifiers": [
+        "psaB"
+      ],
+      "prominence": "central",
+      "evidence": "This includes components of Photosystem II (e.g. psbB, psbT, psbJ), and Photosystem I (e.g. psaB, psaK, psaL)... (Results, p3)",
+      "mention_strain": "Prochlorococcus AS9601",
+      "strain": "Prochlorococcus AS9601",
+      "locus_tag": "A9601_17271",
+      "resolved_from": "psaB",
+      "resolution_method": "tier1:v"
+    },
+    {
+      "surface_form": "psaK",
+      "gene_name": "psaK",
+      "identifiers": [
+        "psaK"
+      ],
+      "prominence": "peripheral",
+      "evidence": "This includes components of Photosystem II (e.g. psbB, psbT, psbJ), and Photosystem I (e.g. psaB, psaK, psaL)... (Results, p3)",
+      "mention_strain": "Prochlorococcus AS9601",
+      "strain": "Prochlorococcus AS9601",
+      "locus_tag": "A9601_09551",
+      "resolved_from": "psaK",
+      "resolution_method": "tier1:v"
+    },
+    {
+      "surface_form": "psaL",
+      "gene_name": "psaL",
+      "identifiers": [
+        "psaL"
+      ],
+      "prominence": "peripheral",
+      "evidence": "This includes components of Photosystem II (e.g. psbB, psbT, psbJ), and Photosystem I (e.g. psaB, psaK, psaL)... (Results, p3)",
+      "mention_strain": "Prochlorococcus AS9601",
+      "strain": "Prochlorococcus AS9601",
+      "locus_tag": "A9601_17231",
+      "resolved_from": "psaL",
+      "resolution_method": "tier1:v"
+    },
+    {
+      "surface_form": "chlG",
+      "gene_name": "chlG",
+      "identifiers": [
+        "chlG"
+      ],
+      "prominence": "peripheral",
+      "evidence": "as well as chlorophyll/bacteriochlorophylls encoding genes (e.g. chlG, chlB, chlb, psaA and psaB)... (Results, p3)",
+      "mention_strain": "Prochlorococcus AS9601",
+      "strain": "Prochlorococcus AS9601",
+      "locus_tag": "A9601_04831",
+      "resolved_from": "chlG",
+      "resolution_method": "tier1:v"
+    },
+    {
+      "surface_form": "chlB",
+      "gene_name": "chlB",
+      "identifiers": [
+        "chlB"
+      ],
+      "prominence": "peripheral",
+      "evidence": "as well as chlorophyll/bacteriochlorophylls encoding genes (e.g. chlG, chlB, chlb, psaA and psaB)... (Results, p3)",
+      "mention_strain": "Prochlorococcus AS9601",
+      "strain": "Prochlorococcus AS9601",
+      "locus_tag": "A9601_06001",
+      "resolved_from": "chlB",
+      "resolution_method": "tier1:v"
+    },
+    {
+      "surface_form": "psaA",
+      "gene_name": "psaA",
+      "identifiers": [
+        "psaA"
+      ],
+      "prominence": "peripheral",
+      "evidence": "as well as chlorophyll/bacteriochlorophylls encoding genes (e.g. chlG, chlB, chlb, psaA and psaB)... (Results, p3)",
+      "mention_strain": "Prochlorococcus AS9601",
+      "strain": "Prochlorococcus AS9601",
+      "locus_tag": "A9601_17281",
+      "resolved_from": "psaA",
+      "resolution_method": "tier1:v"
+    },
+    {
+      "surface_form": "petE",
+      "gene_name": "petE",
+      "identifiers": [
+        "petE"
+      ],
+      "prominence": "central",
+      "evidence": "Other genes encoding photosynthetic electron intermediates were also found to be repressed. These includes plastocyanin (petE, \u22120.53 log2fold)... (Results, p3)",
+      "mention_strain": "Prochlorococcus AS9601",
+      "strain": "Prochlorococcus AS9601",
+      "locus_tag": "A9601_06371",
+      "resolved_from": "petE",
+      "resolution_method": "tier1:v"
+    },
+    {
+      "surface_form": "petA",
+      "gene_name": "petA",
+      "identifiers": [
+        "petA"
+      ],
+      "prominence": "peripheral",
+      "evidence": "cytochrome b6/b6f (petA, petB, petM, petD, petN) and cytochrome b559 (PsbE and PsbF) (Table 2). (Results, p3)",
+      "mention_strain": "Prochlorococcus AS9601",
+      "strain": "Prochlorococcus AS9601",
+      "locus_tag": "A9601_05171",
+      "resolved_from": "petA",
+      "resolution_method": "tier1:v"
+    },
+    {
+      "surface_form": "petB",
+      "gene_name": "petB",
+      "identifiers": [
+        "petB"
+      ],
+      "prominence": "peripheral",
+      "evidence": "cytochrome b6/b6f (petA, petB, petM, petD, petN) and cytochrome b559 (PsbE and PsbF) (Table 2). (Results, p3)",
+      "mention_strain": "Prochlorococcus AS9601",
+      "strain": "Prochlorococcus AS9601",
+      "locus_tag": "A9601_03491",
+      "resolved_from": "petB",
+      "resolution_method": "tier1:v"
+    },
+    {
+      "surface_form": "petM",
+      "gene_name": "petM",
+      "identifiers": [
+        "petM"
+      ],
+      "prominence": "peripheral",
+      "evidence": "cytochrome b6/b6f (petA, petB, petM, petD, petN) and cytochrome b559 (PsbE and PsbF) (Table 2). (Results, p3)",
+      "mention_strain": "Prochlorococcus AS9601",
+      "strain": "Prochlorococcus AS9601",
+      "locus_tag": "A9601_13291",
+      "resolved_from": "petM",
+      "resolution_method": "tier1:v"
+    },
+    {
+      "surface_form": "petD",
+      "gene_name": "petD",
+      "identifiers": [
+        "petD"
+      ],
+      "prominence": "peripheral",
+      "evidence": "cytochrome b6/b6f (petA, petB, petM, petD, petN) and cytochrome b559 (PsbE and PsbF) (Table 2). (Results, p3)",
+      "mention_strain": "Prochlorococcus AS9601",
+      "strain": "Prochlorococcus AS9601",
+      "locus_tag": "A9601_03501",
+      "resolved_from": "petD",
+      "resolution_method": "tier1:v"
+    },
+    {
+      "surface_form": "petN",
+      "gene_name": "petN",
+      "identifiers": [
+        "petN"
+      ],
+      "prominence": "peripheral",
+      "evidence": "cytochrome b6/b6f (petA, petB, petM, petD, petN) and cytochrome b559 (PsbE and PsbF) (Table 2). (Results, p3)",
+      "mention_strain": "Prochlorococcus AS9601",
+      "strain": "Prochlorococcus AS9601",
+      "locus_tag": "A9601_08011",
+      "resolved_from": "petN",
+      "resolution_method": "tier1:v"
+    },
+    {
+      "surface_form": "PsbE",
+      "gene_name": "psbE",
+      "identifiers": [
+        "psbE"
+      ],
+      "prominence": "peripheral",
+      "evidence": "cytochrome b6/b6f (petA, petB, petM, petD, petN) and cytochrome b559 (PsbE and PsbF) (Table 2). (Results, p3)",
+      "mention_strain": "Prochlorococcus AS9601",
+      "strain": "Prochlorococcus AS9601",
+      "locus_tag": "A9601_03201",
+      "resolved_from": "psbE",
+      "resolution_method": "tier1:v"
+    },
+    {
+      "surface_form": "PsbF",
+      "gene_name": "psbF",
+      "identifiers": [
+        "psbF"
+      ],
+      "prominence": "peripheral",
+      "evidence": "cytochrome b6/b6f (petA, petB, petM, petD, petN) and cytochrome b559 (PsbE and PsbF) (Table 2). (Results, p3)",
+      "mention_strain": "Prochlorococcus AS9601",
+      "strain": "Prochlorococcus AS9601",
+      "locus_tag": "A9601_03211",
+      "resolved_from": "psbF",
+      "resolution_method": "tier1:v"
+    },
+    {
+      "surface_form": "ndhF",
+      "gene_name": "ndhF",
+      "identifiers": [
+        "ndhF"
+      ],
+      "prominence": "central",
+      "evidence": "transcripts for four of these genes (ndhF, ndhK, ndhI and ndhB) were between 0.3 and 0.7 log2fold higher in salt acclimated cells (Table 2). (Results, p3)",
+      "mention_strain": "Prochlorococcus AS9601",
+      "strain": "Prochlorococcus AS9601",
+      "locus_tag": "A9601_01661",
+      "resolved_from": "ndhF",
+      "resolution_method": "tier1:v"
+    },
+    {
+      "surface_form": "ndhK",
+      "gene_name": "ndhK",
+      "identifiers": [
+        "ndhK"
+      ],
+      "prominence": "central",
+      "evidence": "transcripts for four of these genes (ndhF, ndhK, ndhI and ndhB) were between 0.3 and 0.7 log2fold higher in salt acclimated cells (Table 2). (Results, p3)",
+      "mention_strain": "Prochlorococcus AS9601",
+      "strain": "Prochlorococcus AS9601",
+      "locus_tag": "A9601_03161",
+      "resolved_from": "ndhK",
+      "resolution_method": "tier1:v"
+    },
+    {
+      "surface_form": "ndhI",
+      "gene_name": "ndhI",
+      "identifiers": [
+        "ndhI"
+      ],
+      "prominence": "central",
+      "evidence": "transcripts for four of these genes (ndhF, ndhK, ndhI and ndhB) were between 0.3 and 0.7 log2fold higher in salt acclimated cells (Table 2). (Results, p3)",
+      "mention_strain": "Prochlorococcus AS9601",
+      "strain": "Prochlorococcus AS9601",
+      "locus_tag": "A9601_01771",
+      "resolved_from": "ndhI",
+      "resolution_method": "tier1:v"
+    },
+    {
+      "surface_form": "ndhB",
+      "gene_name": "ndhB",
+      "identifiers": [
+        "ndhB"
+      ],
+      "prominence": "central",
+      "evidence": "transcripts for four of these genes (ndhF, ndhK, ndhI and ndhB) were between 0.3 and 0.7 log2fold higher in salt acclimated cells (Table 2). (Results, p3)",
+      "mention_strain": "Prochlorococcus AS9601",
+      "strain": "Prochlorococcus AS9601",
+      "locus_tag": "A9601_04901",
+      "resolved_from": "ndhB",
+      "resolution_method": "tier1:v"
+    },
+    {
+      "surface_form": "glgX",
+      "gene_name": "glgX",
+      "identifiers": [
+        "glgX"
+      ],
+      "prominence": "peripheral",
+      "evidence": "increase in transcripts for genes involved in the degradation of glycogen (glgx; log2fold change 0.83)... (Results, p4)",
+      "mention_strain": "Prochlorococcus AS9601",
+      "strain": "Prochlorococcus AS9601",
+      "locus_tag": "A9601_15221",
+      "resolved_from": "glgX",
+      "resolution_method": "tier1:v"
+    },
+    {
+      "surface_form": "gap2",
+      "gene_name": "gap2",
+      "identifiers": [
+        "gap2"
+      ],
+      "prominence": "peripheral",
+      "evidence": "and carbohydrates (e.g. gap2; log2fold change 0.87 and pdhB; log2fold change 0.38) (Table 2). (Results, p4)",
+      "mention_strain": "Prochlorococcus AS9601",
+      "strain": "Prochlorococcus AS9601",
+      "locus_tag": "A9601_00221",
+      "resolved_from": "gap2",
+      "resolution_method": "tier1:v"
+    },
+    {
+      "surface_form": "pdhB",
+      "gene_name": "pdhB",
+      "identifiers": [
+        "pdhB"
+      ],
+      "prominence": "peripheral",
+      "evidence": "and carbohydrates (e.g. gap2; log2fold change 0.87 and pdhB; log2fold change 0.38) (Table 2). (Results, p4)",
+      "mention_strain": "Prochlorococcus AS9601",
+      "strain": "Prochlorococcus AS9601",
+      "locus_tag": "A9601_09301",
+      "resolved_from": "pdhB",
+      "resolution_method": "tier1:v"
+    },
+    {
+      "surface_form": "ctaE",
+      "gene_name": "ctaE",
+      "identifiers": [
+        "ctaE"
+      ],
+      "prominence": "peripheral",
+      "evidence": "genes encoding subunits of the main terminal oxidase, ctaE, ctaC and cyoB (cytochrome c oxidase, COX) of the respiratory electron transport chain are the same in salt acclimated and control cells. (Results, p4)",
+      "mention_strain": "Prochlorococcus AS9601",
+      "strain": "Prochlorococcus AS9601",
+      "locus_tag": "A9601_04991",
+      "resolved_from": "ctaE",
+      "resolution_method": "tier1:v"
+    },
+    {
+      "surface_form": "ctaC",
+      "gene_name": "ctaC",
+      "identifiers": [
+        "ctaC"
+      ],
+      "prominence": "peripheral",
+      "evidence": "genes encoding subunits of the main terminal oxidase, ctaE, ctaC and cyoB (cytochrome c oxidase, COX) of the respiratory electron transport chain are the same in salt acclimated and control cells. (Results, p4)",
+      "mention_strain": "Prochlorococcus AS9601",
+      "strain": "Prochlorococcus AS9601",
+      "locus_tag": "A9601_05011",
+      "resolved_from": "ctaC",
+      "resolution_method": "tier1:v"
+    },
+    {
+      "surface_form": "cyoB",
+      "gene_name": "cyoB",
+      "identifiers": [
+        "cyoB"
+      ],
+      "prominence": "peripheral",
+      "evidence": "genes encoding subunits of the main terminal oxidase, ctaE, ctaC and cyoB (cytochrome c oxidase, COX) of the respiratory electron transport chain are the same in salt acclimated and control cells. (Results, p4)",
+      "mention_strain": "Prochlorococcus AS9601",
+      "strain": "Prochlorococcus AS9601",
+      "locus_tag": "A9601_05001",
+      "resolved_from": "cyoB",
+      "resolution_method": "tier1:v"
+    },
+    {
+      "surface_form": "rbcL",
+      "gene_name": "rbcL",
+      "identifiers": [
+        "rbcL"
+      ],
+      "prominence": "central",
+      "evidence": "RubisCO (rbcL and rbcS) and carboxysome shell protein (csoS1, csoS2 and csoS3) are up-regulated in salt acclimated AS9601 cells (Table 2). (Results, p4)",
+      "mention_strain": "Prochlorococcus AS9601",
+      "strain": "Prochlorococcus AS9601",
+      "locus_tag": "A9601_06061",
+      "resolved_from": "rbcL",
+      "resolution_method": "tier1:v"
+    },
+    {
+      "surface_form": "rbcS",
+      "gene_name": "rbcS",
+      "identifiers": [
+        "rbcS"
+      ],
+      "prominence": "central",
+      "evidence": "RubisCO (rbcL and rbcS) and carboxysome shell protein (csoS1, csoS2 and csoS3) are up-regulated in salt acclimated AS9601 cells (Table 2). (Results, p4)",
+      "mention_strain": "Prochlorococcus AS9601",
+      "strain": "Prochlorococcus AS9601",
+      "locus_tag": "A9601_06071",
+      "resolved_from": "rbcS",
+      "resolution_method": "tier1:v"
+    },
+    {
+      "surface_form": "csoS1",
+      "gene_name": "csoS1",
+      "identifiers": [
+        "csoS1"
+      ],
+      "prominence": "central",
+      "evidence": "RubisCO (rbcL and rbcS) and carboxysome shell protein (csoS1, csoS2 and csoS3) are up-regulated in salt acclimated AS9601 cells (Table 2). (Results, p4)",
+      "mention_strain": "Prochlorococcus AS9601",
+      "strain": "Prochlorococcus AS9601",
+      "locus_tag": null,
+      "resolved_from": "",
+      "resolution_method": "unresolved"
+    },
+    {
+      "surface_form": "csoS2",
+      "gene_name": "csoS2",
+      "identifiers": [
+        "csoS2"
+      ],
+      "prominence": "central",
+      "evidence": "RubisCO (rbcL and rbcS) and carboxysome shell protein (csoS1, csoS2 and csoS3) are up-regulated in salt acclimated AS9601 cells (Table 2). (Results, p4)",
+      "mention_strain": "Prochlorococcus AS9601",
+      "strain": "Prochlorococcus AS9601",
+      "locus_tag": "A9601_06081",
+      "resolved_from": "csoS2",
+      "resolution_method": "tier1:v"
+    },
+    {
+      "surface_form": "csoS3",
+      "gene_name": "csoS3",
+      "identifiers": [
+        "csoS3"
+      ],
+      "prominence": "central",
+      "evidence": "RubisCO (rbcL and rbcS) and carboxysome shell protein (csoS1, csoS2 and csoS3) are up-regulated in salt acclimated AS9601 cells (Table 2). (Results, p4)",
+      "mention_strain": "Prochlorococcus AS9601",
+      "strain": "Prochlorococcus AS9601",
+      "locus_tag": "A9601_06091",
+      "resolved_from": "csoS3",
+      "resolution_method": "tier1:v"
+    },
+    {
+      "surface_form": "afuA",
+      "gene_name": "afuA",
+      "identifiers": [
+        "afuA"
+      ],
+      "prominence": "central",
+      "evidence": "repression of a gene encoding a periplasmic ABC-type Fe3+ transporter (afuA) by a \u22120.61 log2fold change (Table 2). (Results, p4)",
+      "mention_strain": "Prochlorococcus AS9601",
+      "strain": "Prochlorococcus AS9601",
+      "locus_tag": "A9601_13521",
+      "resolved_from": "afuA",
+      "resolution_method": "tier1:v"
+    },
+    {
+      "surface_form": "petC",
+      "gene_name": "petC",
+      "identifiers": [
+        "petC"
+      ],
+      "prominence": "peripheral",
+      "evidence": "genes encoding heme containing proteins (e.g. cytochrome b6-f) and Reiske-iron sulfur protein (petC) are down-regulated in salt acclimated cells compared to control cells (Table 2). (Results, p4)",
+      "mention_strain": "Prochlorococcus AS9601",
+      "strain": "Prochlorococcus AS9601",
+      "locus_tag": "A9601_05181",
+      "resolved_from": "petC",
+      "resolution_method": "tier1:v"
+    },
+    {
+      "surface_form": "isiB",
+      "gene_name": "isiB",
+      "identifiers": [
+        "isiB"
+      ],
+      "prominence": "peripheral",
+      "evidence": "salt acclimated cells have lower transcript abundance for the iron free electron transfer gene, flavodoxin (isiB) (Table 2). (Results, p4)",
+      "mention_strain": "Prochlorococcus AS9601",
+      "strain": "Prochlorococcus AS9601",
+      "locus_tag": "A9601_13641",
+      "resolved_from": "isiB",
+      "resolution_method": "tier1:v"
+    },
+    {
+      "surface_form": "gpgS",
+      "gene_name": "gpgS",
+      "identifiers": [
+        "A9601_08961"
+      ],
+      "prominence": "central",
+      "evidence": "the AS9601 genome contains orthologs for the two genes involved in GGA biosynthesis \u2013 gpgS, encoding glucosyl-phosphoglycerate synthase... In this study, the gpgS ortholog (A9601 08961) is up-regulated by a log2fold value of 0.66 in salt acclimated cells (Results, p5)",
+      "mention_strain": "Prochlorococcus AS9601",
+      "strain": "Prochlorococcus AS9601",
+      "locus_tag": "A9601_08961",
+      "resolved_from": "A9601_08961",
+      "resolution_method": "locus_tag:v"
+    },
+    {
+      "surface_form": "gpgP",
+      "gene_name": "gpgP",
+      "identifiers": [
+        "A9601_08981"
+      ],
+      "prominence": "peripheral",
+      "evidence": "the AS9601 genome contains orthologs for the two genes involved in GGA biosynthesis \u2013 gpgS, encoding glucosyl-phosphoglycerate synthase and gpgP, encoding glucosyl-phosphoglycerate gpgS (A9601 08961 and A9601 08981 respectively) (Results, p5)",
+      "mention_strain": "Prochlorococcus AS9601",
+      "strain": "Prochlorococcus AS9601",
+      "locus_tag": "A9601_08981",
+      "resolved_from": "A9601_08981",
+      "resolution_method": "locus_tag:v"
+    },
+    {
+      "surface_form": "A9601_08971",
+      "gene_name": "",
+      "identifiers": [
+        "A9601_08971"
+      ],
+      "prominence": "peripheral",
+      "evidence": "Transcripts for a gene (A9601 08971) encoding glycoside hydrolase family 13 that is involved in carbohydrate and sucrose metabolism is present at higher levels in salt acclimated cells (Results, p5)",
+      "mention_strain": "Prochlorococcus AS9601",
+      "strain": "Prochlorococcus AS9601",
+      "locus_tag": "A9601_08971",
+      "resolved_from": "A9601_08971",
+      "resolution_method": "locus_tag:v"
+    },
+    {
+      "surface_form": "citT",
+      "gene_name": "citT",
+      "identifiers": [
+        "citT"
+      ],
+      "prominence": "peripheral",
+      "evidence": "there is a 0.52 log2fold increase in transcript abundance of genes encoding sodium transporters (citT and trkG) in salt acclimated cells (Results, p5)",
+      "mention_strain": "Prochlorococcus AS9601",
+      "strain": "Prochlorococcus AS9601",
+      "locus_tag": "A9601_00961",
+      "resolved_from": "citT",
+      "resolution_method": "tier1:v"
+    },
+    {
+      "surface_form": "trkG",
+      "gene_name": "trkG",
+      "identifiers": [
+        "trkG"
+      ],
+      "prominence": "peripheral",
+      "evidence": "there is a 0.52 log2fold increase in transcript abundance of genes encoding sodium transporters (citT and trkG) in salt acclimated cells (Results, p5)",
+      "mention_strain": "Prochlorococcus AS9601",
+      "strain": "Prochlorococcus AS9601",
+      "locus_tag": "A9601_00971",
+      "resolved_from": "trkG",
+      "resolution_method": "tier1:v"
+    },
+    {
+      "surface_form": "A9601_03711",
+      "gene_name": "",
+      "identifiers": [
+        "A9601_03711"
+      ],
+      "prominence": "peripheral",
+      "evidence": "genes involved in secondary metabolite biosynthesis (A9601 03711 and A9601 03031)... appear to be highly-induced in salt acclimated cells (Results, p5)",
+      "mention_strain": "Prochlorococcus AS9601",
+      "strain": "Prochlorococcus AS9601",
+      "locus_tag": "A9601_03711",
+      "resolved_from": "A9601_03711",
+      "resolution_method": "locus_tag:v"
+    },
+    {
+      "surface_form": "A9601_04581",
+      "gene_name": "",
+      "identifiers": [
+        "A9601_04581"
+      ],
+      "prominence": "peripheral",
+      "evidence": "amino acid transport/metabolism (A9601 04581)... appear to be highly-induced in salt acclimated cells (Results, p5)",
+      "mention_strain": "Prochlorococcus AS9601",
+      "strain": "Prochlorococcus AS9601",
+      "locus_tag": "A9601_04581",
+      "resolved_from": "A9601_04581",
+      "resolution_method": "locus_tag:v"
+    },
+    {
+      "surface_form": "A9601_19201",
+      "gene_name": "",
+      "identifiers": [
+        "A9601_19201"
+      ],
+      "prominence": "peripheral",
+      "evidence": "A9601 19201 Sucrose phosphate synthase (Table 2)",
+      "mention_strain": "Prochlorococcus AS9601",
+      "strain": "Prochlorococcus AS9601",
+      "locus_tag": "A9601_19201",
+      "resolved_from": "A9601_19201",
+      "resolution_method": "locus_tag:v"
+    },
+    {
+      "surface_form": "A9601_10521",
+      "gene_name": "",
+      "identifiers": [
+        "A9601_10521"
+      ],
+      "prominence": "peripheral",
+      "evidence": "ABC transporter (A9601 10521) appear to be highly-induced in salt acclimated cells (Results, p5)",
+      "mention_strain": "Prochlorococcus AS9601",
+      "strain": "Prochlorococcus AS9601",
+      "locus_tag": "A9601_10521",
+      "resolved_from": "A9601_10521",
+      "resolution_method": "locus_tag:v"
+    },
+    {
+      "surface_form": "minE",
+      "gene_name": "minE",
+      "identifiers": [
+        "minE"
+      ],
+      "prominence": "peripheral",
+      "evidence": "genes that appear to be repressed in salt acclimated cells are those involved in cell cycle control (minE)... (Results, p5)",
+      "mention_strain": "Prochlorococcus AS9601",
+      "strain": "Prochlorococcus AS9601",
+      "locus_tag": "A9601_03441",
+      "resolved_from": "minE",
+      "resolution_method": "tier1:v"
+    },
+    {
+      "surface_form": "menC",
+      "gene_name": "menC",
+      "identifiers": [
+        "menC"
+      ],
+      "prominence": "peripheral",
+      "evidence": "genes that appear to be repressed in salt acclimated cells are those involved in... lipid transport and metabolism (A9601 04791) and cell wall/membrane biogenesis (menC) (Table 2). (Results, p5)",
+      "mention_strain": "Prochlorococcus AS9601",
+      "strain": "Prochlorococcus AS9601",
+      "locus_tag": "A9601_01931",
+      "resolved_from": "menC",
+      "resolution_method": "tier1:v"
+    },
+    {
+      "surface_form": "murI",
+      "gene_name": "murI",
+      "identifiers": [
+        "murI"
+      ],
+      "prominence": "peripheral",
+      "evidence": "cell wall membrane biogenesis (murI)... appear to be highly-induced in salt acclimated cells (Results, p5)",
+      "mention_strain": "Prochlorococcus AS9601",
+      "strain": "Prochlorococcus AS9601",
+      "locus_tag": "A9601_06731",
+      "resolved_from": "murI",
+      "resolution_method": "tier1:v"
+    }
+  ],
+  "pathways": [
+    {
+      "surface_form": "respiratory electron flow",
+      "kegg_pathway_id_raw": "",
+      "prominence": "central",
+      "evidence": "Transcript abundance were higher for genes involved in respiratory electron flow, carbon fixation, osmolyte/compatible solute biosynthesis and inorganic ion transport. (Abstract)",
+      "pathway_id": null,
+      "pathway_name": null,
+      "resolution_method": "unresolved"
+    },
+    {
+      "surface_form": "carbon fixation",
+      "kegg_pathway_id_raw": "ko00710",
+      "prominence": "central",
+      "evidence": "Transcript abundance were higher for genes involved in respiratory electron flow, carbon fixation, osmolyte/compatible solute biosynthesis and inorganic ion transport. (Abstract)",
+      "pathway_id": "ko00710",
+      "pathway_name": "carbon fixation by calvin cycle",
+      "resolution_method": "id"
+    },
+    {
+      "surface_form": "osmolyte/compatible solute biosynthesis",
+      "kegg_pathway_id_raw": "",
+      "prominence": "central",
+      "evidence": "Transcript abundance were higher for genes involved in respiratory electron flow, carbon fixation, osmolyte/compatible solute biosynthesis and inorganic ion transport. (Abstract)",
+      "pathway_id": null,
+      "pathway_name": null,
+      "resolution_method": "unresolved"
+    },
+    {
+      "surface_form": "inorganic ion transport",
+      "kegg_pathway_id_raw": "",
+      "prominence": "central",
+      "evidence": "Transcript abundance were higher for genes involved in respiratory electron flow, carbon fixation, osmolyte/compatible solute biosynthesis and inorganic ion transport. (Abstract)",
+      "pathway_id": null,
+      "pathway_name": null,
+      "resolution_method": "unresolved"
+    },
+    {
+      "surface_form": "photosynthetic electron transport",
+      "kegg_pathway_id_raw": "",
+      "prominence": "central",
+      "evidence": "Transcript abundance were lower for genes involved in photosynthetic electron transport and cell division. (Abstract)",
+      "pathway_id": null,
+      "pathway_name": null,
+      "resolution_method": "unresolved"
+    },
+    {
+      "surface_form": "cell division",
+      "kegg_pathway_id_raw": "ko04110",
+      "prominence": "central",
+      "evidence": "Transcript abundance were lower for genes involved in photosynthetic electron transport and cell division. (Abstract)",
+      "pathway_id": null,
+      "pathway_name": null,
+      "resolution_method": "unresolved"
+    }
+  ]
+}

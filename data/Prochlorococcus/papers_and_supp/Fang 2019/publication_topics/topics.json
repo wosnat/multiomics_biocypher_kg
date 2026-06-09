@@ -1,0 +1,196 @@
+{
+  "metadata": {
+    "paper": "Fang 2019",
+    "doi": null,
+    "strains": [
+      "Prochlorococcus MIT9313",
+      "Phage"
+    ],
+    "model": "gpt-4.1",
+    "self_assessment": "high",
+    "assessment_notes": "All genes and pathways are explicitly named in the main text and figures. Strain attribution is clear.",
+    "uncaptured_identifiers": "some",
+    "uncaptured_identifiers_note": "Supporting Information Table S2 likely lists additional gene locus tags not mentioned in the main text.",
+    "extracted_at": "2026-06-04T10:02:35.344491",
+    "input_tokens": 21667,
+    "output_tokens": 1681
+  },
+  "genes": [
+    {
+      "surface_form": "tRNA-Gly1",
+      "gene_name": "",
+      "identifiers": [
+        "tRNA-Gly1"
+      ],
+      "strain": "Prochlorococcus MIT9313",
+      "prominence": "central",
+      "evidence": "We tested tRNA-gly and found that its abundance increased upon addition of glycine. (Summary, p1)"
+    },
+    {
+      "surface_form": "rplE",
+      "gene_name": "rplE",
+      "identifiers": [
+        "rplE"
+      ],
+      "strain": "Prochlorococcus MIT9313",
+      "prominence": "peripheral",
+      "evidence": "14 showed decreased abundances (e.g. rplE, Fig. 2A; Supporting Information Fig. S2B). (p4)"
+    },
+    {
+      "surface_form": "glnB",
+      "gene_name": "glnB",
+      "identifiers": [
+        "glnB"
+      ],
+      "strain": "Prochlorococcus MIT9313",
+      "prominence": "central",
+      "evidence": "These genes include the global N regulator PII gene glnB... (p6, Nitrogen metabolism genes)"
+    },
+    {
+      "surface_form": "gdhA",
+      "gene_name": "gdhA",
+      "identifiers": [
+        "gdhA"
+      ],
+      "strain": "Prochlorococcus MIT9313",
+      "prominence": "central",
+      "evidence": "These genes include... the glutamate dehydrogenase gene gdhA... (p6, Nitrogen metabolism genes)"
+    },
+    {
+      "surface_form": "amt1",
+      "gene_name": "amt1",
+      "identifiers": [
+        "amt1"
+      ],
+      "strain": "Prochlorococcus MIT9313",
+      "prominence": "central",
+      "evidence": "These genes include... transporter genes for ammonium (amt1)... (p6, Nitrogen metabolism genes)"
+    },
+    {
+      "surface_form": "urtA",
+      "gene_name": "urtA",
+      "identifiers": [
+        "urtA"
+      ],
+      "strain": "Prochlorococcus MIT9313",
+      "prominence": "central",
+      "evidence": "These genes include... transporter genes for... urea (urtA, urtB; Fig. 4A and B). (p6, Nitrogen metabolism genes)"
+    },
+    {
+      "surface_form": "urtB",
+      "gene_name": "urtB",
+      "identifiers": [
+        "urtB"
+      ],
+      "strain": "Prochlorococcus MIT9313",
+      "prominence": "central",
+      "evidence": "These genes include... transporter genes for... urea (urtA, urtB; Fig. 4A and B). (p6, Nitrogen metabolism genes)"
+    },
+    {
+      "surface_form": "PMT0894",
+      "gene_name": "",
+      "identifiers": [
+        "PMT0894"
+      ],
+      "strain": "Prochlorococcus MIT9313",
+      "prominence": "central",
+      "evidence": "Three amino acid transporter genes (PMT0894, 0896 and 0897) also showed decreased transcript abundances... (p6)"
+    },
+    {
+      "surface_form": "PMT0896",
+      "gene_name": "",
+      "identifiers": [
+        "PMT0896"
+      ],
+      "strain": "Prochlorococcus MIT9313",
+      "prominence": "central",
+      "evidence": "Three amino acid transporter genes (PMT0894, 0896 and 0897) also showed decreased transcript abundances... (p6)"
+    },
+    {
+      "surface_form": "PMT0897",
+      "gene_name": "",
+      "identifiers": [
+        "PMT0897"
+      ],
+      "strain": "Prochlorococcus MIT9313",
+      "prominence": "central",
+      "evidence": "Three amino acid transporter genes (PMT0894, 0896 and 0897) also showed decreased transcript abundances... (p6)"
+    },
+    {
+      "surface_form": "proP",
+      "gene_name": "proP",
+      "identifiers": [
+        "proP"
+      ],
+      "strain": "Prochlorococcus MIT9313",
+      "prominence": "peripheral",
+      "evidence": "Curiously, an amino acid transporter gene proP showed increased transcript abundances (Fig. 4C). (p6)"
+    },
+    {
+      "surface_form": "ndhA",
+      "gene_name": "ndhA",
+      "identifiers": [
+        "ndhA"
+      ],
+      "strain": "Prochlorococcus MIT9313",
+      "prominence": "peripheral",
+      "evidence": "For respiration, one NADPH dehydrogenase (NDH) gene ndhA had decreased transcript abundances (Fig. 3A)... (p4)"
+    },
+    {
+      "surface_form": "sdhB",
+      "gene_name": "sdhB",
+      "identifiers": [
+        "sdhB"
+      ],
+      "strain": "Prochlorococcus MIT9313",
+      "prominence": "peripheral",
+      "evidence": "while the succinate dehydrogenase (SDH) gene sdhB had increased transcript abundances (Fig. 3A). (p4)"
+    },
+    {
+      "surface_form": "gap2",
+      "gene_name": "gap2",
+      "identifiers": [
+        "gap2"
+      ],
+      "strain": "Prochlorococcus MIT9313",
+      "prominence": "peripheral",
+      "evidence": "one Calvin cycle gene gap2 showed decreased transcript abundances (Fig. 3A)... (p4)"
+    },
+    {
+      "surface_form": "PMT_ncRNA_Yfr7 (6S RNA)",
+      "gene_name": "ssrS",
+      "identifiers": [
+        "PMT_ncRNA_Yfr7"
+      ],
+      "strain": "Prochlorococcus MIT9313",
+      "prominence": "central",
+      "evidence": "Our RNA-seq data showed that the abundances of 6S RNA (gene ID PMT_ncRNA_Yfr7) increased approximately 13 fold... (p7)"
+    }
+  ],
+  "pathways": [
+    {
+      "surface_form": "Photosynthesis",
+      "kegg_pathway_id": "ko00195",
+      "prominence": "central",
+      "evidence": "transcripts of photosystem II (PSII), photosystem I (PSI) and chlorophyll binding/metabolism showed mixed patterns... (p4)"
+    },
+    {
+      "surface_form": "Calvin cycle",
+      "kegg_pathway_id": "ko00710",
+      "prominence": "central",
+      "evidence": "one Calvin cycle gene gap2 showed decreased transcript abundances (Fig. 3A)... (p4)"
+    },
+    {
+      "surface_form": "Nitrogen metabolism",
+      "kegg_pathway_id": "ko00910",
+      "prominence": "central",
+      "evidence": "The decreased transcript abundances of N metabolism genes also suggested that Prochlorococcus responded to organic N compounds in vDOM. (Summary, p1)"
+    },
+    {
+      "surface_form": "Respiration",
+      "kegg_pathway_id": "",
+      "prominence": "central",
+      "evidence": "many of the respective genes showed differentially abundant transcripts after vDOM addition... (p4)"
+    }
+  ]
+}

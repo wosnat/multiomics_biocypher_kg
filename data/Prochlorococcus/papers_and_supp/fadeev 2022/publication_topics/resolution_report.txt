@@ -1,0 +1,30 @@
+Topics resolution report: Fadeev 2022
+Strains: ['Alteromonas macleodii AD45', 'Alteromonas macleodii ATCC27126', 'Alteromonas macleodii BGP6', 'Alteromonas macleodii BS11', 'Alteromonas macleodii HOT1A3', 'Alteromonas macleodii MIT1002']
+
+Genes:    33/45 resolved (73.3%)
+  methods: multi:v=2, tier1:v=13, tier1_ci:v=18, unresolved=12
+Pathways: 0/1 resolved (0.0%)
+  methods: unresolved=1
+
+Captured identifiers: 0  (truncated/bare-number: 0)
+Unresolved gene reasons: {'descriptive_only': 9, 'lookup_miss': 3}
+    descriptive_only = function/enzyme phrase, no symbol or id (paper style)
+    truncated_id_only = bare locus number, recoverable via strain prefix
+    lookup_miss       = had a name/full id but no mapping match
+
+Unresolved gene mentions (12):
+  - TonB-dependent siderophore receptors  [descriptive_only]  strain=all
+  - ompA  [lookup_miss]  strain=all
+  - glutamine synthetase  [descriptive_only]  strain=all
+  - superoxide dismutase  [descriptive_only]  strain=all
+  - ketol-acid reductoisomerase  [descriptive_only]  strain=all
+  - riboflavin synthase  [descriptive_only]  strain=all
+  - cnoX  [lookup_miss]  strain=all
+  - tufA  [lookup_miss]  strain=all
+  - leucyl aminopeptidases (EC 3.4.11.1)  [descriptive_only]  strain=all
+  - inorganic pyrophosphatases (EC 3.6.1.1)  [descriptive_only]  strain=all
+  - putative alkaline phosphatases (EC 3.1.3.1)  [descriptive_only]  strain=all
+  - beta-glucosidase (EC 3.2.1.21)  [descriptive_only]  strain=all
+
+Unresolved pathway mentions (1):
+  - cellular metabolic pathways  (raw id=—)

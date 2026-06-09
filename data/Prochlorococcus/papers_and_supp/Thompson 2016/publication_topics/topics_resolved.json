@@ -1,0 +1,493 @@
+{
+  "metadata": {
+    "paper": "Thompson 2016",
+    "doi": null,
+    "strains": [
+      "Prochlorococcus MED4",
+      "Phage"
+    ],
+    "model": "gpt-4.1",
+    "n_chunks": 2,
+    "chunk_pages": 15,
+    "self_assessment": "high",
+    "uncaptured_identifiers": "many",
+    "uncaptured_identifiers_note": "Supplementary tables (S3 Table) likely list locus tags for Prochlorococcus MED4 genes, but these are not included here as they are not in the main text.; Numerous NCBI locus tags and DEGs are referenced as being in S1, S5, S6, and S7 Tables, but none are printed in the narrative text.",
+    "extracted_at": "2026-06-04T15:55:51.844934",
+    "input_tokens": 29615,
+    "output_tokens": 2353,
+    "resolution": {
+      "gene_records": 28,
+      "genes_resolved": 18,
+      "gene_methods": {
+        "tier1:v": 14,
+        "no_mapping": 6,
+        "multi:v": 4,
+        "unresolved": 4
+      },
+      "pathway_records": 4,
+      "pathways_resolved": 3,
+      "pathway_methods": {
+        "id": 3,
+        "unresolved": 1
+      },
+      "paper_strains": [
+        "Prochlorococcus MED4",
+        "Phage"
+      ],
+      "captured_identifiers": 8,
+      "truncated_identifiers": 0,
+      "truncated_examples": [],
+      "unresolved_reasons": {
+        "lookup_miss": 10
+      }
+    }
+  },
+  "genes": [
+    {
+      "surface_form": "psbA",
+      "gene_name": "psbA",
+      "identifiers": [],
+      "prominence": "central",
+      "evidence": "phage genes for the light reactions (psbA) ... were highly expressed during infection in the light (Introduction, p2)",
+      "mention_strain": "all",
+      "strain": "Prochlorococcus MED4",
+      "locus_tag": "PMM0223",
+      "resolved_from": "psbA",
+      "resolution_method": "tier1:v"
+    },
+    {
+      "surface_form": "talC",
+      "gene_name": "talC",
+      "identifiers": [],
+      "prominence": "central",
+      "evidence": "phage genes for ... pentose phosphate pathway (talC, gnd, zwf) ... were highly expressed during infection in the light (Introduction, p2)",
+      "mention_strain": "Phage",
+      "strain": "Phage",
+      "locus_tag": null,
+      "resolved_from": "",
+      "resolution_method": "no_mapping"
+    },
+    {
+      "surface_form": "gnd",
+      "gene_name": "gnd",
+      "identifiers": [],
+      "prominence": "peripheral",
+      "evidence": "phage genes for ... pentose phosphate pathway (talC, gnd, zwf) ... were highly expressed during infection in the light (Introduction, p2)",
+      "mention_strain": "Phage",
+      "strain": "Phage",
+      "locus_tag": null,
+      "resolved_from": "",
+      "resolution_method": "no_mapping"
+    },
+    {
+      "surface_form": "zwf",
+      "gene_name": "zwf",
+      "identifiers": [],
+      "prominence": "peripheral",
+      "evidence": "phage genes for ... pentose phosphate pathway (talC, gnd, zwf) ... were highly expressed during infection in the light (Introduction, p2)",
+      "mention_strain": "Phage",
+      "strain": "Phage",
+      "locus_tag": null,
+      "resolved_from": "",
+      "resolution_method": "no_mapping"
+    },
+    {
+      "surface_form": "cp12",
+      "gene_name": "cp12",
+      "identifiers": [],
+      "prominence": "central",
+      "evidence": "phage gene for CP12, which putatively inhibits the Calvin cycle enzyme ... was highly expressed in light infection (Abstract, p1)",
+      "mention_strain": "Phage",
+      "strain": "Phage",
+      "locus_tag": null,
+      "resolved_from": "",
+      "resolution_method": "no_mapping"
+    },
+    {
+      "surface_form": "nrdA",
+      "gene_name": "nrdA",
+      "identifiers": [],
+      "prominence": "central",
+      "evidence": "phage psbA, cp12, talC, nrdA, and nrdB were expressed concurrently with known T4-like phage early/middle genes (Introduction, p2)",
+      "mention_strain": "Phage",
+      "strain": "Phage",
+      "locus_tag": null,
+      "resolved_from": "",
+      "resolution_method": "no_mapping"
+    },
+    {
+      "surface_form": "nrdB",
+      "gene_name": "nrdB",
+      "identifiers": [],
+      "prominence": "central",
+      "evidence": "phage psbA, cp12, talC, nrdA, and nrdB were expressed concurrently with known T4-like phage early/middle genes (Introduction, p2)",
+      "mention_strain": "Phage",
+      "strain": "Phage",
+      "locus_tag": null,
+      "resolved_from": "",
+      "resolution_method": "no_mapping"
+    },
+    {
+      "surface_form": "hli genes (hli5,6,7,11,14,17,19,22)",
+      "gene_name": "",
+      "identifiers": [
+        "hli5",
+        "hli6",
+        "hli7",
+        "hli11",
+        "hli14",
+        "hli17",
+        "hli19",
+        "hli22"
+      ],
+      "prominence": "central",
+      "evidence": "high-light inducible genes (hli5,6,7,11,14,17,19) ... were enriched in light (depleted in dark) much more so in infected than uninfected cells (Results, p8)",
+      "mention_strain": "Prochlorococcus MED4",
+      "strain": "Prochlorococcus MED4",
+      "locus_tag": "PMM1404",
+      "resolved_from": "hli5",
+      "resolution_method": "tier1:v"
+    },
+    {
+      "surface_form": "hli genes (hli5,6,7,11,14,17,19,22)",
+      "gene_name": "",
+      "identifiers": [
+        "hli5",
+        "hli6",
+        "hli7",
+        "hli11",
+        "hli14",
+        "hli17",
+        "hli19",
+        "hli22"
+      ],
+      "prominence": "central",
+      "evidence": "high-light inducible genes (hli5,6,7,11,14,17,19) ... were enriched in light (depleted in dark) much more so in infected than uninfected cells (Results, p8)",
+      "mention_strain": "Prochlorococcus MED4",
+      "strain": "Prochlorococcus MED4",
+      "locus_tag": "PMM1399",
+      "resolved_from": "hli6",
+      "resolution_method": "tier1:v"
+    },
+    {
+      "surface_form": "hli genes (hli5,6,7,11,14,17,19,22)",
+      "gene_name": "",
+      "identifiers": [
+        "hli5",
+        "hli6",
+        "hli7",
+        "hli11",
+        "hli14",
+        "hli17",
+        "hli19",
+        "hli22"
+      ],
+      "prominence": "central",
+      "evidence": "high-light inducible genes (hli5,6,7,11,14,17,19) ... were enriched in light (depleted in dark) much more so in infected than uninfected cells (Results, p8)",
+      "mention_strain": "Prochlorococcus MED4",
+      "strain": "Prochlorococcus MED4",
+      "locus_tag": "PMM1398",
+      "resolved_from": "hli7",
+      "resolution_method": "tier1:v"
+    },
+    {
+      "surface_form": "hli genes (hli5,6,7,11,14,17,19,22)",
+      "gene_name": "",
+      "identifiers": [
+        "hli5",
+        "hli6",
+        "hli7",
+        "hli11",
+        "hli14",
+        "hli17",
+        "hli19",
+        "hli22"
+      ],
+      "prominence": "central",
+      "evidence": "high-light inducible genes (hli5,6,7,11,14,17,19) ... were enriched in light (depleted in dark) much more so in infected than uninfected cells (Results, p8)",
+      "mention_strain": "Prochlorococcus MED4",
+      "strain": "Prochlorococcus MED4",
+      "locus_tag": "PMM1385",
+      "resolved_from": "hli11",
+      "resolution_method": "tier1:v"
+    },
+    {
+      "surface_form": "hli genes (hli5,6,7,11,14,17,19,22)",
+      "gene_name": "",
+      "identifiers": [
+        "hli5",
+        "hli6",
+        "hli7",
+        "hli11",
+        "hli14",
+        "hli17",
+        "hli19",
+        "hli22"
+      ],
+      "prominence": "central",
+      "evidence": "high-light inducible genes (hli5,6,7,11,14,17,19) ... were enriched in light (depleted in dark) much more so in infected than uninfected cells (Results, p8)",
+      "mention_strain": "Prochlorococcus MED4",
+      "strain": "Prochlorococcus MED4",
+      "locus_tag": "PMM1135",
+      "resolved_from": "hli14",
+      "resolution_method": "tier1:v"
+    },
+    {
+      "surface_form": "hli genes (hli5,6,7,11,14,17,19,22)",
+      "gene_name": "",
+      "identifiers": [
+        "hli5",
+        "hli6",
+        "hli7",
+        "hli11",
+        "hli14",
+        "hli17",
+        "hli19",
+        "hli22"
+      ],
+      "prominence": "central",
+      "evidence": "high-light inducible genes (hli5,6,7,11,14,17,19) ... were enriched in light (depleted in dark) much more so in infected than uninfected cells (Results, p8)",
+      "mention_strain": "Prochlorococcus MED4",
+      "strain": "Prochlorococcus MED4",
+      "locus_tag": "PMM0817",
+      "resolved_from": "hli17",
+      "resolution_method": "tier1:v"
+    },
+    {
+      "surface_form": "hli genes (hli5,6,7,11,14,17,19,22)",
+      "gene_name": "",
+      "identifiers": [
+        "hli5",
+        "hli6",
+        "hli7",
+        "hli11",
+        "hli14",
+        "hli17",
+        "hli19",
+        "hli22"
+      ],
+      "prominence": "central",
+      "evidence": "high-light inducible genes (hli5,6,7,11,14,17,19) ... were enriched in light (depleted in dark) much more so in infected than uninfected cells (Results, p8)",
+      "mention_strain": "Prochlorococcus MED4",
+      "strain": "Prochlorococcus MED4",
+      "locus_tag": "PMM0815",
+      "resolved_from": "hli19",
+      "resolution_method": "tier1:v"
+    },
+    {
+      "surface_form": "hli genes (hli5,6,7,11,14,17,19,22)",
+      "gene_name": "",
+      "identifiers": [
+        "hli5",
+        "hli6",
+        "hli7",
+        "hli11",
+        "hli14",
+        "hli17",
+        "hli19",
+        "hli22"
+      ],
+      "prominence": "central",
+      "evidence": "high-light inducible genes (hli5,6,7,11,14,17,19) ... were enriched in light (depleted in dark) much more so in infected than uninfected cells (Results, p8)",
+      "mention_strain": "Prochlorococcus MED4",
+      "strain": "Prochlorococcus MED4",
+      "locus_tag": "PMM0689",
+      "resolved_from": "hli22",
+      "resolution_method": "tier1:v"
+    },
+    {
+      "surface_form": "plastoquinol terminal oxidase (PTOX)",
+      "gene_name": "PTOX",
+      "identifiers": [],
+      "prominence": "central",
+      "evidence": "plastoquinol terminal oxidase (PTOX) were enriched in light (depleted in dark) much more so in infected than uninfected cells (Results, p8)",
+      "mention_strain": "Prochlorococcus MED4",
+      "strain": "Prochlorococcus MED4",
+      "locus_tag": "PMM0336",
+      "resolved_from": "PTOX",
+      "resolution_method": "multi:v"
+    },
+    {
+      "surface_form": "cytochrome c oxidase (COX)",
+      "gene_name": "COX",
+      "identifiers": [],
+      "prominence": "central",
+      "evidence": "cytochrome c oxidase (COX)\u2014suggesting a requirement for maintenance of electron flow in the thylakoid membrane (Results, p8)",
+      "mention_strain": "Prochlorococcus MED4",
+      "strain": "Prochlorococcus MED4",
+      "locus_tag": null,
+      "resolved_from": "",
+      "resolution_method": "unresolved"
+    },
+    {
+      "surface_form": "psbK",
+      "gene_name": "psbK",
+      "identifiers": [],
+      "prominence": "peripheral",
+      "evidence": "psbA and psbK and cytochrome c oxidase (COX)\u2014suggesting a requirement for maintenance of electron flow (Results, p8)",
+      "mention_strain": "Prochlorococcus MED4",
+      "strain": "Prochlorococcus MED4",
+      "locus_tag": "PMM0272",
+      "resolved_from": "psbK",
+      "resolution_method": "multi:v"
+    },
+    {
+      "surface_form": "Ferredoxin\u2013NADP+ reductase (FNR)",
+      "gene_name": "FNR",
+      "identifiers": [],
+      "prominence": "central",
+      "evidence": "Among the most diminished transcripts in both light and dark infection was ferredoxin\u2013NADP+ reductase (FNR) (Abstract, p1)",
+      "mention_strain": "Prochlorococcus MED4",
+      "strain": "Prochlorococcus MED4",
+      "locus_tag": null,
+      "resolved_from": "",
+      "resolution_method": "unresolved"
+    },
+    {
+      "surface_form": "ycf37",
+      "gene_name": "ycf37",
+      "identifiers": [],
+      "prominence": "peripheral",
+      "evidence": "Host transcripts that were diminished in light infection included photosystem I assembly protein Ycf37 (Results, p8)",
+      "mention_strain": "Prochlorococcus MED4",
+      "strain": "Prochlorococcus MED4",
+      "locus_tag": "PMM1663",
+      "resolved_from": "ycf37",
+      "resolution_method": "multi:v"
+    },
+    {
+      "surface_form": "ftsZ",
+      "gene_name": "ftsZ",
+      "identifiers": [],
+      "prominence": "peripheral",
+      "evidence": "cell division (ftsZ) and sigma factor (rpoD) transcripts among the most diminished (Results, p8)",
+      "mention_strain": "Prochlorococcus MED4",
+      "strain": "Prochlorococcus MED4",
+      "locus_tag": "PMM1309",
+      "resolved_from": "ftsZ",
+      "resolution_method": "tier1:v"
+    },
+    {
+      "surface_form": "ftsK",
+      "gene_name": "ftsK",
+      "identifiers": [],
+      "prominence": "peripheral",
+      "evidence": "Cell division transcripts ftsZ, ftsK, and tig were also diminished in light infection (Results, p8)",
+      "mention_strain": "Prochlorococcus MED4",
+      "strain": "Prochlorococcus MED4",
+      "locus_tag": null,
+      "resolved_from": "",
+      "resolution_method": "unresolved"
+    },
+    {
+      "surface_form": "tig",
+      "gene_name": "tig",
+      "identifiers": [],
+      "prominence": "peripheral",
+      "evidence": "Cell division transcripts ftsZ, ftsK, and tig were also diminished in light infection (Results, p8)",
+      "mention_strain": "Prochlorococcus MED4",
+      "strain": "Prochlorococcus MED4",
+      "locus_tag": "PMM1655",
+      "resolved_from": "tig",
+      "resolution_method": "tier1:v"
+    },
+    {
+      "surface_form": "rpoD",
+      "gene_name": "rpoD",
+      "identifiers": [],
+      "prominence": "central",
+      "evidence": "Host sigma factor RpoD transcripts were enriched in light infection but diminished in dark infection (Results, p8)",
+      "mention_strain": "Prochlorococcus MED4",
+      "strain": "Prochlorococcus MED4",
+      "locus_tag": "PMM0496",
+      "resolved_from": "rpoD",
+      "resolution_method": "tier1:v"
+    },
+    {
+      "surface_form": "amt1",
+      "gene_name": "amt1",
+      "identifiers": [],
+      "prominence": "peripheral",
+      "evidence": "Transcripts enriched only in dark infection included those encoding transport functions (amt1 for ammonium transporter, several porins) (Results, p10)",
+      "mention_strain": "Prochlorococcus MED4",
+      "strain": "Prochlorococcus MED4",
+      "locus_tag": "PMM0263",
+      "resolved_from": "amt1",
+      "resolution_method": "tier1:v"
+    },
+    {
+      "surface_form": "gap2",
+      "gene_name": "gap2",
+      "identifiers": [],
+      "prominence": "peripheral",
+      "evidence": "host genes for the key Calvin cycle enzymes glyceraldehyde-3-phosphate dehydrogenase (gap2) ... are diminished (Discussion, p13)",
+      "mention_strain": "Prochlorococcus MED4",
+      "strain": "Prochlorococcus MED4",
+      "locus_tag": "PMM0023",
+      "resolved_from": "gap2",
+      "resolution_method": "tier1:v"
+    },
+    {
+      "surface_form": "prkB",
+      "gene_name": "prkB",
+      "identifiers": [],
+      "prominence": "peripheral",
+      "evidence": "host genes for the key Calvin cycle enzymes glyceraldehyde-3-phosphate dehydrogenase (gap2) and phosphoribulokinase (prkB) are diminished (Discussion, p13)",
+      "mention_strain": "Prochlorococcus MED4",
+      "strain": "Prochlorococcus MED4",
+      "locus_tag": "PMM0785",
+      "resolved_from": "prkB",
+      "resolution_method": "multi:v"
+    },
+    {
+      "surface_form": "copG",
+      "gene_name": "copG",
+      "identifiers": [],
+      "prominence": "peripheral",
+      "evidence": "transcriptional regulation (copG) transcripts among the most enriched (Results, p8)",
+      "mention_strain": "Prochlorococcus MED4",
+      "strain": "Prochlorococcus MED4",
+      "locus_tag": null,
+      "resolved_from": "",
+      "resolution_method": "unresolved"
+    }
+  ],
+  "pathways": [
+    {
+      "surface_form": "pentose phosphate pathway",
+      "kegg_pathway_id_raw": "ko00030",
+      "prominence": "central",
+      "evidence": "phage augment NADPH production via the pentose phosphate pathway (PPP) (Abstract, p1)",
+      "pathway_id": "ko00030",
+      "pathway_name": "pentose phosphate pathway",
+      "resolution_method": "id"
+    },
+    {
+      "surface_form": "Calvin cycle",
+      "kegg_pathway_id_raw": "ko00710",
+      "prominence": "central",
+      "evidence": "phage gene for CP12, which putatively inhibits the Calvin cycle enzyme ... was highly expressed in light infection (Abstract, p1)",
+      "pathway_id": "ko00710",
+      "pathway_name": "carbon fixation by calvin cycle",
+      "resolution_method": "id"
+    },
+    {
+      "surface_form": "photosynthetic electron transport (PET)",
+      "kegg_pathway_id_raw": "",
+      "prominence": "central",
+      "evidence": "Many cyanophages encode multiple photosynthetic electron transport (PET) proteins (Abstract, p1)",
+      "pathway_id": null,
+      "pathway_name": null,
+      "resolution_method": "unresolved"
+    },
+    {
+      "surface_form": "nucleotide biosynthesis",
+      "kegg_pathway_id_raw": "ko00230",
+      "prominence": "central",
+      "evidence": "nucleotide biosynthesis is a key product of cyanophage-infected host metabolism; indeed, nucleotide biosynthesis genes are common in cyanophage genomes (Introduction, p2)",
+      "pathway_id": "ko00230",
+      "pathway_name": "purine metabolism",
+      "resolution_method": "id"
+    }
+  ]
+}

@@ -1,0 +1,25 @@
+Topics resolution report: Capovilla 2023
+Strains: ['Prochlorococcus MIT9313', 'Prochlorococcus MIT9303']
+
+Genes:    9/14 resolved (64.3%)
+  methods: multi:v=4, tier1:v=5, unresolved=5
+Pathways: 2/5 resolved (40.0%)
+  methods: id=2, unresolved=3
+
+Captured identifiers: 0  (truncated/bare-number: 0)
+Unresolved gene reasons: {'lookup_miss': 5}
+    descriptive_only = function/enzyme phrase, no symbol or id (paper style)
+    truncated_id_only = bare locus number, recoverable via strain prefix
+    lookup_miss       = had a name/full id but no mapping match
+
+Unresolved gene mentions (5):
+  - chiA  [lookup_miss]  strain=all
+  - nagK  [lookup_miss]  strain=all
+  - nagZ  [lookup_miss]  strain=all
+  - mepM  [lookup_miss]  strain=Prochlorococcus MIT9313
+  - rnpB  [lookup_miss]  strain=Prochlorococcus MIT9303
+
+Unresolved pathway mentions (3):
+  - chitin degradation pathway  (raw id=—)
+  - peptidoglycan recycling  (raw id=—)
+  - core carbohydrate metabolism  (raw id=—)

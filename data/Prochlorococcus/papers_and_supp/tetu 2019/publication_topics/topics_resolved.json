@@ -1,0 +1,579 @@
+{
+  "metadata": {
+    "paper": "Tetu 2019",
+    "doi": null,
+    "strains": [
+      "Prochlorococcus MIT9312",
+      "Prochlorococcus NATL2A"
+    ],
+    "model": "gpt-4.1",
+    "self_assessment": "high",
+    "assessment_notes": "All genes and pathways explicitly discussed in the main text were captured. Strain attribution is clear from locus tags and context.",
+    "uncaptured_identifiers": "many",
+    "uncaptured_identifiers_note": "Supplementary Data and Tables list many more differentially expressed genes and locus tags not mentioned in the main text.",
+    "extracted_at": "2026-06-04T10:05:25.839227",
+    "input_tokens": 17788,
+    "output_tokens": 3182,
+    "resolution": {
+      "gene_records": 36,
+      "genes_resolved": 34,
+      "gene_methods": {
+        "unresolved": 2,
+        "tier1:v": 33,
+        "multi:v": 1
+      },
+      "pathway_records": 3,
+      "pathways_resolved": 3,
+      "pathway_methods": {
+        "id": 3
+      },
+      "paper_strains": [
+        "Prochlorococcus MIT9312",
+        "Prochlorococcus NATL2A"
+      ],
+      "captured_identifiers": 23,
+      "truncated_identifiers": 0,
+      "truncated_examples": [],
+      "unresolved_reasons": {
+        "lookup_miss": 2
+      }
+    }
+  },
+  "genes": [
+    {
+      "surface_form": "groEL",
+      "gene_name": "groEL",
+      "identifiers": [],
+      "prominence": "central",
+      "evidence": "Exposure to both leachates led to increased transcription of common stress response genes, such as groEL, dnaK, clpP and ftsH. (p3, Results)",
+      "mention_strain": "Prochlorococcus MIT9312",
+      "strain": "Prochlorococcus MIT9312",
+      "locus_tag": null,
+      "resolved_from": "",
+      "resolution_method": "unresolved"
+    },
+    {
+      "surface_form": "dnaK",
+      "gene_name": "dnaK",
+      "identifiers": [],
+      "prominence": "central",
+      "evidence": "Exposure to both leachates led to increased transcription of common stress response genes, such as groEL, dnaK, clpP and ftsH. (p3, Results)",
+      "mention_strain": "Prochlorococcus MIT9312",
+      "strain": "Prochlorococcus MIT9312",
+      "locus_tag": "PMT9312_0903",
+      "resolved_from": "dnaK",
+      "resolution_method": "tier1:v"
+    },
+    {
+      "surface_form": "clpP",
+      "gene_name": "clpP",
+      "identifiers": [],
+      "prominence": "central",
+      "evidence": "Exposure to both leachates led to increased transcription of common stress response genes, such as groEL, dnaK, clpP and ftsH. (p3, Results)",
+      "mention_strain": "Prochlorococcus MIT9312",
+      "strain": "Prochlorococcus MIT9312",
+      "locus_tag": "PMT9312_0750",
+      "resolved_from": "clpP",
+      "resolution_method": "tier1:v"
+    },
+    {
+      "surface_form": "ftsH",
+      "gene_name": "ftsH",
+      "identifiers": [],
+      "prominence": "central",
+      "evidence": "Exposure to both leachates led to increased transcription of common stress response genes, such as groEL, dnaK, clpP and ftsH. (p3, Results)",
+      "mention_strain": "Prochlorococcus MIT9312",
+      "strain": "Prochlorococcus MIT9312",
+      "locus_tag": "PMT9312_0228",
+      "resolved_from": "ftsH",
+      "resolution_method": "tier1:v"
+    },
+    {
+      "surface_form": "hli (high-light inducible) family genes",
+      "gene_name": "hli",
+      "identifiers": [],
+      "prominence": "central",
+      "evidence": "Both leachate treatments also resulted in strong positive transcriptional responses in a large number of hli (high-light inducible) family genes. (p3, Results)",
+      "mention_strain": "Prochlorococcus MIT9312",
+      "strain": "Prochlorococcus MIT9312",
+      "locus_tag": null,
+      "resolved_from": "",
+      "resolution_method": "unresolved"
+    },
+    {
+      "surface_form": "PMT9312_RS06030",
+      "gene_name": "",
+      "identifiers": [
+        "PMT9312_RS06030"
+      ],
+      "prominence": "central",
+      "evidence": "An uncharacterized, Prochlorococcus-specific transcriptional regulator (PMT9312_RS06030) was also very strongly upregulated under exposure to both leachates (p3, Results)",
+      "mention_strain": "Prochlorococcus MIT9312",
+      "strain": "Prochlorococcus MIT9312",
+      "locus_tag": "PMT9312_1169",
+      "resolved_from": "PMT9312_RS06030",
+      "resolution_method": "tier1:v"
+    },
+    {
+      "surface_form": "PMT9312_RS02820\u201340",
+      "gene_name": "",
+      "identifiers": [
+        "PMT9312_RS02820",
+        "PMT9312_RS02825",
+        "PMT9312_RS02830",
+        "PMT9312_RS02835",
+        "PMT9312_RS02840"
+      ],
+      "prominence": "central",
+      "evidence": "Among the set showing the highest fold change was a cluster of five genes (PMT9312_RS02820\u201340) encoding carbon dioxide concentrating mechanism protein CcmK, both RUBISCO subunits and carboxysome shell proteins. (p3, Results)",
+      "mention_strain": "Prochlorococcus MIT9312",
+      "strain": "Prochlorococcus MIT9312",
+      "locus_tag": "PMT9312_0549",
+      "resolved_from": "PMT9312_RS02820",
+      "resolution_method": "tier1:v"
+    },
+    {
+      "surface_form": "PMT9312_RS02820\u201340",
+      "gene_name": "",
+      "identifiers": [
+        "PMT9312_RS02820",
+        "PMT9312_RS02825",
+        "PMT9312_RS02830",
+        "PMT9312_RS02835",
+        "PMT9312_RS02840"
+      ],
+      "prominence": "central",
+      "evidence": "Among the set showing the highest fold change was a cluster of five genes (PMT9312_RS02820\u201340) encoding carbon dioxide concentrating mechanism protein CcmK, both RUBISCO subunits and carboxysome shell proteins. (p3, Results)",
+      "mention_strain": "Prochlorococcus MIT9312",
+      "strain": "Prochlorococcus MIT9312",
+      "locus_tag": "PMT9312_0550",
+      "resolved_from": "PMT9312_RS02825",
+      "resolution_method": "tier1:v"
+    },
+    {
+      "surface_form": "PMT9312_RS02820\u201340",
+      "gene_name": "",
+      "identifiers": [
+        "PMT9312_RS02820",
+        "PMT9312_RS02825",
+        "PMT9312_RS02830",
+        "PMT9312_RS02835",
+        "PMT9312_RS02840"
+      ],
+      "prominence": "central",
+      "evidence": "Among the set showing the highest fold change was a cluster of five genes (PMT9312_RS02820\u201340) encoding carbon dioxide concentrating mechanism protein CcmK, both RUBISCO subunits and carboxysome shell proteins. (p3, Results)",
+      "mention_strain": "Prochlorococcus MIT9312",
+      "strain": "Prochlorococcus MIT9312",
+      "locus_tag": "PMT9312_0551",
+      "resolved_from": "PMT9312_RS02830",
+      "resolution_method": "tier1:v"
+    },
+    {
+      "surface_form": "PMT9312_RS02820\u201340",
+      "gene_name": "",
+      "identifiers": [
+        "PMT9312_RS02820",
+        "PMT9312_RS02825",
+        "PMT9312_RS02830",
+        "PMT9312_RS02835",
+        "PMT9312_RS02840"
+      ],
+      "prominence": "central",
+      "evidence": "Among the set showing the highest fold change was a cluster of five genes (PMT9312_RS02820\u201340) encoding carbon dioxide concentrating mechanism protein CcmK, both RUBISCO subunits and carboxysome shell proteins. (p3, Results)",
+      "mention_strain": "Prochlorococcus MIT9312",
+      "strain": "Prochlorococcus MIT9312",
+      "locus_tag": "PMT9312_0552",
+      "resolved_from": "PMT9312_RS02835",
+      "resolution_method": "tier1:v"
+    },
+    {
+      "surface_form": "PMT9312_RS02820\u201340",
+      "gene_name": "",
+      "identifiers": [
+        "PMT9312_RS02820",
+        "PMT9312_RS02825",
+        "PMT9312_RS02830",
+        "PMT9312_RS02835",
+        "PMT9312_RS02840"
+      ],
+      "prominence": "central",
+      "evidence": "Among the set showing the highest fold change was a cluster of five genes (PMT9312_RS02820\u201340) encoding carbon dioxide concentrating mechanism protein CcmK, both RUBISCO subunits and carboxysome shell proteins. (p3, Results)",
+      "mention_strain": "Prochlorococcus MIT9312",
+      "strain": "Prochlorococcus MIT9312",
+      "locus_tag": "PMT9312_0553",
+      "resolved_from": "PMT9312_RS02840",
+      "resolution_method": "tier1:v"
+    },
+    {
+      "surface_form": "psaA,B,C,D,E,F,J,K,L",
+      "gene_name": "psaA, psaB, psaC, psaD, psaE, psaF, psaJ, psaK, psaL",
+      "identifiers": [],
+      "prominence": "central",
+      "evidence": "PVC leachate exposure resulted in substantial reduction in transcription of almost all genes encoding photosystem I subunits (psaA,B,C,D,E,F,J,K,L) (p3, Results)",
+      "mention_strain": "Prochlorococcus MIT9312",
+      "strain": "Prochlorococcus MIT9312",
+      "locus_tag": "PMT9312_1616",
+      "resolved_from": "psaA, psaB, psaC, psaD, psaE, psaF, psaJ, psaK, psaL",
+      "resolution_method": "tier1:v"
+    },
+    {
+      "surface_form": "psbB,H,J,M,O,T,Z",
+      "gene_name": "psbB, psbH, psbJ, psbM, psbO, psbT, psbZ",
+      "identifiers": [],
+      "prominence": "central",
+      "evidence": "PVC leachate exposure resulted in substantial reduction in transcription of ... most photosystem II (psbB,H,J,M,O,T,Z) subunits (p4, Results)",
+      "mention_strain": "Prochlorococcus MIT9312",
+      "strain": "Prochlorococcus MIT9312",
+      "locus_tag": "PMT9312_0321",
+      "resolved_from": "psbB, psbH, psbJ, psbM, psbO, psbT, psbZ",
+      "resolution_method": "tier1:v"
+    },
+    {
+      "surface_form": "petA,C,G",
+      "gene_name": "petA, petC, petG",
+      "identifiers": [],
+      "prominence": "central",
+      "evidence": "PVC leachate exposure resulted in substantial reduction in transcription of ... cytochrome b6-f complex subunits (petA,C,G) (p4, Results)",
+      "mention_strain": "Prochlorococcus MIT9312",
+      "strain": "Prochlorococcus MIT9312",
+      "locus_tag": "PMT9312_0461",
+      "resolved_from": "petA, petC, petG",
+      "resolution_method": "tier1:v"
+    },
+    {
+      "surface_form": "pcbD",
+      "gene_name": "pcbD",
+      "identifiers": [],
+      "prominence": "central",
+      "evidence": "transcription significantly reduced for pcbD encoding Chl a/b binding light-harvesting protein (p4, Results)",
+      "mention_strain": "Prochlorococcus MIT9312",
+      "strain": "Prochlorococcus MIT9312",
+      "locus_tag": "PMT9312_1271",
+      "resolved_from": "pcbD",
+      "resolution_method": "multi:v"
+    },
+    {
+      "surface_form": "psbB,J,K,T,O",
+      "gene_name": "psbB, psbJ, psbK, psbT, psbO",
+      "identifiers": [],
+      "prominence": "central",
+      "evidence": "transcription significantly reduced for ... photosystem II associated genes (psbB,J,K,T,O) (p4, Results)",
+      "mention_strain": "Prochlorococcus MIT9312",
+      "strain": "Prochlorococcus MIT9312",
+      "locus_tag": "PMT9312_0321",
+      "resolved_from": "psbB, psbJ, psbK, psbT, psbO",
+      "resolution_method": "tier1:v"
+    },
+    {
+      "surface_form": "PMT9312_RS06075",
+      "gene_name": "",
+      "identifiers": [
+        "PMT9312_RS06075"
+      ],
+      "prominence": "central",
+      "evidence": "transcription significantly reduced for ... PMT9312_RS06075 encoding PsbF-like protein (p4, Results)",
+      "mention_strain": "Prochlorococcus MIT9312",
+      "strain": "Prochlorococcus MIT9312",
+      "locus_tag": "PMT9312_1176",
+      "resolved_from": "PMT9312_RS06075",
+      "resolution_method": "tier1:v"
+    },
+    {
+      "surface_form": "psbA",
+      "gene_name": "psbA",
+      "identifiers": [],
+      "prominence": "central",
+      "evidence": "two psbA genes showed a significant increase in transcription (p4, Results)",
+      "mention_strain": "Prochlorococcus MIT9312",
+      "strain": "Prochlorococcus MIT9312",
+      "locus_tag": "PMT9312_0225",
+      "resolved_from": "psbA",
+      "resolution_method": "tier1:v"
+    },
+    {
+      "surface_form": "Psb28",
+      "gene_name": "psb28",
+      "identifiers": [],
+      "prominence": "central",
+      "evidence": "genes implicated in photosystem repair (Psb28, reported to be involved in PSII repair mechanisms in cyanobacteria) were substantially upregulated (p4, Results)",
+      "mention_strain": "Prochlorococcus MIT9312",
+      "strain": "Prochlorococcus MIT9312",
+      "locus_tag": "PMT9312_0874",
+      "resolved_from": "psb28",
+      "resolution_method": "tier1:v"
+    },
+    {
+      "surface_form": "PsbN",
+      "gene_name": "psbN",
+      "identifiers": [],
+      "prominence": "central",
+      "evidence": "genes implicated in photosystem repair ... and PsbN, involved in repair from photoinhibition in higher plants were substantially upregulated (p4, Results)",
+      "mention_strain": "Prochlorococcus MIT9312",
+      "strain": "Prochlorococcus MIT9312",
+      "locus_tag": "PMT9312_0254",
+      "resolved_from": "psbN",
+      "resolution_method": "tier1:v"
+    },
+    {
+      "surface_form": "PMT9312_RS04330",
+      "gene_name": "",
+      "identifiers": [
+        "PMT9312_RS04330"
+      ],
+      "prominence": "central",
+      "evidence": "multidrug efflux ABC transporter (PMT9312_RS04330) ... showed significantly higher transcription in leachate exposed cultures (p5, Results)",
+      "mention_strain": "Prochlorococcus MIT9312",
+      "strain": "Prochlorococcus MIT9312",
+      "locus_tag": "PMT9312_0845",
+      "resolved_from": "PMT9312_RS04330",
+      "resolution_method": "tier1:v"
+    },
+    {
+      "surface_form": "PMT9312_RS06520",
+      "gene_name": "",
+      "identifiers": [
+        "PMT9312_RS06520"
+      ],
+      "prominence": "peripheral",
+      "evidence": "HDPE leachate exposure resulted in reduced transcription of an iron ABC transporter substrate-binding protein PMT9312_RS06520 (p5, Results)",
+      "mention_strain": "Prochlorococcus MIT9312",
+      "strain": "Prochlorococcus MIT9312",
+      "locus_tag": "PMT9312_1261",
+      "resolved_from": "PMT9312_RS06520",
+      "resolution_method": "tier1:v"
+    },
+    {
+      "surface_form": "PMT9312_RS03095",
+      "gene_name": "",
+      "identifiers": [
+        "PMT9312_RS03095"
+      ],
+      "prominence": "peripheral",
+      "evidence": "metal ABC transporter permease PMT9312_RS03095 ... relative to the no leachate control (p5, Results)",
+      "mention_strain": "Prochlorococcus MIT9312",
+      "strain": "Prochlorococcus MIT9312",
+      "locus_tag": "PMT9312_0603",
+      "resolved_from": "PMT9312_RS03095",
+      "resolution_method": "tier1:v"
+    },
+    {
+      "surface_form": "PMT9312_RS06535",
+      "gene_name": "",
+      "identifiers": [
+        "PMT9312_RS06535"
+      ],
+      "prominence": "peripheral",
+      "evidence": "porin PMT9312_RS06535 relative to the no leachate control (p5, Results)",
+      "mention_strain": "Prochlorococcus MIT9312",
+      "strain": "Prochlorococcus MIT9312",
+      "locus_tag": "PMT9312_1264",
+      "resolved_from": "PMT9312_RS06535",
+      "resolution_method": "tier1:v"
+    },
+    {
+      "surface_form": "PMT9312_RS03085-90",
+      "gene_name": "",
+      "identifiers": [
+        "PMT9312_RS03085",
+        "PMT9312_RS03090"
+      ],
+      "prominence": "peripheral",
+      "evidence": "PVC leachate exposure resulted in a relative reduction in transcription of ... a putative manganese ABC transporter PMT9312_RS03085-90 (p5, Results)",
+      "mention_strain": "Prochlorococcus MIT9312",
+      "strain": "Prochlorococcus MIT9312",
+      "locus_tag": "PMT9312_0601",
+      "resolved_from": "PMT9312_RS03085",
+      "resolution_method": "tier1:v"
+    },
+    {
+      "surface_form": "PMT9312_RS03085-90",
+      "gene_name": "",
+      "identifiers": [
+        "PMT9312_RS03085",
+        "PMT9312_RS03090"
+      ],
+      "prominence": "peripheral",
+      "evidence": "PVC leachate exposure resulted in a relative reduction in transcription of ... a putative manganese ABC transporter PMT9312_RS03085-90 (p5, Results)",
+      "mention_strain": "Prochlorococcus MIT9312",
+      "strain": "Prochlorococcus MIT9312",
+      "locus_tag": "PMT9312_0602",
+      "resolved_from": "PMT9312_RS03090",
+      "resolution_method": "tier1:v"
+    },
+    {
+      "surface_form": "PMT9312_RS08725",
+      "gene_name": "",
+      "identifiers": [
+        "PMT9312_RS08725"
+      ],
+      "prominence": "peripheral",
+      "evidence": "cation:proton antiporter PMT9312_RS08725 ... showed reduced transcription (p5, Results)",
+      "mention_strain": "Prochlorococcus MIT9312",
+      "strain": "Prochlorococcus MIT9312",
+      "locus_tag": "PMT9312_1692",
+      "resolved_from": "PMT9312_RS08725",
+      "resolution_method": "tier1:v"
+    },
+    {
+      "surface_form": "PMT9312_RS01090",
+      "gene_name": "",
+      "identifiers": [
+        "PMT9312_RS01090"
+      ],
+      "prominence": "peripheral",
+      "evidence": "anion transporter PMT9312_RS01090 ... showed reduced transcription (p5, Results)",
+      "mention_strain": "Prochlorococcus MIT9312",
+      "strain": "Prochlorococcus MIT9312",
+      "locus_tag": "PMT9312_0216",
+      "resolved_from": "PMT9312_RS01090",
+      "resolution_method": "tier1:v"
+    },
+    {
+      "surface_form": "PMN2A_RS05195",
+      "gene_name": "",
+      "identifiers": [
+        "PMN2A_RS05195"
+      ],
+      "prominence": "peripheral",
+      "evidence": "DNA-binding response regulator PMN2A_RS05195 increased under HDPE exposure (p5, Results)",
+      "mention_strain": "Prochlorococcus NATL2A",
+      "strain": "Prochlorococcus NATL2A",
+      "locus_tag": "PMN2A_0436",
+      "resolved_from": "PMN2A_RS05195",
+      "resolution_method": "tier1:v"
+    },
+    {
+      "surface_form": "PMN2A_RS09350",
+      "gene_name": "",
+      "identifiers": [
+        "PMN2A_RS09350"
+      ],
+      "prominence": "peripheral",
+      "evidence": "GntR family transcriptional regulator PMN2A_RS09350 increased under PVC exposure (p5, Results)",
+      "mention_strain": "Prochlorococcus NATL2A",
+      "strain": "Prochlorococcus NATL2A",
+      "locus_tag": "PMN2A_1216",
+      "resolved_from": "PMN2A_RS09350",
+      "resolution_method": "tier1:v"
+    },
+    {
+      "surface_form": "PMN2A_RS09785, RS09790, RS08475",
+      "gene_name": "",
+      "identifiers": [
+        "PMN2A_RS09785",
+        "PMN2A_RS09790",
+        "PMN2A_RS08475"
+      ],
+      "prominence": "peripheral",
+      "evidence": "substantial decreases observed for genes encoding a ferredoxin-nitrite reductase, nitrite transporter, urea ABC transporter substrate-binding protein (PMN2A_RS09785, RS09790, RS08475) (p5, Results)",
+      "mention_strain": "Prochlorococcus NATL2A",
+      "strain": "Prochlorococcus NATL2A",
+      "locus_tag": "PMN2A_1298",
+      "resolved_from": "PMN2A_RS09785",
+      "resolution_method": "tier1:v"
+    },
+    {
+      "surface_form": "PMN2A_RS09785, RS09790, RS08475",
+      "gene_name": "",
+      "identifiers": [
+        "PMN2A_RS09785",
+        "PMN2A_RS09790",
+        "PMN2A_RS08475"
+      ],
+      "prominence": "peripheral",
+      "evidence": "substantial decreases observed for genes encoding a ferredoxin-nitrite reductase, nitrite transporter, urea ABC transporter substrate-binding protein (PMN2A_RS09785, RS09790, RS08475) (p5, Results)",
+      "mention_strain": "Prochlorococcus NATL2A",
+      "strain": "Prochlorococcus NATL2A",
+      "locus_tag": "PMN2A_1299",
+      "resolved_from": "PMN2A_RS09790",
+      "resolution_method": "tier1:v"
+    },
+    {
+      "surface_form": "PMN2A_RS09785, RS09790, RS08475",
+      "gene_name": "",
+      "identifiers": [
+        "PMN2A_RS09785",
+        "PMN2A_RS09790",
+        "PMN2A_RS08475"
+      ],
+      "prominence": "peripheral",
+      "evidence": "substantial decreases observed for genes encoding a ferredoxin-nitrite reductase, nitrite transporter, urea ABC transporter substrate-binding protein (PMN2A_RS09785, RS09790, RS08475) (p5, Results)",
+      "mention_strain": "Prochlorococcus NATL2A",
+      "strain": "Prochlorococcus NATL2A",
+      "locus_tag": "PMN2A_1048",
+      "resolved_from": "PMN2A_RS08475",
+      "resolution_method": "tier1:v"
+    },
+    {
+      "surface_form": "NtcA (RS01460)",
+      "gene_name": "ntcA",
+      "identifiers": [
+        "RS01460"
+      ],
+      "prominence": "peripheral",
+      "evidence": "as well as the global nitrogen regulator NtcA (RS01460) (p5, Results)",
+      "mention_strain": "Prochlorococcus NATL2A",
+      "strain": "Prochlorococcus NATL2A",
+      "locus_tag": "PMN2A_1612",
+      "resolved_from": "ntcA",
+      "resolution_method": "tier1:v"
+    },
+    {
+      "surface_form": "PMN2A_RS07615",
+      "gene_name": "",
+      "identifiers": [
+        "PMN2A_RS07615"
+      ],
+      "prominence": "peripheral",
+      "evidence": "PVC leachate exposure impacted transcription of genes associate with cell wall/membrane biogenesis and transport, such as sugar transferase (PMN2A_RS07615) (p5, Results)",
+      "mention_strain": "Prochlorococcus NATL2A",
+      "strain": "Prochlorococcus NATL2A",
+      "locus_tag": "PMN2A_0883",
+      "resolved_from": "PMN2A_RS07615",
+      "resolution_method": "tier1:v"
+    },
+    {
+      "surface_form": "PMN2A_RS02250",
+      "gene_name": "",
+      "identifiers": [
+        "PMN2A_RS02250"
+      ],
+      "prominence": "peripheral",
+      "evidence": "PVC leachate exposure impacted transcription of genes associate with cell wall/membrane biogenesis and transport, such as ... a porin (PMN2A_RS02250) (p5, Results)",
+      "mention_strain": "Prochlorococcus NATL2A",
+      "strain": "Prochlorococcus NATL2A",
+      "locus_tag": "PMN2A_1757",
+      "resolved_from": "PMN2A_RS02250",
+      "resolution_method": "tier1:v"
+    }
+  ],
+  "pathways": [
+    {
+      "surface_form": "carbon fixation",
+      "kegg_pathway_id_raw": "ko00710",
+      "prominence": "central",
+      "evidence": "Transcription was strongly reduced for a number of MIT9312 carbon fixation associated genes on exposure to both leachates (p3, Results)",
+      "pathway_id": "ko00710",
+      "pathway_name": "carbon fixation by calvin cycle",
+      "resolution_method": "id"
+    },
+    {
+      "surface_form": "photosynthesis",
+      "kegg_pathway_id_raw": "ko00195",
+      "prominence": "central",
+      "evidence": "Genes involved in photosynthesis and light-harvesting also showed clear transcriptional level changes under both leachate exposures (p3, Results)",
+      "pathway_id": "ko00195",
+      "pathway_name": "photosynthesis",
+      "resolution_method": "id"
+    },
+    {
+      "surface_form": "nitrogen metabolism",
+      "kegg_pathway_id_raw": "ko00910",
+      "prominence": "peripheral",
+      "evidence": "Other significant transcriptional changes observed in NATL2A include reduced transcription of genes involved with nitrogen metabolism under HDPE leachate exposure (p5, Results)",
+      "pathway_id": "ko00910",
+      "pathway_name": "nitrogen metabolism",
+      "resolution_method": "id"
+    }
+  ]
+}

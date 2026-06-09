@@ -1,0 +1,18 @@
+Topics resolution report: Oleza 2015
+Strains: ['Ruegeria pomeroyi DSS-3', 'Synechococcus WH7803', 'Synechococcus WH8102']
+
+Genes:    7/10 resolved (70.0%)
+  methods: multi:v=7, unresolved=3
+Pathways: 0/0 resolved (0.0%)
+  methods: 
+
+Captured identifiers: 10  (truncated/bare-number: 0)
+Unresolved gene reasons: {'lookup_miss': 3}
+    descriptive_only = function/enzyme phrase, no symbol or id (paper style)
+    truncated_id_only = bare locus number, recoverable via strain prefix
+    lookup_miss       = had a name/full id but no mapping match
+
+Unresolved gene mentions (3):
+  - YP_165625.1  [lookup_miss]  strain=Ruegeria pomeroyi DSS-3  ids=['YP_165625.1']
+  - YP_167620.1  [lookup_miss]  strain=Ruegeria pomeroyi DSS-3  ids=['YP_167620.1']
+  - PaxA  [lookup_miss]  strain=Ruegeria pomeroyi DSS-3  ids=['YP_165496.1']

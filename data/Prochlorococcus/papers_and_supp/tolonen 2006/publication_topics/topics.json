@@ -1,0 +1,487 @@
+{
+  "metadata": {
+    "paper": "Tolonen 2006",
+    "doi": null,
+    "strains": [
+      "Prochlorococcus MED4",
+      "Prochlorococcus MIT9313"
+    ],
+    "model": "gpt-4.1",
+    "n_chunks": 2,
+    "chunk_pages": 8,
+    "self_assessment": "high",
+    "uncaptured_identifiers": "some",
+    "uncaptured_identifiers_note": "Some additional locus tags and gene ids are present in Table I and figures, but only those discussed in the text are included.; Supplementary info and K-means cluster lists contain additional gene IDs not discussed in the main text.",
+    "extracted_at": "2026-06-04T16:01:24.844074",
+    "input_tokens": 38407,
+    "output_tokens": 5283
+  },
+  "genes": [
+    {
+      "surface_form": "ntcA",
+      "gene_name": "ntcA",
+      "identifiers": [
+        "PMM0246",
+        "PMT1831",
+        "ntcA"
+      ],
+      "strain": "all",
+      "prominence": "central",
+      "evidence": "NtcA was rapidly upregulated in response to N deprivation in both strains (Figure 4A) and clustered with genes known to be NtcA targets (Results, p5)"
+    },
+    {
+      "surface_form": "glnB",
+      "gene_name": "glnB",
+      "identifiers": [
+        "PMM1463",
+        "PMT1480",
+        "glnB",
+        "PMM1462"
+      ],
+      "strain": "all",
+      "prominence": "central",
+      "evidence": "The glnB gene encodes the PII post-translational regulator... Expression patterns of glnB during N stress were strikingly different between MED4 and MIT9313 (Results, p6-7)"
+    },
+    {
+      "surface_form": "glnA",
+      "gene_name": "glnA",
+      "identifiers": [
+        "PMM0920",
+        "PMT0601",
+        "glnA"
+      ],
+      "strain": "all",
+      "prominence": "central",
+      "evidence": "The glnA gene, encoding GS, was upregulated in both strains (Figure 4D), similar to other cyanobacteria (Results, p7)"
+    },
+    {
+      "surface_form": "ammonium transporter amt1",
+      "gene_name": "amt1",
+      "identifiers": [
+        "PMT1853"
+      ],
+      "strain": "Prochlorococcus MIT9313",
+      "prominence": "central",
+      "evidence": "The transporters for ammonium (amt1) ... were upregulated in both strains (Results, p7)"
+    },
+    {
+      "surface_form": "urtA",
+      "gene_name": "urtA",
+      "identifiers": [
+        "PMM0970",
+        "PMT2229",
+        "urtA"
+      ],
+      "strain": "all",
+      "prominence": "central",
+      "evidence": "Cluster 1 ... contains N transport genes such as MED4 and MIT9313 urtA (Results, p4)"
+    },
+    {
+      "surface_form": "urtB",
+      "gene_name": "urtB",
+      "identifiers": [
+        "PMM0971",
+        "PMT2228"
+      ],
+      "strain": "all",
+      "prominence": "peripheral",
+      "evidence": "targets include genes for N transport (amt1, urtAB, cynA) (Results, p6)"
+    },
+    {
+      "surface_form": "cynA",
+      "gene_name": "cynA",
+      "identifiers": [
+        "PMM0370",
+        "cynA"
+      ],
+      "strain": "Prochlorococcus MED4",
+      "prominence": "central",
+      "evidence": "Cluster 1 ... contains N transport genes such as MED4 ... cynA (Results, p4)"
+    },
+    {
+      "surface_form": "cynS",
+      "gene_name": "cynS",
+      "identifiers": [],
+      "strain": "Prochlorococcus MED4",
+      "prominence": "peripheral",
+      "evidence": "the MED4 cyanate lyase (cynS) was not differentially expressed (Results, p7)"
+    },
+    {
+      "surface_form": "nirA",
+      "gene_name": "nirA",
+      "identifiers": [
+        "PMT2239",
+        "nirA"
+      ],
+      "strain": "Prochlorococcus MIT9313",
+      "prominence": "central",
+      "evidence": "nitrite reductase in MIT9313 (nirA) (Results, p7)"
+    },
+    {
+      "surface_form": "ureA",
+      "gene_name": "ureA",
+      "identifiers": [
+        "PMT2234"
+      ],
+      "strain": "Prochlorococcus MIT9313",
+      "prominence": "peripheral",
+      "evidence": "targets include genes for N assimilation (glnA, ureA, nirA) (Results, p6)"
+    },
+    {
+      "surface_form": "urease genes (ure genes)",
+      "gene_name": "",
+      "identifiers": [],
+      "strain": "all",
+      "prominence": "peripheral",
+      "evidence": "Genes for the conversion of alternative N sources to ammonium were upregulated, such as urease genes (ure genes) in both strains (Results, p7)"
+    },
+    {
+      "surface_form": "gdhA",
+      "gene_name": "gdhA",
+      "identifiers": [],
+      "strain": "Prochlorococcus MIT9313",
+      "prominence": "peripheral",
+      "evidence": "The glutamate dehydrogenase gene (gdhA) ... is found in MIT9313 but not in MED4. The MIT9313 gdhA gene was not, however, differentially expressed (Results, p7)"
+    },
+    {
+      "surface_form": "glsF",
+      "gene_name": "glsF",
+      "identifiers": [
+        "glsF"
+      ],
+      "strain": "all",
+      "prominence": "peripheral",
+      "evidence": "The glutamate synthase (GOGAT) gene (glsF) was not differentially expressed during N starvation (Results, p7)"
+    },
+    {
+      "surface_form": "hli genes",
+      "gene_name": "",
+      "identifiers": [
+        "PMM1390",
+        "PMT0990",
+        "PMT0992",
+        "hliS",
+        "hli7",
+        "hli1",
+        "hli2",
+        "hli3",
+        "hli4",
+        "hli5",
+        "hli6",
+        "hli8",
+        "hli9",
+        "hli10",
+        "hli11",
+        "hli12",
+        "hli13",
+        "hli14",
+        "hli15",
+        "hli16",
+        "hli17"
+      ],
+      "strain": "all",
+      "prominence": "central",
+      "evidence": "Three of the hli genes in each strain (MED4 hlilO, hli21, hli22 and MIT9313 hli5, hli7, hli1) were among the most upregulated genes (Results, p7)"
+    },
+    {
+      "surface_form": "rbcLS",
+      "gene_name": "rbcLS",
+      "identifiers": [],
+      "strain": "all",
+      "prominence": "central",
+      "evidence": "The rbcLS genes, encoding the large and small subunits of the carbon-fixing enzyme Rubisco, were highly repressed in MED4 (Results, p8)"
+    },
+    {
+      "surface_form": "sbtA",
+      "gene_name": "sbtA",
+      "identifiers": [
+        "sbtA"
+      ],
+      "strain": "all",
+      "prominence": "peripheral",
+      "evidence": "other carbon metabolism genes such as the bicarbonate transporter, sbtA, as well as the csoS12 genes encoding the carboxysome shell proteins (Results, p8)"
+    },
+    {
+      "surface_form": "csoS12",
+      "gene_name": "csoS12",
+      "identifiers": [],
+      "strain": "all",
+      "prominence": "peripheral",
+      "evidence": "other carbon metabolism genes such as the bicarbonate transporter, sbtA, as well as the csoS12 genes encoding the carboxysome shell proteins (Results, p8)"
+    },
+    {
+      "surface_form": "glgP",
+      "gene_name": "glgP",
+      "identifiers": [],
+      "strain": "all",
+      "prominence": "peripheral",
+      "evidence": "enhanced transcription of the glycogen phosphorylase for glycogen degradation (glgP) (Results, p8)"
+    },
+    {
+      "surface_form": "glgABC",
+      "gene_name": "glgABC",
+      "identifiers": [],
+      "strain": "Prochlorococcus MED4",
+      "prominence": "peripheral",
+      "evidence": "MED4 also repressed genes for glycogen synthesis (glgABC) (Results, p8)"
+    },
+    {
+      "surface_form": "zwf",
+      "gene_name": "zwf",
+      "identifiers": [
+        "PMM1074"
+      ],
+      "strain": "Prochlorococcus MED4",
+      "prominence": "peripheral",
+      "evidence": "The zwf gene, whose product drives the first step in the PPP, was upregulated in MED4 (Results, p8)"
+    },
+    {
+      "surface_form": "tal",
+      "gene_name": "tal",
+      "identifiers": [
+        "tal"
+      ],
+      "strain": "all",
+      "prominence": "peripheral",
+      "evidence": "The tal gene, encoding the transaldolase that rearranges the carbon skeletons in the PPP, was upregulated in both strains (Results, p8)"
+    },
+    {
+      "surface_form": "acnB",
+      "gene_name": "acnB",
+      "identifiers": [
+        "acnB"
+      ],
+      "strain": "all",
+      "prominence": "peripheral",
+      "evidence": "the acnB and icd genes, whose products catalyze the final steps in the synthesis of 2-oxoglutarate, are upregulated in MED4 (Results, p8)"
+    },
+    {
+      "surface_form": "icd",
+      "gene_name": "icd",
+      "identifiers": [
+        "icd"
+      ],
+      "strain": "all",
+      "prominence": "peripheral",
+      "evidence": "the acnB and icd genes, whose products catalyze the final steps in the synthesis of 2-oxoglutarate, are upregulated in MED4 (Results, p8)"
+    },
+    {
+      "surface_form": "sigma factors",
+      "gene_name": "",
+      "identifiers": [
+        "PMM1289",
+        "PMM1697",
+        "PMM1629",
+        "PMT2246",
+        "PMT0346"
+      ],
+      "strain": "all",
+      "prominence": "peripheral",
+      "evidence": "two out of five MED4 sigma factors (PMM1289 and PMM1697) and two out of seven MIT9313 sigma factors (PMT2246 and PMT0346) were upregulated (Results, p6)"
+    },
+    {
+      "surface_form": "ammonium transporter amt1",
+      "gene_name": "amt1",
+      "identifiers": [
+        "amt1"
+      ],
+      "strain": "all",
+      "prominence": "central",
+      "evidence": "These genes include N transporters (amt1, urt, cyn genes in MED4, and the nitrite permease in MIT9313)... (p11, Results/Discussion)"
+    },
+    {
+      "surface_form": "nitrite permease",
+      "gene_name": "",
+      "identifiers": [
+        "PMT2240",
+        "PMT2241"
+      ],
+      "strain": "Prochlorococcus MIT9313",
+      "prominence": "central",
+      "evidence": "These genes include N transporters (amt1, urt, cyn genes in MED4, and the nitrite permease in MIT9313)... (p11, Results/Discussion)"
+    },
+    {
+      "surface_form": "urease",
+      "gene_name": "ureA",
+      "identifiers": [
+        "ureA"
+      ],
+      "strain": "all",
+      "prominence": "central",
+      "evidence": "genes for the reduction of alternative N sources to ammonium (urease genes and the nitrite reductase in MIT9313)... (p11, Results/Discussion)"
+    },
+    {
+      "surface_form": "rbcLS genes",
+      "gene_name": "",
+      "identifiers": [
+        "rbcL",
+        "rbcS"
+      ],
+      "strain": "all",
+      "prominence": "central",
+      "evidence": "Different ambient N sources resulted in contrasting expression patterns of the carbon fixation (rbcLS) genes... (p9, Results)"
+    },
+    {
+      "surface_form": "glgA",
+      "gene_name": "glgA",
+      "identifiers": [
+        "glgA"
+      ],
+      "strain": "Prochlorococcus MED4",
+      "prominence": "peripheral",
+      "evidence": "glycogen storage (glgABC)... (p11, Results/Discussion)"
+    },
+    {
+      "surface_form": "zwf",
+      "gene_name": "zwf",
+      "identifiers": [
+        "zwf"
+      ],
+      "strain": "all",
+      "prominence": "peripheral",
+      "evidence": "G-6-P dehydrogenase zwf... (Table III, p10)"
+    },
+    {
+      "surface_form": "csoS1",
+      "gene_name": "csoS1",
+      "identifiers": [
+        "csoS1"
+      ],
+      "strain": "all",
+      "prominence": "peripheral",
+      "evidence": "Carboxysome csoS1... (Table III, p10)"
+    },
+    {
+      "surface_form": "csoS2",
+      "gene_name": "csoS2",
+      "identifiers": [
+        "csoS2"
+      ],
+      "strain": "all",
+      "prominence": "peripheral",
+      "evidence": "Carboxysome csoS2... (Table III, p10)"
+    },
+    {
+      "surface_form": "PMT1479",
+      "gene_name": "",
+      "identifiers": [
+        "PMT1479"
+      ],
+      "strain": "Prochlorococcus MIT9313",
+      "prominence": "peripheral",
+      "evidence": "PMT1479 were repressed similar to glnB on both nitrite and urea... (p10, Results)"
+    },
+    {
+      "surface_form": "PMT1480",
+      "gene_name": "",
+      "identifiers": [
+        "PMT1480"
+      ],
+      "strain": "Prochlorococcus MIT9313",
+      "prominence": "peripheral",
+      "evidence": "PMT1480 were repressed similar to glnB on both nitrite and urea... (p10, Results)"
+    },
+    {
+      "surface_form": "PMT0169",
+      "gene_name": "",
+      "identifiers": [
+        "PMT0169"
+      ],
+      "strain": "Prochlorococcus MIT9313",
+      "prominence": "peripheral",
+      "evidence": "MIT9313 repressed PMT0169 and PMT0907 and upregulated PMT0951 on both nitrite and urea... (p9, Results)"
+    },
+    {
+      "surface_form": "PMT0907",
+      "gene_name": "",
+      "identifiers": [
+        "PMT0907"
+      ],
+      "strain": "Prochlorococcus MIT9313",
+      "prominence": "peripheral",
+      "evidence": "MIT9313 repressed PMT0169 and PMT0907 and upregulated PMT0951 on both nitrite and urea... (p9, Results)"
+    },
+    {
+      "surface_form": "PMT0951",
+      "gene_name": "",
+      "identifiers": [
+        "PMT0951"
+      ],
+      "strain": "Prochlorococcus MIT9313",
+      "prominence": "peripheral",
+      "evidence": "MIT9313 repressed PMT0169 and PMT0907 and upregulated PMT0951 on both nitrite and urea... (p9, Results)"
+    },
+    {
+      "surface_form": "PMM0861",
+      "gene_name": "",
+      "identifiers": [
+        "PMM0861"
+      ],
+      "strain": "Prochlorococcus MED4",
+      "prominence": "peripheral",
+      "evidence": "MED4 upregulated PMM0861, PMM1365, PMM0348, and PMM1400 on both cyanate and urea... (p9, Results)"
+    },
+    {
+      "surface_form": "PMM1365",
+      "gene_name": "",
+      "identifiers": [
+        "PMM1365"
+      ],
+      "strain": "Prochlorococcus MED4",
+      "prominence": "peripheral",
+      "evidence": "MED4 upregulated PMM0861, PMM1365, PMM0348, and PMM1400 on both cyanate and urea... (p9, Results)"
+    },
+    {
+      "surface_form": "PMM0348",
+      "gene_name": "",
+      "identifiers": [
+        "PMM0348"
+      ],
+      "strain": "Prochlorococcus MED4",
+      "prominence": "peripheral",
+      "evidence": "MED4 upregulated PMM0861, PMM1365, PMM0348, and PMM1400 on both cyanate and urea... (p9, Results)"
+    },
+    {
+      "surface_form": "PMM1400",
+      "gene_name": "",
+      "identifiers": [
+        "PMM1400"
+      ],
+      "strain": "Prochlorococcus MED4",
+      "prominence": "peripheral",
+      "evidence": "MED4 upregulated PMM0861, PMM1365, PMM0348, and PMM1400 on both cyanate and urea... (p9, Results)"
+    }
+  ],
+  "pathways": [
+    {
+      "surface_form": "GS-GOGAT pathway",
+      "kegg_pathway_id": "",
+      "prominence": "central",
+      "evidence": "Ammonium is assimilated into amino acids via the GS-glutamate synthase (GOGAT) pathway (Results, p7)"
+    },
+    {
+      "surface_form": "oxidative pentose phosphate pathway (PPP)",
+      "kegg_pathway_id": "map00030",
+      "prominence": "central",
+      "evidence": "They therefore use the oxidative pentose phosphate pathway (PPP) to derive pyruvate and, ultimately, 2-oxoglutarate (Results, p8)"
+    },
+    {
+      "surface_form": "carbon fixation",
+      "kegg_pathway_id": "map00710",
+      "prominence": "central",
+      "evidence": "The rbcLS genes, encoding the large and small subunits of the carbon-fixing enzyme Rubisco, were highly repressed in MED4 (Results, p8)"
+    },
+    {
+      "surface_form": "carbon fixation",
+      "kegg_pathway_id": "ko00710",
+      "prominence": "central",
+      "evidence": "Different ambient N sources resulted in contrasting expression patterns of the carbon fixation (rbcLS) genes... (p9, Results)"
+    },
+    {
+      "surface_form": "nitrogen metabolism",
+      "kegg_pathway_id": "ko00910",
+      "prominence": "central",
+      "evidence": "Model of the MED4 (A) and MIT9313 (B) transcriptional response to N starvation focusing on the regulation of nitrogen metabolism... (Figure 6, p11)"
+    }
+  ]
+}

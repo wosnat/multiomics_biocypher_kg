@@ -29,6 +29,7 @@ from multiomics_kg.extraction.cluster.extraction_utils import (
     match_cluster_keys,
     save_extraction,
 )
+from multiomics_kg.extraction.pdf_utils import upload_pdf
 
 logger = logging.getLogger(__name__)
 
@@ -306,12 +307,6 @@ def format_cluster_summaries(clusters: dict[str, dict]) -> str:
 
 
 # ── LLM layer ──
-
-
-def upload_pdf(client, pdf_path: Path) -> str:
-    """Upload PDF via Files API, return file_id."""
-    f = client.files.create(file=open(pdf_path, "rb"), purpose="user_data")
-    return f.id
 
 
 def extract_analysis(client, file_ids, table_config, cluster_summaries, model="gpt-4.1-mini", flex=False):

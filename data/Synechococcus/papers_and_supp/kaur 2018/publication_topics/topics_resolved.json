@@ -1,0 +1,381 @@
+{
+  "metadata": {
+    "paper": "Kaur 2018",
+    "doi": null,
+    "strains": [
+      "Synechococcus WH7803",
+      "Ruegeria pomeroyi DSS-3"
+    ],
+    "model": "gpt-4.1",
+    "self_assessment": "high",
+    "assessment_notes": "All genes and pathways are directly named in the main text or tables. Some proteins of unknown function are discussed but not linked to KEGG pathways.",
+    "uncaptured_identifiers": "some",
+    "uncaptured_identifiers_note": "Supporting Tables S4 and S5 list additional proteins/identifiers not discussed in the main text.",
+    "extracted_at": "2026-06-04T15:29:22.943622",
+    "input_tokens": 25128,
+    "output_tokens": 2602,
+    "resolution": {
+      "gene_records": 22,
+      "genes_resolved": 21,
+      "gene_methods": {
+        "locus_tag:v": 13,
+        "unresolved": 1,
+        "heuristic:v": 8
+      },
+      "pathway_records": 3,
+      "pathways_resolved": 2,
+      "pathway_methods": {
+        "id": 2,
+        "unresolved": 1
+      },
+      "paper_strains": [
+        "Synechococcus WH7803",
+        "Ruegeria pomeroyi DSS-3"
+      ],
+      "captured_identifiers": 22,
+      "truncated_identifiers": 0,
+      "truncated_examples": [],
+      "unresolved_reasons": {
+        "descriptive_only": 1
+      }
+    }
+  },
+  "genes": [
+    {
+      "surface_form": "SynWH7803_1823",
+      "gene_name": "",
+      "identifiers": [
+        "SynWH7803_1823"
+      ],
+      "prominence": "peripheral",
+      "evidence": "One of these proteins is the nucleotide-binding protein SynWH7803_1823, a protein predicted to be involved in the temporal control of bacteriophage gene transcription (Results, p5)",
+      "mention_strain": "Synechococcus WH7803",
+      "strain": "Synechococcus WH7803",
+      "locus_tag": "SynWH7803_1823",
+      "resolved_from": "SynWH7803_1823",
+      "resolution_method": "locus_tag:v"
+    },
+    {
+      "surface_form": "SynWH7803_1045",
+      "gene_name": "",
+      "identifiers": [
+        "SynWH7803_1045"
+      ],
+      "prominence": "central",
+      "evidence": "Synechococcus shows a clear rise in P starvation over time under oligotrophic SW conditions as seen by the progressive increase in abundance of the periplasmic substrate binding protein for phosphate SynWH7803_1045 (Results, p5)",
+      "mention_strain": "Synechococcus WH7803",
+      "strain": "Synechococcus WH7803",
+      "locus_tag": "SynWH7803_1045",
+      "resolved_from": "SynWH7803_1045",
+      "resolution_method": "locus_tag:v"
+    },
+    {
+      "surface_form": "SynWH7803_0993",
+      "gene_name": "",
+      "identifiers": [
+        "SynWH7803_0993"
+      ],
+      "prominence": "peripheral",
+      "evidence": "A similar trend is observed for porins that are linked to P stress (SynWH7803_0993, 0.1\u20133.1%) (Results, p5)",
+      "mention_strain": "Synechococcus WH7803",
+      "strain": "Synechococcus WH7803",
+      "locus_tag": "SynWH7803_0993",
+      "resolved_from": "SynWH7803_0993",
+      "resolution_method": "locus_tag:v"
+    },
+    {
+      "surface_form": "SynWH7803_2236",
+      "gene_name": "",
+      "identifiers": [
+        "SynWH7803_2236"
+      ],
+      "prominence": "peripheral",
+      "evidence": "A similar trend is observed for porins that are linked to P stress ... SynWH7803_2236, below 0.1\u20130.7% (Results, p5)",
+      "mention_strain": "Synechococcus WH7803",
+      "strain": "Synechococcus WH7803",
+      "locus_tag": "SynWH7803_2236",
+      "resolved_from": "SynWH7803_2236",
+      "resolution_method": "locus_tag:v"
+    },
+    {
+      "surface_form": "SynWH7803_2199",
+      "gene_name": "",
+      "identifiers": [
+        "SynWH7803_2199"
+      ],
+      "prominence": "peripheral",
+      "evidence": "an outer membrane efflux protein involved in protein secretion which needs further characterization (SynWH7803_2199, below 0.01\u20130.11%) (Results, p5)",
+      "mention_strain": "Synechococcus WH7803",
+      "strain": "Synechococcus WH7803",
+      "locus_tag": "SynWH7803_2199",
+      "resolved_from": "SynWH7803_2199",
+      "resolution_method": "locus_tag:v"
+    },
+    {
+      "surface_form": "superoxide dismutase (SOD)",
+      "gene_name": "",
+      "identifiers": [],
+      "prominence": "central",
+      "evidence": "the abundance of the Fe-containing SOD in the exoproteome of Synechococcus sp. WH7803 was surprisingly high throughout the entire time course experiment (Results, p6)",
+      "mention_strain": "Synechococcus WH7803",
+      "strain": "Synechococcus WH7803",
+      "locus_tag": null,
+      "resolved_from": "",
+      "resolution_method": "unresolved"
+    },
+    {
+      "surface_form": "SynWH7803_0951",
+      "gene_name": "",
+      "identifiers": [
+        "SynWH7803_0951"
+      ],
+      "prominence": "peripheral",
+      "evidence": "The second SOD encoded by Synechococcus sp. WH7803, the copper-contain protein SynWH7803_0951, was also detected (Results, p6)",
+      "mention_strain": "Synechococcus WH7803",
+      "strain": "Synechococcus WH7803",
+      "locus_tag": "SynWH7803_0951",
+      "resolved_from": "SynWH7803_0951",
+      "resolution_method": "locus_tag:v"
+    },
+    {
+      "surface_form": "SynWH7803_1795",
+      "gene_name": "",
+      "identifiers": [
+        "SynWH7803_1795"
+      ],
+      "prominence": "peripheral",
+      "evidence": "we already reported a high abundance of the pili proteins SynWH7803_1795 and SynWH7803_1796 (Results, p6)",
+      "mention_strain": "Synechococcus WH7803",
+      "strain": "Synechococcus WH7803",
+      "locus_tag": "SynWH7803_1795",
+      "resolved_from": "SynWH7803_1795",
+      "resolution_method": "locus_tag:v"
+    },
+    {
+      "surface_form": "SynWH7803_1796",
+      "gene_name": "",
+      "identifiers": [
+        "SynWH7803_1796"
+      ],
+      "prominence": "peripheral",
+      "evidence": "we already reported a high abundance of the pili proteins SynWH7803_1795 and SynWH7803_1796 (Results, p6)",
+      "mention_strain": "Synechococcus WH7803",
+      "strain": "Synechococcus WH7803",
+      "locus_tag": "SynWH7803_1796",
+      "resolved_from": "SynWH7803_1796",
+      "resolution_method": "locus_tag:v"
+    },
+    {
+      "surface_form": "SynWH7803_0982",
+      "gene_name": "",
+      "identifiers": [
+        "SynWH7803_0982"
+      ],
+      "prominence": "peripheral",
+      "evidence": "the five most abundant proteins in this category were common in both SW and ASW conditions ... SynWH7803_0982 (Results, p6)",
+      "mention_strain": "Synechococcus WH7803",
+      "strain": "Synechococcus WH7803",
+      "locus_tag": "SynWH7803_0982",
+      "resolved_from": "SynWH7803_0982",
+      "resolution_method": "locus_tag:v"
+    },
+    {
+      "surface_form": "SynWH7803_2169",
+      "gene_name": "",
+      "identifiers": [
+        "SynWH7803_2169"
+      ],
+      "prominence": "peripheral",
+      "evidence": "the five most abundant proteins in this category were common in both SW and ASW conditions ... SynWH7803_2169 (Results, p6)",
+      "mention_strain": "Synechococcus WH7803",
+      "strain": "Synechococcus WH7803",
+      "locus_tag": "SynWH7803_2169",
+      "resolved_from": "SynWH7803_2169",
+      "resolution_method": "locus_tag:v"
+    },
+    {
+      "surface_form": "SynWH7803_1017",
+      "gene_name": "",
+      "identifiers": [
+        "SynWH7803_1017"
+      ],
+      "prominence": "peripheral",
+      "evidence": "the five most abundant proteins in this category were common in both SW and ASW conditions ... SynWH7803_1017 (Results, p6)",
+      "mention_strain": "Synechococcus WH7803",
+      "strain": "Synechococcus WH7803",
+      "locus_tag": "SynWH7803_1017",
+      "resolved_from": "SynWH7803_1017",
+      "resolution_method": "locus_tag:v"
+    },
+    {
+      "surface_form": "SynWH7803_1824",
+      "gene_name": "",
+      "identifiers": [
+        "SynWH7803_1824"
+      ],
+      "prominence": "peripheral",
+      "evidence": "protein SynWH7803_1824, which is unique to strain WH7803 and conserved only among Burkholderia (Results, p6)",
+      "mention_strain": "Synechococcus WH7803",
+      "strain": "Synechococcus WH7803",
+      "locus_tag": "SynWH7803_1824",
+      "resolved_from": "SynWH7803_1824",
+      "resolution_method": "locus_tag:v"
+    },
+    {
+      "surface_form": "SynWH7803_1556",
+      "gene_name": "",
+      "identifiers": [
+        "SynWH7803_1556"
+      ],
+      "prominence": "peripheral",
+      "evidence": "protein SynWH7803_1556 showed identical behavior in both culture conditions (Results, p6)",
+      "mention_strain": "Synechococcus WH7803",
+      "strain": "Synechococcus WH7803",
+      "locus_tag": "SynWH7803_1556",
+      "resolved_from": "SynWH7803_1556",
+      "resolution_method": "locus_tag:v"
+    },
+    {
+      "surface_form": "AAV93776",
+      "gene_name": "",
+      "identifiers": [
+        "AAV93776",
+        "SPO0459"
+      ],
+      "prominence": "central",
+      "evidence": "The two most abundantly detected hydrolases were AAV93776 (2.1% and 2.7% in ASW and SW, respectively) ... re-annotated here as a possible pectate lyase (Results, Table 2, p10)",
+      "mention_strain": "Ruegeria pomeroyi DSS-3",
+      "strain": "Ruegeria pomeroyi DSS-3",
+      "locus_tag": "SPO0459",
+      "resolved_from": "AAV93776",
+      "resolution_method": "heuristic:v"
+    },
+    {
+      "surface_form": "AAV95476",
+      "gene_name": "",
+      "identifiers": [
+        "AAV95476"
+      ],
+      "prominence": "central",
+      "evidence": "AAV95476 (0.9% and 2.68% in ASW and SW, respectively), re-annotated here as a possible ... sialidase (Results, Table 2, p10)",
+      "mention_strain": "Ruegeria pomeroyi DSS-3",
+      "strain": "Ruegeria pomeroyi DSS-3",
+      "locus_tag": "SPO2210",
+      "resolved_from": "AAV95476",
+      "resolution_method": "heuristic:v"
+    },
+    {
+      "surface_form": "AAV95139",
+      "gene_name": "PhoX",
+      "identifiers": [
+        "AAV95139"
+      ],
+      "prominence": "central",
+      "evidence": "AAV95139 Twin-arginine pathway (phosphatase PhoX) ... PhoX was the predominant alkaline phosphatase in our dataset (Results, Table 2, p10; p11)",
+      "mention_strain": "Ruegeria pomeroyi DSS-3",
+      "strain": "Ruegeria pomeroyi DSS-3",
+      "locus_tag": "SPO1860",
+      "resolved_from": "AAV95139",
+      "resolution_method": "heuristic:v"
+    },
+    {
+      "surface_form": "AAV93580",
+      "gene_name": "PhoD",
+      "identifiers": [
+        "AAV93580"
+      ],
+      "prominence": "peripheral",
+      "evidence": "AAV93580 Alkaline phosphatase (phosphatase PhoD) ... the less-known PhoD, which was in very low abundance throughout most of the time course (Results, Table 2, p10; p11)",
+      "mention_strain": "Ruegeria pomeroyi DSS-3",
+      "strain": "Ruegeria pomeroyi DSS-3",
+      "locus_tag": "SPO0260",
+      "resolved_from": "AAV93580",
+      "resolution_method": "heuristic:v"
+    },
+    {
+      "surface_form": "AAV96145",
+      "gene_name": "",
+      "identifiers": [
+        "AAV96145"
+      ],
+      "prominence": "peripheral",
+      "evidence": "Ruegeria pomeroyi also abundantly secretes the nucleotidase AAV96145 when grown in co-culture with Synechococcus (Results, p11)",
+      "mention_strain": "Ruegeria pomeroyi DSS-3",
+      "strain": "Ruegeria pomeroyi DSS-3",
+      "locus_tag": "SPO2904",
+      "resolved_from": "AAV96145",
+      "resolution_method": "heuristic:v"
+    },
+    {
+      "surface_form": "AAV95890",
+      "gene_name": "",
+      "identifiers": [
+        "AAV95890"
+      ],
+      "prominence": "peripheral",
+      "evidence": "During this time period, R. pomeroyi shows an increased production of proteases (i.e., AAV95890 and AAV97448) (Results, p11)",
+      "mention_strain": "Ruegeria pomeroyi DSS-3",
+      "strain": "Ruegeria pomeroyi DSS-3",
+      "locus_tag": "SPO2645",
+      "resolved_from": "AAV95890",
+      "resolution_method": "heuristic:v"
+    },
+    {
+      "surface_form": "AAV97448",
+      "gene_name": "",
+      "identifiers": [
+        "AAV97448"
+      ],
+      "prominence": "peripheral",
+      "evidence": "During this time period, R. pomeroyi shows an increased production of proteases (i.e., AAV95890 and AAV97448) and amidohydrolases (AAV97448 and AAV94260) (Results, p11)",
+      "mention_strain": "Ruegeria pomeroyi DSS-3",
+      "strain": "Ruegeria pomeroyi DSS-3",
+      "locus_tag": "SPOA0316",
+      "resolved_from": "AAV97448",
+      "resolution_method": "heuristic:v"
+    },
+    {
+      "surface_form": "AAV94260",
+      "gene_name": "",
+      "identifiers": [
+        "AAV94260"
+      ],
+      "prominence": "peripheral",
+      "evidence": "During this time period, R. pomeroyi shows an increased production of ... amidohydrolases (AAV97448 and AAV94260) (Results, p11)",
+      "mention_strain": "Ruegeria pomeroyi DSS-3",
+      "strain": "Ruegeria pomeroyi DSS-3",
+      "locus_tag": "SPO0955",
+      "resolved_from": "AAV94260",
+      "resolution_method": "heuristic:v"
+    }
+  ],
+  "pathways": [
+    {
+      "surface_form": "Photosynthesis",
+      "kegg_pathway_id_raw": "ko00195",
+      "prominence": "central",
+      "evidence": "proteins involved in photosynthesis are among the most abundant categories found in the exoproteome of Synechococcus sp. WH7803 (Results, p4)",
+      "pathway_id": "ko00195",
+      "pathway_name": "photosynthesis",
+      "resolution_method": "id"
+    },
+    {
+      "surface_form": "ABC transporters",
+      "kegg_pathway_id_raw": "ko02010",
+      "prominence": "central",
+      "evidence": "The periplasmic-binding component of ABC transporters is commonly found in microbial exoproteomes ... detection of membrane transporters is a good indicator of ... the nutrients that are targeted (Results, p5)",
+      "pathway_id": "ko02010",
+      "pathway_name": "abc transporters",
+      "resolution_method": "id"
+    },
+    {
+      "surface_form": "Reactive oxygen species (ROS) scavenging",
+      "kegg_pathway_id_raw": "",
+      "prominence": "central",
+      "evidence": "the scavenging of reactive oxygen species (ROS) is considered a pivotal process in marine cyanobacteria\u2013heterotroph interactions (Results, p6)",
+      "pathway_id": null,
+      "pathway_name": null,
+      "resolution_method": "unresolved"
+    }
+  ]
+}

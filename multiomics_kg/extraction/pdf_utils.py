@@ -100,3 +100,82 @@ def collect_pdf_files(paper_dir: Path,
         pdfs.append(p)
 
     return pdfs
+
+
+def upload_pdf(client, pdf_path: Path) -> str:
+    """Upload a PDF via the OpenAI Files API and return the file_id.
+
+    `client` is an OpenAI client passed in by the caller (this module keeps no
+    openai dependency of its own). Lives here so every extraction module shares
+    one uploader instead of redefining it.
+    """
+    with open(pdf_path, "rb") as fh:
+        f = client.files.create(file=fh, purpose="user_data")
+    return f.id
+
+
+# ── Page-range chunking (for fitting large PDFs under per-request token caps) ──
+
+
+def count_pages(pdf_path: Path) -> int:
+    """Number of pages in a PDF (0 if unreadable)."""
+    if PdfReader is None:
+        return 0
+    try:
+        return len(PdfReader(pdf_path).pages)
+    except Exception as e:
+        logger.error("Failed to count pages in %s: %s", pdf_path, e)
+        return 0
+
+
+def find_references_page(pdf_path: Path) -> Optional[int]:
+    """Return the 0-indexed page where the References/Bibliography section starts.
+
+    Used to skip reference pages (fewer tokens, less name-drop noise). Returns
+    None if no such heading is found.
+    """
+    if PdfReader is None:
+        return None
+    patterns = [r"\nReferences\s*\n", r"\nREFERENCES\s*\n",
+                r"\nBibliography\s*\n", r"\nLiterature Cited\s*\n"]
+    try:
+        reader = PdfReader(pdf_path)
+        for i, page in enumerate(reader.pages):
+            text = page.extract_text() or ""
+            if any(re.search(p, text) for p in patterns):
+                return i
+        return None
+    except Exception as e:
+        logger.error("Failed scanning for references in %s: %s", pdf_path, e)
+        return None
+
+
+def page_chunks(last_page: int, chunk_pages: int) -> list[tuple[int, int]]:
+    """Inclusive (start, end) page ranges covering 0..last_page in chunk_pages steps."""
+    chunks: list[tuple[int, int]] = []
+    start = 0
+    while start <= last_page:
+        end = min(start + chunk_pages - 1, last_page)
+        chunks.append((start, end))
+        start = end + 1
+    return chunks
+
+
+def write_page_range_pdf(pdf_path: Path, start: int, end: int, dest: Path) -> Optional[Path]:
+    """Write pages [start, end] (inclusive, 0-indexed) of pdf_path to dest. Returns dest."""
+    if PdfReader is None or PdfWriter is None:
+        return None
+    try:
+        reader = PdfReader(pdf_path)
+        total = len(reader.pages)
+        start = max(0, start)
+        end = min(end, total - 1)
+        writer = PdfWriter()
+        for i in range(start, end + 1):
+            writer.add_page(reader.pages[i])
+        with open(dest, "wb") as f:
+            writer.write(f)
+        return Path(dest)
+    except Exception as e:
+        logger.error("Failed writing page range %d-%d of %s: %s", start, end, pdf_path, e)
+        return None

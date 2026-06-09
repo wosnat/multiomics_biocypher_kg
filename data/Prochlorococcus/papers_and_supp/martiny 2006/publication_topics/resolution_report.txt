@@ -1,0 +1,22 @@
+Topics resolution report: Martiny 2006
+Strains: ['Prochlorococcus MED4', 'Prochlorococcus MIT9313']
+
+Genes:    25/29 resolved (86.2%)
+  methods: locus_tag:v=22, tier1:v=3, unresolved=4
+Pathways: 0/1 resolved (0.0%)
+  methods: unresolved=1
+
+Captured identifiers: 28  (truncated/bare-number: 0)
+Unresolved gene reasons: {'lookup_miss': 4}
+    descriptive_only = function/enzyme phrase, no symbol or id (paper style)
+    truncated_id_only = bare locus number, recoverable via strain prefix
+    lookup_miss       = had a name/full id but no mapping match
+
+Unresolved gene mentions (4):
+  - phoR  [lookup_miss]  strain=Prochlorococcus MIT9313  ids=['PMT0995-999 (remnant)']
+  - phnCDE  [lookup_miss]  strain=all
+  - ppK  [lookup_miss]  strain=all
+  - ppX  [lookup_miss]  strain=all
+
+Unresolved pathway mentions (1):
+  - Phosphate acquisition  (raw id=—)

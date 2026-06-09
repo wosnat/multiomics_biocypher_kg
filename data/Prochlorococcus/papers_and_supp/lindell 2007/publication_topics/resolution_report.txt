@@ -1,0 +1,27 @@
+Topics resolution report: Lindell 2007
+Strains: ['Prochlorococcus MED4', 'Phage']
+
+Genes:    14/26 resolved (53.8%)
+  methods: multi:v=4, no_mapping=6, tier1:v=10, unresolved=6
+Pathways: 1/1 resolved (100.0%)
+  methods: id=1
+
+Captured identifiers: 31  (truncated/bare-number: 0)
+Unresolved gene reasons: {'lookup_miss': 12}
+    descriptive_only = function/enzyme phrase, no symbol or id (paper style)
+    truncated_id_only = bare locus number, recoverable via strain prefix
+    lookup_miss       = had a name/full id but no mapping match
+
+Unresolved gene mentions (12):
+  - psbA  [lookup_miss]  strain=Phage  ids=['psbA', 'ORF 027']
+  - hli  [lookup_miss]  strain=Phage  ids=['hli', 'ORF 026']
+  - talC  [lookup_miss]  strain=Phage  ids=['talC', 'ORF 054']
+  - nrd  [lookup_miss]  strain=Phage  ids=['nrd', 'ORF 020']
+  - marR  [lookup_miss]  strain=Phage  ids=['marR']
+  - DNA polymerase gene (gene 5/DNApol)  [lookup_miss]  strain=Phage  ids=['gene 5', 'DNApol']
+  - hli  [lookup_miss]  strain=Prochlorococcus MED4  ids=['hli']
+  - rbcLS  [lookup_miss]  strain=Prochlorococcus MED4  ids=['rbcLS']
+  - dus  [lookup_miss]  strain=Prochlorococcus MED4  ids=['dus']
+  - AAA ATPase family gene  [lookup_miss]  strain=Prochlorococcus MED4  ids=['AAA ATPase family gene']
+  - HNH endonuclease  [lookup_miss]  strain=Prochlorococcus MED4  ids=['HNH endonuclease']
+  - sigma factor genes  [lookup_miss]  strain=Prochlorococcus MED4  ids=['sigma factor genes']

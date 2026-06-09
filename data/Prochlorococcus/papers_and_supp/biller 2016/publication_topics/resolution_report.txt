@@ -1,0 +1,39 @@
+Topics resolution report: Biller 2016
+Strains: ['Prochlorococcus NATL2A', 'Alteromonas macleodii MIT1002']
+
+Genes:    39/51 resolved (76.5%)
+  methods: locus_tag:v=9, multi:v=17, tier1:v=13, unresolved=12
+Pathways: 1/11 resolved (9.1%)
+  methods: id=1, unresolved=10
+
+Captured identifiers: 31  (truncated/bare-number: 0)
+Unresolved gene reasons: {'lookup_miss': 2, 'descriptive_only': 10}
+    descriptive_only = function/enzyme phrase, no symbol or id (paper style)
+    truncated_id_only = bare locus number, recoverable via strain prefix
+    lookup_miss       = had a name/full id but no mapping match
+
+Unresolved gene mentions (12):
+  - hli  [lookup_miss]  strain=Prochlorococcus NATL2A
+  - alkyl hydroperoxide reductase  [descriptive_only]  strain=Prochlorococcus NATL2A
+  - RuBisCO subunits  [descriptive_only]  strain=Prochlorococcus NATL2A
+  - NAD(P)H-quinone oxidoreductase  [descriptive_only]  strain=Prochlorococcus NATL2A
+  - NADH-ubiquinone/plastoquinone  [descriptive_only]  strain=Prochlorococcus NATL2A
+  - ribosomal proteins  [descriptive_only]  strain=Prochlorococcus NATL2A
+  - chorismate pathway genes  [descriptive_only]  strain=Prochlorococcus NATL2A
+  - tricarboxylic acid cycle enzymes  [descriptive_only]  strain=Prochlorococcus NATL2A
+  - glycogen debranching enzyme  [descriptive_only]  strain=Prochlorococcus NATL2A
+  - AbrB-family regulator  [descriptive_only]  strain=Prochlorococcus NATL2A
+  - GntR-like transcription factor  [descriptive_only]  strain=Prochlorococcus NATL2A
+  - rho  [lookup_miss]  strain=Prochlorococcus NATL2A
+
+Unresolved pathway mentions (10):
+  - Vitamin B12 biosynthesis  (raw id=—)
+  - Transcription regulation  (raw id=—)
+  - Generation of precursor metabolites and energy  (raw id=—)
+  - Cofactor biosynthesis (including chlorophyll)  (raw id=—)
+  - NAD Metabolism/biosynthesis  (raw id=—)
+  - Intracellular transport  (raw id=—)
+  - Amines and polyamines degradation; urea degradation  (raw id=—)
+  - Nucleic acid metabolism  (raw id=—)
+  - Nucleosides and nucleotides degradation  (raw id=—)
+  - Purine ribonucleotides biosynthesis  (raw id=—)

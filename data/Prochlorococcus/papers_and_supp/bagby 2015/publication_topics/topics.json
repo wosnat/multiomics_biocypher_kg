@@ -1,0 +1,319 @@
+{
+  "metadata": {
+    "paper": "Bagby and Chisholm 2015",
+    "doi": null,
+    "strains": [
+      "Prochlorococcus MED4"
+    ],
+    "model": "gpt-4.1",
+    "self_assessment": "high",
+    "assessment_notes": "All genes and pathways were explicitly named and discussed in the narrative. Some gene sets (e.g., photosystem genes) are referenced as groups, but only those with explicit identifiers or clear locus tags are listed individually.",
+    "uncaptured_identifiers": "some",
+    "uncaptured_identifiers_note": "Supplementary Table S1 and figures reference additional differentially expressed genes and abbreviated locus tags not all listed here.",
+    "extracted_at": "2026-06-04T09:59:57.066207",
+    "input_tokens": 23391,
+    "output_tokens": 3385
+  },
+  "genes": [
+    {
+      "surface_form": "hli gene family",
+      "gene_name": "hli",
+      "identifiers": [
+        "hli1",
+        "hli2",
+        "hli3",
+        "hli4",
+        "hli5",
+        "hli8",
+        "hli9",
+        "hli10",
+        "hli11",
+        "hli12",
+        "hli13",
+        "hli14",
+        "hli15",
+        "hli16",
+        "hli17",
+        "hli20",
+        "hli21",
+        "hli22"
+      ],
+      "strain": "Prochlorococcus MED4",
+      "prominence": "central",
+      "evidence": "The hli gene family encodes small proteins thought to interact with the photosystems under oxidative stress conditions... expression of six hli genes decreased after t = 0 in the air control (Figure 3), and interpret this drop as a recovery to baseline after upregulation due to sample-handling stresses... By contrast, expression of these hli genes remained at or above t = 0 levels throughout the \u2013CO2/\u2013O2 time course, suggesting that this condition did not permit recovery to a non-stressed state. (Results, p2236-2237)"
+    },
+    {
+      "surface_form": "hli3",
+      "gene_name": "hli3",
+      "identifiers": [
+        "PMM1482"
+      ],
+      "strain": "Prochlorococcus MED4",
+      "prominence": "central",
+      "evidence": "hli3 (PMM1482) was an intriguing exception... both carbon limitation conditions strongly suppressed hli3 expression (Figure 3). (Results, p2237)"
+    },
+    {
+      "surface_form": "RNA polymerase genes (rpoABC1C2)",
+      "gene_name": "",
+      "identifiers": [
+        "rpoA",
+        "rpoB",
+        "rpoC1",
+        "rpoC2"
+      ],
+      "strain": "Prochlorococcus MED4",
+      "prominence": "central",
+      "evidence": "Under both \u2212CO2 and \u2212CO2/\u2212O2 shocks, RNA polymerase genes (rpoABC1C2) were significantly downregulated, likely contributing to a broad suppression of transcription (Figure 1, Supplementary Figure S1). (Results, p2237)"
+    },
+    {
+      "surface_form": "groEL and groEL2",
+      "gene_name": "",
+      "identifiers": [
+        "groEL",
+        "groEL2"
+      ],
+      "strain": "Prochlorococcus MED4",
+      "prominence": "peripheral",
+      "evidence": "groEL and groEL2, components of the GroEL chaperone for newly synthesized proteins, were also expressed at lower levels (Supplementary Table S1). (Results, p2237)"
+    },
+    {
+      "surface_form": "PMM1289 (type II alternative sigma factor)",
+      "gene_name": "",
+      "identifiers": [
+        "PMM1289"
+      ],
+      "strain": "Prochlorococcus MED4",
+      "prominence": "central",
+      "evidence": "The type II alternative sigma factor encoded by PMM1289 has previously been found to show differential responses to nutrient stresses... Here, PMM1289 was significantly upregulated in \u2212CO2 stress only (Supplementary Figure S1). (Results, p2237)"
+    },
+    {
+      "surface_form": "Crp-family gene at locus PMM0806",
+      "gene_name": "",
+      "identifiers": [
+        "PMM0806"
+      ],
+      "strain": "Prochlorococcus MED4",
+      "prominence": "central",
+      "evidence": "Mean expression of the Crp-family gene at locus PMM0806 showed a >4-fold increase in expression under \u2212CO2 shock, while dropping by nearly 4-fold under both \u2212O2 shock and \u2212CO2/\u2212O2 shock (Figure 4a). (Results, p2237-2238)"
+    },
+    {
+      "surface_form": "Yfr20",
+      "gene_name": "Yfr20",
+      "identifiers": [
+        "Yfr20"
+      ],
+      "strain": "Prochlorococcus MED4",
+      "prominence": "central",
+      "evidence": "the strongest response observed for any gene was the ~30-fold upregulation of the non-coding RNA Yfr20 under both \u2013CO2 and \u2013CO2/\u2013O2 shock (Figure 4b). (Results, p2238)"
+    },
+    {
+      "surface_form": "bicA (Na+/HCO3- symporter)",
+      "gene_name": "bicA",
+      "identifiers": [
+        "PMM0214"
+      ],
+      "strain": "Prochlorococcus MED4",
+      "prominence": "central",
+      "evidence": "MED4\u2019s Ci acquisition is expected to depend primarily on the Na+/HCO3- symporter BicA (PMM0214)... expression of bicA dropped rapidly and remained suppressed under both \u2212CO2 and \u2212CO2/\u2212O2 shock (Supplementary Table S1). (Results, p2238)"
+    },
+    {
+      "surface_form": "ATP synthase complex genes",
+      "gene_name": "",
+      "identifiers": [
+        "PMM1438",
+        "PMM1439",
+        "PMM1450",
+        "PMM1451",
+        "PMM1452",
+        "PMM1453",
+        "PMM1454",
+        "PMM1455",
+        "PMM1456",
+        "PMM1457"
+      ],
+      "strain": "Prochlorococcus MED4",
+      "prominence": "central",
+      "evidence": "expression of 9 of the 10 ATP synthase complex genes (at loci PMM1438\u20131439 and PMM1450\u20131457) was significantly decreased (Supplementary Table S1), with similar time course profiles across the two conditions. (Results, p2238)"
+    },
+    {
+      "surface_form": "Calvin cycle enzymes",
+      "gene_name": "",
+      "identifiers": [
+        "cbbA",
+        "cp12",
+        "gap2",
+        "glpX",
+        "prkB",
+        "rbcLS",
+        "rbcR",
+        "rpe",
+        "rpiA",
+        "talB",
+        "tktA",
+        "tpi"
+      ],
+      "strain": "Prochlorococcus MED4",
+      "prominence": "central",
+      "evidence": "We further observed decreased expression of genes encoding Calvin cycle enzymes (Figure 5)... (Results, p2238-2239)"
+    },
+    {
+      "surface_form": "carboxysome components",
+      "gene_name": "",
+      "identifiers": [
+        "csoS1 (PMM0549)",
+        "csoS2 (PMM0552)",
+        "csoSCA (PMM0553)",
+        "csoS4B (PMM0553)"
+      ],
+      "strain": "Prochlorococcus MED4",
+      "prominence": "peripheral",
+      "evidence": "decreased expression of genes encoding... several carboxysome components (csoS1 (PMM0549), csoS2 (PMM0552), csoSCA (PMM0553), and csoS4B (PMM0553); Supplementary Table S1) under CO2 limitation. (Results, p2238)"
+    },
+    {
+      "surface_form": "glycogen synthesis enzymes (glgABC)",
+      "gene_name": "glgA, glgB, glgC",
+      "identifiers": [
+        "PMM0609",
+        "PMM0584",
+        "PMM0769"
+      ],
+      "strain": "Prochlorococcus MED4",
+      "prominence": "peripheral",
+      "evidence": "and glycogen synthesis enzymes (glgABC, encoded by PMM0609, PMM0584 and PMM0769, respectively; Supplementary Table S1) under CO2 limitation. (Results, p2238)"
+    },
+    {
+      "surface_form": "Rubisco genes rbcLS",
+      "gene_name": "rbcL, rbcS",
+      "identifiers": [
+        "rbcL",
+        "rbcS"
+      ],
+      "strain": "Prochlorococcus MED4",
+      "prominence": "central",
+      "evidence": "This disparity is most striking in the Rubisco genes rbcLS. As discussed below, the minimal disruption of Rubisco expression under \u2013CO2 shock suggests that, with carbon fixation throttled, the availability of molecular oxygen allows Prochlorococcus to buffer light stress via Rubisco\u2019s oxygenation reaction. (Results, p2239)"
+    },
+    {
+      "surface_form": "photosystem genes",
+      "gene_name": "",
+      "identifiers": [],
+      "strain": "Prochlorococcus MED4",
+      "prominence": "central",
+      "evidence": "Two-thirds of the genes encoding proteins in the light-harvesting complex and PSI and PSII were differentially expressed under carbon limitation (\u2013CO2/\u2013O2 shock, 15 of 34 genes; \u2013CO2 shock, 19; total, 22). (Results, p2239)"
+    },
+    {
+      "surface_form": "cytochrome b6f",
+      "gene_name": "",
+      "identifiers": [],
+      "strain": "Prochlorococcus MED4",
+      "prominence": "peripheral",
+      "evidence": "The same pattern marked cytochrome b6f and nicotinamide nucleotide transhydrogenase (pntA1, pntA2 and pntB)... (Results, p2239)"
+    },
+    {
+      "surface_form": "nicotinamide nucleotide transhydrogenase (pntA1, pntA2, pntB)",
+      "gene_name": "",
+      "identifiers": [
+        "pntA1",
+        "pntA2",
+        "pntB"
+      ],
+      "strain": "Prochlorococcus MED4",
+      "prominence": "peripheral",
+      "evidence": "The same pattern marked cytochrome b6f and nicotinamide nucleotide transhydrogenase (pntA1, pntA2 and pntB)... (Results, p2239)"
+    },
+    {
+      "surface_form": "ferritin (PMM0804)",
+      "gene_name": "",
+      "identifiers": [
+        "PMM0804"
+      ],
+      "strain": "Prochlorococcus MED4",
+      "prominence": "peripheral",
+      "evidence": "Expression of the gene encoding the iron sequestration protein ferritin (PMM0804)... increased significantly only under \u2212CO2... (Results, p2239)"
+    },
+    {
+      "surface_form": "ferric uptake regulator (Fur) gene (PMM1030)",
+      "gene_name": "fur",
+      "identifiers": [
+        "PMM1030"
+      ],
+      "strain": "Prochlorococcus MED4",
+      "prominence": "peripheral",
+      "evidence": "and of one ferric uptake regulator (Fur) gene (PMM1030) increased significantly only under \u2212CO2... (Results, p2239)"
+    },
+    {
+      "surface_form": "Fur gene (PMM0637)",
+      "gene_name": "fur",
+      "identifiers": [
+        "PMM0637"
+      ],
+      "strain": "Prochlorococcus MED4",
+      "prominence": "peripheral",
+      "evidence": "whereas the other Fur gene (PMM0637) was upregulated more strongly under \u2013CO2 shock than \u2013CO2/\u2013O2 shock (Supplementary Table S1). (Results, p2239)"
+    },
+    {
+      "surface_form": "class II ribonucleotide reductase nrdJ (PMM0661)",
+      "gene_name": "nrdJ",
+      "identifiers": [
+        "PMM0661"
+      ],
+      "strain": "Prochlorococcus MED4",
+      "prominence": "central",
+      "evidence": "the class II ribonucleotide reductase nrdJ (PMM0661) (Figure 4c)... strong initial decrease in nrdJ transcript abundance under both \u2212CO2 and \u2212CO2/\u2212O2 shocks... then fully recover under \u2212CO2 shock (Results, p2240)"
+    },
+    {
+      "surface_form": "PTOX locus PMM0336 (plastoquinol terminal oxidase)",
+      "gene_name": "PTOX",
+      "identifiers": [
+        "PMM0336"
+      ],
+      "strain": "Prochlorococcus MED4",
+      "prominence": "central",
+      "evidence": "PSII can pass electrons to oxygen instead of cytochrome b6f via the plastoquinol terminal oxidase (PTOX, PMM0336)... Here, PTOX expression increased >11-fold under both \u2212CO2 and \u2212CO2/\u2212O2 shocks (Figure 4d). (Results, p2241)"
+    },
+    {
+      "surface_form": "ndh genes",
+      "gene_name": "ndh",
+      "identifiers": [],
+      "strain": "Prochlorococcus MED4",
+      "prominence": "peripheral",
+      "evidence": "we find no indication at the transcriptional level that carbon limitation modulates cyclic electron flow or the Mehler reaction, with 13 of 14 ndh genes... unchanged under \u2212CO2 and \u2212CO2/\u2212O2 shocks. (Results, p2241)"
+    },
+    {
+      "surface_form": "flv1 (PMM0042), flv3 (PMM0043)",
+      "gene_name": "",
+      "identifiers": [
+        "PMM0042",
+        "PMM0043"
+      ],
+      "strain": "Prochlorococcus MED4",
+      "prominence": "peripheral",
+      "evidence": "flv1 (PMM0042), and flv3 (PMM0043) unchanged under \u2212CO2 and \u2212CO2/\u2212O2 shocks. (Results, p2241)"
+    }
+  ],
+  "pathways": [
+    {
+      "surface_form": "Calvin cycle",
+      "kegg_pathway_id": "ko00710",
+      "prominence": "central",
+      "evidence": "Carboxylation leads to the Calvin cycle; the energetically wasteful oxygenation reaction typically leads to photorespiration... (Introduction, p2232)"
+    },
+    {
+      "surface_form": "Photorespiration",
+      "kegg_pathway_id": "ko00620",
+      "prominence": "central",
+      "evidence": "the energetically wasteful oxygenation reaction typically leads to photorespiration to clear the cytotoxic product 2-phosphoglycolate from the cell. (Introduction, p2232)"
+    },
+    {
+      "surface_form": "Pentose phosphate pathway",
+      "kegg_pathway_id": "ko00030",
+      "prominence": "peripheral",
+      "evidence": "Calvin cycle (green) and pentose phosphate pathway (orange) interlock... expression data (thumbnail plots) for each gene in these pathways... (Figure 5, p2240)"
+    },
+    {
+      "surface_form": "Photosynthesis",
+      "kegg_pathway_id": "ko00195",
+      "prominence": "central",
+      "evidence": "the health of the photosynthetic electron transport chain depends on the dynamic balance between oxidized and reduced cofactors... (Introduction, p2232)"
+    }
+  ]
+}

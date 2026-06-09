@@ -1255,3 +1255,26 @@ CALL {
   WITH o, count(DISTINCT m) AS mcnt
   SET o.measured_metabolite_count = mcnt
 } IN TRANSACTIONS OF 1000 ROWS;
+
+// ── Publication "discusses" edge rollups (literature-index routing signals) ──
+
+// Publication: distinct discussed genes / pathways
+MATCH (p:Publication)
+CALL {
+  WITH p
+  OPTIONAL MATCH (p)-[:Publication_discusses_gene]->(g:Gene)
+  WITH p, count(DISTINCT g) AS dgc
+  OPTIONAL MATCH (p)-[:Publication_discusses_kegg_pathway]->(k:KeggTerm)
+  WITH p, dgc, count(DISTINCT k) AS dpc
+  SET p.discussed_gene_count = dgc,
+      p.discussed_pathway_count = dpc
+} IN TRANSACTIONS OF 1000 ROWS;
+
+// Gene: how many publications discuss this gene (router signal)
+MATCH (g:Gene)
+CALL {
+  WITH g
+  OPTIONAL MATCH (p:Publication)-[:Publication_discusses_gene]->(g)
+  WITH g, count(DISTINCT p) AS dipc
+  SET g.discussed_in_publication_count = dipc
+} IN TRANSACTIONS OF 1000 ROWS;

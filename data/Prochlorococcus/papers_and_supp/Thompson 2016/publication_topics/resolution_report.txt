@@ -1,0 +1,28 @@
+Topics resolution report: Thompson 2016
+Strains: ['Prochlorococcus MED4', 'Phage']
+
+Genes:    18/28 resolved (64.3%)
+  methods: multi:v=4, no_mapping=6, tier1:v=14, unresolved=4
+Pathways: 3/4 resolved (75.0%)
+  methods: id=3, unresolved=1
+
+Captured identifiers: 8  (truncated/bare-number: 0)
+Unresolved gene reasons: {'lookup_miss': 10}
+    descriptive_only = function/enzyme phrase, no symbol or id (paper style)
+    truncated_id_only = bare locus number, recoverable via strain prefix
+    lookup_miss       = had a name/full id but no mapping match
+
+Unresolved gene mentions (10):
+  - talC  [lookup_miss]  strain=Phage
+  - gnd  [lookup_miss]  strain=Phage
+  - zwf  [lookup_miss]  strain=Phage
+  - cp12  [lookup_miss]  strain=Phage
+  - nrdA  [lookup_miss]  strain=Phage
+  - nrdB  [lookup_miss]  strain=Phage
+  - COX  [lookup_miss]  strain=Prochlorococcus MED4
+  - FNR  [lookup_miss]  strain=Prochlorococcus MED4
+  - ftsK  [lookup_miss]  strain=Prochlorococcus MED4
+  - copG  [lookup_miss]  strain=Prochlorococcus MED4
+
+Unresolved pathway mentions (1):
+  - photosynthetic electron transport (PET)  (raw id=—)

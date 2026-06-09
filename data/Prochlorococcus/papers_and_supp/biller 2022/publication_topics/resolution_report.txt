@@ -1,0 +1,16 @@
+Topics resolution report: Biller 2022
+Strains: ['Prochlorococcus MIT9312', 'Prochlorococcus MIT9313']
+
+Genes:    13/14 resolved (92.9%)
+  methods: locus_tag:v=4, tier1:v=9, unresolved=1
+Pathways: 0/0 resolved (0.0%)
+  methods: 
+
+Captured identifiers: 9  (truncated/bare-number: 0)
+Unresolved gene reasons: {'lookup_miss': 1}
+    descriptive_only = function/enzyme phrase, no symbol or id (paper style)
+    truncated_id_only = bare locus number, recoverable via strain prefix
+    lookup_miss       = had a name/full id but no mapping match
+
+Unresolved gene mentions (1):
+  - procA  [lookup_miss]  strain=Prochlorococcus MIT9313

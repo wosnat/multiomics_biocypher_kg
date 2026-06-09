@@ -1,0 +1,440 @@
+{
+  "metadata": {
+    "paper": "Ma 2022",
+    "doi": null,
+    "strains": [
+      "Synechococcus elongatus UTEX 2973",
+      "Escherichia coli"
+    ],
+    "model": "gpt-4.1",
+    "self_assessment": "high",
+    "assessment_notes": "All gene and pathway mentions were directly quoted from the main text and figures. Strain attribution is clear from context and locus tags.",
+    "uncaptured_identifiers": "some",
+    "uncaptured_identifiers_note": "Supplementary tables (S1, S2, S4) likely list additional differentially expressed genes/proteins by locus tag not discussed in the main text.",
+    "extracted_at": "2026-06-04T10:12:29.197150",
+    "input_tokens": 24143,
+    "output_tokens": 4620
+  },
+  "genes": [
+    {
+      "surface_form": "M744_11065 (Hli)",
+      "gene_name": "Hli",
+      "identifiers": [
+        "M744_11065"
+      ],
+      "strain": "Synechococcus elongatus UTEX 2973",
+      "prominence": "central",
+      "evidence": "significant decreases in transcripts of oxidative stress-related genes were found in co-cultivated Synechococcus cscB+, including high light-inducible protein M744_11065 (Hli) (Results, p5)"
+    },
+    {
+      "surface_form": "M744_03995 (Tpx-Q)",
+      "gene_name": "Tpx-Q",
+      "identifiers": [
+        "M744_03995"
+      ],
+      "strain": "Synechococcus elongatus UTEX 2973",
+      "prominence": "central",
+      "evidence": "significant decreases in transcripts of oxidative stress-related genes... peroxiredoxin Q protein M744_03995 (Tpx-Q) (Results, p5)"
+    },
+    {
+      "surface_form": "M744_11810 (DinB)",
+      "gene_name": "DinB",
+      "identifiers": [
+        "M744_11810"
+      ],
+      "strain": "Synechococcus elongatus UTEX 2973",
+      "prominence": "central",
+      "evidence": "significant decreases in transcripts of oxidative stress-related genes... damage-inducible protein M744_11810 (DinB) (Results, p5)"
+    },
+    {
+      "surface_form": "M744_06055 (Flv)",
+      "gene_name": "Flv",
+      "identifiers": [
+        "M744_06055"
+      ],
+      "strain": "Synechococcus elongatus UTEX 2973",
+      "prominence": "central",
+      "evidence": "significant decreases in transcripts of oxidative stress-related genes... flavoprotein (Flv) M744_06055 (Results, p5)"
+    },
+    {
+      "surface_form": "M744_09730 (Flv)",
+      "gene_name": "Flv",
+      "identifiers": [
+        "M744_09730"
+      ],
+      "strain": "Synechococcus elongatus UTEX 2973",
+      "prominence": "central",
+      "evidence": "significant decreases in transcripts of oxidative stress-related genes... flavoprotein (Flv) M744_09730 (Results, p5)"
+    },
+    {
+      "surface_form": "M744_01095 (mlaE)",
+      "gene_name": "mlaE",
+      "identifiers": [
+        "M744_01095"
+      ],
+      "strain": "Synechococcus elongatus UTEX 2973",
+      "prominence": "peripheral",
+      "evidence": "the relative expression of M744_01095 (mlaE) was also increased in cocultured Synechococcus cscB+ (Results, p5)"
+    },
+    {
+      "surface_form": "M744_08450 (cmpD)",
+      "gene_name": "cmpD",
+      "identifiers": [
+        "M744_08450"
+      ],
+      "strain": "Synechococcus elongatus UTEX 2973",
+      "prominence": "central",
+      "evidence": "the M744_08450 gene (cmpD encoding a bicarbonate transporter) was significantly downregulated (Results, p6)"
+    },
+    {
+      "surface_form": "M744_04015 (pstS, sphX)",
+      "gene_name": "pstS, sphX",
+      "identifiers": [
+        "M744_04015"
+      ],
+      "strain": "Synechococcus elongatus UTEX 2973",
+      "prominence": "central",
+      "evidence": "The upregulated phosphate transporters, including the permease genes M744_04015 (pstS, sphX)... (Results, p7)"
+    },
+    {
+      "surface_form": "M744_04030 (pstA)",
+      "gene_name": "pstA",
+      "identifiers": [
+        "M744_04030"
+      ],
+      "strain": "Synechococcus elongatus UTEX 2973",
+      "prominence": "central",
+      "evidence": "The upregulated phosphate transporters, including the permease genes... M744_04030 (pstA), in the cocultured Synechococcus cscB+ strain (Results, p7)"
+    },
+    {
+      "surface_form": "M744_04035 (PstB)",
+      "gene_name": "PstB",
+      "identifiers": [
+        "M744_04035"
+      ],
+      "strain": "Synechococcus elongatus UTEX 2973",
+      "prominence": "central",
+      "evidence": "Those proteins involved in the phosphate transport system, including M744_04035 (PstB)... were upregulated (Results, p9)"
+    },
+    {
+      "surface_form": "M744_04025 (PstC)",
+      "gene_name": "PstC",
+      "identifiers": [
+        "M744_04025"
+      ],
+      "strain": "Synechococcus elongatus UTEX 2973",
+      "prominence": "central",
+      "evidence": "Those proteins involved in the phosphate transport system, including... M744_04025 (PstC)... were upregulated (Results, p9)"
+    },
+    {
+      "surface_form": "M744_04020 (PstS)",
+      "gene_name": "PstS",
+      "identifiers": [
+        "M744_04020"
+      ],
+      "strain": "Synechococcus elongatus UTEX 2973",
+      "prominence": "central",
+      "evidence": "Those proteins involved in the phosphate transport system, including... M744_04020 (PstS)... were upregulated (Results, p9)"
+    },
+    {
+      "surface_form": "M744_09635 (alkaline phosphatase)",
+      "gene_name": "",
+      "identifiers": [
+        "M744_09635"
+      ],
+      "strain": "Synechococcus elongatus UTEX 2973",
+      "prominence": "central",
+      "evidence": "two alkaline phosphatases (M744_09635 and M744_11635) in co-cultivated Synechococcus cscB+ were found to be upregulated (Results, p9)"
+    },
+    {
+      "surface_form": "M744_11635 (alkaline phosphatase)",
+      "gene_name": "",
+      "identifiers": [
+        "M744_11635"
+      ],
+      "strain": "Synechococcus elongatus UTEX 2973",
+      "prominence": "central",
+      "evidence": "two alkaline phosphatases (M744_09635 and M744_11635) in co-cultivated Synechococcus cscB+ were found to be upregulated (Results, p9)"
+    },
+    {
+      "surface_form": "M744_01325 (PetF)",
+      "gene_name": "PetF",
+      "identifiers": [
+        "M744_01325"
+      ],
+      "strain": "Synechococcus elongatus UTEX 2973",
+      "prominence": "peripheral",
+      "evidence": "proteins involved in energy metabolism, such as ferredoxin (PetF, M744_01325)... were upregulated (Results, p8)"
+    },
+    {
+      "surface_form": "M744_11425 (CpcD)",
+      "gene_name": "CpcD",
+      "identifiers": [
+        "M744_11425"
+      ],
+      "strain": "Synechococcus elongatus UTEX 2973",
+      "prominence": "peripheral",
+      "evidence": "proteins involved in energy metabolism, such as... phycobiliprotein terminal rod linker (CpcD, M744_11425)... were upregulated (Results, p8)"
+    },
+    {
+      "surface_form": "M744_01910 (PsbH)",
+      "gene_name": "PsbH",
+      "identifiers": [
+        "M744_01910"
+      ],
+      "strain": "Synechococcus elongatus UTEX 2973",
+      "prominence": "peripheral",
+      "evidence": "proteins involved in energy metabolism, such as... photosystem II reaction centre H (PsbH, M744_01910)... were upregulated (Results, p8)"
+    },
+    {
+      "surface_form": "M744_00850 (PsbA)",
+      "gene_name": "PsbA",
+      "identifiers": [
+        "M744_00850"
+      ],
+      "strain": "Synechococcus elongatus UTEX 2973",
+      "prominence": "peripheral",
+      "evidence": "proteins involved in energy metabolism, such as... photosystem II D1 protein (PsbA, M744_00850)... were upregulated (Results, p8)"
+    },
+    {
+      "surface_form": "M744_05920 (NadhD)",
+      "gene_name": "NadhD",
+      "identifiers": [
+        "M744_05920"
+      ],
+      "strain": "Synechococcus elongatus UTEX 2973",
+      "prominence": "peripheral",
+      "evidence": "proteins involved in energy metabolism, such as... NAD(P)H-quinone oxidoreductase subunit 4 (NadhD, M744_05920)... were upregulated (Results, p8)"
+    },
+    {
+      "surface_form": "M744_01470 (NadhF)",
+      "gene_name": "NadhF",
+      "identifiers": [
+        "M744_01470"
+      ],
+      "strain": "Synechococcus elongatus UTEX 2973",
+      "prominence": "peripheral",
+      "evidence": "proteins involved in energy metabolism, such as... NAD(P)H-quinone oxidoreductase subunit 5 (NadhF, M744_01470)... were upregulated (Results, p8)"
+    },
+    {
+      "surface_form": "M744_08440 (CmpB)",
+      "gene_name": "CmpB",
+      "identifiers": [
+        "M744_08440"
+      ],
+      "strain": "Synechococcus elongatus UTEX 2973",
+      "prominence": "peripheral",
+      "evidence": "proteomics analysis showed that M744_08440 (CmpB)... were downregulated (Results, p8)"
+    },
+    {
+      "surface_form": "M744_08445 (CmpC)",
+      "gene_name": "CmpC",
+      "identifiers": [
+        "M744_08445"
+      ],
+      "strain": "Synechococcus elongatus UTEX 2973",
+      "prominence": "peripheral",
+      "evidence": "proteomics analysis showed that... M744_08445 (CmpC)... were downregulated (Results, p8)"
+    },
+    {
+      "surface_form": "M744_07280 (ChlB)",
+      "gene_name": "ChlB",
+      "identifiers": [
+        "M744_07280"
+      ],
+      "strain": "Synechococcus elongatus UTEX 2973",
+      "prominence": "peripheral",
+      "evidence": "increased protein abundance of light-independent protochlorophyllide reductase subunit B (ChlB) (M744_07280)... was observed (Results, p10)"
+    },
+    {
+      "surface_form": "M744_10450 (NrtB)",
+      "gene_name": "NrtB",
+      "identifiers": [
+        "M744_10450"
+      ],
+      "strain": "Synechococcus elongatus UTEX 2973",
+      "prominence": "central",
+      "evidence": "three nitrate/nitrite transport system ATP-binding proteins, M744_10450 (NrtB)... were found to be upregulated (Results, p10)"
+    },
+    {
+      "surface_form": "M744_10455 (NrtC)",
+      "gene_name": "NrtC",
+      "identifiers": [
+        "M744_10455"
+      ],
+      "strain": "Synechococcus elongatus UTEX 2973",
+      "prominence": "central",
+      "evidence": "three nitrate/nitrite transport system ATP-binding proteins... M744_10455 (NrtC)... were found to be upregulated (Results, p10)"
+    },
+    {
+      "surface_form": "M744_10460 (NrtD)",
+      "gene_name": "NrtD",
+      "identifiers": [
+        "M744_10460"
+      ],
+      "strain": "Synechococcus elongatus UTEX 2973",
+      "prominence": "central",
+      "evidence": "three nitrate/nitrite transport system ATP-binding proteins... M744_10460 (NrtD)... were found to be upregulated (Results, p10)"
+    },
+    {
+      "surface_form": "M744_10440 (ferredoxin-nitrite reductase)",
+      "gene_name": "",
+      "identifiers": [
+        "M744_10440"
+      ],
+      "strain": "Synechococcus elongatus UTEX 2973",
+      "prominence": "central",
+      "evidence": "two ferredoxin-nitrite reductases (M744_10440 and M744_07195) were found to be upregulated (Results, p10)"
+    },
+    {
+      "surface_form": "M744_07195 (ferredoxin-nitrite reductase)",
+      "gene_name": "",
+      "identifiers": [
+        "M744_07195"
+      ],
+      "strain": "Synechococcus elongatus UTEX 2973",
+      "prominence": "central",
+      "evidence": "two ferredoxin-nitrite reductases (M744_10440 and M744_07195) were found to be upregulated (Results, p10)"
+    },
+    {
+      "surface_form": "M744_02210 (glutamine synthetase)",
+      "gene_name": "",
+      "identifiers": [
+        "M744_02210"
+      ],
+      "strain": "Synechococcus elongatus UTEX 2973",
+      "prominence": "central",
+      "evidence": "glutamine synthetase (M744_02210), which was also found to be upregulated in cocultured Synechococcus cscB+ (Results, p10)"
+    },
+    {
+      "surface_form": "M744_01810 (Hli protein)",
+      "gene_name": "Hli",
+      "identifiers": [
+        "M744_01810"
+      ],
+      "strain": "Synechococcus elongatus UTEX 2973",
+      "prominence": "peripheral",
+      "evidence": "proteins including Hli protein (M744_01810 and M744_11065)... were downregulated (Results, p10)"
+    },
+    {
+      "surface_form": "M744_05500 (Fur)",
+      "gene_name": "Fur",
+      "identifiers": [
+        "M744_05500"
+      ],
+      "strain": "Synechococcus elongatus UTEX 2973",
+      "prominence": "peripheral",
+      "evidence": "fur family transcription regulator (Fur) (M744_05500 and M744_12665) were downregulated (Results, p10)"
+    },
+    {
+      "surface_form": "M744_12665 (Fur)",
+      "gene_name": "Fur",
+      "identifiers": [
+        "M744_12665"
+      ],
+      "strain": "Synechococcus elongatus UTEX 2973",
+      "prominence": "peripheral",
+      "evidence": "fur family transcription regulator (Fur) (M744_05500 and M744_12665) were downregulated (Results, p10)"
+    },
+    {
+      "surface_form": "M744_05470 (AfuA)",
+      "gene_name": "AfuA",
+      "identifiers": [
+        "M744_05470"
+      ],
+      "strain": "Synechococcus elongatus UTEX 2973",
+      "prominence": "peripheral",
+      "evidence": "significant decrease in the protein abundance of Fe3+ transporters, including AfuA (M744_05470)... (Results, p11)"
+    },
+    {
+      "surface_form": "M744_09555 (AfuB)",
+      "gene_name": "AfuB",
+      "identifiers": [
+        "M744_09555"
+      ],
+      "strain": "Synechococcus elongatus UTEX 2973",
+      "prominence": "peripheral",
+      "evidence": "significant decrease in the protein abundance of Fe3+ transporters, including... AfuB (M744_09555)... (Results, p11)"
+    },
+    {
+      "surface_form": "M744_03415 (cysteine desulfurase)",
+      "gene_name": "",
+      "identifiers": [
+        "M744_03415"
+      ],
+      "strain": "Synechococcus elongatus UTEX 2973",
+      "prominence": "peripheral",
+      "evidence": "cysteine desulfurase (M744_03415)... was upregulated (Results, p11)"
+    },
+    {
+      "surface_form": "M744_11180 (ThiC)",
+      "gene_name": "ThiC",
+      "identifiers": [
+        "M744_11180"
+      ],
+      "strain": "Synechococcus elongatus UTEX 2973",
+      "prominence": "peripheral",
+      "evidence": "phosphomethylpyrimidine synthase (ThiC) (M744_11180)... was upregulated (Results, p11)"
+    },
+    {
+      "surface_form": "M744_09410 (MenD)",
+      "gene_name": "MenD",
+      "identifiers": [
+        "M744_09410"
+      ],
+      "strain": "Synechococcus elongatus UTEX 2973",
+      "prominence": "peripheral",
+      "evidence": "2-succinyl-5-enolpyruvyl-6-hydroxy-3-cyclohexene-1-carboxylate synthase (MenD, M744_09410)... was upregulated (Results, p11)"
+    }
+  ],
+  "pathways": [
+    {
+      "surface_form": "photosynthesis",
+      "kegg_pathway_id": "ko00195",
+      "prominence": "central",
+      "evidence": "proteins involved in the photosynthetic apparatus were significantly upregulated... suggesting that photosynthesis in the cocultured cyanobacteria was reinforced (Results, p6)"
+    },
+    {
+      "surface_form": "nitrogen metabolism",
+      "kegg_pathway_id": "ko00910",
+      "prominence": "central",
+      "evidence": "KEGG enrichment analysis suggested that seven pathways were significantly enriched... including 'nitrogen metabolism' (Results, p8)"
+    },
+    {
+      "surface_form": "ABC transporters",
+      "kegg_pathway_id": "ko02010",
+      "prominence": "central",
+      "evidence": "KEGG enrichment analysis suggested that seven pathways were significantly enriched... including 'ABC transporters' (Results, p8)"
+    },
+    {
+      "surface_form": "glyoxylate and dicarboxylate metabolism",
+      "kegg_pathway_id": "ko00630",
+      "prominence": "peripheral",
+      "evidence": "KEGG enrichment analysis suggested that seven pathways were significantly enriched... including 'glyoxylate and dicarboxylate metabolism' (Results, p8)"
+    },
+    {
+      "surface_form": "two-component system",
+      "kegg_pathway_id": "ko02020",
+      "prominence": "peripheral",
+      "evidence": "KEGG enrichment analysis suggested that seven pathways were significantly enriched... including 'two-component system' (Results, p8)"
+    },
+    {
+      "surface_form": "lipoic acid metabolism",
+      "kegg_pathway_id": "ko00785",
+      "prominence": "peripheral",
+      "evidence": "KEGG enrichment analysis suggested that seven pathways were significantly enriched... including 'lipoic acid metabolism' (Results, p8)"
+    },
+    {
+      "surface_form": "sulfur relay system",
+      "kegg_pathway_id": "ko04122",
+      "prominence": "peripheral",
+      "evidence": "KEGG enrichment analysis suggested that seven pathways were significantly enriched... including 'sulfur relay system' (Results, p8)"
+    },
+    {
+      "surface_form": "biofilm formation - E. coli",
+      "kegg_pathway_id": "ko02026",
+      "prominence": "peripheral",
+      "evidence": "KEGG enrichment analysis suggested that seven pathways were significantly enriched... including 'biofilm formation-E. coli' (Results, p8)"
+    }
+  ]
+}

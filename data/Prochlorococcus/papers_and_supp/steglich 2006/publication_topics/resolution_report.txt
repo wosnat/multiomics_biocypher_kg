@@ -1,0 +1,13 @@
+Topics resolution report: Steglich 2006
+Strains: ['Prochlorococcus MED4']
+
+Genes:    51/51 resolved (100.0%)
+  methods: locus_tag:v=15, tier1:v=36
+Pathways: 3/3 resolved (100.0%)
+  methods: id=3
+
+Captured identifiers: 37  (truncated/bare-number: 0)
+Unresolved gene reasons: {}
+    descriptive_only = function/enzyme phrase, no symbol or id (paper style)
+    truncated_id_only = bare locus number, recoverable via strain prefix
+    lookup_miss       = had a name/full id but no mapping match

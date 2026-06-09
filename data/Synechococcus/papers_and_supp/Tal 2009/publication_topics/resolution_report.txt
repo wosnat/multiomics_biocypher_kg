@@ -1,0 +1,21 @@
+Topics resolution report: Tai 2009
+Strains: ['Synechococcus WH8102', 'Vibrio parahaemolyticus']
+
+Genes:    47/47 resolved (100.0%)
+  methods: locus_tag:v=45, tier1:v=2
+Pathways: 2/8 resolved (25.0%)
+  methods: id=2, unresolved=6
+
+Captured identifiers: 46  (truncated/bare-number: 0)
+Unresolved gene reasons: {}
+    descriptive_only = function/enzyme phrase, no symbol or id (paper style)
+    truncated_id_only = bare locus number, recoverable via strain prefix
+    lookup_miss       = had a name/full id but no mapping match
+
+Unresolved pathway mentions (6):
+  - phosphate acquisition  (raw id=—)
+  - cell wall biosynthesis  (raw id=—)
+  - glycosyltransferases  (raw id=—)
+  - oxidative stress response  (raw id=—)
+  - iron transport and homeostasis  (raw id=—)
+  - zinc transport  (raw id=—)

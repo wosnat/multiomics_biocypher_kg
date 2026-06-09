@@ -1,0 +1,353 @@
+{
+  "metadata": {
+    "paper": "Christie-Oleza 2017",
+    "doi": null,
+    "strains": [
+      "Synechococcus WH7803",
+      "Ruegeria pomeroyi DSS-3"
+    ],
+    "model": "gpt-4.1",
+    "self_assessment": "high",
+    "assessment_notes": "All gene and pathway mentions are directly from the main text and tables. Some gene names (e.g., glnA, gltB, gdhA) are inferred from standard nomenclature but are explicitly referenced in the figure legend.",
+    "uncaptured_identifiers": "some",
+    "uncaptured_identifiers_note": "Supplementary tables may contain additional locus tags and protein IDs not discussed in the main text or Table 2.",
+    "extracted_at": "2026-06-04T10:13:19.559322",
+    "input_tokens": 20692,
+    "output_tokens": 2396,
+    "resolution": {
+      "gene_records": 17,
+      "genes_resolved": 11,
+      "gene_methods": {
+        "multi:v": 10,
+        "unresolved": 6,
+        "tier1:v": 1
+      },
+      "pathway_records": 9,
+      "pathways_resolved": 4,
+      "pathway_methods": {
+        "id": 4,
+        "unresolved": 5
+      },
+      "paper_strains": [
+        "Synechococcus WH7803",
+        "Ruegeria pomeroyi DSS-3"
+      ],
+      "captured_identifiers": 9,
+      "truncated_identifiers": 0,
+      "truncated_examples": [],
+      "unresolved_reasons": {
+        "lookup_miss": 2,
+        "descriptive_only": 4
+      }
+    }
+  },
+  "genes": [
+    {
+      "surface_form": "Pyruvate kinase",
+      "gene_name": "",
+      "identifiers": [
+        "YP_001224941.1"
+      ],
+      "prominence": "peripheral",
+      "evidence": "increase in proteins involved in pyruvate and oxaloacetate biosynthesis from phosphoenolpyruvate (that is, pyruvate kinase and phosphoenolpyruvate carboxylase), favouring the citric acid cycle (Results, p3)",
+      "mention_strain": "Synechococcus WH7803",
+      "strain": "Synechococcus WH7803",
+      "locus_tag": "SynWH7803_1218",
+      "resolved_from": "YP_001224941.1",
+      "resolution_method": "multi:v"
+    },
+    {
+      "surface_form": "Phosphoenolpyruvate carboxylase",
+      "gene_name": "",
+      "identifiers": [
+        "YP_001224177.1"
+      ],
+      "prominence": "peripheral",
+      "evidence": "increase in proteins involved in pyruvate and oxaloacetate biosynthesis from phosphoenolpyruvate (that is, pyruvate kinase and phosphoenolpyruvate carboxylase), favouring the citric acid cycle (Results, p3)",
+      "mention_strain": "Synechococcus WH7803",
+      "strain": "Synechococcus WH7803",
+      "locus_tag": "SynWH7803_0454",
+      "resolved_from": "YP_001224177.1",
+      "resolution_method": "multi:v"
+    },
+    {
+      "surface_form": "Putative multicopper oxidase",
+      "gene_name": "",
+      "identifiers": [
+        "YP_001224671.1"
+      ],
+      "prominence": "peripheral",
+      "evidence": "Other proteins with an increased abundance in the presence of R. pomeroyi included ... a multi-copper oxidase (Table 2, Results, p3)",
+      "mention_strain": "Synechococcus WH7803",
+      "strain": "Synechococcus WH7803",
+      "locus_tag": "SynWH7803_0948",
+      "resolved_from": "YP_001224671.1",
+      "resolution_method": "multi:v"
+    },
+    {
+      "surface_form": "Twitching motility protein",
+      "gene_name": "",
+      "identifiers": [
+        "YP_001225564.1"
+      ],
+      "prominence": "peripheral",
+      "evidence": "Other proteins with an increased abundance in the presence of R. pomeroyi included those involved in twitching motility (Table 2, Results, p3)",
+      "mention_strain": "Synechococcus WH7803",
+      "strain": "Synechococcus WH7803",
+      "locus_tag": "SynWH7803_1841",
+      "resolved_from": "YP_001225564.1",
+      "resolution_method": "multi:v"
+    },
+    {
+      "surface_form": "ABC-type amino acid transport system",
+      "gene_name": "",
+      "identifiers": [
+        "YP_001225795.1"
+      ],
+      "prominence": "central",
+      "evidence": "The 3.6-fold increase in abundance of a Synechococcus ABC-type amino-acid transporter ... in the presence of the heterotroph (Results, p3)",
+      "mention_strain": "Synechococcus WH7803",
+      "strain": "Synechococcus WH7803",
+      "locus_tag": "SynWH7803_2072",
+      "resolved_from": "YP_001225795.1",
+      "resolution_method": "multi:v"
+    },
+    {
+      "surface_form": "Glutamine synthase",
+      "gene_name": "glnA",
+      "identifiers": [],
+      "prominence": "peripheral",
+      "evidence": "increase in proteins involved in ammonium assimilation via glutamate synthase and ammonium ligase (Results, p3; Fig. 5 legend)",
+      "mention_strain": "Synechococcus WH7803",
+      "strain": "Synechococcus WH7803",
+      "locus_tag": "SynWH7803_1347",
+      "resolved_from": "glnA",
+      "resolution_method": "multi:v"
+    },
+    {
+      "surface_form": "Glutamate synthase",
+      "gene_name": "gltB",
+      "identifiers": [],
+      "prominence": "peripheral",
+      "evidence": "increase in proteins involved in ammonium assimilation via glutamate synthase and ammonium ligase (Results, p3; Fig. 5 legend)",
+      "mention_strain": "Synechococcus WH7803",
+      "strain": "Synechococcus WH7803",
+      "locus_tag": null,
+      "resolved_from": "",
+      "resolution_method": "unresolved"
+    },
+    {
+      "surface_form": "Glutamate dehydrogenase",
+      "gene_name": "gdhA",
+      "identifiers": [],
+      "prominence": "peripheral",
+      "evidence": "Fig. 5 schematic: GdhA, glutamate dehydrogenase, involved in nitrogen assimilation (Fig. 5 legend)",
+      "mention_strain": "Synechococcus WH7803",
+      "strain": "Synechococcus WH7803",
+      "locus_tag": null,
+      "resolved_from": "",
+      "resolution_method": "unresolved"
+    },
+    {
+      "surface_form": "PhoB regulon",
+      "gene_name": "phoB",
+      "identifiers": [],
+      "prominence": "peripheral",
+      "evidence": "R. pomeroyi showed increased production of the PhoB regulon (24\u00d7), alkaline phosphatases (PhoD, 31\u00d7; PhoX, 2\u00d7), phosphate ABC transporter (3\u20137\u00d7) (Results, p5)",
+      "mention_strain": "Ruegeria pomeroyi DSS-3",
+      "strain": "Ruegeria pomeroyi DSS-3",
+      "locus_tag": "SPO1953",
+      "resolved_from": "phoB",
+      "resolution_method": "tier1:v"
+    },
+    {
+      "surface_form": "Alkaline phosphatases (PhoD, PhoX)",
+      "gene_name": "",
+      "identifiers": [],
+      "prominence": "peripheral",
+      "evidence": "R. pomeroyi showed increased production of the PhoB regulon (24\u00d7), alkaline phosphatases (PhoD, 31\u00d7; PhoX, 2\u00d7) (Results, p5)",
+      "mention_strain": "Ruegeria pomeroyi DSS-3",
+      "strain": "Ruegeria pomeroyi DSS-3",
+      "locus_tag": null,
+      "resolved_from": "",
+      "resolution_method": "unresolved"
+    },
+    {
+      "surface_form": "Phosphate ABC transporter",
+      "gene_name": "",
+      "identifiers": [],
+      "prominence": "peripheral",
+      "evidence": "R. pomeroyi showed increased production of ... phosphate ABC transporter (3\u20137\u00d7) (Results, p5)",
+      "mention_strain": "Ruegeria pomeroyi DSS-3",
+      "strain": "Ruegeria pomeroyi DSS-3",
+      "locus_tag": null,
+      "resolved_from": "",
+      "resolution_method": "unresolved"
+    },
+    {
+      "surface_form": "Phosphonate transport and metabolism",
+      "gene_name": "",
+      "identifiers": [],
+      "prominence": "peripheral",
+      "evidence": "R. pomeroyi showed increased production of ... phosphonate transport and metabolism (up to 57\u00d7) (Results, p5)",
+      "mention_strain": "Ruegeria pomeroyi DSS-3",
+      "strain": "Ruegeria pomeroyi DSS-3",
+      "locus_tag": null,
+      "resolved_from": "",
+      "resolution_method": "unresolved"
+    },
+    {
+      "surface_form": "Potential phosphorus stress-induced porins",
+      "gene_name": "",
+      "identifiers": [
+        "YP_001225958.1",
+        "YP_001225959.1"
+      ],
+      "prominence": "peripheral",
+      "evidence": "high amounts of potential phosphorus stress-induced porins (YP_001225958.1 and YP_001225959.1, 5.3% and 1.0%, respectively) (Results, p5)",
+      "mention_strain": "Synechococcus WH7803",
+      "strain": "Synechococcus WH7803",
+      "locus_tag": "SynWH7803_2235",
+      "resolved_from": "YP_001225958.1",
+      "resolution_method": "multi:v"
+    },
+    {
+      "surface_form": "Potential phosphorus stress-induced porins",
+      "gene_name": "",
+      "identifiers": [
+        "YP_001225958.1",
+        "YP_001225959.1"
+      ],
+      "prominence": "peripheral",
+      "evidence": "high amounts of potential phosphorus stress-induced porins (YP_001225958.1 and YP_001225959.1, 5.3% and 1.0%, respectively) (Results, p5)",
+      "mention_strain": "Synechococcus WH7803",
+      "strain": "Synechococcus WH7803",
+      "locus_tag": "SynWH7803_2236",
+      "resolved_from": "YP_001225959.1",
+      "resolution_method": "multi:v"
+    },
+    {
+      "surface_form": "Periplasmic binding protein component of an ABC transport system for phosphate",
+      "gene_name": "",
+      "identifiers": [],
+      "prominence": "peripheral",
+      "evidence": "a periplasmic binding protein component of an ABC transport system for phosphate (0.9%; Supplementary Table 5) (Results, p5)",
+      "mention_strain": "Synechococcus WH7803",
+      "strain": "Synechococcus WH7803",
+      "locus_tag": null,
+      "resolved_from": "",
+      "resolution_method": "unresolved"
+    },
+    {
+      "surface_form": "sn-glycerol-3-phosphate ABC transporter",
+      "gene_name": "",
+      "identifiers": [
+        "YP_165509.1"
+      ],
+      "prominence": "peripheral",
+      "evidence": "sn-glycerol-3-phosphate ABC transporter (YP_165509.1) was also highly represented (over 2% NSAF) (Results, p3)",
+      "mention_strain": "Ruegeria pomeroyi DSS-3",
+      "strain": "Ruegeria pomeroyi DSS-3",
+      "locus_tag": "SPO0240",
+      "resolved_from": "YP_165509.1",
+      "resolution_method": "multi:v"
+    },
+    {
+      "surface_form": "Major outer membrane porin",
+      "gene_name": "",
+      "identifiers": [
+        "YP_168626.1"
+      ],
+      "prominence": "peripheral",
+      "evidence": "major outer membrane porin (YP_168626.1, 16.2% NSAF) (Results, p3)",
+      "mention_strain": "Ruegeria pomeroyi DSS-3",
+      "strain": "Ruegeria pomeroyi DSS-3",
+      "locus_tag": "SPO3430",
+      "resolved_from": "YP_168626.1",
+      "resolution_method": "multi:v"
+    }
+  ],
+  "pathways": [
+    {
+      "surface_form": "Photosynthesis",
+      "kegg_pathway_id_raw": "ko00195",
+      "prominence": "central",
+      "evidence": "Almost 45% of Synechococcus sp. WH7803 protein abundance has a direct role in photosynthesis or CO2 fixation (Results, p2)",
+      "pathway_id": "ko00195",
+      "pathway_name": "photosynthesis",
+      "resolution_method": "id"
+    },
+    {
+      "surface_form": "Carbon fixation",
+      "kegg_pathway_id_raw": "ko00710",
+      "prominence": "central",
+      "evidence": "Almost 45% of Synechococcus sp. WH7803 protein abundance has a direct role in photosynthesis or CO2 fixation (Results, p2)",
+      "pathway_id": "ko00710",
+      "pathway_name": "carbon fixation by calvin cycle",
+      "resolution_method": "id"
+    },
+    {
+      "surface_form": "Citric acid cycle (TCA cycle)",
+      "kegg_pathway_id_raw": "ko00020",
+      "prominence": "peripheral",
+      "evidence": "increase in proteins involved in pyruvate and oxaloacetate biosynthesis from phosphoenolpyruvate ... favouring the citric acid cycle (Results, p3)",
+      "pathway_id": "ko00020",
+      "pathway_name": "citrate cycle (tca cycle)",
+      "resolution_method": "id"
+    },
+    {
+      "surface_form": "Oxidative phosphorylation",
+      "kegg_pathway_id_raw": "ko00190",
+      "prominence": "peripheral",
+      "evidence": "This percentage increases when other processes directly linked to photosynthesis and CO2 fixation are included (for example, ATP synthase complex, oxidative phosphorylation...) (Results, p2)",
+      "pathway_id": "ko00190",
+      "pathway_name": "oxidative phosphorylation",
+      "resolution_method": "id"
+    },
+    {
+      "surface_form": "Biosynthetic pathways of tetrapyrrole ring systems",
+      "kegg_pathway_id_raw": "",
+      "prominence": "peripheral",
+      "evidence": "This percentage increases when other processes directly linked to photosynthesis and CO2 fixation are included (for example, ATP synthase complex, oxidative phosphorylation or biosynthetic pathways of tetrapyrrole ring systems) (Results, p2)",
+      "pathway_id": null,
+      "pathway_name": null,
+      "resolution_method": "unresolved"
+    },
+    {
+      "surface_form": "Amino acid transport",
+      "kegg_pathway_id_raw": "",
+      "prominence": "peripheral",
+      "evidence": "increase in abundance of two periplasmic binding proteins specific for amino acids and iron (Results, p3)",
+      "pathway_id": null,
+      "pathway_name": null,
+      "resolution_method": "unresolved"
+    },
+    {
+      "surface_form": "Iron transport",
+      "kegg_pathway_id_raw": "",
+      "prominence": "peripheral",
+      "evidence": "increase in abundance of two periplasmic binding proteins specific for amino acids and iron (Results, p3)",
+      "pathway_id": null,
+      "pathway_name": null,
+      "resolution_method": "unresolved"
+    },
+    {
+      "surface_form": "Vitamin/cofactor biosynthesis",
+      "kegg_pathway_id_raw": "",
+      "prominence": "peripheral",
+      "evidence": "reduction in the abundance of enzymes involved in vitamin and cofactor biosynthesis was observed in the presence of the heterotroph (Results, p5)",
+      "pathway_id": null,
+      "pathway_name": null,
+      "resolution_method": "unresolved"
+    },
+    {
+      "surface_form": "Phosphonate transport and metabolism",
+      "kegg_pathway_id_raw": "",
+      "prominence": "peripheral",
+      "evidence": "R. pomeroyi showed increased production of ... phosphonate transport and metabolism (up to 57\u00d7) (Results, p5)",
+      "pathway_id": null,
+      "pathway_name": null,
+      "resolution_method": "unresolved"
+    }
+  ]
+}

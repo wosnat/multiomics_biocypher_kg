@@ -1,0 +1,224 @@
+{
+  "metadata": {
+    "paper": "Thompson 2016",
+    "doi": null,
+    "strains": [
+      "Prochlorococcus MED4",
+      "Phage"
+    ],
+    "model": "gpt-4.1",
+    "n_chunks": 2,
+    "chunk_pages": 15,
+    "self_assessment": "high",
+    "uncaptured_identifiers": "many",
+    "uncaptured_identifiers_note": "Supplementary tables (S3 Table) likely list locus tags for Prochlorococcus MED4 genes, but these are not included here as they are not in the main text.; Numerous NCBI locus tags and DEGs are referenced as being in S1, S5, S6, and S7 Tables, but none are printed in the narrative text.",
+    "extracted_at": "2026-06-04T15:55:51.844934",
+    "input_tokens": 29615,
+    "output_tokens": 2353
+  },
+  "genes": [
+    {
+      "surface_form": "psbA",
+      "gene_name": "psbA",
+      "identifiers": [],
+      "strain": "all",
+      "prominence": "central",
+      "evidence": "phage genes for the light reactions (psbA) ... were highly expressed during infection in the light (Introduction, p2)"
+    },
+    {
+      "surface_form": "talC",
+      "gene_name": "talC",
+      "identifiers": [],
+      "strain": "Phage",
+      "prominence": "central",
+      "evidence": "phage genes for ... pentose phosphate pathway (talC, gnd, zwf) ... were highly expressed during infection in the light (Introduction, p2)"
+    },
+    {
+      "surface_form": "gnd",
+      "gene_name": "gnd",
+      "identifiers": [],
+      "strain": "Phage",
+      "prominence": "peripheral",
+      "evidence": "phage genes for ... pentose phosphate pathway (talC, gnd, zwf) ... were highly expressed during infection in the light (Introduction, p2)"
+    },
+    {
+      "surface_form": "zwf",
+      "gene_name": "zwf",
+      "identifiers": [],
+      "strain": "Phage",
+      "prominence": "peripheral",
+      "evidence": "phage genes for ... pentose phosphate pathway (talC, gnd, zwf) ... were highly expressed during infection in the light (Introduction, p2)"
+    },
+    {
+      "surface_form": "cp12",
+      "gene_name": "cp12",
+      "identifiers": [],
+      "strain": "Phage",
+      "prominence": "central",
+      "evidence": "phage gene for CP12, which putatively inhibits the Calvin cycle enzyme ... was highly expressed in light infection (Abstract, p1)"
+    },
+    {
+      "surface_form": "nrdA",
+      "gene_name": "nrdA",
+      "identifiers": [],
+      "strain": "Phage",
+      "prominence": "central",
+      "evidence": "phage psbA, cp12, talC, nrdA, and nrdB were expressed concurrently with known T4-like phage early/middle genes (Introduction, p2)"
+    },
+    {
+      "surface_form": "nrdB",
+      "gene_name": "nrdB",
+      "identifiers": [],
+      "strain": "Phage",
+      "prominence": "central",
+      "evidence": "phage psbA, cp12, talC, nrdA, and nrdB were expressed concurrently with known T4-like phage early/middle genes (Introduction, p2)"
+    },
+    {
+      "surface_form": "hli genes (hli5,6,7,11,14,17,19,22)",
+      "gene_name": "",
+      "identifiers": [
+        "hli5",
+        "hli6",
+        "hli7",
+        "hli11",
+        "hli14",
+        "hli17",
+        "hli19",
+        "hli22"
+      ],
+      "strain": "Prochlorococcus MED4",
+      "prominence": "central",
+      "evidence": "high-light inducible genes (hli5,6,7,11,14,17,19) ... were enriched in light (depleted in dark) much more so in infected than uninfected cells (Results, p8)"
+    },
+    {
+      "surface_form": "plastoquinol terminal oxidase (PTOX)",
+      "gene_name": "PTOX",
+      "identifiers": [],
+      "strain": "Prochlorococcus MED4",
+      "prominence": "central",
+      "evidence": "plastoquinol terminal oxidase (PTOX) were enriched in light (depleted in dark) much more so in infected than uninfected cells (Results, p8)"
+    },
+    {
+      "surface_form": "cytochrome c oxidase (COX)",
+      "gene_name": "COX",
+      "identifiers": [],
+      "strain": "Prochlorococcus MED4",
+      "prominence": "central",
+      "evidence": "cytochrome c oxidase (COX)\u2014suggesting a requirement for maintenance of electron flow in the thylakoid membrane (Results, p8)"
+    },
+    {
+      "surface_form": "psbK",
+      "gene_name": "psbK",
+      "identifiers": [],
+      "strain": "Prochlorococcus MED4",
+      "prominence": "peripheral",
+      "evidence": "psbA and psbK and cytochrome c oxidase (COX)\u2014suggesting a requirement for maintenance of electron flow (Results, p8)"
+    },
+    {
+      "surface_form": "Ferredoxin\u2013NADP+ reductase (FNR)",
+      "gene_name": "FNR",
+      "identifiers": [],
+      "strain": "Prochlorococcus MED4",
+      "prominence": "central",
+      "evidence": "Among the most diminished transcripts in both light and dark infection was ferredoxin\u2013NADP+ reductase (FNR) (Abstract, p1)"
+    },
+    {
+      "surface_form": "ycf37",
+      "gene_name": "ycf37",
+      "identifiers": [],
+      "strain": "Prochlorococcus MED4",
+      "prominence": "peripheral",
+      "evidence": "Host transcripts that were diminished in light infection included photosystem I assembly protein Ycf37 (Results, p8)"
+    },
+    {
+      "surface_form": "ftsZ",
+      "gene_name": "ftsZ",
+      "identifiers": [],
+      "strain": "Prochlorococcus MED4",
+      "prominence": "peripheral",
+      "evidence": "cell division (ftsZ) and sigma factor (rpoD) transcripts among the most diminished (Results, p8)"
+    },
+    {
+      "surface_form": "ftsK",
+      "gene_name": "ftsK",
+      "identifiers": [],
+      "strain": "Prochlorococcus MED4",
+      "prominence": "peripheral",
+      "evidence": "Cell division transcripts ftsZ, ftsK, and tig were also diminished in light infection (Results, p8)"
+    },
+    {
+      "surface_form": "tig",
+      "gene_name": "tig",
+      "identifiers": [],
+      "strain": "Prochlorococcus MED4",
+      "prominence": "peripheral",
+      "evidence": "Cell division transcripts ftsZ, ftsK, and tig were also diminished in light infection (Results, p8)"
+    },
+    {
+      "surface_form": "rpoD",
+      "gene_name": "rpoD",
+      "identifiers": [],
+      "strain": "Prochlorococcus MED4",
+      "prominence": "central",
+      "evidence": "Host sigma factor RpoD transcripts were enriched in light infection but diminished in dark infection (Results, p8)"
+    },
+    {
+      "surface_form": "amt1",
+      "gene_name": "amt1",
+      "identifiers": [],
+      "strain": "Prochlorococcus MED4",
+      "prominence": "peripheral",
+      "evidence": "Transcripts enriched only in dark infection included those encoding transport functions (amt1 for ammonium transporter, several porins) (Results, p10)"
+    },
+    {
+      "surface_form": "gap2",
+      "gene_name": "gap2",
+      "identifiers": [],
+      "strain": "Prochlorococcus MED4",
+      "prominence": "peripheral",
+      "evidence": "host genes for the key Calvin cycle enzymes glyceraldehyde-3-phosphate dehydrogenase (gap2) ... are diminished (Discussion, p13)"
+    },
+    {
+      "surface_form": "prkB",
+      "gene_name": "prkB",
+      "identifiers": [],
+      "strain": "Prochlorococcus MED4",
+      "prominence": "peripheral",
+      "evidence": "host genes for the key Calvin cycle enzymes glyceraldehyde-3-phosphate dehydrogenase (gap2) and phosphoribulokinase (prkB) are diminished (Discussion, p13)"
+    },
+    {
+      "surface_form": "copG",
+      "gene_name": "copG",
+      "identifiers": [],
+      "strain": "Prochlorococcus MED4",
+      "prominence": "peripheral",
+      "evidence": "transcriptional regulation (copG) transcripts among the most enriched (Results, p8)"
+    }
+  ],
+  "pathways": [
+    {
+      "surface_form": "pentose phosphate pathway",
+      "kegg_pathway_id": "ko00030",
+      "prominence": "central",
+      "evidence": "phage augment NADPH production via the pentose phosphate pathway (PPP) (Abstract, p1)"
+    },
+    {
+      "surface_form": "Calvin cycle",
+      "kegg_pathway_id": "ko00710",
+      "prominence": "central",
+      "evidence": "phage gene for CP12, which putatively inhibits the Calvin cycle enzyme ... was highly expressed in light infection (Abstract, p1)"
+    },
+    {
+      "surface_form": "photosynthetic electron transport (PET)",
+      "kegg_pathway_id": "",
+      "prominence": "central",
+      "evidence": "Many cyanophages encode multiple photosynthetic electron transport (PET) proteins (Abstract, p1)"
+    },
+    {
+      "surface_form": "nucleotide biosynthesis",
+      "kegg_pathway_id": "ko00230",
+      "prominence": "central",
+      "evidence": "nucleotide biosynthesis is a key product of cyanophage-infected host metabolism; indeed, nucleotide biosynthesis genes are common in cyanophage genomes (Introduction, p2)"
+    }
+  ]
+}

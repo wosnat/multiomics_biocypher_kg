@@ -1,0 +1,348 @@
+{
+  "metadata": {
+    "paper": "Thompson 2011",
+    "doi": null,
+    "strains": [
+      "Prochlorococcus MED4",
+      "Prochlorococcus MIT9313"
+    ],
+    "model": "gpt-4.1",
+    "self_assessment": "high",
+    "assessment_notes": "All genes discussed in the main text and figures were extracted. No KEGG pathways were explicitly named.",
+    "uncaptured_identifiers": "some",
+    "uncaptured_identifiers_note": "Supplementary Tables S1 and S2 likely contain additional locus tags and gene ids not mentioned in the main text.",
+    "extracted_at": "2026-06-04T10:06:07.937351",
+    "input_tokens": 26007,
+    "output_tokens": 3311
+  },
+  "genes": [
+    {
+      "surface_form": "isiB",
+      "gene_name": "isiB",
+      "identifiers": [
+        "isiB"
+      ],
+      "strain": "all",
+      "prominence": "central",
+      "evidence": "diverse phototrophs upregulate the iron-free electron transfer gene, flavodoxin (isiB)... This expression pattern was shown in Prochlorococcus MED4, SS120 and MIT9313 (Bibby et al., 2003). (Introduction, p1-2)"
+    },
+    {
+      "surface_form": "petF",
+      "gene_name": "petF",
+      "identifiers": [
+        "petF"
+      ],
+      "strain": "all",
+      "prominence": "central",
+      "evidence": "downregulate the iron-requiring electron transfer gene, ferredoxin (petF)... This expression pattern was shown in Prochlorococcus MED4, SS120 and MIT9313 (Bibby et al., 2003). (Introduction, p1-2)"
+    },
+    {
+      "surface_form": "ferritin",
+      "gene_name": "ftn",
+      "identifiers": [
+        "ferritin"
+      ],
+      "strain": "all",
+      "prominence": "peripheral",
+      "evidence": "the core genome contains... the iron storage molecule ferritin (ftn) (Introduction, p2)"
+    },
+    {
+      "surface_form": "fur",
+      "gene_name": "fur",
+      "identifiers": [
+        "fur"
+      ],
+      "strain": "all",
+      "prominence": "peripheral",
+      "evidence": "the core genome contains... two ferric uptake regulator (fur) genes (Introduction, p2)"
+    },
+    {
+      "surface_form": "idiA (futA/afuA)",
+      "gene_name": "idiA",
+      "identifiers": [
+        "idiA",
+        "futA",
+        "afuA"
+      ],
+      "strain": "all",
+      "prominence": "central",
+      "evidence": "idiA (futA/afuA), futB and futC, homologous to components of a periplasmic binding protein-dependent Fe3+ ABC transporter... are in the core genome. (Introduction, p2)"
+    },
+    {
+      "surface_form": "futB",
+      "gene_name": "futB",
+      "identifiers": [
+        "futB"
+      ],
+      "strain": "all",
+      "prominence": "peripheral",
+      "evidence": "idiA (futA/afuA), futB and futC... are in the core genome. (Introduction, p2)"
+    },
+    {
+      "surface_form": "futC/sfuC",
+      "gene_name": "futC",
+      "identifiers": [
+        "futC",
+        "sfuC"
+      ],
+      "strain": "all",
+      "prominence": "peripheral",
+      "evidence": "futC/sfuC\u2014ABC transporter, ATP binding component, possibly iron transporter (Table 1, p2)"
+    },
+    {
+      "surface_form": "hli05/hli08 (PMM1404/PMT1154)",
+      "gene_name": "",
+      "identifiers": [
+        "hli05",
+        "hli08",
+        "PMM1404",
+        "PMT1154"
+      ],
+      "strain": "all",
+      "prominence": "central",
+      "evidence": "Another MED4-MIT9313 shared gene... is the hli gene hli05/hli08 (PMM1404/PMT1154), which is upregulated in MED4 during iron stress and downregulated in both strains upon rescue (Results, p8)"
+    },
+    {
+      "surface_form": "psaM",
+      "gene_name": "psaM",
+      "identifiers": [
+        "psaM"
+      ],
+      "strain": "Prochlorococcus MIT9313",
+      "prominence": "peripheral",
+      "evidence": "PSI components\u2014psaM in MIT9313, psaI and psaL in MED4\u2014are transmembrane-a helices that stabilize cofactors of the PSI core antennae system (Results, p8)"
+    },
+    {
+      "surface_form": "psaI",
+      "gene_name": "psaI",
+      "identifiers": [
+        "psaI"
+      ],
+      "strain": "Prochlorococcus MED4",
+      "prominence": "peripheral",
+      "evidence": "PSI components\u2014psaM in MIT9313, psaI and psaL in MED4\u2014are transmembrane-a helices that stabilize cofactors of the PSI core antennae system (Results, p8)"
+    },
+    {
+      "surface_form": "psaL",
+      "gene_name": "psaL",
+      "identifiers": [
+        "psaL"
+      ],
+      "strain": "Prochlorococcus MED4",
+      "prominence": "peripheral",
+      "evidence": "PSI components\u2014psaM in MIT9313, psaI and psaL in MED4\u2014are transmembrane-a helices that stabilize cofactors of the PSI core antennae system (Results, p8)"
+    },
+    {
+      "surface_form": "petA",
+      "gene_name": "petA",
+      "identifiers": [
+        "petA"
+      ],
+      "strain": "Prochlorococcus MED4",
+      "prominence": "peripheral",
+      "evidence": "cytochrome b6/f complex components were downregulated in both strains, including heme-binding petA (cytochrome f) (Results, p9)"
+    },
+    {
+      "surface_form": "petC",
+      "gene_name": "petC",
+      "identifiers": [
+        "petC"
+      ],
+      "strain": "Prochlorococcus MED4",
+      "prominence": "peripheral",
+      "evidence": "cytochrome b6/f complex components were downregulated in both strains, including... the Rieske iron\u2013sulfur subunit, petC, in MED4 (Results, p9)"
+    },
+    {
+      "surface_form": "cytochrome b6/f complex subunit VII",
+      "gene_name": "",
+      "identifiers": [
+        "cytochrome b6/f complex subunit VII"
+      ],
+      "strain": "Prochlorococcus MIT9313",
+      "prominence": "peripheral",
+      "evidence": "cytochrome b6/f complex components were downregulated in both strains, including... cytochrome b6/f complex subunit VII in MIT9313 (Results, p9)"
+    },
+    {
+      "surface_form": "Yfr11",
+      "gene_name": "Yfr11",
+      "identifiers": [
+        "Yfr11"
+      ],
+      "strain": "all",
+      "prominence": "peripheral",
+      "evidence": "some sRNAs, for example Yfr11 and Yfr19, are also controlled by light and phage infection, suggesting a range of target genes and functional roles for sRNAs in Prochlorococcus iron metabolism (Results, p9)"
+    },
+    {
+      "surface_form": "Yfr19",
+      "gene_name": "Yfr19",
+      "identifiers": [
+        "Yfr19"
+      ],
+      "strain": "all",
+      "prominence": "peripheral",
+      "evidence": "some sRNAs, for example Yfr11 and Yfr19, are also controlled by light and phage infection, suggesting a range of target genes and functional roles for sRNAs in Prochlorococcus iron metabolism (Results, p9)"
+    },
+    {
+      "surface_form": "PMM0370",
+      "gene_name": "",
+      "identifiers": [
+        "PMM0370"
+      ],
+      "strain": "Prochlorococcus MED4",
+      "prominence": "peripheral",
+      "evidence": "In MED4, PMM0370\u2014a putative cyanate transporter\u2014was downregulated following rescue (Results, p9)"
+    },
+    {
+      "surface_form": "PMT2240",
+      "gene_name": "",
+      "identifiers": [
+        "PMT2240"
+      ],
+      "strain": "Prochlorococcus MIT9313",
+      "prominence": "peripheral",
+      "evidence": "In MIT9313, PMT2240 (formate/nitrite transporter) was downregulated with iron stress (Results, p9)"
+    },
+    {
+      "surface_form": "PMT0499",
+      "gene_name": "",
+      "identifiers": [
+        "PMT0499"
+      ],
+      "strain": "Prochlorococcus MIT9313",
+      "prominence": "peripheral",
+      "evidence": "One of the two ferritin (iron storage) genes in MIT9313 (PMT0499), for example, was upregulated 16 h after iron deprivation (Results, p9)"
+    },
+    {
+      "surface_form": "PMT0862",
+      "gene_name": "",
+      "identifiers": [
+        "PMT0862"
+      ],
+      "strain": "Prochlorococcus MIT9313",
+      "prominence": "peripheral",
+      "evidence": "PMT0862, another MED4-MIT9313 shared gene predicted to encode an Fe\u2013S oxidoreductase, was also strongly upregulated in MIT9313 during iron stress (Results, p9)"
+    },
+    {
+      "surface_form": "PMT1554",
+      "gene_name": "",
+      "identifiers": [
+        "PMT1554"
+      ],
+      "strain": "Prochlorococcus MIT9313",
+      "prominence": "peripheral",
+      "evidence": "The pentapeptide repeat gene, PMT1554, is another interesting case as it was strongly induced in MIT9313 during iron stress (Results, p9)"
+    },
+    {
+      "surface_form": "rimI (PMT0510)",
+      "gene_name": "rimI",
+      "identifiers": [
+        "PMT0510"
+      ],
+      "strain": "Prochlorococcus MIT9313",
+      "prominence": "peripheral",
+      "evidence": "the shared gene rimI (PMT0510) encodes a GCN5-related N-acetyltransferase protein and was downregulated in MIT9313 during iron stress (Results, p9)"
+    },
+    {
+      "surface_form": "hemA",
+      "gene_name": "hemA",
+      "identifiers": [
+        "hemA"
+      ],
+      "strain": "Prochlorococcus MED4",
+      "prominence": "peripheral",
+      "evidence": "Notably, the transcription of hemA (glutamyl-tRNA reductase), of the chlorophyll synthesis pathway, was strongly downregulated in MED4 with iron stress (Results, p9)"
+    },
+    {
+      "surface_form": "PMM1283",
+      "gene_name": "",
+      "identifiers": [
+        "PMM1283"
+      ],
+      "strain": "Prochlorococcus MED4",
+      "prominence": "peripheral",
+      "evidence": "Another MED4-MIT9313 shared gene, PMM1283, was upregulated during iron stress in MED4 (Results, p9)"
+    },
+    {
+      "surface_form": "PMM0345",
+      "gene_name": "",
+      "identifiers": [
+        "PMM0345"
+      ],
+      "strain": "Prochlorococcus MED4",
+      "prominence": "peripheral",
+      "evidence": "PMM0345 (a peroxiredoxin and possible bacterioferritin co-migratory protein) is induced in MED4 during iron stress (Results, p10)"
+    },
+    {
+      "surface_form": "PMM1400",
+      "gene_name": "",
+      "identifiers": [
+        "PMM1400"
+      ],
+      "strain": "Prochlorococcus MED4",
+      "prominence": "peripheral",
+      "evidence": "PMM1400 (a redox-related protein with homology to the viral protein hemagglutinin neuraminidase) draws our attention as its expression is highly induced in MED4 during iron stress (Results, p10)"
+    },
+    {
+      "surface_form": "iraI",
+      "gene_name": "iraI",
+      "identifiers": [
+        "iraI"
+      ],
+      "strain": "Prochlorococcus MED4",
+      "prominence": "peripheral",
+      "evidence": "Another MED4 gene of particular interest is a possible Mn ABC transporter (iraI) that was upregulated during iron stress, clustered with idiA and isiB, and is absent in MIT9313 (Results, p10)"
+    },
+    {
+      "surface_form": "pcbB",
+      "gene_name": "pcbB",
+      "identifiers": [
+        "pcbB"
+      ],
+      "strain": "Prochlorococcus MIT9313",
+      "prominence": "peripheral",
+      "evidence": "One notable member of this group is pcbB. The association of PcbB with PSI under iron stress has been shown in MIT9313 (Bibby et al., 2003) and we observed similar differential expression (Results, p10)"
+    },
+    {
+      "surface_form": "PMT0284 (possible porin)",
+      "gene_name": "",
+      "identifiers": [
+        "PMT0284"
+      ],
+      "strain": "Prochlorococcus MIT9313",
+      "prominence": "central",
+      "evidence": "The genes include PMT0284 (a possible porin)... and are present and induced by iron stress in MIT9313 (Abstract, p1; Results, p10-11)"
+    },
+    {
+      "surface_form": "PMT0285 (possible peptidase of family M20/M25/M40)",
+      "gene_name": "",
+      "identifiers": [
+        "PMT0285"
+      ],
+      "strain": "Prochlorococcus MIT9313",
+      "prominence": "central",
+      "evidence": "The genes include... PMT0285 (a possible peptidase of family M20/M25/M40)... and are present and induced by iron stress in MIT9313 (Abstract, p1; Results, p10-11)"
+    },
+    {
+      "surface_form": "PMT0286 (putative hydroxylase, piuC)",
+      "gene_name": "piuC",
+      "identifiers": [
+        "PMT0286",
+        "piuC"
+      ],
+      "strain": "Prochlorococcus MIT9313",
+      "prominence": "central",
+      "evidence": "The genes include... PMT0286 (a putative hydroxylase with homology to the pneumococcal iron uptake gene, piuC)... and are present and induced by iron stress in MIT9313 (Abstract, p1; Results, p10-11)"
+    },
+    {
+      "surface_form": "glyQ",
+      "gene_name": "glyQ",
+      "identifiers": [
+        "glyQ"
+      ],
+      "strain": "Prochlorococcus MIT9313",
+      "prominence": "peripheral",
+      "evidence": "glyQ (glycyl-tRNA synthetase a-subunit, iron stress induced in MIT9313 only) (Results, p10)"
+    }
+  ],
+  "pathways": []
+}

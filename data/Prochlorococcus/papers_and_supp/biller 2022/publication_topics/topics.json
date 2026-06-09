@@ -1,0 +1,142 @@
+{
+  "metadata": {
+    "paper": "Biller 2022",
+    "doi": "10.1111/1462-2920.15834",
+    "strains": [
+      "Prochlorococcus MIT9312",
+      "Prochlorococcus MIT9313"
+    ],
+    "model": "gpt-4.1",
+    "self_assessment": "high",
+    "assessment_notes": "All gene mentions are directly from the narrative; no KEGG pathways are explicitly discussed.",
+    "uncaptured_identifiers": "many",
+    "uncaptured_identifiers_note": "Supporting Tables S2\u2013S4 contain extensive lists of protein IDs not all included here, as only those discussed in the main text are extracted.",
+    "extracted_at": "2026-06-04T10:20:27.863931",
+    "input_tokens": 28997,
+    "output_tokens": 1347
+  },
+  "genes": [
+    {
+      "surface_form": "PMT9312_1131, Som",
+      "gene_name": "",
+      "identifiers": [
+        "PMT9312_1131",
+        "Som"
+      ],
+      "strain": "Prochlorococcus MIT9312",
+      "prominence": "peripheral",
+      "evidence": "both MIT9312 and MIT9313 vesicles contained putative porins and transporters (e.g. PMT9312_1131, Som) (p4, Results)"
+    },
+    {
+      "surface_form": "PMT9312_0677",
+      "gene_name": "",
+      "identifiers": [
+        "PMT9312_0677"
+      ],
+      "strain": "Prochlorococcus MIT9312",
+      "prominence": "peripheral",
+      "evidence": "both MIT9312 and MIT9313 vesicles contained ... peptidases/hydrolases (e.g. PMT9312_0677, PMT_1636) (p4, Results)"
+    },
+    {
+      "surface_form": "PMT_1636",
+      "gene_name": "",
+      "identifiers": [
+        "PMT_1636"
+      ],
+      "strain": "Prochlorococcus MIT9313",
+      "prominence": "peripheral",
+      "evidence": "both MIT9312 and MIT9313 vesicles contained ... peptidases/hydrolases (e.g. PMT9312_0677, PMT_1636) (p4, Results)"
+    },
+    {
+      "surface_form": "DnaK and DnaJ",
+      "gene_name": "dnaK",
+      "identifiers": [],
+      "strain": "all",
+      "prominence": "peripheral",
+      "evidence": "both MIT9312 and MIT9313 vesicles contained ... chaperones (e.g. DnaK and DnaJ) (p4, Results)"
+    },
+    {
+      "surface_form": "PMT9312_0858",
+      "gene_name": "",
+      "identifiers": [
+        "PMT9312_0858"
+      ],
+      "strain": "Prochlorococcus MIT9312",
+      "prominence": "peripheral",
+      "evidence": "Proteins uniquely found in MIT9312 vesicles included a cAMP phosphodiesterase (PMT9312_0858) (p4, Results)"
+    },
+    {
+      "surface_form": "PMT9312_1179",
+      "gene_name": "",
+      "identifiers": [
+        "PMT9312_1179"
+      ],
+      "strain": "Prochlorococcus MIT9312",
+      "prominence": "peripheral",
+      "evidence": "Proteins uniquely found in MIT9312 vesicles included ... an adhesin-like protein (PMT9312_1179) (p4, Results)"
+    },
+    {
+      "surface_form": "PstB",
+      "gene_name": "pstB",
+      "identifiers": [],
+      "strain": "Prochlorococcus MIT9312",
+      "prominence": "peripheral",
+      "evidence": "Proteins uniquely found in MIT9312 vesicles included ... a phosphate ABC transporter substrate-binding protein (PstB) (p4, Results)"
+    },
+    {
+      "surface_form": "UrtA",
+      "gene_name": "urtA",
+      "identifiers": [],
+      "strain": "Prochlorococcus MIT9313",
+      "prominence": "peripheral",
+      "evidence": "Among those found uniquely in MIT9313 were multiple ABC transporter binding proteins (e.g. UrtA, FutA1, PMT_2203) (p4, Results)"
+    },
+    {
+      "surface_form": "FutA1",
+      "gene_name": "futA1",
+      "identifiers": [],
+      "strain": "Prochlorococcus MIT9313",
+      "prominence": "peripheral",
+      "evidence": "Among those found uniquely in MIT9313 were multiple ABC transporter binding proteins (e.g. UrtA, FutA1, PMT_2203) (p4, Results)"
+    },
+    {
+      "surface_form": "PMT_2203",
+      "gene_name": "",
+      "identifiers": [
+        "PMT_2203"
+      ],
+      "strain": "Prochlorococcus MIT9313",
+      "prominence": "peripheral",
+      "evidence": "Among those found uniquely in MIT9313 were multiple ABC transporter binding proteins (e.g. UrtA, FutA1, PMT_2203) (p4, Results)"
+    },
+    {
+      "surface_form": "PMT_1515",
+      "gene_name": "",
+      "identifiers": [
+        "PMT_1515"
+      ],
+      "strain": "Prochlorococcus MIT9313",
+      "prominence": "peripheral",
+      "evidence": "Among those found uniquely in MIT9313 were ... a sulfatase (PMT_1515) (p4, Results)"
+    },
+    {
+      "surface_form": "PMT_1619",
+      "gene_name": "",
+      "identifiers": [
+        "PMT_1619"
+      ],
+      "strain": "Prochlorococcus MIT9313",
+      "prominence": "peripheral",
+      "evidence": "Among those found uniquely in MIT9313 were ... a putative phosphatase (PMT_1619) (p4, Results)"
+    },
+    {
+      "surface_form": "prochlorosins, or ProcA peptides",
+      "gene_name": "procA",
+      "identifiers": [],
+      "strain": "Prochlorococcus MIT9313",
+      "prominence": "peripheral",
+      "evidence": "identification of several prochlorosins, or ProcA peptides, within the vesicle proteome of MIT9313 (p5, Results)"
+    }
+  ],
+  "pathways": []
+}

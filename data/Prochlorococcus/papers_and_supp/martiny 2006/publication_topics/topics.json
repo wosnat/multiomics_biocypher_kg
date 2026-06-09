@@ -1,0 +1,242 @@
+{
+  "metadata": {
+    "paper": "Martiny 2006",
+    "doi": null,
+    "strains": [
+      "Prochlorococcus MED4",
+      "Prochlorococcus MIT9313"
+    ],
+    "model": "gpt-4.1",
+    "self_assessment": "high",
+    "assessment_notes": "Gene mentions and locus tags are explicit in the text and figures. Some regulatory genes (PMT0265, PMT1357, PMT2151) are mentioned only by locus tag.",
+    "uncaptured_identifiers": "some",
+    "uncaptured_identifiers_note": "Supporting Tables 1 and 2 (not shown here) likely list additional differentially expressed genes and locus tags not discussed in the main text.",
+    "extracted_at": "2026-06-04T10:04:39.062996",
+    "input_tokens": 16100,
+    "output_tokens": 2137
+  },
+  "genes": [
+    {
+      "surface_form": "pstS",
+      "gene_name": "pstS",
+      "identifiers": [
+        "PMM0710",
+        "PMT0508",
+        "PMT0993"
+      ],
+      "strain": "Prochlorococcus MED4",
+      "prominence": "central",
+      "evidence": "expression levels of pstS, which encodes a periplasmic P-binding protein known to be induced under P-limiting conditions in many cyanobacteria, including MED4 (15). (Results, p2)"
+    },
+    {
+      "surface_form": "pstS1",
+      "gene_name": "pstS1",
+      "identifiers": [
+        "PMT0508"
+      ],
+      "strain": "Prochlorococcus MIT9313",
+      "prominence": "central",
+      "evidence": "In MIT9313, which has two copies of pstS, the expression of one (pstS1) was unresponsive to P starvation (Results, p2)"
+    },
+    {
+      "surface_form": "pstS2",
+      "gene_name": "pstS2",
+      "identifiers": [
+        "PMT0993"
+      ],
+      "strain": "Prochlorococcus MIT9313",
+      "prominence": "central",
+      "evidence": "whereas that of the other (pstS2) was elevated 50-fold by 24 h (Fig. 1B), followed by a decline. (Results, p2)"
+    },
+    {
+      "surface_form": "phoB",
+      "gene_name": "phoB",
+      "identifiers": [
+        "PMM0712",
+        "PMT0996"
+      ],
+      "strain": "all",
+      "prominence": "central",
+      "evidence": "the P master regulator phoB and most known P-acquisition genes (Abstract, p1); response regulator (phoB)... up-regulated in both strains (Results, p2)"
+    },
+    {
+      "surface_form": "pstA",
+      "gene_name": "pstA",
+      "identifiers": [
+        "PMM0711",
+        "PMT0994"
+      ],
+      "strain": "all",
+      "prominence": "central",
+      "evidence": "transport system for orthophosphate (pstABCS)... up-regulated in both strains (Results, p2)"
+    },
+    {
+      "surface_form": "pstB",
+      "gene_name": "pstB",
+      "identifiers": [
+        "PMM0713",
+        "PMT0995"
+      ],
+      "strain": "all",
+      "prominence": "central",
+      "evidence": "transport system for orthophosphate (pstABCS)... up-regulated in both strains (Results, p2)"
+    },
+    {
+      "surface_form": "pstC",
+      "gene_name": "pstC",
+      "identifiers": [
+        "PMM0714",
+        "PMT0997"
+      ],
+      "strain": "all",
+      "prominence": "central",
+      "evidence": "transport system for orthophosphate (pstABCS)... up-regulated in both strains (Results, p2)"
+    },
+    {
+      "surface_form": "pstS",
+      "gene_name": "pstS",
+      "identifiers": [
+        "PMM0710",
+        "PMT0993"
+      ],
+      "strain": "all",
+      "prominence": "central",
+      "evidence": "transport system for orthophosphate (pstABCS)... up-regulated in both strains (Results, p2)"
+    },
+    {
+      "surface_form": "phoE",
+      "gene_name": "phoE",
+      "identifiers": [
+        "PMM0709",
+        "PMT0998"
+      ],
+      "strain": "all",
+      "prominence": "central",
+      "evidence": "A porin gene located just downstream from phoB (PMM0709 in MED4 and PMT0998 in MIT9313) was also induced in both strains, and we propose that this gene encodes phoE (Results, p2)"
+    },
+    {
+      "surface_form": "gap1",
+      "gene_name": "gap1",
+      "identifiers": [
+        "PMM0723",
+        "PMT1002"
+      ],
+      "strain": "all",
+      "prominence": "central",
+      "evidence": "gap1, which encodes glyceraldehyde-3-phosphate dehydrogenase... up-regulated in both strains (Results, p2)"
+    },
+    {
+      "surface_form": "mfs",
+      "gene_name": "mfs",
+      "identifiers": [
+        "PMM0722",
+        "PMT1001"
+      ],
+      "strain": "all",
+      "prominence": "central",
+      "evidence": "mfs, which encodes a major facilitator superfamily transporter... up-regulated in both strains (Results, p2)"
+    },
+    {
+      "surface_form": "phoA",
+      "gene_name": "phoA",
+      "identifiers": [
+        "PMM0717"
+      ],
+      "strain": "Prochlorococcus MED4",
+      "prominence": "central",
+      "evidence": "MIT9313 lacks an ortholog to the most highly up-regulated gene in MED4, phoA, encoding alkaline phosphatase (Results, p2)"
+    },
+    {
+      "surface_form": "ptrA",
+      "gene_name": "ptrA",
+      "identifiers": [
+        "PMM0718"
+      ],
+      "strain": "Prochlorococcus MED4",
+      "prominence": "central",
+      "evidence": "ptrA, which encodes a transcription factor thought to be involved in the P-starvation response (17), is up-regulated 8-fold in MED4 (PMM0718) (Results, p2)"
+    },
+    {
+      "surface_form": "phoR",
+      "gene_name": "phoR",
+      "identifiers": [
+        "PMM0713"
+      ],
+      "strain": "Prochlorococcus MED4",
+      "prominence": "central",
+      "evidence": "the intact version of this gene was up-regulated in MED4 (Results, p2)"
+    },
+    {
+      "surface_form": "phoR (pseudogene)",
+      "gene_name": "phoR",
+      "identifiers": [
+        "PMT0995-999 (remnant)"
+      ],
+      "strain": "Prochlorococcus MIT9313",
+      "prominence": "peripheral",
+      "evidence": "MIT9313 carries a pseudogene of the sensor kinase phoR (17), which was not up-regulated (Results, p2)"
+    },
+    {
+      "surface_form": "PMT0265",
+      "gene_name": "",
+      "identifiers": [
+        "PMT0265"
+      ],
+      "strain": "Prochlorococcus MIT9313",
+      "prominence": "peripheral",
+      "evidence": "Several regulatory genes that do not have orthologs in MED4 (PMT0265, PMT1357, and PMT2151) were differentially expressed in MIT9313 (Results, p2)"
+    },
+    {
+      "surface_form": "PMT1357",
+      "gene_name": "",
+      "identifiers": [
+        "PMT1357"
+      ],
+      "strain": "Prochlorococcus MIT9313",
+      "prominence": "peripheral",
+      "evidence": "Several regulatory genes that do not have orthologs in MED4 (PMT0265, PMT1357, and PMT2151) were differentially expressed in MIT9313 (Results, p2)"
+    },
+    {
+      "surface_form": "PMT2151",
+      "gene_name": "",
+      "identifiers": [
+        "PMT2151"
+      ],
+      "strain": "Prochlorococcus MIT9313",
+      "prominence": "peripheral",
+      "evidence": "Several regulatory genes that do not have orthologs in MED4 (PMT0265, PMT1357, and PMT2151) were differentially expressed in MIT9313 (Results, p2)"
+    },
+    {
+      "surface_form": "phnCDE",
+      "gene_name": "phnCDE",
+      "identifiers": [],
+      "strain": "all",
+      "prominence": "peripheral",
+      "evidence": "A number of orthologs to genes involved in the P-starvation response in other bacteria (18) were not induced in either Prochlorococcus strain, including ... phosphonate transport genes (phnCDE). (Results, p2)"
+    },
+    {
+      "surface_form": "ppK",
+      "gene_name": "ppK",
+      "identifiers": [],
+      "strain": "all",
+      "prominence": "peripheral",
+      "evidence": "genes encoding polyphosphate utilization (ppK and ppX) did not respond to P starvation in either strain (Results, p2)"
+    },
+    {
+      "surface_form": "ppX",
+      "gene_name": "ppX",
+      "identifiers": [],
+      "strain": "all",
+      "prominence": "peripheral",
+      "evidence": "genes encoding polyphosphate utilization (ppK and ppX) did not respond to P starvation in either strain (Results, p2)"
+    }
+  ],
+  "pathways": [
+    {
+      "surface_form": "Phosphate acquisition",
+      "kegg_pathway_id": "",
+      "prominence": "central",
+      "evidence": "Here we examine adaptations to phosphate (P) limitation among ecotypes. (Abstract, p1)"
+    }
+  ]
+}

@@ -1,0 +1,473 @@
+{
+  "metadata": {
+    "paper": "Martiny 2006",
+    "doi": null,
+    "strains": [
+      "Prochlorococcus MED4",
+      "Prochlorococcus MIT9313"
+    ],
+    "model": "gpt-4.1",
+    "self_assessment": "high",
+    "assessment_notes": "Gene mentions and locus tags are explicit in the text and figures. Some regulatory genes (PMT0265, PMT1357, PMT2151) are mentioned only by locus tag.",
+    "uncaptured_identifiers": "some",
+    "uncaptured_identifiers_note": "Supporting Tables 1 and 2 (not shown here) likely list additional differentially expressed genes and locus tags not discussed in the main text.",
+    "extracted_at": "2026-06-04T10:04:39.062996",
+    "input_tokens": 16100,
+    "output_tokens": 2137,
+    "resolution": {
+      "gene_records": 29,
+      "genes_resolved": 25,
+      "gene_methods": {
+        "locus_tag:v": 22,
+        "tier1:v": 3,
+        "unresolved": 4
+      },
+      "pathway_records": 1,
+      "pathways_resolved": 0,
+      "pathway_methods": {
+        "unresolved": 1
+      },
+      "paper_strains": [
+        "Prochlorococcus MED4",
+        "Prochlorococcus MIT9313"
+      ],
+      "captured_identifiers": 28,
+      "truncated_identifiers": 0,
+      "truncated_examples": [],
+      "unresolved_reasons": {
+        "lookup_miss": 4
+      }
+    }
+  },
+  "genes": [
+    {
+      "surface_form": "pstS",
+      "gene_name": "pstS",
+      "identifiers": [
+        "PMM0710",
+        "PMT0508",
+        "PMT0993"
+      ],
+      "prominence": "central",
+      "evidence": "expression levels of pstS, which encodes a periplasmic P-binding protein known to be induced under P-limiting conditions in many cyanobacteria, including MED4 (15). (Results, p2)",
+      "mention_strain": "Prochlorococcus MED4",
+      "strain": "Prochlorococcus MED4",
+      "locus_tag": "PMM0710",
+      "resolved_from": "PMM0710",
+      "resolution_method": "locus_tag:v"
+    },
+    {
+      "surface_form": "pstS1",
+      "gene_name": "pstS1",
+      "identifiers": [
+        "PMT0508"
+      ],
+      "prominence": "central",
+      "evidence": "In MIT9313, which has two copies of pstS, the expression of one (pstS1) was unresponsive to P starvation (Results, p2)",
+      "mention_strain": "Prochlorococcus MIT9313",
+      "strain": "Prochlorococcus MIT9313",
+      "locus_tag": "PMT0508",
+      "resolved_from": "PMT0508",
+      "resolution_method": "locus_tag:v"
+    },
+    {
+      "surface_form": "pstS2",
+      "gene_name": "pstS2",
+      "identifiers": [
+        "PMT0993"
+      ],
+      "prominence": "central",
+      "evidence": "whereas that of the other (pstS2) was elevated 50-fold by 24 h (Fig. 1B), followed by a decline. (Results, p2)",
+      "mention_strain": "Prochlorococcus MIT9313",
+      "strain": "Prochlorococcus MIT9313",
+      "locus_tag": "PMT0993",
+      "resolved_from": "PMT0993",
+      "resolution_method": "locus_tag:v"
+    },
+    {
+      "surface_form": "phoB",
+      "gene_name": "phoB",
+      "identifiers": [
+        "PMM0712",
+        "PMT0996"
+      ],
+      "prominence": "central",
+      "evidence": "the P master regulator phoB and most known P-acquisition genes (Abstract, p1); response regulator (phoB)... up-regulated in both strains (Results, p2)",
+      "mention_strain": "all",
+      "strain": "Prochlorococcus MED4",
+      "locus_tag": "PMM0712",
+      "resolved_from": "PMM0712",
+      "resolution_method": "locus_tag:v"
+    },
+    {
+      "surface_form": "phoB",
+      "gene_name": "phoB",
+      "identifiers": [
+        "PMM0712",
+        "PMT0996"
+      ],
+      "prominence": "central",
+      "evidence": "the P master regulator phoB and most known P-acquisition genes (Abstract, p1); response regulator (phoB)... up-regulated in both strains (Results, p2)",
+      "mention_strain": "all",
+      "strain": "Prochlorococcus MIT9313",
+      "locus_tag": "PMT_0996",
+      "resolved_from": "PMT0996",
+      "resolution_method": "tier1:v"
+    },
+    {
+      "surface_form": "pstA",
+      "gene_name": "pstA",
+      "identifiers": [
+        "PMM0711",
+        "PMT0994"
+      ],
+      "prominence": "central",
+      "evidence": "transport system for orthophosphate (pstABCS)... up-regulated in both strains (Results, p2)",
+      "mention_strain": "all",
+      "strain": "Prochlorococcus MED4",
+      "locus_tag": "PMM0711",
+      "resolved_from": "PMM0711",
+      "resolution_method": "locus_tag:v"
+    },
+    {
+      "surface_form": "pstA",
+      "gene_name": "pstA",
+      "identifiers": [
+        "PMM0711",
+        "PMT0994"
+      ],
+      "prominence": "central",
+      "evidence": "transport system for orthophosphate (pstABCS)... up-regulated in both strains (Results, p2)",
+      "mention_strain": "all",
+      "strain": "Prochlorococcus MIT9313",
+      "locus_tag": "PMT0994",
+      "resolved_from": "PMT0994",
+      "resolution_method": "locus_tag:v"
+    },
+    {
+      "surface_form": "pstB",
+      "gene_name": "pstB",
+      "identifiers": [
+        "PMM0713",
+        "PMT0995"
+      ],
+      "prominence": "central",
+      "evidence": "transport system for orthophosphate (pstABCS)... up-regulated in both strains (Results, p2)",
+      "mention_strain": "all",
+      "strain": "Prochlorococcus MED4",
+      "locus_tag": "PMM0713",
+      "resolved_from": "PMM0713",
+      "resolution_method": "locus_tag:v"
+    },
+    {
+      "surface_form": "pstB",
+      "gene_name": "pstB",
+      "identifiers": [
+        "PMM0713",
+        "PMT0995"
+      ],
+      "prominence": "central",
+      "evidence": "transport system for orthophosphate (pstABCS)... up-regulated in both strains (Results, p2)",
+      "mention_strain": "all",
+      "strain": "Prochlorococcus MIT9313",
+      "locus_tag": "PMT_0995",
+      "resolved_from": "PMT0995",
+      "resolution_method": "tier1:v"
+    },
+    {
+      "surface_form": "pstC",
+      "gene_name": "pstC",
+      "identifiers": [
+        "PMM0714",
+        "PMT0997"
+      ],
+      "prominence": "central",
+      "evidence": "transport system for orthophosphate (pstABCS)... up-regulated in both strains (Results, p2)",
+      "mention_strain": "all",
+      "strain": "Prochlorococcus MED4",
+      "locus_tag": "PMM0714",
+      "resolved_from": "PMM0714",
+      "resolution_method": "locus_tag:v"
+    },
+    {
+      "surface_form": "pstC",
+      "gene_name": "pstC",
+      "identifiers": [
+        "PMM0714",
+        "PMT0997"
+      ],
+      "prominence": "central",
+      "evidence": "transport system for orthophosphate (pstABCS)... up-regulated in both strains (Results, p2)",
+      "mention_strain": "all",
+      "strain": "Prochlorococcus MIT9313",
+      "locus_tag": "PMT_0997",
+      "resolved_from": "PMT0997",
+      "resolution_method": "tier1:v"
+    },
+    {
+      "surface_form": "pstS",
+      "gene_name": "pstS",
+      "identifiers": [
+        "PMM0710",
+        "PMT0993"
+      ],
+      "prominence": "central",
+      "evidence": "transport system for orthophosphate (pstABCS)... up-regulated in both strains (Results, p2)",
+      "mention_strain": "all",
+      "strain": "Prochlorococcus MED4",
+      "locus_tag": "PMM0710",
+      "resolved_from": "PMM0710",
+      "resolution_method": "locus_tag:v"
+    },
+    {
+      "surface_form": "pstS",
+      "gene_name": "pstS",
+      "identifiers": [
+        "PMM0710",
+        "PMT0993"
+      ],
+      "prominence": "central",
+      "evidence": "transport system for orthophosphate (pstABCS)... up-regulated in both strains (Results, p2)",
+      "mention_strain": "all",
+      "strain": "Prochlorococcus MIT9313",
+      "locus_tag": "PMT0993",
+      "resolved_from": "PMT0993",
+      "resolution_method": "locus_tag:v"
+    },
+    {
+      "surface_form": "phoE",
+      "gene_name": "phoE",
+      "identifiers": [
+        "PMM0709",
+        "PMT0998"
+      ],
+      "prominence": "central",
+      "evidence": "A porin gene located just downstream from phoB (PMM0709 in MED4 and PMT0998 in MIT9313) was also induced in both strains, and we propose that this gene encodes phoE (Results, p2)",
+      "mention_strain": "all",
+      "strain": "Prochlorococcus MED4",
+      "locus_tag": "PMM0709",
+      "resolved_from": "PMM0709",
+      "resolution_method": "locus_tag:v"
+    },
+    {
+      "surface_form": "phoE",
+      "gene_name": "phoE",
+      "identifiers": [
+        "PMM0709",
+        "PMT0998"
+      ],
+      "prominence": "central",
+      "evidence": "A porin gene located just downstream from phoB (PMM0709 in MED4 and PMT0998 in MIT9313) was also induced in both strains, and we propose that this gene encodes phoE (Results, p2)",
+      "mention_strain": "all",
+      "strain": "Prochlorococcus MIT9313",
+      "locus_tag": "PMT0998",
+      "resolved_from": "PMT0998",
+      "resolution_method": "locus_tag:v"
+    },
+    {
+      "surface_form": "gap1",
+      "gene_name": "gap1",
+      "identifiers": [
+        "PMM0723",
+        "PMT1002"
+      ],
+      "prominence": "central",
+      "evidence": "gap1, which encodes glyceraldehyde-3-phosphate dehydrogenase... up-regulated in both strains (Results, p2)",
+      "mention_strain": "all",
+      "strain": "Prochlorococcus MED4",
+      "locus_tag": "PMM0723",
+      "resolved_from": "PMM0723",
+      "resolution_method": "locus_tag:v"
+    },
+    {
+      "surface_form": "gap1",
+      "gene_name": "gap1",
+      "identifiers": [
+        "PMM0723",
+        "PMT1002"
+      ],
+      "prominence": "central",
+      "evidence": "gap1, which encodes glyceraldehyde-3-phosphate dehydrogenase... up-regulated in both strains (Results, p2)",
+      "mention_strain": "all",
+      "strain": "Prochlorococcus MIT9313",
+      "locus_tag": "PMT1002",
+      "resolved_from": "PMT1002",
+      "resolution_method": "locus_tag:v"
+    },
+    {
+      "surface_form": "mfs",
+      "gene_name": "mfs",
+      "identifiers": [
+        "PMM0722",
+        "PMT1001"
+      ],
+      "prominence": "central",
+      "evidence": "mfs, which encodes a major facilitator superfamily transporter... up-regulated in both strains (Results, p2)",
+      "mention_strain": "all",
+      "strain": "Prochlorococcus MED4",
+      "locus_tag": "PMM0722",
+      "resolved_from": "PMM0722",
+      "resolution_method": "locus_tag:v"
+    },
+    {
+      "surface_form": "mfs",
+      "gene_name": "mfs",
+      "identifiers": [
+        "PMM0722",
+        "PMT1001"
+      ],
+      "prominence": "central",
+      "evidence": "mfs, which encodes a major facilitator superfamily transporter... up-regulated in both strains (Results, p2)",
+      "mention_strain": "all",
+      "strain": "Prochlorococcus MIT9313",
+      "locus_tag": "PMT1001",
+      "resolved_from": "PMT1001",
+      "resolution_method": "locus_tag:v"
+    },
+    {
+      "surface_form": "phoA",
+      "gene_name": "phoA",
+      "identifiers": [
+        "PMM0717"
+      ],
+      "prominence": "central",
+      "evidence": "MIT9313 lacks an ortholog to the most highly up-regulated gene in MED4, phoA, encoding alkaline phosphatase (Results, p2)",
+      "mention_strain": "Prochlorococcus MED4",
+      "strain": "Prochlorococcus MED4",
+      "locus_tag": "PMM0717",
+      "resolved_from": "PMM0717",
+      "resolution_method": "locus_tag:v"
+    },
+    {
+      "surface_form": "ptrA",
+      "gene_name": "ptrA",
+      "identifiers": [
+        "PMM0718"
+      ],
+      "prominence": "central",
+      "evidence": "ptrA, which encodes a transcription factor thought to be involved in the P-starvation response (17), is up-regulated 8-fold in MED4 (PMM0718) (Results, p2)",
+      "mention_strain": "Prochlorococcus MED4",
+      "strain": "Prochlorococcus MED4",
+      "locus_tag": "PMM0718",
+      "resolved_from": "PMM0718",
+      "resolution_method": "locus_tag:v"
+    },
+    {
+      "surface_form": "phoR",
+      "gene_name": "phoR",
+      "identifiers": [
+        "PMM0713"
+      ],
+      "prominence": "central",
+      "evidence": "the intact version of this gene was up-regulated in MED4 (Results, p2)",
+      "mention_strain": "Prochlorococcus MED4",
+      "strain": "Prochlorococcus MED4",
+      "locus_tag": "PMM0713",
+      "resolved_from": "PMM0713",
+      "resolution_method": "locus_tag:v"
+    },
+    {
+      "surface_form": "phoR (pseudogene)",
+      "gene_name": "phoR",
+      "identifiers": [
+        "PMT0995-999 (remnant)"
+      ],
+      "prominence": "peripheral",
+      "evidence": "MIT9313 carries a pseudogene of the sensor kinase phoR (17), which was not up-regulated (Results, p2)",
+      "mention_strain": "Prochlorococcus MIT9313",
+      "strain": "Prochlorococcus MIT9313",
+      "locus_tag": null,
+      "resolved_from": "",
+      "resolution_method": "unresolved"
+    },
+    {
+      "surface_form": "PMT0265",
+      "gene_name": "",
+      "identifiers": [
+        "PMT0265"
+      ],
+      "prominence": "peripheral",
+      "evidence": "Several regulatory genes that do not have orthologs in MED4 (PMT0265, PMT1357, and PMT2151) were differentially expressed in MIT9313 (Results, p2)",
+      "mention_strain": "Prochlorococcus MIT9313",
+      "strain": "Prochlorococcus MIT9313",
+      "locus_tag": "PMT0265",
+      "resolved_from": "PMT0265",
+      "resolution_method": "locus_tag:v"
+    },
+    {
+      "surface_form": "PMT1357",
+      "gene_name": "",
+      "identifiers": [
+        "PMT1357"
+      ],
+      "prominence": "peripheral",
+      "evidence": "Several regulatory genes that do not have orthologs in MED4 (PMT0265, PMT1357, and PMT2151) were differentially expressed in MIT9313 (Results, p2)",
+      "mention_strain": "Prochlorococcus MIT9313",
+      "strain": "Prochlorococcus MIT9313",
+      "locus_tag": "PMT1357",
+      "resolved_from": "PMT1357",
+      "resolution_method": "locus_tag:v"
+    },
+    {
+      "surface_form": "PMT2151",
+      "gene_name": "",
+      "identifiers": [
+        "PMT2151"
+      ],
+      "prominence": "peripheral",
+      "evidence": "Several regulatory genes that do not have orthologs in MED4 (PMT0265, PMT1357, and PMT2151) were differentially expressed in MIT9313 (Results, p2)",
+      "mention_strain": "Prochlorococcus MIT9313",
+      "strain": "Prochlorococcus MIT9313",
+      "locus_tag": "PMT2151",
+      "resolved_from": "PMT2151",
+      "resolution_method": "locus_tag:v"
+    },
+    {
+      "surface_form": "phnCDE",
+      "gene_name": "phnCDE",
+      "identifiers": [],
+      "prominence": "peripheral",
+      "evidence": "A number of orthologs to genes involved in the P-starvation response in other bacteria (18) were not induced in either Prochlorococcus strain, including ... phosphonate transport genes (phnCDE). (Results, p2)",
+      "mention_strain": "all",
+      "strain": "all",
+      "locus_tag": null,
+      "resolved_from": "",
+      "resolution_method": "unresolved"
+    },
+    {
+      "surface_form": "ppK",
+      "gene_name": "ppK",
+      "identifiers": [],
+      "prominence": "peripheral",
+      "evidence": "genes encoding polyphosphate utilization (ppK and ppX) did not respond to P starvation in either strain (Results, p2)",
+      "mention_strain": "all",
+      "strain": "all",
+      "locus_tag": null,
+      "resolved_from": "",
+      "resolution_method": "unresolved"
+    },
+    {
+      "surface_form": "ppX",
+      "gene_name": "ppX",
+      "identifiers": [],
+      "prominence": "peripheral",
+      "evidence": "genes encoding polyphosphate utilization (ppK and ppX) did not respond to P starvation in either strain (Results, p2)",
+      "mention_strain": "all",
+      "strain": "all",
+      "locus_tag": null,
+      "resolved_from": "",
+      "resolution_method": "unresolved"
+    }
+  ],
+  "pathways": [
+    {
+      "surface_form": "Phosphate acquisition",
+      "kegg_pathway_id_raw": "",
+      "prominence": "central",
+      "evidence": "Here we examine adaptations to phosphate (P) limitation among ecotypes. (Abstract, p1)",
+      "pathway_id": null,
+      "pathway_name": null,
+      "resolution_method": "unresolved"
+    }
+  ]
+}

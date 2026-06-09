@@ -1,0 +1,400 @@
+{
+  "metadata": {
+    "paper": "Beliaev 2014",
+    "doi": null,
+    "strains": [
+      "Synechococcus PCC 7002",
+      "Shewanella sp. W3-18-1"
+    ],
+    "model": "gpt-4.1",
+    "self_assessment": "high",
+    "assessment_notes": "All genes and pathways were extracted only if explicitly named in the narrative or tables. Some gene clusters and regulons are included as printed.",
+    "uncaptured_identifiers": "many",
+    "uncaptured_identifiers_note": "Tables S1-S8 and supplementary tables likely contain many more locus tags and gene IDs not included here.",
+    "extracted_at": "2026-06-04T10:23:58.805750",
+    "input_tokens": 22611,
+    "output_tokens": 3790
+  },
+  "genes": [
+    {
+      "surface_form": "SYNPCC7002_A0320, SYNPCC7002_A2422 and SYNPCC7002_G0082",
+      "gene_name": "",
+      "identifiers": [
+        "SYNPCC7002_A0320",
+        "SYNPCC7002_A2422",
+        "SYNPCC7002_G0082"
+      ],
+      "strain": "Synechococcus PCC 7002",
+      "prominence": "peripheral",
+      "evidence": "decreased transcript levels of ... three oxidative stress-related genes (SYNPCC7002_A0320, SYNPCC7002_A2422 and SYNPCC7002_G0082) (Results, p5)"
+    },
+    {
+      "surface_form": "thiDEG",
+      "gene_name": "",
+      "identifiers": [
+        "thiD",
+        "thiE",
+        "thiG"
+      ],
+      "strain": "Shewanella sp. W3-18-1",
+      "prominence": "peripheral",
+      "evidence": "decrease in transcripts encoding key steps of thiamine pyrophosphate formation (thiDEG) (Results, p5)"
+    },
+    {
+      "surface_form": "ilvI",
+      "gene_name": "ilvI",
+      "identifiers": [
+        "ilvI"
+      ],
+      "strain": "Shewanella sp. W3-18-1",
+      "prominence": "peripheral",
+      "evidence": "thiamine pyrophosphate-dependent branched chain amino-acid biosynthesis (ilvI) (Results, p5)"
+    },
+    {
+      "surface_form": "ohrA, bcp",
+      "gene_name": "",
+      "identifiers": [
+        "ohrA",
+        "bcp"
+      ],
+      "strain": "Shewanella sp. W3-18-1",
+      "prominence": "peripheral",
+      "evidence": "oxidative stress response subcategory ... included two putative redoxin domain genes (ohrA, bcp) (Results, p6)"
+    },
+    {
+      "surface_form": "SputW3181_1296- SputW3181_1306",
+      "gene_name": "",
+      "identifiers": [
+        "SputW3181_1296",
+        "SputW3181_1297",
+        "SputW3181_1298",
+        "SputW3181_1299",
+        "SputW3181_1300",
+        "SputW3181_1301",
+        "SputW3181_1302",
+        "SputW3181_1303",
+        "SputW3181_1304",
+        "SputW3181_1305",
+        "SputW3181_1306"
+      ],
+      "strain": "Shewanella sp. W3-18-1",
+      "prominence": "peripheral",
+      "evidence": "previously uncharacterized gene cluster (SputW3181_1296- SputW3181_1306) ... similar to the singlet oxygen (1O2) protection ChrR regulon (Results, p6)"
+    },
+    {
+      "surface_form": "pilA, pilM, pilXWV, bpfA and csgA",
+      "gene_name": "",
+      "identifiers": [
+        "pilA",
+        "pilM",
+        "pilX",
+        "pilW",
+        "pilV",
+        "bpfA",
+        "csgA"
+      ],
+      "strain": "Shewanella sp. W3-18-1",
+      "prominence": "peripheral",
+      "evidence": "transcriptional upregulation of several surface attachment factors (pilA, pilM, pilXWV, bpfA and csgA) (Results, p6)"
+    },
+    {
+      "surface_form": "glnA",
+      "gene_name": "glnA",
+      "identifiers": [
+        "glnA"
+      ],
+      "strain": "Synechococcus PCC 7002",
+      "prominence": "peripheral",
+      "evidence": "upregulation of putative nitrogen assimilation machinery ... glutamine synthetase (glnA) (Results, p6)"
+    },
+    {
+      "surface_form": "nirA",
+      "gene_name": "nirA",
+      "identifiers": [
+        "nirA"
+      ],
+      "strain": "Synechococcus PCC 7002",
+      "prominence": "peripheral",
+      "evidence": "upregulation of ... assimilatory ferredoxin-nitrite reductase (nirA) genes (Results, p6)"
+    },
+    {
+      "surface_form": "arcA",
+      "gene_name": "arcA",
+      "identifiers": [
+        "arcA"
+      ],
+      "strain": "Synechococcus PCC 7002",
+      "prominence": "peripheral",
+      "evidence": "increased transcript abundance of the L-arginine deiminase (arcA) (Results, p6)"
+    },
+    {
+      "surface_form": "asnA1",
+      "gene_name": "asnA1",
+      "identifiers": [
+        "asnA1"
+      ],
+      "strain": "Synechococcus PCC 7002",
+      "prominence": "peripheral",
+      "evidence": "increased transcript abundance of ... L-asparagine amidopeptidase (asnA1) genes (Results, p6)"
+    },
+    {
+      "surface_form": "glnK",
+      "gene_name": "glnK",
+      "identifiers": [
+        "glnK"
+      ],
+      "strain": "Shewanella sp. W3-18-1",
+      "prominence": "peripheral",
+      "evidence": "relative mRNA abundances of nitrogen regulator (glnK) ... increased 25-fold (Results, p6)"
+    },
+    {
+      "surface_form": "amt",
+      "gene_name": "amt",
+      "identifiers": [
+        "amt"
+      ],
+      "strain": "Shewanella sp. W3-18-1",
+      "prominence": "peripheral",
+      "evidence": "ammonia transporter (amt) genes increased 8-fold (Results, p6)"
+    },
+    {
+      "surface_form": "lldP, lldEF and SputW3181_2834",
+      "gene_name": "",
+      "identifiers": [
+        "lldP",
+        "lldE",
+        "lldF",
+        "SputW3181_2834"
+      ],
+      "strain": "Shewanella sp. W3-18-1",
+      "prominence": "peripheral",
+      "evidence": "downregulated transcripts for genes encoding D,L-lactate (lldP, lldEF and SputW3181_2834) utilization machinery (Results, p7)"
+    },
+    {
+      "surface_form": "Ald",
+      "gene_name": "ald",
+      "identifiers": [
+        "ald"
+      ],
+      "strain": "Shewanella sp. W3-18-1",
+      "prominence": "peripheral",
+      "evidence": "elevated mRNA levels of alanine dehydrogenase (Ald) (Results, p7)"
+    },
+    {
+      "surface_form": "W3181_3499",
+      "gene_name": "",
+      "identifiers": [
+        "W3181_3499"
+      ],
+      "strain": "Shewanella sp. W3-18-1",
+      "prominence": "peripheral",
+      "evidence": "putative nucleotide deaminase (W3181_3499) (Results, p7)"
+    },
+    {
+      "surface_form": "pldA",
+      "gene_name": "pldA",
+      "identifiers": [
+        "pldA"
+      ],
+      "strain": "Shewanella sp. W3-18-1",
+      "prominence": "peripheral",
+      "evidence": "upregulation of extracellular phospholipase A (pldA) (Results, p7)"
+    },
+    {
+      "surface_form": "W3181_1613",
+      "gene_name": "",
+      "identifiers": [
+        "W3181_1613"
+      ],
+      "strain": "Shewanella sp. W3-18-1",
+      "prominence": "peripheral",
+      "evidence": "lipase (W3181_1613) ... can potentially increase carbon availability (Results, p7)"
+    },
+    {
+      "surface_form": "aceB",
+      "gene_name": "aceB",
+      "identifiers": [
+        "aceB"
+      ],
+      "strain": "Shewanella sp. W3-18-1",
+      "prominence": "peripheral",
+      "evidence": "malate synthase (aceB) genes can potentially increase carbon availability (Results, p7)"
+    },
+    {
+      "surface_form": "ddl, glmM, lpxA, mraY, murA, murC, murE, murF, murI, SYNPCC7002_A0138",
+      "gene_name": "",
+      "identifiers": [
+        "ddl",
+        "glmM",
+        "lpxA",
+        "mraY",
+        "murA",
+        "murC",
+        "murE",
+        "murF",
+        "murI",
+        "SYNPCC7002_A0138"
+      ],
+      "strain": "Synechococcus PCC 7002",
+      "prominence": "peripheral",
+      "evidence": "Cell structures biosynthesis: ddl, glmM, lpxA, mraY, murA, murC, murE, murF, murI, SYNPCC7002_A0138 (Table 3, p8)"
+    },
+    {
+      "surface_form": "fabB, fabF, fabZ",
+      "gene_name": "",
+      "identifiers": [
+        "fabB",
+        "fabF",
+        "fabZ"
+      ],
+      "strain": "Synechococcus PCC 7002",
+      "prominence": "peripheral",
+      "evidence": "Fatty acid biosynthesis, initiation and elongation: fabB, fabF, fabZ (Table 3, p8)"
+    },
+    {
+      "surface_form": "gcvT, glcE, rbcS, serA, SYNPCC7002_A0506",
+      "gene_name": "",
+      "identifiers": [
+        "gcvT",
+        "glcE",
+        "rbcS",
+        "serA",
+        "SYNPCC7002_A0506"
+      ],
+      "strain": "Synechococcus PCC 7002",
+      "prominence": "peripheral",
+      "evidence": "Photorespiration: gcvT, glcE, rbcS, serA, SYNPCC7002_A0506 (Table 3, p8)"
+    },
+    {
+      "surface_form": "sybA, sybB, sybC, sybD, sybE, sybF, sybL",
+      "gene_name": "",
+      "identifiers": [
+        "sybA",
+        "sybB",
+        "sybC",
+        "sybD",
+        "sybE",
+        "sybF",
+        "sybL"
+      ],
+      "strain": "Synechococcus PCC 7002",
+      "prominence": "peripheral",
+      "evidence": "Siderophore biosynthesis: sybA, sybB, sybC, sybD, sybE, sybF, sybL (Table 3, p8)"
+    },
+    {
+      "surface_form": "petG, petH, petM, prk, psaE, psaK, psbD, psbE, psbF, psbJ, psbL, psbO, psbT, psbY, rpiA",
+      "gene_name": "",
+      "identifiers": [
+        "petG",
+        "petH",
+        "petM",
+        "prk",
+        "psaE",
+        "psaK",
+        "psbD",
+        "psbE",
+        "psbF",
+        "psbJ",
+        "psbL",
+        "psbO",
+        "psbT",
+        "psbY",
+        "rpiA"
+      ],
+      "strain": "Synechococcus PCC 7002",
+      "prominence": "peripheral",
+      "evidence": "Oxygenic photosynthesis: petG, petH, petM, prk, psaE, psaK, psbD, psbE, psbF, psbJ, psbL, psbO, psbT, psbY, rpiA (Table 3, p8)"
+    },
+    {
+      "surface_form": "chlL, chlN, exbB, exbD, fecB, fecC, fecD, fecE, fhuA, futC, hik20, nifJ, pchR, schT, SYNPCC7002_A2346, SYNPCC7002_G0005, SYNPCC7002_G0006, SYNPCC7002_G0089, SYNPCC7002_G0099, tonB",
+      "gene_name": "",
+      "identifiers": [
+        "chlL",
+        "chlN",
+        "exbB",
+        "exbD",
+        "fecB",
+        "fecC",
+        "fecD",
+        "fecE",
+        "fhuA",
+        "futC",
+        "hik20",
+        "nifJ",
+        "pchR",
+        "schT",
+        "SYNPCC7002_A2346",
+        "SYNPCC7002_G0005",
+        "SYNPCC7002_G0006",
+        "SYNPCC7002_G0089",
+        "SYNPCC7002_G0099",
+        "tonB"
+      ],
+      "strain": "Synechococcus PCC 7002",
+      "prominence": "peripheral",
+      "evidence": "Ferric uptake, Fur regulon: ... (Table 3, p8)"
+    }
+  ],
+  "pathways": [
+    {
+      "surface_form": "Photorespiration",
+      "kegg_pathway_id": "ko00620",
+      "prominence": "peripheral",
+      "evidence": "increase in mRNA levels of putative glyoxylate metabolism enzymes ... suggested occurrence of photorespiration (Results, p6)"
+    },
+    {
+      "surface_form": "Nitrogen assimilation",
+      "kegg_pathway_id": "ko00910",
+      "prominence": "peripheral",
+      "evidence": "upregulation of putative nitrogen assimilation machinery ... (Results, p6)"
+    },
+    {
+      "surface_form": "Methionine biosynthesis",
+      "kegg_pathway_id": "ko00271",
+      "prominence": "peripheral",
+      "evidence": "downregulation of methionine ... biosynthesis pathways in Shewanella W3-18-1 (Results, p5)"
+    },
+    {
+      "surface_form": "Tryptophan biosynthesis",
+      "kegg_pathway_id": "ko00400",
+      "prominence": "peripheral",
+      "evidence": "downregulation of methionine and tryptophan biosynthesis pathways in Shewanella W3-18-1 (Results, p5)"
+    },
+    {
+      "surface_form": "Thiamine pyrophosphate formation",
+      "kegg_pathway_id": "ko00730",
+      "prominence": "peripheral",
+      "evidence": "decrease in transcripts encoding key steps of thiamine pyrophosphate formation (thiDEG) (Results, p5)"
+    },
+    {
+      "surface_form": "Branched chain amino-acid biosynthesis",
+      "kegg_pathway_id": "ko00290",
+      "prominence": "peripheral",
+      "evidence": "thiamine pyrophosphate-dependent branched chain amino-acid biosynthesis (ilvI) (Results, p5)"
+    },
+    {
+      "surface_form": "Oxidative stress response",
+      "kegg_pathway_id": "",
+      "prominence": "central",
+      "evidence": "transcriptional patterns suggested that Synechococcus 7002 ... provided scavenging functions for reactive oxygen species (Abstract, p1)"
+    },
+    {
+      "surface_form": "Siderophore biosynthesis",
+      "kegg_pathway_id": "",
+      "prominence": "peripheral",
+      "evidence": "Significant decreases in transcript levels of Fe uptake and acquisition genes (for example, synechobactin biosynthesis) (Results, p5)"
+    },
+    {
+      "surface_form": "Fatty acid degradation",
+      "kegg_pathway_id": "ko00071",
+      "prominence": "peripheral",
+      "evidence": "Fatty acid and lipids degradation: fadA, fadB, fadE, fadI, fadJ, ... (Table 4, p9; Table 6, p10)"
+    },
+    {
+      "surface_form": "Glyoxylate cycle",
+      "kegg_pathway_id": "ko00630",
+      "prominence": "peripheral",
+      "evidence": "Glyoxylate cycle: aceA, aceB, gltA, sdhC, sdhD (Table 6, p10)"
+    }
+  ]
+}

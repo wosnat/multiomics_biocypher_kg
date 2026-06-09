@@ -1,0 +1,28 @@
+Topics resolution report: Moreno 2023
+Strains: ['Prochlorococcus MED4', 'Prochlorococcus marinus subsp. marinus CCMP1375 (SS120)', 'Synechococcus WH7803', 'Synechococcus WH8102', 'Synechococcus sp. BL107', 'Marinobacter (MarRef v6)', 'Alteromonas (MarRef v6)']
+
+Genes:    46/55 resolved (83.6%)
+  methods: multi:v=14, multi_ci:v=1, tier1:v=26, tier1_ci:v=5, unresolved=9
+Pathways: 8/10 resolved (80.0%)
+  methods: id=8, unresolved=2
+
+Captured identifiers: 9  (truncated/bare-number: 0)
+Unresolved gene reasons: {'lookup_miss': 4, 'descriptive_only': 5}
+    descriptive_only = function/enzyme phrase, no symbol or id (paper style)
+    truncated_id_only = bare locus number, recoverable via strain prefix
+    lookup_miss       = had a name/full id but no mapping match
+
+Unresolved gene mentions (9):
+  - rpi  [lookup_miss]  strain=Synechococcus WH8102
+  - cbbT/tkt  [lookup_miss]  strain=Synechococcus WH8102
+  - gpm  [lookup_miss]  strain=Prochlorococcus marinus subsp. marinus CCMP1375 (SS120)
+  - RubisCO large subunit  [descriptive_only]  strain=Prochlorococcus marinus subsp. marinus CCMP1375 (SS120)
+  - RubisCO small subunit  [descriptive_only]  strain=Prochlorococcus marinus subsp. marinus CCMP1375 (SS120)
+  - RubisCO operon transcriptional regulator  [descriptive_only]  strain=Prochlorococcus marinus subsp. marinus CCMP1375 (SS120)
+  - L-lactate dehydrogenase  [descriptive_only]  strain=unspecified
+  - lactate dehydrogenase  [descriptive_only]  strain=Prochlorococcus marinus subsp. marinus CCMP1375 (SS120)
+  - kai  [lookup_miss]  strain=all
+
+Unresolved pathway mentions (2):
+  - glycogen metabolism  (raw id=—)
+  - lactic acid fermentation  (raw id=—)

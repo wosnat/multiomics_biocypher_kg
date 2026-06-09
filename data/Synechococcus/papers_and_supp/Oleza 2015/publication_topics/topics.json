@@ -1,0 +1,122 @@
+{
+  "metadata": {
+    "paper": "Oleza 2015",
+    "doi": "10.1002/pmic.201400562",
+    "strains": [
+      "Ruegeria pomeroyi DSS-3",
+      "Synechococcus WH7803",
+      "Synechococcus WH8102"
+    ],
+    "model": "gpt-4.1",
+    "self_assessment": "high",
+    "assessment_notes": "All genes discussed in the main text with explicit identifiers were captured. No KEGG pathways were explicitly named.",
+    "uncaptured_identifiers": "some",
+    "uncaptured_identifiers_note": "Supporting Information Tables and Figure 1 may contain additional locus tags or abbreviated IDs not discussed in the main text.",
+    "extracted_at": "2026-06-04T10:12:47.662590",
+    "input_tokens": 15069,
+    "output_tokens": 1252
+  },
+  "genes": [
+    {
+      "surface_form": "YP_165722.1",
+      "gene_name": "",
+      "identifiers": [
+        "YP_165722.1"
+      ],
+      "strain": "Ruegeria pomeroyi DSS-3",
+      "prominence": "central",
+      "evidence": "Two potential polysaccharide hydrolases YP_165722.1 and YP_167436.1 were previously detected in natural seawater experiments (see [15]) (Results, p4)"
+    },
+    {
+      "surface_form": "YP_167436.1",
+      "gene_name": "",
+      "identifiers": [
+        "YP_167436.1"
+      ],
+      "strain": "Ruegeria pomeroyi DSS-3",
+      "prominence": "central",
+      "evidence": "Two potential polysaccharide hydrolases YP_165722.1 and YP_167436.1 were previously detected in natural seawater experiments (see [15]) (Results, p4)"
+    },
+    {
+      "surface_form": "YP_165360.1",
+      "gene_name": "",
+      "identifiers": [
+        "YP_165360.1"
+      ],
+      "strain": "Ruegeria pomeroyi DSS-3",
+      "prominence": "central",
+      "evidence": "The third identified peptidase, YP_165360.1, was detected in the presence of both Synechococcus strains but not in previous reports (Fig. 1) (Results, p4)"
+    },
+    {
+      "surface_form": "YP_165625.1",
+      "gene_name": "",
+      "identifiers": [
+        "YP_165625.1"
+      ],
+      "strain": "Ruegeria pomeroyi DSS-3",
+      "prominence": "central",
+      "evidence": "Two of the peptidase proteins, YP_165625.1 and YP_167620.1, are RTX-like toxins [32] and were commonly found in previous exoproteomic analyses (Results, p4)"
+    },
+    {
+      "surface_form": "YP_167620.1",
+      "gene_name": "",
+      "identifiers": [
+        "YP_167620.1"
+      ],
+      "strain": "Ruegeria pomeroyi DSS-3",
+      "prominence": "central",
+      "evidence": "Two of the peptidase proteins, YP_165625.1 and YP_167620.1, are RTX-like toxins [32] and were commonly found in previous exoproteomic analyses (Results, p4)"
+    },
+    {
+      "surface_form": "YP_167457.1",
+      "gene_name": "",
+      "identifiers": [
+        "YP_167457.1"
+      ],
+      "strain": "Ruegeria pomeroyi DSS-3",
+      "prominence": "central",
+      "evidence": "YP_167457.1 and YP_165745.1 are two proteins with a potential role in interactions. A conserved domain (pfam07484), named 'phage tail collar,' found in the latter protein (YP_165745.1)... (Results, p4)"
+    },
+    {
+      "surface_form": "YP_165745.1",
+      "gene_name": "",
+      "identifiers": [
+        "YP_165745.1"
+      ],
+      "strain": "Ruegeria pomeroyi DSS-3",
+      "prominence": "central",
+      "evidence": "YP_167457.1 and YP_165745.1 are two proteins with a potential role in interactions. A conserved domain (pfam07484), named 'phage tail collar,' found in the latter protein (YP_165745.1)... (Results, p4)"
+    },
+    {
+      "surface_form": "YP_167486.1",
+      "gene_name": "",
+      "identifiers": [
+        "YP_167486.1"
+      ],
+      "strain": "Ruegeria pomeroyi DSS-3",
+      "prominence": "central",
+      "evidence": "the major capsid protein YP_167486.1 was also abundantly detected in the co-culture with Synechococcus sp. WH8102 (Results, p5)"
+    },
+    {
+      "surface_form": "PaxA (YP_165496.1)",
+      "gene_name": "PaxA",
+      "identifiers": [
+        "YP_165496.1"
+      ],
+      "strain": "Ruegeria pomeroyi DSS-3",
+      "prominence": "central",
+      "evidence": "Notable in the co-cultures was the complete absence of PaxA (YP_165496.1). This RTX-like toxin represents over 50% of the total exoproteome of R. pomeroyi DSS-3 when grown in optimal laboratory conditions (Results, p5)"
+    },
+    {
+      "surface_form": "YP_168655.1",
+      "gene_name": "",
+      "identifiers": [
+        "YP_168655.1"
+      ],
+      "strain": "Dinoroseobacter shibae DFL-12",
+      "prominence": "central",
+      "evidence": "The flagellin protein YP_168655.1 represented 37.5% of the global proteome. These motility proteins had previously been shown to have an important role in the lifestyle of D. shibae DFL-12 [15] (Results, p7)"
+    }
+  ],
+  "pathways": []
+}

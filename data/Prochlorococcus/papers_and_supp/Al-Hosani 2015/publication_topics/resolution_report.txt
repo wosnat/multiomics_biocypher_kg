@@ -1,0 +1,23 @@
+Topics resolution report: Al-Hosani 2015
+Strains: ['Prochlorococcus AS9601']
+
+Genes:    49/50 resolved (98.0%)
+  methods: locus_tag:v=7, tier1:v=42, unresolved=1
+Pathways: 1/6 resolved (16.7%)
+  methods: id=1, unresolved=5
+
+Captured identifiers: 50  (truncated/bare-number: 0)
+Unresolved gene reasons: {'lookup_miss': 1}
+    descriptive_only = function/enzyme phrase, no symbol or id (paper style)
+    truncated_id_only = bare locus number, recoverable via strain prefix
+    lookup_miss       = had a name/full id but no mapping match
+
+Unresolved gene mentions (1):
+  - csoS1  [lookup_miss]  strain=Prochlorococcus AS9601  ids=['csoS1']
+
+Unresolved pathway mentions (5):
+  - respiratory electron flow  (raw id=—)
+  - osmolyte/compatible solute biosynthesis  (raw id=—)
+  - inorganic ion transport  (raw id=—)
+  - photosynthetic electron transport  (raw id=—)
+  - cell division  (raw id=ko04110)

@@ -1,0 +1,140 @@
+{
+  "metadata": {
+    "paper": "Lu 2025",
+    "doi": "10.1101/2025.05.28.656624",
+    "strains": [
+      "Alteromonas macleodii EZ55"
+    ],
+    "model": "gpt-4.1",
+    "n_chunks": 1,
+    "chunk_pages": 15,
+    "self_assessment": "high",
+    "uncaptured_identifiers": "many",
+    "uncaptured_identifiers_note": "Table S1 and supplementary figures likely list many specific protein/gene IDs not included here.",
+    "extracted_at": "2026-06-04T15:57:57.935826",
+    "input_tokens": 20100,
+    "output_tokens": 1411
+  },
+  "genes": [
+    {
+      "surface_form": "catalase",
+      "gene_name": "",
+      "identifiers": [],
+      "strain": "Alteromonas macleodii EZ55",
+      "prominence": "central",
+      "evidence": "Examples of genes encoding leaky functions are those that remove toxins from the extracellular environment (e.g., catalase) (Introduction, p1)"
+    },
+    {
+      "surface_form": "alkaline phosphatase",
+      "gene_name": "",
+      "identifiers": [],
+      "strain": "Alteromonas macleodii EZ55",
+      "prominence": "central",
+      "evidence": "Examples of genes encoding leaky functions ... degrade catabolically desirable polymers ... (e.g., alkaline phosphatase, glycolytic enzymes, or peptidases) (Introduction, p1)"
+    },
+    {
+      "surface_form": "glycolytic enzymes",
+      "gene_name": "",
+      "identifiers": [],
+      "strain": "Alteromonas macleodii EZ55",
+      "prominence": "peripheral",
+      "evidence": "Examples of genes encoding leaky functions ... degrade catabolically desirable polymers ... (e.g., alkaline phosphatase, glycolytic enzymes, or peptidases) (Introduction, p1)"
+    },
+    {
+      "surface_form": "peptidases",
+      "gene_name": "",
+      "identifiers": [],
+      "strain": "Alteromonas macleodii EZ55",
+      "prominence": "peripheral",
+      "evidence": "Examples of genes encoding leaky functions ... degrade catabolically desirable polymers ... (e.g., alkaline phosphatase, glycolytic enzymes, or peptidases) (Introduction, p1)"
+    },
+    {
+      "surface_form": "\u03b1-glucosidase",
+      "gene_name": "",
+      "identifiers": [],
+      "strain": "Alteromonas macleodii EZ55",
+      "prominence": "central",
+      "evidence": "We detected \u03b1-glucosidase and NAGase activity in supernatants collected from the ancestral strain of Alteromonas (Results, p9)"
+    },
+    {
+      "surface_form": "NAGase",
+      "gene_name": "",
+      "identifiers": [],
+      "strain": "Alteromonas macleodii EZ55",
+      "prominence": "central",
+      "evidence": "We detected \u03b1-glucosidase and NAGase activity in supernatants collected from the ancestral strain of Alteromonas (Results, p9)"
+    },
+    {
+      "surface_form": "\u03b2-glucosidase",
+      "gene_name": "",
+      "identifiers": [],
+      "strain": "Alteromonas macleodii EZ55",
+      "prominence": "peripheral",
+      "evidence": "\u03b2-glucosidase activity was not detected (Results, p9)"
+    },
+    {
+      "surface_form": "protease",
+      "gene_name": "",
+      "identifiers": [],
+      "strain": "Alteromonas macleodii EZ55",
+      "prominence": "central",
+      "evidence": "Protease activity was found in the >50 kDa fraction of all three supernatants (Results, p9)"
+    },
+    {
+      "surface_form": "siderophore",
+      "gene_name": "",
+      "identifiers": [],
+      "strain": "Alteromonas macleodii EZ55",
+      "prominence": "peripheral",
+      "evidence": "siderophore activity was not significantly different between the size fractions (Results, p9)"
+    },
+    {
+      "surface_form": "phosphatase",
+      "gene_name": "",
+      "identifiers": [],
+      "strain": "Alteromonas macleodii EZ55",
+      "prominence": "central",
+      "evidence": "Phosphatase and hydroperoxidase (e.g. catalase) activity were detected in all supernatants (Results, p9)"
+    },
+    {
+      "surface_form": "hydroperoxidase (e.g. catalase)",
+      "gene_name": "",
+      "identifiers": [],
+      "strain": "Alteromonas macleodii EZ55",
+      "prominence": "central",
+      "evidence": "Phosphatase and hydroperoxidase (e.g. catalase) activity were detected in all supernatants (Results, p9)"
+    },
+    {
+      "surface_form": "lumazine synthase (RibH)",
+      "gene_name": "ribH",
+      "identifiers": [],
+      "strain": "Alteromonas macleodii EZ55",
+      "prominence": "peripheral",
+      "evidence": "The last two steps of riboflavin biosynthesis are catalyzed by lumazine synthase (RibH) and RibE (Results, p8)"
+    },
+    {
+      "surface_form": "RibE",
+      "gene_name": "ribE",
+      "identifiers": [],
+      "strain": "Alteromonas macleodii EZ55",
+      "prominence": "peripheral",
+      "evidence": "The last two steps of riboflavin biosynthesis are catalyzed by lumazine synthase (RibH) and RibE (Results, p8)"
+    },
+    {
+      "surface_form": "bacterioferritin",
+      "gene_name": "",
+      "identifiers": [],
+      "strain": "Alteromonas macleodii EZ55",
+      "prominence": "peripheral",
+      "evidence": "bacterioferritin forms a large cage-like structure comprised of 24 monomers that functions to sequester Fe atoms (Results, p8)"
+    }
+  ],
+  "pathways": [
+    {
+      "surface_form": "riboflavin biosynthesis",
+      "kegg_pathway_id": "ko00740",
+      "prominence": "peripheral",
+      "evidence": "The last two steps of riboflavin biosynthesis are catalyzed by lumazine synthase (RibH) and RibE (Results, p8)"
+    }
+  ]
+}

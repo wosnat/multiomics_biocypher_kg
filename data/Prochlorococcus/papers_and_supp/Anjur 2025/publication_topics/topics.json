@@ -1,0 +1,90 @@
+{
+  "metadata": {
+    "paper": "Anjur-Dietrich 2025",
+    "doi": null,
+    "strains": [
+      "Prochlorococcus MIT9301"
+    ],
+    "model": "gpt-4.1",
+    "n_chunks": 3,
+    "chunk_pages": 15,
+    "self_assessment": "high",
+    "uncaptured_identifiers": "none",
+    "uncaptured_identifiers_note": "",
+    "extracted_at": "2026-06-04T15:54:00.401515",
+    "input_tokens": 34055,
+    "output_tokens": 1690
+  },
+  "genes": [
+    {
+      "surface_form": "pstS",
+      "gene_name": "pstS",
+      "identifiers": [],
+      "strain": "Prochlorococcus MIT9301",
+      "prominence": "central",
+      "evidence": "the inorganic phosphate uptake genes (pstS, A, B, C) were significantly more expressed in cells from biofilms compared to planktonic cells (Fig. 3A,B) (Results, p6)"
+    },
+    {
+      "surface_form": "pstA",
+      "gene_name": "pstA",
+      "identifiers": [],
+      "strain": "Prochlorococcus MIT9301",
+      "prominence": "central",
+      "evidence": "the inorganic phosphate uptake genes (pstS, A, B, C) were significantly more expressed in cells from biofilms compared to planktonic cells (Fig. 3A,B) (Results, p6)"
+    },
+    {
+      "surface_form": "pstB",
+      "gene_name": "pstB",
+      "identifiers": [],
+      "strain": "Prochlorococcus MIT9301",
+      "prominence": "central",
+      "evidence": "the inorganic phosphate uptake genes (pstS, A, B, C) were significantly more expressed in cells from biofilms compared to planktonic cells (Fig. 3A,B) (Results, p6)"
+    },
+    {
+      "surface_form": "pstC",
+      "gene_name": "pstC",
+      "identifiers": [],
+      "strain": "Prochlorococcus MIT9301",
+      "prominence": "central",
+      "evidence": "the inorganic phosphate uptake genes (pstS, A, B, C) were significantly more expressed in cells from biofilms compared to planktonic cells (Fig. 3A,B) (Results, p6)"
+    },
+    {
+      "surface_form": "phoR",
+      "gene_name": "phoR",
+      "identifiers": [],
+      "strain": "Prochlorococcus MIT9301",
+      "prominence": "central",
+      "evidence": "phoR, a negative regulator of the pst genes, was more expressed in planktonic cells (Fig. 3A,B) (Results, p6)"
+    },
+    {
+      "surface_form": "ebfG",
+      "gene_name": "ebfG",
+      "identifiers": [],
+      "strain": "Prochlorococcus MIT9301",
+      "prominence": "central",
+      "evidence": "we identified a homologue of ebfG, a small secreted protein required for biofilm formation in Synechococcus elongatus, that was also expressed significantly more in adherent cells (Results, p6)"
+    },
+    {
+      "surface_form": "rubisco",
+      "gene_name": "rbcL",
+      "identifiers": [],
+      "strain": "Prochlorococcus MIT9301",
+      "prominence": "peripheral",
+      "evidence": "Photosystem and photosynthesis-related genes, including rubisco and chlorophyll synthesis genes, were more expressed in planktonic cells (Fig. 3C, p3)."
+    }
+  ],
+  "pathways": [
+    {
+      "surface_form": "inorganic phosphate uptake",
+      "kegg_pathway_id": "ko02060",
+      "prominence": "central",
+      "evidence": "the inorganic phosphate uptake genes (pstS, A, B, C) were significantly more expressed in cells from biofilms compared to planktonic cells (Fig. 3A,B) (Results, p6)"
+    },
+    {
+      "surface_form": "photosystem genes and photosynthesis-related genes, including those related to rubisco and chlorophyll synthesis",
+      "kegg_pathway_id": "ko00195",
+      "prominence": "central",
+      "evidence": "all light-dependent photosystem genes and several additional photosynthesis-related genes, including those related to rubisco and chlorophyll synthesis, were expressed significantly more in planktonic cells (Results, p6)"
+    }
+  ]
+}

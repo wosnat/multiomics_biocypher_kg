@@ -1,0 +1,293 @@
+{
+  "metadata": {
+    "paper": "Lindell 2007",
+    "doi": null,
+    "strains": [
+      "Prochlorococcus MED4",
+      "Phage"
+    ],
+    "model": "gpt-4.1",
+    "self_assessment": "high",
+    "assessment_notes": "All genes and pathways are explicitly named in the text. Strain attribution is clear from context.",
+    "uncaptured_identifiers": "some",
+    "uncaptured_identifiers_note": "Supplementary tables may list additional locus tags or abbreviated ids not included here.",
+    "extracted_at": "2026-06-04T10:04:15.944341",
+    "input_tokens": 10037,
+    "output_tokens": 2438
+  },
+  "genes": [
+    {
+      "surface_form": "psbA",
+      "gene_name": "psbA",
+      "identifiers": [
+        "psbA",
+        "ORF 027"
+      ],
+      "strain": "Phage",
+      "prominence": "central",
+      "evidence": "These genes\u2014encoding photosystem II D1 (psbA)... are transcribed together with phage DNA replication genes (Abstract, p1)"
+    },
+    {
+      "surface_form": "hli",
+      "gene_name": "hli",
+      "identifiers": [
+        "hli",
+        "ORF 026"
+      ],
+      "strain": "Phage",
+      "prominence": "central",
+      "evidence": "These genes\u2014encoding photosystem II D1 (psbA), high-light inducible protein (hli)... (Abstract, p1)"
+    },
+    {
+      "surface_form": "talC",
+      "gene_name": "talC",
+      "identifiers": [
+        "talC",
+        "ORF 054"
+      ],
+      "strain": "Phage",
+      "prominence": "central",
+      "evidence": "These genes\u2014encoding photosystem II D1 (psbA), high-light inducible protein (hli), transaldolase (talC)... (Abstract, p1)"
+    },
+    {
+      "surface_form": "nrd",
+      "gene_name": "nrd",
+      "identifiers": [
+        "nrd",
+        "ORF 020"
+      ],
+      "strain": "Phage",
+      "prominence": "central",
+      "evidence": "These genes\u2014encoding photosystem II D1 (psbA), high-light inducible protein (hli), transaldolase (talC) and ribonucleotide reductase (nrd)... (Abstract, p1)"
+    },
+    {
+      "surface_form": "marR",
+      "gene_name": "marR",
+      "identifiers": [
+        "marR"
+      ],
+      "strain": "Phage",
+      "prominence": "peripheral",
+      "evidence": "The first cluster contains a putative marR transcriptional regulator gene, a T7 homologue (g0.7)... (p2)"
+    },
+    {
+      "surface_form": "DNA polymerase gene (gene 5/DNApol)",
+      "gene_name": "",
+      "identifiers": [
+        "gene 5",
+        "DNApol"
+      ],
+      "strain": "Phage",
+      "prominence": "peripheral",
+      "evidence": "quantifying the phage DNA polymerase gene (gene 5/DNApol gene copy number) (Fig. 1 legend, p1)"
+    },
+    {
+      "surface_form": "rbcL",
+      "gene_name": "rbcL",
+      "identifiers": [
+        "rbcL"
+      ],
+      "strain": "Prochlorococcus MED4",
+      "prominence": "peripheral",
+      "evidence": "Host gDNA degradation (intracellular host DNA) was determined by disappearance of the host rbcL gene (Fig. 1 legend, p1)"
+    },
+    {
+      "surface_form": "hli",
+      "gene_name": "hli",
+      "identifiers": [
+        "hli"
+      ],
+      "strain": "Prochlorococcus MED4",
+      "prominence": "central",
+      "evidence": "hli genes are upregulated in the host in response to phage infection (p3)"
+    },
+    {
+      "surface_form": "rbcLS",
+      "gene_name": "",
+      "identifiers": [
+        "rbcLS"
+      ],
+      "strain": "Prochlorococcus MED4",
+      "prominence": "peripheral",
+      "evidence": "The first was transiently upregulated... and consists of high-light-inducible stress response (hli), carbon metabolism (rbcLS)... (p2)"
+    },
+    {
+      "surface_form": "rpoC2",
+      "gene_name": "rpoC2",
+      "identifiers": [
+        "rpoC2"
+      ],
+      "strain": "Prochlorococcus MED4",
+      "prominence": "peripheral",
+      "evidence": "transcription (rpoC2, rpoD) and ribosome (rpl5, rpl6, rps8, rps11, rps17) genes (p2)"
+    },
+    {
+      "surface_form": "rpoD",
+      "gene_name": "rpoD",
+      "identifiers": [
+        "rpoD"
+      ],
+      "strain": "Prochlorococcus MED4",
+      "prominence": "peripheral",
+      "evidence": "transcription (rpoC2, rpoD) and ribosome (rpl5, rpl6, rps8, rps11, rps17) genes (p2)"
+    },
+    {
+      "surface_form": "rpl5",
+      "gene_name": "rpl5",
+      "identifiers": [
+        "rpl5"
+      ],
+      "strain": "Prochlorococcus MED4",
+      "prominence": "peripheral",
+      "evidence": "ribosome (rpl5, rpl6, rps8, rps11, rps17) genes (p2)"
+    },
+    {
+      "surface_form": "rpl6",
+      "gene_name": "rpl6",
+      "identifiers": [
+        "rpl6"
+      ],
+      "strain": "Prochlorococcus MED4",
+      "prominence": "peripheral",
+      "evidence": "ribosome (rpl5, rpl6, rps8, rps11, rps17) genes (p2)"
+    },
+    {
+      "surface_form": "rps8",
+      "gene_name": "rps8",
+      "identifiers": [
+        "rps8"
+      ],
+      "strain": "Prochlorococcus MED4",
+      "prominence": "peripheral",
+      "evidence": "ribosome (rpl5, rpl6, rps8, rps11, rps17) genes (p2)"
+    },
+    {
+      "surface_form": "rps11",
+      "gene_name": "rps11",
+      "identifiers": [
+        "rps11"
+      ],
+      "strain": "Prochlorococcus MED4",
+      "prominence": "peripheral",
+      "evidence": "ribosome (rpl5, rpl6, rps8, rps11, rps17) genes (p2)"
+    },
+    {
+      "surface_form": "rps17",
+      "gene_name": "rps17",
+      "identifiers": [
+        "rps17"
+      ],
+      "strain": "Prochlorococcus MED4",
+      "prominence": "peripheral",
+      "evidence": "ribosome (rpl5, rpl6, rps8, rps11, rps17) genes (p2)"
+    },
+    {
+      "surface_form": "rne",
+      "gene_name": "rne",
+      "identifiers": [
+        "rne"
+      ],
+      "strain": "Prochlorococcus MED4",
+      "prominence": "central",
+      "evidence": "It is perhaps not coincidental that rne (encoding RNase E) is one of the upregulated genes in Prochlorococcus during infection (p3)"
+    },
+    {
+      "surface_form": "rnhB",
+      "gene_name": "rnhB",
+      "identifiers": [
+        "rnhB"
+      ],
+      "strain": "Prochlorococcus MED4",
+      "prominence": "peripheral",
+      "evidence": "included genes involved in RNA degradation and modification (rne, rnhB, dus and sun) (p2)"
+    },
+    {
+      "surface_form": "dus",
+      "gene_name": "dus",
+      "identifiers": [
+        "dus"
+      ],
+      "strain": "Prochlorococcus MED4",
+      "prominence": "peripheral",
+      "evidence": "included genes involved in RNA degradation and modification (rne, rnhB, dus and sun) (p2)"
+    },
+    {
+      "surface_form": "sun",
+      "gene_name": "sun",
+      "identifiers": [
+        "sun"
+      ],
+      "strain": "Prochlorococcus MED4",
+      "prominence": "peripheral",
+      "evidence": "included genes involved in RNA degradation and modification (rne, rnhB, dus and sun) (p2)"
+    },
+    {
+      "surface_form": "clpS",
+      "gene_name": "clpS",
+      "identifiers": [
+        "clpS"
+      ],
+      "strain": "Prochlorococcus MED4",
+      "prominence": "peripheral",
+      "evidence": "protein turnover (clpS, and an AAA ATPase family gene) (p2)"
+    },
+    {
+      "surface_form": "AAA ATPase family gene",
+      "gene_name": "",
+      "identifiers": [
+        "AAA ATPase family gene"
+      ],
+      "strain": "Prochlorococcus MED4",
+      "prominence": "peripheral",
+      "evidence": "protein turnover (clpS, and an AAA ATPase family gene) (p2)"
+    },
+    {
+      "surface_form": "umuD",
+      "gene_name": "umuD",
+      "identifiers": [
+        "umuD"
+      ],
+      "strain": "Prochlorococcus MED4",
+      "prominence": "peripheral",
+      "evidence": "stress responses (umuD and phoH), and those of unknown function (p2)"
+    },
+    {
+      "surface_form": "phoH",
+      "gene_name": "phoH",
+      "identifiers": [
+        "phoH"
+      ],
+      "strain": "Prochlorococcus MED4",
+      "prominence": "peripheral",
+      "evidence": "stress responses (umuD and phoH), and those of unknown function (p2)"
+    },
+    {
+      "surface_form": "HNH endonuclease",
+      "gene_name": "",
+      "identifiers": [
+        "HNH endonuclease"
+      ],
+      "strain": "Prochlorococcus MED4",
+      "prominence": "peripheral",
+      "evidence": "homologues of a number of these host genes are found in phage genomes, including hli, phoH, and HNH endonuclease and sigma factor genes (p3)"
+    },
+    {
+      "surface_form": "sigma factor genes",
+      "gene_name": "",
+      "identifiers": [
+        "sigma factor genes"
+      ],
+      "strain": "Prochlorococcus MED4",
+      "prominence": "peripheral",
+      "evidence": "homologues of a number of these host genes are found in phage genomes, including hli, phoH, and HNH endonuclease and sigma factor genes (p3)"
+    }
+  ],
+  "pathways": [
+    {
+      "surface_form": "pentose phosphate pathway",
+      "kegg_pathway_id": "map00030",
+      "prominence": "peripheral",
+      "evidence": "transaldolase may function in the host\u2019s pentose phosphate pathway to produce reducing power (NADPH) and/or ribose substrates for nucleotide synthesis (p2)"
+    }
+  ]
+}

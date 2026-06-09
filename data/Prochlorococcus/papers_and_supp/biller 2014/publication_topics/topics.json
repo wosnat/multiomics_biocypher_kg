@@ -1,0 +1,20 @@
+{
+  "metadata": {
+    "paper": "Biller 2014",
+    "doi": "10.1126/science.1243457",
+    "strains": [
+      "Prochlorococcus MED4",
+      "Prochlorococcus MIT9313"
+    ],
+    "model": "gpt-4.1",
+    "self_assessment": "high",
+    "assessment_notes": "No specific genes or KEGG pathways are explicitly named or discussed in the narrative text. The paper discusses genome-wide DNA and RNA content in vesicles but does not mention any gene by name, symbol, or identifier.",
+    "uncaptured_identifiers": "many",
+    "uncaptured_identifiers_note": "Supplementary tables (e.g., S2, S3, S4) likely list many gene/protein identifiers, but none are mentioned in the main text.",
+    "extracted_at": "2026-06-04T10:00:50.083002",
+    "input_tokens": 11507,
+    "output_tokens": 124
+  },
+  "genes": [],
+  "pathways": []
+}

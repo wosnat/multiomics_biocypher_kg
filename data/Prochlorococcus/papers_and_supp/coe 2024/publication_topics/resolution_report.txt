@@ -1,0 +1,25 @@
+Topics resolution report: Coe 2024
+Strains: ['Prochlorococcus NATL2A', 'Alteromonas macleodii MIT1002']
+
+Genes:    26/33 resolved (78.8%)
+  methods: multi:v=9, tier1:v=17, unresolved=7
+Pathways: 8/9 resolved (88.9%)
+  methods: id=8, unresolved=1
+
+Captured identifiers: 30  (truncated/bare-number: 0)
+Unresolved gene reasons: {'lookup_miss': 7}
+    descriptive_only = function/enzyme phrase, no symbol or id (paper style)
+    truncated_id_only = bare locus number, recoverable via strain prefix
+    lookup_miss       = had a name/full id but no mapping match
+
+Unresolved gene mentions (7):
+  - PSII  [lookup_miss]  strain=Prochlorococcus NATL2A  ids=['PMN2A_RS0735']
+  - glgC  [lookup_miss]  strain=Prochlorococcus NATL2A  ids=['glgC']
+  - MT1002_02405  [lookup_miss]  strain=Alteromonas macleodii MIT1002  ids=['MT1002_02405']
+  - MT1002_02423  [lookup_miss]  strain=Alteromonas macleodii MIT1002  ids=['MT1002_02423']
+  - MT1002_03869  [lookup_miss]  strain=Alteromonas macleodii MIT1002  ids=['MT1002_03869']
+  - MT1002_03852  [lookup_miss]  strain=Alteromonas macleodii MIT1002  ids=['MT1002_03852']
+  - MT1002_00215  [lookup_miss]  strain=Alteromonas macleodii MIT1002  ids=['MT1002_00215']
+
+Unresolved pathway mentions (1):
+  - Respiratory electron transport chain  (raw id=—)

@@ -1,0 +1,294 @@
+{
+  "metadata": {
+    "paper": "Read 2017",
+    "doi": null,
+    "strains": [
+      "Prochlorococcus MED4"
+    ],
+    "model": "gpt-4.1",
+    "self_assessment": "high",
+    "assessment_notes": "All genes and pathways included are explicitly named and discussed in the main text. No ambiguous strain attributions.",
+    "uncaptured_identifiers": "many",
+    "uncaptured_identifiers_note": "Supplementary tables (e.g., S3\u2013S14) and figures likely list additional gene locus tags and identifiers not mentioned in the main text.",
+    "extracted_at": "2026-06-04T10:06:38.276661",
+    "input_tokens": 19970,
+    "output_tokens": 1268,
+    "resolution": {
+      "gene_records": 15,
+      "genes_resolved": 14,
+      "gene_methods": {
+        "tier1:v": 10,
+        "unresolved": 1,
+        "locus_tag:v": 4
+      },
+      "pathway_records": 2,
+      "pathways_resolved": 0,
+      "pathway_methods": {
+        "unresolved": 2
+      },
+      "paper_strains": [
+        "Prochlorococcus MED4"
+      ],
+      "captured_identifiers": 13,
+      "truncated_identifiers": 0,
+      "truncated_examples": [],
+      "unresolved_reasons": {
+        "lookup_miss": 1
+      }
+    }
+  },
+  "genes": [
+    {
+      "surface_form": "NtcA",
+      "gene_name": "ntcA",
+      "identifiers": [],
+      "prominence": "central",
+      "evidence": "The global nitrogen stress response regulator, NtcA (Sauer et al., 1999), is responsible for inducing the expression of assimilation pathways for a variety of N compounds. Consistent with previous reports (Tolonen et al., 2006), we found that members of the NtcA regulon are induced in response to N deprivation in Prochlorococcus MED4 (Supplementary Table S5). (p5, Results)",
+      "mention_strain": "Prochlorococcus MED4",
+      "strain": "Prochlorococcus MED4",
+      "locus_tag": "PMM0246",
+      "resolved_from": "ntcA",
+      "resolution_method": "tier1:v"
+    },
+    {
+      "surface_form": "glnA",
+      "gene_name": "glnA",
+      "identifiers": [],
+      "prominence": "central",
+      "evidence": "Members of the NtcA regulon that exhibited increased transcript abundance during N-deprivation included genes encoding the assimilation pathways for urea and cyanate, as well as the glutamine synthase gene glnA (Supplementary Tables S3\u2013S6). (p5, Results)",
+      "mention_strain": "Prochlorococcus MED4",
+      "strain": "Prochlorococcus MED4",
+      "locus_tag": "PMM0920",
+      "resolved_from": "glnA",
+      "resolution_method": "tier1:v"
+    },
+    {
+      "surface_form": "ureA-C",
+      "gene_name": "",
+      "identifiers": [
+        "ureA",
+        "ureB",
+        "ureC"
+      ],
+      "prominence": "central",
+      "evidence": "All subunits of the urease enzyme (ureA-C) were co-expressed and showed similar increases in relative abundance at 12 h post N deprivation. (p5, Results)",
+      "mention_strain": "Prochlorococcus MED4",
+      "strain": "Prochlorococcus MED4",
+      "locus_tag": "PMM0965",
+      "resolved_from": "ureA",
+      "resolution_method": "tier1:v"
+    },
+    {
+      "surface_form": "ureA-C",
+      "gene_name": "",
+      "identifiers": [
+        "ureA",
+        "ureB",
+        "ureC"
+      ],
+      "prominence": "central",
+      "evidence": "All subunits of the urease enzyme (ureA-C) were co-expressed and showed similar increases in relative abundance at 12 h post N deprivation. (p5, Results)",
+      "mention_strain": "Prochlorococcus MED4",
+      "strain": "Prochlorococcus MED4",
+      "locus_tag": "PMM0964",
+      "resolved_from": "ureB",
+      "resolution_method": "tier1:v"
+    },
+    {
+      "surface_form": "ureA-C",
+      "gene_name": "",
+      "identifiers": [
+        "ureA",
+        "ureB",
+        "ureC"
+      ],
+      "prominence": "central",
+      "evidence": "All subunits of the urease enzyme (ureA-C) were co-expressed and showed similar increases in relative abundance at 12 h post N deprivation. (p5, Results)",
+      "mention_strain": "Prochlorococcus MED4",
+      "strain": "Prochlorococcus MED4",
+      "locus_tag": "PMM0963",
+      "resolved_from": "ureC",
+      "resolution_method": "tier1:v"
+    },
+    {
+      "surface_form": "urtA-E",
+      "gene_name": "",
+      "identifiers": [
+        "urtA",
+        "urtB",
+        "urtC",
+        "urtD",
+        "urtE"
+      ],
+      "prominence": "central",
+      "evidence": "The urea transporter genes (urtA-E) were transcribed in a similar manner with the reads gathering at the TSS for urtA, the first gene in the operon (Supplementary Figure S1). (p5, Results)",
+      "mention_strain": "Prochlorococcus MED4",
+      "strain": "Prochlorococcus MED4",
+      "locus_tag": "PMM0970",
+      "resolved_from": "urtA",
+      "resolution_method": "tier1:v"
+    },
+    {
+      "surface_form": "urtA-E",
+      "gene_name": "",
+      "identifiers": [
+        "urtA",
+        "urtB",
+        "urtC",
+        "urtD",
+        "urtE"
+      ],
+      "prominence": "central",
+      "evidence": "The urea transporter genes (urtA-E) were transcribed in a similar manner with the reads gathering at the TSS for urtA, the first gene in the operon (Supplementary Figure S1). (p5, Results)",
+      "mention_strain": "Prochlorococcus MED4",
+      "strain": "Prochlorococcus MED4",
+      "locus_tag": "PMM0971",
+      "resolved_from": "urtB",
+      "resolution_method": "tier1:v"
+    },
+    {
+      "surface_form": "urtA-E",
+      "gene_name": "",
+      "identifiers": [
+        "urtA",
+        "urtB",
+        "urtC",
+        "urtD",
+        "urtE"
+      ],
+      "prominence": "central",
+      "evidence": "The urea transporter genes (urtA-E) were transcribed in a similar manner with the reads gathering at the TSS for urtA, the first gene in the operon (Supplementary Figure S1). (p5, Results)",
+      "mention_strain": "Prochlorococcus MED4",
+      "strain": "Prochlorococcus MED4",
+      "locus_tag": "PMM0972",
+      "resolved_from": "urtC",
+      "resolution_method": "tier1:v"
+    },
+    {
+      "surface_form": "urtA-E",
+      "gene_name": "",
+      "identifiers": [
+        "urtA",
+        "urtB",
+        "urtC",
+        "urtD",
+        "urtE"
+      ],
+      "prominence": "central",
+      "evidence": "The urea transporter genes (urtA-E) were transcribed in a similar manner with the reads gathering at the TSS for urtA, the first gene in the operon (Supplementary Figure S1). (p5, Results)",
+      "mention_strain": "Prochlorococcus MED4",
+      "strain": "Prochlorococcus MED4",
+      "locus_tag": "PMM0973",
+      "resolved_from": "urtD",
+      "resolution_method": "tier1:v"
+    },
+    {
+      "surface_form": "urtA-E",
+      "gene_name": "",
+      "identifiers": [
+        "urtA",
+        "urtB",
+        "urtC",
+        "urtD",
+        "urtE"
+      ],
+      "prominence": "central",
+      "evidence": "The urea transporter genes (urtA-E) were transcribed in a similar manner with the reads gathering at the TSS for urtA, the first gene in the operon (Supplementary Figure S1). (p5, Results)",
+      "mention_strain": "Prochlorococcus MED4",
+      "strain": "Prochlorococcus MED4",
+      "locus_tag": "PMM0974",
+      "resolved_from": "urtE",
+      "resolution_method": "tier1:v"
+    },
+    {
+      "surface_form": "Hli10",
+      "gene_name": "",
+      "identifiers": [
+        "Hli10"
+      ],
+      "prominence": "peripheral",
+      "evidence": "One of these high light inducible proteins, Hli10, is encoded by a gene predicted to be regulated by NtcA (Tolonen et al., 2006). (p5, Results)",
+      "mention_strain": "Prochlorococcus MED4",
+      "strain": "Prochlorococcus MED4",
+      "locus_tag": null,
+      "resolved_from": "",
+      "resolution_method": "unresolved"
+    },
+    {
+      "surface_form": "PMM0149 (ndhF)",
+      "gene_name": "ndhF",
+      "identifiers": [
+        "PMM0149"
+      ],
+      "prominence": "peripheral",
+      "evidence": "Figure 2 Primary transcriptome mapping to three genes during N deprivation. Values indicate the number of primary reads mapping to the (a). PMM0149 (ndhF)... (p7, Results)",
+      "mention_strain": "Prochlorococcus MED4",
+      "strain": "Prochlorococcus MED4",
+      "locus_tag": "PMM0149",
+      "resolved_from": "PMM0149",
+      "resolution_method": "locus_tag:v"
+    },
+    {
+      "surface_form": "PMM0058 (conserved hypothetical protein)",
+      "gene_name": "",
+      "identifiers": [
+        "PMM0058"
+      ],
+      "prominence": "peripheral",
+      "evidence": "Figure 2 Primary transcriptome mapping to three genes during N deprivation. Values indicate the number of primary reads mapping to the ... (b). PMM0058 (conserved hypothetical protein)... (p7, Results)",
+      "mention_strain": "Prochlorococcus MED4",
+      "strain": "Prochlorococcus MED4",
+      "locus_tag": "PMM0058",
+      "resolved_from": "PMM0058",
+      "resolution_method": "locus_tag:v"
+    },
+    {
+      "surface_form": "PMM1485 (rpoB)",
+      "gene_name": "rpoB",
+      "identifiers": [
+        "PMM1485"
+      ],
+      "prominence": "peripheral",
+      "evidence": "Figure 2 Primary transcriptome mapping to three genes during N deprivation. Values indicate the number of primary reads mapping to the ... (c). PMM1485 (rpoB)... (p7, Results)",
+      "mention_strain": "Prochlorococcus MED4",
+      "strain": "Prochlorococcus MED4",
+      "locus_tag": "PMM1485",
+      "resolved_from": "PMM1485",
+      "resolution_method": "locus_tag:v"
+    },
+    {
+      "surface_form": "PMM0370 (cyanate ABC transporter)",
+      "gene_name": "",
+      "identifiers": [
+        "PMM0370"
+      ],
+      "prominence": "central",
+      "evidence": "Considering transcripts most relevant to N-stress, one of these\u2014the cyanate ABC transporter (PMM0370)\u2014evidences no structural differences between the full length translated protein and the shortened protein (Figure 3a, Supplementary Table S14). (p8, Results)",
+      "mention_strain": "Prochlorococcus MED4",
+      "strain": "Prochlorococcus MED4",
+      "locus_tag": "PMM0370",
+      "resolved_from": "PMM0370",
+      "resolution_method": "locus_tag:v"
+    }
+  ],
+  "pathways": [
+    {
+      "surface_form": "urea assimilation pathway",
+      "kegg_pathway_id_raw": "",
+      "prominence": "central",
+      "evidence": "Members of the NtcA regulon that exhibited increased transcript abundance during N-deprivation included genes encoding the assimilation pathways for urea and cyanate... (p5, Results)",
+      "pathway_id": null,
+      "pathway_name": null,
+      "resolution_method": "unresolved"
+    },
+    {
+      "surface_form": "cyanate assimilation pathway",
+      "kegg_pathway_id_raw": "",
+      "prominence": "central",
+      "evidence": "Members of the NtcA regulon that exhibited increased transcript abundance during N-deprivation included genes encoding the assimilation pathways for urea and cyanate... (p5, Results)",
+      "pathway_id": null,
+      "pathway_name": null,
+      "resolution_method": "unresolved"
+    }
+  ]
+}

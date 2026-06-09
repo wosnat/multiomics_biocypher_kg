@@ -1,0 +1,27 @@
+Topics resolution report: Kujawinski 2023
+Strains: ['Prochlorococcus MIT9301', 'Prochlorococcus MIT0801', 'Prochlorococcus MIT9313']
+
+Genes:    6/14 resolved (42.9%)
+  methods: no_mapping=1, tier1:v=6, unresolved=7
+Pathways: 6/8 resolved (75.0%)
+  methods: id=6, unresolved=2
+
+Captured identifiers: 1  (truncated/bare-number: 0)
+Unresolved gene reasons: {'lookup_miss': 2, 'descriptive_only': 6}
+    descriptive_only = function/enzyme phrase, no symbol or id (paper style)
+    truncated_id_only = bare locus number, recoverable via strain prefix
+    lookup_miss       = had a name/full id but no mapping match
+
+Unresolved gene mentions (8):
+  - SAM-dependent cytosine methyltransferase (EC.2.1.1.199)  [lookup_miss]  strain=Prochlorococcus MIT9301  ids=['EC.2.1.1.199']
+  - hli  [lookup_miss]  strain=Prochlorococcus MIT0801
+  - arginase  [descriptive_only]  strain=all
+  - glutamine synthase (GS)  [descriptive_only]  strain=all
+  - glutamine oxoglutarate aminotransferase (GOGAT)  [descriptive_only]  strain=all
+  - glutamic acid dehydrogenase (GDH)  [descriptive_only]  strain=Prochlorococcus MIT9313
+  - thymidine kinase  [descriptive_only]  strain=all
+  - methionine salvage pathway  [descriptive_only]  strain=Prochlorococcus MIT9313
+
+Unresolved pathway mentions (2):
+  - GS-GOGAT pathway  (raw id=—)
+  - GDH pathway  (raw id=—)

@@ -1,0 +1,20 @@
+Topics resolution report: He 2022
+Strains: ['Prochlorococcus NATL1A', 'Prochlorococcus MED4']
+
+Genes:    36/36 resolved (100.0%)
+  methods: locus_tag:v=3, multi:v=5, tier1:v=28
+Pathways: 1/6 resolved (16.7%)
+  methods: id=1, unresolved=5
+
+Captured identifiers: 59  (truncated/bare-number: 0)
+Unresolved gene reasons: {}
+    descriptive_only = function/enzyme phrase, no symbol or id (paper style)
+    truncated_id_only = bare locus number, recoverable via strain prefix
+    lookup_miss       = had a name/full id but no mapping match
+
+Unresolved pathway mentions (5):
+  - translation, ribosomal structure and biogenesis  (raw id=—)
+  - ATP-production  (raw id=—)
+  - energy production and conversion  (raw id=—)
+  - compatible solute biosynthesis  (raw id=—)
+  - iron transport  (raw id=—)

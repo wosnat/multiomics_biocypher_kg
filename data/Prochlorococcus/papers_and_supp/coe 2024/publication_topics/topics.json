@@ -1,0 +1,399 @@
+{
+  "metadata": {
+    "paper": "Coe 2024",
+    "doi": null,
+    "strains": [
+      "Prochlorococcus NATL2A",
+      "Alteromonas macleodii MIT1002"
+    ],
+    "model": "gpt-4.1",
+    "self_assessment": "high",
+    "assessment_notes": "Gene and pathway mentions were explicit and supported by figure references. Some gene locus tags were only in figures.",
+    "uncaptured_identifiers": "some",
+    "uncaptured_identifiers_note": "Figures and supplementary tables (e.g., Table S2, S3, S4) likely contain additional locus tags and gene IDs not listed here.",
+    "extracted_at": "2026-06-04T10:01:50.061188",
+    "input_tokens": 22820,
+    "output_tokens": 3876
+  },
+  "genes": [
+    {
+      "surface_form": "sasA",
+      "gene_name": "sasA",
+      "identifiers": [],
+      "strain": "Prochlorococcus NATL2A",
+      "prominence": "central",
+      "evidence": "transcripts for all clock genes (sasA, rpaA, kaiB, and kaiC) were depleted relative to parental cells (Fig. 2) (Results, p5)"
+    },
+    {
+      "surface_form": "rpaA",
+      "gene_name": "rpaA",
+      "identifiers": [],
+      "strain": "Prochlorococcus NATL2A",
+      "prominence": "central",
+      "evidence": "transcripts for all clock genes (sasA, rpaA, kaiB, and kaiC) were depleted relative to parental cells (Fig. 2) (Results, p5)"
+    },
+    {
+      "surface_form": "kaiB",
+      "gene_name": "kaiB",
+      "identifiers": [],
+      "strain": "Prochlorococcus NATL2A",
+      "prominence": "central",
+      "evidence": "transcripts for all clock genes (sasA, rpaA, kaiB, and kaiC) were depleted relative to parental cells (Fig. 2) (Results, p5)"
+    },
+    {
+      "surface_form": "kaiC",
+      "gene_name": "kaiC",
+      "identifiers": [],
+      "strain": "Prochlorococcus NATL2A",
+      "prominence": "central",
+      "evidence": "transcripts for all clock genes (sasA, rpaA, kaiB, and kaiC) were depleted relative to parental cells (Fig. 2) (Results, p5)"
+    },
+    {
+      "surface_form": "NDH",
+      "gene_name": "",
+      "identifiers": [
+        "ndhI",
+        "PMN2A_RS0735"
+      ],
+      "strain": "Prochlorococcus NATL2A",
+      "prominence": "central",
+      "evidence": "transcripts of genes involved in mediating respiratory electron flow, such as NADH dehydrogenase (NDH)... were relatively enriched (Fig. 3, blue panels) (Results, p5)"
+    },
+    {
+      "surface_form": "COX",
+      "gene_name": "",
+      "identifiers": [
+        "ctaD"
+      ],
+      "strain": "Prochlorococcus NATL2A",
+      "prominence": "central",
+      "evidence": "transcripts of genes involved in mediating respiratory electron flow, such as NADH dehydrogenase (NDH) and cytochrome oxidase (COX), were relatively enriched (Fig. 3, blue panels) (Results, p5)"
+    },
+    {
+      "surface_form": "PSI",
+      "gene_name": "",
+      "identifiers": [
+        "psaB"
+      ],
+      "strain": "Prochlorococcus NATL2A",
+      "prominence": "central",
+      "evidence": "transcripts of genes involved in mediating photosynthetic electron flow (i.e. genes involved in photosystem I and II (PSI and PSII)... were depleted in dark-tolerant cells (Fig. 3, red panels) (Results, p5)"
+    },
+    {
+      "surface_form": "PSII",
+      "gene_name": "",
+      "identifiers": [
+        "PMN2A_RS0735"
+      ],
+      "strain": "Prochlorococcus NATL2A",
+      "prominence": "central",
+      "evidence": "transcripts of genes involved in mediating photosynthetic electron flow (i.e. genes involved in photosystem I and II (PSI and PSII)... were depleted in dark-tolerant cells (Fig. 3, red panels) (Results, p5)"
+    },
+    {
+      "surface_form": "FNR",
+      "gene_name": "",
+      "identifiers": [
+        "petH"
+      ],
+      "strain": "Prochlorococcus NATL2A",
+      "prominence": "central",
+      "evidence": "ferredoxin-NADP oxidoreductase (FNR) were depleted in dark-tolerant cells (Fig. 3, red panels) (Results, p5)"
+    },
+    {
+      "surface_form": "cytochrome b6f",
+      "gene_name": "",
+      "identifiers": [
+        "petB"
+      ],
+      "strain": "Prochlorococcus NATL2A",
+      "prominence": "central",
+      "evidence": "cytochrome b6f (Cyt b6f)... showed more subtle changes (Fig. 3, black panels) (Results, p5)"
+    },
+    {
+      "surface_form": "plastocyanin",
+      "gene_name": "",
+      "identifiers": [
+        "petE"
+      ],
+      "strain": "Prochlorococcus NATL2A",
+      "prominence": "central",
+      "evidence": "plastocyanin (PC), showed more subtle changes (Fig. 3, black panels) (Results, p5)"
+    },
+    {
+      "surface_form": "ATP synthase",
+      "gene_name": "",
+      "identifiers": [
+        "atpA"
+      ],
+      "strain": "Prochlorococcus NATL2A",
+      "prominence": "central",
+      "evidence": "ATP synthase genes were depleted in dark-tolerant cells (Fig. 3, Table S2) (Results, p5)"
+    },
+    {
+      "surface_form": "rbcL",
+      "gene_name": "rbcL",
+      "identifiers": [
+        "rbcL"
+      ],
+      "strain": "Prochlorococcus NATL2A",
+      "prominence": "central",
+      "evidence": "Transcripts of genes involved in CO2-fixation via the Calvin cycle... were depleted in dark-tolerant cells (Fig. 4) (Results, p5)"
+    },
+    {
+      "surface_form": "tal",
+      "gene_name": "tal",
+      "identifiers": [
+        "tal"
+      ],
+      "strain": "Prochlorococcus NATL2A",
+      "prominence": "peripheral",
+      "evidence": "expression levels of genes from the pentose phosphate pathway... either changed little or increased (Fig. 4) (Results, p5)"
+    },
+    {
+      "surface_form": "salY",
+      "gene_name": "salY",
+      "identifiers": [
+        "salY"
+      ],
+      "strain": "Prochlorococcus NATL2A",
+      "prominence": "peripheral",
+      "evidence": "genes for a putative pyruvate exporter, salY, were depleted in dark-tolerant cells (Fig. 4) (Results, p5)"
+    },
+    {
+      "surface_form": "glgC",
+      "gene_name": "glgC",
+      "identifiers": [
+        "glgC"
+      ],
+      "strain": "Prochlorococcus NATL2A",
+      "prominence": "peripheral",
+      "evidence": "Expression for all glycogen synthesis genes is lower in dark-tolerant cells (Fig. 5) (Results, p6)"
+    },
+    {
+      "surface_form": "glgP",
+      "gene_name": "glgP",
+      "identifiers": [
+        "glgP"
+      ],
+      "strain": "Prochlorococcus NATL2A",
+      "prominence": "peripheral",
+      "evidence": "glycogen phosphorylase (GlgP)... is significantly higher around sunrise (Fig. 5) (Results, p6)"
+    },
+    {
+      "surface_form": "sps",
+      "gene_name": "sps",
+      "identifiers": [
+        "sps"
+      ],
+      "strain": "Prochlorococcus NATL2A",
+      "prominence": "peripheral",
+      "evidence": "transcripts of genes involved in sucrose metabolism were largely unchanged (Fig. 5) (Results, p6)"
+    },
+    {
+      "surface_form": "glgA",
+      "gene_name": "glgA",
+      "identifiers": [
+        "glgA"
+      ],
+      "strain": "Prochlorococcus NATL2A",
+      "prominence": "peripheral",
+      "evidence": "transcripts of genes involved in sucrose metabolism were largely unchanged (Fig. 5) (Results, p6)"
+    },
+    {
+      "surface_form": "glgB",
+      "gene_name": "glgB",
+      "identifiers": [
+        "glgB"
+      ],
+      "strain": "Prochlorococcus NATL2A",
+      "prominence": "peripheral",
+      "evidence": "transcripts of genes involved in sucrose metabolism were largely unchanged (Fig. 5) (Results, p6)"
+    },
+    {
+      "surface_form": "glgX",
+      "gene_name": "glgX",
+      "identifiers": [
+        "glgX"
+      ],
+      "strain": "Prochlorococcus NATL2A",
+      "prominence": "peripheral",
+      "evidence": "transcripts of genes involved in the recycling of glucosylglycerate... were enriched (Fig. 5) (Results, p6)"
+    },
+    {
+      "surface_form": "PMN2A_RS04155",
+      "gene_name": "",
+      "identifiers": [
+        "PMN2A_RS04155"
+      ],
+      "strain": "Prochlorococcus NATL2A",
+      "prominence": "peripheral",
+      "evidence": "transporter gene that we identified within the glucosylglycerate metabolism operon... are enriched in dark-tolerant cells (Fig. 5) (Results, p6)"
+    },
+    {
+      "surface_form": "PMN2A_RS04170",
+      "gene_name": "",
+      "identifiers": [
+        "PMN2A_RS04170"
+      ],
+      "strain": "Prochlorococcus NATL2A",
+      "prominence": "peripheral",
+      "evidence": "transcripts of genes involved in the de novo synthesis of glucosyl 3-phosphoglycerate (G3PG)... were depleted in dark-tolerant cells (Fig. 5) (Results, p6)"
+    },
+    {
+      "surface_form": "PMN2A_RS04160",
+      "gene_name": "",
+      "identifiers": [
+        "PMN2A_RS04160"
+      ],
+      "strain": "Prochlorococcus NATL2A",
+      "prominence": "peripheral",
+      "evidence": "transcripts of genes involved in the de novo synthesis of glucosyl 3-phosphoglycerate (G3PG)... were depleted in dark-tolerant cells (Fig. 5) (Results, p6)"
+    },
+    {
+      "surface_form": "PMN2A_RS04175",
+      "gene_name": "",
+      "identifiers": [
+        "PMN2A_RS04175"
+      ],
+      "strain": "Prochlorococcus NATL2A",
+      "prominence": "peripheral",
+      "evidence": "transcripts of genes involved in the recycling of glucosylglycerate... were enriched (Fig. 5) (Results, p6)"
+    },
+    {
+      "surface_form": "hpf",
+      "gene_name": "hpf",
+      "identifiers": [
+        "hpf"
+      ],
+      "strain": "Prochlorococcus NATL2A",
+      "prominence": "peripheral",
+      "evidence": "nighttime enrichment of transcripts for the hibernation promoting factor hpf (Fig. S8D) in dark-tolerant cells (Results, p9)"
+    },
+    {
+      "surface_form": "MT1002_02405",
+      "gene_name": "",
+      "identifiers": [
+        "MT1002_02405"
+      ],
+      "strain": "Alteromonas macleodii MIT1002",
+      "prominence": "peripheral",
+      "evidence": "genes in the pentose phosphate pathway... (Fig. 6) (Results, p8)"
+    },
+    {
+      "surface_form": "MT1002_02423",
+      "gene_name": "",
+      "identifiers": [
+        "MT1002_02423"
+      ],
+      "strain": "Alteromonas macleodii MIT1002",
+      "prominence": "peripheral",
+      "evidence": "genes in the pentose phosphate pathway... (Fig. 6) (Results, p8)"
+    },
+    {
+      "surface_form": "MT1002_03869",
+      "gene_name": "",
+      "identifiers": [
+        "MT1002_03869"
+      ],
+      "strain": "Alteromonas macleodii MIT1002",
+      "prominence": "peripheral",
+      "evidence": "transcripts for cytochrome c oxidase (COX)... were depleted (Fig. 7) (Results, p9)"
+    },
+    {
+      "surface_form": "MT1002_03852",
+      "gene_name": "",
+      "identifiers": [
+        "MT1002_03852"
+      ],
+      "strain": "Alteromonas macleodii MIT1002",
+      "prominence": "peripheral",
+      "evidence": "transcripts for cytochrome c oxidase (COX)... were depleted (Fig. 7) (Results, p9)"
+    },
+    {
+      "surface_form": "MT1002_00215",
+      "gene_name": "",
+      "identifiers": [
+        "MT1002_00215"
+      ],
+      "strain": "Alteromonas macleodii MIT1002",
+      "prominence": "peripheral",
+      "evidence": "transcripts for cytochrome c oxidase (COX)... were depleted (Fig. 7) (Results, p9)"
+    },
+    {
+      "surface_form": "sdhA",
+      "gene_name": "sdhA",
+      "identifiers": [
+        "sdhA"
+      ],
+      "strain": "Alteromonas macleodii MIT1002",
+      "prominence": "peripheral",
+      "evidence": "expression of Cytochrome c oxidase (COX) and ATP synthetase (Fig. 7) (Results, p8)"
+    },
+    {
+      "surface_form": "atpA",
+      "gene_name": "atpA",
+      "identifiers": [
+        "atpA"
+      ],
+      "strain": "Alteromonas macleodii MIT1002",
+      "prominence": "peripheral",
+      "evidence": "expression of Cytochrome c oxidase (COX) and ATP synthetase (Fig. 7) (Results, p8)"
+    }
+  ],
+  "pathways": [
+    {
+      "surface_form": "Calvin cycle",
+      "kegg_pathway_id": "ko00710",
+      "prominence": "central",
+      "evidence": "Transcripts of genes involved in CO2-fixation via the Calvin cycle... were depleted in dark-tolerant cells (Fig. 4) (Results, p5)"
+    },
+    {
+      "surface_form": "Pentose phosphate pathway",
+      "kegg_pathway_id": "ko00030",
+      "prominence": "central",
+      "evidence": "expression levels of genes from the pentose phosphate pathway... either changed little or increased (Fig. 4) (Results, p5)"
+    },
+    {
+      "surface_form": "EMP glycolysis",
+      "kegg_pathway_id": "ko00010",
+      "prominence": "central",
+      "evidence": "meta-transcriptome analysis revealed... changes in important metabolic processes such as the electron transport chain, Calvin Cycle, EMP glycolysis, and the TCA cycle (Abstract, p1)"
+    },
+    {
+      "surface_form": "TCA cycle",
+      "kegg_pathway_id": "ko00020",
+      "prominence": "central",
+      "evidence": "meta-transcriptome analysis revealed... changes in important metabolic processes such as the electron transport chain, Calvin Cycle, EMP glycolysis, and the TCA cycle (Abstract, p1)"
+    },
+    {
+      "surface_form": "Photosynthesis",
+      "kegg_pathway_id": "ko00195",
+      "prominence": "central",
+      "evidence": "Prochlorococcus undergoes a relative shift from photosynthesis to respiration (Abstract, p1)"
+    },
+    {
+      "surface_form": "Respiratory electron transport chain",
+      "kegg_pathway_id": "",
+      "prominence": "central",
+      "evidence": "meta-transcriptome analysis revealed... changes in important metabolic processes such as the electron transport chain (Abstract, p1)"
+    },
+    {
+      "surface_form": "Glycogen metabolism",
+      "kegg_pathway_id": "ko00500",
+      "prominence": "peripheral",
+      "evidence": "we looked at genes related to metabolism of glycogen, considered the major carbon storage compound in Prochlorococcus (Results, p6)"
+    },
+    {
+      "surface_form": "Gluconeogenesis",
+      "kegg_pathway_id": "ko00010",
+      "prominence": "peripheral",
+      "evidence": "suggests a relative shift toward a more gluconeogenic metabolism in Alteromonas during the emergence of dark tolerance in Prochlorococcus (Results, p8)"
+    },
+    {
+      "surface_form": "Glyoxylate bypass",
+      "kegg_pathway_id": "ko00630",
+      "prominence": "peripheral",
+      "evidence": "expression of genes for the glyoxylate bypass, which often serves as the endpoint of organic acid degradation... was relatively unchanged (Results, p8)"
+    }
+  ]
+}

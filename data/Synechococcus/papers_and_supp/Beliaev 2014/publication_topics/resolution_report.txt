@@ -1,0 +1,24 @@
+Topics resolution report: Beliaev 2014
+Strains: ['Synechococcus PCC 7002', 'Shewanella sp. W3-18-1']
+
+Genes:    88/92 resolved (95.7%)
+  methods: locus_tag:v=10, locus_tag_ci:v=12, multi:v=23, tier1:v=43, unresolved=4
+Pathways: 7/10 resolved (70.0%)
+  methods: id=7, unresolved=3
+
+Captured identifiers: 102  (truncated/bare-number: 0)
+Unresolved gene reasons: {'lookup_miss': 4}
+    descriptive_only = function/enzyme phrase, no symbol or id (paper style)
+    truncated_id_only = bare locus number, recoverable via strain prefix
+    lookup_miss       = had a name/full id but no mapping match
+
+Unresolved gene mentions (4):
+  - asnA1  [lookup_miss]  strain=Synechococcus PCC 7002  ids=['asnA1']
+  - amt  [lookup_miss]  strain=Shewanella sp. W3-18-1  ids=['amt']
+  - W3181_3499  [lookup_miss]  strain=Shewanella sp. W3-18-1  ids=['W3181_3499']
+  - W3181_1613  [lookup_miss]  strain=Shewanella sp. W3-18-1  ids=['W3181_1613']
+
+Unresolved pathway mentions (3):
+  - Methionine biosynthesis  (raw id=ko00271)
+  - Oxidative stress response  (raw id=—)
+  - Siderophore biosynthesis  (raw id=—)
