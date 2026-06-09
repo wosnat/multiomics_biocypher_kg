@@ -15,6 +15,14 @@ the GitHub Release is a rendering of one section. See `plans/alpha_release.md` �
 ## [Unreleased]
 
 ### Added
+
+### Changed
+
+### Fixed
+
+## [0.1.0-alpha.4] - 2026-06-08
+
+### Added
 - Track A infrastructure scaffolding (no behavior yet — these wire
   into `/release-kg --target local` in a follow-up):
   - `docker-compose.alpha.yml` — alpha-stack compose override
