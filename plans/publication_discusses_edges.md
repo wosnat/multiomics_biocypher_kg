@@ -173,12 +173,23 @@ per-strain), so each gene mention must resolve to a *specific* strain's Gene nod
 
 - [x] `publication_topics.json` (raw) produced per paper (Stage 1 done).
 - [x] `publication_topics_resolved.json` produced per paper; resolution deterministic and
-      `--force`-rebuildable (Stage 2 done; validated on Aharonovich).
-- [ ] `Publication_discusses_gene` + `Publication_discusses_kegg_pathway` edges in the
-      built graph; **zero dangling endpoints** (every target resolves to an existing node).
-- [ ] Unit + KG validity tests pass; `/omics-edge-snapshot` shows expression edges
-      unchanged (no regression to the existing pipeline).
-- [ ] CLAUDE.md updated.
+      `--force`-rebuildable (Stage 2 done; full corpus 41/41).
+- [x] `Publication_discusses_gene` + `Publication_discusses_kegg_pathway` edges built —
+      BioCypher writes 1099 gene + 140 pathway edges (offline). **Zero-dangling check** is
+      a `-m kg` test (`tests/kg_validity/test_discuss_edges.py`) run against a live Docker
+      graph — **deferred to a Docker machine** (none on this box).
+- [x] Unit tests pass (44). KG-validity tests written (auto-skip without Neo4j).
+      `/omics-edge-snapshot` regression check → run on the Docker rebuild.
+- [x] CLAUDE.md updated.
+
+## Final status (this machine, no Docker)
+
+All three stages implemented, tested (44 unit tests), committed; merged with 56 upstream
+commits (2 conflicts resolved: CLAUDE.md, post-import.cypher). Corpus: 41/41 papers
+extracted (chunking handled large PDFs), 1127/1327 genes + 145/218 pathways resolved.
+**Must run on a Docker box:** full `create_knowledge_graph.py` + Docker import + post-import
++ `pytest -m kg` (`test_discuss_edges.py`) to confirm zero dangling endpoints + the
+post-import rollups, plus `/omics-edge-snapshot` for no expression regression.
 
 ## Open questions for implement phase
 
