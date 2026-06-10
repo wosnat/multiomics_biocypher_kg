@@ -33,10 +33,28 @@ Both are extracted verbatim (markdown). The rest of the version section
 ## [Unreleased]
 
 ### Highlights
+- **Preflight release summary in your MCP/explorer client.** Each KG release
+  can now ship two short markdown bullets — what's new and what changed
+  meaning — that your client surfaces the moment it connects. Lets you
+  answer "what can I now ask that I couldn't before?" and "did anything
+  silently change under me?" before you start querying, instead of
+  discovering a redefined field through a wrong answer.
 
 ### Breaking
 
 ### Added
+- New optional string properties on the `Schema_info` node:
+  `release_highlights` and `release_breaking`. Sourced from `### Highlights`
+  and `### Breaking` subsections inside each version's CHANGELOG entry,
+  extracted at build time by `extract_preflight_subsection()` in
+  `release_kg.py`, and stamped by `post-import.sh` (Group 4). Absent or
+  empty subsections → real `null` property (not empty-string), so legacy
+  KGs and no-subsection releases are indistinguishable on the wire.
+  Existing `kg_release_info` callers pick both up automatically (they
+  already return `Schema_info { .* }`).
+- CHANGELOG preamble: authoring conventions for the two preflight
+  subsections (~5 bullets each, omit `### Breaking` entirely when nothing
+  to flag rather than leaving an empty heading).
 
 ### Changed
 
