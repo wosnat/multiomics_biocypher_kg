@@ -164,6 +164,87 @@ def test_extract_fragment(rkg, tmp_path: Path):
     assert "Genesis." not in fragment
 
 
+# ─── extract_preflight_subsection ────────────────────────────────────────────
+PREFLIGHT_SAMPLE = """\
+# Changelog
+
+## [1.0.0] - 2026-06-10
+
+### Highlights
+- New capability X — ask "what about X?"
+- Y data layer added.
+
+### Breaking
+- Field Z redefined; existing filters silently shift.
+
+### Added
+- internal stuff
+
+## [0.9.0] - 2026-05-01
+
+### Highlights
+
+### Added
+- something old
+"""
+
+
+def test_preflight_extracts_highlights_body(rkg, tmp_path: Path):
+    p = tmp_path / "CHANGELOG.md"
+    p.write_text(PREFLIGHT_SAMPLE)
+    body = rkg.extract_preflight_subsection(p, "1.0.0", "Highlights")
+    assert body is not None
+    assert body.startswith("- New capability X")
+    assert "- Y data layer added." in body
+    # Must not bleed into ### Breaking or ### Added
+    assert "Field Z" not in body
+    assert "internal stuff" not in body
+
+
+def test_preflight_extracts_breaking_body(rkg, tmp_path: Path):
+    p = tmp_path / "CHANGELOG.md"
+    p.write_text(PREFLIGHT_SAMPLE)
+    body = rkg.extract_preflight_subsection(p, "1.0.0", "Breaking")
+    assert body == "- Field Z redefined; existing filters silently shift."
+
+
+def test_preflight_absent_subsection_returns_none(rkg, tmp_path: Path):
+    p = tmp_path / "CHANGELOG.md"
+    p.write_text(PREFLIGHT_SAMPLE)
+    # 0.9.0 has no ### Breaking subsection
+    assert rkg.extract_preflight_subsection(p, "0.9.0", "Breaking") is None
+
+
+def test_preflight_empty_subsection_returns_none(rkg, tmp_path: Path):
+    p = tmp_path / "CHANGELOG.md"
+    p.write_text(PREFLIGHT_SAMPLE)
+    # 0.9.0 has ### Highlights but no bullets
+    assert rkg.extract_preflight_subsection(p, "0.9.0", "Highlights") is None
+
+
+def test_preflight_version_not_found_returns_none(rkg, tmp_path: Path):
+    p = tmp_path / "CHANGELOG.md"
+    p.write_text(PREFLIGHT_SAMPLE)
+    assert rkg.extract_preflight_subsection(p, "99.99.99", "Highlights") is None
+
+
+def test_preflight_missing_file_returns_none(rkg, tmp_path: Path):
+    assert rkg.extract_preflight_subsection(tmp_path / "nope.md", "1.0.0", "Highlights") is None
+
+
+def test_fmt_subsection_log_none(rkg):
+    assert rkg._fmt_subsection_log(None) == "<none>"
+    assert rkg._fmt_subsection_log("") == "<none>"
+
+
+def test_fmt_subsection_log_single_bullet(rkg):
+    assert rkg._fmt_subsection_log("- one") == "1 bullet (5 chars)"
+
+
+def test_fmt_subsection_log_multi_bullets(rkg):
+    assert rkg._fmt_subsection_log("- a\n- b\n- c") == "3 bullets (11 chars)"
+
+
 # ─── build_metadata ──────────────────────────────────────────────────────────
 def test_build_metadata_shape(rkg):
     ctx = rkg.Context(

@@ -362,6 +362,14 @@ def phase_clean_clone(ctx: Context) -> None:
 def phase_build_and_verify(ctx: Context) -> None:
     section(f"Phase 5: Build into staging ({STAGING_PROJECT}) + verify")
 
+    # Dry-run preview reads CHANGELOG.md from the working tree (Phase 2 cut
+    # already wrote the version section there); real run reads from the clone.
+    changelog_path = ctx.clone_dir / "CHANGELOG.md"
+    if not changelog_path.exists():
+        changelog_path = Path("CHANGELOG.md")
+    highlights = extract_preflight_subsection(changelog_path, ctx.version, "Highlights")
+    breaking   = extract_preflight_subsection(changelog_path, ctx.version, "Breaking")
+
     release_env = os.environ.copy()
     release_env.update({
         "KG_RELEASE_VERSION": ctx.version,
@@ -372,6 +380,11 @@ def phase_build_and_verify(ctx: Context) -> None:
         "KG_MCP_MIN_VERSION": ctx.mcp_min,
         "KG_DEPLOY_HTTP_BIND": STAGING_HTTP_BIND,
         "KG_DEPLOY_BOLT_BIND": STAGING_BOLT_BIND,
+        # Preflight subsections extracted from CHANGELOG.md and stamped onto
+        # Schema_info by post-import.sh. Empty string = absence sentinel that
+        # the stamp converts back to a real null property.
+        "KG_RELEASE_HIGHLIGHTS": highlights or "",
+        "KG_RELEASE_BREAKING":   breaking   or "",
     })
 
     compose_up = [
@@ -388,6 +401,8 @@ def phase_build_and_verify(ctx: Context) -> None:
         log(f"  [would set] KG_RELEASE_VERSION={ctx.version} "
             f"KG_GIT_SHA_SHORT={ctx.git_sha_short} "
             f"KG_DEPLOY_BOLT_BIND={STAGING_BOLT_BIND}")
+        log(f"  [would stamp] release_highlights: {_fmt_subsection_log(highlights)}")
+        log(f"  [would stamp] release_breaking:   {_fmt_subsection_log(breaking)}")
         dry_msg(f"query Schema_info via `docker exec {STAGING_DEPLOY_CONTAINER} "
                 f"cypher-shell -a {STAGING_INNER_BOLT_URL}`; assert version == {ctx.version}")
         if ctx.skip_kg_tests:
@@ -429,7 +444,9 @@ def phase_build_and_verify(ctx: Context) -> None:
         "s.paper_count AS papers, s.experiment_count AS experiments, "
         "s.gene_count AS genes, s.organism_count AS organisms, "
         "s.expression_edge_count AS expr_edges, "
-        "s.mcp_min_version AS mcp_min, s.built_at AS built_at"
+        "s.mcp_min_version AS mcp_min, s.built_at AS built_at, "
+        "size(coalesce(s.release_highlights,'')) AS highlights_chars, "
+        "size(coalesce(s.release_breaking,'')) AS breaking_chars"
     )
     result = run(cypher_shell_in_container + ["--format", "plain", cypher],
                  capture=True, show=False)
@@ -458,6 +475,8 @@ def phase_build_and_verify(ctx: Context) -> None:
         f"{ctx.schema_info['genes']} genes · "
         f"{ctx.schema_info['organisms']} organisms · "
         f"{ctx.schema_info['expr_edges']} expression edges")
+    log(f"  release_highlights: {_fmt_subsection_log(highlights)}")
+    log(f"  release_breaking:   {_fmt_subsection_log(breaking)}")
     log(f"  explorer smoke test: out-of-scope here (explorer-repo work; verify manually if needed)")
 
     _run_kg_validity_suite(ctx)
@@ -673,6 +692,9 @@ def _alpha_build_and_verify(ctx: Context, inactive_color: str, env_alpha: dict) 
     """Run the build → import → post-process → deploy chain in the
     `kg-alpha-build` project, then verify Schema_info on the temp Bolt port."""
     log(f"  building into kg-alpha-{inactive_color} via {ALPHA_BUILD_PROJECT} …")
+    changelog_path = ctx.clone_dir / "CHANGELOG.md"
+    highlights = extract_preflight_subsection(changelog_path, ctx.version, "Highlights")
+    breaking   = extract_preflight_subsection(changelog_path, ctx.version, "Breaking")
     release_env = os.environ.copy()
     release_env.update({
         "KG_RELEASE_VERSION": ctx.version,
@@ -688,6 +710,8 @@ def _alpha_build_and_verify(ctx: Context, inactive_color: str, env_alpha: dict) 
         # project's deploy is just for verify; we reuse the operator's admin pw.
         "NEO4J_AUTH": env_alpha["NEO4J_AUTH"],
         "ALPHA_BIND_IP": env_alpha["ALPHA_BIND_IP"],
+        "KG_RELEASE_HIGHLIGHTS": highlights or "",
+        "KG_RELEASE_BREAKING":   breaking   or "",
     })
     compose_up = [
         "docker", "compose",
@@ -727,7 +751,9 @@ def _alpha_build_and_verify(ctx: Context, inactive_color: str, env_alpha: dict) 
         "s.paper_count AS papers, s.experiment_count AS experiments, "
         "s.gene_count AS genes, s.organism_count AS organisms, "
         "s.expression_edge_count AS expr_edges, "
-        "s.mcp_min_version AS mcp_min, s.built_at AS built_at"
+        "s.mcp_min_version AS mcp_min, s.built_at AS built_at, "
+        "size(coalesce(s.release_highlights,'')) AS highlights_chars, "
+        "size(coalesce(s.release_breaking,'')) AS breaking_chars"
     )
     result = run(cypher_shell_in_container + ["--format", "plain", cypher],
                  capture=True, show=False)
@@ -1086,6 +1112,47 @@ def extract_changelog_fragment(path: Path, version: str) -> str:
             end = i
             break
     return "\n".join(lines[start:end]).rstrip() + "\n"
+
+
+def extract_preflight_subsection(path: Path, version: str, heading: str) -> Optional[str]:
+    """Body of `### {heading}` inside `## [{version}]`, or None when absent / empty.
+
+    Stamped onto Schema_info so MCP/explorer clients can render it at preflight.
+    See CHANGELOG.md "Authoring conventions for preflight subsections".
+    """
+    if not path.exists():
+        return None
+    lines = path.read_text().splitlines()
+    version_header = f"## [{version}]"
+    try:
+        v_start = next(i for i, l in enumerate(lines) if l.startswith(version_header))
+    except StopIteration:
+        return None
+    v_end = len(lines)
+    for i in range(v_start + 1, len(lines)):
+        if lines[i].startswith("## ["):
+            v_end = i
+            break
+    sub_header = f"### {heading}"
+    try:
+        s_start = next(i for i in range(v_start + 1, v_end)
+                       if lines[i].strip() == sub_header)
+    except StopIteration:
+        return None
+    s_end = v_end
+    for i in range(s_start + 1, v_end):
+        if lines[i].startswith("### ") or lines[i].startswith("## "):
+            s_end = i
+            break
+    body = "\n".join(lines[s_start + 1:s_end]).strip()
+    return body or None
+
+
+def _fmt_subsection_log(body: Optional[str]) -> str:
+    if not body:
+        return "<none>"
+    bullets = sum(1 for l in body.splitlines() if l.lstrip().startswith("- "))
+    return f"{bullets} bullet{'s' if bullets != 1 else ''} ({len(body)} chars)"
 
 
 def phase_publish(ctx: Context) -> None:

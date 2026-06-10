@@ -1380,6 +1380,8 @@ CALL {
 :param git_dirty        => 'unknown'
 :param mcp_min_version  => '0.1.0'
 :param release_notes_url => ''
+:param release_highlights => ''
+:param release_breaking   => ''
 
 MATCH (s:Schema_info {id: 'schema_info'})
 SET s.version           = coalesce($version, '0.0.0-dev'),
@@ -1389,7 +1391,10 @@ SET s.version           = coalesce($version, '0.0.0-dev'),
     s.git_branch        = coalesce($git_branch, 'unknown'),
     s.git_dirty         = coalesce($git_dirty, 'unknown'),
     s.mcp_min_version   = coalesce($mcp_min_version, '0.1.0'),
-    s.release_notes_url = coalesce($release_notes_url, '')
+    s.release_notes_url = coalesce($release_notes_url, ''),
+    // Empty string → real null property; see matching block in post-import.sh.
+    s.release_highlights = CASE WHEN coalesce($release_highlights, '') = '' THEN null ELSE $release_highlights END,
+    s.release_breaking   = CASE WHEN coalesce($release_breaking, '')   = '' THEN null ELSE $release_breaking   END
 WITH s
 SET s.paper_count           = COUNT { (:Publication) },
     s.experiment_count      = COUNT { (:Experiment) },

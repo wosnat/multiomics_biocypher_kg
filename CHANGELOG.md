@@ -12,7 +12,29 @@ version section, stamps the same version onto `Schema_info.version`, and renders
 the GitHub Release notes from that section. The changelog is the source of truth;
 the GitHub Release is a rendering of one section. See `plans/alpha_release.md` §2.3.
 
+**Authoring conventions for preflight subsections.** Each version section MAY
+include two preflight-facing subsections that are extracted at build time and
+stamped onto `Schema_info.release_highlights` / `Schema_info.release_breaking`.
+MCP/explorer clients surface them when a user connects, so they answer two
+preflight questions:
+
+- `### Highlights` — "what can I now ask that I couldn't before?" One bullet
+  per user-facing capability or data layer added in this release. Cap at ~5
+  bullets. Plain prose, no internal jargon.
+- `### Breaking` — "did anything change meaning under me?" One bullet per
+  silently-changed semantics (redefinitions, repurposed fields, default flips).
+  Errors/removals are also fine here. **Omit the subsection entirely when there
+  are no breaking items** — do not leave an empty `### Breaking` heading
+  (renders as a blank bullet on the client).
+
+Both are extracted verbatim (markdown). The rest of the version section
+(`### Added` / `### Changed` / `### Fixed`) is unchanged in role.
+
 ## [Unreleased]
+
+### Highlights
+
+### Breaking
 
 ### Added
 

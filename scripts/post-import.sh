@@ -1396,6 +1396,14 @@ if [ -z "${KG_MCP_MIN_VERSION:-}" ] && [ -r /scripts/pyproject.toml ]; then
   ' /scripts/pyproject.toml)
 fi
 
+# Markdown bullets may contain apostrophes / backslashes; escape for the
+# Cypher single-quoted-string literal used in the -P value below. Order
+# matters: backslashes first, then single quotes.
+KG_RELEASE_HIGHLIGHTS_ESC=$(printf '%s' "${KG_RELEASE_HIGHLIGHTS:-}" \
+  | sed -e 's|\\|\\\\|g' -e "s/'/\\\\'/g")
+KG_RELEASE_BREAKING_ESC=$(printf '%s' "${KG_RELEASE_BREAKING:-}" \
+  | sed -e 's|\\|\\\\|g' -e "s/'/\\\\'/g")
+
 time cypher-shell \
   -P "version          => '${KG_RELEASE_VERSION:-0.0.0-dev}'" \
   -P "git_sha          => '${KG_GIT_SHA:-unknown}'" \
@@ -1404,6 +1412,8 @@ time cypher-shell \
   -P "git_dirty        => '${KG_GIT_DIRTY:-unknown}'" \
   -P "mcp_min_version  => '${KG_MCP_MIN_VERSION:-0.1.0}'" \
   -P "release_notes_url => '${KG_RELEASE_NOTES_URL:-}'" \
+  -P "release_highlights => '${KG_RELEASE_HIGHLIGHTS_ESC}'" \
+  -P "release_breaking   => '${KG_RELEASE_BREAKING_ESC}'" \
   <<'CYPHER'
 MATCH (s:Schema_info {id: 'schema_info'})
 SET s.version           = coalesce($version, '0.0.0-dev'),
@@ -1413,7 +1423,12 @@ SET s.version           = coalesce($version, '0.0.0-dev'),
     s.git_branch        = coalesce($git_branch, 'unknown'),
     s.git_dirty         = coalesce($git_dirty, 'unknown'),
     s.mcp_min_version   = coalesce($mcp_min_version, '0.1.0'),
-    s.release_notes_url = coalesce($release_notes_url, '')
+    s.release_notes_url = coalesce($release_notes_url, ''),
+    // Empty string from the env sentinel → real null property, so a legacy
+    // release (no subsection authored) is indistinguishable from no value
+    // on the wire. Clients render nothing when null.
+    s.release_highlights = CASE WHEN coalesce($release_highlights, '') = '' THEN null ELSE $release_highlights END,
+    s.release_breaking   = CASE WHEN coalesce($release_breaking, '')   = '' THEN null ELSE $release_breaking   END
 WITH s
 SET s.paper_count           = COUNT { (:Publication) },
     s.experiment_count      = COUNT { (:Experiment) },
