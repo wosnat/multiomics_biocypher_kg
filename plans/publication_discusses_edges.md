@@ -184,14 +184,18 @@ per-strain), so each gene mention must resolve to a *specific* strain's Gene nod
       `/omics-edge-snapshot` regression check → run on the Docker rebuild.
 - [x] CLAUDE.md updated.
 
-## Final status (this machine, no Docker)
+## Final status — VERIFIED ON DOCKER (2026-06-12)
 
 All three stages implemented, tested (44 unit tests), committed; merged with 56 upstream
 commits (2 conflicts resolved: CLAUDE.md, post-import.cypher). Corpus: 41/41 papers
 extracted (chunking handled large PDFs), 1127/1327 genes + 145/218 pathways resolved.
-**Must run on a Docker box:** full `create_knowledge_graph.py` + Docker import + post-import
-+ `pytest -m kg` (`test_discuss_edges.py`) to confirm zero dangling endpoints + the
-post-import rollups, plus `/omics-edge-snapshot` for no expression regression.
+
+**Docker verification complete (2026-06-12):**
+- `pytest tests/kg_validity/test_discuss_edges.py` → **8/8 pass**.
+- Full `pytest -m kg` → **1020 passed, 4 skipped, 0 failed**.
+- Live-graph counts: **1099** `Publication_discusses_gene` + **140** `Publication_discusses_kegg_pathway` edges (matches offline build).
+- **Zero-dangling confirmed:** 0 non-Gene gene targets, 0 non-KeggTerm pathway targets, 0 non-Publication sources.
+- No expression regression attributable to this work: `Changes_expression_of` = 232,758 (grew from the 227,361 plan baseline via the 56 merged upstream commits / Soussan strain batch; the discuss adapter only emits new edge types).
 
 ## Open questions for implement phase
 
