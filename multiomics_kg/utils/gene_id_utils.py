@@ -105,6 +105,13 @@ ORGANISM_TO_GENOME_DIR = {
     "prochlorococcus marinus sb": "cache/data/Prochlorococcus/genomes/SB",
     "prochlorococcus pac1": "cache/data/Prochlorococcus/genomes/PAC1",
     "prochlorococcus marinus pac1": "cache/data/Prochlorococcus/genomes/PAC1",
+    # MIT1327 + MIT1314 (Soussan 2025 panel, deferred strains now public; June 2026)
+    "prochlorococcus mit1327": "cache/data/Prochlorococcus/genomes/MIT1327",
+    "prochlorococcus marinus mit1327": "cache/data/Prochlorococcus/genomes/MIT1327",
+    "prochlorococcus sp. mit1327": "cache/data/Prochlorococcus/genomes/MIT1327",
+    "prochlorococcus mit1314": "cache/data/Prochlorococcus/genomes/MIT1314",
+    "prochlorococcus marinus mit1314": "cache/data/Prochlorococcus/genomes/MIT1314",
+    "prochlorococcus sp. mit1314": "cache/data/Prochlorococcus/genomes/MIT1314",
 }
 
 # ─── Patterns & keywords ──────────────────────────────────────────────────────

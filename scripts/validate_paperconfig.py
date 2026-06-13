@@ -163,6 +163,9 @@ CANONICAL_GENOMIC_ORGANISMS = {
     "Prochlorococcus MIT0604",
     "Prochlorococcus SB",
     "Prochlorococcus PAC1",
+    # MIT1327 + MIT1314 (deferred Soussan 2025 strains, now public; June 2026)
+    "Prochlorococcus MIT1327",
+    "Prochlorococcus MIT1314",
 }
 
 # Canonical treatment organism names loaded from treatment_organisms.csv

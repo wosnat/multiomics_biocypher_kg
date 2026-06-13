@@ -39,10 +39,25 @@ Both are extracted verbatim (markdown). The rest of the version section
   answer "what can I now ask that I couldn't before?" and "did anything
   silently change under me?" before you start querying, instead of
   discovering a redefined field through a wrong answer.
+- **Two more Prochlorococcus strains: MIT1327 (LLIV) and MIT1314 (HLII).**
+  The last two strains of the Soussan 2025 N/P-starvation panel are now in the
+  graph, so cross-strain queries and ortholog comparisons span the full panel.
+  MIT1327 includes curated CyanoRak ortholog clusters and roles.
 
 ### Breaking
 
 ### Added
+- **Prochlorococcus MIT1327 + MIT1314** — the two Soussan 2025 N/P-starvation
+  panel strains previously deferred for lack of a public assembly, completing
+  the 15-strain panel (47 OrganismTaxon nodes / 40 genome strains total).
+  Genome-only (no DE paper). MIT1327 (`GCF_001632125.1`, taxid 1801626, clade
+  LLIV) carries full CyanoRak annotation (CK ortholog clusters + CyanoRak/TIGR
+  roles) on 2308 genes, bridged from a CyanoRak-team gbff via diamond
+  protein-sequence matching because the strain has no public CyanoRak server
+  export — see the new reusable converter
+  `multiomics_kg/download/convert_cyanorak_gbff_to_gff.py`. MIT1314
+  (`GCF_034093315.1`, taxid 3096220, clade HLII) is NCBI/eggNOG-only. Both
+  carry eggNOG, PSORTb, SignalP, and tcdb-diamond annotation.
 - New optional string properties on the `Schema_info` node:
   `release_highlights` and `release_breaking`. Sourced from `### Highlights`
   and `### Breaking` subsections inside each version's CHANGELOG entry,

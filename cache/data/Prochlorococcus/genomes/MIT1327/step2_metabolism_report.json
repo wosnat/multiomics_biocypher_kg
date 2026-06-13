@@ -1,0 +1,24 @@
+{
+  "strain": "MIT1327",
+  "gene_count": 2452,
+  "kegg_reactions": {
+    "raw_total": 1299,
+    "raw_unique": 956,
+    "kept_total": 1299,
+    "kept_unique_r_numbers": 956
+  },
+  "transporter_classification": {
+    "raw_total": 291,
+    "raw_unique": 118,
+    "validated_total": 291,
+    "validated_unique": 118,
+    "invalid_examples": []
+  },
+  "cazy_ids": {
+    "raw_total": 34,
+    "raw_unique": 17,
+    "validated_total": 34,
+    "validated_unique": 17,
+    "invalid_examples": []
+  }
+}
