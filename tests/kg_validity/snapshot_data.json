@@ -477,8 +477,8 @@
     },
     {
       "properties": {},
-      "source": "go:0000178",
-      "target": "go:1905354",
+      "source": "go:0000172",
+      "target": "go:0005732",
       "type": "Cellular_component_is_a_cellular_component"
     },
     {
@@ -1854,7 +1854,7 @@
       "type": "Gene_in_gene_cluster"
     }
   ],
-  "generated_at": "2026-05-27T19:09:15.755601+00:00",
+  "generated_at": "2026-06-13T13:50:38.251885+00:00",
   "nodes": [
     {
       "anchor": true,
@@ -2408,18 +2408,18 @@
     },
     {
       "anchor": false,
-      "id": "go:0000178",
+      "id": "go:0000172",
       "label": "CellularComponent",
       "properties": {
-        "name": "exosome (RNase complex)"
+        "name": "ribonuclease MRP complex"
       }
     },
     {
       "anchor": false,
-      "id": "go:0000228",
+      "id": "go:0000178",
       "label": "CellularComponent",
       "properties": {
-        "name": "nuclear chromosome"
+        "name": "exosome (RNase complex)"
       }
     },
     {
