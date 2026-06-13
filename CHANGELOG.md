@@ -87,6 +87,23 @@ Both are extracted verbatim (markdown). The rest of the version section
   consumer is separate, out-of-repo work.
 
 ### Fixed
+- `/release-kg --target local`: two **re-deploy** bugs surfaced cutting
+  kg-0.1.0-alpha.6 — the first release to redeploy over a *live* alpha stack
+  (alpha.5 was the bootstrap cut, so neither path had run against existing
+  containers before).
+  - **Blue/green build collided with the live `alpha-deploy`.** Both the
+    transient `kg-alpha-build` verify project and the live `kg-alpha` project
+    sourced `docker-compose.alpha.yml`, which hardcoded `container_name:
+    alpha-deploy`. Container names are daemon-global, so the build project
+    couldn't create its verify-deploy while the live blue container was up
+    (`Conflict. The container name "/alpha-deploy" is already in use`). Fixed by
+    parameterizing all four alpha `container_name`s with `${ALPHA_CONTAINER_SUFFIX:-}`;
+    the build project sets `-build` (→ `alpha-deploy-build` etc.) while the live
+    flip leaves it unset and owns the canonical `alpha-deploy`.
+  - **Stale `staging-deploy` locked the Neo4j volume on staging re-runs.** A
+    prior release leaves `staging-deploy` `Up`; its volume lock made the next
+    run's `neo4j-admin import` fail with "The database is in use." Phase 5 now
+    tears the staging stack down (volume preserved) before building.
 - `/release-kg --target local`: two first-cut deploy bugs surfaced while cutting
   kg-0.1.0-alpha.5 to the lab box.
   - **Live flip re-stamped `Schema_info` to `0.0.0-dev`.** `_alpha_flip_live_deploy`

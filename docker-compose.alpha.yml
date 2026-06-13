@@ -18,6 +18,9 @@
 #
 #     with env:
 #       ALPHA_DATA_VOLUME=kg-alpha-green        # the INACTIVE color
+#       ALPHA_CONTAINER_SUFFIX=-build           # → alpha-deploy-build etc., so the
+#                                               #   build deploy can't collide with
+#                                               #   the live alpha-deploy on re-deploy
 #       KG_DEPLOY_HTTP_BIND=127.0.0.1:37474     # temp verify port (localhost only)
 #       KG_DEPLOY_BOLT_BIND=127.0.0.1:37687
 #       KG_RELEASE_VERSION=... + KG_GIT_* + KG_MCP_MIN_VERSION
@@ -46,10 +49,10 @@
 services:
 
   build:
-    container_name: alpha-build
+    container_name: alpha-build${ALPHA_CONTAINER_SUFFIX:-}
 
   import:
-    container_name: alpha-import
+    container_name: alpha-import${ALPHA_CONTAINER_SUFFIX:-}
     # Isolate import.status / import.report from dev's ./output (the
     # test_import_report KG-validity test reads ./output/import.report from
     # the repo root by default; alpha's report writes to ./output-alpha).
@@ -57,7 +60,7 @@ services:
       - ./output-alpha:/output
 
   post-process:
-    container_name: alpha-post-process
+    container_name: alpha-post-process${ALPHA_CONTAINER_SUFFIX:-}
     environment:
       # post-import.sh runs as a one-shot before alpha-deploy turns auth on.
       NEO4J_dbms_security_auth__enabled: "false"
@@ -74,7 +77,11 @@ services:
       KG_DEPLOYMENT_ROLE: ${KG_DEPLOYMENT_ROLE:-}
 
   deploy:
-    container_name: alpha-deploy
+    # Suffixed in the transient build project (ALPHA_CONTAINER_SUFFIX=-build) so
+    # the build+verify deploy container doesn't collide with the live alpha-deploy
+    # on a re-deploy. The live `kg-alpha` project leaves the suffix unset, so it
+    # owns the canonical `alpha-deploy` name across releases.
+    container_name: alpha-deploy${ALPHA_CONTAINER_SUFFIX:-}
     environment:
       # Bootstrap admin (neo4j) — never distributed to testers.
       # Provisioner inside /release-kg uses this to CREATE USER explorer ...

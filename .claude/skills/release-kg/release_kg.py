@@ -77,7 +77,9 @@ STAGING_INNER_BOLT_URL = "bolt://localhost:7687"
 ALPHA_PROJECT = "kg-alpha"                      # long-lived alpha-deploy
 ALPHA_BUILD_PROJECT = "kg-alpha-build"          # transient build+verify project
 ALPHA_COMPOSE_OVERRIDE = "docker-compose.alpha.yml"
-ALPHA_DEPLOY_CONTAINER = "alpha-deploy"          # set by the alpha override
+ALPHA_DEPLOY_CONTAINER = "alpha-deploy"          # the live deploy (suffix unset)
+ALPHA_CONTAINER_SUFFIX = "-build"                # transient build project's container_name suffix
+ALPHA_BUILD_DEPLOY_CONTAINER = "alpha-deploy-build"  # = alpha-deploy + ALPHA_CONTAINER_SUFFIX
 ALPHA_TEMP_HTTP_BIND = "127.0.0.1:37474"        # alpha-build verify port
 ALPHA_TEMP_BOLT_BIND = "127.0.0.1:37687"
 ALPHA_TEMP_BOLT_URL = "bolt://localhost:37687"
@@ -419,6 +421,23 @@ def phase_build_and_verify(ctx: Context) -> None:
                            "mcp_min": ctx.mcp_min, "built_at": "<dry-run>"}
         return
 
+    # Re-run robustness: a `staging-deploy` container left running from a prior
+    # release (the default `--target staging` leaves it up, and `--target local`
+    # also builds the staging stack) holds a lock on the Neo4j volume. That makes
+    # this run's `neo4j-admin import` fail with "The database is in use." Tear the
+    # staging stack down first to release the lock; the named volume is kept and
+    # the fresh import overwrites it. No-op (check=False) on a first run when no
+    # staging stack exists.
+    compose_down = [
+        "docker", "compose",
+        "-p", STAGING_PROJECT,
+        "-f", "docker-compose.yml",
+        "-f", STAGING_COMPOSE_OVERRIDE,
+        "down", "--remove-orphans",
+    ]
+    log("  tearing down any prior staging stack (releases the Neo4j volume lock) …")
+    run(compose_down, cwd=ctx.clone_dir, check=False)
+
     run(compose_up, cwd=ctx.clone_dir, env=release_env)
     log(f"  staging stack up; waiting for {STAGING_DEPLOY_CONTAINER} to accept Bolt "
         f"(via docker exec) …")
@@ -711,6 +730,10 @@ def _alpha_build_and_verify(ctx: Context, inactive_color: str, env_alpha: dict) 
         "KG_DEPLOY_HTTP_BIND": ALPHA_TEMP_HTTP_BIND,
         "KG_DEPLOY_BOLT_BIND": ALPHA_TEMP_BOLT_BIND,
         "ALPHA_DATA_VOLUME": f"kg-alpha-{inactive_color}",
+        # Suffix the build project's container names (alpha-*-build) so the
+        # build+verify deploy can't collide with the live alpha-deploy on a
+        # re-deploy. The live flip below leaves this unset → canonical names.
+        "ALPHA_CONTAINER_SUFFIX": ALPHA_CONTAINER_SUFFIX,
         # The override requires NEO4J_AUTH for the deploy service. The build
         # project's deploy is just for verify; we reuse the operator's admin pw.
         "NEO4J_AUTH": env_alpha["NEO4J_AUTH"],
@@ -729,11 +752,11 @@ def _alpha_build_and_verify(ctx: Context, inactive_color: str, env_alpha: dict) 
     ]
     run(compose_up, cwd=ctx.clone_dir, env=release_env)
 
-    log(f"  alpha-build stack up; waiting for {ALPHA_DEPLOY_CONTAINER} (auth=on) "
+    log(f"  alpha-build stack up; waiting for {ALPHA_BUILD_DEPLOY_CONTAINER} (auth=on) "
         f"to accept Bolt via docker exec …")
     neo4j_user, _, neo4j_pass = env_alpha["NEO4J_AUTH"].partition("/")
     cypher_shell_in_container = [
-        "docker", "exec", ALPHA_DEPLOY_CONTAINER,
+        "docker", "exec", ALPHA_BUILD_DEPLOY_CONTAINER,
         "cypher-shell",
         "-a", ALPHA_INNER_BOLT_URL,
         "-u", neo4j_user,
@@ -780,11 +803,13 @@ def _alpha_teardown_build_project(ctx: Context) -> None:
     just built lives in the kg-alpha-<inactive> volume that the live alpha-deploy
     will mount next."""
     log(f"  tearing down {ALPHA_BUILD_PROJECT} project (volumes preserved) …")
+    teardown_env = os.environ.copy()
+    teardown_env["ALPHA_CONTAINER_SUFFIX"] = ALPHA_CONTAINER_SUFFIX
     run(["docker", "compose", "-p", ALPHA_BUILD_PROJECT,
          "-f", "docker-compose.yml", "-f", ALPHA_COMPOSE_OVERRIDE,
          "--env-file", ".env.alpha",
          "down"],
-        cwd=ctx.clone_dir, check=False)
+        cwd=ctx.clone_dir, env=teardown_env, check=False)
 
 
 def _alpha_flip_live_deploy(ctx: Context, active_color: Optional[str],
