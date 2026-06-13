@@ -55,6 +55,15 @@ Both are extracted verbatim (markdown). The rest of the version section
 - CHANGELOG preamble: authoring conventions for the two preflight
   subsections (~5 bullets each, omit `### Breaking` entirely when nothing
   to flag rather than leaving an empty heading).
+- New string property `deployment_role` on the `Schema_info` node: the KG
+  **self-declares** its deployment identity (`local-dev` / `staging` /
+  `production`) so the explorer-side `kg_release_info` preflight can echo it
+  instead of guessing from port heuristics. Sourced from `KG_DEPLOYMENT_ROLE`
+  (forwarded to the `post-process` container by all three compose files),
+  stamped by `post-import.sh` (Group 4); defaults to `local-dev` on a plain
+  `docker compose up`. `/release-kg` sets `staging` for its staging stack and
+  `production` for the Track A (`--target local`) deploy. The explorer-side
+  consumer is separate, out-of-repo work.
 
 ### Changed
 

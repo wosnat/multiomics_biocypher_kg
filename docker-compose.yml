@@ -61,6 +61,10 @@ services:
       # is a dev `docker compose up -d` they are empty and post-import.sh reads
       # mcp_min_version from the mounted pyproject.toml above.
       KG_MCP_MIN_VERSION: ${KG_MCP_MIN_VERSION:-}
+      # Self-declared deployment role. Unset here → post-import.sh defaults to
+      # 'local-dev' (a plain `docker compose up` is a local-dev deployment);
+      # /release-kg sets 'staging' / 'production' for its build stacks.
+      KG_DEPLOYMENT_ROLE: ${KG_DEPLOYMENT_ROLE:-}
     command:
       - /bin/bash
       - /scripts/post-import.sh

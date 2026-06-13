@@ -378,6 +378,9 @@ def phase_build_and_verify(ctx: Context) -> None:
         "KG_GIT_BRANCH": ctx.git_branch,
         "KG_GIT_DIRTY": "true" if ctx.git_dirty else "false",
         "KG_MCP_MIN_VERSION": ctx.mcp_min,
+        # Self-declared deployment role stamped onto Schema_info. This is the
+        # staging stack (kg-release-staging) regardless of final --target.
+        "KG_DEPLOYMENT_ROLE": "staging",
         "KG_DEPLOY_HTTP_BIND": STAGING_HTTP_BIND,
         "KG_DEPLOY_BOLT_BIND": STAGING_BOLT_BIND,
         # Preflight subsections extracted from CHANGELOG.md and stamped onto
@@ -703,6 +706,8 @@ def _alpha_build_and_verify(ctx: Context, inactive_color: str, env_alpha: dict) 
         "KG_GIT_BRANCH": ctx.git_branch,
         "KG_GIT_DIRTY": "true" if ctx.git_dirty else "false",
         "KG_MCP_MIN_VERSION": ctx.mcp_min,
+        # Track A (--target local) is the live alpha/production deployment.
+        "KG_DEPLOYMENT_ROLE": "production",
         "KG_DEPLOY_HTTP_BIND": ALPHA_TEMP_HTTP_BIND,
         "KG_DEPLOY_BOLT_BIND": ALPHA_TEMP_BOLT_BIND,
         "ALPHA_DATA_VOLUME": f"kg-alpha-{inactive_color}",

@@ -1371,7 +1371,11 @@ CYPHER
 # Group 4: Schema_info release metadata. Separate cypher-shell invocation because
 # its params (version + git identity) are interpolated from the environment — the
 # quoted heredocs above deliberately do NOT interpolate. Runs on EVERY build:
-# dev leaves KG_* unset → '0.0.0-dev' / 'unknown'; /release-kg sets them.
+# dev leaves KG_* unset → '0.0.0-dev' / 'unknown' / 'local-dev'; /release-kg sets
+# them. deployment_role is the KG's self-declared deployment identity (the KG is
+# the source of truth — explorer/preflight just echoes it, no port heuristics):
+# 'local-dev' (plain `docker compose up`), 'staging' (/release-kg staging stack),
+# 'production' (/release-kg --target local Track A deploy).
 # Defaults are pushed via bash ${VAR:-default} (the `:-` form fires on unset OR
 # empty), so an empty env var still yields the default — coalesce() in the Cypher
 # is only a secondary guard (it does not catch empty strings).
@@ -1411,6 +1415,7 @@ time cypher-shell \
   -P "git_branch       => '${KG_GIT_BRANCH:-unknown}'" \
   -P "git_dirty        => '${KG_GIT_DIRTY:-unknown}'" \
   -P "mcp_min_version  => '${KG_MCP_MIN_VERSION:-0.1.0}'" \
+  -P "deployment_role  => '${KG_DEPLOYMENT_ROLE:-local-dev}'" \
   -P "release_notes_url => '${KG_RELEASE_NOTES_URL:-}'" \
   -P "release_highlights => '${KG_RELEASE_HIGHLIGHTS_ESC}'" \
   -P "release_breaking   => '${KG_RELEASE_BREAKING_ESC}'" \
@@ -1423,6 +1428,7 @@ SET s.version           = coalesce($version, '0.0.0-dev'),
     s.git_branch        = coalesce($git_branch, 'unknown'),
     s.git_dirty         = coalesce($git_dirty, 'unknown'),
     s.mcp_min_version   = coalesce($mcp_min_version, '0.1.0'),
+    s.deployment_role   = coalesce($deployment_role, 'local-dev'),
     s.release_notes_url = coalesce($release_notes_url, ''),
     // Empty string from the env sentinel → real null property, so a legacy
     // release (no subsection authored) is indistinguishable from no value

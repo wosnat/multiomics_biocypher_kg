@@ -6,7 +6,7 @@ post-import scripts (`scripts/post-import.sh` Group 4 + `scripts/post-import.cyp
 stamp it with release identity and live counts on every build:
 
   - Identity: version, built_at, git_sha[_short], git_branch, git_dirty,
-    mcp_min_version, release_notes_url
+    mcp_min_version, deployment_role, release_notes_url
   - Counts (computed, not hardcoded — track data drift):
     paper_count, experiment_count, gene_count, organism_count,
     expression_edge_count
@@ -34,8 +34,15 @@ STRING_PROPS = [
     "git_branch",
     "git_dirty",
     "mcp_min_version",
+    "deployment_role",
     "release_notes_url",
 ]
+
+# Canonical self-declared deployment roles. The KG declares its own role at
+# post-process time (env KG_DEPLOYMENT_ROLE) so the explorer/preflight echoes it
+# instead of guessing from ports. Defaults to 'local-dev' on a plain
+# `docker compose up`; /release-kg sets 'staging' / 'production'.
+VALID_DEPLOYMENT_ROLES = {"local-dev", "staging", "production"}
 
 INT_PROPS = [
     "paper_count",
@@ -122,6 +129,17 @@ def test_built_at_is_iso8601(schema_info):
         datetime.fromisoformat(built_at.replace("Z", "+00:00"))
     except ValueError as exc:
         pytest.fail(f"Schema_info.built_at = {built_at!r} is not ISO 8601: {exc}")
+
+
+def test_deployment_role_is_canonical(schema_info):
+    """deployment_role is one of the self-declared canonical roles."""
+    val = schema_info["deployment_role"]
+    assert val in VALID_DEPLOYMENT_ROLES, (
+        f"Schema_info.deployment_role = {val!r}; expected one of "
+        f"{sorted(VALID_DEPLOYMENT_ROLES)}. The KG self-declares its role via "
+        "KG_DEPLOYMENT_ROLE (post-import Group 4); a dev build defaults to "
+        "'local-dev'."
+    )
 
 
 def test_git_dirty_is_boolean_string(schema_info):

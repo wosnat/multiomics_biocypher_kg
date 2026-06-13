@@ -1379,6 +1379,7 @@ CALL {
 :param git_branch       => 'unknown'
 :param git_dirty        => 'unknown'
 :param mcp_min_version  => '0.1.0'
+:param deployment_role  => 'local-dev'
 :param release_notes_url => ''
 :param release_highlights => ''
 :param release_breaking   => ''
@@ -1391,6 +1392,7 @@ SET s.version           = coalesce($version, '0.0.0-dev'),
     s.git_branch        = coalesce($git_branch, 'unknown'),
     s.git_dirty         = coalesce($git_dirty, 'unknown'),
     s.mcp_min_version   = coalesce($mcp_min_version, '0.1.0'),
+    s.deployment_role   = coalesce($deployment_role, 'local-dev'),
     s.release_notes_url = coalesce($release_notes_url, ''),
     // Empty string → real null property; see matching block in post-import.sh.
     s.release_highlights = CASE WHEN coalesce($release_highlights, '') = '' THEN null ELSE $release_highlights END,

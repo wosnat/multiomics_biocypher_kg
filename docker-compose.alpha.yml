@@ -71,6 +71,7 @@ services:
       KG_GIT_BRANCH:      ${KG_GIT_BRANCH:-}
       KG_GIT_DIRTY:       ${KG_GIT_DIRTY:-}
       KG_MCP_MIN_VERSION: ${KG_MCP_MIN_VERSION:-}
+      KG_DEPLOYMENT_ROLE: ${KG_DEPLOYMENT_ROLE:-}
 
   deploy:
     container_name: alpha-deploy

@@ -111,6 +111,7 @@ Properties added (all post-import; no build-time changes):
 | `git_branch` | str | env `KG_GIT_BRANCH` |
 | `git_dirty` | str (`"true"`/`"false"`) | env `KG_GIT_DIRTY` (project convention: bools as strings) |
 | `mcp_min_version` | str | env, default `"0.1.0"` |
+| `deployment_role` | str (`local-dev`/`staging`/`production`) | env `KG_DEPLOYMENT_ROLE`, default `"local-dev"` |
 | `release_notes_url` | str | env, optional |
 | `paper_count` | int | `COUNT { (:Publication) }` |
 | `experiment_count` | int | `COUNT { (:Experiment) }` |
@@ -119,6 +120,8 @@ Properties added (all post-import; no build-time changes):
 | `expression_edge_count` | int | `COUNT { ()-[:Changes_expression_of]->() }` |
 
 (Counts are computed, not hardcoded — robust to data drift. Live graph today: 249,519 nodes, 2,188,444 rels, 99,871 genes, 232,758 expression edges, 197 experiments, 43 publications, 37 organisms.)
+
+**`deployment_role` (added 2026-06-13):** the KG **self-declares** its deployment identity rather than the explorer guessing from port heuristics — the KG is the source of truth, the explorer-side `kg_release_info` preflight just echoes and checks it. Set per-deploy via `KG_DEPLOYMENT_ROLE` (forwarded to the `post-process` container by all three compose files): `local-dev` (plain `docker compose up`, the default), `staging` (`/release-kg` staging stack, set in `phase_build_and_verify`), `production` (`/release-kg --target local` Track A alpha deploy, set in `_alpha_build_and_verify`). The explorer-side consumer (echo + warn-on-mismatch) is **out of this repo's scope** — separate explorer work, overlaps the release-identity track.
 
 Append to `scripts/post-import.cypher` and the matching group in `scripts/post-import.sh` (both files must remain byte-identical in Cypher logic):
 
@@ -131,6 +134,7 @@ SET s.version            = coalesce($version, '0.0.0-dev'),
     s.git_branch         = coalesce($git_branch, 'unknown'),
     s.git_dirty          = coalesce($git_dirty, 'unknown'),
     s.mcp_min_version    = coalesce($mcp_min_version, '0.1.0'),
+    s.deployment_role    = coalesce($deployment_role, 'local-dev'),
     s.release_notes_url  = coalesce($release_notes_url, '')
 WITH s
 SET s.paper_count           = COUNT { (:Publication) },
@@ -152,6 +156,7 @@ cypher-shell \
   -P "git_branch       => '${KG_GIT_BRANCH:-unknown}'" \
   -P "git_dirty        => '${KG_GIT_DIRTY:-unknown}'" \
   -P "mcp_min_version  => '${KG_MCP_MIN_VERSION:-0.1.0}'" \
+  -P "deployment_role  => '${KG_DEPLOYMENT_ROLE:-local-dev}'" \
   -P "release_notes_url => '${KG_RELEASE_NOTES_URL:-}'" \
   <<'CYPHER'
 ... block above ...
