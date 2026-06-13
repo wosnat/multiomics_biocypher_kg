@@ -39790,6 +39790,25 @@
       ],
       "smiles": "NC1=C2N=CN([C@@H]3O[C@H](COP(=O)([O-])OP(=O)([O-])O[C@@H]4O[C@H]([C@H](O)CO)[C@@H](O)[C@H](O)[C@@H]4O)[C@@H](O)[C@H]3O)C2=NC=N1"
     },
+    "C06398": {
+      "chebi_id": "61506",
+      "evidence_sources": [
+        "metabolism"
+      ],
+      "formula": "C17H25N5O16P2",
+      "hmdb_id": null,
+      "inchikey": "KMSFWBYFWSKGGR-DTBZDYEHSA-L",
+      "mass": 617.354,
+      "mnxm_id": "MNXM1108522",
+      "name": "ADP-L-glycero-beta-D-manno-heptose",
+      "pathways": [
+        "ko00540",
+        "ko00541",
+        "ko01100",
+        "ko01250"
+      ],
+      "smiles": "NC1=C2N=CN([C@@H]3O[C@H](COP(=O)([O-])OP(=O)([O-])O[C@@H]4O[C@H]([C@@H](O)CO)[C@@H](O)[C@H](O)[C@@H]4O)[C@@H](O)[C@H]3O)C2=NC=N1"
+    },
     "C06399": {
       "chebi_id": null,
       "evidence_sources": [
@@ -51640,6 +51659,42 @@
       ],
       "smiles": "[NH3+][C@@H](C(=O)N[C@H]1CN([C@@H](C(=O)[O-])C2=CC=C(O)C=C2)C1=O)C1=CC=C(O)C=C1"
     },
+    "C17366": {
+      "chebi_id": "45757",
+      "evidence_sources": [
+        "metabolism"
+      ],
+      "formula": "C7H10NO4",
+      "hmdb_id": null,
+      "inchikey": "LIZWYFXJOOUDNV-WHFBIAKZSA-M",
+      "mass": 172.16,
+      "mnxm_id": "MNXM9430",
+      "name": "(2S,5S)-trans-Carboxymethylproline",
+      "pathways": [
+        "ko00332",
+        "ko01100",
+        "ko01110"
+      ],
+      "smiles": "O=C([O-])C[C@@H]1CC[C@@H](C(=O)[O-])[NH2+]1"
+    },
+    "C17367": {
+      "chebi_id": "73939",
+      "evidence_sources": [
+        "metabolism"
+      ],
+      "formula": "C7H8NO3",
+      "hmdb_id": null,
+      "inchikey": "RJPDELAUUYAFTQ-WHFBIAKZSA-M",
+      "mass": 154.145,
+      "mnxm_id": "MNXM7927",
+      "name": "(3S,5S)-Carbapenam-3-carboxylic acid",
+      "pathways": [
+        "ko00332",
+        "ko01100",
+        "ko01110"
+      ],
+      "smiles": "O=C([O-])[C@@H]1CC[C@H]2CC(=O)N21"
+    },
     "C17401": {
       "chebi_id": "73299",
       "evidence_sources": [
@@ -58119,6 +58174,27 @@
         "ko01100",
         "ko01110",
         "ko01240"
+      ]
+    },
+    "K00237": {
+      "name": "SDHD, SDH4; succinate dehydrogenase (ubiquinone) membrane anchor subunit",
+      "pathways": [
+        "ko00020",
+        "ko00190",
+        "ko01100",
+        "ko01110",
+        "ko01120",
+        "ko01200",
+        "ko04714",
+        "ko04932",
+        "ko05010",
+        "ko05012",
+        "ko05014",
+        "ko05016",
+        "ko05020",
+        "ko05022",
+        "ko05208",
+        "ko05415"
       ]
     },
     "K00239": {
@@ -69080,6 +69156,14 @@
         "ko01250"
       ]
     },
+    "K03274": {
+      "name": "gmhD, rfaD; ADP-L-glycero-D-manno-heptose 6-epimerase [EC:5.1.3.20]",
+      "pathways": [
+        "ko00541",
+        "ko01100",
+        "ko01250"
+      ]
+    },
     "K03280": {
       "name": "waaK, rfaK; UDP-N-acetylglucosamine:(glucosyl)LPS alpha-1,2-N-acetylglucosaminyltransferase [EC:2.4.1.56]",
       "pathways": [
@@ -71786,6 +71870,62 @@
         "ko01240"
       ]
     },
+    "K04734": {
+      "name": "NFKBIA; NF-kappa-B inhibitor alpha",
+      "pathways": [
+        "ko04024",
+        "ko04062",
+        "ko04064",
+        "ko04210",
+        "ko04380",
+        "ko04519",
+        "ko04620",
+        "ko04621",
+        "ko04622",
+        "ko04623",
+        "ko04624",
+        "ko04625",
+        "ko04657",
+        "ko04658",
+        "ko04659",
+        "ko04660",
+        "ko04662",
+        "ko04668",
+        "ko04722",
+        "ko04920",
+        "ko04926",
+        "ko04931",
+        "ko04936",
+        "ko05120",
+        "ko05130",
+        "ko05131",
+        "ko05132",
+        "ko05134",
+        "ko05135",
+        "ko05140",
+        "ko05142",
+        "ko05145",
+        "ko05160",
+        "ko05161",
+        "ko05162",
+        "ko05163",
+        "ko05164",
+        "ko05166",
+        "ko05167",
+        "ko05168",
+        "ko05169",
+        "ko05170",
+        "ko05171",
+        "ko05200",
+        "ko05203",
+        "ko05208",
+        "ko05215",
+        "ko05220",
+        "ko05222",
+        "ko05235",
+        "ko05417"
+      ]
+    },
     "K04744": {
       "name": "lptD, imp, ostA; LPS-assembly protein",
       "pathways": []
@@ -71933,6 +72073,10 @@
       "pathways": [
         "ko00071"
       ]
+    },
+    "K05303": {
+      "name": "K05303; O-methyltransferase [EC:2.1.1.-]",
+      "pathways": []
     },
     "K05306": {
       "name": "phnX; phosphonoacetaldehyde hydrolase [EC:3.11.1.1]",
@@ -74053,6 +74197,10 @@
         "ko01100",
         "ko01240"
       ]
+    },
+    "K06990": {
+      "name": "MEMO1; MEMO1 family protein",
+      "pathways": []
     },
     "K06991": {
       "name": "K06991; uncharacterized protein",
@@ -77107,6 +77255,10 @@
       "name": "K09137; uncharacterized protein",
       "pathways": []
     },
+    "K09141": {
+      "name": "K09141; uncharacterized protein",
+      "pathways": []
+    },
     "K09158": {
       "name": "K09158; uncharacterized protein",
       "pathways": []
@@ -77227,6 +77379,16 @@
       "name": "RETSAT; all-trans-retinol 13,14-reductase [EC:1.3.99.23]",
       "pathways": [
         "ko00830"
+      ]
+    },
+    "K09527": {
+      "name": "DNAJC7; DnaJ homolog subfamily C member 7",
+      "pathways": []
+    },
+    "K09553": {
+      "name": "STIP1; stress-induced-phosphoprotein 1",
+      "pathways": [
+        "ko05020"
       ]
     },
     "K09565": {
@@ -82856,6 +83018,10 @@
       "name": "ecnB; entericidin B",
       "pathways": []
     },
+    "K16362": {
+      "name": "FLRT; leucine-rich repeat transmembrane protein FLRT",
+      "pathways": []
+    },
     "K16370": {
       "name": "pfkB; 6-phosphofructokinase 2 [EC:2.7.1.11]",
       "pathways": [
@@ -83935,6 +84101,15 @@
     "K18307": {
       "name": "mexI; multidrug efflux pump",
       "pathways": [
+        "ko02024"
+      ]
+    },
+    "K18316": {
+      "name": "cpmA, carA; carbapenam-3-carboxylate synthase [EC:6.3.3.6]",
+      "pathways": [
+        "ko00332",
+        "ko01100",
+        "ko01110",
         "ko02024"
       ]
     },
@@ -85336,6 +85511,12 @@
         "ko02024"
       ]
     },
+    "K20345": {
+      "name": "blpB; membrane fusion protein, peptide pheromone/bacteriocin exporter",
+      "pathways": [
+        "ko02024"
+      ]
+    },
     "K20420": {
       "name": "ncsB3; 2-hydroxy-5-methyl-1-naphthoate 7-hydroxylase [EC:1.14.15.31]",
       "pathways": [
@@ -85463,6 +85644,10 @@
     },
     "K20757": {
       "name": "dthadh; threo-3-hydroxy-D-aspartate ammonia-lyase [EC:4.3.1.27]",
+      "pathways": []
+    },
+    "K20798": {
+      "name": "HENMT1; small RNA 2'-O-methyltransferase [EC:2.1.1.386]",
       "pathways": []
     },
     "K20801": {
@@ -85662,6 +85847,13 @@
     },
     "K21001": {
       "name": "pslH; polysaccharide biosynthesis protein PslH",
+      "pathways": [
+        "ko00543",
+        "ko02025"
+      ]
+    },
+    "K21002": {
+      "name": "pslI; polysaccharide biosynthesis protein PslI",
       "pathways": [
         "ko00543",
         "ko02025"
@@ -87691,6 +87883,10 @@
       "name": "Renin-angiotensin system",
       "subcategory": "09152"
     },
+    "ko04620": {
+      "name": "Toll-like receptor signaling pathway",
+      "subcategory": "09151"
+    },
     "ko04621": {
       "name": "NOD-like receptor signaling pathway",
       "subcategory": "09151"
@@ -87746,6 +87942,10 @@
     "ko04666": {
       "name": "Fc gamma R-mediated phagosome formation",
       "subcategory": "09151"
+    },
+    "ko04668": {
+      "name": "TNF signaling pathway",
+      "subcategory": "09132"
     },
     "ko04670": {
       "name": "Leukocyte transendothelial migration",
@@ -88237,6 +88437,10 @@
     },
     "ko05219": {
       "name": "Bladder cancer",
+      "subcategory": "09162"
+    },
+    "ko05220": {
+      "name": "Chronic myeloid leukemia",
       "subcategory": "09162"
     },
     "ko05222": {
@@ -125025,6 +125229,30 @@
         "23411"
       ]
     },
+    "R05176": {
+      "compounds": [
+        "C06397",
+        "C06398"
+      ],
+      "ec_numbers": [
+        "5.1.3.20"
+      ],
+      "mass_balance": "balanced",
+      "mnxr_id": "MNXR192676",
+      "name": "ADP-D-glycero-D-manno-heptose 6-epimerase; ADP-D-glycero-beta-D-manno-heptose <=> ADP-L-glycero-beta-D-manno-heptose",
+      "pathways": [
+        "ko00541",
+        "ko01100",
+        "ko01250"
+      ],
+      "reaction_class": "chemical",
+      "rhea_ids": [
+        "17577",
+        "17578",
+        "17579",
+        "17580"
+      ]
+    },
     "R05177": {
       "compounds": [
         "C06399",
@@ -142107,6 +142335,33 @@
       "pathways": [],
       "reaction_class": "chemical",
       "rhea_ids": []
+    },
+    "R10556": {
+      "compounds": [
+        "C00002",
+        "C00013",
+        "C00020",
+        "C17366",
+        "C17367"
+      ],
+      "ec_numbers": [
+        "6.3.3.6"
+      ],
+      "mass_balance": "balanced",
+      "mnxr_id": "MNXR113886",
+      "name": "(2S,5S)-5-carboxymethylproline cyclo-ligase (AMP-forming); ATP + (2S,5S)-trans-Carboxymethylproline <=> AMP + Diphosphate + (3S,5S)-Carbapenam-3-carboxylic acid",
+      "pathways": [
+        "ko00332",
+        "ko01100",
+        "ko01110"
+      ],
+      "reaction_class": "chemical",
+      "rhea_ids": [
+        "36703",
+        "36704",
+        "36705",
+        "36706"
+      ]
     },
     "R10564": {
       "compounds": [
