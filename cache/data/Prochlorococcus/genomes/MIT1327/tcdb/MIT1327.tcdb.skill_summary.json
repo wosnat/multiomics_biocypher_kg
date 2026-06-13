@@ -1,0 +1,39 @@
+{
+  "raw_hit_lines": 4427,
+  "proteins_with_hits": 498,
+  "proteins_with_call": 498,
+  "total_candidates": 681,
+  "candidates_per_protein_distribution": {
+    "1": 391,
+    "5": 10,
+    "2": 63,
+    "4": 9,
+    "3": 24,
+    "6": 1
+  },
+  "tier_distribution": {
+    "3": 547,
+    "2": 132,
+    "1": 2
+  },
+  "agreement_distribution": {
+    "confirms": 146,
+    "refines": 4,
+    "extends": 470,
+    "conflicts": 61
+  },
+  "pfam_agreement_distribution": {
+    "confirms_diamond": 209,
+    "confirms_eggnog": 22,
+    "confirms_both": 169,
+    "contradicts_both": 111,
+    "neutral": 170
+  },
+  "filter_action_distribution": {
+    "keep": 469,
+    "drop_egn_conflicts": 54,
+    "drop_singleton_low_score": 96,
+    "drop_low_confidence": 2,
+    "drop_pfam_contradicts": 60
+  }
+}

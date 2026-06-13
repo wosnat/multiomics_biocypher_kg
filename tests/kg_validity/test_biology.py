@@ -36,6 +36,9 @@ EXPECTED_STRAINS = [
     "MIT0604",
     "SB",
     "PAC1",
+    # Soussan 2025 deferred strains, public assemblies added June 2026
+    "MIT1327",
+    "MIT1314",
     # Synechococcus / Parasynechococcus
     "WH8102",
     "CC9311",
@@ -78,6 +81,8 @@ EXPECTED_CLADES = {
     "PAC1":    "LLI",
     "MIT9313": "LLIV",
     "MIT9303": "LLIV",
+    "MIT1327": "LLIV",
+    "MIT1314": "HLII",
     # Marine Synechococcus (sub-cluster 5.1)
     "CC9311":  "I",
     "WH8102":  "III",

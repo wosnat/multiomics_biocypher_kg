@@ -77,10 +77,13 @@ GCF_000020585.3,,1774373,AltDE,cache/data/Alteromonas/genomes/AltDE/,,Alteromona
 # AltDE1 (strain DE1; Gonzaga 2012 polyclonality panel, same batch as BS11/AD45)
 GCF_000310085.1,,1004786,AltDE1,cache/data/Alteromonas/genomes/AltDE1/,,Alteromonas mediterranea AltDE1,genome_strain,,
 
-# Soussan 2025 strain panel (N/P starvation culture decline; 15 strains total, 9 already in KG, MIT1314+MIT1327 deferred — no public assembly)
+# Soussan 2025 strain panel (N/P starvation culture decline; 15 strains total, all 15 now in KG)
 GCF_000015665.1,Pro_MIT9515,167542,MIT9515,cache/data/Prochlorococcus/genomes/MIT9515/,HLI,Prochlorococcus MIT9515,genome_strain,,
 GCF_000158595.1,Pro_MIT9202,93058,MIT9202,cache/data/Prochlorococcus/genomes/MIT9202/,HLII,Prochlorococcus MIT9202,genome_strain,,
 GCF_000018065.1,Pro_MIT9215,93060,MIT9215,cache/data/Prochlorococcus/genomes/MIT9215/,HLII,Prochlorococcus MIT9215,genome_strain,,
 GCF_000757845.1,Pro_MIT0604,1501268,MIT0604,cache/data/Prochlorococcus/genomes/MIT0604/,HLII,Prochlorococcus MIT0604,genome_strain,,
 GCF_000760115.1,Pro_SB,59926,SB,cache/data/Prochlorococcus/genomes/SB/,HLII,Prochlorococcus SB,genome_strain,,
 GCF_000760235.1,Pro_PAC1,59924,PAC1,cache/data/Prochlorococcus/genomes/PAC1/,LLI,Prochlorococcus PAC1,genome_strain,,
+# MIT1327 (LLIV; CyanoRak Pro_MIT1327 export staged locally from Soussan 2025 dir) + MIT1314 (HLII; NCBI-only, no CyanoRak) — completed 2026-06, assemblies now public (PRJNA311924 / PRJNA912210)
+GCF_001632125.1,Pro_MIT1327,1801626,MIT1327,cache/data/Prochlorococcus/genomes/MIT1327/,LLIV,Prochlorococcus MIT1327,genome_strain,,
+GCF_034093315.1,,3096220,MIT1314,cache/data/Prochlorococcus/genomes/MIT1314/,HLII,Prochlorococcus MIT1314,genome_strain,,
