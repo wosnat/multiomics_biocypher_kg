@@ -32,6 +32,14 @@ Both are extracted verbatim (markdown). The rest of the version section
 
 ## [Unreleased]
 
+### Added
+
+### Changed
+
+### Fixed
+
+## [0.1.0-alpha.6] - 2026-06-13
+
 ### Highlights
 - **Preflight release summary in your MCP/explorer client.** Each KG release
   can now ship two short markdown bullets — what's new and what changed
@@ -43,8 +51,6 @@ Both are extracted verbatim (markdown). The rest of the version section
   The last two strains of the Soussan 2025 N/P-starvation panel are now in the
   graph, so cross-strain queries and ortholog comparisons span the full panel.
   MIT1327 includes curated CyanoRak ortholog clusters and roles.
-
-### Breaking
 
 ### Added
 - **Prochlorococcus MIT1327 + MIT1314** — the two Soussan 2025 N/P-starvation
@@ -79,8 +85,6 @@ Both are extracted verbatim (markdown). The rest of the version section
   `docker compose up`. `/release-kg` sets `staging` for its staging stack and
   `production` for the Track A (`--target local`) deploy. The explorer-side
   consumer is separate, out-of-repo work.
-
-### Changed
 
 ### Fixed
 - `/release-kg --target local`: two first-cut deploy bugs surfaced while cutting
