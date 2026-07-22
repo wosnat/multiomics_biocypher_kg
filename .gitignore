@@ -189,6 +189,13 @@ cache/data/*/genomes/*/tcdb/*.limited_*
 # stay too). Per-protein plot.txt files are suppressed at run time (--format none).
 cache/data/*/genomes/*/signalp/*.limited_*
 
+# InterProScan skill: smoke-test artifacts (limited_N runs) are transient.
+# Full-run <strain>.interproscan.{calls.json,skill_summary.json} are intentionally
+# committed. Raw IPS JSON + temp/ + truncated smoke FASTAs are not committed.
+cache/data/*/genomes/*/interproscan/*.limited_*
+cache/data/*/genomes/*/interproscan/*.raw.json
+cache/data/*/genomes/*/interproscan/temp/
+
 
 # worktrees
 .claude/worktrees

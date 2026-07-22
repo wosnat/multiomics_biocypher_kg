@@ -259,6 +259,12 @@ nohup uv run python .claude/skills/psortb-run/run_psortb.py --strain <NEW_STRAIN
 #  the calls.json convention, so --normalize is required for Phase-2 to pick it up)
 nohup bash -c 'uv run python .claude/skills/signalp-run/run_signalp.py --strain <NEW_STRAIN> && uv run python .claude/skills/signalp-run/run_signalp.py --normalize --strain <NEW_STRAIN>' > logs/signalp/<NEW_STRAIN>.log 2>&1 &
 
+# InterProScan — protein domains/families (Pfam, NCBIfam, PROSITE, … → InterPro
+# entries + GO/pathway). Only needs protein.faa. Slow (all apps): ~tens of min
+# for one strain. Requires the one-time image + data install (--prepare-image /
+# --refresh-data); see .claude/skills/interproscan-run/SKILL.md.
+nohup uv run python .claude/skills/interproscan-run/run_interproscan.py --strains <NEW_STRAIN> > logs/interproscan/<NEW_STRAIN>.log 2>&1 &
+
 # Wave 2 — depends on eggNOG (reads <strain>.emapper.annotations for egn_agreement
 #          + gene_annotations_merged.json for pfam_agreement). Subshell waits for
 #          eggNOG to finish, then launches tcdb — the outer shell doesn't block,
@@ -292,6 +298,9 @@ EGGNOG_PID=$!
 nohup uv run python .claude/skills/psortb-run/run_psortb.py > logs/psortb/batch.log 2>&1 &
 # SignalP run, THEN normalize raw output → calls.json (required for Phase-2 merge)
 nohup bash -c 'uv run python .claude/skills/signalp-run/run_signalp.py && uv run python .claude/skills/signalp-run/run_signalp.py --normalize' > logs/signalp/batch.log 2>&1 &
+# InterProScan — all strains. NOTE: a full all-apps batch is multi-day wallclock;
+# for onboarding a single new strain prefer the --strains form above.
+nohup uv run python .claude/skills/interproscan-run/run_interproscan.py > logs/interproscan/batch.log 2>&1 &
 
 # Wave 2 — tcdb-diamond, after eggnog has annotated every strain in the CSV
 ( wait $EGGNOG_PID && \

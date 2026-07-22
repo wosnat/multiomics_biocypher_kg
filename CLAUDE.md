@@ -318,6 +318,7 @@ The `.claude/skills/` directory provides project-specific skills:
 - `/cypher-queries` — run Cypher queries against Neo4j with ready-made templates
 - `/add-a-strain` — end-to-end onboarding for a brand-new strain AND re-deploy of an existing strain's v2 gene-ID mapping after a paperconfig fix (register in three hardcoded sites → prepare_data → per-strain tools → snapshot → rebuild mapping → resolve papers → verify → docker rebuild → tests → loop back when tool outputs land). Diagnostic playbook in `.claude/skills/add-a-strain/references/`.
 - `/add-a-tool` — scaffold a new per-strain bioinformatics tool integration (Phase 1) following the psortb-run / tcdb-diamond / eggnog-run template
+- `/interproscan-run` — run InterProScan 5 (Docker) per strain over `protein.faa` → per-protein domain calls across all member DBs (Pfam, NCBIfam, PROSITE, SFLD, PANTHER, Gene3D, …) integrated into InterPro entries + GO/pathway. Phase 1 (inspectable `<strain>.interproscan.calls.json`; no KG coupling). Needs one-time `--prepare-image` + `--refresh-data` (image `interpro/interproscan:5.78-109.0` + ~6.4 G data under `~/tools/InterProScan/`). Design: `docs/superpowers/specs/2026-07-22-interproscan-domains-design.md`
 
 ## Genome Data Download Pipeline
 
