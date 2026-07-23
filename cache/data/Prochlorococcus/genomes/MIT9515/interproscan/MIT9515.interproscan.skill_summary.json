@@ -1,0 +1,33 @@
+{
+  "strain": "MIT9515",
+  "tool_version": "5.78-109.0",
+  "applications": "ALL_DEFAULT",
+  "input_proteins": 1872,
+  "calls_made": 1872,
+  "proteins_no_match": 272,
+  "parse_failures": 0,
+  "total_matches": 13976,
+  "interpro_integrated_matches": 9633,
+  "distribution": {
+    "CDD": 808,
+    "COILS": 227,
+    "FUNFAM": 510,
+    "GENE3D": 2027,
+    "HAMAP": 496,
+    "MOBIDB_LITE": 324,
+    "NCBIFAM": 1079,
+    "PANTHER": 1218,
+    "PFAM": 2179,
+    "PIRSF": 234,
+    "PIRSR": 808,
+    "PRINTS": 1158,
+    "PROSITE_PATTERNS": 409,
+    "PROSITE_PROFILES": 440,
+    "SFLD": 60,
+    "SMART": 363,
+    "SUPERFAMILY": 1636
+  },
+  "sentinel_rate": 0.1453,
+  "image_digest": "interpro/interproscan@sha256:dc58b7c147fbbf00c2dd4f5ced42121fc1e8841fcbc7cc2c484380248ff76d11",
+  "wallclock_s": 1587.4
+}

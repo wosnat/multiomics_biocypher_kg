@@ -1,0 +1,33 @@
+{
+  "strain": "HP15",
+  "tool_version": "5.78-109.0",
+  "applications": "ALL_DEFAULT",
+  "input_proteins": 4237,
+  "calls_made": 4237,
+  "proteins_no_match": 298,
+  "parse_failures": 0,
+  "total_matches": 37575,
+  "interpro_integrated_matches": 24513,
+  "distribution": {
+    "CDD": 2200,
+    "COILS": 611,
+    "FUNFAM": 1535,
+    "GENE3D": 5469,
+    "HAMAP": 712,
+    "MOBIDB_LITE": 1289,
+    "NCBIFAM": 2475,
+    "PANTHER": 3073,
+    "PFAM": 5812,
+    "PIRSF": 551,
+    "PIRSR": 2501,
+    "PRINTS": 2902,
+    "PROSITE_PATTERNS": 922,
+    "PROSITE_PROFILES": 1744,
+    "SFLD": 130,
+    "SMART": 1305,
+    "SUPERFAMILY": 4344
+  },
+  "sentinel_rate": 0.0703,
+  "image_digest": "interpro/interproscan@sha256:dc58b7c147fbbf00c2dd4f5ced42121fc1e8841fcbc7cc2c484380248ff76d11",
+  "wallclock_s": 3464.4
+}

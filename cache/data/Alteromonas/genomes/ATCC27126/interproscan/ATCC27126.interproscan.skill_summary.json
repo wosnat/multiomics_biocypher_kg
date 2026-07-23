@@ -1,0 +1,33 @@
+{
+  "strain": "ATCC27126",
+  "tool_version": "5.78-109.0",
+  "applications": "ALL_DEFAULT",
+  "input_proteins": 3791,
+  "calls_made": 3791,
+  "proteins_no_match": 241,
+  "parse_failures": 0,
+  "total_matches": 35197,
+  "interpro_integrated_matches": 23244,
+  "distribution": {
+    "CDD": 1943,
+    "COILS": 563,
+    "FUNFAM": 1404,
+    "GENE3D": 5321,
+    "HAMAP": 705,
+    "MOBIDB_LITE": 1030,
+    "NCBIFAM": 2329,
+    "PANTHER": 2863,
+    "PFAM": 5437,
+    "PIRSF": 507,
+    "PIRSR": 2301,
+    "PRINTS": 2728,
+    "PROSITE_PATTERNS": 821,
+    "PROSITE_PROFILES": 1652,
+    "SFLD": 120,
+    "SMART": 1336,
+    "SUPERFAMILY": 4137
+  },
+  "sentinel_rate": 0.0636,
+  "image_digest": "interpro/interproscan@sha256:dc58b7c147fbbf00c2dd4f5ced42121fc1e8841fcbc7cc2c484380248ff76d11",
+  "wallclock_s": 3325.0
+}

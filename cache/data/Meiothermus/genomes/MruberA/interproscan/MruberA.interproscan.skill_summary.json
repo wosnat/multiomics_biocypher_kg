@@ -1,0 +1,33 @@
+{
+  "strain": "MruberA",
+  "tool_version": "5.78-109.0",
+  "applications": "ALL_DEFAULT",
+  "input_proteins": 2883,
+  "calls_made": 2883,
+  "proteins_no_match": 280,
+  "parse_failures": 0,
+  "total_matches": 23749,
+  "interpro_integrated_matches": 15958,
+  "distribution": {
+    "CDD": 1432,
+    "COILS": 364,
+    "FUNFAM": 716,
+    "GENE3D": 3710,
+    "HAMAP": 460,
+    "MOBIDB_LITE": 385,
+    "NCBIFAM": 1322,
+    "PANTHER": 2146,
+    "PFAM": 3686,
+    "PIRSF": 339,
+    "PIRSR": 1894,
+    "PRINTS": 1762,
+    "PROSITE_PATTERNS": 603,
+    "PROSITE_PROFILES": 1068,
+    "SFLD": 87,
+    "SMART": 861,
+    "SUPERFAMILY": 2914
+  },
+  "sentinel_rate": 0.0971,
+  "image_digest": "interpro/interproscan@sha256:dc58b7c147fbbf00c2dd4f5ced42121fc1e8841fcbc7cc2c484380248ff76d11",
+  "wallclock_s": 2811.1
+}

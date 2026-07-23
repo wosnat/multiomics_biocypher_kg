@@ -158,10 +158,11 @@ Each `matches[]` record: `library`, `signature_accession`,
 - `calls_made == input_proteins` — every input protein should appear in the
   output; a shortfall means IPS dropped sequences (non-standard residues, empty
   seqs). Check `logs/interproscan/<strain>.log`.
-- `sentinel_rate` (proteins with no match): expect **low** — typically
-  `< 0.10` for these well-annotated genomes with all apps enabled. A high rate
-  means the data dir is missing member-DB subdirs or the wrong `--applications`
-  was passed. `<thresholds calibrated to observed ranges in Step 5>`
+- `sentinel_rate` (proteins with no match): calibrated to the 42-strain batch
+  = **0.06–0.21** (mean 0.12). *Prochlorococcus* runs high (~0.15 — streamlined
+  genomes carry more uncharacterized ORFs); *Alteromonas*/heterotrophs run low
+  (~0.08). Flag anything **> 0.30** — that usually means the data dir is missing
+  member-DB subdirs or the wrong `--applications` was passed.
 - `interpro_integrated_matches / total_matches` — the fraction of hits that map
   to an `IPR` entry; expect a healthy majority. A collapse signals a data-dir
   version mismatch.
@@ -170,9 +171,24 @@ Each `matches[]` record: `library`, `signature_accession`,
 
 ### Cross-strain QC narrative
 
-<placeholder — Step 5 (after batch): domain-density ranges across Pro vs Syn vs
-heterotrophs, InterPro-integration fraction per genus, cross-tool sanity vs the
-existing eggNOG Pfam calls.>
+Observed across the 42-strain batch (2026-07-23):
+
+- **Domain density** (matches/protein) is tight and lifestyle-consistent:
+  *Prochlorococcus* 7.45, *Synechococcus* 7.68, *Alteromonas* 8.86,
+  other heterotrophs 8.71 — the larger heterotroph proteomes carry more
+  multi-domain proteins, exactly as expected.
+- **InterPro-integration fraction** is stable at **66–69%** across every genus
+  (67.0% overall) — a member-DB-version-mismatch collapse would show up as a
+  genus dropping well below this band.
+- **Sentinel rate** cleanly tracks genome novelty: *Prochlorococcus* 15.3% (the
+  streamlined-genome ORFs that resist all curated models) vs heterotrophs ~7.7%.
+  No strain was an outlier; `parse_failures == 0` for all 42; `calls_made ==
+  input_proteins` for all 42.
+- **Cross-tool sanity:** Pfam is the single largest contributor (15.6% of all
+  matches), consistent with the KG's existing eggNOG-derived Pfam layer — but
+  IPS adds coordinates + the InterPro id + the genuinely-new NCBIfam (6.9%),
+  Hamap (2.5%), PROSITE (6.8%), SFLD (0.4%) and structural Gene3D/SUPERFAMILY
+  (26.5% combined) evidence that eggNOG does not provide.
 
 ### Spot checks
 
@@ -183,8 +199,8 @@ within the first 3 sequences, so the `--limit 100` smoke covers them):
 |---|---|---|---|
 | MED4 | WP_002805854.1 | Pfam `PF00016` (RuBisCO_large) → `IPR000685` | rbcL, RuBisCO form I large subunit — universally conserved. ✅ verified (smoke, 2026-07-22) |
 | MED4 | WP_002805169.1 | Pfam `PF00137` (ATP-synt_C) → `IPR000454` | atpH, ATP synthase F0 subunit c — universally conserved. ✅ verified (smoke, 2026-07-22) |
-| Syn | `<fill after batch>` | `<conserved Pfam>` | one Synechococcus strain |
-| heterotroph | `<fill after batch>` | `<conserved Pfam>` | one Alteromonas/Shewanella strain |
+| WH8102 (Syn) | WP_011128579.1 | Pfam `PF00016`+`PF02788` → `IPR000685` | rbcL, RuBisCO large subunit. ✅ verified (batch, 2026-07-23) |
+| KT2440 (Pseudomonas) | WP_010952474.1 | Pfam `PF00118` (TCP-1/cpn60) → `IPR002423` | groEL 60 kDa chaperonin — universally conserved. ✅ verified (batch, 2026-07-23) |
 
 ```bash
 # rbcL should carry a PFAM RuBisCO_large signature:
@@ -198,10 +214,37 @@ jq -r '."WP_002805854.1".interpro_entries[]' \
 # Expected to include: IPR000685
 ```
 
-## Observed batch results
+## Observed batch results (42-strain run, 2026-07-23)
 
-<placeholder — Step 5. Cross-strain member-DB distribution table + per-strain
-wallclock range.>
+**120,343 proteins** processed (all appeared in output; `parse_failures = 0`).
+**986,526 matches**, of which **67.0% integrate to an InterPro entry**. All 42
+strains `OK`, no failures. Total compute ~26.6 CPU-wallclock hours.
+
+Cross-strain member-DB distribution (matches, % of all matches):
+
+| Member DB | Matches | % |
+|---|---:|---:|
+| PFAM | 153,669 | 15.6 |
+| GENE3D | 145,734 | 14.8 |
+| SUPERFAMILY | 115,911 | 11.7 |
+| PANTHER | 82,894 | 8.4 |
+| PRINTS | 77,138 | 7.8 |
+| NCBIFAM | 67,918 | 6.9 |
+| PIRSR | 61,822 | 6.3 |
+| CDD | 56,071 | 5.7 |
+| PROSITE_PROFILES | 41,919 | 4.2 |
+| FUNFAM | 37,487 | 3.8 |
+| SMART | 33,245 | 3.4 |
+| MOBIDB_LITE | 28,440 | 2.9 |
+| PROSITE_PATTERNS | 25,530 | 2.6 |
+| HAMAP | 24,532 | 2.5 |
+| COILS | 15,192 | 1.5 |
+| PIRSF | 15,092 | 1.5 |
+| SFLD | 3,931 | 0.4 |
+| ANTIFAM | 1 | 0.0 |
+
+Per-strain wallclock: **21 min** (SB, 1,839 proteins) → **67 min** (KT2440,
+5,452 proteins), scaling ~linearly with proteome size at all apps.
 
 ## Phase 2 (Future)
 

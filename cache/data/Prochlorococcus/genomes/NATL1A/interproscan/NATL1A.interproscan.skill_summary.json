@@ -1,0 +1,33 @@
+{
+  "strain": "NATL1A",
+  "tool_version": "5.78-109.0",
+  "applications": "ALL_DEFAULT",
+  "input_proteins": 2063,
+  "calls_made": 2063,
+  "proteins_no_match": 383,
+  "parse_failures": 0,
+  "total_matches": 14714,
+  "interpro_integrated_matches": 10046,
+  "distribution": {
+    "CDD": 835,
+    "COILS": 223,
+    "FUNFAM": 538,
+    "GENE3D": 2086,
+    "HAMAP": 513,
+    "MOBIDB_LITE": 453,
+    "NCBIFAM": 1129,
+    "PANTHER": 1241,
+    "PFAM": 2294,
+    "PIRSF": 246,
+    "PIRSR": 851,
+    "PRINTS": 1143,
+    "PROSITE_PATTERNS": 416,
+    "PROSITE_PROFILES": 545,
+    "SFLD": 63,
+    "SMART": 444,
+    "SUPERFAMILY": 1694
+  },
+  "sentinel_rate": 0.1857,
+  "image_digest": "interpro/interproscan@sha256:dc58b7c147fbbf00c2dd4f5ced42121fc1e8841fcbc7cc2c484380248ff76d11",
+  "wallclock_s": 1566.9
+}

@@ -1,0 +1,33 @@
+{
+  "strain": "PCC7942",
+  "tool_version": "5.78-109.0",
+  "applications": "ALL_DEFAULT",
+  "input_proteins": 2714,
+  "calls_made": 2714,
+  "proteins_no_match": 265,
+  "parse_failures": 0,
+  "total_matches": 22437,
+  "interpro_integrated_matches": 15070,
+  "distribution": {
+    "CDD": 1363,
+    "COILS": 348,
+    "FUNFAM": 839,
+    "GENE3D": 3200,
+    "HAMAP": 576,
+    "MOBIDB_LITE": 611,
+    "NCBIFAM": 1572,
+    "PANTHER": 1921,
+    "PFAM": 3422,
+    "PIRSF": 332,
+    "PIRSR": 1487,
+    "PRINTS": 1669,
+    "PROSITE_PATTERNS": 612,
+    "PROSITE_PROFILES": 945,
+    "SFLD": 119,
+    "SMART": 847,
+    "SUPERFAMILY": 2574
+  },
+  "sentinel_rate": 0.0976,
+  "image_digest": "interpro/interproscan@sha256:dc58b7c147fbbf00c2dd4f5ced42121fc1e8841fcbc7cc2c484380248ff76d11",
+  "wallclock_s": 2273.4
+}

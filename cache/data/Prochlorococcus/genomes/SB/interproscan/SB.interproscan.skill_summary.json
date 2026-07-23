@@ -1,0 +1,33 @@
+{
+  "strain": "SB",
+  "tool_version": "5.78-109.0",
+  "applications": "ALL_DEFAULT",
+  "input_proteins": 1839,
+  "calls_made": 1839,
+  "proteins_no_match": 250,
+  "parse_failures": 0,
+  "total_matches": 14401,
+  "interpro_integrated_matches": 9972,
+  "distribution": {
+    "CDD": 813,
+    "COILS": 223,
+    "FUNFAM": 522,
+    "GENE3D": 2089,
+    "HAMAP": 508,
+    "MOBIDB_LITE": 334,
+    "NCBIFAM": 1110,
+    "PANTHER": 1207,
+    "PFAM": 2273,
+    "PIRSF": 242,
+    "PIRSR": 834,
+    "PRINTS": 1209,
+    "PROSITE_PATTERNS": 458,
+    "PROSITE_PROFILES": 453,
+    "SFLD": 63,
+    "SMART": 385,
+    "SUPERFAMILY": 1678
+  },
+  "sentinel_rate": 0.1359,
+  "image_digest": "interpro/interproscan@sha256:dc58b7c147fbbf00c2dd4f5ced42121fc1e8841fcbc7cc2c484380248ff76d11",
+  "wallclock_s": 1282.6
+}

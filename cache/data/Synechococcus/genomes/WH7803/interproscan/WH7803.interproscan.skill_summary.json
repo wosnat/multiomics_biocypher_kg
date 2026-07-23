@@ -1,0 +1,33 @@
+{
+  "strain": "WH7803",
+  "tool_version": "5.78-109.0",
+  "applications": "ALL_DEFAULT",
+  "input_proteins": 2453,
+  "calls_made": 2453,
+  "proteins_no_match": 271,
+  "parse_failures": 0,
+  "total_matches": 18706,
+  "interpro_integrated_matches": 12623,
+  "distribution": {
+    "CDD": 1047,
+    "COILS": 254,
+    "FUNFAM": 613,
+    "GENE3D": 2716,
+    "HAMAP": 553,
+    "MOBIDB_LITE": 877,
+    "NCBIFAM": 1247,
+    "PANTHER": 1635,
+    "PFAM": 2932,
+    "PIRSF": 296,
+    "PIRSR": 1047,
+    "PRINTS": 1481,
+    "PROSITE_PATTERNS": 510,
+    "PROSITE_PROFILES": 669,
+    "SFLD": 84,
+    "SMART": 571,
+    "SUPERFAMILY": 2174
+  },
+  "sentinel_rate": 0.1105,
+  "image_digest": "interpro/interproscan@sha256:dc58b7c147fbbf00c2dd4f5ced42121fc1e8841fcbc7cc2c484380248ff76d11",
+  "wallclock_s": 1737.9
+}

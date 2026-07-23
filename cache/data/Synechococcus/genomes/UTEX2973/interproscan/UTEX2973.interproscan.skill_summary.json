@@ -1,0 +1,33 @@
+{
+  "strain": "UTEX2973",
+  "tool_version": "5.78-109.0",
+  "applications": "ALL_DEFAULT",
+  "input_proteins": 2710,
+  "calls_made": 2710,
+  "proteins_no_match": 262,
+  "parse_failures": 0,
+  "total_matches": 22439,
+  "interpro_integrated_matches": 15069,
+  "distribution": {
+    "CDD": 1364,
+    "COILS": 347,
+    "FUNFAM": 841,
+    "GENE3D": 3198,
+    "HAMAP": 577,
+    "MOBIDB_LITE": 607,
+    "NCBIFAM": 1574,
+    "PANTHER": 1920,
+    "PFAM": 3419,
+    "PIRSF": 333,
+    "PIRSR": 1490,
+    "PRINTS": 1667,
+    "PROSITE_PATTERNS": 614,
+    "PROSITE_PROFILES": 946,
+    "SFLD": 119,
+    "SMART": 848,
+    "SUPERFAMILY": 2575
+  },
+  "sentinel_rate": 0.0967,
+  "image_digest": "interpro/interproscan@sha256:dc58b7c147fbbf00c2dd4f5ced42121fc1e8841fcbc7cc2c484380248ff76d11",
+  "wallclock_s": 2191.8
+}

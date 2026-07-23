@@ -1,0 +1,33 @@
+{
+  "strain": "KT2440",
+  "tool_version": "5.78-109.0",
+  "applications": "ALL_DEFAULT",
+  "input_proteins": 5452,
+  "calls_made": 5452,
+  "proteins_no_match": 369,
+  "parse_failures": 0,
+  "total_matches": 48514,
+  "interpro_integrated_matches": 31941,
+  "distribution": {
+    "CDD": 2852,
+    "COILS": 640,
+    "FUNFAM": 2295,
+    "GENE3D": 7379,
+    "HAMAP": 803,
+    "MOBIDB_LITE": 1043,
+    "NCBIFAM": 3306,
+    "PANTHER": 4059,
+    "PFAM": 7784,
+    "PIRSF": 734,
+    "PIRSR": 2914,
+    "PRINTS": 3740,
+    "PROSITE_PATTERNS": 1232,
+    "PROSITE_PROFILES": 2258,
+    "SFLD": 159,
+    "SMART": 1615,
+    "SUPERFAMILY": 5701
+  },
+  "sentinel_rate": 0.0677,
+  "image_digest": "interpro/interproscan@sha256:dc58b7c147fbbf00c2dd4f5ced42121fc1e8841fcbc7cc2c484380248ff76d11",
+  "wallclock_s": 3990.2
+}

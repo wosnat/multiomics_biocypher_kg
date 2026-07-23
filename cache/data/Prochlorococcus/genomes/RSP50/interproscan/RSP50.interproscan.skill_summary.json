@@ -1,0 +1,33 @@
+{
+  "strain": "RSP50",
+  "tool_version": "5.78-109.0",
+  "applications": "ALL_DEFAULT",
+  "input_proteins": 1869,
+  "calls_made": 1869,
+  "proteins_no_match": 253,
+  "parse_failures": 0,
+  "total_matches": 14377,
+  "interpro_integrated_matches": 9875,
+  "distribution": {
+    "CDD": 815,
+    "COILS": 231,
+    "FUNFAM": 520,
+    "GENE3D": 2069,
+    "HAMAP": 506,
+    "MOBIDB_LITE": 326,
+    "NCBIFAM": 1102,
+    "PANTHER": 1225,
+    "PFAM": 2219,
+    "PIRSF": 248,
+    "PIRSR": 878,
+    "PRINTS": 1188,
+    "PROSITE_PATTERNS": 418,
+    "PROSITE_PROFILES": 489,
+    "SFLD": 59,
+    "SMART": 406,
+    "SUPERFAMILY": 1678
+  },
+  "sentinel_rate": 0.1354,
+  "image_digest": "interpro/interproscan@sha256:dc58b7c147fbbf00c2dd4f5ced42121fc1e8841fcbc7cc2c484380248ff76d11",
+  "wallclock_s": 1543.5
+}

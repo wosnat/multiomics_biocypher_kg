@@ -39,10 +39,16 @@ Tracks `/add-a-tool interproscan`. Spec:
 - [x] Smoke artifacts confirmed gitignored (limited_* / raw.json / temp/)
 - [x] Workflow When Invoked section finalized
 
-## Step 5 — full batch (DEFERRED — user kicks off)
-- [ ] `nohup … run_interproscan.py > logs/interproscan/batch.log 2>&1 &`
-- [ ] Observed batch results table + cross-strain QC narrative + threshold calibration
-- [ ] Commit per-strain calls.json + skill_summary.json
+## Step 5 — full batch  ✅ (2026-07-23)
+- [x] Full all-apps batch: **42/42 strains OK**, 0 failures, 120,343 proteins,
+      986,526 matches (67.0% InterPro-integrated), 0 parse_failures, ~26.6 CPU-h
+- [x] Observed batch results table + cross-strain QC narrative in SKILL.md
+- [x] sentinel_rate threshold calibrated (0.06–0.21 observed; flag >0.30)
+- [x] Syn + heterotroph spot checks verified (WH8102 rbcL, KT2440 groEL)
+- [x] Committed 42× calls.json + 42× skill_summary.json
+
+## Phase 2 (separate, out of scope)
+- [ ] `/integrate-a-tool interproscan` — wire calls.json into the live KG
 
 ## Step 6 — register on new strains
 - [x] `add-a-strain/SKILL.md` step 3 gets a `nohup` invocation

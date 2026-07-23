@@ -1,0 +1,33 @@
+{
+  "strain": "Alt_MarRef",
+  "tool_version": "5.78-109.0",
+  "applications": "ALL_DEFAULT",
+  "input_proteins": 4305,
+  "calls_made": 4305,
+  "proteins_no_match": 421,
+  "parse_failures": 0,
+  "total_matches": 32801,
+  "interpro_integrated_matches": 22159,
+  "distribution": {
+    "CDD": 1668,
+    "COILS": 465,
+    "FUNFAM": 1100,
+    "GENE3D": 5242,
+    "HAMAP": 524,
+    "MOBIDB_LITE": 669,
+    "NCBIFAM": 1939,
+    "PANTHER": 3012,
+    "PFAM": 5296,
+    "PIRSF": 433,
+    "PIRSR": 2140,
+    "PRINTS": 2465,
+    "PROSITE_PATTERNS": 733,
+    "PROSITE_PROFILES": 1620,
+    "SFLD": 89,
+    "SMART": 1187,
+    "SUPERFAMILY": 4219
+  },
+  "sentinel_rate": 0.0978,
+  "image_digest": "interpro/interproscan@sha256:dc58b7c147fbbf00c2dd4f5ced42121fc1e8841fcbc7cc2c484380248ff76d11",
+  "wallclock_s": 3030.9
+}

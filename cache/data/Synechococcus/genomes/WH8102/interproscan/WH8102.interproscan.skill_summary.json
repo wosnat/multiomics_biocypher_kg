@@ -1,0 +1,33 @@
+{
+  "strain": "WH8102",
+  "tool_version": "5.78-109.0",
+  "applications": "ALL_DEFAULT",
+  "input_proteins": 2631,
+  "calls_made": 2631,
+  "proteins_no_match": 390,
+  "parse_failures": 0,
+  "total_matches": 18504,
+  "interpro_integrated_matches": 12538,
+  "distribution": {
+    "CDD": 1086,
+    "COILS": 261,
+    "FUNFAM": 596,
+    "GENE3D": 2712,
+    "HAMAP": 555,
+    "MOBIDB_LITE": 765,
+    "NCBIFAM": 1318,
+    "PANTHER": 1608,
+    "PFAM": 2947,
+    "PIRSF": 293,
+    "PIRSR": 1000,
+    "PRINTS": 1415,
+    "PROSITE_PATTERNS": 485,
+    "PROSITE_PROFILES": 674,
+    "SFLD": 90,
+    "SMART": 512,
+    "SUPERFAMILY": 2187
+  },
+  "sentinel_rate": 0.1482,
+  "image_digest": "interpro/interproscan@sha256:dc58b7c147fbbf00c2dd4f5ced42121fc1e8841fcbc7cc2c484380248ff76d11",
+  "wallclock_s": 1840.3
+}

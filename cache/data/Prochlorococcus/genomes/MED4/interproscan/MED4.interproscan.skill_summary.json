@@ -1,0 +1,33 @@
+{
+  "strain": "MED4",
+  "tool_version": "5.78-109.0",
+  "applications": "ALL_DEFAULT",
+  "input_proteins": 1872,
+  "calls_made": 1872,
+  "proteins_no_match": 267,
+  "parse_failures": 0,
+  "total_matches": 14025,
+  "interpro_integrated_matches": 9698,
+  "distribution": {
+    "CDD": 827,
+    "COILS": 207,
+    "FUNFAM": 517,
+    "GENE3D": 2024,
+    "HAMAP": 507,
+    "MOBIDB_LITE": 282,
+    "NCBIFAM": 1085,
+    "PANTHER": 1218,
+    "PFAM": 2184,
+    "PIRSF": 245,
+    "PIRSR": 838,
+    "PRINTS": 1157,
+    "PROSITE_PATTERNS": 412,
+    "PROSITE_PROFILES": 446,
+    "SFLD": 58,
+    "SMART": 375,
+    "SUPERFAMILY": 1643
+  },
+  "sentinel_rate": 0.1426,
+  "image_digest": "interpro/interproscan@sha256:dc58b7c147fbbf00c2dd4f5ced42121fc1e8841fcbc7cc2c484380248ff76d11",
+  "wallclock_s": 1389.2
+}

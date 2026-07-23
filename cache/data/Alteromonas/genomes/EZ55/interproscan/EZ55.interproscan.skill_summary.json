@@ -1,0 +1,33 @@
+{
+  "strain": "EZ55",
+  "tool_version": "5.78-109.0",
+  "applications": "ALL_DEFAULT",
+  "input_proteins": 4096,
+  "calls_made": 4096,
+  "proteins_no_match": 327,
+  "parse_failures": 0,
+  "total_matches": 37067,
+  "interpro_integrated_matches": 24439,
+  "distribution": {
+    "CDD": 2054,
+    "COILS": 618,
+    "FUNFAM": 1458,
+    "GENE3D": 5556,
+    "HAMAP": 723,
+    "MOBIDB_LITE": 1083,
+    "NCBIFAM": 2419,
+    "PANTHER": 3011,
+    "PFAM": 5726,
+    "PIRSF": 524,
+    "PIRSR": 2395,
+    "PRINTS": 2949,
+    "PROSITE_PATTERNS": 874,
+    "PROSITE_PROFILES": 1778,
+    "SFLD": 131,
+    "SMART": 1381,
+    "SUPERFAMILY": 4387
+  },
+  "sentinel_rate": 0.0798,
+  "image_digest": "interpro/interproscan@sha256:dc58b7c147fbbf00c2dd4f5ced42121fc1e8841fcbc7cc2c484380248ff76d11",
+  "wallclock_s": 3389.7
+}
