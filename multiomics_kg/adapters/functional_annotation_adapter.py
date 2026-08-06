@@ -1183,6 +1183,14 @@ class MultiPfamAnnotationAdapter:
             ids |= adapter.get_all_pfam_ids()
         return ids
 
+    def all_pfam_ids(self) -> set[str]:
+        """Public accessor: the exact set of Pfam node IDs this adapter emits.
+
+        Consumed by MultiInterproAnnotationAdapter to prune the Pfam→InterproEntry
+        bridge to existing Pfam nodes (mirrors MultiKeggAnnotationAdapter.all_ko_ids()
+        feeding BRITE pruning)."""
+        return self._all_pfam_ids()
+
     def get_nodes(self):
         """
         Yield Pfam domain nodes and PfamClan nodes.

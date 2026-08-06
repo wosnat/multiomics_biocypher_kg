@@ -274,6 +274,22 @@ def main():
     bc.write_nodes(signalp_adapter.get_nodes())
     bc.write_edges(signalp_adapter.get_edges())
 
+    # InterProScan InterPro-entry ontology (hierarchical, scored edge) + Pfam bridge.
+    # Reads per-strain interproscan calls.json for edge evidence + the committed
+    # cache/data/interpro/interpro_reference.json (prepare_data step 9) for node
+    # names/types/is-a hierarchy. Pfam node set injected for a dangling-proof
+    # Pfam_in_interpro_entry bridge (BRITE-known_ko_ids precedent).
+    from multiomics_kg.adapters.interpro_adapter import MultiInterproAnnotationAdapter
+    interpro_adapter = MultiInterproAnnotationAdapter(
+        genome_config_file='data/Prochlorococcus/genomes/cyanobacteria_genomes.csv',
+        cache_root=Path("cache/data"),
+        pfam_node_ids=pfam_adapter.all_pfam_ids(),
+        test_mode=TEST_MODE,
+    )
+    interpro_adapter.download_data(cache=CACHE)
+    bc.write_nodes(interpro_adapter.get_nodes())
+    bc.write_edges(interpro_adapter.get_edges())
+
     # Full GO ontology (all 30K nodes + GO-GO hierarchy) — optional, slow.
     # NOTE: do not run with --go simultaneously; GO node IDs would conflict.
 

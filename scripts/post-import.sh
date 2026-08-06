@@ -94,6 +94,14 @@ CREATE FULLTEXT INDEX tcdbFamilyFullText IF NOT EXISTS
 CREATE FULLTEXT INDEX cazyFamilyFullText IF NOT EXISTS
     FOR (c:CazyFamily) ON EACH [c.name, c.cazy_id];
 
+// InterPro entry (hierarchical ontology + scored edge). interpro_type is the
+// PRIMARY ORA stratification key (breadth); level is secondary (is-a depth).
+CREATE INDEX interpro_entry_level_idx IF NOT EXISTS FOR (e:InterproEntry) ON (e.level);
+CREATE INDEX interpro_entry_type_idx IF NOT EXISTS FOR (e:InterproEntry) ON (e.interpro_type);
+CREATE INDEX interpro_entry_id_idx IF NOT EXISTS FOR (e:InterproEntry) ON (e.interpro_id);
+CREATE FULLTEXT INDEX interproEntryFullText IF NOT EXISTS
+    FOR (e:InterproEntry) ON EACH [e.name];
+
 // PSORTb SubcellularLocalization (flat ontology + scored edge)
 CREATE INDEX subcellular_localization_level_idx IF NOT EXISTS FOR (n:SubcellularLocalization) ON (n.level);
 CREATE INDEX subcellular_localization_id_idx IF NOT EXISTS FOR (n:SubcellularLocalization) ON (n.psortb_id);
@@ -635,8 +643,15 @@ CALL {
     CASE WHEN EXISTS { (g)-[:Gene_has_cyanorak_role]->() } THEN ['cyanorak_role'] ELSE [] END +
     CASE WHEN EXISTS { (g)-[:Gene_has_tigr_role]->() } THEN ['tigr_role'] ELSE [] END +
     CASE WHEN EXISTS { (g)-[:Gene_has_tcdb_family]->() } THEN ['tcdb'] ELSE [] END +
-    CASE WHEN EXISTS { (g)-[:Gene_has_cazy_family]->() } THEN ['cazy'] ELSE [] END
+    CASE WHEN EXISTS { (g)-[:Gene_has_cazy_family]->() } THEN ['cazy'] ELSE [] END +
+    CASE WHEN EXISTS { (g)-[:Gene_has_interpro_entry]->() } THEN ['interpro'] ELSE [] END
 } IN TRANSACTIONS OF 1000 ROWS;
+
+// NOTE: 'interpro' is folded into annotation_types (routing) but NOT
+// informative_annotation_types (needs an InterPro term-informativeness filter —
+// deferred) and NOT the annotation_quality 8-bucket count (highly redundant with
+// pfam/go/ec — would lift few genes' quality for large blast radius). See the
+// design spec §5.
 
 // =====================================================================
 // F1.4: Gene.informative_annotation_types — granular per-source list,
@@ -912,6 +927,29 @@ CALL {
       c.organism_count = size([x IN orgs WHERE x IS NOT NULL])
 } IN TRANSACTIONS OF 1000 ROWS;
 
+// ── InterproEntry computed properties (InterProScan; hierarchical ontology) ───
+// gene_count / organism_count are DIRECT (genes with a Gene_has_interpro_entry
+// edge to this exact entry) — the correct per-term count for (type,level)-
+// stratified ORA (no *0.. subtree, which would double-count across levels).
+// member_count = direct child entries (structural, like TcdbFamily).
+MATCH (e:InterproEntry)
+CALL {
+  WITH e
+  OPTIONAL MATCH (child:InterproEntry)-[:Interpro_entry_is_a_interpro_entry]->(e)
+  WITH e, count(child) AS mc
+  OPTIONAL MATCH (e)<-[:Gene_has_interpro_entry]-(g:Gene)
+  WITH e, mc, count(DISTINCT g) AS gc, collect(DISTINCT g.organism_name) AS orgs
+  SET e.member_count = mc,
+      e.gene_count = gc,
+      e.organism_count = size([x IN orgs WHERE x IS NOT NULL])
+} IN TRANSACTIONS OF 1000 ROWS;
+
+// is_promiscuous: ultra-common entries (broad domains / superfamilies present in
+// a large share of genes). Threshold gene_count >= 1000 flags the long tail so a
+// (type, level)-stratified ORA can down-weight them. Tunable (see design spec §8).
+MATCH (e:InterproEntry)
+SET e.is_promiscuous = (coalesce(e.gene_count, 0) >= 1000);
+
 // ── SubcellularLocalization computed properties (PSORTb; flat ontology) ───────
 // gene_count + organism_count: direct gene->node traversal (no *0.. — flat).
 MATCH (n:SubcellularLocalization)
@@ -1012,6 +1050,16 @@ CALL {
       g.cazy_family_count = cz_count,
       g.reaction_count = rxn_count,
       g.metabolite_count = size(apoc.coll.toSet(m_catalysis + m_transport))
+} IN TRANSACTIONS OF 1000 ROWS;
+
+// Gene.interpro_entry_count: distinct InterPro entries per gene (routing signal;
+// functional. Folded into annotation_types above but not annotation_quality — §5).
+MATCH (g:Gene)
+CALL {
+  WITH g
+  OPTIONAL MATCH (g)-[r:Gene_has_interpro_entry]->()
+  WITH g, count(r) AS ic
+  SET g.interpro_entry_count = ic
 } IN TRANSACTIONS OF 1000 ROWS;
 
 // ── Metabolism rollups ────────────────────────────────────────────────────

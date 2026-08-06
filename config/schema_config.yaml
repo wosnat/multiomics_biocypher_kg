@@ -1316,6 +1316,60 @@ gene to signal peptide type association:
     cleavage_probability: float   # cleavage-site probability (omitted when null)
 
 
+# ── InterProScan InterPro entries (hierarchical ontology + scored edge) ───────
+
+interpro entry:
+  is_a: named thing
+  represented_as: node
+  preferred_id: interpro
+  label_in_input: interpro entry
+  properties:
+    name: str               # InterPro entry description
+    interpro_id: str        # e.g. "IPR000685"
+    interpro_type: str      # FAMILY | DOMAIN | HOMOLOGOUS_SUPERFAMILY | REPEAT | CONSERVED_SITE | ACTIVE_SITE | BINDING_SITE | PTM
+    level: int              # is-a depth in ParentChildTree (0 = parentless root); NOTE breadth is interpro_type, not level (ORA stratifies by (type, level))
+    gene_count: int         # post-import
+    organism_count: int     # post-import
+    member_count: int       # post-import (recursive subtree gene count)
+    is_promiscuous: bool    # post-import (ORA support: ultra-common entry flag)
+
+gene to interpro entry association:
+  is_a: association
+  represented_as: edge
+  label_as_edge: Gene_has_interpro_entry
+  source: gene
+  target: interpro entry
+  label_in_input: gene_has_interpro_entry
+  # Scored ontology edge — per-match evidence rides as edge properties (modeled on
+  # the Changes_expression_of / psortb / signalp properties block). Numeric fields
+  # not _clean_str'd. evalue/score omitted (absent) when no match reports one — NOT
+  # filtered (each member DB pre-applies its own curated threshold; ~42% of matches
+  # legitimately have no e-value). See the design spec §1 "No e-value cutoff".
+  properties:
+    start: int              # domain envelope start (min across this gene's matches to the entry)
+    end: int                # domain envelope end (max)
+    evalue: float           # best (min) non-null e-value; omitted when all matches lack one
+    score: float            # best (max) non-null score; omitted when N/A
+    libraries: str[]        # member DBs supporting this entry for this gene (e.g. PFAM|NCBIFAM)
+    match_count: int        # number of match×location rows folded into this edge
+
+interpro entry hierarchical association:
+  is_a: association
+  represented_as: edge
+  label_as_edge: Interpro_entry_is_a_interpro_entry
+  source: interpro entry
+  target: interpro entry
+  label_in_input: interpro_entry_is_a_interpro_entry
+
+pfam in interpro entry:
+  is_a: association
+  represented_as: edge
+  label_as_edge: Pfam_in_interpro_entry
+  source: pfam
+  target: interpro entry
+  label_in_input: pfam_in_interpro_entry
+
+
 protein to ec number association:
   is_a: ReactionToParticipantAssociation
   represented_as: edge

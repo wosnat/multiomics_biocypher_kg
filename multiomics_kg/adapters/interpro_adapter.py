@@ -1,0 +1,315 @@
+"""InterPro ontology adapter — InterProScan Phase-2 KG integration.
+
+Yields:
+- InterproEntry nodes (observed IPR entries + their is-a ancestors), with
+  name/type/level from the committed reference cache
+  (``cache/data/interpro/interpro_reference.json``, built by prepare_data step 9).
+- Interpro_entry_is_a_interpro_entry parent edges (child → parent), pruned to kept
+  entries (mirrors TCDB/BRITE subhierarchy pruning — never dangles).
+- Gene_has_interpro_entry edges (one per gene×entry) carrying per-match evidence
+  aggregated from the strain's Phase-1 calls.json: start/end envelope, best
+  evalue/score, member-DB libraries, match_count. Scored ontology edge (the
+  Changes_expression_of / psortb / signalp precedent). NO e-value filtering —
+  each member DB pre-applies its own curated threshold (see the design spec §1).
+- Pfam_in_interpro_entry bridge edges (Pfam → InterproEntry) connecting the
+  existing eggNOG Pfam layer to the InterPro layer, derived from the calls.json
+  PFAM signature→entry mapping. Dangling-proof: emitted only when the source Pfam
+  node exists (injected ``pfam_node_ids``, BRITE-``known_ko_ids`` style) and the
+  target entry is kept.
+
+Two-class shape mirrors cazy_adapter (per-strain edges + multi orchestrator that
+owns nodes/hierarchy). See
+``docs/superpowers/specs/2026-07-26-interproscan-kg-integration-design.md``.
+"""
+from __future__ import annotations
+
+import csv
+import json
+import logging
+from pathlib import Path
+from typing import Iterator
+
+from multiomics_kg.utils.curie_utils import normalize_curie
+
+logger = logging.getLogger(__name__)
+
+
+def _clean_str(value: str | None) -> str:
+    if value is None:
+        return ""
+    return value.replace("'", "^").replace("|", "")
+
+
+def _gene_node_id(locus_tag: str) -> str:
+    return normalize_curie(f"ncbigene:{locus_tag}") or f"ncbigene_{locus_tag}"
+
+
+def _interpro_node_id(interpro_id: str) -> str:
+    return normalize_curie(f"interpro:{interpro_id}") or f"interpro_{interpro_id}"
+
+
+def _pfam_node_id(pfam_accession: str) -> str:
+    return normalize_curie(f"pfam:{pfam_accession}") or f"pfam_{pfam_accession}"
+
+
+def aggregate_match_evidence(matches: list[dict]) -> dict:
+    """Fold a gene's matches to ONE InterPro entry into edge properties.
+
+    start = min start, end = max end (domain envelope); evalue = best (min) non-null;
+    score = best (max) non-null; libraries = sorted distinct member DBs; match_count =
+    number of match×location rows. evalue/score/start/end are omitted when no match
+    reports one (NOT filtered — see design spec §1 "No e-value cutoff"). Pure.
+    """
+    starts = [m["start"] for m in matches if m.get("start") is not None]
+    ends = [m["end"] for m in matches if m.get("end") is not None]
+    evalues = [m["evalue"] for m in matches if m.get("evalue") is not None]
+    scores = [m["score"] for m in matches if m.get("score") is not None]
+    libs = sorted({m["library"] for m in matches if m.get("library")})
+    props: dict = {"match_count": len(matches), "libraries": [_clean_str(x) for x in libs]}
+    if starts:
+        props["start"] = min(starts)
+    if ends:
+        props["end"] = max(ends)
+    if evalues:
+        props["evalue"] = min(evalues)
+    if scores:
+        props["score"] = max(scores)
+    return props
+
+
+def kept_ids(observed: set[str], reference: dict[str, dict]) -> set[str]:
+    """Observed entries + every is-a ancestor (walk the reference parent chain).
+
+    Cycle-safe. Ensures hierarchy edges never dangle (TCDB/BRITE pruning pattern). Pure.
+    """
+    kept: set[str] = set()
+    for acc in observed:
+        cur: str | None = acc
+        seen: set[str] = set()
+        while cur and cur not in seen:
+            seen.add(cur)
+            kept.add(cur)
+            ref = reference.get(cur)
+            cur = ref.get("parent") if ref else None
+    return kept
+
+
+class InterproAnnotationAdapter:
+    """Per-strain adapter: Gene_has_interpro_entry edges with aggregated evidence.
+
+    Reads the merged JSON (locus_tag → {protein_id, interpro_entries}) for the gene
+    set + protein_id join, and the strain's Phase-1 calls.json (WP_ → matches) for
+    the per-match evidence folded onto each edge.
+    """
+
+    def __init__(self, genome_dir: Path, test_mode: bool = False) -> None:
+        self.genome_dir = Path(genome_dir)
+        self.test_mode = test_mode
+        from multiomics_kg.utils.annotations_cache import load_merged_annotations
+        self._genes = load_merged_annotations(self.genome_dir)
+        self._calls = self._load_calls()
+
+    def _load_calls(self) -> dict[str, dict]:
+        strain = self.genome_dir.name
+        path = self.genome_dir / "interproscan" / f"{strain}.interproscan.calls.json"
+        if not path.exists():
+            return {}
+        with open(path, encoding="utf-8") as fh:
+            data = json.load(fh)
+        return {str(k).strip(): v for k, v in data.items() if isinstance(v, dict)}
+
+    def get_all_interpro_ids(self) -> set[str]:
+        """Distinct IPR entries observed on this strain's genes."""
+        ids: set[str] = set()
+        for gene in self._genes.values():
+            for acc in gene.get("interpro_entries") or []:
+                if acc:
+                    ids.add(acc)
+        return ids
+
+    def get_pfam_to_interpro(self) -> dict[str, str]:
+        """PF* → IPR* mapping from this strain's integrated PFAM matches (for the bridge)."""
+        out: dict[str, str] = {}
+        for call in self._calls.values():
+            for m in call.get("matches") or []:
+                if m.get("library") != "PFAM":
+                    continue
+                sig = m.get("signature_accession")
+                ipr = m.get("interpro_accession")
+                if sig and ipr:
+                    out[sig.split(".")[0]] = ipr
+        return out
+
+    def get_edges(self):
+        count = 0
+        for locus_tag, gene in self._genes.items():
+            protein_id = (gene.get("protein_id") or "").strip()
+            entries = gene.get("interpro_entries") or []
+            if not protein_id or not entries:
+                continue
+            call = self._calls.get(protein_id)
+            if not call:
+                continue
+            # group this protein's matches by integrated InterPro entry
+            by_ipr: dict[str, list[dict]] = {}
+            for m in call.get("matches") or []:
+                acc = m.get("interpro_accession")
+                if acc:
+                    by_ipr.setdefault(acc, []).append(m)
+            for acc, matches in by_ipr.items():
+                props = aggregate_match_evidence(matches)
+                yield (
+                    f"{locus_tag}-has_interpro-{acc}",
+                    _gene_node_id(locus_tag),
+                    _interpro_node_id(acc),
+                    "gene_has_interpro_entry",
+                    props,
+                )
+                count += 1
+                if self.test_mode and count >= 100:
+                    return
+        logger.debug(
+            f"InterproAnnotationAdapter({self.genome_dir.name}): yielded {count} gene→InterPro edges"
+        )
+
+
+class MultiInterproAnnotationAdapter:
+    """Multi-strain orchestrator: owns InterproEntry nodes + hierarchy + Pfam bridge.
+
+    Prunes the InterPro node set to entries observed on any strain PLUS their is-a
+    ancestors (so hierarchy edges never dangle). ``pfam_node_ids`` is the KG's
+    global set of raw Pfam accessions (PF*) with a node — injected by
+    ``create_knowledge_graph`` (BRITE-``known_ko_ids`` precedent) so the Pfam bridge
+    never references a non-existent Pfam node.
+    """
+
+    def __init__(
+        self,
+        genome_config_file: str,
+        cache_root: str | Path = "cache/data",
+        pfam_node_ids: set[str] | None = None,
+        test_mode: bool = False,
+    ) -> None:
+        self.test_mode = test_mode
+        self.cache_root = Path(cache_root)
+        # None = Pfam node set not provided → emit NO bridge edges (can't guarantee
+        # the Pfam endpoints exist). A provided set (even empty) prunes to it.
+        self.pfam_node_ids = (
+            None if pfam_node_ids is None
+            else {p.split(".")[0] for p in pfam_node_ids}
+        )
+        self._reference: dict[str, dict] = {}
+        self._strain_adapters: list[InterproAnnotationAdapter] = []
+        self._build_strain_adapters(genome_config_file)
+
+    def _build_strain_adapters(self, genome_config_file: str) -> None:
+        with open(genome_config_file, newline="", encoding="utf-8") as fh:
+            lines = [line for line in fh if not line.lstrip().startswith("#")]
+        reader = csv.DictReader(lines)
+        for row in reader:
+            data_dir = (row.get("data_dir") or "").strip()
+            if not data_dir:
+                continue
+            self._strain_adapters.append(
+                InterproAnnotationAdapter(genome_dir=Path(data_dir), test_mode=self.test_mode)
+            )
+        logger.info(
+            f"MultiInterproAnnotationAdapter: loaded {len(self._strain_adapters)} strain adapters"
+        )
+
+    def download_data(self, cache: bool = True) -> None:
+        """Load the committed InterPro reference cache (built by prepare_data step 9)."""
+        path = self.cache_root / "interpro" / "interpro_reference.json"
+        if not path.exists():
+            raise FileNotFoundError(
+                f"InterPro reference cache missing: {path}. "
+                f"Run `bash scripts/prepare_data.sh --steps 9 --force` first."
+            )
+        with open(path, encoding="utf-8") as fh:
+            self._reference = json.load(fh)
+        logger.info(f"MultiInterproAnnotationAdapter: loaded {len(self._reference)} reference entries")
+
+    def _observed_ids(self) -> set[str]:
+        ids: set[str] = set()
+        for adapter in self._strain_adapters:
+            ids |= adapter.get_all_interpro_ids()
+        return ids
+
+    def _kept_ids(self, observed: set[str]) -> set[str]:
+        return kept_ids(observed, self._reference)
+
+    def get_nodes(self) -> Iterator[tuple[str, str, dict]]:
+        if not self._reference:
+            self.download_data()
+        observed = self._observed_ids()
+        kept = self._kept_ids(observed)
+        for acc in sorted(kept):
+            ref = self._reference.get(acc)
+            if ref is None:
+                # Defensive: observed entry absent from reference (retired ID?).
+                # Emit a minimal node so its gene edge never dangles.
+                logger.warning(f"InterPro entry {acc} not in reference; emitting minimal node")
+                props = {"name": "", "interpro_id": acc, "interpro_type": "", "level": 0}
+            else:
+                props = {
+                    "name": _clean_str(ref.get("name")),
+                    "interpro_id": acc,
+                    "interpro_type": _clean_str(ref.get("type")),
+                    "level": int(ref.get("level") or 0),
+                }
+            yield _interpro_node_id(acc), "interpro entry", props
+        logger.info(
+            f"MultiInterproAnnotationAdapter.get_nodes: {len(kept)} InterproEntry nodes "
+            f"({len(observed)} observed + {len(kept) - len(observed)} ancestors)"
+        )
+
+    def get_edges(self):
+        if not self._reference:
+            self.download_data()
+        observed = self._observed_ids()
+        kept = self._kept_ids(observed)
+
+        # 1. is-a hierarchy edges (child → parent), both endpoints kept
+        hier = 0
+        for acc in sorted(kept):
+            ref = self._reference.get(acc)
+            parent = ref.get("parent") if ref else None
+            if parent and parent in kept:
+                yield (
+                    f"{acc}-is_a-{parent}",
+                    _interpro_node_id(acc),
+                    _interpro_node_id(parent),
+                    "interpro_entry_is_a_interpro_entry",
+                    {},
+                )
+                hier += 1
+
+        # 2. Pfam → InterproEntry bridge edges (dangling-proof)
+        pf_to_ipr: dict[str, str] = {}
+        for adapter in self._strain_adapters:
+            pf_to_ipr.update(adapter.get_pfam_to_interpro())
+        bridge = 0
+        for pf, ipr in sorted(pf_to_ipr.items()):
+            if ipr not in kept:
+                continue
+            # dangling-proof: no set provided → no bridges; set provided → require membership
+            if self.pfam_node_ids is None or pf not in self.pfam_node_ids:
+                continue
+            yield (
+                f"{pf}-in_interpro-{ipr}",
+                _pfam_node_id(pf),
+                _interpro_node_id(ipr),
+                "pfam_in_interpro_entry",
+                {},
+            )
+            bridge += 1
+
+        # 3. Gene → InterproEntry edges via per-strain delegation
+        gene = 0
+        for adapter in self._strain_adapters:
+            for edge in adapter.get_edges():
+                yield edge
+                gene += 1
+        logger.info(
+            f"MultiInterproAnnotationAdapter.get_edges: {hier} hierarchy, {bridge} pfam-bridge, {gene} gene edges"
+        )
