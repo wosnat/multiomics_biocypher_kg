@@ -1,7 +1,7 @@
 # TCDB-Diamond → KG Integration (Phase 2) — Design
 
 **Date:** 2026-08-06
-**Status:** Design agreed; implementation not started
+**Status:** ✅ Implemented — all decisions D1–D7 shipped (see §5b for the status table and measured outcome)
 **Supersedes:** the Phase-2 sketch in [`2026-05-10-tcdb-diamond-augmentation-design.md §7`](2026-05-10-tcdb-diamond-augmentation-design.md) — that sketch predates real data and picks a different shape (see §2).
 **Related:** `.claude/skills/tcdb-diamond/`, `multiomics_kg/utils/tcdb_diamond.py`, `multiomics_kg/adapters/tcdb_adapter.py`, `multiomics_kg/download/build_kegg_metabolism_xrefs.py` (step 6), `docs/kg-changes/tcdb-cazy-ontologies.md`
 
@@ -183,6 +183,31 @@ Under the *current* pruning model that pushes `TcdbFamily` from 12,902 toward **
 **This is accepted, not solved here.** The pruning cleanup is a **separate follow-up task** (§7).
 
 ---
+
+## 5b — Implementation status (2026-08-06)
+
+| Decision | Status |
+|---|---|
+| D1 one ontology, provenance on edge | ✅ shipped |
+| D2 delete `filter_action` | ✅ `07357ac0` |
+| D3 pure runner | ✅ `07357ac0` |
+| D4 one edge per (gene, TC) + `sources` | ✅ `8f507134` |
+| D5 cross-ontology bridges | ✅ `8edbd25e` (direction flipped — see D5 note) |
+| D6 all candidates as edges + tier gate on rollups | ✅ `8f507134` |
+| D7 pruning cleanup | ✅ `26c84723` (ran FIRST — see §7) |
+
+Measured after the merge (42 strains):
+
+| | |
+|---|---|
+| genes with any TC call | 11,103 → **30,076** |
+| corroborated (both sources) | **10,278** |
+| diamond-only (new coverage) | **18,973** |
+| kept TC ids | 704 → **1,515** (seeds 540 → 1,397) |
+| KEGG layer | **unchanged** — 2,717 compounds, 2,375 reactions, 447 pathways, 1,462 substrate primaries |
+
+The cascade landing at 1,515 rather than ~21K is a direct consequence of running
+the §7 pruning cleanup before the merge.
 
 ## 6 — Scope
 

@@ -1,6 +1,6 @@
 ---
 name: tcdb-diamond
-description: Run diamond blastp vs. the curated TCDB FASTA per strain to generate per-protein TCDB classifications, with tiered confidence (5-part / 4-part / 3-part) plus per-family consensus collapse. Pure sequence evidence — no eggNOG or gene-annotation inputs. Phase 1 — produces inspectable `<strain>.tcdb.calls.json` artifacts; KG integration is Phase 2.
+description: Run diamond blastp vs. the curated TCDB FASTA per strain to generate per-protein TCDB classifications, with tiered confidence (5-part / 4-part / 3-part) plus per-family consensus collapse. Pure sequence evidence — no eggNOG or gene-annotation inputs. Produces inspectable `<strain>.tcdb.calls.json` artifacts; **Phase 2 KG integration is DONE** — merged as a second evidence source on `Gene_has_tcdb_family` alongside eggNOG (`sources: ['eggnog','diamond']`). Re-running with --force requires `prepare_data.sh --steps 2 6 --force` + a Docker rebuild.
 argument-hint: "[--strains <name> ... | --force | --refresh-tcdb | --threads <n>]"
 user-invocable: true
 allowed-tools: Read, Bash(uv *), Bash(diamond *)
@@ -166,16 +166,38 @@ Nothing is pre-filtered. Consumers that want a stricter cut should threshold on 
 `identity`, or `confidence_score` **explicitly**, so the choice is visible at the point of
 use rather than frozen into the artifact.
 
-## Phase 2 — KG integration
+## Phase 2 — KG integration ✅ DONE
 
-Phase 1 artifacts sit in the strain cache for inspection. Phase 2 merges them into
-`gene_annotations_merged.json` and the KG as a **second evidence source on the existing
-`TcdbFamily` ontology** — one `Gene_has_tcdb_family` edge per (gene, TC ID) carrying
-`sources: ['eggnog','diamond']` provenance, plus the diamond evidence fields.
+These artifacts are merged into `gene_annotations_merged.json` and the KG as a
+**second evidence source on the existing `TcdbFamily` ontology** — one
+`Gene_has_tcdb_family` edge per (gene, TC ID) carrying `sources: ['eggnog','diamond']`
+provenance plus the diamond evidence fields (`tier`, `confidence_score`, `identity`,
+`qcov`, `evalue`, `consensus_n`).
+
+Coverage across 42 strains: genes with a TC call went 11,103 → **30,076**
+(10,278 corroborated by both sources, 18,973 diamond-only).
+
+**Re-running this skill changes the KG.** After a `--force` run, rebuild the caches
+and the graph:
+
+```bash
+bash scripts/prepare_data.sh --steps 2 6 --force   # merge + re-seed TCDB pruning
+docker compose down && docker compose up -d --build
+```
+
+Two consumer-facing notes:
+
+- **No `filter_action`.** All candidates become edges; the tier policy is the quality
+  gate. Post-import folds `'tcdb'` into `annotation_types` / `annotation_quality` only
+  for eggNOG-sourced or **tier ≤ 2** edges, so tier-3 calls are findable without
+  inflating annotation quality. Filter on `r.tier` explicitly if you want a stricter cut.
+- **`transporter_classification` is a UNION** of both sources; `tcdb_eggnog_ids` /
+  `tcdb_diamond_ids` preserve attribution.
 
 Design: [`docs/superpowers/specs/2026-08-06-tcdb-diamond-kg-integration-design.md`](../../../docs/superpowers/specs/2026-08-06-tcdb-diamond-kg-integration-design.md)
 (supersedes the Phase-2 sketch in the 2026-05-10 spec §7, which assumed a specificity
 win the real data does not show).
+Release notes: [`docs/kg-changes/tcdb-cazy-ontologies.md`](../../../docs/kg-changes/tcdb-cazy-ontologies.md).
 
 ## Workflow When Invoked
 
