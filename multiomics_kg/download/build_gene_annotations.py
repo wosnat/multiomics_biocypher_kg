@@ -315,6 +315,9 @@ def _compute_contributing_sources(gene: dict) -> list[str]:
             or gene.get("signalp_probability") is not None
             or _has_source_label(gene, "signalp")):
         sources.add("signalp")
+    if (gene.get("interpro_entries")
+            or _has_source_label(gene, "interproscan")):
+        sources.add("interproscan")
     return sorted(sources)
 
 
@@ -400,6 +403,34 @@ def load_signalp(data_dir: str, strain_name: str) -> dict[str, dict]:
     return {str(k).strip(): v for k, v in data.items() if isinstance(v, dict)}
 
 
+def load_interproscan(data_dir: str, strain_name: str) -> dict[str, dict]:
+    """Load InterProScan Phase-1 calls.json → {protein_id_wp: {field: value}}.
+
+    The artifact is a dict keyed by RefSeq WP_ accession (== gene_mapping.protein_id).
+    We surface only the light per-gene summary the merge needs — the distinct
+    InterPro entry ids — so the merged JSON carries `interpro_entries` (drives
+    contributing_sources + the DataSource node + Gene routing). The rich per-match
+    evidence (coordinates / e-value / score / libraries) is NOT merged here; the
+    interpro_adapter reads this same calls.json directly at KG-build time (like
+    tcdb_adapter reads tcdb_pruned.json). Proteins with no InterPro entry are
+    dropped (no `interpro_entries` key). Missing file → {} (strain not yet
+    InterProScan-run). See docs/superpowers/specs/2026-07-26-interproscan-kg-integration-design.md.
+    """
+    path = os.path.join(data_dir, "interproscan", f"{strain_name}.interproscan.calls.json")
+    if not os.path.exists(path):
+        return {}
+    with open(path, encoding="utf-8") as f:
+        data = json.load(f)
+    result: dict[str, dict] = {}
+    for wp, call in data.items():
+        if not isinstance(call, dict):
+            continue
+        entries = call.get("interpro_entries") or []
+        if entries:
+            result[str(wp).strip()] = {"interpro_entries": list(entries)}
+    return result
+
+
 def load_uniprot(
     data_dir: str,
     ncbi_taxon_id: int | None,
@@ -459,10 +490,12 @@ class AnnotationBuilder:
         up: dict,
         ps: dict | None = None,
         sp: dict | None = None,
+        ipr: dict | None = None,
     ) -> Any:
         """Fetch raw value from source row according to src_cfg spec."""
         ps = ps or {}
         sp = sp or {}
+        ipr = ipr or {}
         source = src_cfg.get("source", "")
         field = src_cfg.get("field", "")
 
@@ -476,6 +509,8 @@ class AnnotationBuilder:
             raw = ps.get(field)
         elif source == "signalp":
             raw = sp.get(field)
+        elif source == "interproscan":
+            raw = ipr.get(field)
         else:
             return None
 
@@ -505,10 +540,10 @@ class AnnotationBuilder:
 
     def _resolve_passthrough(
         self, fconf: dict, gm: dict, eg: dict, up: dict, ps: dict | None = None,
-        sp: dict | None = None
+        sp: dict | None = None, ipr: dict | None = None
     ) -> Any:
         keep_dash = bool(fconf.get("allow_dash", False))
-        raw = self._get_raw(fconf, gm, eg, up, ps, sp)
+        raw = self._get_raw(fconf, gm, eg, up, ps, sp, ipr)
         if not _nonempty(raw, keep_dash=keep_dash):
             return None
         transform = fconf.get("transform")
@@ -520,9 +555,9 @@ class AnnotationBuilder:
 
     def _resolve_passthrough_list(
         self, fconf: dict, gm: dict, eg: dict, up: dict, ps: dict | None = None,
-        sp: dict | None = None
+        sp: dict | None = None, ipr: dict | None = None
     ) -> list[str] | None:
-        raw = self._get_raw(fconf, gm, eg, up, ps, sp)
+        raw = self._get_raw(fconf, gm, eg, up, ps, sp, ipr)
         if not _nonempty(raw):
             return None
         delimiter = fconf.get("delimiter", ",")
@@ -541,6 +576,7 @@ class AnnotationBuilder:
         source_tracking: dict,
         locus_tag: str = "",
         sp: dict | None = None,
+        ipr: dict | None = None,
     ) -> Any:
         """First non-empty candidate wins; record source if track_source set.
 
@@ -554,7 +590,7 @@ class AnnotationBuilder:
         track_key = fconf.get("track_source")
         reject_ids = fconf.get("reject_identifiers", False)
         for cand in fconf.get("candidates", []):
-            raw = self._get_raw(cand, gm, eg, up, ps, sp)
+            raw = self._get_raw(cand, gm, eg, up, ps, sp, ipr)
             if not _nonempty(raw):
                 continue
             transform = cand.get("transform")
@@ -591,7 +627,7 @@ class AnnotationBuilder:
 
     def _resolve_union(
         self, fconf: dict, gm: dict, eg: dict, up: dict, ps: dict | None = None,
-        sp: dict | None = None
+        sp: dict | None = None, ipr: dict | None = None
     ) -> list[str] | None:
         """Merge tokens from all sources, deduplicate, apply global filter."""
         global_filter = fconf.get("filter")
@@ -599,7 +635,7 @@ class AnnotationBuilder:
         seen: dict[str, None] = {}  # ordered set
 
         for src_cfg in fconf.get("sources", []):
-            raw = self._get_raw(src_cfg, gm, eg, up, ps, sp)
+            raw = self._get_raw(src_cfg, gm, eg, up, ps, sp, ipr)
             if not _nonempty(raw):
                 continue
 
@@ -647,9 +683,9 @@ class AnnotationBuilder:
 
     def _resolve_integer(
         self, fconf: dict, gm: dict, eg: dict, up: dict, ps: dict | None = None,
-        sp: dict | None = None
+        sp: dict | None = None, ipr: dict | None = None
     ) -> int | None:
-        raw = self._get_raw(fconf, gm, eg, up, ps, sp)
+        raw = self._get_raw(fconf, gm, eg, up, ps, sp, ipr)
         if raw is None:
             return None
         try:
@@ -659,9 +695,9 @@ class AnnotationBuilder:
 
     def _resolve_float(
         self, fconf: dict, gm: dict, eg: dict, up: dict, ps: dict | None = None,
-        sp: dict | None = None
+        sp: dict | None = None, ipr: dict | None = None
     ) -> float | None:
-        raw = self._get_raw(fconf, gm, eg, up, ps, sp)
+        raw = self._get_raw(fconf, gm, eg, up, ps, sp, ipr)
         if raw is None:
             return None
         try:
@@ -678,10 +714,12 @@ class AnnotationBuilder:
         up: dict,
         ps: dict | None = None,
         sp: dict | None = None,
+        ipr: dict | None = None,
     ) -> dict:
         """All source fields, source-prefixed — full audit trail."""
         ps = ps or {}
         sp = sp or {}
+        ipr = ipr or {}
         wide: dict[str, Any] = {}
         for k, v in gm.items():
             if _nonempty(v):
@@ -698,6 +736,9 @@ class AnnotationBuilder:
         for k, v in sp.items():
             if _nonempty(v):
                 wide[f"signalp_{k}"] = v
+        for k, v in ipr.items():
+            if _nonempty(v):
+                wide[f"interproscan_{k}"] = v
         return wide
 
     # ── build merged ──────────────────────────────────────────────────────────
@@ -710,10 +751,12 @@ class AnnotationBuilder:
         ps: dict | None = None,
         organism_name: str | None = None,
         sp: dict | None = None,
+        ipr: dict | None = None,
     ) -> dict:
         """Apply merge rules → canonical field set."""
         ps = ps or {}
         sp = sp or {}
+        ipr = ipr or {}
         result: dict[str, Any] = {}
         source_tracking: dict[str, str] = {}
         locus_tag = gm.get("locus_tag", "")
@@ -722,17 +765,17 @@ class AnnotationBuilder:
             ftype = fconf.get("type", "passthrough")
 
             if ftype == "single":
-                val = self._resolve_single(fconf, gm, eg, up, ps, source_tracking, locus_tag, sp=sp)
+                val = self._resolve_single(fconf, gm, eg, up, ps, source_tracking, locus_tag, sp=sp, ipr=ipr)
             elif ftype == "union":
-                val = self._resolve_union(fconf, gm, eg, up, ps, sp)
+                val = self._resolve_union(fconf, gm, eg, up, ps, sp, ipr)
             elif ftype == "passthrough":
-                val = self._resolve_passthrough(fconf, gm, eg, up, ps, sp)
+                val = self._resolve_passthrough(fconf, gm, eg, up, ps, sp, ipr)
             elif ftype == "passthrough_list":
-                val = self._resolve_passthrough_list(fconf, gm, eg, up, ps, sp)
+                val = self._resolve_passthrough_list(fconf, gm, eg, up, ps, sp, ipr)
             elif ftype == "integer":
-                val = self._resolve_integer(fconf, gm, eg, up, ps, sp)
+                val = self._resolve_integer(fconf, gm, eg, up, ps, sp, ipr)
             elif ftype == "float":
-                val = self._resolve_float(fconf, gm, eg, up, ps, sp)
+                val = self._resolve_float(fconf, gm, eg, up, ps, sp, ipr)
             elif ftype == "extract_first_match":
                 val = extract_first_match_in_sources(
                     fconf.get("sources", []), gm, eg, up,
@@ -978,12 +1021,14 @@ def process_strain(
         up_data = load_uniprot(data_dir, ncbi_taxon_id, organism_group)
     ps_data = load_psortb(data_dir, strain_name)
     sp_data = load_signalp(data_dir, strain_name)
+    ipr_data = load_interproscan(data_dir, strain_name)
 
     print(f"  gene_mapping : {len(gm_data):>5} genes")
     print(f"  eggnog       : {len(eg_data):>5} entries")
     print(f"  uniprot      : {len(up_data):>5} entries (keyed by RefSeq)")
     print(f"  psortb       : {len(ps_data):>5} entries (keyed by RefSeq)")
     print(f"  signalp      : {len(sp_data):>5} entries (keyed by RefSeq)")
+    print(f"  interproscan : {len(ipr_data):>5} entries (keyed by RefSeq)")
 
     builder = AnnotationBuilder(config)
 
@@ -999,6 +1044,7 @@ def process_strain(
         up_row = up_data.get(protein_id, {})
         ps_row = ps_data.get(protein_id, {})
         sp_row = sp_data.get(protein_id, {})
+        ipr_row = ipr_data.get(protein_id, {})
 
         stats["total"] += 1
         if eg_row:
@@ -1006,9 +1052,9 @@ def process_strain(
         if up_row:
             stats["uniprot_hit"] += 1
 
-        wide_out[locus_tag] = builder.build_wide(gm_row, eg_row, up_row, ps_row, sp_row)
+        wide_out[locus_tag] = builder.build_wide(gm_row, eg_row, up_row, ps_row, sp_row, ipr_row)
         merged = builder.build_merged(gm_row, eg_row, up_row, ps_row,
-                                      organism_name=preferred_name, sp=sp_row)
+                                      organism_name=preferred_name, sp=sp_row, ipr=ipr_row)
         merged_out[locus_tag] = merged
 
         if merged.get("product"):

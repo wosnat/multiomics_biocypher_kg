@@ -115,6 +115,7 @@ class DataSourceAdapter:
             "eggnog": "EggNOG-mapper",
             "psortb": "PSORTb",
             "signalp": "SignalP",
+            "interproscan": "InterProScan",
         }.get(source_id, source_id.title())
 
     @staticmethod
@@ -126,6 +127,7 @@ class DataSourceAdapter:
             "eggnog": "EggNOG-mapper functional annotations (per-protein query against the eggNOG reference).",
             "psortb": "PSORTb v3.0.3 per-protein subcellular-localization predictions (Gram-negative model).",
             "signalp": "SignalP 6.0 per-protein signal-peptide-type predictions (SP/LIPO/TAT/TATLIPO/PILIN).",
+            "interproscan": "InterProScan 5 per-protein InterPro-entry domain/family predictions (direct HMM/profile matching across member DBs).",
         }.get(source_id, "")
 
     def get_nodes(self) -> Iterator[tuple[str, str, dict[str, Any]]]:

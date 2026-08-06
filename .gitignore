@@ -179,6 +179,11 @@ cache/data/cazy
 # Excluded from git — repopulated on first run or with --force.
 cache/data/kegg/raw
 
+# InterPro raw reference files (entry.list, ParentChildTreeFile.txt) re-downloadable
+# by prepare_data step 9. The committed output (interpro_reference.json) sits one
+# level up at cache/data/interpro/ and stays tracked.
+cache/data/interpro/raw
+
 # TCDB-diamond skill: smoke-test artifacts (limited_N runs) are transient.
 # Full-run outputs (<strain>.tcdb.{tsv,calls.json,skill_summary.json}) are
 # intentionally committed alongside eggnog/ outputs.

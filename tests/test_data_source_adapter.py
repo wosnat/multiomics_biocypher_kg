@@ -13,12 +13,23 @@ def adapter():
     return DataSourceAdapter(config_path="config/gene_annotations_config.yaml")
 
 
-def test_emits_six_nodes(adapter):
-    """Six data sources: ncbi, cyanorak, uniprot, eggnog, psortb, signalp."""
+def test_emits_seven_nodes(adapter):
+    """Seven data sources: ncbi, cyanorak, uniprot, eggnog, psortb, signalp, interproscan."""
     adapter.download_data()
     nodes = list(adapter.get_nodes())
     ids = {props["id"] for _, _, props in nodes}
-    assert ids == {"ncbi", "cyanorak", "uniprot", "eggnog", "psortb", "signalp"}
+    assert ids == {"ncbi", "cyanorak", "uniprot", "eggnog", "psortb", "signalp", "interproscan"}
+
+
+def test_interproscan_is_tool_run_gene_level(adapter):
+    adapter.download_data()
+    nodes = {props["id"]: props for _, _, props in adapter.get_nodes()}
+    interproscan = nodes["interproscan"]
+    assert interproscan["provenance"] == "tool_run"
+    assert interproscan["scope"] == "gene_level"
+    assert interproscan["name"] == "InterProScan"
+    # info_types auto-derived from the interpro_entries field rule
+    assert "interpro_entries" in set(interproscan["info_types"])
 
 
 def test_psortb_is_tool_run_gene_level(adapter):

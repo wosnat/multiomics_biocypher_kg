@@ -78,6 +78,21 @@ sources:
         scope: gene_level
         provenance: tool_run
 
+  interproscan:
+    type: json_roworiented
+    # Phase-1 artifact: dict keyed by RefSeq WP_ accession (== protein_id).
+    path_pattern: "{data_dir}/interproscan/{strain_name}.interproscan.calls.json"
+    # Join key: gene_mapping.protein_id == interproscan calls.json key (WP_ accessions).
+    # Only the light `interpro_entries` list is merged here (source bookkeeping +
+    # Gene routing); interpro_adapter reads the calls.json directly for per-match
+    # evidence (coords/evalue/score/libraries).
+    join_to: protein_id
+    description: "InterProScan 5 per-protein InterPro-entry domain predictions (Phase-1 calls.json)"
+    logical_sources:
+      - id: interproscan
+        scope: gene_level
+        provenance: tool_run
+
   uniprot:
     type: json_roworiented
     # Row-oriented dict: data[uniprot_id] = {field: value} (produced by build_protein_annotations.py)
@@ -609,6 +624,17 @@ fields:
     type: float
     source: signalp
     field: cleavage_probability
+
+  # ── InterProScan InterPro entries (ontology track; multi-call) ────────────────
+  # interproscan calls.json is keyed by protein_id (WP_). load_interproscan()
+  # surfaces the light per-gene `interpro_entries` list (distinct IPR* ids). This
+  # merged field drives contributing_sources + the DataSource node + Gene routing;
+  # interpro_adapter reads the calls.json directly for per-match edge evidence.
+
+  interpro_entries:
+    type: passthrough
+    source: interproscan
+    field: interpro_entries
 
   # ── Protein properties denormalized from UniProt ──────────────────────────────
   # Keeps these queryable directly on Gene nodes without requiring a protein join.

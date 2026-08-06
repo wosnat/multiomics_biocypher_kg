@@ -56,8 +56,15 @@
 #           topics_resolved.json + resolution_report.txt. Deterministic; mirrors
 #           steps 4/7. Papers without a topics.json are skipped.
 #           Requires step 3 (gene_id_mapping.json) + step 6 (kegg_data.json).
+# Step 9 — Build the InterPro reference cache (interpro_reference.json)
+#           calls: multiomics_kg/download/build_interpro_reference.py
+#           Downloads InterPro current_release entry.list + ParentChildTreeFile.txt,
+#           writes cache/data/interpro/interpro_reference.json ({IPR: name/type/parent/level}),
+#           consumed by interpro_adapter for InterProEntry nodes + is-a hierarchy.
+#           Independent of steps 0-8 (global reference download). --refetch-raw re-pulls
+#           the FTP files (only on an InterPro release).
 #
-# Logs: logs/prepare_data_step0.log … logs/prepare_data_step8.log
+# Logs: logs/prepare_data_step0.log … logs/prepare_data_step9.log
 #       Monitor with: tail -f logs/prepare_data_step0.log
 #
 # Usage:
@@ -85,7 +92,7 @@ mkdir -p "$LOG_DIR"
 
 FORCE=""
 REFETCH_RAW=""
-STEPS="0 1 2 3 4 5 6 7 8"
+STEPS="0 1 2 3 4 5 6 7 8 9"
 STRAINS=()
 SKIP_CYANORAK=0
 
@@ -149,7 +156,7 @@ cd "$PROJECT_ROOT"
 export PYTHONPATH="$PROJECT_ROOT${PYTHONPATH:+:$PYTHONPATH}"
 
 echo "prepare_data.sh: steps=[${STEPS}]${STRAINS_ARG:+ strains=[${STRAINS[*]}]}${FORCE:+ (force)}${REFETCH_RAW:+ (refetch-raw)}${SKIP_CYANORAK:+ (skip-cyanorak)}"
-echo "(step 1 = protein annotations, step 2 = gene annotations, step 3 = gene ID mapping, step 4 = resolve paper CSVs, step 5 = OG descriptions, step 6 = pruned KEGG + TCDB hierarchy caches, step 7 = resolve paper metabolite names, step 8 = resolve paper discuss-topics)"
+echo "(step 1 = protein annotations, step 2 = gene annotations, step 3 = gene ID mapping, step 4 = resolve paper CSVs, step 5 = OG descriptions, step 6 = pruned KEGG + TCDB hierarchy caches, step 7 = resolve paper metabolite names, step 8 = resolve paper discuss-topics, step 9 = InterPro reference cache)"
 echo "Project root: $PROJECT_ROOT"
 echo "Logs dir:     $LOG_DIR"
 
@@ -231,8 +238,16 @@ for step in $STEPS; do
                 uv run python -m multiomics_kg.download.resolve_paper_topics \
                     $FORCE
             ;;
+        9)
+            run_step 9 \
+                "Build InterPro reference cache (interpro_reference.json)" \
+                "$LOG_DIR/prepare_data_step9.log" \
+                uv run python -m multiomics_kg.download.build_interpro_reference \
+                    $FORCE \
+                    $REFETCH_RAW
+            ;;
         *)
-            echo "Unknown step: $step (valid: 0 1 2 3 4 5 6 7 8)" >&2
+            echo "Unknown step: $step (valid: 0 1 2 3 4 5 6 7 8 9)" >&2
             exit 1
             ;;
     esac
