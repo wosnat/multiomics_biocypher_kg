@@ -32,7 +32,30 @@ Both are extracted verbatim (markdown). The rest of the version section
 
 ## [Unreleased]
 
+### Highlights
+
+- **InterPro domains.** Every gene now carries direct InterProScan domain/family
+  calls: ask "which InterPro entries does gene X have?", "which genes carry the
+  RuBisCO large-subunit family?", or filter genes by protein domain — a
+  method-independent cross-check on the existing eggNOG/Pfam annotations, with
+  domain coordinates and member-DB evidence on each edge.
+
 ### Added
+
+- **InterProScan InterPro-entry ontology** (`/integrate-a-tool` Phase 2).
+  `InterproEntry` nodes (~12,999; `interpro:IPR*`) with `interpro_type` +
+  is-a `level`; scored `Gene_has_interpro_entry` edges (~397K; 102,895 genes,
+  ~85%) carrying domain envelope + best e-value/score + member-DB `libraries`;
+  `Interpro_entry_is_a_interpro_entry` hierarchy (~1,569); `Pfam_in_interpro_entry`
+  bridge (~5,236) linking the eggNOG Pfam layer to InterPro (a link, not a merge).
+  Post-import `gene_count`/`organism_count`/`member_count`/`is_promiscuous`;
+  scalar + full-text indexes. `Gene.annotation_types` gains `'interpro'` +
+  `Gene.interpro_entry_count`. **ORA over InterPro must stratify by
+  `(interpro_type, level)`** (type primary). New `prepare_data` **step 9**
+  (`build_interpro_reference.py`) + committed `interpro_reference.json`; 7th
+  `DataSource` node (`interproscan`). No e-value cutoff (evidence-only). GO/pathway
+  xrefs deferred (empty in current artifacts). See
+  `docs/kg-changes/interproscan-extension.md`.
 
 ### Changed
 

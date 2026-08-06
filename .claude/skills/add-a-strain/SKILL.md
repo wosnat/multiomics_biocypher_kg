@@ -55,7 +55,7 @@ together in 2026-04 — see the csv-ready-papers spec linked above.
 | Register site 2 | `multiomics_kg/utils/gene_id_utils.py` (`ORGANISM_TO_GENOME_DIR`) | yes |
 | Register site 3 | `scripts/validate_paperconfig.py` (`CANONICAL_GENOMIC_ORGANISMS`) | yes |
 | Initial download + ID resolution | `bash scripts/prepare_data.sh --strains <S> --steps 0 1 2 3 4 5 6 7` | yes |
-| Per-strain tools (background) | `eggnog-run`, `psortb-run`, `tcdb-diamond`, `signalp-run`, … | yes (rerun on paperconfig change only if id_translation changes) |
+| Per-strain tools (background) | `eggnog-run`, `psortb-run`, `tcdb-diamond`, `signalp-run`, `interproscan-run`, … | yes (rerun on paperconfig change only if id_translation changes) |
 | Snapshot KG | `omics-edge-snapshot --save before_<S>` | both |
 | Docker rebuild | `docker compose up -d --build` | both |
 | Verify match rates | `/check-gene-ids` (uses Docker import report) | both |

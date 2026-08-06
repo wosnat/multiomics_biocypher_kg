@@ -1,6 +1,6 @@
 ---
 name: interproscan-run
-description: Run InterProScan 5 (via the interpro/interproscan Docker image) on each strain's protein.faa to predict protein domains/families across all member databases (Pfam, NCBIfam/TIGRFAM, Hamap, PROSITE, SFLD, PANTHER, Gene3D, SUPERFAMILY, CDD, PRINTS, SMART, …), integrated into InterPro entries with GO + pathway xrefs. Emits per-protein domain calls. Phase 1 — produces inspectable `<strain>.interproscan.calls.json` artifacts; KG integration deferred to Phase 2. Triggers on "run interproscan", "predict protein domains", "InterPro / domain annotation for all strains", "functional domains for the new strain".
+description: Run InterProScan 5 (via the interpro/interproscan Docker image) on each strain's protein.faa to predict protein domains/families across all member databases (Pfam, NCBIfam/TIGRFAM, Hamap, PROSITE, SFLD, PANTHER, Gene3D, SUPERFAMILY, CDD, PRINTS, SMART, …), integrated into InterPro entries with GO + pathway xrefs. Emits per-protein domain calls. Phase 1 — produces inspectable `<strain>.interproscan.calls.json` artifacts; **Phase 2 KG integration is DONE** (`InterproEntry` ontology via `interpro_adapter` — see `docs/kg-changes/interproscan-extension.md`). Triggers on "run interproscan", "predict protein domains", "InterPro / domain annotation for all strains", "functional domains for the new strain".
 argument-hint: "[--strains <name> ... | --force | --limit N | --threads N | --applications APP,APP | --prepare-image | --refresh-data]"
 user-invocable: true
 allowed-tools: Read, Bash(uv *), Bash(docker *), Bash(jq *)
@@ -246,15 +246,24 @@ Cross-strain member-DB distribution (matches, % of all matches):
 Per-strain wallclock: **21 min** (SB, 1,839 proteins) → **67 min** (KT2440,
 5,452 proteins), scaling ~linearly with proteome size at all apps.
 
-## Phase 2 (Future)
+## Phase 2 — DONE (KG integration)
 
-Deferred to a separate spec — see
-`docs/superpowers/specs/2026-07-22-interproscan-domains-design.md` (Phase 2
-sketch). Phase-1 artifacts sit in each strain's `interproscan/` cache dir for
-inspection and are **not** wired into `gene_annotations_merged.json` or any KG
-adapter yet. Two candidate surfaces: an `interproscan` logical source merged
-into `gene_annotations_merged.json`, or a new `InterProEntry` node type +
-`Gene_has_interpro_entry` edges via `/integrate-a-tool`.
+Integrated via `/integrate-a-tool` (2026-07-26). The calls.json now flow into the
+KG on **both** surfaces the earlier sketch weighed: an `interproscan` logical
+source merged into `gene_annotations_merged.json` (light `interpro_entries` list),
+**and** an `InterproEntry` ontology (`interpro_adapter`) — hierarchical nodes +
+scored `Gene_has_interpro_entry` edges (coords/evalue/score/libraries) +
+`Interpro_entry_is_a_interpro_entry` hierarchy + `Pfam_in_interpro_entry` bridge.
+Node names/types/hierarchy come from `prepare_data` **step 9**
+(`build_interpro_reference.py` → committed `cache/data/interpro/interpro_reference.json`).
+
+- **Integration design:** `docs/superpowers/specs/2026-07-26-interproscan-kg-integration-design.md`
+- **What-changed / MCP contract:** `docs/kg-changes/interproscan-extension.md`
+
+Re-running `/interproscan-run` on a new strain + `prepare_data.sh --steps 2` (and
+a KG rebuild) is all that's needed for that strain's domains to appear in the graph.
+GO/pathway xrefs are deferred (empty in current artifacts; a Phase-1 re-run with
+`--goterms --pathways` would enable InterPro→GO/pathway enrichment).
 
 ## Workflow When Invoked
 
