@@ -322,21 +322,55 @@ class MultiTcdbAnnotationAdapter:
             _tcdb_node_id(orig): _tcdb_node_id(anchor)
             for orig, anchor in self._seed_aliases.items()
         }
+        # Remapping can make two distinct source TCIDs land on the SAME kept node:
+        # e.g. eggNOG's retired `3.A.1.35` re-anchors to `3.A.1`, which diamond
+        # already called directly. Emitting both would produce parallel edges whose
+        # `sources` are split (['eggnog'] on one, ['diamond'] on the other) —
+        # destroying exactly the corroboration signal the single-edge model exists
+        # to capture. So collapse per (gene, TC) after remapping: union `sources`
+        # and keep the diamond evidence block from whichever edge carries it.
+        merged_count = 0
         for adapter in self._strain_adapters:
+            by_pair: dict[tuple[str, str], tuple[str, dict]] = {}
+            order: list[tuple[str, str]] = []
             for edge in adapter.get_edges():
-                target = edge[2]
-                if target in kept_node_ids:
-                    yield edge
-                    gene_count += 1
-                    continue
-                anchor_target = alias_node_ids.get(target)
-                if anchor_target and anchor_target in kept_node_ids:
-                    edge_id, source, _, label, props = edge
-                    yield (edge_id, source, anchor_target, label, props)
-                    gene_count += 1
+                edge_id, source, target, _label, props = edge
+                if target not in kept_node_ids:
+                    anchor_target = alias_node_ids.get(target)
+                    if not (anchor_target and anchor_target in kept_node_ids):
+                        dropped += 1
+                        continue
+                    target = anchor_target
                     remapped += 1
-                else:
-                    dropped += 1
+                key = (source, target)
+                if key not in by_pair:
+                    by_pair[key] = (edge_id, dict(props))
+                    order.append(key)
+                    continue
+                merged_count += 1
+                prev_id, prev_props = by_pair[key]
+                sources = sorted(set(prev_props.get("sources", [])) | set(props.get("sources", [])))
+                # Prefer whichever side carries diamond evidence; if both do, the
+                # higher-confidence call wins.
+                base = prev_props
+                if "tier" in props and (
+                    "tier" not in prev_props
+                    or props.get("confidence_score", 0.0) > prev_props.get("confidence_score", 0.0)
+                ):
+                    base = props
+                combined = dict(base)
+                combined["sources"] = sources
+                # Keep the lexicographically smaller id so the merge is deterministic.
+                by_pair[key] = (min(prev_id, edge_id), combined)
+            for key in order:
+                edge_id, props = by_pair[key]
+                yield (edge_id, key[0], key[1], "gene_has_tcdb_family", props)
+                gene_count += 1
+        if merged_count:
+            logger.info(
+                f"MultiTcdbAnnotationAdapter: merged {merged_count} gene→TCDB edge(s) "
+                f"that collapsed onto the same (gene, TC) after seed_alias remapping"
+            )
         if remapped:
             logger.info(
                 f"MultiTcdbAnnotationAdapter: re-anchored {remapped} gene→TCDB edges via seed_aliases"

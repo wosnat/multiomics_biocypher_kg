@@ -430,3 +430,51 @@ def test_missing_calls_json_degrades_to_sources_only(tmp_path):
     props = _gene_edges(d)[("ncbigene:X_0001", "tcdb:1.A.1")]
     assert props["sources"] == ["eggnog"]
     assert "tier" not in props
+
+
+def test_seed_alias_collapse_merges_sources_not_duplicates(tmp_path):
+    """A retired eggNOG TCID remapped onto a node diamond already called must
+    yield ONE edge with both sources — not two with split provenance.
+
+    Regression: seed_aliases remaps in the Multi adapter AFTER the per-strain
+    adapter builds props, so `3.A.1.35` (eggNOG, retired) and `3.A.1` (diamond)
+    both landed on tcdb:3.A.1 as parallel edges carrying ['eggnog'] and
+    ['diamond'] separately. 82 such pairs existed in the live graph.
+    """
+    d = tmp_path / "MED4"
+    d.mkdir()
+    (d / "gene_annotations_merged.json").write_text(json.dumps({
+        "PMM_0001": {
+            "locus_tag": "PMM_0001", "protein_id": "WP_001.1",
+            "transporter_classification": ["3.A.1.35", "3.A.1"],
+            "tcdb_eggnog_ids": ["3.A.1.35"],
+            "tcdb_diamond_ids": ["3.A.1"],
+        },
+    }))
+    tcdb_dir = d / "tcdb"; tcdb_dir.mkdir()
+    (tcdb_dir / "MED4.tcdb.calls.json").write_text(json.dumps({
+        "WP_001.1": {"calls": [{"tcid": "3.A.1", "tier": 3, "confidence_score": 0.2,
+                                "identity": 30.0, "qcov": 45.0, "evalue": 1e-9,
+                                "consensus_n": 2}]},
+    }))
+    cache = tmp_path / "cache"; (cache / "tcdb").mkdir(parents=True)
+    (cache / "tcdb" / "tcdb_hierarchy.json").write_text(json.dumps({
+        "3": {"level": 0, "level_kind": "tc_class", "parent": None},
+        "3.A": {"level": 1, "level_kind": "tc_subclass", "parent": "3"},
+        "3.A.1": {"level": 2, "level_kind": "tc_family", "parent": "3.A"},
+    }))
+    (cache / "tcdb" / "tcdb_pruned.json").write_text(json.dumps({
+        "kept_tcdb_ids": ["3", "3.A", "3.A.1"],
+        "subtree_substrates": {},
+        "seed_aliases": {"3.A.1.35": "3.A.1"},
+    }))
+    a = MultiTcdbAnnotationAdapter(
+        genome_config_file=_genome_csv(cache, d), cache_root=cache)
+    a.download_data()
+    gene_edges = [e for e in a.get_edges() if e[3] == "gene_has_tcdb_family"]
+    assert len(gene_edges) == 1, f"expected 1 merged edge, got {len(gene_edges)}"
+    props = gene_edges[0][4]
+    assert sorted(props["sources"]) == ["diamond", "eggnog"]
+    # Diamond's evidence survives the merge
+    assert props["tier"] == 3
+    assert props["confidence_score"] == 0.2

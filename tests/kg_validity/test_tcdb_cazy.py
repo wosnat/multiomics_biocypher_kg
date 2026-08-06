@@ -26,8 +26,89 @@ def test_cazy_family_node_count_in_range(run_query):
 
 @pytest.mark.kg
 def test_gene_has_tcdb_family_edge_count(run_query):
+    """Band widened 2026-08-06: diamond joined eggNOG as a second evidence source,
+    taking the edge count from ~16.8K to ~53.8K."""
     n = run_query("MATCH ()-[r:Gene_has_tcdb_family]->() RETURN count(r) AS n")[0]["n"]
-    assert 500 <= n <= 20000, f"Gene_has_tcdb_family count {n} outside 500-20000"
+    assert 30000 <= n <= 100000, f"Gene_has_tcdb_family count {n} outside 30000-100000"
+
+
+@pytest.mark.kg
+def test_gene_has_tcdb_family_sources_populated(run_query):
+    """Every edge carries source provenance from {eggnog, diamond}."""
+    row = run_query("""
+        MATCH ()-[r:Gene_has_tcdb_family]->()
+        RETURN count(r) AS total,
+               sum(CASE WHEN r.sources IS NULL OR size(r.sources) = 0 THEN 1 ELSE 0 END) AS no_source,
+               sum(CASE WHEN any(s IN r.sources WHERE NOT s IN ['eggnog','diamond']) THEN 1 ELSE 0 END) AS bad_source
+    """)[0]
+    assert row["no_source"] == 0, f"{row['no_source']} edges without source provenance"
+    assert row["bad_source"] == 0, f"{row['bad_source']} edges with an unknown source label"
+
+
+@pytest.mark.kg
+def test_diamond_evidence_is_sparse_and_well_formed(run_query):
+    """Diamond evidence rides ONLY on edges diamond called, and every such edge
+    has a tier in 1-3. eggNOG-only edges must carry none of it."""
+    egg = run_query("""
+        MATCH ()-[r:Gene_has_tcdb_family]->() WHERE r.sources = ['eggnog']
+        RETURN sum(CASE WHEN r.tier IS NOT NULL THEN 1 ELSE 0 END) AS leaked_tier,
+               sum(CASE WHEN r.confidence_score IS NOT NULL THEN 1 ELSE 0 END) AS leaked_conf
+    """)[0]
+    assert egg["leaked_tier"] == 0 and egg["leaked_conf"] == 0
+
+    dia = run_query("""
+        MATCH ()-[r:Gene_has_tcdb_family]->() WHERE 'diamond' IN r.sources
+        RETURN count(r) AS n, sum(CASE WHEN r.tier IS NULL THEN 1 ELSE 0 END) AS missing,
+               min(r.tier) AS lo, max(r.tier) AS hi
+    """)[0]
+    assert dia["n"] > 0
+    assert dia["missing"] == 0, f"{dia['missing']} diamond edges without a tier"
+    assert dia["lo"] >= 1 and dia["hi"] <= 3
+
+
+@pytest.mark.kg
+def test_one_edge_per_gene_and_tc(run_query):
+    """A TC called by BOTH sources is one edge with two `sources` entries — never
+    two parallel edges. That collapse is the corroboration signal."""
+    n = run_query("""
+        MATCH (g:Gene)-[r:Gene_has_tcdb_family]->(t:TcdbFamily)
+        WITH g, t, count(r) AS c WHERE c > 1
+        RETURN count(*) AS n
+    """)[0]["n"]
+    assert n == 0, f"{n} (gene, TC) pairs have parallel edges"
+
+
+@pytest.mark.kg
+def test_annotation_types_tcdb_respects_the_tier_gate(run_query):
+    """'tcdb' counts toward annotation_types only for eggNOG-sourced or tier<=2
+    edges, so ~22K conservative tier-3 calls stay findable without inflating
+    annotation_quality. Asserted in BOTH directions."""
+    over = run_query("""
+        MATCH (g:Gene) WHERE 'tcdb' IN g.annotation_types
+          AND NOT EXISTS { MATCH (g)-[r:Gene_has_tcdb_family]->()
+                           WHERE 'eggnog' IN r.sources OR r.tier <= 2 }
+        RETURN count(g) AS n
+    """)[0]["n"]
+    assert over == 0, f"{over} genes counted as tcdb-annotated on tier-3-only evidence"
+
+    under = run_query("""
+        MATCH (g:Gene) WHERE EXISTS { MATCH (g)-[r:Gene_has_tcdb_family]->()
+                                      WHERE 'eggnog' IN r.sources OR r.tier <= 2 }
+          AND NOT 'tcdb' IN g.annotation_types
+        RETURN count(g) AS n
+    """)[0]["n"]
+    assert under == 0, f"{under} genes with qualifying evidence missing from annotation_types"
+
+
+@pytest.mark.kg
+def test_tcdb_family_count_is_not_tier_gated(run_query):
+    """Routing counts cover ALL edges — only the quality buckets are gated."""
+    n = run_query("""
+        MATCH (g:Gene)-[r:Gene_has_tcdb_family]->()
+        WITH g, count(r) AS actual WHERE g.tcdb_family_count <> actual
+        RETURN count(g) AS n
+    """)[0]["n"]
+    assert n == 0, f"{n} genes whose tcdb_family_count disagrees with their edge count"
 
 
 @pytest.mark.kg
