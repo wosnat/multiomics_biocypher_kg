@@ -62,7 +62,14 @@ def test_gene_metabolite_count_total_positive(run_query):
 def test_gene_metabolite_count_consistent_with_2hop(run_query):
     """Property matches the actual UNION-2hop DISTINCT metabolite count for
     sampled genes — across catalysis (Gene→Reaction→Metabolite) AND transport
-    (Gene→TcdbFamily→tc_specificity→Metabolite) paths, per TCDB-S3 / KG-A2."""
+    (Gene→TcdbFamily→Metabolite) paths, per TCDB-S3 / KG-A2.
+
+    The transport arm attaches DIRECTLY to the gene's own TcdbFamily — no walk
+    down to a tc_specificity descendant. Step 6 pre-rolls each subtree's
+    substrates onto every kept ancestor (`subtree_substrates`), so the family a
+    gene is annotated at already carries its descendants' metabolites. This
+    mirrors post-import.cypher's `g.metabolite_count` computation exactly.
+    """
     rows = run_query("""
         MATCH (g:Gene) WHERE g.metabolite_count > 0
         WITH g LIMIT 10
@@ -70,7 +77,6 @@ def test_gene_metabolite_count_consistent_with_2hop(run_query):
                        -[:Reaction_has_metabolite]->(m_cat:Metabolite)
         WITH g, collect(DISTINCT m_cat) AS cat
         OPTIONAL MATCH (g)-[:Gene_has_tcdb_family]->(:TcdbFamily)
-                       <-[:Tcdb_family_is_a_tcdb_family*0..]-(:TcdbFamily {level_kind: 'tc_specificity'})
                        -[:Tcdb_family_transports_metabolite]->(m_tr:Metabolite)
         WITH g, cat, collect(DISTINCT m_tr) AS tr
         RETURN g.locus_tag AS lt,

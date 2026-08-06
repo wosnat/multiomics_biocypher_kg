@@ -1101,7 +1101,6 @@ def test_gene_metabolite_count_populated_for_genes_with_chemistry(run_query):
         WHERE EXISTS { (g)-[:Gene_catalyzes_reaction]->(:Reaction)-[:Reaction_has_metabolite]->(:Metabolite) }
            OR EXISTS {
                 (g)-[:Gene_has_tcdb_family]->(:TcdbFamily)
-                  <-[:Tcdb_family_is_a_tcdb_family*0..]-(:TcdbFamily {level_kind: 'tc_specificity'})
                   -[:Tcdb_family_transports_metabolite]->(:Metabolite)
               }
         RETURN count(CASE WHEN g.metabolite_count IS NULL OR g.metabolite_count = 0 THEN 1 END) AS n

@@ -1483,13 +1483,13 @@
     },
     {
       "properties": {},
-      "source": "tcdb:1.A.1.1.1",
-      "target": "tcdb:1.A.1.1",
+      "source": "tcdb:1.A.1.13",
+      "target": "tcdb:1.A.1",
       "type": "Tcdb_family_is_a_tcdb_family"
     },
     {
       "properties": {},
-      "source": "tcdb:1.A.1.13",
+      "source": "tcdb:1.A.1.14",
       "target": "tcdb:1.A.1",
       "type": "Tcdb_family_is_a_tcdb_family"
     },
@@ -1854,7 +1854,7 @@
       "type": "Gene_in_gene_cluster"
     }
   ],
-  "generated_at": "2026-06-13T13:50:38.251885+00:00",
+  "generated_at": "2026-08-06T17:12:18.363792+00:00",
   "nodes": [
     {
       "anchor": true,
@@ -3283,13 +3283,13 @@
     },
     {
       "anchor": false,
-      "id": "tcdb:1.A.1.1.1",
+      "id": "tcdb:1.A.1.13",
       "label": "TcdbFamily",
       "properties": {
-        "level": 4,
-        "level_kind": "tc_specificity",
-        "name": "1.A.1.1.1",
-        "tcdb_id": "1.A.1.1.1"
+        "level": 3,
+        "level_kind": "tc_subfamily",
+        "name": "1.A.1.13",
+        "tcdb_id": "1.A.1.13"
       }
     },
     {
@@ -3596,20 +3596,20 @@
     },
     {
       "anchor": false,
-      "id": "data_source:psortb",
+      "id": "data_source:interproscan",
       "label": "DataSource",
       "properties": {
-        "description": "PSORTb v3.0.3 per-protein subcellular-localization predictions (Gram-negative model).",
+        "description": "InterProScan 5 per-protein InterPro-entry domain/family predictions (direct HMM/profile matching across member DBs).",
         "provenance": "tool_run",
         "scope": "gene_level"
       }
     },
     {
       "anchor": false,
-      "id": "data_source:signalp",
+      "id": "data_source:psortb",
       "label": "DataSource",
       "properties": {
-        "description": "SignalP 6.0 per-protein signal-peptide-type predictions (SP/LIPO/TAT/TATLIPO/PILIN).",
+        "description": "PSORTb v3.0.3 per-protein subcellular-localization predictions (Gram-negative model).",
         "provenance": "tool_run",
         "scope": "gene_level"
       }
