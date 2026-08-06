@@ -598,10 +598,9 @@ def _prune_tcdb(
     hierarchy: dict,
     seed_ids: set[str],
 ) -> tuple[set[str], dict[str, str]]:
-    """Bidirectional prune of the TCDB hierarchy.
+    """Ancestor-only prune of the TCDB hierarchy.
 
-    For each seed ID, walk **up** to the tc_class root and **down** to all
-    tc_specificity leaves. Returns:
+    For each seed ID, walk **up** to the tc_class root. Returns:
 
       kept: set of all TCDB IDs that survive pruning.
       seed_aliases: {seed_id: anchor_id} mapping for seeds NOT in the curated
@@ -613,6 +612,19 @@ def _prune_tcdb(
     Seeds with no resolvable ancestor are dropped and logged as a warning at
     the call site.
 
+    **No downward walk.** An earlier version also walked *down* to every
+    tc_specificity leaf under each seed, so 528 gene-annotated TC IDs expanded to
+    12,902 nodes — 94.5% of which had `gene_count = 0` (10,292 of them
+    tc_specificity). That arm existed so substrate information on the leaves stayed
+    reachable, but it duplicates work `_compute_subtree_substrate_strings` already
+    does: the rollup is computed over the FULL hierarchy pre-pruning, so every kept
+    ancestor already carries the union of its descendants' substrates. Keeping the
+    leaves as well was a second mechanism for the same goal, and it is what forced
+    the `is_promiscuous` warning flag onto consumers.
+
+    Tradeoff: `level_kind = 'tc_specificity'` now selects the specificity nodes genes
+    actually annotate, rather than every specificity node in a reachable family.
+
     Substrate rollup is intentionally NOT done here. The full subtree-substrate
     map is computed pre-pruning (`_compute_subtree_substrate_strings`); the caller
     filters that map to `kept` and resolves the surviving substrate strings via
@@ -620,10 +632,6 @@ def _prune_tcdb(
     """
     kept: set[str] = set()
     parent_of = {tc: data.get("parent") for tc, data in hierarchy.items()}
-    children_of: dict[str, list[str]] = {}
-    for tc, parent in parent_of.items():
-        if parent is not None:
-            children_of.setdefault(parent, []).append(tc)
 
     def walk_up(tc: str) -> None:
         cur: str | None = tc
@@ -632,18 +640,6 @@ def _prune_tcdb(
                 return
             kept.add(cur)
             cur = parent_of.get(cur)
-
-    down_visited: set[str] = set()
-
-    def walk_down(tc: str) -> None:
-        if tc in down_visited:
-            return
-        down_visited.add(tc)
-        if tc not in hierarchy:
-            return
-        kept.add(tc)
-        for child in children_of.get(tc, []):
-            walk_down(child)
 
     def find_ancestor(tc: str) -> str | None:
         """Truncate dot-segments until an ancestor is found in the hierarchy."""
@@ -658,7 +654,6 @@ def _prune_tcdb(
     for seed in seed_ids:
         if seed in hierarchy:
             walk_up(seed)
-            walk_down(seed)
             continue
         anchor = find_ancestor(seed)
         if anchor is None:
@@ -667,7 +662,6 @@ def _prune_tcdb(
             continue
         seed_aliases[seed] = anchor
         walk_up(anchor)
-        walk_down(anchor)
     return kept, seed_aliases
 
 

@@ -65,13 +65,49 @@ Properties:
 
 ## TCDB pruning
 
-The full TCDB hierarchy has ~13,642 entries; 99% of those are not relevant to our 25 genome strains. The graph keeps only the **subhierarchy reachable from gene annotations**:
+The full TCDB hierarchy has ~25,557 entries; the overwhelming majority are not relevant to our genome strains. The graph keeps only:
 
 - Seed set: every TCDB ID present in any strain's `transporter_classification` from eggNOG.
-- For each seed, walk **down** to all leaf descendants (so substrate linkage is complete) and **up** to `tc_class` (so the hierarchy reaches root).
-- Kept = union of seeds + descendants + ancestors.
+- For each seed, walk **up** to `tc_class` so the hierarchy reaches root.
+- Kept = union of seeds + ancestors. **704 nodes** (tc_class 7 · tc_subclass 17 · tc_family 146 · tc_subfamily 288 · tc_specificity 246).
 
-This is the same approach as BRITE pruning (one-way), made bidirectional because TCDB substrates live at the leaves but eggNOG often annotates at family/subfamily level.
+Same one-way approach as BRITE pruning.
+
+### 2026-08-06: the downward arm was removed
+
+The original prune was **bidirectional** — it also walked *down* from each seed to every
+descendant, on the reasoning that TCDB substrates live at the leaves while eggNOG often
+annotates at family level.
+
+That reasoning was already satisfied elsewhere. `_compute_subtree_substrate_strings`
+computes the substrate rollup over the **full** hierarchy *before* pruning, so every kept
+ancestor carries the union of its descendants' substrates whether or not those descendants
+survive. The downward walk was a second mechanism for the same goal — and it is what
+forced the `is_promiscuous` warning flag onto consumers.
+
+Cost of keeping it: 528 gene-annotated seeds expanded to **12,902 nodes, of which 12,198
+(94.5%) had `gene_count = 0`** — 10,292 of those `tc_specificity`.
+
+Measured effect of removal:
+
+| | Before | After |
+|---|---|---|
+| `TcdbFamily` nodes | 12,902 | **704** |
+| — `tc_specificity` | 10,538 | **246** |
+| — `tc_subfamily` | 1,703 | **288** |
+| — `tc_family` | 637 | **146** |
+| `Tcdb_family_transports_metabolite` | 22,483 | **9,742** |
+| Distinct substrate primary IDs | 1,462 | **1,462** (unchanged) |
+| `kegg_data.json` | — | **byte-identical** |
+
+The new kept set is a strict subset of the old, and equals exactly the nodes with
+`gene_count > 0` plus their ancestors. **Zero metabolite reachability was lost.**
+
+**Semantic shift:** `WHERE source.level_kind = 'tc_specificity'` now selects the specificity
+nodes genes actually annotate rather than every specificity node in a reachable family.
+Such queries still work, but count real transporter systems present in our organisms.
+`Metabolite.transporter_count` drops correspondingly, and the `is_promiscuous` thresholds
+(calibrated against the old inflated node set) are worth revisiting on the next rebuild.
 
 ## CAZy is observed-only
 

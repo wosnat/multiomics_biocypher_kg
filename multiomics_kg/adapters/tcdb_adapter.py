@@ -9,8 +9,13 @@ Yields:
   Each kept TC ID maps to the union of substrate primary IDs from every
   tc_specificity descendant in the FULL TCDB hierarchy (rollup computed
   pre-pruning in step 6). The adapter emits one edge per (tc_id, primary_id)
-  pair without traversing the hierarchy. Filter to source.level_kind =
-  'tc_specificity' to recover leaf-only edges.
+  pair without traversing the hierarchy.
+
+  Note: since the 2026-08-06 pruning cleanup the hierarchy keeps only
+  gene-annotated TC IDs + their ancestors, so filtering to
+  source.level_kind = 'tc_specificity' selects the 246 specificity nodes genes
+  actually annotate — not every specificity node in a reachable family. The
+  ancestor rollup still carries the full substrate union either way.
 
 Two-class shape mirrors functional_annotation_adapter.MultiPfamAnnotationAdapter.
 """

@@ -474,8 +474,15 @@ def test_transport_only_kegg_compound_in_compounds_with_pathways(tmp_path, monke
     assert "ko00500" not in data["pathways"]
 
 
-def test_prune_tcdb_walks_up_and_down():
-    """_prune_tcdb walks up to tc_class AND down to tc_specificity for each seed."""
+def test_prune_tcdb_walks_up_only():
+    """_prune_tcdb walks UP to tc_class and does NOT walk down to descendants.
+
+    The downward arm used to expand 528 gene-annotated seeds into 12,902 nodes,
+    94.5% of which had gene_count = 0. It existed so leaf substrate data stayed
+    reachable, but `_compute_subtree_substrate_strings` already rolls substrates
+    up over the FULL hierarchy pre-pruning, so every kept ancestor carries its
+    descendants' substrates without the descendant nodes existing.
+    """
     from multiomics_kg.download.build_kegg_metabolism_xrefs import _prune_tcdb
     hierarchy = {
         "1": {"name": "Channels", "level": 0, "level_kind": "tc_class", "parent": None},
@@ -490,12 +497,39 @@ def test_prune_tcdb_walks_up_and_down():
         "2": {"name": "ECP", "level": 0, "level_kind": "tc_class", "parent": None},
         "2.A": {"name": "", "level": 1, "level_kind": "tc_subclass", "parent": "2"},
     }
-    # Seed at family level — walk up to 1, walk down to BOTH leaves
+    # Seed at family level — walk up to 1 only; the two leaves below stay out
     kept, seed_aliases = _prune_tcdb(hierarchy, {"1.A.1"})
-    assert kept == {"1", "1.A", "1.A.1", "1.A.1.5", "1.A.1.5.2", "1.A.1.5.3"}
+    assert kept == {"1", "1.A", "1.A.1"}
     assert seed_aliases == {}
+    # No downward expansion
+    assert "1.A.1.5" not in kept
+    assert "1.A.1.5.2" not in kept
+    assert "1.A.1.5.3" not in kept
     # Branch 2 untouched
     assert "2" not in kept
+
+
+def test_prune_tcdb_keeps_only_seeds_and_ancestors():
+    """The kept set is exactly ⋃(seed ∪ ancestors(seed)) — nothing else.
+
+    Guards the invariant that made the cleanup safe: on real data the new kept
+    set was a strict subset of the old one (704 ⊂ 12,902) and lost zero
+    metabolite reachability.
+    """
+    from multiomics_kg.download.build_kegg_metabolism_xrefs import _prune_tcdb
+    hierarchy = {
+        "1": {"level": 0, "level_kind": "tc_class", "parent": None},
+        "1.A": {"level": 1, "level_kind": "tc_subclass", "parent": "1"},
+        "1.A.1": {"level": 2, "level_kind": "tc_family", "parent": "1.A"},
+        "1.A.1.5": {"level": 3, "level_kind": "tc_subfamily", "parent": "1.A.1"},
+        "1.A.1.5.2": {"level": 4, "level_kind": "tc_specificity", "parent": "1.A.1.5"},
+        "1.A.2": {"level": 2, "level_kind": "tc_family", "parent": "1.A"},
+        "1.A.2.9": {"level": 3, "level_kind": "tc_subfamily", "parent": "1.A.2"},
+    }
+    kept, _ = _prune_tcdb(hierarchy, {"1.A.1.5.2", "1.A.2"})
+    assert kept == {"1", "1.A", "1.A.1", "1.A.1.5", "1.A.1.5.2", "1.A.2"}
+    # Sibling subfamily under a seeded family is NOT pulled in
+    assert "1.A.2.9" not in kept
 
 
 def test_prune_tcdb_seed_at_leaf():

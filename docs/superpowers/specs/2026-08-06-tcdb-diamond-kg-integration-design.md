@@ -169,13 +169,29 @@ Under the *current* pruning model that pushes `TcdbFamily` from 12,902 toward **
 
 ---
 
-## 7 — Deferred follow-up: TCDB pruning cleanup
+## 7 — TCDB pruning cleanup — ✅ DONE (2026-08-06, ahead of the merge)
 
-**94.5% of `TcdbFamily` nodes (12,198 of 12,902) have `gene_count = 0`** — 10,292 of them `tc_specificity`. Cause: the "below" arm of bidirectional pruning keeps every descendant of a gene-annotated family, *and* step 6 separately pre-rolls substrates up to ancestors via `subtree_substrates`. Two overlapping mechanisms solve the same problem; the rollup alone suffices, and it is what forced the `is_promiscuous` warning flag (33 families) onto consumers.
+**94.5% of `TcdbFamily` nodes (12,198 of 12,902) had `gene_count = 0`** — 10,292 of them `tc_specificity`. Cause: the "below" arm of bidirectional pruning kept every descendant of a gene-annotated family, *and* step 6 separately pre-rolls substrates up to ancestors via `subtree_substrates`. Two overlapping mechanisms for one goal; the rollup alone suffices, and the redundancy is what forced the `is_promiscuous` warning flag onto consumers.
 
-Dropping the "below" arm would take `TcdbFamily` to ~2,500 nodes with substrates still reachable via the ancestor rollup. Tracked as its own task so the diffs stay reviewable.
+**Shipped:** `_prune_tcdb` in `build_kegg_metabolism_xrefs.py` now walks **up only**.
 
-> **Ordering note:** doing the cleanup *first* would let diamond land on a lean hierarchy instead of inflating a bloated one and then deflating it. Deferral was chosen deliberately for reviewability.
+| | Before | After |
+|---|---|---|
+| `TcdbFamily` nodes | 12,902 | **704** |
+| — `tc_specificity` | 10,538 | **246** |
+| — `tc_subfamily` | 1,703 | **288** |
+| — `tc_family` | 637 | **146** |
+| `Tcdb_family_transports_metabolite` | 22,483 | **9,742** |
+| Distinct substrate primary IDs | 1,462 | **1,462** (unchanged) |
+| `kegg_data.json` | — | **byte-identical** |
+
+The new kept set is a strict subset of the old and equals exactly the nodes with `gene_count > 0` plus ancestors. **Zero metabolite reachability lost** — confirming the downward arm was pure redundancy.
+
+Diamond now has a lean hierarchy to land on, resolving the ordering concern below in the better direction.
+
+> **Ordering note (resolved):** the cleanup ran *first*, so the merge will not inflate a bloated hierarchy and then deflate it.
+
+**Semantic shift to carry into the merge:** `level_kind = 'tc_specificity'` now selects gene-annotated specificity nodes only. `Metabolite.transporter_count` drops correspondingly, and `is_promiscuous` thresholds (calibrated against the old node set) need revisiting on the next live rebuild.
 
 ---
 
