@@ -18,24 +18,9 @@
     "2": 172,
     "1": 11
   },
-  "agreement_distribution": {
-    "confirms": 215,
-    "refines": 6,
-    "extends": 653,
-    "conflicts": 92
-  },
-  "pfam_agreement_distribution": {
-    "confirms_diamond": 284,
-    "confirms_eggnog": 24,
-    "confirms_both": 239,
-    "contradicts_both": 187,
-    "neutral": 232
-  },
-  "filter_action_distribution": {
-    "drop_pfam_contradicts": 112,
-    "drop_singleton_low_score": 136,
-    "keep": 631,
-    "drop_egn_conflicts": 86,
-    "drop_low_confidence": 1
+  "consensus_agreement_distribution": {
+    "5_part": 398,
+    "4_part": 343,
+    "3_part": 225
   }
 }
