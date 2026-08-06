@@ -42,7 +42,6 @@ def resolve_tcdb_data_dir() -> Path:
 
 
 _TCDB_DOWNLOAD_URL = "https://tcdb.org/public/tcdb"
-_TCDB_PFAM_MAP_URL = "https://www.tcdb.org/cgi-bin/projectv/public/pfam.py"
 _TCDB_HEADER_RE = re.compile(r"^>gnl\|TC-DB\|([^|\s]+)\|(\S+)")
 
 
@@ -72,48 +71,6 @@ def _rewrite_tcdb_headers(raw_path: Path, dest_path: Path) -> int:
             elif write_seq:
                 out.write(line)
     return written
-
-
-def build_pfam_to_tc_map(data_dir: Path, force: bool) -> Path:
-    """Ensure ~/tools/TCDB/DB/tcdb_pfam_map.tsv exists. Returns the path.
-
-    Downloads TCDB's curated Pfam → TC mapping from
-    https://www.tcdb.org/cgi-bin/projectv/public/pfam.py and writes a clean
-    3-column TSV (PF_id, TC_id, family_name). The source URL embeds the table
-    in HTML; we strip non-data lines to keep the cache parseable by
-    `load_pfam_to_tc_map`. Skipped when the file already exists and ``force``
-    is False. Failures are non-fatal — the diamond pipeline still runs without
-    the Pfam tiebreaker, just with `pfam_agreement = 'neutral'` everywhere.
-    """
-    db_dir = data_dir / "DB"
-    db_dir.mkdir(parents=True, exist_ok=True)
-    out = db_dir / "tcdb_pfam_map.tsv"
-    if out.exists() and not force:
-        return out
-
-    print(f"Downloading TCDB Pfam→TC mapping → {out} ...")
-    try:
-        with urllib.request.urlopen(_TCDB_PFAM_MAP_URL) as resp:
-            text = resp.read().decode("utf-8", errors="replace")
-    except Exception as exc:
-        print(f"WARN: Pfam map download failed: {exc} — continuing without "
-              f"Pfam tiebreaker", file=sys.stderr)
-        return out
-
-    n = 0
-    with open(out, "w") as fh:
-        for line in text.splitlines():
-            parts = line.rstrip().split("\t")
-            if len(parts) < 3 or not parts[0].startswith("PF"):
-                continue
-            if not (len(parts[0]) >= 7 and parts[0][2:7].isdigit()):
-                continue
-            if parts[1].count(".") < 2:
-                continue
-            fh.write("\t".join(parts[:3]) + "\n")
-            n += 1
-    print(f"  wrote {n} Pfam→TC pairs")
-    return out
 
 
 def build_tcdb_db(data_dir: Path, force: bool) -> Path:
@@ -229,7 +186,6 @@ def process_strain(
     dmnd: Path,
     threads: int,
     force: bool,
-    pfam_map: Path | None = None,
     limit: int | None = None,
 ) -> tuple[str, str, dict | None]:
     """Run the per-strain pipeline. Returns (strain, status, summary_or_None).
@@ -241,7 +197,7 @@ def process_strain(
     limit-suffixed name so re-running with a different limit is a fresh run.
 
     Status values:
-      OK / SKIP_NO_FAA / SKIP_EXISTS / FAILED_DIAMOND / FAILED_NO_EGGNOG
+      OK / SKIP_NO_FAA / SKIP_EXISTS / FAILED_DIAMOND
     """
     faa = data_dir_genome / "protein.faa"
     if not faa.exists():
@@ -266,20 +222,10 @@ def process_strain(
         print(f"  see log: {log_path.relative_to(REPO_ROOT)}", file=sys.stderr)
         return strain, "FAILED_DIAMOND", None
 
-    eggnog_path = data_dir_genome / "eggnog" / f"{strain}.emapper.annotations"
-    if not eggnog_path.exists():
-        # eggNOG missing → still proceed but agreement column will all be "extends"
-        print(f"  WARN: {eggnog_path} missing — egn_agreement will all be 'extends'")
-
-    gene_ann_path = data_dir_genome / "gene_annotations_merged.json"
-    if not gene_ann_path.exists():
-        # Gene annotations missing → pfam_agreement will all be 'neutral'
-        print(f"  WARN: {gene_ann_path} missing — pfam_agreement will all be 'neutral'")
-        gene_ann_arg = None
-    else:
-        gene_ann_arg = gene_ann_path
-
-    calls, summary = build_strain_calls(out_tsv, eggnog_path, gene_ann_arg, pfam_map)
+    # Pure sequence evidence: the diamond TSV is the only input. Cross-source
+    # reconciliation (eggNOG agreement, Pfam corroboration) happens downstream —
+    # see multiomics_kg/utils/tcdb_diamond.py's module docstring.
+    calls, summary = build_strain_calls(out_tsv)
 
     with open(out_calls, "w") as f:
         json.dump(calls, f, indent=2, sort_keys=True)
@@ -310,8 +256,6 @@ def main():
     print(f"TCDB data dir: {data_dir}")
     dmnd = build_tcdb_db(data_dir, force=args.refresh_tcdb)
     print(f"diamond DB: {dmnd}")
-    pfam_map = build_pfam_to_tc_map(data_dir, force=args.refresh_tcdb)
-    print(f"Pfam→TC map: {pfam_map}{' (missing)' if not pfam_map.exists() else ''}")
 
     # load_genome_rows exits with an error if --strains names a strain not in
     # the registry; no need to handle that here.
@@ -323,48 +267,32 @@ def main():
         data_dir_genome = REPO_ROOT / g["data_dir"].rstrip("/")
         results.append(
             process_strain(strain, data_dir_genome, dmnd, args.threads, args.force,
-                           pfam_map=pfam_map if pfam_map.exists() else None,
                            limit=args.limit)
         )
 
     # Status table. Prot = proteins with >=1 call; Cand = total candidates
     # (proteins with hits in multiple families contribute >1 candidate).
-    # T1/T2/T3 and agreement columns count CANDIDATES, not proteins.
-    # Kept = candidates passing the filter; drp_* = candidates dropped by
-    # each filter rule.
-    print(f"\n{'='*160}")
-    cols = ("Strain", "Status", "Prot", "Cand", "Kept",
-            "T1", "T2", "T3",
-            "confirms", "refines", "extends", "conflicts",
-            "pfam_d", "pfam_e", "pfam_b",
-            "drp_pf", "drp_eg", "drp_sng", "drp_lc")
-    print("{:<12} {:<14} {:>5} {:>5} {:>5} {:>4} {:>4} {:>4} {:>9} {:>8} {:>8} {:>10} {:>7} {:>7} {:>7} {:>7} {:>7} {:>7} {:>7}".format(*cols))
-    print("-" * 168)
+    # T1/T2/T3 and consensus columns count CANDIDATES, not proteins.
+    print(f"\n{'='*100}")
+    cols = ("Strain", "Status", "Prot", "Cand",
+            "T1", "T2", "T3", "cons5", "cons4", "cons3")
+    print("{:<12} {:<14} {:>6} {:>6} {:>6} {:>6} {:>6} {:>7} {:>7} {:>7}".format(*cols))
+    print("-" * 100)
     for strain, status, summary in results:
         if summary is None:
             print(f"{strain:<12} {status:<14}")
             continue
         td = summary["tier_distribution"]
-        ad = summary["agreement_distribution"]
-        pad = summary.get("pfam_agreement_distribution", {})
-        fad = summary.get("filter_action_distribution", {})
+        cd = summary.get("consensus_agreement_distribution", {})
         print(
-            "{:<12} {:<14} {:>5} {:>5} {:>5} {:>4} {:>4} {:>4} {:>9} {:>8} {:>8} {:>10} {:>7} {:>7} {:>7} {:>7} {:>7} {:>7} {:>7}".format(
+            "{:<12} {:<14} {:>6} {:>6} {:>6} {:>6} {:>6} {:>7} {:>7} {:>7}".format(
                 strain, status, summary["proteins_with_call"],
                 summary.get("total_candidates", 0),
-                fad.get("keep", 0),
                 td.get("1", 0), td.get("2", 0), td.get("3", 0),
-                ad.get("confirms", 0), ad.get("refines", 0),
-                ad.get("extends", 0), ad.get("conflicts", 0),
-                pad.get("confirms_diamond", 0), pad.get("confirms_eggnog", 0),
-                pad.get("confirms_both", 0),
-                fad.get("drop_pfam_contradicts", 0),
-                fad.get("drop_egn_conflicts", 0),
-                fad.get("drop_singleton_low_score", 0),
-                fad.get("drop_low_confidence", 0),
+                cd.get("5_part", 0), cd.get("4_part", 0), cd.get("3_part", 0),
             )
         )
-    print("=" * 168)
+    print("=" * 100)
 
     failed = [s for s, st, _ in results if st.startswith("FAILED")]
     if failed:

@@ -1,16 +1,39 @@
 # multiomics_kg/utils/tcdb_diamond.py
-"""TCDB-vs-Diamond per-hit tier policy + per-protein post-steps.
+"""TCDB-vs-Diamond per-hit tier policy + per-protein consensus collapse.
 
 Pure Python — no filesystem or subprocess. The orchestrator in
 `.claude/skills/tcdb-diamond/run_tcdb_diamond.py` is responsible for I/O.
+
+**This module produces PRIMARY SEQUENCE EVIDENCE ONLY.** It derives calls from
+`protein.faa` vs. the curated TCDB diamond DB and nothing else. It deliberately
+does NOT read eggNOG annotations or `gene_annotations_merged.json`.
+
+Rationale (see `docs/superpowers/specs/2026-08-06-tcdb-diamond-kg-integration-design.md`
+§3.2): the previous version read `gene_annotations_merged.json` — the *output* of
+prepare_data step 2 — to compute Pfam-agreement tags, while step 2 is exactly where
+these calls are destined to be merged. That is a cycle: re-running step 2 mutated
+calls.json even when the diamond blast was byte-identical.
+
+Cross-source reconciliation (eggNOG agreement, Pfam corroboration) now happens
+downstream where both sources are already present:
+
+  - eggNOG agreement -> derivable from `Gene_has_tcdb_family.sources` + the
+    `Tcdb_family_is_a_tcdb_family` hierarchy.
+  - Pfam corroboration -> the `Pfam_in_tcdb_family` bridge edge, built from
+    TCDB's curated Pfam->TC map in prepare_data step 6.
+
+There is also no `filter_action`: the old post-hoc filter chain made a candidate's
+verdict depend on whether the protein happened to have *unrelated* sibling
+candidates (§3.1). The tier policy in `classify_hit` is the quality gate, and it is
+sibling-independent by construction.
 """
 from __future__ import annotations
 
 import json
-import re
 from collections import defaultdict
 from pathlib import Path
 from typing import Iterator
+import re
 
 
 def classify_hit(hit: dict) -> int | None:
@@ -23,6 +46,11 @@ def classify_hit(hit: dict) -> int | None:
       - tier 1: identity >= 70 AND qcov >= 70
       - tier 2: identity >= 40 AND qcov >= 60
       - tier 3: floor only
+
+    The tier is both a confidence band AND the depth the call is truncated to
+    (see `_TIER_TO_LEVEL_KIND`): weaker similarity yields a deliberately
+    broader claim. This coupling is what makes tier 3 conservative rather than
+    overconfident.
     """
     if hit["evalue"] > 0.001:
         return None
@@ -74,67 +102,6 @@ def consensus_collapse(hits: list[dict]) -> dict | None:
                 "n": len(hits),
             }
     return None
-
-
-_AGREEMENT_RANK = {"confirms": 0, "refines": 1, "conflicts": 2}
-
-
-def _pair_agreement(diamond_tcid: str, egn_tcid: str) -> str:
-    """Per-pair agreement between one diamond TCID and one eggNOG TCID.
-
-    Returns "confirms" | "refines" | "conflicts". Caller handles the
-    `extends` (no eggNOG values) case.
-    """
-    if diamond_tcid == egn_tcid:
-        return "confirms"
-
-    diamond_parts = diamond_tcid.split(".")
-    egn_parts = egn_tcid.split(".")
-
-    if diamond_parts[:3] != egn_parts[:3]:
-        return "conflicts"
-
-    if len(diamond_parts) > len(egn_parts) and diamond_parts[: len(egn_parts)] == egn_parts:
-        return "refines"
-    return "confirms"
-
-
-def compute_egn_agreement(diamond_tcid: str, egn_tcids: list[str] | str | None) -> str:
-    """Tag the relationship between the diamond call and eggNOG's KEGG_TC values.
-
-    eggNOG's KEGG_TC field is multi-valued (comma-separated in the source TSV)
-    — e.g. `1.A.33.1,9.B.157.1` for MreB-like proteins. The previous behavior
-    of inspecting only the first value misclassified diamond calls matching any
-    later value as `conflicts`. This function now considers ALL eggNOG values
-    and returns the strongest match.
-
-    Returns one of: "confirms" | "refines" | "extends" | "conflicts".
-    `egn_only` (eggNOG TC present, diamond absent) is not produced here —
-    those proteins simply don't appear in the calls JSON in Phase 1.
-
-    Rules (applied per-pair, then aggregated by best match):
-      - confirms: identical TCIDs OR one is a strict prefix of the other
-        AT family level or below (first 3 parts match)
-      - refines: eggNOG TCID is a strict prefix of diamond TCID — same lineage,
-        diamond went deeper. Reported separately from confirms because this
-        is the headline specificity win.
-      - extends: eggNOG had no TC values; diamond produced one
-      - conflicts: ALL eggNOG values disagree at family level (first 3 parts)
-
-    `egn_tcids` accepts a list, a single string (legacy), or None.
-    """
-    if egn_tcids is None or egn_tcids == "":
-        return "extends"
-    if isinstance(egn_tcids, str):
-        egn_tcids = [egn_tcids]
-    if not egn_tcids:
-        return "extends"
-
-    # Best (lowest-ranked) match wins: confirms > refines > conflicts
-    return min(
-        (_pair_agreement(diamond_tcid, e) for e in egn_tcids),
-        key=lambda a: _AGREEMENT_RANK[a],
-    )
 
 
 def is_class_9(tcid: str) -> bool:
@@ -195,243 +162,12 @@ def parse_tcdb_subject_id(subject_id: str) -> tuple[str, str] | None:
     return accession, tcid
 
 
-def load_eggnog_kegg_tc(annotations_path: Path) -> dict[str, list[str]]:
-    """Read an eggNOG-mapper .emapper.annotations file -> {protein_id: [kegg_tc, ...]}.
-
-    eggNOG's KEGG_TC field is multi-valued (comma-separated). For example, the
-    rod shape-determining protein MreB carries `1.A.33.1,9.B.157.1` — both the
-    legacy Hsp70-cation-channel call and the correct MreBCD-family call. All
-    values are preserved so `compute_egn_agreement` can inspect each in turn.
-
-    Returns an empty dict when the file is absent. Skips rows whose KEGG_TC
-    column is "-", empty, or missing.
-    """
-    annotations_path = Path(annotations_path)
-    if not annotations_path.exists():
-        return {}
-
-    result: dict[str, list[str]] = {}
-    KEGG_TC_COL = 17  # 0-indexed, post-emapper-v2.1 column order
-
-    with open(annotations_path) as f:
-        for line in f:
-            if line.startswith("##"):
-                continue
-            if line.startswith("#"):
-                continue  # the #query header line
-            cols = line.rstrip("\n").split("\t")
-            if len(cols) <= KEGG_TC_COL:
-                continue
-            protein_id = cols[0]
-            kegg_tc_raw = cols[KEGG_TC_COL].strip()
-            if not kegg_tc_raw or kegg_tc_raw == "-":
-                continue
-            tcs = [v.strip() for v in kegg_tc_raw.split(",") if v.strip()]
-            if tcs:
-                result[protein_id] = tcs
-    return result
-
-
-def load_pfam_to_tc_map(path: Path) -> dict[str, set[str]]:
-    """Load TCDB's curated Pfam → TC mapping into {pfam_id: {tc_family, ...}}.
-
-    Source: https://www.tcdb.org/cgi-bin/projectv/public/pfam.py — a TCDB-
-    maintained 3-column TSV (PF#####\\tTC_ID\\tfamily_name) listing which Pfam
-    domains are associated with which TCDB transporter families. The cached
-    file is built by `run_tcdb_diamond.py` alongside `tcdb.dmnd` and lives at
-    `~/tools/TCDB/DB/tcdb_pfam_map.tsv` (or `$TCDB_DATA_DIR/DB/...`).
-
-    TC IDs are truncated to 3-part families (`tc_family` level) for
-    matching; this is the granularity at which TCDB curates Pfam ↔ TC
-    associations and the granularity at which `compute_egn_agreement`
-    decides confirms-vs-conflicts.
-
-    Returns an empty dict when the file is absent.
-    """
-    path = Path(path)
-    if not path.exists():
-        return {}
-    result: dict[str, set[str]] = defaultdict(set)
-    with open(path) as f:
-        for line in f:
-            parts = line.rstrip("\n").split("\t")
-            if len(parts) < 2:
-                continue
-            pfam_id, tc_id = parts[0], parts[1]
-            if not pfam_id.startswith("PF") or tc_id.count(".") < 2:
-                continue
-            family = ".".join(tc_id.split(".")[:3])
-            result[pfam_id].add(family)
-    return dict(result)
-
-
-def load_gene_pfams(annotations_path: Path) -> dict[str, list[str]]:
-    """Read `gene_annotations_merged.json` -> {protein_id: [pfam_id, ...]}.
-
-    The merged annotation file is keyed by locus_tag; this transposes it to
-    a protein_id keyed lookup so `build_strain_calls` (whose calls.json is
-    keyed by protein_id) can join Pfam annotations to diamond calls in a
-    single dict access.
-
-    Returns an empty dict when the file is absent. Skips genes without a
-    `protein_id` (or `protein_id_refseq` fallback) — those can't appear in
-    the diamond TSV's query column anyway.
-    """
-    annotations_path = Path(annotations_path)
-    if not annotations_path.exists():
-        return {}
-    raw = json.loads(annotations_path.read_text())
-    result: dict[str, list[str]] = {}
-    for _lt, gene in raw.items():
-        pid = gene.get("protein_id") or gene.get("protein_id_refseq")
-        if not pid:
-            continue
-        pfams = gene.get("pfam_ids") or []
-        if pfams:
-            result[pid] = list(pfams)
-    return result
-
-
-def gene_pfam_implied_families(
-    gene_pfams: list[str],
-    pfam_to_tc_map: dict[str, set[str]],
-) -> list[str]:
-    """Union the 3-part TC families implied by all of a gene's Pfams.
-
-    Returns a sorted list of unique 3-part TC families. Empty when the gene
-    has no Pfams or none of them are in TCDB's curated Pfam→TC map.
-
-    The TCDB Pfam→TC map (~1.3K Pfams, ~8.3K (Pfam, TC) pairs) only covers
-    Pfams TCDB has explicitly curated against TC families; many transport-
-    related Pfams (e.g. PF04193 for SWEET-family sugar transporters) are
-    absent. Genes with only un-curated Pfams produce an empty result here
-    and downstream `pfam_agreement` becomes `"neutral"`.
-    """
-    if not gene_pfams:
-        return []
-    implied: set[str] = set()
-    for p in gene_pfams:
-        implied |= pfam_to_tc_map.get(p, set())
-    return sorted(implied)
-
-
-def compute_pfam_agreement(
-    diamond_tcid: str,
-    egn_tcids: list[str],
-    pfam_implied_families: list[str],
-) -> str:
-    """Tag the relationship between one diamond/eggNOG candidate pair and the
-    gene's precomputed Pfam-implied TC families.
-
-    Returns one of: "confirms_diamond" | "confirms_eggnog" | "confirms_both" |
-    "contradicts_both" | "neutral". Independent from `egn_agreement`: a
-    `conflicts` egn_agreement combined with `confirms_diamond` pfam_agreement
-    is a strong "diamond wins" signal; `conflicts` + `confirms_eggnog` is a
-    strong "eggNOG wins" signal. Phase 2's merge rule combines both.
-
-    Tag semantics:
-      - confirms_both: Pfam-implied family includes BOTH diamond's call's
-        family AND at least one eggNOG family. Multi-domain protein, OR a
-        Pfam that TCDB curates against multiple TC families.
-      - confirms_diamond: matches diamond's family but no eggNOG family.
-      - confirms_eggnog: matches an eggNOG family but not diamond's.
-      - contradicts_both: Pfam implies one or more families, but none match
-        diamond or any eggNOG. Both sequence-based calls may be wrong.
-      - neutral: Pfam implies no families (empty list — gene has no Pfams,
-        or its Pfams aren't in TCDB's curated map).
-
-    `pfam_implied_families` is computed once per protein via
-    `gene_pfam_implied_families`; this function is called per candidate so
-    each call's diamond TCID gets its own verdict against the same Pfam set.
-    """
-    if not pfam_implied_families:
-        return "neutral"
-    implied = set(pfam_implied_families)
-    diamond_family = ".".join(diamond_tcid.split(".")[:3])
-    egn_families = {".".join(e.split(".")[:3]) for e in egn_tcids}
-    d_match = diamond_family in implied
-    e_match = bool(implied & egn_families)
-    if d_match and e_match:
-        return "confirms_both"
-    if d_match:
-        return "confirms_diamond"
-    if e_match:
-        return "confirms_eggnog"
-    return "contradicts_both"
-
-
-_PFAM_CONFIRM = {"confirms_diamond", "confirms_both"}
-_EGN_CONFIRM = {"confirms", "refines"}
-DEFAULT_MIN_RELATIVE_CONFIDENCE = 0.25
-DEFAULT_MIN_SINGLETON_SCORE = 0.20
-
-
-def annotate_candidate_filters(
-    calls: dict[str, dict],
-    min_relative_confidence: float = DEFAULT_MIN_RELATIVE_CONFIDENCE,
-    min_singleton_score: float = DEFAULT_MIN_SINGLETON_SCORE,
-) -> dict[str, int]:
-    """Set per-candidate `filter_action` based on Pfam/eggNOG agreement,
-    sibling-relative confidence, and an absolute single-hit floor.
-    Mutates `calls` in place; returns drop-stat counts.
-
-    Walks each candidate and applies the first matching rule:
-
-      1. drop_pfam_contradicts (multi-candidate only) — this candidate has
-         pfam_agreement 'contradicts_both' AND some sibling has
-         pfam_agreement in {confirms_diamond, confirms_both}. Pfam
-         disqualifies this call.
-      2. drop_egn_conflicts (multi-candidate only) — this candidate has
-         egn_agreement 'conflicts' AND some sibling has egn_agreement in
-         {confirms, refines}. eggNOG disqualifies this call.
-      3. drop_singleton_low_score — this candidate is backed by a single
-         hit (consensus_n == 1) AND confidence_score < min_singleton_score.
-         Applies REGARDLESS of sibling count, including single-candidate
-         proteins: a lone weak single hit is the weakest evidence we have
-         and shouldn't introduce a new TC family annotation downstream.
-      4. drop_low_confidence (multi-candidate only) — this candidate's
-         confidence_score is below min_relative_confidence × the
-         protein's best candidate's score. Diamond evidence much weaker
-         than the alternative.
-      5. keep — none of the above.
-
-    The pfam/egn/relative-confidence rules require siblings (multi-candidate)
-    by design — they're alternative-aware. The singleton rule is absolute and
-    fires on single-candidate proteins too: weak single-hit evidence is
-    classified as filtered so Phase 2 doesn't add new TC family annotations
-    on this basis. Nothing is deleted from `calls[]`; the rule is purely
-    annotative.
-
-    Returns a Counter-style dict keyed by filter_action.
-    """
-    drop_stats: dict[str, int] = defaultdict(int)
-    for rec in calls.values():
-        cands = rec["calls"]
-        any_pfam_confirm = any(c["pfam_agreement"] in _PFAM_CONFIRM for c in cands)
-        any_egn_confirm = any(c["egn_agreement"] in _EGN_CONFIRM for c in cands)
-        max_conf = max(c["confidence_score"] for c in cands)
-        multi = len(cands) > 1
-        for c in cands:
-            if multi and c["pfam_agreement"] == "contradicts_both" and any_pfam_confirm:
-                action = "drop_pfam_contradicts"
-            elif multi and c["egn_agreement"] == "conflicts" and any_egn_confirm:
-                action = "drop_egn_conflicts"
-            elif c["consensus_n"] == 1 and c["confidence_score"] < min_singleton_score:
-                action = "drop_singleton_low_score"
-            elif multi and c["confidence_score"] < min_relative_confidence * max_conf:
-                action = "drop_low_confidence"
-            else:
-                action = "keep"
-            c["filter_action"] = action
-            drop_stats[action] += 1
-    return dict(drop_stats)
-
-
 _TIER_TO_LEVEL_KIND = {
     1: "tc_specificity",
     2: "tc_subfamily",
     3: "tc_family",
 }
+
 _AGREEMENT_TO_PARTS = {"5_part": 5, "4_part": 4, "3_part": 3}
 # Down-weight scores when consensus is shallower — agreement at full depth
 # is the strongest evidence; agreement only at family level is weakest.
@@ -454,38 +190,21 @@ def confidence_score(identity: float, qcov: float, agreement: str) -> float:
     return (identity / 100.0) * (qcov / 100.0) * _AGREEMENT_WEIGHT[agreement]
 
 
-def build_strain_calls(
-    tsv_path: Path,
-    eggnog_annotations_path: Path,
-    gene_annotations_path: Path | None = None,
-    pfam_to_tc_map_path: Path | None = None,
-) -> tuple[dict, dict]:
-    """Run the full per-strain pipeline: parse TSV, classify, consensus, tag.
+def build_strain_calls(tsv_path: Path) -> tuple[dict, dict]:
+    """Run the full per-strain pipeline: parse TSV, classify, consensus collapse.
+
+    Takes ONLY the raw diamond TSV. No eggNOG, no merged annotations, no
+    external map files — see the module docstring for why.
 
     Returns (calls, summary):
-      calls: dict keyed by protein_id with the full §6.5 record shape
-      summary: dict with raw counts (matches §6.6 stdout columns)
+      calls:   {protein_id: {"calls": [candidate, ...]}}, candidates sorted by
+               confidence_score descending
+      summary: per-strain counts for the stdout status table
 
-    `gene_annotations_path` (per-strain `gene_annotations_merged.json`) and
-    `pfam_to_tc_map_path` (TCDB-published Pfam→TC map at
-    `~/tools/TCDB/DB/tcdb_pfam_map.tsv`) are optional. When both are provided,
-    each call gains `pfam_ids`, `pfam_tc_families`, and `pfam_agreement` fields
-    (and the summary gains `pfam_agreement_distribution`); when either is
-    missing, those fields are still emitted with neutral values so the schema
-    stays stable.
+    Each candidate carries only sequence-derived evidence:
+      tcid, level_kind, tier, confidence_score, identity, qcov, scov, evalue,
+      length, consensus_n, consensus_agreement, incompletely_characterized
     """
-    egn_lookup = load_eggnog_kegg_tc(Path(eggnog_annotations_path))
-    gene_pfams_lookup = (
-        load_gene_pfams(Path(gene_annotations_path))
-        if gene_annotations_path is not None
-        else {}
-    )
-    pfam_to_tc_map = (
-        load_pfam_to_tc_map(Path(pfam_to_tc_map_path))
-        if pfam_to_tc_map_path is not None
-        else {}
-    )
-
     # Group accepted (tier-classified) hits per query
     by_query: dict[str, list[dict]] = defaultdict(list)
     raw_lines = 0
@@ -526,10 +245,6 @@ def build_strain_calls(
             family = ".".join(h["tcid"].split(".")[:3])
             by_family[family].append(h)
 
-        egn_tcids = egn_lookup.get(query_id, [])
-        gene_pfams = gene_pfams_lookup.get(query_id, [])
-        pfam_tc_families = gene_pfam_implied_families(gene_pfams, pfam_to_tc_map)
-
         candidates: list[dict] = []
         for _family, family_hits in by_family.items():
             # All hits in this group share at least 3 parts; consensus depth
@@ -565,8 +280,6 @@ def build_strain_calls(
                 "length": best["length"],
                 "consensus_n": consensus["n"],
                 "consensus_agreement": consensus["agreement"],
-                "egn_agreement": compute_egn_agreement(called_tcid, egn_tcids),
-                "pfam_agreement": compute_pfam_agreement(called_tcid, egn_tcids, pfam_tc_families),
                 "incompletely_characterized": is_class_9(called_tcid),
             })
 
@@ -574,39 +287,23 @@ def build_strain_calls(
             continue
 
         candidates.sort(key=lambda c: -c["confidence_score"])
-        calls[query_id] = {
-            "egn_tcids": egn_tcids,
-            "pfam_ids": gene_pfams,
-            "pfam_tc_families": pfam_tc_families,
-            "calls": candidates,
-        }
+        calls[query_id] = {"calls": candidates}
         total_candidates += len(candidates)
 
-    # Apply the per-candidate filter to annotate each candidate with
-    # `filter_action`. Does NOT remove candidates from `calls`; consumers
-    # use the field to decide what to keep. See annotate_candidate_filters.
-    filter_action_dist = annotate_candidate_filters(calls)
-
-    # Build summary. tier_distribution + agreement distributions now count
+    # Build summary. tier_distribution + consensus_agreement_distribution count
     # CANDIDATES (not proteins): a 2-family protein contributes 2 entries.
     # Use proteins_with_call vs total_candidates to gauge how many proteins
     # are multi-family.
     tier_dist: dict[str, int] = defaultdict(int)
-    agreement_dist: dict[str, int] = defaultdict(
-        int, {"confirms": 0, "refines": 0, "extends": 0, "conflicts": 0}
-    )
-    pfam_agreement_dist: dict[str, int] = defaultdict(
-        int,
-        {"confirms_diamond": 0, "confirms_eggnog": 0, "confirms_both": 0,
-         "contradicts_both": 0, "neutral": 0},
+    consensus_dist: dict[str, int] = defaultdict(
+        int, {"5_part": 0, "4_part": 0, "3_part": 0}
     )
     candidates_per_protein: dict[str, int] = defaultdict(int)
     for rec in calls.values():
         candidates_per_protein[str(len(rec["calls"]))] += 1
         for cand in rec["calls"]:
             tier_dist[str(cand["tier"])] += 1
-            agreement_dist[cand["egn_agreement"]] += 1
-            pfam_agreement_dist[cand["pfam_agreement"]] += 1
+            consensus_dist[cand["consensus_agreement"]] += 1
 
     summary = {
         "raw_hit_lines": raw_lines,
@@ -615,34 +312,21 @@ def build_strain_calls(
         "total_candidates": total_candidates,
         "candidates_per_protein_distribution": dict(candidates_per_protein),
         "tier_distribution": dict(tier_dist),
-        "agreement_distribution": dict(agreement_dist),
-        "pfam_agreement_distribution": dict(pfam_agreement_dist),
-        "filter_action_distribution": dict(filter_action_dist),
+        "consensus_agreement_distribution": dict(consensus_dist),
     }
     return calls, summary
 
 
 # ============================================================================
-# Phase 2 — calls.json consumption helpers
+# calls.json consumption helpers
 # ============================================================================
 #
 # These utilities walk the per-strain `<strain>.tcdb.calls.json` artifact
-# produced by `build_strain_calls`. Phase 2's merge code uses them to:
+# produced by `build_strain_calls`. The KG merge uses them to:
 #   - load a strain's calls
-#   - iterate only the candidates Phase 1 endorses (filter_action == "keep")
-#   - pick the top-confidence kept candidate per protein
-#   - extract per-protein TC family lists for annotation merge
-
-
-# Public vocabulary — exported for Phase 2 consumers
-KEEP_ACTION = "keep"
-FILTER_ACTIONS = (
-    "keep",
-    "drop_pfam_contradicts",
-    "drop_egn_conflicts",
-    "drop_singleton_low_score",
-    "drop_low_confidence",
-)
+#   - iterate every candidate (nothing is pre-filtered — see module docstring)
+#   - pick the top-confidence candidate per protein
+#   - extract per-protein TC family / TCID lists for the annotation merge
 
 
 def load_calls_json(path: Path) -> dict[str, dict]:
@@ -651,85 +335,53 @@ def load_calls_json(path: Path) -> dict[str, dict]:
     Raises FileNotFoundError if the file is missing — callers should
     handle this explicitly (a strain without a calls.json is a real
     "no TCDB annotation available for this strain" case, not silent).
-    Returns the raw on-disk shape: `{protein_id: {egn_tcids, pfam_ids,
-    pfam_tc_families, calls: [...]}}`.
+    Returns the raw on-disk shape: `{protein_id: {"calls": [...]}}`.
     """
     path = Path(path)
     return json.loads(path.read_text())
 
 
-def iter_kept_candidates(calls: dict[str, dict]) -> Iterator[tuple[str, dict]]:
-    """Yield (protein_id, candidate_dict) for every candidate the filter
-    endorsed (filter_action == "keep").
+def iter_candidates(calls: dict[str, dict]) -> Iterator[tuple[str, dict]]:
+    """Yield (protein_id, candidate_dict) for every candidate.
 
-    Skips dropped candidates entirely. A protein contributes 0 to N
-    candidates depending on how many of its `calls[]` were kept. Order
-    within a protein matches `calls[]` ordering (descending by
+    Nothing is filtered — the tier policy already applied the quality gate at
+    build time. Consumers that want a stricter cut should filter on `tier`,
+    `identity`, or `confidence_score` explicitly, so the threshold is visible
+    at the point of use rather than frozen into the artifact.
+
+    Order within a protein matches `calls[]` ordering (descending by
     `confidence_score`).
     """
     for pid, rec in calls.items():
         for cand in rec.get("calls", []):
-            if cand.get("filter_action") == KEEP_ACTION:
-                yield pid, cand
+            yield pid, cand
 
 
-def best_kept_call(rec: dict) -> dict | None:
-    """Return the highest-confidence kept candidate for one protein's record,
-    or None if every candidate was filtered out.
+def best_call(rec: dict) -> dict | None:
+    """Return the highest-confidence candidate for one protein's record.
 
     `rec` is a single value from a calls.json dict (`calls[protein_id]`).
-    Since `build_strain_calls` already sorts `calls[]` by confidence_score
-    descending, this is just the first kept entry — no re-sort needed.
+    Since `build_strain_calls` sorts `calls[]` by confidence_score descending,
+    this is just the first entry. Returns None for an empty record.
     """
-    for cand in rec.get("calls", []):
-        if cand.get("filter_action") == KEEP_ACTION:
-            return cand
-    return None
+    cands = rec.get("calls", [])
+    return cands[0] if cands else None
 
 
-def kept_tc_families(rec: dict) -> list[str]:
-    """Sorted-unique list of 3-part TC families across kept candidates for
-    one protein. Empty when every candidate was filtered out.
+def call_tc_families(rec: dict) -> list[str]:
+    """Sorted-unique list of 3-part TC families across one protein's candidates.
 
-    Truncates each candidate's `tcid` to its 3-part family. Useful when
-    Phase 2 wants to merge a Gene-to-TC_family edge per kept family
-    (the depth at which eggNOG operates and TCDB curates Pfam mappings).
+    Truncates each candidate's `tcid` to its 3-part family — the depth at
+    which eggNOG operates and TCDB curates Pfam associations.
     """
-    fams: set[str] = set()
-    for cand in rec.get("calls", []):
-        if cand.get("filter_action") != KEEP_ACTION:
-            continue
-        fams.add(".".join(cand["tcid"].split(".")[:3]))
-    return sorted(fams)
+    return sorted({".".join(c["tcid"].split(".")[:3]) for c in rec.get("calls", [])})
 
 
-def kept_call_tcids(rec: dict) -> list[str]:
-    """List of kept candidates' full `tcid` values in original order (by
-    confidence_score descending). Preserves 3-part / 4-part / 5-part depth.
+def call_tcids(rec: dict) -> list[str]:
+    """Candidates' full `tcid` values in original order (confidence descending).
 
-    Use when Phase 2 wants the most-specific TCID per kept call (vs
-    `kept_tc_families` which collapses to 3-part). Order is meaningful —
-    `[0]` is the highest-confidence kept call.
+    Preserves 3-part / 4-part / 5-part depth. Use when the merge wants the
+    most-specific TCID per call (vs `call_tc_families`, which collapses to
+    3-part). Order is meaningful — `[0]` is the highest-confidence call.
     """
-    return [
-        c["tcid"] for c in rec.get("calls", [])
-        if c.get("filter_action") == KEEP_ACTION
-    ]
-
-
-def summarize_filter_actions(calls: dict[str, dict]) -> dict[str, int]:
-    """Recompute the filter_action distribution from a calls dict.
-
-    Useful when Phase 2 (or an ad-hoc analysis) has re-filtered the calls
-    in memory and needs an updated count. For the original on-disk
-    distribution, prefer the `filter_action_distribution` field in
-    `<strain>.tcdb.skill_summary.json` — this function gives equivalent
-    output but recounts from the calls dict.
-    """
-    counts: dict[str, int] = {a: 0 for a in FILTER_ACTIONS}
-    for rec in calls.values():
-        for cand in rec.get("calls", []):
-            action = cand.get("filter_action", "")
-            if action in counts:
-                counts[action] += 1
-    return counts
+    return [c["tcid"] for c in rec.get("calls", [])]
