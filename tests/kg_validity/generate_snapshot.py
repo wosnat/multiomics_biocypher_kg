@@ -251,9 +251,19 @@ EDGE_PROPERTIES = {
     "Pfam_in_pfam_clan": [],
     # TCDB edges (gene-attach is at the most specific eggNOG-annotated level;
     # transports rolled up from tc_specificity leaves)
-    "Gene_has_tcdb_family": [],
+    # Two evidence sources (eggnog + diamond) ride on this edge; capture the
+    # provenance and the diamond evidence block so a regression that drops them
+    # is caught by the snapshot rather than only by the tcdb kg-validity tests.
+    "Gene_has_tcdb_family": [
+        "sources", "tier", "confidence_score", "identity", "qcov", "consensus_n",
+    ],
     "Tcdb_family_is_a_tcdb_family": [],
     "Tcdb_family_transports_metabolite": [],
+    # Cross-ontology bridges: curated_tcids preserves the pre-roll-up TCIDs.
+    "Tcdb_family_has_pfam_domain": ["curated_tcids"],
+    "Tcdb_family_involved_in_biological_process": ["curated_tcids"],
+    "Tcdb_family_enables_molecular_function": ["curated_tcids"],
+    "Tcdb_family_located_in_cellular_component": ["curated_tcids"],
     # CAZy edges
     "Gene_has_cazy_family": [],
     "Cazy_family_is_a_cazy_family": [],

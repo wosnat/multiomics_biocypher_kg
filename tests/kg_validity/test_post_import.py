@@ -1070,10 +1070,24 @@ def test_gene_tcdb_family_count_populated(run_query):
 
 
 @pytest.mark.kg
-def test_gene_annotation_types_includes_tcdb_when_edges_present(run_query):
-    rows = run_query(
-        "MATCH (g:Gene)-[:Gene_has_tcdb_family]->() RETURN g.annotation_types AS at LIMIT 5"
-    )
+def test_gene_annotation_types_includes_tcdb_when_qualifying_edge_present(run_query):
+    """'tcdb' appears in annotation_types iff the gene has a QUALIFYING edge.
+
+    Since diamond joined eggNOG as a second source (2026-08-06), a
+    Gene_has_tcdb_family edge alone is no longer sufficient: the tier gate admits
+    only eggNOG-sourced or tier<=2 evidence, so ~15.5K genes whose sole evidence
+    is a conservative tier-3 diamond call carry the edge without the annotation
+    type. Full both-directions coverage lives in
+    test_tcdb_cazy.py::test_annotation_types_tcdb_respects_the_tier_gate.
+    """
+    rows = run_query("""
+        MATCH (g:Gene) WHERE EXISTS {
+            MATCH (g)-[r:Gene_has_tcdb_family]->()
+            WHERE 'eggnog' IN r.sources OR r.tier <= 2
+        }
+        RETURN g.annotation_types AS at LIMIT 5
+    """)
+    assert rows, "no gene with qualifying TCDB evidence found"
     assert all("tcdb" in r["at"] for r in rows)
 
 

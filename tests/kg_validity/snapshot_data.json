@@ -1434,33 +1434,63 @@
       "type": "Pfam_in_pfam_clan"
     },
     {
-      "properties": {},
+      "properties": {
+        "confidence_score": 0.7905,
+        "consensus_n": 3,
+        "identity": 93.0,
+        "qcov": 100.0,
+        "sources": [
+          "diamond"
+        ],
+        "tier": 2
+      },
+      "source": "ncbigene:A9601_00071",
+      "target": "tcdb:9.B.150.1",
+      "type": "Gene_has_tcdb_family"
+    },
+    {
+      "properties": {
+        "confidence_score": 0.2225,
+        "consensus_n": 13,
+        "identity": 44.7,
+        "qcov": 71.1,
+        "sources": [
+          "diamond"
+        ],
+        "tier": 3
+      },
+      "source": "ncbigene:A9601_00091",
+      "target": "tcdb:3.A.5",
+      "type": "Gene_has_tcdb_family"
+    },
+    {
+      "properties": {
+        "sources": [
+          "eggnog"
+        ]
+      },
       "source": "ncbigene:A9601_00091",
       "target": "tcdb:3.A.5.1",
       "type": "Gene_has_tcdb_family"
     },
     {
-      "properties": {},
+      "properties": {
+        "sources": [
+          "eggnog"
+        ]
+      },
       "source": "ncbigene:A9601_00091",
       "target": "tcdb:3.A.5.2",
       "type": "Gene_has_tcdb_family"
     },
     {
-      "properties": {},
+      "properties": {
+        "sources": [
+          "eggnog"
+        ]
+      },
       "source": "ncbigene:A9601_00091",
       "target": "tcdb:3.A.5.7",
-      "type": "Gene_has_tcdb_family"
-    },
-    {
-      "properties": {},
-      "source": "ncbigene:A9601_00771",
-      "target": "tcdb:3.A.1.106",
-      "type": "Gene_has_tcdb_family"
-    },
-    {
-      "properties": {},
-      "source": "ncbigene:A9601_00771",
-      "target": "tcdb:3.A.1.110",
       "type": "Gene_has_tcdb_family"
     },
     {
@@ -1522,6 +1552,383 @@
       "source": "tcdb:1",
       "target": "chebi:11148",
       "type": "Tcdb_family_transports_metabolite"
+    },
+    {
+      "properties": {
+        "curated_tcids": [
+          "1.A.1.4.1",
+          "1.A.1.4.10",
+          "1.A.1.4.4",
+          "1.A.1.4.5",
+          "1.A.1.4.6",
+          "1.A.1.4.8"
+        ]
+      },
+      "source": "tcdb:1.A.1",
+      "target": "pfam:PF00023",
+      "type": "Tcdb_family_has_pfam_domain"
+    },
+    {
+      "properties": {
+        "curated_tcids": [
+          "1.A.1.20.1",
+          "1.A.1.20.2",
+          "1.A.1.20.3",
+          "1.A.1.20.4",
+          "1.A.1.20.5",
+          "1.A.1.22.1",
+          "1.A.1.4.1",
+          "1.A.1.4.10",
+          "1.A.1.4.2",
+          "1.A.1.4.3",
+          "1.A.1.4.4",
+          "1.A.1.4.5",
+          "1.A.1.4.6",
+          "1.A.1.4.7",
+          "1.A.1.4.8",
+          "1.A.1.4.9",
+          "1.A.1.5.1",
+          "1.A.1.5.10",
+          "1.A.1.5.11",
+          "1.A.1.5.12",
+          "1.A.1.5.13",
+          "1.A.1.5.14",
+          "1.A.1.5.2",
+          "1.A.1.5.3",
+          "1.A.1.5.4",
+          "1.A.1.5.5",
+          "1.A.1.5.6",
+          "1.A.1.5.7",
+          "1.A.1.5.9"
+        ]
+      },
+      "source": "tcdb:1.A.1",
+      "target": "pfam:PF00027",
+      "type": "Tcdb_family_has_pfam_domain"
+    },
+    {
+      "properties": {
+        "curated_tcids": [
+          "1.A.1.10.1",
+          "1.A.1.10.10",
+          "1.A.1.10.2",
+          "1.A.1.10.3",
+          "1.A.1.10.4",
+          "1.A.1.10.5",
+          "1.A.1.10.6",
+          "1.A.1.10.7",
+          "1.A.1.10.8",
+          "1.A.1.10.9",
+          "1.A.1.11.1",
+          "1.A.1.11.11",
+          "1.A.1.11.12",
+          "1.A.1.11.13",
+          "1.A.1.11.14",
+          "1.A.1.11.15",
+          "1.A.1.11.16",
+          "1.A.1.11.18",
+          "1.A.1.11.19",
+          "1.A.1.11.2",
+          "1.A.1.11.20",
+          "1.A.1.11.21",
+          "1.A.1.11.22",
+          "1.A.1.11.3",
+          "1.A.1.11.4",
+          "1.A.1.11.5",
+          "1.A.1.11.6",
+          "1.A.1.11.7",
+          "1.A.1.11.8",
+          "1.A.1.11.9",
+          "1.A.1.15.1",
+          "1.A.1.15.2",
+          "1.A.1.15.3",
+          "1.A.1.15.4",
+          "1.A.1.15.5",
+          "1.A.1.15.6",
+          "1.A.1.19.1",
+          "1.A.1.19.2",
+          "1.A.1.19.3",
+          "1.A.1.2.1",
+          "1.A.1.2.10",
+          "1.A.1.2.11",
+          "1.A.1.2.12",
+          "1.A.1.2.13",
+          "1.A.1.2.14",
+          "1.A.1.2.15",
+          "1.A.1.2.16",
+          "1.A.1.2.17",
+          "1.A.1.2.18",
+          "1.A.1.2.2",
+          "1.A.1.2.3",
+          "1.A.1.2.4",
+          "1.A.1.2.5",
+          "1.A.1.2.6",
+          "1.A.1.2.7",
+          "1.A.1.2.8",
+          "1.A.1.2.9",
+          "1.A.1.20.1",
+          "1.A.1.20.2",
+          "1.A.1.20.3",
+          "1.A.1.20.4",
+          "1.A.1.20.5",
+          "1.A.1.22.1",
+          "1.A.1.3.1",
+          "1.A.1.3.2",
+          "1.A.1.3.3",
+          "1.A.1.3.5",
+          "1.A.1.4.1",
+          "1.A.1.4.10",
+          "1.A.1.4.2",
+          "1.A.1.4.3",
+          "1.A.1.4.4",
+          "1.A.1.4.5",
+          "1.A.1.4.6",
+          "1.A.1.4.7",
+          "1.A.1.4.8",
+          "1.A.1.4.9",
+          "1.A.1.5.1",
+          "1.A.1.5.10",
+          "1.A.1.5.11",
+          "1.A.1.5.12",
+          "1.A.1.5.13",
+          "1.A.1.5.14",
+          "1.A.1.5.2",
+          "1.A.1.5.3",
+          "1.A.1.5.4",
+          "1.A.1.5.5",
+          "1.A.1.5.8",
+          "1.A.1.5.9"
+        ]
+      },
+      "source": "tcdb:1.A.1",
+      "target": "pfam:PF00520",
+      "type": "Tcdb_family_has_pfam_domain"
+    },
+    {
+      "properties": {
+        "curated_tcids": [
+          "1.A.1.20.1",
+          "1.A.1.20.2",
+          "1.A.1.20.4"
+        ]
+      },
+      "source": "tcdb:1.A.1",
+      "target": "pfam:PF00989",
+      "type": "Tcdb_family_has_pfam_domain"
+    },
+    {
+      "properties": {
+        "curated_tcids": [
+          "1.A.1.3.2"
+        ]
+      },
+      "source": "tcdb:1.A.1",
+      "target": "pfam:PF02254",
+      "type": "Tcdb_family_has_pfam_domain"
+    },
+    {
+      "properties": {
+        "curated_tcids": [
+          "1.A.1.20.1",
+          "1.A.1.20.4"
+        ]
+      },
+      "source": "tcdb:1.A.1",
+      "target": "go:0000160",
+      "type": "Tcdb_family_involved_in_biological_process"
+    },
+    {
+      "properties": {
+        "curated_tcids": [
+          "1.A.1.2.1",
+          "1.A.1.2.5",
+          "1.A.1.2.6"
+        ]
+      },
+      "source": "tcdb:1.A.1",
+      "target": "go:0001508",
+      "type": "Tcdb_family_involved_in_biological_process"
+    },
+    {
+      "properties": {
+        "curated_tcids": [
+          "1.A.1.19.3"
+        ]
+      },
+      "source": "tcdb:1.A.1",
+      "target": "go:0001539",
+      "type": "Tcdb_family_involved_in_biological_process"
+    },
+    {
+      "properties": {
+        "curated_tcids": [
+          "1.A.1.3.2"
+        ]
+      },
+      "source": "tcdb:1.A.1",
+      "target": "go:0001666",
+      "type": "Tcdb_family_involved_in_biological_process"
+    },
+    {
+      "properties": {
+        "curated_tcids": [
+          "1.A.1.2.15"
+        ]
+      },
+      "source": "tcdb:1.A.1",
+      "target": "go:0006112",
+      "type": "Tcdb_family_involved_in_biological_process"
+    },
+    {
+      "properties": {
+        "curated_tcids": [
+          "1.A.1.20.1",
+          "1.A.1.20.4",
+          "1.A.1.20.5"
+        ]
+      },
+      "source": "tcdb:1.A.1",
+      "target": "go:0000155",
+      "type": "Tcdb_family_enables_molecular_function"
+    },
+    {
+      "properties": {
+        "curated_tcids": [
+          "1.A.1.23.1",
+          "1.A.1.23.2",
+          "1.A.1.23.3",
+          "1.A.1.3.1",
+          "1.A.1.3.2",
+          "1.A.1.3.3",
+          "1.A.1.3.4",
+          "1.A.1.3.5"
+        ]
+      },
+      "source": "tcdb:1.A.1",
+      "target": "go:0003824",
+      "type": "Tcdb_family_enables_molecular_function"
+    },
+    {
+      "properties": {
+        "curated_tcids": [
+          "1.A.1.11.16",
+          "1.A.1.11.18",
+          "1.A.1.12.1",
+          "1.A.1.21.1",
+          "1.A.1.23.2",
+          "1.A.1.23.3",
+          "1.A.1.5.1",
+          "1.A.1.5.3",
+          "1.A.1.5.7",
+          "1.A.1.5.8"
+        ]
+      },
+      "source": "tcdb:1.A.1",
+      "target": "go:0005216",
+      "type": "Tcdb_family_enables_molecular_function"
+    },
+    {
+      "properties": {
+        "curated_tcids": [
+          "1.A.1.11.13",
+          "1.A.1.11.15",
+          "1.A.1.11.19",
+          "1.A.1.11.22",
+          "1.A.1.19.1",
+          "1.A.1.19.2",
+          "1.A.1.19.3",
+          "1.A.1.3.5",
+          "1.A.1.7.1",
+          "1.A.1.8.1",
+          "1.A.1.8.2",
+          "1.A.1.9.10",
+          "1.A.1.9.2",
+          "1.A.1.9.3",
+          "1.A.1.9.4",
+          "1.A.1.9.6"
+        ]
+      },
+      "source": "tcdb:1.A.1",
+      "target": "go:0005244",
+      "type": "Tcdb_family_enables_molecular_function"
+    },
+    {
+      "properties": {
+        "curated_tcids": [
+          "1.A.1.11.1",
+          "1.A.1.11.12",
+          "1.A.1.11.14",
+          "1.A.1.11.2",
+          "1.A.1.11.20",
+          "1.A.1.11.21",
+          "1.A.1.11.3",
+          "1.A.1.11.9",
+          "1.A.1.19.3"
+        ]
+      },
+      "source": "tcdb:1.A.1",
+      "target": "go:0005245",
+      "type": "Tcdb_family_enables_molecular_function"
+    },
+    {
+      "properties": {
+        "curated_tcids": [
+          "1.A.1.10.1",
+          "1.A.1.10.10",
+          "1.A.1.10.2",
+          "1.A.1.10.3",
+          "1.A.1.10.4",
+          "1.A.1.10.5",
+          "1.A.1.10.6",
+          "1.A.1.10.7",
+          "1.A.1.10.8",
+          "1.A.1.10.9"
+        ]
+      },
+      "source": "tcdb:1.A.1",
+      "target": "go:0001518",
+      "type": "Tcdb_family_located_in_cellular_component"
+    },
+    {
+      "properties": {
+        "curated_tcids": [
+          "1.A.1.4.4"
+        ]
+      },
+      "source": "tcdb:1.A.1",
+      "target": "go:0005634",
+      "type": "Tcdb_family_located_in_cellular_component"
+    },
+    {
+      "properties": {
+        "curated_tcids": [
+          "1.A.1.11.19",
+          "1.A.1.11.22"
+        ]
+      },
+      "source": "tcdb:1.A.1",
+      "target": "go:0005765",
+      "type": "Tcdb_family_located_in_cellular_component"
+    },
+    {
+      "properties": {
+        "curated_tcids": [
+          "1.A.1.8.1"
+        ]
+      },
+      "source": "tcdb:1.A.1",
+      "target": "go:0005768",
+      "type": "Tcdb_family_located_in_cellular_component"
+    },
+    {
+      "properties": {
+        "curated_tcids": [
+          "1.A.1.7.3"
+        ]
+      },
+      "source": "tcdb:1.A.1",
+      "target": "go:0005774",
+      "type": "Tcdb_family_located_in_cellular_component"
     },
     {
       "properties": {},
@@ -1854,7 +2261,7 @@
       "type": "Gene_in_gene_cluster"
     }
   ],
-  "generated_at": "2026-08-06T17:12:18.363792+00:00",
+  "generated_at": "2026-08-06T17:51:31.158332+00:00",
   "nodes": [
     {
       "anchor": true,
