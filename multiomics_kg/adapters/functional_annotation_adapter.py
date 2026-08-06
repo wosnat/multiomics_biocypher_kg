@@ -214,6 +214,24 @@ class MultiGoAnnotationAdapter:
             seed |= adapter.get_all_go_ids()
         return seed
 
+    def all_go_terms(self) -> dict[str, str]:
+        """Public accessor: ``{raw GO id: schema node label}`` for every node emitted.
+
+        Consumed by MultiTcdbAnnotationAdapter to prune the TcdbFamily→GO bridge to
+        existing GO nodes and to pick the right per-namespace edge label (mirrors
+        MultiPfamAnnotationAdapter.all_pfam_ids() feeding the InterPro bridge).
+        Applies the same namespace filter as `get_nodes`, so the two cannot drift.
+        """
+        terms: dict[str, str] = {}
+        for go_id in compute_ancestry_closure(self._all_seed_go_ids(), self.go_data):
+            entry = self.go_data.get(go_id)
+            if entry is None:
+                continue
+            label = NAMESPACE_TO_LABEL.get(entry["namespace"])
+            if label is not None:
+                terms[go_id] = label
+        return terms
+
     def get_nodes(self):
         """
         Yield GO nodes for all terms in the ancestry closure.

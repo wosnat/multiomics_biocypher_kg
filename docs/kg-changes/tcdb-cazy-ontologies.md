@@ -109,6 +109,65 @@ Such queries still work, but count real transporter systems present in our organ
 `Metabolite.transporter_count` drops correspondingly, and the `is_promiscuous` thresholds
 (calibrated against the old inflated node set) are worth revisiting on the next rebuild.
 
+## 2026-08-06: cross-ontology bridges to Pfam and GO
+
+TCDB publishes curated maps of which Pfam domains and GO terms are associated with
+each transport system. Both are now bridged into the graph as **ontology→ontology
+edges only** — they never touch `Gene` nodes.
+
+| Edge | Source → Target | Count |
+|---|---|---|
+| `Tcdb_family_has_pfam_domain` | TcdbFamily → Pfam | **1,419** |
+| `Tcdb_family_involved_in_biological_process` | TcdbFamily → BiologicalProcess | **1,934** |
+| `Tcdb_family_enables_molecular_function` | TcdbFamily → MolecularFunction | **1,674** |
+| `Tcdb_family_located_in_cellular_component` | TcdbFamily → CellularComponent | **1,250** |
+
+Both maps are published at 5-part `tc_specificity` depth, but only ~215 of ~4,900 of
+those TCIDs survive pruning. Each is rolled to its **nearest surviving ancestor** —
+the same shape as `subtree_substrates` — so the node set stays at 704 and nothing
+dangles. Targets shallower than `tc_family` (level < 2) are dropped: an edge saying
+"this domain relates to Channels and Pores" is true but useless. Every edge carries
+`curated_tcids: str[]`, the original published TCIDs, so roll-up loses no precision.
+
+Dangling-proof on both ends: `create_knowledge_graph` injects the Pfam node set and
+the GO term→namespace map (BRITE-`known_ko_ids` precedent). Without them the adapter
+emits **no** bridge edges rather than risk dangling endpoints.
+
+### What these edges mean — and the direction that matters
+
+They assert: **"TCDB's curated reference proteins for this transport family carry this
+domain / GO annotation."** That is a statement about the *composition* of the TC family.
+
+Measured across 42 strains, the two readings are wildly asymmetric:
+
+| Direction | Result |
+|---|---|
+| **Forward** — gene's TC family is known; does Pfam agree? | **85% corroborate**, 2% contradict |
+| **Reverse** — gene carries a TCDB-mapped Pfam; is it a transporter? | **31%** (9,622 / 31,391) |
+
+TCDB's side is specific (85% of Pfams map to exactly one TC family, max fan-out 7).
+The fan-out is on ours: TCDB curates whole transport *systems*, so accessory and
+regulatory proteins are included — response-regulator receiver, histidine kinase,
+TPR and GGDEF domains all map to TC families despite not being transporters. A class
+filter does not help (PF00072 maps to class 2, a real transporter class).
+
+Hence `TcdbFamily` is the **source**: the sound traversal is the natural one.
+
+- ✅ Corroborate a `Gene_has_tcdb_family` call you already have
+- ✅ Ask what domains/functions characterise a transport family
+- ✅ `gene → TcdbFamily → GO` — 2 hops, first is direct evidence. Gives **1,311**
+  genes with no GO at all a specific (level ≥4) term
+- ❌ **Never** assign transporter identity from `Pfam → TcdbFamily`. A
+  `gene → InterproEntry → Pfam → TcdbFamily` traversal is a recall-biased router
+  (like `Publication_discusses_gene`), not an annotation
+
+### Deliberately not built
+
+- **PDB → TC** — no `PDB` node type, and only 2 of our 106,252 proteins are curated in TCDB, so the 12,660 structures would connect to nothing
+- **InterPro → TC direct** — TCDB publishes no such map; InterPro already reaches TCDB in two hops via Pfam
+- **Pfam pruning relaxation** — adding the 732 TCDB-mapped Pfams with no gene would only add more of the unsound direction; precision, not coverage, is the constraint
+- **RefSeq → TCID as an evidence source** — only 2 of our proteins are curated
+
 ## CAZy is observed-only
 
 CAZy hierarchy is inferred at adapter init from observed eggNOG annotations across configured strains. Every CazyFamily node corresponds to a real gene annotation. No external download — the 6 class names (GH, GT, PL, CE, AA, CBM) are hardcoded in the adapter.

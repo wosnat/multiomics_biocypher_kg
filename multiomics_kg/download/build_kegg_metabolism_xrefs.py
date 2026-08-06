@@ -1415,8 +1415,37 @@ def main(force: bool = False, refetch_raw: bool = False) -> None:
         KEGG_DATA_FILE.parent.mkdir(parents=True, exist_ok=True)
         KEGG_DATA_FILE.write_text(json.dumps(kegg_data, indent=2, sort_keys=True))
 
+        # Cross-ontology bridges. TCDB publishes curated Pfam→TC and GO→TC maps at
+        # 5-part specificity depth; roll each onto the nearest surviving node
+        # (same shape as subtree_substrates). Semantics: "this TC family's curated
+        # reference proteins carry this domain / GO annotation" — a composition
+        # statement about the family, NOT a rule for classifying the xref.
+        from multiomics_kg.utils.tcdb_utils import (
+            build_tcdb_bridges,
+            download_tcdb_xref_map,
+            load_tcdb_xref_map,
+        )
+        tcdb_bridges: dict[str, dict] = {}
+        for kind in ("pfam", "go"):
+            dest = cache_root / "tcdb" / "raw" / f"tcdb_{kind}_map.tsv"
+            try:
+                download_tcdb_xref_map(kind, dest=dest, force=refetch_raw)
+            except Exception as exc:
+                log.warning(f"  TCDB {kind}→TC map download failed: {exc}")
+            xref = load_tcdb_xref_map(kind, path=dest)
+            tcdb_bridges[kind] = build_tcdb_bridges(xref, hierarchy, kept)
+            log.info(
+                f"  TCDB {kind}→TC bridge: {len(xref)} published {kind} ids -> "
+                f"{sum(len(v) for v in tcdb_bridges[kind].values())} pairs on "
+                f"{len(tcdb_bridges[kind])} kept TC nodes"
+            )
+
         (cache_root / "tcdb" / "tcdb_pruned.json").write_text(json.dumps({
             "kept_tcdb_ids": sorted(kept),
+            # {tc_id: {PF*: [curated 5-part TCIDs]}} — see build_tcdb_bridges.
+            "pfam_bridge": tcdb_bridges["pfam"],
+            # {tc_id: {GO:*: [curated 5-part TCIDs]}}
+            "go_bridge": tcdb_bridges["go"],
             # Pre-rolled-up substrate primaries per kept TC ID. Computed from
             # the FULL hierarchy before pruning, so ancestor nodes capture
             # substrates from every TCDB descendant — not just gene-annotated

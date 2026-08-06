@@ -57,6 +57,23 @@ def _tcdb_node_id(tcdb_id: str) -> str:
     return normalize_curie(f"tcdb:{tcdb_id}") or f"tcdb_{tcdb_id}"
 
 
+def _pfam_node_id(pfam_accession: str) -> str:
+    return normalize_curie(f"pfam:{pfam_accession}") or f"pfam_{pfam_accession}"
+
+
+def _go_node_id(go_id: str) -> str:
+    """"GO:0005737" → "go:0005737" (matches functional_annotation_adapter)."""
+    return normalize_curie(f"go:{go_id}") or f"go_{go_id.replace(':', '_')}"
+
+
+# GO namespace → the edge label TCDB-family bridge edges use for that namespace.
+_GO_LABEL_TO_EDGE = {
+    "biological process": "tcdb_family_involved_in_biological_process",
+    "molecular function": "tcdb_family_enables_molecular_function",
+    "cellular component": "tcdb_family_located_in_cellular_component",
+}
+
+
 class TcdbAnnotationAdapter:
     """Per-strain adapter: yields Gene_has_tcdb_family edges from gene_annotations_merged.json."""
 
@@ -108,6 +125,8 @@ class MultiTcdbAnnotationAdapter:
         cache_root: Path,
         test_mode: bool = False,
         cache: bool = True,
+        pfam_node_ids: set[str] | None = None,
+        go_terms: dict[str, str] | None = None,
     ) -> None:
         self.cache_root = Path(cache_root)
         self.test_mode = test_mode
@@ -118,6 +137,16 @@ class MultiTcdbAnnotationAdapter:
         self._kept_ids: set[str] = set()
         self._subtree_substrates: dict[str, list[str]] = {}
         self._seed_aliases: dict[str, str] = {}
+        self._pfam_bridge: dict[str, dict[str, list[str]]] = {}
+        self._go_bridge: dict[str, dict[str, list[str]]] = {}
+        # None = endpoint node set not provided → emit NO bridge edges of that kind
+        # (we cannot guarantee the endpoints exist). A provided set (even empty)
+        # prunes to it. Mirrors MultiInterproAnnotationAdapter.pfam_node_ids.
+        self.pfam_node_ids = (
+            None if pfam_node_ids is None
+            else {p.split(".")[0] for p in pfam_node_ids}
+        )
+        self.go_terms = go_terms
 
     def _build_strain_adapters(self, genome_config_file: str) -> None:
         with open(genome_config_file, newline="", encoding="utf-8") as fh:
@@ -156,6 +185,10 @@ class MultiTcdbAnnotationAdapter:
         # nearest curated ancestor (e.g. retired `3.A.1.35` → family `3.A.1`).
         # Older pruned files may not carry this field.
         self._seed_aliases = pruned.get("seed_aliases", {}) or {}
+        # Cross-ontology bridges, pre-rolled onto kept nodes by step 6.
+        # {tc_id: {xref_id: [curated 5-part TCIDs]}}
+        self._pfam_bridge = pruned.get("pfam_bridge", {}) or {}
+        self._go_bridge = pruned.get("go_bridge", {}) or {}
 
     def get_nodes(self) -> Iterator[tuple[str, str, dict]]:
         if not self._kept_ids:
@@ -258,7 +291,57 @@ class MultiTcdbAnnotationAdapter:
                 )
                 sub_count += 1
 
+        # 4. Cross-ontology bridges (TcdbFamily → Pfam / GO).
+        #
+        # DIRECTION IS SEMANTIC, not incidental. These edges assert "TCDB's curated
+        # reference proteins for this transport family carry this domain / GO
+        # annotation" — a statement about the composition of the TC family.
+        # Measured on 42 strains: read outward from a gene's known TC family, the
+        # Pfam bridge corroborates 85% of calls and contradicts 2%. Read backwards
+        # (xref → therefore a transporter) it is only ~31% precise, because these
+        # domains also occur outside transport contexts. Hence TcdbFamily is the
+        # SOURCE: the sound traversal is the natural one.
+        #
+        # `curated_tcids` preserves the original published 5-part TCIDs so the
+        # roll-up onto surviving ancestors loses no precision.
+        pfam_count = 0
+        if self.pfam_node_ids is not None:
+            for tcdb_id, xrefs in sorted(self._pfam_bridge.items()):
+                if tcdb_id not in self._kept_ids:
+                    continue
+                for pfam_acc, curated in sorted(xrefs.items()):
+                    if pfam_acc not in self.pfam_node_ids:
+                        continue
+                    yield (
+                        f"{tcdb_id}-has_pfam-{pfam_acc}",
+                        _tcdb_node_id(tcdb_id),
+                        _pfam_node_id(pfam_acc),
+                        "tcdb_family_has_pfam_domain",
+                        {"curated_tcids": [_clean_str(c) for c in curated]},
+                    )
+                    pfam_count += 1
+
+        go_count = 0
+        if self.go_terms is not None:
+            for tcdb_id, xrefs in sorted(self._go_bridge.items()):
+                if tcdb_id not in self._kept_ids:
+                    continue
+                for go_id, curated in sorted(xrefs.items()):
+                    label = self.go_terms.get(go_id)
+                    edge_label = _GO_LABEL_TO_EDGE.get(label or "")
+                    if edge_label is None:
+                        continue
+                    yield (
+                        f"{tcdb_id}-has_go-{go_id}",
+                        _tcdb_node_id(tcdb_id),
+                        _go_node_id(go_id),
+                        edge_label,
+                        {"curated_tcids": [_clean_str(c) for c in curated]},
+                    )
+                    go_count += 1
+
         logger.info(
             f"MultiTcdbAnnotationAdapter.get_edges: {parent_count} parent, "
-            f"{gene_count} gene, {sub_count} substrate edges"
+            f"{gene_count} gene, {sub_count} substrate, "
+            f"{pfam_count} Pfam-bridge, {go_count} GO-bridge edges"
         )

@@ -12,10 +12,17 @@ from pathlib import Path
 DEFAULT_PATH = Path("cache/data/tcdb/tcdb_hierarchy.json")
 _CACHE: dict[str, dict] | None = None
 
-# TCDB's curated Pfam → TC association table. The source URL embeds the data in
-# HTML, so `download_pfam_to_tc_map` strips non-data lines before caching.
+# TCDB's curated cross-references. Both source URLs embed the data in HTML, so
+# `download_tcdb_xref_map` strips non-data lines before caching.
 PFAM_MAP_URL = "https://www.tcdb.org/cgi-bin/projectv/public/pfam.py"
 PFAM_MAP_PATH = Path("cache/data/tcdb/raw/tcdb_pfam_map.tsv")
+GO_MAP_URL = "https://www.tcdb.org/cgi-bin/projectv/public/go.py"
+GO_MAP_PATH = Path("cache/data/tcdb/raw/tcdb_go_map.tsv")
+
+# Bridge edges are only emitted onto tc_family (level 2) or deeper. A 5-part TCID
+# whose nearest surviving ancestor is a tc_class / tc_subclass would produce an
+# edge like "this domain relates to Channels and Pores" — true but useless.
+MIN_BRIDGE_LEVEL = 2
 
 
 def load_tcdb() -> dict[str, dict]:
@@ -61,51 +68,110 @@ def tcdb_ancestors(tc_id: str) -> list[str]:
 # step 6 alongside the other TCDB reference TSVs.
 
 
-def download_pfam_to_tc_map(dest: Path | None = None, force: bool = False) -> Path:
-    """Download TCDB's curated Pfam→TC map to a clean 3-column TSV.
+def _valid_pfam(token: str) -> bool:
+    return token.startswith("PF") and len(token) >= 7 and token[2:7].isdigit()
 
-    Writes ``PF_id \\t TC_id \\t family_name``. Skipped when the file exists and
-    ``force`` is False. Returns the destination path; on download failure the
-    path is returned unwritten so the caller can decide whether to proceed.
+
+def _valid_go(token: str) -> bool:
+    return token.startswith("GO:") and token[3:].isdigit()
+
+
+_XREF_KINDS = {
+    "pfam": (PFAM_MAP_URL, PFAM_MAP_PATH, _valid_pfam),
+    "go": (GO_MAP_URL, GO_MAP_PATH, _valid_go),
+}
+
+
+def download_tcdb_xref_map(kind: str, dest: Path | None = None, force: bool = False) -> Path:
+    """Download a TCDB cross-reference map to a clean 3-column TSV.
+
+    ``kind`` is ``"pfam"`` or ``"go"``. Writes ``<xref_id> \\t <TC_id> \\t <name>``.
+    Skipped when the file exists and ``force`` is False.
     """
-    out = Path(dest) if dest is not None else PFAM_MAP_PATH
+    if kind not in _XREF_KINDS:
+        raise ValueError(f"unknown TCDB xref kind {kind!r}; expected one of {sorted(_XREF_KINDS)}")
+    url, default_path, is_valid = _XREF_KINDS[kind]
+    out = Path(dest) if dest is not None else default_path
     out.parent.mkdir(parents=True, exist_ok=True)
     if out.exists() and not force:
         return out
 
-    with urllib.request.urlopen(PFAM_MAP_URL) as resp:
+    with urllib.request.urlopen(url) as resp:
         text = resp.read().decode("utf-8", errors="replace")
 
     with open(out, "w", encoding="utf-8") as fh:
         for line in text.splitlines():
             parts = line.rstrip().split("\t")
-            if len(parts) < 3 or not parts[0].startswith("PF"):
-                continue
-            if not (len(parts[0]) >= 7 and parts[0][2:7].isdigit()):
-                continue
-            if parts[1].count(".") < 2:
+            if len(parts) < 3 or not is_valid(parts[0]) or parts[1].count(".") < 2:
                 continue
             fh.write("\t".join(parts[:3]) + "\n")
     return out
 
 
-def load_pfam_to_tc_map(path: Path | None = None) -> dict[str, set[str]]:
-    """Load the curated Pfam→TC mapping into ``{pfam_id: {tc_family, ...}}``.
+def load_tcdb_xref_map(kind: str, path: Path | None = None) -> dict[str, set[str]]:
+    """Load a TCDB cross-reference map into ``{xref_id: {full_tcid, ...}}``.
 
-    TC IDs are truncated to 3-part families — the granularity at which TCDB
-    curates Pfam ↔ TC associations. Returns an empty dict when the file is absent.
+    TCIDs are kept at their published (5-part) depth — the roll-up to a surviving
+    node happens in `build_tcdb_bridges`, which needs the original depth to record
+    provenance. Returns an empty dict when the file is absent.
     """
-    p = Path(path) if path is not None else PFAM_MAP_PATH
+    if kind not in _XREF_KINDS:
+        raise ValueError(f"unknown TCDB xref kind {kind!r}; expected one of {sorted(_XREF_KINDS)}")
+    _, default_path, is_valid = _XREF_KINDS[kind]
+    p = Path(path) if path is not None else default_path
     if not p.exists():
         return {}
     result: dict[str, set[str]] = defaultdict(set)
     with open(p, encoding="utf-8") as f:
         for line in f:
             parts = line.rstrip("\n").split("\t")
-            if len(parts) < 2:
+            if len(parts) < 2 or not is_valid(parts[0]) or parts[1].count(".") < 2:
                 continue
-            pfam_id, tc_id = parts[0], parts[1]
-            if not pfam_id.startswith("PF") or tc_id.count(".") < 2:
-                continue
-            result[pfam_id].add(".".join(tc_id.split(".")[:3]))
+            result[parts[0]].add(parts[1])
     return dict(result)
+
+
+def build_tcdb_bridges(
+    xref_to_tcids: dict[str, set[str]],
+    hierarchy: dict[str, dict],
+    kept: set[str],
+    min_level: int = MIN_BRIDGE_LEVEL,
+) -> dict[str, dict[str, list[str]]]:
+    """Roll a published xref→TCID map onto the pruned node set.
+
+    TCDB publishes these maps at 5-part `tc_specificity` depth, but the pruned
+    hierarchy keeps only gene-annotated TCIDs + ancestors — so most published
+    TCIDs have no node. Each is walked up to its nearest **surviving** ancestor,
+    mirroring how `subtree_substrates` rolls leaf substrates onto kept ancestors.
+    Targets shallower than ``min_level`` are dropped as uninformative.
+
+    Returns ``{tc_id: {xref_id: [original_tcids, ...]}}`` — the original
+    pre-roll-up TCIDs are retained so the edge can record exactly what TCDB
+    curated, and roll-up precision is not silently lost.
+
+    **Semantics of the result**: an entry means *"TCDB's curated reference
+    proteins for this transport family carry this domain / this GO annotation"*.
+    That is a statement about the composition of the TC family. It reads
+    correctly outward from the TcdbFamily; it does **not** license the reverse
+    inference that anything carrying the xref belongs to the family.
+    """
+    bridges: dict[str, dict[str, list[str]]] = {}
+    for xref_id, tcids in xref_to_tcids.items():
+        for tcid in tcids:
+            anchor: str | None = tcid if tcid in kept else None
+            if anchor is None:
+                cur = hierarchy.get(tcid, {}).get("parent")
+                while cur is not None:
+                    if cur in kept:
+                        anchor = cur
+                        break
+                    cur = hierarchy.get(cur, {}).get("parent")
+            if anchor is None:
+                continue
+            if hierarchy.get(anchor, {}).get("level", 0) < min_level:
+                continue
+            bridges.setdefault(anchor, {}).setdefault(xref_id, []).append(tcid)
+    return {
+        tc: {x: sorted(set(v)) for x, v in sorted(xrefs.items())}
+        for tc, xrefs in sorted(bridges.items())
+    }

@@ -233,13 +233,18 @@ def main():
     bc.write_nodes(pfam_adapter.get_nodes())
     bc.write_edges(pfam_adapter.get_edges())
 
-    # TCDB transport classification ontology + substrate→Metabolite bridge.
+    # TCDB transport classification ontology + substrate→Metabolite bridge
+    # + cross-ontology bridges to the Pfam and GO layers.
     # Reads cache/data/tcdb/{tcdb_hierarchy,tcdb_pruned}.json built by step 6.
+    # Pfam node set + GO term→label map are injected so the bridges can never
+    # dangle (BRITE-known_ko_ids precedent). Both adapters run earlier above.
     tcdb_adapter = MultiTcdbAnnotationAdapter(
         genome_config_file='data/Prochlorococcus/genomes/cyanobacteria_genomes.csv',
         cache_root=Path("cache/data"),
         test_mode=TEST_MODE,
         cache=CACHE,
+        pfam_node_ids=pfam_adapter.all_pfam_ids(),
+        go_terms=go_anno_adapter.all_go_terms(),
     )
     tcdb_adapter.download_data(cache=CACHE)
     bc.write_nodes(tcdb_adapter.get_nodes())

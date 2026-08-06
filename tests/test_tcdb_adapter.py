@@ -185,3 +185,147 @@ def test_orchestrator_remaps_gene_edges_via_seed_aliases(tmp_path):
     gene_edges = [(e[1], e[2]) for e in edges if e[3] == "gene_has_tcdb_family"]
     # Edge re-anchored to the family-level ancestor, not dropped.
     assert ("ncbigene:PMM_0001", "tcdb:1.A.1") in gene_edges
+
+
+# ============================================================================
+# Cross-ontology bridge edges (TcdbFamily -> Pfam / GO)
+# ============================================================================
+
+
+def _genome_csv(cache_root, strain_dir) -> str:
+    """Write the minimal genomes.csv the orchestrator reads. Returns its path."""
+    csv_path = cache_root / "genomes.csv"
+    csv_path.write_text(f"strain_name,data_dir\nMED4,{strain_dir}\n")
+    return str(csv_path)
+
+
+@pytest.fixture
+def bridge_cache(cache_root):
+    """Add pfam_bridge / go_bridge blocks to the staged tcdb_pruned.json."""
+    p = cache_root / "tcdb" / "tcdb_pruned.json"
+    data = json.loads(p.read_text())
+    data["pfam_bridge"] = {
+        "1.A.1": {"PF00001": ["1.A.1.9.1"], "PF99999": ["1.A.1.9.2"]},
+    }
+    data["go_bridge"] = {
+        "1.A.1": {
+            "GO:0005215": ["1.A.1.9.1"],   # molecular function
+            "GO:0006810": ["1.A.1.9.1"],   # biological process
+            "GO:0016020": ["1.A.1.9.1"],   # cellular component
+            "GO:0000001": ["1.A.1.9.1"],   # absent from the KG -> must be skipped
+        },
+    }
+    p.write_text(json.dumps(data))
+    return cache_root
+
+
+_GO_TERMS = {
+    "GO:0005215": "molecular function",
+    "GO:0006810": "biological process",
+    "GO:0016020": "cellular component",
+}
+
+
+def _bridge_edges(adapter):
+    return [e for e in adapter.get_edges() if e[3].startswith("tcdb_family_")
+            and e[3] not in ("tcdb_family_is_a_tcdb_family",
+                             "tcdb_family_transports_metabolite")]
+
+
+def test_bridges_absent_when_node_sets_not_injected(bridge_cache, strain_dir):
+    """No injected endpoint set -> no bridge edges (they could dangle)."""
+    a = MultiTcdbAnnotationAdapter(
+        genome_config_file=_genome_csv(bridge_cache, strain_dir),
+        cache_root=bridge_cache,
+    )
+    a.download_data()
+    assert _bridge_edges(a) == []
+
+
+def test_pfam_bridge_pruned_to_existing_pfam_nodes(bridge_cache, strain_dir):
+    """PF99999 has no Pfam node, so its edge must not be emitted."""
+    a = MultiTcdbAnnotationAdapter(
+        genome_config_file=_genome_csv(bridge_cache, strain_dir),
+        cache_root=bridge_cache,
+        pfam_node_ids={"PF00001"},
+    )
+    a.download_data()
+    edges = [e for e in _bridge_edges(a) if e[3] == "tcdb_family_has_pfam_domain"]
+    assert len(edges) == 1
+    _id, source, target, label, props = edges[0]
+    assert source == "tcdb:1.A.1"
+    assert target == "pfam:PF00001"
+    assert props["curated_tcids"] == ["1.A.1.9.1"]
+
+
+def test_pfam_bridge_direction_is_family_to_pfam(bridge_cache, strain_dir):
+    """Direction is semantic: the family CONTAINS the domain.
+
+    Reading these backwards (has domain -> is a transporter) is only ~31%
+    precise on real data, so TcdbFamily must be the source.
+    """
+    a = MultiTcdbAnnotationAdapter(
+        genome_config_file=_genome_csv(bridge_cache, strain_dir),
+        cache_root=bridge_cache,
+        pfam_node_ids={"PF00001"},
+    )
+    a.download_data()
+    e = next(e for e in _bridge_edges(a) if e[3] == "tcdb_family_has_pfam_domain")
+    assert e[1].startswith("tcdb:") and e[2].startswith("pfam:")
+
+
+def test_go_bridge_routes_each_namespace_to_its_own_edge_label(bridge_cache, strain_dir):
+    a = MultiTcdbAnnotationAdapter(
+        genome_config_file=_genome_csv(bridge_cache, strain_dir),
+        cache_root=bridge_cache,
+        go_terms=_GO_TERMS,
+    )
+    a.download_data()
+    by_label = {e[3]: e for e in _bridge_edges(a)}
+    assert by_label["tcdb_family_enables_molecular_function"][2] == "go:0005215"
+    assert by_label["tcdb_family_involved_in_biological_process"][2] == "go:0006810"
+    assert by_label["tcdb_family_located_in_cellular_component"][2] == "go:0016020"
+
+
+def test_go_bridge_skips_terms_with_no_node(bridge_cache, strain_dir):
+    """GO:0000001 is not in the injected term map -> no edge, no dangle."""
+    a = MultiTcdbAnnotationAdapter(
+        genome_config_file=_genome_csv(bridge_cache, strain_dir),
+        cache_root=bridge_cache,
+        go_terms=_GO_TERMS,
+    )
+    a.download_data()
+    assert not any(e[2] == "go:0000001" for e in _bridge_edges(a))
+
+
+def test_bridge_targets_are_always_kept_nodes(bridge_cache, strain_dir):
+    """Bridge sources must exist in kept_tcdb_ids (dangling-proof on both ends)."""
+    p = bridge_cache / "tcdb" / "tcdb_pruned.json"
+    data = json.loads(p.read_text())
+    data["pfam_bridge"]["9.Z.9"] = {"PF00001": ["9.Z.9.9.9"]}  # not a kept node
+    p.write_text(json.dumps(data))
+    a = MultiTcdbAnnotationAdapter(
+        genome_config_file=_genome_csv(bridge_cache, strain_dir),
+        cache_root=bridge_cache,
+        pfam_node_ids={"PF00001"},
+    )
+    a.download_data()
+    assert not any(e[1] == "tcdb:9.Z.9" for e in _bridge_edges(a))
+
+
+def test_bridges_do_not_touch_genes(bridge_cache, strain_dir):
+    """Design invariant: bridges are ontology->ontology ONLY.
+
+    Gene-level transporter identity must keep coming from Gene_has_tcdb_family
+    alone; no bridge edge may introduce a gene endpoint.
+    """
+    a = MultiTcdbAnnotationAdapter(
+        genome_config_file=_genome_csv(bridge_cache, strain_dir),
+        cache_root=bridge_cache,
+        pfam_node_ids={"PF00001"},
+        go_terms=_GO_TERMS,
+    )
+    a.download_data()
+    for _id, source, target, _label, _props in _bridge_edges(a):
+        assert not source.startswith("ncbigene:")
+        assert not target.startswith("ncbigene:")

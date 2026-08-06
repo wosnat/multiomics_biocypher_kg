@@ -1242,6 +1242,60 @@ tcdb family transports metabolite:
   target: metabolite
   label_in_input: tcdb_family_transports_metabolite
 
+# ── TCDB cross-ontology bridges ──────────────────────────────────────────────
+# From TCDB's published Pfam→TC and GO→TC maps, rolled onto the pruned node set
+# by prepare_data step 6. Semantics: "TCDB's curated reference proteins for this
+# transport family carry this domain / GO annotation" — a statement about the
+# COMPOSITION of the TC family.
+#
+# Direction is deliberate. Outward from a family the Pfam bridge corroborates 85%
+# of gene TC calls (2% contradict); read backwards (has domain -> is a
+# transporter) it is only ~31% precise, since these domains also occur outside
+# transport contexts. Do NOT use these to assign transporter identity to genes.
+#
+# `curated_tcids` records the original published 5-part TCIDs, so rolling up onto
+# surviving ancestors loses no precision.
+
+tcdb family to pfam association:
+  is_a: association
+  represented_as: edge
+  label_as_edge: Tcdb_family_has_pfam_domain
+  source: tcdb family
+  target: pfam
+  label_in_input: tcdb_family_has_pfam_domain
+  properties:
+    curated_tcids: str[]
+
+tcdb family to biological process association:
+  is_a: association
+  represented_as: edge
+  label_as_edge: Tcdb_family_involved_in_biological_process
+  source: tcdb family
+  target: biological process
+  label_in_input: tcdb_family_involved_in_biological_process
+  properties:
+    curated_tcids: str[]
+
+tcdb family to molecular function association:
+  is_a: association
+  represented_as: edge
+  label_as_edge: Tcdb_family_enables_molecular_function
+  source: tcdb family
+  target: molecular function
+  label_in_input: tcdb_family_enables_molecular_function
+  properties:
+    curated_tcids: str[]
+
+tcdb family to cellular component association:
+  is_a: association
+  represented_as: edge
+  label_as_edge: Tcdb_family_located_in_cellular_component
+  source: tcdb family
+  target: cellular component
+  label_in_input: tcdb_family_located_in_cellular_component
+  properties:
+    curated_tcids: str[]
+
 gene to cazy family association:
   is_a: association
   represented_as: edge

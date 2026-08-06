@@ -115,7 +115,34 @@ No information is lost — it moves from a frozen artifact tag to a queryable gr
 - Genuine disagreement → two edges to different TC IDs, both visible. Nothing silently reconciled.
 - Edge ID stays `{locus_tag}-has_tcdb-{tc}`, already unique per (gene, TC).
 
-### D5 — `Pfam_in_tcdb_family` bridge edge
+### D5 — cross-ontology bridges — ✅ DONE (2026-08-06)
+
+> **Superseded direction.** This section originally proposed `Pfam_in_tcdb_family`
+> (Pfam → TcdbFamily) by analogy to `Pfam_in_interpro_entry`. **That analogy was wrong.**
+> InterPro *integrates* Pfam (same concept, two vocabularies — genuinely bidirectional).
+> TCDB merely *contains* Pfam domains in its curated reference proteins.
+>
+> Measured: read outward from a known TC family the Pfam map corroborates **85%** of gene
+> calls (2% contradict); read backwards (carries domain → is a transporter) it is only
+> **~31%** precise. The edge was therefore built as **`Tcdb_family_has_pfam_domain`
+> (TcdbFamily → Pfam)** so the sound reading is the natural traversal direction.
+>
+> **Shipped** (ontology→ontology only; no gene-touching edges):
+>
+> | Edge | Count |
+> |---|---|
+> | `Tcdb_family_has_pfam_domain` | 1,419 |
+> | `Tcdb_family_involved_in_biological_process` | 1,934 |
+> | `Tcdb_family_enables_molecular_function` | 1,674 |
+> | `Tcdb_family_located_in_cellular_component` | 1,250 |
+>
+> GO was added alongside Pfam: it is the actual completeness win, giving **1,311**
+> GO-less genes a specific term via the sound 2-hop `gene → TcdbFamily → GO`.
+> Rejected: PDB (no node type, 2/106,252 proteins curated), direct InterPro→TC (not
+> published; 2-hop via Pfam already exists), Pfam pruning relaxation (adds only the
+> unsound direction). See `docs/kg-changes/tcdb-cazy-ontologies.md`.
+
+### D5 (original proposal) — `Pfam_in_tcdb_family` bridge edge
 
 TCDB's curated Pfam→TC map (~8.3K pairs / ~1.3K Pfams) is the **only** non-derivable piece — real external curation. It becomes a bridge, mirroring `Pfam_in_interpro_entry` exactly:
 

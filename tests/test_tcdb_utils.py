@@ -65,3 +65,71 @@ def test_tcdb_ancestors_partial():
 
 def test_tcdb_ancestors_unknown_returns_empty():
     assert tu.tcdb_ancestors("99.X.99") == []
+
+
+# ============================================================================
+# Cross-ontology bridges (Pfam / GO -> TcdbFamily)
+# ============================================================================
+
+from multiomics_kg.utils.tcdb_utils import build_tcdb_bridges
+
+# 1.A.1.5.2 is kept (gene-annotated); 1.A.1.9.1 is not, and rolls up to 1.A.1.
+_H = {
+    "1": {"level": 0, "level_kind": "tc_class", "parent": None},
+    "1.A": {"level": 1, "level_kind": "tc_subclass", "parent": "1"},
+    "1.A.1": {"level": 2, "level_kind": "tc_family", "parent": "1.A"},
+    "1.A.1.5": {"level": 3, "level_kind": "tc_subfamily", "parent": "1.A.1"},
+    "1.A.1.5.2": {"level": 4, "level_kind": "tc_specificity", "parent": "1.A.1.5"},
+    "1.A.1.9": {"level": 3, "level_kind": "tc_subfamily", "parent": "1.A.1"},
+    "1.A.1.9.1": {"level": 4, "level_kind": "tc_specificity", "parent": "1.A.1.9"},
+    "2": {"level": 0, "level_kind": "tc_class", "parent": None},
+    "2.A": {"level": 1, "level_kind": "tc_subclass", "parent": "2"},
+    "2.A.9.1.1": {"level": 4, "level_kind": "tc_specificity", "parent": "2.A"},
+}
+_KEPT = {"1", "1.A", "1.A.1", "1.A.1.5", "1.A.1.5.2", "2", "2.A"}
+
+
+def test_bridge_attaches_directly_when_tcid_survives():
+    b = build_tcdb_bridges({"PF00001": {"1.A.1.5.2"}}, _H, _KEPT)
+    assert b == {"1.A.1.5.2": {"PF00001": ["1.A.1.5.2"]}}
+
+
+def test_bridge_rolls_up_to_nearest_surviving_ancestor():
+    """1.A.1.9.1 has no node; its nearest kept ancestor is the family 1.A.1."""
+    b = build_tcdb_bridges({"PF00002": {"1.A.1.9.1"}}, _H, _KEPT)
+    assert b == {"1.A.1": {"PF00002": ["1.A.1.9.1"]}}
+
+
+def test_bridge_drops_targets_shallower_than_family():
+    """2.A.9.1.1 rolls up only as far as the subclass 2.A -> uninformative, dropped.
+
+    An edge saying "this domain relates to Electrochemical Potential-driven
+    Transporters" is true but carries no usable signal.
+    """
+    assert build_tcdb_bridges({"PF00003": {"2.A.9.1.1"}}, _H, _KEPT) == {}
+
+
+def test_bridge_records_all_curated_tcids_after_rollup():
+    """Roll-up must not lose provenance: every original TCID is retained."""
+    b = build_tcdb_bridges({"PF00004": {"1.A.1.9.1", "1.A.1.5.2"}}, _H, _KEPT)
+    assert b["1.A.1"]["PF00004"] == ["1.A.1.9.1"]
+    assert b["1.A.1.5.2"]["PF00004"] == ["1.A.1.5.2"]
+
+
+def test_bridge_curated_tcids_are_sorted_and_deduped():
+    b = build_tcdb_bridges({"PF00005": {"1.A.1.9.1"}}, _H, _KEPT | {"1.A.1.9"})
+    assert b["1.A.1.9"]["PF00005"] == ["1.A.1.9.1"]
+
+
+def test_bridge_skips_tcids_absent_from_the_hierarchy():
+    assert build_tcdb_bridges({"PF00006": {"9.Z.99.9.9"}}, _H, _KEPT) == {}
+
+
+def test_bridge_handles_go_ids_identically():
+    """The builder is xref-agnostic — GO ids roll up the same way as Pfam."""
+    b = build_tcdb_bridges({"GO:0005215": {"1.A.1.9.1"}}, _H, _KEPT)
+    assert b == {"1.A.1": {"GO:0005215": ["1.A.1.9.1"]}}
+
+
+def test_bridge_empty_input_returns_empty():
+    assert build_tcdb_bridges({}, _H, _KEPT) == {}
