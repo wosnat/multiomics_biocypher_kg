@@ -84,6 +84,32 @@ When the `resolve_paper_ids.py` stage (prepare_data step 4) creates `_resolved.c
 - **Total edges may decrease** (dangling edges removed) -- this is correct behaviour
 - **Per-publication matched counts should stay the same or increase** (better resolution)
 
+### Gene-set capture (fixed 2026-08-06)
+
+`per_publication_genes` is captured by joining the locus_tags into a single
+space-separated string **inside Cypher** (`reduce`), not by returning a Cypher list.
+
+`--format plain` renders a list as `["a", "b", "c"]` — commas *inside* one logical
+field — so `run_cypher`'s `csv.reader` split the row mid-list and each publication
+kept only its first gene, stored as a malformed token like `'["MIT1002_00065"'`.
+Edge counts were never affected, which is why the corruption went unnoticed: the
+only symptom was a spurious `lost: 1 / gained: 1` on any publication whose
+`collect()` ordering shifted between runs.
+
+Two safeguards now exist:
+
+- The query also returns `size(gs)`, and the parser **exits 1** if the number of
+  parsed genes disagrees — a future output-format change fails loudly instead of
+  silently truncating.
+- Comparisons involving a pre-fix snapshot detect the malformed tokens and **skip**
+  the gene-level diff with a warning, rather than reporting every real gene as
+  "gained". Edge-count comparison is unaffected; re-capture the baseline to
+  re-enable the diff.
+
+Verified: a 5,871-gene publication round-trips as a single ~76 KB CSV field with no
+wrapping. Locus_tags contain no whitespace, so the space join is unambiguous, and
+`reduce` avoids an APOC dependency.
+
 ### Backward compatibility
 
 When comparing against old snapshots that stored `condition_edges` and `coculture_edges` separately (from the pre-Experiment-node era), the tool sums them to compute the old total. The comparison works correctly across format versions.

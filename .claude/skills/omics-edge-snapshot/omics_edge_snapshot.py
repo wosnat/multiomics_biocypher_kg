@@ -77,6 +77,19 @@ def _strip_quotes(value: str) -> str:
     return value
 
 
+def _gene_sets_corrupt(genes_by_pub: dict) -> bool:
+    """True if a snapshot's gene sets came from the pre-fix list parser.
+
+    That parser split Cypher list output on its internal commas, so each
+    publication kept exactly one entry and it retained bracket/quote characters
+    (e.g. '["MIT1002_00065"'). Real locus_tags never contain '[' or '"'.
+    """
+    for genes in genes_by_pub.values():
+        if any('[' in g or '"' in g for g in genes):
+            return True
+    return False
+
+
 # ---------------------------------------------------------------------------
 # Snapshot capture
 # ---------------------------------------------------------------------------
@@ -150,22 +163,41 @@ def capture_snapshot() -> dict:
     # --- Per-publication gene sets (locus_tags) ---
     # Captures WHICH genes have edges, not just how many.
     # Used to detect genes that were previously matched but disappear after resolve stage.
+    #
+    # The list is joined into a single SPACE-SEPARATED string inside Cypher rather
+    # than returned as a Cypher list. `--format plain` renders a list as
+    # ["a", "b", "c"] -- commas INSIDE one logical field -- so run_cypher's
+    # csv.reader split it mid-list and every publication kept only its first gene
+    # (stored as the malformed token '["MIT1002_00065"'). Counts were unaffected,
+    # so the corruption was silent; the gene-level diff was reporting a spurious
+    # 1-lost/1-gained on any publication whose collect() ordering shifted.
+    #
+    # Locus tags contain no whitespace, so a space join is unambiguous, and
+    # `reduce` avoids an APOC dependency. Verified: a 5,871-gene publication
+    # round-trips as a single 76KB CSV field with no wrapping.
+    #
+    # `n` is returned alongside so the parse can self-check -- a future change to
+    # the output format fails loudly instead of silently truncating again.
     rows = run_cypher("""
         MATCH (pub:Publication)-[:Has_experiment]->(e:Experiment)-[r:Changes_expression_of]->(g:Gene)
-        RETURN pub.doi AS publication, collect(DISTINCT g.locus_tag) AS genes
+        WITH pub, collect(DISTINCT g.locus_tag) AS gs
+        RETURN pub.doi AS publication, size(gs) AS n,
+               reduce(acc = '', x IN gs | acc + ' ' + x) AS genes
         ORDER BY publication
     """)
     pub_genes: dict = {}
     for r in rows:
         pub = _strip_quotes(r[0])
-        # cypher-shell returns lists as bracket-delimited strings; parse them
-        genes_raw = r[1].strip()
-        if genes_raw.startswith("[") and genes_raw.endswith("]"):
-            genes_raw = genes_raw[1:-1]
-        if genes_raw:
-            genes = [_strip_quotes(g.strip()) for g in genes_raw.split(",") if g.strip()]
-        else:
-            genes = []
+        expected = int(_strip_quotes(r[1]))
+        genes = _strip_quotes(r[2]).split()
+        if len(genes) != expected:
+            print(
+                f"ERROR: gene-set parse mismatch for {pub}: "
+                f"parsed {len(genes)} but the graph reported {expected}. "
+                f"cypher-shell output format may have changed.",
+                file=sys.stderr,
+            )
+            sys.exit(1)
         pub_genes[pub] = sorted(genes)
     snapshot["per_publication_genes"] = pub_genes
 
@@ -426,7 +458,19 @@ def compare_snapshots(old: dict, new: dict, old_name: str, new_name: str) -> int
     # ---- Gene-level diff (which locus_tags appeared / disappeared) ----
     old_genes_by_pub = old.get("per_publication_genes", {})
     new_genes_by_pub = new.get("per_publication_genes", {})
-    if old_genes_by_pub or new_genes_by_pub:
+    # Snapshots taken before the list-parsing fix stored a single malformed token
+    # per publication (e.g. '["MIT1002_00065"'), because run_cypher's csv.reader
+    # split the Cypher list on its internal commas. Diffing against one of those
+    # would report every real gene as "gained" -- pure noise. Detect and skip.
+    legacy_gene_sets = _gene_sets_corrupt(old_genes_by_pub) or _gene_sets_corrupt(new_genes_by_pub)
+    if legacy_gene_sets:
+        print("\n" + "-" * 72)
+        print("GENE-LEVEL DIFF (per publication)")
+        print("-" * 72)
+        print("  ⚠  A snapshot predates the gene-list parsing fix and stored truncated")
+        print("     gene sets — gene-level diff skipped for this comparison.")
+        print("     Edge counts above are unaffected. Re-capture to enable.")
+    elif old_genes_by_pub or new_genes_by_pub:
         print("\n" + "-" * 72)
         print("GENE-LEVEL DIFF (per publication)")
         print("-" * 72)
