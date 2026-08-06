@@ -318,6 +318,9 @@ def _compute_contributing_sources(gene: dict) -> list[str]:
     if (gene.get("interpro_entries")
             or _has_source_label(gene, "interproscan")):
         sources.add("interproscan")
+    if (gene.get("tcdb_diamond_ids")
+            or _has_source_label(gene, "tcdb_diamond")):
+        sources.add("tcdb_diamond")
     return sorted(sources)
 
 
@@ -431,6 +434,44 @@ def load_interproscan(data_dir: str, strain_name: str) -> dict[str, dict]:
     return result
 
 
+def load_tcdb_diamond(data_dir: str, strain_name: str) -> dict[str, dict]:
+    """Load tcdb-diamond Phase-1 calls.json → {protein_id_wp: {tcdb_ids: [...]}}.
+
+    The artifact is a dict keyed by RefSeq WP_ accession (== gene_mapping.protein_id).
+    We surface only the distinct TC ids this protein was called at — the per-call
+    evidence (tier / confidence_score / identity / evalue / consensus_n) is NOT
+    merged; `tcdb_adapter` reads this same calls.json directly at KG-build time
+    for edge properties, exactly as `interpro_adapter` does.
+
+    ALL candidates are surfaced. The tier policy in `classify_hit` is already the
+    quality gate (e-value <= 0.001, HSP >= 50 aa, coverage floors) and is
+    sibling-independent; the old post-hoc `filter_action` chain was removed in
+    07357ac0 because its verdicts depended on unrelated sibling candidates.
+    Weak calls are gated downstream instead — post-import folds 'tcdb' into
+    annotation_types only for eggNOG-sourced or tier<=2 edges.
+
+    Proteins with no call are dropped. Missing file → {} (strain not yet
+    tcdb-diamond-run). See
+    docs/superpowers/specs/2026-08-06-tcdb-diamond-kg-integration-design.md.
+    """
+    path = os.path.join(data_dir, "tcdb", f"{strain_name}.tcdb.calls.json")
+    if not os.path.exists(path):
+        return {}
+    with open(path, encoding="utf-8") as f:
+        data = json.load(f)
+    result: dict[str, dict] = {}
+    for wp, rec in data.items():
+        if not isinstance(rec, dict):
+            continue
+        tcids = sorted({
+            c["tcid"] for c in rec.get("calls", [])
+            if isinstance(c, dict) and c.get("tcid")
+        })
+        if tcids:
+            result[str(wp).strip()] = {"tcdb_ids": tcids}
+    return result
+
+
 def load_uniprot(
     data_dir: str,
     ncbi_taxon_id: int | None,
@@ -490,12 +531,13 @@ class AnnotationBuilder:
         up: dict,
         ps: dict | None = None,
         sp: dict | None = None,
-        ipr: dict | None = None,
+        ipr: dict | None = None, tcd: dict | None = None,
     ) -> Any:
         """Fetch raw value from source row according to src_cfg spec."""
         ps = ps or {}
         sp = sp or {}
         ipr = ipr or {}
+        tcd = tcd or {}
         source = src_cfg.get("source", "")
         field = src_cfg.get("field", "")
 
@@ -511,6 +553,8 @@ class AnnotationBuilder:
             raw = sp.get(field)
         elif source == "interproscan":
             raw = ipr.get(field)
+        elif source == "tcdb_diamond":
+            raw = tcd.get(field)
         else:
             return None
 
@@ -540,10 +584,10 @@ class AnnotationBuilder:
 
     def _resolve_passthrough(
         self, fconf: dict, gm: dict, eg: dict, up: dict, ps: dict | None = None,
-        sp: dict | None = None, ipr: dict | None = None
+        sp: dict | None = None, ipr: dict | None = None, tcd: dict | None = None
     ) -> Any:
         keep_dash = bool(fconf.get("allow_dash", False))
-        raw = self._get_raw(fconf, gm, eg, up, ps, sp, ipr)
+        raw = self._get_raw(fconf, gm, eg, up, ps, sp, ipr, tcd)
         if not _nonempty(raw, keep_dash=keep_dash):
             return None
         transform = fconf.get("transform")
@@ -555,9 +599,9 @@ class AnnotationBuilder:
 
     def _resolve_passthrough_list(
         self, fconf: dict, gm: dict, eg: dict, up: dict, ps: dict | None = None,
-        sp: dict | None = None, ipr: dict | None = None
+        sp: dict | None = None, ipr: dict | None = None, tcd: dict | None = None
     ) -> list[str] | None:
-        raw = self._get_raw(fconf, gm, eg, up, ps, sp, ipr)
+        raw = self._get_raw(fconf, gm, eg, up, ps, sp, ipr, tcd)
         if not _nonempty(raw):
             return None
         delimiter = fconf.get("delimiter", ",")
@@ -576,7 +620,7 @@ class AnnotationBuilder:
         source_tracking: dict,
         locus_tag: str = "",
         sp: dict | None = None,
-        ipr: dict | None = None,
+        ipr: dict | None = None, tcd: dict | None = None,
     ) -> Any:
         """First non-empty candidate wins; record source if track_source set.
 
@@ -590,7 +634,7 @@ class AnnotationBuilder:
         track_key = fconf.get("track_source")
         reject_ids = fconf.get("reject_identifiers", False)
         for cand in fconf.get("candidates", []):
-            raw = self._get_raw(cand, gm, eg, up, ps, sp, ipr)
+            raw = self._get_raw(cand, gm, eg, up, ps, sp, ipr, tcd)
             if not _nonempty(raw):
                 continue
             transform = cand.get("transform")
@@ -627,7 +671,7 @@ class AnnotationBuilder:
 
     def _resolve_union(
         self, fconf: dict, gm: dict, eg: dict, up: dict, ps: dict | None = None,
-        sp: dict | None = None, ipr: dict | None = None
+        sp: dict | None = None, ipr: dict | None = None, tcd: dict | None = None
     ) -> list[str] | None:
         """Merge tokens from all sources, deduplicate, apply global filter."""
         global_filter = fconf.get("filter")
@@ -635,7 +679,7 @@ class AnnotationBuilder:
         seen: dict[str, None] = {}  # ordered set
 
         for src_cfg in fconf.get("sources", []):
-            raw = self._get_raw(src_cfg, gm, eg, up, ps, sp, ipr)
+            raw = self._get_raw(src_cfg, gm, eg, up, ps, sp, ipr, tcd)
             if not _nonempty(raw):
                 continue
 
@@ -683,9 +727,9 @@ class AnnotationBuilder:
 
     def _resolve_integer(
         self, fconf: dict, gm: dict, eg: dict, up: dict, ps: dict | None = None,
-        sp: dict | None = None, ipr: dict | None = None
+        sp: dict | None = None, ipr: dict | None = None, tcd: dict | None = None
     ) -> int | None:
-        raw = self._get_raw(fconf, gm, eg, up, ps, sp, ipr)
+        raw = self._get_raw(fconf, gm, eg, up, ps, sp, ipr, tcd)
         if raw is None:
             return None
         try:
@@ -695,9 +739,9 @@ class AnnotationBuilder:
 
     def _resolve_float(
         self, fconf: dict, gm: dict, eg: dict, up: dict, ps: dict | None = None,
-        sp: dict | None = None, ipr: dict | None = None
+        sp: dict | None = None, ipr: dict | None = None, tcd: dict | None = None
     ) -> float | None:
-        raw = self._get_raw(fconf, gm, eg, up, ps, sp, ipr)
+        raw = self._get_raw(fconf, gm, eg, up, ps, sp, ipr, tcd)
         if raw is None:
             return None
         try:
@@ -714,12 +758,13 @@ class AnnotationBuilder:
         up: dict,
         ps: dict | None = None,
         sp: dict | None = None,
-        ipr: dict | None = None,
+        ipr: dict | None = None, tcd: dict | None = None,
     ) -> dict:
         """All source fields, source-prefixed — full audit trail."""
         ps = ps or {}
         sp = sp or {}
         ipr = ipr or {}
+        tcd = tcd or {}
         wide: dict[str, Any] = {}
         for k, v in gm.items():
             if _nonempty(v):
@@ -739,6 +784,9 @@ class AnnotationBuilder:
         for k, v in ipr.items():
             if _nonempty(v):
                 wide[f"interproscan_{k}"] = v
+        for k, v in tcd.items():
+            if _nonempty(v):
+                wide[f"tcdb_diamond_{k}"] = v
         return wide
 
     # ── build merged ──────────────────────────────────────────────────────────
@@ -751,12 +799,13 @@ class AnnotationBuilder:
         ps: dict | None = None,
         organism_name: str | None = None,
         sp: dict | None = None,
-        ipr: dict | None = None,
+        ipr: dict | None = None, tcd: dict | None = None,
     ) -> dict:
         """Apply merge rules → canonical field set."""
         ps = ps or {}
         sp = sp or {}
         ipr = ipr or {}
+        tcd = tcd or {}
         result: dict[str, Any] = {}
         source_tracking: dict[str, str] = {}
         locus_tag = gm.get("locus_tag", "")
@@ -765,17 +814,17 @@ class AnnotationBuilder:
             ftype = fconf.get("type", "passthrough")
 
             if ftype == "single":
-                val = self._resolve_single(fconf, gm, eg, up, ps, source_tracking, locus_tag, sp=sp, ipr=ipr)
+                val = self._resolve_single(fconf, gm, eg, up, ps, source_tracking, locus_tag, sp=sp, ipr=ipr, tcd=tcd)
             elif ftype == "union":
-                val = self._resolve_union(fconf, gm, eg, up, ps, sp, ipr)
+                val = self._resolve_union(fconf, gm, eg, up, ps, sp, ipr, tcd)
             elif ftype == "passthrough":
-                val = self._resolve_passthrough(fconf, gm, eg, up, ps, sp, ipr)
+                val = self._resolve_passthrough(fconf, gm, eg, up, ps, sp, ipr, tcd)
             elif ftype == "passthrough_list":
-                val = self._resolve_passthrough_list(fconf, gm, eg, up, ps, sp, ipr)
+                val = self._resolve_passthrough_list(fconf, gm, eg, up, ps, sp, ipr, tcd)
             elif ftype == "integer":
-                val = self._resolve_integer(fconf, gm, eg, up, ps, sp, ipr)
+                val = self._resolve_integer(fconf, gm, eg, up, ps, sp, ipr, tcd)
             elif ftype == "float":
-                val = self._resolve_float(fconf, gm, eg, up, ps, sp, ipr)
+                val = self._resolve_float(fconf, gm, eg, up, ps, sp, ipr, tcd)
             elif ftype == "extract_first_match":
                 val = extract_first_match_in_sources(
                     fconf.get("sources", []), gm, eg, up,
@@ -1022,6 +1071,7 @@ def process_strain(
     ps_data = load_psortb(data_dir, strain_name)
     sp_data = load_signalp(data_dir, strain_name)
     ipr_data = load_interproscan(data_dir, strain_name)
+    tcd_data = load_tcdb_diamond(data_dir, strain_name)
 
     print(f"  gene_mapping : {len(gm_data):>5} genes")
     print(f"  eggnog       : {len(eg_data):>5} entries")
@@ -1029,6 +1079,7 @@ def process_strain(
     print(f"  psortb       : {len(ps_data):>5} entries (keyed by RefSeq)")
     print(f"  signalp      : {len(sp_data):>5} entries (keyed by RefSeq)")
     print(f"  interproscan : {len(ipr_data):>5} entries (keyed by RefSeq)")
+    print(f"  tcdb_diamond : {len(tcd_data):>5} entries (keyed by RefSeq)")
 
     builder = AnnotationBuilder(config)
 
@@ -1045,6 +1096,7 @@ def process_strain(
         ps_row = ps_data.get(protein_id, {})
         sp_row = sp_data.get(protein_id, {})
         ipr_row = ipr_data.get(protein_id, {})
+        tcd_row = tcd_data.get(protein_id, {})
 
         stats["total"] += 1
         if eg_row:
@@ -1052,9 +1104,10 @@ def process_strain(
         if up_row:
             stats["uniprot_hit"] += 1
 
-        wide_out[locus_tag] = builder.build_wide(gm_row, eg_row, up_row, ps_row, sp_row, ipr_row)
+        wide_out[locus_tag] = builder.build_wide(gm_row, eg_row, up_row, ps_row, sp_row, ipr_row, tcd_row)
         merged = builder.build_merged(gm_row, eg_row, up_row, ps_row,
-                                      organism_name=preferred_name, sp=sp_row, ipr=ipr_row)
+                                      organism_name=preferred_name, sp=sp_row, ipr=ipr_row,
+                                      tcd=tcd_row)
         merged_out[locus_tag] = merged
 
         if merged.get("product"):

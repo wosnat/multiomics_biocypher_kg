@@ -173,7 +173,10 @@
     "psortb_localization": "CytoplasmicMembrane",
     "psortb_score": 10.0,
     "signalp_probability": 1.0,
-    "signalp_signalp_type": "OTHER"
+    "signalp_signalp_type": "OTHER",
+    "tcdb_diamond_tcdb_ids": [
+      "2.A.19"
+    ]
   },
   "SOI86_RS00025": {
     "eggnog_BRITE": "ko00000,ko00001,ko00002,ko01000",
@@ -290,7 +293,10 @@
     "psortb_localization": "CytoplasmicMembrane",
     "psortb_score": 9.82,
     "signalp_probability": 1.0,
-    "signalp_signalp_type": "OTHER"
+    "signalp_signalp_type": "OTHER",
+    "tcdb_diamond_tcdb_ids": [
+      "3.D.1.8"
+    ]
   },
   "SOI86_RS00045": {
     "eggnog_COG_category": "S",
@@ -667,7 +673,12 @@
     "psortb_localization": "Cytoplasmic",
     "psortb_score": 9.97,
     "signalp_probability": 1.0,
-    "signalp_signalp_type": "OTHER"
+    "signalp_signalp_type": "OTHER",
+    "tcdb_diamond_tcdb_ids": [
+      "3.A.23",
+      "3.A.26",
+      "3.A.9.1"
+    ]
   },
   "SOI86_RS00095": {
     "eggnog_BRITE": "ko00000,ko00001,ko00194",
@@ -710,7 +721,10 @@
     "signalp_cleavage_probability": 0.9746,
     "signalp_cleavage_site": 25,
     "signalp_probability": 0.999109,
-    "signalp_signalp_type": "SP"
+    "signalp_signalp_type": "SP",
+    "tcdb_diamond_tcdb_ids": [
+      "3.D.3.5"
+    ]
   },
   "SOI86_RS00100": {
     "eggnog_COG_category": "GM",
@@ -1224,7 +1238,13 @@
     "psortb_localization": "CytoplasmicMembrane",
     "psortb_score": 10.0,
     "signalp_probability": 1.0,
-    "signalp_signalp_type": "OTHER"
+    "signalp_signalp_type": "OTHER",
+    "tcdb_diamond_tcdb_ids": [
+      "2.A.63",
+      "3.D.1",
+      "3.D.13",
+      "3.D.9"
+    ]
   },
   "SOI86_RS00165": {
     "eggnog_BRITE": "ko00000,ko00001,ko00002,ko01000",
@@ -1521,7 +1541,10 @@
     "signalp_cleavage_probability": 0.9942,
     "signalp_cleavage_site": 21,
     "signalp_probability": 1.0,
-    "signalp_signalp_type": "LIPO"
+    "signalp_signalp_type": "LIPO",
+    "tcdb_diamond_tcdb_ids": [
+      "3.A.1.15"
+    ]
   },
   "SOI86_RS00200": {
     "eggnog_BRITE": "ko00000,ko00001,ko00002,ko02000",
@@ -1563,7 +1586,10 @@
     "psortb_localization": "CytoplasmicMembrane",
     "psortb_score": 9.82,
     "signalp_probability": 1.0,
-    "signalp_signalp_type": "OTHER"
+    "signalp_signalp_type": "OTHER",
+    "tcdb_diamond_tcdb_ids": [
+      "3.A.1"
+    ]
   },
   "SOI86_RS00205": {
     "eggnog_BRITE": "ko00000,ko00001,ko00002,ko02000",
@@ -1606,7 +1632,10 @@
     "psortb_localization": "CytoplasmicMembrane",
     "psortb_score": 10.0,
     "signalp_probability": 1.0,
-    "signalp_signalp_type": "OTHER"
+    "signalp_signalp_type": "OTHER",
+    "tcdb_diamond_tcdb_ids": [
+      "3.A.1.15"
+    ]
   },
   "SOI86_RS00210": {
     "eggnog_COG_category": "S",
@@ -1710,7 +1739,11 @@
     "psortb_localization": "CytoplasmicMembrane",
     "psortb_score": 10.0,
     "signalp_probability": 0.999892,
-    "signalp_signalp_type": "OTHER"
+    "signalp_signalp_type": "OTHER",
+    "tcdb_diamond_tcdb_ids": [
+      "2.A.133",
+      "9.B.391"
+    ]
   },
   "SOI86_RS00225": {
     "eggnog_BRITE": "ko00000,ko00001,ko00002,ko01000",
@@ -1899,7 +1932,10 @@
     "psortb_localization": "Cytoplasmic",
     "psortb_score": 9.97,
     "signalp_probability": 1.0,
-    "signalp_signalp_type": "OTHER"
+    "signalp_signalp_type": "OTHER",
+    "tcdb_diamond_tcdb_ids": [
+      "2.A.128"
+    ]
   },
   "SOI86_RS00245": {
     "eggnog_BRITE": "ko00000,ko00001,ko00002,ko01000",
@@ -2230,7 +2266,10 @@
     "psortb_localization": "Cytoplasmic",
     "psortb_score": 9.97,
     "signalp_probability": 1.0,
-    "signalp_signalp_type": "OTHER"
+    "signalp_signalp_type": "OTHER",
+    "tcdb_diamond_tcdb_ids": [
+      "5.B.14"
+    ]
   },
   "SOI86_RS00285": {
     "eggnog_BRITE": "ko00000,ko00001,ko00002,ko01000,ko01004",
@@ -2280,7 +2319,11 @@
     "psortb_localization": "Cytoplasmic",
     "psortb_score": 9.97,
     "signalp_probability": 0.999938,
-    "signalp_signalp_type": "OTHER"
+    "signalp_signalp_type": "OTHER",
+    "tcdb_diamond_tcdb_ids": [
+      "2.A.1",
+      "4.C.1"
+    ]
   },
   "SOI86_RS00290": {
     "eggnog_COG_category": "S",
@@ -2577,7 +2620,10 @@
     "psortb_localization": "CytoplasmicMembrane",
     "psortb_score": 10.0,
     "signalp_probability": 1.0,
-    "signalp_signalp_type": "OTHER"
+    "signalp_signalp_type": "OTHER",
+    "tcdb_diamond_tcdb_ids": [
+      "3.E.2.2"
+    ]
   },
   "SOI86_RS00335": {
     "eggnog_BRITE": "ko00000,ko02000",
@@ -2612,7 +2658,10 @@
     "psortb_localization": "CytoplasmicMembrane",
     "psortb_score": 10.0,
     "signalp_probability": 1.0,
-    "signalp_signalp_type": "OTHER"
+    "signalp_signalp_type": "OTHER",
+    "tcdb_diamond_tcdb_ids": [
+      "2.A.27"
+    ]
   },
   "SOI86_RS00340": {
     "eggnog_COG_category": "S",
@@ -2868,7 +2917,10 @@
     "psortb_localization": "CytoplasmicMembrane",
     "psortb_score": 10.0,
     "signalp_probability": 1.0,
-    "signalp_signalp_type": "OTHER"
+    "signalp_signalp_type": "OTHER",
+    "tcdb_diamond_tcdb_ids": [
+      "1.A.23"
+    ]
   },
   "SOI86_RS00375": {
     "eggnog_COG_category": "Q",
@@ -3194,7 +3246,10 @@
     "psortb_localization": "CytoplasmicMembrane",
     "psortb_score": 10.0,
     "signalp_probability": 1.0,
-    "signalp_signalp_type": "OTHER"
+    "signalp_signalp_type": "OTHER",
+    "tcdb_diamond_tcdb_ids": [
+      "2.A.53"
+    ]
   },
   "SOI86_RS00420": {
     "eggnog_COG_category": "C",
@@ -3469,7 +3524,10 @@
     "psortb_localization": "Cytoplasmic",
     "psortb_score": 9.26,
     "signalp_probability": 1.0,
-    "signalp_signalp_type": "OTHER"
+    "signalp_signalp_type": "OTHER",
+    "tcdb_diamond_tcdb_ids": [
+      "9.A.15"
+    ]
   },
   "SOI86_RS00460": {
     "eggnog_COG_category": "S",
@@ -3603,7 +3661,10 @@
     "psortb_localization": "CytoplasmicMembrane",
     "psortb_score": 10.0,
     "signalp_probability": 1.0,
-    "signalp_signalp_type": "OTHER"
+    "signalp_signalp_type": "OTHER",
+    "tcdb_diamond_tcdb_ids": [
+      "9.B.175"
+    ]
   },
   "SOI86_RS00485": {
     "eggnog_BRITE": "ko00000,ko00001,ko01004,ko01008",
@@ -4159,7 +4220,10 @@
     "psortb_localization": "CytoplasmicMembrane",
     "psortb_score": 9.82,
     "signalp_probability": 1.0,
-    "signalp_signalp_type": "OTHER"
+    "signalp_signalp_type": "OTHER",
+    "tcdb_diamond_tcdb_ids": [
+      "3.A.1"
+    ]
   },
   "SOI86_RS00585": {
     "eggnog_COG_category": "S",
@@ -4335,7 +4399,10 @@
     "psortb_localization": "CytoplasmicMembrane",
     "psortb_score": 10.0,
     "signalp_probability": 0.834258,
-    "signalp_signalp_type": "OTHER"
+    "signalp_signalp_type": "OTHER",
+    "tcdb_diamond_tcdb_ids": [
+      "3.A.1"
+    ]
   },
   "SOI86_RS00610": {
     "eggnog_BRITE": "ko00000,ko00001,ko00002,ko01000,ko02000",
@@ -4377,7 +4444,10 @@
     "psortb_localization": "CytoplasmicMembrane",
     "psortb_score": 7.88,
     "signalp_probability": 1.0,
-    "signalp_signalp_type": "OTHER"
+    "signalp_signalp_type": "OTHER",
+    "tcdb_diamond_tcdb_ids": [
+      "3.A.1"
+    ]
   },
   "SOI86_RS00615": {
     "eggnog_BRITE": "ko00000,ko00001,ko00002,ko02000",
@@ -4419,7 +4489,10 @@
     "signalp_cleavage_probability": 0.9599,
     "signalp_cleavage_site": 24,
     "signalp_probability": 0.99353,
-    "signalp_signalp_type": "SP"
+    "signalp_signalp_type": "SP",
+    "tcdb_diamond_tcdb_ids": [
+      "3.A.1"
+    ]
   },
   "SOI86_RS00620": {
     "eggnog_BRITE": "ko00000,ko00001,ko01000,ko01007",
@@ -4602,7 +4675,10 @@
     "signalp_cleavage_probability": 0.9674,
     "signalp_cleavage_site": 30,
     "signalp_probability": 0.99908,
-    "signalp_signalp_type": "SP"
+    "signalp_signalp_type": "SP",
+    "tcdb_diamond_tcdb_ids": [
+      "9.B.174"
+    ]
   },
   "SOI86_RS00640": {
     "eggnog_BRITE": "ko00000,ko00001,ko00002,ko01000",
@@ -5254,7 +5330,10 @@
     "psortb_localization": "Extracellular",
     "psortb_score": 9.71,
     "signalp_probability": 1.0,
-    "signalp_signalp_type": "OTHER"
+    "signalp_signalp_type": "OTHER",
+    "tcdb_diamond_tcdb_ids": [
+      "1.A.115"
+    ]
   },
   "SOI86_RS00750": {
     "eggnog_eggNOG_OGs": "2A6U1@1|root,30VNA@2|Bacteria,1GHA7@1117|Cyanobacteria,1MN14@1212|Prochloraceae",
@@ -5640,7 +5719,11 @@
     "psortb_localization": "CytoplasmicMembrane",
     "psortb_score": 9.99,
     "signalp_probability": 1.0,
-    "signalp_signalp_type": "OTHER"
+    "signalp_signalp_type": "OTHER",
+    "tcdb_diamond_tcdb_ids": [
+      "1.A.1",
+      "2.A.37"
+    ]
   },
   "SOI86_RS00820": {
     "eggnog_BRITE": "ko00000,ko00001,ko00002,ko02000",
@@ -5686,7 +5769,10 @@
     "signalp_cleavage_probability": 0.9751,
     "signalp_cleavage_site": 24,
     "signalp_probability": 0.998788,
-    "signalp_signalp_type": "SP"
+    "signalp_signalp_type": "SP",
+    "tcdb_diamond_tcdb_ids": [
+      "3.A.1.7"
+    ]
   },
   "SOI86_RS00825": {
     "eggnog_BRITE": "ko00000,ko00001,ko00002,ko02000",
@@ -5731,7 +5817,10 @@
     "psortb_localization": "CytoplasmicMembrane",
     "psortb_score": 10.0,
     "signalp_probability": 1.0,
-    "signalp_signalp_type": "OTHER"
+    "signalp_signalp_type": "OTHER",
+    "tcdb_diamond_tcdb_ids": [
+      "3.A.1"
+    ]
   },
   "SOI86_RS00830": {
     "eggnog_BRITE": "ko00000,ko00001,ko00002,ko02000",
@@ -5776,7 +5865,10 @@
     "psortb_localization": "CytoplasmicMembrane",
     "psortb_score": 10.0,
     "signalp_probability": 1.0,
-    "signalp_signalp_type": "OTHER"
+    "signalp_signalp_type": "OTHER",
+    "tcdb_diamond_tcdb_ids": [
+      "3.A.1"
+    ]
   },
   "SOI86_RS00835": {
     "eggnog_BRITE": "ko00000,ko00001,ko00002,ko01000,ko02000",
@@ -5824,7 +5916,10 @@
     "psortb_localization": "CytoplasmicMembrane",
     "psortb_score": 10.0,
     "signalp_probability": 1.0,
-    "signalp_signalp_type": "OTHER"
+    "signalp_signalp_type": "OTHER",
+    "tcdb_diamond_tcdb_ids": [
+      "3.A.1"
+    ]
   },
   "SOI86_RS00840": {
     "eggnog_eggNOG_OGs": "2BIN7@1|root,32CV9@2|Bacteria,1GI4P@1117|Cyanobacteria,1MN49@1212|Prochloraceae",
@@ -6397,7 +6492,10 @@
     "psortb_localization": "Cytoplasmic",
     "psortb_score": 9.97,
     "signalp_probability": 1.0,
-    "signalp_signalp_type": "OTHER"
+    "signalp_signalp_type": "OTHER",
+    "tcdb_diamond_tcdb_ids": [
+      "3.A.26.1"
+    ]
   },
   "SOI86_RS00950": {
     "eggnog_BRITE": "ko00000,ko00002,ko01000,ko01002,ko03110",
@@ -6445,7 +6543,11 @@
     "psortb_localization": "CytoplasmicMembrane",
     "psortb_score": 10.0,
     "signalp_probability": 0.904343,
-    "signalp_signalp_type": "OTHER"
+    "signalp_signalp_type": "OTHER",
+    "tcdb_diamond_tcdb_ids": [
+      "3.A.29.1",
+      "3.A.9.1"
+    ]
   },
   "SOI86_RS00955": {
     "eggnog_COG_category": "S",
@@ -6587,7 +6689,10 @@
     "psortb_localization": "Cytoplasmic",
     "psortb_score": 8.96,
     "signalp_probability": 1.0,
-    "signalp_signalp_type": "OTHER"
+    "signalp_signalp_type": "OTHER",
+    "tcdb_diamond_tcdb_ids": [
+      "3.A.9"
+    ]
   },
   "SOI86_RS00975": {
     "eggnog_BRITE": "ko00000",
@@ -6622,7 +6727,10 @@
     "signalp_cleavage_probability": 0.9911,
     "signalp_cleavage_site": 25,
     "signalp_probability": 1.0,
-    "signalp_signalp_type": "LIPO"
+    "signalp_signalp_type": "LIPO",
+    "tcdb_diamond_tcdb_ids": [
+      "3.A.1"
+    ]
   },
   "SOI86_RS00980": {
     "eggnog_BRITE": "ko00000,ko00002,ko02000",
@@ -6664,7 +6772,10 @@
     "psortb_localization": "CytoplasmicMembrane",
     "psortb_score": 10.0,
     "signalp_probability": 0.999939,
-    "signalp_signalp_type": "OTHER"
+    "signalp_signalp_type": "OTHER",
+    "tcdb_diamond_tcdb_ids": [
+      "3.A.1.114"
+    ]
   },
   "SOI86_RS00985": {
     "eggnog_BRITE": "ko00000,ko00002,ko02000",
@@ -6704,7 +6815,10 @@
     "psortb_localization": "CytoplasmicMembrane",
     "psortb_score": 9.82,
     "signalp_probability": 1.0,
-    "signalp_signalp_type": "OTHER"
+    "signalp_signalp_type": "OTHER",
+    "tcdb_diamond_tcdb_ids": [
+      "3.A.1"
+    ]
   },
   "SOI86_RS00990": {
     "eggnog_eggNOG_OGs": "2A2XH@1|root,30RBR@2|Bacteria,1GMQ1@1117|Cyanobacteria,1MMYG@1212|Prochloraceae",
@@ -6766,7 +6880,10 @@
     "psortb_localization": "CytoplasmicMembrane",
     "psortb_score": 7.88,
     "signalp_probability": 1.0,
-    "signalp_signalp_type": "OTHER"
+    "signalp_signalp_type": "OTHER",
+    "tcdb_diamond_tcdb_ids": [
+      "4.D.1"
+    ]
   },
   "SOI86_RS01000": {
     "eggnog_BRITE": "br01610,ko00000,ko00001,ko00002,ko03011",
@@ -6854,7 +6971,10 @@
     "psortb_localization": "Cytoplasmic",
     "psortb_score": 9.97,
     "signalp_probability": 1.0,
-    "signalp_signalp_type": "OTHER"
+    "signalp_signalp_type": "OTHER",
+    "tcdb_diamond_tcdb_ids": [
+      "2.A.7"
+    ]
   },
   "SOI86_RS01010": {
     "eggnog_COG_category": "S",
@@ -6927,7 +7047,11 @@
     "psortb_localization": "Cytoplasmic",
     "psortb_score": 9.94,
     "signalp_probability": 1.0,
-    "signalp_signalp_type": "OTHER"
+    "signalp_signalp_type": "OTHER",
+    "tcdb_diamond_tcdb_ids": [
+      "3.A.11",
+      "3.A.18"
+    ]
   },
   "SOI86_RS01020": {
     "eggnog_BRITE": "ko00000,ko00001,ko00002,ko01000,ko01002,ko01011,ko01504",
@@ -7276,7 +7400,11 @@
     "psortb_localization": "Unknown",
     "psortb_score": 6.29,
     "signalp_probability": 1.0,
-    "signalp_signalp_type": "OTHER"
+    "signalp_signalp_type": "OTHER",
+    "tcdb_diamond_tcdb_ids": [
+      "1.B.42.1",
+      "3.A.1"
+    ]
   },
   "SOI86_RS01060": {
     "eggnog_COG_category": "O",
@@ -7315,7 +7443,10 @@
     "psortb_localization": "CytoplasmicMembrane",
     "psortb_score": 10.0,
     "signalp_probability": 0.999973,
-    "signalp_signalp_type": "OTHER"
+    "signalp_signalp_type": "OTHER",
+    "tcdb_diamond_tcdb_ids": [
+      "9.B.14"
+    ]
   },
   "SOI86_RS01065": {
     "eggnog_BRITE": "ko00000,ko00001,ko00002,ko01000",
@@ -7850,7 +7981,10 @@
     "psortb_localization": "Cytoplasmic",
     "psortb_score": 9.97,
     "signalp_probability": 1.0,
-    "signalp_signalp_type": "OTHER"
+    "signalp_signalp_type": "OTHER",
+    "tcdb_diamond_tcdb_ids": [
+      "9.B.10"
+    ]
   },
   "SOI86_RS01130": {
     "eggnog_eggNOG_OGs": "2BBHF@1|root,3250Z@2|Bacteria,1GHAR@1117|Cyanobacteria,1MN2C@1212|Prochloraceae",
@@ -8168,7 +8302,10 @@
     "psortb_localization": "Cytoplasmic",
     "psortb_score": 9.97,
     "signalp_probability": 1.0,
-    "signalp_signalp_type": "OTHER"
+    "signalp_signalp_type": "OTHER",
+    "tcdb_diamond_tcdb_ids": [
+      "3.B.1"
+    ]
   },
   "SOI86_RS01170": {
     "eggnog_BRITE": "ko00000,ko00001,ko00002,ko01000",
@@ -8716,7 +8853,10 @@
     "psortb_localization": "CytoplasmicMembrane",
     "psortb_score": 10.0,
     "signalp_probability": 1.0,
-    "signalp_signalp_type": "OTHER"
+    "signalp_signalp_type": "OTHER",
+    "tcdb_diamond_tcdb_ids": [
+      "4.F.1"
+    ]
   },
   "SOI86_RS01240": {
     "eggnog_COG_category": "O",
@@ -8803,7 +8943,10 @@
     "psortb_localization": "Cytoplasmic",
     "psortb_score": 8.96,
     "signalp_probability": 1.0,
-    "signalp_signalp_type": "OTHER"
+    "signalp_signalp_type": "OTHER",
+    "tcdb_diamond_tcdb_ids": [
+      "3.A.9"
+    ]
   },
   "SOI86_RS01255": {
     "eggnog_BRITE": "ko00000,ko00001,ko01000,ko03400",
@@ -8894,7 +9037,10 @@
     "psortb_localization": "CytoplasmicMembrane",
     "psortb_score": 7.88,
     "signalp_probability": 1.0,
-    "signalp_signalp_type": "OTHER"
+    "signalp_signalp_type": "OTHER",
+    "tcdb_diamond_tcdb_ids": [
+      "3.A.1"
+    ]
   },
   "SOI86_RS01265": {
     "eggnog_COG_category": "P",
@@ -8931,7 +9077,10 @@
     "psortb_localization": "Cytoplasmic",
     "psortb_score": 9.26,
     "signalp_probability": 1.0,
-    "signalp_signalp_type": "OTHER"
+    "signalp_signalp_type": "OTHER",
+    "tcdb_diamond_tcdb_ids": [
+      "1.A.155"
+    ]
   },
   "SOI86_RS01270": {
     "eggnog_COG_category": "S",
@@ -9032,7 +9181,10 @@
     "psortb_localization": "CytoplasmicMembrane",
     "psortb_score": 7.88,
     "signalp_probability": 1.0,
-    "signalp_signalp_type": "OTHER"
+    "signalp_signalp_type": "OTHER",
+    "tcdb_diamond_tcdb_ids": [
+      "3.A.1"
+    ]
   },
   "SOI86_RS01285": {
     "eggnog_BRITE": "ko00000,ko00001,ko00002,ko01000",
@@ -9327,7 +9479,11 @@
     "psortb_localization": "Cytoplasmic",
     "psortb_score": 9.12,
     "signalp_probability": 1.0,
-    "signalp_signalp_type": "OTHER"
+    "signalp_signalp_type": "OTHER",
+    "tcdb_diamond_tcdb_ids": [
+      "1.B.42",
+      "3.A.1"
+    ]
   },
   "SOI86_RS01335": {
     "eggnog_BRITE": "ko00000,ko00001,ko00002,ko02000",
@@ -9372,7 +9528,10 @@
     "psortb_localization": "CytoplasmicMembrane",
     "psortb_score": 7.88,
     "signalp_probability": 1.0,
-    "signalp_signalp_type": "OTHER"
+    "signalp_signalp_type": "OTHER",
+    "tcdb_diamond_tcdb_ids": [
+      "3.A.1"
+    ]
   },
   "SOI86_RS01340": {
     "eggnog_BRITE": "ko00000,ko00001,ko00002,ko02000",
@@ -9415,7 +9574,10 @@
     "psortb_localization": "CytoplasmicMembrane",
     "psortb_score": 10.0,
     "signalp_probability": 1.0,
-    "signalp_signalp_type": "OTHER"
+    "signalp_signalp_type": "OTHER",
+    "tcdb_diamond_tcdb_ids": [
+      "3.A.1"
+    ]
   },
   "SOI86_RS01345": {
     "eggnog_BRITE": "ko00000,ko00001,ko00002,ko02000",
@@ -9456,7 +9618,10 @@
     "psortb_localization": "CytoplasmicMembrane",
     "psortb_score": 10.0,
     "signalp_probability": 1.0,
-    "signalp_signalp_type": "OTHER"
+    "signalp_signalp_type": "OTHER",
+    "tcdb_diamond_tcdb_ids": [
+      "3.A.1"
+    ]
   },
   "SOI86_RS01350": {
     "eggnog_BRITE": "ko00000,ko00001,ko00002,ko02000",
@@ -9501,7 +9666,10 @@
     "signalp_cleavage_probability": 0.9897,
     "signalp_cleavage_site": 22,
     "signalp_probability": 0.999941,
-    "signalp_signalp_type": "LIPO"
+    "signalp_signalp_type": "LIPO",
+    "tcdb_diamond_tcdb_ids": [
+      "3.A.1.4"
+    ]
   },
   "SOI86_RS01355": {
     "eggnog_BRITE": "ko00000",
@@ -10172,7 +10340,10 @@
     "psortb_localization": "CytoplasmicMembrane",
     "psortb_score": 10.0,
     "signalp_probability": 1.0,
-    "signalp_signalp_type": "OTHER"
+    "signalp_signalp_type": "OTHER",
+    "tcdb_diamond_tcdb_ids": [
+      "3.A.1"
+    ]
   },
   "SOI86_RS01450": {
     "eggnog_COG_category": "S",
@@ -10498,7 +10669,10 @@
     "psortb_localization": "Cytoplasmic",
     "psortb_score": 9.26,
     "signalp_probability": 1.0,
-    "signalp_signalp_type": "OTHER"
+    "signalp_signalp_type": "OTHER",
+    "tcdb_diamond_tcdb_ids": [
+      "3.A.9"
+    ]
   },
   "SOI86_RS01490": {
     "eggnog_BRITE": "ko00000,ko00001,ko00002,ko01000,ko03032,ko03400",
@@ -10662,7 +10836,10 @@
     "psortb_localization": "Cytoplasmic",
     "psortb_score": 9.97,
     "signalp_probability": 0.999965,
-    "signalp_signalp_type": "OTHER"
+    "signalp_signalp_type": "OTHER",
+    "tcdb_diamond_tcdb_ids": [
+      "3.A.11"
+    ]
   },
   "SOI86_RS01510": {
     "eggnog_COG_category": "S",
@@ -10730,7 +10907,10 @@
     "psortb_localization": "CytoplasmicMembrane",
     "psortb_score": 10.0,
     "signalp_probability": 1.0,
-    "signalp_signalp_type": "OTHER"
+    "signalp_signalp_type": "OTHER",
+    "tcdb_diamond_tcdb_ids": [
+      "2.A.7"
+    ]
   },
   "SOI86_RS01520": {
     "eggnog_BRITE": "ko00000,ko00001,ko01000,ko03032",
@@ -11170,7 +11350,11 @@
     "psortb_localization": "CytoplasmicMembrane",
     "psortb_score": 10.0,
     "signalp_probability": 0.999901,
-    "signalp_signalp_type": "OTHER"
+    "signalp_signalp_type": "OTHER",
+    "tcdb_diamond_tcdb_ids": [
+      "2.A.6",
+      "3.A.5"
+    ]
   },
   "SOI86_RS01575": {
     "eggnog_BRITE": "ko00000,ko00001,ko00002,ko02044",
@@ -11217,7 +11401,11 @@
     "psortb_localization": "CytoplasmicMembrane",
     "psortb_score": 10.0,
     "signalp_probability": 0.999844,
-    "signalp_signalp_type": "OTHER"
+    "signalp_signalp_type": "OTHER",
+    "tcdb_diamond_tcdb_ids": [
+      "2.A.6",
+      "3.A.5"
+    ]
   },
   "SOI86_RS01580": {
     "eggnog_COG_category": "S",
@@ -11250,7 +11438,10 @@
     "psortb_localization": "CytoplasmicMembrane",
     "psortb_score": 10.0,
     "signalp_probability": 1.0,
-    "signalp_signalp_type": "OTHER"
+    "signalp_signalp_type": "OTHER",
+    "tcdb_diamond_tcdb_ids": [
+      "2.A.86"
+    ]
   },
   "SOI86_RS01585": {
     "eggnog_BRITE": "ko00000,ko00001,ko00194",
@@ -11592,7 +11783,10 @@
     "psortb_localization": "Cytoplasmic",
     "psortb_score": 9.97,
     "signalp_probability": 1.0,
-    "signalp_signalp_type": "OTHER"
+    "signalp_signalp_type": "OTHER",
+    "tcdb_diamond_tcdb_ids": [
+      "9.B.317"
+    ]
   },
   "SOI86_RS01630": {
     "eggnog_BRITE": "ko00000,ko00001,ko01000",
@@ -11737,7 +11931,10 @@
     "psortb_localization": "CytoplasmicMembrane",
     "psortb_score": 10.0,
     "signalp_probability": 0.999922,
-    "signalp_signalp_type": "OTHER"
+    "signalp_signalp_type": "OTHER",
+    "tcdb_diamond_tcdb_ids": [
+      "9.B.105.1"
+    ]
   },
   "SOI86_RS01650": {
     "eggnog_BRITE": "ko00000,ko00001,ko00002,ko02000",
@@ -11813,7 +12010,10 @@
     "psortb_localization": "CytoplasmicMembrane",
     "psortb_score": 10.0,
     "signalp_probability": 1.0,
-    "signalp_signalp_type": "OTHER"
+    "signalp_signalp_type": "OTHER",
+    "tcdb_diamond_tcdb_ids": [
+      "3.A.1"
+    ]
   },
   "SOI86_RS01660": {
     "eggnog_BRITE": "ko00000,ko00001,ko00002,ko01000,ko04131,ko04147",
@@ -11927,7 +12127,10 @@
     "psortb_localization": "CytoplasmicMembrane",
     "psortb_score": 9.82,
     "signalp_probability": 1.0,
-    "signalp_signalp_type": "OTHER"
+    "signalp_signalp_type": "OTHER",
+    "tcdb_diamond_tcdb_ids": [
+      "9.A.4.2"
+    ]
   },
   "SOI86_RS01675": {
     "eggnog_BRITE": "ko00000,ko03036",
@@ -12209,7 +12412,10 @@
     "signalp_cleavage_probability": 0.954,
     "signalp_cleavage_site": 23,
     "signalp_probability": 0.995288,
-    "signalp_signalp_type": "SP"
+    "signalp_signalp_type": "SP",
+    "tcdb_diamond_tcdb_ids": [
+      "8.A.147"
+    ]
   },
   "SOI86_RS01710": {
     "eggnog_BRITE": "br01610,ko00000,ko00001,ko00002,ko03011",
@@ -12296,7 +12502,10 @@
     "psortb_localization": "Cytoplasmic",
     "psortb_score": 9.97,
     "signalp_probability": 1.0,
-    "signalp_signalp_type": "OTHER"
+    "signalp_signalp_type": "OTHER",
+    "tcdb_diamond_tcdb_ids": [
+      "8.A.163"
+    ]
   },
   "SOI86_RS01720": {
     "eggnog_BRITE": "ko00000,ko00001,ko00002",
@@ -12417,7 +12626,10 @@
     "psortb_localization": "Unknown",
     "psortb_score": 2.0,
     "signalp_probability": 1.0,
-    "signalp_signalp_type": "OTHER"
+    "signalp_signalp_type": "OTHER",
+    "tcdb_diamond_tcdb_ids": [
+      "5.B.1"
+    ]
   },
   "SOI86_RS01740": {
     "eggnog_BRITE": "ko00000,ko00001,ko03019,ko03029,ko03110,ko04147",
@@ -12458,7 +12670,15 @@
     "psortb_localization": "Unknown",
     "psortb_score": 6.58,
     "signalp_probability": 1.0,
-    "signalp_signalp_type": "OTHER"
+    "signalp_signalp_type": "OTHER",
+    "tcdb_diamond_tcdb_ids": [
+      "1.A.33.1",
+      "3.A.16.1",
+      "3.A.9.1",
+      "9.A.41",
+      "9.B.157",
+      "9.B.460"
+    ]
   },
   "SOI86_RS01745": {
     "eggnog_COG_category": "O",
@@ -12493,7 +12713,10 @@
     "psortb_localization": "Cytoplasmic",
     "psortb_score": 9.97,
     "signalp_probability": 1.0,
-    "signalp_signalp_type": "OTHER"
+    "signalp_signalp_type": "OTHER",
+    "tcdb_diamond_tcdb_ids": [
+      "8.A.192"
+    ]
   },
   "SOI86_RS01750": {
     "eggnog_COG_category": "S",
@@ -12567,7 +12790,12 @@
     "psortb_localization": "Cytoplasmic",
     "psortb_score": 9.26,
     "signalp_probability": 1.0,
-    "signalp_signalp_type": "OTHER"
+    "signalp_signalp_type": "OTHER",
+    "tcdb_diamond_tcdb_ids": [
+      "1.A.129.1",
+      "1.I.1",
+      "3.D.1.8"
+    ]
   },
   "SOI86_RS01760": {
     "eggnog_BRITE": "ko00000,ko00001,ko00002,ko01000",
@@ -13455,7 +13683,10 @@
     "psortb_localization": "Cytoplasmic",
     "psortb_score": 8.96,
     "signalp_probability": 1.0,
-    "signalp_signalp_type": "OTHER"
+    "signalp_signalp_type": "OTHER",
+    "tcdb_diamond_tcdb_ids": [
+      "3.A.8"
+    ]
   },
   "SOI86_RS01865": {
     "eggnog_COG_category": "S",
@@ -14177,7 +14408,10 @@
     "psortb_localization": "Cytoplasmic",
     "psortb_score": 9.26,
     "signalp_probability": 1.0,
-    "signalp_signalp_type": "OTHER"
+    "signalp_signalp_type": "OTHER",
+    "tcdb_diamond_tcdb_ids": [
+      "8.A.147.1"
+    ]
   },
   "SOI86_RS01975": {
     "eggnog_BRITE": "ko00000,ko00002,ko01000,ko01002,ko03110",
@@ -14225,7 +14459,13 @@
     "psortb_localization": "CytoplasmicMembrane",
     "psortb_score": 10.0,
     "signalp_probability": 1.0,
-    "signalp_signalp_type": "OTHER"
+    "signalp_signalp_type": "OTHER",
+    "tcdb_diamond_tcdb_ids": [
+      "3.A.16",
+      "3.A.25",
+      "3.A.29.1",
+      "3.A.9.1"
+    ]
   },
   "SOI86_RS01980": {
     "eggnog_BRITE": "br01610,ko00000,ko00001,ko00002,ko03011,ko03029",
@@ -14398,7 +14638,10 @@
     "psortb_localization": "CytoplasmicMembrane",
     "psortb_score": 10.0,
     "signalp_probability": 1.0,
-    "signalp_signalp_type": "OTHER"
+    "signalp_signalp_type": "OTHER",
+    "tcdb_diamond_tcdb_ids": [
+      "2.A.106"
+    ]
   },
   "SOI86_RS02005": {
     "eggnog_COG_category": "S",
@@ -14428,7 +14671,10 @@
     "psortb_localization": "CytoplasmicMembrane",
     "psortb_score": 9.82,
     "signalp_probability": 1.0,
-    "signalp_signalp_type": "OTHER"
+    "signalp_signalp_type": "OTHER",
+    "tcdb_diamond_tcdb_ids": [
+      "2.A.106"
+    ]
   },
   "SOI86_RS02010": {
     "eggnog_BRITE": "ko00000,ko00001,ko01000,ko03016,ko03019",
@@ -14734,7 +14980,10 @@
     "psortb_localization": "CytoplasmicMembrane",
     "psortb_score": 10.0,
     "signalp_probability": 1.0,
-    "signalp_signalp_type": "OTHER"
+    "signalp_signalp_type": "OTHER",
+    "tcdb_diamond_tcdb_ids": [
+      "2.A.109"
+    ]
   },
   "SOI86_RS02050": {
     "eggnog_BRITE": "ko00000,ko00001,ko01000,ko03400",
@@ -14784,7 +15033,10 @@
     "psortb_localization": "Cytoplasmic",
     "psortb_score": 9.94,
     "signalp_probability": 1.0,
-    "signalp_signalp_type": "OTHER"
+    "signalp_signalp_type": "OTHER",
+    "tcdb_diamond_tcdb_ids": [
+      "3.A.11"
+    ]
   },
   "SOI86_RS02055": {
     "eggnog_COG_category": "S",
@@ -15222,7 +15474,10 @@
     "psortb_localization": "CytoplasmicMembrane",
     "psortb_score": 10.0,
     "signalp_probability": 1.0,
-    "signalp_signalp_type": "OTHER"
+    "signalp_signalp_type": "OTHER",
+    "tcdb_diamond_tcdb_ids": [
+      "3.A.1"
+    ]
   },
   "SOI86_RS02115": {
     "eggnog_COG_category": "S",
@@ -15808,7 +16063,11 @@
     "psortb_localization": "CytoplasmicMembrane",
     "psortb_score": 7.88,
     "signalp_probability": 1.0,
-    "signalp_signalp_type": "OTHER"
+    "signalp_signalp_type": "OTHER",
+    "tcdb_diamond_tcdb_ids": [
+      "2.A.130",
+      "3.A.1"
+    ]
   },
   "SOI86_RS02220": {
     "eggnog_BRITE": "ko00000,ko00002,ko02000",
@@ -15846,7 +16105,10 @@
     "psortb_localization": "CytoplasmicMembrane",
     "psortb_score": 10.0,
     "signalp_probability": 1.0,
-    "signalp_signalp_type": "OTHER"
+    "signalp_signalp_type": "OTHER",
+    "tcdb_diamond_tcdb_ids": [
+      "3.A.1"
+    ]
   },
   "SOI86_RS02225": {
     "eggnog_BRITE": "ko00000,ko00002,ko02000",
@@ -15884,7 +16146,10 @@
     "psortb_localization": "CytoplasmicMembrane",
     "psortb_score": 10.0,
     "signalp_probability": 1.0,
-    "signalp_signalp_type": "OTHER"
+    "signalp_signalp_type": "OTHER",
+    "tcdb_diamond_tcdb_ids": [
+      "3.A.1.141"
+    ]
   },
   "SOI86_RS02230": {
     "eggnog_COG_category": "S",
@@ -15942,7 +16207,10 @@
     "psortb_localization": "CytoplasmicMembrane",
     "psortb_score": 10.0,
     "signalp_probability": 0.998562,
-    "signalp_signalp_type": "OTHER"
+    "signalp_signalp_type": "OTHER",
+    "tcdb_diamond_tcdb_ids": [
+      "2.A.102"
+    ]
   },
   "SOI86_RS02240": {
     "eggnog_COG_category": "L",
@@ -17754,7 +18022,10 @@
     "psortb_localization": "CytoplasmicMembrane",
     "psortb_score": 10.0,
     "signalp_probability": 1.0,
-    "signalp_signalp_type": "OTHER"
+    "signalp_signalp_type": "OTHER",
+    "tcdb_diamond_tcdb_ids": [
+      "3.A.1"
+    ]
   },
   "SOI86_RS02540": {
     "eggnog_BRITE": "ko00000,ko03000",
@@ -17831,7 +18102,10 @@
     "psortb_localization": "CytoplasmicMembrane",
     "psortb_score": 10.0,
     "signalp_probability": 1.0,
-    "signalp_signalp_type": "OTHER"
+    "signalp_signalp_type": "OTHER",
+    "tcdb_diamond_tcdb_ids": [
+      "3.A.1"
+    ]
   },
   "SOI86_RS02550": {
     "eggnog_BRITE": "ko00000,ko00002,ko02000",
@@ -17868,7 +18142,10 @@
     "psortb_localization": "Cytoplasmic",
     "psortb_score": 8.96,
     "signalp_probability": 0.493228,
-    "signalp_signalp_type": "OTHER"
+    "signalp_signalp_type": "OTHER",
+    "tcdb_diamond_tcdb_ids": [
+      "3.A.1"
+    ]
   },
   "SOI86_RS02555": {
     "eggnog_COG_category": "S",
@@ -17905,7 +18182,10 @@
     "psortb_localization": "Cytoplasmic",
     "psortb_score": 9.97,
     "signalp_probability": 1.0,
-    "signalp_signalp_type": "OTHER"
+    "signalp_signalp_type": "OTHER",
+    "tcdb_diamond_tcdb_ids": [
+      "9.B.10"
+    ]
   },
   "SOI86_RS02560": {
     "eggnog_COG_category": "S",
@@ -18414,7 +18694,10 @@
     "psortb_localization": "CytoplasmicMembrane",
     "psortb_score": 10.0,
     "signalp_probability": 1.0,
-    "signalp_signalp_type": "OTHER"
+    "signalp_signalp_type": "OTHER",
+    "tcdb_diamond_tcdb_ids": [
+      "3.A.1"
+    ]
   },
   "SOI86_RS02640": {
     "eggnog_BRITE": "ko00000,ko00001,ko00002,ko02000",
@@ -18454,7 +18737,10 @@
     "signalp_cleavage_probability": 0.9933,
     "signalp_cleavage_site": 20,
     "signalp_probability": 1.0,
-    "signalp_signalp_type": "LIPO"
+    "signalp_signalp_type": "LIPO",
+    "tcdb_diamond_tcdb_ids": [
+      "3.A.1"
+    ]
   },
   "SOI86_RS02645": {
     "eggnog_COG_category": "S",
@@ -18930,7 +19216,13 @@
     "psortb_localization": "Cytoplasmic",
     "psortb_score": 9.26,
     "signalp_probability": 1.0,
-    "signalp_signalp_type": "OTHER"
+    "signalp_signalp_type": "OTHER",
+    "tcdb_diamond_tcdb_ids": [
+      "3.A.26",
+      "3.D.3",
+      "8.A.88.2",
+      "9.B.438"
+    ]
   },
   "SOI86_RS02705": {
     "eggnog_BRITE": "ko00000,ko00001,ko00002,ko01000,ko04147",
@@ -19220,7 +19512,10 @@
     "psortb_localization": "CytoplasmicMembrane",
     "psortb_score": 10.0,
     "signalp_probability": 0.999988,
-    "signalp_signalp_type": "OTHER"
+    "signalp_signalp_type": "OTHER",
+    "tcdb_diamond_tcdb_ids": [
+      "9.B.28"
+    ]
   },
   "SOI86_RS02740": {
     "eggnog_BRITE": "ko00000,ko00001,ko00002,ko01000",
@@ -19314,7 +19609,10 @@
     "psortb_localization": "Cytoplasmic",
     "psortb_score": 9.97,
     "signalp_probability": 1.0,
-    "signalp_signalp_type": "OTHER"
+    "signalp_signalp_type": "OTHER",
+    "tcdb_diamond_tcdb_ids": [
+      "5.B.14"
+    ]
   },
   "SOI86_RS02750": {
     "eggnog_BRITE": "ko00000",
@@ -19346,7 +19644,10 @@
     "psortb_localization": "CytoplasmicMembrane",
     "psortb_score": 10.0,
     "signalp_probability": 1.0,
-    "signalp_signalp_type": "OTHER"
+    "signalp_signalp_type": "OTHER",
+    "tcdb_diamond_tcdb_ids": [
+      "9.B.363.1"
+    ]
   },
   "SOI86_RS02755": {
     "eggnog_BRITE": "ko00000,ko00001,ko01000",
@@ -19511,7 +19812,10 @@
     "psortb_localization": "CytoplasmicMembrane",
     "psortb_score": 7.88,
     "signalp_probability": 1.0,
-    "signalp_signalp_type": "OTHER"
+    "signalp_signalp_type": "OTHER",
+    "tcdb_diamond_tcdb_ids": [
+      "3.D.5"
+    ]
   },
   "SOI86_RS02775": {
     "eggnog_COG_category": "I",
@@ -19588,7 +19892,13 @@
     "psortb_localization": "CytoplasmicMembrane",
     "psortb_score": 7.88,
     "signalp_probability": 1.0,
-    "signalp_signalp_type": "OTHER"
+    "signalp_signalp_type": "OTHER",
+    "tcdb_diamond_tcdb_ids": [
+      "3.E.1",
+      "9.B.238",
+      "9.B.259",
+      "9.B.34"
+    ]
   },
   "SOI86_RS02790": {
     "eggnog_COG_category": "S",
@@ -19885,7 +20195,10 @@
     "psortb_localization": "CytoplasmicMembrane",
     "psortb_score": 10.0,
     "signalp_probability": 1.0,
-    "signalp_signalp_type": "OTHER"
+    "signalp_signalp_type": "OTHER",
+    "tcdb_diamond_tcdb_ids": [
+      "9.B.273"
+    ]
   },
   "SOI86_RS02830": {
     "eggnog_COG_category": "S",
@@ -20005,7 +20318,12 @@
     "psortb_localization": "Cytoplasmic",
     "psortb_score": 9.97,
     "signalp_probability": 1.0,
-    "signalp_signalp_type": "OTHER"
+    "signalp_signalp_type": "OTHER",
+    "tcdb_diamond_tcdb_ids": [
+      "3.A.23",
+      "3.A.26",
+      "3.A.9.1.2"
+    ]
   },
   "SOI86_RS02845": {
     "eggnog_BRITE": "ko00000,ko01000,ko03009",
@@ -20459,7 +20777,10 @@
     "psortb_localization": "CytoplasmicMembrane",
     "psortb_score": 10.0,
     "signalp_probability": 0.999996,
-    "signalp_signalp_type": "OTHER"
+    "signalp_signalp_type": "OTHER",
+    "tcdb_diamond_tcdb_ids": [
+      "3.A.1"
+    ]
   },
   "SOI86_RS02900": {
     "eggnog_COG_category": "S",
@@ -20527,7 +20848,13 @@
     "psortb_localization": "Cytoplasmic",
     "psortb_score": 9.97,
     "signalp_probability": 1.0,
-    "signalp_signalp_type": "OTHER"
+    "signalp_signalp_type": "OTHER",
+    "tcdb_diamond_tcdb_ids": [
+      "1.I.1",
+      "2.A.16",
+      "3.A.18",
+      "3.A.22"
+    ]
   },
   "SOI86_RS02910": {
     "eggnog_BRITE": "ko00000,ko00001,ko01000,ko03400",
@@ -20566,7 +20893,10 @@
     "psortb_localization": "Cytoplasmic",
     "psortb_score": 9.97,
     "signalp_probability": 1.0,
-    "signalp_signalp_type": "OTHER"
+    "signalp_signalp_type": "OTHER",
+    "tcdb_diamond_tcdb_ids": [
+      "3.A.7"
+    ]
   },
   "SOI86_RS02915": {
     "eggnog_BRITE": "ko00000,ko00001,ko01000,ko03400",
@@ -21172,7 +21502,10 @@
     "signalp_cleavage_probability": 0.9768,
     "signalp_cleavage_site": 19,
     "signalp_probability": 0.999105,
-    "signalp_signalp_type": "SP"
+    "signalp_signalp_type": "SP",
+    "tcdb_diamond_tcdb_ids": [
+      "3.A.7"
+    ]
   },
   "SOI86_RS03005": {
     "gene_mapping_end": "512233",
@@ -21239,7 +21572,10 @@
     "signalp_cleavage_probability": 0.9786,
     "signalp_cleavage_site": 24,
     "signalp_probability": 0.998808,
-    "signalp_signalp_type": "SP"
+    "signalp_signalp_type": "SP",
+    "tcdb_diamond_tcdb_ids": [
+      "1.B.23"
+    ]
   },
   "SOI86_RS03020": {
     "eggnog_COG_category": "M",
@@ -21267,7 +21603,10 @@
     "signalp_cleavage_probability": 0.9774,
     "signalp_cleavage_site": 24,
     "signalp_probability": 0.999008,
-    "signalp_signalp_type": "SP"
+    "signalp_signalp_type": "SP",
+    "tcdb_diamond_tcdb_ids": [
+      "1.B.23"
+    ]
   },
   "SOI86_RS03025": {
     "eggnog_COG_category": "S",
@@ -21317,7 +21656,10 @@
     "psortb_localization": "CytoplasmicMembrane",
     "psortb_score": 10.0,
     "signalp_probability": 1.0,
-    "signalp_signalp_type": "OTHER"
+    "signalp_signalp_type": "OTHER",
+    "tcdb_diamond_tcdb_ids": [
+      "9.B.175"
+    ]
   },
   "SOI86_RS03040": {
     "gene_mapping_end": "519235",
@@ -21480,7 +21822,10 @@
     "psortb_localization": "Cytoplasmic",
     "psortb_score": 9.97,
     "signalp_probability": 1.0,
-    "signalp_signalp_type": "OTHER"
+    "signalp_signalp_type": "OTHER",
+    "tcdb_diamond_tcdb_ids": [
+      "3.A.23"
+    ]
   },
   "SOI86_RS03065": {
     "eggnog_COG_category": "P",
@@ -21516,7 +21861,10 @@
     "psortb_localization": "CytoplasmicMembrane",
     "psortb_score": 10.0,
     "signalp_probability": 1.0,
-    "signalp_signalp_type": "OTHER"
+    "signalp_signalp_type": "OTHER",
+    "tcdb_diamond_tcdb_ids": [
+      "2.A.1.83"
+    ]
   },
   "SOI86_RS03070": {
     "eggnog_BRITE": "ko00000,ko00001,ko00002,ko02000",
@@ -21561,7 +21909,10 @@
     "signalp_cleavage_probability": 0.9747,
     "signalp_cleavage_site": 24,
     "signalp_probability": 0.998756,
-    "signalp_signalp_type": "SP"
+    "signalp_signalp_type": "SP",
+    "tcdb_diamond_tcdb_ids": [
+      "3.A.1.7"
+    ]
   },
   "SOI86_RS03080": {
     "eggnog_COG_category": "S",
@@ -22361,7 +22712,10 @@
     "signalp_cleavage_probability": 0.975,
     "signalp_cleavage_site": 24,
     "signalp_probability": 0.999057,
-    "signalp_signalp_type": "SP"
+    "signalp_signalp_type": "SP",
+    "tcdb_diamond_tcdb_ids": [
+      "1.B.54"
+    ]
   },
   "SOI86_RS03235": {
     "eggnog_COG_category": "S",
@@ -22936,7 +23290,10 @@
     "psortb_localization": "CytoplasmicMembrane",
     "psortb_score": 10.0,
     "signalp_probability": 1.0,
-    "signalp_signalp_type": "OTHER"
+    "signalp_signalp_type": "OTHER",
+    "tcdb_diamond_tcdb_ids": [
+      "2.A.55"
+    ]
   },
   "SOI86_RS03335": {
     "eggnog_COG_category": "S",
@@ -23024,7 +23381,10 @@
     "psortb_localization": "CytoplasmicMembrane",
     "psortb_score": 10.0,
     "signalp_probability": 1.0,
-    "signalp_signalp_type": "OTHER"
+    "signalp_signalp_type": "OTHER",
+    "tcdb_diamond_tcdb_ids": [
+      "2.A.22"
+    ]
   },
   "SOI86_RS03350": {
     "eggnog_COG_category": "S",
@@ -23354,7 +23714,12 @@
     "psortb_localization": "Cytoplasmic",
     "psortb_score": 8.96,
     "signalp_probability": 0.998298,
-    "signalp_signalp_type": "OTHER"
+    "signalp_signalp_type": "OTHER",
+    "tcdb_diamond_tcdb_ids": [
+      "2.A.6",
+      "3.A.1",
+      "8.A.1"
+    ]
   },
   "SOI86_RS03415": {
     "eggnog_BRITE": "ko00000,ko00001,ko01000,ko03032,ko03400",
@@ -23541,7 +23906,10 @@
     "psortb_localization": "Unknown",
     "psortb_score": 2.0,
     "signalp_probability": 1.0,
-    "signalp_signalp_type": "OTHER"
+    "signalp_signalp_type": "OTHER",
+    "tcdb_diamond_tcdb_ids": [
+      "3.D.1"
+    ]
   },
   "SOI86_RS03435": {
     "eggnog_BRITE": "ko00000",
@@ -23613,7 +23981,10 @@
     "psortb_localization": "CytoplasmicMembrane",
     "psortb_score": 10.0,
     "signalp_probability": 1.0,
-    "signalp_signalp_type": "OTHER"
+    "signalp_signalp_type": "OTHER",
+    "tcdb_diamond_tcdb_ids": [
+      "3.D.2"
+    ]
   },
   "SOI86_RS03445": {
     "eggnog_BRITE": "ko00000,ko00001,ko01000",
@@ -23649,7 +24020,10 @@
     "psortb_localization": "CytoplasmicMembrane",
     "psortb_score": 10.0,
     "signalp_probability": 0.999979,
-    "signalp_signalp_type": "OTHER"
+    "signalp_signalp_type": "OTHER",
+    "tcdb_diamond_tcdb_ids": [
+      "3.D.2"
+    ]
   },
   "SOI86_RS03450": {
     "eggnog_BRITE": "ko00000,ko00001,ko01000",
@@ -23692,7 +24066,10 @@
     "psortb_localization": "CytoplasmicMembrane",
     "psortb_score": 9.82,
     "signalp_probability": 1.0,
-    "signalp_signalp_type": "OTHER"
+    "signalp_signalp_type": "OTHER",
+    "tcdb_diamond_tcdb_ids": [
+      "3.D.2"
+    ]
   },
   "SOI86_RS03455": {
     "eggnog_COG_category": "S",
@@ -23897,7 +24274,10 @@
     "psortb_localization": "Unknown",
     "psortb_score": 2.0,
     "signalp_probability": 1.0,
-    "signalp_signalp_type": "OTHER"
+    "signalp_signalp_type": "OTHER",
+    "tcdb_diamond_tcdb_ids": [
+      "9.B.365"
+    ]
   },
   "SOI86_RS03485": {
     "eggnog_BRITE": "ko00000,ko00001,ko00002,ko00194",
@@ -24138,7 +24518,10 @@
     "psortb_localization": "CytoplasmicMembrane",
     "psortb_score": 10.0,
     "signalp_probability": 0.999999,
-    "signalp_signalp_type": "OTHER"
+    "signalp_signalp_type": "OTHER",
+    "tcdb_diamond_tcdb_ids": [
+      "3.E.2"
+    ]
   },
   "SOI86_RS03515": {
     "eggnog_BRITE": "ko00000,ko00001,ko00002,ko00194",
@@ -24183,7 +24566,10 @@
     "psortb_localization": "CytoplasmicMembrane",
     "psortb_score": 10.0,
     "signalp_probability": 1.0,
-    "signalp_signalp_type": "OTHER"
+    "signalp_signalp_type": "OTHER",
+    "tcdb_diamond_tcdb_ids": [
+      "3.E.2.2"
+    ]
   },
   "SOI86_RS03520": {
     "eggnog_BRITE": "ko00000",
@@ -24301,7 +24687,10 @@
     "psortb_localization": "Unknown",
     "psortb_score": 2.0,
     "signalp_probability": 1.0,
-    "signalp_signalp_type": "OTHER"
+    "signalp_signalp_type": "OTHER",
+    "tcdb_diamond_tcdb_ids": [
+      "2.A.54"
+    ]
   },
   "SOI86_RS03535": {
     "eggnog_COG_category": "NU",
@@ -24553,7 +24942,10 @@
     "psortb_localization": "CytoplasmicMembrane",
     "psortb_score": 10.0,
     "signalp_probability": 0.999992,
-    "signalp_signalp_type": "OTHER"
+    "signalp_signalp_type": "OTHER",
+    "tcdb_diamond_tcdb_ids": [
+      "9.B.124"
+    ]
   },
   "SOI86_RS03580": {
     "eggnog_BRITE": "ko00000,ko00001,ko00002,ko02000",
@@ -24593,7 +24985,10 @@
     "signalp_cleavage_probability": 0.8486,
     "signalp_cleavage_site": 26,
     "signalp_probability": 0.900538,
-    "signalp_signalp_type": "SP"
+    "signalp_signalp_type": "SP",
+    "tcdb_diamond_tcdb_ids": [
+      "3.A.1"
+    ]
   },
   "SOI86_RS03585": {
     "eggnog_BRITE": "ko00000,ko01000",
@@ -24695,7 +25090,10 @@
     "signalp_cleavage_probability": 0.9753,
     "signalp_cleavage_site": 24,
     "signalp_probability": 0.998976,
-    "signalp_signalp_type": "SP"
+    "signalp_signalp_type": "SP",
+    "tcdb_diamond_tcdb_ids": [
+      "1.B.23"
+    ]
   },
   "SOI86_RS03600": {
     "eggnog_BRITE": "ko00000,ko00001,ko00002,ko01000,ko01007,ko03016",
@@ -24924,7 +25322,10 @@
     "psortb_localization": "CytoplasmicMembrane",
     "psortb_score": 10.0,
     "signalp_probability": 0.999978,
-    "signalp_signalp_type": "OTHER"
+    "signalp_signalp_type": "OTHER",
+    "tcdb_diamond_tcdb_ids": [
+      "3.E.2"
+    ]
   },
   "SOI86_RS03635": {
     "eggnog_BRITE": "ko00000",
@@ -25026,7 +25427,10 @@
     "psortb_localization": "CytoplasmicMembrane",
     "psortb_score": 10.0,
     "signalp_probability": 1.0,
-    "signalp_signalp_type": "OTHER"
+    "signalp_signalp_type": "OTHER",
+    "tcdb_diamond_tcdb_ids": [
+      "2.A.123.2"
+    ]
   },
   "SOI86_RS03650": {
     "eggnog_COG_category": "S",
@@ -25088,7 +25492,10 @@
     "psortb_localization": "CytoplasmicMembrane",
     "psortb_score": 10.0,
     "signalp_probability": 1.0,
-    "signalp_signalp_type": "OTHER"
+    "signalp_signalp_type": "OTHER",
+    "tcdb_diamond_tcdb_ids": [
+      "2.A.69"
+    ]
   },
   "SOI86_RS03660": {
     "eggnog_COG_category": "S",
@@ -25148,7 +25555,10 @@
     "psortb_localization": "CytoplasmicMembrane",
     "psortb_score": 10.0,
     "signalp_probability": 0.999926,
-    "signalp_signalp_type": "OTHER"
+    "signalp_signalp_type": "OTHER",
+    "tcdb_diamond_tcdb_ids": [
+      "9.B.142"
+    ]
   },
   "SOI86_RS03670": {
     "eggnog_BRITE": "ko00000,ko01000,ko01003",
@@ -25217,7 +25627,10 @@
     "psortb_localization": "CytoplasmicMembrane",
     "psortb_score": 10.0,
     "signalp_probability": 1.0,
-    "signalp_signalp_type": "OTHER"
+    "signalp_signalp_type": "OTHER",
+    "tcdb_diamond_tcdb_ids": [
+      "2.A.7"
+    ]
   },
   "SOI86_RS03680": {
     "eggnog_BRITE": "ko00000,ko01000,ko01002",
@@ -25258,7 +25671,10 @@
     "psortb_localization": "CytoplasmicMembrane",
     "psortb_score": 7.88,
     "signalp_probability": 1.0,
-    "signalp_signalp_type": "OTHER"
+    "signalp_signalp_type": "OTHER",
+    "tcdb_diamond_tcdb_ids": [
+      "8.A.21.2"
+    ]
   },
   "SOI86_RS03685": {
     "eggnog_BRITE": "ko00000,ko00001,ko00002,ko01000",
@@ -25487,7 +25903,11 @@
     "psortb_localization": "CytoplasmicMembrane",
     "psortb_score": 10.0,
     "signalp_probability": 1.0,
-    "signalp_signalp_type": "OTHER"
+    "signalp_signalp_type": "OTHER",
+    "tcdb_diamond_tcdb_ids": [
+      "2.A.9",
+      "3.A.5.4"
+    ]
   },
   "SOI86_RS03715": {
     "eggnog_COG_category": "O",
@@ -25525,7 +25945,14 @@
     "psortb_localization": "CytoplasmicMembrane",
     "psortb_score": 7.88,
     "signalp_probability": 1.0,
-    "signalp_signalp_type": "OTHER"
+    "signalp_signalp_type": "OTHER",
+    "tcdb_diamond_tcdb_ids": [
+      "3.A.16",
+      "3.A.20",
+      "3.A.25",
+      "3.A.29",
+      "3.A.9"
+    ]
   },
   "SOI86_RS03720": {
     "eggnog_BRITE": "ko00000,ko00001,ko00002,ko01000,ko01007,ko03016",
@@ -25616,7 +26043,10 @@
     "psortb_localization": "CytoplasmicMembrane",
     "psortb_score": 10.0,
     "signalp_probability": 0.985975,
-    "signalp_signalp_type": "OTHER"
+    "signalp_signalp_type": "OTHER",
+    "tcdb_diamond_tcdb_ids": [
+      "9.B.149"
+    ]
   },
   "SOI86_RS03730": {
     "eggnog_BRITE": "br01610,ko00000,ko00001,ko00002,ko03011",
@@ -26026,7 +26456,10 @@
     "psortb_localization": "Cytoplasmic",
     "psortb_score": 9.97,
     "signalp_probability": 1.0,
-    "signalp_signalp_type": "OTHER"
+    "signalp_signalp_type": "OTHER",
+    "tcdb_diamond_tcdb_ids": [
+      "9.B.18"
+    ]
   },
   "SOI86_RS03785": {
     "gene_mapping_end": "638438",
@@ -26231,7 +26664,10 @@
     "psortb_localization": "CytoplasmicMembrane",
     "psortb_score": 10.0,
     "signalp_probability": 0.999999,
-    "signalp_signalp_type": "OTHER"
+    "signalp_signalp_type": "OTHER",
+    "tcdb_diamond_tcdb_ids": [
+      "9.B.146"
+    ]
   },
   "SOI86_RS03820": {
     "gene_mapping_end": "645022",
@@ -26363,7 +26799,10 @@
     "psortb_localization": "CytoplasmicMembrane",
     "psortb_score": 9.16,
     "signalp_probability": 1.0,
-    "signalp_signalp_type": "OTHER"
+    "signalp_signalp_type": "OTHER",
+    "tcdb_diamond_tcdb_ids": [
+      "9.B.18.2"
+    ]
   },
   "SOI86_RS03840": {
     "eggnog_COG_category": "M",
@@ -26663,7 +27102,10 @@
     "psortb_localization": "Cytoplasmic",
     "psortb_score": 9.97,
     "signalp_probability": 1.0,
-    "signalp_signalp_type": "OTHER"
+    "signalp_signalp_type": "OTHER",
+    "tcdb_diamond_tcdb_ids": [
+      "1.A.115"
+    ]
   },
   "SOI86_RS03890": {
     "eggnog_BRITE": "ko00000,ko00001,ko00002,ko01000,ko01004",
@@ -27054,7 +27496,10 @@
     "psortb_localization": "Unknown",
     "psortb_score": 2.0,
     "signalp_probability": 1.0,
-    "signalp_signalp_type": "OTHER"
+    "signalp_signalp_type": "OTHER",
+    "tcdb_diamond_tcdb_ids": [
+      "9.B.18"
+    ]
   },
   "SOI86_RS03940": {
     "eggnog_BRITE": "ko00000,ko00001,ko00002,ko01000",
@@ -27099,7 +27544,10 @@
     "psortb_localization": "Cytoplasmic",
     "psortb_score": 9.26,
     "signalp_probability": 1.0,
-    "signalp_signalp_type": "OTHER"
+    "signalp_signalp_type": "OTHER",
+    "tcdb_diamond_tcdb_ids": [
+      "9.B.18.2"
+    ]
   },
   "SOI86_RS03945": {
     "eggnog_BRITE": "ko00000,ko00001,ko01000",
@@ -27307,7 +27755,10 @@
     "psortb_localization": "CytoplasmicMembrane",
     "psortb_score": 10.0,
     "signalp_probability": 0.999846,
-    "signalp_signalp_type": "OTHER"
+    "signalp_signalp_type": "OTHER",
+    "tcdb_diamond_tcdb_ids": [
+      "3.A.1"
+    ]
   },
   "SOI86_RS03980": {
     "gene_mapping_end": "679102",
@@ -27603,7 +28054,10 @@
     "psortb_localization": "Cytoplasmic",
     "psortb_score": 9.97,
     "signalp_probability": 1.0,
-    "signalp_signalp_type": "OTHER"
+    "signalp_signalp_type": "OTHER",
+    "tcdb_diamond_tcdb_ids": [
+      "9.B.18"
+    ]
   },
   "SOI86_RS04025": {
     "eggnog_COG_category": "M",
@@ -27843,7 +28297,10 @@
     "psortb_localization": "CytoplasmicMembrane",
     "psortb_score": 10.0,
     "signalp_probability": 1.0,
-    "signalp_signalp_type": "OTHER"
+    "signalp_signalp_type": "OTHER",
+    "tcdb_diamond_tcdb_ids": [
+      "9.B.146"
+    ]
   },
   "SOI86_RS04060": {
     "eggnog_COG_category": "M",
@@ -27878,7 +28335,10 @@
     "signalp_cleavage_probability": 0.9112,
     "signalp_cleavage_site": 23,
     "signalp_probability": 0.97383,
-    "signalp_signalp_type": "SP"
+    "signalp_signalp_type": "SP",
+    "tcdb_diamond_tcdb_ids": [
+      "1.B.18"
+    ]
   },
   "SOI86_RS04065": {
     "eggnog_COG_category": "D",
@@ -27914,7 +28374,10 @@
     "psortb_localization": "CytoplasmicMembrane",
     "psortb_score": 7.88,
     "signalp_probability": 1.0,
-    "signalp_signalp_type": "OTHER"
+    "signalp_signalp_type": "OTHER",
+    "tcdb_diamond_tcdb_ids": [
+      "8.A.3"
+    ]
   },
   "SOI86_RS04070": {
     "eggnog_COG_category": "T",
@@ -28091,7 +28554,10 @@
     "psortb_localization": "CytoplasmicMembrane",
     "psortb_score": 10.0,
     "signalp_probability": 0.999996,
-    "signalp_signalp_type": "OTHER"
+    "signalp_signalp_type": "OTHER",
+    "tcdb_diamond_tcdb_ids": [
+      "3.A.1"
+    ]
   },
   "SOI86_RS04095": {
     "gene_mapping_end": "705049",
@@ -28154,7 +28620,10 @@
     "psortb_localization": "Cytoplasmic",
     "psortb_score": 8.96,
     "signalp_probability": 1.0,
-    "signalp_signalp_type": "OTHER"
+    "signalp_signalp_type": "OTHER",
+    "tcdb_diamond_tcdb_ids": [
+      "9.B.460"
+    ]
   },
   "SOI86_RS04105": {
     "eggnog_BRITE": "ko00000,ko00001,ko01000,ko04147",
@@ -28389,7 +28858,10 @@
     "psortb_localization": "CytoplasmicMembrane",
     "psortb_score": 10.0,
     "signalp_probability": 0.999959,
-    "signalp_signalp_type": "OTHER"
+    "signalp_signalp_type": "OTHER",
+    "tcdb_diamond_tcdb_ids": [
+      "9.B.97"
+    ]
   },
   "SOI86_RS04140": {
     "eggnog_eggNOG_OGs": "2A6XF@1|root,30VSC@2|Bacteria,1GQ6J@1117|Cyanobacteria,1MPCI@1212|Prochloraceae",
@@ -28463,7 +28935,10 @@
     "psortb_localization": "CytoplasmicMembrane",
     "psortb_score": 7.88,
     "signalp_probability": 1.0,
-    "signalp_signalp_type": "OTHER"
+    "signalp_signalp_type": "OTHER",
+    "tcdb_diamond_tcdb_ids": [
+      "3.D.10"
+    ]
   },
   "SOI86_RS04150": {
     "eggnog_BRITE": "ko00000,ko00002,ko01000,ko01002,ko03400",
@@ -28609,7 +29084,12 @@
     "psortb_localization": "CytoplasmicMembrane",
     "psortb_score": 10.0,
     "signalp_probability": 0.999964,
-    "signalp_signalp_type": "OTHER"
+    "signalp_signalp_type": "OTHER",
+    "tcdb_diamond_tcdb_ids": [
+      "3.A.25",
+      "3.A.29.1",
+      "3.A.9.1"
+    ]
   },
   "SOI86_RS04165": {
     "eggnog_BRITE": "ko00000,ko00001,ko00002,ko01000",
@@ -28931,7 +29411,10 @@
     "psortb_localization": "CytoplasmicMembrane",
     "psortb_score": 10.0,
     "signalp_probability": 1.0,
-    "signalp_signalp_type": "OTHER"
+    "signalp_signalp_type": "OTHER",
+    "tcdb_diamond_tcdb_ids": [
+      "3.A.9"
+    ]
   },
   "SOI86_RS04205": {
     "eggnog_BRITE": "ko00000,ko00001,ko00002,ko01000",
@@ -29284,7 +29767,10 @@
     "psortb_localization": "CytoplasmicMembrane",
     "psortb_score": 7.88,
     "signalp_probability": 1.0,
-    "signalp_signalp_type": "OTHER"
+    "signalp_signalp_type": "OTHER",
+    "tcdb_diamond_tcdb_ids": [
+      "9.A.8"
+    ]
   },
   "SOI86_RS04250": {
     "eggnog_COG_category": "S",
@@ -29346,7 +29832,10 @@
     "psortb_localization": "CytoplasmicMembrane",
     "psortb_score": 10.0,
     "signalp_probability": 1.0,
-    "signalp_signalp_type": "OTHER"
+    "signalp_signalp_type": "OTHER",
+    "tcdb_diamond_tcdb_ids": [
+      "1.A.14"
+    ]
   },
   "SOI86_RS04260": {
     "eggnog_BRITE": "ko00000",
@@ -29383,7 +29872,10 @@
     "psortb_localization": "Cytoplasmic",
     "psortb_score": 9.97,
     "signalp_probability": 1.0,
-    "signalp_signalp_type": "OTHER"
+    "signalp_signalp_type": "OTHER",
+    "tcdb_diamond_tcdb_ids": [
+      "3.A.23.6"
+    ]
   },
   "SOI86_RS04265": {
     "eggnog_BRITE": "br01610,ko00000,ko00001,ko00002,ko03011,ko03029",
@@ -29476,7 +29968,11 @@
     "psortb_localization": "CytoplasmicMembrane",
     "psortb_score": 7.88,
     "signalp_probability": 1.0,
-    "signalp_signalp_type": "OTHER"
+    "signalp_signalp_type": "OTHER",
+    "tcdb_diamond_tcdb_ids": [
+      "3.A.5",
+      "9.B.76.1"
+    ]
   },
   "SOI86_RS04275": {
     "eggnog_COG_category": "O",
@@ -29762,7 +30258,10 @@
     "signalp_cleavage_probability": 0.9297,
     "signalp_cleavage_site": 31,
     "signalp_probability": 0.98976,
-    "signalp_signalp_type": "SP"
+    "signalp_signalp_type": "SP",
+    "tcdb_diamond_tcdb_ids": [
+      "8.A.11"
+    ]
   },
   "SOI86_RS04310": {
     "eggnog_BRITE": "ko00000,ko01000",
@@ -29866,7 +30365,10 @@
     "psortb_localization": "CytoplasmicMembrane",
     "psortb_score": 10.0,
     "signalp_probability": 1.0,
-    "signalp_signalp_type": "OTHER"
+    "signalp_signalp_type": "OTHER",
+    "tcdb_diamond_tcdb_ids": [
+      "2.A.113"
+    ]
   },
   "SOI86_RS04325": {
     "eggnog_BRITE": "ko00000,ko00001,ko00002,ko01000",
@@ -30097,7 +30599,10 @@
     "psortb_localization": "Cytoplasmic",
     "psortb_score": 9.26,
     "signalp_probability": 1.0,
-    "signalp_signalp_type": "OTHER"
+    "signalp_signalp_type": "OTHER",
+    "tcdb_diamond_tcdb_ids": [
+      "9.B.313"
+    ]
   },
   "SOI86_RS04355": {
     "eggnog_BRITE": "ko00000,ko00001,ko00002,ko01000",
@@ -30591,7 +31096,10 @@
     "psortb_localization": "Cytoplasmic",
     "psortb_score": 9.97,
     "signalp_probability": 1.0,
-    "signalp_signalp_type": "OTHER"
+    "signalp_signalp_type": "OTHER",
+    "tcdb_diamond_tcdb_ids": [
+      "3.A.26"
+    ]
   },
   "SOI86_RS04425": {
     "eggnog_BRITE": "ko00000,ko00001,ko01000,ko01002",
@@ -30634,7 +31142,10 @@
     "psortb_localization": "Cytoplasmic",
     "psortb_score": 9.26,
     "signalp_probability": 1.0,
-    "signalp_signalp_type": "OTHER"
+    "signalp_signalp_type": "OTHER",
+    "tcdb_diamond_tcdb_ids": [
+      "3.A.26.1"
+    ]
   },
   "SOI86_RS04430": {
     "eggnog_BRITE": "ko00000,ko00001,ko00002,ko01000",
@@ -30724,7 +31235,10 @@
     "psortb_localization": "CytoplasmicMembrane",
     "psortb_score": 10.0,
     "signalp_probability": 1.0,
-    "signalp_signalp_type": "OTHER"
+    "signalp_signalp_type": "OTHER",
+    "tcdb_diamond_tcdb_ids": [
+      "9.B.125"
+    ]
   },
   "SOI86_RS04440": {
     "eggnog_COG_category": "S",
@@ -30976,7 +31490,10 @@
     "psortb_localization": "CytoplasmicMembrane",
     "psortb_score": 10.0,
     "signalp_probability": 0.999741,
-    "signalp_signalp_type": "OTHER"
+    "signalp_signalp_type": "OTHER",
+    "tcdb_diamond_tcdb_ids": [
+      "2.A.2"
+    ]
   },
   "SOI86_RS04485": {
     "eggnog_BRITE": "ko00000,ko00001,ko00002,ko02000",
@@ -31016,7 +31533,10 @@
     "psortb_localization": "CytoplasmicMembrane",
     "psortb_score": 10.0,
     "signalp_probability": 1.0,
-    "signalp_signalp_type": "OTHER"
+    "signalp_signalp_type": "OTHER",
+    "tcdb_diamond_tcdb_ids": [
+      "3.A.1"
+    ]
   },
   "SOI86_RS04490": {
     "eggnog_COG_category": "S",
@@ -31121,7 +31641,10 @@
     "psortb_localization": "CytoplasmicMembrane",
     "psortb_score": 10.0,
     "signalp_probability": 1.0,
-    "signalp_signalp_type": "OTHER"
+    "signalp_signalp_type": "OTHER",
+    "tcdb_diamond_tcdb_ids": [
+      "9.B.31"
+    ]
   },
   "SOI86_RS04505": {
     "eggnog_BRITE": "ko00000,ko00001,ko00002,ko01000",
@@ -31580,7 +32103,10 @@
     "signalp_cleavage_probability": 0.7834,
     "signalp_cleavage_site": 30,
     "signalp_probability": 0.843354,
-    "signalp_signalp_type": "SP"
+    "signalp_signalp_type": "SP",
+    "tcdb_diamond_tcdb_ids": [
+      "1.B.33"
+    ]
   },
   "SOI86_RS04560": {
     "eggnog_BRITE": "ko00000,ko00001,ko00002,ko01000",
@@ -31727,7 +32253,11 @@
     "psortb_localization": "CytoplasmicMembrane",
     "psortb_score": 10.0,
     "signalp_probability": 0.999976,
-    "signalp_signalp_type": "OTHER"
+    "signalp_signalp_type": "OTHER",
+    "tcdb_diamond_tcdb_ids": [
+      "9.B.238.3",
+      "9.B.259"
+    ]
   },
   "SOI86_RS04575": {
     "eggnog_BRITE": "ko00000",
@@ -32154,7 +32684,10 @@
     "psortb_localization": "Unknown",
     "psortb_score": 2.0,
     "signalp_probability": 1.0,
-    "signalp_signalp_type": "OTHER"
+    "signalp_signalp_type": "OTHER",
+    "tcdb_diamond_tcdb_ids": [
+      "5.B.1.3"
+    ]
   },
   "SOI86_RS04630": {
     "eggnog_BRITE": "ko00000,ko01000,ko03009",
@@ -32548,7 +33081,10 @@
     "psortb_localization": "Cytoplasmic",
     "psortb_score": 9.26,
     "signalp_probability": 1.0,
-    "signalp_signalp_type": "OTHER"
+    "signalp_signalp_type": "OTHER",
+    "tcdb_diamond_tcdb_ids": [
+      "1.A.115"
+    ]
   },
   "SOI86_RS04690": {
     "eggnog_COG_category": "S",
@@ -33164,7 +33700,10 @@
     "psortb_localization": "CytoplasmicMembrane",
     "psortb_score": 10.0,
     "signalp_probability": 1.0,
-    "signalp_signalp_type": "OTHER"
+    "signalp_signalp_type": "OTHER",
+    "tcdb_diamond_tcdb_ids": [
+      "9.A.76"
+    ]
   },
   "SOI86_RS04800": {
     "eggnog_eggNOG_OGs": "2A3NA@1|root,30S5P@2|Bacteria,1GNA7@1117|Cyanobacteria,1MP3N@1212|Prochloraceae",
@@ -33310,7 +33849,10 @@
     "psortb_localization": "CytoplasmicMembrane",
     "psortb_score": 10.0,
     "signalp_probability": 0.999985,
-    "signalp_signalp_type": "OTHER"
+    "signalp_signalp_type": "OTHER",
+    "tcdb_diamond_tcdb_ids": [
+      "9.A.76.1"
+    ]
   },
   "SOI86_RS04825": {
     "eggnog_COG_category": "S",
@@ -33457,7 +33999,11 @@
     "psortb_localization": "CytoplasmicMembrane",
     "psortb_score": 10.0,
     "signalp_probability": 0.999944,
-    "signalp_signalp_type": "OTHER"
+    "signalp_signalp_type": "OTHER",
+    "tcdb_diamond_tcdb_ids": [
+      "1.B.42",
+      "3.A.1"
+    ]
   },
   "SOI86_RS04850": {
     "eggnog_COG_category": "S",
@@ -33596,7 +34142,10 @@
     "psortb_localization": "CytoplasmicMembrane",
     "psortb_score": 10.0,
     "signalp_probability": 0.999703,
-    "signalp_signalp_type": "OTHER"
+    "signalp_signalp_type": "OTHER",
+    "tcdb_diamond_tcdb_ids": [
+      "9.B.214"
+    ]
   },
   "SOI86_RS04875": {
     "eggnog_eggNOG_OGs": "2DJRR@1|root,30738@2|Bacteria,1GHIA@1117|Cyanobacteria,1MN68@1212|Prochloraceae",
@@ -33760,7 +34309,10 @@
     "psortb_localization": "Cytoplasmic",
     "psortb_score": 9.97,
     "signalp_probability": 1.0,
-    "signalp_signalp_type": "OTHER"
+    "signalp_signalp_type": "OTHER",
+    "tcdb_diamond_tcdb_ids": [
+      "3.A.23"
+    ]
   },
   "SOI86_RS04905": {
     "eggnog_BRITE": "ko00000,ko00001,ko01000",
@@ -34843,7 +35395,12 @@
     "psortb_localization": "Cytoplasmic",
     "psortb_score": 9.97,
     "signalp_probability": 1.0,
-    "signalp_signalp_type": "OTHER"
+    "signalp_signalp_type": "OTHER",
+    "tcdb_diamond_tcdb_ids": [
+      "1.A.33",
+      "3.A.9",
+      "9.A.41"
+    ]
   },
   "SOI86_RS05110": {
     "eggnog_BRITE": "ko00000,ko00001,ko01000,ko03000",
@@ -34977,7 +35534,10 @@
     "psortb_localization": "CytoplasmicMembrane",
     "psortb_score": 9.82,
     "signalp_probability": 1.0,
-    "signalp_signalp_type": "OTHER"
+    "signalp_signalp_type": "OTHER",
+    "tcdb_diamond_tcdb_ids": [
+      "3.A.5.4"
+    ]
   },
   "SOI86_RS05125": {
     "eggnog_BRITE": "ko00000,ko00001,ko03019,ko03029,ko03110,ko04147",
@@ -35115,7 +35675,11 @@
     "psortb_localization": "CytoplasmicMembrane",
     "psortb_score": 7.88,
     "signalp_probability": 1.0,
-    "signalp_signalp_type": "OTHER"
+    "signalp_signalp_type": "OTHER",
+    "tcdb_diamond_tcdb_ids": [
+      "3.A.2",
+      "3.A.6"
+    ]
   },
   "SOI86_RS05140": {
     "eggnog_BRITE": "ko00000,ko00001,ko00002,ko00194",
@@ -35161,7 +35725,10 @@
     "psortb_localization": "Unknown",
     "psortb_score": 6.29,
     "signalp_probability": 1.0,
-    "signalp_signalp_type": "OTHER"
+    "signalp_signalp_type": "OTHER",
+    "tcdb_diamond_tcdb_ids": [
+      "3.A.2.1"
+    ]
   },
   "SOI86_RS05145": {
     "eggnog_BRITE": "br01610,ko00000,ko03011",
@@ -35296,7 +35863,11 @@
     "signalp_cleavage_probability": 0.439,
     "signalp_cleavage_site": 27,
     "signalp_probability": 0.597102,
-    "signalp_signalp_type": "SP"
+    "signalp_signalp_type": "SP",
+    "tcdb_diamond_tcdb_ids": [
+      "1.A.112",
+      "1.C.126"
+    ]
   },
   "SOI86_RS05165": {
     "eggnog_BRITE": "ko00000",
@@ -35517,7 +36088,10 @@
     "psortb_localization": "Unknown",
     "psortb_score": 2.0,
     "signalp_probability": 1.0,
-    "signalp_signalp_type": "OTHER"
+    "signalp_signalp_type": "OTHER",
+    "tcdb_diamond_tcdb_ids": [
+      "5.B.1"
+    ]
   },
   "SOI86_RS05195": {
     "eggnog_BRITE": "ko00000,ko00001,ko00002,ko00194",
@@ -35560,7 +36134,10 @@
     "psortb_localization": "Cytoplasmic",
     "psortb_score": 9.12,
     "signalp_probability": 1.0,
-    "signalp_signalp_type": "OTHER"
+    "signalp_signalp_type": "OTHER",
+    "tcdb_diamond_tcdb_ids": [
+      "3.A.2.1"
+    ]
   },
   "SOI86_RS05200": {
     "eggnog_BRITE": "ko00000,ko00001,ko00002,ko00194,ko01000",
@@ -35613,7 +36190,12 @@
     "psortb_localization": "Cytoplasmic",
     "psortb_score": 9.97,
     "signalp_probability": 1.0,
-    "signalp_signalp_type": "OTHER"
+    "signalp_signalp_type": "OTHER",
+    "tcdb_diamond_tcdb_ids": [
+      "2.A.91.1",
+      "3.A.2",
+      "3.A.6"
+    ]
   },
   "SOI86_RS05205": {
     "eggnog_BRITE": "ko00000,ko00001,ko00002,ko00194",
@@ -35656,7 +36238,10 @@
     "psortb_localization": "Unknown",
     "psortb_score": 2.0,
     "signalp_probability": 1.0,
-    "signalp_signalp_type": "OTHER"
+    "signalp_signalp_type": "OTHER",
+    "tcdb_diamond_tcdb_ids": [
+      "3.A.2.1"
+    ]
   },
   "SOI86_RS05210": {
     "eggnog_BRITE": "ko00000,ko00001,ko00002,ko00194",
@@ -35783,7 +36368,10 @@
     "psortb_localization": "CytoplasmicMembrane",
     "psortb_score": 9.82,
     "signalp_probability": 1.0,
-    "signalp_signalp_type": "OTHER"
+    "signalp_signalp_type": "OTHER",
+    "tcdb_diamond_tcdb_ids": [
+      "3.A.2.1"
+    ]
   },
   "SOI86_RS05225": {
     "eggnog_BRITE": "ko00000,ko00001,ko00002,ko00194,ko03110",
@@ -35829,7 +36417,10 @@
     "psortb_localization": "CytoplasmicMembrane",
     "psortb_score": 10.0,
     "signalp_probability": 0.999996,
-    "signalp_signalp_type": "OTHER"
+    "signalp_signalp_type": "OTHER",
+    "tcdb_diamond_tcdb_ids": [
+      "3.A.2.1"
+    ]
   },
   "SOI86_RS05230": {
     "eggnog_BRITE": "ko00000,ko00194",
@@ -35860,7 +36451,10 @@
     "psortb_localization": "CytoplasmicMembrane",
     "psortb_score": 9.82,
     "signalp_probability": 0.999787,
-    "signalp_signalp_type": "OTHER"
+    "signalp_signalp_type": "OTHER",
+    "tcdb_diamond_tcdb_ids": [
+      "1.A.77"
+    ]
   },
   "SOI86_RS05235": {
     "eggnog_BRITE": "ko00000,ko00001,ko02000,ko03036",
@@ -35896,7 +36490,10 @@
     "psortb_localization": "CytoplasmicMembrane",
     "psortb_score": 10.0,
     "signalp_probability": 0.99991,
-    "signalp_signalp_type": "OTHER"
+    "signalp_signalp_type": "OTHER",
+    "tcdb_diamond_tcdb_ids": [
+      "2.A.103"
+    ]
   },
   "SOI86_RS05240": {
     "eggnog_BRITE": "ko00000,ko02000",
@@ -35935,7 +36532,11 @@
     "psortb_localization": "CytoplasmicMembrane",
     "psortb_score": 10.0,
     "signalp_probability": 1.0,
-    "signalp_signalp_type": "OTHER"
+    "signalp_signalp_type": "OTHER",
+    "tcdb_diamond_tcdb_ids": [
+      "2.A.131",
+      "5.A.1.2"
+    ]
   },
   "SOI86_RS05245": {
     "eggnog_BRITE": "ko00000",
@@ -36128,7 +36729,10 @@
     "psortb_localization": "Cytoplasmic",
     "psortb_score": 8.96,
     "signalp_probability": 1.0,
-    "signalp_signalp_type": "OTHER"
+    "signalp_signalp_type": "OTHER",
+    "tcdb_diamond_tcdb_ids": [
+      "1.C.109.1"
+    ]
   },
   "SOI86_RS05270": {
     "eggnog_BRITE": "ko00000,ko00001,ko00002,ko01000",
@@ -36547,7 +37151,15 @@
     "psortb_localization": "Cytoplasmic",
     "psortb_score": 9.26,
     "signalp_probability": 1.0,
-    "signalp_signalp_type": "OTHER"
+    "signalp_signalp_type": "OTHER",
+    "tcdb_diamond_tcdb_ids": [
+      "1.P.1",
+      "3.A.16",
+      "3.A.30",
+      "3.A.5",
+      "8.A.192",
+      "9.B.440"
+    ]
   },
   "SOI86_RS05320": {
     "eggnog_BRITE": "ko00000,ko01000,ko03009,ko03036",
@@ -37008,7 +37620,10 @@
     "psortb_localization": "Cytoplasmic",
     "psortb_score": 9.97,
     "signalp_probability": 1.0,
-    "signalp_signalp_type": "OTHER"
+    "signalp_signalp_type": "OTHER",
+    "tcdb_diamond_tcdb_ids": [
+      "3.A.16"
+    ]
   },
   "SOI86_RS05380": {
     "eggnog_BRITE": "br01610,ko00000,ko00001,ko00002,ko03011",
@@ -37181,7 +37796,12 @@
     "signalp_cleavage_probability": 0.6387,
     "signalp_cleavage_site": 33,
     "signalp_probability": 0.795521,
-    "signalp_signalp_type": "SP"
+    "signalp_signalp_type": "SP",
+    "tcdb_diamond_tcdb_ids": [
+      "2.A.102",
+      "8.A.217",
+      "9.B.160"
+    ]
   },
   "SOI86_RS05400": {
     "eggnog_BRITE": "ko00000,ko03009",
@@ -37416,7 +38036,10 @@
     "psortb_localization": "CytoplasmicMembrane",
     "psortb_score": 10.0,
     "signalp_probability": 0.999993,
-    "signalp_signalp_type": "OTHER"
+    "signalp_signalp_type": "OTHER",
+    "tcdb_diamond_tcdb_ids": [
+      "9.B.142"
+    ]
   },
   "SOI86_RS05435": {
     "eggnog_COG_category": "M",
@@ -37450,7 +38073,10 @@
     "psortb_localization": "Cytoplasmic",
     "psortb_score": 8.96,
     "signalp_probability": 1.0,
-    "signalp_signalp_type": "OTHER"
+    "signalp_signalp_type": "OTHER",
+    "tcdb_diamond_tcdb_ids": [
+      "4.D.1"
+    ]
   },
   "SOI86_RS05440": {
     "eggnog_COG_category": "C",
@@ -37808,7 +38434,11 @@
     "psortb_localization": "Cytoplasmic",
     "psortb_score": 9.97,
     "signalp_probability": 1.0,
-    "signalp_signalp_type": "OTHER"
+    "signalp_signalp_type": "OTHER",
+    "tcdb_diamond_tcdb_ids": [
+      "8.A.162",
+      "9.B.418"
+    ]
   },
   "SOI86_RS05485": {
     "eggnog_BRITE": "br01610,ko00000,ko00001,ko00002,ko03011",
@@ -38203,7 +38833,10 @@
     "psortb_localization": "Unknown",
     "psortb_score": 2.0,
     "signalp_probability": 1.0,
-    "signalp_signalp_type": "OTHER"
+    "signalp_signalp_type": "OTHER",
+    "tcdb_diamond_tcdb_ids": [
+      "3.A.7"
+    ]
   },
   "SOI86_RS05530": {
     "eggnog_COG_category": "S",
@@ -38299,7 +38932,10 @@
     "psortb_localization": "Cytoplasmic",
     "psortb_score": 8.96,
     "signalp_probability": 0.999959,
-    "signalp_signalp_type": "OTHER"
+    "signalp_signalp_type": "OTHER",
+    "tcdb_diamond_tcdb_ids": [
+      "3.A.7"
+    ]
   },
   "SOI86_RS05545": {
     "eggnog_BRITE": "ko00000,ko00001,ko00194",
@@ -38334,7 +38970,10 @@
     "psortb_localization": "CytoplasmicMembrane",
     "psortb_score": 10.0,
     "signalp_probability": 1.0,
-    "signalp_signalp_type": "OTHER"
+    "signalp_signalp_type": "OTHER",
+    "tcdb_diamond_tcdb_ids": [
+      "5.B.4.1"
+    ]
   },
   "SOI86_RS05550": {
     "eggnog_BRITE": "ko00000,ko00001,ko00194",
@@ -38440,7 +39079,10 @@
     "psortb_localization": "CytoplasmicMembrane",
     "psortb_score": 10.0,
     "signalp_probability": 0.999974,
-    "signalp_signalp_type": "OTHER"
+    "signalp_signalp_type": "OTHER",
+    "tcdb_diamond_tcdb_ids": [
+      "5.B.4.1"
+    ]
   },
   "SOI86_RS05570": {
     "eggnog_BRITE": "ko00000,ko00001,ko00002,ko00194",
@@ -38484,7 +39126,10 @@
     "psortb_localization": "CytoplasmicMembrane",
     "psortb_score": 10.0,
     "signalp_probability": 1.0,
-    "signalp_signalp_type": "OTHER"
+    "signalp_signalp_type": "OTHER",
+    "tcdb_diamond_tcdb_ids": [
+      "5.B.4.1"
+    ]
   },
   "SOI86_RS05575": {
     "eggnog_BRITE": "ko00000,ko00001,ko01000",
@@ -39176,7 +39821,10 @@
     "psortb_localization": "CytoplasmicMembrane",
     "psortb_score": 10.0,
     "signalp_probability": 0.999999,
-    "signalp_signalp_type": "OTHER"
+    "signalp_signalp_type": "OTHER",
+    "tcdb_diamond_tcdb_ids": [
+      "3.A.5"
+    ]
   },
   "SOI86_RS05660": {
     "eggnog_BRITE": "br01610,ko00000,ko00001,ko00002,ko03011",
@@ -40018,7 +40666,10 @@
     "psortb_localization": "Cytoplasmic",
     "psortb_score": 8.96,
     "signalp_probability": 1.0,
-    "signalp_signalp_type": "OTHER"
+    "signalp_signalp_type": "OTHER",
+    "tcdb_diamond_tcdb_ids": [
+      "3.D.1"
+    ]
   },
   "SOI86_RS05755": {
     "eggnog_COG_category": "C",
@@ -40338,7 +40989,10 @@
     "psortb_localization": "Unknown",
     "psortb_score": 2.0,
     "signalp_probability": 0.999995,
-    "signalp_signalp_type": "OTHER"
+    "signalp_signalp_type": "OTHER",
+    "tcdb_diamond_tcdb_ids": [
+      "8.A.155"
+    ]
   },
   "SOI86_RS05805": {
     "eggnog_BRITE": "ko00000,ko00001,ko01000",
@@ -40381,7 +41035,11 @@
     "psortb_localization": "Cytoplasmic",
     "psortb_score": 9.97,
     "signalp_probability": 1.0,
-    "signalp_signalp_type": "OTHER"
+    "signalp_signalp_type": "OTHER",
+    "tcdb_diamond_tcdb_ids": [
+      "3.A.16",
+      "3.A.25"
+    ]
   },
   "SOI86_RS05810": {
     "eggnog_BRITE": "ko00000,ko00001,ko00002,ko01000",
@@ -40740,7 +41398,10 @@
     "psortb_localization": "CytoplasmicMembrane",
     "psortb_score": 9.82,
     "signalp_probability": 1.0,
-    "signalp_signalp_type": "OTHER"
+    "signalp_signalp_type": "OTHER",
+    "tcdb_diamond_tcdb_ids": [
+      "5.B.4.1"
+    ]
   },
   "SOI86_RS05860": {
     "eggnog_COG_category": "T",
@@ -40813,7 +41474,10 @@
     "psortb_localization": "CytoplasmicMembrane",
     "psortb_score": 10.0,
     "signalp_probability": 1.0,
-    "signalp_signalp_type": "OTHER"
+    "signalp_signalp_type": "OTHER",
+    "tcdb_diamond_tcdb_ids": [
+      "2.A.103"
+    ]
   },
   "SOI86_RS05870": {
     "eggnog_BRITE": "ko00000,ko03029,ko03036",
@@ -40852,7 +41516,11 @@
     "psortb_localization": "CytoplasmicMembrane",
     "psortb_score": 10.0,
     "signalp_probability": 1.0,
-    "signalp_signalp_type": "OTHER"
+    "signalp_signalp_type": "OTHER",
+    "tcdb_diamond_tcdb_ids": [
+      "3.A.1",
+      "8.A.3"
+    ]
   },
   "SOI86_RS05875": {
     "eggnog_BRITE": "ko00000,ko00001,ko00002,ko01000",
@@ -41319,7 +41987,10 @@
     "psortb_localization": "Cytoplasmic",
     "psortb_score": 8.96,
     "signalp_probability": 1.0,
-    "signalp_signalp_type": "OTHER"
+    "signalp_signalp_type": "OTHER",
+    "tcdb_diamond_tcdb_ids": [
+      "3.A.9"
+    ]
   },
   "SOI86_RS05945": {
     "eggnog_BRITE": "ko00000,ko00001,ko01000",
@@ -41359,7 +42030,10 @@
     "psortb_localization": "Cytoplasmic",
     "psortb_score": 8.96,
     "signalp_probability": 1.0,
-    "signalp_signalp_type": "OTHER"
+    "signalp_signalp_type": "OTHER",
+    "tcdb_diamond_tcdb_ids": [
+      "8.A.252.1"
+    ]
   },
   "SOI86_RS05950": {
     "eggnog_COG_category": "S",
@@ -41566,7 +42240,10 @@
     "psortb_localization": "CytoplasmicMembrane",
     "psortb_score": 10.0,
     "signalp_probability": 1.0,
-    "signalp_signalp_type": "OTHER"
+    "signalp_signalp_type": "OTHER",
+    "tcdb_diamond_tcdb_ids": [
+      "2.A.37"
+    ]
   },
   "SOI86_RS05980": {
     "eggnog_BRITE": "ko00000,ko00001,ko01000",
@@ -41736,7 +42413,10 @@
     "psortb_localization": "Unknown",
     "psortb_score": 2.0,
     "signalp_probability": 1.0,
-    "signalp_signalp_type": "OTHER"
+    "signalp_signalp_type": "OTHER",
+    "tcdb_diamond_tcdb_ids": [
+      "3.D.1.8"
+    ]
   },
   "SOI86_RS06015": {
     "eggnog_BRITE": "ko00000,ko03009",
@@ -41879,7 +42559,10 @@
     "psortb_localization": "CytoplasmicMembrane",
     "psortb_score": 10.0,
     "signalp_probability": 0.999607,
-    "signalp_signalp_type": "OTHER"
+    "signalp_signalp_type": "OTHER",
+    "tcdb_diamond_tcdb_ids": [
+      "5.B.4.1"
+    ]
   },
   "SOI86_RS06030": {
     "eggnog_BRITE": "ko00000,ko00001",
@@ -41921,7 +42604,11 @@
     "psortb_localization": "Cytoplasmic",
     "psortb_score": 9.97,
     "signalp_probability": 1.0,
-    "signalp_signalp_type": "OTHER"
+    "signalp_signalp_type": "OTHER",
+    "tcdb_diamond_tcdb_ids": [
+      "3.A.9.1",
+      "3.D.1.6"
+    ]
   },
   "SOI86_RS06035": {
     "eggnog_BRITE": "ko00000,ko00001,ko00002,ko01000,ko01004",
@@ -42214,7 +42901,11 @@
     "psortb_localization": "Cytoplasmic",
     "psortb_score": 9.97,
     "signalp_probability": 1.0,
-    "signalp_signalp_type": "OTHER"
+    "signalp_signalp_type": "OTHER",
+    "tcdb_diamond_tcdb_ids": [
+      "3.A.16",
+      "3.A.31"
+    ]
   },
   "SOI86_RS06070": {
     "eggnog_BRITE": "ko00000",
@@ -42334,7 +43025,10 @@
     "psortb_localization": "Cytoplasmic",
     "psortb_score": 10.0,
     "signalp_probability": 1.0,
-    "signalp_signalp_type": "OTHER"
+    "signalp_signalp_type": "OTHER",
+    "tcdb_diamond_tcdb_ids": [
+      "4.H.1.1"
+    ]
   },
   "SOI86_RS06085": {
     "eggnog_COG_category": "KT",
@@ -42372,7 +43066,11 @@
     "psortb_localization": "Cytoplasmic",
     "psortb_score": 9.97,
     "signalp_probability": 1.0,
-    "signalp_signalp_type": "OTHER"
+    "signalp_signalp_type": "OTHER",
+    "tcdb_diamond_tcdb_ids": [
+      "3.E.1",
+      "9.B.238"
+    ]
   },
   "SOI86_RS06090": {
     "eggnog_COG_category": "S",
@@ -42435,7 +43133,10 @@
     "psortb_localization": "CytoplasmicMembrane",
     "psortb_score": 9.82,
     "signalp_probability": 1.0,
-    "signalp_signalp_type": "OTHER"
+    "signalp_signalp_type": "OTHER",
+    "tcdb_diamond_tcdb_ids": [
+      "9.B.157"
+    ]
   },
   "SOI86_RS06100": {
     "eggnog_BRITE": "ko00000,ko02048,ko03036,ko04812",
@@ -42474,7 +43175,15 @@
     "psortb_localization": "Cytoplasmic",
     "psortb_score": 9.97,
     "signalp_probability": 1.0,
-    "signalp_signalp_type": "OTHER"
+    "signalp_signalp_type": "OTHER",
+    "tcdb_diamond_tcdb_ids": [
+      "1.A.33",
+      "3.A.15",
+      "3.A.9",
+      "9.A.41",
+      "9.B.157.1",
+      "9.B.460.1"
+    ]
   },
   "SOI86_RS06105": {
     "eggnog_BRITE": "ko00000,ko00001,ko03029,ko03032,ko03400",
@@ -42511,7 +43220,10 @@
     "psortb_localization": "Cytoplasmic",
     "psortb_score": 9.26,
     "signalp_probability": 1.0,
-    "signalp_signalp_type": "OTHER"
+    "signalp_signalp_type": "OTHER",
+    "tcdb_diamond_tcdb_ids": [
+      "3.A.7"
+    ]
   },
   "SOI86_RS06110": {
     "eggnog_BRITE": "ko00000,ko00001,ko00002,ko00537,ko01000,ko04147",
@@ -42550,7 +43262,11 @@
     "psortb_localization": "CytoplasmicMembrane",
     "psortb_score": 10.0,
     "signalp_probability": 0.999985,
-    "signalp_signalp_type": "OTHER"
+    "signalp_signalp_type": "OTHER",
+    "tcdb_diamond_tcdb_ids": [
+      "9.B.27",
+      "9.B.321"
+    ]
   },
   "SOI86_RS06115": {
     "eggnog_BRITE": "ko00000,ko00001,ko00002,ko01000,ko01009,ko04147",
@@ -42598,7 +43314,10 @@
     "psortb_localization": "Cytoplasmic",
     "psortb_score": 9.97,
     "signalp_probability": 1.0,
-    "signalp_signalp_type": "OTHER"
+    "signalp_signalp_type": "OTHER",
+    "tcdb_diamond_tcdb_ids": [
+      "8.A.151.1"
+    ]
   },
   "SOI86_RS06120": {
     "eggnog_BRITE": "ko00000,ko03016",
@@ -42798,7 +43517,11 @@
     "psortb_localization": "CytoplasmicMembrane",
     "psortb_score": 9.16,
     "signalp_probability": 0.999981,
-    "signalp_signalp_type": "OTHER"
+    "signalp_signalp_type": "OTHER",
+    "tcdb_diamond_tcdb_ids": [
+      "1.A.26.1",
+      "3.A.1"
+    ]
   },
   "SOI86_RS06145": {
     "eggnog_BRITE": "ko00000,ko02000",
@@ -42871,7 +43594,10 @@
     "psortb_localization": "CytoplasmicMembrane",
     "psortb_score": 10.0,
     "signalp_probability": 1.0,
-    "signalp_signalp_type": "OTHER"
+    "signalp_signalp_type": "OTHER",
+    "tcdb_diamond_tcdb_ids": [
+      "1.A.43"
+    ]
   },
   "SOI86_RS06155": {
     "eggnog_COG_category": "S",
@@ -43182,7 +43908,10 @@
     "psortb_localization": "Cytoplasmic",
     "psortb_score": 9.12,
     "signalp_probability": 1.0,
-    "signalp_signalp_type": "OTHER"
+    "signalp_signalp_type": "OTHER",
+    "tcdb_diamond_tcdb_ids": [
+      "3.A.5"
+    ]
   },
   "SOI86_RS06190": {
     "eggnog_COG_category": "K",
@@ -43870,7 +44599,11 @@
     "psortb_localization": "Cytoplasmic",
     "psortb_score": 9.26,
     "signalp_probability": 1.0,
-    "signalp_signalp_type": "OTHER"
+    "signalp_signalp_type": "OTHER",
+    "tcdb_diamond_tcdb_ids": [
+      "3.A.26.1",
+      "8.A.21"
+    ]
   },
   "SOI86_RS06275": {
     "eggnog_BRITE": "ko00000,ko00001,ko03110",
@@ -43920,7 +44653,10 @@
     "psortb_localization": "Cytoplasmic",
     "psortb_score": 9.97,
     "signalp_probability": 1.0,
-    "signalp_signalp_type": "OTHER"
+    "signalp_signalp_type": "OTHER",
+    "tcdb_diamond_tcdb_ids": [
+      "3.A.31"
+    ]
   },
   "SOI86_RS06280": {
     "eggnog_BRITE": "ko00000,ko00001,ko00002,ko01000,ko03032,ko03400",
@@ -44010,7 +44746,11 @@
     "psortb_localization": "CytoplasmicMembrane",
     "psortb_score": 10.0,
     "signalp_probability": 1.0,
-    "signalp_signalp_type": "OTHER"
+    "signalp_signalp_type": "OTHER",
+    "tcdb_diamond_tcdb_ids": [
+      "4.D.1",
+      "4.D.3"
+    ]
   },
   "SOI86_RS06290": {
     "eggnog_COG_category": "D",
@@ -44889,7 +45629,10 @@
     "psortb_localization": "CytoplasmicMembrane",
     "psortb_score": 10.0,
     "signalp_probability": 1.0,
-    "signalp_signalp_type": "OTHER"
+    "signalp_signalp_type": "OTHER",
+    "tcdb_diamond_tcdb_ids": [
+      "9.B.27"
+    ]
   },
   "SOI86_RS06405": {
     "eggnog_BRITE": "ko00000,ko00001,ko00002,ko01000,ko01007,ko03016",
@@ -45031,7 +45774,10 @@
     "psortb_localization": "Cytoplasmic",
     "psortb_score": 9.97,
     "signalp_probability": 1.0,
-    "signalp_signalp_type": "OTHER"
+    "signalp_signalp_type": "OTHER",
+    "tcdb_diamond_tcdb_ids": [
+      "2.A.1"
+    ]
   },
   "SOI86_RS06425": {
     "eggnog_BRITE": "ko00000,ko00001,ko00002,ko01000",
@@ -45183,7 +45929,10 @@
     "psortb_localization": "Cytoplasmic",
     "psortb_score": 10.0,
     "signalp_probability": 1.0,
-    "signalp_signalp_type": "OTHER"
+    "signalp_signalp_type": "OTHER",
+    "tcdb_diamond_tcdb_ids": [
+      "4.H.1"
+    ]
   },
   "SOI86_RS06440": {
     "eggnog_BRITE": "ko00000,ko00001,ko00002,ko01000",
@@ -45488,7 +46237,10 @@
     "psortb_localization": "CytoplasmicMembrane",
     "psortb_score": 10.0,
     "signalp_probability": 1.0,
-    "signalp_signalp_type": "OTHER"
+    "signalp_signalp_type": "OTHER",
+    "tcdb_diamond_tcdb_ids": [
+      "2.A.1"
+    ]
   },
   "SOI86_RS06475": {
     "eggnog_BRITE": "ko00000,ko00001,ko01000,ko03019",
@@ -45617,7 +46369,10 @@
     "psortb_localization": "CytoplasmicMembrane",
     "psortb_score": 10.0,
     "signalp_probability": 1.0,
-    "signalp_signalp_type": "OTHER"
+    "signalp_signalp_type": "OTHER",
+    "tcdb_diamond_tcdb_ids": [
+      "9.B.405"
+    ]
   },
   "SOI86_RS06490": {
     "eggnog_BRITE": "ko00000,ko00001,ko00002,ko01000",
@@ -45754,7 +46509,10 @@
     "psortb_localization": "CytoplasmicMembrane",
     "psortb_score": 10.0,
     "signalp_probability": 1.0,
-    "signalp_signalp_type": "OTHER"
+    "signalp_signalp_type": "OTHER",
+    "tcdb_diamond_tcdb_ids": [
+      "2.A.49"
+    ]
   },
   "SOI86_RS06505": {
     "eggnog_BRITE": "ko00000,ko00001,ko01000",
@@ -45886,7 +46644,15 @@
     "psortb_localization": "Cytoplasmic",
     "psortb_score": 9.97,
     "signalp_probability": 1.0,
-    "signalp_signalp_type": "OTHER"
+    "signalp_signalp_type": "OTHER",
+    "tcdb_diamond_tcdb_ids": [
+      "1.A.33.1",
+      "3.A.16.1",
+      "3.A.9.1",
+      "9.A.41.1",
+      "9.B.157",
+      "9.B.460"
+    ]
   },
   "SOI86_RS06520": {
     "eggnog_BRITE": "ko00000,ko00001,ko00002,ko01000",
@@ -46105,7 +46871,10 @@
     "psortb_localization": "CytoplasmicMembrane",
     "psortb_score": 10.0,
     "signalp_probability": 1.0,
-    "signalp_signalp_type": "OTHER"
+    "signalp_signalp_type": "OTHER",
+    "tcdb_diamond_tcdb_ids": [
+      "9.B.146.1"
+    ]
   },
   "SOI86_RS06545": {
     "eggnog_COG_category": "S",
@@ -46220,7 +46989,10 @@
     "psortb_localization": "Cytoplasmic",
     "psortb_score": 9.94,
     "signalp_probability": 1.0,
-    "signalp_signalp_type": "OTHER"
+    "signalp_signalp_type": "OTHER",
+    "tcdb_diamond_tcdb_ids": [
+      "3.A.1"
+    ]
   },
   "SOI86_RS06560": {
     "eggnog_BRITE": "ko00000,ko03400",
@@ -46694,7 +47466,10 @@
     "psortb_localization": "CytoplasmicMembrane",
     "psortb_score": 9.82,
     "signalp_probability": 1.0,
-    "signalp_signalp_type": "OTHER"
+    "signalp_signalp_type": "OTHER",
+    "tcdb_diamond_tcdb_ids": [
+      "9.B.150.1"
+    ]
   },
   "SOI86_RS06620": {
     "eggnog_BRITE": "ko00000,ko03009,ko03021",
@@ -46780,7 +47555,11 @@
     "psortb_localization": "Cytoplasmic",
     "psortb_score": 9.12,
     "signalp_probability": 1.0,
-    "signalp_signalp_type": "OTHER"
+    "signalp_signalp_type": "OTHER",
+    "tcdb_diamond_tcdb_ids": [
+      "3.A.5",
+      "9.B.76"
+    ]
   },
   "SOI86_RS06630": {
     "eggnog_BRITE": "ko00000,ko01000,ko03021",
@@ -46910,7 +47689,11 @@
     "psortb_localization": "Unknown",
     "psortb_score": 2.0,
     "signalp_probability": 1.0,
-    "signalp_signalp_type": "OTHER"
+    "signalp_signalp_type": "OTHER",
+    "tcdb_diamond_tcdb_ids": [
+      "3.A.18",
+      "9.A.60"
+    ]
   },
   "SOI86_RS06645": {
     "eggnog_BRITE": "ko00000,ko01000,ko03016",
@@ -47033,7 +47816,10 @@
     "psortb_localization": "Cytoplasmic",
     "psortb_score": 9.97,
     "signalp_probability": 1.0,
-    "signalp_signalp_type": "OTHER"
+    "signalp_signalp_type": "OTHER",
+    "tcdb_diamond_tcdb_ids": [
+      "3.A.8"
+    ]
   },
   "SOI86_RS06660": {
     "eggnog_BRITE": "ko00000,ko03029,ko03110",
@@ -47075,7 +47861,11 @@
     "psortb_localization": "Cytoplasmic",
     "psortb_score": 9.97,
     "signalp_probability": 1.0,
-    "signalp_signalp_type": "OTHER"
+    "signalp_signalp_type": "OTHER",
+    "tcdb_diamond_tcdb_ids": [
+      "3.A.16",
+      "8.A.192"
+    ]
   },
   "SOI86_RS06665": {
     "eggnog_COG_category": "O",
@@ -47155,7 +47945,10 @@
     "psortb_localization": "Cytoplasmic",
     "psortb_score": 9.97,
     "signalp_probability": 1.0,
-    "signalp_signalp_type": "OTHER"
+    "signalp_signalp_type": "OTHER",
+    "tcdb_diamond_tcdb_ids": [
+      "3.A.1"
+    ]
   },
   "SOI86_RS06675": {
     "eggnog_BRITE": "ko00000",
@@ -47336,7 +48129,10 @@
     "psortb_localization": "Cytoplasmic",
     "psortb_score": 9.97,
     "signalp_probability": 1.0,
-    "signalp_signalp_type": "OTHER"
+    "signalp_signalp_type": "OTHER",
+    "tcdb_diamond_tcdb_ids": [
+      "3.A.23.6"
+    ]
   },
   "SOI86_RS06695": {
     "eggnog_BRITE": "ko00000,ko00001,ko00002,ko01000",
@@ -47377,7 +48173,10 @@
     "psortb_localization": "Cytoplasmic",
     "psortb_score": 8.96,
     "signalp_probability": 1.0,
-    "signalp_signalp_type": "OTHER"
+    "signalp_signalp_type": "OTHER",
+    "tcdb_diamond_tcdb_ids": [
+      "8.A.159"
+    ]
   },
   "SOI86_RS06700": {
     "eggnog_BRITE": "ko00000,ko01000",
@@ -47516,7 +48315,10 @@
     "psortb_localization": "Cytoplasmic",
     "psortb_score": 8.96,
     "signalp_probability": 1.0,
-    "signalp_signalp_type": "OTHER"
+    "signalp_signalp_type": "OTHER",
+    "tcdb_diamond_tcdb_ids": [
+      "3.B.1"
+    ]
   },
   "SOI86_RS06720": {
     "eggnog_COG_category": "GM",
@@ -48712,7 +49514,10 @@
     "psortb_localization": "CytoplasmicMembrane",
     "psortb_score": 9.82,
     "signalp_probability": 0.999922,
-    "signalp_signalp_type": "OTHER"
+    "signalp_signalp_type": "OTHER",
+    "tcdb_diamond_tcdb_ids": [
+      "1.E.34.3"
+    ]
   },
   "SOI86_RS06880": {
     "eggnog_COG_category": "S",
@@ -48984,7 +49789,10 @@
     "psortb_localization": "CytoplasmicMembrane",
     "psortb_score": 9.82,
     "signalp_probability": 1.0,
-    "signalp_signalp_type": "OTHER"
+    "signalp_signalp_type": "OTHER",
+    "tcdb_diamond_tcdb_ids": [
+      "9.A.4.2"
+    ]
   },
   "SOI86_RS06925": {
     "eggnog_BRITE": "ko00000,ko00001,ko00194",
@@ -49122,7 +49930,10 @@
     "psortb_localization": "CytoplasmicMembrane",
     "psortb_score": 10.0,
     "signalp_probability": 0.999913,
-    "signalp_signalp_type": "OTHER"
+    "signalp_signalp_type": "OTHER",
+    "tcdb_diamond_tcdb_ids": [
+      "3.A.1"
+    ]
   },
   "SOI86_RS06945": {
     "eggnog_COG_category": "S",
@@ -49383,7 +50194,11 @@
     "psortb_localization": "Cytoplasmic",
     "psortb_score": 9.97,
     "signalp_probability": 1.0,
-    "signalp_signalp_type": "OTHER"
+    "signalp_signalp_type": "OTHER",
+    "tcdb_diamond_tcdb_ids": [
+      "3.A.1",
+      "9.B.29.2"
+    ]
   },
   "SOI86_RS06980": {
     "eggnog_BRITE": "ko00000",
@@ -49604,7 +50419,10 @@
     "psortb_localization": "Cytoplasmic",
     "psortb_score": 9.26,
     "signalp_probability": 0.999989,
-    "signalp_signalp_type": "OTHER"
+    "signalp_signalp_type": "OTHER",
+    "tcdb_diamond_tcdb_ids": [
+      "3.A.26"
+    ]
   },
   "SOI86_RS07010": {
     "eggnog_BRITE": "ko00000,ko01000",
@@ -49646,7 +50464,10 @@
     "psortb_localization": "Unknown",
     "psortb_score": 2.0,
     "signalp_probability": 0.999966,
-    "signalp_signalp_type": "OTHER"
+    "signalp_signalp_type": "OTHER",
+    "tcdb_diamond_tcdb_ids": [
+      "8.A.147"
+    ]
   },
   "SOI86_RS07015": {
     "eggnog_BRITE": "ko00000,ko00001,ko00002,ko01000",
@@ -49773,7 +50594,10 @@
     "psortb_localization": "CytoplasmicMembrane",
     "psortb_score": 9.82,
     "signalp_probability": 1.0,
-    "signalp_signalp_type": "OTHER"
+    "signalp_signalp_type": "OTHER",
+    "tcdb_diamond_tcdb_ids": [
+      "5.B.14"
+    ]
   },
   "SOI86_RS07030": {
     "eggnog_COG_category": "P",
@@ -49810,7 +50634,10 @@
     "psortb_localization": "CytoplasmicMembrane",
     "psortb_score": 10.0,
     "signalp_probability": 1.0,
-    "signalp_signalp_type": "OTHER"
+    "signalp_signalp_type": "OTHER",
+    "tcdb_diamond_tcdb_ids": [
+      "2.A.47"
+    ]
   },
   "SOI86_RS07035": {
     "eggnog_BRITE": "ko00000,ko02000",
@@ -49847,7 +50674,10 @@
     "psortb_localization": "CytoplasmicMembrane",
     "psortb_score": 10.0,
     "signalp_probability": 0.999998,
-    "signalp_signalp_type": "OTHER"
+    "signalp_signalp_type": "OTHER",
+    "tcdb_diamond_tcdb_ids": [
+      "2.A.38"
+    ]
   },
   "SOI86_RS07040": {
     "eggnog_BRITE": "ko00000,ko02000",
@@ -49885,7 +50715,12 @@
     "psortb_localization": "Cytoplasmic",
     "psortb_score": 8.96,
     "signalp_probability": 1.0,
-    "signalp_signalp_type": "OTHER"
+    "signalp_signalp_type": "OTHER",
+    "tcdb_diamond_tcdb_ids": [
+      "1.A.1",
+      "2.A.37",
+      "2.A.38.4"
+    ]
   },
   "SOI86_RS07045": {
     "eggnog_COG_category": "S",
@@ -50037,7 +50872,11 @@
     "psortb_localization": "Cytoplasmic",
     "psortb_score": 9.97,
     "signalp_probability": 1.0,
-    "signalp_signalp_type": "OTHER"
+    "signalp_signalp_type": "OTHER",
+    "tcdb_diamond_tcdb_ids": [
+      "3.A.1",
+      "9.B.325"
+    ]
   },
   "SOI86_RS07070": {
     "eggnog_COG_category": "S",
@@ -50101,7 +50940,11 @@
     "psortb_localization": "Periplasmic",
     "psortb_score": 9.44,
     "signalp_probability": 1.0,
-    "signalp_signalp_type": "OTHER"
+    "signalp_signalp_type": "OTHER",
+    "tcdb_diamond_tcdb_ids": [
+      "8.A.217",
+      "9.B.160"
+    ]
   },
   "SOI86_RS07080": {
     "eggnog_COG_category": "S",
@@ -50247,7 +51090,10 @@
     "psortb_localization": "CytoplasmicMembrane",
     "psortb_score": 10.0,
     "signalp_probability": 0.999579,
-    "signalp_signalp_type": "OTHER"
+    "signalp_signalp_type": "OTHER",
+    "tcdb_diamond_tcdb_ids": [
+      "9.B.126"
+    ]
   },
   "SOI86_RS07105": {
     "eggnog_BRITE": "ko00000,ko00001,ko00002,ko01000",
@@ -50324,7 +51170,11 @@
     "signalp_cleavage_probability": 0.341,
     "signalp_cleavage_site": 25,
     "signalp_probability": 0.668643,
-    "signalp_signalp_type": "SP"
+    "signalp_signalp_type": "SP",
+    "tcdb_diamond_tcdb_ids": [
+      "1.B.17",
+      "3.A.1"
+    ]
   },
   "SOI86_RS07115": {
     "eggnog_COG_category": "C",
@@ -50440,7 +51290,10 @@
     "psortb_localization": "Cytoplasmic",
     "psortb_score": 9.97,
     "signalp_probability": 0.99978,
-    "signalp_signalp_type": "OTHER"
+    "signalp_signalp_type": "OTHER",
+    "tcdb_diamond_tcdb_ids": [
+      "3.D.10"
+    ]
   },
   "SOI86_RS07130": {
     "eggnog_COG_category": "CO",
@@ -50473,7 +51326,10 @@
     "psortb_localization": "CytoplasmicMembrane",
     "psortb_score": 10.0,
     "signalp_probability": 0.996377,
-    "signalp_signalp_type": "OTHER"
+    "signalp_signalp_type": "OTHER",
+    "tcdb_diamond_tcdb_ids": [
+      "9.B.265"
+    ]
   },
   "SOI86_RS07135": {
     "eggnog_BRITE": "ko00000,ko01000,ko03009",
@@ -51225,7 +52081,10 @@
     "psortb_localization": "Unknown",
     "psortb_score": 2.0,
     "signalp_probability": 1.0,
-    "signalp_signalp_type": "OTHER"
+    "signalp_signalp_type": "OTHER",
+    "tcdb_diamond_tcdb_ids": [
+      "3.D.1.8"
+    ]
   },
   "SOI86_RS07240": {
     "eggnog_BRITE": "ko00000,ko03029,ko03110",
@@ -51382,7 +52241,10 @@
     "psortb_localization": "CytoplasmicMembrane",
     "psortb_score": 10.0,
     "signalp_probability": 1.0,
-    "signalp_signalp_type": "OTHER"
+    "signalp_signalp_type": "OTHER",
+    "tcdb_diamond_tcdb_ids": [
+      "3.A.1"
+    ]
   },
   "SOI86_RS07265": {
     "gene_mapping_end": "1282903",
@@ -51619,7 +52481,11 @@
     "psortb_localization": "Cytoplasmic",
     "psortb_score": 9.97,
     "signalp_probability": 1.0,
-    "signalp_signalp_type": "OTHER"
+    "signalp_signalp_type": "OTHER",
+    "tcdb_diamond_tcdb_ids": [
+      "3.E.1",
+      "9.B.238"
+    ]
   },
   "SOI86_RS07305": {
     "eggnog_BRITE": "ko00000,ko00001,ko00002,ko01000,ko03032,ko03400",
@@ -51756,7 +52622,10 @@
     "psortb_localization": "CytoplasmicMembrane",
     "psortb_score": 10.0,
     "signalp_probability": 1.0,
-    "signalp_signalp_type": "OTHER"
+    "signalp_signalp_type": "OTHER",
+    "tcdb_diamond_tcdb_ids": [
+      "3.A.3"
+    ]
   },
   "SOI86_RS07320": {
     "eggnog_COG_category": "NU",
@@ -51877,7 +52746,10 @@
     "psortb_localization": "Cytoplasmic",
     "psortb_score": 9.97,
     "signalp_probability": 1.0,
-    "signalp_signalp_type": "OTHER"
+    "signalp_signalp_type": "OTHER",
+    "tcdb_diamond_tcdb_ids": [
+      "3.E.1"
+    ]
   },
   "SOI86_RS07335": {
     "eggnog_BRITE": "ko00000,ko00001,ko00002,ko01000,ko01004",
@@ -52057,7 +52929,10 @@
     "psortb_localization": "CytoplasmicMembrane",
     "psortb_score": 9.82,
     "signalp_probability": 0.999697,
-    "signalp_signalp_type": "OTHER"
+    "signalp_signalp_type": "OTHER",
+    "tcdb_diamond_tcdb_ids": [
+      "2.A.1"
+    ]
   },
   "SOI86_RS07355": {
     "eggnog_COG_category": "O",
@@ -52322,7 +53197,10 @@
     "psortb_localization": "Cytoplasmic",
     "psortb_score": 8.96,
     "signalp_probability": 1.0,
-    "signalp_signalp_type": "OTHER"
+    "signalp_signalp_type": "OTHER",
+    "tcdb_diamond_tcdb_ids": [
+      "3.D.1.8"
+    ]
   },
   "SOI86_RS07390": {
     "eggnog_COG_category": "S",
@@ -52460,7 +53338,14 @@
     "psortb_localization": "CytoplasmicMembrane",
     "psortb_score": 10.0,
     "signalp_probability": 1.0,
-    "signalp_signalp_type": "OTHER"
+    "signalp_signalp_type": "OTHER",
+    "tcdb_diamond_tcdb_ids": [
+      "2.A.63",
+      "3.D.1",
+      "3.D.13",
+      "3.D.9",
+      "9.A.2"
+    ]
   },
   "SOI86_RS07410": {
     "eggnog_BRITE": "ko00000,ko00001,ko00002,ko01000",
@@ -52502,7 +53387,13 @@
     "psortb_localization": "CytoplasmicMembrane",
     "psortb_score": 10.0,
     "signalp_probability": 1.0,
-    "signalp_signalp_type": "OTHER"
+    "signalp_signalp_type": "OTHER",
+    "tcdb_diamond_tcdb_ids": [
+      "2.A.63",
+      "3.D.1",
+      "3.D.13",
+      "3.D.9"
+    ]
   },
   "SOI86_RS07415": {
     "eggnog_BRITE": "ko00000,ko03036",
@@ -52622,7 +53513,11 @@
     "psortb_localization": "Cytoplasmic",
     "psortb_score": 8.96,
     "signalp_probability": 1.0,
-    "signalp_signalp_type": "OTHER"
+    "signalp_signalp_type": "OTHER",
+    "tcdb_diamond_tcdb_ids": [
+      "3.D.7",
+      "5.B.16"
+    ]
   },
   "SOI86_RS07430": {
     "eggnog_COG_category": "K",
@@ -52810,7 +53705,12 @@
     "psortb_localization": "CytoplasmicMembrane",
     "psortb_score": 10.0,
     "signalp_probability": 1.0,
-    "signalp_signalp_type": "OTHER"
+    "signalp_signalp_type": "OTHER",
+    "tcdb_diamond_tcdb_ids": [
+      "3.D.1",
+      "3.D.13.1",
+      "3.D.9.1"
+    ]
   },
   "SOI86_RS07455": {
     "eggnog_BRITE": "ko00000,ko00001,ko00002,ko01000",
@@ -52850,7 +53750,11 @@
     "psortb_localization": "CytoplasmicMembrane",
     "psortb_score": 10.0,
     "signalp_probability": 1.0,
-    "signalp_signalp_type": "OTHER"
+    "signalp_signalp_type": "OTHER",
+    "tcdb_diamond_tcdb_ids": [
+      "3.D.1",
+      "3.D.9"
+    ]
   },
   "SOI86_RS07460": {
     "eggnog_BRITE": "ko00000,ko00001,ko00002,ko01000",
@@ -52895,7 +53799,10 @@
     "psortb_localization": "Cytoplasmic",
     "psortb_score": 9.12,
     "signalp_probability": 1.0,
-    "signalp_signalp_type": "OTHER"
+    "signalp_signalp_type": "OTHER",
+    "tcdb_diamond_tcdb_ids": [
+      "3.D.1"
+    ]
   },
   "SOI86_RS07465": {
     "eggnog_BRITE": "ko00000,ko00001,ko00002,ko01000",
@@ -52937,7 +53844,12 @@
     "psortb_localization": "CytoplasmicMembrane",
     "psortb_score": 10.0,
     "signalp_probability": 1.0,
-    "signalp_signalp_type": "OTHER"
+    "signalp_signalp_type": "OTHER",
+    "tcdb_diamond_tcdb_ids": [
+      "3.D.1",
+      "3.D.13.1",
+      "3.D.9.1"
+    ]
   },
   "SOI86_RS07470": {
     "eggnog_BRITE": "br01601,ko00000,ko00001,ko00002,ko01000",
@@ -53301,7 +54213,12 @@
     "psortb_localization": "Cytoplasmic",
     "psortb_score": 9.97,
     "signalp_probability": 1.0,
-    "signalp_signalp_type": "OTHER"
+    "signalp_signalp_type": "OTHER",
+    "tcdb_diamond_tcdb_ids": [
+      "2.A.130",
+      "3.E.1",
+      "9.B.238"
+    ]
   },
   "SOI86_RS07515": {
     "eggnog_BRITE": "ko00000,ko00001,ko01000,ko02048,ko03016,ko03029",
@@ -53426,7 +54343,12 @@
     "psortb_localization": "Cytoplasmic",
     "psortb_score": 9.12,
     "signalp_probability": 1.0,
-    "signalp_signalp_type": "OTHER"
+    "signalp_signalp_type": "OTHER",
+    "tcdb_diamond_tcdb_ids": [
+      "3.D.1",
+      "3.D.13",
+      "3.D.9"
+    ]
   },
   "SOI86_RS07530": {
     "eggnog_BRITE": "ko00000,ko00001,ko00002,ko01000",
@@ -54294,7 +55216,10 @@
     "psortb_localization": "CytoplasmicMembrane",
     "psortb_score": 9.59,
     "signalp_probability": 1.0,
-    "signalp_signalp_type": "OTHER"
+    "signalp_signalp_type": "OTHER",
+    "tcdb_diamond_tcdb_ids": [
+      "3.A.1"
+    ]
   },
   "SOI86_RS07630": {
     "eggnog_BRITE": "ko00000,ko01000,ko03009",
@@ -54578,7 +55503,10 @@
     "psortb_localization": "CytoplasmicMembrane",
     "psortb_score": 7.88,
     "signalp_probability": 1.0,
-    "signalp_signalp_type": "OTHER"
+    "signalp_signalp_type": "OTHER",
+    "tcdb_diamond_tcdb_ids": [
+      "9.B.265"
+    ]
   },
   "SOI86_RS07665": {
     "eggnog_BRITE": "ko00000,ko00001,ko01000,ko03032",
@@ -54755,7 +55683,10 @@
     "psortb_localization": "Cytoplasmic",
     "psortb_score": 9.97,
     "signalp_probability": 1.0,
-    "signalp_signalp_type": "OTHER"
+    "signalp_signalp_type": "OTHER",
+    "tcdb_diamond_tcdb_ids": [
+      "1.C.82.1"
+    ]
   },
   "SOI86_RS07685": {
     "eggnog_BRITE": "br01610,ko00000,ko00001,ko00002,ko03011",
@@ -54890,7 +55821,10 @@
     "psortb_localization": "CytoplasmicMembrane",
     "psortb_score": 9.82,
     "signalp_probability": 0.999936,
-    "signalp_signalp_type": "OTHER"
+    "signalp_signalp_type": "OTHER",
+    "tcdb_diamond_tcdb_ids": [
+      "3.A.5.4"
+    ]
   },
   "SOI86_RS07700": {
     "eggnog_COG_category": "O",
@@ -54933,7 +55867,12 @@
     "psortb_localization": "Cytoplasmic",
     "psortb_score": 9.97,
     "signalp_probability": 1.0,
-    "signalp_signalp_type": "OTHER"
+    "signalp_signalp_type": "OTHER",
+    "tcdb_diamond_tcdb_ids": [
+      "3.A.23",
+      "3.A.26",
+      "3.A.9.1"
+    ]
   },
   "SOI86_RS07705": {
     "eggnog_BRITE": "ko00000,ko00001,ko00002,ko01000,ko03019,ko04147",
@@ -55148,7 +56087,10 @@
     "psortb_localization": "CytoplasmicMembrane",
     "psortb_score": 10.0,
     "signalp_probability": 1.0,
-    "signalp_signalp_type": "OTHER"
+    "signalp_signalp_type": "OTHER",
+    "tcdb_diamond_tcdb_ids": [
+      "2.A.83"
+    ]
   },
   "SOI86_RS07735": {
     "eggnog_BRITE": "ko00000,ko02000",
@@ -55186,7 +56128,10 @@
     "psortb_localization": "CytoplasmicMembrane",
     "psortb_score": 10.0,
     "signalp_probability": 1.0,
-    "signalp_signalp_type": "OTHER"
+    "signalp_signalp_type": "OTHER",
+    "tcdb_diamond_tcdb_ids": [
+      "2.A.53"
+    ]
   },
   "SOI86_RS07740": {
     "eggnog_BRITE": "ko00000,ko00001,ko00002,ko01000,ko04147",
@@ -55359,7 +56304,10 @@
     "psortb_localization": "Cytoplasmic",
     "psortb_score": 8.96,
     "signalp_probability": 1.0,
-    "signalp_signalp_type": "OTHER"
+    "signalp_signalp_type": "OTHER",
+    "tcdb_diamond_tcdb_ids": [
+      "9.A.8"
+    ]
   },
   "SOI86_RS07760": {
     "eggnog_COG_category": "S",
@@ -55569,7 +56517,10 @@
     "psortb_localization": "CytoplasmicMembrane",
     "psortb_score": 10.0,
     "signalp_probability": 0.999932,
-    "signalp_signalp_type": "OTHER"
+    "signalp_signalp_type": "OTHER",
+    "tcdb_diamond_tcdb_ids": [
+      "3.E.2"
+    ]
   },
   "SOI86_RS07790": {
     "eggnog_BRITE": "ko00000,ko00001,ko00002,ko01000",
@@ -55703,7 +56654,12 @@
     "psortb_localization": "CytoplasmicMembrane",
     "psortb_score": 10.0,
     "signalp_probability": 0.736242,
-    "signalp_signalp_type": "OTHER"
+    "signalp_signalp_type": "OTHER",
+    "tcdb_diamond_tcdb_ids": [
+      "3.A.16",
+      "3.A.29.1",
+      "3.A.9.1"
+    ]
   },
   "SOI86_RS07805": {
     "eggnog_BRITE": "ko00000,ko00001,ko00002,ko01000",
@@ -55785,7 +56741,10 @@
     "signalp_cleavage_probability": 0.9738,
     "signalp_cleavage_site": 26,
     "signalp_probability": 0.998982,
-    "signalp_signalp_type": "SP"
+    "signalp_signalp_type": "SP",
+    "tcdb_diamond_tcdb_ids": [
+      "3.E.2.2"
+    ]
   },
   "SOI86_RS07815": {
     "eggnog_BRITE": "ko00000,ko00001,ko00002,ko01000",
@@ -56090,7 +57049,10 @@
     "psortb_localization": "CytoplasmicMembrane",
     "psortb_score": 9.82,
     "signalp_probability": 1.0,
-    "signalp_signalp_type": "OTHER"
+    "signalp_signalp_type": "OTHER",
+    "tcdb_diamond_tcdb_ids": [
+      "9.A.76"
+    ]
   },
   "SOI86_RS07860": {
     "eggnog_COG_category": "M",
@@ -56328,7 +57290,10 @@
     "psortb_localization": "Unknown",
     "psortb_score": 2.0,
     "signalp_probability": 0.999891,
-    "signalp_signalp_type": "OTHER"
+    "signalp_signalp_type": "OTHER",
+    "tcdb_diamond_tcdb_ids": [
+      "3.D.3"
+    ]
   },
   "SOI86_RS07890": {
     "eggnog_BRITE": "ko00000,ko00001,ko01000",
@@ -56674,7 +57639,10 @@
     "psortb_localization": "CytoplasmicMembrane",
     "psortb_score": 9.82,
     "signalp_probability": 0.999974,
-    "signalp_signalp_type": "OTHER"
+    "signalp_signalp_type": "OTHER",
+    "tcdb_diamond_tcdb_ids": [
+      "3.E.2.2"
+    ]
   },
   "SOI86_RS07935": {
     "eggnog_BRITE": "ko00000",
@@ -57063,7 +58031,10 @@
     "psortb_localization": "CytoplasmicMembrane",
     "psortb_score": 10.0,
     "signalp_probability": 0.988991,
-    "signalp_signalp_type": "OTHER"
+    "signalp_signalp_type": "OTHER",
+    "tcdb_diamond_tcdb_ids": [
+      "2.A.66"
+    ]
   },
   "SOI86_RS07990": {
     "eggnog_BRITE": "ko00000",
@@ -57144,7 +58115,10 @@
     "psortb_localization": "CytoplasmicMembrane",
     "psortb_score": 10.0,
     "signalp_probability": 0.869231,
-    "signalp_signalp_type": "OTHER"
+    "signalp_signalp_type": "OTHER",
+    "tcdb_diamond_tcdb_ids": [
+      "1.A.11"
+    ]
   },
   "SOI86_RS08000": {
     "eggnog_BRITE": "ko00000,ko00001,ko00002,ko01000",
@@ -57364,7 +58338,11 @@
     "psortb_localization": "Cytoplasmic",
     "psortb_score": 8.96,
     "signalp_probability": 1.0,
-    "signalp_signalp_type": "OTHER"
+    "signalp_signalp_type": "OTHER",
+    "tcdb_diamond_tcdb_ids": [
+      "9.B.238",
+      "9.B.259"
+    ]
   },
   "SOI86_RS08030": {
     "eggnog_BRITE": "ko00000,ko00001,ko00002,ko01000",
@@ -57562,7 +58540,12 @@
     "psortb_localization": "CytoplasmicMembrane",
     "psortb_score": 10.0,
     "signalp_probability": 1.0,
-    "signalp_signalp_type": "OTHER"
+    "signalp_signalp_type": "OTHER",
+    "tcdb_diamond_tcdb_ids": [
+      "1.A.112",
+      "1.C.126",
+      "2.A.109"
+    ]
   },
   "SOI86_RS08060": {
     "eggnog_BRITE": "ko00000,ko00001,ko00002,ko01000",
@@ -58218,7 +59201,10 @@
     "psortb_localization": "CytoplasmicMembrane",
     "psortb_score": 10.0,
     "signalp_probability": 1.0,
-    "signalp_signalp_type": "OTHER"
+    "signalp_signalp_type": "OTHER",
+    "tcdb_diamond_tcdb_ids": [
+      "3.A.1"
+    ]
   },
   "SOI86_RS08140": {
     "eggnog_COG_category": "S",
@@ -58294,7 +59280,12 @@
     "psortb_localization": "Cytoplasmic",
     "psortb_score": 9.97,
     "signalp_probability": 1.0,
-    "signalp_signalp_type": "OTHER"
+    "signalp_signalp_type": "OTHER",
+    "tcdb_diamond_tcdb_ids": [
+      "3.D.1",
+      "3.D.13",
+      "3.D.9"
+    ]
   },
   "SOI86_RS08150": {
     "eggnog_BRITE": "ko00000,ko00001,ko00002,ko01000",
@@ -58334,7 +59325,12 @@
     "psortb_localization": "CytoplasmicMembrane",
     "psortb_score": 7.88,
     "signalp_probability": 0.999881,
-    "signalp_signalp_type": "OTHER"
+    "signalp_signalp_type": "OTHER",
+    "tcdb_diamond_tcdb_ids": [
+      "3.D.1",
+      "3.D.13.1",
+      "3.D.9.1"
+    ]
   },
   "SOI86_RS08155": {
     "eggnog_BRITE": "ko00000,ko00001,ko00002,ko01000",
@@ -58375,7 +59371,12 @@
     "psortb_localization": "CytoplasmicMembrane",
     "psortb_score": 10.0,
     "signalp_probability": 1.0,
-    "signalp_signalp_type": "OTHER"
+    "signalp_signalp_type": "OTHER",
+    "tcdb_diamond_tcdb_ids": [
+      "3.D.1",
+      "3.D.13",
+      "3.D.9"
+    ]
   },
   "SOI86_RS08160": {
     "eggnog_COG_category": "P",
@@ -58490,7 +59491,10 @@
     "psortb_localization": "Unknown",
     "psortb_score": 2.0,
     "signalp_probability": 1.0,
-    "signalp_signalp_type": "OTHER"
+    "signalp_signalp_type": "OTHER",
+    "tcdb_diamond_tcdb_ids": [
+      "3.E.2.2"
+    ]
   },
   "SOI86_RS08175": {
     "eggnog_BRITE": "ko00000,ko00001,ko00002,ko00194",
@@ -59211,7 +60215,10 @@
     "psortb_localization": "CytoplasmicMembrane",
     "psortb_score": 10.0,
     "signalp_probability": 1.0,
-    "signalp_signalp_type": "OTHER"
+    "signalp_signalp_type": "OTHER",
+    "tcdb_diamond_tcdb_ids": [
+      "3.E.2.2"
+    ]
   },
   "SOI86_RS08275": {
     "eggnog_BRITE": "ko00000",
@@ -59249,7 +60256,10 @@
     "psortb_localization": "Unknown",
     "psortb_score": 2.0,
     "signalp_probability": 1.0,
-    "signalp_signalp_type": "OTHER"
+    "signalp_signalp_type": "OTHER",
+    "tcdb_diamond_tcdb_ids": [
+      "3.D.1.8"
+    ]
   },
   "SOI86_RS08280": {
     "eggnog_BRITE": "ko00000,ko00001,ko00194",
@@ -59455,7 +60465,12 @@
     "psortb_localization": "CytoplasmicMembrane",
     "psortb_score": 9.82,
     "signalp_probability": 1.0,
-    "signalp_signalp_type": "OTHER"
+    "signalp_signalp_type": "OTHER",
+    "tcdb_diamond_tcdb_ids": [
+      "3.A.1",
+      "3.A.24",
+      "8.A.3"
+    ]
   },
   "SOI86_RS08310": {
     "eggnog_BRITE": "ko00000,ko03036,ko04812",
@@ -59572,7 +60587,10 @@
     "signalp_cleavage_probability": 0.5761,
     "signalp_cleavage_site": 35,
     "signalp_probability": 0.668307,
-    "signalp_signalp_type": "SP"
+    "signalp_signalp_type": "SP",
+    "tcdb_diamond_tcdb_ids": [
+      "9.B.174"
+    ]
   },
   "SOI86_RS08325": {
     "eggnog_BRITE": "ko00000,ko00001,ko00002,ko00194",
@@ -59614,7 +60632,12 @@
     "psortb_localization": "CytoplasmicMembrane",
     "psortb_score": 10.0,
     "signalp_probability": 1.0,
-    "signalp_signalp_type": "OTHER"
+    "signalp_signalp_type": "OTHER",
+    "tcdb_diamond_tcdb_ids": [
+      "3.D.3",
+      "3.D.4",
+      "3.E.2"
+    ]
   },
   "SOI86_RS08330": {
     "eggnog_BRITE": "ko00000,ko00001,ko00002,ko00194",
@@ -59659,7 +60682,11 @@
     "psortb_localization": "CytoplasmicMembrane",
     "psortb_score": 10.0,
     "signalp_probability": 0.999966,
-    "signalp_signalp_type": "OTHER"
+    "signalp_signalp_type": "OTHER",
+    "tcdb_diamond_tcdb_ids": [
+      "3.D.3",
+      "3.E.2"
+    ]
   },
   "SOI86_RS08335": {
     "eggnog_BRITE": "ko00000,ko00001,ko01000",
@@ -59778,7 +60805,10 @@
     "psortb_localization": "CytoplasmicMembrane",
     "psortb_score": 9.82,
     "signalp_probability": 1.0,
-    "signalp_signalp_type": "OTHER"
+    "signalp_signalp_type": "OTHER",
+    "tcdb_diamond_tcdb_ids": [
+      "5.B.4.1"
+    ]
   },
   "SOI86_RS08375": {
     "eggnog_COG_category": "M",
@@ -60357,7 +61387,10 @@
     "psortb_localization": "Cytoplasmic",
     "psortb_score": 8.96,
     "signalp_probability": 1.0,
-    "signalp_signalp_type": "OTHER"
+    "signalp_signalp_type": "OTHER",
+    "tcdb_diamond_tcdb_ids": [
+      "8.A.147"
+    ]
   },
   "SOI86_RS08470": {
     "eggnog_COG_category": "S",
@@ -62221,7 +63254,10 @@
     "psortb_localization": "Cytoplasmic",
     "psortb_score": 9.97,
     "signalp_probability": 1.0,
-    "signalp_signalp_type": "OTHER"
+    "signalp_signalp_type": "OTHER",
+    "tcdb_diamond_tcdb_ids": [
+      "9.A.8"
+    ]
   },
   "SOI86_RS08785": {
     "eggnog_BRITE": "ko00000,ko00001,ko00002,ko02000",
@@ -62259,7 +63295,10 @@
     "psortb_localization": "CytoplasmicMembrane",
     "psortb_score": 10.0,
     "signalp_probability": 0.99998,
-    "signalp_signalp_type": "OTHER"
+    "signalp_signalp_type": "OTHER",
+    "tcdb_diamond_tcdb_ids": [
+      "3.A.1"
+    ]
   },
   "SOI86_RS08790": {
     "eggnog_BRITE": "ko00000",
@@ -62448,7 +63487,10 @@
     "psortb_localization": "Cytoplasmic",
     "psortb_score": 9.97,
     "signalp_probability": 1.0,
-    "signalp_signalp_type": "OTHER"
+    "signalp_signalp_type": "OTHER",
+    "tcdb_diamond_tcdb_ids": [
+      "2.A.38.4"
+    ]
   },
   "SOI86_RS08815": {
     "eggnog_BRITE": "ko00000,ko00001,ko03400",
@@ -62660,7 +63702,11 @@
     "psortb_localization": "Cytoplasmic",
     "psortb_score": 9.97,
     "signalp_probability": 1.0,
-    "signalp_signalp_type": "OTHER"
+    "signalp_signalp_type": "OTHER",
+    "tcdb_diamond_tcdb_ids": [
+      "2.A.1",
+      "4.C.1"
+    ]
   },
   "SOI86_RS08840": {
     "eggnog_COG_category": "S",
@@ -63077,7 +64123,10 @@
     "psortb_localization": "Cytoplasmic",
     "psortb_score": 9.97,
     "signalp_probability": 1.0,
-    "signalp_signalp_type": "OTHER"
+    "signalp_signalp_type": "OTHER",
+    "tcdb_diamond_tcdb_ids": [
+      "2.A.128"
+    ]
   },
   "SOI86_RS08890": {
     "eggnog_COG_category": "IQ",
@@ -63403,7 +64452,10 @@
     "psortb_localization": "CytoplasmicMembrane",
     "psortb_score": 10.0,
     "signalp_probability": 0.999142,
-    "signalp_signalp_type": "OTHER"
+    "signalp_signalp_type": "OTHER",
+    "tcdb_diamond_tcdb_ids": [
+      "3.A.1"
+    ]
   },
   "SOI86_RS08935": {
     "eggnog_BRITE": "ko00000,ko01000,ko03016",
@@ -63717,7 +64769,10 @@
     "psortb_localization": "Unknown",
     "psortb_score": 4.86,
     "signalp_probability": 0.999994,
-    "signalp_signalp_type": "OTHER"
+    "signalp_signalp_type": "OTHER",
+    "tcdb_diamond_tcdb_ids": [
+      "8.A.229"
+    ]
   },
   "SOI86_RS08980": {
     "eggnog_BRITE": "ko00000,ko00001,ko01000,ko01006",
@@ -63764,7 +64819,10 @@
     "psortb_localization": "CytoplasmicMembrane",
     "psortb_score": 10.0,
     "signalp_probability": 1.0,
-    "signalp_signalp_type": "OTHER"
+    "signalp_signalp_type": "OTHER",
+    "tcdb_diamond_tcdb_ids": [
+      "9.B.241"
+    ]
   },
   "SOI86_RS08985": {
     "eggnog_COG_category": "S",
@@ -64001,7 +65059,10 @@
     "psortb_localization": "CytoplasmicMembrane",
     "psortb_score": 7.88,
     "signalp_probability": 1.0,
-    "signalp_signalp_type": "OTHER"
+    "signalp_signalp_type": "OTHER",
+    "tcdb_diamond_tcdb_ids": [
+      "3.A.1"
+    ]
   },
   "SOI86_RS09015": {
     "eggnog_BRITE": "ko00000,ko00001,ko00002,ko01000",
@@ -64041,7 +65102,13 @@
     "psortb_localization": "CytoplasmicMembrane",
     "psortb_score": 10.0,
     "signalp_probability": 0.999999,
-    "signalp_signalp_type": "OTHER"
+    "signalp_signalp_type": "OTHER",
+    "tcdb_diamond_tcdb_ids": [
+      "2.A.63",
+      "3.D.1",
+      "3.D.13",
+      "3.D.9"
+    ]
   },
   "SOI86_RS09020": {
     "eggnog_BRITE": "ko00000,ko01000,ko03032,ko03400",
@@ -64095,7 +65162,10 @@
     "psortb_localization": "Cytoplasmic",
     "psortb_score": 9.94,
     "signalp_probability": 1.0,
-    "signalp_signalp_type": "OTHER"
+    "signalp_signalp_type": "OTHER",
+    "tcdb_diamond_tcdb_ids": [
+      "3.A.7"
+    ]
   },
   "SOI86_RS09025": {
     "eggnog_COG_category": "S",
@@ -64367,7 +65437,12 @@
     "psortb_localization": "CytoplasmicMembrane",
     "psortb_score": 10.0,
     "signalp_probability": 1.0,
-    "signalp_signalp_type": "OTHER"
+    "signalp_signalp_type": "OTHER",
+    "tcdb_diamond_tcdb_ids": [
+      "3.D.3",
+      "3.D.4",
+      "9.B.36"
+    ]
   },
   "SOI86_RS09065": {
     "eggnog_BRITE": "ko00000,ko00001,ko00002,ko01000",
@@ -64415,7 +65490,11 @@
     "psortb_localization": "CytoplasmicMembrane",
     "psortb_score": 10.0,
     "signalp_probability": 1.0,
-    "signalp_signalp_type": "OTHER"
+    "signalp_signalp_type": "OTHER",
+    "tcdb_diamond_tcdb_ids": [
+      "3.D.3.5",
+      "3.D.4"
+    ]
   },
   "SOI86_RS09070": {
     "eggnog_BRITE": "ko00000,ko00001,ko00002,ko01000",
@@ -64466,7 +65545,10 @@
     "psortb_localization": "CytoplasmicMembrane",
     "psortb_score": 10.0,
     "signalp_probability": 1.0,
-    "signalp_signalp_type": "OTHER"
+    "signalp_signalp_type": "OTHER",
+    "tcdb_diamond_tcdb_ids": [
+      "3.D.4"
+    ]
   },
   "SOI86_RS09075": {
     "eggnog_BRITE": "ko00000,ko00001,ko00002,ko03029",
@@ -64510,7 +65592,10 @@
     "psortb_localization": "CytoplasmicMembrane",
     "psortb_score": 10.0,
     "signalp_probability": 1.0,
-    "signalp_signalp_type": "OTHER"
+    "signalp_signalp_type": "OTHER",
+    "tcdb_diamond_tcdb_ids": [
+      "8.A.174"
+    ]
   },
   "SOI86_RS09080": {
     "eggnog_BRITE": "ko00000,ko00001,ko00002,ko01000,ko01006,ko03029",
@@ -64599,7 +65684,11 @@
     "psortb_localization": "CytoplasmicMembrane",
     "psortb_score": 7.88,
     "signalp_probability": 1.0,
-    "signalp_signalp_type": "OTHER"
+    "signalp_signalp_type": "OTHER",
+    "tcdb_diamond_tcdb_ids": [
+      "2.A.130",
+      "3.A.1"
+    ]
   },
   "SOI86_RS09090": {
     "eggnog_BRITE": "ko00000,ko00002,ko02000",
@@ -64640,7 +65729,10 @@
     "psortb_localization": "CytoplasmicMembrane",
     "psortb_score": 10.0,
     "signalp_probability": 0.999975,
-    "signalp_signalp_type": "OTHER"
+    "signalp_signalp_type": "OTHER",
+    "tcdb_diamond_tcdb_ids": [
+      "3.A.1"
+    ]
   },
   "SOI86_RS09095": {
     "eggnog_COG_category": "S",
@@ -64711,7 +65803,10 @@
     "psortb_localization": "Cytoplasmic",
     "psortb_score": 9.97,
     "signalp_probability": 1.0,
-    "signalp_signalp_type": "OTHER"
+    "signalp_signalp_type": "OTHER",
+    "tcdb_diamond_tcdb_ids": [
+      "3.A.33"
+    ]
   },
   "SOI86_RS09105": {
     "eggnog_COG_category": "S",
@@ -64783,7 +65878,10 @@
     "psortb_localization": "Cytoplasmic",
     "psortb_score": 9.26,
     "signalp_probability": 1.0,
-    "signalp_signalp_type": "OTHER"
+    "signalp_signalp_type": "OTHER",
+    "tcdb_diamond_tcdb_ids": [
+      "1.A.115"
+    ]
   },
   "SOI86_RS09115": {
     "eggnog_BRITE": "ko00000,ko00001,ko00002,ko01000",
@@ -64832,7 +65930,10 @@
     "psortb_localization": "Cytoplasmic",
     "psortb_score": 9.26,
     "signalp_probability": 1.0,
-    "signalp_signalp_type": "OTHER"
+    "signalp_signalp_type": "OTHER",
+    "tcdb_diamond_tcdb_ids": [
+      "8.A.191"
+    ]
   },
   "SOI86_RS09120": {
     "eggnog_BRITE": "ko00000,ko01000,ko01002,ko01011",
@@ -64912,7 +66013,10 @@
     "psortb_localization": "CytoplasmicMembrane",
     "psortb_score": 10.0,
     "signalp_probability": 0.999674,
-    "signalp_signalp_type": "OTHER"
+    "signalp_signalp_type": "OTHER",
+    "tcdb_diamond_tcdb_ids": [
+      "9.B.241"
+    ]
   },
   "SOI86_RS09130": {
     "eggnog_BRITE": "ko00000,ko00001,ko01000",
@@ -65074,7 +66178,10 @@
     "psortb_localization": "CytoplasmicMembrane",
     "psortb_score": 10.0,
     "signalp_probability": 1.0,
-    "signalp_signalp_type": "OTHER"
+    "signalp_signalp_type": "OTHER",
+    "tcdb_diamond_tcdb_ids": [
+      "9.B.330"
+    ]
   },
   "SOI86_RS09150": {
     "eggnog_BRITE": "ko00000,ko00001,ko00002,ko00194",
@@ -65117,7 +66224,10 @@
     "signalp_cleavage_probability": 0.9691,
     "signalp_cleavage_site": 34,
     "signalp_probability": 0.998087,
-    "signalp_signalp_type": "SP"
+    "signalp_signalp_type": "SP",
+    "tcdb_diamond_tcdb_ids": [
+      "3.D.3.5"
+    ]
   },
   "SOI86_RS09155": {
     "eggnog_BRITE": "ko00000,ko00001,ko00002,ko00194,ko01000",
@@ -65166,7 +66276,11 @@
     "psortb_localization": "CytoplasmicMembrane",
     "psortb_score": 9.82,
     "signalp_probability": 0.990054,
-    "signalp_signalp_type": "OTHER"
+    "signalp_signalp_type": "OTHER",
+    "tcdb_diamond_tcdb_ids": [
+      "3.D.3",
+      "3.E.2"
+    ]
   },
   "SOI86_RS09160": {
     "eggnog_COG_category": "S",
@@ -65238,7 +66352,10 @@
     "psortb_localization": "CytoplasmicMembrane",
     "psortb_score": 10.0,
     "signalp_probability": 1.0,
-    "signalp_signalp_type": "OTHER"
+    "signalp_signalp_type": "OTHER",
+    "tcdb_diamond_tcdb_ids": [
+      "2.A.64"
+    ]
   },
   "SOI86_RS09170": {
     "eggnog_COG_category": "S",
@@ -65346,7 +66463,11 @@
     "psortb_localization": "Cytoplasmic",
     "psortb_score": 9.97,
     "signalp_probability": 1.0,
-    "signalp_signalp_type": "OTHER"
+    "signalp_signalp_type": "OTHER",
+    "tcdb_diamond_tcdb_ids": [
+      "1.H.2",
+      "8.A.24"
+    ]
   },
   "SOI86_RS09185": {
     "eggnog_BRITE": "ko00000,ko00001,ko00194",
@@ -65421,7 +66542,10 @@
     "signalp_cleavage_probability": 0.976,
     "signalp_cleavage_site": 23,
     "signalp_probability": 0.999132,
-    "signalp_signalp_type": "SP"
+    "signalp_signalp_type": "SP",
+    "tcdb_diamond_tcdb_ids": [
+      "5.B.4.1"
+    ]
   },
   "SOI86_RS09195": {
     "eggnog_BRITE": "ko00000,ko01000,ko03016",
@@ -65530,7 +66654,10 @@
     "psortb_localization": "CytoplasmicMembrane",
     "psortb_score": 10.0,
     "signalp_probability": 0.996037,
-    "signalp_signalp_type": "OTHER"
+    "signalp_signalp_type": "OTHER",
+    "tcdb_diamond_tcdb_ids": [
+      "2.A.36"
+    ]
   },
   "SOI86_RS09210": {
     "eggnog_BRITE": "ko00000,ko00001,ko00002,ko01000,ko01007,ko02048,ko03016",
@@ -65923,7 +67050,11 @@
     "psortb_localization": "Unknown",
     "psortb_score": 2.0,
     "signalp_probability": 1.0,
-    "signalp_signalp_type": "OTHER"
+    "signalp_signalp_type": "OTHER",
+    "tcdb_diamond_tcdb_ids": [
+      "8.A.195",
+      "8.A.21"
+    ]
   },
   "SOI86_RS09275": {
     "eggnog_BRITE": "ko00000,ko00001,ko00002,ko01000,ko01007",
@@ -66135,7 +67266,10 @@
     "psortb_localization": "CytoplasmicMembrane",
     "psortb_score": 10.0,
     "signalp_probability": 1.0,
-    "signalp_signalp_type": "OTHER"
+    "signalp_signalp_type": "OTHER",
+    "tcdb_diamond_tcdb_ids": [
+      "9.B.227"
+    ]
   },
   "SOI86_RS09305": {
     "eggnog_BRITE": "ko00000,ko00001,ko00002,ko02000",
@@ -66176,7 +67310,10 @@
     "psortb_localization": "CytoplasmicMembrane",
     "psortb_score": 10.0,
     "signalp_probability": 1.0,
-    "signalp_signalp_type": "OTHER"
+    "signalp_signalp_type": "OTHER",
+    "tcdb_diamond_tcdb_ids": [
+      "3.A.1"
+    ]
   },
   "SOI86_RS09310": {
     "eggnog_COG_category": "S",
@@ -66212,7 +67349,10 @@
     "psortb_localization": "Cytoplasmic",
     "psortb_score": 9.97,
     "signalp_probability": 1.0,
-    "signalp_signalp_type": "OTHER"
+    "signalp_signalp_type": "OTHER",
+    "tcdb_diamond_tcdb_ids": [
+      "9.B.10"
+    ]
   },
   "SOI86_RS09315": {
     "eggnog_BRITE": "ko00000,ko00001,ko01000,ko04147",
@@ -66501,7 +67641,10 @@
     "psortb_localization": "Cytoplasmic",
     "psortb_score": 8.96,
     "signalp_probability": 1.0,
-    "signalp_signalp_type": "OTHER"
+    "signalp_signalp_type": "OTHER",
+    "tcdb_diamond_tcdb_ids": [
+      "3.A.11"
+    ]
   },
   "SOI86_RS09350": {
     "eggnog_COG_category": "S",
@@ -67115,7 +68258,10 @@
     "signalp_cleavage_probability": 0.841,
     "signalp_cleavage_site": 24,
     "signalp_probability": 0.872572,
-    "signalp_signalp_type": "LIPO"
+    "signalp_signalp_type": "LIPO",
+    "tcdb_diamond_tcdb_ids": [
+      "9.B.391"
+    ]
   },
   "SOI86_RS09430": {
     "eggnog_BRITE": "ko00000,ko00001,ko01000",
@@ -67191,7 +68337,10 @@
     "psortb_localization": "CytoplasmicMembrane",
     "psortb_score": 10.0,
     "signalp_probability": 0.990157,
-    "signalp_signalp_type": "OTHER"
+    "signalp_signalp_type": "OTHER",
+    "tcdb_diamond_tcdb_ids": [
+      "9.B.2"
+    ]
   },
   "SOI86_RS09440": {
     "eggnog_COG_category": "S",
@@ -67905,7 +69054,10 @@
     "psortb_localization": "Cytoplasmic",
     "psortb_score": 9.97,
     "signalp_probability": 1.0,
-    "signalp_signalp_type": "OTHER"
+    "signalp_signalp_type": "OTHER",
+    "tcdb_diamond_tcdb_ids": [
+      "3.B.1"
+    ]
   },
   "SOI86_RS09530": {
     "eggnog_BRITE": "ko00000,ko01000",
@@ -67941,7 +69093,10 @@
     "psortb_localization": "Cytoplasmic",
     "psortb_score": 9.26,
     "signalp_probability": 1.0,
-    "signalp_signalp_type": "OTHER"
+    "signalp_signalp_type": "OTHER",
+    "tcdb_diamond_tcdb_ids": [
+      "1.A.115"
+    ]
   },
   "SOI86_RS09535": {
     "eggnog_BRITE": "ko00000,ko00001,ko00002,ko01000",
@@ -68070,7 +69225,11 @@
     "psortb_localization": "CytoplasmicMembrane",
     "psortb_score": 9.8,
     "signalp_probability": 0.999997,
-    "signalp_signalp_type": "OTHER"
+    "signalp_signalp_type": "OTHER",
+    "tcdb_diamond_tcdb_ids": [
+      "3.A.1",
+      "9.B.149"
+    ]
   },
   "SOI86_RS09550": {
     "eggnog_BRITE": "ko00000,ko00001,ko01000",
@@ -68409,7 +69568,10 @@
     "psortb_localization": "Unknown",
     "psortb_score": 2.0,
     "signalp_probability": 1.0,
-    "signalp_signalp_type": "OTHER"
+    "signalp_signalp_type": "OTHER",
+    "tcdb_diamond_tcdb_ids": [
+      "1.S.3.1"
+    ]
   },
   "SOI86_RS09595": {
     "eggnog_COG_category": "F",
@@ -68479,7 +69641,10 @@
     "psortb_localization": "Unknown",
     "psortb_score": 2.0,
     "signalp_probability": 1.0,
-    "signalp_signalp_type": "OTHER"
+    "signalp_signalp_type": "OTHER",
+    "tcdb_diamond_tcdb_ids": [
+      "1.S.1.1"
+    ]
   },
   "SOI86_RS09605": {
     "eggnog_BRITE": "ko00000,ko00001,ko00002,ko01000",
@@ -68672,7 +69837,10 @@
     "psortb_localization": "Unknown",
     "psortb_score": 2.0,
     "signalp_probability": 1.0,
-    "signalp_signalp_type": "OTHER"
+    "signalp_signalp_type": "OTHER",
+    "tcdb_diamond_tcdb_ids": [
+      "1.S.5"
+    ]
   },
   "SOI86_RS09630": {
     "eggnog_COG_category": "CQ",
@@ -68707,7 +69875,10 @@
     "psortb_localization": "Unknown",
     "psortb_score": 2.0,
     "signalp_probability": 1.0,
-    "signalp_signalp_type": "OTHER"
+    "signalp_signalp_type": "OTHER",
+    "tcdb_diamond_tcdb_ids": [
+      "1.S.5"
+    ]
   },
   "SOI86_RS09635": {
     "eggnog_COG_category": "H",
@@ -68941,7 +70112,10 @@
     "psortb_localization": "CytoplasmicMembrane",
     "psortb_score": 10.0,
     "signalp_probability": 0.996729,
-    "signalp_signalp_type": "OTHER"
+    "signalp_signalp_type": "OTHER",
+    "tcdb_diamond_tcdb_ids": [
+      "3.A.1"
+    ]
   },
   "SOI86_RS09665": {
     "eggnog_COG_category": "K",
@@ -69009,7 +70183,10 @@
     "psortb_localization": "Cytoplasmic",
     "psortb_score": 8.96,
     "signalp_probability": 1.0,
-    "signalp_signalp_type": "OTHER"
+    "signalp_signalp_type": "OTHER",
+    "tcdb_diamond_tcdb_ids": [
+      "4.D.1"
+    ]
   },
   "SOI86_RS09675": {
     "eggnog_BRITE": "ko00000",

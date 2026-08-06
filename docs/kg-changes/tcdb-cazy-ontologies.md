@@ -109,6 +109,80 @@ Such queries still work, but count real transporter systems present in our organ
 `Metabolite.transporter_count` drops correspondingly, and the `is_promiscuous` thresholds
 (calibrated against the old inflated node set) are worth revisiting on the next rebuild.
 
+## 2026-08-06: diamond-vs-TCDB as a second evidence source
+
+`Gene_has_tcdb_family` previously had one source — eggNOG's `KEGG_TC`, transferred
+from the seed ortholog. The `/tcdb-diamond` Phase-1 artifacts (direct blastp against
+the curated TCDB FASTA) are now merged as a **second, independent** source.
+
+**One ontology, one edge per (gene, TC id), provenance on the edge.** eggNOG and
+diamond emit the *same vocabulary*, so a second node set would split the hierarchy
+and duplicate every substrate edge. When both call the same TC, that is a single
+edge with `sources: ['diamond','eggnog']` — the agreement IS the corroboration
+signal, and parallel edges would destroy it.
+
+```cypher
+(Gene)-[:Gene_has_tcdb_family {
+    sources:          ['eggnog','diamond'],
+    tier:             1,        // diamond only — sparse
+    confidence_score: 0.85,
+    identity:         87.4,
+    qcov:             92.1,
+    evalue:           1.0e-180,
+    consensus_n:      3
+}]->(TcdbFamily)
+```
+
+Merged via `config/gene_annotations_config.yaml`: `transporter_classification`
+becomes the UNION of both sources (this is what step 6 seeds TCDB pruning from),
+with `tcdb_eggnog_ids` / `tcdb_diamond_ids` preserving attribution. `tcdb_adapter`
+reads the calls.json directly for per-call evidence, mirroring `interpro_adapter`.
+
+### What the data actually showed
+
+The Phase-1 spec justified diamond as a **specificity** win. Real data over 42
+strains inverts that:
+
+| Phase-1 claim | Reality |
+|---|---|
+| eggNOG `KEGG_TC` is family-level (3-part) only | **False** — eggNOG: 240 distinct 5-part, 231 4-part, 57 3-part |
+| diamond unlocks the `tc_specificity` leaves | **Barely** — diamond: 478 3-part, 414 4-part, **36** 5-part |
+| no verification surface | **Confirmed, and this is the real payoff** — 9,912 proteins carry both |
+
+**Diamond is a breadth source**: 15,074 proteins get a TC call with no eggNOG TC at
+all, and 762 TC ids eggNOG never mentions.
+
+### The tier gate
+
+`tier` is both a confidence band and the depth the call was truncated to — weaker
+similarity yields a deliberately *broader* claim:
+
+| Tier | Identity | Truncated to |
+|---|---|---|
+| 1 | ≥ 70% | 5-part `tc_specificity` |
+| 2 | ≥ 40% | 4-part `tc_subfamily` |
+| 3 | no floor | 3-part `tc_family` |
+
+Tier 3 dominates (33,768 of 40,520 candidates) but is **conservative, not noise**:
+median identity 34%, **median e-value 2.3e-30**, all passing e-value ≤ 0.001 and
+HSP ≥ 50 aa, and 3.9% have ≥70% identity, demoted for subfamily ambiguity rather
+than weak similarity. Family-level claims at 30–40% identity are defensible for
+structurally-conserved membrane transporters.
+
+So all candidates become edges — but post-import folds `'tcdb'` into
+`Gene.annotation_types`, `informative_annotation_types` and the `annotation_quality`
+bucket **only** for eggNOG-sourced or tier ≤ 2 edges. Tier-3 calls stay findable
+without inflating a signal calibrated against curated sources and used by
+`genes_by_function` routing. `Gene.tcdb_family_count` and `Gene.metabolite_count`
+are *not* gated — they are routing counts, not quality signals.
+
+### No `filter_action`
+
+Phase 1 previously shipped a 5-rule post-hoc filter. It was removed (`07357ac0`):
+measured over all 40,520 candidates, 1,159 were kept purely for *lacking* a sibling
+and 1,452 were dropped by a "supported alternative" that was itself dropped. The
+tier policy is the quality gate and is sibling-independent by construction.
+
 ## 2026-08-06: cross-ontology bridges to Pfam and GO
 
 TCDB publishes curated maps of which Pfam domains and GO terms are associated with

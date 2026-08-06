@@ -14,11 +14,12 @@ def adapter():
 
 
 def test_emits_seven_nodes(adapter):
-    """Seven data sources: ncbi, cyanorak, uniprot, eggnog, psortb, signalp, interproscan."""
+    """Eight data sources: ncbi, cyanorak, uniprot, eggnog, psortb, signalp, interproscan, tcdb_diamond."""
     adapter.download_data()
     nodes = list(adapter.get_nodes())
     ids = {props["id"] for _, _, props in nodes}
-    assert ids == {"ncbi", "cyanorak", "uniprot", "eggnog", "psortb", "signalp", "interproscan"}
+    assert ids == {"ncbi", "cyanorak", "uniprot", "eggnog", "psortb", "signalp",
+                   "interproscan", "tcdb_diamond"}
 
 
 def test_interproscan_is_tool_run_gene_level(adapter):
@@ -93,3 +94,15 @@ def test_emits_no_edges(adapter):
     adapter.download_data()
     edges = list(adapter.get_edges())
     assert edges == []
+
+
+def test_tcdb_diamond_is_tool_run_gene_level(adapter):
+    """diamond-vs-TCDB is a second, independent evidence source for the SAME
+    TcdbFamily ontology eggNOG's KEGG_TC feeds — direct sequence similarity vs
+    ortholog transfer. Both flow into `transporter_classification`."""
+    nodes = {n[0].split(":")[-1]: n[2] for n in adapter.get_nodes()}
+    tcd = nodes["tcdb_diamond"]
+    assert tcd["provenance"] == "tool_run"
+    assert tcd["scope"] == "gene_level"
+    assert tcd["name"] == "TCDB (diamond)"
+    assert "tcdb_diamond_ids" in set(tcd["info_types"])

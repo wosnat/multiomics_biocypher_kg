@@ -5,9 +5,9 @@ import pytest
 pytestmark = pytest.mark.kg
 
 
-def test_seven_data_source_nodes(run_query):
-    """Deployment has exactly 7 DataSource nodes (incl. psortb + signalp +
-    interproscan, Phase-2).
+def test_eight_data_source_nodes(run_query):
+    """Deployment has exactly 8 DataSource nodes (incl. psortb + signalp +
+    interproscan + tcdb_diamond, Phase-2).
 
     BioCypher prepends the `data_source:` CURIE prefix per schema_config.
     """
@@ -20,6 +20,7 @@ def test_seven_data_source_nodes(run_query):
         "data_source:ncbi",
         "data_source:psortb",
         "data_source:signalp",
+        "data_source:tcdb_diamond",
         "data_source:uniprot",
     ]
 

@@ -1218,6 +1218,19 @@ cazy family:
 
 # ── TCDB / CAZy edges ────────────────────────────────────────────────────────
 
+# Two independent evidence sources feed ONE edge per (gene, TC id):
+#   eggnog  — KEGG_TC from the seed ortholog (transfer)
+#   diamond — direct blastp vs. the curated TCDB FASTA (sequence similarity)
+# When both call the same TC, `sources` has two entries — that IS the cross-source
+# corroboration signal, so they are never split into parallel edges.
+#
+# The diamond evidence block is SPARSE: present only on edges diamond called
+# (mirrors Gene_has_interpro_entry's nullable evalue). `tier` is both a confidence
+# band and the depth the call was truncated to — 1 = tc_specificity (identity>=70),
+# 2 = tc_subfamily (>=40), 3 = tc_family (no identity floor, conservative by
+# design). Post-import folds 'tcdb' into annotation_types only for eggNOG-sourced
+# or tier<=2 edges, so tier-3 calls are findable without inflating annotation
+# quality.
 gene to tcdb family association:
   is_a: association
   represented_as: edge
@@ -1225,6 +1238,14 @@ gene to tcdb family association:
   source: gene
   target: tcdb family
   label_in_input: gene_has_tcdb_family
+  properties:
+    sources: str[]
+    tier: int
+    confidence_score: float
+    identity: float
+    qcov: float
+    evalue: float
+    consensus_n: int
 
 tcdb family hierarchical association:
   is_a: association

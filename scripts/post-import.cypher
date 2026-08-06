@@ -569,6 +569,22 @@ SET t.is_uninformative = 'true';
 //
 // SOURCE_BUCKETS:start
 //   live (8): go, kegg, pfam, ec, role, reaction, transporter, cazy
+// TIER GATE on the TCDB buckets below.
+// Gene_has_tcdb_family carries two evidence sources. eggNOG's KEGG_TC is ortholog
+// transfer; diamond is direct sequence similarity, and its tier is BOTH a
+// confidence band and the depth the call was truncated to (1 = tc_specificity,
+// identity>=70; 2 = tc_subfamily, >=40; 3 = tc_family, no identity floor).
+//
+// Tier 3 is conservative-by-design remote homology, not noise (median identity
+// 34%, median e-value 2.3e-30), so those edges ARE emitted and are findable. But
+// ~22K of them must not silently upgrade annotation_quality, which was calibrated
+// against curated sources and drives genes_by_function routing. So the three
+// quality/informativeness buckets count a gene as transporter-annotated only when
+// eggNOG called it, or diamond called it at tier<=2.
+//
+// Gene.tcdb_family_count and Gene.metabolite_count are deliberately NOT gated —
+// they are routing counts, not quality signals.
+
 // SOURCE_BUCKETS:end
 //
 // Maintenance: when adding a new functional Gene-edge type, append a
@@ -588,7 +604,7 @@ CALL {
        EXISTS { (g)-[:Gene_catalyzes_ec_number]->() } AS has_ec,
        (g.gene_category IS NOT NULL AND g.gene_category <> 'Unknown') AS has_role,
        EXISTS { (g)-[:Gene_catalyzes_reaction]->() } AS has_reaction,
-       EXISTS { (g)-[:Gene_has_tcdb_family]->() } AS has_transporter,
+       EXISTS { MATCH (g)-[rt:Gene_has_tcdb_family]->() WHERE 'eggnog' IN rt.sources OR rt.tier <= 2 } AS has_transporter,
        EXISTS { (g)-[:Gene_has_cazy_family]->() } AS has_cazy,
        EXISTS { (g)-[:Gene_involved_in_biological_process|Gene_enables_molecular_function|Gene_located_in_cellular_component
                      |Gene_has_kegg_ko|Gene_has_pfam|Gene_catalyzes_ec_number
@@ -640,7 +656,7 @@ CALL {
     CASE WHEN EXISTS { (g)-[:Gene_catalyzes_ec_number]->() } THEN ['ec'] ELSE [] END +
     CASE WHEN EXISTS { (g)-[:Gene_has_cyanorak_role]->() } THEN ['cyanorak_role'] ELSE [] END +
     CASE WHEN EXISTS { (g)-[:Gene_has_tigr_role]->() } THEN ['tigr_role'] ELSE [] END +
-    CASE WHEN EXISTS { (g)-[:Gene_has_tcdb_family]->() } THEN ['tcdb'] ELSE [] END +
+    CASE WHEN EXISTS { MATCH (g)-[rt:Gene_has_tcdb_family]->() WHERE 'eggnog' IN rt.sources OR rt.tier <= 2 } THEN ['tcdb'] ELSE [] END +
     CASE WHEN EXISTS { (g)-[:Gene_has_cazy_family]->() } THEN ['cazy'] ELSE [] END +
     CASE WHEN EXISTS { (g)-[:Gene_has_interpro_entry]->() } THEN ['interpro'] ELSE [] END
 } IN TRANSACTIONS OF 1000 ROWS;
@@ -688,7 +704,7 @@ CALL {
                        WHERE t.is_uninformative IS NULL }
          THEN ['tigr_role'] ELSE [] END +
     CASE WHEN EXISTS { (g)-[:Gene_catalyzes_reaction]->() } THEN ['reaction'] ELSE [] END +
-    CASE WHEN EXISTS { (g)-[:Gene_has_tcdb_family]->() } THEN ['transporter'] ELSE [] END +
+    CASE WHEN EXISTS { MATCH (g)-[rt:Gene_has_tcdb_family]->() WHERE 'eggnog' IN rt.sources OR rt.tier <= 2 } THEN ['transporter'] ELSE [] END +
     CASE WHEN EXISTS { (g)-[:Gene_has_cazy_family]->() } THEN ['cazy'] ELSE [] END
 } IN TRANSACTIONS OF 1000 ROWS;
 

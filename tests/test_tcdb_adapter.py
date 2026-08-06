@@ -329,3 +329,104 @@ def test_bridges_do_not_touch_genes(bridge_cache, strain_dir):
     for _id, source, target, _label, _props in _bridge_edges(a):
         assert not source.startswith("ncbigene:")
         assert not target.startswith("ncbigene:")
+
+
+# ============================================================================
+# Two-source provenance on Gene_has_tcdb_family
+# ============================================================================
+
+
+@pytest.fixture
+def dual_source_strain(tmp_path):
+    """A strain whose genes carry eggNOG-only, diamond-only and BOTH TC calls."""
+    d = tmp_path / "MED4"
+    d.mkdir(parents=True, exist_ok=True)
+    (d / "gene_annotations_merged.json").write_text(json.dumps({
+        "PMM_0001": {  # both sources agree on 1.A.1.5.2
+            "locus_tag": "PMM_0001", "protein_id": "WP_001.1",
+            "transporter_classification": ["1.A.1.5.2"],
+            "tcdb_eggnog_ids": ["1.A.1.5.2"],
+            "tcdb_diamond_ids": ["1.A.1.5.2"],
+        },
+        "PMM_0002": {  # eggNOG only
+            "locus_tag": "PMM_0002", "protein_id": "WP_002.1",
+            "transporter_classification": ["1.A.1.5.2"],
+            "tcdb_eggnog_ids": ["1.A.1.5.2"],
+        },
+        "PMM_0003": {  # diamond only, tier 3
+            "locus_tag": "PMM_0003", "protein_id": "WP_003.1",
+            "transporter_classification": ["1.A.1"],
+            "tcdb_diamond_ids": ["1.A.1"],
+        },
+    }))
+    tcdb_dir = d / "tcdb"
+    tcdb_dir.mkdir()
+    (tcdb_dir / "MED4.tcdb.calls.json").write_text(json.dumps({
+        "WP_001.1": {"calls": [{
+            "tcid": "1.A.1.5.2", "tier": 1, "confidence_score": 0.85,
+            "identity": 87.4, "qcov": 92.1, "scov": 89.7, "evalue": 1e-180,
+            "length": 412, "consensus_n": 3, "consensus_agreement": "5_part",
+            "incompletely_characterized": False,
+        }]},
+        "WP_003.1": {"calls": [{
+            "tcid": "1.A.1", "tier": 3, "confidence_score": 0.135,
+            "identity": 30.0, "qcov": 45.0, "scov": 30.0, "evalue": 1e-10,
+            "length": 150, "consensus_n": 1, "consensus_agreement": "3_part",
+            "incompletely_characterized": False,
+        }]},
+    }))
+    return d
+
+
+def _gene_edges(strain_dir):
+    a = TcdbAnnotationAdapter(genome_dir=strain_dir)
+    return {(e[1], e[2]): e[4] for e in a.get_edges()}
+
+
+def test_both_sources_produce_ONE_edge_with_both_in_sources(dual_source_strain):
+    """A TC called by eggNOG AND diamond is a single edge — that agreement is the
+    corroboration signal, and two parallel edges would destroy it."""
+    edges = _gene_edges(dual_source_strain)
+    props = edges[("ncbigene:PMM_0001", "tcdb:1.A.1.5.2")]
+    assert sorted(props["sources"]) == ["diamond", "eggnog"]
+    assert len([k for k in edges if k[0] == "ncbigene:PMM_0001"]) == 1
+
+
+def test_eggnog_only_edge_carries_no_diamond_evidence(dual_source_strain):
+    props = _gene_edges(dual_source_strain)[("ncbigene:PMM_0002", "tcdb:1.A.1.5.2")]
+    assert props["sources"] == ["eggnog"]
+    for k in ("tier", "confidence_score", "identity", "qcov", "evalue", "consensus_n"):
+        assert k not in props, f"{k} must be sparse on an eggNOG-only edge"
+
+
+def test_diamond_edge_carries_evidence_from_calls_json(dual_source_strain):
+    props = _gene_edges(dual_source_strain)[("ncbigene:PMM_0001", "tcdb:1.A.1.5.2")]
+    assert props["tier"] == 1
+    assert props["confidence_score"] == 0.85
+    assert props["identity"] == 87.4
+    assert props["qcov"] == 92.1
+    assert props["consensus_n"] == 3
+    assert isinstance(props["tier"], int)
+    assert isinstance(props["identity"], float)
+
+
+def test_tier3_diamond_only_edge_is_still_emitted(dual_source_strain):
+    """Tier 3 is conservative remote homology, not noise — it becomes an edge.
+    Suppression happens downstream in post-import's annotation_types gate."""
+    props = _gene_edges(dual_source_strain)[("ncbigene:PMM_0003", "tcdb:1.A.1")]
+    assert props["sources"] == ["diamond"]
+    assert props["tier"] == 3
+
+
+def test_missing_calls_json_degrades_to_sources_only(tmp_path):
+    """A strain not yet tcdb-diamond-run still emits its eggNOG edges."""
+    d = tmp_path / "XX"
+    d.mkdir()
+    (d / "gene_annotations_merged.json").write_text(json.dumps({
+        "X_0001": {"locus_tag": "X_0001", "protein_id": "WP_9.1",
+                   "transporter_classification": ["1.A.1"],
+                   "tcdb_eggnog_ids": ["1.A.1"]},
+    }))
+    props = _gene_edges(d)[("ncbigene:X_0001", "tcdb:1.A.1")]
+    assert props["sources"] == ["eggnog"]
+    assert "tier" not in props

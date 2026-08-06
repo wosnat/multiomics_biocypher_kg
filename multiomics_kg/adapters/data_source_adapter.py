@@ -116,6 +116,7 @@ class DataSourceAdapter:
             "psortb": "PSORTb",
             "signalp": "SignalP",
             "interproscan": "InterProScan",
+            "tcdb_diamond": "TCDB (diamond)",
         }.get(source_id, source_id.title())
 
     @staticmethod
@@ -128,6 +129,7 @@ class DataSourceAdapter:
             "psortb": "PSORTb v3.0.3 per-protein subcellular-localization predictions (Gram-negative model).",
             "signalp": "SignalP 6.0 per-protein signal-peptide-type predictions (SP/LIPO/TAT/TATLIPO/PILIN).",
             "interproscan": "InterProScan 5 per-protein InterPro-entry domain/family predictions (direct HMM/profile matching across member DBs).",
+            "tcdb_diamond": "diamond blastp against the curated TCDB FASTA — per-protein transporter classifications by direct sequence similarity, independent of eggNOG's ortholog-transferred KEGG_TC.",
         }.get(source_id, "")
 
     def get_nodes(self) -> Iterator[tuple[str, str, dict[str, Any]]]:

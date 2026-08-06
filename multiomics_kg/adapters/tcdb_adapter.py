@@ -81,11 +81,44 @@ class TcdbAnnotationAdapter:
         self.genome_dir = Path(genome_dir)
         self.test_mode = test_mode
         self._genes: dict = {}
+        # {protein_id: {tcid: best candidate dict}} from the Phase-1 calls.json
+        self._diamond: dict[str, dict[str, dict]] = {}
         self._load()
 
     def _load(self) -> None:
         from multiomics_kg.utils.annotations_cache import load_merged_annotations
         self._genes = load_merged_annotations(self.genome_dir)
+        self._diamond = self._load_diamond_evidence()
+
+    def _load_diamond_evidence(self) -> dict[str, dict[str, dict]]:
+        """Read `<strain>.tcdb.calls.json` for per-call edge evidence.
+
+        Mirrors interpro_adapter: the merge carries only the light id list, while
+        the adapter reads the Phase-1 artifact directly for the rich per-call
+        fields. Keyed by protein_id (WP_), then by tcid. When a protein has
+        several candidates collapsing to the same tcid, the highest
+        confidence_score wins (`calls` is already sorted descending).
+        """
+        path = self.genome_dir / "tcdb" / f"{self.genome_dir.name}.tcdb.calls.json"
+        if not path.exists():
+            return {}
+        try:
+            data = json.loads(path.read_text())
+        except (OSError, json.JSONDecodeError) as exc:
+            logger.warning(f"TcdbAnnotationAdapter({self.genome_dir.name}): unreadable {path}: {exc}")
+            return {}
+        out: dict[str, dict[str, dict]] = {}
+        for wp, rec in data.items():
+            if not isinstance(rec, dict):
+                continue
+            per_tc: dict[str, dict] = {}
+            for cand in rec.get("calls", []):
+                tcid = cand.get("tcid")
+                if tcid and tcid not in per_tc:
+                    per_tc[tcid] = cand
+            if per_tc:
+                out[str(wp).strip()] = per_tc
+        return out
 
     def get_all_tcdb_ids(self) -> set[str]:
         ids: set[str] = set()
@@ -96,17 +129,55 @@ class TcdbAnnotationAdapter:
         return ids
 
     def get_edges(self):
+        """One Gene_has_tcdb_family edge per (gene, TC id), carrying source provenance.
+
+        `transporter_classification` is the UNION of two independent sources, so a
+        TC called by both yields ONE edge with sources=['diamond','eggnog'] — that
+        agreement is the cross-source corroboration signal, and materialising it as
+        two parallel edges would destroy it.
+
+        Diamond evidence (tier / confidence_score / identity / qcov / evalue /
+        consensus_n) rides only on edges diamond actually called; eggNOG-only edges
+        carry `sources` alone. Properties are sparse rather than null-filled,
+        matching Gene_has_interpro_entry's treatment of nullable evalue.
+        """
         count = 0
         for locus_tag, gene in self._genes.items():
+            egn = set(gene.get("tcdb_eggnog_ids") or [])
+            dia = set(gene.get("tcdb_diamond_ids") or [])
+            protein_id = (gene.get("protein_id") or "").strip()
+            evidence = self._diamond.get(protein_id, {})
             for tc in gene.get("transporter_classification") or []:
                 if not tc:
                     continue
+                sources = []
+                if tc in egn:
+                    sources.append("eggnog")
+                if tc in dia:
+                    sources.append("diamond")
+                if not sources:
+                    # Present in the union but attributable to neither per-source
+                    # field — a stale merged file. Keep the edge (no annotation is
+                    # lost) but leave provenance empty rather than guessing.
+                    logger.debug(
+                        f"TcdbAnnotationAdapter({self.genome_dir.name}): {locus_tag} "
+                        f"TC {tc} has no source attribution; re-run prepare_data step 2"
+                    )
+                props: dict = {"sources": sources}
+                cand = evidence.get(tc) if "diamond" in sources else None
+                if cand:
+                    for key in ("tier", "consensus_n"):
+                        if cand.get(key) is not None:
+                            props[key] = int(cand[key])
+                    for key in ("confidence_score", "identity", "qcov", "evalue"):
+                        if cand.get(key) is not None:
+                            props[key] = float(cand[key])
                 yield (
                     f"{locus_tag}-has_tcdb-{tc}",
                     _gene_node_id(locus_tag),
                     _tcdb_node_id(tc),
                     "gene_has_tcdb_family",
-                    {},
+                    props,
                 )
                 count += 1
                 if self.test_mode and count >= 100:
