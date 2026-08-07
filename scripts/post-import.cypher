@@ -919,40 +919,38 @@ CALL {
       t.metabolite_count = metc
 } IN TRANSACTIONS OF 1000 ROWS;
 
-// is_promiscuous: this family is too BROAD for membership to support a functional
-// inference. Consumed by explorer family_inferred-dominance warnings to separate
-// curation-effort gaps from biologically-promiscuous transporters (KG-MET-006).
+// is_promiscuous: this family transports MANY DISTINCT SUBSTRATES, so inferring
+// what a member gene moves from family membership is weak. Consumed by explorer
+// family_inferred-dominance warnings to separate curation-effort gaps from
+// biologically-promiscuous transporters (KG-MET-006).
 //
-// LEVEL-GATED (level >= 2, i.e. tc_family and deeper). Substrate and member counts
-// scale mechanically with hierarchy level because the step-6 rollup materializes
-// every descendant's substrates onto each ancestor: median metabolite_count is 153
-// at tc_class vs 1 at tc_family. The previous absolute-only rule therefore fired on
+// SUBSTRATE BREADTH ONLY. A `gene_count >= 500` arm was briefly added 2026-08-07
+// and reverted the same day: it answers a DIFFERENT question ("is this a large
+// bucket of genes?") and overloading one boolean with two axes destroyed the
+// term. It flagged e.g. 9.B.34 (KPSH) which has ZERO substrates — the opposite of
+// promiscuous in the only sense this flag means. Consumers wanting family size
+// should filter `t.gene_count` directly; it is already on the node, so no second
+// boolean is warranted.
+//
+// LEVEL-GATED (level >= 2, i.e. tc_family and deeper). Substrate counts scale
+// mechanically with hierarchy level because the step-6 rollup materializes every
+// descendant's substrates onto each ancestor: median metabolite_count is 153 at
+// tc_class vs 1 at tc_family. The previous absolute-only rule therefore fired on
 // 5 of 7 tc_class and 7 of 34 tc_subclass nodes — vacuously, since "Channels and
-// Pores transports many things" is what a class IS, not a warning. Those levels are
-// now always false; the flag only means something where a consumer would actually
-// infer function from membership.
+// Pores transports many things" is what a class IS, not a warning. Those levels
+// are now always false; the flag only means something where a consumer would
+// actually infer substrate specificity from membership.
 //
-// Two arms, both ≈p99 within the levels they apply to:
-//   metabolite_count >= 50  — substrate-promiscuous: transports so many distinct
-//                             things that membership says little about WHAT.
-//                             (p99 ≈ 52 at tc_family, 46 at tc_subfamily; never
-//                             fires at tc_specificity, max 17 — correct, that is
-//                             the most specific level.)
-//   gene_count >= 500       — membership-promiscuous: a large bucket, so membership
-//                             says little at all. (p99 ≈ 699 at tc_family.) Replaces
-//                             the old `member_count >= 100` arm, which was dead
-//                             below tc_subclass — max member_count at tc_family is
-//                             55, so it could never fire where it mattered. Mirrors
-//                             InterproEntry.is_promiscuous, which is gene-count based.
+// Threshold >= 50 sits at ~p99 within the levels it applies to (p99 = 52 at
+// tc_family, 46 at tc_subfamily) and never fires at tc_specificity (max 17) —
+// correct, that is the most specific level.
 //
-// Flags 24 nodes (18 tc_family + 6 tc_subfamily): ABC Superfamily 3.A.1 (554
-// metabolites / 4,817 genes), MFS 2.A.1, RND 2.A.6 — the canonical broad families.
+// Flags 13 families/subfamilies, all textbook multi-substrate transporters: ABC
+// Superfamily 3.A.1 (554 substrates), MFS 2.A.1 (476), DMT 2.A.7, RND 2.A.6,
+// MOP flippase 2.A.66, APC 2.A.3, P-type ATPase 3.A.3.
 MATCH (t:TcdbFamily)
 SET t.is_promiscuous =
-  coalesce(t.level, 0) >= 2 AND (
-    (coalesce(t.metabolite_count, 0) >= 50) OR
-    (coalesce(t.gene_count, 0) >= 500)
-  );
+  coalesce(t.level, 0) >= 2 AND coalesce(t.metabolite_count, 0) >= 50;
 
 // ── CazyFamily computed properties ───────────────────────────────────────────
 

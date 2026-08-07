@@ -336,8 +336,7 @@ def test_is_promiscuous_is_level_gated(run_query):
 def test_is_promiscuous_matches_its_thresholds(run_query):
     n = run_query("""
         MATCH (t:TcdbFamily)
-        WITH t, (coalesce(t.level,0) >= 2 AND (coalesce(t.metabolite_count,0) >= 50
-                                            OR coalesce(t.gene_count,0) >= 500)) AS expected
+        WITH t, (coalesce(t.level,0) >= 2 AND coalesce(t.metabolite_count,0) >= 50) AS expected
         WHERE coalesce(t.is_promiscuous, false) <> expected
         RETURN count(t) AS n
     """)[0]["n"]
@@ -346,7 +345,7 @@ def test_is_promiscuous_matches_its_thresholds(run_query):
 
 @pytest.mark.kg
 def test_is_promiscuous_flags_the_canonical_broad_families(run_query):
-    """ABC (3.A.1) and MFS (2.A.1) are the textbook promiscuous transporter
+    """ABC (3.A.1) and MFS (2.A.1) are the textbook multi-substrate transporter
     superfamilies — if the rule stops flagging them it has drifted."""
     rows = run_query("""
         MATCH (t:TcdbFamily) WHERE t.tcdb_id IN ['3.A.1', '2.A.1']
@@ -381,3 +380,20 @@ def test_gene_best_evidence_score_is_sparse_and_correct(run_query):
         RETURN count(g) AS n
     """)[0]["n"]
     assert mismatch == 0, f"{mismatch} genes whose rollup <> max(edge score)"
+
+
+@pytest.mark.kg
+def test_is_promiscuous_means_substrate_breadth_only(run_query):
+    """Every flagged family must actually have many substrates.
+
+    Guards a regression shipped and reverted on 2026-08-07: a `gene_count >= 500`
+    arm flagged large-but-substrate-poor families (e.g. 9.B.34 KPSH, which has
+    ZERO substrates) as "promiscuous" — the opposite of what the term means. The
+    flag is substrate breadth ONLY; use `t.gene_count` directly for family size.
+    """
+    n = run_query("""
+        MATCH (t:TcdbFamily)
+        WHERE t.is_promiscuous AND coalesce(t.metabolite_count, 0) < 50
+        RETURN count(t) AS n
+    """)[0]["n"]
+    assert n == 0, f"{n} families flagged promiscuous without substrate breadth"

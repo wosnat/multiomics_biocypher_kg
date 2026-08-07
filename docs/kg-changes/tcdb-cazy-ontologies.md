@@ -6,6 +6,12 @@
 
 **Updated 2026-05-08:** Substrate rollup moved from adapter time to **step-6 time, computed pre-prune over the FULL TCDB hierarchy**. Previously the rollup walked only the pruned hierarchy, so kept ancestors reached only by `walk_up` from a deeper gene seed undercounted: substrates from non-gene-annotated sibling specificities under the same ancestor were missed (~950 substrate edges across ~50 ancestor families). Step 6 now (1) computes the subtree rollup over the full hierarchy as raw `CHEBI:NNNN;name` strings, (2) prunes structurally, (3) resolves only the surviving distinct substrate strings via MNX. Result lives in `tcdb_pruned.json` as `subtree_substrates: {tc_id: [primary_id, ...]}`; the adapter emits one edge per pair without traversing the hierarchy. Total edges: 21,530 → **22,476**. Affected ancestor `metabolite_count`/`is_promiscuous` accordingly.
 
+> **⚠️ MCP / explorer: see [tcdb-two-source-upgrade.md](tcdb-two-source-upgrade.md)** for the
+> 2026-08 delta — diamond joined eggNOG as a second evidence source, `annotation_types`
+> became tier-gated, `is_promiscuous` was level-gated, and `TcdbFamily` dropped
+> 12,902 → 1,515 nodes. That doc is the upgrade contract; counts in the tables below
+> predate it.
+
 **Proposed:** 2026-05-01
 
 ## What's changing
@@ -226,20 +232,34 @@ The old absolute-only rule therefore fired on **5 of 7 `tc_class`** and **7 of 3
 what a class *is*.
 
 The `member_count >= 100` arm was also dead where it mattered: max `member_count` at
-`tc_family` is 55, so it could only ever fire at `tc_subclass`. Replaced with
-`gene_count >= 500`, mirroring `InterproEntry.is_promiscuous`.
+`tc_family` is 55, so it could only ever fire at `tc_subclass`. It was dropped.
+
+**The meaning is unchanged: substrate breadth.** A `gene_count >= 500` replacement arm
+was briefly shipped and reverted the same day — it answered a different question
+(family *size*) and flagged substrate-*poor* families such as `9.B.34` (KPSH) with
+**zero** substrates, which is the opposite of promiscuous. For family size, filter
+`t.gene_count` directly; it is already on the node.
+
+```cypher
+is_promiscuous = level >= 2 AND metabolite_count >= 50
+```
 
 | | Old rule | New rule |
 |---|---|---|
 | `tc_class` | 5 of 7 | **0** |
 | `tc_subclass` | 7 of 34 | **0** |
-| `tc_family` | 7 | **18** |
-| `tc_subfamily` | 6 | **6** |
+| `tc_family` | 7 | 7 |
+| `tc_subfamily` | 6 | 6 |
 | `tc_specificity` | 0 | 0 |
 
-Similar total (25 → 24) but now every flag is informative: ABC Superfamily `3.A.1`
-(554 metabolites, 4,817 genes), MFS `2.A.1`, RND `2.A.6`. Both thresholds sit at ≈p99
-within the levels they apply to.
+**The flags that meant something are unchanged.** At `tc_family` and `tc_subfamily` the
+old and new rules agree exactly — because the `member_count` arm never fired there
+anyway, so those levels were always driven by `metabolite_count >= 50`. The change
+removes only the 12 vacuous class/subclass flags (25 → 13).
+
+All 13 are textbook multi-substrate transporters: ABC `3.A.1` (554
+substrates), MFS `2.A.1` (476), DMT `2.A.7`, RND `2.A.6`, MOP `2.A.66`, APC `2.A.3`,
+P-type ATPase `3.A.3`. The threshold sits at ≈p99 within the levels it applies to.
 
 **`Gene.tcdb_best_evidence_score`** (int 0-5) = `max(tcdb_evidence_score)` over the
 gene's edges. The edge score rates one assignment; this rates the gene. Not redundant:

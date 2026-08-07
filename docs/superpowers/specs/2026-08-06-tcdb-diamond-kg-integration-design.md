@@ -241,10 +241,14 @@ the sum of its stored parts, so it cannot drift into an opaque verdict.
 carry calls at differing scores. Sparse: set only where a TCDB edge exists, keeping
 "no evidence" distinct from "weak evidence".
 
-`is_promiscuous` became level-gated (`level >= 2`) with a `gene_count >= 500` arm
-replacing the dead `member_count >= 100`. The old rule fired on 5 of 7 `tc_class`
-nodes, which is vacuous — substrate counts scale with level because of the step-6
-rollup. Details in `docs/kg-changes/tcdb-cazy-ontologies.md`.
+`is_promiscuous` became level-gated: `level >= 2 AND metabolite_count >= 50`. The old
+rule fired on 5 of 7 `tc_class` nodes, which is vacuous — substrate counts scale with
+level because of the step-6 rollup — and its `member_count >= 100` arm was dead below
+`tc_subclass`. A `gene_count >= 500` replacement was briefly shipped and reverted the
+same day: it answered a different question (family SIZE, not substrate breadth) and
+flagged substrate-poor families like `9.B.34` with zero substrates. The flag means
+substrate breadth only; use `t.gene_count` for size. Details in
+`docs/kg-changes/tcdb-two-source-upgrade.md` §4.
 
 ## 6 — Scope
 
@@ -280,7 +284,7 @@ Diamond now has a lean hierarchy to land on, resolving the ordering concern belo
 
 > **Ordering note (resolved):** the cleanup ran *first*, so the merge will not inflate a bloated hierarchy and then deflate it.
 
-**Semantic shift to carry into the merge:** `level_kind = 'tc_specificity'` now selects gene-annotated specificity nodes only. `Metabolite.transporter_count` drops correspondingly, and `is_promiscuous` thresholds (calibrated against the old node set) need revisiting on the next live rebuild. — ✅ **Done 2026-08-07**: the flag is now level-gated (`level >= 2`) with a `gene_count >= 500` arm replacing the dead `member_count >= 100`. See §5c.
+**Semantic shift to carry into the merge:** `level_kind = 'tc_specificity'` now selects gene-annotated specificity nodes only. `Metabolite.transporter_count` drops correspondingly, and `is_promiscuous` thresholds (calibrated against the old node set) need revisiting on the next live rebuild. — ✅ **Done 2026-08-07**: the flag is now level-gated (`level >= 2 AND metabolite_count >= 50`); the dead `member_count >= 100` arm was dropped. See §5c.
 
 ---
 

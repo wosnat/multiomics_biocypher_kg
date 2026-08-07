@@ -19,7 +19,7 @@
 |---|---|---|---|
 | `Metabolite` | `evidence_sources` | adapter (extended) | gains `"metabolomics"` value when paper-measured |
 | `Metabolite` | `measured_assay_count`, `measured_organisms` (str[]), `measured_compartments` (str[]), `measured_paper_count` | post-import | distinct counts / sorted distinct values across incoming Assay edges; `[]` on non-measured (KG-MET-016, 2026-05-05) |
-| `TcdbFamily` | `is_promiscuous` (bool) | post-import | true when `metabolite_count >= 50 OR member_count >= 100`; flags ~30 of 12,883 families in the long tail; consumed by explorer family_inferred-dominance warnings (KG-MET-006, 2026-05-05) |
+| `TcdbFamily` | `is_promiscuous` (bool) | post-import | **Superseded 2026-08-07** — now `level >= 2 AND metabolite_count >= 50` (substrate breadth only; the `member_count` arm is gone). Flags 13 of 1,515 families. Meaning is unchanged: this family transports many distinct substrates. Consumed by explorer family_inferred-dominance warnings (KG-MET-006, 2026-05-05). See [tcdb-two-source-upgrade.md](tcdb-two-source-upgrade.md) §4 |
 | `Metabolite` | `organism_count`, `organism_names` | post-import | UNION extended to include the measurement path |
 | `Organism_has_metabolite` | `evidence_sources` (str[]) | post-import | values: `metabolism` \| `transport` \| `measured` |
 | `Organism_has_metabolite` | `measured_assay_count`, `measured_compartments`, `measured_paper_count` | post-import | 0/[] on non-measured edges |
