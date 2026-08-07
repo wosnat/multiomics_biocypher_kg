@@ -478,3 +478,15 @@ def test_seed_alias_collapse_merges_sources_not_duplicates(tmp_path):
     # Diamond's evidence survives the merge
     assert props["tier"] == 3
     assert props["confidence_score"] == 0.2
+
+
+def test_sources_are_sorted_canonically(dual_source_strain):
+    """`sources` must have ONE spelling per value.
+
+    The seed_alias merge path unions and sorts, so an unsorted build path would
+    leave ['eggnog','diamond'] and ['diamond','eggnog'] both in the graph for the
+    same meaning — and any consumer doing `r.sources = [...]` equality would
+    silently miss one set. Observed live: 3,559 vs 82 edges before this fix.
+    """
+    for props in _gene_edges(dual_source_strain).values():
+        assert props["sources"] == sorted(props["sources"]), props["sources"]

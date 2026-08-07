@@ -150,11 +150,15 @@ class TcdbAnnotationAdapter:
             for tc in gene.get("transporter_classification") or []:
                 if not tc:
                     continue
-                sources = []
-                if tc in egn:
-                    sources.append("eggnog")
-                if tc in dia:
-                    sources.append("diamond")
+                # SORTED so `sources` has one canonical form. The seed_alias merge
+                # in MultiTcdbAnnotationAdapter unions and sorts, so an unsorted
+                # build here would leave two spellings of the same value
+                # (['eggnog','diamond'] vs ['diamond','eggnog']) and any consumer
+                # doing an equality check would silently miss one of them.
+                sources = sorted(
+                    ({"eggnog"} if tc in egn else set())
+                    | ({"diamond"} if tc in dia else set())
+                )
                 if not sources:
                     # Present in the union but attributable to neither per-source
                     # field — a stale merged file. Keep the edge (no annotation is

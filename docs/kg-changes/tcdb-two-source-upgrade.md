@@ -29,7 +29,7 @@ similarity**) both emit TCDB TC IDs. They feed **one ontology** and **one edge p
 
 ```cypher
 (Gene)-[:Gene_has_tcdb_family {
-    sources:          ['eggnog','diamond'],  // always present
+    sources:          ['diamond','eggnog'],  // always present, SORTED
     tier:             2,                      // ↓ diamond only — SPARSE, absent on eggNOG-only
     confidence_score: 0.85,
     identity:         50.5,
@@ -43,10 +43,14 @@ similarity**) both emit TCDB TC IDs. They feed **one ontology** and **one edge p
 |---|---|
 | `['diamond']` | 36,957 |
 | `['eggnog']` | 13,165 |
-| `['eggnog','diamond']` | 3,641 |
+| `['diamond','eggnog']` | 3,641 |
 
 **Do not assume `tier` exists.** It is absent on all 13,165 eggNOG-only edges. Use
 `coalesce(r.tier, …)` or branch on `'diamond' IN r.sources`.
+
+**`sources` is sorted** — the canonical two-source value is `['diamond','eggnog']`. Even
+so, prefer membership (`'eggnog' IN r.sources`) over list equality; it survives a future
+third source.
 
 ### Corroboration is hierarchical — this is the easy thing to get wrong
 
