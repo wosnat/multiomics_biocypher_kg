@@ -1246,6 +1246,15 @@ gene to tcdb family association:
     qcov: float
     evalue: float
     consensus_n: int
+    # Post-import advisory ranking (0-5). ADVISORY ONLY — nothing filters on it,
+    # and the three booleans are stored alongside so consumers can see why and
+    # re-weight without re-deriving. Agreement is HIERARCHICAL (ancestor or
+    # descendant), not exact-node — the two sources usually concur at different
+    # depths. See the post-import block for the full rationale.
+    tcdb_evidence_score: int
+    agrees_across_sources: bool
+    pfam_corroborated: bool
+    go_corroborated: bool
 
 tcdb family hierarchical association:
   is_a: association

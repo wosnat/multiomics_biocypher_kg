@@ -6,12 +6,11 @@ import pytest
 
 @pytest.mark.kg
 def test_tcdb_family_node_count_in_range(run_query):
-    """Pruned subhierarchy walks above + below gene-annotated TCDB IDs.
+    """Pruned to gene-annotated TCDB IDs + their ANCESTORS only.
 
-    Local step 6 run produces ~12,881 kept IDs from 535 gene-annotated seeds
-    after the hierarchy was widened to seed from acc2tcid.tsv (May 2026).
-    The upper bound is intentionally generous to absorb growth as more strains
-    or annotations land.
+    The downward arm was removed 2026-08-06 (it left 94.5% of nodes gene-less);
+    diamond then joined eggNOG as a second source, taking seeds 540 -> 1,397 and
+    kept IDs 704 -> ~1,515. Bounds stay generous to absorb further growth.
     """
     n = run_query("MATCH (t:TcdbFamily) RETURN count(t) AS n")[0]["n"]
     assert 100 <= n <= 25000, f"TcdbFamily count {n} outside expected 100-25000"
@@ -221,3 +220,97 @@ def test_metabolites_have_evidence_sources(run_query):
         RETURN count(m) AS n
     """)[0]["n"]
     assert n_bad == 0, f"{n_bad} Metabolite nodes lack evidence_sources"
+
+
+# ============================================================================
+# TCDB evidence score (post-import, advisory)
+# ============================================================================
+
+
+@pytest.mark.kg
+def test_tcdb_evidence_score_populated_and_in_range(run_query):
+    row = run_query("""
+        MATCH ()-[r:Gene_has_tcdb_family]->()
+        RETURN count(r) AS total,
+               sum(CASE WHEN r.tcdb_evidence_score IS NULL THEN 1 ELSE 0 END) AS missing,
+               min(r.tcdb_evidence_score) AS lo, max(r.tcdb_evidence_score) AS hi
+    """)[0]
+    assert row["missing"] == 0, f"{row['missing']} edges without an evidence score"
+    assert row["lo"] >= 0 and row["hi"] <= 5
+
+
+@pytest.mark.kg
+def test_tcdb_evidence_score_equals_sum_of_its_components(run_query):
+    """The score must be reconstructable from the stored components + sources/tier.
+
+    This is the guard that keeps it honest: if the total ever drifts from its
+    parts, the number has become an opaque verdict — the failure mode that got
+    `filter_action` deleted.
+    """
+    n = run_query("""
+        MATCH ()-[r:Gene_has_tcdb_family]->()
+        WITH r, (CASE WHEN 'eggnog' IN r.sources THEN 1 ELSE 0 END
+               + CASE WHEN r.agrees_across_sources THEN 1 ELSE 0 END
+               + CASE WHEN coalesce(r.tier <= 2, false) THEN 1 ELSE 0 END
+               + CASE WHEN r.pfam_corroborated THEN 1 ELSE 0 END
+               + CASE WHEN r.go_corroborated THEN 1 ELSE 0 END) AS recomputed
+        WHERE r.tcdb_evidence_score <> recomputed
+        RETURN count(*) AS n
+    """)[0]["n"]
+    assert n == 0, f"{n} edges whose score disagrees with its components"
+
+
+@pytest.mark.kg
+def test_tcdb_evidence_components_are_booleans_not_null(run_query):
+    n = run_query("""
+        MATCH ()-[r:Gene_has_tcdb_family]->()
+        WHERE r.agrees_across_sources IS NULL
+           OR r.pfam_corroborated IS NULL
+           OR r.go_corroborated IS NULL
+        RETURN count(r) AS n
+    """)[0]["n"]
+    assert n == 0, f"{n} edges with a null evidence component"
+
+
+@pytest.mark.kg
+def test_exact_two_source_edges_always_agree(run_query):
+    """size(sources)=2 is the strictest form of agreement, so those edges must
+    always have agrees_across_sources = true."""
+    n = run_query("""
+        MATCH ()-[r:Gene_has_tcdb_family]->()
+        WHERE size(r.sources) = 2 AND NOT r.agrees_across_sources
+        RETURN count(r) AS n
+    """)[0]["n"]
+    assert n == 0, f"{n} two-source edges not flagged as agreeing"
+
+
+@pytest.mark.kg
+def test_hierarchical_agreement_dominates_exact(run_query):
+    """Agreement is mostly at DIFFERENT hierarchy depths — eggNOG names
+    subfamilies, diamond's tier-3 truncation names the parent family. If this
+    ever inverts, the agreement definition has silently narrowed to exact-node
+    and the score has lost ~83% of its corroboration signal."""
+    row = run_query("""
+        MATCH ()-[r:Gene_has_tcdb_family]->()
+        WHERE r.agrees_across_sources
+        RETURN count(r) AS agreeing,
+               sum(CASE WHEN size(r.sources) = 2 THEN 1 ELSE 0 END) AS exact
+    """)[0]
+    assert row["agreeing"] > 0
+    assert row["exact"] < row["agreeing"] / 2, (
+        f"only {row['exact']}/{row['agreeing']} agreements are hierarchical — "
+        "agreement may have narrowed to exact-node"
+    )
+
+
+@pytest.mark.kg
+def test_evidence_score_spans_its_full_range(run_query):
+    """Every score level is populated — a degenerate distribution (everything 0,
+    or everything 5) would mean the score separates nothing."""
+    rows = run_query("""
+        MATCH ()-[r:Gene_has_tcdb_family]->()
+        RETURN r.tcdb_evidence_score AS score, count(*) AS n ORDER BY score
+    """)
+    seen = {r["score"] for r in rows}
+    assert seen == {0, 1, 2, 3, 4, 5}, f"score levels present: {sorted(seen)}"
+    assert all(r["n"] > 100 for r in rows), "a score level is near-empty"

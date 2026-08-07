@@ -57,10 +57,10 @@ Properties:
 
 | Edge type | Source | Target | Count | Notes |
 |---|---|---|---|---|
-| `Gene_has_tcdb_family` | Gene | TcdbFamily | **10,576** | Attaches at exact level annotated by eggNOG (no walk-up at edge time) |
-| `Tcdb_family_is_a_tcdb_family` | TcdbFamily (child) | TcdbFamily (parent) | **4,838** | Hierarchy parent edge (one per non-root TcdbFamily) |
-| `Tcdb_family_transports_metabolite` | TcdbFamily | Metabolite | **13,641** | Substrate linkage rolled up from leaves to every ancestor (tc_class: 1,497, tc_subclass: 1,510, tc_family: 2,040, tc_subfamily: 2,832, tc_specificity: 5,762). Filter `WHERE source.level_kind = 'tc_specificity'` for leaf-only (1,097 distinct primary IDs across 3,095 leaves). |
-| `Gene_has_cazy_family` | Gene | CazyFamily | **1,181** | |
+| `Gene_has_tcdb_family` | Gene | TcdbFamily | **53,763** | Attaches at the exact annotated level (no walk-up at edge time). Two sources since 2026-08-06 — see the diamond section below |
+| `Tcdb_family_is_a_tcdb_family` | TcdbFamily (child) | TcdbFamily (parent) | **1,508** | Hierarchy parent edge (one per non-root TcdbFamily) |
+| `Tcdb_family_transports_metabolite` | TcdbFamily | Metabolite | **11,263** | Substrate linkage rolled up from leaves to every kept ancestor. Filter `WHERE source.level_kind = 'tc_specificity'` for leaf-only — since the 2026-08-06 prune that selects the specificity nodes genes actually annotate. |
+| `Gene_has_cazy_family` | Gene | CazyFamily | **1,514** | |
 | `Cazy_family_is_a_cazy_family` | CazyFamily (child) | CazyFamily (parent) | **58** | |
 
 ## TCDB pruning
@@ -69,7 +69,7 @@ The full TCDB hierarchy has ~25,557 entries; the overwhelming majority are not r
 
 - Seed set: every TCDB ID present in any strain's `transporter_classification` from eggNOG.
 - For each seed, walk **up** to `tc_class` so the hierarchy reaches root.
-- Kept = union of seeds + ancestors. **704 nodes** (tc_class 7 · tc_subclass 17 · tc_family 146 · tc_subfamily 288 · tc_specificity 246).
+- Kept = union of seeds + ancestors. **1,515 nodes** (tc_class 7 · tc_subclass 34 · tc_family 592 · tc_subfamily 596 · tc_specificity 286) — 704 before diamond joined as a second source.
 
 Same one-way approach as BRITE pruning.
 
@@ -175,6 +175,38 @@ bucket **only** for eggNOG-sourced or tier ≤ 2 edges. Tier-3 calls stay findab
 without inflating a signal calibrated against curated sources and used by
 `genes_by_function` routing. `Gene.tcdb_family_count` and `Gene.metabolite_count`
 are *not* gated — they are routing counts, not quality signals.
+
+### `tcdb_evidence_score` — advisory ranking (post-import)
+
+A per-edge integer 0-5 counting independent supporting signals:
+
+| Component | Edges |
+|---|---|
+| `+1` eggNOG called it (curated ortholog transfer) | 13,165 + 3,641 |
+| `+1` `agrees_across_sources` | 21,684 |
+| `+1` `tier <= 2` (strong direct sequence evidence) | 6,763 |
+| `+1` `pfam_corroborated` | 23,519 |
+| `+1` `go_corroborated` | 24,214 |
+
+Distribution: **0** → 17,422 · **1** → 9,039 · **2** → 9,265 · **3** → 7,812 · **4** → 9,144 · **5** → 1,081.
+
+**Agreement is hierarchical, not exact-node.** The two sources usually concur at
+different depths (eggNOG names subfamilies, diamond's tier-3 truncation names the
+parent family). Exact same-node agreement covers only 3,641 edges; including
+ancestor/descendant agreement reaches 21,684. Scoring on `size(sources)=2` alone
+would miss 83% of the real corroboration.
+
+Pfam and GO stay separate components because they are not redundant — 11,565
+edges carry exactly one of the two.
+
+**It is advisory and must stay that way.** This is structurally the same kind of
+artifact as the deleted `filter_action`, so it is built to avoid those failure
+modes: additive rather than first-match-wins, every edge scored on its own
+evidence (no sibling dependence), no uncalibrated thresholds (`tier` is the only
+cut and is already principled), and — critically — **the components are stored
+alongside the total**. Nothing filters on it; it never drops an edge. A
+kg-validity test asserts the score always equals the sum of its stored parts, so
+it cannot drift into an opaque verdict.
 
 ### No `filter_action`
 

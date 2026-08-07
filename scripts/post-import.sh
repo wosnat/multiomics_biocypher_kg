@@ -1068,6 +1068,60 @@ CALL {
       g.metabolite_count = size(apoc.coll.toSet(m_catalysis + m_transport))
 } IN TRANSACTIONS OF 1000 ROWS;
 
+// ── TCDB evidence score (per Gene_has_tcdb_family edge) ──────────────────────
+// An ADVISORY ranking aid over five independent supporting signals. It never
+// drops an edge and nothing filters on it silently -- the components are stored
+// alongside the total so a consumer can always see WHY, and re-weight without
+// re-deriving.
+//
+// This is deliberately NOT shaped like the deleted `filter_action` chain: it is
+// additive rather than first-match-wins, every edge is scored on its own
+// evidence (no sibling dependence), and it carries no uncalibrated thresholds --
+// `tier` is the only cut and it is already a principled, sibling-independent gate.
+//
+//   +1  curated                — eggNOG called it (ortholog transfer from a curated DB)
+//   +1  agrees_across_sources  — eggNOG and diamond concur
+//   +1  tier <= 2              — strong direct sequence evidence (identity >= 40%)
+//   +1  pfam_corroborated      — a Pfam on this gene is curated into this TC family
+//   +1  go_corroborated        — a GO term on this gene is curated onto this TC family
+//
+// AGREEMENT IS HIERARCHICAL, not exact-node. eggNOG names subfamilies while
+// diamond's tier-3 truncation names the parent family, so the two usually concur
+// at DIFFERENT depths: exact same-node agreement covers only 3,641 edges, while
+// including ancestor/descendant agreement reaches 21,684 (40.3%). Scoring on
+// `size(sources)=2` alone would miss 83% of the real corroboration.
+//
+// Pfam and GO are kept separate because they are not redundant: 11,565 edges
+// carry exactly one of the two (P(GO|Pfam)=77% vs P(GO|not Pfam)=20%).
+CALL {
+  MATCH (g:Gene)-[r:Gene_has_tcdb_family]->(t:TcdbFamily)
+  WITH r, g, t,
+       ('eggnog' IN r.sources) AS curated,
+       (size(r.sources) = 2 OR EXISTS {
+          MATCH (g)-[r2:Gene_has_tcdb_family]->(t2:TcdbFamily)
+          WHERE t2 <> t AND any(s IN r2.sources WHERE NOT s IN r.sources)
+            AND ( (t)-[:Tcdb_family_is_a_tcdb_family*1..4]->(t2)
+               OR (t2)-[:Tcdb_family_is_a_tcdb_family*1..4]->(t) )
+       }) AS agree,
+       coalesce(r.tier <= 2, false) AS strong_seq,
+       EXISTS {
+         MATCH (g)-[:Gene_has_pfam]->(:Pfam)<-[:Tcdb_family_has_pfam_domain]-(t)
+       } AS pfam_ok,
+       EXISTS {
+         MATCH (g)-[:Gene_involved_in_biological_process|Gene_enables_molecular_function|Gene_located_in_cellular_component]->(o)
+               <-[:Tcdb_family_involved_in_biological_process|Tcdb_family_enables_molecular_function|Tcdb_family_located_in_cellular_component]-(t)
+       } AS go_ok
+  SET r.agrees_across_sources = agree,
+      r.pfam_corroborated = pfam_ok,
+      r.go_corroborated = go_ok,
+      r.tcdb_evidence_score =
+          CASE WHEN curated THEN 1 ELSE 0 END
+        + CASE WHEN agree THEN 1 ELSE 0 END
+        + CASE WHEN strong_seq THEN 1 ELSE 0 END
+        + CASE WHEN pfam_ok THEN 1 ELSE 0 END
+        + CASE WHEN go_ok THEN 1 ELSE 0 END
+} IN TRANSACTIONS OF 1000 ROWS;
+
 // Gene.interpro_entry_count: distinct InterPro entries per gene (routing signal;
 // functional. Folded into annotation_types above but not annotation_quality — §5).
 MATCH (g:Gene)
